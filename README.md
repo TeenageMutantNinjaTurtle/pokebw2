@@ -1,18 +1,21 @@
-# Pokémon Black 2
+# Pokémon Black 2 and White 2
 
-A work-in-progress decompilation of Pokémon Black 2 (NDS, DSi-enhanced). The long-term goal is a PC port.
+A work-in-progress decompilation of Pokémon Black 2 and White 2 (NDS, DSi-enhanced). The long-term goal is a PC port.
 
-It builds the following ROM:
+It builds the following ROMs:
 
 | Version | File | SHA1 |
 | --- | --- | --- |
-| USA/Europe (NDSi Enhanced) | `build/pokeblack2_us.nds` | `e51e6dfb8678a3d19dcd2a10691b96a569ca0abb` |
+| Black 2, USA/Europe (NDSi Enhanced) | `build/pokeblack2_us.nds` | `e51e6dfb8678a3d19dcd2a10691b96a569ca0abb` |
+| White 2, USA/Europe (NDSi Enhanced) | `build/pokewhite2_us.nds` | `b5d7490be7b415b8f1e672a53e978a9cc667e56a` |
 
 ## Status
 
-The ROM rebuilds byte for byte. Overlay 4 is decompiled to C, and everything else is still delinked code.
+Both ROMs rebuild byte for byte from the same source tree. Overlay 4 is decompiled to C, and everything else is still
+delinked code.
 
 - 41,423 functions found by [dsd](https://github.com/AetiasHax/ds-decomp) in the ARM9, its 344 overlays, ITCM, DTCM, and the two TWL autoloads.
+- 8,152 functions and 573 data symbols have real names, imported from [swan](#names).
 - The DSi-only ARM9i/ARM7i programs are extracted (decrypted) and rebuilt, but not analyzed yet.
 
 ## Setup
@@ -26,8 +29,9 @@ The ROM rebuilds byte for byte. Overlay 4 is decompiled to C, and everything els
    cd ../ds-decomp && cargo build --release && cp target/release/dsd ../pokebw2/tools/dsd
    ```
 
-2. Place your own dump of the game at `orig/baserom_b2_us.nds`. It must match the SHA1 above. It is not included and
-   will not be provided.
+2. Place your own dumps at `orig/baserom_b2_us.nds` and/or `orig/baserom_w2_us.nds`. They must match the SHA1s above.
+   They are not included and will not be provided. `tools/scripts/verify_dsi_rom.py` checks a dump against the
+   digests in its own header.
 
 3. Configure and build. `configure.py` downloads [wibo](https://github.com/decompals/wibo) and the Metrowerks
    CodeWarrior tools on first run.
@@ -37,13 +41,14 @@ The ROM rebuilds byte for byte. Overlay 4 is decompiled to C, and everything els
    ninja
    ```
 
-   `ninja` extracts the base ROM, delinks the code, links it with `mwldarm`, rebuilds the ROM and checks its SHA1.
+   `ninja` extracts each base ROM, delinks the code, links it with `mwldarm`, rebuilds the ROM and checks its SHA1.
+   `configure.py` builds every version that has a base ROM, or the versions given as arguments.
 
 ## Layout
 
 | Path | Contents |
 | --- | --- |
-| `config/b2_us/` | dsd configs: sections (`delinks.txt`), symbols and relocations for every module |
+| `config/<version>/` | dsd configs: sections (`delinks.txt`), symbols and relocations for every module |
 | `tools/scripts/` | Helper scripts, such as `romdiff.py` to compare two ROMs region by region |
 | `extract/`, `build/` | Generated, never committed |
 
@@ -84,13 +89,38 @@ game, ignoring relocated bytes. For example:
 It needs `pyelftools`, `capstone` and `pyyaml`. To look at a function's disassembly, run `dsd dis` into
 `build/asm`, then use `tools/scripts/show_func.py`.
 
+## Versions
+
+Black 2 is the primary version. White 2 is the same program: of its 41,423 functions, 41,311 are byte-identical to
+Black 2's apart from relocations, and 112 differ. Every White 2 symbol with a Black 2 counterpart uses the Black 2 name,
+so source files are shared, and code that differs uses the `BLACK2` and `WHITE2` defines. Symbols only found in White 2
+get a `_w2_us` suffix.
+
+`tools/scripts/version_map.py` pairs the functions of two versions by their bytes, and pairs other symbols through
+relocations and section offsets.
+
+## Names
+
+Names come from the [swan](https://github.com/ds-pokemon-hacking/swan) symbol databases (GPL-3.0) by the
+ds-pokemon-hacking community, revision `4324f73` (2025-07-03). `tools/scripts/import_swan.py` applies them:
+
+- IDA-generated names are skipped.
+- A name is only applied if a symbol starts exactly at its address.
+- Names are carried between versions through the version map.
+- Only default `func_`/`data_` names are replaced.
+
+```sh
+.venv/bin/python tools/scripts/version_map.py b2_us w2_us -o build/map_b2_w2.tsv --symbols-output build/map_b2_w2_symbols.tsv
+.venv/bin/python tools/scripts/import_swan.py path/to/swan --map build/map_b2_w2.tsv --symbols-map build/map_b2_w2_symbols.tsv
+```
+
 ## Regenerating configs
 
-The configs were generated with:
+The configs were generated with the following command, once per version:
 
 ```sh
 tools/dsd init --rom-config extract/b2_us/config.yaml --output-path config/b2_us --build-path build/b2_us \
     --allow-unknown-function-calls
 ```
 
-Regenerating overwrites any symbol names and delinks added by hand.
+Regenerating overwrites any symbol names and delinks added by hand, so the names must be imported again afterwards.
