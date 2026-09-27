@@ -19,6 +19,8 @@ typedef struct ZoneWarp ZoneWarp;
 typedef u32 GameEventReturnCode;
 #define GAMEEVENT_CONTINUE 0
 #define GAMEEVENT_DONE 1
+// Runs the current event again in the same frame, such as an event that was just chained
+#define GAMEEVENT_CONTINUE_DIRECT 0x21
 
 typedef enum {
     GAME_ENTRYPOINT_OPENING,
@@ -68,7 +70,7 @@ typedef struct {
 } EventFieldContinue;
 
 typedef struct {
-    u32 unk0;
+    GameEvent *parent;
     GameSystem *gsys;
     GameData *gameData;
     Field *field;
@@ -93,9 +95,7 @@ typedef struct {
     ZoneSpawnInfo spawn;
     u32 unk2C;
     u8 mode;
-    u32 unk34;
-    u32 unk38;
-    u32 unk3C;
+    VecFx32 unk34;
     BOOL unk40;
     BOOL seasonChanged;
     u16 prevSeason;
@@ -117,8 +117,12 @@ typedef void (*DSProtCallback)(EventMapChange *wk, GameSystem *gsys);
 #define EVENT_WORK_CONTINUE_SCRIPT 0x4041
 
 // Defined by the linker script, the address is the overlay ID
+extern u32 OVERLAY_27_ID[];
+extern u32 OVERLAY_28_ID[];
 extern u32 OVERLAY_279_ID[];
 extern u32 OVERLAY_337_ID[];
+#define OVERLAY_27 ((u32)OVERLAY_27_ID)
+#define OVERLAY_28 ((u32)OVERLAY_28_ID)
 #define OVERLAY_NEW_GAME ((u32)OVERLAY_279_ID)
 #define OVERLAY_DSPROT ((u32)OVERLAY_337_ID)
 
@@ -259,6 +263,47 @@ extern void GameData_SetLensFlareRequested(GameData *gameData, BOOL requested);
 extern void FieldLensFlare_RequestStart(FieldLensFlare *lensFlare);
 extern void GameData_InitEncountTerrain(GameData *gameData, Field *field);
 extern GameEvent *func_0202fee8(GameSystem *gsys);
+typedef struct FieldSound FieldSound;
+typedef struct FieldActorSystem FieldActorSystem;
+typedef struct FieldTaskManager FieldTaskManager;
+typedef struct FieldSubscreen FieldSubscreen;
+typedef struct PlayerState PlayerState;
+typedef struct EncountSystem EncountSystem;
+extern FieldSound *GameData_GetFieldSoundSystem(GameData *gameData);
+extern void FieldSnd_SetZoneBGM(FieldSound *fieldSound, GameData *gameData, u16 zoneId, u8 season);
+extern void FieldSnd_FadeInImmediate(FieldSound *fieldSound, GameData *gameData);
+extern GameEvent *CallEventPrepareResidentActorsForZoneChange(GameSystem *gsys, Field *field);
+extern FieldActorSystem *Field_GetActorSystem(Field *field);
+extern void DisableAllActorsMovement(FieldActorSystem *actorSystem);
+extern GameEvent *EventWarpSequence_CreateOut(WarpSequence *warp);
+extern GameEvent *EventWarpSequence_CreateIn(WarpSequence *warp);
+extern GameEvent *CallFieldMapEntranceOutTransitionDefault(GameSystem *gsys, Field *field, u32 type, u32 a3);
+extern GameEvent *EventQuicksandDrawIn_Create(GameEvent *event, GameSystem *gsys, Field *field, VecFx32 *pos);
+extern GameEvent *EventQuicksandArrive_Create(GameEvent *event, GameSystem *gsys, Field *field);
+extern GameEvent *EventEscapeRope_Create(GameEvent *event, GameSystem *gsys, Field *field, BOOL seasonChanged);
+extern GameEvent *EventDig_Create(GameEvent *event, GameSystem *gsys, Field *field, BOOL seasonChanged);
+extern GameEvent *EventTeleportEffect_Create(GameEvent *event, GameSystem *gsys, Field *field, BOOL a3);
+extern GameEvent *func_ov036_021b95ac(GameEvent *event, GameSystem *gsys, Field *field, BOOL seasonChanged,
+                                      u16 prevSeason, u16 season);
+extern GameEvent *func_ov036_021b95e0(GameEvent *event, GameSystem *gsys, Field *field, BOOL seasonChanged,
+                                      u16 prevSeason, u16 season);
+extern GameEvent *func_ov036_021b9614(GameEvent *event, GameSystem *gsys, Field *field);
+extern GameEvent *func_ov036_021b9664(GameEvent *event, GameSystem *gsys, Field *field);
+extern GameEvent *func_ov036_021b9df8(GameEvent *event, GameSystem *gsys, Field *field);
+extern GameEvent *EventPlayerSpinDown_Create(GameEvent *event, GameSystem *gsys, Field *field);
+extern void func_ov036_021b50c8(PlaceName *placeName, int zoneId);
+extern PlayerState *GameData_GetPlayerState(GameData *gameData);
+extern void SetPlayerSpecialState(PlayerState *playerState, u32 state);
+extern FieldTaskManager *Field_GetTaskManager(Field *field);
+extern BOOL FieldTaskManager_IsIdle(FieldTaskManager *taskManager);
+extern void func_02017414(GameData *gameData);
+extern void func_02017424(GameData *gameData);
+extern FieldSubscreen *Field_GetSubscreen(Field *field);
+extern void FieldSubscreen_ChangeImm(FieldSubscreen *subscreen, u32 mode);
+extern void func_ov028_02170ec8(GameSystem *gsys);
+extern EncountSystem *Field_GetEncountSystem(Field *field);
+extern void func_ov036_021a2398(EncountSystem *encount, u32 a1);
+void GameData_AdjustPlayerStateOnDiveOut(GameData *gameData);
 void func_ov035_0217ed1c(EventMapChange *wk, GameSystem *gsys);
 void func_ov035_0217eccc(EventMapChange *wk, GameSystem *gsys);
 void func_ov035_0217ecf4(EventMapChange *wk, GameSystem *gsys);
@@ -531,14 +576,14 @@ void EventMapChange_LoadSeasons(EventMapChange *wk) {
     }
 }
 
-void EventMapChange_SetupWarpSequenceOut(EventMapChange *wk, u32 unk0) {
+void EventMapChange_SetupWarpSequenceOut(EventMapChange *wk, GameEvent *parent) {
     WarpSequence *warp = &wk->warp;
 
     warp->gsys = wk->gsys;
     warp->gameData = wk->gameData;
     warp->field = wk->field;
     warp->unk10 = wk->unk2C;
-    warp->unk0 = unk0;
+    warp->parent = parent;
     warp->zoneId = wk->zoneId;
     warp->spawn = wk->spawn;
     warp->outTransition = GetOutTransitionTypeBetweenZones(wk->zoneId, wk->spawn.zoneId);
@@ -550,14 +595,14 @@ void EventMapChange_SetupWarpSequenceOut(EventMapChange *wk, u32 unk0) {
     warp->unk4C = 0;
 }
 
-void EventMapChange_SetupWarpSequenceIn(EventMapChange *wk, u32 unk0) {
+void EventMapChange_SetupWarpSequenceIn(EventMapChange *wk, GameEvent *parent) {
     WarpSequence *warp = &wk->warp;
 
     warp->gsys = wk->gsys;
     warp->gameData = wk->gameData;
     warp->field = wk->field;
     warp->unk10 = wk->unk2C;
-    warp->unk0 = unk0;
+    warp->parent = parent;
     warp->zoneId = wk->zoneId;
     warp->spawn = wk->spawn;
     warp->outTransition = GetOutTransitionTypeBetweenZones(wk->zoneId, wk->spawn.zoneId);
@@ -682,4 +727,432 @@ GameEvent *EventMapChangeCore_Create(EventMapChange *wk, u8 mode) {
     core->mapChange = wk;
     wk->mode = mode;
     return event;
+}
+
+GameEventReturnCode EventMapChangeWarp_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+    Field *field = wk->field;
+
+    switch (*state) {
+    case 0:
+        EventMapChange_LoadSeasons(wk);
+        DisableAllActorsMovement(Field_GetActorSystem(field));
+        EventMapChange_SetupWarpSequenceOut(wk, event);
+        GameEvent_ChainNext(event, EventWarpSequence_CreateOut(&wk->warp));
+        (*state)++;
+        return GAMEEVENT_CONTINUE_DIRECT;
+    case 1:
+        GameEvent_ChainNext(event, EventMapChangeCore_Create(wk, 0));
+        (*state)++;
+        break;
+    case 2:
+        EventMapChange_SetupWarpSequenceIn(wk, event);
+        GameEvent_ChainNext(event, EventWarpSequence_CreateIn(&wk->warp));
+        (*state)++;
+        break;
+    case 3:
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEventReturnCode EventMapChange_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+    GameSystem *gsys = wk->gsys;
+    Field *field = wk->field;
+    GameData *gameData = wk->gameData;
+    FieldSound *fieldSound = GameData_GetFieldSoundSystem(gameData);
+
+    switch (*state) {
+    case 0:
+        GameEvent_ChainNext(event, CallEventPrepareResidentActorsForZoneChange(gsys, field));
+        (*state)++;
+        break;
+    case 1:
+        FieldSnd_SetZoneBGM(fieldSound, gameData, wk->spawn.zoneId, wk->season);
+        FieldSnd_FadeInImmediate(fieldSound, gameData);
+        (*state)++;
+        break;
+    case 2:
+        GameEvent_ChainNext(event, EventMapChangeCore_Create(wk, wk->mode));
+        (*state)++;
+        break;
+    case 3:
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEventReturnCode EventMapChangeEnding_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+    GameSystem *gsys = wk->gsys;
+    Field *field = wk->field;
+
+    switch (*state) {
+    case 0:
+        GameEvent_ChainNext(event, CallEventPrepareResidentActorsForZoneChange(gsys, field));
+        (*state)++;
+        break;
+    case 1:
+        GameEvent_ChainNext(event, EventMapChangeCore_Create(wk, wk->mode));
+        (*state)++;
+        break;
+    case 2:
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEventReturnCode EventMapChangeFakeWarp_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+    GameSystem *gsys = wk->gsys;
+    Field *field = wk->field;
+
+    switch (*state) {
+    case 0:
+        EventMapChange_LoadSeasons(wk);
+        GameEvent_ChainNext(event, CallEventPrepareResidentActorsForZoneChange(gsys, field));
+        (*state)++;
+        break;
+    case 1:
+        if (wk->unk40 && wk->seasonChanged) {
+            GameEvent_ChainNext(event, CallFieldMapEntranceOutTransitionDefault(gsys, field, 0, 0));
+        } else {
+            GameEvent_ChainNext(event, CallFieldMapEntranceOutTransitionDefault(gsys, field,
+                GetOutTransitionTypeBetweenZones(wk->zoneId, wk->spawn.zoneId), 0));
+        }
+        (*state)++;
+        break;
+    case 2:
+        GameEvent_ChainNext(event, EventMapChangeCore_Create(wk, wk->mode));
+        (*state)++;
+        break;
+    case 3:
+        if (wk->unk40 && wk->seasonChanged) {
+            GameEvent_ChainNext(event,
+                CallFieldMapEntranceInTransition(gsys, field, 3, 0, 0, wk->prevSeason, wk->season));
+        } else {
+            GameEvent_ChainNext(event, CallFieldMapEntranceInTransition(gsys, field,
+                GetInTransitionTypeBetweenZones(wk->zoneId, wk->spawn.zoneId), 0, 1, 0, 0));
+        }
+        (*state)++;
+        break;
+    case 4:
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEventReturnCode EventMapChangeQuicksand_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+    GameSystem *gsys = wk->gsys;
+    GameData *gameData = wk->gameData;
+    Field *field = wk->field;
+    FieldSound *fieldSound = GameData_GetFieldSoundSystem(gameData);
+
+    switch (*state) {
+    case 0:
+        GameEvent_ChainNext(event, CallEventPrepareResidentActorsForZoneChange(gsys, field));
+        (*state)++;
+        break;
+    case 1:
+        GameEvent_ChainNext(event, EventQuicksandDrawIn_Create(event, gsys, field, &wk->unk34));
+        (*state)++;
+        break;
+    case 2:
+        FieldSnd_SetZoneBGM(fieldSound, gameData, wk->spawn.zoneId, wk->season);
+        FieldSnd_FadeInImmediate(fieldSound, gameData);
+        (*state)++;
+        break;
+    case 3:
+        GameEvent_ChainNext(event, EventMapChangeCore_Create(wk, 0));
+        (*state)++;
+        break;
+    case 4:
+        GameEvent_ChainNext(event, EventQuicksandArrive_Create(event, gsys, field));
+        (*state)++;
+        break;
+    case 5:
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEventReturnCode EventMapChangeEscapeRope_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+    GameSystem *gsys = wk->gsys;
+    GameData *gameData = wk->gameData;
+    Field *field = wk->field;
+    FieldSound *fieldSound = GameData_GetFieldSoundSystem(gameData);
+
+    switch (*state) {
+    case 0:
+        EventMapChange_LoadSeasons(wk);
+        GameEvent_ChainNext(event, CallEventPrepareResidentActorsForZoneChange(gsys, field));
+        (*state)++;
+        break;
+    case 1:
+        GameEvent_ChainNext(event, EventEscapeRope_Create(event, gsys, field, wk->seasonChanged));
+        (*state)++;
+        break;
+    case 2:
+        GameData_AdjustPlayerStateOnDiveOut(gameData);
+        FieldSnd_SetZoneBGM(fieldSound, gameData, wk->spawn.zoneId, wk->season);
+        FieldSnd_FadeInImmediate(fieldSound, gameData);
+        (*state)++;
+        break;
+    case 3:
+        GameEvent_ChainNext(event, EventMapChangeCore_Create(wk, 2));
+        (*state)++;
+        break;
+    case 4:
+        GameEvent_ChainNext(event,
+            func_ov036_021b95ac(event, gsys, field, wk->seasonChanged, wk->prevSeason, wk->season));
+        (*state)++;
+        break;
+    case 5:
+        func_ov036_021b50c8(Field_GetPlaceName(field), wk->spawn.zoneId);
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEventReturnCode EventMapChangeDig_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+    GameSystem *gsys = wk->gsys;
+    GameData *gameData = wk->gameData;
+    Field *field = wk->field;
+    FieldSound *fieldSound = GameData_GetFieldSoundSystem(gameData);
+
+    switch (*state) {
+    case 0:
+        EventMapChange_LoadSeasons(wk);
+        GameEvent_ChainNext(event, CallEventPrepareResidentActorsForZoneChange(gsys, field));
+        (*state)++;
+        break;
+    case 1:
+        GameEvent_ChainNext(event, EventDig_Create(event, gsys, field, wk->seasonChanged));
+        (*state)++;
+        break;
+    case 2:
+        GameData_AdjustPlayerStateOnDiveOut(gameData);
+        FieldSnd_SetZoneBGM(fieldSound, gameData, wk->spawn.zoneId, wk->season);
+        FieldSnd_FadeInImmediate(fieldSound, gameData);
+        (*state)++;
+        break;
+    case 3:
+        GameEvent_ChainNext(event, EventMapChangeCore_Create(wk, 2));
+        (*state)++;
+        break;
+    case 4:
+        GameEvent_ChainNext(event,
+            func_ov036_021b95e0(event, gsys, field, wk->seasonChanged, wk->prevSeason, wk->season));
+        (*state)++;
+        break;
+    case 5:
+        func_ov036_021b50c8(Field_GetPlaceName(field), wk->spawn.zoneId);
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEventReturnCode EventMapChangeTeleport_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+    GameSystem *gsys = wk->gsys;
+    GameData *gameData = wk->gameData;
+    Field *field = wk->field;
+    FieldSound *fieldSound = GameData_GetFieldSoundSystem(gameData);
+
+    switch (*state) {
+    case 0:
+        GameEvent_ChainNext(event, CallEventPrepareResidentActorsForZoneChange(gsys, field));
+        (*state)++;
+        break;
+    case 1:
+        GameEvent_ChainNext(event, EventTeleportEffect_Create(event, gsys, field, TRUE));
+        (*state)++;
+        break;
+    case 2:
+        SetPlayerSpecialState(GameData_GetPlayerState(gameData), 0);
+        FieldSnd_SetZoneBGM(fieldSound, gameData, wk->spawn.zoneId, wk->season);
+        FieldSnd_FadeInImmediate(fieldSound, gameData);
+        (*state)++;
+        break;
+    case 3:
+        GameEvent_ChainNext(event, EventMapChangeCore_Create(wk, 3));
+        (*state)++;
+        break;
+    case 4:
+        GameEvent_ChainNext(event, func_ov036_021b9614(event, gsys, field));
+        (*state)++;
+        break;
+    case 5:
+        func_ov036_021b50c8(Field_GetPlaceName(field), wk->spawn.zoneId);
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEventReturnCode EventMapChangeDiveOut_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+    GameSystem *gsys = wk->gsys;
+    Field *field = wk->field;
+    FieldTaskManager *taskManager = Field_GetTaskManager(field);
+
+    switch (*state) {
+    case 0:
+        GameEvent_ChainNext(event, CallFieldMapEntranceOutTransitionDefault(gsys, field, 1, 0));
+        (*state)++;
+        break;
+    case 1:
+        if (FieldTaskManager_IsIdle(taskManager)) {
+            GameEvent_ChainNext(event, CallEventPrepareResidentActorsForZoneChange(gsys, field));
+            (*state)++;
+        }
+        break;
+    case 2:
+        GameEvent_ChainNext(event, EventMapChangeCore_Create(wk, 0));
+        (*state)++;
+        break;
+    case 3:
+        GameEvent_ChainNext(event, CallFieldMapEntranceInTransition(gsys, field, 1, 0, 1, 0, 0));
+        (*state)++;
+        break;
+    case 4:
+        func_ov036_021b50c8(Field_GetPlaceName(field), wk->spawn.zoneId);
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEventReturnCode EventMapChangeDiveIn_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+    GameSystem *gsys = wk->gsys;
+    Field *field = wk->field;
+
+    switch (*state) {
+    case 0:
+        GameEvent_ChainNext(event, CallEventPrepareResidentActorsForZoneChange(gsys, field));
+        (*state)++;
+        break;
+    case 1:
+        GameEvent_ChainNext(event, CallFieldMapEntranceOutTransitionDefault(gsys, field, 0, 0));
+        (*state)++;
+        break;
+    case 2: {
+        GameEvent *mapChange = GameEvent_Create(gsys, NULL, EventMapChange_Callback, sizeof(EventMapChange));
+        EventMapChange *mapChangeWk = GameEvent_GetData(mapChange);
+
+        *mapChangeWk = *wk;
+        GameEvent_ChainNext(event, mapChange);
+        (*state)++;
+        break;
+    }
+    case 3:
+        GameEvent_ChainNext(event, CallFieldMapEntranceInTransition(gsys, field, 0, 0, 1, 0, 0));
+        (*state)++;
+        break;
+    case 4:
+        func_ov036_021b50c8(Field_GetPlaceName(field), wk->spawn.zoneId);
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEventReturnCode EventMapChangeWarpPad_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+    GameSystem *gsys = wk->gsys;
+    GameData *gameData = wk->gameData;
+    Field *field = wk->field;
+    FieldSound *fieldSound = GameData_GetFieldSoundSystem(gameData);
+
+    switch (*state) {
+    case 0:
+        GameEvent_ChainNext(event, CallEventPrepareResidentActorsForZoneChange(gsys, field));
+        (*state)++;
+        break;
+    case 1:
+        GameEvent_ChainNext(event, func_ov036_021b9df8(event, gsys, field));
+        (*state)++;
+        break;
+    case 2:
+        FieldSnd_SetZoneBGM(fieldSound, gameData, wk->spawn.zoneId, wk->season);
+        FieldSnd_FadeInImmediate(fieldSound, gameData);
+        GameEvent_ChainNext(event, EventMapChangeCore_Create(wk, 0));
+        (*state)++;
+        break;
+    case 3:
+        GameEvent_ChainNext(event, EventPlayerSpinDown_Create(event, gsys, field));
+        (*state)++;
+        break;
+    case 4:
+        func_ov036_021b50c8(Field_GetPlaceName(field), wk->spawn.zoneId);
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEventReturnCode EventMapChangeUnionRoomExit_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+    GameSystem *gsys = wk->gsys;
+    Field *field = wk->field;
+    GameData *gameData = wk->gameData;
+
+    switch (*state) {
+    case 0:
+        GameEvent_ChainNext(event, EventTeleportEffect_Create(event, gsys, field, FALSE));
+        (*state)++;
+        break;
+    case 1:
+        GameEvent_ChainNext(event, EventMapChangeCore_Create(wk, 0));
+        (*state)++;
+        break;
+    case 2:
+        GFL_OvlUnload(OVERLAY_28);
+        GFL_OvlLoad(OVERLAY_27);
+        func_02017424(gameData);
+        FieldSubscreen_ChangeImm(Field_GetSubscreen(field), 0);
+        EventScriptCall_Start(event, 0x83a, NULL, NULL, 0x15);
+        (*state)++;
+        break;
+    case 3:
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEventReturnCode EventUnionRoomWarp_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+    GameSystem *gsys = wk->gsys;
+    Field *field = wk->field;
+    GameData *gameData = wk->gameData;
+
+    switch (*state) {
+    case 0:
+        func_02017414(gameData);
+        FieldSubscreen_ChangeImm(Field_GetSubscreen(field), 0);
+        GameEvent_ChainNext(event, CallEventPrepareResidentActorsForZoneChange(gsys, field));
+        (*state)++;
+        break;
+    case 1:
+        GFL_OvlUnload(OVERLAY_27);
+        GFL_OvlLoad(OVERLAY_28);
+        GameEvent_ChainNext(event, EventMapChangeCore_Create(wk, 4));
+        (*state)++;
+        break;
+    case 2:
+        func_ov028_02170ec8(gsys);
+        (*state)++;
+        break;
+    case 3:
+        GameEvent_ChainNext(event, func_ov036_021b9664(event, gsys, field));
+        (*state)++;
+        break;
+    case 4:
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+void InitMapChangeEvent(EventMapChange *wk, GameSystem *gsys) {
+    GameData *gameData = GSYS_GetGameData(gsys);
+    Field *field = GSYS_GetField(gsys);
+    u8 season = GameData_GetSeason(gameData);
+
+    wk->gsys = gsys;
+    wk->gameData = gameData;
+    wk->field = field;
+    wk->zoneId = Field_GetPlayerStateZoneID(field);
+    wk->unk40 = FALSE;
+    wk->seasonChanged = FALSE;
+    wk->prevSeason = season;
+    wk->season = season;
+    func_ov036_021a2398(Field_GetEncountSystem(wk->field), 1);
 }
