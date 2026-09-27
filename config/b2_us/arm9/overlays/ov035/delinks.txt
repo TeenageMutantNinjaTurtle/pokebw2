@@ -9,3 +9,7 @@ src/ov035/el_scoreboard.c:
     .text       start:0x0217ed70 end:0x0217ee5c
     .rodata     start:0x0217f52c end:0x0217f54c
     .data       start:0x0217f5d4 end:0x0217f600
+
+src/ov035/event_season_banner.c:
+    .text       start:0x0217ee5c end:0x0217f52c
+    .rodata     start:0x0217f54c end:0x0217f5ac

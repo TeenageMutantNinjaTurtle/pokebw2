@@ -164,14 +164,18 @@ def add_version(n: Writer, version: str, dsd: Path) -> tuple[list[Path], list[st
             variables={"config": str(arm9_config)})
     n.build([lcf_file, objects_file], "lcf", dsd_configs, variables={"config": str(arm9_config)})
 
-    # Files marked complete in delinks.txt are named after their source file and linked from the compiled object
+    # Source files are listed in delinks.txt by their path. Complete files are linked from the compiled object, and
+    # incomplete ones are still compiled so objdiff can compare them.
     defines = " ".join(f"-d {define}" for define in VERSIONS[version]["defines"])
     objects = []
+    compiled = []
     for f in files:
-        obj = f["object_to_link"]
-        if obj != f["delink_file"]:
-            n.build([obj], "mwcc", [f["name"]], variables={"defines": defines})
-        objects.append(obj)
+        source = Path(f["name"])
+        if source.suffix in (".c", ".cpp") and source.exists():
+            obj = build_dir / source.with_suffix(".o")
+            n.build([obj], "mwcc", [source], variables={"defines": defines})
+            compiled.append(obj)
+        objects.append(f["object_to_link"])
 
     arm9_o = build_dir / "arm9.o"
     n.build([arm9_o], "mwld", objects, implicit=[lcf_file, objects_file],
@@ -187,15 +191,13 @@ def add_version(n: Writer, version: str, dsd: Path) -> tuple[list[Path], list[st
     n.build([version], "phony", [modules_ok, rom_ok])
 
     # Context files for decomp.me scratches, made by objdiff
-    for f in files:
-        obj = f["object_to_link"]
-        if obj != f["delink_file"]:
-            source = Path(f["name"])
-            n.build([Path(obj).with_suffix(f".ctx{source.suffix}")], "ctx", [source], variables={"defines": defines})
+    for obj in compiled:
+        source = obj.relative_to(build_dir).with_suffix(".c")
+        n.build([obj.with_suffix(f".ctx{source.suffix}")], "ctx", [source], variables={"defines": defines})
 
     # Progress report, compares every delinked object with its compiled counterpart
     report = build_dir / "report.json"
-    n.build([report], "report", [], implicit=["objdiff.json", *objects, *delink_outputs])
+    n.build([report], "report", [], implicit=["objdiff.json", *compiled, *delink_outputs])
     n.build([f"{version}_progress"], "progress", [report])
     return [modules_ok, rom_ok], dsd_configs
 

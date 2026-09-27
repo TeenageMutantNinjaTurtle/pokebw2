@@ -33,12 +33,12 @@ extern BOOL G3DTextDraw_CreateResource(void *a0, u32 a1, u32 a2, u32 a3, u32 a4,
 extern void gfxUploadAsync(u32 type, u32 dest, const void *src, u32 size);
 
 // Declared in reverse, as the compiler emits them in reverse order
-static const u16 sPalette3[4] = { 0x0000, 0x18c6, 0x0d73, 0x021f };
-static const u16 sPalette2[4] = { 0x0000, 0x2108, 0x0d73, 0x021f };
-static const u16 sPalette1[4] = { 0x0000, 0x18c6, 0x0df3, 0x031f };
-static const u16 sPalette0[4] = { 0x0000, 0x2108, 0x0df3, 0x031f };
+static const u16 sScoreboardPalette3[4] = { 0x0000, 0x18c6, 0x0d73, 0x021f };
+static const u16 sScoreboardPalette2[4] = { 0x0000, 0x2108, 0x0d73, 0x021f };
+static const u16 sScoreboardPalette1[4] = { 0x0000, 0x18c6, 0x0df3, 0x031f };
+static const u16 sScoreboardPalette0[4] = { 0x0000, 0x2108, 0x0df3, 0x031f };
 
-static const u16 *sPalettes[4] = { sPalette3, sPalette2, sPalette1, sPalette0 };
+static const u16 *sScoreboardPalettes[4] = { sScoreboardPalette3, sScoreboardPalette2, sScoreboardPalette1, sScoreboardPalette0 };
 
 void func_ov035_0217ee2c(ElScoreboardPaletteTarget *target, int frame);
 
@@ -79,5 +79,5 @@ void func_ov035_0217ee08(ElScoreboard *board) {
 }
 
 void func_ov035_0217ee2c(ElScoreboardPaletteTarget *target, int frame) {
-    gfxUploadAsync(1, target->vramOffset + (u16)target->palette * 8, sPalettes[(frame & 0x1f) / 8], 8);
+    gfxUploadAsync(1, target->vramOffset + (u16)target->palette * 8, sScoreboardPalettes[(frame & 0x1f) / 8], 8);
 }

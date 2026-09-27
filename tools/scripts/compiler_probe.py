@@ -97,9 +97,12 @@ def main():
     parser.add_argument("--compilers", default="all", help="comma-separated dsi compiler versions, or 'all'")
     parser.add_argument("--flags", default=DEFAULT_FLAGS)
     parser.add_argument("--extra-flags", default="", help="flags appended to --flags")
+    parser.add_argument("--opt", help="optimization flags replacing -O4,p, e.g. -O4,s")
     parser.add_argument("--show-diff", help="compiler version to show a disassembly diff for")
     args = parser.parse_args()
 
+    if args.opt:
+        args.flags = args.flags.replace("-O4,p", args.opt)
     compilers_dir = TOOLS / "mwccarm" / "dsi"
     compilers = sorted(p.name for p in compilers_dir.iterdir()) if args.compilers == "all" else args.compilers.split(",")
     modules = load_modules(args.version)

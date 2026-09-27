@@ -10,6 +10,9 @@ typedef signed short s16;
 typedef signed int s32;
 typedef signed long long s64;
 
+typedef float f32;
+typedef double f64;
+
 typedef int BOOL;
 #define TRUE 1
 #define FALSE 0
