@@ -153,6 +153,11 @@ typedef struct {
 #define ZONE_SPAWN_CHANGE_TYPE_POSITION 1
 #define ZONE_SPAWN_CHANGE_TYPE_3 3
 
+#define ZONE_POKEMON_LEAGUE 0x88
+#define ZONE_UNION_ROOM 0x1a6
+#define ZONE_CASTELIA_SEWERS 0x1ef
+#define ZONE_VICTORY_ROAD 0x23d
+
 #define WARP_DIR_UP 1
 #define WARP_DIR_DOWN 2
 #define WARP_DIR_LEFT 3
@@ -239,7 +244,8 @@ extern void Season_Set(GameData *gameData, u16 season);
 extern u8 GameData_GetSeason(GameData *gameData);
 extern void GameData_GetSeasons(GameData *gameData, u16 *prevSeason, u16 *season);
 extern u32 Season_GetNext(u8 season);
-extern CityState *func_02017214(GameData *gameData);
+// Index 1 of GameData's city states is the player's own, and index 0 is the linked player's
+extern CityState *GameData_GetMyCityState(GameData *gameData);
 extern PlayerInfo *GetGameDataPlayerInfo(GameData *gameData);
 extern SaveControl *GameData_GetSaveControl(GameData *gameData);
 extern void func_ov012_0215cd58(CityState *state);
@@ -248,7 +254,7 @@ extern void FieldScript_CallPlayerInitSetup(GameSystem *gsys, u32 a1);
 extern void FieldMapControl_LoadZone(GameSystem *gsys, u16 zoneId);
 extern void FieldMapControl_InitSpawn(GameSystem *gsys, ZoneSpawnInfo *spawn);
 extern void FieldMapControl_DeleteAllActors(GameSystem *gsys);
-extern void func_0202d3f0(u16 zoneId, GameData *gameData);
+extern void GameBeacon_SetZone(u16 zoneId, GameData *gameData);
 extern u32 GetMapBGMIDByPlayerState2(GameData *gameData, int zoneId, u8 season);
 extern GameEvent *EventBGMChange_Create(GameSystem *gsys, u32 bgm, u32 a2, u32 a3);
 extern GameEvent *EventFieldOpen_Create(GameSystem *gsys);
@@ -310,9 +316,9 @@ extern u16 Field_GetPlayerStateZoneID(Field *field);
 extern void FieldLensFlare_DecideForZoneTransit(FieldLensFlare *lensFlare, u16 zoneId, u16 prevZoneId, u32 fog);
 extern GameEvent *EventFieldCloseKeepSound_Create(GameSystem *gsys, Field *field);
 extern void func_ov337_02180bdc(void);
-extern BOOL func_02018b10(u16 zoneId);
+extern BOOL IsZoneGameCommDisabled(u16 zoneId);
 extern u8 GameCommSys_BootCheck(void *comm);
-extern void func_0202bd80(void *comm);
+extern void GameCommSys_ExitReq(void *comm);
 extern void *func_ov337_02180a84(void *arg0, void *arg1);
 extern void *func_ov337_02180b30(void *arg0, void *arg1);
 extern void *GameData_GetParty(GameData *gameData);
@@ -327,7 +333,7 @@ extern BOOL GameData_IsLensFlareRequested(GameData *gameData);
 extern void GameData_SetLensFlareRequested(GameData *gameData, BOOL requested);
 extern void FieldLensFlare_RequestStart(FieldLensFlare *lensFlare);
 extern void GameData_InitEncountTerrain(GameData *gameData, Field *field);
-extern GameEvent *func_0202fee8(GameSystem *gsys);
+extern GameEvent *EventWaitFieldSound_Create(GameSystem *gsys);
 typedef struct FieldSound FieldSound;
 typedef struct FieldActorSystem FieldActorSystem;
 typedef struct FieldTaskManager FieldTaskManager;
@@ -361,8 +367,8 @@ extern PlayerState *GameData_GetPlayerState(GameData *gameData);
 extern void SetPlayerSpecialState(PlayerState *playerState, u32 state);
 extern FieldTaskManager *Field_GetTaskManager(Field *field);
 extern BOOL FieldTaskManager_IsIdle(FieldTaskManager *taskManager);
-extern void func_02017414(GameData *gameData);
-extern void func_02017424(GameData *gameData);
+extern void GameData_SaveCGearPowerRequest(GameData *gameData);
+extern void GameData_RestoreCGearPowerRequest(GameData *gameData);
 extern FieldSubscreen *Field_GetSubscreen(Field *field);
 extern void FieldSubscreen_ChangeImm(FieldSubscreen *subscreen, u32 mode);
 extern void func_ov028_02170ec8(GameSystem *gsys);
@@ -370,7 +376,7 @@ extern EncountSystem *Field_GetEncountSystem(Field *field);
 extern void func_ov036_021a2398(EncountSystem *encount, u32 a1);
 extern u16 ConvDirToWarpDir(u16 dir);
 extern void CreateZoneChangeData(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpDir, s32 x, s32 y, s32 z);
-extern void func_0201906c(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpDir, u16 componentId, u16 posFront,
+extern void CreateZoneChangeDataRail(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpDir, u16 componentId, u16 posFront,
                           s16 posSide);
 extern ZoneSpawnInfo *GameData_GetEscapeRopeZone(GameData *gameData);
 extern u16 GetReturnLocationIdx(GameData *gameData);
@@ -408,7 +414,7 @@ extern void SetupTeleportZoneChange(u16 returnLocation, ZoneSpawnInfo *spawn);
 extern void func_ov012_0215ef00(GameData *gameData, u16 zoneId);
 extern ISS *GameSystem_GetISS(GameSystem *gsys);
 extern ISSSwitchSys *ISS_GetSwitchSys(ISS *iss);
-extern void func_02032538(ISSSwitchSys *switchSys);
+extern void ISSSwitchSys_ResetSwitches(ISSSwitchSys *switchSys);
 extern BOOL SetupZoneWarpArrival(EventData *eventData, ZoneSpawnInfo *spawn, u16 warpId, u16 posWeightBits);
 extern void FieldStatus_SetNewLoadFlag(FieldStatus *status, BOOL flag);
 extern void PlayerState_SetZoneID(PlayerState *playerState, u16 zoneId);
@@ -436,29 +442,32 @@ typedef struct GimmickState GimmickState;
 typedef struct ArcTool ArcTool;
 typedef struct JoinAvenueSave JoinAvenueSave;
 typedef struct JoinAvenueInfo JoinAvenueInfo;
+typedef struct JoinAvenuePerson JoinAvenuePerson;
+typedef struct JoinAvenuePersonList JoinAvenuePersonList;
 extern void *func_02017b84(GameData *gameData);
-extern void **func_02017b7c(GameData *gameData);
+extern JoinAvenuePersonList **GameData_GetJoinAvenuePersonListPtr(GameData *gameData);
 extern BOOL IsZoneJoinAvenue(u16 zoneId);
-extern BOOL func_02018c10(u16 zoneId);
-extern void *func_02037fc4(u32 a0, u32 a1);
-extern void func_02037ff4(void *a0);
+extern BOOL IsZoneJoinAvenueSubZone(u16 zoneId);
+extern JoinAvenuePersonList *JoinAvenuePersonList_Create(u16 heapId, u32 count);
+extern void JoinAvenuePersonList_Free(JoinAvenuePersonList *list);
 extern JoinAvenueSave *SaveControl_GetJoinAvenue(SaveControl *save);
 extern JoinAvenueInfo *JoinAvenue_GetInfo(JoinAvenueSave *joinAvenue);
 extern u32 JoinAvenue_GetParam(JoinAvenueInfo *info, u32 param, u32 a2);
 extern void func_02017b64(GameData *gameData, u8 a1);
 extern void func_02038bc8(u32 a0);
 extern void func_02039980(void *a0, u32 a1, u32 a2);
-extern void *func_02010050(JoinAvenueSave *joinAvenue);
-extern u32 func_0203802c(void *list);
-extern void *func_02038060(void *list, u32 index);
-extern BOOL func_02036e44(void *a0);
-extern void func_020373ec(void *a0, u32 a1, u32 a2);
+extern JoinAvenuePersonList *JoinAvenue_GetPersonList(JoinAvenueSave *joinAvenue);
+extern u32 JoinAvenuePersonList_GetCount(JoinAvenuePersonList *list);
+extern JoinAvenuePerson *JoinAvenuePersonList_Get(JoinAvenuePersonList *list, u32 index);
+extern BOOL JoinAvenuePerson_IsEmpty(JoinAvenuePerson *person);
+extern void JoinAvenuePerson_SetParam(JoinAvenuePerson *person, u32 param, u32 value);
 extern u32 GetZoneFlashFlags(u16 zoneId);
 extern BOOL FieldStatus_CheckFlashUsed(FieldStatus *status);
 extern void FieldStatus_SetFlashPerms(FieldStatus *status, u32 flags);
 extern BOOL GameData_IsForceSeasonSync(GameData *gameData);
 extern BOOL IsZoneEntralinkHub(u16 zoneId);
-extern void func_02019318(FieldStatus *status, BOOL a1);
+// Set while in another player's world through the Entralink
+extern void FieldStatus_SetInLinkedWorld(FieldStatus *status, BOOL inLinkedWorld);
 extern BOOL GetZoneIsUnionRoom(u16 zoneId);
 extern BOOL IsZone150Or151(u16 zoneId);
 extern BOOL GetZoneIsMusicalTheater(u16 zoneId);
@@ -499,13 +508,13 @@ extern BOOL EventEntralinkWarpIn_CheckAllowed(GameSystem *gsys);
 extern BOOL GameData_CheckPairFlag(GameData *gameData);
 extern u32 func_0203ffc4(void);
 extern ZoneSpawnInfo *GetGameDataNowSpawnZone(GameData *gameData);
-extern BOOL func_02018ecc(u16 zoneId);
+extern BOOL IsZoneInVictoryRoad(u16 zoneId);
 extern BOOL GetZoneFlagsEnableEscapeRope(u16 zoneId);
 extern BOOL IsZoneAbyssalRuinsOutside(u16 zoneId);
 extern u32 FieldPlayerState_GetExState(PlayerState *playerState);
 extern KeyInfoSave *getKeyInfoSaveBlk(SaveControl *save);
 // Returns 1 if the key that switches the city is set
-extern u32 func_02010564(KeyInfoSave *keyInfo);
+extern u32 KeyInfo_GetCityKey(KeyInfoSave *keyInfo);
 GameEventReturnCode EventEntralinkWarpIn_Callback(GameEvent *event, u32 *state, EventEntralinkWarp *wk);
 GameEventReturnCode EventEntralinkWarp_Callback(GameEvent *event, u32 *state, EventEntralinkWarp *wk);
 void GameData_UpdateJoinAvenueForZone(GameData *gameData, u16 zoneId);
@@ -588,11 +597,11 @@ GameEvent *EventGameOpening_Create(GameSystem *gsys, GameSystemProcData *procDat
 
 void EventFieldFirst_SetupCity(GameSystem *gsys) {
     GameData *gameData = GSYS_GetGameData(gsys);
-    CityState *city = func_02017214(gameData);
+    CityState *city = GameData_GetMyCityState(gameData);
     PlayerInfo *player = GetGameDataPlayerInfo(gameData);
 
     CityState_InitFromSave(city, player, GameData_GetSaveControl(gameData), 1);
-    func_ov012_0215cd58(func_02017214(gameData));
+    func_ov012_0215cd58(GameData_GetMyCityState(gameData));
 }
 
 GameEventReturnCode EventFieldFirst_Callback(GameEvent *event, u32 *state, EventFieldFirst *wk) {
@@ -605,7 +614,7 @@ GameEventReturnCode EventFieldFirst_Callback(GameEvent *event, u32 *state, Event
         FieldScript_CallPlayerInitSetup(gsys, 1);
         FieldMapControl_LoadZone(gsys, wk->spawn.zoneId);
         FieldMapControl_InitSpawn(gsys, &wk->spawn);
-        func_0202d3f0(wk->spawn.zoneId, gameData);
+        GameBeacon_SetZone(wk->spawn.zoneId, gameData);
         (*state)++;
         break;
     case 1:
@@ -663,11 +672,11 @@ GameEvent *EventFieldFirst_Create(GameSystem *gsys, GameSystemProcData *procData
 
 void EventFieldContinue_SetupCity(GameSystem *gsys) {
     GameData *gameData = GSYS_GetGameData(gsys);
-    CityState *city = func_02017214(gameData);
+    CityState *city = GameData_GetMyCityState(gameData);
     PlayerInfo *player = GetGameDataPlayerInfo(gameData);
 
     CityState_InitFromSave(city, player, GameData_GetSaveControl(gameData), 1);
-    func_ov012_0215cd58(func_02017214(gameData));
+    func_ov012_0215cd58(GameData_GetMyCityState(gameData));
 }
 
 GameEventReturnCode EventFieldContinue_Callback(GameEvent *event, u32 *state, EventFieldContinue *wk) {
@@ -686,7 +695,7 @@ GameEventReturnCode EventFieldContinue_Callback(GameEvent *event, u32 *state, Ev
             FieldMapControl_LoadZone(gsys, wk->zoneId);
             GameData_UpdatePartyForTimeOfDay(gameData);
             FieldMapControl_InitSpawn(gsys, next);
-            func_0202d3f0(next->zoneId, gameData);
+            GameBeacon_SetZone(next->zoneId, gameData);
         } else {
             s32 cacheIdx;
             MMSys *mmSys;
@@ -858,10 +867,10 @@ GameEventReturnCode EventMapChangeCore_Callback(GameEvent *event, u32 *state, Ev
     case 1:
         GFL_OvlLoad(OVERLAY_DSPROT);
         func_ov337_02180bdc();
-        if (func_02018b10(wk->spawn.zoneId) == TRUE) {
+        if (IsZoneGameCommDisabled(wk->spawn.zoneId) == TRUE) {
             u8 status = GameCommSys_BootCheck(comm);
             if (status == 1 || status == 2) {
-                func_0202bd80(comm);
+                GameCommSys_ExitReq(comm);
                 *state = 2;
                 break;
             }
@@ -893,7 +902,7 @@ GameEventReturnCode EventMapChangeCore_Callback(GameEvent *event, u32 *state, Ev
         GameData_UpdateZoneChangeFlag(gameData, wk->spawn.zoneId, wk->zoneId);
         FieldMapControl_InitSpawn(gsys, &wk->spawn);
         if (wk->mode != 4) {
-            func_0202d3f0(wk->spawn.zoneId, gameData);
+            GameBeacon_SetZone(wk->spawn.zoneId, gameData);
         }
         switch (wk->mode) {
         case 1:
@@ -928,7 +937,7 @@ GameEventReturnCode EventMapChangeCore_Callback(GameEvent *event, u32 *state, Ev
             FieldLensFlare_RequestStart(Field_GetLensFlare(currentField));
         }
         GameData_InitEncountTerrain(gameData, currentField);
-        GameEvent_ChainNext(event, func_0202fee8(gsys));
+        GameEvent_ChainNext(event, EventWaitFieldSound_Create(gsys));
         (*state)++;
         break;
     }
@@ -1316,7 +1325,7 @@ GameEventReturnCode EventMapChangeUnionRoomExit_Callback(GameEvent *event, u32 *
     case 2:
         GFL_OvlUnload(OVERLAY_28);
         GFL_OvlLoad(OVERLAY_27);
-        func_02017424(gameData);
+        GameData_RestoreCGearPowerRequest(gameData);
         FieldSubscreen_ChangeImm(Field_GetSubscreen(field), 0);
         EventScriptCall_Start(event, 0x83a, NULL, NULL, 0x15);
         (*state)++;
@@ -1334,7 +1343,7 @@ GameEventReturnCode EventUnionRoomWarp_Callback(GameEvent *event, u32 *state, Ev
 
     switch (*state) {
     case 0:
-        func_02017414(gameData);
+        GameData_SaveCGearPowerRequest(gameData);
         FieldSubscreen_ChangeImm(Field_GetSubscreen(field), 0);
         GameEvent_ChainNext(event, CallEventPrepareResidentActorsForZoneChange(gsys, field));
         (*state)++;
@@ -1396,7 +1405,7 @@ GameEvent *EventMapChangeWarp_CreateRail(GameSystem *gsys, Field *field, u16 zon
 
     InitMapChangeEvent(wk, gsys);
     dir = ConvDirToWarpDir(dir);
-    func_0201906c(&wk->spawn, zoneId, dir, pos->componentId, pos->posFront, pos->posSide);
+    CreateZoneChangeDataRail(&wk->spawn, zoneId, dir, pos->componentId, pos->posFront, pos->posSide);
     wk->unk2C = 0;
     wk->unk40 = unk40;
     wk->lensFlareStarted = TRUE;
@@ -1410,7 +1419,7 @@ GameEvent *EventMapChange_CreateRail(GameSystem *gsys, Field *field, u16 zoneId,
 
     InitMapChangeEvent(wk, gsys);
     dir = ConvDirToWarpDir(dir);
-    func_0201906c(&wk->spawn, zoneId, dir, pos->componentId, pos->posFront, pos->posSide);
+    CreateZoneChangeDataRail(&wk->spawn, zoneId, dir, pos->componentId, pos->posFront, pos->posSide);
     wk->unk2C = 0;
     wk->unk40 = unk40;
     return event;
@@ -1518,7 +1527,7 @@ GameEvent *EventUnionRoomWarp_Create(GameSystem *gsys) {
     EventMapChange *wk = GameEvent_GetData(event);
 
     InitMapChangeEvent(wk, gsys);
-    CreateZoneChangeData(&wk->spawn, 0x1a6, ConvDirToWarpDir(0), FX32_CONST(184), 0, FX32_CONST(248));
+    CreateZoneChangeData(&wk->spawn, ZONE_UNION_ROOM, ConvDirToWarpDir(0), FX32_CONST(184), 0, FX32_CONST(248));
     wk->unk2C = 0;
     return event;
 }
@@ -1575,7 +1584,7 @@ void EventEntralinkWarp_CreateReturnLocation(ZoneSpawnInfo *spawn, Field *field)
         RailPosition railPos;
 
         func_ov036_0219ad24(player, &railPos);
-        func_0201906c(spawn, Field_GetPlayerStateZoneID(field), WARP_DIR_DOWN, railPos.componentId, railPos.posFront,
+        CreateZoneChangeDataRail(spawn, Field_GetPlayerStateZoneID(field), WARP_DIR_DOWN, railPos.componentId, railPos.posFront,
                       railPos.posSide);
     }
 }
@@ -1678,7 +1687,7 @@ void FieldMapControl_LoadBlackoutZone(GameSystem *gsys) {
     FieldMapControl_DeleteAllActors(gsys);
     FieldMapControl_LoadZone(gsys, spawn.zoneId);
     FieldMapControl_InitSpawn(gsys, &spawn);
-    func_0202d3f0(spawn.zoneId, gameData);
+    GameBeacon_SetZone(spawn.zoneId, gameData);
     func_ov012_02162f44(gameData);
     func_ov012_0215ef00(gameData, spawn.zoneId);
     ShutdownFollowWork(gameData);
@@ -1692,7 +1701,7 @@ GameEventReturnCode EventMapChangeBlackout_Callback(GameEvent *event, u32 *state
         break;
     case 1:
         SetPlayerSpecialState(GameData_GetPlayerState(GSYS_GetGameData(wk->gsys)), 0);
-        func_02032538(ISS_GetSwitchSys(GameSystem_GetISS(wk->gsys)));
+        ISSSwitchSys_ResetSwitches(ISS_GetSwitchSys(GameSystem_GetISS(wk->gsys)));
         GameEvent_ChainNext(event, EventBGMChange_Create(wk->gsys,
             GetMapBGMIDByPlayerState2(wk->gameData, wk->spawn.zoneId, GameData_GetSeason(wk->gameData)), 0, 60));
         (*state)++;
@@ -1807,21 +1816,21 @@ void GameData_DeleteAllActors(GameData *gameData) {
     FldActSys_DeleteAllActors(GameData_GetMMSys(gameData));
 }
 
-// Allocates the Join Avenue data while in Join Avenue and frees it elsewhere, then resets its visitors
+// Allocates a list of people while in Join Avenue and frees it elsewhere, then resets the people in it and in the save
 void GameData_UpdateJoinAvenueForZone(GameData *gameData, u16 zoneId) {
     void *unk = func_02017b84(gameData);
-    void **joinAvenueList;
+    JoinAvenuePersonList **personList;
 
-    if (IsZoneJoinAvenue(zoneId) || func_02018c10(zoneId)) {
-        joinAvenueList = func_02017b7c(gameData);
-        if (*joinAvenueList == NULL) {
-            *joinAvenueList = func_02037fc4(4, 8);
+    if (IsZoneJoinAvenue(zoneId) || IsZoneJoinAvenueSubZone(zoneId)) {
+        personList = GameData_GetJoinAvenuePersonListPtr(gameData);
+        if (*personList == NULL) {
+            *personList = JoinAvenuePersonList_Create(4, 8);
         }
     } else {
-        joinAvenueList = func_02017b7c(gameData);
-        if (*joinAvenueList != NULL) {
-            func_02037ff4(*joinAvenueList);
-            *joinAvenueList = NULL;
+        personList = GameData_GetJoinAvenuePersonListPtr(gameData);
+        if (*personList != NULL) {
+            JoinAvenuePersonList_Free(*personList);
+            *personList = NULL;
         }
     }
 
@@ -1835,23 +1844,23 @@ void GameData_UpdateJoinAvenueForZone(GameData *gameData, u16 zoneId) {
     func_02039980(unk, 8, 0);
     {
         JoinAvenueSave *joinAvenue = SaveControl_GetJoinAvenue(GameData_GetSaveControl(gameData));
-        void *lists[2] = {NULL, NULL};
+        JoinAvenuePersonList *lists[2] = {NULL, NULL};
         int i;
 
-        joinAvenueList = func_02017b7c(gameData);
-        lists[0] = func_02010050(joinAvenue);
-        if (*joinAvenueList != NULL) {
-            lists[1] = *joinAvenueList;
+        personList = GameData_GetJoinAvenuePersonListPtr(gameData);
+        lists[0] = JoinAvenue_GetPersonList(joinAvenue);
+        if (*personList != NULL) {
+            lists[1] = *personList;
         }
         for (i = 0; i < 2; i++) {
             if (lists[i] != NULL) {
                 u32 j;
 
-                for (j = 0; j < func_0203802c(lists[i]); j++) {
-                    void *entry = func_02038060(lists[i], j);
+                for (j = 0; j < JoinAvenuePersonList_GetCount(lists[i]); j++) {
+                    JoinAvenuePerson *person = JoinAvenuePersonList_Get(lists[i], j);
 
-                    if (!func_02036e44(entry)) {
-                        func_020373ec(entry, 0x26, 0);
+                    if (!JoinAvenuePerson_IsEmpty(person)) {
+                        JoinAvenuePerson_SetParam(person, 0x26, 0);
                     }
                 }
             }
@@ -1886,9 +1895,9 @@ void FieldMapControl_LoadZone(GameSystem *gsys, u16 zoneId) {
     MapMatrix *matrix;
 
     if (GameData_IsForceSeasonSync(gameData) == TRUE && !IsZoneEntralinkHub(zoneId)) {
-        func_02019318(GameData_GetFieldStatus(gameData), TRUE);
+        FieldStatus_SetInLinkedWorld(GameData_GetFieldStatus(gameData), TRUE);
     } else {
-        func_02019318(GameData_GetFieldStatus(gameData), FALSE);
+        FieldStatus_SetInLinkedWorld(GameData_GetFieldStatus(gameData), FALSE);
     }
 
     if (GetZoneIsUnionRoom(zoneId)) {
@@ -2042,7 +2051,7 @@ GameEventReturnCode EventEntralinkWarpIn_Callback(GameEvent *event, u32 *state, 
             *state = 2;
         } else {
             scriptId = 0x279a;
-            func_0202bd80(comm);
+            GameCommSys_ExitReq(comm);
             *state = 1;
         }
         EventScriptCall_Start(event, scriptId, NULL, NULL, Field_GetHeapID(wk->field));
@@ -2069,18 +2078,20 @@ void GameData_UpdateEscapeRopeZone(GameData *gameData, const ZoneSpawnInfo *spaw
     ZoneSpawnInfo *now = GetGameDataNowSpawnZone(gameData);
     ZoneSpawnInfo escapeRopeSpawn;
 
-    if (func_02018ecc(spawn->zoneId)) {
-        if (now->zoneId == 0x88) {
+    if (IsZoneInVictoryRoad(spawn->zoneId)) {
+        if (now->zoneId == ZONE_POKEMON_LEAGUE) {
             GameData_SetEscapeRopeZone(gameData, remember);
-        } else if (now->zoneId == 0x23d) {
-            LoadZoneSpawnInfoCheckRail(&escapeRopeSpawn, 0x23d);
+        } else if (now->zoneId == ZONE_VICTORY_ROAD) {
+            LoadZoneSpawnInfoCheckRail(&escapeRopeSpawn, ZONE_VICTORY_ROAD);
             GameData_SetEscapeRopeZone(gameData, &escapeRopeSpawn);
         }
     }
+    // Zone 0x9e is part of the Desert Resort
     if (now->zoneId == 0x9e && GetZoneFlagsEnableEscapeRope(spawn->zoneId)) {
         GameData_SetEscapeRopeZone(gameData, remember);
     }
-    if (now->zoneId == 0x28 && spawn->zoneId == 0x1ef) {
+    // Zone 0x28 is part of Castelia City
+    if (now->zoneId == 0x28 && spawn->zoneId == ZONE_CASTELIA_SEWERS) {
         GameData_SetEscapeRopeZone(gameData, remember);
     }
 }
@@ -2128,7 +2139,7 @@ void *EventMapChange_DSProtNop(void *arg0, void *arg1) {
 }
 
 void CityState_InitFromSave(CityState *state, PlayerInfo *player, SaveControl *save, u32 unused) {
-    u32 switched = func_02010564(getKeyInfoSaveBlk(save));
+    u32 switched = KeyInfo_GetCityKey(getKeyInfoSaveBlk(save));
 
     state->initialized = TRUE;
 #ifdef BLACK2

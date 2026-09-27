@@ -1,5 +1,26 @@
 # Names that are not in swan, applied by tools/scripts/rename_symbol.py
 # module address(b2_us) name
+. 0x02010050 JoinAvenue_GetPersonList
+. 0x02010564 KeyInfo_GetCityKey
+. 0x02017214 GameData_GetMyCityState
+. 0x02017414 GameData_SaveCGearPowerRequest
+. 0x02017424 GameData_RestoreCGearPowerRequest
+. 0x02017b7c GameData_GetJoinAvenuePersonListPtr
+. 0x02018b10 IsZoneGameCommDisabled
+. 0x02018c10 IsZoneJoinAvenueSubZone
+. 0x02018ecc IsZoneInVictoryRoad
+. 0x0201906c CreateZoneChangeDataRail
+. 0x02019318 FieldStatus_SetInLinkedWorld
+. 0x0202bd80 GameCommSys_ExitReq
+. 0x0202d3f0 GameBeacon_SetZone
+. 0x0202fee8 EventWaitFieldSound_Create
+. 0x02032538 ISSSwitchSys_ResetSwitches
+. 0x02036e44 JoinAvenuePerson_IsEmpty
+. 0x020373ec JoinAvenuePerson_SetParam
+. 0x02037fc4 JoinAvenuePersonList_Create
+. 0x02037ff4 JoinAvenuePersonList_Free
+. 0x0203802c JoinAvenuePersonList_GetCount
+. 0x02038060 JoinAvenuePersonList_Get
 overlays/ov035 0x0217ca2c EventFieldFirst_SetupCity
 overlays/ov035 0x0217cbec EventFieldContinue_SetupCity
 overlays/ov035 0x0217e62c GameData_UpdateJoinAvenueForZone

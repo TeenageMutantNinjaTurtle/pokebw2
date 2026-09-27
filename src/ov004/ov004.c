@@ -33,7 +33,7 @@ extern void *GSYS_GetGameData(void *proc);
 extern void *GameEvent_Create(void *proc, u32 a1, void *func, u32 size);
 extern void *GSYS_GetGameCommSystem(void *proc);
 extern BOOL GameCommSys_BootCheck(void *a0);
-extern void func_0202bd80(void *a0);
+extern void GameCommSys_ExitReq(void *a0);
 extern void *GameEvent_GetData(void *a0);
 extern void sys_memset(void *dest, u32 value, u32 size);
 extern void *GameData_GetSaveControl(void *a0);
@@ -78,7 +78,7 @@ void *func_ov004_0214f50c(void *proc, u32 a1, u32 unused) {
     Ov004Work *work;
 
     if (GameCommSys_BootCheck(GSYS_GetGameCommSystem(proc))) {
-        func_0202bd80(GSYS_GetGameCommSystem(proc));
+        GameCommSys_ExitReq(GSYS_GetGameCommSystem(proc));
     }
 
     work = GameEvent_GetData(result);
