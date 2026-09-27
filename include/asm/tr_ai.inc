@@ -1,811 +1,761 @@
-@ Macros for the trainer AI scripts, written by tools/scripts/tr_ai_script.py inc
+// Macros for the trainer AI scripts, written by tools/scripts/tr_ai_script.py inc
 
 #include "constants/abilities.h"
 #include "constants/battle.h"
+#include "constants/hold_effects.h"
 #include "constants/items.h"
+#include "constants/move_effects.h"
 #include "constants/moves.h"
+#include "constants/pokemon.h"
 #include "constants/species.h"
 #include "constants/tr_ai.h"
 #include "constants/types.h"
 
-    .macro ai_cmd id
+    .set FALSE, 0
+    .set TRUE, 1
+
+    .macro AICommand id
     .2byte \id
     .endm
 
-    .macro list_end
-    .4byte 0xffffffff
+    // An entry of a table for IfLoadedInTable, which ends with TABLE_END
+    .macro TableEntry entry
+    .4byte \entry
     .endm
 
-    @ AIGreaterThanRandom: jumps if a random number below 256 is less than value
-    .macro if_random_less_than a0, a1
-    ai_cmd 0
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // An entry of a table for GoToByMoveEffect: the label to jump to, from the table's start
+    .macro LabelDistance dst, src
+    .4byte \dst - \src
     .endm
 
-    @ AILessThanRandom
-    .macro if_random_greater_than a0, a1
-    ai_cmd 1
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // Jumps if a random number below 256 is less than value
+    .macro IfRandomLessThan value, jump
+    AICommand 0
+    .4byte \value
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIEqualToRandom
-    .macro if_random_equal a0, a1
-    ai_cmd 2
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro IfRandomGreaterThan value, jump
+    AICommand 1
+    .4byte \value
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AINotEqualToRandom
-    .macro if_random_not_equal a0, a1
-    ai_cmd 3
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro IfRandomEqualTo value, jump
+    AICommand 2
+    .4byte \value
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIncrementScore: adds a signed value to the move's score, which stays at least 0
-    .macro add_to_score a0
-    ai_cmd 4
-    .4byte \a0
+    .macro IfRandomNotEqualTo value, jump
+    AICommand 3
+    .4byte \value
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIsHPLessThan: compares the HP percentage
-    .macro if_hp_less_than a0, a1, a2
-    ai_cmd 5
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2 - (. + 4)
+    // Adds to the move's score, which stays at least 0
+    .macro AddToMoveScore value
+    AICommand 4
+    .4byte \value
     .endm
 
-    @ AIIsHPGreaterThan
-    .macro if_hp_greater_than a0, a1, a2
-    ai_cmd 6
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2 - (. + 4)
+    .macro IfHPPercentLessThan battler, percent, jump
+    AICommand 5
+    .4byte \battler
+    .4byte \percent
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIsHPEqualTo
-    .macro if_hp_equal a0, a1, a2
-    ai_cmd 7
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2 - (. + 4)
+    .macro IfHPPercentGreaterThan battler, percent, jump
+    AICommand 6
+    .4byte \battler
+    .4byte \percent
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIsHPNotEqualTo
-    .macro if_hp_not_equal a0, a1, a2
-    ai_cmd 8
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2 - (. + 4)
+    .macro IfHPPercentEqualTo battler, percent, jump
+    AICommand 7
+    .4byte \battler
+    .4byte \percent
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIHasStatus: jumps if the Pokemon has a status
-    .macro if_status a0, a1
-    ai_cmd 9
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro IfHPPercentNotEqualTo battler, percent, jump
+    AICommand 8
+    .4byte \battler
+    .4byte \percent
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIDoesNotHaveStatus
-    .macro if_no_status a0, a1
-    ai_cmd 10
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // Jumps if the battler has any major status condition. Gen 4's takes a mask of conditions
+    .macro IfStatus battler, jump
+    AICommand 9
+    .4byte \battler
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIHasCondition
-    .macro if_condition a0, a1, a2
-    ai_cmd 11
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2 - (. + 4)
+    .macro IfNotStatus battler, jump
+    AICommand 10
+    .4byte \battler
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIDoesNotHaveCondition
-    .macro if_not_condition a0, a1, a2
-    ai_cmd 12
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2 - (. + 4)
+    // CONDITION_*
+    .macro IfCondition battler, condition, jump
+    AICommand 11
+    .4byte \battler
+    .4byte \condition
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIsBadlyPoisoned
-    .macro if_badly_poisoned a0, a1
-    ai_cmd 13
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro IfNotCondition battler, condition, jump
+    AICommand 12
+    .4byte \battler
+    .4byte \condition
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIsNotBadlyPoisoned
-    .macro if_not_badly_poisoned a0, a1
-    ai_cmd 14
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro IfBadlyPoisoned battler, jump
+    AICommand 13
+    .4byte \battler
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIHasConditionFlag
-    .macro if_condition_flag a0, a1, a2
-    ai_cmd 15
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2 - (. + 4)
+    .macro IfNotBadlyPoisoned battler, jump
+    AICommand 14
+    .4byte \battler
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIDoesNotHaveConditionFlag
-    .macro if_not_condition_flag a0, a1, a2
-    ai_cmd 16
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2 - (. + 4)
+    .macro IfConditionFlag battler, flag, jump
+    AICommand 15
+    .4byte \battler
+    .4byte \flag
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfSideEffect
-    .macro if_side_effect a0, a1, a2
-    ai_cmd 17
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2 - (. + 4)
+    .macro IfNotConditionFlag battler, flag, jump
+    AICommand 16
+    .4byte \battler
+    .4byte \flag
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfNotSideEffect
-    .macro if_not_side_effect a0, a1, a2
-    ai_cmd 18
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2 - (. + 4)
+    // Jumps if the condition is active on the battler's side
+    .macro IfSideCondition battler, condition, jump
+    AICommand 17
+    .4byte \battler
+    .4byte \condition
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfLessThan: compares the result
-    .macro if_less_than a0, a1
-    ai_cmd 19
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro IfNotSideCondition battler, condition, jump
+    AICommand 18
+    .4byte \battler
+    .4byte \condition
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfGreaterThan
-    .macro if_greater_than a0, a1
-    ai_cmd 20
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro IfLoadedLessThan value, jump
+    AICommand 19
+    .4byte \value
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfEqual
-    .macro if_equal a0, a1
-    ai_cmd 21
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro IfLoadedGreaterThan value, jump
+    AICommand 20
+    .4byte \value
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfNotEqual
-    .macro if_not_equal a0, a1
-    ai_cmd 22
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro IfLoadedEqualTo value, jump
+    AICommand 21
+    .4byte \value
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfBit: jumps if the result has any of the bits
-    .macro if_bits_set a0, a1
-    ai_cmd 23
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro IfLoadedNotEqualTo value, jump
+    AICommand 22
+    .4byte \value
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfNotBit
-    .macro if_bits_clear a0, a1
-    ai_cmd 24
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // Jumps if the loaded value has any of the bits
+    .macro IfLoadedMask mask, jump
+    AICommand 23
+    .4byte \mask
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfMove: compares the move being scored
-    .macro if_move a0, a1
-    ai_cmd 25
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro IfLoadedNotMask mask, jump
+    AICommand 24
+    .4byte \mask
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfNotMove
-    .macro if_not_move a0, a1
-    ai_cmd 26
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // Compares the move being scored
+    .macro IfMoveEqualTo move, jump
+    AICommand 25
+    .4byte \move
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfResultInList
-    .macro if_in_list a0, a1
-    ai_cmd 27
-    .4byte \a0 - (. + 4)
-    .4byte \a1 - (. + 4)
+    .macro IfMoveNotEqualTo move, jump
+    AICommand 26
+    .4byte \move
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfResultNotInList
-    .macro if_not_in_list a0, a1
-    ai_cmd 28
-    .4byte \a0 - (. + 4)
-    .4byte \a1 - (. + 4)
+    .macro IfLoadedInTable table, jump
+    AICommand 27
+    .4byte \table - (. + 4)
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIHasDamagingMove: jumps if the attacker has a move with power
-    .macro if_has_damaging_move a0
-    ai_cmd 29
-    .4byte \a0 - (. + 4)
+    .macro IfLoadedNotInTable table, jump
+    AICommand 28
+    .4byte \table - (. + 4)
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIDoesNotHaveDamagingMove
-    .macro if_no_damaging_move a0
-    ai_cmd 30
-    .4byte \a0 - (. + 4)
+    // Jumps if the attacker has a move with power
+    .macro IfAttackerHasDamagingMoves jump
+    AICommand 29
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIGetTurnCount
-    .macro load_turn_count
-    ai_cmd 31
+    .macro IfAttackerHasNoDamagingMoves jump
+    AICommand 30
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIGetType
-    .macro load_type a0
-    ai_cmd 32
-    .4byte \a0
+    .macro LoadTurnCount
+    AICommand 31
     .endm
 
-    @ AIGetBasePower: the base power of the move being scored
-    .macro load_power
-    ai_cmd 33
+    // LOAD_*
+    .macro LoadTypeFrom target
+    AICommand 32
+    .4byte \target
     .endm
 
-    @ AIGetHighestDamagingMove: 0 if the move deals no damage, 1 if another move deals more, 2 otherwise
-    .macro load_damage_rank a0
-    ai_cmd 34
-    .4byte \a0
+    // The base power of the move being scored
+    .macro LoadMovePower
+    AICommand 33
     .endm
 
-    @ AIGetPreviousMove
-    .macro load_last_move a0
-    ai_cmd 35
-    .4byte \a0
+    // Loads AI_MOVE_DEALS_NO_DAMAGE, AI_NOT_HIGHEST_DAMAGE if another of the attacker's moves deals more damage, or AI_MOVE_IS_HIGHEST_DAMAGE
+    .macro FlagMoveDamageScore damage
+    AICommand 34
+    .4byte \damage
     .endm
 
-    @ AIIfEqual, a second ID
-    .macro if_equal_2 a0, a1
-    ai_cmd 36
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro LoadBattlerPreviousMove battler
+    AICommand 35
+    .4byte \battler
     .endm
 
-    @ AIIfNotEqual, a second ID
-    .macro if_not_equal_2 a0, a1
-    ai_cmd 37
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // The same as IfLoadedEqualTo, as in Gen 4
+    .macro IfTempEqualTo value, jump
+    AICommand 36
+    .4byte \value
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AICompareSpeed: 0 jumps if the attacker is faster, 1 if slower, 2 if equal
-    .macro if_speed_compare a0, a1
-    ai_cmd 38
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // The same as IfLoadedNotEqualTo
+    .macro IfTempNotEqualTo value, jump
+    AICommand 37
+    .4byte \value
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AICheckTeamCount: the party's Pokemon that aren't in battle and can battle
-    .macro load_able_party_count a0
-    ai_cmd 39
-    .4byte \a0
+    // Compares the attacker's speed with the defender's, COMPARE_SPEED_*
+    .macro IfSpeedCompareEqualTo compare, jump
+    AICommand 38
+    .4byte \compare
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AICheckMoveID: the move being scored
-    .macro load_move
-    ai_cmd 40
+    // Loads the number of the party's Pokemon that aren't in battle and can battle
+    .macro CountAlivePartyBattlers battler
+    AICommand 39
+    .4byte \battler
     .endm
 
-    @ AICheckMoveEffect
-    .macro load_move_effect
-    ai_cmd 41
+    .macro LoadCurrentMove
+    AICommand 40
     .endm
 
-    @ AICheckAbility: the ability the AI knows or guesses
-    .macro load_known_ability a0
-    ai_cmd 42
-    .4byte \a0
+    .macro LoadCurrentMoveEffect
+    AICommand 41
     .endm
 
-    @ AINop43
-    .macro nop_43
-    ai_cmd 43
+    // Loads the ability that the AI knows the battler to have, or its guess
+    .macro LoadBattlerAbility battler
+    AICommand 42
+    .4byte \battler
     .endm
 
-    @ AIIfTypeEffectiveness: of the move being scored
-    .macro if_effectiveness a0, a1
-    ai_cmd 44
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // Does nothing. Gen 4's calculates the highest type effectiveness
+    .macro Dummy2B
+    AICommand 43
     .endm
 
-    @ AIIfStatusInParty: jumps if a party member that isn't in battle has no status
-    .macro if_party_member_no_status a0, a1
-    ai_cmd 45
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // TYPE_EFFECTIVENESS_* of the move being scored
+    .macro IfMoveEffectivenessEquals effectiveness, jump
+    AICommand 44
+    .4byte \effectiveness
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfStatusNotInParty
-    .macro if_party_member_status a0, a1
-    ai_cmd 46
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // Jumps if one of the party's Pokemon that aren't in battle has no major status condition
+    .macro IfPartyMemberNotStatus battler, jump
+    AICommand 45
+    .4byte \battler
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIGetWeather
-    .macro load_weather
-    ai_cmd 47
+    // Jumps if one of the party's Pokemon that aren't in battle has a major status condition
+    .macro IfPartyMemberStatus battler, jump
+    AICommand 46
+    .4byte \battler
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIHasMoveID: compares the effect of the move being scored
-    .macro if_move_effect a0, a1
-    ai_cmd 48
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro LoadCurrentWeather
+    AICommand 47
     .endm
 
-    @ AIDoesNotHaveMoveID
-    .macro if_not_move_effect a0, a1
-    ai_cmd 49
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro IfCurrentMoveEffectEqualTo effect, jump
+    AICommand 48
+    .4byte \effect
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIStatStageLessThan: stat, then stage
-    .macro if_stat_stage_less_than a0, a1, a2, a3
-    ai_cmd 50
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2
-    .4byte \a3 - (. + 4)
+    .macro IfCurrentMoveEffectNotEqualTo effect, jump
+    AICommand 49
+    .4byte \effect
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIStatStageGreaterThan
-    .macro if_stat_stage_greater_than a0, a1, a2, a3
-    ai_cmd 51
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2
-    .4byte \a3 - (. + 4)
+    // Stages go from 0 to 12, and 6 is neutral
+    .macro IfStatStageLessThan battler, stat, stage, jump
+    AICommand 50
+    .4byte \battler
+    .4byte \stat
+    .4byte \stage
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIStatStageEqual
-    .macro if_stat_stage_equal a0, a1, a2, a3
-    ai_cmd 52
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2
-    .4byte \a3 - (. + 4)
+    .macro IfStatStageGreaterThan battler, stat, stage, jump
+    AICommand 51
+    .4byte \battler
+    .4byte \stat
+    .4byte \stage
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIStatStageNotEqual
-    .macro if_stat_stage_not_equal a0, a1, a2, a3
-    ai_cmd 53
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2
-    .4byte \a3 - (. + 4)
+    .macro IfStatStageEqualTo battler, stat, stage, jump
+    AICommand 52
+    .4byte \battler
+    .4byte \stat
+    .4byte \stage
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfCanFaint: the first argument is unused
-    .macro if_can_faint a0, a1
-    ai_cmd 54
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro IfStatStageNotEqualTo battler, stat, stage, jump
+    AICommand 53
+    .4byte \battler
+    .4byte \stat
+    .4byte \stage
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfCannotFaint
-    .macro if_cannot_faint a0, a1
-    ai_cmd 55
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // Jumps if the move's damage with USE_MIN_DAMAGE is at least the defender's HP. The first argument is not used
+    .macro IfCurrentMoveKills unused, jump
+    AICommand 54
+    .4byte \unused
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfHasMove: for the defender, only the moves it was seen to use
-    .macro if_knows_move a0, a1, a2
-    ai_cmd 56
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2 - (. + 4)
+    .macro IfCurrentMoveDoesNotKill unused, jump
+    AICommand 55
+    .4byte \unused
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfDoesNotHaveMove
-    .macro if_not_knows_move a0, a1, a2
-    ai_cmd 57
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2 - (. + 4)
+    // For the defender, only the moves it was seen to use
+    .macro IfMoveKnown battler, move, jump
+    AICommand 56
+    .4byte \battler
+    .4byte \move
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfHasMoveWithEffect
-    .macro if_knows_move_effect a0, a1, a2
-    ai_cmd 58
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2 - (. + 4)
+    .macro IfMoveNotKnown battler, move, jump
+    AICommand 57
+    .4byte \battler
+    .4byte \move
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfDoesNotHaveMoveWithEffect
-    .macro if_not_knows_move_effect a0, a1, a2
-    ai_cmd 59
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2 - (. + 4)
+    .macro IfMoveEffectKnown battler, effect, jump
+    AICommand 58
+    .4byte \battler
+    .4byte \effect
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AINop60
-    .macro nop_60
-    ai_cmd 60
+    .macro IfMoveEffectNotKnown battler, effect, jump
+    AICommand 59
+    .4byte \battler
+    .4byte \effect
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIFlee
-    .macro flee
-    ai_cmd 61
+    // Does nothing
+    .macro Dummy3C
+    AICommand 60
     .endm
 
-    @ AINop62
-    .macro nop_62
-    ai_cmd 62
+    // Flees from the battle
+    .macro Escape
+    AICommand 61
     .endm
 
-    @ AINop63
-    .macro nop_63
-    ai_cmd 63
+    // Does nothing. Gen 4's takes an argument
+    .macro Dummy3E
+    AICommand 62
     .endm
 
-    @ AIGetHeldItem
-    .macro load_held_item a0
-    ai_cmd 64
-    .4byte \a0
+    // Does nothing
+    .macro Dummy3F
+    AICommand 63
     .endm
 
-    @ AIGetItemEffect: item parameter 1
-    .macro load_held_item_effect a0
-    ai_cmd 65
-    .4byte \a0
+    .macro LoadHeldItem battler
+    AICommand 64
+    .4byte \battler
     .endm
 
-    @ AIGetGender
-    .macro load_gender a0
-    ai_cmd 66
-    .4byte \a0
+    // HOLD_EFFECT_*
+    .macro LoadHeldItemEffect battler
+    AICommand 65
+    .4byte \battler
     .endm
 
-    @ AIIsFakeOutActive: TRUE if condition flag 0 is clear
-    .macro load_fake_out_active a0
-    ai_cmd 67
-    .4byte \a0
+    .macro LoadGender battler
+    AICommand 66
+    .4byte \battler
     .endm
 
-    @ AIGetStockpileCount
-    .macro load_stockpile_count a0
-    ai_cmd 68
-    .4byte \a0
+    // Loads TRUE if condition flag 0 is clear, which is when Fake Out works
+    .macro LoadIsFirstTurnInBattle battler
+    AICommand 67
+    .4byte \battler
     .endm
 
-    @ AIGetBattleStyle
-    .macro load_battle_style
-    ai_cmd 69
+    .macro LoadStockpileCount battler
+    AICommand 68
+    .4byte \battler
     .endm
 
-    @ AIGetBattleType
-    .macro load_battle_type
-    ai_cmd 70
+    // BTL_STYLE_*
+    .macro LoadBattleStyle
+    AICommand 69
     .endm
 
-    @ AIGetConsumedItem
-    .macro load_consumed_item a0
-    ai_cmd 71
-    .4byte \a0
+    .macro LoadBattleType
+    AICommand 70
     .endm
 
-    @ AINop72
-    .macro nop_72
-    ai_cmd 72
+    // Loads the item that the battler consumed
+    .macro LoadRecycleItem battler
+    AICommand 71
+    .4byte \battler
     .endm
 
-    @ AIGetMovePower: replaces the result, a move, with its power
-    .macro load_result_power
-    ai_cmd 73
+    // Does nothing
+    .macro Dummy48
+    AICommand 72
     .endm
 
-    @ AIGetMoveID: replaces the result, a move, with its effect
-    .macro load_result_effect
-    ai_cmd 74
+    // Replaces the loaded move with its power
+    .macro LoadPowerOfLoadedMove
+    AICommand 73
     .endm
 
-    @ AIGetProtectCount
-    .macro load_protect_count a0
-    ai_cmd 75
-    .4byte \a0
+    // Replaces the loaded move with its effect
+    .macro LoadEffectOfLoadedMove
+    AICommand 74
     .endm
 
-    @ AIJump
-    .macro jump a0
-    ai_cmd 76
-    .4byte \a0 - (. + 4)
+    // Loads how many times in a row the battler used Protect, Detect or Endure
+    .macro LoadProtectChain battler
+    AICommand 75
+    .4byte \battler
     .endm
 
-    @ AIEnd: ends the script for this move
-    .macro end
-    ai_cmd 77
+    .macro GoTo jump
+    AICommand 76
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AICompareLevel: 0 jumps if the attacker's level is higher, 1 if lower, 2 if equal
-    .macro if_level_compare a0, a1
-    ai_cmd 78
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // Ends the script for this move
+    .macro End
+    AICommand 77
     .endm
 
-    @ AIIfTaunted: the defender
-    .macro if_taunted a0
-    ai_cmd 79
-    .4byte \a0 - (. + 4)
+    // Compares the attacker's level with the defender's, CHECK_*
+    .macro IfLevel compare, jump
+    AICommand 78
+    .4byte \compare
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfNotTaunted
-    .macro if_not_taunted a0
-    ai_cmd 80
-    .4byte \a0 - (. + 4)
+    .macro IfTargetIsTaunted jump
+    AICommand 79
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfTargetIsAlly
-    .macro if_target_is_ally a0
-    ai_cmd 81
-    .4byte \a0 - (. + 4)
+    .macro IfTargetIsNotTaunted jump
+    AICommand 80
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIDoesMonHaveType
-    .macro load_has_type a0, a1
-    ai_cmd 82
-    .4byte \a0
-    .4byte \a1
+    .macro IfTargetIsPartner jump
+    AICommand 81
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIGuessAbility
-    .macro load_known_ability_is a0, a1
-    ai_cmd 83
-    .4byte \a0
-    .4byte \a1
+    // Loads TRUE if the battler has the type
+    .macro FlagBattlerIsType battler, type
+    AICommand 82
+    .4byte \battler
+    .4byte \type
     .endm
 
-    @ AIIfFlashFireIsActive
-    .macro if_flash_fire a0, a1
-    ai_cmd 84
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // Loads TRUE if the ability that LoadBattlerAbility would load is this one
+    .macro CheckBattlerAbility battler, ability
+    AICommand 83
+    .4byte \battler
+    .4byte \ability
     .endm
 
-    @ AIIfHasItem
-    .macro if_held_item a0, a1, a2
-    ai_cmd 85
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2 - (. + 4)
+    .macro IfActivatedFlashFire battler, jump
+    AICommand 84
+    .4byte \battler
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfFieldEffect
-    .macro if_field_effect a0, a1
-    ai_cmd 86
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro IfHeldItemEqualTo battler, item, jump
+    AICommand 85
+    .4byte \battler
+    .4byte \item
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIGetSideEffect
-    .macro load_side_effect a0, a1
-    ai_cmd 87
-    .4byte \a0
-    .4byte \a1
+    // Gen 4's takes a mask of conditions
+    .macro IfFieldCondition condition, jump
+    AICommand 86
+    .4byte \condition
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfPartyMemberDamaged
-    .macro if_party_member_damaged a0, a1
-    ai_cmd 88
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // Loads the value of the condition on the battler's side, such as the layers of Spikes
+    .macro LoadSideCondition battler, condition
+    AICommand 87
+    .4byte \battler
+    .4byte \condition
     .endm
 
-    @ AIIfPartyMemberUsedPP
-    .macro if_party_member_used_pp a0, a1
-    ai_cmd 89
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // Meant to jump if one of the party's Pokemon that aren't in battle has lost HP, but checks the battler's HP instead
+    .macro IfAnyPartyMemberIsWounded battler, jump
+    AICommand 88
+    .4byte \battler
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIGetFlingPower
-    .macro load_fling_power a0
-    ai_cmd 90
-    .4byte \a0
+    // Meant to jump if one of the party's Pokemon that aren't in battle has used PP, but checks the battler's PP instead
+    .macro IfAnyPartyMemberUsedPP battler, jump
+    AICommand 89
+    .4byte \battler
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIGetMovePP
-    .macro load_move_pp
-    ai_cmd 91
+    .macro LoadFlingPower battler
+    AICommand 90
+    .4byte \battler
     .endm
 
-    @ AIIfCanUseLastResort
-    .macro if_can_use_last_resort a0, a1
-    ai_cmd 92
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro LoadCurrentMovePP
+    AICommand 91
     .endm
 
-    @ AIGetMoveCategory
-    .macro load_move_category
-    ai_cmd 93
+    .macro IfCanUseLastResort battler, jump
+    AICommand 92
+    .4byte \battler
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIGetLastMoveCategory: the defender's last move
-    .macro load_last_move_category
-    ai_cmd 94
+    // MOVE_CATEGORY_*
+    .macro LoadCurrentMoveClass
+    AICommand 93
     .endm
 
-    @ AIGetOrderInTurn
-    .macro load_speed_order a0
-    ai_cmd 95
-    .4byte \a0
+    .macro LoadDefenderLastUsedMoveClass
+    AICommand 94
     .endm
 
-    @ func_ov170_0218119c
-    .macro load_unk_96 a0
-    ai_cmd 96
-    .4byte \a0
+    // Loads the battler's place in the order of the turn
+    .macro LoadBattlerSpeedRank battler
+    AICommand 95
+    .4byte \battler
     .endm
 
-    @ AIIfPartyMemberDealsMoreDamage
-    .macro if_party_member_deals_more_damage a0, a1
-    ai_cmd 97
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // Loads a 16-bit value of the battler. Gen 4's command here loads the turns since the battler switched in
+    .macro LoadBattlerUnk60 battler
+    AICommand 96
+    .4byte \battler
     .endm
 
-    @ AIIfHasSuperEffectiveMove
-    .macro if_has_super_effective_move a0
-    ai_cmd 98
-    .4byte \a0 - (. + 4)
+    // Jumps if one of the party's Pokemon that aren't in battle deals more damage to the defender than the attacker
+    .macro IfPartyMemberDealsMoreDamage damage, jump
+    AICommand 97
+    .4byte \damage
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfLastMoveDealsMoreDamage
-    .macro if_last_move_deals_more_damage a0, a1, a2
-    ai_cmd 99
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2 - (. + 4)
+    .macro IfHasSuperEffectiveMove jump
+    AICommand 98
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIGetPositiveStatStageTotal
-    .macro load_positive_stat_stage_total a0
-    ai_cmd 100
-    .4byte \a0
+    // Jumps if the battler's previous move deals more damage to the defender than the attacker's moves
+    .macro IfBattlerDealsMoreDamage battler, damage, jump
+    AICommand 99
+    .4byte \battler
+    .4byte \damage
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIGetStatStageDifference
-    .macro load_stat_stage_difference a0, a1
-    ai_cmd 101
-    .4byte \a0
-    .4byte \a1
+    .macro SumPositiveStatStages battler
+    AICommand 100
+    .4byte \battler
     .endm
 
-    @ AINop102
-    .macro nop_102
-    ai_cmd 102
+    // Loads the battler's stat stage minus the attacker's
+    .macro DiffStatStages battler, stat
+    AICommand 101
+    .4byte \battler
+    .4byte \stat
     .endm
 
-    @ AINop103
-    .macro nop_103
-    ai_cmd 103
+    // Does nothing
+    .macro Dummy66
+    AICommand 102
     .endm
 
-    @ AINop104
-    .macro nop_104
-    ai_cmd 104
+    // Does nothing
+    .macro Dummy67
+    AICommand 103
     .endm
 
-    @ AIGetHighestDamagingMoveWithPartners
-    .macro load_damage_rank_with_partners a0
-    ai_cmd 105
-    .4byte \a0
+    // Does nothing
+    .macro Dummy68
+    AICommand 104
     .endm
 
-    @ AIIsFainted
-    .macro if_fainted a0, a1
-    ai_cmd 106
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // Like FlagMoveDamageScore, with the moves of the attacker's partners too
+    .macro CheckIfHighestDamageWithPartner damage
+    AICommand 105
+    .4byte \damage
     .endm
 
-    @ AIIsNotFainted
-    .macro if_not_fainted a0, a1
-    ai_cmd 107
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro IfBattlerFainted battler, jump
+    AICommand 106
+    .4byte \battler
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIGetAbility: battle Pokemon value 17
-    .macro load_ability a0
-    ai_cmd 108
-    .4byte \a0
+    .macro IfBattlerNotFainted battler, jump
+    AICommand 107
+    .4byte \battler
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIfSubstitute
-    .macro if_substitute a0, a1
-    ai_cmd 109
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // Loads the battler's actual ability
+    .macro LoadAbility battler
+    AICommand 108
+    .4byte \battler
     .endm
 
-    @ AIGetSpecies
-    .macro load_species a0
-    ai_cmd 110
-    .4byte \a0
+    .macro IfBattlerHasSubstitute battler, jump
+    AICommand 109
+    .4byte \battler
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIGreaterThanTurnRandom: compares the random number of the turn
-    .macro if_turn_random_less_than a0, a1
-    ai_cmd 111
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro LoadSpecies battler
+    AICommand 110
+    .4byte \battler
     .endm
 
-    @ AILessThanTurnRandom
-    .macro if_turn_random_greater_than a0, a1
-    ai_cmd 112
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // Like IfRandomLessThan, with a random number that stays the same for the turn
+    .macro IfTurnRandomLessThan value, jump
+    AICommand 111
+    .4byte \value
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIEqualToTurnRandom
-    .macro if_turn_random_equal a0, a1
-    ai_cmd 113
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro IfTurnRandomGreaterThan value, jump
+    AICommand 112
+    .4byte \value
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AINotEqualToTurnRandom
-    .macro if_turn_random_not_equal a0, a1
-    ai_cmd 114
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro IfTurnRandomEqualTo value, jump
+    AICommand 113
+    .4byte \value
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIJumpByMoveEffect: mode, the highest effect, table
-    .macro jump_by_move_effect a0, a1, a2
-    ai_cmd 115
-    .4byte \a0
-    .4byte \a1
-    .4byte \a2 - (. + 4)
+    .macro IfTurnRandomNotEqualTo value, jump
+    AICommand 114
+    .4byte \value
+    .4byte \jump - (. + 4)
     .endm
 
-    @ func_ov170_02181734
-    .macro unk_cmd_116 a0, a1
-    ai_cmd 116
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // Jumps to the table's entry for the move's effect, or ends the script for effects above max. Modes other than 0 end the script
+    .macro GoToByMoveEffect mode, max, table
+    AICommand 115
+    .4byte \mode
+    .4byte \max
+    .4byte \table - (. + 4)
     .endm
 
-    @ AIIsAtkLessThanSpAtk: the original compares the position with the special attack
-    .macro if_attack_less_than_sp_attack a0, a1
-    ai_cmd 117
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // Jumps if position effect 3 is active at the battler's position
+    .macro IfUnk74 battler, jump
+    AICommand 116
+    .4byte \battler
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIsAtkGreaterThanSpAtk
-    .macro if_attack_greater_than_sp_attack a0, a1
-    ai_cmd 118
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    // Meant to compare the battler's Attack with its Special Attack, but compares its position with its Special Attack
+    .macro IfAttackLessThanSpAttack battler, jump
+    AICommand 117
+    .4byte \battler
+    .4byte \jump - (. + 4)
     .endm
 
-    @ AIIsAtkEqualToSpAtk
-    .macro if_attack_equal_sp_attack a0, a1
-    ai_cmd 119
-    .4byte \a0
-    .4byte \a1 - (. + 4)
+    .macro IfAttackGreaterThanSpAttack battler, jump
+    AICommand 118
+    .4byte \battler
+    .4byte \jump - (. + 4)
+    .endm
+
+    .macro IfAttackEqualToSpAttack battler, jump
+    AICommand 119
+    .4byte \battler
+    .4byte \jump - (. + 4)
     .endm

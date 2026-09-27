@@ -169,20 +169,35 @@ musicals. Scripts are files in the ROM's NARC archives. Each command is a 16-bit
 
 The trainer AI scripts are built from source. Archive `a/1/6/9` holds 14 scripts, one per AI flag, which run in turn
 for each flag the trainer has. They are written in `data/tr_ai/tr_ai_NN.s` with the macros in
-`include/asm/tr_ai.inc`. Each macro is one command of `src/ov170/tr_ai.c`, named for what the command does. Its
-arguments are 32-bit. Jump, list and table arguments are labels, which the macros encode relative to the end of the
-argument. Lists of values end with `list_end`.
-
-The `load_` commands set a result, which `if_equal` and the other comparisons test:
+`include/asm/tr_ai.inc`, in the style of [pokeplatinum](https://github.com/pret/pokeplatinum)'s trainer AI. This
+game's scripts grew out of Gen 4's, so most commands, routines and labels are the same as pokeplatinum's, and share
+their names. Gen 5's additions, such as the handlers of the new move effects, are named in the same style. Each
+script starts with a comment on what it does, and bugs are marked where the code shows them.
 
 ```
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_VOLT_ABSORB, TrAI00_00AA
+Basic_CheckForImmunity:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckSoundproof
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_VOLT_ABSORB, Basic_CheckElectricAbsorption
 ```
+
+Each macro is one command of `src/ov170/tr_ai.c`. Its arguments are 32-bit. Jump and table arguments are labels,
+which the macros encode relative to the end of the argument. The Load commands set a value that `IfLoadedEqualTo`
+and the other comparisons test. Commands that behave differently from Gen 4's have a comment in the macros, and the
+commands that do nothing here are named `DummyNN` after their ID, as pokeplatinum does.
 
 Scripts go through the C preprocessor, so they use the same constants as the C code. `include/constants/` holds
-only `#define`s for this reason. The move, ability, item, species and type constants are named after the game's
-own text by `tools/scripts/make_constants.py`, which reads it with `tools/scripts/msgdata.py`:
+only `#define`s for this reason. The constants come from:
+
+- The game's text, for moves, abilities, items, species and types, by `tools/scripts/make_constants.py`, which reads
+  it with `tools/scripts/msgdata.py`.
+- pokeplatinum, for the move effects and held item effects that Gen 4 has, whose IDs this game keeps. Gen 5's move
+  effects are named after their first move.
+- The move data, for move categories and the conditions that moves inflict.
+- The scripts themselves, for stat stages, weather, side and field conditions and genders: where a routine is the same
+  as pokeplatinum's, its values show which constant is which.
 
 ```sh
 python3 tools/scripts/make_constants.py extract/b2_us/files/a/0/0/2 include/constants
@@ -193,17 +208,17 @@ python3 tools/scripts/make_constants.py extract/b2_us/files/a/0/0/2 include/cons
 ROM is built from `build/<version>/files`, which `tools/scripts/files_tree.py` fills with links to the extracted files,
 except for the files built from source. `ARCHIVES` in `configure.py` lists them.
 
-`tools/scripts/tr_ai_script.py` disassembled the scripts, and can regenerate them and the macros:
+The scripts are source, edited by hand. `tools/scripts/tr_ai_script.py` disassembled them, and writes the macros:
 
 ```sh
-python3 tools/scripts/tr_ai_script.py disasm extract/b2_us/files/a/1/6/9 data/tr_ai
 python3 tools/scripts/tr_ai_script.py inc include/asm/tr_ai.inc
+python3 tools/scripts/tr_ai_script.py disasm extract/b2_us/files/a/1/6/9 OUTPUT_DIR [--labels NAMES.json]
 ```
 
 The disassembler follows the jumps from the start of each script. Bytes it does not reach are decoded as commands
-where they are valid, then as lists, and otherwise kept as `.byte`. A value compared with the result is written as a
-constant when every way to the comparison loads the same kind of value. Script 12 does not decode with this game's
-commands. Its first command, 62, reads no arguments here, and the bytes after it are kept as they are.
+where they are valid, then as tables, and otherwise kept as `.byte`. A value compared with the loaded value is written
+as a constant when every way to the comparison loads the same kind of value. Labels are named after their offset,
+unless `--labels` gives names.
 
 ## Versions
 

@@ -253,7 +253,7 @@ void TrAI_ResetScores(TrAIContext *wk);
 void TrAI_RememberDefenderMove(TrAIContext *wk);
 s32 GetMoveData(TrAIContext *wk, u16 move, u32 param);
 BOOL GetMoveFlag(TrAIContext *wk, u16 move, u32 flag);
-u32 TrAI_GetMaxDamage(TrAIContext *wk, BattleMon *attacker, BattleMon *defender, u32 a3);
+u32 TrAI_GetMaxDamage(TrAIContext *wk, BattleMon *attacker, BattleMon *defender, u32 damageRoll);
 s32 GetItemData(TrAIContext *wk, u16 item, u32 param);
 void TrAI_CreateScriptCache(HeapID heapId);
 void TrAI_FreeScriptCache(void);
@@ -860,8 +860,8 @@ void CheckBadlyPoisoned(VM *vm, TrAIContext *wk, u32 op) {
     BOOL poisoned = FALSE;
     BattleConditionCont cont;
 
-    if (CheckCondition(mon, 5)) {
-        cont = GetConditionContinuationParam(mon, 5);
+    if (CheckCondition(mon, CONDITION_POISON)) {
+        cont = GetConditionContinuationParam(mon, CONDITION_POISON);
         if (Condition_IsBadlyPoisoned(cont)) {
             poisoned = TRUE;
         }
@@ -1068,36 +1068,36 @@ BOOL AIGetType(VM *vm, void *work) {
     PokeTypePair defenderTypes = GetPokeType(wk->defender);
 
     switch (which) {
-    case TRAI_TYPE_ATTACKER_1:
+    case LOAD_ATTACKER_TYPE_1:
         wk->result = PokeTypePair_GetType1(attackerTypes);
         break;
-    case TRAI_TYPE_DEFENDER_1:
+    case LOAD_DEFENDER_TYPE_1:
         wk->result = PokeTypePair_GetType1(defenderTypes);
         break;
-    case TRAI_TYPE_ATTACKER_2:
+    case LOAD_ATTACKER_TYPE_2:
         wk->result = PokeTypePair_GetType2(attackerTypes);
         break;
-    case TRAI_TYPE_DEFENDER_2:
+    case LOAD_DEFENDER_TYPE_2:
         wk->result = PokeTypePair_GetType2(defenderTypes);
         break;
-    case TRAI_TYPE_MOVE:
+    case LOAD_MOVE_TYPE:
         wk->result = GetMoveData(wk, wk->moveId, MOVE_PARAM_TYPE);
         break;
-    case TRAI_TYPE_ATTACKER_PARTNER_1:
+    case LOAD_ATTACKER_PARTNER_TYPE_1:
         wk->result = PokeTypePair_GetType1(
-            GetPokeType(TrAI_GetBattleMon(wk, TrAI_GetTargetPos(wk, TRAI_SIDE_ATTACKER_PARTNER))));
+            GetPokeType(TrAI_GetBattleMon(wk, TrAI_GetTargetPos(wk, AI_BATTLER_ATTACKER_PARTNER))));
         break;
-    case TRAI_TYPE_DEFENDER_PARTNER_1:
+    case LOAD_DEFENDER_PARTNER_TYPE_1:
         wk->result = PokeTypePair_GetType1(
-            GetPokeType(TrAI_GetBattleMon(wk, TrAI_GetTargetPos(wk, TRAI_SIDE_DEFENDER_PARTNER))));
+            GetPokeType(TrAI_GetBattleMon(wk, TrAI_GetTargetPos(wk, AI_BATTLER_DEFENDER_PARTNER))));
         break;
-    case TRAI_TYPE_ATTACKER_PARTNER_2:
+    case LOAD_ATTACKER_PARTNER_TYPE_2:
         wk->result = PokeTypePair_GetType2(
-            GetPokeType(TrAI_GetBattleMon(wk, TrAI_GetTargetPos(wk, TRAI_SIDE_ATTACKER_PARTNER))));
+            GetPokeType(TrAI_GetBattleMon(wk, TrAI_GetTargetPos(wk, AI_BATTLER_ATTACKER_PARTNER))));
         break;
-    case TRAI_TYPE_DEFENDER_PARTNER_2:
+    case LOAD_DEFENDER_PARTNER_TYPE_2:
         wk->result = PokeTypePair_GetType2(
-            GetPokeType(TrAI_GetBattleMon(wk, TrAI_GetTargetPos(wk, TRAI_SIDE_DEFENDER_PARTNER))));
+            GetPokeType(TrAI_GetBattleMon(wk, TrAI_GetTargetPos(wk, AI_BATTLER_DEFENDER_PARTNER))));
         break;
     }
     return wk->cmdReturn;
@@ -1113,10 +1113,10 @@ BOOL AIGetBasePower(VM *vm, void *work) {
 // Sets the result to 0 if the move does no damage, 1 if another move does more damage, or 2 otherwise
 BOOL AIGetHighestDamagingMove(VM *vm, void *work) {
     TrAIContext *wk = work;
-    u32 a5 = VM_Read32(vm);
+    u32 damageRoll = VM_Read32(vm);
     u8 attackerId = GetMonID(wk->attacker);
     u8 defenderId = GetMonID(wk->defender);
-    u32 damage = AICalcDamage(wk->serverFlow, attackerId, defenderId, wk->moveId, TRUE, a5);
+    u32 damage = AICalcDamage(wk->serverFlow, attackerId, defenderId, wk->moveId, TRUE, damageRoll);
     s32 i;
     u16 move;
 
@@ -1126,7 +1126,8 @@ BOOL AIGetHighestDamagingMove(VM *vm, void *work) {
         wk->result = 2;
         for (i = 0; i < GetBattleMonMoveCount(wk->attacker); i++) {
             move = MoveGetID(wk->attacker, i);
-            if (i != wk->moveIdx && AICalcDamage(wk->serverFlow, attackerId, defenderId, move, TRUE, a5) > damage) {
+            if (i != wk->moveIdx &&
+                AICalcDamage(wk->serverFlow, attackerId, defenderId, move, TRUE, damageRoll) > damage) {
                 wk->result = 1;
                 break;
             }
@@ -1150,13 +1151,13 @@ BOOL AICompareSpeed(VM *vm, void *work) {
     u16 defenderSpeed = func_ov167_021abd08(wk->serverFlow, wk->defender, TRUE);
 
     switch (op) {
-    case 0:
+    case COMPARE_SPEED_FASTER:
         op = AI_CMP_GT;
         break;
-    case 1:
+    case COMPARE_SPEED_SLOWER:
         op = AI_CMP_LT;
         break;
-    case 2:
+    case COMPARE_SPEED_TIE:
         op = AI_CMP_EQ;
         break;
     }
@@ -1340,7 +1341,8 @@ void CheckCanFaint(VM *vm, TrAIContext *wk, u32 op) {
     hp = GetBattleMonStat(wk->defender, BATTLEMON_HP);
     attackerId = GetMonID(wk->attacker);
     AIConditionalJump(
-        vm, op, hp, AICalcDamage(wk->serverFlow, attackerId, GetMonID(wk->defender), wk->moveId, TRUE, FALSE), offset);
+        vm, op, hp, AICalcDamage(wk->serverFlow, attackerId, GetMonID(wk->defender), wk->moveId, TRUE, USE_MIN_DAMAGE),
+        offset);
 }
 
 BOOL AIIfHasMove(VM *vm, void *work) {
@@ -1368,7 +1370,7 @@ void CheckHasMove(VM *vm, TrAIContext *wk, u32 op) {
     u16 other;
 
     switch (side) {
-    case TRAI_SIDE_ATTACKER:
+    case AI_BATTLER_ATTACKER:
         for (i = 0; i < GetBattleMonMoveCount(wk->attacker); i++) {
             other = MoveGetID(wk->attacker, i);
             if (other == move) {
@@ -1377,8 +1379,8 @@ void CheckHasMove(VM *vm, TrAIContext *wk, u32 op) {
             }
         }
         break;
-    case TRAI_SIDE_ATTACKER_PARTNER:
-        mon = TrAI_GetBattleMon(wk, TrAI_GetTargetPos(wk, TRAI_SIDE_ATTACKER_PARTNER));
+    case AI_BATTLER_ATTACKER_PARTNER:
+        mon = TrAI_GetBattleMon(wk, TrAI_GetTargetPos(wk, AI_BATTLER_ATTACKER_PARTNER));
         if (IsFainted(mon)) {
             break;
         }
@@ -1390,7 +1392,7 @@ void CheckHasMove(VM *vm, TrAIContext *wk, u32 op) {
             }
         }
         break;
-    case TRAI_SIDE_DEFENDER:
+    case AI_BATTLER_DEFENDER:
         // Only the moves the defender was seen to use
         for (i = 0; i < TRAI_MOVE_MAX; i++) {
             if (move == wk->knownMoves[pos][i]) {
@@ -1427,7 +1429,7 @@ void CheckHasMoveWithEffect(VM *vm, TrAIContext *wk, u32 op) {
     s32 moveEffect;
 
     switch (side) {
-    case TRAI_SIDE_ATTACKER:
+    case AI_BATTLER_ATTACKER:
         for (i = 0; i < GetBattleMonMoveCount(wk->attacker); i++) {
             moveEffect = GetMoveData(wk, MoveGetID(wk->attacker, i), MOVE_PARAM_EFFECT);
             if (moveEffect == effect) {
@@ -1436,7 +1438,7 @@ void CheckHasMoveWithEffect(VM *vm, TrAIContext *wk, u32 op) {
             }
         }
         break;
-    case TRAI_SIDE_DEFENDER:
+    case AI_BATTLER_DEFENDER:
         for (i = 0; i < TRAI_MOVE_MAX; i++) {
             if (wk->knownMoves[pos][i] != 0) {
                 moveEffect = GetMoveData(wk, wk->knownMoves[pos][i], MOVE_PARAM_EFFECT);
@@ -1624,7 +1626,7 @@ BOOL AIIfNotTaunted(VM *vm, void *work) {
 void CheckTauntStatus(VM *vm, TrAIContext *wk, u32 op) {
     s32 offset = VM_Read32(vm);
 
-    AIConditionalJump(vm, op, CheckCondition(wk->defender, 11), TRUE, offset);
+    AIConditionalJump(vm, op, CheckCondition(wk->defender, CONDITION_TAUNT), TRUE, offset);
 }
 
 BOOL AIIfTargetIsAlly(VM *vm, void *work) {
@@ -1756,7 +1758,7 @@ BOOL AIGetFlingPower(VM *vm, void *work) {
     u8 pos = TrAI_GetTargetPos(wk, VM_Read32(vm));
 
     wk->result = 0;
-    if (!CheckCondition(TrAI_GetBattleMon(wk, pos), 19)) {
+    if (!CheckCondition(TrAI_GetBattleMon(wk, pos), CONDITION_EMBARGO)) {
         wk->result = GetItemData(wk, GetBattleMonHeldItem(TrAI_GetBattleMon(wk, pos)), ITEM_PARAM_FLING_POWER);
     }
     return wk->cmdReturn;
@@ -1820,18 +1822,18 @@ BOOL func_ov170_0218119c(VM *vm, void *work) {
 // Jumps if one of the party's Pokemon that aren't in battle can deal more damage to the defender than the attacker
 BOOL AIIfPartyMemberDealsMoreDamage(VM *vm, void *work) {
     TrAIContext *wk = work;
-    u32 a3 = VM_Read32(vm);
+    u32 damageRoll = VM_Read32(vm);
     s32 offset = VM_Read32(vm);
     u8 clientId = func_ov167_0219c650(wk->mainModule, wk->attackerPos);
     BattleParty *party = GetClientParty(wk->pokeCon, clientId);
     s32 i = GetClientBattlerCount(wk->mainModule, clientId);
-    u32 damage = TrAI_GetMaxDamage(wk, wk->attacker, wk->defender, a3);
+    u32 damage = TrAI_GetMaxDamage(wk, wk->attacker, wk->defender, damageRoll);
     BattleMon *mon;
 
     for (; i < GetNumMonsInParty(party); i++) {
         mon = TrAI_GetPartyMon(party, i);
         GetMonID(mon);
-        if (!IsFainted(mon) && TrAI_GetMaxDamage(wk, mon, wk->defender, a3) > damage) {
+        if (!IsFainted(mon) && TrAI_GetMaxDamage(wk, mon, wk->defender, damageRoll) > damage) {
             VM_Jump(vm, vm->pc + offset);
             break;
         }
@@ -1863,14 +1865,14 @@ BOOL AIIfHasSuperEffectiveMove(VM *vm, void *work) {
 BOOL AIIfLastMoveDealsMoreDamage(VM *vm, void *work) {
     TrAIContext *wk = work;
     u32 side = VM_Read32(vm);
-    u32 a3 = VM_Read32(vm);
+    u32 damageRoll = VM_Read32(vm);
     s32 offset = VM_Read32(vm);
     BattleMon *mon = TrAI_GetBattleMon(wk, TrAI_GetTargetPos(wk, side));
-    u32 damage = TrAI_GetMaxDamage(wk, wk->attacker, wk->defender, a3);
+    u32 damage = TrAI_GetMaxDamage(wk, wk->attacker, wk->defender, damageRoll);
     u16 move = GetPreviousMoveID(mon);
     u8 monId = GetMonID(mon);
 
-    if (damage < AICalcDamage(wk->serverFlow, monId, GetMonID(wk->defender), move, TRUE, a3)) {
+    if (damage < AICalcDamage(wk->serverFlow, monId, GetMonID(wk->defender), move, TRUE, damageRoll)) {
         VM_Jump(vm, vm->pc + offset);
     }
     return wk->cmdReturn;
@@ -1879,7 +1881,9 @@ BOOL AIIfLastMoveDealsMoreDamage(VM *vm, void *work) {
 BOOL AIGetPositiveStatStageTotal(VM *vm, void *work) {
     TrAIContext *wk = work;
     u8 pos = TrAI_GetTargetPos(wk, VM_Read32(vm));
-    u32 stats[7] = { 1, 2, 3, 4, 5, 6, 7 };
+    u32 stats[7] = { BATTLEMON_ATTACK_STAGE,     BATTLEMON_DEFENSE_STAGE, BATTLEMON_SP_ATTACK_STAGE,
+                     BATTLEMON_SP_DEFENSE_STAGE, BATTLEMON_SPEED_STAGE,   BATTLEMON_ACCURACY_STAGE,
+                     BATTLEMON_EVASION_STAGE };
     u32 i;
     s32 stage;
 
@@ -1924,7 +1928,7 @@ BOOL AINop104(VM *vm, void *work) {
 // Like AIGetHighestDamagingMove, with the moves of the attacker's side that are in battle
 BOOL AIGetHighestDamagingMoveWithPartners(VM *vm, void *work) {
     TrAIContext *wk = work;
-    u32 a5 = VM_Read32(vm);
+    u32 damageRoll = VM_Read32(vm);
     u8 clientId = func_ov167_0219c650(wk->mainModule, wk->attackerPos);
     BattleParty *party = GetClientParty(wk->pokeCon, clientId);
     s32 i;
@@ -1942,7 +1946,7 @@ BOOL AIGetHighestDamagingMoveWithPartners(VM *vm, void *work) {
     attackerIndex = FindPartyMon(party, wk->attacker);
     attackerId = GetMonID(wk->attacker);
     defenderId = GetMonID(wk->defender);
-    damage = AICalcDamage(wk->serverFlow, attackerId, defenderId, wk->moveId, TRUE, a5);
+    damage = AICalcDamage(wk->serverFlow, attackerId, defenderId, wk->moveId, TRUE, damageRoll);
 
     if (attackerIndex < 0 || damage == 0) {
         wk->result = 0;
@@ -1955,7 +1959,8 @@ BOOL AIGetHighestDamagingMoveWithPartners(VM *vm, void *work) {
             wk->result = 2;
             for (j = 0; j < GetBattleMonMoveCount(mon); j++) {
                 move = MoveGetID(mon, j);
-                if (j != wk->moveIdx && AICalcDamage(wk->serverFlow, monId, defenderId, move, TRUE, a5) > damage) {
+                if (j != wk->moveIdx &&
+                    AICalcDamage(wk->serverFlow, monId, defenderId, move, TRUE, damageRoll) > damage) {
                     wk->result = 1;
                     break;
                 }
@@ -2170,14 +2175,14 @@ u8 TrAI_GetTargetPos(TrAIContext *wk, u32 side) {
     u32 slot;
 
     switch (side) {
-    case TRAI_SIDE_ATTACKER:
+    case AI_BATTLER_ATTACKER:
         pos = wk->attackerPos;
         break;
-    case TRAI_SIDE_DEFENDER:
+    case AI_BATTLER_DEFENDER:
     default:
         pos = wk->defenderPos;
         break;
-    case TRAI_SIDE_ATTACKER_PARTNER:
+    case AI_BATTLER_ATTACKER_PARTNER:
         switch (wk->battleStyle) {
         case BTL_STYLE_SINGLE:
         case BTL_STYLE_ROTATION:
@@ -2197,7 +2202,7 @@ u8 TrAI_GetTargetPos(TrAIContext *wk, u32 side) {
             break;
         }
         break;
-    case TRAI_SIDE_DEFENDER_PARTNER:
+    case AI_BATTLER_DEFENDER_PARTNER:
         switch (wk->battleStyle) {
         case BTL_STYLE_SINGLE:
         case BTL_STYLE_ROTATION:
@@ -2234,10 +2239,10 @@ u32 GuessAbility(TrAIContext *wk, u32 side, u8 pos) {
     u32 ability2;
     u32 abilityHidden;
 
-    if (CheckCondition(mon, 16)) {
+    if (CheckCondition(mon, CONDITION_GASTRO_ACID)) {
         return 0;
     }
-    if (side == TRAI_SIDE_DEFENDER || side == TRAI_SIDE_DEFENDER_PARTNER) {
+    if (side == AI_BATTLER_DEFENDER || side == AI_BATTLER_DEFENDER_PARTNER) {
         wk->knownAbilities[pos] = func_ov168_021e04ec(pos);
         if (wk->knownAbilities[pos] != 0) {
             return wk->knownAbilities[pos];
@@ -2307,7 +2312,7 @@ BOOL GetMoveFlag(TrAIContext *wk, u16 move, u32 flag) {
     return getMoveFlag(move, flag);
 }
 
-u32 TrAI_GetMaxDamage(TrAIContext *wk, BattleMon *attacker, BattleMon *defender, u32 a3) {
+u32 TrAI_GetMaxDamage(TrAIContext *wk, BattleMon *attacker, BattleMon *defender, u32 damageRoll) {
     u32 max = 0;
     u8 attackerId = GetMonID(attacker);
     u8 defenderId = GetMonID(defender);
@@ -2315,7 +2320,7 @@ u32 TrAI_GetMaxDamage(TrAIContext *wk, BattleMon *attacker, BattleMon *defender,
     u32 damage;
 
     for (i = 0; i < GetBattleMonMoveCount(attacker); i++) {
-        damage = AICalcDamage(wk->serverFlow, attackerId, defenderId, MoveGetID(attacker, i), TRUE, a3);
+        damage = AICalcDamage(wk->serverFlow, attackerId, defenderId, MoveGetID(attacker, i), TRUE, damageRoll);
         if (damage > max) {
             max = damage;
         }

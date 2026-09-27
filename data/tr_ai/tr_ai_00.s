@@ -1,1572 +1,1844 @@
 #include "asm/tr_ai.inc"
 
-TrAI00_0000:
-    if_target_is_ally TrAI00_0756
-    if_move MOVE_FISSURE, TrAI00_002A
-    if_move MOVE_HORN_DRILL, TrAI00_002A
-    load_damage_rank 0
-    if_equal 0, TrAI00_0148
-TrAI00_002A:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_0148
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_VOLT_ABSORB, TrAI00_00AA
-    if_equal ABILITY_MOTOR_DRIVE, TrAI00_00AA
-    if_equal ABILITY_LIGHTNINGROD, TrAI00_00AA
-    if_equal ABILITY_WATER_ABSORB, TrAI00_00C0
-    if_equal ABILITY_FLASH_FIRE, TrAI00_00D6
-    if_equal ABILITY_WONDER_GUARD, TrAI00_00EC
-    if_equal ABILITY_LEVITATE, TrAI00_0106
-    if_equal ABILITY_LEVITATE, TrAI00_011C
-    if_equal ABILITY_SAP_SIPPER, TrAI00_0132
-    jump TrAI00_0148
-TrAI00_00AA:
-    load_type TRAI_TYPE_MOVE
-    if_equal_2 TYPE_ELECTRIC, TrAI00_2366
-    jump TrAI00_0148
-TrAI00_00C0:
-    load_type TRAI_TYPE_MOVE
-    if_equal_2 TYPE_WATER, TrAI00_2366
-    jump TrAI00_0148
-TrAI00_00D6:
-    load_type TRAI_TYPE_MOVE
-    if_equal_2 TYPE_FIRE, TrAI00_2366
-    jump TrAI00_0148
-TrAI00_00EC:
-    if_effectiveness TYPE_EFFECTIVENESS_DOUBLE, TrAI00_0148
-    if_effectiveness TYPE_EFFECTIVENESS_QUADRUPLE, TrAI00_0148
-    jump TrAI00_2366
-TrAI00_0106:
-    load_type TRAI_TYPE_MOVE
-    if_equal_2 TYPE_GROUND, TrAI00_2366
-    jump TrAI00_0148
-TrAI00_011C:
-    load_type TRAI_TYPE_MOVE
-    if_equal_2 TYPE_WATER, TrAI00_2366
-    jump TrAI00_0148
-TrAI00_0132:
-    load_type TRAI_TYPE_MOVE
-    if_equal_2 TYPE_GRASS, TrAI00_2366
-    jump TrAI00_0148
-TrAI00_0148:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_not_equal ABILITY_SOUNDPROOF, TrAI00_01FE
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_01FE
-    if_move MOVE_GROWL, TrAI00_235E
-    if_move MOVE_ROAR, TrAI00_235E
-    if_move MOVE_SING, TrAI00_235E
-    if_move MOVE_SUPERSONIC, TrAI00_235E
-    if_move MOVE_SCREECH, TrAI00_235E
-    if_move MOVE_SNORE, TrAI00_235E
-    if_move MOVE_UPROAR, TrAI00_235E
-    if_move MOVE_METAL_SOUND, TrAI00_235E
-    if_move MOVE_GRASS_WHISTLE, TrAI00_235E
-    if_move MOVE_BUG_BUZZ, TrAI00_235E
-    if_move MOVE_CHATTER, TrAI00_235E
-    if_move MOVE_ROUND, TrAI00_235E
-    if_move MOVE_ECHOED_VOICE, TrAI00_235E
-    if_move MOVE_RELIC_SONG, TrAI00_235E
-    if_move MOVE_SNARL, TrAI00_235E
-TrAI00_01FE:
-    jump_by_move_effect 0, 337, TrAI00_020E
-    end
-TrAI00_020E:
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0758 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0796 - TrAI00_020E
-    .4byte TrAI00_0816 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_083E - TrAI00_020E
-    .4byte TrAI00_0852 - TrAI00_020E
-    .4byte TrAI00_0866 - TrAI00_020E
-    .4byte TrAI00_0884 - TrAI00_020E
-    .4byte TrAI00_0898 - TrAI00_020E
-    .4byte TrAI00_08AC - TrAI00_020E
-    .4byte TrAI00_08E0 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0914 - TrAI00_020E
-    .4byte TrAI00_095C - TrAI00_020E
-    .4byte TrAI00_0994 - TrAI00_020E
-    .4byte TrAI00_09CA - TrAI00_020E
-    .4byte TrAI00_09E2 - TrAI00_020E
-    .4byte TrAI00_09FA - TrAI00_020E
-    .4byte TrAI00_0A52 - TrAI00_020E
-    .4byte TrAI00_0ACA - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0BCE - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0C0A - TrAI00_020E
-    .4byte TrAI00_0C20 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0CE4 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0CF4 - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0D90 - TrAI00_020E
-    .4byte TrAI00_0DA0 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0DB0 - TrAI00_020E
-    .4byte TrAI00_083E - TrAI00_020E
-    .4byte TrAI00_0852 - TrAI00_020E
-    .4byte TrAI00_0866 - TrAI00_020E
-    .4byte TrAI00_0884 - TrAI00_020E
-    .4byte TrAI00_0898 - TrAI00_020E
-    .4byte TrAI00_08AC - TrAI00_020E
-    .4byte TrAI00_08E0 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0914 - TrAI00_020E
-    .4byte TrAI00_095C - TrAI00_020E
-    .4byte TrAI00_0994 - TrAI00_020E
-    .4byte TrAI00_09CA - TrAI00_020E
-    .4byte TrAI00_09E2 - TrAI00_020E
-    .4byte TrAI00_09FA - TrAI00_020E
-    .4byte TrAI00_0A52 - TrAI00_020E
-    .4byte TrAI00_0DFE - TrAI00_020E
-    .4byte TrAI00_0C20 - TrAI00_020E
-    .4byte TrAI00_0E0E - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0E90 - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0EAA - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0EF4 - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_0F24 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0F54 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0F64 - TrAI00_020E
-    .4byte TrAI00_0F54 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0F94 - TrAI00_020E
-    .4byte TrAI00_07E8 - TrAI00_020E
-    .4byte TrAI00_08E0 - TrAI00_020E
-    .4byte TrAI00_0FC4 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_102A - TrAI00_020E
-    .4byte TrAI00_1070 - TrAI00_020E
-    .4byte TrAI00_10A0 - TrAI00_020E
-    .4byte TrAI00_10B0 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0DB0 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_10BE - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_114A - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0D2A - TrAI00_020E
-    .4byte TrAI00_11CA - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0C0A - TrAI00_020E
-    .4byte TrAI00_0C0A - TrAI00_020E
-    .4byte TrAI00_0C0A - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_11DC - TrAI00_020E
-    .4byte TrAI00_121E - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0830 - TrAI00_020E
-    .4byte TrAI00_0ACA - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_122C - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_235E - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0852 - TrAI00_020E
-    .4byte TrAI00_0C0A - TrAI00_020E
-    .4byte TrAI00_1238 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_124A - TrAI00_020E
-    .4byte TrAI00_125C - TrAI00_020E
-    .4byte TrAI00_125C - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_1282 - TrAI00_020E
-    .4byte TrAI00_1290 - TrAI00_020E
-    .4byte TrAI00_0DB0 - TrAI00_020E
-    .4byte TrAI00_12C0 - TrAI00_020E
-    .4byte TrAI00_115A - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_1334 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_1342 - TrAI00_020E
-    .4byte TrAI00_1352 - TrAI00_020E
-    .4byte TrAI00_1360 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_1382 - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_1392 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0758 - TrAI00_020E
-    .4byte TrAI00_1360 - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_13A4 - TrAI00_020E
-    .4byte TrAI00_13B0 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_13EC - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_13F8 - TrAI00_020E
-    .4byte TrAI00_1462 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_1488 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_14AE - TrAI00_020E
-    .4byte TrAI00_14BA - TrAI00_020E
-    .4byte TrAI00_14E0 - TrAI00_020E
-    .4byte TrAI00_1510 - TrAI00_020E
-    .4byte TrAI00_0C0A - TrAI00_020E
-    .4byte TrAI00_1512 - TrAI00_020E
-    .4byte TrAI00_151E - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_154E - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_1580 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_16A0 - TrAI00_020E
-    .4byte TrAI00_16BA - TrAI00_020E
-    .4byte TrAI00_173A - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_1790 - TrAI00_020E
-    .4byte TrAI00_17DC - TrAI00_020E
-    .4byte TrAI00_1A36 - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_1B72 - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_1BA2 - TrAI00_020E
-    .4byte TrAI00_1BB2 - TrAI00_020E
-    .4byte TrAI00_1C38 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_1C48 - TrAI00_020E
-    .4byte TrAI00_1C6A - TrAI00_020E
-    .4byte TrAI00_1C9A - TrAI00_020E
-    .4byte TrAI00_0D4A - TrAI00_020E
-    .4byte TrAI00_1CCA - TrAI00_020E
-    .4byte TrAI00_1CDC - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_1D66 - TrAI00_020E
-    .4byte TrAI00_0ACA - TrAI00_020E
-    .4byte TrAI00_1DAC - TrAI00_020E
-    .4byte TrAI00_1DBC - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_1DFC - TrAI00_020E
-    .4byte TrAI00_1E98 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_1EAE - TrAI00_020E
-    .4byte TrAI00_1F5C - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_1F9C - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_1FD8 - TrAI00_020E
-    .4byte TrAI00_2032 - TrAI00_020E
-    .4byte TrAI00_2040 - TrAI00_020E
-    .4byte TrAI00_2042 - TrAI00_020E
-    .4byte TrAI00_2044 - TrAI00_020E
-    .4byte TrAI00_2050 - TrAI00_020E
-    .4byte TrAI00_2052 - TrAI00_020E
-    .4byte TrAI00_2054 - TrAI00_020E
-    .4byte TrAI00_2068 - TrAI00_020E
-    .4byte TrAI00_2098 - TrAI00_020E
-    .4byte TrAI00_20A4 - TrAI00_020E
-    .4byte TrAI00_20A6 - TrAI00_020E
-    .4byte TrAI00_20A8 - TrAI00_020E
-    .4byte TrAI00_20AA - TrAI00_020E
-    .4byte TrAI00_20E2 - TrAI00_020E
-    .4byte TrAI00_20E4 - TrAI00_020E
-    .4byte TrAI00_20E6 - TrAI00_020E
-    .4byte TrAI00_20E8 - TrAI00_020E
-    .4byte TrAI00_210A - TrAI00_020E
-    .4byte TrAI00_210C - TrAI00_020E
-    .4byte TrAI00_210E - TrAI00_020E
-    .4byte TrAI00_2110 - TrAI00_020E
-    .4byte TrAI00_2160 - TrAI00_020E
-    .4byte TrAI00_2182 - TrAI00_020E
-    .4byte TrAI00_2190 - TrAI00_020E
-    .4byte TrAI00_219E - TrAI00_020E
-    .4byte TrAI00_21A0 - TrAI00_020E
-    .4byte TrAI00_21A2 - TrAI00_020E
-    .4byte TrAI00_21A4 - TrAI00_020E
-    .4byte TrAI00_21A6 - TrAI00_020E
-    .4byte TrAI00_21A8 - TrAI00_020E
-    .4byte TrAI00_21B6 - TrAI00_020E
-    .4byte TrAI00_21EE - TrAI00_020E
-    .4byte TrAI00_21FC - TrAI00_020E
-    .4byte TrAI00_21FE - TrAI00_020E
-    .4byte TrAI00_2200 - TrAI00_020E
-    .4byte TrAI00_2226 - TrAI00_020E
-    .4byte TrAI00_2228 - TrAI00_020E
-    .4byte TrAI00_222A - TrAI00_020E
-    .4byte TrAI00_2238 - TrAI00_020E
-    .4byte TrAI00_225E - TrAI00_020E
-    .4byte TrAI00_2260 - TrAI00_020E
-    .4byte TrAI00_2262 - TrAI00_020E
-    .4byte TrAI00_2264 - TrAI00_020E
-    .4byte TrAI00_228C - TrAI00_020E
-    .4byte TrAI00_228E - TrAI00_020E
-    .4byte TrAI00_22C6 - TrAI00_020E
-    .4byte TrAI00_22E4 - TrAI00_020E
-    .4byte TrAI00_22E6 - TrAI00_020E
-    .4byte TrAI00_22E8 - TrAI00_020E
-    .4byte TrAI00_22EA - TrAI00_020E
-    .4byte TrAI00_2310 - TrAI00_020E
-    .4byte TrAI00_2324 - TrAI00_020E
-    .4byte TrAI00_2326 - TrAI00_020E
-    .4byte TrAI00_2328 - TrAI00_020E
-    .4byte TrAI00_232A - TrAI00_020E
-    .4byte TrAI00_232C - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-    .4byte TrAI00_0756 - TrAI00_020E
-TrAI00_0756:
-    end
-TrAI00_0758:
-    if_status TRAI_SIDE_DEFENDER, TrAI00_235E
-    if_side_effect TRAI_SIDE_DEFENDER, 2, TrAI00_235E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_INSOMNIA, TrAI00_235E
-    if_equal ABILITY_VITAL_SPIRIT, TrAI00_235E
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_235E
-    end
-TrAI00_0796:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_07C0
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_DAMP, TrAI00_235E
-TrAI00_07C0:
-    load_able_party_count TRAI_SIDE_ATTACKER
-    if_not_equal 0, TrAI00_07E6
-    load_able_party_count TRAI_SIDE_DEFENDER
-    if_not_equal 0, TrAI00_235E
-    jump TrAI00_232E
-TrAI00_07E6:
-    end
-TrAI00_07E8:
-    if_condition TRAI_SIDE_DEFENDER, 9, TrAI00_235E
-    if_not_condition TRAI_SIDE_DEFENDER, 2, TrAI00_2356
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_GUARD, TrAI00_235E
-    end
-TrAI00_0816:
-    if_not_condition TRAI_SIDE_DEFENDER, 2, TrAI00_2356
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI00_235E
-    end
-TrAI00_0830:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 51, TrAI00_235E
-TrAI00_083E:
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 1, 12, TrAI00_235E
-    end
-TrAI00_0852:
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 2, 12, TrAI00_235E
-    end
-TrAI00_0866:
-    if_field_effect 1, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 5, 12, TrAI00_235E
-    end
-TrAI00_0884:
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 3, 12, TrAI00_235E
-    end
-TrAI00_0898:
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 4, 12, TrAI00_235E
-    end
-TrAI00_08AC:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_NO_GUARD, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_NO_GUARD, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 6, 12, TrAI00_235E
-    end
-TrAI00_08E0:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_NO_GUARD, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_NO_GUARD, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 7, 12, TrAI00_235E
-    end
-TrAI00_0914:
-    if_stat_stage_equal TRAI_SIDE_DEFENDER, 1, 0, TrAI00_235E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_DEFIANT, TrAI00_2366
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_0A84
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_HYPER_CUTTER, TrAI00_235E
-    jump TrAI00_0A84
-TrAI00_095C:
-    if_stat_stage_equal TRAI_SIDE_DEFENDER, 2, 0, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_0A84
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_BIG_PECKS, TrAI00_235E
-    jump TrAI00_0A84
-TrAI00_0994:
-    if_field_effect 1, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_DEFENDER, 5, 0, TrAI00_235E
-    load_known_ability_is TRAI_SIDE_DEFENDER, ABILITY_SPEED_BOOST
-    if_equal 1, TrAI00_235E
-    jump TrAI00_0A84
-TrAI00_09CA:
-    if_stat_stage_equal TRAI_SIDE_DEFENDER, 3, 0, TrAI00_235E
-    jump TrAI00_0A84
-TrAI00_09E2:
-    if_stat_stage_equal TRAI_SIDE_DEFENDER, 4, 0, TrAI00_235E
-    jump TrAI00_0A84
-TrAI00_09FA:
-    if_stat_stage_equal TRAI_SIDE_DEFENDER, 6, 0, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_NO_GUARD, TrAI00_235E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_NO_GUARD, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_0A84
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_KEEN_EYE, TrAI00_235E
-    jump TrAI00_0A84
-TrAI00_0A52:
-    if_stat_stage_equal TRAI_SIDE_DEFENDER, 7, 0, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_NO_GUARD, TrAI00_235E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_NO_GUARD, TrAI00_235E
-TrAI00_0A84:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_CONTRARY, TrAI00_2366
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_0AC8
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_CLEAR_BODY, TrAI00_235E
-    if_equal ABILITY_WHITE_SMOKE, TrAI00_235E
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_0AC8:
-    end
-TrAI00_0ACA:
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 1, 6, TrAI00_0BCC
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 2, 6, TrAI00_0BCC
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 5, 6, TrAI00_0BCC
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 3, 6, TrAI00_0BCC
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 4, 6, TrAI00_0BCC
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 6, 6, TrAI00_0BCC
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 7, 6, TrAI00_0BCC
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 1, 6, TrAI00_0BCC
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 2, 6, TrAI00_0BCC
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 5, 6, TrAI00_0BCC
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 3, 6, TrAI00_0BCC
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 4, 6, TrAI00_0BCC
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 6, 6, TrAI00_0BCC
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 7, 6, TrAI00_0BCC
-    jump TrAI00_235E
-TrAI00_0BCC:
-    end
-TrAI00_0BCE:
-    load_able_party_count TRAI_SIDE_DEFENDER
-    if_equal 0, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_0C08
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_SUCTION_CUPS, TrAI00_235E
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_0C08:
-    end
-TrAI00_0C0A:
-    if_hp_not_equal TRAI_SIDE_ATTACKER, 100, TrAI00_0C1E
-    add_to_score -8
-TrAI00_0C1E:
-    end
-TrAI00_0C20:
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_STEEL, TrAI00_235E
-    if_equal TYPE_POISON, TrAI00_235E
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_STEEL, TrAI00_235E
-    if_equal TYPE_POISON, TrAI00_235E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_IMMUNITY, TrAI00_235E
-    if_equal ABILITY_MAGIC_GUARD, TrAI00_235E
-    if_equal ABILITY_POISON_HEAL, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_0CAE
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-    if_not_equal ABILITY_LEAF_GUARD, TrAI00_0CAE
-    load_weather
-    if_equal 1, TrAI00_235E
-TrAI00_0CAE:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_not_equal ABILITY_HYDRATION, TrAI00_0CCA
-    load_weather
-    if_equal 2, TrAI00_235E
-TrAI00_0CCA:
-    if_status TRAI_SIDE_DEFENDER, TrAI00_235E
-    if_side_effect TRAI_SIDE_DEFENDER, 2, TrAI00_235E
-    end
-TrAI00_0CE4:
-    if_side_effect TRAI_SIDE_ATTACKER, 1, TrAI00_2356
-    end
-TrAI00_0CF4:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_0D1E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_STURDY, TrAI00_235E
-TrAI00_0D1E:
-    if_level_compare 1, TrAI00_235E
-    end
-TrAI00_0D2A:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_0D4A
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_LEVITATE, TrAI00_235E
-TrAI00_0D4A:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI00_235E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_not_equal ABILITY_WONDER_GUARD, TrAI00_0D8E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_0D8E
-    if_effectiveness TYPE_EFFECTIVENESS_DOUBLE, TrAI00_0D8E
-    if_effectiveness TYPE_EFFECTIVENESS_QUADRUPLE, TrAI00_0D8E
-    jump TrAI00_235E
-TrAI00_0D8E:
-    end
-TrAI00_0D90:
-    if_side_effect TRAI_SIDE_ATTACKER, 3, TrAI00_2356
-    end
-TrAI00_0DA0:
-    if_condition_flag TRAI_SIDE_ATTACKER, 9, TrAI00_235E
-    end
-TrAI00_0DB0:
-    if_condition TRAI_SIDE_DEFENDER, 6, TrAI00_2346
-    if_side_effect TRAI_SIDE_DEFENDER, 2, TrAI00_235E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_OWN_TEMPO, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_0DFC
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_0DFC:
-    end
-TrAI00_0DFE:
-    if_side_effect TRAI_SIDE_ATTACKER, 0, TrAI00_2356
-    end
-TrAI00_0E0E:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI00_235E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_LIMBER, TrAI00_235E
-    if_equal ABILITY_MAGIC_GUARD, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_0E76
-    if_move MOVE_THUNDER_WAVE, TrAI00_0E52
-    jump TrAI00_0E76
-TrAI00_0E52:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MOTOR_DRIVE, TrAI00_235E
-    if_equal ABILITY_VOLT_ABSORB, TrAI00_235E
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_0E76:
-    if_status TRAI_SIDE_DEFENDER, TrAI00_235E
-    if_side_effect TRAI_SIDE_DEFENDER, 2, TrAI00_235E
-    end
-TrAI00_0E90:
-    if_substitute TRAI_SIDE_ATTACKER, TrAI00_2356
-    if_hp_less_than TRAI_SIDE_ATTACKER, 26, TrAI00_235E
-    end
-TrAI00_0EAA:
-    if_condition TRAI_SIDE_DEFENDER, 18, TrAI00_235E
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_GRASS, TrAI00_235E
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_GRASS, TrAI00_235E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_GUARD, TrAI00_235E
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-    end
-TrAI00_0EF4:
-    if_condition TRAI_SIDE_DEFENDER, 13, TrAI00_2356
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_0F22
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_0F22:
-    end
-TrAI00_0F24:
-    if_condition TRAI_SIDE_DEFENDER, 23, TrAI00_2356
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_0F52
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_0F52:
-    end
-TrAI00_0F54:
-    if_not_condition TRAI_SIDE_ATTACKER, 2, TrAI00_2356
-    end
-TrAI00_0F64:
-    if_condition TRAI_SIDE_DEFENDER, 29, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_NO_GUARD, TrAI00_235E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_NO_GUARD, TrAI00_235E
-    end
-TrAI00_0F94:
-    if_condition TRAI_SIDE_DEFENDER, 22, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_0FC2
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_0FC2:
-    end
-TrAI00_0FC4:
-    load_type TRAI_TYPE_ATTACKER_1
-    if_equal TYPE_GHOST, TrAI00_100A
-    load_type TRAI_TYPE_ATTACKER_2
-    if_equal TYPE_GHOST, TrAI00_100A
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 1, 12, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 2, 12, TrAI00_2356
-    end
-TrAI00_100A:
-    if_condition TRAI_SIDE_DEFENDER, 10, TrAI00_235E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_GUARD, TrAI00_235E
-    end
-TrAI00_102A:
-    load_side_effect TRAI_SIDE_DEFENDER, 6
-    if_equal 3, TrAI00_235E
-    load_able_party_count TRAI_SIDE_DEFENDER
-    if_equal 0, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_106E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_106E:
-    end
-TrAI00_1070:
-    if_condition TRAI_SIDE_DEFENDER, 17, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_109E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_109E:
-    end
-TrAI00_10A0:
-    if_condition TRAI_SIDE_DEFENDER, 20, TrAI00_235E
-    end
-TrAI00_10B0:
-    load_weather
-    if_equal 4, TrAI00_2356
-    end
-TrAI00_10BE:
-    if_condition TRAI_SIDE_DEFENDER, 7, TrAI00_235E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_OBLIVIOUS, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_10FC
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_10FC:
-    load_gender TRAI_SIDE_ATTACKER
-    if_equal 0, TrAI00_111C
-    if_equal 1, TrAI00_1132
-    jump TrAI00_235E
-TrAI00_111C:
-    load_gender TRAI_SIDE_DEFENDER
-    if_equal 1, TrAI00_1148
-    jump TrAI00_235E
-TrAI00_1132:
-    load_gender TRAI_SIDE_DEFENDER
-    if_equal 0, TrAI00_1148
-    jump TrAI00_235E
-TrAI00_1148:
-    end
-TrAI00_114A:
-    if_side_effect TRAI_SIDE_ATTACKER, 2, TrAI00_2356
-    end
-TrAI00_115A:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_CONTRARY, TrAI00_2366
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_1194
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_CLEAR_BODY, TrAI00_235E
-    if_equal ABILITY_WHITE_SMOKE, TrAI00_235E
-TrAI00_1194:
-    if_stat_stage_equal TRAI_SIDE_DEFENDER, 1, 0, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_DEFENDER, 3, 0, TrAI00_2356
-    load_able_party_count TRAI_SIDE_ATTACKER
-    if_equal 0, TrAI00_235E
-    end
-TrAI00_11CA:
-    load_able_party_count TRAI_SIDE_ATTACKER
-    if_equal 0, TrAI00_235E
-    end
-TrAI00_11DC:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_SWIFT_SWIM, TrAI00_1210
-    if_equal ABILITY_HYDRATION, TrAI00_1210
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_not_equal ABILITY_HYDRATION, TrAI00_1210
-    if_status TRAI_SIDE_DEFENDER, TrAI00_2356
-TrAI00_1210:
-    load_weather
-    if_equal 2, TrAI00_2356
-    end
-TrAI00_121E:
-    load_weather
-    if_equal 1, TrAI00_2356
-    end
-TrAI00_122C:
-    unk_cmd_116 TRAI_SIDE_DEFENDER, TrAI00_2366
-    end
-TrAI00_1238:
-    load_fake_out_active TRAI_SIDE_ATTACKER
-    if_equal 0, TrAI00_235E
-    end
-TrAI00_124A:
-    load_stockpile_count TRAI_SIDE_ATTACKER
-    if_equal 3, TrAI00_235E
-    end
-TrAI00_125C:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI00_235E
-    load_stockpile_count TRAI_SIDE_ATTACKER
-    if_equal 0, TrAI00_235E
-    if_move_effect 162, TrAI00_0C0A
-    end
-TrAI00_1282:
-    load_weather
-    if_equal 3, TrAI00_2356
-    end
-TrAI00_1290:
-    if_condition TRAI_SIDE_DEFENDER, 12, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_12BE
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_12BE:
-    end
-TrAI00_12C0:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_WATER_VEIL, TrAI00_235E
-    if_equal ABILITY_MAGIC_GUARD, TrAI00_235E
-    if_status TRAI_SIDE_DEFENDER, TrAI00_235E
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_FIRE, TrAI00_235E
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_FIRE, TrAI00_235E
-    if_side_effect TRAI_SIDE_DEFENDER, 2, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_1332
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_1332:
-    end
-TrAI00_1334:
-    load_battle_style
-    if_equal BTL_STYLE_SINGLE, TrAI00_235E
-    end
-TrAI00_1342:
-    if_condition TRAI_SIDE_DEFENDER, 11, TrAI00_235E
-    end
-TrAI00_1352:
-    load_battle_style
-    if_equal BTL_STYLE_SINGLE, TrAI00_235E
-    end
-TrAI00_1360:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_STICKY_HOLD, TrAI00_235E
-    load_held_item TRAI_SIDE_DEFENDER
-    if_equal ITEM_NONE, TrAI00_235E
-    end
-TrAI00_1382:
-    if_condition TRAI_SIDE_ATTACKER, 21, TrAI00_235E
-    end
-TrAI00_1392:
-    load_consumed_item TRAI_SIDE_ATTACKER
-    if_equal ITEM_NONE, TrAI00_235E
-    end
-TrAI00_13A4:
-    if_field_effect 3, TrAI00_235E
-    end
-TrAI00_13B0:
-    if_condition TRAI_SIDE_ATTACKER, 5, TrAI00_13EA
-    if_badly_poisoned TRAI_SIDE_ATTACKER, TrAI00_13EA
-    if_condition TRAI_SIDE_ATTACKER, 1, TrAI00_13EA
-    if_condition TRAI_SIDE_ATTACKER, 4, TrAI00_13EA
-    jump TrAI00_235E
-TrAI00_13EA:
-    end
-TrAI00_13EC:
-    if_field_effect 5, TrAI00_235E
-    end
-TrAI00_13F8:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_CONTRARY, TrAI00_2366
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_143C
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_CLEAR_BODY, TrAI00_235E
-    if_equal ABILITY_WHITE_SMOKE, TrAI00_235E
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_143C:
-    if_stat_stage_equal TRAI_SIDE_DEFENDER, 1, 0, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_DEFENDER, 2, 0, TrAI00_2356
-    end
-TrAI00_1462:
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 2, 12, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 4, 12, TrAI00_2356
-    end
-TrAI00_1488:
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 1, 12, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 2, 12, TrAI00_2356
-    end
-TrAI00_14AE:
-    if_field_effect 4, TrAI00_235E
-    end
-TrAI00_14BA:
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 3, 12, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 4, 12, TrAI00_2356
-    end
-TrAI00_14E0:
-    if_field_effect 1, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 1, 12, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 5, 12, TrAI00_2356
-    end
-TrAI00_1510:
-    end
-TrAI00_1512:
-    if_field_effect 2, TrAI00_235E
-    end
-TrAI00_151E:
-    if_condition TRAI_SIDE_DEFENDER, 17, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_154C
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_154C:
-    end
-TrAI00_154E:
-    add_to_score -20
-    load_able_party_count TRAI_SIDE_ATTACKER
-    if_equal 0, TrAI00_235E
-    if_party_member_no_status TRAI_SIDE_ATTACKER, TrAI00_157E
-    if_party_member_damaged TRAI_SIDE_ATTACKER, TrAI00_157E
-    jump TrAI00_235E
-TrAI00_157E:
-    end
-TrAI00_1580:
-    load_held_item TRAI_SIDE_ATTACKER
-    if_not_in_list TrAI00_159C, TrAI00_235E
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI00_235E
-    end
-TrAI00_159C:
-    .4byte ITEM_CHERI_BERRY
-    .4byte ITEM_CHESTO_BERRY
-    .4byte ITEM_PECHA_BERRY
-    .4byte ITEM_RAWST_BERRY
-    .4byte ITEM_ASPEAR_BERRY
-    .4byte ITEM_LEPPA_BERRY
-    .4byte ITEM_ORAN_BERRY
-    .4byte ITEM_PERSIM_BERRY
-    .4byte ITEM_LUM_BERRY
-    .4byte ITEM_SITRUS_BERRY
-    .4byte ITEM_FIGY_BERRY
-    .4byte ITEM_WIKI_BERRY
-    .4byte ITEM_MAGO_BERRY
-    .4byte ITEM_AGUAV_BERRY
-    .4byte ITEM_IAPAPA_BERRY
-    .4byte ITEM_RAZZ_BERRY
-    .4byte ITEM_BLUK_BERRY
-    .4byte ITEM_NANAB_BERRY
-    .4byte ITEM_WEPEAR_BERRY
-    .4byte ITEM_PINAP_BERRY
-    .4byte ITEM_POMEG_BERRY
-    .4byte ITEM_KELPSY_BERRY
-    .4byte ITEM_QUALOT_BERRY
-    .4byte ITEM_HONDEW_BERRY
-    .4byte ITEM_GREPA_BERRY
-    .4byte ITEM_TAMATO_BERRY
-    .4byte ITEM_CORNN_BERRY
-    .4byte ITEM_MAGOST_BERRY
-    .4byte ITEM_RABUTA_BERRY
-    .4byte ITEM_NOMEL_BERRY
-    .4byte ITEM_SPELON_BERRY
-    .4byte ITEM_PAMTRE_BERRY
-    .4byte ITEM_WATMEL_BERRY
-    .4byte ITEM_DURIN_BERRY
-    .4byte ITEM_BELUE_BERRY
-    .4byte ITEM_OCCA_BERRY
-    .4byte ITEM_PASSHO_BERRY
-    .4byte ITEM_WACAN_BERRY
-    .4byte ITEM_RINDO_BERRY
-    .4byte ITEM_YACHE_BERRY
-    .4byte ITEM_CHOPLE_BERRY
-    .4byte ITEM_KEBIA_BERRY
-    .4byte ITEM_SHUCA_BERRY
-    .4byte ITEM_COBA_BERRY
-    .4byte ITEM_PAYAPA_BERRY
-    .4byte ITEM_TANGA_BERRY
-    .4byte ITEM_CHARTI_BERRY
-    .4byte ITEM_KASIB_BERRY
-    .4byte ITEM_HABAN_BERRY
-    .4byte ITEM_COLBUR_BERRY
-    .4byte ITEM_BABIRI_BERRY
-    .4byte ITEM_CHILAN_BERRY
-    .4byte ITEM_LIECHI_BERRY
-    .4byte ITEM_GANLON_BERRY
-    .4byte ITEM_SALAC_BERRY
-    .4byte ITEM_PETAYA_BERRY
-    .4byte ITEM_APICOT_BERRY
-    .4byte ITEM_LANSAT_BERRY
-    .4byte ITEM_STARF_BERRY
-    .4byte ITEM_ENIGMA_BERRY
-    .4byte ITEM_MICLE_BERRY
-    .4byte ITEM_CUSTAP_BERRY
-    .4byte ITEM_JABOCA_BERRY
-    .4byte ITEM_ROWAP_BERRY
-    list_end
-TrAI00_16A0:
-    if_field_effect 1, TrAI00_2356
-    if_side_effect TRAI_SIDE_ATTACKER, 4, TrAI00_235E
-    end
-TrAI00_16BA:
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 1, 12, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 2, 12, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 5, 12, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 3, 12, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 4, 12, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 7, 12, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 6, 12, TrAI00_235E
-    end
-TrAI00_173A:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI00_235E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_STALL, TrAI00_235E
-    load_held_item_effect TRAI_SIDE_DEFENDER
-    if_equal 107, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_STALL, TrAI00_178E
-    load_held_item_effect TRAI_SIDE_ATTACKER
-    if_equal 107, TrAI00_178E
-    if_speed_compare 0, TrAI00_235E
-TrAI00_178E:
-    end
-TrAI00_1790:
-    if_condition TRAI_SIDE_DEFENDER, 19, TrAI00_235E
-    load_consumed_item TRAI_SIDE_DEFENDER
-    if_equal ITEM_NONE, TrAI00_17DA
-    load_battle_type
-    if_equal 2, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_17DA
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_17DA:
-    end
-TrAI00_17DC:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI00_235E
-    load_fling_power TRAI_SIDE_ATTACKER
-    if_less_than 10, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MULTITYPE, TrAI00_235E
-    load_held_item_effect TRAI_SIDE_ATTACKER
-    if_in_list TrAI00_1A1A, TrAI00_182C
-    if_in_list TrAI00_1A26, TrAI00_1934
-    if_in_list TrAI00_1A2E, TrAI00_19F0
-    end
-TrAI00_182C:
-    if_side_effect TRAI_SIDE_DEFENDER, 2, TrAI00_18AE
-    if_status TRAI_SIDE_DEFENDER, TrAI00_18AE
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_POISON_HEAL, TrAI00_18AE
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_POISON, TrAI00_18AE
-    if_equal TYPE_STEEL, TrAI00_18AE
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_POISON, TrAI00_18AE
-    if_equal TYPE_STEEL, TrAI00_18AE
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_IMMUNITY, TrAI00_18AE
-    if_equal ABILITY_POISON_HEAL, TrAI00_18AE
-    if_equal ABILITY_MAGIC_GUARD, TrAI00_18AE
-    end
-TrAI00_18AE:
-    if_side_effect TRAI_SIDE_ATTACKER, 2, TrAI00_2346
-    if_status TRAI_SIDE_ATTACKER, TrAI00_2346
-    load_type TRAI_TYPE_ATTACKER_1
-    if_equal TYPE_POISON, TrAI00_2346
-    if_equal TYPE_STEEL, TrAI00_2346
-    load_type TRAI_TYPE_ATTACKER_2
-    if_equal TYPE_POISON, TrAI00_2346
-    if_equal TYPE_STEEL, TrAI00_2346
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_KLUTZ, TrAI00_2346
-    if_equal ABILITY_IMMUNITY, TrAI00_2346
-    if_equal ABILITY_POISON_HEAL, TrAI00_2346
-    if_equal ABILITY_MAGIC_GUARD, TrAI00_2346
-    if_equal ABILITY_GUTS, TrAI00_2346
-    end
-TrAI00_1934:
-    if_side_effect TRAI_SIDE_DEFENDER, 2, TrAI00_1988
-    if_status TRAI_SIDE_DEFENDER, TrAI00_1988
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_FIRE, TrAI00_1988
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_FIRE, TrAI00_1988
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_GUARD, TrAI00_1988
-    if_equal ABILITY_WATER_VEIL, TrAI00_1988
-    end
-TrAI00_1988:
-    if_side_effect TRAI_SIDE_ATTACKER, 2, TrAI00_2346
-    if_status TRAI_SIDE_ATTACKER, TrAI00_2346
-    load_type TRAI_TYPE_ATTACKER_1
-    if_equal TYPE_FIRE, TrAI00_2346
-    load_type TRAI_TYPE_ATTACKER_2
-    if_equal TYPE_FIRE, TrAI00_2346
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_KLUTZ, TrAI00_2346
-    if_equal ABILITY_MAGIC_GUARD, TrAI00_2346
-    if_equal ABILITY_WATER_VEIL, TrAI00_2346
-    if_equal ABILITY_GUTS, TrAI00_2346
-    end
-TrAI00_19F0:
-    if_side_effect TRAI_SIDE_DEFENDER, 2, TrAI00_2346
-    if_status TRAI_SIDE_DEFENDER, TrAI00_2346
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_LIMBER, TrAI00_2346
-    end
-TrAI00_1A1A:
-    .4byte 100
-    .4byte 80
-    list_end
-TrAI00_1A26:
-    .4byte 101
-    list_end
-TrAI00_1A2E:
-    .4byte 71
-    list_end
-TrAI00_1A36:
-    if_no_status TRAI_SIDE_ATTACKER, TrAI00_235E
-    if_status TRAI_SIDE_DEFENDER, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_1A6A
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_235E
-TrAI00_1A6A:
-    if_side_effect TRAI_SIDE_DEFENDER, 2, TrAI00_235E
-    if_condition TRAI_SIDE_ATTACKER, 5, TrAI00_1AB2
-    if_badly_poisoned TRAI_SIDE_ATTACKER, TrAI00_1AB2
-    if_condition TRAI_SIDE_ATTACKER, 4, TrAI00_1B20
-    if_condition TRAI_SIDE_ATTACKER, 1, TrAI00_1B60
-    jump TrAI00_1B70
-TrAI00_1AB2:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_POISON_HEAL, TrAI00_235E
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_POISON, TrAI00_235E
-    if_equal TYPE_STEEL, TrAI00_235E
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_POISON, TrAI00_235E
-    if_equal TYPE_STEEL, TrAI00_235E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_IMMUNITY, TrAI00_235E
-    if_equal ABILITY_POISON_HEAL, TrAI00_235E
-    if_equal ABILITY_MAGIC_GUARD, TrAI00_235E
-    jump TrAI00_1B70
-TrAI00_1B20:
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_FIRE, TrAI00_235E
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_FIRE, TrAI00_235E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_GUARD, TrAI00_235E
-    if_equal ABILITY_WATER_VEIL, TrAI00_235E
-    jump TrAI00_1B70
-TrAI00_1B60:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_LIMBER, TrAI00_235E
-TrAI00_1B70:
-    end
-TrAI00_1B72:
-    if_condition TRAI_SIDE_DEFENDER, 15, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_1BA0
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_1BA0:
-    end
-TrAI00_1BA2:
-    if_condition_flag TRAI_SIDE_ATTACKER, 10, TrAI00_235E
-    end
-TrAI00_1BB2:
-    if_condition TRAI_SIDE_DEFENDER, 16, TrAI00_235E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MULTITYPE, TrAI00_235E
-    if_equal ABILITY_TRUANT, TrAI00_235E
-    if_equal ABILITY_DEFEATIST, TrAI00_235E
-    if_equal ABILITY_SLOW_START, TrAI00_235E
-    if_equal ABILITY_STENCH, TrAI00_235E
-    if_equal ABILITY_RUN_AWAY, TrAI00_235E
-    if_equal ABILITY_PICKUP, TrAI00_235E
-    if_equal ABILITY_HONEY_GATHER, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_1C36
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_1C36:
-    end
-TrAI00_1C38:
-    if_side_effect TRAI_SIDE_ATTACKER, 5, TrAI00_235E
-    end
-TrAI00_1C48:
-    load_turn_count
-    if_not_equal 0, TrAI00_1C68
-    if_speed_compare 1, TrAI00_1C68
-    if_speed_compare 0, TrAI00_235E
-TrAI00_1C68:
-    end
-TrAI00_1C6A:
-    load_stat_stage_difference TRAI_SIDE_DEFENDER, 1
-    if_less_than 1, TrAI00_1C84
-    jump TrAI00_1C98
-TrAI00_1C84:
-    load_stat_stage_difference TRAI_SIDE_DEFENDER, 3
-    if_less_than 1, TrAI00_235E
-TrAI00_1C98:
-    end
-TrAI00_1C9A:
-    load_stat_stage_difference TRAI_SIDE_DEFENDER, 2
-    if_less_than 1, TrAI00_1CB4
-    jump TrAI00_1CC8
-TrAI00_1CB4:
-    load_stat_stage_difference TRAI_SIDE_DEFENDER, 4
-    if_less_than 1, TrAI00_235E
-TrAI00_1CC8:
-    end
-TrAI00_1CCA:
-    if_can_use_last_resort TRAI_SIDE_ATTACKER, TrAI00_1CDA
-    add_to_score -10
-TrAI00_1CDA:
-    end
-TrAI00_1CDC:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_TRUANT, TrAI00_235E
-    if_equal ABILITY_DEFEATIST, TrAI00_235E
-    if_equal ABILITY_INSOMNIA, TrAI00_235E
-    if_equal ABILITY_VITAL_SPIRIT, TrAI00_235E
-    if_equal ABILITY_MULTITYPE, TrAI00_235E
-    if_not_condition TRAI_SIDE_DEFENDER, 2, TrAI00_1D64
-    if_knows_move TRAI_SIDE_DEFENDER, MOVE_SLEEP_TALK, TrAI00_1D64
-    if_knows_move TRAI_SIDE_DEFENDER, MOVE_SNORE, TrAI00_1D64
-    add_to_score -10
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_1D64
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_1D64:
-    end
-TrAI00_1D66:
-    load_side_effect TRAI_SIDE_DEFENDER, 7
-    if_equal 2, TrAI00_235E
-    load_able_party_count TRAI_SIDE_DEFENDER
-    if_equal 0, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_1DAA
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_1DAA:
-    end
-TrAI00_1DAC:
-    if_condition TRAI_SIDE_ATTACKER, 35, TrAI00_235E
-    end
-TrAI00_1DBC:
-    if_condition TRAI_SIDE_ATTACKER, 30, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_LEVITATE, TrAI00_235E
-    load_type TRAI_TYPE_ATTACKER_1
-    if_equal TYPE_FLYING, TrAI00_235E
-    load_type TRAI_TYPE_ATTACKER_2
-    if_equal TYPE_FLYING, TrAI00_235E
-    end
-TrAI00_1DFC:
-    if_stat_stage_not_equal TRAI_SIDE_DEFENDER, 7, 0, TrAI00_1E96
-    if_side_effect TRAI_SIDE_DEFENDER, 1, TrAI00_1E96
-    if_side_effect TRAI_SIDE_DEFENDER, 0, TrAI00_1E96
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_1E4A
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_1E4A:
-    load_weather
-    if_equal 0, TrAI00_1E96
-    load_able_party_count TRAI_SIDE_DEFENDER
-    if_equal 0, TrAI00_235E
-    if_side_effect TRAI_SIDE_DEFENDER, 6, TrAI00_1E96
-    if_side_effect TRAI_SIDE_DEFENDER, 8, TrAI00_1E96
-    if_side_effect TRAI_SIDE_DEFENDER, 7, TrAI00_1E96
-    jump TrAI00_235E
-TrAI00_1E96:
-    end
-TrAI00_1E98:
-    if_speed_compare 0, TrAI00_235E
-    if_speed_compare 2, TrAI00_235E
-    end
-TrAI00_1EAE:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_CONTRARY, TrAI00_2366
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_1EFC
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_OBLIVIOUS, TrAI00_235E
-    if_equal ABILITY_CLEAR_BODY, TrAI00_235E
-    if_equal ABILITY_WHITE_SMOKE, TrAI00_235E
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_1EFC:
-    load_gender TRAI_SIDE_ATTACKER
-    if_equal 0, TrAI00_1F1C
-    if_equal 1, TrAI00_1F32
-    jump TrAI00_235E
-TrAI00_1F1C:
-    load_gender TRAI_SIDE_DEFENDER
-    if_equal 1, TrAI00_1F48
-    jump TrAI00_235E
-TrAI00_1F32:
-    load_gender TRAI_SIDE_DEFENDER
-    if_equal 0, TrAI00_1F48
-    jump TrAI00_235E
-TrAI00_1F48:
-    if_stat_stage_less_than TRAI_SIDE_DEFENDER, 3, 1, TrAI00_235E
-    end
-TrAI00_1F5C:
-    if_side_effect TRAI_SIDE_DEFENDER, 8, TrAI00_235E
-    load_able_party_count TRAI_SIDE_DEFENDER
-    if_equal 0, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_1F9A
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_1F9A:
-    end
-TrAI00_1F9C:
-    add_to_score -20
-    load_able_party_count TRAI_SIDE_ATTACKER
-    if_equal 0, TrAI00_235E
-    if_party_member_damaged TRAI_SIDE_ATTACKER, TrAI00_1FD6
-    if_party_member_no_status TRAI_SIDE_ATTACKER, TrAI00_1FD6
-    if_party_member_used_pp TRAI_SIDE_ATTACKER, TrAI00_1FD6
-    jump TrAI00_235E
-TrAI00_1FD6:
-    end
-TrAI00_1FD8:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_not_equal ABILITY_SIMPLE, TrAI00_200C
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 1, 8, TrAI00_235E
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 6, 8, TrAI00_2356
-TrAI00_200C:
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 1, 12, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 6, 12, TrAI00_2356
-    end
-TrAI00_2032:
-    load_battle_style
-    if_equal BTL_STYLE_SINGLE, TrAI00_235E
-    end
-TrAI00_2040:
-    end
-TrAI00_2042:
-    end
-TrAI00_2044:
-    if_field_effect 6, TrAI00_235E
-    end
-TrAI00_2050:
-    end
-TrAI00_2052:
-    end
-TrAI00_2054:
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 5, 12, TrAI00_235E
-    end
-TrAI00_2068:
-    if_condition TRAI_SIDE_DEFENDER, 32, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_2096
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_2096:
-    end
-TrAI00_2098:
-    if_field_effect 7, TrAI00_235E
-    end
-TrAI00_20A4:
-    end
-TrAI00_20A6:
-    end
-TrAI00_20A8:
-    end
-TrAI00_20AA:
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 1, 12, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 2, 12, TrAI00_2356
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 5, 12, TrAI00_234E
-    end
-TrAI00_20E2:
-    end
-TrAI00_20E4:
-    end
-TrAI00_20E6:
-    end
-TrAI00_20E8:
-    load_type TRAI_TYPE_DEFENDER_1
-    if_not_equal_2 TYPE_WATER, TrAI00_2108
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal_2 TYPE_WATER, TrAI00_235E
-TrAI00_2108:
-    end
-TrAI00_210A:
-    end
-TrAI00_210C:
-    end
-TrAI00_210E:
-    end
-TrAI00_2110:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MULTITYPE, TrAI00_235E
-    if_equal ABILITY_TRUANT, TrAI00_235E
-    if_equal ABILITY_DEFEATIST, TrAI00_235E
-    if_equal ABILITY_SLOW_START, TrAI00_235E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_215E
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_215E:
-    end
-TrAI00_2160:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI00_2180
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_BOUNCE, TrAI00_2366
-TrAI00_2180:
-    end
-TrAI00_2182:
-    load_battle_style
-    if_equal BTL_STYLE_SINGLE, TrAI00_235E
-    end
-TrAI00_2190:
-    load_battle_style
-    if_equal BTL_STYLE_SINGLE, TrAI00_235E
-    end
-TrAI00_219E:
-    end
-TrAI00_21A0:
-    end
-TrAI00_21A2:
-    end
-TrAI00_21A4:
-    end
-TrAI00_21A6:
-    end
-TrAI00_21A8:
-    load_battle_style
-    if_equal BTL_STYLE_SINGLE, TrAI00_235E
-    end
-TrAI00_21B6:
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 1, 12, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 3, 12, TrAI00_2356
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 5, 12, TrAI00_234E
-    end
-TrAI00_21EE:
-    load_battle_style
-    if_equal BTL_STYLE_SINGLE, TrAI00_235E
-    end
-TrAI00_21FC:
-    end
-TrAI00_21FE:
-    end
-TrAI00_2200:
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 1, 12, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 5, 12, TrAI00_2356
-    end
-TrAI00_2226:
-    end
-TrAI00_2228:
-    end
-TrAI00_222A:
-    load_battle_style
-    if_equal BTL_STYLE_SINGLE, TrAI00_235E
-    end
-TrAI00_2238:
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 1, 12, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 3, 12, TrAI00_2356
-    end
-TrAI00_225E:
-    end
-TrAI00_2260:
-    end
-TrAI00_2262:
-    end
-TrAI00_2264:
-    load_able_party_count TRAI_SIDE_ATTACKER
-    if_not_equal 0, TrAI00_228A
-    load_able_party_count TRAI_SIDE_DEFENDER
-    if_not_equal 0, TrAI00_235E
-    jump TrAI00_232E
-TrAI00_228A:
-    end
-TrAI00_228C:
-    end
-TrAI00_228E:
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 1, 12, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 2, 12, TrAI00_2356
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 6, 12, TrAI00_234E
-    end
-TrAI00_22C6:
-    load_held_item TRAI_SIDE_DEFENDER
-    if_not_equal ITEM_NONE, TrAI00_235E
-    load_battle_style
-    if_equal BTL_STYLE_SINGLE, TrAI00_235E
-    end
-TrAI00_22E4:
-    end
-TrAI00_22E6:
-    end
-TrAI00_22E8:
-    end
-TrAI00_22EA:
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 1, 12, TrAI00_235E
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 3, 12, TrAI00_2356
-    end
-TrAI00_2310:
-    if_stat_stage_equal TRAI_SIDE_ATTACKER, 2, 12, TrAI00_235E
-    end
-TrAI00_2324:
-    end
-TrAI00_2326:
-    end
-TrAI00_2328:
-    end
-TrAI00_232A:
-    end
-TrAI00_232C:
-    end
-TrAI00_232E:
-    add_to_score -1
-    end
-    add_to_score -2
-    end
-    add_to_score -3
-    end
-TrAI00_2346:
-    add_to_score -5
-    end
-TrAI00_234E:
-    add_to_score -6
-    end
-TrAI00_2356:
-    add_to_score -8
-    end
-TrAI00_235E:
-    add_to_score -10
-    end
-TrAI00_2366:
-    add_to_score -12
-    end
-    add_to_score -30
-    end
-    add_to_score 1
-    end
-    add_to_score 2
-    end
-    add_to_score 3
-    end
-    add_to_score 5
-    end
-    add_to_score 10
-    end
+// AI flag 0, Basic: discourages moves that would fail or be wasted. Moves that the target is immune to lose 10 or 12
+// points, and each move effect has its own checks, from Basic_MoveEffectTable, such as a status move on a target that
+// already has a status, or a stat change past its limit.
+
+Basic_Main:
+    IfTargetIsPartner Terminate
+    IfMoveEqualTo MOVE_FISSURE, Basic_CheckForImmunity
+    IfMoveEqualTo MOVE_HORN_DRILL, Basic_CheckForImmunity
+    FlagMoveDamageScore USE_MIN_DAMAGE
+    IfLoadedEqualTo AI_MOVE_DEALS_NO_DAMAGE, Basic_CheckSoundproof
+
+Basic_CheckForImmunity:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckSoundproof
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_VOLT_ABSORB, Basic_CheckElectricAbsorption
+    IfLoadedEqualTo ABILITY_MOTOR_DRIVE, Basic_CheckElectricAbsorption
+    IfLoadedEqualTo ABILITY_LIGHTNINGROD, Basic_CheckElectricAbsorption
+    IfLoadedEqualTo ABILITY_WATER_ABSORB, Basic_CheckWaterAbsorption
+    IfLoadedEqualTo ABILITY_FLASH_FIRE, Basic_CheckFireAbsorption
+    IfLoadedEqualTo ABILITY_WONDER_GUARD, Basic_CheckWonderGuard
+    IfLoadedEqualTo ABILITY_LEVITATE, Basic_CheckGroundAbsorption
+    // Bug: Levitate again, where Dry Skin was likely meant, as in Gen 4
+    IfLoadedEqualTo ABILITY_LEVITATE, Basic_CheckWaterAbsorption2
+    IfLoadedEqualTo ABILITY_SAP_SIPPER, Basic_CheckGrassAbsorption
+    GoTo Basic_CheckSoundproof
+
+Basic_CheckElectricAbsorption:
+    LoadTypeFrom LOAD_MOVE_TYPE
+    IfTempEqualTo TYPE_ELECTRIC, ScoreMinus12
+    GoTo Basic_CheckSoundproof
+
+Basic_CheckWaterAbsorption:
+    LoadTypeFrom LOAD_MOVE_TYPE
+    IfTempEqualTo TYPE_WATER, ScoreMinus12
+    GoTo Basic_CheckSoundproof
+
+Basic_CheckFireAbsorption:
+    LoadTypeFrom LOAD_MOVE_TYPE
+    IfTempEqualTo TYPE_FIRE, ScoreMinus12
+    GoTo Basic_CheckSoundproof
+
+Basic_CheckWonderGuard:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_DOUBLE, Basic_CheckSoundproof
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUADRUPLE, Basic_CheckSoundproof
+    GoTo ScoreMinus12
+
+Basic_CheckGroundAbsorption:
+    LoadTypeFrom LOAD_MOVE_TYPE
+    IfTempEqualTo TYPE_GROUND, ScoreMinus12
+    GoTo Basic_CheckSoundproof
+
+Basic_CheckWaterAbsorption2:
+    LoadTypeFrom LOAD_MOVE_TYPE
+    IfTempEqualTo TYPE_WATER, ScoreMinus12
+    GoTo Basic_CheckSoundproof
+
+Basic_CheckGrassAbsorption:
+    LoadTypeFrom LOAD_MOVE_TYPE
+    IfTempEqualTo TYPE_GRASS, ScoreMinus12
+    GoTo Basic_CheckSoundproof
+
+Basic_CheckSoundproof:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedNotEqualTo ABILITY_SOUNDPROOF, Basic_ScoreMoveEffect
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_ScoreMoveEffect
+    IfMoveEqualTo MOVE_GROWL, ScoreMinus10
+    IfMoveEqualTo MOVE_ROAR, ScoreMinus10
+    IfMoveEqualTo MOVE_SING, ScoreMinus10
+    IfMoveEqualTo MOVE_SUPERSONIC, ScoreMinus10
+    IfMoveEqualTo MOVE_SCREECH, ScoreMinus10
+    IfMoveEqualTo MOVE_SNORE, ScoreMinus10
+    IfMoveEqualTo MOVE_UPROAR, ScoreMinus10
+    IfMoveEqualTo MOVE_METAL_SOUND, ScoreMinus10
+    IfMoveEqualTo MOVE_GRASS_WHISTLE, ScoreMinus10
+    IfMoveEqualTo MOVE_BUG_BUZZ, ScoreMinus10
+    IfMoveEqualTo MOVE_CHATTER, ScoreMinus10
+    IfMoveEqualTo MOVE_ROUND, ScoreMinus10
+    IfMoveEqualTo MOVE_ECHOED_VOICE, ScoreMinus10
+    IfMoveEqualTo MOVE_RELIC_SONG, ScoreMinus10
+    IfMoveEqualTo MOVE_SNARL, ScoreMinus10
+
+Basic_ScoreMoveEffect:
+    GoToByMoveEffect 0, 337, Basic_MoveEffectTable
+    End
+
+Basic_MoveEffectTable:
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCannotSleep, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCannotExplode, Basic_MoveEffectTable
+    LabelDistance Basic_CheckDreamEater, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHighStatStage_Attack, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHighStatStage_Defense, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHighStatStage_Speed, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHighStatStage_SpAttack, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHighStatStage_SpDefense, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHighStatStage_Accuracy, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHighStatStage_Evasion, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckLowStatStage_Attack, Basic_MoveEffectTable
+    LabelDistance Basic_CheckLowStatStage_Defense, Basic_MoveEffectTable
+    LabelDistance Basic_CheckLowStatStage_Speed, Basic_MoveEffectTable
+    LabelDistance Basic_CheckLowStatStage_SpAttack, Basic_MoveEffectTable
+    LabelDistance Basic_CheckLowStatStage_SpDefense, Basic_MoveEffectTable
+    LabelDistance Basic_CheckLowStatStage_Accuracy, Basic_MoveEffectTable
+    LabelDistance Basic_CheckLowStatStage_Evasion, Basic_MoveEffectTable
+    LabelDistance Basic_CheckStatStageImbalance, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCanForceSwitch, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCanRecoverHP, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCannotPoison, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckAlreadyUnderLightScreen, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckOHKOWouldFail, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckAlreadyUnderMist, Basic_MoveEffectTable
+    LabelDistance Basic_CheckAlreadyPumpedUp, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCannotConfuse, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHighStatStage_Attack, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHighStatStage_Defense, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHighStatStage_Speed, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHighStatStage_SpAttack, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHighStatStage_SpDefense, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHighStatStage_Accuracy, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHighStatStage_Evasion, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckLowStatStage_Attack, Basic_MoveEffectTable
+    LabelDistance Basic_CheckLowStatStage_Defense, Basic_MoveEffectTable
+    LabelDistance Basic_CheckLowStatStage_Speed, Basic_MoveEffectTable
+    LabelDistance Basic_CheckLowStatStage_SpAttack, Basic_MoveEffectTable
+    LabelDistance Basic_CheckLowStatStage_SpDefense, Basic_MoveEffectTable
+    LabelDistance Basic_CheckLowStatStage_Accuracy, Basic_MoveEffectTable
+    LabelDistance Basic_CheckLowStatStage_Evasion, Basic_MoveEffectTable
+    LabelDistance Basic_CheckAlreadyUnderReflect, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCannotPoison, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCannotParalyze, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCannotSubstitute, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCannotLeechSeed, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCannotDisable, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCannotEncore, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckAttackerAsleep, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckLockOn, Basic_MoveEffectTable
+    LabelDistance Basic_CheckAttackerAsleep, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckMeanLook, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNightmare, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHighStatStage_Evasion, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCurse, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckSpikes, Basic_MoveEffectTable
+    LabelDistance Basic_CheckForesight, Basic_MoveEffectTable
+    LabelDistance Basic_CheckPerishSong, Basic_MoveEffectTable
+    LabelDistance Basic_CheckSandstorm, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCannotConfuse, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCannotAttract, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Basic_CheckAlreadyUnderSafeguard, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckMagnitude, Basic_MoveEffectTable
+    LabelDistance Basic_CheckBatonPass, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCanRecoverHP, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCanRecoverHP, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCanRecoverHP, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Basic_CheckRainDance, Basic_MoveEffectTable
+    LabelDistance Basic_CheckSunnyDay, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckBellyDrum, Basic_MoveEffectTable
+    LabelDistance Basic_CheckStatStageImbalance, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckFutureSight, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance ScoreMinus10, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHighStatStage_Defense, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCanRecoverHP, Basic_MoveEffectTable
+    LabelDistance Basic_CheckFirstTurnInBattle, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckMaxStockpile, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCanSpitUpOrSwallow, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCanSpitUpOrSwallow, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHail, Basic_MoveEffectTable
+    LabelDistance Basic_CheckTorment, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCannotConfuse, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCannotBurn, Basic_MoveEffectTable
+    LabelDistance Basic_CheckMemento, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckMakeGlobalTarget, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckTaunt, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHelpingHand, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCanRemoveItem, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckAlreadyIngrained, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCanRecycle, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCannotSleep, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCanRemoveItem, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCanImprison, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCanRefreshStatus, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCanMudSport, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckTickle, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCosmicPower, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckBulkUp, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckWaterSport, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCalmMind, Basic_MoveEffectTable
+    LabelDistance Basic_CheckDragonDance, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCamouflage, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCanRecoverHP, Basic_MoveEffectTable
+    LabelDistance Basic_CheckGravityActive, Basic_MoveEffectTable
+    LabelDistance Basic_CheckMiracleEye, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHealingWish, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNaturalGift, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckTailwind, Basic_MoveEffectTable
+    LabelDistance Basic_CheckAcupressure, Basic_MoveEffectTable
+    LabelDistance Basic_CheckMetalBurst, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckEmbargo, Basic_MoveEffectTable
+    LabelDistance Basic_CheckFling, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCanPsychoShift, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHealBlock, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Basic_CheckPowerTrick, Basic_MoveEffectTable
+    LabelDistance Basic_CheckGastroAcid, Basic_MoveEffectTable
+    LabelDistance Basic_CheckLuckyChant, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCopycat, Basic_MoveEffectTable
+    LabelDistance Basic_CheckPowerSwap, Basic_MoveEffectTable
+    LabelDistance Basic_CheckGuardSwap, Basic_MoveEffectTable
+    LabelDistance Basic_CheckNonStandardDamageOrChargeTurn, Basic_MoveEffectTable
+    LabelDistance Basic_CheckLastResort, Basic_MoveEffectTable
+    LabelDistance Basic_CheckWorrySeed, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckToxicSpikes, Basic_MoveEffectTable
+    LabelDistance Basic_CheckStatStageImbalance, Basic_MoveEffectTable
+    LabelDistance Basic_CheckAquaRing, Basic_MoveEffectTable
+    LabelDistance Basic_CheckMagnetRise, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckDefog, Basic_MoveEffectTable
+    LabelDistance Basic_CheckTrickRoom, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCaptivate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckStealthRock, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckLunarDance, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHoneClaws, Basic_MoveEffectTable
+    LabelDistance Basic_CheckWideGuard, Basic_MoveEffectTable
+    LabelDistance Basic_CheckGuardSplit, Basic_MoveEffectTable
+    LabelDistance Basic_CheckPowerSplit, Basic_MoveEffectTable
+    LabelDistance Basic_CheckWonderRoom, Basic_MoveEffectTable
+    LabelDistance Basic_CheckPsyshock, Basic_MoveEffectTable
+    LabelDistance Basic_CheckVenoshock, Basic_MoveEffectTable
+    LabelDistance Basic_CheckAutotomize, Basic_MoveEffectTable
+    LabelDistance Basic_CheckTelekinesis, Basic_MoveEffectTable
+    LabelDistance Basic_CheckMagicRoom, Basic_MoveEffectTable
+    LabelDistance Basic_CheckSmackDown, Basic_MoveEffectTable
+    LabelDistance Basic_CheckStormThrow, Basic_MoveEffectTable
+    LabelDistance Basic_CheckFlameBurst, Basic_MoveEffectTable
+    LabelDistance Basic_CheckQuiverDance, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHeavySlam, Basic_MoveEffectTable
+    LabelDistance Basic_CheckSynchronoise, Basic_MoveEffectTable
+    LabelDistance Basic_CheckElectroBall, Basic_MoveEffectTable
+    LabelDistance Basic_CheckSoak, Basic_MoveEffectTable
+    LabelDistance Basic_CheckFlameCharge, Basic_MoveEffectTable
+    LabelDistance Basic_CheckAcidSpray, Basic_MoveEffectTable
+    LabelDistance Basic_CheckFoulPlay, Basic_MoveEffectTable
+    LabelDistance Basic_CheckSimpleBeam, Basic_MoveEffectTable
+    LabelDistance Basic_CheckEntrainment, Basic_MoveEffectTable
+    LabelDistance Basic_CheckAfterYou, Basic_MoveEffectTable
+    LabelDistance Basic_CheckRound, Basic_MoveEffectTable
+    LabelDistance Basic_CheckEchoedVoice, Basic_MoveEffectTable
+    LabelDistance Basic_CheckChipAway, Basic_MoveEffectTable
+    LabelDistance Basic_CheckClearSmog, Basic_MoveEffectTable
+    LabelDistance Basic_CheckStoredPower, Basic_MoveEffectTable
+    LabelDistance Basic_CheckQuickGuard, Basic_MoveEffectTable
+    LabelDistance Basic_CheckAllySwitch, Basic_MoveEffectTable
+    LabelDistance Basic_CheckShellSmash, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHealPulse, Basic_MoveEffectTable
+    LabelDistance Basic_CheckHex, Basic_MoveEffectTable
+    LabelDistance Basic_CheckSkyDrop, Basic_MoveEffectTable
+    LabelDistance Basic_CheckShiftGear, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCircleThrow, Basic_MoveEffectTable
+    LabelDistance Basic_CheckIncinerate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckQuash, Basic_MoveEffectTable
+    LabelDistance Basic_CheckGrowth, Basic_MoveEffectTable
+    LabelDistance Basic_CheckAcrobatics, Basic_MoveEffectTable
+    LabelDistance Basic_CheckReflectType, Basic_MoveEffectTable
+    LabelDistance Basic_CheckRetaliate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckFinalGambit, Basic_MoveEffectTable
+    LabelDistance Basic_CheckTailGlow, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCoil, Basic_MoveEffectTable
+    LabelDistance Basic_CheckBestow, Basic_MoveEffectTable
+    LabelDistance Basic_CheckWaterPledge, Basic_MoveEffectTable
+    LabelDistance Basic_CheckFirePledge, Basic_MoveEffectTable
+    LabelDistance Basic_CheckGrassPledge, Basic_MoveEffectTable
+    LabelDistance Basic_CheckWorkUp, Basic_MoveEffectTable
+    LabelDistance Basic_CheckCottonGuard, Basic_MoveEffectTable
+    LabelDistance Basic_CheckRelicSong, Basic_MoveEffectTable
+    LabelDistance Basic_CheckGlaciate, Basic_MoveEffectTable
+    LabelDistance Basic_CheckFreezeShock, Basic_MoveEffectTable
+    LabelDistance Basic_CheckIceBurn, Basic_MoveEffectTable
+    LabelDistance Basic_CheckUnused333, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+    LabelDistance Terminate, Basic_MoveEffectTable
+
+Terminate:
+    End
+
+Basic_CheckCannotSleep:
+    IfStatus AI_BATTLER_DEFENDER, ScoreMinus10
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_SAFEGUARD, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_INSOMNIA, ScoreMinus10
+    IfLoadedEqualTo ABILITY_VITAL_SPIRIT, ScoreMinus10
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus10
+    End
+
+Basic_CheckCannotExplode:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckLastMon
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_DAMP, ScoreMinus10
+
+Basic_CheckLastMon:
+    CountAlivePartyBattlers AI_BATTLER_ATTACKER
+    IfLoadedNotEqualTo 0, Basic_Explode_Terminate
+    CountAlivePartyBattlers AI_BATTLER_DEFENDER
+    IfLoadedNotEqualTo 0, ScoreMinus10
+    GoTo ScoreMinus1
+
+Basic_Explode_Terminate:
+    End
+
+Basic_CheckNightmare:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_NIGHTMARE, ScoreMinus10
+    IfNotCondition AI_BATTLER_DEFENDER, CONDITION_SLEEP, ScoreMinus8
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, ScoreMinus10
+    End
+
+Basic_CheckDreamEater:
+    IfNotCondition AI_BATTLER_DEFENDER, CONDITION_SLEEP, ScoreMinus8
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, ScoreMinus10
+    End
+
+Basic_CheckBellyDrum:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 51, ScoreMinus10
+
+Basic_CheckHighStatStage_Attack:
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 12, ScoreMinus10
+    End
+
+Basic_CheckHighStatStage_Defense:
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 12, ScoreMinus10
+    End
+
+Basic_CheckHighStatStage_Speed:
+    IfFieldCondition FIELD_CONDITION_TRICK_ROOM, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_SPEED_STAGE, 12, ScoreMinus10
+    End
+
+Basic_CheckHighStatStage_SpAttack:
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 12, ScoreMinus10
+    End
+
+Basic_CheckHighStatStage_SpDefense:
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_SP_DEFENSE_STAGE, 12, ScoreMinus10
+    End
+
+Basic_CheckHighStatStage_Accuracy:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_NO_GUARD, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_NO_GUARD, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_ACCURACY_STAGE, 12, ScoreMinus10
+    End
+
+Basic_CheckHighStatStage_Evasion:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_NO_GUARD, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_NO_GUARD, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_EVASION_STAGE, 12, ScoreMinus10
+    End
+
+Basic_CheckLowStatStage_Attack:
+    IfStatStageEqualTo AI_BATTLER_DEFENDER, BATTLEMON_ATTACK_STAGE, 0, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_DEFIANT, ScoreMinus12
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckClearBodyEffect
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_HYPER_CUTTER, ScoreMinus10
+    GoTo Basic_CheckClearBodyEffect
+
+Basic_CheckLowStatStage_Defense:
+    IfStatStageEqualTo AI_BATTLER_DEFENDER, BATTLEMON_DEFENSE_STAGE, 0, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckClearBodyEffect
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_BIG_PECKS, ScoreMinus10
+    GoTo Basic_CheckClearBodyEffect
+
+Basic_CheckLowStatStage_Speed:
+    IfFieldCondition FIELD_CONDITION_TRICK_ROOM, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_DEFENDER, BATTLEMON_SPEED_STAGE, 0, ScoreMinus10
+    CheckBattlerAbility AI_BATTLER_DEFENDER, ABILITY_SPEED_BOOST
+    IfLoadedEqualTo TRUE, ScoreMinus10
+    GoTo Basic_CheckClearBodyEffect
+
+Basic_CheckLowStatStage_SpAttack:
+    IfStatStageEqualTo AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE, 0, ScoreMinus10
+    GoTo Basic_CheckClearBodyEffect
+
+Basic_CheckLowStatStage_SpDefense:
+    IfStatStageEqualTo AI_BATTLER_DEFENDER, BATTLEMON_SP_DEFENSE_STAGE, 0, ScoreMinus10
+    GoTo Basic_CheckClearBodyEffect
+
+Basic_CheckLowStatStage_Accuracy:
+    IfStatStageEqualTo AI_BATTLER_DEFENDER, BATTLEMON_ACCURACY_STAGE, 0, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_NO_GUARD, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_NO_GUARD, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckClearBodyEffect
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_KEEN_EYE, ScoreMinus10
+    GoTo Basic_CheckClearBodyEffect
+
+Basic_CheckLowStatStage_Evasion:
+    IfStatStageEqualTo AI_BATTLER_DEFENDER, BATTLEMON_EVASION_STAGE, 0, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_NO_GUARD, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_NO_GUARD, ScoreMinus10
+
+Basic_CheckClearBodyEffect:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_CONTRARY, ScoreMinus12
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckClearBodyEffect_End
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_CLEAR_BODY, ScoreMinus10
+    IfLoadedEqualTo ABILITY_WHITE_SMOKE, ScoreMinus10
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckClearBodyEffect_End:
+    End
+
+Basic_CheckStatStageImbalance:
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 6, Basic_CheckStatStageImbalance_Terminate
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 6, Basic_CheckStatStageImbalance_Terminate
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_SPEED_STAGE, 6, Basic_CheckStatStageImbalance_Terminate
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 6, Basic_CheckStatStageImbalance_Terminate
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_SP_DEFENSE_STAGE, 6, Basic_CheckStatStageImbalance_Terminate
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_ACCURACY_STAGE, 6, Basic_CheckStatStageImbalance_Terminate
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_EVASION_STAGE, 6, Basic_CheckStatStageImbalance_Terminate
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_ATTACK_STAGE, 6, Basic_CheckStatStageImbalance_Terminate
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_DEFENSE_STAGE, 6, Basic_CheckStatStageImbalance_Terminate
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_SPEED_STAGE, 6, Basic_CheckStatStageImbalance_Terminate
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE, 6, Basic_CheckStatStageImbalance_Terminate
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_SP_DEFENSE_STAGE, 6, Basic_CheckStatStageImbalance_Terminate
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_ACCURACY_STAGE, 6, Basic_CheckStatStageImbalance_Terminate
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_EVASION_STAGE, 6, Basic_CheckStatStageImbalance_Terminate
+    GoTo ScoreMinus10
+
+Basic_CheckStatStageImbalance_Terminate:
+    End
+
+Basic_CheckCanForceSwitch:
+    CountAlivePartyBattlers AI_BATTLER_DEFENDER
+    IfLoadedEqualTo 0, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckCanForceSwitch_Terminate
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_SUCTION_CUPS, ScoreMinus10
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckCanForceSwitch_Terminate:
+    End
+
+Basic_CheckCanRecoverHP:
+    IfHPPercentNotEqualTo AI_BATTLER_ATTACKER, 100, Basic_CheckCanRecoverHP_Terminate
+    AddToMoveScore -8
+
+Basic_CheckCanRecoverHP_Terminate:
+    End
+
+Basic_CheckCannotPoison:
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_STEEL, ScoreMinus10
+    IfLoadedEqualTo TYPE_POISON, ScoreMinus10
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_STEEL, ScoreMinus10
+    IfLoadedEqualTo TYPE_POISON, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_IMMUNITY, ScoreMinus10
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, ScoreMinus10
+    IfLoadedEqualTo ABILITY_POISON_HEAL, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckCannotPoison_Hydration
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+    IfLoadedNotEqualTo ABILITY_LEAF_GUARD, Basic_CheckCannotPoison_Hydration
+    LoadCurrentWeather
+    IfLoadedEqualTo BTL_WEATHER_SUN, ScoreMinus10
+
+Basic_CheckCannotPoison_Hydration:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedNotEqualTo ABILITY_HYDRATION, Basic_CheckCannotPoison_StatusOrSafeguard
+    LoadCurrentWeather
+    IfLoadedEqualTo BTL_WEATHER_RAIN, ScoreMinus10
+
+Basic_CheckCannotPoison_StatusOrSafeguard:
+    IfStatus AI_BATTLER_DEFENDER, ScoreMinus10
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_SAFEGUARD, ScoreMinus10
+    End
+
+Basic_CheckAlreadyUnderLightScreen:
+    IfSideCondition AI_BATTLER_ATTACKER, SIDE_CONDITION_LIGHT_SCREEN, ScoreMinus8
+    End
+
+Basic_CheckOHKOWouldFail:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckOHKOWouldFail_Levels
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_STURDY, ScoreMinus10
+
+Basic_CheckOHKOWouldFail_Levels:
+    IfLevel CHECK_LOWER_THAN_TARGET, ScoreMinus10
+    End
+
+Basic_CheckMagnitude:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckNonStandardDamageOrChargeTurn
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_LEVITATE, ScoreMinus10
+
+Basic_CheckNonStandardDamageOrChargeTurn:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedNotEqualTo ABILITY_WONDER_GUARD, Basic_CheckNonStandardDamageOrChargeTurn_Terminate
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckNonStandardDamageOrChargeTurn_Terminate
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_DOUBLE, Basic_CheckNonStandardDamageOrChargeTurn_Terminate
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUADRUPLE, Basic_CheckNonStandardDamageOrChargeTurn_Terminate
+    GoTo ScoreMinus10
+
+Basic_CheckNonStandardDamageOrChargeTurn_Terminate:
+    End
+
+Basic_CheckAlreadyUnderMist:
+    IfSideCondition AI_BATTLER_ATTACKER, SIDE_CONDITION_MIST, ScoreMinus8
+    End
+
+Basic_CheckAlreadyPumpedUp:
+    IfConditionFlag AI_BATTLER_ATTACKER, 9, ScoreMinus10
+    End
+
+Basic_CheckCannotConfuse:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_CONFUSION, ScoreMinus5
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_SAFEGUARD, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_OWN_TEMPO, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckCannotConfuse_End
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckCannotConfuse_End:
+    End
+
+Basic_CheckAlreadyUnderReflect:
+    IfSideCondition AI_BATTLER_ATTACKER, SIDE_CONDITION_REFLECT, ScoreMinus8
+    End
+
+Basic_CheckCannotParalyze:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_LIMBER, ScoreMinus10
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckCannotParalyze_ImmuneToStatus
+    IfMoveEqualTo MOVE_THUNDER_WAVE, Basic_CheckCannotParalyze_ThunderWave
+    GoTo Basic_CheckCannotParalyze_ImmuneToStatus
+
+Basic_CheckCannotParalyze_ThunderWave:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MOTOR_DRIVE, ScoreMinus10
+    IfLoadedEqualTo ABILITY_VOLT_ABSORB, ScoreMinus10
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckCannotParalyze_ImmuneToStatus:
+    IfStatus AI_BATTLER_DEFENDER, ScoreMinus10
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_SAFEGUARD, ScoreMinus10
+    End
+
+Basic_CheckCannotSubstitute:
+    IfBattlerHasSubstitute AI_BATTLER_ATTACKER, ScoreMinus8
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 26, ScoreMinus10
+    End
+
+Basic_CheckCannotLeechSeed:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_LEECH_SEED, ScoreMinus10
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_GRASS, ScoreMinus10
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_GRASS, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, ScoreMinus10
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+    End
+
+Basic_CheckCannotDisable:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_DISABLE, ScoreMinus8
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckCannotDisable_End
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckCannotDisable_End:
+    End
+
+Basic_CheckCannotEncore:
+    IfCondition AI_BATTLER_DEFENDER, 23, ScoreMinus8
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckCannotEncore_End
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckCannotEncore_End:
+    End
+
+// Snore and Sketch come here while Sleep Talk does not, which looks like Sleep Talk's entry went to Sketch
+Basic_CheckAttackerAsleep:
+    IfNotCondition AI_BATTLER_ATTACKER, CONDITION_SLEEP, ScoreMinus8
+    End
+
+Basic_CheckLockOn:
+    IfCondition AI_BATTLER_DEFENDER, 29, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_NO_GUARD, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_NO_GUARD, ScoreMinus10
+    End
+
+Basic_CheckMeanLook:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_MEAN_LOOK, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckMeanLook_End
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckMeanLook_End:
+    End
+
+Basic_CheckCurse:
+    LoadTypeFrom LOAD_ATTACKER_TYPE_1
+    IfLoadedEqualTo TYPE_GHOST, Basic_CheckCurse_GhostType
+    LoadTypeFrom LOAD_ATTACKER_TYPE_2
+    IfLoadedEqualTo TYPE_GHOST, Basic_CheckCurse_GhostType
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 12, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 12, ScoreMinus8
+    End
+
+Basic_CheckCurse_GhostType:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_CURSE, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, ScoreMinus10
+    End
+
+Basic_CheckSpikes:
+    LoadSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_SPIKES
+    IfLoadedEqualTo 3, ScoreMinus10
+    CountAlivePartyBattlers AI_BATTLER_DEFENDER
+    IfLoadedEqualTo 0, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckSpikes_End
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckSpikes_End:
+    End
+
+Basic_CheckForesight:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_FORESIGHT, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckForesight_End
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckForesight_End:
+    End
+
+Basic_CheckPerishSong:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_PERISH_SONG, ScoreMinus10
+    End
+
+Basic_CheckSandstorm:
+    LoadCurrentWeather
+    IfLoadedEqualTo BTL_WEATHER_SANDSTORM, ScoreMinus8
+    End
+
+Basic_CheckCannotAttract:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_ATTRACT, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_OBLIVIOUS, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckCannotAttract_Gender
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckCannotAttract_Gender:
+    LoadGender AI_BATTLER_ATTACKER
+    IfLoadedEqualTo GENDER_MALE, Basic_CheckCannotAttract_BothMale
+    IfLoadedEqualTo GENDER_FEMALE, Basic_CheckCannotAttract_BothFemale
+    GoTo ScoreMinus10
+
+Basic_CheckCannotAttract_BothMale:
+    LoadGender AI_BATTLER_DEFENDER
+    IfLoadedEqualTo GENDER_FEMALE, Basic_CheckCannotAttract_Terminate
+    GoTo ScoreMinus10
+
+Basic_CheckCannotAttract_BothFemale:
+    LoadGender AI_BATTLER_DEFENDER
+    IfLoadedEqualTo GENDER_MALE, Basic_CheckCannotAttract_Terminate
+    GoTo ScoreMinus10
+
+Basic_CheckCannotAttract_Terminate:
+    End
+
+Basic_CheckAlreadyUnderSafeguard:
+    IfSideCondition AI_BATTLER_ATTACKER, SIDE_CONDITION_SAFEGUARD, ScoreMinus8
+    End
+
+Basic_CheckMemento:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_CONTRARY, ScoreMinus12
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckMemento_CheckStatStages
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_CLEAR_BODY, ScoreMinus10
+    IfLoadedEqualTo ABILITY_WHITE_SMOKE, ScoreMinus10
+
+Basic_CheckMemento_CheckStatStages:
+    IfStatStageEqualTo AI_BATTLER_DEFENDER, BATTLEMON_ATTACK_STAGE, 0, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE, 0, ScoreMinus8
+    CountAlivePartyBattlers AI_BATTLER_ATTACKER
+    IfLoadedEqualTo 0, ScoreMinus10
+    End
+
+Basic_CheckBatonPass:
+    CountAlivePartyBattlers AI_BATTLER_ATTACKER
+    IfLoadedEqualTo 0, ScoreMinus10
+    End
+
+Basic_CheckRainDance:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_SWIFT_SWIM, Basic_CheckCurrentWeatherIsRain
+    IfLoadedEqualTo ABILITY_HYDRATION, Basic_CheckCurrentWeatherIsRain
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedNotEqualTo ABILITY_HYDRATION, Basic_CheckCurrentWeatherIsRain
+    IfStatus AI_BATTLER_DEFENDER, ScoreMinus8
+
+Basic_CheckCurrentWeatherIsRain:
+    LoadCurrentWeather
+    IfLoadedEqualTo BTL_WEATHER_RAIN, ScoreMinus8
+    End
+
+Basic_CheckSunnyDay:
+    LoadCurrentWeather
+    IfLoadedEqualTo BTL_WEATHER_SUN, ScoreMinus8
+    End
+
+Basic_CheckFutureSight:
+    IfUnk74 AI_BATTLER_DEFENDER, ScoreMinus12
+    End
+
+Basic_CheckFirstTurnInBattle:
+    LoadIsFirstTurnInBattle AI_BATTLER_ATTACKER
+    IfLoadedEqualTo FALSE, ScoreMinus10
+    End
+
+Basic_CheckMaxStockpile:
+    LoadStockpileCount AI_BATTLER_ATTACKER
+    IfLoadedEqualTo 3, ScoreMinus10
+    End
+
+Basic_CheckCanSpitUpOrSwallow:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, ScoreMinus10
+    LoadStockpileCount AI_BATTLER_ATTACKER
+    IfLoadedEqualTo 0, ScoreMinus10
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_SWALLOW, Basic_CheckCanRecoverHP
+    End
+
+Basic_CheckHail:
+    LoadCurrentWeather
+    IfLoadedEqualTo BTL_WEATHER_HAIL, ScoreMinus8
+
+Basic_CheckHail_Terminate:
+    End
+
+Basic_CheckTorment:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_TORMENT, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckTorment_End
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckTorment_End:
+    End
+
+Basic_CheckCannotBurn:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_WATER_VEIL, ScoreMinus10
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, ScoreMinus10
+    IfStatus AI_BATTLER_DEFENDER, ScoreMinus10
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_FIRE, ScoreMinus10
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_FIRE, ScoreMinus10
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_SAFEGUARD, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckCannotBurn_End
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckCannotBurn_End:
+    End
+
+Basic_CheckMakeGlobalTarget:
+    LoadBattleStyle
+    IfLoadedEqualTo BTL_STYLE_SINGLE, ScoreMinus10
+    End
+
+Basic_CheckTaunt:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_TAUNT, ScoreMinus10
+    End
+
+Basic_CheckHelpingHand:
+    LoadBattleStyle
+    IfLoadedEqualTo BTL_STYLE_SINGLE, ScoreMinus10
+    End
+
+Basic_CheckCanRemoveItem:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_STICKY_HOLD, ScoreMinus10
+    LoadHeldItem AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ITEM_NONE, ScoreMinus10
+    End
+
+Basic_CheckAlreadyIngrained:
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_INGRAIN, ScoreMinus10
+    End
+
+Basic_CheckCanRecycle:
+    LoadRecycleItem AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ITEM_NONE, ScoreMinus10
+    End
+
+Basic_CheckCanImprison:
+    IfFieldCondition 3, ScoreMinus10
+    End
+
+Basic_CheckCanRefreshStatus:
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_POISON, Basic_CheckCanRefreshStatus_End
+    IfBadlyPoisoned AI_BATTLER_ATTACKER, Basic_CheckCanRefreshStatus_End
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_PARALYSIS, Basic_CheckCanRefreshStatus_End
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_BURN, Basic_CheckCanRefreshStatus_End
+    GoTo ScoreMinus10
+
+Basic_CheckCanRefreshStatus_End:
+    End
+
+Basic_CheckCanMudSport:
+    IfFieldCondition 5, ScoreMinus10
+    End
+
+Basic_CheckTickle:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_CONTRARY, ScoreMinus12
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckTickle_CheckStatStages
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_CLEAR_BODY, ScoreMinus10
+    IfLoadedEqualTo ABILITY_WHITE_SMOKE, ScoreMinus10
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckTickle_CheckStatStages:
+    IfStatStageEqualTo AI_BATTLER_DEFENDER, BATTLEMON_ATTACK_STAGE, 0, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_DEFENDER, BATTLEMON_DEFENSE_STAGE, 0, ScoreMinus8
+    End
+
+Basic_CheckCosmicPower:
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 12, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_SP_DEFENSE_STAGE, 12, ScoreMinus8
+    End
+
+Basic_CheckBulkUp:
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 12, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 12, ScoreMinus8
+    End
+
+Basic_CheckWaterSport:
+    IfFieldCondition 4, ScoreMinus10
+    End
+
+Basic_CheckCalmMind:
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 12, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_SP_DEFENSE_STAGE, 12, ScoreMinus8
+    End
+
+Basic_CheckDragonDance:
+    IfFieldCondition FIELD_CONDITION_TRICK_ROOM, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 12, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_SPEED_STAGE, 12, ScoreMinus8
+    End
+
+Basic_CheckCamouflage:
+    End
+
+Basic_CheckGravityActive:
+    IfFieldCondition FIELD_CONDITION_GRAVITY, ScoreMinus10
+    End
+
+Basic_CheckMiracleEye:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_FORESIGHT, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckMiracleEye_End
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckMiracleEye_End:
+    End
+
+Basic_CheckHealingWish:
+    AddToMoveScore -20
+    CountAlivePartyBattlers AI_BATTLER_ATTACKER
+    IfLoadedEqualTo 0, ScoreMinus10
+    IfPartyMemberNotStatus AI_BATTLER_ATTACKER, Basic_CheckHealingWish_Terminate
+    IfAnyPartyMemberIsWounded AI_BATTLER_ATTACKER, Basic_CheckHealingWish_Terminate
+    GoTo ScoreMinus10
+
+Basic_CheckHealingWish_Terminate:
+    End
+
+Basic_CheckNaturalGift:
+    LoadHeldItem AI_BATTLER_ATTACKER
+    IfLoadedNotInTable Basic_NaturalGiftBerries, ScoreMinus10
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, ScoreMinus10
+    End
+
+Basic_NaturalGiftBerries:
+    TableEntry ITEM_CHERI_BERRY
+    TableEntry ITEM_CHESTO_BERRY
+    TableEntry ITEM_PECHA_BERRY
+    TableEntry ITEM_RAWST_BERRY
+    TableEntry ITEM_ASPEAR_BERRY
+    TableEntry ITEM_LEPPA_BERRY
+    TableEntry ITEM_ORAN_BERRY
+    TableEntry ITEM_PERSIM_BERRY
+    TableEntry ITEM_LUM_BERRY
+    TableEntry ITEM_SITRUS_BERRY
+    TableEntry ITEM_FIGY_BERRY
+    TableEntry ITEM_WIKI_BERRY
+    TableEntry ITEM_MAGO_BERRY
+    TableEntry ITEM_AGUAV_BERRY
+    TableEntry ITEM_IAPAPA_BERRY
+    TableEntry ITEM_RAZZ_BERRY
+    TableEntry ITEM_BLUK_BERRY
+    TableEntry ITEM_NANAB_BERRY
+    TableEntry ITEM_WEPEAR_BERRY
+    TableEntry ITEM_PINAP_BERRY
+    TableEntry ITEM_POMEG_BERRY
+    TableEntry ITEM_KELPSY_BERRY
+    TableEntry ITEM_QUALOT_BERRY
+    TableEntry ITEM_HONDEW_BERRY
+    TableEntry ITEM_GREPA_BERRY
+    TableEntry ITEM_TAMATO_BERRY
+    TableEntry ITEM_CORNN_BERRY
+    TableEntry ITEM_MAGOST_BERRY
+    TableEntry ITEM_RABUTA_BERRY
+    TableEntry ITEM_NOMEL_BERRY
+    TableEntry ITEM_SPELON_BERRY
+    TableEntry ITEM_PAMTRE_BERRY
+    TableEntry ITEM_WATMEL_BERRY
+    TableEntry ITEM_DURIN_BERRY
+    TableEntry ITEM_BELUE_BERRY
+    TableEntry ITEM_OCCA_BERRY
+    TableEntry ITEM_PASSHO_BERRY
+    TableEntry ITEM_WACAN_BERRY
+    TableEntry ITEM_RINDO_BERRY
+    TableEntry ITEM_YACHE_BERRY
+    TableEntry ITEM_CHOPLE_BERRY
+    TableEntry ITEM_KEBIA_BERRY
+    TableEntry ITEM_SHUCA_BERRY
+    TableEntry ITEM_COBA_BERRY
+    TableEntry ITEM_PAYAPA_BERRY
+    TableEntry ITEM_TANGA_BERRY
+    TableEntry ITEM_CHARTI_BERRY
+    TableEntry ITEM_KASIB_BERRY
+    TableEntry ITEM_HABAN_BERRY
+    TableEntry ITEM_COLBUR_BERRY
+    TableEntry ITEM_BABIRI_BERRY
+    TableEntry ITEM_CHILAN_BERRY
+    TableEntry ITEM_LIECHI_BERRY
+    TableEntry ITEM_GANLON_BERRY
+    TableEntry ITEM_SALAC_BERRY
+    TableEntry ITEM_PETAYA_BERRY
+    TableEntry ITEM_APICOT_BERRY
+    TableEntry ITEM_LANSAT_BERRY
+    TableEntry ITEM_STARF_BERRY
+    TableEntry ITEM_ENIGMA_BERRY
+    TableEntry ITEM_MICLE_BERRY
+    TableEntry ITEM_CUSTAP_BERRY
+    TableEntry ITEM_JABOCA_BERRY
+    TableEntry ITEM_ROWAP_BERRY
+    TableEntry TABLE_END
+
+Basic_CheckTailwind:
+    IfFieldCondition FIELD_CONDITION_TRICK_ROOM, ScoreMinus8
+    IfSideCondition AI_BATTLER_ATTACKER, SIDE_CONDITION_TAILWIND, ScoreMinus10
+    End
+
+Basic_CheckAcupressure:
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 12, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 12, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_SPEED_STAGE, 12, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 12, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_SP_DEFENSE_STAGE, 12, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_EVASION_STAGE, 12, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_ACCURACY_STAGE, 12, ScoreMinus10
+    End
+
+Basic_CheckMetalBurst:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_STALL, ScoreMinus10
+    LoadHeldItemEffect AI_BATTLER_DEFENDER
+    IfLoadedEqualTo HOLD_EFFECT_PRIORITY_DOWN, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_STALL, Basic_CheckMetalBurst_Terminate
+    LoadHeldItemEffect AI_BATTLER_ATTACKER
+    IfLoadedEqualTo HOLD_EFFECT_PRIORITY_DOWN, Basic_CheckMetalBurst_Terminate
+    IfSpeedCompareEqualTo COMPARE_SPEED_FASTER, ScoreMinus10
+
+Basic_CheckMetalBurst_Terminate:
+    End
+
+Basic_CheckEmbargo:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_EMBARGO, ScoreMinus10
+    LoadRecycleItem AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ITEM_NONE, Basic_CheckEmbargo_Terminate
+    LoadBattleType
+    IfLoadedEqualTo 2, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckEmbargo_Terminate
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckEmbargo_Terminate:
+    End
+
+Basic_CheckFling:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, ScoreMinus10
+    LoadFlingPower AI_BATTLER_ATTACKER
+    IfLoadedLessThan 10, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MULTITYPE, ScoreMinus10
+    LoadHeldItemEffect AI_BATTLER_ATTACKER
+    IfLoadedInTable Basic_FlingItems_Poison, Basic_FlingPoison
+    IfLoadedInTable Basic_FlingItems_Burn, Basic_FlingBurn
+    IfLoadedInTable Basic_FlingItems_Paralyze, Basic_FlingParalyze
+    End
+
+Basic_FlingPoison:
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_SAFEGUARD, Basic_FlingPoison_AttackerChecks
+    IfStatus AI_BATTLER_DEFENDER, Basic_FlingPoison_AttackerChecks
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_POISON_HEAL, Basic_FlingPoison_AttackerChecks
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_POISON, Basic_FlingPoison_AttackerChecks
+    IfLoadedEqualTo TYPE_STEEL, Basic_FlingPoison_AttackerChecks
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_POISON, Basic_FlingPoison_AttackerChecks
+    IfLoadedEqualTo TYPE_STEEL, Basic_FlingPoison_AttackerChecks
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_IMMUNITY, Basic_FlingPoison_AttackerChecks
+    IfLoadedEqualTo ABILITY_POISON_HEAL, Basic_FlingPoison_AttackerChecks
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, Basic_FlingPoison_AttackerChecks
+    End
+
+Basic_FlingPoison_AttackerChecks:
+    IfSideCondition AI_BATTLER_ATTACKER, SIDE_CONDITION_SAFEGUARD, ScoreMinus5
+    IfStatus AI_BATTLER_ATTACKER, ScoreMinus5
+    LoadTypeFrom LOAD_ATTACKER_TYPE_1
+    IfLoadedEqualTo TYPE_POISON, ScoreMinus5
+    IfLoadedEqualTo TYPE_STEEL, ScoreMinus5
+    LoadTypeFrom LOAD_ATTACKER_TYPE_2
+    IfLoadedEqualTo TYPE_POISON, ScoreMinus5
+    IfLoadedEqualTo TYPE_STEEL, ScoreMinus5
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_KLUTZ, ScoreMinus5
+    IfLoadedEqualTo ABILITY_IMMUNITY, ScoreMinus5
+    IfLoadedEqualTo ABILITY_POISON_HEAL, ScoreMinus5
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, ScoreMinus5
+    IfLoadedEqualTo ABILITY_GUTS, ScoreMinus5
+    End
+
+Basic_FlingBurn:
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_SAFEGUARD, Basic_FlingBurn_AttackerChecks
+    IfStatus AI_BATTLER_DEFENDER, Basic_FlingBurn_AttackerChecks
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_FIRE, Basic_FlingBurn_AttackerChecks
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_FIRE, Basic_FlingBurn_AttackerChecks
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, Basic_FlingBurn_AttackerChecks
+    IfLoadedEqualTo ABILITY_WATER_VEIL, Basic_FlingBurn_AttackerChecks
+    End
+
+Basic_FlingBurn_AttackerChecks:
+    IfSideCondition AI_BATTLER_ATTACKER, SIDE_CONDITION_SAFEGUARD, ScoreMinus5
+    IfStatus AI_BATTLER_ATTACKER, ScoreMinus5
+    LoadTypeFrom LOAD_ATTACKER_TYPE_1
+    IfLoadedEqualTo TYPE_FIRE, ScoreMinus5
+    LoadTypeFrom LOAD_ATTACKER_TYPE_2
+    IfLoadedEqualTo TYPE_FIRE, ScoreMinus5
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_KLUTZ, ScoreMinus5
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, ScoreMinus5
+    IfLoadedEqualTo ABILITY_WATER_VEIL, ScoreMinus5
+    IfLoadedEqualTo ABILITY_GUTS, ScoreMinus5
+    End
+
+Basic_FlingParalyze:
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_SAFEGUARD, ScoreMinus5
+    IfStatus AI_BATTLER_DEFENDER, ScoreMinus5
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_LIMBER, ScoreMinus5
+    End
+
+Basic_FlingItems_Poison:
+    TableEntry HOLD_EFFECT_PSN_USER
+    TableEntry HOLD_EFFECT_STRENGTHEN_POISON
+    TableEntry TABLE_END
+
+Basic_FlingItems_Burn:
+    TableEntry HOLD_EFFECT_BRN_USER
+    TableEntry TABLE_END
+
+Basic_FlingItems_Paralyze:
+    TableEntry HOLD_EFFECT_PIKA_SPATK_UP
+    TableEntry TABLE_END
+
+Basic_CheckCanPsychoShift:
+    IfNotStatus AI_BATTLER_ATTACKER, ScoreMinus10
+    IfStatus AI_BATTLER_DEFENDER, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_PsychoShift_CheckSafeguard
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus10
+
+Basic_PsychoShift_CheckSafeguard:
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_SAFEGUARD, ScoreMinus10
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_POISON, Basic_PsychoShift_Poison
+    IfBadlyPoisoned AI_BATTLER_ATTACKER, Basic_PsychoShift_Poison
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_BURN, Basic_PsychoShift_Burn
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_PARALYSIS, Basic_PsychoShift_Paralysis
+    GoTo Basic_PsychoShift_Terminate
+
+Basic_PsychoShift_Poison:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_POISON_HEAL, ScoreMinus10
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_POISON, ScoreMinus10
+    IfLoadedEqualTo TYPE_STEEL, ScoreMinus10
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_POISON, ScoreMinus10
+    IfLoadedEqualTo TYPE_STEEL, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_IMMUNITY, ScoreMinus10
+    IfLoadedEqualTo ABILITY_POISON_HEAL, ScoreMinus10
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, ScoreMinus10
+    GoTo Basic_PsychoShift_Terminate
+
+Basic_PsychoShift_Burn:
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_FIRE, ScoreMinus10
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_FIRE, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, ScoreMinus10
+    IfLoadedEqualTo ABILITY_WATER_VEIL, ScoreMinus10
+    GoTo Basic_PsychoShift_Terminate
+
+Basic_PsychoShift_Paralysis:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_LIMBER, ScoreMinus10
+
+Basic_PsychoShift_Terminate:
+    End
+
+Basic_CheckHealBlock:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_HEAL_BLOCK, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckHealBlock_End
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckHealBlock_End:
+    End
+
+Basic_CheckPowerTrick:
+    IfConditionFlag AI_BATTLER_ATTACKER, 10, ScoreMinus10
+    End
+
+Basic_CheckGastroAcid:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_GASTRO_ACID, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MULTITYPE, ScoreMinus10
+    IfLoadedEqualTo ABILITY_TRUANT, ScoreMinus10
+    IfLoadedEqualTo ABILITY_DEFEATIST, ScoreMinus10
+    IfLoadedEqualTo ABILITY_SLOW_START, ScoreMinus10
+    IfLoadedEqualTo ABILITY_STENCH, ScoreMinus10
+    IfLoadedEqualTo ABILITY_RUN_AWAY, ScoreMinus10
+    IfLoadedEqualTo ABILITY_PICKUP, ScoreMinus10
+    IfLoadedEqualTo ABILITY_HONEY_GATHER, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckGastroAcid_End
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckGastroAcid_End:
+    End
+
+Basic_CheckLuckyChant:
+    IfSideCondition AI_BATTLER_ATTACKER, SIDE_CONDITION_LUCKY_CHANT, ScoreMinus10
+    End
+
+Basic_CheckCopycat:
+    LoadTurnCount
+    IfLoadedNotEqualTo 0, Basic_CheckCopycat_Terminate
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Basic_CheckCopycat_Terminate
+    IfSpeedCompareEqualTo COMPARE_SPEED_FASTER, ScoreMinus10
+
+Basic_CheckCopycat_Terminate:
+    End
+
+Basic_CheckPowerSwap:
+    DiffStatStages AI_BATTLER_DEFENDER, BATTLEMON_ATTACK_STAGE
+    IfLoadedLessThan 1, Basic_CheckGuardSwap_SpAttack
+    GoTo Basic_CheckPowerSwap_Terminate
+
+Basic_CheckGuardSwap_SpAttack:
+    DiffStatStages AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE
+    IfLoadedLessThan 1, ScoreMinus10
+
+Basic_CheckPowerSwap_Terminate:
+    End
+
+Basic_CheckGuardSwap:
+    DiffStatStages AI_BATTLER_DEFENDER, BATTLEMON_DEFENSE_STAGE
+    IfLoadedLessThan 1, Basic_CheckGuardSwap_SpDefense
+    GoTo Basic_CheckGuardSwap_Terminate
+
+Basic_CheckGuardSwap_SpDefense:
+    DiffStatStages AI_BATTLER_DEFENDER, BATTLEMON_SP_DEFENSE_STAGE
+    IfLoadedLessThan 1, ScoreMinus10
+
+Basic_CheckGuardSwap_Terminate:
+    End
+
+Basic_CheckLastResort:
+    IfCanUseLastResort AI_BATTLER_ATTACKER, Basic_CheckLastResort_Terminate
+    AddToMoveScore -10
+
+Basic_CheckLastResort_Terminate:
+    End
+
+Basic_CheckWorrySeed:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_TRUANT, ScoreMinus10
+    IfLoadedEqualTo ABILITY_DEFEATIST, ScoreMinus10
+    IfLoadedEqualTo ABILITY_INSOMNIA, ScoreMinus10
+    IfLoadedEqualTo ABILITY_VITAL_SPIRIT, ScoreMinus10
+    IfLoadedEqualTo ABILITY_MULTITYPE, ScoreMinus10
+    IfNotCondition AI_BATTLER_DEFENDER, CONDITION_SLEEP, Basic_CheckWorrySeed_Terminate
+    IfMoveKnown AI_BATTLER_DEFENDER, MOVE_SLEEP_TALK, Basic_CheckWorrySeed_Terminate
+    IfMoveKnown AI_BATTLER_DEFENDER, MOVE_SNORE, Basic_CheckWorrySeed_Terminate
+    AddToMoveScore -10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckWorrySeed_Terminate
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckWorrySeed_Terminate:
+    End
+
+Basic_CheckToxicSpikes:
+    LoadSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_TOXIC_SPIKES
+    IfLoadedEqualTo 2, ScoreMinus10
+    CountAlivePartyBattlers AI_BATTLER_DEFENDER
+    IfLoadedEqualTo 0, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckToxicSpikes_End
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckToxicSpikes_End:
+    End
+
+Basic_CheckAquaRing:
+    IfCondition AI_BATTLER_ATTACKER, 35, ScoreMinus10
+    End
+
+Basic_CheckMagnetRise:
+    IfCondition AI_BATTLER_ATTACKER, 30, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_LEVITATE, ScoreMinus10
+    LoadTypeFrom LOAD_ATTACKER_TYPE_1
+    IfLoadedEqualTo TYPE_FLYING, ScoreMinus10
+    LoadTypeFrom LOAD_ATTACKER_TYPE_2
+    IfLoadedEqualTo TYPE_FLYING, ScoreMinus10
+    End
+
+Basic_CheckDefog:
+    IfStatStageNotEqualTo AI_BATTLER_DEFENDER, BATTLEMON_EVASION_STAGE, 0, Basic_CheckDefog_Terminate
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_LIGHT_SCREEN, Basic_CheckDefog_Terminate
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_REFLECT, Basic_CheckDefog_Terminate
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckDefog_Weather
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckDefog_Weather:
+    LoadCurrentWeather
+    // Gen 4 skips the rest in deep fog, which Defog clears. Here it skips when the weather is 0
+    IfLoadedEqualTo 0, Basic_CheckDefog_Terminate
+    CountAlivePartyBattlers AI_BATTLER_DEFENDER
+    IfLoadedEqualTo 0, ScoreMinus10
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_SPIKES, Basic_CheckDefog_Terminate
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_STEALTH_ROCK, Basic_CheckDefog_Terminate
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_TOXIC_SPIKES, Basic_CheckDefog_Terminate
+    GoTo ScoreMinus10
+
+Basic_CheckDefog_Terminate:
+    End
+
+Basic_CheckTrickRoom:
+    IfSpeedCompareEqualTo COMPARE_SPEED_FASTER, ScoreMinus10
+    IfSpeedCompareEqualTo COMPARE_SPEED_TIE, ScoreMinus10
+    End
+
+Basic_CheckCaptivate:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_CONTRARY, ScoreMinus12
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckCaptivate_CheckGender
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_OBLIVIOUS, ScoreMinus10
+    IfLoadedEqualTo ABILITY_CLEAR_BODY, ScoreMinus10
+    IfLoadedEqualTo ABILITY_WHITE_SMOKE, ScoreMinus10
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckCaptivate_CheckGender:
+    LoadGender AI_BATTLER_ATTACKER
+    IfLoadedEqualTo GENDER_MALE, Basic_CheckCaptivate_CheckMale
+    IfLoadedEqualTo GENDER_FEMALE, Basic_CheckCaptivate_CheckFemale
+    GoTo ScoreMinus10
+
+Basic_CheckCaptivate_CheckMale:
+    LoadGender AI_BATTLER_DEFENDER
+    IfLoadedEqualTo GENDER_FEMALE, Basic_CheckCaptivate_CheckStatStage
+    GoTo ScoreMinus10
+
+Basic_CheckCaptivate_CheckFemale:
+    LoadGender AI_BATTLER_DEFENDER
+    IfLoadedEqualTo GENDER_MALE, Basic_CheckCaptivate_CheckStatStage
+    GoTo ScoreMinus10
+
+Basic_CheckCaptivate_CheckStatStage:
+    IfStatStageLessThan AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE, 1, ScoreMinus10
+    End
+
+Basic_CheckStealthRock:
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_STEALTH_ROCK, ScoreMinus10
+    CountAlivePartyBattlers AI_BATTLER_DEFENDER
+    IfLoadedEqualTo 0, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckStealthRock_End
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckStealthRock_End:
+    End
+
+Basic_CheckLunarDance:
+    AddToMoveScore -20
+    CountAlivePartyBattlers AI_BATTLER_ATTACKER
+    IfLoadedEqualTo 0, ScoreMinus10
+    IfAnyPartyMemberIsWounded AI_BATTLER_ATTACKER, Basic_CheckLunarDance_Terminate
+    IfPartyMemberNotStatus AI_BATTLER_ATTACKER, Basic_CheckLunarDance_Terminate
+    IfAnyPartyMemberUsedPP AI_BATTLER_ATTACKER, Basic_CheckLunarDance_Terminate
+    GoTo ScoreMinus10
+
+Basic_CheckLunarDance_Terminate:
+    End
+
+Basic_CheckHoneClaws:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedNotEqualTo ABILITY_SIMPLE, Basic_CheckHoneClaws_StatStages
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 8, ScoreMinus10
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_ACCURACY_STAGE, 8, ScoreMinus8
+
+Basic_CheckHoneClaws_StatStages:
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 12, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_ACCURACY_STAGE, 12, ScoreMinus8
+    End
+
+Basic_CheckWideGuard:
+    LoadBattleStyle
+    IfLoadedEqualTo BTL_STYLE_SINGLE, ScoreMinus10
+    End
+
+Basic_CheckGuardSplit:
+    End
+
+Basic_CheckPowerSplit:
+    End
+
+Basic_CheckWonderRoom:
+    IfFieldCondition 6, ScoreMinus10
+    End
+
+Basic_CheckPsyshock:
+    End
+
+Basic_CheckVenoshock:
+    End
+
+Basic_CheckAutotomize:
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_SPEED_STAGE, 12, ScoreMinus10
+    End
+
+Basic_CheckTelekinesis:
+    IfCondition AI_BATTLER_DEFENDER, 32, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckTelekinesis_End
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckTelekinesis_End:
+    End
+
+Basic_CheckMagicRoom:
+    IfFieldCondition 7, ScoreMinus10
+    End
+
+Basic_CheckSmackDown:
+    End
+
+Basic_CheckStormThrow:
+    End
+
+Basic_CheckFlameBurst:
+    End
+
+Basic_CheckQuiverDance:
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 12, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 12, ScoreMinus8
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_SPEED_STAGE, 12, ScoreMinus6
+    End
+
+Basic_CheckHeavySlam:
+    End
+
+Basic_CheckSynchronoise:
+    End
+
+Basic_CheckElectroBall:
+    End
+
+Basic_CheckSoak:
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfTempNotEqualTo TYPE_WATER, Basic_CheckSoak_End
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfTempEqualTo TYPE_WATER, ScoreMinus10
+
+Basic_CheckSoak_End:
+    End
+
+Basic_CheckFlameCharge:
+    End
+
+Basic_CheckAcidSpray:
+    End
+
+Basic_CheckFoulPlay:
+    End
+
+Basic_CheckSimpleBeam:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MULTITYPE, ScoreMinus10
+    IfLoadedEqualTo ABILITY_TRUANT, ScoreMinus10
+    IfLoadedEqualTo ABILITY_DEFEATIST, ScoreMinus10
+    IfLoadedEqualTo ABILITY_SLOW_START, ScoreMinus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckSimpleBeam_End
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckSimpleBeam_End:
+    End
+
+Basic_CheckEntrainment:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, Basic_CheckEntrainment_End
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_BOUNCE, ScoreMinus12
+
+Basic_CheckEntrainment_End:
+    End
+
+Basic_CheckAfterYou:
+    LoadBattleStyle
+    IfLoadedEqualTo BTL_STYLE_SINGLE, ScoreMinus10
+    End
+
+Basic_CheckRound:
+    LoadBattleStyle
+    IfLoadedEqualTo BTL_STYLE_SINGLE, ScoreMinus10
+    End
+
+Basic_CheckEchoedVoice:
+    End
+
+Basic_CheckChipAway:
+    End
+
+Basic_CheckClearSmog:
+    End
+
+Basic_CheckStoredPower:
+    End
+
+Basic_CheckQuickGuard:
+    End
+
+Basic_CheckAllySwitch:
+    LoadBattleStyle
+    IfLoadedEqualTo BTL_STYLE_SINGLE, ScoreMinus10
+    End
+
+Basic_CheckShellSmash:
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 12, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 12, ScoreMinus8
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_SPEED_STAGE, 12, ScoreMinus6
+    End
+
+Basic_CheckHealPulse:
+    LoadBattleStyle
+    IfLoadedEqualTo BTL_STYLE_SINGLE, ScoreMinus10
+    End
+
+Basic_CheckHex:
+    End
+
+Basic_CheckSkyDrop:
+    End
+
+Basic_CheckShiftGear:
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 12, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_SPEED_STAGE, 12, ScoreMinus8
+    End
+
+Basic_CheckCircleThrow:
+    End
+
+Basic_CheckIncinerate:
+    End
+
+Basic_CheckQuash:
+    LoadBattleStyle
+    IfLoadedEqualTo BTL_STYLE_SINGLE, ScoreMinus10
+    End
+
+Basic_CheckGrowth:
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 12, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 12, ScoreMinus8
+    End
+
+Basic_CheckAcrobatics:
+    End
+
+Basic_CheckReflectType:
+    End
+
+Basic_CheckRetaliate:
+    End
+
+Basic_CheckFinalGambit:
+    CountAlivePartyBattlers AI_BATTLER_ATTACKER
+    IfLoadedNotEqualTo 0, Basic_CheckFinalGambit_End
+    CountAlivePartyBattlers AI_BATTLER_DEFENDER
+    IfLoadedNotEqualTo 0, ScoreMinus10
+    GoTo ScoreMinus1
+
+Basic_CheckFinalGambit_End:
+    End
+
+Basic_CheckTailGlow:
+    End
+
+Basic_CheckCoil:
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 12, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 12, ScoreMinus8
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_ACCURACY_STAGE, 12, ScoreMinus6
+    End
+
+Basic_CheckBestow:
+    LoadHeldItem AI_BATTLER_DEFENDER
+    IfLoadedNotEqualTo ITEM_NONE, ScoreMinus10
+    LoadBattleStyle
+    IfLoadedEqualTo BTL_STYLE_SINGLE, ScoreMinus10
+    End
+
+Basic_CheckWaterPledge:
+    End
+
+Basic_CheckFirePledge:
+    End
+
+Basic_CheckGrassPledge:
+    End
+
+Basic_CheckWorkUp:
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 12, ScoreMinus10
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 12, ScoreMinus8
+    End
+
+Basic_CheckCottonGuard:
+    IfStatStageEqualTo AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 12, ScoreMinus10
+    End
+
+Basic_CheckRelicSong:
+    End
+
+Basic_CheckGlaciate:
+    End
+
+Basic_CheckFreezeShock:
+    End
+
+Basic_CheckIceBurn:
+    End
+
+Basic_CheckUnused333:
+    End
+
+ScoreMinus1:
+    AddToMoveScore -1
+    End
+
+ScoreMinus2:
+    AddToMoveScore -2
+    End
+
+ScoreMinus3:
+    AddToMoveScore -3
+    End
+
+ScoreMinus5:
+    AddToMoveScore -5
+    End
+
+ScoreMinus6:
+    AddToMoveScore -6
+    End
+
+ScoreMinus8:
+    AddToMoveScore -8
+    End
+
+ScoreMinus10:
+    AddToMoveScore -10
+    End
+
+ScoreMinus12:
+    AddToMoveScore -12
+    End
+
+ScoreMinus30:
+    AddToMoveScore -30
+    End
+
+ScorePlus1:
+    AddToMoveScore 1
+    End
+
+ScorePlus2:
+    AddToMoveScore 2
+    End
+
+ScorePlus3:
+    AddToMoveScore 3
+    End
+
+ScorePlus5:
+    AddToMoveScore 5
+    End
+
+ScorePlus10:
+    AddToMoveScore 10
+    End
     .balign 4

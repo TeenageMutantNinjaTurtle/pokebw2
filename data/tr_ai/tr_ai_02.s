@@ -1,3942 +1,4752 @@
 #include "asm/tr_ai.inc"
 
-TrAI02_0000:
-    if_target_is_ally TrAI02_055E
-    jump_by_move_effect 0, 337, TrAI02_0016
-    end
-TrAI02_0016:
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_0560 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_05F4 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-TrAI02_0032:
-    .4byte TrAI02_063A - TrAI02_0016
-    .4byte TrAI02_06F0 - TrAI02_0016
-    .4byte TrAI02_076A - TrAI02_0016
-    .4byte TrAI02_0884 - TrAI02_0016
-    .4byte TrAI02_0906 - TrAI02_0016
-TrAI02_0046:
-    .4byte TrAI02_09D8 - TrAI02_0016
-    .4byte TrAI02_0AA2 - TrAI02_0016
-    .4byte TrAI02_0B24 - TrAI02_0016
-    .4byte TrAI02_0BD8 - TrAI02_0016
-    .4byte TrAI02_0C10 - TrAI02_0016
-    .4byte TrAI02_0F3E - TrAI02_0016
-    .4byte TrAI02_0FA4 - TrAI02_0016
-    .4byte TrAI02_1040 - TrAI02_0016
-    .4byte TrAI02_10EE - TrAI02_0016
-    .4byte TrAI02_1116 - TrAI02_0016
-    .4byte TrAI02_11BA - TrAI02_0016
-    .4byte TrAI02_1200 - TrAI02_0016
-    .4byte TrAI02_1334 - TrAI02_0016
-    .4byte TrAI02_137A - TrAI02_0016
-    .4byte TrAI02_1520 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_1536 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_15F8 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_1650 - TrAI02_0016
-    .4byte TrAI02_16F4 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_176A - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_17C8 - TrAI02_0016
-    .4byte TrAI02_187A - TrAI02_0016
-    .4byte TrAI02_29D0 - TrAI02_0016
-    .4byte TrAI02_188C - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_18A2 - TrAI02_0016
-    .4byte TrAI02_18EE - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_5054 - TrAI02_0016
-    .4byte TrAI02_195A - TrAI02_0016
-    .4byte TrAI02_0884 - TrAI02_0016
-    .4byte TrAI02_0906 - TrAI02_0016
-    .4byte TrAI02_09D8 - TrAI02_0016
-    .4byte TrAI02_0AA2 - TrAI02_0016
-    .4byte TrAI02_0B24 - TrAI02_0016
-    .4byte TrAI02_0BD8 - TrAI02_0016
-    .4byte TrAI02_0C10 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_0FA4 - TrAI02_0016
-    .4byte TrAI02_1040 - TrAI02_0016
-    .4byte TrAI02_10EE - TrAI02_0016
-    .4byte TrAI02_1116 - TrAI02_0016
-    .4byte TrAI02_11BA - TrAI02_0016
-    .4byte TrAI02_1200 - TrAI02_0016
-    .4byte TrAI02_1334 - TrAI02_0016
-    .4byte TrAI02_19DA - TrAI02_0016
-    .4byte TrAI02_1A38 - TrAI02_0016
-    .4byte TrAI02_1A5C - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_1086 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_29D0 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_1A92 - TrAI02_0016
-    .4byte TrAI02_1AD4 - TrAI02_0016
-    .4byte TrAI02_1BEE - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_16F4 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_1C66 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_1CA0 - TrAI02_0016
-    .4byte TrAI02_1DE0 - TrAI02_0016
-    .4byte TrAI02_1F74 - TrAI02_0016
-    .4byte TrAI02_1FC8 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_1FD0 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_1FE2 - TrAI02_0016
-    .4byte TrAI02_1FF8 - TrAI02_0016
-    .4byte TrAI02_2064 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_20E4 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_2100 - TrAI02_0016
-    .4byte TrAI02_18A2 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_0C10 - TrAI02_0016
-    .4byte TrAI02_2196 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_226A - TrAI02_0016
-    .4byte TrAI02_2408 - TrAI02_0016
-    .4byte TrAI02_244C - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_24A6 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_193C - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_24E0 - TrAI02_0016
-    .4byte TrAI02_2616 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_1624 - TrAI02_0016
-    .4byte TrAI02_1624 - TrAI02_0016
-    .4byte TrAI02_1624 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_269C - TrAI02_0016
-    .4byte TrAI02_272C - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_2798 - TrAI02_0016
-    .4byte TrAI02_27B4 - TrAI02_0016
-    .4byte TrAI02_2894 - TrAI02_0016
-    .4byte TrAI02_29D0 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_29D0 - TrAI02_0016
-    .4byte TrAI02_2A66 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_2AB8 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_1650 - TrAI02_0016
-    .4byte TrAI02_2C1E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_2C26 - TrAI02_0016
-    .4byte TrAI02_2C8A - TrAI02_0016
-    .4byte TrAI02_1650 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_2CAC - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_194A - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_063A - TrAI02_0016
-    .4byte TrAI02_2D1E - TrAI02_0016
-    .4byte TrAI02_2D5A - TrAI02_0016
-    .4byte TrAI02_2DFE - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_2E1A - TrAI02_0016
-    .4byte TrAI02_3256 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_332C - TrAI02_0016
-    .4byte TrAI02_332E - TrAI02_0016
-    .4byte TrAI02_3392 - TrAI02_0016
-    .4byte TrAI02_33F2 - TrAI02_0016
-    .4byte TrAI02_3430 - TrAI02_0016
-    .4byte TrAI02_3478 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_34A2 - TrAI02_0016
-    .4byte TrAI02_34E2 - TrAI02_0016
-    .4byte TrAI02_3536 - TrAI02_0016
-    .4byte TrAI02_3256 - TrAI02_0016
-    .4byte TrAI02_35C6 - TrAI02_0016
-    .4byte TrAI02_35E8 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_3604 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_5054 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_18EE - TrAI02_0016
-    .4byte TrAI02_36D0 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_3718 - TrAI02_0016
-    .4byte TrAI02_1040 - TrAI02_0016
-    .4byte TrAI02_0B24 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_0906 - TrAI02_0016
-    .4byte TrAI02_18EE - TrAI02_0016
-    .4byte TrAI02_37B2 - TrAI02_0016
-    .4byte TrAI02_0B24 - TrAI02_0016
-    .4byte TrAI02_37FA - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_1650 - TrAI02_0016
-    .4byte TrAI02_383A - TrAI02_0016
-    .4byte TrAI02_38A8 - TrAI02_0016
-    .4byte TrAI02_38FE - TrAI02_0016
-    .4byte TrAI02_3944 - TrAI02_0016
-    .4byte TrAI02_3982 - TrAI02_0016
-    .4byte TrAI02_509A - TrAI02_0016
-    .4byte TrAI02_3984 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_39D4 - TrAI02_0016
-    .4byte TrAI02_3B18 - TrAI02_0016
-    .4byte TrAI02_3B74 - TrAI02_0016
-    .4byte TrAI02_3BC2 - TrAI02_0016
-    .4byte TrAI02_3C06 - TrAI02_0016
-    .4byte TrAI02_3CF2 - TrAI02_0016
-    .4byte TrAI02_3DD0 - TrAI02_0016
-    .4byte TrAI02_3E22 - TrAI02_0016
-    .4byte TrAI02_3E72 - TrAI02_0016
-    .4byte TrAI02_3EF4 - TrAI02_0016
-    .4byte TrAI02_3F06 - TrAI02_0016
-    .4byte TrAI02_3FE0 - TrAI02_0016
-    .4byte TrAI02_400A - TrAI02_0016
-    .4byte TrAI02_40E6 - TrAI02_0016
-    .4byte TrAI02_41E8 - TrAI02_0016
-    .4byte TrAI02_426A - TrAI02_0016
-    .4byte TrAI02_4500 - TrAI02_0016
-    .4byte TrAI02_45CC - TrAI02_0016
-    .4byte TrAI02_4628 - TrAI02_0016
-    .4byte TrAI02_4690 - TrAI02_0016
-    .4byte TrAI02_47D4 - TrAI02_0016
-    .4byte TrAI02_4934 - TrAI02_0016
-    .4byte TrAI02_4A94 - TrAI02_0016
-    .4byte TrAI02_4B32 - TrAI02_0016
-    .4byte TrAI02_4B74 - TrAI02_0016
-    .4byte TrAI02_4BBE - TrAI02_0016
-    .4byte TrAI02_4BFA - TrAI02_0016
-    .4byte TrAI02_4C3E - TrAI02_0016
-    .4byte TrAI02_4D3A - TrAI02_0016
-    .4byte TrAI02_4D5A - TrAI02_0016
-    .4byte TrAI02_5054 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_2AB8 - TrAI02_0016
-    .4byte TrAI02_2AB8 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_4DD8 - TrAI02_0016
-    .4byte TrAI02_4EF0 - TrAI02_0016
-    .4byte TrAI02_4F42 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_5054 - TrAI02_0016
-    .4byte TrAI02_2AB8 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_4F8C - TrAI02_0016
-    .4byte TrAI02_500C - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_5054 - TrAI02_0016
-    .4byte TrAI02_509A - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_2AE0 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_514C - TrAI02_0016
-    .4byte TrAI02_5184 - TrAI02_0016
-    .4byte TrAI02_5186 - TrAI02_0016
-    .4byte TrAI02_5358 - TrAI02_0016
-    .4byte TrAI02_5536 - TrAI02_0016
-    .4byte TrAI02_5538 - TrAI02_0016
-    .4byte TrAI02_553A - TrAI02_0016
-    .4byte TrAI02_09BA - TrAI02_0016
-    .4byte TrAI02_553C - TrAI02_0016
-    .4byte TrAI02_55A0 - TrAI02_0016
-    .4byte TrAI02_55FC - TrAI02_0016
-    .4byte TrAI02_5652 - TrAI02_0016
-    .4byte TrAI02_56B6 - TrAI02_0016
-    .4byte TrAI02_56B8 - TrAI02_0016
-    .4byte TrAI02_56F8 - TrAI02_0016
-    .4byte TrAI02_56FA - TrAI02_0016
-    .4byte TrAI02_56FC - TrAI02_0016
-    .4byte TrAI02_5754 - TrAI02_0016
-    .4byte TrAI02_5756 - TrAI02_0016
-    .4byte TrAI02_57A6 - TrAI02_0016
-    .4byte TrAI02_57E2 - TrAI02_0016
-    .4byte TrAI02_42DE - TrAI02_0016
-    .4byte TrAI02_57E4 - TrAI02_0016
-    .4byte TrAI02_57F6 - TrAI02_0016
-    .4byte TrAI02_57F8 - TrAI02_0016
-    .4byte TrAI02_57FA - TrAI02_0016
-    .4byte TrAI02_57FC - TrAI02_0016
-    .4byte TrAI02_5850 - TrAI02_0016
-    .4byte TrAI02_58D2 - TrAI02_0016
-    .4byte TrAI02_5A5C - TrAI02_0016
-    .4byte TrAI02_5A84 - TrAI02_0016
-    .4byte TrAI02_5A86 - TrAI02_0016
-    .4byte TrAI02_5AB8 - TrAI02_0016
-    .4byte TrAI02_5ABA - TrAI02_0016
-    .4byte TrAI02_2B1E - TrAI02_0016
-    .4byte TrAI02_5ABC - TrAI02_0016
-    .4byte TrAI02_1536 - TrAI02_0016
-    .4byte TrAI02_5AFC - TrAI02_0016
-    .4byte TrAI02_5B1A - TrAI02_0016
-    .4byte TrAI02_5B1C - TrAI02_0016
-    .4byte TrAI02_5B3C - TrAI02_0016
-    .4byte TrAI02_5B90 - TrAI02_0016
-    .4byte TrAI02_5C26 - TrAI02_0016
-    .4byte TrAI02_5C28 - TrAI02_0016
-    .4byte TrAI02_0AA2 - TrAI02_0016
-    .4byte TrAI02_0906 - TrAI02_0016
-    .4byte TrAI02_5C66 - TrAI02_0016
-    .4byte TrAI02_5C68 - TrAI02_0016
-    .4byte TrAI02_5C6A - TrAI02_0016
-    .4byte TrAI02_5C6C - TrAI02_0016
-    .4byte TrAI02_5C6E - TrAI02_0016
-    .4byte TrAI02_0AA2 - TrAI02_0016
-    .4byte TrAI02_5D18 - TrAI02_0016
-    .4byte TrAI02_5D1A - TrAI02_0016
-    .4byte TrAI02_29D0 - TrAI02_0016
-    .4byte TrAI02_29D0 - TrAI02_0016
-    .4byte TrAI02_5D42 - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_055E - TrAI02_0016
-    .4byte TrAI02_2A66 - TrAI02_0016
-TrAI02_055E:
-    end
-TrAI02_0560:
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 8, TrAI02_05E2
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 107, TrAI02_05E2
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 97, TrAI02_05C6
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 183, TrAI02_05CC
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 92, TrAI02_05CC
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_NO_GUARD, TrAI02_05E2
-    if_equal ABILITY_EARLY_BIRD, TrAI02_05CC
-    jump TrAI02_05F2
-TrAI02_05C6:
-    add_to_score -1
-TrAI02_05CC:
-    if_random_less_than 128, TrAI02_05F2
-    add_to_score -1
-    jump TrAI02_05F2
-TrAI02_05E2:
-    if_random_less_than 128, TrAI02_05F2
-    add_to_score 1
-TrAI02_05F2:
-    end
-TrAI02_05F4:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_0628
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_0628
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_0628
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_LIQUID_OOZE, TrAI02_0628
-    jump TrAI02_0638
-TrAI02_0628:
-    if_random_less_than 50, TrAI02_0638
-    add_to_score -3
-TrAI02_0638:
-    end
-TrAI02_063A:
-    if_stat_stage_less_than TRAI_SIDE_DEFENDER, 7, 7, TrAI02_0674
-    add_to_score -1
-    if_stat_stage_less_than TRAI_SIDE_DEFENDER, 7, 10, TrAI02_0674
-    if_random_less_than 128, TrAI02_0674
-    add_to_score -1
-TrAI02_0674:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 80, TrAI02_069C
-    if_speed_compare 1, TrAI02_069C
-    if_turn_random_less_than 50, TrAI02_06EE
-    jump TrAI02_5D54
-TrAI02_069C:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 50, TrAI02_06DE
-    if_turn_random_greater_than 128, TrAI02_06BA
-    add_to_score 1
-TrAI02_06BA:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 30, TrAI02_06EE
-    if_turn_random_greater_than 128, TrAI02_06EE
-    add_to_score 1
-    jump TrAI02_06EE
-TrAI02_06DE:
-    if_turn_random_less_than 50, TrAI02_06EE
-    add_to_score -1
-TrAI02_06EE:
-    end
-TrAI02_06F0:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_0748
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_0758
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_0758
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_LIQUID_OOZE, TrAI02_0748
-    if_condition TRAI_SIDE_DEFENDER, 2, TrAI02_0732
-    jump TrAI02_0768
-TrAI02_0732:
-    if_random_less_than 51, TrAI02_0768
-    add_to_score 3
-    jump TrAI02_0768
-TrAI02_0748:
-    if_random_less_than 50, TrAI02_0758
-    add_to_score -2
-TrAI02_0758:
-    if_random_less_than 50, TrAI02_0768
-    add_to_score -1
-TrAI02_0768:
-    end
-TrAI02_076A:
-    if_speed_compare 1, TrAI02_079A
-    load_last_move TRAI_SIDE_DEFENDER
-    if_not_in_list TrAI02_07BC, TrAI02_079A
-    if_random_less_than 128, TrAI02_07BA
-    add_to_score 2
-    jump TrAI02_07BA
-TrAI02_079A:
-    load_last_move TRAI_SIDE_DEFENDER
-    if_in_list TrAI02_07BC, TrAI02_07BA
-    if_random_less_than 80, TrAI02_07BA
-    add_to_score -1
-TrAI02_07BA:
-    end
-TrAI02_07BC:
-    .4byte MOVE_SLEEP_POWDER
-    .4byte MOVE_LOVELY_KISS
-    .4byte MOVE_SPORE
-    .4byte MOVE_HYPNOSIS
-    .4byte MOVE_SING
-    .4byte MOVE_GRASS_WHISTLE
-    .4byte MOVE_SHADOW_PUNCH
-    .4byte MOVE_SAND_ATTACK
-    .4byte MOVE_SMOKE_SCREEN
-    .4byte MOVE_TOXIC
-    .4byte MOVE_GUILLOTINE
-    .4byte MOVE_HORN_DRILL
-    .4byte MOVE_FISSURE
-    .4byte MOVE_SHEER_COLD
-    .4byte MOVE_CROSS_CHOP
-    .4byte MOVE_AEROBLAST
-    .4byte MOVE_CONFUSE_RAY
-    .4byte MOVE_SWEET_KISS
-    .4byte MOVE_SCREECH
-    .4byte MOVE_COTTON_SPORE
-    .4byte MOVE_SCARY_FACE
-    .4byte MOVE_FAKE_TEARS
-    .4byte MOVE_METAL_SOUND
-    .4byte MOVE_THUNDER_WAVE
-    .4byte MOVE_GLARE
-    .4byte MOVE_POISON_POWDER
-    .4byte MOVE_SHADOW_BALL
-    .4byte MOVE_DYNAMIC_PUNCH
-    .4byte MOVE_HYPER_BEAM
-    .4byte MOVE_EXTREME_SPEED
-    .4byte MOVE_THIEF
-    .4byte MOVE_COVET
-    .4byte MOVE_ATTRACT
-    .4byte MOVE_SWAGGER
-    .4byte MOVE_TORMENT
-    .4byte MOVE_FLATTER
-    .4byte MOVE_TRICK
-    .4byte MOVE_SUPERPOWER
-    .4byte MOVE_SKILL_SWAP
-    .4byte MOVE_PSYCHO_SHIFT
-    .4byte MOVE_POWER_SWAP
-    .4byte MOVE_GUARD_SWAP
-    .4byte MOVE_SUCKER_PUNCH
-    .4byte MOVE_HEART_SWAP
-    .4byte MOVE_SWITCHEROO
-    .4byte MOVE_CAPTIVATE
-    .4byte MOVE_DARK_VOID
-    .4byte MOVE_GLACIATE
-    .4byte MOVE_SNARL
-    list_end
-TrAI02_0884:
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 1, 9, TrAI02_08AC
-    if_random_less_than 100, TrAI02_08D8
-    add_to_score -1
-    jump TrAI02_08D8
-TrAI02_08AC:
-    if_hp_not_equal TRAI_SIDE_ATTACKER, 100, TrAI02_08D8
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 127, TrAI02_08D2
-    if_random_less_than 128, TrAI02_08D8
-TrAI02_08D2:
-    add_to_score 2
-TrAI02_08D8:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 70, TrAI02_0904
-    if_hp_less_than TRAI_SIDE_ATTACKER, 40, TrAI02_08FE
-    if_random_less_than 40, TrAI02_0904
-TrAI02_08FE:
-    add_to_score -2
-TrAI02_0904:
-    end
-TrAI02_0906:
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 2, 9, TrAI02_092E
-    if_random_less_than 100, TrAI02_0954
-    add_to_score -1
-    jump TrAI02_0954
-TrAI02_092E:
-    if_hp_not_equal TRAI_SIDE_ATTACKER, 100, TrAI02_095A
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 127, TrAI02_0954
-    if_random_less_than 128, TrAI02_095A
-TrAI02_0954:
-    add_to_score 2
-TrAI02_095A:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 70, TrAI02_0972
-    if_random_less_than 200, TrAI02_09B8
-TrAI02_0972:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 40, TrAI02_09B2
-    load_last_move TRAI_SIDE_DEFENDER
-    load_result_power
-    if_equal 0, TrAI02_09A8
-    load_last_move_category
-    if_equal 2, TrAI02_09B2
-    if_random_less_than 60, TrAI02_09B8
-TrAI02_09A8:
-    if_random_less_than 60, TrAI02_09B8
-TrAI02_09B2:
-    add_to_score -2
-TrAI02_09B8:
-    end
-TrAI02_09BA:
-    if_not_knows_move_effect TRAI_SIDE_DEFENDER, 196, TrAI02_09D8
-    if_random_less_than 60, TrAI02_09D8
-    add_to_score 1
-TrAI02_09D8:
-    if_speed_compare 1, TrAI02_09EE
-    add_to_score -3
-    jump TrAI02_0AA0
-TrAI02_09EE:
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 31, TrAI02_0A80
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 32, TrAI02_0A80
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 37, TrAI02_0A80
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 132, TrAI02_0A80
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 214, TrAI02_0A80
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 79, TrAI02_0A80
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 91, TrAI02_0A80
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 150, TrAI02_0A80
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 98, TrAI02_0A80
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 127, TrAI02_0A80
-    jump TrAI02_0A90
-TrAI02_0A80:
-    if_random_less_than 70, TrAI02_0A90
-    add_to_score 2
-TrAI02_0A90:
-    if_random_less_than 70, TrAI02_0AA0
-    add_to_score 2
-TrAI02_0AA0:
-    end
-TrAI02_0AA2:
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 3, 9, TrAI02_0ACA
-    if_random_less_than 100, TrAI02_0AF6
-    add_to_score -1
-    jump TrAI02_0AF6
-TrAI02_0ACA:
-    if_hp_not_equal TRAI_SIDE_ATTACKER, 100, TrAI02_0AF6
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 127, TrAI02_0AF0
-    if_random_less_than 128, TrAI02_0AF6
-TrAI02_0AF0:
-    add_to_score 2
-TrAI02_0AF6:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 70, TrAI02_0B22
-    if_hp_less_than TRAI_SIDE_ATTACKER, 40, TrAI02_0B1C
-    if_random_less_than 70, TrAI02_0B22
-TrAI02_0B1C:
-    add_to_score -2
-TrAI02_0B22:
-    end
-TrAI02_0B24:
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 4, 9, TrAI02_0B4C
-    if_random_less_than 100, TrAI02_0B78
-    add_to_score -1
-    jump TrAI02_0B78
-TrAI02_0B4C:
-    if_hp_not_equal TRAI_SIDE_ATTACKER, 100, TrAI02_0B78
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 127, TrAI02_0B72
-    if_random_less_than 128, TrAI02_0B78
-TrAI02_0B72:
-    add_to_score 2
-TrAI02_0B78:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 70, TrAI02_0B90
-    if_random_less_than 200, TrAI02_0BD6
-TrAI02_0B90:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 40, TrAI02_0BD0
-    load_last_move TRAI_SIDE_DEFENDER
-    load_result_power
-    if_equal 0, TrAI02_0BC6
-    load_last_move_category
-    if_equal 1, TrAI02_0BD0
-    if_random_less_than 60, TrAI02_0BD6
-TrAI02_0BC6:
-    if_random_less_than 60, TrAI02_0BD6
-TrAI02_0BD0:
-    add_to_score -2
-TrAI02_0BD6:
-    end
-TrAI02_0BD8:
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 6, 9, TrAI02_0BFA
-    if_random_less_than 50, TrAI02_0BFA
-    add_to_score -2
-TrAI02_0BFA:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 70, TrAI02_0C0E
-    add_to_score -2
-TrAI02_0C0E:
-    end
-TrAI02_0C10:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_NO_GUARD, TrAI02_0F36
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_NO_GUARD, TrAI02_0F36
-    load_last_move TRAI_SIDE_DEFENDER
-    load_result_effect
-    if_equal 17, TrAI02_0F36
-    if_equal 235, TrAI02_0F36
-    if_equal 272, TrAI02_0F36
-    if_condition TRAI_SIDE_ATTACKER, 10, TrAI02_0F36
-    if_condition TRAI_SIDE_ATTACKER, 17, TrAI02_0F36
-    load_weather
-    if_not_equal 2, TrAI02_0C90
-    load_last_move TRAI_SIDE_DEFENDER
-    load_result_effect
-    if_equal 152, TrAI02_0F36
-TrAI02_0C90:
-    load_weather
-    if_not_equal 3, TrAI02_0CAE
-    load_last_move TRAI_SIDE_DEFENDER
-    load_result_effect
-    if_equal 260, TrAI02_0F36
-TrAI02_0CAE:
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 32, TrAI02_0D7A
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 132, TrAI02_0D7A
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 156, TrAI02_0D7A
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 162, TrAI02_0D7A
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 214, TrAI02_0D7A
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MAGIC_GUARD, TrAI02_0D7A
-    if_condition TRAI_SIDE_ATTACKER, 18, TrAI02_0D6A
-    if_badly_poisoned TRAI_SIDE_ATTACKER, TrAI02_0D3E
-    if_condition TRAI_SIDE_ATTACKER, 5, TrAI02_0D3E
-    if_condition TRAI_SIDE_ATTACKER, 4, TrAI02_0D6A
-    jump TrAI02_0D7A
-TrAI02_0D3E:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_POISON_HEAL, TrAI02_0D54
-    jump TrAI02_0D6A
-TrAI02_0D54:
-    if_random_less_than 50, TrAI02_0D7A
-    add_to_score 1
-    jump TrAI02_0D7A
-TrAI02_0D6A:
-    if_random_less_than 50, TrAI02_0D7A
-    add_to_score -1
-TrAI02_0D7A:
-    if_condition TRAI_SIDE_ATTACKER, 21, TrAI02_0DCE
-    if_not_condition TRAI_SIDE_ATTACKER, 35, TrAI02_0DCE
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_LEFTOVERS, TrAI02_0DCE
-    if_not_equal 2, TrAI02_0DDE
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_DRY_SKIN, TrAI02_0DCE
-    if_equal ABILITY_RAIN_DISH, TrAI02_0DCE
-    jump TrAI02_0DDE
-TrAI02_0DCE:
-    if_random_less_than 50, TrAI02_0DDE
-    add_to_score 1
-TrAI02_0DDE:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_GUARD, TrAI02_0EC2
-    if_condition TRAI_SIDE_DEFENDER, 10, TrAI02_0EAC
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 32, TrAI02_0EC2
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 132, TrAI02_0EC2
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 156, TrAI02_0EC2
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 162, TrAI02_0EC2
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 214, TrAI02_0EC2
-    if_condition TRAI_SIDE_DEFENDER, 18, TrAI02_0EAC
-    if_condition TRAI_SIDE_DEFENDER, 4, TrAI02_0EAC
-    if_badly_poisoned TRAI_SIDE_DEFENDER, TrAI02_0E96
-    if_condition TRAI_SIDE_DEFENDER, 5, TrAI02_0E96
-    if_not_equal ABILITY_STENCH, TrAI02_0EC2
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_DRY_SKIN, TrAI02_0EAC
-    jump TrAI02_0EC2
-TrAI02_0E96:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_POISON_HEAL, TrAI02_0EC2
-    jump TrAI02_0EAC
-TrAI02_0EAC:
-    if_random_less_than 50, TrAI02_0EC2
-    add_to_score 1
-    jump TrAI02_0EC2
-TrAI02_0EC2:
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 7, 9, TrAI02_0EF2
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 70, TrAI02_0EF2
-    if_random_less_than 50, TrAI02_0EF2
-    add_to_score -1
-TrAI02_0EF2:
-    if_not_knows_move_effect TRAI_SIDE_ATTACKER, 127, TrAI02_0F1E
-    if_hp_less_than TRAI_SIDE_ATTACKER, 70, TrAI02_0F1E
-    if_random_less_than 50, TrAI02_0F1E
-    add_to_score 1
-TrAI02_0F1E:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 50, TrAI02_0F3C
-    if_random_less_than 70, TrAI02_0F3C
-TrAI02_0F36:
-    add_to_score -2
-TrAI02_0F3C:
-    end
-TrAI02_0F3E:
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 7, 10, TrAI02_0F8C
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 6, 2, TrAI02_0F8C
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 7, 8, TrAI02_0F92
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 6, 4, TrAI02_0F92
-    jump TrAI02_0FA2
-TrAI02_0F8C:
-    add_to_score 1
-TrAI02_0F92:
-    if_random_less_than 100, TrAI02_0FA2
-    add_to_score 1
-TrAI02_0FA2:
-    end
-TrAI02_0FA4:
-    if_stat_stage_equal TRAI_SIDE_DEFENDER, 1, 6, TrAI02_0FF2
-    add_to_score -1
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 90, TrAI02_0FD0
-    add_to_score -1
-TrAI02_0FD0:
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 1, 3, TrAI02_0FF2
-    if_random_less_than 50, TrAI02_0FF2
-    add_to_score -2
-TrAI02_0FF2:
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 70, TrAI02_1006
-    add_to_score -2
-TrAI02_1006:
-    load_last_move_category
-    if_not_equal 2, TrAI02_1022
-    if_random_less_than 128, TrAI02_1022
-    add_to_score -2
-TrAI02_1022:
-    end
-TrAI02_1024:
-    .4byte 0
-    .4byte 1
-    .4byte 4
-    .4byte 5
-    .4byte 6
-    .4byte 8
-    list_end
-TrAI02_1040:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 70, TrAI02_1060
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 2, 3, TrAI02_1070
-TrAI02_1060:
-    if_random_less_than 50, TrAI02_1070
-    add_to_score -2
-TrAI02_1070:
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 70, TrAI02_1084
-    add_to_score -2
-TrAI02_1084:
-    end
-TrAI02_1086:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_10EC
-    if_move MOVE_ICY_WIND, TrAI02_10EE
-    if_move MOVE_ROCK_TOMB, TrAI02_10EE
-    if_move MOVE_MUD_SHOT, TrAI02_10EE
-    if_move MOVE_LOW_SWEEP, TrAI02_10EE
-    if_move MOVE_ELECTROWEB, TrAI02_10EE
-    if_move MOVE_BULLDOZE, TrAI02_10EE
-    if_move MOVE_GLACIATE, TrAI02_10EE
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_10EC
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_10EC
-    end
-TrAI02_10EC:
-    end
-TrAI02_10EE:
-    if_speed_compare 1, TrAI02_1104
-    add_to_score -3
-    jump TrAI02_1114
-TrAI02_1104:
-    if_random_less_than 70, TrAI02_1114
-    add_to_score 2
-TrAI02_1114:
-    end
-TrAI02_1116:
-    if_stat_stage_equal TRAI_SIDE_DEFENDER, 3, 6, TrAI02_1164
-    add_to_score -1
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 90, TrAI02_1142
-    add_to_score -1
-TrAI02_1142:
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 3, 3, TrAI02_1164
-    if_random_less_than 50, TrAI02_1164
-    add_to_score -2
-TrAI02_1164:
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 70, TrAI02_1178
-    add_to_score -2
-TrAI02_1178:
-    load_last_move_category
-    if_not_equal 1, TrAI02_1194
-    if_random_less_than 128, TrAI02_1194
-    add_to_score -2
-TrAI02_1194:
-    end
-TrAI02_1196:
-    .4byte 9
-    .4byte 10
-    .4byte 11
-    .4byte 12
-    .4byte 13
-    .4byte 14
-    .4byte 15
-    .4byte 16
-    list_end
-TrAI02_11BA:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 70, TrAI02_11DA
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 4, 3, TrAI02_11EA
-TrAI02_11DA:
-    if_random_less_than 50, TrAI02_11EA
-    add_to_score -2
-TrAI02_11EA:
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 70, TrAI02_11FE
-    add_to_score -2
-TrAI02_11FE:
-    end
-TrAI02_1200:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 70, TrAI02_121C
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 70, TrAI02_122C
-TrAI02_121C:
-    if_random_less_than 100, TrAI02_122C
-    add_to_score -1
-TrAI02_122C:
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 6, 4, TrAI02_124E
-    if_random_less_than 80, TrAI02_124E
-    add_to_score -2
-TrAI02_124E:
-    if_not_badly_poisoned TRAI_SIDE_DEFENDER, TrAI02_1268
-    if_random_less_than 70, TrAI02_1268
-    add_to_score 2
-TrAI02_1268:
-    if_not_condition TRAI_SIDE_DEFENDER, 18, TrAI02_1286
-    if_random_less_than 70, TrAI02_1286
-    add_to_score 2
-TrAI02_1286:
-    if_not_condition TRAI_SIDE_ATTACKER, 21, TrAI02_12AA
-    if_random_less_than 128, TrAI02_12C8
-    add_to_score 1
-    jump TrAI02_12C8
-TrAI02_12AA:
-    if_not_condition TRAI_SIDE_ATTACKER, 35, TrAI02_12C8
-    if_random_less_than 128, TrAI02_12C8
-    add_to_score 1
-TrAI02_12C8:
-    if_not_condition TRAI_SIDE_DEFENDER, 10, TrAI02_12E6
-    if_random_less_than 70, TrAI02_12E6
-    add_to_score 2
-TrAI02_12E6:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 70, TrAI02_1332
-    if_stat_stage_equal TRAI_SIDE_DEFENDER, 6, 6, TrAI02_1332
-    if_hp_less_than TRAI_SIDE_ATTACKER, 40, TrAI02_132C
-    if_hp_less_than TRAI_SIDE_DEFENDER, 40, TrAI02_132C
-    if_random_less_than 70, TrAI02_1332
-TrAI02_132C:
-    add_to_score -2
-TrAI02_1332:
-    end
-TrAI02_1334:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 70, TrAI02_1354
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 7, 3, TrAI02_1364
-TrAI02_1354:
-    if_random_less_than 50, TrAI02_1364
-    add_to_score -2
-TrAI02_1364:
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 70, TrAI02_1378
-    add_to_score -2
-TrAI02_1378:
-    end
-TrAI02_137A:
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 1, 8, TrAI02_1434
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 2, 8, TrAI02_1434
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 3, 8, TrAI02_1434
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 4, 8, TrAI02_1434
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 7, 8, TrAI02_1434
-    if_stat_stage_less_than TRAI_SIDE_DEFENDER, 1, 4, TrAI02_1434
-    if_stat_stage_less_than TRAI_SIDE_DEFENDER, 2, 4, TrAI02_1434
-    if_stat_stage_less_than TRAI_SIDE_DEFENDER, 3, 4, TrAI02_1434
-    if_stat_stage_less_than TRAI_SIDE_DEFENDER, 4, 4, TrAI02_1434
-    if_stat_stage_less_than TRAI_SIDE_DEFENDER, 6, 4, TrAI02_1434
-    jump TrAI02_1444
-TrAI02_1434:
-    if_random_less_than 50, TrAI02_1444
-    add_to_score -3
-TrAI02_1444:
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 1, 8, TrAI02_150E
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 2, 8, TrAI02_150E
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 3, 8, TrAI02_150E
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 4, 8, TrAI02_150E
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 7, 8, TrAI02_150E
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 1, 4, TrAI02_150E
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 2, 4, TrAI02_150E
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 3, 4, TrAI02_150E
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 4, 4, TrAI02_150E
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 6, 4, TrAI02_150E
-    if_random_less_than 50, TrAI02_151E
-    add_to_score -1
-    jump TrAI02_151E
-TrAI02_150E:
-    if_random_less_than 50, TrAI02_151E
-    add_to_score 3
-TrAI02_151E:
-    end
-TrAI02_1520:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 90, TrAI02_1534
-    add_to_score -2
-TrAI02_1534:
-    end
-TrAI02_1536:
-    load_unk_96 TRAI_SIDE_DEFENDER
-    if_greater_than 3, TrAI02_15D6
-    if_side_effect TRAI_SIDE_DEFENDER, 6, TrAI02_15E6
-    if_side_effect TRAI_SIDE_DEFENDER, 8, TrAI02_15E6
-    if_side_effect TRAI_SIDE_DEFENDER, 7, TrAI02_15E6
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 1, 8, TrAI02_15E6
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 2, 8, TrAI02_15E6
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 3, 8, TrAI02_15E6
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 4, 8, TrAI02_15E6
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 7, 8, TrAI02_15E6
-    add_to_score -3
-    jump TrAI02_15F6
-TrAI02_15D6:
-    if_random_less_than 64, TrAI02_15E6
-    add_to_score 2
-TrAI02_15E6:
-    if_random_less_than 128, TrAI02_15F6
-    add_to_score 2
-TrAI02_15F6:
-    end
-TrAI02_15F8:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 90, TrAI02_160C
-    add_to_score -2
-TrAI02_160C:
-    load_turn_count
-    if_equal 0, TrAI02_1622
-    if_random_less_than 200, TrAI02_5D4C
-TrAI02_1622:
-    end
-TrAI02_1624:
-    load_weather
-    if_equal 3, TrAI02_164A
-    if_equal 2, TrAI02_164A
-    if_equal 4, TrAI02_164A
-    jump TrAI02_1650
-TrAI02_164A:
-    add_to_score -2
-TrAI02_1650:
-    if_hp_equal TRAI_SIDE_ATTACKER, 100, TrAI02_169A
-    if_speed_compare 1, TrAI02_16A6
-    add_to_score -8
-    jump TrAI02_16F2
-    if_hp_less_than TRAI_SIDE_ATTACKER, 50, TrAI02_16CA
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 80, TrAI02_169A
-    if_random_less_than 70, TrAI02_16CA
-TrAI02_169A:
-    add_to_score -3
-    jump TrAI02_16F2
-TrAI02_16A6:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 70, TrAI02_16CA
-    if_random_less_than 30, TrAI02_16CA
-    add_to_score -3
-    jump TrAI02_16F2
-TrAI02_16CA:
-    if_not_knows_move_effect TRAI_SIDE_DEFENDER, 195, TrAI02_16E2
-    if_random_less_than 100, TrAI02_16F2
-TrAI02_16E2:
-    if_random_less_than 20, TrAI02_16F2
-    add_to_score 2
-TrAI02_16F2:
-    end
-TrAI02_16F4:
-    if_no_damaging_move TrAI02_1736
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 50, TrAI02_1718
-    if_random_less_than 50, TrAI02_1718
-    add_to_score -3
-TrAI02_1718:
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 50, TrAI02_1736
-    if_random_less_than 50, TrAI02_1736
-    add_to_score -3
-TrAI02_1736:
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 14, TrAI02_1758
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 111, TrAI02_1758
-    jump TrAI02_1768
-TrAI02_1758:
-    if_random_less_than 60, TrAI02_1768
-    add_to_score 2
-TrAI02_1768:
-    end
-TrAI02_176A:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 50, TrAI02_17B6
-    if_hp_less_than TRAI_SIDE_ATTACKER, 90, TrAI02_1796
-    if_random_less_than 30, TrAI02_1796
-    add_to_score 1
-TrAI02_1796:
-    if_attack_greater_than_sp_attack TRAI_SIDE_DEFENDER, TrAI02_17B6
-    if_random_less_than 64, TrAI02_17C6
-    add_to_score 1
-    jump TrAI02_17C6
-TrAI02_17B6:
-    if_random_less_than 30, TrAI02_17C6
-    add_to_score -2
-TrAI02_17C6:
-    end
-TrAI02_17C8:
-    if_speed_compare 1, TrAI02_181E
-    if_hp_not_equal TRAI_SIDE_ATTACKER, 100, TrAI02_17EC
-    add_to_score -8
-    jump TrAI02_1878
-TrAI02_17EC:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 40, TrAI02_1850
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 50, TrAI02_1812
-    if_random_less_than 70, TrAI02_1850
-TrAI02_1812:
-    add_to_score -3
-    jump TrAI02_1878
-TrAI02_181E:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 60, TrAI02_1850
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 70, TrAI02_1844
-    if_random_less_than 50, TrAI02_1850
-TrAI02_1844:
-    add_to_score -3
-    jump TrAI02_1878
-TrAI02_1850:
-    if_not_knows_move_effect TRAI_SIDE_DEFENDER, 195, TrAI02_1868
-    if_random_less_than 50, TrAI02_1878
-TrAI02_1868:
-    if_random_less_than 10, TrAI02_1878
-    add_to_score 3
-TrAI02_1878:
-    end
-TrAI02_187A:
-    if_random_less_than 192, TrAI02_188A
-    add_to_score 1
-TrAI02_188A:
-    end
-TrAI02_188C:
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 60, TrAI02_18A0
-    add_to_score -1
-TrAI02_18A0:
-    end
-TrAI02_18A2:
-    if_badly_poisoned TRAI_SIDE_DEFENDER, TrAI02_18DC
-    if_condition TRAI_SIDE_DEFENDER, 10, TrAI02_18DC
-    if_condition TRAI_SIDE_DEFENDER, 20, TrAI02_18DC
-    if_condition TRAI_SIDE_DEFENDER, 7, TrAI02_18DC
-    jump TrAI02_18EC
-TrAI02_18DC:
-    if_random_less_than 128, TrAI02_18EC
-    add_to_score 1
-TrAI02_18EC:
-    end
-TrAI02_18EE:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_193A
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_193A
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_193A
-    if_effectiveness TYPE_EFFECTIVENESS_DOUBLE, TrAI02_192A
-    if_effectiveness TYPE_EFFECTIVENESS_QUADRUPLE, TrAI02_192A
-    if_random_less_than 128, TrAI02_193A
-TrAI02_192A:
-    if_random_less_than 128, TrAI02_193A
-    add_to_score 1
-TrAI02_193A:
-    end
-TrAI02_193C:
-    if_knows_move TRAI_SIDE_ATTACKER, MOVE_PSYCH_UP, TrAI02_19A2
-TrAI02_194A:
-    if_random_less_than 128, TrAI02_195A
-    add_to_score 1
-TrAI02_195A:
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 70, TrAI02_19A0
-    if_random_less_than 128, TrAI02_1978
-    add_to_score -1
-TrAI02_1978:
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 50, TrAI02_19A0
-    add_to_score -1
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 30, TrAI02_19A0
-    add_to_score -1
-TrAI02_19A0:
-    end
-TrAI02_19A2:
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 1, 3, TrAI02_19D2
-    add_to_score 3
-    load_turn_count
-    if_not_equal 0, TrAI02_19D8
-    add_to_score 2
-    jump TrAI02_19D8
-TrAI02_19D2:
-    add_to_score -5
-TrAI02_19D8:
-    end
-TrAI02_19DA:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 50, TrAI02_1A26
-    if_hp_less_than TRAI_SIDE_ATTACKER, 90, TrAI02_1A06
-    if_random_less_than 30, TrAI02_1A06
-    add_to_score 1
-TrAI02_1A06:
-    if_attack_less_than_sp_attack TRAI_SIDE_DEFENDER, TrAI02_1A26
-    if_random_less_than 64, TrAI02_1A36
-    add_to_score 1
-    jump TrAI02_1A36
-TrAI02_1A26:
-    if_random_less_than 30, TrAI02_17C6
-    add_to_score -2
-TrAI02_1A36:
-    end
-TrAI02_1A38:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 50, TrAI02_1A54
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 50, TrAI02_1A5A
-TrAI02_1A54:
-    add_to_score -1
-TrAI02_1A5A:
-    end
-TrAI02_1A5C:
-    if_speed_compare 1, TrAI02_1A80
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 70, TrAI02_1A90
-    add_to_score -1
-    jump TrAI02_1A90
-TrAI02_1A80:
-    if_random_less_than 20, TrAI02_1A90
-    add_to_score 3
-TrAI02_1A90:
-    end
-TrAI02_1A92:
-    if_speed_compare 1, TrAI02_1AD2
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 60, TrAI02_1AD2
-    if_hp_less_than TRAI_SIDE_ATTACKER, 40, TrAI02_1AC2
-    if_random_less_than 180, TrAI02_1AD2
-TrAI02_1AC2:
-    if_random_less_than 50, TrAI02_1AD2
-    add_to_score -1
-TrAI02_1AD2:
-    end
-TrAI02_1AD4:
-    if_not_knows_move TRAI_SIDE_ATTACKER, MOVE_FOCUS_PUNCH, TrAI02_1AF2
-    if_random_less_than 96, TrAI02_1AF2
-    add_to_score 1
-TrAI02_1AF2:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 90, TrAI02_1B4C
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 70, TrAI02_1B3C
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 50, TrAI02_1B2C
-    if_random_less_than 100, TrAI02_1B2C
-    add_to_score -1
-TrAI02_1B2C:
-    if_random_less_than 100, TrAI02_1B3C
-    add_to_score -1
-TrAI02_1B3C:
-    if_random_less_than 100, TrAI02_1B4C
-    add_to_score -1
-TrAI02_1B4C:
-    if_speed_compare 1, TrAI02_1BEC
-    load_last_move TRAI_SIDE_DEFENDER
-    load_result_effect
-    if_equal 1, TrAI02_1BAA
-    if_equal 33, TrAI02_1BAA
-    if_equal 66, TrAI02_1BAA
-    if_equal 67, TrAI02_1BAA
-    if_equal 167, TrAI02_1BAA
-    if_equal 49, TrAI02_1BBA
-    if_equal 84, TrAI02_1BCE
-    jump TrAI02_1BEC
-TrAI02_1BAA:
-    if_no_status TRAI_SIDE_DEFENDER, TrAI02_1BDC
-    jump TrAI02_1BEC
-TrAI02_1BBA:
-    if_not_condition TRAI_SIDE_DEFENDER, 6, TrAI02_1BDC
-    jump TrAI02_1BEC
-TrAI02_1BCE:
-    if_condition TRAI_SIDE_DEFENDER, 18, TrAI02_1BEC
-TrAI02_1BDC:
-    if_random_less_than 100, TrAI02_1BEC
-    add_to_score 1
-TrAI02_1BEC:
-    end
-TrAI02_1BEE:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_1C5E
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_1C5E
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_1C5E
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_TRUANT, TrAI02_1C3A
-    if_speed_compare 1, TrAI02_1C50
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 40, TrAI02_1C5E
-    jump TrAI02_1C64
-TrAI02_1C3A:
-    if_random_less_than 80, TrAI02_1C64
-    add_to_score 1
-    jump TrAI02_1C64
-TrAI02_1C50:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 60, TrAI02_1C64
-TrAI02_1C5E:
-    add_to_score -1
-TrAI02_1C64:
-    end
-TrAI02_1C66:
-    if_speed_compare 1, TrAI02_1C9E
-    load_last_move TRAI_SIDE_DEFENDER
-    load_result_power
-    if_equal 0, TrAI02_1C8E
-    add_to_score 1
-    jump TrAI02_1C9E
-TrAI02_1C8E:
-    if_random_less_than 100, TrAI02_1C9E
-    add_to_score -1
-TrAI02_1C9E:
-    end
-TrAI02_1CA0:
-    if_condition TRAI_SIDE_DEFENDER, 2, TrAI02_1DB0
-    if_condition TRAI_SIDE_DEFENDER, 7, TrAI02_1DB0
-    if_condition TRAI_SIDE_DEFENDER, 6, TrAI02_1DB0
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 30, TrAI02_1CE8
-    if_random_less_than 10, TrAI02_1CE8
-    add_to_score -1
-TrAI02_1CE8:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 50, TrAI02_1D06
-    if_random_less_than 100, TrAI02_1D06
-    add_to_score -1
-TrAI02_1D06:
-    if_knows_move TRAI_SIDE_ATTACKER, MOVE_MIRROR_COAT, TrAI02_1D9E
-    load_last_move TRAI_SIDE_DEFENDER
-    load_result_power
-    if_equal 0, TrAI02_1D5E
-    if_not_taunted TrAI02_1D3C
-    if_random_less_than 100, TrAI02_1D3C
-    add_to_score 1
-TrAI02_1D3C:
-    load_last_move_category
-    if_not_equal 1, TrAI02_1DB0
-    if_random_less_than 100, TrAI02_1DB6
-    add_to_score 1
-    jump TrAI02_1DB6
-TrAI02_1D5E:
-    if_not_taunted TrAI02_1D74
-    if_random_less_than 100, TrAI02_1D74
-    add_to_score 1
-TrAI02_1D74:
-    load_type TRAI_TYPE_DEFENDER_1
-    if_in_list TrAI02_1DB8, TrAI02_1DB6
-    load_type TRAI_TYPE_DEFENDER_2
-    if_in_list TrAI02_1DB8, TrAI02_1DB6
-    if_random_less_than 50, TrAI02_1DB6
-TrAI02_1D9E:
-    if_random_less_than 100, TrAI02_1DAE
-    add_to_score 4
-TrAI02_1DAE:
-    end
-TrAI02_1DB0:
-    add_to_score -1
-TrAI02_1DB6:
-    end
-TrAI02_1DB8:
-    .4byte TYPE_NORMAL
-    .4byte TYPE_FIGHTING
-    .4byte TYPE_FLYING
-    .4byte TYPE_POISON
-    .4byte TYPE_GROUND
-    .4byte TYPE_ROCK
-    .4byte TYPE_BUG
-    .4byte TYPE_GHOST
-    .4byte TYPE_STEEL
-    list_end
-TrAI02_1DE0:
-    if_condition TRAI_SIDE_DEFENDER, 13, TrAI02_1E0A
-    if_speed_compare 1, TrAI02_1E20
-    load_last_move TRAI_SIDE_DEFENDER
-    load_result_effect
-    if_not_in_list TrAI02_1E28, TrAI02_1E20
-TrAI02_1E0A:
-    if_random_less_than 30, TrAI02_1E26
-    add_to_score 3
-    jump TrAI02_1E26
-TrAI02_1E20:
-    add_to_score -2
-TrAI02_1E26:
-    end
-TrAI02_1E28:
-    .4byte 8
-    .4byte 10
-    .4byte 11
-    .4byte 12
-    .4byte 13
-    .4byte 25
-    .4byte 28
-    .4byte 30
-    .4byte 33
-    .4byte 35
-    .4byte 37
-    .4byte 40
-    .4byte 54
-    .4byte 49
-    .4byte 66
-    .4byte 67
-    .4byte 84
-    .4byte 85
-    .4byte 50
-    .4byte 90
-    .4byte 93
-    .4byte 94
-    .4byte 102
-    .4byte 106
-    .4byte 107
-    .4byte 111
-    .4byte 191
-    .4byte 113
-    .4byte 114
-    .4byte 115
-    .4byte 116
-    .4byte 118
-    .4byte 120
-    .4byte 124
-    .4byte 136
-    .4byte 137
-    .4byte 142
-    .4byte 143
-    .4byte 148
-    .4byte 158
-    .4byte 160
-    .4byte 161
-    .4byte 162
-    .4byte 164
-    .4byte 165
-    .4byte 167
-    .4byte 172
-    .4byte 174
-    .4byte 177
-    .4byte 178
-    .4byte 181
-    .4byte 184
-    .4byte 188
-    .4byte 191
-    .4byte 192
-    .4byte 193
-    .4byte 194
-    .4byte 199
-    .4byte 201
-    .4byte 210
-    .4byte 212
-    .4byte 213
-    .4byte 215
-    .4byte 216
-    .4byte 220
-    .4byte 222
-    .4byte 223
-    .4byte 225
-    .4byte 226
-    .4byte 233
-    .4byte 234
-    .4byte 236
-    .4byte 238
-    .4byte 239
-    .4byte 240
-    .4byte 243
-    .4byte 244
-    .4byte 247
-    .4byte 250
-    .4byte 251
-    .4byte 252
-    .4byte 259
-    list_end
-TrAI02_1F74:
-    if_hp_less_than TRAI_SIDE_DEFENDER, 80, TrAI02_1FC0
-    if_speed_compare 1, TrAI02_1FA6
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 40, TrAI02_1FC0
-    add_to_score 1
-    jump TrAI02_1FC6
-TrAI02_1FA6:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 60, TrAI02_1FC0
-    add_to_score 1
-    jump TrAI02_1FC6
-TrAI02_1FC0:
-    add_to_score -1
-TrAI02_1FC6:
-    end
-TrAI02_1FC8:
-    add_to_score 2
-    end
-TrAI02_1FD0:
-    if_random_less_than 128, TrAI02_1FE0
-    add_to_score 2
-TrAI02_1FE0:
-    end
-TrAI02_1FE2:
-    if_condition TRAI_SIDE_ATTACKER, 2, TrAI02_5DAC
-    add_to_score -5
-    end
-TrAI02_1FF8:
-    add_to_score -1
-    if_speed_compare 1, TrAI02_2062
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 70, TrAI02_2062
-    if_random_less_than 128, TrAI02_2026
-    add_to_score 1
-TrAI02_2026:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 50, TrAI02_2062
-    if_random_less_than 128, TrAI02_2044
-    add_to_score 1
-TrAI02_2044:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 30, TrAI02_2062
-    if_random_less_than 100, TrAI02_2062
-    add_to_score 2
-TrAI02_2062:
-    end
-TrAI02_2064:
-    if_speed_compare 1, TrAI02_209E
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 33, TrAI02_20DC
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 20, TrAI02_20E2
-    if_hp_less_than TRAI_SIDE_ATTACKER, 8, TrAI02_20C0
-    jump TrAI02_20C6
-TrAI02_209E:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 60, TrAI02_20DC
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 40, TrAI02_20E2
-    jump TrAI02_20C6
-TrAI02_20C0:
-    add_to_score 1
-TrAI02_20C6:
-    if_random_less_than 100, TrAI02_20E2
-    add_to_score 1
-    jump TrAI02_20E2
-TrAI02_20DC:
-    add_to_score -1
-TrAI02_20E2:
-    end
-TrAI02_20E4:
-    if_status TRAI_SIDE_ATTACKER, TrAI02_20FE
-    if_party_member_no_status TRAI_SIDE_ATTACKER, TrAI02_20FE
-    add_to_score -5
-TrAI02_20FE:
-    end
-TrAI02_2100:
-    load_held_item_effect TRAI_SIDE_DEFENDER
-    if_not_in_list TrAI02_212E, TrAI02_2126
-    if_random_less_than 50, TrAI02_212C
-    add_to_score 1
-    jump TrAI02_212C
-TrAI02_2126:
-    add_to_score -2
-TrAI02_212C:
-    end
-TrAI02_212E:
-    .4byte 6
-    .4byte 12
-    .4byte 1
-    .4byte 48
-    .4byte 69
-    .4byte 71
-    .4byte 91
-    .4byte 19
-    .4byte 20
-    .4byte 21
-    .4byte 22
-    .4byte 23
-    .4byte 24
-    .4byte 25
-    .4byte 26
-    .4byte 27
-    .4byte 28
-    .4byte 29
-    .4byte 30
-    .4byte 31
-    .4byte 32
-    .4byte 33
-    .4byte 34
-    .4byte 35
-    .4byte 109
-    list_end
-TrAI02_2196:
-    load_type TRAI_TYPE_ATTACKER_1
-    if_equal TYPE_GHOST, TrAI02_2254
-    load_type TRAI_TYPE_ATTACKER_2
-    if_equal TYPE_GHOST, TrAI02_2254
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 2, 9, TrAI02_2268
-    if_knows_move TRAI_SIDE_ATTACKER, MOVE_GYRO_BALL, TrAI02_21EA
-    if_knows_move TRAI_SIDE_ATTACKER, MOVE_TRICK_ROOM, TrAI02_21EA
-    jump TrAI02_21FA
-TrAI02_21EA:
-    if_random_less_than 32, TrAI02_220A
-    add_to_score 1
-TrAI02_21FA:
-    if_random_less_than 128, TrAI02_220A
-    add_to_score 1
-TrAI02_220A:
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 2, 7, TrAI02_2268
-    if_random_less_than 128, TrAI02_222C
-    add_to_score 1
-TrAI02_222C:
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 2, 6, TrAI02_2268
-    if_random_less_than 128, TrAI02_2268
-    add_to_score 1
-    jump TrAI02_2268
-TrAI02_2254:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 80, TrAI02_2268
-    add_to_score -1
-TrAI02_2268:
-    end
-TrAI02_226A:
-    if_knows_move TRAI_SIDE_DEFENDER, MOVE_FEINT, TrAI02_228C
-    if_knows_move TRAI_SIDE_DEFENDER, MOVE_SHADOW_FORCE, TrAI02_228C
-    jump TrAI02_229C
-TrAI02_228C:
-    if_turn_random_less_than 128, TrAI02_229C
-    add_to_score -2
-TrAI02_229C:
-    load_protect_count TRAI_SIDE_ATTACKER
-    if_greater_than 1, TrAI02_2400
-    if_badly_poisoned TRAI_SIDE_ATTACKER, TrAI02_23F2
-    if_condition TRAI_SIDE_ATTACKER, 10, TrAI02_23F2
-    if_condition TRAI_SIDE_ATTACKER, 20, TrAI02_23F2
-    if_condition TRAI_SIDE_ATTACKER, 7, TrAI02_23F2
-    if_condition TRAI_SIDE_ATTACKER, 18, TrAI02_23F2
-    if_condition TRAI_SIDE_ATTACKER, 14, TrAI02_23F2
-    if_condition TRAI_SIDE_DEFENDER, 10, TrAI02_23B0
-    if_condition TRAI_SIDE_DEFENDER, 20, TrAI02_23B0
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 32, TrAI02_23F2
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 156, TrAI02_23F2
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 132, TrAI02_23F2
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 162, TrAI02_23F2
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 214, TrAI02_23F2
-    if_badly_poisoned TRAI_SIDE_DEFENDER, TrAI02_23B0
-    if_condition TRAI_SIDE_DEFENDER, 7, TrAI02_23B0
-    if_condition TRAI_SIDE_DEFENDER, 18, TrAI02_23B0
-    if_condition TRAI_SIDE_DEFENDER, 14, TrAI02_23B0
-    if_condition TRAI_SIDE_ATTACKER, 29, TrAI02_23B0
-    if_random_less_than 85, TrAI02_23B0
-    jump TrAI02_23B6
-TrAI02_23B0:
-    add_to_score 2
-TrAI02_23B6:
-    if_turn_random_less_than 128, TrAI02_23C6
-    add_to_score -2
-TrAI02_23C6:
-    load_protect_count TRAI_SIDE_ATTACKER
-    if_equal 0, TrAI02_2406
-    add_to_score -1
-    if_random_less_than 128, TrAI02_2406
-    add_to_score -1
-    jump TrAI02_2406
-TrAI02_23F2:
-    if_condition TRAI_SIDE_ATTACKER, 29, TrAI02_2406
-TrAI02_2400:
-    add_to_score -2
-TrAI02_2406:
-    end
-TrAI02_2408:
-    if_random_less_than 128, TrAI02_244A
-    add_to_score 1
-    if_knows_move TRAI_SIDE_ATTACKER, MOVE_ROAR, TrAI02_243A
-    if_knows_move TRAI_SIDE_ATTACKER, MOVE_WHIRLWIND, TrAI02_243A
-    jump TrAI02_244A
-TrAI02_243A:
-    if_random_less_than 64, TrAI02_244A
-    add_to_score 1
-TrAI02_244A:
-    end
-TrAI02_244C:
-    load_type TRAI_TYPE_ATTACKER_1
-    if_equal TYPE_GHOST, TrAI02_248A
-    load_type TRAI_TYPE_ATTACKER_2
-    if_equal TYPE_GHOST, TrAI02_248A
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 7, 8, TrAI02_2494
-    add_to_score -2
-    jump TrAI02_24A4
-TrAI02_248A:
-    if_random_less_than 80, TrAI02_24A4
-TrAI02_2494:
-    if_random_less_than 80, TrAI02_24A4
-    add_to_score 2
-TrAI02_24A4:
-    end
-TrAI02_24A6:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 4, TrAI02_24C2
-    if_hp_less_than TRAI_SIDE_ATTACKER, 35, TrAI02_24CE
-TrAI02_24C2:
-    add_to_score -1
-    jump TrAI02_24DE
-TrAI02_24CE:
-    if_random_less_than 70, TrAI02_24DE
-    add_to_score 1
-TrAI02_24DE:
-    end
-TrAI02_24E0:
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 1, 8, TrAI02_2540
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 2, 8, TrAI02_2540
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 3, 8, TrAI02_2540
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 4, 8, TrAI02_2540
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 7, 8, TrAI02_2540
-    jump TrAI02_2582
-TrAI02_2540:
-    if_speed_compare 1, TrAI02_255E
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 60, TrAI02_2614
-    jump TrAI02_256C
-TrAI02_255E:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 70, TrAI02_2614
-TrAI02_256C:
-    if_random_less_than 80, TrAI02_2614
-    add_to_score 2
-    jump TrAI02_2614
-TrAI02_2582:
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 1, 7, TrAI02_25E2
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 2, 7, TrAI02_25E2
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 3, 7, TrAI02_25E2
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 4, 7, TrAI02_25E2
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 7, 7, TrAI02_25E2
-    jump TrAI02_260E
-TrAI02_25E2:
-    if_speed_compare 1, TrAI02_2600
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 60, TrAI02_260E
-    jump TrAI02_2614
-TrAI02_2600:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 70, TrAI02_2614
-TrAI02_260E:
-    add_to_score -2
-TrAI02_2614:
-    end
-TrAI02_2616:
-    load_fake_out_active TRAI_SIDE_ATTACKER
-    if_not_equal 0, TrAI02_266C
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_GHOST, TrAI02_266C
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_PSYCHIC, TrAI02_266C
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_GHOST, TrAI02_266C
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_PSYCHIC, TrAI02_266C
-    jump TrAI02_267C
-TrAI02_266C:
-    if_random_less_than 128, TrAI02_267C
-    add_to_score 1
-TrAI02_267C:
-    if_not_knows_move TRAI_SIDE_DEFENDER, MOVE_U_TURN, TrAI02_269A
-    if_random_less_than 128, TrAI02_269A
-    add_to_score 1
-TrAI02_269A:
-    end
-TrAI02_269C:
-    if_speed_compare 0, TrAI02_26B6
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_SWIFT_SWIM, TrAI02_2718
-TrAI02_26B6:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 40, TrAI02_2724
-    load_weather
-    if_equal 3, TrAI02_2718
-    if_equal 1, TrAI02_2718
-    if_equal 4, TrAI02_2718
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_RAIN_DISH, TrAI02_2718
-    if_equal ABILITY_DRY_SKIN, TrAI02_2718
-    if_not_equal ABILITY_HYDRATION, TrAI02_272A
-    if_status TRAI_SIDE_ATTACKER, TrAI02_2718
-    jump TrAI02_272A
-TrAI02_2718:
-    add_to_score 1
-    jump TrAI02_272A
-TrAI02_2724:
-    add_to_score -1
-TrAI02_272A:
-    end
-TrAI02_272C:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 40, TrAI02_2790
-    load_weather
-    if_equal 3, TrAI02_2784
-    if_equal 2, TrAI02_2784
-    if_equal 4, TrAI02_2784
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_FLOWER_GIFT, TrAI02_2784
-    if_not_equal ABILITY_LEAF_GUARD, TrAI02_2796
-    if_status TRAI_SIDE_ATTACKER, TrAI02_2784
-    jump TrAI02_2796
-TrAI02_2784:
-    add_to_score 1
-    jump TrAI02_2796
-TrAI02_2790:
-    add_to_score -1
-TrAI02_2796:
-    end
-TrAI02_2798:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 90, TrAI02_27AC
-    jump TrAI02_27B2
-TrAI02_27AC:
-    add_to_score -2
-TrAI02_27B2:
-    end
-TrAI02_27B4:
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 1, 8, TrAI02_2814
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 2, 8, TrAI02_2814
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 3, 8, TrAI02_2814
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 4, 8, TrAI02_2814
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 7, 8, TrAI02_2814
-    jump TrAI02_288C
-TrAI02_2814:
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 1, 7, TrAI02_2884
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 2, 7, TrAI02_2884
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 3, 7, TrAI02_2884
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 4, 7, TrAI02_2884
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 7, 7, TrAI02_287E
-    if_random_less_than 50, TrAI02_2892
-    jump TrAI02_288C
-TrAI02_287E:
-    add_to_score 1
-TrAI02_2884:
-    add_to_score 1
-    end
-TrAI02_288C:
-    add_to_score -2
-TrAI02_2892:
-    end
-TrAI02_2894:
-    if_condition TRAI_SIDE_DEFENDER, 2, TrAI02_29A4
-    if_condition TRAI_SIDE_DEFENDER, 7, TrAI02_29A4
-    if_condition TRAI_SIDE_DEFENDER, 6, TrAI02_29A4
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 30, TrAI02_28DC
-    if_random_less_than 10, TrAI02_28DC
-    add_to_score -1
-TrAI02_28DC:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 50, TrAI02_28FA
-    if_random_less_than 100, TrAI02_28FA
-    add_to_score -1
-TrAI02_28FA:
-    if_knows_move TRAI_SIDE_ATTACKER, MOVE_COUNTER, TrAI02_2992
-    load_last_move TRAI_SIDE_DEFENDER
-    load_result_power
-    if_equal 0, TrAI02_2952
-    if_not_taunted TrAI02_2930
-    if_random_less_than 100, TrAI02_2930
-    add_to_score 1
-TrAI02_2930:
-    load_last_move_category
-    if_not_equal 2, TrAI02_29A4
-    if_random_less_than 100, TrAI02_29AA
-    add_to_score 1
-    jump TrAI02_29AA
-TrAI02_2952:
-    if_not_taunted TrAI02_2968
-    if_random_less_than 100, TrAI02_2968
-    add_to_score 1
-TrAI02_2968:
-    load_type TRAI_TYPE_DEFENDER_1
-    if_in_list TrAI02_29AC, TrAI02_29AA
-    load_type TRAI_TYPE_DEFENDER_2
-    if_in_list TrAI02_29AC, TrAI02_29AA
-    if_random_less_than 50, TrAI02_29AA
-TrAI02_2992:
-    if_random_less_than 100, TrAI02_29A2
-    add_to_score 4
-TrAI02_29A2:
-    end
-TrAI02_29A4:
-    add_to_score -1
-TrAI02_29AA:
-    end
-TrAI02_29AC:
-    .4byte TYPE_FIRE
-    .4byte TYPE_WATER
-    .4byte TYPE_GRASS
-    .4byte TYPE_ELECTRIC
-    .4byte TYPE_PSYCHIC
-    .4byte TYPE_ICE
-    .4byte TYPE_DRAGON
-    .4byte TYPE_DARK
-    list_end
-TrAI02_29D0:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_2A5E
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_2A5E
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_2A5E
-    if_move_effect 151, TrAI02_29FE
-    jump TrAI02_2A16
-TrAI02_29FE:
-    load_weather
-    if_not_equal 1, TrAI02_2A16
-    add_to_score 2
-    jump TrAI02_2A64
-TrAI02_2A16:
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_POWER_HERB, TrAI02_2A2A
-    jump TrAI02_2A36
-TrAI02_2A2A:
-    add_to_score 2
-    jump TrAI02_2A64
-TrAI02_2A36:
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 111, TrAI02_2A5E
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 38, TrAI02_2A64
-    add_to_score -1
-    jump TrAI02_2A64
-TrAI02_2A5E:
-    add_to_score -2
-TrAI02_2A64:
-    end
-TrAI02_2A66:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_2AA6
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_2AA6
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_2AA6
-    load_weather
-    if_equal 1, TrAI02_2AA6
-    if_not_equal 2, TrAI02_2AB6
-    add_to_score 1
-    jump TrAI02_2AB6
-TrAI02_2AA6:
-    if_random_less_than 50, TrAI02_2AB6
-    add_to_score -3
-TrAI02_2AB6:
-    end
-TrAI02_2AB8:
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_POWER_HERB, TrAI02_2A2A
-    if_not_knows_move_effect TRAI_SIDE_DEFENDER, 111, TrAI02_2AE0
-    add_to_score -1
-    jump TrAI02_2C04
-TrAI02_2AE0:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_2C06
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_2C06
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_2C06
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_POWER_HERB, TrAI02_2B12
-    jump TrAI02_2B1E
-TrAI02_2B12:
-    add_to_score 1
-    jump TrAI02_2C04
-TrAI02_2B1E:
-    if_speed_compare 0, TrAI02_2B44
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 24, TrAI02_2B44
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_CUSTAP_BERRY, TrAI02_2BF4
-TrAI02_2B44:
-    if_badly_poisoned TRAI_SIDE_DEFENDER, TrAI02_2BF4
-    if_condition TRAI_SIDE_DEFENDER, 10, TrAI02_2BF4
-    if_condition TRAI_SIDE_DEFENDER, 18, TrAI02_2BF4
-    load_weather
-    if_equal 4, TrAI02_2B86
-    if_equal 3, TrAI02_2BAC
-    jump TrAI02_2BD2
-TrAI02_2B86:
-    load_type TRAI_TYPE_ATTACKER_1
-    if_in_list TrAI02_2C0E, TrAI02_2BF4
-    load_type TRAI_TYPE_ATTACKER_2
-    if_in_list TrAI02_2C0E, TrAI02_2BF4
-    jump TrAI02_2BD2
-TrAI02_2BAC:
-    load_type TRAI_TYPE_ATTACKER_1
-    if_equal TYPE_ICE, TrAI02_2BF4
-    load_type TRAI_TYPE_ATTACKER_2
-    if_equal TYPE_ICE, TrAI02_2BF4
-    jump TrAI02_2BD2
-TrAI02_2BD2:
-    if_speed_compare 1, TrAI02_2C04
-    load_last_move TRAI_SIDE_DEFENDER
-    load_result_effect
-    if_not_equal 94, TrAI02_2BF4
-    jump TrAI02_2C04
-TrAI02_2BF4:
-    if_random_less_than 80, TrAI02_2C04
-    add_to_score 1
-TrAI02_2C04:
-    end
-TrAI02_2C06:
-    add_to_score 1
-    end
-TrAI02_2C0E:
-    .4byte TYPE_GROUND
-    .4byte TYPE_ROCK
-    .4byte TYPE_STEEL
-    list_end
-TrAI02_2C1E:
-    add_to_score 2
-    end
-TrAI02_2C26:
-    if_hp_not_equal TRAI_SIDE_ATTACKER, 100, TrAI02_2C52
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 127, TrAI02_2C4C
-    if_random_less_than 128, TrAI02_2C52
-TrAI02_2C4C:
-    add_to_score 2
-TrAI02_2C52:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 70, TrAI02_2C6A
-    if_random_less_than 200, TrAI02_2C88
-TrAI02_2C6A:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 40, TrAI02_2C82
-    if_random_less_than 60, TrAI02_2C88
-TrAI02_2C82:
-    add_to_score -2
-TrAI02_2C88:
-    end
-TrAI02_2C8A:
-    load_stockpile_count TRAI_SIDE_ATTACKER
-    if_less_than 2, TrAI02_2CAA
-    if_random_less_than 80, TrAI02_2CAA
-    add_to_score 2
-TrAI02_2CAA:
-    end
-TrAI02_2CAC:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 40, TrAI02_2D16
-    load_weather
-    if_equal 1, TrAI02_2CE0
-    if_equal 2, TrAI02_2CE0
-    if_equal 4, TrAI02_2CE0
-    jump TrAI02_2D1C
-TrAI02_2CE0:
-    add_to_score 1
-    if_not_knows_move TRAI_SIDE_ATTACKER, MOVE_BLIZZARD, TrAI02_2CFA
-    add_to_score 2
-TrAI02_2CFA:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_not_equal ABILITY_ICE_BODY, TrAI02_2D1C
-    add_to_score 2
-    jump TrAI02_2D1C
-TrAI02_2D16:
-    add_to_score -1
-TrAI02_2D1C:
-    end
-TrAI02_2D1E:
-    if_condition TRAI_SIDE_DEFENDER, 5, TrAI02_2D52
-    if_condition TRAI_SIDE_DEFENDER, 4, TrAI02_2D52
-    if_condition TRAI_SIDE_DEFENDER, 1, TrAI02_2D52
-    if_not_badly_poisoned TRAI_SIDE_DEFENDER, TrAI02_2D58
-TrAI02_2D52:
-    add_to_score 1
-TrAI02_2D58:
-    end
-TrAI02_2D5A:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_2DE0
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_2DE0
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_2DE0
-    if_substitute TRAI_SIDE_ATTACKER, TrAI02_5D94
-    if_condition TRAI_SIDE_DEFENDER, 2, TrAI02_5D94
-    if_condition TRAI_SIDE_DEFENDER, 14, TrAI02_5D94
-    if_condition TRAI_SIDE_DEFENDER, 7, TrAI02_2DEC
-    if_condition TRAI_SIDE_DEFENDER, 6, TrAI02_2DEC
-    load_fake_out_active TRAI_SIDE_ATTACKER
-    if_not_equal 0, TrAI02_2DFC
-    if_random_less_than 200, TrAI02_2DFC
-    add_to_score 1
-    jump TrAI02_2DFC
-TrAI02_2DE0:
-    add_to_score -1
-    jump TrAI02_2DFC
-TrAI02_2DEC:
-    if_random_less_than 100, TrAI02_2DFC
-    add_to_score 1
-TrAI02_2DFC:
-    end
-TrAI02_2DFE:
-    if_condition TRAI_SIDE_DEFENDER, 1, TrAI02_2E12
-    jump TrAI02_2E18
-TrAI02_2E12:
-    add_to_score 1
-TrAI02_2E18:
-    end
-TrAI02_2E1A:
-    load_held_item_effect TRAI_SIDE_ATTACKER
-    if_in_list TrAI02_316A, TrAI02_2E5E
-    if_in_list TrAI02_31A2, TrAI02_2E7A
-    if_in_list TrAI02_31AA, TrAI02_2FA0
-    if_in_list TrAI02_31B2, TrAI02_308A
-    if_in_list TrAI02_3152, TrAI02_3130
-TrAI02_2E52:
-    add_to_score -3
-    jump TrAI02_3150
-TrAI02_2E5E:
-    load_held_item_effect TRAI_SIDE_DEFENDER
-    if_in_list TrAI02_3212, TrAI02_2E52
-    add_to_score 5
-    jump TrAI02_3150
-TrAI02_2E7A:
-    load_held_item_effect TRAI_SIDE_DEFENDER
-    if_in_list TrAI02_3212, TrAI02_2E52
-    if_status TRAI_SIDE_DEFENDER, TrAI02_2F10
-    if_side_effect TRAI_SIDE_DEFENDER, 2, TrAI02_2F10
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_STEEL, TrAI02_2F10
-    if_equal TYPE_POISON, TrAI02_2F10
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_STEEL, TrAI02_2F10
-    if_equal TYPE_POISON, TrAI02_2F10
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_IMMUNITY, TrAI02_2F10
-    if_equal ABILITY_MAGIC_GUARD, TrAI02_2F10
-    if_equal ABILITY_POISON_HEAL, TrAI02_2F10
-    if_equal ABILITY_TOXIC_BOOST, TrAI02_2F10
-    add_to_score 5
-    jump TrAI02_3150
-TrAI02_2F10:
-    if_status TRAI_SIDE_ATTACKER, TrAI02_2E52
-    if_side_effect TRAI_SIDE_ATTACKER, 2, TrAI02_2E52
-    load_type TRAI_TYPE_ATTACKER_1
-    if_equal TYPE_STEEL, TrAI02_2E52
-    if_equal TYPE_POISON, TrAI02_2E52
-    load_type TRAI_TYPE_ATTACKER_2
-    if_equal TYPE_STEEL, TrAI02_2E52
-    if_equal TYPE_POISON, TrAI02_2E52
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_IMMUNITY, TrAI02_2E52
-    if_equal ABILITY_MAGIC_GUARD, TrAI02_2E52
-    if_equal ABILITY_POISON_HEAL, TrAI02_2E52
-    if_equal ABILITY_KLUTZ, TrAI02_2E52
-    if_equal ABILITY_TOXIC_BOOST, TrAI02_2E52
-    add_to_score 5
-    jump TrAI02_3150
-TrAI02_2FA0:
-    load_held_item_effect TRAI_SIDE_DEFENDER
-    if_in_list TrAI02_3212, TrAI02_2E52
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_WATER_VEIL, TrAI02_3018
-    if_equal ABILITY_MAGIC_GUARD, TrAI02_3018
-    if_equal ABILITY_FLARE_BOOST, TrAI02_3018
-    if_status TRAI_SIDE_DEFENDER, TrAI02_3018
-    if_side_effect TRAI_SIDE_DEFENDER, 2, TrAI02_3018
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_FIRE, TrAI02_3018
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_FIRE, TrAI02_3018
-    add_to_score 5
-    jump TrAI02_3150
-TrAI02_3018:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_WATER_VEIL, TrAI02_2E52
-    if_equal ABILITY_MAGIC_GUARD, TrAI02_2E52
-    if_equal ABILITY_KLUTZ, TrAI02_5D5C
-    if_equal ABILITY_FLARE_BOOST, TrAI02_2E52
-    if_status TRAI_SIDE_ATTACKER, TrAI02_2E52
-    if_side_effect TRAI_SIDE_ATTACKER, 2, TrAI02_2E52
-    load_type TRAI_TYPE_ATTACKER_1
-    if_equal TYPE_FIRE, TrAI02_2E52
-    load_type TRAI_TYPE_ATTACKER_2
-    if_equal TYPE_FIRE, TrAI02_2E52
-    add_to_score 5
-    jump TrAI02_3150
-TrAI02_308A:
-    load_held_item_effect TRAI_SIDE_DEFENDER
-    if_in_list TrAI02_3212, TrAI02_2E52
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_POISON, TrAI02_30E0
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_POISON, TrAI02_30E0
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_MAGIC_GUARD, TrAI02_2F10
-    if_equal ABILITY_TOXIC_BOOST, TrAI02_2F10
-    add_to_score 5
-    jump TrAI02_3150
-TrAI02_30E0:
-    load_type TRAI_TYPE_ATTACKER_1
-    if_equal TYPE_POISON, TrAI02_2E52
-    load_type TRAI_TYPE_ATTACKER_2
-    if_equal TYPE_POISON, TrAI02_2E52
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MAGIC_GUARD, TrAI02_2E52
-    if_equal ABILITY_KLUTZ, TrAI02_2E52
-    if_equal ABILITY_TOXIC_BOOST, TrAI02_2E52
-    add_to_score 5
-    jump TrAI02_3150
-TrAI02_3130:
-    load_held_item_effect TRAI_SIDE_DEFENDER
-    if_in_list TrAI02_31BA, TrAI02_2E52
-    if_random_less_than 50, TrAI02_3150
-    add_to_score 2
-TrAI02_3150:
-    end
-TrAI02_3152:
-    .4byte 14
-    .4byte 15
-    .4byte 16
-    .4byte 17
-    .4byte 18
-    list_end
-TrAI02_316A:
-    .4byte 55
-    .4byte 125
-    .4byte 115
-    .4byte 106
-    .4byte 107
-    .4byte 116
-    .4byte 117
-    .4byte 118
-    .4byte 119
-    .4byte 118
-    .4byte 120
-    .4byte 121
-    .4byte 122
-    list_end
-TrAI02_31A2:
-    .4byte 100
-    list_end
-TrAI02_31AA:
-    .4byte 101
-    list_end
-TrAI02_31B2:
-    .4byte 109
-    list_end
-TrAI02_31BA:
-    .4byte 14
-    .4byte 15
-    .4byte 16
-    .4byte 17
-    .4byte 18
-    .4byte 50
-    .4byte 55
-    .4byte 125
-    .4byte 115
-    .4byte 106
-    .4byte 107
-    .4byte 116
-    .4byte 117
-    .4byte 118
-    .4byte 119
-    .4byte 120
-    .4byte 121
-    .4byte 122
-    .4byte 100
-    .4byte 101
-    .4byte 109
-    list_end
-TrAI02_3212:
-    .4byte 50
-    .4byte 55
-    .4byte 125
-    .4byte 115
-    .4byte 106
-    .4byte 107
-    .4byte 116
-    .4byte 117
-    .4byte 118
-    .4byte 119
-    .4byte 120
-    .4byte 121
-    .4byte 122
-    .4byte 100
-    .4byte 101
-    .4byte 109
-    list_end
-TrAI02_3256:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_in_list TrAI02_32B0, TrAI02_3292
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_in_list TrAI02_32B0, TrAI02_329E
-    load_battle_style
-    if_equal BTL_STYLE_SINGLE, TrAI02_3292
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_in_list TrAI02_3314, TrAI02_329E
-TrAI02_3292:
-    add_to_score -1
-    jump TrAI02_32AE
-TrAI02_329E:
-    if_random_less_than 50, TrAI02_32AE
-    add_to_score 2
-TrAI02_32AE:
-    end
-TrAI02_32B0:
-    .4byte ABILITY_SPEED_BOOST
-    .4byte ABILITY_FLASH_FIRE
-    .4byte ABILITY_INTIMIDATE
-    .4byte ABILITY_SWIFT_SWIM
-    .4byte ABILITY_CHLOROPHYLL
-    .4byte ABILITY_HUGE_POWER
-    .4byte ABILITY_RAIN_DISH
-    .4byte ABILITY_GUTS
-    .4byte ABILITY_PURE_POWER
-    .4byte ABILITY_MOTOR_DRIVE
-    .4byte ABILITY_DRY_SKIN
-    .4byte ABILITY_POISON_HEAL
-    .4byte ABILITY_ADAPTABILITY
-    .4byte ABILITY_SOLAR_POWER
-    .4byte ABILITY_TECHNICIAN
-    .4byte ABILITY_ICE_BODY
-    .4byte ABILITY_CONTRARY
-    .4byte ABILITY_CURSED_BODY
-    .4byte ABILITY_TOXIC_BOOST
-    .4byte ABILITY_FLARE_BOOST
-    .4byte ABILITY_HARVEST
-    .4byte ABILITY_SAND_RUSH
-    .4byte ABILITY_MAGIC_BOUNCE
-    .4byte ABILITY_PRANKSTER
-    list_end
-TrAI02_3314:
-    .4byte ABILITY_SHADOW_TAG
-    .4byte ABILITY_ARENA_TRAP
-    .4byte ABILITY_TELEPATHY
-    .4byte ABILITY_FRIEND_GUARD
-    .4byte ABILITY_OWN_TEMPO
-    list_end
-TrAI02_332C:
-    end
-TrAI02_332E:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_338A
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_338A
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_338A
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 1, 6, TrAI02_338A
-    if_speed_compare 1, TrAI02_337C
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 40, TrAI02_338A
-    jump TrAI02_3390
-TrAI02_337C:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 60, TrAI02_3390
-TrAI02_338A:
-    add_to_score -1
-TrAI02_3390:
-    end
-TrAI02_3392:
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 30, TrAI02_33B0
-    if_random_less_than 100, TrAI02_33B0
-    add_to_score -1
-TrAI02_33B0:
-    load_fake_out_active TRAI_SIDE_ATTACKER
-    if_equal 0, TrAI02_33E0
-    if_random_less_than 150, TrAI02_33F0
-    add_to_score 1
-    jump TrAI02_33F0
-    if_random_less_than 50, TrAI02_33F0
-TrAI02_33E0:
-    if_random_less_than 30, TrAI02_33F0
-    add_to_score -1
-TrAI02_33F0:
-    end
-TrAI02_33F2:
-    load_consumed_item TRAI_SIDE_ATTACKER
-    if_not_in_list TrAI02_3420, TrAI02_3418
-    if_random_less_than 50, TrAI02_341E
-    add_to_score 1
-    jump TrAI02_341E
-TrAI02_3418:
-    add_to_score -2
-TrAI02_341E:
-    end
-TrAI02_3420:
-    .4byte ITEM_CHESTO_BERRY
-    .4byte ITEM_LUM_BERRY
-    .4byte ITEM_STARF_BERRY
-    list_end
-TrAI02_3430:
-    if_condition TRAI_SIDE_DEFENDER, 2, TrAI02_3470
-    if_condition TRAI_SIDE_DEFENDER, 7, TrAI02_3470
-    if_condition TRAI_SIDE_DEFENDER, 6, TrAI02_3470
-    if_random_less_than 180, TrAI02_3470
-    add_to_score 2
-    jump TrAI02_3476
-TrAI02_3470:
-    add_to_score -2
-TrAI02_3476:
-    end
-TrAI02_3478:
-    if_side_effect TRAI_SIDE_DEFENDER, 0, TrAI02_349A
-    if_side_effect TRAI_SIDE_DEFENDER, 1, TrAI02_349A
-    jump TrAI02_34A0
-TrAI02_349A:
-    add_to_score 1
-TrAI02_34A0:
-    end
-TrAI02_34A2:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_HARVEST, TrAI02_5D5C
-    if_hp_less_than TRAI_SIDE_DEFENDER, 30, TrAI02_34E0
-    load_fake_out_active TRAI_SIDE_ATTACKER
-    if_greater_than 0, TrAI02_34E0
-    if_random_less_than 180, TrAI02_34E0
-    add_to_score 1
-TrAI02_34E0:
-    end
-TrAI02_34E2:
-    if_hp_less_than TRAI_SIDE_DEFENDER, 70, TrAI02_352E
-    if_speed_compare 1, TrAI02_3514
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 40, TrAI02_352E
-    add_to_score 1
-    jump TrAI02_3534
-TrAI02_3514:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 50, TrAI02_352E
-    add_to_score 1
-    jump TrAI02_3534
-TrAI02_352E:
-    add_to_score -1
-TrAI02_3534:
-    end
-TrAI02_3536:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_35BE
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_35BE
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_35BE
-    if_speed_compare 1, TrAI02_35B0
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 90, TrAI02_3580
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 50, TrAI02_35C4
-    jump TrAI02_35BE
-TrAI02_3580:
-    if_random_less_than 30, TrAI02_35C4
-    add_to_score 1
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_CHOICE_SCARF, TrAI02_35A4
-    jump TrAI02_35C4
-TrAI02_35A4:
-    add_to_score 1
-    jump TrAI02_35C4
-TrAI02_35B0:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 80, TrAI02_35C4
-TrAI02_35BE:
-    add_to_score -1
-TrAI02_35C4:
-    end
-TrAI02_35C6:
-    load_fake_out_active TRAI_SIDE_ATTACKER
-    if_greater_than 0, TrAI02_35E6
-    if_random_less_than 100, TrAI02_35E6
-    add_to_score 2
-TrAI02_35E6:
-    end
-TrAI02_35E8:
-    if_hp_less_than TRAI_SIDE_DEFENDER, 50, TrAI02_35FC
-    jump TrAI02_3602
-TrAI02_35FC:
-    add_to_score -1
-TrAI02_3602:
-    end
-TrAI02_3604:
-    load_fake_out_active TRAI_SIDE_ATTACKER
-    if_equal 1, TrAI02_3692
-    if_random_less_than 30, TrAI02_36CE
-    if_speed_compare 1, TrAI02_3654
-    if_hp_not_equal TRAI_SIDE_ATTACKER, 100, TrAI02_36BE
-    if_hp_less_than TRAI_SIDE_DEFENDER, 70, TrAI02_36BE
-    if_random_less_than 60, TrAI02_36CE
-    jump TrAI02_36BE
-TrAI02_3654:
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 25, TrAI02_36BE
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 32, TrAI02_3692
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 156, TrAI02_3692
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 214, TrAI02_3692
-    jump TrAI02_36A8
-TrAI02_3692:
-    if_random_less_than 150, TrAI02_36CE
-    add_to_score 2
-    jump TrAI02_36CE
-TrAI02_36A8:
-    if_random_less_than 230, TrAI02_36BE
-    add_to_score 1
-    jump TrAI02_36CE
-TrAI02_36BE:
-    if_random_less_than 30, TrAI02_36CE
-    add_to_score -2
-TrAI02_36CE:
-    end
-TrAI02_36D0:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 50, TrAI02_3710
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_ELECTRIC, TrAI02_3704
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_ELECTRIC, TrAI02_3704
-    jump TrAI02_3710
-TrAI02_3704:
-    add_to_score 1
-    jump TrAI02_3716
-TrAI02_3710:
-    add_to_score -1
-TrAI02_3716:
-    end
-TrAI02_3718:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_37AA
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_CONTRARY, TrAI02_3764
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_37AA
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_37AA
-    if_speed_compare 1, TrAI02_379C
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 60, TrAI02_37B0
-    jump TrAI02_37AA
-TrAI02_3764:
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_37B0
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_379C
-    if_hp_less_than TRAI_SIDE_ATTACKER, 50, TrAI02_37B0
-    if_random_less_than 50, TrAI02_3896
-    add_to_score 2
-    jump TrAI02_37B0
-TrAI02_379C:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 80, TrAI02_37B0
-TrAI02_37AA:
-    add_to_score -1
-TrAI02_37B0:
-    end
-TrAI02_37B2:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 50, TrAI02_37F2
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_FIRE, TrAI02_37E6
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_FIRE, TrAI02_37E6
-    jump TrAI02_37F2
-TrAI02_37E6:
-    add_to_score 1
-    jump TrAI02_37F8
-TrAI02_37F2:
-    add_to_score -1
-TrAI02_37F8:
-    end
-TrAI02_37FA:
-    if_speed_compare 1, TrAI02_3828
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 50, TrAI02_3838
-    if_random_less_than 50, TrAI02_3838
-    add_to_score -1
-    jump TrAI02_3838
-TrAI02_3828:
-    if_random_less_than 50, TrAI02_3838
-    add_to_score 1
-TrAI02_3838:
-    end
-TrAI02_383A:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_LEVITATE, TrAI02_3896
-    if_condition TRAI_SIDE_DEFENDER, 30, TrAI02_3896
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_FLYING, TrAI02_3896
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_FLYING, TrAI02_3896
-    if_hp_less_than TRAI_SIDE_ATTACKER, 60, TrAI02_38A6
-    if_random_less_than 128, TrAI02_3896
-    jump TrAI02_38A6
-TrAI02_3896:
-    if_random_less_than 64, TrAI02_38A6
-    add_to_score 1
-TrAI02_38A6:
-    end
-TrAI02_38A8:
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_DARK, TrAI02_38E2
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_DARK, TrAI02_38E2
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 7, 8, TrAI02_38EC
-    add_to_score -2
-    end
-TrAI02_38E2:
-    if_random_less_than 80, TrAI02_38FC
-TrAI02_38EC:
-    if_random_less_than 80, TrAI02_38FC
-    add_to_score 2
-TrAI02_38FC:
-    end
-TrAI02_38FE:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_3930
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_3930
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_3930
-    if_condition TRAI_SIDE_DEFENDER, 2, TrAI02_393C
-    jump TrAI02_3942
-TrAI02_3930:
-    add_to_score -1
-    jump TrAI02_3942
-TrAI02_393C:
-    add_to_score 1
-TrAI02_3942:
-    end
-TrAI02_3944:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_3972
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_3972
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_3972
-    if_speed_compare 1, TrAI02_397A
-    jump TrAI02_3980
-TrAI02_3972:
-    add_to_score -1
-    end
-TrAI02_397A:
-    add_to_score 1
-TrAI02_3980:
-    end
-TrAI02_3982:
-    end
-TrAI02_3984:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_39CC
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_39CC
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_39CC
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 50, TrAI02_39D2
-    add_to_score 1
-    if_random_less_than 128, TrAI02_39D2
-    add_to_score 1
-    jump TrAI02_39D2
-TrAI02_39CC:
-    add_to_score -1
-TrAI02_39D2:
-    end
-TrAI02_39D4:
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 111, TrAI02_39F2
-    if_random_less_than 64, TrAI02_39F2
-    jump TrAI02_3B0A
-TrAI02_39F2:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_not_equal ABILITY_GUTS, TrAI02_3A36
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_FLAME_ORB, TrAI02_3A24
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_TOXIC_ORB, TrAI02_3A24
-    jump TrAI02_3A36
-TrAI02_3A24:
-    load_turn_count
-    if_not_equal 0, TrAI02_3A36
-    add_to_score 2
-TrAI02_3A36:
-    if_badly_poisoned TRAI_SIDE_ATTACKER, TrAI02_3AA4
-    if_condition TRAI_SIDE_ATTACKER, 10, TrAI02_3AA4
-    if_condition TRAI_SIDE_ATTACKER, 20, TrAI02_3AA4
-    if_condition TRAI_SIDE_ATTACKER, 7, TrAI02_3AA4
-    if_condition TRAI_SIDE_ATTACKER, 18, TrAI02_3AA4
-    if_condition TRAI_SIDE_ATTACKER, 14, TrAI02_3AA4
-    if_hp_equal TRAI_SIDE_DEFENDER, 100, TrAI02_3AB4
-    load_held_item_effect TRAI_SIDE_DEFENDER
-    if_not_in_list TrAI02_3B0C, TrAI02_3AB4
-TrAI02_3AA4:
-    if_random_less_than 128, TrAI02_3AB4
-    add_to_score 1
-TrAI02_3AB4:
-    load_protect_count TRAI_SIDE_DEFENDER
-    if_equal 0, TrAI02_3AD8
-    if_equal 1, TrAI02_3AEE
-    if_greater_than 2, TrAI02_3B04
-TrAI02_3AD8:
-    if_random_less_than 128, TrAI02_3B0A
-    add_to_score 1
-    jump TrAI02_3B0A
-TrAI02_3AEE:
-    if_random_less_than 192, TrAI02_3B0A
-    add_to_score 1
-    jump TrAI02_3B0A
-TrAI02_3B04:
-    add_to_score -2
-TrAI02_3B0A:
-    end
-TrAI02_3B0C:
-    .4byte 69
-    .4byte 109
-    list_end
-TrAI02_3B18:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_3B6C
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_3B6C
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_3B6C
-    load_fake_out_active TRAI_SIDE_ATTACKER
-    if_equal 0, TrAI02_3B56
-    if_random_less_than 64, TrAI02_3B56
-    add_to_score 1
-TrAI02_3B56:
-    if_random_less_than 128, TrAI02_3B72
-    add_to_score 1
-    jump TrAI02_3B72
-TrAI02_3B6C:
-    add_to_score -1
-TrAI02_3B72:
-    end
-TrAI02_3B74:
-    if_random_less_than 64, TrAI02_3BC0
-    if_speed_compare 0, TrAI02_3BBA
-    if_hp_less_than TRAI_SIDE_ATTACKER, 31, TrAI02_3BBA
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 75, TrAI02_3BAE
-    if_random_less_than 64, TrAI02_3BC0
-TrAI02_3BAE:
-    add_to_score 1
-    jump TrAI02_3BC0
-TrAI02_3BBA:
-    add_to_score -1
-TrAI02_3BC0:
-    end
-TrAI02_3BC2:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 51, TrAI02_3BFE
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 90, TrAI02_3BE8
-    if_random_less_than 128, TrAI02_3C04
-TrAI02_3BE8:
-    if_random_less_than 64, TrAI02_3C04
-    add_to_score 1
-    jump TrAI02_3C04
-TrAI02_3BFE:
-    add_to_score -1
-TrAI02_3C04:
-    end
-TrAI02_3C06:
-    if_condition TRAI_SIDE_DEFENDER, 2, TrAI02_3CEA
-    if_condition TRAI_SIDE_DEFENDER, 7, TrAI02_3CEA
-    if_condition TRAI_SIDE_DEFENDER, 6, TrAI02_3CEA
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 185, TrAI02_3CEA
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 170, TrAI02_3CEA
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 78, TrAI02_3CEA
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 30, TrAI02_3C78
-    if_random_less_than 10, TrAI02_3C78
-    add_to_score -1
-TrAI02_3C78:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 50, TrAI02_3C96
-    if_random_less_than 100, TrAI02_3C96
-    add_to_score -1
-TrAI02_3C96:
-    if_random_less_than 192, TrAI02_3CA6
-    add_to_score 1
-TrAI02_3CA6:
-    load_last_move TRAI_SIDE_DEFENDER
-    load_result_power
-    if_equal 0, TrAI02_3CCE
-    if_not_taunted TrAI02_3CCE
-    if_random_less_than 100, TrAI02_3CCE
-    add_to_score 1
-TrAI02_3CCE:
-    if_not_taunted TrAI02_3CF0
-    if_random_less_than 100, TrAI02_3CF0
-    add_to_score 1
-    jump TrAI02_3CF0
-TrAI02_3CEA:
-    add_to_score -1
-TrAI02_3CF0:
-    end
-TrAI02_3CF2:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_3D2C
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_3D2C
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_3D2C
-    load_able_party_count TRAI_SIDE_ATTACKER
-    if_equal 0, TrAI02_3DCE
-    if_has_super_effective_move TrAI02_3D38
-    jump TrAI02_3D48
-TrAI02_3D2C:
-    add_to_score -1
-    jump TrAI02_3DCE
-TrAI02_3D38:
-    if_random_less_than 64, TrAI02_3D48
-    add_to_score -2
-TrAI02_3D48:
-    if_party_member_deals_more_damage 0, TrAI02_3D68
-    if_random_less_than 64, TrAI02_3D68
-    add_to_score -2
-    jump TrAI02_3DCE
-TrAI02_3D68:
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 70, TrAI02_3D94
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 30, TrAI02_3DA4
-    if_random_less_than 128, TrAI02_3DB4
-    jump TrAI02_3DA4
-TrAI02_3D94:
-    if_random_less_than 64, TrAI02_3DA4
-    add_to_score 1
-TrAI02_3DA4:
-    if_random_less_than 128, TrAI02_3DB4
-    add_to_score 1
-TrAI02_3DB4:
-    if_speed_compare 0, TrAI02_3DC8
-    if_random_less_than 128, TrAI02_3DCE
-TrAI02_3DC8:
-    add_to_score 1
-TrAI02_3DCE:
-    end
-TrAI02_3DD0:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_3E1A
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_3E1A
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_3E1A
-    if_speed_compare 1, TrAI02_3E0C
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 60, TrAI02_3E20
-    jump TrAI02_3E1A
-TrAI02_3E0C:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 80, TrAI02_3E20
-TrAI02_3E1A:
-    add_to_score -1
-TrAI02_3E20:
-    end
-TrAI02_3E22:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_3E6A
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_3E6A
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_3E6A
-    if_speed_compare 0, TrAI02_3E70
-    if_hp_less_than TRAI_SIDE_ATTACKER, 30, TrAI02_3E70
-    if_random_less_than 64, TrAI02_3E70
-    add_to_score 1
-    end
-TrAI02_3E6A:
-    add_to_score -1
-TrAI02_3E70:
-    end
-TrAI02_3E72:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_3ECA
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_3ECA
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_3ECA
-    if_speed_compare 0, TrAI02_3EE6
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_ROUGH_SKIN, TrAI02_3ED6
-    load_held_item TRAI_SIDE_ATTACKER
-    if_in_list TrAI02_3EE8, TrAI02_3ED6
-    if_random_less_than 128, TrAI02_3ED6
-    jump TrAI02_3EE6
-TrAI02_3ECA:
-    add_to_score -1
-    jump TrAI02_3EE6
-TrAI02_3ED6:
-    if_random_less_than 128, TrAI02_3EE6
-    add_to_score 1
-TrAI02_3EE6:
-    end
-TrAI02_3EE8:
-    .4byte ITEM_JABOCA_BERRY
-    .4byte ITEM_ROWAP_BERRY
-    list_end
-TrAI02_3EF4:
-    if_random_less_than 128, TrAI02_3F04
-    add_to_score 1
-TrAI02_3F04:
-    end
-TrAI02_3F06:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_3FB0
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_3FB0
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_3FB0
-    load_fling_power TRAI_SIDE_ATTACKER
-    if_less_than 30, TrAI02_3F5E
-    if_greater_than 90, TrAI02_3F6A
-    if_greater_than 60, TrAI02_3F9A
-    if_random_less_than 128, TrAI02_3FC6
-    add_to_score -1
-    jump TrAI02_3FC6
-TrAI02_3F5E:
-    add_to_score -2
-    jump TrAI02_3FC6
-TrAI02_3F6A:
-    if_effectiveness TYPE_EFFECTIVENESS_DOUBLE, TrAI02_3F94
-    if_effectiveness TYPE_EFFECTIVENESS_QUADRUPLE, TrAI02_3F94
-    if_random_less_than 128, TrAI02_3F9A
-    add_to_score 1
-    jump TrAI02_3F9A
-TrAI02_3F94:
-    add_to_score 4
-TrAI02_3F9A:
-    if_random_less_than 64, TrAI02_3FC6
-    add_to_score 1
-    jump TrAI02_3FC6
-TrAI02_3FB0:
-    load_held_item_effect TRAI_SIDE_ATTACKER
-    if_in_list TrAI02_3FC8, TrAI02_3FC6
-    add_to_score -1
-TrAI02_3FC6:
-    end
-TrAI02_3FC8:
-    .4byte 56
-    .4byte 80
-    .4byte 100
-    .4byte 101
-    .4byte 71
-    list_end
-TrAI02_3FE0:
-    if_no_status TRAI_SIDE_ATTACKER, TrAI02_5D74
-    if_random_less_than 128, TrAI02_4008
-    if_hp_less_than TRAI_SIDE_DEFENDER, 30, TrAI02_4008
-    add_to_score 1
-TrAI02_4008:
-    end
-TrAI02_400A:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_40DE
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_40DE
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_40DE
-    load_move_pp
-    if_equal 1, TrAI02_40D2
-    if_equal 2, TrAI02_40B6
-    if_equal 3, TrAI02_40BC
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_not_equal ABILITY_PRESSURE, TrAI02_4068
-    if_random_less_than 30, TrAI02_4068
-    add_to_score 1
-TrAI02_4068:
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 7, 10, TrAI02_40B6
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 6, 2, TrAI02_40B6
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 7, 8, TrAI02_40BC
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 6, 4, TrAI02_40BC
-    jump TrAI02_40E4
-TrAI02_40B6:
-    add_to_score 1
-TrAI02_40BC:
-    if_random_less_than 100, TrAI02_40E4
-    add_to_score 1
-    jump TrAI02_40E4
-TrAI02_40D2:
-    add_to_score 3
-    jump TrAI02_40E4
-TrAI02_40DE:
-    add_to_score -1
-TrAI02_40E4:
-    end
-TrAI02_40E6:
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 8, TrAI02_41D6
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 32, TrAI02_41D6
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 214, TrAI02_41D6
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 157, TrAI02_41D6
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 132, TrAI02_41D6
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 37, TrAI02_41D6
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 162, TrAI02_41D6
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 3, TrAI02_41D6
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 181, TrAI02_41D6
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 251, TrAI02_41D6
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 84, TrAI02_41D6
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 220, TrAI02_41D6
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 270, TrAI02_41D6
-    if_condition TRAI_SIDE_ATTACKER, 18, TrAI02_41D6
-    if_condition TRAI_SIDE_DEFENDER, 35, TrAI02_41D6
-    if_condition TRAI_SIDE_DEFENDER, 21, TrAI02_41D6
-    if_random_less_than 96, TrAI02_41D6
-    jump TrAI02_41E6
-TrAI02_41D6:
-    if_random_less_than 25, TrAI02_41E6
-    add_to_score 1
-TrAI02_41E6:
-    end
-TrAI02_41E8:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_4262
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_4262
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_4262
-    if_hp_less_than TRAI_SIDE_DEFENDER, 50, TrAI02_4262
-    if_hp_equal TRAI_SIDE_DEFENDER, 100, TrAI02_4236
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 85, TrAI02_424C
-    jump TrAI02_4268
-TrAI02_4236:
-    if_speed_compare 1, TrAI02_4246
-    add_to_score 1
-TrAI02_4246:
-    add_to_score 1
-TrAI02_424C:
-    if_random_less_than 25, TrAI02_4268
-    add_to_score 1
-    jump TrAI02_4268
-TrAI02_4262:
-    add_to_score -1
-TrAI02_4268:
-    end
-TrAI02_426A:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 90, TrAI02_429A
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 60, TrAI02_42B0
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 30, TrAI02_42C6
-    jump TrAI02_5D4C
-TrAI02_429A:
-    if_random_less_than 96, TrAI02_42DC
-    add_to_score 1
-    jump TrAI02_42DC
-TrAI02_42B0:
-    if_random_less_than 128, TrAI02_42DC
-    add_to_score 1
-    jump TrAI02_42DC
-TrAI02_42C6:
-    if_random_less_than 164, TrAI02_42DC
-    add_to_score 1
-    jump TrAI02_42DC
-TrAI02_42DC:
-    end
-TrAI02_42DE:
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 10, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 11, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 12, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 13, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 14, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 15, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 16, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 50, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 51, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 52, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 53, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 54, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 55, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 56, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 109, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 206, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 208, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 211, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 212, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 226, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 277, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 290, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 308, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 316, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 322, TrAI02_456C
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 18, TrAI02_4578
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 19, TrAI02_4578
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 20, TrAI02_4578
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 21, TrAI02_4578
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 22, TrAI02_4578
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 23, TrAI02_4578
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 24, TrAI02_4578
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 58, TrAI02_4578
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 59, TrAI02_4578
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 60, TrAI02_4578
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 61, TrAI02_4578
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 62, TrAI02_4578
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 63, TrAI02_4578
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 64, TrAI02_4578
-TrAI02_4500:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_in_list TrAI02_458A, TrAI02_4578
-    if_random_less_than 64, TrAI02_4588
-    add_to_score 1
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 70, TrAI02_4588
-    if_random_less_than 128, TrAI02_453E
-    add_to_score -1
-TrAI02_453E:
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 50, TrAI02_4588
-    add_to_score -1
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 30, TrAI02_4588
-    add_to_score -1
-    jump TrAI02_4588
-TrAI02_456C:
-    add_to_score -1
-    jump TrAI02_4588
-TrAI02_4578:
-    if_random_less_than 40, TrAI02_4588
-    add_to_score 1
-TrAI02_4588:
-    end
-TrAI02_458A:
-    .4byte ABILITY_NO_GUARD
-    .4byte ABILITY_PRANKSTER
-    .4byte ABILITY_WONDER_SKIN
-    .4byte ABILITY_HARVEST
-    .4byte ABILITY_FLARE_BOOST
-    .4byte ABILITY_TOXIC_BOOST
-    .4byte ABILITY_TECHNICIAN
-    .4byte ABILITY_MAGIC_GUARD
-    .4byte ABILITY_NORMALIZE
-    .4byte ABILITY_POISON_HEAL
-    .4byte ABILITY_HUGE_POWER
-    .4byte ABILITY_WONDER_GUARD
-    .4byte ABILITY_SHADOW_TAG
-    list_end
-    if_equal 99, TrAI02_05E2
-TrAI02_45CC:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 70, TrAI02_4620
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 43, TrAI02_4614
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 200, TrAI02_4614
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 209, TrAI02_4614
-    if_random_less_than 64, TrAI02_4614
-    jump TrAI02_4626
-TrAI02_4614:
-    add_to_score 1
-    jump TrAI02_4626
-TrAI02_4620:
-    add_to_score -1
-TrAI02_4626:
-    end
-TrAI02_4628:
-    if_speed_compare 1, TrAI02_4688
-    if_last_move_deals_more_damage TRAI_SIDE_DEFENDER, 0, TrAI02_4646
-    jump TrAI02_4656
-TrAI02_4646:
-    if_random_less_than 32, TrAI02_4656
-    add_to_score 1
-TrAI02_4656:
-    load_last_move_category
-    if_equal 0, TrAI02_4672
-    if_random_less_than 128, TrAI02_468E
-    add_to_score 1
-TrAI02_4672:
-    if_random_less_than 64, TrAI02_468E
-    add_to_score 1
-    jump TrAI02_468E
-TrAI02_4688:
-    add_to_score -2
-TrAI02_468E:
-    end
-TrAI02_4690:
-    if_speed_compare 1, TrAI02_46E4
-    if_last_move_deals_more_damage TRAI_SIDE_DEFENDER, 0, TrAI02_46CE
-    load_last_move TRAI_SIDE_DEFENDER
-    if_not_in_list TrAI02_4714, TrAI02_46E4
-    if_random_less_than 128, TrAI02_4712
-    add_to_score 2
-    jump TrAI02_4712
-TrAI02_46CE:
-    if_random_less_than 32, TrAI02_4712
-    add_to_score 2
-    jump TrAI02_4712
-TrAI02_46E4:
-    if_last_move_deals_more_damage TRAI_SIDE_DEFENDER, 0, TrAI02_4712
-    load_last_move TRAI_SIDE_DEFENDER
-    if_in_list TrAI02_4714, TrAI02_4712
-    if_random_less_than 80, TrAI02_4712
-    add_to_score -1
-TrAI02_4712:
-    end
-TrAI02_4714:
-    .4byte MOVE_SLEEP_POWDER
-    .4byte MOVE_LOVELY_KISS
-    .4byte MOVE_SPORE
-    .4byte MOVE_HYPNOSIS
-    .4byte MOVE_SING
-    .4byte MOVE_GRASS_WHISTLE
-    .4byte MOVE_SHADOW_PUNCH
-    .4byte MOVE_SAND_ATTACK
-    .4byte MOVE_SMOKE_SCREEN
-    .4byte MOVE_TOXIC
-    .4byte MOVE_GUILLOTINE
-    .4byte MOVE_HORN_DRILL
-    .4byte MOVE_FISSURE
-    .4byte MOVE_SHEER_COLD
-    .4byte MOVE_CROSS_CHOP
-    .4byte MOVE_AEROBLAST
-    .4byte MOVE_CONFUSE_RAY
-    .4byte MOVE_SWEET_KISS
-    .4byte MOVE_SCREECH
-    .4byte MOVE_COTTON_SPORE
-    .4byte MOVE_SCARY_FACE
-    .4byte MOVE_FAKE_TEARS
-    .4byte MOVE_METAL_SOUND
-    .4byte MOVE_THUNDER_WAVE
-    .4byte MOVE_GLARE
-    .4byte MOVE_POISON_POWDER
-    .4byte MOVE_SHADOW_BALL
-    .4byte MOVE_DYNAMIC_PUNCH
-    .4byte MOVE_HYPER_BEAM
-    .4byte MOVE_EXTREME_SPEED
-    .4byte MOVE_THIEF
-    .4byte MOVE_COVET
-    .4byte MOVE_ATTRACT
-    .4byte MOVE_SWAGGER
-    .4byte MOVE_TORMENT
-    .4byte MOVE_FLATTER
-    .4byte MOVE_TRICK
-    .4byte MOVE_SUPERPOWER
-    .4byte MOVE_SKILL_SWAP
-    .4byte MOVE_PSYCHO_SHIFT
-    .4byte MOVE_POWER_SWAP
-    .4byte MOVE_GUARD_SWAP
-    .4byte MOVE_SUCKER_PUNCH
-    .4byte MOVE_HEART_SWAP
-    .4byte MOVE_SWITCHEROO
-    .4byte MOVE_CAPTIVATE
-    .4byte MOVE_DARK_VOID
-    list_end
-TrAI02_47D4:
-    load_stat_stage_difference TRAI_SIDE_DEFENDER, 1
-    if_greater_than 3, TrAI02_480C
-    if_greater_than 1, TrAI02_483A
-    if_greater_than 0, TrAI02_4868
-    if_equal 0, TrAI02_4896
-    jump TrAI02_4932
-TrAI02_480C:
-    load_stat_stage_difference TRAI_SIDE_DEFENDER, 3
-    if_greater_than 3, TrAI02_48C4
-    if_greater_than 1, TrAI02_48DA
-    if_equal 0, TrAI02_48F0
-    jump TrAI02_4932
-TrAI02_483A:
-    load_stat_stage_difference TRAI_SIDE_DEFENDER, 3
-    if_greater_than 3, TrAI02_48DA
-    if_greater_than 1, TrAI02_48F0
-    if_equal 0, TrAI02_4906
-    jump TrAI02_4932
-TrAI02_4868:
-    load_stat_stage_difference TRAI_SIDE_DEFENDER, 3
-    if_greater_than 3, TrAI02_48F0
-    if_greater_than 1, TrAI02_4906
-    if_equal 0, TrAI02_491C
-    jump TrAI02_4932
-TrAI02_4896:
-    load_stat_stage_difference TRAI_SIDE_DEFENDER, 3
-    if_greater_than 3, TrAI02_48F0
-    if_greater_than 1, TrAI02_4906
-    if_greater_than 0, TrAI02_491C
-    jump TrAI02_4932
-TrAI02_48C4:
-    if_random_less_than 128, TrAI02_48DA
-    add_to_score 5
-    jump TrAI02_4932
-TrAI02_48DA:
-    if_random_less_than 128, TrAI02_48F0
-    add_to_score 4
-    jump TrAI02_4932
-TrAI02_48F0:
-    if_random_less_than 128, TrAI02_4906
-    add_to_score 3
-    jump TrAI02_4932
-TrAI02_4906:
-    if_random_less_than 128, TrAI02_491C
-    add_to_score 2
-    jump TrAI02_4932
-TrAI02_491C:
-    if_random_less_than 128, TrAI02_4932
-    add_to_score 1
-    jump TrAI02_4932
-TrAI02_4932:
-    end
-TrAI02_4934:
-    load_stat_stage_difference TRAI_SIDE_DEFENDER, 2
-    if_greater_than 3, TrAI02_496C
-    if_greater_than 1, TrAI02_499A
-    if_greater_than 0, TrAI02_49C8
-    if_equal 0, TrAI02_49F6
-    jump TrAI02_4A92
-TrAI02_496C:
-    load_stat_stage_difference TRAI_SIDE_DEFENDER, 4
-    if_greater_than 3, TrAI02_4A24
-    if_greater_than 1, TrAI02_4A3A
-    if_equal 0, TrAI02_4A50
-    jump TrAI02_4A92
-TrAI02_499A:
-    load_stat_stage_difference TRAI_SIDE_DEFENDER, 4
-    if_greater_than 3, TrAI02_4A3A
-    if_greater_than 1, TrAI02_4A50
-    if_equal 0, TrAI02_4A66
-    jump TrAI02_4A92
-TrAI02_49C8:
-    load_stat_stage_difference TRAI_SIDE_DEFENDER, 4
-    if_greater_than 3, TrAI02_4A50
-    if_greater_than 1, TrAI02_4A66
-    if_equal 0, TrAI02_4A7C
-    jump TrAI02_4A92
-TrAI02_49F6:
-    load_stat_stage_difference TRAI_SIDE_DEFENDER, 4
-    if_greater_than 3, TrAI02_4A50
-    if_greater_than 1, TrAI02_4A66
-    if_greater_than 0, TrAI02_4A7C
-    jump TrAI02_4A92
-TrAI02_4A24:
-    if_random_less_than 128, TrAI02_4A3A
-    add_to_score 5
-    jump TrAI02_4A92
-TrAI02_4A3A:
-    if_random_less_than 128, TrAI02_4A50
-    add_to_score 4
-    jump TrAI02_4A92
-TrAI02_4A50:
-    if_random_less_than 128, TrAI02_4A66
-    add_to_score 3
-    jump TrAI02_4A92
-TrAI02_4A66:
-    if_random_less_than 128, TrAI02_4A7C
-    add_to_score 2
-    jump TrAI02_4A92
-TrAI02_4A7C:
-    if_random_less_than 128, TrAI02_4A92
-    add_to_score 1
-    jump TrAI02_4A92
-TrAI02_4A92:
-    end
-TrAI02_4A94:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_4B30
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_4B30
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_4B30
-    load_positive_stat_stage_total TRAI_SIDE_DEFENDER
-    if_greater_than 6, TrAI02_4AF0
-    if_greater_than 5, TrAI02_4B00
-    if_greater_than 4, TrAI02_4B10
-    if_greater_than 3, TrAI02_4B20
-    if_greater_than 2, TrAI02_4B20
-    jump TrAI02_4B30
-TrAI02_4AF0:
-    if_random_less_than 128, TrAI02_4B00
-    add_to_score 4
-TrAI02_4B00:
-    if_random_less_than 128, TrAI02_4B10
-    add_to_score 3
-TrAI02_4B10:
-    if_random_less_than 128, TrAI02_4B20
-    add_to_score 2
-TrAI02_4B20:
-    if_random_less_than 128, TrAI02_4B30
-    add_to_score 1
-TrAI02_4B30:
-    end
-TrAI02_4B32:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_4B60
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_4B60
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_4B60
-    if_can_use_last_resort TRAI_SIDE_ATTACKER, TrAI02_4B6C
-    jump TrAI02_4B72
-TrAI02_4B60:
-    add_to_score -1
-    jump TrAI02_4B72
-TrAI02_4B6C:
-    add_to_score 1
-TrAI02_4B72:
-    end
-TrAI02_4B74:
-    if_not_knows_move TRAI_SIDE_DEFENDER, MOVE_REST, TrAI02_4B88
-    add_to_score 1
-TrAI02_4B88:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 50, TrAI02_4BA6
-    if_random_less_than 128, TrAI02_4BA6
-    add_to_score 1
-TrAI02_4BA6:
-    if_random_less_than 64, TrAI02_4BBC
-    add_to_score 1
-    jump TrAI02_4BBC
-TrAI02_4BBC:
-    end
-TrAI02_4BBE:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_4BF2
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_4BF2
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_4BF2
-    if_random_less_than 64, TrAI02_4BF8
-    add_to_score 1
-    jump TrAI02_4BF8
-TrAI02_4BF2:
-    add_to_score -1
-TrAI02_4BF8:
-    end
-TrAI02_4BFA:
-    if_random_less_than 128, TrAI02_4C3C
-    add_to_score 1
-    if_knows_move TRAI_SIDE_ATTACKER, MOVE_ROAR, TrAI02_4C2C
-    if_knows_move TRAI_SIDE_ATTACKER, MOVE_WHIRLWIND, TrAI02_4C2C
-    jump TrAI02_4C3C
-TrAI02_4C2C:
-    if_random_less_than 64, TrAI02_4C3C
-    add_to_score 1
-TrAI02_4C3C:
-    end
-TrAI02_4C3E:
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 1, 7, TrAI02_4CAC
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 2, 7, TrAI02_4CAC
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 3, 7, TrAI02_4CAC
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 4, 7, TrAI02_4CAC
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 7, 7, TrAI02_4CAC
-    if_condition_flag TRAI_SIDE_DEFENDER, 9, TrAI02_4CAC
-    jump TrAI02_4D32
-TrAI02_4CAC:
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 1, 7, TrAI02_4D2A
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 2, 7, TrAI02_4D2A
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 3, 7, TrAI02_4D2A
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 4, 7, TrAI02_4D2A
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 7, 7, TrAI02_4D24
-    if_not_condition_flag TRAI_SIDE_ATTACKER, 9, TrAI02_4D2A
-    if_random_less_than 50, TrAI02_4D38
-    jump TrAI02_4D32
-TrAI02_4D24:
-    add_to_score 1
-TrAI02_4D2A:
-    add_to_score 1
-    end
-TrAI02_4D32:
-    add_to_score -2
-TrAI02_4D38:
-    end
-TrAI02_4D3A:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 50, TrAI02_4D58
-    if_random_less_than 128, TrAI02_4D58
-    add_to_score 1
-TrAI02_4D58:
-    end
-TrAI02_4D5A:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 50, TrAI02_4DCE
-    if_knows_move TRAI_SIDE_DEFENDER, MOVE_EARTHQUAKE, TrAI02_4D98
-    if_knows_move TRAI_SIDE_DEFENDER, MOVE_EARTH_POWER, TrAI02_4D98
-    if_knows_move TRAI_SIDE_DEFENDER, MOVE_FISSURE, TrAI02_4D98
-    jump TrAI02_4D9E
-TrAI02_4D98:
-    add_to_score 1
-TrAI02_4D9E:
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_GROUND, TrAI02_4DC8
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_GROUND, TrAI02_4DC8
-    if_random_less_than 128, TrAI02_4DCE
-TrAI02_4DC8:
-    add_to_score 1
-TrAI02_4DCE:
-    end
-    end
-    end
-    end
-    end
-TrAI02_4DD8:
-    if_side_effect TRAI_SIDE_DEFENDER, 1, TrAI02_4E24
-    if_side_effect TRAI_SIDE_DEFENDER, 0, TrAI02_4E24
-    if_side_effect TRAI_SIDE_DEFENDER, 6, TrAI02_4E88
-    if_side_effect TRAI_SIDE_DEFENDER, 8, TrAI02_4E88
-    if_side_effect TRAI_SIDE_DEFENDER, 7, TrAI02_4E88
-    jump TrAI02_4EAA
-TrAI02_4E24:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 30, TrAI02_4E42
-    load_able_party_count TRAI_SIDE_ATTACKER
-    if_equal 0, TrAI02_4ECA
-TrAI02_4E42:
-    add_to_score 1
-    load_able_party_count TRAI_SIDE_DEFENDER
-    if_equal 0, TrAI02_4EEE
-    if_side_effect TRAI_SIDE_DEFENDER, 6, TrAI02_4E94
-    if_side_effect TRAI_SIDE_DEFENDER, 8, TrAI02_4E94
-    if_side_effect TRAI_SIDE_DEFENDER, 7, TrAI02_4E94
-    jump TrAI02_4EAA
-TrAI02_4E88:
-    add_to_score -2
-    jump TrAI02_4EAA
-TrAI02_4E94:
-    if_random_less_than 128, TrAI02_4EAA
-    add_to_score -1
-    jump TrAI02_4EAA
-TrAI02_4EAA:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 70, TrAI02_4ECA
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 7, 3, TrAI02_4EDA
-TrAI02_4ECA:
-    if_random_less_than 50, TrAI02_4EDA
-    add_to_score -2
-TrAI02_4EDA:
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 70, TrAI02_4EEE
-    add_to_score -2
-TrAI02_4EEE:
-    end
-TrAI02_4EF0:
-    load_battle_style
-    if_equal BTL_STYLE_DOUBLE, TrAI02_4F40
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 30, TrAI02_4F1A
-    load_able_party_count TRAI_SIDE_ATTACKER
-    if_equal 0, TrAI02_4F40
-TrAI02_4F1A:
-    if_speed_compare 1, TrAI02_4F30
-    add_to_score -1
-    jump TrAI02_4F40
-TrAI02_4F30:
-    if_random_less_than 64, TrAI02_4F40
-    add_to_score 3
-TrAI02_4F40:
-    end
-TrAI02_4F42:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_4F78
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_4F78
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_4F78
-    load_weather
-    if_not_equal 3, TrAI02_4F88
-    add_to_score 1
-    jump TrAI02_4F88
-TrAI02_4F78:
-    if_random_less_than 50, TrAI02_4F88
-    add_to_score -3
-TrAI02_4F88:
-    end
-    end
-TrAI02_4F8C:
-    if_stat_stage_equal TRAI_SIDE_DEFENDER, 3, 6, TrAI02_4FDA
-    add_to_score -1
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 90, TrAI02_4FB8
-    add_to_score -1
-TrAI02_4FB8:
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 3, 3, TrAI02_4FDA
-    if_random_less_than 50, TrAI02_4FDA
-    add_to_score -2
-TrAI02_4FDA:
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 70, TrAI02_4FEE
-    add_to_score -2
-TrAI02_4FEE:
-    load_last_move_category
-    if_not_equal 1, TrAI02_500A
-    if_random_less_than 64, TrAI02_500A
-    add_to_score -1
-TrAI02_500A:
-    end
-TrAI02_500C:
-    if_random_less_than 128, TrAI02_504E
-    add_to_score 1
-    if_knows_move TRAI_SIDE_ATTACKER, MOVE_ROAR, TrAI02_503E
-    if_knows_move TRAI_SIDE_ATTACKER, MOVE_WHIRLWIND, TrAI02_503E
-    jump TrAI02_504E
-TrAI02_503E:
-    if_random_less_than 64, TrAI02_504E
-    add_to_score 1
-TrAI02_504E:
-    end
-    end
-    end
-TrAI02_5054:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_5098
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_5098
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_5098
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_ROCK_HEAD, TrAI02_5092
-    if_equal ABILITY_MAGIC_GUARD, TrAI02_5092
-    jump TrAI02_5098
-TrAI02_5092:
-    add_to_score 1
-TrAI02_5098:
-    end
-TrAI02_509A:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 80, TrAI02_50C2
-    if_speed_compare 1, TrAI02_50C2
-    if_random_less_than 192, TrAI02_514A
-    jump TrAI02_5D5C
-TrAI02_50C2:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 50, TrAI02_513A
-    if_random_less_than 192, TrAI02_5116
-    add_to_score 1
-    if_has_super_effective_move TrAI02_50F6
-    if_random_less_than 192, TrAI02_50F6
-    add_to_score 1
-TrAI02_50F6:
-    if_party_member_deals_more_damage 0, TrAI02_5106
-    jump TrAI02_5116
-TrAI02_5106:
-    if_random_less_than 128, TrAI02_5116
-    add_to_score 1
-TrAI02_5116:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 30, TrAI02_514A
-    if_random_less_than 128, TrAI02_514A
-    add_to_score 1
-    jump TrAI02_514A
-TrAI02_513A:
-    if_random_less_than 50, TrAI02_514A
-    add_to_score -1
-TrAI02_514A:
-    end
-TrAI02_514C:
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 6, 9, TrAI02_516E
-    if_random_less_than 50, TrAI02_516E
-    add_to_score -2
-TrAI02_516E:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 80, TrAI02_5182
-    add_to_score -2
-TrAI02_5182:
-    end
-TrAI02_5184:
-    end
-TrAI02_5186:
-    load_fake_out_active TRAI_SIDE_ATTACKER
-    if_not_equal 0, TrAI02_5284
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 2, 7, TrAI02_5284
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 4, 7, TrAI02_5284
-    if_stat_stage_less_than TRAI_SIDE_DEFENDER, 2, 8, TrAI02_5222
-    if_stat_stage_less_than TRAI_SIDE_DEFENDER, 4, 8, TrAI02_5222
-    if_random_less_than 50, TrAI02_51EE
-    add_to_score 1
-TrAI02_51EE:
-    if_stat_stage_less_than TRAI_SIDE_DEFENDER, 2, 10, TrAI02_5222
-    if_stat_stage_less_than TRAI_SIDE_DEFENDER, 4, 10, TrAI02_5222
-    if_random_less_than 50, TrAI02_5222
-    add_to_score 1
-TrAI02_5222:
-    load_species TRAI_SIDE_ATTACKER
-    if_in_list TrAI02_528C, TrAI02_525C
-    if_in_list TrAI02_5304, TrAI02_525C
-    load_species TRAI_SIDE_DEFENDER
-    if_in_list TrAI02_528C, TrAI02_526E
-    if_in_list TrAI02_5304, TrAI02_526E
-    jump TrAI02_528A
-TrAI02_525C:
-    load_battle_style
-    if_equal BTL_STYLE_SINGLE, TrAI02_5D74
-    jump TrAI02_528A
-TrAI02_526E:
-    if_random_less_than 50, TrAI02_528A
-    add_to_score 1
-    jump TrAI02_528A
-TrAI02_5284:
-    add_to_score -1
-TrAI02_528A:
-    end
-TrAI02_528C:
-    .4byte SPECIES_SHUCKLE
-    .4byte SPECIES_REGIROCK
-    .4byte SPECIES_STEELIX
-    .4byte SPECIES_AGGRON
-    .4byte SPECIES_CLOYSTER
-    .4byte SPECIES_BASTIODON
-    .4byte SPECIES_ONIX
-    .4byte SPECIES_REGISTEEL
-    .4byte SPECIES_PROBOPASS
-    .4byte SPECIES_GROUDON
-    .4byte SPECIES_TORKOAL
-    .4byte SPECIES_LAIRON
-    .4byte SPECIES_SKARMORY
-    .4byte SPECIES_FORRETRESS
-    .4byte SPECIES_DUSKNOIR
-    .4byte SPECIES_NOSEPASS
-    .4byte SPECIES_UXIE
-    .4byte SPECIES_LEAFEON
-    .4byte SPECIES_RHYPERIOR
-    .4byte SPECIES_METAGROSS
-    .4byte SPECIES_RELICANTH
-    .4byte SPECIES_DUSCLOPS
-    .4byte SPECIES_LUGIA
-    .4byte SPECIES_GOLEM
-    .4byte SPECIES_COFAGRIGUS
-    .4byte SPECIES_CARRACOSTA
-    .4byte SPECIES_FERROTHORN
-    .4byte SPECIES_GIGALITH
-    .4byte SPECIES_COBALION
-    list_end
-TrAI02_5304:
-    .4byte SPECIES_SHUCKLE
-    .4byte SPECIES_REGICE
-    .4byte SPECIES_HO_OH
-    .4byte SPECIES_LUGIA
-    .4byte SPECIES_PROBOPASS
-    .4byte SPECIES_REGISTEEL
-    .4byte SPECIES_KYOGRE
-    .4byte SPECIES_MANTINE
-    .4byte SPECIES_BASTIODON
-    .4byte SPECIES_DUSKNOIR
-    .4byte SPECIES_BLISSEY
-    .4byte SPECIES_CRESSELIA
-    .4byte SPECIES_UXIE
-    .4byte SPECIES_LATIAS
-    .4byte SPECIES_DUSCLOPS
-    .4byte SPECIES_UMBREON
-    .4byte SPECIES_MILOTIC
-    .4byte SPECIES_ARTICUNO
-    .4byte SPECIES_CRYOGONAL
-    .4byte SPECIES_VIRIZION
-    list_end
-TrAI02_5358:
-    load_fake_out_active TRAI_SIDE_ATTACKER
-    if_not_equal 0, TrAI02_5456
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 1, 7, TrAI02_5456
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 3, 7, TrAI02_5456
-    if_stat_stage_less_than TRAI_SIDE_DEFENDER, 1, 8, TrAI02_53F4
-    if_stat_stage_less_than TRAI_SIDE_DEFENDER, 3, 8, TrAI02_53F4
-    if_random_less_than 50, TrAI02_53C0
-    add_to_score 1
-TrAI02_53C0:
-    if_stat_stage_less_than TRAI_SIDE_DEFENDER, 1, 10, TrAI02_53F4
-    if_stat_stage_less_than TRAI_SIDE_DEFENDER, 3, 10, TrAI02_53F4
-    if_random_less_than 50, TrAI02_53F4
-    add_to_score 1
-TrAI02_53F4:
-    load_species TRAI_SIDE_ATTACKER
-    if_in_list TrAI02_545E, TrAI02_542E
-    if_in_list TrAI02_54E2, TrAI02_542E
-    load_species TRAI_SIDE_DEFENDER
-    if_in_list TrAI02_545E, TrAI02_5440
-    if_in_list TrAI02_54E2, TrAI02_5440
-    jump TrAI02_545C
-TrAI02_542E:
-    load_battle_style
-    if_equal BTL_STYLE_SINGLE, TrAI02_5D74
-    jump TrAI02_545C
-TrAI02_5440:
-    if_random_less_than 50, TrAI02_545C
-    add_to_score 1
-    jump TrAI02_545C
-TrAI02_5456:
-    add_to_score -1
-TrAI02_545C:
-    end
-TrAI02_545E:
-    .4byte SPECIES_RAMPARDOS
-    .4byte SPECIES_REGIGIGAS
-    .4byte SPECIES_SLAKING
-    .4byte SPECIES_DEOXYS
-    .4byte SPECIES_RAYQUAZA
-    .4byte SPECIES_GROUDON
-    .4byte SPECIES_RHYPERIOR
-    .4byte SPECIES_METAGROSS
-    .4byte SPECIES_SALAMENCE
-    .4byte SPECIES_TYRANITAR
-    .4byte SPECIES_DRAGONITE
-    .4byte SPECIES_MAMOSWINE
-    .4byte SPECIES_GARCHOMP
-    .4byte SPECIES_ABSOL
-    .4byte SPECIES_BRELOOM
-    .4byte SPECIES_HO_OH
-    .4byte SPECIES_URSARING
-    .4byte SPECIES_SCIZOR
-    .4byte SPECIES_FLAREON
-    .4byte SPECIES_RHYDON
-    .4byte SPECIES_KINGLER
-    .4byte SPECIES_MACHAMP
-    .4byte SPECIES_RESHIRAM
-    .4byte SPECIES_LIEPARD
-    .4byte SPECIES_CONKELDURR
-    .4byte SPECIES_DARMANITAN
-    .4byte SPECIES_ARCHEOPS
-    .4byte SPECIES_EXCADRILL
-    .4byte SPECIES_ESCAVALIER
-    .4byte SPECIES_KYUREM
-    .4byte SPECIES_GIGALITH
-    .4byte SPECIES_TERRAKION
-    list_end
-TrAI02_54E2:
-    .4byte SPECIES_MEWTWO
-    .4byte SPECIES_PALKIA
-    .4byte SPECIES_DIALGA
-    .4byte SPECIES_DEOXYS
-    .4byte SPECIES_RAYQUAZA
-    .4byte SPECIES_KYOGRE
-    .4byte SPECIES_DARKRAI
-    .4byte SPECIES_PORYGON_Z
-    .4byte SPECIES_ALAKAZAM
-    .4byte SPECIES_HEATRAN
-    .4byte SPECIES_GLACEON
-    .4byte SPECIES_MAGNEZONE
-    .4byte SPECIES_LATIOS
-    .4byte SPECIES_ESPEON
-    .4byte SPECIES_GENGAR
-    .4byte SPECIES_RESHIRAM
-    .4byte SPECIES_CHANDELURE
-    .4byte SPECIES_VOLCARONA
-    .4byte SPECIES_KYUREM
-    .4byte SPECIES_KELDEO
-    list_end
-TrAI02_5536:
-    end
-TrAI02_5538:
-    end
-TrAI02_553A:
-    end
-TrAI02_553C:
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 6, 9, TrAI02_555E
-    if_random_less_than 50, TrAI02_555E
-    add_to_score -2
-TrAI02_555E:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 70, TrAI02_557C
-    if_random_less_than 50, TrAI02_557C
-    add_to_score -2
-TrAI02_557C:
-    if_stat_stage_less_than TRAI_SIDE_DEFENDER, 7, 9, TrAI02_559E
-    if_random_less_than 50, TrAI02_559E
-    add_to_score 1
-TrAI02_559E:
-    end
-TrAI02_55A0:
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_NONE, TrAI02_55EA
-    if_held_item TRAI_SIDE_DEFENDER, ITEM_LEFTOVERS, TrAI02_55EA
-    if_held_item TRAI_SIDE_DEFENDER, ITEM_CHOICE_SCARF, TrAI02_55EA
-    load_battle_style
-    if_equal BTL_STYLE_SINGLE, TrAI02_55FA
-    if_held_item TRAI_SIDE_DEFENDER, ITEM_AIR_BALLOON, TrAI02_55EA
-    jump TrAI02_55FA
-TrAI02_55EA:
-    if_random_less_than 128, TrAI02_55FA
-    add_to_score 1
-TrAI02_55FA:
-    end
-TrAI02_55FC:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_LEVITATE, TrAI02_5640
-    if_condition TRAI_SIDE_DEFENDER, 30, TrAI02_5640
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_FLYING, TrAI02_5640
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_FLYING, TrAI02_5640
-    jump TrAI02_5650
-TrAI02_5640:
-    if_random_less_than 64, TrAI02_5650
-    add_to_score 1
-TrAI02_5650:
-    end
-TrAI02_5652:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_56B4
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_56B4
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_56B4
-    if_move MOVE_STORM_THROW, TrAI02_5692
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 4, 8, TrAI02_56B4
-    jump TrAI02_56A4
-TrAI02_5692:
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 2, 8, TrAI02_56B4
-TrAI02_56A4:
-    if_random_less_than 64, TrAI02_56B4
-    add_to_score 1
-TrAI02_56B4:
-    end
-TrAI02_56B6:
-    end
-TrAI02_56B8:
-    if_speed_compare 1, TrAI02_56E6
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 50, TrAI02_56F6
-    if_random_less_than 50, TrAI02_56F6
-    add_to_score -1
-    jump TrAI02_56F6
-TrAI02_56E6:
-    if_random_less_than 50, TrAI02_56F6
-    add_to_score 1
-TrAI02_56F6:
-    end
-TrAI02_56F8:
-    end
-TrAI02_56FA:
-    end
-TrAI02_56FC:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_5752
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_5752
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_5752
-    if_speed_compare 1, TrAI02_574C
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 5, 8, TrAI02_5752
-    if_random_less_than 70, TrAI02_5752
-    add_to_score 1
-    jump TrAI02_56F6
-TrAI02_574C:
-    add_to_score -1
-TrAI02_5752:
-    end
-TrAI02_5754:
-    end
-TrAI02_5756:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_57A4
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_57A4
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_57A4
-    if_speed_compare 1, TrAI02_5794
-    if_random_less_than 50, TrAI02_57A4
-    add_to_score -1
-    jump TrAI02_57A4
-TrAI02_5794:
-    if_random_less_than 50, TrAI02_57A4
-    add_to_score 1
-TrAI02_57A4:
-    end
-TrAI02_57A6:
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 4, 5, TrAI02_57E0
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 4, 3, TrAI02_57D0
-    add_to_score -1
-TrAI02_57D0:
-    if_random_less_than 128, TrAI02_57E0
-    add_to_score -1
-TrAI02_57E0:
-    end
-TrAI02_57E2:
-    end
-TrAI02_57E4:
-    if_random_less_than 128, TrAI02_57F4
-    add_to_score 1
-TrAI02_57F4:
-    end
-TrAI02_57F6:
-    end
-TrAI02_57F8:
-    end
-TrAI02_57FA:
-    end
-TrAI02_57FC:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_584E
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_584E
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_584E
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 2, 9, TrAI02_584E
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 4, 9, TrAI02_584E
-    if_random_less_than 128, TrAI02_584E
-    add_to_score 1
-TrAI02_584E:
-    end
-TrAI02_5850:
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 1, 8, TrAI02_58C0
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 2, 8, TrAI02_58C0
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 3, 8, TrAI02_58C0
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 4, 8, TrAI02_58C0
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 7, 8, TrAI02_58C0
-    if_random_less_than 50, TrAI02_58D0
-    add_to_score -1
-    jump TrAI02_58D0
-TrAI02_58C0:
-    if_random_less_than 50, TrAI02_58D0
-    add_to_score 1
-TrAI02_58D0:
-    end
-TrAI02_58D2:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_584E
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_584E
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_584E
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 1, 8, TrAI02_5950
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 2, 8, TrAI02_5950
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 3, 8, TrAI02_5950
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 4, 8, TrAI02_5950
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 7, 8, TrAI02_5950
-    jump TrAI02_5A5A
-TrAI02_5950:
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 109, TrAI02_5A4A
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 206, TrAI02_5A4A
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 208, TrAI02_5A4A
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 211, TrAI02_5A4A
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 212, TrAI02_5A4A
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 226, TrAI02_5A4A
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 277, TrAI02_5A4A
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 290, TrAI02_5A4A
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 308, TrAI02_5A4A
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 316, TrAI02_5A4A
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 322, TrAI02_5A4A
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 1, 10, TrAI02_5A4A
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 2, 10, TrAI02_5A4A
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 3, 10, TrAI02_5A4A
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 4, 10, TrAI02_5A4A
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 7, 10, TrAI02_5A4A
-    jump TrAI02_5A5A
-TrAI02_5A4A:
-    if_random_less_than 50, TrAI02_5A5A
-    add_to_score 1
-TrAI02_5A5A:
-    end
-TrAI02_5A5C:
-    load_fake_out_active TRAI_SIDE_DEFENDER
-    if_equal 0, TrAI02_5A72
-    add_to_score -1
-TrAI02_5A72:
-    if_random_less_than 128, TrAI02_5A82
-    add_to_score 1
-TrAI02_5A82:
-    end
-TrAI02_5A84:
-    end
-TrAI02_5A86:
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 2, 6, TrAI02_5AB0
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 4, 6, TrAI02_5AB0
-    jump TrAI02_5AB6
-TrAI02_5AB0:
-    add_to_score -1
-TrAI02_5AB6:
-    end
-TrAI02_5AB8:
-    end
-TrAI02_5ABA:
-    end
-TrAI02_5ABC:
-    if_speed_compare 1, TrAI02_5AEA
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 50, TrAI02_5AFA
-    if_random_less_than 50, TrAI02_5AFA
-    add_to_score -1
-    jump TrAI02_5AFA
-TrAI02_5AEA:
-    if_random_less_than 50, TrAI02_5AFA
-    add_to_score 1
-TrAI02_5AFA:
-    end
-TrAI02_5AFC:
-    load_turn_count
-    if_not_equal 0, TrAI02_5B18
-    if_random_less_than 50, TrAI02_5B18
-    add_to_score 1
-TrAI02_5B18:
-    end
-TrAI02_5B1A:
-    end
-TrAI02_5B1C:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 70, TrAI02_5B3A
-    if_random_less_than 50, TrAI02_5B3A
-    add_to_score -1
-TrAI02_5B3A:
-    end
-TrAI02_5B3C:
-    if_effectiveness TYPE_EFFECTIVENESS_IMMUNE, TrAI02_5B68
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI02_5B68
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI02_5B68
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_NONE, TrAI02_5B7E
-TrAI02_5B68:
-    if_random_less_than 50, TrAI02_5B8E
-    add_to_score -1
-    jump TrAI02_5B8E
-TrAI02_5B7E:
-    if_random_less_than 50, TrAI02_5B8E
-    add_to_score 1
-TrAI02_5B8E:
-    end
-TrAI02_5B90:
-    load_type TRAI_TYPE_ATTACKER_1
-    if_in_list TrAI02_5BF2, TrAI02_5BE0
-    if_in_list TrAI02_5C1A, TrAI02_5BCA
-    load_type TRAI_TYPE_ATTACKER_2
-    if_in_list TrAI02_5BF2, TrAI02_5BE0
-    if_in_list TrAI02_5C1A, TrAI02_5BCA
-    jump TrAI02_5BF0
-TrAI02_5BCA:
-    if_random_less_than 50, TrAI02_5BF0
-    add_to_score -1
-    jump TrAI02_5BF0
-TrAI02_5BE0:
-    if_random_less_than 50, TrAI02_5BF0
-    add_to_score 1
-TrAI02_5BF0:
-    end
-TrAI02_5BF2:
-    .4byte TYPE_FIRE
-    .4byte TYPE_WATER
-    .4byte TYPE_GRASS
-    .4byte TYPE_ELECTRIC
-    .4byte TYPE_ICE
-    .4byte TYPE_POISON
-    .4byte TYPE_PSYCHIC
-    .4byte TYPE_DARK
-    .4byte TYPE_STEEL
-    list_end
-TrAI02_5C1A:
-    .4byte TYPE_GHOST
-    .4byte TYPE_DRAGON
-    list_end
-TrAI02_5C26:
-    end
-TrAI02_5C28:
-    if_substitute TRAI_SIDE_DEFENDER, TrAI02_5C5E
-    if_has_super_effective_move TrAI02_5C5E
-    if_hp_less_than TRAI_SIDE_DEFENDER, 40, TrAI02_5C5E
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 40, TrAI02_5C64
-    if_random_less_than 50, TrAI02_5C64
-TrAI02_5C5E:
-    add_to_score -2
-TrAI02_5C64:
-    end
-TrAI02_5C66:
-    end
-TrAI02_5C68:
-    end
-TrAI02_5C6A:
-    end
-TrAI02_5C6C:
-    end
-TrAI02_5C6E:
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 1, 9, TrAI02_5C96
-    if_random_less_than 100, TrAI02_5CE4
-    add_to_score -1
-    jump TrAI02_5CE4
-TrAI02_5C96:
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER, 3, 9, TrAI02_5CBE
-    if_random_less_than 100, TrAI02_5CE4
-    add_to_score -1
-    jump TrAI02_5CE4
-TrAI02_5CBE:
-    if_hp_not_equal TRAI_SIDE_ATTACKER, 100, TrAI02_5CEA
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 127, TrAI02_5CE4
-    if_random_less_than 128, TrAI02_5CEA
-TrAI02_5CE4:
-    add_to_score 2
-TrAI02_5CEA:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 70, TrAI02_5D16
-    if_hp_less_than TRAI_SIDE_ATTACKER, 40, TrAI02_5D10
-    if_random_less_than 40, TrAI02_5D16
-TrAI02_5D10:
-    add_to_score -2
-TrAI02_5D16:
-    end
-TrAI02_5D18:
-    end
-TrAI02_5D1A:
-    if_speed_compare 1, TrAI02_5D30
-    add_to_score -1
-    jump TrAI02_5D40
-TrAI02_5D30:
-    if_random_less_than 70, TrAI02_5D40
-    add_to_score 2
-TrAI02_5D40:
-    end
-TrAI02_5D42:
-    end
-    add_to_score -1
-    end
-TrAI02_5D4C:
-    add_to_score -2
-    end
-TrAI02_5D54:
-    add_to_score -3
-    end
-TrAI02_5D5C:
-    add_to_score -5
-    end
-    add_to_score -6
-    end
-    add_to_score -8
-    end
-TrAI02_5D74:
-    add_to_score -10
-    end
-    add_to_score -12
-    end
-    add_to_score -30
-    end
-    add_to_score 1
-    end
-TrAI02_5D94:
-    add_to_score 2
-    end
-    add_to_score 3
-    end
-    add_to_score 5
-    end
-TrAI02_5DAC:
-    add_to_score 10
-    end
+// AI flag 2, Expert: scores each move effect by how useful it is in the situation, from Expert_MoveEffectTable.
+
+Expert_Main:
+    IfTargetIsPartner Terminate
+    GoToByMoveEffect 0, 337, Expert_MoveEffectTable
+    End
+
+Expert_MoveEffectTable:
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_StatusSleep, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_DrainMove, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Explosion, Expert_MoveEffectTable
+    LabelDistance Expert_DreamEater, Expert_MoveEffectTable
+    LabelDistance Expert_MirrorMove, Expert_MoveEffectTable
+    LabelDistance Expert_StatusAttackUp, Expert_MoveEffectTable
+    LabelDistance Expert_StatusDefenseUp, Expert_MoveEffectTable
+    LabelDistance Expert_StatusSpeedUp, Expert_MoveEffectTable
+    LabelDistance Expert_StatusSpAttackUp, Expert_MoveEffectTable
+    LabelDistance Expert_StatusSpDefenseUp, Expert_MoveEffectTable
+    LabelDistance Expert_StatusAccuracyUp, Expert_MoveEffectTable
+    LabelDistance Expert_StatusEvasionUp, Expert_MoveEffectTable
+    LabelDistance Expert_BypassAccuracyMove, Expert_MoveEffectTable
+    LabelDistance Expert_StatusAttackDown, Expert_MoveEffectTable
+    LabelDistance Expert_StatusDefenseDown, Expert_MoveEffectTable
+    LabelDistance Expert_StatusSpeedDown, Expert_MoveEffectTable
+    LabelDistance Expert_StatusSpAttackDown, Expert_MoveEffectTable
+    LabelDistance Expert_StatusSpDefenseDown, Expert_MoveEffectTable
+    LabelDistance Expert_StatusAccuracyDown, Expert_MoveEffectTable
+    LabelDistance Expert_StatusEvasionDown, Expert_MoveEffectTable
+    LabelDistance Expert_Haze, Expert_MoveEffectTable
+    LabelDistance Expert_Bide, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_ForceSwitch, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Conversion, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Recovery, Expert_MoveEffectTable
+    LabelDistance Expert_ToxicLeechSeed, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_LightScreen, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Rest, Expert_MoveEffectTable
+    LabelDistance Expert_OHKOMove, Expert_MoveEffectTable
+    LabelDistance Expert_ChargeTurnNoInvuln, Expert_MoveEffectTable
+    LabelDistance Expert_SuperFang, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_BindingMove, Expert_MoveEffectTable
+    LabelDistance Expert_HighCritical, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_RecoilMove, Expert_MoveEffectTable
+    LabelDistance Expert_StatusConfuse, Expert_MoveEffectTable
+    LabelDistance Expert_StatusAttackUp, Expert_MoveEffectTable
+    LabelDistance Expert_StatusDefenseUp, Expert_MoveEffectTable
+    LabelDistance Expert_StatusSpeedUp, Expert_MoveEffectTable
+    LabelDistance Expert_StatusSpAttackUp, Expert_MoveEffectTable
+    LabelDistance Expert_StatusSpDefenseUp, Expert_MoveEffectTable
+    LabelDistance Expert_StatusAccuracyUp, Expert_MoveEffectTable
+    LabelDistance Expert_StatusEvasionUp, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_StatusAttackDown, Expert_MoveEffectTable
+    LabelDistance Expert_StatusDefenseDown, Expert_MoveEffectTable
+    LabelDistance Expert_StatusSpeedDown, Expert_MoveEffectTable
+    LabelDistance Expert_StatusSpAttackDown, Expert_MoveEffectTable
+    LabelDistance Expert_StatusSpDefenseDown, Expert_MoveEffectTable
+    LabelDistance Expert_StatusAccuracyDown, Expert_MoveEffectTable
+    LabelDistance Expert_StatusEvasionDown, Expert_MoveEffectTable
+    LabelDistance Expert_Reflect, Expert_MoveEffectTable
+    LabelDistance Expert_StatusPoison, Expert_MoveEffectTable
+    LabelDistance Expert_StatusParalyze, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_SpeedDownOnHit, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_ChargeTurnNoInvuln, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_VitalThrow, Expert_MoveEffectTable
+    LabelDistance Expert_Substitute, Expert_MoveEffectTable
+    LabelDistance Expert_RechargeTurn, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_ToxicLeechSeed, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Disable, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Counter, Expert_MoveEffectTable
+    LabelDistance Expert_Encore, Expert_MoveEffectTable
+    LabelDistance Expert_PainSplit, Expert_MoveEffectTable
+    LabelDistance Expert_Nightmare, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_LockOn, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_SleepTalk, Expert_MoveEffectTable
+    LabelDistance Expert_DestinyBond, Expert_MoveEffectTable
+    LabelDistance Expert_Reversal, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_HealBell, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Thief, Expert_MoveEffectTable
+    LabelDistance Expert_BindingMove, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_StatusEvasionUp, Expert_MoveEffectTable
+    LabelDistance Expert_Curse, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Protect, Expert_MoveEffectTable
+    LabelDistance Expert_Spikes, Expert_MoveEffectTable
+    LabelDistance Expert_Foresight, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Endure, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Swagger, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_BatonPass, Expert_MoveEffectTable
+    LabelDistance Expert_Pursuit, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Synthesis, Expert_MoveEffectTable
+    LabelDistance Expert_Synthesis, Expert_MoveEffectTable
+    LabelDistance Expert_Synthesis, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_RainDance, Expert_MoveEffectTable
+    LabelDistance Expert_SunnyDay, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_BellyDrum, Expert_MoveEffectTable
+    LabelDistance Expert_PsychUp, Expert_MoveEffectTable
+    LabelDistance Expert_MirrorCoat, Expert_MoveEffectTable
+    LabelDistance Expert_ChargeTurnNoInvuln, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_ChargeTurnNoInvuln, Expert_MoveEffectTable
+    LabelDistance Expert_ChargeTurnNoInvuln_CheckEffectivenessAndWeather, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_ChargeTurnWithInvuln, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Recovery, Expert_MoveEffectTable
+    LabelDistance Expert_FakeOut, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Stockpile, Expert_MoveEffectTable
+    LabelDistance Expert_SpitUp, Expert_MoveEffectTable
+    LabelDistance Expert_Recovery, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Hail, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Flatter, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Explosion, Expert_MoveEffectTable
+    LabelDistance Expert_Facade, Expert_MoveEffectTable
+    LabelDistance Expert_FocusPunch, Expert_MoveEffectTable
+    LabelDistance Expert_SmellingSalts, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Trick, Expert_MoveEffectTable
+    LabelDistance Expert_ChangeUserAbility, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Ingrain, Expert_MoveEffectTable
+    LabelDistance Expert_Superpower, Expert_MoveEffectTable
+    LabelDistance Expert_MagicCoat, Expert_MoveEffectTable
+    LabelDistance Expert_Recycle, Expert_MoveEffectTable
+    LabelDistance Expert_Revenge, Expert_MoveEffectTable
+    LabelDistance Expert_BrickBreak, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_KnockOff, Expert_MoveEffectTable
+    LabelDistance Expert_Endeavor, Expert_MoveEffectTable
+    LabelDistance Expert_WaterSpout, Expert_MoveEffectTable
+    LabelDistance Expert_ChangeUserAbility, Expert_MoveEffectTable
+    LabelDistance Expert_Imprison, Expert_MoveEffectTable
+    LabelDistance Expert_Refresh, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Snatch, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_RecoilMove, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_HighCritical, Expert_MoveEffectTable
+    LabelDistance Expert_MudSport, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Overheat, Expert_MoveEffectTable
+    LabelDistance Expert_StatusDefenseDown, Expert_MoveEffectTable
+    LabelDistance Expert_StatusSpDefenseUp, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_StatusDefenseUp, Expert_MoveEffectTable
+    LabelDistance Expert_HighCritical, Expert_MoveEffectTable
+    LabelDistance Expert_WaterSport, Expert_MoveEffectTable
+    LabelDistance Expert_StatusSpDefenseUp, Expert_MoveEffectTable
+    LabelDistance Expert_DragonDance, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Recovery, Expert_MoveEffectTable
+    LabelDistance Expert_Gravity, Expert_MoveEffectTable
+    LabelDistance Expert_MiracleEye, Expert_MoveEffectTable
+    LabelDistance Expert_WakeUpSlap, Expert_MoveEffectTable
+    LabelDistance Expert_HammerArm, Expert_MoveEffectTable
+    LabelDistance Expert_GyroBall, Expert_MoveEffectTable
+    LabelDistance Expert_HealingWish, Expert_MoveEffectTable
+    LabelDistance Expert_Brine, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Feint, Expert_MoveEffectTable
+    LabelDistance Expert_Pluck, Expert_MoveEffectTable
+    LabelDistance Expert_Tailwind, Expert_MoveEffectTable
+    LabelDistance Expert_Acupressure, Expert_MoveEffectTable
+    LabelDistance Expert_MetalBurst, Expert_MoveEffectTable
+    LabelDistance Expert_UTurn, Expert_MoveEffectTable
+    LabelDistance Expert_CloseCombat, Expert_MoveEffectTable
+    LabelDistance Expert_Payback, Expert_MoveEffectTable
+    LabelDistance Expert_Assurance, Expert_MoveEffectTable
+    LabelDistance Expert_Embargo, Expert_MoveEffectTable
+    LabelDistance Expert_Fling, Expert_MoveEffectTable
+    LabelDistance Expert_PsychoShift, Expert_MoveEffectTable
+    LabelDistance Expert_TrumpCard, Expert_MoveEffectTable
+    LabelDistance Expert_HealBlock, Expert_MoveEffectTable
+    LabelDistance Expert_WringOut, Expert_MoveEffectTable
+    LabelDistance Expert_PowerTrick, Expert_MoveEffectTable
+    LabelDistance Expert_GastroAcid, Expert_MoveEffectTable
+    LabelDistance Expert_LuckyChant, Expert_MoveEffectTable
+    LabelDistance Expert_MeFirst, Expert_MoveEffectTable
+    LabelDistance Expert_Copycat, Expert_MoveEffectTable
+    LabelDistance Expert_PowerSwap, Expert_MoveEffectTable
+    LabelDistance Expert_GuardSwap, Expert_MoveEffectTable
+    LabelDistance Expert_Punishment, Expert_MoveEffectTable
+    LabelDistance Expert_LastResort, Expert_MoveEffectTable
+    LabelDistance Expert_WorrySeed, Expert_MoveEffectTable
+    LabelDistance Expert_SuckerPunch, Expert_MoveEffectTable
+    LabelDistance Expert_ToxicSpikes, Expert_MoveEffectTable
+    LabelDistance Expert_HeartSwap, Expert_MoveEffectTable
+    LabelDistance Expert_AquaRing, Expert_MoveEffectTable
+    LabelDistance Expert_MagnetRise, Expert_MoveEffectTable
+    LabelDistance Expert_RecoilMove, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_ChargeTurnWithInvuln, Expert_MoveEffectTable
+    LabelDistance Expert_ChargeTurnWithInvuln, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Defog, Expert_MoveEffectTable
+    LabelDistance Expert_TrickRoom, Expert_MoveEffectTable
+    LabelDistance Expert_Blizzard, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_RecoilMove, Expert_MoveEffectTable
+    LabelDistance Expert_ChargeTurnWithInvuln, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_Captivate, Expert_MoveEffectTable
+    LabelDistance Expert_StealthRock, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_RecoilMove, Expert_MoveEffectTable
+    LabelDistance Expert_HealingWish, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_ShadowForce, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_HoneClaws, Expert_MoveEffectTable
+    LabelDistance Expert_WideGuard, Expert_MoveEffectTable
+    LabelDistance Expert_GuardSplit, Expert_MoveEffectTable
+    LabelDistance Expert_PowerSplit, Expert_MoveEffectTable
+    LabelDistance Expert_WonderRoom, Expert_MoveEffectTable
+    LabelDistance Expert_Psyshock, Expert_MoveEffectTable
+    LabelDistance Expert_Venoshock, Expert_MoveEffectTable
+    LabelDistance Expert_Autotomize, Expert_MoveEffectTable
+    LabelDistance Expert_Telekinesis, Expert_MoveEffectTable
+    LabelDistance Expert_MagicRoom, Expert_MoveEffectTable
+    LabelDistance Expert_SmackDown, Expert_MoveEffectTable
+    LabelDistance Expert_StormThrow, Expert_MoveEffectTable
+    LabelDistance Expert_FlameBurst, Expert_MoveEffectTable
+    LabelDistance Expert_QuiverDance, Expert_MoveEffectTable
+    LabelDistance Expert_HeavySlam, Expert_MoveEffectTable
+    LabelDistance Expert_Synchronoise, Expert_MoveEffectTable
+    LabelDistance Expert_ElectroBall, Expert_MoveEffectTable
+    LabelDistance Expert_Soak, Expert_MoveEffectTable
+    LabelDistance Expert_FlameCharge, Expert_MoveEffectTable
+    LabelDistance Expert_AcidSpray, Expert_MoveEffectTable
+    LabelDistance Expert_FoulPlay, Expert_MoveEffectTable
+    LabelDistance Expert_SimpleBeam, Expert_MoveEffectTable
+    LabelDistance Expert_Entrainment, Expert_MoveEffectTable
+    LabelDistance Expert_AfterYou, Expert_MoveEffectTable
+    LabelDistance Expert_Round, Expert_MoveEffectTable
+    LabelDistance Expert_EchoedVoice, Expert_MoveEffectTable
+    LabelDistance Expert_ChipAway, Expert_MoveEffectTable
+    LabelDistance Expert_ClearSmog, Expert_MoveEffectTable
+    LabelDistance Expert_StoredPower, Expert_MoveEffectTable
+    LabelDistance Expert_QuickGuard, Expert_MoveEffectTable
+    LabelDistance Expert_AllySwitch, Expert_MoveEffectTable
+    LabelDistance Expert_ShellSmash, Expert_MoveEffectTable
+    LabelDistance Expert_HealPulse, Expert_MoveEffectTable
+    LabelDistance Expert_Hex, Expert_MoveEffectTable
+    LabelDistance Expert_ChargeTurnWithInvuln_CheckConditions, Expert_MoveEffectTable
+    LabelDistance Expert_ShiftGear, Expert_MoveEffectTable
+    LabelDistance Expert_ForceSwitch, Expert_MoveEffectTable
+    LabelDistance Expert_Incinerate, Expert_MoveEffectTable
+    LabelDistance Expert_Quash, Expert_MoveEffectTable
+    LabelDistance Expert_Growth, Expert_MoveEffectTable
+    LabelDistance Expert_Acrobatics, Expert_MoveEffectTable
+    LabelDistance Expert_ReflectType, Expert_MoveEffectTable
+    LabelDistance Expert_Retaliate, Expert_MoveEffectTable
+    LabelDistance Expert_FinalGambit, Expert_MoveEffectTable
+    LabelDistance Expert_StatusSpAttackUp, Expert_MoveEffectTable
+    LabelDistance Expert_StatusDefenseUp, Expert_MoveEffectTable
+    LabelDistance Expert_Bestow, Expert_MoveEffectTable
+    LabelDistance Expert_WaterPledge, Expert_MoveEffectTable
+    LabelDistance Expert_FirePledge, Expert_MoveEffectTable
+    LabelDistance Expert_GrassPledge, Expert_MoveEffectTable
+    LabelDistance Expert_WorkUp, Expert_MoveEffectTable
+    LabelDistance Expert_StatusSpAttackUp, Expert_MoveEffectTable
+    LabelDistance Expert_RelicSong, Expert_MoveEffectTable
+    LabelDistance Expert_Glaciate, Expert_MoveEffectTable
+    LabelDistance Expert_ChargeTurnNoInvuln, Expert_MoveEffectTable
+    LabelDistance Expert_ChargeTurnNoInvuln, Expert_MoveEffectTable
+    LabelDistance Expert_Unused333, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Terminate, Expert_MoveEffectTable
+    LabelDistance Expert_ChargeTurnNoInvuln_CheckEffectivenessAndWeather, Expert_MoveEffectTable
+
+Terminate:
+    End
+
+Expert_StatusSleep:
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_RECOVER_DAMAGE_SLEEP, Expert_StatusSleep_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_STATUS_NIGHTMARE, Expert_StatusSleep_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_USE_RANDOM_LEARNED_MOVE_SLEEP, Expert_StatusSleep_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_APPLY_MAGIC_COAT, Expert_StatusSleep_TryScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_DAMAGE_WHILE_ASLEEP, Expert_StatusSleep_TryScoreMinus1
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_NO_GUARD, Expert_StatusSleep_TryScorePlus1
+    IfLoadedEqualTo ABILITY_EARLY_BIRD, Expert_StatusSleep_TryScoreMinus1
+    GoTo Expert_StatusSleep_End
+
+Expert_StatusSleep_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_StatusSleep_TryScoreMinus1:
+    IfRandomLessThan 128, Expert_StatusSleep_End
+    AddToMoveScore -1
+    GoTo Expert_StatusSleep_End
+
+Expert_StatusSleep_TryScorePlus1:
+    IfRandomLessThan 128, Expert_StatusSleep_End
+    AddToMoveScore 1
+
+Expert_StatusSleep_End:
+    End
+
+Expert_DrainMove:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_DrainMove_TryScoreMinus3
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_DrainMove_TryScoreMinus3
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_DrainMove_TryScoreMinus3
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_LIQUID_OOZE, Expert_DrainMove_TryScoreMinus3
+    GoTo Expert_DrainMove_End
+
+Expert_DrainMove_TryScoreMinus3:
+    IfRandomLessThan 50, Expert_DrainMove_End
+    AddToMoveScore -3
+
+Expert_DrainMove_End:
+    End
+
+Expert_Explosion:
+    IfStatStageLessThan AI_BATTLER_DEFENDER, BATTLEMON_EVASION_STAGE, 7, Expert_Explosion_CheckUserHighHP
+    AddToMoveScore -1
+    IfStatStageLessThan AI_BATTLER_DEFENDER, BATTLEMON_EVASION_STAGE, 10, Expert_Explosion_CheckUserHighHP
+    IfRandomLessThan 128, Expert_Explosion_CheckUserHighHP
+    AddToMoveScore -1
+
+Expert_Explosion_CheckUserHighHP:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 80, Expert_Explosion_CheckUserMediumHP
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_Explosion_CheckUserMediumHP
+    IfTurnRandomLessThan 50, Expert_Explosion_End
+    GoTo ScoreMinus3
+
+Expert_Explosion_CheckUserMediumHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 50, Expert_Explosion_TryScoreMinus1
+    IfTurnRandomGreaterThan 128, Expert_Explosion_CheckUserLowHP
+    AddToMoveScore 1
+
+Expert_Explosion_CheckUserLowHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 30, Expert_Explosion_End
+    IfTurnRandomGreaterThan 128, Expert_Explosion_End
+    AddToMoveScore 1
+    GoTo Expert_Explosion_End
+
+Expert_Explosion_TryScoreMinus1:
+    IfTurnRandomLessThan 50, Expert_Explosion_End
+    AddToMoveScore -1
+
+Expert_Explosion_End:
+    End
+
+Expert_DreamEater:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_DreamEater_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_DreamEater_TryScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_DreamEater_TryScoreMinus1
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_LIQUID_OOZE, Expert_DreamEater_ScoreMinus1
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_SLEEP, Expert_DreamEater_TryScorePlus3
+    GoTo Expert_DreamEater_End
+
+Expert_DreamEater_TryScorePlus3:
+    IfRandomLessThan 51, Expert_DreamEater_End
+    AddToMoveScore 3
+    GoTo Expert_DreamEater_End
+
+Expert_DreamEater_ScoreMinus1:
+    IfRandomLessThan 50, Expert_DreamEater_TryScoreMinus1
+    AddToMoveScore -2
+
+Expert_DreamEater_TryScoreMinus1:
+    IfRandomLessThan 50, Expert_DreamEater_End
+    AddToMoveScore -1
+
+Expert_DreamEater_End:
+    End
+
+Expert_MirrorMove:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_MirrorMove_TryScoreMinus1
+    LoadBattlerPreviousMove AI_BATTLER_DEFENDER
+    IfLoadedNotInTable Expert_MirrorMove_MoveTable, Expert_MirrorMove_TryScoreMinus1
+    IfRandomLessThan 128, Expert_MirrorMove_End
+    AddToMoveScore 2
+    GoTo Expert_MirrorMove_End
+
+Expert_MirrorMove_TryScoreMinus1:
+    LoadBattlerPreviousMove AI_BATTLER_DEFENDER
+    IfLoadedInTable Expert_MirrorMove_MoveTable, Expert_MirrorMove_End
+    IfRandomLessThan 80, Expert_MirrorMove_End
+    AddToMoveScore -1
+
+Expert_MirrorMove_End:
+    End
+
+Expert_MirrorMove_MoveTable:
+    TableEntry MOVE_SLEEP_POWDER
+    TableEntry MOVE_LOVELY_KISS
+    TableEntry MOVE_SPORE
+    TableEntry MOVE_HYPNOSIS
+    TableEntry MOVE_SING
+    TableEntry MOVE_GRASS_WHISTLE
+    TableEntry MOVE_SHADOW_PUNCH
+    TableEntry MOVE_SAND_ATTACK
+    TableEntry MOVE_SMOKE_SCREEN
+    TableEntry MOVE_TOXIC
+    TableEntry MOVE_GUILLOTINE
+    TableEntry MOVE_HORN_DRILL
+    TableEntry MOVE_FISSURE
+    TableEntry MOVE_SHEER_COLD
+    TableEntry MOVE_CROSS_CHOP
+    TableEntry MOVE_AEROBLAST
+    TableEntry MOVE_CONFUSE_RAY
+    TableEntry MOVE_SWEET_KISS
+    TableEntry MOVE_SCREECH
+    TableEntry MOVE_COTTON_SPORE
+    TableEntry MOVE_SCARY_FACE
+    TableEntry MOVE_FAKE_TEARS
+    TableEntry MOVE_METAL_SOUND
+    TableEntry MOVE_THUNDER_WAVE
+    TableEntry MOVE_GLARE
+    TableEntry MOVE_POISON_POWDER
+    TableEntry MOVE_SHADOW_BALL
+    TableEntry MOVE_DYNAMIC_PUNCH
+    TableEntry MOVE_HYPER_BEAM
+    TableEntry MOVE_EXTREME_SPEED
+    TableEntry MOVE_THIEF
+    TableEntry MOVE_COVET
+    TableEntry MOVE_ATTRACT
+    TableEntry MOVE_SWAGGER
+    TableEntry MOVE_TORMENT
+    TableEntry MOVE_FLATTER
+    TableEntry MOVE_TRICK
+    TableEntry MOVE_SUPERPOWER
+    TableEntry MOVE_SKILL_SWAP
+    TableEntry MOVE_PSYCHO_SHIFT
+    TableEntry MOVE_POWER_SWAP
+    TableEntry MOVE_GUARD_SWAP
+    TableEntry MOVE_SUCKER_PUNCH
+    TableEntry MOVE_HEART_SWAP
+    TableEntry MOVE_SWITCHEROO
+    TableEntry MOVE_CAPTIVATE
+    TableEntry MOVE_DARK_VOID
+    TableEntry MOVE_GLACIATE
+    TableEntry MOVE_SNARL
+    TableEntry TABLE_END
+
+Expert_StatusAttackUp:
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 9, Expert_StatusAttackUp_CheckUserAtMaxHP
+    IfRandomLessThan 100, Expert_StatusAttackUp_CheckUserHPRange
+    AddToMoveScore -1
+    GoTo Expert_StatusAttackUp_CheckUserHPRange
+
+Expert_StatusAttackUp_CheckUserAtMaxHP:
+    IfHPPercentNotEqualTo AI_BATTLER_ATTACKER, 100, Expert_StatusAttackUp_CheckUserHPRange
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_PASS_STATS_AND_STATUS, Expert_StatusAttackUp_ScorePlus2
+    IfRandomLessThan 128, Expert_StatusAttackUp_CheckUserHPRange
+
+Expert_StatusAttackUp_ScorePlus2:
+    AddToMoveScore 2
+
+Expert_StatusAttackUp_CheckUserHPRange:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 70, Expert_StatusAttackUp_End
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 40, Expert_StatusAttackUp_ScoreMinus2
+    IfRandomLessThan 40, Expert_StatusAttackUp_End
+
+Expert_StatusAttackUp_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_StatusAttackUp_End:
+    End
+
+Expert_StatusDefenseUp:
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 9, Expert_StatusDefenseUp_CheckUserAtMaxHP
+    IfRandomLessThan 100, Expert_StatusDefenseUp_ScorePlus2
+    AddToMoveScore -1
+    GoTo Expert_StatusDefenseUp_ScorePlus2
+
+Expert_StatusDefenseUp_CheckUserAtMaxHP:
+    IfHPPercentNotEqualTo AI_BATTLER_ATTACKER, 100, Expert_StatusDefenseUp_CheckUserHighHP
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_PASS_STATS_AND_STATUS, Expert_StatusDefenseUp_ScorePlus2
+    IfRandomLessThan 128, Expert_StatusDefenseUp_CheckUserHighHP
+
+Expert_StatusDefenseUp_ScorePlus2:
+    AddToMoveScore 2
+
+Expert_StatusDefenseUp_CheckUserHighHP:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 70, Expert_StatusDefenseUp_CheckUserMediumHP
+    IfRandomLessThan 200, Expert_StatusDefenseUp_End
+
+Expert_StatusDefenseUp_CheckUserMediumHP:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 40, Expert_StatusDefenseUp_ScoreMinus2
+    LoadBattlerPreviousMove AI_BATTLER_DEFENDER
+    LoadPowerOfLoadedMove
+    IfLoadedEqualTo 0, Expert_StatusDefenseUp_UserAtLowHP
+    LoadDefenderLastUsedMoveClass
+    IfLoadedEqualTo MOVE_CATEGORY_SPECIAL, Expert_StatusDefenseUp_ScoreMinus2
+    IfRandomLessThan 60, Expert_StatusDefenseUp_End
+
+Expert_StatusDefenseUp_UserAtLowHP:
+    IfRandomLessThan 60, Expert_StatusDefenseUp_End
+
+Expert_StatusDefenseUp_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_StatusDefenseUp_End:
+    End
+
+Expert_Autotomize:
+    IfMoveEffectNotKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_INCREASE_POWER_WITH_WEIGHT, Expert_StatusSpeedUp
+    IfRandomLessThan 60, Expert_StatusSpeedUp
+    AddToMoveScore 1
+
+Expert_StatusSpeedUp:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_StatusSpeedUp_TryScorePlus3
+    AddToMoveScore -3
+    GoTo Expert_StatusSpeedUp_End
+
+Expert_StatusSpeedUp_TryScorePlus3:
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_FLINCH_HIT, Expert_StatusSpeedUp_TryScorePlus2
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_RESTORE_HALF_HP, Expert_StatusSpeedUp_TryScorePlus2
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_REST, Expert_StatusSpeedUp_TryScorePlus2
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_HEAL_HALF_MORE_IN_SUN, Expert_StatusSpeedUp_TryScorePlus2
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_HEAL_HALF_REMOVE_FLYING_TYPE, Expert_StatusSpeedUp_TryScorePlus2
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_SET_SUBSTITUTE, Expert_StatusSpeedUp_TryScorePlus2
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_AVERAGE_HP, Expert_StatusSpeedUp_TryScorePlus2
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_FLINCH_MINIMIZE_DOUBLE_HIT, Expert_StatusSpeedUp_TryScorePlus2
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_KO_MON_THAT_DEFEATED_USER, Expert_StatusSpeedUp_TryScorePlus2
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_PASS_STATS_AND_STATUS, Expert_StatusSpeedUp_TryScorePlus2
+    GoTo Expert_StatusSpeedUp_TryScorePlus2_2
+
+Expert_StatusSpeedUp_TryScorePlus2:
+    IfRandomLessThan 70, Expert_StatusSpeedUp_TryScorePlus2_2
+    AddToMoveScore 2
+
+Expert_StatusSpeedUp_TryScorePlus2_2:
+    IfRandomLessThan 70, Expert_StatusSpeedUp_End
+    AddToMoveScore 2
+
+Expert_StatusSpeedUp_End:
+    End
+
+Expert_StatusSpAttackUp:
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 9, Expert_StatusSpAttackUp_CheckUserAtMaxHP
+    IfRandomLessThan 100, Expert_StatusSpAttackUp_CheckUserHPRange
+    AddToMoveScore -1
+    GoTo Expert_StatusSpAttackUp_CheckUserHPRange
+
+Expert_StatusSpAttackUp_CheckUserAtMaxHP:
+    IfHPPercentNotEqualTo AI_BATTLER_ATTACKER, 100, Expert_StatusSpAttackUp_CheckUserHPRange
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_PASS_STATS_AND_STATUS, Expert_StatusSpAttackUp_ScorePlus2
+    IfRandomLessThan 128, Expert_StatusSpAttackUp_CheckUserHPRange
+
+Expert_StatusSpAttackUp_ScorePlus2:
+    AddToMoveScore 2
+
+Expert_StatusSpAttackUp_CheckUserHPRange:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 70, Expert_StatusSpAttackUp_End
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 40, Expert_StatusSpAttackUp_ScoreMinus2
+    IfRandomLessThan 70, Expert_StatusSpAttackUp_End
+
+Expert_StatusSpAttackUp_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_StatusSpAttackUp_End:
+    End
+
+Expert_StatusSpDefenseUp:
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_SP_DEFENSE_STAGE, 9, Expert_StatusSpDefenseUp_CheckUserAtMaxHP
+    IfRandomLessThan 100, Expert_StatusSpDefenseUp_CheckUserHighHP
+    AddToMoveScore -1
+    GoTo Expert_StatusSpDefenseUp_CheckUserHighHP
+
+Expert_StatusSpDefenseUp_CheckUserAtMaxHP:
+    IfHPPercentNotEqualTo AI_BATTLER_ATTACKER, 100, Expert_StatusSpDefenseUp_CheckUserHighHP
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_PASS_STATS_AND_STATUS, Expert_StatusSpDefenseUp_ScorePlus2
+    IfRandomLessThan 128, Expert_StatusSpDefenseUp_CheckUserHighHP
+
+Expert_StatusSpDefenseUp_ScorePlus2:
+    AddToMoveScore 2
+
+Expert_StatusSpDefenseUp_CheckUserHighHP:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 70, Expert_StatusSpDefenseUp_CheckUserMediumHP
+    IfRandomLessThan 200, Expert_StatusSpDefenseUp_End
+
+Expert_StatusSpDefenseUp_CheckUserMediumHP:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 40, Expert_StatusSpDefenseUp_TryScoreMinus2
+    LoadBattlerPreviousMove AI_BATTLER_DEFENDER
+    LoadPowerOfLoadedMove
+    IfLoadedEqualTo 0, Expert_StatusSpDefenseUp_UserAtLowHP
+    LoadDefenderLastUsedMoveClass
+    IfLoadedEqualTo MOVE_CATEGORY_PHYSICAL, Expert_StatusSpDefenseUp_TryScoreMinus2
+    IfRandomLessThan 60, Expert_StatusSpDefenseUp_End
+
+Expert_StatusSpDefenseUp_UserAtLowHP:
+    IfRandomLessThan 60, Expert_StatusSpDefenseUp_End
+
+Expert_StatusSpDefenseUp_TryScoreMinus2:
+    AddToMoveScore -2
+
+Expert_StatusSpDefenseUp_End:
+    End
+
+Expert_StatusAccuracyUp:
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_ACCURACY_STAGE, 9, Expert_StatusAccuracyUp_TryScoreMinus2
+    IfRandomLessThan 50, Expert_StatusAccuracyUp_TryScoreMinus2
+    AddToMoveScore -2
+
+Expert_StatusAccuracyUp_TryScoreMinus2:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 70, Expert_StatusAccuracyUp_End
+    AddToMoveScore -2
+
+Expert_StatusAccuracyUp_End:
+    End
+
+Expert_StatusEvasionUp:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_NO_GUARD, Expert_StatusEvasionUp_ScoreMinus2_2
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_NO_GUARD, Expert_StatusEvasionUp_ScoreMinus2_2
+    LoadBattlerPreviousMove AI_BATTLER_DEFENDER
+    LoadEffectOfLoadedMove
+    IfLoadedEqualTo BATTLE_EFFECT_BYPASS_ACCURACY, Expert_StatusEvasionUp_ScoreMinus2_2
+    IfLoadedEqualTo BATTLE_EFFECT_HIGHER_POWER_WHEN_LOW_PP, Expert_StatusEvasionUp_ScoreMinus2_2
+    IfLoadedEqualTo BATTLE_EFFECT_SHADOW_FORCE, Expert_StatusEvasionUp_ScoreMinus2_2
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_CURSE, Expert_StatusEvasionUp_ScoreMinus2_2
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_FORESIGHT, Expert_StatusEvasionUp_ScoreMinus2_2
+    LoadCurrentWeather
+    IfLoadedNotEqualTo BTL_WEATHER_RAIN, Expert_StatusEvasionUp_CheckHail
+    LoadBattlerPreviousMove AI_BATTLER_DEFENDER
+    LoadEffectOfLoadedMove
+    IfLoadedEqualTo BATTLE_EFFECT_THUNDER, Expert_StatusEvasionUp_ScoreMinus2_2
+
+Expert_StatusEvasionUp_CheckHail:
+    LoadCurrentWeather
+    IfLoadedNotEqualTo BTL_WEATHER_HAIL, Expert_StatusEvasionUp_CheckResidualDamage
+    LoadBattlerPreviousMove AI_BATTLER_DEFENDER
+    LoadEffectOfLoadedMove
+    IfLoadedEqualTo BATTLE_EFFECT_BLIZZARD, Expert_StatusEvasionUp_ScoreMinus2_2
+
+Expert_StatusEvasionUp_CheckResidualDamage:
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_RESTORE_HALF_HP, Expert_StatusEvasionUp_CheckEnemyCursed
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_HEAL_HALF_MORE_IN_SUN, Expert_StatusEvasionUp_CheckEnemyCursed
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_DEF_UP_DOUBLE_ROLLOUT_POWER, Expert_StatusEvasionUp_CheckEnemyCursed
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_SWALLOW, Expert_StatusEvasionUp_CheckEnemyCursed
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_HEAL_HALF_REMOVE_FLYING_TYPE, Expert_StatusEvasionUp_CheckEnemyCursed
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, Expert_StatusEvasionUp_CheckEnemyCursed
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_LEECH_SEED, Expert_StatusEvasionUp_TryScoreMinus1
+    IfBadlyPoisoned AI_BATTLER_ATTACKER, Expert_StatusEvasionUp_CheckPoisonHeal
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_POISON, Expert_StatusEvasionUp_CheckPoisonHeal
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_BURN, Expert_StatusEvasionUp_TryScoreMinus1
+    GoTo Expert_StatusEvasionUp_CheckEnemyCursed
+
+Expert_StatusEvasionUp_CheckPoisonHeal:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_POISON_HEAL, Expert_StatusEvasionUp_TryScorePlus1
+    GoTo Expert_StatusEvasionUp_TryScoreMinus1
+
+Expert_StatusEvasionUp_TryScorePlus1:
+    IfRandomLessThan 50, Expert_StatusEvasionUp_CheckEnemyCursed
+    AddToMoveScore 1
+    GoTo Expert_StatusEvasionUp_CheckEnemyCursed
+
+Expert_StatusEvasionUp_TryScoreMinus1:
+    IfRandomLessThan 50, Expert_StatusEvasionUp_CheckEnemyCursed
+    AddToMoveScore -1
+
+Expert_StatusEvasionUp_CheckEnemyCursed:
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_INGRAIN, Expert_StatusEvasionUp_CheckHPRanges
+    IfNotCondition AI_BATTLER_ATTACKER, 35, Expert_StatusEvasionUp_CheckHPRanges
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_LEFTOVERS, Expert_StatusEvasionUp_CheckHPRanges
+    IfLoadedNotEqualTo 2, Expert_StatusEvasionUp_End
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_DRY_SKIN, Expert_StatusEvasionUp_CheckHPRanges
+    IfLoadedEqualTo ABILITY_RAIN_DISH, Expert_StatusEvasionUp_CheckHPRanges
+    GoTo Expert_StatusEvasionUp_End
+
+Expert_StatusEvasionUp_CheckHPRanges:
+    IfRandomLessThan 50, Expert_StatusEvasionUp_End
+
+Expert_StatusEvasionUp_ScoreMinus2:
+    AddToMoveScore 1
+
+Expert_StatusEvasionUp_End:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, Expert_StatusEvasionUp_CheckEvasionStage
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_CURSE, Expert_StatusEvasionUp_TryScorePlus1_2
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_RESTORE_HALF_HP, Expert_StatusEvasionUp_CheckEvasionStage
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_HEAL_HALF_MORE_IN_SUN, Expert_StatusEvasionUp_CheckEvasionStage
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_DEF_UP_DOUBLE_ROLLOUT_POWER, Expert_StatusEvasionUp_CheckEvasionStage
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_SWALLOW, Expert_StatusEvasionUp_CheckEvasionStage
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_HEAL_HALF_REMOVE_FLYING_TYPE, Expert_StatusEvasionUp_CheckEvasionStage
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_LEECH_SEED, Expert_StatusEvasionUp_TryScorePlus1_2
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_BURN, Expert_StatusEvasionUp_TryScorePlus1_2
+    IfBadlyPoisoned AI_BATTLER_DEFENDER, Expert_StatusEvasionUp_CheckTargetPoisonHeal
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_POISON, Expert_StatusEvasionUp_CheckTargetPoisonHeal
+    IfLoadedNotEqualTo ABILITY_STENCH, Expert_StatusEvasionUp_CheckEvasionStage
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_DRY_SKIN, Expert_StatusEvasionUp_TryScorePlus1_2
+    GoTo Expert_StatusEvasionUp_CheckEvasionStage
+
+Expert_StatusEvasionUp_CheckTargetPoisonHeal:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_POISON_HEAL, Expert_StatusEvasionUp_CheckEvasionStage
+    GoTo Expert_StatusEvasionUp_TryScorePlus1_2
+
+Expert_StatusEvasionUp_TryScorePlus1_2:
+    IfRandomLessThan 50, Expert_StatusEvasionUp_CheckEvasionStage
+    AddToMoveScore 1
+    GoTo Expert_StatusEvasionUp_CheckEvasionStage
+
+Expert_StatusEvasionUp_CheckEvasionStage:
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_EVASION_STAGE, 9, Expert_StatusEvasionUp_CheckBatonPass
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 70, Expert_StatusEvasionUp_CheckBatonPass
+    IfRandomLessThan 50, Expert_StatusEvasionUp_CheckBatonPass
+    AddToMoveScore -1
+
+Expert_StatusEvasionUp_CheckBatonPass:
+    IfMoveEffectNotKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_PASS_STATS_AND_STATUS, Expert_StatusEvasionUp_CheckHP
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 70, Expert_StatusEvasionUp_CheckHP
+    IfRandomLessThan 50, Expert_StatusEvasionUp_CheckHP
+    AddToMoveScore 1
+
+Expert_StatusEvasionUp_CheckHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 50, Expert_StatusEvasionUp_End_2
+    IfRandomLessThan 70, Expert_StatusEvasionUp_End_2
+
+Expert_StatusEvasionUp_ScoreMinus2_2:
+    AddToMoveScore -2
+
+Expert_StatusEvasionUp_End_2:
+    End
+
+Expert_BypassAccuracyMove:
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_EVASION_STAGE, 10, Expert_BypassAccuracyMove_ScorePlus1
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_ACCURACY_STAGE, 2, Expert_BypassAccuracyMove_ScorePlus1
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_EVASION_STAGE, 8, Expert_BypassAccuracyMove_TryScorePlus1
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_ACCURACY_STAGE, 4, Expert_BypassAccuracyMove_TryScorePlus1
+    GoTo Expert_BypassAccuracyMove_End
+
+Expert_BypassAccuracyMove_ScorePlus1:
+    AddToMoveScore 1
+
+Expert_BypassAccuracyMove_TryScorePlus1:
+    IfRandomLessThan 100, Expert_BypassAccuracyMove_End
+    AddToMoveScore 1
+
+Expert_BypassAccuracyMove_End:
+    End
+
+Expert_StatusAttackDown:
+    IfStatStageEqualTo AI_BATTLER_DEFENDER, BATTLEMON_ATTACK_STAGE, 6, Expert_StatusAttackDown_CheckTargetHP
+    AddToMoveScore -1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 90, Expert_StatusAttackDown_CheckTargetStatStage
+    AddToMoveScore -1
+
+Expert_StatusAttackDown_CheckTargetStatStage:
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_ATTACK_STAGE, 3, Expert_StatusAttackDown_CheckTargetHP
+    IfRandomLessThan 50, Expert_StatusAttackDown_CheckTargetHP
+    AddToMoveScore -2
+
+Expert_StatusAttackDown_CheckTargetHP:
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 70, Expert_StatusAttackDown_CheckLastUsedMove
+    AddToMoveScore -2
+
+Expert_StatusAttackDown_CheckLastUsedMove:
+    LoadDefenderLastUsedMoveClass
+    IfLoadedNotEqualTo MOVE_CATEGORY_SPECIAL, Expert_StatusAttackDown_End
+    IfRandomLessThan 128, Expert_StatusAttackDown_End
+    AddToMoveScore -2
+
+Expert_StatusAttackDown_End:
+    End
+
+Expert_StatusAttackDown_PreSplitPhysicalTypes:
+    TableEntry TYPE_NORMAL
+    TableEntry TYPE_FIGHTING
+    TableEntry TYPE_GROUND
+    TableEntry TYPE_ROCK
+    TableEntry TYPE_BUG
+    TableEntry TYPE_STEEL
+    TableEntry TABLE_END
+
+Expert_StatusDefenseDown:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 70, Expert_StatusDefenseDown_TryScoreMinus2
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_DEFENSE_STAGE, 3, Expert_StatusDefenseDown_CheckTargetHP
+
+Expert_StatusDefenseDown_TryScoreMinus2:
+    IfRandomLessThan 50, Expert_StatusDefenseDown_CheckTargetHP
+    AddToMoveScore -2
+
+Expert_StatusDefenseDown_CheckTargetHP:
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 70, Expert_StatusDefenseDown_End
+    AddToMoveScore -2
+
+Expert_StatusDefenseDown_End:
+    End
+
+Expert_SpeedDownOnHit:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_SpeedDownOnHit_End
+    IfMoveEqualTo MOVE_ICY_WIND, Expert_StatusSpeedDown
+    IfMoveEqualTo MOVE_ROCK_TOMB, Expert_StatusSpeedDown
+    IfMoveEqualTo MOVE_MUD_SHOT, Expert_StatusSpeedDown
+    IfMoveEqualTo MOVE_LOW_SWEEP, Expert_StatusSpeedDown
+    IfMoveEqualTo MOVE_ELECTROWEB, Expert_StatusSpeedDown
+    IfMoveEqualTo MOVE_BULLDOZE, Expert_StatusSpeedDown
+    IfMoveEqualTo MOVE_GLACIATE, Expert_StatusSpeedDown
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_SpeedDownOnHit_End
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_SpeedDownOnHit_End
+    End
+
+Expert_SpeedDownOnHit_End:
+    End
+
+Expert_StatusSpeedDown:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_StatusSpeedDown_TryScorePlus2
+    AddToMoveScore -3
+    GoTo Expert_StatusSpeedDown_End
+
+Expert_StatusSpeedDown_TryScorePlus2:
+    IfRandomLessThan 70, Expert_StatusSpeedDown_End
+    AddToMoveScore 2
+
+Expert_StatusSpeedDown_End:
+    End
+
+Expert_StatusSpAttackDown:
+    IfStatStageEqualTo AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE, 6, Expert_StatusSpAttackDown_CheckTargetHP
+    AddToMoveScore -1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 90, Expert_StatusSpAttackDown_CheckTargetStatStage
+    AddToMoveScore -1
+
+Expert_StatusSpAttackDown_CheckTargetStatStage:
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE, 3, Expert_StatusSpAttackDown_CheckTargetHP
+    IfRandomLessThan 50, Expert_StatusSpAttackDown_CheckTargetHP
+    AddToMoveScore -2
+
+Expert_StatusSpAttackDown_CheckTargetHP:
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 70, Expert_StatusSpAttackDown_CheckLastUsedMove
+    AddToMoveScore -2
+
+Expert_StatusSpAttackDown_CheckLastUsedMove:
+    LoadDefenderLastUsedMoveClass
+    IfLoadedNotEqualTo MOVE_CATEGORY_PHYSICAL, Expert_StatusSpAttackDown_End
+    IfRandomLessThan 128, Expert_StatusSpAttackDown_End
+    AddToMoveScore -2
+
+Expert_StatusSpAttackDown_End:
+    End
+
+Expert_StatusSpAttackDown_PreSplitSpecialTypes:
+    TableEntry TYPE_FIRE
+    TableEntry TYPE_WATER
+    TableEntry TYPE_GRASS
+    TableEntry TYPE_ELECTRIC
+    TableEntry TYPE_PSYCHIC
+    TableEntry TYPE_ICE
+    TableEntry TYPE_DRAGON
+    TableEntry TYPE_DARK
+    TableEntry TABLE_END
+
+Expert_StatusSpDefenseDown:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 70, Expert_StatusSpDefenseDown_TryScoreMinus2
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_SP_DEFENSE_STAGE, 3, Expert_StatusSpDefenseDown_CheckTargetHP
+
+Expert_StatusSpDefenseDown_TryScoreMinus2:
+    IfRandomLessThan 50, Expert_StatusSpDefenseDown_CheckTargetHP
+    AddToMoveScore -2
+
+Expert_StatusSpDefenseDown_CheckTargetHP:
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 70, Expert_StatusSpDefenseDown_End
+    AddToMoveScore -2
+
+Expert_StatusSpDefenseDown_End:
+    End
+
+Expert_StatusAccuracyDown:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 70, Expert_StatusAccuracyDown_TryScoreMinus1
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 70, Expert_StatusAccuracyDown_CheckUserAccuracy
+
+Expert_StatusAccuracyDown_TryScoreMinus1:
+    IfRandomLessThan 100, Expert_StatusAccuracyDown_CheckUserAccuracy
+    AddToMoveScore -1
+
+Expert_StatusAccuracyDown_CheckUserAccuracy:
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_ACCURACY_STAGE, 4, Expert_StatusAccuracyDown_CheckTargetBadlyPoisoned
+    IfRandomLessThan 80, Expert_StatusAccuracyDown_CheckTargetBadlyPoisoned
+    AddToMoveScore -2
+
+Expert_StatusAccuracyDown_CheckTargetBadlyPoisoned:
+    IfNotBadlyPoisoned AI_BATTLER_DEFENDER, Expert_StatusAccuracyDown_CheckTargetSeeded
+    IfRandomLessThan 70, Expert_StatusAccuracyDown_CheckTargetSeeded
+    AddToMoveScore 2
+
+Expert_StatusAccuracyDown_CheckTargetSeeded:
+    IfNotCondition AI_BATTLER_DEFENDER, CONDITION_LEECH_SEED, Expert_StatusAccuracyDown_CheckUserIngrained
+    IfRandomLessThan 70, Expert_StatusAccuracyDown_CheckUserIngrained
+    AddToMoveScore 2
+
+Expert_StatusAccuracyDown_CheckUserIngrained:
+    IfNotCondition AI_BATTLER_ATTACKER, CONDITION_INGRAIN, Expert_StatusAccuracyDown_CheckUserAquaRing
+    IfRandomLessThan 128, Expert_StatusAccuracyDown_CheckTargetCursed
+    AddToMoveScore 1
+    GoTo Expert_StatusAccuracyDown_CheckTargetCursed
+
+Expert_StatusAccuracyDown_CheckUserAquaRing:
+    IfNotCondition AI_BATTLER_ATTACKER, 35, Expert_StatusAccuracyDown_CheckTargetCursed
+    IfRandomLessThan 128, Expert_StatusAccuracyDown_CheckTargetCursed
+    AddToMoveScore 1
+
+Expert_StatusAccuracyDown_CheckTargetCursed:
+    IfNotCondition AI_BATTLER_DEFENDER, CONDITION_CURSE, Expert_StatusAccuracyDown_CheckHPRanges
+    IfRandomLessThan 70, Expert_StatusAccuracyDown_CheckHPRanges
+    AddToMoveScore 2
+
+Expert_StatusAccuracyDown_CheckHPRanges:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 70, Expert_StatusAccuracyDown_End
+    IfStatStageEqualTo AI_BATTLER_DEFENDER, BATTLEMON_ACCURACY_STAGE, 6, Expert_StatusAccuracyDown_End
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 40, Expert_StatusAccuracyDown_ScoreMinus2
+    IfHPPercentLessThan AI_BATTLER_DEFENDER, 40, Expert_StatusAccuracyDown_ScoreMinus2
+    IfRandomLessThan 70, Expert_StatusAccuracyDown_End
+
+Expert_StatusAccuracyDown_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_StatusAccuracyDown_End:
+    End
+
+Expert_StatusEvasionDown:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 70, Expert_StatusEvasionDown_TryScoreMinus2
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_EVASION_STAGE, 3, Expert_StatusEvasionDown_CheckTargetHP
+
+Expert_StatusEvasionDown_TryScoreMinus2:
+    IfRandomLessThan 50, Expert_StatusEvasionDown_CheckTargetHP
+    AddToMoveScore -2
+
+Expert_StatusEvasionDown_CheckTargetHP:
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 70, Expert_StatusEvasionDown_End
+    AddToMoveScore -2
+
+Expert_StatusEvasionDown_End:
+    End
+
+Expert_Haze:
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 8, Expert_Haze_TryScoreMinus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 8, Expert_Haze_TryScoreMinus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 8, Expert_Haze_TryScoreMinus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_SP_DEFENSE_STAGE, 8, Expert_Haze_TryScoreMinus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_EVASION_STAGE, 8, Expert_Haze_TryScoreMinus3
+    IfStatStageLessThan AI_BATTLER_DEFENDER, BATTLEMON_ATTACK_STAGE, 4, Expert_Haze_TryScoreMinus3
+    IfStatStageLessThan AI_BATTLER_DEFENDER, BATTLEMON_DEFENSE_STAGE, 4, Expert_Haze_TryScoreMinus3
+    IfStatStageLessThan AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE, 4, Expert_Haze_TryScoreMinus3
+    IfStatStageLessThan AI_BATTLER_DEFENDER, BATTLEMON_SP_DEFENSE_STAGE, 4, Expert_Haze_TryScoreMinus3
+    IfStatStageLessThan AI_BATTLER_DEFENDER, BATTLEMON_ACCURACY_STAGE, 4, Expert_Haze_TryScoreMinus3
+    GoTo Expert_Haze_CheckToEncourage
+
+Expert_Haze_TryScoreMinus3:
+    IfRandomLessThan 50, Expert_Haze_CheckToEncourage
+    AddToMoveScore -3
+
+Expert_Haze_CheckToEncourage:
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_ATTACK_STAGE, 8, Expert_Haze_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_DEFENSE_STAGE, 8, Expert_Haze_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE, 8, Expert_Haze_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_SP_DEFENSE_STAGE, 8, Expert_Haze_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_EVASION_STAGE, 8, Expert_Haze_TryScorePlus3
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 4, Expert_Haze_TryScorePlus3
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 4, Expert_Haze_TryScorePlus3
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 4, Expert_Haze_TryScorePlus3
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_SP_DEFENSE_STAGE, 4, Expert_Haze_TryScorePlus3
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_ACCURACY_STAGE, 4, Expert_Haze_TryScorePlus3
+    IfRandomLessThan 50, Expert_Haze_End
+    AddToMoveScore -1
+    GoTo Expert_Haze_End
+
+Expert_Haze_TryScorePlus3:
+    IfRandomLessThan 50, Expert_Haze_End
+    AddToMoveScore 3
+
+Expert_Haze_End:
+    End
+
+Expert_Bide:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 90, Expert_Bide_End
+    AddToMoveScore -2
+
+Expert_Bide_End:
+    End
+
+Expert_ForceSwitch:
+    LoadBattlerUnk60 AI_BATTLER_DEFENDER
+    IfLoadedGreaterThan 3, Expert_ForceSwitch_75PercentScorePlus2
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_SPIKES, Expert_ForceSwitch_50PercentScorePlus2
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_STEALTH_ROCK, Expert_ForceSwitch_50PercentScorePlus2
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_TOXIC_SPIKES, Expert_ForceSwitch_50PercentScorePlus2
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_ATTACK_STAGE, 8, Expert_ForceSwitch_50PercentScorePlus2
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_DEFENSE_STAGE, 8, Expert_ForceSwitch_50PercentScorePlus2
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE, 8, Expert_ForceSwitch_50PercentScorePlus2
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_SP_DEFENSE_STAGE, 8, Expert_ForceSwitch_50PercentScorePlus2
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_EVASION_STAGE, 8, Expert_ForceSwitch_50PercentScorePlus2
+    AddToMoveScore -3
+    GoTo Expert_ForceSwitch_End
+
+Expert_ForceSwitch_75PercentScorePlus2:
+    IfRandomLessThan 64, Expert_ForceSwitch_50PercentScorePlus2
+    AddToMoveScore 2
+
+Expert_ForceSwitch_50PercentScorePlus2:
+    IfRandomLessThan 128, Expert_ForceSwitch_End
+    AddToMoveScore 2
+
+Expert_ForceSwitch_End:
+    End
+
+Expert_Conversion:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 90, Expert_Conversion_CheckTurnCount
+    AddToMoveScore -2
+
+Expert_Conversion_CheckTurnCount:
+    LoadTurnCount
+    IfLoadedEqualTo 0, Expert_Conversion_End
+    IfRandomLessThan 200, ScoreMinus2
+
+Expert_Conversion_End:
+    End
+
+Expert_Synthesis:
+    LoadCurrentWeather
+    IfLoadedEqualTo BTL_WEATHER_HAIL, Expert_Synthesis_ScoreMinus2
+    IfLoadedEqualTo BTL_WEATHER_RAIN, Expert_Synthesis_ScoreMinus2
+    IfLoadedEqualTo BTL_WEATHER_SANDSTORM, Expert_Synthesis_ScoreMinus2
+    GoTo Expert_Recovery
+
+Expert_Synthesis_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_Recovery:
+    IfHPPercentEqualTo AI_BATTLER_ATTACKER, 100, Expert_Recovery_ScoreMinus3AndEnd
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_Recovery_CheckHP
+    AddToMoveScore -8
+    GoTo Expert_Recovery_End
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 50, Expert_Recovery_CheckForSnatch
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 80, Expert_Recovery_ScoreMinus3AndEnd
+    IfRandomLessThan 70, Expert_Recovery_CheckForSnatch
+
+Expert_Recovery_ScoreMinus3AndEnd:
+    AddToMoveScore -3
+    GoTo Expert_Recovery_End
+
+Expert_Recovery_CheckHP:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 70, Expert_Recovery_CheckForSnatch
+    IfRandomLessThan 30, Expert_Recovery_CheckForSnatch
+    AddToMoveScore -3
+    GoTo Expert_Recovery_End
+
+Expert_Recovery_CheckForSnatch:
+    IfMoveEffectNotKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_STEAL_STATUS_MOVE, Expert_Recovery_TryScorePlus2
+    IfRandomLessThan 100, Expert_Recovery_End
+
+Expert_Recovery_TryScorePlus2:
+    IfRandomLessThan 20, Expert_Recovery_End
+    AddToMoveScore 2
+
+Expert_Recovery_End:
+    End
+
+Expert_ToxicLeechSeed:
+    IfAttackerHasNoDamagingMoves Expert_ToxicLeechSeed_CheckMoveEffectsKnown
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 50, Expert_ToxicLeechSeed_CheckTargetHP
+    IfRandomLessThan 50, Expert_ToxicLeechSeed_CheckTargetHP
+    AddToMoveScore -3
+
+Expert_ToxicLeechSeed_CheckTargetHP:
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 50, Expert_ToxicLeechSeed_CheckMoveEffectsKnown
+    IfRandomLessThan 50, Expert_ToxicLeechSeed_CheckMoveEffectsKnown
+    AddToMoveScore -3
+
+Expert_ToxicLeechSeed_CheckMoveEffectsKnown:
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_SP_DEF_UP, Expert_ToxicLeechSeed_TryScorePlus2
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_PROTECT, Expert_ToxicLeechSeed_TryScorePlus2
+    GoTo Expert_ToxicLeechSeed_End
+
+Expert_ToxicLeechSeed_TryScorePlus2:
+    IfRandomLessThan 60, Expert_ToxicLeechSeed_End
+    AddToMoveScore 2
+
+Expert_ToxicLeechSeed_End:
+    End
+
+Expert_LightScreen:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 50, Expert_LightScreen_ScoreMinus2
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 90, Expert_LightScreen_CheckLastUsedMove
+    IfRandomLessThan 30, Expert_LightScreen_CheckLastUsedMove
+    AddToMoveScore 1
+
+Expert_LightScreen_CheckLastUsedMove:
+    IfAttackGreaterThanSpAttack AI_BATTLER_DEFENDER, Expert_LightScreen_ScoreMinus2
+    IfRandomLessThan 64, Expert_LightScreen_End
+    AddToMoveScore 1
+    GoTo Expert_LightScreen_End
+
+Expert_LightScreen_ScoreMinus2:
+    IfRandomLessThan 30, Expert_LightScreen_End
+    AddToMoveScore -2
+
+Expert_LightScreen_End:
+    End
+
+Expert_Rest:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_Rest_SlowerCheckHP
+    IfHPPercentNotEqualTo AI_BATTLER_ATTACKER, 100, Expert_Rest_FasterCheckHP
+    AddToMoveScore -8
+    GoTo Expert_Rest_End
+
+Expert_Rest_FasterCheckHP:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 40, Expert_Rest_CheckForSnatch
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 50, Expert_Rest_FasterScoreMinus3
+    IfRandomLessThan 70, Expert_Rest_CheckForSnatch
+
+Expert_Rest_FasterScoreMinus3:
+    AddToMoveScore -3
+    GoTo Expert_Rest_End
+
+Expert_Rest_SlowerCheckHP:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 60, Expert_Rest_CheckForSnatch
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 70, Expert_Rest_SlowerScoreMinus3
+    IfRandomLessThan 50, Expert_Rest_CheckForSnatch
+
+Expert_Rest_SlowerScoreMinus3:
+    AddToMoveScore -3
+    GoTo Expert_Rest_End
+
+Expert_Rest_CheckForSnatch:
+    IfMoveEffectNotKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_STEAL_STATUS_MOVE, Expert_Rest_TryScorePlus3
+    IfRandomLessThan 50, Expert_Rest_End
+
+Expert_Rest_TryScorePlus3:
+    IfRandomLessThan 10, Expert_Rest_End
+    AddToMoveScore 3
+
+Expert_Rest_End:
+    End
+
+Expert_OHKOMove:
+    IfRandomLessThan 192, Expert_OHKOMove_End
+    AddToMoveScore 1
+
+Expert_OHKOMove_End:
+    End
+
+Expert_SuperFang:
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 60, Expert_SuperFang_End
+    AddToMoveScore -1
+
+Expert_SuperFang_End:
+    End
+
+Expert_BindingMove:
+    IfBadlyPoisoned AI_BATTLER_DEFENDER, Expert_BindingMove_TryScorePlus1
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_CURSE, Expert_BindingMove_TryScorePlus1
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_PERISH_SONG, Expert_BindingMove_TryScorePlus1
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_ATTRACT, Expert_BindingMove_TryScorePlus1
+    GoTo Expert_BindingMove_End
+
+Expert_BindingMove_TryScorePlus1:
+    IfRandomLessThan 128, Expert_BindingMove_End
+    AddToMoveScore 1
+
+Expert_BindingMove_End:
+    End
+
+Expert_HighCritical:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_HighCritical_End
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_HighCritical_End
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_HighCritical_End
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_DOUBLE, Expert_HighCritical_TryScorePlus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUADRUPLE, Expert_HighCritical_TryScorePlus1
+    IfRandomLessThan 128, Expert_HighCritical_End
+
+Expert_HighCritical_TryScorePlus1:
+    IfRandomLessThan 128, Expert_HighCritical_End
+    AddToMoveScore 1
+
+Expert_HighCritical_End:
+    End
+
+Expert_Swagger:
+    IfMoveKnown AI_BATTLER_ATTACKER, MOVE_PSYCH_UP, Expert_Swagger_PsychUp
+
+Expert_Flatter:
+    IfRandomLessThan 128, Expert_StatusConfuse
+    AddToMoveScore 1
+
+Expert_StatusConfuse:
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 70, Expert_StatusConfuse_End
+    IfRandomLessThan 128, Expert_StatusConfuse_CheckHP
+    AddToMoveScore -1
+
+Expert_StatusConfuse_CheckHP:
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 50, Expert_StatusConfuse_End
+    AddToMoveScore -1
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 30, Expert_StatusConfuse_End
+    AddToMoveScore -1
+
+Expert_StatusConfuse_End:
+    End
+
+Expert_Swagger_PsychUp:
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_ATTACK_STAGE, 3, Expert_Swagger_ScoreMinus5
+    AddToMoveScore 3
+    LoadTurnCount
+    IfLoadedNotEqualTo 0, Expert_Swagger_End
+    AddToMoveScore 2
+    GoTo Expert_Swagger_End
+
+Expert_Swagger_ScoreMinus5:
+    AddToMoveScore -5
+
+Expert_Swagger_End:
+    End
+
+Expert_Reflect:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 50, Expert_Reflect_ScoreMinus2
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 90, Expert_Reflect_CheckLastUsedMove
+    IfRandomLessThan 30, Expert_Reflect_CheckLastUsedMove
+    AddToMoveScore 1
+
+Expert_Reflect_CheckLastUsedMove:
+    IfAttackLessThanSpAttack AI_BATTLER_DEFENDER, Expert_Reflect_ScoreMinus2
+    IfRandomLessThan 64, Expert_Reflect_End
+    AddToMoveScore 1
+    GoTo Expert_Reflect_End
+
+Expert_Reflect_ScoreMinus2:
+    IfRandomLessThan 30, Expert_LightScreen_End
+    AddToMoveScore -2
+
+Expert_Reflect_End:
+    End
+
+Expert_StatusPoison:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 50, Expert_StatusPoison_ScoreMinus1
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 50, Expert_StatusPoison_End
+
+Expert_StatusPoison_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_StatusPoison_End:
+    End
+
+Expert_StatusParalyze:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_StatusParalyze_TryScorePlus3
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 70, Expert_StatusParalyze_End
+    AddToMoveScore -1
+    GoTo Expert_StatusParalyze_End
+
+Expert_StatusParalyze_TryScorePlus3:
+    IfRandomLessThan 20, Expert_StatusParalyze_End
+    AddToMoveScore 3
+
+Expert_StatusParalyze_End:
+    End
+
+Expert_VitalThrow:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_VitalThrow_End
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 60, Expert_VitalThrow_End
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 40, Expert_VitalThrow_TryScoreMinus1
+    IfRandomLessThan 180, Expert_VitalThrow_End
+
+Expert_VitalThrow_TryScoreMinus1:
+    IfRandomLessThan 50, Expert_VitalThrow_End
+    AddToMoveScore -1
+
+Expert_VitalThrow_End:
+    End
+
+Expert_Substitute:
+    IfMoveNotKnown AI_BATTLER_ATTACKER, MOVE_FOCUS_PUNCH, Expert_Substitute_CheckUserHP
+    IfRandomLessThan 96, Expert_Substitute_CheckUserHP
+    AddToMoveScore 1
+
+Expert_Substitute_CheckUserHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 90, Expert_Substitute_CheckTargetLastMove
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 70, Expert_Substitute_TryScoreMinus1_FinalRound
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 50, Expert_Substitute_TryScoreMinus1_SecondRound
+    IfRandomLessThan 100, Expert_Substitute_TryScoreMinus1_SecondRound
+    AddToMoveScore -1
+
+Expert_Substitute_TryScoreMinus1_SecondRound:
+    IfRandomLessThan 100, Expert_Substitute_TryScoreMinus1_FinalRound
+    AddToMoveScore -1
+
+Expert_Substitute_TryScoreMinus1_FinalRound:
+    IfRandomLessThan 100, Expert_Substitute_CheckTargetLastMove
+    AddToMoveScore -1
+
+Expert_Substitute_CheckTargetLastMove:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_Substitute_End
+    LoadBattlerPreviousMove AI_BATTLER_DEFENDER
+    LoadEffectOfLoadedMove
+    IfLoadedEqualTo BATTLE_EFFECT_STATUS_SLEEP, Expert_Substitute_CheckTargetStatus
+    IfLoadedEqualTo BATTLE_EFFECT_STATUS_BADLY_POISON, Expert_Substitute_CheckTargetStatus
+    IfLoadedEqualTo BATTLE_EFFECT_STATUS_POISON, Expert_Substitute_CheckTargetStatus
+    IfLoadedEqualTo BATTLE_EFFECT_STATUS_PARALYZE, Expert_Substitute_CheckTargetStatus
+    IfLoadedEqualTo BATTLE_EFFECT_STATUS_BURN, Expert_Substitute_CheckTargetStatus
+    IfLoadedEqualTo BATTLE_EFFECT_STATUS_CONFUSE, Expert_Substitute_CheckTargetConfused
+    IfLoadedEqualTo BATTLE_EFFECT_STATUS_LEECH_SEED, Expert_Substitute_CheckTargetSeeded
+    GoTo Expert_Substitute_End
+
+Expert_Substitute_CheckTargetStatus:
+    IfNotStatus AI_BATTLER_DEFENDER, Expert_Substitute_TryScorePlus1
+    GoTo Expert_Substitute_End
+
+Expert_Substitute_CheckTargetConfused:
+    IfNotCondition AI_BATTLER_DEFENDER, CONDITION_CONFUSION, Expert_Substitute_TryScorePlus1
+    GoTo Expert_Substitute_End
+
+Expert_Substitute_CheckTargetSeeded:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_LEECH_SEED, Expert_Substitute_End
+
+Expert_Substitute_TryScorePlus1:
+    IfRandomLessThan 100, Expert_Substitute_End
+    AddToMoveScore 1
+
+Expert_Substitute_End:
+    End
+
+Expert_RechargeTurn:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_RechargeTurn_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_RechargeTurn_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_RechargeTurn_ScoreMinus1
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_TRUANT, Expert_RechargeTurn_TryScorePlus1
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_RechargeTurn_CheckUserHP
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 40, Expert_RechargeTurn_ScoreMinus1
+    GoTo Expert_RechargeTurn_End
+
+Expert_RechargeTurn_TryScorePlus1:
+    IfRandomLessThan 80, Expert_RechargeTurn_End
+    AddToMoveScore 1
+    GoTo Expert_RechargeTurn_End
+
+Expert_RechargeTurn_CheckUserHP:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 60, Expert_RechargeTurn_End
+
+Expert_RechargeTurn_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_RechargeTurn_End:
+    End
+
+Expert_Disable:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_Disable_End
+    LoadBattlerPreviousMove AI_BATTLER_DEFENDER
+    LoadPowerOfLoadedMove
+    IfLoadedEqualTo 0, Expert_Disable_TryScoreMinus1
+    AddToMoveScore 1
+    GoTo Expert_Disable_End
+
+Expert_Disable_TryScoreMinus1:
+    IfRandomLessThan 100, Expert_Disable_End
+    AddToMoveScore -1
+
+Expert_Disable_End:
+    End
+
+Expert_Counter:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_SLEEP, Expert_Counter_ScoreMinus1
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_ATTRACT, Expert_Counter_ScoreMinus1
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_CONFUSION, Expert_Counter_ScoreMinus1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 30, Expert_Counter_CheckAboveHalfHP
+    IfRandomLessThan 10, Expert_Counter_CheckAboveHalfHP
+    AddToMoveScore -1
+
+Expert_Counter_CheckAboveHalfHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 50, Expert_Counter_CheckLastUsedMove
+    IfRandomLessThan 100, Expert_Counter_CheckLastUsedMove
+    AddToMoveScore -1
+
+Expert_Counter_CheckLastUsedMove:
+    IfMoveKnown AI_BATTLER_ATTACKER, MOVE_MIRROR_COAT, Expert_Counter_TryScorePlus4
+    LoadBattlerPreviousMove AI_BATTLER_DEFENDER
+    LoadPowerOfLoadedMove
+    IfLoadedEqualTo 0, Expert_Counter_TryScorePlus1
+    IfTargetIsNotTaunted Expert_Counter_CheckPhysicalMove
+    IfRandomLessThan 100, Expert_Counter_CheckPhysicalMove
+    AddToMoveScore 1
+
+Expert_Counter_CheckPhysicalMove:
+    LoadDefenderLastUsedMoveClass
+    IfLoadedNotEqualTo MOVE_CATEGORY_PHYSICAL, Expert_Counter_ScoreMinus1
+    IfRandomLessThan 100, Expert_Counter_End2
+    AddToMoveScore 1
+    GoTo Expert_Counter_End2
+
+Expert_Counter_TryScorePlus1:
+    IfTargetIsNotTaunted Expert_Counter_CheckOpponentTypes
+    IfRandomLessThan 100, Expert_Counter_CheckOpponentTypes
+    AddToMoveScore 1
+
+Expert_Counter_CheckOpponentTypes:
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedInTable Expert_Counter_PhysicalTypes, Expert_Counter_End2
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedInTable Expert_Counter_PhysicalTypes, Expert_Counter_End2
+    IfRandomLessThan 50, Expert_Counter_End2
+
+Expert_Counter_TryScorePlus4:
+    IfRandomLessThan 100, Expert_Counter_End
+    AddToMoveScore 4
+
+Expert_Counter_End:
+    End
+
+Expert_Counter_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_Counter_End2:
+    End
+
+Expert_Counter_PhysicalTypes:
+    TableEntry TYPE_NORMAL
+    TableEntry TYPE_FIGHTING
+    TableEntry TYPE_FLYING
+    TableEntry TYPE_POISON
+    TableEntry TYPE_GROUND
+    TableEntry TYPE_ROCK
+    TableEntry TYPE_BUG
+    TableEntry TYPE_GHOST
+    TableEntry TYPE_STEEL
+    TableEntry TABLE_END
+
+Expert_Encore:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_DISABLE, Expert_Encore_TryScorePlus3
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_Encore_ScoreMinus2
+    LoadBattlerPreviousMove AI_BATTLER_DEFENDER
+    LoadEffectOfLoadedMove
+    IfLoadedNotInTable Expert_Encore_EncouragedMoveEffects, Expert_Encore_ScoreMinus2
+
+Expert_Encore_TryScorePlus3:
+    IfRandomLessThan 30, Expert_Encore_End
+    AddToMoveScore 3
+    GoTo Expert_Encore_End
+
+Expert_Encore_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_Encore_End:
+    End
+
+Expert_Encore_EncouragedMoveEffects:
+    TableEntry BATTLE_EFFECT_RECOVER_DAMAGE_SLEEP
+    TableEntry BATTLE_EFFECT_ATK_UP
+    TableEntry BATTLE_EFFECT_DEF_UP
+    TableEntry BATTLE_EFFECT_SPEED_UP
+    TableEntry BATTLE_EFFECT_SP_ATK_UP
+    TableEntry BATTLE_EFFECT_RESET_STAT_CHANGES
+    TableEntry BATTLE_EFFECT_FORCE_SWITCH
+    TableEntry BATTLE_EFFECT_CONVERSION
+    TableEntry BATTLE_EFFECT_STATUS_BADLY_POISON
+    TableEntry BATTLE_EFFECT_SET_LIGHT_SCREEN
+    TableEntry BATTLE_EFFECT_REST
+    TableEntry BATTLE_EFFECT_HALVE_HP
+    TableEntry BATTLE_EFFECT_SP_DEF_UP_2
+    TableEntry BATTLE_EFFECT_STATUS_CONFUSE
+    TableEntry BATTLE_EFFECT_STATUS_POISON
+    TableEntry BATTLE_EFFECT_STATUS_PARALYZE
+    TableEntry BATTLE_EFFECT_STATUS_LEECH_SEED
+    TableEntry BATTLE_EFFECT_DO_NOTHING
+    TableEntry BATTLE_EFFECT_ATK_UP_2
+    TableEntry BATTLE_EFFECT_ENCORE
+    TableEntry BATTLE_EFFECT_CONVERSION2
+    TableEntry BATTLE_EFFECT_NEXT_ATTACK_ALWAYS_HITS
+    TableEntry BATTLE_EFFECT_CURE_PARTY_STATUS
+    TableEntry BATTLE_EFFECT_PREVENT_ESCAPE
+    TableEntry BATTLE_EFFECT_STATUS_NIGHTMARE
+    TableEntry BATTLE_EFFECT_PROTECT
+    TableEntry BATTLE_EFFECT_SWITCH_ABILITIES
+    TableEntry BATTLE_EFFECT_FORESIGHT
+    TableEntry BATTLE_EFFECT_ALL_FAINT_3_TURNS
+    TableEntry BATTLE_EFFECT_WEATHER_SANDSTORM
+    TableEntry BATTLE_EFFECT_SURVIVE_WITH_1_HP
+    TableEntry BATTLE_EFFECT_ATK_UP_2_STATUS_CONFUSION
+    TableEntry BATTLE_EFFECT_INFATUATE
+    TableEntry BATTLE_EFFECT_PREVENT_STATUS
+    TableEntry BATTLE_EFFECT_WEATHER_RAIN
+    TableEntry BATTLE_EFFECT_WEATHER_SUN
+    TableEntry BATTLE_EFFECT_MAX_ATK_LOSE_HALF_MAX_HP
+    TableEntry BATTLE_EFFECT_COPY_STAT_CHANGES
+    TableEntry BATTLE_EFFECT_HIT_IN_3_TURNS
+    TableEntry BATTLE_EFFECT_ALWAYS_FLINCH_FIRST_TURN_ONLY
+    TableEntry BATTLE_EFFECT_STOCKPILE
+    TableEntry BATTLE_EFFECT_SPIT_UP
+    TableEntry BATTLE_EFFECT_SWALLOW
+    TableEntry BATTLE_EFFECT_WEATHER_HAIL
+    TableEntry BATTLE_EFFECT_TORMENT
+    TableEntry BATTLE_EFFECT_STATUS_BURN
+    TableEntry BATTLE_EFFECT_MAKE_GLOBAL_TARGET
+    TableEntry BATTLE_EFFECT_SP_DEF_UP_DOUBLE_ELECTRIC_POWER
+    TableEntry BATTLE_EFFECT_SWITCH_HELD_ITEMS
+    TableEntry BATTLE_EFFECT_COPY_ABILITY
+    TableEntry BATTLE_EFFECT_GROUND_TRAP_USER_CONTINUOUS_HEAL
+    TableEntry BATTLE_EFFECT_RECYCLE
+    TableEntry BATTLE_EFFECT_REMOVE_HELD_ITEM
+    TableEntry BATTLE_EFFECT_SWITCH_ABILITIES
+    TableEntry BATTLE_EFFECT_MAKE_SHARED_MOVES_UNUSEABLE
+    TableEntry BATTLE_EFFECT_HEAL_STATUS
+    TableEntry BATTLE_EFFECT_REMOVE_ALL_PP_ON_DEFEAT
+    TableEntry BATTLE_EFFECT_CONFUSE_ALL
+    TableEntry BATTLE_EFFECT_HALVE_ELECTRIC_DAMAGE
+    TableEntry BATTLE_EFFECT_HALVE_FIRE_DAMAGE
+    TableEntry BATTLE_EFFECT_ATK_SPD_UP
+    TableEntry BATTLE_EFFECT_CAMOUFLAGE
+    TableEntry BATTLE_EFFECT_GRAVITY
+    TableEntry BATTLE_EFFECT_IGNORE_EVATION_REMOVE_DARK_IMMUNE
+    TableEntry BATTLE_EFFECT_FAINT_AND_FULL_HEAL_NEXT_MON
+    TableEntry BATTLE_EFFECT_NATURAL_GIFT
+    TableEntry BATTLE_EFFECT_REMOVE_PROTECT
+    TableEntry BATTLE_EFFECT_DOUBLE_SPEED_3_TURNS
+    TableEntry BATTLE_EFFECT_RANDOM_STAT_UP_2
+    TableEntry BATTLE_EFFECT_FLING
+    TableEntry BATTLE_EFFECT_TRANSFER_STATUS
+    TableEntry BATTLE_EFFECT_PREVENT_HEALING
+    TableEntry BATTLE_EFFECT_SWAP_ATK_DEF
+    TableEntry BATTLE_EFFECT_SUPRESS_ABILITY
+    TableEntry BATTLE_EFFECT_PREVENT_CRITS
+    TableEntry BATTLE_EFFECT_SWAP_ATK_SP_ATK_STAT_CHANGES
+    TableEntry BATTLE_EFFECT_SWAP_DEF_SP_DEF_STAT_CHANGES
+    TableEntry BATTLE_EFFECT_SET_ABILITY_TO_INSOMNIA
+    TableEntry BATTLE_EFFECT_SWAP_STAT_CHANGES
+    TableEntry BATTLE_EFFECT_RESTORE_HP_EVERY_TURN
+    TableEntry BATTLE_EFFECT_GIVE_GROUND_IMMUNITY
+    TableEntry BATTLE_EFFECT_TRICK_ROOM
+    TableEntry TABLE_END
+
+Expert_PainSplit:
+    IfHPPercentLessThan AI_BATTLER_DEFENDER, 80, Expert_PainSplit_ScoreMinus1
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_PainSplit_CheckUserHP
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 40, Expert_PainSplit_ScoreMinus1
+    AddToMoveScore 1
+    GoTo Expert_PainSplit_End
+
+Expert_PainSplit_CheckUserHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 60, Expert_PainSplit_ScoreMinus1
+    AddToMoveScore 1
+    GoTo Expert_PainSplit_End
+
+Expert_PainSplit_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_PainSplit_End:
+    End
+
+Expert_Nightmare:
+    AddToMoveScore 2
+    End
+
+Expert_LockOn:
+    IfRandomLessThan 128, Expert_LockOn_End
+    AddToMoveScore 2
+
+Expert_LockOn_End:
+    End
+
+Expert_SleepTalk:
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_SLEEP, ScorePlus10
+    AddToMoveScore -5
+    End
+
+Expert_DestinyBond:
+    AddToMoveScore -1
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_DestinyBond_End
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 70, Expert_DestinyBond_End
+    IfRandomLessThan 128, Expert_DestinyBond_CheckUserMediumHP
+    AddToMoveScore 1
+
+Expert_DestinyBond_CheckUserMediumHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 50, Expert_DestinyBond_End
+    IfRandomLessThan 128, Expert_DestinyBond_CheckUserLowHP
+    AddToMoveScore 1
+
+Expert_DestinyBond_CheckUserLowHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 30, Expert_DestinyBond_End
+    IfRandomLessThan 100, Expert_DestinyBond_End
+    AddToMoveScore 2
+
+Expert_DestinyBond_End:
+    End
+
+Expert_Reversal:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_Reversal_SlowerCheckHP
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 33, Expert_Reversal_ScoreMinus1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 20, Expert_Reversal_End
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 8, Expert_Reversal_ScorePlus1
+    GoTo Expert_Reversal_TryScorePlus1
+
+Expert_Reversal_SlowerCheckHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 60, Expert_Reversal_ScoreMinus1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 40, Expert_Reversal_End
+    GoTo Expert_Reversal_TryScorePlus1
+
+Expert_Reversal_ScorePlus1:
+    AddToMoveScore 1
+
+Expert_Reversal_TryScorePlus1:
+    IfRandomLessThan 100, Expert_Reversal_End
+    AddToMoveScore 1
+    GoTo Expert_Reversal_End
+
+Expert_Reversal_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_Reversal_End:
+    End
+
+Expert_HealBell:
+    IfStatus AI_BATTLER_ATTACKER, Expert_HealBell_End
+    IfPartyMemberNotStatus AI_BATTLER_ATTACKER, Expert_HealBell_End
+    AddToMoveScore -5
+
+Expert_HealBell_End:
+    End
+
+Expert_Thief:
+    LoadHeldItemEffect AI_BATTLER_DEFENDER
+    IfLoadedNotInTable Expert_Thief_EncouragedItemEffects, Expert_Thief_ScoreMinus2
+    IfRandomLessThan 50, Expert_Thief_End
+    AddToMoveScore 1
+    GoTo Expert_Thief_End
+
+Expert_Thief_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_Thief_End:
+    End
+
+Expert_Thief_EncouragedItemEffects:
+    TableEntry HOLD_EFFECT_SLP_RESTORE
+    TableEntry HOLD_EFFECT_STATUS_RESTORE
+    TableEntry HOLD_EFFECT_HP_RESTORE
+    TableEntry HOLD_EFFECT_ACC_REDUCE
+    TableEntry HOLD_EFFECT_HP_RESTORE_GRADUAL
+    TableEntry HOLD_EFFECT_PIKA_SPATK_UP
+    TableEntry HOLD_EFFECT_CUBONE_ATK_UP
+    TableEntry HOLD_EFFECT_WEAKEN_SE_FIRE
+    TableEntry HOLD_EFFECT_WEAKEN_SE_WATER
+    TableEntry HOLD_EFFECT_WEAKEN_SE_ELECTRIC
+    TableEntry HOLD_EFFECT_WEAKEN_SE_GRASS
+    TableEntry HOLD_EFFECT_WEAKEN_SE_ICE
+    TableEntry HOLD_EFFECT_WEAKEN_SE_FIGHT
+    TableEntry HOLD_EFFECT_WEAKEN_SE_POISON
+    TableEntry HOLD_EFFECT_WEAKEN_SE_GROUND
+    TableEntry HOLD_EFFECT_WEAKEN_SE_FLYING
+    TableEntry HOLD_EFFECT_WEAKEN_SE_PSYCHIC
+    TableEntry HOLD_EFFECT_WEAKEN_SE_BUG
+    TableEntry HOLD_EFFECT_WEAKEN_SE_ROCK
+    TableEntry HOLD_EFFECT_WEAKEN_SE_GHOST
+    TableEntry HOLD_EFFECT_WEAKEN_SE_DRAGON
+    TableEntry HOLD_EFFECT_WEAKEN_SE_DARK
+    TableEntry HOLD_EFFECT_WEAKEN_SE_STEEL
+    TableEntry HOLD_EFFECT_WEAKEN_NORMAL
+    TableEntry HOLD_EFFECT_HP_RESTORE_PSN_TYPE
+    TableEntry TABLE_END
+
+Expert_Curse:
+    LoadTypeFrom LOAD_ATTACKER_TYPE_1
+    IfLoadedEqualTo TYPE_GHOST, Expert_Curse_GhostCheckHP
+    LoadTypeFrom LOAD_ATTACKER_TYPE_2
+    IfLoadedEqualTo TYPE_GHOST, Expert_Curse_GhostCheckHP
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 9, Expert_Curse_End
+    IfMoveKnown AI_BATTLER_ATTACKER, MOVE_GYRO_BALL, Expert_Curse_HighChanceScorePlus1
+    IfMoveKnown AI_BATTLER_ATTACKER, MOVE_TRICK_ROOM, Expert_Curse_HighChanceScorePlus1
+    GoTo Expert_Curse_FlipCoinScorePlus1
+
+Expert_Curse_HighChanceScorePlus1:
+    IfRandomLessThan 32, Expert_Curse_CheckDefenseStage
+    AddToMoveScore 1
+
+Expert_Curse_FlipCoinScorePlus1:
+    IfRandomLessThan 128, Expert_Curse_CheckDefenseStage
+    AddToMoveScore 1
+
+Expert_Curse_CheckDefenseStage:
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 7, Expert_Curse_End
+    IfRandomLessThan 128, Expert_Curse_CheckDefenseStageAnyBoosts
+    AddToMoveScore 1
+
+Expert_Curse_CheckDefenseStageAnyBoosts:
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 6, Expert_Curse_End
+    IfRandomLessThan 128, Expert_Curse_End
+    AddToMoveScore 1
+    GoTo Expert_Curse_End
+
+Expert_Curse_GhostCheckHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 80, Expert_Curse_End
+    AddToMoveScore -1
+
+Expert_Curse_End:
+    End
+
+Expert_Protect:
+    IfMoveKnown AI_BATTLER_DEFENDER, MOVE_FEINT, Expert_Protect_TryScoreMinus2
+    IfMoveKnown AI_BATTLER_DEFENDER, MOVE_SHADOW_FORCE, Expert_Protect_TryScoreMinus2
+    GoTo Expert_Protect_CheckStatusConditions
+
+Expert_Protect_TryScoreMinus2:
+    IfTurnRandomLessThan 128, Expert_Protect_CheckStatusConditions
+    AddToMoveScore -2
+
+Expert_Protect_CheckStatusConditions:
+    LoadProtectChain AI_BATTLER_ATTACKER
+    IfLoadedGreaterThan 1, Expert_Protect_ScoreMinus2
+    IfBadlyPoisoned AI_BATTLER_ATTACKER, Expert_Protect_CheckAttackerLockedOnto
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_CURSE, Expert_Protect_CheckAttackerLockedOnto
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_PERISH_SONG, Expert_Protect_CheckAttackerLockedOnto
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_ATTRACT, Expert_Protect_CheckAttackerLockedOnto
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_LEECH_SEED, Expert_Protect_CheckAttackerLockedOnto
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_YAWN, Expert_Protect_CheckAttackerLockedOnto
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_CURSE, Expert_Protect_ScorePlus2
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_PERISH_SONG, Expert_Protect_ScorePlus2
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_RESTORE_HALF_HP, Expert_Protect_CheckAttackerLockedOnto
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_DEF_UP_DOUBLE_ROLLOUT_POWER, Expert_Protect_CheckAttackerLockedOnto
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_HEAL_HALF_MORE_IN_SUN, Expert_Protect_CheckAttackerLockedOnto
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_SWALLOW, Expert_Protect_CheckAttackerLockedOnto
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_HEAL_HALF_REMOVE_FLYING_TYPE, Expert_Protect_CheckAttackerLockedOnto
+    IfBadlyPoisoned AI_BATTLER_DEFENDER, Expert_Protect_ScorePlus2
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_ATTRACT, Expert_Protect_ScorePlus2
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_LEECH_SEED, Expert_Protect_ScorePlus2
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_YAWN, Expert_Protect_ScorePlus2
+    IfCondition AI_BATTLER_ATTACKER, 29, Expert_Protect_ScorePlus2
+    IfRandomLessThan 85, Expert_Protect_ScorePlus2
+    GoTo Expert_Protect_TryScoreMinus1
+
+Expert_Protect_ScorePlus2:
+    AddToMoveScore 2
+
+Expert_Protect_TryScoreMinus1:
+    IfTurnRandomLessThan 128, Expert_Protect_CheckEmptyChain
+    AddToMoveScore -2
+
+Expert_Protect_CheckEmptyChain:
+    LoadProtectChain AI_BATTLER_ATTACKER
+    IfLoadedEqualTo 0, Expert_Protect_End
+    AddToMoveScore -1
+    IfRandomLessThan 128, Expert_Protect_End
+    AddToMoveScore -1
+    GoTo Expert_Protect_End
+
+Expert_Protect_CheckAttackerLockedOnto:
+    IfCondition AI_BATTLER_ATTACKER, 29, Expert_Protect_End
+
+Expert_Protect_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_Protect_End:
+    End
+
+Expert_Spikes:
+    IfRandomLessThan 128, Expert_Spikes_End
+    AddToMoveScore 1
+    IfMoveKnown AI_BATTLER_ATTACKER, MOVE_ROAR, Expert_Spikes_TryScorePlus1
+    IfMoveKnown AI_BATTLER_ATTACKER, MOVE_WHIRLWIND, Expert_Spikes_TryScorePlus1
+    GoTo Expert_Spikes_End
+
+Expert_Spikes_TryScorePlus1:
+    IfRandomLessThan 64, Expert_Spikes_End
+    AddToMoveScore 1
+
+Expert_Spikes_End:
+    End
+
+// Bug: checks the attacker's type where Ghost-type targets were meant, as in Gen 4
+Expert_Foresight:
+    LoadTypeFrom LOAD_ATTACKER_TYPE_1
+    IfLoadedEqualTo TYPE_GHOST, Expert_Foresight_FirstRoll
+    LoadTypeFrom LOAD_ATTACKER_TYPE_2
+    IfLoadedEqualTo TYPE_GHOST, Expert_Foresight_FirstRoll
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_EVASION_STAGE, 8, Expert_Foresight_SecondRoll
+    AddToMoveScore -2
+    GoTo Expert_Foresight_End
+
+Expert_Foresight_FirstRoll:
+    IfRandomLessThan 80, Expert_Foresight_End
+
+Expert_Foresight_SecondRoll:
+    IfRandomLessThan 80, Expert_Foresight_End
+    AddToMoveScore 2
+
+Expert_Foresight_End:
+    End
+
+Expert_Endure:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 4, Expert_Endure_ScoreMinus1
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 35, Expert_Endure_TryScorePlus1
+
+Expert_Endure_ScoreMinus1:
+    AddToMoveScore -1
+    GoTo Expert_Endure_End
+
+Expert_Endure_TryScorePlus1:
+    IfRandomLessThan 70, Expert_Endure_End
+    AddToMoveScore 1
+
+Expert_Endure_End:
+    End
+
+Expert_BatonPass:
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 8, Expert_BatonPass_HighStatStage_CheckSpeedAndHP
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 8, Expert_BatonPass_HighStatStage_CheckSpeedAndHP
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 8, Expert_BatonPass_HighStatStage_CheckSpeedAndHP
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_SP_DEFENSE_STAGE, 8, Expert_BatonPass_HighStatStage_CheckSpeedAndHP
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_EVASION_STAGE, 8, Expert_BatonPass_HighStatStage_CheckSpeedAndHP
+    GoTo Expert_BatonPass_CheckMediumStatStage
+
+Expert_BatonPass_HighStatStage_CheckSpeedAndHP:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_BatonPass_HighStatStage_SlowerCheckHP
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 60, Expert_BatonPass_End
+    GoTo Expert_BatonPass_HighStatStage_TryScorePlus2
+
+Expert_BatonPass_HighStatStage_SlowerCheckHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 70, Expert_BatonPass_End
+
+Expert_BatonPass_HighStatStage_TryScorePlus2:
+    IfRandomLessThan 80, Expert_BatonPass_End
+    AddToMoveScore 2
+    GoTo Expert_BatonPass_End
+
+Expert_BatonPass_CheckMediumStatStage:
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 7, Expert_BatonPass_MediumStatStage_CheckSpeedAndHP
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 7, Expert_BatonPass_MediumStatStage_CheckSpeedAndHP
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 7, Expert_BatonPass_MediumStatStage_CheckSpeedAndHP
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_SP_DEFENSE_STAGE, 7, Expert_BatonPass_MediumStatStage_CheckSpeedAndHP
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_EVASION_STAGE, 7, Expert_BatonPass_MediumStatStage_CheckSpeedAndHP
+    GoTo Expert_BatonPass_ScoreMinus2
+
+Expert_BatonPass_MediumStatStage_CheckSpeedAndHP:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_BatonPass_MediumStatStage_SlowerCheckHP
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 60, Expert_BatonPass_ScoreMinus2
+    GoTo Expert_BatonPass_End
+
+Expert_BatonPass_MediumStatStage_SlowerCheckHP:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 70, Expert_BatonPass_End
+
+Expert_BatonPass_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_BatonPass_End:
+    End
+
+Expert_Pursuit:
+    LoadIsFirstTurnInBattle AI_BATTLER_ATTACKER
+    IfLoadedNotEqualTo FALSE, Expert_Pursuit_TryScorePlus1
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_GHOST, Expert_Pursuit_TryScorePlus1
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_PSYCHIC, Expert_Pursuit_TryScorePlus1
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_GHOST, Expert_Pursuit_TryScorePlus1
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_PSYCHIC, Expert_Pursuit_TryScorePlus1
+    GoTo Expert_Pursuit_CheckUturn
+
+Expert_Pursuit_TryScorePlus1:
+    IfRandomLessThan 128, Expert_Pursuit_CheckUturn
+    AddToMoveScore 1
+
+Expert_Pursuit_CheckUturn:
+    IfMoveNotKnown AI_BATTLER_DEFENDER, MOVE_U_TURN, Expert_Pursuit_End
+    IfRandomLessThan 128, Expert_Pursuit_End
+    AddToMoveScore 1
+
+Expert_Pursuit_End:
+    End
+
+Expert_RainDance:
+    IfSpeedCompareEqualTo COMPARE_SPEED_FASTER, Expert_RainDance_OtherChecks
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_SWIFT_SWIM, Expert_RainDance_ScorePlus1
+
+Expert_RainDance_OtherChecks:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 40, Expert_RainDance_ScoreMinus1
+    LoadCurrentWeather
+    IfLoadedEqualTo BTL_WEATHER_HAIL, Expert_RainDance_ScorePlus1
+    IfLoadedEqualTo BTL_WEATHER_SUN, Expert_RainDance_ScorePlus1
+    IfLoadedEqualTo BTL_WEATHER_SANDSTORM, Expert_RainDance_ScorePlus1
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_RAIN_DISH, Expert_RainDance_ScorePlus1
+    IfLoadedEqualTo ABILITY_DRY_SKIN, Expert_RainDance_ScorePlus1
+    IfLoadedNotEqualTo ABILITY_HYDRATION, Expert_RainDance_End
+    IfStatus AI_BATTLER_ATTACKER, Expert_RainDance_ScorePlus1
+    GoTo Expert_RainDance_End
+
+Expert_RainDance_ScorePlus1:
+    AddToMoveScore 1
+    GoTo Expert_RainDance_End
+
+Expert_RainDance_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_RainDance_End:
+    End
+
+Expert_SunnyDay:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 40, Expert_SunnyDay_ScoreMinus1
+    LoadCurrentWeather
+    IfLoadedEqualTo BTL_WEATHER_HAIL, Expert_SunnyDay_ScorePlus1
+    IfLoadedEqualTo BTL_WEATHER_RAIN, Expert_SunnyDay_ScorePlus1
+    IfLoadedEqualTo BTL_WEATHER_SANDSTORM, Expert_SunnyDay_ScorePlus1
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_FLOWER_GIFT, Expert_SunnyDay_ScorePlus1
+    IfLoadedNotEqualTo ABILITY_LEAF_GUARD, Expert_SunnyDay_End
+    // Bug: Leaf Guard only prevents new status conditions, so this should check for none, as in Gen 4
+    IfStatus AI_BATTLER_ATTACKER, Expert_SunnyDay_ScorePlus1
+    GoTo Expert_SunnyDay_End
+
+Expert_SunnyDay_ScorePlus1:
+    AddToMoveScore 1
+    GoTo Expert_SunnyDay_End
+
+Expert_SunnyDay_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_SunnyDay_End:
+    End
+
+Expert_BellyDrum:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 90, Expert_BellyDrum_ScoreMinus2
+    GoTo Expert_BellyDrum_End
+
+Expert_BellyDrum_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_BellyDrum_End:
+    End
+
+Expert_PsychUp:
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_ATTACK_STAGE, 8, Expert_PsychUp_CheckUserStatStages
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_DEFENSE_STAGE, 8, Expert_PsychUp_CheckUserStatStages
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE, 8, Expert_PsychUp_CheckUserStatStages
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_SP_DEFENSE_STAGE, 8, Expert_PsychUp_CheckUserStatStages
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_EVASION_STAGE, 8, Expert_PsychUp_CheckUserStatStages
+    GoTo Expert_PsychUp_ScoreMinus2
+
+Expert_PsychUp_CheckUserStatStages:
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 7, Expert_PsychUp_ScorePlus1
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 7, Expert_PsychUp_ScorePlus1
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 7, Expert_PsychUp_ScorePlus1
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_SP_DEFENSE_STAGE, 7, Expert_PsychUp_ScorePlus1
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_EVASION_STAGE, 7, Expert_PsychUp_ScorePlus2
+    IfRandomLessThan 50, Expert_PsychUp_End
+    GoTo Expert_PsychUp_ScoreMinus2
+
+Expert_PsychUp_ScorePlus2:
+    AddToMoveScore 1
+
+Expert_PsychUp_ScorePlus1:
+    AddToMoveScore 1
+    End
+
+Expert_PsychUp_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_PsychUp_End:
+    End
+
+Expert_MirrorCoat:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_SLEEP, Expert_MirrorCoat_ScoreMinus1
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_ATTRACT, Expert_MirrorCoat_ScoreMinus1
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_CONFUSION, Expert_MirrorCoat_ScoreMinus1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 30, Expert_MirrorCoat_CheckAboveHalfHP
+    IfRandomLessThan 10, Expert_MirrorCoat_CheckAboveHalfHP
+    AddToMoveScore -1
+
+Expert_MirrorCoat_CheckAboveHalfHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 50, Expert_MirrorCoat_CheckLastUsedMove
+    IfRandomLessThan 100, Expert_MirrorCoat_CheckLastUsedMove
+    AddToMoveScore -1
+
+Expert_MirrorCoat_CheckLastUsedMove:
+    IfMoveKnown AI_BATTLER_ATTACKER, MOVE_COUNTER, Expert_MirrorCoat_TryScorePlus4
+    LoadBattlerPreviousMove AI_BATTLER_DEFENDER
+    LoadPowerOfLoadedMove
+    IfLoadedEqualTo 0, Expert_MirrorCoat_TryScorePlus1
+    IfTargetIsNotTaunted Expert_MirrorCoat_CheckSpecialMove
+    IfRandomLessThan 100, Expert_MirrorCoat_CheckSpecialMove
+    AddToMoveScore 1
+
+Expert_MirrorCoat_CheckSpecialMove:
+    LoadDefenderLastUsedMoveClass
+    IfLoadedNotEqualTo MOVE_CATEGORY_SPECIAL, Expert_MirrorCoat_ScoreMinus1
+    IfRandomLessThan 100, Expert_MirrorCoat_End2
+    AddToMoveScore 1
+    GoTo Expert_MirrorCoat_End2
+
+Expert_MirrorCoat_TryScorePlus1:
+    IfTargetIsNotTaunted Expert_MirrorCoat_CheckOpponentTypes
+    IfRandomLessThan 100, Expert_MirrorCoat_CheckOpponentTypes
+    AddToMoveScore 1
+
+Expert_MirrorCoat_CheckOpponentTypes:
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedInTable Expert_MirrorCoat_SpecialTypes, Expert_MirrorCoat_End2
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedInTable Expert_MirrorCoat_SpecialTypes, Expert_MirrorCoat_End2
+    IfRandomLessThan 50, Expert_MirrorCoat_End2
+
+Expert_MirrorCoat_TryScorePlus4:
+    IfRandomLessThan 100, Expert_MirrorCoat_End
+    AddToMoveScore 4
+
+Expert_MirrorCoat_End:
+    End
+
+Expert_MirrorCoat_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_MirrorCoat_End2:
+    End
+
+Expert_MirrorCoat_SpecialTypes:
+    TableEntry TYPE_FIRE
+    TableEntry TYPE_WATER
+    TableEntry TYPE_GRASS
+    TableEntry TYPE_ELECTRIC
+    TableEntry TYPE_PSYCHIC
+    TableEntry TYPE_ICE
+    TableEntry TYPE_DRAGON
+    TableEntry TYPE_DARK
+    TableEntry TABLE_END
+
+Expert_ChargeTurnNoInvuln:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_ChargeTurnNoInvuln_ScoreMinus2
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_ChargeTurnNoInvuln_ScoreMinus2
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_ChargeTurnNoInvuln_ScoreMinus2
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_SKIP_CHARGE_TURN_IN_SUN, Expert_ChargeTurnNoInvuln_CheckForSunnyWeather
+    GoTo Expert_ChargeTurnNoInvuln_CheckForPowerHerb
+
+Expert_ChargeTurnNoInvuln_CheckForSunnyWeather:
+    LoadCurrentWeather
+    IfLoadedNotEqualTo BTL_WEATHER_SUN, Expert_ChargeTurnNoInvuln_CheckForPowerHerb
+    AddToMoveScore 2
+    GoTo Expert_ChargeTurnNoInvuln_End
+
+Expert_ChargeTurnNoInvuln_CheckForPowerHerb:
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_POWER_HERB, Expert_ChargeTurnNoInvuln_ScorePlus2
+    GoTo Expert_ChargeTurnNoInvuln_CheckForProtectAndHP
+
+Expert_ChargeTurnNoInvuln_ScorePlus2:
+    AddToMoveScore 2
+    GoTo Expert_ChargeTurnNoInvuln_End
+
+Expert_ChargeTurnNoInvuln_CheckForProtectAndHP:
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_PROTECT, Expert_ChargeTurnNoInvuln_ScoreMinus2
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 38, Expert_ChargeTurnNoInvuln_End
+    AddToMoveScore -1
+    GoTo Expert_ChargeTurnNoInvuln_End
+
+Expert_ChargeTurnNoInvuln_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_ChargeTurnNoInvuln_End:
+    End
+
+Expert_ChargeTurnNoInvuln_CheckEffectivenessAndWeather:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_ChargeTurnNoInvuln_TryScoreMinus3
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_ChargeTurnNoInvuln_TryScoreMinus3
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_ChargeTurnNoInvuln_TryScoreMinus3
+    LoadCurrentWeather
+    IfLoadedEqualTo BTL_WEATHER_SUN, Expert_ChargeTurnNoInvuln_TryScoreMinus3
+    IfLoadedNotEqualTo BTL_WEATHER_RAIN, Expert_ChargeTurnNoInvuln_End_2
+    AddToMoveScore 1
+    GoTo Expert_ChargeTurnNoInvuln_End_2
+
+Expert_ChargeTurnNoInvuln_TryScoreMinus3:
+    IfRandomLessThan 50, Expert_ChargeTurnNoInvuln_End_2
+    AddToMoveScore -3
+
+Expert_ChargeTurnNoInvuln_End_2:
+    End
+
+Expert_ChargeTurnWithInvuln:
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_POWER_HERB, Expert_ChargeTurnNoInvuln_ScorePlus2
+    IfMoveEffectNotKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_PROTECT, Expert_ShadowForce
+    AddToMoveScore -1
+    GoTo Expert_ChargeTurnWithInvuln_End
+
+Expert_ShadowForce:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_ChargeTurnWithInvuln_ScorePlus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_ChargeTurnWithInvuln_ScorePlus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_ChargeTurnWithInvuln_ScorePlus1
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_POWER_HERB, Expert_ChargeTurnWithInvuln_ScorePlus1AndEnd
+    GoTo Expert_ChargeTurnWithInvuln_CheckConditions
+
+Expert_ChargeTurnWithInvuln_ScorePlus1AndEnd:
+    AddToMoveScore 1
+    GoTo Expert_ChargeTurnWithInvuln_End
+
+Expert_ChargeTurnWithInvuln_CheckConditions:
+    IfSpeedCompareEqualTo COMPARE_SPEED_FASTER, Expert_ChargeTurnWithInvuln_CheckTargetConditions
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 24, Expert_ChargeTurnWithInvuln_CheckTargetConditions
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_CUSTAP_BERRY, Expert_ChargeTurnWithInvuln_TryScorePlus1
+
+Expert_ChargeTurnWithInvuln_CheckTargetConditions:
+    IfBadlyPoisoned AI_BATTLER_DEFENDER, Expert_ChargeTurnWithInvuln_TryScorePlus1
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_CURSE, Expert_ChargeTurnWithInvuln_TryScorePlus1
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_LEECH_SEED, Expert_ChargeTurnWithInvuln_TryScorePlus1
+    LoadCurrentWeather
+    IfLoadedEqualTo BTL_WEATHER_SANDSTORM, Expert_ChargeTurnWithInvuln_CheckSandImmuneType
+    IfLoadedEqualTo BTL_WEATHER_HAIL, Expert_ChargeTurnWithInvuln_CheckHailImmuneType
+    GoTo Expert_ChargeTurnWithInvuln_CompareSpeed
+
+Expert_ChargeTurnWithInvuln_CheckSandImmuneType:
+    LoadTypeFrom LOAD_ATTACKER_TYPE_1
+    IfLoadedInTable Expert_ChargeTurnWithInvuln_SandImmuneTypes, Expert_ChargeTurnWithInvuln_TryScorePlus1
+    LoadTypeFrom LOAD_ATTACKER_TYPE_2
+    IfLoadedInTable Expert_ChargeTurnWithInvuln_SandImmuneTypes, Expert_ChargeTurnWithInvuln_TryScorePlus1
+    GoTo Expert_ChargeTurnWithInvuln_CompareSpeed
+
+Expert_ChargeTurnWithInvuln_CheckHailImmuneType:
+    LoadTypeFrom LOAD_ATTACKER_TYPE_1
+    IfLoadedEqualTo TYPE_ICE, Expert_ChargeTurnWithInvuln_TryScorePlus1
+    LoadTypeFrom LOAD_ATTACKER_TYPE_2
+    IfLoadedEqualTo TYPE_ICE, Expert_ChargeTurnWithInvuln_TryScorePlus1
+    GoTo Expert_ChargeTurnWithInvuln_CompareSpeed
+
+Expert_ChargeTurnWithInvuln_CompareSpeed:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_ChargeTurnWithInvuln_End
+    LoadBattlerPreviousMove AI_BATTLER_DEFENDER
+    LoadEffectOfLoadedMove
+    IfLoadedNotEqualTo BATTLE_EFFECT_NEXT_ATTACK_ALWAYS_HITS, Expert_ChargeTurnWithInvuln_TryScorePlus1
+    GoTo Expert_ChargeTurnWithInvuln_End
+
+Expert_ChargeTurnWithInvuln_TryScorePlus1:
+    IfRandomLessThan 80, Expert_ChargeTurnWithInvuln_End
+    AddToMoveScore 1
+
+Expert_ChargeTurnWithInvuln_End:
+    End
+
+Expert_ChargeTurnWithInvuln_ScorePlus1:
+    AddToMoveScore 1
+    End
+
+Expert_ChargeTurnWithInvuln_SandImmuneTypes:
+    TableEntry TYPE_GROUND
+    TableEntry TYPE_ROCK
+    TableEntry TYPE_STEEL
+    TableEntry TABLE_END
+
+Expert_FakeOut:
+    AddToMoveScore 2
+    End
+
+Expert_Stockpile:
+    IfHPPercentNotEqualTo AI_BATTLER_ATTACKER, 100, Expert_Stockpile_CheckHP
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_PASS_STATS_AND_STATUS, Expert_Stockpile_ScorePlus2
+    IfRandomLessThan 128, Expert_Stockpile_CheckHP
+
+Expert_Stockpile_ScorePlus2:
+    AddToMoveScore 2
+
+Expert_Stockpile_CheckHP:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 70, Expert_Stockpile_CheckLowHP
+    IfRandomLessThan 200, Expert_Stockpile_End
+
+Expert_Stockpile_CheckLowHP:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 40, Expert_Stockpile_ScoreMinus2
+    IfRandomLessThan 60, Expert_Stockpile_End
+
+Expert_Stockpile_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_Stockpile_End:
+    End
+
+Expert_SpitUp:
+    LoadStockpileCount AI_BATTLER_ATTACKER
+    IfLoadedLessThan 2, Expert_SpitUp_End
+    IfRandomLessThan 80, Expert_SpitUp_End
+    AddToMoveScore 2
+
+Expert_SpitUp_End:
+    End
+
+Expert_Hail:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 40, Expert_Hail_ScoreMinus1
+    LoadCurrentWeather
+    IfLoadedEqualTo BTL_WEATHER_SUN, Expert_Hail_ScorePlus1AndCheckBlizzard
+    IfLoadedEqualTo BTL_WEATHER_RAIN, Expert_Hail_ScorePlus1AndCheckBlizzard
+    IfLoadedEqualTo BTL_WEATHER_SANDSTORM, Expert_Hail_ScorePlus1AndCheckBlizzard
+    GoTo Expert_Hail_End
+
+Expert_Hail_ScorePlus1AndCheckBlizzard:
+    AddToMoveScore 1
+    IfMoveNotKnown AI_BATTLER_ATTACKER, MOVE_BLIZZARD, Expert_Hail_CheckIceBody
+    AddToMoveScore 2
+
+Expert_Hail_CheckIceBody:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedNotEqualTo ABILITY_ICE_BODY, Expert_Hail_End
+    AddToMoveScore 2
+    GoTo Expert_Hail_End
+
+Expert_Hail_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_Hail_End:
+    End
+
+// Bug: checks the target's status, where Facade is stronger when the user has one, as in Gen 4
+Expert_Facade:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_POISON, Expert_Facade_ScorePlus1
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_BURN, Expert_Facade_ScorePlus1
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_PARALYSIS, Expert_Facade_ScorePlus1
+    IfNotBadlyPoisoned AI_BATTLER_DEFENDER, Expert_Facade_End
+
+Expert_Facade_ScorePlus1:
+    AddToMoveScore 1
+
+Expert_Facade_End:
+    End
+
+Expert_FocusPunch:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_FocusPunch_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_FocusPunch_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_FocusPunch_ScoreMinus1
+    IfBattlerHasSubstitute AI_BATTLER_ATTACKER, ScorePlus2
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_SLEEP, ScorePlus2
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_YAWN, ScorePlus2
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_ATTRACT, Expert_FocusPunch_TryScorePlus1
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_CONFUSION, Expert_FocusPunch_TryScorePlus1
+    LoadIsFirstTurnInBattle AI_BATTLER_ATTACKER
+    IfLoadedNotEqualTo FALSE, Expert_FocusPunch_End
+    IfRandomLessThan 200, Expert_FocusPunch_End
+    AddToMoveScore 1
+    GoTo Expert_FocusPunch_End
+
+Expert_FocusPunch_ScoreMinus1:
+    AddToMoveScore -1
+    GoTo Expert_FocusPunch_End
+
+Expert_FocusPunch_TryScorePlus1:
+    IfRandomLessThan 100, Expert_FocusPunch_End
+
+Expert_FocusPunch_ScorePlus1:
+    AddToMoveScore 1
+
+Expert_FocusPunch_End:
+    End
+
+Expert_SmellingSalts:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_PARALYSIS, Expert_SmellingSalts_ScorePlus1
+    GoTo Expert_SmellingSalts_End
+
+Expert_SmellingSalts_ScorePlus1:
+    AddToMoveScore 1
+
+Expert_SmellingSalts_End:
+    End
+
+Expert_Trick:
+    LoadHeldItemEffect AI_BATTLER_ATTACKER
+    IfLoadedInTable Expert_Trick_DisruptiveItems, Expert_Trick_CheckOpponentItem
+    IfLoadedInTable Expert_Trick_PoisoningItems, Expert_Trick_CheckOpponentForPoison
+    IfLoadedInTable Expert_Trick_BurningItems, Expert_Trick_CheckOpponentForBurn
+    IfLoadedInTable Expert_Trick_BlackSludge, Expert_Trick_CheckOpponentForSludge
+    IfLoadedInTable Expert_Trick_FlavorBerries, Expert_Trick_CheckOpponentForFlavorBerry
+
+Expert_Trick_ScoreMinus3:
+    AddToMoveScore -3
+    GoTo Expert_Trick_End
+
+Expert_Trick_CheckOpponentItem:
+    LoadHeldItemEffect AI_BATTLER_DEFENDER
+    IfLoadedInTable Expert_Trick_BadOpponentItems, Expert_Trick_ScoreMinus3
+    AddToMoveScore 5
+    GoTo Expert_Trick_End
+
+Expert_Trick_CheckOpponentForPoison:
+    LoadHeldItemEffect AI_BATTLER_DEFENDER
+    IfLoadedInTable Expert_Trick_BadOpponentItems, Expert_Trick_ScoreMinus3
+    IfStatus AI_BATTLER_DEFENDER, Expert_Trick_CheckAttackerForPoison
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_SAFEGUARD, Expert_Trick_CheckAttackerForPoison
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_STEEL, Expert_Trick_CheckAttackerForPoison
+    IfLoadedEqualTo TYPE_POISON, Expert_Trick_CheckAttackerForPoison
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_STEEL, Expert_Trick_CheckAttackerForPoison
+    IfLoadedEqualTo TYPE_POISON, Expert_Trick_CheckAttackerForPoison
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_IMMUNITY, Expert_Trick_CheckAttackerForPoison
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, Expert_Trick_CheckAttackerForPoison
+    IfLoadedEqualTo ABILITY_POISON_HEAL, Expert_Trick_CheckAttackerForPoison
+    IfLoadedEqualTo ABILITY_TOXIC_BOOST, Expert_Trick_CheckAttackerForPoison
+    AddToMoveScore 5
+    GoTo Expert_Trick_End
+
+Expert_Trick_CheckAttackerForPoison:
+    IfStatus AI_BATTLER_ATTACKER, Expert_Trick_ScoreMinus3
+    IfSideCondition AI_BATTLER_ATTACKER, SIDE_CONDITION_SAFEGUARD, Expert_Trick_ScoreMinus3
+    LoadTypeFrom LOAD_ATTACKER_TYPE_1
+    IfLoadedEqualTo TYPE_STEEL, Expert_Trick_ScoreMinus3
+    IfLoadedEqualTo TYPE_POISON, Expert_Trick_ScoreMinus3
+    LoadTypeFrom LOAD_ATTACKER_TYPE_2
+    IfLoadedEqualTo TYPE_STEEL, Expert_Trick_ScoreMinus3
+    IfLoadedEqualTo TYPE_POISON, Expert_Trick_ScoreMinus3
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_IMMUNITY, Expert_Trick_ScoreMinus3
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, Expert_Trick_ScoreMinus3
+    IfLoadedEqualTo ABILITY_POISON_HEAL, Expert_Trick_ScoreMinus3
+    IfLoadedEqualTo ABILITY_KLUTZ, Expert_Trick_ScoreMinus3
+    IfLoadedEqualTo ABILITY_TOXIC_BOOST, Expert_Trick_ScoreMinus3
+    AddToMoveScore 5
+    GoTo Expert_Trick_End
+
+Expert_Trick_CheckOpponentForBurn:
+    LoadHeldItemEffect AI_BATTLER_DEFENDER
+    IfLoadedInTable Expert_Trick_BadOpponentItems, Expert_Trick_ScoreMinus3
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_WATER_VEIL, Expert_Trick_CheckAttackerForBurn
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, Expert_Trick_CheckAttackerForBurn
+    IfLoadedEqualTo ABILITY_FLARE_BOOST, Expert_Trick_CheckAttackerForBurn
+    IfStatus AI_BATTLER_DEFENDER, Expert_Trick_CheckAttackerForBurn
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_SAFEGUARD, Expert_Trick_CheckAttackerForBurn
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_FIRE, Expert_Trick_CheckAttackerForBurn
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_FIRE, Expert_Trick_CheckAttackerForBurn
+    AddToMoveScore 5
+    GoTo Expert_Trick_End
+
+Expert_Trick_CheckAttackerForBurn:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_WATER_VEIL, Expert_Trick_ScoreMinus3
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, Expert_Trick_ScoreMinus3
+    IfLoadedEqualTo ABILITY_KLUTZ, ScoreMinus5
+    IfLoadedEqualTo ABILITY_FLARE_BOOST, Expert_Trick_ScoreMinus3
+    IfStatus AI_BATTLER_ATTACKER, Expert_Trick_ScoreMinus3
+    IfSideCondition AI_BATTLER_ATTACKER, SIDE_CONDITION_SAFEGUARD, Expert_Trick_ScoreMinus3
+    LoadTypeFrom LOAD_ATTACKER_TYPE_1
+    IfLoadedEqualTo TYPE_FIRE, Expert_Trick_ScoreMinus3
+    LoadTypeFrom LOAD_ATTACKER_TYPE_2
+    IfLoadedEqualTo TYPE_FIRE, Expert_Trick_ScoreMinus3
+    AddToMoveScore 5
+    GoTo Expert_Trick_End
+
+Expert_Trick_CheckOpponentForSludge:
+    LoadHeldItemEffect AI_BATTLER_DEFENDER
+    IfLoadedInTable Expert_Trick_BadOpponentItems, Expert_Trick_ScoreMinus3
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_POISON, Expert_Trick_CheckAttackerForSludge
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_POISON, Expert_Trick_CheckAttackerForSludge
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, Expert_Trick_CheckAttackerForPoison
+    IfLoadedEqualTo ABILITY_TOXIC_BOOST, Expert_Trick_CheckAttackerForPoison
+    AddToMoveScore 5
+    GoTo Expert_Trick_End
+
+Expert_Trick_CheckAttackerForSludge:
+    LoadTypeFrom LOAD_ATTACKER_TYPE_1
+    IfLoadedEqualTo TYPE_POISON, Expert_Trick_ScoreMinus3
+    LoadTypeFrom LOAD_ATTACKER_TYPE_2
+    IfLoadedEqualTo TYPE_POISON, Expert_Trick_ScoreMinus3
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, Expert_Trick_ScoreMinus3
+    IfLoadedEqualTo ABILITY_KLUTZ, Expert_Trick_ScoreMinus3
+    IfLoadedEqualTo ABILITY_TOXIC_BOOST, Expert_Trick_ScoreMinus3
+    AddToMoveScore 5
+    GoTo Expert_Trick_End
+
+Expert_Trick_CheckOpponentForFlavorBerry:
+    LoadHeldItemEffect AI_BATTLER_DEFENDER
+    IfLoadedInTable Expert_Trick_BadOpponentItemsAndFlavorBerries, Expert_Trick_ScoreMinus3
+    IfRandomLessThan 50, Expert_Trick_End
+    AddToMoveScore 2
+
+Expert_Trick_End:
+    End
+
+Expert_Trick_FlavorBerries:
+    TableEntry HOLD_EFFECT_HP_RESTORE_SPICY
+    TableEntry HOLD_EFFECT_HP_RESTORE_DRY
+    TableEntry HOLD_EFFECT_HP_RESTORE_SWEET
+    TableEntry HOLD_EFFECT_HP_RESTORE_BITTER
+    TableEntry HOLD_EFFECT_HP_RESTORE_SOUR
+    TableEntry TABLE_END
+
+// Bug: the Defense EV item's effect is here twice, and the Macho Brace's is missing, as in Gen 4
+Expert_Trick_DisruptiveItems:
+    TableEntry HOLD_EFFECT_CHOICE_ATK
+    TableEntry HOLD_EFFECT_CHOICE_SPATK
+    TableEntry HOLD_EFFECT_CHOICE_SPEED
+    TableEntry HOLD_EFFECT_SPEED_DOWN_GROUNDED
+    TableEntry HOLD_EFFECT_PRIORITY_DOWN
+    TableEntry HOLD_EFFECT_DMG_USER_CONTACT_XFR
+    TableEntry HOLD_EFFECT_LVLUP_ATK_EV_UP
+    TableEntry HOLD_EFFECT_LVLUP_DEF_EV_UP
+    TableEntry HOLD_EFFECT_LVLUP_SPATK_EV_UP
+    TableEntry HOLD_EFFECT_LVLUP_DEF_EV_UP
+    TableEntry HOLD_EFFECT_LVLUP_SPDEF_EV_UP
+    TableEntry HOLD_EFFECT_LVLUP_SPEED_EV_UP
+    TableEntry HOLD_EFFECT_LVLUP_HP_EV_UP
+    TableEntry TABLE_END
+
+Expert_Trick_PoisoningItems:
+    TableEntry HOLD_EFFECT_PSN_USER
+    TableEntry TABLE_END
+
+Expert_Trick_BurningItems:
+    TableEntry HOLD_EFFECT_BRN_USER
+    TableEntry TABLE_END
+
+Expert_Trick_BlackSludge:
+    TableEntry HOLD_EFFECT_HP_RESTORE_PSN_TYPE
+    TableEntry TABLE_END
+
+Expert_Trick_BadOpponentItemsAndFlavorBerries:
+    TableEntry HOLD_EFFECT_HP_RESTORE_SPICY
+    TableEntry HOLD_EFFECT_HP_RESTORE_DRY
+    TableEntry HOLD_EFFECT_HP_RESTORE_SWEET
+    TableEntry HOLD_EFFECT_HP_RESTORE_BITTER
+    TableEntry HOLD_EFFECT_HP_RESTORE_SOUR
+    TableEntry HOLD_EFFECT_EVS_UP_SPEED_DOWN
+    TableEntry HOLD_EFFECT_CHOICE_ATK
+    TableEntry HOLD_EFFECT_CHOICE_SPATK
+    TableEntry HOLD_EFFECT_CHOICE_SPEED
+    TableEntry HOLD_EFFECT_SPEED_DOWN_GROUNDED
+    TableEntry HOLD_EFFECT_PRIORITY_DOWN
+    TableEntry HOLD_EFFECT_DMG_USER_CONTACT_XFR
+    TableEntry HOLD_EFFECT_LVLUP_ATK_EV_UP
+    TableEntry HOLD_EFFECT_LVLUP_DEF_EV_UP
+    TableEntry HOLD_EFFECT_LVLUP_SPATK_EV_UP
+    TableEntry HOLD_EFFECT_LVLUP_SPDEF_EV_UP
+    TableEntry HOLD_EFFECT_LVLUP_SPEED_EV_UP
+    TableEntry HOLD_EFFECT_LVLUP_HP_EV_UP
+    TableEntry HOLD_EFFECT_PSN_USER
+    TableEntry HOLD_EFFECT_BRN_USER
+    TableEntry HOLD_EFFECT_HP_RESTORE_PSN_TYPE
+    TableEntry TABLE_END
+
+Expert_Trick_BadOpponentItems:
+    TableEntry HOLD_EFFECT_EVS_UP_SPEED_DOWN
+    TableEntry HOLD_EFFECT_CHOICE_ATK
+    TableEntry HOLD_EFFECT_CHOICE_SPATK
+    TableEntry HOLD_EFFECT_CHOICE_SPEED
+    TableEntry HOLD_EFFECT_SPEED_DOWN_GROUNDED
+    TableEntry HOLD_EFFECT_PRIORITY_DOWN
+    TableEntry HOLD_EFFECT_DMG_USER_CONTACT_XFR
+    TableEntry HOLD_EFFECT_LVLUP_ATK_EV_UP
+    TableEntry HOLD_EFFECT_LVLUP_DEF_EV_UP
+    TableEntry HOLD_EFFECT_LVLUP_SPATK_EV_UP
+    TableEntry HOLD_EFFECT_LVLUP_SPDEF_EV_UP
+    TableEntry HOLD_EFFECT_LVLUP_SPEED_EV_UP
+    TableEntry HOLD_EFFECT_LVLUP_HP_EV_UP
+    TableEntry HOLD_EFFECT_PSN_USER
+    TableEntry HOLD_EFFECT_BRN_USER
+    TableEntry HOLD_EFFECT_HP_RESTORE_PSN_TYPE
+    TableEntry TABLE_END
+
+Expert_ChangeUserAbility:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedInTable Expert_ChangeUserAbility_DesirableAbilities, Expert_ChangeUserAbility_ScoreMinus1
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedInTable Expert_ChangeUserAbility_DesirableAbilities, Expert_ChangeUserAbility_TryScorePlus2
+    LoadBattleStyle
+    IfLoadedEqualTo BTL_STYLE_SINGLE, Expert_ChangeUserAbility_ScoreMinus1
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedInTable Expert_ChangeUserAbility_DesirableMultiBattleAbilities, Expert_ChangeUserAbility_TryScorePlus2
+
+Expert_ChangeUserAbility_ScoreMinus1:
+    AddToMoveScore -1
+    GoTo Expert_ChangeUserAbility_End
+
+Expert_ChangeUserAbility_TryScorePlus2:
+    IfRandomLessThan 50, Expert_ChangeUserAbility_End
+    AddToMoveScore 2
+
+Expert_ChangeUserAbility_End:
+    End
+
+Expert_ChangeUserAbility_DesirableAbilities:
+    TableEntry ABILITY_SPEED_BOOST
+    TableEntry ABILITY_FLASH_FIRE
+    TableEntry ABILITY_INTIMIDATE
+    TableEntry ABILITY_SWIFT_SWIM
+    TableEntry ABILITY_CHLOROPHYLL
+    TableEntry ABILITY_HUGE_POWER
+    TableEntry ABILITY_RAIN_DISH
+    TableEntry ABILITY_GUTS
+    TableEntry ABILITY_PURE_POWER
+    TableEntry ABILITY_MOTOR_DRIVE
+    TableEntry ABILITY_DRY_SKIN
+    TableEntry ABILITY_POISON_HEAL
+    TableEntry ABILITY_ADAPTABILITY
+    TableEntry ABILITY_SOLAR_POWER
+    TableEntry ABILITY_TECHNICIAN
+    TableEntry ABILITY_ICE_BODY
+    TableEntry ABILITY_CONTRARY
+    TableEntry ABILITY_CURSED_BODY
+    TableEntry ABILITY_TOXIC_BOOST
+    TableEntry ABILITY_FLARE_BOOST
+    TableEntry ABILITY_HARVEST
+    TableEntry ABILITY_SAND_RUSH
+    TableEntry ABILITY_MAGIC_BOUNCE
+    TableEntry ABILITY_PRANKSTER
+    TableEntry TABLE_END
+
+Expert_ChangeUserAbility_DesirableMultiBattleAbilities:
+    TableEntry ABILITY_SHADOW_TAG
+    TableEntry ABILITY_ARENA_TRAP
+    TableEntry ABILITY_TELEPATHY
+    TableEntry ABILITY_FRIEND_GUARD
+    TableEntry ABILITY_OWN_TEMPO
+    TableEntry TABLE_END
+
+Expert_Ingrain:
+    End
+
+Expert_Superpower:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_Superpower_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_Superpower_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_Superpower_ScoreMinus1
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 6, Expert_Superpower_ScoreMinus1
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_Superpower_CheckUserHP
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 40, Expert_Superpower_ScoreMinus1
+    GoTo Expert_Superpower_End
+
+Expert_Superpower_CheckUserHP:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 60, Expert_Superpower_End
+
+Expert_Superpower_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_Superpower_End:
+    End
+
+Expert_MagicCoat:
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 30, Expert_MagicCoat_CheckUserFirstTurn
+    IfRandomLessThan 100, Expert_MagicCoat_CheckUserFirstTurn
+    AddToMoveScore -1
+
+Expert_MagicCoat_CheckUserFirstTurn:
+    LoadIsFirstTurnInBattle AI_BATTLER_ATTACKER
+    IfLoadedEqualTo FALSE, Expert_MagicCoat_TryScoreMinus1
+    IfRandomLessThan 150, Expert_MagicCoat_End
+    AddToMoveScore 1
+    GoTo Expert_MagicCoat_End
+    IfRandomLessThan 50, Expert_MagicCoat_End
+
+Expert_MagicCoat_TryScoreMinus1:
+    IfRandomLessThan 30, Expert_MagicCoat_End
+    AddToMoveScore -1
+
+Expert_MagicCoat_End:
+    End
+
+Expert_Recycle:
+    LoadRecycleItem AI_BATTLER_ATTACKER
+    IfLoadedNotInTable Expert_Recycle_DesirableItems, Expert_Recycle_ScoreMinus2
+    IfRandomLessThan 50, Expert_Recycle_End
+    AddToMoveScore 1
+    GoTo Expert_Recycle_End
+
+Expert_Recycle_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_Recycle_End:
+    End
+
+Expert_Recycle_DesirableItems:
+    TableEntry ITEM_CHESTO_BERRY
+    TableEntry ITEM_LUM_BERRY
+    TableEntry ITEM_STARF_BERRY
+    TableEntry TABLE_END
+
+Expert_Revenge:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_SLEEP, Expert_Revenge_ScoreMinus2
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_ATTRACT, Expert_Revenge_ScoreMinus2
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_CONFUSION, Expert_Revenge_ScoreMinus2
+    IfRandomLessThan 180, Expert_Revenge_ScoreMinus2
+    AddToMoveScore 2
+    GoTo Expert_Revenge_End
+
+Expert_Revenge_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_Revenge_End:
+    End
+
+Expert_BrickBreak:
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_REFLECT, Expert_BrickBreak_ScorePlus1
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_LIGHT_SCREEN, Expert_BrickBreak_ScorePlus1
+    GoTo Expert_BrickBreak_End
+
+Expert_BrickBreak_ScorePlus1:
+    AddToMoveScore 1
+
+Expert_BrickBreak_End:
+    End
+
+Expert_KnockOff:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_HARVEST, ScoreMinus5
+    IfHPPercentLessThan AI_BATTLER_DEFENDER, 30, Expert_KnockOff_End
+    LoadIsFirstTurnInBattle AI_BATTLER_ATTACKER
+    IfLoadedGreaterThan FALSE, Expert_KnockOff_End
+    IfRandomLessThan 180, Expert_KnockOff_End
+    AddToMoveScore 1
+
+Expert_KnockOff_End:
+    End
+
+Expert_Endeavor:
+    IfHPPercentLessThan AI_BATTLER_DEFENDER, 70, Expert_Endeavor_ScoreMinus1
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_Endeavor_SlowerCheckHP
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 40, Expert_Endeavor_ScoreMinus1
+    AddToMoveScore 1
+    GoTo Expert_Endeavor_End
+
+Expert_Endeavor_SlowerCheckHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 50, Expert_Endeavor_ScoreMinus1
+    AddToMoveScore 1
+    GoTo Expert_Endeavor_End
+
+Expert_Endeavor_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_Endeavor_End:
+    End
+
+Expert_WaterSpout:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_WaterSpout_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_WaterSpout_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_WaterSpout_ScoreMinus1
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_WaterSpout_SlowerCheckHP
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 90, Expert_WaterSpout_TryScorePlus1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 50, Expert_WaterSpout_End
+    GoTo Expert_WaterSpout_ScoreMinus1
+
+Expert_WaterSpout_TryScorePlus1:
+    IfRandomLessThan 30, Expert_WaterSpout_End
+    AddToMoveScore 1
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_CHOICE_SCARF, Expert_WaterSpout_ScorePlus1
+    GoTo Expert_WaterSpout_End
+
+Expert_WaterSpout_ScorePlus1:
+    AddToMoveScore 1
+    GoTo Expert_WaterSpout_End
+
+Expert_WaterSpout_SlowerCheckHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 80, Expert_WaterSpout_End
+
+Expert_WaterSpout_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_WaterSpout_End:
+    End
+
+Expert_Imprison:
+    LoadIsFirstTurnInBattle AI_BATTLER_ATTACKER
+    IfLoadedGreaterThan FALSE, Expert_Imprison_End
+    IfRandomLessThan 100, Expert_Imprison_End
+    AddToMoveScore 2
+
+Expert_Imprison_End:
+    End
+
+Expert_Refresh:
+    IfHPPercentLessThan AI_BATTLER_DEFENDER, 50, Expert_Refresh_ScoreMinus1
+    GoTo Expert_Refresh_End
+
+Expert_Refresh_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_Refresh_End:
+    End
+
+Expert_Snatch:
+    LoadIsFirstTurnInBattle AI_BATTLER_ATTACKER
+    IfLoadedEqualTo TRUE, Expert_Snatch_TryScorePlus2
+    IfRandomLessThan 30, Expert_Snatch_End
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_Snatch_UserIsSlower
+    IfHPPercentNotEqualTo AI_BATTLER_ATTACKER, 100, Expert_Snatch_TryScoreMinus2
+    IfHPPercentLessThan AI_BATTLER_DEFENDER, 70, Expert_Snatch_TryScoreMinus2
+    IfRandomLessThan 60, Expert_Snatch_End
+    GoTo Expert_Snatch_TryScoreMinus2
+
+Expert_Snatch_UserIsSlower:
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 25, Expert_Snatch_TryScoreMinus2
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_RESTORE_HALF_HP, Expert_Snatch_TryScorePlus2
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_DEF_UP_DOUBLE_ROLLOUT_POWER, Expert_Snatch_TryScorePlus2
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_HEAL_HALF_REMOVE_FLYING_TYPE, Expert_Snatch_TryScorePlus2
+    GoTo Expert_Snatch_TryScorePlus1
+
+Expert_Snatch_TryScorePlus2:
+    IfRandomLessThan 150, Expert_Snatch_End
+    AddToMoveScore 2
+    GoTo Expert_Snatch_End
+
+Expert_Snatch_TryScorePlus1:
+    IfRandomLessThan 230, Expert_Snatch_TryScoreMinus2
+    AddToMoveScore 1
+    GoTo Expert_Snatch_End
+
+Expert_Snatch_TryScoreMinus2:
+    IfRandomLessThan 30, Expert_Snatch_End
+    AddToMoveScore -2
+
+Expert_Snatch_End:
+    End
+
+Expert_MudSport:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 50, Expert_MudSport_ScoreMinus1
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_ELECTRIC, Expert_MudSport_ScorePlus1
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_ELECTRIC, Expert_MudSport_ScorePlus1
+    GoTo Expert_MudSport_ScoreMinus1
+
+Expert_MudSport_ScorePlus1:
+    AddToMoveScore 1
+    GoTo Expert_MudSport_End
+
+Expert_MudSport_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_MudSport_End:
+    End
+
+Expert_Overheat:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_Overheat_ScoreMinus1
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_CONTRARY, Expert_Overheat_CheckEffectiveness
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_Overheat_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_Overheat_ScoreMinus1
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_Overheat_SlowerCheckHP
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 60, Expert_Overheat_End
+    GoTo Expert_Overheat_ScoreMinus1
+
+Expert_Overheat_CheckEffectiveness:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_Overheat_End
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_Overheat_SlowerCheckHP
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 50, Expert_Overheat_End
+    IfRandomLessThan 50, Expert_Gravity_TryScorePlus1
+    AddToMoveScore 2
+    GoTo Expert_Overheat_End
+
+Expert_Overheat_SlowerCheckHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 80, Expert_Overheat_End
+
+Expert_Overheat_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_Overheat_End:
+    End
+
+Expert_WaterSport:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 50, Expert_WaterSport_ScoreMinus1
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_FIRE, Expert_WaterSport_ScorePlus1
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_FIRE, Expert_WaterSport_ScorePlus1
+    GoTo Expert_WaterSport_ScoreMinus1
+
+Expert_WaterSport_ScorePlus1:
+    AddToMoveScore 1
+    GoTo Expert_WaterSport_End
+
+Expert_WaterSport_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_WaterSport_End:
+    End
+
+Expert_DragonDance:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_DragonDance_TryScorePlus1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 50, Expert_DragonDance_End
+    IfRandomLessThan 50, Expert_DragonDance_End
+    AddToMoveScore -1
+    GoTo Expert_DragonDance_End
+
+Expert_DragonDance_TryScorePlus1:
+    IfRandomLessThan 50, Expert_DragonDance_End
+    AddToMoveScore 1
+
+Expert_DragonDance_End:
+    End
+
+Expert_Gravity:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_LEVITATE, Expert_Gravity_TryScorePlus1
+    IfCondition AI_BATTLER_DEFENDER, 30, Expert_Gravity_TryScorePlus1
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_FLYING, Expert_Gravity_TryScorePlus1
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_FLYING, Expert_Gravity_TryScorePlus1
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 60, Expert_Gravity_End
+    IfRandomLessThan 128, Expert_Gravity_TryScorePlus1
+    GoTo Expert_Gravity_End
+
+Expert_Gravity_TryScorePlus1:
+    IfRandomLessThan 64, Expert_Gravity_End
+    AddToMoveScore 1
+
+Expert_Gravity_End:
+    End
+
+Expert_MiracleEye:
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_DARK, Expert_MiracleEye_ExtraRandomGate
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_DARK, Expert_MiracleEye_ExtraRandomGate
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_EVASION_STAGE, 8, Expert_MiracleEye_ScorePlus2
+    AddToMoveScore -2
+    End
+
+Expert_MiracleEye_ExtraRandomGate:
+    IfRandomLessThan 80, Expert_MiracleEye_End
+
+Expert_MiracleEye_ScorePlus2:
+    IfRandomLessThan 80, Expert_MiracleEye_End
+    AddToMoveScore 2
+
+Expert_MiracleEye_End:
+    End
+
+Expert_WakeUpSlap:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_WakeUpSlap_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_WakeUpSlap_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_WakeUpSlap_ScoreMinus1
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_SLEEP, Expert_WakeUpSlap_ScorePlus1
+    GoTo Expert_WakeUpSlap_End
+
+Expert_WakeUpSlap_ScoreMinus1:
+    AddToMoveScore -1
+    GoTo Expert_WakeUpSlap_End
+
+Expert_WakeUpSlap_ScorePlus1:
+    AddToMoveScore 1
+
+Expert_WakeUpSlap_End:
+    End
+
+Expert_HammerArm:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_HammerArm_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_HammerArm_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_HammerArm_ScoreMinus1
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_HammerArm_ScorePlus1
+    GoTo Expert_HammerArm_End
+
+Expert_HammerArm_ScoreMinus1:
+    AddToMoveScore -1
+    End
+
+Expert_HammerArm_ScorePlus1:
+    AddToMoveScore 1
+
+Expert_HammerArm_End:
+    End
+
+Expert_GyroBall:
+    End
+
+Expert_Brine:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_Brine_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_Brine_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_Brine_ScoreMinus1
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 50, Expert_Brine_End
+    AddToMoveScore 1
+    IfRandomLessThan 128, Expert_Brine_End
+    AddToMoveScore 1
+    GoTo Expert_Brine_End
+
+Expert_Brine_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_Brine_End:
+    End
+
+Expert_Feint:
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_PROTECT, Expert_Feint_CheckConditions
+    IfRandomLessThan 64, Expert_Feint_CheckConditions
+    GoTo Expert_Feint_End
+
+Expert_Feint_CheckConditions:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedNotEqualTo ABILITY_GUTS, Expert_Feint_CheckAttackerConditions
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_FLAME_ORB, Expert_Feint_CheckFirstTurn
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_TOXIC_ORB, Expert_Feint_CheckFirstTurn
+    GoTo Expert_Feint_CheckAttackerConditions
+
+Expert_Feint_CheckFirstTurn:
+    LoadTurnCount
+    IfLoadedNotEqualTo 0, Expert_Feint_CheckAttackerConditions
+    AddToMoveScore 2
+
+Expert_Feint_CheckAttackerConditions:
+    IfBadlyPoisoned AI_BATTLER_ATTACKER, Expert_Feint_TryScorePlus1
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_CURSE, Expert_Feint_TryScorePlus1
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_PERISH_SONG, Expert_Feint_TryScorePlus1
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_ATTRACT, Expert_Feint_TryScorePlus1
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_LEECH_SEED, Expert_Feint_TryScorePlus1
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_YAWN, Expert_Feint_TryScorePlus1
+    IfHPPercentEqualTo AI_BATTLER_DEFENDER, 100, Expert_Feint_CheckProtectChain
+    LoadHeldItemEffect AI_BATTLER_DEFENDER
+    IfLoadedNotInTable Expert_Feint_HealingHoldEffects, Expert_Feint_CheckProtectChain
+
+Expert_Feint_TryScorePlus1:
+    IfRandomLessThan 128, Expert_Feint_CheckProtectChain
+    AddToMoveScore 1
+
+Expert_Feint_CheckProtectChain:
+    LoadProtectChain AI_BATTLER_DEFENDER
+    IfLoadedEqualTo 0, Expert_Feint_TryScorePlus1_2
+    IfLoadedEqualTo 1, Expert_Feint_TryScorePlus1_3
+    IfLoadedGreaterThan 2, Expert_Feint_ScoreMinus2
+
+Expert_Feint_TryScorePlus1_2:
+    IfRandomLessThan 128, Expert_Feint_End
+    AddToMoveScore 1
+    GoTo Expert_Feint_End
+
+Expert_Feint_TryScorePlus1_3:
+    IfRandomLessThan 192, Expert_Feint_End
+    AddToMoveScore 1
+    GoTo Expert_Feint_End
+
+Expert_Feint_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_Feint_End:
+    End
+
+Expert_Feint_HealingHoldEffects:
+    TableEntry HOLD_EFFECT_HP_RESTORE_GRADUAL
+    TableEntry HOLD_EFFECT_HP_RESTORE_PSN_TYPE
+    TableEntry TABLE_END
+
+Expert_Pluck:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_Pluck_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_Pluck_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_Pluck_ScoreMinus1
+    LoadIsFirstTurnInBattle AI_BATTLER_ATTACKER
+    IfLoadedEqualTo FALSE, Expert_Pluck_TryScorePlus1
+    IfRandomLessThan 64, Expert_Pluck_TryScorePlus1
+    AddToMoveScore 1
+
+Expert_Pluck_TryScorePlus1:
+    IfRandomLessThan 128, Expert_Pluck_End
+    AddToMoveScore 1
+    GoTo Expert_Pluck_End
+
+Expert_Pluck_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_Pluck_End:
+    End
+
+Expert_Tailwind:
+    IfRandomLessThan 64, Expert_Tailwind_End
+    IfSpeedCompareEqualTo COMPARE_SPEED_FASTER, Expert_Tailwind_ScoreMinus1
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 31, Expert_Tailwind_ScoreMinus1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 75, Expert_Tailwind_ScorePlus1
+    IfRandomLessThan 64, Expert_Tailwind_End
+
+Expert_Tailwind_ScorePlus1:
+    AddToMoveScore 1
+    GoTo Expert_Tailwind_End
+
+Expert_Tailwind_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_Tailwind_End:
+    End
+
+Expert_Acupressure:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 51, Expert_Acupressure_ScoreMinus1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 90, Expert_Acupressure_TryScorePlus1
+    IfRandomLessThan 128, Expert_Acupressure_End
+
+Expert_Acupressure_TryScorePlus1:
+    IfRandomLessThan 64, Expert_Acupressure_End
+    AddToMoveScore 1
+    GoTo Expert_Acupressure_End
+
+Expert_Acupressure_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_Acupressure_End:
+    End
+
+Expert_MetalBurst:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_SLEEP, Expert_MetalBurst_ScoreMinus1
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_ATTRACT, Expert_MetalBurst_ScoreMinus1
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_CONFUSION, Expert_MetalBurst_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_DOUBLE_POWER_IF_HIT, Expert_MetalBurst_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_HIT_LAST_WHIFF_IF_HIT, Expert_MetalBurst_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_PRIORITY_NEG_1_BYPASS_ACCURACY, Expert_MetalBurst_ScoreMinus1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 30, Expert_MetalBurst_MediumHPTryScoreMinus1
+    IfRandomLessThan 10, Expert_MetalBurst_MediumHPTryScoreMinus1
+    AddToMoveScore -1
+
+Expert_MetalBurst_MediumHPTryScoreMinus1:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 50, Expert_MetalBurst_HighHPTryScorePlus1
+    IfRandomLessThan 100, Expert_MetalBurst_HighHPTryScorePlus1
+    AddToMoveScore -1
+
+Expert_MetalBurst_HighHPTryScorePlus1:
+    IfRandomLessThan 192, Expert_MetalBurst_CheckLastUsedMove
+    AddToMoveScore 1
+
+Expert_MetalBurst_CheckLastUsedMove:
+    LoadBattlerPreviousMove AI_BATTLER_DEFENDER
+    LoadPowerOfLoadedMove
+    IfLoadedEqualTo 0, Expert_MetalBurst_TryScorePlus1
+    IfTargetIsNotTaunted Expert_MetalBurst_TryScorePlus1
+    IfRandomLessThan 100, Expert_MetalBurst_TryScorePlus1
+    AddToMoveScore 1
+
+Expert_MetalBurst_TryScorePlus1:
+    IfTargetIsNotTaunted Expert_MetalBurst_End
+    IfRandomLessThan 100, Expert_MetalBurst_End
+    AddToMoveScore 1
+    GoTo Expert_MetalBurst_End
+
+Expert_MetalBurst_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_MetalBurst_End:
+    End
+
+Expert_UTurn:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_UTurn_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_UTurn_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_UTurn_ScoreMinus1
+    CountAlivePartyBattlers AI_BATTLER_ATTACKER
+    IfLoadedEqualTo 0, Expert_UTurn_End
+    IfHasSuperEffectiveMove Expert_UTurn_TryScoreMinus2
+    GoTo Expert_UTurn_CheckPartyDamage
+
+Expert_UTurn_ScoreMinus1:
+    AddToMoveScore -1
+    GoTo Expert_UTurn_End
+
+Expert_UTurn_TryScoreMinus2:
+    IfRandomLessThan 64, Expert_UTurn_CheckPartyDamage
+    AddToMoveScore -2
+
+Expert_UTurn_CheckPartyDamage:
+    IfPartyMemberDealsMoreDamage USE_MIN_DAMAGE, Expert_UTurn_CheckTargetHP
+    IfRandomLessThan 64, Expert_UTurn_CheckTargetHP
+    AddToMoveScore -2
+    GoTo Expert_UTurn_End
+
+Expert_UTurn_CheckTargetHP:
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 70, Expert_UTurn_75PercentScorePlus1
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 30, Expert_UTurn_50PercentScorePlus1
+    IfRandomLessThan 128, Expert_UTurn_CheckSpeed
+    GoTo Expert_UTurn_50PercentScorePlus1
+
+Expert_UTurn_75PercentScorePlus1:
+    IfRandomLessThan 64, Expert_UTurn_50PercentScorePlus1
+    AddToMoveScore 1
+
+Expert_UTurn_50PercentScorePlus1:
+    IfRandomLessThan 128, Expert_UTurn_CheckSpeed
+    AddToMoveScore 1
+
+Expert_UTurn_CheckSpeed:
+    IfSpeedCompareEqualTo COMPARE_SPEED_FASTER, Expert_UTurn_ScorePlus1
+    IfRandomLessThan 128, Expert_UTurn_End
+
+Expert_UTurn_ScorePlus1:
+    AddToMoveScore 1
+
+Expert_UTurn_End:
+    End
+
+Expert_CloseCombat:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_CloseCombat_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_CloseCombat_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_CloseCombat_ScoreMinus1
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_CloseCombat_SlowerCheckHP
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 60, Expert_CloseCombat_End
+    GoTo Expert_CloseCombat_ScoreMinus1
+
+Expert_CloseCombat_SlowerCheckHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 80, Expert_CloseCombat_End
+
+Expert_CloseCombat_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_CloseCombat_End:
+    End
+
+Expert_Payback:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_Payback_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_Payback_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_Payback_ScoreMinus1
+    IfSpeedCompareEqualTo COMPARE_SPEED_FASTER, Expert_Payback_End
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 30, Expert_Payback_End
+    IfRandomLessThan 64, Expert_Payback_End
+    AddToMoveScore 1
+    End
+
+Expert_Payback_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_Payback_End:
+    End
+
+Expert_Assurance:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_Assurance_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_Assurance_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_Assurance_ScoreMinus1
+    IfSpeedCompareEqualTo COMPARE_SPEED_FASTER, Expert_Assurance_End
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_ROUGH_SKIN, Expert_Assurance_TryScorePlus1
+    LoadHeldItem AI_BATTLER_ATTACKER
+    IfLoadedInTable Expert_Assurance_RecoilBerries, Expert_Assurance_TryScorePlus1
+    IfRandomLessThan 128, Expert_Assurance_TryScorePlus1
+    GoTo Expert_Assurance_End
+
+Expert_Assurance_ScoreMinus1:
+    AddToMoveScore -1
+    GoTo Expert_Assurance_End
+
+Expert_Assurance_TryScorePlus1:
+    IfRandomLessThan 128, Expert_Assurance_End
+    AddToMoveScore 1
+
+Expert_Assurance_End:
+    End
+
+Expert_Assurance_RecoilBerries:
+    TableEntry ITEM_JABOCA_BERRY
+    TableEntry ITEM_ROWAP_BERRY
+    TableEntry TABLE_END
+
+Expert_Embargo:
+    IfRandomLessThan 128, Expert_Embargo_End
+    AddToMoveScore 1
+
+Expert_Embargo_End:
+    End
+
+Expert_Fling:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_Fling_CheckAttackerItem
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_Fling_CheckAttackerItem
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_Fling_CheckAttackerItem
+    LoadFlingPower AI_BATTLER_ATTACKER
+    IfLoadedLessThan 30, Expert_Fling_ScoreMinus2
+    IfLoadedGreaterThan 90, Expert_Fling_CheckWeakness
+    IfLoadedGreaterThan 60, Expert_Fling_TryScorePlus1
+    IfRandomLessThan 128, Expert_Fling_End
+    AddToMoveScore -1
+    GoTo Expert_Fling_End
+
+Expert_Fling_ScoreMinus2:
+    AddToMoveScore -2
+    GoTo Expert_Fling_End
+
+Expert_Fling_CheckWeakness:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_DOUBLE, Expert_Fling_ScorePlus4
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUADRUPLE, Expert_Fling_ScorePlus4
+    IfRandomLessThan 128, Expert_Fling_TryScorePlus1
+    AddToMoveScore 1
+    GoTo Expert_Fling_TryScorePlus1
+
+Expert_Fling_ScorePlus4:
+    AddToMoveScore 4
+
+Expert_Fling_TryScorePlus1:
+    IfRandomLessThan 64, Expert_Fling_End
+    AddToMoveScore 1
+    GoTo Expert_Fling_End
+
+Expert_Fling_CheckAttackerItem:
+    LoadHeldItemEffect AI_BATTLER_ATTACKER
+    IfLoadedInTable Expert_Fling_DesirableFlingEffects, Expert_Fling_End
+    AddToMoveScore -1
+
+Expert_Fling_End:
+    End
+
+Expert_Fling_DesirableFlingEffects:
+    TableEntry HOLD_EFFECT_SOMETIMES_FLINCH
+    TableEntry HOLD_EFFECT_STRENGTHEN_POISON
+    TableEntry HOLD_EFFECT_PSN_USER
+    TableEntry HOLD_EFFECT_BRN_USER
+    TableEntry HOLD_EFFECT_PIKA_SPATK_UP
+    TableEntry TABLE_END
+
+Expert_PsychoShift:
+    IfNotStatus AI_BATTLER_ATTACKER, ScoreMinus10
+    IfRandomLessThan 128, Expert_PsychoShift_End
+    IfHPPercentLessThan AI_BATTLER_DEFENDER, 30, Expert_PsychoShift_End
+    AddToMoveScore 1
+
+Expert_PsychoShift_End:
+    End
+
+Expert_TrumpCard:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_TrumpCard_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_TrumpCard_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_TrumpCard_ScoreMinus1
+    LoadCurrentMovePP
+    IfLoadedEqualTo 1, Expert_TrumpCard_ScorePlus3
+    IfLoadedEqualTo 2, Expert_TrumpCard_ScorePlus1Maybe2
+    IfLoadedEqualTo 3, Expert_TrumpCard_ScorePlus1
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedNotEqualTo ABILITY_PRESSURE, Expert_TrumpCard_CheckStats
+    IfRandomLessThan 30, Expert_TrumpCard_CheckStats
+    AddToMoveScore 1
+
+Expert_TrumpCard_CheckStats:
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_EVASION_STAGE, 10, Expert_TrumpCard_ScorePlus1Maybe2
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_ACCURACY_STAGE, 2, Expert_TrumpCard_ScorePlus1Maybe2
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_EVASION_STAGE, 8, Expert_TrumpCard_ScorePlus1
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_ACCURACY_STAGE, 4, Expert_TrumpCard_ScorePlus1
+    GoTo Expert_TrumpCard_End
+
+Expert_TrumpCard_ScorePlus1Maybe2:
+    AddToMoveScore 1
+
+Expert_TrumpCard_ScorePlus1:
+    IfRandomLessThan 100, Expert_TrumpCard_End
+    AddToMoveScore 1
+    GoTo Expert_TrumpCard_End
+
+Expert_TrumpCard_ScorePlus3:
+    AddToMoveScore 3
+    GoTo Expert_TrumpCard_End
+
+Expert_TrumpCard_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_TrumpCard_End:
+    End
+
+Expert_HealBlock:
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_RECOVER_DAMAGE_SLEEP, Expert_HealBlock_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_RESTORE_HALF_HP, Expert_HealBlock_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_HEAL_HALF_REMOVE_FLYING_TYPE, Expert_HealBlock_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_UNUSED_157, Expert_HealBlock_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_HEAL_HALF_MORE_IN_SUN, Expert_HealBlock_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_REST, Expert_HealBlock_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_SWALLOW, Expert_HealBlock_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_RECOVER_HALF_DAMAGE_DEALT, Expert_HealBlock_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_GROUND_TRAP_USER_CONTINUOUS_HEAL, Expert_HealBlock_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_RESTORE_HP_EVERY_TURN, Expert_HealBlock_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_STATUS_LEECH_SEED, Expert_HealBlock_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_FAINT_AND_FULL_HEAL_NEXT_MON, Expert_HealBlock_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_FAINT_FULL_RESTORE_NEXT_MON, Expert_HealBlock_TryScorePlus1
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_LEECH_SEED, Expert_HealBlock_TryScorePlus1
+    IfCondition AI_BATTLER_DEFENDER, 35, Expert_HealBlock_TryScorePlus1
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_INGRAIN, Expert_HealBlock_TryScorePlus1
+    IfRandomLessThan 96, Expert_HealBlock_TryScorePlus1
+    GoTo Expert_HealBlock_End
+
+Expert_HealBlock_TryScorePlus1:
+    IfRandomLessThan 25, Expert_HealBlock_End
+    AddToMoveScore 1
+
+Expert_HealBlock_End:
+    End
+
+Expert_WringOut:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_WringOut_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_WringOut_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_WringOut_ScoreMinus1
+    IfHPPercentLessThan AI_BATTLER_DEFENDER, 50, Expert_WringOut_ScoreMinus1
+    IfHPPercentEqualTo AI_BATTLER_DEFENDER, 100, Expert_WringOut_CheckSpeed
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 85, Expert_WringOut_TryScorePlus1
+    GoTo Expert_WringOut_End
+
+Expert_WringOut_CheckSpeed:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_WringOut_ScorePlus1
+    AddToMoveScore 1
+
+Expert_WringOut_ScorePlus1:
+    AddToMoveScore 1
+
+Expert_WringOut_TryScorePlus1:
+    IfRandomLessThan 25, Expert_WringOut_End
+    AddToMoveScore 1
+    GoTo Expert_WringOut_End
+
+Expert_WringOut_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_WringOut_End:
+    End
+
+Expert_PowerTrick:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 90, Expert_PowerTrick_LikelyScorePlus1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 60, Expert_PowerTrick_CoinFlipScorePlus1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 30, Expert_PowerTrick_UnlikelyScorePlus1
+    GoTo ScoreMinus2
+
+Expert_PowerTrick_LikelyScorePlus1:
+    IfRandomLessThan 96, Expert_PowerTrick_End
+    AddToMoveScore 1
+    GoTo Expert_PowerTrick_End
+
+Expert_PowerTrick_CoinFlipScorePlus1:
+    IfRandomLessThan 128, Expert_PowerTrick_End
+    AddToMoveScore 1
+    GoTo Expert_PowerTrick_End
+
+Expert_PowerTrick_UnlikelyScorePlus1:
+    IfRandomLessThan 164, Expert_PowerTrick_End
+    AddToMoveScore 1
+    GoTo Expert_PowerTrick_End
+
+Expert_PowerTrick_End:
+    End
+
+Expert_SimpleBeam:
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_ATK_UP, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_DEF_UP, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_SPEED_UP, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_SP_ATK_UP, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_SP_DEF_UP, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_ACC_UP, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_EVA_UP, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_ATK_UP_2, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_DEF_UP_2, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_SPEED_UP_2, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_SP_ATK_UP_2, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_SP_DEF_UP_2, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_ACC_UP_2, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_EVA_UP_2, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_CURSE, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_DEF_SPD_UP, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_ATK_DEF_UP, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_SP_ATK_SP_DEF_UP, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_ATK_SPD_UP, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_RANDOM_STAT_UP_2, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_HONE_CLAWS, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_QUIVER_DANCE, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_SHELL_SMASH, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_GROWTH, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_COIL, Expert_GastroAcid_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_ATK_DOWN, Expert_GastroAcid_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_DEF_DOWN, Expert_GastroAcid_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_SPEED_DOWN, Expert_GastroAcid_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_SP_ATK_DOWN, Expert_GastroAcid_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_SP_DEF_DOWN, Expert_GastroAcid_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_ACC_DOWN, Expert_GastroAcid_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_EVA_DOWN, Expert_GastroAcid_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_ATK_DOWN_2, Expert_GastroAcid_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_DEF_DOWN_2, Expert_GastroAcid_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_SPEED_DOWN_2, Expert_GastroAcid_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_SP_ATK_DOWN_2, Expert_GastroAcid_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_SP_DEF_DOWN_2, Expert_GastroAcid_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_EVA_DOWN_2, Expert_GastroAcid_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_ACC_DOWN_2, Expert_GastroAcid_TryScorePlus1
+
+// Checks the attacker's own ability against the abilities worth suppressing
+Expert_GastroAcid:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedInTable Expert_GastroAcid_Abilities, Expert_GastroAcid_TryScorePlus1
+    IfRandomLessThan 64, Expert_GastroAcid_End
+    AddToMoveScore 1
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 70, Expert_GastroAcid_End
+    IfRandomLessThan 128, Expert_GastroAcid_ContinueHPCheck
+    AddToMoveScore -1
+
+Expert_GastroAcid_ContinueHPCheck:
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 50, Expert_GastroAcid_End
+    AddToMoveScore -1
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 30, Expert_GastroAcid_End
+    AddToMoveScore -1
+    GoTo Expert_GastroAcid_End
+
+Expert_GastroAcid_ScoreMinus1:
+    AddToMoveScore -1
+    GoTo Expert_GastroAcid_End
+
+Expert_GastroAcid_TryScorePlus1:
+    IfRandomLessThan 40, Expert_GastroAcid_End
+    AddToMoveScore 1
+
+Expert_GastroAcid_End:
+    End
+
+Expert_GastroAcid_Abilities:
+    TableEntry ABILITY_NO_GUARD
+    TableEntry ABILITY_PRANKSTER
+    TableEntry ABILITY_WONDER_SKIN
+    TableEntry ABILITY_HARVEST
+    TableEntry ABILITY_FLARE_BOOST
+    TableEntry ABILITY_TOXIC_BOOST
+    TableEntry ABILITY_TECHNICIAN
+    TableEntry ABILITY_MAGIC_GUARD
+    TableEntry ABILITY_NORMALIZE
+    TableEntry ABILITY_POISON_HEAL
+    TableEntry ABILITY_HUGE_POWER
+    TableEntry ABILITY_WONDER_GUARD
+    TableEntry ABILITY_SHADOW_TAG
+    TableEntry TABLE_END
+    IfLoadedEqualTo 99, Expert_StatusSleep_TryScorePlus1
+
+Expert_LuckyChant:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 70, Expert_LuckyChant_ScoreMinus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_HIGH_CRITICAL, Expert_LuckyChant_ScorePlus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_HIGH_CRITICAL_BURN_HIT, Expert_LuckyChant_ScorePlus1
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_HIGH_CRITICAL_POISON_HIT, Expert_LuckyChant_ScorePlus1
+    IfRandomLessThan 64, Expert_LuckyChant_ScorePlus1
+    GoTo Expert_LuckyChant_End
+
+Expert_LuckyChant_ScorePlus1:
+    AddToMoveScore 1
+    GoTo Expert_LuckyChant_End
+
+Expert_LuckyChant_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_LuckyChant_End:
+    End
+
+Expert_MeFirst:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_MeFirst_ScoreMinus2
+    IfBattlerDealsMoreDamage AI_BATTLER_DEFENDER, USE_MIN_DAMAGE, Expert_MeFirst_TryScorePlus1
+    GoTo Expert_MeFirst_CheckLastUsedMove
+
+Expert_MeFirst_TryScorePlus1:
+    IfRandomLessThan 32, Expert_MeFirst_CheckLastUsedMove
+    AddToMoveScore 1
+
+Expert_MeFirst_CheckLastUsedMove:
+    LoadDefenderLastUsedMoveClass
+    IfLoadedEqualTo MOVE_CATEGORY_STATUS, Expert_MeFirst_TryScorePlus1AndEnd
+    IfRandomLessThan 128, Expert_MeFirst_End
+    AddToMoveScore 1
+
+Expert_MeFirst_TryScorePlus1AndEnd:
+    IfRandomLessThan 64, Expert_MeFirst_End
+    AddToMoveScore 1
+    GoTo Expert_MeFirst_End
+
+Expert_MeFirst_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_MeFirst_End:
+    End
+
+Expert_Copycat:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_Copycat_CheckMoveEncouraged
+    IfBattlerDealsMoreDamage AI_BATTLER_DEFENDER, USE_MIN_DAMAGE, Expert_Copycat_TryScorePlus2
+    LoadBattlerPreviousMove AI_BATTLER_DEFENDER
+    IfLoadedNotInTable Expert_Copycat_EncouragedMoves, Expert_Copycat_CheckMoveEncouraged
+    IfRandomLessThan 128, Expert_Copycat_End
+    AddToMoveScore 2
+    GoTo Expert_Copycat_End
+
+Expert_Copycat_TryScorePlus2:
+    IfRandomLessThan 32, Expert_Copycat_End
+    AddToMoveScore 2
+    GoTo Expert_Copycat_End
+
+Expert_Copycat_CheckMoveEncouraged:
+    IfBattlerDealsMoreDamage AI_BATTLER_DEFENDER, USE_MIN_DAMAGE, Expert_Copycat_End
+    LoadBattlerPreviousMove AI_BATTLER_DEFENDER
+    IfLoadedInTable Expert_Copycat_EncouragedMoves, Expert_Copycat_End
+    IfRandomLessThan 80, Expert_Copycat_End
+    AddToMoveScore -1
+
+Expert_Copycat_End:
+    End
+
+Expert_Copycat_EncouragedMoves:
+    TableEntry MOVE_SLEEP_POWDER
+    TableEntry MOVE_LOVELY_KISS
+    TableEntry MOVE_SPORE
+    TableEntry MOVE_HYPNOSIS
+    TableEntry MOVE_SING
+    TableEntry MOVE_GRASS_WHISTLE
+    TableEntry MOVE_SHADOW_PUNCH
+    TableEntry MOVE_SAND_ATTACK
+    TableEntry MOVE_SMOKE_SCREEN
+    TableEntry MOVE_TOXIC
+    TableEntry MOVE_GUILLOTINE
+    TableEntry MOVE_HORN_DRILL
+    TableEntry MOVE_FISSURE
+    TableEntry MOVE_SHEER_COLD
+    TableEntry MOVE_CROSS_CHOP
+    TableEntry MOVE_AEROBLAST
+    TableEntry MOVE_CONFUSE_RAY
+    TableEntry MOVE_SWEET_KISS
+    TableEntry MOVE_SCREECH
+    TableEntry MOVE_COTTON_SPORE
+    TableEntry MOVE_SCARY_FACE
+    TableEntry MOVE_FAKE_TEARS
+    TableEntry MOVE_METAL_SOUND
+    TableEntry MOVE_THUNDER_WAVE
+    TableEntry MOVE_GLARE
+    TableEntry MOVE_POISON_POWDER
+    TableEntry MOVE_SHADOW_BALL
+    TableEntry MOVE_DYNAMIC_PUNCH
+    TableEntry MOVE_HYPER_BEAM
+    TableEntry MOVE_EXTREME_SPEED
+    TableEntry MOVE_THIEF
+    TableEntry MOVE_COVET
+    TableEntry MOVE_ATTRACT
+    TableEntry MOVE_SWAGGER
+    TableEntry MOVE_TORMENT
+    TableEntry MOVE_FLATTER
+    TableEntry MOVE_TRICK
+    TableEntry MOVE_SUPERPOWER
+    TableEntry MOVE_SKILL_SWAP
+    TableEntry MOVE_PSYCHO_SHIFT
+    TableEntry MOVE_POWER_SWAP
+    TableEntry MOVE_GUARD_SWAP
+    TableEntry MOVE_SUCKER_PUNCH
+    TableEntry MOVE_HEART_SWAP
+    TableEntry MOVE_SWITCHEROO
+    TableEntry MOVE_CAPTIVATE
+    TableEntry MOVE_DARK_VOID
+    TableEntry TABLE_END
+
+Expert_PowerSwap:
+    DiffStatStages AI_BATTLER_DEFENDER, BATTLEMON_ATTACK_STAGE
+    IfLoadedGreaterThan 3, Expert_PowerSwap_CheckSpAttack_HighDiff
+    IfLoadedGreaterThan 1, Expert_PowerSwap_CheckSpAttack_MediumDiff
+    IfLoadedGreaterThan 0, Expert_PowerSwap_CheckSpAttack_LowDiff
+    IfLoadedEqualTo 0, Expert_PowerSwap_CheckSpAttack_NoDiff
+    GoTo Expert_PowerSwap_CheckSpAttack_End
+
+Expert_PowerSwap_CheckSpAttack_HighDiff:
+    DiffStatStages AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE
+    IfLoadedGreaterThan 3, Expert_PowerSwap_TryScorePlus5
+    IfLoadedGreaterThan 1, Expert_PowerSwap_TryScorePlus4
+    IfLoadedEqualTo 0, Expert_PowerSwap_TryScorePlus3
+    GoTo Expert_PowerSwap_CheckSpAttack_End
+
+Expert_PowerSwap_CheckSpAttack_MediumDiff:
+    DiffStatStages AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE
+    IfLoadedGreaterThan 3, Expert_PowerSwap_TryScorePlus4
+    IfLoadedGreaterThan 1, Expert_PowerSwap_TryScorePlus3
+    IfLoadedEqualTo 0, Expert_PowerSwap_TryScorePlus2
+    GoTo Expert_PowerSwap_CheckSpAttack_End
+
+Expert_PowerSwap_CheckSpAttack_LowDiff:
+    DiffStatStages AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE
+    IfLoadedGreaterThan 3, Expert_PowerSwap_TryScorePlus3
+    IfLoadedGreaterThan 1, Expert_PowerSwap_TryScorePlus2
+    IfLoadedEqualTo 0, Expert_PowerSwap_TryScorePlus1
+    GoTo Expert_PowerSwap_CheckSpAttack_End
+
+Expert_PowerSwap_CheckSpAttack_NoDiff:
+    DiffStatStages AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE
+    IfLoadedGreaterThan 3, Expert_PowerSwap_TryScorePlus3
+    IfLoadedGreaterThan 1, Expert_PowerSwap_TryScorePlus2
+    IfLoadedGreaterThan 0, Expert_PowerSwap_TryScorePlus1
+    GoTo Expert_PowerSwap_CheckSpAttack_End
+
+Expert_PowerSwap_TryScorePlus5:
+    IfRandomLessThan 128, Expert_PowerSwap_TryScorePlus4
+    AddToMoveScore 5
+    GoTo Expert_PowerSwap_CheckSpAttack_End
+
+Expert_PowerSwap_TryScorePlus4:
+    IfRandomLessThan 128, Expert_PowerSwap_TryScorePlus3
+    AddToMoveScore 4
+    GoTo Expert_PowerSwap_CheckSpAttack_End
+
+Expert_PowerSwap_TryScorePlus3:
+    IfRandomLessThan 128, Expert_PowerSwap_TryScorePlus2
+    AddToMoveScore 3
+    GoTo Expert_PowerSwap_CheckSpAttack_End
+
+Expert_PowerSwap_TryScorePlus2:
+    IfRandomLessThan 128, Expert_PowerSwap_TryScorePlus1
+    AddToMoveScore 2
+    GoTo Expert_PowerSwap_CheckSpAttack_End
+
+Expert_PowerSwap_TryScorePlus1:
+    IfRandomLessThan 128, Expert_PowerSwap_CheckSpAttack_End
+    AddToMoveScore 1
+    GoTo Expert_PowerSwap_CheckSpAttack_End
+
+Expert_PowerSwap_CheckSpAttack_End:
+    End
+
+Expert_GuardSwap:
+    DiffStatStages AI_BATTLER_DEFENDER, BATTLEMON_DEFENSE_STAGE
+    IfLoadedGreaterThan 3, Expert_GuardSwap_CheckSpDefense_HighDiff
+    IfLoadedGreaterThan 1, Expert_GuardSwap_CheckSpDefense_MediumDiff
+    IfLoadedGreaterThan 0, Expert_GuardSwap_CheckSpDefense_LowDiff
+    IfLoadedEqualTo 0, Expert_GuardSwap_CheckSpDefense_NoDiff
+    GoTo Expert_GuardSwap_End
+
+Expert_GuardSwap_CheckSpDefense_HighDiff:
+    DiffStatStages AI_BATTLER_DEFENDER, BATTLEMON_SP_DEFENSE_STAGE
+    IfLoadedGreaterThan 3, Expert_GuardSwap_TryScorePlus5
+    IfLoadedGreaterThan 1, Expert_GuardSwap_TryScorePlus4
+    IfLoadedEqualTo 0, Expert_GuardSwap_TryScorePlus3
+    GoTo Expert_GuardSwap_End
+
+Expert_GuardSwap_CheckSpDefense_MediumDiff:
+    DiffStatStages AI_BATTLER_DEFENDER, BATTLEMON_SP_DEFENSE_STAGE
+    IfLoadedGreaterThan 3, Expert_GuardSwap_TryScorePlus4
+    IfLoadedGreaterThan 1, Expert_GuardSwap_TryScorePlus3
+    IfLoadedEqualTo 0, Expert_GuardSwap_TryScorePlus2
+    GoTo Expert_GuardSwap_End
+
+Expert_GuardSwap_CheckSpDefense_LowDiff:
+    DiffStatStages AI_BATTLER_DEFENDER, BATTLEMON_SP_DEFENSE_STAGE
+    IfLoadedGreaterThan 3, Expert_GuardSwap_TryScorePlus3
+    IfLoadedGreaterThan 1, Expert_GuardSwap_TryScorePlus2
+    IfLoadedEqualTo 0, Expert_GuardSwap_TryScorePlus1
+    GoTo Expert_GuardSwap_End
+
+Expert_GuardSwap_CheckSpDefense_NoDiff:
+    DiffStatStages AI_BATTLER_DEFENDER, BATTLEMON_SP_DEFENSE_STAGE
+    IfLoadedGreaterThan 3, Expert_GuardSwap_TryScorePlus3
+    IfLoadedGreaterThan 1, Expert_GuardSwap_TryScorePlus2
+    IfLoadedGreaterThan 0, Expert_GuardSwap_TryScorePlus1
+    GoTo Expert_GuardSwap_End
+
+Expert_GuardSwap_TryScorePlus5:
+    IfRandomLessThan 128, Expert_GuardSwap_TryScorePlus4
+    AddToMoveScore 5
+    GoTo Expert_GuardSwap_End
+
+Expert_GuardSwap_TryScorePlus4:
+    IfRandomLessThan 128, Expert_GuardSwap_TryScorePlus3
+    AddToMoveScore 4
+    GoTo Expert_GuardSwap_End
+
+Expert_GuardSwap_TryScorePlus3:
+    IfRandomLessThan 128, Expert_GuardSwap_TryScorePlus2
+    AddToMoveScore 3
+    GoTo Expert_GuardSwap_End
+
+Expert_GuardSwap_TryScorePlus2:
+    IfRandomLessThan 128, Expert_GuardSwap_TryScorePlus1
+    AddToMoveScore 2
+    GoTo Expert_GuardSwap_End
+
+Expert_GuardSwap_TryScorePlus1:
+    IfRandomLessThan 128, Expert_GuardSwap_End
+    AddToMoveScore 1
+    GoTo Expert_GuardSwap_End
+
+Expert_GuardSwap_End:
+    End
+
+Expert_Punishment:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_Punishment_End
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_Punishment_End
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_Punishment_End
+    SumPositiveStatStages AI_BATTLER_DEFENDER
+    IfLoadedGreaterThan 6, Expert_Punishment_TryScorePlus4
+    IfLoadedGreaterThan 5, Expert_Punishment_TryScorePlus3
+    IfLoadedGreaterThan 4, Expert_Punishment_TryScorePlus2
+    IfLoadedGreaterThan 3, Expert_Punishment_TryScorePlus1
+    IfLoadedGreaterThan 2, Expert_Punishment_TryScorePlus1
+    GoTo Expert_Punishment_End
+
+Expert_Punishment_TryScorePlus4:
+    IfRandomLessThan 128, Expert_Punishment_TryScorePlus3
+    AddToMoveScore 4
+
+Expert_Punishment_TryScorePlus3:
+    IfRandomLessThan 128, Expert_Punishment_TryScorePlus2
+    AddToMoveScore 3
+
+Expert_Punishment_TryScorePlus2:
+    IfRandomLessThan 128, Expert_Punishment_TryScorePlus1
+    AddToMoveScore 2
+
+Expert_Punishment_TryScorePlus1:
+    IfRandomLessThan 128, Expert_Punishment_End
+    AddToMoveScore 1
+
+Expert_Punishment_End:
+    End
+
+Expert_LastResort:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_LastResort_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_LastResort_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_LastResort_ScoreMinus1
+    IfCanUseLastResort AI_BATTLER_ATTACKER, Expert_LastResort_ScorePlus1
+    GoTo Expert_LastResort_End
+
+Expert_LastResort_ScoreMinus1:
+    AddToMoveScore -1
+    GoTo Expert_LastResort_End
+
+Expert_LastResort_ScorePlus1:
+    AddToMoveScore 1
+
+Expert_LastResort_End:
+    End
+
+Expert_WorrySeed:
+    IfMoveNotKnown AI_BATTLER_DEFENDER, MOVE_REST, Expert_WorrySeed_CheckUserHP
+    AddToMoveScore 1
+
+Expert_WorrySeed_CheckUserHP:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 50, Expert_WorrySeed_TryScorePlus1
+    IfRandomLessThan 128, Expert_WorrySeed_TryScorePlus1
+    AddToMoveScore 1
+
+Expert_WorrySeed_TryScorePlus1:
+    IfRandomLessThan 64, Expert_WorrySeed_End
+    AddToMoveScore 1
+    GoTo Expert_WorrySeed_End
+
+Expert_WorrySeed_End:
+    End
+
+Expert_SuckerPunch:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_SuckerPunch_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_SuckerPunch_ScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_SuckerPunch_ScoreMinus1
+    IfRandomLessThan 64, Expert_SuckerPunch_End
+    AddToMoveScore 1
+    GoTo Expert_SuckerPunch_End
+
+Expert_SuckerPunch_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_SuckerPunch_End:
+    End
+
+Expert_ToxicSpikes:
+    IfRandomLessThan 128, Expert_ToxicSpikes_End
+    AddToMoveScore 1
+    IfMoveKnown AI_BATTLER_ATTACKER, MOVE_ROAR, Expert_ToxicSpikes_TryScorePlus1
+    IfMoveKnown AI_BATTLER_ATTACKER, MOVE_WHIRLWIND, Expert_ToxicSpikes_TryScorePlus1
+    GoTo Expert_ToxicSpikes_End
+
+Expert_ToxicSpikes_TryScorePlus1:
+    IfRandomLessThan 64, Expert_ToxicSpikes_End
+    AddToMoveScore 1
+
+Expert_ToxicSpikes_End:
+    End
+
+Expert_HeartSwap:
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_ATTACK_STAGE, 7, Expert_HeartSwap_CheckUserStages
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_DEFENSE_STAGE, 7, Expert_HeartSwap_CheckUserStages
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE, 7, Expert_HeartSwap_CheckUserStages
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_SP_DEFENSE_STAGE, 7, Expert_HeartSwap_CheckUserStages
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_EVASION_STAGE, 7, Expert_HeartSwap_CheckUserStages
+    IfConditionFlag AI_BATTLER_DEFENDER, 9, Expert_HeartSwap_CheckUserStages
+    GoTo Expert_HeartSwap_ScoreMinus2
+
+Expert_HeartSwap_CheckUserStages:
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 7, Expert_HeartSwap_ScorePlus1
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 7, Expert_HeartSwap_ScorePlus1
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 7, Expert_HeartSwap_ScorePlus1
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_SP_DEFENSE_STAGE, 7, Expert_HeartSwap_ScorePlus1
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_EVASION_STAGE, 7, Expert_HeartSwap_ScorePlus2
+    IfNotConditionFlag AI_BATTLER_ATTACKER, 9, Expert_HeartSwap_ScorePlus1
+    IfRandomLessThan 50, Expert_HeartSwap_End
+    GoTo Expert_HeartSwap_ScoreMinus2
+
+Expert_HeartSwap_ScorePlus2:
+    AddToMoveScore 1
+
+Expert_HeartSwap_ScorePlus1:
+    AddToMoveScore 1
+    End
+
+Expert_HeartSwap_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_HeartSwap_End:
+    End
+
+Expert_AquaRing:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 50, Expert_AquaRing_End
+    IfRandomLessThan 128, Expert_AquaRing_End
+    AddToMoveScore 1
+
+Expert_AquaRing_End:
+    End
+
+Expert_MagnetRise:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 50, Expert_MagnetRise_End
+    IfMoveKnown AI_BATTLER_DEFENDER, MOVE_EARTHQUAKE, Expert_MagnetRise_InitialScorePlus1
+    IfMoveKnown AI_BATTLER_DEFENDER, MOVE_EARTH_POWER, Expert_MagnetRise_InitialScorePlus1
+    IfMoveKnown AI_BATTLER_DEFENDER, MOVE_FISSURE, Expert_MagnetRise_InitialScorePlus1
+    GoTo Expert_MagnetRise_CheckOpponentTyping
+
+Expert_MagnetRise_InitialScorePlus1:
+    AddToMoveScore 1
+
+Expert_MagnetRise_CheckOpponentTyping:
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_GROUND, Expert_MagnetRise_ScorePlus1
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_GROUND, Expert_MagnetRise_ScorePlus1
+    IfRandomLessThan 128, Expert_MagnetRise_End
+
+Expert_MagnetRise_ScorePlus1:
+    AddToMoveScore 1
+
+Expert_MagnetRise_End:
+    End
+    End
+    End
+    End
+    End
+
+Expert_Defog:
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_LIGHT_SCREEN, Expert_Defog_ScreenScrubbing
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_REFLECT, Expert_Defog_ScreenScrubbing
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_SPIKES, Expert_Defog_ScoreMinus2AndEnd
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_STEALTH_ROCK, Expert_Defog_ScoreMinus2AndEnd
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_TOXIC_SPIKES, Expert_Defog_ScoreMinus2AndEnd
+    GoTo Expert_Defog_CheckUserHPAndOpponentEvasion
+
+Expert_Defog_ScreenScrubbing:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 30, Expert_Defog_ScreenScrubbingCheckHazards
+    CountAlivePartyBattlers AI_BATTLER_ATTACKER
+    IfLoadedEqualTo 0, Expert_Defog_TryScoreMinus2
+
+Expert_Defog_ScreenScrubbingCheckHazards:
+    AddToMoveScore 1
+    CountAlivePartyBattlers AI_BATTLER_DEFENDER
+    IfLoadedEqualTo 0, Expert_Defog_End
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_SPIKES, Expert_Defog_TryScoreMinus1
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_STEALTH_ROCK, Expert_Defog_TryScoreMinus1
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_TOXIC_SPIKES, Expert_Defog_TryScoreMinus1
+    GoTo Expert_Defog_CheckUserHPAndOpponentEvasion
+
+Expert_Defog_ScoreMinus2AndEnd:
+    AddToMoveScore -2
+    GoTo Expert_Defog_CheckUserHPAndOpponentEvasion
+
+Expert_Defog_TryScoreMinus1:
+    IfRandomLessThan 128, Expert_Defog_CheckUserHPAndOpponentEvasion
+    AddToMoveScore -1
+    GoTo Expert_Defog_CheckUserHPAndOpponentEvasion
+
+Expert_Defog_CheckUserHPAndOpponentEvasion:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 70, Expert_Defog_TryScoreMinus2
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_EVASION_STAGE, 3, Expert_Defog_CheckOpponentHP
+
+Expert_Defog_TryScoreMinus2:
+    IfRandomLessThan 50, Expert_Defog_CheckOpponentHP
+    AddToMoveScore -2
+
+Expert_Defog_CheckOpponentHP:
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 70, Expert_Defog_End
+    AddToMoveScore -2
+
+Expert_Defog_End:
+    End
+
+Expert_TrickRoom:
+    LoadBattleStyle
+    IfLoadedEqualTo BTL_STYLE_DOUBLE, Expert_TrickRoom_End
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 30, Expert_TrickRoom_CheckSpeed
+    CountAlivePartyBattlers AI_BATTLER_ATTACKER
+    IfLoadedEqualTo 0, Expert_TrickRoom_End
+
+Expert_TrickRoom_CheckSpeed:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_TrickRoom_TryScorePlus3
+    AddToMoveScore -1
+    GoTo Expert_TrickRoom_End
+
+Expert_TrickRoom_TryScorePlus3:
+    IfRandomLessThan 64, Expert_TrickRoom_End
+    AddToMoveScore 3
+
+Expert_TrickRoom_End:
+    End
+
+Expert_Blizzard:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_Blizzard_TryScoreMinus3
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_Blizzard_TryScoreMinus3
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_Blizzard_TryScoreMinus3
+    LoadCurrentWeather
+    IfLoadedNotEqualTo BTL_WEATHER_HAIL, Expert_Blizzard_End
+    AddToMoveScore 1
+    GoTo Expert_Blizzard_End
+
+Expert_Blizzard_TryScoreMinus3:
+    IfRandomLessThan 50, Expert_Blizzard_End
+    AddToMoveScore -3
+
+Expert_Blizzard_End:
+    End
+    End
+
+Expert_Captivate:
+    IfStatStageEqualTo AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE, 6, Expert_Captivate_CheckOpponentHP
+    AddToMoveScore -1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 90, Expert_Captivate_CheckLowStatStage
+    AddToMoveScore -1
+
+Expert_Captivate_CheckLowStatStage:
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE, 3, Expert_Captivate_CheckOpponentHP
+    IfRandomLessThan 50, Expert_Captivate_CheckOpponentHP
+    AddToMoveScore -2
+
+Expert_Captivate_CheckOpponentHP:
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 70, Expert_Captivate_CheckOpponentLastMove
+    AddToMoveScore -2
+
+Expert_Captivate_CheckOpponentLastMove:
+    LoadDefenderLastUsedMoveClass
+    IfLoadedNotEqualTo MOVE_CATEGORY_PHYSICAL, Expert_Captivate_End
+    IfRandomLessThan 64, Expert_Captivate_End
+    AddToMoveScore -1
+
+Expert_Captivate_End:
+    End
+
+Expert_StealthRock:
+    IfRandomLessThan 128, Expert_StealthRock_End
+    AddToMoveScore 1
+    IfMoveKnown AI_BATTLER_ATTACKER, MOVE_ROAR, Expert_StealthRock_TryScorePlus1
+    IfMoveKnown AI_BATTLER_ATTACKER, MOVE_WHIRLWIND, Expert_StealthRock_TryScorePlus1
+    GoTo Expert_StealthRock_End
+
+Expert_StealthRock_TryScorePlus1:
+    IfRandomLessThan 64, Expert_StealthRock_End
+    AddToMoveScore 1
+
+Expert_StealthRock_End:
+    End
+    End
+    End
+
+Expert_RecoilMove:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_RecoilMove_End
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_RecoilMove_End
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_RecoilMove_End
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_ROCK_HEAD, Expert_RecoilMove_ScorePlus1
+    IfLoadedEqualTo ABILITY_MAGIC_GUARD, Expert_RecoilMove_ScorePlus1
+    GoTo Expert_RecoilMove_End
+
+Expert_RecoilMove_ScorePlus1:
+    AddToMoveScore 1
+
+Expert_RecoilMove_End:
+    End
+
+Expert_HealingWish:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 80, Expert_HealingWish_HappyPath
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_HealingWish_HappyPath
+    IfRandomLessThan 192, Expert_HealingWish_End
+    GoTo ScoreMinus5
+
+Expert_HealingWish_HappyPath:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 50, Expert_HealingWish_TryScoreMinus1
+    IfRandomLessThan 192, Expert_HealingWish_CheckUserAtLowHP
+    AddToMoveScore 1
+    IfHasSuperEffectiveMove Expert_HealingWish_CheckPartyMemberDamage
+    IfRandomLessThan 192, Expert_HealingWish_CheckPartyMemberDamage
+    AddToMoveScore 1
+
+Expert_HealingWish_CheckPartyMemberDamage:
+    IfPartyMemberDealsMoreDamage USE_MIN_DAMAGE, Expert_HealingWish_TryScorePlus1
+    GoTo Expert_HealingWish_CheckUserAtLowHP
+
+Expert_HealingWish_TryScorePlus1:
+    IfRandomLessThan 128, Expert_HealingWish_CheckUserAtLowHP
+    AddToMoveScore 1
+
+Expert_HealingWish_CheckUserAtLowHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 30, Expert_HealingWish_End
+    IfRandomLessThan 128, Expert_HealingWish_End
+    AddToMoveScore 1
+    GoTo Expert_HealingWish_End
+
+Expert_HealingWish_TryScoreMinus1:
+    IfRandomLessThan 50, Expert_HealingWish_End
+    AddToMoveScore -1
+
+Expert_HealingWish_End:
+    End
+
+Expert_HoneClaws:
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_ACCURACY_STAGE, 9, Expert_HoneClaws_CheckHP
+    IfRandomLessThan 50, Expert_HoneClaws_CheckHP
+    AddToMoveScore -2
+
+Expert_HoneClaws_CheckHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 80, Expert_HoneClaws_End
+    AddToMoveScore -2
+
+Expert_HoneClaws_End:
+    End
+
+Expert_WideGuard:
+    End
+
+Expert_GuardSplit:
+    LoadIsFirstTurnInBattle AI_BATTLER_ATTACKER
+    IfLoadedNotEqualTo FALSE, Expert_GuardSplit_ScoreMinus1
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 7, Expert_GuardSplit_ScoreMinus1
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_SP_DEFENSE_STAGE, 7, Expert_GuardSplit_ScoreMinus1
+    IfStatStageLessThan AI_BATTLER_DEFENDER, BATTLEMON_DEFENSE_STAGE, 8, Expert_GuardSplit_CheckSpecies
+    IfStatStageLessThan AI_BATTLER_DEFENDER, BATTLEMON_SP_DEFENSE_STAGE, 8, Expert_GuardSplit_CheckSpecies
+    IfRandomLessThan 50, Expert_GuardSplit_CheckTargetStatStages
+    AddToMoveScore 1
+
+Expert_GuardSplit_CheckTargetStatStages:
+    IfStatStageLessThan AI_BATTLER_DEFENDER, BATTLEMON_DEFENSE_STAGE, 10, Expert_GuardSplit_CheckSpecies
+    IfStatStageLessThan AI_BATTLER_DEFENDER, BATTLEMON_SP_DEFENSE_STAGE, 10, Expert_GuardSplit_CheckSpecies
+    IfRandomLessThan 50, Expert_GuardSplit_CheckSpecies
+    AddToMoveScore 1
+
+Expert_GuardSplit_CheckSpecies:
+    LoadSpecies AI_BATTLER_ATTACKER
+    IfLoadedInTable Expert_GuardSplit_HighDefenseSpecies, Expert_GuardSplit_CheckBattleStyle
+    IfLoadedInTable Expert_GuardSplit_HighSpDefenseSpecies, Expert_GuardSplit_CheckBattleStyle
+    LoadSpecies AI_BATTLER_DEFENDER
+    IfLoadedInTable Expert_GuardSplit_HighDefenseSpecies, Expert_GuardSplit_TryScorePlus1
+    IfLoadedInTable Expert_GuardSplit_HighSpDefenseSpecies, Expert_GuardSplit_TryScorePlus1
+    GoTo Expert_GuardSplit_End
+
+Expert_GuardSplit_CheckBattleStyle:
+    LoadBattleStyle
+    IfLoadedEqualTo BTL_STYLE_SINGLE, ScoreMinus10
+    GoTo Expert_GuardSplit_End
+
+Expert_GuardSplit_TryScorePlus1:
+    IfRandomLessThan 50, Expert_GuardSplit_End
+    AddToMoveScore 1
+    GoTo Expert_GuardSplit_End
+
+Expert_GuardSplit_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_GuardSplit_End:
+    End
+
+Expert_GuardSplit_HighDefenseSpecies:
+    TableEntry SPECIES_SHUCKLE
+    TableEntry SPECIES_REGIROCK
+    TableEntry SPECIES_STEELIX
+    TableEntry SPECIES_AGGRON
+    TableEntry SPECIES_CLOYSTER
+    TableEntry SPECIES_BASTIODON
+    TableEntry SPECIES_ONIX
+    TableEntry SPECIES_REGISTEEL
+    TableEntry SPECIES_PROBOPASS
+    TableEntry SPECIES_GROUDON
+    TableEntry SPECIES_TORKOAL
+    TableEntry SPECIES_LAIRON
+    TableEntry SPECIES_SKARMORY
+    TableEntry SPECIES_FORRETRESS
+    TableEntry SPECIES_DUSKNOIR
+    TableEntry SPECIES_NOSEPASS
+    TableEntry SPECIES_UXIE
+    TableEntry SPECIES_LEAFEON
+    TableEntry SPECIES_RHYPERIOR
+    TableEntry SPECIES_METAGROSS
+    TableEntry SPECIES_RELICANTH
+    TableEntry SPECIES_DUSCLOPS
+    TableEntry SPECIES_LUGIA
+    TableEntry SPECIES_GOLEM
+    TableEntry SPECIES_COFAGRIGUS
+    TableEntry SPECIES_CARRACOSTA
+    TableEntry SPECIES_FERROTHORN
+    TableEntry SPECIES_GIGALITH
+    TableEntry SPECIES_COBALION
+    TableEntry TABLE_END
+
+Expert_GuardSplit_HighSpDefenseSpecies:
+    TableEntry SPECIES_SHUCKLE
+    TableEntry SPECIES_REGICE
+    TableEntry SPECIES_HO_OH
+    TableEntry SPECIES_LUGIA
+    TableEntry SPECIES_PROBOPASS
+    TableEntry SPECIES_REGISTEEL
+    TableEntry SPECIES_KYOGRE
+    TableEntry SPECIES_MANTINE
+    TableEntry SPECIES_BASTIODON
+    TableEntry SPECIES_DUSKNOIR
+    TableEntry SPECIES_BLISSEY
+    TableEntry SPECIES_CRESSELIA
+    TableEntry SPECIES_UXIE
+    TableEntry SPECIES_LATIAS
+    TableEntry SPECIES_DUSCLOPS
+    TableEntry SPECIES_UMBREON
+    TableEntry SPECIES_MILOTIC
+    TableEntry SPECIES_ARTICUNO
+    TableEntry SPECIES_CRYOGONAL
+    TableEntry SPECIES_VIRIZION
+    TableEntry TABLE_END
+
+Expert_PowerSplit:
+    LoadIsFirstTurnInBattle AI_BATTLER_ATTACKER
+    IfLoadedNotEqualTo FALSE, Expert_PowerSplit_ScoreMinus1
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 7, Expert_PowerSplit_ScoreMinus1
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 7, Expert_PowerSplit_ScoreMinus1
+    IfStatStageLessThan AI_BATTLER_DEFENDER, BATTLEMON_ATTACK_STAGE, 8, Expert_PowerSplit_CheckSpecies
+    IfStatStageLessThan AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE, 8, Expert_PowerSplit_CheckSpecies
+    IfRandomLessThan 50, Expert_PowerSplit_CheckTargetStatStages
+    AddToMoveScore 1
+
+Expert_PowerSplit_CheckTargetStatStages:
+    IfStatStageLessThan AI_BATTLER_DEFENDER, BATTLEMON_ATTACK_STAGE, 10, Expert_PowerSplit_CheckSpecies
+    IfStatStageLessThan AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE, 10, Expert_PowerSplit_CheckSpecies
+    IfRandomLessThan 50, Expert_PowerSplit_CheckSpecies
+    AddToMoveScore 1
+
+Expert_PowerSplit_CheckSpecies:
+    LoadSpecies AI_BATTLER_ATTACKER
+    IfLoadedInTable Expert_PowerSplit_HighAttackSpecies, Expert_PowerSplit_CheckBattleStyle
+    IfLoadedInTable Expert_PowerSplit_HighSpAttackSpecies, Expert_PowerSplit_CheckBattleStyle
+    LoadSpecies AI_BATTLER_DEFENDER
+    IfLoadedInTable Expert_PowerSplit_HighAttackSpecies, Expert_PowerSplit_TryScorePlus1
+    IfLoadedInTable Expert_PowerSplit_HighSpAttackSpecies, Expert_PowerSplit_TryScorePlus1
+    GoTo Expert_PowerSplit_End
+
+Expert_PowerSplit_CheckBattleStyle:
+    LoadBattleStyle
+    IfLoadedEqualTo BTL_STYLE_SINGLE, ScoreMinus10
+    GoTo Expert_PowerSplit_End
+
+Expert_PowerSplit_TryScorePlus1:
+    IfRandomLessThan 50, Expert_PowerSplit_End
+    AddToMoveScore 1
+    GoTo Expert_PowerSplit_End
+
+Expert_PowerSplit_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_PowerSplit_End:
+    End
+
+Expert_PowerSplit_HighAttackSpecies:
+    TableEntry SPECIES_RAMPARDOS
+    TableEntry SPECIES_REGIGIGAS
+    TableEntry SPECIES_SLAKING
+    TableEntry SPECIES_DEOXYS
+    TableEntry SPECIES_RAYQUAZA
+    TableEntry SPECIES_GROUDON
+    TableEntry SPECIES_RHYPERIOR
+    TableEntry SPECIES_METAGROSS
+    TableEntry SPECIES_SALAMENCE
+    TableEntry SPECIES_TYRANITAR
+    TableEntry SPECIES_DRAGONITE
+    TableEntry SPECIES_MAMOSWINE
+    TableEntry SPECIES_GARCHOMP
+    TableEntry SPECIES_ABSOL
+    TableEntry SPECIES_BRELOOM
+    TableEntry SPECIES_HO_OH
+    TableEntry SPECIES_URSARING
+    TableEntry SPECIES_SCIZOR
+    TableEntry SPECIES_FLAREON
+    TableEntry SPECIES_RHYDON
+    TableEntry SPECIES_KINGLER
+    TableEntry SPECIES_MACHAMP
+    TableEntry SPECIES_RESHIRAM
+    TableEntry SPECIES_LIEPARD
+    TableEntry SPECIES_CONKELDURR
+    TableEntry SPECIES_DARMANITAN
+    TableEntry SPECIES_ARCHEOPS
+    TableEntry SPECIES_EXCADRILL
+    TableEntry SPECIES_ESCAVALIER
+    TableEntry SPECIES_KYUREM
+    TableEntry SPECIES_GIGALITH
+    TableEntry SPECIES_TERRAKION
+    TableEntry TABLE_END
+
+Expert_PowerSplit_HighSpAttackSpecies:
+    TableEntry SPECIES_MEWTWO
+    TableEntry SPECIES_PALKIA
+    TableEntry SPECIES_DIALGA
+    TableEntry SPECIES_DEOXYS
+    TableEntry SPECIES_RAYQUAZA
+    TableEntry SPECIES_KYOGRE
+    TableEntry SPECIES_DARKRAI
+    TableEntry SPECIES_PORYGON_Z
+    TableEntry SPECIES_ALAKAZAM
+    TableEntry SPECIES_HEATRAN
+    TableEntry SPECIES_GLACEON
+    TableEntry SPECIES_MAGNEZONE
+    TableEntry SPECIES_LATIOS
+    TableEntry SPECIES_ESPEON
+    TableEntry SPECIES_GENGAR
+    TableEntry SPECIES_RESHIRAM
+    TableEntry SPECIES_CHANDELURE
+    TableEntry SPECIES_VOLCARONA
+    TableEntry SPECIES_KYUREM
+    TableEntry SPECIES_KELDEO
+    TableEntry TABLE_END
+
+Expert_WonderRoom:
+    End
+
+Expert_Psyshock:
+    End
+
+Expert_Venoshock:
+    End
+
+Expert_Telekinesis:
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_ACCURACY_STAGE, 9, Expert_Telekinesis_CheckHP
+    IfRandomLessThan 50, Expert_Telekinesis_CheckHP
+    AddToMoveScore -2
+
+Expert_Telekinesis_CheckHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 70, Expert_Telekinesis_CheckEvasionStage
+    IfRandomLessThan 50, Expert_Telekinesis_CheckEvasionStage
+    AddToMoveScore -2
+
+Expert_Telekinesis_CheckEvasionStage:
+    IfStatStageLessThan AI_BATTLER_DEFENDER, BATTLEMON_EVASION_STAGE, 9, Expert_Telekinesis_End
+    IfRandomLessThan 50, Expert_Telekinesis_End
+    AddToMoveScore 1
+
+Expert_Telekinesis_End:
+    End
+
+Expert_MagicRoom:
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_NONE, Expert_MagicRoom_TryScorePlus1
+    IfHeldItemEqualTo AI_BATTLER_DEFENDER, ITEM_LEFTOVERS, Expert_MagicRoom_TryScorePlus1
+    IfHeldItemEqualTo AI_BATTLER_DEFENDER, ITEM_CHOICE_SCARF, Expert_MagicRoom_TryScorePlus1
+    LoadBattleStyle
+    IfLoadedEqualTo BTL_STYLE_SINGLE, Expert_MagicRoom_End
+    IfHeldItemEqualTo AI_BATTLER_DEFENDER, ITEM_AIR_BALLOON, Expert_MagicRoom_TryScorePlus1
+    GoTo Expert_MagicRoom_End
+
+Expert_MagicRoom_TryScorePlus1:
+    IfRandomLessThan 128, Expert_MagicRoom_End
+    AddToMoveScore 1
+
+Expert_MagicRoom_End:
+    End
+
+Expert_SmackDown:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_LEVITATE, Expert_SmackDown_TryScorePlus1
+    IfCondition AI_BATTLER_DEFENDER, 30, Expert_SmackDown_TryScorePlus1
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_FLYING, Expert_SmackDown_TryScorePlus1
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_FLYING, Expert_SmackDown_TryScorePlus1
+    GoTo Expert_SmackDown_End
+
+Expert_SmackDown_TryScorePlus1:
+    IfRandomLessThan 64, Expert_SmackDown_End
+    AddToMoveScore 1
+
+Expert_SmackDown_End:
+    End
+
+Expert_StormThrow:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_StormThrow_End
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_StormThrow_End
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_StormThrow_End
+    IfMoveEqualTo MOVE_STORM_THROW, Expert_StormThrow_CheckDefenseStage
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_SP_DEFENSE_STAGE, 8, Expert_StormThrow_End
+    GoTo Expert_StormThrow_TryScorePlus1
+
+Expert_StormThrow_CheckDefenseStage:
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 8, Expert_StormThrow_End
+
+Expert_StormThrow_TryScorePlus1:
+    IfRandomLessThan 64, Expert_StormThrow_End
+    AddToMoveScore 1
+
+Expert_StormThrow_End:
+    End
+
+Expert_FlameBurst:
+    End
+
+Expert_QuiverDance:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_QuiverDance_TryScorePlus1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 50, Expert_QuiverDance_End
+    IfRandomLessThan 50, Expert_QuiverDance_End
+    AddToMoveScore -1
+    GoTo Expert_QuiverDance_End
+
+Expert_QuiverDance_TryScorePlus1:
+    IfRandomLessThan 50, Expert_QuiverDance_End
+    AddToMoveScore 1
+
+Expert_QuiverDance_End:
+    End
+
+Expert_HeavySlam:
+    End
+
+Expert_Synchronoise:
+    End
+
+Expert_ElectroBall:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_ElectroBall_End
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_ElectroBall_End
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_ElectroBall_End
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_ElectroBall_ScoreMinus1
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_SPEED_STAGE, 8, Expert_ElectroBall_End
+    IfRandomLessThan 70, Expert_ElectroBall_End
+    AddToMoveScore 1
+    GoTo Expert_QuiverDance_End
+
+Expert_ElectroBall_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_ElectroBall_End:
+    End
+
+Expert_Soak:
+    End
+
+Expert_FlameCharge:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_FlameCharge_End
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_FlameCharge_End
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_FlameCharge_End
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_FlameCharge_TryScorePlus1
+    IfRandomLessThan 50, Expert_FlameCharge_End
+    AddToMoveScore -1
+    GoTo Expert_FlameCharge_End
+
+Expert_FlameCharge_TryScorePlus1:
+    IfRandomLessThan 50, Expert_FlameCharge_End
+    AddToMoveScore 1
+
+Expert_FlameCharge_End:
+    End
+
+Expert_AcidSpray:
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_SP_DEFENSE_STAGE, 5, Expert_AcidSpray_End
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_SP_DEFENSE_STAGE, 3, Expert_AcidSpray_TryScoreMinus1
+    AddToMoveScore -1
+
+Expert_AcidSpray_TryScoreMinus1:
+    IfRandomLessThan 128, Expert_AcidSpray_End
+    AddToMoveScore -1
+
+Expert_AcidSpray_End:
+    End
+
+Expert_FoulPlay:
+    End
+
+Expert_Entrainment:
+    IfRandomLessThan 128, Expert_Entrainment_End
+    AddToMoveScore 1
+
+Expert_Entrainment_End:
+    End
+
+Expert_AfterYou:
+    End
+
+Expert_Round:
+    End
+
+Expert_EchoedVoice:
+    End
+
+Expert_ChipAway:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_ChipAway_End
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_ChipAway_End
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_ChipAway_End
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 9, Expert_ChipAway_End
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_SP_DEFENSE_STAGE, 9, Expert_ChipAway_End
+    IfRandomLessThan 128, Expert_ChipAway_End
+    AddToMoveScore 1
+
+Expert_ChipAway_End:
+    End
+
+Expert_ClearSmog:
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_ATTACK_STAGE, 8, Expert_ClearSmog_TryScorePlus1
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_DEFENSE_STAGE, 8, Expert_ClearSmog_TryScorePlus1
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_SP_ATTACK_STAGE, 8, Expert_ClearSmog_TryScorePlus1
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_SP_DEFENSE_STAGE, 8, Expert_ClearSmog_TryScorePlus1
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_EVASION_STAGE, 8, Expert_ClearSmog_TryScorePlus1
+    IfRandomLessThan 50, Expert_ClearSmog_End
+    AddToMoveScore -1
+    GoTo Expert_ClearSmog_End
+
+Expert_ClearSmog_TryScorePlus1:
+    IfRandomLessThan 50, Expert_ClearSmog_End
+    AddToMoveScore 1
+
+Expert_ClearSmog_End:
+    End
+
+Expert_StoredPower:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_ChipAway_End
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_ChipAway_End
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_ChipAway_End
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 8, Expert_StoredPower_CheckBoostingMoves
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 8, Expert_StoredPower_CheckBoostingMoves
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 8, Expert_StoredPower_CheckBoostingMoves
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_SP_DEFENSE_STAGE, 8, Expert_StoredPower_CheckBoostingMoves
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_EVASION_STAGE, 8, Expert_StoredPower_CheckBoostingMoves
+    GoTo Expert_StoredPower_End
+
+Expert_StoredPower_CheckBoostingMoves:
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_CURSE, Expert_StoredPower_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_DEF_SPD_UP, Expert_StoredPower_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_ATK_DEF_UP, Expert_StoredPower_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_SP_ATK_SP_DEF_UP, Expert_StoredPower_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_ATK_SPD_UP, Expert_StoredPower_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_RANDOM_STAT_UP_2, Expert_StoredPower_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_HONE_CLAWS, Expert_StoredPower_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_QUIVER_DANCE, Expert_StoredPower_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_SHELL_SMASH, Expert_StoredPower_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_GROWTH, Expert_StoredPower_TryScorePlus1
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_COIL, Expert_StoredPower_TryScorePlus1
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 10, Expert_StoredPower_TryScorePlus1
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 10, Expert_StoredPower_TryScorePlus1
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 10, Expert_StoredPower_TryScorePlus1
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_SP_DEFENSE_STAGE, 10, Expert_StoredPower_TryScorePlus1
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_EVASION_STAGE, 10, Expert_StoredPower_TryScorePlus1
+    GoTo Expert_StoredPower_End
+
+Expert_StoredPower_TryScorePlus1:
+    IfRandomLessThan 50, Expert_StoredPower_End
+    AddToMoveScore 1
+
+Expert_StoredPower_End:
+    End
+
+Expert_QuickGuard:
+    LoadIsFirstTurnInBattle AI_BATTLER_DEFENDER
+    IfLoadedEqualTo FALSE, Expert_QuickGuard_TryScorePlus1
+    AddToMoveScore -1
+
+Expert_QuickGuard_TryScorePlus1:
+    IfRandomLessThan 128, Expert_QuickGuard_End
+    AddToMoveScore 1
+
+Expert_QuickGuard_End:
+    End
+
+Expert_AllySwitch:
+    End
+
+Expert_ShellSmash:
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_DEFENSE_STAGE, 6, Expert_ShellSmash_ScoreMinus1
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_SP_DEFENSE_STAGE, 6, Expert_ShellSmash_ScoreMinus1
+    GoTo Expert_ShellSmash_End
+
+Expert_ShellSmash_ScoreMinus1:
+    AddToMoveScore -1
+
+Expert_ShellSmash_End:
+    End
+
+Expert_HealPulse:
+    End
+
+Expert_Hex:
+    End
+
+Expert_ShiftGear:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_ShiftGear_TryScorePlus1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 50, Expert_ShiftGear_End
+    IfRandomLessThan 50, Expert_ShiftGear_End
+    AddToMoveScore -1
+    GoTo Expert_ShiftGear_End
+
+Expert_ShiftGear_TryScorePlus1:
+    IfRandomLessThan 50, Expert_ShiftGear_End
+    AddToMoveScore 1
+
+Expert_ShiftGear_End:
+    End
+
+Expert_Incinerate:
+    LoadTurnCount
+    IfLoadedNotEqualTo 0, Expert_Incinerate_End
+    IfRandomLessThan 50, Expert_Incinerate_End
+    AddToMoveScore 1
+
+Expert_Incinerate_End:
+    End
+
+Expert_Quash:
+    End
+
+Expert_Growth:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 70, Expert_Growth_End
+    IfRandomLessThan 50, Expert_Growth_End
+    AddToMoveScore -1
+
+Expert_Growth_End:
+    End
+
+Expert_Acrobatics:
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_IMMUNE, Expert_Acrobatics_TryScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, Expert_Acrobatics_TryScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, Expert_Acrobatics_TryScoreMinus1
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_NONE, Expert_Acrobatics_TryScorePlus1
+
+Expert_Acrobatics_TryScoreMinus1:
+    IfRandomLessThan 50, Expert_Acrobatics_End
+    AddToMoveScore -1
+    GoTo Expert_Acrobatics_End
+
+Expert_Acrobatics_TryScorePlus1:
+    IfRandomLessThan 50, Expert_Acrobatics_End
+    AddToMoveScore 1
+
+Expert_Acrobatics_End:
+    End
+
+Expert_ReflectType:
+    LoadTypeFrom LOAD_ATTACKER_TYPE_1
+    IfLoadedInTable Expert_ReflectType_TypesToCopy, Expert_ReflectType_TryScorePlus1
+    IfLoadedInTable Expert_ReflectType_TypesToAvoid, Expert_ReflectType_TryScoreMinus1
+    LoadTypeFrom LOAD_ATTACKER_TYPE_2
+    IfLoadedInTable Expert_ReflectType_TypesToCopy, Expert_ReflectType_TryScorePlus1
+    IfLoadedInTable Expert_ReflectType_TypesToAvoid, Expert_ReflectType_TryScoreMinus1
+    GoTo Expert_ReflectType_End
+
+Expert_ReflectType_TryScoreMinus1:
+    IfRandomLessThan 50, Expert_ReflectType_End
+    AddToMoveScore -1
+    GoTo Expert_ReflectType_End
+
+Expert_ReflectType_TryScorePlus1:
+    IfRandomLessThan 50, Expert_ReflectType_End
+    AddToMoveScore 1
+
+Expert_ReflectType_End:
+    End
+
+Expert_ReflectType_TypesToCopy:
+    TableEntry TYPE_FIRE
+    TableEntry TYPE_WATER
+    TableEntry TYPE_GRASS
+    TableEntry TYPE_ELECTRIC
+    TableEntry TYPE_ICE
+    TableEntry TYPE_POISON
+    TableEntry TYPE_PSYCHIC
+    TableEntry TYPE_DARK
+    TableEntry TYPE_STEEL
+    TableEntry TABLE_END
+
+Expert_ReflectType_TypesToAvoid:
+    TableEntry TYPE_GHOST
+    TableEntry TYPE_DRAGON
+    TableEntry TABLE_END
+
+Expert_Retaliate:
+    End
+
+Expert_FinalGambit:
+    IfBattlerHasSubstitute AI_BATTLER_DEFENDER, Expert_FinalGambit_ScoreMinus2
+    IfHasSuperEffectiveMove Expert_FinalGambit_ScoreMinus2
+    IfHPPercentLessThan AI_BATTLER_DEFENDER, 40, Expert_FinalGambit_ScoreMinus2
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 40, Expert_FinalGambit_End
+    IfRandomLessThan 50, Expert_FinalGambit_End
+
+Expert_FinalGambit_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_FinalGambit_End:
+    End
+
+Expert_Bestow:
+    End
+
+Expert_WaterPledge:
+    End
+
+Expert_FirePledge:
+    End
+
+Expert_GrassPledge:
+    End
+
+Expert_WorkUp:
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 9, Expert_WorkUp_CheckSpAttackStage
+    IfRandomLessThan 100, Expert_WorkUp_ScorePlus2
+    AddToMoveScore -1
+    GoTo Expert_WorkUp_ScorePlus2
+
+Expert_WorkUp_CheckSpAttackStage:
+    IfStatStageLessThan AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 9, Expert_WorkUp_CheckFullHP
+    IfRandomLessThan 100, Expert_WorkUp_ScorePlus2
+    AddToMoveScore -1
+    GoTo Expert_WorkUp_ScorePlus2
+
+Expert_WorkUp_CheckFullHP:
+    IfHPPercentNotEqualTo AI_BATTLER_ATTACKER, 100, Expert_WorkUp_CheckHP
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_PASS_STATS_AND_STATUS, Expert_WorkUp_ScorePlus2
+    IfRandomLessThan 128, Expert_WorkUp_CheckHP
+
+Expert_WorkUp_ScorePlus2:
+    AddToMoveScore 2
+
+Expert_WorkUp_CheckHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 70, Expert_WorkUp_End
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 40, Expert_WorkUp_ScoreMinus2
+    IfRandomLessThan 40, Expert_WorkUp_End
+
+Expert_WorkUp_ScoreMinus2:
+    AddToMoveScore -2
+
+Expert_WorkUp_End:
+    End
+
+Expert_RelicSong:
+    End
+
+Expert_Glaciate:
+    IfSpeedCompareEqualTo COMPARE_SPEED_SLOWER, Expert_Glaciate_TryScorePlus2
+    AddToMoveScore -1
+    GoTo Expert_Glaciate_End
+
+Expert_Glaciate_TryScorePlus2:
+    IfRandomLessThan 70, Expert_Glaciate_End
+    AddToMoveScore 2
+
+Expert_Glaciate_End:
+    End
+
+Expert_Unused333:
+    End
+
+ScoreMinus1:
+    AddToMoveScore -1
+    End
+
+ScoreMinus2:
+    AddToMoveScore -2
+    End
+
+ScoreMinus3:
+    AddToMoveScore -3
+    End
+
+ScoreMinus5:
+    AddToMoveScore -5
+    End
+
+ScoreMinus6:
+    AddToMoveScore -6
+    End
+
+ScoreMinus8:
+    AddToMoveScore -8
+    End
+
+ScoreMinus10:
+    AddToMoveScore -10
+    End
+
+ScoreMinus12:
+    AddToMoveScore -12
+    End
+
+ScoreMinus30:
+    AddToMoveScore -30
+    End
+
+ScorePlus1:
+    AddToMoveScore 1
+    End
+
+ScorePlus2:
+    AddToMoveScore 2
+    End
+
+ScorePlus3:
+    AddToMoveScore 3
+    End
+
+ScorePlus5:
+    AddToMoveScore 5
+    End
+
+ScorePlus10:
+    AddToMoveScore 10
+    End

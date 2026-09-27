@@ -1,18 +1,24 @@
 #include "asm/tr_ai.inc"
 
-TrAI05_0000:
-    load_species TRAI_SIDE_ATTACKER
-    if_equal SPECIES_RESHIRAM, TrAI05_0020
-    if_equal SPECIES_ZEKROM, TrAI05_0020
-    jump TrAI05_004C
-TrAI05_0020:
-    load_turn_count
-    if_not_equal 0, TrAI05_004C
-    if_move MOVE_FUSION_BOLT, TrAI05_0046
-    if_move MOVE_FUSION_FLARE, TrAI05_0046
-    jump TrAI05_004C
-TrAI05_0046:
-    add_to_score 10
-TrAI05_004C:
-    end
+// AI flag 5. This game replaces Gen 4's PrioritizeExtremes routine: when the attacker is Reshiram or Zekrom, Fusion
+// Bolt and Fusion Flare gain 10 points on the first turn.
+
+FusionMoves_Main:
+    LoadSpecies AI_BATTLER_ATTACKER
+    IfLoadedEqualTo SPECIES_RESHIRAM, FusionMoves_FirstTurn
+    IfLoadedEqualTo SPECIES_ZEKROM, FusionMoves_FirstTurn
+    GoTo Terminate
+
+FusionMoves_FirstTurn:
+    LoadTurnCount
+    IfLoadedNotEqualTo 0, Terminate
+    IfMoveEqualTo MOVE_FUSION_BOLT, ScorePlus10
+    IfMoveEqualTo MOVE_FUSION_FLARE, ScorePlus10
+    GoTo Terminate
+
+ScorePlus10:
+    AddToMoveScore 10
+
+Terminate:
+    End
     .balign 4

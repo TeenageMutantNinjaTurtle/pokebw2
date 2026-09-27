@@ -1,80 +1,111 @@
 #include "asm/tr_ai.inc"
 
-TrAI06_0000:
-    if_target_is_ally TrAI06_0148
-    load_able_party_count TRAI_SIDE_ATTACKER
-    if_equal 0, TrAI06_0148
-    load_damage_rank 0
-    if_not_equal 0, TrAI06_0148
-    if_knows_move_effect TRAI_SIDE_ATTACKER, 127, TrAI06_003E
-    if_random_less_than 80, TrAI06_0148
-TrAI06_003E:
-    if_move MOVE_SWORDS_DANCE, TrAI06_008A
-    if_move MOVE_DRAGON_DANCE, TrAI06_008A
-    if_move MOVE_CALM_MIND, TrAI06_008A
-    if_move MOVE_NASTY_PLOT, TrAI06_008A
-    if_move_effect 111, TrAI06_00AA
-    if_move MOVE_BATON_PASS, TrAI06_00CE
-    if_random_less_than 20, TrAI06_0148
-    add_to_score 3
-TrAI06_008A:
-    load_turn_count
-    if_equal 0, TrAI06_01AA
-    if_hp_less_than TRAI_SIDE_ATTACKER, 60, TrAI06_017A
-    jump TrAI06_0192
-TrAI06_00AA:
-    load_last_move TRAI_SIDE_ATTACKER
-    if_in_list TrAI06_00C2, TrAI06_0152
-    add_to_score 2
-    end
-TrAI06_00C2:
-    .4byte MOVE_PROTECT
-    .4byte MOVE_DETECT
-    list_end
-TrAI06_00CE:
-    load_turn_count
-    if_equal 0, TrAI06_0152
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 1, 8, TrAI06_01A2
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 1, 7, TrAI06_019A
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 1, 6, TrAI06_0192
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 3, 8, TrAI06_01A2
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 3, 7, TrAI06_019A
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER, 3, 6, TrAI06_0192
-    end
-TrAI06_0148:
-    end
-    add_to_score -1
-    end
-TrAI06_0152:
-    add_to_score -2
-    end
-    add_to_score -3
-    end
-    add_to_score -5
-    end
-    add_to_score -6
-    end
-    add_to_score -8
-    end
-TrAI06_017A:
-    add_to_score -10
-    end
-    add_to_score -12
-    end
-    add_to_score -30
-    end
-TrAI06_0192:
-    add_to_score 1
-    end
-TrAI06_019A:
-    add_to_score 2
-    end
-TrAI06_01A2:
-    add_to_score 3
-    end
-TrAI06_01AA:
-    add_to_score 5
-    end
-    add_to_score 10
-    end
+// AI flag 6, BatonPass: for status moves, when the attacker has other Pokemon left, favors raising its stats and
+// protecting itself, and then Baton Pass once its stats are raised. Applies more often when it knows Baton Pass.
+
+BatonPass_Main:
+    IfTargetIsPartner BatonPass_Terminate
+    CountAlivePartyBattlers AI_BATTLER_ATTACKER
+    IfLoadedEqualTo 0, BatonPass_Terminate
+    FlagMoveDamageScore USE_MIN_DAMAGE
+    IfLoadedNotEqualTo AI_MOVE_DEALS_NO_DAMAGE, BatonPass_Terminate
+    IfMoveEffectKnown AI_BATTLER_ATTACKER, BATTLE_EFFECT_PASS_STATS_AND_STATUS, BatonPass_EvalMove
+    IfRandomLessThan 80, BatonPass_Terminate
+
+BatonPass_EvalMove:
+    IfMoveEqualTo MOVE_SWORDS_DANCE, BatonPass_SetupAtHighHP
+    IfMoveEqualTo MOVE_DRAGON_DANCE, BatonPass_SetupAtHighHP
+    IfMoveEqualTo MOVE_CALM_MIND, BatonPass_SetupAtHighHP
+    IfMoveEqualTo MOVE_NASTY_PLOT, BatonPass_SetupAtHighHP
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_PROTECT, BatonPass_EvalProtect
+    IfMoveEqualTo MOVE_BATON_PASS, BatonPass_EvalBatonPass
+    IfRandomLessThan 20, BatonPass_Terminate
+    AddToMoveScore 3
+
+BatonPass_SetupAtHighHP:
+    LoadTurnCount
+    IfLoadedEqualTo 0, ScorePlus5
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 60, ScoreMinus10
+    GoTo ScorePlus1
+
+BatonPass_EvalProtect:
+    LoadBattlerPreviousMove AI_BATTLER_ATTACKER
+    IfLoadedInTable BatonPass_ProtectDetect, ScoreMinus2
+    AddToMoveScore 2
+    End
+
+BatonPass_ProtectDetect:
+    TableEntry MOVE_PROTECT
+    TableEntry MOVE_DETECT
+    TableEntry TABLE_END
+
+BatonPass_EvalBatonPass:
+    LoadTurnCount
+    IfLoadedEqualTo 0, ScoreMinus2
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 8, ScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 7, ScorePlus2
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_ATTACK_STAGE, 6, ScorePlus1
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 8, ScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 7, ScorePlus2
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER, BATTLEMON_SP_ATTACK_STAGE, 6, ScorePlus1
+    End
+
+BatonPass_Terminate:
+    End
+
+ScoreMinus1:
+    AddToMoveScore -1
+    End
+
+ScoreMinus2:
+    AddToMoveScore -2
+    End
+
+ScoreMinus3:
+    AddToMoveScore -3
+    End
+
+ScoreMinus5:
+    AddToMoveScore -5
+    End
+
+ScoreMinus6:
+    AddToMoveScore -6
+    End
+
+ScoreMinus8:
+    AddToMoveScore -8
+    End
+
+ScoreMinus10:
+    AddToMoveScore -10
+    End
+
+ScoreMinus12:
+    AddToMoveScore -12
+    End
+
+ScoreMinus30:
+    AddToMoveScore -30
+    End
+
+ScorePlus1:
+    AddToMoveScore 1
+    End
+
+ScorePlus2:
+    AddToMoveScore 2
+    End
+
+ScorePlus3:
+    AddToMoveScore 3
+    End
+
+ScorePlus5:
+    AddToMoveScore 5
+    End
+
+ScorePlus10:
+    AddToMoveScore 10
+    End
     .balign 4

@@ -1,46 +1,50 @@
 #include "asm/tr_ai.inc"
 
-TrAI10_0000:
-    if_target_is_ally TrAI10_0022
-    load_move_effect
-    if_not_in_list TrAI10_0024, TrAI10_0022
-    if_random_less_than 128, TrAI10_0022
-    add_to_score 2
-TrAI10_0022:
-    end
-TrAI10_0024:
-    .4byte 1
-    .4byte 18
-    .4byte 19
-    .4byte 23
-    .4byte 24
-    .4byte 49
-    .4byte 58
-    .4byte 59
-    .4byte 60
-    .4byte 62
-    .4byte 66
-    .4byte 67
-    .4byte 84
-    .4byte 90
-    .4byte 100
-    .4byte 112
-    .4byte 118
-    .4byte 120
-    .4byte 165
-    .4byte 166
-    .4byte 167
-    .4byte 173
-    .4byte 187
-    .4byte 188
-    .4byte 192
-    .4byte 197
-    .4byte 199
-    .4byte 205
-    .4byte 213
-    .4byte 232
-    .4byte 234
-    .4byte 249
-    .4byte 258
-    .4byte 265
-    list_end
+// AI flag 10, Harassment: gives +2 to the effects in Harassment_Effects, half the time.
+
+Harassment_Main:
+    IfTargetIsPartner Harassment_Terminate
+    LoadCurrentMoveEffect
+    IfLoadedNotInTable Harassment_Effects, Harassment_Terminate
+    IfRandomLessThan 128, Harassment_Terminate
+    AddToMoveScore 2
+
+Harassment_Terminate:
+    End
+
+Harassment_Effects:
+    TableEntry BATTLE_EFFECT_STATUS_SLEEP
+    TableEntry BATTLE_EFFECT_ATK_DOWN
+    TableEntry BATTLE_EFFECT_DEF_DOWN
+    TableEntry BATTLE_EFFECT_ACC_DOWN
+    TableEntry BATTLE_EFFECT_EVA_DOWN
+    TableEntry BATTLE_EFFECT_STATUS_CONFUSE
+    TableEntry BATTLE_EFFECT_ATK_DOWN_2
+    TableEntry BATTLE_EFFECT_DEF_DOWN_2
+    TableEntry BATTLE_EFFECT_SPEED_DOWN_2
+    TableEntry BATTLE_EFFECT_SP_DEF_DOWN_2
+    TableEntry BATTLE_EFFECT_STATUS_POISON
+    TableEntry BATTLE_EFFECT_STATUS_PARALYZE
+    TableEntry BATTLE_EFFECT_STATUS_LEECH_SEED
+    TableEntry BATTLE_EFFECT_ENCORE
+    TableEntry BATTLE_EFFECT_DECREASE_LAST_MOVE_PP
+    TableEntry BATTLE_EFFECT_SET_SPIKES
+    TableEntry BATTLE_EFFECT_ATK_UP_2_STATUS_CONFUSION
+    TableEntry BATTLE_EFFECT_INFATUATE
+    TableEntry BATTLE_EFFECT_TORMENT
+    TableEntry BATTLE_EFFECT_SP_ATK_UP_CAUSE_CONFUSION
+    TableEntry BATTLE_EFFECT_STATUS_BURN
+    TableEntry BATTLE_EFFECT_NATURE_POWER
+    TableEntry BATTLE_EFFECT_STATUS_SLEEP_NEXT_TURN
+    TableEntry BATTLE_EFFECT_REMOVE_HELD_ITEM
+    TableEntry BATTLE_EFFECT_MAKE_SHARED_MOVES_UNUSEABLE
+    TableEntry BATTLE_EFFECT_SECRET_POWER
+    TableEntry BATTLE_EFFECT_CONFUSE_ALL
+    TableEntry BATTLE_EFFECT_ATK_DEF_DOWN
+    TableEntry BATTLE_EFFECT_CAMOUFLAGE
+    TableEntry BATTLE_EFFECT_PREVENT_ITEM_USE
+    TableEntry BATTLE_EFFECT_TRANSFER_STATUS
+    TableEntry BATTLE_EFFECT_TOXIC_SPIKES
+    TableEntry BATTLE_EFFECT_REMOVE_HAZARDS_SCREENS_EVA_DOWN
+    TableEntry BATTLE_EFFECT_SP_ATK_DOWN_2_OPPOSITE_GENDER
+    TableEntry TABLE_END

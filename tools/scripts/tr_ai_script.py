@@ -5,12 +5,13 @@ Each AI flag has a script file, which runs once per usable move with the move's 
 followed by 32-bit arguments; the argument layout of every command comes from its handler in src/ov170/tr_ai.c.
 
     tr_ai_script.py inc include/asm/tr_ai.inc      # write the assembler macros
-    tr_ai_script.py disasm ARCHIVE data/tr_ai      # write one .s file per script
+    tr_ai_script.py disasm ARCHIVE OUTPUT_DIR      # write one .s file per script
 
 The .s files go through the C preprocessor, so that they can use the constants in include/constants, and assemble
-back to the original bytes.
+back to the original bytes. The scripts in data/tr_ai are edited by hand since, so disassembling is for reference.
 """
 import argparse
+import json
 import re
 import struct
 import sys
@@ -19,166 +20,233 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from narc import read_narc  # noqa: E402
 
-# Argument kinds:
+# Commands, in ID order: the macro name, the parameters with their kinds, and what the command does. The names follow
+# pokeplatinum's for the commands that Gen 4 has too, and its style for the others. Parameter kinds:
 #   value   a 32-bit value
 #   result  a value compared with the result, written as the kind of value that the result holds
 #   jump    a jump target, relative to the end of this argument, which ends the command
-#   list    a list of values ending with 0xffffffff, relative to the end of this argument
+#   list    a list of values ending with 0xffffffff (TABLE_END), relative to the end of this argument
 #   table   a jump table indexed by the move's effect, relative to the end of this argument
 # and the kinds in CONSTANTS, which are values written as constants.
 #
-# The result is the value that every load_ command sets, and that if_equal and the other result comparisons read.
+# The result is the value that the Load commands and a few others set (see RESULTS), and that IfLoadedEqualTo and
+# the other comparisons of the loaded value read.
 COMMANDS = [
-    ("if_random_less_than", ["value", "jump"], "AIGreaterThanRandom: jumps if a random number below 256 is less than value"),
-    ("if_random_greater_than", ["value", "jump"], "AILessThanRandom"),
-    ("if_random_equal", ["value", "jump"], "AIEqualToRandom"),
-    ("if_random_not_equal", ["value", "jump"], "AINotEqualToRandom"),
-    ("add_to_score", ["value"], "AIIncrementScore: adds a signed value to the move's score, which stays at least 0"),
-    ("if_hp_less_than", ["side", "value", "jump"], "AIIsHPLessThan: compares the HP percentage"),
-    ("if_hp_greater_than", ["side", "value", "jump"], "AIIsHPGreaterThan"),
-    ("if_hp_equal", ["side", "value", "jump"], "AIIsHPEqualTo"),
-    ("if_hp_not_equal", ["side", "value", "jump"], "AIIsHPNotEqualTo"),
-    ("if_status", ["side", "jump"], "AIHasStatus: jumps if the Pokemon has a status"),
-    ("if_no_status", ["side", "jump"], "AIDoesNotHaveStatus"),
-    ("if_condition", ["side", "value", "jump"], "AIHasCondition"),
-    ("if_not_condition", ["side", "value", "jump"], "AIDoesNotHaveCondition"),
-    ("if_badly_poisoned", ["side", "jump"], "AIIsBadlyPoisoned"),
-    ("if_not_badly_poisoned", ["side", "jump"], "AIIsNotBadlyPoisoned"),
-    ("if_condition_flag", ["side", "value", "jump"], "AIHasConditionFlag"),
-    ("if_not_condition_flag", ["side", "value", "jump"], "AIDoesNotHaveConditionFlag"),
-    ("if_side_effect", ["side", "value", "jump"], "AIIfSideEffect"),
-    ("if_not_side_effect", ["side", "value", "jump"], "AIIfNotSideEffect"),
-    ("if_less_than", ["value", "jump"], "AIIfLessThan: compares the result"),
-    ("if_greater_than", ["value", "jump"], "AIIfGreaterThan"),
-    ("if_equal", ["result", "jump"], "AIIfEqual"),
-    ("if_not_equal", ["result", "jump"], "AIIfNotEqual"),
-    ("if_bits_set", ["value", "jump"], "AIIfBit: jumps if the result has any of the bits"),
-    ("if_bits_clear", ["value", "jump"], "AIIfNotBit"),
-    ("if_move", ["move", "jump"], "AIIfMove: compares the move being scored"),
-    ("if_not_move", ["move", "jump"], "AIIfNotMove"),
-    ("if_in_list", ["list", "jump"], "AIIfResultInList"),
-    ("if_not_in_list", ["list", "jump"], "AIIfResultNotInList"),
-    ("if_has_damaging_move", ["jump"], "AIHasDamagingMove: jumps if the attacker has a move with power"),
-    ("if_no_damaging_move", ["jump"], "AIDoesNotHaveDamagingMove"),
-    ("load_turn_count", [], "AIGetTurnCount"),
-    ("load_type", ["type_of"], "AIGetType"),
-    ("load_power", [], "AIGetBasePower: the base power of the move being scored"),
-    ("load_damage_rank", ["value"], "AIGetHighestDamagingMove: 0 if the move deals no damage, 1 if another move deals "
-     "more, 2 otherwise"),
-    ("load_last_move", ["side"], "AIGetPreviousMove"),
-    ("if_equal_2", ["result", "jump"], "AIIfEqual, a second ID"),
-    ("if_not_equal_2", ["result", "jump"], "AIIfNotEqual, a second ID"),
-    ("if_speed_compare", ["value", "jump"], "AICompareSpeed: 0 jumps if the attacker is faster, 1 if slower, 2 if equal"),
-    ("load_able_party_count", ["side"], "AICheckTeamCount: the party's Pokemon that aren't in battle and can battle"),
-    ("load_move", [], "AICheckMoveID: the move being scored"),
-    ("load_move_effect", [], "AICheckMoveEffect"),
-    ("load_known_ability", ["side"], "AICheckAbility: the ability the AI knows or guesses"),
-    ("nop_43", [], "AINop43"),
-    ("if_effectiveness", ["effectiveness", "jump"], "AIIfTypeEffectiveness: of the move being scored"),
-    ("if_party_member_no_status", ["side", "jump"], "AIIfStatusInParty: jumps if a party member that isn't in battle "
-     "has no status"),
-    ("if_party_member_status", ["side", "jump"], "AIIfStatusNotInParty"),
-    ("load_weather", [], "AIGetWeather"),
-    ("if_move_effect", ["value", "jump"], "AIHasMoveID: compares the effect of the move being scored"),
-    ("if_not_move_effect", ["value", "jump"], "AIDoesNotHaveMoveID"),
-    ("if_stat_stage_less_than", ["side", "value", "value", "jump"], "AIStatStageLessThan: stat, then stage"),
-    ("if_stat_stage_greater_than", ["side", "value", "value", "jump"], "AIStatStageGreaterThan"),
-    ("if_stat_stage_equal", ["side", "value", "value", "jump"], "AIStatStageEqual"),
-    ("if_stat_stage_not_equal", ["side", "value", "value", "jump"], "AIStatStageNotEqual"),
-    ("if_can_faint", ["value", "jump"], "AIIfCanFaint: the first argument is unused"),
-    ("if_cannot_faint", ["value", "jump"], "AIIfCannotFaint"),
-    ("if_knows_move", ["side", "move", "jump"], "AIIfHasMove: for the defender, only the moves it was seen to use"),
-    ("if_not_knows_move", ["side", "move", "jump"], "AIIfDoesNotHaveMove"),
-    ("if_knows_move_effect", ["side", "value", "jump"], "AIIfHasMoveWithEffect"),
-    ("if_not_knows_move_effect", ["side", "value", "jump"], "AIIfDoesNotHaveMoveWithEffect"),
-    ("nop_60", [], "AINop60"),
-    ("flee", [], "AIFlee"),
-    ("nop_62", [], "AINop62"),
-    ("nop_63", [], "AINop63"),
-    ("load_held_item", ["side"], "AIGetHeldItem"),
-    ("load_held_item_effect", ["side"], "AIGetItemEffect: item parameter 1"),
-    ("load_gender", ["side"], "AIGetGender"),
-    ("load_fake_out_active", ["side"], "AIIsFakeOutActive: TRUE if condition flag 0 is clear"),
-    ("load_stockpile_count", ["side"], "AIGetStockpileCount"),
-    ("load_battle_style", [], "AIGetBattleStyle"),
-    ("load_battle_type", [], "AIGetBattleType"),
-    ("load_consumed_item", ["side"], "AIGetConsumedItem"),
-    ("nop_72", [], "AINop72"),
-    ("load_result_power", [], "AIGetMovePower: replaces the result, a move, with its power"),
-    ("load_result_effect", [], "AIGetMoveID: replaces the result, a move, with its effect"),
-    ("load_protect_count", ["side"], "AIGetProtectCount"),
-    ("jump", ["jump"], "AIJump"),
-    ("end", [], "AIEnd: ends the script for this move"),
-    ("if_level_compare", ["value", "jump"], "AICompareLevel: 0 jumps if the attacker's level is higher, 1 if lower, 2 "
-     "if equal"),
-    ("if_taunted", ["jump"], "AIIfTaunted: the defender"),
-    ("if_not_taunted", ["jump"], "AIIfNotTaunted"),
-    ("if_target_is_ally", ["jump"], "AIIfTargetIsAlly"),
-    ("load_has_type", ["side", "type"], "AIDoesMonHaveType"),
-    ("load_known_ability_is", ["side", "ability"], "AIGuessAbility"),
-    ("if_flash_fire", ["side", "jump"], "AIIfFlashFireIsActive"),
-    ("if_held_item", ["side", "item", "jump"], "AIIfHasItem"),
-    ("if_field_effect", ["value", "jump"], "AIIfFieldEffect"),
-    ("load_side_effect", ["side", "value"], "AIGetSideEffect"),
-    ("if_party_member_damaged", ["side", "jump"], "AIIfPartyMemberDamaged"),
-    ("if_party_member_used_pp", ["side", "jump"], "AIIfPartyMemberUsedPP"),
-    ("load_fling_power", ["side"], "AIGetFlingPower"),
-    ("load_move_pp", [], "AIGetMovePP"),
-    ("if_can_use_last_resort", ["side", "jump"], "AIIfCanUseLastResort"),
-    ("load_move_category", [], "AIGetMoveCategory"),
-    ("load_last_move_category", [], "AIGetLastMoveCategory: the defender's last move"),
-    ("load_speed_order", ["side"], "AIGetOrderInTurn"),
-    ("load_unk_96", ["side"], "func_ov170_0218119c"),
-    ("if_party_member_deals_more_damage", ["value", "jump"], "AIIfPartyMemberDealsMoreDamage"),
-    ("if_has_super_effective_move", ["jump"], "AIIfHasSuperEffectiveMove"),
-    ("if_last_move_deals_more_damage", ["side", "value", "jump"], "AIIfLastMoveDealsMoreDamage"),
-    ("load_positive_stat_stage_total", ["side"], "AIGetPositiveStatStageTotal"),
-    ("load_stat_stage_difference", ["side", "value"], "AIGetStatStageDifference"),
-    ("nop_102", [], "AINop102"),
-    ("nop_103", [], "AINop103"),
-    ("nop_104", [], "AINop104"),
-    ("load_damage_rank_with_partners", ["value"], "AIGetHighestDamagingMoveWithPartners"),
-    ("if_fainted", ["side", "jump"], "AIIsFainted"),
-    ("if_not_fainted", ["side", "jump"], "AIIsNotFainted"),
-    ("load_ability", ["side"], "AIGetAbility: battle Pokemon value 17"),
-    ("if_substitute", ["side", "jump"], "AIIfSubstitute"),
-    ("load_species", ["side"], "AIGetSpecies"),
-    ("if_turn_random_less_than", ["value", "jump"], "AIGreaterThanTurnRandom: compares the random number of the turn"),
-    ("if_turn_random_greater_than", ["value", "jump"], "AILessThanTurnRandom"),
-    ("if_turn_random_equal", ["value", "jump"], "AIEqualToTurnRandom"),
-    ("if_turn_random_not_equal", ["value", "jump"], "AINotEqualToTurnRandom"),
-    ("jump_by_move_effect", ["value", "value", "table"], "AIJumpByMoveEffect: mode, the highest effect, table"),
-    ("unk_cmd_116", ["side", "jump"], "func_ov170_02181734"),
-    ("if_attack_less_than_sp_attack", ["side", "jump"], "AIIsAtkLessThanSpAtk: the original compares the position with "
-     "the special attack"),
-    ("if_attack_greater_than_sp_attack", ["side", "jump"], "AIIsAtkGreaterThanSpAtk"),
-    ("if_attack_equal_sp_attack", ["side", "jump"], "AIIsAtkEqualToSpAtk"),
+    ("IfRandomLessThan", [("value", "value"), ("jump", "jump")], "Jumps if a random number below 256 is less than value"),
+    ("IfRandomGreaterThan", [("value", "value"), ("jump", "jump")], ""),
+    ("IfRandomEqualTo", [("value", "value"), ("jump", "jump")], ""),
+    ("IfRandomNotEqualTo", [("value", "value"), ("jump", "jump")], ""),
+    ("AddToMoveScore", [("value", "value")], "Adds to the move's score, which stays at least 0"),
+    ("IfHPPercentLessThan", [("battler", "battler"), ("percent", "value"), ("jump", "jump")], ""),
+    ("IfHPPercentGreaterThan", [("battler", "battler"), ("percent", "value"), ("jump", "jump")], ""),
+    ("IfHPPercentEqualTo", [("battler", "battler"), ("percent", "value"), ("jump", "jump")], ""),
+    ("IfHPPercentNotEqualTo", [("battler", "battler"), ("percent", "value"), ("jump", "jump")], ""),
+    ("IfStatus", [("battler", "battler"), ("jump", "jump")], "Jumps if the battler has any major status condition. Gen 4's "
+     "takes a mask of conditions"),
+    ("IfNotStatus", [("battler", "battler"), ("jump", "jump")], ""),
+    ("IfCondition", [("battler", "battler"), ("condition", "condition"), ("jump", "jump")], "CONDITION_*"),
+    ("IfNotCondition", [("battler", "battler"), ("condition", "condition"), ("jump", "jump")], ""),
+    ("IfBadlyPoisoned", [("battler", "battler"), ("jump", "jump")], ""),
+    ("IfNotBadlyPoisoned", [("battler", "battler"), ("jump", "jump")], ""),
+    ("IfConditionFlag", [("battler", "battler"), ("flag", "condition_flag"), ("jump", "jump")], ""),
+    ("IfNotConditionFlag", [("battler", "battler"), ("flag", "condition_flag"), ("jump", "jump")], ""),
+    ("IfSideCondition", [("battler", "battler"), ("condition", "side_condition"), ("jump", "jump")],
+     "Jumps if the condition is active on the battler's side"),
+    ("IfNotSideCondition", [("battler", "battler"), ("condition", "side_condition"), ("jump", "jump")], ""),
+    ("IfLoadedLessThan", [("value", "result"), ("jump", "jump")], ""),
+    ("IfLoadedGreaterThan", [("value", "result"), ("jump", "jump")], ""),
+    ("IfLoadedEqualTo", [("value", "result"), ("jump", "jump")], ""),
+    ("IfLoadedNotEqualTo", [("value", "result"), ("jump", "jump")], ""),
+    ("IfLoadedMask", [("mask", "value"), ("jump", "jump")], "Jumps if the loaded value has any of the bits"),
+    ("IfLoadedNotMask", [("mask", "value"), ("jump", "jump")], ""),
+    ("IfMoveEqualTo", [("move", "move"), ("jump", "jump")], "Compares the move being scored"),
+    ("IfMoveNotEqualTo", [("move", "move"), ("jump", "jump")], ""),
+    ("IfLoadedInTable", [("table", "list"), ("jump", "jump")], ""),
+    ("IfLoadedNotInTable", [("table", "list"), ("jump", "jump")], ""),
+    ("IfAttackerHasDamagingMoves", [("jump", "jump")], "Jumps if the attacker has a move with power"),
+    ("IfAttackerHasNoDamagingMoves", [("jump", "jump")], ""),
+    ("LoadTurnCount", [], ""),
+    ("LoadTypeFrom", [("target", "type_target")], "LOAD_*"),
+    ("LoadMovePower", [], "The base power of the move being scored"),
+    ("FlagMoveDamageScore", [("damage", "damage_roll")], "Loads AI_MOVE_DEALS_NO_DAMAGE, AI_NOT_HIGHEST_DAMAGE if "
+     "another of the attacker's moves deals more damage, or AI_MOVE_IS_HIGHEST_DAMAGE"),
+    ("LoadBattlerPreviousMove", [("battler", "battler")], ""),
+    ("IfTempEqualTo", [("value", "result"), ("jump", "jump")], "The same as IfLoadedEqualTo, as in Gen 4"),
+    ("IfTempNotEqualTo", [("value", "result"), ("jump", "jump")], "The same as IfLoadedNotEqualTo"),
+    ("IfSpeedCompareEqualTo", [("compare", "compare_speed"), ("jump", "jump")], "Compares the attacker's speed with "
+     "the defender's, COMPARE_SPEED_*"),
+    ("CountAlivePartyBattlers", [("battler", "battler")], "Loads the number of the party's Pokemon that aren't in "
+     "battle and can battle"),
+    ("LoadCurrentMove", [], ""),
+    ("LoadCurrentMoveEffect", [], ""),
+    ("LoadBattlerAbility", [("battler", "battler")], "Loads the ability that the AI knows the battler to have, or its "
+     "guess"),
+    ("Dummy2B", [], "Does nothing. Gen 4's calculates the highest type effectiveness"),
+    ("IfMoveEffectivenessEquals", [("effectiveness", "effectiveness"), ("jump", "jump")], "TYPE_EFFECTIVENESS_* of "
+     "the move being scored"),
+    ("IfPartyMemberNotStatus", [("battler", "battler"), ("jump", "jump")], "Jumps if one of the party's Pokemon that "
+     "aren't in battle has no major status condition"),
+    ("IfPartyMemberStatus", [("battler", "battler"), ("jump", "jump")], "Jumps if one of the party's Pokemon that "
+     "aren't in battle has a major status condition"),
+    ("LoadCurrentWeather", [], ""),
+    ("IfCurrentMoveEffectEqualTo", [("effect", "effect"), ("jump", "jump")], ""),
+    ("IfCurrentMoveEffectNotEqualTo", [("effect", "effect"), ("jump", "jump")], ""),
+    ("IfStatStageLessThan", [("battler", "battler"), ("stat", "stat"), ("stage", "value"), ("jump", "jump")],
+     "Stages go from 0 to 12, and 6 is neutral"),
+    ("IfStatStageGreaterThan", [("battler", "battler"), ("stat", "stat"), ("stage", "value"), ("jump", "jump")], ""),
+    ("IfStatStageEqualTo", [("battler", "battler"), ("stat", "stat"), ("stage", "value"), ("jump", "jump")], ""),
+    ("IfStatStageNotEqualTo", [("battler", "battler"), ("stat", "stat"), ("stage", "value"), ("jump", "jump")], ""),
+    ("IfCurrentMoveKills", [("unused", "value"), ("jump", "jump")], "Jumps if the move's damage with USE_MIN_DAMAGE "
+     "is at least the defender's HP. The first argument is not used"),
+    ("IfCurrentMoveDoesNotKill", [("unused", "value"), ("jump", "jump")], ""),
+    ("IfMoveKnown", [("battler", "battler"), ("move", "move"), ("jump", "jump")], "For the defender, only the moves "
+     "it was seen to use"),
+    ("IfMoveNotKnown", [("battler", "battler"), ("move", "move"), ("jump", "jump")], ""),
+    ("IfMoveEffectKnown", [("battler", "battler"), ("effect", "effect"), ("jump", "jump")], ""),
+    ("IfMoveEffectNotKnown", [("battler", "battler"), ("effect", "effect"), ("jump", "jump")], ""),
+    ("Dummy3C", [], "Does nothing"),
+    ("Escape", [], "Flees from the battle"),
+    ("Dummy3E", [], "Does nothing. Gen 4's takes an argument"),
+    ("Dummy3F", [], "Does nothing"),
+    ("LoadHeldItem", [("battler", "battler")], ""),
+    ("LoadHeldItemEffect", [("battler", "battler")], "HOLD_EFFECT_*"),
+    ("LoadGender", [("battler", "battler")], ""),
+    ("LoadIsFirstTurnInBattle", [("battler", "battler")], "Loads TRUE if condition flag 0 is clear, which is when "
+     "Fake Out works"),
+    ("LoadStockpileCount", [("battler", "battler")], ""),
+    ("LoadBattleStyle", [], "BTL_STYLE_*"),
+    ("LoadBattleType", [], ""),
+    ("LoadRecycleItem", [("battler", "battler")], "Loads the item that the battler consumed"),
+    ("Dummy48", [], "Does nothing"),
+    ("LoadPowerOfLoadedMove", [], "Replaces the loaded move with its power"),
+    ("LoadEffectOfLoadedMove", [], "Replaces the loaded move with its effect"),
+    ("LoadProtectChain", [("battler", "battler")], "Loads how many times in a row the battler used Protect, Detect "
+     "or Endure"),
+    ("GoTo", [("jump", "jump")], ""),
+    ("End", [], "Ends the script for this move"),
+    ("IfLevel", [("compare", "compare_level"), ("jump", "jump")], "Compares the attacker's level with the "
+     "defender's, CHECK_*"),
+    ("IfTargetIsTaunted", [("jump", "jump")], ""),
+    ("IfTargetIsNotTaunted", [("jump", "jump")], ""),
+    ("IfTargetIsPartner", [("jump", "jump")], ""),
+    ("FlagBattlerIsType", [("battler", "battler"), ("type", "type")], "Loads TRUE if the battler has the type"),
+    ("CheckBattlerAbility", [("battler", "battler"), ("ability", "ability")], "Loads TRUE if the ability that "
+     "LoadBattlerAbility would load is this one"),
+    ("IfActivatedFlashFire", [("battler", "battler"), ("jump", "jump")], ""),
+    ("IfHeldItemEqualTo", [("battler", "battler"), ("item", "item"), ("jump", "jump")], ""),
+    ("IfFieldCondition", [("condition", "field_condition"), ("jump", "jump")], "Gen 4's takes a mask of conditions"),
+    ("LoadSideCondition", [("battler", "battler"), ("condition", "side_condition")], "Loads the value of the "
+     "condition on the battler's side, such as the layers of Spikes"),
+    ("IfAnyPartyMemberIsWounded", [("battler", "battler"), ("jump", "jump")], "Meant to jump if one of the party's "
+     "Pokemon that aren't in battle has lost HP, but checks the battler's HP instead"),
+    ("IfAnyPartyMemberUsedPP", [("battler", "battler"), ("jump", "jump")], "Meant to jump if one of the party's "
+     "Pokemon that aren't in battle has used PP, but checks the battler's PP instead"),
+    ("LoadFlingPower", [("battler", "battler")], ""),
+    ("LoadCurrentMovePP", [], ""),
+    ("IfCanUseLastResort", [("battler", "battler"), ("jump", "jump")], ""),
+    ("LoadCurrentMoveClass", [], "MOVE_CATEGORY_*"),
+    ("LoadDefenderLastUsedMoveClass", [], ""),
+    ("LoadBattlerSpeedRank", [("battler", "battler")], "Loads the battler's place in the order of the turn"),
+    ("LoadBattlerUnk60", [("battler", "battler")], "Loads a 16-bit value of the battler. Gen 4's command here loads "
+     "the turns since the battler switched in"),
+    ("IfPartyMemberDealsMoreDamage", [("damage", "damage_roll"), ("jump", "jump")], "Jumps if one of the party's "
+     "Pokemon that aren't in battle deals more damage to the defender than the attacker"),
+    ("IfHasSuperEffectiveMove", [("jump", "jump")], ""),
+    ("IfBattlerDealsMoreDamage", [("battler", "battler"), ("damage", "damage_roll"), ("jump", "jump")], "Jumps if "
+     "the battler's previous move deals more damage to the defender than the attacker's moves"),
+    ("SumPositiveStatStages", [("battler", "battler")], ""),
+    ("DiffStatStages", [("battler", "battler"), ("stat", "stat")], "Loads the battler's stat stage minus the "
+     "attacker's"),
+    ("Dummy66", [], "Does nothing"),
+    ("Dummy67", [], "Does nothing"),
+    ("Dummy68", [], "Does nothing"),
+    ("CheckIfHighestDamageWithPartner", [("damage", "damage_roll")], "Like FlagMoveDamageScore, with the moves of "
+     "the attacker's partners too"),
+    ("IfBattlerFainted", [("battler", "battler"), ("jump", "jump")], ""),
+    ("IfBattlerNotFainted", [("battler", "battler"), ("jump", "jump")], ""),
+    ("LoadAbility", [("battler", "battler")], "Loads the battler's actual ability"),
+    ("IfBattlerHasSubstitute", [("battler", "battler"), ("jump", "jump")], ""),
+    ("LoadSpecies", [("battler", "battler")], ""),
+    ("IfTurnRandomLessThan", [("value", "value"), ("jump", "jump")], "Like IfRandomLessThan, with a random number "
+     "that stays the same for the turn"),
+    ("IfTurnRandomGreaterThan", [("value", "value"), ("jump", "jump")], ""),
+    ("IfTurnRandomEqualTo", [("value", "value"), ("jump", "jump")], ""),
+    ("IfTurnRandomNotEqualTo", [("value", "value"), ("jump", "jump")], ""),
+    ("GoToByMoveEffect", [("mode", "value"), ("max", "value"), ("table", "table")], "Jumps to the table's entry for "
+     "the move's effect, or ends the script for effects above max. Modes other than 0 end the script"),
+    ("IfUnk74", [("battler", "battler"), ("jump", "jump")], "Jumps if position effect 3 is active at the battler's "
+     "position"),
+    ("IfAttackLessThanSpAttack", [("battler", "battler"), ("jump", "jump")], "Meant to compare the battler's Attack "
+     "with its Special Attack, but compares its position with its Special Attack"),
+    ("IfAttackGreaterThanSpAttack", [("battler", "battler"), ("jump", "jump")], ""),
+    ("IfAttackEqualToSpAttack", [("battler", "battler"), ("jump", "jump")], ""),
 ]
 
 INCLUDE = Path(__file__).resolve().parent.parent.parent / "include"
 # The headers that the scripts include, and the prefix of the constants for each kind of value
 CONSTANTS = {
-    "side": ("constants/tr_ai.h", "TRAI_SIDE_"),
-    "type_of": ("constants/tr_ai.h", "TRAI_TYPE_"),
+    "battler": ("constants/tr_ai.h", "AI_BATTLER_"),
+    "type_target": ("constants/tr_ai.h", "LOAD_"),
+    "damage_roll": ("constants/tr_ai.h", "(?:USE_MIN_DAMAGE|ROLL_FOR_DAMAGE)"),
+    "damage_rank": ("constants/tr_ai.h", "AI_(?:MOVE_DEALS_NO|NOT_HIGHEST|MOVE_IS_HIGHEST)_"),
+    "compare_speed": ("constants/tr_ai.h", "COMPARE_SPEED_"),
+    "compare_level": ("constants/tr_ai.h", "CHECK_"),
     "move": ("constants/moves.h", "MOVE_"),
     "ability": ("constants/abilities.h", "ABILITY_"),
     "item": ("constants/items.h", "ITEM_"),
     "species": ("constants/species.h", "SPECIES_"),
     "type": ("constants/types.h", "TYPE_"),
+    "effect": ("constants/move_effects.h", "BATTLE_EFFECT_"),
+    "hold_effect": ("constants/hold_effects.h", "HOLD_EFFECT_"),
     "effectiveness": ("constants/battle.h", "TYPE_EFFECTIVENESS_"),
     "battle_style": ("constants/battle.h", "BTL_STYLE_"),
+    "category": ("constants/battle.h", "MOVE_CATEGORY_"),
+    "condition": ("constants/battle.h", "CONDITION_"),
+    "stat": ("constants/battle.h", "BATTLEMON_(?!STAT_)\\w+_STAGE"),
+    "weather": ("constants/battle.h", "BTL_WEATHER_"),
+    "side_condition": ("constants/battle.h", "SIDE_CONDITION_"),
+    "field_condition": ("constants/battle.h", "FIELD_CONDITION_"),
+    "gender": ("constants/pokemon.h", "GENDER_"),
 }
-# The kind of value that load_ commands put in the result, where it is one of the kinds in CONSTANTS
+# Values that are not in a header
+BOOLEANS = {0: "FALSE", 1: "TRUE"}
+# The commands that set the result, with the kind of value they set where it is one of the kinds in CONSTANTS
 RESULTS = {
-    "load_type": "type",
-    "load_last_move": "move",
-    "load_move": "move",
-    "load_known_ability": "ability",
-    "load_held_item": "item",
-    "load_battle_style": "battle_style",
-    "load_consumed_item": "item",
-    "load_ability": "ability",
-    "load_species": "species",
+    "LoadTurnCount": None,
+    "LoadTypeFrom": "type",
+    "LoadMovePower": None,
+    "FlagMoveDamageScore": "damage_rank",
+    "LoadBattlerPreviousMove": "move",
+    "CountAlivePartyBattlers": None,
+    "LoadCurrentMove": "move",
+    "LoadCurrentMoveEffect": "effect",
+    "LoadBattlerAbility": "ability",
+    "LoadCurrentWeather": "weather",
+    "LoadHeldItem": "item",
+    "LoadHeldItemEffect": "hold_effect",
+    "LoadGender": "gender",
+    "LoadIsFirstTurnInBattle": "bool",
+    "LoadStockpileCount": None,
+    "LoadBattleStyle": "battle_style",
+    "LoadBattleType": None,
+    "LoadRecycleItem": "item",
+    "LoadPowerOfLoadedMove": None,
+    "LoadEffectOfLoadedMove": "effect",
+    "LoadProtectChain": None,
+    "FlagBattlerIsType": "bool",
+    "CheckBattlerAbility": "bool",
+    "LoadSideCondition": None,
+    "LoadFlingPower": None,
+    "LoadCurrentMovePP": None,
+    "LoadCurrentMoveClass": "category",
+    "LoadDefenderLastUsedMoveClass": "category",
+    "LoadBattlerSpeedRank": None,
+    "LoadBattlerUnk60": None,
+    "SumPositiveStatStages": None,
+    "DiffStatStages": None,
+    "CheckIfHighestDamageWithPartner": "damage_rank",
+    "LoadAbility": "ability",
+    "LoadSpecies": "species",
 }
 # Commands after which the script doesn't continue: jump, end and jump_by_move_effect
 NO_FALLTHROUGH = {76, 77, 115}
@@ -190,34 +258,44 @@ def load_constants() -> dict[str, dict[int, str]]:
     constants = {}
     for kind, (header, prefix) in CONSTANTS.items():
         names = {}
-        for match in re.finditer(rf"^#define ({prefix}\w+) (\d+)$", (INCLUDE / header).read_text(), re.MULTILINE):
+        for match in re.finditer(rf"^#define ({prefix}\w*) (\d+)$", (INCLUDE / header).read_text(), re.MULTILINE):
             names.setdefault(int(match[2]), match[1])
         constants[kind] = names
+    constants["bool"] = BOOLEANS
     return constants
 
 
 def write_inc(path: Path):
     headers = sorted({header for header, _ in CONSTANTS.values()})
     lines = [
-        "@ Macros for the trainer AI scripts, written by tools/scripts/tr_ai_script.py inc",
+        "// Macros for the trainer AI scripts, written by tools/scripts/tr_ai_script.py inc",
         "",
         *(f'#include "{header}"' for header in headers),
         "",
-        "    .macro ai_cmd id",
+        "    .set FALSE, 0",
+        "    .set TRUE, 1",
+        "",
+        "    .macro AICommand id",
         "    .2byte \\id",
         "    .endm",
         "",
-        "    .macro list_end",
-        f"    .4byte {LIST_END:#x}",
+        "    // An entry of a table for IfLoadedInTable, which ends with TABLE_END",
+        "    .macro TableEntry entry",
+        "    .4byte \\entry",
+        "    .endm",
+        "",
+        "    // An entry of a table for GoToByMoveEffect: the label to jump to, from the table's start",
+        "    .macro LabelDistance dst, src",
+        "    .4byte \\dst - \\src",
         "    .endm",
         "",
     ]
-    for cmd_id, (name, args, doc) in enumerate(COMMANDS):
-        params = [f"a{i}" for i in range(len(args))]
-        lines.append(f"    @ {doc}")
-        lines.append(f"    .macro {name}{' ' if params else ''}{', '.join(params)}")
-        lines.append(f"    ai_cmd {cmd_id}")
-        for param, kind in zip(params, args):
+    for cmd_id, (name, params, doc) in enumerate(COMMANDS):
+        if doc:
+            lines.append(f"    // {doc}")
+        lines.append(f"    .macro {name}{' ' if params else ''}{', '.join(param for param, _ in params)}")
+        lines.append(f"    AICommand {cmd_id}")
+        for param, kind in params:
             if kind in REFERENCES:
                 lines.append(f"    .4byte \\{param} - (. + 4)")
             else:
@@ -232,17 +310,20 @@ def s32(value: int) -> int:
 
 
 class Script:
-    def __init__(self, data: bytes, label_prefix: str, constants: dict[str, dict[int, str]] | None = None):
+    def __init__(self, data: bytes, label_prefix: str, constants: dict[str, dict[int, str]] | None = None,
+                 names: dict[int, str] | None = None):
         self.data = data
         self.prefix = label_prefix
         self.constants = constants or {}
+        # Label names by offset, for labels that would otherwise be named after their offset
+        self.names = names or {}
         self.instructions: dict[int, tuple[int, list[tuple[str, int]], int]] = {}
         self.labels: set[int] = {0}
         self.lists: dict[int, int] = {}  # start -> end
         self.tables: dict[int, int] = {}  # start -> entry count
 
     def label(self, offset: int) -> str:
-        return f"{self.prefix}_{offset:04X}"
+        return self.names.get(offset, f"{self.prefix}_{offset:04X}")
 
     def decode(self, pc: int):
         if pc + 2 > len(self.data):
@@ -250,7 +331,7 @@ class Script:
         cmd_id = struct.unpack_from("<H", self.data, pc)[0]
         if cmd_id >= len(COMMANDS):
             return None
-        _, kinds, _ = COMMANDS[cmd_id]
+        kinds = [kind for _, kind in COMMANDS[cmd_id][1]]
         end = pc + 2 + 4 * len(kinds)
         if end > len(self.data):
             return None
@@ -355,7 +436,8 @@ class Script:
                 cmd_id, args, end = decoded
                 trial.instructions[pc] = decoded
                 for kind, target in args:
-                    trial.labels.add(target)
+                    if kind in REFERENCES:
+                        trial.labels.add(target)
                     if kind == "jump":
                         pending.append(target)
                     elif kind == "list":
@@ -431,7 +513,7 @@ class Script:
         while pending:
             pc = pending.pop()
             name = COMMANDS[self.instructions[pc][0]][0]
-            after = RESULTS.get(name) if name.startswith("load_") else before[pc]
+            after = RESULTS[name] if name in RESULTS else before[pc]
             for target in self.successors(pc):
                 if target not in before:
                     before[target] = after
@@ -461,6 +543,7 @@ class Script:
         self.fill_gaps()
         self.labels.update(self.lists)
         self.placeable = self.boundaries()
+        self.labels.update(o for o in self.names if o in self.placeable)
         results = self.result_kinds()
         # A list holds the kind of value that the result holds where the list is used, if that is always the same
         list_kinds = {}
@@ -495,14 +578,15 @@ class Script:
                 for element in range(pc, self.lists[pc], 4):
                     self.emit_label(out, element)
                     value = struct.unpack_from("<I", self.data, element)[0]
-                    out.append("    list_end" if value == LIST_END else f"    .4byte {self.format_arg('result', value)}")
+                    entry = "TABLE_END" if value == LIST_END else self.format_arg("result", value)
+                    out.append(f"    TableEntry {entry}")
                 pc = self.lists[pc]
             elif pc in self.tables:
                 table = pc
                 for entry in range(table, table + 4 * self.tables[table], 4):
                     self.emit_label(out, entry)
                     target = table + struct.unpack_from("<I", self.data, entry)[0]
-                    out.append(f"    .4byte {self.label(target)} - {self.label(table)}")
+                    out.append(f"    LabelDistance {self.label(target)}, {self.label(table)}")
                 pc = table + 4 * self.tables[table]
             else:
                 self.emit_label(out, pc)
@@ -515,6 +599,8 @@ class Script:
 
     def emit_label(self, out: list[str], offset: int):
         if offset in self.labels:
+            if out and out[-1]:
+                out.append("")
             out.append(f"{self.label(offset)}:")
 
 
@@ -526,6 +612,7 @@ def main():
     disasm = commands.add_parser("disasm")
     disasm.add_argument("archive", type=Path)
     disasm.add_argument("output", type=Path)
+    disasm.add_argument("--labels", type=Path, help="JSON of label names by script and offset")
     args = parser.parse_args()
 
     if args.command == "inc":
@@ -534,8 +621,10 @@ def main():
     else:
         args.output.mkdir(parents=True, exist_ok=True)
         constants = load_constants()
+        labels = json.loads(args.labels.read_text()) if args.labels else {}
         for i, data in enumerate(read_narc(args.archive.read_bytes())):
-            script = Script(data, f"TrAI{i:02d}", constants)
+            names = {int(offset): name for offset, name in labels.get(str(i), {}).items()}
+            script = Script(data, f"TrAI{i:02d}", constants, names)
             text = f'#include "asm/tr_ai.inc"\n\n{script.disassemble()}'
             (args.output / f"tr_ai_{i:02d}.s").write_text(text)
 

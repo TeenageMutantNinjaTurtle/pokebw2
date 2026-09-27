@@ -1,1128 +1,1347 @@
 #include "asm/tr_ai.inc"
 
-TrAI07_0000:
-    load_battle_style
-TrAI07_0002:
-    if_equal BTL_STYLE_DOUBLE, TrAI07_0018
-    if_equal BTL_STYLE_TRIPLE, TrAI07_0018
-    end
-TrAI07_0018:
-    if_target_is_ally TrAI07_0FB2
-    load_damage_rank 0
-    if_equal 0, TrAI07_019E
-    if_move_effect 38, TrAI07_00D6
-    if_move_effect 41, TrAI07_00D6
-    if_move_effect 87, TrAI07_00D6
-    if_move_effect 88, TrAI07_00D6
-    if_move_effect 130, TrAI07_00D6
-    if_effectiveness TYPE_EFFECTIVENESS_HALF, TrAI07_007A
-    if_effectiveness TYPE_EFFECTIVENESS_QUARTER, TrAI07_00A8
-    jump TrAI07_00D6
-TrAI07_007A:
-    if_can_faint 0, TrAI07_00D6
-    if_hp_equal TRAI_SIDE_DEFENDER_PARTNER, 0, TrAI07_00D6
-    if_random_less_than 64, TrAI07_00D6
-    add_to_score -1
-    jump TrAI07_00D6
-TrAI07_00A8:
-    if_can_faint 0, TrAI07_00D6
-    if_hp_equal TRAI_SIDE_DEFENDER_PARTNER, 0, TrAI07_00D6
-    if_random_less_than 64, TrAI07_00D6
-    add_to_score -2
-    jump TrAI07_00D6
-TrAI07_00D6:
-    load_damage_rank_with_partners 0
-    if_not_equal 2, TrAI07_0126
-    if_move_effect 7, TrAI07_019E
-    if_move_effect 103, TrAI07_0110
-    if_random_less_than 128, TrAI07_0126
-    add_to_score 1
-    jump TrAI07_019E
-TrAI07_0110:
-    if_random_less_than 50, TrAI07_0126
-    add_to_score 1
-    jump TrAI07_019E
-TrAI07_0126:
-    if_move_effect 38, TrAI07_019E
-    if_move_effect 41, TrAI07_019E
-    if_move_effect 87, TrAI07_019E
-    if_move_effect 88, TrAI07_019E
-    if_move_effect 130, TrAI07_019E
-    if_effectiveness TYPE_EFFECTIVENESS_DOUBLE, TrAI07_0172
-    if_effectiveness TYPE_EFFECTIVENESS_QUADRUPLE, TrAI07_0188
-    jump TrAI07_019E
-TrAI07_0172:
-    if_random_less_than 100, TrAI07_019E
-    add_to_score 1
-    jump TrAI07_019E
-TrAI07_0188:
-    if_random_less_than 64, TrAI07_019E
-    add_to_score 1
-    jump TrAI07_019E
-TrAI07_019E:
-    if_move_effect 313, TrAI07_0F5E
-    if_move_effect 190, TrAI07_0F5E
-    if_move MOVE_BLIZZARD, TrAI07_0F5E
-    if_move MOVE_BLIZZARD, TrAI07_0F5E
-    if_move MOVE_BLIZZARD, TrAI07_0F5E
-    if_move MOVE_WIDE_GUARD, TrAI07_0D98
-    if_move MOVE_ROUND, TrAI07_0E22
-    if_move MOVE_ALLY_SWITCH, TrAI07_0E4E
-    if_move MOVE_QUASH, TrAI07_0F16
-    if_move MOVE_BESTOW, TrAI07_0F10
-    if_move MOVE_SKILL_SWAP, TrAI07_0B02
-    load_type TRAI_TYPE_MOVE
-    if_move MOVE_EARTHQUAKE, TrAI07_0986
-    if_move MOVE_MAGNITUDE, TrAI07_0986
-    if_move MOVE_FUTURE_SIGHT, TrAI07_0A12
-    if_move MOVE_DOOM_DESIRE, TrAI07_0A12
-    if_move MOVE_RAIN_DANCE, TrAI07_02D2
-    if_move MOVE_SUNNY_DAY, TrAI07_034E
-    if_move MOVE_HAIL, TrAI07_0482
-    if_move MOVE_SANDSTORM, TrAI07_04FA
-    if_move MOVE_GRAVITY, TrAI07_057E
-    if_move MOVE_TRICK_ROOM, TrAI07_06BE
-    if_move MOVE_FOLLOW_ME, TrAI07_07A6
-    if_move MOVE_HEAL_PULSE, TrAI07_0FAA
-    if_move MOVE_AFTER_YOU, TrAI07_0FAA
-    if_move MOVE_HELPING_HAND, TrAI07_0FAA
-    load_type TRAI_TYPE_MOVE
-    if_equal TYPE_ELECTRIC, TrAI07_0B7E
-    if_equal TYPE_FIRE, TrAI07_0CF2
-    if_equal TYPE_WATER, TrAI07_0C52
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_HELPING_HAND, TrAI07_08E0
-    end
-TrAI07_02D2:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_HYDRATION, TrAI07_02F2
-    if_equal ABILITY_DRY_SKIN, TrAI07_02FC
-    jump TrAI07_0308
-TrAI07_02F2:
-    if_no_status TRAI_SIDE_ATTACKER, TrAI07_0308
-TrAI07_02FC:
-    add_to_score 2
-    jump TrAI07_0308
-TrAI07_0308:
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_HYDRATION
-    if_equal 1, TrAI07_0336
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_DRY_SKIN
-    if_equal 1, TrAI07_0340
-    jump TrAI07_034C
-TrAI07_0336:
-    if_no_status TRAI_SIDE_ATTACKER_PARTNER, TrAI07_034C
-TrAI07_0340:
-    add_to_score 2
-    jump TrAI07_034C
-TrAI07_034C:
-    end
-TrAI07_034E:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_LEAF_GUARD, TrAI07_0382
-    if_equal ABILITY_FLOWER_GIFT, TrAI07_039A
-    if_equal ABILITY_DRY_SKIN, TrAI07_03A6
-    if_equal ABILITY_SOLAR_POWER, TrAI07_03B2
-    jump TrAI07_03D6
-TrAI07_0382:
-    if_status TRAI_SIDE_ATTACKER, TrAI07_03D6
-    if_hp_less_than TRAI_SIDE_ATTACKER, 30, TrAI07_03D6
-TrAI07_039A:
-    add_to_score 2
-    jump TrAI07_03D6
-TrAI07_03A6:
-    add_to_score -2
-    jump TrAI07_03D6
-TrAI07_03B2:
-    if_hp_less_than TRAI_SIDE_ATTACKER, 50, TrAI07_03C6
-    add_to_score 1
-TrAI07_03C6:
-    if_random_less_than 128, TrAI07_03D6
-    add_to_score -2
-TrAI07_03D6:
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_LEAF_GUARD
-    if_equal 1, TrAI07_042C
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_FLOWER_GIFT
-    if_equal 1, TrAI07_0444
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_DRY_SKIN
-    if_equal 1, TrAI07_0450
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_SOLAR_POWER
-    if_equal 1, TrAI07_045C
-    jump TrAI07_0480
-TrAI07_042C:
-    if_status TRAI_SIDE_ATTACKER_PARTNER, TrAI07_0480
-    if_hp_less_than TRAI_SIDE_ATTACKER_PARTNER, 30, TrAI07_0480
-TrAI07_0444:
-    add_to_score 2
-    jump TrAI07_0480
-TrAI07_0450:
-    add_to_score -2
-    jump TrAI07_0480
-TrAI07_045C:
-    if_hp_less_than TRAI_SIDE_ATTACKER_PARTNER, 50, TrAI07_0470
-    add_to_score 1
-TrAI07_0470:
-    if_random_less_than 128, TrAI07_0480
-    add_to_score -2
-TrAI07_0480:
-    end
-TrAI07_0482:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_ICE_BODY, TrAI07_04B0
-    if_equal ABILITY_SNOW_CLOAK, TrAI07_04B0
-    if_knows_move TRAI_SIDE_ATTACKER, MOVE_BLIZZARD, TrAI07_04B0
-    jump TrAI07_04B6
-TrAI07_04B0:
-    add_to_score 2
-TrAI07_04B6:
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_ICE_BODY
-    if_equal 1, TrAI07_04F2
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_SNOW_CLOAK
-    if_equal 1, TrAI07_04F2
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_BLIZZARD, TrAI07_04F2
-    jump TrAI07_04F8
-TrAI07_04F2:
-    add_to_score 2
-TrAI07_04F8:
-    end
-TrAI07_04FA:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_SAND_VEIL, TrAI07_0530
-    load_type TRAI_TYPE_ATTACKER_1
-    if_equal TYPE_ROCK, TrAI07_0530
-    load_type TRAI_TYPE_ATTACKER_2
-    if_equal TYPE_ROCK, TrAI07_0530
-    jump TrAI07_053C
-TrAI07_0530:
-    add_to_score 2
-    jump TrAI07_053C
-TrAI07_053C:
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_SAND_VEIL
-    if_equal 1, TrAI07_0576
-    load_type TRAI_TYPE_ATTACKER_PARTNER_1
-    if_equal TYPE_ROCK, TrAI07_0576
-    load_type TRAI_TYPE_ATTACKER_PARTNER_2
-    if_equal TYPE_ROCK, TrAI07_0576
-    jump TrAI07_057C
-TrAI07_0576:
-    add_to_score 2
-TrAI07_057C:
-    end
-TrAI07_057E:
-    if_field_effect 2, TrAI07_1FA0
-    load_known_ability_is TRAI_SIDE_ATTACKER, ABILITY_LEVITATE
-    if_equal 1, TrAI07_05C4
-    load_has_type TRAI_SIDE_ATTACKER, TYPE_FLYING
-    if_equal 1, TrAI07_05C4
-    if_condition TRAI_SIDE_ATTACKER, 30, TrAI07_05C4
-    jump TrAI07_05D0
-TrAI07_05C4:
-    add_to_score -5
-    jump TrAI07_05D0
-TrAI07_05D0:
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_LEVITATE
-    if_equal 1, TrAI07_060C
-    load_has_type TRAI_SIDE_ATTACKER_PARTNER, TYPE_FLYING
-    if_equal 1, TrAI07_060C
-    if_condition TRAI_SIDE_ATTACKER_PARTNER, 30, TrAI07_060C
-    jump TrAI07_0618
-TrAI07_060C:
-    add_to_score -5
-    jump TrAI07_0618
-TrAI07_0618:
-    load_known_ability_is TRAI_SIDE_DEFENDER, ABILITY_LEVITATE
-    if_equal 1, TrAI07_0654
-    load_has_type TRAI_SIDE_DEFENDER, TYPE_FLYING
-    if_equal 1, TrAI07_0654
-    if_condition TRAI_SIDE_DEFENDER, 30, TrAI07_0654
-    jump TrAI07_066A
-TrAI07_0654:
-    if_random_less_than 64, TrAI07_066A
-    add_to_score 3
-    jump TrAI07_066A
-TrAI07_066A:
-    load_known_ability_is TRAI_SIDE_DEFENDER_PARTNER, ABILITY_LEVITATE
-    if_equal 1, TrAI07_06A6
-    load_has_type TRAI_SIDE_DEFENDER_PARTNER, TYPE_FLYING
-    if_equal 1, TrAI07_06A6
-    if_condition TRAI_SIDE_DEFENDER_PARTNER, 30, TrAI07_06A6
-    jump TrAI07_06BC
-TrAI07_06A6:
-    if_random_less_than 64, TrAI07_06BC
-    add_to_score 3
-    jump TrAI07_06BC
-TrAI07_06BC:
-    end
-TrAI07_06BE:
-    if_hp_equal TRAI_SIDE_ATTACKER_PARTNER, 0, TrAI07_1FE8
-    if_hp_equal TRAI_SIDE_DEFENDER_PARTNER, 0, TrAI07_1FE8
-    if_hp_equal TRAI_SIDE_DEFENDER, 0, TrAI07_1FE8
-    load_speed_order TRAI_SIDE_ATTACKER
-    if_equal 0, TrAI07_071C
-    if_equal 1, TrAI07_073C
-    if_equal 2, TrAI07_0752
-    if_equal 3, TrAI07_0778
-    jump TrAI07_07A4
-TrAI07_071C:
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_equal 1, TrAI07_1FE8
-    if_equal 0, TrAI07_1FE8
-    jump TrAI07_079E
-TrAI07_073C:
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_equal 0, TrAI07_1FE8
-    jump TrAI07_079E
-TrAI07_0752:
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_not_equal 3, TrAI07_079E
-    if_random_less_than 64, TrAI07_079E
-    add_to_score 5
-    jump TrAI07_07A4
-TrAI07_0778:
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_not_equal 2, TrAI07_079E
-    if_random_less_than 64, TrAI07_079E
-    add_to_score 5
-    jump TrAI07_07A4
-TrAI07_079E:
-    add_to_score -5
-TrAI07_07A4:
-    end
-TrAI07_07A6:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 90, TrAI07_07E0
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 50, TrAI07_0810
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 30, TrAI07_0840
-    if_random_less_than 64, TrAI07_08DE
-    jump TrAI07_1FC0
-TrAI07_07E0:
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 90, TrAI07_0870
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 50, TrAI07_089C
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 30, TrAI07_08B2
-    jump TrAI07_08C8
-TrAI07_0810:
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 90, TrAI07_0886
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 50, TrAI07_0870
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 30, TrAI07_089C
-    jump TrAI07_08B2
-TrAI07_0840:
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 90, TrAI07_0886
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 50, TrAI07_0886
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 30, TrAI07_089C
-    jump TrAI07_08B2
-TrAI07_0870:
-    if_random_less_than 64, TrAI07_08DE
-    add_to_score -1
-    jump TrAI07_08DE
-TrAI07_0886:
-    if_random_less_than 64, TrAI07_08DE
-    add_to_score -2
-    jump TrAI07_08DE
-TrAI07_089C:
-    if_random_less_than 64, TrAI07_08DE
-    add_to_score 1
-    jump TrAI07_08DE
-TrAI07_08B2:
-    if_random_less_than 64, TrAI07_08DE
-    add_to_score 2
-    jump TrAI07_08DE
-TrAI07_08C8:
-    if_random_less_than 64, TrAI07_08DE
-    add_to_score 3
-    jump TrAI07_08DE
-TrAI07_08DE:
-    end
-TrAI07_08E0:
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 50, TrAI07_0904
-    load_speed_order TRAI_SIDE_ATTACKER
-    if_less_than 1, TrAI07_0904
-    jump TrAI07_0956
-TrAI07_0904:
-    if_move_effect 38, TrAI07_0956
-    if_move_effect 41, TrAI07_0956
-    if_move_effect 87, TrAI07_0956
-    if_move_effect 88, TrAI07_0956
-    if_move_effect 130, TrAI07_0956
-    load_damage_rank 0
-    if_equal 0, TrAI07_0956
-    if_turn_random_less_than 128, TrAI07_0956
-    add_to_score 3
-TrAI07_0956:
-    end
-    if_status TRAI_SIDE_ATTACKER, TrAI07_0964
-    end
-TrAI07_0964:
-    load_damage_rank 0
-    if_equal 0, TrAI07_1FC0
-    add_to_score 1
-    if_equal 2, TrAI07_1FF8
-    end
-TrAI07_0986:
-    if_condition TRAI_SIDE_ATTACKER_PARTNER, 30, TrAI07_1FF8
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_LEVITATE
-    if_equal 1, TrAI07_1FF8
-    load_has_type TRAI_SIDE_ATTACKER_PARTNER, TYPE_FLYING
-    if_equal 1, TrAI07_1FF8
-    load_has_type TRAI_SIDE_ATTACKER_PARTNER, TYPE_FIRE
-    if_equal 1, TrAI07_1FD8
-    load_has_type TRAI_SIDE_ATTACKER_PARTNER, TYPE_ELECTRIC
-    if_equal 1, TrAI07_1FD8
-    load_has_type TRAI_SIDE_ATTACKER_PARTNER, TYPE_POISON
-    if_equal 1, TrAI07_1FD8
-    load_has_type TRAI_SIDE_ATTACKER_PARTNER, TYPE_ROCK
-    if_equal 1, TrAI07_1FD8
-    jump TrAI07_1FB8
-TrAI07_0A12:
-    if_hp_equal TRAI_SIDE_ATTACKER_PARTNER, 0, TrAI07_0B00
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_FUTURE_SIGHT, TrAI07_0A42
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_DOOM_DESIRE, TrAI07_0A42
-    jump TrAI07_0B00
-TrAI07_0A42:
-    load_speed_order TRAI_SIDE_ATTACKER
-    if_equal 3, TrAI07_1FB8
-    if_equal 2, TrAI07_0A76
-    if_equal 1, TrAI07_0AB0
-    if_equal 0, TrAI07_0AE0
-    jump TrAI07_0B00
-TrAI07_0A76:
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_equal 0, TrAI07_1FB8
-    if_equal 1, TrAI07_1FB8
-    if_random_less_than 128, TrAI07_0B00
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_equal 2, TrAI07_1FB8
-    jump TrAI07_0B00
-TrAI07_0AB0:
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_equal 0, TrAI07_1FB8
-    if_random_less_than 128, TrAI07_0B00
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_equal 1, TrAI07_1FB8
-    jump TrAI07_0B00
-TrAI07_0AE0:
-    if_random_less_than 128, TrAI07_0B00
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_equal 0, TrAI07_1FB8
-    jump TrAI07_0B00
-TrAI07_0B00:
-    end
-TrAI07_0B02:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_TRUANT, TrAI07_2008
-    if_equal ABILITY_SLOW_START, TrAI07_2008
-    if_equal ABILITY_STALL, TrAI07_2008
-    if_equal ABILITY_KLUTZ, TrAI07_2008
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_SHADOW_TAG, TrAI07_1FF8
-    if_equal ABILITY_PURE_POWER, TrAI07_1FF8
-    if_equal ABILITY_HUGE_POWER, TrAI07_1FF8
-    if_equal ABILITY_MOLD_BREAKER, TrAI07_1FF8
-    if_equal ABILITY_SOLID_ROCK, TrAI07_1FF8
-    if_equal ABILITY_FILTER, TrAI07_1FF8
-    if_equal ABILITY_FLOWER_GIFT, TrAI07_1FF8
-    end
-TrAI07_0B7E:
-    if_move MOVE_DISCHARGE, TrAI07_0BE6
-    load_known_ability_is TRAI_SIDE_DEFENDER_PARTNER, ABILITY_LIGHTNINGROD
-    if_equal 1, TrAI07_0BA2
-    jump TrAI07_0BC2
-TrAI07_0BA2:
-    add_to_score -1
-    load_has_type TRAI_SIDE_DEFENDER_PARTNER, TYPE_GROUND
-    if_equal 0, TrAI07_0BC2
-    add_to_score -8
-TrAI07_0BC2:
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_LIGHTNINGROD
-    if_equal 1, TrAI07_1FD8
-    if_move MOVE_DISCHARGE, TrAI07_0BE6
-    jump TrAI07_0C50
-TrAI07_0BE6:
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_MOTOR_DRIVE
-    if_equal 1, TrAI07_2000
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_VOLT_ABSORB
-    if_equal 1, TrAI07_2000
-    load_has_type TRAI_SIDE_ATTACKER_PARTNER, TYPE_WATER
-    if_equal 1, TrAI07_1FD8
-    load_has_type TRAI_SIDE_ATTACKER_PARTNER, TYPE_FLYING
-    if_equal 1, TrAI07_1FD8
-    load_has_type TRAI_SIDE_ATTACKER_PARTNER, TYPE_GROUND
-    if_equal 1, TrAI07_2000
-    add_to_score -3
-TrAI07_0C50:
-    end
-TrAI07_0C52:
-    if_move MOVE_SURF, TrAI07_0C9A
-    load_known_ability_is TRAI_SIDE_DEFENDER_PARTNER, ABILITY_STORM_DRAIN
-    if_equal 0, TrAI07_0C76
-    add_to_score -1
-TrAI07_0C76:
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_STORM_DRAIN
-    if_equal 1, TrAI07_1FD8
-    if_move MOVE_SURF, TrAI07_0C9A
-    jump TrAI07_0CF0
-TrAI07_0C9A:
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_DRY_SKIN
-    if_equal 1, TrAI07_2000
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_WATER_ABSORB
-    if_equal 1, TrAI07_2000
-    load_has_type TRAI_SIDE_ATTACKER_PARTNER, TYPE_GROUND
-    if_equal 1, TrAI07_1FD8
-    load_has_type TRAI_SIDE_ATTACKER_PARTNER, TYPE_FIRE
-    if_equal 1, TrAI07_1FD8
-    add_to_score -3
-TrAI07_0CF0:
-    end
-TrAI07_0CF2:
-    if_flash_fire TRAI_SIDE_ATTACKER, TrAI07_0D02
-    jump TrAI07_0D08
-TrAI07_0D02:
-    add_to_score 1
-TrAI07_0D08:
-    if_move MOVE_LAVA_PLUME, TrAI07_0D18
-    jump TrAI07_0D96
-TrAI07_0D18:
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_DRY_SKIN
-    if_equal 1, TrAI07_1FB8
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_FLASH_FIRE
-    if_equal 1, TrAI07_2000
-    load_has_type TRAI_SIDE_ATTACKER_PARTNER, TYPE_GRASS
-    if_equal 1, TrAI07_1FD8
-    load_has_type TRAI_SIDE_ATTACKER_PARTNER, TYPE_STEEL
-    if_equal 1, TrAI07_1FD8
-    load_has_type TRAI_SIDE_ATTACKER_PARTNER, TYPE_ICE
-    if_equal 1, TrAI07_1FD8
-    load_has_type TRAI_SIDE_ATTACKER_PARTNER, TYPE_BUG
-    if_equal 1, TrAI07_1FD8
-    add_to_score -3
-TrAI07_0D96:
-    end
-TrAI07_0D98:
-    if_random_less_than 50, TrAI07_0DB2
-    load_last_move TRAI_SIDE_ATTACKER
-    if_equal MOVE_WIDE_GUARD, TrAI07_0DC4
-TrAI07_0DB2:
-    load_last_move TRAI_SIDE_DEFENDER
-    if_not_in_list TrAI07_0DE2, TrAI07_0DD0
-    end
-TrAI07_0DC4:
-    add_to_score -4
-    jump TrAI07_0DE0
-TrAI07_0DD0:
-    if_random_less_than 80, TrAI07_0DE0
-    add_to_score 2
-TrAI07_0DE0:
-    end
-TrAI07_0DE2:
-    .4byte MOVE_BLIZZARD
-    .4byte MOVE_ROCK_SLIDE
-    .4byte MOVE_HEAT_WAVE
-    .4byte MOVE_ERUPTION
-    .4byte MOVE_WATER_SPOUT
-    .4byte MOVE_MUDDY_WATER
-    .4byte MOVE_GLACIATE
-    .4byte MOVE_SNARL
-    .4byte MOVE_SURF
-    .4byte MOVE_EARTHQUAKE
-    .4byte MOVE_DISCHARGE
-    .4byte MOVE_LAVA_PLUME
-    .4byte MOVE_SLUDGE_WAVE
-    .4byte MOVE_BULLDOZE
-    .4byte MOVE_SEARING_SHOT
-    list_end
-TrAI07_0E22:
-    if_not_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_ROUND, TrAI07_0E46
-    if_turn_random_less_than 128, TrAI07_0E46
-    add_to_score 3
-    jump TrAI07_0E4C
-TrAI07_0E46:
-    add_to_score -1
-TrAI07_0E4C:
-    end
-TrAI07_0E4E:
-    load_species TRAI_SIDE_DEFENDER
-    if_in_list TrAI07_0E9C, TrAI07_0E64
-    jump TrAI07_0E9A
-TrAI07_0E64:
-    load_fake_out_active TRAI_SIDE_DEFENDER
-    if_not_equal 0, TrAI07_0E9A
-    if_random_less_than 128, TrAI07_0E9A
-    add_to_score 2
-    jump TrAI07_0E9A
-    if_random_less_than 128, TrAI07_0E9A
-    add_to_score -1
-TrAI07_0E9A:
-    end
-TrAI07_0E9C:
-    .4byte SPECIES_BLASTOISE
-    .4byte SPECIES_PERSIAN
-    .4byte SPECIES_DEWGONG
-    .4byte SPECIES_KANGASKHAN
-    .4byte SPECIES_MR_MIME
-    .4byte SPECIES_PIKACHU
-    .4byte SPECIES_RAICHU
-    .4byte SPECIES_AMBIPOM
-    .4byte SPECIES_WEAVILE
-    .4byte SPECIES_HITMONCHAN
-    .4byte SPECIES_HITMONLEE
-    .4byte SPECIES_HITMONTOP
-    .4byte SPECIES_JYNX
-    .4byte SPECIES_LUDICOLO
-    .4byte SPECIES_SHIFTRY
-    .4byte SPECIES_HARIYAMA
-    .4byte SPECIES_DELCATTY
-    .4byte SPECIES_SABLEYE
-    .4byte SPECIES_MEDICHAM
-    .4byte SPECIES_SPINDA
-    .4byte SPECIES_KECLEON
-    .4byte SPECIES_INFERNAPE
-    .4byte SPECIES_LOPUNNY
-    .4byte SPECIES_PURUGLY
-    .4byte SPECIES_CROAGUNK
-    .4byte SPECIES_DELIBIRD
-    .4byte SPECIES_SCRAFTY
-    .4byte SPECIES_LIEPARD
-    list_end
-TrAI07_0F10:
-    jump TrAI07_1FD8
-TrAI07_0F16:
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_equal 0, TrAI07_1FD8
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_equal 1, TrAI07_1FD8
-    load_speed_order TRAI_SIDE_ATTACKER
-    if_equal 0, TrAI07_0F4C
-    jump TrAI07_1FD8
-TrAI07_0F4C:
-    if_turn_random_less_than 128, TrAI07_0F5C
-    add_to_score 1
-TrAI07_0F5C:
-    end
-TrAI07_0F5E:
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_AFTER_YOU, TrAI07_0F6E
-    end
-TrAI07_0F6E:
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_not_equal 0, TrAI07_1FD8
-    load_speed_order TRAI_SIDE_ATTACKER
-    if_equal 0, TrAI07_1FD8
-    if_equal 1, TrAI07_1FD8
-    if_turn_random_less_than 128, TrAI07_0FA8
-    add_to_score 3
-TrAI07_0FA8:
-    end
-TrAI07_0FAA:
-    add_to_score -40
-    end
-TrAI07_0FB2:
-    if_fainted TRAI_SIDE_ATTACKER_PARTNER, TrAI07_1FA0
-    load_damage_rank 0
-    if_equal 0, TrAI07_1236
-    load_type TRAI_TYPE_MOVE
-    if_equal TYPE_FIRE, TrAI07_1000
-    if_equal TYPE_ELECTRIC, TrAI07_1058
-    if_equal TYPE_WATER, TrAI07_116A
-    if_move MOVE_FLING, TrAI07_173C
-TrAI07_0FFA:
-    jump TrAI07_1FE8
-TrAI07_1000:
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_FLASH_FIRE
-    if_equal 1, TrAI07_101A
-    jump TrAI07_0FFA
-TrAI07_101A:
-    if_flash_fire TRAI_SIDE_ATTACKER_PARTNER, TrAI07_0FFA
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI07_0FFA
-    if_equal ABILITY_TURBOBLAZE, TrAI07_0FFA
-    if_equal ABILITY_TERAVOLT, TrAI07_0FFA
-    if_random_less_than 150, TrAI07_0FFA
-    jump TrAI07_1FF0
-TrAI07_1058:
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_MOTOR_DRIVE
-    if_equal 1, TrAI07_1086
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_VOLT_ABSORB
-    if_equal 1, TrAI07_10CC
-    jump TrAI07_0FFA
-TrAI07_1086:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI07_0FFA
-    if_equal ABILITY_TURBOBLAZE, TrAI07_0FFA
-    if_equal ABILITY_TERAVOLT, TrAI07_0FFA
-    if_random_less_than 160, TrAI07_1168
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 5, 7, TrAI07_0FFA
-    jump TrAI07_1FF0
-TrAI07_10CC:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI07_0FFA
-    if_equal ABILITY_TURBOBLAZE, TrAI07_0FFA
-    if_equal ABILITY_TERAVOLT, TrAI07_0FFA
-    if_random_less_than 150, TrAI07_0FFA
-    if_hp_equal TRAI_SIDE_ATTACKER_PARTNER, 100, TrAI07_1FD8
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 90, TrAI07_1168
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 75, TrAI07_1138
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 50, TrAI07_1148
-    jump TrAI07_1158
-TrAI07_1138:
-    if_random_less_than 64, TrAI07_1FF0
-    jump TrAI07_1168
-TrAI07_1148:
-    if_random_less_than 128, TrAI07_1FF0
-    jump TrAI07_1168
-TrAI07_1158:
-    if_random_less_than 192, TrAI07_1FF0
-    jump TrAI07_1168
-TrAI07_1168:
-    end
-TrAI07_116A:
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_WATER_ABSORB
-    if_equal 1, TrAI07_1198
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_DRY_SKIN
-    if_equal 1, TrAI07_1198
-    jump TrAI07_0FFA
-TrAI07_1198:
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_MOLD_BREAKER, TrAI07_0FFA
-    if_equal ABILITY_TURBOBLAZE, TrAI07_0FFA
-    if_equal ABILITY_TERAVOLT, TrAI07_0FFA
-    if_random_less_than 150, TrAI07_0FFA
-    if_hp_equal TRAI_SIDE_ATTACKER_PARTNER, 100, TrAI07_1FD8
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 90, TrAI07_1234
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 75, TrAI07_1204
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 50, TrAI07_1214
-    jump TrAI07_1224
-TrAI07_1204:
-    if_random_less_than 64, TrAI07_1FF0
-    jump TrAI07_1234
-TrAI07_1214:
-    if_random_less_than 128, TrAI07_1FF0
-    jump TrAI07_1234
-TrAI07_1224:
-    if_random_less_than 192, TrAI07_1FF0
-    jump TrAI07_1234
-TrAI07_1234:
-    end
-TrAI07_1236:
-    if_move MOVE_SKILL_SWAP, TrAI07_12D2
-    if_move MOVE_ROLE_PLAY, TrAI07_14F2
-    if_move MOVE_WILL_O_WISP, TrAI07_157E
-    if_move MOVE_THUNDER_WAVE, TrAI07_1600
-    if_move_effect 33, TrAI07_164E
-    if_move_effect 66, TrAI07_164E
-    if_move MOVE_HELPING_HAND, TrAI07_168E
-    if_move MOVE_SWAGGER, TrAI07_16D8
-    if_move MOVE_TRICK, TrAI07_173C
-    if_move MOVE_SWITCHEROO, TrAI07_173C
-    if_move MOVE_BESTOW, TrAI07_173C
-    if_move MOVE_GASTRO_ACID, TrAI07_1CF6
-    if_move MOVE_ACUPRESSURE, TrAI07_1D3A
-    if_move MOVE_AFTER_YOU, TrAI07_1DFC
-    if_move MOVE_HEAL_PULSE, TrAI07_1EC8
-    jump TrAI07_1FA0
-TrAI07_12D2:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_TRUANT, TrAI07_2010
-    if_equal ABILITY_SLOW_START, TrAI07_2010
-    load_known_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_LEVITATE, TrAI07_132A
-    if_equal ABILITY_COMPOUNDEYES, TrAI07_13C2
-    if_equal ABILITY_NO_GUARD, TrAI07_13C2
-    if_equal ABILITY_INSOMNIA, TrAI07_14CA
-    if_equal ABILITY_OWN_TEMPO, TrAI07_14DE
-    jump TrAI07_1FA0
-TrAI07_132A:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_LEVITATE, TrAI07_1FD8
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_FLYING, TrAI07_1FD0
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_FLYING, TrAI07_1FD0
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_GRASS, TrAI07_1FC0
-    if_equal TYPE_BUG, TrAI07_1FC0
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_GRASS, TrAI07_1FC0
-    if_equal TYPE_BUG, TrAI07_1FC0
-    if_condition TRAI_SIDE_DEFENDER, 30, TrAI07_1FB0
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_ELECTRIC, TrAI07_2000
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_ELECTRIC, TrAI07_2000
-    jump TrAI07_1FA0
-TrAI07_13C2:
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_FIRE_BLAST, TrAI07_14C4
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_THUNDER, TrAI07_14C4
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_CROSS_CHOP, TrAI07_14C4
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_HYDRO_PUMP, TrAI07_14C4
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_DYNAMIC_PUNCH, TrAI07_14C4
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_BLIZZARD, TrAI07_14C4
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_ZAP_CANNON, TrAI07_14C4
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_MEGAHORN, TrAI07_14C4
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_FOCUS_BLAST, TrAI07_14C4
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_GUNK_SHOT, TrAI07_14C4
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_MAGMA_STORM, TrAI07_14C4
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_POWER_WHIP, TrAI07_14C4
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_SEED_FLARE, TrAI07_14C4
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_HEAD_SMASH, TrAI07_14C4
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_SHEER_COLD, TrAI07_14C4
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_FISSURE, TrAI07_14C4
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_GUILLOTINE, TrAI07_14C4
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_HORN_DRILL, TrAI07_14C4
-    jump TrAI07_1FA0
-TrAI07_14C4:
-    jump TrAI07_2000
-TrAI07_14CA:
-    if_not_condition TRAI_SIDE_DEFENDER, 2, TrAI07_1FD0
-    jump TrAI07_2000
-TrAI07_14DE:
-    if_not_condition TRAI_SIDE_DEFENDER, 6, TrAI07_1FD0
-    jump TrAI07_2000
-TrAI07_14F2:
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_in_list TrAI07_152E, TrAI07_151C
-    if_random_less_than 128, TrAI07_1FA0
-    if_in_list TrAI07_154A, TrAI07_151C
-    jump TrAI07_1FA0
-TrAI07_151C:
-    if_random_less_than 50, TrAI07_152C
-    add_to_score 1
-TrAI07_152C:
-    end
-TrAI07_152E:
-    .4byte ABILITY_TELEPATHY
-    .4byte ABILITY_FRIEND_GUARD
-    .4byte ABILITY_SPEED_BOOST
-    .4byte ABILITY_INTIMIDATE
-    .4byte ABILITY_PURE_POWER
-    .4byte ABILITY_CURSED_BODY
-    list_end
-TrAI07_154A:
-    .4byte ABILITY_SOLAR_POWER
-    .4byte ABILITY_DRY_SKIN
-    .4byte ABILITY_MOTOR_DRIVE
-    .4byte ABILITY_RAIN_DISH
-    .4byte ABILITY_HUGE_POWER
-    .4byte ABILITY_CHLOROPHYLL
-    .4byte ABILITY_SWIFT_SWIM
-    .4byte ABILITY_ICE_BODY
-    .4byte ABILITY_HARVEST
-    .4byte ABILITY_SAND_RUSH
-    .4byte ABILITY_MAGIC_BOUNCE
-    .4byte ABILITY_PRANKSTER
-    list_end
-TrAI07_157E:
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_FLASH_FIRE
-    if_equal 1, TrAI07_1000
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_GUTS
-    if_not_equal 1, TrAI07_1FA0
-    if_status TRAI_SIDE_ATTACKER_PARTNER, TrAI07_1FA0
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_FIRE, TrAI07_1FA0
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_FIRE, TrAI07_1FA0
-    if_held_item TRAI_SIDE_ATTACKER_PARTNER, ITEM_FLAME_ORB, TrAI07_1FA0
-    if_held_item TRAI_SIDE_ATTACKER_PARTNER, ITEM_TOXIC_ORB, TrAI07_1FA0
-    if_hp_less_than TRAI_SIDE_ATTACKER_PARTNER, 81, TrAI07_1FA0
-    jump TrAI07_2008
-TrAI07_1600:
-    load_type TRAI_TYPE_DEFENDER_1
-    if_equal TYPE_GROUND, TrAI07_1FA0
-    load_type TRAI_TYPE_DEFENDER_2
-    if_equal TYPE_GROUND, TrAI07_1FA0
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_MOTOR_DRIVE
-    if_equal 1, TrAI07_1058
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_VOLT_ABSORB
-    if_equal 1, TrAI07_1058
-    jump TrAI07_1FA0
-TrAI07_164E:
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_POISON_HEAL
-    if_not_equal 1, TrAI07_1FA0
-    if_status TRAI_SIDE_DEFENDER, TrAI07_1FA0
-    if_held_item TRAI_SIDE_ATTACKER_PARTNER, ITEM_TOXIC_ORB, TrAI07_1FA0
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 91, TrAI07_1FA0
-    jump TrAI07_2008
-TrAI07_168E:
-    if_hp_equal TRAI_SIDE_ATTACKER_PARTNER, 0, TrAI07_1FE8
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 50, TrAI07_16C6
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_less_than 1, TrAI07_16C6
-    add_to_score -1
-    jump TrAI07_16D6
-TrAI07_16C6:
-    if_turn_random_less_than 128, TrAI07_16D6
-    add_to_score 3
-TrAI07_16D6:
-    end
-TrAI07_16D8:
-    if_attack_less_than_sp_attack TRAI_SIDE_DEFENDER, TrAI07_171C
-    if_held_item TRAI_SIDE_DEFENDER, ITEM_PERSIM_BERRY, TrAI07_1722
-    if_held_item TRAI_SIDE_DEFENDER, ITEM_LUM_BERRY, TrAI07_1722
-    load_known_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_OWN_TEMPO, TrAI07_1722
-    if_side_effect TRAI_SIDE_DEFENDER, 2, TrAI07_1722
-TrAI07_171C:
-    jump TrAI07_1FA0
-TrAI07_1722:
-    if_stat_stage_greater_than TRAI_SIDE_DEFENDER, 1, 7, TrAI07_173A
-    add_to_score 3
-TrAI07_173A:
-    end
-TrAI07_173C:
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_LUM_BERRY, TrAI07_17CE
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_CHESTO_BERRY, TrAI07_1824
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_CHERI_BERRY, TrAI07_1838
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_RAWST_BERRY, TrAI07_184C
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_ASPEAR_BERRY, TrAI07_1860
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_PECHA_BERRY, TrAI07_1874
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_PERSIM_BERRY, TrAI07_1884
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_WHITE_HERB, TrAI07_1898
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_SITRUS_BERRY, TrAI07_196C
-    if_held_item TRAI_SIDE_ATTACKER, ITEM_MENTAL_HERB, TrAI07_192E
-    jump TrAI07_1FA0
-TrAI07_17CE:
-    if_condition TRAI_SIDE_DEFENDER, 2, TrAI07_1980
-    if_condition TRAI_SIDE_DEFENDER, 1, TrAI07_1A06
-    if_condition TRAI_SIDE_DEFENDER, 3, TrAI07_1A38
-    if_condition TRAI_SIDE_DEFENDER, 3, TrAI07_1AC8
-    if_badly_poisoned TRAI_SIDE_DEFENDER, TrAI07_1B9C
-    if_condition TRAI_SIDE_DEFENDER, 6, TrAI07_1B32
-    jump TrAI07_1FA0
-TrAI07_1824:
-    if_condition TRAI_SIDE_DEFENDER, 2, TrAI07_1980
-    jump TrAI07_1FA0
-TrAI07_1838:
-    if_condition TRAI_SIDE_DEFENDER, 1, TrAI07_1A06
-    jump TrAI07_1FA0
-TrAI07_184C:
-    if_condition TRAI_SIDE_DEFENDER, 3, TrAI07_1A38
-    jump TrAI07_1FA0
-TrAI07_1860:
-    if_condition TRAI_SIDE_DEFENDER, 3, TrAI07_1AC8
-    jump TrAI07_1FA0
-TrAI07_1874:
-    if_badly_poisoned TRAI_SIDE_DEFENDER, TrAI07_1B9C
-    jump TrAI07_1FA0
-TrAI07_1884:
-    if_condition TRAI_SIDE_DEFENDER, 6, TrAI07_1B32
-    jump TrAI07_1FA0
-TrAI07_1898:
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER_PARTNER, 1, 5, TrAI07_1C02
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER_PARTNER, 2, 5, TrAI07_1C02
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER_PARTNER, 3, 5, TrAI07_1C02
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER_PARTNER, 4, 5, TrAI07_1C02
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER_PARTNER, 7, 5, TrAI07_1C02
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER_PARTNER, 5, 5, TrAI07_1C02
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER_PARTNER, 4, 5, TrAI07_1C02
-    if_stat_stage_less_than TRAI_SIDE_ATTACKER_PARTNER, 7, 5, TrAI07_1C02
-    jump TrAI07_1FA0
-TrAI07_192E:
-    if_condition TRAI_SIDE_DEFENDER, 7, TrAI07_1C7A
-    if_condition TRAI_SIDE_DEFENDER, 6, TrAI07_1B32
-    if_condition TRAI_SIDE_DEFENDER, 12, TrAI07_1C7A
-    if_condition TRAI_SIDE_DEFENDER, 11, TrAI07_1C7A
-    jump TrAI07_1FA0
-TrAI07_196C:
-    if_hp_less_than TRAI_SIDE_ATTACKER_PARTNER, 50, TrAI07_1FA0
-    jump TrAI07_1CE4
-TrAI07_1980:
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_SNORE, TrAI07_1FA0
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_SLEEP_TALK, TrAI07_1FA0
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 40, TrAI07_1CE4
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 2, 7, TrAI07_1CE4
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 4, 7, TrAI07_1CE4
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 7, 7, TrAI07_1CE4
-    load_speed_order TRAI_SIDE_ATTACKER
-    if_not_equal 0, TrAI07_1FA0
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_not_equal 1, TrAI07_1FA0
-    jump TrAI07_1CE4
-TrAI07_1A06:
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_REST, TrAI07_1FA0
-    if_hp_less_than TRAI_SIDE_ATTACKER_PARTNER, 80, TrAI07_1FA0
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_not_equal 3, TrAI07_1FA0
-    jump TrAI07_1CE4
-TrAI07_1A38:
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_REST, TrAI07_1FA0
-    if_hp_less_than TRAI_SIDE_ATTACKER_PARTNER, 40, TrAI07_1FA0
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 2, 7, TrAI07_1CE4
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 4, 7, TrAI07_1CE4
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 7, 7, TrAI07_1CE4
-    if_attack_less_than_sp_attack TRAI_SIDE_ATTACKER_PARTNER, TrAI07_1FA0
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 80, TrAI07_1CE4
-    load_speed_order TRAI_SIDE_ATTACKER
-    if_not_equal 0, TrAI07_1FA0
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_not_equal 1, TrAI07_1FA0
-    jump TrAI07_1CE4
-TrAI07_1AC8:
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 40, TrAI07_1CE4
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 2, 7, TrAI07_1CE4
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 4, 7, TrAI07_1CE4
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 7, 7, TrAI07_1CE4
-    load_speed_order TRAI_SIDE_ATTACKER
-    if_not_equal 0, TrAI07_1FA0
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_not_equal 1, TrAI07_1FA0
-    jump TrAI07_1CE4
-TrAI07_1B32:
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 40, TrAI07_1CE4
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 2, 7, TrAI07_1CE4
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 4, 7, TrAI07_1CE4
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 7, 7, TrAI07_1CE4
-    load_speed_order TRAI_SIDE_ATTACKER
-    if_not_equal 0, TrAI07_1FA0
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_not_equal 1, TrAI07_1FA0
-    jump TrAI07_1CE4
-TrAI07_1B9C:
-    if_knows_move TRAI_SIDE_ATTACKER_PARTNER, MOVE_REST, TrAI07_1FA0
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 80, TrAI07_1CE4
-    if_hp_less_than TRAI_SIDE_ATTACKER_PARTNER, 40, TrAI07_1FA0
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 2, 7, TrAI07_1CE4
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 4, 7, TrAI07_1CE4
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 7, 7, TrAI07_1CE4
-    jump TrAI07_1FA0
-TrAI07_1C02:
-    if_hp_less_than TRAI_SIDE_ATTACKER_PARTNER, 40, TrAI07_1FA0
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 2, 7, TrAI07_1CE4
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 4, 7, TrAI07_1CE4
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 7, 7, TrAI07_1CE4
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 80, TrAI07_1CE4
-    load_speed_order TRAI_SIDE_ATTACKER
-    if_not_equal 0, TrAI07_1FA0
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_not_equal 1, TrAI07_1FA0
-    jump TrAI07_1CE4
-TrAI07_1C7A:
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 40, TrAI07_1CE4
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 2, 7, TrAI07_1CE4
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 4, 7, TrAI07_1CE4
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 7, 7, TrAI07_1CE4
-    load_speed_order TRAI_SIDE_ATTACKER
-    if_not_equal 0, TrAI07_1FA0
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_not_equal 1, TrAI07_1FA0
-    jump TrAI07_1CE4
-TrAI07_1CE4:
-    if_turn_random_less_than 128, TrAI07_1CF4
-    add_to_score 3
-TrAI07_1CF4:
-    end
-TrAI07_1CF6:
-    if_condition TRAI_SIDE_ATTACKER_PARTNER, 16, TrAI07_1FA0
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_TRUANT
-    if_equal 1, TrAI07_1D32
-    load_known_ability_is TRAI_SIDE_ATTACKER_PARTNER, ABILITY_SLOW_START
-    if_equal 1, TrAI07_1D32
-    jump TrAI07_1D38
-TrAI07_1D32:
-    add_to_score 5
-TrAI07_1D38:
-    end
-TrAI07_1D3A:
-    if_stat_stage_equal TRAI_SIDE_ATTACKER_PARTNER, 1, 12, TrAI07_1FA0
-    if_stat_stage_equal TRAI_SIDE_ATTACKER_PARTNER, 2, 12, TrAI07_1FA0
-    if_stat_stage_equal TRAI_SIDE_ATTACKER_PARTNER, 5, 12, TrAI07_1FA0
-    if_stat_stage_equal TRAI_SIDE_ATTACKER_PARTNER, 3, 12, TrAI07_1FA0
-    if_stat_stage_equal TRAI_SIDE_ATTACKER_PARTNER, 4, 12, TrAI07_1FA0
-    if_stat_stage_equal TRAI_SIDE_ATTACKER_PARTNER, 7, 12, TrAI07_1FA0
-    if_stat_stage_equal TRAI_SIDE_ATTACKER_PARTNER, 6, 12, TrAI07_1FA0
-    if_hp_less_than TRAI_SIDE_ATTACKER_PARTNER, 51, TrAI07_1DF4
-    if_hp_greater_than TRAI_SIDE_ATTACKER_PARTNER, 90, TrAI07_1DDE
-    if_random_less_than 128, TrAI07_1DFA
-TrAI07_1DDE:
-    if_random_less_than 80, TrAI07_1DFA
-    add_to_score 2
-    jump TrAI07_1DFA
-TrAI07_1DF4:
-    add_to_score -1
-TrAI07_1DFA:
-    end
-TrAI07_1DFC:
-    load_speed_order TRAI_SIDE_ATTACKER
-    if_not_equal 0, TrAI07_1FD8
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_equal 0, TrAI07_1FD8
-    if_equal 1, TrAI07_1FD8
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 313, TrAI07_1EB6
-    if_field_effect 1, TrAI07_1E4C
-    if_knows_move TRAI_SIDE_DEFENDER, MOVE_TRICK_ROOM, TrAI07_1EB6
-TrAI07_1E4C:
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 190, TrAI07_1EB6
-    if_knows_move TRAI_SIDE_DEFENDER, MOVE_DARK_VOID, TrAI07_1EB6
-    if_knows_move TRAI_SIDE_DEFENDER, MOVE_BLIZZARD, TrAI07_1EB6
-    if_knows_move TRAI_SIDE_DEFENDER, MOVE_ROCK_SLIDE, TrAI07_1EB6
-    if_knows_move TRAI_SIDE_DEFENDER, MOVE_ROCK_SLIDE, TrAI07_1EB6
-    if_knows_move_effect TRAI_SIDE_DEFENDER, 28, TrAI07_1EC6
-    if_random_less_than 50, TrAI07_1EC6
-    add_to_score -2
-    jump TrAI07_1EC6
-TrAI07_1EB6:
-    if_turn_random_less_than 128, TrAI07_1EC6
-    add_to_score 3
-TrAI07_1EC6:
-    end
-TrAI07_1EC8:
-    if_hp_equal TRAI_SIDE_DEFENDER, 0, TrAI07_1FA0
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 100, TrAI07_1F98
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 70, TrAI07_1F6C
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 30, TrAI07_1F82
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 2, 7, TrAI07_1F82
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 4, 7, TrAI07_1F82
-    if_stat_stage_greater_than TRAI_SIDE_ATTACKER_PARTNER, 7, 7, TrAI07_1F82
-    load_speed_order TRAI_SIDE_ATTACKER
-    if_equal 0, TrAI07_1F82
-    load_speed_order TRAI_SIDE_ATTACKER_PARTNER
-    if_not_equal 0, TrAI07_1F98
-    load_speed_order TRAI_SIDE_ATTACKER
-    if_equal 1, TrAI07_1F82
-    jump TrAI07_1F98
-TrAI07_1F6C:
-    load_speed_order TRAI_SIDE_ATTACKER
-    if_equal 3, TrAI07_1F82
-    jump TrAI07_1F98
-TrAI07_1F82:
-    if_turn_random_less_than 128, TrAI07_1F98
-    add_to_score 3
-    jump TrAI07_1F98
-TrAI07_1F98:
-    add_to_score -1
-    end
-TrAI07_1FA0:
-    add_to_score -30
-    end
-    add_to_score -1
-    end
-TrAI07_1FB0:
-    add_to_score -2
-    end
-TrAI07_1FB8:
-    add_to_score -3
-    end
-TrAI07_1FC0:
-    add_to_score -5
-    end
-    add_to_score -6
-    end
-TrAI07_1FD0:
-    add_to_score -8
-    end
-TrAI07_1FD8:
-    add_to_score -10
-    end
-    add_to_score -12
-    end
-TrAI07_1FE8:
-    add_to_score -30
-    end
-TrAI07_1FF0:
-    add_to_score 1
-    end
-TrAI07_1FF8:
-    add_to_score 2
-    end
-TrAI07_2000:
-    add_to_score 3
-    end
-TrAI07_2008:
-    add_to_score 5
-    end
-TrAI07_2010:
-    add_to_score 10
-    end
+// AI flag 7, TagStrategy: double and triple battles only. Scores moves by how they affect the attacker's partners,
+// such as spread moves that also hit them, and from TagStrategy_Partner, moves aimed at a partner.
+
+// Only for double and triple battles
+TagStrategy_Main:
+    LoadBattleStyle
+
+TagStrategy_CheckBattleStyle:
+    IfLoadedEqualTo BTL_STYLE_DOUBLE, TagStrategy_MultiBattle
+    IfLoadedEqualTo BTL_STYLE_TRIPLE, TagStrategy_MultiBattle
+    End
+
+TagStrategy_MultiBattle:
+    IfTargetIsPartner TagStrategy_Partner
+    FlagMoveDamageScore USE_MIN_DAMAGE
+    IfLoadedEqualTo AI_MOVE_DEALS_NO_DAMAGE, TagStrategy_CheckSpecialScoring
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_ONE_HIT_KO, TagStrategy_ScoreMove
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_40_DAMAGE_FLAT, TagStrategy_ScoreMove
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_LEVEL_DAMAGE_FLAT, TagStrategy_ScoreMove
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_RANDOM_DAMAGE_1_TO_150_LEVEL, TagStrategy_ScoreMove
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_20_DAMAGE_FLAT, TagStrategy_ScoreMove
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_HALF, TagStrategy_TryScoreMinus1
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUARTER, TagStrategy_TryScoreMinus2
+    GoTo TagStrategy_ScoreMove
+
+TagStrategy_TryScoreMinus1:
+    IfCurrentMoveKills 0, TagStrategy_ScoreMove
+    IfHPPercentEqualTo AI_BATTLER_DEFENDER_PARTNER, 0, TagStrategy_ScoreMove
+    IfRandomLessThan 64, TagStrategy_ScoreMove
+    AddToMoveScore -1
+    GoTo TagStrategy_ScoreMove
+
+TagStrategy_TryScoreMinus2:
+    IfCurrentMoveKills 0, TagStrategy_ScoreMove
+    IfHPPercentEqualTo AI_BATTLER_DEFENDER_PARTNER, 0, TagStrategy_ScoreMove
+    IfRandomLessThan 64, TagStrategy_ScoreMove
+    AddToMoveScore -2
+    GoTo TagStrategy_ScoreMove
+
+TagStrategy_ScoreMove:
+    CheckIfHighestDamageWithPartner USE_MIN_DAMAGE
+    IfLoadedNotEqualTo AI_MOVE_IS_HIGHEST_DAMAGE, TagStrategy_CheckBeforeScoring
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_HALVE_DEFENSE, TagStrategy_CheckSpecialScoring
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_PRIORITY_1, TagStrategy_TryScorePlus1
+    IfRandomLessThan 128, TagStrategy_CheckBeforeScoring
+    AddToMoveScore 1
+    GoTo TagStrategy_CheckSpecialScoring
+
+TagStrategy_TryScorePlus1:
+    IfRandomLessThan 50, TagStrategy_CheckBeforeScoring
+    AddToMoveScore 1
+    GoTo TagStrategy_CheckSpecialScoring
+
+TagStrategy_CheckBeforeScoring:
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_ONE_HIT_KO, TagStrategy_CheckSpecialScoring
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_40_DAMAGE_FLAT, TagStrategy_CheckSpecialScoring
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_LEVEL_DAMAGE_FLAT, TagStrategy_CheckSpecialScoring
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_RANDOM_DAMAGE_1_TO_150_LEVEL, TagStrategy_CheckSpecialScoring
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_20_DAMAGE_FLAT, TagStrategy_CheckSpecialScoring
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_DOUBLE, TagStrategy_TryPrioritizingDoubleEffective
+    IfMoveEffectivenessEquals TYPE_EFFECTIVENESS_QUADRUPLE, TagStrategy_TryPrioritizingQuadEffective
+    GoTo TagStrategy_CheckSpecialScoring
+
+TagStrategy_TryPrioritizingDoubleEffective:
+    IfRandomLessThan 100, TagStrategy_CheckSpecialScoring
+    AddToMoveScore 1
+    GoTo TagStrategy_CheckSpecialScoring
+
+TagStrategy_TryPrioritizingQuadEffective:
+    IfRandomLessThan 64, TagStrategy_CheckSpecialScoring
+    AddToMoveScore 1
+    GoTo TagStrategy_CheckSpecialScoring
+
+TagStrategy_CheckSpecialScoring:
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_CIRCLE_THROW, TagStrategy_CircleThrow
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_DECREASE_POWER_WITH_LESS_USER_HP, TagStrategy_CircleThrow
+    IfMoveEqualTo MOVE_BLIZZARD, TagStrategy_CircleThrow
+    IfMoveEqualTo MOVE_BLIZZARD, TagStrategy_CircleThrow
+    IfMoveEqualTo MOVE_BLIZZARD, TagStrategy_CircleThrow
+    IfMoveEqualTo MOVE_WIDE_GUARD, TagStrategy_WideGuard
+    IfMoveEqualTo MOVE_ROUND, TagStrategy_Round
+    IfMoveEqualTo MOVE_ALLY_SWITCH, TagStrategy_AllySwitch
+    IfMoveEqualTo MOVE_QUASH, TagStrategy_Quash
+    IfMoveEqualTo MOVE_BESTOW, TagStrategy_Bestow
+    IfMoveEqualTo MOVE_SKILL_SWAP, TagStrategy_SkillSwap
+    LoadTypeFrom LOAD_MOVE_TYPE
+    IfMoveEqualTo MOVE_EARTHQUAKE, TagStrategy_Earthquake
+    IfMoveEqualTo MOVE_MAGNITUDE, TagStrategy_Earthquake
+    IfMoveEqualTo MOVE_FUTURE_SIGHT, TagStrategy_FutureSight
+    IfMoveEqualTo MOVE_DOOM_DESIRE, TagStrategy_FutureSight
+    IfMoveEqualTo MOVE_RAIN_DANCE, TagStrategy_RainDance
+    IfMoveEqualTo MOVE_SUNNY_DAY, TagStrategy_SunnyDay
+    IfMoveEqualTo MOVE_HAIL, TagStrategy_Hail
+    IfMoveEqualTo MOVE_SANDSTORM, TagStrategy_Sandstorm
+    IfMoveEqualTo MOVE_GRAVITY, TagStrategy_Gravity
+    IfMoveEqualTo MOVE_TRICK_ROOM, TagStrategy_TrickRoom
+    IfMoveEqualTo MOVE_FOLLOW_ME, TagStrategy_FollowMe
+    IfMoveEqualTo MOVE_HEAL_PULSE, TagStrategy_CircleThrow_ScoreMinus40
+    IfMoveEqualTo MOVE_AFTER_YOU, TagStrategy_CircleThrow_ScoreMinus40
+    IfMoveEqualTo MOVE_HELPING_HAND, TagStrategy_CircleThrow_ScoreMinus40
+    LoadTypeFrom LOAD_MOVE_TYPE
+    IfLoadedEqualTo TYPE_ELECTRIC, TagStrategy_CheckElectricMove
+    IfLoadedEqualTo TYPE_FIRE, TagStrategy_CheckFireMove
+    IfLoadedEqualTo TYPE_WATER, TagStrategy_CheckWaterMove
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_HELPING_HAND, TagStrategy_PartnerKnowsHelpingHand
+    End
+
+TagStrategy_RainDance:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_HYDRATION, TagStrategy_RainDance_SelfHasHydration
+    IfLoadedEqualTo ABILITY_DRY_SKIN, TagStrategy_RainDance_SelfScorePlus2
+    GoTo TagStrategy_RainDance_CheckPartner
+
+TagStrategy_RainDance_SelfHasHydration:
+    IfNotStatus AI_BATTLER_ATTACKER, TagStrategy_RainDance_CheckPartner
+
+TagStrategy_RainDance_SelfScorePlus2:
+    AddToMoveScore 2
+    GoTo TagStrategy_RainDance_CheckPartner
+
+TagStrategy_RainDance_CheckPartner:
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_HYDRATION
+    IfLoadedEqualTo TRUE, TagStrategy_RainDance_PartnerHasHydration
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_DRY_SKIN
+    IfLoadedEqualTo TRUE, TagStrategy_RainDance_PartnerScorePlus2
+    GoTo TagStrategy_RainDance_End
+
+TagStrategy_RainDance_PartnerHasHydration:
+    IfNotStatus AI_BATTLER_ATTACKER_PARTNER, TagStrategy_RainDance_End
+
+TagStrategy_RainDance_PartnerScorePlus2:
+    AddToMoveScore 2
+    GoTo TagStrategy_RainDance_End
+
+TagStrategy_RainDance_End:
+    End
+
+TagStrategy_SunnyDay:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_LEAF_GUARD, TagStrategy_SunnyDay_SelfHasLeafGuard
+    IfLoadedEqualTo ABILITY_FLOWER_GIFT, TagStrategy_SunnyDay_SelfScorePlus2
+    IfLoadedEqualTo ABILITY_DRY_SKIN, TagStrategy_SunnyDay_SelfScoreMinus2
+    IfLoadedEqualTo ABILITY_SOLAR_POWER, TagStrategy_SunnyDay_SelfHasSolarPower
+    GoTo TagStrategy_SunnyDay_CheckPartner
+
+TagStrategy_SunnyDay_SelfHasLeafGuard:
+    IfStatus AI_BATTLER_ATTACKER, TagStrategy_SunnyDay_CheckPartner
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 30, TagStrategy_SunnyDay_CheckPartner
+
+TagStrategy_SunnyDay_SelfScorePlus2:
+    AddToMoveScore 2
+    GoTo TagStrategy_SunnyDay_CheckPartner
+
+TagStrategy_SunnyDay_SelfScoreMinus2:
+    AddToMoveScore -2
+    GoTo TagStrategy_SunnyDay_CheckPartner
+
+TagStrategy_SunnyDay_SelfHasSolarPower:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER, 50, TagStrategy_SunnyDay_SelfTryScoreMinus2
+    AddToMoveScore 1
+
+TagStrategy_SunnyDay_SelfTryScoreMinus2:
+    IfRandomLessThan 128, TagStrategy_SunnyDay_CheckPartner
+    AddToMoveScore -2
+
+TagStrategy_SunnyDay_CheckPartner:
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_LEAF_GUARD
+    IfLoadedEqualTo TRUE, TagStrategy_SunnyDay_PartnerHasLeafGuard
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_FLOWER_GIFT
+    IfLoadedEqualTo TRUE, TagStrategy_SunnyDay_PartnerScorePlus2
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_DRY_SKIN
+    IfLoadedEqualTo TRUE, TagStrategy_SunnyDay_PartnerScoreMinus2
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_SOLAR_POWER
+    IfLoadedEqualTo TRUE, TagStrategy_SunnyDay_PartnerHasSolarPower
+    GoTo TagStrategy_SunnyDay_End
+
+TagStrategy_SunnyDay_PartnerHasLeafGuard:
+    IfStatus AI_BATTLER_ATTACKER_PARTNER, TagStrategy_SunnyDay_End
+    IfHPPercentLessThan AI_BATTLER_ATTACKER_PARTNER, 30, TagStrategy_SunnyDay_End
+
+TagStrategy_SunnyDay_PartnerScorePlus2:
+    AddToMoveScore 2
+    GoTo TagStrategy_SunnyDay_End
+
+TagStrategy_SunnyDay_PartnerScoreMinus2:
+    AddToMoveScore -2
+    GoTo TagStrategy_SunnyDay_End
+
+TagStrategy_SunnyDay_PartnerHasSolarPower:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER_PARTNER, 50, TagStrategy_SunnyDay_PartnerTryScoreMinus2
+    AddToMoveScore 1
+
+TagStrategy_SunnyDay_PartnerTryScoreMinus2:
+    IfRandomLessThan 128, TagStrategy_SunnyDay_End
+    AddToMoveScore -2
+
+TagStrategy_SunnyDay_End:
+    End
+
+TagStrategy_Hail:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_ICE_BODY, TagStrategy_Hail_SelfScorePlus2
+    IfLoadedEqualTo ABILITY_SNOW_CLOAK, TagStrategy_Hail_SelfScorePlus2
+    IfMoveKnown AI_BATTLER_ATTACKER, MOVE_BLIZZARD, TagStrategy_Hail_SelfScorePlus2
+    GoTo TagStrategy_Hail_CheckPartner
+
+TagStrategy_Hail_SelfScorePlus2:
+    AddToMoveScore 2
+
+TagStrategy_Hail_CheckPartner:
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_ICE_BODY
+    IfLoadedEqualTo TRUE, TagStrategy_Hail_PartnerScorePlus2
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_SNOW_CLOAK
+    IfLoadedEqualTo TRUE, TagStrategy_Hail_PartnerScorePlus2
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_BLIZZARD, TagStrategy_Hail_PartnerScorePlus2
+    GoTo TagStrategy_Hail_End
+
+TagStrategy_Hail_PartnerScorePlus2:
+    AddToMoveScore 2
+
+TagStrategy_Hail_End:
+    End
+
+TagStrategy_Sandstorm:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_SAND_VEIL, TagStrategy_Sandstorm_SelfScorePlus2
+    LoadTypeFrom LOAD_ATTACKER_TYPE_1
+    IfLoadedEqualTo TYPE_ROCK, TagStrategy_Sandstorm_SelfScorePlus2
+    LoadTypeFrom LOAD_ATTACKER_TYPE_2
+    IfLoadedEqualTo TYPE_ROCK, TagStrategy_Sandstorm_SelfScorePlus2
+    GoTo TagStrategy_Sandstorm_CheckPartner
+
+TagStrategy_Sandstorm_SelfScorePlus2:
+    AddToMoveScore 2
+    GoTo TagStrategy_Sandstorm_CheckPartner
+
+TagStrategy_Sandstorm_CheckPartner:
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_SAND_VEIL
+    IfLoadedEqualTo TRUE, TagStrategy_Sandstorm_PartnerScorePlus2
+    LoadTypeFrom LOAD_ATTACKER_PARTNER_TYPE_1
+    IfLoadedEqualTo TYPE_ROCK, TagStrategy_Sandstorm_PartnerScorePlus2
+    LoadTypeFrom LOAD_ATTACKER_PARTNER_TYPE_2
+    IfLoadedEqualTo TYPE_ROCK, TagStrategy_Sandstorm_PartnerScorePlus2
+    GoTo TagStrategy_Sandstorm_End
+
+TagStrategy_Sandstorm_PartnerScorePlus2:
+    AddToMoveScore 2
+
+TagStrategy_Sandstorm_End:
+    End
+
+TagStrategy_Gravity:
+    IfFieldCondition FIELD_CONDITION_GRAVITY, TagStrategy_PartnerScoreMinus30
+    CheckBattlerAbility AI_BATTLER_ATTACKER, ABILITY_LEVITATE
+    IfLoadedEqualTo TRUE, TagStrategy_Gravity_SelfScoreMinus5
+    FlagBattlerIsType AI_BATTLER_ATTACKER, TYPE_FLYING
+    IfLoadedEqualTo TRUE, TagStrategy_Gravity_SelfScoreMinus5
+    IfCondition AI_BATTLER_ATTACKER, 30, TagStrategy_Gravity_SelfScoreMinus5
+    GoTo TagStrategy_Gravity_CheckPartner
+
+TagStrategy_Gravity_SelfScoreMinus5:
+    AddToMoveScore -5
+    GoTo TagStrategy_Gravity_CheckPartner
+
+TagStrategy_Gravity_CheckPartner:
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_LEVITATE
+    IfLoadedEqualTo TRUE, TagStrategy_Gravity_PartnerScoreMinus5
+    FlagBattlerIsType AI_BATTLER_ATTACKER_PARTNER, TYPE_FLYING
+    IfLoadedEqualTo TRUE, TagStrategy_Gravity_PartnerScoreMinus5
+    IfCondition AI_BATTLER_ATTACKER_PARTNER, 30, TagStrategy_Gravity_PartnerScoreMinus5
+    GoTo TagStrategy_Gravity_CheckTarget
+
+TagStrategy_Gravity_PartnerScoreMinus5:
+    AddToMoveScore -5
+    GoTo TagStrategy_Gravity_CheckTarget
+
+TagStrategy_Gravity_CheckTarget:
+    CheckBattlerAbility AI_BATTLER_DEFENDER, ABILITY_LEVITATE
+    IfLoadedEqualTo TRUE, TagStrategy_Gravity_TargetTryScorePlus3
+    FlagBattlerIsType AI_BATTLER_DEFENDER, TYPE_FLYING
+    IfLoadedEqualTo TRUE, TagStrategy_Gravity_TargetTryScorePlus3
+    IfCondition AI_BATTLER_DEFENDER, 30, TagStrategy_Gravity_TargetTryScorePlus3
+    GoTo TagStrategy_Gravity_CheckTargetPartner
+
+TagStrategy_Gravity_TargetTryScorePlus3:
+    IfRandomLessThan 64, TagStrategy_Gravity_CheckTargetPartner
+    AddToMoveScore 3
+    GoTo TagStrategy_Gravity_CheckTargetPartner
+
+TagStrategy_Gravity_CheckTargetPartner:
+    CheckBattlerAbility AI_BATTLER_DEFENDER_PARTNER, ABILITY_LEVITATE
+    IfLoadedEqualTo TRUE, TagStrategy_Gravity_TargetPartnerTryScorePlus3
+    FlagBattlerIsType AI_BATTLER_DEFENDER_PARTNER, TYPE_FLYING
+    IfLoadedEqualTo TRUE, TagStrategy_Gravity_TargetPartnerTryScorePlus3
+    IfCondition AI_BATTLER_DEFENDER_PARTNER, 30, TagStrategy_Gravity_TargetPartnerTryScorePlus3
+    GoTo TagStrategy_Gravity_End
+
+TagStrategy_Gravity_TargetPartnerTryScorePlus3:
+    IfRandomLessThan 64, TagStrategy_Gravity_End
+    AddToMoveScore 3
+    GoTo TagStrategy_Gravity_End
+
+TagStrategy_Gravity_End:
+    End
+
+TagStrategy_TrickRoom:
+    IfHPPercentEqualTo AI_BATTLER_ATTACKER_PARTNER, 0, ScoreMinus30
+    IfHPPercentEqualTo AI_BATTLER_DEFENDER_PARTNER, 0, ScoreMinus30
+    IfHPPercentEqualTo AI_BATTLER_DEFENDER, 0, ScoreMinus30
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER
+    IfLoadedEqualTo 0, TagStrategy_TrickRoom_SelfMovesFirst
+    IfLoadedEqualTo 1, TagStrategy_TrickRoom_SelfMovesSecond
+    IfLoadedEqualTo 2, TagStrategy_TrickRoom_SelfMovesThird
+    IfLoadedEqualTo 3, TagStrategy_TrickRoom_SelfMovesLast
+    GoTo TagStrategy_TrickRoom_End
+
+TagStrategy_TrickRoom_SelfMovesFirst:
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedEqualTo 1, ScoreMinus30
+    IfLoadedEqualTo 0, ScoreMinus30
+    GoTo TagStrategy_TrickRoom_ScoreMinus5
+
+TagStrategy_TrickRoom_SelfMovesSecond:
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedEqualTo 0, ScoreMinus30
+    GoTo TagStrategy_TrickRoom_ScoreMinus5
+
+TagStrategy_TrickRoom_SelfMovesThird:
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedNotEqualTo 3, TagStrategy_TrickRoom_ScoreMinus5
+    IfRandomLessThan 64, TagStrategy_TrickRoom_ScoreMinus5
+    AddToMoveScore 5
+    GoTo TagStrategy_TrickRoom_End
+
+TagStrategy_TrickRoom_SelfMovesLast:
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedNotEqualTo 2, TagStrategy_TrickRoom_ScoreMinus5
+    IfRandomLessThan 64, TagStrategy_TrickRoom_ScoreMinus5
+    AddToMoveScore 5
+    GoTo TagStrategy_TrickRoom_End
+
+TagStrategy_TrickRoom_ScoreMinus5:
+    AddToMoveScore -5
+
+TagStrategy_TrickRoom_End:
+    End
+
+TagStrategy_FollowMe:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 90, TagStrategy_FollowMe_SelfHighHP
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 50, TagStrategy_FollowMe_SelfMediumHP
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 30, TagStrategy_FollowMe_SelfLowHP
+    IfRandomLessThan 64, TagStrategy_FollowMe_End
+    GoTo ScoreMinus5
+
+TagStrategy_FollowMe_SelfHighHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 90, TagStrategy_FollowMe_TryScoreMinus1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 50, TagStrategy_FollowMe_TryScorePlus1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 30, TagStrategy_FollowMe_TryScorePlus2
+    GoTo TagStrategy_FollowMe_TryScorePlus3
+
+TagStrategy_FollowMe_SelfMediumHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 90, TagStrategy_FollowMe_TryScoreMinus2
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 50, TagStrategy_FollowMe_TryScoreMinus1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 30, TagStrategy_FollowMe_TryScorePlus1
+    GoTo TagStrategy_FollowMe_TryScorePlus2
+
+TagStrategy_FollowMe_SelfLowHP:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 90, TagStrategy_FollowMe_TryScoreMinus2
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 50, TagStrategy_FollowMe_TryScoreMinus2
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 30, TagStrategy_FollowMe_TryScorePlus1
+    GoTo TagStrategy_FollowMe_TryScorePlus2
+
+TagStrategy_FollowMe_TryScoreMinus1:
+    IfRandomLessThan 64, TagStrategy_FollowMe_End
+    AddToMoveScore -1
+    GoTo TagStrategy_FollowMe_End
+
+TagStrategy_FollowMe_TryScoreMinus2:
+    IfRandomLessThan 64, TagStrategy_FollowMe_End
+    AddToMoveScore -2
+    GoTo TagStrategy_FollowMe_End
+
+TagStrategy_FollowMe_TryScorePlus1:
+    IfRandomLessThan 64, TagStrategy_FollowMe_End
+    AddToMoveScore 1
+    GoTo TagStrategy_FollowMe_End
+
+TagStrategy_FollowMe_TryScorePlus2:
+    IfRandomLessThan 64, TagStrategy_FollowMe_End
+    AddToMoveScore 2
+    GoTo TagStrategy_FollowMe_End
+
+TagStrategy_FollowMe_TryScorePlus3:
+    IfRandomLessThan 64, TagStrategy_FollowMe_End
+    AddToMoveScore 3
+    GoTo TagStrategy_FollowMe_End
+
+TagStrategy_FollowMe_End:
+    End
+
+TagStrategy_PartnerKnowsHelpingHand:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 50, TagStrategy_PartnerKnowsHelpingHand_CheckMove
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER
+    IfLoadedLessThan 1, TagStrategy_PartnerKnowsHelpingHand_CheckMove
+    GoTo TagStrategy_PartnerKnowsHelpingHand_End
+
+TagStrategy_PartnerKnowsHelpingHand_CheckMove:
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_ONE_HIT_KO, TagStrategy_PartnerKnowsHelpingHand_End
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_40_DAMAGE_FLAT, TagStrategy_PartnerKnowsHelpingHand_End
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_LEVEL_DAMAGE_FLAT, TagStrategy_PartnerKnowsHelpingHand_End
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_RANDOM_DAMAGE_1_TO_150_LEVEL, TagStrategy_PartnerKnowsHelpingHand_End
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_20_DAMAGE_FLAT, TagStrategy_PartnerKnowsHelpingHand_End
+    FlagMoveDamageScore USE_MIN_DAMAGE
+    IfLoadedEqualTo AI_MOVE_DEALS_NO_DAMAGE, TagStrategy_PartnerKnowsHelpingHand_End
+    IfTurnRandomLessThan 128, TagStrategy_PartnerKnowsHelpingHand_End
+    AddToMoveScore 3
+
+TagStrategy_PartnerKnowsHelpingHand_End:
+    End
+
+TagStrategy_Unused_1:
+    IfStatus AI_BATTLER_ATTACKER, TagStrategy_Unused_2
+    End
+
+TagStrategy_Unused_2:
+    FlagMoveDamageScore USE_MIN_DAMAGE
+    IfLoadedEqualTo AI_MOVE_DEALS_NO_DAMAGE, ScoreMinus5
+    AddToMoveScore 1
+    IfLoadedEqualTo AI_MOVE_IS_HIGHEST_DAMAGE, ScorePlus2
+    End
+
+TagStrategy_Earthquake:
+    IfCondition AI_BATTLER_ATTACKER_PARTNER, 30, ScorePlus2
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_LEVITATE
+    IfLoadedEqualTo TRUE, ScorePlus2
+    FlagBattlerIsType AI_BATTLER_ATTACKER_PARTNER, TYPE_FLYING
+    IfLoadedEqualTo TRUE, ScorePlus2
+    FlagBattlerIsType AI_BATTLER_ATTACKER_PARTNER, TYPE_FIRE
+    IfLoadedEqualTo TRUE, ScoreMinus10
+    FlagBattlerIsType AI_BATTLER_ATTACKER_PARTNER, TYPE_ELECTRIC
+    IfLoadedEqualTo TRUE, ScoreMinus10
+    FlagBattlerIsType AI_BATTLER_ATTACKER_PARTNER, TYPE_POISON
+    IfLoadedEqualTo TRUE, ScoreMinus10
+    FlagBattlerIsType AI_BATTLER_ATTACKER_PARTNER, TYPE_ROCK
+    IfLoadedEqualTo TRUE, ScoreMinus10
+    GoTo ScoreMinus3
+
+TagStrategy_FutureSight:
+    IfHPPercentEqualTo AI_BATTLER_ATTACKER_PARTNER, 0, TagStrategy_FutureSight_End
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_FUTURE_SIGHT, TagStrategy_FutureSight_CheckSelfSpeed
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_DOOM_DESIRE, TagStrategy_FutureSight_CheckSelfSpeed
+    GoTo TagStrategy_FutureSight_End
+
+TagStrategy_FutureSight_CheckSelfSpeed:
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER
+    IfLoadedEqualTo 3, ScoreMinus3
+    IfLoadedEqualTo 2, TagStrategy_FutureSight_SelfMovesThird
+    IfLoadedEqualTo 1, TagStrategy_FutureSight_SelfMovesSecond
+    IfLoadedEqualTo 0, TagStrategy_FutureSight_SelfMovesFirst
+    GoTo TagStrategy_FutureSight_End
+
+TagStrategy_FutureSight_SelfMovesThird:
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedEqualTo 0, ScoreMinus3
+    IfLoadedEqualTo 1, ScoreMinus3
+    IfRandomLessThan 128, TagStrategy_FutureSight_End
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedEqualTo 2, ScoreMinus3
+    GoTo TagStrategy_FutureSight_End
+
+TagStrategy_FutureSight_SelfMovesSecond:
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedEqualTo 0, ScoreMinus3
+    IfRandomLessThan 128, TagStrategy_FutureSight_End
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedEqualTo 1, ScoreMinus3
+    GoTo TagStrategy_FutureSight_End
+
+TagStrategy_FutureSight_SelfMovesFirst:
+    IfRandomLessThan 128, TagStrategy_FutureSight_End
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedEqualTo 0, ScoreMinus3
+    GoTo TagStrategy_FutureSight_End
+
+TagStrategy_FutureSight_End:
+    End
+
+TagStrategy_SkillSwap:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_TRUANT, ScorePlus5
+    IfLoadedEqualTo ABILITY_SLOW_START, ScorePlus5
+    IfLoadedEqualTo ABILITY_STALL, ScorePlus5
+    IfLoadedEqualTo ABILITY_KLUTZ, ScorePlus5
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_SHADOW_TAG, ScorePlus2
+    IfLoadedEqualTo ABILITY_PURE_POWER, ScorePlus2
+    IfLoadedEqualTo ABILITY_HUGE_POWER, ScorePlus2
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, ScorePlus2
+    IfLoadedEqualTo ABILITY_SOLID_ROCK, ScorePlus2
+    IfLoadedEqualTo ABILITY_FILTER, ScorePlus2
+    IfLoadedEqualTo ABILITY_FLOWER_GIFT, ScorePlus2
+    End
+
+TagStrategy_CheckElectricMove:
+    IfMoveEqualTo MOVE_DISCHARGE, TagStrategy_SpreadElectricMove
+    CheckBattlerAbility AI_BATTLER_DEFENDER_PARTNER, ABILITY_LIGHTNINGROD
+    IfLoadedEqualTo TRUE, TagStrategy_TargetProtectedByLightningRod
+    GoTo TagStrategy_PartnerHasLightningRod
+
+TagStrategy_TargetProtectedByLightningRod:
+    AddToMoveScore -1
+    FlagBattlerIsType AI_BATTLER_DEFENDER_PARTNER, TYPE_GROUND
+    IfLoadedEqualTo FALSE, TagStrategy_PartnerHasLightningRod
+    AddToMoveScore -8
+
+TagStrategy_PartnerHasLightningRod:
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_LIGHTNINGROD
+    IfLoadedEqualTo TRUE, ScoreMinus10
+    IfMoveEqualTo MOVE_DISCHARGE, TagStrategy_SpreadElectricMove
+    GoTo TagStrategy_CheckElectric_End
+
+TagStrategy_SpreadElectricMove:
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_MOTOR_DRIVE
+    IfLoadedEqualTo TRUE, ScorePlus3
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_VOLT_ABSORB
+    IfLoadedEqualTo TRUE, ScorePlus3
+    FlagBattlerIsType AI_BATTLER_ATTACKER_PARTNER, TYPE_WATER
+    IfLoadedEqualTo TRUE, ScoreMinus10
+    FlagBattlerIsType AI_BATTLER_ATTACKER_PARTNER, TYPE_FLYING
+    IfLoadedEqualTo TRUE, ScoreMinus10
+    // Bug: this comes after the other type checks, so a partner that is also Water or Flying type loses points, as in
+    // Gen 4
+    FlagBattlerIsType AI_BATTLER_ATTACKER_PARTNER, TYPE_GROUND
+    IfLoadedEqualTo TRUE, ScorePlus3
+    AddToMoveScore -3
+
+TagStrategy_CheckElectric_End:
+    End
+
+TagStrategy_CheckWaterMove:
+    IfMoveEqualTo MOVE_SURF, TagStrategy_SpreadWaterMove
+    CheckBattlerAbility AI_BATTLER_DEFENDER_PARTNER, ABILITY_STORM_DRAIN
+    IfLoadedEqualTo FALSE, TagStrategy_CheckPartnerStormDrain
+    AddToMoveScore -1
+
+TagStrategy_CheckPartnerStormDrain:
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_STORM_DRAIN
+    IfLoadedEqualTo TRUE, ScoreMinus10
+    IfMoveEqualTo MOVE_SURF, TagStrategy_SpreadWaterMove
+    GoTo TagStrategy_CheckWater_End
+
+// Bug: a Rock-type partner is not checked for, as in Gen 4
+TagStrategy_SpreadWaterMove:
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_DRY_SKIN
+    IfLoadedEqualTo TRUE, ScorePlus3
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_WATER_ABSORB
+    IfLoadedEqualTo TRUE, ScorePlus3
+    FlagBattlerIsType AI_BATTLER_ATTACKER_PARTNER, TYPE_GROUND
+    IfLoadedEqualTo TRUE, ScoreMinus10
+    FlagBattlerIsType AI_BATTLER_ATTACKER_PARTNER, TYPE_FIRE
+    IfLoadedEqualTo TRUE, ScoreMinus10
+    AddToMoveScore -3
+
+TagStrategy_CheckWater_End:
+    End
+
+TagStrategy_CheckFireMove:
+    IfActivatedFlashFire AI_BATTLER_ATTACKER, TagStrategy_FlashFireScorePlus1
+    GoTo TagStrategy_CheckLavaPlume
+
+TagStrategy_FlashFireScorePlus1:
+    AddToMoveScore 1
+
+TagStrategy_CheckLavaPlume:
+    IfMoveEqualTo MOVE_LAVA_PLUME, TagStrategy_SpreadFireMove
+    GoTo TagStrategy_CheckFire_End
+
+TagStrategy_SpreadFireMove:
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_DRY_SKIN
+    IfLoadedEqualTo TRUE, ScoreMinus3
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_FLASH_FIRE
+    IfLoadedEqualTo TRUE, ScorePlus3
+    FlagBattlerIsType AI_BATTLER_ATTACKER_PARTNER, TYPE_GRASS
+    IfLoadedEqualTo TRUE, ScoreMinus10
+    FlagBattlerIsType AI_BATTLER_ATTACKER_PARTNER, TYPE_STEEL
+    IfLoadedEqualTo TRUE, ScoreMinus10
+    FlagBattlerIsType AI_BATTLER_ATTACKER_PARTNER, TYPE_ICE
+    IfLoadedEqualTo TRUE, ScoreMinus10
+    FlagBattlerIsType AI_BATTLER_ATTACKER_PARTNER, TYPE_BUG
+    IfLoadedEqualTo TRUE, ScoreMinus10
+    AddToMoveScore -3
+
+TagStrategy_CheckFire_End:
+    End
+
+TagStrategy_WideGuard:
+    IfRandomLessThan 50, TagStrategy_WideGuard_CheckTargetMove
+    LoadBattlerPreviousMove AI_BATTLER_ATTACKER
+    IfLoadedEqualTo MOVE_WIDE_GUARD, TagStrategy_WideGuard_ScoreMinus4
+
+TagStrategy_WideGuard_CheckTargetMove:
+    LoadBattlerPreviousMove AI_BATTLER_DEFENDER
+    IfLoadedNotInTable TagStrategy_SpreadMoves, TagStrategy_WideGuard_TryScorePlus2
+    End
+
+TagStrategy_WideGuard_ScoreMinus4:
+    AddToMoveScore -4
+    GoTo TagStrategy_WideGuard_End
+
+TagStrategy_WideGuard_TryScorePlus2:
+    IfRandomLessThan 80, TagStrategy_WideGuard_End
+    AddToMoveScore 2
+
+TagStrategy_WideGuard_End:
+    End
+
+TagStrategy_SpreadMoves:
+    TableEntry MOVE_BLIZZARD
+    TableEntry MOVE_ROCK_SLIDE
+    TableEntry MOVE_HEAT_WAVE
+    TableEntry MOVE_ERUPTION
+    TableEntry MOVE_WATER_SPOUT
+    TableEntry MOVE_MUDDY_WATER
+    TableEntry MOVE_GLACIATE
+    TableEntry MOVE_SNARL
+    TableEntry MOVE_SURF
+    TableEntry MOVE_EARTHQUAKE
+    TableEntry MOVE_DISCHARGE
+    TableEntry MOVE_LAVA_PLUME
+    TableEntry MOVE_SLUDGE_WAVE
+    TableEntry MOVE_BULLDOZE
+    TableEntry MOVE_SEARING_SHOT
+    TableEntry TABLE_END
+
+TagStrategy_Round:
+    IfMoveNotKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_ROUND, TagStrategy_Round_ScoreMinus1
+    IfTurnRandomLessThan 128, TagStrategy_Round_ScoreMinus1
+    AddToMoveScore 3
+    GoTo TagStrategy_Round_End
+
+TagStrategy_Round_ScoreMinus1:
+    AddToMoveScore -1
+
+TagStrategy_Round_End:
+    End
+
+TagStrategy_AllySwitch:
+    LoadSpecies AI_BATTLER_DEFENDER
+    IfLoadedInTable TagStrategy_AllySwitch_Species, TagStrategy_AllySwitch_CheckFirstTurn
+    GoTo TagStrategy_AllySwitch_End
+
+TagStrategy_AllySwitch_CheckFirstTurn:
+    LoadIsFirstTurnInBattle AI_BATTLER_DEFENDER
+    IfLoadedNotEqualTo FALSE, TagStrategy_AllySwitch_End
+    IfRandomLessThan 128, TagStrategy_AllySwitch_End
+    AddToMoveScore 2
+    GoTo TagStrategy_AllySwitch_End
+    IfRandomLessThan 128, TagStrategy_AllySwitch_End
+    AddToMoveScore -1
+
+TagStrategy_AllySwitch_End:
+    End
+
+TagStrategy_AllySwitch_Species:
+    TableEntry SPECIES_BLASTOISE
+    TableEntry SPECIES_PERSIAN
+    TableEntry SPECIES_DEWGONG
+    TableEntry SPECIES_KANGASKHAN
+    TableEntry SPECIES_MR_MIME
+    TableEntry SPECIES_PIKACHU
+    TableEntry SPECIES_RAICHU
+    TableEntry SPECIES_AMBIPOM
+    TableEntry SPECIES_WEAVILE
+    TableEntry SPECIES_HITMONCHAN
+    TableEntry SPECIES_HITMONLEE
+    TableEntry SPECIES_HITMONTOP
+    TableEntry SPECIES_JYNX
+    TableEntry SPECIES_LUDICOLO
+    TableEntry SPECIES_SHIFTRY
+    TableEntry SPECIES_HARIYAMA
+    TableEntry SPECIES_DELCATTY
+    TableEntry SPECIES_SABLEYE
+    TableEntry SPECIES_MEDICHAM
+    TableEntry SPECIES_SPINDA
+    TableEntry SPECIES_KECLEON
+    TableEntry SPECIES_INFERNAPE
+    TableEntry SPECIES_LOPUNNY
+    TableEntry SPECIES_PURUGLY
+    TableEntry SPECIES_CROAGUNK
+    TableEntry SPECIES_DELIBIRD
+    TableEntry SPECIES_SCRAFTY
+    TableEntry SPECIES_LIEPARD
+    TableEntry TABLE_END
+
+TagStrategy_Bestow:
+    GoTo ScoreMinus10
+
+TagStrategy_Quash:
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedEqualTo 0, ScoreMinus10
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedEqualTo 1, ScoreMinus10
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER
+    IfLoadedEqualTo 0, TagStrategy_Quash_TryScorePlus1
+    GoTo ScoreMinus10
+
+TagStrategy_Quash_TryScorePlus1:
+    IfTurnRandomLessThan 128, TagStrategy_Quash_End
+    AddToMoveScore 1
+
+TagStrategy_Quash_End:
+    End
+
+TagStrategy_CircleThrow:
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_AFTER_YOU, TagStrategy_CircleThrow_PartnerKnowsAfterYou
+    End
+
+TagStrategy_CircleThrow_PartnerKnowsAfterYou:
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedNotEqualTo 0, ScoreMinus10
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER
+    IfLoadedEqualTo 0, ScoreMinus10
+    IfLoadedEqualTo 1, ScoreMinus10
+    IfTurnRandomLessThan 128, TagStrategy_CircleThrow_End
+    AddToMoveScore 3
+
+TagStrategy_CircleThrow_End:
+    End
+
+TagStrategy_CircleThrow_ScoreMinus40:
+    AddToMoveScore -40
+    End
+
+TagStrategy_Partner:
+    IfBattlerFainted AI_BATTLER_ATTACKER_PARTNER, TagStrategy_PartnerScoreMinus30
+    FlagMoveDamageScore USE_MIN_DAMAGE
+    IfLoadedEqualTo AI_MOVE_DEALS_NO_DAMAGE, TagStrategy_PartnerStatusMove
+    LoadTypeFrom LOAD_MOVE_TYPE
+    IfLoadedEqualTo TYPE_FIRE, TagStrategy_CheckPartnerFireAbsorption
+    IfLoadedEqualTo TYPE_ELECTRIC, TagStrategy_CheckPartnerElectricAbsorption
+    IfLoadedEqualTo TYPE_WATER, TagStrategy_CheckPartnerWaterAbsorption
+    IfMoveEqualTo MOVE_FLING, TagStrategy_PartnerTrick
+
+TagStrategy_ScoreMinus30:
+    GoTo ScoreMinus30
+
+TagStrategy_CheckPartnerFireAbsorption:
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_FLASH_FIRE
+    IfLoadedEqualTo TRUE, TagStrategy_CheckPartnerFlashFireActive
+    GoTo TagStrategy_ScoreMinus30
+
+TagStrategy_CheckPartnerFlashFireActive:
+    IfActivatedFlashFire AI_BATTLER_ATTACKER_PARTNER, TagStrategy_ScoreMinus30
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, TagStrategy_ScoreMinus30
+    IfLoadedEqualTo ABILITY_TURBOBLAZE, TagStrategy_ScoreMinus30
+    IfLoadedEqualTo ABILITY_TERAVOLT, TagStrategy_ScoreMinus30
+    IfRandomLessThan 150, TagStrategy_ScoreMinus30
+    GoTo ScorePlus1
+
+TagStrategy_CheckPartnerElectricAbsorption:
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_MOTOR_DRIVE
+    IfLoadedEqualTo TRUE, TagStrategy_CheckPartnerMotorDrive
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_VOLT_ABSORB
+    IfLoadedEqualTo TRUE, TagStrategy_CheckPartnerVoltAbsorb
+    GoTo TagStrategy_ScoreMinus30
+
+TagStrategy_CheckPartnerMotorDrive:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, TagStrategy_ScoreMinus30
+    IfLoadedEqualTo ABILITY_TURBOBLAZE, TagStrategy_ScoreMinus30
+    IfLoadedEqualTo ABILITY_TERAVOLT, TagStrategy_ScoreMinus30
+    IfRandomLessThan 160, TagStrategy_CheckElectricAbsorption_End
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_SPEED_STAGE, 7, TagStrategy_ScoreMinus30
+    GoTo ScorePlus1
+
+TagStrategy_CheckPartnerVoltAbsorb:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, TagStrategy_ScoreMinus30
+    IfLoadedEqualTo ABILITY_TURBOBLAZE, TagStrategy_ScoreMinus30
+    IfLoadedEqualTo ABILITY_TERAVOLT, TagStrategy_ScoreMinus30
+    IfRandomLessThan 150, TagStrategy_ScoreMinus30
+    IfHPPercentEqualTo AI_BATTLER_ATTACKER_PARTNER, 100, ScoreMinus10
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 90, TagStrategy_CheckElectricAbsorption_End
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 75, TagStrategy_PartnerVoltAbsorb_75PercentHP
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 50, TagStrategy_PartnerVoltAbsorb_50PercentHP
+    GoTo TagStrategy_PartnerVoltAbsorb_LessThan50PercentHP
+
+TagStrategy_PartnerVoltAbsorb_75PercentHP:
+    IfRandomLessThan 64, ScorePlus1
+    GoTo TagStrategy_CheckElectricAbsorption_End
+
+TagStrategy_PartnerVoltAbsorb_50PercentHP:
+    IfRandomLessThan 128, ScorePlus1
+    GoTo TagStrategy_CheckElectricAbsorption_End
+
+TagStrategy_PartnerVoltAbsorb_LessThan50PercentHP:
+    IfRandomLessThan 192, ScorePlus1
+    GoTo TagStrategy_CheckElectricAbsorption_End
+
+TagStrategy_CheckElectricAbsorption_End:
+    End
+
+TagStrategy_CheckPartnerWaterAbsorption:
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_WATER_ABSORB
+    IfLoadedEqualTo TRUE, TagStrategy_PartnerWaterAbsorb
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_DRY_SKIN
+    IfLoadedEqualTo TRUE, TagStrategy_PartnerWaterAbsorb
+    GoTo TagStrategy_ScoreMinus30
+
+TagStrategy_PartnerWaterAbsorb:
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_MOLD_BREAKER, TagStrategy_ScoreMinus30
+    IfLoadedEqualTo ABILITY_TURBOBLAZE, TagStrategy_ScoreMinus30
+    IfLoadedEqualTo ABILITY_TERAVOLT, TagStrategy_ScoreMinus30
+    IfRandomLessThan 150, TagStrategy_ScoreMinus30
+    IfHPPercentEqualTo AI_BATTLER_ATTACKER_PARTNER, 100, ScoreMinus10
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 90, TagStrategy_CheckWaterAbsorption_End
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 75, TagStrategy_PartnerWaterAbsorb_75PercentHP
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 50, TagStrategy_PartnerWaterAbsorb_50PercentHP
+    GoTo TagStrategy_PartnerWaterAbsorb_LessThan50PercentHP
+
+TagStrategy_PartnerWaterAbsorb_75PercentHP:
+    IfRandomLessThan 64, ScorePlus1
+    GoTo TagStrategy_CheckWaterAbsorption_End
+
+TagStrategy_PartnerWaterAbsorb_50PercentHP:
+    IfRandomLessThan 128, ScorePlus1
+    GoTo TagStrategy_CheckWaterAbsorption_End
+
+TagStrategy_PartnerWaterAbsorb_LessThan50PercentHP:
+    IfRandomLessThan 192, ScorePlus1
+    GoTo TagStrategy_CheckWaterAbsorption_End
+
+TagStrategy_CheckWaterAbsorption_End:
+    End
+
+TagStrategy_PartnerStatusMove:
+    IfMoveEqualTo MOVE_SKILL_SWAP, TagStrategy_PartnerSkillSwap
+    IfMoveEqualTo MOVE_ROLE_PLAY, TagStrategy_PartnerRolePlay
+    IfMoveEqualTo MOVE_WILL_O_WISP, TagStrategy_PartnerWillOWisp
+    IfMoveEqualTo MOVE_THUNDER_WAVE, TagStrategy_PartnerThunderWave
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_STATUS_BADLY_POISON, TagStrategy_PartnerPoisonStatus
+    IfCurrentMoveEffectEqualTo BATTLE_EFFECT_STATUS_POISON, TagStrategy_PartnerPoisonStatus
+    IfMoveEqualTo MOVE_HELPING_HAND, TagStrategy_PartnerUsingHelpingHand
+    IfMoveEqualTo MOVE_SWAGGER, TagStrategy_PartnerSwagger
+    IfMoveEqualTo MOVE_TRICK, TagStrategy_PartnerTrick
+    IfMoveEqualTo MOVE_SWITCHEROO, TagStrategy_PartnerTrick
+    IfMoveEqualTo MOVE_BESTOW, TagStrategy_PartnerTrick
+    IfMoveEqualTo MOVE_GASTRO_ACID, TagStrategy_PartnerGastroAcid
+    IfMoveEqualTo MOVE_ACUPRESSURE, TagStrategy_PartnerAcupressure
+    IfMoveEqualTo MOVE_AFTER_YOU, TagStrategy_PartnerAfterYou
+    IfMoveEqualTo MOVE_HEAL_PULSE, TagStrategy_PartnerHealPulse
+    GoTo TagStrategy_PartnerScoreMinus30
+
+TagStrategy_PartnerSkillSwap:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_TRUANT, ScorePlus10
+    IfLoadedEqualTo ABILITY_SLOW_START, ScorePlus10
+    LoadBattlerAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_LEVITATE, TagStrategy_PartnerSkillSwap_GiveLevitate
+    IfLoadedEqualTo ABILITY_COMPOUNDEYES, TagStrategy_PartnerSkillSwap_PartnerHasInaccurateMove
+    IfLoadedEqualTo ABILITY_NO_GUARD, TagStrategy_PartnerSkillSwap_PartnerHasInaccurateMove
+    IfLoadedEqualTo ABILITY_INSOMNIA, TagStrategy_PartnerSkillSwap_GiveInsomnia
+    IfLoadedEqualTo ABILITY_OWN_TEMPO, TagStrategy_PartnerSkillSwap_GiveOwnTempo
+    GoTo TagStrategy_PartnerScoreMinus30
+
+TagStrategy_PartnerSkillSwap_GiveLevitate:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_LEVITATE, ScoreMinus10
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_FLYING, ScoreMinus8
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_FLYING, ScoreMinus8
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_GRASS, ScoreMinus5
+    IfLoadedEqualTo TYPE_BUG, ScoreMinus5
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_GRASS, ScoreMinus5
+    IfLoadedEqualTo TYPE_BUG, ScoreMinus5
+    IfCondition AI_BATTLER_DEFENDER, 30, ScoreMinus2
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_ELECTRIC, ScorePlus3
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_ELECTRIC, ScorePlus3
+    GoTo TagStrategy_PartnerScoreMinus30
+
+TagStrategy_PartnerSkillSwap_PartnerHasInaccurateMove:
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_FIRE_BLAST, TagStrategy_PartnerSkillSwap_ScorePlus3
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_THUNDER, TagStrategy_PartnerSkillSwap_ScorePlus3
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_CROSS_CHOP, TagStrategy_PartnerSkillSwap_ScorePlus3
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_HYDRO_PUMP, TagStrategy_PartnerSkillSwap_ScorePlus3
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_DYNAMIC_PUNCH, TagStrategy_PartnerSkillSwap_ScorePlus3
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_BLIZZARD, TagStrategy_PartnerSkillSwap_ScorePlus3
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_ZAP_CANNON, TagStrategy_PartnerSkillSwap_ScorePlus3
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_MEGAHORN, TagStrategy_PartnerSkillSwap_ScorePlus3
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_FOCUS_BLAST, TagStrategy_PartnerSkillSwap_ScorePlus3
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_GUNK_SHOT, TagStrategy_PartnerSkillSwap_ScorePlus3
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_MAGMA_STORM, TagStrategy_PartnerSkillSwap_ScorePlus3
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_POWER_WHIP, TagStrategy_PartnerSkillSwap_ScorePlus3
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_SEED_FLARE, TagStrategy_PartnerSkillSwap_ScorePlus3
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_HEAD_SMASH, TagStrategy_PartnerSkillSwap_ScorePlus3
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_SHEER_COLD, TagStrategy_PartnerSkillSwap_ScorePlus3
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_FISSURE, TagStrategy_PartnerSkillSwap_ScorePlus3
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_GUILLOTINE, TagStrategy_PartnerSkillSwap_ScorePlus3
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_HORN_DRILL, TagStrategy_PartnerSkillSwap_ScorePlus3
+    GoTo TagStrategy_PartnerScoreMinus30
+
+TagStrategy_PartnerSkillSwap_ScorePlus3:
+    GoTo ScorePlus3
+
+TagStrategy_PartnerSkillSwap_GiveInsomnia:
+    IfNotCondition AI_BATTLER_DEFENDER, CONDITION_SLEEP, ScoreMinus8
+    GoTo ScorePlus3
+
+TagStrategy_PartnerSkillSwap_GiveOwnTempo:
+    IfNotCondition AI_BATTLER_DEFENDER, CONDITION_CONFUSION, ScoreMinus8
+    GoTo ScorePlus3
+
+TagStrategy_PartnerRolePlay:
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedInTable TagStrategy_PartnerRolePlay_Abilities, TagStrategy_PartnerRolePlay_TryScorePlus1
+    IfRandomLessThan 128, TagStrategy_PartnerScoreMinus30
+    IfLoadedInTable TagStrategy_PartnerRolePlay_Abilities2, TagStrategy_PartnerRolePlay_TryScorePlus1
+    GoTo TagStrategy_PartnerScoreMinus30
+
+TagStrategy_PartnerRolePlay_TryScorePlus1:
+    IfRandomLessThan 50, TagStrategy_PartnerRolePlay_End
+    AddToMoveScore 1
+
+TagStrategy_PartnerRolePlay_End:
+    End
+
+TagStrategy_PartnerRolePlay_Abilities:
+    TableEntry ABILITY_TELEPATHY
+    TableEntry ABILITY_FRIEND_GUARD
+    TableEntry ABILITY_SPEED_BOOST
+    TableEntry ABILITY_INTIMIDATE
+    TableEntry ABILITY_PURE_POWER
+    TableEntry ABILITY_CURSED_BODY
+    TableEntry TABLE_END
+
+TagStrategy_PartnerRolePlay_Abilities2:
+    TableEntry ABILITY_SOLAR_POWER
+    TableEntry ABILITY_DRY_SKIN
+    TableEntry ABILITY_MOTOR_DRIVE
+    TableEntry ABILITY_RAIN_DISH
+    TableEntry ABILITY_HUGE_POWER
+    TableEntry ABILITY_CHLOROPHYLL
+    TableEntry ABILITY_SWIFT_SWIM
+    TableEntry ABILITY_ICE_BODY
+    TableEntry ABILITY_HARVEST
+    TableEntry ABILITY_SAND_RUSH
+    TableEntry ABILITY_MAGIC_BOUNCE
+    TableEntry ABILITY_PRANKSTER
+    TableEntry TABLE_END
+
+TagStrategy_PartnerWillOWisp:
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_FLASH_FIRE
+    IfLoadedEqualTo TRUE, TagStrategy_CheckPartnerFireAbsorption
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_GUTS
+    IfLoadedNotEqualTo TRUE, TagStrategy_PartnerScoreMinus30
+    IfStatus AI_BATTLER_ATTACKER_PARTNER, TagStrategy_PartnerScoreMinus30
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_FIRE, TagStrategy_PartnerScoreMinus30
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_FIRE, TagStrategy_PartnerScoreMinus30
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER_PARTNER, ITEM_FLAME_ORB, TagStrategy_PartnerScoreMinus30
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER_PARTNER, ITEM_TOXIC_ORB, TagStrategy_PartnerScoreMinus30
+    IfHPPercentLessThan AI_BATTLER_ATTACKER_PARTNER, 81, TagStrategy_PartnerScoreMinus30
+    GoTo ScorePlus5
+
+TagStrategy_PartnerThunderWave:
+    LoadTypeFrom LOAD_DEFENDER_TYPE_1
+    IfLoadedEqualTo TYPE_GROUND, TagStrategy_PartnerScoreMinus30
+    LoadTypeFrom LOAD_DEFENDER_TYPE_2
+    IfLoadedEqualTo TYPE_GROUND, TagStrategy_PartnerScoreMinus30
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_MOTOR_DRIVE
+    IfLoadedEqualTo TRUE, TagStrategy_CheckPartnerElectricAbsorption
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_VOLT_ABSORB
+    IfLoadedEqualTo TRUE, TagStrategy_CheckPartnerElectricAbsorption
+    GoTo TagStrategy_PartnerScoreMinus30
+
+// Bug: does not check whether the partner is Poison or Steel type, as in Gen 4
+TagStrategy_PartnerPoisonStatus:
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_POISON_HEAL
+    IfLoadedNotEqualTo TRUE, TagStrategy_PartnerScoreMinus30
+    IfStatus AI_BATTLER_DEFENDER, TagStrategy_PartnerScoreMinus30
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER_PARTNER, ITEM_TOXIC_ORB, TagStrategy_PartnerScoreMinus30
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 91, TagStrategy_PartnerScoreMinus30
+    GoTo ScorePlus5
+
+TagStrategy_PartnerUsingHelpingHand:
+    IfHPPercentEqualTo AI_BATTLER_ATTACKER_PARTNER, 0, ScoreMinus30
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 50, TagStrategy_PartnerUsingHelpingHand_TryScorePlus2
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedLessThan 1, TagStrategy_PartnerUsingHelpingHand_TryScorePlus2
+    AddToMoveScore -1
+    GoTo TagStrategy_PartnerUsingHelpingHand_End
+
+TagStrategy_PartnerUsingHelpingHand_TryScorePlus2:
+    IfTurnRandomLessThan 128, TagStrategy_PartnerUsingHelpingHand_End
+    AddToMoveScore 3
+
+TagStrategy_PartnerUsingHelpingHand_End:
+    End
+
+TagStrategy_PartnerSwagger:
+    IfAttackLessThanSpAttack AI_BATTLER_DEFENDER, TagStrategy_PartnerSwagger_ScoreMinus30
+    IfHeldItemEqualTo AI_BATTLER_DEFENDER, ITEM_PERSIM_BERRY, TagStrategy_PartnerSwagger_TryScorePlus3
+    IfHeldItemEqualTo AI_BATTLER_DEFENDER, ITEM_LUM_BERRY, TagStrategy_PartnerSwagger_TryScorePlus3
+    LoadBattlerAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_OWN_TEMPO, TagStrategy_PartnerSwagger_TryScorePlus3
+    IfSideCondition AI_BATTLER_DEFENDER, SIDE_CONDITION_SAFEGUARD, TagStrategy_PartnerSwagger_TryScorePlus3
+
+TagStrategy_PartnerSwagger_ScoreMinus30:
+    GoTo TagStrategy_PartnerScoreMinus30
+
+TagStrategy_PartnerSwagger_TryScorePlus3:
+    IfStatStageGreaterThan AI_BATTLER_DEFENDER, BATTLEMON_ATTACK_STAGE, 7, TagStrategy_PartnerSwagger_End
+    AddToMoveScore 3
+
+TagStrategy_PartnerSwagger_End:
+    End
+
+TagStrategy_PartnerTrick:
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_LUM_BERRY, TagStrategy_PartnerTrick_LumBerry
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_CHESTO_BERRY, TagStrategy_PartnerTrick_ChestoBerry
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_CHERI_BERRY, TagStrategy_PartnerTrick_CheriBerry
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_RAWST_BERRY, TagStrategy_PartnerTrick_RawstBerry
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_ASPEAR_BERRY, TagStrategy_PartnerTrick_AspearBerry
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_PECHA_BERRY, TagStrategy_PartnerTrick_PechaBerry
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_PERSIM_BERRY, TagStrategy_PartnerTrick_PersimBerry
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_WHITE_HERB, TagStrategy_PartnerTrick_WhiteHerb
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_SITRUS_BERRY, TagStrategy_PartnerTrick_SitrusBerry
+    IfHeldItemEqualTo AI_BATTLER_ATTACKER, ITEM_MENTAL_HERB, TagStrategy_PartnerTrick_MentalHerb
+    GoTo TagStrategy_PartnerScoreMinus30
+
+// Bug: checks freeze twice, and the first leads to the burn check
+TagStrategy_PartnerTrick_LumBerry:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_SLEEP, TagStrategy_PartnerTrick_PartnerAsleep
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_PARALYSIS, TagStrategy_PartnerTrick_PartnerParalyzed
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_FREEZE, TagStrategy_PartnerTrick_PartnerBurned
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_FREEZE, TagStrategy_PartnerTrick_PartnerFrozen
+    IfBadlyPoisoned AI_BATTLER_DEFENDER, TagStrategy_PartnerTrick_PartnerPoisoned
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_CONFUSION, TagStrategy_PartnerTrick_PartnerConfused
+    GoTo TagStrategy_PartnerScoreMinus30
+
+TagStrategy_PartnerTrick_ChestoBerry:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_SLEEP, TagStrategy_PartnerTrick_PartnerAsleep
+    GoTo TagStrategy_PartnerScoreMinus30
+
+TagStrategy_PartnerTrick_CheriBerry:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_PARALYSIS, TagStrategy_PartnerTrick_PartnerParalyzed
+    GoTo TagStrategy_PartnerScoreMinus30
+
+// Bug: checks freeze where the Rawst Berry cures burns
+TagStrategy_PartnerTrick_RawstBerry:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_FREEZE, TagStrategy_PartnerTrick_PartnerBurned
+    GoTo TagStrategy_PartnerScoreMinus30
+
+TagStrategy_PartnerTrick_AspearBerry:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_FREEZE, TagStrategy_PartnerTrick_PartnerFrozen
+    GoTo TagStrategy_PartnerScoreMinus30
+
+TagStrategy_PartnerTrick_PechaBerry:
+    IfBadlyPoisoned AI_BATTLER_DEFENDER, TagStrategy_PartnerTrick_PartnerPoisoned
+    GoTo TagStrategy_PartnerScoreMinus30
+
+TagStrategy_PartnerTrick_PersimBerry:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_CONFUSION, TagStrategy_PartnerTrick_PartnerConfused
+    GoTo TagStrategy_PartnerScoreMinus30
+
+// Checks Special Defense and evasion twice, and not accuracy
+TagStrategy_PartnerTrick_WhiteHerb:
+    IfStatStageLessThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_ATTACK_STAGE, 5, TagStrategy_PartnerTrick_PartnerStatsLowered
+    IfStatStageLessThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_DEFENSE_STAGE, 5, TagStrategy_PartnerTrick_PartnerStatsLowered
+    IfStatStageLessThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_SP_ATTACK_STAGE, 5, TagStrategy_PartnerTrick_PartnerStatsLowered
+    IfStatStageLessThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_SP_DEFENSE_STAGE, 5, TagStrategy_PartnerTrick_PartnerStatsLowered
+    IfStatStageLessThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_EVASION_STAGE, 5, TagStrategy_PartnerTrick_PartnerStatsLowered
+    IfStatStageLessThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_SPEED_STAGE, 5, TagStrategy_PartnerTrick_PartnerStatsLowered
+    IfStatStageLessThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_SP_DEFENSE_STAGE, 5, TagStrategy_PartnerTrick_PartnerStatsLowered
+    IfStatStageLessThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_EVASION_STAGE, 5, TagStrategy_PartnerTrick_PartnerStatsLowered
+    GoTo TagStrategy_PartnerScoreMinus30
+
+TagStrategy_PartnerTrick_MentalHerb:
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_ATTRACT, TagStrategy_PartnerTrick_PartnerInfatuatedOrTaunted
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_CONFUSION, TagStrategy_PartnerTrick_PartnerConfused
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_TORMENT, TagStrategy_PartnerTrick_PartnerInfatuatedOrTaunted
+    IfCondition AI_BATTLER_DEFENDER, CONDITION_TAUNT, TagStrategy_PartnerTrick_PartnerInfatuatedOrTaunted
+    GoTo TagStrategy_PartnerScoreMinus30
+
+TagStrategy_PartnerTrick_SitrusBerry:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER_PARTNER, 50, TagStrategy_PartnerScoreMinus30
+    GoTo TagStrategy_PartnerTrick_TryScorePlus3
+
+TagStrategy_PartnerTrick_PartnerAsleep:
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_SNORE, TagStrategy_PartnerScoreMinus30
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_SLEEP_TALK, TagStrategy_PartnerScoreMinus30
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 40, TagStrategy_PartnerTrick_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_DEFENSE_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_SP_DEFENSE_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_EVASION_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER
+    IfLoadedNotEqualTo 0, TagStrategy_PartnerScoreMinus30
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedNotEqualTo 1, TagStrategy_PartnerScoreMinus30
+    GoTo TagStrategy_PartnerTrick_TryScorePlus3
+
+TagStrategy_PartnerTrick_PartnerParalyzed:
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_REST, TagStrategy_PartnerScoreMinus30
+    IfHPPercentLessThan AI_BATTLER_ATTACKER_PARTNER, 80, TagStrategy_PartnerScoreMinus30
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedNotEqualTo 3, TagStrategy_PartnerScoreMinus30
+    GoTo TagStrategy_PartnerTrick_TryScorePlus3
+
+TagStrategy_PartnerTrick_PartnerBurned:
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_REST, TagStrategy_PartnerScoreMinus30
+    IfHPPercentLessThan AI_BATTLER_ATTACKER_PARTNER, 40, TagStrategy_PartnerScoreMinus30
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_DEFENSE_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_SP_DEFENSE_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_EVASION_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    IfAttackLessThanSpAttack AI_BATTLER_ATTACKER_PARTNER, TagStrategy_PartnerScoreMinus30
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 80, TagStrategy_PartnerTrick_TryScorePlus3
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER
+    IfLoadedNotEqualTo 0, TagStrategy_PartnerScoreMinus30
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedNotEqualTo 1, TagStrategy_PartnerScoreMinus30
+    GoTo TagStrategy_PartnerTrick_TryScorePlus3
+
+TagStrategy_PartnerTrick_PartnerFrozen:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 40, TagStrategy_PartnerTrick_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_DEFENSE_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_SP_DEFENSE_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_EVASION_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER
+    IfLoadedNotEqualTo 0, TagStrategy_PartnerScoreMinus30
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedNotEqualTo 1, TagStrategy_PartnerScoreMinus30
+    GoTo TagStrategy_PartnerTrick_TryScorePlus3
+
+TagStrategy_PartnerTrick_PartnerConfused:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 40, TagStrategy_PartnerTrick_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_DEFENSE_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_SP_DEFENSE_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_EVASION_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER
+    IfLoadedNotEqualTo 0, TagStrategy_PartnerScoreMinus30
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedNotEqualTo 1, TagStrategy_PartnerScoreMinus30
+    GoTo TagStrategy_PartnerTrick_TryScorePlus3
+
+TagStrategy_PartnerTrick_PartnerPoisoned:
+    IfMoveKnown AI_BATTLER_ATTACKER_PARTNER, MOVE_REST, TagStrategy_PartnerScoreMinus30
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 80, TagStrategy_PartnerTrick_TryScorePlus3
+    IfHPPercentLessThan AI_BATTLER_ATTACKER_PARTNER, 40, TagStrategy_PartnerScoreMinus30
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_DEFENSE_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_SP_DEFENSE_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_EVASION_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    GoTo TagStrategy_PartnerScoreMinus30
+
+TagStrategy_PartnerTrick_PartnerStatsLowered:
+    IfHPPercentLessThan AI_BATTLER_ATTACKER_PARTNER, 40, TagStrategy_PartnerScoreMinus30
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_DEFENSE_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_SP_DEFENSE_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_EVASION_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 80, TagStrategy_PartnerTrick_TryScorePlus3
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER
+    IfLoadedNotEqualTo 0, TagStrategy_PartnerScoreMinus30
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedNotEqualTo 1, TagStrategy_PartnerScoreMinus30
+    GoTo TagStrategy_PartnerTrick_TryScorePlus3
+
+TagStrategy_PartnerTrick_PartnerInfatuatedOrTaunted:
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 40, TagStrategy_PartnerTrick_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_DEFENSE_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_SP_DEFENSE_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_EVASION_STAGE, 7, TagStrategy_PartnerTrick_TryScorePlus3
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER
+    IfLoadedNotEqualTo 0, TagStrategy_PartnerScoreMinus30
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedNotEqualTo 1, TagStrategy_PartnerScoreMinus30
+    GoTo TagStrategy_PartnerTrick_TryScorePlus3
+
+TagStrategy_PartnerTrick_TryScorePlus3:
+    IfTurnRandomLessThan 128, TagStrategy_PartnerTrick_End
+    AddToMoveScore 3
+
+TagStrategy_PartnerTrick_End:
+    End
+
+TagStrategy_PartnerGastroAcid:
+    IfCondition AI_BATTLER_ATTACKER_PARTNER, CONDITION_GASTRO_ACID, TagStrategy_PartnerScoreMinus30
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_TRUANT
+    IfLoadedEqualTo TRUE, TagStrategy_PartnerGastroAcid_ScorePlus5
+    CheckBattlerAbility AI_BATTLER_ATTACKER_PARTNER, ABILITY_SLOW_START
+    IfLoadedEqualTo TRUE, TagStrategy_PartnerGastroAcid_ScorePlus5
+    GoTo TagStrategy_PartnerGastroAcid_End
+
+TagStrategy_PartnerGastroAcid_ScorePlus5:
+    AddToMoveScore 5
+
+TagStrategy_PartnerGastroAcid_End:
+    End
+
+TagStrategy_PartnerAcupressure:
+    IfStatStageEqualTo AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_ATTACK_STAGE, 12, TagStrategy_PartnerScoreMinus30
+    IfStatStageEqualTo AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_DEFENSE_STAGE, 12, TagStrategy_PartnerScoreMinus30
+    IfStatStageEqualTo AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_SPEED_STAGE, 12, TagStrategy_PartnerScoreMinus30
+    IfStatStageEqualTo AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_SP_ATTACK_STAGE, 12, TagStrategy_PartnerScoreMinus30
+    IfStatStageEqualTo AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_SP_DEFENSE_STAGE, 12, TagStrategy_PartnerScoreMinus30
+    IfStatStageEqualTo AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_EVASION_STAGE, 12, TagStrategy_PartnerScoreMinus30
+    IfStatStageEqualTo AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_ACCURACY_STAGE, 12, TagStrategy_PartnerScoreMinus30
+    IfHPPercentLessThan AI_BATTLER_ATTACKER_PARTNER, 51, TagStrategy_PartnerAcupressure_ScoreMinus1
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER_PARTNER, 90, TagStrategy_PartnerAcupressure_TryScorePlus2
+    IfRandomLessThan 128, TagStrategy_PartnerAcupressure_CheckHP
+
+TagStrategy_PartnerAcupressure_TryScorePlus2:
+    IfRandomLessThan 80, TagStrategy_PartnerAcupressure_CheckHP
+    AddToMoveScore 2
+    GoTo TagStrategy_PartnerAcupressure_CheckHP
+
+TagStrategy_PartnerAcupressure_ScoreMinus1:
+    AddToMoveScore -1
+
+TagStrategy_PartnerAcupressure_CheckHP:
+    End
+
+TagStrategy_PartnerAfterYou:
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER
+    IfLoadedNotEqualTo 0, ScoreMinus10
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedEqualTo 0, ScoreMinus10
+    IfLoadedEqualTo 1, ScoreMinus10
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_CIRCLE_THROW, TagStrategy_PartnerAfterYou_TryScorePlus3
+    IfFieldCondition FIELD_CONDITION_TRICK_ROOM, TagStrategy_PartnerAfterYou_CheckTargetMoves
+    IfMoveKnown AI_BATTLER_DEFENDER, MOVE_TRICK_ROOM, TagStrategy_PartnerAfterYou_TryScorePlus3
+
+TagStrategy_PartnerAfterYou_CheckTargetMoves:
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_DECREASE_POWER_WITH_LESS_USER_HP, TagStrategy_PartnerAfterYou_TryScorePlus3
+    IfMoveKnown AI_BATTLER_DEFENDER, MOVE_DARK_VOID, TagStrategy_PartnerAfterYou_TryScorePlus3
+    IfMoveKnown AI_BATTLER_DEFENDER, MOVE_BLIZZARD, TagStrategy_PartnerAfterYou_TryScorePlus3
+    IfMoveKnown AI_BATTLER_DEFENDER, MOVE_ROCK_SLIDE, TagStrategy_PartnerAfterYou_TryScorePlus3
+    IfMoveKnown AI_BATTLER_DEFENDER, MOVE_ROCK_SLIDE, TagStrategy_PartnerAfterYou_TryScorePlus3
+    IfMoveEffectKnown AI_BATTLER_DEFENDER, BATTLE_EFFECT_FORCE_SWITCH, TagStrategy_PartnerAfterYou_End
+    IfRandomLessThan 50, TagStrategy_PartnerAfterYou_End
+    AddToMoveScore -2
+    GoTo TagStrategy_PartnerAfterYou_End
+
+TagStrategy_PartnerAfterYou_TryScorePlus3:
+    IfTurnRandomLessThan 128, TagStrategy_PartnerAfterYou_End
+    AddToMoveScore 3
+
+TagStrategy_PartnerAfterYou_End:
+    End
+
+TagStrategy_PartnerHealPulse:
+    IfHPPercentEqualTo AI_BATTLER_DEFENDER, 0, TagStrategy_PartnerScoreMinus30
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 100, TagStrategy_PartnerHealPulse_ScoreMinus1
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 70, TagStrategy_PartnerHealPulse_HighHP
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 30, TagStrategy_PartnerHealPulse_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_DEFENSE_STAGE, 7, TagStrategy_PartnerHealPulse_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_SP_DEFENSE_STAGE, 7, TagStrategy_PartnerHealPulse_TryScorePlus3
+    IfStatStageGreaterThan AI_BATTLER_ATTACKER_PARTNER, BATTLEMON_EVASION_STAGE, 7, TagStrategy_PartnerHealPulse_TryScorePlus3
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER
+    IfLoadedEqualTo 0, TagStrategy_PartnerHealPulse_TryScorePlus3
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER_PARTNER
+    IfLoadedNotEqualTo 0, TagStrategy_PartnerHealPulse_ScoreMinus1
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER
+    IfLoadedEqualTo 1, TagStrategy_PartnerHealPulse_TryScorePlus3
+    GoTo TagStrategy_PartnerHealPulse_ScoreMinus1
+
+TagStrategy_PartnerHealPulse_HighHP:
+    LoadBattlerSpeedRank AI_BATTLER_ATTACKER
+    IfLoadedEqualTo 3, TagStrategy_PartnerHealPulse_TryScorePlus3
+    GoTo TagStrategy_PartnerHealPulse_ScoreMinus1
+
+TagStrategy_PartnerHealPulse_TryScorePlus3:
+    IfTurnRandomLessThan 128, TagStrategy_PartnerHealPulse_ScoreMinus1
+    AddToMoveScore 3
+    GoTo TagStrategy_PartnerHealPulse_ScoreMinus1
+
+TagStrategy_PartnerHealPulse_ScoreMinus1:
+    AddToMoveScore -1
+    End
+
+TagStrategy_PartnerScoreMinus30:
+    AddToMoveScore -30
+    End
+
+ScoreMinus1:
+    AddToMoveScore -1
+    End
+
+ScoreMinus2:
+    AddToMoveScore -2
+    End
+
+ScoreMinus3:
+    AddToMoveScore -3
+    End
+
+ScoreMinus5:
+    AddToMoveScore -5
+    End
+
+ScoreMinus6:
+    AddToMoveScore -6
+    End
+
+ScoreMinus8:
+    AddToMoveScore -8
+    End
+
+ScoreMinus10:
+    AddToMoveScore -10
+    End
+
+ScoreMinus12:
+    AddToMoveScore -12
+    End
+
+ScoreMinus30:
+    AddToMoveScore -30
+    End
+
+ScorePlus1:
+    AddToMoveScore 1
+    End
+
+ScorePlus2:
+    AddToMoveScore 2
+    End
+
+ScorePlus3:
+    AddToMoveScore 3
+    End
+
+ScorePlus5:
+    AddToMoveScore 5
+    End
+
+ScorePlus10:
+    AddToMoveScore 10
+    End

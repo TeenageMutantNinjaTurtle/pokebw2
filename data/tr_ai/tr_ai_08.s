@@ -1,264 +1,281 @@
 #include "asm/tr_ai.inc"
 
-TrAI08_0000:
-    if_target_is_ally TrAI08_00CA
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 70, TrAI08_0034
-    if_hp_greater_than TRAI_SIDE_ATTACKER, 30, TrAI08_0046
-    load_move_effect
-    if_in_list TrAI08_01BC, TrAI08_0058
-    jump TrAI08_0068
-TrAI08_0034:
-    load_move_effect
-    if_in_list TrAI08_00CC, TrAI08_0058
-    jump TrAI08_0068
-TrAI08_0046:
-    load_move_effect
-    if_in_list TrAI08_0100, TrAI08_0058
-    jump TrAI08_0068
-TrAI08_0058:
-    if_random_less_than 50, TrAI08_0068
-    add_to_score -2
-TrAI08_0068:
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 70, TrAI08_0096
-    if_hp_greater_than TRAI_SIDE_DEFENDER, 30, TrAI08_00A8
-    load_move_effect
-    if_in_list TrAI08_033C, TrAI08_00BA
-    jump TrAI08_00CA
-TrAI08_0096:
-    load_move_effect
-    if_in_list TrAI08_028C, TrAI08_00BA
-    jump TrAI08_00CA
-TrAI08_00A8:
-    load_move_effect
-    if_in_list TrAI08_0290, TrAI08_00BA
-    jump TrAI08_00CA
-TrAI08_00BA:
-    if_random_less_than 50, TrAI08_00CA
-    add_to_score -2
-TrAI08_00CA:
-    end
-TrAI08_00CC:
-    .4byte 7
-    .4byte 32
-    .4byte 37
-    .4byte 98
-    .4byte 99
-    .4byte 116
-    .4byte 132
-    .4byte 168
-    .4byte 194
-    .4byte 214
-    .4byte 220
-    .4byte 270
-    list_end
-TrAI08_0100:
-    .4byte 7
-    .4byte 10
-    .4byte 11
-    .4byte 12
-    .4byte 13
-    .4byte 14
-    .4byte 15
-    .4byte 16
-    .4byte 18
-    .4byte 19
-    .4byte 20
-    .4byte 21
-    .4byte 22
-    .4byte 23
-    .4byte 24
-    .4byte 26
-    .4byte 30
-    .4byte 35
-    .4byte 46
-    .4byte 47
-    .4byte 50
-    .4byte 51
-    .4byte 52
-    .4byte 53
-    .4byte 54
-    .4byte 55
-    .4byte 56
-    .4byte 58
-    .4byte 59
-    .4byte 60
-    .4byte 61
-    .4byte 62
-    .4byte 63
-    .4byte 64
-    .4byte 93
-    .4byte 124
-    .4byte 142
-    .4byte 205
-    .4byte 206
-    .4byte 208
-    .4byte 211
-    .4byte 212
-    .4byte 240
-    .4byte 243
-    .4byte 244
-    .4byte 265
-    list_end
-TrAI08_01BC:
-    .4byte 10
-    .4byte 11
-    .4byte 12
-    .4byte 13
-    .4byte 14
-    .4byte 15
-    .4byte 16
-    .4byte 18
-    .4byte 19
-    .4byte 20
-    .4byte 21
-    .4byte 22
-    .4byte 23
-    .4byte 24
-    .4byte 26
-    .4byte 30
-    .4byte 35
-    .4byte 46
-    .4byte 47
-    .4byte 50
-    .4byte 51
-    .4byte 52
-    .4byte 53
-    .4byte 54
-    .4byte 55
-    .4byte 56
-    .4byte 58
-    .4byte 59
-    .4byte 60
-    .4byte 61
-    .4byte 62
-    .4byte 63
-    .4byte 64
-    .4byte 81
-    .4byte 93
-    .4byte 94
-    .4byte 124
-    .4byte 142
-    .4byte 143
-    .4byte 144
-    .4byte 190
-    .4byte 205
-    .4byte 206
-    .4byte 208
-    .4byte 211
-    .4byte 212
-    .4byte 201
-    .4byte 210
-    .4byte 226
-    .4byte 227
-    .4byte 265
-    list_end
-TrAI08_028C:
-    list_end
-TrAI08_0290:
-    .4byte 10
-    .4byte 11
-    .4byte 12
-    .4byte 13
-    .4byte 14
-    .4byte 15
-    .4byte 16
-    .4byte 18
-    .4byte 19
-    .4byte 20
-    .4byte 21
-    .4byte 22
-    .4byte 23
-    .4byte 24
-    .4byte 46
-    .4byte 47
-    .4byte 50
-    .4byte 51
-    .4byte 52
-    .4byte 53
-    .4byte 54
-    .4byte 55
-    .4byte 56
-    .4byte 58
-    .4byte 59
-    .4byte 60
-    .4byte 61
-    .4byte 62
-    .4byte 63
-    .4byte 64
-    .4byte 66
-    .4byte 91
-    .4byte 114
-    .4byte 124
-    .4byte 205
-    .4byte 206
-    .4byte 208
-    .4byte 211
-    .4byte 212
-    .4byte 226
-    .4byte 237
-    .4byte 265
-    list_end
-TrAI08_033C:
-    .4byte 1
-    .4byte 7
-    .4byte 10
-    .4byte 11
-    .4byte 12
-    .4byte 13
-    .4byte 14
-    .4byte 15
-    .4byte 16
-    .4byte 18
-    .4byte 19
-    .4byte 20
-    .4byte 21
-    .4byte 22
-    .4byte 23
-    .4byte 24
-    .4byte 26
-    .4byte 30
-    .4byte 33
-    .4byte 35
-    .4byte 38
-    .4byte 40
-    .4byte 40
-    .4byte 46
-    .4byte 47
-    .4byte 49
-    .4byte 50
-    .4byte 51
-    .4byte 52
-    .4byte 53
-    .4byte 54
-    .4byte 55
-    .4byte 56
-    .4byte 58
-    .4byte 59
-    .4byte 60
-    .4byte 61
-    .4byte 62
-    .4byte 63
-    .4byte 64
-    .4byte 66
-    .4byte 67
-    .4byte 91
-    .4byte 93
-    .4byte 94
-    .4byte 100
-    .4byte 114
-    .4byte 118
-    .4byte 119
-    .4byte 120
-    .4byte 124
-    .4byte 143
-    .4byte 144
-    .4byte 167
-    .4byte 205
-    .4byte 206
-    .4byte 208
-    .4byte 211
-    .4byte 212
-    .4byte 226
-    .4byte 237
-    .4byte 265
-    list_end
+// AI flag 8, CheckHP: move effects that suit a different HP range lose 2 points, 80% of the time, first by the
+// attacker's HP and then by the target's.
+
+CheckHP_Main:
+    IfTargetIsPartner CheckHP_Terminate
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 70, CheckHP_GT70Percent
+    IfHPPercentGreaterThan AI_BATTLER_ATTACKER, 30, CheckHP_31To70Percent
+    LoadCurrentMoveEffect
+    IfLoadedInTable CheckHP_DiscourageAtLowHP, CheckHP_TryScoreMinus2
+    GoTo CheckHP_Target
+
+CheckHP_GT70Percent:
+    LoadCurrentMoveEffect
+    IfLoadedInTable CheckHP_DiscourageAtHighHP, CheckHP_TryScoreMinus2
+    GoTo CheckHP_Target
+
+CheckHP_31To70Percent:
+    LoadCurrentMoveEffect
+    IfLoadedInTable CheckHP_DiscourageAtMediumHP, CheckHP_TryScoreMinus2
+    GoTo CheckHP_Target
+
+CheckHP_TryScoreMinus2:
+    IfRandomLessThan 50, CheckHP_Target
+    AddToMoveScore -2
+
+CheckHP_Target:
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 70, CheckHP_Target_GT70Percent
+    IfHPPercentGreaterThan AI_BATTLER_DEFENDER, 30, CheckHP_Target_31To70Percent
+    LoadCurrentMoveEffect
+    IfLoadedInTable CheckHP_Target_DiscourageAtLowHP, CheckHP_Target_TryScoreMinus2
+    GoTo CheckHP_Terminate
+
+CheckHP_Target_GT70Percent:
+    LoadCurrentMoveEffect
+    IfLoadedInTable CheckHP_Target_DiscourageAtHighHP, CheckHP_Target_TryScoreMinus2
+    GoTo CheckHP_Terminate
+
+CheckHP_Target_31To70Percent:
+    LoadCurrentMoveEffect
+    IfLoadedInTable CheckHP_Target_DiscourageAtMediumHP, CheckHP_Target_TryScoreMinus2
+    GoTo CheckHP_Terminate
+
+CheckHP_Target_TryScoreMinus2:
+    IfRandomLessThan 50, CheckHP_Terminate
+    AddToMoveScore -2
+
+CheckHP_Terminate:
+    End
+
+CheckHP_DiscourageAtHighHP:
+    TableEntry BATTLE_EFFECT_HALVE_DEFENSE
+    TableEntry BATTLE_EFFECT_RESTORE_HALF_HP
+    TableEntry BATTLE_EFFECT_REST
+    TableEntry BATTLE_EFFECT_KO_MON_THAT_DEFEATED_USER
+    TableEntry BATTLE_EFFECT_INCREASE_POWER_WITH_LESS_HP
+    TableEntry BATTLE_EFFECT_SURVIVE_WITH_1_HP
+    TableEntry BATTLE_EFFECT_HEAL_HALF_MORE_IN_SUN
+    TableEntry BATTLE_EFFECT_FAINT_AND_ATK_SP_ATK_DOWN_2
+    TableEntry BATTLE_EFFECT_REMOVE_ALL_PP_ON_DEFEAT
+    TableEntry BATTLE_EFFECT_HEAL_HALF_REMOVE_FLYING_TYPE
+    TableEntry BATTLE_EFFECT_FAINT_AND_FULL_HEAL_NEXT_MON
+    TableEntry BATTLE_EFFECT_FAINT_FULL_RESTORE_NEXT_MON
+    TableEntry TABLE_END
+
+CheckHP_DiscourageAtMediumHP:
+    TableEntry BATTLE_EFFECT_HALVE_DEFENSE
+    TableEntry BATTLE_EFFECT_ATK_UP
+    TableEntry BATTLE_EFFECT_DEF_UP
+    TableEntry BATTLE_EFFECT_SPEED_UP
+    TableEntry BATTLE_EFFECT_SP_ATK_UP
+    TableEntry BATTLE_EFFECT_SP_DEF_UP
+    TableEntry BATTLE_EFFECT_ACC_UP
+    TableEntry BATTLE_EFFECT_EVA_UP
+    TableEntry BATTLE_EFFECT_ATK_DOWN
+    TableEntry BATTLE_EFFECT_DEF_DOWN
+    TableEntry BATTLE_EFFECT_SPEED_DOWN
+    TableEntry BATTLE_EFFECT_SP_ATK_DOWN
+    TableEntry BATTLE_EFFECT_SP_DEF_DOWN
+    TableEntry BATTLE_EFFECT_ACC_DOWN
+    TableEntry BATTLE_EFFECT_EVA_DOWN
+    TableEntry BATTLE_EFFECT_BIDE
+    TableEntry BATTLE_EFFECT_CONVERSION
+    TableEntry BATTLE_EFFECT_SET_LIGHT_SCREEN
+    TableEntry BATTLE_EFFECT_PREVENT_STAT_REDUCTION
+    TableEntry BATTLE_EFFECT_CRIT_UP_2
+    TableEntry BATTLE_EFFECT_ATK_UP_2
+    TableEntry BATTLE_EFFECT_DEF_UP_2
+    TableEntry BATTLE_EFFECT_SPEED_UP_2
+    TableEntry BATTLE_EFFECT_SP_ATK_UP_2
+    TableEntry BATTLE_EFFECT_SP_DEF_UP_2
+    TableEntry BATTLE_EFFECT_ACC_UP_2
+    TableEntry BATTLE_EFFECT_EVA_UP_2
+    TableEntry BATTLE_EFFECT_ATK_DOWN_2
+    TableEntry BATTLE_EFFECT_DEF_DOWN_2
+    TableEntry BATTLE_EFFECT_SPEED_DOWN_2
+    TableEntry BATTLE_EFFECT_SP_ATK_DOWN_2
+    TableEntry BATTLE_EFFECT_SP_DEF_DOWN_2
+    TableEntry BATTLE_EFFECT_EVA_DOWN_2
+    TableEntry BATTLE_EFFECT_ACC_DOWN_2
+    TableEntry BATTLE_EFFECT_CONVERSION2
+    TableEntry BATTLE_EFFECT_PREVENT_STATUS
+    TableEntry BATTLE_EFFECT_MAX_ATK_LOSE_HALF_MAX_HP
+    TableEntry BATTLE_EFFECT_ATK_DEF_DOWN
+    TableEntry BATTLE_EFFECT_DEF_SPD_UP
+    TableEntry BATTLE_EFFECT_ATK_DEF_UP
+    TableEntry BATTLE_EFFECT_SP_ATK_SP_DEF_UP
+    TableEntry BATTLE_EFFECT_ATK_SPD_UP
+    TableEntry BATTLE_EFFECT_PREVENT_CRITS
+    TableEntry BATTLE_EFFECT_SWAP_ATK_SP_ATK_STAT_CHANGES
+    TableEntry BATTLE_EFFECT_SWAP_DEF_SP_DEF_STAT_CHANGES
+    TableEntry BATTLE_EFFECT_SP_ATK_DOWN_2_OPPOSITE_GENDER
+    TableEntry TABLE_END
+
+CheckHP_DiscourageAtLowHP:
+    TableEntry BATTLE_EFFECT_ATK_UP
+    TableEntry BATTLE_EFFECT_DEF_UP
+    TableEntry BATTLE_EFFECT_SPEED_UP
+    TableEntry BATTLE_EFFECT_SP_ATK_UP
+    TableEntry BATTLE_EFFECT_SP_DEF_UP
+    TableEntry BATTLE_EFFECT_ACC_UP
+    TableEntry BATTLE_EFFECT_EVA_UP
+    TableEntry BATTLE_EFFECT_ATK_DOWN
+    TableEntry BATTLE_EFFECT_DEF_DOWN
+    TableEntry BATTLE_EFFECT_SPEED_DOWN
+    TableEntry BATTLE_EFFECT_SP_ATK_DOWN
+    TableEntry BATTLE_EFFECT_SP_DEF_DOWN
+    TableEntry BATTLE_EFFECT_ACC_DOWN
+    TableEntry BATTLE_EFFECT_EVA_DOWN
+    TableEntry BATTLE_EFFECT_BIDE
+    TableEntry BATTLE_EFFECT_CONVERSION
+    TableEntry BATTLE_EFFECT_SET_LIGHT_SCREEN
+    TableEntry BATTLE_EFFECT_PREVENT_STAT_REDUCTION
+    TableEntry BATTLE_EFFECT_CRIT_UP_2
+    TableEntry BATTLE_EFFECT_ATK_UP_2
+    TableEntry BATTLE_EFFECT_DEF_UP_2
+    TableEntry BATTLE_EFFECT_SPEED_UP_2
+    TableEntry BATTLE_EFFECT_SP_ATK_UP_2
+    TableEntry BATTLE_EFFECT_SP_DEF_UP_2
+    TableEntry BATTLE_EFFECT_ACC_UP_2
+    TableEntry BATTLE_EFFECT_EVA_UP_2
+    TableEntry BATTLE_EFFECT_ATK_DOWN_2
+    TableEntry BATTLE_EFFECT_DEF_DOWN_2
+    TableEntry BATTLE_EFFECT_SPEED_DOWN_2
+    TableEntry BATTLE_EFFECT_SP_ATK_DOWN_2
+    TableEntry BATTLE_EFFECT_SP_DEF_DOWN_2
+    TableEntry BATTLE_EFFECT_EVA_DOWN_2
+    TableEntry BATTLE_EFFECT_ACC_DOWN_2
+    TableEntry BATTLE_EFFECT_RAISE_ATK_WHEN_HIT
+    TableEntry BATTLE_EFFECT_CONVERSION2
+    TableEntry BATTLE_EFFECT_NEXT_ATTACK_ALWAYS_HITS
+    TableEntry BATTLE_EFFECT_PREVENT_STATUS
+    TableEntry BATTLE_EFFECT_MAX_ATK_LOSE_HALF_MAX_HP
+    TableEntry BATTLE_EFFECT_COPY_STAT_CHANGES
+    TableEntry BATTLE_EFFECT_MIRROR_COAT
+    TableEntry BATTLE_EFFECT_DECREASE_POWER_WITH_LESS_USER_HP
+    TableEntry BATTLE_EFFECT_ATK_DEF_DOWN
+    TableEntry BATTLE_EFFECT_DEF_SPD_UP
+    TableEntry BATTLE_EFFECT_ATK_DEF_UP
+    TableEntry BATTLE_EFFECT_SP_ATK_SP_DEF_UP
+    TableEntry BATTLE_EFFECT_ATK_SPD_UP
+    TableEntry BATTLE_EFFECT_HALVE_ELECTRIC_DAMAGE
+    TableEntry BATTLE_EFFECT_HALVE_FIRE_DAMAGE
+    TableEntry BATTLE_EFFECT_RANDOM_STAT_UP_2
+    TableEntry BATTLE_EFFECT_METAL_BURST
+    TableEntry BATTLE_EFFECT_SP_ATK_DOWN_2_OPPOSITE_GENDER
+    TableEntry TABLE_END
+
+CheckHP_Target_DiscourageAtHighHP:
+    TableEntry TABLE_END
+
+CheckHP_Target_DiscourageAtMediumHP:
+    TableEntry BATTLE_EFFECT_ATK_UP
+    TableEntry BATTLE_EFFECT_DEF_UP
+    TableEntry BATTLE_EFFECT_SPEED_UP
+    TableEntry BATTLE_EFFECT_SP_ATK_UP
+    TableEntry BATTLE_EFFECT_SP_DEF_UP
+    TableEntry BATTLE_EFFECT_ACC_UP
+    TableEntry BATTLE_EFFECT_EVA_UP
+    TableEntry BATTLE_EFFECT_ATK_DOWN
+    TableEntry BATTLE_EFFECT_DEF_DOWN
+    TableEntry BATTLE_EFFECT_SPEED_DOWN
+    TableEntry BATTLE_EFFECT_SP_ATK_DOWN
+    TableEntry BATTLE_EFFECT_SP_DEF_DOWN
+    TableEntry BATTLE_EFFECT_ACC_DOWN
+    TableEntry BATTLE_EFFECT_EVA_DOWN
+    TableEntry BATTLE_EFFECT_PREVENT_STAT_REDUCTION
+    TableEntry BATTLE_EFFECT_CRIT_UP_2
+    TableEntry BATTLE_EFFECT_ATK_UP_2
+    TableEntry BATTLE_EFFECT_DEF_UP_2
+    TableEntry BATTLE_EFFECT_SPEED_UP_2
+    TableEntry BATTLE_EFFECT_SP_ATK_UP_2
+    TableEntry BATTLE_EFFECT_SP_DEF_UP_2
+    TableEntry BATTLE_EFFECT_ACC_UP_2
+    TableEntry BATTLE_EFFECT_EVA_UP_2
+    TableEntry BATTLE_EFFECT_ATK_DOWN_2
+    TableEntry BATTLE_EFFECT_DEF_DOWN_2
+    TableEntry BATTLE_EFFECT_SPEED_DOWN_2
+    TableEntry BATTLE_EFFECT_SP_ATK_DOWN_2
+    TableEntry BATTLE_EFFECT_SP_DEF_DOWN_2
+    TableEntry BATTLE_EFFECT_EVA_DOWN_2
+    TableEntry BATTLE_EFFECT_ACC_DOWN_2
+    TableEntry BATTLE_EFFECT_STATUS_POISON
+    TableEntry BATTLE_EFFECT_AVERAGE_HP
+    TableEntry BATTLE_EFFECT_ALL_FAINT_3_TURNS
+    TableEntry BATTLE_EFFECT_PREVENT_STATUS
+    TableEntry BATTLE_EFFECT_ATK_DEF_DOWN
+    TableEntry BATTLE_EFFECT_DEF_SPD_UP
+    TableEntry BATTLE_EFFECT_ATK_DEF_UP
+    TableEntry BATTLE_EFFECT_SP_ATK_SP_DEF_UP
+    TableEntry BATTLE_EFFECT_ATK_SPD_UP
+    TableEntry BATTLE_EFFECT_RANDOM_STAT_UP_2
+    TableEntry BATTLE_EFFECT_INCREASE_POWER_WITH_MORE_HP
+    TableEntry BATTLE_EFFECT_SP_ATK_DOWN_2_OPPOSITE_GENDER
+    TableEntry TABLE_END
+
+CheckHP_Target_DiscourageAtLowHP:
+    TableEntry BATTLE_EFFECT_STATUS_SLEEP
+    TableEntry BATTLE_EFFECT_HALVE_DEFENSE
+    TableEntry BATTLE_EFFECT_ATK_UP
+    TableEntry BATTLE_EFFECT_DEF_UP
+    TableEntry BATTLE_EFFECT_SPEED_UP
+    TableEntry BATTLE_EFFECT_SP_ATK_UP
+    TableEntry BATTLE_EFFECT_SP_DEF_UP
+    TableEntry BATTLE_EFFECT_ACC_UP
+    TableEntry BATTLE_EFFECT_EVA_UP
+    TableEntry BATTLE_EFFECT_ATK_DOWN
+    TableEntry BATTLE_EFFECT_DEF_DOWN
+    TableEntry BATTLE_EFFECT_SPEED_DOWN
+    TableEntry BATTLE_EFFECT_SP_ATK_DOWN
+    TableEntry BATTLE_EFFECT_SP_DEF_DOWN
+    TableEntry BATTLE_EFFECT_ACC_DOWN
+    TableEntry BATTLE_EFFECT_EVA_DOWN
+    TableEntry BATTLE_EFFECT_BIDE
+    TableEntry BATTLE_EFFECT_CONVERSION
+    TableEntry BATTLE_EFFECT_STATUS_BADLY_POISON
+    TableEntry BATTLE_EFFECT_SET_LIGHT_SCREEN
+    TableEntry BATTLE_EFFECT_ONE_HIT_KO
+    TableEntry BATTLE_EFFECT_HALVE_HP
+    TableEntry BATTLE_EFFECT_HALVE_HP
+    TableEntry BATTLE_EFFECT_PREVENT_STAT_REDUCTION
+    TableEntry BATTLE_EFFECT_CRIT_UP_2
+    TableEntry BATTLE_EFFECT_STATUS_CONFUSE
+    TableEntry BATTLE_EFFECT_ATK_UP_2
+    TableEntry BATTLE_EFFECT_DEF_UP_2
+    TableEntry BATTLE_EFFECT_SPEED_UP_2
+    TableEntry BATTLE_EFFECT_SP_ATK_UP_2
+    TableEntry BATTLE_EFFECT_SP_DEF_UP_2
+    TableEntry BATTLE_EFFECT_ACC_UP_2
+    TableEntry BATTLE_EFFECT_EVA_UP_2
+    TableEntry BATTLE_EFFECT_ATK_DOWN_2
+    TableEntry BATTLE_EFFECT_DEF_DOWN_2
+    TableEntry BATTLE_EFFECT_SPEED_DOWN_2
+    TableEntry BATTLE_EFFECT_SP_ATK_DOWN_2
+    TableEntry BATTLE_EFFECT_SP_DEF_DOWN_2
+    TableEntry BATTLE_EFFECT_EVA_DOWN_2
+    TableEntry BATTLE_EFFECT_ACC_DOWN_2
+    TableEntry BATTLE_EFFECT_STATUS_POISON
+    TableEntry BATTLE_EFFECT_STATUS_PARALYZE
+    TableEntry BATTLE_EFFECT_AVERAGE_HP
+    TableEntry BATTLE_EFFECT_CONVERSION2
+    TableEntry BATTLE_EFFECT_NEXT_ATTACK_ALWAYS_HITS
+    TableEntry BATTLE_EFFECT_DECREASE_LAST_MOVE_PP
+    TableEntry BATTLE_EFFECT_ALL_FAINT_3_TURNS
+    TableEntry BATTLE_EFFECT_ATK_UP_2_STATUS_CONFUSION
+    TableEntry BATTLE_EFFECT_DOUBLE_POWER_EACH_TURN
+    TableEntry BATTLE_EFFECT_INFATUATE
+    TableEntry BATTLE_EFFECT_PREVENT_STATUS
+    TableEntry BATTLE_EFFECT_COPY_STAT_CHANGES
+    TableEntry BATTLE_EFFECT_MIRROR_COAT
+    TableEntry BATTLE_EFFECT_STATUS_BURN
+    TableEntry BATTLE_EFFECT_ATK_DEF_DOWN
+    TableEntry BATTLE_EFFECT_DEF_SPD_UP
+    TableEntry BATTLE_EFFECT_ATK_DEF_UP
+    TableEntry BATTLE_EFFECT_SP_ATK_SP_DEF_UP
+    TableEntry BATTLE_EFFECT_ATK_SPD_UP
+    TableEntry BATTLE_EFFECT_RANDOM_STAT_UP_2
+    TableEntry BATTLE_EFFECT_INCREASE_POWER_WITH_MORE_HP
+    TableEntry BATTLE_EFFECT_SP_ATK_DOWN_2_OPPOSITE_GENDER
+    TableEntry TABLE_END

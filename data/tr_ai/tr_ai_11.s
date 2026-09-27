@@ -1,19 +1,23 @@
 #include "asm/tr_ai.inc"
 
-TrAI11_0000:
-    if_condition TRAI_SIDE_ATTACKER, 8, TrAI11_006E
-    if_condition TRAI_SIDE_ATTACKER, 22, TrAI11_006E
-    load_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_SHADOW_TAG, TrAI11_006E
-    load_ability TRAI_SIDE_ATTACKER
-    if_equal ABILITY_LEVITATE, TrAI11_006C
-    load_type TRAI_TYPE_ATTACKER_1
-    if_equal TYPE_FLYING, TrAI11_006C
-    load_type TRAI_TYPE_ATTACKER_2
-    if_equal TYPE_FLYING, TrAI11_006C
-    load_ability TRAI_SIDE_DEFENDER
-    if_equal ABILITY_ARENA_TRAP, TrAI11_006E
-TrAI11_006C:
-    flee
-TrAI11_006E:
-    end
+// AI flag 11, RoamingPokemon: flees, unless the Pokemon is trapped.
+
+RoamingPokemon_Main:
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_BIND, RoamingPokemon_Trapped
+    IfCondition AI_BATTLER_ATTACKER, CONDITION_MEAN_LOOK, RoamingPokemon_Trapped
+    LoadAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_SHADOW_TAG, RoamingPokemon_Trapped
+    LoadAbility AI_BATTLER_ATTACKER
+    IfLoadedEqualTo ABILITY_LEVITATE, RoamingPokemon_NotTrapped
+    LoadTypeFrom LOAD_ATTACKER_TYPE_1
+    IfLoadedEqualTo TYPE_FLYING, RoamingPokemon_NotTrapped
+    LoadTypeFrom LOAD_ATTACKER_TYPE_2
+    IfLoadedEqualTo TYPE_FLYING, RoamingPokemon_NotTrapped
+    LoadAbility AI_BATTLER_DEFENDER
+    IfLoadedEqualTo ABILITY_ARENA_TRAP, RoamingPokemon_Trapped
+
+RoamingPokemon_NotTrapped:
+    Escape
+
+RoamingPokemon_Trapped:
+    End

@@ -2,19 +2,9 @@
 #define POKEBW2_BATTLE_BTL_POKEPARAM_H
 
 #include "types.h"
+#include "constants/battle.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
-
-// Values for GetBattleMonStat. 1 to 7 are the stat stages, which are 6 when unchanged
-#define BATTLEMON_ATTACK 8
-#define BATTLEMON_SP_ATTACK 10
-#define BATTLEMON_HP 13
-#define BATTLEMON_LEVEL 15
-#define BATTLEMON_ABILITY 16
-#define BATTLEMON_GENDER 18
-#define BATTLEMON_FORM 19
-
-#define BATTLEMON_STAT_STAGE_NEUTRAL 6
 
 // How long a condition lasts, passed by value
 typedef struct {
