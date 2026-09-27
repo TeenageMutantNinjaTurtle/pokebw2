@@ -175,7 +175,7 @@ def add_version(n: Writer, version: str, dsd: Path) -> tuple[list[Path], list[st
         source = Path(f["name"])
         if source.suffix in (".c", ".cpp") and source.exists():
             obj = build_dir / source.with_suffix(".o")
-            n.build([obj], "mwcc", [source], variables={"defines": defines})
+            n.build([obj], "mwcc", [source], variables={"defines": defines, "dep": obj.with_suffix(".d")})
             compiled.append(obj)
         objects.append(f["object_to_link"])
 
@@ -238,8 +238,10 @@ def main():
     n.rule("extract", "$dsd rom extract --rom $in --output-path $extract_dir", "Extracting $in")
     n.rule("delink", "$dsd delink --config-path $config", "Delinking $config")
     n.rule("lcf", "$dsd lcf --config-path $config", "Generating linker script for $config")
+    # mwccarm writes the dependency file next to the object, with Windows paths that fix_depfile.py converts
     n.rule("mwcc", f"mkdir -p $$(dirname $out) && $wine {shlex.quote(str(mwcc))} {' '.join(CC_FLAGS)} $defines "
-           "-i include -o $out $in", "Compiling $in")
+           "-gccdep -MD -i include -o $out $in && $python tools/scripts/fix_depfile.py $dep", "Compiling $in",
+           depfile="$dep", deps="gcc")
     n.rule("mwld", f"$wine {shlex.quote(str(mwld))} {' '.join(LD_FLAGS)} @$objects $lcf -o $out", "Linking $out")
     n.rule("rom_config", "$dsd rom config --elf $in --config $config", "Configuring ROM for $config")
     n.rule("rom_build", "$dsd rom build --config $in --rom $out", "Building $out")

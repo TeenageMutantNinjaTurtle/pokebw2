@@ -3,3 +3,8 @@
     .ctor       start:0x0209907c end:0x0209907c kind:rodata align:4
     .data       start:0x02099080 end:0x0209d740 kind:data align:32
     .bss        start:0x0209d740 end:0x0214f500 kind:bss align:32
+
+src/main/vm.c:
+    complete
+    .text       start:0x0201587c end:0x02015a90
+    .data       start:0x0209a2f8 end:0x0209a300
