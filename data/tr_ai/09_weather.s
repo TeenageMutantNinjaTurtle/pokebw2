@@ -40,4 +40,4 @@ Weather_ScorePlus5:
 
 Weather_Terminate:
     End
-    .balign 4
+    .balign 4, 0

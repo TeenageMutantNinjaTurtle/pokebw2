@@ -1,0 +1,218 @@
+#include "asm/field_script.inc"
+
+    ScriptEntry Script_1
+    ScriptEntry Script_2
+    ScriptEntry Script_3
+    ScriptEntry Script_4
+    ScriptEntriesEnd
+    WorkSetConst 0x8020, 0
+    WorkSetConst 0x8021, 0
+    WorkSetConst 0x8022, 0
+    WorkSetConst 0x8023, 0
+
+Script_1:
+    VMStackPushFlag 900
+    VMStackPushConst 0
+    VMStackCmp 1
+    VMStackPush 0x4074
+    VMStackPushConst 2
+    VMStackCmp 1
+    VMStackCmp 7
+    VMJumpIf 255, L_0057
+    FlagSet 900
+    WorkSetConst 0x4074, 1
+
+L_0057:
+    VMHalt
+
+Script_4:
+    ActorsPauseAll
+    WordSetPlayerName 0
+    ActorCmdExec 254, Movement_02E8
+    VMSleep 8
+    ActorCmdExec 255, Movement_02D0
+    ActorCmdWait
+    PlayerGetGPos 0x8021, 0x8023
+    WorkGet 0x8022, 0x8021
+    VMStackPush 0x8021
+    VMStackPushConst 11
+    VMStackCmp 1
+    VMJumpIf 255, L_009F
+    WorkSub 0x8021, 1
+    VMJump L_00A5
+
+L_009F:
+    WorkAdd 0x8021, 1
+
+L_00A5:
+    EvCameraInit
+    EvCameraUnbind
+    EvCameraMoveTo 9688, 0, 0xed000, 0xa8000, 0xffff8000, 0xf8000, 32
+    ActorWalkRoute 254, 0x8021, 15, 0, 8, 0
+    VMSleep 16
+    ActorCmdExec 255, Movement_02C8
+    ActorCmdWait
+    EvCameraWait
+    ActorMsg 1024, 0, 254, 0, 0
+    MsgWinCloseAll
+    EvCameraMoveToDefault 32
+    ActorWalkRoute 254, 0x8021, 18, 0, 8, 0
+    ActorCmdWait
+    EvCameraWait
+    EvCameraRebind
+    EvCameraEnd
+    PlayerGetGPos 0x8021, 0x8023
+    VMStackPush 0x8021
+    VMStackPushConst 11
+    VMStackCmp 1
+    VMJumpIf 255, L_0136
+    ActorCmdExec 254, Movement_02E0
+    ActorCmdExec 255, Movement_02D8
+    VMJump L_0146
+
+L_0136:
+    ActorCmdExec 254, Movement_02D8
+    ActorCmdExec 255, Movement_02E0
+
+L_0146:
+    ActorCmdWait
+    ActorMsg 1024, 1, 254, 0, 0
+    MsgWinCloseAll
+    WorkSetConst 0x4121, 3
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_2:
+    ActorsPauseAll
+    SystemMsg 2, 2
+    YesNoWin 0x8010
+    VMStackPush 0x8010
+    VMStackPushConst 0
+    VMStackCmp 1
+    VMJumpIf 255, L_01BA
+    MsgWinCloseAll
+    VMSleep 8
+    FlagReset 900
+    WorkSetConst 0x4074, 2
+    PVPlay 485, 0
+    InfoMsg 3, 1
+    PVWait
+    MsgWaitAdvance
+    InfoMsgClose_0039
+    ActorAdd 0
+    ActorFallDownToXZ 0, 10, 12, 1
+    VMSleep 60
+    VMJump L_01C6
+
+L_01BA:
+    MsgWinCloseAll
+    ActorCmdExec 255, Movement_0288
+    ActorCmdWait
+
+L_01C6:
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_3:
+    ActorsPauseAll
+    SEPlay 1351
+    ActorSetEyeToEye
+    PVPlay 485, 0
+    ScreamMsg 3, 2
+    PVWait
+    MsgWaitAdvance
+    InfoMsgClose_0039
+    CallWildBattle 485, 68, 1
+    WildBattleIsVictory 0x8010
+    VMStackPush 0x8010
+    VMStackPushConst 1
+    VMStackCmp 1
+    VMJumpIf 255, L_021A
+    FlagSet 900
+    WorkSetConst 0x4074, 3
+    ActorDelete 0
+    CallWildBattleEnd
+    VMJump L_021C
+
+L_021A:
+    CallWildLose
+
+L_021C:
+    WildBattleGetResult 0x8010
+    WorkCmpConst 0x8010, 0
+    VMJumpIf 1, L_0233
+    VMJump L_023D
+
+L_0233:
+    FlagSet 380
+    VMJump L_0263
+
+L_023D:
+    WorkCmpConst 0x8010, 1
+    VMJumpIf 1, L_025D
+    WorkCmpConst 0x8010, 2
+    VMJumpIf 1, L_025D
+    VMJump L_0263
+
+L_025D:
+    VMJump L_0263
+
+L_0263:
+    VMStackPushFlag 380
+    VMStackPushConst 0
+    VMStackCmp 1
+    VMJumpIf 255, L_0280
+    SystemMsg 4, 2
+    LastKeyWait
+    InfoMsgClose
+
+L_0280:
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+    .balign 4, 0
+
+Movement_0288:
+    Move 13, 1
+    MoveEnd
+    Move 12, 1
+    MoveEnd
+    Move 15, 1
+    MoveEnd
+    Move 14, 1
+    MoveEnd
+    Move 0, 1
+    MoveEnd
+    Move 1, 1
+    MoveEnd
+    VMHalt
+    .byte 0x01
+    .byte 0x00
+    .byte 0xfe
+    .balign 4, 0
+    Move 3, 1
+    MoveEnd
+
+Movement_02C8:
+    Move 32, 1
+    MoveEnd
+
+Movement_02D0:
+    Move 33, 1
+    MoveEnd
+
+Movement_02D8:
+    Move 34, 1
+    MoveEnd
+
+Movement_02E0:
+    Move 35, 1
+    MoveEnd
+
+Movement_02E8:
+    Move 75, 1
+    MoveEnd
+    Move 159, 1
+    MoveEnd

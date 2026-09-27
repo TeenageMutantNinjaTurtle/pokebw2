@@ -56,7 +56,7 @@ trainer AI, and everything else is still delinked code. The trainer AI scripts a
 | `config/names.txt`, `config/fixes.txt` | Our own names and fixes to dsd's analysis, applied again after regenerating the configs |
 | `src/<module>/` | Decompiled C, one directory per module, such as `src/ov035/event_mapchange.c` |
 | `include/` | Headers shared by the C code, see [Code organization](#code-organization) |
-| `data/` | Scripts assembled into the ROM's files, see [Scripts](#scripts) |
+| `data/` | Scripts assembled into the ROM's files, see [Scripts](#scripts) and [Field scripts](#field-scripts) |
 | `include/asm/` | Macros for the scripts |
 | `tools/scripts/` | Helper scripts, such as `romdiff.py` to compare two ROMs region by region |
 | `extract/`, `build/` | Generated, never committed |
@@ -220,6 +220,50 @@ The disassembler follows the jumps from the start of each script. Bytes it does 
 where they are valid, then as tables, and otherwise kept as `.byte`. A value compared with the loaded value is written
 as a constant when every way to the comparison loads the same kind of value. Labels are named after their offset,
 unless `--labels` gives names.
+
+### Field scripts
+
+The field scripts, archive `a/0/5/6`, are built from source in `data/field_scripts/NNNN.s`, with the macros in
+`include/asm/field_script.inc`. Both versions have the same archive. It holds a script file and a map script table
+for each zone, and the global scripts, which zones start by their IDs (from 2000 up). A script file starts with the
+offsets of its scripts, followed by the scripts and their movement data. A map script table lists the scripts that
+the zone runs at points such as its loading.
+
+```
+Script_2:
+    VMStackPushFlag 970
+    VMStackPushConst 1
+    VMStackCmp 1
+    VMJumpIf 255, L_0080
+    FlagReset 970
+    ActorAdd 3
+```
+
+Commands are named after swan's names for their handlers, such as `s0024_FlagReset` for `FlagReset`. The ones swan
+does not name are `Cmd_NNNN`. Commands from ID 1000 up come from the script plugin, an overlay that the zone loads,
+and are named `PluginN_CmdNNNN`.
+
+The arguments of every command come from its handler. `tools/scripts/field_command_table.py` follows the reads of the
+script in each handler's disassembly: `VM_Read16`, `VM_Read32`, `ScriptReadAny` (a value or a variable),
+`ScriptReadVar`, loads through the VM's pc, and the same in the functions the handler calls with the VM. It writes
+`tools/scripts/field_commands.json`, and needs `dsd dis` output in `build/asm`. Every script file decodes with these
+arguments.
+
+A script file has the plugin of the zones that use it, or else of the zones that start its scripts. A few global
+files get the only plugin whose commands they decode with, and files whose plugin is not known keep plugin commands
+as bytes. The Join Avenue shop commands swap one of the plugin's overlays, which changes the arguments of its
+commands, and the disassembler follows that.
+
+```sh
+python3 tools/scripts/field_command_table.py tools/scripts/field_commands.json
+python3 tools/scripts/field_script.py inc include/asm/field_script.inc
+python3 tools/scripts/field_script.py disasm extract/b2_us OUTPUT_DIR
+```
+
+The disassembler follows the code from each script. Bytes it does not reach are decoded as code where it ends
+cleanly, then as movement data, and otherwise kept as `.byte`: about 3,600 bytes, mostly in global files whose plugin
+is not known. The scripts are still written by the disassembler, so improvements to it can be applied by running it
+again.
 
 ## Versions
 

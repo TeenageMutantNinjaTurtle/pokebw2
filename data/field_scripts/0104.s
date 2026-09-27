@@ -1,0 +1,650 @@
+#include "asm/field_script.inc"
+
+// Script plugin 2, from the zones that use this file
+
+    ScriptEntry Script_1
+    ScriptEntry Script_2
+    ScriptEntry Script_3
+    ScriptEntry Script_4
+    ScriptEntry Script_5
+    ScriptEntry Script_6
+    ScriptEntry Script_7
+    ScriptEntry Script_8
+    ScriptEntry Script_9
+    ScriptEntry Script_10
+    ScriptEntry Script_11
+    ScriptEntry Script_12
+    ScriptEntry Script_13
+    ScriptEntry Script_14
+    ScriptEntry Script_15
+    ScriptEntry Script_16
+    ScriptEntry Script_17
+    ScriptEntry Script_18
+    ScriptEntry Script_19
+    ScriptEntry Script_20
+    ScriptEntry Script_21
+    ScriptEntry Script_22
+    ScriptEntry Script_23
+    ScriptEntry Script_24
+    ScriptEntry Script_25
+    ScriptEntry Script_26
+    ScriptEntry Script_27
+    ScriptEntry Script_28
+    ScriptEntry Script_29
+    ScriptEntry Script_30
+    ScriptEntriesEnd
+
+Script_30:
+    VMStackPush 0x417b
+    VMStackPushConst 0
+    VMStackCmp 1
+    VMJumpIf 255, L_0099
+    ActorSetGPos 0, 29, 3, 28, 1
+
+L_0099:
+    VMHalt
+
+Script_27:
+    Cmd_01A1 0, 4, 0, 0x4020
+    Cmd_01A1 1, 4, 0, 0x4021
+    Cmd_01A1 2, 4, 0, 0x4022
+    Cmd_01A1 3, 4, 0, 0x4023
+    Cmd_01A1 4, 4, 0, 0x4024
+    Cmd_01A1 5, 4, 0, 0x4025
+    Cmd_01A1 6, 4, 0, 0x4026
+    Cmd_01A1 7, 4, 0, 0x4027
+    Cmd_01A1 8, 4, 0, 0x4028
+    Cmd_01A1 9, 4, 0, 0x4029
+    Cmd_01A1 10, 4, 0, 0x402a
+    Cmd_01A1 11, 4, 0, 0x402b
+    Cmd_01A1 12, 4, 0, 0x402c
+    Cmd_01A1 13, 4, 0, 0x402d
+    Cmd_01A1 14, 4, 0, 0x402e
+    VMHalt
+
+Script_1:
+    ActorsPauseAll
+    SEWait
+    SystemMsg 67, 2
+    InfoMsgClose
+    Plugin2_Cmd1005
+    FadeOutBlack
+    FadeWait
+    VMCall L_083D
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+    .balign 4, 0
+    Move 75, 1
+    MoveEnd
+
+Script_2:
+    ActorsPauseAll
+    SEPlay 1351
+    ActorSetEyeToEye
+    WorkSetConst 0x8020, 0
+    WorkSetConst 0x8021, 0
+    Plugin2_Cmd1002 4, 0x8020
+    Plugin2_Cmd1002 5, 0x8021
+    WordSetNumber 3, 0x8020, 1
+    WordSetNumber 4, 0x8021, 1
+    VMStackPush 0x8020
+    VMStackPush 0x8021
+    VMStackCmp 3
+    VMJumpIf 255, L_01AD
+    ParentActorMsg 1024, 66, 0, 0
+    VMJump L_01DA
+
+L_01AD:
+    VMStackPush 0x8021
+    VMStackPushConst 0
+    VMStackCmp 1
+    VMJumpIf 255, L_01D0
+    ParentActorMsg 1024, 1, 0, 0
+    VMJump L_01DA
+
+L_01D0:
+    ParentActorMsg 1024, 0, 0, 0
+
+L_01DA:
+    YesNoWin 0x8010
+    VMStackPush 0x8010
+    VMStackPushConst 0
+    VMStackCmp 1
+    VMJumpIf 255, L_020F
+    ParentActorMsg 1024, 62, 0, 0
+    ActorMsgClose
+    Plugin2_Cmd1005
+    FadeOutBlack
+    FadeWait
+    VMCall L_083D
+    VMJump L_021D
+
+L_020F:
+    ParentActorMsg 1024, 63, 0, 0
+    LastKeyWait
+    ActorMsgClose
+
+L_021D:
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_3:
+    ActorsPauseAll
+    SEPlay 1351
+    ActorSetEyeToEye
+    VMStackPushFlag 228
+    VMStackPushConst 0
+    VMStackCmp 1
+    VMJumpIf 255, L_0252
+    ParentActorMsg 1024, 2, 0, 0
+    FlagSet 228
+    VMJump L_025C
+
+L_0252:
+    ParentActorMsg 1024, 61, 0, 0
+
+L_025C:
+    YesNoWin 0x8010
+    VMStackPush 0x8010
+    VMStackPushConst 0
+    VMStackCmp 1
+    VMJumpIf 255, L_02FB
+    WorkSetConst 0x8022, 0
+    WorkSetConst 0x8023, 0
+    Plugin2_Cmd1002 0, 0x8022
+    Plugin2_Cmd1002 1, 0x8023
+    WordSetNumber 0, 0x8022, 1
+    WordSetNumber 1, 0x8023, 1
+    VMStackPush 0x8022
+    VMStackPushConst 0
+    VMStackCmp 1
+    VMJumpIf 255, L_02C0
+    ParentActorMsg 1024, 58, 0, 0
+    LastKeyWait
+    ActorMsgClose
+    VMJump L_02F5
+
+L_02C0:
+    VMStackPush 0x8023
+    VMStackPushConst 0
+    VMStackCmp 1
+    VMJumpIf 255, L_02E7
+    ParentActorMsg 1024, 59, 0, 0
+    LastKeyWait
+    ActorMsgClose
+    VMJump L_02F5
+
+L_02E7:
+    ParentActorMsg 1024, 57, 0, 0
+    LastKeyWait
+    ActorMsgClose
+
+L_02F5:
+    VMJump L_0309
+
+L_02FB:
+    ParentActorMsg 1024, 60, 0, 0
+    LastKeyWait
+    ActorMsgClose
+
+L_0309:
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_4:
+    ActorsPauseAll
+    SEPlay 1351
+    ActorSetEyeToEye
+    ParentActorMsg 1024, 3, 0, 0
+    LastKeyWait
+    ActorMsgClose
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_5:
+    ActorsPauseAll
+    SEPlay 1351
+    ActorSetEyeToEye
+    ParentActorMsg 1024, 4, 0, 0
+    LastKeyWait
+    ActorMsgClose
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_6:
+    ActorsPauseAll
+    WorkSetConst 0x8024, 0
+    Plugin2_Cmd1002 3, 0x8024
+    VMStackPush 0x8024
+    VMStackPushConst 1
+    VMStackCmp 1
+    VMJumpIf 255, L_0382
+    SEPlay 1351
+    ActorSetEyeToEye
+    ParentActorMsg 1024, 5, 0, 0
+    LastKeyWait
+    ActorMsgClose
+    VMJump L_039D
+
+L_0382:
+    WordSetNumber 2, 0x8024, 1
+    SEPlay 1351
+    ActorSetEyeToEye
+    ParentActorMsg 1024, 6, 0, 0
+    LastKeyWait
+    ActorMsgClose
+
+L_039D:
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_7:
+    ActorsPauseAll
+    SEPlay 1351
+    ActorSetEyeToEye
+    ParentActorMsg 1024, 7, 0, 0
+    LastKeyWait
+    ActorMsgClose
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_8:
+    ActorsPauseAll
+    SEPlay 1351
+    ActorSetEyeToEye
+    ParentActorMsg 1024, 8, 0, 0
+    LastKeyWait
+    ActorMsgClose
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_9:
+    ActorsPauseAll
+    SEPlay 1351
+    ActorSetEyeToEye
+    ParentActorMsg 1024, 9, 0, 0
+    LastKeyWait
+    ActorMsgClose
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_10:
+    ActorsPauseAll
+    SEPlay 1351
+    ActorSetEyeToEye
+    ParentActorMsg 1024, 10, 0, 0
+    LastKeyWait
+    ActorMsgClose
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_11:
+    ActorsPauseAll
+    SEPlay 1351
+    ActorSetEyeToEye
+    ParentActorMsg 1024, 11, 0, 0
+    LastKeyWait
+    ActorMsgClose
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_12:
+    ActorsPauseAll
+    WorkSetConst 0x4000, 0
+    VMCall L_055B
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_13:
+    ActorsPauseAll
+    WorkSetConst 0x4000, 1
+    VMCall L_055B
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_14:
+    ActorsPauseAll
+    WorkSetConst 0x4000, 2
+    VMCall L_055B
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_15:
+    ActorsPauseAll
+    WorkSetConst 0x4000, 3
+    VMCall L_055B
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_16:
+    ActorsPauseAll
+    WorkSetConst 0x4000, 4
+    VMCall L_055B
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_17:
+    ActorsPauseAll
+    WorkSetConst 0x4000, 5
+    VMCall L_055B
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_18:
+    ActorsPauseAll
+    WorkSetConst 0x4000, 6
+    VMCall L_055B
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_19:
+    ActorsPauseAll
+    WorkSetConst 0x4000, 7
+    VMCall L_055B
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_20:
+    ActorsPauseAll
+    WorkSetConst 0x4000, 8
+    VMCall L_055B
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_21:
+    ActorsPauseAll
+    WorkSetConst 0x4000, 9
+    VMCall L_055B
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_22:
+    ActorsPauseAll
+    WorkSetConst 0x4000, 10
+    VMCall L_055B
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_23:
+    ActorsPauseAll
+    WorkSetConst 0x4000, 11
+    VMCall L_055B
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_24:
+    ActorsPauseAll
+    WorkSetConst 0x4000, 12
+    VMCall L_055B
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_25:
+    ActorsPauseAll
+    WorkSetConst 0x4000, 13
+    VMCall L_055B
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_26:
+    ActorsPauseAll
+    WorkSetConst 0x4000, 14
+    VMCall L_055B
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+L_055B:
+    WorkSetConst 0x8025, 0
+    Cmd_01A1 0x4000, 5, 0, 0x8025
+    DebugPrint 0x8025
+    VMStackPush 0x8025
+    VMStackPushConst 0
+    VMStackCmp 1
+    VMJumpIf 255, L_058E
+    VMCall L_05CE
+    VMJump L_05CC
+
+L_058E:
+    VMStackPush 0x8025
+    VMStackPushConst 1
+    VMStackCmp 1
+    VMJumpIf 255, L_05AD
+    VMCall L_06FE
+    VMJump L_05CC
+
+L_05AD:
+    VMStackPush 0x8025
+    VMStackPushConst 2
+    VMStackCmp 1
+    VMJumpIf 255, L_05CC
+    VMCall L_072E
+    VMJump L_05CC
+
+L_05CC:
+    VMReturn
+
+L_05CE:
+    WorkSetConst 0x8026, 0
+    WorkSetConst 0x8027, 0
+    WorkSetConst 0x8028, 0
+    Cmd_01A1 0x4000, 8, 0, 0x8010
+    VMStackPush 0x8010
+    VMStackPushConst 1
+    VMStackCmp 1
+    VMJumpIf 255, L_0627
+    WorkSetConst 0x8028, 1
+    Cmd_01A1 0x4000, 7, 0x8028, 0x8026
+    SEPlay 1351
+    ActorSetEyeToEye
+    ParentActorMsg 1024, 0x8026, 0, 0
+    LastKeyWait
+    ActorMsgClose
+    VMJump L_06FC
+
+L_0627:
+    VMStackPush 0x8010
+    VMStackPushConst 0
+    VMStackCmp 1
+    VMJumpIf 255, L_06D8
+    WorkSetConst 0x8028, 0
+    Cmd_01A1 0x4000, 7, 0x8028, 0x8026
+    Cmd_01A1 0x4000, 6, 0, 0x8027
+    DebugPrint 0x8027
+    SEPlay 1351
+    ActorSetEyeToEye
+    ParentActorMsg 1024, 0x8026, 0, 0
+    ActorMsgClose
+    CallTrainerBattle 0x8027, 0, 0
+    TrainerBattleIsVictory 0x8010
+    VMStackPush 0x8010
+    VMStackPushConst 1
+    VMStackCmp 1
+    VMJumpIf 255, L_0691
+    CallTrainerBattleEnd
+    VMJump L_0693
+
+L_0691:
+    CallTrainerLose
+
+L_0693:
+    Plugin2_Cmd1004 0x4000, 8, 0, 1
+    WorkSetConst 0x8029, 0
+    WorkSetConst 0x802a, 0
+    Plugin2_Cmd1002 4, 0x8029
+    Plugin2_Cmd1002 5, 0x802a
+    VMStackPush 0x8029
+    VMStackPush 0x802a
+    VMStackCmp 3
+    VMJumpIf 255, L_06D2
+    SystemMsg 64, 2
+    LastKeyWait
+    InfoMsgClose
+
+L_06D2:
+    VMJump L_06FC
+
+L_06D8:
+    WorkSetConst 0x8028, 1
+    Cmd_01A1 0x4000, 7, 0x8028, 0x8026
+    SEPlay 1351
+    ActorSetEyeToEye
+    ParentActorMsg 1024, 0x8026, 0, 0
+    LastKeyWait
+    ActorMsgClose
+
+L_06FC:
+    VMReturn
+
+L_06FE:
+    WorkSetConst 0x802b, 0
+    Cmd_01A1 0x4000, 7, 0, 0x802b
+    DebugPrint 0x802b
+    SEPlay 1351
+    ActorSetEyeToEye
+    ParentActorMsg 1024, 0x802b, 0, 0
+    LastKeyWait
+    ActorMsgClose
+    Plugin2_Cmd1003 10, 1
+    VMReturn
+
+L_072E:
+    WorkSetConst 0x802c, 0
+    Cmd_01A1 0x4000, 7, 0, 0x802c
+    SEPlay 1351
+    ActorSetEyeToEye
+    ParentActorMsg 1024, 0x802c, 0, 0
+    ActorMsgClose
+    SEPlay 1757
+    SEWait
+    Cmd_01A1 0x4000, 7, 1, 0x802c
+    SEPlay 1351
+    ActorSetEyeToEye
+    ParentActorMsg 1024, 0x802c, 0, 0
+    LastKeyWait
+    ActorMsgClose
+    Plugin2_Cmd1003 45, 0
+    VMReturn
+
+Script_28:
+    ActorsPauseAll
+    SEPlay 1369
+    FadeOutBlackQ
+    SEWait
+    FadeWait
+    FieldClose
+    CallRoyalUnovaView 0x8010
+    FieldOpen
+    FadeInBlackQ
+    ActorCmdExec 255, Movement_07D4
+    ActorCmdWait
+    FadeWait
+    VMStackPush 0x8010
+    VMStackPushConst 1
+    VMStackCmp 1
+    VMJumpIf 255, L_07CB
+    SEPlay 1757
+    SEWait
+    SystemMsg 67, 2
+    InfoMsgClose
+    Plugin2_Cmd1005
+    FadeOutBlack
+    FadeWait
+    VMCall L_083D
+
+L_07CB:
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+    .balign 4, 0
+
+Movement_07D4:
+    Move 13, 1
+    MoveEnd
+
+Script_29:
+    ActorsPauseAll
+    WorkSetConst 0x802d, 0
+    Plugin2_Cmd1000 2400
+    Plugin2_Cmd1002 4, 0x802d
+    ActorCmdExec 0, Movement_0884
+    ActorCmdExec 255, Movement_08AC
+    ActorCmdWait
+    WordSetNumber 3, 0x802d, 1
+    ActorMsg 1024, 65, 0, 0, 0
+    ActorMsgClose
+    WorkSetConst 0x802d, 0
+    FadeOutBlackQ
+    FadeWait
+    FadeExWait
+    FieldClose
+    Call3DDemo 2, 0
+    FieldOpen
+    FadeInBlackQ
+    FadeWait
+    FadeExWait
+    WorkSetConst 0x417b, 1
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+L_083D:
+    WorkSetConst 0x802e, 0
+    WorkSetConst 0x802f, 0
+    Plugin2_Cmd1002 4, 0x802e
+    Plugin2_Cmd1002 5, 0x802f
+    VMStackPush 0x802e
+    VMStackPush 0x802f
+    VMStackCmp 3
+    VMJumpIf 255, L_086E
+    WorkSetConst 0x417b, 2
+
+L_086E:
+    Plugin2_Cmd1001
+    RTReserveScript 1
+    MapChangeCore 39, 19, 0, 16, 2
+    VMReturn
+    .balign 4, 0
+
+Movement_0884:
+    Move 33, 1
+    Move 12, 8
+    Move 2, 1
+    Move 71, 1
+    Move 15, 1
+    Move 63, 1
+    Move 72, 1
+    Move 14, 1
+    Move 12, 2
+    MoveEnd
+
+Movement_08AC:
+    Move 63, 1
+    Move 12, 12
+    Move 1, 1
+    MoveEnd

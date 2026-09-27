@@ -52,4 +52,4 @@ UnusedRiskyEffects:
     TableEntry BATTLE_EFFECT_USE_MOVE_FIRST
     TableEntry BATTLE_EFFECT_HIT_FIRST_IF_TARGET_ATTACKING
     TableEntry TABLE_END
-    .balign 4
+    .balign 4, 0

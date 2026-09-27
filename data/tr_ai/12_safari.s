@@ -8,4 +8,4 @@ Safari_Main:
     .4byte 2
     Dummy3F
     Escape
-    .balign 4
+    .balign 4, 0

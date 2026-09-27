@@ -1,0 +1,38 @@
+#include "asm/field_script.inc"
+
+// Script plugin 5, from the zones that use this file
+
+    ScriptEntry Script_1
+    ScriptEntry Script_2
+    ScriptEntry Script_3
+    ScriptEntriesEnd
+
+Script_1:
+    Plugin5_Cmd1000
+    VMStackPushFlag 2464
+    VMStackPushConst 0
+    VMStackCmp 1
+    VMJumpIf 255, L_0027
+    FlagSet 2464
+
+L_0027:
+    VMHalt
+
+Script_2:
+    Plugin5_Cmd1000
+    VMHalt
+
+Script_3:
+    ActorsPauseAll
+    ActorCmdExec 255, Movement_0050
+    ActorCmdWait
+    FieldSetNextZone 240, 1, 801, 5, 308
+    CallDiving 1
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+    .balign 4, 0
+
+Movement_0050:
+    Move 13, 4
+    MoveEnd

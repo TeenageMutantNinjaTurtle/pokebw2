@@ -57,6 +57,7 @@ CC_FLAGS = [
 # Archives built from source, which replace their extracted counterparts in the ROM. Each maps its path under files/ to
 # the directory of its members, one assembly file each, in archive order.
 ARCHIVES = {
+    "a/0/5/6": "data/field_scripts",  # Field scripts, see tools/scripts/field_script.py
     "a/1/6/9": "data/tr_ai",  # Trainer AI scripts, see tools/scripts/tr_ai_script.py
 }
 

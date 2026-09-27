@@ -108,4 +108,4 @@ ScorePlus5:
 ScorePlus10:
     AddToMoveScore 10
     End
-    .balign 4
+    .balign 4, 0

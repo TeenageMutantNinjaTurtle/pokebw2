@@ -1,0 +1,24 @@
+#include "asm/field_script.inc"
+
+    ScriptEntry Script_1
+    ScriptEntry Script_2
+    ScriptEntriesEnd
+
+Script_1:
+    ActorsPauseAll
+    Cmd_017A 36
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_2:
+    ActorsPauseAll
+    SEPlay 1351
+    ActorSetEyeToEye
+    ActorMsgVersioned 1024, 0, 1, 0, 0, 0
+    LastKeyWait
+    MsgWinCloseAll
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+    .balign 4, 0

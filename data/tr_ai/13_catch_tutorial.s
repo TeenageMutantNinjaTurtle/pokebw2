@@ -10,4 +10,4 @@ CatchTutorial_Main:
 CatchTutorial_Escape:
     Escape
     End
-    .balign 4
+    .balign 4, 0

@@ -1,0 +1,107 @@
+#include "asm/field_script.inc"
+
+    ScriptEntry Script_1
+    ScriptEntry Script_2
+    ScriptEntriesEnd
+
+Script_1:
+    ActorsPauseAll
+    FunfestMissionBroadcast 17, 0
+    SEPlay 1351
+    MsgPlaceSign 0, 2
+    MsgPlaceSignClose
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+Script_2:
+    ActorsPauseAll
+    WorkSetConst 0x8020, 0
+    SEPlay 1351
+    ActorSetEyeToEye
+    VMStackPushFlag 2763
+    VMStackPushConst 0
+    VMStackCmp 1
+    VMJumpIf 255, L_0102
+    ParentActorMsg 1024, 1, 0, 0
+    YesNoWin 0x8010
+    VMStackPush 0x8010
+    VMStackPushConst 0
+    VMStackCmp 1
+    VMJumpIf 255, L_00EE
+    VMCall L_0116
+    WorkCmpConst 0x8020, 0
+    VMJumpIf 1, L_007F
+    VMJump L_008F
+
+L_007F:
+    ParentActorMsg 1024, 3, 0, 0
+    VMJump L_00E8
+
+L_008F:
+    WorkCmpConst 0x8020, 1
+    VMJumpIf 1, L_00A2
+    VMJump L_00B2
+
+L_00A2:
+    ParentActorMsg 1024, 6, 0, 0
+    VMJump L_00E8
+
+L_00B2:
+    ParentActorMsg 1024, 2, 0, 0
+    MsgWaitAdvance
+    MsgWinCloseAll
+    WordSetItemName 0, 4
+    WordSetItemName 2, 3
+    MEPlay 1302
+    SystemMsg 7, 0
+    MEWait
+    MsgWaitAdvance
+    MsgWinCloseAll
+    ParentActorMsg 1024, 5, 0, 0
+    FlagSet 2763
+
+L_00E8:
+    VMJump L_00F8
+
+L_00EE:
+    ParentActorMsg 1024, 4, 0, 0
+
+L_00F8:
+    LastKeyWait
+    MsgWinCloseAll
+    VMJump L_0110
+
+L_0102:
+    ParentActorMsg 1024, 5, 0, 0
+    LastKeyWait
+    MsgWinCloseAll
+
+L_0110:
+    FinishAllEvents
+    ActorsUnpauseAll
+    VMHalt
+
+L_0116:
+    ItemCheckAmount 4, 1, 0x8010
+    VMStackPush 0x8010
+    VMStackPushConst 0
+    VMStackCmp 1
+    VMJumpIf 255, L_0139
+    WorkSetConst 0x8020, 0
+    VMReturn
+
+L_0139:
+    ItemCheckSpace 3, 1, 0x8010
+    VMStackPush 0x8010
+    VMStackPushConst 0
+    VMStackCmp 1
+    VMJumpIf 255, L_015C
+    WorkSetConst 0x8020, 1
+    VMReturn
+
+L_015C:
+    ItemSub 4, 1, 0x8010
+    ItemAdd 3, 1, 0x8010
+    WorkSetConst 0x8020, 2
+    VMReturn
