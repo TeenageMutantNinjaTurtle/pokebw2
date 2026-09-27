@@ -123,6 +123,12 @@ Things that affect whether MWCC output matches:
 - Overlay IDs are linker symbols, such as `(u32)OVERLAY_279_ID` with `extern u32 OVERLAY_279_ID[]`, which gives the
   literal pool entry a relocation. Mark the literal in the config with `tools/scripts/add_overlay_id_reloc.py`.
 - A switch case that ends in the same code as another case is merged into it, so its end moves.
+- Switch cases are laid out in source order, not by value, so the layout shows the order the cases were written in.
+- Identical statements in different branches are merged, so a branch that jumps into the middle of another block had
+  the same code in the source. For example, `if (a) { x = 3; y = 19; } else { x = 0; y = 19; }` compiles differently
+  from `x = a ? 3 : 0; y = 19;`.
+- `a == 4 || a == 5` becomes a range check. Separate comparisons that jump to the same code come from separate
+  branches with the same body.
 
 ## Versions
 

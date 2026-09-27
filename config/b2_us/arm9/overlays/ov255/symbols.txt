@@ -784,7 +784,7 @@ func_ov255_021d6f3c kind:function(thumb,size=0x1a) addr:0x021d6f3c
 func_ov255_021d6f58 kind:function(thumb,size=0x8) addr:0x021d6f58
 func_ov255_021d6f60 kind:function(thumb,size=0x8) addr:0x021d6f60
 func_ov255_021d6f68 kind:function(thumb,size=0x4) addr:0x021d6f68
-data_ov255_021d6f6c kind:data(any) addr:0x021d6f6c ambiguous
+BOX2_PROC_FUNCTIONS kind:data(any) addr:0x021d6f6c ambiguous
 data_ov255_021d6f78 kind:data(any) addr:0x021d6f78
 data_ov255_021d6f7c kind:data(any) addr:0x021d6f7c
 data_ov255_021d6f94 kind:data(any) addr:0x021d6f94

@@ -1,11 +1,17 @@
 # Names that are not in swan, applied by tools/scripts/rename_symbol.py
 # module address(b2_us) name
+. 0x02005c70 GFL_SndDestroyHeap
 . 0x02008dd0 SaveControl_GetPlayerInfo
+. 0x02009a0c DreamWorldSave_IsPokemonAsleep
 . 0x0200a3dc WifiList_GetMyGSID
 . 0x0200b488 SaveControl_GetWorldTradeData
 . 0x0200f2f8 RecordSave_ClearMatchInProgress
 . 0x02010050 JoinAvenue_GetPersonList
 . 0x02010564 KeyInfo_GetCityKey
+. 0x020120c8 GFL_NetErrCheck
+. 0x020120dc GFL_NetErrMarkShown
+. 0x02016b4c GSYS_CanBootGameComm
+. 0x02016bb4 GSYS_TryBootGameComm
 . 0x02017214 GameData_GetMyCityState
 . 0x02017238 GameData_GetWifiList
 . 0x02017414 GameData_SaveCGearPowerRequest
@@ -27,6 +33,9 @@
 . 0x0203802c JoinAvenuePersonList_GetCount
 . 0x02038060 JoinAvenuePersonList_Get
 . 0x0208fe14 BATTLE_VIDEO_PROC_FUNCTIONS
+overlays/ov000 0x0214f500 EventGameSync_Callback
+overlays/ov000 0x0214f8a8 EventGameSync_CreateFromArgs
+overlays/ov000 0x0214f8b0 EventGameSync_Create
 overlays/ov002 0x0214f500 EventWifiBattleMatch_Callback
 overlays/ov002 0x0214f63c EventWifiBattleMatch_Create
 overlays/ov002 0x0214f68c EventWifiBattleMatch_CreateFromArgs
@@ -58,7 +67,13 @@ overlays/ov035 0x0217ed70 ElScoreboard_Create
 overlays/ov035 0x0217ee00 ElScoreboard_Free
 overlays/ov035 0x0217ee08 ElScoreboard_Update
 overlays/ov035 0x0217ee2c ElScoreboard_UploadPalette
+overlays/ov182 0x021bd2d8 DWC_UTILITY_PROC_FUNCTIONS
+overlays/ov190 0x021b50a8 WIFILOGIN_PROC_FUNCTIONS
+overlays/ov190 0x021b52bc WIFILOGOUT_PROC_FUNCTIONS
 overlays/ov191 0x021b7168 WIFI_BSUBWAY_PROC_FUNCTIONS
+overlays/ov199 0x021b95ec GSYNC_PROC_FUNCTIONS
+overlays/ov199 0x021b97f4 PDWACC_PROC_FUNCTIONS
 overlays/ov214 0x021e1ab8 WORLDTRADE_PROC_FUNCTIONS
+overlays/ov255 0x021d6f6c BOX2_PROC_FUNCTIONS
 overlays/ov290 0x021fcf84 WIFIBATTLEMATCH_PROC_FUNCTIONS
 overlays/ov327 0x021b70d4 WBT_DOWNLOAD_PROC_FUNCTIONS

@@ -1112,7 +1112,7 @@ func_ov182_021bd280 kind:function(thumb,size=0x8) addr:0x021bd2c0
 func_ov182_021bd288 kind:function(thumb,size=0x30) addr:0x021bd2c8
 func_ov182_021bd2b8 kind:function(thumb,size=0x14) addr:0x021bd2f8
 data_ov182_021bd2cc kind:data(any) addr:0x021bd30c
-data_ov182_021bd2d8 kind:data(any) addr:0x021bd318
+DWC_UTILITY_PROC_FUNCTIONS kind:data(any) addr:0x021bd318
 data_ov182_021bd2e4 kind:data(any) addr:0x021bd324
 data_ov182_021bd2e8 kind:data(any) addr:0x021bd328
 data_ov182_021bd2f0 kind:data(any) addr:0x021bd330

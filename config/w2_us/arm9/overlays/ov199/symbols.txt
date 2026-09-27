@@ -261,7 +261,7 @@ data_ov199_021b95b8 kind:data(any) addr:0x021b95f8
 data_ov199_021b95bc kind:data(any) addr:0x021b95fc
 data_ov199_021b95c0 kind:data(any) addr:0x021b9600
 data_ov199_021b95d0 kind:data(any) addr:0x021b9610
-data_ov199_021b95ec kind:data(any) addr:0x021b962c ambiguous
+GSYNC_PROC_FUNCTIONS kind:data(any) addr:0x021b962c ambiguous
 data_ov199_021b95f8 kind:data(any) addr:0x021b9638
 data_ov199_021b9608 kind:data(any) addr:0x021b9648
 data_ov199_021b9628 kind:data(any) addr:0x021b9668
@@ -283,7 +283,7 @@ data_ov199_021b9774 kind:data(any) addr:0x021b97b4
 data_ov199_021b9794 kind:data(any) addr:0x021b97d4
 data_ov199_021b97b4 kind:data(any) addr:0x021b97f4
 data_ov199_021b97d4 kind:data(any) addr:0x021b9814
-data_ov199_021b97f4 kind:data(any) addr:0x021b9834 ambiguous
+PDWACC_PROC_FUNCTIONS kind:data(any) addr:0x021b9834 ambiguous
 data_ov199_021b9800 kind:data(any) addr:0x021b9840
 data_ov199_021b9820 kind:data(any) addr:0x021b9860
 data_ov199_021b9824 kind:data(any) addr:0x021b9864

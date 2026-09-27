@@ -93,7 +93,7 @@ func_ov190_021b5028 kind:function(thumb,size=0x54) addr:0x021b5028
 func_ov190_021b507c kind:function(thumb,size=0x1c) addr:0x021b507c
 func_ov190_021b5098 kind:function(thumb,size=0x6) addr:0x021b5098
 data_ov190_021b50a0 kind:data(any) addr:0x021b50a0
-data_ov190_021b50a8 kind:data(any) addr:0x021b50a8 ambiguous
+WIFILOGIN_PROC_FUNCTIONS kind:data(any) addr:0x021b50a8 ambiguous
 data_ov190_021b50b4 kind:data(any) addr:0x021b50b4
 data_ov190_021b50d4 kind:data(any) addr:0x021b50d4
 data_ov190_021b50f4 kind:data(any) addr:0x021b50f4
@@ -111,7 +111,7 @@ data_ov190_021b5254 kind:data(any) addr:0x021b5254
 data_ov190_021b5274 kind:data(any) addr:0x021b5274
 data_ov190_021b5294 kind:data(any) addr:0x021b5294
 data_ov190_021b52b4 kind:data(any) addr:0x021b52b4
-data_ov190_021b52bc kind:data(any) addr:0x021b52bc ambiguous
+WIFILOGOUT_PROC_FUNCTIONS kind:data(any) addr:0x021b52bc ambiguous
 data_ov190_021b52e0 kind:data(any) addr:0x021b52e0
 data_ov190_021b5340 kind:data(any) addr:0x021b5340
 data_ov190_021b5350 kind:data(any) addr:0x021b5350
