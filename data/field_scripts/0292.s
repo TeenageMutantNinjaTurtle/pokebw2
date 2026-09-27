@@ -40,7 +40,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "No matter how many times the Elite Four\ndefeat me...[f000]븁\u0000\nI'll keep moving forward\nwith my Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -51,7 +52,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Understand what type of Pokémon\neach of the Elite Four uses.[f000]븀\u0000\nThat is a shortcut for victory!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

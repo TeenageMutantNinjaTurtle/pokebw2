@@ -11,6 +11,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Café Sonata"
     MsgPlaceSign 13, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -22,10 +23,11 @@ Script_2:
     WorkSetConst 0x8020, 0
     WorkSetConst 0x8021, 0
     PlayerGetGPos 0x8020, 0x8021
-    ActorMsg 1024, 0, 0, 3, 1
+    // "Where did I put those sunglasses?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 3, 1
     ActorMsgClose
     WorkCmpConst 0x8020, 14
-    VMJumpIf 1, L_0065
+    VMJumpIf CMP_EQ, L_0065
     VMJump L_007D
 
 L_0065:
@@ -36,7 +38,7 @@ L_0065:
 
 L_007D:
     WorkCmpConst 0x8020, 15
-    VMJumpIf 1, L_0090
+    VMJumpIf CMP_EQ, L_0090
     VMJump L_00A8
 
 L_0090:
@@ -47,7 +49,7 @@ L_0090:
 
 L_00A8:
     WorkCmpConst 0x8020, 16
-    VMJumpIf 1, L_00BB
+    VMJumpIf CMP_EQ, L_00BB
     VMJump L_00D3
 
 L_00BB:
@@ -58,7 +60,7 @@ L_00BB:
 
 L_00D3:
     WorkCmpConst 0x8020, 17
-    VMJumpIf 1, L_00E6
+    VMJumpIf CMP_EQ, L_00E6
     VMJump L_00FE
 
 L_00E6:
@@ -69,7 +71,7 @@ L_00E6:
 
 L_00FE:
     WorkCmpConst 0x8020, 18
-    VMJumpIf 1, L_0111
+    VMJumpIf CMP_EQ, L_0111
     VMJump L_0129
 
 L_0111:
@@ -79,7 +81,8 @@ L_0111:
     VMJump L_0129
 
 L_0129:
-    ActorMsg 1024, 1, 0, 3, 0
+    // "Ah, I found them.[f000]븁\u0000\nAnd you've really got to have more\nlight to see your way by.[f000]븁\u0000\nTake this--it'll help you see in\ndark places.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 3, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -88,10 +91,11 @@ L_0129:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 3, 0, 3, 0
+    // "If you use the move Flash, the accuracy\nof the opponent's moves goes down.[f000]븁\u0000\nWhen you use it twice, the rate to get\nhit by a move will be about half.[f000]븁\u0000\n'Cause it means more light![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 3, 0
     MsgWinCloseAll
     WorkCmpConst 0x8020, 15
-    VMJumpIf 1, L_0178
+    VMJumpIf CMP_EQ, L_0178
     VMJump L_0188
 
 L_0178:
@@ -101,7 +105,7 @@ L_0178:
 
 L_0188:
     WorkCmpConst 0x8020, 16
-    VMJumpIf 1, L_019B
+    VMJumpIf CMP_EQ, L_019B
     VMJump L_01AB
 
 L_019B:
@@ -111,7 +115,7 @@ L_019B:
 
 L_01AB:
     WorkCmpConst 0x8020, 17
-    VMJumpIf 1, L_01BE
+    VMJumpIf CMP_EQ, L_01BE
     VMJump L_01CE
 
 L_01BE:
@@ -121,7 +125,7 @@ L_01BE:
 
 L_01CE:
     WorkCmpConst 0x8020, 18
-    VMJumpIf 1, L_01E1
+    VMJumpIf CMP_EQ, L_01E1
     VMJump L_01F1
 
 L_01E1:
@@ -191,9 +195,10 @@ Script_3:
     ActorSetEyeToEye
     VMStackPush 0x4137
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02D9
-    ActorMsg 1024, 2, 0, 3, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02D9
+    // "Meow!\nHow did you find me?![f000]븁\u0000\nYou are something else!\nSo, I'm going to give you something. This![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 3, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -202,14 +207,16 @@ Script_3:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 4, 0, 3, 0
+    // "If you use the move Flash, the accuracy\nof the opponent's moves goes down.[f000]븁\u0000\nWhen you use it twice, the rate to get\nhit by a move will be about half.[f000]븁\u0000\n'Cause it means more light!"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 3, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x4137, 1
     VMJump L_02E9
 
 L_02D9:
-    ActorMsg 1024, 4, 0, 3, 0
+    // "If you use the move Flash, the accuracy\nof the opponent's moves goes down.[f000]븁\u0000\nWhen you use it twice, the rate to get\nhit by a move will be about half.[f000]븁\u0000\n'Cause it means more light!"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 3, 0
     LastKeyWait
     MsgWinCloseAll
 

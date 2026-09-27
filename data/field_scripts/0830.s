@@ -8,7 +8,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "I wonder why only the father\nfrom The Riches stayed here..."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -20,7 +21,8 @@ Script_2:
     WordSetLoadJoinAvenueName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "I hear that the shops in\n[f000]Ĺ\u0001\u0000 are run by amazing[f000]븀\u0000\nPokémon Trainers.[f000]븁\u0000\nOK! I can't lose to them!\nI'm getting excited about this!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

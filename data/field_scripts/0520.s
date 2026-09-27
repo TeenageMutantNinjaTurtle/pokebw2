@@ -10,36 +10,36 @@ Script_1:
     Random 0x8020, 3
     VMStackPushFlag 2754
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2755
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2756
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_009E
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_009E
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_006A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_006A
     FlagSet 2754
     VMJump L_009E
 
 L_006A:
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0087
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0087
     FlagSet 2755
     VMJump L_009E
 
 L_0087:
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_009E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_009E
     FlagSet 2756
 
 L_009E:
@@ -51,27 +51,30 @@ Script_2:
     ActorSetEyeToEye
     VMStackPushFlag 2754
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00CD
-    ParentActorMsg 1024, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00CD
+    // "A woman was living here with\na group of Patrat.[f000]븁\u0000\nI wonder where they went."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     VMJump L_0111
 
 L_00CD:
     VMStackPushFlag 2755
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00F2
-    ParentActorMsg 1024, 2, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00F2
+    // "Why don't we move into this house?[f000]븁\u0000\nThose musicians are always nearby.\nIsn't that nice?"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     VMJump L_0111
 
 L_00F2:
     VMStackPushFlag 2756
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0111
-    ParentActorMsg 1024, 4, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0111
+    // "What do you think? We've been indecisive\nfor two years. Let's live here, shall we?"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
 
 L_0111:
@@ -86,27 +89,30 @@ Script_3:
     ActorSetEyeToEye
     VMStackPushFlag 2754
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0146
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0146
+    // "Seeing Watchy Watchog on TV\nreminds me of those Patrat."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     VMJump L_018A
 
 L_0146:
     VMStackPushFlag 2755
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_016B
-    ParentActorMsg 1024, 3, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_016B
+    // "I learned all the names\nof the musicians![f000]븁\u0000\nDerleth, Aickman,\nRusso, and Koontz."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     VMJump L_018A
 
 L_016B:
     VMStackPushFlag 2756
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_018A
-    ParentActorMsg 1024, 5, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_018A
+    // "Maybe we should move in.[f000]븁\u0000\nWe don't even know when the villa\nin Undella Town will be finished..."
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
 
 L_018A:

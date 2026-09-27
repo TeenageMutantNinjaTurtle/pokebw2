@@ -13,12 +13,12 @@
 Script_1:
     VMStackPushFlag 900
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4074
     VMStackPushConst 2
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0057
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0057
     FlagSet 900
     WorkSetConst 0x4074, 1
 
@@ -36,8 +36,8 @@ Script_4:
     WorkGet 0x8022, 0x8021
     VMStackPush 0x8021
     VMStackPushConst 11
-    VMStackCmp 1
-    VMJumpIf 255, L_009F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_009F
     WorkSub 0x8021, 1
     VMJump L_00A5
 
@@ -53,7 +53,8 @@ L_00A5:
     ActorCmdExec 255, Movement_02C8
     ActorCmdWait
     EvCameraWait
-    ActorMsg 1024, 0, 254, 0, 0
+    // "What is this place?\nIt feels very strange.[f000]븁\u0000\nCould this be the place where\nReversal Mountain started from--[f000]븀\u0000\nthe lair of the Pokémon Heatran?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 254, 0, 0
     MsgWinCloseAll
     EvCameraMoveToDefault 32
     ActorWalkRoute 254, 0x8021, 18, 0, 8, 0
@@ -64,8 +65,8 @@ L_00A5:
     PlayerGetGPos 0x8021, 0x8023
     VMStackPush 0x8021
     VMStackPushConst 11
-    VMStackCmp 1
-    VMJumpIf 255, L_0136
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0136
     ActorCmdExec 254, Movement_02E0
     ActorCmdExec 255, Movement_02D8
     VMJump L_0146
@@ -76,7 +77,8 @@ L_0136:
 
 L_0146:
     ActorCmdWait
-    ActorMsg 1024, 1, 254, 0, 0
+    // "Heatran is a Pokémon with\nmagma-like blood flowing through it![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 254, 0, 0
     MsgWinCloseAll
     WorkSetConst 0x4121, 3
     FinishAllEvents
@@ -85,17 +87,19 @@ L_0146:
 
 Script_2:
     ActorsPauseAll
+    // "The Magma Stone is reacting\nto something...[f000]븀\u0000\nWill you set it down here?"
     SystemMsg 2, 2
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01BA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01BA
     MsgWinCloseAll
     VMSleep 8
     FlagReset 900
     WorkSetConst 0x4074, 2
     PVPlay 485, 0
+    // "Gwogobo gwobobobo!"
     InfoMsg 3, 1
     PVWait
     MsgWaitAdvance
@@ -120,6 +124,7 @@ Script_3:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 485, 0
+    // "Gwogobo gwobobobo!"
     ScreamMsg 3, 2
     PVWait
     MsgWaitAdvance
@@ -128,8 +133,8 @@ Script_3:
     WildBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_021A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_021A
     FlagSet 900
     WorkSetConst 0x4074, 3
     ActorDelete 0
@@ -142,7 +147,7 @@ L_021A:
 L_021C:
     WildBattleGetResult 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_0233
+    VMJumpIf CMP_EQ, L_0233
     VMJump L_023D
 
 L_0233:
@@ -151,9 +156,9 @@ L_0233:
 
 L_023D:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_025D
+    VMJumpIf CMP_EQ, L_025D
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_025D
+    VMJumpIf CMP_EQ, L_025D
     VMJump L_0263
 
 L_025D:
@@ -162,8 +167,9 @@ L_025D:
 L_0263:
     VMStackPushFlag 380
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0280
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0280
+    // "Heatran vanished into the\ndepths of the volcano..."
     SystemMsg 4, 2
     LastKeyWait
     InfoMsgClose

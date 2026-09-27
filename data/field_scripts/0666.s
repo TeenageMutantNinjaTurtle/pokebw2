@@ -21,7 +21,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "I heard there was a legendary Pokémon\nin Mistralton Cave..."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

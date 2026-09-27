@@ -7,6 +7,7 @@ Script_1:
     ActorsPauseAll
     SEPlay 2222
     SEWait
+    // "Warning! Warning!\nIntruders in the vessel![f000]븀\u0000\nEveryone, please respond."
     InfoMsg 0, 2
     LastKeyWait
     InfoMsgClose_0039

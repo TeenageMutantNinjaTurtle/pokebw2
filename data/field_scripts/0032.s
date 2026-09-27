@@ -27,12 +27,12 @@
 Script_1:
     VMStackPushFlag 918
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4116
     VMStackPushConst 2
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_008D
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_008D
     FlagSet 918
     WorkSetConst 0x4116, 1
 
@@ -43,6 +43,7 @@ Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Nacrene City\nA Pearl of a Place"
     MsgPlaceSign 11, 1
     MsgPlaceSignClose
     FinishAllEvents
@@ -53,6 +54,7 @@ Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Café Warehouse[f000]븁\u0000\n\nTry our delicious specials\non Wednesdays and Saturdays!"
     MsgPlaceSign 12, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -63,6 +65,7 @@ Script_4:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Nacrene Museum"
     MsgPlaceSign 13, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -73,7 +76,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "These old textile storehouses\nare being reused as studios.[f000]븁\u0000\nHow innovative![f000]븁\u0000\nNew ideas create new values, don't they!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -84,7 +88,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "Hey, Trainer! Step inside for a moment!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -95,7 +100,8 @@ Script_9:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "You see, I believed it would become\npopular because it was a storehouse!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -106,7 +112,8 @@ Script_10:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "The rail line was abandoned, and\nthe storehouses went unused...[f000]븁\u0000\nThen young people with artistic\naspirations started renting them[f000]븀\u0000\ncheaply as art studios.[f000]븁\u0000\nIf people hadn't been so creative,\nPokémon might be living here now."
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -117,7 +124,8 @@ Script_11:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "My accordion's heavy!\nIt weighs over 20 pounds."
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -128,7 +136,8 @@ Script_12:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "What do you call a storehouse\nyou can't find? A where-house!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -139,7 +148,8 @@ Script_13:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "How many houses could a warehouse\nwear if a warehouse could wear houses?"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -150,7 +160,8 @@ Script_17:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 16, 0, 0
+    // "Walking on abandoned railroad tracks...\nEveryone does it sometimes, right?"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -161,7 +172,8 @@ Script_18:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 17, 0, 0
+    // "I was just collecting the Pokémon\nI like, and before I knew it, I had six!"
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -172,7 +184,8 @@ Script_19:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 18, 0, 0
+    // "The one trying to draw\nSmeargle's move Sketch is me!"
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -181,26 +194,28 @@ Script_19:
 
 Script_5:
     ActorsPauseAll
+    // "A mysterious presence can be felt here!\nCheck the surrounding area?"
     SystemMsg 0, 2
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_029E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_029E
     MsgWinCloseAll
     FlagReset 918
     WorkSetConst 0x4116, 2
     PlayerGetDir 0x8020
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_0241
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0241
     ActorCmdExec 255, Movement_0360
     ActorCmdWait
 
 L_0241:
     VMSleep 30
     PVPlay 480, 0
+    // "Kyouuuun!"
     InfoMsg 1, 1
     PVWait
     MsgWaitAdvance
@@ -229,6 +244,7 @@ Script_6:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 480, 0
+    // "Kyouuuun!"
     ScreamMsg 1, 2
     PVWait
     MsgWaitAdvance
@@ -237,8 +253,8 @@ Script_6:
     WildBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02F4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02F4
     FlagSet 918
     WorkSetConst 0x4116, 3
     ActorDelete 0
@@ -251,7 +267,7 @@ L_02F4:
 L_02F6:
     WildBattleGetResult 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_030D
+    VMJumpIf CMP_EQ, L_030D
     VMJump L_0317
 
 L_030D:
@@ -260,12 +276,13 @@ L_030D:
 
 L_0317:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0337
+    VMJumpIf CMP_EQ, L_0337
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0337
+    VMJumpIf CMP_EQ, L_0337
     VMJump L_0347
 
 L_0337:
+    // "Uxie went flying off somewhere..."
     SystemMsg 2, 2
     LastKeyWait
     InfoMsgClose
@@ -292,6 +309,7 @@ Movement_0368:
 Script_14:
     ActorsPauseAll
     SEPlay 1351
+    // "Nacrene Museum\nExhibit Schedule"
     InfoMsg 14, 2
     LastKeyWait
     MsgWinCloseAll
@@ -302,6 +320,7 @@ Script_14:
 Script_15:
     ActorsPauseAll
     SEPlay 1351
+    // "Special Exhibit\nThat Pokémon's dormant form!"
     InfoMsg 15, 2
     LastKeyWait
     MsgWinCloseAll
@@ -314,7 +333,8 @@ Script_16:
     WordSetLoadJoinAvenueName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "I heard there's a café in [f000]Ĺ\u0001\u0000\nwhere Pokémon can eat![f000]븁\u0000\nMaybe I should go try it and see how it\ncompares to Café Warehouse!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

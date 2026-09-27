@@ -16,19 +16,20 @@ Script_1:
     ActorsPauseAll
     VMStackPushFlag 15
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0051
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0051
     PedometerGet 0x400e
     DebugPrint 0x400e
 
 L_0051:
     VMStackPushFlag 2768
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_007E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_007E
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "But if you change your mind,\nI don't mind asking you to walk[f000]븀\u0000\nwith my Mienfoo again."
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_032A
@@ -36,26 +37,28 @@ L_0051:
 L_007E:
     VMStackPushFlag 2768
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 15
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_01E3
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_01E3
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 0, 1, 0, 0
+    // "Hey, you!\nWould you walk with my dear Mienfoo?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 1, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01CD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01CD
     WorkSetConst 0x400e, 0
-    ActorMsg 1024, 1, 1, 0, 0
+    // "Oh my!\nYou're very understanding![f000]븁\u0000\nWonderful. Please walk a lot\nwith my cute Mienfoo![f000]븁\u0000\nBut...\nPlease don't go out of this house![f000]븁\u0000\nIt's dangerous outside.\nAll right. Take good care of my Mienfoo![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 1, 0, 0
     MsgWinCloseAll
     PlayerGetDir 0x8020
     WorkCmpConst 0x8020, 0
-    VMJumpIf 1, L_00F5
+    VMJumpIf CMP_EQ, L_00F5
     VMJump L_0111
 
 L_00F5:
@@ -65,7 +68,7 @@ L_00F5:
 
 L_0111:
     WorkCmpConst 0x8020, 1
-    VMJumpIf 1, L_0124
+    VMJumpIf CMP_EQ, L_0124
     VMJump L_0140
 
 L_0124:
@@ -75,7 +78,7 @@ L_0124:
 
 L_0140:
     WorkCmpConst 0x8020, 2
-    VMJumpIf 1, L_0153
+    VMJumpIf CMP_EQ, L_0153
     VMJump L_016F
 
 L_0153:
@@ -107,7 +110,8 @@ L_016F:
     VMJump L_01DD
 
 L_01CD:
-    ActorMsg 1024, 2, 1, 0, 0
+    // "Oh my![f000]븁\u0000\nYou turned down my request.\nYou're mean.[f000]븁\u0000\nSome people say that I should walk\nmy Mienfoo myself.[f000]븁\u0000\nBut, it's impossible, because I've never\ncarried anything heavier than[f000]븀\u0000\na Poké Ball![f000]븁\u0000\n...But if you change your mind,\nI don't mind asking you to walk[f000]븀\u0000\nmy Mienfoo again."
+    ActorMsg MSGFILE_SCRIPT, 2, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -117,25 +121,27 @@ L_01DD:
 L_01E3:
     VMStackPush 0x400e
     VMStackPushConst 365
-    VMStackCmp 0
+    VMStackCmp CMP_LT
     VMStackPushFlag 15
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_02AC
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_02AC
     SEPlay 1351
     ActorSetEyeToEye
     WorkSetConst 0x8025, 0
-    ActorMsg 1024, 5, 1, 4, 0
+    // "You've just started walking.\nPlease walk more![f000]븁\u0000\n...Whaaat?[f000]븁\u0000\nYou're not going to say\nyou will quit in the middle of[f000]븀\u0000\nwalking my cute Mienfoo, are you?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 1, 4, 0
     ListMenu_AnchorTopRight 31, 5, 0, 1, 32805
     ListMenuAdd 6, 65535, 0
     ListMenuAdd 7, 65535, 1
     ListMenuShow
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0296
-    ActorMsg 1024, 9, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0296
+    // "Oh my!\nWhat's the matter with you?[f000]븁\u0000\nIt looks like my cute Mienfoo still\nwants to walk![f000]븁\u0000\nIn that case, I can't give you a\nthank-you gift.[f000]븁\u0000\n...But if you change your mind,\nI don't mind asking you to walk[f000]븀\u0000\nwith my Mienfoo again.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 1, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -152,7 +158,8 @@ L_01E3:
     VMJump L_02A6
 
 L_0296:
-    ActorMsg 1024, 8, 1, 0, 0
+    // "Of course![f000]븁\u0000\nPlease walk my cute Mienfoo\nuntil it is totally satisfied."
+    ActorMsg MSGFILE_SCRIPT, 8, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -162,7 +169,8 @@ L_02A6:
 L_02AC:
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 3, 1, 0, 0
+    // "Oh my![f000]븁\u0000\nMy cute Mienfoo\nlooks very tough now.[f000]븁\u0000\nThank you very much\nfor walking my Mienfoo.[f000]븁\u0000\nI'll give this to you\nas a token of my appreciation.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 1, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -179,7 +187,8 @@ L_02AC:
     VMStackPop 0x8001
     VMStackPop 0x8000
     VMCall L_0330
-    ActorMsg 1024, 4, 1, 0, 0
+    // "Please walk my cute Mienfoo again!"
+    ActorMsg MSGFILE_SCRIPT, 4, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
     PedometerEnd
@@ -199,144 +208,144 @@ L_0330:
     ActorGetGPos 0, 0x8023, 0x8024
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 5
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 2
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0383
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0383
     ActorCmdExec 0, Movement_0684
     VMJump L_0633
 
 L_0383:
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 7
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 2
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_03C4
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_03C4
     ActorCmdExec 0, Movement_0690
     VMJump L_0633
 
 L_03C4:
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 7
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 2
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0405
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0405
     ActorCmdExec 0, Movement_06A4
     VMJump L_0633
 
 L_0405:
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 8
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 3
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0446
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0446
     ActorCmdExec 0, Movement_06B4
     VMJump L_0633
 
 L_0446:
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 7
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 4
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0487
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0487
     ActorCmdExec 0, Movement_06C8
     VMJump L_0633
 
 L_0487:
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 7
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 4
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_04C8
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_04C8
     ActorCmdExec 0, Movement_06D8
     VMJump L_0633
 
 L_04C8:
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 6
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 5
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0509
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0509
     ActorCmdExec 0, Movement_06EC
     VMJump L_0633
 
 L_0509:
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 5
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 4
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_054A
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_054A
     ActorCmdExec 0, Movement_06FC
     VMJump L_0633
 
 L_054A:
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 5
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 4
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0593
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0593
     ActorCmdExec 0, Movement_0708
     ActorCmdExec 255, Movement_0660
     VMJump L_0633
@@ -344,16 +353,16 @@ L_054A:
 L_0593:
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 4
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 3
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_05DC
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_05DC
     ActorCmdExec 0, Movement_0714
     ActorCmdExec 255, Movement_0674
     VMJump L_0633
@@ -361,16 +370,16 @@ L_0593:
 L_05DC:
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 5
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 2
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0625
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0625
     ActorCmdExec 0, Movement_071C
     ActorCmdExec 255, Movement_0674
     VMJump L_0633
@@ -473,16 +482,17 @@ Script_2:
     ActorsPauseAll
     VMStackPushFlag 2406
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2768
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_076F
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_076F
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 619, 0
-    ParentActorMsg 1024, 15, 0, 0
+    // "...Yeep?"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -491,16 +501,17 @@ Script_2:
 L_076F:
     VMStackPushFlag 2768
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2783
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_07B4
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_07B4
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 619, 0
-    ParentActorMsg 1024, 17, 0, 0
+    // "Yeeeep. ♪"
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -509,16 +520,17 @@ L_076F:
 L_07B4:
     VMStackPushFlag 2768
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2783
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_07F9
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_07F9
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 619, 0
-    ParentActorMsg 1024, 16, 0, 0
+    // "Yeep!"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -533,8 +545,9 @@ L_07F9:
     PVPlay 619, 0
     VMStackPush 0x400e
     VMStackPushConst 99
-    VMStackCmp 3
-    VMJumpIf 255, L_0835
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_0835
+    // "The steps of the Mienfoo walking\nwith [f000]Ā\u0001\u0000 are somewhat clumsy."
     SystemMsg 22, 2
     PVWait
     LastKeyWait
@@ -544,8 +557,9 @@ L_07F9:
 L_0835:
     VMStackPush 0x400e
     VMStackPushConst 199
-    VMStackCmp 3
-    VMJumpIf 255, L_085A
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_085A
+    // "The steps of the Mienfoo walking\nwith [f000]Ā\u0001\u0000 are still clumsy."
     SystemMsg 21, 2
     PVWait
     LastKeyWait
@@ -555,8 +569,9 @@ L_0835:
 L_085A:
     VMStackPush 0x400e
     VMStackPushConst 299
-    VMStackCmp 3
-    VMJumpIf 255, L_087F
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_087F
+    // "The steps of the Mienfoo walking\nwith [f000]Ā\u0001\u0000 are getting smooth."
     SystemMsg 20, 2
     PVWait
     LastKeyWait
@@ -566,8 +581,9 @@ L_085A:
 L_087F:
     VMStackPush 0x400e
     VMStackPushConst 364
-    VMStackCmp 3
-    VMJumpIf 255, L_08A4
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_08A4
+    // "The steps of the Mienfoo walking\nwith [f000]Ā\u0001\u0000 are light!"
     SystemMsg 19, 2
     PVWait
     LastKeyWait
@@ -575,6 +591,7 @@ L_087F:
     VMJump L_08B0
 
 L_08A4:
+    // "The steps of the Mienfoo walking\nwith [f000]Ā\u0001\u0000 are very light![f000]븁\u0000\nMienfoo seems to be\nsatisfied with the walk!"
     SystemMsg 18, 2
     PVWait
     LastKeyWait
@@ -590,8 +607,9 @@ Script_3:
     SEPlay 1351
     VMStackPushFlag 15
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_08DF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08DF
+    // "Is this a home video?\nMienfoo is in it!"
     SystemMsg 23, 2
     LastKeyWait
     MsgWinCloseAll
@@ -601,13 +619,15 @@ L_08DF:
     ActorCmdExec 1, Movement_0A38
     ActorCmdWait
     SEPlay 1835
+    // "Hey, you!"
     ScreamMsg 11, 2
     SEWait
     MsgWaitAdvance
     InfoMsgClose_0039
     ActorCmdExec 255, Movement_0A60
     ActorCmdWait
-    ActorMsg 1024, 14, 1, 0, 0
+    // "What are you doing?[f000]븁\u0000\nIn front of my very eyes,\nyou disrupt Mienfoo's walk...[f000]븁\u0000\nOn top of that, you got engrossed\nin watching TV.[f000]븀\u0000\nWhat nerve![f000]븁\u0000\nStop taking a break, and walk\nmy Mienfoo![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 1, 0, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_0A60
     ActorCmdWait
@@ -622,8 +642,9 @@ Script_4:
     SEPlay 1351
     VMStackPushFlag 15
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0949
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0949
+    // "A somewhat expensive-looking...\nbut ordinary trash can."
     SystemMsg 24, 2
     LastKeyWait
     MsgWinCloseAll
@@ -633,6 +654,7 @@ L_0949:
     ActorCmdExec 1, Movement_0A50
     ActorCmdWait
     SEPlay 1835
+    // "Hey, you!"
     ScreamMsg 11, 2
     SEWait
     MsgWaitAdvance
@@ -640,7 +662,8 @@ L_0949:
     ActorWalkRoute 1, 7, 5, 1, 4, 1
     ActorCmdExec 255, Movement_0A68
     ActorCmdWait
-    ActorMsg 1024, 13, 1, 0, 0
+    // "What are you doing?[f000]븁\u0000\nYou have the audacity to check\nthe trash can in my house.[f000]븁\u0000\nIt's not good for the education of\nmy Mienfoo.[f000]븁\u0000\nNo matter how many times you check,\nthe trash can is empty![f000]븁\u0000\nPlease focus on walking![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 1, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 1, 6, 3, 1, 8, 0
     ActorCmdWait
@@ -657,6 +680,7 @@ Script_5:
     SEPlay 1835
     ActorCmdExec 1, Movement_0A40
     ActorCmdWait
+    // "Hey, you!"
     ScreamMsg 11, 2
     SEWait
     MsgWaitAdvance
@@ -664,7 +688,8 @@ Script_5:
     ActorWalkRoute 1, 5, 6, 1, 4, 1
     ActorCmdExec 255, Movement_0A58
     ActorCmdWait
-    ActorMsg 1024, 12, 1, 0, 0
+    // "What are you doing?[f000]븁\u0000\nI can understand very well\nthat my Mienfoo is so cute[f000]븀\u0000\nthat you want to take it out,[f000]븀\u0000\nbut you can't do that![f000]븁\u0000\nIt's dangerous outside![f000]븁\u0000\nWill you take responsibility\nif my Mienfoo gets hurt?[f000]븁\u0000\nPlease walk INSIDE the room![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 1, 0, 0
     MsgWinCloseAll
     ActorPairSetMoveEnable 1
     ActorWalkRoute 1, 6, 3, 1, 8, 0

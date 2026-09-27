@@ -20,8 +20,8 @@
 Script_13:
     VMStackPush 0x418f
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_005B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_005B
     WorkSetConst 0x418f, 4
 
 L_005B:
@@ -30,8 +30,8 @@ L_005B:
 Script_11:
     VMStackPushFlag 214
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0088
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0088
     ActorSetGPos 0, 44, 3, 26, 1
     ActorSetGPos 1, 44, 3, 26, 1
 
@@ -41,8 +41,8 @@ L_0088:
 Script_12:
     VMStackPushFlag 214
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00B5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B5
     ActorSetGPos 0, 44, 3, 26, 1
     ActorSetGPos 1, 44, 3, 26, 1
 
@@ -54,8 +54,8 @@ L_00B7:
     Cmd_0230 0x8020, 0
     VMStackPush 0x418f
     VMStackPushConst 2
-    VMStackCmp 4
-    VMJumpIf 255, L_00DC
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_00DC
     MsgPlaceSignClose
     MsgPlaceSign 0x8021, 0
 
@@ -110,18 +110,19 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
+    // "It looks like you can climb up here![f000]븁\u0000\nWill you proceed to the upper floor?"
     SystemMsg 5, 2
     YesNoWin 0x8010
     InfoMsgClose
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0226
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0226
     WorkSetConst 0x8022, 0
     WorkSetConst 0x8023, 0
     PlayerGetGPos 0x8022, 0x8023
     WorkCmpConst 0x8022, 41
-    VMJumpIf 1, L_01A8
+    VMJumpIf CMP_EQ, L_01A8
     VMJump L_01B6
 
 L_01A8:
@@ -130,7 +131,7 @@ L_01A8:
 
 L_01B6:
     WorkCmpConst 0x8022, 42
-    VMJumpIf 1, L_01C9
+    VMJumpIf CMP_EQ, L_01C9
     VMJump L_01D7
 
 L_01C9:
@@ -139,7 +140,7 @@ L_01C9:
 
 L_01D7:
     WorkCmpConst 0x8022, 43
-    VMJumpIf 1, L_01EA
+    VMJumpIf CMP_EQ, L_01EA
     VMJump L_01F8
 
 L_01EA:
@@ -161,7 +162,7 @@ L_0226:
     WorkSetConst 0x8024, 0
     PlayerGetDir 0x8024
     WorkCmpConst 0x8024, 0
-    VMJumpIf 1, L_0243
+    VMJumpIf CMP_EQ, L_0243
     VMJump L_0253
 
 L_0243:
@@ -171,7 +172,7 @@ L_0243:
 
 L_0253:
     WorkCmpConst 0x8024, 1
-    VMJumpIf 1, L_0266
+    VMJumpIf CMP_EQ, L_0266
     VMJump L_0276
 
 L_0266:
@@ -181,7 +182,7 @@ L_0266:
 
 L_0276:
     WorkCmpConst 0x8024, 2
-    VMJumpIf 1, L_0289
+    VMJumpIf CMP_EQ, L_0289
     VMJump L_0299
 
 L_0289:
@@ -191,7 +192,7 @@ L_0289:
 
 L_0299:
     WorkCmpConst 0x8024, 3
-    VMJumpIf 1, L_02AC
+    VMJumpIf CMP_EQ, L_02AC
     VMJump L_02BC
 
 L_02AC:
@@ -275,13 +276,14 @@ Movement_0360:
 
 Script_8:
     ActorsPauseAll
+    // "It looks like you can climb down here![f000]븁\u0000\nWill you return to the lower floor?"
     SystemMsg 6, 2
     YesNoWin 0x8010
     InfoMsgClose
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03BF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03BF
     ActorCmdExec 255, Movement_0464
     ActorCmdWait
     PlayerMoveToYAsync 0, 60, 64, 0
@@ -296,7 +298,7 @@ L_03BF:
     WorkSetConst 0x8025, 0
     PlayerGetDir 0x8025
     WorkCmpConst 0x8025, 0
-    VMJumpIf 1, L_03DC
+    VMJumpIf CMP_EQ, L_03DC
     VMJump L_03EC
 
 L_03DC:
@@ -306,7 +308,7 @@ L_03DC:
 
 L_03EC:
     WorkCmpConst 0x8025, 1
-    VMJumpIf 1, L_03FF
+    VMJumpIf CMP_EQ, L_03FF
     VMJump L_040F
 
 L_03FF:
@@ -316,7 +318,7 @@ L_03FF:
 
 L_040F:
     WorkCmpConst 0x8025, 2
-    VMJumpIf 1, L_0422
+    VMJumpIf CMP_EQ, L_0422
     VMJump L_0432
 
 L_0422:
@@ -326,7 +328,7 @@ L_0422:
 
 L_0432:
     WorkCmpConst 0x8025, 3
-    VMJumpIf 1, L_0445
+    VMJumpIf CMP_EQ, L_0445
     VMJump L_0455
 
 L_0445:
@@ -347,13 +349,14 @@ Movement_0464:
 
 Script_9:
     ActorsPauseAll
+    // "It looks like you can climb down here![f000]븁\u0000\nWill you return to the lower floor?"
     SystemMsg 6, 2
     YesNoWin 0x8010
     InfoMsgClose
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04BF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04BF
     ActorCmdExec 255, Movement_0464
     ActorCmdWait
     PlayerMoveToYAsync 0, 60, 64, 0
@@ -368,7 +371,7 @@ L_04BF:
     WorkSetConst 0x8026, 0
     PlayerGetDir 0x8026
     WorkCmpConst 0x8026, 0
-    VMJumpIf 1, L_04DC
+    VMJumpIf CMP_EQ, L_04DC
     VMJump L_04EC
 
 L_04DC:
@@ -378,7 +381,7 @@ L_04DC:
 
 L_04EC:
     WorkCmpConst 0x8026, 1
-    VMJumpIf 1, L_04FF
+    VMJumpIf CMP_EQ, L_04FF
     VMJump L_050F
 
 L_04FF:
@@ -388,7 +391,7 @@ L_04FF:
 
 L_050F:
     WorkCmpConst 0x8026, 2
-    VMJumpIf 1, L_0522
+    VMJumpIf CMP_EQ, L_0522
     VMJump L_0532
 
 L_0522:
@@ -398,7 +401,7 @@ L_0522:
 
 L_0532:
     WorkCmpConst 0x8026, 3
-    VMJumpIf 1, L_0545
+    VMJumpIf CMP_EQ, L_0545
     VMJump L_0555
 
 L_0545:

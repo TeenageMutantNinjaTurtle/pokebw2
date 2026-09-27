@@ -43,19 +43,19 @@ Script_1:
     VMHalt
 
 Script_2:
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 5
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMStackCmp 7
-    VMJumpIf 255, L_00FE
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00FE
     VMStackPushFlag 972
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00F8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00F8
     FlagReset 972
     ActorAdd 10
 
@@ -65,20 +65,20 @@ L_00F8:
 L_00FE:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_0147
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0147
     VMStackPushFlag 972
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_012C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_012C
     FlagReset 972
     ActorAdd 10
 
 L_012C:
     VMStackPushFlag 973
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0147
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0147
     FlagReset 973
     ActorAdd 6
 
@@ -102,6 +102,7 @@ Script_4:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "White Forest\nPeople and Nature in Harmony"
     MsgPlaceSign 126, 1
     MsgPlaceSignClose
     FinishAllEvents
@@ -113,20 +114,20 @@ L_019D:
     ActorSetEyeToEye
     VMStackPushFlag 0x802e
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02F2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02F2
     WorkCmpConst 0x802d, 6
-    VMJumpIf 1, L_01D6
+    VMJumpIf CMP_EQ, L_01D6
     WorkCmpConst 0x802d, 0
-    VMJumpIf 1, L_01D6
+    VMJumpIf CMP_EQ, L_01D6
     VMJump L_01E6
 
 L_01D6:
-    ParentActorMsg 1024, 0x8022, 2, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8022, 2, 0
     VMJump L_01F0
 
 L_01E6:
-    ParentActorMsg 1024, 0x8021, 2, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8021, 2, 0
 
 L_01F0:
     MoneyWinDisp 31, 1
@@ -136,15 +137,15 @@ L_01F0:
     ListMenuShow
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02DC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02DC
     ItemCheckSpace 0x802b, 1, 0x8029
     MoneyCheck 0x802a, 0x802c
     VMStackPush 0x8029
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0259
-    ParentActorMsg 1024, 0x8024, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0259
+    ParentActorMsg MSGFILE_SCRIPT, 0x8024, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_02D6
@@ -152,9 +153,9 @@ L_01F0:
 L_0259:
     VMStackPush 0x802a
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0280
-    ParentActorMsg 1024, 0x8025, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0280
+    ParentActorMsg MSGFILE_SCRIPT, 0x8025, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_02D6
@@ -164,7 +165,7 @@ L_0280:
     MoneySub 0x802c
     MoneyWinUpdate
     SEWait
-    ParentActorMsg 1024, 0x8023, 2, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8023, 2, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -173,7 +174,7 @@ L_0280:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 0x8026, 2, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8026, 2, 0
     LastKeyWait
     MsgWinCloseAll
     RecordAdd 21, 1
@@ -184,7 +185,7 @@ L_02D6:
     VMJump L_02EA
 
 L_02DC:
-    ParentActorMsg 1024, 0x8026, 2, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8026, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -193,7 +194,7 @@ L_02EA:
     VMJump L_0300
 
 L_02F2:
-    ParentActorMsg 1024, 0x8027, 2, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8027, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -204,9 +205,9 @@ Script_5:
     ActorsPauseAll
     RTCGetWeekDay 0x802d
     WorkCmpConst 0x802d, 6
-    VMJumpIf 1, L_0328
+    VMJumpIf CMP_EQ, L_0328
     WorkCmpConst 0x802d, 0
-    VMJumpIf 1, L_0328
+    VMJumpIf CMP_EQ, L_0328
     VMJump L_033A
 
 L_0328:
@@ -238,9 +239,9 @@ Script_6:
     ActorsPauseAll
     RTCGetWeekDay 0x802d
     WorkCmpConst 0x802d, 6
-    VMJumpIf 1, L_03B4
+    VMJumpIf CMP_EQ, L_03B4
     WorkCmpConst 0x802d, 0
-    VMJumpIf 1, L_03B4
+    VMJumpIf CMP_EQ, L_03B4
     VMJump L_03C6
 
 L_03B4:
@@ -272,9 +273,9 @@ Script_7:
     ActorsPauseAll
     RTCGetWeekDay 0x802d
     WorkCmpConst 0x802d, 6
-    VMJumpIf 1, L_0440
+    VMJumpIf CMP_EQ, L_0440
     WorkCmpConst 0x802d, 0
-    VMJumpIf 1, L_0440
+    VMJumpIf CMP_EQ, L_0440
     VMJump L_0452
 
 L_0440:
@@ -306,9 +307,9 @@ Script_8:
     ActorsPauseAll
     RTCGetWeekDay 0x802d
     WorkCmpConst 0x802d, 6
-    VMJumpIf 1, L_04CC
+    VMJumpIf CMP_EQ, L_04CC
     WorkCmpConst 0x802d, 0
-    VMJumpIf 1, L_04CC
+    VMJumpIf CMP_EQ, L_04CC
     VMJump L_04DE
 
 L_04CC:
@@ -338,14 +339,15 @@ L_04EA:
 
 Script_9:
     ActorsPauseAll
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 4
-    VMStackCmp 3
-    VMJumpIf 255, L_0565
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_0565
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "Silvia: Ommm...[f000]븁\u0000\nOh! I'm sorry! I was sunbathing, and my\nmind went blank, like I was meditating...[f000]븀\u0000\nOmmm...[f000]븁\u0000\nIsn't the weather great?\nWould you like to “om\" with me?"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_05C9
@@ -353,15 +355,16 @@ Script_9:
 L_0565:
     VMStackPush 0x8020
     VMStackPushConst 5
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMStackCmp 7
-    VMJumpIf 255, L_05A2
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_05A2
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "Silvia: W-wow! Did you see that?[f000]븁\u0000\nThat lazybones store owner put\nnew items in the shop![f000]븀\u0000\nHe's had the same old stuff[f000]븀\u0000\non display forever![f000]븁\u0000\nHmmm...[f000]븁\u0000\nIt's fine as long as it doesn't\nrain, I guess."
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_05C9
@@ -369,11 +372,12 @@ L_0565:
 L_05A2:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_05C9
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_05C9
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "Silvia: While I was just standing around\nand watching Pokémon play,[f000]븀\u0000\nI started to feel so happy and peaceful![f000]븁\u0000\nI hope tomorrow is a pleasant\nday just like today!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -384,14 +388,15 @@ L_05C9:
 
 Script_10:
     ActorsPauseAll
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 4
-    VMStackCmp 3
-    VMJumpIf 255, L_0602
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_0602
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 16, 0, 0
+    // "Robbie: My big brother is working\nin the shop, but he thinks putting[f000]븀\u0000\nnew goods out is too much trouble.[f000]븁\u0000\nSo go explore a hollow or something,\nand check back later."
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0669
@@ -399,15 +404,16 @@ Script_10:
 L_0602:
     VMStackPush 0x8020
     VMStackPushConst 5
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMStackCmp 7
-    VMJumpIf 255, L_063F
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_063F
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 17, 0, 0
+    // "Robbie: Amazing! My brother\nfinally put some new items[f000]븀\u0000\nin the shop he's working at.[f000]븁\u0000\nHe's the type who can do\nanything if he wants to!"
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0669
@@ -415,12 +421,13 @@ L_0602:
 L_063F:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_0669
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0669
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 18, 0, 0
+    // "Robbie: My brother is just\nraring to go lately![f000]븁\u0000\nHe keeps putting all sorts of\nnew products in the store![f000]븁\u0000\nHe said he was inspired by a\nTrainer named [f000]Ā\u0001\u0000[f000]븀\u0000\nwho became the best Trainer[f000]븀\u0000\nin the White Treehollow!"
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -432,14 +439,15 @@ L_0669:
 Script_11:
     ActorsPauseAll
     WordSetPlayerName 0
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMJumpIf 255, L_06A5
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_06A5
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 24, 0, 0
+    // "Ryder: Recently in Unova's Challenge--\nthe White Treehollow--[f000]븀\u0000\ntalented Trainers are falling[f000]븀\u0000\none after another.[f000]븁\u0000\nApparently, a Trainer named\n[f000]Ā\u0001\u0000 is on a rampage.[f000]븁\u0000\nThat's not you, is it? I want to have\na match with that Trainer sometime."
+    ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_06CC
@@ -447,11 +455,12 @@ Script_11:
 L_06A5:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_06CC
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_06CC
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 25, 0, 0
+    // "Ryder: You're [f000]Ā\u0001\u0000?!\nYou're the best in the White Treehollow![f000]븁\u0000\nThat's incredible. I'm still\nhaving problems with the first area...[f000]븁\u0000\nGive me some tips later, all right?"
+    ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -462,14 +471,15 @@ L_06CC:
 
 Script_12:
     ActorsPauseAll
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 4
-    VMStackCmp 3
-    VMJumpIf 255, L_0705
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_0705
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 48, 0, 0
+    // "Carlos: In White Forest, everyone\nshares the gathered Berries.[f000]븁\u0000\nI picked some extra ones\nfor the older folks."
+    ParentActorMsg MSGFILE_SCRIPT, 48, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_076C
@@ -477,15 +487,16 @@ Script_12:
 L_0705:
     VMStackPush 0x8020
     VMStackPushConst 5
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMStackCmp 7
-    VMJumpIf 255, L_0742
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0742
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 49, 0, 0
+    // "Carlos: Living here every day,\neating Berries, makes me miss[f000]븀\u0000\nthe exciting and exotic food[f000]븀\u0000\nyou can get in the city sometimes.[f000]븁\u0000\nMaybe it's time again to go on\na quest for delicious food.[f000]븀\u0000\nIt's been a while."
+    ParentActorMsg MSGFILE_SCRIPT, 49, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_076C
@@ -493,12 +504,13 @@ L_0705:
 L_0742:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_076C
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_076C
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 50, 0, 0
+    // "Carlos: When I went to the shop\nto prepare for my trip,[f000]븀\u0000\nI noticed the selection[f000]븀\u0000\nof items has gotten much better.[f000]븁\u0000\nBut the guy in the shop was saying\nhe can't lose to [f000]Ā\u0001\u0000.[f000]븀\u0000\nWhat could he have been talking about?"
+    ParentActorMsg MSGFILE_SCRIPT, 50, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -509,14 +521,15 @@ L_076C:
 
 Script_13:
     ActorsPauseAll
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 4
-    VMStackCmp 3
-    VMJumpIf 255, L_07A5
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_07A5
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 68, 0, 0
+    // "Gene: A hollow has suddenly appeared in\nthe white tree! That tree is really[f000]븀\u0000\nimportant to us here in White Forest![f000]븁\u0000\nInvestigators and Trainers\nhave come out of the woodwork,[f000]븀\u0000\nbut we locals will be the ones[f000]븀\u0000\nwho make it to the lowest floor!"
+    ParentActorMsg MSGFILE_SCRIPT, 68, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_080F
@@ -524,16 +537,17 @@ Script_13:
 L_07A5:
     VMStackPush 0x8020
     VMStackPushConst 5
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMStackCmp 7
-    VMJumpIf 255, L_07E5
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_07E5
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 69, 0, 0
+    // "Gene: Hey, [f000]Ā\u0001\u0000![f000]븁\u0000\nI heard the news!\nYou made it really deep[f000]븀\u0000\ninto the hollow, didn't you?[f000]븁\u0000\nHurry and get to the lowest level\nfor me--I'm about to give up!"
+    ParentActorMsg MSGFILE_SCRIPT, 69, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_080F
@@ -541,12 +555,13 @@ L_07A5:
 L_07E5:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_080F
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_080F
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 70, 0, 0
+    // "Gene: On behalf of everyone in the\nforest, I want to congratulate you[f000]븀\u0000\non becoming the top Trainer of[f000]븀\u0000\nthe White Treehollow![f000]븁\u0000\nCongratulations!\nThat was a major accomplishment!"
+    ParentActorMsg MSGFILE_SCRIPT, 70, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -557,14 +572,15 @@ L_080F:
 
 Script_14:
     ActorsPauseAll
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 4
-    VMStackCmp 3
-    VMJumpIf 255, L_0848
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_0848
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 76, 0, 0
+    // "Miho: Waah! I'm so bored![f000]븁\u0000\nI just got here, but I can't\nhandle living like this[f000]븀\u0000\nwhere there's nothing to do![f000]븁\u0000\nI miss the neon so much!"
+    ParentActorMsg MSGFILE_SCRIPT, 76, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_08AC
@@ -572,15 +588,16 @@ Script_14:
 L_0848:
     VMStackPush 0x8020
     VMStackPushConst 5
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMStackCmp 7
-    VMJumpIf 255, L_0885
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0885
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 77, 0, 0
+    // "Miho: Since I've moved here,\nmy skin has become so smooth![f000]븁\u0000\nI wonder if it's because I'm\neating fresh-picked Berries every day.[f000]븁\u0000\nNature is so amazing!\nHooray for nature!"
+    ParentActorMsg MSGFILE_SCRIPT, 77, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_08AC
@@ -588,11 +605,12 @@ L_0848:
 L_0885:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_08AC
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_08AC
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 78, 0, 0
+    // "Miho: Lying on my back in a meadow\nand idly watching the sun sink[f000]븀\u0000\nbehind the trees...[f000]븁\u0000\nIt's these simple, ordinary things\nthat are the most fun in this place![f000]븀\u0000\nThe people here taught me that!"
+    ParentActorMsg MSGFILE_SCRIPT, 78, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -603,14 +621,15 @@ L_08AC:
 
 Script_15:
     ActorsPauseAll
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 4
-    VMStackCmp 3
-    VMJumpIf 255, L_08E5
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_08E5
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 104, 0, 0
+    // "Rosaline: Oh no! This is no good at all...\nEvery day, I just nap away,[f000]븀\u0000\nand now I'm really rusty![f000]븁\u0000\nOK! OK! I'm going to get back\ninto fighting shape by training[f000]븀\u0000\nin the White Treehollow!"
+    ParentActorMsg MSGFILE_SCRIPT, 104, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_094C
@@ -618,15 +637,16 @@ Script_15:
 L_08E5:
     VMStackPush 0x8020
     VMStackPushConst 5
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMStackCmp 7
-    VMJumpIf 255, L_0922
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0922
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 105, 0, 0
+    // "Rosaline: I'm also taking on the\nWhite Treehollow![f000]븁\u0000\nThere are nothing but strange\nTrainers inside![f000]븁\u0000\nBut everyone in there\nis really tough!"
+    ParentActorMsg MSGFILE_SCRIPT, 105, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_094C
@@ -634,12 +654,13 @@ L_08E5:
 L_0922:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_094C
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_094C
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 106, 0, 0
+    // "Rosaline: I went back to basics and\nwas training at the White Treehollow.[f000]븁\u0000\nIt made me remember the simple\njoys of Pokémon battling, the way[f000]븀\u0000\nI felt when I'd just started my journey.[f000]븁\u0000\n[f000]Ā\u0001\u0000, did you find anything\nimportant when you were battling there?"
+    ParentActorMsg MSGFILE_SCRIPT, 106, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -653,7 +674,8 @@ Script_16:
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 116, 0, 0
+    // "Grace: So you're [f000]Ā\u0001\u0000, then?[f000]븁\u0000\nMy grandson was all excited about\nthis amazing Trainer, so I finally[f000]븀\u0000\ncame to see for myself![f000]븁\u0000\nI thought you'd look scary, but...\nActually, you're quite a cutie!"
+    ParentActorMsg MSGFILE_SCRIPT, 116, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -665,7 +687,8 @@ Script_17:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 518, 0
-    ParentActorMsg 1024, 120, 0, 0
+    // "Muwaaaan!"
+    ParentActorMsg MSGFILE_SCRIPT, 120, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -678,7 +701,8 @@ Script_18:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 504, 0
-    ParentActorMsg 1024, 121, 0, 0
+    // "Squee?"
+    ParentActorMsg MSGFILE_SCRIPT, 121, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -691,7 +715,8 @@ Script_19:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 548, 0
-    ParentActorMsg 1024, 122, 0, 0
+    // "Lill lill..."
+    ParentActorMsg MSGFILE_SCRIPT, 122, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -704,7 +729,8 @@ Script_20:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 531, 0
-    ParentActorMsg 1024, 123, 0, 0
+    // "Pololo."
+    ParentActorMsg MSGFILE_SCRIPT, 123, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -717,7 +743,8 @@ Script_21:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 619, 0
-    ParentActorMsg 1024, 124, 0, 0
+    // "Fooo!"
+    ParentActorMsg MSGFILE_SCRIPT, 124, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -730,7 +757,8 @@ Script_22:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 524, 0
-    ParentActorMsg 1024, 125, 0, 0
+    // "Lola rolaa."
+    ParentActorMsg MSGFILE_SCRIPT, 125, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

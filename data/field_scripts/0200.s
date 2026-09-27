@@ -8,7 +8,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "Welcome to the Driftveil Chateau Hotel.\nWe're currently all booked up,[f000]븀\u0000\nbut feel free to enjoy the ambiance."
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -23,7 +24,7 @@ Script_2:
     WorkAdd 0x8020, 0x400b
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0x8020, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
     ActorMsgClose
     WorkSetConst 0x8020, 0

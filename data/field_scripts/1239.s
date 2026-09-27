@@ -835,21 +835,21 @@ Script_816:
     TrainerFlagGet 0x8020, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0D5F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0D5F
     TrainerGetFieldAction 0x8020, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0D34
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0D34
     VMCall L_0EE9
     VMJump L_0D59
 
 L_0D34:
     VMStackPush 0x8010
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0D53
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0D53
     VMCall L_0F49
     VMJump L_0D59
 
@@ -866,36 +866,36 @@ L_0D5F:
     PokePartyGetCount 0x8026, 2
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8026
     VMStackPushConst 2
-    VMStackCmp 0
-    VMStackCmp 7
-    VMJumpIf 255, L_0DA6
+    VMStackCmp CMP_LT
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0DA6
     VMCall L_0E9F
     VMJump L_0E48
 
 L_0DA6:
     VMStackPush 0x8025
     VMStackPushConst 2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8026
     VMStackPushConst 3
-    VMStackCmp 0
-    VMStackCmp 7
-    VMJumpIf 255, L_0DD5
+    VMStackCmp CMP_LT
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0DD5
     VMCall L_0EB9
     VMJump L_0E48
 
 L_0DD5:
     VMStackPush 0x8025
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8026
     VMStackPushConst 3
-    VMStackCmp 0
-    VMStackCmp 7
-    VMJumpIf 255, L_0E04
+    VMStackCmp CMP_LT
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0E04
     VMCall L_0EB9
     VMJump L_0E48
 
@@ -904,16 +904,16 @@ L_0E04:
     TrainerGetFieldAction 0x8020, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0E2F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0E2F
     VMCall L_0EE9
     VMJump L_0E48
 
 L_0E2F:
     VMStackPush 0x8010
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0E48
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0E48
     VMCall L_0F21
 
 L_0E48:
@@ -934,8 +934,8 @@ L_0E5A:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0E97
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0E97
     CallTrainerBattleEnd
     VMJump L_0E99
 
@@ -1004,7 +1004,7 @@ L_0F49:
 L_0F57:
     ActorGetMoveCode 0x8010, 0x8011
     WorkCmpConst 0x8010, 51
-    VMJumpIf 1, L_0F70
+    VMJumpIf CMP_EQ, L_0F70
     VMJump L_0F7C
 
 L_0F70:
@@ -1013,7 +1013,7 @@ L_0F70:
 
 L_0F7C:
     WorkCmpConst 0x8010, 52
-    VMJumpIf 1, L_0F8F
+    VMJumpIf CMP_EQ, L_0F8F
     VMJump L_0F9B
 
 L_0F8F:
@@ -1022,7 +1022,7 @@ L_0F8F:
 
 L_0F9B:
     WorkCmpConst 0x8010, 53
-    VMJumpIf 1, L_0FAE
+    VMJumpIf CMP_EQ, L_0FAE
     VMJump L_0FBA
 
 L_0FAE:
@@ -1031,7 +1031,7 @@ L_0FAE:
 
 L_0FBA:
     WorkCmpConst 0x8010, 54
-    VMJumpIf 1, L_0FCD
+    VMJumpIf CMP_EQ, L_0FCD
     VMJump L_0FD9
 
 L_0FCD:
@@ -1040,7 +1040,7 @@ L_0FCD:
 
 L_0FD9:
     WorkCmpConst 0x8010, 85
-    VMJumpIf 1, L_0FEC
+    VMJumpIf CMP_EQ, L_0FEC
     VMJump L_0FF8
 
 L_0FEC:
@@ -1055,7 +1055,7 @@ L_0FFA:
     ActorCmdWait
     PlayerGetDir 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_101B
+    VMJumpIf CMP_EQ, L_101B
     VMJump L_1027
 
 L_101B:
@@ -1064,7 +1064,7 @@ L_101B:
 
 L_1027:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_103A
+    VMJumpIf CMP_EQ, L_103A
     VMJump L_1046
 
 L_103A:
@@ -1073,7 +1073,7 @@ L_103A:
 
 L_1046:
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_1059
+    VMJumpIf CMP_EQ, L_1059
     VMJump L_1065
 
 L_1059:
@@ -1082,7 +1082,7 @@ L_1059:
 
 L_1065:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_1078
+    VMJumpIf CMP_EQ, L_1078
     VMJump L_1084
 
 L_1078:
@@ -1102,32 +1102,32 @@ Script_817:
     TrainerGetBattleType 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_10B5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_10B5
     VMCall L_1156
     VMJump L_110C
 
 L_10B5:
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_10D4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_10D4
     VMCall L_11BD
     VMJump L_110C
 
 L_10D4:
     VMStackPush 0x8010
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_10F3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_10F3
     VMCall L_124E
     VMJump L_110C
 
 L_10F3:
     VMStackPush 0x8010
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_110C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_110C
     VMCall L_12E5
 
 L_110C:
@@ -1135,16 +1135,16 @@ L_110C:
     TrainerGetFieldAction 0x8020, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1137
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1137
     VMCall L_0EE9
     VMJump L_1150
 
 L_1137:
     VMStackPush 0x8010
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_1150
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1150
     VMCall L_0F21
 
 L_1150:
@@ -1166,8 +1166,8 @@ L_1156:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_11A9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_11A9
     CallTrainerBattleEnd
     VMJump L_11AB
 
@@ -1200,8 +1200,8 @@ L_11BD:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1230
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1230
     CallTrainerBattleEnd
     VMJump L_1232
 
@@ -1238,8 +1238,8 @@ L_124E:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_12C7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_12C7
     CallTrainerBattleEnd
     VMJump L_12C9
 
@@ -1278,13 +1278,13 @@ L_12E5:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1385
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1385
     PokePartyGetCount 0x8008, 2
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_137D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_137D
     PokePartyRecoverAll
 
 L_137D:

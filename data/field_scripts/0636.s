@@ -17,7 +17,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "This electric bulletin board has been\npitch black for a really long time."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -28,7 +29,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "One thing I learned during my travels\nis that home is a really nice place, too![f000]븀\u0000\nFunny--before I set off, I absolutely[f000]븀\u0000\ncouldn't wait to leave..."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -39,7 +41,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "My Pokémon just love to battle![f000]븁\u0000\nI'm absolutely worn out...\nSo I'm resting here..."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

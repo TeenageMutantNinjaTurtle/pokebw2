@@ -17,18 +17,18 @@ Script_1:
 L_0032:
     VMStackPush 0x8020
     VMStackPush 0x8021
-    VMStackCmp 2
-    VMJumpIf 255, L_0086
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_0086
     PokePartyIsFullHP 0x8022, 0x8021
     PokePartyIsFullPP 0x8023, 0x8021
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_007A
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_007A
     WorkAdd 0x8024, 1
 
 L_007A:
@@ -38,9 +38,10 @@ L_007A:
 L_0086:
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 4
-    VMJumpIf 255, L_00D9
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_00D9
+    // "Wait! Wait![f000]븁\u0000\nAren't your Pokémon a bit tired?\nHere, don't be shy! Let them rest![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     MsgWinCloseAll
     FadeEx 3, 0, 16, 2
     FadeExWait
@@ -49,13 +50,15 @@ L_0086:
     MEWait
     FadeEx 3, 16, 0, 2
     FadeExWait
-    ParentActorMsg 1024, 0, 0, 0
+    // "Your Pokémon are so energetic!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_00E7
 
 L_00D9:
-    ParentActorMsg 1024, 0, 0, 0
+    // "Your Pokémon are so energetic!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
 

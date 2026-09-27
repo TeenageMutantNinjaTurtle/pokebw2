@@ -53,8 +53,8 @@
 Script_1:
     VMStackPush 0x40f4
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_00E7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E7
     FlagSet 845
 
 L_00E7:
@@ -63,12 +63,12 @@ L_00E7:
 Script_2:
     VMStackPush 0x40f4
     VMStackPushConst 2
-    VMStackCmp 0
+    VMStackCmp CMP_LT
     VMStackPush 0x4105
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0118
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0118
     ActorSetGPos 10, 15, 0, 16, 0
 
 L_0118:
@@ -82,8 +82,8 @@ Script_3:
 L_0128:
     VMStackPush 0x40f5
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0147
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0147
     .byte 0xe9
     .byte 0x03
     .byte 0x00
@@ -213,15 +213,18 @@ Script_16:
     ActorCmdWait
     ActorCmdExec 9, Movement_0BC4
     ActorCmdWait
-    ActorMsg 1024, 5, 9, 0, 0
+    // "Team Plasma: At last, we meet again![f000]븁\u0000\nRemember me? Formerly of Team Plasma?\nI've been waiting for you.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 9, 0, 0
     MsgWinCloseAll
     ActorCmdExec 9, Movement_0BF4
     ActorCmdWait
-    ActorMsg 1024, 6, 9, 0, 0
+    // "Gah! Spying is such a rotten job.\nI contacted Rood of the Seven Sages,[f000]븀\u0000\nbut nobody showed up to help me.[f000]븁\u0000\nI can't stand it. Everybody around me is\nalways saying bad stuff about Lord N.[f000]븁\u0000\nBut Lord N learned the error of his ways\nand changed course to a better path.[f000]븁\u0000\nYet they call him a betrayer!\nPeople really stink sometimes.[f000]븁\u0000\nThey selfishly counted on him, and\nnow they selfishly make a big fuss[f000]븀\u0000\nabout being betrayed.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 9, 0, 0
     MsgWinCloseAll
     ActorCmdExec 9, Movement_0BFC
     ActorCmdWait
-    ActorMsg 1024, 7, 9, 0, 0
+    // "Oh! I nearly forgot to tell you!\nThis floor is a maze of pipes.[f000]븁\u0000\nYou've got to step on switches\nto connect or disconnect the pipes.[f000]븁\u0000\nIt's a good thing you can walk\non the pipes.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 9, 0, 0
     MsgWinCloseAll
     WorkSetConst 0x4103, 2
     FinishAllEvents
@@ -232,7 +235,8 @@ Script_17:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "You know what troubles me...[f000]븁\u0000\nHow come all of us who were in\nTeam Plasma together--thinking we[f000]븀\u0000\nknew what was right--are now divided[f000]븀\u0000\ninto former Team Plasma members and[f000]븀\u0000\ncontinuing Team Plasma members,[f000]븀\u0000\nboth with opposing points of view?[f000]븁\u0000\nWhere's the line between friend and foe?\nI spend a lot of time asking myself that.[f000]븁\u0000\nAs for you, on this floor, you'll need\nto deactivate barriers to continue on.[f000]븀\u0000\nDeactivate them by stepping on switches.[f000]븁\u0000\nMove around by stepping on warp panels,\nand you'll find four switches."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -243,7 +247,8 @@ Script_41:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "Zinzolin: Beaten again?![f000]븁\u0000\nNo matter!\nTeam Plasma will get the last laugh!"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -257,6 +262,7 @@ Script_18:
     EvCameraUnbind
     EvCameraMoveTo 9688, 0, 0xed000, 0xf8000, 0, 0xaf000, 28
     EvCameraWait
+    // "Zinzolin: The device is indestructible![f000]븁\u0000\nYou will never be able to release Kyurem![f000]븁\u0000"
     InfoMsg 9, 2
     MsgWinCloseAll
     ActorAdd 10
@@ -270,14 +276,15 @@ Script_18:
     EvCameraRebind
     EvCameraEnd
     ActorCmdWait
-    ActorMsg 1024, 10, 10, 0, 0
+    // "You don't have the sense to know\nwhen to quit, it seems.[f000]븁\u0000\nIt's an act of mercy on my part\nto bring this to an end now![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 10, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 497, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02F4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02F4
     CallTrainerBattleEnd
     VMJump L_02FA
 
@@ -288,7 +295,8 @@ L_02F4:
 L_02FA:
     ActorCmdExec 10, Movement_0328
     ActorCmdWait
-    ActorMsg 1024, 11, 10, 0, 0
+    // "Zinzolin: Beaten again?![f000]븁\u0000\nNo matter!\nTeam Plasma will get the last laugh!"
+    ActorMsg MSGFILE_SCRIPT, 11, 10, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x4105, 1
@@ -307,11 +315,12 @@ Movement_0328:
 Script_19:
     ActorsPauseAll
     SEPlay 1351
+    // "It looks like it controls the\ntemperature inside the ship."
     SystemMsg 12, 2
     VMStackPushFlag 909
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0361
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0361
     MsgWaitAdvance
     MsgWinCloseAll
     VMJump L_0365
@@ -323,9 +332,10 @@ L_0361:
 L_0365:
     VMStackPushFlag 909
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0389
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0389
     PVPlay 646, 0
+    // "Haahra..."
     InfoMsg 14, 2
     PVWait
     LastKeyWait
@@ -339,11 +349,12 @@ L_0389:
 Script_20:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a device to control\nthe ship's energy system."
     SystemMsg 13, 2
     VMStackPushFlag 909
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03B8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03B8
     MsgWaitAdvance
     MsgWinCloseAll
     VMJump L_03BC
@@ -355,9 +366,10 @@ L_03B8:
 L_03BC:
     VMStackPushFlag 909
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03E0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03E0
     PVPlay 646, 0
+    // "Haahra..."
     InfoMsg 14, 2
     PVWait
     LastKeyWait
@@ -375,7 +387,8 @@ Script_24:
     ActorCmdExec 11, Movement_0BF4
     ActorCmdExec 255, Movement_0BEC
     ActorCmdWait
-    ActorMsg 1024, 15, 11, 0, 0
+    // "Humph! If you intend to continue,\nstep on the other warp panel.[f000]븁\u0000\nKeep in mind that you're going\nto get beaten up if you do!"
+    ActorMsg MSGFILE_SCRIPT, 15, 11, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 11, Movement_0C04
@@ -392,7 +405,8 @@ Script_25:
     ActorCmdExec 11, Movement_0BF4
     ActorCmdExec 255, Movement_0BEC
     ActorCmdWait
-    ActorMsg 1024, 16, 11, 0, 0
+    // "What?! You beat Colress?![f000]븁\u0000\nWaaah! I pretended to be strong,\nbut I don't have any Pokémon![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 11, 0, 0
     MsgWinCloseAll
     VMCall L_04BB
     FinishAllEvents
@@ -403,11 +417,12 @@ Script_26:
     ActorsPauseAll
     VMStackPush 0x4125
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0493
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0493
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 15, 0, 0
+    // "Humph! If you intend to continue,\nstep on the other warp panel.[f000]븁\u0000\nKeep in mind that you're going\nto get beaten up if you do!"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_04B5
@@ -416,7 +431,8 @@ L_0493:
     SEPlay 1351
     ActorCmdExec 11, Movement_0C0C
     ActorCmdWait
-    ActorMsg 1024, 16, 11, 0, 0
+    // "What?! You beat Colress?![f000]븁\u0000\nWaaah! I pretended to be strong,\nbut I don't have any Pokémon![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 11, 0, 0
     MsgWinCloseAll
     VMCall L_04BB
 
@@ -429,8 +445,8 @@ L_04BB:
     PlayerGetGPos 0x8022, 0x8023
     VMStackPush 0x8022
     VMStackPushConst 9
-    VMStackCmp 1
-    VMJumpIf 255, L_04E2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04E2
     ActorCmdExec 11, Movement_0510
     VMJump L_04F0
 
@@ -457,7 +473,8 @@ Script_21:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 17, 0, 0
+    // "Oh, poor Kyurem. Ghetsis's device\ncruelly forced it to work.[f000]븁\u0000\nIt must have felt terrible."
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -468,7 +485,8 @@ Script_22:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 18, 0, 0
+    // "The Plasma Frigate is a ship designed\nto be ecological. It runs on[f000]븀\u0000\nKyurem's ice energy and solar panels.[f000]븁\u0000\nYou've got to keep the environment in\nmind when ruling a region like Unova."
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -479,7 +497,8 @@ Script_23:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 19, 0, 0
+    // "Colress doesn't know N.\nI wonder how he'll react if he meets him."
+    ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -514,23 +533,24 @@ Script_12:
     ActorsPauseAll
     WorkSetConst 0x40f5, 1
     SEPlay 2217
+    // "A barrier was deactivated!"
     InfoMsg 3, 2
     VMStackPush 0x40f5
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f6
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f7
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f8
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0612
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0612
     MsgWaitAdvance
     VMJump L_0614
 
@@ -549,20 +569,21 @@ L_0614:
     VMNop
     VMStackPush 0x40f5
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f6
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f7
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f8
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_066C
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_066C
+    // "All barriers were deactivated,\nand you can proceed now."
     InfoMsg 4, 2
     LastKeyWait
     MsgWinCloseAll
@@ -576,23 +597,24 @@ Script_13:
     ActorsPauseAll
     WorkSetConst 0x40f6, 1
     SEPlay 2217
+    // "A barrier was deactivated!"
     InfoMsg 3, 2
     VMStackPush 0x40f5
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f6
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f7
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f8
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_06CE
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_06CE
     MsgWaitAdvance
     VMJump L_06D0
 
@@ -611,20 +633,21 @@ L_06D0:
     VMNop2
     VMStackPush 0x40f5
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f6
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f7
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f8
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0728
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0728
+    // "All barriers were deactivated,\nand you can proceed now."
     InfoMsg 4, 2
     LastKeyWait
     MsgWinCloseAll
@@ -638,23 +661,24 @@ Script_14:
     ActorsPauseAll
     WorkSetConst 0x40f7, 1
     SEPlay 2217
+    // "A barrier was deactivated!"
     InfoMsg 3, 2
     VMStackPush 0x40f5
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f6
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f7
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f8
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_078A
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_078A
     MsgWaitAdvance
     VMJump L_078C
 
@@ -672,20 +696,21 @@ L_078C:
     VMHalt
     VMStackPush 0x40f5
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f6
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f7
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f8
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_07E4
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_07E4
+    // "All barriers were deactivated,\nand you can proceed now."
     InfoMsg 4, 2
     LastKeyWait
     MsgWinCloseAll
@@ -699,23 +724,24 @@ Script_15:
     ActorsPauseAll
     WorkSetConst 0x40f8, 1
     SEPlay 2217
+    // "A barrier was deactivated!"
     InfoMsg 3, 2
     VMStackPush 0x40f5
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f6
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f7
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f8
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0846
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0846
     MsgWaitAdvance
     VMJump L_0848
 
@@ -735,20 +761,21 @@ L_0848:
     .byte 0x00
     VMStackPush 0x40f5
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f6
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f7
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f8
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_08A0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_08A0
+    // "All barriers were deactivated,\nand you can proceed now."
     InfoMsg 4, 2
     LastKeyWait
     MsgWinCloseAll
@@ -811,8 +838,8 @@ Script_10:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0955
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0955
     CallTrainerBattleEnd
     VMJump L_0957
 
@@ -830,6 +857,7 @@ Script_11:
     ActorCmdExec 255, Movement_0B98
     ActorCmdWait
     SEWait
+    // "Be careful!\nThe barriers are electrified!"
     InfoMsg 20, 2
     LastKeyWait
     MsgWinCloseAll

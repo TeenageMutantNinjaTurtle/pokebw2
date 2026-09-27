@@ -20,7 +20,7 @@ Script_1:
     PlayerGetGPos 0x8020, 0x8021
     PlayerGetDir 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_005D
+    VMJumpIf CMP_EQ, L_005D
     VMJump L_0069
 
 L_005D:
@@ -29,7 +29,7 @@ L_005D:
 
 L_0069:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_007C
+    VMJumpIf CMP_EQ, L_007C
     VMJump L_0088
 
 L_007C:
@@ -38,7 +38,7 @@ L_007C:
 
 L_0088:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_009B
+    VMJumpIf CMP_EQ, L_009B
     VMJump L_00A7
 
 L_009B:
@@ -47,7 +47,7 @@ L_009B:
 
 L_00A7:
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_00BA
+    VMJumpIf CMP_EQ, L_00BA
     VMJump L_00C6
 
 L_00BA:
@@ -62,7 +62,7 @@ L_00C6:
     ActorCmdExec 255, Movement_01A4
     ActorCmdWait
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_00FF
+    VMJumpIf CMP_EQ, L_00FF
     VMJump L_010D
 
 L_00FF:
@@ -71,7 +71,7 @@ L_00FF:
 
 L_010D:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0120
+    VMJumpIf CMP_EQ, L_0120
     VMJump L_012E
 
 L_0120:
@@ -80,7 +80,7 @@ L_0120:
 
 L_012E:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_0141
+    VMJumpIf CMP_EQ, L_0141
     VMJump L_014F
 
 L_0141:
@@ -89,7 +89,7 @@ L_0141:
 
 L_014F:
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0162
+    VMJumpIf CMP_EQ, L_0162
     VMJump L_0170
 
 L_0162:
@@ -98,7 +98,8 @@ L_0162:
 
 L_0170:
     ActorCmdWait
-    ActorMsg 1024, 0, 251, 0, 0
+    // "Oh... The Lunar Wing...\nI can't take it now...[f000]븀\u0000\nBut it'll be OK...[f000]븁\u0000\nPlease return the wing\nto the Pokémon...[f000]븁\u0000\nI was waiting on the bridge\nso I could return it myself...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 251, 0, 0
     MsgWinCloseAll
     ActorCmdExec 251, Movement_0220
     ActorCmdWait

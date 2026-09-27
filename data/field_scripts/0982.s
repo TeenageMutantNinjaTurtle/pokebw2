@@ -14,24 +14,24 @@
 Script_1:
     VMStackPush 0x413a
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0056
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0056
     Plugin8_Cmd1025 0x8020
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0056
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0056
     WorkSetConst 0x4119, 1
 
 L_0056:
     VMStackPush 0x4119
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0106
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0106
     Plugin8_Cmd1031 20, 0x8020
     DebugPrint 0x8020
     WorkCmpConst 0x8020, 1
-    VMJumpIf 1, L_0086
+    VMJumpIf CMP_EQ, L_0086
     VMJump L_00A4
 
 L_0086:
@@ -42,7 +42,7 @@ L_0086:
 
 L_00A4:
     WorkCmpConst 0x8020, 2
-    VMJumpIf 1, L_00B7
+    VMJumpIf CMP_EQ, L_00B7
     VMJump L_00D5
 
 L_00B7:
@@ -53,7 +53,7 @@ L_00B7:
 
 L_00D5:
     WorkCmpConst 0x8020, 0
-    VMJumpIf 1, L_00E8
+    VMJumpIf CMP_EQ, L_00E8
     VMJump L_0100
 
 L_00E8:
@@ -75,8 +75,8 @@ L_0106:
 L_0118:
     VMStackPush 0x413a
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_014F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_014F
     WorkSetConst 0x8024, 0
     Plugin8_Cmd1027 0, 0x8024
     Plugin8_Cmd1027 1, 0x8024
@@ -99,11 +99,12 @@ Script_2:
 L_0171:
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03DA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03DA
     Plugin8_Cmd1007 4, 255, 0, 0
     Plugin8_Cmd1007 8, 255, 0, 1
-    ActorMsg 1024, 0, 0, 0, 0
+    // "[f000]ĺ\u0001\u0000!\nDo you have any questions?"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32806
     ListMenuAdd 22, 65535, 0
     ListMenuAdd 23, 65535, 1
@@ -114,8 +115,8 @@ L_0171:
     Plugin8_Cmd1002 1, 0x8020
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01FE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01FE
     ListMenuAdd 40, 65535, 9
 
 L_01FE:
@@ -125,87 +126,95 @@ L_01FE:
     ListMenuShow
     VMStackPush 0x8026
     VMStackPushConst 65534
-    VMStackCmp 1
-    VMJumpIf 255, L_0231
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0231
     WorkSetConst 0x8026, 6
 
 L_0231:
     WorkCmpConst 0x8026, 0
-    VMJumpIf 1, L_0244
+    VMJumpIf CMP_EQ, L_0244
     VMJump L_0256
 
 L_0244:
-    ActorMsg 1024, 1, 0, 0, 0
+    // "This is the brand-new avenue in the\nUnova region, [f000]Ĺ\u0001\u0001![f000]븁\u0000\nIt is still under major development\nto create an avenue that's perfect for[f000]븀\u0000\nmeeting people, making discoveries,[f000]븀\u0000\nand having fun. Good times![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     VMJump L_03D4
 
 L_0256:
     WorkCmpConst 0x8026, 1
-    VMJumpIf 1, L_0269
+    VMJumpIf CMP_EQ, L_0269
     VMJump L_027B
 
 L_0269:
-    ActorMsg 1024, 2, 0, 0, 0
+    // "[f000]ĺ\u0001\u0000, you've been signed up\nby the owner to manage the avenue.[f000]븁\u0000\nYour goal is simple:\ncreate a dazzling, delightful avenue![f000]븁\u0000\nDesign an avenue that will fill all visitors\nwith joy and the desire to visit often.[f000]븁\u0000\nYou'll have assistants, so please let us\nknow how we can help you.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     VMJump L_03D4
 
 L_027B:
     WorkCmpConst 0x8026, 2
-    VMJumpIf 1, L_028E
+    VMJumpIf CMP_EQ, L_028E
     VMJump L_02CB
 
 L_028E:
     Plugin8_Cmd1002 1, 0x8020
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02B9
-    ActorMsg 1024, 20, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02B9
+    // "Bring in more customers by using\nthe communication features.[f000]븁\u0000\nPeople you've met through communication\nfeatures will visit the avenue.[f000]븁\u0000\nWhen you talk to them, there are three\nthings you can choose to do.[f000]븁\u0000\nYou can “invite\" the person to join\nthe avenue, “recommend\" a shop, or[f000]븀\u0000\n“recruit\" that person as an assistant.[f000]븁\u0000\nFor details, please listen to\neach explanation.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 20, 0, 0, 0
     VMJump L_02C5
 
 L_02B9:
-    ActorMsg 1024, 3, 0, 0, 0
+    // "You can use various communication\nfeatures to encourage people to visit.[f000]븁\u0000\nTalk to people during their visits here.\nThere are two things you can do.[f000]븁\u0000\nThe first thing is to “invite\" someone.\nThe other thing is to “recommend\" a shop[f000]븀\u0000\nto someone.[f000]븁\u0000\nTo really get the idea of all you can do,\nstay and listen to a little more about it.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
 
 L_02C5:
     VMJump L_03D4
 
 L_02CB:
     WorkCmpConst 0x8026, 3
-    VMJumpIf 1, L_02DE
+    VMJumpIf CMP_EQ, L_02DE
     VMJump L_02F0
 
 L_02DE:
-    ActorMsg 1024, 4, 0, 0, 0
+    // "You can bring in more customers by\nusing the communication features.[f000]븁\u0000\nWhen you have the C-Gear turned on,\npassersby will visit the avenue.[f000]븁\u0000\nPeople you've met through the Union\nRoom, Infrared Communication, Random[f000]븀\u0000\nMatchups, and GTS visit the avenue, too.[f000]븁\u0000\nCommunication features aren't the\nonly way to bring in visitors.[f000]븁\u0000\nAs your adventure progresses,\nfans might sometimes visit the avenue.[f000]븁\u0000\nYou can use your Town Map to check\nthe current number of visitors.[f000]븁\u0000\nIt might be fun to check it now and then.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 0, 0
     VMJump L_03D4
 
 L_02F0:
     WorkCmpConst 0x8026, 4
-    VMJumpIf 1, L_0303
+    VMJumpIf CMP_EQ, L_0303
     VMJump L_0315
 
 L_0303:
-    ActorMsg 1024, 5, 0, 0, 0
+    // "When you select “Invite,\" the visitor\nwill begin to live here and create a shop.[f000]븁\u0000\nEach person has his or her own\nhopes and dreams.[f000]븁\u0000\nI recommend listening carefully to the\nperson before you decide.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 0, 0
     VMJump L_03D4
 
 L_0315:
     WorkCmpConst 0x8026, 5
-    VMJumpIf 1, L_0328
+    VMJumpIf CMP_EQ, L_0328
     VMJump L_033A
 
 L_0328:
-    ActorMsg 1024, 6, 0, 0, 0
+    // "“Recommend\" a shop to a visitor.[f000]븁\u0000\nIf the visitor is happy with the shop,\nthe popularity of the shop and[f000]븀\u0000\nthis avenue will go up.[f000]븁\u0000\nAs their popularity goes up, shops and\nthis avenue reach higher ranks.[f000]븁\u0000\nThe higher the shop rank goes up,\nthe more items and services it'll have.[f000]븁\u0000\nWhen the current avenue rank goes up,\nitem prices will become slightly[f000]븀\u0000\nmore reasonable.[f000]븁\u0000\nTry to recommend shops that your\nvisitors will be delighted with so the[f000]븀\u0000\npopularity of the shops goes up![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 0, 0
     VMJump L_03D4
 
 L_033A:
     WorkCmpConst 0x8026, 7
-    VMJumpIf 1, L_034D
+    VMJumpIf CMP_EQ, L_034D
     VMJump L_035F
 
 L_034D:
-    ActorMsg 1024, 7, 0, 0, 0
+    // "[f000]ĺ\u0001\u0000, this is your office.[f000]븁\u0000\nYour assistants and I will support you\nin developing [f000]Ĺ\u0001\u0001.[f000]븁\u0000\nAs the avenue grows bigger and bigger,\nthere will be more and more visitors.[f000]븁\u0000\nYou may enjoy hearing what they have to\nsay, so please drop by from time to time.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0, 0, 0
     VMJump L_03D4
 
 L_035F:
     WorkCmpConst 0x8026, 8
-    VMJumpIf 1, L_0372
+    VMJumpIf CMP_EQ, L_0372
     VMJump L_037E
 
 L_0372:
@@ -214,21 +223,23 @@ L_0372:
 
 L_037E:
     WorkCmpConst 0x8026, 6
-    VMJumpIf 1, L_0391
+    VMJumpIf CMP_EQ, L_0391
     VMJump L_03A9
 
 L_0391:
-    ActorMsg 1024, 19, 0, 0, 0
+    // "I'm looking forward to seeing this grow\ninto a fantastic avenue!"
+    ActorMsg MSGFILE_SCRIPT, 19, 0, 0, 0
     WorkSetConst 0x8025, 0
     VMJump L_03D4
 
 L_03A9:
     WorkCmpConst 0x8026, 9
-    VMJumpIf 1, L_03BC
+    VMJumpIf CMP_EQ, L_03BC
     VMJump L_03CE
 
 L_03BC:
-    ActorMsg 1024, 21, 0, 0, 0
+    // "If you choose to “Recruit,\" the visitor\nwill become your assistant and help you.[f000]븁\u0000\nYour chances of recruiting the visitor\nimprove if your avenue ranks higher[f000]븀\u0000\nthan the person's ideals.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 21, 0, 0, 0
     VMJump L_03D4
 
 L_03CE:
@@ -254,10 +265,11 @@ L_03F0:
 L_0402:
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0655
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0655
     Plugin8_Cmd1031 25, 0x8020
-    ActorMsg 1024, 18, 0, 0, 0
+    // "Is there anything you'd like to know\nabout shops?"
+    ActorMsg MSGFILE_SCRIPT, 18, 0, 0, 0
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32808
     ListMenuAdd 31, 65535, 0
     ListMenuAdd 33, 65535, 2
@@ -267,8 +279,8 @@ L_0402:
     ListMenuAdd 34, 65535, 3
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_047B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_047B
     ListMenuAdd 35, 65535, 4
 
 L_047B:
@@ -278,105 +290,115 @@ L_047B:
     ListMenuShow
     VMStackPush 0x8028
     VMStackPushConst 65534
-    VMStackCmp 1
-    VMJumpIf 255, L_04AE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04AE
     WorkSetConst 0x8028, 9
 
 L_04AE:
     WorkCmpConst 0x8028, 0
-    VMJumpIf 1, L_04C1
+    VMJumpIf CMP_EQ, L_04C1
     VMJump L_0502
 
 L_04C1:
     Plugin8_Cmd1007 8, 255, 0, 0
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_04F0
-    ActorMsg 1024, 17, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04F0
+    // "There are eight different kinds of shops\nyou can build in [f000]Ĺ\u0001\u0000.[f000]븁\u0000\nWhen someone is invited to build a shop,\nthe type of shop they open is based[f000]븀\u0000\non that person's hopes and dreams.[f000]븁\u0000\nWhen you recommend shops to visitors,\nthe shops get more popular and their[f000]븀\u0000\nrank improves.[f000]븁\u0000\nTalk to assistant 2 for advice on what\nkinds of shops will grow the fastest.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 17, 0, 0, 0
     VMJump L_04FC
 
 L_04F0:
-    ActorMsg 1024, 16, 0, 0, 0
+    // "There are seven different kinds of shops\nthat can be built in [f000]Ĺ\u0001\u0000.[f000]븁\u0000\nWhen someone is invited to build a shop,\nthe type of shop they open is based[f000]븀\u0000\non that person's hopes and dreams.[f000]븁\u0000\nWhen you recommend shops to visitors,\nthe shops get more popular and their[f000]븀\u0000\nrank improves.[f000]븁\u0000\nTalk to assistant 2 for advice on what\nkinds of shops will grow the fastest.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 0, 0, 0
 
 L_04FC:
     VMJump L_064F
 
 L_0502:
     WorkCmpConst 0x8028, 1
-    VMJumpIf 1, L_0515
+    VMJumpIf CMP_EQ, L_0515
     VMJump L_0527
 
 L_0515:
-    ActorMsg 1024, 8, 0, 0, 0
+    // "At Markets, you'll be able to purchase\nvarious items useful for your adventure.[f000]븁\u0000\nSometimes they carry items not available\nat Poké Marts, or so I've heard.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 0, 0, 0
     VMJump L_064F
 
 L_0527:
     WorkCmpConst 0x8028, 2
-    VMJumpIf 1, L_053A
+    VMJumpIf CMP_EQ, L_053A
     VMJump L_054C
 
 L_053A:
-    ActorMsg 1024, 9, 0, 0, 0
+    // "At Raffle Shops, you can win cool prizes.[f000]븁\u0000\nThe grand prize is a Master Ball![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 0, 0, 0
     VMJump L_064F
 
 L_054C:
     WorkCmpConst 0x8028, 3
-    VMJumpIf 1, L_055F
+    VMJumpIf CMP_EQ, L_055F
     VMJump L_0571
 
 L_055F:
-    ActorMsg 1024, 10, 0, 0, 0
+    // "Flower Shops carry Berries.[f000]븁\u0000\nDifferent shops may have\ndifferent Berries.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 0, 0, 0
     VMJump L_064F
 
 L_0571:
     WorkCmpConst 0x8028, 4
-    VMJumpIf 1, L_0584
+    VMJumpIf CMP_EQ, L_0584
     VMJump L_0596
 
 L_0584:
-    ActorMsg 1024, 11, 0, 0, 0
+    // "At Nurseries, you can put Pokémon Eggs\nin incubators to speed up hatching.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 0, 0, 0
     VMJump L_064F
 
 L_0596:
     WorkCmpConst 0x8028, 5
-    VMJumpIf 1, L_05A9
+    VMJumpIf CMP_EQ, L_05A9
     VMJump L_05BB
 
 L_05A9:
-    ActorMsg 1024, 12, 0, 0, 0
+    // "Dojos train Pokémon.[f000]븁\u0000\nThey can level up Pokémon and\nraise the base stats of Pokémon.[f000]븁\u0000\nBe aware that Pokémon won't learn\ncertain moves or evolve while they[f000]븀\u0000\nlevel up this way.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 0, 0, 0
     VMJump L_064F
 
 L_05BB:
     WorkCmpConst 0x8028, 6
-    VMJumpIf 1, L_05CE
+    VMJumpIf CMP_EQ, L_05CE
     VMJump L_05E0
 
 L_05CE:
-    ActorMsg 1024, 13, 0, 0, 0
+    // "Antique Shops carry rare finds.[f000]븁\u0000\nYou may find out you have really rare\nitems when you have them appraised.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 0, 0, 0
     VMJump L_064F
 
 L_05E0:
     WorkCmpConst 0x8028, 7
-    VMJumpIf 1, L_05F3
+    VMJumpIf CMP_EQ, L_05F3
     VMJump L_0605
 
 L_05F3:
-    ActorMsg 1024, 14, 0, 0, 0
+    // "Cafés give you and your Pokémon\nthe chance to have a nice meal.[f000]븁\u0000\nMeals make Pokémon happy,\nand they will grow friendly faster.[f000]븁\u0000\nYou can also level Pokémon up and\nraise their base stats.[f000]븁\u0000\nBe aware that Pokémon won't learn\ncertain moves or evolve while they[f000]븀\u0000\nlevel up this way.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 0, 0, 0
     VMJump L_064F
 
 L_0605:
     WorkCmpConst 0x8028, 8
-    VMJumpIf 1, L_0618
+    VMJumpIf CMP_EQ, L_0618
     VMJump L_062A
 
 L_0618:
-    ActorMsg 1024, 15, 0, 0, 0
+    // "Beauty Salons keep Pokémon tidy.[f000]븁\u0000\nHaircuts and cosmetics make Pokémon\nhappy, and they grow friendlier faster.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 0, 0, 0
     VMJump L_064F
 
 L_062A:
     WorkCmpConst 0x8028, 9
-    VMJumpIf 1, L_063D
+    VMJumpIf CMP_EQ, L_063D
     VMJump L_0649
 
 L_063D:
@@ -398,7 +420,7 @@ Script_3:
     ActorsPauseAll
     Plugin8_Cmd1031 20, 0x8020
     WorkCmpConst 0x8020, 1
-    VMJumpIf 1, L_067E
+    VMJumpIf CMP_EQ, L_067E
     VMJump L_068A
 
 L_067E:
@@ -407,7 +429,7 @@ L_067E:
 
 L_068A:
     WorkCmpConst 0x8020, 2
-    VMJumpIf 1, L_069D
+    VMJumpIf CMP_EQ, L_069D
     VMJump L_06A9
 
 L_069D:
@@ -416,7 +438,7 @@ L_069D:
 
 L_06A9:
     WorkCmpConst 0x8020, 3
-    VMJumpIf 1, L_06BC
+    VMJumpIf CMP_EQ, L_06BC
     VMJump L_06C8
 
 L_06BC:
@@ -425,7 +447,7 @@ L_06BC:
 
 L_06C8:
     WorkCmpConst 0x8020, 4
-    VMJumpIf 1, L_06DB
+    VMJumpIf CMP_EQ, L_06DB
     VMJump L_06E7
 
 L_06DB:
@@ -434,7 +456,7 @@ L_06DB:
 
 L_06E7:
     WorkCmpConst 0x8020, 5
-    VMJumpIf 1, L_06FA
+    VMJumpIf CMP_EQ, L_06FA
     VMJump L_0706
 
 L_06FA:
@@ -443,7 +465,7 @@ L_06FA:
 
 L_0706:
     WorkCmpConst 0x8020, 6
-    VMJumpIf 1, L_0719
+    VMJumpIf CMP_EQ, L_0719
     VMJump L_0725
 
 L_0719:
@@ -452,7 +474,7 @@ L_0719:
 
 L_0725:
     WorkCmpConst 0x8020, 7
-    VMJumpIf 1, L_0738
+    VMJumpIf CMP_EQ, L_0738
     VMJump L_0744
 
 L_0738:
@@ -461,7 +483,7 @@ L_0738:
 
 L_0744:
     WorkCmpConst 0x8020, 8
-    VMJumpIf 1, L_0757
+    VMJumpIf CMP_EQ, L_0757
     VMJump L_0763
 
 L_0757:
@@ -477,18 +499,22 @@ L_0763:
 L_076F:
     VMCall L_0BB9
     Plugin8_Cmd1007 4, 255, 0, 0
-    ActorMsg 1024, 41, 1, 0, 0
-    ActorMsg 1024, 49, 1, 0, 0
+    // "[f000]Ā\u0001\u0000,\nI see you are putting in a lot of effort![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 41, 1, 0, 0
+    // "I have a present for you today.\nI've recruited a new assistant for you.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 49, 1, 0, 0
     ActorMsgClose
     ActorFindByGPos 0x8022, 0x8020, 6, 0, 4
     VMCall L_0C48
     Plugin8_Cmd1007 0, 3, 2, 0
     Plugin8_Cmd1007 6, 3, 2, 1
-    ActorMsg 1024, 66, 0x8022, 0, 0
+    // "[f000]ķ\u0001\u0001\nI'm [f000]Ā\u0001\u0000![f000]븁\u0000\nWhen it comes to reorganizing things,\nleave it to me![f000]븁\u0000\nPC Boxes and Record Rankings!\nChanging the roles of assistants![f000]븀\u0000\nChanging the order of shops![f000]븀\u0000\nPlease talk to me when you[f000]븀\u0000\nwant to reorganize things.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 66, 0x8022, 0, 0
     ActorMsgClose
     ActorCmdExec 255, Movement_0C7C
     ActorCmdWait
-    ActorMsg 1024, 58, 1, 0, 0
+    // "Keep up the good work![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 58, 1, 0, 0
     ActorMsgClose
     Plugin8_Cmd1030 21, 1
     VMCall L_0BCB
@@ -497,18 +523,22 @@ L_076F:
 L_07F3:
     VMCall L_0BB9
     Plugin8_Cmd1007 4, 255, 0, 0
-    ActorMsg 1024, 42, 1, 0, 0
-    ActorMsg 1024, 50, 1, 0, 0
+    // "[f000]Ā\u0001\u0000,\nI see you are putting in a lot of effort![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 42, 1, 0, 0
+    // "I have a present for you today.\nI've recruited a new assistant for you.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 50, 1, 0, 0
     ActorMsgClose
     ActorFindByGPos 0x8022, 0x8020, 6, 0, 4
     VMCall L_0C48
     Plugin8_Cmd1007 0, 3, 3, 0
     Plugin8_Cmd1007 6, 3, 3, 1
-    ActorMsg 1024, 67, 0x8022, 0, 0
+    // "[f000]ķ\u0001\u0001\nI'm [f000]Ā\u0001\u0000![f000]븁\u0000\nPlease talk to me when you want to rest\nyour tired Pokémon.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 67, 0x8022, 0, 0
     ActorMsgClose
     ActorCmdExec 255, Movement_0C7C
     ActorCmdWait
-    ActorMsg 1024, 59, 1, 0, 0
+    // "Keep up the good work![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 59, 1, 0, 0
     ActorMsgClose
     Plugin8_Cmd1030 21, 2
     VMCall L_0BCB
@@ -518,13 +548,16 @@ L_0877:
     VMCall L_0BB9
     Plugin8_Cmd1007 4, 255, 0, 0
     Plugin8_Cmd1007 4, 255, 0, 1
-    ActorMsg 1024, 43, 1, 0, 0
-    ActorMsg 1024, 51, 1, 0, 0
+    // "[f000]Ā\u0001\u0000,\nI see you are putting in a lot of effort![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 43, 1, 0, 0
+    // "Today, I want to say how grateful I am.[f000]븁\u0000\nThank you for doing so much to\ndevelop this avenue![f000]븁\u0000\nYou're a truly deserving “[f000]ĺ\u0001\u0001\"!\nI'd say you've made the avenue your own![f000]븁\u0000\nBecause of that, you have earned\nthe privilege of renaming the avenue.[f000]븁\u0000\nPlease consider a new name for Join\nAvenue that describes its character.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 51, 1, 0, 0
     ActorMsgClose
     Plugin8_Cmd1023 0, 0
     Plugin8_Cmd1007 4, 255, 0, 1
     Plugin8_Cmd1007 8, 255, 0, 2
-    ActorMsg 1024, 52, 1, 0, 0
+    // "Wonderful![f000]븁\u0000\n[f000]ĺ\u0001\u0001,\n[f000]Ĺ\u0001\u0002 belongs to you now![f000]븀\u0000\nI'll leave everything to you.[f000]븁\u0000\nContinue developing the avenue\nso visitors will be even more delighted.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 52, 1, 0, 0
     ActorMsgClose
     EvCameraInit
     EvCameraUnbind
@@ -540,13 +573,15 @@ L_0877:
     ActorCmdWait
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0954
-    ActorMsg 1024, 68, 0x8022, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0954
+    // "[f000]ķ\u0001\u0001\nI'm [f000]Ā\u0001\u0000![f000]븁\u0000\nPlease talk to me when you want to\nchange the avenue's name.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 68, 0x8022, 0, 0
     VMJump L_0960
 
 L_0954:
-    ActorMsg 1024, 69, 0x8022, 0, 0
+    // "[f000]ķ\u0001\u0001\nI'm [f000]Ā\u0001\u0000![f000]븁\u0000\nPlease talk to me when you want to\nchange the avenue's name.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 69, 0x8022, 0, 0
 
 L_0960:
     ActorMsgClose
@@ -556,7 +591,8 @@ L_0960:
     EvCameraEnd
     ActorCmdExec 255, Movement_0C7C
     ActorCmdWait
-    ActorMsg 1024, 60, 1, 0, 0
+    // "Keep up the good work![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 60, 1, 0, 0
     ActorMsgClose
     Plugin8_Cmd1030 21, 3
     MedalGive 194
@@ -566,8 +602,10 @@ L_0960:
 L_0996:
     VMCall L_0BB9
     Plugin8_Cmd1007 4, 255, 0, 0
-    ActorMsg 1024, 44, 1, 0, 0
-    ActorMsg 1024, 53, 1, 0, 0
+    // "[f000]Ā\u0001\u0000,\nI see you are putting in a lot of effort![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 44, 1, 0, 0
+    // "Today, I have a present for you.[f000]븁\u0000\nNow you can change the avenue's\nneon arch as you wish.[f000]븁\u0000\nIt will give a fresh look to the avenue.\nWon't it delight our visitors even more?![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 53, 1, 0, 0
     ActorMsgClose
     EvCameraInit
     EvCameraUnbind
@@ -583,13 +621,15 @@ L_0996:
     ActorCmdWait
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0A41
-    ActorMsg 1024, 70, 0x8022, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A41
+    // "[f000]ķ\u0001\u0001\nI'm [f000]Ā\u0001\u0000![f000]븁\u0000\nPlease talk to me when you want to\nchange the neon arch.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 70, 0x8022, 0, 0
     VMJump L_0A4D
 
 L_0A41:
-    ActorMsg 1024, 71, 0x8022, 0, 0
+    // "[f000]ķ\u0001\u0001\nI'm [f000]Ā\u0001\u0000![f000]븁\u0000\nPlease talk to me when you want to\nchange the neon arch.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 71, 0x8022, 0, 0
 
 L_0A4D:
     ActorMsgClose
@@ -599,7 +639,8 @@ L_0A4D:
     EvCameraEnd
     ActorCmdExec 255, Movement_0C7C
     ActorCmdWait
-    ActorMsg 1024, 61, 1, 0, 0
+    // "Keep up the good work![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 61, 1, 0, 0
     ActorMsgClose
     Plugin8_Cmd1030 21, 4
     VMCall L_0BCB
@@ -608,9 +649,12 @@ L_0A4D:
 L_0A7F:
     VMCall L_0BB9
     Plugin8_Cmd1007 4, 255, 0, 0
-    ActorMsg 1024, 45, 1, 0, 0
-    ActorMsg 1024, 54, 1, 0, 0
-    ActorMsg 1024, 62, 1, 0, 0
+    // "[f000]Ā\u0001\u0000,\nI see you are putting in a lot of effort![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 45, 1, 0, 0
+    // "I have a piece of advice for you today.[f000]븁\u0000\nYou'd want an assistant that suits\nyour preferences, wouldn't you?[f000]븁\u0000\nWhy don't you choose one of the visitors?\nIt's quite easy.[f000]븁\u0000\nTalk to a person and choose “Recruit.\"[f000]븁\u0000\nThe higher the current avenue rank is\ncompared to the person's ideals,[f000]븀\u0000\nthe better chance you'll have of[f000]븀\u0000\nrecruiting him or her successfully.[f000]븁\u0000\nPlease bring even more delight\nto our visitors![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 54, 1, 0, 0
+    // "Keep up the good work![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 62, 1, 0, 0
     ActorMsgClose
     Plugin8_Cmd1030 21, 5
     VMCall L_0BCB
@@ -619,9 +663,12 @@ L_0A7F:
 L_0AC3:
     VMCall L_0BB9
     Plugin8_Cmd1007 4, 255, 0, 0
-    ActorMsg 1024, 46, 1, 0, 0
-    ActorMsg 1024, 55, 1, 0, 0
-    ActorMsg 1024, 63, 1, 0, 0
+    // "[f000]Ā\u0001\u0000,\nI see you are putting in a lot of effort![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 46, 1, 0, 0
+    // "Today, I have a big present for you![f000]븁\u0000\nTo commemorate your entering the\nHall of Fame, shops have been renovated.[f000]븁\u0000\nYou'll notice new services and items,\nso you might want to check those out.[f000]븁\u0000\nWhat's more...\nHave you heard of Pokémon Eggs?[f000]븁\u0000\nYou'll now be able to build what they call\na “Nursery,\" which enables Eggs to[f000]븀\u0000\nbe hatched more quickly than normal.[f000]븁\u0000\nFind a visitor who wants to build a\nNursery, and give it a try![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 55, 1, 0, 0
+    // "I have nothing more to\npoint out to you![f000]븁\u0000\nJust keep up the good work![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 63, 1, 0, 0
     ActorMsgClose
     Plugin8_Cmd1030 21, 6
     VMCall L_0BCB
@@ -630,8 +677,10 @@ L_0AC3:
 L_0B07:
     VMCall L_0BB9
     Plugin8_Cmd1007 4, 255, 0, 0
-    ActorMsg 1024, 47, 1, 0, 0
-    ActorMsg 1024, 56, 1, 0, 0
+    // "[f000]Ā\u0001\u0000,\nI see you are putting in a lot of effort![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 47, 1, 0, 0
+    // "Today, I have a surprise for you.[f000]븁\u0000\nEverybody here is celebrating the\ngreat effort you've been putting in.[f000]븁\u0000\nWhat are you waiting for? Don't be shy!\nGo and greet everyone![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 56, 1, 0, 0
     Plugin8_Cmd1030 21, 7
     ActorMsgClose
     WorkSetConst 0x413a, 1
@@ -642,8 +691,10 @@ L_0B07:
 L_0B4D:
     VMCall L_0BB9
     Plugin8_Cmd1007 4, 255, 0, 0
-    ActorMsg 1024, 48, 1, 0, 0
-    ActorMsg 1024, 57, 1, 0, 0
+    // "[f000]Ā\u0001\u0000,\nI see you are putting in a lot of effort![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 48, 1, 0, 0
+    // "I have a present for you to recognize\nall your continuous effort.[f000]븁\u0000\nIt's just a little something.\nPlease, take it.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 57, 1, 0, 0
     ActorMsgClose
     Plugin8_Cmd1002 61, 0x8020
     VMStackPush 0x8000
@@ -653,7 +704,8 @@ L_0B4D:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 65, 1, 0, 0
+    // "I have nothing more to\npoint out to you![f000]븁\u0000\nJust keep up the good work![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 65, 1, 0, 0
     ActorMsgClose
     Plugin8_Cmd1030 21, 8
     VMCall L_0BCB

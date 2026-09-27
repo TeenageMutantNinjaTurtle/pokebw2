@@ -18,7 +18,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "...I'm sorry.\nI ended up losing my uniform."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -29,7 +30,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "I did my best to choose a Pokémon\nwho was both cute and strong!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -40,7 +42,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "My Minccino!\nMy grandpa caught it for me![f000]븀\u0000\nTail Slap is its specialty!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -52,7 +55,8 @@ Script_5:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 572, 0
-    ParentActorMsg 1024, 3, 0, 0
+    // "Chichino! ♪"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

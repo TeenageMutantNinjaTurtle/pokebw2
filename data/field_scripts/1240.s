@@ -4015,16 +4015,16 @@ Script_401:
     Cmd_0239 0x8021
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_2F58
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_2F58
     ActorGetSpawnFlag 0x8011, 0x8010
     FlagSet 0x8010
     ActorDelete 0x8011
     VMSleep 0
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_2F58
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_2F58
     PlayerSetSpecialSequence 16
     ActorCmdExec 255, Movement_3018
 
@@ -4032,8 +4032,8 @@ L_2F58:
     ItemIsTMHM 0x8008, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_2F7D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_2F7D
     VMCall L_3020
     VMJump L_2F83
 
@@ -4043,8 +4043,8 @@ L_2F7D:
 L_2F83:
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_2FA2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_2FA2
     VMCall L_2FB6
     VMJump L_2FA8
 
@@ -4064,8 +4064,8 @@ L_2FB6:
     MEWait
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_2FEB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_2FEB
     ActorCmdWait
     RTCallGlobal 2810
 
@@ -4074,6 +4074,7 @@ L_2FEB:
     WordSetPlayerName 0
     WordSetItemNameEx 1, 0x8008, 0x8009, 0
     WordSetItemPocketName 2, 0x8008
+    // "[f000]Ā\u0001\u0000 put the [f000]ĉ\u0001\u0001 in the\n[f000][ff00]\u0001\u0002[f000]Ē\u0001\u0002[f000][ff00]\u0001\u0000 Case."
     SystemMsg 11, 2
     LastKeyWait
     WorkSetConst 0x8010, 1
@@ -4090,12 +4091,14 @@ L_3020:
     WordSetPlayerName 0
     WordSetItemNameWithArticle 1, 0x8008
     WordSetTMMoveName 2, 0x8008
+    // "[f000]Ā\u0001\u0000 found\n[f000]ĉ\u0001\u0001 [f000]ć\u0001\u0002!"
     SystemMsg 6, 2
     VMReturn
 
 L_3035:
     WordSetPlayerName 0
     WordSetItemNameEx 1, 0x8008, 0x8009, 1
+    // "[f000]Ā\u0001\u0000 found [f000][ff00]\u0001\u0002[f000]ĉ\u0001\u0001[f000][ff00]\u0001\u0000!"
     SystemMsg 5, 2
     VMReturn
 
@@ -4103,6 +4106,7 @@ L_3048:
     MEWait
     MsgWaitAdvance
     WordSetItemNameEx 0, 0x8008, 2, 0
+    // "Too bad! There is no more room for\n[f000]ĉ\u0001\u0000!"
     SystemMsg 8, 2
     LastKeyWait
     InfoMsgClose

@@ -40,7 +40,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Humilau City was a resort known to\nonly a limited number of people.[f000]븁\u0000\nBut personally, it's more fun\nif many people come to visit the city."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -54,12 +55,13 @@ Script_4:
     DebugPrint 0x8020
     VMStackPush 0x8020
     VMStackPushConst 6
-    VMStackCmp 5
-    VMJumpIf 255, L_00CE
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_00CE
     WordSetPartyPokeSpecies 0, 0x8020
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Wow, seriously?[f000]븁\u0000\nYour [f000]ā\u0001\u0000 can\nuse Surf![f000]븁\u0000\nCool!\nSeriously, I give mad props to you![f000]븁\u0000\nYou ride and [f000]ā\u0001\u0000 is ridden...\nThe vibe between you and your Pokémon[f000]븀\u0000\nis insanely awesome![f000]븁\u0000\n...Me?[f000]븁\u0000\nI sink like a rock, so\nseriously, no thank you[f000]븀\u0000\nto the sea and waves..."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_00E2
@@ -67,7 +69,8 @@ Script_4:
 L_00CE:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Wow, seriously?\nYour Pokémon can't use Surf[f000]븀\u0000\nat all![f000]븁\u0000\nYou can't ride the real wave...\nor feel the vibe.[f000]븀\u0000\nSeriously, no thank you!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
 

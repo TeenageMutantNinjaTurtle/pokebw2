@@ -25,36 +25,36 @@ Script_1:
     Cmd_02B2 7, 0x8024
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_007D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_007D
     FlagReset 627
 
 L_007D:
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0094
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0094
     FlagReset 628
 
 L_0094:
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00AB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00AB
     FlagReset 629
 
 L_00AB:
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00C2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00C2
     FlagReset 630
 
 L_00C2:
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00D9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00D9
     FlagReset 631
 
 L_00D9:
@@ -63,6 +63,7 @@ L_00D9:
 Script_2:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a Wii console!\nIt has a Wii Remote!"
     SystemMsg 0, 2
     LastKeyWait
     MsgWinCloseAll
@@ -73,6 +74,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a shiny flat-screen television\nthat someone has been polishing..."
     InfoMsg 1, 2
     LastKeyWait
     MsgWinCloseAll
@@ -83,6 +85,7 @@ Script_3:
 Script_4:
     ActorsPauseAll
     SEPlay 1351
+    // "This PC doesn't look like it's\nbeen used in a while..."
     SystemMsg 3, 2
     LastKeyWait
     MsgWinCloseAll
@@ -93,6 +96,7 @@ Script_4:
 Script_5:
     ActorsPauseAll
     SEPlay 1351
+    // "The sheets on the bed don't have\na single wrinkle."
     SystemMsg 2, 2
     LastKeyWait
     MsgWinCloseAll
@@ -103,6 +107,7 @@ Script_5:
 Script_6:
     ActorsPauseAll
     SEPlay 1351
+    // "It's an award for completing\nthe Unova Pokédex!"
     InfoMsg 4, 2
     LastKeyWait
     MsgWinCloseAll
@@ -113,6 +118,7 @@ Script_6:
 Script_7:
     ActorsPauseAll
     SEPlay 1351
+    // "It's an award for completing\nthe National Mode Pokédex!"
     InfoMsg 5, 2
     LastKeyWait
     MsgWinCloseAll
@@ -123,6 +129,7 @@ Script_7:
 Script_8:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a trophy proving you defeated\nthe Single Master in the Battle Subway!"
     InfoMsg 6, 2
     LastKeyWait
     MsgWinCloseAll
@@ -133,6 +140,7 @@ Script_8:
 Script_9:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a trophy proving you defeated\nthe Double Master in the Battle Subway!"
     InfoMsg 7, 2
     LastKeyWait
     MsgWinCloseAll
@@ -143,6 +151,7 @@ Script_9:
 Script_10:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a trophy for defeating\nthe Multi Master in the Battle Subway!"
     InfoMsg 8, 2
     LastKeyWait
     MsgWinCloseAll

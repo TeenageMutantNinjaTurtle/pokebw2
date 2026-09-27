@@ -23,6 +23,7 @@
 Script_1:
     ActorsPauseAll
     SEPlay 1351
+    // "Shopping Mall Nine\nColorful and wonderful!"
     InfoMsg 27, 2
     LastKeyWait
     MsgWinCloseAll
@@ -34,7 +35,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "If you want all the TMs, the\nShopping Mall is a must-visit![f000]븁\u0000\nThat's right! You should brag about\ncoming here to the TM Collector[f000]븀\u0000\nin Mistralton City!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -45,7 +47,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "On the first floor, they sell medicines.[f000]븁\u0000\nOn the second floor, they sell TMs\nand different kinds of Mail.[f000]븁\u0000\nOn the third floor, they sell items for\nraising stats and battle items.[f000]븁\u0000\nI really admire Mr. Clyde, the\nPokémon Gym guide, so I'm practicing[f000]븀\u0000\nbeing a guide, too!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -56,7 +59,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "I was challenged to a Pokémon\nbattle inside the Shopping Mall![f000]븁\u0000\nThat means it's a place where\nonly the strong survive. Got it?"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -67,7 +71,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "The thing I buy most often is the item\nthat raises a Pokémon's HP, called HP Up.[f000]븁\u0000\nThere are also a lot of other items that\ncatch my eye."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -83,10 +88,10 @@ Script_6:
     RTCGetWeekDay 0x8021
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_01E1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01E1
     WorkCmpConst 0x8021, 0
-    VMJumpIf 1, L_0115
+    VMJumpIf CMP_EQ, L_0115
     VMJump L_0121
 
 L_0115:
@@ -95,7 +100,7 @@ L_0115:
 
 L_0121:
     WorkCmpConst 0x8021, 1
-    VMJumpIf 1, L_0134
+    VMJumpIf CMP_EQ, L_0134
     VMJump L_0140
 
 L_0134:
@@ -104,7 +109,7 @@ L_0134:
 
 L_0140:
     WorkCmpConst 0x8021, 2
-    VMJumpIf 1, L_0153
+    VMJumpIf CMP_EQ, L_0153
     VMJump L_015F
 
 L_0153:
@@ -113,7 +118,7 @@ L_0153:
 
 L_015F:
     WorkCmpConst 0x8021, 3
-    VMJumpIf 1, L_0172
+    VMJumpIf CMP_EQ, L_0172
     VMJump L_017E
 
 L_0172:
@@ -122,7 +127,7 @@ L_0172:
 
 L_017E:
     WorkCmpConst 0x8021, 4
-    VMJumpIf 1, L_0191
+    VMJumpIf CMP_EQ, L_0191
     VMJump L_019D
 
 L_0191:
@@ -131,7 +136,7 @@ L_0191:
 
 L_019D:
     WorkCmpConst 0x8021, 5
-    VMJumpIf 1, L_01B0
+    VMJumpIf CMP_EQ, L_01B0
     VMJump L_01BC
 
 L_01B0:
@@ -140,7 +145,7 @@ L_01B0:
 
 L_01BC:
     WorkCmpConst 0x8021, 6
-    VMJumpIf 1, L_01CF
+    VMJumpIf CMP_EQ, L_01CF
     VMJump L_01DB
 
 L_01CF:
@@ -153,7 +158,8 @@ L_01DB:
 L_01E1:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "I can't wait for evening!\nThat's right! Evening itself is a fever!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -166,21 +172,23 @@ L_01FB:
     WorkSetConst 0x8022, 180
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 5, 3, 2, 0
+    // "It's tonight's special evening deal![f000]븁\u0000\nPoké Balls are on sale![f000]븁\u0000\nFor an a-m-a-z-i-n-g...[f000]븁\u0000\n10% off!\nThey're on sale now!"
+    ActorMsg MSGFILE_SCRIPT, 5, 3, 2, 0
     MoneyWinDisp 31, 1
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02D8
-    ItemCheckSpace 4, 1, 0x8024
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02D8
+    ItemCheckSpace ITEM_POKE_BALL, 1, 0x8024
     MoneyCheck 0x8023, 0x8022
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0269
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0269
     MoneyWinClose
-    ActorMsg 1024, 10, 3, 2, 0
+    // "What? You don't have enough money,\neven when it's 10% off?!"
+    ActorMsg MSGFILE_SCRIPT, 10, 3, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_02D2
@@ -188,10 +196,11 @@ L_01FB:
 L_0269:
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0294
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0294
     MoneyWinClose
-    ActorMsg 1024, 11, 3, 2, 0
+    // "What? You can't hold any more\neven when you'd get 10% off?!"
+    ActorMsg MSGFILE_SCRIPT, 11, 3, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_02D2
@@ -201,7 +210,8 @@ L_0294:
     MoneySub 0x8022
     MoneyWinUpdate
     SEWait
-    ActorMsg 1024, 8, 3, 2, 0
+    // "Well, at 10% off, your\nPoké Ball purchase will be $180!"
+    ActorMsg MSGFILE_SCRIPT, 8, 3, 2, 0
     MsgWaitAdvance
     MsgWinCloseAll
     MoneyWinClose
@@ -218,7 +228,8 @@ L_02D2:
 
 L_02D8:
     MoneyWinClose
-    ActorMsg 1024, 7, 3, 2, 0
+    // "OK, then that will be $0 for no items![f000]븁\u0000\nThanks for nothing!\nPlease come again!"
+    ActorMsg MSGFILE_SCRIPT, 7, 3, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -229,21 +240,23 @@ L_02EC:
     WorkSetConst 0x8022, 270
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 6, 3, 2, 0
+    // "It's tonight's special evening deal![f000]븁\u0000\nPotions are on sale![f000]븁\u0000\nFor an a-m-a-z-i-n-g...[f000]븁\u0000\n10% off!\nThey're on sale now!"
+    ActorMsg MSGFILE_SCRIPT, 6, 3, 2, 0
     MoneyWinDisp 31, 1
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03C9
-    ItemCheckSpace 17, 1, 0x8024
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03C9
+    ItemCheckSpace ITEM_POTION, 1, 0x8024
     MoneyCheck 0x8023, 0x8022
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_035A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_035A
     MoneyWinClose
-    ActorMsg 1024, 10, 3, 2, 0
+    // "What? You don't have enough money,\neven when it's 10% off?!"
+    ActorMsg MSGFILE_SCRIPT, 10, 3, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_03C3
@@ -251,10 +264,11 @@ L_02EC:
 L_035A:
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0385
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0385
     MoneyWinClose
-    ActorMsg 1024, 11, 3, 2, 0
+    // "What? You can't hold any more\neven when you'd get 10% off?!"
+    ActorMsg MSGFILE_SCRIPT, 11, 3, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_03C3
@@ -264,7 +278,8 @@ L_0385:
     MoneySub 0x8022
     MoneyWinUpdate
     SEWait
-    ActorMsg 1024, 9, 3, 2, 0
+    // "Well, at 10% off, your\nPotion purchase will be $270!"
+    ActorMsg MSGFILE_SCRIPT, 9, 3, 2, 0
     MsgWaitAdvance
     MsgWinCloseAll
     MoneyWinClose
@@ -281,7 +296,8 @@ L_03C3:
 
 L_03C9:
     MoneyWinClose
-    ActorMsg 1024, 7, 3, 2, 0
+    // "OK, then that will be $0 for no items![f000]븁\u0000\nThanks for nothing!\nPlease come again!"
+    ActorMsg MSGFILE_SCRIPT, 7, 3, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -292,7 +308,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 12, 0, 0
+    // "The better Trainer you are,\nthe more you'll find yourself thinking![f000]븁\u0000\nThat's so you can help your\nPokémon partners win!"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -303,7 +320,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 13, 0, 0
+    // "If I were to play hide-and-seek with\nmy Pokémon, they'd find me right away![f000]븁\u0000\nBut if I were to get lost,\nI'd be glad they could find me right away!"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -314,7 +332,8 @@ Script_9:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 14, 0, 0
+    // "Welcome to Shopping Mall Nine!\nIt's called Nine because it's on Route 9.[f000]븁\u0000\nYou can remember it by thinking of this:\n“Done shopping? Nein!\""
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -325,7 +344,8 @@ Script_10:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 15, 0, 0
+    // "My Lampent's not good at\nPokémon battles,[f000]븀\u0000\nbut it's great at making toast!"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -338,22 +358,25 @@ Script_11:
     ActorSetEyeToEye
     VMStackPush 0x4184
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2765
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_04DC
-    ParentActorMsg 1024, 16, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_04DC
+    // "I'm a Lady...[f000]븁\u0000\nI've come to do some shopping,\nbut I'm having ever so much trouble[f000]븀\u0000\nfinding out what is sold where.[f000]븁\u0000\nWould you be so kind as to buy\na Hyper Potion for me?[f000]븀\u0000\nI'll give you the money for it."
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04C8
-    ParentActorMsg 1024, 17, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04C8
+    // "Why, thank you!\nHere is the money for it.[f000]븁\u0000\nJust a Hyper Potion, please.\nThank you ever so much for your help."
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     WordSetPlayerName 0
+    // "[f000]Ā\u0001\u0000 received $1,200!"
     SystemMsg 18, 0
     LastKeyWait
     MsgWinCloseAll
@@ -363,7 +386,8 @@ Script_11:
     VMJump L_04D6
 
 L_04C8:
-    ParentActorMsg 1024, 19, 0, 0
+    // "Someone refusing a request from me?\nWhat a novel sensation![f000]븁\u0000\nNow, where could they be\nselling those Hyper Potions?"
+    ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -373,42 +397,45 @@ L_04D6:
 L_04DC:
     VMStackPush 0x4184
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2765
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0681
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0681
     VMStackPushFlag 2764
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0522
-    ParentActorMsg 1024, 20, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0522
+    // "I want a Hyper Potion!\nDid you already buy one for me?"
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     VMJump L_052C
 
 L_0522:
-    ParentActorMsg 1024, 21, 0, 0
+    // "Did I not ask you to buy\na Hyper Potion for me?[f000]븁\u0000\nPlease! I'm waiting.[f000]븁\u0000\nOr did you already buy it, perhaps?"
+    ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
 
 L_052C:
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_066D
-    ItemCheckAmount 25, 1, 0x8010
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_066D
+    ItemCheckAmount ITEM_HYPER_POTION, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2764
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_05D2
-    ParentActorMsg 1024, 22, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_05D2
+    // "It's a Hyper Potion!\nThank you for buying it so quickly![f000]븁\u0000\nThis isn't much, but please take it!"
+    ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     WorkSetConst 0x8025, 0
-    ItemSub 25, 1, 0x8025
+    ItemSub ITEM_HYPER_POTION, 1, 0x8025
     WorkSetConst 0x8025, 0
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -417,7 +444,8 @@ L_052C:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 26, 0, 0
+    // "Shopping is so much fun!\nI'm thrilled with all I've accomplished!"
+    ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2765
@@ -428,17 +456,18 @@ L_052C:
 L_05D2:
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2764
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0659
-    ParentActorMsg 1024, 23, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0659
+    // "It's a Hyper Potion! It feels as though\nI've been waiting ever so long for this.[f000]븁\u0000\nBut I am happy to finally have it.\nThis isn't much, but please take it."
+    ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     WorkSetConst 0x8026, 0
-    ItemSub 25, 1, 0x8026
+    ItemSub ITEM_HYPER_POTION, 1, 0x8026
     WorkSetConst 0x8026, 0
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -447,7 +476,8 @@ L_05D2:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 26, 0, 0
+    // "Shopping is so much fun!\nI'm thrilled with all I've accomplished!"
+    ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2765
@@ -456,7 +486,8 @@ L_05D2:
     VMJump L_0667
 
 L_0659:
-    ParentActorMsg 1024, 24, 0, 0
+    // "Excuse me? It seems as though\nthere's no Hyper Potion in your Bag.[f000]븁\u0000\nPlease!\nBuy a Hyper Potion for me!"
+    ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -464,7 +495,8 @@ L_0667:
     VMJump L_067B
 
 L_066D:
-    ParentActorMsg 1024, 25, 0, 0
+    // "What I want is a Hyper Potion!\nPlease! I'm waiting..."
+    ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -474,9 +506,10 @@ L_067B:
 L_0681:
     VMStackPushFlag 2765
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_06A2
-    ParentActorMsg 1024, 26, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06A2
+    // "Shopping is so much fun!\nI'm thrilled with all I've accomplished!"
+    ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
     LastKeyWait
     MsgWinCloseAll
 

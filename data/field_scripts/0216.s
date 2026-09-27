@@ -16,8 +16,8 @@ Script_2:
 Script_3:
     VMStackPush 0x409f
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0049
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0049
     ActorSetGPos 5, 11, 0, 37, 1
     VMJump L_0049
 
@@ -36,21 +36,22 @@ Script_1:
     TrainerCardHasBadge 0x8008, 5
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_007E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_007E
     VMCall L_00F6
     VMJump L_00F0
 
 L_007E:
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40cb
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_00B7
-    ActorMsg 1024, 4, 3, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00B7
+    // "I wonder what Professor Juniper\nis up to?[f000]븁\u0000\nI did promise her a ride in my plane..."
+    ActorMsg MSGFILE_SCRIPT, 4, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_00F0
@@ -58,15 +59,17 @@ L_007E:
 L_00B7:
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00E0
-    ActorMsg 1024, 5, 3, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E0
+    // "Two things that are both really fun:\nflying my own plane and having my[f000]븀\u0000\nPokémon take me places using Fly!"
+    ActorMsg MSGFILE_SCRIPT, 5, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_00F0
 
 L_00E0:
-    ActorMsg 1024, 6, 3, 0, 0
+    // "Skyla: Are you and your Pokémon well?\nOur battle together was a ton of fun.[f000]븁\u0000\nWhenever my Pokémon think of our battle,\nthey want to start training again.[f000]븁\u0000\nIt might be a cool idea to take my plane\nand go on a training trip together!"
+    ActorMsg MSGFILE_SCRIPT, 6, 3, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -76,14 +79,15 @@ L_00F0:
     VMHalt
 
 L_00F6:
-    ParentActorMsg 1024, 0, 0, 0
+    // "Hee-hee!\nI've been waiting for you.[f000]븁\u0000\nYou're a tough Trainer who can face the\nwind and not get blown off your feet![f000]븁\u0000\nI'm kinda excited about this battle!\nWhy don't you and I have some fun?[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     ActorMsgClose
     WorkSetConst 0x8020, 0
     GameGetDifficulty 0x8020
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_012D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_012D
     CallTrainerBattle 769, 0, 0
     VMJump L_0135
 
@@ -95,8 +99,8 @@ L_0135:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_015A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_015A
     CallTrainerBattleEnd
     VMJump L_015C
 
@@ -104,7 +108,8 @@ L_015A:
     CallTrainerLose
 
 L_015C:
-    ParentActorMsg 1024, 1, 0, 0
+    // "You're an amazing Pokémon Trainer.[f000]븁\u0000\nMy Pokémon and I are happy\nbecause for the first time in quite a[f000]븀\u0000\nwhile--about two years, I'd say--we[f000]븀\u0000\ncould fight with our full strength.[f000]븁\u0000\nThis is an official League Gym Badge.\nBut this is just a stepping-stone.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     ActorMsgClose
     TrainerCardSaveGymVictoryParty 5
     TrainerCardAddBadge 5
@@ -114,8 +119,8 @@ L_015C:
     TrainerCardGetSex 0x8021
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_019E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_019E
     PlayFieldEffect 8
     VMJump L_01A2
 
@@ -125,9 +130,11 @@ L_019E:
 L_01A2:
     MEWait
     WorkSetConst 0x8021, 0
+    // "[f000]Ā\u0001\u0000 received the\nJet Badge from Skyla.[f000]븁\u0000"
     SystemMsg 2, 0
     InfoMsgClose
-    ParentActorMsg 1024, 3, 0, 0
+    // "Wow, hot stuff![f000]븁\u0000\nWith that many Gym Badges,\nPokémon up to Lv. 70 will obey you.[f000]븁\u0000\nAlso, I want you to have this TM\nso that you'll always remember[f000]븀\u0000\nthis Pokémon battle.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     ActorMsgClose
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -136,19 +143,20 @@ L_01A2:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 4, 0, 0
+    // "I wonder what Professor Juniper\nis up to?[f000]븁\u0000\nI did promise her a ride in my plane..."
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     VMStackPush 0x40c2
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0211
-    Cmd_0262 0, 3
-    Cmd_0262 1, 18
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0211
+    HollowRivalCmd_0262 0, 3
+    HollowRivalCmd_0262 1, 18
     VMJump L_0217
 
 L_0211:
-    Cmd_0262 1, 19
+    HollowRivalCmd_0262 1, 19
 
 L_0217:
     TrainerFlagSet 149
@@ -165,8 +173,8 @@ Script_5:
     ActorsPauseAll
     VMStackPush 0x409f
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0326
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0326
     WorkSetConst 0x8022, 0
     WorkSetConst 0x8023, 0
     PlayerGetGPos 0x8022, 0x8023
@@ -181,9 +189,10 @@ Script_5:
     ActorCmdWait
     VMStackPushFlag 112
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02DD
-    ActorMsg 1024, 7, 5, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02DD
+    // "Ow...[f000]븁\u0000\nOh, I'm sorry![f000]븁\u0000\nAllow me to apologize by giving you this\nFresh Water! Take it, please.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 5, 0, 0
     ActorMsgClose
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -202,6 +211,7 @@ L_02DD:
     ActorCmdExec 255, Movement_0344
     ActorCmdWait
     VMCall L_034C
+    // "This Gym is a wind tunnel![f000]븁\u0000\nWhen the propellers in back start\nspinning quickly, you'll be blown[f000]븀\u0000\naway like a certain someone just was![f000]븁\u0000\nWhen you think the wind will blow,\nstay hidden behind a wall[f000]븀\u0000\nand wait for it to stop.[f000]븁\u0000\nBy the way, Flying-type Pokémon have\nmore weaknesses than you might expect,[f000]븀\u0000\nincluding to Rock-, Electric-, and[f000]븀\u0000\nIce-type moves![f000]븁\u0000"
     InfoMsg 9, 2
     MsgWinCloseAll
     VMCall L_036A
@@ -249,15 +259,17 @@ Script_6:
     TrainerCardHasBadge 0x8008, 5
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03AD
-    ParentActorMsg 1024, 8, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03AD
+    // "This Gym is a wind tunnel![f000]븁\u0000\nWhen the propellers in back start\nspinning quickly, you'll be blown[f000]븀\u0000\naway like a certain someone just was![f000]븁\u0000\nWhen you think the wind will blow,\nstay hidden behind a wall[f000]븀\u0000\nand wait for it to stop.[f000]븁\u0000\nBy the way, Flying-type Pokémon have\nmore weaknesses than you might expect,[f000]븀\u0000\nincluding to Rock-, Electric-, and[f000]븀\u0000\nIce-type moves!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_03BB
 
 L_03AD:
-    ParentActorMsg 1024, 10, 0, 0
+    // "Letting yourself be blown away is almost\nlike being hit by a Pokémon move![f000]븀\u0000\nIt's kinda fun![f000]븁\u0000\nOh, yeah! Congrats on defeating\nthe Gym Leader!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -273,24 +285,27 @@ Script_7:
     TrainerCardHasBadge 0x8008, 5
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03F4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03F4
     WordSetPlayerName 0
+    // "Mistralton Pokémon Gym[f000]븁\u0000\nGym Leader: Skyla\nCertified Trainers:"
     InfoMsg 11, 2
     VMJump L_0420
 
 L_03F4:
     VMStackPushFlag 2485
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0415
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0415
     WordSetPlayerName 0
+    // "Mistralton Pokémon Gym[f000]븁\u0000\nGym Leader: Skyla\nCertified Trainers:[f000]븀\u0000\n[f000]Ā\u0001\u0000"
     InfoMsg 12, 2
     VMJump L_0420
 
 L_0415:
     WordSetLoadRivalName 1
     WordSetPlayerName 0
+    // "Mistralton Pokémon Gym[f000]븁\u0000\nGym Leader: Skyla\nCertified Trainers:[f000]븀\u0000\n[f000]Ā\u0001\u0000, [f000]Ā\u0001\u0001"
     InfoMsg 13, 2
 
 L_0420:

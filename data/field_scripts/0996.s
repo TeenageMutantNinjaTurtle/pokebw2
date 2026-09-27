@@ -7,11 +7,12 @@ Script_1:
     ActorsPauseAll
     VMStackPushFlag 2781
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0035
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0035
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "Tomorrow is another day!\nI run my experiments every day.[f000]븁\u0000\nYou're welcome to stop by again\nand see the result!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_003B
@@ -27,7 +28,8 @@ L_003B:
 L_0041:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "I'm working on experiments to create\nmedicines from the toxins found in[f000]븀\u0000\nthe sewer system.[f000]븁\u0000\nIf I truly succeed in these experiments,\nI can create a lot of medicines from[f000]븀\u0000\nthe venom of Poison-type Pokémon.[f000]븁\u0000\nWell...\nToday's experiment was...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0168
     ActorCmdWait
@@ -36,14 +38,15 @@ L_0041:
     DebugPrint 0x8010
     VMStackPush 0x8010
     VMStackPushConst 89
-    VMStackCmp 4
-    VMJumpIf 255, L_00C8
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_00C8
     ActorCmdExec 0, Movement_0160
     ActorCmdWait
     VMSleep 15
     ActorCmdExec 0, Movement_0158
     ActorCmdWait
-    ParentActorMsg 1024, 3, 0, 0
+    // "This experiment was\nvery successful![f000]븁\u0000\nI created a Full Restore. Here, take it![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -57,11 +60,12 @@ L_0041:
 L_00C8:
     VMStackPush 0x8010
     VMStackPushConst 59
-    VMStackCmp 4
-    VMJumpIf 255, L_0117
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0117
     ActorCmdExec 0, Movement_0158
     ActorCmdWait
-    ParentActorMsg 1024, 2, 0, 0
+    // "This experiment was successful![f000]븁\u0000\nI created a Full Heal. Here, take it![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -73,7 +77,8 @@ L_00C8:
     VMJump L_0143
 
 L_0117:
-    ParentActorMsg 1024, 1, 0, 0
+    // "This experiment was OK.[f000]븁\u0000\nI created an Antidote. Here, take it![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -84,7 +89,8 @@ L_0117:
     VMStackPop 0x8000
 
 L_0143:
-    ParentActorMsg 1024, 4, 0, 0
+    // "Tomorrow is another day!\nI run my experiments every day.[f000]븁\u0000\nYou're welcome to stop by again\nand see the result!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2781

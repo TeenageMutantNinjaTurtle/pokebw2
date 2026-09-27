@@ -17,8 +17,8 @@ Script_1:
     ActorsPauseAll
     VMStackPush 0x4107
     VMStackPushConst 1
-    VMStackCmp 3
-    VMJumpIf 255, L_005F
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_005F
     VMCall L_00E8
     VMJump L_00E2
 
@@ -26,17 +26,19 @@ L_005F:
     ISSSwitchQuery 0x8010, 1
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00D5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00D5
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "Shall I play a song I like for you?"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00C1
-    ParentActorMsg 1024, 9, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00C1
+    // "Hee hee!\nListen closely, then!"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0480
@@ -45,7 +47,8 @@ L_005F:
     VMJump L_00CF
 
 L_00C1:
-    ParentActorMsg 1024, 10, 0, 0
+    // "Alas. That's unfortunate...\nIf you change your mind, let me know!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -54,6 +57,7 @@ L_00CF:
 
 L_00D5:
     SEPlay 1351
+    // "She's absorbed in her performance!"
     InfoMsg 11, 2
     LastKeyWait
     MsgWinCloseAll
@@ -68,25 +72,25 @@ L_00E8:
     ActorSetEyeToEye
     VMStackPush 0x4107
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0243
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0243
     PokePartyGetCount 0x8023, 0
 
 L_0107:
     VMStackPush 0x8023
     VMStackPush 0x8024
-    VMStackCmp 2
-    VMJumpIf 255, L_015B
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_015B
     PokePartyGetSpecies 0x8025, 0x8024
     PokePartyIsEgg 0x8027, 0x8024
     VMStackPush 0x8025
     VMStackPushConst 401
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8027
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_014F
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_014F
     WorkSetConst 0x8026, 1
 
 L_014F:
@@ -94,12 +98,14 @@ L_014F:
     VMJump L_0107
 
 L_015B:
-    ParentActorMsg 1024, 0, 0, 0
-    ParentActorMsg 1024, 1, 0, 0
+    // "Playing the piano isn't much fun lately...[f000]븁\u0000\nMaybe what I need is to hear a cry\nwith a wonderful melody.[f000]븀\u0000\nThat might get my imagination going.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
+    // "Do you know about this?[f000]븁\u0000\nA Pokémon called Kricketot has a cry\nthat sounds like an instrument![f000]븀\u0000\nI'd sure like to hear it sometime."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     VMStackPush 0x8026
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0239
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0239
     MsgWaitAdvance
     MsgWinCloseAll
     PVPlay 401, 0
@@ -107,14 +113,15 @@ L_015B:
     ActorCmdExec 0, Movement_04A0
     ActorCmdWait
     VMSleep 8
-    ParentActorMsg 1024, 2, 0, 0
+    // "The cry of that Kricketot with you...[f000]븁\u0000\nDedelee dun dun dun dum! ♪\nIt sounds just like a xylophone![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0480
     ActorCmdWait
     VMSleep 32
     PlayerGetDir 0x8020
     WorkCmpConst 0x8020, 0
-    VMJumpIf 1, L_01CD
+    VMJumpIf CMP_EQ, L_01CD
     VMJump L_01DB
 
 L_01CD:
@@ -123,7 +130,7 @@ L_01CD:
 
 L_01DB:
     WorkCmpConst 0x8020, 3
-    VMJumpIf 1, L_01EE
+    VMJumpIf CMP_EQ, L_01EE
     VMJump L_01FC
 
 L_01EE:
@@ -132,7 +139,7 @@ L_01EE:
 
 L_01FC:
     WorkCmpConst 0x8020, 2
-    VMJumpIf 1, L_020F
+    VMJumpIf CMP_EQ, L_020F
     VMJump L_021D
 
 L_020F:
@@ -141,7 +148,8 @@ L_020F:
 
 L_021D:
     ActorCmdWait
-    ParentActorMsg 1024, 3, 0, 0
+    // "One more thing...[f000]븁\u0000\nIf I could hear just one more cry,\nmy heart would flutter and my fingers[f000]븀\u0000\nwould dance over the keys!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x4107, 1
@@ -157,25 +165,25 @@ L_023D:
 L_0243:
     VMStackPush 0x4107
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03CC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03CC
     PokePartyGetCount 0x8023, 0
 
 L_025C:
     VMStackPush 0x8023
     VMStackPush 0x8024
-    VMStackCmp 2
-    VMJumpIf 255, L_02B0
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_02B0
     PokePartyGetSpecies 0x8025, 0x8024
     PokePartyIsEgg 0x8027, 0x8024
     VMStackPush 0x8025
     VMStackPushConst 293
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8027
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_02A4
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_02A4
     WorkSetConst 0x8026, 1
 
 L_02A4:
@@ -183,11 +191,12 @@ L_02A4:
     VMJump L_025C
 
 L_02B0:
-    ParentActorMsg 1024, 4, 0, 0
+    // "I hear a Pokémon called Whismur\nhas a very quiet cry.[f000]븁\u0000\nIf I knew what it sounded like,\nI could play perfect pianissimo!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     VMStackPush 0x8026
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03C8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03C8
     MsgWaitAdvance
     MsgWinCloseAll
     PVPlay 293, 0
@@ -195,7 +204,8 @@ L_02B0:
     ActorCmdExec 0, Movement_04A0
     ActorCmdWait
     VMSleep 8
-    ParentActorMsg 1024, 5, 0, 0
+    // "The cry of that Whismur with you...[f000]븁\u0000\nIt's wonderfully pianissimo!\nIt reverberates like a sweet murmur!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0480
@@ -208,7 +218,7 @@ L_02B0:
     VMSleep 32
     PlayerGetDir 0x8020
     WorkCmpConst 0x8020, 0
-    VMJumpIf 1, L_0332
+    VMJumpIf CMP_EQ, L_0332
     VMJump L_0340
 
 L_0332:
@@ -217,7 +227,7 @@ L_0332:
 
 L_0340:
     WorkCmpConst 0x8020, 3
-    VMJumpIf 1, L_0353
+    VMJumpIf CMP_EQ, L_0353
     VMJump L_0361
 
 L_0353:
@@ -226,7 +236,7 @@ L_0353:
 
 L_0361:
     WorkCmpConst 0x8020, 2
-    VMJumpIf 1, L_0374
+    VMJumpIf CMP_EQ, L_0374
     VMJump L_0382
 
 L_0374:
@@ -235,8 +245,10 @@ L_0374:
 
 L_0382:
     ActorCmdWait
-    ParentActorMsg 1024, 6, 0, 0
-    ParentActorMsg 1024, 7, 0, 0
+    // "Thanks to you and your Pokémon,\nmy mind is overflowing with melodies![f000]븁\u0000\nI can play the piano again![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
+    // "This is a token of my appreciation for\nyour getting me out of my slump. Thanks!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     VMStackPush 0x8000
@@ -261,17 +273,19 @@ Script_2:
     ISSSwitchQuery 0x8010, 2
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0446
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0446
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 12, 0, 0
+    // "Do you want to listen to my drum?"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0432
-    ParentActorMsg 1024, 13, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0432
+    // "My! Heart!\nAs long as my heart beats![f000]븀\u0000\nI will keep! On! Drumming!!"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 1, Movement_0488
@@ -280,7 +294,8 @@ Script_2:
     VMJump L_0440
 
 L_0432:
-    ParentActorMsg 1024, 14, 0, 0
+    // "...I thought so."
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -289,6 +304,7 @@ L_0440:
 
 L_0446:
     SEPlay 1351
+    // "He is concentrating on his performance!"
     InfoMsg 15, 2
     LastKeyWait
     MsgWinCloseAll
@@ -303,7 +319,8 @@ Script_3:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 572, 0
-    ParentActorMsg 1024, 16, 0, 0
+    // "Chip kwip!"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

@@ -8,13 +8,15 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Oh, Trainer!\nWant to ride this mining cart?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0071
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0071
+    // "Oh!\nLet's go by mining cart![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     MsgWinCloseAll
     FadeOutBlack
     ActorCmdExec 7, Movement_00AC
@@ -29,7 +31,8 @@ Script_1:
     VMJump L_007F
 
 L_0071:
-    ParentActorMsg 1024, 2, 0, 0
+    // "Oh! Anytime you'd like to ride it,\ntalk to me!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     MsgWinCloseAll
 

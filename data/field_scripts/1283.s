@@ -25,14 +25,15 @@
 
 L_0058:
     SEPlay 1351
+    // "Look!\nYou've found a narrow path![f000]븁\u0000\nWill you follow it?"
     SystemMsg 0, 2
     YesNoWin 0x8010
     InfoMsgClose
     SEWait
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0089
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0089
     Cmd_02C5 27
     SEPlay 1369
     HiddenHollowCallWarpIn 0x8020

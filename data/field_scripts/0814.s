@@ -13,12 +13,12 @@ Script_1:
     RTCGetDayPart 0x8020
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8020
     VMStackPushConst 4
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_0053
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_0053
     FlagReset 786
     VMJump L_0057
 
@@ -62,11 +62,12 @@ Script_4:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00E4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E4
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 29, 0, 0
+    // "True, nobody goes outside at night\nand it's very peaceful...[f000]븁\u0000\nBut it's all because of\na terrifying Pokémon.[f000]븁\u0000\nI'm not sure how I feel about that."
+    ParentActorMsg MSGFILE_SCRIPT, 29, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_00F8
@@ -74,7 +75,8 @@ Script_4:
 L_00E4:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 28, 0, 0
+    // "I don't have anything to do ever since\nI took a post here.[f000]븁\u0000\nSince nobody goes outside at night,\nit's very peaceful."
+    ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -87,13 +89,15 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 0, 0x8011, 2, 0
+    // "Every Gym Badge tells the story\nof a hard-won victory against[f000]븀\u0000\na worthy opponent.[f000]븁\u0000\nI can look at a Gym Badge and\ntell you that story.[f000]븁\u0000\nCan I see one of your Gym Badges?"
+    ActorMsg MSGFILE_SCRIPT, 0, 0x8011, 2, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_013F
-    ActorMsg 1024, 1, 0x8011, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_013F
+    // "OK. You don't have to show me anything.\nI'm sure your memories are all you need!"
+    ActorMsg MSGFILE_SCRIPT, 1, 0x8011, 2, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0164
@@ -104,8 +108,8 @@ L_013F:
 L_0145:
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0164
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0164
     VMCall L_016A
     VMJump L_0145
 
@@ -116,69 +120,70 @@ L_0164:
 
 L_016A:
     WorkSetConst 0x8022, 0
-    ActorMsg 1024, 2, 0x8011, 2, 0
+    // "Which Badge's story\nwould you like to hear?"
+    ActorMsg MSGFILE_SCRIPT, 2, 0x8011, 2, 0
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32802
     TrainerCardHasBadge 0x8010, 0
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01A6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01A6
     ListMenuAdd 18, 65535, 0
 
 L_01A6:
     TrainerCardHasBadge 0x8010, 1
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01C7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01C7
     ListMenuAdd 19, 65535, 1
 
 L_01C7:
     TrainerCardHasBadge 0x8010, 2
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01E8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01E8
     ListMenuAdd 20, 65535, 2
 
 L_01E8:
     TrainerCardHasBadge 0x8010, 3
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0209
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0209
     ListMenuAdd 21, 65535, 3
 
 L_0209:
     TrainerCardHasBadge 0x8010, 4
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_022A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_022A
     ListMenuAdd 22, 65535, 4
 
 L_022A:
     TrainerCardHasBadge 0x8010, 5
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_024B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_024B
     ListMenuAdd 23, 65535, 5
 
 L_024B:
     TrainerCardHasBadge 0x8010, 6
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_026C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_026C
     ListMenuAdd 24, 65535, 6
 
 L_026C:
     TrainerCardHasBadge 0x8010, 7
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_028D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_028D
     ListMenuAdd 25, 65535, 7
 
 L_028D:
@@ -186,13 +191,14 @@ L_028D:
     ListMenuShow
     VMStackPush 0x8022
     VMStackPushConst 255
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 65534
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_02D2
-    ActorMsg 1024, 1, 0x8011, 2, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_02D2
+    // "OK. You don't have to show me anything.\nI'm sure your memories are all you need!"
+    ActorMsg MSGFILE_SCRIPT, 1, 0x8011, 2, 0
     LastKeyWait
     ActorMsgClose
     WorkSetConst 0x8021, 0
@@ -200,138 +206,153 @@ L_028D:
 
 L_02D2:
     WorkCmpConst 0x8022, 0
-    VMJumpIf 1, L_02E5
+    VMJumpIf CMP_EQ, L_02E5
     VMJump L_02F7
 
 L_02E5:
-    ActorMsg 1024, 3, 0x8011, 2, 0
+    // "You got the Basic Badge with...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0x8011, 2, 0
     VMJump L_03FA
 
 L_02F7:
     WorkCmpConst 0x8022, 1
-    VMJumpIf 1, L_030A
+    VMJumpIf CMP_EQ, L_030A
     VMJump L_031C
 
 L_030A:
-    ActorMsg 1024, 4, 0x8011, 2, 0
+    // "You got the Toxic Badge with...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0x8011, 2, 0
     VMJump L_03FA
 
 L_031C:
     WorkCmpConst 0x8022, 2
-    VMJumpIf 1, L_032F
+    VMJumpIf CMP_EQ, L_032F
     VMJump L_0341
 
 L_032F:
-    ActorMsg 1024, 5, 0x8011, 2, 0
+    // "You got the Insect Badge with...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0x8011, 2, 0
     VMJump L_03FA
 
 L_0341:
     WorkCmpConst 0x8022, 3
-    VMJumpIf 1, L_0354
+    VMJumpIf CMP_EQ, L_0354
     VMJump L_0366
 
 L_0354:
-    ActorMsg 1024, 6, 0x8011, 2, 0
+    // "You got the Bolt Badge with...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 0x8011, 2, 0
     VMJump L_03FA
 
 L_0366:
     WorkCmpConst 0x8022, 4
-    VMJumpIf 1, L_0379
+    VMJumpIf CMP_EQ, L_0379
     VMJump L_038B
 
 L_0379:
-    ActorMsg 1024, 7, 0x8011, 2, 0
+    // "You got the Quake Badge with...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0x8011, 2, 0
     VMJump L_03FA
 
 L_038B:
     WorkCmpConst 0x8022, 5
-    VMJumpIf 1, L_039E
+    VMJumpIf CMP_EQ, L_039E
     VMJump L_03B0
 
 L_039E:
-    ActorMsg 1024, 8, 0x8011, 2, 0
+    // "You got the Jet Badge with...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 0x8011, 2, 0
     VMJump L_03FA
 
 L_03B0:
     WorkCmpConst 0x8022, 6
-    VMJumpIf 1, L_03C3
+    VMJumpIf CMP_EQ, L_03C3
     VMJump L_03D5
 
 L_03C3:
-    ActorMsg 1024, 9, 0x8011, 2, 0
+    // "You got the Legend Badge with...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 0x8011, 2, 0
     VMJump L_03FA
 
 L_03D5:
     WorkCmpConst 0x8022, 7
-    VMJumpIf 1, L_03E8
+    VMJumpIf CMP_EQ, L_03E8
     VMJump L_03FA
 
 L_03E8:
-    ActorMsg 1024, 10, 0x8011, 2, 0
+    // "You got the Wave Badge with...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 0x8011, 2, 0
     VMJump L_03FA
 
 L_03FA:
     WordSetGymVictoryParty 0x8022, 0x8010
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0413
+    VMJumpIf CMP_EQ, L_0413
     VMJump L_0425
 
 L_0413:
-    ActorMsg 1024, 11, 0x8011, 2, 0
+    // "[f000]ā\u0001\u0000.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 0x8011, 2, 0
     VMJump L_04DE
 
 L_0425:
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0438
+    VMJumpIf CMP_EQ, L_0438
     VMJump L_044A
 
 L_0438:
-    ActorMsg 1024, 12, 0x8011, 2, 0
+    // "[f000]ā\u0001\u0000 and [f000]ā\u0001\u0001.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 0x8011, 2, 0
     VMJump L_04DE
 
 L_044A:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_045D
+    VMJumpIf CMP_EQ, L_045D
     VMJump L_046F
 
 L_045D:
-    ActorMsg 1024, 13, 0x8011, 2, 0
+    // "[f000]ā\u0001\u0000, [f000]ā\u0001\u0001, and\n[f000]ā\u0001\u0002.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 0x8011, 2, 0
     VMJump L_04DE
 
 L_046F:
     WorkCmpConst 0x8010, 4
-    VMJumpIf 1, L_0482
+    VMJumpIf CMP_EQ, L_0482
     VMJump L_0494
 
 L_0482:
-    ActorMsg 1024, 14, 0x8011, 2, 0
+    // "[f000]ā\u0001\u0000, [f000]ā\u0001\u0001,\n[f000]ā\u0001\u0002, and [f000]ā\u0001\u0003.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 0x8011, 2, 0
     VMJump L_04DE
 
 L_0494:
     WorkCmpConst 0x8010, 5
-    VMJumpIf 1, L_04A7
+    VMJumpIf CMP_EQ, L_04A7
     VMJump L_04B9
 
 L_04A7:
-    ActorMsg 1024, 15, 0x8011, 2, 0
+    // "[f000]ā\u0001\u0000, [f000]ā\u0001\u0001,\n[f000]ā\u0001\u0002, [f000]ā\u0001\u0003, and[f000]븀\u0000\n[f000]ā\u0001\u0004.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 0x8011, 2, 0
     VMJump L_04DE
 
 L_04B9:
     WorkCmpConst 0x8010, 6
-    VMJumpIf 1, L_04CC
+    VMJumpIf CMP_EQ, L_04CC
     VMJump L_04DE
 
 L_04CC:
-    ActorMsg 1024, 16, 0x8011, 2, 0
+    // "[f000]ā\u0001\u0000, [f000]ā\u0001\u0001,\n[f000]ā\u0001\u0002, [f000]ā\u0001\u0003,[f000]븀\u0000\n[f000]ā\u0001\u0004, and [f000]ā\u0001\u0005.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 0x8011, 2, 0
     VMJump L_04DE
 
 L_04DE:
-    ActorMsg 1024, 17, 0x8011, 2, 0
+    // "Want to show me another Gym Badge?"
+    ActorMsg MSGFILE_SCRIPT, 17, 0x8011, 2, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_050B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_050B
     ActorMsgClose
     WorkSetConst 0x8021, 0
     VMReturn

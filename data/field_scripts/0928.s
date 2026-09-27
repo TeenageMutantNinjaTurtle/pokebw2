@@ -25,23 +25,25 @@ Script_2:
     ActorSetEyeToEye
     VMStackPush 0x4108
     VMStackPushConst 5
-    VMStackCmp 1
-    VMJumpIf 255, L_0142
-    ParentActorMsg 1024, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0142
+    // "[f000]븉\u0001\u0002Oh... Oh...\nSo...thirsty...[f000]븁\u0000\nI met you on Marvelous Bridge...[f000]븁\u0000\nG-g-give me...\nFresh Water...?[f000]븉\u0001\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 1, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_012E
-    ItemSub 30, 1, 0x8010
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_012E
+    ItemSub ITEM_FRESH_WATER, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_011A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_011A
     MsgWinCloseAll
     SEPlay 2017
     SEWait
-    ParentActorMsg 1024, 1, 1, 0
+    // "Refreshed!![f000]븁\u0000\nI'm 100% rehydrated!\nI feel better now! Thank you![f000]븁\u0000\nI'll dash to the next bridge!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 1, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x8025, 0
@@ -50,8 +52,8 @@ Script_2:
     PlayerGetRailPos 0x8025, 0x8026, 0x8027
     VMStackPush 0x8026
     VMStackPushConst 22
-    VMStackCmp 1
-    VMJumpIf 255, L_00EC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00EC
     ActorCmdExec 4, Movement_016C
     VMJump L_00F4
 
@@ -69,7 +71,8 @@ L_00F4:
     VMJump L_0128
 
 L_011A:
-    ParentActorMsg 1024, 2, 1, 0
+    // "[f000]븉\u0001\u0002But... You don't have Fresh Water...\nI appreciate the thought, though...[f000]븉\u0001\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 1, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -77,7 +80,8 @@ L_0128:
     VMJump L_013C
 
 L_012E:
-    ParentActorMsg 1024, 3, 1, 0
+    // "[f000]븉\u0001\u0002Thank...[f000]븁\u0000\nWhat?\nOh...[f000]븁\u0000\nWithout Fresh Water...\nI can't run on bridges anymore.[f000]븉\u0001\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 1, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -87,9 +91,10 @@ L_013C:
 L_0142:
     VMStackPush 0x4108
     VMStackPushConst 6
-    VMStackCmp 1
-    VMJumpIf 255, L_0163
-    ParentActorMsg 1024, 1, 1, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0163
+    // "Refreshed!![f000]븁\u0000\nI'm 100% rehydrated!\nI feel better now! Thank you![f000]븁\u0000\nI'll dash to the next bridge!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 1, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -118,7 +123,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 1, 0
+    // "This is what the undersea world\nlooks like![f000]븁\u0000\nI've never seen this before,\nbecause I can't swim![f000]븁\u0000\nI'd given up on seeing this.\nI'm so moved!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 1, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -129,7 +135,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 1, 0
+    // "This place is like a walk-through\naquarium, but isn't this a place[f000]븀\u0000\nfor Pokémon to see us?"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 1, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -140,7 +147,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "Wow!\nIt's an ocean trench![f000]븁\u0000\nSo deep!\nMaybe six miles deep?"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -151,7 +159,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "That's right... It's deep...\nLove is infinitely deep..."
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -162,7 +171,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 1, 0
+    // "Rain Dance is a move to use\nwith a feeling of yearning.[f000]븁\u0000\nAs for when to use it...[f000]븁\u0000\nSigh... What's wrong with me?\nI can't think of any gripping ideas.[f000]븁\u0000\nWith a condition like this,\nI can't explain well on TV."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 1, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -175,29 +185,29 @@ Script_8:
     ActorSetEyeToEye
     VMStackPushFlag 389
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0316
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0316
     PokePartyGetCount 0x8020, 0
 
 L_023D:
     VMStackPush 0x8020
     VMStackPush 0x8021
-    VMStackCmp 2
-    VMJumpIf 255, L_02AB
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_02AB
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_029F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_029F
     PokePartyGetParam 0x8022, 0x8021, 6
     PokePartyIsEgg 0x8024, 0x8021
     VMStackPush 0x8022
     VMStackPush 245
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_029F
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_029F
     WordSetPartyPokeSpecies 0, 0x8021
     WorkSetConst 0x8023, 1
 
@@ -208,9 +218,10 @@ L_029F:
 L_02AB:
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0302
-    ParentActorMsg 1024, 10, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0302
+    // "Does your Pokémon have\na Poison Barb?[f000]븁\u0000\nWow! [f000]ā\u0001\u0000 has\na Poison Barb![f000]븁\u0000\nGood going. I think you can\nuse this well, too![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -219,14 +230,16 @@ L_02AB:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 11, 0, 0
+    // "Black Sludge! Few Pokémon\nlike to hold it, though.[f000]븁\u0000\nFYI, I'm the first fan of Roxie!"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 389
     VMJump L_0310
 
 L_0302:
-    ParentActorMsg 1024, 9, 0, 0
+    // "Does your Pokémon have\na Poison Barb?"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -234,7 +247,8 @@ L_0310:
     VMJump L_0324
 
 L_0316:
-    ParentActorMsg 1024, 11, 0, 0
+    // "Black Sludge! Few Pokémon\nlike to hold it, though.[f000]븁\u0000\nFYI, I'm the first fan of Roxie!"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     MsgWinCloseAll
 

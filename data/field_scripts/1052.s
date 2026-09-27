@@ -37,7 +37,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Every Monday, Pokémon fly here\nfrom somewhere."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -48,7 +49,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "If Pokémon are released\nand demonstrate their true skills...[f000]븁\u0000\nWill we be used by Pokémon\nand battle for them someday...?"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

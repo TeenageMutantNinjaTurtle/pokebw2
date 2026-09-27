@@ -26,6 +26,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Accumula Town\nThe Fast-Growing Town!"
     MsgPlaceSign 20, 1
     MsgPlaceSignClose
     FinishAllEvents
@@ -47,25 +48,25 @@ Script_3:
 L_0094:
     VMStackPush 0x8020
     VMStackPush 0x8021
-    VMStackCmp 2
-    VMJumpIf 255, L_01A9
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_01A9
     PokePartyGetSpecies 0x8022, 0x8021
     VMStackPush 0x8022
     VMStackPushConst 495
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 496
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 497
-    VMStackCmp 1
-    VMStackCmp 6
-    VMStackCmp 6
-    VMJumpIf 255, L_00FF
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_00FF
     VMStackPush 0x4030
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00F9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00F9
     WorkSetConst 0x8023, 1
 
 L_00F9:
@@ -74,20 +75,20 @@ L_00F9:
 L_00FF:
     VMStackPush 0x8022
     VMStackPushConst 498
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 499
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 500
-    VMStackCmp 1
-    VMStackCmp 6
-    VMStackCmp 6
-    VMJumpIf 255, L_0151
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_0151
     VMStackPush 0x4030
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_014B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_014B
     WorkSetConst 0x8023, 1
 
 L_014B:
@@ -96,20 +97,20 @@ L_014B:
 L_0151:
     VMStackPush 0x8022
     VMStackPushConst 501
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 502
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 503
-    VMStackCmp 1
-    VMStackCmp 6
-    VMStackCmp 6
-    VMJumpIf 255, L_019D
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_019D
     VMStackPush 0x4030
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_019D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_019D
     WorkSetConst 0x8023, 1
 
 L_019D:
@@ -119,15 +120,17 @@ L_019D:
 L_01A9:
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01D0
-    ParentActorMsg 1024, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01D0
+    // "What's this?[f000]븁\u0000\nYou and your Pokémon\nsomehow resemble one another![f000]븁\u0000\nI'm sure you came to look like\none another during all of the time[f000]븀\u0000\nyou spent together!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_01DE
 
 L_01D0:
-    ParentActorMsg 1024, 1, 0, 0
+    // "What's this?[f000]븁\u0000\nYou and your Pokémon\nsomehow resemble one another!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -140,19 +143,22 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Do you like Pokémon?"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0221
-    ParentActorMsg 1024, 3, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0221
+    // "Yes, yes, you have Pokémon with you,\nso I'm sure you do!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_022F
 
 L_0221:
-    ParentActorMsg 1024, 4, 0, 0
+    // "That so? Then why are you\non a journey with Pokémon?"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -165,7 +171,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "Now, I wonder which person\nwas the first person in the[f000]븀\u0000\nworld to get along with Pokémon..."
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -176,7 +183,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "See my Audino?[f000]븁\u0000\nShe popped out of the\nswaying tall grass just to meet me!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -188,7 +196,8 @@ Script_7:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 531, 0
-    ParentActorMsg 1024, 7, 0, 0
+    // "Di chee! ♪"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -200,7 +209,8 @@ Script_10:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 18, 0, 0
+    // "My cute little Foongus\nlooks just like a Poké Ball!"
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -211,6 +221,7 @@ Script_11:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
+    // "This is a Foongus?"
     InfoMsg 19, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -224,19 +235,21 @@ Script_8:
     ActorSetEyeToEye
     VMStackPushFlag 2766
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0320
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0320
     VMStackPushFlag 333
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0308
-    ParentActorMsg 1024, 8, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0308
+    // "Sorry to bother you, but I like low\nplaces like this and little tiny things.[f000]븁\u0000\nTiny Pokémon are the most interesting![f000]븁\u0000\nI particularly like Pokémon that have a\nheight of eight inches or less.[f000]븁\u0000\nBy the way...\nDo you have any tiny Pokémon?[f000]븁\u0000\nIf you do, could you show me?"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     MsgWaitAdvance
     FlagSet 333
     VMJump L_0314
 
 L_0308:
-    ParentActorMsg 1024, 9, 0, 0
+    // "Will you show me a tiny Pokémon?"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     MsgWaitAdvance
 
 L_0314:
@@ -244,7 +257,8 @@ L_0314:
     VMJump L_032E
 
 L_0320:
-    ParentActorMsg 1024, 12, 0, 0
+    // "Thanks for showing me a tiny Pokémon!\nIt was super interesting![f000]븁\u0000\nI'd sure like it if you'd\nshow me one again tomorrow..."
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -259,18 +273,18 @@ L_0334:
 L_033A:
     VMStackPush 0x8020
     VMStackPush 0x8021
-    VMStackCmp 2
-    VMJumpIf 255, L_05BD
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_05BD
     PokePartyGetSpecies 0x8022, 0x8021
     PokePartyIsEgg 0x8028, 0x8021
     VMStackPush 0x8022
     VMStackPushConst 50
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_038D
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_038D
     WorkSetConst 0x8024, 1
     WordSetPokeSpeciesWithArticle 0, 50
     VMJump L_05B1
@@ -278,12 +292,12 @@ L_033A:
 L_038D:
     VMStackPush 0x8022
     VMStackPushConst 177
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_03C1
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_03C1
     WorkSetConst 0x8024, 1
     WordSetPokeSpeciesWithArticle 0, 177
     VMJump L_05B1
@@ -291,12 +305,12 @@ L_038D:
 L_03C1:
     VMStackPush 0x8022
     VMStackPushConst 298
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_03F5
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_03F5
     WorkSetConst 0x8024, 1
     WordSetPokeSpeciesWithArticle 0, 298
     VMJump L_05B1
@@ -304,12 +318,12 @@ L_03C1:
 L_03F5:
     VMStackPush 0x8022
     VMStackPushConst 406
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0429
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0429
     WorkSetConst 0x8024, 1
     WordSetPokeSpeciesWithArticle 0, 406
     VMJump L_05B1
@@ -317,25 +331,25 @@ L_03F5:
 L_0429:
     VMStackPush 0x8022
     VMStackPushConst 412
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0498
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0498
     PokePartyGetParam 0x8027, 0x8021, 111
     VMStackPush 0x8027
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8027
     VMStackPushConst 2
-    VMStackCmp 1
-    VMStackCmp 6
-    VMStackCmp 6
-    VMJumpIf 255, L_0492
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_0492
     WorkSetConst 0x8024, 1
     WordSetPokeSpeciesWithArticle 0, 412
 
@@ -345,12 +359,12 @@ L_0492:
 L_0498:
     VMStackPush 0x8022
     VMStackPushConst 433
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_04CC
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_04CC
     WorkSetConst 0x8024, 1
     WordSetPokeSpeciesWithArticle 0, 433
     VMJump L_05B1
@@ -358,17 +372,17 @@ L_0498:
 L_04CC:
     VMStackPush 0x8022
     VMStackPushConst 492
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_051B
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_051B
     PokePartyGetParam 0x8027, 0x8021, 111
     VMStackPush 0x8027
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0515
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0515
     WorkSetConst 0x8024, 1
     WordSetPokeSpeciesWithArticle 0, 492
 
@@ -378,12 +392,12 @@ L_0515:
 L_051B:
     VMStackPush 0x8022
     VMStackPushConst 590
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_054F
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_054F
     WorkSetConst 0x8024, 1
     WordSetPokeSpeciesWithArticle 0, 590
     VMJump L_05B1
@@ -391,12 +405,12 @@ L_051B:
 L_054F:
     VMStackPush 0x8022
     VMStackPushConst 595
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0583
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0583
     WorkSetConst 0x8024, 1
     WordSetPokeSpeciesWithArticle 0, 595
     VMJump L_05B1
@@ -404,12 +418,12 @@ L_054F:
 L_0583:
     VMStackPush 0x8022
     VMStackPushConst 602
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_05B1
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_05B1
     WorkSetConst 0x8024, 1
     WordSetPokeSpeciesWithArticle 0, 602
 
@@ -420,9 +434,10 @@ L_05B1:
 L_05BD:
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0616
-    ParentActorMsg 1024, 10, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0616
+    // "Wow! Amazing!\n[f000]ā\u0001\u0000 is so tiny![f000]븁\u0000\nI wonder what it would feel like\nto become [f000]ā\u0001\u0000...[f000]븁\u0000\nI bet I'd get a way different outlook\non life...[f000]븁\u0000\nJust imagining it gets me excited!\nTiny things are super interesting!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     VMStackPush 0x8000
@@ -432,14 +447,16 @@ L_05BD:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 12, 0, 0
+    // "Thanks for showing me a tiny Pokémon!\nIt was super interesting![f000]븁\u0000\nI'd sure like it if you'd\nshow me one again tomorrow..."
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2766
     VMJump L_0624
 
 L_0616:
-    ParentActorMsg 1024, 11, 0, 0
+    // "Hm...[f000]븁\u0000\nYou don't even have a teensy\nnumber of tiny Pokémon.[f000]븁\u0000\nI'd sure like to see a Pokémon\nthat's eight inches high or smaller..."
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -452,19 +469,21 @@ Script_9:
     ActorSetEyeToEye
     VMStackPushFlag 2767
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0682
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0682
     VMStackPushFlag 334
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_066A
-    ParentActorMsg 1024, 13, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_066A
+    // "You know what?![f000]븁\u0000\nI love high places like this,\nand really big things![f000]븁\u0000\nMy favorite Pokémon\nare big ones, too![f000]븁\u0000\nWhat I mean by big, you know,\nis being more than 17 feet tall![f000]븁\u0000\nC'mon! If you have a big\nPokémon, show it to me!"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     MsgWaitAdvance
     FlagSet 334
     VMJump L_0676
 
 L_066A:
-    ParentActorMsg 1024, 14, 0, 0
+    // "Have you come to show me a big Pokémon?"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     MsgWaitAdvance
 
 L_0676:
@@ -472,7 +491,8 @@ L_0676:
     VMJump L_0690
 
 L_0682:
-    ParentActorMsg 1024, 17, 0, 0
+    // "Big thanks for showing me a big Pokémon![f000]븁\u0000\nI'd be even more happy if you'd show me\none tomorrow, too!"
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -487,18 +507,18 @@ L_0696:
 L_069C:
     VMStackPush 0x8020
     VMStackPush 0x8021
-    VMStackCmp 2
-    VMJumpIf 255, L_08B0
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_08B0
     PokePartyGetSpecies 0x8022, 0x8021
     PokePartyIsEgg 0x8028, 0x8021
     VMStackPush 0x8022
     VMStackPushConst 95
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_06EF
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_06EF
     WorkSetConst 0x8025, 1
     WordSetPokeSpeciesWithArticle 0, 95
     VMJump L_08A4
@@ -506,12 +526,12 @@ L_069C:
 L_06EF:
     VMStackPush 0x8022
     VMStackPushConst 130
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0723
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0723
     WorkSetConst 0x8025, 1
     WordSetPokeSpeciesWithArticle 0, 130
     VMJump L_08A4
@@ -519,12 +539,12 @@ L_06EF:
 L_0723:
     VMStackPush 0x8022
     VMStackPushConst 208
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0757
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0757
     WorkSetConst 0x8025, 1
     WordSetPokeSpeciesWithArticle 0, 208
     VMJump L_08A4
@@ -532,12 +552,12 @@ L_0723:
 L_0757:
     VMStackPush 0x8022
     VMStackPushConst 249
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_078B
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_078B
     WorkSetConst 0x8025, 1
     WordSetPokeSpeciesWithArticle 0, 249
     VMJump L_08A4
@@ -545,12 +565,12 @@ L_0757:
 L_078B:
     VMStackPush 0x8022
     VMStackPushConst 321
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_07BF
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_07BF
     WorkSetConst 0x8025, 1
     WordSetPokeSpeciesWithArticle 0, 321
     VMJump L_08A4
@@ -558,12 +578,12 @@ L_078B:
 L_07BF:
     VMStackPush 0x8022
     VMStackPushConst 350
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_07F3
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_07F3
     WorkSetConst 0x8025, 1
     WordSetPokeSpeciesWithArticle 0, 350
     VMJump L_08A4
@@ -571,12 +591,12 @@ L_07BF:
 L_07F3:
     VMStackPush 0x8022
     VMStackPushConst 384
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0827
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0827
     WorkSetConst 0x8025, 1
     WordSetPokeSpeciesWithArticle 0, 384
     VMJump L_08A4
@@ -584,12 +604,12 @@ L_07F3:
 L_0827:
     VMStackPush 0x8022
     VMStackPushConst 483
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_085B
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_085B
     WorkSetConst 0x8025, 1
     WordSetPokeSpeciesWithArticle 0, 483
     VMJump L_08A4
@@ -597,17 +617,17 @@ L_0827:
 L_085B:
     VMStackPush 0x8022
     VMStackPushConst 487
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_08A4
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_08A4
     PokePartyGetParam 0x8027, 0x8021, 111
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_08A4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08A4
     WorkSetConst 0x8025, 1
     WordSetPokeSpeciesWithArticle 0, 487
 
@@ -618,9 +638,10 @@ L_08A4:
 L_08B0:
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0909
-    ParentActorMsg 1024, 15, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0909
+    // "Wow! Amazing!\n[f000]ā\u0001\u0000 is sooooo big![f000]븁\u0000\nRiding on top of [f000]ā\u0001\u0000\nwould be so much fun![f000]븁\u0000\nWhen you look from high places, you can\nsee rooftops and faraway mountains[f000]븀\u0000\nand other things you usually can't see.[f000]븁\u0000\nThat's why I like big things so much!"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     VMStackPush 0x8000
@@ -630,14 +651,16 @@ L_08B0:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 17, 0, 0
+    // "Big thanks for showing me a big Pokémon![f000]븁\u0000\nI'd be even more happy if you'd show me\none tomorrow, too!"
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2767
     VMJump L_0917
 
 L_0909:
-    ParentActorMsg 1024, 16, 0, 0
+    // "What?!\nNo big Pokémon for me?[f000]븁\u0000\nI wanna see a Pokémon\nbigger than 17 feet!"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     LastKeyWait
     MsgWinCloseAll
 

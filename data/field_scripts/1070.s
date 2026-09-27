@@ -6,9 +6,9 @@
 Script_1:
     VMStackPushFlag 2406
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_001F
-    Cmd_0262 3, 4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_001F
+    HollowRivalCmd_0262 3, 4
 
 L_001F:
     VMHalt

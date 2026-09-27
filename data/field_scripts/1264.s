@@ -515,11 +515,13 @@ Data_03D0:
     DebugStack 0
     VMNop
     VMStackAdd
-    ParentActorMsg 7, 0, 0, 0xffff
+    // "                                            "
+    ParentActorMsg 7, 0, 0, 65535
 
 L_03E6:
     SEPlay 1351
     VMCall L_045C
+    // "Which floor would you like to go to?"
     SystemMsg 14, 2
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32784
     ElevatorBuildListMenu
@@ -529,12 +531,12 @@ L_03E6:
     DebugPrint 0x8010
     VMStackPush 0x8010
     VMStackPushConst 255
-    VMStackCmp 5
+    VMStackCmp CMP_NE
     VMStackPush 0x8010
     VMStackPushConst 65534
-    VMStackCmp 5
-    VMStackCmp 7
-    VMJumpIf 255, L_0454
+    VMStackCmp CMP_NE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0454
     VMSleep 10
     SEPlay 1672
     FadeOutBlackQ
@@ -561,8 +563,8 @@ L_045C:
     BMHndAnmWait 0x8023
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04A7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04A7
     ActorCmdExec 255, Movement_04D4
     VMJump L_04AF
 

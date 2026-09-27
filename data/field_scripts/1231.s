@@ -18,20 +18,20 @@ Script_3:
     DebugPrint 80
     VMStackPush 0x400f
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x404c
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0063
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0063
     DebugPrint 99
     FlagReset 989
 
 L_0063:
     VMStackPush 0x400f
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_007E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_007E
     DebugPrint 40
     FlagSet 989
 
@@ -46,16 +46,16 @@ Script_5:
     Cmd_02B2 0, 0x400f
     VMStackPush 0x400f
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0310
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0310
     DebugPrint 30
     RTGetZoneID 0x400c
     VMStackPushFlag 989
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0300
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0300
     WorkCmpConst 0x400c, 8
-    VMJumpIf 1, L_00CF
+    VMJumpIf CMP_EQ, L_00CF
     VMJump L_00D9
 
 L_00CF:
@@ -64,7 +64,7 @@ L_00CF:
 
 L_00D9:
     WorkCmpConst 0x400c, 20
-    VMJumpIf 1, L_00EC
+    VMJumpIf CMP_EQ, L_00EC
     VMJump L_00F6
 
 L_00EC:
@@ -73,7 +73,7 @@ L_00EC:
 
 L_00F6:
     WorkCmpConst 0x400c, 41
-    VMJumpIf 1, L_0109
+    VMJumpIf CMP_EQ, L_0109
     VMJump L_0113
 
 L_0109:
@@ -82,7 +82,7 @@ L_0109:
 
 L_0113:
     WorkCmpConst 0x400c, 65
-    VMJumpIf 1, L_0126
+    VMJumpIf CMP_EQ, L_0126
     VMJump L_0130
 
 L_0126:
@@ -91,7 +91,7 @@ L_0126:
 
 L_0130:
     WorkCmpConst 0x400c, 99
-    VMJumpIf 1, L_0143
+    VMJumpIf CMP_EQ, L_0143
     VMJump L_014D
 
 L_0143:
@@ -100,7 +100,7 @@ L_0143:
 
 L_014D:
     WorkCmpConst 0x400c, 109
-    VMJumpIf 1, L_0160
+    VMJumpIf CMP_EQ, L_0160
     VMJump L_016A
 
 L_0160:
@@ -109,7 +109,7 @@ L_0160:
 
 L_016A:
     WorkCmpConst 0x400c, 115
-    VMJumpIf 1, L_017D
+    VMJumpIf CMP_EQ, L_017D
     VMJump L_0187
 
 L_017D:
@@ -118,7 +118,7 @@ L_017D:
 
 L_0187:
     WorkCmpConst 0x400c, 122
-    VMJumpIf 1, L_019A
+    VMJumpIf CMP_EQ, L_019A
     VMJump L_01A4
 
 L_019A:
@@ -127,7 +127,7 @@ L_019A:
 
 L_01A4:
     WorkCmpConst 0x400c, 146
-    VMJumpIf 1, L_01B7
+    VMJumpIf CMP_EQ, L_01B7
     VMJump L_01C1
 
 L_01B7:
@@ -136,7 +136,7 @@ L_01B7:
 
 L_01C1:
     WorkCmpConst 0x400c, 1
-    VMJumpIf 1, L_01D4
+    VMJumpIf CMP_EQ, L_01D4
     VMJump L_01DE
 
 L_01D4:
@@ -145,7 +145,7 @@ L_01D4:
 
 L_01DE:
     WorkCmpConst 0x400c, 425
-    VMJumpIf 1, L_01F1
+    VMJumpIf CMP_EQ, L_01F1
     VMJump L_01FB
 
 L_01F1:
@@ -154,7 +154,7 @@ L_01F1:
 
 L_01FB:
     WorkCmpConst 0x400c, 435
-    VMJumpIf 1, L_020E
+    VMJumpIf CMP_EQ, L_020E
     VMJump L_0218
 
 L_020E:
@@ -163,7 +163,7 @@ L_020E:
 
 L_0218:
     WorkCmpConst 0x400c, 454
-    VMJumpIf 1, L_022B
+    VMJumpIf CMP_EQ, L_022B
     VMJump L_0235
 
 L_022B:
@@ -172,7 +172,7 @@ L_022B:
 
 L_0235:
     WorkCmpConst 0x400c, 472
-    VMJumpIf 1, L_0248
+    VMJumpIf CMP_EQ, L_0248
     VMJump L_0252
 
 L_0248:
@@ -181,7 +181,7 @@ L_0248:
 
 L_0252:
     WorkCmpConst 0x400c, 398
-    VMJumpIf 1, L_0265
+    VMJumpIf CMP_EQ, L_0265
     VMJump L_026F
 
 L_0265:
@@ -190,7 +190,7 @@ L_0265:
 
 L_026F:
     WorkCmpConst 0x400c, 407
-    VMJumpIf 1, L_0282
+    VMJumpIf CMP_EQ, L_0282
     VMJump L_028C
 
 L_0282:
@@ -199,7 +199,7 @@ L_0282:
 
 L_028C:
     WorkCmpConst 0x400c, 413
-    VMJumpIf 1, L_029F
+    VMJumpIf CMP_EQ, L_029F
     VMJump L_02A9
 
 L_029F:
@@ -208,7 +208,7 @@ L_029F:
 
 L_02A9:
     WorkCmpConst 0x400c, 443
-    VMJumpIf 1, L_02BC
+    VMJumpIf CMP_EQ, L_02BC
     VMJump L_02C6
 
 L_02BC:
@@ -217,7 +217,7 @@ L_02BC:
 
 L_02C6:
     WorkCmpConst 0x400c, 460
-    VMJumpIf 1, L_02D9
+    VMJumpIf CMP_EQ, L_02D9
     VMJump L_02E3
 
 L_02D9:
@@ -226,7 +226,7 @@ L_02D9:
 
 L_02E3:
     WorkCmpConst 0x400c, 602
-    VMJumpIf 1, L_02F6
+    VMJumpIf CMP_EQ, L_02F6
     VMJump L_0300
 
 L_02F6:
@@ -258,47 +258,48 @@ Script_1:
     RTCGetDate 0x8023, 0x8024
     VMStackPush 0x8023
     VMStackPush 0x8025
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPush 0x8026
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0389
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0389
     VMCall L_05E8
     VMJump L_03D8
 
 L_0389:
     VMStackPush 0x8021
     VMStackPushConst 4
-    VMStackCmp 0
-    VMJumpIf 255, L_03A8
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_03A8
     VMCall L_04E3
     VMJump L_03D8
 
 L_03A8:
     VMStackPushFlag 100
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03CB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03CB
     VMCall L_05B8
     FlagSet 100
     VMJump L_03D8
 
 L_03CB:
     WordSetPlayerName 0
-    ParentActorMsg 1024, 11, 0, 0
+    // "Great to see you, [f000]Ā\u0001\u0000!\nYou want the usual, right?"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
 
 L_03D8:
     YesNoWin 0x8022
     ActorMsgClose
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04A7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04A7
     VMStackPush 0x4078
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_040A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_040A
     WorkSetConst 0x4078, 2
 
 L_040A:
@@ -308,7 +309,8 @@ L_040A:
     PlayerSetSpecialSequence 8
     ActorCmdExec 255, Movement_05A8
     ActorCmdWait
-    ParentActorMsg 1024, 6, 0, 0
+    // "OK, I'll take your Pokémon for\na few seconds."
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     VMCall L_0625
     PokePartyRecoverAll
     RecordAdd 11, 1
@@ -320,20 +322,22 @@ L_040A:
     PokePartyCheckPokerus 0x8020
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 101
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0491
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0491
     FlagSet 101
-    ParentActorMsg 1024, 12, 0, 0
+    // "Oh... It looks like your Pokémon may be\ninfected with the Pokérus.[f000]븁\u0000\nLittle is known about the Pokérus,\nexcept that it is a microscopic life-form[f000]븀\u0000\nthat attaches to Pokémon.[f000]븁\u0000\nWhile infected, Pokémon are said to\ngrow exceptionally well."
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_04A1
 
 L_0491:
-    ParentActorMsg 1024, 7, 0, 0
+    // "Thank you for waiting.[f000]븁\u0000\nWe've restored your Pokémon\nto full health.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     VMCall L_0578
 
 L_04A1:
@@ -359,33 +363,36 @@ L_04E3:
     WorkSetConst 0x8028, 0
     RTCGetDayPart 0x8028
     WorkCmpConst 0x8028, 0
-    VMJumpIf 1, L_0500
+    VMJumpIf CMP_EQ, L_0500
     VMJump L_0510
 
 L_0500:
-    ParentActorMsg 1024, 1, 0, 0
+    // "Good morning! Welcome to\nthe Pokémon Center.[f000]븁\u0000\nWe restore your tired Pokémon\nto full health.[f000]븁\u0000\nWould you like to rest your Pokémon?"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     VMJump L_0570
 
 L_0510:
     WorkCmpConst 0x8028, 1
-    VMJumpIf 1, L_0523
+    VMJumpIf CMP_EQ, L_0523
     VMJump L_0533
 
 L_0523:
-    ParentActorMsg 1024, 2, 0, 0
+    // "Hello, and welcome to\nthe Pokémon Center.[f000]븁\u0000\nWe restore your tired Pokémon\nto full health.[f000]븁\u0000\nWould you like to rest your Pokémon?"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     VMJump L_0570
 
 L_0533:
     WorkCmpConst 0x8028, 2
-    VMJumpIf 1, L_0560
+    VMJumpIf CMP_EQ, L_0560
     WorkCmpConst 0x8028, 3
-    VMJumpIf 1, L_0560
+    VMJumpIf CMP_EQ, L_0560
     WorkCmpConst 0x8028, 4
-    VMJumpIf 1, L_0560
+    VMJumpIf CMP_EQ, L_0560
     VMJump L_0570
 
 L_0560:
-    ParentActorMsg 1024, 0, 0, 0
+    // "Hello, and welcome to\nthe Pokémon Center.[f000]븁\u0000\nWe restore your tired Pokémon\nto full health.[f000]븁\u0000\nWould you like to rest your Pokémon?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     VMJump L_0570
 
 L_0570:
@@ -395,7 +402,8 @@ L_0570:
 L_0578:
     ActorCmdExec 0x8011, Movement_0594
     ActorCmdWait
-    ParentActorMsg 1024, 8, 0, 0
+    // "We hope to see you again!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -419,12 +427,14 @@ Movement_05B0:
     MoveEnd
 
 L_05B8:
-    ParentActorMsg 1024, 9, 0, 0
+    // "Hello, and welcome to\nthe Pokémon Center.[f000]븁\u0000\nWe restore your tired Pokémon\nto full health.[f000]븁\u0000\nWould you like to...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     ActorCmdExec 0x8011, Movement_05E0
     ActorCmdWait
     ActorMsgClose
     WordSetPlayerName 0
-    ParentActorMsg 1024, 10, 0, 0
+    // "Th-that Trainer Card!\nThat wonderful shade! That sparkle![f000]븁\u0000\nI've seen several Trainers with\nSilver Trainer Cards already...[f000]븁\u0000\nBut you're the first to top them all with\nthat impressive Trainer Card.[f000]븁\u0000\nOh, [f000]Ā\u0001\u0000, may I please heal\nyour Pokémon?"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     VMReturn
     .balign 4, 0
 
@@ -433,17 +443,20 @@ Movement_05E0:
     MoveEnd
 
 L_05E8:
-    ParentActorMsg 1024, 3, 0, 0
+    // "Welcome to the Pokémon Center.[f000]븁\u0000\nHey! Is today your birthday?"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0619
-    ParentActorMsg 1024, 4, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0619
+    // "Happy birthday![f000]븁\u0000\nPlease keep visiting the Pokémon Center\nfor many years to come.[f000]븁\u0000\nNow, would you like to rest\nyour Pokémon?"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     VMJump L_0623
 
 L_0619:
-    ParentActorMsg 1024, 5, 0, 0
+    // "It isn't? Oh, I must have been confused.[f000]븁\u0000\nWould you like to rest your Pokémon?"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
 
 L_0623:
     VMReturn
@@ -488,34 +501,37 @@ Script_2:
     ActorSetEyeToEye
     VMStackPush 0x802a
     VMStackPushConst 1
-    VMStackCmp 5
-    VMJumpIf 255, L_06C1
-    ActorMsg 1024, 21, 0x8011, 4, 0
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_06C1
+    // "I am sorry...\nYou can't enter the Union Room yet.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 21, 0x8011, 4, 0
 
 L_06C1:
     VMStackPush 0x802d
     VMStackPushConst 0
-    VMStackCmp 2
-    VMJumpIf 255, L_06E0
-    ActorMsg 1024, 22, 0x8011, 4, 0
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_06E0
+    // "You have at least one Pokémon\nthat can't be taken in.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 22, 0x8011, 4, 0
 
 L_06E0:
     VMStackPush 0x802a
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x802d
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0797
-    ActorMsg 1024, 13, 0x8011, 4, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0797
+    // "Welcome to the Pokémon Wireless\nClub Union Room.[f000]븁\u0000\nYou may interact directly with\nmany Trainers here.[f000]븁\u0000\nWould you like to enter the room?"
+    ActorMsg MSGFILE_SCRIPT, 13, 0x8011, 4, 0
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32814
     ListMenuAdd 18, 65535, 18
     ListMenuAdd 20, 65535, 20
     ListMenuAdd 19, 65535, 19
     ListMenuShow
     WorkCmpConst 0x802e, 18
-    VMJumpIf 1, L_0745
+    VMJumpIf CMP_EQ, L_0745
     VMJump L_0759
 
 L_0745:
@@ -525,7 +541,7 @@ L_0745:
 
 L_0759:
     WorkCmpConst 0x802e, 19
-    VMJumpIf 1, L_076C
+    VMJumpIf CMP_EQ, L_076C
     VMJump L_0778
 
 L_076C:
@@ -534,7 +550,7 @@ L_076C:
 
 L_0778:
     WorkCmpConst 0x802e, 20
-    VMJumpIf 1, L_078B
+    VMJumpIf CMP_EQ, L_078B
     VMJump L_0797
 
 L_078B:
@@ -544,26 +560,27 @@ L_078B:
 L_0797:
     VMStackPush 0x802c
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_07D3
-    ActorMsg 1024, 14, 0x8011, 4, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07D3
+    // "The Trainers in the Union Room\nwill be those players around you[f000]븀\u0000\nwho have also entered the room.[f000]븁\u0000\nYou may trade your Pokémon here\nor have battles for two or four.[f000]븁\u0000\nAlso, you may exchange Eggs\nor draw pictures with other players.[f000]븁\u0000\nYou may also chat with other\nplayers in the room.[f000]븁\u0000\nOr you may locate friends in the room\nby touching their spoken words.[f000]븁\u0000\nWould you like to enter the room?"
+    ActorMsg MSGFILE_SCRIPT, 14, 0x8011, 4, 0
     YesNoWin 0x802e
     VMStackPush 0x802e
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_07D3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07D3
     WorkSetConst 0x802b, 1
 
 L_07D3:
     VMStackPush 0x802b
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0809
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0809
     GameCommCheckDSiWiFi 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0809
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0809
     ActorMsgClose
     RTCallGlobal 2005
     WorkSetConst 0x802b, 0
@@ -571,34 +588,36 @@ L_07D3:
 L_0809:
     VMStackPush 0x802b
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0846
-    Cmd_00E5 0x8008, 0x8009
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0846
+    TimeSigCmd_00E5 0x8008, 0x8009
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0846
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0846
     WordSetTrainerClassName 0, 0x8009
-    ActorMsg 1024, 23, 0x8011, 4, 0
+    // "Wait, Trainer![f000]븁\u0000\nYour title on your Trainer Card\nis still just “Pokémon Trainer,\" isn't it?[f000]븁\u0000\nIf you change your title, you can easily\nproject your image to others when you[f000]븀\u0000\ngreet them in the Union Room.[f000]븁\u0000\nLet's see...\nHow about [f000]Ď\u0001\u0000?[f000]븀\u0000\nWhat do you think?[f000]븁\u0000\nThat is the impression I got from you.\nFirst, let's change your title.[f000]븁\u0000\nIf you don't like the new one, you can\nchange it by selecting your Trainer Card.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 23, 0x8011, 4, 0
 
 L_0846:
     VMStackPush 0x802b
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0882
-    ActorMsg 1024, 15, 0x8011, 4, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0882
+    // "DS Wireless Communications\nwill be launched."
+    ActorMsg MSGFILE_SCRIPT, 15, 0x8011, 4, 0
     YesNoWin 0x802e
     VMStackPush 0x802e
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0882
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0882
     WorkSetConst 0x802b, 0
 
 L_0882:
     VMStackPush 0x802b
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_08EA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08EA
     ActorMsgClose
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -616,41 +635,42 @@ L_0882:
     VMStackPop 0x8000
     VMStackPush 0x802e
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_08EA
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_08EA
     WorkSetConst 0x802b, 0
 
 L_08EA:
     VMStackPush 0x802b
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0947
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0947
     VMStackPush 0x8000
     RTCallGlobal 2004
     WorkSet 0x802e, 0x8000
     VMStackPop 0x8000
     VMStackPush 0x802e
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_092E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_092E
     WorkSetConst 0x802b, 0
     VMJump L_0947
 
 L_092E:
     VMStackPush 0x802e
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0947
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0947
     WorkSetConst 0x802b, 0
 
 L_0947:
     VMStackPush 0x802b
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_097E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_097E
     Cmd_02C5 16
     FunfestBGMReturn
-    ActorMsg 1024, 16, 0x8011, 4, 0
+    // "I hope you enjoy your time in\nthe Union Room.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 0x8011, 4, 0
     ActorMsgClose
     VMCall L_09CD
     PokePartyRecoverAll
@@ -661,9 +681,10 @@ L_0947:
 L_097E:
     VMStackPush 0x802b
     VMStackPushConst 1
-    VMStackCmp 5
-    VMJumpIf 255, L_09A1
-    ActorMsg 1024, 17, 0x8011, 4, 0
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_09A1
+    // "Please do visit again."
+    ActorMsg MSGFILE_SCRIPT, 17, 0x8011, 4, 0
     LastKeyWait
     ActorMsgClose
 
@@ -783,8 +804,8 @@ L_0ADA:
     ActorFindByGPos 0x8036, 0x8010, 0x8034, 3, 0x8035
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0B51
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B51
     WorkSub 0x8034, 1
     WorkSub 0x8035, 1
     ActorSetGPos 0x8036, 0x8034, 3, 0x8035, 3
@@ -801,8 +822,8 @@ L_0B51:
     BMHndAnmPause 0x8037
     VMStackPush 0x8033
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0B94
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B94
     CallSeasonBanner
     VMJump L_0B96
 
@@ -926,12 +947,13 @@ Script_9:
     SEPlay 1351
     VMStackPushFlag 106
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0C99
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0C99
     CallGeonet
     VMJump L_0CA2
 
 L_0C99:
+    // "It seems you can't use it yet."
     InfoMsg 24, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -945,11 +967,12 @@ Script_10:
     ActorsPauseAll
     VMStackPush 0x404c
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0CED
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0CED
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 27, 0, 0
+    // "Oh?\nYou're...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
     MsgWinCloseAll
     RTGetZoneID 0x4192
     FadeOutBlack
@@ -961,7 +984,8 @@ Script_10:
 L_0CED:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 28, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -975,182 +999,202 @@ Script_11:
     FadeInBlackQ
     FadeWait
     WorkCmpConst 0x4192, 8
-    VMJumpIf 1, L_0D20
+    VMJumpIf CMP_EQ, L_0D20
     VMJump L_0D32
 
 L_0D20:
-    ActorMsg 1024, 28, 11, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 11, 0, 0
     VMJump L_0FF1
 
 L_0D32:
     WorkCmpConst 0x4192, 20
-    VMJumpIf 1, L_0D45
+    VMJumpIf CMP_EQ, L_0D45
     VMJump L_0D57
 
 L_0D45:
-    ActorMsg 1024, 28, 11, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 11, 0, 0
     VMJump L_0FF1
 
 L_0D57:
     WorkCmpConst 0x4192, 41
-    VMJumpIf 1, L_0D6A
+    VMJumpIf CMP_EQ, L_0D6A
     VMJump L_0D7C
 
 L_0D6A:
-    ActorMsg 1024, 28, 12, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 12, 0, 0
     VMJump L_0FF1
 
 L_0D7C:
     WorkCmpConst 0x4192, 65
-    VMJumpIf 1, L_0D8F
+    VMJumpIf CMP_EQ, L_0D8F
     VMJump L_0DA1
 
 L_0D8F:
-    ActorMsg 1024, 28, 11, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 11, 0, 0
     VMJump L_0FF1
 
 L_0DA1:
     WorkCmpConst 0x4192, 99
-    VMJumpIf 1, L_0DB4
+    VMJumpIf CMP_EQ, L_0DB4
     VMJump L_0DC6
 
 L_0DB4:
-    ActorMsg 1024, 28, 10, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 10, 0, 0
     VMJump L_0FF1
 
 L_0DC6:
     WorkCmpConst 0x4192, 109
-    VMJumpIf 1, L_0DD9
+    VMJumpIf CMP_EQ, L_0DD9
     VMJump L_0DEB
 
 L_0DD9:
-    ActorMsg 1024, 28, 11, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 11, 0, 0
     VMJump L_0FF1
 
 L_0DEB:
     WorkCmpConst 0x4192, 115
-    VMJumpIf 1, L_0DFE
+    VMJumpIf CMP_EQ, L_0DFE
     VMJump L_0E10
 
 L_0DFE:
-    ActorMsg 1024, 28, 11, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 11, 0, 0
     VMJump L_0FF1
 
 L_0E10:
     WorkCmpConst 0x4192, 122
-    VMJumpIf 1, L_0E23
+    VMJumpIf CMP_EQ, L_0E23
     VMJump L_0E35
 
 L_0E23:
-    ActorMsg 1024, 28, 12, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 12, 0, 0
     VMJump L_0FF1
 
 L_0E35:
     WorkCmpConst 0x4192, 146
-    VMJumpIf 1, L_0E48
+    VMJumpIf CMP_EQ, L_0E48
     VMJump L_0E5A
 
 L_0E48:
-    ActorMsg 1024, 28, 6, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 6, 0, 0
     VMJump L_0FF1
 
 L_0E5A:
     WorkCmpConst 0x4192, 1
-    VMJumpIf 1, L_0E6D
+    VMJumpIf CMP_EQ, L_0E6D
     VMJump L_0E7F
 
 L_0E6D:
-    ActorMsg 1024, 28, 9, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 9, 0, 0
     VMJump L_0FF1
 
 L_0E7F:
     WorkCmpConst 0x4192, 425
-    VMJumpIf 1, L_0E92
+    VMJumpIf CMP_EQ, L_0E92
     VMJump L_0EA4
 
 L_0E92:
-    ActorMsg 1024, 28, 9, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 9, 0, 0
     VMJump L_0FF1
 
 L_0EA4:
     WorkCmpConst 0x4192, 435
-    VMJumpIf 1, L_0EB7
+    VMJumpIf CMP_EQ, L_0EB7
     VMJump L_0EC9
 
 L_0EB7:
-    ActorMsg 1024, 28, 11, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 11, 0, 0
     VMJump L_0FF1
 
 L_0EC9:
     WorkCmpConst 0x4192, 454
-    VMJumpIf 1, L_0EDC
+    VMJumpIf CMP_EQ, L_0EDC
     VMJump L_0EEE
 
 L_0EDC:
-    ActorMsg 1024, 28, 11, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 11, 0, 0
     VMJump L_0FF1
 
 L_0EEE:
     WorkCmpConst 0x4192, 472
-    VMJumpIf 1, L_0F01
+    VMJumpIf CMP_EQ, L_0F01
     VMJump L_0F13
 
 L_0F01:
-    ActorMsg 1024, 28, 10, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 10, 0, 0
     VMJump L_0FF1
 
 L_0F13:
     WorkCmpConst 0x4192, 398
-    VMJumpIf 1, L_0F26
+    VMJumpIf CMP_EQ, L_0F26
     VMJump L_0F38
 
 L_0F26:
-    ActorMsg 1024, 28, 10, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 10, 0, 0
     VMJump L_0FF1
 
 L_0F38:
     WorkCmpConst 0x4192, 407
-    VMJumpIf 1, L_0F4B
+    VMJumpIf CMP_EQ, L_0F4B
     VMJump L_0F5D
 
 L_0F4B:
-    ActorMsg 1024, 28, 9, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 9, 0, 0
     VMJump L_0FF1
 
 L_0F5D:
     WorkCmpConst 0x4192, 413
-    VMJumpIf 1, L_0F70
+    VMJumpIf CMP_EQ, L_0F70
     VMJump L_0F82
 
 L_0F70:
-    ActorMsg 1024, 28, 11, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 11, 0, 0
     VMJump L_0FF1
 
 L_0F82:
     WorkCmpConst 0x4192, 443
-    VMJumpIf 1, L_0F95
+    VMJumpIf CMP_EQ, L_0F95
     VMJump L_0FA7
 
 L_0F95:
-    ActorMsg 1024, 28, 11, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 11, 0, 0
     VMJump L_0FF1
 
 L_0FA7:
     WorkCmpConst 0x4192, 460
-    VMJumpIf 1, L_0FBA
+    VMJumpIf CMP_EQ, L_0FBA
     VMJump L_0FCC
 
 L_0FBA:
-    ActorMsg 1024, 28, 11, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 11, 0, 0
     VMJump L_0FF1
 
 L_0FCC:
     WorkCmpConst 0x4192, 602
-    VMJumpIf 1, L_0FDF
+    VMJumpIf CMP_EQ, L_0FDF
     VMJump L_0FF1
 
 L_0FDF:
-    ActorMsg 1024, 28, 6, 0, 0
+    // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
+    ActorMsg MSGFILE_SCRIPT, 28, 6, 0, 0
     VMJump L_0FF1
 
 L_0FF1:
@@ -1285,14 +1329,15 @@ L_0FF1:
     .byte 0x04
     .byte 0x00
     VMNop
+    // "Saving...\nDon't turn off the power."
     SystemMsg 32, 2
     VMSleep 1
     MsgSetLoadingSpinner 0
     SaveDataWrite 0x803b
     VMStackPush 0x803a
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_10C0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_10C0
     Cmd_02ED 1, 0
 
 L_10C0:

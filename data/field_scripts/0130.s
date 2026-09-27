@@ -69,7 +69,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "My beauteous Minccino!\nI met it on Route 5.[f000]븁\u0000\nI'm pretty sure it will be popular\nin musicals!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -81,7 +82,8 @@ Script_5:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 572, 0
-    ParentActorMsg 1024, 3, 0, 0
+    // "Chulululucha!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

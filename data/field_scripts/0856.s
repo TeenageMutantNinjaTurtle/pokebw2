@@ -27,12 +27,12 @@ Script_1:
 Script_2:
     VMStackPush 0x40a3
     VMStackPushConst 1
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPushFlag 739
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0081
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0081
     ActorSetGPos 0, 4, 0, 5, 3
 
 L_0081:
@@ -46,15 +46,15 @@ Script_18:
 L_0091:
     VMStackPushFlag 736
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00AE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00AE
     ObjInitPointGPos 7, 11, 0, 1
 
 L_00AE:
     VMStackPushFlag 737
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00CB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00CB
     ObjInitPointGPos 8, 12, 0, 1
 
 L_00CB:
@@ -78,7 +78,8 @@ Script_17:
     ActorCmdExec 0, Movement_0988
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 0, 0, 1, 0
+    // "[f000]Ā\u0001\u0000!\nI'm home![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 1, 0
     MsgWinCloseAll
     EvCameraReturn 40
     EvCameraWait
@@ -94,92 +95,106 @@ Script_3:
     ActorsPauseAll
     ActorWalkRoute 0, 9, 8, 1, 8, 1
     ActorCmdWait
-    ActorMsg 1024, 1, 0, 1, 0
+    // "Do you know Professor Juniper?\nShe's a famous Pokémon researcher.[f000]븁\u0000\nActually, she's an old friend of mine,\nand she called me today for the[f000]븀\u0000\nfirst time in ages![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 1, 0
     WordSetPlayerName 0
-    ActorMsg 1024, 2, 0, 1, 0
+    // "This is out of the blue,\nbut, [f000]Ā\u0001\u0000![f000]븁\u0000\nDo you want to have a Pokémon?"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 1, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01F1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01F1
     WorkSetConst 0x8020, 1
 
 L_019A:
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01F1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01F1
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0990
     ActorCmdWait
     ActorCmdExec 0, Movement_0928
     ActorCmdWait
-    ActorMsg 1024, 4, 0, 1, 0
+    // "What?!\nThat's a shock![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 1, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0938
     ActorCmdWait
-    ActorMsg 1024, 3, 0, 1, 0
+    // "I'll ask you again.[f000]븁\u0000\nDo you want a Pokémon?"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 1, 0
     YesNoWin 0x8020
     VMJump L_019A
 
 L_01F1:
-    ActorMsg 1024, 5, 0, 1, 0
+    // "OK!\nStep one completed![f000]븁\u0000\nWell then, do you know what a\nPokédex is?"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 1, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0226
-    ActorMsg 1024, 6, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0226
+    // "I knew you would![f000]븁\u0000\nIsn't it amazing how it automatically\nrecords Pokémon you encounter?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 1, 0
     VMJump L_0232
 
 L_0226:
-    ActorMsg 1024, 7, 0, 1, 0
+    // "I see...[f000]븁\u0000\nIt's an amazing device that automatically\nrecords the Pokémon you encounter![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0, 1, 0
 
 L_0232:
-    ActorMsg 1024, 8, 0, 1, 0
+    // "Yet another question![f000]븁\u0000\nYou want a Pokédex, right?"
+    ActorMsg MSGFILE_SCRIPT, 8, 0, 1, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0284
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0284
     WorkSetConst 0x8020, 1
 
 L_025B:
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0284
-    ActorMsg 1024, 10, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0284
+    // "I don't mean to be selfish, but I'd like it\nif you were a bit more agreeable.[f000]븁\u0000\nHaving a Pokédex means\ntraveling around the world![f000]븀\u0000\nThink about that for a second.[f000]븁\u0000\nSo I'll ask you again...[f000]븁\u0000\nYou want a Pokédex, right?"
+    ActorMsg MSGFILE_SCRIPT, 10, 0, 1, 0
     YesNoWin 0x8020
     VMJump L_025B
 
 L_0284:
-    ActorMsg 1024, 9, 0, 1, 0
+    // "OK!\nStep two completed![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 0, 1, 0
     VMStackPushFlag 1
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02BC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02BC
     WordSetPlayerName 0
-    ActorMsg 1024, 11, 0, 1, 0
+    // "[f000]Ā\u0001\u0000!\nYour course of action has been set![f000]븁\u0000\nA girl named Bianca has come\nhere to meet you![f000]븁\u0000\nShe's Professor Juniper's assistant.\nI was told to simply look for[f000]븀\u0000\na big, green hat![f000]븁\u0000\nThat's right! You're going to\ngo look for Bianca.[f000]븁\u0000\nAnd then you'll get a Pokédex and a\nPokémon to be your partner!"
+    ActorMsg MSGFILE_SCRIPT, 11, 0, 1, 0
     MsgWaitAdvance
     MsgWinCloseAll
     VMJump L_0308
 
 L_02BC:
     WordSetPlayerName 0
-    ActorMsg 1024, 12, 0, 1, 0
+    // "[f000]Ā\u0001\u0000!\nYour course of action has been set![f000]븁\u0000\nA girl named Bianca has come\nhere to meet you![f000]븁\u0000\nShe's Professor Juniper's assistant.\nI was told to simply look for[f000]븀\u0000\na big, green hat![f000]븁\u0000\nThat's right! You're going\nto go look for Bianca.[f000]븁\u0000\nAnd then you'll get a Pokédex and a\nPokémon to be your partner![f000]븁\u0000\nOh! Your Xtransceiver's in your\nBag, right?[f000]븀\u0000\nDo you know how to open your Bag?"
+    ActorMsg MSGFILE_SCRIPT, 12, 0, 1, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02F8
-    ActorMsg 1024, 14, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02F8
+    // "The girl's name is Bianca. I was told\nyou should look for a big, green hat![f000]븁\u0000\nShe might be lost because\nthis is her first time here.[f000]븀\u0000\nGo look for her!"
+    ActorMsg MSGFILE_SCRIPT, 14, 0, 1, 0
     MsgWaitAdvance
     MsgWinCloseAll
     VMJump L_0308
 
 L_02F8:
-    ActorMsg 1024, 13, 0, 1, 0
+    // "I'll send you off with these\nwords from “Adventure Rules.\"[f000]븀\u0000\n“The X Button is vitally important[f000]븀\u0000\nfor Trainers.\"[f000]븁\u0000\nOK! Off with you now!\nGo look for Bianca, OK!"
+    ActorMsg MSGFILE_SCRIPT, 13, 0, 1, 0
     MsgWaitAdvance
     MsgWinCloseAll
 
@@ -189,7 +204,7 @@ L_0308:
     ActorCmdExec 0, Movement_0978
     ActorCmdWait
     WorkSetConst 0x40a0, 1
-    Cmd_0263 4
+    HollowRivalCmd_0263 4
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -201,8 +216,10 @@ Script_16:
     ActorCmdWait
     ActorWalkRoute 0, 9, 8, 1, 8, 1
     ActorCmdWait
-    ActorMsg 1024, 25, 0, 0, 0
-    ActorMsg 1024, 26, 0, 0, 0
+    // "Mom: Welcome home, [f000]Ā\u0001\u0000![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 25, 0, 0, 0
+    // "Hmm. I barely recognize you![f000]븁\u0000\nIt seems like you've seen\nand thought about a lot[f000]븀\u0000\nand grown into an adult![f000]븁\u0000\nOh! Seems we're about to have\na visitor![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 26, 0, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 255, 5, 6, 1, 8, 0
     ActorWalkRoute 0, 4, 6, 1, 8, 0
@@ -216,20 +233,25 @@ Script_16:
     BGMPlay 1090
     ActorWalkRoute 251, 5, 8, 1, 8, 0
     ActorCmdWait
-    ActorMsg 1024, 27, 251, 2, 0
+    // "???: Oh, so you're [f000]Ā\u0001\u0000![f000]븁\u0000\nMy name's Juniper![f000]븁\u0000\nThe one who gave you\nyour Pokédex is my daughter![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 27, 251, 2, 0
     MsgWinCloseAll
-    ActorMsg 1024, 28, 0, 1, 0
+    // "Mom: It's been a long time,\nProfessor Juniper![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 28, 0, 1, 0
     MsgWinCloseAll
     ActorCmdExec 251, Movement_0998
     ActorCmdWait
-    ActorMsg 1024, 29, 251, 2, 0
+    // "Cedric Juniper: Has it been that long?\nI can't remember...[f000]븁\u0000\nWell, that's not really why I came.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 29, 251, 2, 0
     MsgWinCloseAll
     ActorWalkRoute 251, 5, 7, 1, 8, 0
     ActorCmdWait
-    ActorMsg 1024, 30, 251, 2, 0
+    // "[f000]Ā\u0001\u0000![f000]븁\u0000\nTo commemorate your entering the\nHall of Fame, I'm going to upgrade[f000]븀\u0000\nyour Pokédex![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 30, 251, 2, 0
     MsgWinCloseAll
     MEPlay 1303
     WordSetPlayerName 0
+    // "[f000]Ā\u0001\u0000's Pokédex\nwas upgraded!"
     SystemMsg 31, 2
     MEWait
     MsgWaitAdvance
@@ -237,12 +259,16 @@ Script_16:
     PokeDexGiveNational
     ActorCmdExec 251, Movement_0940
     ActorCmdWait
-    ActorMsg 1024, 32, 251, 2, 0
+    // "Cedric Juniper: I'll tell you what\nI upgraded, so why don't you ask?[f000]븁\u0000\nWell, actually, it's really simple![f000]븁\u0000\nI made it so you can register\nall of the National Pokédex Pokémon.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 32, 251, 2, 0
     MsgWinCloseAll
-    ActorMsg 1024, 33, 0, 1, 0
+    // "Mom: Wow! That's amazing!\nThat must be why you and[f000]븀\u0000\nyour daughter are Pokémon Professors![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 33, 0, 1, 0
     MsgWinCloseAll
-    ActorMsg 1024, 34, 251, 2, 0
-    ActorMsg 1024, 35, 251, 2, 0
+    // "Cedric Juniper: Ha ha ha!\nFlattery won't get you anywhere![f000]븁\u0000\nWell then, think I'd best\nbe taking my leave![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 34, 251, 2, 0
+    // "Listen up! There are still many, many\nPokémon in this world![f000]븁\u0000\nSometimes Pokémon attack\neach other for food.[f000]븁\u0000\nSometimes they help one another.\nThey protect each other's places.[f000]븁\u0000\nI'd be happy if you think about things\nlike that while looking at the Pokédex.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 35, 251, 2, 0
     MsgWinCloseAll
     ActorWalkRoute 251, 5, 10, 1, 8, 0
     ActorCmdWait
@@ -254,7 +280,8 @@ Script_16:
     VMSleep 8
     ActorCmdExec 255, Movement_0980
     ActorCmdWait
-    ActorMsg 1024, 36, 0, 1, 0
+    // "Mom: He left...[f000]븁\u0000\nOh, that's right! [f000]Ā\u0001\u0000!\nI have a present for you, too![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 36, 0, 1, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -263,7 +290,8 @@ Script_16:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 37, 0, 1, 0
+    // "Mom: No matter what you do, your time\nis yours and your Pokémon's alone![f000]븁\u0000\nSo decide what you want to do\nfor yourself and do it![f000]븁\u0000\nI enjoy my own time\nin my own way, too!"
+    ActorMsg MSGFILE_SCRIPT, 37, 0, 1, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40a0, 3
@@ -278,19 +306,20 @@ Script_4:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0515
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0515
     VMCall L_057B
     VMJump L_0575
 
 L_0515:
     VMStackPushFlag 2406
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0542
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0542
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 15, 0, 0
+    // "Oh? Are the both of you\nout looking for Bianca?[f000]븁\u0000\nYou still haven't found her?\nLook for the big, green hat!"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0575
@@ -298,11 +327,12 @@ L_0515:
 L_0542:
     VMStackPush 0x40a1
     VMStackPushConst 2
-    VMStackCmp 0
-    VMJumpIf 255, L_056F
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_056F
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 14, 0, 0
+    // "The girl's name is Bianca. I was told\nyou should look for a big, green hat![f000]븁\u0000\nShe might be lost because\nthis is her first time here.[f000]븀\u0000\nGo look for her!"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0575
@@ -320,23 +350,24 @@ L_057B:
     ActorSetEyeToEye
     VMStackPush 0x400f
     VMStackPushConst 999
-    VMStackCmp 1
-    VMJumpIf 255, L_05AD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05AD
     WordSetPlayerName 0
     VMCall L_060C
-    ParentActorMsg 1024, 0x8008, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8008, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMReturn
 
 L_05AD:
     WordSetPlayerName 0
-    ParentActorMsg 1024, 17, 0, 0
+    // "Mom: Welcome back!\nHey, how are your Pokémon?[f000]븁\u0000\nWell, why don't you rest for a moment?\nNothing but hard work will wear you out![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     MsgWinCloseAll
     VMCall L_05DE
     Random 0x400a, 5
     VMCall L_060C
-    ParentActorMsg 1024, 0x8008, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8008, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMReturn
@@ -356,7 +387,7 @@ L_05DE:
 L_060C:
     WordSetPlayerName 0
     WorkCmpConst 0x400a, 0
-    VMJumpIf 1, L_0622
+    VMJumpIf CMP_EQ, L_0622
     VMJump L_062E
 
 L_0622:
@@ -365,7 +396,7 @@ L_0622:
 
 L_062E:
     WorkCmpConst 0x400a, 1
-    VMJumpIf 1, L_0641
+    VMJumpIf CMP_EQ, L_0641
     VMJump L_064D
 
 L_0641:
@@ -374,7 +405,7 @@ L_0641:
 
 L_064D:
     WorkCmpConst 0x400a, 2
-    VMJumpIf 1, L_0660
+    VMJumpIf CMP_EQ, L_0660
     VMJump L_066C
 
 L_0660:
@@ -383,7 +414,7 @@ L_0660:
 
 L_066C:
     WorkCmpConst 0x400a, 3
-    VMJumpIf 1, L_067F
+    VMJumpIf CMP_EQ, L_067F
     VMJump L_068B
 
 L_067F:
@@ -392,7 +423,7 @@ L_067F:
 
 L_068B:
     WorkCmpConst 0x400a, 4
-    VMJumpIf 1, L_069E
+    VMJumpIf CMP_EQ, L_069E
     VMJump L_06AA
 
 L_069E:
@@ -406,15 +437,16 @@ Script_5:
     ActorsPauseAll
     VMStackPush 0x4115
     VMStackPushConst 2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4115
     VMStackPushConst 3
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_06EB
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_06EB
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 49, 0, 0
+    // "Hee hee!\nI came to visit![f000]븁\u0000\nProfessor Juniper is investigating\na cave on Route 20!"
+    ParentActorMsg MSGFILE_SCRIPT, 49, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_071E
@@ -422,15 +454,16 @@ Script_5:
 L_06EB:
     VMStackPush 0x4115
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_070A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_070A
     VMCall L_0724
     VMJump L_071E
 
 L_070A:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 16, 0, 0
+    // "Bianca: I was just talking to your mom![f000]븁\u0000\nShe told me an amazing\nstory about Professor Juniper!"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -442,65 +475,70 @@ L_071E:
 L_0724:
     Random 0x8010, 5
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_073D
+    VMJumpIf CMP_EQ, L_073D
     VMJump L_0757
 
 L_073D:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 50, 0, 0
+    // "The Cave of Being...[f000]븁\u0000\nI wonder where those three Pokémon--\nUxie, Mesprit, and Azelf--flew off to?[f000]븁\u0000\nUxie is a Pokémon that\nsymbolizes knowledge...[f000]븁\u0000\nIf you mention a place in Unova\nwhere knowledge is gathered,[f000]븀\u0000\nthe first thing that comes to mind[f000]븀\u0000\nis Nacrene City's museum...[f000]븁\u0000\nMesprit is the Pokémon that\npresides over emotion, right?[f000]븁\u0000\nCelestial Tower's bell stirs emotions...[f000]븁\u0000\nAnd Azelf is willpower...[f000]븁\u0000\nThe desire to see something through...\nWhat place could represent that?"
+    ParentActorMsg MSGFILE_SCRIPT, 50, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_080B
 
 L_0757:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_076A
+    VMJumpIf CMP_EQ, L_076A
     VMJump L_0784
 
 L_076A:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 51, 0, 0
+    // "Route 23's mysterious Pokémon...[f000]븁\u0000\nJust by being near it you can feel\nsome kind of willpower...[f000]븁\u0000\nIt's best to go have a look\nfor yourself!"
+    ParentActorMsg MSGFILE_SCRIPT, 51, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_080B
 
 L_0784:
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0797
+    VMJumpIf CMP_EQ, L_0797
     VMJump L_07B1
 
 L_0797:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 52, 0, 0
+    // "Sometimes, there are mass outbreaks\nof Pokémon, right?[f000]븁\u0000\nA lot of the exact same Pokémon\nshow up at the same time,[f000]븀\u0000\nand it's such a surprise![f000]븁\u0000\nLike where were all of you before?[f000]븁\u0000\nIf you look at the electronic bulletin\nboards, you can learn about them!"
+    ParentActorMsg MSGFILE_SCRIPT, 52, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_080B
 
 L_07B1:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_07C4
+    VMJumpIf CMP_EQ, L_07C4
     VMJump L_07DE
 
 L_07C4:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 53, 0, 0
+    // "Professor Juniper--I'm talking about\nAurea Juniper, mind you...[f000]븁\u0000\nShe's researching the origins of Pokémon![f000]븁\u0000\nIt's interesting!\nAmong the Pokémon that exist now,[f000]븀\u0000\nthere were some that have been[f000]븀\u0000\naround from the past and some[f000]븀\u0000\nthat were discovered recently.[f000]븁\u0000\nBy the way, her dad is researching\nPokémon distribution and biology!"
+    ParentActorMsg MSGFILE_SCRIPT, 53, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_080B
 
 L_07DE:
     WorkCmpConst 0x8010, 4
-    VMJumpIf 1, L_07F1
+    VMJumpIf CMP_EQ, L_07F1
     VMJump L_080B
 
 L_07F1:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 54, 0, 0
+    // "Your mom's amazing![f000]븁\u0000\nIt's sweet how she met\nyour dad while working[f000]븀\u0000\nreception at the Pokémon Center.[f000]븁\u0000\nHee hee!\nShe's taught me a lot!"
+    ParentActorMsg MSGFILE_SCRIPT, 54, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_080B
@@ -511,6 +549,7 @@ L_080B:
 Script_6:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a Wii console!\nIt has a Wii Remote!"
     InfoMsg 39, 2
     LastKeyWait
     MsgWinCloseAll
@@ -521,6 +560,7 @@ Script_6:
 Script_7:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a brand-new bed!"
     InfoMsg 40, 2
     LastKeyWait
     MsgWinCloseAll
@@ -532,6 +572,7 @@ Script_8:
     ActorsPauseAll
     WordSetPlayerName 0
     SEPlay 1351
+    // "[f000]Ā\u0001\u0000 checked the PC.[f000]븁\u0000\nAdventure Rule No. 1\nThe X Button opens the menu![f000]븁\u0000\nAdventure Rule No. 2\nRecord your progress with SAVE."
     InfoMsg 41, 2
     LastKeyWait
     MsgWinCloseAll
@@ -542,6 +583,7 @@ Script_8:
 Script_9:
     ActorsPauseAll
     SEPlay 1351
+    // "It's an award for completing\nthe Unova Pokédex![f000]븁\u0000"
     InfoMsg 42, 2
     MsgWinCloseAll
     FadeOutBlackQ
@@ -558,6 +600,7 @@ Script_9:
 Script_10:
     ActorsPauseAll
     SEPlay 1351
+    // "It's an award for completing\nthe National Mode Pokédex![f000]븁\u0000"
     InfoMsg 43, 2
     MsgWinCloseAll
     FadeOutBlackQ
@@ -574,6 +617,7 @@ Script_10:
 Script_11:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a trophy proving you defeated\nthe Single Master in the Battle Subway!"
     InfoMsg 44, 2
     LastKeyWait
     MsgWinCloseAll
@@ -584,6 +628,7 @@ Script_11:
 Script_12:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a trophy proving you defeated\nthe Double Master in the Battle Subway!"
     InfoMsg 45, 2
     LastKeyWait
     MsgWinCloseAll
@@ -594,6 +639,7 @@ Script_12:
 Script_13:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a trophy proving you defeated\nthe Multi Master in the Battle Subway!"
     InfoMsg 46, 2
     LastKeyWait
     MsgWinCloseAll
@@ -604,6 +650,7 @@ Script_13:
 Script_14:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a model of a Ferris wheel\nMom bought as a souvenir."
     InfoMsg 47, 2
     LastKeyWait
     MsgWinCloseAll
@@ -614,6 +661,7 @@ Script_14:
 Script_15:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a Darumaka Pokémon doll\nMom received in the past.[f000]븁\u0000\nWhen you get knocked down,\njust get up again!"
     InfoMsg 48, 2
     LastKeyWait
     MsgWinCloseAll

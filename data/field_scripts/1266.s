@@ -21,13 +21,14 @@ Script_1:
     VMStackPop 0x8000
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8010
     VMStackPushConst 2
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_0087
-    ActorMsg 1024, 3, 0x8011, 2, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_0087
+    // "See you again."
+    ActorMsg MSGFILE_SCRIPT, 3, 0x8011, 2, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_008D
@@ -45,11 +46,11 @@ L_0095:
     TrialHouseWorkInit
     WorkSetConst 0x8027, 0
     WorkSetConst 0x8028, 0
-    Cmd_01F2 0x8027
+    TrialHouseCmd_01F2 0x8027
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00CC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00CC
     WorkSetConst 0x8028, 16
     WorkSetConst 0x8024, 1
     VMJump L_00F7
@@ -57,8 +58,8 @@ L_0095:
 L_00CC:
     VMStackPush 0x8027
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_00F1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00F1
     WorkSetConst 0x8028, 25
     WorkSetConst 0x8024, 1
     VMJump L_00F7
@@ -69,14 +70,14 @@ L_00F1:
 L_00F7:
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0145
-    ActorMsg 1024, 0x8028, 0x8011, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0145
+    ActorMsg MSGFILE_SCRIPT, 0x8028, 0x8011, 2, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_013F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_013F
     WorkSetConst 0x8023, 1
     VMCall L_02EE
     VMJump L_0145
@@ -89,25 +90,27 @@ L_0145:
     WorkSetConst 0x8027, 0
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02B9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02B9
     WorkSetConst 0x8020, 1
     TrialHouseGetBattleTestRank 0x8026
     VMStackPush 0x8026
     VMStackPushConst 6
-    VMStackCmp 1
-    VMJumpIf 255, L_0193
-    ActorMsg 1024, 1, 0x8011, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0193
+    // "The master returns! Would you like to\nchallenge a Battle Test?"
+    ActorMsg MSGFILE_SCRIPT, 1, 0x8011, 2, 0
     VMJump L_019F
 
 L_0193:
-    ActorMsg 1024, 0, 0x8011, 2, 0
+    // "I will judge your battles in a\nBattle Test![f000]븁\u0000\nWhat would you like to do?"
+    ActorMsg MSGFILE_SCRIPT, 0, 0x8011, 2, 0
 
 L_019F:
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02B9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02B9
     WorkSetConst 0x8020, 0
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32805
     ListMenuAdd 30, 65535, 0
@@ -117,27 +120,28 @@ L_019F:
     ListMenuShow
     VMStackPush 0x8025
     VMStackPushConst 65534
-    VMStackCmp 1
-    VMJumpIf 255, L_0202
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0202
     WorkSetConst 0x8021, 1
     VMJump L_02B3
 
 L_0202:
     WorkCmpConst 0x8025, 0
-    VMJumpIf 1, L_0215
+    VMJumpIf CMP_EQ, L_0215
     VMJump L_0250
 
 L_0215:
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_023A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_023A
     WorkSetConst 0x8023, 0
     VMCall L_02EE
     VMJump L_024A
 
 L_023A:
-    ActorMsg 1024, 2, 0x8011, 2, 0
+    // "I am sorry...[f000]븁\u0000\nIt may be too early for you to challenge\na Battle Test.[f000]븁\u0000\nPlease come back after you finish\nyour journey and build your strength."
+    ActorMsg MSGFILE_SCRIPT, 2, 0x8011, 2, 0
     LastKeyWait
     ActorMsgClose
 
@@ -146,7 +150,7 @@ L_024A:
 
 L_0250:
     WorkCmpConst 0x8025, 1
-    VMJumpIf 1, L_0263
+    VMJumpIf CMP_EQ, L_0263
     VMJump L_0275
 
 L_0263:
@@ -156,7 +160,7 @@ L_0263:
 
 L_0275:
     WorkCmpConst 0x8025, 2
-    VMJumpIf 1, L_0288
+    VMJumpIf CMP_EQ, L_0288
     VMJump L_0294
 
 L_0288:
@@ -165,7 +169,7 @@ L_0288:
 
 L_0294:
     WorkCmpConst 0x8025, 3
-    VMJumpIf 1, L_02A7
+    VMJumpIf CMP_EQ, L_02A7
     VMJump L_02B3
 
 L_02A7:
@@ -178,9 +182,10 @@ L_02B3:
 L_02B9:
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02DC
-    ActorMsg 1024, 3, 0x8011, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02DC
+    // "See you again."
+    ActorMsg MSGFILE_SCRIPT, 3, 0x8011, 2, 0
     LastKeyWait
     ActorMsgClose
 
@@ -189,7 +194,8 @@ L_02DC:
     VMReturn
 
 L_02E0:
-    ActorMsg 1024, 23, 0x8011, 2, 0
+    // "You will take a Battle Test using\nthree Pokémon for Single Battles[f000]븀\u0000\nand four Pokémon for Double Battles.[f000]븁\u0000\nYou may not use duplicate Pokémon or\nduplicate held items.[f000]븁\u0000\nFor these battles, all Pokémon will be\nset to Lv. 50.[f000]븁\u0000\nYou will battle against five Trainers in a\nrow, and I will be your judge.[f000]븁\u0000\nWhat would you like to do?"
+    ActorMsg MSGFILE_SCRIPT, 23, 0x8011, 2, 0
     VMReturn
 
 L_02EE:
@@ -198,12 +204,13 @@ L_02EE:
     WorkSetConst 0x802b, 0
     WorkSetConst 0x802c, 0
     WorkSetConst 0x802d, 0
-    Cmd_01ED 0x8023
+    TrialHouseCmd_01ED 0x8023
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03E4
-    ActorMsg 1024, 4, 0x8011, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03E4
+    // "Which challenge would you like,\nSingle or Double?"
+    ActorMsg MSGFILE_SCRIPT, 4, 0x8011, 2, 0
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32809
     ListMenuAdd 33, 65535, 0
     ListMenuAdd 34, 65535, 1
@@ -211,15 +218,15 @@ L_02EE:
     ListMenuShow
     VMStackPush 0x8029
     VMStackPushConst 65534
-    VMStackCmp 1
-    VMJumpIf 255, L_0373
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0373
     WorkSetConst 0x8021, 1
     VMReturn
     VMJump L_03DE
 
 L_0373:
     WorkCmpConst 0x8029, 0
-    VMJumpIf 1, L_0386
+    VMJumpIf CMP_EQ, L_0386
     VMJump L_0398
 
 L_0386:
@@ -229,7 +236,7 @@ L_0386:
 
 L_0398:
     WorkCmpConst 0x8029, 1
-    VMJumpIf 1, L_03AB
+    VMJumpIf CMP_EQ, L_03AB
     VMJump L_03BD
 
 L_03AB:
@@ -239,7 +246,7 @@ L_03AB:
 
 L_03BD:
     WorkCmpConst 0x8029, 2
-    VMJumpIf 1, L_03D0
+    VMJumpIf CMP_EQ, L_03D0
     VMJump L_03DE
 
 L_03D0:
@@ -252,11 +259,11 @@ L_03DE:
 
 L_03E4:
     WorkSetConst 0x802e, 0
-    Cmd_01F2 0x802e
+    TrialHouseCmd_01F2 0x802e
     VMStackPush 0x802e
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0413
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0413
     WorkSetConst 0x802b, 20
     WorkSetConst 0x802c, 0
     VMJump L_0444
@@ -264,8 +271,8 @@ L_03E4:
 L_0413:
     VMStackPush 0x802e
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0438
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0438
     WorkSetConst 0x802b, 21
     WorkSetConst 0x802c, 1
     VMJump L_0444
@@ -279,13 +286,14 @@ L_0444:
 
 L_044A:
     TrialHousePrepareParty 0x802c
-    ActorMsg 1024, 5, 0x8011, 2, 0
+    // "Then, let's begin.[f000]븁\u0000\nPlease bear in mind that once you start\nthe challenge, you will face five battles[f000]븀\u0000\nwithout a break.[f000]븁\u0000\nNow, please choose the Pokémon you would\nlike to battle with.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0x8011, 2, 0
     ActorMsgClose
     Cmd_01B0 0x802b, 0x802a
     VMStackPush 0x802a
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0483
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0483
     WorkSetConst 0x8021, 1
     VMReturn
     VMJump L_04B0
@@ -293,8 +301,8 @@ L_044A:
 L_0483:
     VMStackPush 0x802a
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_04B0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04B0
     VMStackPush 0x8000
     WorkSet 0x8000, 0x802b
     RTCallGlobal 10260
@@ -305,24 +313,25 @@ L_0483:
 L_04B0:
     VMStackPush 0x802a
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04C5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04C5
     PokePartyRecoverAll
 
 L_04C5:
     TrialHouseCallTeamSelect 0x802b, 0x802a, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04E8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04E8
     WorkSetConst 0x8021, 1
     VMReturn
 
 L_04E8:
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0507
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0507
+    // "Saving...\nDon't turn off the power."
     SystemMsgAsync 6, 2
     TrialHouseSaveData 1
     InfoMsgClose
@@ -331,7 +340,8 @@ L_0507:
     RecordAdd 121, 1
     Cmd_02C5 4
     FunfestBGMReturn
-    ActorMsg 1024, 7, 0x8011, 2, 0
+    // "Now, the Battle Test begins!\nPlease go inside![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0x8011, 2, 0
     ActorMsgClose
     ActorCmdExec 0, Movement_09C8
     ActorCmdWait
@@ -348,38 +358,39 @@ L_0507:
     ActorCmdWait
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_06E0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06E0
     WorkSetConst 0x802f, 0
     WorkSetConst 0x8030, 0
     WorkSetConst 0x8031, 0
     WorkSetConst 0x8032, 0
     TrialHouseGetBattleTestRank 0x8030
-    ActorMsg 1024, 8, 0x8011, 2, 0
+    // "All right.[f000]븁\u0000\nI will tell you the result of your\nBattle Test.[f000]븁\u0000\nThe test result is...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 0x8011, 2, 0
     ActorMsgClose
     Cmd_01DD 3, 0, 0
     TrialHouseCalcPointsStars 0x802f, 0x8031
     RecordGet 121, 0x802d
     VMStackPush 0x8030
     VMStackPush 0x802f
-    VMStackCmp 0
+    VMStackCmp CMP_LT
     VMStackPush 0x802d
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_05DF
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_05DF
     Cmd_01DD 4, 0x802f, 0
 
 L_05DF:
     FadeOutBlackQ
     FadeWait
     FieldClose
-    Cmd_01F4 0x8023, 1
+    TrialHouseCmd_01F4 0x8023, 1
     FieldOpen
     FadeInBlackQ
     FadeWait
     WorkCmpConst 0x802f, 0
-    VMJumpIf 1, L_0604
+    VMJumpIf CMP_EQ, L_0604
     VMJump L_0610
 
 L_0604:
@@ -388,7 +399,7 @@ L_0604:
 
 L_0610:
     WorkCmpConst 0x802f, 1
-    VMJumpIf 1, L_0623
+    VMJumpIf CMP_EQ, L_0623
     VMJump L_062F
 
 L_0623:
@@ -397,7 +408,7 @@ L_0623:
 
 L_062F:
     WorkCmpConst 0x802f, 2
-    VMJumpIf 1, L_0642
+    VMJumpIf CMP_EQ, L_0642
     VMJump L_064E
 
 L_0642:
@@ -406,7 +417,7 @@ L_0642:
 
 L_064E:
     WorkCmpConst 0x802f, 3
-    VMJumpIf 1, L_0661
+    VMJumpIf CMP_EQ, L_0661
     VMJump L_066D
 
 L_0661:
@@ -415,7 +426,7 @@ L_0661:
 
 L_066D:
     WorkCmpConst 0x802f, 4
-    VMJumpIf 1, L_0680
+    VMJumpIf CMP_EQ, L_0680
     VMJump L_068C
 
 L_0680:
@@ -424,7 +435,7 @@ L_0680:
 
 L_068C:
     WorkCmpConst 0x802f, 5
-    VMJumpIf 1, L_069F
+    VMJumpIf CMP_EQ, L_069F
     VMJump L_06AB
 
 L_069F:
@@ -433,7 +444,7 @@ L_069F:
 
 L_06AB:
     WorkCmpConst 0x802f, 6
-    VMJumpIf 1, L_06BE
+    VMJumpIf CMP_EQ, L_06BE
     VMJump L_06CA
 
 L_06BE:
@@ -444,7 +455,7 @@ L_06CA:
     WorkSetConst 0x8032, 15
 
 L_06D0:
-    ActorMsg 1024, 0x8032, 0x8011, 2, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8032, 0x8011, 2, 0
     LastKeyWait
     ActorMsgClose
 
@@ -458,9 +469,9 @@ L_06E2:
 L_06EE:
     VMStackPush 0x8022
     VMStackPushConst 5
-    VMStackCmp 0
-    VMJumpIf 255, L_075A
-    Cmd_01EA 0x8022, 0x8033
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_075A
+    TrialHouseCmd_01EA 0x8022, 0x8033
     ActorNew 7, 0, 1, 251, 0x8033, 0
     ActorCmdExec 251, Movement_09F4
     ActorCmdWait
@@ -472,8 +483,8 @@ L_06EE:
     WorkAdd 0x8022, 1
     VMStackPush 0x8022
     VMStackPushConst 5
-    VMStackCmp 0
-    VMJumpIf 255, L_0754
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_0754
     VMCall L_0762
 
 L_0754:
@@ -493,7 +504,8 @@ L_0762:
     WorkGet 0x8034, 0x8022
     WorkAdd 0x8034, 1
     WordSetNumber 0, 0x8034, 1
-    ActorMsg 1024, 24, 0x8011, 2, 0
+    // "You will be facing opponent No. [f000]Ȁ\u0001\u0000.\nGood luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 24, 0x8011, 2, 0
     ActorMsgClose
     ActorCmdExec 255, Movement_0A54
     ActorCmdExec 0, Movement_0A5C
@@ -504,40 +516,43 @@ L_07B5:
     GameCommCheckDSiWiFi 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_07DE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07DE
     ActorMsgClose
     RTCallGlobal 2005
     WorkSetConst 0x8021, 1
     VMJump L_0959
 
 L_07DE:
-    ActorMsg 1024, 17, 0x8011, 2, 0
+    // "Would you like to download\na special Battle Test?"
+    ActorMsg MSGFILE_SCRIPT, 17, 0x8011, 2, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0953
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0953
     ActorMsgClose
     VMCall L_095B
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0824
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0824
     WorkSetConst 0x8021, 1
     VMReturn
 
 L_0824:
+    // "Communicating... Don't turn off the\npower. Press the B Button to cancel."
     SystemMsgAsync 29, 2
     VMSleep 1
     MsgSetLoadingSpinner 0
-    Cmd_01F0 0x8010
+    TrialHouseCmd_01F0 0x8010
     InfoMsgClose
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0865
-    ActorMsg 1024, 18, 0x8011, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0865
+    // "Hmm... I don't see anything\nto download...[f000]븁\u0000\nWhat would you like to do?"
+    ActorMsg MSGFILE_SCRIPT, 18, 0x8011, 2, 0
     WorkSetConst 0x8020, 1
     VMReturn
     VMJump L_08B9
@@ -545,9 +560,10 @@ L_0824:
 L_0865:
     VMStackPush 0x8010
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0892
-    ActorMsg 1024, 26, 0x8011, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0892
+    // "You seem to have taken all of the\ncurrent Battle Tests already.[f000]븁\u0000\nWhat would you like to do?"
+    ActorMsg MSGFILE_SCRIPT, 26, 0x8011, 2, 0
     WorkSetConst 0x8020, 1
     VMReturn
     VMJump L_08B9
@@ -555,20 +571,21 @@ L_0865:
 L_0892:
     VMStackPush 0x8010
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_08B9
-    ActorMsg 1024, 50, 0x8011, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08B9
+    // "The download was canceled."
+    ActorMsg MSGFILE_SCRIPT, 50, 0x8011, 2, 0
     WorkSetConst 0x8020, 1
     VMReturn
 
 L_08B9:
     WorkSetConst 0x8035, 0
     WorkSetConst 0x8036, 0
-    Cmd_01F2 0x8035
+    TrialHouseCmd_01F2 0x8035
     VMStackPush 0x8035
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_08E8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08E8
     WorkSetConst 0x8036, 19
     VMJump L_08EE
 
@@ -576,22 +593,24 @@ L_08E8:
     WorkSetConst 0x8036, 20
 
 L_08EE:
-    ActorMsg 1024, 0x8036, 0x8011, 2, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8036, 0x8011, 2, 0
     WorkSetConst 0x8036, 0
     WorkSetConst 0x8035, 0
-    ActorMsg 1024, 21, 0x8011, 2, 0
+    // "Would you like to challenge right away?"
+    ActorMsg MSGFILE_SCRIPT, 21, 0x8011, 2, 0
     YesNoWin 0x8010
     ActorMsgClose
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_093D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_093D
     WorkSetConst 0x8023, 1
     VMCall L_02EE
     VMJump L_094D
 
 L_093D:
-    ActorMsg 1024, 22, 0x8011, 2, 0
+    // "OK. See you later.\nI've been waiting for you!"
+    ActorMsg MSGFILE_SCRIPT, 22, 0x8011, 2, 0
     LastKeyWait
     ActorMsgClose
 
@@ -622,8 +641,8 @@ L_095B:
     VMStackPop 0x8000
     VMStackPush 0x8037
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_09BA
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_09BA
     WorkSetConst 0x8010, 0
     VMJump L_09C0
 
@@ -709,8 +728,9 @@ Script_2:
     WorkSetConst 0x8039, 0
     VMStackPush 0x803a
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0AB1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0AB1
+    // "There is no test result to display now."
     SystemMsgAsync 27, 2
     LastKeyWait
     InfoMsgClose
@@ -719,8 +739,8 @@ Script_2:
 L_0AB1:
     VMStackPush 0x803a
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0AD6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0AD6
     WorkSetConst 0x8039, 1
     WorkSetConst 0x8038, 0
     VMJump L_0B70
@@ -728,13 +748,14 @@ L_0AB1:
 L_0AD6:
     VMStackPush 0x803a
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0AFB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0AFB
     WorkSetConst 0x8039, 1
     WorkSetConst 0x8038, 1
     VMJump L_0B70
 
 L_0AFB:
+    // "Which test result would you like to see?"
     SystemMsgAsync 28, 2
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32784
     ListMenuAdd 36, 65535, 0
@@ -743,7 +764,7 @@ L_0AFB:
     ListMenuShow
     InfoMsgClose
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_0B39
+    VMJumpIf CMP_EQ, L_0B39
     VMJump L_0B4B
 
 L_0B39:
@@ -753,7 +774,7 @@ L_0B39:
 
 L_0B4B:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0B5E
+    VMJumpIf CMP_EQ, L_0B5E
     VMJump L_0B70
 
 L_0B5E:
@@ -764,12 +785,12 @@ L_0B5E:
 L_0B70:
     VMStackPush 0x8039
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0B95
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B95
     FadeOutBlackQ
     FadeWait
     FieldClose
-    Cmd_01F4 0x8038, 0
+    TrialHouseCmd_01F4 0x8038, 0
     FieldOpen
     FadeInBlackQ
     FadeWait

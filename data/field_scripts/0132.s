@@ -57,7 +57,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "You can take the Battle Subway from\nGear Station!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -68,7 +69,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "The Battle Subway is the subway\nwhere Trainers see who's strongest!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -81,13 +83,15 @@ Script_3:
     ActorSetEyeToEye
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_010B
-    ParentActorMsg 1024, 3, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_010B
+    // "The Battle Subway has seven lines\nin total![f000]븁\u0000\nIf you can ride a train with “Super\" in\nits name, then you're quite the Trainer!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     VMJump L_0115
 
 L_010B:
-    ParentActorMsg 1024, 2, 0, 0
+    // "The Battle Subway has seven lines\nin total![f000]븁\u0000\nBut I heard that the only lines you can\ntake at the beginning are the Single,[f000]븀\u0000\nDouble, or Multi Trains!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
 
 L_0115:
     LastKeyWait
@@ -104,8 +108,8 @@ Script_6:
     VMCall L_01A6
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0152
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0152
     WorkSetConst 0x8022, 10
     VMJump L_0190
 
@@ -114,8 +118,8 @@ L_0152:
     DebugPrint 0x8020
     VMStackPush 0x8020
     VMStackPushConst 65535
-    VMStackCmp 1
-    VMJumpIf 255, L_0179
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0179
     WorkSetConst 0x8022, 12
     VMJump L_0188
 
@@ -129,7 +133,7 @@ L_0188:
     DebugPrint 0x8022
 
 L_0190:
-    ActorMsg 1024, 0x8022, 0x8011, 4, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8022, 0x8011, 4, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -140,13 +144,14 @@ L_01A6:
     WorkSetConst 0x8023, 0
     WorkSetConst 0x8024, 0
     WorkSetConst 0x8023, 0
-    ActorMsg 1024, 4, 0x8011, 4, 0
+    // "Hi, hi![f000]븁\u0000\nPlease tell me how you introduce yourself\nbefore a battle and how you feel when[f000]븀\u0000\nyou win or lose."
+    ActorMsg MSGFILE_SCRIPT, 4, 0x8011, 4, 0
 
 L_01C4:
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0372
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0372
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32804
     ListMenuAdd 13, 65535, 1
     ListMenuAdd 14, 65535, 2
@@ -156,16 +161,16 @@ L_01C4:
     ListMenuShow
     VMStackPush 0x8024
     VMStackPushConst 65534
-    VMStackCmp 5
-    VMJumpIf 255, L_0360
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0360
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_034E
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_034E
     WorkSetConst 0x8025, 0
     WorkSetConst 0x8026, 0
     WorkCmpConst 0x8024, 1
-    VMJumpIf 1, L_024F
+    VMJumpIf CMP_EQ, L_024F
     VMJump L_0261
 
 L_024F:
@@ -175,7 +180,7 @@ L_024F:
 
 L_0261:
     WorkCmpConst 0x8024, 2
-    VMJumpIf 1, L_0274
+    VMJumpIf CMP_EQ, L_0274
     VMJump L_0286
 
 L_0274:
@@ -185,7 +190,7 @@ L_0274:
 
 L_0286:
     WorkCmpConst 0x8024, 3
-    VMJumpIf 1, L_0299
+    VMJumpIf CMP_EQ, L_0299
     VMJump L_02AB
 
 L_0299:
@@ -195,7 +200,7 @@ L_0299:
 
 L_02AB:
     WorkCmpConst 0x8024, 4
-    VMJumpIf 1, L_02BE
+    VMJumpIf CMP_EQ, L_02BE
     VMJump L_02D0
 
 L_02BE:
@@ -204,7 +209,7 @@ L_02BE:
     VMJump L_02D0
 
 L_02D0:
-    ActorMsg 1024, 0x8026, 0x8011, 4, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8026, 0x8011, 4, 0
     ActorMsgClose
     FadeOutBlackQ
     FadeWait
@@ -215,14 +220,15 @@ L_02D0:
     FadeWait
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_033C
-    ActorMsg 1024, 11, 0x8011, 4, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_033C
+    // "Thanks! Will you tell me your other\nfeelings, too?"
+    ActorMsg MSGFILE_SCRIPT, 11, 0x8011, 4, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_0336
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0336
     WorkSetConst 0x8010, 1
     WorkSetConst 0x8023, 1
 
@@ -260,8 +266,9 @@ Script_7:
     DebugPrint 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03AB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03AB
+    // "Under Construction"
     SystemMsg 26, 2
     LastKeyWait
     MsgWinCloseAll
@@ -278,6 +285,7 @@ L_03B5:
 Script_8:
     ActorsPauseAll
     SEPlay 1351
+    // "Platform for Single Trains"
     SystemMsg 18, 2
     LastKeyWait
     MsgWinCloseAll
@@ -288,6 +296,7 @@ Script_8:
 Script_9:
     ActorsPauseAll
     SEPlay 1351
+    // "Platform for Double Trains"
     SystemMsg 19, 2
     LastKeyWait
     MsgWinCloseAll
@@ -298,6 +307,7 @@ Script_9:
 Script_10:
     ActorsPauseAll
     SEPlay 1351
+    // "Platform for Multi Trains"
     SystemMsg 20, 2
     LastKeyWait
     MsgWinCloseAll
@@ -308,6 +318,7 @@ Script_10:
 Script_11:
     ActorsPauseAll
     SEPlay 1351
+    // "Platform for Wi-Fi Trains"
     SystemMsg 21, 2
     LastKeyWait
     MsgWinCloseAll
@@ -318,6 +329,7 @@ Script_11:
 Script_12:
     ActorsPauseAll
     SEPlay 1351
+    // "Platform for Super Single Trains"
     SystemMsg 22, 2
     LastKeyWait
     MsgWinCloseAll
@@ -328,6 +340,7 @@ Script_12:
 Script_13:
     ActorsPauseAll
     SEPlay 1351
+    // "Platform for Super Double Trains"
     SystemMsg 23, 2
     LastKeyWait
     MsgWinCloseAll
@@ -338,6 +351,7 @@ Script_13:
 Script_14:
     ActorsPauseAll
     SEPlay 1351
+    // "Platform for Super Multi Trains"
     SystemMsg 24, 2
     LastKeyWait
     MsgWinCloseAll
@@ -348,6 +362,7 @@ Script_14:
 Script_15:
     ActorsPauseAll
     SEPlay 1351
+    // "Platform for Trains to Anville Town"
     SystemMsg 25, 2
     LastKeyWait
     MsgWinCloseAll

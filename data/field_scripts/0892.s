@@ -21,8 +21,8 @@ Script_7:
     RTCGetSeason 0x8023
     VMStackPush 0x8023
     VMStackPushConst 2
-    VMStackCmp 5
-    VMJumpIf 255, L_0067
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0067
     FlagSet 910
     VMJump L_006B
 
@@ -32,23 +32,23 @@ L_0067:
 L_006B:
     VMStackPush 0x40ab
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0090
-    ObjInitNPCGPos 21, 1, 162, 0xfffd, 668
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0090
+    ObjInitNPCGPos 21, 1, 162, 65533, 668
     VMJump L_00AF
 
 L_0090:
     VMStackPush 0x40ab
     VMStackPushConst 5
-    VMStackCmp 1
-    VMJumpIf 255, L_00AF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00AF
     ObjInitNPCGPos 21, 1, 151, 2, 646
 
 L_00AF:
     VMStackPush 0x40ab
     VMStackPushConst 2
-    VMStackCmp 4
-    VMJumpIf 255, L_00CE
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_00CE
     ObjInitNPCGPos 0, 1, 160, 2, 643
 
 L_00CE:
@@ -63,8 +63,8 @@ Script_1:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8022
     VMStackPushConst 644
-    VMStackCmp 1
-    VMJumpIf 255, L_010D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_010D
     ActorCmdExec 0, Movement_0170
     VMSleep 46
     ActorCmdExec 255, Movement_07BC
@@ -73,20 +73,21 @@ Script_1:
 L_010D:
     VMStackPush 0x8022
     VMStackPushConst 646
-    VMStackCmp 1
-    VMJumpIf 255, L_0134
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0134
     ActorCmdExec 0, Movement_017C
     VMSleep 46
     ActorCmdExec 255, Movement_07B4
 
 L_0134:
     ActorCmdWait
-    ActorMsg 1024, 2, 0, 0, 0
+    // "Come on! A kid without a single\nGym Badge continuing on past here?[f000]븁\u0000\nBattle with the Trainers and Pokémon\nin this area, then battle some more![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8022
     VMStackPushConst 645
-    VMStackCmp 5
-    VMJumpIf 255, L_015F
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_015F
     ActorCmdExec 0, Movement_07C4
 
 L_015F:
@@ -113,8 +114,8 @@ Script_2:
     PlayerGetDir 0x8020
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 5
-    VMJumpIf 255, L_01B5
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_01B5
     VMSleep 20
     ActorCmdExec 255, Movement_07CC
 
@@ -123,8 +124,8 @@ L_01B5:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8022
     VMStackPushConst 644
-    VMStackCmp 1
-    VMJumpIf 255, L_01E0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01E0
     ActorCmdExec 0, Movement_026C
     ActorCmdWait
     VMJump L_01FD
@@ -132,20 +133,21 @@ L_01B5:
 L_01E0:
     VMStackPush 0x8022
     VMStackPushConst 646
-    VMStackCmp 1
-    VMJumpIf 255, L_01FD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01FD
     ActorCmdExec 0, Movement_0278
     ActorCmdWait
 
 L_01FD:
-    ActorMsg 1024, 3, 0, 0, 0
+    // "Hey! That gleaming thing there\nis the Basic Badge![f000]븁\u0000\nBut don't get a swelled head!\nIt's a rough world out there![f000]븀\u0000\nHere, I'll show you![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 206, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0232
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0232
     CallTrainerBattleEnd
     VMJump L_0234
 
@@ -153,7 +155,8 @@ L_0232:
     CallTrainerLose
 
 L_0234:
-    ActorMsg 1024, 4, 0, 0, 0
+    // "All right... I'm beat![f000]븁\u0000\nWith dependable Pokémon like that,\neven a kid like you can[f000]븀\u0000\nhold your own against an adult. Yup!"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorWalkRoute 0, 160, 643, 0, 8, 0
@@ -180,11 +183,12 @@ Script_4:
     ActorsPauseAll
     VMStackPush 0x40ab
     VMStackPushConst 2
-    VMStackCmp 4
-    VMJumpIf 255, L_02B3
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_02B3
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "All right... I'm beat![f000]븁\u0000\nWith dependable Pokémon like that,\neven a kid like you can[f000]븀\u0000\nhold your own against an adult. Yup!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_02C7
@@ -192,7 +196,8 @@ Script_4:
 L_02B3:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Come on! A kid without a single\nGym Badge continuing on past here?[f000]븁\u0000\nBattle with the Trainers and Pokémon\nin this area, then battle some more!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -205,10 +210,11 @@ Script_3:
     ActorsPauseAll
     WordSetPlayerName 0
     WordSetLoadRivalName 1
+    // "[f000]Ā\u0001\u0000! Wait![f000]븁\u0000"
     InfoMsg 6, 2
     MsgWinCloseAll
-    ActorSetGPos 21, 160, 0xffff, 650, 1
-    ActorSetGPos 23, 161, 0xffff, 650, 1
+    ActorSetGPos 21, 160, 65535, 650, 1
+    ActorSetGPos 23, 161, 65535, 650, 1
     PlayerGetGPos 0x8021, 0x8022
     BGMPlay 1087
     ActorWalkRoute 23, 161, 658, 4, 8, 0
@@ -219,8 +225,8 @@ Script_3:
     ActorCmdWait
     VMStackPush 0x8021
     VMStackPushConst 161
-    VMStackCmp 5
-    VMJumpIf 255, L_0359
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0359
     ActorWalkRoute 255, 161, 660, 1, 8, 0
     ActorCmdWait
     ActorCmdExec 255, Movement_07B4
@@ -229,7 +235,8 @@ Script_3:
 L_0359:
     WordSetPlayerName 0
     WordSetLoadRivalName 1
-    ActorMsg 1024, 7, 23, 0, 0
+    // "Cheren: Come with me, you two.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 23, 0, 0
     MsgWinCloseAll
     ActorCmdExec 23, Movement_04AC
     VMSleep 16
@@ -243,11 +250,13 @@ L_0359:
     ActorCmdWait
     ActorCmdExec 23, Movement_04C8
     ActorCmdWait
-    ActorMsg 1024, 8, 23, 0, 0
+    // "See the dark tall grass here?[f000]븁\u0000\nIt's rare, but sometimes two\nPokémon pop out at the same time.[f000]븁\u0000\nAlso, the Pokémon that hide in\ndark grass are slightly stronger.[f000]븁\u0000\nSo be careful if you walk through.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 23, 0, 0
     MsgWinCloseAll
     ActorCmdExec 23, Movement_07B4
     ActorCmdWait
-    ActorMsg 1024, 9, 23, 0, 0
+    // "If you're going to challenge the\nnext Gym, it's the Virbank Gym.[f000]븀\u0000\nThese might help![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 23, 0, 0
     MsgWinCloseAll
     ActorCmdExec 23, Movement_077C
     ActorCmdWait
@@ -262,9 +271,11 @@ L_0359:
     ActorCmdWait
     WordSetPlayerName 0
     WordSetLoadRivalName 1
-    ActorMsg 1024, 10, 23, 0, 0
+    // "Here are some for you, [f000]Ā\u0001\u0001![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 23, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 11, 23, 0, 0
+    // "Both of you, do your best![f000]븁\u0000\nIf you need anything,\ncall me on the Xtransceiver.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 23, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 23, 161, 653, 1, 8, 0
     VMSleep 16
@@ -272,12 +283,14 @@ L_0359:
     ActorCmdExec 255, Movement_07B4
     ActorCmdWait
     BGMChangeMap
-    ActorMsg 1024, 12, 21, 0, 0
+    // "[f000]Ā\u0001\u0001: Cheren sure knows a lot.[f000]븁\u0000\nAnd he fought those\nTeam Plasma thugs, too...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 21, 0, 0
     MsgWinCloseAll
     ActorCmdExec 21, Movement_07CC
     ActorCmdExec 255, Movement_07C4
     ActorCmdWait
-    ActorMsg 1024, 13, 21, 0, 0
+    // "I've decided!\nI'm going to get stronger than him![f000]븁\u0000\nYou should...[f000]븁\u0000\nDo your best! Fill up the Pokédex\nand have my back. Got it?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 21, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 21, 162, 668, 1, 8, 0
     ActorCmdWait
@@ -328,11 +341,12 @@ Script_9:
     WordSetLoadRivalName 1
     VMStackPush 0x40ab
     VMStackPushConst 5
-    VMStackCmp 1
-    VMJumpIf 255, L_0531
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0531
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 18, 0, 0
+    // "[f000]Ā\u0001\u0001: Help me check Route 20!"
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0545
@@ -340,7 +354,8 @@ Script_9:
 L_0531:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 14, 0, 0
+    // "I have to get stronger\nthan Team Plasma!"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -355,14 +370,15 @@ Script_10:
     ActorSetEyeToEye
     ActorSetGPos 21, 146, 2, 663, 3
     TrainerBGMPlayPush 763
-    ActorMsg 1024, 15, 22, 0, 0
+    // "Yeesh! I really hate it when\npeople won't let things go![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 22, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 763, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0598
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0598
     CallTrainerBattleEnd
     VMJump L_059A
 
@@ -370,13 +386,14 @@ L_0598:
     CallTrainerLose
 
 L_059A:
-    ActorMsg 1024, 16, 22, 0, 0
+    // "Now that I think about it...[f000]븁\u0000\nIf I run this way, no one can help me!\nI have to head toward the ocean![f000]븁\u0000\nSo, with that in mind...[f000]븁\u0000\nI'm going to flee again!\nGood-bye, Virbank City![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 22, 0, 0
     MsgWinCloseAll
     PlayerGetDir 0x8020
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 5
-    VMJumpIf 255, L_05D3
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_05D3
     ActorWalkRoute 22, 155, 653, 1, 4, 0
     VMJump L_05E1
 
@@ -391,8 +408,8 @@ L_05E1:
     BGMChangeMap
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0630
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0630
     ActorWalkRoute 21, 156, 666, 1, 8, 0
     ActorCmdWait
     ActorCmdExec 255, Movement_07CC
@@ -403,8 +420,8 @@ L_05E1:
 L_0630:
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_066B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_066B
     ActorWalkRoute 21, 155, 667, 1, 8, 0
     ActorCmdWait
     ActorCmdExec 255, Movement_07C4
@@ -415,8 +432,8 @@ L_0630:
 L_066B:
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_06A6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06A6
     ActorWalkRoute 21, 156, 668, 1, 8, 0
     ActorCmdWait
     ActorCmdExec 255, Movement_07CC
@@ -427,8 +444,8 @@ L_066B:
 L_06A6:
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_06DB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06DB
     ActorWalkRoute 21, 155, 667, 1, 8, 0
     ActorCmdWait
     ActorCmdExec 255, Movement_07CC
@@ -438,7 +455,8 @@ L_06A6:
 L_06DB:
     WordSetPlayerName 0
     WordSetLoadRivalName 1
-    ActorMsg 1024, 17, 21, 0, 0
+    // "[f000]Ā\u0001\u0001: Well, they're\nreally good at running, anyway...[f000]븁\u0000\nStill, she just said something useful![f000]븁\u0000\nThey must be moving around by boat![f000]븁\u0000\nCastelia City has a big port...\nI wonder if they headed there.[f000]븁\u0000\nOK! Let’s go back to Virbank\nand look for someone who looks like[f000]븀\u0000\nthey know a lot about ships.[f000]븁\u0000\nIf I remember right, there was a place\nto board boats on the docks.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 17, 21, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 21, 155, 654, 1, 8, 1
     VMSleep 8
@@ -459,7 +477,8 @@ Script_11:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Pokémon battles begin\nwhen eyes meet![f000]븀\u0000\nThat's a rule for Trainers!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -470,6 +489,7 @@ Script_5:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Route 20"
     MsgPlaceSign 5, 3
     MsgPlaceSignClose
     FinishAllEvents

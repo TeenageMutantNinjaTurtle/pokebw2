@@ -37,7 +37,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Whatever your age, you can have Pokémon\nbattles if you have Pokémon by your side.[f000]븁\u0000\nIf you use the Internet,\nthere are many people to battle!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -48,7 +49,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "After many battles, you start to see\nmore deeply and understand things.[f000]븁\u0000\nThat's why I know exactly what\nmy husband is thinking!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

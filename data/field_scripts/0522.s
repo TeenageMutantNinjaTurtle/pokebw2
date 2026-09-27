@@ -18,18 +18,18 @@ Script_1:
 L_0036:
     VMStackPush 0x8020
     VMStackPush 0x8021
-    VMStackCmp 2
-    VMJumpIf 255, L_008A
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_008A
     PokePartyIsFullHP 0x8022, 0x8021
     PokePartyIsFullPP 0x8023, 0x8021
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_007E
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_007E
     WorkAdd 0x8024, 1
 
 L_007E:
@@ -39,9 +39,10 @@ L_007E:
 L_008A:
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 4
-    VMJumpIf 255, L_00DD
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_00DD
+    // "Oh, your Pokémon look pretty tired.\nDon't be shy. Take a nice long rest![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     MsgWinCloseAll
     FadeEx 3, 0, 16, 2
     FadeExWait
@@ -50,13 +51,15 @@ L_008A:
     MEWait
     FadeEx 3, 16, 0, 2
     FadeExWait
-    ParentActorMsg 1024, 0, 0, 0
+    // "Both you and your Pokémon are healthy\nand energetic![f000]븁\u0000\nIf you get tired, please talk to me.\nI'll let you take a nice long rest."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_00EB
 
 L_00DD:
-    ParentActorMsg 1024, 0, 0, 0
+    // "Both you and your Pokémon are healthy\nand energetic![f000]븁\u0000\nIf you get tired, please talk to me.\nI'll let you take a nice long rest."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -75,7 +78,8 @@ Script_2:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 575, 0
-    ParentActorMsg 1024, 2, 0, 0
+    // "Gothoo. ♪"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

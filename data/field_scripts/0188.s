@@ -9,7 +9,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Shiny Krokorok...\nWow. Those colors blew my mind!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -20,7 +21,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "I hear the Pokémon that\nlook like they're gleaming when[f000]븀\u0000\nthey come out of the grass[f000]븀\u0000\nare called Shiny Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -32,7 +34,8 @@ Script_3:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 552, 0
-    ParentActorMsg 1024, 2, 0, 0
+    // "Nuha nuha nuhaha!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

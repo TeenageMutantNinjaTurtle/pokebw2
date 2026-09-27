@@ -14,17 +14,17 @@ L_002A:
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0065
-    ObjInitWarpGPos 1, 655, 0xfffe, 289
-    ObjInitWarpGPos 3, 667, 0xffff, 304
-    ObjInitWarpGPos 5, 671, 0xffff, 299
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0065
+    ObjInitWarpGPos 1, 655, 65534, 289
+    ObjInitWarpGPos 3, 667, 65535, 304
+    ObjInitWarpGPos 5, 671, 65535, 299
     VMJump L_0083
 
 L_0065:
-    ObjInitWarpGPos 0, 655, 0xfffe, 289
-    ObjInitWarpGPos 2, 667, 0xffff, 304
-    ObjInitWarpGPos 4, 671, 0xffff, 299
+    ObjInitWarpGPos 0, 655, 65534, 289
+    ObjInitWarpGPos 2, 667, 65535, 304
+    ObjInitWarpGPos 4, 671, 65535, 299
 
 L_0083:
     VMReturn
@@ -33,9 +33,9 @@ Script_1:
     VMCall L_002A
     VMStackPushFlag 2406
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00A4
-    Cmd_0262 3, 5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00A4
+    HollowRivalCmd_0262 3, 5
 
 L_00A4:
     VMHalt
@@ -51,6 +51,7 @@ Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Reversal Mountain Ahead"
     MsgPlaceSign 0, 2
     MsgPlaceSignClose
     FinishAllEvents

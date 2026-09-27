@@ -11,14 +11,14 @@ Script_3:
     FlagReset 656
     VMStackPush 0x408f
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0066
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0066
     WorkSetConst 0x8020, 0
     PokePartyFindEx 649, 0, 0x8020, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_005C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_005C
     WorkSetConst 0x408f, 1
     VMJump L_0060
 
@@ -34,8 +34,8 @@ L_0066:
 Script_5:
     VMStackPush 0x408f
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0087
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0087
     ActorSetGPos 0, 6, 0, 5, 1
 
 L_0087:
@@ -45,6 +45,7 @@ Script_4:
     ActorsPauseAll
     WorkSetConst 0x408f, 2
     VMCall L_012A
+    // "Battle the Scientist?"
     SystemMsg 8, 0
     YesNoWin 0x8010
     InfoMsgClose
@@ -58,16 +59,17 @@ Script_1:
     SEPlay 1351
     ActorSetEyeToEye
     WorkCmpConst 0x408f, 2
-    VMJumpIf 1, L_00CA
+    VMJumpIf CMP_EQ, L_00CA
     VMJump L_00FB
 
 L_00CA:
-    ActorMsg 1024, 14, 0, 0, 0
+    // "So you want to battle me?!"
+    ActorMsg MSGFILE_SCRIPT, 14, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00EF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00EF
     ActorMsgClose
 
 L_00EF:
@@ -76,11 +78,12 @@ L_00EF:
 
 L_00FB:
     WorkCmpConst 0x408f, 3
-    VMJumpIf 1, L_010E
+    VMJumpIf CMP_EQ, L_010E
     VMJump L_0124
 
 L_010E:
-    ActorMsg 1024, 15, 0, 0, 0
+    // "I've given you all of the Drives.\nUse them how you wish..."
+    ActorMsg MSGFILE_SCRIPT, 15, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0124
@@ -97,20 +100,24 @@ L_012A:
     EvCameraWait
     ActorCmdExec 0, Movement_03A8
     ActorCmdWait
-    ActorMsg 1024, 0, 0, 0, 0
+    // "Oh, it's just a kid...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     ActorMsgClose
     ActorCmdExec 0, Movement_03BC
     ActorCmdExec 255, Movement_03A0
     ActorCmdWait
-    ActorMsg 1024, 1, 0, 0, 0
+    // "You... It couldn't be...[f000]븁\u0000\nThe fact that you are here means you\ncame to learn about the secret[f000]븀\u0000\nof Genesect![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     ActorMsgClose
     EvCameraMoveTo 9688, 0, 0xed000, 0x68000, 0, 0x48000, 8
     ActorCmdExec 0, Movement_03CC
     ActorCmdWait
     EvCameraWait
-    ActorMsg 1024, 2, 0, 0, 0
+    // "We, Team Plasma, revived Genesect from\na Fossil.[f000]븁\u0000\nThen we enhanced the Pokémon with the\npower of science![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     ActorMsgClose
-    ActorMsg 1024, 3, 0, 0, 1
+    // "It is the strongest Pokémon in history!![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 1
     ActorMsgClose
     EvCameraMoveToDefault 12
     ActorCmdExec 0, Movement_03CC
@@ -118,27 +125,31 @@ L_012A:
     EvCameraWait
     EvCameraRebind
     EvCameraEnd
-    ActorMsg 1024, 4, 0, 0, 0
+    // "But, our lord N was not interested in\nthis Genesect that was modified by the[f000]븀\u0000\npower of science![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 0, 0
     ActorMsgClose
-    ActorMsg 1024, 5, 0, 0, 1
+    // "“Science damages the natural beauty\nof Pokémon! They're perfect beings!\"[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 0, 1
     ActorMsgClose
-    ActorMsg 1024, 6, 0, 0, 0
+    // "That's what he said...[f000]븁\u0000\nSo our research was halted, and this\nfacility was closed...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 0, 0
     ActorMsgClose
-    ActorMsg 1024, 7, 0, 0, 1
+    // "However!!\nThe Genesect research is all mine![f000]븁\u0000\nSo if you want to know Genesect's\nsecret, you'll have to beat me in battle![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0, 0, 1
     ActorMsgClose
     VMReturn
 
 L_020E:
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0341
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0341
     CallTrainerBattle 135, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_024E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_024E
     VMCall L_0353
     CallTrainerBattleEnd
     VMJump L_0250
@@ -153,8 +164,8 @@ L_0250:
     GameGetVersion 0x8021
     VMStackPush 0x8021
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_028B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_028B
     WorkSetConst 0x8022, 117
     WorkSetConst 0x8023, 118
     VMJump L_0297
@@ -164,9 +175,11 @@ L_028B:
     WorkSetConst 0x8023, 119
 
 L_0297:
-    ActorMsg 1024, 9, 0, 0, 0
+    // "I've lost everything...[f000]븁\u0000\nI forgot my duty as a Scientist is\nto make the world happy.[f000]븁\u0000\nSo, this must be what I get for trying to\nmake a Pokémon into a tool for fighting...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 0, 0, 0
     ActorMsgClose
-    ActorMsg 1024, 10, 0, 0, 0
+    // "I'm going to wash my hands of this\nGenesect matter...[f000]븁\u0000\nI don't need this anymore...\nI'll give it to you.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 0, 0, 0
     ActorMsgClose
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -175,11 +188,13 @@ L_0297:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 12, 0, 0, 0
+    // "The item I just gave you was made\nfor Genesect.[f000]븁\u0000\nWhen it holds an item like this, it\nchanges the type of the move called[f000]븀\u0000\nTechno Blast, so it can always have[f000]븀\u0000\nan advantage.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 0, 0, 0
     ActorMsgClose
     ActorCmdExec 0, Movement_03D4
     ActorCmdWait
-    ActorMsg 1024, 11, 0, 0, 0
+    // "There was another one in my\nother pocket...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 0, 0, 0
     ActorMsgClose
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -197,7 +212,8 @@ L_0297:
     VMJump L_0351
 
 L_0341:
-    ActorMsg 1024, 13, 0, 0, 0
+    // "There sure are some very cowardly\nTrainers, aren't there!"
+    ActorMsg MSGFILE_SCRIPT, 13, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -212,12 +228,14 @@ L_0353:
 Script_2:
     ActorsPauseAll
     SEPlay 1351
+    // "There is a memo stuck to the\nside of the monitor.[f000]븁\u0000\nRead it?"
     SystemMsg 16, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0398
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0398
+    // "“My lord N apparently rejected\nmy research...[f000]븀\u0000\nBut my research is necessary for[f000]븀\u0000\nTeam Plasma to reach its goal...[f000]븀\u0000\nThe strongest Pokémon...\"[f000]븁\u0000\nThe rest of the memo is torn and\nimpossible to read."
     SystemMsg 17, 0
     LastKeyWait
 

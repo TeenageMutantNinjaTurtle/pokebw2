@@ -43,8 +43,8 @@
 L_00A2:
     VMStackPushFlag 444
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00DD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00DD
     ObjInitWarpGPos 4, 0, 0, 0
     ObjInitWarpGPos 5, 0, 0, 0
     ObjInitWarpGPos 6, 0, 0, 0
@@ -63,8 +63,8 @@ Script_6:
     GameGetVersion 0x8010
     VMStackPush 0x8010
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0116
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0116
     WorkSetConst 0x4020, 205
     VMJump L_011C
 
@@ -76,8 +76,8 @@ L_011C:
     TrainerCardGetSex 0x8024
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0145
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0145
     WorkSetConst 0x4021, 231
     VMJump L_014B
 
@@ -89,20 +89,20 @@ L_014B:
     Cmd_02B2 15, 0x400f
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x400f
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4048
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 494
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_01A8
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_01A8
     FlagReset 794
     FlagSet 800
     WorkSetConst 0x413e, 1
@@ -110,24 +110,24 @@ L_014B:
 L_01A8:
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x400f
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4048
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 494
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 800
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0209
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0209
     FlagSet 794
     FlagSet 800
     WorkSetConst 0x413e, 2
@@ -141,16 +141,16 @@ L_0215:
     Cmd_02B2 15, 0x400f
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x400f
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4048
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_025C
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_025C
     FlagSet 794
     FlagReset 800
     WorkSetConst 0x413e, 0
@@ -162,20 +162,20 @@ L_025E:
     Cmd_02B2 15, 0x400f
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x400f
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4048
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_02BC
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_02BC
     VMStackPushFlag 794
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02AE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02AE
     ActorDelete 0
 
 L_02AE:
@@ -191,37 +191,37 @@ Script_7:
     GameGetVersion 0x8025
     VMStackPush 0x40d5
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40d7
     VMStackPushConst 1
-    VMStackCmp 0
-    VMStackCmp 7
-    VMJumpIf 255, L_02FB
+    VMStackCmp CMP_LT
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_02FB
     DebugPrint 9
     ActorSetGPos 13, 432, 0, 160, 2
 
 L_02FB:
     VMStackPush 0x40d6
     VMStackPushConst 2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8025
     VMStackPushConst 22
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0334
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0334
     DebugPrint 0
-    ActorSetGPos 0, 418, 0xffff, 169, 1
+    ActorSetGPos 0, 418, 65535, 169, 1
     VMJump L_056F
 
 L_0334:
     VMStackPush 0x40d6
     VMStackPushConst 2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8025
     VMStackPushConst 23
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_036D
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_036D
     DebugPrint 1
     ActorSetGPos 0, 418, 0, 169, 1
     VMJump L_056F
@@ -229,12 +229,12 @@ L_0334:
 L_036D:
     VMStackPush 0x40d6
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8025
     VMStackPushConst 22
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_03A6
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_03A6
     DebugPrint 2
     ActorSetGPos 0, 418, 0, 162, 1
     VMJump L_056F
@@ -242,12 +242,12 @@ L_036D:
 L_03A6:
     VMStackPush 0x40d6
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8025
     VMStackPushConst 23
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_03DF
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_03DF
     DebugPrint 3
     ActorSetGPos 0, 418, 0, 162, 1
     VMJump L_056F
@@ -255,12 +255,12 @@ L_03A6:
 L_03DF:
     VMStackPush 0x40d7
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8025
     VMStackPushConst 22
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0424
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0424
     DebugPrint 4
     ActorSetGPos 0, 419, 0, 164, 1
     ActorSetGPos 19, 418, 0, 164, 1
@@ -269,12 +269,12 @@ L_03DF:
 L_0424:
     VMStackPush 0x40d7
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8025
     VMStackPushConst 23
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0469
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0469
     DebugPrint 5
     ActorSetGPos 0, 419, 0, 162, 1
     ActorSetGPos 19, 418, 0, 162, 1
@@ -283,34 +283,34 @@ L_0424:
 L_0469:
     VMStackPush 0x40d7
     VMStackPushConst 0
-    VMStackCmp 5
+    VMStackCmp CMP_NE
     VMStackPush 0x40d7
     VMStackPushConst 6
-    VMStackCmp 0
+    VMStackCmp CMP_LT
     VMStackPush 0x8025
     VMStackPushConst 22
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_04BE
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_04BE
     DebugPrint 6
     ActorSetGPos 0, 424, 0, 175, 0
-    ActorSetGPos 5, 429, 0xffff, 179, 2
+    ActorSetGPos 5, 429, 65535, 179, 2
     VMJump L_056F
 
 L_04BE:
     VMStackPush 0x40d7
     VMStackPushConst 0
-    VMStackCmp 5
+    VMStackCmp CMP_NE
     VMStackPush 0x40d7
     VMStackPushConst 6
-    VMStackCmp 0
+    VMStackCmp CMP_LT
     VMStackPush 0x8025
     VMStackPushConst 23
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0507
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0507
     DebugPrint 7
     ActorSetGPos 0, 424, 0, 175, 0
     VMJump L_056F
@@ -318,8 +318,8 @@ L_04BE:
 L_0507:
     VMStackPush 0x40d8
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_053C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_053C
     DebugPrint 8
     ActorSetGPos 8, 442, 0, 175, 2
     ActorSetGPos 0, 398, 0, 167, 0
@@ -328,12 +328,12 @@ L_0507:
 L_053C:
     VMStackPush 0x40d8
     VMStackPushConst 2
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_056F
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_056F
     DebugPrint 9
     ActorSetGPos 0, 418, 0, 162, 1
 
@@ -341,40 +341,40 @@ L_056F:
     Cmd_02B2 15, 0x400f
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x400f
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x413e
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8025
     VMStackPushConst 22
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_05CA
-    ActorSetGPos 0, 418, 0xffff, 168, 1
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_05CA
+    ActorSetGPos 0, 418, 65535, 168, 1
     VMJump L_0619
 
 L_05CA:
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x400f
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x413e
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8025
     VMStackPushConst 23
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0619
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0619
     ActorSetGPos 0, 418, 0, 168, 1
 
 L_0619:
@@ -391,15 +391,20 @@ Script_8:
     WorkSub 0x8021, 2
     ActorWalkRoute 11, 0x8021, 0x8022, 0, 8, 1
     ActorCmdWait
-    ActorMsg 1024, 0, 11, 0, 0
-    ActorMsg 1024, 1, 11, 0, 0
+    // "Iris: Yahoo! I haven't seen you since\nI ran into you in Castelia City![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 11, 0, 0
+    // "Are you here to battle Grandpa?[f000]븁\u0000\nYep! Opelucid City's Gym Leader,\nDrayden, is my grandpa.[f000]븁\u0000\nWe're not really related, though![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 11, 0, 0
     MsgWinCloseAll
     ActorCmdExec 11, Movement_245C
     ActorCmdWait
-    ActorMsg 1024, 2, 11, 0, 0
+    // "Oh! The Gym is that way![f000]븁\u0000\nBefore challenging it,\nyou might want to go to Route 9![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 11, 0, 0
     MsgWinCloseAll
     ActorCmdExec 11, Movement_2464
     ActorCmdWait
+    // "Still, your Pokémon really respect you![f000]븁\u0000\nI feel how much fun your Pokémon are\nhaving, even from inside their Poké Balls![f000]븁\u0000\nGood luck![f000]븁\u0000"
+    // "Still, your Pokémon really respect you![f000]븁\u0000\nI feel how much fun they're having,\neven from inside their Poké Balls![f000]븁\u0000\nGood luck![f000]븁\u0000"
     ActorMsgGendered 1024, 3, 4, 11, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 11, 426, 0x8022, 0, 8, 0
@@ -429,7 +434,8 @@ Script_9:
     ActorCmdExec 255, Movement_244C
     ActorCmdWait
     EvCameraWait
-    ActorMsg 1024, 5, 0, 0, 0
+    // "Drayden: I'll show you the way.\nFollow me.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 0, 406, 154, 4, 8, 0
     VMSleep 24
@@ -443,16 +449,16 @@ Script_9:
     GameGetVersion 0x8026
     VMStackPush 0x8026
     VMStackPushConst 22
-    VMStackCmp 1
-    VMJumpIf 255, L_0788
-    ActorSetGPos 0, 418, 0xffff, 169, 1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0788
+    ActorSetGPos 0, 418, 65535, 169, 1
     VMJump L_07A7
 
 L_0788:
     VMStackPush 0x8026
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_07A7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07A7
     ActorSetGPos 0, 418, 0, 169, 1
 
 L_07A7:
@@ -465,7 +471,8 @@ L_07A7:
 Script_10:
     ActorsPauseAll
     PlayerGetGPos 0x8021, 0x8022
-    ActorMsg 1024, 6, 0, 0, 0
+    // "This way.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 0, 418, 161, 4, 8, 0
     ActorCmdWait
@@ -479,7 +486,8 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    ActorMsg 1024, 7, 0, 0, 0
+    // "We're here.\nOK! Come inside.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 0, 418, 160, 0, 8, 0
     ActorCmdWait
@@ -505,7 +513,8 @@ Script_11:
 
 Script_21:
     ActorsPauseAll
-    ActorMsg 1024, 8, 0, 5, 0
+    // "What was that?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 0, 5, 0
     MsgWinCloseAll
     FadeOutBlackQ
     FadeWait
@@ -513,8 +522,8 @@ Script_21:
     GameGetVersion 0x8028
     VMStackPush 0x8028
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_08B2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08B2
     FieldClose
     Call3DDemo 14, 0
     FieldOpen
@@ -538,8 +547,8 @@ L_08BC:
     GameGetVersion 0x8023
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_090F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_090F
     MapChangeCore 120, 418, 0, 162, 1
     VMJump L_091B
 
@@ -562,8 +571,8 @@ Script_31:
     EvCameraUnbind
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_096A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_096A
     EvCameraMoveTo 9688, 0, 0xed000, 0x1a28000, 0, 0xa28000, 1
     VMJump L_0982
 
@@ -574,8 +583,8 @@ L_0982:
     EvCameraWait
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_09A9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_09A9
     ActorSetGPos 255, 419, 0, 162, 1
     VMJump L_09B5
 
@@ -583,14 +592,17 @@ L_09A9:
     ActorSetGPos 255, 419, 0, 164, 1
 
 L_09B5:
-    ActorMsg 1024, 9, 0, 5, 0
+    // "This world of ice...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 0, 5, 0
     MsgWinCloseAll
     GameGetVersion 0x8023
     VMCall L_0D6C
-    ActorMsg 1024, 10, 0, 5, 0
+    // "Haxorus!\nUse Dragon Tail![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 0, 5, 0
     MsgWinCloseAll
     PVPlay 612, 0
-    ActorMsg 1024, 11, 251, 6, 0
+    // "Rarh raaaah!"
+    ActorMsg MSGFILE_SCRIPT, 11, 251, 6, 0
     PVWait
     MsgWaitAdvance
     MsgWinCloseAll
@@ -605,12 +617,13 @@ L_09B5:
     ActorCmdExec 19, Movement_2474
     ActorCmdExec 0, Movement_246C
     ActorCmdWait
-    ActorMsg 1024, 12, 0, 5, 0
+    // "That's enough, Haxorus![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 0, 5, 0
     MsgWinCloseAll
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0A5C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A5C
     ActorWalkRoute 251, 419, 163, 4, 8, 1
     VMJump L_0A6A
 
@@ -620,15 +633,17 @@ L_0A5C:
 L_0A6A:
     ActorCmdWait
     VMCall L_0E10
-    ActorMsg 1024, 13, 0, 5, 0
+    // "Not only did the ice stay unbroken,\nthere's not even a scratch on it![f000]븀\u0000\nWhat's going on?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 0, 5, 0
     MsgWinCloseAll
+    // "???: I don't think that's going to work.[f000]븁\u0000"
     InfoMsg 14, 2
     MsgWinCloseAll
     BGMPlay 1240
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0AF4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0AF4
     ActorSetGPos 2, 419, 0, 169, 0
     ActorSetGPos 1, 419, 0, 170, 0
     ActorSetGPos 4, 419, 0, 171, 0
@@ -652,22 +667,27 @@ L_0B44:
     ActorCmdExec 1, Movement_244C
     ActorCmdExec 4, Movement_244C
     ActorCmdWait
-    ActorMsg 1024, 15, 0, 5, 0
+    // "Drayden: I remember you from N's Castle.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 0, 5, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_0D58
     ActorCmdWait
-    ActorMsg 1024, 16, 1, 4, 0
+    // "Zinzolin: It's bitter cold.[f000]븁\u0000\nI'm shivering.\nI'm suffering, but I'm alive![f000]븁\u0000\nIt's what the essence of life feels like!\nIt's proof of my existence![f000]븁\u0000\nBut that's enough of philosophy.\nHere are the facts for your admiration:[f000]븁\u0000\nThis ice was specially created by\nTeam Plasma's technology.[f000]븁\u0000\nAs long as we have our secret weapon,\nyou'll never be able[f000]븀\u0000\nto melt or break this ice![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 1, 4, 0
     MsgWinCloseAll
-    ActorMsg 1024, 17, 1, 4, 0
+    // "Let me explain our purpose here.[f000]븁\u0000\nDrayden, hand over the DNA Splicers![f000]븁\u0000\nOpelucid City is a city where the\npast and the future are entwined.[f000]븁\u0000\nCould there be a more perfect place\nfor the splicers that connect the[f000]븀\u0000\nseparated Pokémon?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 17, 1, 4, 0
     MsgWinCloseAll
-    ActorMsg 1024, 18, 0, 5, 0
+    // "Drayden: Do you think someone\nwho knows what you did two years[f000]븀\u0000\nago will just hand them over quietly?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 18, 0, 5, 0
     MsgWinCloseAll
-    ActorMsg 1024, 19, 1, 4, 0
+    // "Zinzolin: Humph.\nThat's what I thought you'd say.[f000]븁\u0000\nAt this point, I'd like to threaten\nyou with another volley of ice,[f000]븀\u0000\nbut we can't use it for a moment...[f000]븁\u0000\nSigh. It won't be enjoyable in this cold,\nbut I guess we'll just search for them.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 19, 1, 4, 0
     MsgWinCloseAll
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0BF3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0BF3
     ActorWalkRoute 2, 419, 171, 4, 8, 1
     ActorWalkRoute 1, 419, 172, 4, 8, 1
     ActorWalkRoute 4, 419, 173, 4, 8, 1
@@ -683,17 +703,19 @@ L_0BF3:
 L_0C1F:
     BGMChangeMap
     ActorDelete 1
-    ActorMsg 1024, 20, 0, 5, 0
+    // "Drayden: Those foul villains![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 20, 0, 5, 0
     ActorCmdExec 19, Movement_2464
     ActorCmdExec 0, Movement_245C
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 21, 0, 5, 0
+    // "[f000]Ā\u0001\u0000!\nI want you to help me![f000]븁\u0000\nWe're going to drive Team Plasma\nout of Opelucid City![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 21, 0, 5, 0
     MsgWinCloseAll
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0C7B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0C7B
     ActorWalkRoute 0, 421, 171, 1, 8, 1
     VMJump L_0C89
 
@@ -709,16 +731,16 @@ L_0C89:
     ActorSetGPos 4, 424, 0, 145, 1
     VMStackPush 0x8023
     VMStackPushConst 22
-    VMStackCmp 1
-    VMJumpIf 255, L_0CDA
-    ActorSetGPos 5, 429, 0xffff, 179, 2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0CDA
+    ActorSetGPos 5, 429, 65535, 179, 2
 
 L_0CDA:
     BGMPlay 1241
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0D03
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0D03
     ActorSetGPos 255, 418, 0, 162, 1
     VMJump L_0D0F
 
@@ -738,7 +760,7 @@ L_0D0F:
     FlagSet 1034
     FlagSet 2546
     FlagReset 2553
-    Cmd_0262 1, 25
+    HollowRivalCmd_0262 1, 25
     BGMAmbienceResume
     FinishAllEvents
     ActorsUnpauseAll
@@ -759,8 +781,8 @@ L_0D6C:
     GameGetVersion 0x8023
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0DA1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0DA1
     Cmd_020E 0, 419, 0, 163, 3, 8
     Cmd_020F 0, 419, 0, 163
     VMJump L_0DB9
@@ -775,8 +797,8 @@ L_0DB9:
     FadeExWait
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0DF0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0DF0
     ActorNew 419, 163, 1, 251, 322, 0
     VMJump L_0DFE
 
@@ -793,8 +815,8 @@ L_0E10:
     GameGetVersion 0x8023
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0E37
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0E37
     Cmd_020F 1, 419, 0, 163
     VMJump L_0E41
 
@@ -811,8 +833,8 @@ L_0E41:
     Cmd_0210 1
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0E8C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0E8C
     Cmd_020E 1, 419, 3, 163, 3, 8
     VMJump L_0E9A
 
@@ -847,12 +869,12 @@ L_0ED8:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 404
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 145
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0F1B
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0F1B
     ActorCmdExec 0, Movement_245C
     VMSleep 4
     ActorCmdExec 255, Movement_2464
@@ -861,12 +883,12 @@ L_0ED8:
 L_0F1B:
     VMStackPush 0x8021
     VMStackPushConst 406
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 145
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0F58
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0F58
     ActorCmdExec 0, Movement_2464
     VMSleep 4
     ActorCmdExec 255, Movement_245C
@@ -875,28 +897,30 @@ L_0F1B:
 L_0F58:
     VMStackPush 0x8021
     VMStackPushConst 405
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 146
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0F83
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0F83
     ActorCmdExec 255, Movement_244C
 
 L_0F83:
     ActorCmdWait
-    ActorMsg 1024, 40, 0, 1, 0
+    // "Drayden: You're even better than I\nhoped. Thanks to you, we drove them off.[f000]븁\u0000\nI'm grateful to your Pokémon, also.[f000]븁\u0000\nAfter all that, the least I can do\nis heal them with this medicine.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 40, 0, 1, 0
     MsgWinCloseAll
     SEPlay 1391
     SEWait
     PokePartyRecoverAll
-    ActorMsg 1024, 41, 0, 1, 0
+    // "Wait here a moment.\nI'll be right back.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 41, 0, 1, 0
     MsgWinCloseAll
     GameGetVersion 0x8023
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0FCE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0FCE
     ActorCmdExec 0, Movement_13AC
     VMJump L_0FD6
 
@@ -907,8 +931,8 @@ L_0FD6:
     VMSleep 4
     VMStackPush 0x8021
     VMStackPushConst 405
-    VMStackCmp 5
-    VMJumpIf 255, L_0FF5
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0FF5
     ActorCmdExec 255, Movement_244C
 
 L_0FF5:
@@ -922,8 +946,8 @@ L_0FF5:
     SEWait
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_1030
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1030
     ActorCmdExec 0, Movement_13B4
     VMJump L_1038
 
@@ -934,12 +958,12 @@ L_1038:
     ActorCmdWait
     VMStackPush 0x8021
     VMStackPushConst 404
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 145
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_1079
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_1079
     ActorCmdExec 0, Movement_245C
     VMSleep 4
     ActorCmdExec 255, Movement_2464
@@ -949,12 +973,12 @@ L_1038:
 L_1079:
     VMStackPush 0x8021
     VMStackPushConst 406
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 145
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_10B2
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_10B2
     ActorCmdExec 0, Movement_2464
     VMSleep 4
     ActorCmdExec 255, Movement_245C
@@ -962,19 +986,22 @@ L_1079:
 
 L_10B2:
     WordSetPlayerName 0
-    ActorMsg 1024, 42, 0, 1, 0
-    ActorMsg 1024, 43, 0, 1, 0
+    // "Harrumph...[f000]븁\u0000\nThat's a new record for\nmaking it there and back.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 42, 0, 1, 0
+    // "Look, [f000]Ā\u0001\u0000.\nThese are the DNA Splicers![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 43, 0, 1, 0
     MsgWinCloseAll
     SEPlay 1780
-    Cmd_022D 628
+    FieldEffect 628
     SEWait
-    ActorMsg 1024, 44, 0, 1, 0
+    // "This is what they were after![f000]븁\u0000\nWe're really fortunate Team Plasma\ndidn't get their hands on them![f000]븁\u0000\nI don't know what their goal is, but I'm\nsure they're planning something wicked.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 44, 0, 1, 0
     MsgWinCloseAll
     ActorAdd 8
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_1110
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1110
     ActorSetGPos 8, 403, 0, 147, 1
     VMJump L_111C
 
@@ -987,12 +1014,12 @@ L_111C:
     BGMPlay 1239
     VMStackPush 0x8021
     VMStackPushConst 405
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 146
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_1163
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_1163
     ActorCmdExec 0, Movement_246C
     ActorCmdExec 255, Movement_13BC
     VMJump L_1175
@@ -1003,18 +1030,21 @@ L_1163:
     ActorCmdWait
 
 L_1175:
-    ActorMsg 1024, 45, 8, 2, 0
+    // "Shadow Triad: As we suspected...\nThe hiding place was in the Gym.[f000]븁\u0000\nWell thought out.\nIf Drayden isn't there, we can't get in.[f000]븁\u0000\nIf he is there, he's the strongest\nguard we could possibly face.[f000]븁\u0000\nIt also explains why the\nPokémon Gym was remodeled.[f000]븁\u0000\nWhatever.\nThe DNA Splicers are in our hands now.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 45, 8, 2, 0
     MsgWinCloseAll
-    ActorMsg 1024, 46, 0, 1, 0
+    // "Drayden: It's beyond my imagination to\nthink you'd use one of the Seven Sages[f000]븀\u0000\nto find out where the splicers were![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 46, 0, 1, 0
     MsgWinCloseAll
-    ActorMsg 1024, 47, 8, 2, 0
+    // "Shadow Triad: Now you know, then.[f000]븁\u0000\nWe will accomplish our goals,\nno matter what the cost.[f000]븁\u0000\nWe don't have the ability to captivate\nthe hearts of others like Lord N does.[f000]븁\u0000\nInstead, we will bend people\nto our will with brute force.[f000]븀\u0000\nTwo years was a surprisingly long wait.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 47, 8, 2, 0
     MsgWinCloseAll
     ActorAdd 9
     ActorAdd 10
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_11D8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_11D8
     ActorSetGPos 9, 408, 0, 145, 2
     ActorSetGPos 10, 408, 0, 146, 2
     VMJump L_11F0
@@ -1030,8 +1060,8 @@ L_11F0:
     VMSleep 40
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_1237
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1237
     ActorCmdExec 8, Movement_1450
     ActorCmdExec 9, Movement_14A4
     ActorCmdExec 10, Movement_14C8
@@ -1049,67 +1079,68 @@ L_124F:
     ActorCmdWait
     VMStackPush 0x8021
     VMStackPushConst 405
-    VMStackCmp 1
-    VMJumpIf 255, L_1278
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1278
     ActorCmdExec 255, Movement_244C
     ActorCmdWait
 
 L_1278:
-    ActorMsg 1024, 48, 0, 1, 0
+    // "Drayden: If they've been stolen from us,\nwe'll just have to take them back![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 48, 0, 1, 0
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     GameGetVersion 0x8023
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8021
     VMStackPushConst 405
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_12C1
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_12C1
     ActorCmdExec 0, Movement_14EC
     VMJump L_134E
 
 L_12C1:
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8021
     VMStackPushConst 405
-    VMStackCmp 5
-    VMStackCmp 7
-    VMJumpIf 255, L_12F2
+    VMStackCmp CMP_NE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_12F2
     ActorCmdExec 0, Movement_151C
     VMJump L_134E
 
 L_12F2:
     VMStackPush 0x8023
     VMStackPushConst 22
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8021
     VMStackPushConst 405
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_1323
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_1323
     ActorCmdExec 0, Movement_1440
     VMJump L_134E
 
 L_1323:
     VMStackPush 0x8023
     VMStackPushConst 22
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8021
     VMStackPushConst 405
-    VMStackCmp 5
-    VMStackCmp 7
-    VMJumpIf 255, L_134E
+    VMStackCmp CMP_NE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_134E
     ActorCmdExec 0, Movement_1430
 
 L_134E:
     VMStackPush 0x8021
     VMStackPushConst 405
-    VMStackCmp 1
-    VMJumpIf 255, L_136D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_136D
     VMSleep 20
     ActorCmdExec 255, Movement_2454
 
@@ -1287,8 +1318,8 @@ Script_12:
     ActorCmdWait
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_15AB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_15AB
     ActorCmdExec 255, Movement_2464
     ActorCmdWait
 
@@ -1299,18 +1330,20 @@ L_15AB:
     VMHalt
 
 L_15B7:
-    ActorMsg 1024, 50, 8, 0, 0
+    // "Shadow Triad: Heh heh...[f000]븁\u0000\nYou don't really think you can take\nthe DNA Splicers back, do you?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 50, 8, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 583, 0, 0
     VMCall L_1EF9
     PlayerGetGPos 0x8021, 0x8022
-    ActorMsg 1024, 51, 8, 0, 0
+    // "Shadow Triad: Awww. How unlucky.[f000]븁\u0000\nI don't happen to be the one\nholding the DNA Splicers.[f000]븁\u0000\nI was just buying time\nfor the others to escape.[f000]븀\u0000\nCheerio, bye-bye, whatever.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 51, 8, 0, 0
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8022
     VMStackPushConst 177
-    VMStackCmp 1
-    VMJumpIf 255, L_1612
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1612
     ActorSetGPos 0, 431, 0, 176, 3
     VMJump L_1624
 
@@ -1322,7 +1355,7 @@ L_1624:
     ActorSetMoveCode 0, 0
     PlayerGetGPos 0x8021, 0x8022
     WorkCmpConst 0x8022, 173
-    VMJumpIf 1, L_1643
+    VMJumpIf CMP_EQ, L_1643
     VMJump L_1651
 
 L_1643:
@@ -1331,7 +1364,7 @@ L_1643:
 
 L_1651:
     WorkCmpConst 0x8022, 174
-    VMJumpIf 1, L_1664
+    VMJumpIf CMP_EQ, L_1664
     VMJump L_1672
 
 L_1664:
@@ -1340,7 +1373,7 @@ L_1664:
 
 L_1672:
     WorkCmpConst 0x8022, 175
-    VMJumpIf 1, L_1685
+    VMJumpIf CMP_EQ, L_1685
     VMJump L_1693
 
 L_1685:
@@ -1349,7 +1382,7 @@ L_1685:
 
 L_1693:
     WorkCmpConst 0x8022, 176
-    VMJumpIf 1, L_16A6
+    VMJumpIf CMP_EQ, L_16A6
     VMJump L_16B4
 
 L_16A6:
@@ -1358,7 +1391,7 @@ L_16A6:
 
 L_16B4:
     WorkCmpConst 0x8022, 177
-    VMJumpIf 1, L_16C7
+    VMJumpIf CMP_EQ, L_16C7
     VMJump L_16D5
 
 L_16C7:
@@ -1374,16 +1407,16 @@ L_16D5:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 441
-    VMStackCmp 4
-    VMJumpIf 255, L_1712
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_1712
     ActorWalkRoute 255, 440, 0x8022, 4, 8, 0
     ActorCmdWait
 
 L_1712:
     VMStackPush 0x8022
     VMStackPushConst 177
-    VMStackCmp 1
-    VMJumpIf 255, L_173B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_173B
     ActorCmdExec 0, Movement_2454
     ActorCmdExec 255, Movement_244C
     VMJump L_174B
@@ -1397,21 +1430,25 @@ L_174B:
     WordSetPlayerName 0
     VMStackPush 0x8022
     VMStackPushConst 177
-    VMStackCmp 1
-    VMJumpIf 255, L_1775
-    ActorMsg 1024, 52, 0, 3, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1775
+    // "Drayden: Oh no! Ah! No![f000]븁\u0000\nNo, no, it's not your fault, [f000]Ā\u0001\u0000.\nYou were impressive![f000]븁\u0000\nIt's me who's let everybody down.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 52, 0, 3, 0
     VMJump L_1781
 
 L_1775:
-    ActorMsg 1024, 52, 0, 4, 0
+    // "Drayden: Oh no! Ah! No![f000]븁\u0000\nNo, no, it's not your fault, [f000]Ā\u0001\u0000.\nYou were impressive![f000]븁\u0000\nIt's me who's let everybody down.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 52, 0, 4, 0
 
 L_1781:
     MsgWinCloseAll
     MEPlay 1327
+    // "The Xtransceiver is ringing."
     SystemMsg 53, 2
     MEWait
     InfoMsgClose
     WordSetPlayerName 0
+    // "[f000]Ā\u0001\u0000 picked up the Xtransceiver.[f000]븁\u0000"
     SystemMsg 54, 2
     InfoMsgClose
     FadeOutBlackQ
@@ -1421,13 +1458,15 @@ L_1781:
     FadeWait
     VMStackPush 0x8022
     VMStackPushConst 177
-    VMStackCmp 1
-    VMJumpIf 255, L_17CF
-    ActorMsg 1024, 55, 0, 3, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_17CF
+    // "Drayden: Augh!\nIf there were only two of me![f000]븁\u0000\nThen I could protect the town\nand chase after them, too![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 55, 0, 3, 0
     VMJump L_17DB
 
 L_17CF:
-    ActorMsg 1024, 55, 0, 4, 0
+    // "Drayden: Augh!\nIf there were only two of me![f000]븁\u0000\nThen I could protect the town\nand chase after them, too![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 55, 0, 4, 0
 
 L_17DB:
     MsgWinCloseAll
@@ -1443,8 +1482,8 @@ L_17DB:
     ActorCmdWait
     VMStackPush 0x8022
     VMStackPushConst 175
-    VMStackCmp 5
-    VMJumpIf 255, L_183A
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_183A
     ActorCmdExec 251, Movement_245C
     ActorCmdWait
 
@@ -1453,25 +1492,29 @@ L_183A:
     WordSetLoadRivalName 1
     VMStackPush 0x8022
     VMStackPushConst 177
-    VMStackCmp 1
-    VMJumpIf 255, L_1865
-    ActorMsg 1024, 56, 251, 6, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1865
+    // "Cheren: [f000]Ā\u0001\u0000.\nDrayden, glad to see you're safe as well.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 56, 251, 6, 0
     VMJump L_1871
 
 L_1865:
-    ActorMsg 1024, 56, 251, 5, 0
+    // "Cheren: [f000]Ā\u0001\u0000.\nDrayden, glad to see you're safe as well.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 56, 251, 5, 0
 
 L_1871:
     MsgWinCloseAll
     VMStackPush 0x8022
     VMStackPushConst 177
-    VMStackCmp 1
-    VMJumpIf 255, L_1898
-    ActorMsg 1024, 57, 0, 3, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1898
+    // "Drayden: Hello, Cheren.\nYou have certainly grown.[f000]븁\u0000\nI hear you filled in for Lenora by\nbecoming the Gym Leader in[f000]븀\u0000\nAspertia City.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 57, 0, 3, 0
     VMJump L_18A4
 
 L_1898:
-    ActorMsg 1024, 57, 0, 4, 0
+    // "Drayden: Hello, Cheren.\nYou have certainly grown.[f000]븁\u0000\nI hear you filled in for Lenora by\nbecoming the Gym Leader in[f000]븀\u0000\nAspertia City.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 57, 0, 4, 0
 
 L_18A4:
     MsgWinCloseAll
@@ -1479,25 +1522,29 @@ L_18A4:
     WordSetLoadRivalName 1
     VMStackPush 0x8022
     VMStackPushConst 177
-    VMStackCmp 1
-    VMJumpIf 255, L_18D1
-    ActorMsg 1024, 58, 251, 6, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_18D1
+    // "Cheren: Thanks.\nWe should save catching up for later.[f000]븁\u0000\nI have a good idea of where\nTeam Plasma is hiding.[f000]븁\u0000\nThe place with the lowest temperature\nin the Unova region right now is[f000]븀\u0000\nan area close to Humilau City.[f000]븁\u0000\nDrayden, please protect Opelucid City.\n[f000]Ā\u0001\u0001 and I will find Team Plasma![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 58, 251, 6, 0
     VMJump L_18DD
 
 L_18D1:
-    ActorMsg 1024, 58, 251, 5, 0
+    // "Cheren: Thanks.\nWe should save catching up for later.[f000]븁\u0000\nI have a good idea of where\nTeam Plasma is hiding.[f000]븁\u0000\nThe place with the lowest temperature\nin the Unova region right now is[f000]븀\u0000\nan area close to Humilau City.[f000]븁\u0000\nDrayden, please protect Opelucid City.\n[f000]Ā\u0001\u0001 and I will find Team Plasma![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 58, 251, 5, 0
 
 L_18DD:
     MsgWinCloseAll
     VMStackPush 0x8022
     VMStackPushConst 177
-    VMStackCmp 1
-    VMJumpIf 255, L_1904
-    ActorMsg 1024, 59, 0, 3, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1904
+    // "Drayden: Very well.\nI'll do my part--and thanks.[f000]븁\u0000\nThe chase I'll leave to you!\nBut...don't do anything reckless.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 59, 0, 3, 0
     VMJump L_1910
 
 L_1904:
-    ActorMsg 1024, 59, 0, 4, 0
+    // "Drayden: Very well.\nI'll do my part--and thanks.[f000]븁\u0000\nThe chase I'll leave to you!\nBut...don't do anything reckless.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 59, 0, 4, 0
 
 L_1910:
     MsgWinCloseAll
@@ -1505,28 +1552,30 @@ L_1910:
     WordSetLoadRivalName 1
     VMStackPush 0x8022
     VMStackPushConst 177
-    VMStackCmp 1
-    VMJumpIf 255, L_193D
-    ActorMsg 1024, 60, 251, 6, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_193D
+    // "Cheren: [f000]Ā\u0001\u0000!\nI could use your help, if you're willing.[f000]븁\u0000\nYou're a skilled Trainer who can go\ntoe-to-toe with Team Plasma.[f000]븀\u0000\nThat's my definition of useful.[f000]븁\u0000\nDrayden, we're off![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 60, 251, 6, 0
     VMJump L_1949
 
 L_193D:
-    ActorMsg 1024, 60, 251, 5, 0
+    // "Cheren: [f000]Ā\u0001\u0000!\nI could use your help, if you're willing.[f000]븁\u0000\nYou're a skilled Trainer who can go\ntoe-to-toe with Team Plasma.[f000]븀\u0000\nThat's my definition of useful.[f000]븁\u0000\nDrayden, we're off![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 60, 251, 5, 0
 
 L_1949:
     MsgWinCloseAll
     VMStackPush 0x8022
     VMStackPushConst 173
-    VMStackCmp 1
-    VMJumpIf 255, L_1972
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1972
     ActorWalkRoute 251, 446, 174, 4, 4, 1
     VMJump L_19A7
 
 L_1972:
     VMStackPush 0x8022
     VMStackPushConst 177
-    VMStackCmp 1
-    VMJumpIf 255, L_1999
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1999
     ActorWalkRoute 251, 446, 176, 4, 4, 1
     VMJump L_19A7
 
@@ -1544,8 +1593,8 @@ L_19A7:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8022
     VMStackPushConst 177
-    VMStackCmp 1
-    VMJumpIf 255, L_19EA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_19EA
     ActorCmdExec 0, Movement_2454
     ActorCmdExec 255, Movement_244C
     VMJump L_19FA
@@ -1558,13 +1607,15 @@ L_19FA:
     ActorCmdWait
     VMStackPush 0x8022
     VMStackPushConst 177
-    VMStackCmp 1
-    VMJumpIf 255, L_1A21
-    ActorMsg 1024, 61, 0, 3, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1A21
+    // "Drayden: Humilau City, huh...[f000]븁\u0000\nIs there anything to the\nnorth of Undella Town?[f000]븁\u0000\n[f000]Ā\u0001\u0000, protect Pokémon\nfrom Team Plasma![f000]븁\u0000\nAll people should think for themselves\nabout the nature of the relationship[f000]븀\u0000\nbetween people and Pokémon.[f000]븁\u0000\nIt's not something Team Plasma gets\nto decide for everyone!"
+    ActorMsg MSGFILE_SCRIPT, 61, 0, 3, 0
     VMJump L_1A2D
 
 L_1A21:
-    ActorMsg 1024, 61, 0, 4, 0
+    // "Drayden: Humilau City, huh...[f000]븁\u0000\nIs there anything to the\nnorth of Undella Town?[f000]븁\u0000\n[f000]Ā\u0001\u0000, protect Pokémon\nfrom Team Plasma![f000]븁\u0000\nAll people should think for themselves\nabout the nature of the relationship[f000]븀\u0000\nbetween people and Pokémon.[f000]븁\u0000\nIt's not something Team Plasma gets\nto decide for everyone!"
+    ActorMsg MSGFILE_SCRIPT, 61, 0, 4, 0
 
 L_1A2D:
     LastKeyWait
@@ -1577,8 +1628,8 @@ L_1A2D:
     FlagSet 775
     WorkSetConst 0x40de, 1
     WorkSetConst 0x4146, 1
-    Cmd_0262 1, 26
-    Cmd_0262 2, 7
+    HollowRivalCmd_0262 1, 26
+    HollowRivalCmd_0262 2, 7
     VMReturn
     .balign 4, 0
 
@@ -1628,11 +1679,12 @@ Script_13:
     TrainerCardHasBadge 0x8008, 7
     VMStackPush 0x413e
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1B34
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1B34
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 82, 0, 0, 0
+    // "I was just reminded of Iris.[f000]븁\u0000\nYes, the Champion.\nThat Iris...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 82, 0, 0, 0
     MsgWinCloseAll
     FadeOutBlack
     RTReserveScript 1
@@ -1643,10 +1695,11 @@ Script_13:
 L_1B34:
     VMStackPush 0x40d7
     VMStackPushConst 4
-    VMStackCmp 3
-    VMJumpIf 255, L_1B61
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_1B61
     SEPlay 1351
-    ActorMsg 1024, 34, 0, 0, 0
+    // "Drayden: They're getting tougher![f000]븁\u0000\n[f000]Ā\u0001\u0000!\nTake care of the others!"
+    ActorMsg MSGFILE_SCRIPT, 34, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_1C2F
@@ -1654,15 +1707,16 @@ L_1B34:
 L_1B61:
     VMStackPush 0x8008
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_1B9E
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_1B9E
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 62, 0, 0
+    // "Drayden: Little by little,\nthe ice is starting to melt.[f000]븁\u0000\nIt's all thanks to you.\nAs a fellow Trainer, I heartily thank you!"
+    ParentActorMsg MSGFILE_SCRIPT, 62, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_1C2F
@@ -1670,15 +1724,16 @@ L_1B61:
 L_1B9E:
     VMStackPush 0x40d7
     VMStackPushConst 5
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40d8
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_1BDB
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_1BDB
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 35, 0, 0
+    // "Drayden: The only one left is\nZinzolin of the Seven Sages![f000]븀\u0000\nWhere could he be?[f000]븁\u0000\nOh!\nWhat's going on at the Pokémon Gym?!"
+    ParentActorMsg MSGFILE_SCRIPT, 35, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_1C2F
@@ -1686,11 +1741,12 @@ L_1B9E:
 L_1BDB:
     VMStackPush 0x40d8
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1C08
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1C08
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 49, 0, 0
+    // "Drayden: They don't seem to be in\nthis area. However, they can hide their[f000]븀\u0000\npresence, so be on guard as you look!"
+    ParentActorMsg MSGFILE_SCRIPT, 49, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_1C2F
@@ -1698,11 +1754,12 @@ L_1BDB:
 L_1C08:
     VMStackPush 0x40d8
     VMStackPushConst 2
-    VMStackCmp 4
-    VMJumpIf 255, L_1C2F
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_1C2F
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 61, 0, 0
+    // "Drayden: Humilau City, huh...[f000]븁\u0000\nIs there anything to the\nnorth of Undella Town?[f000]븁\u0000\n[f000]Ā\u0001\u0000, protect Pokémon\nfrom Team Plasma![f000]븁\u0000\nAll people should think for themselves\nabout the nature of the relationship[f000]븀\u0000\nbetween people and Pokémon.[f000]븁\u0000\nIt's not something Team Plasma gets\nto decide for everyone!"
+    ParentActorMsg MSGFILE_SCRIPT, 61, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -1716,19 +1773,21 @@ Script_14:
     SEPlay 1351
     ActorSetEyeToEye
     BGMPlayPush 1240
-    ActorMsg 1024, 38, 1, 0, 0
+    // "Zinzolin: Oh, for crying out loud...[f000]븁\u0000\nI didn't expect to have to fight\nhampered by cold like this.[f000]븁\u0000\nWell, no matter! The fact that I'm\nshivering means I'm truly alive![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 38, 1, 0, 0
     ActorMsgClose
     CallTrainerBattle 584, 0, 0
     VMCall L_1EF9
-    ActorMsg 1024, 39, 1, 0, 0
+    // "Zinzolin: You're a strong Trainer.[f000]븁\u0000\nYou definitely are adept\nat handling Pokémon.[f000]븁\u0000\nI believe I'll take my leave, simply\nbecause I can't stand this cold.[f000]븁\u0000\nBut...imagine this...[f000]븁\u0000\nA Unova region...completely...covered...\nin...ice.[f000]븁\u0000\nTo achieve that splendor,\nwe'll do whatever it takes[f000]븀\u0000\nto obtain the DNA Splicers.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 39, 1, 0, 0
     ActorMsgClose
     GameGetVersion 0x8023
     FadeEx 3, 0, 16, 4
     FadeExWait
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_1CAA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1CAA
     ActorSetGPos 0, 405, 0, 145, 1
     ActorCmdExec 255, Movement_2434
     ActorCmdWait
@@ -1766,10 +1825,11 @@ Script_15:
     TrainerFlagGet 585, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_1D70
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1D70
     TrainerBGMPlayPush 585
-    ActorMsg 1024, 22, 2, 0, 0
+    // "Team Plasma: Pokémon are pawns!\nThey're a means to an end.[f000]븁\u0000\nThat's what I was taught![f000]븁\u0000\nDon't think about it too much.\nIt's easier that way![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 22, 2, 0, 0
     ActorMsgClose
     CallTrainerBattle 585, 0, 0
     VMCall L_1EF9
@@ -1777,23 +1837,25 @@ Script_15:
     TrainerFlagSet 585
     VMStackPush 0x40d7
     VMStackPushConst 5
-    VMStackCmp 4
-    VMJumpIf 255, L_1D70
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_1D70
     FlagReset 795
     ActorAdd 1
 
 L_1D70:
     VMStackPush 0x40d7
     VMStackPushConst 5
-    VMStackCmp 4
-    VMJumpIf 255, L_1D99
-    ActorMsg 1024, 24, 2, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_1D99
+    // "Team Plasma: The others were saying\nthat the only place we haven't yet[f000]븀\u0000\nsearched is the Pokémon Gym!"
+    ActorMsg MSGFILE_SCRIPT, 24, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_1DA9
 
 L_1D99:
-    ActorMsg 1024, 23, 2, 0, 0
+    // "Team Plasma: How can this be?[f000]븁\u0000\nIs that the kind of power Pokémon have\nwhen they're not treated like objects?"
+    ActorMsg MSGFILE_SCRIPT, 23, 2, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -1809,10 +1871,11 @@ Script_16:
     TrainerFlagGet 586, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_1E15
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1E15
     TrainerBGMPlayPush 586
-    ActorMsg 1024, 25, 3, 0, 0
+    // "Team Plasma: This time, we'll take over\nthe Unova region![f000]븁\u0000\nYou! You're trembling already?\nFrom fear or from cold--either's good![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 25, 3, 0, 0
     ActorMsgClose
     CallTrainerBattle 586, 0, 0
     VMCall L_1EF9
@@ -1820,23 +1883,25 @@ Script_16:
     TrainerFlagSet 586
     VMStackPush 0x40d7
     VMStackPushConst 5
-    VMStackCmp 4
-    VMJumpIf 255, L_1E15
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_1E15
     FlagReset 795
     ActorAdd 1
 
 L_1E15:
     VMStackPush 0x40d7
     VMStackPushConst 5
-    VMStackCmp 4
-    VMJumpIf 255, L_1E3E
-    ActorMsg 1024, 27, 3, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_1E3E
+    // "Team Plasma: Now that you mention it,\nI think I might have been ordered[f000]븀\u0000\nto comb the Pokémon Gym..."
+    ActorMsg MSGFILE_SCRIPT, 27, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_1E4E
 
 L_1E3E:
-    ActorMsg 1024, 26, 3, 0, 0
+    // "Team Plasma: It's not over!\nThe others will find the DNA Splicers![f000]븀\u0000\nWhen they do, the Unova region is ours!"
+    ActorMsg MSGFILE_SCRIPT, 26, 3, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -1852,10 +1917,11 @@ Script_19:
     TrainerFlagGet 587, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_1EBA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1EBA
     TrainerBGMPlayPush 587
-    ActorMsg 1024, 28, 4, 0, 0
+    // "Team Plasma: Don't get in our way!\nYou bother![f000]븀\u0000\nBother, bother, bother![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 28, 4, 0, 0
     ActorMsgClose
     CallTrainerBattle 587, 0, 0
     VMCall L_1EF9
@@ -1863,23 +1929,25 @@ Script_19:
     TrainerFlagSet 587
     VMStackPush 0x40d7
     VMStackPushConst 5
-    VMStackCmp 4
-    VMJumpIf 255, L_1EBA
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_1EBA
     FlagReset 795
     ActorAdd 1
 
 L_1EBA:
     VMStackPush 0x40d7
     VMStackPushConst 5
-    VMStackCmp 4
-    VMJumpIf 255, L_1EE3
-    ActorMsg 1024, 30, 4, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_1EE3
+    // "Team Plasma: Zinzolin said to stick to\nDrayden, because that's where we'll[f000]븀\u0000\nfind anything important!"
+    ActorMsg MSGFILE_SCRIPT, 30, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_1EF3
 
 L_1EE3:
-    ActorMsg 1024, 29, 4, 0, 0
+    // "Team Plasma: How humiliating...\nBeing bothered by a bother..."
+    ActorMsg MSGFILE_SCRIPT, 29, 4, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -1892,8 +1960,8 @@ L_1EF9:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1F18
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1F18
     CallTrainerBattleEnd
     VMJump L_1F1A
 
@@ -1907,11 +1975,12 @@ Script_17:
     ActorsPauseAll
     VMStackPush 0x40d7
     VMStackPushConst 5
-    VMStackCmp 4
-    VMJumpIf 255, L_1F4B
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_1F4B
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 32, 0, 0
+    // "Team Plasma: I think Zinzolin was going\nto check the Pokémon Gym..."
+    ParentActorMsg MSGFILE_SCRIPT, 32, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_1F5F
@@ -1919,7 +1988,8 @@ Script_17:
 L_1F4B:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 31, 0, 0
+    // "Team Plasma: I lost.\nI didn't stand a chance...[f000]븁\u0000\nI can't believe Haxorus blasted me\nall the way over here!"
+    ParentActorMsg MSGFILE_SCRIPT, 31, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -1931,7 +2001,8 @@ L_1F5F:
 Script_18:
     ActorsPauseAll
     SEPlay 1351
-    ActorMsg 1024, 33, 6, 0, 0
+    // "Team Plasma: I've been nursing a\ngrudge for two years, old man.[f000]븁\u0000\n...Even if this is the first time\nI've battled you!"
+    ActorMsg MSGFILE_SCRIPT, 33, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -1942,11 +2013,12 @@ Script_20:
     ActorsPauseAll
     VMStackPush 0x40d7
     VMStackPushConst 5
-    VMStackCmp 4
-    VMJumpIf 255, L_1FB0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_1FB0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 37, 0, 0
+    // "Team Plasma: Oh, that Drayden!\nWhere did he hide the DNA Splicers?[f000]븀\u0000\nSomewhere familiar and common, right?"
+    ParentActorMsg MSGFILE_SCRIPT, 37, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_1FC4
@@ -1954,7 +2026,8 @@ Script_20:
 L_1FB0:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 36, 0, 0
+    // "Team Plasma: That old guy won't hold\nback even if his opponent is a young girl."
+    ParentActorMsg MSGFILE_SCRIPT, 36, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -1974,21 +2047,22 @@ Script_29:
     ActorCmdWait
     VMStackPush 0x8021
     VMStackPushConst 418
-    VMStackCmp 5
-    VMJumpIf 255, L_2013
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_2013
     ActorCmdExec 0, Movement_2454
     ActorCmdWait
 
 L_2013:
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_2030
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_2030
     ActorCmdExec 255, Movement_244C
     ActorCmdWait
 
 L_2030:
-    ActorMsg 1024, 82, 0, 0, 0
+    // "I was just reminded of Iris.[f000]븁\u0000\nYes, the Champion.\nThat Iris...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 82, 0, 0, 0
     MsgWinCloseAll
     FadeOutBlack
     RTReserveScript 1
@@ -2018,7 +2092,8 @@ Script_33:
     BMHndAudioVisualAnmPlay 0x8029, 1
     BMHndAnmWait 0x8029
     BMReleaseHandle 0x8029
-    ActorMsg 1024, 82, 0, 0, 0
+    // "I was just reminded of Iris.[f000]븁\u0000\nYes, the Champion.\nThat Iris...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 82, 0, 0, 0
     MsgWinCloseAll
     FadeOutBlack
     RTReserveScript 1
@@ -2036,7 +2111,8 @@ Script_30:
     ActorsPauseAll
     FadeInBlackQ
     FadeWait
-    ActorMsg 1024, 83, 0, 0, 0
+    // "I wonder what kind of\nChampion she'll become."
+    ActorMsg MSGFILE_SCRIPT, 83, 0, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorWalkRoute 0, 418, 161, 4, 8, 0
@@ -2054,11 +2130,12 @@ Script_22:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_216B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_216B
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 63, 0, 0
+    // "Why do Pokémon stay by our sides?[f000]븁\u0000\nIf we could talk to them, we could ask.\nI'm a bit scared about what they'd say."
+    ParentActorMsg MSGFILE_SCRIPT, 63, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_2183
@@ -2066,6 +2143,8 @@ Script_22:
 L_216B:
     SEPlay 1351
     ActorSetEyeToEye
+    // "The memories of everyone who has lived\nin this city have built up over the years[f000]븀\u0000\nwithout changing much."
+    // "This city changes endlessly.[f000]븁\u0000\nAnd every change is engraved in the\nmemories of the people who live here."
     ActorMsgVersioned 1024, 64, 65, 14, 0, 0
     LastKeyWait
     ActorMsgClose
@@ -2079,11 +2158,12 @@ Script_23:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_21B8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_21B8
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 66, 0, 0
+    // "I reached heights I never could\nhave arrived at because I had[f000]븀\u0000\nPokémon by my side.[f000]븁\u0000\nAnd I believe my Pokémon became\ntough because they were with me!"
+    ParentActorMsg MSGFILE_SCRIPT, 66, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_21D0
@@ -2091,6 +2171,8 @@ Script_23:
 L_21B8:
     SEPlay 1351
     ActorSetEyeToEye
+    // "I think some things shouldn't be\nchanged, even if it's inconvenient."
+    // "I think some things must be changed\nno matter how much you love them!"
     ActorMsgVersioned 1024, 67, 68, 12, 0, 0
     LastKeyWait
     ActorMsgClose
@@ -2104,11 +2186,12 @@ Script_24:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_2205
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_2205
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 69, 0, 0
+    // "A person called N had the\nlegendary Pokémon with him,[f000]븀\u0000\nbut was he really the hero?"
+    ParentActorMsg MSGFILE_SCRIPT, 69, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_221D
@@ -2116,6 +2199,8 @@ Script_24:
 L_2205:
     SEPlay 1351
     ActorSetEyeToEye
+    // "A world of ice.[f000]븁\u0000\nSuch beauty goes beyond old and new--\ninspirational, yet terrifying.[f000]븁\u0000\nThough, to me, there's a comfort in\nold things that you can't find in the new."
+    // "A world of ice.[f000]븁\u0000\nSuch beauty goes beyond new and old--\ninspirational, yet terrifying.[f000]븁\u0000\nThough, to me, there's a coolness to new\nthings that I prize more than the old."
     ActorMsgVersioned 1024, 70, 71, 15, 0, 0
     LastKeyWait
     ActorMsgClose
@@ -2129,11 +2214,12 @@ Script_25:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_2252
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_2252
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 72, 0, 0
+    // "Gym Leader Drayden leads\nOpelucid City as its mayor![f000]븁\u0000\nHe's always training by wrestling\nwith his Pokémon."
+    ParentActorMsg MSGFILE_SCRIPT, 72, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_2266
@@ -2141,7 +2227,8 @@ Script_25:
 L_2252:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 73, 0, 0
+    // "My Pokémon show me affection,\nso I'm not lonely![f000]븁\u0000\nAnd I return their affection even more!"
+    ParentActorMsg MSGFILE_SCRIPT, 73, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -2154,11 +2241,12 @@ Script_27:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_229B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_229B
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 74, 0, 0
+    // "There was a group that told\npeople to release their Pokémon.[f000]븁\u0000\nThey were great big liars, but it\ncreated a good opportunity to think."
+    ParentActorMsg MSGFILE_SCRIPT, 74, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_22B3
@@ -2166,6 +2254,8 @@ Script_27:
 L_229B:
     SEPlay 1351
     ActorSetEyeToEye
+    // "After that speech, my Pokémon\nand I have been thinking about[f000]븀\u0000\nwhat's true for us."
+    // "After that speech, I've been thinking\nabout the ideal relationship for me and[f000]븀\u0000\nmy Pokémon as we move forward together."
     ActorMsgVersioned 1024, 75, 76, 13, 0, 0
     LastKeyWait
     ActorMsgClose
@@ -2179,11 +2269,12 @@ Script_28:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_22E8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_22E8
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 77, 0, 0
+    // "Unova's symbols are\nZekrom and Reshiram,[f000]븀\u0000\nbut I wonder where they are now.[f000]븁\u0000\nAre they passing along their\nancient knowledge to someone?"
+    ParentActorMsg MSGFILE_SCRIPT, 77, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_2300
@@ -2191,6 +2282,8 @@ Script_28:
 L_22E8:
     SEPlay 1351
     ActorSetEyeToEye
+    // "Pursuing ideals is different from person\nto person and Pokémon to Pokémon.[f000]븁\u0000\nIn this city, it seems the ideal is\nto cherish the past."
+    // "The truth people pursue is different\nfrom person to person and[f000]븀\u0000\nPokémon to Pokémon.[f000]븁\u0000\nIn this city, it seems the truth is\nconstant change."
     ActorMsgVersioned 1024, 78, 79, 16, 0, 0
     LastKeyWait
     ActorMsgClose
@@ -2204,6 +2297,8 @@ Script_26:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
+    // "The hopes of an ancient people are put\ninto this melody...[f000]븁\u0000\nI will bring them back to us now."
+    // "Our hopes are put into this melody...\nI will send them to the future."
     ActorMsgVersioned 1024, 80, 81, 18, 0, 0
     LastKeyWait
     ActorMsgClose
@@ -2215,6 +2310,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Opelucid City\nTime's Dividing Line"
     MsgPlaceSign 84, 1
     MsgPlaceSignClose
     FinishAllEvents
@@ -2225,6 +2321,7 @@ Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Drayden's House"
     MsgPlaceSign 85, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -2236,10 +2333,11 @@ Script_3:
     GameGetVersion 0x8010
     VMStackPush 0x8010
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_238B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_238B
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Formerly the Battle House..."
     MsgPlaceSign 87, 2
     MsgPlaceSignClose
     VMJump L_239D
@@ -2247,6 +2345,7 @@ Script_3:
 L_238B:
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Formerly the Battle House..."
     MsgPlaceSign 86, 2
     MsgPlaceSignClose
 
@@ -2259,6 +2358,7 @@ Script_4:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Trainer Tips![f000]븁\u0000\n\nMayor Drayden will teach you if he\nrecognizes you as a strong Trainer.[f000]븁\u0000\nVisit his home to learn the\nmost powerful Dragon-type move!"
     MsgPlaceSign 88, 0
     MsgPlaceSignClose
     FlagSet 2662
@@ -2271,10 +2371,11 @@ Script_5:
     GameGetVersion 0x8010
     VMStackPush 0x8010
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_23F2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_23F2
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Opelucid City Pokémon Gym\nLeader: Drayden[f000]븀\u0000\nThe Spartan Mayor"
     MsgPlaceSign 90, 2
     MsgPlaceSignClose
     VMJump L_2404
@@ -2282,6 +2383,7 @@ Script_5:
 L_23F2:
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Opelucid City Pokémon Gym\nLeader: Drayden[f000]븀\u0000\nThe Spartan Mayor"
     MsgPlaceSign 89, 2
     MsgPlaceSignClose
 

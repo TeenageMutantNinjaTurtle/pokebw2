@@ -15,28 +15,28 @@ Script_1:
     WorkSetConst 0x8020, 0
     VMStackPush 0x416d
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x416e
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x416f
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4170
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4171
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4172
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 6
-    VMStackCmp 6
-    VMStackCmp 6
-    VMStackCmp 6
-    VMStackCmp 6
-    VMJumpIf 255, L_00A1
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_00A1
     StadiumLoadTrainerTable
     Cmd_0249 0x416d, 0x416e, 0x416f, 0x4170, 0x4171, 0x4172
     StadiumFreeTrainerTable
@@ -50,15 +50,15 @@ L_00A1:
     TrainerCardHasBadge 0x8020, 4
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00D2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00D2
     FlagReset 649
 
 L_00D2:
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00F5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00F5
     FlagReset 650
     FlagReset 651
     FlagReset 652
@@ -72,8 +72,8 @@ L_00F5:
     TrainerCardHasBadge 0x8020, 4
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_014A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_014A
     StadiumSetupActorSingle 3, 15, 2
     StadiumSetupActorSingle 4, 0, 2
     StadiumSetupActorSingle 5, 1, 2
@@ -83,8 +83,8 @@ L_014A:
     TrainerCardHasBadge 0x8020, 6
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0185
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0185
     StadiumSetupActorSingle 3, 15, 3
     StadiumSetupActorSingle 4, 0, 3
     StadiumSetupActorSingle 5, 1, 3
@@ -93,8 +93,8 @@ L_014A:
 L_0185:
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01D2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01D2
     StadiumSetupActorSingle 3, 15, 4
     StadiumSetupActorSingle 4, 0, 4
     StadiumSetupActorSingle 5, 1, 4
@@ -111,7 +111,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "To be good at something, you have to do\nit repeatedly, day after day after day."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -122,7 +123,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "When I was a kid, I played catch with\nmy Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -133,7 +135,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "It's not bad to grow up.[f000]븁\u0000\nBut it's bad to forget what it felt like\nto be a child."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -144,7 +147,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "I have baseball, and I have Pokémon...\nHow happy I am!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -155,7 +159,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "If you don't swing a bat, you can't hit\na ball.[f000]븁\u0000\nIf you don't do things, you won't fail...\nbut you won't succeed, either."
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -166,7 +171,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "I give 100 percent of my energy all the\ntime! That is the only thing I can do."
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -177,7 +183,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "What I brag about is my bat!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -189,7 +196,8 @@ Script_9:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 507, 0
-    ParentActorMsg 1024, 7, 0, 0
+    // "Bwoof!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

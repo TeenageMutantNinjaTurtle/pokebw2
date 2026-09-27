@@ -25,8 +25,8 @@ Script_1:
     VMCall L_0256
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 5
-    VMJumpIf 255, L_008F
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_008F
     Plugin7_Cmd1012 0x8010
     Cmd_01DD 11, 0x8010, 0
     VMCall L_0139
@@ -38,8 +38,8 @@ L_008F:
     VMCall L_053D
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 5
-    VMJumpIf 255, L_00CC
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_00CC
     Plugin7_Cmd1012 0x8010
     Cmd_01DD 11, 0x8010, 1
     VMCall L_0139
@@ -51,8 +51,8 @@ L_00CC:
     VMCall L_07E0
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 5
-    VMJumpIf 255, L_010F
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_010F
     WorkSetConst 0x8027, 0
     VMCall L_0B14
     Plugin7_Cmd1012 0x8010
@@ -82,16 +82,16 @@ L_0139:
     Plugin7_Cmd1016 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0168
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0168
     MapChangeWarp 192, 14, 0, 1
     VMJump L_0185
 
 L_0168:
     VMStackPush 0x8010
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0185
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0185
     MapChangeWarp 192, 16, 0, 1
 
 L_0185:
@@ -130,8 +130,8 @@ Script_3:
     VMCall L_07E0
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 5
-    VMJumpIf 255, L_0234
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0234
     WorkSetConst 0x8027, 0
     VMCall L_0B14
     VMJump L_0240
@@ -155,8 +155,8 @@ L_0256:
     Plugin7_Cmd1012 0x8029
     VMStackPush 0x8029
     VMStackPushConst 11
-    VMStackCmp 1
-    VMJumpIf 255, L_0315
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0315
     Plugin7_Cmd1040 0x4020
     ActorNew 3, 15, 3, 251, 162, 0
     ActorSetGPos 255, 42, 0, 15, 2
@@ -172,6 +172,7 @@ L_0256:
     FadeInBlackQ
     FadeWait
     WordSetPlayerName 1
+    // "The Driftveil Tournament\nstarts now![f000]븁\u0000\nFirst-timer [f000]Ā\u0001\u0001 enters![f000]븁\u0000"
     InfoMsg 5, 1
     InfoMsgClose_0039
     ActorCmdExec 255, Movement_0ADC
@@ -226,17 +227,18 @@ L_037F:
     Plugin7_Cmd1039
     VMStackPush 0x8029
     VMStackPushConst 14
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8029
     VMStackPushConst 15
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_0436
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_0436
     VMCall L_0BDD
 
 L_0436:
     Plugin7_Cmd1045 0
     WordSetPlayerName 1
+    // "The first round!\n[f000]Ā\u0001\u0000 vs. [f000]Ā\u0001\u0001.[f000]븁\u0000"
     InfoMsg 0, 1
     InfoMsgClose_0039
     SEPlay 2108
@@ -263,19 +265,20 @@ L_0436:
     FadeWait
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0519
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0519
     WordSetPlayerName 0
     SEPlay 2096
+    // "The winner of the first round is...\n[f000]Ā\u0001\u0000![f000]븁\u0000"
     ScreamMsg 6, 1
     VMStackPush 0x8029
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8029
     VMStackPushConst 10
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_04F1
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_04F1
     VMCall L_0DA8
 
 L_04F1:
@@ -292,6 +295,7 @@ L_04F1:
 L_0519:
     Plugin7_Cmd1045 0
     SEPlay 2096
+    // "The winner of the first round is...\n[f000]Ā\u0001\u0000![f000]븁\u0000"
     ScreamMsg 6, 1
     InfoMsgClose_0039
     Plugin7_Cmd1041 6, 251
@@ -304,6 +308,7 @@ L_0539:
     VMReturn
 
 L_053D:
+    // "Let's check out\nthe other matches![f000]븁\u0000\nTurn your attention to\nthe giant screen![f000]븁\u0000"
     InfoMsg 8, 1
     InfoMsgClose_0039
     FadeOutBlack
@@ -360,18 +365,19 @@ L_053D:
     Plugin7_Cmd1039
     VMStackPush 0x8029
     VMStackPushConst 14
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8029
     VMStackPushConst 15
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_06BB
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_06BB
     VMCall L_0BDD
 
 L_06BB:
     Plugin7_Cmd1045 0
     WordSetPlayerName 1
     VMSleep 30
+    // "The second round!\n[f000]Ā\u0001\u0000 vs. [f000]Ā\u0001\u0001.[f000]븁\u0000"
     InfoMsg 1, 1
     InfoMsgClose_0039
     SEPlay 2108
@@ -399,19 +405,20 @@ L_06BB:
     SEPlay 2096
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_07B2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07B2
     WordSetPlayerName 0
     SEPlay 2096
+    // "The winner of the second round is...\n[f000]Ā\u0001\u0000![f000]븁\u0000"
     ScreamMsg 7, 1
     VMStackPush 0x8029
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8029
     VMStackPushConst 10
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_077E
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_077E
     VMCall L_0DA8
 
 L_077E:
@@ -431,6 +438,7 @@ L_077E:
 L_07B2:
     Plugin7_Cmd1045 0
     SEPlay 2096
+    // "The winner of the second round is...\n[f000]Ā\u0001\u0000![f000]븁\u0000"
     ScreamMsg 7, 1
     InfoMsgClose_0039
     SEPlay 2109
@@ -445,6 +453,7 @@ L_07DE:
     VMReturn
 
 L_07E0:
+    // "Let's check out the other match\non the giant screen![f000]븁\u0000"
     InfoMsg 40, 1
     InfoMsgClose_0039
     FadeOutBlack
@@ -481,8 +490,8 @@ L_07E0:
     Plugin7_Cmd1053 0x802a, 1
     VMStackPush 0x8029
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_08B6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08B6
     VMSleep 40
 
 L_08B6:
@@ -497,6 +506,7 @@ L_08B6:
     VMSleep 60
     Plugin7_Cmd1012 0x8010
     Plugin7_Cmd1044 0, 0x8010
+    // "[f000]Ļ\u0001\u0000!\nThe final round![f000]븀\u0000\nThe opponent is entering the arena![f000]븁\u0000"
     InfoMsg 3, 1
     InfoMsgClose_0039
     EvCameraMoveTo 3544, 0, 0xed000, 0x33000, 0x2001f, 0x108000, 60
@@ -517,8 +527,8 @@ L_08B6:
     Plugin7_Cmd1053 0x802a, 0
     VMStackPush 0x8029
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0979
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0979
     VMSleep 40
 
 L_0979:
@@ -534,17 +544,18 @@ L_0979:
     Plugin7_Cmd1039
     VMStackPush 0x8029
     VMStackPushConst 14
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8029
     VMStackPushConst 15
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_09DE
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_09DE
     VMCall L_0BDD
 
 L_09DE:
     Plugin7_Cmd1045 0
     WordSetPlayerName 1
+    // "The final round!\n[f000]Ā\u0001\u0000 vs. [f000]Ā\u0001\u0001.[f000]븁\u0000"
     InfoMsg 2, 1
     InfoMsgClose_0039
     SEPlay 2108
@@ -573,8 +584,8 @@ L_09DE:
     EvCameraWait
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0A78
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A78
     Plugin7_Cmd1060 1
     VMJump L_0A7C
 
@@ -654,13 +665,14 @@ Movement_0B08:
     MoveEnd
 
 L_0B14:
+    // "The winner is...[f000]븁\u0000"
     InfoMsg 4, 1
     InfoMsgClose_0039
     VMSleep 30
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0B3B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B3B
     WordSetPlayerName 0
     VMJump L_0B3E
 
@@ -671,8 +683,8 @@ L_0B3E:
     SEPlay 2107
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0B5F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B5F
     Plugin7_Cmd1052 1
     VMJump L_0B63
 
@@ -684,6 +696,7 @@ L_0B63:
     VMSleep 80
     SEPlay 2101
     SEPlay 2097
+    // "[f000]Ā\u0001\u0000!"
     ScreamMsg 9, 1
     BGMPlay 1202
     VMSleep 120
@@ -691,8 +704,8 @@ L_0B63:
     InfoMsgClose_0039
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0BA1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0BA1
     Plugin7_Cmd1041 5, 251
     VMJump L_0BA7
 
@@ -703,6 +716,7 @@ L_0BA7:
     ActorMsgClose
     Plugin7_Cmd1012 0x8010
     Plugin7_Cmd1044 0, 0x8010
+    // "This concludes the\n[f000]Ļ\u0001\u0000![f000]븀\u0000\nSee you in the next tournament![f000]븁\u0000"
     InfoMsg 10, 1
     InfoMsgClose_0039
     VMSleep 60
@@ -715,6 +729,7 @@ L_0BA7:
 
 L_0BDD:
     Plugin7_Cmd1031
+    // "How strong are your Pokémon\nwhen they face your own party?[f000]븁\u0000\nLet's mix them![f000]븁\u0000"
     ScreamMsg 43, 1
     SEPlay 2095
     VMSleep 30
@@ -725,8 +740,9 @@ L_0BDD:
     Plugin7_Cmd1010 0x8010
     VMStackPush 0x8010
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0C38
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0C38
+    // "Let's swap another Pokémon![f000]븁\u0000"
     ScreamMsg 52, 1
     SEPlay 2095
     VMSleep 30
@@ -743,15 +759,17 @@ L_0C3C:
     Plugin7_Cmd1032 0x8030
     Plugin7_Cmd1045 0
     Plugin7_Cmd1034 1, 0x8030
+    // "[f000]Ā\u0001\u0000 chose\n[f000]ā\u0001\u0001.[f000]븁\u0000"
     SystemMsg 44, 1
     WorkSetConst 0x802d, 1
 
 L_0C54:
     VMStackPush 0x802d
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0CE9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0CE9
     Plugin7_Cmd1029
+    // "Select one Pokémon\nfrom the opponent's party."
     SystemMsg 45, 1
     ListMenu_AnchorTopRight 31, 7, 0, 0, 32815
     Plugin7_Cmd1035
@@ -762,16 +780,17 @@ L_0C54:
     DebugPrint 0x802e
     VMStackPush 0x802f
     VMStackPush 0x802e
-    VMStackCmp 0
-    VMJumpIf 255, L_0CDD
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_0CDD
     Plugin7_Cmd1033 0x8031, 0x802f
     Plugin7_Cmd1034 0, 0x8031
+    // "Are you OK with [f000]ā\u0001\u0000?"
     SystemMsg 46, 1
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0CD1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0CD1
     WorkSetConst 0x802d, 0
     VMJump L_0CD7
 
@@ -782,6 +801,7 @@ L_0CD7:
     VMJump L_0CE3
 
 L_0CDD:
+    // "You've selected\nthat Pokémon already.[f000]븁\u0000"
     SystemMsg 53, 1
 
 L_0CE3:
@@ -789,6 +809,7 @@ L_0CE3:
 
 L_0CE9:
     InfoMsgClose
+    // "Let's mix them![f000]븁\u0000"
     ScreamMsg 50, 1
     MsgWinCloseAll
     ActorCmdExec 251, Movement_0D80
@@ -808,6 +829,7 @@ L_0CE9:
     Plugin7_Cmd1034 1, 0x8030
     Plugin7_Cmd1045 2
     Plugin7_Cmd1034 3, 0x8031
+    // "[f000]ā\u0001\u0001 from [f000]Ā\u0001\u0000's party\nand [f000]ā\u0001\u0003 from [f000]Ā\u0001\u0002's party[f000]븀\u0000\nhave been swapped.[f000]븁\u0000"
     SystemMsg 51, 1
     InfoMsgClose
     VMReturn
@@ -865,22 +887,25 @@ L_0DA8:
     Plugin7_Cmd1019 0x8010
     VMStackPush 0x8010
     VMStackPushConst 255
-    VMStackCmp 1
-    VMJumpIf 255, L_0DCA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0DCA
+    // "In this tough tournament, where\neverybody is expected to face a[f000]븀\u0000\ntough road, we just witnessed a[f000]븀\u0000\ntotal victory! Great![f000]븁\u0000"
     ScreamMsg 42, 1
     VMJump L_0DFB
 
 L_0DCA:
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0DEF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0DEF
     WordSetNumber 0, 0x8010, 1
+    // "[f000]Ȁ\u0001\u0000 Pokémon left![f000]븁\u0000\nCan we still call this raw power?[f000]븁\u0000"
     ScreamMsg 57, 1
     VMJump L_0DFB
 
 L_0DEF:
     WordSetNumber 0, 0x8010, 1
+    // "Is this what they call raw power?\nA great victory with [f000]Ȁ\u0001\u0000 Pokémon left![f000]븁\u0000"
     ScreamMsg 41, 1
 
 L_0DFB:
@@ -891,32 +916,32 @@ L_0DFD:
     DebugPrint 0x8020
     VMStackPush 0x8020
     VMStackPushConst 30
-    VMStackCmp 4
-    VMJumpIf 255, L_0E28
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0E28
     WorkSetConst 0x8023, 99
     VMJump L_0E85
 
 L_0E28:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_0E47
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0E47
     WorkSetConst 0x8023, 79
     VMJump L_0E85
 
 L_0E47:
     VMStackPush 0x8020
     VMStackPushConst 5
-    VMStackCmp 4
-    VMJumpIf 255, L_0E66
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0E66
     WorkSetConst 0x8023, 59
     VMJump L_0E85
 
 L_0E66:
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 4
-    VMJumpIf 255, L_0E85
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0E85
     WorkSetConst 0x8023, 39
     VMJump L_0E85
 
@@ -926,7 +951,7 @@ L_0E85:
 
 L_0E8B:
     WorkCmpConst 0x802c, 0
-    VMJumpIf 1, L_0E9E
+    VMJumpIf CMP_EQ, L_0E9E
     VMJump L_0EAA
 
 L_0E9E:
@@ -935,7 +960,7 @@ L_0E9E:
 
 L_0EAA:
     WorkCmpConst 0x802c, 1
-    VMJumpIf 1, L_0EBD
+    VMJumpIf CMP_EQ, L_0EBD
     VMJump L_0EC9
 
 L_0EBD:
@@ -949,13 +974,13 @@ L_0EC9:
     WorkSetConst 0x400f, 0
     VMStackPush 0x8023
     VMStackPush 0x8021
-    VMStackCmp 4
-    VMJumpIf 255, L_0F48
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0F48
     WorkSetConst 0x8024, 3
     WorkSetConst 0x8025, 3
     WorkSetConst 0x8026, 1
     WorkCmpConst 0x802c, 0
-    VMJumpIf 1, L_0F17
+    VMJumpIf CMP_EQ, L_0F17
     VMJump L_0F20
 
 L_0F17:
@@ -964,7 +989,7 @@ L_0F17:
 
 L_0F20:
     WorkCmpConst 0x802c, 1
-    VMJumpIf 1, L_0F33
+    VMJumpIf CMP_EQ, L_0F33
     VMJump L_0F3C
 
 L_0F33:
@@ -980,13 +1005,13 @@ L_0F48:
     DebugPrint 0x8021
     VMStackPush 0x8023
     VMStackPush 0x8021
-    VMStackCmp 4
-    VMJumpIf 255, L_0FBB
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0FBB
     WorkSetConst 0x8024, 19
     WorkSetConst 0x8025, 16
     WorkSetConst 0x8026, 2
     WorkCmpConst 0x802c, 0
-    VMJumpIf 1, L_0F8A
+    VMJumpIf CMP_EQ, L_0F8A
     VMJump L_0F93
 
 L_0F8A:
@@ -995,7 +1020,7 @@ L_0F8A:
 
 L_0F93:
     WorkCmpConst 0x802c, 1
-    VMJumpIf 1, L_0FA6
+    VMJumpIf CMP_EQ, L_0FA6
     VMJump L_0FAF
 
 L_0FA6:
@@ -1010,15 +1035,15 @@ L_0FBB:
     VMSleep 60
     VMStackPush 0x400e
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0FD6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0FD6
     MsgWinCloseNo 1
 
 L_0FD6:
     VMStackPush 0x400f
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0FED
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0FED
     MsgWinCloseNo 2
 
 L_0FED:
@@ -1030,8 +1055,8 @@ L_0FEF:
     Random 0x8021, 100
     VMStackPush 0x8023
     VMStackPush 0x8021
-    VMStackCmp 4
-    VMJumpIf 255, L_102F
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_102F
     WorkSetConst 0x8024, 1
     WorkSetConst 0x8025, 1
     WorkSetConst 0x8026, 1
@@ -1044,8 +1069,8 @@ L_102F:
     DebugPrint 0x8021
     VMStackPush 0x8023
     VMStackPush 0x8021
-    VMStackCmp 4
-    VMJumpIf 255, L_106E
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_106E
     WorkSetConst 0x8024, 18
     WorkSetConst 0x8025, 16
     WorkSetConst 0x8026, 2
@@ -1055,8 +1080,8 @@ L_102F:
 L_106E:
     VMStackPush 0x4001
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1085
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1085
     MsgWinCloseNo 1
 
 L_1085:
@@ -1065,8 +1090,8 @@ L_1085:
     DebugPrint 0x8021
     VMStackPush 0x8023
     VMStackPush 0x8021
-    VMStackCmp 4
-    VMJumpIf 255, L_10C4
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_10C4
     WorkSetConst 0x8024, 1
     WorkSetConst 0x8025, 18
     WorkSetConst 0x8026, 3
@@ -1076,8 +1101,8 @@ L_1085:
 L_10C4:
     VMStackPush 0x4002
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_10DB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_10DB
     MsgWinCloseNo 2
 
 L_10DB:
@@ -1086,8 +1111,8 @@ L_10DB:
     DebugPrint 0x8021
     VMStackPush 0x8023
     VMStackPush 0x8021
-    VMStackCmp 4
-    VMJumpIf 255, L_111A
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_111A
     WorkSetConst 0x8024, 18
     WorkSetConst 0x8025, 1
     WorkSetConst 0x8026, 4
@@ -1097,8 +1122,8 @@ L_10DB:
 L_111A:
     VMStackPush 0x4003
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1131
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1131
     MsgWinCloseNo 3
 
 L_1131:
@@ -1107,8 +1132,8 @@ L_1131:
     DebugPrint 0x8021
     VMStackPush 0x8023
     VMStackPush 0x8021
-    VMStackCmp 4
-    VMJumpIf 255, L_1170
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_1170
     WorkSetConst 0x8024, 1
     WorkSetConst 0x8025, 18
     WorkSetConst 0x8026, 5
@@ -1118,8 +1143,8 @@ L_1131:
 L_1170:
     VMStackPush 0x4004
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1187
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1187
     MsgWinCloseNo 4
 
 L_1187:
@@ -1128,8 +1153,8 @@ L_1187:
     DebugPrint 0x8021
     VMStackPush 0x8023
     VMStackPush 0x8021
-    VMStackCmp 4
-    VMJumpIf 255, L_11C6
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_11C6
     WorkSetConst 0x8024, 19
     WorkSetConst 0x8025, 1
     WorkSetConst 0x8026, 6
@@ -1139,16 +1164,16 @@ L_1187:
 L_11C6:
     VMStackPush 0x4005
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_11DD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_11DD
     MsgWinCloseNo 5
 
 L_11DD:
     VMSleep 20
     VMStackPush 0x4006
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_11F8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_11F8
     MsgWinCloseNo 6
 
 L_11F8:
@@ -1160,8 +1185,8 @@ L_11FA:
     Random 0x8021, 100
     VMStackPush 0x8023
     VMStackPush 0x8021
-    VMStackCmp 4
-    VMJumpIf 255, L_123E
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_123E
     WorkSetConst 0x8024, 1
     WorkSetConst 0x8025, 1
     WorkSetConst 0x8026, 1
@@ -1174,8 +1199,8 @@ L_123E:
     DebugPrint 0x8021
     VMStackPush 0x8023
     VMStackPush 0x8021
-    VMStackCmp 4
-    VMJumpIf 255, L_1279
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_1279
     WorkSetConst 0x8024, 18
     WorkSetConst 0x8025, 18
     WorkSetConst 0x8026, 2
@@ -1185,8 +1210,8 @@ L_123E:
 L_1279:
     VMStackPush 0x4007
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1290
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1290
     MsgWinCloseNo 1
 
 L_1290:
@@ -1195,8 +1220,8 @@ L_1290:
     DebugPrint 0x8021
     VMStackPush 0x8023
     VMStackPush 0x8021
-    VMStackCmp 4
-    VMJumpIf 255, L_12CF
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_12CF
     WorkSetConst 0x8024, 18
     WorkSetConst 0x8025, 1
     WorkSetConst 0x8026, 3
@@ -1206,8 +1231,8 @@ L_1290:
 L_12CF:
     VMStackPush 0x4008
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_12E6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_12E6
     MsgWinCloseNo 2
 
 L_12E6:
@@ -1216,8 +1241,8 @@ L_12E6:
     DebugPrint 0x8021
     VMStackPush 0x8023
     VMStackPush 0x8021
-    VMStackCmp 4
-    VMJumpIf 255, L_1325
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_1325
     WorkSetConst 0x8024, 1
     WorkSetConst 0x8025, 18
     WorkSetConst 0x8026, 4
@@ -1227,8 +1252,8 @@ L_12E6:
 L_1325:
     VMStackPush 0x4009
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_133C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_133C
     MsgWinCloseNo 3
 
 L_133C:
@@ -1237,8 +1262,8 @@ L_133C:
     DebugPrint 0x8021
     VMStackPush 0x8023
     VMStackPush 0x8021
-    VMStackCmp 4
-    VMJumpIf 255, L_137B
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_137B
     WorkSetConst 0x8024, 19
     WorkSetConst 0x8025, 5
     WorkSetConst 0x8026, 5
@@ -1248,8 +1273,8 @@ L_133C:
 L_137B:
     VMStackPush 0x400a
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1392
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1392
     MsgWinCloseNo 4
 
 L_1392:
@@ -1258,8 +1283,8 @@ L_1392:
     DebugPrint 0x8021
     VMStackPush 0x8023
     VMStackPush 0x8021
-    VMStackCmp 4
-    VMJumpIf 255, L_13D1
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_13D1
     WorkSetConst 0x8024, 1
     WorkSetConst 0x8025, 19
     WorkSetConst 0x8026, 6
@@ -1269,16 +1294,16 @@ L_1392:
 L_13D1:
     VMStackPush 0x400b
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_13E8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_13E8
     MsgWinCloseNo 5
 
 L_13E8:
     VMSleep 20
     VMStackPush 0x400c
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1403
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1403
     MsgWinCloseNo 6
 
 L_1403:
@@ -1287,7 +1312,7 @@ L_1403:
 L_1405:
     Random 0x8022, 10
     WorkCmpConst 0x8022, 0
-    VMJumpIf 1, L_141E
+    VMJumpIf CMP_EQ, L_141E
     VMJump L_142E
 
 L_141E:
@@ -1296,7 +1321,7 @@ L_141E:
 
 L_142E:
     WorkCmpConst 0x8022, 1
-    VMJumpIf 1, L_1441
+    VMJumpIf CMP_EQ, L_1441
     VMJump L_1451
 
 L_1441:
@@ -1305,7 +1330,7 @@ L_1441:
 
 L_1451:
     WorkCmpConst 0x8022, 2
-    VMJumpIf 1, L_1464
+    VMJumpIf CMP_EQ, L_1464
     VMJump L_1474
 
 L_1464:
@@ -1314,7 +1339,7 @@ L_1464:
 
 L_1474:
     WorkCmpConst 0x8022, 3
-    VMJumpIf 1, L_1487
+    VMJumpIf CMP_EQ, L_1487
     VMJump L_1497
 
 L_1487:
@@ -1323,7 +1348,7 @@ L_1487:
 
 L_1497:
     WorkCmpConst 0x8022, 4
-    VMJumpIf 1, L_14AA
+    VMJumpIf CMP_EQ, L_14AA
     VMJump L_14BA
 
 L_14AA:
@@ -1332,7 +1357,7 @@ L_14AA:
 
 L_14BA:
     WorkCmpConst 0x8022, 5
-    VMJumpIf 1, L_14CD
+    VMJumpIf CMP_EQ, L_14CD
     VMJump L_14DD
 
 L_14CD:
@@ -1341,7 +1366,7 @@ L_14CD:
 
 L_14DD:
     WorkCmpConst 0x8022, 6
-    VMJumpIf 1, L_14F0
+    VMJumpIf CMP_EQ, L_14F0
     VMJump L_1500
 
 L_14F0:
@@ -1350,7 +1375,7 @@ L_14F0:
 
 L_1500:
     WorkCmpConst 0x8022, 7
-    VMJumpIf 1, L_1513
+    VMJumpIf CMP_EQ, L_1513
     VMJump L_1523
 
 L_1513:
@@ -1359,7 +1384,7 @@ L_1513:
 
 L_1523:
     WorkCmpConst 0x8022, 8
-    VMJumpIf 1, L_1536
+    VMJumpIf CMP_EQ, L_1536
     VMJump L_1546
 
 L_1536:
@@ -1368,7 +1393,7 @@ L_1536:
 
 L_1546:
     WorkCmpConst 0x8022, 9
-    VMJumpIf 1, L_1559
+    VMJumpIf CMP_EQ, L_1559
     VMJump L_1569
 
 L_1559:
@@ -1381,7 +1406,7 @@ L_1569:
 L_156B:
     Random 0x8022, 10
     WorkCmpConst 0x8022, 0
-    VMJumpIf 1, L_1584
+    VMJumpIf CMP_EQ, L_1584
     VMJump L_1594
 
 L_1584:
@@ -1390,7 +1415,7 @@ L_1584:
 
 L_1594:
     WorkCmpConst 0x8022, 1
-    VMJumpIf 1, L_15A7
+    VMJumpIf CMP_EQ, L_15A7
     VMJump L_15B7
 
 L_15A7:
@@ -1399,7 +1424,7 @@ L_15A7:
 
 L_15B7:
     WorkCmpConst 0x8022, 2
-    VMJumpIf 1, L_15CA
+    VMJumpIf CMP_EQ, L_15CA
     VMJump L_15DA
 
 L_15CA:
@@ -1408,7 +1433,7 @@ L_15CA:
 
 L_15DA:
     WorkCmpConst 0x8022, 3
-    VMJumpIf 1, L_15ED
+    VMJumpIf CMP_EQ, L_15ED
     VMJump L_15FD
 
 L_15ED:
@@ -1417,7 +1442,7 @@ L_15ED:
 
 L_15FD:
     WorkCmpConst 0x8022, 4
-    VMJumpIf 1, L_1610
+    VMJumpIf CMP_EQ, L_1610
     VMJump L_1620
 
 L_1610:
@@ -1426,7 +1451,7 @@ L_1610:
 
 L_1620:
     WorkCmpConst 0x8022, 5
-    VMJumpIf 1, L_1633
+    VMJumpIf CMP_EQ, L_1633
     VMJump L_1643
 
 L_1633:
@@ -1435,7 +1460,7 @@ L_1633:
 
 L_1643:
     WorkCmpConst 0x8022, 6
-    VMJumpIf 1, L_1656
+    VMJumpIf CMP_EQ, L_1656
     VMJump L_1666
 
 L_1656:
@@ -1444,7 +1469,7 @@ L_1656:
 
 L_1666:
     WorkCmpConst 0x8022, 7
-    VMJumpIf 1, L_1679
+    VMJumpIf CMP_EQ, L_1679
     VMJump L_1689
 
 L_1679:
@@ -1453,7 +1478,7 @@ L_1679:
 
 L_1689:
     WorkCmpConst 0x8022, 8
-    VMJumpIf 1, L_169C
+    VMJumpIf CMP_EQ, L_169C
     VMJump L_16AC
 
 L_169C:
@@ -1462,7 +1487,7 @@ L_169C:
 
 L_16AC:
     WorkCmpConst 0x8022, 9
-    VMJumpIf 1, L_16BF
+    VMJumpIf CMP_EQ, L_16BF
     VMJump L_16CF
 
 L_16BF:
@@ -1477,72 +1502,81 @@ L_16D1:
     Plugin7_Cmd1018 0, 17, 0x8020
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_16FA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_16FA
+    // "It comes down to this match!\n[f000]Ā\u0001\u0000 enters![f000]븀\u0000\nThis would be the first title win![f000]븁\u0000"
     InfoMsg 31, 1
     VMJump L_17EA
 
 L_16FA:
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1718
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1718
+    // "There are two groups who participate\nin this tournament...[f000]븀\u0000\nThe ones who've won and those[f000]븀\u0000\nwho haven't.[f000]븁\u0000\nHere comes someone who has!\n[f000]Ā\u0001\u0000 enters![f000]븁\u0000"
     InfoMsg 32, 1
     VMJump L_17EA
 
 L_1718:
     VMStackPush 0x8020
     VMStackPushConst 100
-    VMStackCmp 4
-    VMJumpIf 255, L_1736
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_1736
+    // "This Trainer has achieved over\n100 victories![f000]븁\u0000\nBut the pursuit for true strength\nbeyond mere numbers continues![f000]븁\u0000\nI present you [f000]Ā\u0001\u0000![f000]븁\u0000"
     InfoMsg 39, 1
     VMJump L_17EA
 
 L_1736:
     VMStackPush 0x8020
     VMStackPushConst 50
-    VMStackCmp 4
-    VMJumpIf 255, L_1754
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_1754
+    // "The one who tasted many victories\nand witnessed many lose their battles.[f000]븁\u0000\nWhat is going through the mind of\nthis amazing Trainer?[f000]븀\u0000\n[f000]Ā\u0001\u0000 enters![f000]븁\u0000"
     InfoMsg 38, 1
     VMJump L_17EA
 
 L_1754:
     VMStackPush 0x8020
     VMStackPushConst 30
-    VMStackCmp 4
-    VMJumpIf 255, L_1772
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_1772
+    // "Call down a storm!\nGenerate a cyclone![f000]븁\u0000\nHere comes the highflyer of\nthis tournament![f000]븀\u0000\n[f000]Ā\u0001\u0000![f000]븀\u0000\nYou are the eye of the typhoon![f000]븁\u0000"
     InfoMsg 37, 1
     VMJump L_17EA
 
 L_1772:
     VMStackPush 0x8020
     VMStackPushConst 20
-    VMStackCmp 4
-    VMJumpIf 255, L_1790
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_1790
+    // "This Trainer makes the crowds go\nmad with excitement simply by[f000]븀\u0000\nparticipating in a tournament![f000]븁\u0000\n[f000]Ā\u0001\u0000 makes\na dramatic appearance![f000]븁\u0000"
     InfoMsg 36, 1
     VMJump L_17EA
 
 L_1790:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_17AE
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_17AE
+    // "We need both hands to count\nhow many times this Trainer has won[f000]븀\u0000\nthe tournament![f000]븁\u0000\nStarting to have the presence of\na winner, I should say![f000]븀\u0000\nCome on down! [f000]Ā\u0001\u0000![f000]븁\u0000"
     InfoMsg 35, 1
     VMJump L_17EA
 
 L_17AE:
     VMStackPush 0x8020
     VMStackPushConst 5
-    VMStackCmp 4
-    VMJumpIf 255, L_17CC
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_17CC
+    // "Recently winning a few times,\nthis Trainer is becoming popular[f000]븀\u0000\naround Driftveil City![f000]븀\u0000\nHere comes our [f000]Ā\u0001\u0000![f000]븁\u0000"
     InfoMsg 34, 1
     VMJump L_17EA
 
 L_17CC:
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 4
-    VMJumpIf 255, L_17EA
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_17EA
+    // "Go all out![f000]븁\u0000\nGet another win,\n[f000]Ā\u0001\u0000![f000]븁\u0000"
     InfoMsg 33, 1
     VMJump L_17EA
 
@@ -1553,7 +1587,7 @@ L_17EA:
 L_17EE:
     Plugin7_Cmd1012 0x8029
     WorkCmpConst 0x8029, 1
-    VMJumpIf 1, L_1805
+    VMJumpIf CMP_EQ, L_1805
     VMJump L_1815
 
 L_1805:
@@ -1563,14 +1597,14 @@ L_1805:
 
 L_1815:
     WorkCmpConst 0x8029, 2
-    VMJumpIf 1, L_1828
+    VMJumpIf CMP_EQ, L_1828
     VMJump L_1A45
 
 L_1828:
     Plugin7_Cmd1014 0x802b
     SEPlay 2098
     WorkCmpConst 0x802b, 0
-    VMJumpIf 1, L_1843
+    VMJumpIf CMP_EQ, L_1843
     VMJump L_184F
 
 L_1843:
@@ -1579,7 +1613,7 @@ L_1843:
 
 L_184F:
     WorkCmpConst 0x802b, 9
-    VMJumpIf 1, L_1862
+    VMJumpIf CMP_EQ, L_1862
     VMJump L_186E
 
 L_1862:
@@ -1588,7 +1622,7 @@ L_1862:
 
 L_186E:
     WorkCmpConst 0x802b, 10
-    VMJumpIf 1, L_1881
+    VMJumpIf CMP_EQ, L_1881
     VMJump L_188D
 
 L_1881:
@@ -1597,7 +1631,7 @@ L_1881:
 
 L_188D:
     WorkCmpConst 0x802b, 11
-    VMJumpIf 1, L_18A0
+    VMJumpIf CMP_EQ, L_18A0
     VMJump L_18AC
 
 L_18A0:
@@ -1606,7 +1640,7 @@ L_18A0:
 
 L_18AC:
     WorkCmpConst 0x802b, 12
-    VMJumpIf 1, L_18BF
+    VMJumpIf CMP_EQ, L_18BF
     VMJump L_18CB
 
 L_18BF:
@@ -1615,7 +1649,7 @@ L_18BF:
 
 L_18CB:
     WorkCmpConst 0x802b, 14
-    VMJumpIf 1, L_18DE
+    VMJumpIf CMP_EQ, L_18DE
     VMJump L_18EA
 
 L_18DE:
@@ -1624,7 +1658,7 @@ L_18DE:
 
 L_18EA:
     WorkCmpConst 0x802b, 1
-    VMJumpIf 1, L_18FD
+    VMJumpIf CMP_EQ, L_18FD
     VMJump L_1909
 
 L_18FD:
@@ -1633,7 +1667,7 @@ L_18FD:
 
 L_1909:
     WorkCmpConst 0x802b, 3
-    VMJumpIf 1, L_191C
+    VMJumpIf CMP_EQ, L_191C
     VMJump L_1928
 
 L_191C:
@@ -1642,7 +1676,7 @@ L_191C:
 
 L_1928:
     WorkCmpConst 0x802b, 4
-    VMJumpIf 1, L_193B
+    VMJumpIf CMP_EQ, L_193B
     VMJump L_1947
 
 L_193B:
@@ -1651,7 +1685,7 @@ L_193B:
 
 L_1947:
     WorkCmpConst 0x802b, 2
-    VMJumpIf 1, L_195A
+    VMJumpIf CMP_EQ, L_195A
     VMJump L_1966
 
 L_195A:
@@ -1660,7 +1694,7 @@ L_195A:
 
 L_1966:
     WorkCmpConst 0x802b, 13
-    VMJumpIf 1, L_1979
+    VMJumpIf CMP_EQ, L_1979
     VMJump L_1985
 
 L_1979:
@@ -1669,7 +1703,7 @@ L_1979:
 
 L_1985:
     WorkCmpConst 0x802b, 6
-    VMJumpIf 1, L_1998
+    VMJumpIf CMP_EQ, L_1998
     VMJump L_19A4
 
 L_1998:
@@ -1678,7 +1712,7 @@ L_1998:
 
 L_19A4:
     WorkCmpConst 0x802b, 5
-    VMJumpIf 1, L_19B7
+    VMJumpIf CMP_EQ, L_19B7
     VMJump L_19C3
 
 L_19B7:
@@ -1687,7 +1721,7 @@ L_19B7:
 
 L_19C3:
     WorkCmpConst 0x802b, 7
-    VMJumpIf 1, L_19D6
+    VMJumpIf CMP_EQ, L_19D6
     VMJump L_19E2
 
 L_19D6:
@@ -1696,7 +1730,7 @@ L_19D6:
 
 L_19E2:
     WorkCmpConst 0x802b, 15
-    VMJumpIf 1, L_19F5
+    VMJumpIf CMP_EQ, L_19F5
     VMJump L_1A01
 
 L_19F5:
@@ -1705,7 +1739,7 @@ L_19F5:
 
 L_1A01:
     WorkCmpConst 0x802b, 16
-    VMJumpIf 1, L_1A14
+    VMJumpIf CMP_EQ, L_1A14
     VMJump L_1A20
 
 L_1A14:
@@ -1714,7 +1748,7 @@ L_1A14:
 
 L_1A20:
     WorkCmpConst 0x802b, 8
-    VMJumpIf 1, L_1A33
+    VMJumpIf CMP_EQ, L_1A33
     VMJump L_1A3F
 
 L_1A33:
@@ -1726,7 +1760,7 @@ L_1A3F:
 
 L_1A45:
     WorkCmpConst 0x8029, 3
-    VMJumpIf 1, L_1A58
+    VMJumpIf CMP_EQ, L_1A58
     VMJump L_1A68
 
 L_1A58:
@@ -1736,7 +1770,7 @@ L_1A58:
 
 L_1A68:
     WorkCmpConst 0x8029, 4
-    VMJumpIf 1, L_1A7B
+    VMJumpIf CMP_EQ, L_1A7B
     VMJump L_1A8B
 
 L_1A7B:
@@ -1746,7 +1780,7 @@ L_1A7B:
 
 L_1A8B:
     WorkCmpConst 0x8029, 11
-    VMJumpIf 1, L_1A9E
+    VMJumpIf CMP_EQ, L_1A9E
     VMJump L_1AAE
 
 L_1A9E:
@@ -1756,7 +1790,7 @@ L_1A9E:
 
 L_1AAE:
     WorkCmpConst 0x8029, 12
-    VMJumpIf 1, L_1AC1
+    VMJumpIf CMP_EQ, L_1AC1
     VMJump L_1AD1
 
 L_1AC1:
@@ -1766,7 +1800,7 @@ L_1AC1:
 
 L_1AD1:
     WorkCmpConst 0x8029, 14
-    VMJumpIf 1, L_1AE4
+    VMJumpIf CMP_EQ, L_1AE4
     VMJump L_1AF4
 
 L_1AE4:
@@ -1776,7 +1810,7 @@ L_1AE4:
 
 L_1AF4:
     WorkCmpConst 0x8029, 5
-    VMJumpIf 1, L_1B07
+    VMJumpIf CMP_EQ, L_1B07
     VMJump L_1B17
 
 L_1B07:
@@ -1786,7 +1820,7 @@ L_1B07:
 
 L_1B17:
     WorkCmpConst 0x8029, 6
-    VMJumpIf 1, L_1B2A
+    VMJumpIf CMP_EQ, L_1B2A
     VMJump L_1B3A
 
 L_1B2A:
@@ -1796,7 +1830,7 @@ L_1B2A:
 
 L_1B3A:
     WorkCmpConst 0x8029, 7
-    VMJumpIf 1, L_1B4D
+    VMJumpIf CMP_EQ, L_1B4D
     VMJump L_1B5D
 
 L_1B4D:
@@ -1806,7 +1840,7 @@ L_1B4D:
 
 L_1B5D:
     WorkCmpConst 0x8029, 8
-    VMJumpIf 1, L_1B70
+    VMJumpIf CMP_EQ, L_1B70
     VMJump L_1B80
 
 L_1B70:
@@ -1816,7 +1850,7 @@ L_1B70:
 
 L_1B80:
     WorkCmpConst 0x8029, 9
-    VMJumpIf 1, L_1B93
+    VMJumpIf CMP_EQ, L_1B93
     VMJump L_1BA3
 
 L_1B93:
@@ -1826,7 +1860,7 @@ L_1B93:
 
 L_1BA3:
     WorkCmpConst 0x8029, 10
-    VMJumpIf 1, L_1BB6
+    VMJumpIf CMP_EQ, L_1BB6
     VMJump L_1BC6
 
 L_1BB6:
@@ -1836,7 +1870,7 @@ L_1BB6:
 
 L_1BC6:
     WorkCmpConst 0x8029, 13
-    VMJumpIf 1, L_1BD9
+    VMJumpIf CMP_EQ, L_1BD9
     VMJump L_1BE9
 
 L_1BD9:
@@ -1846,7 +1880,7 @@ L_1BD9:
 
 L_1BE9:
     WorkCmpConst 0x8029, 15
-    VMJumpIf 1, L_1BFC
+    VMJumpIf CMP_EQ, L_1BFC
     VMJump L_1C0C
 
 L_1BFC:

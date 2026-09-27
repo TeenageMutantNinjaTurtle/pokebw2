@@ -26,22 +26,22 @@ Script_3:
 L_003E:
     VMStackPush 0x8020
     VMStackPush 0x8021
-    VMStackCmp 2
-    VMJumpIf 255, L_00CB
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_00CB
     PokePartyGetSpecies 0x8022, 0x8021
     PokePartyGetForme 0x8023, 0x8021
     VMStackPush 0x8022
     VMStackPushConst 647
-    VMStackCmp 1
-    VMJumpIf 255, L_00BB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00BB
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00A2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00A2
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 3
-    VMJumpIf 255, L_009C
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_009C
     WorkSetConst 0x8024, 2
 
 L_009C:
@@ -50,8 +50,8 @@ L_009C:
 L_00A2:
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 3
-    VMJumpIf 255, L_00BB
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_00BB
     WorkSetConst 0x8024, 1
 
 L_00BB:
@@ -62,45 +62,54 @@ L_00BB:
 L_00CB:
     DebugPrint 0x8024
     WorkCmpConst 0x8024, 0
-    VMJumpIf 1, L_00E2
+    VMJumpIf CMP_EQ, L_00E2
     VMJump L_00FC
 
 L_00E2:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "There is an old legend about this place.[f000]븁\u0000\nLong ago, when a war between people\nstarted an intense fire in this forest,[f000]븀\u0000\na single young Pokémon was separated[f000]븀\u0000\nfrom its parents.[f000]븁\u0000\nCobalion, Terrakion, and Virizion\nteamed up to take care of this Pokémon.[f000]븁\u0000\nI wonder what that young Pokémon\ngrew up to be like..."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0192
 
 L_00FC:
     WorkCmpConst 0x8024, 1
-    VMJumpIf 1, L_010F
+    VMJumpIf CMP_EQ, L_010F
     VMJump L_0147
 
 L_010F:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
-    ParentActorMsg 1024, 6, 0, 0
-    ParentActorMsg 1024, 7, 0, 0
-    ParentActorMsg 1024, 8, 0, 0
+    // "Ooh! That Pokémon! It couldn't be...[f000]븁\u0000\nA bright red mane...and a lush tail...and\na single, noble horn![f000]븁\u0000\nIt's exactly like the old legend![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
+    // "Long ago, when a war between people\nstarted an intense fire in this forest,[f000]븀\u0000\na single young Pokémon was separated[f000]븀\u0000\nfrom its parents.[f000]븁\u0000\nCobalion, Terrakion, and Virizion\nteamed up to take care of this Pokémon.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
+    // "The three acted as its parents and\ntaught it the knowledge and the moves[f000]븀\u0000\nit needed to survive...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
+    // "The young Pokémon grew rapidly and\ndeveloped a power that surpassed its[f000]븀\u0000\nthree caretakers.[f000]븁\u0000\nHowever... One day, that Pokémon\ndisappeared from the forest.[f000]븁\u0000\nNo one knows why.\nBut when I think about it...[f000]븁\u0000\nYoung ones are always reckless and\ndrawn to adventure..."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0192
 
 L_0147:
     WorkCmpConst 0x8024, 2
-    VMJumpIf 1, L_015A
+    VMJumpIf CMP_EQ, L_015A
     VMJump L_0192
 
 L_015A:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
-    ParentActorMsg 1024, 6, 0, 0
-    ParentActorMsg 1024, 7, 0, 0
-    ParentActorMsg 1024, 8, 0, 0
+    // "Ooh! That Pokémon! It couldn't be...[f000]븁\u0000\nA bright red mane...and a lush tail...\nAnd it even has a horn more magnificent[f000]븀\u0000\nthan in the old legend![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
+    // "Long ago, when a war between people\nstarted an intense fire in this forest,[f000]븀\u0000\na single young Pokémon was separated[f000]븀\u0000\nfrom its parents.[f000]븁\u0000\nCobalion, Terrakion, and Virizion\nteamed up to take care of this Pokémon.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
+    // "The three acted as its parents and\ntaught it the knowledge and the moves[f000]븀\u0000\nit needed to survive...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
+    // "The young Pokémon grew rapidly and\ndeveloped a power that surpassed its[f000]븀\u0000\nthree caretakers.[f000]븁\u0000\nHowever... One day, that Pokémon\ndisappeared from the forest.[f000]븁\u0000\nNo one knows why.\nBut when I think about it...[f000]븁\u0000\nYoung ones are always reckless and\ndrawn to adventure..."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0192

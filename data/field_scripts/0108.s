@@ -10,7 +10,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "My Pokémon and I like to laugh![f000]븁\u0000\nWhen either of us starts laughing,\nwe both start laughing! Gwa ha ha!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -22,7 +23,8 @@ Script_2:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 572, 0
-    ParentActorMsg 1024, 1, 0, 0
+    // "Gahoohoo!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -34,7 +36,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "What do you like on TV?\nI like the lady and Watchy Watchog!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -44,9 +47,11 @@ Script_3:
 Script_4:
     ActorsPauseAll
     SEPlay 1351
-    ActorMsg 1024, 3, 3, 5, 0
+    // "Once when I tried to catch a Pokémon,\nthe Poké Ball only shook once![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 3, 5, 0
     MsgWinCloseAll
-    ActorMsg 1024, 4, 4, 3, 0
+    // "Oh! That does happen sometimes![f000]븁\u0000\nI've just been calling it a\ncritical capture![f000]븁\u0000\nThe more Pokémon you catch,\nthe more likely that phenomenon is![f000]븁\u0000\nApparently, when the Poké Ball\nonly rocks once, it's easier[f000]븀\u0000\nto catch a Pokémon."
+    ActorMsg MSGFILE_SCRIPT, 4, 4, 3, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents

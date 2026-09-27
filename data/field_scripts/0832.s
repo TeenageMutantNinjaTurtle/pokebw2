@@ -17,30 +17,35 @@ Script_1:
     BGMPlay 1160
     ActorCmdExec 1, Movement_00D4
     ActorCmdWait
-    ActorMsg 1024, 0, 1, 0, 0
+    // "???: What's this?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 1, 0, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_00DC
     ActorCmdWait
-    ActorMsg 1024, 1, 1, 0, 0
+    // "What's your name?[f000]븁\u0000\n...[f000]븁\u0000\nOK. I'll remember that!\n[f000]Ā\u0001\u0000, nice to meet you.[f000]븁\u0000\nI'm Cynthia.\nI'm a Pokémon Trainer, too, like you.[f000]븁\u0000\nI have an insatiable curiosity for\nresearching Pokémon myths.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 1, 0, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_00E4
     ActorCmdWait
-    ActorMsg 1024, 2, 1, 0, 0
+    // "I'm sure you know about Undella Bay's\nAbyssal Ruins, right?[f000]븁\u0000\nI'm staying here at my friend's villa\nso I can investigate them.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 1, 0, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_00EC
     ActorCmdWait
-    ActorMsg 1024, 3, 1, 0, 0
+    // "In order to get to know each other\nbetter as Pokémon Trainers,[f000]븀\u0000\nI would like our Pokémon to have a match.[f000]븁\u0000\nWould you care to be my opponent?"
+    ActorMsg MSGFILE_SCRIPT, 3, 1, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00B4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B4
     VMCall L_00F4
     BGMChangeMap
     VMJump L_00CC
 
 L_00B4:
-    ActorMsg 1024, 5, 1, 0, 0
+    // "Ha ha. You prefer to take things slowly\nand rationally, am I right?[f000]븁\u0000\nWhen you're ready, come and talk to me.\nI'll be happy to see you."
+    ActorMsg MSGFILE_SCRIPT, 5, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
     BGMChangeMap
@@ -70,14 +75,15 @@ Movement_00EC:
 
 L_00F4:
     WordSetPlayerName 0
-    ActorMsg 1024, 4, 1, 0, 0
+    // "Before I send out my Pokémon,\nmy heart always begins to race...[f000]븁\u0000\nInteresting...\nMy Pokémon in their Poké Balls are[f000]븀\u0000\nradiating a happy feeling.[f000]븁\u0000\nAre you the reason?\nWhat are you?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 1, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 456, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_012C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_012C
     CallTrainerBattleEnd
     VMJump L_0134
 
@@ -86,7 +92,8 @@ L_012C:
     CallTrainerLose
 
 L_0134:
-    ActorMsg 1024, 7, 1, 0, 0
+    // "Cynthia: That was beyond my expectation!\nWhat an exceptional battle![f000]븁\u0000\nI love being here in spring and summer.[f000]븁\u0000\nI can't stay all year, because there's\nso much to investigate in Sinnoh, as well.[f000]븁\u0000\nYou're a great Trainer, and it would make\nme happy to see you again sometime."
+    ActorMsg MSGFILE_SCRIPT, 7, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x4098, 3
@@ -102,19 +109,21 @@ Script_2:
     RTCGetSeason 0x8021
     VMStackPush 0x4098
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_01BF
-    ActorMsg 1024, 6, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01BF
+    // "Cynthia: Oh.\nYou've had a chance to get ready?[f000]븁\u0000\nI do want our Pokémon to have a match...\nAre you prepared to be my opponent?"
+    ActorMsg MSGFILE_SCRIPT, 6, 1, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01A9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01A9
     VMCall L_00F4
     VMJump L_01B9
 
 L_01A9:
-    ActorMsg 1024, 5, 1, 0, 0
+    // "Ha ha. You prefer to take things slowly\nand rationally, am I right?[f000]븁\u0000\nWhen you're ready, come and talk to me.\nI'll be happy to see you."
+    ActorMsg MSGFILE_SCRIPT, 5, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -124,13 +133,14 @@ L_01B9:
 L_01BF:
     VMStackPush 0x4098
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x400f
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_01F8
-    ActorMsg 1024, 8, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_01F8
+    // "Cynthia: I come here in spring and summer\nbecause there are a lot of things[f000]븀\u0000\nto investigate in Sinnoh, as well.[f000]븁\u0000\nI'd be delighted to see you again.\nYou're an awesome Pokémon Trainer!"
+    ActorMsg MSGFILE_SCRIPT, 8, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_044C
@@ -138,67 +148,73 @@ L_01BF:
 L_01F8:
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2745
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_03BB
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_03BB
     VMStackPush 0x4166
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2748
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0254
-    ActorMsg 1024, 9, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0254
+    // "Cynthia: How terrific to see you again![f000]븁\u0000\nI've got to tell you...\nMy Pokémon are excited to battle yours.[f000]븁\u0000\nWould you care to be my opponent?"
+    ActorMsg MSGFILE_SCRIPT, 9, 1, 0, 0
     FlagSet 2748
     VMJump L_02CE
 
 L_0254:
     VMStackPush 0x4166
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2748
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0289
-    ActorMsg 1024, 12, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0289
+    // "Cynthia: I can tell that my Pokémon are\nexcited about battling your Pokémon...[f000]븁\u0000\nWould you care to be my opponent?"
+    ActorMsg MSGFILE_SCRIPT, 12, 1, 0, 0
     VMJump L_02CE
 
 L_0289:
     VMStackPush 0x4166
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2748
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_02C2
-    ActorMsg 1024, 14, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_02C2
+    // "Cynthia: To live their lives to the\nfullest, people and Pokémon need[f000]븀\u0000\nthe chance to throw themselves into[f000]븀\u0000\nbattle against the fiercest opposition.[f000]븁\u0000\nThat's why I want to battle you.\nHow about it?"
+    ActorMsg MSGFILE_SCRIPT, 14, 1, 0, 0
     FlagSet 2748
     VMJump L_02CE
 
 L_02C2:
-    ActorMsg 1024, 17, 1, 0, 0
+    // "Cynthia: Are you prepared?[f000]븁\u0000\nLet's battle at full strength and see\nhow bright our lights can shine!"
+    ActorMsg MSGFILE_SCRIPT, 17, 1, 0, 0
 
 L_02CE:
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0380
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0380
     VMStackPush 0x4166
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_030A
-    ActorMsg 1024, 10, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_030A
+    // "Cynthia: This will be such fun!\nNo holds barred![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 1, 0, 0
     VMJump L_0316
 
 L_030A:
-    ActorMsg 1024, 15, 1, 0, 0
+    // "Cynthia: As our Pokémon meet in battle,\nI'll learn more about you[f000]븀\u0000\nand how you've taken care of them.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 1, 0, 0
 
 L_0316:
     MsgWinCloseAll
@@ -206,8 +222,8 @@ L_0316:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0343
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0343
     FlagSet 2745
     CallTrainerBattleEnd
     VMJump L_0345
@@ -218,13 +234,15 @@ L_0343:
 L_0345:
     VMStackPush 0x4166
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_036A
-    ActorMsg 1024, 13, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_036A
+    // "Cynthia: For me, it has really been\nworthwhile to come all the way[f000]븀\u0000\nto far Unova.[f000]븁\u0000\nWhy? Because...\nI met you, and my world got wider!"
+    ActorMsg MSGFILE_SCRIPT, 13, 1, 0, 0
     VMJump L_0376
 
 L_036A:
-    ActorMsg 1024, 18, 1, 0, 0
+    // "Cynthia: When you meet Trainers, battle\nthem to learn about the kind of people[f000]븀\u0000\nthey are. Observe the Pokémon they[f000]븀\u0000\nchoose, which moves they taught them,[f000]븀\u0000\nand which items the Pokémon hold.[f000]븁\u0000\nYou don't need words at such times...[f000]븁\u0000\nIf you want to know more about me...\nCome to Sinnoh!"
+    ActorMsg MSGFILE_SCRIPT, 18, 1, 0, 0
 
 L_0376:
     LastKeyWait
@@ -234,13 +252,15 @@ L_0376:
 L_0380:
     VMStackPush 0x4166
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03A5
-    ActorMsg 1024, 11, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03A5
+    // "Cynthia: Oh, what a pity.[f000]븁\u0000\nSummers in Undella Town make me feel like\nI'm on holiday. I forget about battling![f000]븁\u0000\nBut in spring, I feel like getting\nworked up with a good battle."
+    ActorMsg MSGFILE_SCRIPT, 11, 1, 0, 0
     VMJump L_03B1
 
 L_03A5:
-    ActorMsg 1024, 16, 1, 0, 0
+    // "Cynthia: I'm a little disappointed.[f000]븁\u0000\nI know you can battle on bigger\nstages than you've done so far![f000]븁\u0000\nIt's so plain to me that your light can\nshine brighter than this..."
+    ActorMsg MSGFILE_SCRIPT, 16, 1, 0, 0
 
 L_03B1:
     LastKeyWait
@@ -252,21 +272,23 @@ L_03B5:
 L_03BB:
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2745
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0419
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0419
     VMStackPush 0x4166
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0403
-    ActorMsg 1024, 13, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0403
+    // "Cynthia: For me, it has really been\nworthwhile to come all the way[f000]븀\u0000\nto far Unova.[f000]븁\u0000\nWhy? Because...\nI met you, and my world got wider!"
+    ActorMsg MSGFILE_SCRIPT, 13, 1, 0, 0
     VMJump L_040F
 
 L_0403:
-    ActorMsg 1024, 18, 1, 0, 0
+    // "Cynthia: When you meet Trainers, battle\nthem to learn about the kind of people[f000]븀\u0000\nthey are. Observe the Pokémon they[f000]븀\u0000\nchoose, which moves they taught them,[f000]븀\u0000\nand which items the Pokémon hold.[f000]븁\u0000\nYou don't need words at such times...[f000]븁\u0000\nIf you want to know more about me...\nCome to Sinnoh!"
+    ActorMsg MSGFILE_SCRIPT, 18, 1, 0, 0
 
 L_040F:
     LastKeyWait
@@ -276,13 +298,13 @@ L_040F:
 L_0419:
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_044C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_044C
     WorkSetConst 0x8020, 29
     WorkAdd 0x8020, 0x4166
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0x8020, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -298,7 +320,7 @@ Script_3:
     WorkAdd 0x8020, 0x4167
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0x8020, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -311,7 +333,7 @@ Script_4:
     WorkAdd 0x8020, 0x4168
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0x8020, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -324,7 +346,7 @@ Script_5:
     WorkAdd 0x8020, 0x416a
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0x8020, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -337,7 +359,7 @@ Script_6:
     WorkAdd 0x8020, 0x416b
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0x8020, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -350,7 +372,7 @@ Script_7:
     WorkAdd 0x8020, 0x416c
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0x8020, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -361,7 +383,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 49, 0, 0
+    // "This villa belongs to Caitlin, one of the\nPokémon League's Elite Four."
+    ParentActorMsg MSGFILE_SCRIPT, 49, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

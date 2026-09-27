@@ -11,8 +11,8 @@
 Script_4:
     VMStackPushFlag 2757
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0039
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0039
     WorkSetConst 0x4000, 1
     VMJump L_003F
 
@@ -26,8 +26,8 @@ L_003F:
 Script_6:
     VMStackPush 0x4000
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00AC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00AC
     WorkSetConst 0x8020, 0
     WorkSetConst 0x8021, 0
     ActorGetGPos 0, 0x8020, 0x8021
@@ -54,8 +54,8 @@ Script_5:
     WorkSetConst 0x8028, 0
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00FF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00FF
     WorkSetConst 0x8028, 0
     VMJump L_0105
 
@@ -71,7 +71,8 @@ L_0105:
     BGMPlay 1086
     ActorCmdExec 0, Movement_0400
     ActorCmdWait
-    ActorMsg 1024, 0, 0, 0, 0
+    // "Wye: Hi!\nThis way, pleeeeease![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     ActorMsgClose
     ActorCmdExec 0, Movement_040C
     ActorCmdExec 255, Movement_0418
@@ -81,34 +82,43 @@ L_0105:
     ActorCmdWait
     ActorCmdExec 0, Movement_0424
     ActorCmdWait
-    ActorMsg 1024, 1, 0, 0, 0
+    // "Wye: Exciting! Thrilling! Zippy! Chilling!\nIt's “Pep Quiz\"![f000]븁\u0000\nToday's challenger is--this person![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     ActorMsgClose
-    ActorMsg 1024, 2, 1, 0, 0
+    // "Aha: Hiya, welcome![f000]븁\u0000\n“Pep Quiz\" starts NOW![f000]븁\u0000\nAnswer lots of quizzy questions,\nand watch your brain get brainier![f000]븁\u0000\nLet's start...with...a question![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 1, 0, 0
     ActorMsgClose
     ActorCmdExec 2, Movement_044C
     ActorCmdWait
-    ActorMsg 1024, 3, 2, 0, 0
+    // "Ditoh: Good luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 2, 0, 0
     ActorMsgClose
-    ActorMsg 1024, 4, 1, 0, 0
+    // "Aha: A question![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 1, 0, 0
     MEPlay 1328
     MEWait
-    ActorMsg 1024, 0x8025, 1, 0, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8025, 1, 0, 0
     ActorMsgClose
     ActorCmdExec 0, Movement_0454
     ActorCmdWait
-    ActorMsg 1024, 5, 0, 0, 0
+    // "Wye: Oh, my! It's tremendously difficult!\nCan the challenger answer this?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 0, 0
     ActorMsgClose
     ActorCmdExec 2, Movement_0488
     ActorCmdWait
-    ActorMsg 1024, 6, 2, 0, 0
+    // "Ditoh: H-i-n-t! H-i-n-t![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 2, 0, 0
     ActorMsgClose
-    ActorMsg 1024, 7, 1, 0, 0
+    // "Aha: Oh-oh. The audience\nis asking for a hint![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 1, 0, 0
     ActorMsgClose
-    ActorMsg 1024, 8, 0, 0, 0
-    ActorMsg 1024, 0x8026, 0, 0, 0
+    // "Wye: OK.\nI'll give you a hint![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 0, 0, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8026, 0, 0, 0
     ActorMsgClose
-    ActorMsg 1024, 9, 1, 0, 0
-    ActorMsg 1024, 0x8025, 1, 0, 0
+    // "Aha: Ha ha, this is a good hint!\nChallenger, please answer![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 1, 0, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8025, 1, 0, 0
     ActorMsgClose
     FadeOutBlackQ
     FadeWait
@@ -119,12 +129,12 @@ L_0105:
     FadeWait
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0280
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0280
     VMStackPush 0x8022
     VMStackPush 0x8027
-    VMStackCmp 1
-    VMJumpIf 255, L_027A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_027A
     WorkSetConst 0x8010, 1
     VMJump L_0280
 
@@ -134,21 +144,25 @@ L_027A:
 L_0280:
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02F1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02F1
     SEPlay 1690
     SEWait
-    ActorMsg 1024, 10, 1, 0, 0
+    // "Aha: Woo-hoo!\nThat is c-o-r-r-e-c-t![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 1, 0, 0
     ActorMsgClose
     ActorCmdExec 0, Movement_0498
     ActorCmdWait
-    ActorMsg 1024, 11, 0, 0, 0
+    // "Wye: You go! Yeah, you do![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 0, 0, 0
     ActorMsgClose
     ActorCmdExec 2, Movement_0488
     ActorCmdWait
-    ActorMsg 1024, 12, 2, 0, 0
+    // "Ditoh: Yeah! Yeah! Good hustle![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 2, 0, 0
     ActorMsgClose
-    ActorMsg 1024, 13, 1, 0, 0
+    // "Aha: Congratulations![f000]븁\u0000\nNow--THIS is a prize.\nIt's an Antidote![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 1, 0, 0
     ActorMsgClose
     WorkSetConst 0x8024, 18
     VMJump L_0349
@@ -156,17 +170,21 @@ L_0280:
 L_02F1:
     SEPlay 1691
     SEWait
-    ActorMsg 1024, 14, 1, 0, 0
+    // "Aha: Oh, no. Too bad!\nThat's not right, 'cause you are wrong![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 1, 0, 0
     ActorMsgClose
     ActorCmdExec 0, Movement_04A0
     ActorCmdWait
-    ActorMsg 1024, 15, 0, 0, 0
+    // "Wye: Aww... Sadness...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 0, 0, 0
     ActorMsgClose
     ActorCmdExec 2, Movement_0488
     ActorCmdWait
-    ActorMsg 1024, 16, 2, 0, 0
+    // "Ditoh: Good hustle!\nGustle! Gustle![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 2, 0, 0
     ActorMsgClose
-    ActorMsg 1024, 17, 1, 0, 0
+    // "Aha: Yeah, you gustle![f000]븁\u0000\nHere ya go... Take this memento.\nIt's a Parlyz Heal![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 17, 1, 0, 0
     ActorMsgClose
     WorkSetConst 0x8024, 22
 
@@ -184,7 +202,8 @@ L_0349:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 18, 0, 0, 0
+    // "Wye: Exciting! Thrilling! Zippy! Chilling!\nThat's “Pep Quiz\"![f000]븁\u0000\nSee ya tomorrow!"
+    ActorMsg MSGFILE_SCRIPT, 18, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     BGMChangeMap
@@ -196,7 +215,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 20, 0, 0
+    // "Wye: I want to be on TV soon!"
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -207,7 +227,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 19, 0, 0
+    // "Aha: Do you like quiz shows?"
+    ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -218,7 +239,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 21, 0, 0
+    // "Ditoh: Gussssssssstle!"
+    ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

@@ -20,7 +20,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "The ship to Castelia City\nleaves from here![f000]븁\u0000\nIt can even cross seas that are too\nrough for Pokémon to get through!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -33,13 +34,15 @@ Script_2:
     ActorSetEyeToEye
     VMStackPushFlag 723
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_006B
-    ParentActorMsg 1024, 8, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_006B
+    // "If you want the captain,\nhe's in Pokéstar Studios![f000]븁\u0000\nHis daughter, Roxie, is both a\nGym Leader and a band leader, you know.[f000]븁\u0000\nNot wanting to be outdone, he said he\nneeds to be a captain and an actor!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     VMJump L_0075
 
 L_006B:
-    ParentActorMsg 1024, 9, 0, 0
+    // "Your life is your own.[f000]븁\u0000\nYou're free to work hard at one thing\nor try many different things!"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
 
 L_0075:
     LastKeyWait
@@ -52,13 +55,15 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 4, 2, 2, 0
+    // "What can I do for you?\nShall we set sail for Castelia City?"
+    ActorMsg MSGFILE_SCRIPT, 4, 2, 2, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00E0
-    ActorMsg 1024, 5, 2, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E0
+    // "Of course!\nPlease, step this way![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 2, 2, 0
     MsgWinCloseAll
     FadeOutBlackQ
     BGMFadeOut 30
@@ -71,7 +76,8 @@ Script_3:
     VMJump L_00F0
 
 L_00E0:
-    ActorMsg 1024, 6, 2, 2, 0
+    // "OK then! Please come talk to me\nwhenever you'd like to board!"
+    ActorMsg MSGFILE_SCRIPT, 6, 2, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -85,23 +91,26 @@ Script_4:
     SEPlay 1351
     ActorSetEyeToEye
     WordSetLoadRivalName 1
-    ActorMsg 1024, 0, 3, 2, 0
+    // "[f000]Ā\u0001\u0001: You're going\nto Castelia City, right?"
+    ActorMsg MSGFILE_SCRIPT, 0, 3, 2, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01C6
-    ActorMsg 1024, 1, 3, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01C6
+    // "I'm going to look for Team Plasma!\nI can't forgive those guys![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 3, 2, 0
     MsgWinCloseAll
     ActorCmdExec 3, Movement_01FC
     ActorCmdWait
-    ActorMsg 1024, 2, 3, 2, 0
+    // "Hey, captain!\nShow us that ship you're so proud of![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 3, 2, 0
     MsgWinCloseAll
     PlayerGetDir 0x8010
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_016E
+    VMJumpIf CMP_EQ, L_016E
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_016E
+    VMJumpIf CMP_EQ, L_016E
     VMJump L_017E
 
 L_016E:
@@ -110,7 +119,8 @@ L_016E:
     VMJump L_017E
 
 L_017E:
-    ActorMsg 1024, 5, 2, 2, 0
+    // "Of course!\nPlease, step this way![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 2, 2, 0
     MsgWinCloseAll
     FadeOutBlackQ
     BGMFadeOut 30
@@ -126,7 +136,8 @@ L_017E:
     VMJump L_01D6
 
 L_01C6:
-    ActorMsg 1024, 3, 3, 2, 0
+    // "Really?[f000]븁\u0000\nSomething you still need to take care of?\nGo deal with it, then.[f000]븁\u0000\nYou know that even after we go to\nCastelia City, you can come[f000]븀\u0000\nback to Virbank anytime, right?"
+    ActorMsg MSGFILE_SCRIPT, 3, 3, 2, 0
     LastKeyWait
     MsgWinCloseAll
 

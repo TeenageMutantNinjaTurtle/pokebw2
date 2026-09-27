@@ -230,24 +230,34 @@ offsets of its scripts, followed by the scripts and their movement data. A map s
 the zone runs at points such as its loading.
 
 ```
-Script_2:
-    VMStackPushFlag 970
-    VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0080
-    FlagReset 970
-    ActorAdd 3
+L_015C:
+    ItemSub ITEM_POKE_BALL, 1, 0x8010
+    ItemAdd ITEM_GREAT_BALL, 1, 0x8010
+    WorkSetConst 0x8020, 2
+    VMReturn
 ```
 
-Commands are named after swan's names for their handlers, such as `s0024_FlagReset` for `FlagReset`. The ones swan
-does not name are `Cmd_NNNN`. Commands from ID 1000 up come from the script plugin, an overlay that the zone loads,
-and are named `PluginN_CmdNNNN`.
+Commands are named after swan's names for their handlers, such as `s0024_FlagReset` for `FlagReset`. Of the ones swan
+does not name, a few are named after the function they call, such as `IsFestMissionAvailable`. Those whose calls only
+tell the save data they use get its area, such as `MusicalCmd_0165`, and the rest are `Cmd_NNNN`. Commands from ID
+1000 up come from the script plugin, an overlay that the zone loads, and are named `PluginN_CmdNNNN`.
+
+Conditions are computed on a stack: `VMStackPush 0x8010`, `VMStackPushConst 0`, `VMStackCmp CMP_EQ`, and then
+`VMJumpIf CMP_STACK` jumps if the result is TRUE. `VMJumpIf` can also test the comparison register that
+`WorkCmpConst` and the other Cmp commands set (`cmpResult` in `system/vm.h`). The comparisons are in
+`include/constants/field_script.h`. Arguments that take a value can take a variable instead: IDs from `0x4000` are
+saved event work and from `0x8000` the script's own work, and the scripts write them in hex.
+
+Arguments are written as constants where the handler shows what they are: items, moves, species, abilities and types,
+and `MSGFILE_SCRIPT` for the script's own text file. Each command that shows a message has its text as a comment,
+from the zone's or the global script's text file in the script message archive (`a/0/0/3`).
 
 The arguments of every command come from its handler. `tools/scripts/field_command_table.py` follows the reads of the
 script in each handler's disassembly: `VM_Read16`, `VM_Read32`, `ScriptReadAny` (a value or a variable),
-`ScriptReadVar`, loads through the VM's pc, and the same in the functions the handler calls with the VM. It writes
-`tools/scripts/field_commands.json`, and needs `dsd dis` output in `build/asm`. Every script file decodes with these
-arguments.
+`ScriptReadVar`, loads through the VM's pc, and the same in the functions the handler calls with the VM. It follows
+each value read to the functions it is passed to, and a known function such as `BagSave_AddItem` or
+`LoadFieldScriptMessage` tells what the argument is. It writes `tools/scripts/field_commands.json`, and needs
+`dsd dis` output in `build/asm`. Every script file decodes with these arguments.
 
 A script file has the plugin of the zones that use it, or else of the zones that start its scripts. A few global
 files get the only plugin whose commands they decode with, and files whose plugin is not known keep plugin commands

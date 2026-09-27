@@ -7,6 +7,7 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     WordSetPlayerName 0
+    // "                                                                                                         "
     SystemMsg 0, 2
     LastKeyWait
     InfoMsgClose

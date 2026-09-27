@@ -22,13 +22,14 @@ Script_2:
     ActorCmdExec 0, Movement_0224
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 0, 0, 0, 0
+    // "Hey! [f000]Ā\u0001\u0000!\nYou can't go without...[f000]븁\u0000\n...Oh?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 7
-    VMStackCmp 1
-    VMJumpIf 255, L_007A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_007A
     ActorCmdExec 255, Movement_0204
     VMJump L_0088
 
@@ -40,7 +41,8 @@ L_0088:
     WordSetPlayerName 0
     PokePartyGetMemberByType 0x8023, 2
     WordSetPartyPokeSpecies 1, 0x8023
-    ActorMsg 1024, 1, 0, 0, 0
+    // "You're with [f000]ā\u0001\u0001![f000]븁\u0000\nOK. This is a going-away gift!\nDon't be shy. Take it.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -50,7 +52,8 @@ L_0088:
     VMStackPop 0x8001
     VMStackPop 0x8000
     WordSetPlayerName 0
-    ActorMsg 1024, 2, 0, 0, 0
+    // "When Pokémon get hurt, take it easy\nand go to a Pokémon Center."
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40e0, 1
@@ -64,14 +67,16 @@ Script_3:
     ActorSetEyeToEye
     VMStackPush 0x40e0
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0162
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0162
     WordSetPlayerName 0
-    ParentActorMsg 1024, 0, 0, 0
+    // "Hey! [f000]Ā\u0001\u0000!\nYou can't go without...[f000]븁\u0000\n...Oh?[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     WordSetPlayerName 0
     PokePartyGetMemberByType 0x8023, 2
     WordSetPartyPokeSpecies 1, 0x8023
-    ParentActorMsg 1024, 1, 0, 0
+    // "You're with [f000]ā\u0001\u0001![f000]븁\u0000\nOK. This is a going-away gift!\nDon't be shy. Take it.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -81,13 +86,15 @@ Script_3:
     VMStackPop 0x8001
     VMStackPop 0x8000
     WordSetPlayerName 0
-    ActorMsg 1024, 2, 0, 0, 0
+    // "When Pokémon get hurt, take it easy\nand go to a Pokémon Center."
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     WorkSetConst 0x40e0, 1
     VMJump L_016F
 
 L_0162:
     WordSetPlayerName 0
-    ParentActorMsg 1024, 3, 0, 0
+    // "[f000]Ā\u0001\u0000,\nhow is your journey?"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
 
 L_016F:
     LastKeyWait
@@ -100,11 +107,12 @@ Script_4:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01A8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01A8
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "Remember that?[f000]븁\u0000\nThe day you passed this gate\nwith your Pokémon for the first time."
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_01FD
@@ -112,12 +120,14 @@ Script_4:
 L_01A8:
     VMStackPush 0x4000
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01E9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01E9
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 4, 1, 0, 0
-    ActorMsg 1024, 5, 1, 0, 0
+    // "Hmm...\nI see. I see![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 1, 0, 0
+    // "I love to read news and information\nabout the city displayed[f000]븀\u0000\non the electric bulletin board[f000]븀\u0000\non the wall!"
+    ActorMsg MSGFILE_SCRIPT, 5, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x4000, 1
@@ -126,7 +136,8 @@ L_01A8:
 L_01E9:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "I love to read news and information\nabout the city displayed[f000]븀\u0000\non the electric bulletin board[f000]븀\u0000\non the wall!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
 

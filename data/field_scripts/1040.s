@@ -9,7 +9,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Sandstorms are terrible![f000]븁\u0000\nBut Rock-, Ground-, and\nSteel-type Pokémon can weather[f000]븀\u0000\na sandstorm without damage."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -21,7 +22,8 @@ Script_2:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 524, 0
-    ParentActorMsg 1024, 1, 0, 0
+    // "Ggggggrrr!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -35,47 +37,52 @@ Script_3:
     ActorSetEyeToEye
     VMStackPushFlag 412
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0083
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0083
     WordSetLoadPastTradePkmName 0, 0
-    ParentActorMsg 1024, 7, 0, 0
+    // "[f000]Ă\u0001\u0000! [f000]Ă\u0001\u0000!\nThe nickname you gave to the Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0156
 
 L_0083:
-    ParentActorMsg 1024, 2, 0, 0
+    // "I want to trade your Cottonee\nfor my Petilil!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0148
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0148
     MsgWinCloseAll
     WorkSetConst 0x8020, 0
     WorkSetConst 0x8021, 0
     CallPokeSelect 0, 0x8021, 0x8020, 0
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0134
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0134
     WorkSetConst 0x8022, 0
     FieldTradeCheck 0x8022, 24, 0x8020
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0120
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0120
     FieldTradeSavePokemon 0x8020, 0
-    ParentActorMsg 1024, 3, 0, 0
+    // "Pokémon trade!\nPokémon trade![f000]븁\u0000\nPokémon come and go\nvia Infrared Connection![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     MsgWinCloseAll
     FieldTradeStart 24, 0x8020
-    ParentActorMsg 1024, 4, 0, 0
+    // "They were your Cottonee and\nmy Petilil.[f000]븁\u0000\nBut now they are your Petilil and\nmy Cottonee!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 412
     VMJump L_012E
 
 L_0120:
-    ParentActorMsg 1024, 5, 0, 0
+    // "The Pokémon I want is Cottonee."
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -83,7 +90,8 @@ L_012E:
     VMJump L_0142
 
 L_0134:
-    ParentActorMsg 1024, 6, 0, 0
+    // "I see...[f000]븁\u0000\nThen, next time."
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -91,7 +99,8 @@ L_0142:
     VMJump L_0156
 
 L_0148:
-    ParentActorMsg 1024, 6, 0, 0
+    // "I see...[f000]븁\u0000\nThen, next time."
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     MsgWinCloseAll
 

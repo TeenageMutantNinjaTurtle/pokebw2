@@ -15,27 +15,27 @@ Script_7:
     WorkSetConst 0x8021, 0
     RTCGetDate 0x8020, 0x8021
     WorkCmpConst 0x8021, 2
-    VMJumpIf 1, L_00C9
+    VMJumpIf CMP_EQ, L_00C9
     WorkCmpConst 0x8021, 3
-    VMJumpIf 1, L_00C9
+    VMJumpIf CMP_EQ, L_00C9
     WorkCmpConst 0x8021, 5
-    VMJumpIf 1, L_00C9
+    VMJumpIf CMP_EQ, L_00C9
     WorkCmpConst 0x8021, 7
-    VMJumpIf 1, L_00C9
+    VMJumpIf CMP_EQ, L_00C9
     WorkCmpConst 0x8021, 11
-    VMJumpIf 1, L_00C9
+    VMJumpIf CMP_EQ, L_00C9
     WorkCmpConst 0x8021, 13
-    VMJumpIf 1, L_00C9
+    VMJumpIf CMP_EQ, L_00C9
     WorkCmpConst 0x8021, 17
-    VMJumpIf 1, L_00C9
+    VMJumpIf CMP_EQ, L_00C9
     WorkCmpConst 0x8021, 19
-    VMJumpIf 1, L_00C9
+    VMJumpIf CMP_EQ, L_00C9
     WorkCmpConst 0x8021, 23
-    VMJumpIf 1, L_00C9
+    VMJumpIf CMP_EQ, L_00C9
     WorkCmpConst 0x8021, 29
-    VMJumpIf 1, L_00C9
+    VMJumpIf CMP_EQ, L_00C9
     WorkCmpConst 0x8021, 31
-    VMJumpIf 1, L_00C9
+    VMJumpIf CMP_EQ, L_00C9
     VMJump L_00D5
 
 L_00C9:
@@ -53,8 +53,8 @@ L_00DB:
 Script_6:
     VMStackPush 0x4001
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0106
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0106
     BMSetVisible 8, 0, 10, 0
 
 L_0106:
@@ -63,8 +63,8 @@ L_0106:
 Script_8:
     VMStackPush 0x4001
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0125
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0125
     BMSetVisible 8, 0, 10, 0
 
 L_0125:
@@ -78,16 +78,19 @@ Script_2:
     VMSleep 70
     WordSetPlayerName 0
     WordSetLoadRivalName 1
-    ActorMsg 1024, 0, 0, 0, 0
+    // "Everyone, we've arrived at\nCastelia City![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_02BC
     ActorCmdExec 255, Movement_02BC
     ActorCmdWait
-    ActorMsg 1024, 1, 1, 0, 0
+    // "[f000]Ā\u0001\u0001: So this is Castelia City...\nIt's much bigger than I'd heard![f000]븁\u0000\nBut, it doesn't matter![f000]븁\u0000\nI'm going to find Team Plasma\nno matter where they run![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 1, 0, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_02C4
     ActorCmdWait
-    ActorMsg 1024, 2, 1, 0, 0
+    // "Oh yeah. [f000]Ā\u0001\u0000![f000]븁\u0000\nHere, let's register each other's\nXtransceiver number.[f000]븁\u0000\nWe didn't even need to in Aspertia.\nWe could see each other anytime![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 1, 0, 0
     MsgWinCloseAll
     SEPlay 2177
     SEWait
@@ -98,7 +101,8 @@ Script_2:
     ActorCmdExec 255, Movement_02D4
     ActorCmdWait
     EvCameraWait
-    ActorMsg 1024, 3, 1, 0, 0
+    // "That's a strange ship.\nA sailing ship in this day and age?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 1, 0, 0
     MsgWinCloseAll
     EvCameraMoveToDefault 56
     ActorCmdExec 1, Movement_0208
@@ -109,11 +113,11 @@ Script_2:
     SEPlay 1369
     ActorDelete 1
     SEWait
-    Cmd_0263 1
+    HollowRivalCmd_0263 1
     WorkSetConst 0x40ae, 2
     WorkSetConst 0x40e2, 1
     FlagSet 748
-    Cmd_0262 1, 0
+    HollowRivalCmd_0262 1, 0
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -127,13 +131,15 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 4, 0, 0, 0
+    // "What can I do for you?\nWould you like to sail to Virbank City?"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0263
-    ActorMsg 1024, 5, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0263
+    // "Of course!\nPlease, step this way![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 0, 0
     MsgWinCloseAll
     FadeOutBlackQ
     FadeWait
@@ -142,7 +148,8 @@ Script_1:
     VMJump L_0273
 
 L_0263:
-    ActorMsg 1024, 6, 0, 0, 0
+    // "OK then! Please come talk to me\nwhenever you'd like to board!"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -195,8 +202,8 @@ Script_3:
     FadeWait
     VMStackPush 0x40ae
     VMStackPushConst 1
-    VMStackCmp 5
-    VMJumpIf 255, L_030B
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_030B
     CallPlaceNameDisp
     DebugPrint 22
 
@@ -209,7 +216,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "When you just can't stand it anymore,\nscream at the ocean!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -220,11 +228,12 @@ Script_5:
     ActorsPauseAll
     VMStackPushFlag 2478
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_035C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_035C
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "That black sailing ship...\nWhat could it be?"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0370
@@ -232,7 +241,8 @@ Script_5:
 L_035C:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "That black sailing ship...\nWhat could it have been?"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
 

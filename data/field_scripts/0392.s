@@ -10,7 +10,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 0, 0, 0, 0
+    // "Bianca: Know what?\nI'm here at Professor Juniper's request![f000]븁\u0000\nI'm researching a Pokémon\ncalled Tynamo![f000]븁\u0000\nBut there aren't very many,\nand they don't seem very strong..."
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -21,15 +22,16 @@ Script_2:
     ActorsPauseAll
     VMStackPushFlag 296
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0051
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0051
     VMCall Script_4
     VMJump L_0067
 
 L_0051:
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 5, 2, 0, 0
+    // "That's a Nugget![f000]븁\u0000\nHow'd it get so golden without\ndeep-frying? Trade secret!"
+    ActorMsg MSGFILE_SCRIPT, 5, 2, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -42,15 +44,16 @@ Script_3:
     ActorsPauseAll
     VMStackPushFlag 296
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_008E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_008E
     VMCall Script_4
     VMJump L_00A4
 
 L_008E:
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 6, 1, 0, 0
+    // "Nuggetaboutit!"
+    ActorMsg MSGFILE_SCRIPT, 6, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -63,7 +66,7 @@ Script_4:
     SEPlay 1351
     PlayerGetDir 0x8010
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_00C5
+    VMJumpIf CMP_EQ, L_00C5
     VMJump L_00D3
 
 L_00C5:
@@ -72,7 +75,7 @@ L_00C5:
 
 L_00D3:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_00E6
+    VMJumpIf CMP_EQ, L_00E6
     VMJump L_00F4
 
 L_00E6:
@@ -81,10 +84,11 @@ L_00E6:
 
 L_00F4:
     ActorCmdWait
-    ActorMsg 1024, 1, 2, 5, 0
+    // "Hi! I'm the Nugget man.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 2, 5, 0
     MsgWinCloseAll
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0117
+    VMJumpIf CMP_EQ, L_0117
     VMJump L_0125
 
 L_0117:
@@ -93,7 +97,7 @@ L_0117:
 
 L_0125:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_0138
+    VMJumpIf CMP_EQ, L_0138
     VMJump L_0146
 
 L_0138:
@@ -102,9 +106,11 @@ L_0138:
 
 L_0146:
     ActorCmdWait
-    ActorMsg 1024, 2, 1, 3, 0
+    // "And I'm the Nugget boy![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 1, 3, 0
     MsgWinCloseAll
-    ActorMsg 1024, 3, 2, 5, 0
+    // "Glad you showed up!\nI want to give you this.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 2, 5, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -113,7 +119,8 @@ L_0146:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 4, 1, 3, 0
+    // "I want to give you this, too.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 1, 3, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -122,10 +129,12 @@ L_0146:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 5, 2, 5, 0
+    // "That's a Nugget![f000]븁\u0000\nHow'd it get so golden without\ndeep-frying? Trade secret!"
+    ActorMsg MSGFILE_SCRIPT, 5, 2, 5, 0
     ABKeyWait
     MsgWinCloseAll
-    ActorMsg 1024, 6, 1, 3, 0
+    // "Nuggetaboutit!"
+    ActorMsg MSGFILE_SCRIPT, 6, 1, 3, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 296

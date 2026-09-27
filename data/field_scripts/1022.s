@@ -13,7 +13,8 @@ Script_1:
     ActorCmdExec 0, Movement_0084
     ActorCmdWait
     VMSleep 8
-    ActorMsg 1024, 0, 0, 0, 0
+    // "An everlasting dark dream...\nAn endless dream of darkness...[f000]븁\u0000\nDad, Mom, Abra...\nWhere are you...?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     MsgWinCloseAll
     VMSleep 16
     ActorCmdExec 0, Movement_00D8
@@ -28,6 +29,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     SEPlay 1351
+    // "The portrait has fallen..."
     InfoMsg 1, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -38,6 +40,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     SEPlay 1351
+    // "No one saw it change, but now\nthe picture is hanging upside down..."
     InfoMsg 2, 2
     LastKeyWait
     InfoMsgClose_0039

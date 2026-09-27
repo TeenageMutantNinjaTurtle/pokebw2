@@ -21,7 +21,7 @@ Script_4:
     WordSetPlayerName 0
     WordSetLoadRivalName 1
     WorkCmpConst 0x8022, 371
-    VMJumpIf 1, L_005D
+    VMJumpIf CMP_EQ, L_005D
     VMJump L_006B
 
 L_005D:
@@ -30,7 +30,7 @@ L_005D:
 
 L_006B:
     WorkCmpConst 0x8022, 372
-    VMJumpIf 1, L_007E
+    VMJumpIf CMP_EQ, L_007E
     VMJump L_008C
 
 L_007E:
@@ -39,7 +39,7 @@ L_007E:
 
 L_008C:
     WorkCmpConst 0x8022, 373
-    VMJumpIf 1, L_009F
+    VMJumpIf CMP_EQ, L_009F
     VMJump L_00AD
 
 L_009F:
@@ -48,7 +48,7 @@ L_009F:
 
 L_00AD:
     WorkCmpConst 0x8022, 374
-    VMJumpIf 1, L_00C0
+    VMJumpIf CMP_EQ, L_00C0
     VMJump L_00CE
 
 L_00C0:
@@ -57,7 +57,7 @@ L_00C0:
 
 L_00CE:
     WorkCmpConst 0x8022, 375
-    VMJumpIf 1, L_00E1
+    VMJumpIf CMP_EQ, L_00E1
     VMJump L_00F7
 
 L_00E1:
@@ -67,7 +67,8 @@ L_00E1:
 
 L_00F7:
     ActorCmdWait
-    ActorMsg 1024, 0, 8, 0, 0
+    // "Cheren: Oh, [f000]Ā\u0001\u0000.\nCan you come with me for a moment?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 8, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 8, 135, 370, 1, 8, 0
     ActorWalkRoute 255, 135, 371, 1, 8, 0
@@ -128,6 +129,7 @@ Script_5:
     FlagReset 774
     ActorNew 110, 353, 1, 251, 369, 0
     PVPlay 638, 0
+    // "Kawbraa!"
     ScreamMsg 1, 1
     PVWait
     MsgWaitAdvance
@@ -135,8 +137,8 @@ Script_5:
     PlayerGetDir 0x8020
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_020E
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_020E
     ActorCmdExec 255, Movement_04B4
     ActorCmdWait
 
@@ -150,7 +152,8 @@ L_020E:
     ActorAnimationWait
     SEWait
     VMSleep 30
-    ActorMsg 1024, 1, 251, 0, 0
+    // "Kawbraa!"
+    ActorMsg MSGFILE_SCRIPT, 1, 251, 0, 0
     PVPlay 638, 0
     PVWait
     MsgWaitAdvance
@@ -174,16 +177,16 @@ L_020E:
     VMSleep 30
     VMStackPush 0x8021
     VMStackPushConst 102
-    VMStackCmp 1
-    VMJumpIf 255, L_02C9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02C9
     ActorCmdExec 255, Movement_0398
     VMJump L_02F2
 
 L_02C9:
     VMStackPush 0x8021
     VMStackPushConst 104
-    VMStackCmp 1
-    VMJumpIf 255, L_02EA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02EA
     ActorCmdExec 255, Movement_03A4
     VMJump L_02F2
 
@@ -192,25 +195,34 @@ L_02EA:
 
 L_02F2:
     ActorCmdWait
-    ActorMsg 1024, 2, 10, 6, 0
+    // "Rood: That Pokémon...?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 10, 6, 0
     MsgWinCloseAll
-    ActorMsg 1024, 3, 9, 4, 0
+    // "Elderly Man: It's the legendary Pokémon\ncalled Cobalion![f000]븁\u0000\nI told you the story the other\nday, right?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 9, 4, 0
     MsgWinCloseAll
-    ActorMsg 1024, 4, 10, 6, 0
+    // "Rood: Oh, Cobalion!\nWhat a noble presence![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 10, 6, 0
     MsgWinCloseAll
-    ActorMsg 1024, 5, 9, 4, 0
-    ActorMsg 1024, 6, 9, 4, 0
+    // "Elderly Man: They say the three Pokémon\nCobalion, Virizion, and Terrakion[f000]븀\u0000\nfought against people to protect[f000]븀\u0000\nPokémon from the war those[f000]븀\u0000\npeople started...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 9, 4, 0
+    // "When people fight, there's no peace for\nPokémon, either.[f000]븁\u0000\nThe three legends learned that\nthe deeds of humans could lead[f000]븀\u0000\nto dire consequences for their world.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 9, 4, 0
     MsgWinCloseAll
     ActorCmdExec 9, Movement_04DC
     ActorCmdWait
-    ActorMsg 1024, 7, 9, 4, 0
-    ActorMsg 1024, 8, 9, 4, 0
+    // "But... Why did it show up\nin front of people?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 9, 4, 0
+    // "Is it patrolling the Unova region\nto protect Pokémon because it fears for[f000]븀\u0000\ntheir safety after the commotion caused[f000]븀\u0000\nby Team Plasma two years ago?[f000]븁\u0000\nOr does it sense a new problem...?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 9, 4, 0
     MsgWinCloseAll
-    ActorMsg 1024, 9, 10, 6, 0
+    // "Rood: Unforgivable...[f000]븁\u0000\nSo the reach of Ghetsis's ambition\nand malice is growing ever wider and[f000]븀\u0000\nwarping the lives of all it touches...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 10, 6, 0
     MsgWinCloseAll
     ActorCmdExec 10, Movement_047C
     ActorCmdWait
-    ActorMsg 1024, 10, 10, 6, 0
+    // "Did Cobalion appear in front of you\nmerely by accident?[f000]븁\u0000\nOr to plead with you to solve a problem?[f000]븁\u0000\nUnlike Lord N, I don't have the ability\nto understand the minds of Pokémon.[f000]븁\u0000\nTherefore, I don't know\nwhat that Pokémon is thinking.[f000]븁\u0000\nBut if you can befriend Cobalion,\nit will be a great asset to you[f000]븀\u0000\non your journey."
+    ActorMsg MSGFILE_SCRIPT, 10, 10, 6, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 773
@@ -234,7 +246,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "Not just people and Pokémon...[f000]븁\u0000\nIt's best for all creatures to accept\nand trust one another..."
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -245,7 +258,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "Did Cobalion appear in front of you\nmerely by accident?[f000]븁\u0000\nOr to plead with you to solve a problem?[f000]븁\u0000\nUnlike Lord N, I don't have the ability\nto understand the minds of Pokémon.[f000]븁\u0000\nTherefore, I don't know\nwhat that Pokémon is thinking.[f000]븁\u0000\nBut if you can befriend Cobalion,\nit will be a great asset to you[f000]븀\u0000\non your journey."
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -256,7 +270,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 13, 0, 0
+    // "Water Absorb and Dry Skin.[f000]븁\u0000\nPokémon with those Abilities love\nWater-type moves and rainy weather. ♪[f000]븁\u0000\nThe Gym Leader in Aspertia City\nis very familiar with Pokémon Abilities,[f000]븀\u0000\nisn't he?[f000]븁\u0000\nOh, do you know him? Then you can ask him\nabout Abilities through the Xtransceiver!"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -267,7 +282,8 @@ Script_9:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 12, 0, 0
+    // "Chargestone Cave is great![f000]븁\u0000\nThe Ferroseed I met here\nwere absolutely adorable!"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -278,6 +294,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Route 6"
     MsgPlaceSign 14, 3
     MsgPlaceSignClose
     FinishAllEvents
@@ -288,6 +305,7 @@ Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Trainer Tips![f000]븁\u0000\n\nYou can register certain items with\nthe Y Button to use them easily![f000]븁\u0000\nLook for a square check box beside\nthe name of a Key Item."
     MsgPlaceSign 15, 0
     MsgPlaceSignClose
     FlagSet 2669
@@ -299,6 +317,7 @@ Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Researching the Year's Seasons:\nThe Season Research Lab"
     MsgPlaceSign 16, 2
     MsgPlaceSignClose
     FinishAllEvents

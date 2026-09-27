@@ -30,15 +30,17 @@ Script_1:
     ActorSetEyeToEye
     VMStackPush 0x4000
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00FE
-    ParentActorMsg 1024, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00FE
+    // "Mimicking somebody is fun, isn't it?[f000]븁\u0000\nDo you want to find the one who\nmimics me among my friends?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00E0
-    ParentActorMsg 1024, 2, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E0
+    // "OK! Here goes!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0718
@@ -48,7 +50,8 @@ Script_1:
     VMJump L_00F8
 
 L_00E0:
-    ParentActorMsg 1024, 1, 0, 0
+    // "I see..."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0718
@@ -58,7 +61,8 @@ L_00F8:
     VMJump L_0116
 
 L_00FE:
-    ParentActorMsg 1024, 7, 0, 0
+    // "Who mimicked me?\nSpeak to that person."
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0718
@@ -83,8 +87,8 @@ L_011C:
     EvCameraUnbind
     VMStackPush 0x8026
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_0187
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0187
     EvCameraMoveTo 9688, 0, 0xed000, 0x9b000, 0, 0xa3000, 40
     VMJump L_019F
 
@@ -102,8 +106,8 @@ L_019F:
     VMSleep 16
     VMStackPush 0x4001
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01EE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01EE
     WorkSetConst 0x8021, 12
     WorkSetConst 0x8022, 13
     VMJump L_0257
@@ -111,8 +115,8 @@ L_019F:
 L_01EE:
     VMStackPush 0x4001
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0213
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0213
     WorkSetConst 0x8021, 14
     WorkSetConst 0x8022, 15
     VMJump L_0257
@@ -120,8 +124,8 @@ L_01EE:
 L_0213:
     VMStackPush 0x4001
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0238
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0238
     WorkSetConst 0x8021, 16
     WorkSetConst 0x8022, 17
     VMJump L_0257
@@ -129,8 +133,8 @@ L_0213:
 L_0238:
     VMStackPush 0x4001
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0257
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0257
     WorkSetConst 0x8021, 18
     WorkSetConst 0x8022, 19
 
@@ -138,8 +142,8 @@ L_0257:
     Random 0x4002, 3
     VMStackPush 0x4002
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_029A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_029A
     MultiMsg 0x8020, 0x802c, 0x802d, 2
     MultiMsg 0x8021, 0x802a, 0x802b, 3
     MultiMsg 0x8022, 0x802e, 0x802f, 4
@@ -149,8 +153,8 @@ L_0257:
 L_029A:
     VMStackPush 0x4002
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02D7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02D7
     MultiMsg 0x8021, 0x802c, 0x802d, 2
     MultiMsg 0x8020, 0x802a, 0x802b, 3
     MultiMsg 0x8022, 0x802e, 0x802f, 4
@@ -160,8 +164,8 @@ L_029A:
 L_02D7:
     VMStackPush 0x4002
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_030E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_030E
     MultiMsg 0x8021, 0x802c, 0x802d, 2
     MultiMsg 0x8022, 0x802a, 0x802b, 3
     MultiMsg 0x8020, 0x802e, 0x802f, 4
@@ -175,8 +179,8 @@ L_030E:
     VMSleep 16
     VMStackPush 0x8026
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_033F
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_033F
     EvCameraMoveToDefault 40
     VMJump L_0343
 
@@ -193,18 +197,19 @@ Script_2:
     ActorsPauseAll
     VMStackPush 0x4000
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_039B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_039B
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 20, 0, 0
+    // "I'm not a mimicker.\nBut mimicking is fun."
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     LastKeyWait
     MsgWinCloseAll
     PlayerGetDir 0x8024
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 5
-    VMJumpIf 255, L_0395
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0395
     ActorCmdExec 2, Movement_0710
     ActorCmdWait
 
@@ -214,33 +219,37 @@ L_0395:
 L_039B:
     VMStackPush 0x4000
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_046B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_046B
     SEPlay 1351
-    ActorMsg 1024, 8, 0, 0, 0
+    // "Did that friend mimic me?"
+    ActorMsg MSGFILE_SCRIPT, 8, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_045B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_045B
     VMStackPush 0x4003
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03FA
-    ActorMsg 1024, 9, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03FA
+    // "Correct![f000]븁\u0000\nTrainer, you're great!\nDo you want to try again?"
+    ActorMsg MSGFILE_SCRIPT, 9, 0, 0, 0
     VMJump L_0406
 
 L_03FA:
-    ActorMsg 1024, 10, 0, 0, 0
+    // "Hmmm... Too bad.\nDo you want to try again?"
+    ActorMsg MSGFILE_SCRIPT, 10, 0, 0, 0
 
 L_0406:
     WorkSetConst 0x4000, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0445
-    ActorMsg 1024, 2, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0445
+    // "OK! Here goes!"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     WorkSetConst 0x4000, 1
@@ -248,7 +257,8 @@ L_0406:
     VMJump L_0455
 
 L_0445:
-    ActorMsg 1024, 1, 0, 0, 0
+    // "I see..."
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -256,7 +266,8 @@ L_0455:
     VMJump L_046B
 
 L_045B:
-    ActorMsg 1024, 11, 0, 0, 0
+    // "Which of my friends\nmimicked me?"
+    ActorMsg MSGFILE_SCRIPT, 11, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -269,18 +280,19 @@ Script_3:
     ActorsPauseAll
     VMStackPush 0x4000
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04C1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04C1
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 21, 0, 0
+    // "I want to cherish my originality."
+    ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
     LastKeyWait
     MsgWinCloseAll
     PlayerGetDir 0x8024
     VMStackPush 0x8024
     VMStackPushConst 2
-    VMStackCmp 5
-    VMJumpIf 255, L_04BB
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_04BB
     ActorCmdExec 3, Movement_0700
     ActorCmdWait
 
@@ -290,33 +302,37 @@ L_04BB:
 L_04C1:
     VMStackPush 0x4000
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0591
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0591
     SEPlay 1351
-    ActorMsg 1024, 8, 0, 0, 0
+    // "Did that friend mimic me?"
+    ActorMsg MSGFILE_SCRIPT, 8, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0581
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0581
     VMStackPush 0x4003
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0520
-    ActorMsg 1024, 9, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0520
+    // "Correct![f000]븁\u0000\nTrainer, you're great!\nDo you want to try again?"
+    ActorMsg MSGFILE_SCRIPT, 9, 0, 0, 0
     VMJump L_052C
 
 L_0520:
-    ActorMsg 1024, 10, 0, 0, 0
+    // "Hmmm... Too bad.\nDo you want to try again?"
+    ActorMsg MSGFILE_SCRIPT, 10, 0, 0, 0
 
 L_052C:
     WorkSetConst 0x4000, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_056B
-    ActorMsg 1024, 2, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_056B
+    // "OK! Here goes!"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     WorkSetConst 0x4000, 1
@@ -324,7 +340,8 @@ L_052C:
     VMJump L_057B
 
 L_056B:
-    ActorMsg 1024, 1, 0, 0, 0
+    // "I see..."
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -332,7 +349,8 @@ L_057B:
     VMJump L_0591
 
 L_0581:
-    ActorMsg 1024, 11, 0, 0, 0
+    // "Which of my friends\nmimicked me?"
+    ActorMsg MSGFILE_SCRIPT, 11, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -345,18 +363,19 @@ Script_4:
     ActorsPauseAll
     VMStackPush 0x4000
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_05E7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05E7
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 22, 0, 0
+    // "It's nicer to be mimicked\nthan to mimic somebody!"
+    ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
     LastKeyWait
     MsgWinCloseAll
     PlayerGetDir 0x8024
     VMStackPush 0x8024
     VMStackPushConst 3
-    VMStackCmp 5
-    VMJumpIf 255, L_05E1
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_05E1
     ActorCmdExec 1, Movement_0708
     ActorCmdWait
 
@@ -366,33 +385,37 @@ L_05E1:
 L_05E7:
     VMStackPush 0x4000
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_06B7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06B7
     SEPlay 1351
-    ActorMsg 1024, 8, 0, 0, 0
+    // "Did that friend mimic me?"
+    ActorMsg MSGFILE_SCRIPT, 8, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_06A7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06A7
     VMStackPush 0x4003
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0646
-    ActorMsg 1024, 9, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0646
+    // "Correct![f000]븁\u0000\nTrainer, you're great!\nDo you want to try again?"
+    ActorMsg MSGFILE_SCRIPT, 9, 0, 0, 0
     VMJump L_0652
 
 L_0646:
-    ActorMsg 1024, 10, 0, 0, 0
+    // "Hmmm... Too bad.\nDo you want to try again?"
+    ActorMsg MSGFILE_SCRIPT, 10, 0, 0, 0
 
 L_0652:
     WorkSetConst 0x4000, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0691
-    ActorMsg 1024, 2, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0691
+    // "OK! Here goes!"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     WorkSetConst 0x4000, 1
@@ -400,7 +423,8 @@ L_0652:
     VMJump L_06A1
 
 L_0691:
-    ActorMsg 1024, 1, 0, 0, 0
+    // "I see..."
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -408,7 +432,8 @@ L_06A1:
     VMJump L_06B7
 
 L_06A7:
-    ActorMsg 1024, 11, 0, 0, 0
+    // "Which of my friends\nmimicked me?"
+    ActorMsg MSGFILE_SCRIPT, 11, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -421,7 +446,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 23, 0, 0
+    // "You can use the target's\nlast move during a battle.[f000]븁\u0000\nThat is Mimic![f000]븁\u0000\nMy Galvantula is charming,\neven though it won't learn Mimic!"
+    ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -433,7 +459,8 @@ Script_6:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 596, 0
-    ParentActorMsg 1024, 24, 0, 0
+    // "Bzzz... Zzz..."
+    ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

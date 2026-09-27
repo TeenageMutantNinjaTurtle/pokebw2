@@ -21,9 +21,9 @@
 Script_11:
     VMStackPush 0x4111
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0065
-    Cmd_0262 2, 14
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0065
+    HollowRivalCmd_0262 2, 14
 
 L_0065:
     VMHalt
@@ -32,8 +32,8 @@ Script_3:
     ActorsPauseAll
     VMStackPushFlag 2406
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0088
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0088
     VMCall L_03D8
     VMJump L_008E
 
@@ -61,28 +61,35 @@ Script_4:
     ActorNew 43, 41, 0, 251, 190, 0
     ActorWalkRoute 251, 43, 32, 0, 4, 1
     ActorCmdWait
-    ActorMsg 1024, 12, 251, 4, 1
+    // "Gorm: Boo![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 251, 4, 1
     ActorMsgClose
     ActorCmdExec 255, Movement_01EC
     ActorCmdExec 21, Movement_01EC
     ActorCmdWait
-    ActorMsg 1024, 13, 251, 4, 0
+    // "I am Gorm. I was once one\nof Team Plasma's Seven Sages.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 251, 4, 0
     MsgWinCloseAll
-    ActorMsg 1024, 14, 21, 5, 0
+    // "Cheren: Team Plasma's finished.[f000]븁\u0000\nDespite that, you still haven't given up?\nAre you here planning something?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 21, 5, 0
     MsgWinCloseAll
-    ActorMsg 1024, 15, 251, 4, 0
-    ActorMsg 1024, 16, 251, 4, 0
+    // "Gorm: Wait one moment!\nI have no plans to confront you.[f000]븁\u0000\nI don't mean to disappoint you,\nbut I doubt I'm a match for either[f000]븀\u0000\nof you in the first place...[f000]븁\u0000\nHm?\nWhat happened to your glasses?[f000]븁\u0000\nExcuse me, but that's not important.[f000]븁\u0000\nI learned of my old ally's recklessness,\nand I had come here to admonish him...[f000]븁\u0000\nBut the matter had already been\nresolved, and this place made me think...[f000]븁\u0000\nWhat did we believe in that made\nus try to steal the Dragon Skull?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 251, 4, 0
+    // "A man who has committed a mistake\nand doesn't correct it[f000]븀\u0000\nis committing another mistake.[f000]븁\u0000\nDo you understand what this means?[f000]븁\u0000\nAvoiding all mistakes is impossible,\nbut not fixing mistakes you've made--[f000]븀\u0000\nthat is truly foolish.[f000]븁\u0000\nThat being said, this doesn't\nreally concern you, does it?[f000]븁\u0000\nWell then, Trainers, may you and your\nPokémon be well.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 251, 4, 0
     MsgWinCloseAll
     ActorCmdExec 251, Movement_0210
     VMSleep 16
     ActorCmdExec 255, Movement_059C
     ActorCmdExec 21, Movement_059C
     ActorCmdWait
-    ActorMsg 1024, 17, 21, 5, 0
+    // "Cheren: You know...[f000]븁\u0000\nIf it wasn't for Ghetsis,\nhe might've chosen another path...[f000]븁\u0000\nOr maybe not. He was the one who\ndecided to follow Ghetsis, after all...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 17, 21, 5, 0
     MsgWinCloseAll
     ActorCmdExec 21, Movement_0594
     ActorCmdWait
-    ActorMsg 1024, 18, 21, 0, 0
+    // "That aside, thank you![f000]븁\u0000\nYour help made this\ninvestigation go smoothly.[f000]븁\u0000\nThis is my thanks!\nCome on, just take it![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 18, 21, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -91,7 +98,8 @@ Script_4:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 19, 21, 5, 0
+    // "OK! Be seeing you![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 19, 21, 5, 0
     MsgWinCloseAll
     ActorCmdExec 21, Movement_0208
     ActorCmdWait
@@ -101,7 +109,7 @@ Script_4:
     WorkSetConst 0x4111, 1
     FlagSet 908
     FlagSet 999
-    Cmd_0262 2, 0
+    HollowRivalCmd_0262 2, 0
     FlagReset 1000
     FinishAllEvents
     ActorsUnpauseAll
@@ -137,13 +145,13 @@ Script_5:
     WorkAdd 0x8008, 0x418a
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 0x8008, 254, 0, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8008, 254, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMStackPush 0x418a
     VMStackPushConst 4
-    VMStackCmp 5
-    VMJumpIf 255, L_0263
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0263
     WorkAdd 0x418a, 1
 
 L_0263:
@@ -158,12 +166,12 @@ L_0269:
     ActorGetGPos 21, 0x8023, 0x8024
     VMStackPush 0x8022
     VMStackPush 0x8024
-    VMStackCmp 5
+    VMStackCmp CMP_NE
     VMStackPush 0x400f
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_02B4
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_02B4
     DebugPrint 99
     ActorWalkRoute 21, 68, 0x8022, 0, 8, 0
     ActorCmdWait
@@ -171,35 +179,38 @@ L_0269:
 L_02B4:
     VMStackPush 0x8022
     VMStackPush 0x8024
-    VMStackCmp 5
-    VMJumpIf 255, L_02D1
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_02D1
     ActorCmdExec 21, Movement_059C
     ActorCmdWait
 
 L_02D1:
     VMStackPushFlag 407
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02F6
-    ActorMsg 1024, 0, 21, 1, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02F6
+    // "Cheren: Hey, nice timing![f000]븁\u0000\nI heard that Team Plasma was seen\nin Pinwheel Forest...[f000]븁\u0000\nCould you help me look for them?"
+    ActorMsg MSGFILE_SCRIPT, 0, 21, 1, 0
     VMJump L_0302
 
 L_02F6:
-    ActorMsg 1024, 4, 21, 1, 0
+    // "Cheren: Team Plasma was seen inside\nPinwheel Forest...[f000]븁\u0000\nBut you already know that.\nWill you help me look for them?"
+    ActorMsg MSGFILE_SCRIPT, 4, 21, 1, 0
 
 L_0302:
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03A6
-    ActorMsg 1024, 2, 21, 1, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03A6
+    // "Thank you![f000]븁\u0000\nThis is a good opportunity for me\nto see up close what you can really do.[f000]븀\u0000\nI suppose I'll follow your lead.[f000]븁\u0000\nLeave recovery to me![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 21, 1, 0
     MsgWinCloseAll
     PlayerGetExState 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0342
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0342
     PlayerSetSpecialSequence 1
 
 L_0342:
@@ -228,7 +239,8 @@ L_0342:
 L_03A6:
     ActorCmdExec 21, Movement_053C
     ActorCmdWait
-    ActorMsg 1024, 1, 21, 1, 0
+    // "We don't know how many there are,\nso splitting up doesn't seem like[f000]븀\u0000\na very good tactic.[f000]븁\u0000\nGot it! I'll wait here until\nyou're ready to go![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 21, 1, 0
     MsgWinCloseAll
     ActorCmdExec 21, Movement_057C
     ActorCmdExec 255, Movement_0554
@@ -244,13 +256,15 @@ L_03D8:
     ActorCmdExec 255, Movement_0594
     ActorCmdExec 254, Movement_057C
     ActorCmdWait
-    ActorMsg 1024, 3, 254, 0, 0
+    // "Cheren: Stop![f000]븁\u0000\nIf you go past here, we'll leave\nthe Pinwheel Forest.[f000]븁\u0000\nWe still haven't found Team Plasma,\nbut do you need to leave for a minute?"
+    ActorMsg MSGFILE_SCRIPT, 3, 254, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_046F
-    ActorMsg 1024, 1, 254, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_046F
+    // "We don't know how many there are,\nso splitting up doesn't seem like[f000]븀\u0000\na very good tactic.[f000]븁\u0000\nGot it! I'll wait here until\nyou're ready to go![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 254, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -268,7 +282,8 @@ L_03D8:
     VMJump L_048D
 
 L_046F:
-    ActorMsg 1024, 2, 254, 0, 0
+    // "Thank you![f000]븁\u0000\nThis is a good opportunity for me\nto see up close what you can really do.[f000]븀\u0000\nI suppose I'll follow your lead.[f000]븁\u0000\nLeave recovery to me![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 254, 0, 0
     MsgWinCloseAll
     ActorPairSetMoveEnable 1
     ActorCmdExec 255, Movement_055C
@@ -282,7 +297,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 27, 0, 0
+    // "The legendary Pokémon...\nIs it true it was really beyond here?"
+    ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 24, Movement_059C
@@ -295,7 +311,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 20, 0, 0
+    // "I'm going to do a lap around Unova\nclockwise from Nimbasa City[f000]븀\u0000\nwithout healing my Pokémon![f000]븁\u0000\nIt's the Unova Spartan Marathon,\nand next time, I'm going to race!"
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -306,7 +323,8 @@ Script_9:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 21, 0, 0
+    // "We're thinning trees to\nprotect the forest.[f000]븁\u0000\nThat's why we're having Pokémon\ncut down trees.[f000]븁\u0000\nWhen there are too many trees,\nthe whole forest gets weaker...[f000]븁\u0000\nThese trees are being cut down\nso the whole forest will thrive..."
+    ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -317,7 +335,8 @@ Script_10:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 22, 0, 0
+    // "Ah, wouldn't it be nice if the Pokémon\nliving in the forest liked the sunbeams[f000]븀\u0000\nfiltering through the leaves, too!"
+    ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -327,6 +346,7 @@ Script_10:
 Script_1:
     ActorsPauseAll
     SEPlay 1351
+    // "The surface is covered with moss.\nTouching it feels good somehow."
     InfoMsg 28, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -338,6 +358,7 @@ Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Trainer Tips![f000]븁\u0000\n\nA forest is likely to contain many\nwell-hidden items![f000]븁\u0000\nThey may be hard to find,\nso look carefully!"
     MsgPlaceSign 29, 0
     MsgPlaceSignClose
     FlagSet 2663
@@ -394,11 +415,12 @@ Script_6:
     ActorsPauseAll
     VMStackPushFlag 470
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0694
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0694
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 23, 0, 0
+    // "Hi, Trainer.[f000]븁\u0000\nIf you have a Pokédex, could you show me\nyour Habitat List?[f000]븁\u0000\nI want to know about the Pokémon\nthat live in Pinwheel Forest.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
     WorkSetConst 0x8025, 0
     WorkSetConst 0x8026, 0
     WorkSetConst 0x8027, 0
@@ -407,17 +429,18 @@ Script_6:
     PokeDexCheckHabitatList 154, 2, 0, 0x8027
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8026
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0680
-    ParentActorMsg 1024, 25, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0680
+    // "Perfect!\nThis is my thanks![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -427,13 +450,15 @@ Script_6:
     VMStackPop 0x8001
     VMStackPop 0x8000
     FlagSet 470
-    ParentActorMsg 1024, 26, 0, 0
+    // "Finding the Pokémon that can\nonly be found in the rustling grass[f000]븀\u0000\nis really amazing!"
+    ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_068E
 
 L_0680:
-    ParentActorMsg 1024, 24, 0, 0
+    // "You still have many meetings\nwaiting for you...[f000]븁\u0000\nTell me when you've encountered\nall of the Pokémon in Pinwheel Forest."
+    ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -443,7 +468,8 @@ L_068E:
 L_0694:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 26, 0, 0
+    // "Finding the Pokémon that can\nonly be found in the rustling grass[f000]븀\u0000\nis really amazing!"
+    ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
     LastKeyWait
     ActorMsgClose
 

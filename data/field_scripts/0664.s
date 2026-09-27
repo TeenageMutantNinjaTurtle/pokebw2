@@ -21,8 +21,8 @@ Script_5:
     RTCGetSeason 0x8020
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0069
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0069
     Random 0x4003, 9
     WorkAdd 0x4003, 11
     VMJump L_00BF
@@ -30,8 +30,8 @@ Script_5:
 L_0069:
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_008E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_008E
     Random 0x4003, 16
     WorkAdd 0x4003, 19
     VMJump L_00BF
@@ -39,8 +39,8 @@ L_0069:
 L_008E:
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_00B3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B3
     Random 0x4003, 9
     WorkAdd 0x4003, 11
     VMJump L_00BF
@@ -57,10 +57,14 @@ Script_3:
     ActorsPauseAll
     ActorWalkRoute 255, 6, 7, 1, 8, 0
     ActorCmdWait
-    ActorMsg 1024, 0, 0, 0, 0
-    ActorMsg 1024, 1, 0, 0, 0
-    ActorMsg 1024, 2, 0, 0, 0
-    ActorMsg 1024, 3, 0, 0, 0
+    // "Cheren: No one really talks about it, but\nthe record shows that there was a[f000]븀\u0000\nsudden drop in temperature near[f000]븀\u0000\nLacunosa Town.[f000]븁\u0000\nIt was only for a moment, but it went\ndown as low as -58° F.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
+    // "Not only that, but similar temperatures\nwere recorded around Castelia City[f000]븀\u0000\nand Driftveil City.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
+    // "On top of that, that incident with\nTeam Plasma![f000]븁\u0000\nI think this needs some investigation\nbefore things go bad.[f000]븁\u0000\nI hate cold weather, though.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
+    // "I'll give you this...[f000]븁\u0000\nIt's a Hidden Machine that contains Surf.\nWith this, please go to different places[f000]븀\u0000\nand check what's going on.[f000]븁\u0000\nLet one of your Pokémon learn Surf,\nand you can travel across the water.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 0, 6, 6, 1, 8, 0
     ActorCmdWait
@@ -71,11 +75,12 @@ Script_3:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 4, 0, 0, 0
+    // "Sorry to have slowed you down.[f000]븁\u0000\nSome strange things may be happening,\nso be careful on your journey!"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2439
-    Cmd_0262 2, 6
+    HollowRivalCmd_0262 2, 6
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -84,7 +89,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "Sorry to have slowed you down.[f000]븁\u0000\nSome strange things may be happening,\nso be careful on your journey!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -98,28 +104,32 @@ Script_1:
     RTCGetSeason 0x8021
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01A5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01A5
+    // "The glass is slightly cold to the touch.[f000]븁\u0000\nThe plants inside the case\nhave grown some pretty Berries."
     InfoMsg 19, 2
     VMJump L_01E6
 
 L_01A5:
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01C3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01C3
+    // "The glass is very cold to the touch.[f000]븁\u0000\nThe plants inside the case\nhave lost all their leaves."
     InfoMsg 20, 2
     VMJump L_01E6
 
 L_01C3:
     VMStackPush 0x8021
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_01E1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01E1
+    // "The glass is slightly warm to the touch.[f000]븁\u0000\nThe plants inside the case\nhave grown small buds."
     InfoMsg 21, 2
     VMJump L_01E6
 
 L_01E1:
+    // "The glass is very warm to the touch.[f000]븁\u0000\nThe plants inside the case\nhave big, healthy leaves."
     InfoMsg 22, 2
 
 L_01E6:
@@ -138,32 +148,36 @@ Script_2:
     RTCGetSeason 0x8022
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0231
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0231
     WordSetNumber 0, 0x4003, 2
+    // "Route 6's temperature [f000]ȁ\u0001\u0000 °C"
     InfoMsg 23, 2
     VMJump L_0287
 
 L_0231:
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0256
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0256
     WordSetNumber 0, 0x4003, 2
+    // "Route 6's temperature [f000]ȁ\u0001\u0000 °C"
     InfoMsg 24, 2
     VMJump L_0287
 
 L_0256:
     VMStackPush 0x8022
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_027B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_027B
     WordSetNumber 0, 0x4003, 2
+    // "Route 6's temperature [f000]ȁ\u0001\u0000 °C"
     InfoMsg 25, 2
     VMJump L_0287
 
 L_027B:
     WordSetNumber 0, 0x4003, 2
+    // "Route 6's temperature -[f000]Ȁ\u0001\u0000 °C"
     InfoMsg 26, 2
 
 L_0287:
@@ -179,7 +193,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "This is the Season Research Lab.[f000]븁\u0000\nTwist Mountain, just beyond Mistralton,\nhas snow, depending on the season."
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -190,7 +205,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "Some Pokémon change their appearance\ndepending on the season.[f000]븁\u0000\nCould that also be considered\na type of evolution?"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -203,19 +219,21 @@ Script_8:
     ActorSetEyeToEye
     VMStackPushFlag 426
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0335
-    ActorMsg 1024, 7, 8, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0335
+    // "You can see Deerling from\nall four seasons in our lab![f000]븁\u0000\nWhen it comes to Deerling,\nwe're sort of the experts.[f000]븁\u0000\nWe found a rather rare Deerling.\nWill you raise it for us? What do you say?"
+    ActorMsg MSGFILE_SCRIPT, 7, 8, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_031F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_031F
     VMCall L_034B
     VMJump L_032F
 
 L_031F:
-    ActorMsg 1024, 12, 8, 0, 0
+    // "Are you sure? It's quite a rare\nDeerling, you know!"
+    ActorMsg MSGFILE_SCRIPT, 12, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -223,7 +241,8 @@ L_032F:
     VMJump L_0345
 
 L_0335:
-    ActorMsg 1024, 13, 8, 0, 0
+    // "Its Ability is Serene Grace.[f000]븁\u0000\nThey say this Ability doubles the chances\nof getting a move's additional effect."
+    ActorMsg MSGFILE_SCRIPT, 13, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -239,59 +258,63 @@ L_034B:
     PokePartyGetCount 0x8024, 0
     VMStackPush 0x8024
     VMStackPushConst 6
-    VMStackCmp 1
-    VMJumpIf 255, L_038C
-    ActorMsg 1024, 11, 8, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_038C
+    // "You're traveling with lots of\nPokémon already!"
+    ActorMsg MSGFILE_SCRIPT, 11, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_04A0
 
 L_038C:
-    ActorMsg 1024, 8, 8, 0, 0
+    // "Here you are!\nTake good care of it![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 8, 0, 0
     MsgWinCloseAll
     RTCGetSeason 0x8025
     VMStackPush 0x8025
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03CB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03CB
     PokePartyAddEx 0x8010, 585, 0, 30, 3, 2, 0, 0, 4
     VMJump L_044C
 
 L_03CB:
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03F8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03F8
     PokePartyAddEx 0x8010, 585, 1, 30, 3, 2, 0, 0, 4
     VMJump L_044C
 
 L_03F8:
     VMStackPush 0x8025
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0425
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0425
     PokePartyAddEx 0x8010, 585, 2, 30, 3, 2, 0, 0, 4
     VMJump L_044C
 
 L_0425:
     VMStackPush 0x8025
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_044C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_044C
     PokePartyAddEx 0x8010, 585, 3, 30, 3, 2, 0, 0, 4
 
 L_044C:
     WordSetPlayerName 0
     MEPlay 1304
+    // "[f000]Ā\u0001\u0000 received Deerling!"
     SystemMsg 9, 0
     MEWait
     MsgWaitAdvance
+    // "Give a nickname\nto the Deerling you received?"
     SystemMsg 10, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_048A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_048A
     MsgWinCloseAll
     CallPokeNameInput 0x8026, 0x8024, 1
     VMJump L_048C
@@ -300,7 +323,8 @@ L_048A:
     MsgWinCloseAll
 
 L_048C:
-    ActorMsg 1024, 13, 8, 0, 0
+    // "Its Ability is Serene Grace.[f000]븁\u0000\nThey say this Ability doubles the chances\nof getting a move's additional effect."
+    ActorMsg MSGFILE_SCRIPT, 13, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 426
@@ -315,7 +339,8 @@ Script_9:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 18, 0, 0
+    // "The temperature and humidity\ninside the case next to me[f000]븀\u0000\nare controlled by a machine."
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -327,7 +352,8 @@ Script_10:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 585, 0
-    ParentActorMsg 1024, 14, 0, 0
+    // "Dreee!"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -340,7 +366,8 @@ Script_11:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 585, 0
-    ParentActorMsg 1024, 15, 0, 0
+    // "Dreee! Dree dree!"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -353,7 +380,8 @@ Script_12:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 585, 0
-    ParentActorMsg 1024, 16, 0, 0
+    // "Dreen! Droooon!"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -366,7 +394,8 @@ Script_13:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 585, 0
-    ParentActorMsg 1024, 17, 0, 0
+    // "Droon..."
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -406,24 +435,26 @@ Script_14:
     RTCGetDate 0x8029, 0x802a
     VMStackPush 0x8029
     VMStackPush 0x8027
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x802a
     VMStackPush 0x8028
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0631
-    ParentActorMsg 1024, 59, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0631
+    // "Is today a special day for some reason?[f000]븁\u0000\nIt feels like my mind has cleared up...\nas if a fog has lifted![f000]븁\u0000\nMaybe the weather somewhere\nis cleared up just like my mind...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 59, 0, 0
 
 L_0631:
     VMStackPush 0x8029
     VMStackPushConst 12
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x802a
     VMStackPushConst 31
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_065E
-    ParentActorMsg 1024, 60, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_065E
+    // "Here comes a question out of a clear sky!\nHave you heard of diamond dust?[f000]븁\u0000\nIt's a breathtaking phenomenon that is\ncreated by shiny icy particles coming[f000]븀\u0000\ndown from the sky![f000]븁\u0000\nI heard it can be seen in a certain city\naround this time of year.[f000]븁\u0000\nAhh... I would love to watch the\ndiamond dust flutter down with[f000]븀\u0000\nsomeone special! Teehee![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 60, 0, 0
 
 L_065E:
     PokePartyGetCount 0x802b, 0
@@ -431,22 +462,22 @@ L_065E:
 L_0664:
     VMStackPush 0x802b
     VMStackPush 0x802c
-    VMStackCmp 2
-    VMJumpIf 255, L_0B0B
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_0B0B
     PokePartyGetParam 0x8030, 0x802c, 10
     PokePartyIsEgg 0x802d, 0x802c
     VMStackPush 0x8030
     VMStackPushConst 70
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8032
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x802d
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_06D4
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_06D4
     WorkGet 0x8034, 0x8035
     WordSetPartyPokeSpecies 0, 0x802c
     WordSetLoadAbility 2, 0x8030
@@ -456,16 +487,16 @@ L_0664:
 L_06D4:
     VMStackPush 0x8030
     VMStackPushConst 2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8032
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x802d
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0723
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0723
     WorkGet 0x8034, 0x8036
     WordSetPartyPokeSpecies 0, 0x802c
     WordSetLoadAbility 2, 0x8030
@@ -475,16 +506,16 @@ L_06D4:
 L_0723:
     VMStackPush 0x8030
     VMStackPushConst 117
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8032
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x802d
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0772
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0772
     WorkGet 0x8034, 0x8037
     WordSetPartyPokeSpecies 0, 0x802c
     WordSetLoadAbility 2, 0x8030
@@ -494,16 +525,16 @@ L_0723:
 L_0772:
     VMStackPush 0x8030
     VMStackPushConst 45
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8032
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x802d
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_07C1
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_07C1
     WorkGet 0x8034, 0x8038
     WordSetPartyPokeSpecies 0, 0x802c
     WordSetLoadAbility 2, 0x8030
@@ -513,16 +544,16 @@ L_0772:
 L_07C1:
     VMStackPush 0x8030
     VMStackPushConst 76
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8032
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x802d
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0810
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0810
     WorkGet 0x8034, 0x8039
     WordSetPartyPokeSpecies 0, 0x802c
     WordSetLoadAbility 2, 0x8030
@@ -532,16 +563,16 @@ L_07C1:
 L_0810:
     VMStackPush 0x8030
     VMStackPushConst 13
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8032
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x802d
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0859
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0859
     WorkGet 0x8034, 0x8039
     WordSetPartyPokeSpecies 0, 0x802c
     WordSetLoadAbility 2, 0x8030
@@ -550,44 +581,44 @@ L_0810:
 L_0859:
     VMStackPush 0x8032
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0907
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0907
     VMStackPush 0x8034
     VMStackPush 0x8035
-    VMStackCmp 1
-    VMJumpIf 255, L_088B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_088B
     VMCall L_0B42
     VMJump L_0901
 
 L_088B:
     VMStackPush 0x8034
     VMStackPush 0x8036
-    VMStackCmp 1
-    VMJumpIf 255, L_08AA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08AA
     VMCall L_0BF6
     VMJump L_0901
 
 L_08AA:
     VMStackPush 0x8034
     VMStackPush 0x8037
-    VMStackCmp 1
-    VMJumpIf 255, L_08C9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08C9
     VMCall L_0CAA
     VMJump L_0901
 
 L_08C9:
     VMStackPush 0x8034
     VMStackPush 0x8038
-    VMStackCmp 1
-    VMJumpIf 255, L_08E8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08E8
     VMCall L_0D5E
     VMJump L_0901
 
 L_08E8:
     VMStackPush 0x8034
     VMStackPush 0x8039
-    VMStackCmp 1
-    VMJumpIf 255, L_0901
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0901
     VMCall L_0E06
 
 L_0901:
@@ -600,117 +631,117 @@ L_0907:
 L_0913:
     VMStackPush 0x802e
     VMStackPush 0x802f
-    VMStackCmp 2
-    VMJumpIf 255, L_0AFF
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_0AFF
     PokePartyGetMove 0x8031, 0x802c, 0x802f
     PokePartyIsEgg 0x802d, 0x802c
     VMStackPush 0x8031
     VMStackPushConst 241
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8033
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x802d
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0983
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0983
     WorkGet 0x8034, 0x8035
     WordSetPartyPokeSpecies 0, 0x802c
-    WordSetMoveName 1, 241
+    WordSetMoveName 1, MOVE_SUNNY_DAY
     WorkSetConst 0x8033, 1
     VMJump L_0A6A
 
 L_0983:
     VMStackPush 0x8031
     VMStackPushConst 240
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8033
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x802d
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_09D2
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_09D2
     WorkGet 0x8034, 0x8036
     WordSetPartyPokeSpecies 0, 0x802c
-    WordSetMoveName 1, 240
+    WordSetMoveName 1, MOVE_RAIN_DANCE
     WorkSetConst 0x8033, 1
     VMJump L_0A6A
 
 L_09D2:
     VMStackPush 0x8031
     VMStackPushConst 258
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8033
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x802d
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0A21
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0A21
     WorkGet 0x8034, 0x8037
     WordSetPartyPokeSpecies 0, 0x802c
-    WordSetMoveName 1, 258
+    WordSetMoveName 1, MOVE_HAIL
     WorkSetConst 0x8033, 1
     VMJump L_0A6A
 
 L_0A21:
     VMStackPush 0x8031
     VMStackPushConst 201
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8033
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x802d
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0A6A
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0A6A
     WorkGet 0x8034, 0x8038
     WordSetPartyPokeSpecies 0, 0x802c
-    WordSetMoveName 1, 201
+    WordSetMoveName 1, MOVE_SANDSTORM
     WorkSetConst 0x8033, 1
 
 L_0A6A:
     VMStackPush 0x8033
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0AF3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0AF3
     VMStackPush 0x8034
     VMStackPush 0x8035
-    VMStackCmp 1
-    VMJumpIf 255, L_0A9C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A9C
     VMCall L_0B42
     VMJump L_0AF3
 
 L_0A9C:
     VMStackPush 0x8034
     VMStackPush 0x8036
-    VMStackCmp 1
-    VMJumpIf 255, L_0ABB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0ABB
     VMCall L_0BF6
     VMJump L_0AF3
 
 L_0ABB:
     VMStackPush 0x8034
     VMStackPush 0x8037
-    VMStackCmp 1
-    VMJumpIf 255, L_0ADA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0ADA
     VMCall L_0CAA
     VMJump L_0AF3
 
 L_0ADA:
     VMStackPush 0x8034
     VMStackPush 0x8038
-    VMStackCmp 1
-    VMJumpIf 255, L_0AF3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0AF3
     VMCall L_0D5E
 
 L_0AF3:
@@ -724,13 +755,14 @@ L_0AFF:
 L_0B0B:
     VMStackPush 0x8032
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8033
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0B3C
-    ParentActorMsg 1024, 57, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0B3C
+    // "Oh, my! None of the Pokémon traveling\nwith you have moves or Abilities that[f000]븀\u0000\nchange the weather.[f000]븁\u0000\nIf you find one that does, bring it to me.\nI'll give you a Pokémon weather forecast!"
+    ParentActorMsg MSGFILE_SCRIPT, 57, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -742,36 +774,46 @@ L_0B3C:
 L_0B42:
     VMStackPush 0x8033
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0B67
-    ParentActorMsg 1024, 27, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B67
+    // "Oh, my! Your [f000]ā\u0001\u0000 knows the\nmove [f000]ć\u0001\u0001![f000]븁\u0000\nFor a Trainer like you,\nhere comes a Pokémon weather forecast!"
+    ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
     MsgWaitAdvance
     VMJump L_0B86
 
 L_0B67:
     VMStackPush 0x8032
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0B86
-    ParentActorMsg 1024, 28, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B86
+    // "Oh, my!\nThis is something I don't see often![f000]븁\u0000\nYour [f000]ā\u0001\u0000's Ability\nis [f000]Ć\u0001\u0002![f000]븁\u0000\nFor a Trainer like you,\nhere comes a Pokémon weather forecast!"
+    ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0
     MsgWaitAdvance
 
 L_0B86:
-    ParentActorMsg 1024, 36, 0, 0
+    // "Ahem![f000]븁\u0000\nUsing the move Sunny Day or sending out\na Pokémon with the Ability Drought[f000]븀\u0000\nwill cause the sun to shine brightly."
+    ParentActorMsg MSGFILE_SCRIPT, 36, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 37, 0, 0
+    // "When it's sunny, the power of Fire-type\nmoves will be boosted by 50 percent![f000]븁\u0000\nThe power of Water-type moves\nwill be reduced by 50 percent![f000]븁\u0000\nWeather Ball will become a Fire-type\nmove, and its power will be boosted by[f000]븀\u0000\n100 percent![f000]븁\u0000\nThe stat increase of the move Growth\nis boosted by 200 percent!"
+    ParentActorMsg MSGFILE_SCRIPT, 37, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 38, 0, 0
+    // "When it's sunny, it's been reported that\nPokémon can't be frozen, and frozen[f000]븀\u0000\nPokémon are defrosted![f000]븁\u0000\nBy the way, the Pokémon called Castform\nis known to change its form when it's[f000]븀\u0000\nsunny and become a Fire type."
+    ParentActorMsg MSGFILE_SCRIPT, 38, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 39, 0, 0
+    // "The clear sky increases the amount of\nHP recovered from the moves[f000]븀\u0000\nMorning Sun, Synthesis, and Moonlight."
+    ParentActorMsg MSGFILE_SCRIPT, 39, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 40, 0, 0
+    // "This is a weather advisory![f000]븁\u0000\nWhen it's sunny, the move SolarBeam can\nbe used every turn. It doesn't have[f000]븀\u0000\nto charge up first![f000]븁\u0000\nPlease be aware that the moves\nThunder and Hurricane will be[f000]븀\u0000\nmore likely to miss!"
+    ParentActorMsg MSGFILE_SCRIPT, 40, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 41, 0, 0
+    // "By the way, there are some Abilities that\ntake effect when it's sunny, such as[f000]븀\u0000\nChlorophyll, Harvest, Solar Power,[f000]븀\u0000\nand Forecast.[f000]븁\u0000\nPlease check your Pokémon's status!"
+    ParentActorMsg MSGFILE_SCRIPT, 41, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 42, 0, 0
+    // "The lucky item on a sunny day is\nthe Heat Rock![f000]븁\u0000\nBy the way, the sunshine may feel nice,\nbut remember to take care of your skin[f000]븀\u0000\nand try not to get a sunburn."
+    ParentActorMsg MSGFILE_SCRIPT, 42, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 56, 0, 0
+    // "How did you enjoy my Pokémon\nweather forecast?[f000]븁\u0000\nPlease bring me a Pokémon with other\nmoves or Abilities if you want to hear[f000]븀\u0000\na different forecast!"
+    ParentActorMsg MSGFILE_SCRIPT, 56, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x802c, 6
@@ -781,36 +823,46 @@ L_0B86:
 L_0BF6:
     VMStackPush 0x8033
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0C1B
-    ParentActorMsg 1024, 27, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0C1B
+    // "Oh, my! Your [f000]ā\u0001\u0000 knows the\nmove [f000]ć\u0001\u0001![f000]븁\u0000\nFor a Trainer like you,\nhere comes a Pokémon weather forecast!"
+    ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
     MsgWaitAdvance
     VMJump L_0C3A
 
 L_0C1B:
     VMStackPush 0x8032
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0C3A
-    ParentActorMsg 1024, 28, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0C3A
+    // "Oh, my!\nThis is something I don't see often![f000]븁\u0000\nYour [f000]ā\u0001\u0000's Ability\nis [f000]Ć\u0001\u0002![f000]븁\u0000\nFor a Trainer like you,\nhere comes a Pokémon weather forecast!"
+    ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0
     MsgWaitAdvance
 
 L_0C3A:
-    ParentActorMsg 1024, 29, 0, 0
+    // "Ahem![f000]븁\u0000\nUsing the move Rain Dance or sending out\na Pokémon with the Ability Drizzle[f000]븀\u0000\nwill cause it to rain."
+    ParentActorMsg MSGFILE_SCRIPT, 29, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 30, 0, 0
+    // "When it's raining, the power of\nWater-type moves will be boosted by[f000]븀\u0000\n50 percent![f000]븁\u0000\nThe powers of Fire-type moves and\nSolarBeam will be reduced by 50 percent![f000]븁\u0000\nWeather Ball will become a Water-type\nmove, and its power will be boosted by[f000]븀\u0000\n100 percent!"
+    ParentActorMsg MSGFILE_SCRIPT, 30, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 31, 0, 0
+    // "By the way, the Pokémon called Castform\nis known to change its form in rain and[f000]븀\u0000\nbecome a Water type."
+    ParentActorMsg MSGFILE_SCRIPT, 31, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 32, 0, 0
+    // "The darkened sky reduces the amount\nof HP recovered from the moves[f000]븀\u0000\nMorning Sun, Synthesis, and Moonlight."
+    ParentActorMsg MSGFILE_SCRIPT, 32, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 33, 0, 0
+    // "This is a weather advisory![f000]븁\u0000\nPlease be aware that the moves Thunder\nand Hurricane will not miss in the rain!"
+    ParentActorMsg MSGFILE_SCRIPT, 33, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 34, 0, 0
+    // "By the way, there are some Abilities that\ntake effect when it's raining, such as[f000]븀\u0000\nSwift Swim, Rain Dish,[f000]븀\u0000\nDry Skin, and Forecast.[f000]븁\u0000\nPlease check your Pokémon's status!"
+    ParentActorMsg MSGFILE_SCRIPT, 34, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 35, 0, 0
+    // "The lucky item on a rainy day is\nthe Damp Rock![f000]븁\u0000\nParasol Ladies like me are in our element\nin rain, like a Basculin in water!"
+    ParentActorMsg MSGFILE_SCRIPT, 35, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 56, 0, 0
+    // "How did you enjoy my Pokémon\nweather forecast?[f000]븁\u0000\nPlease bring me a Pokémon with other\nmoves or Abilities if you want to hear[f000]븀\u0000\na different forecast!"
+    ParentActorMsg MSGFILE_SCRIPT, 56, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x802c, 6
@@ -820,36 +872,46 @@ L_0C3A:
 L_0CAA:
     VMStackPush 0x8033
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0CCF
-    ParentActorMsg 1024, 27, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0CCF
+    // "Oh, my! Your [f000]ā\u0001\u0000 knows the\nmove [f000]ć\u0001\u0001![f000]븁\u0000\nFor a Trainer like you,\nhere comes a Pokémon weather forecast!"
+    ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
     MsgWaitAdvance
     VMJump L_0CEE
 
 L_0CCF:
     VMStackPush 0x8032
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0CEE
-    ParentActorMsg 1024, 28, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0CEE
+    // "Oh, my!\nThis is something I don't see often![f000]븁\u0000\nYour [f000]ā\u0001\u0000's Ability\nis [f000]Ć\u0001\u0002![f000]븁\u0000\nFor a Trainer like you,\nhere comes a Pokémon weather forecast!"
+    ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0
     MsgWaitAdvance
 
 L_0CEE:
-    ParentActorMsg 1024, 43, 0, 0
+    // "Ahem![f000]븁\u0000\nUsing the move Hail or sending out\na Pokémon with the Ability Snow Warning[f000]븀\u0000\nwill cause it to hail."
+    ParentActorMsg MSGFILE_SCRIPT, 43, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 44, 0, 0
+    // "When it's hailing, Pokémon take\ndamage at the end of every turn[f000]븀\u0000\nunless they are Ice types![f000]븁\u0000\nThe power of SolarBeam will be\nreduced by 50 percent![f000]븁\u0000\nWeather Ball will become an Ice-type\nmove, and the power will be boosted by[f000]븀\u0000\n100 percent!"
+    ParentActorMsg MSGFILE_SCRIPT, 44, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 45, 0, 0
+    // "By the way, the Pokémon called Castform\nis known to change its form when it's[f000]븀\u0000\nhailing and become an Ice type."
+    ParentActorMsg MSGFILE_SCRIPT, 45, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 46, 0, 0
+    // "The darkened sky reduces the amount\nof HP recovered from the moves[f000]븀\u0000\nMorning Sun, Synthesis, and Moonlight."
+    ParentActorMsg MSGFILE_SCRIPT, 46, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 47, 0, 0
+    // "This is a weather advisory![f000]븁\u0000\nPlease be aware that Blizzard\nwill not miss when it's hailing!"
+    ParentActorMsg MSGFILE_SCRIPT, 47, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 48, 0, 0
+    // "By the way, there are some Abilities that\ntake effect when it's hailing, such as[f000]븀\u0000\nIce Body, Snow Cloak, and Forecast.[f000]븁\u0000\nPlease check your Pokémon's status!"
+    ParentActorMsg MSGFILE_SCRIPT, 48, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 49, 0, 0
+    // "The lucky item in a hailstorm is\nthe Icy Rock![f000]븁\u0000\nBy the way, it gets quiet when it snows\nbecause the icy particles absorb sound!"
+    ParentActorMsg MSGFILE_SCRIPT, 49, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 56, 0, 0
+    // "How did you enjoy my Pokémon\nweather forecast?[f000]븁\u0000\nPlease bring me a Pokémon with other\nmoves or Abilities if you want to hear[f000]븀\u0000\na different forecast!"
+    ParentActorMsg MSGFILE_SCRIPT, 56, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x802c, 6
@@ -859,34 +921,43 @@ L_0CEE:
 L_0D5E:
     VMStackPush 0x8033
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0D83
-    ParentActorMsg 1024, 27, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0D83
+    // "Oh, my! Your [f000]ā\u0001\u0000 knows the\nmove [f000]ć\u0001\u0001![f000]븁\u0000\nFor a Trainer like you,\nhere comes a Pokémon weather forecast!"
+    ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
     MsgWaitAdvance
     VMJump L_0DA2
 
 L_0D83:
     VMStackPush 0x8032
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0DA2
-    ParentActorMsg 1024, 28, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0DA2
+    // "Oh, my!\nThis is something I don't see often![f000]븁\u0000\nYour [f000]ā\u0001\u0000's Ability\nis [f000]Ć\u0001\u0002![f000]븁\u0000\nFor a Trainer like you,\nhere comes a Pokémon weather forecast!"
+    ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0
     MsgWaitAdvance
 
 L_0DA2:
-    ParentActorMsg 1024, 50, 0, 0
+    // "Ahem![f000]븁\u0000\nUsing the move Sandstorm or sending out\na Pokémon with the Ability Sand Stream[f000]븀\u0000\nwill cause a sandstorm."
+    ParentActorMsg MSGFILE_SCRIPT, 50, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 51, 0, 0
+    // "When in a sandstorm, Pokémon take\ndamage at the end of every turn unless[f000]븀\u0000\nthey are Rock types, Ground types, or[f000]븀\u0000\nSteel types![f000]븁\u0000\nThe power of the move SolarBeam will be\nreduced by 50 percent![f000]븁\u0000\nWeather Ball will become a Rock-type\nmove, and its power will be boosted[f000]븀\u0000\nby 100 percent!"
+    ParentActorMsg MSGFILE_SCRIPT, 51, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 52, 0, 0
+    // "When in a sandstorm, it's been reported\nthat Rock-type Pokémon boost their[f000]븀\u0000\nSp. Defense by 50 percent![f000]븁\u0000\nBy the way, the Pokémon called Castform\nis known to change its form and type[f000]븀\u0000\ndepending on the weather, but[f000]븀\u0000\nsandstorms don't affect it in that way."
+    ParentActorMsg MSGFILE_SCRIPT, 52, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 53, 0, 0
+    // "The darkened sky reduces the amount of\nHP recovered from the moves[f000]븀\u0000\nMorning Sun, Synthesis, and Moonlight."
+    ParentActorMsg MSGFILE_SCRIPT, 53, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 54, 0, 0
+    // "By the way, there are some Abilities that\ntake effect in a sandstorm, such as[f000]븀\u0000\nSand Rush, Sand Veil, and Sand Force.[f000]븁\u0000\nPlease check your Pokémon's status!"
+    ParentActorMsg MSGFILE_SCRIPT, 54, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 55, 0, 0
+    // "The lucky item in a sandstorm is\nthe Smooth Rock![f000]븁\u0000\nBy the way, I long for a life where\nI could be a free spirit and soar[f000]븀\u0000\nanywhere, like sand blown by the wind!"
+    ParentActorMsg MSGFILE_SCRIPT, 55, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 56, 0, 0
+    // "How did you enjoy my Pokémon\nweather forecast?[f000]븁\u0000\nPlease bring me a Pokémon with other\nmoves or Abilities if you want to hear[f000]븀\u0000\na different forecast!"
+    ParentActorMsg MSGFILE_SCRIPT, 56, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x802c, 6
@@ -894,7 +965,8 @@ L_0DA2:
     VMReturn
 
 L_0E06:
-    ParentActorMsg 1024, 58, 0, 0
+    // "My Pokémon weather forecast for you![f000]븁\u0000\nWell, that's how it normally goes, but...\nYour [f000]ā\u0001\u0000's Ability is[f000]븀\u0000\nnone other than [f000]Ć\u0001\u0002![f000]븁\u0000\nThat's a problematic one for me.[f000]븁\u0000\nSince [f000]Ć\u0001\u0002 turns off the effects\nof weather, it means my Pokémon weather[f000]븀\u0000\nforecast isn't too helpful!"
+    ParentActorMsg MSGFILE_SCRIPT, 58, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x802c, 6

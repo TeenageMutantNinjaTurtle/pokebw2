@@ -23,7 +23,7 @@ Script_3:
 L_0030:
     VMCall L_02C8
     WorkCmpConst 0x4000, 0
-    VMJumpIf 1, L_0049
+    VMJumpIf CMP_EQ, L_0049
     VMJump L_004F
 
 L_0049:
@@ -31,7 +31,7 @@ L_0049:
 
 L_004F:
     WorkCmpConst 0x4000, 1
-    VMJumpIf 1, L_0062
+    VMJumpIf CMP_EQ, L_0062
     VMJump L_006C
 
 L_0062:
@@ -43,7 +43,7 @@ L_0062:
 
 L_006C:
     WorkCmpConst 0x4000, 2
-    VMJumpIf 1, L_007F
+    VMJumpIf CMP_EQ, L_007F
     VMJump L_0089
 
 L_007F:
@@ -54,7 +54,7 @@ L_007F:
 
 L_0089:
     WorkCmpConst 0x4000, 3
-    VMJumpIf 1, L_009C
+    VMJumpIf CMP_EQ, L_009C
     VMJump L_00A6
 
 L_009C:
@@ -65,7 +65,7 @@ L_009C:
 
 L_00A6:
     WorkCmpConst 0x4000, 4
-    VMJumpIf 1, L_00B9
+    VMJumpIf CMP_EQ, L_00B9
     VMJump L_00C3
 
 L_00B9:
@@ -89,7 +89,7 @@ Script_4:
     WorkSetConst 0x8021, 0
     PlayerGetGPos 0x8020, 0x8021
     WorkCmpConst 0x8020, 13
-    VMJumpIf 1, L_00F0
+    VMJumpIf CMP_EQ, L_00F0
     VMJump L_00FE
 
 L_00F0:
@@ -98,7 +98,7 @@ L_00F0:
 
 L_00FE:
     WorkCmpConst 0x8020, 14
-    VMJumpIf 1, L_0111
+    VMJumpIf CMP_EQ, L_0111
     VMJump L_011F
 
 L_0111:
@@ -107,7 +107,7 @@ L_0111:
 
 L_011F:
     WorkCmpConst 0x8020, 16
-    VMJumpIf 1, L_0132
+    VMJumpIf CMP_EQ, L_0132
     VMJump L_0140
 
 L_0132:
@@ -116,7 +116,7 @@ L_0132:
 
 L_0140:
     WorkCmpConst 0x8020, 17
-    VMJumpIf 1, L_0153
+    VMJumpIf CMP_EQ, L_0153
     VMJump L_0161
 
 L_0153:
@@ -147,7 +147,7 @@ L_0161:
     EvCameraEnd
     VMCall L_02C8
     WorkCmpConst 0x4000, 0
-    VMJumpIf 1, L_01C0
+    VMJumpIf CMP_EQ, L_01C0
     VMJump L_01D6
 
 L_01C0:
@@ -157,7 +157,7 @@ L_01C0:
 
 L_01D6:
     WorkCmpConst 0x4000, 1
-    VMJumpIf 1, L_01E9
+    VMJumpIf CMP_EQ, L_01E9
     VMJump L_01FF
 
 L_01E9:
@@ -167,7 +167,7 @@ L_01E9:
 
 L_01FF:
     WorkCmpConst 0x4000, 2
-    VMJumpIf 1, L_0212
+    VMJumpIf CMP_EQ, L_0212
     VMJump L_0228
 
 L_0212:
@@ -177,7 +177,7 @@ L_0212:
 
 L_0228:
     WorkCmpConst 0x4000, 3
-    VMJumpIf 1, L_023B
+    VMJumpIf CMP_EQ, L_023B
     VMJump L_0251
 
 L_023B:
@@ -187,7 +187,7 @@ L_023B:
 
 L_0251:
     WorkCmpConst 0x4000, 4
-    VMJumpIf 1, L_0264
+    VMJumpIf CMP_EQ, L_0264
     VMJump L_027A
 
 L_0264:
@@ -230,40 +230,40 @@ Movement_02BC:
 
 L_02C8:
     WorkSetConst 0x8022, 0
-    Cmd_02B1 0x8022
+    KeysCmd_02B1 0x8022
     RTCGetTime 0x8008, 0x8009
     VMStackPush 0x4001
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02F7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02F7
     WorkSetConst 0x4000, 2
     VMJump L_036A
 
 L_02F7:
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0316
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0316
     WorkSetConst 0x4000, 4
     VMJump L_036A
 
 L_0316:
     VMStackPush 0x8022
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0335
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0335
     WorkSetConst 0x4000, 3
     VMJump L_036A
 
 L_0335:
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8008
     VMStackPushConst 12
-    VMStackCmp 0
-    VMStackCmp 7
-    VMJumpIf 255, L_0364
+    VMStackCmp CMP_LT
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0364
     WorkSetConst 0x4000, 0
     VMJump L_036A
 
@@ -340,23 +340,24 @@ Script_6:
     ActorsPauseAll
     VMStackPush 0x4001
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_047E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_047E
     SEPlay 1351
+    // "An old switch is at your feet!\nStep on it?"
     InfoMsg 2, 2
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_047C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_047C
     WorkSetConst 0x8023, 0
-    Cmd_02B1 0x8023
+    KeysCmd_02B1 0x8023
     SEPlay 1693
     SEWait
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0475
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0475
     InfoMsgClose_0039
     SEPlay 2226
     EvCameraShake 6, 0, 3, 10, 1, 0, 1, 3
@@ -368,11 +369,13 @@ Script_6:
     VMSleep 60
     FadeEx 3, 16, 0, 4
     FadeExWait
+    // "A loud, heavy sound echoed\non the other side of the door..."
     InfoMsg 3, 2
     WorkSetConst 0x4001, 1
     VMJump L_047A
 
 L_0475:
+    // "Nothing seems to happen..."
     InfoMsg 4, 2
 
 L_047A:
@@ -391,15 +394,16 @@ Script_7:
     RTCGetTime 0x8008, 0x8009
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8008
     VMStackPushConst 12
-    VMStackCmp 0
-    VMStackCmp 7
-    VMJumpIf 255, L_04C9
+    VMStackCmp CMP_LT
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_04C9
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "What is going on\nwith this door?[f000]븁\u0000\nIt leads to a different place\ndepending on whether the[f000]븀\u0000\nsun is up or not!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_04DD
@@ -407,7 +411,8 @@ Script_7:
 L_04C9:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "What is going on\nwith this door?[f000]븁\u0000\nIt leads to a different place\ndepending on whether the[f000]븀\u0000\nmoon is out or not!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
 

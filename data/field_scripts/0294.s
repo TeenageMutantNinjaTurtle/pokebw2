@@ -24,25 +24,27 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Return to Castelia City?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0100
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0100
+    // "Well then, please board the ship![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     MsgWinCloseAll
     PlayerGetExState 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_007C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_007C
     PlayerSetSpecialSequence 1
 
 L_007C:
     PlayerGetDir 0x8008
     WorkCmpConst 0x8008, 0
-    VMJumpIf 1, L_0093
+    VMJumpIf CMP_EQ, L_0093
     VMJump L_00A9
 
 L_0093:
@@ -52,7 +54,7 @@ L_0093:
 
 L_00A9:
     WorkCmpConst 0x8008, 2
-    VMJumpIf 1, L_00BC
+    VMJumpIf CMP_EQ, L_00BC
     VMJump L_00CA
 
 L_00BC:
@@ -75,7 +77,8 @@ L_00DE:
     VMJump L_010E
 
 L_0100:
-    ParentActorMsg 1024, 2, 0, 0
+    // "Please board the ship\nat your convenience."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     MsgWinCloseAll
 

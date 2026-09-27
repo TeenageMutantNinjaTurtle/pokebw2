@@ -23,7 +23,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Hello! If you cross the Skyarrow Bridge\nfrom this side, you will reach[f000]븀\u0000\nPinwheel Forest and Nacrene City."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -34,11 +35,12 @@ Script_3:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0087
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0087
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "I walked so far! My legs are sore!\n...Um, you don't have to look."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_009B
@@ -46,7 +48,8 @@ Script_3:
 L_0087:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "The Skyarrow Bridge has\nbeen around for a long time."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -59,7 +62,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "We're inspecting the Skyarrow Bridge\nto make sure it's strong enough.[f000]븁\u0000\nThis is the first inspection in a few\nyears, so it may take a while.[f000]븀\u0000\nPlease wait. Thank you."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -73,8 +77,8 @@ Script_5:
     ActorCmdWait
     VMStackPush 0x8021
     VMStackPushConst 8
-    VMStackCmp 1
-    VMJumpIf 255, L_00FE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00FE
     ActorCmdExec 1, Movement_0354
     VMSleep 8
     ActorCmdExec 255, Movement_034C
@@ -84,15 +88,16 @@ Script_5:
 L_00FE:
     VMStackPush 0x8021
     VMStackPushConst 10
-    VMStackCmp 1
-    VMJumpIf 255, L_0127
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0127
     ActorCmdExec 1, Movement_034C
     VMSleep 8
     ActorCmdExec 255, Movement_0354
     ActorCmdWait
 
 L_0127:
-    ActorMsg 1024, 4, 1, 0, 0
+    // "Please wait to cross.[f000]븁\u0000\nWe're inspecting the Skyarrow Bridge\nto make sure it's strong enough.[f000]븁\u0000\nThis is the first inspection in a few\nyears, so it may take a while.[f000]븀\u0000\nThank you for your patience.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 1, 0, 0
     MsgWinCloseAll
     ActorCmdExec 255, Movement_036C
     VMSleep 8
@@ -136,14 +141,16 @@ Script_7:
     ActorSetEyeToEye
     VMStackPush 0x40e2
     VMStackPushConst 6
-    VMStackCmp 5
-    VMJumpIf 255, L_032C
-    ParentActorMsg 1024, 7, 0, 0
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_032C
+    // "Free-for-all! It's the Castelia\nHarlequin Hunt! You haven't visited...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     VMStackPush 0x40e2
     VMStackPushConst 5
-    VMStackCmp 1
-    VMJumpIf 255, L_023B
-    ParentActorMsg 1024, 12, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_023B
+    // "You still need to visit\nthis many places: Wow! Zero![f000]븁\u0000\nThat means you've completed\nthe Castelia Harlequin Hunt![f000]븁\u0000\nCongratulations!\nThis is a small commemorative gift![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -152,7 +159,8 @@ Script_7:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 13, 0, 0
+    // "The Castelia Harlequin Hunt is a way\nto make more people love Castelia City![f000]븁\u0000\nThat's why we generously gave you a\nBicycle at the beginning. It's the best[f000]븀\u0000\nway to get around Castelia City![f000]븁\u0000\nKeep loving Castelia City![f000]븁\u0000\nCastelia City, Castelia City,\nCastelia City! ♪ Here we go! ♪"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40e2, 6
@@ -165,43 +173,46 @@ L_023B:
 L_0247:
     VMStackPush 0x8024
     VMStackPushConst 3
-    VMStackCmp 0
-    VMJumpIf 255, L_0311
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_0311
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 312
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0295
-    ActorMsg 1024, 8, 4, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0295
+    // "The Medal Office![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 4, 0, 0
     WorkAdd 0x8023, 1
     VMJump L_0305
 
 L_0295:
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 313
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_02D0
-    ActorMsg 1024, 9, 4, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_02D0
+    // "Passerby Analytics HQ![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 4, 0, 0
     WorkAdd 0x8023, 1
     VMJump L_0305
 
 L_02D0:
     VMStackPush 0x8024
     VMStackPushConst 2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 314
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0305
-    ActorMsg 1024, 10, 4, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0305
+    // "The Battle Company![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 4, 0, 0
     WorkAdd 0x8023, 1
 
 L_0305:
@@ -210,7 +221,8 @@ L_0305:
 
 L_0311:
     WordSetNumber 0, 0x8023, 1
-    ParentActorMsg 1024, 11, 0, 0
+    // "You still need to visit\nthis many places: [f000]Ȁ\u0001\u0000![f000]븁\u0000\nSo explore Castelia City, and enjoy\nthe Castelia Harlequin Hunt!"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -218,7 +230,8 @@ L_0326:
     VMJump L_033A
 
 L_032C:
-    ParentActorMsg 1024, 13, 0, 0
+    // "The Castelia Harlequin Hunt is a way\nto make more people love Castelia City![f000]븁\u0000\nThat's why we generously gave you a\nBicycle at the beginning. It's the best[f000]븀\u0000\nway to get around Castelia City![f000]븁\u0000\nKeep loving Castelia City![f000]븁\u0000\nCastelia City, Castelia City,\nCastelia City! ♪ Here we go! ♪"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     MsgWinCloseAll
 

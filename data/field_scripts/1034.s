@@ -15,8 +15,8 @@ Script_1:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 18
-    VMStackCmp 1
-    VMJumpIf 255, L_0061
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0061
     WorkSub 0x8022, 1
     ActorWalkRoute 0, 0x8021, 0x8022, 1, 8, 1
     ActorCmdWait
@@ -31,14 +31,16 @@ L_0061:
 
 L_0081:
     WordSetPlayerName 0
-    ActorMsg 1024, 0, 0, 0, 0
+    // "Professor Juniper: Why, if it isn't\n[f000]Ā\u0001\u0000![f000]븁\u0000\nThat's someone with a Pokédex for you,\nnoticing a place like this![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0368
     ActorCmdWait
     VMSleep 8
     ActorCmdExec 0, Movement_0350
     ActorCmdWait
-    ActorMsg 1024, 1, 0, 0, 0
+    // "Still...this space...[f000]븁\u0000\nIt's hard to put into words, but\nit feels full of something..."
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x4115, 3
@@ -48,6 +50,7 @@ L_0081:
 
 Script_2:
     ActorsPauseAll
+    // "A mysterious presence can be felt!"
     SystemMsg 2, 2
     LastKeyWait
     InfoMsgClose
@@ -64,17 +67,20 @@ Script_2:
     ActorMoveLinear 2, 18, 0, 15, 32
     ActorSetGPos 2, 18, 0, 15, 1
     PVPlay 480, 0
+    // "Kyouuuun!"
     InfoMsg 3, 2
     PVWait
     MsgWaitAdvance
     MsgWinCloseAll
-    ActorMsg 1024, 4, 0, 0, 0
+    // "Uxie![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 0, 0
     MsgWinCloseAll
     VMSleep 16
     ActorAdd 3
     ActorMoveLinear 3, 16, 0, 17, 32
     ActorSetGPos 3, 16, 0, 17, 1
     PVPlay 481, 0
+    // "Kyauun!"
     InfoMsg 5, 2
     PVWait
     MsgWaitAdvance
@@ -83,13 +89,15 @@ Script_2:
     VMSleep 3
     ActorCmdExec 0, Movement_0340
     ActorCmdWait
-    ActorMsg 1024, 6, 0, 0, 0
+    // "Mesprit...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 0, 0
     MsgWinCloseAll
     VMSleep 16
     ActorAdd 1
     ActorMoveLinear 1, 20, 0, 17, 32
     ActorSetGPos 1, 20, 0, 17, 1
     PVPlay 482, 0
+    // "Kyuuun!"
     InfoMsg 7, 2
     PVWait
     MsgWaitAdvance
@@ -98,7 +106,8 @@ Script_2:
     VMSleep 3
     ActorCmdExec 0, Movement_0338
     ActorCmdWait
-    ActorMsg 1024, 8, 0, 0, 0
+    // "And Azelf![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 255, Movement_0348
     VMSleep 3
@@ -112,6 +121,7 @@ Script_2:
     ActorCmdWait
     ActorMoveLinear 2, 18, 0, 24, 10
     ActorDelete 2
+    // "Uxie went flying off somewhere...[f000]븁\u0000"
     SystemMsg 9, 2
     InfoMsgClose
     VMSleep 8
@@ -122,6 +132,7 @@ Script_2:
     ActorCmdWait
     ActorMoveLinear 3, 18, 0, 24, 12
     ActorDelete 3
+    // "Mesprit went flying off somewhere...[f000]븁\u0000"
     SystemMsg 10, 2
     InfoMsgClose
     VMSleep 8
@@ -132,13 +143,15 @@ Script_2:
     ActorCmdWait
     ActorMoveLinear 1, 18, 0, 24, 12
     ActorDelete 1
+    // "Azelf went flying off somewhere...[f000]븁\u0000"
     SystemMsg 11, 2
     InfoMsgClose
     VMSleep 16
     ActorCmdExec 255, Movement_0350
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 12, 0, 0, 0
+    // "Professor Juniper: Those three are\nUxie, Mesprit, and Azelf.[f000]븁\u0000\nThey're thought to be the Pokémon\nthat gave us knowledge, emotion,[f000]븀\u0000\nand willpower.[f000]븁\u0000\nStill, I wonder where those three went...[f000]븁\u0000\nHey, [f000]Ā\u0001\u0000![f000]븁\u0000\nLook all over the Unova region,\nand try to find them!"
+    ActorMsg MSGFILE_SCRIPT, 12, 0, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorWalkRoute 0, 18, 27, 1, 8, 1
@@ -150,7 +163,7 @@ Script_2:
     WorkSetConst 0x4118, 1
     FlagSet 916
     FlagSet 917
-    Cmd_0262 0, 0
+    HollowRivalCmd_0262 0, 0
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -159,7 +172,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Still...this space...[f000]븁\u0000\nIt's hard to put into words, but\nit feels full of something..."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents

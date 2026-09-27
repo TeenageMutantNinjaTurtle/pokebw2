@@ -11,7 +11,7 @@ Script_1:
     WorkAdd 0x8020, 0x400b
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0x8020, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
     ActorMsgClose
     WorkSetConst 0x8020, 0

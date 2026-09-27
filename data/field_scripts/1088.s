@@ -36,7 +36,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Balloon! Balloon! Balloon!\nXtransceiver minigames![f000]븁\u0000\nMy elegant hobby is\nminigames on the Xtransceiver!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

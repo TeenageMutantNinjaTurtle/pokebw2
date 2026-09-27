@@ -16,7 +16,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Oh my! You have eight Gym Badges?!\nWhy, you must be very strong![f000]븁\u0000\nBut, I wonder what would separate\nTrainers who both have eight Badges..."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -27,7 +28,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "There's a model who I've been\na fan of for years![f000]븁\u0000\nHer name is Elesa,\nand her Pokémon are strong, too![f000]븁\u0000\nHuh? You've battled with her?\nYou're really something!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -38,7 +40,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "The GTS! It links the world from the\nsecond floor of a Pokémon Center![f000]븁\u0000\nThe full name of the GTS is the\nGlobal Trade Station![f000]븁\u0000\nNow in Driftveil City, you can find the\nPokémon World Tournament.[f000]븀\u0000\nIt's the PWT for short!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -49,18 +52,19 @@ Script_4:
     ActorsPauseAll
     VMStackPushFlag 2455
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0245
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0245
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 2, 0
+    // "Hi, hi!\nLet's play Pokémon rock-paper-scissors![f000]븁\u0000\nI'm really good at it!\nI've beaten all of my friends![f000]븀\u0000\nAre you ready?[f000]븁\u0000\nHere we go!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 2, 0
     ListMenu_AnchorTopRight 31, 1, 0, 0, 32784
     ListMenuAdd 4, 65535, 0
     ListMenuAdd 5, 65535, 1
     ListMenuAdd 6, 65535, 2
     ListMenuShow
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_00E5
+    VMJumpIf CMP_EQ, L_00E5
     VMJump L_00F7
 
 L_00E5:
@@ -70,7 +74,7 @@ L_00E5:
 
 L_00F7:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_010A
+    VMJumpIf CMP_EQ, L_010A
     VMJump L_011C
 
 L_010A:
@@ -80,7 +84,7 @@ L_010A:
 
 L_011C:
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_012F
+    VMJumpIf CMP_EQ, L_012F
     VMJump L_0141
 
 L_012F:
@@ -91,7 +95,7 @@ L_012F:
 L_0141:
     PlayerGetDir 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_0158
+    VMJumpIf CMP_EQ, L_0158
     VMJump L_0176
 
 L_0158:
@@ -103,7 +107,7 @@ L_0158:
 
 L_0176:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_0189
+    VMJumpIf CMP_EQ, L_0189
     VMJump L_01A7
 
 L_0189:
@@ -115,7 +119,7 @@ L_0189:
 
 L_01A7:
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_01BA
+    VMJumpIf CMP_EQ, L_01BA
     VMJump L_01D8
 
 L_01BA:
@@ -127,7 +131,8 @@ L_01BA:
 
 L_01D8:
     MsgWinCloseAll
-    ActorMsg 1024, 7, 3, 2, 1
+    // "Shoot!"
+    ActorMsg MSGFILE_SCRIPT, 7, 3, 2, 1
     MsgWaitAdvance
     MsgWinCloseAll
     MultiMsg 0x8024, 0x8020, 0x8021, 1
@@ -135,15 +140,18 @@ L_01D8:
     VMSleep 60
     MsgWinCloseNo 1
     MsgWinCloseNo 2
-    ParentActorMsg 1024, 8, 2, 0
+    // "Waaaah! I lost!\nMy win streak's over... Sniff...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 2, 0
     MsgWinCloseAll
     Cmd_0275 0, 41, 0
     SEPlay 1908
+    // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink!"
     SystemMsg 9, 0
     SEWait
     MsgWaitAdvance
     MsgWinCloseAll
-    ParentActorMsg 1024, 10, 2, 0
+    // "Until I figure out a way\nto win every time for sure,[f000]븀\u0000\nI won't play anymore!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 2, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2455
@@ -152,7 +160,8 @@ L_01D8:
 L_0245:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "Until I figure out a way\nto win every time for sure,[f000]븀\u0000\nI won't play anymore!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
 

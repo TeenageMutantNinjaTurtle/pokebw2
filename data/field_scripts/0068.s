@@ -17,6 +17,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "GAME FREAK"
     MsgPlaceSign 0, 2
     MsgPlaceSignClose
     FinishAllEvents

@@ -26,28 +26,28 @@ Script_1:
     WorkSetConst 0x8020, 0
     VMStackPush 0x416d
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x416e
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x416f
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4170
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4171
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4172
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 6
-    VMStackCmp 6
-    VMStackCmp 6
-    VMStackCmp 6
-    VMStackCmp 6
-    VMJumpIf 255, L_00CD
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_00CD
     StadiumLoadTrainerTable
     Cmd_0249 0x416d, 0x416e, 0x416f, 0x4170, 0x4171, 0x4172
     StadiumFreeTrainerTable
@@ -61,15 +61,15 @@ L_00CD:
     TrainerCardHasBadge 0x8020, 4
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00FE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00FE
     FlagReset 649
 
 L_00FE:
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0121
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0121
     FlagReset 650
     FlagReset 651
     FlagReset 652
@@ -83,8 +83,8 @@ L_0121:
     TrainerCardHasBadge 0x8020, 4
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0176
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0176
     StadiumSetupActorSingle 9, 5, 2
     StadiumSetupActorSingle 10, 6, 2
     StadiumSetupActorSingle 11, 7, 2
@@ -94,8 +94,8 @@ L_0176:
     TrainerCardHasBadge 0x8020, 6
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01B1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01B1
     StadiumSetupActorSingle 9, 5, 3
     StadiumSetupActorSingle 10, 6, 3
     StadiumSetupActorSingle 11, 7, 3
@@ -104,8 +104,8 @@ L_0176:
 L_01B1:
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01FE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01FE
     StadiumSetupActorSingle 9, 5, 4
     StadiumSetupActorSingle 10, 6, 4
     StadiumSetupActorSingle 11, 7, 4
@@ -121,7 +121,8 @@ L_01FE:
 Script_2:
     ActorsPauseAll
     SEPlay 1351
-    ParentActorMsg 1024, 0, 0, 0
+    // "Athletes who score points, and athletes\nwho support them...[f000]븁\u0000\nDetermining their different roles is the\nkey to building a team!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -131,7 +132,8 @@ Script_2:
 Script_3:
     ActorsPauseAll
     SEPlay 1351
-    ParentActorMsg 1024, 1, 0, 0
+    // "Football is a fun sport that is divided\ninto offense and defense."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -141,7 +143,8 @@ Script_3:
 Script_4:
     ActorsPauseAll
     SEPlay 1351
-    ParentActorMsg 1024, 2, 0, 0
+    // "His... Those eyes...[f000]븁\u0000\nIt looks like he's coming\nright at me!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -151,7 +154,8 @@ Script_4:
 Script_5:
     ActorsPauseAll
     SEPlay 1351
-    ParentActorMsg 1024, 3, 0, 0
+    // "The helmet and pads weigh\n15 to 18 pounds!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -161,7 +165,8 @@ Script_5:
 Script_6:
     ActorsPauseAll
     SEPlay 1351
-    ParentActorMsg 1024, 4, 0, 0
+    // "I've trained and built up my muscles\nby tackling Pokémon![f000]븁\u0000\nNothing can move me!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -171,7 +176,8 @@ Script_6:
 Script_7:
     ActorsPauseAll
     SEPlay 1351
-    ParentActorMsg 1024, 5, 0, 0
+    // "OK! I will defend to the end with moves\nlike Protect and Detect!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -181,7 +187,8 @@ Script_7:
 Script_8:
     ActorsPauseAll
     SEPlay 1351
-    ParentActorMsg 1024, 6, 0, 0
+    // "My favorite moves?[f000]븁\u0000\n...Hmm.\nI'd say Tackle and Take Down."
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -191,7 +198,8 @@ Script_8:
 Script_9:
     ActorsPauseAll
     SEPlay 1351
-    ParentActorMsg 1024, 7, 0, 0
+    // "Reading your opponent's attack and\ndeciding your next move...[f000]븁\u0000\nBoth Pokémon battles and football have\nthe same thrill!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -201,7 +209,8 @@ Script_9:
 Script_10:
     ActorsPauseAll
     SEPlay 1351
-    ParentActorMsg 1024, 8, 0, 0
+    // "The appeal of football?\nLet me see...[f000]븁\u0000\nFirst, just watch a game without thinking\nabout the rules!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -211,7 +220,8 @@ Script_10:
 Script_11:
     ActorsPauseAll
     SEPlay 1351
-    ParentActorMsg 1024, 9, 0, 0
+    // "I'll protect my team with my whole body\nto avoid our opponents' interference!"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -221,7 +231,8 @@ Script_11:
 Script_12:
     ActorsPauseAll
     SEPlay 1351
-    ParentActorMsg 1024, 10, 0, 0
+    // "In football, the quarterback is the\nathlete who decides a strategy and[f000]븀\u0000\ncarries it out.[f000]븁\u0000\nHe's kind of like a Pokémon Trainer!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -231,7 +242,8 @@ Script_12:
 Script_13:
     ActorsPauseAll
     SEPlay 1351
-    ParentActorMsg 1024, 11, 0, 0
+    // "In football, you have to learn each and\nevery formation by heart!"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -242,7 +254,8 @@ Script_14:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 12, 0, 0
+    // "The ball used in football is oval-shaped\nand hard to throw, isn't it?[f000]븁\u0000\nBut once you get the hang of it, you can\nthrow it perfectly!"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -253,7 +266,8 @@ Script_15:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 13, 0, 0
+    // "I am a greeeeeat secret weapon![f000]븁\u0000\nThe only problem is, I am so secret that\nI've never been in a game..."
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -264,7 +278,8 @@ Script_16:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 14, 0, 0
+    // "Yoo-hoo! Pass me the ball!"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -275,7 +290,8 @@ Script_17:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 15, 0, 0
+    // "Bodies crashing into other bodies!\nGo, go, go![f000]븁\u0000\nI am the owner. That’s what\nI like to see."
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -287,7 +303,8 @@ Script_18:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 511, 0
-    ParentActorMsg 1024, 16, 0, 0
+    // "Ook!"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -300,7 +317,8 @@ Script_19:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 513, 0
-    ParentActorMsg 1024, 17, 0, 0
+    // "Ookiii!"
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -313,7 +331,8 @@ Script_20:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 515, 0
-    ParentActorMsg 1024, 18, 0, 0
+    // "Ook! Ook!"
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

@@ -15,6 +15,7 @@ Script_1:
     ActorNew 21, 0x8022, 0, 251, 291, 0
     SEWait
     BGMPlay 1237
+    // "Wait up![f000]븁\u0000"
     InfoMsg 0, 2
     InfoMsgClose_0039
     ActorCmdExec 255, Movement_018C
@@ -22,22 +23,23 @@ Script_1:
     WorkAdd 0x8021, 2
     ActorWalkRoute 251, 0x8021, 0x8022, 1, 8, 1
     ActorCmdWait
-    ActorMsg 1024, 1, 251, 0, 0
+    // "[f000]Ā\u0001\u0001: I'll battle with you\nbefore you take on the Pokémon League.[f000]븁\u0000\nThe more Pokémon battles you have,\nthe stronger you get, right?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 251, 0, 0
     MsgWinCloseAll
     ActorCmdExec 251, Movement_016C
     ActorCmdWait
     VMStackPush 0x4030
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_009E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_009E
     CallTrainerBattle 684, 0, 0
     VMJump L_00C7
 
 L_009E:
     VMStackPush 0x4030
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00BF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00BF
     CallTrainerBattle 685, 0, 0
     VMJump L_00C7
 
@@ -48,8 +50,8 @@ L_00C7:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00E6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E6
     CallTrainerBattleEnd
     VMJump L_00E8
 
@@ -60,7 +62,8 @@ L_00E8:
     VMSleep 8
     ActorCmdExec 251, Movement_017C
     ActorCmdWait
-    ActorMsg 1024, 2, 251, 0, 0
+    // "[f000]Ā\u0001\u0001: [f000]Ā\u0001\u0000![f000]븁\u0000\nThanks to you, I accomplished what\nI set out to do during my journey![f000]븁\u0000\nI wish I could've shown you\nmy little sister's huge smile![f000]븁\u0000\nThis is my thanks![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 251, 0, 0
     MsgWinCloseAll
     ActorCmdExec 251, Movement_01AC
     ActorCmdWait
@@ -71,7 +74,8 @@ L_00E8:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 3, 251, 0, 0
+    // "I think you're really amazing![f000]븁\u0000\nSo become the Champion![f000]븁\u0000\nGet the proof that you're a Trainer\nyour Pokémon can be proud of![f000]븁\u0000\nSee you![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 251, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 251, 21, 0x8022, 1, 8, 0
     ActorCmdWait
@@ -80,7 +84,7 @@ L_00E8:
     SEWait
     BGMChangeMap
     WorkSetConst 0x4124, 1
-    Cmd_0262 1, 38
+    HollowRivalCmd_0262 1, 38
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt

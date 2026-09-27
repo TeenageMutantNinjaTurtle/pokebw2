@@ -26,13 +26,13 @@ L_004C:
     GameGetVersion 0x8023
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0079
-    ObjInitWarpGPos 1, 0xff08, 80, 248
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0079
+    ObjInitWarpGPos 1, 65288, 80, 248
     VMJump L_0083
 
 L_0079:
-    ObjInitWarpGPos 0, 0xff08, 80, 248
+    ObjInitWarpGPos 0, 65288, 80, 248
 
 L_0083:
     WorkSetConst 0x8023, 0
@@ -45,159 +45,159 @@ Script_1:
     TrainerCardHasBadge 0x8024, 0
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40e4
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_00CC
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00CC
     WorkSetConst 0x40e4, 1
 
 L_00CC:
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00E5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E5
     WorkSetConst 0x8025, 0
 
 L_00E5:
     TrainerCardHasBadge 0x8024, 1
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40e5
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0114
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0114
     WorkSetConst 0x40e5, 1
 
 L_0114:
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_012D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_012D
     WorkSetConst 0x8025, 0
 
 L_012D:
     TrainerCardHasBadge 0x8024, 2
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40e6
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_015C
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_015C
     WorkSetConst 0x40e6, 1
 
 L_015C:
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0175
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0175
     WorkSetConst 0x8025, 0
 
 L_0175:
     TrainerCardHasBadge 0x8024, 3
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40e7
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_01A4
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_01A4
     WorkSetConst 0x40e7, 1
 
 L_01A4:
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01BD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01BD
     WorkSetConst 0x8025, 0
 
 L_01BD:
     TrainerCardHasBadge 0x8024, 4
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40e8
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_01EC
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_01EC
     WorkSetConst 0x40e8, 1
 
 L_01EC:
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0205
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0205
     WorkSetConst 0x8025, 0
 
 L_0205:
     TrainerCardHasBadge 0x8024, 5
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40e9
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0234
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0234
     WorkSetConst 0x40e9, 1
 
 L_0234:
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_024D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_024D
     WorkSetConst 0x8025, 0
 
 L_024D:
     TrainerCardHasBadge 0x8024, 6
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40ea
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_027C
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_027C
     WorkSetConst 0x40ea, 1
 
 L_027C:
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0295
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0295
     WorkSetConst 0x8025, 0
 
 L_0295:
     TrainerCardHasBadge 0x8024, 7
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40eb
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_02C4
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_02C4
     WorkSetConst 0x40eb, 1
 
 L_02C4:
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02DD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02DD
     WorkSetConst 0x8025, 0
 
 L_02DD:
     VMStackPush 0x40ec
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02F6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02F6
     WorkSetConst 0x40ec, 1
 
 L_02F6:
@@ -214,6 +214,7 @@ Script_14:
 Script_2:
     ActorsPauseAll
     Plugin11_Cmd1000 0
+    // "Basic Badge confirmed!"
     SystemMsg 10, 2
     LastKeyWait
     InfoMsgClose
@@ -225,6 +226,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     Plugin11_Cmd1000 1
+    // "Toxic Badge confirmed!"
     SystemMsg 11, 2
     LastKeyWait
     InfoMsgClose
@@ -236,6 +238,7 @@ Script_3:
 Script_4:
     ActorsPauseAll
     Plugin11_Cmd1000 2
+    // "Insect Badge confirmed!"
     SystemMsg 12, 2
     LastKeyWait
     InfoMsgClose
@@ -247,6 +250,7 @@ Script_4:
 Script_5:
     ActorsPauseAll
     Plugin11_Cmd1000 3
+    // "Bolt Badge confirmed!"
     SystemMsg 13, 2
     LastKeyWait
     InfoMsgClose
@@ -258,6 +262,7 @@ Script_5:
 Script_6:
     ActorsPauseAll
     Plugin11_Cmd1000 4
+    // "Quake Badge confirmed!"
     SystemMsg 14, 2
     LastKeyWait
     InfoMsgClose
@@ -269,6 +274,7 @@ Script_6:
 Script_7:
     ActorsPauseAll
     Plugin11_Cmd1000 5
+    // "Jet Badge confirmed!"
     SystemMsg 15, 2
     LastKeyWait
     InfoMsgClose
@@ -280,6 +286,7 @@ Script_7:
 Script_8:
     ActorsPauseAll
     Plugin11_Cmd1000 6
+    // "Legend Badge confirmed!"
     SystemMsg 16, 2
     LastKeyWait
     InfoMsgClose
@@ -291,6 +298,7 @@ Script_8:
 Script_9:
     ActorsPauseAll
     Plugin11_Cmd1000 7
+    // "Wave Badge confirmed!"
     SystemMsg 17, 2
     LastKeyWait
     InfoMsgClose
@@ -303,19 +311,19 @@ Script_10:
     ActorsPauseAll
     VMStackPush 0x4000
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_047C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_047C
     WorkSetConst 0x8026, 0
     WorkSetConst 0x8027, 0
     ActorGetGPos 255, 0x8026, 0x8027
     VMStackPush 0x8026
     VMStackPushConst 31
-    VMStackCmp 5
+    VMStackCmp CMP_NE
     VMStackPush 0x8027
     VMStackPushConst 44
-    VMStackCmp 5
-    VMStackCmp 6
-    VMJumpIf 255, L_045E
+    VMStackCmp CMP_NE
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_045E
     ActorWalkRoute 255, 31, 44, 0, 8, 0
     ActorCmdWait
     ActorCmdExec 255, Movement_06A0
@@ -366,24 +374,31 @@ Script_11:
     ActorWalkRoute 0, 80, 47, 1, 14, 1
     ActorCmdWait
     EvCameraWait
-    ActorMsg 1024, 0, 0, 0, 0
+    // "N: [f000]븉\u0001\u0001You came...[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_06DC
     ActorCmdWait
-    ActorMsg 1024, 1, 0, 0, 0
+    // "[f000]븉\u0001\u0001The Pokémon League is\njust past Victory Road.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_06EC
     ActorCmdWait
-    ActorMsg 1024, 2, 0, 0, 0
+    // "[f000]븉\u0001\u0001Pokémon battles do nothing\nmore than hurt Pokémon...[f000]븁\u0000\nThat's how I understood it,\nand that's why I hated battles.[f000]븁\u0000\nBut it's not that simple.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_06BC
     ActorCmdWait
     ActorCmdExec 0, Movement_06CC
     ActorCmdWait
-    ActorMsg 1024, 3, 0, 0, 0
+    // "[f000]븉\u0001\u0001Pokémon battles decide\nwinners and losers, it's true.[f000]븁\u0000\nYet they do so much more.[f000]븁\u0000\nYour Pokémon! You!\nYour opponents! And their Pokémon![f000]븁\u0000\nEveryone can see what wonderful\nthings the others have to contribute![f000]븁\u0000\nThat's right! Accepting different ideas--\ndifferent beings--changes the world[f000]븀\u0000\nlike a chemical reaction![f000]븁\u0000\nPokémon battles are like a catalyst:\na small component that leads to[f000]븀\u0000\nbig changes![f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
+    // "[f000]븉\u0001\u0001My friend Reshiram taught me that...[f000]븁\u0000\nAnd it's the formula I've\nderived from traveling the world.[f000]븁\u0000\nI want you to think for\nyourself about what it means.[f000]븉\u0001\u0000[f000]븁\u0000"
+    // "[f000]븉\u0001\u0001My friend Zekrom taught me that...[f000]븁\u0000\nAnd it's the formula I've derived\nfrom traveling the world.[f000]븁\u0000\nI want you to think for\nyourself about what it means.[f000]븉\u0001\u0000[f000]븁\u0000"
     ActorMsgVersioned 1024, 5, 4, 0, 0, 0
     VMCall L_05F8
-    ActorMsg 1024, 7, 0, 0, 0
+    // "[f000]븉\u0001\u0001Here!\nTake this with you![f000]븁\u0000\nThe new Victory Road has areas that\nare only accessible with Waterfall.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_06CC
     ActorCmdWait
@@ -394,6 +409,8 @@ Script_11:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
+    // "[f000]븉\u0001\u0001Yes!\nIf it's your Pokémon and you...[f000]븁\u0000\nYou will get past the Pokémon League\nand recognize your own truth![f000]븁\u0000\nThat's what I see in store for you![f000]븁\u0000"
+    // "[f000]븉\u0001\u0001Yes!\nIf it's your Pokémon and you...[f000]븁\u0000\nYou will get past the Pokémon League\nand recognize your own ideals![f000]븁\u0000\nThat's what I see in store for you![f000]븁\u0000"
     ActorMsgVersioned 1024, 9, 8, 0, 0, 0
     MsgWinCloseAll
     EvCameraMoveToDefault 30
@@ -407,7 +424,7 @@ Script_11:
     EvCameraEnd
     FlagSet 901
     WorkSetConst 0x410d, 1
-    Cmd_0262 1, 37
+    HollowRivalCmd_0262 1, 37
     FlagSet 1031
     FinishAllEvents
     ActorsUnpauseAll
@@ -424,13 +441,13 @@ L_05F8:
 L_061C:
     VMStackPush 0x8028
     VMStackPush 0x8029
-    VMStackCmp 2
-    VMJumpIf 255, L_0667
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_0667
     PokePartyGetParam 0x802b, 0x8029, 178
     VMStackPush 0x802b
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_065B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_065B
     PokePartyGetSpecies 0x802a, 0x8029
     WordSetPokeSpecies 0, 0x802a
     WorkSetConst 0x802c, 1
@@ -442,12 +459,13 @@ L_065B:
 L_0667:
     VMStackPush 0x802c
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0694
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0694
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0698
     ActorCmdWait
-    ActorMsg 1024, 6, 0, 0, 0
+    // "[f000]븉\u0001\u0001What's this?\nWhy, you're the...[f000]븁\u0000\nYou're the [f000]ā\u0001\u0000 that helped me\nthat time, aren't you?[f000]븀\u0000\nHey, thanks![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 0, 0
     MsgWinCloseAll
 
 L_0694:
@@ -497,6 +515,7 @@ Script_12:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Badge Check Gate Ahead"
     MsgPlaceSign 18, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -507,6 +526,7 @@ Script_13:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "The Pokémon League\nis through this tunnel!"
     MsgPlaceSign 19, 2
     MsgPlaceSignClose
     FinishAllEvents

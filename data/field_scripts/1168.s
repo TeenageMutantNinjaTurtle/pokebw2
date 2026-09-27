@@ -20,6 +20,7 @@ Script_1:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 612, 0
+    // "Gwaooooogh!"
     ScreamMsg 0, 2
     PVWait
     MsgWaitAdvance
@@ -31,8 +32,8 @@ Script_1:
     WildBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_007E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_007E
     FlagSet 946
     ActorDelete 1
     CallWildBattleEnd
@@ -44,7 +45,7 @@ L_007E:
 L_0080:
     WildBattleGetResult 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_0097
+    VMJumpIf CMP_EQ, L_0097
     VMJump L_00A1
 
 L_0097:
@@ -53,12 +54,13 @@ L_0097:
 
 L_00A1:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_00C1
+    VMJumpIf CMP_EQ, L_00C1
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_00C1
+    VMJumpIf CMP_EQ, L_00C1
     VMJump L_00D1
 
 L_00C1:
+    // "The dark Haxorus vanished\ninto the preserve..."
     SystemMsg 1, 2
     LastKeyWait
     InfoMsgClose
@@ -73,13 +75,15 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 2, 0, 2, 0
+    // "It's a hop, skip, and a jump by my plane!\nWant to go back to Mistralton City?"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 2, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_012A
-    ActorMsg 1024, 3, 0, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_012A
+    // "OK! Let's hit the runway![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 2, 0
     MsgWinCloseAll
     FadeOutBlackQ
     FadeWait
@@ -88,7 +92,8 @@ Script_2:
     VMJump L_013A
 
 L_012A:
-    ActorMsg 1024, 4, 0, 2, 0
+    // "Roger!\nTalk to me when you're ready!"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 2, 0
     LastKeyWait
     MsgWinCloseAll
 

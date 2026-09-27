@@ -12,28 +12,29 @@ Script_1:
     PokePartyGetCountBySpecies 386, 0x8022
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0049
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0049
     WorkSetConst 0x8021, 8
     VMCall L_021B
     VMJump L_00D9
 
 L_0049:
+    // "Deoxys is reacting to the meteor...[f000]븁\u0000\nWould you like to bring the Deoxys\nin your party closer to the meteor?"
     SystemMsg 0, 2
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00D7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00D7
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00A6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00A6
     PokePartyFindBySpecies 386, 0x8010, 0x8020
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00A0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00A0
     VMCall L_0149
     VMJump L_00A0
 
@@ -41,13 +42,14 @@ L_00A0:
     VMJump L_00D1
 
 L_00A6:
+    // "Which Deoxys would you like to\nbring closer to the meteor?[f000]븁\u0000"
     SystemMsg 1, 2
     InfoMsgClose
     CallPokeSelect 0, 0x8010, 0x8020, 0
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00D1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00D1
     VMCall L_00DF
 
 L_00D1:
@@ -66,8 +68,8 @@ L_00DF:
     PokePartyIsEgg 0x8010, 0x8020
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0110
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0110
     WorkSetConst 0x8021, 3
     VMCall L_021B
     VMJump L_0141
@@ -76,8 +78,8 @@ L_0110:
     PokePartyGetSpecies 0x8023, 0x8020
     VMStackPush 0x8023
     VMStackPushConst 386
-    VMStackCmp 1
-    VMJumpIf 255, L_0135
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0135
     VMCall L_0149
     VMJump L_0141
 
@@ -96,8 +98,8 @@ L_0149:
     WorkAdd 0x8024, 1
     VMStackPush 0x8024
     VMStackPushConst 3
-    VMStackCmp 2
-    VMJumpIf 255, L_017A
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_017A
     WorkSetConst 0x8024, 0
 
 L_017A:
@@ -106,32 +108,32 @@ L_017A:
     PVPlay 386, 0
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01AA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01AA
     WorkSetConst 0x8025, 4
     VMJump L_020D
 
 L_01AA:
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01C9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01C9
     WorkSetConst 0x8025, 5
     VMJump L_020D
 
 L_01C9:
     VMStackPush 0x8024
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_01E8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01E8
     WorkSetConst 0x8025, 6
     VMJump L_020D
 
 L_01E8:
     VMStackPush 0x8024
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0207
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0207
     WorkSetConst 0x8025, 7
     VMJump L_020D
 

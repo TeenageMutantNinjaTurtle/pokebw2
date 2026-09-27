@@ -37,7 +37,8 @@ Script_2:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 612, 0
-    ParentActorMsg 1024, 2, 0, 0
+    // "Gwwwooooo!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

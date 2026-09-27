@@ -28,36 +28,36 @@ Script_1:
     UnityTowerGetStateParam 0, 0x8021
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 2
-    VMJumpIf 255, L_0085
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_0085
     FlagReset 608
 
 L_0085:
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 2
-    VMJumpIf 255, L_009C
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_009C
     FlagReset 609
 
 L_009C:
     VMStackPush 0x8021
     VMStackPushConst 2
-    VMStackCmp 2
-    VMJumpIf 255, L_00B3
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_00B3
     FlagReset 610
 
 L_00B3:
     VMStackPush 0x8021
     VMStackPushConst 3
-    VMStackCmp 2
-    VMJumpIf 255, L_00CA
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_00CA
     FlagReset 611
 
 L_00CA:
     VMStackPush 0x8021
     VMStackPushConst 4
-    VMStackCmp 2
-    VMJumpIf 255, L_00E1
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_00E1
     FlagReset 612
 
 L_00E1:
@@ -84,7 +84,8 @@ Script_8:
 
 L_0117:
     WorkSetConst 0x8022, 0
-    ActorMsg 1024, 64, 6, 2, 0
+    // "Return to the entrance?"
+    ActorMsg MSGFILE_SCRIPT, 64, 6, 2, 0
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32802
     ListMenuAdd 65, 65535, 0
     ListMenuAdd 66, 65535, 1
@@ -93,10 +94,10 @@ L_0117:
     ActorMsgClose
     VMStackPush 0x8022
     VMStackPushConst 65534
-    VMStackCmp 5
-    VMJumpIf 255, L_024E
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_024E
     WorkCmpConst 0x8022, 0
-    VMJumpIf 1, L_0174
+    VMJumpIf CMP_EQ, L_0174
     VMJump L_01A8
 
 L_0174:
@@ -116,7 +117,7 @@ L_0174:
 
 L_01A8:
     WorkCmpConst 0x8022, 1
-    VMJumpIf 1, L_01BB
+    VMJumpIf CMP_EQ, L_01BB
     VMJump L_024E
 
 L_01BB:
@@ -133,8 +134,8 @@ L_01BB:
     FadeWait
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0236
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0236
     VMCall L_03FA
     UnityTowerSetFloor 0x8025, 0x8024
     WorkSetConst 0x417e, 1
@@ -173,12 +174,12 @@ Script_2:
     WordSetCountry 0, 0x8029
     VMStackPush 0x8026
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_02C5
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_02C5
     VMStackPush 0x8028
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_02B9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02B9
     WorkSetConst 0x8027, 1
     VMJump L_02BF
 
@@ -191,8 +192,8 @@ L_02BF:
 L_02C5:
     VMStackPush 0x8028
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_02E4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02E4
     WorkSetConst 0x8027, 3
     VMJump L_02EA
 
@@ -201,7 +202,7 @@ L_02E4:
 
 L_02EA:
     WordSetNumber 2, 0x8028, 3
-    ParentActorMsg 1024, 0x8027, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8027, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -261,12 +262,12 @@ L_037D:
     WorkSetConst 0x802a, 0
     SEPlay 1351
     ActorSetEyeToEye
-    Cmd_02D9 0x4000, 0x8010
+    UnityTowerGetVisitorParam 0x4000, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03B4
-    Cmd_02D8 0x4000
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03B4
+    UnityTowerCmd_02D8 0x4000
     UnityTowerInitVisitorMessage 0x4000, 1, 0x802a
     VMJump L_03BC
 
@@ -274,7 +275,7 @@ L_03B4:
     UnityTowerInitVisitorMessage 0x4000, 0, 0x802a
 
 L_03BC:
-    ParentActorMsg 1024, 0x802a, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x802a, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -298,7 +299,7 @@ L_03FA:
     WorkSetConst 0x802c, 0
     PlayerGetGPos 0x802b, 0x802c
     WorkCmpConst 0x802b, 8
-    VMJumpIf 1, L_0433
+    VMJumpIf CMP_EQ, L_0433
     VMJump L_0441
 
 L_0433:
@@ -307,7 +308,7 @@ L_0433:
 
 L_0441:
     WorkCmpConst 0x802b, 9
-    VMJumpIf 1, L_0454
+    VMJumpIf CMP_EQ, L_0454
     VMJump L_0462
 
 L_0454:
@@ -316,7 +317,7 @@ L_0454:
 
 L_0462:
     WorkCmpConst 0x802b, 10
-    VMJumpIf 1, L_0475
+    VMJumpIf CMP_EQ, L_0475
     VMJump L_0483
 
 L_0475:

@@ -10,8 +10,8 @@
 Script_1:
     VMStackPush 0x4123
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0033
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0033
     FlagReset 966
 
 L_0033:
@@ -20,7 +20,8 @@ L_0033:
 Script_2:
     ActorsPauseAll
     PVPlay 571, 0
-    ActorMsg 1024, 0, 0, 0, 0
+    // "Kwaaaaan!"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     PVWait
     MsgWaitAdvance
     MsgWinCloseAll

@@ -41,7 +41,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "If I were a Gym Leader,\nI wouldn't have quit...[f000]븀\u0000\nI would've felt like it was a waste."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -52,7 +53,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Catching lots of Pokémon?[f000]븁\u0000\nHaving a lot of Pokémon\nmakes looking at the Pokédex[f000]븀\u0000\nor the PC Box so much fun!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -67,15 +69,16 @@ Script_5:
     DebugPrint 0x8021
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0154
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0154
     VMStackPushFlag 381
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0106
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0106
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "Since early times in Sinnoh, people\nmade a bouquet of Gracidea flowers[f000]븀\u0000\nto give someone to show their[f000]븀\u0000\nfeelings of appreciation.[f000]븁\u0000\nIsn't that interesting?[f000]븁\u0000\nBy giving a Gracidea bouquet,\nyou don't have to say a word and[f000]븀\u0000\nsomeone will know how grateful you are.[f000]븁\u0000\nQuite a delightful custom!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_014E
@@ -83,7 +86,8 @@ Script_5:
 L_0106:
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 2, 8, 0, 0
+    // "Oh, Shaymin![f000]븁\u0000\nWhen it comes to Shaymin,\nGracidea flowers are important![f000]븁\u0000\nI have a lot of Gracidea flowers,\nso let me share one with you.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 8, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -92,7 +96,8 @@ L_0106:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 3, 8, 0, 0
+    // "Since early times in Sinnoh, people\nmade a bouquet of Gracidea flowers[f000]븀\u0000\nto give someone to show their[f000]븀\u0000\nfeelings of appreciation.[f000]븁\u0000\nIsn't that interesting?[f000]븁\u0000\nBy giving a Gracidea bouquet,\nyou don't have to say a word and[f000]븀\u0000\nsomeone will know how grateful you are.[f000]븁\u0000\nQuite a delightful custom!"
+    ActorMsg MSGFILE_SCRIPT, 3, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 381
@@ -103,7 +108,8 @@ L_014E:
 L_0154:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "Do you know about Gracidea flowers?[f000]븁\u0000\nSince early times in Sinnoh, people\nmade a bouquet of Gracidea flowers[f000]븀\u0000\nto give someone to show their[f000]븀\u0000\nfeelings of appreciation."
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
 

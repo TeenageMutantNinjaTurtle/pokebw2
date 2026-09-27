@@ -7,7 +7,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Oh... It's just you...[f000]븁\u0000\nNeither Ghetsis nor Colress\nchanged me...[f000]븁\u0000\nI guess I'm the only one\nwho can change myself..."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

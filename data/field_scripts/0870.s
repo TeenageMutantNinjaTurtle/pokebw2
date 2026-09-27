@@ -11,12 +11,12 @@
 Script_6:
     VMStackPush 0x40a1
     VMStackPushConst 5
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 989
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0049
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0049
     ActorSetGPos 11, 1, 0, 12, 1
 
 L_0049:
@@ -24,16 +24,19 @@ L_0049:
 
 Script_3:
     ActorsPauseAll
-    ActorMsg 1024, 0, 8, 0, 0
+    // "Bianca: OK! I'll show you around\nthe Pokémon Center![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 8, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 255, 7, 12, 1, 8, 0
     ActorCmdExec 8, Movement_024C
     ActorCmdWait
     ActorCmdExec 8, Movement_0300
     ActorCmdWait
-    ActorMsg 1024, 1, 8, 0, 0
+    // "The Pokémon Center heals\nPokémon for free![f000]븁\u0000\nYou should bring your Pokémon here\nanytime they are weak.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 8, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 2, 6, 0, 0
+    // "I'll heal your Pokémon.\nHand me your Poké Ball for a sec![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 6, 0, 0
     MsgWinCloseAll
     PlayerSetSpecialSequence 64
     ActorCmdExec 255, Movement_0360
@@ -52,7 +55,8 @@ Script_3:
     VMSleep 8
     ActorCmdExec 255, Movement_0310
     ActorCmdWait
-    ActorMsg 1024, 3, 8, 0, 0
+    // "Next, I'll explain the PC![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 8, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 255, 4, 12, 1, 8, 0
     ActorCmdExec 8, Movement_025C
@@ -60,12 +64,14 @@ Script_3:
     ActorCmdExec 255, Movement_0300
     ActorCmdExec 8, Movement_0300
     ActorCmdWait
-    ActorMsg 1024, 4, 8, 0, 0
+    // "This square thing is a PC!\nAny Trainer is free to use it![f000]븁\u0000\nYou can deposit Pokémon in it.[f000]븁\u0000\nAlso, you can withdraw\nPokémon from it![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 8, 0, 0
     MsgWinCloseAll
     ActorCmdExec 8, Movement_0308
     ActorCmdExec 255, Movement_0308
     ActorCmdWait
-    ActorMsg 1024, 5, 8, 0, 0
+    // "The next thing is over here![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 8, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 8, 4, 13, 1, 8, 1
     ActorCmdWait
@@ -82,12 +88,15 @@ Script_3:
     ActorCmdExec 255, Movement_0318
     ActorCmdExec 8, Movement_0318
     ActorCmdWait
-    ActorMsg 1024, 6, 8, 0, 0
+    // "This is the Poké Mart![f000]븁\u0000\nHere you can buy and\nsell many different items![f000]븁\u0000\nThe Poké Balls you use\nto catch Pokémon can also[f000]븀\u0000\nbe bought at the Poké Mart![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 8, 0, 0
     MsgWinCloseAll
     ActorCmdExec 8, Movement_0300
     ActorCmdExec 255, Movement_0308
     ActorCmdWait
     WordSetPlayerName 0
+    // "Here, [f000]Ā\u0001\u0000,\nI'll give you some Poké Balls![f000]븁\u0000"
+    // "Here, [f000]Ā\u0001\u0000,\nI'll give you some Poké Balls![f000]븁\u0000"
     ActorMsgGendered 1024, 7, 8, 8, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
@@ -97,7 +106,8 @@ Script_3:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 9, 8, 0, 0
+    // "Bianca: Next up![f000]븁\u0000\nI'll show you how\nto use those Poké Balls![f000]븀\u0000\nFollow me![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 8, 0, 0
     MsgWinCloseAll
     ActorCmdExec 8, Movement_0278
     ActorCmdWait
@@ -263,8 +273,10 @@ Script_4:
     WordSetPlayerName 0
     WordSetPartyPokeSpecies 1, 0x8021
     WordSetLoadNature 2, 0x8022
-    ParentActorMsg 1024, 10, 0, 0
-    ParentActorMsg 1024, 11, 0, 0
+    // "Oh?\nYour [f000]ā\u0001\u0001...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
+    // "Its Nature is [f000]Ĉ\u0001\u0002![f000]븁\u0000\nWith a Pokémon like that by your side,\nI'm sure you'll have a fun journey!"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -275,7 +287,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 12, 0, 0
+    // "All right! Here's some advice from a\nguy who spends all of his time[f000]븀\u0000\nin Pokémon Centers![f000]븁\u0000\nWhen your Pokémon's HP goes down,\nmake sure to restore it!"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

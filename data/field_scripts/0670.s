@@ -12,25 +12,26 @@ Script_1:
     WorkSetConst 0x8024, 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "I've been searching for the legendary\nPokémon Cobalion for decades..."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     MsgWaitAdvance
     PokePartyGetCount 0x8020, 0
 
 L_003E:
     VMStackPush 0x8020
     VMStackPush 0x8021
-    VMStackCmp 2
-    VMJumpIf 255, L_0092
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_0092
     PokePartyGetSpecies 0x8022, 0x8021
     PokePartyIsEgg 0x8024, 0x8021
     VMStackPush 0x8022
     VMStackPushConst 638
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0086
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0086
     WorkSetConst 0x8023, 1
 
 L_0086:
@@ -40,19 +41,21 @@ L_0086:
 L_0092:
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00C9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00C9
     MsgWinCloseAll
     ActorCmdExec 2, Movement_00E0
     ActorCmdWait
     VMSleep 8
-    ParentActorMsg 1024, 1, 0, 0
+    // "Oh! It's...\nIt's Cobalion![f000]븁\u0000\nNow I understand.[f000]븁\u0000\nYou were able to show it that\nthere are humans and Pokémon[f000]븀\u0000\nthat understand one another[f000]븀\u0000\nand help each other out![f000]븁\u0000\nBut it's not just humans and Pokémon...\nAll living things must accept[f000]븀\u0000\nand trust each other.[f000]븁\u0000\nThat's the best way to look at it."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_00D7
 
 L_00C9:
-    ParentActorMsg 1024, 2, 0, 0
+    // "I wonder if it still hates humans.[f000]븁\u0000\nOr...maybe it looks at this world\nwhere Pokémon and people coexist[f000]븀\u0000\nand has thoughts about it..."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     MsgWinCloseAll
 

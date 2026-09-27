@@ -103,14 +103,18 @@ L_00E6:
 L_0106:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Waaah! Waaaaah!\nI got lost! Waaaah![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     MsgWinCloseAll
+    // "Showed him your Town Map![f000]븁\u0000"
     SystemMsg 2, 0
     MsgWinCloseAll
-    ParentActorMsg 1024, 3, 0, 0
+    // "...\n...Sniff. Thank you.[f000]븀\u0000\nNow I know where my home is...[f000]븁\u0000\nI'll go home![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     MsgWinCloseAll
     FunfestMissionBroadcast 30, 0
     VMCall L_00E6
+    // "The boy went home..."
     SystemMsg 4, 0
     LastKeyWait
     MsgWinCloseAll
@@ -123,13 +127,15 @@ L_0144:
     ActorSetEyeToEye
     FunfestGetGenericInfo 0, 0x8024
     WordSetItemName 0, 0x8024
-    ParentActorMsg 1024, 5, 0, 0
+    // "Waaah! Waaah!\n[f000]ĉ\u0001\u0000! I want one![f000]븀\u0000\nGive one to me!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     YesNoWin 0x8025
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0192
-    ParentActorMsg 1024, 6, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0192
+    // "Stingy! You're stingy!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMReturn
@@ -138,20 +144,24 @@ L_0192:
     ItemSub 0x8024, 1, 0x8025
     VMStackPush 0x8025
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01BD
-    ParentActorMsg 1024, 7, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01BD
+    // "You don't have one!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMReturn
 
 L_01BD:
-    ParentActorMsg 1024, 8, 0, 0
+    // "Yay!\nThank you![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     MsgWinCloseAll
     FunfestMissionBroadcast 31, 0x8024
+    // "Gave the [f000]ĉ\u0001\u0000 to him.[f000]븁\u0000"
     SystemMsg 9, 0
     MsgWinCloseAll
-    ParentActorMsg 1024, 10, 0, 0
+    // "I'll take good care of it![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     MsgWinCloseAll
     VMCall L_00E6
     WorkSetConst 0x8025, 0
@@ -164,8 +174,8 @@ L_01F7:
     VMCall L_0220
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0218
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0218
     VMReturn
 
 L_0218:
@@ -187,8 +197,8 @@ L_0220:
 L_025E:
     VMStackPush 0x8026
     VMStackPushConst 3
-    VMStackCmp 0
-    VMJumpIf 255, L_03F8
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_03F8
     FunfestGetItemExchangeInfo 0x8029, 0x802a, 0x8027, 0x8028
     WordSetItemName 0, 0x8027
     WordSetItemName 1, 0x8028
@@ -200,12 +210,12 @@ L_025E:
     ListMenuShow
     VMStackPush 0x802b
     VMStackPushConst 65534
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x802b
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_02ED
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_02ED
     FunfestDispSalesmanMessage 17, 9, 2
     LastKeyWait
     MsgWinCloseAll
@@ -216,13 +226,13 @@ L_025E:
 L_02ED:
     VMStackPush 0x802b
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0398
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0398
     ItemCheckAmount 0x8027, 1, 0x802b
     VMStackPush 0x802b
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_032F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_032F
     FunfestDispSalesmanMessage 20, 9, 2
     LastKeyWait
     MsgWinCloseAll
@@ -233,8 +243,8 @@ L_032F:
     ItemAdd 0x8028, 1, 0x802b
     VMStackPush 0x802b
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_035E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_035E
     FunfestDispSalesmanMessage 21, 9, 2
     LastKeyWait
     MsgWinCloseAll
@@ -247,6 +257,7 @@ L_035E:
     ItemSub 0x8027, 1, 0x802b
     FunfestMissionBroadcast 32, 0
     MEPlay 1302
+    // "Gave the [f000]ĉ\u0001\u0000 in exchange for\nthe [f000]ĉ\u0001\u0001!"
     SystemMsg 11, 0
     MEWait
     MsgWaitAdvance
@@ -261,8 +272,8 @@ L_0398:
     VMCall L_041E
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03C5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03C5
     FunfestDispSalesmanMessage 19, 9, 2
     LastKeyWait
     MsgWinCloseAll
@@ -273,8 +284,8 @@ L_03C5:
     WorkAdd 0x802a, 1
     VMStackPush 0x802a
     VMStackPushConst 6
-    VMStackCmp 4
-    VMJumpIf 255, L_03EC
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_03EC
     WorkSetConst 0x802a, 0
 
 L_03EC:
@@ -298,12 +309,12 @@ L_041E:
     Random 0x802d, 10000
     VMStackPush 0x802c
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_046A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_046A
     VMStackPush 0x802d
     VMStackPushConst 6000
-    VMStackCmp 4
-    VMJumpIf 255, L_0464
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0464
     VMReturn
 
 L_0464:
@@ -312,12 +323,12 @@ L_0464:
 L_046A:
     VMStackPush 0x802c
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0498
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0498
     VMStackPush 0x802d
     VMStackPushConst 3000
-    VMStackCmp 4
-    VMJumpIf 255, L_0492
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0492
     VMReturn
 
 L_0492:
@@ -346,8 +357,8 @@ L_04AE:
     YesNoWin 0x8030
     VMStackPush 0x8030
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_050D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_050D
     FunfestDispSalesmanMessage 35, 6, 2
     LastKeyWait
     MsgWinCloseAll
@@ -358,8 +369,8 @@ L_050D:
     MoneyCheck 0x8030, 0x802f
     VMStackPush 0x8030
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_053C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_053C
     FunfestMissionBroadcast 39, 0
     FunfestDispSalesmanMessage 36, 6, 2
     LastKeyWait
@@ -371,8 +382,8 @@ L_053C:
     ItemAdd 0x802e, 1, 0x8030
     VMStackPush 0x8030
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0567
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0567
     FunfestDispSalesmanMessage 37, 6, 2
     LastKeyWait
     MsgWinCloseAll
@@ -386,6 +397,7 @@ L_0567:
     FunfestMissionBroadcast 33, 0x802e
     SEPlay 1621
     MoneyWinUpdate
+    // "Bought the [f000]ĉ\u0001\u0000\nfor $[f000]ȅ\u0001\u0001."
     SystemMsg 33, 2
     SEWait
     MsgWaitAdvance
@@ -405,17 +417,19 @@ L_05B3:
     VMCall L_0602
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_05E8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05E8
     FunfestMissionBroadcast 40, 0
-    ParentActorMsg 1024, 53, 0, 0
+    // "Yay!\nYou lose."
+    ParentActorMsg MSGFILE_SCRIPT, 53, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMReturn
 
 L_05E8:
     FunfestMissionBroadcast 34, 0
-    ParentActorMsg 1024, 54, 0, 0
+    // "Whaa. I lost...\nYou won![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 54, 0, 0
     MsgWinCloseAll
     VMCall L_00E6
     VMReturn
@@ -427,14 +441,15 @@ L_0602:
     WorkSetConst 0x8034, 0
     WorkSetConst 0x8035, 0
     WorkSetConst 0x8036, 0
-    ParentActorMsg 1024, 49, 2, 0
+    // "Hi!\nPlay rock-paper-scissors![f000]븁\u0000\nRock, paper, scissors..."
+    ParentActorMsg MSGFILE_SCRIPT, 49, 2, 0
     WorkSetConst 0x8031, 1
 
 L_0636:
     VMStackPush 0x8031
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0760
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0760
     Random 0x8035, 3
     ListMenu_AnchorTopRight 31, 1, 0, 0, 32820
     ListMenuAdd 46, 65535, 0
@@ -444,12 +459,14 @@ L_0636:
     MsgWinCloseAll
     VMStackPush 0x8032
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0692
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0692
+    // "Shoot!"
     ScreamMsg 50, 2
     VMJump L_0697
 
 L_0692:
+    // "Shoot!"
     ScreamMsg 52, 2
 
 L_0697:
@@ -458,7 +475,7 @@ L_0697:
     VMCall L_0786
     InfoMsgClose_0039
     WorkCmpConst 0x8034, 0
-    VMJumpIf 1, L_06BE
+    VMJumpIf CMP_EQ, L_06BE
     VMJump L_06CA
 
 L_06BE:
@@ -467,7 +484,7 @@ L_06BE:
 
 L_06CA:
     WorkCmpConst 0x8034, 2
-    VMJumpIf 1, L_06DD
+    VMJumpIf CMP_EQ, L_06DD
     VMJump L_06E9
 
 L_06DD:
@@ -476,7 +493,7 @@ L_06DD:
 
 L_06E9:
     WorkCmpConst 0x8034, 1
-    VMJumpIf 1, L_06FC
+    VMJumpIf CMP_EQ, L_06FC
     VMJump L_0708
 
 L_06FC:
@@ -486,17 +503,18 @@ L_06FC:
 L_0708:
     VMStackPush 0x8034
     VMStackPush 0x8035
-    VMStackCmp 1
-    VMJumpIf 255, L_0731
-    ParentActorMsg 1024, 51, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0731
+    // "Rock, paper, scissors..."
+    ParentActorMsg MSGFILE_SCRIPT, 51, 2, 0
     WorkSetConst 0x8032, 1
     VMJump L_075A
 
 L_0731:
     VMStackPush 0x8035
     VMStackPush 0x8036
-    VMStackCmp 1
-    VMJumpIf 255, L_0752
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0752
     WorkSetConst 0x8020, 1
     VMReturn
     VMJump L_075A
@@ -531,7 +549,7 @@ L_0786:
     WorkAdd 0x8039, 46
     PlayerGetDir 0x8037
     WorkCmpConst 0x8037, 0
-    VMJumpIf 1, L_07DF
+    VMJumpIf CMP_EQ, L_07DF
     VMJump L_07FD
 
 L_07DF:
@@ -543,7 +561,7 @@ L_07DF:
 
 L_07FD:
     WorkCmpConst 0x8037, 1
-    VMJumpIf 1, L_0810
+    VMJumpIf CMP_EQ, L_0810
     VMJump L_082E
 
 L_0810:
@@ -555,7 +573,7 @@ L_0810:
 
 L_082E:
     WorkCmpConst 0x8037, 2
-    VMJumpIf 1, L_0841
+    VMJumpIf CMP_EQ, L_0841
     VMJump L_085F
 
 L_0841:
@@ -567,7 +585,7 @@ L_0841:
 
 L_085F:
     WorkCmpConst 0x8037, 3
-    VMJumpIf 1, L_0872
+    VMJumpIf CMP_EQ, L_0872
     VMJump L_0890
 
 L_0872:
@@ -603,19 +621,21 @@ L_08DE:
     WorkSetConst 0x8044, 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 62, 2, 0
+    // "OK, here's the question![f000]븁\u0000\nPlease remember the names\nof these Pokémon.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 62, 2, 0
     FunfestGetPokemonQuizInfo 0x8040, 0x8041, 0x8042
     WorkSetConst 0x803f, 0
 
 L_0926:
     VMStackPush 0x803f
     VMStackPush 0x8040
-    VMStackCmp 0
-    VMJumpIf 255, L_0964
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_0964
     FunfestGetPokemonQuizSpecies 0x803f, 0x8044
     WordSetPokeSpecies 0, 0x8044
     PVPlay 0x8044, 0
-    ParentActorMsg 1024, 56, 2, 0
+    // "[f000]ā\u0001\u0000!"
+    ParentActorMsg MSGFILE_SCRIPT, 56, 2, 0
     PVWait
     MsgWaitAdvance
     WorkAdd 0x803f, 1
@@ -625,15 +645,16 @@ L_0964:
     WorkGet 0x8043, 0x8041
     WorkAdd 0x8043, 1
     WordSetNumber 6, 0x8043, 2
-    ParentActorMsg 1024, 63, 2, 0
+    // "Now!\nWhat is the name of the Pokémon[f000]븀\u0000\nin position [f000]ȁ\u0001\u0006?"
+    ParentActorMsg MSGFILE_SCRIPT, 63, 2, 0
     ListMenu_AnchorTopRight 31, 1, 0, 0, 32830
     WorkSetConst 0x803f, 0
 
 L_0990:
     VMStackPush 0x803f
     VMStackPushConst 5
-    VMStackCmp 0
-    VMJumpIf 255, L_09C2
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_09C2
     FunfestGetPokemonQuizBogusSpecies 0x803f, 0x8044
     WordSetPokeSpecies 1, 0x8044
     ListMenuAdd 57, 65535, 0x803f
@@ -644,18 +665,21 @@ L_09C2:
     ListMenuShow
     VMStackPush 0x803e
     VMStackPush 0x8042
-    VMStackCmp 5
-    VMJumpIf 255, L_09ED
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_09ED
     FunfestMissionBroadcast 41, 0
-    ParentActorMsg 1024, 64, 2, 0
+    // "Too bad! Incorrect!"
+    ParentActorMsg MSGFILE_SCRIPT, 64, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMReturn
 
 L_09ED:
     FunfestMissionBroadcast 35, 0
-    ParentActorMsg 1024, 65, 2, 0
-    ParentActorMsg 1024, 66, 2, 0
+    // "Correct!\nExcellent![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 65, 2, 0
+    // "Then, see you again somewhere...\nGood-bye![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 66, 2, 0
     MsgWinCloseAll
     VMCall L_00E6
     WorkSetConst 0x8044, 0
@@ -678,8 +702,8 @@ L_0A3B:
     YesNoWin 0x8045
     VMStackPush 0x8045
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0A86
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A86
     FunfestDispSalesmanMessage 68, 6, 0
     LastKeyWait
     MsgWinCloseAll
@@ -695,8 +719,8 @@ L_0A86:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0ACD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0ACD
     PokePartyRecoverAll
     FunfestDispSalesmanMessage 72, 6, 0
     VMJump L_0AE3
@@ -718,15 +742,17 @@ L_0AFF:
     WorkSetConst 0x8048, 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 85, 0, 0
+    // "Hello!\nIt's a present for Pokémon Trainers![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 85, 0, 0
     FunfestGetGenericInfo 0, 0x8048
     ItemCheckSpace 0x8048, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0B4E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B4E
     WordSetItemNameEx 0, 0x8048, 2, 0
-    ParentActorMsg 1024, 87, 0, 0
+    // "Oh, you don't have enough room\nfor [f000]ĉ\u0001\u0000!"
+    ParentActorMsg MSGFILE_SCRIPT, 87, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMReturn
@@ -740,7 +766,8 @@ L_0B4E:
     RTCallGlobal 2801
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 86, 0, 0
+    // "When tired, taking a rest is best for\nboth Pokémon and Trainers.[f000]븁\u0000\nPlease visit Pokémon Centers![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 86, 0, 0
     MsgWinCloseAll
     FunfestMissionBroadcast 37, 0x8048
     VMCall L_00E6
@@ -751,30 +778,34 @@ L_0B90:
     WorkSetConst 0x8049, 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 88, 0, 0
+    // "Pokémon Trainers!\nHello![f000]븁\u0000\nIt's a bit sudden, but I have a question.\nDo you know this Pokémon?[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 88, 0, 0
     MsgWinCloseAll
     FunfestGetGenericInfo 0, 0x8049
     PVPlay 0x8049, 0
     CallPokemonPreview 0x8049, 0, 0, 0
     PVWait
-    ParentActorMsg 1024, 89, 0, 0
+    // "Please answer with the name of\nthis Pokémon.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 89, 0, 0
     MsgWinCloseAll
     CallWordSetPokeNameInput 0x8049, 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 5
-    VMJumpIf 255, L_0C26
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0C26
     FunfestMissionBroadcast 41, 0
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0C10
-    ParentActorMsg 1024, 90, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0C10
+    // "Hmmm...\nWas it a bit difficult?"
+    ParentActorMsg MSGFILE_SCRIPT, 90, 0, 0
     VMJump L_0C20
 
 L_0C10:
     SEPlay 1691
-    ParentActorMsg 1024, 91, 0, 0
+    // "Ah, that's too bad!\nIt's not [f000]ā\u0001\u0000!"
+    ParentActorMsg MSGFILE_SCRIPT, 91, 0, 0
     SEWait
 
 L_0C20:
@@ -784,9 +815,11 @@ L_0C20:
 
 L_0C26:
     SEPlay 1690
-    ParentActorMsg 1024, 92, 0, 0
+    // "Correct!\nThe name is [f000]ā\u0001\u0000![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 92, 0, 0
     SEWait
-    ParentActorMsg 1024, 93, 0, 0
+    // "Then, see you again somewhere.\nBye![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 93, 0, 0
     MsgWinCloseAll
     FunfestMissionBroadcast 38, 0
     VMCall L_00E6

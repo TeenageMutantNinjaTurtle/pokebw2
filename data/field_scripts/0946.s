@@ -16,24 +16,26 @@ Script_1:
     TrainerCardHasBadge 0x8008, 7
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0051
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0051
     VMCall L_009C
     VMJump L_0096
 
 L_0051:
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0080
-    ActorMsg 1024, 6, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0080
+    // "Uihaa!"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 0, 0
     MsgWaitAdvance
     ActorMsgClose
     VMCall L_0250
     VMJump L_0096
 
 L_0080:
-    ActorMsg 1024, 7, 0, 0, 0
+    // "Waves can be rough or calm,\nbut it's still the same sea![f000]븁\u0000\nEh, there're lots of ways\nto look at the same thing!"
+    ActorMsg MSGFILE_SCRIPT, 7, 0, 0, 0
     MsgWaitAdvance
     ActorMsgClose
     VMCall L_0250
@@ -44,14 +46,15 @@ L_0096:
     VMHalt
 
 L_009C:
-    ParentActorMsg 1024, 0, 0, 0
+    // "Sup! Here already, huh?[f000]븁\u0000\nYou look strong!\nShoots! Let's start![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     ActorMsgClose
     WorkSetConst 0x8023, 0
     GameGetDifficulty 0x8023
     VMStackPush 0x8023
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_00D3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00D3
     CallTrainerBattle 771, 0, 0
     VMJump L_00DB
 
@@ -63,8 +66,8 @@ L_00DB:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0100
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0100
     CallTrainerBattleEnd
     VMJump L_0102
 
@@ -72,7 +75,8 @@ L_0100:
     CallTrainerLose
 
 L_0102:
-    ParentActorMsg 1024, 1, 0, 0
+    // "Marlon: You don't just look\nstrong, you're strong fo' reals![f000]븁\u0000\nEh, I was swept away, too![f000]븁\u0000\nOh yeah, yo. I was so surprised that\nI forgot! I gotta give this to you![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     ActorMsgClose
     TrainerCardSaveGymVictoryParty 7
     TrainerCardAddBadge 7
@@ -82,8 +86,8 @@ L_0102:
     TrainerCardGetSex 0x8024
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0144
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0144
     PlayFieldEffect 10
     VMJump L_0148
 
@@ -93,9 +97,11 @@ L_0144:
 L_0148:
     MEWait
     WorkSetConst 0x8024, 0
+    // "[f000]Ā\u0001\u0000 received the Wave Badge\nfrom Marlon![f000]븁\u0000"
     SystemMsg 2, 0
     InfoMsgClose
-    ParentActorMsg 1024, 3, 0, 0
+    // "That's the Wave Badge,\nthe Unova region's new[f000]븀\u0000\nGym Badge! Pretty sweet, right?[f000]븁\u0000\nNow you got all eight Badges,\nso you can be tight with any Pokémon![f000]븁\u0000\nOh yeah, got a TM for you, too![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     ActorMsgClose
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -104,8 +110,10 @@ L_0148:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 4, 0, 0
-    ParentActorMsg 1024, 5, 0, 0
+    // "So Scald sometimes burns\nthe target, 'K.[f000]븁\u0000\nOh, and you can even use\nit when you're all frozen and[f000]븀\u0000\nchillin' and stuff![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
+    // "Shoots! I'm off then!\nHope it's useful![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     ActorMsgClose
     TrainerFlagSet 350
     TrainerFlagSet 352
@@ -118,31 +126,31 @@ L_0148:
     WorkSetConst 0x40e3, 1
     FlagReset 810
     FlagSet 1002
-    Cmd_0262 1, 27
+    HollowRivalCmd_0262 1, 27
     PlayerGetDir 0x8020
     ActorCmdExec 0, Movement_0434
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01FD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01FD
     ActorCmdExec 255, Movement_043C
     VMJump L_022C
 
 L_01FD:
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_022C
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_022C
     VMSleep 4
     ActorCmdExec 255, Movement_049C
 
 L_022C:
     ActorCmdWait
-    ActorJumpToGPos 0, 16, 0xfffc, 1
+    ActorJumpToGPos 0, 16, 65532, 1
     Cmd_02A2
     ActorCmdExec 0, Movement_0454
     ActorCmdWait
@@ -156,26 +164,26 @@ L_0250:
     ActorCmdExec 0, Movement_0434
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_027D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_027D
     ActorCmdExec 255, Movement_043C
     VMJump L_02AC
 
 L_027D:
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_02AC
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_02AC
     VMSleep 4
     ActorCmdExec 255, Movement_049C
 
 L_02AC:
     ActorCmdWait
-    ActorJumpToGPos 0, 16, 0xfffc, 1
+    ActorJumpToGPos 0, 16, 65532, 1
     Cmd_02A2
     ActorCmdExec 0, Movement_0454
     ActorCmdWait
@@ -190,7 +198,8 @@ Script_4:
     VMSleep 16
     ActorCmdExec 255, Movement_04A4
     ActorCmdWait
-    ActorMsg 1024, 8, 7, 0, 0
+    // "If you're looking for the Gym Leader,\nhe went swimming off into the ocean[f000]븀\u0000\nyelling about the sea![f000]븁\u0000\nPlease look for him if you'd like."
+    ActorMsg MSGFILE_SCRIPT, 8, 7, 0, 0
     MsgWaitAdvance
     ActorMsgClose
     ActorCmdExec 7, Movement_04A4
@@ -209,11 +218,12 @@ Script_2:
     ActorsPauseAll
     VMStackPush 0x411f
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_034B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_034B
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "If you're looking for the Gym Leader,\nhe went swimming off into the ocean[f000]븀\u0000\nyelling about the sea![f000]븁\u0000\nPlease look for him if you'd like."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_03EF
@@ -222,15 +232,16 @@ L_034B:
     TrainerCardHasBadge 0x8008, 7
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03DB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03DB
     VMStackPushFlag 117
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03C1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03C1
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "This Gym may feel like a resort,\nbut the Gym Leader's no picnic![f000]븁\u0000\nThis is a present from me.\nPlease focus and prepare![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     ActorMsgClose
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -239,7 +250,8 @@ L_034B:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 10, 0, 0
+    // "In Humilau's Pokémon Gym,\nyou proceed by hopping on the lily pads[f000]븀\u0000\nand sliding across the water's surface.[f000]븁\u0000\nHere's another piece of advice![f000]븁\u0000\nWater-type Pokémon really don't\nlike Electric- or Grass-type moves![f000]븁\u0000\nBut I'm sure the Gym Leader\nhas planned for that!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
     FlagSet 117
@@ -248,7 +260,8 @@ L_034B:
 L_03C1:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "In Humilau's Pokémon Gym,\nyou proceed by hopping on the lily pads[f000]븀\u0000\nand sliding across the water's surface.[f000]븁\u0000\nHere's another piece of advice![f000]븁\u0000\nWater-type Pokémon really don't\nlike Electric- or Grass-type moves![f000]븁\u0000\nBut I'm sure the Gym Leader\nhas planned for that!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -258,7 +271,8 @@ L_03D5:
 L_03DB:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "Marlon's swimming around, isn't he..."
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -275,12 +289,14 @@ Script_3:
     TrainerCardHasBadge 0x8008, 7
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0425
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0425
+    // "Humilau City Pokémon Gym[f000]븁\u0000\nGym Leader: Marlon\nCertified Trainers:[f000]븀\u0000\n[f000]Ā\u0001\u0001"
     InfoMsg 12, 2
     VMJump L_042A
 
 L_0425:
+    // "Humilau City Pokémon Gym[f000]븁\u0000\nGym Leader: Marlon\nCertified Trainers:[f000]븀\u0000\n[f000]Ā\u0001\u0000, [f000]Ā\u0001\u0001"
     InfoMsg 13, 2
 
 L_042A:

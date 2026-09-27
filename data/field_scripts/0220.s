@@ -11,11 +11,12 @@ Script_1:
     TrainerCardHasBadge 0x8008, 5
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0047
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0047
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Woooosh! Whooosh![f000]븁\u0000\nThe wind blows really hard\nin Skyla's Gym!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0088
@@ -23,11 +24,12 @@ Script_1:
 L_0047:
     VMStackPushFlag 139
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0074
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0074
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "Ruuunwaaaay! Ruuunwaaaay!\nA Technical Machine on the ruuuunwaaaay!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0088
@@ -35,7 +37,8 @@ L_0047:
 L_0074:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "Ruuunwaaaay! Ruuunwaaaay!\nRacing there is so much fun![f000]븁\u0000\nHey, hey, which Pokémon\nflies the fastest?"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -49,11 +52,12 @@ Script_2:
     TrainerCardHasBadge 0x8008, 5
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00C3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00C3
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "If you have a Gym Badge from Mistralton,\nI'll tell you something cool!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0108
@@ -61,11 +65,12 @@ Script_2:
 L_00C3:
     VMStackPushFlag 139
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00F4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00F4
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "Wow! A Jet Badge! You won against Skyla!\nOK, I'll tell you something cool![f000]븁\u0000\nWe left our treasure at the edge of\nthe runway!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FlagReset 615
@@ -74,7 +79,8 @@ L_00C3:
 L_00F4:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "It's TM40, Aerial Ace![f000]븁\u0000\nWe'll be happy if we gave you\nthe key to victory!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -88,7 +94,8 @@ Script_3:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 580, 0
-    ParentActorMsg 1024, 8, 0, 0
+    // "Kwa!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -100,6 +107,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
+    // "Why do we make vegetable gardens\naround the runway, you ask?[f000]븁\u0000\nThat's so we can send freshly picked\nvegetables as fast as possible!"
+    // "Why did we put greenhouses\naround the runway, you ask?[f000]븁\u0000\nThat's so we can send freshly picked\nvegetables as fast as possible!"
     ActorMsgVersioned 1024, 1, 0, 2, 0, 0
     LastKeyWait
     MsgWinCloseAll

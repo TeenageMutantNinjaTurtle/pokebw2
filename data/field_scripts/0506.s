@@ -10,15 +10,17 @@ Script_1:
     ActorsPauseAll
     VMStackPushFlag 2457
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_005C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_005C
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Sometimes, above the bridge, you can\nsee the shadows of bird Pokémon, right?[f000]븁\u0000\nTheir feathers drift to the ground here![f000]븁\u0000\nAnd when you try to pick them up,\noccasionally you'll run into a Pokémon."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     Cmd_0275 0, 14, 0
     SEPlay 1908
+    // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink!"
     SystemMsg 1, 0
     SEWait
     LastKeyWait
@@ -29,7 +31,8 @@ Script_1:
 L_005C:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Sometimes, above the bridge, you can\nsee the shadows of bird Pokémon, right?[f000]븁\u0000\nTheir feathers drift to the ground here![f000]븁\u0000\nAnd when you try to pick them up,\noccasionally you'll run into a Pokémon."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -42,7 +45,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Driftveil City is famous for this\ndrawbridge, the PWT, and of course,[f000]븀\u0000\nthe heartbreaker, Charles."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -53,11 +57,12 @@ Script_3:
     ActorsPauseAll
     VMStackPushFlag 282
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00C1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00C1
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "I wonder if the people who made\nthis drawbridge were with Charizard."
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_014A
@@ -68,11 +73,12 @@ L_00C1:
     PokePartyFindBySpecies 6, 0x8020, 0x8021
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0102
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0102
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "The Driftveil Drawbridge...\nIt's also known as the Charizard Bridge![f000]븁\u0000\nBecause the raised drawbridge looks like\nthe Pokémon called Charizard.[f000]븁\u0000\n...But, I've never seen Charizard,\nso I don't know..."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_014A
@@ -80,10 +86,12 @@ L_00C1:
 L_0102:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "The Driftveil Drawbridge...\nIt's also known as the Charizard Bridge![f000]븁\u0000\nBecause the raised drawbridge looks like\nthe Pokémon called Charizard.[f000]븁\u0000\n...But, I've never seen Charizard,\nso I don't know...[f000]븁\u0000\n...What?!\nAre you with Charizard?[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     MsgWinCloseAll
     VMCall L_0150
-    ParentActorMsg 1024, 5, 0, 0
+    // "Wow! Awesome!\nYeah, I think it looks like Charizard.[f000]븁\u0000\nThanks! As a token of my appreciation,\nplease accept this![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -103,7 +111,7 @@ L_0150:
     WorkSetConst 0x8022, 0
     PlayerGetDir 0x8022
     WorkCmpConst 0x8022, 0
-    VMJumpIf 1, L_016D
+    VMJumpIf CMP_EQ, L_016D
     VMJump L_017B
 
 L_016D:
@@ -112,7 +120,7 @@ L_016D:
 
 L_017B:
     WorkCmpConst 0x8022, 3
-    VMJumpIf 1, L_018E
+    VMJumpIf CMP_EQ, L_018E
     VMJump L_019C
 
 L_018E:
@@ -121,7 +129,7 @@ L_018E:
 
 L_019C:
     WorkCmpConst 0x8022, 2
-    VMJumpIf 1, L_01AF
+    VMJumpIf CMP_EQ, L_01AF
     VMJump L_01BD
 
 L_01AF:
@@ -130,7 +138,7 @@ L_01AF:
 
 L_01BD:
     WorkCmpConst 0x8022, 1
-    VMJumpIf 1, L_01D0
+    VMJumpIf CMP_EQ, L_01D0
     VMJump L_01DE
 
 L_01D0:
@@ -148,30 +156,32 @@ Script_4:
     ActorSetEyeToEye
     VMStackPush 0x4108
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02D0
-    ParentActorMsg 1024, 7, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02D0
+    // "[f000]븉\u0001\u0002Panting... Panting...\nI'm...thirsty...[f000]븁\u0000\nI met you on the Skyarrow Bridge...[f000]븁\u0000\nG-g-give me...\nFresh Water...?[f000]븉\u0001\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02BC
-    ItemSub 30, 1, 0x8010
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02BC
+    ItemSub ITEM_FRESH_WATER, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02A8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02A8
     MsgWinCloseAll
     SEPlay 2017
     SEWait
-    ParentActorMsg 1024, 8, 0, 0
+    // "Refreshed!![f000]븁\u0000\nI'm 100% rehydrated!\nI feel better now! Thank you![f000]븁\u0000\nI'll dash to the next bridge!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
     PlayerGetDir 0x8010
     VMStackPush 0x8010
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_027A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_027A
     ActorCmdExec 3, Movement_02F8
     VMJump L_0282
 
@@ -189,7 +199,8 @@ L_0282:
     VMJump L_02B6
 
 L_02A8:
-    ParentActorMsg 1024, 9, 0, 0
+    // "[f000]븉\u0001\u0002But... You don't have Fresh Water...\nI appreciate the thought, though...[f000]븉\u0001\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -197,7 +208,8 @@ L_02B6:
     VMJump L_02CA
 
 L_02BC:
-    ParentActorMsg 1024, 10, 0, 0
+    // "[f000]븉\u0001\u0002Thank...[f000]븁\u0000\nWhat?\nOh...[f000]븁\u0000\nWithout Fresh Water...\nI can't run on bridges anymore.[f000]븉\u0001\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -207,9 +219,10 @@ L_02CA:
 L_02D0:
     VMStackPush 0x4108
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_02F1
-    ParentActorMsg 1024, 8, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02F1
+    // "Refreshed!![f000]븁\u0000\nI'm 100% rehydrated!\nI feel better now! Thank you![f000]븁\u0000\nI'll dash to the next bridge!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
 

@@ -17,8 +17,8 @@ Script_1:
     GameGetVersion 0x8010
     VMStackPush 0x8010
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0061
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0061
     FadeEx 1, 16, 0, 2
     VMJump L_006B
 
@@ -137,8 +137,8 @@ L_006B:
     GameGetVersion 0x8010
     VMStackPush 0x8010
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0270
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0270
     FadeEx 1, 0, 16, 4
     VMJump L_027A
 

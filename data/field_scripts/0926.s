@@ -16,9 +16,9 @@
 L_0036:
     VMStackPush 0x4106
     VMStackPushConst 3
-    VMStackCmp 5
-    VMJumpIf 255, L_0053
-    ObjInitWarpGPos 2, 787, 0xfffd, 247
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0053
+    ObjInitWarpGPos 2, 787, 65533, 247
 
 L_0053:
     VMReturn
@@ -30,33 +30,33 @@ Script_1:
 Script_2:
     VMStackPush 0x4106
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0082
-    ActorSetGPos 9, 797, 0xfffb, 242, 3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0082
+    ActorSetGPos 9, 797, 65531, 242, 3
     VMJump L_00E6
 
 L_0082:
     VMStackPush 0x4106
     VMStackPushConst 4
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 855
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_00B7
-    ActorSetGPos 9, 798, 0xfffb, 241, 3
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00B7
+    ActorSetGPos 9, 798, 65531, 241, 3
     VMJump L_00E6
 
 L_00B7:
     VMStackPush 0x4106
     VMStackPushConst 5
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 857
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_00E6
-    ActorSetGPos 11, 796, 0xfffb, 242, 3
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00E6
+    ActorSetGPos 11, 796, 65531, 242, 3
 
 L_00E6:
     VMHalt
@@ -91,7 +91,8 @@ Script_4:
     VMSleep 16
     ActorCmdExec 255, Movement_06A4
     ActorCmdWait
-    ActorMsg 1024, 0, 9, 0, 0
+    // "[f000]Ā\u0001\u0001: You found them!\nI knew you could do it![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 9, 0, 0
     MsgWinCloseAll
     EvCameraInit
     EvCameraUnbind
@@ -99,8 +100,8 @@ Script_4:
     PlayerGetGPos 0x8022, 0x8023
     VMStackPush 0x8023
     VMStackPushConst 239
-    VMStackCmp 1
-    VMJumpIf 255, L_01C5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01C5
     ActorCmdExec 9, Movement_02D0
     VMSleep 20
     ActorCmdExec 255, Movement_02A4
@@ -109,8 +110,8 @@ Script_4:
 L_01C5:
     VMStackPush 0x8023
     VMStackPushConst 240
-    VMStackCmp 1
-    VMJumpIf 255, L_01F2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01F2
     ActorCmdExec 9, Movement_02DC
     VMSleep 20
     ActorCmdExec 255, Movement_02B0
@@ -119,8 +120,8 @@ L_01C5:
 L_01F2:
     VMStackPush 0x8023
     VMStackPushConst 241
-    VMStackCmp 1
-    VMJumpIf 255, L_021F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_021F
     ActorCmdExec 9, Movement_02E8
     VMSleep 20
     ActorCmdExec 255, Movement_02BC
@@ -129,20 +130,23 @@ L_01F2:
 L_021F:
     VMStackPush 0x8023
     VMStackPushConst 242
-    VMStackCmp 1
-    VMJumpIf 255, L_0242
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0242
     ActorCmdExec 9, Movement_02F4
     ActorCmdExec 255, Movement_02C4
 
 L_0242:
     ActorCmdWait
     EvCameraWait
-    ActorMsg 1024, 1, 9, 0, 0
+    // "But...\nHow do we get in?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 9, 0, 0
     MsgWinCloseAll
+    // "???: Hold up![f000]븁\u0000"
     InfoMsg 2, 2
     MsgWinCloseAll
     Cmd_02E8 1, 1
     SEPlay 2199
+    // "A heavy gangplank fell\nwith a solid thud...[f000]븁\u0000"
     InfoMsg 3, 2
     MsgWinCloseAll
     SEWait
@@ -204,24 +208,32 @@ Script_7:
     WordSetLoadRivalName 1
     ActorCmdExec 10, Movement_04BC
     ActorCmdWait
-    ActorMsg 1024, 4, 10, 0, 0
+    // "Marlon: Eh, this should do it![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 10, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 5, 9, 0, 0
+    // "[f000]Ā\u0001\u0001: I thought you weren't\ngoing to fight Team Plasma?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 9, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 6, 10, 0, 0
-    ActorMsg 1024, 7, 10, 0, 0
+    // "Marlon: Hey, friends!\nTeam Plasma's not botherin' me.[f000]븁\u0000\nThey could be up to no good\nfor reals, and...[f000]븁\u0000\nIt's not my style to go around\ndecidin' Team Plasma's bad[f000]븀\u0000\nwithout thinkin' 'bout it[f000]븀\u0000\njust 'cause everyone says so![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 10, 0, 0
+    // "But, eh, you're havin' trouble,\nso I've got to help out![f000]븀\u0000\nThat's what I want to do![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 10, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 8, 9, 0, 0
+    // "[f000]Ā\u0001\u0001: Thanks...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 9, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 9, 10, 0, 0
+    // "Marlon: Listen, 'K.\nBelieve in somethin'![f000]븁\u0000\nSearchin' for stolen\nPokémon is fine![f000]븁\u0000\nKeepin' Unova from bein'\niced over's fine too![f000]븁\u0000\nIt's all good.\nBut think 'bout why you're doin' that.[f000]븁\u0000\nThe strength of your beliefs is what\ngives you and your Pokémon power![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 10, 0, 0
     MsgWinCloseAll
     ActorCmdExec 10, Movement_06AC
     ActorCmdWait
-    ActorMsg 1024, 10, 10, 0, 0
+    // "I made some noise,\nso some people came out![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 10, 0, 0
     MsgWinCloseAll
     ActorCmdExec 10, Movement_06A4
     ActorCmdWait
-    ActorMsg 1024, 11, 10, 0, 0
+    // "Hey, be careful, 'K![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 10, 0, 0
     MsgWinCloseAll
     EvCameraInit
     EvCameraUnbind
@@ -235,12 +247,14 @@ Script_7:
     ActorDelete 10
     SEWait
     EvCameraWait
-    ActorMsg 1024, 12, 9, 0, 0
+    // "[f000]Ā\u0001\u0001: What was that?!\nThe guy sure doesn't follow through![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 9, 0, 0
     MsgWinCloseAll
     ActorCmdExec 9, Movement_0694
     ActorCmdExec 255, Movement_069C
     ActorCmdWait
-    ActorMsg 1024, 13, 9, 0, 0
+    // "Well, I guess he was being\nkind in his own way...[f000]븁\u0000\nAll right, I'm going in![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 9, 0, 0
     MsgWinCloseAll
     ActorCmdExec 9, Movement_04D8
     VMSleep 4
@@ -254,7 +268,7 @@ Script_7:
     EvCameraWait
     EvCameraRebind
     EvCameraEnd
-    ObjInitWarpGPos 2, 800, 0xfffb, 241
+    ObjInitWarpGPos 2, 800, 65531, 241
     WorkSetConst 0x4106, 3
     FlagSet 855
     FlagSet 856
@@ -263,12 +277,12 @@ Script_7:
     FlagSet 831
     FlagSet 829
     FlagReset 1002
-    Cmd_0262 1, 30
+    HollowRivalCmd_0262 1, 30
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_049D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_049D
     WorkSetConst 0x40f1, 0
     WorkSetConst 0x40f2, 1
     WorkSetConst 0x4103, 1
@@ -311,7 +325,8 @@ Script_5:
     FlagReset 857
     WordSetPlayerName 0
     WordSetLoadRivalName 1
-    ActorMsg 1024, 14, 9, 0, 0
+    // "[f000]Ā\u0001\u0001: Team Plasma![f000]븁\u0000\nNo matter where you fly,\nI won't let you get away![f000]븁\u0000\nBut, what's over there anyway?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 9, 0, 0
     MsgWinCloseAll
     SEPlay 1369
     ActorAdd 11
@@ -322,16 +337,19 @@ Script_5:
     ActorCmdExec 9, Movement_06A4
     ActorCmdExec 255, Movement_06A4
     ActorCmdWait
-    ActorMsg 1024, 15, 11, 0, 0
+    // "Cheren: Sorry I'm late...[f000]븁\u0000\nI suspect that they're flying\ntoward the Giant Chasm.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 11, 0, 0
     MsgWinCloseAll
     WordSetPlayerName 0
     WordSetLoadRivalName 1
-    ActorMsg 1024, 16, 9, 0, 0
+    // "[f000]Ā\u0001\u0001: The Giant Chasm!\nThat's deep in Route 22, right?[f000]븁\u0000\nOK, I'm going!\n[f000]Ā\u0001\u0000! You come too![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 9, 0, 0
     MsgWinCloseAll
     ActorCmdExec 9, Movement_069C
     ActorCmdExec 255, Movement_0694
     ActorCmdWait
-    ActorMsg 1024, 17, 9, 0, 0
+    // "That Pokémon...[f000]븁\u0000\nKyurem, was it?[f000]븁\u0000\nIts cry sounded\nlonely somehow.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 17, 9, 0, 0
     MsgWinCloseAll
     ActorCmdExec 9, Movement_0624
     VMSleep 8
@@ -343,10 +361,13 @@ Script_5:
     SEWait
     ActorCmdExec 11, Movement_06AC
     ActorCmdWait
-    ActorMsg 1024, 18, 11, 0, 0
+    // "Cheren: Kyurem![f000]븁\u0000\nTeam Plasma is using Kyurem's\npower for evil?![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 18, 11, 0, 0
     MsgWinCloseAll
     ActorCmdExec 11, Movement_060C
     ActorCmdWait
+    // "Then how should we stop\nTeam Plasma?[f000]븁\u0000\nIf Kyurem is, like Drayden said,\na legendary Dragon-type Pokémon,[f000]븀\u0000\nthe only ones who could stand up[f000]븀\u0000\nto it are Reshiram or Zekrom![f000]븁\u0000\nBut...\nNeither of them is here right now...[f000]븁\u0000\nWhere are the ones the legendary\nPokémon recognized as heroes, anyway?[f000]븀\u0000\nI guess I just have to find one of them!"
+    // "Then how should we stop\nTeam Plasma?[f000]븁\u0000\nIf Kyurem is, like Drayden said,\na legendary Dragon-type Pokémon,[f000]븀\u0000\nthe only ones who could stand up[f000]븀\u0000\nto it are Zekrom or Reshiram![f000]븁\u0000\nBut...\nNeither of them is here right now...[f000]븁\u0000\nWhere are the ones the legendary\nPokémon recognized as heroes, anyway?[f000]븀\u0000\nI guess I just have to find one of them!"
     ActorMsgVersioned 1024, 19, 20, 11, 0, 0
     LastKeyWait
     MsgWinCloseAll
@@ -354,11 +375,11 @@ Script_5:
     WorkSetConst 0x4070, 1
     FlagSet 855
     FlagSet 364
-    Cmd_0262 2, 9
-    Cmd_0262 1, 32
-    Cmd_0262 3, 7
-    Cmd_0262 0, 6
-    Cmd_0262 4, 0
+    HollowRivalCmd_0262 2, 9
+    HollowRivalCmd_0262 1, 32
+    HollowRivalCmd_0262 3, 7
+    HollowRivalCmd_0262 0, 6
+    HollowRivalCmd_0262 4, 0
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -382,7 +403,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 21, 0, 0
+    // "Cheren: Yeah...[f000]븁\u0000\nYou can get to the Giant Chasm\nfrom Route 22."
+    ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

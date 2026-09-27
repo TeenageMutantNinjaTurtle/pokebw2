@@ -20,6 +20,7 @@
     WorkSetConst 0x8020, 0
 
 L_0048:
+    // "[f000]ć\u0001\u0000 can't be used if you have\nsomeone with you."
     SystemMsg 33, 2
     LastKeyWait
     InfoMsgClose
@@ -45,8 +46,8 @@ Script_1:
     FlagGet 2404, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_009D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_009D
     VMCall L_00ED
     VMJump L_00E7
 
@@ -54,19 +55,20 @@ L_009D:
     PokePartyHasMoveAny 0x8010, 70
     VMStackPush 0x8010
     VMStackPushConst 6
-    VMStackCmp 1
-    VMJumpIf 255, L_00C2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00C2
     VMCall L_00F9
     VMJump L_00E7
 
 L_00C2:
+    // "It's a big boulder, but a Pokémon\nmay be able to push it aside.[f000]븁\u0000\nWould you like to use Strength?"
     SystemMsg 6, 2
     YesNoWin 0x8010
     InfoMsgClose
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00E7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E7
     VMCall L_0105
 
 L_00E7:
@@ -75,12 +77,14 @@ L_00E7:
     VMHalt
 
 L_00ED:
+    // "Strength made it possible to move\nboulders around."
     SystemMsg 9, 2
     LastKeyWait
     InfoMsgClose
     VMReturn
 
 L_00F9:
+    // "It's a big boulder, but a Pokémon\nmay be able to push it aside."
     SystemMsg 8, 2
     LastKeyWait
     InfoMsgClose
@@ -92,11 +96,13 @@ L_0105:
     Cmd_01DD 1, 70, 0
     PokePartyHasMoveAny 0x8021, 70
     WordSetPartyPokeName 0, 0x8021
+    // "[f000]Ă\u0001\u0000 used Strength![f000]븁\u0000"
     SystemMsg 10, 2
     InfoMsgClose
     VMCall L_005C
     PlayHMCutInEffect 0x8021
     VMCall L_006C
+    // "[f000]Ă\u0001\u0000's Strength made it\npossible to move boulders around!"
     SystemMsg 11, 2
     LastKeyWait
     InfoMsgClose
@@ -108,8 +114,8 @@ Script_2:
     FlagGet 2404, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0173
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0173
     VMCall L_00ED
     VMJump L_01A6
 
@@ -117,11 +123,13 @@ L_0173:
     FlagSet 2404
     Cmd_01DD 1, 70, 0
     WordSetPartyPokeName 0, 0x8000
+    // "[f000]Ă\u0001\u0000 used Strength![f000]븁\u0000"
     SystemMsg 10, 2
     InfoMsgClose
     VMCall L_005C
     PlayHMCutInEffect 0x8000
     VMCall L_006C
+    // "[f000]Ă\u0001\u0000's Strength made it\npossible to move boulders around!"
     SystemMsg 11, 2
     LastKeyWait
     InfoMsgClose
@@ -137,28 +145,29 @@ Script_3:
     PokePartyHasMoveAny 0x8010, 57
     VMStackPush 0x8010
     VMStackPushConst 6
-    VMStackCmp 1
-    VMJumpIf 255, L_01D7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01D7
     VMCall L_0226
     VMJump L_0220
 
 L_01D7:
     VMStackPushFlag 2406
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01FB
-    WordSetMoveName 0, 57
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01FB
+    WordSetMoveName 0, MOVE_SURF
     VMCall L_0048
     VMJump L_0220
 
 L_01FB:
+    // "The water is a deep blue...\nWould you like to surf on it?"
     SystemMsg 13, 2
     YesNoWin 0x8010
     InfoMsgClose
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0220
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0220
     VMCall L_0232
 
 L_0220:
@@ -167,6 +176,7 @@ L_0220:
     VMHalt
 
 L_0226:
+    // "Surf can't be used if you have\nsomeone with you."
     SystemMsg 15, 2
     LastKeyWait
     InfoMsgClose
@@ -176,6 +186,7 @@ L_0232:
     PokePartyHasMoveAny 0x8010, 57
     WorkGet 0x8008, 0x8010
     WordSetPartyPokeName 0, 0x8010
+    // "[f000]Ă\u0001\u0000 used Surf![f000]븁\u0000"
     SystemMsg 14, 2
     InfoMsgClose
     VMCall L_005C
@@ -188,6 +199,7 @@ L_0232:
 Script_4:
     ActorsPauseAll
     WordSetPartyPokeName 0, 0x8000
+    // "[f000]Ă\u0001\u0000 used Surf![f000]븁\u0000"
     SystemMsg 14, 2
     InfoMsgClose
     VMCall L_005C
@@ -205,18 +217,19 @@ Script_5:
     PokePartyHasMoveAny 0x8010, 15
     VMStackPush 0x8010
     VMStackPushConst 6
-    VMStackCmp 1
-    VMJumpIf 255, L_02BF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02BF
     VMCall L_02F0
     VMJump L_02EA
 
 L_02BF:
+    // "This tree looks like it can be\ncut down! Would you like to cut it?"
     SystemMsg 0, 2
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02E8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02E8
     VMCall L_02FC
     VMJump L_02EA
 
@@ -229,6 +242,7 @@ L_02EA:
     VMHalt
 
 L_02F0:
+    // "This tree looks like it can be\ncut down!"
     SystemMsg 2, 2
     LastKeyWait
     InfoMsgClose
@@ -238,6 +252,7 @@ L_02FC:
     PokePartyHasMoveAny 0x8010, 15
     WorkGet 0x8008, 0x8010
     WordSetPartyPokeName 0, 0x8010
+    // "[f000]Ă\u0001\u0000 used Cut![f000]븁\u0000"
     SystemMsg 1, 2
     InfoMsgClose
     VMCall L_005C
@@ -255,6 +270,7 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     WordSetPartyPokeName 0, 0x8000
+    // "[f000]Ă\u0001\u0000 used Cut![f000]븁\u0000"
     SystemMsg 1, 2
     InfoMsgClose
     VMCall L_005C
@@ -268,8 +284,8 @@ Script_6:
     PlayerGetActorInFront 0x8022, 0x8023
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_039B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_039B
     ActorDelete 0x8022
 
 L_039B:
@@ -286,28 +302,29 @@ Script_7:
     PokePartyHasMoveAny 0x8010, 127
     VMStackPush 0x8010
     VMStackPushConst 6
-    VMStackCmp 1
-    VMJumpIf 255, L_03DC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03DC
     VMCall L_042B
     VMJump L_0425
 
 L_03DC:
     VMStackPushFlag 2406
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0400
-    WordSetMoveName 0, 127
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0400
+    WordSetMoveName 0, MOVE_WATERFALL
     VMCall L_0048
     VMJump L_0425
 
 L_0400:
+    // "It's a large waterfall.\nWould you like to use Waterfall?"
     SystemMsg 23, 2
     YesNoWin 0x8010
     InfoMsgClose
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0425
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0425
     VMCall L_0437
 
 L_0425:
@@ -316,6 +333,7 @@ L_0425:
     VMHalt
 
 L_042B:
+    // "A wall of water is crashing down with\na mighty roar."
     SystemMsg 25, 2
     LastKeyWait
     InfoMsgClose
@@ -325,6 +343,7 @@ L_0437:
     WorkSetConst 0x8024, 0
     PokePartyHasMoveAny 0x8024, 127
     WordSetPartyPokeName 0, 0x8024
+    // "[f000]Ă\u0001\u0000 used Waterfall![f000]븁\u0000"
     SystemMsg 24, 2
     InfoMsgClose
     VMCall L_005C
@@ -338,6 +357,7 @@ L_0437:
 Script_8:
     ActorsPauseAll
     WordSetPartyPokeName 0, 0x8000
+    // "[f000]Ă\u0001\u0000 used Waterfall![f000]븁\u0000"
     SystemMsg 24, 2
     InfoMsgClose
     PlayHMCutInEffect 0x8000
@@ -357,6 +377,7 @@ Script_16:
 Script_9:
     ActorsPauseAll
     WordSetPartyPokeName 0, 0x8000
+    // "[f000]Ă\u0001\u0000 used Flash![f000]븁\u0000"
     SystemMsg 27, 2
     InfoMsgClose
     VMCall L_005C
@@ -369,6 +390,7 @@ Script_9:
 Script_10:
     ActorsPauseAll
     WordSetPartyPokeName 0, 0x8000
+    // "[f000]Ă\u0001\u0000 used Teleport![f000]븁\u0000"
     SystemMsg 28, 2
     InfoMsgClose
     VMCall L_005C
@@ -381,6 +403,7 @@ Script_10:
 Script_11:
     ActorsPauseAll
     WordSetPartyPokeName 0, 0x8000
+    // "[f000]Ă\u0001\u0000 used Dig![f000]븁\u0000"
     SystemMsg 29, 2
     InfoMsgClose
     VMCall L_005C
@@ -395,8 +418,9 @@ Script_12:
     PokePartyHasMoveAny 0x8010, 291
     VMStackPush 0x8010
     VMStackPushConst 6
-    VMStackCmp 1
-    VMJumpIf 255, L_053F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_053F
+    // "It's a deep part of the sea, but a\nPokémon may be able to dive down."
     SystemMsg 30, 2
     LastKeyWait
     InfoMsgClose
@@ -405,20 +429,21 @@ Script_12:
 L_053F:
     VMStackPushFlag 2406
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0563
-    WordSetMoveName 0, 291
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0563
+    WordSetMoveName 0, MOVE_DIVE
     VMCall L_0048
     VMJump L_0599
 
 L_0563:
+    // "It's a deep part of the sea.\nWould you like to use Dive?"
     SystemMsg 31, 2
     YesNoWin 0x8010
     InfoMsgClose
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0599
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0599
     PokePartyHasMoveAny 0x8010, 291
     WorkGet 0x8008, 0x8010
     WordSetPartyPokeName 0, 0x8010
@@ -430,6 +455,7 @@ L_0599:
     VMHalt
 
 L_059F:
+    // "[f000]Ă\u0001\u0000 used Dive![f000]븁\u0000"
     SystemMsg 32, 2
     InfoMsgClose
     VMCall L_005C
@@ -453,9 +479,10 @@ Script_14:
     FlagGet 215, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0616
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0616
     WordSetPartyPokeName 0, 0x8000
+    // "[f000]Ă\u0001\u0000 used Flash![f000]븁\u0000"
     SystemMsg 27, 2
     InfoMsgClose
     VMCall L_005C
@@ -472,9 +499,10 @@ Script_15:
     FlagGet 214, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0654
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0654
     WordSetPartyPokeName 0, 0x8000
+    // "[f000]Ă\u0001\u0000 used Strength![f000]븁\u0000"
     SystemMsg 10, 2
     InfoMsgClose
     VMCall L_005C

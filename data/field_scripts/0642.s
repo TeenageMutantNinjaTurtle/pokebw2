@@ -24,12 +24,14 @@ Script_4:
     TrainerCardGetSex 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0073
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0073
+    // "Heeey, [f000]Ā\u0001\u0000!\nCome here![f000]븁\u0000"
     InfoMsg 0, 1
     VMJump L_0078
 
 L_0073:
+    // "Heeey, [f000]Ā\u0001\u0000!\nCome here![f000]븁\u0000"
     InfoMsg 1, 1
 
 L_0078:
@@ -53,6 +55,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Route 3"
     MsgPlaceSign 15, 3
     MsgPlaceSignClose
     FinishAllEvents
@@ -63,6 +66,7 @@ Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Pokémon Day Care\nWe Take Care of Your Precious Pokémon"
     MsgPlaceSign 17, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -73,6 +77,7 @@ Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Trainer Tips!\n[f000]븁\u0000\nTap the yellow button at the top of a\nPC Box to switch to Group Move mode.[f000]븁\u0000\nIt lets you move groups\nof Pokémon in your PC Boxes."
     MsgPlaceSign 16, 0
     MsgPlaceSignClose
     FlagSet 2666
@@ -84,7 +89,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "My Pokémon have been with me\nsince I was little![f000]븁\u0000\nThey are always just\nraring to battle!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -95,7 +101,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "You know how many people use\nProtect or Detect in Double Battles?[f000]븀\u0000\nThat's the time to use Feint!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -106,24 +113,27 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "Pokémon Trainer!\nDo you have a Pokémon Egg?"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0194
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0194
     PokePartyGetCount 0x8023, 3
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_0180
-    ParentActorMsg 1024, 5, 0, 0
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0180
+    // "Wow! It's a Pokémon Egg!\nIt feels sort of warm![f000]븀\u0000\nA Pokémon will hatch from this, right?"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_018E
 
 L_0180:
-    ParentActorMsg 1024, 6, 0, 0
+    // "Teacher says that\nlies lead to a life of crime!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -131,7 +141,8 @@ L_018E:
     VMJump L_01A2
 
 L_0194:
-    ParentActorMsg 1024, 7, 0, 0
+    // "Aww...[f000]븁\u0000\nThe old guy next door said he didn't\nknow when they'd find another Egg...[f000]븁\u0000\nBut I really want to see one!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -144,7 +155,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "Sometimes they let my big brother\nplay together with Pokémon, too!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -156,11 +168,12 @@ Script_9:
     PlayerGetExState 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01F7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01F7
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "Go! Go! People who ride Bicycles\nare so cool!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_020B
@@ -168,7 +181,8 @@ Script_9:
 L_01F7:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "Don't you have a Bicycle?\nCan you even ride one?"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -181,11 +195,12 @@ Script_10:
     ActorsPauseAll
     VMStackPushFlag 471
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02F1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02F1
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "Hey! Come on!\nShow me your Habitat List![f000]븁\u0000\nI want to see all of Route 3's Pokémon!\nThe ones in the tall grass, the ones[f000]븀\u0000\nyou fish for, and the ones on the water![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     WorkSetConst 0x8024, 0
     WorkSetConst 0x8025, 0
     WorkSetConst 0x8026, 0
@@ -194,17 +209,18 @@ Script_10:
     PokeDexCheckHabitatList 321, 2, 0, 0x8026
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8026
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_02DD
-    ParentActorMsg 1024, 13, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_02DD
+    // "Oh... Really?[f000]븁\u0000\nI never knew there were this\nmany Pokémon on Route 3![f000]븁\u0000\nPokémon Trainer, that's amazing!\nI'm so moved, I'll give you this![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -214,13 +230,15 @@ Script_10:
     VMStackPop 0x8001
     VMStackPop 0x8000
     FlagSet 471
-    ParentActorMsg 1024, 14, 0, 0
+    // "Pokémon Trainers sure\nare good at meeting Pokémon."
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_02EB
 
 L_02DD:
-    ParentActorMsg 1024, 12, 0, 0
+    // "If you fill up the Habitat List,\nI'd like you to tell me![f000]븁\u0000\nI want to see all of Route 3's Pokémon!\nThe ones in the tall grass, the ones[f000]븀\u0000\nyou fish for, and the ones on the water.[f000]븀\u0000\nGot it?"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -230,7 +248,8 @@ L_02EB:
 L_02F1:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 14, 0, 0
+    // "Pokémon Trainers sure\nare good at meeting Pokémon."
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     ActorMsgClose
 

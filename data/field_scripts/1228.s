@@ -10,22 +10,25 @@ Script_1:
     PokePartyFindEx 647, 0, 0x8020, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0074
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0074
+    // "Three sharp marks are deeply\ncut into the rock."
     InfoMsg 0, 2
     MsgWaitAdvance
     WordSetPartyPokeName 0, 0x8020
+    // "[f000]Ă\u0001\u0000 seems to want to get out of\nthe Poké Ball![f000]븁\u0000\nWill you let it out?"
     InfoMsg 1, 2
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0065
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0065
     InfoMsgClose_0039
     VMCall L_0083
     VMJump L_006E
 
 L_0065:
+    // "The Poké Ball has stopped moving..."
     InfoMsg 2, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -34,6 +37,7 @@ L_006E:
     VMJump L_007D
 
 L_0074:
+    // "Three sharp marks are deeply\ncut into the rock."
     InfoMsg 0, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -82,12 +86,13 @@ L_0083:
     PokePartyHasMove 0x8010, 548, 0x8020
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0160
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0160
     VMCall L_0227
     VMJump L_0199
 
 L_0160:
+    // "The determination carved into the rock\nby Cobalion, Virizion, and Terrakion[f000]븀\u0000\nreminded [f000]Ă\u0001\u0000 of Secret Sword!"
     SystemMsg 3, 2
     MsgWaitAdvance
     WorkGet 0x8000, 0x8020
@@ -95,8 +100,8 @@ L_0160:
     VMCall L_02C5
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0199
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0199
     VMCall L_0227
     VMJump L_0199
 
@@ -133,6 +138,7 @@ L_0227:
     EvCameraUnbind
     EvCameraMoveTo 7768, 0, 0xed000, 0xf8000, 45056, 0xbb000, 40
     EvCameraWait
+    // "What?\n[f000]Ă\u0001\u0000 is...[f000]븁\u0000"
     InfoMsg 10, 2
     InfoMsgClose_0039
     .byte 0xeb
@@ -159,6 +165,7 @@ L_0227:
     FadeExWait
     PVWait
     PokePartySetForme 0x8020, 1
+    // "[f000]Ă\u0001\u0000 has resolved to battle\nand has changed into Resolute Form!"
     InfoMsg 11, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -180,9 +187,10 @@ L_02C5:
     PokePartyGetMoveCount 0x8010, 0x8021
     VMStackPush 0x8010
     VMStackPushConst 4
-    VMStackCmp 5
-    VMJumpIf 255, L_030F
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_030F
     WordSetPartyPokeName 0, 0x8021
+    // "[f000]Ă\u0001\u0000 remembered the move\nSecret Sword!"
     SystemMsg 9, 0
     MEPlay 1301
     MEWait
@@ -198,13 +206,13 @@ L_030F:
 L_0315:
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_037E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_037E
     VMCall L_03BA
     VMStackPush 0x8026
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0353
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0353
     WorkSetConst 0x8010, 1
     WorkSetConst 0x8025, 0
     VMJump L_0378
@@ -213,8 +221,8 @@ L_0353:
     VMCall L_0380
     VMStackPush 0x8026
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0378
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0378
     WorkSetConst 0x8010, 0
     WorkSetConst 0x8025, 0
 
@@ -225,13 +233,15 @@ L_037E:
     VMReturn
 
 L_0380:
+    // "Give up on remembering the\nmove Secret Sword?"
     SystemMsg 5, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03B2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03B2
     WordSetPartyPokeName 0, 0x8021
+    // "[f000]Ă\u0001\u0000 did not remember the\nmove Secret Sword.[f000]븁\u0000"
     SystemMsg 6, 0
     InfoMsgClose
     WorkSetConst 0x8026, 1
@@ -244,12 +254,13 @@ L_03B2:
 L_03BA:
     WorkSetConst 0x8026, 0
     WordSetPartyPokeName 0, 0x8021
+    // "But [f000]Ă\u0001\u0000 can't know more\nthan four moves.[f000]븁\u0000\nDelete an existing move to make\nroom for Secret Sword?[f000]븁\u0000"
     SystemMsg 4, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03E4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03E4
     VMReturn
 
 L_03E4:
@@ -257,26 +268,29 @@ L_03E4:
     CallPokeMoveReplace 0x8010, 0x8023, 0x8021, 0x8022
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0405
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0405
     VMReturn
 
 L_0405:
     PokePartyGetMove 0x8024, 0x8021, 0x8023
     WordSetMoveName 1, 0x8024
+    // "Is it OK to forget the\nmove [f000]ć\u0001\u0001?"
     SystemMsg 7, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0431
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0431
     VMReturn
 
 L_0431:
     PokePartyGetMove 0x8024, 0x8021, 0x8023
     WordSetPartyPokeName 0, 0x8021
     WordSetMoveName 1, 0x8024
+    // "1, [f000]븂\u0001\u00142, and[f000]븂\u0001\u0014... [f000]븂\u0001\u0014... [f000]븂\u0001\u0014... Ta-da![f000]븅\u0001\u0003[f000]븆\u0001\u0002[f000]븇\u0000[f000]븄\u0000[f000]븁\u0000\n[f000]Ă\u0001\u0000 forgot how to\nuse [f000]ć\u0001\u0001.[f000]븁\u0000\nAnd...[f000]븁\u0000"
     SystemMsg 8, 0
+    // "[f000]Ă\u0001\u0000 remembered the move\nSecret Sword!"
     SystemMsg 9, 0
     MEPlay 1301
     MEWait

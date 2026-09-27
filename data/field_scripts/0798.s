@@ -14,7 +14,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Listen up! You Trainers should always\nkeep a smile on your face![f000]븁\u0000\nIf you're not smiling, your Pokémon might\nfeel like something's wrong, you know?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -25,7 +26,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Which Pokémon should hold what item...[f000]븁\u0000\nThere's no right answer,\nso it's hard to decide.[f000]븁\u0000\nStill, I like spending time thinking\nit over."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -36,7 +38,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Wow! A Pokémon!\nHow cool! I'm so jealous![f000]븁\u0000\nHa ha! Just kidding!\nI'm a Pokémon Trainer now![f000]븁\u0000\nJust like the Trainer from\nNuvema I met two years ago!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -48,7 +51,8 @@ Script_4:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 515, 0
-    ParentActorMsg 1024, 3, 0, 0
+    // "Paaan!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -62,53 +66,57 @@ Script_5:
     ActorSetEyeToEye
     VMStackPushFlag 433
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 434
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_01B7
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_01B7
     VMStackPushFlag 431
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4000
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_00FA
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00FA
     VMCall L_02E2
     VMJump L_01B1
 
 L_00FA:
     VMStackPushFlag 431
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4000
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0131
-    ParentActorMsg 1024, 6, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0131
+    // "My Ambipom knows Nasty Plot![f000]븁\u0000\nI'll make your Excadrill really strong,\nso let's battle sometime, OK?"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_01B1
 
 L_0131:
-    ParentActorMsg 1024, 8, 0, 0
-    ParentActorMsg 1024, 9, 0, 0
+    // "The Excadrill I got from you\nhas become really strong![f000]븀\u0000\nI'm sure you'll be bowled over![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
+    // "Hey! If it's all right with you,\nwould you have a Pokémon battle with me?"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01A3
-    ParentActorMsg 1024, 10, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01A3
+    // "OK! Here we go![f000]븁\u0000\nWe'll have an actual match, so you can\nreally see how I've raised Excadrill![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     MsgWinCloseAll
     CallTradedPokemonBattle 699, 0, 0, 2
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0191
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0191
     CallTrainerBattleEnd
     VMJump L_0193
 
@@ -121,7 +129,8 @@ L_0193:
     VMJump L_01B1
 
 L_01A3:
-    ParentActorMsg 1024, 11, 0, 0
+    // "I get it...[f000]븁\u0000\nYou don't want to have battles\nall the time."
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -131,53 +140,57 @@ L_01B1:
 L_01B7:
     VMStackPushFlag 433
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 434
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_02CE
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_02CE
     VMStackPushFlag 432
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4000
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0209
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0209
     VMCall L_03AB
     VMJump L_02C8
 
 L_0209:
     VMStackPushFlag 432
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4000
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0240
-    ParentActorMsg 1024, 14, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0240
+    // "My Alakazam knows Psycho Cut![f000]븁\u0000\nI'll make your Hippowdon really\ntough, so let's battle sometime, OK?"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_02C8
 
 L_0240:
-    ParentActorMsg 1024, 16, 0, 0
-    ParentActorMsg 1024, 17, 0, 0
+    // "The Hippowdon I got from you\nhas become really strong![f000]븀\u0000\nI'm sure you'll be bowled over![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
+    // "Hey! If it's all right with you,\nwould you have a Pokémon battle with me?"
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02BA
-    ParentActorMsg 1024, 18, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02BA
+    // "OK! Here we go![f000]븁\u0000\nI'll show you how well I've raised\nHippowdon by having a battle with you![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     MsgWinCloseAll
     CallTradedPokemonBattle 700, 0, 0, 3
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02A0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02A0
     CallTrainerBattleEnd
     VMJump L_02A2
 
@@ -186,13 +199,15 @@ L_02A0:
 
 L_02A2:
     FlagSet 434
-    ParentActorMsg 1024, 19, 0, 0
+    // "Hey! I'm so glad we were able\nto trade Pokémon and have a battle!"
+    ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_02C8
 
 L_02BA:
-    ParentActorMsg 1024, 11, 0, 0
+    // "I get it...[f000]븁\u0000\nYou don't want to have battles\nall the time."
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -200,7 +215,8 @@ L_02C8:
     VMJump L_02DC
 
 L_02CE:
-    ParentActorMsg 1024, 19, 0, 0
+    // "Hey! I'm so glad we were able\nto trade Pokémon and have a battle!"
+    ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -210,28 +226,31 @@ L_02DC:
     VMHalt
 
 L_02E2:
-    ParentActorMsg 1024, 4, 0, 0
+    // "Hey! If it's all right with you,\nlet's trade![f000]븁\u0000\nI'll trade you my Ambipom\nfor your Excadrill!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_039B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_039B
     MsgWinCloseAll
     CallPokeSelect 0, 0x8021, 0x8020, 0
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0387
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0387
     FieldTradeCheck 0x8022, 29, 0x8020
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0373
-    ParentActorMsg 1024, 5, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0373
+    // "Great!\nThen, let's start the trade![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     MsgWinCloseAll
     FieldTradeSavePokemon 0x8020, 2
     FieldTradeStart 29, 0x8020
-    ParentActorMsg 1024, 6, 0, 0
+    // "My Ambipom knows Nasty Plot![f000]븁\u0000\nI'll make your Excadrill really strong,\nso let's battle sometime, OK?"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 431
@@ -239,7 +258,8 @@ L_02E2:
     VMJump L_0381
 
 L_0373:
-    ParentActorMsg 1024, 7, 0, 0
+    // "I get it...\nThat's your trusty partner.[f000]븁\u0000\nIf you change your mind,\nlet's trade Pokémon, OK?"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -247,7 +267,8 @@ L_0381:
     VMJump L_0395
 
 L_0387:
-    ParentActorMsg 1024, 7, 0, 0
+    // "I get it...\nThat's your trusty partner.[f000]븁\u0000\nIf you change your mind,\nlet's trade Pokémon, OK?"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -255,7 +276,8 @@ L_0395:
     VMJump L_03A9
 
 L_039B:
-    ParentActorMsg 1024, 7, 0, 0
+    // "I get it...\nThat's your trusty partner.[f000]븁\u0000\nIf you change your mind,\nlet's trade Pokémon, OK?"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -263,28 +285,31 @@ L_03A9:
     VMReturn
 
 L_03AB:
-    ParentActorMsg 1024, 12, 0, 0
+    // "Whew!\nThat was so fun![f000]븁\u0000\nHey! If it's all right with you,\ncould you give me a Hippowdon?[f000]븁\u0000\nI'll trade you my Alakazam!\nC'mon, let's trade Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0464
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0464
     MsgWinCloseAll
     CallPokeSelect 0, 0x8021, 0x8020, 0
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0450
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0450
     FieldTradeCheck 0x8022, 30, 0x8020
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_043C
-    ParentActorMsg 1024, 13, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_043C
+    // "Great!\nThen, let's start the trade![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     MsgWinCloseAll
     FieldTradeSavePokemon 0x8020, 3
     FieldTradeStart 30, 0x8020
-    ParentActorMsg 1024, 14, 0, 0
+    // "My Alakazam knows Psycho Cut![f000]븁\u0000\nI'll make your Hippowdon really\ntough, so let's battle sometime, OK?"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 432
@@ -292,7 +317,8 @@ L_03AB:
     VMJump L_044A
 
 L_043C:
-    ParentActorMsg 1024, 15, 0, 0
+    // "I get it...\nThat's your trusty partner.[f000]븁\u0000\nIf you change your mind,\nlet's trade Pokémon, OK?"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -300,7 +326,8 @@ L_044A:
     VMJump L_045E
 
 L_0450:
-    ParentActorMsg 1024, 15, 0, 0
+    // "I get it...\nThat's your trusty partner.[f000]븁\u0000\nIf you change your mind,\nlet's trade Pokémon, OK?"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -308,7 +335,8 @@ L_045E:
     VMJump L_0472
 
 L_0464:
-    ParentActorMsg 1024, 15, 0, 0
+    // "I get it...\nThat's your trusty partner.[f000]븁\u0000\nIf you change your mind,\nlet's trade Pokémon, OK?"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     LastKeyWait
     MsgWinCloseAll
 

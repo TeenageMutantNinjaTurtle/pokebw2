@@ -11,8 +11,8 @@ Script_1:
     Plugin5_Cmd1000
     VMStackPushFlag 2464
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0027
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0027
     FlagSet 2464
 
 L_0027:

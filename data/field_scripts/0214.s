@@ -34,40 +34,40 @@ Script_7:
     Cmd_02B2 13, 0x400f
     VMStackPush 0x400f
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4049
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40cb
     VMStackPushConst 1
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPushFlag 496
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_00C9
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00C9
     FlagReset 765
     ObjInitNPCGPos 3, 1, 78, 0, 269
 
 L_00C9:
     VMStackPush 0x400f
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4049
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40cb
     VMStackPushConst 1
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPushFlag 496
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0116
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0116
     WorkSetConst 0x4154, 1
     FlagSet 765
 
@@ -80,16 +80,16 @@ L_0122:
     Cmd_02B2 13, 0x400f
     VMStackPush 0x400f
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4049
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40cb
     VMStackPushConst 1
-    VMStackCmp 4
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0165
+    VMStackCmp CMP_GE
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0165
     WorkSetConst 0x4154, 0
     FlagSet 765
 
@@ -100,20 +100,20 @@ L_0167:
     Cmd_02B2 13, 0x400f
     VMStackPush 0x400f
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4049
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40cb
     VMStackPushConst 1
-    VMStackCmp 4
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_01C1
+    VMStackCmp CMP_GE
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_01C1
     VMStackPushFlag 765
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01B7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01B7
     ActorDelete 3
 
 L_01B7:
@@ -130,6 +130,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Mistralton City\nStrewn with Windblown Leaves"
     MsgPlaceSign 41, 1
     MsgPlaceSignClose
     FinishAllEvents
@@ -140,6 +141,7 @@ Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Mistralton Cargo Service\nOur slogan is “Quick and Safe!\""
     MsgPlaceSign 42, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -150,6 +152,7 @@ Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Mistralton City Pokémon Gym\nLeader: Skyla[f000]븀\u0000\nThe Highflying Girl"
     MsgPlaceSign 43, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -173,6 +176,7 @@ Script_4:
     VMStackPop 0x8000
     FlagSet 615
     FlagSet 139
+    // "Oh! You found our treasure![f000]븁\u0000"
     ScreamMsg 28, 1
     MsgWinCloseAll
     ActorCmdExec 255, Movement_09B8
@@ -182,20 +186,26 @@ Script_4:
     ActorCmdExec 2, Movement_0960
     ActorCmdExec 8, Movement_0968
     ActorCmdWait
-    ActorMsg 1024, 29, 2, 6, 0
+    // "Found it![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 29, 2, 6, 0
     MsgWinCloseAll
     VMSleep 32
+    // "Just kidding![f000]븁\u0000\nOur Ducklett already knows Aerial Ace.\nSo we'll give you this TM![f000]븁\u0000"
+    // "Just kidding![f000]븁\u0000\nOur Ducklett already knows Aerial Ace.\nSo we'll give you this TM![f000]븁\u0000"
     ActorMsgGendered 1024, 30, 31, 1, 1, 0
     MsgWinCloseAll
-    ActorMsg 1024, 32, 2, 6, 0
+    // "Aerial Ace always hits its target!\nI hope it comes in handy![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 32, 2, 6, 0
     MsgWinCloseAll
     PVPlay 580, 0
-    ActorMsg 1024, 33, 8, 1, 0
+    // "Kwa!"
+    ActorMsg MSGFILE_SCRIPT, 33, 8, 1, 0
     PVWait
     MsgWaitAdvance
     MsgWinCloseAll
     VMSleep 8
-    ActorMsg 1024, 34, 1, 5, 0
+    // "See you! Bye-bye![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 34, 1, 5, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_0970
     ActorCmdExec 2, Movement_0978
@@ -223,14 +233,18 @@ Script_5:
     ActorWalkRoute 4, 0x8021, 0x8022, 1, 8, 0
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 0, 4, 0, 0
-    ActorMsg 1024, 1, 4, 0, 0
-    ActorMsg 1024, 2, 4, 0, 0
+    // "Hi there, [f000]Ā\u0001\u0000![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 4, 0, 0
+    // "It's nice to finally be able\nto talk to you in person![f000]븁\u0000\nI'm Professor Juniper![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 4, 0, 0
+    // "You accepted the Pokédex and\ncame all the way out here with[f000]븀\u0000\nyour partners...[f000]븁\u0000\nHere, I'll evaluate your progress\nfor you![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 4, 0, 0
     WordSetPlayerName 0
     WorkSetConst 0x8023, 0
     PokeDexGetCount 0, 0x8023
     WordSetNumber 1, 0x8023, 3
-    ActorMsg 1024, 3, 4, 0, 0
+    // "So, [f000]Ā\u0001\u0000, you've seen\n[f000]Ȃ\u0001\u0001 Pokémon up to this point![f000]븁\u0000\nI see! Thank you!\nThis is a token of my gratitude.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 4, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -239,13 +253,16 @@ Script_5:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 4, 4, 0, 0
+    // "Juniper: This Master Ball is the most\npowerful kind of Poké Ball.[f000]븁\u0000\nIt can catch any Pokémon without fail.[f000]븁\u0000\nJourneys are about meeting Pokémon.\nDon't let a chance get away![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 4, 0, 0
     MsgWinCloseAll
     ActorCmdExec 4, Movement_0990
     ActorCmdWait
-    ActorMsg 1024, 5, 4, 0, 0
+    // "Still, I'm amazed how much Pokémon\ndistribution changes in two years.[f000]븁\u0000\nThat means my research will never end.\nStill, you could say that's what[f000]븀\u0000\nmakes it fun...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 4, 0, 0
     MsgWinCloseAll
     VMSleep 30
+    // "???: Professor Juniperrrrr![f000]븁\u0000"
     InfoMsg 6, 1
     MsgWinCloseAll
     ActorCmdExec 255, Movement_0928
@@ -253,12 +270,12 @@ Script_5:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 100
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 301
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0471
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0471
     ActorWalkRoute 3, 101, 300, 1, 8, 0
     VMSleep 80
     ActorCmdExec 4, Movement_09A8
@@ -286,24 +303,27 @@ L_0471:
     ActorCmdWait
 
 L_04BF:
-    ActorMsg 1024, 7, 4, 0, 0
+    // "Professor Juniper: Why, if it isn't Skyla![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 4, 0, 0
     MsgWinCloseAll
     ActorCmdExec 4, Movement_09B0
     VMSleep 8
     ActorCmdExec 255, Movement_09A8
     ActorCmdWait
-    ActorMsg 1024, 8, 4, 0, 0
+    // "This is Skyla.\nShe's Mistralton City's Gym Leader.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 4, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 9, 3, 0, 0
+    // "Skyla: Why are you surprised, Professor?[f000]븁\u0000\nYou did ask for a lift in my plane to\ncross Twist Mountain, since you can't[f000]븀\u0000\nreach Opelucid City by foot.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 3, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8021
     VMStackPushConst 100
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 301
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_053C
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_053C
     ActorCmdExec 4, Movement_0988
     VMSleep 8
     ActorCmdExec 255, Movement_0988
@@ -317,13 +337,15 @@ L_053C:
 L_0550:
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 10, 4, 0, 0
+    // "Professor Juniper: Aha ha! You're right.\nBut I have a quick favor to ask first.[f000]븁\u0000\nI want a look at Celestial Tower.\nDo you mind waiting till I'm through?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 4, 0, 0
     MsgWinCloseAll
     ActorCmdExec 4, Movement_09B0
     VMSleep 8
     ActorCmdExec 255, Movement_09A8
     ActorCmdWait
-    ActorMsg 1024, 11, 4, 0, 0
+    // "See you, [f000]Ā\u0001\u0000![f000]븁\u0000\nBe sure to always get along\nwith all kinds of Pokémon![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 4, 0, 0
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     ActorWalkRoute 4, 109, 297, 1, 8, 1
@@ -332,7 +354,8 @@ L_0550:
     ActorCmdWait
     ActorDelete 4
     BGMChangeMap
-    ActorMsg 1024, 12, 3, 0, 0
+    // "Skyla: Honestly! I can't tell if she's\njust laid back or if she's not paying[f000]븀\u0000\nattention to anything outside her head.[f000]븁\u0000\nThe apple sure doesn't\nfall far from the tree.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 3, 0, 0
     MsgWinCloseAll
     VMSleep 15
     PlayerGetGPos 0x8021, 0x8022
@@ -341,14 +364,15 @@ L_0550:
     ActorCmdWait
     ActorCmdExec 3, Movement_09B0
     ActorCmdWait
-    ActorMsg 1024, 13, 3, 0, 0
+    // "What's next?\nAre you coming to my Gym to challenge me?[f000]븁\u0000\nOr are you going to follow the professor\nto Celestial Tower and do some training?[f000]븁\u0000\nAs long as I get to battle with a strong\nTrainer, I'm fine either way![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 3, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 3, 90, 297, 1, 8, 1
     ActorCmdWait
     ActorDelete 3
     FlagSet 765
     FlagSet 699
-    Cmd_0262 0, 2
+    HollowRivalCmd_0262 0, 2
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -370,29 +394,34 @@ Script_6:
     ActorCmdWait
     ActorCmdExec 255, Movement_09A8
     ActorCmdWait
-    ActorMsg 1024, 14, 3, 0, 0
+    // "Skyla: Time for a quick hop in my plane![f000]븁\u0000\nHey, where did Professor Juniper get to?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 3, 0, 0
     MsgWinCloseAll
     VMStackPush 0x40c2
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_071F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_071F
     ActorCmdExec 4, Movement_0934
     ActorCmdWait
     ActorCmdExec 3, Movement_0988
     ActorCmdExec 255, Movement_0988
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 16, 4, 0, 0
-    ActorMsg 1024, 17, 4, 0, 0
+    // "Professor Juniper: Hi there![f000]븁\u0000\nI hope we can get some good\nresearch done on the other side[f000]븀\u0000\nof the mountain as well.[f000]븁\u0000\nThat's right! I want you to\ntake this flight, too![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 4, 0, 0
+    // "There's someone I want you to\nmeet in Opelucid City,[f000]븀\u0000\nbut we can't get through[f000]븀\u0000\nTwist Mountain right now.[f000]븁\u0000\nWe'll just make a quick flight\nover to Lentimas Town![f000]븁\u0000\nI'll be waiting for you in\nMistralton Cargo Service![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 17, 4, 0, 0
     MsgWinCloseAll
     ActorCmdExec 4, Movement_0940
     ActorCmdWait
-    ActorMsg 1024, 18, 3, 0, 0
+    // "Skyla: Hey! Professor! Wait up![f000]븁\u0000\nHonestly... She just does\neverything at her own pace![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 18, 3, 0, 0
     MsgWinCloseAll
     ActorCmdExec 3, Movement_09B0
     ActorCmdExec 255, Movement_09A8
     ActorCmdWait
-    ActorMsg 1024, 19, 3, 0, 0
+    // "OK! You come, too![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 19, 3, 0, 0
     MsgWinCloseAll
     FlagReset 767
     FlagReset 768
@@ -400,7 +429,8 @@ Script_6:
     VMJump L_0731
 
 L_071F:
-    ActorMsg 1024, 15, 3, 0, 0
+    // "I wonder if she's still doing research\nin Celestial Tower?[f000]븁\u0000\nMmm... Could I ask you\nto go get the professor?[f000]븁\u0000\nI've got to finish flight preparations\nat Mistralton Cargo Service![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 3, 0, 0
     MsgWinCloseAll
     FlagReset 767
 
@@ -424,7 +454,8 @@ Script_9:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 35, 0, 0
+    // "Hey, what's up?[f000]븁\u0000\nI know! Since you're here,\nI'll tell you a little secret![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 35, 0, 0
     MsgWinCloseAll
     FadeOutBlack
     RTReserveScript 1
@@ -447,7 +478,8 @@ Script_20:
     ActorCmdWait
     ActorWalkRoute 3, 78, 269, 4, 8, 1
     ActorCmdWait
-    ActorMsg 1024, 35, 3, 0, 0
+    // "Hey, what's up?[f000]븁\u0000\nI know! Since you're here,\nI'll tell you a little secret![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 35, 3, 0, 0
     MsgWinCloseAll
     FadeOutBlack
     RTReserveScript 1
@@ -461,7 +493,8 @@ Script_10:
     ActorsPauseAll
     FadeInBlackQ
     FadeWait
-    ActorMsg 1024, 36, 3, 0, 0
+    // "Please keep this a secret from Elesa, OK?"
+    ActorMsg MSGFILE_SCRIPT, 36, 3, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 3, Movement_0914
@@ -480,7 +513,8 @@ Script_11:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 20, 0, 0
+    // "We've arranged it so Mistralton's planes\nare now available for passenger service.[f000]븁\u0000\nIt's not like everyone's Pokémon\ncan use Fly!"
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -491,7 +525,8 @@ Script_13:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 21, 0, 0
+    // "Fly is an amazing move![f000]븁\u0000\nEven a teeny-weeny Pokémon\ncan carry a person easily!"
+    ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -502,7 +537,8 @@ Script_12:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 22, 0, 0
+    // "That Skyla...\nShe's even surpassed her grandpa,[f000]븀\u0000\nwho was a legendary pilot!"
+    ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -513,7 +549,8 @@ Script_14:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 23, 0, 0
+    // "Mistralton City used to be a\ndesolate patch of land...[f000]븁\u0000\nThis place was built through the\ncooperation of people and Pokémon."
+    ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -524,7 +561,8 @@ Script_15:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 24, 0, 0
+    // "Planes need a runway to fly,\nbut Pokémon don't need a thing![f000]븁\u0000\nBut planes can carry a lot more\ncargo than Pokémon can."
+    ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -535,7 +573,8 @@ Script_16:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 25, 0, 0
+    // "Team Plasma went after certain\nPokémon, like Purrloin![f000]븁\u0000\nMany people had their Pokémon stolen.\nThat's just unforgivable!"
+    ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -546,6 +585,8 @@ Script_17:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
+    // "If you want to eat delicious vegetables,\nthe ones grown in the wild are the best.[f000]븁\u0000\nSometimes they are eaten by Pokémon...\nAh, I mean we can give them to Pokémon."
+    // "Vegetables grown efficiently\nin a greenhouse are the best.[f000]븁\u0000\nTheir nutrients all go into forming\na very delicious vegetable!"
     ActorMsgVersioned 1024, 26, 27, 15, 0, 0
     LastKeyWait
     MsgWinCloseAll
@@ -646,19 +687,22 @@ Script_18:
     ActorsPauseAll
     VMStackPushFlag 2449
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0A36
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A36
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 37, 0, 0
+    // "Know what?\nMy Pokémon loves Berries![f000]븁\u0000\nThat's why I'm wandering all over,\nlooking for Berries![f000]븁\u0000\nI dream about a wonderful city somewhere\nthat is overflowing with Berries...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 37, 0, 0
     MsgWinCloseAll
     Cmd_0275 0, 20, 0
     SEPlay 1908
+    // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink."
     SystemMsg 38, 0
     SEWait
     MsgWaitAdvance
     MsgWinCloseAll
-    ParentActorMsg 1024, 39, 0, 0
+    // "My Pokémon's favorite\nBerry is the Leppa Berry![f000]븁\u0000\nIt restores PP!\nIsn't it a useful Berry?"
+    ParentActorMsg MSGFILE_SCRIPT, 39, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2449
@@ -667,7 +711,8 @@ Script_18:
 L_0A36:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 39, 0, 0
+    // "My Pokémon's favorite\nBerry is the Leppa Berry![f000]븁\u0000\nIt restores PP!\nIsn't it a useful Berry?"
+    ParentActorMsg MSGFILE_SCRIPT, 39, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -681,7 +726,8 @@ Script_19:
     WordSetLoadJoinAvenueName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 40, 0, 0
+    // "Do you know the big street\ncalled [f000]Ĺ\u0001\u0000?[f000]븁\u0000\nThere are a lot of unique shops there!\nIt's so cool!"
+    ParentActorMsg MSGFILE_SCRIPT, 40, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

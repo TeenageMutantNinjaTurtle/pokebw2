@@ -16,12 +16,12 @@
 Script_1:
     VMStackPushFlag 897
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4073
     VMStackPushConst 2
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0061
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0061
     FlagSet 897
     WorkSetConst 0x4073, 1
 
@@ -30,14 +30,14 @@ L_0061:
     WorkSetConst 0x414f, 0
     VMStackPushFlag 488
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00A9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00A9
     Random 0x8010, 100
     DebugPrint 0x8010
     VMStackPush 0x8010
     VMStackPushConst 20
-    VMStackCmp 0
-    VMJumpIf 255, L_00A9
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_00A9
     FlagReset 258
     FlagReset 1027
     WorkSetConst 0x414f, 1
@@ -48,8 +48,8 @@ L_00A9:
 Script_6:
     VMStackPushFlag 1027
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00C4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00C4
     VMCall L_00C6
 
 L_00C4:
@@ -61,36 +61,36 @@ L_00C6:
     PlayerGetGPos 0x8023, 0x8024
     VMStackPush 0x8023
     VMStackPushConst 147
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 36
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0107
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0107
     VMCall L_016D
     VMJump L_015F
 
 L_0107:
     VMStackPush 0x8023
     VMStackPushConst 148
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 35
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0136
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0136
     VMCall L_016D
     VMJump L_015F
 
 L_0136:
     VMStackPush 0x8023
     VMStackPushConst 149
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 36
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_015F
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_015F
     VMCall L_016D
 
 L_015F:
@@ -108,15 +108,16 @@ Script_2:
     ActorsPauseAll
     VMStackPushFlag 250
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_019E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_019E
     VMCall L_01B8
     VMJump L_01B2
 
 L_019E:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 14, 0, 0
+    // "Man: Oh, yeah...\nReturns not accepted, got that?"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -128,24 +129,27 @@ L_01B2:
 L_01B8:
     SEPlay 1351
     ActorSetEyeToEye
+    // "Man: Son!\nI have a deal for YOU! And for you alone.[f000]븁\u0000\nHere's your chance. I will sell you the\nsecret Pokémon Magikarp...[f000]븀\u0000\nFor an unbelievable $500![f000]븁\u0000\nHow about it? Interested?"
+    // "Man: Miss!\nI have a deal for YOU! And for you alone.[f000]븁\u0000\nHere's your chance. I will sell you the\nsecret Pokémon Magikarp...[f000]븀\u0000\nFor an unbelievable $500![f000]븁\u0000\nHow about it? Interested?"
     ActorMsgGendered 1024, 7, 8, 0, 2, 0
     MoneyWinDisp 31, 1
     WorkSetConst 0x8025, 0
     YesNoWin 0x8025
     VMStackPush 0x8025
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02F7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02F7
     WorkSetConst 0x8026, 0
     PokePartyGetCount 0x8026, 0
     WorkSetConst 0x8027, 0
     MoneyCheck 0x8027, 500
     VMStackPush 0x8027
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0232
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0232
     MoneyWinClose
-    ActorMsg 1024, 11, 0, 2, 0
+    // "Looks like you don't have enough money."
+    ActorMsg MSGFILE_SCRIPT, 11, 0, 2, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_02D9
@@ -153,10 +157,11 @@ L_01B8:
 L_0232:
     VMStackPush 0x8026
     VMStackPushConst 6
-    VMStackCmp 1
-    VMJumpIf 255, L_025D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_025D
     MoneyWinClose
-    ActorMsg 1024, 12, 0, 2, 0
+    // "You have no room in your party!"
+    ActorMsg MSGFILE_SCRIPT, 12, 0, 2, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_02D9
@@ -167,6 +172,7 @@ L_025D:
     MEPlay 1304
     MoneySub 500
     MoneyWinUpdate
+    // "[f000]Ā\u0001\u0000 bought the Magikarp\nfor $500."
     SystemMsg 9, 2
     MEWait
     MsgWaitAdvance
@@ -174,20 +180,22 @@ L_025D:
     MoneyWinClose
     PokePartyAdd 0x8010, 129, 0, 5
     PokePartySetIV 0x8026, 73, 31
+    // "Would you like to give a\nnickname to this Magikarp?"
     SystemMsg 10, 2
     WorkSetConst 0x8028, 0
     YesNoWin 0x8028
     InfoMsgClose
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02C5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02C5
     WorkSetConst 0x8029, 0
     CallPokeNameInput 0x8029, 0x8026, 1
     VMJump L_02C5
 
 L_02C5:
-    ActorMsg 1024, 14, 0, 2, 0
+    // "Man: Oh, yeah...\nReturns not accepted, got that?"
+    ActorMsg MSGFILE_SCRIPT, 14, 0, 2, 0
     LastKeyWait
     ActorMsgClose
     FlagSet 250
@@ -201,7 +209,8 @@ L_02D9:
 
 L_02F7:
     MoneyWinClose
-    ActorMsg 1024, 13, 0, 2, 0
+    // "Oh, that's too bad..."
+    ActorMsg MSGFILE_SCRIPT, 13, 0, 2, 0
     LastKeyWait
     ActorMsgClose
 
@@ -214,30 +223,32 @@ Script_3:
     ActorSetEyeToEye
     VMStackPush 0x4108
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_03F3
-    ParentActorMsg 1024, 3, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03F3
+    // "[f000]븉\u0001\u0002Oh... Oh...\nSo...thirsty...[f000]븁\u0000\nI met you on Village Bridge...[f000]븁\u0000\nG-g-give me...\nFresh Water...?[f000]븉\u0001\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03DF
-    ItemSub 30, 1, 0x8010
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03DF
+    ItemSub ITEM_FRESH_WATER, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03CB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03CB
     MsgWinCloseAll
     SEPlay 2017
     SEWait
-    ParentActorMsg 1024, 4, 0, 0
+    // "Refreshed!![f000]븁\u0000\nI'm 100% rehydrated!\nI feel better now! Thank you![f000]븁\u0000\nI'll dash to the next bridge...\nNo, I'll leave for the Marine Tube!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
     PlayerGetDir 0x8010
     VMStackPush 0x8010
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_039D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_039D
     ActorCmdExec 1, Movement_041C
     VMJump L_03A5
 
@@ -255,7 +266,8 @@ L_03A5:
     VMJump L_03D9
 
 L_03CB:
-    ParentActorMsg 1024, 5, 0, 0
+    // "[f000]븉\u0001\u0002But... You don't have Fresh Water...\nI appreciate the thought, though...[f000]븉\u0001\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -263,7 +275,8 @@ L_03D9:
     VMJump L_03ED
 
 L_03DF:
-    ParentActorMsg 1024, 6, 0, 0
+    // "[f000]븉\u0001\u0002Thank...[f000]븁\u0000\nWhat?\nOh...[f000]븁\u0000\nWithout Fresh Water...\nI can't run on bridges anymore.[f000]븉\u0001\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -273,9 +286,10 @@ L_03ED:
 L_03F3:
     VMStackPush 0x4108
     VMStackPushConst 5
-    VMStackCmp 1
-    VMJumpIf 255, L_0414
-    ParentActorMsg 1024, 4, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0414
+    // "Refreshed!![f000]븁\u0000\nI'm 100% rehydrated!\nI feel better now! Thank you![f000]븁\u0000\nI'll dash to the next bridge...\nNo, I'll leave for the Marine Tube!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -304,12 +318,13 @@ Movement_0440:
 
 Script_4:
     ActorsPauseAll
+    // "The Lunar Wing started shining!\nDo you want to hold it up high?"
     SystemMsg 0, 2
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04F6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04F6
     MsgWinCloseAll
     FlagReset 897
     WorkSetConst 0x4073, 2
@@ -319,6 +334,7 @@ Script_4:
     ActorCmdWait
     VMSleep 30
     PVPlay 488, 0
+    // "Lunaaan..."
     InfoMsg 1, 1
     PVWait
     MsgWaitAdvance
@@ -352,6 +368,7 @@ Script_5:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 488, 0
+    // "Lunaaan..."
     ScreamMsg 1, 2
     PVWait
     MsgWaitAdvance
@@ -360,8 +377,8 @@ Script_5:
     WildBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0556
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0556
     FlagSet 897
     WorkSetConst 0x4073, 3
     ActorDelete 2
@@ -374,7 +391,7 @@ L_0556:
 L_0558:
     WildBattleGetResult 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_056F
+    VMJumpIf CMP_EQ, L_056F
     VMJump L_0579
 
 L_056F:
@@ -383,9 +400,9 @@ L_056F:
 
 L_0579:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0599
+    VMJumpIf CMP_EQ, L_0599
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0599
+    VMJumpIf CMP_EQ, L_0599
     VMJump L_059F
 
 L_0599:
@@ -394,8 +411,9 @@ L_0599:
 L_059F:
     VMStackPushFlag 379
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_05BC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05BC
+    // "Cresselia disappeared somewhere..."
     SystemMsg 2, 2
     LastKeyWait
     InfoMsgClose
@@ -433,7 +451,8 @@ Script_8:
     ActorDelete 3
     ActorCmdExec 4, Movement_0694
     ActorCmdWait
-    ActorMsg 1024, 16, 4, 0, 0
+    // "Huh... Wha...\nD-did she just disappear?"
+    ActorMsg MSGFILE_SCRIPT, 16, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x414f, 2
@@ -481,15 +500,16 @@ Script_7:
     ActorsPauseAll
     VMStackPushFlag 488
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x400a
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_06DF
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_06DF
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 15, 0, 0
+    // "Ahh...\nSuch magnificent scenery..."
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0720
@@ -497,11 +517,12 @@ Script_7:
 L_06DF:
     VMStackPushFlag 258
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_070C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_070C
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 16, 0, 0
+    // "Huh... Wha...\nD-did she just disappear?"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0720
@@ -509,7 +530,8 @@ L_06DF:
 L_070C:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 15, 0, 0
+    // "Ahh...\nSuch magnificent scenery..."
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     LastKeyWait
     ActorMsgClose
 

@@ -9,7 +9,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "So, I'm a “curiosee\"!\nDo you know what a “curiosee\" is?[f000]븁\u0000\nIt's a person who is curious about\neverything, who checks places[f000]븀\u0000\nwith nothing there, and who talks[f000]븀\u0000\nto all sorts of people!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -49,7 +50,8 @@ Script_3:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 507, 0
-    ParentActorMsg 1024, 3, 0, 0
+    // "Whooon!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

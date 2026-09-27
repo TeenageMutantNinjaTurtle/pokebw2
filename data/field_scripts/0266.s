@@ -15,6 +15,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
+    // "Trainer who came to Opelucid City! Hello![f000]븁\u0000\nTrainer who is going to Route 11!\nPlease come again!"
+    // "Trainer who came to Opelucid City! Hello![f000]븁\u0000\nTrainer who is going to Route 11!\nPlease come again!"
     ActorMsgVersioned 1024, 0, 1, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll

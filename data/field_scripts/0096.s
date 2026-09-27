@@ -21,11 +21,12 @@ Script_1:
     DebugPrint 0x8021
     VMStackPush 0x400a
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0075
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0075
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "The Pokédex.\nHow did you obtain so many Pokémon?[f000]븁\u0000\nObviously, you caught some by yourself,\nbut you can't complete the Pokédex[f000]븀\u0000\nby just catching them, right?[f000]븁\u0000\nYou probably traded Pokémon\nwith your friends and people[f000]븀\u0000\nall over the world to complete it...[f000]븁\u0000\nIf that's the case, the Pokédex is\nnot only a wealth of Pokémon information[f000]븀\u0000\nbut also a compilation of[f000]븀\u0000\nyour communication with others."
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_019D
@@ -33,15 +34,16 @@ Script_1:
 L_0075:
     VMStackPushFlag 221
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00FF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00FF
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00E5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E5
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Hello!\nI am the Game Director.[f000]븁\u0000\nOh! You've caught every kind of\nPokémon in Unova![f000]븁\u0000\nIt's truly amazing!\nNow, we'll give you an award!![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     MsgWinCloseAll
     FadeOutBlackQ
     FadeWait
@@ -50,7 +52,8 @@ L_0075:
     FieldOpen
     FadeInBlackQ
     FadeWait
-    ParentActorMsg 1024, 2, 0, 0
+    // "I will send this award certificate\nto your house!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     MsgWinCloseAll
     MedalGive 44
@@ -62,7 +65,8 @@ L_0075:
 L_00E5:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Hello!\nI am the Game Director.[f000]븁\u0000\nAh! You are working on your Pokédex!\nIf you fill it up a lot, please let me see!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -72,15 +76,16 @@ L_00F9:
 L_00FF:
     VMStackPushFlag 222
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0189
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0189
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_016F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_016F
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "Hello!\nI am the Game Director.[f000]븁\u0000\nOh?[f000]븁\u0000\nBy any chance, did you...\nobtain all the Pokémon and[f000]븀\u0000\ncomplete your Pokédex?[f000]븁\u0000\nGreat.[f000]븁\u0000\nI am very happy\nthat you made great efforts[f000]븀\u0000\nto obtain so many Pokémon.[f000]븁\u0000\nPlease, please, please\nallow me to present you with this award![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     MsgWinCloseAll
     FadeOutBlackQ
     FadeWait
@@ -89,7 +94,8 @@ L_00FF:
     FieldOpen
     FadeInBlackQ
     FadeWait
-    ParentActorMsg 1024, 5, 0, 0
+    // "I will send this award certificate\nto your house, too!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     MsgWinCloseAll
     MedalGive 45
@@ -101,7 +107,8 @@ L_00FF:
 L_016F:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Hello!\nI am the Game Director.[f000]븁\u0000\nAh! You are working on your Pokédex!\nIf you fill it up a lot, please let me see!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -111,7 +118,8 @@ L_0183:
 L_0189:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "The Pokédex.\nHow did you obtain so many Pokémon?[f000]븁\u0000\nObviously, you caught some by yourself,\nbut you can't complete the Pokédex[f000]븀\u0000\nby just catching them, right?[f000]븁\u0000\nYou probably traded Pokémon\nwith your friends and people[f000]븀\u0000\nall over the world to complete it...[f000]븁\u0000\nIf that's the case, the Pokédex is\nnot only a wealth of Pokémon information[f000]븀\u0000\nbut also a compilation of[f000]븀\u0000\nyour communication with others."
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -124,7 +132,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "A game is something\nto think about, program,[f000]븀\u0000\nand, at the end, hope for![f000]븁\u0000\nWork! Work!\nWork! Please work!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -135,7 +144,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "I am the Graphic Designer.[f000]븁\u0000\nTo draw something I've never seen,\nI need to observe a lot of objects.[f000]븁\u0000\nNot only do I have to look at them,\nbut also I need to analyze them[f000]븀\u0000\nand truly absorb them."
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -146,15 +156,16 @@ Script_4:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_028A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_028A
     VMStackPushFlag 2739
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_021D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_021D
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 13, 0, 0
+    // "You think about battles very thoroughly.[f000]븁\u0000\nI lost, but I learned a lot from you.\nBesides, it was fun![f000]븁\u0000\nCome back again tomorrow."
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0284
@@ -162,24 +173,28 @@ Script_4:
 L_021D:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "A tip for getting strong\nin Pokémon battles...[f000]븁\u0000\nLet me see.\nI guess the most important thing is...[f000]븀\u0000\nhaving a lot of battles![f000]븁\u0000\nDo you want to battle?"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0276
-    ParentActorMsg 1024, 9, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0276
+    // "Well, let's begin![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 592, 0, 0
     VMCall L_046D
-    ParentActorMsg 1024, 13, 0, 0
+    // "You think about battles very thoroughly.[f000]븁\u0000\nI lost, but I learned a lot from you.\nBesides, it was fun![f000]븁\u0000\nCome back again tomorrow."
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2739
     VMJump L_0284
 
 L_0276:
-    ParentActorMsg 1024, 10, 0, 0
+    // "OK. I hope we can battle next time."
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -189,11 +204,12 @@ L_0284:
 L_028A:
     VMStackPushFlag 2739
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02B7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02B7
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 13, 0, 0
+    // "You think about battles very thoroughly.[f000]븁\u0000\nI lost, but I learned a lot from you.\nBesides, it was fun![f000]븁\u0000\nCome back again tomorrow."
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_031E
@@ -201,24 +217,28 @@ L_028A:
 L_02B7:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "Oh! You've become strong! I can tell.\nDo you want to have a battle with me?"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0310
-    ParentActorMsg 1024, 12, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0310
+    // "Well, let's begin![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 140, 0, 0
     VMCall L_046D
-    ParentActorMsg 1024, 13, 0, 0
+    // "You think about battles very thoroughly.[f000]븁\u0000\nI lost, but I learned a lot from you.\nBesides, it was fun![f000]븁\u0000\nCome back again tomorrow."
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2739
     VMJump L_031E
 
 L_0310:
-    ParentActorMsg 1024, 14, 0, 0
+    // "No?[f000]븁\u0000\nI've been raising Pokémon, thinking about\ntheir Abilities and just the right[f000]븀\u0000\ncombination of held items.[f000]븁\u0000\nWhat a pity..."
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -231,15 +251,16 @@ Script_5:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03D3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03D3
     VMStackPushFlag 2762
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0366
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0366
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 17, 0, 0
+    // "Awww! What great Pokémon![f000]븁\u0000\nThe great number of steps seems to have\nincreased their trust in you...[f000]븁\u0000\nI hope we can battle again tomorrow."
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_03CD
@@ -247,24 +268,28 @@ Script_5:
 L_0366:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 15, 0, 0
+    // "I'm Snorlax.[f000]븁\u0000\nNo, no. I'm the Planner![f000]븁\u0000\nI don't mean to butt in, but the\nitem Leftovers is important, isn't it?[f000]븁\u0000\nIt's pretty useful in battle.\nDo you want to battle and test it?"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03BF
-    ParentActorMsg 1024, 16, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03BF
+    // "I like to win using my favorite Pokémon![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 357, 0, 0
     VMCall L_046D
-    ParentActorMsg 1024, 17, 0, 0
+    // "Awww! What great Pokémon![f000]븁\u0000\nThe great number of steps seems to have\nincreased their trust in you...[f000]븁\u0000\nI hope we can battle again tomorrow."
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2762
     VMJump L_03CD
 
 L_03BF:
-    ParentActorMsg 1024, 18, 0, 0
+    // "No?! Really?\nMy Pokémon are pretty, though..."
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -274,11 +299,12 @@ L_03CD:
 L_03D3:
     VMStackPushFlag 2762
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0400
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0400
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 17, 0, 0
+    // "Awww! What great Pokémon![f000]븁\u0000\nThe great number of steps seems to have\nincreased their trust in you...[f000]븁\u0000\nI hope we can battle again tomorrow."
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0467
@@ -286,24 +312,28 @@ L_03D3:
 L_0400:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 15, 0, 0
+    // "I'm Snorlax.[f000]븁\u0000\nNo, no. I'm the Planner![f000]븁\u0000\nI don't mean to butt in, but the\nitem Leftovers is important, isn't it?[f000]븁\u0000\nIt's pretty useful in battle.\nDo you want to battle and test it?"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0459
-    ParentActorMsg 1024, 16, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0459
+    // "I like to win using my favorite Pokémon![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 591, 0, 0
     VMCall L_046D
-    ParentActorMsg 1024, 17, 0, 0
+    // "Awww! What great Pokémon![f000]븁\u0000\nThe great number of steps seems to have\nincreased their trust in you...[f000]븁\u0000\nI hope we can battle again tomorrow."
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2762
     VMJump L_0467
 
 L_0459:
-    ParentActorMsg 1024, 18, 0, 0
+    // "No?! Really?\nMy Pokémon are pretty, though..."
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -316,8 +346,8 @@ L_046D:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_048C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_048C
     CallTrainerBattleEnd
     VMJump L_048E
 
@@ -331,7 +361,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 19, 0, 0
+    // "I'm the Sound Designer. I just woke up.\nI wonder what kind of music people like."
+    ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -342,7 +373,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 20, 0, 0
+    // "Hello!\nThis is GAME FREAK."
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -353,7 +385,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 21, 0, 0
+    // "Now, er, I'm, er...[f000]븁\u0000\nI'm thinking, er, a new plan of, er...[f000]븁\u0000\n...Of a game."
+    ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -364,7 +397,8 @@ Script_9:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 22, 0, 0
+    // "This place is cold because we have to\nkeep the server cool."
+    ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

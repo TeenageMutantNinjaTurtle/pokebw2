@@ -29,16 +29,16 @@ Script_1:
     RTCGetDayPart 0x8021
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00B2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B2
     VMStackPush 0x8021
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8021
     VMStackPushConst 4
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_00A8
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_00A8
     FlagReset 815
     VMJump L_00AC
 
@@ -54,12 +54,12 @@ L_00B2:
 L_00B6:
     VMStackPushFlag 374
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x410c
     VMStackPushConst 6
-    VMStackCmp 5
-    VMStackCmp 7
-    VMJumpIf 255, L_00DF
+    VMStackCmp CMP_NE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00DF
     WorkSetConst 0x410c, 0
 
 L_00DF:
@@ -69,6 +69,7 @@ Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Striaton City\nThree Stand Together as One!"
     MsgPlaceSign 26, 1
     MsgPlaceSignClose
     FinishAllEvents
@@ -79,6 +80,7 @@ Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Dreamyard Ahead"
     MsgPlaceSign 27, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -89,6 +91,7 @@ Script_4:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Trainers' School\nBrush up on Pokémon knowledge!"
     MsgPlaceSign 28, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -98,6 +101,7 @@ Script_4:
 Script_5:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a well-kept flower bed.[f000]븁\u0000\nSomeone who loves plants\nmust be taking care of it."
     InfoMsg 29, 2
     LastKeyWait
     MsgWinCloseAll
@@ -167,19 +171,20 @@ Script_8:
     RTCGetDayPart 0x8021
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0290
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0290
     VMStackPush 0x8021
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8021
     VMStackPushConst 4
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_0276
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_0276
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 23, 0, 0
+    // "Right now, the hot thing is\nStriaton City's Stunfisk nights![f000]븁\u0000\nA huge school of them gathers.\nIt's a sight that's hard to describe.[f000]븁\u0000\nYou have to be careful not to\nstep on them."
+    ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_028A
@@ -187,7 +192,8 @@ Script_8:
 L_0276:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 22, 0, 0
+    // "Recently, you can see Stunfisk\nin this pond when the sun goes down!"
+    ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -197,7 +203,8 @@ L_028A:
 L_0290:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 21, 0, 0
+    // "Summer's so far away. I want to see\nagain the sight I saw that night."
+    ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -211,7 +218,8 @@ Script_9:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 618, 0
-    ParentActorMsg 1024, 24, 0, 0
+    // "Unn unnn?!"
+    ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -223,7 +231,8 @@ Script_10:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Well, I'll be!\nThose are some sparkling Gym Badges![f000]븁\u0000\nAnd you have eight of them, too![f000]븁\u0000\nThose Badges shine so brightly, it's like\nyou're gleaming as much as they are!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -234,7 +243,8 @@ Script_11:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "I still haven't defeated the\nStriaton City Gym Leaders...[f000]븁\u0000\nBut that's all right.[f000]븁\u0000\nI'm going to become such a strong\nTrainer, they'll want to challenge me!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -245,7 +255,8 @@ Script_12:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "If a Pokémon type and a move type are\nthe same, the move's power will increase![f000]븁\u0000\nIf the Pokémon is holding a gem of that\ntype, the move's power goes up yet more!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -256,7 +267,8 @@ Script_13:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "From the factory's once-busy days, many\ndreams still linger in the Dreamyard.[f000]븁\u0000\nA Pokémon led there by those dreams\nmay be somewhere about."
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -267,7 +279,8 @@ Script_14:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "When I explain to someone what I learned\nat school, I'm more connected to people,[f000]븀\u0000\nthanks to Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -278,7 +291,8 @@ Script_15:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "Technical Machines can be used\nover and over, right?[f000]븁\u0000\nI tried so many different things!\nIt's sure hard to decide, eh?"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -292,9 +306,10 @@ Script_16:
     Random 0x4000, 3
     VMStackPush 0x4000
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03AB
-    ParentActorMsg 1024, 7, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03AB
+    // "Er... Um...[f000]븁\u0000\nGrass-type Pokémon are weak\nagainst Fire-type moves.[f000]븁\u0000\nThat's why Cilan has trouble\nwinning against Chili!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_03F3
@@ -302,9 +317,10 @@ Script_16:
 L_03AB:
     VMStackPush 0x4000
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03D2
-    ParentActorMsg 1024, 8, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03D2
+    // "Er... Um...[f000]븁\u0000\nWater-type Pokémon are weak\nagainst Grass-type moves.[f000]븁\u0000\nThat's why Cress has trouble\nwinning against Cilan."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_03F3
@@ -312,9 +328,10 @@ L_03AB:
 L_03D2:
     VMStackPush 0x4000
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_03F3
-    ParentActorMsg 1024, 9, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03F3
+    // "Um... Er...[f000]븁\u0000\nFire-type Pokémon are weak\nagainst Water-type moves.[f000]븁\u0000\nThat's why Chili has trouble\nwinning against Cress."
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -327,7 +344,8 @@ Script_17:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "The Gym is gone, but the Dreamyard still\nbustles with Trainers looking to improve!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -338,13 +356,15 @@ Script_18:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 15, 0, 0
+    // "Oh, my!\nYour Medal Box...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     MedalGetMostCompleteCategory 0x8022
     VMStackPush 0x8022
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_0452
-    ParentActorMsg 1024, 20, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0452
+    // "The gold Special Medals\nare particularly sparkly![f000]븁\u0000\nLife is special![f000]븁\u0000\nTreasure every day, and don't\npass a day the same way twice!"
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_04E8
@@ -352,9 +372,10 @@ Script_18:
 L_0452:
     VMStackPush 0x8022
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0479
-    ParentActorMsg 1024, 19, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0479
+    // "The purple Challenge Medals\nare particularly sparkly![f000]븁\u0000\nLife is a challenge![f000]븁\u0000\nThe harder it is to do,\nthe more it's worth doing![f000]븁\u0000\nYou can feel happy when\nyou've grown as a person!"
+    ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_04E8
@@ -362,9 +383,10 @@ L_0452:
 L_0479:
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_04A0
-    ParentActorMsg 1024, 17, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04A0
+    // "The blue Battle Medals\nare particularly sparkly![f000]븁\u0000\nIn life, you have to draw a line\nbetween black and white.[f000]븁\u0000\nCompete, aim for the top,\nand grow together!"
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_04E8
@@ -372,9 +394,10 @@ L_0479:
 L_04A0:
     VMStackPush 0x8022
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_04C7
-    ParentActorMsg 1024, 18, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04C7
+    // "The pink Fun Medals\nare particularly sparkly![f000]븁\u0000\nLife is entertainment![f000]븁\u0000\nAlways have a smile on your face!\nThe one who has the most fun wins!"
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_04E8
@@ -382,9 +405,10 @@ L_04A0:
 L_04C7:
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04E8
-    ParentActorMsg 1024, 16, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04E8
+    // "The orange Adventure Medals\nare particularly sparkly![f000]븁\u0000\nLife is an adventure![f000]븁\u0000\nNo matter how old you get,\ndon't lose your sense of adventure!"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -397,7 +421,8 @@ Script_19:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "This is a delicious restaurant where\nyou can also enjoy Pokémon battles![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 23, Movement_0548
     ActorCmdWait

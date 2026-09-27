@@ -15,8 +15,8 @@
 Script_4:
     VMStackPush 0x4160
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0043
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0043
     VMCall L_0045
 
 L_0043:
@@ -25,11 +25,11 @@ L_0043:
 L_0045:
     RTCGetWeekDay 0x8010
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0076
+    VMJumpIf CMP_EQ, L_0076
     WorkCmpConst 0x8010, 4
-    VMJumpIf 1, L_0076
+    VMJumpIf CMP_EQ, L_0076
     WorkCmpConst 0x8010, 6
-    VMJumpIf 1, L_0076
+    VMJumpIf CMP_EQ, L_0076
     VMJump L_00B5
 
 L_0076:
@@ -38,12 +38,12 @@ L_0076:
     RTCGetTime 0x8008, 0x8009
     VMStackPush 0x8008
     VMStackPushConst 10
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8008
     VMStackPushConst 11
-    VMStackCmp 3
-    VMStackCmp 7
-    VMJumpIf 255, L_00AF
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00AF
     FlagSet 220
 
 L_00AF:
@@ -55,15 +55,15 @@ L_00B5:
     RTCGetTime 0x8008, 0x8009
     VMStackPush 0x8008
     VMStackPushConst 10
-    VMStackCmp 1
-    VMJumpIf 255, L_00DE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00DE
     FlagSet 220
 
 L_00DE:
     VMStackPushFlag 220
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00FF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00FF
     FlagReset 655
     FlagSet 666
     VMJump L_0107
@@ -75,8 +75,8 @@ L_00FF:
 L_0107:
     VMStackPushFlag 2741
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0148
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0148
     StadiumLoadTrainerTable
     StadiumResetTrainerFlags
     StadiumFreeTrainerTable
@@ -96,19 +96,21 @@ Script_9:
     SEPlay 1351
     ActorSetEyeToEye
     WorkCmpConst 0x4160, 4
-    VMJumpIf 1, L_0165
+    VMJumpIf CMP_EQ, L_0165
     VMJump L_0198
 
 L_0165:
     VMStackPushFlag 220
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0188
-    ParentActorMsg 1024, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0188
+    // "There is a tennis match\nin Small Court now!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     VMJump L_0192
 
 L_0188:
-    ParentActorMsg 1024, 1, 0, 0
+    // "Tennis players are practicing\nin Small Court now![f000]븁\u0000\nPeople can watch them practicing!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
 
 L_0192:
     VMJump L_01C5
@@ -116,13 +118,15 @@ L_0192:
 L_0198:
     VMStackPushFlag 220
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01BB
-    ParentActorMsg 1024, 2, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01BB
+    // "There is a basketball game\nin Small Court now!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     VMJump L_01C5
 
 L_01BB:
-    ParentActorMsg 1024, 3, 0, 0
+    // "Basketball players are practicing\nin Small Court now![f000]븁\u0000\nPeople can watch them practicing!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
 
 L_01C5:
     LastKeyWait
@@ -135,8 +139,8 @@ Script_5:
     ActorsPauseAll
     VMStackPush 0x4160
     VMStackPushConst 5
-    VMStackCmp 1
-    VMJumpIf 255, L_01F4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01F4
     MapChangeWarpPad 87, 6, 25, 0
     VMJump L_01FE
 
@@ -152,7 +156,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "I am sorry.[f000]븁\u0000\nBut you cannot enter the court\nbecause a game is in progress."
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -163,7 +168,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "I am sorry.[f000]븁\u0000\nBut you cannot enter the court\nbecause a game is in progress."
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -174,7 +180,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "I am sorry.[f000]븁\u0000\nBut you cannot enter the court\nbecause a game is in progress."
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -185,7 +192,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "We love sports.\nWatching games is great, but we enjoy[f000]븀\u0000\nwatching practices, too!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -196,7 +204,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "New styles of basketball and tennis\ncreated by people and Pokémon...[f000]븀\u0000\nThese may be advanced forms of sports."
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -207,7 +216,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "If you speak to athletes during a\npractice, they may challenge you to a[f000]븀\u0000\nPokémon battle!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -219,15 +229,17 @@ Script_10:
     SEPlay 1351
     ActorSetEyeToEye
     WorkCmpConst 0x4160, 4
-    VMJumpIf 1, L_02C7
+    VMJumpIf CMP_EQ, L_02C7
     VMJump L_02D7
 
 L_02C7:
-    ParentActorMsg 1024, 7, 0, 0
+    // "First-rank Smashers are waiting for you\nin the court with their Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     VMJump L_02E1
 
 L_02D7:
-    ParentActorMsg 1024, 8, 0, 0
+    // "First-rank Hoopsters are waiting for you\nin the court with their Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
 
 L_02E1:
     LastKeyWait

@@ -22,11 +22,13 @@ Script_4:
     ActorCmdWait
     ActorCmdExec 4, Movement_03F8
     ActorCmdWait
-    ActorMsg 1024, 0, 4, 0, 0
+    // "Hey! This is our secret spot![f000]븁\u0000\nYou can't come waltzin' in\nhere like you own the place![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 4, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 754, 0, 0
     VMCall L_0382
-    ActorMsg 1024, 1, 4, 0, 0
+    // "You aren't one of us...\nBut I don't mind tough Trainers."
+    ActorMsg MSGFILE_SCRIPT, 1, 4, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     WorkSetConst 0x4147, 1
@@ -46,11 +48,12 @@ Script_1:
     ActorsPauseAll
     VMStackPush 0x4147
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_00FD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00FD
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "I recognize toughness when I see it.\nSo you're one of us now!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0111
@@ -58,7 +61,8 @@ Script_1:
 L_00FD:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "If you beat all three of us, maybe\nwe will let you be in our group."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -72,11 +76,12 @@ Script_2:
     TrainerFlagGet 755, 0x400f
     VMStackPush 0x4147
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_014C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_014C
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "You're our leader now, and Tina's\nthe second in command![f000]븀\u0000\nAll right! Let's dance!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_018B
@@ -84,11 +89,12 @@ Script_2:
 L_014C:
     VMStackPush 0x400f
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0179
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0179
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "We've always stuck together!\nI'm not going to trust some outsider!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_018B
@@ -110,11 +116,12 @@ Script_3:
     TrainerFlagGet 755, 0x400e
     VMStackPush 0x4147
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_01CC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01CC
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "New buildings create old places.[f000]븁\u0000\nGot it?\nEven Castelia City has an underbelly."
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0205
@@ -122,11 +129,12 @@ Script_3:
 L_01CC:
     VMStackPush 0x400e
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01F9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01F9
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "If you want to battle me, you'll\nhave to defeat Jean-Paul first!"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0205
@@ -142,11 +150,13 @@ L_0205:
     VMHalt
 
 L_020B:
-    ActorMsg 1024, 4, 3, 0, 0
+    // "This worn-out lot is our paradise![f000]븁\u0000\nWe're not gonna let some stranger\ncome in and trash the place![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 3, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 755, 0, 0
     VMCall L_0382
-    ActorMsg 1024, 5, 3, 0, 0
+    // "What's with you anyway?!\nYour fighting has a tight rhythm.[f000]븀\u0000\nI was groovin' with it before I knew it!"
+    ActorMsg MSGFILE_SCRIPT, 5, 3, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 3, Movement_03CC
@@ -160,11 +170,13 @@ L_020B:
     VMReturn
 
 L_0265:
-    ActorMsg 1024, 8, 2, 0, 0
+    // "You made my crew cry![f000]븁\u0000\nI'm gonna pay you back in spades![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 2, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 756, 0, 0
     VMCall L_0382
-    ActorMsg 1024, 9, 2, 0, 0
+    // "People like you deserve a Medal...[f000]븁\u0000\nOK. I've decided.\nYou're the new boss of this area!"
+    ActorMsg MSGFILE_SCRIPT, 9, 2, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 2, Movement_03E4
@@ -177,8 +189,8 @@ L_0265:
 L_02AB:
     VMStackPush 0x4147
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02F4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02F4
     ActorSetGPos 255, 17, 0, 6, 3
     ActorSetGPos 2, 17, 0, 4, 1
     ActorSetGPos 4, 18, 0, 6, 2
@@ -188,8 +200,8 @@ L_02AB:
 L_02F4:
     VMStackPush 0x4147
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_033D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_033D
     ActorSetGPos 255, 17, 0, 6, 2
     ActorSetGPos 2, 17, 0, 4, 1
     ActorSetGPos 4, 19, 0, 5, 1
@@ -199,8 +211,8 @@ L_02F4:
 L_033D:
     VMStackPush 0x4147
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0380
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0380
     ActorSetGPos 255, 17, 0, 6, 0
     ActorSetGPos 2, 17, 0, 5, 1
     ActorSetGPos 4, 19, 0, 5, 2
@@ -213,8 +225,8 @@ L_0382:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03A7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03A7
     VMCall L_02AB
     CallTrainerBattleEnd
     VMJump L_03A9

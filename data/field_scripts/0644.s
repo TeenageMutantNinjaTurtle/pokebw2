@@ -25,18 +25,18 @@ Script_1:
 L_0052:
     VMStackPush 0x8020
     VMStackPush 0x8021
-    VMStackCmp 2
-    VMJumpIf 255, L_00A6
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_00A6
     PokePartyIsFullHP 0x8022, 0x8021
     PokePartyIsFullPP 0x8023, 0x8021
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_009A
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_009A
     WorkAdd 0x8024, 1
 
 L_009A:
@@ -46,9 +46,10 @@ L_009A:
 L_00A6:
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 4
-    VMJumpIf 255, L_00FD
-    ActorMsg 1024, 11, 0, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_00FD
+    // "Oh my...\nYour Pokémon...[f000]븁\u0000\nThey don't seem to be healthy.\nLet them rest here a little bit![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 0, 0, 0
     ActorMsgClose
     FadeEx 3, 0, 16, 2
     FadeExWait
@@ -57,13 +58,15 @@ L_00A6:
     MEWait
     FadeEx 3, 16, 0, 2
     FadeExWait
-    ActorMsg 1024, 10, 0, 0, 0
+    // "Your Pokémon are really energetic!"
+    ActorMsg MSGFILE_SCRIPT, 10, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_010D
 
 L_00FD:
-    ActorMsg 1024, 10, 0, 0, 0
+    // "Your Pokémon are really energetic!"
+    ActorMsg MSGFILE_SCRIPT, 10, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -81,7 +84,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "We don't raise little ones,\nwe help them grow.[f000]븁\u0000\nThat's what I think, and the Day-Care\nCouple next door feels the same."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -92,19 +96,22 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Are you aware of the Pokémon Ability\nFlame Body?"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_018A
-    ParentActorMsg 1024, 2, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_018A
+    // "Impressive! I often see\nVolcarona on Route 3!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0198
 
 L_018A:
-    ParentActorMsg 1024, 3, 0, 0
+    // "OK! Listen to this, then.[f000]븁\u0000\nWhen a Pokémon with the Flame Body\nAbility is with you, Eggs hatch faster!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -117,7 +124,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "Nice guys from Striaton City\ngave this preschool its Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -128,7 +136,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "I'm gonna be a Pokémon\nwhen I grow up!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -139,7 +148,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "Pokémon Trainers are here\nbecause of Pokémon![f000]븁\u0000\nPokémon are here\nbecause of Pokémon Trainers![f000]븁\u0000\nI wonder which one came first?"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -151,7 +161,8 @@ Script_7:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 511, 0
-    ParentActorMsg 1024, 7, 0, 0
+    // "Ega snap!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -164,7 +175,8 @@ Script_8:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 513, 0
-    ParentActorMsg 1024, 8, 0, 0
+    // "Rae snap!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -177,7 +189,8 @@ Script_9:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 515, 0
-    ParentActorMsg 1024, 9, 0, 0
+    // "Ruo pnap!"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

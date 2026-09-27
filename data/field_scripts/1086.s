@@ -10,7 +10,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Sometimes you can learn about\nPokémon moves and items[f000]븀\u0000\non TV programs."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -21,7 +22,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Some Pokémon evolve by trade![f000]븁\u0000\nCool, right?\nWhy do they evolve?!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -33,7 +35,8 @@ Script_3:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 504, 0
-    ParentActorMsg 1024, 2, 0, 0
+    // "Queak, queak!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -45,7 +48,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "You might be able to learn something\nif you check out battles between people[f000]븀\u0000\nwho are stronger than you."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

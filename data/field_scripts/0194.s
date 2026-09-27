@@ -34,13 +34,13 @@ Script_10:
     TrainerCardHasBadge 0x8008, 4
     VMStackPush 0x8008
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00AE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00AE
     ActorSetGPos 0, 9, 0, 84, 1
     VMStackPushFlag 1001
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00AE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00AE
     ActorSetGPos 7, 11, 1, 72, 1
 
 L_00AE:
@@ -63,16 +63,17 @@ Script_1:
     TrainerCardHasBadge 0x8008, 4
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02E9
-    ActorMsg 1024, 0, 7, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02E9
+    // "Harrumph! Kept me waitin', didn't ya, kid?[f000]븁\u0000\nAll right, time to see what\nya can do![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 7, 0, 0
     ActorMsgClose
     WorkSetConst 0x8021, 0
     GameGetDifficulty 0x8021
     VMStackPush 0x8021
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_011C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_011C
     CallTrainerBattle 768, 0, 0
     VMJump L_0124
 
@@ -84,8 +85,8 @@ L_0124:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0149
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0149
     CallTrainerBattleEnd
     VMJump L_014B
 
@@ -93,7 +94,8 @@ L_0149:
     CallTrainerLose
 
 L_014B:
-    ActorMsg 1024, 1, 7, 0, 0
+    // "Phew...\nYou're really somethin'![f000]븁\u0000\nLi'l whippersnapper Trainers\nwho pack a real punch keep[f000]븀\u0000\nshowin' up one after another.[f000]븁\u0000\nMrmph.\nHere! Take this![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 7, 0, 0
     ActorMsgClose
     TrainerCardSaveGymVictoryParty 4
     TrainerCardAddBadge 4
@@ -102,8 +104,8 @@ L_014B:
     TrainerCardGetSex 0x8022
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_018C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_018C
     PlayFieldEffect 7
     VMJump L_0190
 
@@ -114,9 +116,11 @@ L_0190:
     MEWait
     WorkSetConst 0x8022, 0
     WordSetPlayerName 0
+    // "[f000]Ā\u0001\u0000 received the Quake Badge\nfrom Clay![f000]븁\u0000"
     SystemMsg 2, 0
     InfoMsgClose
-    ActorMsg 1024, 3, 7, 0, 0
+    // "So this is yer fifth Badge, huh?[f000]븁\u0000\nIf that's so, Pokémon up to Lv. 60\nwill obey ya.[f000]븁\u0000\nHere!\nTake this, too![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 7, 0, 0
     ActorMsgClose
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -138,7 +142,7 @@ L_0190:
     VMSleep 30
     PlayerGetDir 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_0216
+    VMJumpIf CMP_EQ, L_0216
     VMJump L_0224
 
 L_0216:
@@ -147,7 +151,7 @@ L_0216:
 
 L_0224:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_0237
+    VMJumpIf CMP_EQ, L_0237
     VMJump L_0245
 
 L_0237:
@@ -156,11 +160,12 @@ L_0237:
 
 L_0245:
     ActorCmdWait
-    ActorMsg 1024, 5, 7, 0, 0
+    // "Well, I suppose...\nCome thisaway![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 7, 0, 0
     ActorMsgClose
     ActorCmdExec 7, Movement_06A4
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_0270
+    VMJumpIf CMP_EQ, L_0270
     VMJump L_028C
 
 L_0270:
@@ -172,7 +177,7 @@ L_0270:
 
 L_028C:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_029F
+    VMJumpIf CMP_EQ, L_029F
     VMJump L_02B1
 
 L_029F:
@@ -199,15 +204,17 @@ L_02B1:
 L_02E9:
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0312
-    ActorMsg 1024, 6, 7, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0312
+    // "Clay: Mrrmph! You, huh?\nRemember what I done told ya?[f000]븁\u0000\nIf ya think ya can go, go wherever,\nand if ya think ya can do somethin',[f000]븀\u0000\nkeep doin' it.[f000]븁\u0000\nDo things how ya want!\nDecide yer own limits."
+    ActorMsg MSGFILE_SCRIPT, 6, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0322
 
 L_0312:
-    ActorMsg 1024, 4, 7, 0, 0
+    // "I don't know how much potential ya got,\nbut if ya think ya can go, go wherever,[f000]븀\u0000\nand if ya think ya can do somethin',[f000]븀\u0000\nkeep doin' it.[f000]븁\u0000\nDo things how ya want!\nDecide yer own limits."
+    ActorMsg MSGFILE_SCRIPT, 4, 7, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -223,13 +230,14 @@ Script_3:
     TrainerCardHasBadge 0x8008, 4
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03B4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03B4
     VMStackPushFlag 111
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03A0
-    ParentActorMsg 1024, 21, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03A0
+    // "Welcome to the Driftveil Gym!\nThis is for you![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
     ActorMsgClose
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -238,14 +246,16 @@ Script_3:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 22, 0, 0
+    // "Gym Leader Clay uses\nGround-type Pokémon![f000]븁\u0000\nWell, just between you and me,\nGround-type Pokémon aren't good against[f000]븀\u0000\nWater-type attacks.[f000]븁\u0000\nThey also don't like Grass-\nor Ice-type attacks![f000]븁\u0000\nOh, and in this Gym, the area you\nwalk on will light up.[f000]븁\u0000\nWhere you've been is a hint\nfor where you need to go!"
+    ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
     LastKeyWait
     ActorMsgClose
     FlagSet 111
     VMJump L_03AE
 
 L_03A0:
-    ParentActorMsg 1024, 22, 0, 0
+    // "Gym Leader Clay uses\nGround-type Pokémon![f000]븁\u0000\nWell, just between you and me,\nGround-type Pokémon aren't good against[f000]븀\u0000\nWater-type attacks.[f000]븁\u0000\nThey also don't like Grass-\nor Ice-type attacks![f000]븁\u0000\nOh, and in this Gym, the area you\nwalk on will light up.[f000]븁\u0000\nWhere you've been is a hint\nfor where you need to go!"
+    ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -253,7 +263,8 @@ L_03AE:
     VMJump L_03C2
 
 L_03B4:
-    ParentActorMsg 1024, 23, 0, 0
+    // "Every now and again, I hope you look at\nthe Quake Badge you won here and[f000]븀\u0000\nremember your battle with Clay!"
+    ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -329,6 +340,7 @@ Script_7:
 L_04B0:
     SEPlay 1351
     WordSetPlayerName 0
+    // "[f000]Ā\u0001\u0000 pressed the\nswitch on the elevator!"
     InfoMsg 24, 2
     MsgWaitAdvance
     MsgWinCloseAll
@@ -338,7 +350,7 @@ L_04C2:
     EvCameraInit
     EvCameraUnbind
     WorkCmpConst 0x8020, 0
-    VMJumpIf 1, L_04D9
+    VMJumpIf CMP_EQ, L_04D9
     VMJump L_04F7
 
 L_04D9:
@@ -347,7 +359,7 @@ L_04D9:
 
 L_04F7:
     WorkCmpConst 0x8020, 1
-    VMJumpIf 1, L_050A
+    VMJumpIf CMP_EQ, L_050A
     VMJump L_0528
 
 L_050A:
@@ -356,7 +368,7 @@ L_050A:
 
 L_0528:
     WorkCmpConst 0x8020, 2
-    VMJumpIf 1, L_053B
+    VMJumpIf CMP_EQ, L_053B
     VMJump L_0559
 
 L_053B:
@@ -365,7 +377,7 @@ L_053B:
 
 L_0559:
     WorkCmpConst 0x8020, 3
-    VMJumpIf 1, L_056C
+    VMJumpIf CMP_EQ, L_056C
     VMJump L_058A
 
 L_056C:
@@ -379,7 +391,7 @@ L_058C:
     EvCameraWait
     LastKeyWait
     WorkCmpConst 0x8020, 0
-    VMJumpIf 1, L_05A3
+    VMJumpIf CMP_EQ, L_05A3
     VMJump L_05C1
 
 L_05A3:
@@ -388,7 +400,7 @@ L_05A3:
 
 L_05C1:
     WorkCmpConst 0x8020, 1
-    VMJumpIf 1, L_05D4
+    VMJumpIf CMP_EQ, L_05D4
     VMJump L_05F2
 
 L_05D4:
@@ -397,7 +409,7 @@ L_05D4:
 
 L_05F2:
     WorkCmpConst 0x8020, 2
-    VMJumpIf 1, L_0605
+    VMJumpIf CMP_EQ, L_0605
     VMJump L_0623
 
 L_0605:
@@ -406,7 +418,7 @@ L_0605:
 
 L_0623:
     WorkCmpConst 0x8020, 3
-    VMJumpIf 1, L_0636
+    VMJumpIf CMP_EQ, L_0636
     VMJump L_0654
 
 L_0636:
@@ -426,6 +438,7 @@ Script_8:
     ActorsPauseAll
     WordSetPlayerName 0
     SEPlay 1740
+    // "[f000]Ā\u0001\u0000 pressed the\nswitch on the elevator!"
     InfoMsg 24, 2
     SEWait
     MsgWaitAdvance
@@ -526,21 +539,22 @@ Script_11:
     ActorsPauseAll
     VMStackPush 0x40b9
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_07C4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07C4
     SEPlay 1351
     ActorSetEyeToEye
     ActorCmdExec 6, Movement_0744
     TrainerBGMPlayPush 324
     ActorCmdWait
-    ParentActorMsg 1024, 7, 0, 0
+    // "My Pokémon dig because they\nbelieve they're gonna find something,[f000]븀\u0000\nand they battle because they believe[f000]븀\u0000\nthey're gonna win![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 324, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_07A8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07A8
     CallTrainerBattleEnd
     VMJump L_07AA
 
@@ -548,7 +562,8 @@ L_07A8:
     CallTrainerLose
 
 L_07AA:
-    ParentActorMsg 1024, 8, 0, 0
+    // "Clay's awesome!\nHe can just tell if minerals will be there![f000]븁\u0000\nGot it? Another way to say it is\nthat Clay will be wherever[f000]븀\u0000\nthere are oodles of ores!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40b9, 1
@@ -557,7 +572,8 @@ L_07AA:
 L_07C4:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "Clay's awesome!\nHe can just tell if minerals will be there![f000]븁\u0000\nGot it? Another way to say it is\nthat Clay will be wherever[f000]븀\u0000\nthere are oodles of ores!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -575,7 +591,7 @@ Script_18:
     WorkSetConst 0x8024, 0
     PlayerGetGPos 0x8023, 0x8024
     WorkCmpConst 0x8023, 5
-    VMJumpIf 1, L_0813
+    VMJumpIf CMP_EQ, L_0813
     VMJump L_0821
 
 L_0813:
@@ -584,7 +600,7 @@ L_0813:
 
 L_0821:
     WorkCmpConst 0x8023, 6
-    VMJumpIf 1, L_0834
+    VMJumpIf CMP_EQ, L_0834
     VMJump L_0842
 
 L_0834:
@@ -593,7 +609,7 @@ L_0834:
 
 L_0842:
     WorkCmpConst 0x8023, 7
-    VMJumpIf 1, L_0855
+    VMJumpIf CMP_EQ, L_0855
     VMJump L_0863
 
 L_0855:
@@ -602,7 +618,7 @@ L_0855:
 
 L_0863:
     WorkCmpConst 0x8023, 8
-    VMJumpIf 1, L_0876
+    VMJumpIf CMP_EQ, L_0876
     VMJump L_0884
 
 L_0876:
@@ -616,14 +632,15 @@ L_088C:
     ActorCmdWait
     ActorCmdExec 255, Movement_0714
     ActorCmdWait
-    ActorMsg 1024, 7, 6, 0, 0
+    // "My Pokémon dig because they\nbelieve they're gonna find something,[f000]븀\u0000\nand they battle because they believe[f000]븀\u0000\nthey're gonna win![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 6, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 324, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_08CD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08CD
     CallTrainerBattleEnd
     VMJump L_08CF
 
@@ -631,7 +648,8 @@ L_08CD:
     CallTrainerLose
 
 L_08CF:
-    ActorMsg 1024, 8, 6, 0, 0
+    // "Clay's awesome!\nHe can just tell if minerals will be there![f000]븁\u0000\nGot it? Another way to say it is\nthat Clay will be wherever[f000]븀\u0000\nthere are oodles of ores!"
+    ActorMsg MSGFILE_SCRIPT, 8, 6, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40b9, 1
@@ -645,21 +663,22 @@ Script_12:
     ActorsPauseAll
     VMStackPush 0x40ba
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_096F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_096F
     SEPlay 1351
     ActorSetEyeToEye
     ActorCmdExec 1, Movement_0744
     TrainerBGMPlayPush 323
     ActorCmdWait
-    ParentActorMsg 1024, 9, 0, 0
+    // "The one you meet when you get on this\nconveyor is none other than me![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 323, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0953
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0953
     CallTrainerBattleEnd
     VMJump L_0955
 
@@ -667,7 +686,8 @@ L_0953:
     CallTrainerLose
 
 L_0955:
-    ParentActorMsg 1024, 10, 0, 0
+    // "Have you used the elevator?[f000]븁\u0000\nIf you get on the elevator,\nyou can figure out where you[f000]븀\u0000\nhaven't been, right?"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40ba, 1
@@ -676,7 +696,8 @@ L_0955:
 L_096F:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "Have you used the elevator?[f000]븁\u0000\nIf you get on the elevator,\nyou can figure out where you[f000]븀\u0000\nhaven't been, right?"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -694,7 +715,7 @@ Script_19:
     WorkSetConst 0x8026, 0
     PlayerGetGPos 0x8025, 0x8026
     WorkCmpConst 0x8026, 61
-    VMJumpIf 1, L_09BE
+    VMJumpIf CMP_EQ, L_09BE
     VMJump L_09CC
 
 L_09BE:
@@ -708,14 +729,15 @@ L_09D4:
     ActorCmdWait
     ActorCmdExec 255, Movement_070C
     ActorCmdWait
-    ActorMsg 1024, 9, 1, 0, 0
+    // "The one you meet when you get on this\nconveyor is none other than me![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 1, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 323, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0A15
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A15
     CallTrainerBattleEnd
     VMJump L_0A17
 
@@ -723,7 +745,8 @@ L_0A15:
     CallTrainerLose
 
 L_0A17:
-    ActorMsg 1024, 10, 1, 0, 0
+    // "Have you used the elevator?[f000]븁\u0000\nIf you get on the elevator,\nyou can figure out where you[f000]븀\u0000\nhaven't been, right?"
+    ActorMsg MSGFILE_SCRIPT, 10, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40ba, 1
@@ -737,21 +760,22 @@ Script_13:
     ActorsPauseAll
     VMStackPush 0x40bb
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0AB7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0AB7
     SEPlay 1351
     ActorSetEyeToEye
     ActorCmdExec 2, Movement_0744
     TrainerBGMPlayPush 321
     ActorCmdWait
-    ParentActorMsg 1024, 15, 0, 0
+    // "I have a riddle for you!\nDo you know what is distant but close?[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 321, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0A9B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A9B
     CallTrainerBattleEnd
     VMJump L_0A9D
 
@@ -759,7 +783,8 @@ L_0A9B:
     CallTrainerLose
 
 L_0A9D:
-    ParentActorMsg 1024, 16, 0, 0
+    // "Something distant but close...[f000]븁\u0000\nI'm talking about Clay, who is near here\nbut is rather reserved.[f000]븁\u0000\nSorry... I think you were expecting\nsomething more interesting!"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40bb, 1
@@ -768,7 +793,8 @@ L_0A9D:
 L_0AB7:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 16, 0, 0
+    // "Something distant but close...[f000]븁\u0000\nI'm talking about Clay, who is near here\nbut is rather reserved.[f000]븁\u0000\nSorry... I think you were expecting\nsomething more interesting!"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -784,14 +810,15 @@ Script_20:
     ActorCmdWait
     ActorCmdExec 255, Movement_0704
     ActorCmdWait
-    ActorMsg 1024, 15, 2, 0, 0
+    // "I have a riddle for you!\nDo you know what is distant but close?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 2, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 321, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0B20
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B20
     CallTrainerBattleEnd
     VMJump L_0B22
 
@@ -799,7 +826,8 @@ L_0B20:
     CallTrainerLose
 
 L_0B22:
-    ActorMsg 1024, 16, 2, 0, 0
+    // "Something distant but close...[f000]븁\u0000\nI'm talking about Clay, who is near here\nbut is rather reserved.[f000]븁\u0000\nSorry... I think you were expecting\nsomething more interesting!"
+    ActorMsg MSGFILE_SCRIPT, 16, 2, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40bb, 1
@@ -811,21 +839,22 @@ Script_14:
     ActorsPauseAll
     VMStackPush 0x40bc
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0BB6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0BB6
     SEPlay 1351
     ActorSetEyeToEye
     ActorCmdExec 3, Movement_0744
     TrainerBGMPlayPush 322
     ActorCmdWait
-    ParentActorMsg 1024, 11, 0, 0
+    // "Just because you work hard doesn't\nmean you're gonna get what you want![f000]븁\u0000\nBut if you don't work hard,\nthere are many things you can't do.[f000]븁\u0000\nLet me show you how tough\nmy hard work has made me![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 322, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0B9A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B9A
     CallTrainerBattleEnd
     VMJump L_0B9C
 
@@ -833,7 +862,8 @@ L_0B9A:
     CallTrainerLose
 
 L_0B9C:
-    ParentActorMsg 1024, 12, 0, 0
+    // "Driftveil City's Pokémon Gym is soaked in\nthe sweat and tears of the Pokémon that[f000]븀\u0000\nworked so hard to dig it out of the rock.[f000]븀\u0000\nSo...well...it smells kinda funny!"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40bc, 1
@@ -842,7 +872,8 @@ L_0B9C:
 L_0BB6:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 12, 0, 0
+    // "Driftveil City's Pokémon Gym is soaked in\nthe sweat and tears of the Pokémon that[f000]븀\u0000\nworked so hard to dig it out of the rock.[f000]븀\u0000\nSo...well...it smells kinda funny!"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -858,14 +889,15 @@ Script_21:
     ActorCmdWait
     ActorCmdExec 3, Movement_06F4
     ActorCmdWait
-    ActorMsg 1024, 11, 3, 0, 0
+    // "Just because you work hard doesn't\nmean you're gonna get what you want![f000]븁\u0000\nBut if you don't work hard,\nthere are many things you can't do.[f000]븁\u0000\nLet me show you how tough\nmy hard work has made me![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 3, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 322, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0C1F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0C1F
     CallTrainerBattleEnd
     VMJump L_0C21
 
@@ -873,7 +905,8 @@ L_0C1F:
     CallTrainerLose
 
 L_0C21:
-    ActorMsg 1024, 12, 3, 0, 0
+    // "Driftveil City's Pokémon Gym is soaked in\nthe sweat and tears of the Pokémon that[f000]븀\u0000\nworked so hard to dig it out of the rock.[f000]븀\u0000\nSo...well...it smells kinda funny!"
+    ActorMsg MSGFILE_SCRIPT, 12, 3, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40bc, 1
@@ -885,21 +918,22 @@ Script_15:
     ActorsPauseAll
     VMStackPush 0x40bd
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0CB5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0CB5
     SEPlay 1351
     ActorSetEyeToEye
     ActorCmdExec 4, Movement_0744
     TrainerBGMPlayPush 320
     ActorCmdWait
-    ParentActorMsg 1024, 13, 0, 0
+    // "Me and my Pokémon are\nprofessional tunnelers![f000]븁\u0000\nMy Pokémon can't be outdug\nor outburrowed! We have no rival![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 320, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0C99
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0C99
     CallTrainerBattleEnd
     VMJump L_0C9B
 
@@ -907,7 +941,8 @@ L_0C99:
     CallTrainerLose
 
 L_0C9B:
-    ParentActorMsg 1024, 14, 0, 0
+    // "Drilbur and Excadrill know the move\nDrill Run![f000]븁\u0000\nWhen I order them to use that move,\nI get all wound up!"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40bd, 1
@@ -916,7 +951,8 @@ L_0C9B:
 L_0CB5:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 14, 0, 0
+    // "Drilbur and Excadrill know the move\nDrill Run![f000]븁\u0000\nWhen I order them to use that move,\nI get all wound up!"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -932,14 +968,15 @@ Script_22:
     ActorCmdWait
     ActorCmdExec 255, Movement_070C
     ActorCmdWait
-    ActorMsg 1024, 13, 4, 0, 0
+    // "Me and my Pokémon are\nprofessional tunnelers![f000]븁\u0000\nMy Pokémon can't be outdug\nor outburrowed! We have no rival![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 4, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 320, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0D1E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0D1E
     CallTrainerBattleEnd
     VMJump L_0D20
 
@@ -947,7 +984,8 @@ L_0D1E:
     CallTrainerLose
 
 L_0D20:
-    ActorMsg 1024, 14, 4, 0, 0
+    // "Drilbur and Excadrill know the move\nDrill Run![f000]븁\u0000\nWhen I order them to use that move,\nI get all wound up!"
+    ActorMsg MSGFILE_SCRIPT, 14, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40bd, 1
@@ -959,21 +997,22 @@ Script_16:
     ActorsPauseAll
     VMStackPush 0x40be
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0DB4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0DB4
     SEPlay 1351
     ActorSetEyeToEye
     ActorCmdExec 5, Movement_0744
     TrainerBGMPlayPush 319
     ActorCmdWait
-    ParentActorMsg 1024, 17, 0, 0
+    // "Here in the darkness...[f000]븁\u0000\nI proceeded step by step\nwhile feeling my Pokémon's every breath![f000]븁\u0000\nI'll show you the power of the bonds\nmy Pokémon and I built in this way![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 319, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0D98
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0D98
     CallTrainerBattleEnd
     VMJump L_0D9A
 
@@ -981,7 +1020,8 @@ L_0D98:
     CallTrainerLose
 
 L_0D9A:
-    ParentActorMsg 1024, 18, 0, 0
+    // "Isn't darkness great?[f000]븁\u0000\nIt's the space of dreams where\nyou don't know what's even there!"
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40be, 1
@@ -990,7 +1030,8 @@ L_0D9A:
 L_0DB4:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 18, 0, 0
+    // "Isn't darkness great?[f000]븁\u0000\nIt's the space of dreams where\nyou don't know what's even there!"
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -1006,14 +1047,15 @@ Script_23:
     ActorCmdWait
     ActorCmdExec 255, Movement_0704
     ActorCmdWait
-    ActorMsg 1024, 17, 5, 0, 0
+    // "Here in the darkness...[f000]븁\u0000\nI proceeded step by step\nwhile feeling my Pokémon's every breath![f000]븁\u0000\nI'll show you the power of the bonds\nmy Pokémon and I built in this way![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 17, 5, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 319, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0E1D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0E1D
     CallTrainerBattleEnd
     VMJump L_0E1F
 
@@ -1021,7 +1063,8 @@ L_0E1D:
     CallTrainerLose
 
 L_0E1F:
-    ActorMsg 1024, 18, 5, 0, 0
+    // "Isn't darkness great?[f000]븁\u0000\nIt's the space of dreams where\nyou don't know what's even there!"
+    ActorMsg MSGFILE_SCRIPT, 18, 5, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40be, 1
@@ -1033,21 +1076,22 @@ Script_17:
     ActorsPauseAll
     VMStackPush 0x40bf
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0EB3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0EB3
     SEPlay 1351
     ActorSetEyeToEye
     ActorCmdExec 8, Movement_0744
     TrainerBGMPlayPush 325
     ActorCmdWait
-    ParentActorMsg 1024, 19, 0, 0
+    // "When I say dig,\nyou say, “How low?\"[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 325, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0E97
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0E97
     CallTrainerBattleEnd
     VMJump L_0E99
 
@@ -1055,7 +1099,8 @@ L_0E97:
     CallTrainerLose
 
 L_0E99:
-    ParentActorMsg 1024, 20, 0, 0
+    // "Life is filled with pitfalls!\nIf you fall in, do your best to crawl out!"
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40bf, 1
@@ -1064,7 +1109,8 @@ L_0E99:
 L_0EB3:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 20, 0, 0
+    // "Life is filled with pitfalls!\nIf you fall in, do your best to crawl out!"
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -1080,14 +1126,15 @@ Script_24:
     ActorCmdWait
     ActorCmdExec 8, Movement_06FC
     ActorCmdWait
-    ActorMsg 1024, 19, 8, 0, 0
+    // "When I say dig,\nyou say, “How low?\"[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 19, 8, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 325, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0F1C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0F1C
     CallTrainerBattleEnd
     VMJump L_0F1E
 
@@ -1095,7 +1142,8 @@ L_0F1C:
     CallTrainerLose
 
 L_0F1E:
-    ActorMsg 1024, 20, 8, 0, 0
+    // "Life is filled with pitfalls!\nIf you fall in, do your best to crawl out!"
+    ActorMsg MSGFILE_SCRIPT, 20, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40bf, 1

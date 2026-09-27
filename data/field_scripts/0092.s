@@ -15,8 +15,8 @@ Script_1:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 10
-    VMStackCmp 1
-    VMJumpIf 255, L_006B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_006B
     WorkSub 0x8022, 1
     ActorWalkRoute 2, 0x8021, 0x8022, 1, 8, 1
     ActorCmdWait
@@ -30,7 +30,8 @@ L_006B:
     ActorCmdWait
 
 L_0081:
-    ActorMsg 1024, 0, 2, 5, 0
+    // "Oh! You are the Pokémon Trainer\nI met at the entrance![f000]븁\u0000\nYou've come this far. That means\nyou must be quite strong.[f000]븁\u0000\nAre you prepared to face the strongest\nperson in this building?[f000]븁\u0000\nThen, the time has come to challenge\nmy grandson, the company president![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 2, 5, 0
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     ActorCmdExec 2, Movement_019C
@@ -38,8 +39,8 @@ L_0081:
     ActorCmdWait
     VMStackPush 0x8021
     VMStackPushConst 11
-    VMStackCmp 1
-    VMJumpIf 255, L_00E0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E0
     WorkSub 0x8022, 1
     ActorWalkRoute 1, 0x8021, 0x8022, 1, 8, 1
     ActorCmdWait
@@ -53,14 +54,17 @@ L_00E0:
     ActorCmdWait
 
 L_00F6:
-    ActorMsg 1024, 1, 1, 3, 0
+    // "I'll show you just how much\nthis Battle Company has researched[f000]븀\u0000\nPokémon and Trainers![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 1, 3, 0
     MsgWinCloseAll
     CallTrainerBattle 503, 0, 0
     VMCall L_013E
-    ActorMsg 1024, 2, 1, 3, 0
+    // "I lost...[f000]븁\u0000\nBecause you were strong,\nand I was weak.[f000]븁\u0000\nWe must do even more research\nfor Pokémon and for Trainers!"
+    ActorMsg MSGFILE_SCRIPT, 2, 1, 3, 0
     MsgWaitAdvance
     MsgWinCloseAll
-    ActorMsg 1024, 3, 2, 5, 0
+    // "Thinking that when you win\nit's because of your Pokémon[f000]븀\u0000\nand that when you lose[f000]븀\u0000\nit's because of yourself[f000]븀\u0000\nmight make you stronger...[f000]븁\u0000\nBut enjoying yourself\nis much, much more important!"
+    ActorMsg MSGFILE_SCRIPT, 3, 2, 5, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40fd, 1
@@ -72,8 +76,8 @@ L_013E:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_015D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_015D
     CallTrainerBattleEnd
     VMJump L_015F
 
@@ -87,7 +91,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "If you want to make a weak\nPokémon stronger, you should[f000]븀\u0000\nuse that Exp. Share.[f000]븁\u0000\nAny Pokémon that holds it receives\nExp. Points, even when it doesn't[f000]븀\u0000\nparticipate in battle!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -98,7 +103,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "My dream as president is to\nrelease a device that lets[f000]븀\u0000\npeople talk to Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

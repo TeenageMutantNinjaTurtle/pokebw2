@@ -8,6 +8,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Virbank Complex\nWhere Fire Meets Steel"
     MsgPlaceSign 0, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -21,51 +22,58 @@ Script_2:
     ActorSetEyeToEye
     VMStackPushFlag 2763
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0102
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0102
+    // "Yo! This is a good deal.[f000]븁\u0000\nWhy don't you trade your Poké Ball\nfor my Great Ball?"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00EE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00EE
     VMCall L_0116
     WorkCmpConst 0x8020, 0
-    VMJumpIf 1, L_007F
+    VMJumpIf CMP_EQ, L_007F
     VMJump L_008F
 
 L_007F:
-    ParentActorMsg 1024, 3, 0, 0
+    // "Oh! Seriously? You must be kidding.\nDon't you have a Poké Ball?!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     VMJump L_00E8
 
 L_008F:
     WorkCmpConst 0x8020, 1
-    VMJumpIf 1, L_00A2
+    VMJumpIf CMP_EQ, L_00A2
     VMJump L_00B2
 
 L_00A2:
-    ParentActorMsg 1024, 6, 0, 0
+    // "Oh! Seriously? You must be kidding.\nYou have way too many Great Balls!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     VMJump L_00E8
 
 L_00B2:
-    ParentActorMsg 1024, 2, 0, 0
+    // "Heh, thanks! Enjoy the Great Ball!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     WordSetItemName 0, 4
     WordSetItemName 2, 3
     MEPlay 1302
+    // "Gave the [f000]ĉ\u0001\u0000 in exchange for\nthe [f000]ĉ\u0001\u0002!"
     SystemMsg 7, 0
     MEWait
     MsgWaitAdvance
     MsgWinCloseAll
-    ParentActorMsg 1024, 5, 0, 0
+    // "See? It's a good deal, isn't it?\nWe can trade again tomorrow if you want!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     FlagSet 2763
 
 L_00E8:
     VMJump L_00F8
 
 L_00EE:
-    ParentActorMsg 1024, 4, 0, 0
+    // "Oh! Seriously? You must be kidding.\nUsually people are happy to trade!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
 
 L_00F8:
     LastKeyWait
@@ -73,7 +81,8 @@ L_00F8:
     VMJump L_0110
 
 L_0102:
-    ParentActorMsg 1024, 5, 0, 0
+    // "See? It's a good deal, isn't it?\nWe can trade again tomorrow if you want!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -83,25 +92,25 @@ L_0110:
     VMHalt
 
 L_0116:
-    ItemCheckAmount 4, 1, 0x8010
+    ItemCheckAmount ITEM_POKE_BALL, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0139
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0139
     WorkSetConst 0x8020, 0
     VMReturn
 
 L_0139:
-    ItemCheckSpace 3, 1, 0x8010
+    ItemCheckSpace ITEM_GREAT_BALL, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_015C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_015C
     WorkSetConst 0x8020, 1
     VMReturn
 
 L_015C:
-    ItemSub 4, 1, 0x8010
-    ItemAdd 3, 1, 0x8010
+    ItemSub ITEM_POKE_BALL, 1, 0x8010
+    ItemAdd ITEM_GREAT_BALL, 1, 0x8010
     WorkSetConst 0x8020, 2
     VMReturn

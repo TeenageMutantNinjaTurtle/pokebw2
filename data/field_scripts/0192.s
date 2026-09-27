@@ -48,8 +48,8 @@ Script_12:
     FlagReset 956
     VMStackPush 0x40c3
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00E5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E5
     ObjInitNPCGPos 2, 2, 198, 2, 396
     ObjInitNPCGPos 4, 3, 197, 2, 396
     VMJump L_015A
@@ -57,8 +57,8 @@ Script_12:
 L_00E5:
     VMStackPush 0x40c3
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0116
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0116
     ObjInitNPCGPos 2, 1, 198, 2, 396
     ObjInitNPCGPos 4, 1, 197, 2, 396
     VMJump L_015A
@@ -66,16 +66,16 @@ L_00E5:
 L_0116:
     VMStackPush 0x40c3
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_013B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_013B
     ObjInitNPCGPos 5, 1, 211, 0, 403
     VMJump L_015A
 
 L_013B:
     VMStackPush 0x40c3
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_015A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_015A
     ObjInitNPCGPos 5, 2, 213, 0, 405
 
 L_015A:
@@ -92,29 +92,36 @@ Script_14:
     ActorCmdExec 6, Movement_0E24
     ActorCmdWait
     WordSetLoadRivalName 1
-    ActorMsg 1024, 27, 5, 5, 0
+    // "[f000]Ā\u0001\u0001: You got a Gym Badge, too!\nI knew you could do it![f000]븁\u0000\nYou know... My partners are the reason\nI was able to get that Badge.[f000]븁\u0000\nBut I'm sure there's more connecting\nus to each other than Poké Balls![f000]븁\u0000\nIf that's all there is, the stolen\nPurrloin's feelings will never be[f000]븀\u0000\nwhat they were![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 27, 5, 5, 0
     MsgWinCloseAll
     ActorCmdExec 6, Movement_0280
     VMSleep 16
     ActorCmdExec 5, Movement_0E34
     ActorCmdExec 255, Movement_0E34
     ActorCmdWait
-    ActorMsg 1024, 28, 6, 3, 0
+    // "Clay: Oh, so you two squirts\nknow each other, huh?[f000]븁\u0000\nYa both ain't bad, so\nI wanna show ya somethin'.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 28, 6, 3, 0
     MsgWinCloseAll
-    ActorMsg 1024, 29, 5, 6, 0
+    // "[f000]Ā\u0001\u0001: Wait!\nI just remembered. Clay...[f000]븁\u0000\nWhy? What's the reason?\nWhy have you forgiven Team Plasma?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 29, 5, 6, 0
     MsgWinCloseAll
-    ActorMsg 1024, 30, 6, 3, 0
+    // "Clay: There's always room for folks\nto grow and change, ain't there?[f000]븁\u0000\nAnd, if ya only go after what ya think is\nright, ya might end up rejectin' all[f000]븀\u0000\nthoughts and opinions other than[f000]븀\u0000\nyer own. That's mighty dangerous.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 30, 6, 3, 0
     MsgWinCloseAll
-    ActorMsg 1024, 31, 5, 6, 0
+    // "[f000]Ā\u0001\u0001: Hmph...\nIs that one of those compromises[f000]븀\u0000\nadults are supposed to make?[f000]븁\u0000\nWhatever!\nI'm gonna fight Team Plasma![f000]븁\u0000\nOh yeah, what were you wanting\nto show us?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 31, 5, 6, 0
     MsgWinCloseAll
-    ActorMsg 1024, 32, 6, 3, 0
+    // "Clay: Ya ever heard of the\nPokémon World Tournament?[f000]븁\u0000\nTrainers from all over the world\ngather on up to see who's toughest![f000]븁\u0000\nWell then, I'll be waitin' for you at the\nsouth end of town![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 32, 6, 3, 0
     MsgWinCloseAll
     ActorCmdExec 6, Movement_029C
     ActorCmdWait
     ActorCmdExec 255, Movement_0E2C
     ActorCmdExec 5, Movement_0E24
     ActorCmdWait
-    ActorMsg 1024, 33, 5, 6, 0
+    // "[f000]Ā\u0001\u0001: A tournament\nto decide who's strongest, huh?[f000]븁\u0000\nRight on!\nIt's time for some special training![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 33, 5, 6, 0
     MsgWinCloseAll
     ActorWalkRoute 5, 202, 405, 1, 4, 1
     VMSleep 8
@@ -129,7 +136,7 @@ Script_14:
     FlagSet 708
     FlagSet 1001
     WorkSetConst 0x40c5, 1
-    Cmd_0262 1, 12
+    HollowRivalCmd_0262 1, 12
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -164,8 +171,8 @@ Script_11:
     ActorCmdWait
     VMStackPush 0x8022
     VMStackPushConst 432
-    VMStackCmp 5
-    VMJumpIf 255, L_02E9
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_02E9
     ActorCmdExec 255, Movement_0E34
     ActorCmdWait
 
@@ -173,16 +180,19 @@ L_02E9:
     PlayerGetExState 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0304
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0304
     PlayerSetSpecialSequence 1
 
 L_0304:
-    ActorMsg 1024, 3, 3, 3, 0
+    // "Team Plasma: C'mon![f000]븁\u0000\nLet's have fun stealing Pokémon\ntogether, like we did before![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 3, 3, 0
     MsgWinCloseAll
-    ActorMsg 1024, 4, 2, 4, 0
+    // "???: I can't.[f000]븁\u0000\nI've learned the hard way\nthat stealing from others is wrong![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 2, 4, 0
     MsgWinCloseAll
-    ActorMsg 1024, 5, 3, 3, 0
+    // "Team Plasma: Oh, come on! It's too late\nto start acting all goody-two-shoes now![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 3, 3, 0
     MsgWinCloseAll
     ActorWalkRoute 3, 218, 432, 1, 4, 1
     VMSleep 7
@@ -190,15 +200,19 @@ L_0304:
     ActorCmdExec 2, Movement_04B0
     ActorCmdWait
     SEWait
-    ActorMsg 1024, 6, 3, 3, 0
+    // "Team Plasma: People don't understand\nour just cause![f000]븁\u0000\nDon't they call you a villain\nwho was plotting world domination?[f000]븁\u0000\nEven though you quit Team Plasma, people\nare still really cold to you, right?[f000]븁\u0000\nSo, you might as well just come\nsteal Pokémon with us and[f000]븀\u0000\ntake over the world![f000]븁\u0000\nThe people who are mean to you now\nwill be groveling at your feet[f000]븀\u0000\nand saying how great you are![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 3, 3, 0
     MsgWinCloseAll
-    ActorMsg 1024, 7, 2, 4, 0
+    // "Ex-Team Plasma: I can't...[f000]븁\u0000\nMy lord N will be sad...\nI can't do that to him...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 2, 4, 0
     MsgWinCloseAll
-    ActorMsg 1024, 8, 3, 3, 0
+    // "Team Plasma: N![f000]븁\u0000\nTeam Plasma's king... What a joke!\nHe's nothing more than a traitor![f000]븁\u0000\nHe disappeared somewhere and abandoned\nus when we needed him![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 3, 3, 0
     MsgWinCloseAll
     FlagReset 716
     ActorAdd 5
-    ActorMsg 1024, 9, 5, 6, 1
+    // "Hey![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 5, 6, 1
     MsgWinCloseAll
     ActorCmdExec 255, Movement_04A4
     ActorCmdExec 3, Movement_04A4
@@ -217,14 +231,17 @@ L_0304:
     ActorCmdExec 255, Movement_0E34
     ActorCmdWait
     WordSetLoadRivalName 1
-    ActorMsg 1024, 10, 5, 5, 0
+    // "Start talking, you Team Plasma trash![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 5, 5, 0
     MsgWinCloseAll
-    ActorMsg 1024, 11, 3, 3, 0
+    // "Team Plasma: Oww...[f000]븁\u0000\nYou're gonna pay for that![f000]븁\u0000\nOh, yeah. Almost forgot...\nI'm not supposed to cause any trouble.[f000]븁\u0000\nI'll get you next time![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 3, 3, 0
     MsgWinCloseAll
     ActorWalkRoute 3, 212, 432, 1, 4, 1
     ActorCmdWait
     WordSetLoadRivalName 1
-    ActorMsg 1024, 12, 5, 5, 0
+    // "[f000]Ā\u0001\u0001: You're not getting away![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 5, 5, 0
     ActorCmdWait
     MsgWinCloseAll
     ActorWalkRoute 5, 212, 432, 1, 4, 0
@@ -233,7 +250,8 @@ L_0304:
     ActorDelete 3
     ActorWalkRoute 2, 219, 433, 1, 8, 1
     ActorCmdWait
-    ActorMsg 1024, 13, 2, 4, 0
+    // "Ex-Team Plasma: I'm OK![f000]븁\u0000\nWe were friends when we\nwere both in Team Plasma...[f000]븁\u0000\nBut two years ago, Team Plasma\nsplit into a group that follows Lord N,[f000]븀\u0000\nwho just wants to save Pokémon,[f000]븀\u0000\nand a group that follows Ghetsis,[f000]븀\u0000\nwho plans to take over the world.[f000]븁\u0000\nYou can hear the rest\nof the story in our home.[f000]븁\u0000\nIt's on that little hill next\nto the Pokémon Gym.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 2, 4, 0
     MsgWinCloseAll
     ActorWalkRoute 2, 212, 433, 1, 8, 1
     ActorCmdWait
@@ -242,7 +260,7 @@ L_0304:
     FlagSet 707
     WorkSetConst 0x40c3, 1
     FlagSet 2478
-    Cmd_0262 1, 9
+    HollowRivalCmd_0262 1, 9
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -288,7 +306,8 @@ Script_29:
     ActorsPauseAll
     ActorCmdExec 2, Movement_0E44
     ActorCmdWait
-    ActorMsg 1024, 14, 2, 5, 0
+    // "Ex-Team Plasma: Sir, that's the person\nI was talking about![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 2, 5, 0
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     WorkAdd 0x8021, 1
@@ -296,11 +315,12 @@ Script_29:
     VMSleep 16
     ActorCmdExec 4, Movement_0E2C
     ActorCmdWait
-    ActorMsg 1024, 15, 2, 5, 0
+    // "Over here! This way![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 2, 5, 0
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     WorkCmpConst 0x8022, 397
-    VMJumpIf 1, L_0579
+    VMJumpIf CMP_EQ, L_0579
     VMJump L_0587
 
 L_0579:
@@ -309,7 +329,7 @@ L_0579:
 
 L_0587:
     WorkCmpConst 0x8022, 398
-    VMJumpIf 1, L_059A
+    VMJumpIf CMP_EQ, L_059A
     VMJump L_05A8
 
 L_059A:
@@ -318,7 +338,7 @@ L_059A:
 
 L_05A8:
     WorkCmpConst 0x8022, 399
-    VMJumpIf 1, L_05BB
+    VMJumpIf CMP_EQ, L_05BB
     VMJump L_05C9
 
 L_05BB:
@@ -330,18 +350,22 @@ L_05C9:
     ActorCmdWait
     ActorCmdExec 2, Movement_0E2C
     ActorCmdWait
-    ActorMsg 1024, 16, 4, 3, 0
+    // "Rood: Oh! So you're interested\nin Team Plasma, are you?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 4, 3, 0
     MsgWinCloseAll
-    ActorMsg 1024, 17, 2, 5, 0
+    // "Ex-Team Plasma: If you hear what\nwe have to say, you might be able[f000]븀\u0000\nto understand us.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 17, 2, 5, 0
     MsgWinCloseAll
-    ActorMsg 1024, 18, 4, 3, 0
+    // "Rood: My guest.[f000]븁\u0000\nIf you're going to come inside,\nI would like to see what kind[f000]븀\u0000\nof person you are, Trainer.[f000]븁\u0000\nThat's right. In a Pokémon battle.\nDo you find this acceptable?"
+    ActorMsg MSGFILE_SCRIPT, 18, 4, 3, 0
     WorkSetConst 0x40c3, 2
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_063E
-    ActorMsg 1024, 20, 4, 3, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_063E
+    // "Rood: Then, I'm afraid I must\nask you to leave."
+    ActorMsg MSGFILE_SCRIPT, 20, 4, 3, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0644
@@ -376,7 +400,8 @@ Script_10:
     WordSetLoadRivalName 1
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 26, 0, 0
+    // "[f000]Ā\u0001\u0001: Challenging the Gym, huh?\nNice! Keep getting stronger![f000]븁\u0000\nLet me tell you, though,\nClay's tough![f000]븁\u0000\nEven if all you have to use against\nGround types is Water-type Pokémon,[f000]븀\u0000\nyou might still be in for a rough fight!"
+    ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -387,13 +412,15 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 21, 4, 3, 0
+    // "Rood: If you're going to come inside,\nI would like to see what kind[f000]븀\u0000\nof person you are, Trainer.[f000]븁\u0000\nThat's right. In a Pokémon battle.\nDo you find this acceptable?"
+    ActorMsg MSGFILE_SCRIPT, 21, 4, 3, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_06D4
-    ActorMsg 1024, 20, 4, 3, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06D4
+    // "Rood: Then, I'm afraid I must\nask you to leave."
+    ActorMsg MSGFILE_SCRIPT, 20, 4, 3, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_06DA
@@ -407,14 +434,15 @@ L_06DA:
     VMHalt
 
 L_06E0:
-    ActorMsg 1024, 19, 4, 3, 0
+    // "Rood: Let us begin![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 19, 4, 3, 0
     MsgWinCloseAll
     CallTrainerBattle 346, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_072D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_072D
     ActorSetGPos 4, 197, 2, 396, 1
     ActorSetGPos 255, 197, 2, 397, 0
     CallTrainerBattleEnd
@@ -424,7 +452,8 @@ L_072D:
     CallTrainerLose
 
 L_072F:
-    ActorMsg 1024, 23, 4, 3, 0
+    // "Rood: I apologize for testing you.[f000]븁\u0000\nBeing former members of Team Plasma,\nwe must deal with a lot...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 23, 4, 3, 0
     MsgWinCloseAll
     FlagReset 716
     ActorAdd 5
@@ -436,9 +465,11 @@ L_072F:
     ActorCmdExec 4, Movement_0E34
     ActorCmdWait
     WordSetLoadRivalName 1
-    ActorMsg 1024, 24, 5, 4, 0
+    // "[f000]Ā\u0001\u0001: He got away![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 24, 5, 4, 0
     MsgWinCloseAll
-    ActorMsg 1024, 25, 4, 3, 0
+    // "Rood: And that is?[f000]븁\u0000\n...[f000]븁\u0000\nYour friend?\nHe may join us.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 25, 4, 3, 0
     MsgWinCloseAll
     ActorCmdExec 4, Movement_0DEC
     ActorCmdWait
@@ -473,7 +504,8 @@ Script_9:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 22, 0, 0
+    // "Ex-Team Plasma: I'm sorry...[f000]븁\u0000\nSage Rood is only saying\nthat in order to protect us."
+    ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -484,7 +516,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "The Gym Leader, Clay, is currently\nin the middle of something.[f000]븀\u0000\nPlease come back again later."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -495,6 +528,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Welcome to Driftveil City!"
     MsgPlaceSign 65, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -505,6 +539,7 @@ Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Driftveil Drawbridge"
     MsgPlaceSign 64, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -515,6 +550,7 @@ Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Driftveil City\nA City of Billowing Sails"
     MsgPlaceSign 66, 1
     MsgPlaceSignClose
     FinishAllEvents
@@ -525,6 +561,7 @@ Script_4:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Driftveil Market"
     MsgPlaceSign 67, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -535,6 +572,7 @@ Script_5:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Driftveil City Pokémon Gym\nLeader: Clay[f000]븀\u0000\nThe Underground Boss"
     MsgPlaceSign 68, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -545,6 +583,7 @@ Script_26:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Clay Tunnel Ahead"
     MsgPlaceSign 69, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -559,25 +598,28 @@ Script_6:
     GameGetVersion 0x8023
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0990
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0990
     VMStackPush 0x4097
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_095B
-    ActorMsg 1024, 55, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_095B
+    // "I'm a heartbreaker...\nMy name... Charles.[f000]븁\u0000\nI wanted to get the attention of a girl\nI like, so I learned a new style of[f000]븀\u0000\nPokémon battling.[f000]븁\u0000\nIts name... Triple Battle!\nWant to learn about it?"
+    ActorMsg MSGFILE_SCRIPT, 55, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0945
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0945
     WorkSetConst 0x4097, 1
-    ActorMsg 1024, 57, 0, 0, 0
+    // "In Triple Battles, you send out three\nPokémon at a time and battle![f000]븁\u0000\nThe rules are simple: just make all of\nyour opponent's Pokémon faint.[f000]븁\u0000\nAnd that's a rough explanation\nof Triple Battles.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 57, 0, 0, 0
     VMCall L_0AF2
     VMJump L_0955
 
 L_0945:
-    ActorMsg 1024, 56, 0, 0, 0
+    // "Oh, man! Getting someone's attention is\nreally hard."
+    ActorMsg MSGFILE_SCRIPT, 56, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -587,13 +629,14 @@ L_0955:
 L_095B:
     VMStackPush 0x4097
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_097A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_097A
     VMCall L_0AF2
     VMJump L_098A
 
 L_097A:
-    ActorMsg 1024, 63, 0, 0, 0
+    // "I'm a heartbreaker...\nMy name... Charles.[f000]븁\u0000\nRiding a bike and becoming the wind fits a\nbad boy like me."
+    ActorMsg MSGFILE_SCRIPT, 63, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -603,21 +646,24 @@ L_098A:
 L_0990:
     VMStackPush 0x4097
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_09FA
-    ActorMsg 1024, 46, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_09FA
+    // "I'm a heartbreaker...\nMy name... Charles.[f000]븁\u0000\nI wanted to get the attention of a girl\nI like, so I learned a new style of[f000]븀\u0000\nPokémon battling.[f000]븁\u0000\nIts name... Rotation Battle!\nWant to learn about it?"
+    ActorMsg MSGFILE_SCRIPT, 46, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_09E4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_09E4
     WorkSetConst 0x4097, 1
-    ActorMsg 1024, 48, 0, 0, 0
+    // "In Rotation Battles, you send out three\nPokémon at a time and battle![f000]븁\u0000\nOne Pokémon takes the lead position,\nand the other two stand on each side.[f000]븁\u0000\nThe trick is, each turn you can change\ntheir positions...[f000]븁\u0000\nAnd that's a rough explanation\nof Rotation Battles.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 48, 0, 0, 0
     VMCall L_0A2F
     VMJump L_09F4
 
 L_09E4:
-    ActorMsg 1024, 47, 0, 0, 0
+    // "Oh, man! Getting someone's attention is\nreally hard."
+    ActorMsg MSGFILE_SCRIPT, 47, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -627,13 +673,14 @@ L_09F4:
 L_09FA:
     VMStackPush 0x4097
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0A19
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A19
     VMCall L_0A2F
     VMJump L_0A29
 
 L_0A19:
-    ActorMsg 1024, 54, 0, 0, 0
+    // "I'm a heartbreaker...\nMy name... Charles.[f000]븁\u0000\nRiding a bike and becoming the wind fits\na bad boy like me."
+    ActorMsg MSGFILE_SCRIPT, 54, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -643,32 +690,35 @@ L_0A29:
     VMHalt
 
 L_0A2F:
-    ActorMsg 1024, 49, 0, 0, 0
+    // "I'm a heartbreaker...\nMy name... Charles.[f000]븁\u0000\nHey! If you're a Trainer, how about a\nRotation Battle?"
+    ActorMsg MSGFILE_SCRIPT, 49, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0ADA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0ADA
     WorkSetConst 0x8024, 0
     PokePartyGetCount 0x8024, 2
     VMStackPush 0x8024
     VMStackPushConst 3
-    VMStackCmp 0
-    VMJumpIf 255, L_0A87
-    ActorMsg 1024, 51, 0, 0, 0
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_0A87
+    // "I hate to burst your bubble when you're\nall fired up, but...[f000]븁\u0000\nIn Rotation Battles, you need three or\nmore Pokémon to battle."
+    ActorMsg MSGFILE_SCRIPT, 51, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0AD4
 
 L_0A87:
-    ActorMsg 1024, 50, 0, 0, 0
+    // "You've got a good attitude, don't you![f000]븁\u0000\nI'm a heartbreaker...\nMy name... Charles.[f000]븁\u0000\nI'm always at full throttle.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 50, 0, 0, 0
     ActorMsgClose
     CallTrainerBattle 367, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0ABC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0ABC
     CallTrainerBattleEnd
     VMJump L_0ABE
 
@@ -676,7 +726,8 @@ L_0ABC:
     CallTrainerLose
 
 L_0ABE:
-    ActorMsg 1024, 53, 0, 0, 0
+    // "Sheesh. That's embarrassing. Getting\nschooled when I was planning to teach.[f000]븁\u0000\nStill, you have potential![f000]븁\u0000\nYou have to understand your Pokémon\nto win in a Rotation Battle.[f000]븁\u0000\nIf you want more Rotation Battles,\ngo to the Pokémon World Tournament!"
+    ActorMsg MSGFILE_SCRIPT, 53, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     WorkSetConst 0x4097, 2
@@ -685,7 +736,8 @@ L_0AD4:
     VMJump L_0AEA
 
 L_0ADA:
-    ActorMsg 1024, 52, 0, 0, 0
+    // "I'm a heartbreaker...\nMy name... Charles.[f000]븁\u0000\nI have some advice for you.\nChallenge is the essence of life!"
+    ActorMsg MSGFILE_SCRIPT, 52, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -694,32 +746,35 @@ L_0AEA:
     VMReturn
 
 L_0AF2:
-    ActorMsg 1024, 58, 0, 0, 0
+    // "I'm a heartbreaker...\nMy name... Charles.[f000]븁\u0000\nHey! If you're a Trainer, how about a\nTriple Battle?"
+    ActorMsg MSGFILE_SCRIPT, 58, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0B9D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B9D
     WorkSetConst 0x8025, 0
     PokePartyGetCount 0x8025, 2
     VMStackPush 0x8025
     VMStackPushConst 3
-    VMStackCmp 0
-    VMJumpIf 255, L_0B4A
-    ActorMsg 1024, 60, 0, 0, 0
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_0B4A
+    // "I hate to burst your bubble when you're\nall fired up, but...[f000]븁\u0000\nIn Triple Battles, you need three or\nmore Pokémon to battle."
+    ActorMsg MSGFILE_SCRIPT, 60, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0B97
 
 L_0B4A:
-    ActorMsg 1024, 59, 0, 0, 0
+    // "You've got a good attitude, don't you![f000]븁\u0000\nI'm a heartbreaker...\nMy name... Charles.[f000]븁\u0000\nI'm always at full throttle.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 59, 0, 0, 0
     ActorMsgClose
     CallTrainerBattle 366, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0B7F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B7F
     CallTrainerBattleEnd
     VMJump L_0B81
 
@@ -727,7 +782,8 @@ L_0B7F:
     CallTrainerLose
 
 L_0B81:
-    ActorMsg 1024, 62, 0, 0, 0
+    // "Sheesh. That's embarrassing. Getting\nschooled when I was planning to teach.[f000]븁\u0000\nStill, you have potential![f000]븁\u0000\nYou have to understand your Pokémon\nto win in a Triple Battle.[f000]븁\u0000\nIf you want more Triple Battles,\ngo to the Pokémon World Tournament."
+    ActorMsg MSGFILE_SCRIPT, 62, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     WorkSetConst 0x4097, 2
@@ -736,7 +792,8 @@ L_0B97:
     VMJump L_0BAD
 
 L_0B9D:
-    ActorMsg 1024, 61, 0, 0, 0
+    // "I'm a heartbreaker...\nMy name... Charles.[f000]븁\u0000\nI have some advice for you.[f000]븁\u0000\nChallenge is the essence of life!"
+    ActorMsg MSGFILE_SCRIPT, 61, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -748,7 +805,8 @@ Script_15:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 34, 0, 0
+    // "So how about this city's pride and joy,\nthe drawbridge?[f000]븁\u0000\nWe also call it the Charizard Bridge\ndue to its elegant form!"
+    ParentActorMsg MSGFILE_SCRIPT, 34, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -759,7 +817,8 @@ Script_16:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 35, 0, 0
+    // "The Elite Four of the Pokémon League\nare extremely tough![f000]븁\u0000\nI hear you can't battle them unless\nyou have eight Gym Badges!"
+    ParentActorMsg MSGFILE_SCRIPT, 35, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -770,7 +829,8 @@ Script_17:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 36, 0, 0
+    // "When there's an item in your Bag\nyou want to switch,[f000]븀\u0000\njust press SELECT[f000]븀\u0000\nand give it a new niche! ♪[f000]븁\u0000\nDoesn't that jingle take you back?"
+    ParentActorMsg MSGFILE_SCRIPT, 36, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -781,7 +841,8 @@ Script_18:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 37, 0, 0
+    // "A long time ago, Team Plasma\nstole my Pokémon...[f000]븁\u0000\nWell, they did give it back later!"
+    ParentActorMsg MSGFILE_SCRIPT, 37, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -792,7 +853,8 @@ Script_19:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 39, 0, 0
+    // "I want to level up my dear Pokémon\nso they never have to feel[f000]븀\u0000\nthe sting of defeat!"
+    ParentActorMsg MSGFILE_SCRIPT, 39, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -804,7 +866,8 @@ Script_27:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 552, 0
-    ParentActorMsg 1024, 38, 0, 0
+    // "Rokorroook!"
+    ParentActorMsg MSGFILE_SCRIPT, 38, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -816,7 +879,8 @@ Script_20:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 40, 0, 0
+    // "Whoooa, dude! If a Pokémon uses the move\nSurf, it can catch a wave!"
+    ParentActorMsg MSGFILE_SCRIPT, 40, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -827,7 +891,8 @@ Script_21:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 41, 0, 0
+    // "Even though I used to look\nat the Cold Storage every day...[f000]븁\u0000\nI've already forgotten\nwhat it looked like..."
+    ParentActorMsg MSGFILE_SCRIPT, 41, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -838,7 +903,8 @@ Script_22:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 42, 0, 0
+    // "A Pokémon of thunder and\na Pokémon of wind were roaming[f000]븀\u0000\neverywhere and causing trouble![f000]븁\u0000\nThen they were punished\nby a Pokémon of the soil.[f000]븁\u0000\nI like that story!"
+    ParentActorMsg MSGFILE_SCRIPT, 42, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -849,7 +915,8 @@ Script_23:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 43, 0, 0
+    // "On the other side of the ocean...\nAnd all over the world, there sure[f000]븀\u0000\nare a lot of different Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 43, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -860,7 +927,8 @@ Script_24:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 44, 0, 0
+    // "There are former members of\nTeam Plasma in there...[f000]븁\u0000\nI'm worried that they might\nbe up to no good again..."
+    ParentActorMsg MSGFILE_SCRIPT, 44, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -871,7 +939,8 @@ Script_25:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 45, 0, 0
+    // "Bridges connect different lands.[f000]븁\u0000\nTrading and battling with Pokémon\ncan connect different people.[f000]븁\u0000\nI guess that means Pokémon\nare a kind of bridge as well!"
+    ParentActorMsg MSGFILE_SCRIPT, 45, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -882,7 +951,8 @@ Script_28:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Construction on a shortcut\nto Twist Mountain has started.[f000]븁\u0000\nBut it's going to take a while\n'cause digging's difficult."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -895,13 +965,13 @@ Script_30:
     PlayerGetDir 0x8020
     VMStackPush 0x8022
     VMStackPushConst 397
-    VMStackCmp 1
-    VMJumpIf 255, L_0D77
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0D77
     ActorCmdExec 20, Movement_0DCC
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 5
-    VMJumpIf 255, L_0D6F
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0D6F
     VMSleep 16
     ActorCmdExec 255, Movement_0E2C
 
@@ -913,8 +983,8 @@ L_0D77:
     ActorCmdExec 20, Movement_0DD8
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_0D9E
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0D9E
     VMSleep 16
     ActorCmdExec 255, Movement_0E24
 
@@ -922,7 +992,8 @@ L_0D9E:
     ActorCmdWait
 
 L_0DA0:
-    ActorMsg 1024, 1, 20, 0, 0
+    // "Construction on a shortcut\nto Twist Mountain has started.[f000]븁\u0000\nBut it's going to take a while\n'cause digging's difficult.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 20, 0, 0
     MsgWinCloseAll
     ActorCmdExec 255, Movement_0DF4
     VMSleep 8

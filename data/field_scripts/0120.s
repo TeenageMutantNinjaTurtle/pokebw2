@@ -13,8 +13,8 @@
 Script_2:
     VMStackPush 0x411a
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_004B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_004B
     ActorSetGPos 0, 9, 0, 2, 1
     VMJump L_0057
 
@@ -30,32 +30,33 @@ Script_1:
     ActorSetEyeToEye
     VMStackPush 0x411a
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01CD
-    ActorMsg 1024, 0, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01CD
+    // "Do you want to go up?"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0194
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0194
     TrainerCardGetSex 0x8020
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0172
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0172
     PlayerGetDir 0x8021
     VMStackPush 0x8021
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_00D3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00D3
     ActorCmdExec 0, Movement_03DC
     VMJump L_00FC
 
 L_00D3:
     VMStackPush 0x8021
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_00F4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00F4
     ActorCmdExec 0, Movement_0408
     VMJump L_00FC
 
@@ -63,21 +64,22 @@ L_00F4:
     ActorCmdExec 0, Movement_0434
 
 L_00FC:
-    ActorMsg 1024, 1, 0, 0, 0
+    // "I need to check you.[f000]븁\u0000\nFrisk, frisk...\nFrisk, frisk... And one more frisk...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     ActorMsgClose
     ActorCmdWait
     VMStackPush 0x8021
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_012D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_012D
     ActorCmdExec 0, Movement_03F4
     VMJump L_0156
 
 L_012D:
     VMStackPush 0x8021
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_014E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_014E
     ActorCmdExec 0, Movement_0420
     VMJump L_0156
 
@@ -86,13 +88,15 @@ L_014E:
 
 L_0156:
     ActorCmdWait
-    ActorMsg 1024, 2, 0, 0, 0
+    // "You don't seem to have\nanything suspicious.[f000]븁\u0000\nOK! You can go.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     ActorMsgClose
     VMCall L_036F
     VMJump L_0188
 
 L_0172:
-    ActorMsg 1024, 3, 0, 0, 0
+    // "OK! You can go."
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
     MsgWaitAdvance
     ActorMsgClose
     VMCall L_036F
@@ -106,13 +110,14 @@ L_0194:
     PlayerGetDir 0x8021
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_01B7
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_01B7
     ActorCmdExec 0, Movement_046C
     ActorCmdWait
 
 L_01B7:
-    ActorMsg 1024, 4, 0, 0, 0
+    // "...OK. That's fine, then."
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -120,7 +125,8 @@ L_01C7:
     VMJump L_01DD
 
 L_01CD:
-    ActorMsg 1024, 3, 0, 0, 0
+    // "OK! You can go."
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -135,36 +141,37 @@ Script_3:
     ActorCmdExec 0, Movement_03AC
     VMStackPush 0x8021
     VMStackPushConst 3
-    VMStackCmp 5
-    VMJumpIf 255, L_020C
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_020C
     ActorCmdExec 255, Movement_0460
 
 L_020C:
     ActorCmdWait
-    ActorMsg 1024, 0, 0, 0, 0
+    // "Do you want to go up?"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_032E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_032E
     TrainerCardGetSex 0x8020
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_030C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_030C
     PlayerGetDir 0x8021
     VMStackPush 0x8021
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_026D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_026D
     ActorCmdExec 0, Movement_03DC
     VMJump L_0296
 
 L_026D:
     VMStackPush 0x8021
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_028E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_028E
     ActorCmdExec 0, Movement_0408
     VMJump L_0296
 
@@ -172,21 +179,22 @@ L_028E:
     ActorCmdExec 0, Movement_0434
 
 L_0296:
-    ActorMsg 1024, 1, 0, 0, 0
+    // "I need to check you.[f000]븁\u0000\nFrisk, frisk...\nFrisk, frisk... And one more frisk...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     ActorMsgClose
     ActorCmdWait
     VMStackPush 0x8021
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_02C7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02C7
     ActorCmdExec 0, Movement_03F4
     VMJump L_02F0
 
 L_02C7:
     VMStackPush 0x8021
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_02E8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02E8
     ActorCmdExec 0, Movement_0420
     VMJump L_02F0
 
@@ -195,13 +203,15 @@ L_02E8:
 
 L_02F0:
     ActorCmdWait
-    ActorMsg 1024, 2, 0, 0, 0
+    // "You don't seem to have\nanything suspicious.[f000]븁\u0000\nOK! You can go.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     ActorMsgClose
     VMCall L_036F
     VMJump L_0322
 
 L_030C:
-    ActorMsg 1024, 3, 0, 0, 0
+    // "OK! You can go."
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
     MsgWaitAdvance
     ActorMsgClose
     VMCall L_036F
@@ -215,13 +225,14 @@ L_032E:
     PlayerGetDir 0x8021
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_0351
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0351
     ActorCmdExec 0, Movement_046C
     ActorCmdWait
 
 L_0351:
-    ActorMsg 1024, 5, 0, 0, 0
+    // "...OK. That's fine, then.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 0, 0
     ActorMsgClose
     ActorCmdExec 255, Movement_0474
     ActorCmdWait
@@ -235,8 +246,8 @@ L_036F:
     PlayerGetDir 0x8021
     VMStackPush 0x8021
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0396
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0396
     ActorCmdExec 0, Movement_03BC
     ActorCmdWait
     VMJump L_03A0
@@ -331,7 +342,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "I'm invited to a party, but the person\nin front of the elevator wants[f000]븀\u0000\nto pat me down.[f000]븁\u0000\nOr is it just my imagination?"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -342,7 +354,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "I talked with a lot of people upstairs.\nIt was fun!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -353,7 +366,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "Where are you from?[f000]븁\u0000\nReally? You're from Aspertia City?\nIt's a great place![f000]븀\u0000\nThat outlook is fantastic!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

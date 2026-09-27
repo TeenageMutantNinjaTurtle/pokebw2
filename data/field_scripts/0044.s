@@ -9,7 +9,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "You see, practicing is sort of like\neating food every day.[f000]븁\u0000\nUnless it becomes something you do\nwithout thinking about it, you'll never[f000]븀\u0000\nbe great at guitar or with Pokémon."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -20,7 +21,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Ditto... Everstone...\nNatures... What's the connection?"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -32,11 +34,12 @@ Script_3:
     Cmd_01F6 0, 0, 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_007F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_007F
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "I am a poet...\nI write poems.[f000]븁\u0000\nEvery day, I stretch my imagination and\ndevote myself to my creative activity.[f000]븁\u0000\nPeople dream when sleeping, but if a\nPokémon dreams...[f000]븁\u0000\nI cannot even imagine how it would be..."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0093
@@ -44,7 +47,8 @@ Script_3:
 L_007F:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "I am a poet...\nI write poems.[f000]븁\u0000\nEvery day, I stretch my imagination and\ndevote myself to my creative activity.[f000]븁\u0000\nPeople dream when sleeping, but\nif a Pokémon dreams...[f000]븁\u0000\nJust thinking about it fuels\nmy imagination.[f000]븁\u0000\nPokémon probably enjoy sleeping, too!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
 

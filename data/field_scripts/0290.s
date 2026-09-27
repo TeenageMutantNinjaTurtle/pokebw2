@@ -16,14 +16,16 @@ Script_1:
     WordSetPlayerName 0
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_005E
-    ActorMsg 1024, 0, 251, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_005E
+    // "Iris: So, this room is\nthe Hall of Fame![f000]븁\u0000\nYour name and your Pokémon's\nnames will be recorded here[f000]븀\u0000\nso these important things will never[f000]븀\u0000\nbe forgotten:[f000]븁\u0000\nThat you are an excellent and\nkind Trainer![f000]븁\u0000\nThat you are considerate toward\nyour Pokémon, and you give them[f000]븀\u0000\nyour whole heart![f000]븁\u0000\nAnd that your wonderful Pokémon\nbelieve in their Trainer with all[f000]븀\u0000\ntheir hearts, and together you have[f000]븀\u0000\na strength that knows no bounds![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 251, 0, 0
     MsgWinCloseAll
     VMJump L_006C
 
 L_005E:
-    ActorMsg 1024, 1, 251, 0, 0
+    // "Iris: You've made it here again![f000]븁\u0000\nYour name and your Pokémon's\nnames will be recorded here[f000]븀\u0000\nso these important things will never[f000]븀\u0000\nbe forgotten:[f000]븁\u0000\nThat you are an excellent and\nkind Trainer![f000]븁\u0000\nThat you are considerate toward\nyour Pokémon, and you give them[f000]븀\u0000\nyour whole heart![f000]븁\u0000\nAnd that your wonderful Pokémon\nbelieve in their Trainer with all[f000]븀\u0000\ntheir hearts, and together you have[f000]븀\u0000\na strength that knows no bounds![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 251, 0, 0
     MsgWinCloseAll
 
 L_006C:
@@ -42,14 +44,16 @@ L_006C:
     ActorCmdWait
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00E3
-    ActorMsg 1024, 2, 251, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E3
+    // "Hey, c'mon![f000]븁\u0000\nOh, excuse me...\n[f000]ă\u0001\u0000![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 251, 0, 0
     ActorMsgClose
     VMJump L_00F1
 
 L_00E3:
-    ActorMsg 1024, 3, 251, 0, 0
+    // "Hey, c'mon![f000]븁\u0000\nOh, excuse me...\n[f000]ă\u0001\u0000![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 251, 0, 0
     ActorMsgClose
 
 L_00F1:
@@ -57,7 +61,8 @@ L_00F1:
     VMSleep 8
     ActorCmdExec 251, Movement_0260
     ActorCmdWait
-    ActorMsg 1024, 4, 251, 0, 0
+    // "To the Trainer standing before me!\nAnd to the Pokémon at your side![f000]븁\u0000\nYour beautiful bond has\ngrown strong through battle![f000]븁\u0000\nIn order to make this\nbond an eternal treasure,[f000]븀\u0000\nyour names shall be recorded here![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 251, 0, 0
     ActorMsgClose
     BMPlayHOFMachineSeq
     EvCameraEnd
@@ -67,12 +72,12 @@ L_00F1:
     WorkSub 0x400f, 0x400d
     VMStackPush 0x400e
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x400f
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0158
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0158
     MedalGive 253
 
 L_0158:
@@ -99,8 +104,8 @@ L_0158:
     MedalDiscover 124
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01CD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01CD
     FadeOutBlackQ
     FadeWait
     CallGameClear 0

@@ -16,8 +16,8 @@ Script_1:
     FlagReset 2410
     VMStackPush 0x4109
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_004D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_004D
     ObjInitNPCGPos 1, 1, 32, 1, 46
 
 L_004D:
@@ -34,7 +34,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 4, 1, 1, 0
+    // "The Pokémon League is a place where you\nboth pursue strength and express it.[f000]븁\u0000\nThe way to express it is simple...[f000]븁\u0000\nYou just have to beat the Elite Four and\nthe Champion![f000]븁\u0000\nYou can start your challenge by battling\nany of the Elite Four, and if you defeat[f000]븀\u0000\nthem all, you can challenge the Champion![f000]븁\u0000\nHowever! I warn you, once you start\nyour challenge, there's no turning back.[f000]븁\u0000\nIf you enter, you must keep battling\nuntil you defeat them all...[f000]븀\u0000\nor are defeated yourself."
+    ActorMsg MSGFILE_SCRIPT, 4, 1, 1, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -45,18 +46,20 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 5, 0, 1, 0
+    // "The Pokémon League is every Trainer's\ngreatest challenge![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 1, 0
     PlayerGetDir 0x8010
     VMStackPush 0x8010
     VMStackPushConst 3
-    VMStackCmp 5
-    VMJumpIf 255, L_00AC
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_00AC
     MsgWinCloseAll
     ActorCmdExec 0, Movement_01F0
     ActorCmdWait
 
 L_00AC:
-    ActorMsg 1024, 6, 0, 1, 0
+    // "You might want to prepare here.\nBecause if you lose even once,[f000]븀\u0000\nyou have to start all over again!"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 1, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 0, Movement_01E8
@@ -72,45 +75,48 @@ Script_6:
     PlayerGetDir 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_00F9
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_00F9
     ActorCmdExec 255, Movement_01E0
     ActorCmdWait
 
 L_00F9:
     VMStackPushFlag 366
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0128
-    ActorMsg 1024, 0, 1, 5, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0128
+    // "The Pokémon League is a place where you\nboth pursue strength and express it.[f000]븁\u0000\nThe way to express it is simple...[f000]븁\u0000\nYou just have to beat the Elite Four and\nthe Champion![f000]븁\u0000\nYou can start your challenge by battling\nany of the Elite Four, and if you defeat[f000]븀\u0000\nthem all, you can challenge the Champion![f000]븁\u0000\nHowever! I warn you, once you start\nyour challenge, there's no turning back.[f000]븁\u0000\nYou must keep battling until you defeat\nthem all...or are defeated yourself.[f000]븁\u0000\nDo you want to go in?"
+    ActorMsg MSGFILE_SCRIPT, 0, 1, 5, 0
     FlagSet 366
-    Cmd_0262 1, 39
+    HollowRivalCmd_0262 1, 39
     VMJump L_0134
 
 L_0128:
-    ActorMsg 1024, 1, 1, 5, 0
+    // "Once you start your challenge,\nyou cannot leave until you win against all[f000]븀\u0000\nor lose! Do you want to go in?"
+    ActorMsg MSGFILE_SCRIPT, 1, 1, 5, 0
 
 L_0134:
     YesNoWin 0x8010
     PlayerGetGPos 0x8008, 0x8009
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01B7
-    ActorMsg 1024, 2, 1, 5, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01B7
+    // "Then, proceed![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 1, 5, 0
     MsgWinCloseAll
     VMStackPush 0x8008
     VMStackPushConst 31
-    VMStackCmp 1
-    VMJumpIf 255, L_0180
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0180
     ActorCmdExec 1, Movement_0200
     VMJump L_01A9
 
 L_0180:
     VMStackPush 0x8008
     VMStackPushConst 32
-    VMStackCmp 1
-    VMJumpIf 255, L_01A1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01A1
     ActorCmdExec 1, Movement_0210
     VMJump L_01A9
 
@@ -123,7 +129,8 @@ L_01A9:
     VMJump L_01CF
 
 L_01B7:
-    ActorMsg 1024, 3, 1, 5, 0
+    // "Don't neglect preparation![f000]븁\u0000\nGo through the entrance there, and\nprepare as much as possible. Make sure[f000]븀\u0000\nyour Pokémon are fully recovered![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 1, 5, 0
     MsgWinCloseAll
     ActorCmdExec 255, Movement_0234
     ActorCmdWait

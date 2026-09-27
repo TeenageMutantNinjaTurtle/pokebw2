@@ -11,19 +11,20 @@ Script_1:
     WorkGet 0x8022, 0x8001
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_0043
-    ActorMsg 1024, 4, 0x8011, 2, 0
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0043
+    // "Hello![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0x8011, 2, 0
 
 L_0043:
     WorkCmpConst 0x8021, 246
-    VMJumpIf 1, L_007D
+    VMJumpIf CMP_EQ, L_007D
     WorkCmpConst 0x8021, 245
-    VMJumpIf 1, L_007D
+    VMJumpIf CMP_EQ, L_007D
     WorkCmpConst 0x8021, 244
-    VMJumpIf 1, L_007D
+    VMJumpIf CMP_EQ, L_007D
     WorkCmpConst 0x8021, 243
-    VMJumpIf 1, L_007D
+    VMJumpIf CMP_EQ, L_007D
     VMJump L_0089
 
 L_007D:
@@ -32,9 +33,9 @@ L_007D:
 
 L_0089:
     WorkCmpConst 0x8021, 254
-    VMJumpIf 1, L_00A9
+    VMJumpIf CMP_EQ, L_00A9
     WorkCmpConst 0x8021, 253
-    VMJumpIf 1, L_00A9
+    VMJumpIf CMP_EQ, L_00A9
     VMJump L_00B5
 
 L_00A9:
@@ -53,13 +54,15 @@ L_00BD:
     WorkSetConst 0x8025, 0
     VMStackPush 0x8022
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_00F4
-    ActorMsg 1024, 1, 0x8011, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00F4
+    // "Welcome to the Technical Machine\ndepartment! May I help you?"
+    ActorMsg MSGFILE_SCRIPT, 1, 0x8011, 2, 0
     VMJump L_0100
 
 L_00F4:
-    ActorMsg 1024, 0, 0x8011, 2, 0
+    // "Welcome!\nMay I help you?"
+    ActorMsg MSGFILE_SCRIPT, 0, 0x8011, 2, 0
 
 L_0100:
     WorkSetConst 0x8024, 1
@@ -68,20 +71,21 @@ L_0100:
 L_010C:
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01DE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01DE
     WorkCmpConst 0x8024, 0
-    VMJumpIf 1, L_0132
+    VMJumpIf CMP_EQ, L_0132
     VMJump L_014A
 
 L_0132:
-    ActorMsg 1024, 2, 0x8011, 2, 0
+    // "Is there anything else I may do\nfor you?"
+    ActorMsg MSGFILE_SCRIPT, 2, 0x8011, 2, 0
     WorkSetConst 0x8024, 1
     VMJump L_01D8
 
 L_014A:
     WorkCmpConst 0x8024, 1
-    VMJumpIf 1, L_015D
+    VMJumpIf CMP_EQ, L_015D
     VMJump L_016F
 
 L_015D:
@@ -91,7 +95,7 @@ L_015D:
 
 L_016F:
     WorkCmpConst 0x8024, 2
-    VMJumpIf 1, L_0182
+    VMJumpIf CMP_EQ, L_0182
     VMJump L_0194
 
 L_0182:
@@ -101,7 +105,7 @@ L_0182:
 
 L_0194:
     WorkCmpConst 0x8024, 3
-    VMJumpIf 1, L_01A7
+    VMJumpIf CMP_EQ, L_01A7
     VMJump L_01B9
 
 L_01A7:
@@ -111,7 +115,7 @@ L_01A7:
 
 L_01B9:
     WorkCmpConst 0x8024, 255
-    VMJumpIf 1, L_01CC
+    VMJumpIf CMP_EQ, L_01CC
     VMJump L_01D8
 
 L_01CC:
@@ -122,7 +126,8 @@ L_01D8:
     VMJump L_010C
 
 L_01DE:
-    ActorMsg 1024, 3, 0x8011, 2, 0
+    // "Please come again!"
+    ActorMsg MSGFILE_SCRIPT, 3, 0x8011, 2, 0
     LastKeyWait
     ActorMsgClose
     WorkSetConst 0x8025, 0
@@ -134,16 +139,18 @@ L_0202:
     WorkSetConst 0x8026, 0
     WorkSetConst 0x8027, 0
     WorkSetConst 0x8028, 0
-    ActorMsg 1024, 8, 0x8011, 2, 0
+    // "Welcome to the\nExchange Service Corner![f000]븁\u0000\nWould you like to trade in your BP\nfor some fabulous prizes?"
+    ActorMsg MSGFILE_SCRIPT, 8, 0x8011, 2, 0
     YesNoWin 0x8026
     VMStackPush 0x8026
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_023D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_023D
     VMCall L_02CB
 
 L_023D:
-    ActorMsg 1024, 9, 0x8011, 2, 0
+    // "Please save some BP\nand come see us again."
+    ActorMsg MSGFILE_SCRIPT, 9, 0x8011, 2, 0
     LastKeyWait
     ActorMsgClose
     WorkSetConst 0x8028, 0
@@ -166,8 +173,8 @@ L_0275:
     ListMenuShow
     VMStackPush 0x802a
     VMStackPushConst 65534
-    VMStackCmp 1
-    VMJumpIf 255, L_02BD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02BD
     WorkSetConst 0x8020, 255
     VMJump L_02C3
 
@@ -185,8 +192,8 @@ L_02CB:
     CallFriendlyShopBuy 0x8021, 0x802b
     VMStackPush 0x802b
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02FE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02FE
     WorkSetConst 0x8020, 255
     VMJump L_0304
 
@@ -210,8 +217,8 @@ L_030C:
     FadeWait
     VMStackPush 0x802c
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_034D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_034D
     WorkSetConst 0x8020, 255
     VMJump L_0353
 

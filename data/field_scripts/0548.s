@@ -32,24 +32,29 @@ Script_11:
     ActorWalkRoute 251, 8, 18, 0, 8, 0
     ActorCmdWait
     EvCameraWait
-    ActorMsg 1024, 0, 251, 0, 0
+    // "N: [f000]븉\u0001\u0001This place...\nwas my entire world...[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 251, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 251, 9, 16, 0, 8, 0
     ActorCmdWait
-    ActorMsg 1024, 1, 251, 0, 0
+    // "[f000]븉\u0001\u0001When I was little, I was abandoned\ndeep in the woods.[f000]븁\u0000\nThe ones who took me in and raised me\nwere the Pokémon who lived there.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 251, 0, 0
     MsgWinCloseAll
     ActorCmdExec 251, Movement_028C
     ActorCmdWait
-    ActorMsg 1024, 2, 251, 0, 0
+    // "[f000]븉\u0001\u0001Then, one day, a man appeared\nbefore me, claiming to be my father.[f000]븁\u0000\nThat...was Ghetsis.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 251, 0, 0
     MsgWinCloseAll
     ActorCmdExec 251, Movement_015C
     ActorCmdWait
-    ActorMsg 1024, 3, 251, 0, 0
+    // "[f000]븉\u0001\u0001The things he gave me were...\nthe name “Harmonia\"...[f000]븁\u0000\nthe knowledge a king would need...[f000]븁\u0000\nPokémon with their hearts shut so very\ntightly I couldn't even talk to them...[f000]븁\u0000\nand this room...[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 251, 0, 0
     MsgWinCloseAll
     VMSleep 8
     ActorCmdExec 251, Movement_0174
     ActorCmdWait
-    ActorMsg 1024, 4, 251, 0, 0
+    // "[f000]븉\u0001\u0001I'll be outside...[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 251, 0, 0
     MsgWinCloseAll
     EvCameraMoveToDefault 40
     ActorWalkRoute 251, 8, 20, 0, 8, 0
@@ -90,6 +95,7 @@ Script_10:
 Script_1:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a slightly dirty basketball.\nThe name “Harmonia\" is written on it."
     InfoMsg 5, 2
     LastKeyWait
     MsgWinCloseAll
@@ -100,6 +106,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a home-style basketball hoop.\nIt's been knocked over."
     InfoMsg 6, 2
     LastKeyWait
     MsgWinCloseAll
@@ -110,6 +117,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a toy box, but its contents\nhave spilled out."
     InfoMsg 7, 2
     LastKeyWait
     MsgWinCloseAll
@@ -120,6 +128,7 @@ Script_3:
 Script_4:
     ActorsPauseAll
     SEPlay 1351
+    // "The rubber of these wheels\nhas rotted away."
     InfoMsg 8, 2
     LastKeyWait
     MsgWinCloseAll
@@ -130,6 +139,7 @@ Script_4:
 Script_5:
     ActorsPauseAll
     SEPlay 1351
+    // "A halfpipe for skateboards...[f000]븁\u0000\nIt has Pokémon scratch marks\non it here and there..."
     InfoMsg 9, 2
     LastKeyWait
     MsgWinCloseAll
@@ -140,6 +150,7 @@ Script_5:
 Script_6:
     ActorsPauseAll
     SEPlay 1351
+    // "An art panel with a\nprinted geometric pattern."
     InfoMsg 10, 2
     LastKeyWait
     MsgWinCloseAll
@@ -150,6 +161,7 @@ Script_6:
 Script_7:
     ActorsPauseAll
     SEPlay 1351
+    // "This panel has a dart stuck in it."
     InfoMsg 11, 2
     LastKeyWait
     MsgWinCloseAll
@@ -160,6 +172,7 @@ Script_7:
 Script_8:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a set of trains and tracks.\nIt hasn't been touched in a long time."
     InfoMsg 12, 2
     LastKeyWait
     MsgWinCloseAll
@@ -170,6 +183,7 @@ Script_8:
 Script_9:
     ActorsPauseAll
     SEPlay 1351
+    // "This toy box has been tipped over."
     InfoMsg 13, 2
     LastKeyWait
     MsgWinCloseAll

@@ -13,12 +13,13 @@
     ScriptEntriesEnd
 
 Script_10:
-    Cmd_0262 0, 0
+    HollowRivalCmd_0262 0, 0
     VMHalt
 
 Script_1:
     ActorsPauseAll
     SEPlay 1351
+    // "Father and daughter...[f000]븁\u0000\nIt's a picture of the two\nProfessor Junipers."
     InfoMsg 19, 2
     LastKeyWait
     MsgWinCloseAll
@@ -29,6 +30,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     SEPlay 1351
+    // "Adventure Rule No. 1\nThe X Button opens the menu."
     InfoMsg 21, 2
     LastKeyWait
     MsgWinCloseAll
@@ -39,6 +41,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     SEPlay 1351
+    // "Adventure Rule No. 2\nRecord your progress with SAVE."
     InfoMsg 22, 2
     LastKeyWait
     MsgWinCloseAll
@@ -49,6 +52,7 @@ Script_3:
 Script_4:
     ActorsPauseAll
     SEPlay 1351
+    // "There are lots of books about Pokémon!"
     InfoMsg 23, 2
     LastKeyWait
     MsgWinCloseAll
@@ -59,6 +63,7 @@ Script_4:
 Script_5:
     ActorsPauseAll
     SEPlay 1351
+    // "There are lots of materials and\nresearch reports about Pokémon!"
     InfoMsg 24, 2
     LastKeyWait
     MsgWinCloseAll
@@ -72,18 +77,20 @@ Script_6:
     ActorSetEyeToEye
     VMStackPushFlag 388
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0101
-    ParentActorMsg 1024, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0101
+    // "Professor Juniper: Why, hello!\nThanks for coming clear out here![f000]븁\u0000\nIt's surprising how far Nuvema Town is\nfrom Aspertia City, don't you agree?[f000]븁\u0000\nDid you take Skyarrow Bridge and\nencounter a lot of Pokémon?[f000]븁\u0000\nOn that note...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     RTCallGlobal 10380
-    ItemCheckAmount 630, 1, 0x8010
+    ItemCheckAmount ITEM_PERMIT, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00F7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00F7
     ActorCmdExec 1, Movement_0208
     ActorCmdWait
-    ParentActorMsg 1024, 5, 0, 0
+    // "I have something I'd be delighted to\ngive you if you meet every Pokémon[f000]븀\u0000\nregistered in the Unova Pokédex![f000]븁\u0000\nCheck every corner of the Unova region\nfor Pokémon! Do your best!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -92,7 +99,8 @@ L_00F7:
     VMJump L_010F
 
 L_0101:
-    ParentActorMsg 1024, 1, 0, 0
+    // "Professor Juniper: Hi there!\nHow have you been doing lately?[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     RTCallGlobal 10380
 
 L_010F:
@@ -107,25 +115,28 @@ Script_7:
     WordSetPlayerName 0
     VMStackPushFlag 387
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_014B
-    ParentActorMsg 1024, 14, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_014B
+    // "Cedric: Hey, [f000]Ā\u0001\u0000!\nAre you meeting lots of Pokémon?[f000]븁\u0000\nThere really are lots of Pokémon in the\nUnova region and the rest of the world![f000]븁\u0000\nI made the Habitat List\nso people would know that![f000]븁\u0000\nI'll bet you're here because...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     RTCallGlobal 10381
     FlagSet 387
     VMJump L_0159
 
 L_014B:
-    ParentActorMsg 1024, 15, 0, 0
+    // "Cedric: Hey, [f000]Ā\u0001\u0000![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     RTCallGlobal 10381
 
 L_0159:
     VMStackPushFlag 2437
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01B8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01B8
     ActorCmdExec 0, Movement_0208
     ActorCmdWait
-    ParentActorMsg 1024, 16, 0, 0
+    // "Oh, that's right! I completely forgot\nto give this to you in Aspertia![f000]븁\u0000\nHere, this is the Super Rod![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -134,7 +145,8 @@ L_0159:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 17, 0, 0
+    // "With this Super Rod, you can even catch\nPokémon who live underwater![f000]븁\u0000\nHere, I'll read you the directions.[f000]븁\u0000\nFirst...\nFace the water and cast![f000]븁\u0000\nSecond...\nCon-cen-trate![f000]븁\u0000\nWhen a Pokémon bites, you'll see a “!\"\nThat means start reeling in![f000]븁\u0000\nSo cool!"
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2437
@@ -150,7 +162,8 @@ Script_8:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 505, 0
-    ParentActorMsg 1024, 18, 0, 0
+    // "Skreet! Skreet!"
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -163,7 +176,8 @@ Script_9:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 573, 0
-    ParentActorMsg 1024, 25, 0, 0
+    // "Pfoooh!"
+    ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

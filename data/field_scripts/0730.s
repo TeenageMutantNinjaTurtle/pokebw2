@@ -17,12 +17,12 @@ Script_5:
 Script_6:
     VMStackPush 0x40da
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 801
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_005D
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_005D
     ActorSetGPos 0, 468, 0, 175, 3
 
 L_005D:
@@ -32,6 +32,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Route 11"
     MsgPlaceSign 2, 3
     MsgPlaceSignClose
     FinishAllEvents
@@ -42,6 +43,7 @@ Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Village Bridge Ahead"
     MsgPlaceSign 3, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -64,8 +66,8 @@ Script_3:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8022
     VMStackPushConst 173
-    VMStackCmp 1
-    VMJumpIf 255, L_0102
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0102
     ActorCmdExec 255, Movement_0274
     ActorCmdWait
     VMJump L_0124
@@ -85,6 +87,7 @@ L_0124:
     EvCameraEnd
     VMSleep 8
     PVPlay 640, 0
+    // "Kikwaaaa!"
     ScreamMsg 0, 1
     PVWait
     MsgWaitAdvance
@@ -99,6 +102,7 @@ Script_4:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 640, 0
+    // "Kikwaaaa!"
     ScreamMsg 0, 1
     PVWait
     MsgWaitAdvance
@@ -111,8 +115,8 @@ Script_4:
 L_017A:
     VMStackPushFlag 300
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01AD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01AD
     WorkSetConst 0x8023, 0
     WorkSetConst 0x8023, 1
     CallWildBattle 640, 45, 0x8023
@@ -129,8 +133,8 @@ L_01C7:
     WildBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01F8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01F8
     FlagSet 801
     FlagSet 300
     WorkSetConst 0x40da, 1
@@ -144,7 +148,7 @@ L_01F8:
 L_01FA:
     WildBattleGetResult 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_0211
+    VMJumpIf CMP_EQ, L_0211
     VMJump L_021B
 
 L_0211:
@@ -153,9 +157,9 @@ L_0211:
 
 L_021B:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_023B
+    VMJumpIf CMP_EQ, L_023B
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_023B
+    VMJumpIf CMP_EQ, L_023B
     VMJump L_0241
 
 L_023B:
@@ -164,8 +168,9 @@ L_023B:
 L_0241:
     VMStackPushFlag 301
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_025E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_025E
+    // "Virizion ran off\ndown the road and vanished..."
     SystemMsg 1, 0
     LastKeyWait
     InfoMsgClose

@@ -13,8 +13,8 @@
 L_001A:
     VMStackPushFlag 364
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_003D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_003D
     ObjInitWarpGPos 0, 0, 0, 0
     VMJump L_0047
 
@@ -40,8 +40,8 @@ Script_5:
 L_0067:
     VMStackPush 0x40fb
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0092
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0092
     Plugin9_Cmd1006 0
     VMNop2
     Plugin9_Cmd1006 1
@@ -61,24 +61,26 @@ Script_6:
     ActorCmdExec 0, Movement_024C
     ActorWalkRoute 255, 11, 12, 1, 8, 0
     ActorCmdWait
-    ActorMsg 1024, 0, 2, 5, 0
+    // "Team Plasma: Who are you?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 2, 5, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_025C
     ActorCmdWait
-    ActorMsg 1024, 1, 0, 6, 0
+    // "[f000]Ā\u0001\u0001: Just to let you know...\nYou're about to feel my rage![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 6, 0
     MsgWinCloseAll
     VMStackPush 0x4030
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00FD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00FD
     CallTrainerMultiBattle 794, 798, 799, 0
     VMJump L_012A
 
 L_00FD:
     VMStackPush 0x4030
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0120
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0120
     CallTrainerMultiBattle 795, 798, 799, 0
     VMJump L_012A
 
@@ -90,9 +92,11 @@ L_012A:
     ActorCmdExec 2, Movement_047C
     ActorCmdExec 1, Movement_0484
     ActorCmdWait
-    ActorMsg 1024, 2, 2, 5, 0
+    // "Team Plasma: Ugh...!\nWe have to tell the others.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 2, 5, 0
     MsgWinCloseAll
-    ActorMsg 1024, 3, 1, 3, 0
+    // "Team Plasma: Oh no! At this rate,\nthey'll get through our barriers![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 1, 3, 0
     MsgWinCloseAll
     ActorCmdExec 2, Movement_0278
     ActorCmdExec 1, Movement_0264
@@ -106,14 +110,17 @@ L_012A:
     SEPlay 1369
     ActorDelete 2
     SEWait
-    ActorMsg 1024, 4, 0, 6, 0
+    // "[f000]Ā\u0001\u0001: They didn't have\nPurrloin with them![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 6, 0
     MsgWinCloseAll
     ActorCmdExec 255, Movement_046C
     ActorCmdExec 0, Movement_046C
     ActorCmdWait
-    ActorMsg 1024, 5, 0, 0, 0
+    // "Barriers, huh...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 6, 0, 0, 0
+    // "And there's a device where\nyou enter a password here...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0484
     ActorCmdWait
@@ -121,7 +128,8 @@ L_012A:
     ActorCmdExec 0, Movement_047C
     ActorCmdExec 255, Movement_0484
     ActorCmdWait
-    ActorMsg 1024, 7, 0, 0, 0
+    // "That means...[f000]븁\u0000\nWe either have to find the password,\nor get it out of Team Plasma,[f000]븀\u0000\nto deactivate the barriers.[f000]븁\u0000\n[f000]Ā\u0001\u0000!\nLet's split up and find that password![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0290
     VMSleep 4
@@ -179,8 +187,9 @@ Script_2:
     SEPlay 1351
     VMStackPushFlag 356
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02C9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02C9
+    // "There is a device...[f000]븁\u0000\nIt seems that a card key is necessary\nto enter a password."
     SystemMsg 8, 2
     LastKeyWait
     MsgWinCloseAll
@@ -189,26 +198,28 @@ Script_2:
 L_02C9:
     VMStackPush 0x40fb
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_038A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_038A
     Plugin9_Cmd1005 0x400a
     DebugPrint 0x400a
     SEPlay 2214
     SEWait
+    // "There is a device...\nIt seems to be for entering a password.[f000]븁\u0000\nWill you enter a password?"
     SystemMsg 9, 2
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0382
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0382
     MsgWinCloseAll
     WorkSetConst 0x8020, 0
     Plugin9_Cmd1004 0x8020
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_036C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_036C
     SEPlay 2215
+    // "You succeeded in\nentering the password!"
     SystemMsg 11, 2
     SEWait
     MsgWaitAdvance
@@ -220,6 +231,7 @@ L_02C9:
     Plugin9_Cmd1008 2
     VMSleep 8
     Plugin9_Cmd1008 3
+    // "All the barriers were deactivated,\nand now you can proceed!"
     SystemMsg 12, 2
     LastKeyWait
     MsgWinCloseAll
@@ -230,6 +242,7 @@ L_02C9:
 L_036C:
     SEPlay 2216
     SEWait
+    // "The password is not correct."
     SystemMsg 10, 2
     LastKeyWait
     MsgWinCloseAll
@@ -244,6 +257,7 @@ L_0384:
     VMJump L_0394
 
 L_038A:
+    // "All the barriers were deactivated,\nand now you can proceed!"
     SystemMsg 12, 2
     LastKeyWait
     MsgWinCloseAll
@@ -262,6 +276,7 @@ Script_1:
     ActorCmdExec 255, Movement_03D8
     ActorCmdWait
     SEWait
+    // "Be careful!\nThe barriers are electrified!"
     InfoMsg 13, 2
     LastKeyWait
     MsgWinCloseAll
@@ -286,13 +301,13 @@ L_03EC:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0426
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0426
     PokePartyGetCount 0x8008, 2
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_041E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_041E
     PokePartyRecoverAll
 
 L_041E:

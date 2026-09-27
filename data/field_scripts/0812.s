@@ -28,12 +28,12 @@ Script_1:
     RTCGetDayPart 0x8023
     VMStackPush 0x8023
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 4
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_009B
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_009B
     FlagSet 787
     FlagSet 780
     VMJump L_00A3
@@ -45,24 +45,24 @@ L_009B:
 L_00A3:
     VMStackPush 0x40cc
     VMStackPushConst 4
-    VMStackCmp 5
-    VMJumpIf 255, L_00BE
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_00BE
     DebugPrint 2323
     FlagSet 780
 
 L_00BE:
     VMStackPush 0x40cc
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_00E9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E9
     ObjInitNPCGPos 6, 1, 655, 0, 170
     ObjInitNPCGPos 9, 0, 655, 0, 171
 
 L_00E9:
     VMStackPush 0x40ce
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0120
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0120
     ObjInitNPCGPos 12, 2, 647, 0, 186
     ObjInitNPCGPos 10, 3, 645, 0, 186
     ObjInitNPCGPos 11, 3, 645, 0, 185
@@ -73,16 +73,16 @@ L_0120:
 Script_2:
     VMStackPush 0x40cc
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_014D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_014D
     ActorSetGPos 6, 655, 0, 170, 1
     ActorSetGPos 9, 655, 0, 171, 0
 
 L_014D:
     VMStackPush 0x40ce
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0184
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0184
     ActorSetGPos 12, 647, 0, 186, 2
     ActorSetGPos 10, 645, 0, 186, 3
     ActorSetGPos 11, 645, 0, 185, 3
@@ -99,8 +99,8 @@ Script_3:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 667
-    VMStackCmp 1
-    VMJumpIf 255, L_01DD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01DD
     ActorWalkRoute 6, 664, 171, 1, 8, 0
     ActorWalkRoute 9, 664, 170, 1, 8, 0
     ActorCmdWait
@@ -117,24 +117,25 @@ L_01DD:
 
 L_0219:
     WordSetPlayerName 0
-    ActorMsg 1024, 0, 6, 0x8025, 0
+    // "Professor Juniper: Hi there, [f000]Ā\u0001\u0000![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 6, 0x8025, 0
     MsgWinCloseAll
     VMStackPush 0x8021
     VMStackPushConst 667
-    VMStackCmp 1
-    VMJumpIf 255, L_029F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_029F
     PlayerGetExState 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0258
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0258
     PlayerSetSpecialSequence 1
 
 L_0258:
     VMStackPush 0x8022
     VMStackPushConst 171
-    VMStackCmp 1
-    VMJumpIf 255, L_027F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_027F
     ActorWalkRoute 255, 666, 171, 1, 8, 0
     VMJump L_0297
 
@@ -153,15 +154,15 @@ L_029F:
     PlayerGetExState 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02C4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02C4
     PlayerSetSpecialSequence 1
 
 L_02C4:
     VMStackPush 0x8021
     VMStackPushConst 669
-    VMStackCmp 1
-    VMJumpIf 255, L_02E7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02E7
     ActorCmdExec 255, Movement_0F8C
     ActorCmdWait
     VMJump L_0301
@@ -173,14 +174,16 @@ L_02E7:
     ActorCmdWait
 
 L_0301:
-    ActorMsg 1024, 1, 9, 0, 0
+    // "Bianca: Hee hee![f000]븁\u0000\nI used Fly, so it looks like\nI beat you here.[f000]븁\u0000\nThanks for your help\nin Reversal Mountain![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 9, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 2, 6, 0x8025, 0
+    // "Professor Juniper: If you go straight\npast Lacunosa Town, you'll reach[f000]븀\u0000\nOpelucid City![f000]븁\u0000\nBut before you go, there's something\nI want you two to hear.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 6, 0x8025, 0
     MsgWinCloseAll
     VMStackPush 0x8021
     VMStackPushConst 667
-    VMStackCmp 1
-    VMJumpIf 255, L_033E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_033E
     ActorCmdExec 9, Movement_0F94
     VMJump L_0346
 
@@ -189,19 +192,21 @@ L_033E:
 
 L_0346:
     ActorCmdWait
-    ActorMsg 1024, 3, 9, 0, 0
+    // "Bianca: What is it?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 9, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 4, 6, 0x8025, 0
+    // "Professor Juniper: You'll know soon\nenough. Hurry now![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 6, 0x8025, 0
     MsgWinCloseAll
     RTCGetDayPart 0x8023
     VMStackPush 0x8023
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 4
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_0391
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_0391
     VMJump L_039F
 
 L_0391:
@@ -211,8 +216,8 @@ L_039F:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8022
     VMStackPushConst 171
-    VMStackCmp 1
-    VMJumpIf 255, L_03D8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03D8
     ActorCmdExec 6, Movement_0EEC
     ActorCmdExec 9, Movement_0EF8
     ActorCmdExec 255, Movement_0F0C
@@ -229,13 +234,14 @@ L_03F2:
     RTCGetDayPart 0x8023
     VMStackPush 0x8023
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 4
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_046F
-    ActorMsg 1024, 8, 6, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_046F
+    // "Professor Juniper: This is the place![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 6, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 6, 652, 170, 1, 8, 1
     ActorCmdWait
@@ -252,12 +258,15 @@ L_03F2:
     VMJump L_04F1
 
 L_046F:
-    ActorMsg 1024, 5, 251, 0, 0
+    // "You must be the ones who want to hear\nthat old tale about Lacunosa Town."
+    ActorMsg MSGFILE_SCRIPT, 5, 251, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
-    ActorMsg 1024, 6, 6, 0, 0
+    // "Professor Juniper: That's right.\nPlease tell us.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 6, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 7, 251, 0, 0
+    // "All right, my dearies.\nPlease come in.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 251, 0, 0
     MsgWinCloseAll
     ActorCmdExec 251, Movement_0F8C
     ActorCmdWait
@@ -294,10 +303,14 @@ Script_4:
     WorkSetConst 0x40cc, 3
     ActorWalkRoute 255, 653, 170, 1, 8, 1
     ActorCmdWait
-    ActorMsg 1024, 9, 6, 1, 0
+    // "Professor Juniper: Wasn't that\nan interesting folktale?[f000]븁\u0000\nThe Pokémon's true identity may be\nunknown, but the power mentioned[f000]븀\u0000\nin the story is incredible![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 6, 1, 0
     MsgWinCloseAll
-    ActorMsg 1024, 10, 9, 0, 0
+    // "Bianca: I know...[f000]븁\u0000\nThe power to freeze everything around it\ncould even rival the power of the[f000]븀\u0000\nlegendary Dragon-type Pokémon.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 9, 0, 0
     MsgWinCloseAll
+    // "Yes, Bianca.[f000]븁\u0000\nIt's almost like Reshiram, who scorched\nUnova with blazing fire long ago.[f000]븁\u0000"
+    // "Yes, Bianca.[f000]븁\u0000\nIt's almost like Zekrom, who scorched\nUnova with intense lightning long ago.[f000]븁\u0000"
     ActorMsgVersioned 1024, 12, 11, 6, 1, 0
     MsgWinCloseAll
     ActorCmdExec 6, Movement_0F84
@@ -305,18 +318,24 @@ Script_4:
     ActorCmdExec 9, Movement_0F84
     ActorCmdWait
     WordSetPlayerName 0
+    // "By the way, [f000]Ā\u0001\u0000,\ndo you remember the story of Reshiram?"
+    // "By the way, [f000]Ā\u0001\u0000,\ndo you remember the story of Zekrom?"
     ActorMsgVersioned 1024, 14, 13, 6, 1, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_05BB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05BB
+    // "So you remember I told you a little\nabout it in Lentimas Town![f000]븁\u0000\nReshiram is a legendary Dragon-type\nPokémon that lends its power to the[f000]븀\u0000\nperson it recognizes as a hero who[f000]븀\u0000\nseeks truth.[f000]븁\u0000\nIt has a white body, and it can send\nforth ferocious flames![f000]븁\u0000"
+    // "I told you a little about it in\nLentimas Town, remember?[f000]븁\u0000\nZekrom is a legendary Dragon-type\nPokémon that lends its power to the[f000]븀\u0000\nperson it recognizes as a hero[f000]븀\u0000\npursuing ideals.[f000]븁\u0000\nIt has a black body, and it can\nunleash fearsome lightning![f000]븁\u0000"
     ActorMsgVersioned 1024, 17, 15, 6, 1, 0
     MsgWinCloseAll
     VMJump L_05CE
 
 L_05BB:
     WordSetPlayerName 0
+    // "Oh, [f000]Ā\u0001\u0000...[f000]븁\u0000\nI even told you a little about\nit in Lentimas Town.[f000]븁\u0000\nReshiram is a legendary Dragon-type\nPokémon that lends its power to the[f000]븀\u0000\nperson it recognizes as a hero who[f000]븀\u0000\nseeks truth.[f000]븁\u0000\nIt has a white body, and it can send\nforth ferocious flames![f000]븁\u0000"
+    // "Oh, [f000]Ā\u0001\u0000...[f000]븁\u0000\nI even told you a little about\nit in Lentimas Town.[f000]븁\u0000\nZekrom is a legendary Dragon-type\nPokémon that lends its power to the[f000]븀\u0000\nperson it recognizes as a hero[f000]븀\u0000\npursuing ideals.[f000]븁\u0000\nIt has a black body, and it can\nunleash fearsome lightning![f000]븁\u0000"
     ActorMsgVersioned 1024, 18, 16, 6, 1, 0
     MsgWinCloseAll
 
@@ -325,7 +344,8 @@ L_05CE:
     VMSleep 8
     ActorCmdExec 6, Movement_0F94
     ActorCmdWait
-    ActorMsg 1024, 19, 9, 0, 0
+    // "Bianca: Professor, do you think\nthere's a connection between[f000]븀\u0000\nthe Pokémon from the old story[f000]븀\u0000\nand the legendary Dragon-type Pokémon?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 19, 9, 0, 0
     MsgWinCloseAll
     ActorCmdExec 6, Movement_0FCC
     ActorCmdWait
@@ -333,28 +353,36 @@ L_05CE:
     ActorCmdExec 6, Movement_0FEC
     ActorCmdWait
     VMSleep 30
-    ActorMsg 1024, 20, 6, 1, 0
+    // "Professor Juniper: The meteorite.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 20, 6, 1, 0
     MsgWinCloseAll
-    ActorMsg 1024, 21, 9, 0, 0
+    // "Bianca: The meteorite?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 21, 9, 0, 0
     MsgWinCloseAll
     ActorCmdExec 6, Movement_0FC4
     ActorCmdWait
+    // "Reshiram was revived from a\nrock called the Light Stone.[f000]븁\u0000\nLet's suppose the meteorite\nfrom the story and this stone[f000]븀\u0000\nare one and the same...[f000]븁\u0000\nTake into account that elements\nfrom the same era were found in[f000]븀\u0000\nDragonspiral Tower, where Reshiram was,[f000]븀\u0000\nand in the Giant Chasm...[f000]븁\u0000\nIt doesn't prove anything, but it\ncould be a piece of the puzzle.[f000]븁\u0000\nLet's not write it off as a\ncoincidence just yet...[f000]븁\u0000"
+    // "Zekrom was revived from a\nrock called the Dark Stone.[f000]븁\u0000\nLet's suppose the meteorite\nfrom the story and this stone[f000]븀\u0000\nare one and the same...[f000]븁\u0000\nTake into account that elements\nfrom the same era were found in[f000]븀\u0000\nDragonspiral Tower, where Zekrom was,[f000]븀\u0000\nand in the Giant Chasm...[f000]븁\u0000\nIt doesn't prove anything, but it\ncould be a piece of the puzzle.[f000]븁\u0000\nLet's not write it off as a\ncoincidence just yet...[f000]븁\u0000"
     ActorMsgVersioned 1024, 23, 22, 6, 1, 0
     MsgWinCloseAll
-    ActorMsg 1024, 24, 9, 0, 0
+    // "Bianca: If your theories are true,\nit should be a really strong Pokémon.[f000]븁\u0000\nWhat kind of a reason would there be\nfor it to come out only at night?[f000]븁\u0000\nLike, if, like, it doesn't like sunlight\nor something like that...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 24, 9, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 25, 6, 1, 0
+    // "Until we look into it more deeply, it would\nbe hard to say anything about that.[f000]븁\u0000\nNow that I think about it, the name\n“Lacunosa\" could be derived from[f000]븀\u0000\nlacunosus clouds, which are clouds[f000]븀\u0000\nthat resemble a net or a fence.[f000]븁\u0000\nI wonder if the name is related to\nthe part of the story where they[f000]븀\u0000\nbuilt walls to protect the town[f000]븀\u0000\nfrom that Pokémon.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 25, 6, 1, 0
     MsgWinCloseAll
     ActorCmdExec 9, Movement_0F84
     VMSleep 8
     ActorCmdExec 6, Movement_0F84
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 26, 6, 1, 0
+    // "Sorry, I rambled on a bit, didn't I?[f000]븁\u0000\n[f000]Ā\u0001\u0000, could you ask Drayden\nabout this, if you get a chance?[f000]븁\u0000\nI'm going to do a little fieldwork.\nBianca, help out, OK![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 26, 6, 1, 0
     MsgWinCloseAll
     ActorCmdExec 9, Movement_0F8C
     ActorCmdWait
-    ActorMsg 1024, 27, 9, 0, 0
+    // "Bianca: Sure thing![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 27, 9, 0, 0
     MsgWinCloseAll
     ActorCmdExec 6, Movement_0F60
     ActorCmdWait
@@ -365,19 +393,21 @@ L_05CE:
     VMSleep 3
     ActorCmdExec 255, Movement_0F94
     ActorCmdWait
-    ActorMsg 1024, 28, 9, 0, 0
+    // "Oh, just so you know, Opelucid City's\nmayor, Drayden, wrestles with his[f000]븀\u0000\nPokémon to toughen them up![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 28, 9, 0, 0
     MsgWinCloseAll
     ActorCmdExec 9, Movement_0F94
     ActorCmdWait
-    ActorMsg 1024, 29, 9, 0, 0
+    // "Professor Juniper, wait up![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 29, 9, 0, 0
     MsgWinCloseAll
     ActorCmdExec 9, Movement_0F6C
     ActorCmdWait
     ActorDelete 9
     FlagSet 778
     FlagSet 779
-    Cmd_0262 3, 7
-    Cmd_0262 0, 6
+    HollowRivalCmd_0262 3, 7
+    HollowRivalCmd_0262 0, 6
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -388,26 +418,29 @@ Script_16:
     ActorSetEyeToEye
     VMStackPush 0x40ce
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0748
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0748
     VMCall L_0895
     VMJump L_07A2
 
 L_0748:
     WordSetLoadRivalName 1
-    ActorMsg 1024, 35, 12, 0, 0
+    // "[f000]Ā\u0001\u0001: Are you ready to pitch in?\nOK, let's go!"
+    ActorMsg MSGFILE_SCRIPT, 35, 12, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0788
-    ActorMsg 1024, 33, 12, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0788
+    // "[f000]Ā\u0001\u0001: Just to let you know...[f000]븁\u0000\nYou're about to feel my rage![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 33, 12, 0, 0
     MsgWinCloseAll
     VMCall L_0B09
     VMJump L_07A2
 
 L_0788:
-    ActorMsg 1024, 34, 12, 0, 0
+    // "[f000]Ā\u0001\u0001: Got it!\nGo get ready and then come back here![f000]븁\u0000\nBeing careful against opponents\nlike these isn't a bad thing!"
+    ActorMsg MSGFILE_SCRIPT, 34, 12, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 12, Movement_0F84
@@ -422,7 +455,7 @@ Script_6:
     ActorsPauseAll
     PlayerGetGPos 0x8021, 0x8022
     WorkCmpConst 0x8022, 185
-    VMJumpIf 1, L_07C3
+    VMJumpIf CMP_EQ, L_07C3
     VMJump L_07D9
 
 L_07C3:
@@ -432,7 +465,7 @@ L_07C3:
 
 L_07D9:
     WorkCmpConst 0x8022, 187
-    VMJumpIf 1, L_07EC
+    VMJumpIf CMP_EQ, L_07EC
     VMJump L_0802
 
 L_07EC:
@@ -443,27 +476,30 @@ L_07EC:
 L_0802:
     ActorCmdWait
     WordSetLoadRivalName 1
-    ActorMsg 1024, 35, 12, 0, 0
+    // "[f000]Ā\u0001\u0001: Are you ready to pitch in?\nOK, let's go!"
+    ActorMsg MSGFILE_SCRIPT, 35, 12, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_085F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_085F
     PlayerGetExState 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0845
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0845
     PlayerSetSpecialSequence 1
 
 L_0845:
-    ActorMsg 1024, 33, 12, 0, 0
+    // "[f000]Ā\u0001\u0001: Just to let you know...[f000]븁\u0000\nYou're about to feel my rage![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 33, 12, 0, 0
     MsgWinCloseAll
     VMCall L_0B09
     VMJump L_0881
 
 L_085F:
-    ActorMsg 1024, 34, 12, 0, 0
+    // "[f000]Ā\u0001\u0001: Got it!\nGo get ready and then come back here![f000]븁\u0000\nBeing careful against opponents\nlike these isn't a bad thing!"
+    ActorMsg MSGFILE_SCRIPT, 34, 12, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 12, Movement_0F84
@@ -486,17 +522,17 @@ L_0895:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x40ce
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0A51
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A51
     WorkSetConst 0x40ce, 2
     FlagReset 785
-    Cmd_0262 1, 22
+    HollowRivalCmd_0262 1, 22
     ActorAdd 10
     ActorAdd 11
     VMStackPush 0x8022
     VMStackPushConst 185
-    VMStackCmp 1
-    VMJumpIf 255, L_08E9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08E9
     ActorCmdExec 12, Movement_0F7C
     ActorCmdWait
     VMJump L_0940
@@ -504,8 +540,8 @@ L_0895:
 L_08E9:
     VMStackPush 0x8022
     VMStackPushConst 186
-    VMStackCmp 1
-    VMJumpIf 255, L_0916
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0916
     ActorCmdExec 12, Movement_0FDC
     ActorCmdWait
     ActorCmdExec 255, Movement_0F8C
@@ -525,13 +561,14 @@ L_0940:
     PlayerGetExState 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_095B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_095B
     PlayerSetSpecialSequence 1
 
 L_095B:
     WordSetLoadRivalName 1
-    ActorMsg 1024, 30, 12, 0, 0
+    // "[f000]Ā\u0001\u0001: What's up?[f000]븁\u0000\nHave you seen Team Plasma\nanywhere around here?[f000]븀\u0000\nI heard a rumor to that effect...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 30, 12, 0, 0
     MsgWinCloseAll
     BGMPlay 1266
     ActorCmdExec 10, Movement_0F74
@@ -544,7 +581,8 @@ L_095B:
     ActorCmdExec 255, Movement_0F84
     ActorCmdWait
     EvCameraWait
-    ActorMsg 1024, 31, 10, 2, 0
+    // "Zinzolin: Oh, for crying out loud...\nThis is troublesome indeed,[f000]븀\u0000\nmy curious Trainers.[f000]븁\u0000\nPerhaps I should satiate\nyour curiosity somewhat.[f000]븁\u0000\nThe reason I am still part\nof Team Plasma is this:[f000]븁\u0000\nI want to know how the world will change.[f000]븁\u0000\nListen. Pokémon are nature.\nPoké Balls are civilization.[f000]븁\u0000\nHumans who are used to civilization\ndon't relinquish it easily.[f000]븁\u0000\nOf course, both nature and\ncivilization are important.[f000]븁\u0000\nBut what will happen to a world\ntaken over by Team Plasma?[f000]븁\u0000\nPeople will be forced to throw out\nPoké Balls--a product of civilization.[f000]븁\u0000\nI want to know what that looks like!\nAnd I want to enjoy it![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 31, 10, 2, 0
     MsgWinCloseAll
     ActorWalkRoute 12, 647, 186, 1, 4, 0
     ActorCmdWait
@@ -554,13 +592,15 @@ L_095B:
     ActorCmdWait
     WordSetPlayerName 0
     WordSetLoadRivalName 1
-    ActorMsg 1024, 32, 12, 0, 0
+    // "[f000]Ā\u0001\u0001: Shut your mouth.[f000]븁\u0000\nAll I want is to get back\na stolen Pokémon![f000]븁\u0000\n[f000]Ā\u0001\u0000! Give me a hand!\nYou ready?"
+    ActorMsg MSGFILE_SCRIPT, 32, 12, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0A31
-    ActorMsg 1024, 33, 12, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A31
+    // "[f000]Ā\u0001\u0001: Just to let you know...[f000]븁\u0000\nYou're about to feel my rage![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 33, 12, 0, 0
     MsgWinCloseAll
     EvCameraReturn 30
     EvCameraWait
@@ -570,7 +610,8 @@ L_095B:
     VMJump L_0A4B
 
 L_0A31:
-    ActorMsg 1024, 34, 12, 0, 0
+    // "[f000]Ā\u0001\u0001: Got it!\nGo get ready and then come back here![f000]븁\u0000\nBeing careful against opponents\nlike these isn't a bad thing!"
+    ActorMsg MSGFILE_SCRIPT, 34, 12, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     EvCameraReturn 30
@@ -584,7 +625,7 @@ L_0A4B:
 L_0A51:
     PlayerGetGPos 0x8021, 0x8022
     WorkCmpConst 0x8022, 185
-    VMJumpIf 1, L_0A6A
+    VMJumpIf CMP_EQ, L_0A6A
     VMJump L_0A80
 
 L_0A6A:
@@ -594,7 +635,7 @@ L_0A6A:
 
 L_0A80:
     WorkCmpConst 0x8022, 187
-    VMJumpIf 1, L_0A93
+    VMJumpIf CMP_EQ, L_0A93
     VMJump L_0AA9
 
 L_0A93:
@@ -605,19 +646,22 @@ L_0A93:
 L_0AA9:
     ActorCmdWait
     WordSetLoadRivalName 1
-    ActorMsg 1024, 35, 12, 0, 0
+    // "[f000]Ā\u0001\u0001: Are you ready to pitch in?\nOK, let's go!"
+    ActorMsg MSGFILE_SCRIPT, 35, 12, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0AEB
-    ActorMsg 1024, 33, 12, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0AEB
+    // "[f000]Ā\u0001\u0001: Just to let you know...[f000]븁\u0000\nYou're about to feel my rage![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 33, 12, 0, 0
     MsgWinCloseAll
     VMCall Script_6
     VMJump L_0B05
 
 L_0AEB:
-    ActorMsg 1024, 34, 12, 0, 0
+    // "[f000]Ā\u0001\u0001: Got it!\nGo get ready and then come back here![f000]븁\u0000\nBeing careful against opponents\nlike these isn't a bad thing!"
+    ActorMsg MSGFILE_SCRIPT, 34, 12, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 12, Movement_0F84
@@ -630,7 +674,7 @@ L_0B05:
 L_0B09:
     PlayerGetGPos 0x8021, 0x8022
     WorkCmpConst 0x8022, 186
-    VMJumpIf 1, L_0B22
+    VMJumpIf CMP_EQ, L_0B22
     VMJump L_0B44
 
 L_0B22:
@@ -642,7 +686,7 @@ L_0B22:
 
 L_0B44:
     WorkCmpConst 0x8022, 187
-    VMJumpIf 1, L_0B57
+    VMJumpIf CMP_EQ, L_0B57
     VMJump L_0B83
 
 L_0B57:
@@ -657,12 +701,12 @@ L_0B57:
 L_0B83:
     VMStackPush 0x8022
     VMStackPushConst 185
-    VMStackCmp 1
-    VMJumpIf 255, L_0BCF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0BCF
     VMStackPush 0x8021
     VMStackPushConst 650
-    VMStackCmp 1
-    VMJumpIf 255, L_0BBD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0BBD
     ActorWalkRoute 255, 647, 185, 2, 8, 0
     VMJump L_0BCD
 
@@ -676,16 +720,16 @@ L_0BCD:
 L_0BCF:
     VMStackPush 0x4030
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0BF2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0BF2
     CallTrainerMultiBattle 701, 705, 704, 0
     VMJump L_0C1F
 
 L_0BF2:
     VMStackPush 0x4030
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0C15
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0C15
     CallTrainerMultiBattle 702, 705, 704, 0
     VMJump L_0C1F
 
@@ -694,9 +738,11 @@ L_0C15:
 
 L_0C1F:
     VMCall L_0CB0
-    ActorMsg 1024, 36, 11, 1, 0
+    // "Team Plasma: What's with these two?\nI'm battling alongside Zinzolin![f000]븀\u0000\nThis shouldn't be happening![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 36, 11, 1, 0
     MsgWinCloseAll
-    ActorMsg 1024, 37, 10, 2, 0
+    // "Zinzolin: These Trainers remind me\nof that one from two years ago.[f000]븁\u0000\nMore important, we must continue\nour search.[f000]븁\u0000\nLike that scientist said,\nit might be in Opelucid City![f000]븁\u0000\nWe'll play with you again later![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 37, 10, 2, 0
     MsgWinCloseAll
     VMSleep 15
     ActorWalkRoute 10, 637, 186, 1, 4, 0
@@ -707,7 +753,8 @@ L_0C1F:
     ActorDelete 11
     FlagSet 785
     WordSetLoadRivalName 1
-    ActorMsg 1024, 38, 12, 0, 1
+    // "[f000]Ā\u0001\u0001: Get back here![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 38, 12, 0, 1
     ActorMsgClose
     ActorWalkRoute 12, 638, 186, 1, 4, 0
     ActorCmdWait
@@ -715,20 +762,20 @@ L_0C1F:
     FlagSet 784
     WorkSetConst 0x40ce, 3
     WorkSetConst 0x40cc, 4
-    Cmd_0262 1, 23
+    HollowRivalCmd_0262 1, 23
     VMReturn
 
 L_0CB0:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0CEA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0CEA
     PokePartyGetCount 0x8008, 2
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0CE2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0CE2
     PokePartyRecoverAll
 
 L_0CE2:
@@ -745,6 +792,7 @@ Script_7:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Lacunosa Town\nMethodical and Orderly for Safety"
     MsgPlaceSign 44, 1
     MsgPlaceSignClose
     FinishAllEvents
@@ -756,25 +804,27 @@ Script_8:
     PlayerGetGPos 0x8021, 0x8022
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 39, 0, 0
+    // "Do you want to hear that old tale\nof Lacunosa Town again?[f000]븁\u0000\nIt always takes me a little time\nto tell it."
+    ParentActorMsg MSGFILE_SCRIPT, 39, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0DA2
-    ParentActorMsg 1024, 40, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0DA2
+    // "There's a great big hole behind\nthis town.[f000]븁\u0000\nA long time ago, a huge meteorite fell\nfrom the sky and made the big hole.[f000]븁\u0000\nA very scary monster was hiding\ninside the meteorite![f000]븁\u0000\nPeople say the monster appeared in the\nvillage at night, with a freezing wind,[f000]븀\u0000\nand it stole away people and Pokémon...[f000]븁\u0000\nSo the villagers built big walls to keep\nthe monster out and made a rule that[f000]븀\u0000\nno one could go out after dark.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 40, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0F7C
     ActorCmdWait
     VMSleep 60
     VMStackPush 0x8021
     VMStackPushConst 670
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 167
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0D84
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0D84
     ActorCmdExec 0, Movement_0F94
     ActorCmdWait
     VMJump L_0D8E
@@ -784,13 +834,15 @@ L_0D84:
     ActorCmdWait
 
 L_0D8E:
-    ParentActorMsg 1024, 41, 0, 0
+    // "Whether you believe it or not\nis up to you...[f000]븁\u0000\nBut even now, the people of this town\nstay inside after dark.[f000]븁\u0000\nThe old stories and legends\ncontinue to influence our lives."
+    ParentActorMsg MSGFILE_SCRIPT, 41, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0DB0
 
 L_0DA2:
-    ParentActorMsg 1024, 42, 0, 0
+    // "Oh, fine, fine.\nCome back again when you have time."
+    ParentActorMsg MSGFILE_SCRIPT, 42, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -803,7 +855,8 @@ Script_9:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 43, 0, 0
+    // "Welcome to Lacunosa Town.[f000]븁\u0000\nIn this town, people live as methodically\nas clockwork from morning to night.[f000]븁\u0000\nIf you live your life soaking up sunlight,\nyou can sleep very well at night."
+    ParentActorMsg MSGFILE_SCRIPT, 43, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -814,7 +867,8 @@ Script_10:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 45, 0, 0
+    // "The big scary monster that\ncomes out at night is[f000]븀\u0000\na Pokémon, right?[f000]븁\u0000\nIt must be a really scary Pokémon\nif everyone believes the legend[f000]븀\u0000\nand follows these rules..."
+    ParentActorMsg MSGFILE_SCRIPT, 45, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -825,11 +879,12 @@ Script_11:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0E1D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0E1D
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 47, 0, 0
+    // "My grandma's stories were\nreally about Kyurem, it seems.[f000]븁\u0000\nI guess old stories sometimes\nhave a kernel of truth to them."
+    ParentActorMsg MSGFILE_SCRIPT, 47, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0E31
@@ -837,7 +892,8 @@ Script_11:
 L_0E1D:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 46, 0, 0
+    // "My granny loves old stories![f000]븁\u0000\nI'm always having to listen\nto her really, really long stories."
+    ParentActorMsg MSGFILE_SCRIPT, 46, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -850,7 +906,8 @@ Script_12:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 48, 0, 0
+    // "There are a lot of people in the world,\nand there are just as many different[f000]븀\u0000\ncharacteristics and ideas."
+    ParentActorMsg MSGFILE_SCRIPT, 48, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -861,11 +918,12 @@ Script_13:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0E82
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0E82
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 50, 0, 0
+    // "So the reason nobody goes outside\nat night and it's so peaceful[f000]븀\u0000\nis because of a Pokémon?[f000]븀\u0000\nI don't know how to feel about that!"
+    ParentActorMsg MSGFILE_SCRIPT, 50, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0E96
@@ -873,7 +931,8 @@ Script_13:
 L_0E82:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 49, 0, 0
+    // "I don't have anything to do ever since\nI took a post here.[f000]븁\u0000\nSince nobody goes outside at night,\nit's very peaceful."
+    ParentActorMsg MSGFILE_SCRIPT, 49, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -887,7 +946,8 @@ Script_14:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 572, 0
-    ParentActorMsg 1024, 51, 0, 0
+    // "Gahoo! Gahoo!"
+    ParentActorMsg MSGFILE_SCRIPT, 51, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -899,7 +959,8 @@ Script_15:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 52, 0, 0
+    // "My Pokémon just runs around on its own.\nMaybe it doesn't need a Trainer?"
+    ParentActorMsg MSGFILE_SCRIPT, 52, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

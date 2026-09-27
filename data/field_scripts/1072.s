@@ -11,21 +11,24 @@ Script_1:
     ActorsPauseAll
     WordSetPlayerName 0
     VMCall L_0138
-    ActorMsg 1024, 0, 254, 0, 0
+    // "Oh! Undella Town is right through here!\nI want to keep looking around a bit more.[f000]븁\u0000\nWhat do you want to do?\nShould we say bye for now?"
+    ActorMsg MSGFILE_SCRIPT, 0, 254, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00F8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00F8
     VMStackPush 0x4121
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_006F
-    ActorMsg 1024, 1, 254, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_006F
+    // "OK, then! I want to do a little more\nresearch about Heatran anyway![f000]븁\u0000\nThank you for coming with me!\nBe careful on the rest of your journey![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 254, 0, 0
     VMJump L_007B
 
 L_006F:
-    ActorMsg 1024, 2, 254, 0, 0
+    // "OK, then![f000]븁\u0000\nI want to do a little more research\nabout where Heatran might be![f000]븁\u0000\nThank you for coming with me!\nBe careful on the rest of your journey![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 254, 0, 0
 
 L_007B:
     MsgWinCloseAll
@@ -33,8 +36,8 @@ L_007B:
     PlayerGetDir 0x8020
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_00AE
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_00AE
     VMSleep 16
     ActorCmdExec 255, Movement_0224
 
@@ -51,13 +54,14 @@ L_00AE:
     WorkSetConst 0x4121, 3
     FlagSet 959
     FlagReset 960
-    Cmd_0262 3, 0
+    HollowRivalCmd_0262 3, 0
     ActorAdd 0
     ActorDelete 254
     VMJump L_0116
 
 L_00F8:
-    ActorMsg 1024, 3, 254, 0, 0
+    // "OK! Then, let's look around a bit more![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 254, 0, 0
     MsgWinCloseAll
     ActorPairSetMoveEnable 1
     ActorCmdExec 255, Movement_01FC
@@ -73,7 +77,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "Reversal Mountain... I wonder...\nCould a Magma Stone be in there?[f000]븁\u0000\nHave you heard of it?\nThey say a Magma Stone was found[f000]븀\u0000\nin a volcano in the distant Sinnoh region.[f000]븁\u0000\nApparently, it had something\nto do with Heatran!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -83,7 +88,7 @@ Script_2:
 L_0138:
     PlayerGetDir 0x8020
     WorkCmpConst 0x8020, 2
-    VMJumpIf 1, L_014F
+    VMJumpIf CMP_EQ, L_014F
     VMJump L_0165
 
 L_014F:
@@ -93,7 +98,7 @@ L_014F:
 
 L_0165:
     WorkCmpConst 0x8020, 3
-    VMJumpIf 1, L_0178
+    VMJumpIf CMP_EQ, L_0178
     VMJump L_018E
 
 L_0178:
@@ -103,7 +108,7 @@ L_0178:
 
 L_018E:
     WorkCmpConst 0x8020, 0
-    VMJumpIf 1, L_01A1
+    VMJumpIf CMP_EQ, L_01A1
     VMJump L_01B7
 
 L_01A1:
@@ -113,7 +118,7 @@ L_01A1:
 
 L_01B7:
     WorkCmpConst 0x8020, 1
-    VMJumpIf 1, L_01CA
+    VMJumpIf CMP_EQ, L_01CA
     VMJump L_01E0
 
 L_01CA:

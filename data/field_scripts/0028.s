@@ -12,8 +12,8 @@ Script_1:
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_003F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_003F
     WorkSetConst 0x4020, 209
     VMJump L_0045
 
@@ -27,7 +27,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "I've trained only Fire-type Pokémon,\n'cause they're my favorites![f000]븁\u0000\nThey don't do well against Water-, Rock-,\nor Ground-type Pokémon and moves.[f000]븁\u0000\nBut thinking about how to compensate\nfor that is one of the fun things[f000]븀\u0000\nabout being a Trainer."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -38,7 +39,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Sometimes I look through my PC Box and\npick out an interesting Pokémon to raise![f000]븁\u0000\nThere are so many things you never\nknow until you raise a certain Pokémon."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -50,7 +52,8 @@ Script_4:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 504, 0
-    ParentActorMsg 1024, 2, 0, 0
+    // "Skreee!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -63,12 +66,13 @@ Script_5:
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_00DE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00DE
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 546, 0
-    ParentActorMsg 1024, 3, 0, 0
+    // "Fwee-oosh!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -78,7 +82,8 @@ L_00DE:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 548, 0
-    ParentActorMsg 1024, 4, 0, 0
+    // "Fwee lee lee... ♪"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

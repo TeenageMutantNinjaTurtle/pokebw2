@@ -39,20 +39,20 @@ L_0096:
     ActorSetEyeToEye
     VMStackPushFlag 0x802e
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01EB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01EB
     WorkCmpConst 0x802d, 6
-    VMJumpIf 1, L_00CF
+    VMJumpIf CMP_EQ, L_00CF
     WorkCmpConst 0x802d, 0
-    VMJumpIf 1, L_00CF
+    VMJumpIf CMP_EQ, L_00CF
     VMJump L_00DF
 
 L_00CF:
-    ParentActorMsg 1024, 0x8022, 2, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8022, 2, 0
     VMJump L_00E9
 
 L_00DF:
-    ParentActorMsg 1024, 0x8021, 2, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8021, 2, 0
 
 L_00E9:
     MoneyWinDisp 31, 1
@@ -62,15 +62,15 @@ L_00E9:
     ListMenuShow
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01D5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01D5
     ItemCheckSpace 0x802b, 1, 0x8029
     MoneyCheck 0x802a, 0x802c
     VMStackPush 0x8029
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0152
-    ParentActorMsg 1024, 0x8024, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0152
+    ParentActorMsg MSGFILE_SCRIPT, 0x8024, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_01CF
@@ -78,9 +78,9 @@ L_00E9:
 L_0152:
     VMStackPush 0x802a
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0179
-    ParentActorMsg 1024, 0x8025, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0179
+    ParentActorMsg MSGFILE_SCRIPT, 0x8025, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_01CF
@@ -90,7 +90,7 @@ L_0179:
     MoneySub 0x802c
     MoneyWinUpdate
     SEWait
-    ParentActorMsg 1024, 0x8023, 2, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8023, 2, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -99,7 +99,7 @@ L_0179:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 0x8026, 2, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8026, 2, 0
     LastKeyWait
     MsgWinCloseAll
     RecordAdd 21, 1
@@ -110,7 +110,7 @@ L_01CF:
     VMJump L_01E3
 
 L_01D5:
-    ParentActorMsg 1024, 0x8026, 2, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8026, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -119,7 +119,7 @@ L_01E3:
     VMJump L_01F9
 
 L_01EB:
-    ParentActorMsg 1024, 0x8027, 2, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8027, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -130,9 +130,9 @@ Script_2:
     ActorsPauseAll
     RTCGetWeekDay 0x802d
     WorkCmpConst 0x802d, 6
-    VMJumpIf 1, L_0221
+    VMJumpIf CMP_EQ, L_0221
     WorkCmpConst 0x802d, 0
-    VMJumpIf 1, L_0221
+    VMJumpIf CMP_EQ, L_0221
     VMJump L_0233
 
 L_0221:
@@ -164,9 +164,9 @@ Script_3:
     ActorsPauseAll
     RTCGetWeekDay 0x802d
     WorkCmpConst 0x802d, 6
-    VMJumpIf 1, L_02AD
+    VMJumpIf CMP_EQ, L_02AD
     WorkCmpConst 0x802d, 0
-    VMJumpIf 1, L_02AD
+    VMJumpIf CMP_EQ, L_02AD
     VMJump L_02BF
 
 L_02AD:
@@ -198,9 +198,9 @@ Script_4:
     ActorsPauseAll
     RTCGetWeekDay 0x802d
     WorkCmpConst 0x802d, 6
-    VMJumpIf 1, L_0339
+    VMJumpIf CMP_EQ, L_0339
     WorkCmpConst 0x802d, 0
-    VMJumpIf 1, L_0339
+    VMJumpIf CMP_EQ, L_0339
     VMJump L_034B
 
 L_0339:
@@ -232,9 +232,9 @@ Script_5:
     ActorsPauseAll
     RTCGetWeekDay 0x802d
     WorkCmpConst 0x802d, 6
-    VMJumpIf 1, L_03C5
+    VMJumpIf CMP_EQ, L_03C5
     WorkCmpConst 0x802d, 0
-    VMJumpIf 1, L_03C5
+    VMJumpIf CMP_EQ, L_03C5
     VMJump L_03D7
 
 L_03C5:
@@ -264,14 +264,15 @@ L_03E3:
 
 Script_6:
     ActorsPauseAll
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 4
-    VMStackCmp 3
-    VMJumpIf 255, L_045E
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_045E
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Welcome to Black City.[f000]븁\u0000\nThis is the city of dreams, greed, and\nmore greed.[f000]븁\u0000\nAnd I am Black City's boss, so I'm\na whirlpool of greed!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_04C2
@@ -279,15 +280,16 @@ Script_6:
 L_045E:
     VMStackPush 0x8020
     VMStackPushConst 5
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMStackCmp 7
-    VMJumpIf 255, L_049B
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_049B
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Your greed is impressive.\nI know.[f000]븁\u0000\nYou climbed right up the Black Tower.\nThat's great![f000]븁\u0000\nI like people who are\nfilled with ambition and greed."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_04C2
@@ -295,11 +297,12 @@ L_045E:
 L_049B:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_04C2
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_04C2
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Having amazing Trainers like\nyou here in Black City makes[f000]븀\u0000\nme seem less impressive.[f000]븁\u0000\nBut, whatever!\nMy greed knows no bounds...[f000]븁\u0000\nThat's right! That's why I'm\nthe boss of Black City!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -312,7 +315,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "It has worth because it's expensive.\nIf you think that, you'll get burned![f000]븁\u0000\nYou have to get smarter so you\nwon't get tricked!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -323,7 +327,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "I want to become really powerful\nso I can make more money!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -334,7 +339,8 @@ Script_9:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "Money can't get you everything.[f000]븁\u0000\nStill, if you have it,\nyou can get almost anything!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -345,7 +351,8 @@ Script_10:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "You can't be satisfied by\nbeing the same as everyone else![f000]븁\u0000\nIf you are, you're just not thinking,\nand you'll be tricked by bad people."
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -356,7 +363,8 @@ Script_11:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "Hmmm... Isn't there a better job where\nI can make more money?[f000]븁\u0000\nI mean, come on![f000]븁\u0000\nI want more money\nif I'm going to do the same job!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -367,7 +375,8 @@ Script_12:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "I wonder how strong this Pokémon\ncould become...[f000]븁\u0000\nStrength is a measure of worth, right?"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -378,7 +387,8 @@ Script_13:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "Everything I want is here!\nIf I only had money! If only![f000]븀\u0000\nThat's right![f000]븀\u0000\nI'm going to work hard to make money!"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -389,7 +399,8 @@ Script_14:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "Did civilization develop so that\npeople can get what they want?"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

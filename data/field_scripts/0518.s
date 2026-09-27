@@ -11,7 +11,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "I wonder if veteran Pokémon raise\nor train young Pokémon."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -22,7 +23,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "I wish somebody would raise me like this.\nWith three meals and a nap every day."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -33,7 +35,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "Follow me, Ducklett!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -45,7 +48,8 @@ Script_4:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 552, 0
-    ParentActorMsg 1024, 2, 0, 0
+    // "Buuuurp!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -58,7 +62,8 @@ Script_5:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 580, 0
-    ParentActorMsg 1024, 4, 0, 0
+    // "Quak!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

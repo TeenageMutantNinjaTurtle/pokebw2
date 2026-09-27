@@ -10,6 +10,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Route 15"
     MsgPlaceSign 0, 3
     MsgPlaceSignClose
     FinishAllEvents
@@ -20,6 +21,7 @@ Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Route 15"
     MsgPlaceSign 1, 3
     MsgPlaceSignClose
     FinishAllEvents
@@ -30,6 +32,7 @@ Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Poké Transfer Lab\nWhat's Poké Transfer? Come find out!"
     MsgPlaceSign 2, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -40,6 +43,7 @@ Script_4:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Marvelous Bridge\nTruly marvelous! And also a bridge!"
     MsgPlaceSign 3, 2
     MsgPlaceSignClose
     FinishAllEvents

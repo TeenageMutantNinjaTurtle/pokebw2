@@ -12,12 +12,12 @@ Script_1:
     RTCGetDayPart 0x8020
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8020
     VMStackPushConst 4
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_004D
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_004D
     FlagReset 786
     VMJump L_0051
 
@@ -31,7 +31,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "When I think about it,\nmy Pokémon is much stronger than me...[f000]븁\u0000\nPoké Balls are sure amazing."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -43,7 +44,8 @@ Script_3:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 572, 0
-    ParentActorMsg 1024, 1, 0, 0
+    // "Gahoohoo..."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -55,7 +57,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "This is Lacunosa Town. Here, everyone\nlives according to the rules, from the[f000]븀\u0000\nmoment they awaken to the time they[f000]븀\u0000\ngo to sleep."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -66,7 +69,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "The scary monster that comes out of\nthe big hole at night is actually[f000]븀\u0000\na Pokémon right?[f000]븁\u0000\nAdults were just saying\nthat to frighten children, huh?"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

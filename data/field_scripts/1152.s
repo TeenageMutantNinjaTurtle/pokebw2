@@ -9,7 +9,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Helping someone even though the person\ndoesn't ask for help...[f000]븀\u0000\nIt's like, “Who do you think you are?\"[f000]븁\u0000\nI don't get it, because I can't tell\nwhether another person is happy or not."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -20,7 +21,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Nobody has used the beds\nin this room.[f000]븁\u0000\nIf you think I'm lying, take a look,\nthen take a rest!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -31,12 +33,14 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     WordSetPlayerName 0
+    // "The bed looks nice and comfortable.\nWill you take a quick rest?"
     SystemMsg 2, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_009C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_009C
+    // "[f000]Ā\u0001\u0000 hopped into bed and\nfell asleep...[f000]븁\u0000"
     SystemMsg 3, 0
     InfoMsgClose
     FadeEx 3, 0, 16, 2
@@ -46,6 +50,7 @@ Script_3:
     MEWait
     FadeEx 3, 16, 0, 2
     FadeExWait
+    // "[f000]Ā\u0001\u0000 and the Pokémon\ntook a nap and regained energy!"
     SystemMsg 4, 0
     LastKeyWait
 

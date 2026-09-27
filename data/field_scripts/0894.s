@@ -26,20 +26,22 @@ Script_5:
     ActorCmdWait
     VMStackPush 0x8022
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_0077
-    ActorMsg 1024, 0, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0077
+    // "Hello!\nOh, you...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     VMJump L_007C
 
 L_0077:
+    // "Hello!\nOh, you...[f000]븁\u0000"
     InfoMsg 0, 1
 
 L_007C:
     MsgWinCloseAll
     VMStackPush 0x8022
     VMStackPushConst 4
-    VMStackCmp 5
-    VMJumpIf 255, L_009F
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_009F
     ActorWalkRoute 255, 13, 4, 1, 8, 1
 
 L_009F:
@@ -52,13 +54,15 @@ L_009F:
     WordSetNumber 1, 0x8023, 1
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00EA
-    ActorMsg 1024, 1, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00EA
+    // "You are with one Pokémon!\nYou love [f000]ā\u0001\u0000 very much, right?[f000]븁\u0000\nBut are you OK?\nYou'll be in trouble when you encounter[f000]븀\u0000\nPokémon that [f000]ā\u0001\u0000 is weak against.[f000]븁\u0000\nHere! I'll give you these,\nso you can have more Pokémon.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     VMJump L_00F6
 
 L_00EA:
-    ActorMsg 1024, 2, 0, 0, 0
+    // "You are with [f000]Ȁ\u0001\u0001 Pokémon.[f000]븁\u0000\nBut if you have more Pokémon,\nyour journey should be even more fun![f000]븁\u0000\nHere! I'll give you these,\nso why don't you catch more Pokémon?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
 
 L_00F6:
     MsgWinCloseAll
@@ -69,7 +73,8 @@ L_00F6:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 3, 0, 0, 0
+    // "You know what they say.\nCheerful company shortens the miles!"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x4151, 1
@@ -81,7 +86,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "You know what they say.\nCheerful company shortens the miles!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -92,7 +98,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "Do you know about Audino, the Pokémon\nwho hide in rustling grass?[f000]븁\u0000\nI wonder why Audino give other Pokémon\nso many Exp. Points."
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -103,7 +110,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "When we walk, grass rustles!\nIt's Pokémon hide-and-seek!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

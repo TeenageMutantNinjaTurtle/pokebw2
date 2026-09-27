@@ -25,8 +25,8 @@ Script_1:
     ActorSetEyeToEye
     VMStackPushFlag 0x8002
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0077
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0077
     ParentActorMsg 0x8006, 0x8005, 0, 0
     LastKeyWait
     ActorMsgClose
@@ -38,8 +38,8 @@ L_0077:
     ItemCheckSpace 0x8000, 0x8001, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00B6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B6
     WorkGet 0x8008, 0x8000
     WorkGet 0x8009, 0x8001
     VMCall L_02DF
@@ -77,8 +77,8 @@ Script_6:
     ItemCheckSpace 0x8000, 0x8001, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_013B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_013B
     WorkGet 0x8008, 0x8000
     WorkGet 0x8009, 0x8001
     VMCall L_02DF
@@ -97,8 +97,8 @@ L_0151:
     ItemCheckSpace 0x8000, 0x8001, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0184
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0184
     WorkGet 0x8008, 0x8000
     WorkGet 0x8009, 0x8001
     VMCall L_02FB
@@ -133,8 +133,8 @@ Script_12:
     VMCall L_01E5
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01E1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01E1
     FlagSet 0x8002
     RecordAdd 44, 1
     Cmd_02C5 14
@@ -150,8 +150,8 @@ L_01E5:
     ItemCheckSpace 0x8000, 0x8001, 0x8020
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_022E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_022E
     VMCall L_04C9
     VMCall L_0419
     MEWait
@@ -182,8 +182,8 @@ L_0262:
     ItemCheckSpace 0x8000, 0x8001, 0x8021
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02AB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02AB
     VMCall L_04C9
     VMCall L_0419
     MEWait
@@ -209,6 +209,7 @@ Script_4:
 
 L_02DF:
     WordSetItemNameEx 0, 0x8008, 2, 0
+    // "Too bad! There is no more room for\n[f000]ĉ\u0001\u0000![f000]븁\u0000"
     SystemMsg 7, 0
     InfoMsgClose
     VMReturn
@@ -220,6 +221,7 @@ Script_5:
 
 L_02FB:
     WordSetItemNameEx 0, 0x8008, 2, 0
+    // "Too bad! There is no more room for\n[f000]ĉ\u0001\u0000!"
     SystemMsg 8, 0
     LastKeyWait
     InfoMsgClose
@@ -232,8 +234,8 @@ L_030F:
     Cmd_0239 0x8022
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_033C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_033C
     VMCall L_05CF
 
 L_033C:
@@ -241,8 +243,8 @@ L_033C:
     MEWait
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_035F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_035F
     ActorCmdWait
     VMCall L_05DD
 
@@ -272,31 +274,34 @@ L_0389:
 L_03A9:
     ItemGetPocket 0x8008, 0x8010
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_03C2
+    VMJumpIf CMP_EQ, L_03C2
     VMJump L_03DB
 
 L_03C2:
     WordSetPlayerName 0
     WordSetItemNameWithArticle 1, 0x8008
     WordSetTMMoveName 2, 0x8008
+    // "[f000]Ā\u0001\u0000 obtained\n[f000]ĉ\u0001\u0001 [f000]ć\u0001\u0002!"
     SystemMsg 3, 0
     VMJump L_0417
 
 L_03DB:
     WorkCmpConst 0x8010, 4
-    VMJumpIf 1, L_03EE
+    VMJumpIf CMP_EQ, L_03EE
     VMJump L_0406
 
 L_03EE:
-    Cmd_022D 0x8008
+    FieldEffect 0x8008
     WordSetPlayerName 0
     WordSetItemName 1, 0x8008
+    // "[f000]Ā\u0001\u0000 obtained the [f000][ff00]\u0001\u0002[f000]ĉ\u0001\u0001[f000][ff00]\u0001\u0000!"
     SystemMsg 1, 0
     VMJump L_0417
 
 L_0406:
     WordSetPlayerName 0
     WordSetItemNameEx 1, 0x8008, 0x8009, 1
+    // "[f000]Ā\u0001\u0000 obtained [f000][ff00]\u0001\u0002[f000]ĉ\u0001\u0001[f000][ff00]\u0001\u0000!"
     SystemMsg 0, 0
 
 L_0417:
@@ -305,31 +310,34 @@ L_0417:
 L_0419:
     ItemGetPocket 0x8008, 0x8010
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0432
+    VMJumpIf CMP_EQ, L_0432
     VMJump L_044B
 
 L_0432:
     WordSetPlayerName 0
     WordSetItemNameWithArticle 1, 0x8008
     WordSetTMMoveName 2, 0x8008
+    // "[f000]Ā\u0001\u0000 found\n[f000]ĉ\u0001\u0001 [f000]ć\u0001\u0002!"
     SystemMsg 6, 0
     VMJump L_0487
 
 L_044B:
     WorkCmpConst 0x8010, 4
-    VMJumpIf 1, L_045E
+    VMJumpIf CMP_EQ, L_045E
     VMJump L_0476
 
 L_045E:
-    Cmd_022D 0x8008
+    FieldEffect 0x8008
     WordSetPlayerName 0
     WordSetItemName 1, 0x8008
+    // "[f000]Ā\u0001\u0000 found [f000][ff00]\u0001\u0002[f000]ĉ\u0001\u0001[f000][ff00]\u0001\u0000!"
     SystemMsg 4, 0
     VMJump L_0487
 
 L_0476:
     WordSetPlayerName 0
     WordSetItemNameEx 1, 0x8008, 0x8009, 1
+    // "[f000]Ā\u0001\u0000 found [f000][ff00]\u0001\u0002[f000]ĉ\u0001\u0001[f000][ff00]\u0001\u0000!"
     SystemMsg 5, 0
 
 L_0487:
@@ -339,6 +347,7 @@ L_0489:
     WordSetPlayerName 0
     WordSetItemNameEx 1, 0x8008, 0x8009, 0
     WordSetItemPocketName 2, 0x8008
+    // "[f000]Ā\u0001\u0000 put the [f000]ĉ\u0001\u0001 in the\n[f000][ff00]\u0001\u0002[f000]Ē\u0001\u0002[f000][ff00]\u0001\u0000 Case."
     SystemMsg 11, 0
     LastKeyWait
     InfoMsgClose
@@ -348,6 +357,7 @@ L_04A5:
     WordSetPlayerName 0
     WordSetItemNameEx 1, 0x8008, 0x8009, 0
     WordSetItemPocketName 2, 0x8008
+    // "[f000]Ā\u0001\u0000 put the [f000]ĉ\u0001\u0001 in the\n[f000][ff00]\u0001\u0002[f000]Ē\u0001\u0002[f000][ff00]\u0001\u0000 Case.[f000]븁\u0000"
     SystemMsg 10, 0
     InfoMsgClose
     VMReturn
@@ -360,39 +370,39 @@ Script_9:
 L_04C9:
     VMStackPush 0x8008
     VMStackPushConst 616
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8008
     VMStackPushConst 617
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8008
     VMStackPushConst 622
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8008
     VMStackPushConst 466
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8008
     VMStackPushConst 628
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8008
     VMStackPushConst 629
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8008
     VMStackPushConst 638
-    VMStackCmp 1
-    VMStackCmp 6
-    VMStackCmp 6
-    VMStackCmp 6
-    VMStackCmp 6
-    VMStackCmp 6
-    VMStackCmp 6
-    VMJumpIf 255, L_0542
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_0542
     MEPlay 1326
     VMReturn
 
 L_0542:
     ItemGetPocket 0x8008, 0x8010
     WorkCmpConst 0x8010, 4
-    VMJumpIf 1, L_055B
+    VMJumpIf CMP_EQ, L_055B
     VMJump L_0565
 
 L_055B:
@@ -401,11 +411,11 @@ L_055B:
 
 L_0565:
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_0592
+    VMJumpIf CMP_EQ, L_0592
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_0592
+    VMJumpIf CMP_EQ, L_0592
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0592
+    VMJumpIf CMP_EQ, L_0592
     VMJump L_059C
 
 L_0592:
@@ -414,7 +424,7 @@ L_0592:
 
 L_059C:
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_05AF
+    VMJumpIf CMP_EQ, L_05AF
     VMJump L_05B9
 
 L_05AF:
@@ -456,12 +466,13 @@ Script_13:
     ItemCheckSpace 0x8000, 1, 0x8023
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_063B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_063B
     VMCall L_04C9
     VMCall L_0419
     MEWait
     MsgWaitAdvance
+    // "Too bad! The Bag is full!\n[f000]Ā\u0001\u0000 gave up the hidden item."
     SystemMsg 14, 0
     LastKeyWait
     InfoMsgClose
@@ -474,7 +485,9 @@ L_063B:
     WordSetPlayerName 0
     WordSetItemName 1, 0x8000
     WordSetItemPocketName 2, 0x8008
+    // "[f000]Ā\u0001\u0000 put the [f000]ĉ\u0001\u0001 in the\n[f000][ff00]\u0001\u0002[f000]Ē\u0001\u0002[f000][ff00]\u0001\u0000 Case.[f000]븁\u0000"
     SystemMsg 10, 0
+    // "You find a note on the item.[f000]븁\u0000\n“Please make good use of this item on\nyour adventure! Sincerely, [f000]Ā\u0001\u0003\"[f000]븁\u0000\nIt looks like [f000]Ā\u0001\u0003 hid the item."
     SystemMsg 13, 0
     LastKeyWait
 
@@ -497,8 +510,9 @@ Script_16:
     WorkGet 0x8025, 0x8001
     VMStackPush 0x8025
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_06CB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06CB
+    // "Too bad! There's no more\nroom for the [f000]ĉ\u0001\u0001![f000]븀\u0000\nGave up on taking the [f000]ĉ\u0001\u0001!"
     SystemMsg 16, 0
     VMJump L_072D
 
@@ -508,20 +522,21 @@ L_06CB:
     Cmd_0239 0x8028
     VMStackPush 0x8028
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_06F0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06F0
     VMCall L_05CF
 
 L_06F0:
     WordSetPlayerName 0
     WordSetItemNameEx 1, 0x8024, 0x8025, 0
     WordSetNumber 2, 0x8025, 3
+    // "[f000]Ā\u0001\u0000 obtained\n[f000]Ȃ\u0001\u0002 [f000][ff00]\u0001\u0002[f000]ĉ\u0001\u0001[f000][ff00]\u0001\u0000!"
     SystemMsg 15, 0
     MEWait
     VMStackPush 0x8028
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0725
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0725
     ActorCmdWait
     VMCall L_05DD
 
@@ -552,11 +567,12 @@ Script_17:
     FunfestMissionBroadcast 23, 0x8029
     ItemAdd 0x8029, 1, 0x8010
     VMCall L_030F
+    // "The Funfest Mission score\nwent up by one![f000]븁\u0000"
     SystemMsg 18, 0
     VMStackPush 0x802a
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_07C0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07C0
     VMCall L_02FB
     VMJump L_07C6
 
@@ -576,8 +592,8 @@ Script_18:
     ItemCheckSpace 0x8000, 0x8001, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_081B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_081B
     WorkGet 0x8008, 0x8000
     WorkGet 0x8009, 0x8001
     VMCall L_02DF
@@ -598,6 +614,7 @@ L_0831:
     WordSetPlayerName 0
     WordSetItemNameEx 1, 0x8008, 0x8009, 0
     WordSetNumber 2, 0x8009, 1
+    // "[f000]Ā\u0001\u0000 obtained\n[f000]Ȁ\u0001\u0002 [f000]ĉ\u0001\u0001!"
     SystemMsg 19, 0
     MEWait
     MsgWaitAdvance

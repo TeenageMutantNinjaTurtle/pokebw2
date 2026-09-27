@@ -15,7 +15,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "The jumpsuit I'm wearing is an essential\npart of creating visual effects![f000]븁\u0000\nIt may be cutting-edge technology,\nbut it's pretty embarrassing to wear!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -26,7 +27,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Hey, ya got this, kid?\nWhat we mean by VFX[f000]븀\u0000\nis visual effects.[f000]븁\u0000\nIt's a technology that lets us\nuse computers to process images.[f000]븁\u0000\nIn Pokéstar Studios movies,\nthe effects are really important!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -37,7 +39,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "I'm the screenwriter![f000]븁\u0000\nI write the scripts that become\nthe movie's stories.[f000]븁\u0000\nFeels like my head is packed\nwith nothing but stories."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -48,7 +51,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "Hello! I'm the cinematographer.[f000]븁\u0000\nWell, put more simply,\nI'm the cameraman."
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -59,7 +63,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "Hey there! I'm the audio engineer![f000]븁\u0000\nMy job is doing things like\nrecording the actor's lines.[f000]븁\u0000\nMost of Pokéstar Studios'\ndialog is dubbed in later, so right now,[f000]븀\u0000\nI have a bit of time on my hands!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -70,7 +75,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "I'm a big guy, but I work with\nsmall movie props.[f000]븁\u0000\nSometimes I even make\nthe items actors use or the[f000]븀\u0000\nfurniture on the sets!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -81,7 +87,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "C'mon... Where could it be?[f000]븁\u0000\nI'm going to get in trouble again\nif I can't find that megaphone![f000]븁\u0000\nOh, do you work in films?\nI'm working as the AD.[f000]븁\u0000\nI guess you could call the\nAD the assistant director."
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

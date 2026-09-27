@@ -21,25 +21,26 @@ Script_1:
     PokePartyFindEx 648, 1, 0x8022, 0x8023
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_008E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_008E
     PokePartyFindEx 648, 0, 0x8022, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 219
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_008E
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_008E
     WorkSetConst 0x8023, 2
 
 L_008E:
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_020D
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_020D
+    // "The scent you brought me reminded me of\na long-ago melody from the fringes of my[f000]븀\u0000\nsepia-toned memories.[f000]븁\u0000\nIt was a song my mother loved...\nIt makes me feel so nostalgic.[f000]븁\u0000\nWould you like to hear the melody?[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     ActorMsgClose
     BGMPlay 1001
     VMCall L_0254
@@ -49,6 +50,7 @@ L_008E:
     EvCameraWait
     VMCall L_0270
     WordSetPartyPokeName 0, 0x8022
+    // "[f000]Ă\u0001\u0000 popped out of\nthe Poké Ball![f000]븁\u0000"
     InfoMsg 23, 2
     InfoMsgClose_0039
     VMCall L_02ED
@@ -81,9 +83,10 @@ L_008E:
     ActorCmdWait
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_019B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_019B
     WordSetPartyPokeName 0, 0x8022
+    // "[f000]Ă\u0001\u0000 remembered the\nRelic Song it had forgotten![f000]븁\u0000"
     SystemMsg 5, 2
     InfoMsgClose
 
@@ -93,8 +96,8 @@ L_019B:
     EvCameraWait
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01D6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01D6
     VMCall L_0284
     VMJump L_01F9
 
@@ -103,12 +106,13 @@ L_01D6:
     FlagSet 219
     VMStackPushFlag 2557
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01F9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01F9
     WorkSetConst 0x400a, 1
 
 L_01F9:
-    ParentActorMsg 1024, 3, 0, 0
+    // "When you came through the door,\nI remembered the melody![f000]븁\u0000\nAnd the Pokémon that had forgotten how\nto dance began to step lightly once more![f000]븁\u0000\nYou are the inspiration.\nYou are a mysterious child..."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0213
@@ -125,8 +129,8 @@ L_0219:
     WorkSetConst 0x8024, 0
     VMStackPushFlag 219
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_023E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_023E
     WorkSetConst 0x8024, 4
     VMJump L_0244
 
@@ -134,7 +138,7 @@ L_023E:
     WorkSetConst 0x8024, 0
 
 L_0244:
-    ParentActorMsg 1024, 0x8024, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8024, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -158,24 +162,25 @@ L_0284:
     RTCallGlobal 2288
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02A7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02A7
 
 L_02A7:
     VMCall L_0335
     FlagSet 219
     VMStackPushFlag 2557
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02CA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02CA
     WorkSetConst 0x400a, 1
 
 L_02CA:
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02EB
-    ParentActorMsg 1024, 2, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02EB
+    // "My mother once told me of a Pokémon that\nplayed a melody and danced so lightly[f000]븀\u0000\nthat it filled people's hearts with joy.[f000]븁\u0000\nThen sorrow darkened the entire world,\nand the Pokémon's melody was lost...[f000]븁\u0000\nAt the same time, somewhere,\nsome red shoes were lost...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     VMSleep 8
 
 L_02EB:
@@ -211,7 +216,8 @@ L_0335:
     ActorCmdWait
     VMReturn
     PlayerGetGPos 0x8020, 0x8021
-    ParentActorMsg 1024, 3, 0, 0
+    // "When you came through the door,\nI remembered the melody![f000]븁\u0000\nAnd the Pokémon that had forgotten how\nto dance began to step lightly once more![f000]븁\u0000\nYou are the inspiration.\nYou are a mysterious child..."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     MsgWaitAdvance
     ActorMsgClose
     VMReturn
@@ -335,7 +341,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 14, 0, 0
+    // "I've been letting my tired mind relax\nin this café this whole time..."
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -346,7 +353,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 15, 0, 0
+    // "Listen to him playing guitar...\nI went back to the home I'd left behind,[f000]븀\u0000\nand my mother cried tears of joy...[f000]븀\u0000\nThat's mothers for you."
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -357,11 +365,12 @@ Script_5:
     ActorsPauseAll
     VMStackPushFlag 219
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0563
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0563
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 16, 0, 0
+    // "You can't change your family,\nbut you can change how you[f000]븀\u0000\ninteract with one another.[f000]븁\u0000\nStill, that said..."
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_05D5
@@ -369,21 +378,24 @@ Script_5:
 L_0563:
     VMStackPushFlag 2557
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_05C1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05C1
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 17, 4, 0, 0
+    // "Thanks to you and Meloetta,\nmemories of my birthplace...[f000]븀\u0000\nmemories of when I was little...[f000]븀\u0000\nmemories of singing together after[f000]븀\u0000\nwe finished gathering Berries...[f000]븀\u0000\nAll these memories came flooding back.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 17, 4, 0, 0
     MsgWinCloseAll
     Cmd_0275 0, 44, 0
     SEPlay 1908
+    // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink."
     SystemMsg 18, 0
     SEWait
     MsgWaitAdvance
     MsgWinCloseAll
     FlagSet 2557
     WorkSetConst 0x400a, 2
-    ActorMsg 1024, 19, 4, 0, 0
+    // "I'm going to have fun gathering Berries\nwith the people living in the countryside[f000]븀\u0000\nand the Pokémon I've met here in[f000]븀\u0000\nCastelia City![f000]븁\u0000\nOf course, I'll be humming\nMeloetta's tune while I gather them!"
+    ActorMsg MSGFILE_SCRIPT, 19, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_05D5
@@ -391,7 +403,8 @@ L_0563:
 L_05C1:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 19, 0, 0
+    // "I'm going to have fun gathering Berries\nwith the people living in the countryside[f000]븀\u0000\nand the Pokémon I've met here in[f000]븀\u0000\nCastelia City![f000]븁\u0000\nOf course, I'll be humming\nMeloetta's tune while I gather them!"
+    ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -404,7 +417,7 @@ Script_6:
     ActorsPauseAll
     PlayerGetGPos 0x8020, 0x8021
     WorkCmpConst 0x8020, 4
-    VMJumpIf 1, L_05F6
+    VMJumpIf CMP_EQ, L_05F6
     VMJump L_0602
 
 L_05F6:
@@ -413,7 +426,7 @@ L_05F6:
 
 L_0602:
     WorkCmpConst 0x8020, 5
-    VMJumpIf 1, L_0615
+    VMJumpIf CMP_EQ, L_0615
     VMJump L_0621
 
 L_0615:
@@ -422,7 +435,7 @@ L_0615:
 
 L_0621:
     WorkCmpConst 0x8020, 6
-    VMJumpIf 1, L_0634
+    VMJumpIf CMP_EQ, L_0634
     VMJump L_0640
 
 L_0634:
@@ -438,16 +451,19 @@ L_0640:
     ActorCmdWait
     ActorCmdExec 255, Movement_0458
     ActorCmdWait
-    ActorMsg 1024, 17, 4, 0, 0
+    // "Thanks to you and Meloetta,\nmemories of my birthplace...[f000]븀\u0000\nmemories of when I was little...[f000]븀\u0000\nmemories of singing together after[f000]븀\u0000\nwe finished gathering Berries...[f000]븀\u0000\nAll these memories came flooding back.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 17, 4, 0, 0
     MsgWinCloseAll
     Cmd_0275 0, 44, 0
     SEPlay 1908
+    // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink."
     SystemMsg 18, 0
     SEWait
     MsgWaitAdvance
     MsgWinCloseAll
     FlagSet 2557
-    ActorMsg 1024, 19, 4, 0, 0
+    // "I'm going to have fun gathering Berries\nwith the people living in the countryside[f000]븀\u0000\nand the Pokémon I've met here in[f000]븀\u0000\nCastelia City![f000]븁\u0000\nOf course, I'll be humming\nMeloetta's tune while I gather them!"
+    ActorMsg MSGFILE_SCRIPT, 19, 4, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorWalkRoute 4, 2, 8, 0, 8, 0

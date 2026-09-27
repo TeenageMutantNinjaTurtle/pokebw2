@@ -12,7 +12,7 @@ static inline u8 VM_Read8(VM *vm) {
 
 void VM_Reset(VM *vm) {
     vm->pc = NULL;
-    vm->unk1A = 0;
+    vm->cmpResult = 0;
     vm->state = VM_STATE_STOPPED;
     vm->native = NULL;
     vm->stackPos = 0;

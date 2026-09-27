@@ -12,12 +12,12 @@
 Script_1:
     VMStackPushFlag 919
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4117
     VMStackPushConst 2
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0051
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0051
     FlagSet 919
     WorkSetConst 0x4117, 1
 
@@ -27,23 +27,25 @@ L_0051:
 Script_2:
     ActorsPauseAll
     WordSetPlayerName 0
+    // "It's the Celestial Tower bell...\nWill you ring the bell?"
     InfoMsg 3, 2
     SEPlay 1351
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00F0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00F0
     VMStackPushFlag 408
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0095
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0095
     FunfestMissionBroadcast 24, 0
     FlagSet 408
 
 L_0095:
     Cmd_0240 64, 30
     SEPlay 1968
+    // "[f000]Ā\u0001\u0000 rang the bell..."
     InfoMsg 4, 2
     WorkSetConst 0x8023, 0
     BMCreateHandleByGPos 0x8023, 8, 16, 7
@@ -52,19 +54,21 @@ L_0095:
     BMReleaseHandle 0x8023
     SEWait
     Cmd_0241 60
+    // "The sound of the bell\nreverberates through the area..."
     InfoMsg 5, 2
     LastKeyWait
     InfoMsgClose_0039
     VMStackPush 0x40ee
     VMStackPushConst 5
-    VMStackCmp 1
-    VMJumpIf 255, L_00EA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00EA
     WorkSetConst 0x40ee, 6
 
 L_00EA:
     VMJump L_00F9
 
 L_00F0:
+    // "The bell was left untouched..."
     InfoMsg 7, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -77,17 +81,19 @@ L_00F9:
 
 Script_3:
     ActorsPauseAll
+    // "A mysterious presence can be felt here!\nCheck the surrounding area?"
     SystemMsg 0, 2
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01B0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01B0
     MsgWinCloseAll
     FlagReset 919
     WorkSetConst 0x4117, 2
     VMSleep 30
     PVPlay 481, 0
+    // "Kyauun!"
     InfoMsg 1, 2
     PVWait
     MsgWaitAdvance
@@ -103,8 +109,8 @@ Script_3:
     PlayerGetDir 0x8020
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 5
-    VMJumpIf 255, L_01A4
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_01A4
     ActorCmdExec 255, Movement_0278
 
 L_01A4:
@@ -125,6 +131,7 @@ Script_4:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 481, 0
+    // "Kyauun!"
     ScreamMsg 1, 2
     PVWait
     MsgWaitAdvance
@@ -133,8 +140,8 @@ Script_4:
     WildBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0206
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0206
     FlagSet 919
     WorkSetConst 0x4117, 3
     ActorDelete 0
@@ -147,7 +154,7 @@ L_0206:
 L_0208:
     WildBattleGetResult 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_021F
+    VMJumpIf CMP_EQ, L_021F
     VMJump L_0229
 
 L_021F:
@@ -156,12 +163,13 @@ L_021F:
 
 L_0229:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0249
+    VMJumpIf CMP_EQ, L_0249
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0249
+    VMJumpIf CMP_EQ, L_0249
     VMJump L_0259
 
 L_0249:
+    // "Mesprit went flying off somewhere..."
     SystemMsg 2, 2
     LastKeyWait
     InfoMsgClose

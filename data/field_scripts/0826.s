@@ -12,22 +12,24 @@ Script_3:
     ActorsPauseAll
     VMStackPushFlag 295
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00AE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00AE
     SEPlay 1351
     ActorSetEyeToEye
     WorkSetConst 0x8020, 0
     TrainerCardGetSex 0x8020
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0066
-    ActorMsg 1024, 0, 8, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0066
+    // "Hello, boy![f000]븁\u0000\nDo you have a villa in Undella?\nYou are rich![f000]븁\u0000\nAs a token of our new acquaintance,\nplease accept this![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 8, 0, 0
     ActorMsgClose
     VMJump L_0074
 
 L_0066:
-    ActorMsg 1024, 1, 8, 0, 0
+    // "Hello, girl![f000]븁\u0000\nDo you have a villa in Undella?\nYou are rich![f000]븁\u0000\nAs a token of our new acquaintance,\nplease accept this![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 8, 0, 0
     ActorMsgClose
 
 L_0074:
@@ -38,7 +40,8 @@ L_0074:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 2, 8, 0, 0
+    // "Isn't the Prism Scale beautiful?\nIt may be good to let a Pokémon hold it."
+    ActorMsg MSGFILE_SCRIPT, 2, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     FlagSet 295
@@ -47,7 +50,8 @@ L_0074:
 L_00AE:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Isn't the Prism Scale beautiful?\nIt may be good to let a Pokémon hold it."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -61,7 +65,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "Undella Bay's Abyssal Ruins\nhave messages carved into the walls..."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -72,7 +77,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "I can buy the Poké Balls sold here,\nbecause somewhere, somebody[f000]븀\u0000\nis making them.[f000]븁\u0000\nThank you, person I don't know,\nmaking Poké Balls somewhere!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -113,31 +119,36 @@ Script_6:
     ActorsPauseAll
     VMStackPushFlag 2459
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01E9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01E9
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "Heh heh... Hey, you.\nIf someone offered you[f000]븀\u0000\na plain old Sitrus Berry for $1,000,[f000]븀\u0000\nwould you buy it?"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01AE
-    ParentActorMsg 1024, 6, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01AE
+    // "Heh heh...\nYou're all right.[f000]븁\u0000\nWell, whatever. If that's a price\nyou feel you agree with, then great![f000]븁\u0000\nThat's what shopping's all about, right?[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     VMJump L_01B8
 
 L_01AE:
-    ParentActorMsg 1024, 7, 0, 0
+    // "Heh heh...\nFigured as much.[f000]븁\u0000\nWell, either way is fine. If you don't\nagree with the price, don't buy it...[f000]븁\u0000\nThat's what shopping's all about, right?[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
 
 L_01B8:
     MsgWinCloseAll
     Cmd_0275 0, 24, 0
     SEPlay 1908
+    // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink."
     SystemMsg 8, 0
     SEWait
     MsgWaitAdvance
     MsgWinCloseAll
-    ParentActorMsg 1024, 9, 0, 0
+    // "Heh heh...[f000]븁\u0000\nWhat's important is\nwhether you agree or not!"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2459
@@ -146,7 +157,8 @@ L_01B8:
 L_01E9:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "Heh heh...[f000]븁\u0000\nWhat's important is\nwhether you agree or not!"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
 

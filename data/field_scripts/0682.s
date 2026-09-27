@@ -16,13 +16,15 @@ Script_2:
     ActorSetEyeToEye
     VMStackPush 0x40ee
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_00F0
-    ParentActorMsg 1024, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00F0
+    // "I can't believe those\nthree down there lost...[f000]븁\u0000\nEven so, you're not getting past me![f000]븁\u0000\nYou're fighting for that couple,\nand I'm fighting for myself![f000]븀\u0000\nYou know which is stronger, right?![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 460, 0, 0
     VMCall L_0117
-    ParentActorMsg 1024, 1, 0, 0
+    // "I see...[f000]븁\u0000\nWe were thinking only about ourselves.\nWe sure weren't thinking about the[f000]븀\u0000\nPokémon at our sides, were we?"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     WorkSetConst 0x40ee, 5
@@ -33,12 +35,12 @@ Script_2:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 12
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 10
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_00B6
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00B6
     ActorWalkRoute 2, 11, 16, 1, 8, 1
     ActorCmdWait
     VMJump L_00D6
@@ -58,9 +60,10 @@ L_00D6:
 L_00F0:
     VMStackPush 0x40ee
     VMStackPushConst 5
-    VMStackCmp 4
-    VMJumpIf 255, L_0111
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0111
+    // "I see...[f000]븁\u0000\nWe were thinking only about ourselves.\nWe sure weren't thinking about the[f000]븀\u0000\nPokémon at our sides, were we?"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -73,8 +76,8 @@ L_0117:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0136
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0136
     CallTrainerBattleEnd
     VMJump L_0138
 

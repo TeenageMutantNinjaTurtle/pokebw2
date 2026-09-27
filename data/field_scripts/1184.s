@@ -16,16 +16,16 @@ Script_1:
 Script_3:
     VMStackPush 0x4123
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_004F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_004F
     ActorSetGPos 9, 35, 2, 32, 1
     VMJump L_006E
 
 L_004F:
     VMStackPush 0x4123
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_006E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_006E
     ActorSetGPos 9, 30, 2, 33, 2
 
 L_006E:
@@ -36,7 +36,8 @@ Script_2:
     ActorCmdExec 255, Movement_012C
     ActorCmdWait
     PVPlay 571, 0
-    ActorMsg 1024, 0, 9, 0, 0
+    // "Kwaaaaan!"
+    ActorMsg MSGFILE_SCRIPT, 0, 9, 0, 0
     PVWait
     MsgWaitAdvance
     MsgWinCloseAll
@@ -55,7 +56,8 @@ Script_2:
 Script_5:
     ActorsPauseAll
     PVPlay 571, 0
-    ActorMsg 1024, 0, 9, 0, 0
+    // "Kwaaaaan!"
+    ActorMsg MSGFILE_SCRIPT, 0, 9, 0, 0
     PVWait
     MsgWaitAdvance
     MsgWinCloseAll
@@ -90,10 +92,12 @@ Script_4:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 571, 0
-    ActorMsg 1024, 1, 9, 0, 0
+    // "Kwaaan!"
+    ActorMsg MSGFILE_SCRIPT, 1, 9, 0, 0
     PVWait
     MsgWaitAdvance
     MsgWinCloseAll
+    // "The Pokémon won't move.\nIt might be protecting something..."
     SystemMsg 2, 2
     LastKeyWait
     InfoMsgClose

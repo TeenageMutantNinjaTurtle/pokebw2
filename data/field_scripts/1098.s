@@ -10,7 +10,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Oh? By any chance, was your mother\nworking in a Pokémon Center[f000]븀\u0000\nas a receptionist?[f000]븁\u0000\nYou look very similar to her."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -22,7 +23,8 @@ Script_2:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 559, 0
-    ParentActorMsg 1024, 1, 0, 0
+    // "Garcs!\nGarcs!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -34,7 +36,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "When things change, I prefer the way\nit was, and when things don't change,[f000]븀\u0000\nI get bored...[f000]븀\u0000\nI have a twisted mind."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -45,7 +48,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "The Pokémon next door...\nI feel like it's intimidating me..."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

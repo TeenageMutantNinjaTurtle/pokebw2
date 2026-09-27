@@ -12,12 +12,12 @@ Script_1:
     GameGetVersion 0x8020
     VMStackPushFlag 667
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_005C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_005C
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0056
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0056
     WorkSetConst 0x4020, 365
     VMJump L_005C
 
@@ -36,27 +36,28 @@ Script_2:
     VMSleep 30
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0160
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0160
+    // "The Dark Stone...\nIt's trembling inside the Bag![f000]븁\u0000\nTake the Dark Stone\nout of the Bag?"
     SystemMsg 0, 2
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_013D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_013D
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 16
-    VMStackCmp 5
-    VMJumpIf 255, L_00E5
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_00E5
     ActorWalkRoute 255, 16, 0x8022, 0, 8, 0
     ActorCmdWait
     ActorCmdExec 255, Movement_0670
     ActorCmdWait
 
 L_00E5:
-    ItemSub 617, 1, 0x8010
+    ItemSub ITEM_DARK_STONE, 1, 0x8010
     EvCameraInit
     EvCameraUnbind
     EvCameraMoveTo 9688, 0, 0xed000, 0x108000, 0, 0xa8000, 30
@@ -105,31 +106,33 @@ L_013D:
     ActorCmdWait
     VMSleep 8
     WordSetPlayerName 0
+    // "[f000]Ā\u0001\u0000 was pushed back\nby a mysterious force..."
     SystemMsg 2, 2
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0227
 
 L_0160:
+    // "The Light Stone...\nIt's trembling inside the Bag![f000]븁\u0000\nTake the Light Stone\nout of the Bag?"
     SystemMsg 5, 2
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_020A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_020A
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 16
-    VMStackCmp 5
-    VMJumpIf 255, L_01B2
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_01B2
     ActorWalkRoute 255, 16, 0x8022, 0, 8, 0
     ActorCmdWait
     ActorCmdExec 255, Movement_0670
     ActorCmdWait
 
 L_01B2:
-    ItemSub 616, 1, 0x8010
+    ItemSub ITEM_LIGHT_STONE, 1, 0x8010
     EvCameraInit
     EvCameraUnbind
     EvCameraMoveTo 9688, 0, 0xed000, 0x108000, 0, 0xa8000, 30
@@ -179,6 +182,7 @@ L_020A:
     ActorCmdWait
     VMSleep 8
     WordSetPlayerName 0
+    // "[f000]Ā\u0001\u0000 was pushed back\nby a mysterious force..."
     SystemMsg 7, 2
     LastKeyWait
     MsgWinCloseAll
@@ -193,8 +197,8 @@ L_0227:
     DebugPrint 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_025C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_025C
     FieldClose
     Call3DDemo 9, 0
     FieldOpen
@@ -220,7 +224,7 @@ Script_3:
     WorkSetConst 0x8023, 0
     PlayerGetDir 0x8023
     WorkCmpConst 0x8023, 1
-    VMJumpIf 1, L_029B
+    VMJumpIf CMP_EQ, L_029B
     VMJump L_02A9
 
 L_029B:
@@ -229,7 +233,7 @@ L_029B:
 
 L_02A9:
     WorkCmpConst 0x8023, 3
-    VMJumpIf 1, L_02BC
+    VMJumpIf CMP_EQ, L_02BC
     VMJump L_02CA
 
 L_02BC:
@@ -238,7 +242,7 @@ L_02BC:
 
 L_02CA:
     WorkCmpConst 0x8023, 2
-    VMJumpIf 1, L_02DD
+    VMJumpIf CMP_EQ, L_02DD
     VMJump L_02EB
 
 L_02DD:
@@ -255,8 +259,8 @@ L_02EB:
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0336
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0336
     ActorCmdExec 0, Movement_0620
     VMJump L_033E
 
@@ -271,9 +275,10 @@ L_033E:
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0388
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0388
     PVPlay 644, 0
+    // "Bazzazzazzash!"
     ScreamMsg 3, 0
     PVWait
     MsgWaitAdvance
@@ -283,6 +288,7 @@ L_033E:
 
 L_0388:
     PVPlay 643, 0
+    // "Preeeeaah!"
     ScreamMsg 8, 0
     PVWait
     MsgWaitAdvance
@@ -293,8 +299,8 @@ L_03A1:
     WildBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03D6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03D6
     ActorDelete 0
     FlagSet 667
     EvCameraInit
@@ -313,7 +319,7 @@ L_03D8:
     WorkSetConst 0x8024, 0
     WildBattleGetResult 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_03F5
+    VMJumpIf CMP_EQ, L_03F5
     VMJump L_03FF
 
 L_03F5:
@@ -322,23 +328,25 @@ L_03F5:
 
 L_03FF:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_041F
+    VMJumpIf CMP_EQ, L_041F
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_041F
+    VMJumpIf CMP_EQ, L_041F
     VMJump L_0456
 
 L_041F:
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0446
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0446
+    // "Zekrom went flying off somewhere..."
     SystemMsg 4, 2
     LastKeyWait
     InfoMsgClose
     VMJump L_0450
 
 L_0446:
+    // "Reshiram went flying off somewhere..."
     SystemMsg 9, 2
     LastKeyWait
     InfoMsgClose
@@ -349,8 +357,8 @@ L_0450:
 L_0456:
     VMStackPushFlag 480
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_046F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_046F
     VMCall L_0475
 
 L_046F:
@@ -366,67 +374,75 @@ L_0475:
     ActorCmdWait
     GameGetVersion 0x8020
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_04B4
+    VMJumpIf CMP_EQ, L_04B4
     VMJump L_04EB
 
 L_04B4:
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_04D9
-    ActorMsg 1024, 10, 251, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04D9
+    // "N: [f000]븉\u0001\u0001Zekrom has recognized\nyou as the new hero.[f000]븁\u0000\nThat's right! As a Trainer with a will\nstrong enough to change the world![f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 251, 0, 0
     VMJump L_04E5
 
 L_04D9:
-    ActorMsg 1024, 13, 251, 0, 0
+    // "N: [f000]븉\u0001\u0001Reshiram has recognized\nyou as the new hero.[f000]븁\u0000\nThat's right! As a Trainer with a will\nstrong enough to change the world![f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 251, 0, 0
 
 L_04E5:
     VMJump L_057F
 
 L_04EB:
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_04FE
+    VMJumpIf CMP_EQ, L_04FE
     VMJump L_0535
 
 L_04FE:
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0523
-    ActorMsg 1024, 11, 251, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0523
+    // "N: [f000]븉\u0001\u0001You showed Zekrom\nthe strength of your Pokémon.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 251, 0, 0
     VMJump L_052F
 
 L_0523:
-    ActorMsg 1024, 14, 251, 0, 0
+    // "N: [f000]븉\u0001\u0001You showed Reshiram\nthe strength of your Pokémon.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 251, 0, 0
 
 L_052F:
     VMJump L_057F
 
 L_0535:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0548
+    VMJumpIf CMP_EQ, L_0548
     VMJump L_057F
 
 L_0548:
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_056D
-    ActorMsg 1024, 12, 251, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_056D
+    // "N: [f000]븉\u0001\u0001You're walking away from\na battle with Zekrom?[f000]븀\u0000\nWhat an amusing Trainer.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 251, 0, 0
     VMJump L_0579
 
 L_056D:
-    ActorMsg 1024, 15, 251, 0, 0
+    // "N: [f000]븉\u0001\u0001You're walking away from\na battle with Reshiram?[f000]븀\u0000\nWhat an amusing Trainer.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 251, 0, 0
 
 L_0579:
     VMJump L_057F
 
 L_057F:
-    ActorMsg 1024, 16, 251, 0, 0
+    // "[f000]븉\u0001\u0001I have something to tell you.[f000]븁\u0000\nGo to the Giant Chasm!\nKyurem has returned.[f000]븁\u0000\nThat's what my friend\nhas told me.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 251, 0, 0
     MsgWinCloseAll
     VMSleep 20
     WordSetPlayerName 0
-    ActorMsg 1024, 17, 251, 0, 0
+    // "[f000]븉\u0001\u0001[f000]Ā\u0001\u0000![f000]븁\u0000\nThe world that you desire\nfor Pokémon and humans...[f000]븁\u0000\nI look forward to seeing how\nfull of love that world is.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 17, 251, 0, 0
     MsgWinCloseAll
     EvCameraInit
     EvCameraUnbind
@@ -436,7 +452,8 @@ L_057F:
     ActorCmdWait
     ActorCmdExec 251, Movement_0690
     ActorCmdWait
-    ActorMsg 1024, 18, 251, 0, 0
+    // "[f000]븉\u0001\u0001Someday...[f000]븁\u0000\nPokémon and humans will be bound\ntogether without Poké Balls.[f000]븁\u0000\nThey will simply trust\nand help one another.[f000]븀\u0000\nMake that kind of world.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 18, 251, 0, 0
     MsgWinCloseAll
     EvCameraReturn 40
     ActorWalkRoute 251, 16, 23, 0, 8, 1

@@ -19,16 +19,16 @@ Script_3:
     RTCGetDate 0x8026, 0x400f
     VMStackPushFlag 483
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 484
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4194
     VMStackPush 0x8026
-    VMStackCmp 5
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0081
+    VMStackCmp CMP_NE
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0081
     FlagReset 912
 
 L_0081:
@@ -37,8 +37,8 @@ L_0081:
     GameGetVersion 0x8010
     VMStackPush 0x8010
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_00B0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B0
     WorkSetConst 0x4020, 365
     VMJump L_00B6
 
@@ -50,8 +50,8 @@ L_00B6:
     TrainerCardGetSex 0x8027
     VMStackPush 0x8027
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00DF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00DF
     WorkSetConst 0x4021, 231
     VMJump L_00E5
 
@@ -72,8 +72,8 @@ Script_5:
 L_00F7:
     VMStackPushFlag 912
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_011C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_011C
     ActorSetGPos 0, 16, 0, 36, 1
     VMJump L_011C
 
@@ -88,6 +88,7 @@ Script_1:
     ActorAdd 0
     ActorSetGPos 0, 16, 0, 48, 0
     BGMPlay 1091
+    // "[f000]븉\u0001\u0001That's the place![f000]븉\u0001\u0000[f000]븁\u0000"
     InfoMsg 0, 2
     MsgWinCloseAll
     ActorCmdExec 255, Movement_0A90
@@ -95,8 +96,8 @@ Script_1:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 17
-    VMStackCmp 4
-    VMJumpIf 255, L_0176
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0176
     WorkSub 0x8021, 1
     VMJump L_017C
 
@@ -109,8 +110,8 @@ L_017C:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 17
-    VMStackCmp 4
-    VMJumpIf 255, L_01BD
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_01BD
     ActorCmdExec 0, Movement_0AA0
     ActorCmdExec 255, Movement_0A98
     ActorCmdWait
@@ -122,14 +123,17 @@ L_01BD:
     ActorCmdWait
 
 L_01CF:
+    // "[f000]븉\u0001\u0001It was two years ago.[f000]븁\u0000\nFor the sake of Pokémon...[f000]븁\u0000\nFor my world of truth...[f000]븁\u0000\nI put my beliefs on the line\nand battled a certain Trainer![f000]븉\u0001\u0000[f000]븁\u0000"
+    // "[f000]븉\u0001\u0001It was two years ago.[f000]븁\u0000\nFor the sake of Pokémon...[f000]븁\u0000\nFor my ideal world...[f000]븁\u0000\nI put my beliefs on the line\nand battled a certain Trainer![f000]븉\u0001\u0000[f000]븁\u0000"
     ActorMsgVersioned 1024, 2, 1, 0, 0, 0
-    ActorMsg 1024, 3, 0, 0, 0
+    // "[f000]븉\u0001\u0001And I lost...[f000]븁\u0000\nBut at the same time,\nI learned something important.[f000]븁\u0000\nTo make the world better,\nyou must accept different ideas![f000]븁\u0000\nI learned that this is the formula\nfor changing the world.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
     MsgWinCloseAll
     EvCameraInit
     EvCameraUnbind
     EvCameraMoveTo 9688, 0, 0xed000, 0x108000, 0, 0x243000, 56
     WorkCmpConst 0x8021, 14
-    VMJumpIf 1, L_021A
+    VMJumpIf CMP_EQ, L_021A
     VMJump L_0234
 
 L_021A:
@@ -140,7 +144,7 @@ L_021A:
 
 L_0234:
     WorkCmpConst 0x8021, 15
-    VMJumpIf 1, L_0247
+    VMJumpIf CMP_EQ, L_0247
     VMJump L_0261
 
 L_0247:
@@ -151,7 +155,7 @@ L_0247:
 
 L_0261:
     WorkCmpConst 0x8021, 16
-    VMJumpIf 1, L_0274
+    VMJumpIf CMP_EQ, L_0274
     VMJump L_028E
 
 L_0274:
@@ -162,7 +166,7 @@ L_0274:
 
 L_028E:
     WorkCmpConst 0x8021, 17
-    VMJumpIf 1, L_02A1
+    VMJumpIf CMP_EQ, L_02A1
     VMJump L_02BB
 
 L_02A1:
@@ -173,7 +177,7 @@ L_02A1:
 
 L_02BB:
     WorkCmpConst 0x8021, 18
-    VMJumpIf 1, L_02CE
+    VMJumpIf CMP_EQ, L_02CE
     VMJump L_02E8
 
 L_02CE:
@@ -189,7 +193,10 @@ L_02E8:
     ActorCmdExec 255, Movement_0464
     ActorCmdWait
     ActorSetGPos 255, 16, 0, 36, 1
-    ActorMsg 1024, 4, 0, 3, 0
+    // "[f000]븉\u0001\u0001Accepting different ideas...[f000]븁\u0000\nI want to see if you're a Trainer whose\nheart is strong enough to do that.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 3, 0
+    // "[f000]븉\u0001\u0001Reshiram, come![f000]븉\u0001\u0000[f000]븁\u0000"
+    // "[f000]븉\u0001\u0001Zekrom, come![f000]븉\u0001\u0000[f000]븁\u0000"
     ActorMsgVersioned 1024, 6, 5, 0, 3, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0AA0
@@ -198,8 +205,9 @@ L_02E8:
     GameGetVersion 0x8023
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0360
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0360
+    // "Shaaaaaak!"
     ScreamMsg 7, 1
     PVPlay 644, 0
     PVWait
@@ -208,6 +216,7 @@ L_02E8:
     VMJump L_0371
 
 L_0360:
+    // "Baaaaaaaahn!"
     ScreamMsg 8, 1
     PVPlay 643, 0
     PVWait
@@ -217,6 +226,8 @@ L_0360:
 L_0371:
     ActorCmdExec 0, Movement_0A90
     ActorCmdWait
+    // "[f000]븉\u0001\u0001Reshiram also wants to know\nwhich truths you seek[f000]븀\u0000\nand how good a Trainer you are.[f000]븉\u0001\u0000[f000]븁\u0000"
+    // "[f000]븉\u0001\u0001Zekrom also wants to know\nwhat ideals you seek[f000]븀\u0000\nand how good a Trainer you are.[f000]븉\u0001\u0000[f000]븁\u0000"
     ActorMsgVersioned 1024, 10, 9, 0, 3, 0
     ActorSetGPos 255, 16, 0, 38, 0
     ActorCmdExec 255, Movement_046C
@@ -315,27 +326,28 @@ Script_2:
     ActorSetEyeToEye
     VMStackPush 0x4114
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 480
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_04E9
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_04E9
     VMCall L_0833
     VMJump L_0530
 
 L_04E9:
     VMStackPush 0x4114
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 480
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0526
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0526
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 32, 0, 0
+    // "[f000]븉\u0001\u0001Go to Dragonspiral Tower.[f000]븁\u0000\nI will...[f000]븁\u0000\nI'll search for that Trainer\nI battled two years ago.[f000]븁\u0000\nAnd...[f000]븁\u0000\nI plan to say thank you.[f000]븉\u0001\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 32, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0530
@@ -354,9 +366,10 @@ Script_6:
     GameGetVersion 0x8023
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0566
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0566
     PVPlay 644, 0
+    // "Shaaaaaak!"
     ScreamMsg 7, 2
     PVWait
     MsgWaitAdvance
@@ -365,6 +378,7 @@ Script_6:
 
 L_0566:
     PVPlay 643, 0
+    // "Baaaaaaaahn!"
     ScreamMsg 8, 2
     PVWait
     MsgWaitAdvance
@@ -376,20 +390,23 @@ L_0577:
     VMHalt
 
 L_057D:
-    ActorMsg 1024, 11, 0, 0, 0
+    // "[f000]븉\u0001\u0001Battle with me.\nAre you prepared?[f000]븉\u0001\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_060F
-    ActorMsg 1024, 12, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_060F
+    // "[f000]븉\u0001\u0001Show me the depth\nof your determination![f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 0, 0, 0
     MsgWinCloseAll
     GameGetVersion 0x8023
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_05E4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05E4
     PVPlay 644, 0
+    // "Bazzazzazzash!"
     ScreamMsg 13, 1
     PVWait
     MsgWaitAdvance
@@ -399,6 +416,7 @@ L_057D:
 
 L_05E4:
     PVPlay 643, 0
+    // "Preeeeaah!"
     ScreamMsg 14, 1
     PVWait
     MsgWaitAdvance
@@ -411,13 +429,14 @@ L_05FD:
     VMJump L_0644
 
 L_060F:
-    ActorMsg 1024, 15, 0, 0, 0
+    // "[f000]븉\u0001\u0001I'm ready whenever you are!\nI'll wait as long as it takes![f000]븉\u0001\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMStackPush 0x400f
     VMStackPushConst 99
-    VMStackCmp 1
-    VMJumpIf 255, L_0642
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0642
     EvCameraMoveToDefault 24
     EvCameraWait
     EvCameraRebind
@@ -432,20 +451,27 @@ L_0644:
 
 L_0646:
     WordSetPlayerName 0
+    // "[f000]븉\u0001\u0001Reshiram and I were defeated.[f000]븁\u0000\nYour feelings,\nyour desire to pursue ideals--[f000]븀\u0000\nthat's what surpassed us.[f000]븉\u0001\u0000[f000]븁\u0000"
+    // "[f000]븉\u0001\u0001Zekrom and I were defeated.[f000]븁\u0000\nYour feelings,\nyour desire to know the truth--[f000]븀\u0000\nthat's what surpassed us.[f000]븉\u0001\u0000[f000]븁\u0000"
     ActorMsgVersioned 1024, 17, 16, 0, 3, 0
     TrainerCardGetSex 0x8025
-    ActorMsg 1024, 18, 0, 3, 0
+    // "[f000]븉\u0001\u0001Battling with you reminded\nme of two years ago...[f000]븁\u0000\nIt may just be a little,\nbut I know you better...[f000]븀\u0000\nThat's how I feel.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 18, 0, 3, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0AA0
     ActorCmdWait
     VMStackPush 0x8025
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_069A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_069A
+    // "[f000]븉\u0001\u0001And Reshiram...\nThank you for everything.[f000]븁\u0000\nMy journey with you\nhas been truly wonderful![f000]븁\u0000\nFrom now on, I want you to use\nyour power to help this Trainer[f000]븀\u0000\nrealize his dreams.[f000]븉\u0001\u0000[f000]븁\u0000"
+    // "[f000]븉\u0001\u0001And Zekrom...\nThank you for everything.[f000]븁\u0000\nMy journey with you\nhas been truly wonderful![f000]븁\u0000\nFrom now on, I want you to use\nyour power to help this Trainer[f000]븀\u0000\nrealize his dreams.[f000]븉\u0001\u0000[f000]븁\u0000"
     ActorMsgVersioned 1024, 21, 19, 0, 3, 0
     VMJump L_06A8
 
 L_069A:
+    // "[f000]븉\u0001\u0001And Reshiram...\nThank you for everything you've done.[f000]븁\u0000\nMy journey with you\nhas been truly wonderful![f000]븁\u0000\nFrom now on, I want you to use\nyour power to help this Trainer[f000]븀\u0000\nrealize her dreams.[f000]븉\u0001\u0000[f000]븁\u0000"
+    // "[f000]븉\u0001\u0001And Zekrom...\nThank you for everything.[f000]븁\u0000\nMy journey with you\nhas been truly wonderful![f000]븁\u0000\nFrom now on, I want you to use\nyour power to help this Trainer[f000]븀\u0000\nrealize her dreams.[f000]븉\u0001\u0000[f000]븁\u0000"
     ActorMsgVersioned 1024, 22, 20, 0, 3, 0
 
 L_06A8:
@@ -453,10 +479,11 @@ L_06A8:
     GameGetVersion 0x8023
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_06DF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06DF
     PVPlay 644, 0
-    ActorMsg 1024, 23, 1, 5, 0
+    // "Bazz..."
+    ActorMsg MSGFILE_SCRIPT, 23, 1, 5, 0
     PVWait
     MsgWaitAdvance
     MsgWinCloseAll
@@ -464,7 +491,8 @@ L_06A8:
 
 L_06DF:
     PVPlay 643, 0
-    ActorMsg 1024, 24, 1, 5, 0
+    // "Pree..."
+    ActorMsg MSGFILE_SCRIPT, 24, 1, 5, 0
     PVWait
     MsgWaitAdvance
     MsgWinCloseAll
@@ -472,8 +500,11 @@ L_06DF:
 L_06F7:
     ActorCmdExec 0, Movement_0A2C
     ActorCmdWait
+    // "[f000]븉\u0001\u0001I know. I'll miss you, too...[f000]븁\u0000\nBut your task is to help\nhumans who seek the truth.[f000]븁\u0000\nI've learned so much from you.[f000]븁\u0000\nI'll do my best to tell everyone\nelse what I learned on my own.[f000]븁\u0000\nI'll be OK!\nI can talk to Pokémon![f000]븁\u0000\nI'll become the bridge\nbetween Pokémon and humans![f000]븀\u0000\nThat's my truth![f000]븉\u0001\u0000[f000]븁\u0000"
+    // "[f000]븉\u0001\u0001I know. I'll miss you, too...[f000]븁\u0000\nBut your task is to help\nhumans who seek ideals.[f000]븁\u0000\nI've learned so much from you.[f000]븁\u0000\nI'll do my best to tell everyone\nelse what I learned on my own.[f000]븁\u0000\nI'll be OK!\nI can talk to Pokémon![f000]븁\u0000\nI'll become the bridge\nbetween Pokémon and humans![f000]븀\u0000\nThat's my ideal![f000]븉\u0001\u0000[f000]븁\u0000"
     ActorMsgVersioned 1024, 26, 25, 0, 3, 0
-    ActorMsg 1024, 27, 0, 3, 0
+    // "[f000]븉\u0001\u0001So...[f000]븁\u0000\nRest well...[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 27, 0, 3, 0
     MsgWinCloseAll
     FadeEx 12, 0, 16, 4
     FadeExWait
@@ -481,8 +512,8 @@ L_06F7:
     GameGetVersion 0x8023
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0758
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0758
     ActorNew 18, 36, 1, 251, 143, 0
     VMJump L_0766
 
@@ -500,12 +531,14 @@ L_0766:
     VMSleep 8
     ActorCmdExec 0, Movement_0A3C
     ActorCmdWait
+    // "[f000]븉\u0001\u0001[f000]Ā\u0001\u0000![f000]븁\u0000\nI'll entrust you\nwith this Light Stone![f000]븉\u0001\u0000[f000]븁\u0000"
+    // "[f000]븉\u0001\u0001[f000]Ā\u0001\u0000![f000]븁\u0000\nI'll entrust you\nwith this Dark Stone![f000]븉\u0001\u0000[f000]븁\u0000"
     ActorMsgVersioned 1024, 29, 28, 0, 3, 0
     MsgWinCloseAll
     VMStackPush 0x8023
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_07DF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07DF
     VMStackPush 0x8000
     VMStackPush 0x8001
     WorkSet 0x8000, 617
@@ -525,6 +558,8 @@ L_07DF:
     VMStackPop 0x8000
 
 L_07FF:
+    // "[f000]븉\u0001\u0001Take that Light Stone\nto Dragonspiral Tower![f000]븉\u0001\u0000[f000]븁\u0000"
+    // "[f000]븉\u0001\u0001Take that Dark Stone\nto Dragonspiral Tower![f000]븉\u0001\u0000[f000]븁\u0000"
     ActorMsgVersioned 1024, 31, 30, 0, 3, 0
     MsgWinCloseAll
     BGMChangeMap
@@ -541,65 +576,71 @@ L_07FF:
 L_0833:
     VMStackPushFlag 486
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0858
-    ActorMsg 1024, 33, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0858
+    // "N: [f000]븉\u0001\u0001How surprising...\nI didn't expect you'd come here.[f000]븁\u0000\nWell, that is the formula for\nunderstanding other Trainers,[f000]븀\u0000\nafter all...[f000]븀\u0000\nYou're OK with a Pokémon battle, right?[f000]븉\u0001\u0000"
+    ActorMsg MSGFILE_SCRIPT, 33, 0, 0, 0
     VMJump L_0864
 
 L_0858:
-    ActorMsg 1024, 39, 0, 0, 0
+    // "[f000]븉\u0001\u0001Your Pokémon are saying they\nwant to battle with my friend...[f000]븁\u0000\nWhat would you like to do?\nWill you have a Pokémon battle with me?[f000]븉\u0001\u0000"
+    ActorMsg MSGFILE_SCRIPT, 39, 0, 0, 0
 
 L_0864:
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_09AA
-    ActorMsg 1024, 34, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_09AA
+    // "[f000]븉\u0001\u0001Good...[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 34, 0, 0, 0
     MsgWinCloseAll
     WorkSetConst 0x8028, 0
     RTCGetSeason 0x8028
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_08B4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08B4
     CallTrainerBattle 782, 0, 0
     VMJump L_0911
 
 L_08B4:
     VMStackPush 0x8028
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_08D5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08D5
     CallTrainerBattle 783, 0, 0
     VMJump L_0911
 
 L_08D5:
     VMStackPush 0x8028
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_08F6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08F6
     CallTrainerBattle 784, 0, 0
     VMJump L_0911
 
 L_08F6:
     VMStackPush 0x8028
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0911
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0911
     CallTrainerBattle 785, 0, 0
 
 L_0911:
     VMCall L_09C0
+    // "[f000]븉\u0001\u0001I remember something Reshiram\ntold me once...[f000]븁\u0000\nReshiram and Zekrom\nare searching for new possibilities[f000]븀\u0000\nby walking alongside humans...[f000]븁\u0000\nMeanwhile, those that live in the wild\ntry to better themselves[f000]븀\u0000\nwithout relying on anyone else.[f000]븁\u0000\nThere are many different Pokémon...[f000]븁\u0000\nAnd their different ways of living...\nThat is the true freedom of Pokémon.[f000]븀\u0000\nThat is what connects Pokémon to us.[f000]븉\u0001\u0000[f000]븁\u0000"
+    // "[f000]븉\u0001\u0001I remember something Zekrom\ntold me once...[f000]븁\u0000\nZekrom and Reshiram\nare searching for new possibilities[f000]븀\u0000\nby walking alongside humans...[f000]븁\u0000\nMeanwhile, those that live in the wild\ntry to better themselves[f000]븀\u0000\nwithout relying on anyone else.[f000]븁\u0000\nThere are many different Pokémon...[f000]븁\u0000\nAnd their different ways of living...\nThat is the true freedom of Pokémon.[f000]븀\u0000\nThat is what connects Pokémon to us.[f000]븉\u0001\u0000[f000]븁\u0000"
     ActorMsgVersioned 1024, 36, 35, 0, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 37, 0, 0, 0
+    // "[f000]븉\u0001\u0001I will set off on another journey.[f000]븁\u0000\nThere are still many Pokémon\nin the world I should talk to.[f000]븁\u0000\nAnd there is also a Trainer\nI want to tell how I feel...[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 37, 0, 0, 0
     MsgWinCloseAll
     PlayerGetDir 0x8020
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0964
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0964
     ActorWalkRoute 0, 17, 44, 1, 8, 0
     VMSleep 24
     VMJump L_0976
@@ -621,7 +662,8 @@ L_0976:
     VMJump L_09BE
 
 L_09AA:
-    ActorMsg 1024, 38, 0, 0, 0
+    // "[f000]븉\u0001\u0001Very well...\nYou're free to choose that, too.[f000]븉\u0001\u0000"
+    ActorMsg MSGFILE_SCRIPT, 38, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 486
@@ -633,12 +675,12 @@ L_09C0:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0A28
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A28
     VMStackPush 0x4114
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0A20
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A20
     ActorSetGPos 255, 16, 0, 38, 0
     ActorSetGPos 0, 16, 0, 36, 1
     EvCameraInit

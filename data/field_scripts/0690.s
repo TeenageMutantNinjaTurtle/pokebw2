@@ -14,6 +14,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Route 8"
     MsgPlaceSign 8, 3
     MsgPlaceSignClose
     FinishAllEvents
@@ -24,6 +25,7 @@ Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Tubeline Bridge\nUnova's famous railway bridge"
     MsgPlaceSign 10, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -34,6 +36,7 @@ Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Trainer Tips!\n[f000]븁\u0000\nPress SELECT to change the location\nof items in the Bag![f000]븁\u0000\nPoink!"
     MsgPlaceSign 9, 0
     MsgPlaceSignClose
     FlagSet 2671
@@ -48,14 +51,16 @@ Script_4:
     ActorSetEyeToEye
     VMStackPushFlag 2749
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01B6
-    ParentActorMsg 1024, 2, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01B6
+    // "That's right.[f000]븁\u0000\nI find rocks, and then\nI give them to people...[f000]븀\u0000\nThat's my simple life.[f000]븀\u0000\nYou rock...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00E8
-    ParentActorMsg 1024, 3, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E8
+    // "Here, I'll give you the Damp Rock\nI found this morning.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -69,9 +74,10 @@ Script_4:
 L_00E8:
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_012D
-    ParentActorMsg 1024, 4, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_012D
+    // "Here, I'll give you the Heat Rock\nI found this afternoon.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -85,9 +91,10 @@ L_00E8:
 L_012D:
     VMStackPush 0x8010
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0172
-    ParentActorMsg 1024, 5, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0172
+    // "Here, I'll give you the Smooth Rock\nI found this evening.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -99,7 +106,8 @@ L_012D:
     VMJump L_019E
 
 L_0172:
-    ParentActorMsg 1024, 6, 0, 0
+    // "Here, I'll give you the Icy Rock\nI found tonight.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -110,14 +118,16 @@ L_0172:
     VMStackPop 0x8000
 
 L_019E:
-    ParentActorMsg 1024, 7, 0, 0
+    // "Yeah, yeah...[f000]븁\u0000\nIf you like rocks, come back tomorrow...\nRoll in at a different time, if possible.[f000]븀\u0000\nI'll be here, I pumice."
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2749
     VMJump L_01C4
 
 L_01B6:
-    ParentActorMsg 1024, 7, 0, 0
+    // "Yeah, yeah...[f000]븁\u0000\nIf you like rocks, come back tomorrow...\nRoll in at a different time, if possible.[f000]븀\u0000\nI'll be here, I pumice."
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -128,20 +138,21 @@ L_01C4:
 
 Script_5:
     ActorsPauseAll
-    ItemCheckAmount 447, 1, 0x8010
+    ItemCheckAmount ITEM_SUPER_ROD, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_024A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_024A
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 0, 1, 0, 0
+    // "Hey there, Pokémon Trainer![f000]븁\u0000\nI'm a member of the Hip Waders![f000]븁\u0000\nJust as the name suggests,\nwe're a fishing team![f000]븁\u0000\nIf you want to learn more, come on\nover to my house on Village Bridge![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 1, 0, 0
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8022
     VMStackPushConst 183
-    VMStackCmp 1
-    VMJumpIf 255, L_0228
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0228
     ActorWalkRoute 1, 243, 180, 1, 8, 1
     VMJump L_0236
 
@@ -158,7 +169,8 @@ L_0236:
 L_024A:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Hey there, Pokémon Trainer![f000]븁\u0000\nI'm a member of the Hip Waders![f000]븁\u0000\nOh, you don't have a fishing rod...[f000]븁\u0000\nMaybe I'll go invite Professor Juniper\nin Nuvema Town instead..."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
 

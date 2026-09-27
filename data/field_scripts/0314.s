@@ -9,6 +9,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Desert Resort Ahead\nIt's nicer than the average desert!"
     MsgPlaceSign 2, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -19,7 +20,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Go through the gate, and just head\nstraight. That's how you get to[f000]븀\u0000\nthe Relic Castle."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -30,7 +32,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "The Desert Resort is vast, and\nthe Pokémon here are strong![f000]븀\u0000\nIt's an ideal place to test your skills!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

@@ -8,11 +8,12 @@ Script_1:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0039
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0039
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "It looks like my son found\nsomething important.[f000]븁\u0000\nIt's all because Pokémon--\nand you--were by his side!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_007D
@@ -20,12 +21,13 @@ Script_1:
 L_0039:
     VMStackPushFlag 2406
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0069
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0069
     WordSetLoadRivalName 1
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "It's too bad. If you had a Pokémon\nwith you as well, you could compete[f000]븀\u0000\nwith [f000]Ā\u0001\u0001 and see who is the[f000]븀\u0000\nbetter Trainer!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_007D
@@ -33,7 +35,8 @@ L_0039:
 L_0069:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "To be honest, I don't want\nmy son to go on a journey.[f000]븀\u0000\nI mean, his goal is...[f000]븁\u0000\nBut there is no parent who doesn't\nwish for his or her child to grow."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -48,11 +51,12 @@ Script_2:
     WordSetLoadRivalName 1
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00B8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B8
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "I wonder if she and Liepard will\ngo on a journey together as well..."
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_00FD
@@ -60,11 +64,12 @@ Script_2:
 L_00B8:
     VMStackPushFlag 2406
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00E5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E5
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "Someday you will both go on a\njourney with your Pokémon, too!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_00FD
@@ -72,6 +77,8 @@ L_00B8:
 L_00E5:
     SEPlay 1351
     ActorSetEyeToEye
+    // "[f000]Ā\u0001\u0000...[f000]븁\u0000\nIf [f000]Ā\u0001\u0001 loses his way\non the path, or in life really,[f000]븀\u0000\nplease help him, won't you?[f000]븁\u0000\nHe's the kind of person who, well,\nwho lets rage build inside him."
+    // "[f000]Ā\u0001\u0000...[f000]븁\u0000\nIf [f000]Ā\u0001\u0001 loses his way\non the path, or in life really,[f000]븀\u0000\nplease help him, won't you?[f000]븁\u0000\nHe's the kind of person who, well,\nwho lets rage build inside him."
     ActorMsgGendered 1024, 4, 5, 0, 2, 0
     LastKeyWait
     MsgWinCloseAll

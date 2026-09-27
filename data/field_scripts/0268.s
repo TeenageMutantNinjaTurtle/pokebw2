@@ -10,11 +10,12 @@ Script_1:
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0043
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0043
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Pursuing ideals...\nWhat does that really mean?[f000]븁\u0000\nYou see, there was this guy called N,\nwho the legendary Pokémon Zekrom[f000]븀\u0000\nrecognized as the hero..."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0057
@@ -22,7 +23,8 @@ Script_1:
 L_0043:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Pursuing truth...\nWhat does that really mean?[f000]븁\u0000\nYou see, there was this guy called N,\nwho the legendary Pokémon Reshiram[f000]븀\u0000\nrecognized as the hero..."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
 

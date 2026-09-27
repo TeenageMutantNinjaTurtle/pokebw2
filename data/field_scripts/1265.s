@@ -13,6 +13,7 @@ Script_1:
     WorkGet 0x8021, 0x8001
     WordSetPlayerName 0
     WordSetPassPowerName 2, 0x8020
+    // "[f000]Ā\u0001\u0000 used the Pass Power\n“[f000]Ĝ\u0001\u0002!\"[f000]븁\u0000"
     SystemMsg 0, 2
     InfoMsgClose
     Cmd_01DF
@@ -37,8 +38,8 @@ Script_2:
 L_007E:
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00B4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B4
     PassPowerPopDepletedID 0x8023, 0x8024
     WorkGet 0x8025, 0x8024
     WordSetPassPowerName 2, 0x8023

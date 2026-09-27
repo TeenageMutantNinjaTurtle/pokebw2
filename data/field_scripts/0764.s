@@ -7,11 +7,12 @@ Script_1:
     ActorsPauseAll
     VMStackPushFlag 259
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0035
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0035
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "I am so grateful that you traded Pokémon\nwith me![f000]븁\u0000\nI've traded a Rotom and a Ditto\nbefore as well...[f000]븁\u0000\nI guess I just like Ditto!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0114
@@ -19,37 +20,41 @@ Script_1:
 L_0035:
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 0, 0, 0, 0
+    // "By any chance, have you caught a\nPokémon called Rotom?[f000]븁\u0000\nI would be very happy if you would trade\nmy Rotom for your Ditto."
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0104
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0104
     ActorMsgClose
     WorkSetConst 0x8020, 0
     WorkSetConst 0x8021, 0
     CallPokeSelect 0, 0x8021, 0x8020, 0
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00EE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00EE
     WorkSetConst 0x8022, 0
     FieldTradeCheck 0x8022, 28, 0x8020
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00D8
-    ActorMsg 1024, 1, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00D8
+    // "My heart is beating so fast!\nOK, let's trade![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     MsgWinCloseAll
     FieldTradeStart 28, 0x8020
-    ActorMsg 1024, 2, 0, 0, 0
+    // "Thank you very much! Please treat my\nRotom with love![f000]븁\u0000\nI will also take good care of the\nDitto that you traded to me!"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FlagSet 259
     VMJump L_00E8
 
 L_00D8:
-    ActorMsg 1024, 3, 0, 0, 0
+    // "I'd like to trade for a Ditto..."
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -57,7 +62,8 @@ L_00E8:
     VMJump L_00FE
 
 L_00EE:
-    ActorMsg 1024, 4, 0, 0, 0
+    // "Well, if you don't want to, I understand.[f000]븁\u0000\nBut if you ever change your mind, please\ntrade Pokémon with me!"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -65,7 +71,8 @@ L_00FE:
     VMJump L_0114
 
 L_0104:
-    ActorMsg 1024, 4, 0, 0, 0
+    // "Well, if you don't want to, I understand.[f000]븁\u0000\nBut if you ever change your mind, please\ntrade Pokémon with me!"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 

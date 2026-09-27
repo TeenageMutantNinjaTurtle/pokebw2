@@ -15,13 +15,13 @@ Script_1:
 L_002A:
     VMStackPush 0x8020
     VMStackPush 0x8022
-    VMStackCmp 2
-    VMJumpIf 255, L_006C
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_006C
     PokePartyGetSpecies 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 494
-    VMStackCmp 1
-    VMJumpIf 255, L_005C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_005C
     WorkSetConst 0x400a, 1
 
 L_005C:
@@ -43,12 +43,13 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
+    // "Victini seems to want to get out\nof the Poké Ball...[f000]븀\u0000\nWill you let it out?[f000]븁\u0000"
     InfoMsg 0, 1
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_019F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_019F
     MsgWinCloseAll
     ActorWalkRoute 255, 4, 7, 0, 8, 1
     ActorCmdWait
@@ -56,7 +57,8 @@ Script_4:
     ActorCmdWait
     ActorNew 4, 8, 1, 251, 125, 0
     PVPlay 494, 0
-    ActorMsg 1024, 1, 251, 0, 0
+    // "Ta-ta-ta-tah!"
+    ActorMsg MSGFILE_SCRIPT, 1, 251, 0, 0
     PVWait
     MsgWaitAdvance
     MsgWinCloseAll
@@ -79,7 +81,8 @@ Script_4:
     ActorCmdExec 251, Movement_01F0
     ActorCmdWait
     PVPlay 494, 0
-    ActorMsg 1024, 1, 251, 0, 0
+    // "Ta-ta-ta-tah!"
+    ActorMsg MSGFILE_SCRIPT, 1, 251, 0, 0
     MsgWaitAdvance
     PVWait
     MsgWinCloseAll
@@ -90,6 +93,7 @@ Script_4:
     PVPlay 494, 0
     PVWait
     ActorDelete 251
+    // "Victini has returned to its Poké Ball\nwith an air of satisfaction."
     InfoMsg 2, 1
     LastKeyWait
     MsgWinCloseAll
@@ -101,6 +105,7 @@ Script_4:
     VMJump L_01AE
 
 L_019F:
+    // "Victini seems lonely\nin the Poké Ball..."
     InfoMsg 3, 1
     LastKeyWait
     MsgWinCloseAll

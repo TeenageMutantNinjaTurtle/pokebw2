@@ -14,8 +14,8 @@ Script_5:
     Plugin6_Cmd1002 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_003D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_003D
     VMCall L_0045
     VMCall L_0119
 
@@ -27,8 +27,8 @@ L_0045:
     Plugin6_Cmd1016 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0074
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0074
     WorkSetConst 0x8011, 0
     ActorSetGPos 0x8011, 15, 0, 5, 2
     VMJump L_0099
@@ -36,8 +36,8 @@ L_0045:
 L_0074:
     VMStackPush 0x8010
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0099
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0099
     WorkSetConst 0x8011, 8
     ActorSetGPos 0x8011, 15, 0, 5, 3
 
@@ -53,32 +53,32 @@ Script_6:
 L_00A9:
     VMStackPushFlag 2441
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00BE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00BE
     VMReturn
 
 L_00BE:
     Plugin6_Cmd1023 0x4020, 0x4021, 0x4022
     VMStackPush 0x4020
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_00E1
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_00E1
     FlagReset 871
     ActorAdd 9
 
 L_00E1:
     VMStackPush 0x4021
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_00FC
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_00FC
     FlagReset 872
     ActorAdd 10
 
 L_00FC:
     VMStackPush 0x4022
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_0117
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0117
     FlagReset 873
     ActorAdd 11
 
@@ -88,24 +88,24 @@ L_0117:
 L_0119:
     VMStackPushFlag 2441
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_012E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_012E
     VMReturn
 
 L_012E:
     Plugin6_Cmd1012 0x8010
     VMStackPush 0x8010
     VMStackPushConst 11
-    VMStackCmp 5
-    VMJumpIf 255, L_0147
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0147
     VMReturn
 
 L_0147:
     Plugin6_Cmd1004 0x8010
     VMStackPush 0x8010
     VMStackPushConst 5
-    VMStackCmp 1
-    VMJumpIf 255, L_0164
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0164
     WorkSetConst 0x4135, 1
 
 L_0164:
@@ -117,9 +117,10 @@ Script_1:
     ActorSetEyeToEye
     VMStackPush 0x4135
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0197
-    ActorMsg 1024, 112, 0x8011, 4, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0197
+    // "We're preparing a special tournament.\nPlease be patient a little longer."
+    ActorMsg MSGFILE_SCRIPT, 112, 0x8011, 4, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_01A3
@@ -140,15 +141,16 @@ Script_3:
     ActorSetEyeToEye
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01D6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01D6
     Plugin6_Cmd1000
     Plugin6_Cmd1015 2
     VMCall L_01EC
     VMJump L_01E6
 
 L_01D6:
-    ActorMsg 1024, 68, 0x8011, 4, 0
+    // "We're getting special tournaments ready.\nIt may take a while, so please be patient!"
+    ActorMsg MSGFILE_SCRIPT, 68, 0x8011, 4, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -169,31 +171,33 @@ L_01EC:
     WorkSetConst 0x8028, 0
     WorkSetConst 0x8029, 0
     Plugin6_Cmd1003 0
-    ActorMsg 1024, 0, 0x8011, 4, 0
+    // "Welcome to the\nPokémon World Tournament![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0x8011, 4, 0
     WorkSetConst 0x8020, 1
 
 L_023E:
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 5
+    VMStackCmp CMP_NE
     VMStackPush 0x8020
     VMStackPushConst 8
-    VMStackCmp 5
-    VMStackCmp 7
-    VMJumpIf 255, L_0540
+    VMStackCmp CMP_NE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0540
     DebugPrint 0x8020
     WorkCmpConst 0x8020, 1
-    VMJumpIf 1, L_0278
+    VMJumpIf CMP_EQ, L_0278
     VMJump L_0290
 
 L_0278:
-    ActorMsg 1024, 1, 0x8011, 4, 0
+    // "Will you participate?"
+    ActorMsg MSGFILE_SCRIPT, 1, 0x8011, 4, 0
     VMCall L_056D
     VMJump L_053A
 
 L_0290:
     WorkCmpConst 0x8020, 2
-    VMJumpIf 1, L_02A3
+    VMJumpIf CMP_EQ, L_02A3
     VMJump L_02CE
 
 L_02A3:
@@ -201,8 +205,8 @@ L_02A3:
     VMCall L_0B68
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02C8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02C8
     WorkSetConst 0x8020, 1
 
 L_02C8:
@@ -210,7 +214,7 @@ L_02C8:
 
 L_02CE:
     WorkCmpConst 0x8020, 3
-    VMJumpIf 1, L_02E1
+    VMJumpIf CMP_EQ, L_02E1
     VMJump L_037D
 
 L_02E1:
@@ -218,7 +222,7 @@ L_02E1:
     Plugin6_Cmd1011 0x8023
     WorkGet 0x8021, 0x8023
     WorkCmpConst 0x8021, 0
-    VMJumpIf 1, L_0304
+    VMJumpIf CMP_EQ, L_0304
     VMJump L_0310
 
 L_0304:
@@ -227,7 +231,7 @@ L_0304:
 
 L_0310:
     WorkCmpConst 0x8021, 11
-    VMJumpIf 1, L_0323
+    VMJumpIf CMP_EQ, L_0323
     VMJump L_0333
 
 L_0323:
@@ -237,7 +241,7 @@ L_0323:
 
 L_0333:
     WorkCmpConst 0x8021, 2
-    VMJumpIf 1, L_0346
+    VMJumpIf CMP_EQ, L_0346
     VMJump L_0352
 
 L_0346:
@@ -246,7 +250,7 @@ L_0346:
 
 L_0352:
     WorkCmpConst 0x8021, 3
-    VMJumpIf 1, L_0365
+    VMJumpIf CMP_EQ, L_0365
     VMJump L_0371
 
 L_0365:
@@ -261,7 +265,7 @@ L_0377:
 
 L_037D:
     WorkCmpConst 0x8020, 4
-    VMJumpIf 1, L_0390
+    VMJumpIf CMP_EQ, L_0390
     VMJump L_03CF
 
 L_0390:
@@ -270,8 +274,8 @@ L_0390:
     VMCall L_0DED
     VMStackPush 0x8023
     VMStackPushConst 17
-    VMStackCmp 1
-    VMJumpIf 255, L_03BF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03BF
     WorkSetConst 0x8020, 3
     VMJump L_03C9
 
@@ -284,7 +288,7 @@ L_03C9:
 
 L_03CF:
     WorkCmpConst 0x8020, 5
-    VMJumpIf 1, L_03E2
+    VMJumpIf CMP_EQ, L_03E2
     VMJump L_043C
 
 L_03E2:
@@ -293,16 +297,16 @@ L_03E2:
     Plugin6_Cmd1026 0x8022
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0411
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0411
     WorkSetConst 0x8020, 0
     VMJump L_0436
 
 L_0411:
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0430
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0430
     WorkSetConst 0x8020, 3
     VMJump L_0436
 
@@ -314,7 +318,7 @@ L_0436:
 
 L_043C:
     WorkCmpConst 0x8020, 6
-    VMJumpIf 1, L_044F
+    VMJumpIf CMP_EQ, L_044F
     VMJump L_04B3
 
 L_044F:
@@ -322,8 +326,8 @@ L_044F:
     VMCall L_0807
     VMStackPush 0x8023
     VMStackPushConst 4
-    VMStackCmp 5
-    VMJumpIf 255, L_0484
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0484
     WorkGet 0x8025, 0x8023
     Plugin6_Cmd1009 0x8025
     WorkSetConst 0x8020, 7
@@ -333,8 +337,8 @@ L_0484:
     Plugin6_Cmd1012 0x8021
     VMStackPush 0x8021
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_04A7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04A7
     WorkSetConst 0x8020, 4
     VMJump L_04AD
 
@@ -346,7 +350,7 @@ L_04AD:
 
 L_04B3:
     WorkCmpConst 0x8020, 7
-    VMJumpIf 1, L_04C6
+    VMJumpIf CMP_EQ, L_04C6
     VMJump L_0534
 
 L_04C6:
@@ -354,8 +358,8 @@ L_04C6:
     VMCall L_0861
     VMStackPush 0x8027
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04F1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04F1
     WorkSetConst 0x8020, 0
     VMJump L_052E
 
@@ -364,8 +368,8 @@ L_04F1:
     VMCall L_0978
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0528
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0528
     Plugin6_Cmd1005
     Plugin6_Cmd1003 1
     VMCall L_0A17
@@ -387,9 +391,10 @@ L_053A:
 L_0540:
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_056B
-    ActorMsg 1024, 6, 0x8011, 4, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_056B
+    // "We hope to see you again!"
+    ActorMsg MSGFILE_SCRIPT, 6, 0x8011, 4, 0
     LastKeyWait
     MsgWinCloseAll
     Plugin6_Cmd1001
@@ -405,7 +410,7 @@ L_056D:
     ListMenuAdd 4, 65535, 2
     ListMenuShow
     WorkCmpConst 0x8023, 0
-    VMJumpIf 1, L_05A3
+    VMJumpIf CMP_EQ, L_05A3
     VMJump L_05AF
 
 L_05A3:
@@ -414,7 +419,7 @@ L_05A3:
 
 L_05AF:
     WorkCmpConst 0x8023, 1
-    VMJumpIf 1, L_05C2
+    VMJumpIf CMP_EQ, L_05C2
     VMJump L_05CE
 
 L_05C2:
@@ -428,15 +433,16 @@ L_05D4:
     VMReturn
 
 L_05D6:
-    ActorMsg 1024, 22, 0x8011, 4, 0
+    // "Which tournament\nwill you participate in?"
+    ActorMsg MSGFILE_SCRIPT, 22, 0x8011, 4, 0
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32803
     VMCall L_0616
     ListMenuAdd 38, 65535, 0
     ListMenuShow
     VMStackPush 0x8023
     VMStackPushConst 65534
-    VMStackCmp 1
-    VMJumpIf 255, L_0614
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0614
     WorkSetConst 0x8023, 0
 
 L_0614:
@@ -446,127 +452,128 @@ L_0616:
     Plugin6_Cmd1006 11, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0637
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0637
     ListMenuAdd 26, 65535, 11
 
 L_0637:
     Plugin6_Cmd1006 4, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0658
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0658
     ListMenuAdd 26, 65535, 4
 
 L_0658:
     Plugin6_Cmd1006 5, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0679
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0679
     ListMenuAdd 27, 65535, 5
 
 L_0679:
     Plugin6_Cmd1006 6, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_069A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_069A
     ListMenuAdd 28, 65535, 6
 
 L_069A:
     Plugin6_Cmd1006 7, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_06BB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06BB
     ListMenuAdd 29, 65535, 7
 
 L_06BB:
     Plugin6_Cmd1006 8, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_06DC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06DC
     ListMenuAdd 30, 65535, 8
 
 L_06DC:
     Plugin6_Cmd1006 9, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_06FD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06FD
     ListMenuAdd 31, 65535, 9
 
 L_06FD:
     Plugin6_Cmd1006 10, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_071E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_071E
     ListMenuAdd 32, 65535, 10
 
 L_071E:
     Plugin6_Cmd1006 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_073F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_073F
     ListMenuAdd 23, 65535, 1
 
 L_073F:
     Plugin6_Cmd1006 13, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0760
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0760
     ListMenuAdd 35, 65535, 13
 
 L_0760:
     Plugin6_Cmd1006 15, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0781
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0781
     ListMenuAdd 36, 65535, 15
 
 L_0781:
     Plugin6_Cmd1006 2, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_07A2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07A2
     ListMenuAdd 24, 65535, 2
 
 L_07A2:
     Plugin6_Cmd1006 12, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_07C3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07C3
     ListMenuAdd 33, 65535, 12
 
 L_07C3:
     Plugin6_Cmd1006 14, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_07E4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07E4
     ListMenuAdd 34, 65535, 14
 
 L_07E4:
     Plugin6_Cmd1006 3, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0805
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0805
     ListMenuAdd 25, 65535, 3
 
 L_0805:
     VMReturn
 
 L_0807:
-    ActorMsg 1024, 41, 0x8011, 4, 0
+    // "Which battle format\nwill you choose?"
+    ActorMsg MSGFILE_SCRIPT, 41, 0x8011, 4, 0
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32803
     ListMenuAdd 44, 65535, 0
     ListMenuAdd 45, 65535, 1
@@ -576,8 +583,8 @@ L_0807:
     ListMenuShow
     VMStackPush 0x8023
     VMStackPushConst 65534
-    VMStackCmp 1
-    VMJumpIf 255, L_085F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_085F
     WorkSetConst 0x8023, 4
 
 L_085F:
@@ -587,20 +594,20 @@ L_0861:
     Plugin6_Cmd1012 0x8021
     VMStackPush 0x8021
     VMStackPushConst 12
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8021
     VMStackPushConst 13
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_0890
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_0890
     WorkSetConst 0x8027, 1
     VMReturn
 
 L_0890:
     VMStackPush 0x8021
     VMStackPushConst 3
-    VMStackCmp 5
-    VMJumpIf 255, L_08A5
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_08A5
     MsgWinCloseAll
 
 L_08A5:
@@ -609,39 +616,41 @@ L_08A5:
     DebugPrint 0x8010
     VMStackPush 0x8010
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_08CC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08CC
     VMReturn
     VMJump L_0970
 
 L_08CC:
     VMStackPush 0x8010
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0970
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0970
     Plugin6_Cmd1058 0x8010
     WorkCmpConst 0x8010, 60
-    VMJumpIf 1, L_08F6
+    VMJumpIf CMP_EQ, L_08F6
     VMJump L_0904
 
 L_08F6:
+    // "You don't meet the conditions,\nso you can't participate.[f000]븁\u0000\nRules differ for each tournament.[f000]븁\u0000\nPlease check the Download Tournament\nrules before participating.[f000]븁\u0000"
     SystemMsg 60, 2
     MsgWinCloseAll
     VMJump L_096E
 
 L_0904:
     WorkCmpConst 0x8010, 48
-    VMJumpIf 1, L_093E
+    VMJumpIf CMP_EQ, L_093E
     WorkCmpConst 0x8010, 49
-    VMJumpIf 1, L_093E
+    VMJumpIf CMP_EQ, L_093E
     WorkCmpConst 0x8010, 50
-    VMJumpIf 1, L_093E
+    VMJumpIf CMP_EQ, L_093E
     WorkCmpConst 0x8010, 51
-    VMJumpIf 1, L_093E
+    VMJumpIf CMP_EQ, L_093E
     VMJump L_0952
 
 L_093E:
     SystemMsg 0x8010, 2
+    // "By the way, Eggs cannot participate![f000]븁\u0000"
     SystemMsg 61, 2
     MsgWinCloseAll
     VMJump L_096E
@@ -665,25 +674,28 @@ L_0978:
     Plugin6_Cmd1012 0x8021
     VMStackPush 0x8021
     VMStackPushConst 12
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8021
     VMStackPushConst 13
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_09E6
-    ActorMsg 1024, 66, 0x8011, 4, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_09E6
+    // "A randomized draw will determine your\nPokémon team. The excitement builds!"
+    ActorMsg MSGFILE_SCRIPT, 66, 0x8011, 4, 0
     ListMenu_AnchorTopRight 31, 1, 0, 0, 32784
     ListMenuAdd 109, 65535, 0
     ListMenuAdd 110, 65535, 1
     ListMenuAdd 111, 65535, 2
     ListMenuShow
-    ActorMsg 1024, 67, 0x8011, 4, 0
+    // "The moment of truth!\nWhich Pokémon will you receive?[f000]븁\u0000\nCounting down...[f000]븁\u0000\n... ...\n... ...[f000]븁\u0000\nTa-da! Here they are![f000]븁\u0000\nThese are the Pokémon\navailable for rental![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 67, 0x8011, 4, 0
     MsgWinCloseAll
     Plugin6_Cmd1038 0x8010
     VMJump L_09F4
 
 L_09E6:
-    ActorMsg 1024, 62, 0x8011, 4, 0
+    // "Please choose the Pokémon that\nwill participate.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 62, 0x8011, 4, 0
     MsgWinCloseAll
 
 L_09F4:
@@ -691,8 +703,8 @@ L_09F4:
     Plugin6_Cmd1048 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0A0F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A0F
     VMReturn
 
 L_0A0F:
@@ -704,50 +716,56 @@ L_0A17:
     Plugin6_Cmd1007 6, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0A3E
-    ActorMsg 1024, 78, 0x8011, 4, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A3E
+    // "Your victory in the Unova Leaders\nTournament will enable you to participate[f000]븀\u0000\nin Leaders tournaments of more regions.[f000]븁\u0000\nGood luck to you![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 78, 0x8011, 4, 0
 
 L_0A3E:
     Plugin6_Cmd1007 10, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0A63
-    ActorMsg 1024, 79, 0x8011, 4, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A63
+    // "I have an announcement to make![f000]븁\u0000\nWin all the regional Leaders tournaments,\nand you'll be able to participate in the[f000]븀\u0000\nWorld Leaders Tournament and the[f000]븀\u0000\nType Expert Tournament.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 79, 0x8011, 4, 0
 
 L_0A63:
     Plugin6_Cmd1007 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0A88
-    ActorMsg 1024, 80, 0x8011, 4, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A88
+    // "One more win in the World Leaders\nTournament, and you'll be able to[f000]븀\u0000\nparticipate in the Champions Tournament.[f000]븀\u0000\nGood luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 80, 0x8011, 4, 0
 
 L_0A88:
     Plugin6_Cmd1007 13, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0AAD
-    ActorMsg 1024, 81, 0x8011, 4, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0AAD
+    // "When you win all the regional Leaders\ntournaments as well as the Rental[f000]븀\u0000\nTournament, you'll be able to participate[f000]븀\u0000\nin the Rental Master Tournament![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 81, 0x8011, 4, 0
 
 L_0AAD:
     Plugin6_Cmd1007 15, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0AD2
-    ActorMsg 1024, 82, 0x8011, 4, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0AD2
+    // "When you win all the regional Leaders\ntournaments as well as[f000]븀\u0000\nthe Mix Tournament,[f000]븁\u0000\nyou'll be able to participate in the\nMix Master Tournament![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 82, 0x8011, 4, 0
 
 L_0AD2:
-    ActorMsg 1024, 64, 0x8011, 4, 0
+    // "Done!\nYour registration is complete.[f000]븀\u0000\nRight this way, please.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 64, 0x8011, 4, 0
     MsgWinCloseAll
     Plugin6_Cmd1016 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0B07
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B07
     ActorCmdExec 0x8011, Movement_0B40
     ActorCmdWait
     VMJump L_0B11
@@ -785,153 +803,170 @@ Movement_0B60:
     MoveEnd
 
 L_0B68:
-    ActorMsg 1024, 5, 0x8011, 4, 0
+    // "Which tournament do you\nwant to know about?"
+    ActorMsg MSGFILE_SCRIPT, 5, 0x8011, 4, 0
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32803
     ListMenuAdd 37, 65535, 100
     VMCall L_0616
     ListMenuAdd 38, 65535, 0
     ListMenuShow
     WorkCmpConst 0x8023, 100
-    VMJumpIf 1, L_0BA8
+    VMJumpIf CMP_EQ, L_0BA8
     VMJump L_0BBA
 
 L_0BA8:
-    ActorMsg 1024, 21, 0x8011, 4, 0
+    // "There are four battle formats\nto a tournament:[f000]븀\u0000\nSingle, Double, Triple, and Rotation.[f000]븁\u0000\nSingle Battles need three Pokémon.[f000]븁\u0000\nDouble Battles need four Pokémon.[f000]븁\u0000\nTriple Battles need six Pokémon.[f000]븁\u0000\nRotation Battles need four Pokémon.[f000]븁\u0000\nTriple Battles and Rotation Battles\ngive you more points than other formats[f000]븀\u0000\nwhen you manage to win, so jump in![f000]븀\u0000\nIt's worthwhile to try these formats![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 21, 0x8011, 4, 0
     VMJump L_0DEB
 
 L_0BBA:
     WorkCmpConst 0x8023, 11
-    VMJumpIf 1, L_0BCD
+    VMJumpIf CMP_EQ, L_0BCD
     VMJump L_0BDF
 
 L_0BCD:
-    ActorMsg 1024, 113, 0x8011, 4, 0
+    // "At last, the Driftveil Tournament!\nIn this tournament, anything goes.[f000]븁\u0000\nAny Pokémon with any held item\ncan participate.[f000]븁\u0000\nThe winner will be rewarded with BP.\nGood luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 113, 0x8011, 4, 0
     VMJump L_0DEB
 
 L_0BDF:
     WorkCmpConst 0x8023, 4
-    VMJumpIf 1, L_0BF2
+    VMJumpIf CMP_EQ, L_0BF2
     VMJump L_0C04
 
 L_0BF2:
-    ActorMsg 1024, 10, 0x8011, 4, 0
+    // "Driftveil Tournament is a tournament\nwhere anything goes.[f000]븁\u0000\nYou may use any Pokémon or\nheld items of your choice.[f000]븁\u0000\nFor these battles, all Pokémon\nwill be set to Level 25.[f000]븁\u0000\nThe winner will be rewarded\nwith BP.[f000]븀\u0000\nGood luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 0x8011, 4, 0
     VMJump L_0DEB
 
 L_0C04:
     WorkCmpConst 0x8023, 5
-    VMJumpIf 1, L_0C17
+    VMJumpIf CMP_EQ, L_0C17
     VMJump L_0C29
 
 L_0C17:
-    ActorMsg 1024, 11, 0x8011, 4, 0
+    // "Unova Leaders Tournament is a\ntournament in which Gym Leaders[f000]븀\u0000\nfrom Unova are participating.[f000]븁\u0000\nYou may use any Pokémon or\nheld items of your choice.[f000]븁\u0000\nFor these battles, all Pokémon\nwill be set to Level 50.[f000]븁\u0000\nThe winner will be rewarded\nwith BP.[f000]븀\u0000\nGood luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 0x8011, 4, 0
     VMJump L_0DEB
 
 L_0C29:
     WorkCmpConst 0x8023, 6
-    VMJumpIf 1, L_0C3C
+    VMJumpIf CMP_EQ, L_0C3C
     VMJump L_0C4E
 
 L_0C3C:
-    ActorMsg 1024, 12, 0x8011, 4, 0
+    // "Kanto Leaders Tournament is a\ntournament in which Gym Leaders[f000]븀\u0000\nfrom Kanto are participating.[f000]븁\u0000\nYou may not have duplicate Pokémon\nor duplicate held items.[f000]븁\u0000\nThe item Soul Dew and the\nmove Sky Drop are banned.[f000]븁\u0000\nLegendary or mythical Pokémon\nmay not participate, either.[f000]븁\u0000\nFor these battles, all Pokémon\nwill be set to Level 50.[f000]븁\u0000\nThe winner will be rewarded\nwith a little more BP than usual.[f000]븀\u0000\nGood luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 0x8011, 4, 0
     VMJump L_0DEB
 
 L_0C4E:
     WorkCmpConst 0x8023, 7
-    VMJumpIf 1, L_0C61
+    VMJumpIf CMP_EQ, L_0C61
     VMJump L_0C73
 
 L_0C61:
-    ActorMsg 1024, 13, 0x8011, 4, 0
+    // "Johto Leaders Tournament is a\ntournament in which Gym Leaders[f000]븀\u0000\nfrom Johto are participating.[f000]븁\u0000\nYou may not have duplicate Pokémon\nor duplicate held items.[f000]븁\u0000\nThe item Soul Dew and the\nmove Sky Drop are banned.[f000]븁\u0000\nLegendary or mythical Pokémon\nmay not participate, either.[f000]븁\u0000\nFor these battles, all Pokémon\nwill be set to Level 50.[f000]븁\u0000\nThe winner will be rewarded\nwith a little more BP than usual.[f000]븀\u0000\nGood luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 0x8011, 4, 0
     VMJump L_0DEB
 
 L_0C73:
     WorkCmpConst 0x8023, 8
-    VMJumpIf 1, L_0C86
+    VMJumpIf CMP_EQ, L_0C86
     VMJump L_0C98
 
 L_0C86:
-    ActorMsg 1024, 14, 0x8011, 4, 0
+    // "Hoenn Leaders Tournament is a\ntournament in which Gym Leaders[f000]븀\u0000\nfrom Hoenn are participating.[f000]븁\u0000\nYou may not have duplicate Pokémon\nor duplicate held items.[f000]븁\u0000\nThe item Soul Dew and the\nmove Sky Drop are banned.[f000]븁\u0000\nLegendary or mythical Pokémon\nmay not participate, either.[f000]븁\u0000\nFor these battles, all Pokémon\nwill be set to Level 50.[f000]븁\u0000\nThe winner will be rewarded\nwith a little more BP than usual.[f000]븀\u0000\nGood luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 0x8011, 4, 0
     VMJump L_0DEB
 
 L_0C98:
     WorkCmpConst 0x8023, 9
-    VMJumpIf 1, L_0CAB
+    VMJumpIf CMP_EQ, L_0CAB
     VMJump L_0CBD
 
 L_0CAB:
-    ActorMsg 1024, 15, 0x8011, 4, 0
+    // "Sinnoh Leaders Tournament is a\ntournament in which Gym Leaders[f000]븀\u0000\nfrom Sinnoh are participating.[f000]븁\u0000\nYou may not have duplicate Pokémon\nor duplicate held items.[f000]븁\u0000\nThe item Soul Dew and the\nmove Sky Drop are banned.[f000]븁\u0000\nLegendary or mythical Pokémon\nmay not participate, either.[f000]븁\u0000\nFor these battles, all Pokémon\nwill be set to Level 50.[f000]븁\u0000\nThe winner will be rewarded\nwith a little more BP than usual.[f000]븀\u0000\nGood luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 0x8011, 4, 0
     VMJump L_0DEB
 
 L_0CBD:
     WorkCmpConst 0x8023, 10
-    VMJumpIf 1, L_0CD0
+    VMJumpIf CMP_EQ, L_0CD0
     VMJump L_0CE2
 
 L_0CD0:
-    ActorMsg 1024, 16, 0x8011, 4, 0
+    // "World Leaders Tournament is a\ntournament in which Gym Leaders[f000]븀\u0000\nfrom various regions are participating.[f000]븁\u0000\nYou may not have duplicate Pokémon\nor duplicate held items.[f000]븁\u0000\nThe item Soul Dew and the\nmove Sky Drop are banned.[f000]븁\u0000\nLegendary or mythical Pokémon\nmay not participate, either.[f000]븁\u0000\nFor these battles, all Pokémon\nwill be set to Level 50.[f000]븁\u0000\nThe winner of will be rewarded with BP,\ndepending on how many[f000]븀\u0000\nPokémon are left standing.[f000]븁\u0000\nAim for total victory! Good luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 0x8011, 4, 0
     VMJump L_0DEB
 
 L_0CE2:
     WorkCmpConst 0x8023, 1
-    VMJumpIf 1, L_0CF5
+    VMJumpIf CMP_EQ, L_0CF5
     VMJump L_0D07
 
 L_0CF5:
-    ActorMsg 1024, 8, 0x8011, 4, 0
+    // "Champions Tournament is a tournament\nin which only the Champions of the[f000]븀\u0000\nChampions can participate.[f000]븁\u0000\nYou may not have duplicate Pokémon\nor duplicate held items.[f000]븁\u0000\nThe item Soul Dew and the\nmove Sky Drop are banned.[f000]븁\u0000\nLegendary or mythical Pokémon\nmay not participate, either.[f000]븁\u0000\nFor these battles, all Pokémon\nwill be set to Level 50.[f000]븁\u0000\nThe winner will be rewarded with BP,\ndepending on how many Pokémon[f000]븀\u0000\nare left standing.[f000]븁\u0000\nAim for total victory! Good luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 0x8011, 4, 0
     VMJump L_0DEB
 
 L_0D07:
     WorkCmpConst 0x8023, 13
-    VMJumpIf 1, L_0D1A
+    VMJumpIf CMP_EQ, L_0D1A
     VMJump L_0D2C
 
 L_0D1A:
-    ActorMsg 1024, 19, 0x8011, 4, 0
+    // "Rental Master Tournament is a unique\ntournament where we prepare the[f000]븀\u0000\nPokémon with which you will battle.[f000]븁\u0000\nRental Pokémon will be randomly\nselected for you. They are more rare[f000]븀\u0000\nthan the ones in the Rental Tournament.[f000]븁\u0000\nTo make the battles more thrilling, the\nparticipants are Gym Leaders from[f000]븀\u0000\nvarious regions.[f000]븁\u0000\nThe winner will be rewarded\nwith a little more BP than usual.[f000]븀\u0000\nGood luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 19, 0x8011, 4, 0
     VMJump L_0DEB
 
 L_0D2C:
     WorkCmpConst 0x8023, 15
-    VMJumpIf 1, L_0D3F
+    VMJumpIf CMP_EQ, L_0D3F
     VMJump L_0D51
 
 L_0D3F:
-    ActorMsg 1024, 20, 0x8011, 4, 0
+    // "Mix Master Tournament is a unique\ntournament where you and your opponent[f000]븀\u0000\nswap Pokémon before battling.[f000]븁\u0000\nYou'll normally swap one Pokémon,\nbut you'll swap two in Triple Battles.[f000]븁\u0000\nSwapped Pokémon will be returned\nafter the battle, so don't be alarmed.[f000]븁\u0000\nFor these battles, all Pokémon\nwill be set to Level 50.[f000]븁\u0000\nThe participants in the Mix Master\nTournament are Unova Gym Leaders,[f000]븀\u0000\nso there will be rare Pokémon in the mix.[f000]븁\u0000\nThe winner will be rewarded\nwith a little more BP than usual.[f000]븀\u0000\nGood luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 20, 0x8011, 4, 0
     VMJump L_0DEB
 
 L_0D51:
     WorkCmpConst 0x8023, 2
-    VMJumpIf 1, L_0D64
+    VMJumpIf CMP_EQ, L_0D64
     VMJump L_0D76
 
 L_0D64:
-    ActorMsg 1024, 7, 0x8011, 4, 0
+    // "Type Expert Tournament is a tournament\nin which only Pokémon of a specific type[f000]븀\u0000\ncan participate.[f000]븁\u0000\nFor example, if you choose\nFire-type Expert Tournament, only[f000]븀\u0000\nFire-type Pokémon can participate.[f000]븁\u0000\nYou'll need different Pokémon\nof the same type.[f000]븁\u0000\nMake sure no two Pokémon are\nholding the same item.[f000]븁\u0000\nThe item Soul Dew and the\nmove Sky Drop are banned.[f000]븁\u0000\nLegendary or mythical Pokémon\nmay not participate, either.[f000]븁\u0000\nFor these battles, all Pokémon will be\nset to Level 50.[f000]븁\u0000\nThe winner will be rewarded\nwith a little more BP than usual.[f000]븀\u0000\nGood luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0x8011, 4, 0
     VMJump L_0DEB
 
 L_0D76:
     WorkCmpConst 0x8023, 12
-    VMJumpIf 1, L_0D89
+    VMJumpIf CMP_EQ, L_0D89
     VMJump L_0D9B
 
 L_0D89:
-    ActorMsg 1024, 17, 0x8011, 4, 0
+    // "Rental Tournament is a unique tournament\nwhere we prepare the Pokémon with which[f000]븀\u0000\nyou will battle.[f000]븁\u0000\nRental Pokémon will be randomly selected\nfor you. So luck plays a big part![f000]븁\u0000\nThe winner will be rewarded\nwith BP.[f000]븀\u0000\nGood luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 17, 0x8011, 4, 0
     VMJump L_0DEB
 
 L_0D9B:
     WorkCmpConst 0x8023, 14
-    VMJumpIf 1, L_0DAE
+    VMJumpIf CMP_EQ, L_0DAE
     VMJump L_0DC0
 
 L_0DAE:
-    ActorMsg 1024, 18, 0x8011, 4, 0
+    // "Mix Tournament is a unique tournament\nwhere you and your opponent swap[f000]븀\u0000\nPokémon before battling.[f000]븁\u0000\nYou'll normally swap one Pokémon,\nbut you'll swap two in Triple Battles.[f000]븁\u0000\nSwapped Pokémon will be returned\nafter the battle, so don't be alarmed.[f000]븁\u0000\nFor these battles, all Pokémon will be\nset to Level 50.[f000]븁\u0000\nThe winner will be rewarded\nwith BP.[f000]븀\u0000\nGood luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 18, 0x8011, 4, 0
     VMJump L_0DEB
 
 L_0DC0:
     WorkCmpConst 0x8023, 3
-    VMJumpIf 1, L_0DD3
+    VMJumpIf CMP_EQ, L_0DD3
     VMJump L_0DE5
 
 L_0DD3:
-    ActorMsg 1024, 9, 0x8011, 4, 0
+    // "Download Tournament is a tournament\nthat you can download from the[f000]븀\u0000\nblack PC next to me.[f000]븁\u0000\nThe rules are different for\neach tournament.[f000]븁\u0000\nPlease check the detailed rules\nbefore participating.[f000]븁\u0000\nThe winner will be rewarded\nwith a little more BP than usual.[f000]븀\u0000\nGood luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 0x8011, 4, 0
     VMJump L_0DEB
 
 L_0DE5:
@@ -941,7 +976,8 @@ L_0DEB:
     VMReturn
 
 L_0DED:
-    ActorMsg 1024, 40, 0x8011, 4, 0
+    // "Which type of tournament\nwill you participate in?"
+    ActorMsg MSGFILE_SCRIPT, 40, 0x8011, 4, 0
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32803
     ListMenuAdd 83, 65535, 0
     ListMenuAdd 84, 65535, 9
@@ -964,8 +1000,8 @@ L_0DED:
     ListMenuShow
     VMStackPush 0x8023
     VMStackPushConst 65534
-    VMStackCmp 1
-    VMJumpIf 255, L_0EAD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0EAD
     WorkSetConst 0x8023, 17
 
 L_0EAD:
@@ -975,9 +1011,10 @@ L_0EAF:
     Plugin6_Cmd1025 0x8028
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0ED8
-    ActorMsg 1024, 43, 0x8011, 4, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0ED8
+    // "Huh?[f000]븁\u0000\nThere are no tournaments\nyou can participate in.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 43, 0x8011, 4, 0
     VMJump L_0EE0
 
 L_0ED8:
@@ -992,8 +1029,8 @@ Script_4:
     Plugin6_Cmd1016 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0F1B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0F1B
     WorkSetConst 0x8011, 0
     ActorCmdExec 255, Movement_1038
     ActorCmdWait
@@ -1004,8 +1041,8 @@ Script_4:
 L_0F1B:
     VMStackPush 0x8010
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0F48
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0F48
     WorkSetConst 0x8011, 8
     ActorCmdExec 255, Movement_1044
     ActorCmdWait
@@ -1015,57 +1052,62 @@ L_0F1B:
 L_0F48:
     Plugin6_Cmd1004 0x8010
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0F5F
+    VMJumpIf CMP_EQ, L_0F5F
     VMJump L_0F77
 
 L_0F5F:
-    ActorMsg 1024, 69, 0x8011, 4, 0
+    // "You lost in the first round.\nKeep trying, and better luck next time![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 69, 0x8011, 4, 0
     VMCall L_10AC
     VMJump L_1009
 
 L_0F77:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_0F8A
+    VMJumpIf CMP_EQ, L_0F8A
     VMJump L_0FA2
 
 L_0F8A:
-    ActorMsg 1024, 70, 0x8011, 4, 0
+    // "One more before the final round...\nI'm sure you'll do better next time![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 70, 0x8011, 4, 0
     VMCall L_10AC
     VMJump L_1009
 
 L_0FA2:
     WorkCmpConst 0x8010, 4
-    VMJumpIf 1, L_0FB5
+    VMJumpIf CMP_EQ, L_0FB5
     VMJump L_0FCD
 
 L_0FB5:
-    ActorMsg 1024, 71, 0x8011, 4, 0
+    // "That was close.\nI'm sure you'll be the winner next time![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 71, 0x8011, 4, 0
     VMCall L_10AC
     VMJump L_1009
 
 L_0FCD:
     WorkCmpConst 0x8010, 5
-    VMJumpIf 1, L_0FE0
+    VMJumpIf CMP_EQ, L_0FE0
     VMJump L_1009
 
 L_0FE0:
     Plugin6_Cmd1012 0x8021
     Plugin6_Cmd1044 0, 0x8021
-    ActorMsg 1024, 72, 0x8011, 4, 0
+    // "Congratulations on winning the\n[f000]Ļ\u0001\u0000![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 72, 0x8011, 4, 0
     VMCall L_1068
     VMCall L_115E
     Plugin6_Cmd1017
     VMJump L_1009
 
 L_1009:
-    ActorMsg 1024, 6, 0x8011, 4, 0
+    // "We hope to see you again!"
+    ActorMsg MSGFILE_SCRIPT, 6, 0x8011, 4, 0
     LastKeyWait
     MsgWinCloseAll
     Plugin6_Cmd1001
     VMStackPush 0x8021
     VMStackPushConst 11
-    VMStackCmp 1
-    VMJumpIf 255, L_1032
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1032
     RTReserveScript 12
 
 L_1032:
@@ -1097,13 +1139,15 @@ L_1068:
     Plugin6_Cmd1020 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_10AA
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_10AA
     WordSetPlayerName 0
-    ActorMsg 1024, 75, 0x8011, 4, 0
+    // "[f000]Ā\u0001\u0000, as a result of your victory,\nyou will be awarded Battle Points![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 75, 0x8011, 4, 0
     MsgWinCloseAll
     WordSetPlayerName 0
     WordSetNumber 1, 0x8010, 2
+    // "[f000]Ā\u0001\u0000 received [f000]ȁ\u0001\u0001 BP!"
     SystemMsg 76, 2
     MEPlay 1318
     MEWait
@@ -1114,11 +1158,12 @@ L_10AA:
     VMReturn
 
 L_10AC:
-    ActorMsg 1024, 77, 0x8011, 4, 0
+    // "Thank you for your participation!\nPlease accept this consolation prize.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 77, 0x8011, 4, 0
     MsgWinCloseAll
     Random 0x8010, 4
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_10D3
+    VMJumpIf CMP_EQ, L_10D3
     VMJump L_10DF
 
 L_10D3:
@@ -1127,7 +1172,7 @@ L_10D3:
 
 L_10DF:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_10F2
+    VMJumpIf CMP_EQ, L_10F2
     VMJump L_10FE
 
 L_10F2:
@@ -1136,7 +1181,7 @@ L_10F2:
 
 L_10FE:
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_1111
+    VMJumpIf CMP_EQ, L_1111
     VMJump L_111D
 
 L_1111:
@@ -1145,7 +1190,7 @@ L_1111:
 
 L_111D:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_1130
+    VMJumpIf CMP_EQ, L_1130
     VMJump L_113C
 
 L_1130:
@@ -1165,15 +1210,15 @@ L_113C:
 L_115E:
     VMStackPush 0x8021
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_1173
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1173
     VMReturn
 
 L_1173:
     VMStackPush 0x8021
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_1253
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1253
     WorkSetConst 0x802a, 0
     WorkSetConst 0x802b, 0
     WorkSetConst 0x802c, 0
@@ -1184,21 +1229,21 @@ L_1173:
 L_11A8:
     VMStackPush 0x802b
     VMStackPushConst 17
-    VMStackCmp 5
+    VMStackCmp CMP_NE
     VMStackPush 0x802c
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_122A
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_122A
     Plugin6_Cmd1018 2, 0x802b, 0x8010
     VMStackPush 0x802b
     VMStackPush 0x802a
-    VMStackCmp 1
-    VMJumpIf 255, L_1205
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1205
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_11FF
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_11FF
     WorkSetConst 0x802c, 0
 
 L_11FF:
@@ -1207,8 +1252,8 @@ L_11FF:
 L_1205:
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_121E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_121E
     WorkSetConst 0x802c, 0
 
 L_121E:
@@ -1218,8 +1263,8 @@ L_121E:
 L_122A:
     VMStackPush 0x802c
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1241
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1241
     MedalGive 145
 
 L_1241:
@@ -1231,12 +1276,12 @@ L_1253:
     Plugin6_Cmd1018 0x8021, 17, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_13DF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_13DF
     WorkCmpConst 0x8021, 4
-    VMJumpIf 1, L_128E
+    VMJumpIf CMP_EQ, L_128E
     WorkCmpConst 0x8021, 11
-    VMJumpIf 1, L_128E
+    VMJumpIf CMP_EQ, L_128E
     VMJump L_12A0
 
 L_128E:
@@ -1247,7 +1292,7 @@ L_128E:
 
 L_12A0:
     WorkCmpConst 0x8021, 12
-    VMJumpIf 1, L_12B3
+    VMJumpIf CMP_EQ, L_12B3
     VMJump L_12BD
 
 L_12B3:
@@ -1256,7 +1301,7 @@ L_12B3:
 
 L_12BD:
     WorkCmpConst 0x8021, 14
-    VMJumpIf 1, L_12D0
+    VMJumpIf CMP_EQ, L_12D0
     VMJump L_12DA
 
 L_12D0:
@@ -1265,7 +1310,7 @@ L_12D0:
 
 L_12DA:
     WorkCmpConst 0x8021, 5
-    VMJumpIf 1, L_12ED
+    VMJumpIf CMP_EQ, L_12ED
     VMJump L_12F7
 
 L_12ED:
@@ -1274,7 +1319,7 @@ L_12ED:
 
 L_12F7:
     WorkCmpConst 0x8021, 6
-    VMJumpIf 1, L_130A
+    VMJumpIf CMP_EQ, L_130A
     VMJump L_1314
 
 L_130A:
@@ -1283,7 +1328,7 @@ L_130A:
 
 L_1314:
     WorkCmpConst 0x8021, 7
-    VMJumpIf 1, L_1327
+    VMJumpIf CMP_EQ, L_1327
     VMJump L_1331
 
 L_1327:
@@ -1292,7 +1337,7 @@ L_1327:
 
 L_1331:
     WorkCmpConst 0x8021, 8
-    VMJumpIf 1, L_1344
+    VMJumpIf CMP_EQ, L_1344
     VMJump L_134E
 
 L_1344:
@@ -1301,7 +1346,7 @@ L_1344:
 
 L_134E:
     WorkCmpConst 0x8021, 9
-    VMJumpIf 1, L_1361
+    VMJumpIf CMP_EQ, L_1361
     VMJump L_136B
 
 L_1361:
@@ -1310,7 +1355,7 @@ L_1361:
 
 L_136B:
     WorkCmpConst 0x8021, 10
-    VMJumpIf 1, L_137E
+    VMJumpIf CMP_EQ, L_137E
     VMJump L_1388
 
 L_137E:
@@ -1319,7 +1364,7 @@ L_137E:
 
 L_1388:
     WorkCmpConst 0x8021, 1
-    VMJumpIf 1, L_139B
+    VMJumpIf CMP_EQ, L_139B
     VMJump L_13A5
 
 L_139B:
@@ -1328,7 +1373,7 @@ L_139B:
 
 L_13A5:
     WorkCmpConst 0x8021, 13
-    VMJumpIf 1, L_13B8
+    VMJumpIf CMP_EQ, L_13B8
     VMJump L_13C2
 
 L_13B8:
@@ -1337,7 +1382,7 @@ L_13B8:
 
 L_13C2:
     WorkCmpConst 0x8021, 15
-    VMJumpIf 1, L_13D5
+    VMJumpIf CMP_EQ, L_13D5
     VMJump L_13DF
 
 L_13D5:
@@ -1348,72 +1393,78 @@ L_13DF:
     Plugin6_Cmd1007 6, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1414
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1414
     MedalDiscover 137
     MedalDiscover 138
     MedalDiscover 139
     MedalDiscover 140
-    ActorMsg 1024, 39, 0x8011, 4, 0
+    // "Wow, you can now participate in\nthe Leaders Tournaments![f000]븁\u0000\nLeaders Tournaments have\ndifferent battle rules.[f000]븁\u0000\nThe participants are all famous\nGym Leaders.[f000]븁\u0000\nYou'll be facing tougher opposition\nthan usual in these tournaments.[f000]븀\u0000\nGood luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 39, 0x8011, 4, 0
 
 L_1414:
     Plugin6_Cmd1007 10, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1442
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1442
     MedalDiscover 141
     Plugin6_Cmd1044 0, 10
-    ActorMsg 1024, 73, 0x8011, 4, 0
+    // "You can now participate in the\n[f000]Ļ\u0001\u0000![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 73, 0x8011, 4, 0
 
 L_1442:
     Plugin6_Cmd1007 13, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1470
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1470
     MedalDiscover 143
     Plugin6_Cmd1044 0, 13
-    ActorMsg 1024, 73, 0x8011, 4, 0
+    // "You can now participate in the\n[f000]Ļ\u0001\u0000![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 73, 0x8011, 4, 0
 
 L_1470:
     Plugin6_Cmd1007 15, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_149E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_149E
     MedalDiscover 144
     Plugin6_Cmd1044 0, 15
-    ActorMsg 1024, 73, 0x8011, 4, 0
+    // "You can now participate in the\n[f000]Ļ\u0001\u0000![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 73, 0x8011, 4, 0
 
 L_149E:
     Plugin6_Cmd1007 2, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_14CC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_14CC
     MedalDiscover 145
     Plugin6_Cmd1044 0, 2
-    ActorMsg 1024, 73, 0x8011, 4, 0
+    // "You can now participate in the\n[f000]Ļ\u0001\u0000![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 73, 0x8011, 4, 0
 
 L_14CC:
     Plugin6_Cmd1006 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8021
     VMStackPushConst 10
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_1550
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_1550
     Plugin6_Cmd1007 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1529
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1529
     MedalDiscover 142
     Plugin6_Cmd1044 0, 1
-    ActorMsg 1024, 73, 0x8011, 4, 0
+    // "You can now participate in the\n[f000]Ļ\u0001\u0000![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 73, 0x8011, 4, 0
     VMJump L_1550
 
 L_1529:
@@ -1421,7 +1472,8 @@ L_1529:
     WorkSetConst 0x8029, 9
     WorkSub 0x8029, 0x8010
     WordSetNumber 0, 0x8029, 2
-    ActorMsg 1024, 74, 0x8011, 4, 0
+    // "Oh, I almost forgot to share this news.[f000]븁\u0000\nYou'll be able to participate in the\nChampions Tournament after you win[f000]븀\u0000\nthe World Leaders Tournament[f000]븀\u0000\na certain number of times: [f000]Ȁ\u0001\u0000 more![f000]븁\u0000\nBest of luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 74, 0x8011, 4, 0
 
 L_1550:
     VMReturn
@@ -1436,8 +1488,9 @@ Script_2:
 L_156A:
     VMStackPush 0x802d
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_1645
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1645
+    // ""
     SystemMsg 106, 2
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32814
     ListMenuAdd 100, 103, 100
@@ -1446,7 +1499,7 @@ L_156A:
     ListMenuShow
     VMSleep 3
     WorkCmpConst 0x802e, 100
-    VMJumpIf 1, L_15BD
+    VMJumpIf CMP_EQ, L_15BD
     VMJump L_15C9
 
 L_15BD:
@@ -1455,7 +1508,7 @@ L_15BD:
 
 L_15C9:
     WorkCmpConst 0x802e, 101
-    VMJumpIf 1, L_15DC
+    VMJumpIf CMP_EQ, L_15DC
     VMJump L_1637
 
 L_15DC:
@@ -1475,8 +1528,8 @@ L_15DC:
     VMStackPop 0x8000
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_1631
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1631
     FunfestBGMReturn
     VMCall L_1672
 
@@ -1496,26 +1549,28 @@ L_1645:
     VMHalt
 
 L_164B:
+    // "Tournament Records\nwere accessed.[f000]븁\u0000"
     SystemMsg 107, 2
     InfoMsgClose
     Plugin6_Cmd1050 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1670
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1670
     WorkSetConst 0x802d, 1
 
 L_1670:
     VMReturn
 
 L_1672:
+    // "The Tournament Download System\nwas accessed.[f000]븁\u0000"
     SystemMsg 108, 2
     InfoMsgClose
     Plugin6_Cmd1051 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1699
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1699
     WorkSetConst 0x802d, 1
 
 L_1699:

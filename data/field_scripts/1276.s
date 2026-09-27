@@ -24,8 +24,8 @@ Script_2:
     FieldGetContinueFlag 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0073
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0073
     VMCall L_0075
 
 L_0073:
@@ -39,14 +39,14 @@ L_0075:
     VMCall L_00E2
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00BF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00BF
     FlagReset 746
     MedalGetGuruActor 0x8010, 0x8024
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00B3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B3
     ActorAdd 0x8024
 
 L_00B3:
@@ -57,8 +57,8 @@ L_00BF:
     MedalGetGuruActor 0x8010, 0x8024
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00DC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00DC
     ActorDelete 0x8024
 
 L_00DC:
@@ -68,12 +68,12 @@ L_00E0:
     VMReturn
 
 L_00E2:
-    ItemCheckAmount 627, 1, 0x8010
+    ItemCheckAmount ITEM_MEDAL_BOX, 1, 0x8010
     DebugPrint 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0109
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0109
     WorkSetConst 0x8010, 0
     VMReturn
 
@@ -81,8 +81,8 @@ L_0109:
     MedalGetCount 2, 0x8022
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_0129
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0129
     WorkSetConst 0x8010, 1
     VMReturn
 
@@ -90,8 +90,8 @@ L_0129:
     MedalGetCount 0, 0x8022
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_0149
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0149
     WorkSetConst 0x8010, 1
     VMReturn
 
@@ -104,12 +104,12 @@ L_0151:
     PlayerGetGPos 0x8027, 0x8028
     VMStackPush 0x8027
     VMStackPush 0x8025
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPush 0x8026
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0194
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0194
     WorkAdd 0x8025, 1
     ActorSetGPos 0x8024, 0x8025, 0, 0x8026, 1
 
@@ -144,7 +144,8 @@ Script_3:
     BMHndAnmWait 0x8029
     BMReleaseHandle 0x8029
     WordSetPlayerName 0
-    ActorMsg 1024, 61, 0, 0, 0
+    // "Alder: [f000]Ā\u0001\u0000![f000]븁\u0000\nAs for the newly opened Pokémon Gym\nin Aspertia City, I heard a new[f000]븀\u0000\nGym Leader has arrived there.[f000]븁\u0000\nYou should go and test how\nstrong you've become![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 61, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_07E0
     ActorCmdWait
@@ -169,7 +170,8 @@ Script_3:
     VMHalt
 
 L_0299:
-    ActorMsg 1024, 11, 1, 0, 0
+    // "I know this is sudden,\nbut nice to meet you![f000]븁\u0000\nNow, don't say anything.\nJust take this![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 1, 0, 0
     ActorMsgClose
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -178,13 +180,16 @@ L_0299:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 12, 1, 0, 0
+    // "That is a Medal Box![f000]븁\u0000\nAnd, people call me\nMr. Medal![f000]븁\u0000\n...By the way, do you know a competition\ncalled the Medal Rally?"
+    ActorMsg MSGFILE_SCRIPT, 12, 1, 0, 0
     YesNoWin 0x8010
-    ActorMsg 1024, 13, 1, 0, 0
+    // "Whether you know it or not,\nI'll explain it to you![f000]븁\u0000\nThe Medal Rally is an event\nthat evaluates various activities[f000]븀\u0000\nof Trainers.[f000]븁\u0000\nSo...in commemoration of your\nparticipation, please take this Medal![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 1, 0, 0
     ActorMsgClose
     WorkSetConst 0x8020, 0
     VMCall L_0771
-    ActorMsg 1024, 14, 1, 0, 0
+    // "And here's some help for the Medal Rally!\nI'll give you Hint Medals, too![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 1, 0, 0
     ActorMsgClose
     MedalDiscoverInitial
     MedalGetCount 1, 0x8022
@@ -192,17 +197,20 @@ L_0299:
     WordSetNumber 1, 0x8022, 3
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 5
-    VMJumpIf 255, L_032F
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_032F
+    // "[f000]Ā\u0001\u0000 received\n[f000]Ȃ\u0001\u0001 [f000][ff00]\u0001\u0002Hint Medals[f000][ff00]\u0001\u0000![f000]븁\u0000"
     SystemMsg 9, 0
     VMJump L_0335
 
 L_032F:
+    // "[f000]Ā\u0001\u0000 received\na [f000][ff00]\u0001\u0002Hint Medal[f000][ff00]\u0001\u0000![f000]븁\u0000"
     SystemMsg 10, 0
 
 L_0335:
     InfoMsgClose
-    ActorMsg 1024, 15, 1, 0, 0
+    // "For your information,\nyou can get Medals if you meet[f000]븀\u0000\ntheir conditions.[f000]븁\u0000\nGo to a Pokémon Center,\nand you can get Medals from me[f000]븀\u0000\none after another![f000]븁\u0000\nFirst, please use your Medal Box and\ncheck the inside![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 1, 0, 0
     ActorMsgClose
     VMReturn
     .balign 4, 0
@@ -223,7 +231,7 @@ Script_4:
     SEPlay 1351
     ActorSetEyeToEye
     WorkCmpConst 0x409e, 0
-    VMJumpIf 1, L_037F
+    VMJumpIf CMP_EQ, L_037F
     VMJump L_0391
 
 L_037F:
@@ -233,31 +241,33 @@ L_037F:
 
 L_0391:
     WorkCmpConst 0x409e, 2
-    VMJumpIf 1, L_03A4
+    VMJumpIf CMP_EQ, L_03A4
     VMJump L_03BD
 
 L_03A4:
     WordSetPlaceName 0, 28
-    ParentActorMsg 1024, 3, 0, 0
+    // "We'll have an award ceremony\nat the Medal Rally Office[f000]븀\u0000\nin [f000]ą\u0001\u0000.[f000]븁\u0000\nSo, please come to the office!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0486
 
 L_03BD:
     WorkCmpConst 0x409e, 4
-    VMJumpIf 1, L_03D0
+    VMJumpIf CMP_EQ, L_03D0
     VMJump L_03E7
 
 L_03D0:
     WordSetPlayerName 0
-    ParentActorMsg 1024, 0, 0, 0
+    // "[f000]Ā\u0001\u0000. Finally,\nyou've come this far.[f000]븁\u0000\nWell, to honor the best and ultimate\nachievement, we'll have an extravagant[f000]븀\u0000\nevent at the Medal Rally Office![f000]븁\u0000\nYo! You're the best!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0486
 
 L_03E7:
     WorkCmpConst 0x409e, 1
-    VMJumpIf 1, L_03FA
+    VMJumpIf CMP_EQ, L_03FA
     VMJump L_0451
 
 L_03FA:
@@ -267,12 +277,13 @@ L_03FA:
     MedalGetCount 4, 0x8023
     VMStackPush 0x8022
     VMStackPush 0x8023
-    VMStackCmp 4
-    VMJumpIf 255, L_0441
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0441
     WorkSetConst 0x409e, 2
     WordSetPlayerName 0
     WordSetPlaceName 1, 28
-    ParentActorMsg 1024, 4, 0, 0
+    // "Oh! [f000]Ā\u0001\u0000!\nGreat! Really great![f000]븁\u0000\nYou know what? Just now\nyou passed the checkpoint[f000]븀\u0000\nthe Medal Rally Office set[f000]븀\u0000\nand reached the goal![f000]븁\u0000\nSo, we'll have an award ceremony\nat the Medal Rally Office[f000]븀\u0000\nin [f000]ą\u0001\u0001.[f000]븁\u0000\nSo, please come to the office!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     VMJump L_0447
 
 L_0441:
@@ -285,7 +296,7 @@ L_0447:
 
 L_0451:
     WorkCmpConst 0x409e, 3
-    VMJumpIf 1, L_0464
+    VMJumpIf CMP_EQ, L_0464
     VMJump L_0486
 
 L_0464:
@@ -308,13 +319,14 @@ L_0490:
     MedalGetCount 2, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04AA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04AA
     VMReturn
 
 L_04AA:
     WordSetPlayerName 0
-    ParentActorMsg 1024, 20, 0, 0
+    // "[f000]Ā\u0001\u0000. I've been waiting for you!\nYou're doing terrific![f000]븀\u0000\nHere's a new Medal![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     ActorMsgClose
     .byte 0xe9
     .byte 0x03
@@ -406,26 +418,29 @@ L_0511:
     MedalGetCount 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_052B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_052B
     VMReturn
 
 L_052B:
     WordSetPlayerName 0
     WordSetNumber 1, 0x8010, 3
-    ParentActorMsg 1024, 5, 0, 0
+    // "Hmm... [f000]Ā\u0001\u0000![f000]븁\u0000\nI'd like you to collect more Medals.\nSo, I'll give you Hint Medals![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     ActorMsgClose
     MedalGetCount 0, 0x8022
     WordSetPlayerName 0
     WordSetNumber 1, 0x8022, 3
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 5
-    VMJumpIf 255, L_056F
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_056F
+    // "[f000]Ā\u0001\u0000 received\n[f000]Ȃ\u0001\u0001 [f000][ff00]\u0001\u0002Hint Medals[f000][ff00]\u0001\u0000![f000]븁\u0000"
     SystemMsg 9, 0
     VMJump L_0575
 
 L_056F:
+    // "[f000]Ā\u0001\u0000 received\na [f000][ff00]\u0001\u0002Hint Medal[f000][ff00]\u0001\u0000![f000]븁\u0000"
     SystemMsg 10, 0
 
 L_0575:
@@ -437,9 +452,10 @@ L_0575:
     MedalGetCount 5, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_059D
-    ParentActorMsg 1024, 6, 0, 0
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_059D
+    // "Well... I don't have any more Hint Medals\nI can give to you.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
 
 L_059D:
     VMReturn
@@ -448,35 +464,38 @@ L_059F:
     VMCall L_06BB
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_05BA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05BA
     VMReturn
 
 L_05BA:
     WordSetPlayerName 0
-    ParentActorMsg 1024, 16, 0, 0
+    // "Wow! [f000]Ā\u0001\u0000.\nYou collected a lot of Medals![f000]븁\u0000\nI'll upgrade your Medal Box.[f000]븁\u0000\nAiya! Yah![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     ActorMsgClose
 
 L_05C9:
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_06B9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06B9
     .byte 0xe8
     .byte 0x03
     .byte 0xeb
     .byte 0x03
     MedalGetCount 7, 0x8021
     WordSetMedalRank 1, 0x8021
+    // "[f000]Ā\u0001\u0000's Medal Box\nhas been upgraded to[f000]븀\u0000\n[f000][ff00]\u0001\u0002[f000]Ķ\u0001\u0001[f000][ff00]\u0001\u0000 Rank!"
     SystemMsg 19, 0
     MEPlay 1335
     MEWait
     MsgWaitAdvance
     InfoMsgClose
-    ParentActorMsg 1024, 17, 0, 0
+    // "In commemoration of the upgrade,\nI'll give you a Medal, as well![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     ActorMsgClose
     WorkCmpConst 0x8021, 1
-    VMJumpIf 1, L_0619
+    VMJumpIf CMP_EQ, L_0619
     VMJump L_0625
 
 L_0619:
@@ -485,7 +504,7 @@ L_0619:
 
 L_0625:
     WorkCmpConst 0x8021, 2
-    VMJumpIf 1, L_0638
+    VMJumpIf CMP_EQ, L_0638
     VMJump L_0644
 
 L_0638:
@@ -494,7 +513,7 @@ L_0638:
 
 L_0644:
     WorkCmpConst 0x8021, 3
-    VMJumpIf 1, L_0657
+    VMJumpIf CMP_EQ, L_0657
     VMJump L_0663
 
 L_0657:
@@ -503,7 +522,7 @@ L_0657:
 
 L_0663:
     WorkCmpConst 0x8021, 4
-    VMJumpIf 1, L_0676
+    VMJumpIf CMP_EQ, L_0676
     VMJump L_0682
 
 L_0676:
@@ -518,9 +537,10 @@ L_0688:
     VMCall L_06BB
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_06B3
-    ParentActorMsg 1024, 18, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06B3
+    // "A further upgrade for you!\nHaaah! Yaaah![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     ActorMsgClose
 
 L_06B3:
@@ -533,8 +553,8 @@ L_06BB:
     MedalGetCount 7, 0x8021
     VMStackPush 0x8021
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_06DB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06DB
     WorkSetConst 0x8010, 0
     VMReturn
 
@@ -543,8 +563,8 @@ L_06DB:
     MedalGetCount 4, 0x8023
     VMStackPush 0x8022
     VMStackPush 0x8023
-    VMStackCmp 4
-    VMJumpIf 255, L_0700
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0700
     WorkSetConst 0x8010, 1
     VMReturn
 
@@ -556,26 +576,29 @@ L_0708:
     MedalGetCount 6, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 3
-    VMJumpIf 255, L_0735
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_0735
     WorkSetConst 0x409e, 4
     WordSetPlayerName 0
-    ParentActorMsg 1024, 0, 0, 0
+    // "[f000]Ā\u0001\u0000. Finally,\nyou've come this far.[f000]븁\u0000\nWell, to honor the best and ultimate\nachievement, we'll have an extravagant[f000]븀\u0000\nevent at the Medal Rally Office![f000]븁\u0000\nYo! You're the best!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     VMReturn
 
 L_0735:
     MedalGetCount 7, 0x8021
     VMStackPush 0x8021
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_0759
-    ParentActorMsg 1024, 2, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0759
+    // "Well, good luck with getting a new Medal!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     VMReturn
 
 L_0759:
     MedalGetCount 4, 0x8023
     WordSetNumber 0, 0x8023, 3
-    ParentActorMsg 1024, 1, 0, 0
+    // "Well, aim to receive [f000]Ȃ\u0001\u0000 Medals!\nGood luck!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     VMReturn
 
 L_0771:
@@ -586,6 +609,7 @@ L_0771:
     MedalAcknowledge 0x8020, 1
     WordSetPlayerName 0
     WordSetMedalName 1, 0x8020
+    // "[f000]Ā\u0001\u0000 obtained\nthe [f000][ff00]\u0001\u0002[f000]ĵ\u0001\u0001[f000][ff00]\u0001\u0000 Medal.[f000]븁\u0000"
     SystemMsg 22, 0
     InfoMsgClose
     VMReturn

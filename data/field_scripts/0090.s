@@ -39,13 +39,15 @@ Script_2:
     ActorSetEyeToEye
     VMStackPushFlag 210
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00F5
-    ParentActorMsg 1024, 2, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00F5
+    // "Oh! A company tour?\nAnyway, let's have a battle![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 501, 0, 0
     VMCall L_0109
-    ParentActorMsg 1024, 3, 0, 0
+    // "What power! I'm moved,\nso I'll give you this present!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     VMStackPush 0x8000
@@ -55,14 +57,16 @@ Script_2:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 4, 0, 0
+    // "A Quick Ball makes it easier to catch a\nPokémon if you use it at the very[f000]븀\u0000\nbeginning of a battle."
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 210
     VMJump L_0103
 
 L_00F5:
-    ParentActorMsg 1024, 4, 0, 0
+    // "A Quick Ball makes it easier to catch a\nPokémon if you use it at the very[f000]븀\u0000\nbeginning of a battle."
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -75,8 +79,8 @@ L_0109:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0128
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0128
     CallTrainerBattleEnd
     VMJump L_012A
 
@@ -92,13 +96,15 @@ Script_3:
     ActorSetEyeToEye
     VMStackPushFlag 362
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01A7
-    ParentActorMsg 1024, 5, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01A7
+    // "Did you come for Pokémon practice?\nI'll be happy to help you out![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 502, 0, 0
     VMCall L_0109
-    ParentActorMsg 1024, 6, 0, 0
+    // "With skills like that,\nyou can get the most out of these!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     VMStackPush 0x8000
@@ -108,14 +114,16 @@ Script_3:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 7, 0, 0
+    // "A Timer Ball makes it easier to catch\na Pokémon you've been battling[f000]븀\u0000\nfor a long time!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 362
     VMJump L_01B5
 
 L_01A7:
-    ParentActorMsg 1024, 7, 0, 0
+    // "A Timer Ball makes it easier to catch\na Pokémon you've been battling[f000]븀\u0000\nfor a long time!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
 

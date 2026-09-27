@@ -10,7 +10,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Hey! Stunfisk! Panpour!\nMy dear precious Pokémon![f000]븀\u0000\nKick back and relax today!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -22,7 +23,8 @@ Script_2:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 515, 0
-    ParentActorMsg 1024, 1, 0, 0
+    // "Papur-pur!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -35,7 +37,8 @@ Script_3:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 618, 0
-    ParentActorMsg 1024, 2, 0, 0
+    // "Stun!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

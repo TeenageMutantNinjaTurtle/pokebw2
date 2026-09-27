@@ -10,18 +10,18 @@ L_0014:
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0053
-    ObjInitWarpGPos 6, 0xff08, 80, 248
-    ObjInitWarpGPos 7, 0xff08, 80, 232
-    ObjInitWarpGPos 8, 0xff08, 80, 216
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0053
+    ObjInitWarpGPos 6, 65288, 80, 248
+    ObjInitWarpGPos 7, 65288, 80, 232
+    ObjInitWarpGPos 8, 65288, 80, 216
     FlagSet 875
     VMJump L_0075
 
 L_0053:
-    ObjInitWarpGPos 3, 0xff08, 80, 248
-    ObjInitWarpGPos 4, 0xff08, 80, 232
-    ObjInitWarpGPos 5, 0xff08, 80, 216
+    ObjInitWarpGPos 3, 65288, 80, 248
+    ObjInitWarpGPos 4, 65288, 80, 232
+    ObjInitWarpGPos 5, 65288, 80, 216
     FlagSet 874
 
 L_0075:

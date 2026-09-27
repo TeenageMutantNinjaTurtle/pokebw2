@@ -19,9 +19,9 @@ Script_4:
 Script_5:
     VMStackPush 0x40b2
     VMStackPushConst 1
-    VMStackCmp 0
-    VMJumpIf 255, L_0055
-    ActorSetGPos 0, 11, 0xffff, 21, 3
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_0055
+    ActorSetGPos 0, 11, 65535, 21, 3
 
 L_0055:
     VMHalt
@@ -36,7 +36,8 @@ Script_1:
     ActorWalkRoute 255, 8, 14, 0, 8, 1
     ActorCmdWait
     EvCameraWait
-    ActorMsg 1024, 0, 1, 0, 0
+    // "Iris: You can go inside\nthe sewers from here![f000]븁\u0000\nWhaddaya think?\nSeems pretty suspicious, right?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 1, 0, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_03C8
     EvCameraMoveTo 9688, 4480, 0xed000, 0x114000, 0, 0x11a000, 50
@@ -52,20 +53,24 @@ Script_1:
     ActorCmdExec 255, Movement_03B8
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 1, 2, 0, 0
+    // "[f000]Ā\u0001\u0001: [f000]Ā\u0001\u0000!\nDid you find Team Plasma?!"
+    ActorMsg MSGFILE_SCRIPT, 1, 2, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0143
-    ActorMsg 1024, 2, 2, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0143
+    // "Uh, thanks...[f000]븁\u0000\nBut you don't need to lie just\nso I won't be disappointed![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 2, 0, 0
     VMJump L_014F
 
 L_0143:
-    ActorMsg 1024, 3, 2, 0, 0
+    // "Augh! Those dirty Pokémon thieves![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 2, 0, 0
 
 L_014F:
-    ActorMsg 1024, 4, 2, 0, 0
+    // "That means the only place\nI still haven't checked is...[f000]븁\u0000\n[f000]Ā\u0001\u0000!\nHelp me out![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 2, 0, 0
     MsgWinCloseAll
     EvCameraMoveToDefault 40
     ActorCmdExec 2, Movement_01C0
@@ -81,12 +86,13 @@ L_014F:
     ActorCmdExec 1, Movement_03C0
     ActorCmdExec 255, Movement_03C8
     ActorCmdWait
-    ActorMsg 1024, 5, 1, 0, 0
+    // "Iris: Yep! The sewers are\na perfect place for hiding!"
+    ActorMsg MSGFILE_SCRIPT, 5, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40b2, 2
     FlagSet 754
-    Cmd_0262 1, 1
+    HollowRivalCmd_0262 1, 1
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -111,8 +117,10 @@ Script_6:
     WorkSub 0x8022, 2
     ActorWalkRoute 1, 0x8021, 0x8022, 0, 8, 0
     ActorCmdWait
-    ActorMsg 1024, 6, 1, 0, 0
-    ActorMsg 1024, 7, 1, 0, 0
+    // "Iris: Your friend...[f000]븁\u0000\nHe seemed pretty mad.\nDid everything go OK in the sewers?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 1, 0, 0
+    // "So what are you going to do now?[f000]븁\u0000\nYou ran into Gym Leader Burgh\nin the sewers, didn't you?[f000]븁\u0000\nMaybe you should go to the Pokémon Gym\nand see how far you've come![f000]븁\u0000\nI'm sure battling will help your Pokémon\ncome to understand you better[f000]븀\u0000\nas a Trainer, too!"
+    ActorMsg MSGFILE_SCRIPT, 7, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40b2, 4
@@ -132,8 +140,10 @@ Script_7:
     ActorCmdWait
     ActorCmdExec 1, Movement_03C0
     ActorCmdWait
-    ActorMsg 1024, 6, 1, 0, 0
-    ActorMsg 1024, 7, 1, 0, 0
+    // "Iris: Your friend...[f000]븁\u0000\nHe seemed pretty mad.\nDid everything go OK in the sewers?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 1, 0, 0
+    // "So what are you going to do now?[f000]븁\u0000\nYou ran into Gym Leader Burgh\nin the sewers, didn't you?[f000]븁\u0000\nMaybe you should go to the Pokémon Gym\nand see how far you've come![f000]븁\u0000\nI'm sure battling will help your Pokémon\ncome to understand you better[f000]븀\u0000\nas a Trainer, too!"
+    ActorMsg MSGFILE_SCRIPT, 7, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40b2, 4
@@ -146,11 +156,12 @@ Script_2:
     ActorsPauseAll
     VMStackPush 0x40b2
     VMStackPushConst 3
-    VMStackCmp 2
-    VMJumpIf 255, L_02C3
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_02C3
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "So what are you going to do now?[f000]븁\u0000\nYou ran into Gym Leader Burgh\nin the sewers, didn't you?[f000]븁\u0000\nMaybe you should go to the Pokémon Gym\nand see how far you've come![f000]븁\u0000\nI'm sure battling will help your Pokémon\ncome to understand you better[f000]븀\u0000\nas a Trainer, too!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_02D7
@@ -158,7 +169,8 @@ Script_2:
 L_02C3:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "Iris: Yep! The sewers are\na perfect place for hiding!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -171,7 +183,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "Stick up your thumbs, and curl in\nyour fingers.[f000]븁\u0000\nThis is a thumbs-up pose. That means OK!\nIn some places, it also means well done!"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -182,10 +195,11 @@ Script_3:
     ActorsPauseAll
     VMStackPush 0x40b2
     VMStackPushConst 1
-    VMStackCmp 0
-    VMJumpIf 255, L_0328
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_0328
     SEPlay 1351
-    ActorMsg 1024, 8, 0, 0, 0
+    // "Some Trainers even toughen up\ntheir Pokémon in the sewers..."
+    ActorMsg MSGFILE_SCRIPT, 8, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0369
@@ -193,11 +207,12 @@ Script_3:
 L_0328:
     VMStackPush 0x40b2
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_0355
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0355
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "Because of the tide, you sometimes\nmight not be able to get into[f000]븀\u0000\nthe Castelia Sewers.[f000]븀\u0000\nIt depends on the season."
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0369
@@ -205,7 +220,8 @@ L_0328:
 L_0355:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "What?\nYou want to go into the sewers?[f000]븁\u0000\nWell, OK... But watch out\nfor wild Pokémon."
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
 

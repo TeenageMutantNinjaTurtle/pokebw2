@@ -13,7 +13,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "I'm very sorry.[f000]븁\u0000\nThe Pokémon World Tournament\nwill commence shortly,[f000]븀\u0000\nbut we're still preparing the area.[f000]븁\u0000\nOh, you don't have the Driftveil City\nGym Badge yet?[f000]븁\u0000\nIn that case, how about taking\non the Pokémon Gym first?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -25,8 +26,8 @@ Script_2:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 6
-    VMStackCmp 4
-    VMJumpIf 255, L_0077
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0077
     ActorCmdExec 0, Movement_0154
     VMSleep 16
     ActorCmdExec 255, Movement_01E8
@@ -42,8 +43,8 @@ L_0077:
 L_008D:
     VMStackPush 0x8021
     VMStackPushConst 7
-    VMStackCmp 4
-    VMJumpIf 255, L_00BC
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_00BC
     WorkSub 0x8021, 1
     ActorWalkRoute 0, 0x8021, 0x8022, 1, 8, 0
     ActorCmdWait
@@ -52,26 +53,27 @@ L_008D:
 L_00BC:
     VMStackPush 0x8021
     VMStackPushConst 3
-    VMStackCmp 3
-    VMJumpIf 255, L_00E5
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_00E5
     WorkAdd 0x8021, 1
     ActorWalkRoute 0, 0x8021, 0x8022, 1, 8, 0
     ActorCmdWait
 
 L_00E5:
-    ActorMsg 1024, 0, 0, 0, 0
+    // "I'm very sorry.[f000]븁\u0000\nThe Pokémon World Tournament\nwill commence shortly,[f000]븀\u0000\nbut we're still preparing the area.[f000]븁\u0000\nOh, you don't have the Driftveil City\nGym Badge yet?[f000]븁\u0000\nIn that case, how about taking\non the Pokémon Gym first?"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 255, Movement_01A0
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 7
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8021
     VMStackPushConst 3
-    VMStackCmp 3
-    VMStackCmp 6
-    VMJumpIf 255, L_0134
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_0134
     ActorWalkRoute 0, 5, 8, 1, 8, 0
 
 L_0134:
@@ -97,7 +99,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "If you keep winning, you get BP!\nWhich is to say, you win Battle Points![f000]븁\u0000\nSo save up lots of BP, and exchange\nthem for great items!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -108,7 +111,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "The Pokémon World Tournament\nis ahead!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

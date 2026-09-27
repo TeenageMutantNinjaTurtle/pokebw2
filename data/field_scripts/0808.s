@@ -12,35 +12,36 @@ Script_1:
     ActorSetEyeToEye
     VMStackPushFlag 337
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_008A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_008A
     VMStackPush 0x4030
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_004C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_004C
     VMCall L_009E
     VMJump L_0084
 
 L_004C:
     VMStackPush 0x4030
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_006B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_006B
     VMCall L_0172
     VMJump L_0084
 
 L_006B:
     VMStackPush 0x4030
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0084
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0084
     VMCall L_0246
 
 L_0084:
     VMJump L_0098
 
 L_008A:
-    ParentActorMsg 1024, 13, 0, 0
+    // "Looking at the Pokédex is fun![f000]븁\u0000\nPokémon can be a lot bigger\nor smaller than you imagine!"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -52,39 +53,45 @@ L_0098:
 L_009E:
     VMStackPushFlag 336
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00C6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00C6
     WordSetPokeSpecies 0, 495
-    ParentActorMsg 1024, 0, 0, 0
+    // "Which Pokémon did you pick\nto be your partner at the beginning?[f000]븁\u0000\n...\n...[f000]븁\u0000\nOh, really? It was [f000]ā\u0001\u0000?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     MsgWaitAdvance
     FlagSet 336
 
 L_00C6:
-    ParentActorMsg 1024, 1, 0, 0
+    // "All righty, I'll quiz you about Snivy!\nIs Snivy's height 2'04\"?"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00FB
-    ParentActorMsg 1024, 2, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00FB
+    // "Too bad! Well, I guess you don't\nknow as much as I thought!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0170
 
 L_00FB:
-    ParentActorMsg 1024, 3, 0, 0
+    // "Correct! OK, next question!\nIs Snivy's weight 18 lbs.?"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0130
-    ParentActorMsg 1024, 2, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0130
+    // "Too bad! Well, I guess you don't\nknow as much as I thought!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0170
 
 L_0130:
-    ParentActorMsg 1024, 4, 0, 0
+    // "Correct! I knew you'd get it!\nI'm so happy you got it right![f000]븀\u0000\nHere, this is for you!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     VMStackPush 0x8000
@@ -94,7 +101,8 @@ L_0130:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 13, 0, 0
+    // "Looking at the Pokédex is fun![f000]븁\u0000\nPokémon can be a lot bigger\nor smaller than you imagine!"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 337
@@ -105,27 +113,31 @@ L_0170:
 L_0172:
     VMStackPushFlag 336
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_019A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_019A
     WordSetPokeSpecies 0, 498
-    ParentActorMsg 1024, 0, 0, 0
+    // "Which Pokémon did you pick\nto be your partner at the beginning?[f000]븁\u0000\n...\n...[f000]븁\u0000\nOh, really? It was [f000]ā\u0001\u0000?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     MsgWaitAdvance
     FlagSet 336
 
 L_019A:
-    ParentActorMsg 1024, 5, 0, 0
+    // "Well, then I'll quiz you about Tepig!\nIs Tepig's height 1'08\"?"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0236
-    ParentActorMsg 1024, 6, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0236
+    // "Correct! OK, next question!\nIs Tepig's weight 21.8 lbs?"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0222
-    ParentActorMsg 1024, 7, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0222
+    // "Correct! I knew you'd get it!\nI'm so happy you got it right![f000]븀\u0000\nHere, this is a gift for you!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     VMStackPush 0x8000
@@ -135,14 +147,16 @@ L_019A:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 13, 0, 0
+    // "Looking at the Pokédex is fun![f000]븁\u0000\nPokémon can be a lot bigger\nor smaller than you imagine!"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 337
     VMJump L_0230
 
 L_0222:
-    ParentActorMsg 1024, 8, 0, 0
+    // "Too bad! Well, I guess you don't notice\nthings as much as I would've thought."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -150,7 +164,8 @@ L_0230:
     VMJump L_0244
 
 L_0236:
-    ParentActorMsg 1024, 8, 0, 0
+    // "Too bad! Well, I guess you don't notice\nthings as much as I would've thought."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -160,33 +175,38 @@ L_0244:
 L_0246:
     VMStackPushFlag 336
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_026E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_026E
     WordSetPokeSpecies 0, 501
-    ParentActorMsg 1024, 0, 0, 0
+    // "Which Pokémon did you pick\nto be your partner at the beginning?[f000]븁\u0000\n...\n...[f000]븁\u0000\nOh, really? It was [f000]ā\u0001\u0000?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     MsgWaitAdvance
     FlagSet 336
 
 L_026E:
-    ParentActorMsg 1024, 9, 0, 0
+    // "OK! I'll quiz you about Oshawott!\nIs Oshawott's height 2'00\"?"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02A3
-    ParentActorMsg 1024, 10, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02A3
+    // "Too bad! Well, I guess you overlook\nthings more than I would've thought."
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0318
 
 L_02A3:
-    ParentActorMsg 1024, 11, 0, 0
+    // "Correct! OK, next question!\nIs Oshawott's weight 13.0 lbs.?"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_030A
-    ParentActorMsg 1024, 12, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_030A
+    // "Correct! I knew you'd get it!\nI'm so happy you got it right![f000]븀\u0000\nHere, take this!"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     VMStackPush 0x8000
@@ -196,14 +216,16 @@ L_02A3:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 13, 0, 0
+    // "Looking at the Pokédex is fun![f000]븁\u0000\nPokémon can be a lot bigger\nor smaller than you imagine!"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 337
     VMJump L_0318
 
 L_030A:
-    ParentActorMsg 1024, 10, 0, 0
+    // "Too bad! Well, I guess you overlook\nthings more than I would've thought."
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -243,7 +265,8 @@ Script_3:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 505, 0
-    ParentActorMsg 1024, 16, 0, 0
+    // "Skree skree!"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -255,13 +278,15 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 17, 2, 2, 0
+    // "Hi, hi!\nLet's play Pokémon rock-paper-scissors!"
+    ActorMsg MSGFILE_SCRIPT, 17, 2, 2, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0512
-    ActorMsg 1024, 19, 2, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0512
+    // "Here goes!\nPokémon rock-paper-scissors..."
+    ActorMsg MSGFILE_SCRIPT, 19, 2, 2, 0
     WorkSetConst 0x8020, 0
     Random 0x8020, 100
     WorkSetConst 0x8021, 0
@@ -272,19 +297,21 @@ Script_4:
     ListMenuShow
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0468
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0468
     VMStackPush 0x8020
     VMStackPushConst 50
-    VMStackCmp 4
-    VMJumpIf 255, L_0452
-    ActorMsg 1024, 20, 2, 2, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0452
+    // "Your Pokémon is Fire type,\nand mine is Grass type...[f000]븁\u0000\nGrass type is weak against Fire type...\nso I lose."
+    ActorMsg MSGFILE_SCRIPT, 20, 2, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0462
 
 L_0452:
-    ActorMsg 1024, 21, 2, 2, 0
+    // "Your Pokémon is Fire type,\nand mine is Water type...[f000]븁\u0000\nFire type is weak against Water type...\nso I win!"
+    ActorMsg MSGFILE_SCRIPT, 21, 2, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -294,19 +321,21 @@ L_0462:
 L_0468:
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_04BA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04BA
     VMStackPush 0x8020
     VMStackPushConst 50
-    VMStackCmp 4
-    VMJumpIf 255, L_04A4
-    ActorMsg 1024, 24, 2, 2, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_04A4
+    // "Your Pokémon is Grass type,\nand mine is Water type...[f000]븁\u0000\nWater type is weak against Grass type...\nso I lose."
+    ActorMsg MSGFILE_SCRIPT, 24, 2, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_04B4
 
 L_04A4:
-    ActorMsg 1024, 25, 2, 2, 0
+    // "Your Pokémon is Grass type,\nand mine is Fire type...[f000]븁\u0000\nGrass type is weak against Fire type...\nso I win!"
+    ActorMsg MSGFILE_SCRIPT, 25, 2, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -316,19 +345,21 @@ L_04B4:
 L_04BA:
     VMStackPush 0x8021
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_050C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_050C
     VMStackPush 0x8020
     VMStackPushConst 50
-    VMStackCmp 4
-    VMJumpIf 255, L_04F6
-    ActorMsg 1024, 22, 2, 2, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_04F6
+    // "Your Pokémon is Water type,\nand mine is Fire type...[f000]븁\u0000\nFire type is weak against Water type...\nso I lose."
+    ActorMsg MSGFILE_SCRIPT, 22, 2, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0506
 
 L_04F6:
-    ActorMsg 1024, 23, 2, 2, 0
+    // "Your Pokémon is Water type,\nand mine is Grass type...[f000]븁\u0000\nWater type is weak against Grass type...\nso I win!"
+    ActorMsg MSGFILE_SCRIPT, 23, 2, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -339,7 +370,8 @@ L_050C:
     VMJump L_0522
 
 L_0512:
-    ActorMsg 1024, 18, 2, 2, 0
+    // "Oh, that's no fun!"
+    ActorMsg MSGFILE_SCRIPT, 18, 2, 2, 0
     LastKeyWait
     MsgWinCloseAll
 

@@ -43,6 +43,7 @@ Movement_0064:
 Script_3:
     ActorsPauseAll
     SEPlay 1351
+    // "Chamber of the one that joins\nthe sun in protecting this place."
     InfoMsg 0, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -53,6 +54,7 @@ Script_3:
 Script_4:
     ActorsPauseAll
     SEPlay 1351
+    // "Two answers are needed to\nfind the true path.[f000]븁\u0000\nCourageous one,\nlet me tell you the answer I know.[f000]븁\u0000\nCheck the ground six steps down and\n● steps right of the eyeball.[f000]븁\u0000\nThe other answer can only be found\nwhen the moon is in the sky."
     InfoMsg 1, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -63,6 +65,7 @@ Script_4:
 Script_5:
     ActorsPauseAll
     SEPlay 1351
+    // "The world is split into two:\nday and night...black and white..."
     InfoMsg 2, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -73,6 +76,7 @@ Script_5:
 Script_6:
     ActorsPauseAll
     SEPlay 1351
+    // "The protectors were born\nout of rock, ice, and magma..."
     InfoMsg 3, 2
     LastKeyWait
     InfoMsgClose_0039

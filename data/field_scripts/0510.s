@@ -27,8 +27,8 @@
 Script_14:
     VMStackPush 0x40d4
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0083
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0083
     ActorSetRailPos 8, 8, 2, 12
 
 L_0083:
@@ -38,6 +38,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Village Bridge"
     MsgPlaceSign 32, 3
     MsgPlaceSignClose
     FinishAllEvents
@@ -48,6 +49,7 @@ Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Village Bridge"
     MsgPlaceSign 32, 3
     MsgPlaceSignClose
     FinishAllEvents
@@ -58,6 +60,7 @@ Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Village Bridge Restaurant\nVillage Sandwiches are our specialty!"
     MsgPlaceSign 33, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -69,16 +72,17 @@ Script_4:
     ISSSwitchQuery 0x8010, 1
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_013D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_013D
     VMStackPush 0x400a
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_011F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_011F
     ISSSwitchEnable 1
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 12, 0, 0
+    // "Derleth: Fweet fweet...\nFweeeeeet fweet fweet..."
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0137
@@ -87,7 +91,8 @@ L_011F:
     ISSSwitchEnable 1
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 14, 0, 0
+    // "Derleth: Fwee... Fwee...\nFffweeet fweet..."
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -97,12 +102,13 @@ L_0137:
 L_013D:
     VMStackPush 0x400a
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0174
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0174
     ISSSwitchDisable 1
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 13, 0, 0
+    // "Derleth: What is piercing my mind is\na sad sound.[f000]븁\u0000\nWhat is piercing my heart is\na cold night wind."
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     ActorMsgClose
     WorkSetConst 0x400a, 1
@@ -112,7 +118,8 @@ L_0174:
     ISSSwitchDisable 1
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 15, 0, 0
+    // "Derleth: The only things that come out\nof my mouth are my whistle tunes and[f000]븀\u0000\ncomplaints about my life.[f000]븁\u0000\nThis bridge is a meeting place for people\nlike me who like to complain."
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -126,16 +133,17 @@ Script_5:
     ISSSwitchQuery 0x8010, 3
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01FC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01FC
     VMStackPush 0x400b
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01DE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01DE
     ISSSwitchEnable 3
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 16, 0, 0
+    // "Aickman: How about this? This sound!\nDoesn't it get to your heart? Your mind?"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_01F6
@@ -144,7 +152,8 @@ L_01DE:
     ISSSwitchEnable 3
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 18, 0, 0
+    // "Aickman: This is my best friend, my pal.\nIt knows all my sorrow, all my tears."
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -154,12 +163,13 @@ L_01F6:
 L_01FC:
     VMStackPush 0x400b
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0233
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0233
     ISSSwitchDisable 3
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 17, 0, 0
+    // "Aickman: I know my sound doesn't fit\nthis city, this town.[f000]븁\u0000\nBut I... I cannot change\nmy life, my style."
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     LastKeyWait
     ActorMsgClose
     WorkSetConst 0x400b, 1
@@ -169,7 +179,8 @@ L_0233:
     ISSSwitchDisable 3
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 19, 0, 0
+    // "Aickman: Y-you have great sparkles...\nSparkles in your eyes.[f000]븁\u0000\nPlease make our hopes, our dreams,\ncome true for us.[f000]븁\u0000\nGo grab the glory--go take on the world!"
+    ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -183,16 +194,17 @@ Script_6:
     ISSSwitchQuery 0x8010, 2
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02BB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02BB
     VMStackPush 0x400c
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_029D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_029D
     ISSSwitchEnable 2
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 20, 0, 0
+    // "Russo: La la la la la..."
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_02B5
@@ -201,7 +213,8 @@ L_029D:
     ISSSwitchEnable 2
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 22, 0, 0
+    // "Russo: Testing...\nCheck one, check two, check, check, yup."
+    ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -211,12 +224,13 @@ L_02B5:
 L_02BB:
     VMStackPush 0x400c
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02F2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02F2
     ISSSwitchDisable 2
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 21, 0, 0
+    // "Russo: Ahem, ahem!\nNow, something's not quite right.[f000]븁\u0000\nThis here microphone's all screwy.\nI can sing real good, promise!"
+    ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
     LastKeyWait
     ActorMsgClose
     WorkSetConst 0x400c, 1
@@ -226,7 +240,8 @@ L_02F2:
     ISSSwitchDisable 2
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 23, 0, 0
+    // "Russo: Now, you're the first person in an\nawful long time who's hung around to[f000]븀\u0000\nlisten and hear what I was singin' about.[f000]븁\u0000\nMuch obliged!"
+    ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -240,15 +255,16 @@ Script_7:
     ISSSwitchQuery 0x8010, 4
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_037A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_037A
     VMStackPush 0x400d
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_035C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_035C
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 24, 0, 0
+    // "Koontz: Singing gives life to my spirit.\nWill you listen to the voice of my spirit?"
+    ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
     LastKeyWait
     ActorMsgClose
     ISSSwitchEnable 4
@@ -257,7 +273,8 @@ Script_7:
 L_035C:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 26, 0, 0
+    // "Koontz: Oh, you want to listen to my song\nafter all! Yes!"
+    ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
     LastKeyWait
     ActorMsgClose
     ISSSwitchEnable 4
@@ -268,12 +285,13 @@ L_0374:
 L_037A:
     VMStackPush 0x400d
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03B1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03B1
     ISSSwitchDisable 4
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 25, 0, 0
+    // "Koontz: Huh? Are you leaving already?\nI am always here."
+    ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
     LastKeyWait
     ActorMsgClose
     WorkSetConst 0x400d, 1
@@ -283,7 +301,8 @@ L_03B1:
     ISSSwitchDisable 4
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 27, 0, 0
+    // "Koontz: My song...\nDon't you like it?"
+    ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -296,7 +315,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "I've steadily extended my win streak\nfor two years... And now it's over...[f000]븁\u0000\nBut I have a strong will.\nI declare that I'll try again[f000]븀\u0000\nto have a 1,000-win streak![f000]븁\u0000\nI won't battle you next time, though.\nYou'll just break my streak."
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -307,8 +327,8 @@ L_03EB:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_040A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_040A
     CallTrainerBattleEnd
     VMJump L_040C
 
@@ -322,7 +342,7 @@ Script_9:
     ActorsPauseAll
     PlayerGetDir 0x8010
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0427
+    VMJumpIf CMP_EQ, L_0427
     VMJump L_0435
 
 L_0427:
@@ -331,7 +351,7 @@ L_0427:
 
 L_0435:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_0448
+    VMJumpIf CMP_EQ, L_0448
     VMJump L_0456
 
 L_0448:
@@ -344,7 +364,7 @@ L_0456:
     ActorCmdWait
     PlayerGetRailPos 0x8023, 0x8024, 0x8025
     WorkCmpConst 0x8025, 5
-    VMJumpIf 1, L_047D
+    VMJumpIf CMP_EQ, L_047D
     VMJump L_048B
 
 L_047D:
@@ -353,7 +373,7 @@ L_047D:
 
 L_048B:
     WorkCmpConst 0x8025, 6
-    VMJumpIf 1, L_049E
+    VMJumpIf CMP_EQ, L_049E
     VMJump L_04AC
 
 L_049E:
@@ -362,7 +382,7 @@ L_049E:
 
 L_04AC:
     WorkCmpConst 0x8025, 7
-    VMJumpIf 1, L_04BF
+    VMJumpIf CMP_EQ, L_04BF
     VMJump L_04CD
 
 L_04BF:
@@ -371,7 +391,7 @@ L_04BF:
 
 L_04CD:
     WorkCmpConst 0x8025, 8
-    VMJumpIf 1, L_04E0
+    VMJumpIf CMP_EQ, L_04E0
     VMJump L_04E6
 
 L_04E0:
@@ -379,7 +399,7 @@ L_04E0:
 
 L_04E6:
     WorkCmpConst 0x8025, 9
-    VMJumpIf 1, L_04F9
+    VMJumpIf CMP_EQ, L_04F9
     VMJump L_0507
 
 L_04F9:
@@ -388,7 +408,7 @@ L_04F9:
 
 L_0507:
     WorkCmpConst 0x8025, 10
-    VMJumpIf 1, L_051A
+    VMJumpIf CMP_EQ, L_051A
     VMJump L_0528
 
 L_051A:
@@ -397,7 +417,7 @@ L_051A:
 
 L_0528:
     WorkCmpConst 0x8025, 11
-    VMJumpIf 1, L_053B
+    VMJumpIf CMP_EQ, L_053B
     VMJump L_0549
 
 L_053B:
@@ -406,7 +426,7 @@ L_053B:
 
 L_0549:
     WorkCmpConst 0x8025, 12
-    VMJumpIf 1, L_055C
+    VMJumpIf CMP_EQ, L_055C
     VMJump L_056A
 
 L_055C:
@@ -417,7 +437,7 @@ L_056A:
     ActorCmdWait
     PlayerGetDir 0x8010
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0583
+    VMJumpIf CMP_EQ, L_0583
     VMJump L_0591
 
 L_0583:
@@ -426,7 +446,7 @@ L_0583:
 
 L_0591:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_05A4
+    VMJumpIf CMP_EQ, L_05A4
     VMJump L_05B2
 
 L_05A4:
@@ -435,23 +455,26 @@ L_05A4:
 
 L_05B2:
     ActorCmdWait
-    ActorMsg 1024, 1, 8, 0, 0
+    // "Wait! Waaait![f000]븁\u0000\nI've been waiting for this day!\nYou're the 1,000th opponent![f000]븁\u0000\nI've got a 999-win streak.\nBe my battle opponent!"
+    ActorMsg MSGFILE_SCRIPT, 1, 8, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0719
-    ActorMsg 1024, 2, 8, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0719
+    // "Gwa ha ha!\nEven though you're just a fledgling,[f000]븀\u0000\nyou'll still be my 1,000th win in a row![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 8, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 177, 0, 0
     VMCall L_03EB
     WorkSetConst 0x40d4, 1
-    ActorMsg 1024, 4, 8, 0, 0
+    // "I've steadily extended my win streak\nfor two years... And now it's over...[f000]븁\u0000\nBut I have a strong will.\nI declare that I'll try again[f000]븀\u0000\nto have a 1,000-win streak![f000]븁\u0000\nI won't battle you next time, though.\nYou'll just break my streak."
+    ActorMsg MSGFILE_SCRIPT, 4, 8, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     PlayerGetRailPos 0x8023, 0x8024, 0x8025
     WorkCmpConst 0x8025, 5
-    VMJumpIf 1, L_0624
+    VMJumpIf CMP_EQ, L_0624
     VMJump L_0632
 
 L_0624:
@@ -460,7 +483,7 @@ L_0624:
 
 L_0632:
     WorkCmpConst 0x8025, 6
-    VMJumpIf 1, L_0645
+    VMJumpIf CMP_EQ, L_0645
     VMJump L_0653
 
 L_0645:
@@ -469,7 +492,7 @@ L_0645:
 
 L_0653:
     WorkCmpConst 0x8025, 7
-    VMJumpIf 1, L_0666
+    VMJumpIf CMP_EQ, L_0666
     VMJump L_0674
 
 L_0666:
@@ -478,7 +501,7 @@ L_0666:
 
 L_0674:
     WorkCmpConst 0x8025, 8
-    VMJumpIf 1, L_0687
+    VMJumpIf CMP_EQ, L_0687
     VMJump L_0695
 
 L_0687:
@@ -487,7 +510,7 @@ L_0687:
 
 L_0695:
     WorkCmpConst 0x8025, 9
-    VMJumpIf 1, L_06A8
+    VMJumpIf CMP_EQ, L_06A8
     VMJump L_06B6
 
 L_06A8:
@@ -496,7 +519,7 @@ L_06A8:
 
 L_06B6:
     WorkCmpConst 0x8025, 10
-    VMJumpIf 1, L_06C9
+    VMJumpIf CMP_EQ, L_06C9
     VMJump L_06D7
 
 L_06C9:
@@ -505,7 +528,7 @@ L_06C9:
 
 L_06D7:
     WorkCmpConst 0x8025, 11
-    VMJumpIf 1, L_06EA
+    VMJumpIf CMP_EQ, L_06EA
     VMJump L_06F8
 
 L_06EA:
@@ -514,7 +537,7 @@ L_06EA:
 
 L_06F8:
     WorkCmpConst 0x8025, 12
-    VMJumpIf 1, L_070B
+    VMJumpIf CMP_EQ, L_070B
     VMJump L_0711
 
 L_070B:
@@ -525,12 +548,13 @@ L_0711:
     VMJump L_0913
 
 L_0719:
-    ActorMsg 1024, 3, 8, 0, 0
+    // "I understand. I've got a 999-win streak!\nIt's natural to be intimidated.[f000]븁\u0000\nBut I can't let you go further\nunless you battle me![f000]븁\u0000\nAnd there's definitely no way around me.\nNope. You shouldn't use Surf[f000]븀\u0000\nto cross the river, for example."
+    ActorMsg MSGFILE_SCRIPT, 3, 8, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     PlayerGetDir 0x8010
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0740
+    VMJumpIf CMP_EQ, L_0740
     VMJump L_0756
 
 L_0740:
@@ -540,7 +564,7 @@ L_0740:
 
 L_0756:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_0769
+    VMJumpIf CMP_EQ, L_0769
     VMJump L_077F
 
 L_0769:
@@ -551,7 +575,7 @@ L_0769:
 L_077F:
     ActorCmdWait
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0794
+    VMJumpIf CMP_EQ, L_0794
     VMJump L_07A2
 
 L_0794:
@@ -560,7 +584,7 @@ L_0794:
 
 L_07A2:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_07B5
+    VMJumpIf CMP_EQ, L_07B5
     VMJump L_07C3
 
 L_07B5:
@@ -571,7 +595,7 @@ L_07C3:
     ActorCmdWait
     PlayerGetRailPos 0x8023, 0x8024, 0x8025
     WorkCmpConst 0x8025, 5
-    VMJumpIf 1, L_07E0
+    VMJumpIf CMP_EQ, L_07E0
     VMJump L_07EE
 
 L_07E0:
@@ -580,7 +604,7 @@ L_07E0:
 
 L_07EE:
     WorkCmpConst 0x8025, 6
-    VMJumpIf 1, L_0801
+    VMJumpIf CMP_EQ, L_0801
     VMJump L_080F
 
 L_0801:
@@ -589,7 +613,7 @@ L_0801:
 
 L_080F:
     WorkCmpConst 0x8025, 7
-    VMJumpIf 1, L_0822
+    VMJumpIf CMP_EQ, L_0822
     VMJump L_0830
 
 L_0822:
@@ -598,7 +622,7 @@ L_0822:
 
 L_0830:
     WorkCmpConst 0x8025, 8
-    VMJumpIf 1, L_0843
+    VMJumpIf CMP_EQ, L_0843
     VMJump L_0849
 
 L_0843:
@@ -606,7 +630,7 @@ L_0843:
 
 L_0849:
     WorkCmpConst 0x8025, 9
-    VMJumpIf 1, L_085C
+    VMJumpIf CMP_EQ, L_085C
     VMJump L_086A
 
 L_085C:
@@ -615,7 +639,7 @@ L_085C:
 
 L_086A:
     WorkCmpConst 0x8025, 10
-    VMJumpIf 1, L_087D
+    VMJumpIf CMP_EQ, L_087D
     VMJump L_088B
 
 L_087D:
@@ -624,7 +648,7 @@ L_087D:
 
 L_088B:
     WorkCmpConst 0x8025, 11
-    VMJumpIf 1, L_089E
+    VMJumpIf CMP_EQ, L_089E
     VMJump L_08AC
 
 L_089E:
@@ -633,7 +657,7 @@ L_089E:
 
 L_08AC:
     WorkCmpConst 0x8025, 12
-    VMJumpIf 1, L_08BF
+    VMJumpIf CMP_EQ, L_08BF
     VMJump L_08CD
 
 L_08BF:
@@ -643,7 +667,7 @@ L_08BF:
 L_08CD:
     ActorCmdWait
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_08E2
+    VMJumpIf CMP_EQ, L_08E2
     VMJump L_08F0
 
 L_08E2:
@@ -652,7 +676,7 @@ L_08E2:
 
 L_08F0:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_0903
+    VMJumpIf CMP_EQ, L_0903
     VMJump L_0911
 
 L_0903:
@@ -671,7 +695,8 @@ Script_10:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "My favorite thing nowadays\nis to compete in the PWT!"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -682,7 +707,8 @@ Script_11:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "Practice as if it were a real game! Play\nin a real game as if it were a practice!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -693,7 +719,8 @@ Script_12:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "I'll cross all the bridges\nin the Unova region![f000]븁\u0000\nEven the Marine Tube from Undella Town!\nHmm! I am so looking forward to it!"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -704,7 +731,8 @@ Script_16:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 31, 0, 0
+    // "I tried to ask for directions, but\nit turned out I was talking to a[f000]븀\u0000\nPokémon Trainer![f000]븁\u0000\nYou need to be careful, too."
+    ParentActorMsg MSGFILE_SCRIPT, 31, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -717,23 +745,25 @@ Script_13:
     ActorSetEyeToEye
     VMStackPush 0x4108
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0A87
-    ParentActorMsg 1024, 5, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A87
+    // "[f000]븉\u0001\u0002Oh... Oh...\nSo...thirsty...[f000]븁\u0000\nI met you on\nthe Tubeline Bridge...[f000]븁\u0000\nG-g-give me...\nFresh Water...?[f000]븉\u0001\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0A73
-    ItemSub 30, 1, 0x8010
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A73
+    ItemSub ITEM_FRESH_WATER, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0A5F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A5F
     MsgWinCloseAll
     SEPlay 2017
     SEWait
-    ParentActorMsg 1024, 6, 0, 0
+    // "Refreshed!![f000]븁\u0000\nI'm 100% rehydrated!\nI feel better now! Thank you![f000]븁\u0000\nI'll dash to the next bridge!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x8026, 0
@@ -742,8 +772,8 @@ Script_13:
     PlayerGetRailPos 0x8026, 0x8027, 0x8028
     VMStackPush 0x8027
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0A31
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A31
     ActorCmdExec 18, Movement_0AB0
     VMJump L_0A39
 
@@ -761,7 +791,8 @@ L_0A39:
     VMJump L_0A6D
 
 L_0A5F:
-    ParentActorMsg 1024, 7, 0, 0
+    // "[f000]븉\u0001\u0002But... You don't have Fresh Water...\nI appreciate the thought, though...[f000]븉\u0001\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -769,7 +800,8 @@ L_0A6D:
     VMJump L_0A81
 
 L_0A73:
-    ParentActorMsg 1024, 8, 0, 0
+    // "[f000]븉\u0001\u0002Thank...[f000]븁\u0000\nWhat?\nOh...[f000]븁\u0000\nWithout Fresh Water...\nI can't run on bridges anymore.[f000]븉\u0001\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -779,9 +811,10 @@ L_0A81:
 L_0A87:
     VMStackPush 0x4108
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_0AA8
-    ParentActorMsg 1024, 6, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0AA8
+    // "Refreshed!![f000]븁\u0000\nI'm 100% rehydrated!\nI feel better now! Thank you![f000]븁\u0000\nI'll dash to the next bridge!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -993,11 +1026,12 @@ Script_15:
     ActorsPauseAll
     VMStackPushFlag 468
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0CD7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0CD7
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 30, 0, 0
+    // "Keep somebody's secret.\nOtherwise, your secret will be out."
+    ParentActorMsg MSGFILE_SCRIPT, 30, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0D68
@@ -1005,8 +1039,8 @@ Script_15:
 L_0CD7:
     VMStackPushFlag 466
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0D54
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0D54
     VMStackPush 0x8000
     VMStackPush 0x8001
     VMStackPush 0x8002
@@ -1034,7 +1068,8 @@ L_0CD7:
 L_0D54:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 28, 0, 0
+    // "I hear a sound from somewhere.\nSometimes it sounds sad.[f000]븀\u0000\nSometimes it sounds a little goofy...[f000]븀\u0000\nDo you think it could be a ghost?"
+    ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0
     LastKeyWait
     ActorMsgClose
 

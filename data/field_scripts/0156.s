@@ -17,33 +17,37 @@
     VMReturn
 
 L_0048:
-    Cmd_0165 31, 0, 0x8022
+    MusicalCmd_0165 31, 0, 0x8022
     VMStackPush 0x8022
     VMStackPushConst 100
-    VMStackCmp 4
-    VMJumpIf 255, L_0074
-    ActorMsg 1024, 7, 3, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0074
+    // "Good job![f000]븁\u0000\nIt was a musical with some very\nexciting moments![f000]븁\u0000\nBy the way, I received comments for you\nfrom the audience.[f000]븁\u0000\nI am quite pleased.\nI will give them to you in order.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 3, 0, 0
     VMJump L_00D1
 
 L_0074:
-    Cmd_0165 32, 0, 0x8022
+    MusicalCmd_0165 32, 0, 0x8022
     VMStackPush 0x8022
     VMStackPushConst 70
-    VMStackCmp 4
-    VMJumpIf 255, L_00A0
-    ActorMsg 1024, 4, 3, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_00A0
+    // "Good job!\nThe Pokémon were in total sync![f000]븁\u0000\nIt was the best musical ever! I am the\nowner, but even I was greatly moved.[f000]븁\u0000\nSince it's the best musical ever seen,\nwe have received many comments from[f000]븀\u0000\nthe audience![f000]븁\u0000\nThere are comments for everyone,\nso let me give them to you in order![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 3, 0, 0
     VMJump L_00D1
 
 L_00A0:
     VMStackPush 0x8022
     VMStackPushConst 30
-    VMStackCmp 4
-    VMJumpIf 255, L_00C5
-    ActorMsg 1024, 5, 3, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_00C5
+    // "Hmmm... Good job!\nIt was a great musical![f000]븁\u0000\nIn fact, I've received comments for you\nfrom the audience![f000]븁\u0000\nI am really pleased.\nI will give them to you in order![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 3, 0, 0
     VMJump L_00D1
 
 L_00C5:
-    ActorMsg 1024, 6, 3, 0, 0
+    // "Good job!\nIt was quite an interesting musical![f000]븁\u0000\nI've received comments for you\nfrom the audience![f000]븁\u0000\nWell, I am so pleased.\nI will give them to you in order![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 3, 0, 0
 
 L_00D1:
     ActorMsgClose
@@ -51,12 +55,12 @@ L_00D1:
 
 L_00D5:
     WorkCmpConst 0x8025, 0
-    VMJumpIf 1, L_00E8
+    VMJumpIf CMP_EQ, L_00E8
     VMJump L_0172
 
 L_00E8:
     WorkCmpConst 0x8024, 1
-    VMJumpIf 1, L_00FB
+    VMJumpIf CMP_EQ, L_00FB
     VMJump L_0109
 
 L_00FB:
@@ -65,7 +69,7 @@ L_00FB:
 
 L_0109:
     WorkCmpConst 0x8024, 2
-    VMJumpIf 1, L_011C
+    VMJumpIf CMP_EQ, L_011C
     VMJump L_012A
 
 L_011C:
@@ -74,7 +78,7 @@ L_011C:
 
 L_012A:
     WorkCmpConst 0x8024, 3
-    VMJumpIf 1, L_013D
+    VMJumpIf CMP_EQ, L_013D
     VMJump L_014B
 
 L_013D:
@@ -83,7 +87,7 @@ L_013D:
 
 L_014B:
     WorkCmpConst 0x8024, 5
-    VMJumpIf 1, L_015E
+    VMJumpIf CMP_EQ, L_015E
     VMJump L_016C
 
 L_015E:
@@ -95,12 +99,12 @@ L_016C:
 
 L_0172:
     WorkCmpConst 0x8025, 1
-    VMJumpIf 1, L_0185
+    VMJumpIf CMP_EQ, L_0185
     VMJump L_020F
 
 L_0185:
     WorkCmpConst 0x8024, 0
-    VMJumpIf 1, L_0198
+    VMJumpIf CMP_EQ, L_0198
     VMJump L_01A6
 
 L_0198:
@@ -109,7 +113,7 @@ L_0198:
 
 L_01A6:
     WorkCmpConst 0x8024, 2
-    VMJumpIf 1, L_01B9
+    VMJumpIf CMP_EQ, L_01B9
     VMJump L_01C7
 
 L_01B9:
@@ -118,7 +122,7 @@ L_01B9:
 
 L_01C7:
     WorkCmpConst 0x8024, 3
-    VMJumpIf 1, L_01DA
+    VMJumpIf CMP_EQ, L_01DA
     VMJump L_01E8
 
 L_01DA:
@@ -127,7 +131,7 @@ L_01DA:
 
 L_01E8:
     WorkCmpConst 0x8024, 5
-    VMJumpIf 1, L_01FB
+    VMJumpIf CMP_EQ, L_01FB
     VMJump L_0209
 
 L_01FB:
@@ -139,12 +143,12 @@ L_0209:
 
 L_020F:
     WorkCmpConst 0x8025, 2
-    VMJumpIf 1, L_0222
+    VMJumpIf CMP_EQ, L_0222
     VMJump L_02AC
 
 L_0222:
     WorkCmpConst 0x8024, 0
-    VMJumpIf 1, L_0235
+    VMJumpIf CMP_EQ, L_0235
     VMJump L_0243
 
 L_0235:
@@ -153,7 +157,7 @@ L_0235:
 
 L_0243:
     WorkCmpConst 0x8024, 1
-    VMJumpIf 1, L_0256
+    VMJumpIf CMP_EQ, L_0256
     VMJump L_0264
 
 L_0256:
@@ -162,7 +166,7 @@ L_0256:
 
 L_0264:
     WorkCmpConst 0x8024, 3
-    VMJumpIf 1, L_0277
+    VMJumpIf CMP_EQ, L_0277
     VMJump L_0285
 
 L_0277:
@@ -171,7 +175,7 @@ L_0277:
 
 L_0285:
     WorkCmpConst 0x8024, 5
-    VMJumpIf 1, L_0298
+    VMJumpIf CMP_EQ, L_0298
     VMJump L_02A6
 
 L_0298:
@@ -183,12 +187,12 @@ L_02A6:
 
 L_02AC:
     WorkCmpConst 0x8025, 3
-    VMJumpIf 1, L_02BF
+    VMJumpIf CMP_EQ, L_02BF
     VMJump L_0349
 
 L_02BF:
     WorkCmpConst 0x8024, 0
-    VMJumpIf 1, L_02D2
+    VMJumpIf CMP_EQ, L_02D2
     VMJump L_02E0
 
 L_02D2:
@@ -197,7 +201,7 @@ L_02D2:
 
 L_02E0:
     WorkCmpConst 0x8024, 1
-    VMJumpIf 1, L_02F3
+    VMJumpIf CMP_EQ, L_02F3
     VMJump L_0301
 
 L_02F3:
@@ -206,7 +210,7 @@ L_02F3:
 
 L_0301:
     WorkCmpConst 0x8024, 2
-    VMJumpIf 1, L_0314
+    VMJumpIf CMP_EQ, L_0314
     VMJump L_0322
 
 L_0314:
@@ -215,7 +219,7 @@ L_0314:
 
 L_0322:
     WorkCmpConst 0x8024, 5
-    VMJumpIf 1, L_0335
+    VMJumpIf CMP_EQ, L_0335
     VMJump L_0343
 
 L_0335:
@@ -227,12 +231,12 @@ L_0343:
 
 L_0349:
     WorkCmpConst 0x8025, 5
-    VMJumpIf 1, L_035C
+    VMJumpIf CMP_EQ, L_035C
     VMJump L_03E6
 
 L_035C:
     WorkCmpConst 0x8024, 0
-    VMJumpIf 1, L_036F
+    VMJumpIf CMP_EQ, L_036F
     VMJump L_037D
 
 L_036F:
@@ -241,7 +245,7 @@ L_036F:
 
 L_037D:
     WorkCmpConst 0x8024, 1
-    VMJumpIf 1, L_0390
+    VMJumpIf CMP_EQ, L_0390
     VMJump L_039E
 
 L_0390:
@@ -250,7 +254,7 @@ L_0390:
 
 L_039E:
     WorkCmpConst 0x8024, 2
-    VMJumpIf 1, L_03B1
+    VMJumpIf CMP_EQ, L_03B1
     VMJump L_03BF
 
 L_03B1:
@@ -259,7 +263,7 @@ L_03B1:
 
 L_03BF:
     WorkCmpConst 0x8024, 3
-    VMJumpIf 1, L_03D2
+    VMJumpIf CMP_EQ, L_03D2
     VMJump L_03E0
 
 L_03D2:
@@ -278,76 +282,84 @@ L_03EA:
     Cmd_0167 14, 0x8027, 0, 0
     VMCall L_00D5
     WordSetMusicalInfo 5, 0, 0x8024
-    Cmd_0165 38, 0x8024, 0x8023
+    MusicalCmd_0165 38, 0x8024, 0x8023
     WordSetMusicalInfo 4, 1, 0x8023
     VMStackPush 0x8023
     VMStackPushConst 4
-    VMStackCmp 0
-    VMJumpIf 255, L_0438
-    ActorMsg 1024, 8, 3, 0, 0
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_0438
+    // "[f000]Ā\u0001\u0000's Dress Up performance\nwas very [f000]ģ\u0001\u0001![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 3, 0, 0
     VMJump L_0444
 
 L_0438:
-    ActorMsg 1024, 9, 3, 0, 0
+    // "[f000]Ā\u0001\u0000's Dress Up performance\nwas very distinctive![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 3, 0, 0
 
 L_0444:
-    Cmd_0165 33, 0x8024, 0x8022
+    MusicalCmd_0165 33, 0x8024, 0x8022
     WorkAdd 0x8027, 1
     Cmd_0167 14, 0x8027, 0, 0
     VMStackPush 0x8022
     VMStackPushConst 100
-    VMStackCmp 4
-    VMJumpIf 255, L_0480
-    ActorMsg 1024, 10, 3, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0480
+    // "In this musical, it's not an\noverstatement to say that [f000]Ā\u0001\u0000's[f000]븀\u0000\nPokémon was the lead role.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 3, 0, 0
     VMJump L_0520
 
 L_0480:
     VMStackPush 0x8022
     VMStackPushConst 70
-    VMStackCmp 4
-    VMJumpIf 255, L_04A5
-    ActorMsg 1024, 11, 3, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_04A5
+    // "The Pokémon used Props to convey such\nabundant expression, just as if they[f000]븀\u0000\nwere actors![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 3, 0, 0
     VMJump L_0520
 
 L_04A5:
     VMStackPush 0x8022
     VMStackPushConst 40
-    VMStackCmp 4
-    VMJumpIf 255, L_04CA
-    ActorMsg 1024, 12, 3, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_04CA
+    // "Watching your Pokémon's sharp moves,\nI also felt [f000]ģ\u0001\u0001![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 3, 0, 0
     VMJump L_0520
 
 L_04CA:
     VMStackPush 0x8022
     VMStackPushConst 30
-    VMStackCmp 4
-    VMJumpIf 255, L_04EF
-    ActorMsg 1024, 13, 3, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_04EF
+    // "Your Pokémon played its role very well.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 3, 0, 0
     VMJump L_0520
 
 L_04EF:
     VMStackPush 0x8022
     VMStackPushConst 20
-    VMStackCmp 4
-    VMJumpIf 255, L_0514
-    ActorMsg 1024, 14, 3, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0514
+    // "It looked like your Pokémon was making an\neffort to live up to your expectations.[f000]븁\u0000\nI will support your Pokémon on the side![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 3, 0, 0
     VMJump L_0520
 
 L_0514:
-    ActorMsg 1024, 15, 3, 0, 0
+    // "It was not highly noticeable...\nBut I liked it! Keep it up![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 3, 0, 0
 
 L_0520:
     ActorMsgClose
     VMReturn
 
 Script_1:
-    Cmd_0165 39, 0, 0x8021
+    MusicalCmd_0165 39, 0, 0x8021
     WorkGet 0x4021, 0x8021
-    Cmd_0165 39, 1, 0x8021
+    MusicalCmd_0165 39, 1, 0x8021
     WorkGet 0x4022, 0x8021
-    Cmd_0165 39, 2, 0x8021
+    MusicalCmd_0165 39, 2, 0x8021
     WorkGet 0x4023, 0x8021
-    Cmd_0165 39, 3, 0x8021
+    MusicalCmd_0165 39, 3, 0x8021
     WorkGet 0x4024, 0x8021
     VMHalt
 
@@ -366,45 +378,51 @@ Script_3:
     Cmd_0167 19, 0, 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_06B2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06B2
     Cmd_0167 20, 0, 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_05C8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05C8
     MsgSetAutoscrolls 1
 
 L_05C8:
-    Cmd_0165 36, 0, 0x8023
+    MusicalCmd_0165 36, 0, 0x8023
     WordSetMusicalInfo 2, 0, 0
     WordSetMusicalInfo 3, 1, 0x8023
-    ActorMsg 1024, 0, 3, 0, 0
+    // "Welcome to the musical!\nI'm very pleased with your participation![f000]븁\u0000\nParticipants for this musical are:[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 3, 0, 0
     Cmd_0167 14, 111, 0, 0
     WordSetMusicalInfo 6, 2, 0
     WordSetMusicalInfo 5, 3, 0
-    ActorMsg 1024, 1, 3, 0, 0
+    // "[f000]Ā\u0001\u0003 will participate\nwith [f000]ā\u0001\u0002![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 3, 0, 0
     Cmd_0167 14, 112, 0, 0
     WordSetMusicalInfo 6, 2, 1
     WordSetMusicalInfo 5, 3, 1
-    ActorMsg 1024, 1, 3, 0, 0
+    // "[f000]Ā\u0001\u0003 will participate\nwith [f000]ā\u0001\u0002![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 3, 0, 0
     Cmd_0167 14, 113, 0, 0
     WordSetMusicalInfo 6, 2, 2
     WordSetMusicalInfo 5, 3, 2
-    ActorMsg 1024, 1, 3, 0, 0
+    // "[f000]Ā\u0001\u0003 will participate\nwith [f000]ā\u0001\u0002![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 3, 0, 0
     Cmd_0167 14, 114, 0, 0
     WordSetMusicalInfo 6, 2, 3
     WordSetMusicalInfo 5, 3, 3
-    ActorMsg 1024, 1, 3, 0, 0
+    // "[f000]Ā\u0001\u0003 will participate\nwith [f000]ā\u0001\u0002![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 3, 0, 0
     Cmd_0167 14, 115, 0, 0
-    ActorMsg 1024, 2, 2, 0, 0
+    // "And the show you'll be performing\nis [f000]Ģ\u0001\u0000.[f000]븁\u0000\nThat is a popular show\namong [f000]ĳ\u0001\u0001.[f000]븁\u0000\nWell, without further ado...\nLet's play Dress Up![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 2, 0, 0
     ActorMsgClose
     Cmd_0167 14, 11, 0, 0
     Cmd_0167 20, 0, 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_06B2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06B2
     MsgSetAutoscrolls 0
 
 L_06B2:
@@ -426,12 +444,13 @@ Script_4:
     Cmd_0167 20, 0, 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0703
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0703
     MsgSetAutoscrolls 1
 
 L_0703:
-    ActorMsg 1024, 3, 3, 0, 0
+    // "I guess everyone is ready.\nLet's go up on stage![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 3, 0, 0
     ActorMsgClose
     Cmd_0167 17, 0, 0, 0
     FadeOutBlackQ
@@ -440,8 +459,8 @@ L_0703:
     Cmd_0167 20, 0, 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0742
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0742
     MsgSetAutoscrolls 0
 
 L_0742:
@@ -461,13 +480,13 @@ Script_5:
     Cmd_0167 20, 0, 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0793
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0793
     MsgSetAutoscrolls 1
 
 L_0793:
     Cmd_0167 14, 12, 0, 0
-    Cmd_0165 30, 0, 0x8020
+    MusicalCmd_0165 30, 0, 0x8020
     WorkSetConst 0x8027, 120
     VMCall L_0048
     WorkSetConst 0x8028, 1
@@ -477,15 +496,15 @@ L_0793:
 L_07C2:
     VMStackPush 0x8028
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0813
-    Cmd_0165 37, 0x8026, 0x8024
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0813
+    MusicalCmd_0165 37, 0x8026, 0x8024
     VMCall L_03EA
     WorkGet 0x8025, 0x8024
     VMStackPush 0x8026
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0807
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0807
     WorkSetConst 0x8028, 0
     VMJump L_080D
 
@@ -499,16 +518,17 @@ L_0813:
     Cmd_0167 14, 141, 0, 0
     WorkSetConst 0x8024, 5
     VMCall L_00D5
-    ActorMsg 1024, 16, 3, 0, 0
+    // "Thank you very much for participating in\nthe musical today![f000]븁\u0000\nPlease join another musical again!\nHave a great day![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 3, 0, 0
     Cmd_0167 20, 0, 0, 0x8010
     ActorMsgClose
     Cmd_0167 14, 142, 0, 0
     WorkSetConst 0x8029, 0
-    Cmd_0166 0, 0, 0x8029
+    MusicalCmd_0166 0, 0, 0x8029
     VMStackPush 0x8029
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0875
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0875
     FlagSet 622
     VMJump L_0879
 
@@ -516,11 +536,11 @@ L_0875:
     FlagReset 622
 
 L_0879:
-    Cmd_0166 1, 0, 0x8029
+    MusicalCmd_0166 1, 0, 0x8029
     VMStackPush 0x8029
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_089D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_089D
     FlagSet 623
     VMJump L_08A1
 
@@ -528,11 +548,11 @@ L_089D:
     FlagReset 623
 
 L_08A1:
-    Cmd_0166 2, 0, 0x8029
+    MusicalCmd_0166 2, 0, 0x8029
     VMStackPush 0x8029
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_08C5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08C5
     FlagSet 624
     VMJump L_08C9
 
@@ -540,11 +560,11 @@ L_08C5:
     FlagReset 624
 
 L_08C9:
-    Cmd_0166 3, 0, 0x8029
+    MusicalCmd_0166 3, 0, 0x8029
     VMStackPush 0x8029
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_08ED
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08ED
     FlagSet 625
     VMJump L_08F1
 
@@ -552,11 +572,11 @@ L_08ED:
     FlagReset 625
 
 L_08F1:
-    Cmd_0166 4, 0, 0x8029
+    MusicalCmd_0166 4, 0, 0x8029
     VMStackPush 0x8029
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0915
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0915
     FlagSet 626
     VMJump L_0919
 
@@ -564,11 +584,11 @@ L_0915:
     FlagReset 626
 
 L_0919:
-    Cmd_0166 5, 0, 0x8029
+    MusicalCmd_0166 5, 0, 0x8029
     VMStackPush 0x8029
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_093D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_093D
     FlagSet 661
     VMJump L_0941
 
@@ -576,11 +596,11 @@ L_093D:
     FlagReset 661
 
 L_0941:
-    Cmd_0166 6, 0, 0x8029
+    MusicalCmd_0166 6, 0, 0x8029
     VMStackPush 0x8029
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0965
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0965
     FlagSet 662
     VMJump L_0969
 
@@ -588,11 +608,11 @@ L_0965:
     FlagReset 662
 
 L_0969:
-    Cmd_0166 7, 0, 0x8029
+    MusicalCmd_0166 7, 0, 0x8029
     VMStackPush 0x8029
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_098D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_098D
     FlagSet 663
     VMJump L_0991
 
@@ -600,11 +620,11 @@ L_098D:
     FlagReset 663
 
 L_0991:
-    Cmd_0166 8, 0, 0x8029
+    MusicalCmd_0166 8, 0, 0x8029
     VMStackPush 0x8029
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_09B5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_09B5
     FlagSet 664
     VMJump L_09B9
 
@@ -612,11 +632,11 @@ L_09B5:
     FlagReset 664
 
 L_09B9:
-    Cmd_0166 9, 0, 0x8029
+    MusicalCmd_0166 9, 0, 0x8029
     VMStackPush 0x8029
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_09DD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_09DD
     FlagSet 665
     VMJump L_09E1
 
@@ -629,8 +649,8 @@ L_09E1:
     Cmd_0167 20, 0, 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0A0C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A0C
     FlagSet 243
 
 L_0A0C:
@@ -640,8 +660,8 @@ L_0A0C:
     Cmd_0167 20, 0, 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0A33
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A33
     MsgSetAutoscrolls 0
 
 L_0A33:

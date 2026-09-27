@@ -14,8 +14,8 @@
 Script_1:
     VMStackPushFlag 2409
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0037
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0037
     WorkSetConst 0x400a, 555
 
 L_0037:
@@ -24,15 +24,15 @@ L_0037:
 Script_2:
     VMStackPush 0x4001
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0058
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0058
     ActorSetGPos 0, 15, 22, 7, 1
 
 L_0058:
     VMStackPushFlag 2409
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0073
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0073
     BMAnmPlayLoop 7, 17, 9
 
 L_0073:
@@ -41,8 +41,8 @@ L_0073:
 Script_3:
     VMStackPush 0x4001
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0096
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0096
     Plugin3_Cmd1000 3
     Plugin3_Cmd1001 3
     VMJump L_00A2
@@ -53,8 +53,8 @@ L_0096:
 L_00A2:
     VMStackPushFlag 2409
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00BD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00BD
     BMAnmPlayLoop 7, 17, 9
 
 L_00BD:
@@ -66,22 +66,24 @@ Script_4:
     ActorSetEyeToEye
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_025C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_025C
     VMStackPushFlag 2409
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01F1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01F1
     VMStackPushFlag 489
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0114
-    ActorMsg 1024, 0, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0114
+    // "Greetings, challenger.\nMy name is Marshal.[f000]븁\u0000\nI am the No. 1 pupil of my mentor, Alder.[f000]븁\u0000\nIn order to master the art of fighting,\nI've kept training.[f000]븁\u0000\nYou're also walking a similar path\nwith your Pokémon.[f000]븁\u0000\nIt is my intention to test you--to take\nyou to the limits of your strength. Kiai![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 1, 0
     MsgWinCloseAll
     VMJump L_0122
 
 L_0114:
-    ActorMsg 1024, 1, 0, 1, 0
+    // "You look familiar...\nAh, yes. I met you at Twist Mountain.[f000]븁\u0000\nThe strength you are radiating\nis far greater now than before![f000]븁\u0000\nGreetings, challenger.\nMy name is Marshal.[f000]븁\u0000\nI am the No. 1 pupil of my mentor, Alder.[f000]븁\u0000\nIn order to master the art of fighting,\nI've kept training.[f000]븁\u0000\nYou're also walking a similar path\nwith your Pokémon.[f000]븁\u0000\nIt is my intention to test you--to take\nyou to the limits of your strength. Kiai![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 1, 0
     MsgWinCloseAll
 
 L_0122:
@@ -91,8 +93,8 @@ L_0122:
     GameGetDifficulty 0x8020
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0157
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0157
     CallTrainerBattle 774, 0, 0
     VMJump L_015F
 
@@ -104,8 +106,8 @@ L_015F:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0184
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0184
     CallTrainerBattleEnd
     VMJump L_0186
 
@@ -115,25 +117,27 @@ L_0184:
 L_0186:
     VMStackPushFlag 2407
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2408
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2409
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2410
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_01DB
-    ActorMsg 1024, 4, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_01DB
+    // "Now... You have become the strongest\nTrainer in this Pokémon League.[f000]븁\u0000\nThe statue in the central chamber will\ntake you to the Champion's room."
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 1, 0
     VMJump L_01E7
 
 L_01DB:
-    ActorMsg 1024, 2, 0, 1, 0
+    // "Whew! Well done![f000]븁\u0000\nAs your battles continue,\naim for even greater heights!"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 1, 0
 
 L_01E7:
     LastKeyWait
@@ -143,25 +147,27 @@ L_01E7:
 L_01F1:
     VMStackPushFlag 2407
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2408
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2409
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2410
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0246
-    ActorMsg 1024, 4, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0246
+    // "Now... You have become the strongest\nTrainer in this Pokémon League.[f000]븁\u0000\nThe statue in the central chamber will\ntake you to the Champion's room."
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 1, 0
     VMJump L_0252
 
 L_0246:
-    ActorMsg 1024, 3, 0, 1, 0
+    // "You are a strong challenger.[f000]븁\u0000\nWalk the path you believe in\nwith the Pokémon you believe in.[f000]븁\u0000\nThe other members of the Elite Four\nare far more powerful than I am.[f000]븁\u0000\nDo not underestimate them!"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 1, 0
 
 L_0252:
     LastKeyWait
@@ -173,9 +179,10 @@ L_0256:
 L_025C:
     VMStackPushFlag 2409
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_034C
-    ActorMsg 1024, 5, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_034C
+    // "I thank you deeply for the chance for\nanother round of combat against you.[f000]븁\u0000\nIn myself, I seek to develop\nthe strength of a fighter.[f000]븁\u0000\nAnd shatter any weakness in myself![f000]븁\u0000\nPrevailing with the force of\nmy convictions![f000]븁\u0000\nVictory, decisive victory, is my intention!\nChallenger, here I come![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 1, 0
     MsgWinCloseAll
     FlagSet 2409
     WorkSetConst 0x400a, 555
@@ -183,8 +190,8 @@ L_025C:
     GameGetDifficulty 0x8021
     VMStackPush 0x8021
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_02B2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02B2
     CallTrainerBattle 779, 0, 0
     VMJump L_02BA
 
@@ -196,8 +203,8 @@ L_02BA:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02DF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02DF
     CallTrainerBattleEnd
     VMJump L_02E1
 
@@ -207,25 +214,27 @@ L_02DF:
 L_02E1:
     VMStackPushFlag 2407
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2408
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2409
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2410
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0336
-    ActorMsg 1024, 8, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0336
+    // "The strength shown by you and your\nPokémon has deeply impressed me...[f000]븁\u0000\nPlease, continue to the next room\nto face the strongest Trainer[f000]븀\u0000\nof the Unova region!"
+    ActorMsg MSGFILE_SCRIPT, 8, 0, 1, 0
     VMJump L_0342
 
 L_0336:
-    ActorMsg 1024, 6, 0, 1, 0
+    // "There are still many strong Trainers\nin this Pokémon League.[f000]븁\u0000\nYou should deepen your bonds with\nyour Pokémon by battling with them."
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 1, 0
 
 L_0342:
     LastKeyWait
@@ -235,25 +244,27 @@ L_0342:
 L_034C:
     VMStackPushFlag 2407
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2408
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2409
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2410
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_03A1
-    ActorMsg 1024, 8, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_03A1
+    // "The strength shown by you and your\nPokémon has deeply impressed me...[f000]븁\u0000\nPlease, continue to the next room\nto face the strongest Trainer[f000]븀\u0000\nof the Unova region!"
+    ActorMsg MSGFILE_SCRIPT, 8, 0, 1, 0
     VMJump L_03AD
 
 L_03A1:
-    ActorMsg 1024, 7, 0, 1, 0
+    // "During the days when I was young,\nI was wandering all the regions[f000]븀\u0000\nof the world.[f000]븁\u0000\nI was devoted only to training,\nin order to surpass my mentor.[f000]븁\u0000\nAnd when I felt so ashamed\ntwo years ago...[f000]븁\u0000\nMy Pokémon were always there for me.[f000]븁\u0000\nThat thought crossed my mind\neven though I was completely focused[f000]븀\u0000\non our battle...[f000]븁\u0000\nYou're a mysterious Trainer."
+    ActorMsg MSGFILE_SCRIPT, 7, 0, 1, 0
 
 L_03AD:
     LastKeyWait

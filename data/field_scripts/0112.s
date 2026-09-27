@@ -11,7 +11,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "By taking a Feeling Check, you can get\na Sweet Heart. That's a good item, right?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -26,32 +27,36 @@ Script_2:
     Cmd_01CC 0x8020
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_006B
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_006B
+    // "I am the Feeling Reader.[f000]븁\u0000\nI've heard a lot of people take\nFeeling Checks using the C-Gear."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_00D9
 
 L_006B:
-    ParentActorMsg 1024, 2, 0, 0
+    // "I am the Feeling Reader.[f000]븁\u0000\nFrom the results of your Feeling Checks,\nI'll tell you your lucky person[f000]븀\u0000\nfor today![f000]븁\u0000\nAre you interested?\nDo you want to know your lucky person?"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00CB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00CB
     Cmd_01CD 0
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00B7
-    ParentActorMsg 1024, 5, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B7
+    // "The person who can make your day\nexceptionally happy is...[f000]븁\u0000\nOh dear. You've taken a Feeling Check\nonly with [f000]Ā\u0001\u0000.[f000]븁\u0000\nI suggest that you take Feeling Checks\nwith a lot of people!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_00C5
 
 L_00B7:
-    ParentActorMsg 1024, 3, 0, 0
+    // "The person who can make your day\nexceptionally happy...[f000]븁\u0000\nIt's [f000]Ā\u0001\u0000!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -59,7 +64,8 @@ L_00C5:
     VMJump L_00D9
 
 L_00CB:
-    ParentActorMsg 1024, 4, 0, 0
+    // "Oh, you don't have to hesitate.\nI will read it for free!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -75,14 +81,15 @@ Script_3:
     ActorSetEyeToEye
     VMStackPushFlag 2761
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_025F
-    ActorMsg 1024, 6, 5, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_025F
+    // "Hello![f000]븁\u0000\nIf you'd like, I will massage\nyour Pokémon."
+    ActorMsg MSGFILE_SCRIPT, 6, 5, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0249
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0249
     MsgWinCloseAll
     WorkSetConst 0x8022, 0
     WorkSetConst 0x8023, 0
@@ -90,13 +97,14 @@ Script_3:
     PokePartyIsEgg 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0233
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0233
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_021D
-    ActorMsg 1024, 8, 5, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_021D
+    // "All right! Let me get started.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 5, 0, 0
     ActorMsgClose
     FadeEx 3, 0, 16, 2
     FadeExWait
@@ -107,10 +115,11 @@ Script_3:
     Random 0x400a, 100
     VMStackPush 0x400a
     VMStackPushConst 5
-    VMStackCmp 3
-    VMJumpIf 255, L_01CA
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_01CA
     PokePartyAdjustHappiness 0x8022, 30, 1
-    ActorMsg 1024, 10, 5, 0, 0
+    // "There. All done![f000]븁\u0000\nThe massage has made your Pokémon\nmuch more friendly to you!"
+    ActorMsg MSGFILE_SCRIPT, 10, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0213
@@ -118,17 +127,19 @@ Script_3:
 L_01CA:
     VMStackPush 0x400a
     VMStackPushConst 25
-    VMStackCmp 3
-    VMJumpIf 255, L_01FB
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_01FB
     PokePartyAdjustHappiness 0x8022, 10, 1
-    ActorMsg 1024, 11, 5, 0, 0
+    // "There. All done![f000]븁\u0000\nThe massage has made your Pokémon\nmore friendly to you!"
+    ActorMsg MSGFILE_SCRIPT, 11, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0213
 
 L_01FB:
     PokePartyAdjustHappiness 0x8022, 5, 1
-    ActorMsg 1024, 12, 5, 0, 0
+    // "There. All done![f000]븁\u0000\nThe massage has made your Pokémon\na little bit more friendly to you!"
+    ActorMsg MSGFILE_SCRIPT, 12, 5, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -137,7 +148,8 @@ L_0213:
     VMJump L_022D
 
 L_021D:
-    ActorMsg 1024, 7, 5, 0, 0
+    // "Oh, I see.\nPlease see me if you change your mind."
+    ActorMsg MSGFILE_SCRIPT, 7, 5, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -145,7 +157,8 @@ L_022D:
     VMJump L_0243
 
 L_0233:
-    ActorMsg 1024, 9, 5, 0, 0
+    // "Massage the Egg?\nIt may be a bit too early for that."
+    ActorMsg MSGFILE_SCRIPT, 9, 5, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -153,7 +166,8 @@ L_0243:
     VMJump L_0259
 
 L_0249:
-    ActorMsg 1024, 7, 5, 0, 0
+    // "Oh, I see.\nPlease see me if you change your mind."
+    ActorMsg MSGFILE_SCRIPT, 7, 5, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -161,7 +175,8 @@ L_0259:
     VMJump L_026F
 
 L_025F:
-    ActorMsg 1024, 13, 5, 0, 0
+    // "Sorry!\nI am exhausted from the massage earlier.[f000]븁\u0000\nPlease come back again tomorrow!"
+    ActorMsg MSGFILE_SCRIPT, 13, 5, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -174,7 +189,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 14, 0, 0
+    // "You can't change the name of a Pokémon\nyou got from someone.[f000]븁\u0000\nBecause the name contains wishes\nof the person who named it!"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -186,7 +202,8 @@ Script_5:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 505, 0
-    ParentActorMsg 1024, 15, 0, 0
+    // "Detect: Faafoon!"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

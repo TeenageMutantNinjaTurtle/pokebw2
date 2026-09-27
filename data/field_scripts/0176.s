@@ -11,7 +11,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "When you battle with a friend via\nwireless communications, you can[f000]븀\u0000\nuse the Wonder Launcher rule[f000]븀\u0000\nto use items in battle!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -22,7 +23,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "As the Wonder Launcher's energy\ncharges up, you get more points.[f000]븁\u0000\nYou can spend those points\nto use various battle items."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -33,7 +35,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "A few years ago, Nimbasa's\nglitz and glamor was pleasant,[f000]븀\u0000\nbut recently it's too much for me...[f000]븁\u0000\nMaybe I should go relax in the country.\nMy Pokémon might find that[f000]븀\u0000\nmore comfortable as well."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -44,11 +47,12 @@ Script_4:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0099
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0099
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "So about those people whose Pokémon\nwere stolen...[f000]븁\u0000\nI hear former Team Plasma members\ncame around and returned the Pokémon[f000]븀\u0000\nthey took from a guy.[f000]븁\u0000\nBut is that enough?\nI'm not satisfied by that!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_00AD
@@ -56,7 +60,8 @@ Script_4:
 L_0099:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "I hear that some people's Pokémon\nwere stolen by Team Plasma,[f000]븀\u0000\nand they still haven't been reunited."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -70,7 +75,8 @@ Script_5:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 535, 0
-    ParentActorMsg 1024, 5, 0, 0
+    // "Tyyyym!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

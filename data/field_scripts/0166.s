@@ -16,28 +16,28 @@ Script_1:
     WorkSetConst 0x8020, 0
     VMStackPush 0x416d
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x416e
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x416f
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4170
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4171
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4172
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 6
-    VMStackCmp 6
-    VMStackCmp 6
-    VMStackCmp 6
-    VMStackCmp 6
-    VMJumpIf 255, L_00A5
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_00A5
     StadiumLoadTrainerTable
     Cmd_0249 0x416d, 0x416e, 0x416f, 0x4170, 0x4171, 0x4172
     StadiumFreeTrainerTable
@@ -51,15 +51,15 @@ L_00A5:
     TrainerCardHasBadge 0x8020, 4
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00D6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00D6
     FlagReset 649
 
 L_00D6:
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00F9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00F9
     FlagReset 650
     FlagReset 651
     FlagReset 652
@@ -73,8 +73,8 @@ L_00F9:
     TrainerCardHasBadge 0x8020, 4
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_014E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_014E
     StadiumSetupActorSingle 6, 9, 2
     StadiumSetupActorSingle 7, 10, 2
     StadiumSetupActorSingle 8, 11, 2
@@ -84,8 +84,8 @@ L_014E:
     TrainerCardHasBadge 0x8020, 6
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0189
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0189
     StadiumSetupActorSingle 6, 9, 3
     StadiumSetupActorSingle 7, 10, 3
     StadiumSetupActorSingle 8, 11, 3
@@ -94,8 +94,8 @@ L_014E:
 L_0189:
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01D6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01D6
     StadiumSetupActorSingle 6, 9, 4
     StadiumSetupActorSingle 7, 10, 4
     StadiumSetupActorSingle 8, 11, 4
@@ -112,7 +112,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Everybody makes mistakes.[f000]븁\u0000\nBut goalkeepers cannot afford a mistake,\nbecause they cannot score goals to make[f000]븀\u0000\nup for it.[f000]븁\u0000\nIf one Pokémon on a team makes a\nmistake, however, the other Pokémon[f000]븀\u0000\nand their Trainer can cover for it!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -123,7 +124,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "If a Striker catches a teammate's eye,\nthey understand each other.[f000]븁\u0000\nA Pokémon and its Trainer are the same.\nDon't you agree?"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -134,7 +136,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Really strong Trainers thoroughly do\nwhatever they can do!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -145,7 +148,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "Soccer is beautiful and fun!\nPokémon are also beautiful and fun!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -156,7 +160,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "Soccer with Pokémon is Pokémon soccer.\nThe abbreviation is...Poker?[f000]븀\u0000\nNo, wait, that's a fireplace tool.[f000]븀\u0000\nHow about Poccer?"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -167,7 +172,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "Throw a sound pass to a team member![f000]븁\u0000\nAfter that, to receive a sound pass,\nyou'll need to move swiftly."
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -178,7 +184,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "Run! Run!\nJust think about running!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -190,7 +197,8 @@ Script_9:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 504, 0
-    ParentActorMsg 1024, 7, 0, 0
+    // "Squeeskwaa!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -203,7 +211,8 @@ Script_10:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 504, 0
-    ParentActorMsg 1024, 8, 0, 0
+    // "Meep! ♪"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

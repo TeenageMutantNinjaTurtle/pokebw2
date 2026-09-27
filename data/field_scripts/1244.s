@@ -20,19 +20,21 @@ Script_1:
     HOFCheckIntegrity 0x8023
     PokecenPCOpen
     WordSetPlayerName 0
+    // "[f000]Ā\u0001\u0000 booted up the PC.[f000]븁\u0000"
     SystemMsg 0, 2
 
 L_005F:
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0226
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0226
+    // "Which PC should be accessed?"
     SystemMsg 1, 2
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32804
     VMStackPush 0x8025
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00A2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00A2
     ListMenuAdd 2, 65535, 2
     VMJump L_00AA
 
@@ -44,15 +46,15 @@ L_00AA:
     ListMenuAdd 4, 65535, 4
     VMStackPush 0x8026
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00D0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00D0
     ListMenuAdd 5, 65535, 5
 
 L_00D0:
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00EB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00EB
     ListMenuAdd 6, 65535, 6
 
 L_00EB:
@@ -62,7 +64,7 @@ L_00EB:
     InfoMsgClose
     VMSleep 3
     WorkCmpConst 0x8024, 2
-    VMJumpIf 1, L_0116
+    VMJumpIf CMP_EQ, L_0116
     VMJump L_0122
 
 L_0116:
@@ -71,7 +73,7 @@ L_0116:
 
 L_0122:
     WorkCmpConst 0x8024, 3
-    VMJumpIf 1, L_0135
+    VMJumpIf CMP_EQ, L_0135
     VMJump L_0141
 
 L_0135:
@@ -80,7 +82,7 @@ L_0135:
 
 L_0141:
     WorkCmpConst 0x8024, 4
-    VMJumpIf 1, L_0154
+    VMJumpIf CMP_EQ, L_0154
     VMJump L_0160
 
 L_0154:
@@ -89,7 +91,7 @@ L_0154:
 
 L_0160:
     WorkCmpConst 0x8024, 5
-    VMJumpIf 1, L_0173
+    VMJumpIf CMP_EQ, L_0173
     VMJump L_017F
 
 L_0173:
@@ -98,7 +100,7 @@ L_0173:
 
 L_017F:
     WorkCmpConst 0x8024, 6
-    VMJumpIf 1, L_0192
+    VMJumpIf CMP_EQ, L_0192
     VMJump L_019E
 
 L_0192:
@@ -107,7 +109,7 @@ L_0192:
 
 L_019E:
     WorkCmpConst 0x8024, 7
-    VMJumpIf 1, L_01B1
+    VMJumpIf CMP_EQ, L_01B1
     VMJump L_01BD
 
 L_01B1:
@@ -116,7 +118,7 @@ L_01B1:
 
 L_01BD:
     WorkCmpConst 0x8024, 8
-    VMJumpIf 1, L_01D0
+    VMJumpIf CMP_EQ, L_01D0
     VMJump L_01DC
 
 L_01D0:
@@ -125,7 +127,7 @@ L_01D0:
 
 L_01DC:
     WorkCmpConst 0x8024, 65534
-    VMJumpIf 1, L_01EF
+    VMJumpIf CMP_EQ, L_01EF
     VMJump L_01FB
 
 L_01EF:
@@ -134,7 +136,7 @@ L_01EF:
 
 L_01FB:
     WorkCmpConst 0x8024, 65533
-    VMJumpIf 1, L_020E
+    VMJumpIf CMP_EQ, L_020E
     VMJump L_0220
 
 L_020E:
@@ -163,33 +165,36 @@ L_0242:
     FlagGet 2400, 0x802a
     FlagGet 249, 0x802b
     SEPlay 1372
+    // "The Pokémon Storage System\nwas accessed.[f000]븁\u0000"
     SystemMsg 14, 2
     VMStackPush 0x802a
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02B2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02B2
     FlagGet 246, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02B2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02B2
     MEPlay 1308
     MEWait
+    // "Congratulations![f000]븁\u0000\nWallpapers were added to commemorate\nyour victory against the Champion.[f000]븁\u0000"
     SystemMsg 12, 2
     FlagSet 246
 
 L_02B2:
     VMStackPush 0x802b
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02EE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02EE
     FlagGet 247, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02EE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02EE
     MEPlay 1308
     MEWait
+    // "Congratulations![f000]븁\u0000\nWallpapers were added to commemorate\nyour catching Kyurem.[f000]븁\u0000"
     SystemMsg 13, 2
     FlagSet 247
 
@@ -199,8 +204,9 @@ L_02EE:
 L_02F4:
     VMStackPush 0x8027
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0481
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0481
+    // ""
     SystemMsg 41, 2
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32808
     ListMenuAdd 15, 21, 15
@@ -212,7 +218,7 @@ L_02F4:
     ListMenuShow2
     InfoMsgClose
     WorkCmpConst 0x8028, 19
-    VMJumpIf 1, L_035D
+    VMJumpIf CMP_EQ, L_035D
     VMJump L_0365
 
 L_035D:
@@ -221,7 +227,7 @@ L_035D:
 
 L_0365:
     WorkCmpConst 0x8028, 65534
-    VMJumpIf 1, L_0378
+    VMJumpIf CMP_EQ, L_0378
     VMJump L_0380
 
 L_0378:
@@ -230,7 +236,7 @@ L_0378:
 
 L_0380:
     WorkCmpConst 0x8028, 65533
-    VMJumpIf 1, L_0393
+    VMJumpIf CMP_EQ, L_0393
     VMJump L_03A7
 
 L_0393:
@@ -243,7 +249,7 @@ L_03A7:
     FadeOutBlackQ
     FadeWait
     WorkCmpConst 0x8028, 15
-    VMJumpIf 1, L_03BE
+    VMJumpIf CMP_EQ, L_03BE
     VMJump L_03CA
 
 L_03BE:
@@ -252,7 +258,7 @@ L_03BE:
 
 L_03CA:
     WorkCmpConst 0x8028, 16
-    VMJumpIf 1, L_03DD
+    VMJumpIf CMP_EQ, L_03DD
     VMJump L_03E9
 
 L_03DD:
@@ -261,7 +267,7 @@ L_03DD:
 
 L_03E9:
     WorkCmpConst 0x8028, 17
-    VMJumpIf 1, L_03FC
+    VMJumpIf CMP_EQ, L_03FC
     VMJump L_0408
 
 L_03FC:
@@ -270,7 +276,7 @@ L_03FC:
 
 L_0408:
     WorkCmpConst 0x8028, 20
-    VMJumpIf 1, L_041B
+    VMJumpIf CMP_EQ, L_041B
     VMJump L_0427
 
 L_041B:
@@ -279,7 +285,7 @@ L_041B:
 
 L_0427:
     WorkCmpConst 0x8028, 18
-    VMJumpIf 1, L_043A
+    VMJumpIf CMP_EQ, L_043A
     VMJump L_0446
 
 L_043A:
@@ -292,8 +298,8 @@ L_0446:
     FadeWait
     VMStackPush 0x8029
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0469
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0469
     SEPlay 1372
     VMJump L_047B
 
@@ -319,6 +325,7 @@ L_04A1:
     WorkSetConst 0x802e, 0
     SEPlay 1372
     WordSetPlayerName 0
+    // "Accessed [f000]Ā\u0001\u0000's PC.[f000]븁\u0000"
     SystemMsg 27, 2
     InfoMsgClose
     WorkSetConst 0x802c, 0
@@ -326,8 +333,9 @@ L_04A1:
 L_04C8:
     VMStackPush 0x802c
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_059E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_059E
+    // ""
     SystemMsg 41, 2
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32813
     ListMenuAdd 28, 30, 28
@@ -335,7 +343,7 @@ L_04C8:
     ListMenuShow2
     InfoMsgClose
     WorkCmpConst 0x802d, 29
-    VMJumpIf 1, L_0511
+    VMJumpIf CMP_EQ, L_0511
     VMJump L_0519
 
 L_0511:
@@ -344,7 +352,7 @@ L_0511:
 
 L_0519:
     WorkCmpConst 0x802d, 65534
-    VMJumpIf 1, L_052C
+    VMJumpIf CMP_EQ, L_052C
     VMJump L_0534
 
 L_052C:
@@ -353,7 +361,7 @@ L_052C:
 
 L_0534:
     WorkCmpConst 0x802d, 65533
-    VMJumpIf 1, L_0547
+    VMJumpIf CMP_EQ, L_0547
     VMJump L_055B
 
 L_0547:
@@ -371,8 +379,8 @@ L_055B:
     FadeWait
     VMStackPush 0x802e
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0586
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0586
     SEPlay 1372
     VMJump L_0598
 
@@ -392,6 +400,7 @@ L_059E:
 
 L_05B2:
     SEPlay 1372
+    // "Accessed Professor Juniper's PC.[f000]븁\u0000"
     SystemMsg 39, 2
     RTCallGlobal 10382
     VMReturn
@@ -400,17 +409,18 @@ L_05C2:
     WorkSetConst 0x802f, 0
     WorkSetConst 0x8030, 0
     SEPlay 1372
+    // "Accessed the Record System![f000]븁\u0000"
     SystemMsg 35, 2
     InfoMsgClose
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0618
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0618
     CallRecordSystem 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0612
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0612
     WorkSetConst 0x8020, 1
     WorkSetConst 0x8021, 1
 
@@ -418,6 +428,7 @@ L_0612:
     VMJump L_0620
 
 L_0618:
+    // "Your Hall of Fame data is corrupted.[f000]븁\u0000\nIt will be fixed if you enter the\nHall of Fame again.[f000]븁\u0000"
     SystemMsg 10, 2
     InfoMsgClose
 
@@ -428,13 +439,14 @@ L_0620:
 
 L_062E:
     SEPlay 1372
+    // "Accessed the Help System.[f000]븁\u0000"
     SystemMsg 40, 2
     InfoMsgClose
     Cmd_0231 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_065D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_065D
     WorkSetConst 0x8020, 1
     WorkSetConst 0x8021, 1
 

@@ -47,6 +47,7 @@ Movement_0068:
 Script_4:
     ActorsPauseAll
     SEPlay 1351
+    // "Iceberg Chamber"
     InfoMsg 3, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -57,6 +58,7 @@ Script_4:
 Script_5:
     ActorsPauseAll
     SEPlay 1351
+    // "It protects this place\nwith the power of ice."
     InfoMsg 4, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -67,11 +69,12 @@ Script_5:
 Script_6:
     ActorsPauseAll
     SEPlay 1351
+    // "The Pokémon statue that exudes the\npower of ice started moving![f000]븁\u0000"
     SystemMsg 0, 2
     InfoMsgClose
     PlayerGetDir 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_00BF
+    VMJumpIf CMP_EQ, L_00BF
     VMJump L_00CD
 
 L_00BF:
@@ -80,7 +83,7 @@ L_00BF:
 
 L_00CD:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_00E0
+    VMJumpIf CMP_EQ, L_00E0
     VMJump L_00EE
 
 L_00E0:
@@ -89,7 +92,7 @@ L_00E0:
 
 L_00EE:
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0101
+    VMJumpIf CMP_EQ, L_0101
     VMJump L_010F
 
 L_0101:
@@ -98,7 +101,7 @@ L_0101:
 
 L_010F:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_0122
+    VMJumpIf CMP_EQ, L_0122
     VMJump L_0130
 
 L_0122:
@@ -108,6 +111,7 @@ L_0122:
 L_0130:
     ActorCmdWait
     PVPlay 378, 0
+    // "Jakiih!"
     ScreamMsg 1, 2
     PVWait
     MsgWaitAdvance
@@ -116,8 +120,8 @@ L_0130:
     WildBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0172
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0172
     FlagSet 921
     ActorDelete 0x8011
     CallWildBattleEnd
@@ -129,12 +133,13 @@ L_0172:
 L_0174:
     WildBattleGetResult 0x8010
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0198
+    VMJumpIf CMP_EQ, L_0198
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0198
+    VMJumpIf CMP_EQ, L_0198
     VMJump L_01A8
 
 L_0198:
+    // "Regice disappeared deep\ninto the ruins..."
     SystemMsg 2, 2
     LastKeyWait
     InfoMsgClose
@@ -142,7 +147,7 @@ L_0198:
 
 L_01A8:
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_01BB
+    VMJumpIf CMP_EQ, L_01BB
     VMJump L_01C5
 
 L_01BB:

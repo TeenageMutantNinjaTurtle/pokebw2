@@ -18,10 +18,10 @@ Script_1:
 L_003C:
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0143
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0143
     WorkCmpConst 0x8024, 0
-    VMJumpIf 1, L_0062
+    VMJumpIf CMP_EQ, L_0062
     VMJump L_0074
 
 L_0062:
@@ -31,7 +31,7 @@ L_0062:
 
 L_0074:
     WorkCmpConst 0x8024, 1
-    VMJumpIf 1, L_0087
+    VMJumpIf CMP_EQ, L_0087
     VMJump L_009F
 
 L_0087:
@@ -42,7 +42,7 @@ L_0087:
 
 L_009F:
     WorkCmpConst 0x8024, 2
-    VMJumpIf 1, L_00B2
+    VMJumpIf CMP_EQ, L_00B2
     VMJump L_00CA
 
 L_00B2:
@@ -53,7 +53,7 @@ L_00B2:
 
 L_00CA:
     WorkCmpConst 0x8024, 3
-    VMJumpIf 1, L_00DD
+    VMJumpIf CMP_EQ, L_00DD
     VMJump L_00F5
 
 L_00DD:
@@ -64,7 +64,7 @@ L_00DD:
 
 L_00F5:
     WorkCmpConst 0x8024, 4
-    VMJumpIf 1, L_0108
+    VMJumpIf CMP_EQ, L_0108
     VMJump L_011E
 
 L_0108:
@@ -75,7 +75,7 @@ L_0108:
 
 L_011E:
     WorkCmpConst 0x8024, 255
-    VMJumpIf 1, L_0131
+    VMJumpIf CMP_EQ, L_0131
     VMJump L_013D
 
 L_0131:
@@ -94,6 +94,7 @@ L_0143:
 
 L_0155:
     WorkSetConst 0x8025, 0
+    // "Which channel will you watch?"
     SystemMsg 188, 2
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32805
     ListMenuAdd 189, 65535, 1
@@ -104,8 +105,8 @@ L_0155:
     InfoMsgClose
     VMStackPush 0x8025
     VMStackPushConst 65534
-    VMStackCmp 1
-    VMJumpIf 255, L_01AD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01AD
     WorkSetConst 0x8020, 255
     VMJump L_01B3
 
@@ -117,12 +118,13 @@ L_01B3:
     VMReturn
 
 L_01BB:
+    // "Keep watching?"
     SystemMsg 193, 2
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01E4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01E4
     WorkSetConst 0x8020, 0
     VMJump L_01EA
 
@@ -137,14 +139,14 @@ L_01EE:
     WorkSetConst 0x8026, 0
     WorkSetConst 0x8027, 0
     RecordAdd 23, 1
-    Cmd_022A 0x8021, 0x8026
+    HollowRivalCmd_022A 0x8021, 0x8026
     SystemMsg 0x8026, 2
     LastKeyWait
     TVCheckCommercial 0x8022, 0x8027
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0239
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0239
     WorkSetConst 0x8022, 1
     TVGenCommercialMsgID 0x8026
     SystemMsg 0x8026, 2

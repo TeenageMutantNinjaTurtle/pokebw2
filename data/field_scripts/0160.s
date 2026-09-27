@@ -16,13 +16,15 @@ Script_1:
     ActorSetEyeToEye
     VMStackPushFlag 220
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_004D
-    ParentActorMsg 1024, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_004D
+    // "Professional athletes look so attractive\nduring a game!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     VMJump L_0057
 
 L_004D:
-    ParentActorMsg 1024, 1, 0, 0
+    // "We can tell how good these professionals\nare just by watching them practice."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
 
 L_0057:
     LastKeyWait
@@ -36,24 +38,27 @@ Script_2:
     SEPlay 1351
     ActorSetEyeToEye
     WorkCmpConst 0x4160, 3
-    VMJumpIf 1, L_007C
+    VMJumpIf CMP_EQ, L_007C
     VMJump L_008C
 
 L_007C:
-    ParentActorMsg 1024, 2, 0, 0
+    // "I want to be a person who is good at\nfootball and Pokémon battles!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     VMJump L_00B9
 
 L_008C:
     WorkCmpConst 0x4160, 1
-    VMJumpIf 1, L_009F
+    VMJumpIf CMP_EQ, L_009F
     VMJump L_00AF
 
 L_009F:
-    ParentActorMsg 1024, 3, 0, 0
+    // "I want to be a person who is good at\nbaseball and Pokémon battles!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     VMJump L_00B9
 
 L_00AF:
-    ParentActorMsg 1024, 4, 0, 0
+    // "I want to be a person who is good at\nsoccer and Pokémon battles!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
 
 L_00B9:
     LastKeyWait
@@ -66,7 +71,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "On the field, they play games in earnest!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -77,7 +83,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "Just one ball can make people and\nPokémon smile.[f000]븁\u0000\nSports are wonderful things!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -88,7 +95,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "Eeeee! Turn this waaaaay!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -99,7 +107,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "There!\nThere, turn like that!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -110,7 +119,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "Following a ball right and left\nmakes me feel woozy."
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -121,7 +131,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "Yahooooooo!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

@@ -15,9 +15,9 @@
 Script_1:
     VMStackPush 0x4111
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0049
-    Cmd_0262 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0049
+    HollowRivalCmd_0262 2, 0
 
 L_0049:
     VMHalt
@@ -25,8 +25,8 @@ L_0049:
 Script_2:
     VMStackPush 0x40a9
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0082
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0082
     ActorSetGPos 0, 15, 0, 19, 0
     ActorSetGPos 1, 17, 0, 18, 2
     ActorSetGPos 2, 13, 0, 18, 3
@@ -44,7 +44,8 @@ Script_3:
     VMSleep 8
     ActorCmdExec 255, Movement_08D8
     ActorCmdWait
-    ActorMsg 1024, 20, 3, 0, 0
+    // "Hello! I'm Clyde, the guide for Trainers\nwho challenge Pokémon Gyms.[f000]븁\u0000\nThank you for taking on the Gym!\nTake this to commemorate[f000]븀\u0000\nyour debut![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 20, 3, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -53,8 +54,10 @@ Script_3:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 21, 3, 0, 0
-    ActorMsg 1024, 22, 3, 0, 0
+    // "Pokémon Gyms are facilities\nfor testing Trainers' abilities![f000]븁\u0000\nPut simply, if you can defeat\nthe Gym Leader, it means[f000]븀\u0000\nyou're a really good Trainer![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 21, 3, 0, 0
+    // "If you run out of Pokémon that can fight\nduring a Pokémon battle, you lose![f000]븁\u0000\nSo having a lot of Pokémon with you\nmight work to your advantage!"
+    ActorMsg MSGFILE_SCRIPT, 22, 3, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorWalkRoute 3, 12, 22, 0, 8, 0
@@ -71,16 +74,19 @@ Script_3:
     ActorCmdWait
     ActorWalkRoute 0, 15, 20, 0, 8, 1
     ActorCmdWait
-    ActorMsg 1024, 0, 0, 0, 0
+    // "???: You must be a challenger![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_08D0
     ActorCmdExec 2, Movement_08D0
     ActorCmdWait
-    ActorMsg 1024, 1, 0, 0, 0
+    // "Welcome to Aspertia City's Pokémon Gym.[f000]븁\u0000\nI'm Cheren, the Gym Leader![f000]븁\u0000\nHm? Well, maybe I'd better say that I\njust became the Gym Leader![f000]븁\u0000\nMore importantly, we need to prepare\nbefore welcoming you to the Gym.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0244
     ActorCmdWait
-    ActorMsg 1024, 2, 0, 0, 0
+    // "We have a challenger!\nYou two, take your places![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     MsgWinCloseAll
     EvCameraMoveToDefault 40
     ActorCmdExec 1, Movement_08D8
@@ -91,7 +97,8 @@ Script_3:
     EvCameraWait
     EvCameraRebind
     EvCameraEnd
-    ActorMsg 1024, 3, 0, 0, 0
+    // "If you can defeat these two,\nthen I'll be your opponent!"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorWalkRoute 0, 15, 11, 1, 8, 1
@@ -132,19 +139,20 @@ Script_4:
     TrainerCardHasBadge 0x8008, 0
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02C2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02C2
     VMStackPush 0x40a9
     VMStackPushConst 3
-    VMStackCmp 4
-    VMJumpIf 255, L_02A6
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_02A6
     VMCall L_030D
     VMJump L_02BC
 
 L_02A6:
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 4, 0, 0, 0
+    // "If you want to battle me,\nplease defeat those two first, OK?"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -154,11 +162,12 @@ L_02BC:
 L_02C2:
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02F1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02F1
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 10, 0, 0, 0
+    // "In the Unova region, there are eight\nPokémon Gyms and eight Gym Badges![f000]븁\u0000\nIf you're a Trainer,\nyou could collect all of them![f000]븁\u0000\nThat will make it easier to fill\nthe pages of the Pokédex as well![f000]븁\u0000\nYes, two years ago, Pokédex in hand,\nI left on a journey with my friends."
+    ActorMsg MSGFILE_SCRIPT, 10, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0307
@@ -166,7 +175,8 @@ L_02C2:
 L_02F1:
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 11, 0, 0, 0
+    // "Cheren: You should decide what\nyou're going to do from here out![f000]븁\u0000\nDon't worry about losing your way--\nyou have Pokémon by your side!"
+    ActorMsg MSGFILE_SCRIPT, 11, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -182,7 +192,7 @@ L_030D:
     VMSleep 35
     PlayerGetDir 0x8010
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0336
+    VMJumpIf CMP_EQ, L_0336
     VMJump L_0344
 
 L_0336:
@@ -191,7 +201,7 @@ L_0336:
 
 L_0344:
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0357
+    VMJumpIf CMP_EQ, L_0357
     VMJump L_0365
 
 L_0357:
@@ -200,7 +210,7 @@ L_0357:
 
 L_0365:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_0378
+    VMJumpIf CMP_EQ, L_0378
     VMJump L_0386
 
 L_0378:
@@ -209,14 +219,15 @@ L_0378:
 
 L_0386:
     ActorCmdWait
-    ParentActorMsg 1024, 5, 0, 0
+    // "Just as this is your first Gym challenge,\nthis is my first Pokémon battle[f000]븀\u0000\nas a Gym Leader![f000]븁\u0000\nLet's both do our best and have\na battle we can be proud of![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     ActorMsgClose
     WorkSetConst 0x8023, 0
     GameGetDifficulty 0x8023
     VMStackPush 0x8023
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_03BF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03BF
     CallTrainerBattle 764, 0, 0
     VMJump L_03C7
 
@@ -228,8 +239,8 @@ L_03C7:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03EC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03EC
     CallTrainerBattleEnd
     VMJump L_03EE
 
@@ -237,7 +248,8 @@ L_03EC:
     CallTrainerLose
 
 L_03EE:
-    ParentActorMsg 1024, 6, 0, 0
+    // "That battle has made me feel really\nglad you were my first challenger[f000]븀\u0000\nas a Gym Leader...[f000]븁\u0000\nI give you this in honor of the strength\nyou and your Pokémon showed![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     ActorMsgClose
     TrainerCardSaveGymVictoryParty 0
     TrainerCardAddBadge 0
@@ -247,8 +259,8 @@ L_03EE:
     TrainerCardGetSex 0x8024
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0430
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0430
     PlayFieldEffect 2
     VMJump L_0434
 
@@ -258,9 +270,11 @@ L_0430:
 L_0434:
     MEWait
     WorkSetConst 0x8024, 0
+    // "[f000]Ā\u0001\u0000 received the\nBasic Badge from Cheren![f000]븁\u0000"
     SystemMsg 7, 0
     InfoMsgClose
-    ParentActorMsg 1024, 8, 0, 0
+    // "Here is your first Gym Badge,\nthe Basic Badge![f000]븀\u0000\nThis is an important milestone![f000]븁\u0000\nWith this Badge, Pokémon up to Lv. 20\nwill obey you, including traded Pokémon.[f000]븁\u0000\nAnd I want you to take this![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     ActorMsgClose
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -269,8 +283,10 @@ L_0434:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 9, 0, 0
-    ParentActorMsg 1024, 10, 0, 0
+    // "TM83 can teach your\nPokémon the move Work Up![f000]븁\u0000\nWhen you use Work Up\nwhile battling, it raises[f000]븀\u0000\nthe user's Attack and Sp. Atk.[f000]븁\u0000\nBy the way, TMs can be used\nas many times as you want![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
+    // "In the Unova region, there are eight\nPokémon Gyms and eight Gym Badges![f000]븁\u0000\nIf you're a Trainer,\nyou could collect all of them![f000]븁\u0000\nThat will make it easier to fill\nthe pages of the Pokédex as well![f000]븁\u0000\nYes, two years ago, Pokédex in hand,\nI left on a journey with my friends."
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
     FlagSet 2414
@@ -288,15 +304,16 @@ Script_5:
     TrainerCardHasBadge 0x8008, 0
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0642
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0642
     TrainerFlagGet 171, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0603
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0603
     TrainerBGMPlayPush 171
-    ActorMsg 1024, 12, 1, 0, 0
+    // "Cheren saw potential in me and\nmade me a Trainer in this Gym![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 1, 0, 0
     ActorMsgClose
     EvCameraInit
     EvCameraUnbind
@@ -304,8 +321,8 @@ Script_5:
     PlayerGetDir 0x8010
     VMStackPush 0x8010
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0533
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0533
     ActorCmdExec 255, Movement_0888
     ActorCmdWait
     VMJump L_0533
@@ -325,8 +342,8 @@ L_0533:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_05B2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05B2
     EvCameraInit
     EvCameraUnbind
     EvCameraMoveTo 9688, 0, 0xed000, 0xf8000, 0, 0x128000, 1
@@ -342,13 +359,15 @@ L_05B4:
     TrainerFlagSet 171
     VMStackPush 0x40a9
     VMStackPushConst 3
-    VMStackCmp 4
-    VMJumpIf 255, L_05E3
-    ActorMsg 1024, 14, 1, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_05E3
+    // "Wow! You can challenge\nthe Gym Leader!"
+    ActorMsg MSGFILE_SCRIPT, 14, 1, 0, 0
     VMJump L_05EF
 
 L_05E3:
-    ActorMsg 1024, 13, 1, 0, 0
+    // "If you can defeat the girl, too,\nyou can challenge the Gym Leader!"
+    ActorMsg MSGFILE_SCRIPT, 13, 1, 0, 0
 
 L_05EF:
     LastKeyWait
@@ -362,15 +381,17 @@ L_05EF:
 L_0603:
     VMStackPush 0x40a9
     VMStackPushConst 3
-    VMStackCmp 4
-    VMJumpIf 255, L_062C
-    ActorMsg 1024, 14, 1, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_062C
+    // "Wow! You can challenge\nthe Gym Leader!"
+    ActorMsg MSGFILE_SCRIPT, 14, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_063C
 
 L_062C:
-    ActorMsg 1024, 13, 1, 0, 0
+    // "If you can defeat the girl, too,\nyou can challenge the Gym Leader!"
+    ActorMsg MSGFILE_SCRIPT, 13, 1, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -378,7 +399,8 @@ L_063C:
     VMJump L_0652
 
 L_0642:
-    ActorMsg 1024, 15, 1, 0, 0
+    // "The reason Cheren saw potential\nin me was there was no one else...?[f000]븁\u0000\nNo way! Even if that is the case,\nI just have to get stronger!"
+    ActorMsg MSGFILE_SCRIPT, 15, 1, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -391,8 +413,8 @@ L_0652:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_067B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_067B
     CallTrainerBattleEnd
     VMJump L_067D
 
@@ -409,15 +431,16 @@ Script_6:
     TrainerCardHasBadge 0x8008, 0
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0821
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0821
     TrainerFlagGet 172, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_07E2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07E2
     TrainerBGMPlayPush 172
-    ActorMsg 1024, 16, 2, 0, 0
+    // "Now I'll show you all of the\nthings I learned from Cheren![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 2, 0, 0
     ActorMsgClose
     EvCameraInit
     EvCameraUnbind
@@ -425,8 +448,8 @@ Script_6:
     PlayerGetDir 0x8010
     VMStackPush 0x8010
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_070E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_070E
     ActorCmdExec 255, Movement_0888
     ActorCmdWait
     VMJump L_070E
@@ -446,8 +469,8 @@ L_070E:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_078D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_078D
     EvCameraInit
     EvCameraUnbind
     EvCameraMoveTo 9688, 0, 0xed000, 0xf8000, 0, 0x98000, 1
@@ -463,15 +486,17 @@ L_078F:
     TrainerFlagSet 172
     VMStackPush 0x40a9
     VMStackPushConst 3
-    VMStackCmp 4
-    VMJumpIf 255, L_07C2
-    ActorMsg 1024, 18, 2, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_07C2
+    // "OK. You're pretty good!\nBut, can you beat Cheren?"
+    ActorMsg MSGFILE_SCRIPT, 18, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_07D2
 
 L_07C2:
-    ActorMsg 1024, 17, 2, 0, 0
+    // "I guess you can battle a little!\nThink you can beat the other Trainer?"
+    ActorMsg MSGFILE_SCRIPT, 17, 2, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -485,15 +510,17 @@ L_07D2:
 L_07E2:
     VMStackPush 0x40a9
     VMStackPushConst 3
-    VMStackCmp 4
-    VMJumpIf 255, L_080B
-    ActorMsg 1024, 18, 2, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_080B
+    // "OK. You're pretty good!\nBut, can you beat Cheren?"
+    ActorMsg MSGFILE_SCRIPT, 18, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_081B
 
 L_080B:
-    ActorMsg 1024, 17, 2, 0, 0
+    // "I guess you can battle a little!\nThink you can beat the other Trainer?"
+    ActorMsg MSGFILE_SCRIPT, 17, 2, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -501,7 +528,8 @@ L_081B:
     VMJump L_0831
 
 L_0821:
-    ActorMsg 1024, 19, 2, 0, 0
+    // "I have to learn even more\nabout my Pokémon!"
+    ActorMsg MSGFILE_SCRIPT, 19, 2, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -515,11 +543,12 @@ Script_7:
     TrainerCardHasBadge 0x8008, 0
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_086C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_086C
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 22, 0, 0
+    // "If you run out of Pokémon that can fight\nduring a Pokémon battle, you lose![f000]븁\u0000\nSo having a lot of Pokémon with you\nmight work to your advantage!"
+    ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0880
@@ -527,7 +556,8 @@ Script_7:
 L_086C:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 23, 0, 0
+    // "I hope you'll remember the wonderful\nmoment in which you received[f000]븀\u0000\nthat Badge forever."
+    ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
     LastKeyWait
     ActorMsgClose
 

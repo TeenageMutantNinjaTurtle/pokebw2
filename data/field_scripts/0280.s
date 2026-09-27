@@ -14,8 +14,8 @@
 Script_1:
     VMStackPushFlag 2407
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0037
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0037
     WorkSetConst 0x400a, 555
 
 L_0037:
@@ -24,15 +24,15 @@ L_0037:
 Script_2:
     VMStackPush 0x4001
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0058
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0058
     ActorSetGPos 0, 15, 12, 7, 0
 
 L_0058:
     VMStackPushFlag 2407
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0073
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0073
     BMAnmPlayLoop 7, 18, 8
 
 L_0073:
@@ -41,8 +41,8 @@ L_0073:
 Script_3:
     VMStackPush 0x4001
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0096
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0096
     Plugin3_Cmd1000 1
     Plugin3_Cmd1001 1
     VMJump L_00A2
@@ -53,8 +53,8 @@ L_0096:
 L_00A2:
     VMStackPushFlag 2407
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00BD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00BD
     BMAnmPlayLoop 7, 18, 8
 
 L_00BD:
@@ -66,12 +66,14 @@ Script_4:
     ActorSetEyeToEye
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0237
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0237
     VMStackPushFlag 2407
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01CC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01CC
+    // "“There is one man\n  who wanders the world[f000]븀\u0000\n  with a white dragon Pokémon[f000]븀\u0000\n  to search for truth...\"[f000]븁\u0000\nThat's part of a novel I'm writing.\nI want to write down the event[f000]븀\u0000\nthat happened on that day...[f000]븁\u0000\nSorry, it has nothing to do with you...\nYou're a challenger, right?[f000]븁\u0000\nI'm the Elite Four's Ghost-type\nPokémon user, Shauntal, and I[f000]븀\u0000\nshall be your opponent.[f000]븁\u0000"
+    // "“There is one man\n  who wanders the world[f000]븀\u0000\n  with a black dragon Pokémon[f000]븀\u0000\n  to pursue ideals...\"[f000]븁\u0000\nThat's part of a novel I'm writing.\nI want to write down the event[f000]븀\u0000\nthat happened on that day...[f000]븁\u0000\nSorry, it has nothing to do with you...\nYou're a challenger, right?[f000]븁\u0000\nI'm the Elite Four's Ghost-type\nPokémon user, Shauntal, and I[f000]븀\u0000\nshall be your opponent.[f000]븁\u0000"
     ActorMsgVersioned 1024, 1, 0, 0, 1, 0
     MsgWinCloseAll
     FlagSet 2407
@@ -80,8 +82,8 @@ Script_4:
     GameGetDifficulty 0x8020
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0132
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0132
     CallTrainerBattle 772, 0, 0
     VMJump L_013A
 
@@ -93,8 +95,8 @@ L_013A:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_015F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_015F
     CallTrainerBattleEnd
     VMJump L_0161
 
@@ -104,25 +106,27 @@ L_015F:
 L_0161:
     VMStackPushFlag 2407
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2408
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2409
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2410
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_01B6
-    ActorMsg 1024, 4, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_01B6
+    // "Challenger, if you defeat the entire\nElite Four of the Pokémon League,[f000]븀\u0000\nyou can go on to challenge the Champion.[f000]븁\u0000\nAnd you have earned that right.[f000]븁\u0000\nReturn to the plaza in the center\nand check the statue."
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 1, 0
     VMJump L_01C2
 
 L_01B6:
-    ActorMsg 1024, 2, 0, 1, 0
+    // "My Pokémon and the challenger's Pokémon.[f000]븁\u0000\nEveryone battled even though\nthey were hurt... Thank you."
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 1, 0
 
 L_01C2:
     LastKeyWait
@@ -132,25 +136,27 @@ L_01C2:
 L_01CC:
     VMStackPushFlag 2407
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2408
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2409
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2410
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0221
-    ActorMsg 1024, 4, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0221
+    // "Challenger, if you defeat the entire\nElite Four of the Pokémon League,[f000]븀\u0000\nyou can go on to challenge the Champion.[f000]븁\u0000\nAnd you have earned that right.[f000]븁\u0000\nReturn to the plaza in the center\nand check the statue."
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 1, 0
     VMJump L_022D
 
 L_0221:
-    ActorMsg 1024, 3, 0, 1, 0
+    // "Fortitude is needed if you're going\nto battle, don't you think?[f000]븁\u0000\nBecause both you and your opponent\nget hurt.[f000]븁\u0000\nBut if you don't understand the pain,\nyou'll focus on the result and forget[f000]븀\u0000\nabout the bonds with your Pokémon.[f000]븁\u0000\nThat's why I want to write passages\nfull of heart and soul in my novels."
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 1, 0
 
 L_022D:
     LastKeyWait
@@ -162,46 +168,51 @@ L_0231:
 L_0237:
     VMStackPushFlag 2407
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03C1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03C1
     Random 0x8010, 5
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_0263
+    VMJumpIf CMP_EQ, L_0263
     VMJump L_0275
 
 L_0263:
-    ActorMsg 1024, 5, 0, 1, 0
+    // "“‘Go, Volcarona!\n  Use Heat Wave here!'[f000]븀\u0000\n  The Trainer solemnly ordered[f000]븀\u0000\n  the Pokémon who resembled[f000]븀\u0000\n  his first partner...\"[f000]븁\u0000\nThat's part of a novel I wrote.[f000]븁\u0000\nI absolutely love writing about the close\nbonds between the Trainers and[f000]븀\u0000\nthe Pokémon that I've competed against.[f000]븁\u0000\nCould I use you and your Pokémon as\na subject?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 1, 0
     VMJump L_02F0
 
 L_0275:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0288
+    VMJumpIf CMP_EQ, L_0288
     VMJump L_029A
 
 L_0288:
-    ActorMsg 1024, 6, 0, 1, 0
+    // "“‘Do you know Thunderbolt?' was\n  his first greeting to me.[f000]븁\u0000\n  It wasn't until after we battled that\n  I learned his name was Volkner.\"[f000]븁\u0000\nThat's part of a novel I wrote.[f000]븁\u0000\nI absolutely love writing about the close\nbonds between the Trainers and[f000]븀\u0000\nthe Pokémon that I've competed against.[f000]븁\u0000\nCould I use you and your Pokémon as\na subject?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 1, 0
     VMJump L_02F0
 
 L_029A:
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_02AD
+    VMJumpIf CMP_EQ, L_02AD
     VMJump L_02BF
 
 L_02AD:
-    ActorMsg 1024, 7, 0, 1, 0
+    // "“‘Hey, you! Use Overheat!'[f000]븁\u0000\n  A Fire-type Pokémon user\n  with a hairstyle that would be great[f000]븀\u0000\n  with Head Charge just gave the order[f000]븀\u0000\n  and left...\"[f000]븁\u0000\nThat's part of a novel I wrote.[f000]븁\u0000\nI absolutely love writing about the close\nbonds between the Trainers and[f000]븀\u0000\nthe Pokémon that I've competed against.[f000]븁\u0000\nCould I use you and your Pokémon as\na subject?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0, 1, 0
     VMJump L_02F0
 
 L_02BF:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_02D2
+    VMJumpIf CMP_EQ, L_02D2
     VMJump L_02E4
 
 L_02D2:
-    ActorMsg 1024, 8, 0, 1, 0
+    // "“The woman who uses Ghost types,\n  and the woman who uses Ground types.[f000]븁\u0000\n  I couldn't ask the reason\n  why their names and appearances[f000]븀\u0000\n  are so similar.\"[f000]븁\u0000\nThat's part of a novel I wrote.[f000]븁\u0000\nI absolutely love writing about the close\nbonds between the Trainers and[f000]븀\u0000\nthe Pokémon that I've competed against.[f000]븁\u0000\nCould I use you and your Pokémon as\na subject?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 0, 1, 0
     VMJump L_02F0
 
 L_02E4:
-    ActorMsg 1024, 9, 0, 1, 0
+    // "“‘Yes. My code name is Looker.'[f000]븁\u0000\n  He sounded a bit aloof, but his partner\n  Croagunk's strategy was tricky.\"[f000]븁\u0000\nThat's part of a novel I wrote.[f000]븁\u0000\nI absolutely love writing about the close\nbonds between the Trainers and[f000]븀\u0000\nthe Pokémon that I've competed against.[f000]븁\u0000\nCould I use you and your Pokémon as\na subject?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 0, 1, 0
 
 L_02F0:
     MsgWinCloseAll
@@ -211,8 +222,8 @@ L_02F0:
     GameGetDifficulty 0x8021
     VMStackPush 0x8021
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0327
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0327
     CallTrainerBattle 777, 0, 0
     VMJump L_032F
 
@@ -224,8 +235,8 @@ L_032F:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0354
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0354
     CallTrainerBattleEnd
     VMJump L_0356
 
@@ -235,25 +246,27 @@ L_0354:
 L_0356:
     VMStackPushFlag 2407
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2408
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2409
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2410
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_03AB
-    ActorMsg 1024, 12, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_03AB
+    // "Challenger, if you defeat the entire\nElite Four of the Pokémon League, you[f000]븀\u0000\ncan go on to challenge the Champion.[f000]븁\u0000\nAnd you have earned that right.[f000]븁\u0000\nYour story is yours and yours alone.\nPlease weave a wonderful tale!"
+    ActorMsg MSGFILE_SCRIPT, 12, 0, 1, 0
     VMJump L_03B7
 
 L_03AB:
-    ActorMsg 1024, 10, 0, 1, 0
+    // "All the Pokémon on both sides\nbattled so bravely.[f000]븀\u0000\nEven though they got hurt...[f000]븁\u0000\nThank you."
+    ActorMsg MSGFILE_SCRIPT, 10, 0, 1, 0
 
 L_03B7:
     LastKeyWait
@@ -263,25 +276,27 @@ L_03B7:
 L_03C1:
     VMStackPushFlag 2407
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2408
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2409
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2410
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0416
-    ActorMsg 1024, 12, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0416
+    // "Challenger, if you defeat the entire\nElite Four of the Pokémon League, you[f000]븀\u0000\ncan go on to challenge the Champion.[f000]븁\u0000\nAnd you have earned that right.[f000]븁\u0000\nYour story is yours and yours alone.\nPlease weave a wonderful tale!"
+    ActorMsg MSGFILE_SCRIPT, 12, 0, 1, 0
     VMJump L_0422
 
 L_0416:
-    ActorMsg 1024, 11, 0, 1, 0
+    // "It's important to be tough and resilient\nwhen you battle, don't you think?[f000]븁\u0000\nYou have to accept that both sides will\nget hurt. You have to understand that[f000]븀\u0000\nthe pain of losing is a natural outcome.[f000]븁\u0000\nIf you just focus on winning, you can\nforget that the bond between you and[f000]븀\u0000\nyour Pokémon is the most important thing.[f000]븁\u0000\nI try to focus on that bond in my novels.\nI want them to be full of heart and soul!"
+    ActorMsg MSGFILE_SCRIPT, 11, 0, 1, 0
 
 L_0422:
     LastKeyWait

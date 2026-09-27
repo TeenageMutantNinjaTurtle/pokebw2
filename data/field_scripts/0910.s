@@ -11,8 +11,8 @@
 Script_1:
     VMStackPushFlag 763
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_004B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_004B
     WorkSetConst 0x4000, 1
     WorkSetConst 0x4001, 1
     WorkSetConst 0x4002, 1
@@ -35,13 +35,13 @@ Script_3:
     ActorsPauseAll
     VMStackPush 0x40aa
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01E2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01E2
     WorkSetConst 0x8020, 0
     WorkSetConst 0x8021, 0
     PlayerGetGPos 0x8020, 0x8021
     WorkCmpConst 0x8020, 8
-    VMJumpIf 1, L_00A1
+    VMJumpIf CMP_EQ, L_00A1
     VMJump L_00B1
 
 L_00A1:
@@ -51,7 +51,7 @@ L_00A1:
 
 L_00B1:
     WorkCmpConst 0x8020, 9
-    VMJumpIf 1, L_00C4
+    VMJumpIf CMP_EQ, L_00C4
     VMJump L_00D4
 
 L_00C4:
@@ -61,7 +61,7 @@ L_00C4:
 
 L_00D4:
     WorkCmpConst 0x8020, 10
-    VMJumpIf 1, L_00E7
+    VMJumpIf CMP_EQ, L_00E7
     VMJump L_00F7
 
 L_00E7:
@@ -78,9 +78,10 @@ L_0101:
     ActorCmdWait
     VMStackPushFlag 116
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0150
-    ActorMsg 1024, 0, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0150
+    // "This is a Pokémon Gym, and\nit's also a rock club![f000]븁\u0000\nThe Gym Leader and the others\nare practicing inside, but please[f000]븀\u0000\nfeel free to challenge all of them![f000]븁\u0000\nOh! You'll need to stay hydrated.\nHere you go![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     ActorMsgClose
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -93,7 +94,7 @@ L_0101:
 
 L_0150:
     WorkCmpConst 0x8020, 8
-    VMJumpIf 1, L_0163
+    VMJumpIf CMP_EQ, L_0163
     VMJump L_0173
 
 L_0163:
@@ -103,7 +104,7 @@ L_0163:
 
 L_0173:
     WorkCmpConst 0x8020, 9
-    VMJumpIf 1, L_0186
+    VMJumpIf CMP_EQ, L_0186
     VMJump L_0196
 
 L_0186:
@@ -113,7 +114,7 @@ L_0186:
 
 L_0196:
     WorkCmpConst 0x8020, 10
-    VMJumpIf 1, L_01A9
+    VMJumpIf CMP_EQ, L_01A9
     VMJump L_01B9
 
 L_01A9:
@@ -123,7 +124,7 @@ L_01A9:
 
 L_01B9:
     WorkCmpConst 0x8020, 8
-    VMJumpIf 1, L_01CC
+    VMJumpIf CMP_EQ, L_01CC
     VMJump L_01DC
 
 L_01CC:
@@ -181,15 +182,17 @@ Script_4:
     TrainerCardHasBadge 0x8008, 1
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0275
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0275
+    // "The Trainers in this Pokémon Gym\nall use Poison-type Pokémon![f000]븁\u0000\nGrass- and Bug-type attacks\ndon't work well against Poison types,[f000]븀\u0000\nso be careful![f000]븁\u0000\nAlso, if your Pokémon are poisoned,\ntheir HP will keep decreasing. Watch out![f000]븁\u0000\nAnd you should know that Poison-type\nPokémon can't be poisoned!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0283
 
 L_0275:
-    ParentActorMsg 1024, 2, 0, 0
+    // "The shining Gym Badge is important\nbecause you and your Pokémon[f000]븀\u0000\nwon it together![f000]븀\u0000\nPlease remember that always!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -206,20 +209,23 @@ Script_5:
     TrainerCardHasBadge 0x8008, 1
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02B9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02B9
+    // "Virbank City Pokémon Gym[f000]븁\u0000\nLeader: Roxie\nCertified Trainers:"
     InfoMsg 3, 2
     VMJump L_02DC
 
 L_02B9:
     VMStackPush 0x40ac
     VMStackPushConst 4
-    VMStackCmp 4
-    VMJumpIf 255, L_02D7
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_02D7
+    // "Virbank City Pokémon Gym[f000]븁\u0000\nLeader: Roxie\nCertified Trainers:[f000]븀\u0000\n[f000]Ā\u0001\u0000, [f000]Ā\u0001\u0001"
     InfoMsg 5, 2
     VMJump L_02DC
 
 L_02D7:
+    // "Virbank City Pokémon Gym[f000]븁\u0000\nLeader: Roxie\nCertified Trainers:[f000]븀\u0000\n[f000]Ā\u0001\u0000"
     InfoMsg 4, 2
 
 L_02DC:
@@ -232,6 +238,7 @@ L_02DC:
 Script_6:
     ActorsPauseAll
     SEPlay 1351
+    // "I can sing!\nWanted: The rest of a band!"
     InfoMsg 6, 2
     LastKeyWait
     MsgWinCloseAll

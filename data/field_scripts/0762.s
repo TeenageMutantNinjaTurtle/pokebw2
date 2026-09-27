@@ -11,8 +11,8 @@ Script_2:
     FlagGet 123, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_003F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_003F
     ActorSetGPos 0, 10, 6, 4, 0
     ActorSetGPos 1, 10, 0, 20, 1
 

@@ -21,16 +21,20 @@ Script_1:
     EvCameraUnbind
     EvCameraMoveTo 9688, 0, 0xed000, 0x358000, 0x1000f, 0x2ba8000, 16
     EvCameraWait
+    // "Bianca: Heeey!\nThis way![f000]븁\u0000"
+    // "Bianca: Come on!\nThis way![f000]븁\u0000"
     ActorMsgGendered 1024, 0, 1, 5, 0, 0
     MsgWinCloseAll
     VMCall L_0192
     ActorCmdExec 5, Movement_07A8
     ActorCmdWait
-    ActorMsg 1024, 2, 5, 0, 0
+    // "Bianca: This kinda reminds me\nof that day on Route 1.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 5, 0, 0
     MsgWinCloseAll
     ActorCmdExec 5, Movement_0798
     ActorCmdWait
-    ActorMsg 1024, 3, 5, 0, 0
+    // "OK, here's how it works.[f000]븁\u0000\nThe Pokédex's pages fill up\nautomatically when you meet Pokémon![f000]븁\u0000\nAnd when you catch a Pokémon,\nmore detailed information on it[f000]븀\u0000\nis added to the Pokédex![f000]븁\u0000\nHere, I'll show you how to catch\na Pokémon! Starting...NOW![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 5, 0, 0
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     EvCameraMoveTo 9688, 0, 0xed000, 0x3d8000, 0x1000f, 0x2b88000, 72
@@ -50,17 +54,21 @@ Script_1:
     EvCameraWait
     EvCameraRebind
     EvCameraEnd
-    ActorMsg 1024, 4, 5, 0, 0
+    // "Bianca: What a relief!\nI caught a Pokémon![f000]븁\u0000\nOh! Um...\nRight. I'll go over the important stuff.[f000]븁\u0000\nFirst, go find a healthy\nPokémon to catch![f000]븀\u0000\nYou need to remember this next bit![f000]븁\u0000\nIt's best to lower the Pokémon's HP\nbefore you try to catch it.[f000]븁\u0000\nUse your Pokémon's moves to lower the HP\nof the Pokémon you want to catch.[f000]븀\u0000\nMaking it fall asleep or paralyzing it[f000]븀\u0000\nwill make it even easier to catch![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 5, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 5, 5, 0, 0
+    // "You're going to go deliver\nthe Town Map to your friend, right?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 5, 0, 0
     MsgWinCloseAll
     ActorCmdExec 5, Movement_07A8
     ActorCmdWait
-    ActorMsg 1024, 6, 5, 0, 0
+    // "Continue straight this way\nto get to Floccesy Town![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 5, 0, 0
     MsgWinCloseAll
     ActorCmdExec 5, Movement_07A0
     ActorCmdWait
-    ActorMsg 1024, 7, 5, 0, 0
+    // "Bye now!\nMeet lots of Pokémon[f000]븀\u0000\nand catch a lot of them, OK?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 5, 0, 0
     MsgWinCloseAll
     VMCall L_0205
     WorkSetConst 0x40a3, 1
@@ -70,7 +78,7 @@ Script_1:
     FlagSet 743
     FlagReset 740
     FlagReset 803
-    Cmd_0262 4, 0
+    HollowRivalCmd_0262 4, 0
     WorkSetConst 0x40a1, 8
     FinishAllEvents
     ActorsUnpauseAll
@@ -80,8 +88,8 @@ L_0192:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 53
-    VMStackCmp 5
-    VMJumpIf 255, L_01C1
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_01C1
     ActorWalkRoute 255, 53, 698, 1, 8, 0
     ActorCmdWait
     VMJump L_01CB
@@ -143,6 +151,7 @@ Movement_0264:
 
 Script_2:
     ActorsPauseAll
+    // "???: You there, Trainer![f000]븁\u0000"
     InfoMsg 8, 1
     MsgWinCloseAll
     EvCameraInit
@@ -152,7 +161,8 @@ Script_2:
     ActorCmdWait
     EvCameraWait
     BGMPlay 1101
-    ActorMsg 1024, 9, 1, 0, 0
+    // "My name is Alder![f000]븁\u0000\nI'm a Trainer with a keen interest in the\nworld. One of my goals is to tell people[f000]븀\u0000\nabout how wonderful it is to walk toward[f000]븀\u0000\nthe future together with Pokémon.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 1, 0, 0
     MsgWinCloseAll
     EvCameraMoveToDefault 30
     ActorJumpToGPos 1, 93, 1, 693
@@ -164,8 +174,8 @@ Script_2:
     WorkAdd 0x8021, 2
     VMStackPush 0x8022
     VMStackPushConst 693
-    VMStackCmp 5
-    VMJumpIf 255, L_0308
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0308
     ActorWalkRoute 1, 0x8021, 0x8022, 1, 8, 1
 
 L_0308:
@@ -174,11 +184,12 @@ L_0308:
     ActorCmdExec 1, Movement_07A0
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 10, 1, 0, 0
+    // "And you are?[f000]븁\u0000\n...\n...[f000]븁\u0000\nHmph! So you're [f000]Ā\u0001\u0000\nfrom Aspertia City![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 1, 0, 0
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     WorkCmpConst 0x8022, 693
-    VMJumpIf 1, L_0346
+    VMJumpIf CMP_EQ, L_0346
     VMJump L_0354
 
 L_0346:
@@ -187,7 +198,7 @@ L_0346:
 
 L_0354:
     WorkCmpConst 0x8022, 697
-    VMJumpIf 1, L_0367
+    VMJumpIf CMP_EQ, L_0367
     VMJump L_0375
 
 L_0367:
@@ -202,7 +213,8 @@ L_037D:
     WorkSetConst 0x8023, 0
     PokePartyGetMemberByType 0x8023, 2
     WordSetPartyPokeSpecies 1, 0x8023
-    ActorMsg 1024, 11, 1, 0, 0
+    // "Your [f000]ā\u0001\u0001 is\na fine-looking Pokémon![f000]븁\u0000\nBut, you're not exactly\na seasoned Trainer yet...[f000]븁\u0000\nIndeed! I'll train you a little!\nFollow me![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 1, 0, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_0464
     ActorCmdWait
@@ -271,6 +283,7 @@ Script_7:
     FlagReset 738
     ActorAdd 1
     WordSetPlayerName 0
+    // "[f000]Ā\u0001\u0000![f000]븁\u0000"
     InfoMsg 25, 2
     MsgWinCloseAll
     EvCameraInit
@@ -292,7 +305,8 @@ Script_7:
     ActorWalkRoute 1, 0x8021, 0x8022, 1, 8, 1
     ActorCmdExec 255, Movement_07A8
     ActorCmdWait
-    ActorMsg 1024, 26, 1, 0, 0
+    // "Excuse me! I forgot to tell\nyou something important![f000]븁\u0000\nFirst, take these![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 26, 1, 0, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_0768
     ActorCmdWait
@@ -306,19 +320,23 @@ Script_7:
     ActorCmdExec 1, Movement_05B0
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 27, 1, 0, 0
+    // "Those are Oran Berries![f000]븁\u0000\nIf you give one to your Pokémon,\nits HP will be restored.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 27, 1, 0, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_0798
     ActorCmdWait
-    ActorMsg 1024, 28, 1, 0, 0
+    // "What's more! You can give your Pokémon\na Berry to hold![f000]븁\u0000\nLike this Oran Berry, for instance.\nWhen a Pokémon holds this Berry, it can[f000]븀\u0000\neat the Berry if it gets hurt in the heat[f000]븀\u0000\nof battle and regain some of its lost HP![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 28, 1, 0, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_05A8
     ActorCmdWait
-    ActorMsg 1024, 29, 1, 0, 0
+    // "Well... I just told you\nto challenge the Gym Leader.[f000]븁\u0000\nAspertia's Gym Leader\nis a very strong Pokémon Trainer![f000]븁\u0000\nBut you have nothing to worry about![f000]븁\u0000\nIf you think hard about what the\nPokémon at your side can do,[f000]븀\u0000\nand what you should do as a Trainer,[f000]븀\u0000\nvictory will be yours![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 29, 1, 0, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_07A0
     ActorCmdWait
-    ActorMsg 1024, 30, 1, 0, 0
+    // "And then you should take on\nstronger and stronger Trainers...[f000]븀\u0000\nActually, take on the Gym Leaders[f000]븀\u0000\nof each city![f000]븁\u0000\nWorking together with your Pokémon\nis what makes you grow as a Trainer.[f000]븁\u0000\nAs you and your Pokémon grow stronger,\nyour world will get broader![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 30, 1, 0, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_0464
     ActorCmdWait
@@ -355,20 +373,23 @@ Script_3:
     ActorSetEyeToEye
     VMStackPushFlag 16
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_069F
-    ActorMsg 1024, 12, 0, 4, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_069F
+    // "Hey, you know about ledge jumping?"
+    ActorMsg MSGFILE_SCRIPT, 12, 0, 4, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0689
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0689
     FlagSet 16
-    ActorMsg 1024, 14, 0, 4, 0
+    // "That so...\nWell then, watch me carefully![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 0, 4, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_07A0
     ActorCmdWait
-    ActorMsg 1024, 15, 0, 4, 0
+    // "From the top of the ledge![f000]븁\u0000\nBoing![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 0, 4, 0
     VMSleep 4
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0740
@@ -376,21 +397,23 @@ Script_3:
     PlayerGetDir 0x8020
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 5
-    VMJumpIf 255, L_0667
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0667
     ActorCmdExec 255, Movement_07A0
 
 L_0667:
     ActorCmdWait
     ActorCmdExec 0, Movement_07A8
     ActorCmdWait
-    ActorMsg 1024, 16, 0, 3, 0
+    // "It's really cool how you can take\nshortcuts by jumping off these, right?"
+    ActorMsg MSGFILE_SCRIPT, 16, 0, 3, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0699
 
 L_0689:
-    ActorMsg 1024, 13, 0, 0, 0
+    // "Oh...[f000]븁\u0000\nI guess you would know you can\njump off these little ledges."
+    ActorMsg MSGFILE_SCRIPT, 13, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -398,7 +421,8 @@ L_0699:
     VMJump L_06AF
 
 L_069F:
-    ActorMsg 1024, 16, 0, 0, 0
+    // "It's really cool how you can take\nshortcuts by jumping off these, right?"
+    ActorMsg MSGFILE_SCRIPT, 16, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -411,7 +435,8 @@ Script_9:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 24, 0, 0
+    // "Know what? I'm searching for\nPokémon in the tall grass![f000]븁\u0000\nThat's right! If you don't want\nto meet Pokémon, avoid the tall grass!"
+    ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -422,7 +447,8 @@ Script_10:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 34, 0, 0
+    // "You can use Surf?\nNice! We can be Surf buddies!"
+    ParentActorMsg MSGFILE_SCRIPT, 34, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -433,6 +459,7 @@ Script_4:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Route 19"
     MsgPlaceSign 31, 3
     MsgPlaceSignClose
     FinishAllEvents
@@ -443,6 +470,7 @@ Script_5:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Route 19"
     MsgPlaceSign 32, 3
     MsgPlaceSignClose
     FinishAllEvents
@@ -453,6 +481,7 @@ Script_6:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Trainer Tips![f000]븁\u0000\n\nMake an effort to talk to all the\npeople you meet during your journey![f000]븁\u0000\nChances are they will have something\nuseful to tell you."
     MsgPlaceSign 33, 0
     MsgPlaceSignClose
     FlagSet 2677

@@ -14,51 +14,57 @@
 
 Script_1:
     WordSetPlayerName 0
-    ParentActorMsg 1024, 0, 0, 0
+    // "How is your Pokédex coming along?\nCan I see it?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0102
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0102
     PokeDexGetEvaluationParams 2, 0x8020, 0x8021, 0x8022
     VMStackPushFlag 141
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00A1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00A1
     VMCall L_0142
-    ParentActorMsg 1024, 2, 0, 0
+    // "Let me see...[f000]븁\u0000\nOh, you've caught [f000]Ȃ\u0001\u0000 Pokémon in the\nUnova region!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     MEPlay 0x8022
     MEWait
     MsgWaitAdvance
-    ParentActorMsg 1024, 0x8020, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     VMJump L_00C3
 
 L_00A1:
     VMCall L_0112
-    ParentActorMsg 1024, 1, 0, 0
+    // "Let me see...[f000]븁\u0000\nOh, you've seen [f000]Ȃ\u0001\u0000 Pokémon in the\nUnova region!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     MEPlay 0x8022
     MEWait
     MsgWaitAdvance
-    ParentActorMsg 1024, 0x8020, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
 
 L_00C3:
     VMCall L_02FC
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_00EE
-    ParentActorMsg 1024, 35, 0, 0
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_00EE
+    // "It seems like you are meeting Pokémon at\na good clip![f000]븁\u0000\nHere! This is a gift to thank you for all\nyour hard work![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 35, 0, 0
     ActorMsgClose
     VMCall L_03FA
 
 L_00EE:
-    ParentActorMsg 1024, 40, 0, 0
+    // "Keep up the good work!"
+    ParentActorMsg MSGFILE_SCRIPT, 40, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0110
 
 L_0102:
-    ParentActorMsg 1024, 3, 0, 0
+    // "This Pokédex is full of memories from your\njourney. It's a treasure you can cherish[f000]븀\u0000\nfor your entire life."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -69,8 +75,8 @@ L_0112:
     PokeDexIsComplete 0x8010, 2
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_012F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_012F
     FlagSet 141
 
 L_012F:
@@ -85,8 +91,8 @@ L_0142:
     PokeDexIsComplete 0x8010, 2
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0178
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0178
     MEPlay 1316
     VMJump L_017E
 
@@ -98,8 +104,8 @@ L_017E:
     PokeDexIsComplete 0x8010, 3
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01A3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01A3
     MEPlay 1316
     VMJump L_01A9
 
@@ -112,40 +118,40 @@ L_01A9:
 L_01AB:
     VMStackPush 0x8021
     VMStackPushConst 39
-    VMStackCmp 3
-    VMJumpIf 255, L_01C8
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_01C8
     MEPlay 1311
     VMJump L_0240
 
 L_01C8:
     VMStackPush 0x8021
     VMStackPushConst 99
-    VMStackCmp 3
-    VMJumpIf 255, L_01E5
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_01E5
     MEPlay 1312
     VMJump L_0240
 
 L_01E5:
     VMStackPush 0x8021
     VMStackPushConst 149
-    VMStackCmp 3
-    VMJumpIf 255, L_0202
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_0202
     MEPlay 1313
     VMJump L_0240
 
 L_0202:
     VMStackPush 0x8021
     VMStackPushConst 199
-    VMStackCmp 3
-    VMJumpIf 255, L_021F
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_021F
     MEPlay 1314
     VMJump L_0240
 
 L_021F:
     VMStackPush 0x8021
     VMStackPushConst 249
-    VMStackCmp 3
-    VMJumpIf 255, L_023C
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_023C
     MEPlay 1315
     VMJump L_0240
 
@@ -157,48 +163,48 @@ L_0240:
     PokeDexIsComplete 0x8010, 1
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0265
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0265
     MEPlay 1316
     VMJump L_02FA
 
 L_0265:
     VMStackPush 0x8021
     VMStackPushConst 159
-    VMStackCmp 3
-    VMJumpIf 255, L_0282
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_0282
     MEPlay 1311
     VMJump L_02FA
 
 L_0282:
     VMStackPush 0x8021
     VMStackPushConst 349
-    VMStackCmp 3
-    VMJumpIf 255, L_029F
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_029F
     MEPlay 1312
     VMJump L_02FA
 
 L_029F:
     VMStackPush 0x8021
     VMStackPushConst 449
-    VMStackCmp 3
-    VMJumpIf 255, L_02BC
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_02BC
     MEPlay 1313
     VMJump L_02FA
 
 L_02BC:
     VMStackPush 0x8021
     VMStackPushConst 549
-    VMStackCmp 3
-    VMJumpIf 255, L_02D9
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_02D9
     MEPlay 1314
     VMJump L_02FA
 
 L_02D9:
     VMStackPush 0x8021
     VMStackPushConst 633
-    VMStackCmp 3
-    VMJumpIf 255, L_02F6
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_02F6
     MEPlay 1315
     VMJump L_02FA
 
@@ -213,12 +219,12 @@ L_02FC:
     PokeDexIsComplete 0x8010, 2
     VMStackPushFlag 136
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0337
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0337
     WorkSetConst 0x8024, 1
     WorkSetConst 0x8023, 1
 
@@ -226,16 +232,16 @@ L_0337:
     PokeDexIsComplete 0x8010, 3
     VMStackPushFlag 137
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_037C
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_037C
     WorkSetConst 0x8025, 1
     WorkSetConst 0x8023, 1
 
@@ -243,16 +249,16 @@ L_037C:
     PokeDexIsComplete 0x8010, 1
     VMStackPushFlag 138
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_03C1
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_03C1
     WorkSetConst 0x8026, 1
     WorkSetConst 0x8023, 1
 
@@ -264,12 +270,12 @@ L_03C3:
     PokeDexIsComplete 0x8010, 1
     VMStackPushFlag 138
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_03F8
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_03F8
     WorkSetConst 0x8023, 1
 
 L_03F8:
@@ -278,13 +284,13 @@ L_03F8:
 L_03FA:
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_0452
-    ItemCheckSpace 630, 1, 0x8010
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0452
+    ItemCheckSpace ITEM_PERMIT, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0434
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0434
     WorkSetConst 0x8008, 630
     RTCallGlobal 2803
     VMReturn
@@ -293,19 +299,20 @@ L_0434:
     WorkSetConst 0x8000, 630
     WorkSetConst 0x8001, 1
     RTCallGlobal 2805
-    ParentActorMsg 1024, 36, 0, 0
+    // "If you have a Permit,\nyou can go to the Nature Preserve[f000]븀\u0000\nfrom Mistralton City by plane![f000]븁\u0000\nGo check it out to see\nwhat kind of place it is![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 36, 0, 0
     FlagSet 136
 
 L_0452:
     VMStackPush 0x8025
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_04AA
-    ItemCheckSpace 631, 1, 0x8010
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_04AA
+    ItemCheckSpace ITEM_OVAL_CHARM, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_048C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_048C
     WorkSetConst 0x8008, 631
     RTCallGlobal 2803
     VMReturn
@@ -314,19 +321,20 @@ L_048C:
     WorkSetConst 0x8000, 631
     WorkSetConst 0x8001, 1
     RTCallGlobal 2805
-    ParentActorMsg 1024, 37, 0, 0
+    // "If you have an Oval Charm,\nwe don't know why,[f000]븀\u0000\nbut you'll have a better chance to[f000]븀\u0000\nfind Eggs at the Pokémon Day Care![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 37, 0, 0
     FlagSet 137
 
 L_04AA:
     VMStackPush 0x8026
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_0502
-    ItemCheckSpace 632, 1, 0x8010
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0502
+    ItemCheckSpace ITEM_SHINY_CHARM, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04E4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04E4
     WorkSetConst 0x8008, 632
     RTCallGlobal 2803
     VMReturn
@@ -335,7 +343,8 @@ L_04E4:
     WorkSetConst 0x8000, 632
     WorkSetConst 0x8001, 1
     RTCallGlobal 2805
-    ParentActorMsg 1024, 38, 0, 0
+    // "If you have a Shiny Charm,\nwe don't know why, but you'll have a[f000]븀\u0000\nbetter chance to find Shiny Pokémon![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 38, 0, 0
     FlagSet 138
 
 L_0502:
@@ -343,26 +352,29 @@ L_0502:
 
 Script_2:
     WordSetPlayerName 0
-    ParentActorMsg 1024, 41, 0, 0
+    // "You're here to show me how your\nPokédex is coming along, right?"
+    ParentActorMsg MSGFILE_SCRIPT, 41, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0584
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0584
     PokeDexGetEvaluationParams 1, 0x8020, 0x8021, 0x8022
     WordSetNumber 0, 0x8021, 3
-    ParentActorMsg 1024, 42, 0, 0
+    // "I see![f000]븁\u0000\nYou've caught [f000]Ȃ\u0001\u0000 Pokémon, then..."
+    ParentActorMsg MSGFILE_SCRIPT, 42, 0, 0
     MEPlay 0x8022
     MEWait
     MsgWaitAdvance
-    ParentActorMsg 1024, 0x8020, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     VMCall L_03C3
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_057A
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_057A
     MsgWaitAdvance
-    ParentActorMsg 1024, 61, 0, 0
+    // "Oh! We have a gift for you.\nMy daughter has it.[f000]븀\u0000\nGo speak to her and get it!"
+    ParentActorMsg MSGFILE_SCRIPT, 61, 0, 0
 
 L_057A:
     LastKeyWait
@@ -370,7 +382,8 @@ L_057A:
     VMJump L_0592
 
 L_0584:
-    ParentActorMsg 1024, 43, 0, 0
+    // "Oh, really...[f000]븁\u0000\nIf you want me to have a look at\nyour Pokédex, come here again!"
+    ParentActorMsg MSGFILE_SCRIPT, 43, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -381,10 +394,11 @@ Script_3:
     PokeDexHaveNational 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_05F9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05F9
     PokeDexGetEvaluationParams 1, 0x8020, 0x8021, 0x8022
     WordSetNumber 0, 0x8021, 3
+    // "I see![f000]븁\u0000\nYou've caught [f000]Ȃ\u0001\u0000 Pokémon, then..."
     SystemMsg 42, 2
     MEPlay 0x8022
     MEWait
@@ -394,8 +408,9 @@ Script_3:
     VMCall L_03C3
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_05F3
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_05F3
+    // "Oh! We have a gift for you.\nMy daughter has it.[f000]븀\u0000\nGo speak to her and get it!"
     SystemMsg 61, 2
     MsgWaitAdvance
 
@@ -405,9 +420,10 @@ L_05F3:
 L_05F9:
     VMStackPushFlag 141
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_062C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_062C
     VMCall L_0142
+    // "Let me see...[f000]븁\u0000\nOh, you've caught [f000]Ȃ\u0001\u0000 Pokémon in the\nUnova region!"
     SystemMsg 2, 2
     MEPlay 0x8022
     MEWait
@@ -417,6 +433,7 @@ L_05F9:
 
 L_062C:
     VMCall L_0112
+    // "Let me see...[f000]븁\u0000\nOh, you've seen [f000]Ȃ\u0001\u0000 Pokémon in the\nUnova region!"
     SystemMsg 1, 2
     MEPlay 0x8022
     MEWait
@@ -427,8 +444,9 @@ L_0646:
     VMCall L_02FC
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_0667
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0667
+    // "It seems like you are meeting Pokémon at\na good clip![f000]븁\u0000\nI have something I want to give you!\nPlease come to the lab when you can."
     SystemMsg 34, 2
     MsgWaitAdvance
 

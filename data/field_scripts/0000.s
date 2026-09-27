@@ -20,19 +20,19 @@ Script_1:
     VMHalt
 
 Script_2:
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 5
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMStackCmp 7
-    VMJumpIf 255, L_0086
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0086
     VMStackPushFlag 970
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0080
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0080
     FlagReset 970
     ActorAdd 3
 
@@ -42,20 +42,20 @@ L_0080:
 L_0086:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_00CF
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_00CF
     VMStackPushFlag 970
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00B4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B4
     FlagReset 970
     ActorAdd 3
 
 L_00B4:
     VMStackPushFlag 971
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00CF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00CF
     FlagReset 971
     ActorAdd 6
 
@@ -87,6 +87,7 @@ Script_5:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Black City\nProsperous and Vibrant"
     MsgPlaceSign 120, 1
     MsgPlaceSignClose
     FinishAllEvents
@@ -95,14 +96,15 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 4
-    VMStackCmp 3
-    VMJumpIf 255, L_016A
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_016A
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "Dave: People who've got it goin' on\nalways get what they want![f000]븁\u0000\nIf there's a Pokémon you want\nto catch, keep on goin' on![f000]븁\u0000\nYou gotta get whatcha want\nthe right way--honestly and thoroughly!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_01CE
@@ -110,15 +112,16 @@ Script_6:
 L_016A:
     VMStackPush 0x8020
     VMStackPushConst 5
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMStackCmp 7
-    VMJumpIf 255, L_01A7
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_01A7
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "Dave: There's a shop where those\nwho've got it goin' on go.[f000]븁\u0000\nI heard they got some\nnew items in recently."
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_01CE
@@ -126,11 +129,12 @@ L_016A:
 L_01A7:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_01CE
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_01CE
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "Dave: Used to be a lot of thugs\nhangin' around here looking for cash.[f000]븀\u0000\nI drove most of them off![f000]븁\u0000\nYeah! That's right! Black City\ngot its peace on all because of me!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -141,14 +145,15 @@ L_01CE:
 
 Script_7:
     ActorsPauseAll
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 4
-    VMStackCmp 3
-    VMJumpIf 255, L_0207
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_0207
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 28, 0, 0
+    // "Karenna: I heard strong people gather\nto train somewhere around here,[f000]븀\u0000\nso I brought my Pokémon![f000]븁\u0000\nYou're a Trainer too, right?\nLet's cheer each other on!"
+    ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0271
@@ -156,16 +161,17 @@ Script_7:
 L_0207:
     VMStackPush 0x8020
     VMStackPushConst 5
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMStackCmp 7
-    VMJumpIf 255, L_0247
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0247
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 29, 0, 0
+    // "Karenna: You're [f000]Ā\u0001\u0000, right?[f000]븁\u0000\nIt sounds like you've conquered\na lot of the Black Tower![f000]븀\u0000\nI won't lose either!"
+    ParentActorMsg MSGFILE_SCRIPT, 29, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0271
@@ -173,12 +179,13 @@ L_0207:
 L_0247:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_0271
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0271
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 30, 0, 0
+    // "Karenna: Congratulations on clearing\nthe Black Tower, [f000]Ā\u0001\u0000![f000]븀\u0000\nEveryone's talking about you![f000]븁\u0000\nI even heard the shops have new items\ncommemorating your victory!"
+    ParentActorMsg MSGFILE_SCRIPT, 30, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -189,14 +196,15 @@ L_0271:
 
 Script_8:
     ActorsPauseAll
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMJumpIf 255, L_02AA
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_02AA
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 40, 0, 0
+    // "Marie: I came to Black City\nto write my thesis.[f000]븁\u0000\nThe theme of my research is\nPokémon that live in cities.[f000]븁\u0000\nI came to research the soothing\neffect Pokémon have on tired[f000]븀\u0000\nurban dwellers!"
+    ParentActorMsg MSGFILE_SCRIPT, 40, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_02D1
@@ -204,11 +212,12 @@ Script_8:
 L_02AA:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_02D1
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_02D1
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 41, 0, 0
+    // "Marie: I've finally organized\nthe research I've been[f000]븀\u0000\ndoing in Black City![f000]븁\u0000\nI knew the best way to relieve\nstress is to interact with Pokémon,[f000]븀\u0000\neven in the big city!"
+    ParentActorMsg MSGFILE_SCRIPT, 41, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -219,14 +228,15 @@ L_02D1:
 
 Script_9:
     ActorsPauseAll
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 4
-    VMStackCmp 3
-    VMJumpIf 255, L_030A
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_030A
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 72, 0, 0
+    // "Piper: I managed to get a job at one\nof the best companies in Black City,[f000]븀\u0000\nwhich is full of amazing businesses![f000]븁\u0000\nI'm going to work really hard\nand move up through the ranks!"
+    ParentActorMsg MSGFILE_SCRIPT, 72, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_036E
@@ -234,15 +244,16 @@ Script_9:
 L_030A:
     VMStackPush 0x8020
     VMStackPushConst 5
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMStackCmp 7
-    VMJumpIf 255, L_0347
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0347
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 73, 0, 0
+    // "Piper: I can't take it! I'm done!\nWaaah![f000]븁\u0000\nSigh... I keep making mistakes at work,\nI got dumped...[f000]븁\u0000\nI want to run away to White Forest\nand relax in the woods with Pokémon."
+    ParentActorMsg MSGFILE_SCRIPT, 73, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_036E
@@ -250,11 +261,12 @@ L_030A:
 L_0347:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_036E
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_036E
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 74, 0, 0
+    // "Piper: The other day, I solved\na big problem at work![f000]븀\u0000\nEveryone complimented me! ♪[f000]븁\u0000\nA lot has happened recently,\nbut I'm glad I stuck with my job![f000]븁\u0000\nI'll keep making money\nhere in Black City!"
+    ParentActorMsg MSGFILE_SCRIPT, 74, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -267,7 +279,8 @@ Script_10:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 88, 0, 0
+    // "Eliza: I came to this town with\nthe desire to become rich and famous![f000]븁\u0000\nFirst, I'm going to clear the Black Tower\nfaster than anyone else[f000]븀\u0000\nand become really famous![f000]븁\u0000\n...What? You're kidding, right?\nYou cleared it already?[f000]븀\u0000\nNo! My plans are ruined!"
+    ParentActorMsg MSGFILE_SCRIPT, 88, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -276,14 +289,15 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 4
-    VMStackCmp 3
-    VMJumpIf 255, L_03C3
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_03C3
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 92, 0, 0
+    // "Collin: There's something I want,\nbut it is never in stock at the shops.[f000]븁\u0000\nThe guy at one of the shops said they\nwould have it in stock soon.[f000]븀\u0000\nBut I just can't wait!"
+    ParentActorMsg MSGFILE_SCRIPT, 92, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0427
@@ -291,15 +305,16 @@ Script_11:
 L_03C3:
     VMStackPush 0x8020
     VMStackPushConst 5
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMStackCmp 7
-    VMJumpIf 255, L_0400
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0400
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 93, 0, 0
+    // "Collin: Have you been to the shop?\nThey got a new item in stock![f000]븁\u0000\nBut it's still not the item I want...[f000]븁\u0000\nIf I don't get my hands on it soon,\nI'm going to be in a lot of trouble!"
+    ParentActorMsg MSGFILE_SCRIPT, 93, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0427
@@ -307,11 +322,12 @@ L_03C3:
 L_0400:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_0427
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0427
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 94, 0, 0
+    // "Collin: They finally got\nwhat I wanted in stock![f000]븀\u0000\nI've waited so long for this![f000]븁\u0000\n...Huh? What did I want?[f000]븁\u0000\nThat's kind of a nosy question!\nI'll never tell you!"
+    ParentActorMsg MSGFILE_SCRIPT, 94, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -323,14 +339,15 @@ L_0427:
 Script_12:
     ActorsPauseAll
     WordSetPlayerName 0
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 4
-    VMStackCmp 3
-    VMJumpIf 255, L_0463
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_0463
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 96, 0, 0
+    // "Ken: Unova's Challenge...[f000]븁\u0000\nTrainers come from all over the\nworld to challenge the Black Tower.[f000]븁\u0000\nAre you taking it on too, [f000]Ā\u0001\u0000?[f000]븁\u0000\nA difficult battle lies ahead!\nTake some amazing Pokémon with you!"
+    ParentActorMsg MSGFILE_SCRIPT, 96, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_04C7
@@ -338,15 +355,16 @@ Script_12:
 L_0463:
     VMStackPush 0x8020
     VMStackPushConst 5
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMStackCmp 7
-    VMJumpIf 255, L_04A0
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_04A0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 97, 0, 0
+    // "Ken: I heard about your exploits in\nUnova's Challenge, the Black Tower![f000]븁\u0000\nBut don't get cocky!\nThe higher the area,[f000]븀\u0000\nthe odder the Trainers get...[f000]븁\u0000\nWell, that was my experience anyway.\nDo your best and aim for the top!"
+    ParentActorMsg MSGFILE_SCRIPT, 97, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_04C7
@@ -354,11 +372,12 @@ L_0463:
 L_04A0:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_04C7
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_04C7
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 98, 0, 0
+    // "Ken: You finally overcame Unova's\nChallenge, the Black Tower![f000]븁\u0000\n[f000]Ā\u0001\u0000...\nYou are truly amazing![f000]븁\u0000\nI've tried many times myself,\nbut I failed every time,[f000]븀\u0000\nand before long, I gave up.[f000]븁\u0000\nI respect you for believing in\nyour Pokémon and yourself!"
+    ParentActorMsg MSGFILE_SCRIPT, 98, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -369,14 +388,15 @@ L_04C7:
 
 Script_13:
     ActorsPauseAll
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 4
-    VMStackCmp 3
-    VMJumpIf 255, L_0500
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_0500
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 112, 0, 0
+    // "Emi: When I'm not at my part-time job,\nI make piles of prize money by[f000]븀\u0000\nbattling in the Black Tower![f000]븁\u0000\nI'm glad I came here.\nI like quiet places, but...[f000]븁\u0000\nI couldn't make money like\nthis in White Forest."
+    ParentActorMsg MSGFILE_SCRIPT, 112, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0567
@@ -384,16 +404,17 @@ Script_13:
 L_0500:
     VMStackPush 0x8020
     VMStackPushConst 5
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMStackCmp 7
-    VMJumpIf 255, L_0540
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0540
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 113, 0, 0
+    // "Emi: I hear you made it pretty\nfar up in the Black Tower?[f000]븁\u0000\nThat's really amazing!\nI couldn't get past the first area![f000]븁\u0000\nStill, I can make a lot of money\nthere, so I don't really mind."
+    ParentActorMsg MSGFILE_SCRIPT, 113, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0567
@@ -401,11 +422,12 @@ L_0500:
 L_0540:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_0567
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0567
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 114, 0, 0
+    // "Emi: Even if I'm making good money,\nI've never lived in the same place[f000]븀\u0000\nfor this long before...[f000]븁\u0000\nI've met a lot of people and\nfound some shops I really like.[f000]븁\u0000\nBut it's about time for me to leave.\nMaybe it would be nice to go to[f000]븀\u0000\nWhite Forest and relax for a while."
+    ParentActorMsg MSGFILE_SCRIPT, 114, 0, 0
     LastKeyWait
     ActorMsgClose
 

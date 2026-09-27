@@ -19,18 +19,18 @@ Script_1:
 L_003A:
     VMStackPush 0x8020
     VMStackPush 0x8021
-    VMStackCmp 2
-    VMJumpIf 255, L_008E
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_008E
     PokePartyIsFullHP 0x8022, 0x8021
     PokePartyIsFullPP 0x8023, 0x8021
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_0082
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_0082
     WorkAdd 0x8024, 1
 
 L_0082:
@@ -40,9 +40,10 @@ L_0082:
 L_008E:
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 4
-    VMJumpIf 255, L_00E1
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_00E1
+    // "Your Pokémon...\nNot in perfect condition.[f000]븁\u0000\nCome. Don't be so reserved.\nTake a rest![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     MsgWinCloseAll
     FadeEx 3, 0, 16, 2
     FadeExWait
@@ -51,13 +52,15 @@ L_008E:
     MEWait
     FadeEx 3, 16, 0, 2
     FadeExWait
-    ParentActorMsg 1024, 0, 0, 0
+    // "Yes! The team of you and your Pokémon\ncan go as far as you want!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_00EF
 
 L_00E1:
-    ParentActorMsg 1024, 0, 0, 0
+    // "Yes! The team of you and your Pokémon\ncan go as far as you want!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -71,7 +74,8 @@ Script_2:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 531, 0
-    ParentActorMsg 1024, 2, 0, 0
+    // "Chu!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -84,7 +88,8 @@ Script_3:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 610, 0
-    ParentActorMsg 1024, 3, 0, 0
+    // "Achoo!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

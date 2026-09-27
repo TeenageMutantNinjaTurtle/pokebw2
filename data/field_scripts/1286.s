@@ -8,19 +8,21 @@
 Script_1:
     ActorsPauseAll
     MEPlay 1327
+    // "The Xtransceiver is ringing!"
     SystemMsg 0, 2
     MEWait
     WordSetPlayerName 0
+    // "[f000]Ā\u0001\u0000 picked up\nthe Xtransceiver.[f000]븁\u0000"
     SystemMsg 1, 2
     MsgWinCloseAll
     FadeOutBlackQ
     FadeWait
-    Cmd_0265 0
+    HollowRivalCmd_0265 0
     FadeInBlackQ
     FadeWait
     RTGetZoneID 0x8021
     WorkCmpConst 0x8021, 62
-    VMJumpIf 1, L_004E
+    VMJumpIf CMP_EQ, L_004E
     VMJump L_005A
 
 L_004E:
@@ -29,7 +31,7 @@ L_004E:
 
 L_005A:
     WorkCmpConst 0x8021, 96
-    VMJumpIf 1, L_006D
+    VMJumpIf CMP_EQ, L_006D
     VMJump L_0079
 
 L_006D:
@@ -38,7 +40,7 @@ L_006D:
 
 L_0079:
     WorkCmpConst 0x8021, 107
-    VMJumpIf 1, L_008C
+    VMJumpIf CMP_EQ, L_008C
     VMJump L_0098
 
 L_008C:
@@ -47,7 +49,7 @@ L_008C:
 
 L_0098:
     WorkCmpConst 0x8021, 406
-    VMJumpIf 1, L_00AB
+    VMJumpIf CMP_EQ, L_00AB
     VMJump L_00B7
 
 L_00AB:
@@ -56,7 +58,7 @@ L_00AB:
 
 L_00B7:
     WorkCmpConst 0x8021, 412
-    VMJumpIf 1, L_00CA
+    VMJumpIf CMP_EQ, L_00CA
     VMJump L_00D6
 
 L_00CA:
@@ -65,7 +67,7 @@ L_00CA:
 
 L_00D6:
     WorkCmpConst 0x8021, 458
-    VMJumpIf 1, L_00E9
+    VMJumpIf CMP_EQ, L_00E9
     VMJump L_00F5
 
 L_00E9:
@@ -74,7 +76,7 @@ L_00E9:
 
 L_00F5:
     WorkCmpConst 0x8021, 329
-    VMJumpIf 1, L_0108
+    VMJumpIf CMP_EQ, L_0108
     VMJump L_0114
 
 L_0108:
@@ -83,7 +85,7 @@ L_0108:
 
 L_0114:
     WorkCmpConst 0x8021, 331
-    VMJumpIf 1, L_0127
+    VMJumpIf CMP_EQ, L_0127
     VMJump L_0133
 
 L_0127:
@@ -92,7 +94,7 @@ L_0127:
 
 L_0133:
     WorkCmpConst 0x8021, 337
-    VMJumpIf 1, L_0146
+    VMJumpIf CMP_EQ, L_0146
     VMJump L_0152
 
 L_0146:
@@ -101,7 +103,7 @@ L_0146:
 
 L_0152:
     WorkCmpConst 0x8021, 348
-    VMJumpIf 1, L_0165
+    VMJumpIf CMP_EQ, L_0165
     VMJump L_0171
 
 L_0165:
@@ -110,7 +112,7 @@ L_0165:
 
 L_0171:
     WorkCmpConst 0x8021, 365
-    VMJumpIf 1, L_0184
+    VMJumpIf CMP_EQ, L_0184
     VMJump L_0190
 
 L_0184:
@@ -119,7 +121,7 @@ L_0184:
 
 L_0190:
     WorkCmpConst 0x8021, 368
-    VMJumpIf 1, L_01A3
+    VMJumpIf CMP_EQ, L_01A3
     VMJump L_01AF
 
 L_01A3:
@@ -128,7 +130,7 @@ L_01A3:
 
 L_01AF:
     WorkCmpConst 0x8021, 370
-    VMJumpIf 1, L_01C2
+    VMJumpIf CMP_EQ, L_01C2
     VMJump L_01CE
 
 L_01C2:
@@ -137,7 +139,7 @@ L_01C2:
 
 L_01CE:
     WorkCmpConst 0x8021, 374
-    VMJumpIf 1, L_01E1
+    VMJumpIf CMP_EQ, L_01E1
     VMJump L_01ED
 
 L_01E1:
@@ -146,7 +148,7 @@ L_01E1:
 
 L_01ED:
     WorkCmpConst 0x8021, 383
-    VMJumpIf 1, L_0200
+    VMJumpIf CMP_EQ, L_0200
     VMJump L_020C
 
 L_0200:
@@ -157,11 +159,11 @@ L_020C:
     DebugPrint 0x8021
 
 L_0210:
-    Cmd_02D3 5, 0x8020
+    HollowRivalCmd_02D3 5, 0x8020
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_0283
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0283
     WorkSetConst 0x4126, 2
     WorkSetConst 0x4127, 2
     WorkSetConst 0x4128, 2

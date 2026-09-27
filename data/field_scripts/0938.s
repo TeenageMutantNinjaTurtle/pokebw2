@@ -17,9 +17,10 @@ Script_1:
     ActorSetEyeToEye
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0061
-    ParentActorMsg 1024, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0061
+    // "The flat part of Stunfisk is\nvery charming, isn't it?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_01E3
@@ -27,31 +28,32 @@ Script_1:
 L_0061:
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 342
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_01B2
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_01B2
+    // "The flat part of Stunfisk is\nvery charming, isn't it?[f000]븁\u0000\nDo you know other Water-type Pokémon\nwith a slender body?"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     MsgWaitAdvance
     PokePartyGetCount 0x8020, 0
 
 L_0096:
     VMStackPush 0x8020
     VMStackPush 0x8021
-    VMStackCmp 2
-    VMJumpIf 255, L_00EA
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_00EA
     PokePartyGetSpecies 0x8022, 0x8021
     PokePartyIsEgg 0x8025, 0x8021
     VMStackPush 0x8022
     VMStackPushConst 370
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8025
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_00DE
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00DE
     WorkSetConst 0x8023, 1
 
 L_00DE:
@@ -59,16 +61,17 @@ L_00DE:
     VMJump L_0096
 
 L_00EA:
-    ItemCheckSpace 93, 5, 0x8024
+    ItemCheckSpace ITEM_HEART_SCALE, 5, 0x8024
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_015B
-    ParentActorMsg 1024, 2, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_015B
+    // "Oh!\nThe heart-shaped Pokémon![f000]븁\u0000\nWow! It's called Luvdisc!\nGreat! So slender!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     VMStackPush 0x8000
@@ -78,7 +81,8 @@ L_00EA:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 4, 0, 0
+    // "Stunfisk and Luvdisc both\nhave slender bodies![f000]븁\u0000\nBut whether it is vertically slender\nor horizontally slender[f000]븀\u0000\ngives a different impression!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 342
@@ -87,21 +91,24 @@ L_00EA:
 L_015B:
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_019E
-    ParentActorMsg 1024, 2, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_019E
+    // "Oh!\nThe heart-shaped Pokémon![f000]븁\u0000\nWow! It's called Luvdisc!\nGreat! So slender!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 3, 0, 0
+    // "Oh? Your Bag is full of\nHeart Scales![f000]븁\u0000\nCome visit me again\nwith Luvdisc!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_01AC
 
 L_019E:
-    ParentActorMsg 1024, 5, 0, 0
+    // "The Pokémon's name starts with “L\"\nand it looks like a heart! I think."
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -111,13 +118,14 @@ L_01AC:
 L_01B2:
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 342
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_01E3
-    ParentActorMsg 1024, 4, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_01E3
+    // "Stunfisk and Luvdisc both\nhave slender bodies![f000]븁\u0000\nBut whether it is vertically slender\nor horizontally slender[f000]븀\u0000\ngives a different impression!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -130,7 +138,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "If you sleep on Stunfisk,\nits electricity relaxes the body!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -142,7 +151,8 @@ Script_3:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 618, 0
-    ParentActorMsg 1024, 7, 0, 0
+    // "Stuun!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

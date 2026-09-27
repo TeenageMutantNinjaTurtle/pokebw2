@@ -5,6 +5,7 @@
 
 Script_1:
     WorkSetConst 0x8020, 0
+    // "Oh?[f000]븁\u0000"
     SystemMsg 0, 2
     InfoMsgClose
     CallEggHatch 0x8020

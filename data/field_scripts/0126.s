@@ -19,8 +19,8 @@
 Script_2:
     VMStackPushFlag 264
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_005D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_005D
     WorkSetConst 0x409b, 0
     Cmd_025A 0
     VMJump L_00F2
@@ -28,40 +28,40 @@ Script_2:
 L_005D:
     VMStackPush 0x409b
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_007A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_007A
     Cmd_025A 0
     VMJump L_00F2
 
 L_007A:
     VMStackPush 0x409b
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0097
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0097
     Cmd_025A 1
     VMJump L_00F2
 
 L_0097:
     VMStackPush 0x409b
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_00B4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B4
     Cmd_025A 2
     VMJump L_00F2
 
 L_00B4:
     VMStackPush 0x409b
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_00D1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00D1
     Cmd_025A 3
     VMJump L_00F2
 
 L_00D1:
     VMStackPush 0x409b
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_00EE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00EE
     Cmd_025A 4
     VMJump L_00F2
 
@@ -74,23 +74,23 @@ L_00F2:
 Script_3:
     VMStackPush 0x409b
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_010D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_010D
     VMJump L_01F5
 
 L_010D:
     VMStackPush 0x409b
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0132
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0132
     ActorSetGPos 2, 9, 6, 2, 3
     VMJump L_01F5
 
 L_0132:
     VMStackPush 0x409b
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0163
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0163
     ActorSetGPos 2, 9, 6, 2, 3
     ActorSetGPos 3, 9, 6, 3, 3
     VMJump L_01F5
@@ -98,8 +98,8 @@ L_0132:
 L_0163:
     VMStackPush 0x409b
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_01AC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01AC
     ActorSetGPos 2, 9, 6, 2, 3
     ActorSetGPos 3, 9, 6, 3, 3
     ActorSetGPos 0, 21, 6, 2, 2
@@ -109,8 +109,8 @@ L_0163:
 L_01AC:
     VMStackPush 0x409b
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_01F5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01F5
     ActorSetGPos 2, 9, 6, 2, 3
     ActorSetGPos 3, 9, 6, 3, 3
     ActorSetGPos 0, 21, 6, 2, 2
@@ -124,19 +124,19 @@ Script_13:
     FieldGetContinueFlag 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0210
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0210
     Cmd_025B
 
 L_0210:
     VMStackPush 0x409b
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_023A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_023A
     VMStackPushFlag 264
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_023A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_023A
     Cmd_025F 6
 
 L_023A:
@@ -149,21 +149,22 @@ Script_1:
     TrainerCardHasBadge 0x8008, 3
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0269
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0269
     VMCall L_02F2
     VMJump L_02EC
 
 L_0269:
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02DE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02DE
     VMStackPush 0x4001
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02A3
-    ParentActorMsg 1024, 8, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02A3
+    // "A shining example of a Trainer...[f000]븁\u0000\nSince that's what you are, you should\nbe able to collect all the Gym Badges[f000]븀\u0000\nand reach the Pokémon League![f000]븁\u0000\nThen, you and your Pokémon\nwill shine even brighter!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_02D8
@@ -171,15 +172,17 @@ L_0269:
 L_02A3:
     VMStackPushFlag 760
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02CA
-    ParentActorMsg 1024, 5, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02CA
+    // "I want my relationship with my Pokémon\nto be less like sun and moon[f000]븀\u0000\nand more like two blazing suns![f000]븁\u0000\nThere'd be no limit to how bright\nwe could shine!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_02D8
 
 L_02CA:
-    ParentActorMsg 1024, 6, 0, 0
+    // "What my Pokémon want to do\nand what I want to do...[f000]븀\u0000\nWhen they are the same...[f000]븁\u0000\nWe have more than twice\nthe energy to shine!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -187,7 +190,8 @@ L_02D8:
     VMJump L_02EC
 
 L_02DE:
-    ParentActorMsg 1024, 9, 0, 0
+    // "Elesa: A model always has to make\nother people's dreams a reality[f000]븀\u0000\nwithout losing sight of herself.[f000]븁\u0000\nIt's similar for Trainers and Pokémon.\nTrainers have to give everything they[f000]븀\u0000\nhave to make their Pokémon feel like[f000]븀\u0000\nthey can win, no matter the situation.[f000]븁\u0000\nWhen I realized that, modeling\nbecame that much more fun."
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -197,14 +201,15 @@ L_02EC:
     VMHalt
 
 L_02F2:
-    ActorMsg 1024, 0, 4, 2, 0
+    // "Welcome to the main stage![f000]븁\u0000\nMy beloved Pokémon\nand your Pokémon shall compete![f000]븁\u0000\nWe're going to see whose\nstar shines brightest![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 4, 2, 0
     ActorMsgClose
     WorkSetConst 0x8020, 0
     GameGetDifficulty 0x8020
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_032B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_032B
     CallTrainerBattle 767, 0, 0
     VMJump L_0333
 
@@ -216,8 +221,8 @@ L_0333:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0398
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0398
     EvCameraInit
     EvCameraUnbind
     EvCameraMoveTo 3672, 0, 0xed000, 0xf8000, 0x6802f, 0x3f000, 1
@@ -235,7 +240,8 @@ L_0398:
     CallTrainerLose
 
 L_039A:
-    ActorMsg 1024, 1, 4, 2, 0
+    // "Well...[f000]븁\u0000\nNow, you...you're an even more wonderful\nTrainer than I expected.[f000]븁\u0000\nYour sweet fighting style\nswept me off my feet![f000]븀\u0000\nTake this![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 4, 2, 0
     ActorMsgClose
     TrainerCardSaveGymVictoryParty 3
     TrainerCardAddBadge 3
@@ -244,8 +250,8 @@ L_039A:
     TrainerCardGetSex 0x8021
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03DB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03DB
     PlayFieldEffect 6
     VMJump L_03DF
 
@@ -257,9 +263,11 @@ L_03DF:
     WorkSetConst 0x8021, 0
     Cmd_025F 2
     WordSetPlayerName 0
+    // "[f000]Ā\u0001\u0000 received the\nBolt Badge from Elesa![f000]븁\u0000"
     SystemMsg 2, 2
     InfoMsgClose
-    ActorMsg 1024, 3, 4, 2, 0
+    // "If you have four Badges, including this\nBolt Badge, Pokémon up to Lv. 50,[f000]븀\u0000\nincluding traded Pokémon, will obey you.[f000]븁\u0000\nAlso, here's this move I like.\nFeel free to use it, um, if you want to.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 4, 2, 0
     ActorMsgClose
     Cmd_025F 0
     VMStackPush 0x8000
@@ -270,7 +278,8 @@ L_03DF:
     VMStackPop 0x8001
     VMStackPop 0x8000
     Cmd_025F 2
-    ActorMsg 1024, 4, 4, 2, 0
+    // "Volt Switch lets the Pokémon switch with\na different Pokémon after attacking.[f000]븁\u0000\nOf course, if you don't have another\nPokémon in your party, you can't switch."
+    ActorMsg MSGFILE_SCRIPT, 4, 4, 2, 0
     MsgWaitAdvance
     ActorMsgClose
     EvCameraMoveToDefault 30
@@ -284,7 +293,7 @@ L_03DF:
     WorkSetConst 0x40c0, 1
     FlagReset 761
     FlagReset 762
-    Cmd_0262 1, 6
+    HollowRivalCmd_0262 1, 6
     VMReturn
 
 Script_4:
@@ -293,8 +302,8 @@ Script_4:
     VMSleep 16
     VMStackPushFlag 264
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_055F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_055F
     TrainerBGMPlayPush 207
     ActorCmdExec 2, Movement_09B0
     ActorCmdWait
@@ -302,7 +311,7 @@ Script_4:
     WorkSetConst 0x8023, 0
     PlayerGetGPos 0x8022, 0x8023
     WorkCmpConst 0x8022, 14
-    VMJumpIf 1, L_04C2
+    VMJumpIf CMP_EQ, L_04C2
     VMJump L_04D2
 
 L_04C2:
@@ -312,7 +321,7 @@ L_04C2:
 
 L_04D2:
     WorkCmpConst 0x8022, 15
-    VMJumpIf 1, L_04E5
+    VMJumpIf CMP_EQ, L_04E5
     VMJump L_04F5
 
 L_04E5:
@@ -322,7 +331,7 @@ L_04E5:
 
 L_04F5:
     WorkCmpConst 0x8022, 16
-    VMJumpIf 1, L_0508
+    VMJumpIf CMP_EQ, L_0508
     VMJump L_0518
 
 L_0508:
@@ -335,14 +344,15 @@ L_0518:
     ActorCmdWait
 
 L_0522:
-    ActorMsg 1024, 10, 2, 0, 0
+    // "Welcome to the Nimbasa Gym![f000]븁\u0000\nA stylish Pokémon battle and\nfashion show created by Pokémon[f000]븀\u0000\nand Trainers is starting now![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 2, 0, 0
     ActorMsgClose
     CallTrainerBattle 207, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0557
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0557
     CallTrainerBattleEnd
     VMJump L_0559
 
@@ -363,10 +373,10 @@ L_0569:
     Cmd_025F 0
     VMStackPushFlag 264
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0609
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0609
     WorkCmpConst 0x8022, 14
-    VMJumpIf 1, L_05A3
+    VMJumpIf CMP_EQ, L_05A3
     VMJump L_05B3
 
 L_05A3:
@@ -376,7 +386,7 @@ L_05A3:
 
 L_05B3:
     WorkCmpConst 0x8022, 15
-    VMJumpIf 1, L_05C6
+    VMJumpIf CMP_EQ, L_05C6
     VMJump L_05D6
 
 L_05C6:
@@ -386,7 +396,7 @@ L_05C6:
 
 L_05D6:
     WorkCmpConst 0x8022, 16
-    VMJumpIf 1, L_05E9
+    VMJumpIf CMP_EQ, L_05E9
     VMJump L_05F9
 
 L_05E9:
@@ -420,8 +430,8 @@ Script_5:
     VMSleep 16
     VMStackPushFlag 264
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0728
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0728
     TrainerBGMPlayPush 208
     ActorCmdExec 3, Movement_09B0
     ActorCmdWait
@@ -429,7 +439,7 @@ Script_5:
     WorkSetConst 0x8025, 0
     PlayerGetGPos 0x8024, 0x8025
     WorkCmpConst 0x8024, 14
-    VMJumpIf 1, L_068B
+    VMJumpIf CMP_EQ, L_068B
     VMJump L_069B
 
 L_068B:
@@ -439,7 +449,7 @@ L_068B:
 
 L_069B:
     WorkCmpConst 0x8024, 15
-    VMJumpIf 1, L_06AE
+    VMJumpIf CMP_EQ, L_06AE
     VMJump L_06BE
 
 L_06AE:
@@ -449,7 +459,7 @@ L_06AE:
 
 L_06BE:
     WorkCmpConst 0x8024, 16
-    VMJumpIf 1, L_06D1
+    VMJumpIf CMP_EQ, L_06D1
     VMJump L_06E1
 
 L_06D1:
@@ -462,14 +472,15 @@ L_06E1:
     ActorCmdWait
 
 L_06EB:
-    ActorMsg 1024, 13, 3, 0, 0
+    // "Are you beautiful as a Trainer?\nSurprise me![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 3, 0, 0
     ActorMsgClose
     CallTrainerBattle 208, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0720
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0720
     CallTrainerBattleEnd
     VMJump L_0722
 
@@ -490,10 +501,10 @@ L_0732:
     Cmd_025F 0
     VMStackPushFlag 264
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_07D2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07D2
     WorkCmpConst 0x8024, 14
-    VMJumpIf 1, L_076C
+    VMJumpIf CMP_EQ, L_076C
     VMJump L_077C
 
 L_076C:
@@ -503,7 +514,7 @@ L_076C:
 
 L_077C:
     WorkCmpConst 0x8024, 15
-    VMJumpIf 1, L_078F
+    VMJumpIf CMP_EQ, L_078F
     VMJump L_079F
 
 L_078F:
@@ -513,7 +524,7 @@ L_078F:
 
 L_079F:
     WorkCmpConst 0x8024, 16
-    VMJumpIf 1, L_07B2
+    VMJumpIf CMP_EQ, L_07B2
     VMJump L_07C2
 
 L_07B2:
@@ -547,8 +558,8 @@ Script_6:
     VMSleep 16
     VMStackPushFlag 264
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0964
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0964
     TrainerBGMPlayPush 209
     ActorCmdExec 0, Movement_09B0
     ActorCmdWait
@@ -556,7 +567,7 @@ Script_6:
     WorkSetConst 0x8027, 0
     PlayerGetGPos 0x8026, 0x8027
     WorkCmpConst 0x8026, 14
-    VMJumpIf 1, L_0854
+    VMJumpIf CMP_EQ, L_0854
     VMJump L_0864
 
 L_0854:
@@ -566,7 +577,7 @@ L_0854:
 
 L_0864:
     WorkCmpConst 0x8026, 15
-    VMJumpIf 1, L_0877
+    VMJumpIf CMP_EQ, L_0877
     VMJump L_0887
 
 L_0877:
@@ -576,7 +587,7 @@ L_0877:
 
 L_0887:
     WorkCmpConst 0x8026, 16
-    VMJumpIf 1, L_089A
+    VMJumpIf CMP_EQ, L_089A
     VMJump L_08AA
 
 L_089A:
@@ -589,14 +600,15 @@ L_08AA:
     ActorCmdWait
 
 L_08B4:
-    ActorMsg 1024, 16, 0, 0, 0
+    // "The show is coming to its finale.\nNow, I'll see if you are worthy[f000]븀\u0000\nto stand on the same stage as Elesa![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 0, 0, 0
     ActorMsgClose
     CallTrainerBattle 209, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_08E9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08E9
     CallTrainerBattleEnd
     VMJump L_08EB
 
@@ -605,7 +617,7 @@ L_08E9:
 
 L_08EB:
     WorkCmpConst 0x8026, 14
-    VMJumpIf 1, L_08FE
+    VMJumpIf CMP_EQ, L_08FE
     VMJump L_090E
 
 L_08FE:
@@ -615,7 +627,7 @@ L_08FE:
 
 L_090E:
     WorkCmpConst 0x8026, 15
-    VMJumpIf 1, L_0921
+    VMJumpIf CMP_EQ, L_0921
     VMJump L_0931
 
 L_0921:
@@ -625,7 +637,7 @@ L_0921:
 
 L_0931:
     WorkCmpConst 0x8026, 16
-    VMJumpIf 1, L_0944
+    VMJumpIf CMP_EQ, L_0944
     VMJump L_0954
 
 L_0944:
@@ -1014,8 +1026,8 @@ L_0E38:
     Cmd_025C 0, 4, 2
     VMStackPushFlag 264
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0EF3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0EF3
     Cmd_025F 5
 
 L_0EF3:
@@ -1054,13 +1066,14 @@ L_0F26:
     ActorCmdWait
     ActorCmdExec 255, Movement_1264
     ActorCmdWait
-    ActorMsg 1024, 7, 4, 0, 0
+    // "Wait![f000]븁\u0000\nPlease walk with us.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 4, 0, 0
     ActorMsgClose
     WorkSetConst 0x8028, 0
     WorkSetConst 0x8029, 0
     PlayerGetGPos 0x8028, 0x8029
     WorkCmpConst 0x8028, 14
-    VMJumpIf 1, L_0FB8
+    VMJumpIf CMP_EQ, L_0FB8
     VMJump L_0FD4
 
 L_0FB8:
@@ -1072,7 +1085,7 @@ L_0FB8:
 
 L_0FD4:
     WorkCmpConst 0x8028, 15
-    VMJumpIf 1, L_0FE7
+    VMJumpIf CMP_EQ, L_0FE7
     VMJump L_1003
 
 L_0FE7:
@@ -1084,7 +1097,7 @@ L_0FE7:
 
 L_1003:
     WorkCmpConst 0x8028, 16
-    VMJumpIf 1, L_1016
+    VMJumpIf CMP_EQ, L_1016
     VMJump L_1032
 
 L_1016:
@@ -1137,7 +1150,7 @@ L_1048:
     MsgWinCloseNo 3
     ActorCmdWait
     WorkCmpConst 0x8028, 14
-    VMJumpIf 1, L_1125
+    VMJumpIf CMP_EQ, L_1125
     VMJump L_113D
 
 L_1125:
@@ -1148,7 +1161,7 @@ L_1125:
 
 L_113D:
     WorkCmpConst 0x8028, 15
-    VMJumpIf 1, L_1150
+    VMJumpIf CMP_EQ, L_1150
     VMJump L_1168
 
 L_1150:
@@ -1159,7 +1172,7 @@ L_1150:
 
 L_1168:
     WorkCmpConst 0x8028, 16
-    VMJumpIf 1, L_117B
+    VMJumpIf CMP_EQ, L_117B
     VMJump L_1193
 
 L_117B:
@@ -1174,7 +1187,8 @@ L_1193:
     ActorCmdWait
 
 L_11A5:
-    ActorMsg 1024, 8, 4, 0, 0
+    // "A shining example of a Trainer...[f000]븁\u0000\nSince that's what you are, you should\nbe able to collect all the Gym Badges[f000]븀\u0000\nand reach the Pokémon League![f000]븁\u0000\nThen, you and your Pokémon\nwill shine even brighter!"
+    ActorMsg MSGFILE_SCRIPT, 8, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     Cmd_025F 0
@@ -1264,11 +1278,12 @@ Script_7:
     ActorsPauseAll
     VMStackPushFlag 264
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_12B3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_12B3
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "Isn't this Gym beautiful when it's lit up?[f000]븁\u0000\nThe Pokémon also look beautiful\nin this lighting!"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_12C7
@@ -1276,7 +1291,8 @@ Script_7:
 L_12B3:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 12, 0, 0
+    // "You and your Pokémon\nsparkle and shine!"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -1289,11 +1305,12 @@ Script_8:
     ActorsPauseAll
     VMStackPushFlag 264
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_12FC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_12FC
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 14, 0, 0
+    // "Ms. Elesa is strong and beautiful...[f000]븁\u0000\nDon't make the mistake of thinking\nshe's the same as us."
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_1310
@@ -1301,7 +1318,8 @@ Script_8:
 L_12FC:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 15, 0, 0
+    // "Beauty isn't just about looks.[f000]븁\u0000\nStrength is a part of beauty,\nboth for you and for Elesa."
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -1314,11 +1332,12 @@ Script_9:
     ActorsPauseAll
     VMStackPushFlag 264
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_1345
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1345
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 17, 0, 0
+    // "Being able to see a match between\na challenger and Elesa this close...[f000]븁\u0000\nThat makes even us gleam with joy!"
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_1359
@@ -1326,7 +1345,8 @@ Script_9:
 L_1345:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 18, 0, 0
+    // "That was a beautiful Pokémon battle\nyou and Elesa had![f000]븁\u0000\nI was captivated by it!\nWhat an absolutely marvelous show!"
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -1342,13 +1362,14 @@ Script_10:
     TrainerCardHasBadge 0x8008, 3
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_13EB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_13EB
     VMStackPushFlag 110
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_13D7
-    ParentActorMsg 1024, 19, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_13D7
+    // "What do you think? Surprised, right?[f000]븁\u0000\nThis Gym is, speaking frankly, a glittering\nfashion show and a dazzling stage![f000]븁\u0000\nWell, for now, I'll give you this![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
     ActorMsgClose
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -1357,14 +1378,16 @@ Script_10:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 20, 0, 0
+    // "In this Pokémon Gym, we'll have you\nproceed by defeating the Trainers waiting[f000]븀\u0000\non the catwalk![f000]븁\u0000\nBy the way, Electric-type Pokémon don't\ndo well against Ground-type moves...[f000]븁\u0000\nOh![f000]븁\u0000\nBut Ground-type moves don't work\nagainst a Pokémon called Emolga,[f000]븀\u0000\nso please be careful!"
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     LastKeyWait
     ActorMsgClose
     FlagSet 110
     VMJump L_13E5
 
 L_13D7:
-    ParentActorMsg 1024, 20, 0, 0
+    // "In this Pokémon Gym, we'll have you\nproceed by defeating the Trainers waiting[f000]븀\u0000\non the catwalk![f000]븁\u0000\nBy the way, Electric-type Pokémon don't\ndo well against Ground-type moves...[f000]븁\u0000\nOh![f000]븁\u0000\nBut Ground-type moves don't work\nagainst a Pokémon called Emolga,[f000]븀\u0000\nso please be careful!"
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -1372,7 +1395,8 @@ L_13E5:
     VMJump L_13F9
 
 L_13EB:
-    ParentActorMsg 1024, 21, 0, 0
+    // "Elesa uses sparkling, bright\nElectric-type attacks![f000]븁\u0000\nBut the combination of you and your\nPokémon shone even brighter![f000]븁\u0000\nWhy, you're...you're...\na supermodel![f000]븁\u0000\nWell, no. You're just a really good\nTrainer with great Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -1392,7 +1416,8 @@ Script_14:
     ActorCmdWait
     ActorCmdExec 1, Movement_1274
     ActorCmdWait
-    ActorMsg 1024, 19, 1, 0, 0
+    // "What do you think? Surprised, right?[f000]븁\u0000\nThis Gym is, speaking frankly, a glittering\nfashion show and a dazzling stage![f000]븁\u0000\nWell, for now, I'll give you this![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 19, 1, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -1401,7 +1426,8 @@ Script_14:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 20, 1, 0, 0
+    // "In this Pokémon Gym, we'll have you\nproceed by defeating the Trainers waiting[f000]븀\u0000\non the catwalk![f000]븁\u0000\nBy the way, Electric-type Pokémon don't\ndo well against Ground-type moves...[f000]븁\u0000\nOh![f000]븁\u0000\nBut Ground-type moves don't work\nagainst a Pokémon called Emolga,[f000]븀\u0000\nso please be careful!"
+    ActorMsg MSGFILE_SCRIPT, 20, 1, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorWalkRoute 1, 17, 58, 0, 8, 1
@@ -1422,20 +1448,23 @@ Script_11:
     TrainerCardHasBadge 0x8008, 3
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_14CF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_14CF
+    // "Nimbasa City Pokémon Gym[f000]븁\u0000\nLeader: Elesa\nCertified Trainers:"
     InfoMsg 22, 2
     VMJump L_14F2
 
 L_14CF:
     VMStackPushFlag 2478
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_14ED
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_14ED
+    // "Nimbasa City Pokémon Gym[f000]븁\u0000\nLeader: Elesa\nCertified Trainers:[f000]븀\u0000\n[f000]Ā\u0001\u0000"
     InfoMsg 23, 2
     VMJump L_14F2
 
 L_14ED:
+    // "Nimbasa City Pokémon Gym[f000]븁\u0000\nLeader: Elesa\nCertified Trainers:[f000]븀\u0000\n[f000]Ā\u0001\u0000, [f000]Ā\u0001\u0001"
     InfoMsg 24, 2
 
 L_14F2:

@@ -15,16 +15,16 @@
 Script_1:
     VMStackPush 0x40d2
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f0
     VMStackPushConst 4
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0070
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0070
     VMStackPushFlag 788
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_006A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_006A
     FlagSet 788
 
 L_006A:
@@ -33,9 +33,9 @@ L_006A:
 L_0070:
     VMStackPush 0x40d2
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0089
-    Cmd_0262 3, 2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0089
+    HollowRivalCmd_0262 3, 2
 
 L_0089:
     VMHalt
@@ -43,8 +43,8 @@ L_0089:
 Script_2:
     VMStackPush 0x40d2
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00AA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00AA
     ActorSetGPos 13, 11, 0, 48, 3
 
 L_00AA:
@@ -54,13 +54,15 @@ Script_3:
     ActorsPauseAll
     ActorCmdExec 13, Movement_0270
     ActorCmdWait
+    // "Heeey![f000]븁\u0000"
+    // "Hi there![f000]븁\u0000"
     ActorMsgGendered 1024, 0, 1, 13, 0, 0
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 11
-    VMStackCmp 1
-    VMJumpIf 255, L_00FD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00FD
     WorkSub 0x8022, 1
     ActorWalkRoute 13, 0x8021, 0x8022, 1, 8, 1
     ActorCmdWait
@@ -75,18 +77,21 @@ L_00FD:
 
 L_011D:
     WordSetPlayerName 0
-    ActorMsg 1024, 2, 13, 0, 0
+    // "Bianca: Did you know this?[f000]븁\u0000\nIf you push the floating stones,\nthey move![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 13, 0, 0
     MsgWinCloseAll
     ActorCmdExec 13, Movement_0254
     ActorCmdWait
     VMSleep 8
     ActorCmdExec 13, Movement_024C
     ActorCmdWait
-    ActorMsg 1024, 3, 13, 0, 0
+    // "As always, this place is charged with\nlots of electricity that Pokémon like![f000]븁\u0000\nThe electric charges react from one\nstone to another, so that's why[f000]븀\u0000\nthere are floating stones![f000]븁\u0000\nYou can't push all of them, though.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 13, 0, 0
     MsgWinCloseAll
     ActorCmdExec 13, Movement_0268
     ActorCmdWait
-    ActorMsg 1024, 4, 13, 0, 0
+    // "Oh, that's right!\nI came here to research something![f000]븁\u0000\nBe seeing you![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 13, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 13, 14, 45, 1, 8, 1
     ActorCmdWait
@@ -95,8 +100,8 @@ L_011D:
     WorkSetConst 0x40d2, 1
     VMStackPush 0x40f0
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_01B3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01B3
     ActorDelete 13
     FlagSet 788
     VMJump L_01BF
@@ -111,8 +116,10 @@ L_01BF:
 
 Script_4:
     ActorsPauseAll
-    ActorMsg 1024, 8, 11, 0, 0
-    ActorMsg 1024, 9, 11, 0, 0
+    // "[f000]븉\u0001\u0001Chargestone Cave--\nI really like it here.[f000]븁\u0000\nFormulas express the\nforces behind electricity,[f000]븀\u0000\nits connection to Pokémon,[f000]븀\u0000\nand humans and Pokémon themselves.[f000]븁\u0000\nThis--this is my ideal place.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 11, 0, 0
+    // "[f000]븉\u0001\u0001I have to go...[f000]븁\u0000\nI have to go in order to save\nPokémon and protect the very[f000]븀\u0000\nfriend that I have to stop![f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 11, 0, 0
     MsgWinCloseAll
     SEPlay 1369
     ActorDelete 11
@@ -127,7 +134,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "Bianca: The bridge fell apart,\nbut it's being fixed right now!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -138,7 +146,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "What could have happened?\nMaybe wild Pokémon ran into it.[f000]븁\u0000\nAt any rate, it's going to take some\ntime to fix. Go wait around Driftveil!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -176,31 +185,35 @@ Script_7:
     ActorsPauseAll
     VMStackPushFlag 2448
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02FC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02FC
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "What beautiful stones![f000]븁\u0000\nWouldn't it be lovely if I could\nhave such pretty gems on the[f000]븀\u0000\nwalls of my room?[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     MsgWinCloseAll
     SEPlay 1908
     GameGetVersion 0x8010
     VMStackPush 0x8010
     VMStackPushConst 22
-    VMStackCmp 1
-    VMJumpIf 255, L_02D1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02D1
     Cmd_0275 0, 18, 0
+    // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink."
     SystemMsg 12, 0
     VMJump L_02DE
 
 L_02D1:
     Cmd_0275 0, 17, 0
+    // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink."
     SystemMsg 11, 0
 
 L_02DE:
     SEWait
     MsgWaitAdvance
     MsgWinCloseAll
-    ParentActorMsg 1024, 13, 0, 0
+    // "I'll live here![f000]븁\u0000\nFrom today on, my home will be here,\namong the beautiful stones!"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2448
@@ -209,7 +222,8 @@ L_02DE:
 L_02FC:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 13, 0, 0
+    // "I'll live here![f000]븁\u0000\nFrom today on, my home will be here,\namong the beautiful stones!"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     ActorMsgClose
 

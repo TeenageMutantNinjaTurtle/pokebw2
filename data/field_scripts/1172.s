@@ -17,8 +17,8 @@
 Script_1:
     VMStackPush 0x413c
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0051
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0051
     ActorSetGPos 0, 12, 0, 16, 2
 
 L_0051:
@@ -27,7 +27,8 @@ L_0051:
 Script_2:
     ActorsPauseAll
     WordSetPlayerName 0
-    ActorMsg 1024, 4, 0, 2, 0
+    // "This is a first-class, ultra-deluxe\ndressing room that only stars recognized[f000]븀\u0000\nby Mr. Deeoh can use![f000]븁\u0000\nFrom now on, only you have\npermission to use this room freely![f000]븁\u0000\nSee you, [f000]Ā\u0001\u0000!\nI'm looking forward to[f000]븀\u0000\nseeing your next movie!"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 2, 0
     LastKeyWait
     MsgWinCloseAll
     ActorCmdExec 0, Movement_008C
@@ -48,7 +49,8 @@ Script_3:
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Top stars always have such\ngreat faces...[f000]븁\u0000\n[f000]Ā\u0001\u0000, your eyelids\nshine brighter than any eye shadow![f000]븁\u0000\nJust like the boss when he\nwas younger..."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -60,7 +62,8 @@ Script_4:
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Top stars always have such\ngreat faces...[f000]븁\u0000\n[f000]Ā\u0001\u0000, your lips\nare glossier than any lipstick![f000]븁\u0000\nJust like the boss when he\nwas younger..."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -72,7 +75,8 @@ Script_5:
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "Hey, [f000]Ā\u0001\u0000,\nare you using your own Pokémon[f000]븀\u0000\nwhen you shoot movies?[f000]븁\u0000\nPokémon are actors, too![f000]븁\u0000\nIf they act well in movies, they'll\nalso become like shining stars!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -84,7 +88,8 @@ Script_6:
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "I'm the guard for this room.\nI've been waiting for your arrival.[f000]븁\u0000\nWhen I was young, my boss was...[f000]븁\u0000\nMr. Brycen...[f000]븁\u0000\nYou're the third star\nto use this dressing room."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -94,6 +99,7 @@ Script_6:
 Script_7:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a lot of fan letters!"
     InfoMsg 5, 2
     LastKeyWait
     MsgWinCloseAll
@@ -104,6 +110,7 @@ Script_7:
 Script_8:
     ActorsPauseAll
     SEPlay 1351
+    // "It's packed with worn-\nout, old movie scripts...[f000]븁\u0000\n“Shuckle-Berry Finneon\"[f000]븁\u0000\n“The Kricketune of Castelia Square\"[f000]븁\u0000\n“The Black Clamperl\"[f000]븁\u0000\n“Saint Geodude and the Dragonite\"[f000]븁\u0000\n“Make Way for Ducklett\"[f000]븁\u0000\n“The Boxcar Cinccino\"[f000]븁\u0000\n“The Trumpet of the Swanna\"[f000]븁\u0000\n“The Legend of Sleepy Drowzee\"[f000]븁\u0000\n“Little Wurmple\"[f000]븁\u0000\n“A Tale of Two Skitty\"[f000]븁\u0000\n“The Safari Zone Book\"[f000]븁\u0000\n“The Tale of Betty Buneary\"[f000]븁\u0000\n“One Basculin, Two Basculin,\nRed-Striped Basculin,[f000]븀\u0000\nBlue-Striped Basculin\"[f000]븁\u0000\n“The Empoleon's New Clothes\"[f000]븁\u0000\n“The Cobalion and the Sandshrew\"[f000]븁\u0000\n“The House at Foongus Corner\"[f000]븁\u0000\n“The Reluctant Dragonite\"[f000]븁\u0000\n“Three Little Tepig\"[f000]븁\u0000\n“Rip Van Dwebble\"[f000]븁\u0000\n“Galvantula's Travels\"[f000]븁\u0000\n“Galvantula's Travels 2:\nEelektrik Boogaloo\"[f000]븁\u0000\n“The Golett\"[f000]븁\u0000\n“The Pokey Little Lillipup\"[f000]븁\u0000\n“Enspoinklopedia Brown\"[f000]븁\u0000\n“Snivy in Ivyland\""
     InfoMsg 6, 2
     LastKeyWait
     MsgWinCloseAll
@@ -114,6 +121,7 @@ Script_8:
 Script_9:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a huge mirror that looks\nlike it will reach the ceiling!"
     InfoMsg 7, 2
     LastKeyWait
     MsgWinCloseAll
@@ -124,6 +132,7 @@ Script_9:
 Script_10:
     ActorsPauseAll
     SEPlay 1351
+    // "These vividly colored bottles\nare for makeup..."
     InfoMsg 8, 2
     LastKeyWait
     MsgWinCloseAll
@@ -134,6 +143,7 @@ Script_10:
 Script_11:
     ActorsPauseAll
     SEPlay 1351
+    // "There are costumes with lamé fabric!\nThe gold gleams in the light!"
     InfoMsg 9, 2
     LastKeyWait
     MsgWinCloseAll
@@ -144,6 +154,7 @@ Script_11:
 Script_12:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a costume made of gold lamé!\nIt gleams in the light![f000]븁\u0000\nThere's also a dress with a Swanna\nDoll that wraps around the waist!"
     InfoMsg 10, 2
     LastKeyWait
     MsgWinCloseAll

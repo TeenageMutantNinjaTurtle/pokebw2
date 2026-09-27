@@ -72,6 +72,7 @@ Script_6:
 Script_7:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a subway map of the Unova region.[f000]븁\u0000"
     InfoMsg 0, 2
     MsgWinCloseAll
     FadeOutBlackQ

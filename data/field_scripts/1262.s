@@ -19,8 +19,8 @@ Script_2:
     FieldGetContinueFlag 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0057
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0057
     VMCall L_0059
 
 L_0057:
@@ -30,14 +30,14 @@ L_0059:
     Cmd_01DB 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_009F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_009F
     FlagSet 614
     Cmd_01DB 6, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0099
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0099
     Cmd_01DB 5, 0x8020
     ActorDelete 0x8020
 
@@ -49,8 +49,8 @@ L_009F:
     Cmd_01DB 6, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00CE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00CE
     Cmd_01DB 5, 0x8020
     VMCall L_00E0
     VMJump L_00DE
@@ -68,12 +68,12 @@ L_00E0:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPush 0x8023
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPush 0x8024
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0123
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0123
     WorkAdd 0x8023, 1
     ActorSetGPos 0x8020, 0x8023, 0, 0x8024, 1
 
@@ -93,10 +93,11 @@ L_0139:
     Cmd_01DB 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0166
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0166
     DebugPrint 0x8010
-    ParentActorMsg 1024, 3, 0, 0
+    // "I haven't received any other gifts\nfor you.[f000]븁\u0000\nWe look forward to your next visit."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -105,35 +106,39 @@ L_0166:
     WordSetPlayerName 0
     RTCGetDayPart 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_0180
+    VMJumpIf CMP_EQ, L_0180
     VMJump L_0190
 
 L_0180:
-    ParentActorMsg 1024, 0, 0, 0
+    // "Good morning. You must be [f000]Ā\u0001\u0000.[f000]븁\u0000\nI've received a Mystery Gift for you.\nHere you go![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     VMJump L_01BD
 
 L_0190:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_01A3
+    VMJumpIf CMP_EQ, L_01A3
     VMJump L_01B3
 
 L_01A3:
-    ParentActorMsg 1024, 1, 0, 0
+    // "Good day. You must be [f000]Ā\u0001\u0000.[f000]븁\u0000\nI've received a Mystery Gift for you.\nHere you go![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     VMJump L_01BD
 
 L_01B3:
-    ParentActorMsg 1024, 2, 0, 0
+    // "Good evening. You must be [f000]Ā\u0001\u0000.[f000]븁\u0000\nI've received a Mystery Gift for you.\nHere you go![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
 
 L_01BD:
     ActorMsgClose
     Cmd_01DB 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01F6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01F6
     VMCall L_0208
     Cmd_02C5 29
-    ParentActorMsg 1024, 4, 0, 0
+    // "We look forward to your next visit."
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0206
@@ -151,7 +156,7 @@ L_0208:
     Cmd_01DB 2, 0x8025
     Cmd_01DB 7, 0x8010
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0227
+    VMJumpIf CMP_EQ, L_0227
     VMJump L_0239
 
 L_0227:
@@ -162,7 +167,7 @@ L_0227:
 
 L_0239:
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_024C
+    VMJumpIf CMP_EQ, L_024C
     VMJump L_025E
 
 L_024C:
@@ -173,7 +178,7 @@ L_024C:
 
 L_025E:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_0271
+    VMJumpIf CMP_EQ, L_0271
     VMJump L_0283
 
 L_0271:
@@ -184,7 +189,7 @@ L_0271:
 
 L_0283:
     WorkCmpConst 0x8010, 4
-    VMJumpIf 1, L_0296
+    VMJumpIf CMP_EQ, L_0296
     VMJump L_02AC
 
 L_0296:
@@ -196,7 +201,7 @@ L_0296:
 
 L_02AC:
     WorkCmpConst 0x8010, 5
-    VMJumpIf 1, L_02BF
+    VMJumpIf CMP_EQ, L_02BF
     VMJump L_02D1
 
 L_02BF:
@@ -207,7 +212,7 @@ L_02BF:
 
 L_02D1:
     WorkCmpConst 0x8010, 6
-    VMJumpIf 1, L_02E4
+    VMJumpIf CMP_EQ, L_02E4
     VMJump L_02F6
 
 L_02E4:

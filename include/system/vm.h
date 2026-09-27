@@ -36,7 +36,8 @@ struct VM {
     VMInitParam param;
     u8 stackPos;
     u8 state;
-    u8 unk1A;
+    // The result of the last comparison: less, equal or greater than (0, 1, 2)
+    u8 cmpResult;
     VMCommand native;
     const u8 *pc;
     u32 *stack;

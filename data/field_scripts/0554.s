@@ -17,8 +17,8 @@ Script_1:
 Script_2:
     VMStackPushFlag 941
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0051
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0051
     ActorSetGPos 0, 31, 0, 18, 2
 
 L_0051:
@@ -28,8 +28,8 @@ Script_3:
     ActorsPauseAll
     VMStackPushFlag 2406
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0074
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0074
     VMCall L_01BC
     VMJump L_007A
 
@@ -46,12 +46,12 @@ L_0080:
     ActorGetGPos 0, 0x8023, 0x8024
     VMStackPush 0x8022
     VMStackPushConst 17
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 18
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_00C1
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00C1
     ActorCmdExec 0, Movement_0268
     ActorCmdWait
     VMJump L_0187
@@ -59,12 +59,12 @@ L_0080:
 L_00C1:
     VMStackPush 0x8022
     VMStackPushConst 18
-    VMStackCmp 3
+    VMStackCmp CMP_LE
     VMStackPush 0x8024
     VMStackPushConst 19
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_00F4
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00F4
     ActorCmdExec 0, Movement_0268
     ActorCmdWait
     VMJump L_0187
@@ -72,12 +72,12 @@ L_00C1:
 L_00F4:
     VMStackPush 0x8022
     VMStackPushConst 19
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 18
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0127
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0127
     ActorCmdExec 0, Movement_0270
     ActorCmdWait
     VMJump L_0187
@@ -85,12 +85,12 @@ L_00F4:
 L_0127:
     VMStackPush 0x8022
     VMStackPush 0x8024
-    VMStackCmp 5
+    VMStackCmp CMP_NE
     VMStackPush 0x8022
     VMStackPushConst 17
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_015A
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_015A
     ActorCmdExec 0, Movement_0268
     ActorCmdWait
     VMJump L_0187
@@ -98,22 +98,23 @@ L_0127:
 L_015A:
     VMStackPush 0x8022
     VMStackPush 0x8024
-    VMStackCmp 5
+    VMStackCmp CMP_NE
     VMStackPush 0x8022
     VMStackPushConst 19
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0187
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0187
     ActorCmdExec 0, Movement_0270
     ActorCmdWait
 
 L_0187:
-    ActorMsg 1024, 1, 0, 0, 0
+    // "[f000]븉\u0001\u0001I want you to go inside.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8022
     VMStackPush 0x8024
-    VMStackCmp 5
-    VMJumpIf 255, L_01B0
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_01B0
     ActorCmdExec 0, Movement_0278
 
 L_01B0:
@@ -136,7 +137,8 @@ L_01BC:
     ActorAdd 0
     ActorSetGPos 0, 0x8021, 0, 0x8022, 2
     ActorDelete 254
-    ActorMsg 1024, 0, 0, 0, 0
+    // "[f000]븉\u0001\u0001This is our destination...\nGo inside.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 255, Movement_0240
     ActorCmdWait

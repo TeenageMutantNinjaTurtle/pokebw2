@@ -9,7 +9,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "When a Pokémon evolves, its appearance\nwill change, and it'll get more powerful![f000]븁\u0000\nIf you keep a Pokémon from evolving,\nit will learn moves more quickly!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -22,13 +23,15 @@ Script_2:
     ActorSetEyeToEye
     VMStackPush 0x40ac
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0055
-    ParentActorMsg 1024, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0055
+    // "Ah! I want to go to Pokéstar Studios\nas soon as possible![f000]븁\u0000\nI want my dear Audino\nto be in a movie!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     VMJump L_005F
 
 L_0055:
-    ParentActorMsg 1024, 1, 0, 0
+    // "My dear Audino will make its movie debut\nin Pokéstar Studios!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
 
 L_005F:
     LastKeyWait
@@ -42,7 +45,8 @@ Script_3:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 531, 0
-    ParentActorMsg 1024, 3, 0, 0
+    // "Brrrm...brrrm."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

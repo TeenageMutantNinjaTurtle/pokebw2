@@ -11,11 +11,12 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "I am researching Pokémon Fossils here.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     VMStackPush 0x417a
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_004F
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_004F
     VMCall L_0412
     VMJump L_00B3
 
@@ -23,14 +24,15 @@ L_004F:
     VMCall L_0426
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_00A7
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_00A7
+    // "You have a Fossil, don't you?\nShall I turn it back into a Pokémon?"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0095
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0095
     VMCall L_00C9
     VMJump L_00A1
 
@@ -51,7 +53,7 @@ L_00B3:
     VMHalt
 
 L_00B9:
-    ParentActorMsg 1024, 0x8020, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -59,13 +61,13 @@ L_00B9:
 L_00C9:
     VMStackPush 0x8021
     VMStackPushConst 2
-    VMStackCmp 4
-    VMJumpIf 255, L_0113
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0113
     VMCall L_011B
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0101
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0101
     VMCall L_031F
     VMJump L_010D
 
@@ -85,15 +87,16 @@ L_0119:
 L_011B:
     WorkSetConst 0x8024, 0
     WorkSetConst 0x8025, 0
-    ActorMsg 1024, 2, 6, 2, 0
+    // "Which Fossil should I turn back\ninto a Pokémon?"
+    ActorMsg MSGFILE_SCRIPT, 2, 6, 2, 0
     WorkSetConst 0x8022, 0
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32804
     WorkSetConst 0x8025, 99
     ItemCheckAmount 0x8025, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_016B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_016B
     ListMenuAdd 13, 65535, 99
 
 L_016B:
@@ -101,8 +104,8 @@ L_016B:
     ItemCheckAmount 0x8025, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0194
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0194
     ListMenuAdd 14, 65535, 100
 
 L_0194:
@@ -110,8 +113,8 @@ L_0194:
     ItemCheckAmount 0x8025, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01BD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01BD
     ListMenuAdd 15, 65535, 101
 
 L_01BD:
@@ -119,8 +122,8 @@ L_01BD:
     ItemCheckAmount 0x8025, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01E6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01E6
     ListMenuAdd 16, 65535, 102
 
 L_01E6:
@@ -128,8 +131,8 @@ L_01E6:
     ItemCheckAmount 0x8025, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_020F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_020F
     ListMenuAdd 17, 65535, 103
 
 L_020F:
@@ -137,8 +140,8 @@ L_020F:
     ItemCheckAmount 0x8025, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0238
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0238
     ListMenuAdd 18, 65535, 104
 
 L_0238:
@@ -146,8 +149,8 @@ L_0238:
     ItemCheckAmount 0x8025, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0261
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0261
     ListMenuAdd 19, 65535, 105
 
 L_0261:
@@ -155,8 +158,8 @@ L_0261:
     ItemCheckAmount 0x8025, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_028F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_028F
     WordSetItemName 0, 572
     ListMenuAdd 11, 65535, 572
 
@@ -165,8 +168,8 @@ L_028F:
     ItemCheckAmount 0x8025, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02BD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02BD
     WordSetItemName 1, 573
     ListMenuAdd 12, 65535, 573
 
@@ -175,12 +178,12 @@ L_02BD:
     ListMenuShow
     VMStackPush 0x8024
     VMStackPushConst 65534
-    VMStackCmp 5
-    VMJumpIf 255, L_0311
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0311
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_02FF
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_02FF
     WorkGet 0x8022, 0x8024
     WorkSetConst 0x8010, 1
     VMJump L_030B
@@ -201,7 +204,8 @@ L_031D:
 
 L_031F:
     WordSetItemName 0, 0x8022
-    ParentActorMsg 1024, 3, 0, 0
+    // "OK, then![f000]븁\u0000\nI'll turn that [f000]ĉ\u0001\u0000\nback into a Pokémon for you![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     ActorMsgClose
     ItemSub 0x8022, 1, 0x8010
     RecordAdd 89, 1
@@ -219,12 +223,13 @@ L_0368:
     WorkSetConst 0x8026, 0
     WorkSetConst 0x8027, 0
     WordSetPokeSpecies 0, 0x8023
-    ParentActorMsg 1024, 6, 0, 0
+    // "The Fossil you gave me turned back into\na Pokémon![f000]븁\u0000\nThis is [f000]ā\u0001\u0000!\nPlease take good care of it.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     PokePartyGetCount 0x8027, 0
     VMStackPush 0x8027
     VMStackPushConst 6
-    VMStackCmp 1
-    VMJumpIf 255, L_03B4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03B4
     WorkGet 0x417a, 0x8022
     WorkSetConst 0x8020, 9
     VMCall L_00B9
@@ -235,19 +240,21 @@ L_03B4:
     WordSetPlayerName 0
     WordSetPokeSpecies 1, 0x8023
     MEPlay 1304
+    // "[f000]Ā\u0001\u0000 received\n[f000]ā\u0001\u0001!"
     SystemMsg 7, 2
     MEWait
     MsgWaitAdvance
     InfoMsgClose
     PokePartyAdd 0x8010, 0x8023, 0, 25
     WordSetPokeSpecies 0, 0x8023
+    // "Would you like to give a nickname to the\nnewly received [f000]ā\u0001\u0000?"
     SystemMsg 8, 2
     YesNoWin 0x8010
     InfoMsgClose
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_040A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_040A
     WorkGet 0x8026, 0x8027
     CallPokeNameInput 0x8010, 0x8026, 1
 
@@ -270,8 +277,8 @@ L_0426:
     ItemCheckAmount 0x8028, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_045F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_045F
     WorkGet 0x8022, 0x8028
     WorkAdd 0x8021, 1
 
@@ -280,8 +287,8 @@ L_045F:
     ItemCheckAmount 0x8028, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_048C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_048C
     WorkGet 0x8022, 0x8028
     WorkAdd 0x8021, 1
 
@@ -290,8 +297,8 @@ L_048C:
     ItemCheckAmount 0x8028, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_04B9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04B9
     WorkGet 0x8022, 0x8028
     WorkAdd 0x8021, 1
 
@@ -300,8 +307,8 @@ L_04B9:
     ItemCheckAmount 0x8028, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_04E6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04E6
     WorkGet 0x8022, 0x8028
     WorkAdd 0x8021, 1
 
@@ -310,8 +317,8 @@ L_04E6:
     ItemCheckAmount 0x8028, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0513
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0513
     WorkGet 0x8022, 0x8028
     WorkAdd 0x8021, 1
 
@@ -320,8 +327,8 @@ L_0513:
     ItemCheckAmount 0x8028, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0540
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0540
     WorkGet 0x8022, 0x8028
     WorkAdd 0x8021, 1
 
@@ -330,8 +337,8 @@ L_0540:
     ItemCheckAmount 0x8028, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_056D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_056D
     WorkGet 0x8022, 0x8028
     WorkAdd 0x8021, 1
 
@@ -340,8 +347,8 @@ L_056D:
     ItemCheckAmount 0x8028, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_059A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_059A
     WorkGet 0x8022, 0x8028
     WorkAdd 0x8021, 1
 
@@ -350,8 +357,8 @@ L_059A:
     ItemCheckAmount 0x8028, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_05C7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05C7
     WorkGet 0x8022, 0x8028
     WorkAdd 0x8021, 1
 
@@ -361,72 +368,72 @@ L_05C7:
 L_05C9:
     VMStackPush 0x8022
     VMStackPushConst 105
-    VMStackCmp 1
-    VMJumpIf 255, L_05E8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05E8
     WorkSetConst 0x8023, 408
     VMJump L_06E0
 
 L_05E8:
     VMStackPush 0x8022
     VMStackPushConst 104
-    VMStackCmp 1
-    VMJumpIf 255, L_0607
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0607
     WorkSetConst 0x8023, 410
     VMJump L_06E0
 
 L_0607:
     VMStackPush 0x8022
     VMStackPushConst 101
-    VMStackCmp 1
-    VMJumpIf 255, L_0626
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0626
     WorkSetConst 0x8023, 138
     VMJump L_06E0
 
 L_0626:
     VMStackPush 0x8022
     VMStackPushConst 102
-    VMStackCmp 1
-    VMJumpIf 255, L_0645
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0645
     WorkSetConst 0x8023, 140
     VMJump L_06E0
 
 L_0645:
     VMStackPush 0x8022
     VMStackPushConst 103
-    VMStackCmp 1
-    VMJumpIf 255, L_0664
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0664
     WorkSetConst 0x8023, 142
     VMJump L_06E0
 
 L_0664:
     VMStackPush 0x8022
     VMStackPushConst 100
-    VMStackCmp 1
-    VMJumpIf 255, L_0683
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0683
     WorkSetConst 0x8023, 347
     VMJump L_06E0
 
 L_0683:
     VMStackPush 0x8022
     VMStackPushConst 99
-    VMStackCmp 1
-    VMJumpIf 255, L_06A2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06A2
     WorkSetConst 0x8023, 345
     VMJump L_06E0
 
 L_06A2:
     VMStackPush 0x8022
     VMStackPushConst 572
-    VMStackCmp 1
-    VMJumpIf 255, L_06C1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06C1
     WorkSetConst 0x8023, 564
     VMJump L_06E0
 
 L_06C1:
     VMStackPush 0x8022
     VMStackPushConst 573
-    VMStackCmp 1
-    VMJumpIf 255, L_06E0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06E0
     WorkSetConst 0x8023, 566
     VMJump L_06E0
 

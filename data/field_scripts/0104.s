@@ -37,8 +37,8 @@
 Script_30:
     VMStackPush 0x417b
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0099
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0099
     ActorSetGPos 0, 29, 3, 28, 1
 
 L_0099:
@@ -65,6 +65,7 @@ Script_27:
 Script_1:
     ActorsPauseAll
     SEWait
+    // "Thank you for sailing with us.[f000]븁\u0000\nThis cruise ship will arrive\nin Castelia City shortly.[f000]븁\u0000"
     SystemMsg 67, 2
     InfoMsgClose
     Plugin2_Cmd1005
@@ -90,29 +91,33 @@ Script_2:
     WordSetNumber 4, 0x8021, 1
     VMStackPush 0x8020
     VMStackPush 0x8021
-    VMStackCmp 3
-    VMJumpIf 255, L_01AD
-    ParentActorMsg 1024, 66, 0, 0
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_01AD
+    // "The number of Trainers aboard the\nRoyal Unova today is [f000]Ȁ\u0001\u0003.[f000]븀\u0000\nYou... Congratulations![f000]븁\u0000\nYou've won against every Trainer\non the ship![f000]븁\u0000\nThe ship is nearing the port.\nWould you like to get off the ship?"
+    ParentActorMsg MSGFILE_SCRIPT, 66, 0, 0
     VMJump L_01DA
 
 L_01AD:
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01D0
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01D0
+    // "The number of Trainers on the\nRoyal Unova today is [f000]Ȁ\u0001\u0003.[f000]븁\u0000\nThe ship is nearing the port.\nWould you like to get off the ship?"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     VMJump L_01DA
 
 L_01D0:
-    ParentActorMsg 1024, 0, 0, 0
+    // "The number of Trainers on the\nRoyal Unova today is [f000]Ȁ\u0001\u0003.[f000]븀\u0000\nAnd you've won against [f000]Ȁ\u0001\u0004.[f000]븁\u0000\nThe ship is nearing the port.\nWould you like to get off the ship?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
 
 L_01DA:
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_020F
-    ParentActorMsg 1024, 62, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_020F
+    // "Certainly. Just a moment, please.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 62, 0, 0
     ActorMsgClose
     Plugin2_Cmd1005
     FadeOutBlack
@@ -121,7 +126,8 @@ L_01DA:
     VMJump L_021D
 
 L_020F:
-    ParentActorMsg 1024, 63, 0, 0
+    // "Certainly.\nPlease continue to have a great time!"
+    ParentActorMsg MSGFILE_SCRIPT, 63, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -136,21 +142,23 @@ Script_3:
     ActorSetEyeToEye
     VMStackPushFlag 228
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0252
-    ParentActorMsg 1024, 2, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0252
+    // "There are a lot of cabins in this big ship!\nI would like to give you advice 'cause[f000]븀\u0000\nyou need help finding Trainers![f000]븁\u0000\nDo you want to listen to my hint?"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     FlagSet 228
     VMJump L_025C
 
 L_0252:
-    ParentActorMsg 1024, 61, 0, 0
+    // "Do you want to know a hint\nabout looking for Trainers?"
+    ParentActorMsg MSGFILE_SCRIPT, 61, 0, 0
 
 L_025C:
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02FB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02FB
     WorkSetConst 0x8022, 0
     WorkSetConst 0x8023, 0
     Plugin2_Cmd1002 0, 0x8022
@@ -159,9 +167,10 @@ L_025C:
     WordSetNumber 1, 0x8023, 1
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02C0
-    ParentActorMsg 1024, 58, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02C0
+    // "Today...[f000]븁\u0000\nThe number of people on the starboard\nside is [f000]Ȁ\u0001\u0001, and...none on the port side."
+    ParentActorMsg MSGFILE_SCRIPT, 58, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_02F5
@@ -169,15 +178,17 @@ L_025C:
 L_02C0:
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02E7
-    ParentActorMsg 1024, 59, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02E7
+    // "Today...[f000]븁\u0000\nThe number of people on the port side is\n[f000]Ȁ\u0001\u0000, and...none on the starboard side."
+    ParentActorMsg MSGFILE_SCRIPT, 59, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_02F5
 
 L_02E7:
-    ParentActorMsg 1024, 57, 0, 0
+    // "Today...[f000]븁\u0000\nAs for people, we have [f000]Ȁ\u0001\u0000 on the\nport side and [f000]Ȁ\u0001\u0001 on the starboard side."
+    ParentActorMsg MSGFILE_SCRIPT, 57, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -185,7 +196,8 @@ L_02F5:
     VMJump L_0309
 
 L_02FB:
-    ParentActorMsg 1024, 60, 0, 0
+    // "If you're so inclined, speak to me.\nI will give you a hint anytime."
+    ParentActorMsg MSGFILE_SCRIPT, 60, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -198,7 +210,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "Some guests like to tell really long\nstories, and they just keep talking[f000]븀\u0000\nuntil they hear a whistle!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -209,7 +222,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "The Royal Unova's renowned observation\ndeck is just ahead."
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -222,11 +236,12 @@ Script_6:
     Plugin2_Cmd1002 3, 0x8024
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0382
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0382
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "If you’re looking in the cabins with\nblue doors for someone to battle,[f000]븀\u0000\nyou’ll find only one Trainer there today."
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_039D
@@ -235,7 +250,8 @@ L_0382:
     WordSetNumber 2, 0x8024, 1
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "It seems the number of Trainers in the\ncabins with blue doors today is [f000]Ȁ\u0001\u0002."
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -248,7 +264,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "It's running on the ocean!\nWhat a peculiar thing to see!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -259,7 +276,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "I can't make up my mind whether to go to\nthe observation deck or battle some[f000]븀\u0000\nTrainers in the cabins."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -270,7 +288,8 @@ Script_9:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "I'm running with the rhythm of the waves,\nbut it's a real challenge!"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -281,7 +300,8 @@ Script_10:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "Having battles on the ship and seeing\nthe scenery from the deck...[f000]븀\u0000\nThis ship is the best!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -292,7 +312,8 @@ Script_11:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "I've been wondering which cabin to enter\nthis whole time!"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -425,24 +446,24 @@ L_055B:
     DebugPrint 0x8025
     VMStackPush 0x8025
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_058E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_058E
     VMCall L_05CE
     VMJump L_05CC
 
 L_058E:
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_05AD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05AD
     VMCall L_06FE
     VMJump L_05CC
 
 L_05AD:
     VMStackPush 0x8025
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_05CC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05CC
     VMCall L_072E
     VMJump L_05CC
 
@@ -456,13 +477,13 @@ L_05CE:
     Cmd_01A1 0x4000, 8, 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0627
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0627
     WorkSetConst 0x8028, 1
     Cmd_01A1 0x4000, 7, 0x8028, 0x8026
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0x8026, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8026, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_06FC
@@ -470,22 +491,22 @@ L_05CE:
 L_0627:
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_06D8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06D8
     WorkSetConst 0x8028, 0
     Cmd_01A1 0x4000, 7, 0x8028, 0x8026
     Cmd_01A1 0x4000, 6, 0, 0x8027
     DebugPrint 0x8027
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0x8026, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8026, 0, 0
     ActorMsgClose
     CallTrainerBattle 0x8027, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0691
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0691
     CallTrainerBattleEnd
     VMJump L_0693
 
@@ -500,8 +521,9 @@ L_0693:
     Plugin2_Cmd1002 5, 0x802a
     VMStackPush 0x8029
     VMStackPush 0x802a
-    VMStackCmp 3
-    VMJumpIf 255, L_06D2
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_06D2
+    // "Won against every Trainer on the ship!"
     SystemMsg 64, 2
     LastKeyWait
     InfoMsgClose
@@ -514,7 +536,7 @@ L_06D8:
     Cmd_01A1 0x4000, 7, 0x8028, 0x8026
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0x8026, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8026, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -527,7 +549,7 @@ L_06FE:
     DebugPrint 0x802b
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0x802b, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x802b, 0, 0
     LastKeyWait
     ActorMsgClose
     Plugin2_Cmd1003 10, 1
@@ -538,14 +560,14 @@ L_072E:
     Cmd_01A1 0x4000, 7, 0, 0x802c
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0x802c, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x802c, 0, 0
     ActorMsgClose
     SEPlay 1757
     SEWait
     Cmd_01A1 0x4000, 7, 1, 0x802c
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0x802c, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x802c, 0, 0
     LastKeyWait
     ActorMsgClose
     Plugin2_Cmd1003 45, 0
@@ -566,10 +588,11 @@ Script_28:
     FadeWait
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_07CB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07CB
     SEPlay 1757
     SEWait
+    // "Thank you for sailing with us.[f000]븁\u0000\nThis cruise ship will arrive\nin Castelia City shortly.[f000]븁\u0000"
     SystemMsg 67, 2
     InfoMsgClose
     Plugin2_Cmd1005
@@ -596,7 +619,8 @@ Script_29:
     ActorCmdExec 255, Movement_08AC
     ActorCmdWait
     WordSetNumber 3, 0x802d, 1
-    ActorMsg 1024, 65, 0, 0, 0
+    // "Thank you very much for sailing with us\non the Royal Unova.[f000]븁\u0000\nThe number of Trainers aboard the\nRoyal Unova today is [f000]Ȁ\u0001\u0003.[f000]븀\u0000\nPlease enjoy the trip.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 65, 0, 0, 0
     ActorMsgClose
     WorkSetConst 0x802d, 0
     FadeOutBlackQ
@@ -620,8 +644,8 @@ L_083D:
     Plugin2_Cmd1002 5, 0x802f
     VMStackPush 0x802e
     VMStackPush 0x802f
-    VMStackCmp 3
-    VMJumpIf 255, L_086E
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_086E
     WorkSetConst 0x417b, 2
 
 L_086E:

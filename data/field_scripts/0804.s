@@ -38,7 +38,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Your Pokédex is full of\nweak Pokémon, strong Pokémon,[f000]븀\u0000\ncool Pokémon, cute Pokémon...[f000]븁\u0000\nAt any rate, there sure are lots\nof Pokémon in there!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -49,7 +50,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "The moment my Lillipup evolved into\nHerdier, my eyes started watering.[f000]븁\u0000\nI was just so happy somehow..."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -61,7 +63,8 @@ Script_4:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 507, 0
-    ParentActorMsg 1024, 4, 0, 0
+    // "Woo uff!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

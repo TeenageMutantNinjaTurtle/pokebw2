@@ -9,7 +9,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "My great-great-great-grandfather and\nhis Gurdurr worked together and built[f000]븀\u0000\nthis Village Bridge."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -20,7 +21,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "I'll be a stonecutter like my grandpa!\nI can get help from powerful Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -31,7 +33,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "If Team Plasma had tricked everyone\ninto releasing all their Pokémon,[f000]븀\u0000\nit would have been impossible[f000]븀\u0000\nto build a bridge like this.[f000]븁\u0000\nPeople and Pokémon are inseparable...[f000]븁\u0000\nThe relationship is not more or less\nthan that. That's what I believe."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

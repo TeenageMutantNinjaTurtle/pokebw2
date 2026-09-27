@@ -69,7 +69,8 @@ Script_4:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 613, 0
-    ParentActorMsg 1024, 2, 0, 0
+    // "Cuuub!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

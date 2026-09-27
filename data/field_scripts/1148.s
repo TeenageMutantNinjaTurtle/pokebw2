@@ -51,7 +51,8 @@ Script_24:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Movies are wonderful!\nThey get two thumbs up!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -62,7 +63,8 @@ Script_25:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "The records set by Pokéstar Studios\nmovies are left on this board!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -414,21 +416,21 @@ L_0686:
     SEPlay 1351
     ActorSetEyeToEye
     WordSetPlayerName 0
-    ActorMsg 1024, 0x8020, 0x8011, 2, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8020, 0x8011, 2, 0
     MsgWaitAdvance
     Plugin10_Cmd1024 0x4002, 0x8021, 0x8027, 0x8028
     VMStackPush 0x8029
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8027
     VMStackPushConst 0
-    VMStackCmp 5
+    VMStackCmp CMP_NE
     VMStackPush 0x4003
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_06E6
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_06E6
     VMCall L_0769
     VMJump L_06EC
 
@@ -443,29 +445,29 @@ L_06EC:
 L_06F2:
     Plugin10_Cmd1010 0x4002, 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_070B
+    VMJumpIf CMP_EQ, L_070B
     VMJump L_071D
 
 L_070B:
-    ActorMsg 1024, 0x8022, 0x8011, 2, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8022, 0x8011, 2, 0
     VMJump L_0767
 
 L_071D:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0730
+    VMJumpIf CMP_EQ, L_0730
     VMJump L_0742
 
 L_0730:
-    ActorMsg 1024, 0x8023, 0x8011, 2, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8023, 0x8011, 2, 0
     VMJump L_0767
 
 L_0742:
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0755
+    VMJumpIf CMP_EQ, L_0755
     VMJump L_0767
 
 L_0755:
-    ActorMsg 1024, 0x8024, 0x8011, 2, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8024, 0x8011, 2, 0
     VMJump L_0767
 
 L_0767:
@@ -473,7 +475,7 @@ L_0767:
 
 L_0769:
     WorkSetConst 0x802a, 0
-    ActorMsg 1024, 0x8025, 0x8011, 2, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8025, 0x8011, 2, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ItemCheckSpace 0x8027, 0x8028, 0x802a
@@ -486,9 +488,9 @@ L_0769:
     VMStackPop 0x8000
     VMStackPush 0x802a
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_07CC
-    ActorMsg 1024, 0x8026, 0x8011, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07CC
+    ActorMsg MSGFILE_SCRIPT, 0x8026, 0x8011, 2, 0
     VMJump L_07D8
 
 L_07CC:

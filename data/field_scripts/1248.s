@@ -21,6 +21,7 @@
 
 Script_1:
     ActorsPauseAll
+    // "Repel's effect wore off!"
     SystemMsg 0, 2
     LastKeyWait
     InfoMsgClose
@@ -31,15 +32,17 @@ Script_1:
 Script_15:
     ActorsPauseAll
     WorkSetConst 0x8021, 0
+    // "Repel's effect wore off!\nUse another?"
     SystemMsg 1, 2
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0093
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0093
     RepelRearm 0x8021
     WordSetPlayerName 0
     WordSetItemName 1, 0x8021
+    // "[f000]Ā\u0001\u0000 used the\n[f000]ĉ\u0001\u0001!"
     SystemMsg 2, 2
     LastKeyWait
 
@@ -52,6 +55,7 @@ L_0093:
 
 Script_2:
     ActorsPauseAll
+    // "There appears to be nothing here..."
     SystemMsg 3, 2
     LastKeyWait
     InfoMsgClose
@@ -61,6 +65,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
+    // "The sweet scent faded for\nsome reason..."
     SystemMsg 4, 2
     LastKeyWait
     InfoMsgClose
@@ -86,6 +91,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
+    // "Landed a Pokémon![f000]븁\u0000"
     SystemMsg 5, 2
     InfoMsgClose
     FinishAllEvents
@@ -94,6 +100,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
+    // "Not even a nibble...[f000]븁\u0000"
     SystemMsg 6, 2
     InfoMsgClose
     FinishAllEvents
@@ -102,6 +109,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
+    // "Reeled it in too quickly![f000]븁\u0000"
     SystemMsg 7, 2
     InfoMsgClose
     FinishAllEvents
@@ -110,6 +118,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
+    // "Reeled it in too late![f000]븁\u0000"
     SystemMsg 8, 2
     InfoMsgClose
     FinishAllEvents
@@ -119,13 +128,14 @@ Script_8:
 Script_9:
     ActorsPauseAll
     WordSetPlayerName 0
+    // "[f000]Ā\u0001\u0000 warped to the Entralink![f000]븁\u0000"
     SystemMsg 9, 2
     InfoMsgClose
     PlayerGetExState 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0165
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0165
     PlayerSetSpecialSequence 1
 
 L_0165:
@@ -136,13 +146,14 @@ L_0165:
 Script_10:
     ActorsPauseAll
     WordSetPlayerName 0
+    // "Participating in an ongoing mission\nat the Entralink![f000]븁\u0000\nYou'll return here after the mission.[f000]븁\u0000\nYou will warp to another person's\nEntralink to participate in the mission![f000]븁\u0000"
     SystemMsg 13, 2
     InfoMsgClose
     PlayerGetExState 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0193
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0193
     PlayerSetSpecialSequence 1
 
 L_0193:
@@ -152,6 +163,7 @@ L_0193:
 
 Script_11:
     ActorsPauseAll
+    // "You can't warp to the Entralink here!"
     SystemMsg 10, 2
     LastKeyWait
     InfoMsgClose
@@ -161,6 +173,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
+    // "You can't warp because there is a\nmission going on at the Entralink."
     SystemMsg 11, 2
     LastKeyWait
     InfoMsgClose
@@ -170,6 +183,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
+    // "You can't warp to the Entralink because\nyou are connecting with someone."
     SystemMsg 12, 2
     LastKeyWait
     InfoMsgClose
@@ -179,6 +193,7 @@ Script_13:
 
 Script_14:
     ActorsPauseAll
+    // "The connection has been lost."
     SystemMsg 14, 2
     LastKeyWait
     InfoMsgClose
@@ -188,6 +203,7 @@ Script_14:
 
 Script_16:
     ActorsPauseAll
+    // "You can't warp to the Entralink\nif you have someone with you."
     SystemMsg 15, 2
     LastKeyWait
     InfoMsgClose

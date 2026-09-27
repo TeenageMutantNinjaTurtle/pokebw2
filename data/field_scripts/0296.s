@@ -17,8 +17,8 @@ Script_10:
     WorkSetConst 0x4001, 0
     VMStackPush 0x417e
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_005B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_005B
     ActorSetGPos 0, 13, 0, 10, 3
     VMJump L_0061
 
@@ -42,13 +42,15 @@ Script_1:
     WorkSetConst 0x8022, 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Hello, and welcome to Unity Tower!\nWould you like to go upstairs?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0141
-    ParentActorMsg 1024, 25, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0141
+    // "Please select a floor.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
     ActorMsgClose
     FadeOutBlackQ
     FadeWait
@@ -59,16 +61,18 @@ Script_1:
     FadeWait
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00F5
-    ParentActorMsg 1024, 2, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00F5
+    // "Please come again."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_013B
 
 L_00F5:
     UnityTowerSetFloor 0x8022, 0x8021
-    ParentActorMsg 1024, 1, 0, 0
+    // "Indeed.\nPlease step inside the elevator.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     ActorMsgClose
     VMCall L_06C5
     WorkSetConst 0x417e, 1
@@ -88,7 +92,8 @@ L_013B:
     VMJump L_014F
 
 L_0141:
-    ParentActorMsg 1024, 2, 0, 0
+    // "Please come again."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -101,7 +106,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "This is Unity Tower.[f000]븁\u0000\nTrainers from all over the world cross\nborders and oceans to gather here.[f000]븁\u0000\nVisit whichever floor you like![f000]븁\u0000\nThe more people you know worldwide,\nthe more floors you can visit.[f000]븁\u0000\nPlease enjoy all that we have to offer!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -115,7 +121,8 @@ Script_3:
     WordSetNumber 11, 0x8023, 2
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "Right now, the number of visitors in\nUnity Tower is [f000]ȁ\u0001\u000b."
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -129,7 +136,8 @@ Script_4:
     WordSetHobbyName 6, 0x8024
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "Wow! So you like\n[f000]ď\u0001\u0006, then!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -140,7 +148,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "Awesome! The ceiling is sooo high![f000]븁\u0000\nI wonder how many of me\nyou'd have to stack up to reach it?"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -151,7 +160,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "Coming to Unity Tower always\ngets me excited![f000]븁\u0000\nBeing here always reminds me of how big\nthe world really is!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -164,7 +174,7 @@ Script_7:
     SEPlay 1351
     ActorSetEyeToEye
     WorkCmpConst 0x4086, 0
-    VMJumpIf 1, L_0222
+    VMJumpIf CMP_EQ, L_0222
     VMJump L_022E
 
 L_0222:
@@ -173,7 +183,7 @@ L_0222:
 
 L_022E:
     WorkCmpConst 0x4086, 1
-    VMJumpIf 1, L_0241
+    VMJumpIf CMP_EQ, L_0241
     VMJump L_024D
 
 L_0241:
@@ -182,7 +192,7 @@ L_0241:
 
 L_024D:
     WorkCmpConst 0x4086, 2
-    VMJumpIf 1, L_0260
+    VMJumpIf CMP_EQ, L_0260
     VMJump L_026C
 
 L_0260:
@@ -191,7 +201,7 @@ L_0260:
 
 L_026C:
     WorkCmpConst 0x4086, 3
-    VMJumpIf 1, L_027F
+    VMJumpIf CMP_EQ, L_027F
     VMJump L_028B
 
 L_027F:
@@ -200,7 +210,7 @@ L_027F:
 
 L_028B:
     WorkCmpConst 0x4086, 4
-    VMJumpIf 1, L_029E
+    VMJumpIf CMP_EQ, L_029E
     VMJump L_02AA
 
 L_029E:
@@ -209,7 +219,7 @@ L_029E:
 
 L_02AA:
     WorkCmpConst 0x4086, 5
-    VMJumpIf 1, L_02BD
+    VMJumpIf CMP_EQ, L_02BD
     VMJump L_02C9
 
 L_02BD:
@@ -218,7 +228,7 @@ L_02BD:
 
 L_02C9:
     WorkCmpConst 0x4086, 6
-    VMJumpIf 1, L_02DC
+    VMJumpIf CMP_EQ, L_02DC
     VMJump L_02E8
 
 L_02DC:
@@ -227,7 +237,7 @@ L_02DC:
 
 L_02E8:
     WorkCmpConst 0x4086, 7
-    VMJumpIf 1, L_02FB
+    VMJumpIf CMP_EQ, L_02FB
     VMJump L_0307
 
 L_02FB:
@@ -236,7 +246,7 @@ L_02FB:
 
 L_0307:
     WorkCmpConst 0x4086, 8
-    VMJumpIf 1, L_031A
+    VMJumpIf CMP_EQ, L_031A
     VMJump L_0326
 
 L_031A:
@@ -245,7 +255,7 @@ L_031A:
 
 L_0326:
     WorkCmpConst 0x4086, 9
-    VMJumpIf 1, L_0339
+    VMJumpIf CMP_EQ, L_0339
     VMJump L_0345
 
 L_0339:
@@ -254,7 +264,7 @@ L_0339:
 
 L_0345:
     WorkCmpConst 0x4086, 10
-    VMJumpIf 1, L_0358
+    VMJumpIf CMP_EQ, L_0358
     VMJump L_0364
 
 L_0358:
@@ -263,7 +273,7 @@ L_0358:
 
 L_0364:
     WorkCmpConst 0x4086, 11
-    VMJumpIf 1, L_0377
+    VMJumpIf CMP_EQ, L_0377
     VMJump L_0383
 
 L_0377:
@@ -272,7 +282,7 @@ L_0377:
 
 L_0383:
     WorkCmpConst 0x4086, 12
-    VMJumpIf 1, L_0396
+    VMJumpIf CMP_EQ, L_0396
     VMJump L_03A2
 
 L_0396:
@@ -281,7 +291,7 @@ L_0396:
 
 L_03A2:
     WorkCmpConst 0x4086, 13
-    VMJumpIf 1, L_03B5
+    VMJumpIf CMP_EQ, L_03B5
     VMJump L_03C1
 
 L_03B5:
@@ -290,7 +300,7 @@ L_03B5:
 
 L_03C1:
     WorkCmpConst 0x4086, 14
-    VMJumpIf 1, L_03D4
+    VMJumpIf CMP_EQ, L_03D4
     VMJump L_03E0
 
 L_03D4:
@@ -299,7 +309,7 @@ L_03D4:
 
 L_03E0:
     WorkCmpConst 0x4086, 15
-    VMJumpIf 1, L_03F3
+    VMJumpIf CMP_EQ, L_03F3
     VMJump L_03FF
 
 L_03F3:
@@ -308,7 +318,7 @@ L_03F3:
 
 L_03FF:
     WorkCmpConst 0x4086, 16
-    VMJumpIf 1, L_0412
+    VMJumpIf CMP_EQ, L_0412
     VMJump L_041E
 
 L_0412:
@@ -320,7 +330,7 @@ L_041E:
 
 L_0424:
     WordSetPlayerName 3
-    ActorMsg 1024, 0x8025, 4, 0, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8025, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -336,23 +346,25 @@ Script_8:
     SEWait
     ActorCmdExec 4, Movement_0BC0
     ActorCmdWait
-    ActorMsg 1024, 26, 4, 6, 0
+    // "Hey, you over there!\nCome here for a second.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 26, 4, 6, 0
     ActorMsgClose
     ActorCmdExec 4, Movement_0BC8
     ActorCmdExec 255, Movement_0BD4
     ActorCmdWait
     VMStackPush 0x4086
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04AE
-    ActorMsg 1024, 8, 4, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04AE
+    // "You're a new face.\nIs this your first time here?[f000]븁\u0000\nUnity Tower is the place where\nTrainers come from all over the world.[f000]븁\u0000\nThat's why I work hard every day doing\nsecurity checks to protect those[f000]븀\u0000\nyoung Trainers.[f000]븁\u0000\nDon't loiter around here\nand cause trouble.[f000]븀\u0000\n...'Kay, you can pass.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 4, 0, 0
     ActorMsgClose
     WorkSetConst 0x4086, 1
     VMJump L_06AF
 
 L_04AE:
     WorkCmpConst 0x4002, 2
-    VMJumpIf 1, L_04C1
+    VMJumpIf CMP_EQ, L_04C1
     VMJump L_04CD
 
 L_04C1:
@@ -361,7 +373,7 @@ L_04C1:
 
 L_04CD:
     WorkCmpConst 0x4002, 3
-    VMJumpIf 1, L_04E0
+    VMJumpIf CMP_EQ, L_04E0
     VMJump L_04EC
 
 L_04E0:
@@ -370,7 +382,7 @@ L_04E0:
 
 L_04EC:
     WorkCmpConst 0x4002, 4
-    VMJumpIf 1, L_04FF
+    VMJumpIf CMP_EQ, L_04FF
     VMJump L_050B
 
 L_04FF:
@@ -379,7 +391,7 @@ L_04FF:
 
 L_050B:
     WorkCmpConst 0x4002, 5
-    VMJumpIf 1, L_051E
+    VMJumpIf CMP_EQ, L_051E
     VMJump L_052A
 
 L_051E:
@@ -388,7 +400,7 @@ L_051E:
 
 L_052A:
     WorkCmpConst 0x4002, 6
-    VMJumpIf 1, L_053D
+    VMJumpIf CMP_EQ, L_053D
     VMJump L_0549
 
 L_053D:
@@ -397,7 +409,7 @@ L_053D:
 
 L_0549:
     WorkCmpConst 0x4002, 7
-    VMJumpIf 1, L_055C
+    VMJumpIf CMP_EQ, L_055C
     VMJump L_0568
 
 L_055C:
@@ -406,7 +418,7 @@ L_055C:
 
 L_0568:
     WorkCmpConst 0x4002, 8
-    VMJumpIf 1, L_057B
+    VMJumpIf CMP_EQ, L_057B
     VMJump L_0587
 
 L_057B:
@@ -415,7 +427,7 @@ L_057B:
 
 L_0587:
     WorkCmpConst 0x4002, 9
-    VMJumpIf 1, L_059A
+    VMJumpIf CMP_EQ, L_059A
     VMJump L_05A6
 
 L_059A:
@@ -424,7 +436,7 @@ L_059A:
 
 L_05A6:
     WorkCmpConst 0x4002, 10
-    VMJumpIf 1, L_05B9
+    VMJumpIf CMP_EQ, L_05B9
     VMJump L_05C5
 
 L_05B9:
@@ -433,7 +445,7 @@ L_05B9:
 
 L_05C5:
     WorkCmpConst 0x4002, 11
-    VMJumpIf 1, L_05D8
+    VMJumpIf CMP_EQ, L_05D8
     VMJump L_05E4
 
 L_05D8:
@@ -442,7 +454,7 @@ L_05D8:
 
 L_05E4:
     WorkCmpConst 0x4002, 12
-    VMJumpIf 1, L_05F7
+    VMJumpIf CMP_EQ, L_05F7
     VMJump L_0603
 
 L_05F7:
@@ -451,7 +463,7 @@ L_05F7:
 
 L_0603:
     WorkCmpConst 0x4002, 13
-    VMJumpIf 1, L_0616
+    VMJumpIf CMP_EQ, L_0616
     VMJump L_0622
 
 L_0616:
@@ -460,7 +472,7 @@ L_0616:
 
 L_0622:
     WorkCmpConst 0x4002, 14
-    VMJumpIf 1, L_0635
+    VMJumpIf CMP_EQ, L_0635
     VMJump L_0641
 
 L_0635:
@@ -469,7 +481,7 @@ L_0635:
 
 L_0641:
     WorkCmpConst 0x4002, 15
-    VMJumpIf 1, L_0654
+    VMJumpIf CMP_EQ, L_0654
     VMJump L_0660
 
 L_0654:
@@ -478,7 +490,7 @@ L_0654:
 
 L_0660:
     WorkCmpConst 0x4002, 16
-    VMJumpIf 1, L_0673
+    VMJumpIf CMP_EQ, L_0673
     VMJump L_067F
 
 L_0673:
@@ -491,10 +503,10 @@ L_067F:
 L_0685:
     VMStackPush 0x8026
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_06AF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06AF
     WordSetPlayerName 3
-    ActorMsg 1024, 0x8027, 4, 0, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8027, 4, 0, 0
     ActorMsgClose
     WorkGet 0x4086, 0x4002
 
@@ -571,14 +583,14 @@ L_078C:
     WorkSetConst 0x802a, 0
     VMStackPush 0x4086
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_07BD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07BD
     WorkSetConst 0x4001, 1
     VMJump L_0BBE
 
 L_07BD:
     WorkCmpConst 0x4086, 1
-    VMJumpIf 1, L_07D0
+    VMJumpIf CMP_EQ, L_07D0
     VMJump L_07DC
 
 L_07D0:
@@ -587,7 +599,7 @@ L_07D0:
 
 L_07DC:
     WorkCmpConst 0x4086, 2
-    VMJumpIf 1, L_07EF
+    VMJumpIf CMP_EQ, L_07EF
     VMJump L_07FB
 
 L_07EF:
@@ -596,7 +608,7 @@ L_07EF:
 
 L_07FB:
     WorkCmpConst 0x4086, 3
-    VMJumpIf 1, L_080E
+    VMJumpIf CMP_EQ, L_080E
     VMJump L_081A
 
 L_080E:
@@ -605,7 +617,7 @@ L_080E:
 
 L_081A:
     WorkCmpConst 0x4086, 4
-    VMJumpIf 1, L_082D
+    VMJumpIf CMP_EQ, L_082D
     VMJump L_0839
 
 L_082D:
@@ -614,7 +626,7 @@ L_082D:
 
 L_0839:
     WorkCmpConst 0x4086, 5
-    VMJumpIf 1, L_084C
+    VMJumpIf CMP_EQ, L_084C
     VMJump L_0858
 
 L_084C:
@@ -623,7 +635,7 @@ L_084C:
 
 L_0858:
     WorkCmpConst 0x4086, 6
-    VMJumpIf 1, L_086B
+    VMJumpIf CMP_EQ, L_086B
     VMJump L_0877
 
 L_086B:
@@ -632,7 +644,7 @@ L_086B:
 
 L_0877:
     WorkCmpConst 0x4086, 7
-    VMJumpIf 1, L_088A
+    VMJumpIf CMP_EQ, L_088A
     VMJump L_0896
 
 L_088A:
@@ -641,7 +653,7 @@ L_088A:
 
 L_0896:
     WorkCmpConst 0x4086, 8
-    VMJumpIf 1, L_08A9
+    VMJumpIf CMP_EQ, L_08A9
     VMJump L_08B5
 
 L_08A9:
@@ -650,7 +662,7 @@ L_08A9:
 
 L_08B5:
     WorkCmpConst 0x4086, 9
-    VMJumpIf 1, L_08C8
+    VMJumpIf CMP_EQ, L_08C8
     VMJump L_08D4
 
 L_08C8:
@@ -659,7 +671,7 @@ L_08C8:
 
 L_08D4:
     WorkCmpConst 0x4086, 10
-    VMJumpIf 1, L_08E7
+    VMJumpIf CMP_EQ, L_08E7
     VMJump L_08F3
 
 L_08E7:
@@ -668,7 +680,7 @@ L_08E7:
 
 L_08F3:
     WorkCmpConst 0x4086, 11
-    VMJumpIf 1, L_0906
+    VMJumpIf CMP_EQ, L_0906
     VMJump L_0912
 
 L_0906:
@@ -677,7 +689,7 @@ L_0906:
 
 L_0912:
     WorkCmpConst 0x4086, 12
-    VMJumpIf 1, L_0925
+    VMJumpIf CMP_EQ, L_0925
     VMJump L_0931
 
 L_0925:
@@ -686,7 +698,7 @@ L_0925:
 
 L_0931:
     WorkCmpConst 0x4086, 13
-    VMJumpIf 1, L_0944
+    VMJumpIf CMP_EQ, L_0944
     VMJump L_0950
 
 L_0944:
@@ -695,7 +707,7 @@ L_0944:
 
 L_0950:
     WorkCmpConst 0x4086, 14
-    VMJumpIf 1, L_0963
+    VMJumpIf CMP_EQ, L_0963
     VMJump L_096F
 
 L_0963:
@@ -704,7 +716,7 @@ L_0963:
 
 L_096F:
     WorkCmpConst 0x4086, 15
-    VMJumpIf 1, L_0982
+    VMJumpIf CMP_EQ, L_0982
     VMJump L_098E
 
 L_0982:
@@ -713,7 +725,7 @@ L_0982:
 
 L_098E:
     WorkCmpConst 0x4086, 16
-    VMJumpIf 1, L_09A1
+    VMJumpIf CMP_EQ, L_09A1
     VMJump L_09AD
 
 L_09A1:
@@ -724,123 +736,123 @@ L_09AD:
     VMReturn
 
 L_09AF:
-    Cmd_02D7 1, 0x8028
+    UnityTowerCmd_02D7 1, 0x8028
     VMStackPush 0x8028
     VMStackPushConst 130
-    VMStackCmp 4
-    VMJumpIf 255, L_09D4
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_09D4
     WorkSetConst 0x802a, 16
     VMJump L_0B8C
 
 L_09D4:
     VMStackPush 0x8028
     VMStackPushConst 100
-    VMStackCmp 4
-    VMJumpIf 255, L_09F3
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_09F3
     WorkSetConst 0x802a, 15
     VMJump L_0B8C
 
 L_09F3:
     VMStackPush 0x8028
     VMStackPushConst 85
-    VMStackCmp 4
-    VMJumpIf 255, L_0A12
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0A12
     WorkSetConst 0x802a, 14
     VMJump L_0B8C
 
 L_0A12:
     VMStackPush 0x8028
     VMStackPushConst 70
-    VMStackCmp 4
-    VMJumpIf 255, L_0A31
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0A31
     WorkSetConst 0x802a, 13
     VMJump L_0B8C
 
 L_0A31:
     VMStackPush 0x8028
     VMStackPushConst 60
-    VMStackCmp 4
-    VMJumpIf 255, L_0A50
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0A50
     WorkSetConst 0x802a, 12
     VMJump L_0B8C
 
 L_0A50:
     VMStackPush 0x8028
     VMStackPushConst 50
-    VMStackCmp 4
-    VMJumpIf 255, L_0A6F
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0A6F
     WorkSetConst 0x802a, 11
     VMJump L_0B8C
 
 L_0A6F:
     VMStackPush 0x8028
     VMStackPushConst 40
-    VMStackCmp 4
-    VMJumpIf 255, L_0A8E
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0A8E
     WorkSetConst 0x802a, 10
     VMJump L_0B8C
 
 L_0A8E:
     VMStackPush 0x8028
     VMStackPushConst 35
-    VMStackCmp 4
-    VMJumpIf 255, L_0AAD
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0AAD
     WorkSetConst 0x802a, 9
     VMJump L_0B8C
 
 L_0AAD:
     VMStackPush 0x8028
     VMStackPushConst 30
-    VMStackCmp 4
-    VMJumpIf 255, L_0ACC
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0ACC
     WorkSetConst 0x802a, 8
     VMJump L_0B8C
 
 L_0ACC:
     VMStackPush 0x8028
     VMStackPushConst 25
-    VMStackCmp 4
-    VMJumpIf 255, L_0AEB
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0AEB
     WorkSetConst 0x802a, 7
     VMJump L_0B8C
 
 L_0AEB:
     VMStackPush 0x8028
     VMStackPushConst 20
-    VMStackCmp 4
-    VMJumpIf 255, L_0B0A
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0B0A
     WorkSetConst 0x802a, 6
     VMJump L_0B8C
 
 L_0B0A:
     VMStackPush 0x8028
     VMStackPushConst 15
-    VMStackCmp 4
-    VMJumpIf 255, L_0B29
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0B29
     WorkSetConst 0x802a, 5
     VMJump L_0B8C
 
 L_0B29:
     VMStackPush 0x8028
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_0B48
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0B48
     WorkSetConst 0x802a, 4
     VMJump L_0B8C
 
 L_0B48:
     VMStackPush 0x8028
     VMStackPushConst 5
-    VMStackCmp 4
-    VMJumpIf 255, L_0B67
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0B67
     WorkSetConst 0x802a, 3
     VMJump L_0B8C
 
 L_0B67:
     VMStackPush 0x8028
     VMStackPushConst 3
-    VMStackCmp 4
-    VMJumpIf 255, L_0B86
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0B86
     WorkSetConst 0x802a, 2
     VMJump L_0B8C
 
@@ -850,13 +862,13 @@ L_0B86:
 L_0B8C:
     VMStackPush 0x8028
     VMStackPush 0x8029
-    VMStackCmp 4
-    VMJumpIf 255, L_0BBE
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0BBE
     WorkSetConst 0x4001, 1
     VMStackPush 0x802a
     VMStackPush 0x4086
-    VMStackCmp 2
-    VMJumpIf 255, L_0BBE
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_0BBE
     WorkGet 0x4002, 0x802a
 
 L_0BBE:

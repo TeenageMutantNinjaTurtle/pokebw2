@@ -18,36 +18,49 @@ Script_1:
     FadeWait
     ActorCmdExec 251, Movement_02D0
     ActorCmdWait
-    ActorMsg 1024, 0, 251, 0, 0
+    // "Iris: Yay! I did it!\nHaxorus, thank you![f000]븀\u0000\nI won because of you![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 251, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 1, 0, 0, 0
+    // "Drayden: Well done, Iris.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 2, 251, 0, 0
+    // "Iris: What did you want\nto talk to me about, Grandpa?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 251, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 3, 0, 0, 0
+    // "Drayden: Ah yes...\nI was thinking about the past.[f000]븁\u0000\nI traveled all over the world\nlooking for a successor.[f000]븁\u0000\nI even went to remote places\nsuch as the Village of Dragons.[f000]븁\u0000\nThat's where I met you, Iris.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 4, 251, 0, 0
+    // "Iris: Yep!\nI was the strongest![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 251, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0288
     ActorCmdWait
-    ActorMsg 1024, 5, 0, 0, 0
+    // "Drayden: Yes.\nI was surprised.[f000]븁\u0000\nYou were one with your Pokémon\nand battling with so much joy.[f000]븁\u0000\nJust watching you made me smile.[f000]븁\u0000\nYour opponents felt disappointed by\ntheir defeat, but at the same time[f000]븀\u0000\nthey enjoyed the battle.[f000]븁\u0000\nIt was completely natural for me\nto decide I wanted to make you[f000]븀\u0000\nmy successor.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 251, Movement_0258
     ActorCmdWait
-    ActorMsg 1024, 6, 251, 0, 0
+    // "Iris: I'm so glad I came to Unova![f000]븁\u0000\nThere are many different people\nand so many different Pokémon![f000]븁\u0000\nAnd you know what...[f000]븁\u0000\nIn the Village of Dragons, people take\nliving alongside Pokémon for granted.[f000]븁\u0000\nI was surprised some people\nin Unova didn't think that way![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 251, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0298
     ActorCmdWait
-    ActorMsg 1024, 7, 0, 0, 0
+    // "Drayden: I found your reactions\nto be a breath of fresh air.[f000]븁\u0000\nAnd as a condition to leave the\nVillage of Dragons, you wanted[f000]븀\u0000\nto broaden your experiences[f000]븀\u0000\nand become the Champion...[f000]븁\u0000\nSo as I promised,\nI've been training you as a Trainer[f000]븀\u0000\nand as a Gym Leader.[f000]븁\u0000\nAn order directly from Alder\ncame as I was training you.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 8, 251, 0, 0
+    // "Iris: Alder was smiling, though.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 251, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 9, 0, 0, 0
+    // "Drayden: He lost to N\nand retrained himself.[f000]븁\u0000\nHe asked me to help him with his special\ntraining, but it was ghastly.[f000]븁\u0000\nHe wanted to become an immense\nobstacle for you, the new Champion...[f000]븁\u0000\nFor that alone, he pushed himself\nincredibly hard.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 0, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 10, 251, 0, 0
+    // "Iris: Alder was really, really strong![f000]븁\u0000\nAnd even when I felt a bit weak,\nhe encouraged us![f000]븁\u0000\nHe said that even when their backs\nare against the wall, my Pokémon[f000]븀\u0000\nhave an intense look in their eyes.[f000]븁\u0000\nSo, that's why I won, but I feel\nlike I still have a lot to learn.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 251, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 11, 0, 0, 0
-    ActorMsg 1024, 12, 0, 0, 0
+    // "Drayden: Don't forget that feeling.[f000]븁\u0000\nAnd now, if I may change the subject...[f000]븁\u0000\nWhen you came to Opelucid City,\nI gave you those clothes, right?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 0, 0, 0
+    // "You're the Champion, now.\nIt's all right to dress up a little.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0338
     ActorCmdWait
@@ -55,7 +68,8 @@ Script_1:
     ActorCmdWait
     ActorCmdExec 251, Movement_02A0
     ActorCmdWait
-    ActorMsg 1024, 13, 251, 0, 0
+    // "Iris: Are these new clothes?\nOK. I'll change into them right now![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 251, 0, 0
     MsgWinCloseAll
     ActorCmdExec 251, Movement_02D8
     ActorCmdWait
@@ -63,17 +77,23 @@ Script_1:
     ActorNew 10, 9, 2, 251, 338, 0
     ActorCmdExec 251, Movement_02D8
     ActorCmdWait
-    ActorMsg 1024, 14, 251, 0, 0
+    // "Iris: Wooow!\nIt's such a flowing dress![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 251, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 15, 0, 0, 0
-    ActorMsg 1024, 16, 0, 0, 0
+    // "Drayden: What is important is\nyour mental preparation[f000]븀\u0000\nas the Champion, Iris.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 0, 0, 0
+    // "When I was little,\nPoké Balls didn't exist yet.[f000]븁\u0000\nSometimes Pokémon would run away\nfrom awful Trainers who didn't try[f000]븀\u0000\nto understand them.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 0, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 17, 251, 0, 0
+    // "Iris: But you were fine, right?[f000]븁\u0000\nI can tell![f000]븁\u0000\nYour Haxorus loves you very much![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 17, 251, 0, 0
     ActorCmdExec 251, Movement_0318
     ActorCmdWait
-    ActorMsg 1024, 18, 251, 0, 0
+    // "I've already decided!\nI know what kind of Champion I will be![f000]븁\u0000\nThere's a myth in Sinnoh that says\nthe reason why Pokémon jump out[f000]븀\u0000\nis because they want to thank people.[f000]븁\u0000\nI'm sure that we and Pokémon have helped\neach other and enriched the world[f000]븀\u0000\nsince ancient times.[f000]븁\u0000\nThese memories have been engraved in\neach Pokémon's heart![f000]븁\u0000\nSo, I want Pokémon and people\nto get closer and closer![f000]븁\u0000\nAs the Champion,\nI want to tell that to everybody![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 18, 251, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 19, 0, 0, 0
+    // "Drayden: Good!\nIf anyone can do it, you can.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 19, 0, 0, 0
     MsgWinCloseAll
     EvCameraMoveTo 9694, 0, 0xecf8c, 0x98000, 0x54000, 0x98000, 30
     FadeOutBlack

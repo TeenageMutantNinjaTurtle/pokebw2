@@ -14,8 +14,8 @@ L_002A:
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0051
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0051
     ObjInitWarpGPos 1, 0, 0, 0
     VMJump L_005B
 
@@ -46,31 +46,34 @@ Script_4:
     BGMPlayPush 1240
     ActorCmdExec 4, Movement_0488
     ActorCmdWait
-    ActorMsg 1024, 0, 1, 3, 0
+    // "Zinzolin: You're an impressive\nTrainer to have made it this far.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 1, 3, 0
     MsgWinCloseAll
     VMStackPush 0x8022
     VMStackPushConst 11
-    VMStackCmp 1
-    VMJumpIf 255, L_00C2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00C2
     ActorCmdExec 255, Movement_039C
     VMJump L_00DD
 
 L_00C2:
     VMStackPush 0x8022
     VMStackPushConst 13
-    VMStackCmp 1
-    VMJumpIf 255, L_00DD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00DD
     ActorCmdExec 255, Movement_03A8
 
 L_00DD:
     ActorCmdWait
     ActorCmdExec 1, Movement_0488
     ActorCmdWait
-    ActorMsg 1024, 1, 1, 3, 0
+    // "Since you went to such trouble\nto come here, I'll show you something.[f000]븁\u0000\nThis is...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 1, 3, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_03C0
     ActorCmdWait
-    ActorMsg 1024, 2, 1, 3, 1
+    // "The legendary Pokémon of ice!\nIts name is Kyurem![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 1, 3, 1
     ActorMsgClose
     EvCameraInit
     EvCameraUnbind
@@ -78,6 +81,7 @@ L_00DD:
     EvCameraWait
     VMSleep 12
     PVPlay 646, 0
+    // "Haaahraa..."
     ScreamMsg 17, 2
     PVWait
     MsgWaitAdvance
@@ -86,25 +90,30 @@ L_00DD:
     EvCameraWait
     EvCameraRebind
     EvCameraEnd
-    ActorMsg 1024, 3, 1, 3, 0
+    // "The ice missiles we fired\ninto Opelucid City were[f000]븀\u0000\ncreated with Kyurem's power[f000]븀\u0000\nand Team Plasma's technology![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 1, 3, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_0488
     ActorCmdWait
-    ActorMsg 1024, 4, 1, 3, 0
+    // "Well...[f000]븁\u0000\nYou could become a\nthreat to Team Plasma,[f000]븀\u0000\nso we will eliminate you here![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 1, 3, 0
     MsgWinCloseAll
     VMSleep 12
     ActorNew 12, 20, 0, 251, 291, 0
     ActorCmdExec 251, Movement_03F8
     ActorCmdWait
-    ActorMsg 1024, 5, 251, 6, 0
+    // "Not with me around, you won't![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 251, 6, 0
     MsgWinCloseAll
     ActorCmdExec 251, Movement_0490
     VMSleep 4
     ActorCmdExec 255, Movement_0498
     ActorCmdWait
-    ActorMsg 1024, 6, 251, 6, 0
+    // "Thanks for removing the barrier!\nThat was a big help![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 251, 6, 0
     MsgWinCloseAll
-    ActorMsg 1024, 7, 1, 3, 0
+    // "Zinzolin: Hmph!\nWe'll simply eliminate both of you![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 1, 3, 0
     MsgWinCloseAll
     ActorCmdExec 251, Movement_0480
     ActorCmdExec 255, Movement_0480
@@ -114,16 +123,16 @@ L_00DD:
     ActorCmdWait
     VMStackPush 0x4030
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0215
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0215
     CallTrainerMultiBattle 794, 797, 347, 0
     VMJump L_0242
 
 L_0215:
     VMStackPush 0x4030
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0238
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0238
     CallTrainerMultiBattle 795, 797, 347, 0
     VMJump L_0242
 
@@ -132,26 +141,35 @@ L_0238:
 
 L_0242:
     VMCall L_0358
-    ActorMsg 1024, 8, 251, 6, 0
+    // "[f000]Ā\u0001\u0001: I'm not going\nto lose to Team Plasma![f000]븁\u0000\nBy the way, what is this place?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 251, 6, 0
     MsgWinCloseAll
     WordSetPlayerName 0
     WordSetLoadRivalName 1
     ActorCmdExec 251, Movement_04A0
     ActorCmdWait
-    ActorMsg 1024, 9, 251, 6, 0
+    // "That Pokémon...[f000]븁\u0000\nIt's so icy...[f000]븁\u0000\nCould that be the source of\nthe attack on Opelucid City?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 251, 6, 0
     MsgWinCloseAll
-    ActorMsg 1024, 10, 1, 3, 0
+    // "Zinzolin: Hmph. You're a smarter\nTrainer than I expected.[f000]븁\u0000\nIf you've got that much sense,\nwhy did you do something as[f000]븀\u0000\ndangerous as sneaking into our base?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 1, 3, 0
     MsgWinCloseAll
-    ActorMsg 1024, 11, 251, 6, 0
+    // "[f000]Ā\u0001\u0001: That should be obvious![f000]븁\u0000\nI'll do whatever it takes to get\nmy sister's Pokémon back![f000]븁\u0000\nAre YOU the one who stole a\nPurrloin in Aspertia five years ago?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 251, 6, 0
     MsgWinCloseAll
-    ActorMsg 1024, 12, 1, 3, 0
+    // "Zinzolin: If it's just a Purrloin,\nsomeone probably stole it[f000]븀\u0000\nand is using it.[f000]븁\u0000\nWhy can't you understand?[f000]븁\u0000\nThere are other Purrloin.\nWhy are you so fixated on this one?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 1, 3, 0
     MsgWinCloseAll
-    ActorMsg 1024, 13, 251, 6, 0
+    // "[f000]Ā\u0001\u0001: That's the ONLY Purrloin\nin the world that my late grandpa[f000]븀\u0000\ncaught for my little sister![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 251, 6, 0
     MsgWinCloseAll
-    ActorMsg 1024, 14, 1, 3, 0
-    ActorMsg 1024, 15, 1, 3, 0
+    // "Zinzolin: An individual's feelings...[f000]븁\u0000\nTo you, that's probably a\nmatter of great importance.[f000]븁\u0000\nBut from the perspective of other\npeople, it is a trifling matter indeed.[f000]븁\u0000\nCompare those feelings against\nthe majesty of this ship![f000]븁\u0000\nThis ship itself is a device that\nuses the Pokémon Kyurem's power![f000]븁\u0000\nWith this ship, this time we will\nconquer Unova![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 1, 3, 0
+    // "It looks like Kyurem\nhas fully recovered.[f000]븁\u0000\nWe'll put the DNA Splicers\nto good use.[f000]븁\u0000\nI'll let you take care of them,\nShadow Triad![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 1, 3, 0
     MsgWinCloseAll
-    ActorMsg 1024, 16, 251, 6, 0
+    // "[f000]Ā\u0001\u0001: Don't mess with me!\nYou were the one who lost![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 251, 6, 0
     MsgWinCloseAll
     ActorAdd 2
     ActorAdd 3
@@ -185,13 +203,13 @@ L_0358:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0392
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0392
     PokePartyGetCount 0x8008, 2
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_038A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_038A
     PokePartyRecoverAll
 
 L_038A:

@@ -10,7 +10,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "The biggest city in Unova is Castelia![f000]븁\u0000\nI want to take the ship from Virbank\nand go play there!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -21,7 +22,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "On a sunny day, my Patrat's fur\ngets all fluffy![f000]븀\u0000\nI can't help wanting to pet it!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -33,7 +35,8 @@ Script_3:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 504, 0
-    ParentActorMsg 1024, 4, 0, 0
+    // "Skuwaaa!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

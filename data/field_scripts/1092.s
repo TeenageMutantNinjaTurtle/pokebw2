@@ -9,7 +9,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "We can live unchanged,\nbecause we keep changing.[f000]븁\u0000\nI mean, Pokémon also evolve,\nbut their Natures stay the same."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -20,7 +21,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "The Driftveil City that I remembered\nhad sort of a dowdy, you know,[f000]븀\u0000\nshabby look..."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -33,8 +35,9 @@ Script_3:
     ActorSetEyeToEye
     VMStackPushFlag 320
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00A9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00A9
+    // "Oh! The Pokémon has something\nin its mouth.[f000]븁\u0000"
     SystemMsg 2, 0
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -44,7 +47,8 @@ Script_3:
     VMStackPop 0x8001
     VMStackPop 0x8000
     PVPlay 610, 0
-    ActorMsg 1024, 3, 2, 0, 0
+    // "Roooooar!"
+    ActorMsg MSGFILE_SCRIPT, 3, 2, 0, 0
     PVWait
     LastKeyWait
     MsgWinCloseAll
@@ -55,7 +59,8 @@ L_00A9:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 610, 0
-    ParentActorMsg 1024, 3, 0, 0
+    // "Roooooar!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

@@ -91,9 +91,10 @@ FUNCTIONS: dict[str, list[str]] = {}
 
 
 @lru_cache(None)
-def analyse(name: str, depth: int = 0) -> tuple[tuple[str, ...], bool, tuple[str, ...]]:
-    """Returns the reads of the VM that the function gets in r0, in instruction order, whether any read may be skipped
-    or repeated, and the calls that control the VM. The VM pointer is followed through registers and stack slots."""
+def analyse(name: str, depth: int = 0) -> tuple[tuple[tuple[str, str | None], ...], bool, tuple[str, ...]]:
+    """Returns the reads of the VM that the function gets in r0, in instruction order, as (kind, meaning), whether any
+    read may be skipped or repeated, and the calls that control the VM. The VM pointer is followed through registers
+    and stack slots, and each value read through the functions it is passed to."""
     lines = FUNCTIONS.get(name)
     if lines is None or depth > 6:
         return (), False, ()
@@ -125,7 +126,8 @@ def analyse(name: str, depth: int = 0) -> tuple[tuple[str, ...], bool, tuple[str
             if "r0" in vm:
                 if callee in PRIMITIVES:
                     conditional |= branched
-                    reads.append(PRIMITIVES[callee])
+                    meaning = None if callee == "ScriptReadVar" else meaning_of(lines, {"r0"}, k + 1)
+                    reads.append((PRIMITIVES[callee], meaning))
                     read_lines.append(k)
                 elif callee in FLOW:
                     flow.append(FLOW[callee])
@@ -154,8 +156,9 @@ def analyse(name: str, depth: int = 0) -> tuple[tuple[str, ...], bool, tuple[str
             for following in lines[k + 1:k + 16]:
                 if LABEL.match(following) or re.search(r"\sbl|\sb\w* ", following):
                     break
-                if n := re.match(rf"\s+ldr(b|h) r\d+, \[{base}, #0x([0-9a-f]+)\]", following):
-                    inline[int(n[2], 16)] = "u8" if n[1] == "b" else "u16"
+                if n := re.match(rf"\s+ldr(b|h) (r\d+), \[{base}, #0x([0-9a-f]+)\]", following):
+                    at = lines.index(following, k + 1)
+                    inline[int(n[3], 16)] = ("u8" if n[1] == "b" else "u16", meaning_of(lines, {n[2]}, at + 1))
                 if re.match(rf"\s+(?!str|cmp|tst)\w+ {base}, ", following):
                     break
             for offset in sorted(inline):
@@ -165,6 +168,109 @@ def analyse(name: str, depth: int = 0) -> tuple[tuple[str, ...], bool, tuple[str
         if (m := re.match(r"\s+\w+ (r\d+), ", line)) and not line.strip().startswith(("str", "cmp", "tst", "cmn")):
             vm.discard(m[1])
     return tuple(reads), conditional, tuple(flow)
+
+
+# What an argument is, from the function it ends up in: (function, parameter) -> meaning
+SINKS = {
+    ("EventWork_FlagGet", 1): "flag", ("EventWork_FlagSet", 1): "flag", ("EventWork_FlagReset", 1): "flag",
+    ("BagSave_AddItem", 1): "item", ("BagSave_SubItem", 1): "item", ("BagSave_CheckAmount", 1): "item",
+    ("BagSave_CheckAvailItemSpace", 1): "item", ("BagSave_GetItemCountByID", 1): "item",
+    ("BagSave_GetActualItemPocket", 1): "item", ("GetItemParam", 0): "item", ("loadItemNameToStrbuf", 2): "item",
+    ("loadItemsNameToStrbuf", 2): "item", ("loadItemTextNameToStrbuf", 2): "item", ("PML_ItemGetTMWazaID", 0): "item",
+    ("isMoveMachine", 0): "item",
+    ("loadMoveNameToStrbuf", 2): "move",
+    ("PokeDex_IsCaught", 1): "species", ("PokeDex_IsSeen", 1): "species",
+    ("loadAbilityNameToStrbuf", 2): "ability",
+    ("loadTypeTextToStrbuf", 2): "type",
+    ("LoadFieldScriptMessage", 1): "message_file", ("LoadFieldScriptMessage", 2): "message",
+    ("ScriptWork_AddVM", 2): "script", ("FieldStatus_ReserveScript", 1): "script", ("SetActorSCRID", 1): "script",
+    ("TrainerData_GetParam", 0): "trainer", ("TrainerFlagGet", 1): "trainer", ("setTrainerBattleFlag", 1): "trainer",
+    ("clearTrainerBattleFlag", 1): "trainer", ("TrainerMsg_Load", 1): "trainer",
+}
+
+
+# The save data that a handler's calls get, which tells the area of an unnamed command
+AREAS = {
+    "getTrainerCardDataBlkAddress": "TrainerCard", "getTrainerCardInfoBlkAddress": "TrainerCard",
+    "getTrainerCardData_wrapper": "TrainerCard", "getTrainerGameInfoAddress": "TrainerGameInfo",
+    "getMusicalInfoBlkAddress": "Musical", "getAddressOfMusicalDataInfo": "Musical",
+    "GetTrialHouseWkPPtr": "TrialHouse", "getUnityTower_SurveySaveBlkAddrress": "UnityTower",
+    "getHighLinkBlockAddress": "HighLink", "getDreamWorldStuffAddress": "DreamWorld",
+    "mysteryGiftBlock": "MysteryGift", "getKeyInfoSaveBlk": "Keys", "getKeyDataBlkAddress": "Keys",
+    "getHollow_RivalBlk": "HollowRival", "getTrainerDataBlkAddress": "TrainerData",
+    "getTimeSigBlkAddress": "TimeSig", "getAreaNPCData": "AreaNPC",
+}
+
+
+def area_of(name: str) -> str | None:
+    """Returns the area of a handler, when all the save data it gets belongs to one."""
+    areas = {AREAS[m[1]] for line in FUNCTIONS.get(name, []) if (m := re.search(r"\sblx? (\w+)", line)) and m[1] in AREAS}
+    return areas.pop() if len(areas) == 1 else None
+
+
+# Meanings that the dataflow does not find, by handler
+MEANING_OVERRIDES = {
+    # The first argument is read and not used, and the message is the second or the third, by the player's gender or
+    # the version
+    "s0048_ActorMsgGendered": [None, "message", "message", None, None, None],
+    "s0049_ActorMsgVersioned": [None, "message", "message", None, None, None],
+    "s0011_VMStackCmp": ["comparison"],
+    "s001F_VMJumpIf": ["condition", None],
+    "s0020_VMCallIf": ["condition", None],
+}
+
+
+@lru_cache(None)
+def parameter_meanings(name: str, parameter: int, depth: int = 0) -> frozenset[str]:
+    """Returns the meanings of a function's parameter, from the functions it is passed on to."""
+    if (name, parameter) in SINKS:
+        return frozenset([SINKS[(name, parameter)]])
+    lines = FUNCTIONS.get(name)
+    if lines is None or depth > 4 or parameter > 3:
+        return frozenset()
+    meanings = set()
+    for callee, index in value_uses(lines, {f"r{parameter}"}):
+        meanings |= parameter_meanings(callee, index, depth + 1)
+    return frozenset(meanings)
+
+
+def value_uses(lines: list[str], holders: set[str], after: int = 0) -> list[tuple[str, int]]:
+    """Follows a value from the registers that hold it at a line, and returns the (function, parameter) pairs that it
+    is passed to. Stack arguments are those stored since the previous call."""
+    holders = set(holders)
+    slots, fresh, uses = set(), set(), []
+    for line in lines[after:]:
+        if LABEL.match(line):
+            continue
+        if m := re.search(r"\sblx? (\w+)", line):
+            uses += [(m[1], int(r[1])) for r in ("r0", "r1", "r2", "r3") if r in holders]
+            uses += [(m[1], 4 + int(o, 16) // 4) for o in fresh & slots if int(o, 16) < 0x10]
+            fresh = set()
+            holders -= {"r0", "r1", "r2", "r3", "r12", "lr"}
+            if not holders and not slots:
+                break
+            continue
+        if m := re.match(r"\s+strh? (r\d+), \[sp, #(0x[0-9a-f]+)\]", line):
+            fresh.add(m[2])
+            (slots.add if m[1] in holders else slots.discard)(m[2])
+            continue
+        if m := re.match(r"\s+ldrh? (r\d+), \[sp, #(0x[0-9a-f]+)\]", line):
+            (holders.add if m[2] in slots else holders.discard)(m[1])
+            continue
+        if m := re.match(r"\s+(?:mov|movs|adds|lsl|lsr|asr) (r\d+), (r\d+)(?:, #0x[0-9a-f]+)?$", line):
+            (holders.add if m[2] in holders else holders.discard)(m[1])
+            continue
+        if (m := re.match(r"\s+\w+ (r\d+), ", line)) and not line.strip().startswith(("str", "cmp", "tst", "cmn")):
+            holders.discard(m[1])
+    return uses
+
+
+def meaning_of(lines: list[str], holders: set[str], after: int) -> str | None:
+    """Returns what a value is, if all the functions it is passed to agree."""
+    found = set()
+    for callee, index in value_uses(lines, holders, after):
+        found |= parameter_meanings(callee, index)
+    return found.pop() if len(found) == 1 else None
 
 
 def overlay_swap(name: str) -> list[int] | None:
@@ -192,7 +298,12 @@ def handler_entry(memory: Memory, address: int, overlays: list[int]) -> dict | N
             if symbol is None:
                 return None
             reads, conditional, flow = analyse(symbol[0])
-            entry = {"handler": symbol[0], "overlay": overlay, "args": list(reads)}
+            entry = {"handler": symbol[0], "overlay": overlay, "args": [kind for kind, _ in reads]}
+            if symbol[0].startswith("func_") and (area := area_of(symbol[0])):
+                entry["area"] = area
+            meanings = MEANING_OVERRIDES.get(symbol[0], [meaning for _, meaning in reads])
+            if any(meanings):
+                entry["meanings"] = meanings
             if conditional:
                 entry["conditional"] = True
             if flow:

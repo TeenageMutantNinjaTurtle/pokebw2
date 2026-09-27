@@ -17,12 +17,12 @@
 Script_1:
     VMStackPush 0x40b3
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2406
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0063
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0063
     FlagReset 755
 
 L_0063:
@@ -35,8 +35,8 @@ Script_4:
     ActorsPauseAll
     VMStackPushFlag 2406
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0088
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0088
     VMCall L_026B
     VMJump L_008E
 
@@ -56,27 +56,29 @@ L_0094:
     WorkSub 0x8021, 2
     VMStackPush 0x8022
     VMStackPush 0x8024
-    VMStackCmp 5
-    VMJumpIf 255, L_00DB
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_00DB
     ActorWalkRoute 0, 0x8021, 0x8022, 0, 8, 0
     ActorCmdWait
     ActorCmdExec 0, Movement_0918
     ActorCmdWait
 
 L_00DB:
-    ActorMsg 1024, 0, 0, 0, 0
+    // "[f000]Ā\u0001\u0001: [f000]Ā\u0001\u0000!\nI need you to get tougher![f000]븁\u0000\nEven I'm going to have trouble\ntaking them on all by myself...[f000]븁\u0000\nAnyway, it's OK!\nI'll take care of healing our Pokémon![f000]븁\u0000\nI'm counting on you, [f000]Ā\u0001\u0000!\nAre you ready to go?"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0251
-    ActorMsg 1024, 2, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0251
+    // "[f000]Ā\u0001\u0001: OK!\nLet's find Team Plasma![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     MsgWinCloseAll
     PlayerGetExState 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0127
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0127
     PlayerSetSpecialSequence 1
 
 L_0127:
@@ -84,8 +86,8 @@ L_0127:
     ActorCmdWait
     VMStackPush 0x4030
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0194
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0194
     VMStackPush 0x8000
     VMStackPush 0x8001
     VMStackPush 0x8002
@@ -107,8 +109,8 @@ L_0127:
 L_0194:
     VMStackPush 0x4030
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01F7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01F7
     VMStackPush 0x8000
     VMStackPush 0x8001
     VMStackPush 0x8002
@@ -147,11 +149,12 @@ L_01F7:
 
 L_0241:
     FlagSet 755
-    Cmd_0262 1, 2
+    HollowRivalCmd_0262 1, 2
     VMJump L_0269
 
 L_0251:
-    ActorMsg 1024, 1, 0, 0, 0
+    // "[f000]Ā\u0001\u0001: C'mon!\nHurry up and get ready![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 255, Movement_08D0
     ActorCmdWait
@@ -165,8 +168,8 @@ L_026B:
     PlayerGetDir 0x8020
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_029E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_029E
     ActorCmdExec 255, Movement_0900
     ActorCmdExec 254, Movement_08E8
     VMJump L_02D7
@@ -174,8 +177,8 @@ L_026B:
 L_029E:
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_02C7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02C7
     ActorCmdExec 255, Movement_0910
     ActorCmdExec 254, Movement_08F8
     VMJump L_02D7
@@ -186,13 +189,15 @@ L_02C7:
 
 L_02D7:
     ActorCmdWait
-    ActorMsg 1024, 3, 254, 0, 0
+    // "[f000]Ā\u0001\u0001: I suppose.\nGoing to step outside for a minute?"
+    ActorMsg MSGFILE_SCRIPT, 3, 254, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_036A
-    ActorMsg 1024, 1, 254, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_036A
+    // "[f000]Ā\u0001\u0001: C'mon!\nHurry up and get ready![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 254, 0, 0
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     ActorWalkRoute 254, 81, 20, 1, 8, 0
@@ -208,13 +213,14 @@ L_02D7:
     VMStackPop 0x8001
     VMStackPop 0x8000
     FlagReset 755
-    Cmd_0262 1, 3
+    HollowRivalCmd_0262 1, 3
     ActorAdd 0
     ActorDelete 254
     VMJump L_0388
 
 L_036A:
-    ActorMsg 1024, 2, 254, 0, 0
+    // "[f000]Ā\u0001\u0001: OK!\nLet's find Team Plasma![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 254, 0, 0
     MsgWinCloseAll
     ActorPairSetMoveEnable 1
     ActorCmdExec 255, Movement_08D8
@@ -241,42 +247,49 @@ Script_3:
     ActorCmdWait
     EvCameraWait
     WordSetPlayerName 0
-    ActorMsg 1024, 11, 254, 0, 0
+    // "Hey![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 254, 0, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_0908
     ActorCmdExec 2, Movement_0908
     ActorCmdWait
-    ActorMsg 1024, 12, 1, 3, 0
+    // "Team Plasma: What do you want?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 1, 3, 0
     MsgWinCloseAll
-    ActorMsg 1024, 13, 254, 4, 0
+    // "[f000]Ā\u0001\u0001: Team Plasma!\nYou villains![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 254, 4, 0
     MsgWinCloseAll
-    ActorMsg 1024, 14, 1, 3, 0
+    // "Team Plasma: What?\nDon't treat us like villains![f000]븁\u0000\nAnd don't interfere with our\nplans to liberate Pokémon![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 1, 3, 0
     MsgWinCloseAll
-    ActorMsg 1024, 15, 254, 4, 0
+    // "[f000]Ā\u0001\u0001: Liberate? Ha!\nYou're just ordinary Pokémon thieves![f000]븁\u0000\nAnd what's more, you use those\nstolen Pokémon like they're tools![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 254, 4, 0
     MsgWinCloseAll
-    ActorMsg 1024, 16, 1, 3, 0
+    // "Team Plasma: Shaddap!\nHand over your Pokémon![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 1, 3, 0
     MsgWinCloseAll
     ActorCmdExec 254, Movement_0918
     VMSleep 4
     ActorCmdExec 255, Movement_0910
     ActorCmdWait
-    ActorMsg 1024, 17, 254, 4, 0
+    // "[f000]Ā\u0001\u0001: Let's do this, [f000]Ā\u0001\u0000![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 17, 254, 4, 0
     MsgWinCloseAll
     ActorCmdExec 254, Movement_0900
     ActorCmdExec 255, Movement_0900
     ActorCmdWait
     VMStackPush 0x4030
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04A4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04A4
     CallTrainerMultiBattle 588, 342, 356, 0
     VMJump L_04D1
 
 L_04A4:
     VMStackPush 0x4030
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_04C7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04C7
     CallTrainerMultiBattle 589, 342, 356, 0
     VMJump L_04D1
 
@@ -287,13 +300,13 @@ L_04D1:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0529
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0529
     PokePartyGetCount 0x8008, 2
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0503
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0503
     PokePartyRecoverAll
 
 L_0503:
@@ -308,7 +321,8 @@ L_0529:
     CallTrainerLose
 
 L_052B:
-    ActorMsg 1024, 18, 1, 3, 0
+    // "Team Plasma: They're really tough![f000]븁\u0000\nBut whatever!\nWe've got the Pokémon we need![f000]븀\u0000\nNow, we flee![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 18, 1, 3, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_0854
     VMSleep 4
@@ -319,8 +333,10 @@ L_052B:
     ActorCmdWait
     ActorDelete 1
     ActorDelete 2
-    ActorMsg 1024, 19, 254, 4, 0
+    // "[f000]Ā\u0001\u0001: Tch!\nThey run away like Patrat![f000]븁\u0000\nOK! Let's go farther inside!\nThere might be more in there![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 19, 254, 4, 0
     MsgWinCloseAll
+    // "???: I don't think that's\nnecessary, you two.[f000]븁\u0000"
     InfoMsg 20, 1
     MsgWinCloseAll
     ActorCmdExec 255, Movement_0920
@@ -333,20 +349,26 @@ L_052B:
     ActorCmdWait
     ActorCmdExec 20, Movement_0908
     ActorCmdWait
-    ActorMsg 1024, 21, 254, 4, 0
+    // "[f000]Ā\u0001\u0001: Could you be\nGym Leader Burgh?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 21, 254, 4, 0
     MsgWinCloseAll
-    ActorMsg 1024, 22, 20, 5, 0
+    // "Burgh: Yessir! One and the same!\nI'm Burgh.[f000]븁\u0000\nAnd there was no one suspicious\nbeyond here![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 22, 20, 5, 0
     MsgWinCloseAll
-    ActorMsg 1024, 23, 254, 4, 0
+    // "[f000]Ā\u0001\u0001: Is that...so?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 23, 254, 4, 0
     MsgWinCloseAll
-    ActorMsg 1024, 24, 20, 5, 0
+    // "Burgh: Yes indeedy![f000]븁\u0000\nI'm concerned about\nTeam Plasma as well.[f000]븁\u0000\nMore importantly, shall\nwe leave this place?[f000]븁\u0000\nFor some reason,\nthis sewer is bugging me.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 24, 20, 5, 0
     MsgWinCloseAll
-    ActorMsg 1024, 25, 254, 4, 0
+    // "[f000]Ā\u0001\u0001: Huh...[f000]븁\u0000\nDidn't you and the other Gym Leaders\nfight Team Plasma two years ago?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 25, 254, 4, 0
     MsgWinCloseAll
     ActorCmdExec 254, Movement_0918
     ActorCmdExec 255, Movement_0910
     ActorCmdWait
-    ActorMsg 1024, 26, 254, 4, 0
+    // "[f000]Ā\u0001\u0001: Thanks for your help.\nHere, use this![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 26, 254, 4, 0
     MsgWinCloseAll
     ActorCmdExec 254, Movement_08D0
     ActorCmdWait
@@ -357,7 +379,8 @@ L_052B:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 27, 254, 4, 0
+    // "I'll find those other\nTeam Plasma punks![f000]븁\u0000\nI... I'll never forgive Pokémon thieves!\nNo way![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 27, 254, 4, 0
     MsgWinCloseAll
     ActorCmdExec 254, Movement_0894
     VMSleep 8
@@ -365,8 +388,10 @@ L_052B:
     ActorCmdWait
     ActorWalkRoute 20, 50, 8, 0, 8, 0
     ActorCmdWait
-    ActorMsg 1024, 28, 20, 4, 0
+    // "Burgh: He's gone...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 28, 20, 4, 0
     MsgWinCloseAll
+    // "???: You there![f000]븁\u0000"
     InfoMsg 29, 1
     InfoMsgClose_0039
     ActorCmdExec 255, Movement_0920
@@ -383,7 +408,8 @@ L_052B:
     ActorCmdWait
     ActorCmdExec 19, Movement_08A0
     ActorCmdWait
-    ActorMsg 1024, 30, 19, 5, 0
+    // "That was an excellent demonstration\nof battling. The way you brought out[f000]븀\u0000\nthe power of your Pokémon against[f000]븀\u0000\nan opponent like Team Plasma...[f000]븁\u0000\nAstounding. Simply astounding.\nInteresting as well. I see...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 30, 19, 5, 0
     MsgWinCloseAll
     ActorCmdExec 19, Movement_08A8
     VMSleep 40
@@ -392,13 +418,15 @@ L_052B:
     ActorCmdWait
     ActorCmdExec 20, Movement_0928
     ActorCmdWait
-    ActorMsg 1024, 31, 20, 4, 0
+    // "Burgh: Who...was that?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 31, 20, 4, 0
     MsgWinCloseAll
     ActorCmdExec 20, Movement_0918
     VMSleep 4
     ActorCmdExec 255, Movement_0910
     ActorCmdWait
-    ActorMsg 1024, 32, 20, 4, 0
+    // "Well. No matter.\nWhat are you going to do?[f000]븁\u0000\nYou can stay here\nand train your Pokémon.[f000]븁\u0000\nOr maybe you should come\nchallenge me, the Gym Leader![f000]븁\u0000\nBe seeing you![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 32, 20, 4, 0
     MsgWinCloseAll
     EvCameraMoveToDefault 32
     ActorCmdExec 20, Movement_08B4
@@ -425,7 +453,7 @@ L_052B:
     FlagSet 759
     FlagSet 1005
     FlagSet 752
-    Cmd_0262 1, 4
+    HollowRivalCmd_0262 1, 4
     MedalDiscover 58
     FinishAllEvents
     ActorsUnpauseAll
@@ -437,7 +465,8 @@ Script_5:
     VMSleep 40
     ActorCmdExec 255, Movement_0900
     ActorCmdWait
-    ActorMsg 1024, 34, 21, 0, 0
+    // "Waitasecond![f000]븁\u0000\nI dropped something here!\nJust wait until I find it![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 34, 21, 0, 0
     MsgWinCloseAll
     ActorPairSetMoveEnable 1
     ActorCmdExec 21, Movement_0918
@@ -452,7 +481,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 33, 0, 0
+    // "Waitasecond![f000]븁\u0000\nI dropped something here!\nJust wait until I find it!"
+    ParentActorMsg MSGFILE_SCRIPT, 33, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -463,7 +493,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 35, 0, 0
+    // "Phew...\nI finally made it back here.[f000]븁\u0000\nAre you going farther inside?\nThere's nothing in there but Trainers."
+    ParentActorMsg MSGFILE_SCRIPT, 35, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

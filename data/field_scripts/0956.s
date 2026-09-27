@@ -13,7 +13,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "What? That Trainer named Benga is\nAlder's grandson?[f000]븁\u0000\nI should ask Alder in Floccesy Town\nto train me, too."
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -24,19 +25,19 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 4
-    VMStackCmp 3
-    VMJumpIf 255, L_0061
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_0061
     WorkSetConst 0x8021, 0
     VMJump L_0086
 
 L_0061:
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMJumpIf 255, L_0080
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_0080
     WorkSetConst 0x8021, 1
     VMJump L_0086
 
@@ -44,7 +45,7 @@ L_0080:
     WorkSetConst 0x8021, 2
 
 L_0086:
-    ParentActorMsg 1024, 0x8021, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8021, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -55,19 +56,19 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 4
-    VMStackCmp 3
-    VMJumpIf 255, L_00C5
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_00C5
     WorkSetConst 0x8021, 3
     VMJump L_00EA
 
 L_00C5:
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMJumpIf 255, L_00E4
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_00E4
     WorkSetConst 0x8021, 4
     VMJump L_00EA
 
@@ -75,7 +76,7 @@ L_00E4:
     WorkSetConst 0x8021, 5
 
 L_00EA:
-    ParentActorMsg 1024, 0x8021, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8021, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents

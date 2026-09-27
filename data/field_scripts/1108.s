@@ -13,8 +13,8 @@
 L_002A:
     VMStackPushFlag 364
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_004D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_004D
     ObjInitWarpGPos 1, 23, 0, 1
     VMJump L_0057
 
@@ -41,8 +41,8 @@ Script_1:
     PlayerGetDir 0x8021
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0098
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0098
     MapChangeWarpPad 561, 15, 21, 32801
     VMJump L_00A2
 

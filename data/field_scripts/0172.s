@@ -13,28 +13,28 @@ Script_1:
     WorkSetConst 0x8020, 0
     VMStackPush 0x416d
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x416e
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x416f
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4170
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4171
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4172
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 6
-    VMStackCmp 6
-    VMStackCmp 6
-    VMStackCmp 6
-    VMStackCmp 6
-    VMJumpIf 255, L_0099
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_0099
     StadiumLoadTrainerTable
     Cmd_0249 0x416d, 0x416e, 0x416f, 0x4170, 0x4171, 0x4172
     StadiumFreeTrainerTable
@@ -48,15 +48,15 @@ L_0099:
     TrainerCardHasBadge 0x8020, 4
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00CA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00CA
     FlagReset 649
 
 L_00CA:
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00ED
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00ED
     FlagReset 650
     FlagReset 651
     FlagReset 652
@@ -70,8 +70,8 @@ L_00ED:
     TrainerCardHasBadge 0x8020, 4
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0142
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0142
     StadiumSetupActorSingle 0, 0, 2
     StadiumSetupActorSingle 1, 1, 2
     StadiumSetupActorSingle 2, 2, 2
@@ -81,8 +81,8 @@ L_0142:
     TrainerCardHasBadge 0x8020, 6
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_017D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_017D
     StadiumSetupActorSingle 0, 0, 3
     StadiumSetupActorSingle 1, 1, 3
     StadiumSetupActorSingle 2, 2, 3
@@ -91,8 +91,8 @@ L_0142:
 L_017D:
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01CA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01CA
     StadiumSetupActorSingle 0, 0, 4
     StadiumSetupActorSingle 1, 1, 4
     StadiumSetupActorSingle 2, 2, 4
@@ -109,7 +109,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Pokémon tennis is wonderful![f000]븁\u0000\nPlayers are never alone.\nTheir Pokémon are always with them!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -120,7 +121,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Tennis is all about rackets and balls.\nThere's nothing profound about it."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -131,7 +133,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "I am a ball boy who collects\ntennis balls.[f000]븁\u0000\nYou are a Pokémon Trainer who\ncollects Pokémon."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -142,7 +145,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "To become ball boys,\nwe gotta practice."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -154,7 +158,8 @@ Script_6:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 506, 0
-    ParentActorMsg 1024, 4, 0, 0
+    // "Woowoof!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -167,7 +172,8 @@ Script_7:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 506, 0
-    ParentActorMsg 1024, 5, 0, 0
+    // "Yap!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

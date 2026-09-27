@@ -14,7 +14,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "We love sports.\nWatching games is great, but we enjoy[f000]븀\u0000\nwatching practices, too!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -25,7 +26,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "New styles of basketball and tennis\ncreated by people and Pokémon...[f000]븀\u0000\nThese may be advanced forms of sports."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -38,13 +40,15 @@ Script_3:
     ActorSetEyeToEye
     VMStackPushFlag 220
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0085
-    ParentActorMsg 1024, 2, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0085
+    // "Hey! Now! There!\nAh! No! No, no![f000]븁\u0000\nYes! Yes, yes!\nThat's right! Ha![f000]븁\u0000\nWhy don't you do it like I said?!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     VMJump L_008F
 
 L_0085:
-    ParentActorMsg 1024, 3, 0, 0
+    // "I watch them practice quietly.\nBecause I trust the athletes!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
 
 L_008F:
     LastKeyWait
@@ -57,7 +61,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "Hm-hum! I can copy that play in my\nnext game."
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -68,7 +73,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "Did you see it?\nThat's a great muscle move![f000]븁\u0000\nGood muscle! Good hustle!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -79,7 +85,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "Oh! This could be a once-in-a-lifetime\ngame! I might witness history!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -89,7 +96,8 @@ Script_6:
 Script_7:
     ActorsPauseAll
     SEPlay 1351
-    ParentActorMsg 1024, 7, 0, 0
+    // "Woooow! Coooool!\nSomeday I want to be on that court!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -99,7 +107,8 @@ Script_7:
 Script_8:
     ActorsPauseAll
     SEPlay 1351
-    ParentActorMsg 1024, 8, 0, 0
+    // "I believe in big money!\n...No, I mean I will gain glory!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents

@@ -18,8 +18,8 @@ L_003A:
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0061
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0061
     ObjInitWarpGPos 2, 9, 0, 11
     VMJump L_006B
 
@@ -57,12 +57,14 @@ Script_2:
     TrainerCardGetSex 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00C1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00C1
+    // "Bianca: Heeey![f000]븁\u0000"
     InfoMsg 0, 2
     VMJump L_00C6
 
 L_00C1:
+    // "Bianca: Hey there![f000]븁\u0000"
     InfoMsg 1, 2
 
 L_00C6:
@@ -73,7 +75,8 @@ L_00C6:
     VMSleep 8
     ActorCmdExec 255, Movement_0368
     ActorCmdWait
-    ActorMsg 1024, 2, 2, 0, 0
+    // "When I saw you in the city,\nI just had to catch up with you![f000]븁\u0000\nHere, take this!\nThis is a Dowsing Machine![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 2, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -82,11 +85,13 @@ L_00C6:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 3, 2, 0, 0
+    // "You can use the Dowsing Machine\nto find places where items are hidden.[f000]븁\u0000\nIt's exciting to find an item while\nyou're looking for a Pokémon.[f000]븁\u0000\nOoh, good luck![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 2, 0, 0
     MsgWinCloseAll
     ActorCmdExec 2, Movement_0340
     ActorCmdWait
-    ActorMsg 1024, 4, 2, 0, 0
+    // "Oh![f000]븁\u0000\nIf you often use the Dowsing Machine,\nthe Habitat List, and so on,[f000]븀\u0000\nwhy don't you register them?[f000]븁\u0000\nEr...\nI think it's written in this book...[f000]븁\u0000\nI found it!\nOK. I'll read it.[f000]븁\u0000\n“You can use the registered item\njust by pressing the Y Button!\"[f000]븀\u0000\nSee? OK. Bye![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 2, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 2, 5, 14, 1, 8, 0
     ActorCmdWait
@@ -105,6 +110,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
+    // "The Pokémon Breeder on Route 4 past\nthis gate always challenges Trainers[f000]븀\u0000\nto battle when she sees them.[f000]븁\u0000\nJust what you expect from Route 4, which\nhas ruins. Discovery is so exciting!"
+    // "The Pokémon Breeder on Route 4 past\nthis gate always challenges Trainers[f000]븀\u0000\nto battle when she sees them.[f000]븁\u0000\nJust what you expect from Route 4,\nwhich has a lot of buildings.[f000]븀\u0000\nChanges are so exciting!"
     ActorMsgVersioned 1024, 5, 6, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
@@ -116,7 +123,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "Nimbasa City is at the end\nof Route 4."
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -129,14 +137,16 @@ Script_7:
     ActorSetEyeToEye
     VMStackPush 0x40e2
     VMStackPushConst 6
-    VMStackCmp 5
-    VMJumpIf 255, L_031F
-    ParentActorMsg 1024, 8, 0, 0
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_031F
+    // "Free-for-all! It's the Castelia\nHarlequin Hunt! You haven't visited...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     VMStackPush 0x40e2
     VMStackPushConst 5
-    VMStackCmp 1
-    VMJumpIf 255, L_022E
-    ParentActorMsg 1024, 13, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_022E
+    // "You still need to visit\nthis many places: Wow! Zero![f000]븁\u0000\nThat means you've completed\nthe Castelia Harlequin Hunt![f000]븁\u0000\nCongratulations!\nThis is a small commemorative gift![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -145,7 +155,8 @@ Script_7:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 14, 0, 0
+    // "The Castelia Harlequin Hunt is a way\nto make more people love Castelia City![f000]븁\u0000\nThat's why we generously gave you a\nBicycle at the beginning. It's the best[f000]븀\u0000\nway to get around Castelia City![f000]븁\u0000\nKeep loving Castelia City![f000]븁\u0000\nCastelia City, Castelia City,\nCastelia City! ♪ Here we go! ♪"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40e2, 6
@@ -158,43 +169,46 @@ L_022E:
 L_023A:
     VMStackPush 0x8025
     VMStackPushConst 3
-    VMStackCmp 0
-    VMJumpIf 255, L_0304
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_0304
     VMStackPush 0x8025
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 312
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0288
-    ActorMsg 1024, 9, 3, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0288
+    // "The Medal Office![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 3, 0, 0
     WorkAdd 0x8024, 1
     VMJump L_02F8
 
 L_0288:
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 313
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_02C3
-    ActorMsg 1024, 10, 3, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_02C3
+    // "Passerby Analytics HQ![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 3, 0, 0
     WorkAdd 0x8024, 1
     VMJump L_02F8
 
 L_02C3:
     VMStackPush 0x8025
     VMStackPushConst 2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 314
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_02F8
-    ActorMsg 1024, 11, 3, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_02F8
+    // "The Battle Company![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 3, 0, 0
     WorkAdd 0x8024, 1
 
 L_02F8:
@@ -203,7 +217,8 @@ L_02F8:
 
 L_0304:
     WordSetNumber 0, 0x8024, 1
-    ParentActorMsg 1024, 12, 0, 0
+    // "You still need to visit\nthis many places: [f000]Ȁ\u0001\u0000![f000]븁\u0000\nSo explore Castelia City, and enjoy\nthe Castelia Harlequin Hunt!"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -211,7 +226,8 @@ L_0319:
     VMJump L_032D
 
 L_031F:
-    ParentActorMsg 1024, 14, 0, 0
+    // "The Castelia Harlequin Hunt is a way\nto make more people love Castelia City![f000]븁\u0000\nThat's why we generously gave you a\nBicycle at the beginning. It's the best[f000]븀\u0000\nway to get around Castelia City![f000]븁\u0000\nKeep loving Castelia City![f000]븁\u0000\nCastelia City, Castelia City,\nCastelia City! ♪ Here we go! ♪"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     MsgWinCloseAll
 

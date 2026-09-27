@@ -16,8 +16,8 @@
 Script_11:
     VMStackPush 0x409e
     VMStackPushConst 5
-    VMStackCmp 1
-    VMJumpIf 255, L_004D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_004D
     ActorSetGPos 4, 7, 0, 13, 0
 
 L_004D:
@@ -32,7 +32,8 @@ Script_1:
     ActorCmdExec 0, Movement_07CC
     ActorCmdExec 2, Movement_07CC
     ActorCmdWait
-    ActorMsg 1024, 1, 1, 1, 0
+    // "[f000]Ā\u0001\u0000,\ncome here![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 1, 1, 0
     ActorMsgClose
     ActorCmdExec 255, Movement_03B4
     ActorCmdWait
@@ -49,7 +50,8 @@ Script_1:
     BMHndAudioVisualAnmPlay 0x8020, 1
     BMHndAnmWait 0x8020
     BMReleaseHandle 0x8020
-    ActorMsg 1024, 2, 4, 1, 0
+    // "Hello, [f000]Ā\u0001\u0000!\nWell, let's go straight to the ceremony![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 4, 1, 0
     ActorMsgClose
     ActorCmdExec 4, Movement_03C4
     VMSleep 32
@@ -61,7 +63,8 @@ Script_1:
     ActorCmdExec 2, Movement_07F4
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 3, 4, 2, 0
+    // "[f000]Ā\u0001\u0000,\nyou achieved great results[f000]븀\u0000\nin the Medal Rally...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 4, 2, 0
     MultiMsg 6, 21, 3, 1
     VMSleep 10
     MultiMsg 7, 5, 5, 2
@@ -75,17 +78,20 @@ Script_1:
     MsgWinCloseNo 3
     WordSetPlayerName 0
     WordSetMedalName 1, 1
-    ActorMsg 1024, 4, 4, 2, 0
+    // "To honor your achievement...\nI will present you with[f000]븀\u0000\nthe [f000][ff00]\u0001\u0002[f000]ĵ\u0001\u0001[f000][ff00]\u0001\u0000 Medal![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 4, 2, 0
     MsgWinCloseAll
     MEPlay 1336
     MedalGetFieldEffectID 1, 0x400f
     PlayFieldEffect 0x400f
     MEWait
     WordSetPlayerName 0
+    // "[f000]Ā\u0001\u0000 received\nthe [f000][ff00]\u0001\u0002[f000]ĵ\u0001\u0001[f000][ff00]\u0001\u0000 Medal![f000]븁\u0000"
     SystemMsg 0, 2
     InfoMsgClose
     WordSetPlayerName 0
-    ActorMsg 1024, 5, 4, 2, 0
+    // "The Medal Rally is far from over![f000]븁\u0000\nKeep up the good work,\nand receive many more Medals![f000]븁\u0000\nSee you!"
+    ActorMsg MSGFILE_SCRIPT, 5, 4, 2, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x409e, 3
@@ -105,7 +111,8 @@ Script_2:
     ActorCmdExec 2, Movement_07CC
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 9, 1, 1, 0
+    // "Eeeeeee!\n[f000]Ā\u0001\u0000![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 1, 1, 0
     ActorMsgClose
     ActorCmdExec 255, Movement_03B4
     ActorCmdWait
@@ -122,7 +129,8 @@ Script_2:
     BMHndAudioVisualAnmPlay 0x8021, 1
     BMHndAnmWait 0x8021
     BMReleaseHandle 0x8021
-    ActorMsg 1024, 10, 4, 1, 0
+    // "Welcome, [f000]Ā\u0001\u0000![f000]븁\u0000\nAt last, the time has come...[f000]븁\u0000\nThe time when you will be\nat the top of all medalists![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 4, 1, 0
     ActorMsgClose
     ActorCmdExec 4, Movement_03C4
     VMSleep 32
@@ -134,7 +142,8 @@ Script_2:
     ActorCmdExec 2, Movement_07F4
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 11, 4, 2, 0
+    // "[f000]Ā\u0001\u0000,\nyou collected ALL of the Medals...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 4, 2, 0
     MultiMsg 14, 6, 0, 1
     VMSleep 10
     MultiMsg 15, 8, 5, 2
@@ -148,13 +157,15 @@ Script_2:
     MsgWinCloseNo 3
     WordSetPlayerName 0
     WordSetMedalName 1, 6
-    ActorMsg 1024, 12, 4, 2, 0
+    // "...To honor your achievement,\nI will present you with[f000]븀\u0000\nthe [f000][ff00]\u0001\u0002[f000]ĵ\u0001\u0001[f000][ff00]\u0001\u0000 Medal![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 4, 2, 0
     MsgWinCloseAll
     MEPlay 1337
     MedalGetFieldEffectID 6, 0x400f
     PlayFieldEffect 0x400f
     MEWait
     WordSetPlayerName 0
+    // "[f000]Ā\u0001\u0000 received\nthe [f000][ff00]\u0001\u0002[f000]ĵ\u0001\u0001[f000][ff00]\u0001\u0000 Medal![f000]븁\u0000"
     SystemMsg 0, 2
     InfoMsgClose
     MultiMsg 37, 9, 8, 1
@@ -178,7 +189,8 @@ Script_2:
     VMSleep 5
     MsgWinCloseNo 6
     WordSetPlayerName 0
-    ActorMsg 1024, 13, 4, 2, 0
+    // "The legend of [f000]Ā\u0001\u0000,\nwho collected all the Medals, will be[f000]븀\u0000\npassed down forever![f000]븁\u0000\nYou're the Top Medalist!"
+    ActorMsg MSGFILE_SCRIPT, 13, 4, 2, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x409e, 5
@@ -225,11 +237,12 @@ Script_10:
     WordSetPlayerName 0
     VMStackPush 0x409e
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_042E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_042E
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "The Medal Rally is far from over![f000]븁\u0000\nKeep up the good work,\nand receive many more Medals![f000]븁\u0000\nSee you!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0442
@@ -237,7 +250,8 @@ Script_10:
 L_042E:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 13, 0, 0
+    // "The legend of [f000]Ā\u0001\u0000,\nwho collected all the Medals, will be[f000]븀\u0000\npassed down forever![f000]븁\u0000\nYou're the Top Medalist!"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -257,42 +271,47 @@ Script_3:
     MedalGetCount 3, 0x8023
     WordSetNumber 0, 0x8023, 3
     WorkCmpConst 0x8022, 1
-    VMJumpIf 1, L_0485
+    VMJumpIf CMP_EQ, L_0485
     VMJump L_0497
 
 L_0485:
-    ActorMsg 1024, 17, 1, 0, 0
+    // "Will you show me your Medal Box?[f000]븁\u0000\n...[f000]븁\u0000\nThe number of Medals you've received:\n[f000]Ȃ\u0001\u0000![f000]븁\u0000\nYour medalist rank is\n[f000]Ķ\u0001\u0001 Rank![f000]븁\u0000\nGood job!\nBut there are many more Medals!"
+    ActorMsg MSGFILE_SCRIPT, 17, 1, 0, 0
     VMJump L_0512
 
 L_0497:
     WorkCmpConst 0x8022, 2
-    VMJumpIf 1, L_04AA
+    VMJumpIf CMP_EQ, L_04AA
     VMJump L_04BC
 
 L_04AA:
-    ActorMsg 1024, 18, 1, 0, 0
+    // "Will you show me your Medal Box?[f000]븁\u0000\n...[f000]븁\u0000\nThe number of Medals you've received:\n[f000]Ȃ\u0001\u0000![f000]븁\u0000\nYour medalist rank is\n[f000]Ķ\u0001\u0001 Rank![f000]븁\u0000\nWow, great!\nKeep up the good work!"
+    ActorMsg MSGFILE_SCRIPT, 18, 1, 0, 0
     VMJump L_0512
 
 L_04BC:
     WorkCmpConst 0x8022, 3
-    VMJumpIf 1, L_04CF
+    VMJumpIf CMP_EQ, L_04CF
     VMJump L_04E1
 
 L_04CF:
-    ActorMsg 1024, 19, 1, 0, 0
+    // "Will you show me your Medal Box?[f000]븁\u0000\n...[f000]븁\u0000\nThe number of Medals you've received:\n[f000]Ȃ\u0001\u0000![f000]븁\u0000\nYour medalist rank is\n[f000]Ķ\u0001\u0001 Rank![f000]븁\u0000\nNot many people reach this rank![f000]븁\u0000\nYou may be a genius\nat collecting Medals!"
+    ActorMsg MSGFILE_SCRIPT, 19, 1, 0, 0
     VMJump L_0512
 
 L_04E1:
     WorkCmpConst 0x8022, 4
-    VMJumpIf 1, L_04F4
+    VMJumpIf CMP_EQ, L_04F4
     VMJump L_0506
 
 L_04F4:
-    ActorMsg 1024, 20, 1, 0, 0
+    // "Will you show me your Medal Box?[f000]븁\u0000\n...[f000]븁\u0000\nThe number of Medals you've received:\n[f000]Ȃ\u0001\u0000![f000]븁\u0000\nYour medalist rank is\n[f000]Ķ\u0001\u0001 Rank![f000]븁\u0000\nI've never seen\n[f000]Ķ\u0001\u0001 Rank before.[f000]븁\u0000\nI've become a big fan!"
+    ActorMsg MSGFILE_SCRIPT, 20, 1, 0, 0
     VMJump L_0512
 
 L_0506:
-    ActorMsg 1024, 21, 1, 0, 0
+    // "Will you show me your Medal Box?[f000]븁\u0000\n...[f000]븁\u0000\nThe number of Medals you've received:\n[f000]Ȃ\u0001\u0000![f000]븁\u0000\nYour medalist rank is\n[f000]Ķ\u0001\u0001 Rank![f000]븁\u0000\nThe Medal Rally has just started!"
+    ActorMsg MSGFILE_SCRIPT, 21, 1, 0, 0
 
 L_0512:
     LastKeyWait
@@ -313,9 +332,10 @@ Script_4:
 L_053C:
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 5
-    VMJumpIf 255, L_065D
-    ActorMsg 1024, 22, 0, 4, 0
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_065D
+    // "Hi! Is there anything\nyou want to ask me?"
+    ActorMsg MSGFILE_SCRIPT, 22, 0, 4, 0
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32804
     ListMenuAdd 23, 65535, 0
     ListMenuAdd 24, 65535, 1
@@ -325,47 +345,52 @@ L_053C:
     ListMenuAdd 28, 65535, 5
     ListMenuShow
     WorkCmpConst 0x8024, 0
-    VMJumpIf 1, L_05A9
+    VMJumpIf CMP_EQ, L_05A9
     VMJump L_05BB
 
 L_05A9:
-    ActorMsg 1024, 29, 0, 0, 0
+    // "The Medal Rally is a competition to\nevaluate various activities of Trainers.[f000]븁\u0000\nData and records are sent from Medal\nRally participants' Medal Boxes and then[f000]븀\u0000\nevaluated by staff at the Medal Office.[f000]븁\u0000\nThe details aren't important.\nJust enjoy your journey![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 29, 0, 0, 0
     VMJump L_0657
 
 L_05BB:
     WorkCmpConst 0x8024, 1
-    VMJumpIf 1, L_05CE
+    VMJumpIf CMP_EQ, L_05CE
     VMJump L_05E0
 
 L_05CE:
-    ActorMsg 1024, 30, 0, 0, 0
+    // "Medals are gifts from the Medal Office\nfor rally participants.[f000]븁\u0000\nIf you meet the requirements to\nreceive Medals, you can get them[f000]븀\u0000\nfrom Mr. Medal at a Pokémon Center.[f000]븁\u0000\nFor your information, there are\nfive types of Medals:[f000]븀\u0000\norange Adventure Medals,[f000]븀\u0000\nblue Battle Medals,[f000]븀\u0000\npink Entertainment Medals,[f000]븀\u0000\npurple Challenge Medals,[f000]븀\u0000\nand yellow Special Medals.[f000]븁\u0000\nAlso, the more difficult the Medals are to\nearn, the more decorative they become.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 30, 0, 0, 0
     VMJump L_0657
 
 L_05E0:
     WorkCmpConst 0x8024, 2
-    VMJumpIf 1, L_05F3
+    VMJumpIf CMP_EQ, L_05F3
     VMJump L_0605
 
 L_05F3:
-    ActorMsg 1024, 31, 0, 0, 0
+    // "Hint Medals are gray Medals\nfor you to see hints to obtain Medals.[f000]븁\u0000\nWhen you receive proper Medals,\nMr. Medal will collect the Hint Medals[f000]븀\u0000\nthat achieved their purpose.[f000]븁\u0000\nEven if you wanted to keep\na lot of Hint Medals, they wouldn't fit[f000]븀\u0000\nin your Medal Box anyway.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 31, 0, 0, 0
     VMJump L_0657
 
 L_0605:
     WorkCmpConst 0x8024, 3
-    VMJumpIf 1, L_0618
+    VMJumpIf CMP_EQ, L_0618
     VMJump L_062A
 
 L_0618:
-    ActorMsg 1024, 32, 0, 0, 0
+    // "A Medal Box is a box-shaped device\nfor storing Medals.[f000]븁\u0000\nYou can check the number of Medals,\nnames of Medals,[f000]븀\u0000\ndescriptions of Medals,[f000]븀\u0000\ndates you received them, and so on.[f000]븁\u0000\nPress START to change the shape\nof the box so that you can see[f000]븀\u0000\na lot of Medals at once, or you can[f000]븀\u0000\nchange the order of Medals.[f000]븁\u0000\nFor your information, I'm the one who\ncreated the Medal Box![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 32, 0, 0, 0
     VMJump L_0657
 
 L_062A:
     WorkCmpConst 0x8024, 4
-    VMJumpIf 1, L_063D
+    VMJumpIf CMP_EQ, L_063D
     VMJump L_064F
 
 L_063D:
-    ActorMsg 1024, 33, 0, 0, 0
+    // "A Favorite Medal is a Medal\nthat is shown to the public[f000]븀\u0000\nin communication.[f000]븁\u0000\nYou can recommend or brag\nabout the Medal in the Tag Log[f000]븀\u0000\nor in the Union Room.[f000]븁\u0000\nTo register your Favorite Medal,\npress the A Button after choosing[f000]븀\u0000\na Medal in your Medal Box.[f000]븁\u0000\nPress the A Button again\nto cancel it.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 33, 0, 0, 0
     VMJump L_0657
 
 L_064F:
@@ -386,11 +411,12 @@ Script_5:
     ActorsPauseAll
     VMStackPush 0x409e
     VMStackPushConst 1
-    VMStackCmp 3
-    VMJumpIf 255, L_069E
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_069E
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 36, 0, 0
+    // "Actually, I've been secretly cheering\nfor you.[f000]븁\u0000\nOf course, as a staff member at the\nMedal Office,[f000]븀\u0000\nI will judge fairly, though."
+    ParentActorMsg MSGFILE_SCRIPT, 36, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_06F2
@@ -398,11 +424,12 @@ Script_5:
 L_069E:
     VMStackPush 0x409e
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_06CB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06CB
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 35, 0, 0
+    // "Actually, I believed that you would be\nable to reach the goal.[f000]븁\u0000\nI was right![f000]븁\u0000\nI'll keep cheering for you.\nGood luck!"
+    ParentActorMsg MSGFILE_SCRIPT, 35, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_06F2
@@ -410,11 +437,12 @@ L_069E:
 L_06CB:
     VMStackPush 0x409e
     VMStackPushConst 5
-    VMStackCmp 1
-    VMJumpIf 255, L_06F2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06F2
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 34, 0, 0
+    // "Actually, I believed that you would be\nable to collect all the Medals.[f000]븁\u0000\nYou lived up to my expectation!\nYou're really great![f000]븁\u0000\nI'm very moved.\nThank you!"
+    ParentActorMsg MSGFILE_SCRIPT, 34, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -426,6 +454,7 @@ L_06F2:
 Script_6:
     ActorsPauseAll
     SEPlay 1351
+    // "Welcome to the Medal Office."
     InfoMsg 45, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -443,6 +472,7 @@ Script_7:
     MedalGetCount 7, 0x8027
     WordSetMedalRank 2, 0x8027
     SEPlay 1351
+    // "It's a graph showing the results\nof the Medal Rally.[f000]븁\u0000\n...[f000]븁\u0000\n[f000]Ā\u0001\u0000\nMedals received: [f000]Ȃ\u0001\u0001.[f000]븀\u0000\n[f000]Ķ\u0001\u0002 Rank[f000]븁\u0000\n..."
     InfoMsg 46, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -455,6 +485,7 @@ Script_7:
 Script_8:
     ActorsPauseAll
     SEPlay 1351
+    // "Many types of Medals\nare on the wall."
     InfoMsg 47, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -468,14 +499,15 @@ Script_9:
     ActorSetEyeToEye
     VMStackPush 0x40e2
     VMStackPushConst 6
-    VMStackCmp 5
+    VMStackCmp CMP_NE
     VMStackPushFlag 312
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_07B7
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_07B7
     SEPlay 1690
-    ParentActorMsg 1024, 43, 0, 0
+    // "I'm from the Castelia Harlequin Hunt![f000]븁\u0000\nYou found the Medal Office.\nAll riiight!"
+    ParentActorMsg MSGFILE_SCRIPT, 43, 0, 0
     FlagSet 312
     WorkAdd 0x40e2, 1
     SEWait
@@ -484,7 +516,8 @@ Script_9:
     VMJump L_07C5
 
 L_07B7:
-    ParentActorMsg 1024, 44, 0, 0
+    // "You hunted for the Harlequin in the Medal\nOffice, too! Collect more Medals!"
+    ParentActorMsg MSGFILE_SCRIPT, 44, 0, 0
     LastKeyWait
     MsgWinCloseAll
 

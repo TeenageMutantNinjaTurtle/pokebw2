@@ -10,7 +10,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "I hope a new winner\nhas emerged in the PWT!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -21,7 +22,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "I'd like to go to Pokéstar Studios.\nI haven't been there in a while.[f000]븁\u0000\nI'm a fan of Mr. Stu Deeoh.\nI wish he would be in a movie."
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -32,17 +34,19 @@ Script_2:
     ActorsPauseAll
     VMStackPushFlag 304
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00FC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00FC
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "This Pokémon used to deliver\nMail to everyone![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     GameGetVersion 0x8010
     VMStackPush 0x8010
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_00B8
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B8
+    // "I know! I'll give you the Power Lens\nthis Pokémon brought me![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -54,7 +58,8 @@ Script_2:
     VMJump L_00E4
 
 L_00B8:
-    ParentActorMsg 1024, 2, 0, 0
+    // "I know! I'll give you the Power Band\nthis Pokémon brought me![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -65,7 +70,8 @@ L_00B8:
     VMStackPop 0x8000
 
 L_00E4:
-    ParentActorMsg 1024, 3, 0, 0
+    // "It doesn't matter to this Pokémon even\nif it doesn't battle very well!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 304
@@ -74,7 +80,8 @@ L_00E4:
 L_00FC:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "It doesn't matter to this Pokémon even\nif it doesn't battle very well!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -88,7 +95,8 @@ Script_3:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 278, 0
-    ParentActorMsg 1024, 4, 0, 0
+    // "Wree wreek!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

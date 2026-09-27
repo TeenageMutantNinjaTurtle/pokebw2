@@ -13,12 +13,12 @@
 Script_1:
     VMStackPush 0x40ee
     VMStackPushConst 2
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPushFlag 823
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0057
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0057
     ActorSetGPos 1, 15, 0, 24, 1
 
 L_0057:
@@ -31,9 +31,10 @@ Script_2:
     TrainerCardHasBadge 0x8008, 5
     VMStackPush 0x40c2
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00C0
-    ParentActorMsg 1024, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00C0
+    // "Professor Juniper: Hi there!\nHow were things with Skyla?[f000]븁\u0000\nOh? You still haven't\nearned the Gym Badge yet?[f000]븁\u0000\nWell, if that's the case,\nI'll keep up the field work[f000]븀\u0000\nuntil the plane is ready to fly.[f000]븁\u0000\nOh yeah!\nWhy don't you try using this?[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -42,7 +43,8 @@ Script_2:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 1, 0, 0
+    // "Professor Juniper: Giving that Lucky Egg\nto a Pokémon to hold increases the[f000]븀\u0000\namount of Exp. Points received in[f000]븀\u0000\nbattle a little bit![f000]븁\u0000\nHaving strong Pokémon will make\nit easier to fill your Pokédex pages!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkAdd 0x40c2, 1
@@ -51,48 +53,50 @@ Script_2:
 L_00C0:
     VMStackPush 0x40c2
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8008
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0250
-    ParentActorMsg 1024, 3, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0250
+    // "Professor Juniper: Celestial Tower...\nIt's a giant memorial...[f000]븁\u0000\nI wonder if this building was built\nin a place with many Ghost- and[f000]븀\u0000\nPsychic-type Pokémon or if those[f000]븀\u0000\nPokémon gathered here because it[f000]븀\u0000\nwas built.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     MsgWinCloseAll
     PlayerGetDir 0x8020
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0114
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0114
     ActorCmdExec 0, Movement_02B8
     VMJump L_0171
 
 L_0114:
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0135
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0135
     ActorCmdExec 0, Movement_02D8
     VMJump L_0171
 
 L_0135:
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0156
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0156
     ActorCmdExec 0, Movement_0278
     VMJump L_0171
 
 L_0156:
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0171
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0171
     ActorCmdExec 0, Movement_0298
 
 L_0171:
     ActorCmdWait
-    ParentActorMsg 1024, 4, 0, 0
+    // "Professor Juniper: Oh, right!\nHow were things with Skyla?[f000]븁\u0000\nOh my! You won the Jet Badge![f000]븁\u0000\nWell, the plane should be ready\nto fly, then![f000]븁\u0000\nThanks for coming to get me!\nTake this as thanks![f000]븀\u0000\nTry using it![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -101,18 +105,20 @@ L_0171:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 5, 0, 0
-    ParentActorMsg 1024, 6, 0, 0
+    // "Professor Juniper: Giving that Lucky Egg\nto a Pokémon to hold increases the[f000]븀\u0000\namount of Exp. Points received in[f000]븀\u0000\nbattle by a little bit![f000]븁\u0000\nHaving strong Pokémon will make\nit easier to fill your Pokédex pages![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
+    // "OK! I'll be waiting for you\nin Mistralton City![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 17
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 16
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0210
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0210
     ActorWalkRoute 0, 16, 15, 1, 8, 0
     ActorCmdWait
     ActorWalkRoute 0, 16, 27, 1, 8, 1
@@ -132,16 +138,17 @@ L_022C:
     WorkAdd 0x40c2, 1
     FlagSet 766
     FlagReset 768
-    Cmd_0262 0, 3
-    Cmd_0262 1, 18
+    HollowRivalCmd_0262 0, 3
+    HollowRivalCmd_0262 1, 18
     VMJump L_0271
 
 L_0250:
     VMStackPush 0x40c2
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0271
-    ParentActorMsg 1024, 2, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0271
+    // "Professor Juniper: Celestial Tower...\nIt's a giant memorial...[f000]븁\u0000\nI wonder if this building was built\nin a place with many Ghost- and[f000]븀\u0000\nPsychic-type Pokémon or if those[f000]븀\u0000\nPokémon gathered here because it[f000]븀\u0000\nwas built."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -197,25 +204,27 @@ Script_3:
     ActorSetEyeToEye
     VMStackPush 0x40ee
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03AA
-    ParentActorMsg 1024, 9, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03AA
+    // "You! You came here at the request of\nthe couple in Humilau City, didn't you?![f000]븁\u0000\nNo need for a reply!\nIf you want to ring the bell,[f000]븀\u0000\nyou'll have to battle with me![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 457, 0, 0
     VMCall L_0409
-    ParentActorMsg 1024, 10, 0, 0
+    // "Win or lose...\nI'm a Waitress...[f000]븁\u0000\nI carry the customers' orders\nwith a heaping side of love..."
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     WorkSetConst 0x40ee, 2
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 15
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 24
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_038A
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_038A
     ActorWalkRoute 1, 15, 26, 1, 8, 1
     ActorCmdWait
     ActorCmdExec 1, Movement_042C
@@ -234,9 +243,10 @@ L_03A4:
 L_03AA:
     VMStackPush 0x40ee
     VMStackPushConst 2
-    VMStackCmp 4
-    VMJumpIf 255, L_03CB
-    ParentActorMsg 1024, 10, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_03CB
+    // "Win or lose...\nI'm a Waitress...[f000]븁\u0000\nI carry the customers' orders\nwith a heaping side of love..."
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -249,7 +259,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "At the very top of the Tower,\nthere's a big bell.[f000]븁\u0000\nI've heard that when you\nring it, it pleases the spirits."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -260,7 +271,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "This is Celestial Tower, where Pokémon\nare laid to rest..."
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -271,8 +283,8 @@ L_0409:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0428
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0428
     CallTrainerBattleEnd
     VMJump L_042A
 

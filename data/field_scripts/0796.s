@@ -40,7 +40,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "I'm looking at my PC Boxes and\ngoing over my journey so far.[f000]븁\u0000\nYou know, remembering when I met this\nPokémon or where I caught that one.[f000]븁\u0000\n...Just mulling over things like that.[f000]븁\u0000\nMaybe I'll change my party Pokémon\nand go back to one of those places again."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -51,7 +52,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Oh wow! A Pokédex!\nHey! How full is your Habitat List?"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

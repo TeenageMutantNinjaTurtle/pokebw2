@@ -17,6 +17,7 @@ Script_2:
     ActorsPauseAll
     SEPlay 1747
     SEWait
+    // "Click![f000]븁\u0000\nThe sound reverberates."
     InfoMsg 0, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -35,6 +36,7 @@ Script_3:
     ActorsPauseAll
     SEPlay 1985
     SEWait
+    // "A dull sound came from far away."
     InfoMsg 1, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -47,6 +49,7 @@ Script_4:
     SEPlay 1986
     EvCameraShake 5, 0, 3, 8, 1, 0, 1, 5
     SEWait
+    // "A dull sound echoed."
     InfoMsg 2, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -59,6 +62,7 @@ Script_5:
     SEPlay 1987
     EvCameraShake 8, 0, 3, 15, 1, 0, 1, 5
     SEWait
+    // "The dull sound is close!"
     InfoMsg 3, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -68,6 +72,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
+    // "It's a torrent of water!"
     InfoMsg 4, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -88,14 +93,15 @@ Script_7:
     ActorsPauseAll
     VMStackPushFlag 215
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_016F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_016F
     EvCameraShake 0, 1, 3, 6, 1, 0, 1, 5
     SEPlay 1893
     ActorCmdExec 0, Movement_01D0
     ActorCmdExec 1, Movement_01D0
     ActorCmdWait
     SEWait
+    // "The wall moved, and you can proceed now!"
     InfoMsg 5, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -111,14 +117,15 @@ Script_8:
     ActorsPauseAll
     VMStackPushFlag 214
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01C7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01C7
     EvCameraShake 0, 1, 3, 6, 1, 0, 1, 5
     SEPlay 1893
     ActorCmdExec 0, Movement_01DC
     ActorCmdExec 1, Movement_01DC
     ActorCmdWait
     SEWait
+    // "The wall moved, and you can proceed now!"
     InfoMsg 5, 2
     LastKeyWait
     InfoMsgClose_0039

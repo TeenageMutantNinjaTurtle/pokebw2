@@ -22,15 +22,32 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
+from msgdata import read_msgdata  # noqa: E402
 from narc import read_narc  # noqa: E402
 
 TABLE = Path(__file__).with_name("field_commands.json")
 ARCHIVE = "files/a/0/5/6"
 ZONE_ARCHIVE = "files/a/0/1/2"
+MESSAGE_ARCHIVE = "files/a/0/0/3"
+INCLUDE = Path(__file__).resolve().parents[2] / "include"
+# The headers the scripts include, and the constants they give for each meaning of an argument
+CONSTANTS = {
+    "comparison": ("constants/field_script.h", "CMP_(?!STACK)"),
+    "condition": ("constants/field_script.h", "CMP_(?!OR|AND)"),
+    "message_file": ("constants/field_script.h", "MSGFILE_"),
+    "item": ("constants/items.h", "ITEM_"),
+    "move": ("constants/moves.h", "MOVE_"),
+    "species": ("constants/species.h", "SPECIES_"),
+    "ability": ("constants/abilities.h", "ABILITY_"),
+    "type": ("constants/types.h", "TYPE_"),
+}
+ZONE_TEXT = 10  # offset of the text file in a zone header
 ZONE_SIZE = 48
 ZONE_SCRIPTS = 6  # offsets of the script file and the map script table in a zone header
 ZONE_MAP_SCRIPTS = 8
 ENTRIES_END = 0xFD13
+VARS_START, VARS_END = 0x4000, 0xC000  # IDs of script variables, see constants/field_script.h
+MSGFILE_SCRIPT = 0x400
 MOVEMENT_END = 0xFE
 # Bounds on unreferenced movement data, above what the referenced data uses
 MOVEMENT_MAX_ACTION = 0xFF
@@ -45,12 +62,26 @@ DATA_REFERENCES = {"ElevatorSetTablePtr": 0}
 ENDS = {"VMHalt", "VMReturn", "VMJump", "RTEndGlobal"}
 
 
+# Names for commands that swan does not name, where the function the handler calls tells what it does
+COMMAND_NAMES = {
+    0x172: "IsFestMissionAvailable",      # isFesMissionAvailable
+    0x216: "IsOneShotDRObtained",         # isOneShotDRObtained
+    0x2F1: "SetOneShotDRObtained",        # setOneShotDRObtained
+    0x2F2: "IsOneShotDRObtained",         # isOneShotDRObtained
+    0x233: "UnityTowerGetVisitorCountry",  # UnityTowerVisitor_GetCountry
+    0x2D9: "UnityTowerGetVisitorParam",   # UnityTower_GetVisitorParam
+    0x23A: "PokeVoicePlay",               # starts the event of EventPokeVoicePlay_Callback
+    0x22D: "FieldEffect",                 # EventFieldEffect_Create
+}
+
+
 class Command:
     def __init__(self, cmd: int, name: str, entry: dict):
         self.id = cmd
         self.name = name
         self.handler = entry["handler"]
         self.kinds = list(entry["args"])
+        self.meanings = entry.get("meanings", [None] * len(self.kinds))
         self.references = {}
         for table, kind in ((CODE_REFERENCES, "code"), (MOVEMENT_REFERENCES, "movement"), (DATA_REFERENCES, "data")):
             if name in table:
@@ -71,8 +102,10 @@ def load_commands() -> tuple[dict[int, Command], dict[int, dict[int, Command]], 
     for cmd, entry in sorted(table["commands"].items(), key=lambda x: int(x[0])):
         cmd = int(cmd)
         name = re.sub(r"^s[0-9A-F]{4}_", "", entry["handler"])
-        if name.startswith("func_"):
-            name = f"Cmd_{cmd:04X}"
+        if cmd in COMMAND_NAMES:
+            name = COMMAND_NAMES[cmd]
+        elif name.startswith("func_"):
+            name = f"{entry.get('area', '')}Cmd_{cmd:04X}"
         names[name] += 1
         if names[name] > 1:
             name = f"{name}_{cmd:04X}"
@@ -90,10 +123,22 @@ def load_commands() -> tuple[dict[int, Command], dict[int, dict[int, Command]], 
     return base, plugins, zones, table["global_scripts"]
 
 
+def load_constants() -> dict[str, dict[int, str]]:
+    constants = {}
+    for meaning, (header, prefix) in CONSTANTS.items():
+        names = {}
+        for match in re.finditer(rf"^#define ({prefix}\w*) (\w+)", (INCLUDE / header).read_text(), re.MULTILINE):
+            names.setdefault(int(match[2], 0), match[1])
+        constants[meaning] = names
+    return constants
+
+
 def write_inc(path: Path):
     base, plugins, _, _ = load_commands()
     lines = [
         "// Macros for the field scripts, written by tools/scripts/field_script.py inc",
+        "",
+        *(f'#include "{header}"' for header in sorted({h for h, _ in CONSTANTS.values()})),
         "",
         "    .macro FieldCommand id",
         "    .2byte \\id",
@@ -199,8 +244,12 @@ def script_header(data: bytes) -> tuple[list[int], int, bool] | None:
 
 
 class ScriptFile:
-    def __init__(self, data: bytes, base: dict[int, Command], plugin: dict[str, dict[int, Command]] | None):
+    def __init__(self, data: bytes, base: dict[int, Command], plugin: dict[str, dict[int, Command]] | None,
+                 constants: dict | None = None, messages=None):
         self.data = data
+        self.constants = constants or {}
+        # A function from (text file or None for the script's own, message ID) to the text, for comments
+        self.messages = messages
         self.base = base
         self.plugin = plugin or {"": {}}
         self.instructions: dict[int, tuple[Command, list[int], int]] = {}
@@ -376,12 +425,13 @@ class ScriptFile:
                 command, args, end = self.instructions[pos]
                 parts = []
                 field = pos + 2
+                out.extend(self.message_comments(command, args))
                 for i, (kind, value) in enumerate(zip(command.kinds, args)):
                     field += SIZES[kind]
                     if i in command.references:
                         parts.append(target(value, field))
                     else:
-                        parts.append(format_value(kind, value))
+                        parts.append(self.format_value(kind, command.meanings[i], value))
                 text = ", ".join(parts)
                 out.append(f"    {command.name}{' ' if text else ''}{text}")
                 pos = end
@@ -408,12 +458,30 @@ class ScriptFile:
         return "\n".join(out) + "\n"
 
 
-def format_value(kind: str, value: int) -> str:
-    if kind in ("any", "var") and value >= 0x4000:
-        return f"{value:#06x}"
-    if kind == "u32" and value >= 0x10000:
-        return f"{value:#x}"
-    return str(value)
+    def format_value(self, kind: str, meaning: str | None, value: int) -> str:
+        if kind in ("any", "var") and VARS_START <= value < VARS_END:
+            return f"{value:#06x}"
+        if meaning and value in self.constants.get(meaning, {}):
+            return self.constants[meaning][value]
+        if kind == "u32" and value >= 0x10000:
+            return f"{value:#x}"
+        return str(value)
+
+    def message_comments(self, command: Command, args: list[int]) -> list[str]:
+        """Returns the text of the messages that a command shows, as comments."""
+        if self.messages is None:
+            return []
+        text_file = None
+        for meaning, value in zip(command.meanings, args):
+            if meaning == "message_file" and value != MSGFILE_SCRIPT:
+                text_file = value
+        comments = []
+        for meaning, value in zip(command.meanings, args):
+            if meaning == "message" and not VARS_START <= value < VARS_END:
+                text = self.messages(text_file, value)
+                if text is not None:
+                    comments.append("    // " + json.dumps(text, ensure_ascii=False))
+        return comments
 
 
 def disassemble_map_scripts(data: bytes) -> str | None:
@@ -560,6 +628,23 @@ def main():
     files = read_narc((args.extract / ARCHIVE).read_bytes())
     zones = read_narc((args.extract / ZONE_ARCHIVE).read_bytes())[0]
     plugin_of = plugin_of_files(files, zones, base, plugins, plugin_zones, global_scripts)
+    constants = load_constants()
+    message_files = read_narc((args.extract / MESSAGE_ARCHIVE).read_bytes())
+    text_of = {entry["file"]: entry["text_file"] for entry in global_scripts}
+    for z in range(len(zones) // ZONE_SIZE):
+        text_of.setdefault(u16(zones, z * ZONE_SIZE + ZONE_SCRIPTS), u16(zones, z * ZONE_SIZE + ZONE_TEXT))
+    text_cache = {}
+
+    def messages_for(index):
+        def lookup(text_file, message):
+            text_file = text_of.get(index) if text_file is None else text_file
+            if text_file is None or text_file >= len(message_files):
+                return None
+            if text_file not in text_cache:
+                text_cache[text_file] = read_msgdata(message_files[text_file])
+            lines = text_cache[text_file]
+            return lines[message] if message < len(lines) else None
+        return lookup
     args.output.mkdir(parents=True, exist_ok=True)
     stats = collections.Counter()
     for index, data in enumerate(files):
@@ -571,7 +656,7 @@ def main():
             if number is not None:
                 lines.append(f"// Script plugin {number}, from {how}")
                 lines.append("")
-            script = ScriptFile(data, base, plugins.get(number))
+            script = ScriptFile(data, base, plugins.get(number), constants, messages_for(index))
             names = [f"Script_{i + 1}" for i in range(len(entries))]
             lines.append(script.disassemble(entries, header_end, terminated, names).rstrip("\n"))
             stats["script"] += 1

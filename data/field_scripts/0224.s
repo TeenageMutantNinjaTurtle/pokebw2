@@ -9,7 +9,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Trading Sweet Hearts you receive\nthrough Feeling Checks is one way[f000]븀\u0000\nto get Heart Scales.[f000]븁\u0000\nIf you show off your Pokémon\nto a lady in Driftveil City, you[f000]븀\u0000\ncan get Heart Scales, too."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -20,11 +21,12 @@ Script_2:
     ActorsPauseAll
     VMStackPushFlag 455
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_005B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_005B
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "Oh! You're a TM Master![f000]븁\u0000\nThank you for showing me\na lot of TMs.[f000]븁\u0000\nUse lots of different moves, and\nbring out your Pokémon's power!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_02C7
@@ -34,30 +36,33 @@ L_005B:
     ActorSetEyeToEye
     VMStackPushFlag 449
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_008A
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_008A
+    // "I'm very fussy about\nPokémon moves.[f000]븁\u0000\nI'm extra fussy about\nTechnical Machines! Yes, TMs![f000]븁\u0000\nHow many TMs have you collected\nso far?"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     MsgWaitAdvance
     FlagSet 449
     VMJump L_0096
 
 L_008A:
-    ParentActorMsg 1024, 2, 0, 0
+    // "I'll give you something great\nwhen you collect a lot of TMs![f000]븀\u0000\nLet me see a lot of TMs!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     MsgWaitAdvance
 
 L_0096:
     ItemGetTMCount 0x8020
     WordSetNumber 0, 0x8020, 2
-    ParentActorMsg 1024, 4, 0, 0
+    // "Hmm...[f000]븁\u0000\nYou have [f000]ȁ\u0001\u0000 TMs!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     MsgWaitAdvance
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPushFlag 450
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_00E0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00E0
     VMCall L_02CD
     FlagSet 450
     VMJump L_02C7
@@ -65,12 +70,12 @@ L_0096:
 L_00E0:
     VMStackPush 0x8020
     VMStackPushConst 20
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPushFlag 451
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0113
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0113
     VMCall L_02CD
     FlagSet 451
     VMJump L_02C7
@@ -78,12 +83,12 @@ L_00E0:
 L_0113:
     VMStackPush 0x8020
     VMStackPushConst 35
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPushFlag 452
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0146
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0146
     VMCall L_02CD
     FlagSet 452
     VMJump L_02C7
@@ -91,12 +96,12 @@ L_0113:
 L_0146:
     VMStackPush 0x8020
     VMStackPushConst 50
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPushFlag 453
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0179
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0179
     VMCall L_02CD
     FlagSet 453
     VMJump L_02C7
@@ -104,12 +109,12 @@ L_0146:
 L_0179:
     VMStackPush 0x8020
     VMStackPushConst 70
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPushFlag 454
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_01AC
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_01AC
     VMCall L_02CD
     FlagSet 454
     VMJump L_02C7
@@ -117,10 +122,11 @@ L_0179:
 L_01AC:
     VMStackPush 0x8020
     VMStackPushConst 95
-    VMStackCmp 1
-    VMJumpIf 255, L_0208
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0208
     WordSetItemName 0, 45
-    ParentActorMsg 1024, 5, 0, 0
+    // "Oh!\nI've never seen some of these before![f000]븁\u0000\nWow!\nI didn't even know such TMs existed.[f000]븁\u0000\nI can tell you've selected each one\nwith so much care.[f000]븁\u0000\nThank you! I was thrilled to see them![f000]븁\u0000\nAs a reward, please accept this\n[f000]ĉ\u0001\u0000 as a gift![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -129,7 +135,8 @@ L_01AC:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 7, 0, 0
+    // "Wow! Great job!\nYou've got great technical points![f000]븁\u0000\nI didn't know there were so many TMs![f000]븁\u0000\nThanks to you, I realized\nthe true depth of TMs![f000]븁\u0000\nYou are a TM Master!\nThank you very much!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 455
@@ -139,47 +146,52 @@ L_0208:
     WorkSetConst 0x8021, 0
     Random 0x8021, 5
     WorkCmpConst 0x8021, 0
-    VMJumpIf 1, L_0227
+    VMJumpIf CMP_EQ, L_0227
     VMJump L_0237
 
 L_0227:
-    ParentActorMsg 1024, 8, 0, 0
+    // "Some kind people will give you TMs.\nSo don't be shy! Talk to everyone!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     VMJump L_02C3
 
 L_0237:
     WorkCmpConst 0x8021, 1
-    VMJumpIf 1, L_024A
+    VMJumpIf CMP_EQ, L_024A
     VMJump L_025A
 
 L_024A:
-    ParentActorMsg 1024, 9, 0, 0
+    // "Gym Leaders will give you a TM for sure\nif you beat them![f000]븁\u0000\nBut you already know that, don't you?"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     VMJump L_02C3
 
 L_025A:
     WorkCmpConst 0x8021, 2
-    VMJumpIf 1, L_026D
+    VMJumpIf CMP_EQ, L_026D
     VMJump L_027D
 
 L_026D:
-    ParentActorMsg 1024, 10, 0, 0
+    // "Do you know the Battle Subway\nin Nimbasa City?[f000]븁\u0000\nDefeat Trainers there and\ncollect a lot of BP,[f000]븀\u0000\nand you can get TMs!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     VMJump L_02C3
 
 L_027D:
     WorkCmpConst 0x8021, 3
-    VMJumpIf 1, L_0290
+    VMJumpIf CMP_EQ, L_0290
     VMJump L_02A0
 
 L_0290:
-    ParentActorMsg 1024, 11, 0, 0
+    // "I don't know who would be careless\nenough to drop them, but you can[f000]븀\u0000\nsometimes find TMs in places where[f000]븀\u0000\nyou'd least expect them."
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     VMJump L_02C3
 
 L_02A0:
     WorkCmpConst 0x8021, 4
-    VMJumpIf 1, L_02B3
+    VMJumpIf CMP_EQ, L_02B3
     VMJump L_02C3
 
 L_02B3:
-    ParentActorMsg 1024, 12, 0, 0
+    // "You can also buy TMs\nat Poké Marts![f000]븁\u0000\nThey're a bit expensive, though."
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     VMJump L_02C3
 
 L_02C3:
@@ -193,7 +205,8 @@ L_02C7:
 
 L_02CD:
     WordSetItemName 0, 45
-    ParentActorMsg 1024, 5, 0, 0
+    // "Oh!\nI've never seen some of these before![f000]븁\u0000\nWow!\nI didn't even know such TMs existed.[f000]븁\u0000\nI can tell you've selected each one\nwith so much care.[f000]븁\u0000\nThank you! I was thrilled to see them![f000]븁\u0000\nAs a reward, please accept this\n[f000]ĉ\u0001\u0000 as a gift![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -202,7 +215,8 @@ L_02CD:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 6, 0, 0
+    // "There must be a lot more TMs![f000]븁\u0000\nIf you collect even more of them,\nI'll give you another fantastic gift!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMReturn

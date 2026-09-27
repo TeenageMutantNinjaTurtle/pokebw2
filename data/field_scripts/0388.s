@@ -7,6 +7,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Chargestone Cave\nA shocking experience!"
     MsgPlaceSign 0, 2
     MsgPlaceSignClose
     FinishAllEvents

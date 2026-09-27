@@ -21,7 +21,8 @@ Script_1:
     VMSleep 30
     ActorCmdExec 0, Movement_00FC
     ActorCmdWait
-    ActorMsg 1024, 2, 0, 1, 0
+    // "Eeek![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 1, 0
     MsgWinCloseAll
     EvCameraReturn 20
     ActorWalkRoute 0, 14, 9, 1, 4, 0
@@ -31,7 +32,8 @@ Script_1:
     EvCameraEnd
     ActorCmdExec 0, Movement_00EC
     ActorCmdWait
-    ActorMsg 1024, 3, 0, 1, 0
+    // "I'm practicing.\nGet out!![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 1, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_00F4
     ActorCmdExec 255, Movement_00F4

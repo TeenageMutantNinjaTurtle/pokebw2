@@ -19,17 +19,17 @@
 Script_3:
     VMStackPushFlag 374
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x410c
     VMStackPushConst 6
-    VMStackCmp 5
-    VMStackCmp 7
-    VMJumpIf 255, L_008E
+    VMStackCmp CMP_NE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_008E
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0088
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0088
     WorkSetConst 0x4020, 4510
     VMJump L_008E
 
@@ -51,9 +51,10 @@ Script_4:
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_00CA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00CA
     PVPlay 381, 0
+    // "Shuaaan!"
     InfoMsg 0, 2
     PVWait
     MsgWaitAdvance
@@ -62,6 +63,7 @@ Script_4:
 
 L_00CA:
     PVPlay 380, 0
+    // "Huaaaan!"
     InfoMsg 3, 2
     PVWait
     MsgWaitAdvance
@@ -79,9 +81,10 @@ L_00DB:
     VMSleep 16
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0149
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0149
     PVPlay 381, 0
+    // "Shuaaan!"
     InfoMsg 0, 2
     PVWait
     MsgWaitAdvance
@@ -90,6 +93,7 @@ L_00DB:
 
 L_0149:
     PVPlay 380, 0
+    // "Huaaaan!"
     InfoMsg 3, 2
     PVWait
     MsgWaitAdvance
@@ -112,9 +116,10 @@ Script_5:
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_01BA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01BA
     PVPlay 381, 0
+    // "Shuaaan!"
     InfoMsg 0, 1
     PVWait
     MsgWaitAdvance
@@ -123,6 +128,7 @@ Script_5:
 
 L_01BA:
     PVPlay 380, 0
+    // "Huaaaan!"
     InfoMsg 3, 1
     PVWait
     MsgWaitAdvance
@@ -146,9 +152,10 @@ Script_6:
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0235
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0235
     PVPlay 381, 0
+    // "Shuaaan!"
     InfoMsg 0, 1
     PVWait
     MsgWaitAdvance
@@ -157,6 +164,7 @@ Script_6:
 
 L_0235:
     PVPlay 380, 0
+    // "Huaaaan!"
     InfoMsg 3, 1
     PVWait
     MsgWaitAdvance
@@ -167,8 +175,8 @@ L_0246:
     ActorAdd 7
     VMStackPush 0x8022
     VMStackPushConst 26
-    VMStackCmp 1
-    VMJumpIf 255, L_027F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_027F
     ActorSetGPos 7, 17, 4, 12, 3
     ActorMoveLinear 7, 35, 4, 11, 48
     VMJump L_02DB
@@ -176,8 +184,8 @@ L_0246:
 L_027F:
     VMStackPush 0x8022
     VMStackPushConst 27
-    VMStackCmp 1
-    VMJumpIf 255, L_02B0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02B0
     ActorSetGPos 7, 18, 4, 12, 3
     ActorMoveLinear 7, 36, 4, 11, 48
     VMJump L_02DB
@@ -185,8 +193,8 @@ L_027F:
 L_02B0:
     VMStackPush 0x8022
     VMStackPushConst 28
-    VMStackCmp 1
-    VMJumpIf 255, L_02DB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02DB
     ActorSetGPos 7, 19, 4, 12, 3
     ActorMoveLinear 7, 37, 4, 11, 48
 
@@ -204,9 +212,10 @@ Script_7:
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0325
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0325
     PVPlay 381, 0
+    // "Shuaaan!"
     InfoMsg 0, 2
     PVWait
     MsgWaitAdvance
@@ -215,6 +224,7 @@ Script_7:
 
 L_0325:
     PVPlay 380, 0
+    // "Huaaaan!"
     InfoMsg 3, 2
     PVWait
     MsgWaitAdvance
@@ -225,8 +235,8 @@ L_0336:
     ActorAdd 7
     VMStackPush 0x8022
     VMStackPushConst 35
-    VMStackCmp 1
-    VMJumpIf 255, L_036F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_036F
     ActorSetGPos 7, 44, 4, 11, 2
     ActorMoveLinear 7, 26, 4, 11, 48
     VMJump L_039A
@@ -234,8 +244,8 @@ L_0336:
 L_036F:
     VMStackPush 0x8022
     VMStackPushConst 36
-    VMStackCmp 1
-    VMJumpIf 255, L_039A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_039A
     ActorSetGPos 7, 45, 4, 11, 2
     ActorMoveLinear 7, 27, 4, 11, 48
 
@@ -253,9 +263,10 @@ Script_8:
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_03E4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03E4
     PVPlay 381, 0
+    // "Shuaaan!"
     InfoMsg 0, 2
     PVWait
     MsgWaitAdvance
@@ -264,6 +275,7 @@ Script_8:
 
 L_03E4:
     PVPlay 380, 0
+    // "Huaaaan!"
     InfoMsg 3, 2
     PVWait
     MsgWaitAdvance
@@ -274,8 +286,8 @@ L_03F5:
     ActorAdd 7
     VMStackPush 0x8022
     VMStackPushConst 22
-    VMStackCmp 1
-    VMJumpIf 255, L_042E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_042E
     ActorSetGPos 7, 13, 4, 20, 3
     ActorMoveLinear 7, 26, 4, 15, 36
     VMJump L_0459
@@ -283,8 +295,8 @@ L_03F5:
 L_042E:
     VMStackPush 0x8022
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0459
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0459
     ActorSetGPos 7, 14, 4, 20, 3
     ActorMoveLinear 7, 27, 4, 15, 36
 
@@ -297,9 +309,10 @@ L_0459:
     VMSleep 16
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_049F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_049F
     PVPlay 381, 0
+    // "Shuaaan!"
     InfoMsg 0, 2
     PVWait
     MsgWaitAdvance
@@ -308,6 +321,7 @@ L_0459:
 
 L_049F:
     PVPlay 380, 0
+    // "Huaaaan!"
     InfoMsg 3, 2
     PVWait
     MsgWaitAdvance
@@ -318,16 +332,16 @@ L_04B0:
     ActorCmdWait
     VMStackPush 0x8022
     VMStackPushConst 22
-    VMStackCmp 1
-    VMJumpIf 255, L_04DF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04DF
     ActorMoveLinear 7, 31, 4, 15, 12
     VMJump L_04FE
 
 L_04DF:
     VMStackPush 0x8022
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_04FE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04FE
     ActorMoveLinear 7, 32, 4, 15, 12
 
 L_04FE:
@@ -344,9 +358,10 @@ Script_9:
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0548
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0548
     PVPlay 381, 0
+    // "Shuaaan!"
     InfoMsg 0, 2
     PVWait
     MsgWaitAdvance
@@ -355,6 +370,7 @@ Script_9:
 
 L_0548:
     PVPlay 380, 0
+    // "Huaaaan!"
     InfoMsg 3, 2
     PVWait
     MsgWaitAdvance
@@ -369,9 +385,10 @@ L_0559:
     ActorMoveLinear 7, 48, 4, 12, 6
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_05BB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05BB
     PVPlay 381, 0
+    // "Shuaaaann!"
     ScreamMsg 1, 2
     PVWait
     MsgWaitAdvance
@@ -381,6 +398,7 @@ L_0559:
 
 L_05BB:
     PVPlay 380, 0
+    // "Huaaaaann!"
     ScreamMsg 4, 2
     PVWait
     MsgWaitAdvance
@@ -391,14 +409,14 @@ L_05D4:
     WildBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_061C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_061C
     FlagSet 853
     WorkSetConst 0x410c, 6
     VMStackPushFlag 497
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0610
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0610
     FlagReset 1037
     ActorAdd 11
 
@@ -413,7 +431,7 @@ L_061C:
 L_061E:
     WildBattleGetResult 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_0635
+    VMJumpIf CMP_EQ, L_0635
     VMJump L_063F
 
 L_0635:
@@ -422,23 +440,25 @@ L_0635:
 
 L_063F:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_065F
+    VMJumpIf CMP_EQ, L_065F
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_065F
+    VMJumpIf CMP_EQ, L_065F
     VMJump L_0696
 
 L_065F:
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0686
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0686
+    // "Latios flew off into\nthe distant sky..."
     SystemMsg 2, 2
     LastKeyWait
     InfoMsgClose
     VMJump L_0690
 
 L_0686:
+    // "Latias flew off into\nthe distant sky..."
     SystemMsg 5, 2
     LastKeyWait
     InfoMsgClose
@@ -449,8 +469,8 @@ L_0690:
 L_0696:
     VMStackPushFlag 390
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_06AD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06AD
     FlagSet 390
 
 L_06AD:

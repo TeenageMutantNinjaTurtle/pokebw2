@@ -48,8 +48,8 @@
 Script_1:
     VMStackPush 0x413c
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00C7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00C7
     FlagReset 995
     FlagReset 994
 
@@ -57,16 +57,16 @@ L_00C7:
     Cmd_02CB 0x400f
     VMStackPush 0x400f
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00E8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E8
     FlagReset 691
     VMJump L_0151
 
 L_00E8:
     VMStackPush 0x400f
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0109
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0109
     FlagReset 691
     FlagReset 692
     VMJump L_0151
@@ -74,8 +74,8 @@ L_00E8:
 L_0109:
     VMStackPush 0x400f
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_012E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_012E
     FlagReset 691
     FlagReset 692
     FlagReset 693
@@ -84,8 +84,8 @@ L_0109:
 L_012E:
     VMStackPush 0x400f
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_0151
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0151
     FlagReset 691
     FlagReset 692
     FlagReset 693
@@ -97,8 +97,8 @@ L_0151:
 Script_2:
     VMStackPush 0x410a
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0184
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0184
     ActorSetGPos 0, 32, 0, 56, 2
     ActorSetGPos 26, 30, 0, 56, 3
     VMJump L_01A3
@@ -106,29 +106,29 @@ Script_2:
 L_0184:
     VMStackPush 0x410a
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_01A3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01A3
     ActorSetGPos 0, 45, 0, 19, 1
 
 L_01A3:
     VMStackPush 0x413c
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0200
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0200
     ActorSetGPos 0, 45, 2, 21, 0
     ActorSetGPos 26, 31, 2, 9, 0
     ActorDelete 17
     VMStackPushFlag 693
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01E9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01E9
     ActorDelete 35
 
 L_01E9:
     VMStackPushFlag 694
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0200
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0200
     ActorDelete 36
 
 L_0200:
@@ -140,21 +140,25 @@ Script_3:
     EvCameraUnbind
     EvCameraMoveTo 9688, 0, 0xed000, 0x1f8000, 0, 0x398000, 30
     EvCameraWait
-    ActorMsg 1024, 1, 26, 0, 0
+    // "Hm... I see...\nThat kid sounds promising...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 26, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 2, 0, 0, 0
+    // "Indeed... And that kid should\nbe here any moment![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0E60
     ActorCmdWait
     ActorCmdExec 0, Movement_0E88
     ActorCmdWait
-    ActorMsg 1024, 3, 0, 0, 0
+    // "Oh!\nAnd look who should appear![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 26, Movement_0E60
     ActorWalkRoute 255, 31, 58, 1, 8, 0
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 4, 0, 0, 0
+    // "Welcome...to Pokéstar Studios![f000]븁\u0000\nHey, [f000]Ā\u0001\u0000!\nWe've been waiting for you![f000]븁\u0000\nThis is our boss,\nMr. Stu Deeoh![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0550
     ActorCmdWait
@@ -162,17 +166,20 @@ Script_3:
     ActorCmdWait
     ActorCmdExec 26, Movement_0E60
     ActorCmdWait
-    ActorMsg 1024, 5, 26, 3, 0
+    // "Bonsoir! Hello!\nI'm Stu Deeoh! Charmed, I'm sure![f000]븁\u0000\nSo you must be [f000]Ā\u0001\u0000.\nWe were just talking about you![f000]븁\u0000\nI'd like to explain Pokéstar Studios,\nbut I need a little time to prepare![f000]븁\u0000\nI'm so sorry, dahling,\ncould you wait an eensy moment?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 26, 3, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0DF8
     ActorCmdWait
-    ActorMsg 1024, 6, 0, 0, 0
+    // "In the meantime, I'll show you around\nPokéstar Studios![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 26, Movement_0E70
     VMSleep 8
     ActorCmdExec 0, Movement_0E68
     ActorCmdWait
-    ActorMsg 1024, 7, 26, 3, 0
+    // "Oh, that would be maaarvelous![f000]븁\u0000\nMovies! They're amazing![f000]븁\u0000\nPokéstar Studios inspires and\nmoves people all over the world![f000]븀\u0000\nYou can make sure [f000]Ā\u0001\u0000[f000]븀\u0000\nexperiences its many charms![f000]븁\u0000\nWell then, I absolutely must\nbe off and start my preparations![f000]븀\u0000\nI'll see you in a minute!"
+    ActorMsg MSGFILE_SCRIPT, 7, 26, 3, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorWalkRoute 26, 31, 45, 0, 4, 1
@@ -184,7 +191,8 @@ Script_3:
     ActorCmdWait
     ActorCmdExec 0, Movement_0E60
     ActorCmdWait
-    ActorMsg 1024, 8, 0, 0, 0
+    // "That's my boss for you!\nWhat graceful footwork![f000]븁\u0000\nWell then, [f000]Ā\u0001\u0000,\ncome with me![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 0, 0, 0
     MsgWinCloseAll
     EvCameraMoveToDefault 15
     EvCameraWait
@@ -200,7 +208,8 @@ Script_3:
     ActorCmdWait
     ActorCmdExec 0, Movement_0E60
     ActorCmdWait
-    ActorMsg 1024, 9, 0, 0, 0
+    // "First, let me tell you briefly\nwhat Pokéstar Studios is all about![f000]븁\u0000\nPokéstar Studios was built for making\nfilms--it's a movie metropolis![f000]븁\u0000\nMany films are made and released\nright here![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0508
     VMSleep 4
@@ -210,6 +219,7 @@ Script_3:
     EvCameraUnbind
     EvCameraMoveTo 5848, 0, 0xed000, 0x2d8000, 0x3b01f, 0x138000, 40
     EvCameraWait
+    // "This is the theater![f000]븁\u0000\nOf course, this is where\nthe films are shown.[f000]븀\u0000\nMovie fans from all over[f000]븀\u0000\nalso gather here![f000]븁\u0000\nHow about we have a look inside?[f000]븁\u0000"
     InfoMsg 10, 2
     InfoMsgClose_0039
     EvCameraMoveToDefault 40
@@ -247,6 +257,7 @@ Script_33:
     EvCameraUnbind
     EvCameraMoveTo 5592, 0, 0x105000, 0x148000, 0x3000f, 0x118000, 40
     EvCameraWait
+    // "This is the filming studio![f000]븁\u0000\nThis is where Pokéstar Studios\nmovies are born![f000]븁\u0000\nWell now, come inside!\nMr. Deeoh should be waiting![f000]븁\u0000"
     InfoMsg 11, 2
     InfoMsgClose_0039
     EvCameraMoveToDefault 40
@@ -366,7 +377,8 @@ Script_4:
     ActorWalkRoute 0, 0x8023, 0x8024, 0, 8, 0
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 49, 0, 0, 0
+    // "Hey! [f000]Ā\u0001\u0000!\nToday, Pokéstar Studios is having[f000]븀\u0000\na special ceremony![f000]븁\u0000\nMr. Stu Deeoh is waiting!\nCome with me, won't you?!"
+    ActorMsg MSGFILE_SCRIPT, 49, 0, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorWalkRoute 0, 43, 27, 4, 8, 1
@@ -377,7 +389,8 @@ Script_4:
     ActorCmdExec 0, Movement_0E60
     ActorCmdExec 20, Movement_0E20
     ActorCmdWait
-    ActorMsg 1024, 50, 20, 0, 0
+    // "[f000]Ā\u0001\u0000, congratulations![f000]븁\u0000\nToday is a special day for you\nand for Pokéstar Studios![f000]븁\u0000\nI treasure the time I've\nspent acting with you!"
+    ActorMsg MSGFILE_SCRIPT, 50, 20, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0884
@@ -388,7 +401,8 @@ Script_4:
     ActorCmdWait
     ActorCmdExec 21, Movement_0E20
     ActorCmdWait
-    ActorMsg 1024, 51, 21, 2, 0
+    // "Hey, [f000]Ā\u0001\u0000![f000]븁\u0000\nI'm honored to have\nbeen in a movie with you![f000]븁\u0000\nMe? You don't remember me?[f000]븁\u0000\nYou can't be serious!\nI was the UFO!"
+    ActorMsg MSGFILE_SCRIPT, 51, 21, 2, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0890
@@ -401,21 +415,24 @@ Script_4:
     ActorCmdWait
     ActorCmdExec 25, Movement_0E80
     ActorCmdWait
-    ActorMsg 1024, 52, 25, 2, 0
+    // "If it isn't [f000]Ā\u0001\u0000!\nYou're too much! I'm so moved![f000]븀\u0000\nCongratulations and everything![f000]븁\u0000\nI-I'm so glad I was your\nfan, [f000]Ā\u0001\u0000!"
+    ActorMsg MSGFILE_SCRIPT, 52, 25, 2, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 0, Movement_089C
     VMSleep 2
     ActorCmdExec 255, Movement_08B0
     ActorCmdWait
-    ActorMsg 1024, 53, 24, 2, 0
+    // "Acting with you...[f000]븁\u0000\nIt was pretty fun and a\ngood experience.[f000]븁\u0000\nComing clear out here\nwas worth it."
+    ActorMsg MSGFILE_SCRIPT, 53, 24, 2, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 0, Movement_08C8
     VMSleep 2
     ActorCmdExec 255, Movement_08C8
     ActorCmdWait
-    ActorMsg 1024, 54, 23, 2, 0
+    // "I'm proud that I was\nable to make movies with you![f000]븁\u0000\nCongratulations, [f000]Ā\u0001\u0000!"
+    ActorMsg MSGFILE_SCRIPT, 54, 23, 2, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 0, Movement_08D4
@@ -424,7 +441,8 @@ Script_4:
     ActorCmdWait
     ActorCmdExec 22, Movement_0E10
     ActorCmdWait
-    ActorMsg 1024, 55, 22, 2, 0
+    // "How great, [f000]Ā\u0001\u0000![f000]븁\u0000\nNow listen!\nI was the director of your debut![f000]븁\u0000\nSo I'm almost like your parent!\nDon't forget to be grateful!"
+    ActorMsg MSGFILE_SCRIPT, 55, 22, 2, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 0, Movement_08EC
@@ -433,7 +451,8 @@ Script_4:
     VMSleep 4
     ActorCmdExec 22, Movement_08E0
     ActorCmdWait
-    ActorMsg 1024, 56, 0, 2, 0
+    // "Hey, boss!\nWe're here!"
+    ActorMsg MSGFILE_SCRIPT, 56, 0, 2, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 0, Movement_08F4
@@ -445,26 +464,31 @@ Script_4:
     VMSleep 15
     ActorCmdExec 26, Movement_0E60
     ActorCmdWait
-    ActorMsg 1024, 57, 26, 2, 0
+    // "Hm...[f000]븁\u0000\n[f000]Ā\u0001\u0000,\ntoday's a day to be remembered.[f000]븁\u0000\nWhen I built this place,\nI made a wish and a promise.[f000]븁\u0000\nFor the day Pokéstar Studios\nwould grow until it was a temple[f000]븀\u0000\nof entertainment that would[f000]븀\u0000\namaze the whole world...[f000]븁\u0000\nAnd for the day that Pokéstar Studios\ncreated a new star worthy of it...[f000]븁\u0000\nI wouldn't build anything\non this platform.[f000]븁\u0000\nBut look...[f000]븁\u0000\nThere's a bronze statue here now.\nIn other words, my wish has come true,[f000]븀\u0000\nand I fulfilled my promise.[f000]븁\u0000\nThat's right, [f000]Ā\u0001\u0000...\nIt's all thanks to you!"
+    ActorMsg MSGFILE_SCRIPT, 57, 26, 2, 0
     MsgWaitAdvance
     MsgWinCloseAll
-    ActorMsg 1024, 58, 27, 2, 0
+    // "Your acting excites the staff\nand the other actors...[f000]븁\u0000\nYour acting charms audiences...[f000]븁\u0000\nYou're amazing...[f000]븁\u0000\nBetter said...[f000]븁\u0000\nYou're the best..."
+    ActorMsg MSGFILE_SCRIPT, 58, 27, 2, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 26, Movement_0DF8
     ActorCmdWait
-    ActorMsg 1024, 59, 26, 2, 0
+    // "[f000]Ā\u0001\u0000![f000]븁\u0000\nYou are the true star\nof Pokéstar Studios![f000]븁\u0000\nYou're the shooting star across\nthe night sky that is the silver screen!"
+    ActorMsg MSGFILE_SCRIPT, 59, 26, 2, 0
     MEPlay 1346
     MEWait
     MsgWaitAdvance
-    ActorMsg 1024, 60, 26, 2, 0
+    // "So that's why we got this\nsmall gift for you."
+    ActorMsg MSGFILE_SCRIPT, 60, 26, 2, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0E08
     VMSleep 8
     ActorCmdExec 255, Movement_0E68
     ActorCmdWait
-    ActorMsg 1024, 61, 0, 2, 0
+    // "Yessir, boss![f000]븁\u0000\nOK! [f000]Ā\u0001\u0000!\nCome this way!"
+    ActorMsg MSGFILE_SCRIPT, 61, 0, 2, 0
     LastKeyWait
     MsgWinCloseAll
     RTReserveScript 2
@@ -547,8 +571,8 @@ Script_5:
     Cmd_02CB 0x400f
     VMStackPush 0x400f
     VMStackPushConst 3
-    VMStackCmp 0
-    VMJumpIf 255, L_0954
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_0954
     WorkSetConst 0x8025, 0
     Random 0x8025, 4
     WorkSetConst 0x8026, 0
@@ -556,7 +580,7 @@ Script_5:
     WorkAdd 0x8026, 0x8025
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0x8026, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8026, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0968
@@ -564,7 +588,8 @@ Script_5:
 L_0954:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 16, 0, 0
+    // "Why, if it isn't [f000]Ā\u0001\u0000!\nI thought you were my AD![f000]븁\u0000\nA star as big as you\ncan be in one of my films![f000]븁\u0000\nWould you replace that Lillipup\nand play the Pokémon's part?"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -581,17 +606,19 @@ Script_6:
     Cmd_02CB 0x400f
     VMStackPush 0x400f
     VMStackPushConst 3
-    VMStackCmp 0
-    VMJumpIf 255, L_09AE
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_09AE
     SEPlay 1351
-    ParentActorMsg 1024, 26, 0, 0
+    // "Well now...[f000]븁\u0000\nI'd like to see a love story\njust like ours!"
+    ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_09C0
 
 L_09AE:
     SEPlay 1351
-    ParentActorMsg 1024, 27, 0, 0
+    // "Hm... What movie to see...[f000]븁\u0000\n[f000]Ā\u0001\u0000 is the one who\nalways acts really well, right?"
+    ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -605,7 +632,8 @@ Script_7:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 506, 0
-    ParentActorMsg 1024, 18, 0, 0
+    // "Bwoo! Bowoof!"
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -617,7 +645,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 19, 0, 0
+    // "I'm a rookie assistant director.[f000]븁\u0000\nI love movies, but\nI'm not good at making them yet.[f000]븁\u0000\nThe director is really strict,\nand he's always getting mad at me.[f000]븁\u0000\nBut...[f000]븁\u0000\nWorking for him is teaching me a lot."
+    ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -628,7 +657,8 @@ Script_9:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 23, 0, 0
+    // "Special sets and movie props\nare stored inside![f000]븁\u0000\nBefore VFX became so advanced,\nwe actually had to make a lot of things!"
+    ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -639,7 +669,8 @@ Script_10:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 17, 0, 0
+    // "Man... That director's\ngoing off again...[f000]븁\u0000\nHis films may be pretty good,\nbut there's a fine line between[f000]븀\u0000\ngenius and insanity..."
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -650,7 +681,8 @@ Script_11:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 37, 0, 0
+    // "Just looking at the posters is exciting!\nWhich movie should I watch today?"
+    ParentActorMsg MSGFILE_SCRIPT, 37, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -661,7 +693,8 @@ Script_12:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 20, 0, 0
+    // "You're a Pokéstar Studios\nactor as well, right?[f000]븁\u0000\nA single line from an actor\ncan change an entire film![f000]븁\u0000\nMovie shoots are full of\npossibilities at Pokéstar Studios!"
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -672,7 +705,8 @@ Script_13:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 21, 0, 0
+    // "I'm rehearsing right now.[f000]븁\u0000\nIn order to make a good film,\ndoing a lot of work before the shoot[f000]븀\u0000\nis really important!"
+    ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -683,7 +717,8 @@ Script_14:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 22, 0, 0
+    // "There's a dressing room\ninside this trailer.[f000]븁\u0000\nInside they're doing costume fitting,\nmakeup, and script checks![f000]븁\u0000\nI just finished changing!\nI'm going to give it my best today, too!"
+    ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -696,17 +731,19 @@ Script_15:
     Cmd_02CB 0x400f
     VMStackPush 0x400f
     VMStackPushConst 3
-    VMStackCmp 0
-    VMJumpIf 255, L_0AE2
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_0AE2
     SEPlay 1351
-    ParentActorMsg 1024, 24, 0, 0
+    // "Hey, darling!\nWhat are we going to watch today?"
+    ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0AF4
 
 L_0AE2:
     SEPlay 1351
-    ParentActorMsg 1024, 25, 0, 0
+    // "C'mon, darling!\nLet's watch one of [f000]Ā\u0001\u0000's[f000]븀\u0000\nmovies today!"
+    ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -721,11 +758,12 @@ Script_16:
     Cmd_02CB 0x400f
     VMStackPush 0x400f
     VMStackPushConst 2
-    VMStackCmp 0
-    VMJumpIf 255, L_0B30
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_0B30
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 28, 0, 0
+    // "Hello there! How about a portrait of one\nof Pokéstar Studios' famous stars?[f000]븁\u0000\nRight now...[f000]븁\u0000\nBrycen's is a hot ticket\nwith women and kids.[f000]븁\u0000\nSabrina's is extremely popular with guys![f000]븁\u0000\nHuh? I'm afraid we don't carry one\nof [f000]Ā\u0001\u0000."
+    ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0B71
@@ -733,11 +771,12 @@ Script_16:
 L_0B30:
     VMStackPush 0x400f
     VMStackPushConst 4
-    VMStackCmp 0
-    VMJumpIf 255, L_0B5D
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_0B5D
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 29, 0, 0
+    // "Good day! How about a portrait of one of\nPokéstar Studios' famous stars?[f000]븁\u0000\nRight now...[f000]븁\u0000\nBrycen's is very popular with\nwomen and kids.[f000]븁\u0000\nSabrina's is extremely popular with guys![f000]븁\u0000\nHuh? We've started stocking portraits\nof [f000]Ā\u0001\u0000 recently, but the sales[f000]븀\u0000\nare nothing to write home about."
+    ParentActorMsg MSGFILE_SCRIPT, 29, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0B71
@@ -745,7 +784,8 @@ L_0B30:
 L_0B5D:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 30, 0, 0
+    // "Hello there! How about a portrait of one\nof Pokéstar Studios' famous stars?[f000]븁\u0000\nRight now, the most popular is...[f000]븁\u0000\n[f000]Ā\u0001\u0000. There's no doubt about it!\nHey, has anyone ever mentioned[f000]븀\u0000\nyou look kinda like [f000]Ā\u0001\u0000?[f000]븁\u0000\nI'm really jealous!\nI wish I resembled a star like that."
+    ParentActorMsg MSGFILE_SCRIPT, 30, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -760,11 +800,12 @@ Script_17:
     Cmd_02CB 0x400f
     VMStackPush 0x400f
     VMStackPushConst 3
-    VMStackCmp 0
-    VMJumpIf 255, L_0BAD
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_0BAD
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 32, 0, 0
+    // "Someday, I'm going to be in pictures,\nbecome a famous actor,[f000]븀\u0000\nand buy a mansion![f000]븁\u0000\nA really big mansion! A huge one!"
+    ParentActorMsg MSGFILE_SCRIPT, 32, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0BC1
@@ -772,7 +813,8 @@ Script_17:
 L_0BAD:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 33, 0, 0
+    // "Oh! It's the star who was in the movie\nI just watched--[f000]Ā\u0001\u0000![f000]븁\u0000\n[f000]Ā\u0001\u0000, you're a star,\nso you're living in a mansion, right?[f000]븀\u0000\nA really big one? A huge one?"
+    ParentActorMsg MSGFILE_SCRIPT, 33, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -785,7 +827,8 @@ Script_18:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 34, 0, 0
+    // "I hear Pokéstar Studios\nmakes horror films as well.[f000]븁\u0000\nMan, who even watches kids'\nstuff like that anyway?!"
+    ParentActorMsg MSGFILE_SCRIPT, 34, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -796,7 +839,8 @@ Script_19:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 35, 0, 0
+    // "Hey, I know him![f000]븁\u0000\nHe was the guy yelling “Mama!\"\nduring the movie with ghosts!"
+    ParentActorMsg MSGFILE_SCRIPT, 35, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -807,7 +851,8 @@ Script_20:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 36, 0, 0
+    // "When I look at this from here,\nI feel like I've become a monster![f000]븁\u0000\nRoar![f000]븁\u0000\nHa ha ha..."
+    ParentActorMsg MSGFILE_SCRIPT, 36, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -818,7 +863,8 @@ Script_21:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 31, 0, 0
+    // "Brilliant actors come to Pokéstar Studios\nfrom all over the world to make movies![f000]븁\u0000\nThat's why the titles of movies are\nin so many different languages!"
+    ParentActorMsg MSGFILE_SCRIPT, 31, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -829,7 +875,8 @@ Script_22:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 39, 0, 0
+    // "Not just anybody can take part\nin filming at Pokéstar Studios.[f000]븁\u0000\nOnly Trainers approved by the owner\ncan participate."
+    ParentActorMsg MSGFILE_SCRIPT, 39, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -841,7 +888,8 @@ Script_23:
     SEPlay 1351
     ActorCmdExec 18, Movement_0E78
     ActorCmdWait
-    ParentActorMsg 1024, 38, 0, 0
+    // "Good grief...\nI've been waiting for three hours...[f000]븁\u0000\nHow long does it take\nto put on makeup anyway?"
+    ParentActorMsg MSGFILE_SCRIPT, 38, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -853,7 +901,8 @@ Script_24:
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 40, 0, 0
+    // "The captain of the illustrious guard\nprotecting the star Sabrina is me![f000]븁\u0000\nI rushed here when I heard she had\nmade a shocking debut as an actress.[f000]븁\u0000\nBut recently, I've been interested\nin a star named [f000]Ā\u0001\u0000!"
+    ParentActorMsg MSGFILE_SCRIPT, 40, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -865,7 +914,8 @@ Script_25:
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 41, 0, 0
+    // "Recently, films starring\n[f000]Ā\u0001\u0000 are getting a lot of buzz.[f000]븁\u0000\n...Wait? [f000]Ā\u0001\u0000?\nI wish I had something for you to sign!"
+    ParentActorMsg MSGFILE_SCRIPT, 41, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -877,7 +927,8 @@ Script_26:
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 42, 0, 0
+    // "Ciao! Come va?\nAre you used to Pokéstar Studios yet?[f000]븁\u0000\nThe staff here is very international!\nIt's very exciting, isn't it?[f000]븁\u0000\nSee you during a shoot someday!\nBuona giornata!"
+    ParentActorMsg MSGFILE_SCRIPT, 42, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -889,7 +940,8 @@ Script_27:
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 43, 0, 0
+    // "¡Todos me consideran\nuna niña prodigio de la actuación! ¡Por no[f000]븀\u0000\nhablar de que soy una auténtica estrella![f000]븁\u0000\n¡Mi popularidad y mi destreza como actriz\nestán a años luz de ti, principiante!"
+    ParentActorMsg MSGFILE_SCRIPT, 43, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -901,7 +953,8 @@ Script_28:
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 44, 0, 0
+    // "Excuse me, I'm her manager.[f000]븁\u0000\nWhat she just said is,[f000]븁\u0000\n“People know me as a\nbrilliant child actress![f000]븀\u0000\nNot to mention I’m a top star![f000]븀\u0000\nMy popularity and acting skills[f000]븀\u0000\nare way beyond yours, rookie!\""
+    ParentActorMsg MSGFILE_SCRIPT, 44, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -913,7 +966,8 @@ Script_29:
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 45, 0, 0
+    // "Guten Tag![f000]븁\u0000\nSince you've come to Pokéstar Studios,\nwe suit actors have been busy.[f000]븁\u0000\nBis bald!"
+    ParentActorMsg MSGFILE_SCRIPT, 45, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -925,7 +979,8 @@ Script_30:
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 46, 0, 0
+    // "Hey! It's [f000]Ā\u0001\u0000!\nC'mon, give me an autograph!"
+    ParentActorMsg MSGFILE_SCRIPT, 46, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -937,7 +992,8 @@ Script_31:
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 47, 0, 0
+    // "Why, [f000]Ā\u0001\u0000...[f000]븁\u0000\nLet me ask you dis... When will you do me\nda honor of being in one of my films?"
+    ParentActorMsg MSGFILE_SCRIPT, 47, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -949,7 +1005,8 @@ Script_32:
     WordSetPlayerName 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 48, 0, 0
+    // "¡Hola! ¿Qué tal?\nYou've become so famous![f000]븁\u0000\nEven me, the top star in my country,\ncan't compete with you in Unova!"
+    ParentActorMsg MSGFILE_SCRIPT, 48, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -959,6 +1016,7 @@ Script_32:
 Script_34:
     ActorsPauseAll
     SEPlay 1351
+    // "Pokéstar Studios Sound Stage\nNo public access!"
     InfoMsg 62, 2
     LastKeyWait
     MsgWinCloseAll
@@ -969,6 +1027,7 @@ Script_34:
 Script_35:
     ActorsPauseAll
     SEPlay 1351
+    // "This fake building is so\ndetailed it looks real."
     InfoMsg 63, 2
     LastKeyWait
     MsgWinCloseAll
@@ -979,6 +1038,7 @@ Script_35:
 Script_36:
     ActorsPauseAll
     SEPlay 1351
+    // "It's filled with movie props\nfor shooting films."
     InfoMsg 64, 2
     LastKeyWait
     MsgWinCloseAll
@@ -989,6 +1049,7 @@ Script_36:
 Script_37:
     ActorsPauseAll
     SEPlay 1351
+    // "This detailed model of the Royal Unova\nis a set for a movie."
     InfoMsg 65, 2
     LastKeyWait
     MsgWinCloseAll
@@ -999,6 +1060,7 @@ Script_37:
 Script_38:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a set for a movie.[f000]븁\u0000\nIt's a model of the Skyarrow Bridge\ndone to 1/144 scale."
     InfoMsg 66, 2
     LastKeyWait
     MsgWinCloseAll

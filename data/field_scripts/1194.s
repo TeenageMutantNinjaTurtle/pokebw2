@@ -18,25 +18,34 @@ Script_1:
     EvCameraMoveTo 9694, 0, 0xed02b, 0x78000, 0, 0x38000, 60
     EvCameraWait
     FadeWait
-    ActorMsg 1024, 0, 1, 0, 0
+    // "Cilan: Chili, are you listening to me?[f000]븁\u0000\nWe have to study hard\nand become full-fledged Gym Leaders[f000]븀\u0000\nas soon as possible...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 1, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 1, 0, 0, 0
+    // "Chili: About that.[f000]븁\u0000\nIf we had gone to N's Castle a year\nago, the Seven Sages and the[f000]븀\u0000\nShadow Triad wouldn't have escaped![f000]븁\u0000\nThen, nobody would say something like\n“Three of you together make...\"[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 2, 2, 0, 0
+    // "Cress: I guess you're right.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 2, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 3, 1, 0, 0
+    // "Cilan: You think so?\nBut it isn't that big of a deal.[f000]븁\u0000\nWe may not have made it in time,\nbut Team Plasma is still gone.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 1, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 4, 0, 0, 0
+    // "Chili: Argh![f000]븁\u0000\nIt's because you say things like that.\nThat's why people treat us like a joke![f000]븁\u0000\nLike it takes all three of us together\nto make one great Trainer![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 5, 2, 0, 0
+    // "Cress: You're overthinking it,\nbut I can't say the possibility is zero.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 2, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 6, 1, 0, 0
+    // "Cilan: Come on, you two...[f000]븁\u0000\nDon't you think it's a bit strange\nto get recognition and respect as[f000]븀\u0000\nGym Leaders just for beating bad guys?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 1, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 7, 0, 0, 0
+    // "Chili: I understand what you're saying.[f000]븁\u0000\nBut if things go on like this,\nnothing will ever change.[f000]븁\u0000\nEven if we train, the other Gym Leaders\nwill become that much stronger as well.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 3, Movement_03F8
     ActorCmdWait
-    ActorMsg 1024, 8, 3, 0, 0
+    // "???: Then...\nWe'll battle you.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 3, 0, 0
     MsgWinCloseAll
     ActorCmdExec 4, Movement_03F8
     ActorCmdExec 5, Movement_03F8
@@ -52,13 +61,16 @@ Script_1:
     ActorCmdExec 1, Movement_03CC
     ActorCmdWait
     EvCameraWait
-    ActorMsg 1024, 9, 2, 0, 0
+    // "Cress: Based on your appearance,\nyou must be the Shadow Triad.[f000]븀\u0000\nBut why are you here?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 2, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 10, 5, 0, 0
+    // "Shadow Triad: We came on a whim...[f000]븁\u0000\nTo vent...[f000]븁\u0000\nTo pass time...[f000]븁\u0000\nIt doesn't matter.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 5, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_039C
     ActorCmdWait
-    ActorMsg 1024, 11, 0, 0, 0
+    // "Chili: Three on three![f000]븁\u0000\nThe first one to beat them\nis the strongest among us![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 0, 0, 0
     MsgWinCloseAll
     FadeEx 3, 0, 16, 2
     ActorCmdExec 0, Movement_0354
@@ -77,15 +89,18 @@ Script_1:
     ActorCmdExec 1, Movement_03B4
     ActorCmdWait
     VMSleep 30
-    ActorMsg 1024, 12, 3, 0, 0
+    // "Shadow Triad: Too easy...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 3, 0, 0
     MsgWinCloseAll
     ActorCmdExec 4, Movement_038C
     ActorCmdWait
-    ActorMsg 1024, 13, 4, 0, 0
+    // "Shadow Triad: These three aren't worth\nworrying about.[f000]븁\u0000\nWe must focus on the other\nGym Leaders so that next time[f000]븀\u0000\nthey won't get in our way...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 4, 0, 0
     MsgWinCloseAll
     ActorCmdExec 5, Movement_0384
     ActorCmdWait
-    ActorMsg 1024, 14, 5, 0, 0
+    // "Shadow Triad: Well...\nLord Ghetsis is waiting.[f000]븁\u0000\nWe must catch that Pokémon.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 5, 0, 0
     MsgWinCloseAll
     ActorCmdExec 3, Movement_0404
     ActorCmdExec 4, Movement_0404
@@ -96,28 +111,37 @@ Script_1:
     VMSleep 30
     ActorCmdExec 0, Movement_0394
     ActorCmdWait
-    ActorMsg 1024, 15, 0, 0, 0
+    // "Chili: C'mon![f000]븁\u0000\nWhat was that?\nCome back here and say that again![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 1, Movement_0384
     ActorCmdWait
-    ActorMsg 1024, 16, 1, 0, 0
+    // "Cilan: I mean...\nThey were overwhelmingly strong.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 1, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 17, 2, 0, 0
+    // "Cress: We have to admit it.[f000]븁\u0000\nThe three Leaders of Striaton City\nmake one full-fledged Trainer.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 17, 2, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 18, 1, 0, 0
+    // "Cilan: You're right.[f000]븁\u0000\nChili. Cress.[f000]븁\u0000\nI think as long as the three of us\nact like the Gym Leaders we are now,[f000]븀\u0000\nnothing will ever change.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 18, 1, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_038C
     ActorCmdExec 2, Movement_0394
     ActorCmdWait
-    ActorMsg 1024, 19, 0, 0, 0
+    // "Chili: I didn't think\nyou would be the first to say that.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 19, 0, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 20, 2, 0, 0
+    // "Cress: Of course, I, Cress,\nwas thinking about that, too.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 20, 2, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 21, 1, 0, 0
+    // "Cilan: All right.[f000]븁\u0000\nLet's resign as Gym Leaders\nand start our training over[f000]븀\u0000\nfrom the ground up.[f000]븁\u0000\nThen, I'm sure one of us\nwill become a Trainer[f000]븀\u0000\neveryone recognizes as great.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 21, 1, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 22, 0, 0, 0
+    // "Chili: We're triplets.\nWhat we think is the same.[f000]븁\u0000\nSo we just have to become\nas strong as each other,[f000]븀\u0000\nand then we can be[f000]븀\u0000\nGym Leaders together again![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 22, 0, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 23, 2, 0, 0
+    // "Cress: OK. So as for the replacement\nGym Leader...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 23, 2, 0, 0
     MsgWinCloseAll
     EvCameraMoveTo 9694, 0, 0xecf27, 0x78000, 0x48000, 0x38000, 30
     FadeOutBlack

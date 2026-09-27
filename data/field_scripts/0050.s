@@ -8,7 +8,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Burgh used this warehouse up until\nfour years ago.[f000]븁\u0000\nWhen Burgh gets artist's block,\nhe comes back here to Nacrene City!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -19,7 +20,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Burgh is an artist.\nHe's also the Gym Leader in Castelia City.[f000]븁\u0000\nWe want to be like him![f000]븁\u0000\nI'll never stop admiring him![f000]븁\u0000\nYup, I'm only going to keep on admiring!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

@@ -10,11 +10,12 @@ Script_1:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0041
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0041
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Even before Poké Balls were created,\npeople and Pokémon were good friends.[f000]븀\u0000\nI wonder if this relationship will last[f000]븀\u0000\nin the future, too."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0055
@@ -22,7 +23,8 @@ Script_1:
 L_0041:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "I want Pokémon to be\nin the new office...[f000]븁\u0000\nBut I can't say such a thing\nin front of my girlfriend."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -35,11 +37,12 @@ Script_2:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_008A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_008A
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "I learned some Pokémon want to\nbe with Trainers...[f000]븁\u0000\nOf course, some Pokémon prefer\nto live wild.[f000]븁\u0000\nFor your information, I heard\nPokémon who have learned a hidden move[f000]븀\u0000\nmay come back, even if you try to[f000]븀\u0000\nrelease them."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_009E
@@ -47,7 +50,8 @@ Script_2:
 L_008A:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Missing Pokémon...[f000]븁\u0000\nEven if Team Plasma is responsible,\nwe don't know where they are."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -60,11 +64,12 @@ Script_3:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00D3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00D3
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "My Pokémon!\nScraggy came back![f000]븁\u0000\nI don't know if it was held captive\nby Team Plasma...[f000]븀\u0000\nor it was lost and came back by itself...[f000]븁\u0000\nBut anyway, I'm happy!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_00E7
@@ -72,7 +77,8 @@ Script_3:
 L_00D3:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "My Pokémon...\nWhere did it go...?"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -86,7 +92,8 @@ Script_4:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 559, 0
-    ParentActorMsg 1024, 6, 0, 0
+    // "Gyscragg!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

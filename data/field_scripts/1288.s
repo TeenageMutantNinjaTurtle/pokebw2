@@ -148,7 +148,7 @@ Script_8:
     .byte 0x64
     .byte 0x0a
     VMNop
-    ActorMsg 1024, 0x8022, 2, 0, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8022, 2, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 348
@@ -285,7 +285,7 @@ Script_9:
     .byte 0xc3
     .byte 0x09
     VMNop
-    ActorMsg 1024, 0x8022, 4, 0, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8022, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 349
@@ -414,7 +414,7 @@ Script_10:
     .byte 0x22
     .byte 0x09
     VMNop
-    ActorMsg 1024, 0x8022, 5, 0, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8022, 5, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 350
@@ -551,7 +551,7 @@ Script_11:
     .byte 0x81
     .byte 0x08
     VMNop
-    ActorMsg 1024, 0x8022, 7, 0, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8022, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 351
@@ -688,7 +688,7 @@ Script_12:
     .byte 0xe0
     .byte 0x07
     VMNop
-    ActorMsg 1024, 0x8022, 1, 0, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8022, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 353
@@ -795,7 +795,7 @@ Script_13:
     .byte 0x5c
     .byte 0x07
     VMNop
-    ActorMsg 1024, 0x8022, 0, 0, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8022, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 348
@@ -902,7 +902,7 @@ Script_14:
     .byte 0xd8
     .byte 0x06
     VMNop
-    ActorMsg 1024, 0x8022, 0, 0, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8022, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 349
@@ -1009,7 +1009,7 @@ Script_15:
     .byte 0x54
     .byte 0x06
     VMNop
-    ActorMsg 1024, 0x8022, 0, 0, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8022, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 350
@@ -1117,7 +1117,7 @@ Script_16:
     .byte 0xd0
     VMReturn
     .byte 0x00
-    ActorMsg 1024, 0x8022, 1, 0, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8022, 1, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 351
@@ -1223,7 +1223,7 @@ Script_17:
     .byte 0x4c
     VMReturn
     .byte 0x00
-    ActorMsg 1024, 0x8022, 0, 0, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8022, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 353
@@ -1383,13 +1383,13 @@ Script_1:
     .byte 0x8d
     .byte 0x04
     VMNop
-    ParentActorMsg 1024, 0x8022, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8022, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 348
     WorkSetConst 0x414a, 1
     VMJump L_06EE
-    ParentActorMsg 1024, 0x8022, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8022, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -1552,13 +1552,13 @@ Script_2:
     .byte 0xbc
     .byte 0x03
     VMNop
-    ParentActorMsg 1024, 0x8022, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8022, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 349
     WorkSetConst 0x414b, 1
     VMJump L_07BF
-    ParentActorMsg 1024, 0x8022, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8022, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -1717,13 +1717,13 @@ Script_3:
     .byte 0xeb
     VMHalt
     .byte 0x00
-    ParentActorMsg 1024, 0x8022, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8022, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 350
     WorkSetConst 0x414c, 1
     VMJump L_0890
-    ParentActorMsg 1024, 0x8022, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8022, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -1818,7 +1818,7 @@ Script_4:
     .byte 0xbc
     .byte 0x01
     .byte 0x64
-    PokePartyCheckPokerus 0xdc00
+    PokePartyCheckPokerus 56320
     VMHalt
     .byte 0x00
     .byte 0x65
@@ -1881,13 +1881,13 @@ Script_4:
     .byte 0x1a
     VMHalt
     .byte 0x00
-    ParentActorMsg 1024, 0x8022, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8022, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 351
     WorkSetConst 0x414d, 1
     VMJump L_0961
-    ParentActorMsg 1024, 0x8022, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8022, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -1900,7 +1900,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 24, 0, 0
+    // "Tee hee hee... A Trainer who battles\nlooking for the password.[f000]븁\u0000\nEven if you win a battle,\nyou won't necessarily get the answer.[f000]븁\u0000\nYou might get something else, though."
+    ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -2062,7 +2063,7 @@ Script_6:
     FlagSet 353
     WorkSetConst 0x414e, 1
     VMJump L_0A4E
-    ParentActorMsg 1024, 0x8022, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8022, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -2084,12 +2085,12 @@ Script_7:
     WorkAdd 0x8022, 0x8021
     VMStackPushFlag 354
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0B3B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B3B
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0AAA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0AAA
     TrainerBGMPlayPush 439
     ActorCmdExec 0, Movement_0BD4
     ActorCmdWait
@@ -2101,12 +2102,13 @@ L_0AAA:
     ActorCmdWait
 
 L_0AB8:
-    ParentActorMsg 1024, 31, 0, 0
+    // "Team Plasma: I have what you want![f000]븁\u0000\nBut if you want it...\nYou know, don't you? Battle me![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 31, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0AE5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0AE5
     CallTrainerBattle 439, 0, 0
     VMJump L_0AED
 
@@ -2115,7 +2117,8 @@ L_0AE5:
 
 L_0AED:
     VMCall L_0B4F
-    ParentActorMsg 1024, 32, 0, 0
+    // "Phew!\nYou're good![f000]븁\u0000\nI'll give you this, then![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 32, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -2125,14 +2128,16 @@ L_0AED:
     VMStackPop 0x8001
     VMStackPop 0x8000
     FlagSet 356
-    ParentActorMsg 1024, 36, 0, 0
+    // "With the Plasma Card,\nyou can enter the password![f000]븁\u0000\nDo the rest by yourself."
+    ParentActorMsg MSGFILE_SCRIPT, 36, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 354
     VMJump L_0B49
 
 L_0B3B:
-    ParentActorMsg 1024, 36, 0, 0
+    // "With the Plasma Card,\nyou can enter the password![f000]븁\u0000\nDo the rest by yourself."
+    ParentActorMsg MSGFILE_SCRIPT, 36, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -2145,8 +2150,8 @@ L_0B4F:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0B6E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B6E
     CallTrainerBattleEnd
     VMJump L_0B70
 

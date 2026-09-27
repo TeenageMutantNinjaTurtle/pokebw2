@@ -10,7 +10,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Yo! Traveling Trainer![f000]븁\u0000\nBring a strong Pokémon\nto smash the challenge rock!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -21,7 +22,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Forest paths were created by\nthe Pokémon that often walk there.[f000]븁\u0000\nIf you walk the paths, sometimes\nyou can feel like a Pokémon yourself."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -33,12 +35,13 @@ Script_1:
     SEPlay 1351
     VMStackPushFlag 2760
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_006F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_006F
     VMCall L_007E
     VMJump L_0078
 
 L_006F:
+    // "It's a challenge rock."
     InfoMsg 4, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -61,30 +64,32 @@ L_007E:
 L_00AE:
     VMStackPush 0x8022
     VMStackPush 0x8024
-    VMStackCmp 0
-    VMJumpIf 255, L_0194
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_0194
     PokePartyIsEgg 0x8023, 0x8022
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0188
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0188
     PokePartyGetTypes 0x8020, 0x8021, 0x8022
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_017C
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_017C
     WordSetPartyPokeName 0, 0x8022
+    // "It's a challenge rock.[f000]븁\u0000\nWould you like to have [f000]Ă\u0001\u0000\nsmash the rock?"
     InfoMsg 2, 2
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0168
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0168
     WordSetPartyPokeName 0, 0x8022
+    // "[f000]Ă\u0001\u0000 tried to smash the\nchallenge rock.[f000]븁\u0000\nA piece of the rock broke away![f000]븁\u0000"
     InfoMsg 3, 2
     InfoMsgClose_0039
     VMStackPush 0x8000
@@ -122,8 +127,9 @@ L_018E:
 L_0194:
     VMStackPush 0x8025
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01B0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01B0
+    // "It's a challenge rock."
     InfoMsg 4, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -135,6 +141,7 @@ Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Pinwheel Forest\nDid you remember to pack an Antidote?"
     MsgPlaceSign 5, 3
     MsgPlaceSignClose
     FinishAllEvents

@@ -14,8 +14,8 @@ Script_1:
     ActorGetUserParam 0x8011, 0, 0x8020
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0043
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0043
     WorkSetConst 0x8020, 5
 
 L_0043:
@@ -23,8 +23,8 @@ L_0043:
     WildBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_007E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_007E
     ActorGetSpawnFlag 0x8011, 0x8010
     FlagSet 0x8010
     ActorDelete 0x8011
@@ -51,8 +51,8 @@ Script_2:
     ActorGetUserParam 0x8011, 0, 0x8021
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00C5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00C5
     WorkSetConst 0x8021, 5
 
 L_00C5:
@@ -60,8 +60,8 @@ L_00C5:
     WildBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0100
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0100
     ActorGetSpawnFlag 0x8011, 0x8010
     FlagSet 0x8010
     ActorDelete 0x8011
@@ -81,8 +81,8 @@ L_0102:
 L_010E:
     VMStackPushFlag 2456
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0125
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0125
     FlagSet 2456
 
 L_0125:

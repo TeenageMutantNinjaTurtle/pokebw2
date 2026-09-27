@@ -38,7 +38,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "Wh-what's going\nto happen to Opelucid City?"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -49,21 +50,23 @@ Script_2:
     ActorsPauseAll
     VMStackPushFlag 444
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0163
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0163
     VMStackPushFlag 241
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0149
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0149
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 6, 1, 0, 0
+    // "I have an item that I don't know how to\nuse. Would you give it a try and see if[f000]븀\u0000\nyou can make it work?"
+    ActorMsg MSGFILE_SCRIPT, 6, 1, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0133
-    ActorMsg 1024, 8, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0133
+    // "You may be able to master it. Here it is![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 1, 0, 0
     ActorMsgClose
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -72,14 +75,16 @@ Script_2:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 9, 1, 0, 0
+    // "If a Pokémon holds a Ring Target, it can\nbe hit even by a move that would usually[f000]븀\u0000\nhave no effect.[f000]븁\u0000\nFor example, a Normal-type move would\nhit a Ghost-type Pokémon.[f000]븁\u0000\nMastering this item is a bit tough...\nActually, it's very tough, but think[f000]븀\u0000\nhow useful it could be!"
+    ActorMsg MSGFILE_SCRIPT, 9, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FlagSet 241
     VMJump L_0143
 
 L_0133:
-    ActorMsg 1024, 7, 1, 0, 0
+    // "I know...\nYou'll also have trouble figuring it out."
+    ActorMsg MSGFILE_SCRIPT, 7, 1, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -89,7 +94,8 @@ L_0143:
 L_0149:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "If a Pokémon holds a Ring Target, it can\nbe hit even by a move that would usually[f000]븀\u0000\nhave no effect.[f000]븁\u0000\nFor example, a Normal-type move would\nhit a Ghost-type Pokémon.[f000]븁\u0000\nMastering this item is a bit tough...\nActually, it's very tough, but think[f000]븀\u0000\nhow useful it could be!"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -99,7 +105,8 @@ L_015D:
 L_0163:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "It's cold...[f000]븁\u0000\nAnd Dragon types really don't like cold!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -114,23 +121,26 @@ Script_3:
     ActorSetEyeToEye
     VMStackPushFlag 444
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01CB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01CB
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01BB
-    ParentActorMsg 1024, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01BB
+    // "I was Iris's coach![f000]븁\u0000\nEven from the day Iris came here,\nshe was so much stronger than me![f000]븁\u0000\nNow, I wouldn't stand a chance!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     VMJump L_01C5
 
 L_01BB:
-    ParentActorMsg 1024, 2, 0, 0
+    // "Drayden teaches the move Draco Meteor.\nIt's the strongest Dragon-type move.[f000]븁\u0000\nBut the Special Attack of the Pokémon\nthat uses it drops sharply."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
 
 L_01C5:
     VMJump L_01D5
 
 L_01CB:
-    ParentActorMsg 1024, 1, 0, 0
+    // "Even Drayden can't handle a\nstrange situation like this alone..."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
 
 L_01D5:
     LastKeyWait

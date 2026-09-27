@@ -9,7 +9,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "I wonder if the Elite Four in the\nPokémon League like Pokémon more[f000]븀\u0000\nthan anyone else.[f000]븁\u0000\nIf you don't like Pokémon,\nyou'll never get good at battling, right?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -20,7 +21,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "You need to have eight Gym Badges\nto take on the pinnacle of Pokémon,[f000]븀\u0000\nthe Pokémon League!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -32,7 +34,8 @@ Script_3:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 552, 0
-    ParentActorMsg 1024, 2, 0, 0
+    // "Raaah!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

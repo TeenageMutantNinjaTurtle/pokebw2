@@ -27,8 +27,8 @@ Script_8:
 L_0044:
     VMStackPushFlag 364
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0067
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0067
     ObjInitWarpGPos 0, 0, 0, 0
     VMJump L_0071
 
@@ -41,8 +41,8 @@ L_0071:
 L_0073:
     VMStackPush 0x40f5
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0092
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0092
     .byte 0xee
     .byte 0x03
     .byte 0x00
@@ -172,24 +172,26 @@ Script_9:
     ActorCmdExec 0, Movement_02A0
     ActorWalkRoute 255, 11, 12, 1, 8, 0
     ActorCmdWait
-    ActorMsg 1024, 0, 2, 5, 0
+    // "Team Plasma: Who are you?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 2, 5, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_02B0
     ActorCmdWait
-    ActorMsg 1024, 1, 0, 6, 0
+    // "[f000]Ā\u0001\u0001: Just to let you know...\nYou're about to feel my rage![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 6, 0
     MsgWinCloseAll
     VMStackPush 0x4030
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0172
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0172
     CallTrainerMultiBattle 794, 798, 799, 0
     VMJump L_019F
 
 L_0172:
     VMStackPush 0x4030
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0195
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0195
     CallTrainerMultiBattle 795, 798, 799, 0
     VMJump L_019F
 
@@ -198,9 +200,11 @@ L_0195:
 
 L_019F:
     VMCall L_060F
-    ActorMsg 1024, 2, 2, 5, 0
+    // "Team Plasma: Ugh!\nWe have to tell the others.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 2, 5, 0
     MsgWinCloseAll
-    ActorMsg 1024, 3, 1, 3, 0
+    // "Team Plasma: Oh no!\nWe have to protect the switches![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 1, 3, 0
     MsgWinCloseAll
     ActorCmdExec 2, Movement_06C0
     ActorCmdExec 1, Movement_06C8
@@ -217,17 +221,20 @@ L_019F:
     SEPlay 1369
     ActorDelete 2
     SEWait
-    ActorMsg 1024, 4, 0, 6, 0
+    // "[f000]Ā\u0001\u0001: They didn't have\nPurrloin with them![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 6, 0
     MsgWinCloseAll
     ActorCmdExec 255, Movement_06B0
     ActorCmdExec 0, Movement_06B0
     ActorCmdWait
-    ActorMsg 1024, 5, 0, 0, 0
+    // "Barriers, huh...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_06C0
     ActorCmdExec 255, Movement_06C8
     ActorCmdWait
-    ActorMsg 1024, 6, 0, 0, 0
+    // "The Team Plasma member was saying...[f000]븁\u0000\nOh, I got it. We should press the\nswitches to deactivate the barriers![f000]븁\u0000\n[f000]Ā\u0001\u0000! Let's split up and\nlook for them![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_02E4
     VMSleep 4
@@ -283,23 +290,24 @@ Script_4:
     ActorsPauseAll
     WorkSetConst 0x40f5, 1
     SEPlay 2217
+    // "From behind the wall,\nyou heard the sound[f000]븀\u0000\nof a barrier being deactivated!"
     InfoMsg 7, 2
     VMStackPush 0x40f5
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f6
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f7
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f8
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0350
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0350
     MsgWaitAdvance
     VMJump L_0352
 
@@ -318,20 +326,21 @@ L_0352:
     VMNop
     VMStackPush 0x40f5
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f6
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f7
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f8
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_03AA
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_03AA
+    // "All the barriers were deactivated,\nand now you can proceed!"
     InfoMsg 8, 2
     LastKeyWait
     MsgWinCloseAll
@@ -345,23 +354,24 @@ Script_5:
     ActorsPauseAll
     WorkSetConst 0x40f6, 1
     SEPlay 2217
+    // "From behind the wall,\nyou heard the sound[f000]븀\u0000\nof a barrier being deactivated!"
     InfoMsg 7, 2
     VMStackPush 0x40f5
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f6
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f7
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f8
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_040C
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_040C
     MsgWaitAdvance
     VMJump L_040E
 
@@ -380,20 +390,21 @@ L_040E:
     VMNop2
     VMStackPush 0x40f5
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f6
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f7
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f8
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0466
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0466
+    // "All the barriers were deactivated,\nand now you can proceed!"
     InfoMsg 8, 2
     LastKeyWait
     MsgWinCloseAll
@@ -407,23 +418,24 @@ Script_6:
     ActorsPauseAll
     WorkSetConst 0x40f7, 1
     SEPlay 2217
+    // "From behind the wall,\nyou heard the sound[f000]븀\u0000\nof a barrier being deactivated!"
     InfoMsg 7, 2
     VMStackPush 0x40f5
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f6
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f7
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f8
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_04C8
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_04C8
     MsgWaitAdvance
     VMJump L_04CA
 
@@ -441,20 +453,21 @@ L_04CA:
     VMHalt
     VMStackPush 0x40f5
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f6
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f7
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f8
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0522
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0522
+    // "All the barriers were deactivated,\nand now you can proceed!"
     InfoMsg 8, 2
     LastKeyWait
     MsgWinCloseAll
@@ -468,23 +481,24 @@ Script_7:
     ActorsPauseAll
     WorkSetConst 0x40f8, 1
     SEPlay 2217
+    // "From behind the wall,\nyou heard the sound[f000]븀\u0000\nof a barrier being deactivated!"
     InfoMsg 7, 2
     VMStackPush 0x40f5
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f6
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f7
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f8
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0584
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0584
     MsgWaitAdvance
     VMJump L_0586
 
@@ -504,20 +518,21 @@ L_0586:
     .byte 0x00
     VMStackPush 0x40f5
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f6
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f7
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x40f8
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_05DE
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_05DE
+    // "All the barriers were deactivated,\nand now you can proceed!"
     InfoMsg 8, 2
     LastKeyWait
     MsgWinCloseAll
@@ -535,6 +550,7 @@ Script_1:
     ActorCmdExec 255, Movement_065C
     ActorCmdWait
     SEWait
+    // "Be careful!\nThe barriers are electrified!"
     InfoMsg 9, 2
     LastKeyWait
     MsgWinCloseAll
@@ -546,13 +562,13 @@ L_060F:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0649
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0649
     PokePartyGetCount 0x8008, 2
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0641
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0641
     PokePartyRecoverAll
 
 L_0641:

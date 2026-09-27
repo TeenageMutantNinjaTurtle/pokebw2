@@ -15,21 +15,23 @@ Script_1:
     ActorSetEyeToEye
     VMStackPushFlag 132
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0059
-    ParentActorMsg 1024, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0059
+    // "Pokémon Trades help you connect with\nthe world![f000]븀\u0000\nThe world will be bigger![f000]븁\u0000\nIf you trade Pokémon with many people,\nyou will be happy![f000]븁\u0000\nBecause I will give you something good![f000]븁\u0000\nSo, Trainer, have you traded Pokémon\nwith many people?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     FlagSet 132
     VMJump L_0063
 
 L_0059:
-    ParentActorMsg 1024, 1, 0, 0
+    // "Hello, Trainer![f000]븁\u0000\nHave you traded Pokémon with\nmany people?"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
 
 L_0063:
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0086
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0086
     VMCall L_00A8
     VMJump L_0092
 
@@ -43,21 +45,23 @@ L_0092:
     VMHalt
 
 L_0098:
-    ParentActorMsg 1024, 0x8020, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
 
 L_00A8:
     WorkSetConst 0x8026, 0
-    ParentActorMsg 1024, 2, 0, 0
-    ParentActorMsg 1024, 3, 0, 0
+    // "Oh, wonderful.[f000]븁\u0000\nThen, let me check how many people you\nhave traded Pokémon with.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
+    // "...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     Cmd_0226 0x8021
     WordSetNumber 0, 0x8021, 2
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00F2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00F2
     WorkSetConst 0x8020, 6
     VMCall L_0098
     VMJump L_01D4
@@ -65,8 +69,8 @@ L_00A8:
 L_00F2:
     VMStackPush 0x8021
     VMStackPushConst 5
-    VMStackCmp 0
-    VMJumpIf 255, L_0117
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_0117
     WorkSetConst 0x8020, 5
     VMCall L_0098
     VMJump L_01D4
@@ -74,40 +78,40 @@ L_00F2:
 L_0117:
     VMStackPush 0x8021
     VMStackPushConst 50
-    VMStackCmp 4
-    VMJumpIf 255, L_0136
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0136
     WorkSetConst 0x8026, 12
     VMJump L_01B8
 
 L_0136:
     VMStackPush 0x8021
     VMStackPushConst 40
-    VMStackCmp 4
-    VMJumpIf 255, L_0155
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0155
     WorkSetConst 0x8026, 11
     VMJump L_01B8
 
 L_0155:
     VMStackPush 0x8021
     VMStackPushConst 30
-    VMStackCmp 4
-    VMJumpIf 255, L_0174
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0174
     WorkSetConst 0x8026, 10
     VMJump L_01B8
 
 L_0174:
     VMStackPush 0x8021
     VMStackPushConst 20
-    VMStackCmp 4
-    VMJumpIf 255, L_0193
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0193
     WorkSetConst 0x8026, 9
     VMJump L_01B8
 
 L_0193:
     VMStackPush 0x8021
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_01B2
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_01B2
     WorkSetConst 0x8026, 8
     VMJump L_01B8
 
@@ -115,7 +119,7 @@ L_01B2:
     WorkSetConst 0x8026, 7
 
 L_01B8:
-    ParentActorMsg 1024, 0x8026, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8026, 0, 0
     VMCall L_01D6
     WorkSetConst 0x8020, 15
     VMCall L_0098
@@ -155,16 +159,16 @@ L_026E:
     WorkSetConst 0x8027, 0
     VMStackPush 0x8021
     VMStackPush 0x8023
-    VMStackCmp 4
-    VMJumpIf 255, L_02F5
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_02F5
     VMStackPushFlag 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02F5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02F5
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02B9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02B9
     WorkSetConst 0x8027, 13
     VMJump L_02BF
 
@@ -172,7 +176,7 @@ L_02B9:
     WorkSetConst 0x8027, 14
 
 L_02BF:
-    ParentActorMsg 1024, 0x8027, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8027, 0, 0
     ActorMsgClose
     WorkSetConst 0x8024, 1
     VMStackPush 0x8000

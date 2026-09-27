@@ -16,8 +16,8 @@ Script_1:
     WordSetNumber 0, 0x8020, 3
     VMStackPush 0x8020
     VMStackPushConst 40
-    VMStackCmp 4
-    VMJumpIf 255, L_00B0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_00B0
     VMStackPush 0x8000
     VMStackPush 0x8001
     VMStackPush 0x8002
@@ -45,7 +45,8 @@ Script_1:
 L_00B0:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "I am a Pokémon fanatic.\nI am famous in Castelia, too![f000]븁\u0000\nOh, look!\nYou have a Pokédex![f000]븁\u0000\nHow many Pokémon\nhave you found so far?[f000]븁\u0000\n...\n[f000]Ȃ\u0001\u0000 Pokémon![f000]븁\u0000\nIf you have 40 Pokémon or more,\nI'll give you something good!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -58,7 +59,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "I've been thinking about starting\na new business...[f000]븁\u0000\nBut it's quite a chore."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -69,7 +71,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "Don't you think a service that teaches\nPokémon moves would be successful?[f000]븁\u0000\nWhat?\nThere are already people who do that?"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -80,7 +83,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "What kinds of Abilities do\nyour Pokémon have?"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -91,7 +95,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "My Patrat's Ability is Run Away![f000]븁\u0000\nIt can always get away\nfrom wild Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -102,7 +107,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "Hmmm! Fantastic! Excellent!\nBurgh's paintings are magnificent!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -114,7 +120,8 @@ Script_7:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 504, 0
-    ParentActorMsg 1024, 7, 0, 0
+    // "Squeak!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

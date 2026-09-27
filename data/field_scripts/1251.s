@@ -13,8 +13,8 @@ Script_1:
     WorkGet 0x8022, 0x8000
     VMStackPush 0x8022
     VMStackPushConst 15
-    VMStackCmp 0
-    VMJumpIf 255, L_004D
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_004D
     WorkSetConst 0x8024, 4
     VMJump L_005F
 

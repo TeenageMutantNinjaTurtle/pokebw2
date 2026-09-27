@@ -10,20 +10,24 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Hi, Trainer!\nYou have a Pokédex, I see.[f000]븁\u0000\nI'm a traveler. I enjoy trekking around\nthe world and talking with various people.[f000]븁\u0000\nBy the way, do you know a Pokémon\ncalled Zoroark?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0051
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0051
+    // "Great![f000]븁\u0000\nAre you armed with knowledge\nso that it won't trick you?[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     VMJump L_005B
 
 L_0051:
-    ParentActorMsg 1024, 2, 0, 0
+    // "Oh my...[f000]븁\u0000\nDon't you know anything of the world?\nIt may trick you.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
 
 L_005B:
-    ParentActorMsg 1024, 3, 0, 0
+    // "It's your choice to trust it and be\ntricked, or to live in doubt.[f000]븁\u0000\nI enjoyed talking with you.\nThis is a small present.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -32,13 +36,14 @@ L_005B:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 4, 0, 0
+    // "They say Zoroark settled in around here\nabout two years ago.[f000]븁\u0000\nIt changed the appearance of this\ngrassland with its Illusion Ability[f000]븀\u0000\nand tricked people and Pokémon.[f000]븁\u0000\nIt's an outrageous rumor, but\na rumor has some truth in it.[f000]븁\u0000\nEvery rumor has a kernel of truth to it.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 8
-    VMStackCmp 1
-    VMJumpIf 255, L_00CE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00CE
     ActorWalkRoute 7, 9, 15, 1, 8, 0
     VMSleep 16
     ActorCmdExec 255, Movement_0170
@@ -56,8 +61,8 @@ L_00EA:
     VMSleep 2
     VMStackPush 0x8021
     VMStackPushConst 8
-    VMStackCmp 1
-    VMJumpIf 255, L_0119
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0119
     ActorNew 9, 15, 1, 251, 196, 0
     VMJump L_0127
 
@@ -68,7 +73,8 @@ L_0127:
     VMSleep 6
     ActorCmdExec 255, Movement_0190
     PVPlay 571, 0
-    ActorMsg 1024, 5, 251, 0, 0
+    // "Growwwwf!"
+    ActorMsg MSGFILE_SCRIPT, 5, 251, 0, 0
     PVWait
     MsgWaitAdvance
     ActorMsgClose

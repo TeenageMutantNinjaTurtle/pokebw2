@@ -7,11 +7,12 @@ Script_1:
     ActorsPauseAll
     VMStackPush 0x4150
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0035
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0035
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Both people and Pokémon have to\nwork together to protect[f000]븀\u0000\nabundant land."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0049
@@ -19,7 +20,8 @@ Script_1:
 L_0035:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "It is the Great Landorus that protects\nthis land.[f000]븁\u0000\nWith its help, we are assured of rich soil\nand a prosperous harvest."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 

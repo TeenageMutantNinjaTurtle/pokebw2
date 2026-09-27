@@ -16,37 +16,47 @@ Script_1:
     EvCameraWait
     FadeWait
     Cmd_02B5 1, 0
-    ActorMsg 1024, 0, 0, 0, 0
+    // "Leaving the Prop Case behind...\nHuh. Did [f000]Ā\u0001\u0000 do that[f000]븀\u0000\naccidentally or on purpose?[f000]븁\u0000\nWhatever the reason, there's no doubt\nthat [f000]Ā\u0001\u0000 had a great talent[f000]븀\u0000\nfor coordinating Pokémon Props![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0194
     ActorCmdWait
-    ActorMsg 1024, 1, 0, 0, 0
+    // "Open the Prop Case--and voilà!\nColorful Props for Pokémon![f000]븁\u0000\nAw, yeah! It is time to play Dress Up![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_021C
     ActorCmdWait
-    ActorMsg 1024, 2, 0, 0, 0
+    // "The Top Hat is an elegant Prop that\nadds class to any Pokémon's head![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0240
     ActorCmdWait
-    ActorMsg 1024, 3, 0, 0, 0
+    // "How about popping some cute\nBlue Barrettes on a Pokémon's ears?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0264
     ActorCmdWait
-    ActorMsg 1024, 4, 0, 0, 0
+    // "The Square Glasses are eye catching.\nThey nicely frame a Pokémon's face![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_029C
     ActorCmdWait
-    ActorMsg 1024, 5, 0, 0, 0
+    // "Maraca, Maraca, Maraca!\nIt's a sharp look for a Pokémon's arm.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_02B8
     ActorCmdWait
-    ActorMsg 1024, 6, 0, 0, 0
+    // "The Umber Belt accentuates a waistline!\nBelts are decorative as well as useful.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_02E0
     ActorCmdWait
-    ActorMsg 1024, 7, 0, 0, 0
-    ActorMsg 1024, 8, 0, 0, 0
-    ActorMsg 1024, 9, 0, 0, 0
+    // "Putting a Tie on a Pokémon's body makes\nit look dignified or charming--or both![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0, 0, 0
+    // "There's nothing to worry about.[f000]븁\u0000\nIf [f000]Ā\u0001\u0000 comes back, we'll return\nthis trusty Prop Case in a trice.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 0, 0, 0
+    // "In the meantime, we see in you a\nworthy successor to [f000]Ā\u0001\u0000.[f000]븁\u0000\nYes! You'll do!\nWith your talent and this Prop Case,[f000]븀\u0000\nwe foresee the rising of a future star![f000]븁\u0000\nProps to you![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0320
     EvCameraMoveTo 9688, 0, 0xed000, 0xe8000, 0x5d000, 0xf8000, 30
@@ -56,8 +66,8 @@ Script_1:
     ActorCmdWait
     VMStackPush 0x4087
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0153
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0153
     RTReserveScript 17
     VMJump L_0157
 
@@ -69,8 +79,8 @@ L_0157:
     EvCameraEnd
     VMStackPush 0x4087
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0180
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0180
     MapChangeCore 77, 14, 0, 16, 0
     VMJump L_018C
 

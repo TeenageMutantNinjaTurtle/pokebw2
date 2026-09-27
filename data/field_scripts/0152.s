@@ -21,8 +21,8 @@ Script_1:
     ActorSetGPos 1, 76, 0, 14, 2
     VMStackPush 0x4179
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_008B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_008B
     Plugin1_Cmd1003 18, 0x8023, 1, 0
     ActorSetGPos 255, 75, 0, 12, 1
     Plugin1_Cmd1003 329, 0, 0, 0
@@ -35,29 +35,29 @@ Script_2:
     FieldGetContinueFlag 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00F0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00F0
     VMStackPush 0x4179
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_00F0
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_00F0
     Plugin1_Cmd1001 1, 0x8023
     VMStackPush 0x8023
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 8
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_00F0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_00F0
     WorkSetConst 0x4179, 3
 
 L_00F0:
     Plugin1_Cmd1003 18, 0x8023, 1, 0
     VMStackPush 0x4179
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0117
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0117
     Plugin1_Cmd1003 20, 1, 0, 0
 
 L_0117:
@@ -69,16 +69,17 @@ Script_3:
     ActorSetEyeToEye
     VMStackPush 0x4179
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_01AB
-    ActorMsg 1024, 15, 0x8011, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01AB
+    // "What would you like to do?"
+    ActorMsg MSGFILE_SCRIPT, 15, 0x8011, 2, 0
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32784
     ListMenuAdd 16, 65535, 0
     ListMenuAdd 17, 65535, 1
     ListMenuAdd 18, 65535, 2
     ListMenuShow
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_0176
+    VMJumpIf CMP_EQ, L_0176
     VMJump L_0184
 
 L_0176:
@@ -88,7 +89,7 @@ L_0176:
 
 L_0184:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0197
+    VMJumpIf CMP_EQ, L_0197
     VMJump L_01A3
 
 L_0197:
@@ -112,7 +113,7 @@ L_01B1:
 L_01B7:
     Plugin1_Cmd1003 21, 0, 0, 32803
     WorkCmpConst 0x8023, 0
-    VMJumpIf 1, L_01D4
+    VMJumpIf CMP_EQ, L_01D4
     VMJump L_01E0
 
 L_01D4:
@@ -121,7 +122,7 @@ L_01D4:
 
 L_01E0:
     WorkCmpConst 0x8023, 5
-    VMJumpIf 1, L_01F3
+    VMJumpIf CMP_EQ, L_01F3
     VMJump L_01FF
 
 L_01F3:
@@ -130,7 +131,7 @@ L_01F3:
 
 L_01FF:
     WorkCmpConst 0x8023, 1
-    VMJumpIf 1, L_0212
+    VMJumpIf CMP_EQ, L_0212
     VMJump L_021E
 
 L_0212:
@@ -139,7 +140,7 @@ L_0212:
 
 L_021E:
     WorkCmpConst 0x8023, 6
-    VMJumpIf 1, L_0231
+    VMJumpIf CMP_EQ, L_0231
     VMJump L_023D
 
 L_0231:
@@ -148,7 +149,7 @@ L_0231:
 
 L_023D:
     WorkCmpConst 0x8023, 2
-    VMJumpIf 1, L_0250
+    VMJumpIf CMP_EQ, L_0250
     VMJump L_025C
 
 L_0250:
@@ -157,7 +158,7 @@ L_0250:
 
 L_025C:
     WorkCmpConst 0x8023, 7
-    VMJumpIf 1, L_026F
+    VMJumpIf CMP_EQ, L_026F
     VMJump L_027B
 
 L_026F:
@@ -166,7 +167,7 @@ L_026F:
 
 L_027B:
     WorkCmpConst 0x8023, 3
-    VMJumpIf 1, L_028E
+    VMJumpIf CMP_EQ, L_028E
     VMJump L_029A
 
 L_028E:
@@ -175,7 +176,7 @@ L_028E:
 
 L_029A:
     WorkCmpConst 0x8023, 8
-    VMJumpIf 1, L_02AD
+    VMJumpIf CMP_EQ, L_02AD
     VMJump L_02B9
 
 L_02AD:
@@ -191,9 +192,10 @@ L_02BB:
     RTCallGlobal 10345
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02F0
-    ActorMsg 1024, 31, 0x8024, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02F0
+    // "The selection was canceled."
+    ActorMsg MSGFILE_SCRIPT, 31, 0x8024, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMReturn
@@ -203,9 +205,10 @@ L_02F0:
     RTCallGlobal 10346
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_031F
-    ActorMsg 1024, 31, 0x8008, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_031F
+    // "The selection was canceled."
+    ActorMsg MSGFILE_SCRIPT, 31, 0x8008, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMReturn
@@ -214,12 +217,12 @@ L_031F:
     Plugin1_Cmd1003 310, 0, 0, 32803
     VMStackPush 0x8023
     VMStackPushConst 2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 7
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_0391
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_0391
     VMCall L_03F4
     WorkSetConst 0x8024, 0
     WorkSetConst 0x8008, 2
@@ -228,9 +231,10 @@ L_031F:
     ActorCmdWait
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0391
-    ActorMsg 1024, 31, 0x8024, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0391
+    // "The selection was canceled."
+    ActorMsg MSGFILE_SCRIPT, 31, 0x8024, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMReturn
@@ -240,6 +244,7 @@ L_0391:
     WorkSetConst 0x4178, 1
     Plugin1_Cmd1003 322, 0, 0, 0
     Plugin1_Cmd1003 316, 0, 0, 0
+    // "Saving...\nDon't turn off the power."
     SystemMsg 2, 2
     SaveDataWrite 0x8010
     MsgWinCloseAll
@@ -268,13 +273,14 @@ L_03F4:
     VMReturn
 
 L_0438:
+    // "Communicating. Please stand by..."
     SystemMsg 118, 2
     Plugin1_Cmd1003 319, 0, 0, 0
     Plugin1_Cmd1003 402, 100, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0475
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0475
     MsgWinCloseAll
     VMCall L_16F4
     VMCall L_0A7C
@@ -286,8 +292,8 @@ L_0475:
     Plugin1_Cmd1003 415, 0, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_04B2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04B2
     MsgWinCloseAll
     VMCall L_16F4
     VMCall L_0A7C
@@ -299,8 +305,8 @@ L_04B2:
     Plugin1_Cmd1003 415, 0, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_04E9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04E9
     VMCall L_16F4
     VMCall L_0A7C
     VMReturn
@@ -308,8 +314,8 @@ L_04B2:
 L_04E9:
     VMStackPush 0x4000
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0508
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0508
     VMCall L_0510
     VMJump L_050E
 
@@ -320,7 +326,8 @@ L_050E:
     VMReturn
 
 L_0510:
-    ParentActorMsg 1024, 20, 0, 0
+    // "“Return to Nimbasa City\" was chosen, so\nyour challenge[f000]븀\u0000\nwill end for now."
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     VMSleep 30
     MsgWinCloseAll
     VMCall L_1718
@@ -334,8 +341,8 @@ L_052E:
     Plugin1_Cmd1003 402, 105, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_056F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_056F
     VMCall L_16F4
     VMCall L_0A7C
     VMReturn
@@ -344,12 +351,13 @@ L_056F:
     RTCallGlobal 10345
     WorkGet 0x8025, 0x8010
     VMSleep 30
+    // "Awaiting your friend's response..."
     SystemMsg 19, 2
     Plugin1_Cmd1003 402, 106, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_05B0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05B0
     InfoMsgClose
     VMCall L_16F4
     VMCall L_0A7C
@@ -360,8 +368,8 @@ L_05B0:
     Plugin1_Cmd1003 415, 0, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_05E7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05E7
     InfoMsgClose
     VMCall L_16F4
     VMCall L_0A7C
@@ -372,8 +380,8 @@ L_05E7:
     Plugin1_Cmd1003 415, 0, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_061E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_061E
     MsgWinCloseAll
     VMCall L_16F4
     VMCall L_0A7C
@@ -382,18 +390,18 @@ L_05E7:
 L_061E:
     VMStackPush 0x8026
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8025
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_06A5
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_06A5
     InfoMsgClose
     Plugin1_Cmd1003 402, 107, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_066E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_066E
     VMCall L_16F4
     VMCall L_0A7C
     VMReturn
@@ -401,13 +409,15 @@ L_061E:
 L_066E:
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0693
-    ActorMsg 1024, 30, 0x8011, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0693
+    // "The challenge was interrupted."
+    ActorMsg MSGFILE_SCRIPT, 30, 0x8011, 2, 0
     VMJump L_069F
 
 L_0693:
-    ActorMsg 1024, 31, 0x8011, 2, 0
+    // "The selection was canceled."
+    ActorMsg MSGFILE_SCRIPT, 31, 0x8011, 2, 0
 
 L_069F:
     LastKeyWait
@@ -418,8 +428,8 @@ L_06A5:
     Plugin1_Cmd1003 402, 108, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_06D2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06D2
     InfoMsgClose
     VMCall L_16F4
     VMCall L_0A7C
@@ -430,12 +440,13 @@ L_06D2:
     WorkGet 0x8008, 0x8011
     RTCallGlobal 10346
     WorkGet 0x8025, 0x8010
+    // "Awaiting your friend's response..."
     SystemMsg 19, 2
     Plugin1_Cmd1003 402, 109, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0717
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0717
     InfoMsgClose
     VMCall L_16F4
     VMCall L_0A7C
@@ -446,8 +457,8 @@ L_0717:
     Plugin1_Cmd1003 415, 0, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_074E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_074E
     MsgWinCloseAll
     VMCall L_16F4
     VMCall L_0A7C
@@ -458,8 +469,8 @@ L_074E:
     Plugin1_Cmd1003 415, 0, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0785
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0785
     MsgWinCloseAll
     VMCall L_16F4
     VMCall L_0A7C
@@ -468,18 +479,18 @@ L_074E:
 L_0785:
     VMStackPush 0x8026
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8025
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_080C
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_080C
     InfoMsgClose
     Plugin1_Cmd1003 402, 110, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_07D5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07D5
     VMCall L_16F4
     VMCall L_0A7C
     VMReturn
@@ -487,13 +498,15 @@ L_0785:
 L_07D5:
     VMStackPush 0x8025
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_07FA
-    ActorMsg 1024, 30, 0x8011, 2, 0
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_07FA
+    // "The challenge was interrupted."
+    ActorMsg MSGFILE_SCRIPT, 30, 0x8011, 2, 0
     VMJump L_0806
 
 L_07FA:
-    ActorMsg 1024, 31, 0x8011, 2, 0
+    // "The selection was canceled."
+    ActorMsg MSGFILE_SCRIPT, 31, 0x8011, 2, 0
 
 L_0806:
     LastKeyWait
@@ -505,8 +518,8 @@ L_080C:
     Plugin1_Cmd1003 402, 111, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0843
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0843
     InfoMsgClose
     VMCall L_16F4
     VMCall L_0A7C
@@ -517,8 +530,8 @@ L_0843:
     Plugin1_Cmd1003 415, 0, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_087A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_087A
     MsgWinCloseAll
     VMCall L_16F4
     VMCall L_0A7C
@@ -529,8 +542,8 @@ L_087A:
     Plugin1_Cmd1003 415, 0, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_08B1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08B1
     MsgWinCloseAll
     VMCall L_16F4
     VMCall L_0A7C
@@ -539,26 +552,28 @@ L_087A:
 L_08B1:
     VMStackPush 0x8026
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_091F
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_091F
     InfoMsgClose
     WorkGet 0x8008, 0x8011
     WorkGet 0x8009, 0x8026
     RTCallGlobal 10348
+    // "Awaiting your friend's response..."
     SystemMsgAsync 19, 2
     Plugin1_Cmd1003 402, 112, 0, 32802
     VMSleep 15
     MsgWinCloseAll
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_090D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_090D
     VMCall L_16F4
     VMCall L_0A7C
     VMReturn
 
 L_090D:
-    ActorMsg 1024, 30, 0x8011, 2, 0
+    // "The challenge was interrupted."
+    ActorMsg MSGFILE_SCRIPT, 30, 0x8011, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMReturn
@@ -567,14 +582,15 @@ L_091F:
     Plugin1_Cmd1003 402, 113, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_094C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_094C
     InfoMsgClose
     VMCall L_16F4
     VMCall L_0A7C
     VMReturn
 
 L_094C:
+    // "Saving...\nDon't turn off the power."
     SystemMsg 2, 2
     WorkSetConst 0x4176, 4
     WorkSetConst 0x4178, 1
@@ -584,8 +600,8 @@ L_094C:
     Plugin1_Cmd1003 402, 102, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_09A9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_09A9
     MsgWinCloseAll
     VMCall L_16F4
     VMCall L_0A7C
@@ -595,8 +611,8 @@ L_09A9:
     Plugin1_Cmd1003 407, 0, 0, 32801
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_09E0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_09E0
     Plugin1_Cmd1003 316, 0, 0, 0
     Plugin1_Cmd1003 405, 1, 0, 32801
     VMJump L_09EA
@@ -608,8 +624,8 @@ L_09EA:
     Plugin1_Cmd1003 415, 0, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0A17
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A17
     MsgWinCloseAll
     VMCall L_16F4
     VMCall L_0A7C
@@ -621,8 +637,8 @@ L_0A17:
     Plugin1_Cmd1003 402, 103, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0A48
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A48
     VMCall L_16F4
     VMCall L_0A7C
     VMReturn
@@ -649,23 +665,25 @@ L_0A7C:
 
 L_0A9E:
     WorkSetConst 0x8027, 0
-    ParentActorMsg 1024, 13, 0, 0
+    // "Do you want to return to Nimbasa City?"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_0AC9
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0AC9
     MsgWinCloseAll
     VMReturn
 
 L_0AC9:
-    ParentActorMsg 1024, 14, 0, 0
+    // "Well then, we'll return to Nimbasa City.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     MsgWinCloseAll
     Plugin1_Cmd1003 331, 0, 0, 32807
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0AF8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0AF8
     VMCall L_0B20
 
 L_0AF8:
@@ -679,13 +697,14 @@ L_0AF8:
     VMReturn
 
 L_0B20:
+    // "Awaiting your friend's response..."
     SystemMsg 19, 2
     Plugin1_Cmd1003 319, 0, 0, 0
     Plugin1_Cmd1003 402, 100, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0B5B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B5B
     MsgWinCloseAll
     VMCall L_16F4
     VMJump L_0B7D
@@ -709,21 +728,21 @@ Script_4:
     TrainerCardGetSex 0x8028
     VMStackPush 0x8028
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0BFC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0BFC
     WorkSetConst 0x8020, 23
     VMStackPush 0x8029
     VMStackPushConst 49
-    VMStackCmp 4
-    VMJumpIf 255, L_0BDD
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0BDD
     WorkSetConst 0x8020, 27
     VMJump L_0BF6
 
 L_0BDD:
     VMStackPush 0x8029
     VMStackPushConst 21
-    VMStackCmp 4
-    VMJumpIf 255, L_0BF6
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0BF6
     WorkSetConst 0x8020, 25
 
 L_0BF6:
@@ -733,22 +752,22 @@ L_0BFC:
     WorkSetConst 0x8020, 24
     VMStackPush 0x8029
     VMStackPushConst 49
-    VMStackCmp 4
-    VMJumpIf 255, L_0C21
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0C21
     WorkSetConst 0x8020, 28
     VMJump L_0C3A
 
 L_0C21:
     VMStackPush 0x8029
     VMStackPushConst 21
-    VMStackCmp 4
-    VMJumpIf 255, L_0C3A
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0C3A
     WorkSetConst 0x8020, 26
 
 L_0C3A:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0x8020, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
     ActorMsgClose
     WorkSetConst 0x8029, 0
@@ -762,8 +781,8 @@ Script_5:
     Plugin1_Cmd1003 21, 0, 0, 32803
     VMStackPush 0x8023
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_0C95
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0C95
     SEPlay 1351
     ActorSetEyeToEye
     Plugin1_Cmd1003 37, 0x8011, 0, 0
@@ -773,8 +792,8 @@ L_0C95:
     Plugin1_Cmd1003 39, 0x8011, 0, 32784
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0CBE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0CBE
     VMCall L_0CE2
     VMJump L_0CDC
 
@@ -782,7 +801,7 @@ L_0CBE:
     Plugin1_Cmd1003 26, 0x8011, 0, 32800
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0x8020, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -840,14 +859,14 @@ Script_6:
     Plugin1_Cmd1003 312, 0, 0, 32815
     WorkSetConst 0x4179, 2
     WorkCmpConst 0x8023, 0
-    VMJumpIf 1, L_0DEF
+    VMJumpIf CMP_EQ, L_0DEF
     VMJump L_0E0E
 
 L_0DEF:
     VMStackPush 0x802f
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0E08
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0E08
     WorkSetConst 0x4179, 3
 
 L_0E08:
@@ -855,14 +874,14 @@ L_0E08:
 
 L_0E0E:
     WorkCmpConst 0x8023, 1
-    VMJumpIf 1, L_0E21
+    VMJumpIf CMP_EQ, L_0E21
     VMJump L_0E40
 
 L_0E21:
     VMStackPush 0x802f
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0E3A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0E3A
     WorkSetConst 0x4179, 3
 
 L_0E3A:
@@ -870,14 +889,14 @@ L_0E3A:
 
 L_0E40:
     WorkCmpConst 0x8023, 2
-    VMJumpIf 1, L_0E53
+    VMJumpIf CMP_EQ, L_0E53
     VMJump L_0E72
 
 L_0E53:
     VMStackPush 0x802f
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0E6C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0E6C
     WorkSetConst 0x4179, 3
 
 L_0E6C:
@@ -885,15 +904,15 @@ L_0E6C:
 
 L_0E72:
     WorkCmpConst 0x8023, 3
-    VMJumpIf 1, L_0E85
+    VMJumpIf CMP_EQ, L_0E85
     VMJump L_0EAE
 
 L_0E85:
     Plugin1_Cmd1003 358, 0, 0, 32784
     VMStackPush 0x8010
     VMStackPushConst 21
-    VMStackCmp 4
-    VMJumpIf 255, L_0EA8
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0EA8
     WorkSetConst 0x4179, 3
 
 L_0EA8:
@@ -901,7 +920,7 @@ L_0EA8:
 
 L_0EAE:
     WorkCmpConst 0x8023, 4
-    VMJumpIf 1, L_0EC1
+    VMJumpIf CMP_EQ, L_0EC1
     VMJump L_0ECD
 
 L_0EC1:
@@ -913,18 +932,20 @@ L_0ECD:
     Plugin1_Cmd1003 5, 0, 0, 0
     VMStackPush 0x802f
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1113
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1113
     Plugin1_Cmd1003 326, 0, 0, 32784
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0FFE
-    ActorMsg 1024, 4, 0x802e, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0FFE
+    // "Congratulations![f000]븁\u0000\nYou had a seven-win streak and\nbrilliantly beat the Subway Boss![f000]븁\u0000\nTo commemorate this,\nI present you with these Battle Points.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0x802e, 2, 0
     MsgWinCloseAll
     Plugin1_Cmd1003 313, 0, 0, 32816
     WordSetPlayerName 0
     WordSetNumber 1, 0x8030, 2
+    // "[f000]Ā\u0001\u0000 received [f000]ȁ\u0001\u0001 BP!"
     SystemMsg 0, 2
     MEPlay 1318
     MEWait
@@ -933,9 +954,10 @@ L_0ECD:
     Plugin1_Cmd1003 14, 0x8023, 0, 32784
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0FF8
-    ActorMsg 1024, 8, 0x802e, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0FF8
+    // "Also, to commemorate this, I give you\nthis trophy.[f000]븁\u0000\nPlease display it in your home!"
+    ActorMsg MSGFILE_SCRIPT, 8, 0x802e, 2, 0
     MEPlay 1316
     MEWait
     MsgWaitAdvance
@@ -943,7 +965,7 @@ L_0ECD:
     Plugin1_Cmd1003 15, 0x8023, 0, 0
     Cmd_01DD 8, 0, 0
     WorkCmpConst 0x8023, 5
-    VMJumpIf 1, L_0F97
+    VMJumpIf CMP_EQ, L_0F97
     VMJump L_0FA1
 
 L_0F97:
@@ -952,7 +974,7 @@ L_0F97:
 
 L_0FA1:
     WorkCmpConst 0x8023, 6
-    VMJumpIf 1, L_0FB4
+    VMJumpIf CMP_EQ, L_0FB4
     VMJump L_0FBE
 
 L_0FB4:
@@ -961,7 +983,7 @@ L_0FB4:
 
 L_0FBE:
     WorkCmpConst 0x8023, 7
-    VMJumpIf 1, L_0FD1
+    VMJumpIf CMP_EQ, L_0FD1
     VMJump L_0FDB
 
 L_0FD1:
@@ -970,7 +992,7 @@ L_0FD1:
 
 L_0FDB:
     WorkCmpConst 0x8023, 8
-    VMJumpIf 1, L_0FEE
+    VMJumpIf CMP_EQ, L_0FEE
     VMJump L_0FF8
 
 L_0FEE:
@@ -981,11 +1003,13 @@ L_0FF8:
     VMJump L_110D
 
 L_0FFE:
-    ActorMsg 1024, 4, 0x802e, 2, 0
+    // "Congratulations![f000]븁\u0000\nYou had a seven-win streak and\nbrilliantly beat the Subway Boss![f000]븁\u0000\nTo commemorate this,\nI present you with these Battle Points.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0x802e, 2, 0
     MsgWinCloseAll
     Plugin1_Cmd1003 313, 0, 0, 32816
     WordSetPlayerName 0
     WordSetNumber 1, 0x8030, 2
+    // "[f000]Ā\u0001\u0000 received [f000]ȁ\u0001\u0001 BP!"
     SystemMsg 0, 2
     MEPlay 1318
     MEWait
@@ -994,47 +1018,51 @@ L_0FFE:
     Plugin1_Cmd1003 358, 0, 0, 32784
     VMStackPush 0x8010
     VMStackPushConst 21
-    VMStackCmp 4
-    VMJumpIf 255, L_110D
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_110D
     Plugin1_Cmd1003 14, 0x8023, 0, 32784
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_110D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_110D
     WordSetPlayerName 0
     WorkCmpConst 0x8023, 0
-    VMJumpIf 1, L_1080
+    VMJumpIf CMP_EQ, L_1080
     VMJump L_1092
 
 L_1080:
-    ActorMsg 1024, 5, 0x802e, 2, 0
+    // "And, [f000]Ā\u0001\u0000, now you have earned\nthe right to challenge[f000]븀\u0000\nthe Super Single Train![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0x802e, 2, 0
     VMJump L_1101
 
 L_1092:
     WorkCmpConst 0x8023, 1
-    VMJumpIf 1, L_10A5
+    VMJumpIf CMP_EQ, L_10A5
     VMJump L_10B7
 
 L_10A5:
-    ActorMsg 1024, 6, 0x802e, 2, 0
+    // "And, [f000]Ā\u0001\u0000, now you have earned\nthe right to challenge[f000]븀\u0000\nthe Super Double Train![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 0x802e, 2, 0
     VMJump L_1101
 
 L_10B7:
     WorkCmpConst 0x8023, 2
-    VMJumpIf 1, L_10CA
+    VMJumpIf CMP_EQ, L_10CA
     VMJump L_10DC
 
 L_10CA:
-    ActorMsg 1024, 7, 0x802e, 2, 0
+    // "And, [f000]Ā\u0001\u0000, now you have earned\nthe right to challenge[f000]븀\u0000\nthe Super Multi Train![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0x802e, 2, 0
     VMJump L_1101
 
 L_10DC:
     WorkCmpConst 0x8023, 3
-    VMJumpIf 1, L_10EF
+    VMJumpIf CMP_EQ, L_10EF
     VMJump L_1101
 
 L_10EF:
-    ActorMsg 1024, 7, 0x802e, 2, 0
+    // "And, [f000]Ā\u0001\u0000, now you have earned\nthe right to challenge[f000]븀\u0000\nthe Super Multi Train![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0x802e, 2, 0
     VMJump L_1101
 
 L_1101:
@@ -1045,11 +1073,13 @@ L_110D:
     VMJump L_11AA
 
 L_1113:
-    ActorMsg 1024, 3, 0x802e, 2, 0
+    // "Congratulations! You've successfully\nreached a seven-win streak![f000]븁\u0000\nSince you've won seven in a row,\nI present you with these Battle Points![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0x802e, 2, 0
     MsgWinCloseAll
     Plugin1_Cmd1003 313, 0, 0, 32816
     WordSetPlayerName 0
     WordSetNumber 1, 0x8030, 2
+    // "[f000]Ā\u0001\u0000 received [f000]ȁ\u0001\u0001 BP!"
     SystemMsg 0, 2
     MEPlay 1318
     MEWait
@@ -1057,50 +1087,53 @@ L_1113:
     InfoMsgClose
     VMStackPush 0x8023
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_11AA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_11AA
     Plugin1_Cmd1003 358, 0, 0, 32784
     VMStackPush 0x8010
     VMStackPushConst 21
-    VMStackCmp 4
-    VMJumpIf 255, L_11AA
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_11AA
     Plugin1_Cmd1003 14, 0x8023, 0, 32784
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_11AA
-    ActorMsg 1024, 7, 0x802e, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_11AA
+    // "And, [f000]Ā\u0001\u0000, now you have earned\nthe right to challenge[f000]븀\u0000\nthe Super Multi Train![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0x802e, 2, 0
     MsgWinCloseAll
     Plugin1_Cmd1003 15, 0x8023, 0, 0
 
 L_11AA:
     VMStackPush 0x8023
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_1252
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1252
     Plugin1_Cmd1003 109, 0, 0, 32801
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1252
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1252
     Plugin1_Cmd1003 28, 0, 0, 32801
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1217
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1217
     Plugin1_Cmd1003 27, 0, 0, 32801
     WordSetPlayerName 0
     WordSetNumber 1, 0x8021, 2
-    ActorMsg 1024, 21, 0x802e, 2, 0
+    // "[f000]Ā\u0001\u0000, you have been promoted\nto Rank [f000]ȁ\u0001\u0001![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 21, 0x802e, 2, 0
 
 L_1217:
-    ActorMsg 1024, 22, 0x802e, 2, 0
+    // "Would you like to send these results\nusing Nintendo WFC?"
+    ActorMsg MSGFILE_SCRIPT, 22, 0x802e, 2, 0
     YesNoWin 0x8010
     MsgWinCloseAll
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_1248
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1248
     WorkSetConst 0x8031, 1
     VMJump L_1252
 
@@ -1110,82 +1143,90 @@ L_1248:
 L_1252:
     VMStackPush 0x4179
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_126F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_126F
     Plugin1_Cmd1003 349, 0, 0, 0
 
 L_126F:
     VMStackPush 0x4165
     VMStackPushConst 10
-    VMStackCmp 0
-    VMJumpIf 255, L_1288
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_1288
     WorkAdd 0x4165, 1
 
 L_1288:
     Plugin1_Cmd1003 321, 0, 0, 0
     VMStackPush 0x8031
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_12B5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_12B5
+    // "Saving...\nDon't turn off the power."
     SystemMsg 2, 2
     SaveDataWrite 0x8010
     MsgWinCloseAll
     RTCallGlobal 10344
 
 L_12B5:
+    // "Saving your record data...\nDon't turn off the power."
     SystemMsg 1, 2
     SaveDataWrite 0x8010
     InfoMsgClose
     VMStackPush 0x4179
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_12E6
-    ActorMsg 1024, 9, 0x802e, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_12E6
+    // "Please enjoy your time here.[f000]븁\u0000\nIf you would like to continue your\nchallenge or go back to Nimbasa City,[f000]븀\u0000\nplease talk to me."
+    ActorMsg MSGFILE_SCRIPT, 9, 0x802e, 2, 0
     VMJump L_139F
 
 L_12E6:
     WorkCmpConst 0x8023, 0
-    VMJumpIf 1, L_12F9
+    VMJumpIf CMP_EQ, L_12F9
     VMJump L_130B
 
 L_12F9:
-    ActorMsg 1024, 10, 0x802e, 2, 0
+    // "This is the end of the Single Train line.[f000]븁\u0000\nWhen you want to return to Nimbasa City,\nplease talk to me again.[f000]븁\u0000\nPlease enjoy your time here."
+    ActorMsg MSGFILE_SCRIPT, 10, 0x802e, 2, 0
     VMJump L_139F
 
 L_130B:
     WorkCmpConst 0x8023, 1
-    VMJumpIf 1, L_131E
+    VMJumpIf CMP_EQ, L_131E
     VMJump L_1330
 
 L_131E:
-    ActorMsg 1024, 11, 0x802e, 2, 0
+    // "This is the end of the Double Train line.[f000]븁\u0000\nWhen you want to return to Nimbasa City,\nplease talk to me again.[f000]븁\u0000\nPlease enjoy your time here."
+    ActorMsg MSGFILE_SCRIPT, 11, 0x802e, 2, 0
     VMJump L_139F
 
 L_1330:
     WorkCmpConst 0x8023, 2
-    VMJumpIf 1, L_1343
+    VMJumpIf CMP_EQ, L_1343
     VMJump L_1355
 
 L_1343:
-    ActorMsg 1024, 12, 0x802e, 2, 0
+    // "This is the end of the Multi Train line.[f000]븁\u0000\nWhen you want to return to Nimbasa City,\nplease talk to me again.[f000]븁\u0000\nPlease enjoy your time here."
+    ActorMsg MSGFILE_SCRIPT, 12, 0x802e, 2, 0
     VMJump L_139F
 
 L_1355:
     WorkCmpConst 0x8023, 3
-    VMJumpIf 1, L_1368
+    VMJumpIf CMP_EQ, L_1368
     VMJump L_137A
 
 L_1368:
-    ActorMsg 1024, 12, 0x802e, 2, 0
+    // "This is the end of the Multi Train line.[f000]븁\u0000\nWhen you want to return to Nimbasa City,\nplease talk to me again.[f000]븁\u0000\nPlease enjoy your time here."
+    ActorMsg MSGFILE_SCRIPT, 12, 0x802e, 2, 0
     VMJump L_139F
 
 L_137A:
     WorkCmpConst 0x8023, 4
-    VMJumpIf 1, L_138D
+    VMJumpIf CMP_EQ, L_138D
     VMJump L_139F
 
 L_138D:
-    ActorMsg 1024, 29, 0x802e, 2, 0
+    // "This is the end of the Wi-Fi Train line.[f000]븁\u0000\nWhen you want to return to Nimbasa City,\nplease talk to me again.[f000]븁\u0000\nPlease enjoy your time here."
+    ActorMsg MSGFILE_SCRIPT, 29, 0x802e, 2, 0
     VMJump L_139F
 
 L_139F:
@@ -1205,12 +1246,12 @@ L_13CB:
     Plugin1_Cmd1003 310, 0, 0, 32803
     VMStackPush 0x8023
     VMStackPushConst 2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 7
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_140A
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_140A
     WorkSetConst 0x8032, 1
     VMJump L_1410
 
@@ -1222,8 +1263,8 @@ L_1410:
     Plugin1_Cmd1003 23, 255, 0, 0
     VMStackPush 0x8032
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_147D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_147D
     Plugin1_Cmd1003 31, 0, 0, 16416
     FlagReset 604
     ActorAdd 2
@@ -1244,8 +1285,8 @@ L_147D:
     ActorCmdExec 255, Movement_1548
     VMStackPush 0x8032
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_14BE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_14BE
     ActorCmdExec 2, Movement_155C
 
 L_14BE:
@@ -1253,15 +1294,15 @@ L_14BE:
     Plugin1_Cmd1003 24, 255, 0, 0
     VMStackPush 0x8032
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_14E7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_14E7
     Plugin1_Cmd1003 24, 2, 0, 0
 
 L_14E7:
     VMStackPush 0x4179
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_153E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_153E
     VMSleep 30
     Plugin1_Cmd1003 19, 0, 0, 0
     SEPlay 1970
@@ -1305,12 +1346,12 @@ L_157C:
     Plugin1_Cmd1003 310, 0, 0, 32803
     VMStackPush 0x8023
     VMStackPushConst 2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 7
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_15D1
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_15D1
     WorkSetConst 0x8033, 1
     VMJump L_15D7
 
@@ -1322,8 +1363,8 @@ L_15D7:
     Plugin1_Cmd1003 23, 255, 0, 0
     VMStackPush 0x8033
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1620
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1620
     ActorSetGPos 2, 19, 0, 14, 2
     Plugin1_Cmd1003 23, 2, 0, 0
     Plugin1_Cmd1003 36, 2, 0, 0
@@ -1332,8 +1373,8 @@ L_1620:
     FadeEx 3, 16, 0, 2
     VMStackPush 0x4179
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_1661
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1661
     Plugin1_Cmd1003 19, 2, 1, 0
     Plugin1_Cmd1003 20, 0, 0, 0
     SEPlay 1972
@@ -1346,8 +1387,8 @@ L_1661:
     ActorCmdExec 255, Movement_16B0
     VMStackPush 0x8033
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1686
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1686
     ActorCmdExec 2, Movement_16C4
 
 L_1686:
@@ -1396,8 +1437,8 @@ L_1718:
     Plugin1_Cmd1003 402, 104, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_173F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_173F
     Plugin1_Cmd1003 413, 0, 0, 0
 
 L_173F:
@@ -1406,8 +1447,8 @@ L_173F:
     Plugin1_Cmd1003 402, 104, 0, 32802
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_176E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_176E
     Plugin1_Cmd1003 414, 0, 0, 0
 
 L_176E:
@@ -1418,7 +1459,7 @@ L_1776:
     Plugin1_Cmd1003 202, 99, 0, 0
     Plugin1_Cmd1003 21, 0, 0, 32803
     WorkCmpConst 0x8023, 0
-    VMJumpIf 1, L_179D
+    VMJumpIf CMP_EQ, L_179D
     VMJump L_17AF
 
 L_179D:
@@ -1427,7 +1468,7 @@ L_179D:
 
 L_17AF:
     WorkCmpConst 0x8023, 5
-    VMJumpIf 1, L_17C2
+    VMJumpIf CMP_EQ, L_17C2
     VMJump L_17D4
 
 L_17C2:
@@ -1436,7 +1477,7 @@ L_17C2:
 
 L_17D4:
     WorkCmpConst 0x8023, 1
-    VMJumpIf 1, L_17E7
+    VMJumpIf CMP_EQ, L_17E7
     VMJump L_17F9
 
 L_17E7:
@@ -1445,7 +1486,7 @@ L_17E7:
 
 L_17F9:
     WorkCmpConst 0x8023, 6
-    VMJumpIf 1, L_180C
+    VMJumpIf CMP_EQ, L_180C
     VMJump L_181E
 
 L_180C:
@@ -1454,7 +1495,7 @@ L_180C:
 
 L_181E:
     WorkCmpConst 0x8023, 2
-    VMJumpIf 1, L_1831
+    VMJumpIf CMP_EQ, L_1831
     VMJump L_1843
 
 L_1831:
@@ -1463,7 +1504,7 @@ L_1831:
 
 L_1843:
     WorkCmpConst 0x8023, 3
-    VMJumpIf 1, L_1856
+    VMJumpIf CMP_EQ, L_1856
     VMJump L_1868
 
 L_1856:
@@ -1472,7 +1513,7 @@ L_1856:
 
 L_1868:
     WorkCmpConst 0x8023, 7
-    VMJumpIf 1, L_187B
+    VMJumpIf CMP_EQ, L_187B
     VMJump L_188D
 
 L_187B:
@@ -1481,7 +1522,7 @@ L_187B:
 
 L_188D:
     WorkCmpConst 0x8023, 8
-    VMJumpIf 1, L_18A0
+    VMJumpIf CMP_EQ, L_18A0
     VMJump L_18B2
 
 L_18A0:
@@ -1490,7 +1531,7 @@ L_18A0:
 
 L_18B2:
     WorkCmpConst 0x8023, 4
-    VMJumpIf 1, L_18C5
+    VMJumpIf CMP_EQ, L_18C5
     VMJump L_18D7
 
 L_18C5:
@@ -1507,6 +1548,7 @@ L_18E3:
 Script_7:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a subway map of the Unova region.[f000]븁\u0000"
     InfoMsg 117, 2
     MsgWinCloseAll
     FadeOutBlackQ

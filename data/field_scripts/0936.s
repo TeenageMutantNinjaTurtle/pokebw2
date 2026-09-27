@@ -9,8 +9,8 @@
 Script_1:
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0031
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0031
     FlagSet 820
     FlagReset 821
     FlagReset 822
@@ -22,7 +22,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Somehow, customers don't come\nto this place.[f000]븁\u0000\nOh! I have an idea!\nYou're a Trainer, aren't you?[f000]븁\u0000\nDo your best and become\nthe Champion![f000]븁\u0000\nThen, I can advertise this place\nas a room that the Champion visited!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -33,11 +34,12 @@ Script_3:
     ActorsPauseAll
     VMStackPush 0x40ee
     VMStackPushConst 7
-    VMStackCmp 1
-    VMJumpIf 255, L_007E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_007E
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "You're a wonderful person.\nYou can do things for others.[f000]븁\u0000\nIf such a person rings the bell,\nthe sound should reach here..."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0092
@@ -45,7 +47,8 @@ Script_3:
 L_007E:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "To choose this place for our honeymoon.\nThat's the man I chose!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -60,15 +63,17 @@ Script_4:
     ActorSetEyeToEye
     VMStackPush 0x40ee
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0112
-    ParentActorMsg 1024, 3, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0112
+    // "If the sound of the bell at the\nCelestial Tower on Route 7 reaches[f000]븀\u0000\nthis room, we can be happy![f000]븁\u0000\nI heard such a rumor.\nCan I ask you a favor?[f000]븀\u0000\nWill you ring the bell for my wife?"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00FE
-    ParentActorMsg 1024, 4, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00FE
+    // "You're so nice![f000]븁\u0000\nIt would be great if this world\nwas full of people like you!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40ee, 1
@@ -79,7 +84,8 @@ Script_4:
     VMJump L_010C
 
 L_00FE:
-    ParentActorMsg 1024, 5, 0, 0
+    // "Oh, come on. Please ring the bell\nto make us happy!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -89,13 +95,14 @@ L_010C:
 L_0112:
     VMStackPush 0x40ee
     VMStackPushConst 1
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x40ee
     VMStackPushConst 5
-    VMStackCmp 3
-    VMStackCmp 7
-    VMJumpIf 255, L_0149
-    ParentActorMsg 1024, 6, 0, 0
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0149
+    // "I wonder if the sound of the bell on\nRoute 7 will reach here."
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_01C5
@@ -103,9 +110,10 @@ L_0112:
 L_0149:
     VMStackPush 0x40ee
     VMStackPushConst 6
-    VMStackCmp 1
-    VMJumpIf 255, L_01A4
-    ParentActorMsg 1024, 7, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01A4
+    // "Oh, you! As for the sound of the bell,\nI don't think I've heard it yet...[f000]븁\u0000\n...[f000]븁\u0000\nWhat? Did they say such things\nat the Celestial Tower...?[f000]븀\u0000\nWell, putting that aside...[f000]븁\u0000\nHere! This is a thank-you gift!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     VMStackPush 0x8000
@@ -115,7 +123,8 @@ L_0149:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 8, 0, 0
+    // "I wish for their happiness..."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40ee, 7
@@ -124,9 +133,10 @@ L_0149:
 L_01A4:
     VMStackPush 0x40ee
     VMStackPushConst 7
-    VMStackCmp 1
-    VMJumpIf 255, L_01C5
-    ParentActorMsg 1024, 8, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01C5
+    // "I wish for their happiness..."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
 

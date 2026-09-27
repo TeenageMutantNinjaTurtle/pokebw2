@@ -15,8 +15,8 @@
 Script_1:
     VMStackPush 0x4186
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_004D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_004D
     WorkSetConst 0x4020, 17
     VMJump L_0053
 
@@ -30,6 +30,7 @@ Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Route 2"
     MsgPlaceSign 8, 3
     MsgPlaceSignClose
     FinishAllEvents
@@ -42,13 +43,14 @@ Script_3:
     MedalIsObtained 0x8021, 18
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_00B5
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00B5
     SEPlay 1351
+    // "There's some graffiti\non the other side of the signboard...[f000]븁\u0000\nNothing ventured, nothing gained.\nMedals await the adventurous!"
     InfoMsg 11, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -58,6 +60,7 @@ Script_3:
 L_00B5:
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Route 2"
     MsgPlaceSign 9, 3
     MsgPlaceSignClose
 
@@ -70,6 +73,7 @@ Script_4:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Trainer Tips![f000]븁\u0000\n\nPokémon that participate in battle\nreceive Exp. Points.[f000]븁\u0000\nHave your Pokémon battle often,\nand make them stronger and stronger!"
     MsgPlaceSign 10, 0
     MsgPlaceSignClose
     FlagSet 2665
@@ -87,8 +91,8 @@ Script_5:
     WorkSetConst 0x8027, 0
     VMStackPush 0x4186
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0245
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0245
     SEPlay 1351
     ActorSetEyeToEye
     PokePartyGetCount 0x8022, 0
@@ -96,22 +100,22 @@ Script_5:
 L_0130:
     VMStackPush 0x8022
     VMStackPush 0x8023
-    VMStackCmp 2
-    VMJumpIf 255, L_01A1
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_01A1
     PokePartyGetParam 0x8024, 0x8023, 10
     PokePartyIsEgg 0x8026, 0x8023
     VMStackPush 0x8024
     VMStackPushConst 116
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8026
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8025
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0195
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0195
     PokePartyGetSpecies 0x4186, 0x8023
     WordSetPokeSpecies 0, 0x4186
     WorkSetConst 0x8025, 1
@@ -121,19 +125,22 @@ L_0195:
     VMJump L_0130
 
 L_01A1:
-    ParentActorMsg 1024, 0, 0, 0
+    // "What could be the perfect\ninstrument for me?[f000]븁\u0000\nFor example...[f000]븁\u0000\nI want a strong impact--\nan impact as strong as a Pokémon[f000]븀\u0000\nwith a tough Ability like Solid Rock[f000]븀\u0000\nthat reduces the power[f000]븀\u0000\nof supereffective moves![f000]븁\u0000\nIf you have a Pokémon like that,\nplease show it to me!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_023B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_023B
     MsgWaitAdvance
-    ParentActorMsg 1024, 1, 0, 0
-    ItemCheckSpace 109, 1, 0x8027
+    // "Th-that [f000]ā\u0001\u0000...\nThat Ability is Solid Rock![f000]븁\u0000\n[f000]ā\u0001\u0000\nis as hard as a rock![f000]븁\u0000\nAnd has a rocking heart![f000]븁\u0000\nIn other words, it has an impact\nthat rocks those who see it![f000]븁\u0000\nSolid Rock... Like a hard rock...\nHard rock?![f000]븀\u0000\nCould that be the sound[f000]븀\u0000\nI've been looking for?[f000]븁\u0000\nAt any rate, thanks!\nTake this, OK?[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
+    ItemCheckSpace ITEM_DAWN_STONE, 1, 0x8027
     VMStackPush 0x8027
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01FF
-    ParentActorMsg 1024, 2, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01FF
+    // "Oh, you can't fit any\nmore in your Bag."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x4186, 0
@@ -148,7 +155,8 @@ L_01FF:
     RTCallGlobal 2801
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 3, 0, 0
+    // "What is this feeling\ncoursing through my veins?"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x4000, 1
@@ -166,11 +174,12 @@ L_023F:
 L_0245:
     VMStackPush 0x4000
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0272
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0272
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "What is this feeling\ncoursing through my veins?"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0289
@@ -178,7 +187,8 @@ L_0245:
 L_0272:
     SEPlay 1351
     WordSetPokeSpecies 0, 0x4186
-    ParentActorMsg 1024, 4, 0, 0
+    // "Jugga jya jaaaan![f000]븁\u0000\nDeedley deeedly deeedly deeedly,\nmeedley meedley meedley meedley,[f000]븀\u0000\nMEEEEEEE![f000]븁\u0000\nYeeeeah! Your [f000]ā\u0001\u0000's\nhard-rockin' Ability opened my eyes![f000]븁\u0000\nJuggah juggah jah!\nDuddah daaaaaah, bwan![f000]븁\u0000\nThat's it! I should join Roxie's band!\nI could rock out with her! Dual guitars![f000]븀\u0000\nAwesome!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -191,7 +201,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "Know what?[f000]븁\u0000\nYou know the guy at the ledge\non Route 19? He's my rival!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -202,7 +213,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "My Pokémon aren't feeling well,\nso I'm not walking in the tall grass.[f000]븁\u0000\nOh, wait... You have eight Badges!\nEep! I'm so embarrassed![f000]븁\u0000\nYou already know this stuff!\nI shouldn't try to show off!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -213,7 +225,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "Battles between Pokémon Trainers\nare serious affairs you can't run from![f000]븁\u0000\nI mean, more than anything, you can't\nrun away from other Trainers[f000]븀\u0000\nin front of your beloved Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

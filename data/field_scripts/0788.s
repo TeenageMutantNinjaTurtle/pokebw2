@@ -39,18 +39,20 @@ Script_2:
     Cmd_02B4 0, 0x400f
     VMStackPush 0x400f
     VMStackPushConst 1
-    VMStackCmp 4
-    VMJumpIf 255, L_00B4
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_00B4
     WordSetPlayerName 0
     Cmd_02B5 0, 1
-    ParentActorMsg 1024, 2, 0, 0
+    // "Cheren's Mom: Oh my...\nYou resemble [f000]Ā\u0001\u0001 somehow...[f000]븁\u0000\nYour name's [f000]Ā\u0001\u0000, you say?\nWow! You have a Pokédex, too![f000]븁\u0000\nEveryone grows up like this\nnow, don't they?"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_00C5
 
 L_00B4:
     WordSetPlayerName 0
-    ParentActorMsg 1024, 3, 0, 0
+    // "Cheren's Mom: Oh... So your name's\n[f000]Ā\u0001\u0000, then.[f000]븁\u0000\nWow! You have a Pokédex, too![f000]븁\u0000\nEveryone grows up like this now,\ndon't they?"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     MsgWinCloseAll
 

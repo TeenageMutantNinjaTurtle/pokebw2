@@ -15,7 +15,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 0, 0, 0, 0
+    // "There are medicinal herbs that make\nPokémon healthy.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     VMStackPush 0x8000
     VMStackPush 0x8001
     WorkSet 0x8000, 15
@@ -37,7 +38,8 @@ Script_2:
     WorkSetConst 0x8023, 0
     WorkSetConst 0x8024, 0
     MoneyWinDisp 31, 1
-    ActorMsg 1024, 2, 1, 4, 0
+    // "Welcome! This is straight from the farm![f000]븁\u0000\nMoomoo Milk--one bottle for $500.\nWould you like some for your trip?"
+    ActorMsg MSGFILE_SCRIPT, 2, 1, 4, 0
     ListMenu_AnchorTopRight 31, 5, 0, 1, 32801
     ListMenuAdd 8, 65535, 0
     ListMenuAdd 9, 65535, 1
@@ -45,8 +47,8 @@ Script_2:
     ListMenuShow
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00E0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E0
     WorkSetConst 0x8020, 1
     WorkSetConst 0x8022, 500
     VMJump L_0105
@@ -54,8 +56,8 @@ Script_2:
 L_00E0:
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0105
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0105
     WorkSetConst 0x8020, 12
     WorkSetConst 0x8022, 6000
     VMJump L_0105
@@ -63,20 +65,21 @@ L_00E0:
 L_0105:
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_0201
-    ItemCheckSpace 33, 0x8020, 0x8024
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_0201
+    ItemCheckSpace ITEM_MOOMOO_MILK, 0x8020, 0x8024
     MoneyCheck 0x8023, 0x8022
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0161
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0161
     MoneyWinClose
-    ActorMsg 1024, 4, 1, 4, 0
+    // "Oh, my!\nYour Bag is full!"
+    ActorMsg MSGFILE_SCRIPT, 4, 1, 4, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_01FB
@@ -84,10 +87,11 @@ L_0105:
 L_0161:
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_018C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_018C
     MoneyWinClose
-    ActorMsg 1024, 5, 1, 4, 0
+    // "Oh, my!\nYou don't have enough money!"
+    ActorMsg MSGFILE_SCRIPT, 5, 1, 4, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_01FB
@@ -101,14 +105,16 @@ L_018C:
     RecordAdd 22, 0x8022
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01CB
-    ActorMsg 1024, 3, 1, 4, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01CB
+    // "Here it is! Your Moomoo Milk![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 1, 4, 0
     MsgWinCloseAll
     VMJump L_01D9
 
 L_01CB:
-    ActorMsg 1024, 7, 1, 4, 0
+    // "A dozen! That's 12 bottles.\nHere it is, your Moomoo Milk![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 1, 4, 0
     MsgWinCloseAll
 
 L_01D9:
@@ -126,7 +132,8 @@ L_01FB:
 
 L_0201:
     MoneyWinClose
-    ActorMsg 1024, 6, 1, 4, 0
+    // "Please buy it next time![f000]븁\u0000\nJust so you know, our Moomoo Milk\nis straight from the farm.[f000]븁\u0000\nIt's super fresh!"
+    ActorMsg MSGFILE_SCRIPT, 6, 1, 4, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -139,7 +146,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 24, 3, 0, 0
+    // "I used to be part of Team Plasma.\nI have various kinds of incense.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 24, 3, 0, 0
     VMStackPush 0x8000
     VMStackPush 0x8001
     WorkSet 0x8000, 16
@@ -155,7 +163,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "The medicinal herbs imported from\nanother region work very well![f000]븁\u0000\nBut Pokémon don't seem to like them,\nbecause they taste a little bitter."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -166,7 +175,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "Oh, I'm sorry. I'm all sold out.[f000]븁\u0000\nThat Charles guy bought\neverything I had."
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -177,6 +187,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
+    // "There must be a convenient town where\neverything is imported and everything[f000]븀\u0000\nis available."
+    // "Somewhere, there's a laid-back town\nwhere people value the year's seasons.[f000]븁\u0000\nI heard we've imported a lot of goods\nfrom that town!"
     ActorMsgVersioned 1024, 18, 19, 7, 0, 0
     LastKeyWait
     ActorMsgClose
@@ -188,6 +200,8 @@ Script_9:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
+    // "Looking at seasonal vegetables is fun.[f000]븁\u0000\nBecause when the seasons change,\nthe vegetables available change!"
+    // "Whenever we come to the market,\nvegetables of all seasons are available.[f000]븁\u0000\nIsn't that a marvel?"
     ActorMsgVersioned 1024, 20, 21, 9, 0, 0
     LastKeyWait
     ActorMsgClose
@@ -199,6 +213,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
+    // "Goods carried away from Driftveil arrive\nin a town somewhere else...[f000]븁\u0000\nYeah. The world is connected."
+    // "Goods carried away from a town\nsomewhere else arrive in Driftveil...[f000]븁\u0000\nYeah. The world is connected."
     ActorMsgVersioned 1024, 22, 23, 8, 0, 0
     LastKeyWait
     ActorMsgClose
@@ -212,15 +228,17 @@ Script_5:
     ActorSetEyeToEye
     VMStackPushFlag 324
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_040E
-    ParentActorMsg 1024, 12, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_040E
+    // "You! Glad you came!\nYou want something good?"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03FA
-    ParentActorMsg 1024, 13, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03FA
+    // "Then, show me a Pokémon Lv. 30 or more![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     WorkSetConst 0x8025, 0
     WorkSetConst 0x8026, 0
     WorkSetConst 0x8027, 0
@@ -230,13 +248,13 @@ Script_5:
 L_034F:
     VMStackPush 0x8025
     VMStackPush 0x8026
-    VMStackCmp 2
-    VMJumpIf 255, L_038F
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_038F
     PokePartyGetParam 0x8027, 0x8026, 158
     VMStackPush 0x8027
     VMStackPushConst 30
-    VMStackCmp 4
-    VMJumpIf 255, L_0383
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0383
     WorkAdd 0x8028, 1
 
 L_0383:
@@ -246,9 +264,10 @@ L_0383:
 L_038F:
     VMStackPush 0x8028
     VMStackPushConst 1
-    VMStackCmp 4
-    VMJumpIf 255, L_03E6
-    ParentActorMsg 1024, 14, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_03E6
+    // "Oh! Strong![f000]븁\u0000\nYou, great!\nTake this![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -257,14 +276,16 @@ L_038F:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 17, 0, 0
+    // "You! Glad you came!\nGet good at Expert Belts![f000]븁\u0000\nIf a Pokémon has an Expert Belt, the\npower of its moves is slightly boosted[f000]븀\u0000\nwhen they are super effective!"
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 324
     VMJump L_03F4
 
 L_03E6:
-    ParentActorMsg 1024, 15, 0, 0
+    // "Oh! You--not so good yet![f000]븁\u0000\nAfter training Pokémon,\ncome back here again!"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -272,7 +293,8 @@ L_03F4:
     VMJump L_0408
 
 L_03FA:
-    ParentActorMsg 1024, 16, 0, 0
+    // "You, modest!\nYou should just want something good!"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -280,7 +302,8 @@ L_0408:
     VMJump L_041C
 
 L_040E:
-    ParentActorMsg 1024, 17, 0, 0
+    // "You! Glad you came!\nGet good at Expert Belts![f000]븁\u0000\nIf a Pokémon has an Expert Belt, the\npower of its moves is slightly boosted[f000]븀\u0000\nwhen they are super effective!"
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     LastKeyWait
     MsgWinCloseAll
 

@@ -20,14 +20,14 @@ Script_14:
     WorkSetConst 0x8020, 0
     RTCGetSeason 0x8020
     WorkCmpConst 0x418c, 1
-    VMJumpIf 1, L_0057
+    VMJumpIf CMP_EQ, L_0057
     VMJump L_0076
 
 L_0057:
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_0070
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0070
     WorkSetConst 0x418c, 0
 
 L_0070:
@@ -35,14 +35,14 @@ L_0070:
 
 L_0076:
     WorkCmpConst 0x418c, 2
-    VMJumpIf 1, L_0089
+    VMJumpIf CMP_EQ, L_0089
     VMJump L_00A8
 
 L_0089:
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 5
-    VMJumpIf 255, L_00A2
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_00A2
     WorkSetConst 0x418c, 0
 
 L_00A2:
@@ -50,14 +50,14 @@ L_00A2:
 
 L_00A8:
     WorkCmpConst 0x418c, 3
-    VMJumpIf 1, L_00BB
+    VMJumpIf CMP_EQ, L_00BB
     VMJump L_00DA
 
 L_00BB:
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 5
-    VMJumpIf 255, L_00D4
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_00D4
     WorkSetConst 0x418c, 0
 
 L_00D4:
@@ -65,14 +65,14 @@ L_00D4:
 
 L_00DA:
     WorkCmpConst 0x418c, 4
-    VMJumpIf 1, L_00ED
+    VMJumpIf CMP_EQ, L_00ED
     VMJump L_010C
 
 L_00ED:
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 5
-    VMJumpIf 255, L_0106
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0106
     WorkSetConst 0x418c, 0
 
 L_0106:
@@ -87,6 +87,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Icirrus City\nSky Glittering with Flowers of Snow"
     MsgPlaceSign 23, 1
     MsgPlaceSignClose
     FinishAllEvents
@@ -97,6 +98,7 @@ Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Fans of Everything Pokémon\nThe Pokémon Fan Club"
     MsgPlaceSign 24, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -107,6 +109,7 @@ Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Former Icirrus City\nPokémon Gym"
     MsgPlaceSign 25, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -117,6 +120,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
+    // "The legendary Pokémon Reshiram\nshared its wisdom with the hero[f000]븀\u0000\nand defied foes with columns of fire.[f000]븁\u0000\nThe hero and that Pokémon were as\nclose as a parent and child.[f000]븁\u0000\nIt was indeed awe inspiring\nto see them!"
+    // "The legendary Pokémon Zekrom\nshared its wisdom with the hero[f000]븀\u0000\nand defied foes with fierce lightning.[f000]븁\u0000\nThe hero and that Pokémon were as\nclose as a parent and child.[f000]븁\u0000\nIt was indeed awe inspiring\nto see them!"
     ActorMsgVersioned 1024, 0, 1, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
@@ -128,7 +133,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Always, the tower looms,\ndisdainful of the wind and snow.[f000]븁\u0000\nPerhaps its presence is telling us\nnot to forget dreams and ideals..."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -139,6 +145,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
+    // "The legendary Pokémon gave help\nto the hero who sought truth.[f000]븀\u0000\nBecause of that, a region was created.[f000]븁\u0000\nThen, when its physical form was lost,\nthe Pokémon became the Light Stone,[f000]븀\u0000\nwaiting patiently for a new hero.[f000]븁\u0000\nThe story I heard when I was little\nturned out to be true."
+    // "The legendary Pokémon gave help\nto the hero who sought ideals.[f000]븀\u0000\nBecause of that, a region was created.[f000]븁\u0000\nThen, when its physical form was lost,\nthe Pokémon became the Dark Stone,[f000]븀\u0000\nwaiting patiently for a new hero.[f000]븁\u0000\nThe story I heard when I was little\nturned out to be true."
     ActorMsgVersioned 1024, 3, 4, 2, 0, 0
     LastKeyWait
     MsgWinCloseAll
@@ -150,7 +158,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "Brycen has been surrounded by\nIce-type Pokémon and has trained in the[f000]븀\u0000\nmartial arts ever since he was a child.[f000]븁\u0000\nHe's become an action star\nusing that experience!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -161,7 +170,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "Truth! Ideals!\nTwo dragons!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -172,7 +182,8 @@ Script_9:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "When one is divided, ♪\nthe world will broaden. ♪"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -183,7 +194,8 @@ Script_10:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "Fused by splicers.\nDivided by splicers."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -194,7 +206,8 @@ Script_11:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "Truth and ideals.\nMove forward hand in hand. ♪"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -207,11 +220,12 @@ Script_12:
     RTCGetSeason 0x8021
     VMStackPush 0x8021
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0287
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0287
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "When the wetlands freeze, it's slippery.\nI wonder how wetland Pokémon manage?"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_029B
@@ -219,7 +233,8 @@ Script_12:
 L_0287:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "If you walk in the wetlands, you might\nsurprise wild Pokémon into popping out!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -240,7 +255,7 @@ Script_13:
     WorkSetConst 0x8023, 0
     PlayerGetGPos 0x8022, 0x8023
     WorkCmpConst 0x8023, 195
-    VMJumpIf 1, L_02E0
+    VMJumpIf CMP_EQ, L_02E0
     VMJump L_030A
 
 L_02E0:
@@ -251,7 +266,7 @@ L_02E0:
 
 L_030A:
     WorkCmpConst 0x8023, 196
-    VMJumpIf 1, L_031D
+    VMJumpIf CMP_EQ, L_031D
     VMJump L_0347
 
 L_031D:
@@ -270,23 +285,26 @@ L_0347:
     BGMPlay 1239
     VMStackPushFlag 406
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0398
-    ActorMsg 1024, 12, 10, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0398
+    // "You...\nCongratulations.[f000]븁\u0000\nGhetsis won't do anything anymore...[f000]븁\u0000\nNo, to be more precise,\nhe can't do anything anymore...[f000]븁\u0000\nThat's why we won't forgive you.\nBattle us!"
+    ActorMsg MSGFILE_SCRIPT, 12, 10, 0, 0
     FlagSet 406
     VMJump L_03A4
 
 L_0398:
-    ActorMsg 1024, 13, 10, 0, 0
+    // "Battle us!"
+    ActorMsg MSGFILE_SCRIPT, 13, 10, 0, 0
 
 L_03A4:
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_06C4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06C4
     VMCall L_070A
-    ActorMsg 1024, 14, 10, 0, 0
+    // "I'll win! That is the only way\nto regain his lost heart![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 10, 0, 0
     MsgWinCloseAll
     ActorCmdExec 10, Movement_07C0
     ActorCmdWait
@@ -294,8 +312,8 @@ L_03A4:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0400
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0400
     CallTrainerBattleEnd
     VMJump L_0408
 
@@ -310,7 +328,7 @@ L_0408:
     ActorCmdExec 11, Movement_0844
     ActorCmdWait
     WorkCmpConst 0x8023, 195
-    VMJumpIf 1, L_0433
+    VMJumpIf CMP_EQ, L_0433
     VMJump L_0445
 
 L_0433:
@@ -319,7 +337,7 @@ L_0433:
 
 L_0445:
     WorkCmpConst 0x8023, 196
-    VMJumpIf 1, L_0458
+    VMJumpIf CMP_EQ, L_0458
     VMJump L_046A
 
 L_0458:
@@ -334,15 +352,17 @@ L_046A:
     PokePartyGetCount 0x8024, 2
     VMStackPush 0x8024
     VMStackPushConst 3
-    VMStackCmp 4
-    VMJumpIf 255, L_068E
-    ActorMsg 1024, 16, 11, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_068E
+    // "What do you want?\nDo you want to keep battling?"
+    ActorMsg MSGFILE_SCRIPT, 16, 11, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0658
-    ActorMsg 1024, 17, 11, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0658
+    // "Battle for Ghetsis![f000]븁\u0000\nThat is the only proof\nthat I'm living now.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 17, 11, 0, 0
     MsgWinCloseAll
     ActorCmdExec 11, Movement_07C0
     ActorCmdWait
@@ -350,8 +370,8 @@ L_046A:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_04F9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04F9
     CallTrainerBattleEnd
     VMJump L_0501
 
@@ -367,7 +387,7 @@ L_0501:
     ActorCmdExec 12, Movement_0844
     ActorCmdWait
     WorkCmpConst 0x8023, 195
-    VMJumpIf 1, L_0530
+    VMJumpIf CMP_EQ, L_0530
     VMJump L_0542
 
 L_0530:
@@ -376,7 +396,7 @@ L_0530:
 
 L_0542:
     WorkCmpConst 0x8023, 196
-    VMJumpIf 1, L_0555
+    VMJumpIf CMP_EQ, L_0555
     VMJump L_0567
 
 L_0555:
@@ -389,15 +409,17 @@ L_0567:
     PokePartyGetCount 0x8024, 2
     VMStackPush 0x8024
     VMStackPushConst 3
-    VMStackCmp 4
-    VMJumpIf 255, L_0632
-    ActorMsg 1024, 20, 12, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0632
+    // "What do you want?\nDo you want to keep battling?"
+    ActorMsg MSGFILE_SCRIPT, 20, 12, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_060C
-    ActorMsg 1024, 21, 12, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_060C
+    // "We, the Shadow Triad,\nwere, are, and will be the[f000]븀\u0000\nroyal servants of Ghetsis![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 21, 12, 0, 0
     MsgWinCloseAll
     ActorCmdExec 12, Movement_07C0
     ActorCmdWait
@@ -405,8 +427,8 @@ L_0567:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_05EC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05EC
     CallTrainerBattleEnd
     VMJump L_05F4
 
@@ -422,7 +444,8 @@ L_05F4:
     VMJump L_062C
 
 L_060C:
-    ActorMsg 1024, 22, 12, 0, 0
+    // "I see...[f000]븁\u0000\nWhen the season changes,\nI'll battle you.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 22, 12, 0, 0
     MsgWinCloseAll
     ActorCmdExec 12, Movement_0844
     ActorCmdWait
@@ -433,7 +456,8 @@ L_062C:
     VMJump L_0652
 
 L_0632:
-    ActorMsg 1024, 19, 12, 0, 0
+    // "The next is me...[f000]븁\u0000\nBut you don't have enough Pokémon\nfor a Rotation Battle.[f000]븁\u0000\nI'll battle you when the season changes.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 19, 12, 0, 0
     MsgWinCloseAll
     ActorCmdExec 12, Movement_0844
     ActorCmdWait
@@ -444,7 +468,8 @@ L_0652:
     VMJump L_0688
 
 L_0658:
-    ActorMsg 1024, 18, 11, 0, 0
+    // "I see...[f000]븁\u0000\nWhen the season changes,\nI'll battle you.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 18, 11, 0, 0
     MsgWinCloseAll
     ActorCmdExec 11, Movement_0844
     ActorCmdExec 12, Movement_0844
@@ -458,7 +483,8 @@ L_0688:
     VMJump L_06BE
 
 L_068E:
-    ActorMsg 1024, 15, 11, 0, 0
+    // "The next is me...[f000]븁\u0000\nBut you don't have enough Pokémon\nfor a Triple Battle.[f000]븁\u0000\nI'll battle you when the season changes.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 11, 0, 0
     MsgWinCloseAll
     ActorCmdExec 11, Movement_0844
     ActorCmdExec 12, Movement_0844
@@ -496,7 +522,7 @@ L_070A:
     WorkSetConst 0x8025, 0
     RTCGetSeason 0x8025
     WorkCmpConst 0x8025, 0
-    VMJumpIf 1, L_0727
+    VMJumpIf CMP_EQ, L_0727
     VMJump L_0733
 
 L_0727:
@@ -505,7 +531,7 @@ L_0727:
 
 L_0733:
     WorkCmpConst 0x8025, 1
-    VMJumpIf 1, L_0746
+    VMJumpIf CMP_EQ, L_0746
     VMJump L_0752
 
 L_0746:
@@ -514,7 +540,7 @@ L_0746:
 
 L_0752:
     WorkCmpConst 0x8025, 2
-    VMJumpIf 1, L_0765
+    VMJumpIf CMP_EQ, L_0765
     VMJump L_0771
 
 L_0765:
@@ -523,7 +549,7 @@ L_0765:
 
 L_0771:
     WorkCmpConst 0x8025, 3
-    VMJumpIf 1, L_0784
+    VMJumpIf CMP_EQ, L_0784
     VMJump L_0790
 
 L_0784:

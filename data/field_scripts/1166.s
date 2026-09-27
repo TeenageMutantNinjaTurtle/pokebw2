@@ -13,25 +13,30 @@ Script_4:
     ActorsPauseAll
     VMStackPushFlag 474
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_009D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_009D
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "The legendary Fire-type\nPokémon Reshiram![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     ActorMsgClose
     CallPokemonPreview 643, 0, 0, 0
     PokeDexRegist 0, 643
+    // "Reshiram has been registered\nin the Pokédex."
     SystemMsg 8, 0
     MsgWaitAdvance
     InfoMsgClose
-    ParentActorMsg 1024, 9, 0, 0
+    // "And this is the legendary Electric-type\nPokémon Zekrom.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     ActorMsgClose
     CallPokemonPreview 644, 0, 0, 0
     PokeDexRegist 0, 644
+    // "Zekrom has been registered\nin the Pokédex."
     SystemMsg 10, 0
     MsgWaitAdvance
     InfoMsgClose
-    ParentActorMsg 1024, 11, 0, 0
+    // "I yearned for them since I was a child.\nWhen I saw them two years ago,[f000]븀\u0000\nI was so moved that I cried!"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     ActorMsgClose
     FlagSet 474
@@ -40,7 +45,8 @@ Script_4:
 L_009D:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "I yearned for them since I was a child.\nWhen I saw them two years ago,[f000]븀\u0000\nI was so moved that I cried!"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -53,11 +59,12 @@ Script_1:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00E6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E6
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "I make bread every day.[f000]븁\u0000\nThat's what I like, so I'm satisfied,\nbut I wonder if everybody is fine[f000]븀\u0000\nwith only bread and water every day."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_00FA
@@ -65,7 +72,8 @@ Script_1:
 L_00E6:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "Eat a lot![f000]븁\u0000\nYou can't love anyone\non an empty stomach!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -78,7 +86,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "Colress told me that if I can bring out\nthe power of Pokémon by taking good care[f000]븀\u0000\nof them, I can stay here!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -89,7 +98,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "As long as I did what Team Plasma\nordered, I was able to eat bread...[f000]븁\u0000\nI didn't think for myself, and\nthat's why I became like this.[f000]븁\u0000\nAh!\nBut the bread here is yummy!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -100,7 +110,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 13, 0, 0
+    // "It's you the announcement\nwas warning about?[f000]븁\u0000\nFine.\nI'm very strong.[f000]븁\u0000\nI'll look the other way\nfor a child like you..."
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -111,7 +122,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 14, 0, 0
+    // "I failed in my duty,\nand my Pokémon were taken away.[f000]븁\u0000\nI lost a lot of Pokémon\nI had stolen, too..."
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -122,6 +134,7 @@ Script_7:
     ActorsPauseAll
     SEPlay 2222
     SEWait
+    // "Warning! Warning!\nIntruders in the vessel![f000]븀\u0000\nEveryone, please respond."
     InfoMsg 12, 2
     LastKeyWait
     InfoMsgClose_0039

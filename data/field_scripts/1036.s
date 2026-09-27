@@ -28,8 +28,8 @@ Script_1:
     WorkOr 0x8024, 512
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0099
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0099
     WorkOr 0x8024, 64
     VMJump L_009F
 
@@ -40,12 +40,12 @@ L_009F:
     FunfestMissionBroadcast 29, 0x8021
     VMStackPush 0x8021
     VMStackPushConst 590
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8021
     VMStackPushConst 591
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_00DE
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_00DE
     ActorCmdExec 0x8011, Movement_0228
     ActorCmdWait
     WorkOr 0x8024, 1024
@@ -59,8 +59,8 @@ L_00E0:
     WildBattleIsVictory 0x8025
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_010D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_010D
     ActorDelete 224
     CallWildBattleEnd
     VMJump L_010F
@@ -132,8 +132,8 @@ L_01DD:
     HiddenHollowGetParam 6, 0x8028
     VMStackPush 0x8028
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0206
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0206
     ObjInitPointGPos 0, 15, 0, 12
 
 L_0206:
@@ -171,13 +171,15 @@ Script_6:
     ActorCmdWait
     ActorCmdExec 251, Movement_02D8
     ActorCmdWait
-    ActorMsg 1024, 0, 251, 0, 0
+    // "Hey, a Pokémon![f000]븁\u0000\nA Pokémon that hides in a place\nlike this might be pretty amazing![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 251, 0, 0
     MsgWinCloseAll
     ActorCmdExec 251, Movement_02F0
     VMSleep 8
     ActorCmdExec 255, Movement_02E8
     ActorCmdWait
-    ActorMsg 1024, 1, 251, 0, 0
+    // "Amazing! This is a huge discovery!\nAn incredible find![f000]븁\u0000\nI'll go check a lot of other trees\nto see if there are more Hidden Grottoes![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 251, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 251, 15, 23, 1, 8, 1
     VMSleep 25

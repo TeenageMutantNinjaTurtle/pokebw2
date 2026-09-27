@@ -27,17 +27,17 @@
 Script_10:
     VMStackPushFlag 293
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_00AA
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00AA
     FlagReset 770
     VMStackPushFlag 2752
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00AA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00AA
     WorkSetConst 0x40c8, 1
 
 L_00AA:
@@ -55,6 +55,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Studio Castelia"
     MsgPlaceSign 22, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -65,6 +66,7 @@ Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Castelia's Famous Casteliacone"
     MsgPlaceSign 23, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -77,26 +79,28 @@ Script_3:
     ActorSetEyeToEye
     VMStackPushFlag 2752
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_034C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_034C
     VMStackPushFlag 293
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0161
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0161
     VMStackPushFlag 292
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_014F
-    ActorMsg 1024, 9, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_014F
+    // "Wah ha ha ha![f000]븁\u0000\nThere's a rumor the new Champion\nloves our Casteliacones.[f000]븁\u0000\nAnd suddenly an avalanche of customers\nare screaming for our ice cream![f000]븁\u0000\nI'm screaming for joy! Eeeek!\nIt's the super-popular Casteliacone![f000]븀\u0000\nHow many do you want?"
+    ActorMsg MSGFILE_SCRIPT, 9, 0, 0, 0
     FlagSet 292
     VMJump L_015B
 
 L_014F:
-    ActorMsg 1024, 2, 0, 0, 0
+    // "The Champion loves them, too!\nA Casteliacone is a perfect[f000]븀\u0000\nsouvenir of Castelia City![f000]븁\u0000\nIt's $100.\nWould you like to buy one?"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
 
 L_015B:
     VMJump L_0196
@@ -104,14 +108,16 @@ L_015B:
 L_0161:
     VMStackPushFlag 291
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_018A
-    ActorMsg 1024, 0, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_018A
+    // "Castelia City's Casteliacone\nis the perfect souvenir![f000]븁\u0000\nA while ago, our store\nwas really popular.[f000]븁\u0000\nRecently, however, we don't\nget as many customers as we used to.[f000]븁\u0000\nBut, whining won't accomplish anything.\nI just have to work hard to sell them![f000]븁\u0000\nWell then, how about a Casteliacone?[f000]븁\u0000\nIt's $100.\nWould you like to buy one?"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     FlagSet 291
     VMJump L_0196
 
 L_018A:
-    ActorMsg 1024, 1, 0, 0, 0
+    // "A Casteliacone is a perfect\nsouvenir of Castelia City![f000]븁\u0000\nIt's $100.\nWould you like to buy one?"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
 
 L_0196:
     MoneyWinDisp 31, 1
@@ -122,8 +128,8 @@ L_0196:
     ListMenuShow
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01E4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01E4
     WorkSetConst 0x8023, 1
     WorkSetConst 0x8025, 100
     VMJump L_0209
@@ -131,8 +137,8 @@ L_0196:
 L_01E4:
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0209
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0209
     WorkSetConst 0x8023, 12
     WorkSetConst 0x8025, 1200
     VMJump L_0209
@@ -140,30 +146,32 @@ L_01E4:
 L_0209:
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_02FB
-    ItemCheckSpace 591, 0x8023, 0x8027
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_02FB
+    ItemCheckSpace ITEM_CASTELIACONE, 0x8023, 0x8027
     MoneyCheck 0x8026, 0x8025
     VMStackPush 0x8026
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0263
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0263
     MoneyWinClose
-    ActorMsg 1024, 3, 0, 2, 0
+    // "Thank you very much![f000]븁\u0000\n...Huh? Oh, dear!\nIt looks like you don't have enough[f000]븀\u0000\nmoney. Please come again sometime.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 2, 0
     MsgWinCloseAll
     VMJump L_02F5
 
 L_0263:
     VMStackPush 0x8027
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_028C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_028C
     MoneyWinClose
-    ActorMsg 1024, 4, 0, 2, 0
+    // "Thank you very much![f000]븁\u0000\n...Huh? Oh, dear!\nIt looks like your Bag is full.[f000]븁\u0000\nPlease come again sometime.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 2, 0
     MsgWinCloseAll
     VMJump L_02F5
 
@@ -174,7 +182,8 @@ L_028C:
     SEWait
     RecordAdd 21, 1
     RecordAdd 22, 0x8025
-    ActorMsg 1024, 7, 0, 2, 0
+    // "Thank you for your business!\nPlease come again![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0, 2, 0
     MsgWinCloseAll
     MoneyWinClose
     VMStackPush 0x8000
@@ -187,8 +196,8 @@ L_028C:
     FlagSet 2752
     VMStackPushFlag 293
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02F5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02F5
     FlagSet 293
     VMCall Script_4
 
@@ -199,19 +208,21 @@ L_02FB:
     MoneyWinClose
     VMStackPushFlag 293
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0336
-    ActorMsg 1024, 5, 0, 2, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0336
+    // "Even though you waited in line...\nWell, please come again, OK?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0346
 
 L_0336:
-    ActorMsg 1024, 6, 0, 2, 0
+    // "Even though you came to the store...\nWell, please come again, OK?"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -219,15 +230,16 @@ L_0346:
     VMJump L_035C
 
 L_034C:
-    ActorMsg 1024, 8, 0, 2, 0
+    // "You bought the last of\nour supply for today...[f000]븁\u0000\nPlease come again, OK?"
+    ActorMsg MSGFILE_SCRIPT, 8, 0, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
 L_035C:
     VMStackPush 0x40c8
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_03CC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03CC
     ActorCmdExec 255, Movement_0B9C
     ActorCmdWait
     ActorCmdExec 2, Movement_0B5C
@@ -239,8 +251,8 @@ L_035C:
     ActorCmdWait
     VMStackPushFlag 2752
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03C6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03C6
     WorkSetConst 0x40c8, 0
     VMJump L_03CC
 
@@ -261,7 +273,8 @@ Script_4:
     ActorCmdWait
     ActorCmdExec 255, Movement_0B7C
     ActorCmdWait
-    ActorMsg 1024, 13, 1, 2, 0
+    // "Hmm? There's a shop that sells\nice cream here? Is it good?"
+    ActorMsg MSGFILE_SCRIPT, 13, 1, 2, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorWalkRoute 1, 14, 18, 1, 8, 1
@@ -274,7 +287,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 14, 2, 0, 0
+    // "I rode the train and came clear\nfrom Anville Town to get one!"
+    ActorMsg MSGFILE_SCRIPT, 14, 2, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 2, Movement_0B84
@@ -287,7 +301,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 15, 3, 0, 0
+    // "Boy oh boy! If the Champion\nbuys them, too, these have to be cool!"
+    ActorMsg MSGFILE_SCRIPT, 15, 3, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 3, Movement_0B8C
@@ -300,7 +315,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 16, 4, 0, 0
+    // "I can't wait to eat one!"
+    ActorMsg MSGFILE_SCRIPT, 16, 4, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 4, Movement_0B8C
@@ -313,7 +329,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 17, 5, 0, 0
+    // "My daughter asked me to get\nthem for her, but look at this line!"
+    ActorMsg MSGFILE_SCRIPT, 17, 5, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 5, Movement_0B8C
@@ -328,26 +345,28 @@ Script_9:
     ActorSetEyeToEye
     VMStackPushFlag 2752
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_06F1
-    ActorMsg 1024, 18, 6, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06F1
+    // "Huh? Oh, here you can buy the dessert\nthat everyone in Castelia City[f000]븀\u0000\nis talking about![f000]븁\u0000\nAre you going to get in line?"
+    ActorMsg MSGFILE_SCRIPT, 18, 6, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_06DD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06DD
     WorkSetConst 0x40c8, 2
-    ActorMsg 1024, 19, 6, 0, 0
+    // "The line gets reeeally long!\nBut, it's worth lining up![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 19, 6, 0, 0
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 12
-    VMStackCmp 5
+    VMStackCmp CMP_NE
     VMStackPush 0x8022
     VMStackPushConst 40
-    VMStackCmp 5
-    VMStackCmp 7
-    VMJumpIf 255, L_055D
+    VMStackCmp CMP_NE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_055D
     ActorWalkRoute 255, 12, 40, 1, 8, 1
     ActorCmdWait
     ActorCmdExec 255, Movement_0B8C
@@ -413,14 +432,16 @@ L_055D:
     VMJump L_06EB
 
 L_06DD:
-    ActorMsg 1024, 20, 6, 0, 0
+    // "Yeah...\nThis line is way too long.[f000]븁\u0000\nBut, just between you and me,\nI hear the Champion loves them, too![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 20, 6, 0, 0
     MsgWinCloseAll
 
 L_06EB:
     VMJump L_06FF
 
 L_06F1:
-    ActorMsg 1024, 21, 6, 0, 0
+    // "Huh? Oh, here you can buy the dessert\nthat everyone in Castelia City[f000]븀\u0000\nis talking about![f000]븁\u0000\nBut it looks like I got the last one.\nThey're sold out for today![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 21, 6, 0, 0
     MsgWinCloseAll
 
 L_06FF:
@@ -438,16 +459,18 @@ Script_11:
     ActorCmdWait
     VMStackPushFlag 2752
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0905
-    ActorMsg 1024, 18, 6, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0905
+    // "Huh? Oh, here you can buy the dessert\nthat everyone in Castelia City[f000]븀\u0000\nis talking about![f000]븁\u0000\nAre you going to get in line?"
+    ActorMsg MSGFILE_SCRIPT, 18, 6, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_08F1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08F1
     WorkSetConst 0x40c8, 2
-    ActorMsg 1024, 19, 6, 0, 0
+    // "The line gets reeeally long!\nBut, it's worth lining up![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 19, 6, 0, 0
     MsgWinCloseAll
     ActorCmdExec 6, Movement_0B8C
     ActorCmdWait
@@ -508,14 +531,16 @@ Script_11:
     VMJump L_08FF
 
 L_08F1:
-    ActorMsg 1024, 20, 6, 0, 0
+    // "Yeah...\nThis line is way too long.[f000]븁\u0000\nBut, just between you and me,\nI hear the Champion loves them, too![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 20, 6, 0, 0
     MsgWinCloseAll
 
 L_08FF:
     VMJump L_0913
 
 L_0905:
-    ActorMsg 1024, 21, 6, 0, 0
+    // "Huh? Oh, here you can buy the dessert\nthat everyone in Castelia City[f000]븀\u0000\nis talking about![f000]븁\u0000\nBut it looks like I got the last one.\nThey're sold out for today![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 21, 6, 0, 0
     MsgWinCloseAll
 
 L_0913:
@@ -528,18 +553,20 @@ L_0913:
 Script_12:
     VMStackPushFlag 2752
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0ABF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0ABF
     VMStackPushFlag 292
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_095F
-    ActorMsg 1024, 9, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_095F
+    // "Wah ha ha ha![f000]븁\u0000\nThere's a rumor the new Champion\nloves our Casteliacones.[f000]븁\u0000\nAnd suddenly an avalanche of customers\nare screaming for our ice cream![f000]븁\u0000\nI'm screaming for joy! Eeeek!\nIt's the super-popular Casteliacone![f000]븀\u0000\nHow many do you want?"
+    ActorMsg MSGFILE_SCRIPT, 9, 0, 0, 0
     FlagSet 292
     VMJump L_096B
 
 L_095F:
-    ActorMsg 1024, 2, 0, 0, 0
+    // "The Champion loves them, too!\nA Casteliacone is a perfect[f000]븀\u0000\nsouvenir of Castelia City![f000]븁\u0000\nIt's $100.\nWould you like to buy one?"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
 
 L_096B:
     MoneyWinDisp 31, 1
@@ -550,8 +577,8 @@ L_096B:
     ListMenuShow
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_09B9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_09B9
     WorkSetConst 0x8023, 1
     WorkSetConst 0x8025, 100
     VMJump L_09DE
@@ -559,8 +586,8 @@ L_096B:
 L_09B9:
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_09DE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_09DE
     WorkSetConst 0x8023, 12
     WorkSetConst 0x8025, 1200
     VMJump L_09DE
@@ -568,30 +595,32 @@ L_09B9:
 L_09DE:
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_0AA7
-    ItemCheckSpace 591, 0x8023, 0x8027
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_0AA7
+    ItemCheckSpace ITEM_CASTELIACONE, 0x8023, 0x8027
     MoneyCheck 0x8026, 0x8025
     VMStackPush 0x8026
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0A38
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A38
     MoneyWinClose
-    ActorMsg 1024, 3, 0, 2, 0
+    // "Thank you very much![f000]븁\u0000\n...Huh? Oh, dear!\nIt looks like you don't have enough[f000]븀\u0000\nmoney. Please come again sometime.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 2, 0
     MsgWinCloseAll
     VMJump L_0AA1
 
 L_0A38:
     VMStackPush 0x8027
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0A61
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A61
     MoneyWinClose
-    ActorMsg 1024, 4, 0, 2, 0
+    // "Thank you very much![f000]븁\u0000\n...Huh? Oh, dear!\nIt looks like your Bag is full.[f000]븁\u0000\nPlease come again sometime.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 2, 0
     MsgWinCloseAll
     VMJump L_0AA1
 
@@ -600,7 +629,8 @@ L_0A61:
     MoneySub 0x8025
     MoneyWinUpdate
     SEWait
-    ActorMsg 1024, 7, 0, 2, 0
+    // "Thank you for your business!\nPlease come again![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0, 2, 0
     MsgWinCloseAll
     MoneyWinClose
     VMStackPush 0x8000
@@ -617,7 +647,8 @@ L_0AA1:
 
 L_0AA7:
     MoneyWinClose
-    ActorMsg 1024, 5, 0, 2, 0
+    // "Even though you waited in line...\nWell, please come again, OK?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -625,15 +656,16 @@ L_0AB9:
     VMJump L_0ACF
 
 L_0ABF:
-    ActorMsg 1024, 8, 0, 2, 0
+    // "You bought the last of\nour supply for today...[f000]븁\u0000\nPlease come again, OK?"
+    ActorMsg MSGFILE_SCRIPT, 8, 0, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
 L_0ACF:
     VMStackPush 0x40c8
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0B3F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B3F
     ActorCmdExec 255, Movement_0B9C
     ActorCmdWait
     ActorCmdExec 2, Movement_0B5C
@@ -645,8 +677,8 @@ L_0ACF:
     ActorCmdWait
     VMStackPushFlag 2752
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0B39
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B39
     WorkSetConst 0x40c8, 0
     VMJump L_0B3F
 

@@ -1,5 +1,12 @@
 // Macros for the field scripts, written by tools/scripts/field_script.py inc
 
+#include "constants/abilities.h"
+#include "constants/field_script.h"
+#include "constants/items.h"
+#include "constants/moves.h"
+#include "constants/species.h"
+#include "constants/types.h"
+
     .macro FieldCommand id
     .2byte \id
     .endm
@@ -1167,13 +1174,11 @@
     .2byte \a0
     .endm
 
-    // func_ov012_02155608
-    .macro Cmd_00C9
+    .macro TrainerDataCmd_00C9
     FieldCommand 201
     .endm
 
-    // func_ov012_02155638
-    .macro Cmd_00CA a0
+    .macro TrainerDataCmd_00CA a0
     FieldCommand 202
     .2byte \a0
     .endm
@@ -1324,28 +1329,24 @@
     .2byte \a0
     .endm
 
-    // func_ov012_02155d30
-    .macro Cmd_00E5 a0, a1
+    .macro TimeSigCmd_00E5 a0, a1
     FieldCommand 229
     .2byte \a0
     .2byte \a1
     .endm
 
-    // func_ov012_02155d80
-    .macro Cmd_00E6 a0, a1
+    .macro TrainerCardCmd_00E6 a0, a1
     FieldCommand 230
     .2byte \a0
     .2byte \a1
     .endm
 
-    // func_ov012_02155db4
-    .macro Cmd_00E7 a0
+    .macro TrainerCardCmd_00E7 a0
     FieldCommand 231
     .2byte \a0
     .endm
 
-    // func_ov012_02155dd4
-    .macro Cmd_00E8 a0, a1
+    .macro TrainerCardCmd_00E8 a0, a1
     FieldCommand 232
     .2byte \a0
     .2byte \a1
@@ -2046,29 +2047,25 @@
     FieldCommand 354
     .endm
 
-    // func_ov012_021580c4
-    .macro Cmd_0163 a0, a1
+    .macro MusicalCmd_0163 a0, a1
     FieldCommand 355
     .2byte \a0
     .byte \a1
     .endm
 
-    // func_ov012_021581e4
-    .macro Cmd_0164 a0
+    .macro MusicalCmd_0164 a0
     FieldCommand 356
     .2byte \a0
     .endm
 
-    // func_ov012_02158280
-    .macro Cmd_0165 a0, a1, a2
+    .macro MusicalCmd_0165 a0, a1, a2
     FieldCommand 357
     .byte \a0
     .2byte \a1
     .2byte \a2
     .endm
 
-    // func_ov012_02158550
-    .macro Cmd_0166 a0, a1, a2
+    .macro MusicalCmd_0166 a0, a1, a2
     FieldCommand 358
     .2byte \a0
     .byte \a1
@@ -2084,14 +2081,12 @@
     .2byte \a3
     .endm
 
-    // func_ov012_021585e0
-    .macro Cmd_0168 a0
+    .macro MusicalCmd_0168 a0
     FieldCommand 360
     .2byte \a0
     .endm
 
-    // func_ov012_02158858
-    .macro Cmd_0169 a0
+    .macro MusicalCmd_0169 a0
     FieldCommand 361
     .2byte \a0
     .endm
@@ -2103,19 +2098,16 @@
     .2byte \a1
     .endm
 
-    // func_ov012_02157814
-    .macro Cmd_016E
+    .macro HighLinkCmd_016E
     FieldCommand 366
     .endm
 
-    // func_ov033_021772f4
-    .macro Cmd_0170 a0
+    .macro HighLinkCmd_0170 a0
     FieldCommand 368
     .2byte \a0
     .endm
 
-    // func_ov033_021772c8
-    .macro Cmd_0172 a0
+    .macro IsFestMissionAvailable a0
     FieldCommand 370
     .2byte \a0
     .endm
@@ -2526,8 +2518,7 @@
     .2byte \a1
     .endm
 
-    // func_ov012_02158ff4
-    .macro Cmd_01DC a0, a1
+    .macro DreamWorldCmd_01DC a0, a1
     FieldCommand 476
     .2byte \a0
     .2byte \a1
@@ -2609,8 +2600,7 @@
     .2byte \a2
     .endm
 
-    // func_ov012_02164564
-    .macro Cmd_01EA a0, a1
+    .macro TrialHouseCmd_01EA a0, a1
     FieldCommand 490
     .2byte \a0
     .2byte \a1
@@ -2626,14 +2616,12 @@
     FieldCommand 492
     .endm
 
-    // func_ov012_0216462c
-    .macro Cmd_01ED a0
+    .macro TrialHouseCmd_01ED a0
     FieldCommand 493
     .2byte \a0
     .endm
 
-    // func_ov012_0216465c
-    .macro Cmd_01EE a0
+    .macro TrainerCardCmd_01EE a0
     FieldCommand 494
     .2byte \a0
     .endm
@@ -2643,8 +2631,7 @@
     .2byte \a0
     .endm
 
-    // func_ov012_021646cc
-    .macro Cmd_01F0 a0
+    .macro TrialHouseCmd_01F0 a0
     FieldCommand 496
     .2byte \a0
     .endm
@@ -2655,8 +2642,7 @@
     .2byte \a1
     .endm
 
-    // func_ov012_0216474c
-    .macro Cmd_01F2 a0
+    .macro TrialHouseCmd_01F2 a0
     FieldCommand 498
     .2byte \a0
     .endm
@@ -2666,8 +2652,7 @@
     .2byte \a0
     .endm
 
-    // func_ov012_021647c4
-    .macro Cmd_01F4 a0, a1
+    .macro TrialHouseCmd_01F4 a0, a1
     FieldCommand 500
     .2byte \a0
     .2byte \a1
@@ -2734,8 +2719,7 @@
     .2byte \a2
     .endm
 
-    // func_ov027_021704e0
-    .macro Cmd_01FD a0, a1, a2, a3
+    .macro TrainerGameInfoCmd_01FD a0, a1, a2, a3
     FieldCommand 509
     .2byte \a0
     .2byte \a1
@@ -2743,8 +2727,7 @@
     .2byte \a3
     .endm
 
-    // func_ov027_02170580
-    .macro Cmd_01FE
+    .macro TrainerGameInfoCmd_01FE
     FieldCommand 510
     .endm
 
@@ -2766,15 +2749,13 @@
     .2byte \a1
     .endm
 
-    // func_ov027_021706bc
-    .macro Cmd_0202 a0, a1
+    .macro TrainerCardCmd_0202 a0, a1
     FieldCommand 514
     .2byte \a0
     .2byte \a1
     .endm
 
-    // func_ov027_0217070c
-    .macro Cmd_0203 a0
+    .macro TrainerCardCmd_0203 a0
     FieldCommand 515
     .2byte \a0
     .endm
@@ -2794,14 +2775,12 @@
     .2byte \a0
     .endm
 
-    // func_ov036_021a7c64
-    .macro Cmd_0207 a0
+    .macro TrainerGameInfoCmd_0207 a0
     FieldCommand 519
     .byte \a0
     .endm
 
-    // func_ov036_021a7cb4
-    .macro Cmd_0208 a0
+    .macro TrainerGameInfoCmd_0208 a0
     FieldCommand 520
     .byte \a0
     .endm
@@ -2818,14 +2797,12 @@
     FieldCommand 522
     .endm
 
-    // func_ov027_021703a8
-    .macro Cmd_020B a0
+    .macro TrainerGameInfoCmd_020B a0
     FieldCommand 523
     .2byte \a0
     .endm
 
-    // func_ov027_021703dc
-    .macro Cmd_020C
+    .macro TrainerGameInfoCmd_020C
     FieldCommand 524
     .endm
 
@@ -2898,8 +2875,7 @@
     .2byte \a1
     .endm
 
-    // func_ov036_021c7698
-    .macro Cmd_0216 a0, a1
+    .macro IsOneShotDRObtained a0, a1
     FieldCommand 534
     .2byte \a0
     .2byte \a1
@@ -2910,15 +2886,13 @@
     .2byte \a0
     .endm
 
-    // func_ov012_02164c68
-    .macro Cmd_0218 a0, a1
+    .macro AreaNPCCmd_0218 a0, a1
     FieldCommand 536
     .2byte \a0
     .2byte \a1
     .endm
 
-    // func_ov012_02164bcc
-    .macro Cmd_0219 a0, a1
+    .macro AreaNPCCmd_0219 a0, a1
     FieldCommand 537
     .2byte \a0
     .2byte \a1
@@ -2940,8 +2914,7 @@
     .2byte \a1
     .endm
 
-    // func_ov012_02164b94
-    .macro Cmd_021D a0
+    .macro AreaNPCCmd_021D a0
     FieldCommand 541
     .2byte \a0
     .endm
@@ -3014,8 +2987,7 @@
     .2byte \a1
     .endm
 
-    // func_ov036_021c784c
-    .macro Cmd_022A a0, a1
+    .macro HollowRivalCmd_022A a0, a1
     FieldCommand 554
     .2byte \a0
     .2byte \a1
@@ -3028,8 +3000,7 @@
     .2byte \a1
     .endm
 
-    // func_ov036_021c2010
-    .macro Cmd_022D a0
+    .macro FieldEffect a0
     FieldCommand 557
     .2byte \a0
     .endm
@@ -3066,8 +3037,7 @@
     .2byte \a1
     .endm
 
-    // func_ov036_021c9d24
-    .macro Cmd_0233 a0
+    .macro UnityTowerGetVisitorCountry a0
     FieldCommand 563
     .2byte \a0
     .endm
@@ -3111,8 +3081,7 @@
     .2byte \a0
     .endm
 
-    // func_ov036_021a7340
-    .macro Cmd_023A a0, a1
+    .macro PokeVoicePlay a0, a1
     FieldCommand 570
     .2byte \a0
     .2byte \a1
@@ -3286,40 +3255,34 @@
     .2byte \a0
     .endm
 
-    // func_ov012_0216a6a4
-    .macro Cmd_0262 a0, a1
+    .macro HollowRivalCmd_0262 a0, a1
     FieldCommand 610
     .2byte \a0
     .2byte \a1
     .endm
 
-    // func_ov012_0216a718
-    .macro Cmd_0263 a0
+    .macro HollowRivalCmd_0263 a0
     FieldCommand 611
     .2byte \a0
     .endm
 
-    // func_ov012_0216a748
-    .macro Cmd_0264 a0, a1
+    .macro HollowRivalCmd_0264 a0, a1
     FieldCommand 612
     .2byte \a0
     .2byte \a1
     .endm
 
-    // func_ov036_021ae18c
-    .macro Cmd_0265 a0
+    .macro HollowRivalCmd_0265 a0
     FieldCommand 613
     .2byte \a0
     .endm
 
-    // func_ov012_0216a79c
-    .macro Cmd_0266 a0
+    .macro HollowRivalCmd_0266 a0
     FieldCommand 614
     .2byte \a0
     .endm
 
-    // func_ov012_0216a7cc
-    .macro Cmd_0267
+    .macro HollowRivalCmd_0267
     FieldCommand 615
     .endm
 
@@ -3628,8 +3591,7 @@
     .2byte \a0
     .endm
 
-    // func_ov012_0216a894
-    .macro Cmd_02B1 a0
+    .macro KeysCmd_02B1 a0
     FieldCommand 689
     .2byte \a0
     .endm
@@ -3662,15 +3624,13 @@
     .2byte \a1
     .endm
 
-    // func_ov012_0216aabc
-    .macro Cmd_02B6 a0, a1
+    .macro MusicalCmd_02B6 a0, a1
     FieldCommand 694
     .2byte \a0
     .2byte \a1
     .endm
 
-    // func_ov012_0216ab30
-    .macro Cmd_02B7 a0
+    .macro MusicalCmd_02B7 a0
     FieldCommand 695
     .2byte \a0
     .endm
@@ -3723,8 +3683,7 @@
     .2byte \a0
     .endm
 
-    // func_ov012_0216a7f4
-    .macro Cmd_02C3 a0
+    .macro HollowRivalCmd_02C3 a0
     FieldCommand 707
     .2byte \a0
     .endm
@@ -3771,8 +3730,7 @@
     FieldCommand 720
     .endm
 
-    // func_ov036_021c9a40
-    .macro Cmd_02D1 a0
+    .macro KeysCmd_02D1 a0
     FieldCommand 721
     .2byte \a0
     .endm
@@ -3781,8 +3739,7 @@
     FieldCommand 722
     .endm
 
-    // func_ov012_0216a6dc
-    .macro Cmd_02D3 a0, a1
+    .macro HollowRivalCmd_02D3 a0, a1
     FieldCommand 723
     .2byte \a0
     .2byte \a1
@@ -3800,28 +3757,24 @@
     .2byte \a1
     .endm
 
-    // func_ov036_021c9ab0
-    .macro Cmd_02D7 a0, a1
+    .macro UnityTowerCmd_02D7 a0, a1
     FieldCommand 727
     .2byte \a0
     .2byte \a1
     .endm
 
-    // func_ov036_021c9b38
-    .macro Cmd_02D8 a0
+    .macro UnityTowerCmd_02D8 a0
     FieldCommand 728
     .2byte \a0
     .endm
 
-    // func_ov036_021c9b88
-    .macro Cmd_02D9 a0, a1
+    .macro UnityTowerGetVisitorParam a0, a1
     FieldCommand 729
     .2byte \a0
     .2byte \a1
     .endm
 
-    // func_ov036_021c9bec
-    .macro Cmd_02DA a0
+    .macro UnityTowerCmd_02DA a0
     FieldCommand 730
     .2byte \a0
     .endm
@@ -3916,14 +3869,12 @@
     .2byte \a0
     .endm
 
-    // func_ov012_02155c30
-    .macro Cmd_02F1 a0
+    .macro SetOneShotDRObtained a0
     FieldCommand 753
     .2byte \a0
     .endm
 
-    // func_ov012_02155c64
-    .macro Cmd_02F2 a0, a1
+    .macro IsOneShotDRObtained_02F2 a0, a1
     FieldCommand 754
     .2byte \a0
     .2byte \a1

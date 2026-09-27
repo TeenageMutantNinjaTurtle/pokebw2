@@ -33,7 +33,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 14, 0, 1, 0
+    // "This Tubeline Bridge was No. 1\nin the bridge rankings in Unova.[f000]븀\u0000\nThat means it's the sturdiest!"
+    ActorMsg MSGFILE_SCRIPT, 14, 0, 1, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -51,47 +52,52 @@ Script_5:
     ActorSetEyeToEye
     VMStackPush 0x4185
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4003
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_021D
-    ActorMsg 1024, 0, 1, 0, 1
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_021D
+    // "Argh! Loud! It's way too noisy![f000]븁\u0000\nIt's all the trains! They never stop![f000]븁\u0000\nWhen the train runs below,\nit's unbearably noisy!"
+    ActorMsg MSGFILE_SCRIPT, 0, 1, 0, 1
     MsgWaitAdvance
     Random 0x4002, 4
     VMStackPush 0x4002
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00F2
-    ActorMsg 1024, 1, 1, 0, 1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00F2
+    // "To be more specific...\nThe noise level is about 70 decibels![f000]븁\u0000\nIt's as noisy as the main street\nin Castelia City[f000]븀\u0000\nwhen there are a lot of people!"
+    ActorMsg MSGFILE_SCRIPT, 1, 1, 0, 1
     MsgWaitAdvance
     VMJump L_0161
 
 L_00F2:
     VMStackPush 0x4002
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0119
-    ActorMsg 1024, 2, 1, 0, 1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0119
+    // "To be more specific...\nThe noise level is about 80 decibels![f000]븁\u0000\nIt's as noisy as loud people!"
+    ActorMsg MSGFILE_SCRIPT, 2, 1, 0, 1
     MsgWaitAdvance
     VMJump L_0161
 
 L_0119:
     VMStackPush 0x4002
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0140
-    ActorMsg 1024, 3, 1, 0, 1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0140
+    // "To be more specific...\nThe noise level is about 100 decibels![f000]븁\u0000\nIt's as noisy as the horn of\na truck right next to my ear!"
+    ActorMsg MSGFILE_SCRIPT, 3, 1, 0, 1
     MsgWaitAdvance
     VMJump L_0161
 
 L_0140:
     VMStackPush 0x4002
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0161
-    ActorMsg 1024, 4, 1, 0, 1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0161
+    // "To be more specific...\nThe noise level is about 120 decibels![f000]븁\u0000\nIt's as noisy as an engine of a plane\nin top gear!"
+    ActorMsg MSGFILE_SCRIPT, 4, 1, 0, 1
     MsgWaitAdvance
 
 L_0161:
@@ -100,22 +106,22 @@ L_0161:
 L_0167:
     VMStackPush 0x8020
     VMStackPush 0x8021
-    VMStackCmp 2
-    VMJumpIf 255, L_01D8
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_01D8
     PokePartyGetParam 0x8022, 0x8021, 10
     PokePartyIsEgg 0x8024, 0x8021
     VMStackPush 0x8022
     VMStackPushConst 43
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_01CC
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_01CC
     PokePartyGetSpecies 0x4185, 0x8021
     WordSetPokeSpecies 0, 0x4185
     WorkSetConst 0x8023, 1
@@ -127,16 +133,18 @@ L_01CC:
 L_01D8:
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0207
-    ActorMsg 1024, 6, 1, 0, 1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0207
+    // "Oh, hey! Hey![f000]븁\u0000\nThat [f000]ā\u0001\u0000's Ability is\nSoundproof, isn't it?[f000]븁\u0000\nGreat! I'll catch my own [f000]ā\u0001\u0000\nand get rid of all this noise![f000]븁\u0000\nWait! What was that? I can't hear you!\nArgh! It's not getting any quieter![f000]븁\u0000\nEven though your [f000]ā\u0001\u0000\nwith the Soundproof Ability[f000]븀\u0000\nis right here, it's still so noisy.[f000]븁\u0000\n...[f000]븁\u0000\nCould it be?\nAm I the one making the most noise?"
+    ActorMsg MSGFILE_SCRIPT, 6, 1, 0, 1
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x4003, 1
     VMJump L_0217
 
 L_0207:
-    ActorMsg 1024, 5, 1, 0, 1
+    // "Argh! So loud! If we just had a Pokémon\nwith the Soundproof Ability, we could[f000]븀\u0000\nmake all this noise go away!"
+    ActorMsg MSGFILE_SCRIPT, 5, 1, 0, 1
     LastKeyWait
     MsgWinCloseAll
 
@@ -145,7 +153,8 @@ L_0217:
 
 L_021D:
     WordSetPokeSpecies 0, 0x4185
-    ParentActorMsg 1024, 7, 0, 0
+    // "This is what I've discovered.[f000]븁\u0000\nWhen I speak in a low voice,\nI don't mind the train noise.[f000]븁\u0000\nI was the one being noisy, after all...[f000]븁\u0000\nThanks to you and your [f000]ā\u0001\u0000,\nnow I know. Thank you."
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -187,12 +196,13 @@ Script_7:
     Cmd_02B4 0, 0x400f
     VMStackPush 0x400f
     VMStackPushConst 1
-    VMStackCmp 4
-    VMJumpIf 255, L_02DD
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_02DD
     Cmd_02B5 0, 1
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "We were riding our motorbikes\nto our hearts' content...[f000]븁\u0000\nWe believed we could\nride forever and ever...[f000]븁\u0000\nYes, it's an infinite,\nlimitless, breakneck road...[f000]븁\u0000\nWith the breakneck team, Black Empoleon![f000]븁\u0000\nBack when I had a one-on-one\nbattle with [f000]Ā\u0001\u0001...[f000]븀\u0000\nthat was our golden age.[f000]븁\u0000\nIt was the age of gold."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_02F1
@@ -200,7 +210,8 @@ Script_7:
 L_02DD:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "We were riding our motorbikes\nto our hearts' content...[f000]븁\u0000\nWe believed we could\nride forever and ever...[f000]븁\u0000\nYes, it's an infinite,\nlimitless, breakneck road...[f000]븁\u0000\nWith the breakneck team, Black Empoleon![f000]븁\u0000\nBack when I had a one-on-one\nbattle with the Trainer...[f000]븀\u0000\nthat was our golden age.[f000]븁\u0000\nIt was the age of gold."
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -215,30 +226,32 @@ Script_8:
     ActorSetEyeToEye
     VMStackPush 0x4108
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_03DF
-    ParentActorMsg 1024, 10, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03DF
+    // "[f000]븉\u0001\u0002Oh... Oh...\nSo...thirsty...[f000]븁\u0000\nI met you on\nthe Driftveil Drawbridge...[f000]븁\u0000\nG-g-give me...\nFresh Water...?[f000]븉\u0001\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03CB
-    ItemSub 30, 1, 0x8010
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03CB
+    ItemSub ITEM_FRESH_WATER, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03B7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03B7
     MsgWinCloseAll
     SEPlay 2017
     SEWait
-    ParentActorMsg 1024, 11, 0, 0
+    // "Refreshed!![f000]븁\u0000\nI'm 100% rehydrated!\nI feel better now! Thank you![f000]븁\u0000\nI'll dash to the next bridge!"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     MsgWinCloseAll
     PlayerGetDir 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0389
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0389
     ActorCmdExec 3, Movement_0408
     VMJump L_0391
 
@@ -256,7 +269,8 @@ L_0391:
     VMJump L_03C5
 
 L_03B7:
-    ParentActorMsg 1024, 12, 0, 0
+    // "[f000]븉\u0001\u0002But... You don't have Fresh Water...\nI appreciate the thought, though...[f000]븉\u0001\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -264,7 +278,8 @@ L_03C5:
     VMJump L_03D9
 
 L_03CB:
-    ParentActorMsg 1024, 13, 0, 0
+    // "[f000]븉\u0001\u0002Thank...[f000]븁\u0000\nWhat?\nOh...[f000]븁\u0000\nWithout Fresh Water...\nI can't run on bridges anymore.[f000]븉\u0001\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -274,9 +289,10 @@ L_03D9:
 L_03DF:
     VMStackPush 0x4108
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0400
-    ParentActorMsg 1024, 11, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0400
+    // "Refreshed!![f000]븁\u0000\nI'm 100% rehydrated!\nI feel better now! Thank you![f000]븁\u0000\nI'll dash to the next bridge!"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     MsgWinCloseAll
 

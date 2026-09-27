@@ -20,16 +20,16 @@ Script_8:
     Cmd_02B2 0, 0x8020
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0079
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0079
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0079
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0079
     VMStackPush 0x4136
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0079
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0079
     WorkSetConst 0x4136, 1
 
 L_0079:
@@ -40,8 +40,8 @@ L_0081:
     Cmd_02B2 0, 0x400f
     VMStackPush 0x400f
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00A0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00A0
     WorkSetConst 0x4136, 0
 
 L_00A0:
@@ -51,6 +51,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Route 1"
     MsgPlaceSign 5, 3
     MsgPlaceSignClose
     FinishAllEvents
@@ -61,6 +62,7 @@ Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Route 1"
     MsgPlaceSign 6, 3
     MsgPlaceSignClose
     FinishAllEvents
@@ -71,6 +73,7 @@ Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Trainer Tips![f000]븁\u0000\n\nMake an effort to talk to all the\npeople you meet during your journey![f000]븁\u0000\nChances are they will have something\nuseful to tell you."
     MsgPlaceSign 7, 0
     MsgPlaceSignClose
     FlagSet 2664
@@ -111,12 +114,13 @@ Script_5:
     Cmd_02B2 0, 0x8020
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_019B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_019B
     Cmd_02B5 0, 0
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "Two years ago, [f000]Ā\u0001\u0000, a Trainer\nfrom Nuvema did some amazing things,[f000]븀\u0000\nincluding battling Team Plasma[f000]븀\u0000\nand saving Unova![f000]븁\u0000\nI was the one who told that Trainer that\nwild Pokémon are hiding in the tall grass.[f000]븁\u0000\nAnd that you can battle\nor capture wild Pokémon there![f000]븁\u0000\nSo, you could say that I'm one\nof the people who saved Unova, too!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_01AF
@@ -124,7 +128,8 @@ Script_5:
 L_019B:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Two years ago, a Trainer from Nuvema\ndid some amazing things, including[f000]븀\u0000\nbattling Team Plasma and saving Unova![f000]븁\u0000\nI was the one who told that Trainer that\nwild Pokémon are hiding in the tall grass.[f000]븁\u0000\nAnd that you can battle\nor capture wild Pokémon there![f000]븁\u0000\nSo, you could say that I'm one\nof the people who saved Unova, too!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -137,7 +142,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "I'd like to land all of the\nPokémon beyond here, too!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -151,19 +157,21 @@ Script_7:
     ActorNew 788, 721, 1, 251, 249, 0
     TrainerCardGetSex 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_0204
+    VMJumpIf CMP_EQ, L_0204
     VMJump L_020F
 
 L_0204:
+    // "Bianca: Heeey![f000]븁\u0000"
     InfoMsg 8, 1
     VMJump L_022D
 
 L_020F:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0222
+    VMJumpIf CMP_EQ, L_0222
     VMJump L_022D
 
 L_0222:
+    // "Bianca: Hi there![f000]븁\u0000"
     InfoMsg 9, 1
     VMJump L_022D
 
@@ -176,14 +184,14 @@ L_022D:
     PlayerGetDir 0x8010
     ActorWalkRoute 251, 788, 730, 1, 8, 1
     WorkCmpConst 0x8021, 786
-    VMJumpIf 1, L_026A
+    VMJumpIf CMP_EQ, L_026A
     VMJump L_0299
 
 L_026A:
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_028B
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_028B
     ActorCmdExec 255, Movement_0634
     VMJump L_0293
 
@@ -195,14 +203,14 @@ L_0293:
 
 L_0299:
     WorkCmpConst 0x8021, 787
-    VMJumpIf 1, L_02AC
+    VMJumpIf CMP_EQ, L_02AC
     VMJump L_02DB
 
 L_02AC:
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_02CD
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_02CD
     ActorCmdExec 255, Movement_0658
     VMJump L_02D5
 
@@ -214,14 +222,14 @@ L_02D5:
 
 L_02DB:
     WorkCmpConst 0x8021, 788
-    VMJumpIf 1, L_02EE
+    VMJumpIf CMP_EQ, L_02EE
     VMJump L_031D
 
 L_02EE:
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_030F
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_030F
     ActorCmdExec 255, Movement_05D0
     VMJump L_0317
 
@@ -233,14 +241,14 @@ L_0317:
 
 L_031D:
     WorkCmpConst 0x8021, 789
-    VMJumpIf 1, L_0330
+    VMJumpIf CMP_EQ, L_0330
     VMJump L_035F
 
 L_0330:
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_0351
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0351
     ActorCmdExec 255, Movement_067C
     VMJump L_0359
 
@@ -252,14 +260,14 @@ L_0359:
 
 L_035F:
     WorkCmpConst 0x8021, 790
-    VMJumpIf 1, L_0372
+    VMJumpIf CMP_EQ, L_0372
     VMJump L_03A1
 
 L_0372:
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_0393
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0393
     ActorCmdExec 255, Movement_06A0
     VMJump L_039B
 
@@ -271,14 +279,14 @@ L_039B:
 
 L_03A1:
     WorkCmpConst 0x8021, 791
-    VMJumpIf 1, L_03B4
+    VMJumpIf CMP_EQ, L_03B4
     VMJump L_03E3
 
 L_03B4:
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_03D5
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_03D5
     ActorCmdExec 255, Movement_06C4
     VMJump L_03DD
 
@@ -292,12 +300,14 @@ L_03E3:
     ActorCmdWait
     ActorCmdExec 251, Movement_0628
     ActorCmdWait
-    ActorMsg 1024, 10, 251, 0, 0
+    // "I have fond memories of this place...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 251, 0, 0
     MsgWinCloseAll
     ActorCmdExec 251, Movement_05D8
     ActorCmdWait
     Cmd_02B5 0, 1
-    ActorMsg 1024, 11, 251, 0, 0
+    // "One day...[f000]븁\u0000\n[f000]Ā\u0001\u0001, Cheren, and I\nall gathered right here and took[f000]븀\u0000\nthe first step of our adventure.[f000]븁\u0000\nIt's a very special spot.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 251, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 251, 789, 731, 1, 8, 0
     VMSleep 15
@@ -306,12 +316,14 @@ L_03E3:
     Cmd_02B5 0, 1
     ActorCmdExec 251, Movement_05E0
     ActorCmdWait
-    ActorMsg 1024, 12, 251, 0, 0
+    // "Bianca: Hey, [f000]Ā\u0001\u0001![f000]븁\u0000\nLet's all take our first step\non Route 1 together![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 251, 0, 0
     MsgWinCloseAll
     ActorCmdExec 255, Movement_05D0
     ActorCmdExec 251, Movement_05D0
     ActorCmdWait
-    ActorMsg 1024, 13, 251, 0, 0
+    // "One, two![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 251, 0, 0
     MsgWinCloseAll
     ActorCmdExec 255, Movement_0598
     ActorCmdExec 251, Movement_0598
@@ -322,13 +334,14 @@ L_03E3:
     ActorCmdExec 255, Movement_05E8
     ActorCmdWait
     Cmd_02B5 0, 1
-    ActorMsg 1024, 14, 251, 0, 0
+    // "Ha ha! That's what I said.[f000]븁\u0000\nHey, while we're here,\nhave a Pokémon battle with me![f000]븁\u0000\nTalking about [f000]Ā\u0001\u0001 put me\nin the mood for a Pokémon battle![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 251, 0, 0
     MsgWinCloseAll
     WorkSetConst 0x8023, 0
     WorkSetConst 0x8024, 0
     Cmd_02B3 0, 0x8023
     WorkCmpConst 0x8023, 0
-    VMJumpIf 1, L_04DA
+    VMJumpIf CMP_EQ, L_04DA
     VMJump L_04E6
 
 L_04DA:
@@ -337,7 +350,7 @@ L_04DA:
 
 L_04E6:
     WorkCmpConst 0x8023, 1
-    VMJumpIf 1, L_04F9
+    VMJumpIf CMP_EQ, L_04F9
     VMJump L_0505
 
 L_04F9:
@@ -346,7 +359,7 @@ L_04F9:
 
 L_0505:
     WorkCmpConst 0x8023, 2
-    VMJumpIf 1, L_0518
+    VMJumpIf CMP_EQ, L_0518
     VMJump L_0524
 
 L_0518:
@@ -358,8 +371,8 @@ L_0524:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_054B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_054B
     CallTrainerBattleEnd
     VMJump L_054D
 
@@ -368,7 +381,8 @@ L_054B:
 
 L_054D:
     Cmd_02B5 0, 1
-    ActorMsg 1024, 15, 251, 0, 0
+    // "Tee-hee! You're so tough!\nYou're just like [f000]Ā\u0001\u0001![f000]븁\u0000\nOK![f000]븁\u0000\nI just have to remember what\nI felt like back then and work hard, too![f000]븁\u0000\nThanks!\nSee you![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 251, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 251, 789, 721, 4, 8, 1
     VMSleep 20

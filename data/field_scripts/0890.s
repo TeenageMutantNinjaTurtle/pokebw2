@@ -29,36 +29,36 @@ Script_1:
 Script_2:
     VMStackPush 0x40a7
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0083
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0083
     ActorSetGPos 0, 22, 2, 32, 1
     VMJump L_00CD
 
 L_0083:
     VMStackPush 0x40a7
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_00A8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00A8
     ActorSetGPos 0, 22, 3, 13, 1
     VMJump L_00CD
 
 L_00A8:
     VMStackPush 0x40a7
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_00CD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00CD
     ActorSetGPos 0, 47, 2, 13, 1
     VMJump L_00CD
 
 L_00CD:
     VMStackPush 0x40a7
     VMStackPushConst 5
-    VMStackCmp 0
+    VMStackCmp CMP_LT
     VMStackPush 0x40a7
     VMStackPushConst 0
-    VMStackCmp 5
-    VMStackCmp 7
-    VMJumpIf 255, L_011A
+    VMStackCmp CMP_NE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_011A
     ActorSetGPos 1, 43, 2, 46, 2
     ActorSetGPos 2, 43, 2, 45, 2
     ActorSetGPos 10, 44, 2, 46, 2
@@ -67,8 +67,8 @@ L_00CD:
 L_011A:
     VMStackPush 0x40a7
     VMStackPushConst 5
-    VMStackCmp 1
-    VMJumpIf 255, L_015D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_015D
     ActorSetGPos 1, 46, 2, 42, 1
     ActorSetGPos 2, 47, 2, 42, 1
     ActorSetGPos 10, 45, 2, 40, 3
@@ -86,20 +86,21 @@ Script_3:
     BGMPlayPush 1237
     ActorCmdWait
     WordSetLoadRivalName 1
-    ActorMsg 1024, 0, 0, 0, 0
+    // "[f000]Ā\u0001\u0001: Oh! Nice!\nYou've come here to toughen up![f000]븁\u0000\nAll right! Let's see how much\nstronger you've become! Come at me![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     MsgWinCloseAll
     VMStackPush 0x4030
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01BF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01BF
     CallTrainerBattle 166, 0, 0
     VMJump L_01E8
 
 L_01BF:
     VMStackPush 0x4030
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01E0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01E0
     CallTrainerBattle 167, 0, 0
     VMJump L_01E8
 
@@ -110,8 +111,8 @@ L_01E8:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_021F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_021F
     ActorSetGPos 0, 42, 2, 46, 0
     ActorSetGPos 255, 42, 2, 45, 1
     CallTrainerBattleEnd
@@ -122,14 +123,17 @@ L_021F:
 
 L_0221:
     WordSetLoadRivalName 1
-    ActorMsg 1024, 1, 0, 0, 0
+    // "[f000]Ā\u0001\u0001: Not bad...[f000]븁\u0000\nYou're thinking about how to bring out\nyour Pokémon's strength.[f000]븁\u0000\nI should be able to count\non you for backup![f000]븁\u0000\nWhat are you doing here anyway?[f000]븁\u0000\nHuh?\nA Town Map?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     MsgWinCloseAll
     WordSetPlayerName 0
     SEPlay 2017
+    // "[f000]Ā\u0001\u0000 handed over\nthe Town Map![f000]븁\u0000"
     SystemMsg 2, 0
     InfoMsgClose
     SEWait
-    ActorMsg 1024, 3, 0, 0, 0
+    // "[f000]Ā\u0001\u0001: Tch...\nShe didn't have to do that...[f000]븁\u0000\nThanks to you, too. We just left,\nand you've already helped me out.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
     MsgWinCloseAll
     FlagReset 727
     ActorAdd 2
@@ -143,17 +147,21 @@ L_0221:
     ActorCmdExec 255, Movement_0F3C
     ActorCmdExec 0, Movement_0F3C
     ActorCmdWait
-    ActorMsg 1024, 4, 1, 6, 0
+    // "???: I thought it was lively around here!\nYou were having a Pokémon battle, huh?[f000]븀\u0000\nIsn't it nice to be young![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 1, 6, 0
     MsgWinCloseAll
     WordSetLoadRivalName 1
-    ActorMsg 1024, 5, 0, 4, 0
+    // "[f000]Ā\u0001\u0001: Who are you?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 4, 0
     MsgWinCloseAll
-    ActorMsg 1024, 6, 1, 6, 0
+    // "???: Who am I?[f000]븁\u0000\nI'm the owner of this ranch!\nAnd this is my wife![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 1, 6, 0
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     ActorWalkRoute 2, 43, 45, 1, 8, 0
     ActorCmdWait
-    ActorMsg 1024, 7, 2, 5, 0
+    // "Wife: After a Pokémon battle, you\nshould heal your Pokémon's HP, right?[f000]븀\u0000\nHere, I'll give you this![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 2, 5, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -166,21 +174,25 @@ L_0221:
     ActorCmdWait
     ActorCmdExec 2, Movement_0F34
     ActorCmdWait
-    ActorMsg 1024, 8, 2, 5, 0
+    // "And one for you![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 2, 5, 0
     MsgWinCloseAll
     VMSleep 12
     ActorWalkRoute 2, 44, 45, 1, 8, 1
     ActorCmdWait
     ActorCmdExec 2, Movement_0F34
     ActorCmdWait
-    ActorMsg 1024, 9, 2, 5, 0
+    // "It's nice to have Potions when\nyou're far away from a Pokémon Center.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 2, 5, 0
     MsgWinCloseAll
-    ActorMsg 1024, 10, 1, 6, 0
+    // "Owner: By the way, you didn't happen\nto see a Herdier around here, did you?[f000]븁\u0000\nI can't figure out where it went.[f000]븁\u0000\nOur two Herdier are always together\nand this is the first time one has[f000]븀\u0000\nwandered off, so I'm a little worried...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 1, 6, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0F44
     ActorCmdWait
     WordSetLoadRivalName 1
-    ActorMsg 1024, 11, 0, 4, 0
+    // "[f000]Ā\u0001\u0001: You're a little worried?\nAre you KIDDING me?![f000]븁\u0000\nYour Pokémon might be lost forever![f000]븁\u0000\nWhatever! I'll look!\n[f000]Ā\u0001\u0000! Help out![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 0, 4, 0
     MsgWinCloseAll
     ActorCmdExec 255, Movement_0F34
     ActorCmdExec 0, Movement_040C
@@ -188,9 +200,11 @@ L_0221:
     ActorCmdExec 1, Movement_0F4C
     ActorCmdExec 255, Movement_0F3C
     ActorCmdWait
-    ActorMsg 1024, 12, 1, 6, 0
+    // "Owner: Why did he get so mad?[f000]븁\u0000\nI think it's probably just\nplaying somewhere in the ranch.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 1, 6, 0
     MsgWinCloseAll
-    ActorMsg 1024, 13, 2, 5, 0
+    // "Wife: I wonder...[f000]븁\u0000\nBy the way, dear, if your Pokémon\nget hurt, let me know.[f000]븀\u0000\nI'll make them feel better for you!"
+    ActorMsg MSGFILE_SCRIPT, 13, 2, 5, 0
     LastKeyWait
     MsgWinCloseAll
     ActorSetGPos 0, 25, 2, 44, 0
@@ -225,12 +239,13 @@ Script_4:
     ActorCmdExec 255, Movement_0F2C
     ActorCmdWait
     WordSetLoadRivalName 1
-    ActorMsg 1024, 15, 0, 0, 0
+    // "[f000]Ā\u0001\u0001: Did Herdier...\nwander somewhere back here?[f000]븁\u0000\nLet's have a look![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 0, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8021
     VMStackPushConst 21
-    VMStackCmp 1
-    VMJumpIf 255, L_047C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_047C
     ActorCmdExec 0, Movement_04AC
     VMJump L_0484
 
@@ -264,8 +279,8 @@ Script_5:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8022
     VMStackPushConst 11
-    VMStackCmp 1
-    VMJumpIf 255, L_04FD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04FD
     ActorCmdExec 0, Movement_05BC
     VMSleep 40
     VMJump L_0541
@@ -273,8 +288,8 @@ Script_5:
 L_04FD:
     VMStackPush 0x8022
     VMStackPushConst 12
-    VMStackCmp 1
-    VMJumpIf 255, L_0522
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0522
     ActorCmdExec 0, Movement_05C8
     VMSleep 32
     VMJump L_0541
@@ -282,15 +297,16 @@ L_04FD:
 L_0522:
     VMStackPush 0x8022
     VMStackPushConst 13
-    VMStackCmp 1
-    VMJumpIf 255, L_0541
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0541
     ActorCmdExec 0, Movement_05D4
     VMSleep 24
 
 L_0541:
     ActorCmdExec 255, Movement_0F34
     ActorCmdWait
-    ActorMsg 1024, 18, 0, 0, 0
+    // "Oh! Here! I'll share something\ngood with you![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 18, 0, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -300,13 +316,15 @@ L_0541:
     VMStackPop 0x8001
     VMStackPop 0x8000
     WordSetLoadRivalName 1
-    ActorMsg 1024, 19, 0, 0, 0
+    // "If your Pokémon is paralyzed,\nuse one of these on it![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 19, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_05E0
     ActorCmdWait
     ActorCmdExec 0, Movement_0F3C
     ActorCmdWait
-    ActorMsg 1024, 20, 0, 0, 0
+    // "Still, Pokémon don't just wander\noff on their own.[f000]븁\u0000\nIn a worst-case scenario,\nit might be involved in some trouble!"
+    ActorMsg MSGFILE_SCRIPT, 20, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40a7, 3
@@ -338,6 +356,7 @@ Movement_05E0:
 Script_6:
     ActorsPauseAll
     PVPlay 507, 0
+    // "Yawrp!"
     InfoMsg 21, 2
     PVWait
     MsgWaitAdvance
@@ -347,7 +366,7 @@ Script_6:
     VMSleep 48
     PlayerGetDir 0x8020
     WorkCmpConst 0x8020, 3
-    VMJumpIf 1, L_062E
+    VMJumpIf CMP_EQ, L_062E
     VMJump L_063C
 
 L_062E:
@@ -356,7 +375,7 @@ L_062E:
 
 L_063C:
     WorkCmpConst 0x8020, 1
-    VMJumpIf 1, L_064F
+    VMJumpIf CMP_EQ, L_064F
     VMJump L_065D
 
 L_064F:
@@ -369,13 +388,14 @@ L_065D:
 L_0665:
     ActorCmdWait
     WordSetLoadRivalName 1
-    ActorMsg 1024, 22, 0, 0, 0
+    // "Did you hear that just now?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 22, 0, 0, 0
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8022
     VMStackPushConst 12
-    VMStackCmp 1
-    VMJumpIf 255, L_069F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_069F
     ActorCmdExec 0, Movement_06E0
     VMJump L_06A7
 
@@ -386,7 +406,8 @@ L_06A7:
     VMSleep 16
     ActorCmdExec 255, Movement_0F3C
     ActorCmdWait
-    ActorMsg 1024, 23, 0, 0, 0
+    // "I'll check this area![f000]븁\u0000\nYou go deeper in the grove\nand look![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 23, 0, 0, 0
     MsgWinCloseAll
     WorkSetConst 0x40a7, 4
     FinishAllEvents
@@ -423,30 +444,36 @@ Script_7:
     ActorCmdWait
     EvCameraWait
     PVPlay 507, 0
-    ActorMsg 1024, 25, 3, 3, 0
+    // "Herdier: Yaarrrp..."
+    ActorMsg MSGFILE_SCRIPT, 25, 3, 3, 0
     PVWait
     MsgWaitAdvance
     ActorMsgClose
     WordSetLoadRivalName 1
+    // "[f000]Ā\u0001\u0001: That cry!\nYou found it![f000]븁\u0000\nWhat a relief![f000]븁\u0000\nOK, I'll go call its Trainer,\nso you stay here with it![f000]븁\u0000"
     InfoMsg 26, 1
     MsgWinCloseAll
     ActorCmdExec 16, Movement_0F2C
     ActorWalkRoute 0, 42, 12, 1, 4, 0
     ActorCmdWait
-    ActorMsg 1024, 27, 16, 5, 0
+    // "???: Tch...\nYou little pest![f000]븁\u0000\nI'm a member of a group that strikes\nfear into the hearts of those who[f000]븀\u0000\nstand before it: Team Plasma![f000]븁\u0000\nEver heard of it?"
+    ActorMsg MSGFILE_SCRIPT, 27, 16, 5, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_07B3
-    ActorMsg 1024, 28, 16, 5, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07B3
+    // "That's right! We're the righteous group\nthat tried to conquer Unova two years[f000]븀\u0000\nback in order to liberate Pokémon![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 28, 16, 5, 0
     VMJump L_07BF
 
 L_07B3:
-    ActorMsg 1024, 29, 16, 5, 0
+    // "Really? We're the righteous group\nthat tried to conquer Unova two years[f000]븀\u0000\nback in order to liberate Pokémon![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 29, 16, 5, 0
 
 L_07BF:
-    ActorMsg 1024, 30, 16, 5, 0
+    // "Whatever...[f000]븁\u0000\nFools will never understand us...[f000]븁\u0000\nStill...[f000]븁\u0000\nFirst I got lost chasing Herdier...\nand now some nosy kid caught me![f000]븁\u0000\nAll of this is your fault!\nTake this![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 30, 16, 5, 0
     MsgWinCloseAll
     ActorNew 51, 20, 1, 251, 110, 0
     VMSleep 4
@@ -463,7 +490,8 @@ L_07BF:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 31, 16, 5, 0
+    // "OK! I'll use this opportunity\nto retreat for now![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 31, 16, 5, 0
     MsgWinCloseAll
     EvCameraMoveToDefault 32
     ActorCmdExec 16, Movement_09B4
@@ -477,7 +505,8 @@ L_07BF:
     EvCameraRebind
     EvCameraEnd
     PVPlay 507, 0
-    ActorMsg 1024, 32, 3, 3, 0
+    // "Yap! Bwoof!"
+    ActorMsg MSGFILE_SCRIPT, 32, 3, 3, 0
     PVWait
     MsgWaitAdvance
     MsgWinCloseAll
@@ -490,13 +519,15 @@ L_07BF:
     ActorCmdExec 255, Movement_0F2C
     ActorCmdWait
     WordSetLoadRivalName 1
-    ActorMsg 1024, 33, 1, 0, 0
+    // "Owner: Herdier![f000]븁\u0000\nWhat made you come all\nthe way back here?[f000]븁\u0000\nWell, at any rate, I'm really grateful\nfor your help, you two![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 33, 1, 0, 0
     MsgWinCloseAll
     ActorCmdExec 3, Movement_0A8C
     VMSleep 48
     ActorCmdExec 0, Movement_0F3C
     ActorCmdWait
-    ActorMsg 1024, 34, 0, 0, 0
+    // "[f000]Ā\u0001\u0001: You're awfully calm\nabout this![f000]븁\u0000\nYour Pokémon might have\nbeen gone for good![f000]븁\u0000\nTake better care of it![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 34, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0A04
     VMSleep 8
@@ -508,7 +539,8 @@ L_07BF:
     ActorCmdExec 255, Movement_0F2C
     ActorCmdExec 1, Movement_0F24
     ActorCmdWait
-    ActorMsg 1024, 35, 1, 4, 0
+    // "Owner: Hmm...\nI wonder if something happened to him...[f000]븁\u0000\nIt's like he's afraid of\nlosing Pokémon...[f000]븁\u0000\nCome on, Herdier!\nEveryone's waiting! Let's go home![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 35, 1, 4, 0
     MsgWinCloseAll
     FadeEx 3, 0, 16, 4
     ActorCmdExec 1, Movement_0AEC
@@ -553,7 +585,7 @@ Movement_09B4:
     FlagSet 0
     MsgWinCloseAll
     VMNop2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     PokePartyGetSpecies 0, 17
     VMStackPop 19
     VMReturn
@@ -653,11 +685,12 @@ Script_8:
     WordSetLoadRivalName 1
     VMStackPush 0x40a7
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0B2E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B2E
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 14, 0, 0
+    // "Herdier, where did you go?"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0BAF
@@ -665,11 +698,12 @@ Script_8:
 L_0B2E:
     VMStackPush 0x40a7
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0B5B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B5B
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 16, 0, 0
+    // "Wow, this ranch is really big!"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0BAF
@@ -677,11 +711,12 @@ L_0B2E:
 L_0B5B:
     VMStackPush 0x40a7
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0B88
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B88
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 20, 0, 0
+    // "Still, Pokémon don't just wander\noff on their own.[f000]븁\u0000\nIn a worst-case scenario,\nit might be involved in some trouble!"
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0BAF
@@ -689,11 +724,12 @@ L_0B5B:
 L_0B88:
     VMStackPush 0x40a7
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_0BAF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0BAF
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 24, 0, 0
+    // "Look deeper in the grove!"
+    ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -706,15 +742,16 @@ Script_9:
     ActorsPauseAll
     VMStackPush 0x40a7
     VMStackPushConst 5
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 482
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0BF8
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0BF8
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 36, 0, 0
+    // "Owner: Thanks! It's all thanks\nto you and your Pokémon![f000]븁\u0000\nYou're really great! Hey, is that it?\nDid Alder train you?"
+    ParentActorMsg MSGFILE_SCRIPT, 36, 0, 0
     LastKeyWait
     ActorMsgClose
     FlagSet 482
@@ -723,15 +760,16 @@ Script_9:
 L_0BF8:
     VMStackPush 0x40a7
     VMStackPushConst 5
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 482
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0C35
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0C35
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 37, 0, 0
+    // "This ranch started when a fence\nwas made to protect Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 37, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0C49
@@ -739,7 +777,8 @@ L_0BF8:
 L_0C35:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 38, 0, 0
+    // "Owner: It is strange for Herdier\nto wander off on its own.[f000]븁\u0000\nIt always plays with the other\none or works on the ranch..."
+    ParentActorMsg MSGFILE_SCRIPT, 38, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -752,15 +791,16 @@ Script_10:
     ActorsPauseAll
     VMStackPush 0x40a7
     VMStackPushConst 5
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 268
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0C92
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0C92
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 41, 0, 0
+    // "You and your Pokémon\nfound Herdier! Great!"
+    ParentActorMsg MSGFILE_SCRIPT, 41, 0, 0
     LastKeyWait
     ActorMsgClose
     FlagSet 268
@@ -779,18 +819,18 @@ L_0C92:
 L_0CBC:
     VMStackPush 0x8023
     VMStackPush 0x8024
-    VMStackCmp 2
-    VMJumpIf 255, L_0D10
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_0D10
     PokePartyIsFullHP 0x8025, 0x8024
     PokePartyIsFullPP 0x8026, 0x8024
     VMStackPush 0x8025
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8026
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_0D04
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_0D04
     WorkAdd 0x8027, 1
 
 L_0D04:
@@ -800,9 +840,10 @@ L_0D04:
 L_0D10:
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 4
-    VMJumpIf 255, L_0D5B
-    ParentActorMsg 1024, 40, 0, 0
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0D5B
+    // "You and your Pokémon\nlook a little worn out...[f000]븁\u0000\nRest here a minute--you won't\nget anywhere all tired like that![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 40, 0, 0
     MsgWinCloseAll
     FadeEx 3, 0, 16, 2
     FadeExWait
@@ -815,7 +856,8 @@ L_0D10:
     VMJump L_0D69
 
 L_0D5B:
-    ParentActorMsg 1024, 39, 0, 0
+    // "Yup! You and your Pokémon\nare full of energy!"
+    ParentActorMsg MSGFILE_SCRIPT, 39, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -834,7 +876,8 @@ Script_11:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 507, 0
-    ParentActorMsg 1024, 44, 0, 0
+    // "Ba woof! Bawoof!"
+    ParentActorMsg MSGFILE_SCRIPT, 44, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -846,12 +889,13 @@ Script_12:
     ActorsPauseAll
     VMStackPush 0x40a7
     VMStackPushConst 5
-    VMStackCmp 1
-    VMJumpIf 255, L_0DE8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0DE8
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 507, 0
-    ParentActorMsg 1024, 43, 0, 0
+    // "Bawoof! Ba woof!"
+    ParentActorMsg MSGFILE_SCRIPT, 43, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -861,7 +905,8 @@ L_0DE8:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 507, 0
-    ParentActorMsg 1024, 42, 0, 0
+    // "Herdier: Bawoo..."
+    ParentActorMsg MSGFILE_SCRIPT, 42, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -876,7 +921,8 @@ Script_13:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 179, 0
-    ParentActorMsg 1024, 45, 0, 0
+    // "Baaah!"
+    ParentActorMsg MSGFILE_SCRIPT, 45, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -889,7 +935,8 @@ Script_14:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 179, 0
-    ParentActorMsg 1024, 46, 0, 0
+    // "Baa!"
+    ParentActorMsg MSGFILE_SCRIPT, 46, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -902,7 +949,8 @@ Script_15:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 179, 0
-    ParentActorMsg 1024, 47, 0, 0
+    // "Baawn!"
+    ParentActorMsg MSGFILE_SCRIPT, 47, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -915,7 +963,8 @@ Script_16:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 179, 0
-    ParentActorMsg 1024, 48, 0, 0
+    // "Baa baa!"
+    ParentActorMsg MSGFILE_SCRIPT, 48, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -928,7 +977,8 @@ Script_17:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 179, 0
-    ParentActorMsg 1024, 49, 0, 0
+    // "Baa haa!"
+    ParentActorMsg MSGFILE_SCRIPT, 49, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -941,7 +991,8 @@ Script_18:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 179, 0
-    ParentActorMsg 1024, 50, 0, 0
+    // "Ba baaa!"
+    ParentActorMsg MSGFILE_SCRIPT, 50, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

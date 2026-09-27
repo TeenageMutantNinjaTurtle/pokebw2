@@ -17,26 +17,29 @@ L_0016:
 L_003A:
     VMStackPush 0x8026
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00EB
-    ParentActorMsg 1024, 6, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00EB
+    // "OK, then.\nWhich move should be forgotten?[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     ActorMsgClose
     CallPokeMoveReplace 0x8025, 0x8022, 0x8020, 0
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00DF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00DF
     PokePartyGetMove 0x8023, 0x8020, 0x8022
     WordSetMoveName 0, 0x8023
-    ParentActorMsg 1024, 7, 0, 0
+    // "Hm! The move [f000]ć\u0001\u0000?\nShould that move be forgotten?"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     YesNoWin 0x8024
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00D9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00D9
     PokePartyGetMove 0x8023, 0x8020, 0x8022
     WordSetMoveName 0, 0x8023
-    ParentActorMsg 1024, 8, 0, 0
+    // "It worked perfectly![f000]븁\u0000\nYour Pokémon has forgotten the move\n[f000]ć\u0001\u0000 completely."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     MEPlay 1309
     MEWait
     LastKeyWait
@@ -69,16 +72,18 @@ L_010B:
 L_0117:
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01CB
-    ParentActorMsg 1024, 2, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01CB
+    // "Which Pokémon should forget a move?[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     ActorMsgClose
     CallPokeSelect 0, 0x8028, 0x8020, 0
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_016D
-    ParentActorMsg 1024, 3, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_016D
+    // "Remember me if there are moves that\nneed to be forgotten."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     WorkSetConst 0x8021, 0
@@ -88,18 +93,20 @@ L_016D:
     PokePartyIsEgg 0x8028, 0x8020
     VMStackPush 0x8028
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0196
-    ParentActorMsg 1024, 5, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0196
+    // "What? That's an Egg.\nNo Egg should know any moves.[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     VMJump L_01C5
 
 L_0196:
     PokePartyGetMoveCount 0x8027, 0x8020
     VMStackPush 0x8027
     VMStackPushConst 2
-    VMStackCmp 0
-    VMJumpIf 255, L_01BF
-    ParentActorMsg 1024, 4, 0, 0
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_01BF
+    // "That Pokémon knows only one move,\nso it can't be forgotten...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     VMJump L_01C5
 
 L_01BF:
@@ -121,23 +128,26 @@ Script_1:
     ActorSetEyeToEye
     VMStackPushFlag 1
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_020E
-    ParentActorMsg 1024, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_020E
+    // "Er...\nWho was I again?[f000]븁\u0000\n...\n...[f000]븁\u0000\n...Oh, that's right!\nI am the Move Deleter![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     FlagSet 1
 
 L_020E:
-    ParentActorMsg 1024, 1, 0, 0
+    // "You've come to make me force your\nPokémon to forget some moves?"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     YesNoWin 0x8029
     VMStackPush 0x8029
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_023B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_023B
     VMCall L_010B
     VMJump L_0249
 
 L_023B:
-    ParentActorMsg 1024, 3, 0, 0
+    // "Remember me if there are moves that\nneed to be forgotten."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -156,42 +166,45 @@ Script_2:
     FlagGet 124, 0x802b
     VMStackPush 0x802b
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0292
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0292
     FlagSet 124
-    ActorMsg 1024, 31, 0x8011, 2, 0
+    // "Everybody calls me the reminder girl.[f000]븁\u0000\nI know every move that Pokémon learn\nwhile they're leveling up.[f000]븁\u0000\nAnd I can make Pokémon remember\nthose moves![f000]븁\u0000\nIf you bring me a Heart Scale, I'll make\na Pokémon remember a move.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 31, 0x8011, 2, 0
 
 L_0292:
     WorkSetConst 0x802b, 0
     WorkSetConst 0x802c, 0
-    ItemCheckAmount 93, 1, 0x802c
+    ItemCheckAmount ITEM_HEART_SCALE, 1, 0x802c
     VMStackPush 0x802c
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02BF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02BF
     VMJump L_0402
 
 L_02BF:
     WorkSetConst 0x802c, 0
     WorkSetConst 0x802d, 0
-    ActorMsg 1024, 32, 0x8011, 2, 0
+    // "Should a move be remembered?"
+    ActorMsg MSGFILE_SCRIPT, 32, 0x8011, 2, 0
     YesNoWin 0x802d
     VMStackPush 0x802d
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02F4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02F4
     VMJump L_0402
 
 L_02F4:
     WorkSetConst 0x802d, 0
     WorkSetConst 0x802e, 0
-    ActorMsg 1024, 33, 0x8011, 2, 0
+    // "Which Pokémon should learn it?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 33, 0x8011, 2, 0
     ActorMsgClose
     CallPokeSelect 0, 0x802e, 0x802a, 0
     VMStackPush 0x802e
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0331
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0331
     VMJump L_0402
 
 L_0331:
@@ -199,8 +212,8 @@ L_0331:
     PokePartyIsEgg 0x802f, 0x802a
     VMStackPush 0x802f
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0356
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0356
     VMJump L_0418
 
 L_0356:
@@ -209,8 +222,8 @@ L_0356:
     MoveReminderCheckPkm 0x8030, 0x802a
     VMStackPush 0x8030
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0381
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0381
     VMJump L_042E
 
 L_0381:
@@ -219,11 +232,12 @@ L_0381:
     WorkSetConst 0x8031, 0
     WorkSetConst 0x8032, 0
     WordSetPartyPokeName 0, 0x802a
-    ActorMsg 1024, 20, 0x8011, 2, 0
+    // "Which move should\n[f000]Ă\u0001\u0000 remember?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 20, 0x8011, 2, 0
     ActorMsgClose
     MoveReminderCallMoveSelect 0x8031, 0x802a
     WorkCmpConst 0x8031, 0
-    VMJumpIf 1, L_03C5
+    VMJumpIf CMP_EQ, L_03C5
     VMJump L_03D1
 
 L_03C5:
@@ -236,7 +250,7 @@ L_03C5:
 
 L_03D1:
     WorkCmpConst 0x8031, 1
-    VMJumpIf 1, L_03E4
+    VMJumpIf CMP_EQ, L_03E4
     VMJump L_03F0
 
 L_03E4:
@@ -251,30 +265,34 @@ L_03F0:
     WorkSetConst 0x8031, 0
 
 L_0402:
-    ActorMsg 1024, 34, 0x8011, 2, 0
+    // "If any of your Pokémon needs to\nremember a move, bring me a Heart Scale!"
+    ActorMsg MSGFILE_SCRIPT, 34, 0x8011, 2, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_046B
 
 L_0418:
-    ActorMsg 1024, 35, 0x8011, 2, 0
+    // "Eggs can't remember moves!"
+    ActorMsg MSGFILE_SCRIPT, 35, 0x8011, 2, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_046B
 
 L_042E:
-    ActorMsg 1024, 36, 0x8011, 2, 0
+    // "This Pokémon hasn't forgotten\nany moves."
+    ActorMsg MSGFILE_SCRIPT, 36, 0x8011, 2, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_046B
 
 L_0444:
     WordSetPlayerName 0
+    // "[f000]Ā\u0001\u0000 handed over one\nHeart Scale in exchange."
     SystemMsg 29, 2
     LastKeyWait
     InfoMsgClose
     WorkSetConst 0x8033, 0
-    ItemSub 93, 1, 0x8033
+    ItemSub ITEM_HEART_SCALE, 1, 0x8033
     WorkSetConst 0x8033, 0
     VMJump L_046B
 

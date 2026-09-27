@@ -14,8 +14,8 @@
 Script_1:
     VMStackPushFlag 2410
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0037
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0037
     WorkSetConst 0x400a, 555
 
 L_0037:
@@ -25,15 +25,15 @@ Script_2:
     Plugin3_Cmd1004
     VMStackPush 0x4001
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_005A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_005A
     ActorSetGPos 0, 15, 15, 7, 1
 
 L_005A:
     VMStackPushFlag 2410
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0075
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0075
     BMAnmPlayLoop 7, 18, 5
 
 L_0075:
@@ -43,8 +43,8 @@ Script_3:
     Plugin3_Cmd1004
     VMStackPush 0x4001
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_009A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_009A
     Plugin3_Cmd1000 4
     Plugin3_Cmd1001 4
     VMJump L_00A6
@@ -55,8 +55,8 @@ L_009A:
 L_00A6:
     VMStackPushFlag 2410
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00C1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00C1
     BMAnmPlayLoop 7, 18, 5
 
 L_00C1:
@@ -68,13 +68,14 @@ Script_4:
     ActorSetEyeToEye
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0239
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0239
     VMStackPushFlag 2410
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01CE
-    ActorMsg 1024, 0, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01CE
+    // "It's me who appeared\nwhen the flower opened up.[f000]븁\u0000\nYou, standing over there...[f000]븁\u0000\nYou look like a Pokémon Trainer\nwith strength and kindness.[f000]븁\u0000\nWhat I look for in my opponent is\nsuperb strength...[f000]븁\u0000\nI'm counting on you![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 1, 0
     MsgWinCloseAll
     FlagSet 2410
     WorkSetConst 0x400a, 555
@@ -82,8 +83,8 @@ Script_4:
     GameGetDifficulty 0x8020
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0134
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0134
     CallTrainerBattle 775, 0, 0
     VMJump L_013C
 
@@ -95,8 +96,8 @@ L_013C:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0161
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0161
     CallTrainerBattleEnd
     VMJump L_0163
 
@@ -106,25 +107,27 @@ L_0161:
 L_0163:
     VMStackPushFlag 2407
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2408
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2409
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2410
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_01B8
-    ActorMsg 1024, 3, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_01B8
+    // "Somehow, you managed to defeat the\nentire Elite Four of the Pokémon League.[f000]븁\u0000\nCheck the statue in the center of the\nplaza for the way to the Champion's room."
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 1, 0
     VMJump L_01C4
 
 L_01B8:
-    ActorMsg 1024, 1, 0, 1, 0
+    // "You haven't faced all of the members\nof the Elite Four yet, have you?[f000]븁\u0000\nDon't concern yourself about me.\nGo on ahead."
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 1, 0
 
 L_01C4:
     LastKeyWait
@@ -134,25 +137,27 @@ L_01C4:
 L_01CE:
     VMStackPushFlag 2407
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2408
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2409
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2410
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0223
-    ActorMsg 1024, 3, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0223
+    // "Somehow, you managed to defeat the\nentire Elite Four of the Pokémon League.[f000]븁\u0000\nCheck the statue in the center of the\nplaza for the way to the Champion's room."
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 1, 0
     VMJump L_022F
 
 L_0223:
-    ActorMsg 1024, 2, 0, 1, 0
+    // "Winning is important,\nbut what's more important is[f000]븀\u0000\nwhether I've done better this time.[f000]븁\u0000\nBecause if I can't surpass myself,\nI can't get close to my ideals.[f000]븁\u0000\nI want to improve and win more elegantly,\nso I invite you to be my opponent[f000]븀\u0000\nagain in the future, if you wish."
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 1, 0
 
 L_022F:
     LastKeyWait
@@ -164,9 +169,10 @@ L_0233:
 L_0239:
     VMStackPushFlag 2410
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0329
-    ActorMsg 1024, 4, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0329
+    // "It's me who appeared\nwhen the flower opened up.[f000]븁\u0000\nYou who have been waiting...[f000]븁\u0000\nYou look like a Pokémon Trainer\nwith refined strength and[f000]븀\u0000\ndeepened kindness.[f000]븁\u0000\nWhat I look for in my opponent is\nsuperb strength...[f000]븁\u0000\nPlease unleash your power\nto the fullest![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 1, 0
     MsgWinCloseAll
     FlagSet 2410
     WorkSetConst 0x400a, 555
@@ -174,8 +180,8 @@ L_0239:
     GameGetDifficulty 0x8021
     VMStackPush 0x8021
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_028F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_028F
     CallTrainerBattle 780, 0, 0
     VMJump L_0297
 
@@ -187,8 +193,8 @@ L_0297:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02BC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02BC
     CallTrainerBattleEnd
     VMJump L_02BE
 
@@ -198,25 +204,27 @@ L_02BC:
 L_02BE:
     VMStackPushFlag 2407
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2408
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2409
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2410
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0313
-    ActorMsg 1024, 7, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0313
+    // "You have defeated the\nPokémon League's Elite Four.[f000]븁\u0000\nYou have earned the right to\nproceed to the Champion's room.[f000]븁\u0000\nMaking an entrance is not the point.[f000]븁\u0000\nOnce you're there, you'll need to\nunleash your power to the fullest!"
+    ActorMsg MSGFILE_SCRIPT, 7, 0, 1, 0
     VMJump L_031F
 
 L_0313:
-    ActorMsg 1024, 5, 0, 1, 0
+    // "Alas! Even with the knowledge and skill\npassed down in my family of Trainers,[f000]븀\u0000\nI still can't win.[f000]븁\u0000\nThe reason I came here in the first place\nwas to encounter Trainers like you..."
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 1, 0
 
 L_031F:
     LastKeyWait
@@ -226,25 +234,27 @@ L_031F:
 L_0329:
     VMStackPushFlag 2407
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2408
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2409
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2410
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_037E
-    ActorMsg 1024, 7, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_037E
+    // "You have defeated the\nPokémon League's Elite Four.[f000]븁\u0000\nYou have earned the right to\nproceed to the Champion's room.[f000]븁\u0000\nMaking an entrance is not the point.[f000]븁\u0000\nOnce you're there, you'll need to\nunleash your power to the fullest!"
+    ActorMsg MSGFILE_SCRIPT, 7, 0, 1, 0
     VMJump L_038A
 
 L_037E:
-    ActorMsg 1024, 6, 0, 1, 0
+    // "When I battle you,\nI can't help but smile...[f000]븁\u0000\nBecause I was able to improve myself,\nand because you're an excellent Trainer.[f000]븁\u0000\nI want to improve and win more elegantly,\nso I invite you to be my opponent[f000]븀\u0000\nagain in the future, if you wish."
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 1, 0
 
 L_038A:
     LastKeyWait

@@ -11,7 +11,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Here is a little advice!\nKeep a lot of Potions![f000]븁\u0000\nHere is some more advice!\nKeep a lot of Poké Balls, too!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -29,9 +30,10 @@ Script_4:
     PokePartyGetParam 0x8021, 0x8020, 110
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0082
-    ActorMsg 1024, 1, 9, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0082
+    // "Your [f000]ā\u0001\u0000 is male![f000]븁\u0000\nI wonder what the difference is\nbetween male and female Pokémon."
+    ActorMsg MSGFILE_SCRIPT, 1, 9, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_00BB
@@ -39,15 +41,17 @@ Script_4:
 L_0082:
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00AB
-    ActorMsg 1024, 2, 9, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00AB
+    // "Your [f000]ā\u0001\u0000 is female![f000]븁\u0000\nI wonder what the difference is\nbetween male and female Pokémon."
+    ActorMsg MSGFILE_SCRIPT, 2, 9, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_00BB
 
 L_00AB:
-    ActorMsg 1024, 3, 9, 0, 0
+    // "Your [f000]ā\u0001\u0000...\nIts gender is unknown.[f000]븁\u0000\nI wonder what the difference is between\nmale and female Pokémon."
+    ActorMsg MSGFILE_SCRIPT, 3, 9, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -62,7 +66,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "I read the Help on the PC.\nI feel I became smarter!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

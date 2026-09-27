@@ -29,7 +29,8 @@ Script_3:
     VMSleep 20
     ActorCmdExec 255, Movement_01A8
     ActorCmdWait
-    ActorMsg 1024, 0, 251, 0, 0
+    // "Clay: Good dancers are crucial\nfer puttin' on a good show![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 251, 0, 0
     MsgWinCloseAll
     ActorCmdExec 251, Movement_0168
     VMSleep 20
@@ -39,7 +40,7 @@ Script_3:
     WorkSetConst 0x40c3, 4
     FlagReset 717
     ObjInitPointGPos 2, 31, 0, 0
-    Cmd_0262 1, 11
+    HollowRivalCmd_0262 1, 11
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -50,15 +51,16 @@ Script_1:
     DebugPrint 0x4000
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4000
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0105
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0105
     SEPlay 1351
     WordSetPlayerName 0
     SEPlay 1740
+    // "[f000]Ā\u0001\u0000 pressed the\nswitch on the elevator!"
     InfoMsg 2, 2
     SEWait
     MsgWaitAdvance
@@ -82,12 +84,14 @@ Script_4:
     TrainerCardHasBadge 0x8008, 4
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_013B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_013B
+    // "Driftveil Pokémon Gym[f000]븁\u0000\nGym Leader: Clay\nCertified Trainers:[f000]븀\u0000\n[f000]Ā\u0001\u0001"
     InfoMsg 3, 2
     VMJump L_0140
 
 L_013B:
+    // "Driftveil Pokémon Gym[f000]븁\u0000\nGym Leader: Clay\nCertified Trainers:[f000]븀\u0000\n[f000]Ā\u0001\u0000, [f000]Ā\u0001\u0001"
     InfoMsg 4, 2
 
 L_0140:
@@ -101,7 +105,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Welcome to the Driftveil Pokémon Gym![f000]븁\u0000\nIn this Gym, elevators are provided for\nyour use."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

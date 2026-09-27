@@ -46,23 +46,28 @@ Script_3:
     ActorSetEyeToEye
     VMStackPushFlag 444
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00D8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00D8
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00C4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00C4
+    // "The slow passage of time in\nOpelucid City...[f000]븀\u0000\nIt fits an old woman like me perfectly."
+    // "In Opelucid City, you can spend your\ndays in leisure and opulence..."
     ActorMsgVersioned 1024, 0, 1, 11, 0, 0
     VMJump L_00D2
 
 L_00C4:
+    // "You never know what\nwill happen in life.[f000]븁\u0000\nSo maybe it's best to take care of\nwhat you should do while you can."
+    // "You never know what\nwill happen in life.[f000]븁\u0000\nSo maybe it's best to take care of\nwhat you want to do while you can."
     ActorMsgVersioned 1024, 3, 4, 11, 0, 0
 
 L_00D2:
     VMJump L_00E2
 
 L_00D8:
-    ParentActorMsg 1024, 2, 0, 0
+    // "What was that?\nHow did whatever happen? Why now?"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
 
 L_00E2:
     LastKeyWait
@@ -77,23 +82,28 @@ Script_4:
     ActorSetEyeToEye
     VMStackPushFlag 444
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0142
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0142
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_012E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_012E
+    // "Sometimes, I think this...[f000]븁\u0000\nThere could be another world, where\na person who looks just like me[f000]븀\u0000\nlives in a completely different way..."
+    // "I imagine that even the exact same\nperson would change a lot by living in a[f000]븀\u0000\ndifferent world."
     ActorMsgVersioned 1024, 5, 6, 8, 0, 0
     VMJump L_013C
 
 L_012E:
+    // "No matter what the world is like,\nI want to live in it as myself.[f000]븀\u0000\nThat's the truth!"
+    // "No matter what the world is like,\nI want to live in it as myself.[f000]븀\u0000\nThat's my ideal!"
     ActorMsgVersioned 1024, 8, 9, 8, 0, 0
 
 L_013C:
     VMJump L_014C
 
 L_0142:
-    ParentActorMsg 1024, 7, 0, 0
+    // "Oh...\nI thought it was chilly..."
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
 
 L_014C:
     LastKeyWait
@@ -108,23 +118,26 @@ Script_5:
     ActorSetEyeToEye
     VMStackPushFlag 444
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01A4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01A4
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0194
-    ParentActorMsg 1024, 10, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0194
+    // "I want to see how the Pokémon Gym has\nchanged, but I'm not a Trainer yet...[f000]븁\u0000\nI wonder if there's a Pokémon\nsomewhere that will travel with me..."
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     VMJump L_019E
 
 L_0194:
-    ParentActorMsg 1024, 12, 0, 0
+    // "Drayden said that if I want to\ntravel with Pokémon, I should[f000]븀\u0000\nfeel a Pokémon's pain as my own!"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
 
 L_019E:
     VMJump L_01AE
 
 L_01A4:
-    ParentActorMsg 1024, 11, 0, 0
+    // "Know what I saw?\nA huuuge icicle fall from the sky!"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
 
 L_01AE:
     LastKeyWait
@@ -139,58 +152,66 @@ Script_6:
     ActorSetEyeToEye
     VMStackPushFlag 444
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01E3
-    ParentActorMsg 1024, 13, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01E3
+    // "Oh!\nYour Medal Box...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     VMJump L_01ED
 
 L_01E3:
-    ParentActorMsg 1024, 14, 0, 0
+    // "Wh-what in the world?\nWhy is the city covered in ice?[f000]븁\u0000\nOh!\nYour Medal Box...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
 
 L_01ED:
     MedalGetCount 7, 0x8021
     WordSetMedalRank 0, 0x8021
     WorkCmpConst 0x8021, 0
-    VMJumpIf 1, L_020A
+    VMJumpIf CMP_EQ, L_020A
     VMJump L_021A
 
 L_020A:
-    ParentActorMsg 1024, 15, 0, 0
+    // "The sky-blue color is as\nrefreshing as a clear fall day![f000]븁\u0000\nThat paint is for [f000]Ķ\u0001\u0000-rank\nmedalists only!"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     VMJump L_02AA
 
 L_021A:
     WorkCmpConst 0x8021, 1
-    VMJumpIf 1, L_022D
+    VMJumpIf CMP_EQ, L_022D
     VMJump L_023D
 
 L_022D:
-    ParentActorMsg 1024, 16, 0, 0
+    // "The copper coating sparkles elegantly![f000]븁\u0000\nThat paint is for [f000]Ķ\u0001\u0000-rank\nmedalists only!"
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     VMJump L_02AA
 
 L_023D:
     WorkCmpConst 0x8021, 2
-    VMJumpIf 1, L_0250
+    VMJumpIf CMP_EQ, L_0250
     VMJump L_0260
 
 L_0250:
-    ParentActorMsg 1024, 17, 0, 0
+    // "That silver coating is so chic and cool![f000]븁\u0000\nThat paint is for [f000]Ķ\u0001\u0000-rank\nmedalists only!"
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     VMJump L_02AA
 
 L_0260:
     WorkCmpConst 0x8021, 3
-    VMJumpIf 1, L_0273
+    VMJumpIf CMP_EQ, L_0273
     VMJump L_0283
 
 L_0273:
-    ParentActorMsg 1024, 18, 0, 0
+    // "How luxurious! That gold coating\nis gorgeous![f000]븁\u0000\nThat paint is for [f000]Ķ\u0001\u0000-rank\nmedalists only!"
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     VMJump L_02AA
 
 L_0283:
     WorkCmpConst 0x8021, 4
-    VMJumpIf 1, L_0296
+    VMJumpIf CMP_EQ, L_0296
     VMJump L_02AA
 
 L_0296:
+    // "This stylish design has red\nhighlights on a white body, and the[f000]븀\u0000\nmotif is Reshiram, the legendary[f000]븀\u0000\nDragon-type Pokémon.[f000]븁\u0000\nIt's for [f000]Ķ\u0001\u0000-rank\nmedalists only!"
+    // "This stylish design has blue\nhighlights on a jet-black body, and the[f000]븀\u0000\nmotif is Zekrom, the legendary[f000]븀\u0000\nDragon-type Pokémon.[f000]븁\u0000\nIt's for [f000]Ķ\u0001\u0000-rank\nmedalists only!"
     ActorMsgVersioned 1024, 20, 19, 9, 0, 0
     VMJump L_02AA
 

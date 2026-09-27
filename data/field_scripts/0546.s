@@ -18,8 +18,8 @@ Script_4:
 Script_5:
     VMStackPush 0x4113
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0055
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0055
     ActorSetGPos 0, 9, 0, 9, 3
 
 L_0055:
@@ -29,8 +29,8 @@ Script_1:
     ActorsPauseAll
     VMStackPushFlag 2406
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0078
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0078
     VMCall L_021F
     VMJump L_007E
 
@@ -50,46 +50,51 @@ L_0084:
     WorkAdd 0x8021, 2
     VMStackPush 0x8022
     VMStackPush 0x8024
-    VMStackCmp 5
+    VMStackCmp CMP_NE
     VMStackPush 0x400f
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_00D1
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_00D1
     ActorWalkRoute 0, 0x8021, 0x8022, 0, 16, 0
     ActorCmdWait
 
 L_00D1:
     VMStackPush 0x8022
     VMStackPush 0x8024
-    VMStackCmp 5
-    VMJumpIf 255, L_00EE
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_00EE
     ActorCmdExec 0, Movement_04EC
     ActorCmdWait
 
 L_00EE:
-    ActorMsg 1024, 0, 0, 0, 0
+    // "N: [f000]븉\u0001\u0001You came...[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_04F4
     ActorCmdWait
-    ActorMsg 1024, 1, 0, 0, 0
+    // "[f000]븉\u0001\u0001This...[f000]븁\u0000\nThis is Team Plasma's castle.[f000]븁\u0000\nThe ruins of Ghetsis's dreams...[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_04EC
     ActorCmdWait
-    ActorMsg 1024, 2, 0, 0, 0
-    ActorMsg 1024, 3, 0, 0, 0
+    // "[f000]븉\u0001\u0001The deepest chamber of this castle...[f000]븁\u0000\nIt's a place that holds a special\nmeaning to me...[f000]븀\u0000\nI have to face you there![f000]븁\u0000\nFollow me![f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
+    // "[f000]븉\u0001\u0001Actually...[f000]븁\u0000\nRather than just leading you there,\nI'd prefer to follow. That way, I can[f000]븀\u0000\nsee which path you choose and observe[f000]븀\u0000\nwhat catches your interest.[f000]븁\u0000\nSo, I ask this of you![f000]븁\u0000\nTake me to the deepest chamber\nof this castle![f000]븉\u0001\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01FF
-    ActorMsg 1024, 4, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01FF
+    // "[f000]븉\u0001\u0001You lead and I'll follow![f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 0, 0
     MsgWinCloseAll
     PlayerGetExState 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0176
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0176
     PlayerSetSpecialSequence 1
 
 L_0176:
@@ -117,15 +122,16 @@ L_0176:
     FlagSet 911
     VMStackPushFlag 415
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01F9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01F9
     WorkSetConst 0x4113, 1
 
 L_01F9:
     VMJump L_021D
 
 L_01FF:
-    ActorMsg 1024, 6, 0, 0, 0
+    // "[f000]븉\u0001\u0001Fine...\nI'll be waiting here for you, then.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 255, Movement_04B4
     ActorCmdWait
@@ -139,8 +145,8 @@ L_021F:
     PlayerGetDir 0x8020
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_024F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_024F
     ActorCmdExec 255, Movement_04DC
     ActorCmdExec 254, Movement_04C4
     VMJump L_02B1
@@ -148,8 +154,8 @@ L_021F:
 L_024F:
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0278
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0278
     ActorCmdExec 255, Movement_04EC
     ActorCmdExec 254, Movement_04D4
     VMJump L_02B1
@@ -157,8 +163,8 @@ L_024F:
 L_0278:
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_02A1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02A1
     ActorCmdExec 255, Movement_04F4
     ActorCmdExec 254, Movement_04CC
     VMJump L_02B1
@@ -169,13 +175,15 @@ L_02A1:
 
 L_02B1:
     ActorCmdWait
-    ActorMsg 1024, 5, 254, 0, 0
+    // "[f000]븉\u0001\u0001What?[f000]븁\u0000\nYou're leaving at a time like this?[f000]븁\u0000\nMy formula didn't account\nfor this variable...[f000]븉\u0001\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 254, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_033E
-    ActorMsg 1024, 6, 254, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_033E
+    // "[f000]븉\u0001\u0001Fine...\nI'll be waiting here for you, then.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 254, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -196,7 +204,8 @@ L_02B1:
     VMJump L_035C
 
 L_033E:
-    ActorMsg 1024, 7, 254, 0, 0
+    // "[f000]븉\u0001\u0001Fine...\nThen take me to the deepest chamber.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 254, 0, 0
     MsgWinCloseAll
     ActorPairSetMoveEnable 1
     ActorCmdExec 255, Movement_04AC
@@ -211,8 +220,8 @@ Script_2:
     PlayerGetDir 0x8020
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_038D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_038D
     ActorCmdExec 255, Movement_04DC
     ActorCmdExec 254, Movement_04C4
     VMJump L_03EF
@@ -220,8 +229,8 @@ Script_2:
 L_038D:
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_03B6
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03B6
     ActorCmdExec 255, Movement_04EC
     ActorCmdExec 254, Movement_04D4
     VMJump L_03EF
@@ -229,8 +238,8 @@ L_038D:
 L_03B6:
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_03DF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03DF
     ActorCmdExec 255, Movement_04F4
     ActorCmdExec 254, Movement_04CC
     VMJump L_03EF
@@ -241,7 +250,8 @@ L_03DF:
 
 L_03EF:
     ActorCmdWait
-    ActorMsg 1024, 12, 254, 0, 0
+    // "[f000]븉\u0001\u0001There's nothing more of interest there.\nLet's keep moving.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 254, 0, 0
     MsgWinCloseAll
     ActorPairSetMoveEnable 1
     ActorCmdExec 255, Movement_049C
@@ -255,7 +265,8 @@ Script_3:
     ActorsPauseAll
     ActorCmdExec 255, Movement_04EC
     ActorCmdWait
-    ActorMsg 1024, 4, 0, 0, 0
+    // "[f000]븉\u0001\u0001You lead and I'll follow![f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001

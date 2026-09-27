@@ -30,12 +30,12 @@ Script_15:
     Cmd_02B2 0, 0x400c
     VMStackPush 0x400c
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4047
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_008D
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_008D
     FlagReset 907
 
 L_008D:
@@ -46,16 +46,16 @@ L_0095:
     Cmd_02B2 0, 0x400c
     VMStackPushFlag 464
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x400c
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4047
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_00D2
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00D2
     FlagSet 907
 
 L_00D2:
@@ -65,20 +65,20 @@ L_00D4:
     Cmd_02B2 0, 0x400c
     VMStackPushFlag 464
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x400c
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4047
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0128
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0128
     VMStackPushFlag 907
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0124
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0124
     ActorDelete 10
 
 L_0124:
@@ -94,32 +94,32 @@ Script_1:
     Cmd_02B2 0, 0x400f
     VMStackPush 0x400f
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4047
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0167
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0167
     VMCall L_01B5
     VMJump L_01AF
 
 L_0167:
     VMStackPushFlag 464
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0186
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0186
     VMCall L_0218
     VMJump L_01AF
 
 L_0186:
     VMStackPushFlag 464
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x400f
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_01AF
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_01AF
     VMCall L_0218
 
 L_01AF:
@@ -128,7 +128,8 @@ L_01AF:
     VMHalt
 
 L_01B5:
-    ParentActorMsg 1024, 5, 0, 0
+    // "Well, since you came all the way here...[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     MsgWinCloseAll
     FadeOutBlack
     RTReserveScript 1
@@ -141,13 +142,14 @@ Script_16:
     ActorsPauseAll
     FadeInBlackQ
     FadeWait
-    ActorMsg 1024, 6, 10, 0, 0
+    // "I'm grateful for everyone's support..."
+    ActorMsg MSGFILE_SCRIPT, 6, 10, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     VMStackPushFlag 464
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_020C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_020C
     VMCall L_0218
 
 L_020C:
@@ -157,11 +159,12 @@ L_020C:
     VMHalt
 
 L_0218:
-    ActorMsg 1024, 0, 10, 0, 0
+    // "Brycen: In the past, when I was hurt and\ndepressed, Alder shared this with me...[f000]븁\u0000\nThere is strength in being with other\npeople and Pokémon.[f000]븁\u0000\nReceiving their support makes\nyou stronger.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 10, 0, 0
     MsgWinCloseAll
     PlayerGetDir 0x8020
     WorkCmpConst 0x8020, 0
-    VMJumpIf 1, L_023D
+    VMJumpIf CMP_EQ, L_023D
     VMJump L_024B
 
 L_023D:
@@ -170,7 +173,7 @@ L_023D:
 
 L_024B:
     WorkCmpConst 0x8020, 3
-    VMJumpIf 1, L_025E
+    VMJumpIf CMP_EQ, L_025E
     VMJump L_026C
 
 L_025E:
@@ -179,7 +182,7 @@ L_025E:
 
 L_026C:
     WorkCmpConst 0x8020, 1
-    VMJumpIf 1, L_027F
+    VMJumpIf CMP_EQ, L_027F
     VMJump L_028D
 
 L_027F:
@@ -188,7 +191,7 @@ L_027F:
 
 L_028D:
     WorkCmpConst 0x8020, 2
-    VMJumpIf 1, L_02A0
+    VMJumpIf CMP_EQ, L_02A0
     VMJump L_02AE
 
 L_02A0:
@@ -197,11 +200,12 @@ L_02A0:
 
 L_02AE:
     ActorCmdWait
-    ActorMsg 1024, 1, 10, 0, 0
+    // "I worked as a Gym Leader,\nand I came to understand[f000]븀\u0000\nwhat he meant by that.[f000]븁\u0000\nMy desire became to strengthen\nthis relationship that makes everyone[f000]븀\u0000\nstronger--the relationship between[f000]븀\u0000\npeople and Pokémon.[f000]븁\u0000\nBy focusing on the path of an actor,\nI want to make everyone think[f000]븀\u0000\nthat living together with Pokémon[f000]븀\u0000\nis exciting and wonderful.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 10, 0, 0
     MsgWinCloseAll
     PlayerGetDir 0x8020
     WorkCmpConst 0x8020, 0
-    VMJumpIf 1, L_02D5
+    VMJumpIf CMP_EQ, L_02D5
     VMJump L_02E3
 
 L_02D5:
@@ -210,7 +214,7 @@ L_02D5:
 
 L_02E3:
     WorkCmpConst 0x8020, 3
-    VMJumpIf 1, L_02F6
+    VMJumpIf CMP_EQ, L_02F6
     VMJump L_0304
 
 L_02F6:
@@ -219,7 +223,7 @@ L_02F6:
 
 L_0304:
     WorkCmpConst 0x8020, 1
-    VMJumpIf 1, L_0317
+    VMJumpIf CMP_EQ, L_0317
     VMJump L_0325
 
 L_0317:
@@ -228,7 +232,7 @@ L_0317:
 
 L_0325:
     WorkCmpConst 0x8020, 2
-    VMJumpIf 1, L_0338
+    VMJumpIf CMP_EQ, L_0338
     VMJump L_0346
 
 L_0338:
@@ -237,12 +241,13 @@ L_0338:
 
 L_0346:
     ActorCmdWait
-    ActorMsg 1024, 2, 10, 0, 0
+    // "Teaching is being taught...\nExcuse me, it's time for training.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 10, 0, 0
     MsgWinCloseAll
     VMStackPush 0x4047
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_036F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_036F
     VMCall L_0375
 
 L_036F:
@@ -253,12 +258,12 @@ L_0375:
     PlayerGetGPos 0x8021, 0x8022
     VMStackPush 0x8021
     VMStackPushConst 17
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8022
     VMStackPushConst 15
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_03BE
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_03BE
     ActorWalkRoute 10, 16, 23, 1, 8, 0
     VMSleep 16
     ActorCmdExec 255, Movement_0608
@@ -279,11 +284,12 @@ Script_2:
     ActorsPauseAll
     VMStackPushFlag 907
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0413
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0413
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "So cool, isn't it?[f000]븁\u0000\nThat strong figure standing\nthere in the background!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0427
@@ -291,7 +297,8 @@ Script_2:
 L_0413:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "Oh, I'm so sorry.[f000]븁\u0000\nBrycen decided to try to\nreturn to his acting roots.[f000]븁\u0000\nCurrently, he's working hard at\nPokéstar Studios!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -303,6 +310,7 @@ L_0427:
 Script_3:
     ActorsPauseAll
     SEPlay 1351
+    // "Former Icirrus City\nPokémon Gym"
     InfoMsg 7, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -317,8 +325,8 @@ Script_4:
     Cmd_0190 0
     VMStackPush 0x4001
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0487
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0487
     ActorSetGPos 2, 19, 0, 54, 1
     ActorSetGPos 3, 18, 0, 53, 1
     WorkSetConst 0x4001, 1
@@ -341,8 +349,8 @@ Script_5:
     Cmd_0190 1
     VMStackPush 0x4002
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04F0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04F0
     ActorSetGPos 5, 55, 3, 42, 1
     ActorSetGPos 6, 54, 3, 43, 1
     WorkSetConst 0x4002, 1
@@ -365,8 +373,8 @@ Script_6:
     Cmd_0190 2
     VMStackPush 0x4003
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0559
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0559
     ActorSetGPos 8, 17, 6, 32, 1
     ActorSetGPos 9, 18, 6, 33, 1
     WorkSetConst 0x4003, 1

@@ -19,23 +19,23 @@ Script_1:
     ActorSetEyeToEye
     VMStackPushFlag 2772
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02E0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02E0
     VMStackPushFlag 2771
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00B0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B0
 
 L_006E:
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00AC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00AC
     Random 0x8020, 201
     VMStackPush 0x8020
     VMStackPushConst 50
-    VMStackCmp 4
-    VMJumpIf 255, L_00A6
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_00A6
     WorkGet 0x4187, 0x8020
     WorkSetConst 0x8021, 1
 
@@ -46,37 +46,39 @@ L_00AC:
     FlagSet 2771
 
 L_00B0:
-    ParentActorMsg 1024, 0, 0, 0
+    // "I'm very particular about\nthe Speed of Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     MsgWaitAdvance
     WordSetNumber 1, 0x4187, 3
-    ParentActorMsg 1024, 1, 0, 0
+    // "That's why I'm wondering if you\nhave any Pokémon with a Speed[f000]븀\u0000\nof [f000]Ȃ\u0001\u0001 or greater with you!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     MsgWaitAdvance
     PokePartyGetCount 0x8022, 0
 
 L_00D5:
     VMStackPush 0x8022
     VMStackPush 0x8023
-    VMStackCmp 2
-    VMJumpIf 255, L_015B
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_015B
     VMStackPush 0x8026
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_014F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_014F
     PokePartyGetParam 0x8024, 0x8023, 164
     PokePartyIsEgg 0x8027, 0x8023
     PokePartyGetParam 0x8028, 0x8023, 160
     VMStackPush 0x8024
     VMStackPush 0x4187
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8027
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 2
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_014F
+    VMStackCmp CMP_GT
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_014F
     WordSetPartyPokeSpecies 0, 0x8023
     WorkSetConst 0x8026, 1
 
@@ -87,34 +89,34 @@ L_014F:
 L_015B:
     VMStackPush 0x8026
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01FA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01FA
     WorkSetConst 0x8023, 0
 
 L_0174:
     VMStackPush 0x8022
     VMStackPush 0x8023
-    VMStackCmp 2
-    VMJumpIf 255, L_01FA
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_01FA
     VMStackPush 0x8025
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01EE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01EE
     PokePartyGetParam 0x8024, 0x8023, 164
     PokePartyIsEgg 0x8027, 0x8023
     PokePartyGetParam 0x8028, 0x8023, 160
     VMStackPush 0x8024
     VMStackPush 0x4187
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8027
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 2
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_01EE
+    VMStackCmp CMP_GT
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_01EE
     WordSetPartyPokeSpecies 0, 0x8023
     WorkSetConst 0x8025, 1
 
@@ -125,12 +127,13 @@ L_01EE:
 L_01FA:
     VMStackPush 0x8026
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_025D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_025D
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0310
     ActorCmdWait
-    ParentActorMsg 1024, 3, 0, 0
+    // "Your [f000]ā\u0001\u0000 definitely\nhas the Speed that I like![f000]븁\u0000\nI'm really really happy,\nso I'll give you these![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -139,7 +142,8 @@ L_01FA:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 4, 0, 0
+    // "There are many different Pokémon\nwith many different Speeds! ♪[f000]븁\u0000\nIf you'd like, please come\nvisit me again tomorrow, OK?"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2772
@@ -148,12 +152,13 @@ L_01FA:
 L_025D:
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02C0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02C0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0310
     ActorCmdWait
-    ParentActorMsg 1024, 2, 0, 0
+    // "Your [f000]ā\u0001\u0000 is fast!\nJust like I like them![f000]븁\u0000\nThat makes me really happy,\nso I'll give you this![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -162,7 +167,8 @@ L_025D:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 4, 0, 0
+    // "There are many different Pokémon\nwith many different Speeds! ♪[f000]븁\u0000\nIf you'd like, please come\nvisit me again tomorrow, OK?"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2772
@@ -172,7 +178,8 @@ L_02C0:
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0310
     ActorCmdWait
-    ParentActorMsg 1024, 5, 0, 0
+    // "Don't worry! There's more to\nPokémon than Speed.[f000]븁\u0000\nBut, today, I'd sure like to see\na Pokémon with Speed greater than [f000]Ȃ\u0001\u0001!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -180,7 +187,8 @@ L_02DA:
     VMJump L_02EE
 
 L_02E0:
-    ParentActorMsg 1024, 4, 0, 0
+    // "There are many different Pokémon\nwith many different Speeds! ♪[f000]븁\u0000\nIf you'd like, please come\nvisit me again tomorrow, OK?"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -193,7 +201,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "I'm very particular about\nPokémon's Attack stat!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

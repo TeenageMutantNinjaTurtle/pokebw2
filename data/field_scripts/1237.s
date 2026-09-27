@@ -13,6 +13,7 @@
 Script_1:
     ActorsPauseAll
     SEPlay 1351
+    // "It's lined with Pokémon picture books."
     InfoMsg 0, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -23,6 +24,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     SEPlay 1351
+    // "Are these books for Pokémon\nto read?"
     InfoMsg 1, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -33,6 +35,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     SEPlay 1351
+    // "It's chock full of Pokémon books and\nphoto collections."
     InfoMsg 2, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -43,6 +46,7 @@ Script_3:
 Script_4:
     ActorsPauseAll
     SEPlay 1351
+    // "There are lots of Pokémon magazines![f000]븁\u0000\n“Pokémon Pal\"\n“Pokémon Handbook\"[f000]븀\u0000\n“Adorable Pokémon\""
     InfoMsg 3, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -53,6 +57,7 @@ Script_4:
 Script_5:
     ActorsPauseAll
     SEPlay 1351
+    // "The trash can is empty."
     InfoMsg 4, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -65,6 +70,7 @@ Script_5:
 Script_6:
     ActorsPauseAll
     SEPlay 1351
+    // "The shelves are jammed with vibrant\nPokémon goods."
     InfoMsg 5, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -75,6 +81,7 @@ Script_6:
 Script_7:
     ActorsPauseAll
     SEPlay 1351
+    // "It looks like a cabinet full of\nPokémon goods."
     InfoMsg 6, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -85,6 +92,7 @@ Script_7:
 Script_8:
     ActorsPauseAll
     SEPlay 1351
+    // "Goods are arranged on the shelves in a\nvery orderly fashion."
     InfoMsg 7, 2
     LastKeyWait
     InfoMsgClose_0039

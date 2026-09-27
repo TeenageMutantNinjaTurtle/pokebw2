@@ -5,11 +5,11 @@
     ScriptEntriesEnd
 
 Script_1:
-    Cmd_01DC 0, 0x8010
+    DreamWorldCmd_01DC 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_002D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_002D
     FlagReset 654
     VMJump L_0031
 
@@ -30,54 +30,59 @@ Script_2:
     WorkSetConst 0x8020, 0
 
 L_004D:
-    Cmd_01DC 0, 0x8010
+    DreamWorldCmd_01DC 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_007C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_007C
     DebugPrint 0x8010
-    ActorMsg 1024, 1, 0x8011, 2, 0
+    // "I've given you all the Dream Remnants.[f000]븁\u0000\nNext time your Pokémon dreams, come\nback and see me again."
+    ActorMsg MSGFILE_SCRIPT, 1, 0x8011, 2, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
 
 L_007C:
     WordSetPlayerName 0
-    ActorMsg 1024, 0, 0x8011, 2, 0
+    // "This is a remnant of your\nPokémon's dream.[f000]븀\u0000\nHere, take it.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0x8011, 2, 0
     ActorMsgClose
-    Cmd_01DC 1, 0x8010
+    DreamWorldCmd_01DC 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00C2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00C2
     MEPlay 1302
+    // "[f000]Ā\u0001\u0000 received\nthe item(s)!"
     SystemMsg 3, 0
     MEWait
     MsgWaitAdvance
     InfoMsgClose
-    Cmd_01DC 2, 0x8010
-    Cmd_01DC 3, 0x8010
+    DreamWorldCmd_01DC 2, 0x8010
+    DreamWorldCmd_01DC 3, 0x8010
 
 L_00C2:
-    Cmd_01DC 4, 0x8020
+    DreamWorldCmd_01DC 4, 0x8020
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 2
-    VMJumpIf 255, L_0112
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_0112
     WorkSetConst 0x8010, 0
 
 L_00E1:
     VMStackPush 0x8010
     VMStackPush 0x8020
-    VMStackCmp 0
-    VMJumpIf 255, L_0112
-    Cmd_01DC 5, 0x8010
-    ActorMsg 1024, 4, 0x8011, 2, 0
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_0112
+    DreamWorldCmd_01DC 5, 0x8010
+    // "You have no more room in your Bag\nfor [f000]ĉ\u0001\u0000. If you remove some,[f000]븀\u0000\nI'll give you the rest.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0x8011, 2, 0
     WorkAdd 0x8010, 1
     VMJump L_00E1
 
 L_0112:
-    ActorMsg 1024, 2, 0x8011, 2, 0
+    // "When your Pokémon has another dream,\ncome back and see me again."
+    ActorMsg MSGFILE_SCRIPT, 2, 0x8011, 2, 0
     LastKeyWait
     ActorMsgClose
     VMReturn

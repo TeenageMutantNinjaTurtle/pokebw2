@@ -17,8 +17,8 @@
 L_003A:
     VMStackPushFlag 364
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_005D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_005D
     ObjInitWarpGPos 1, 34, 0, 47
     VMJump L_0067
 
@@ -51,7 +51,8 @@ Script_7:
     VMSleep 40
     ActorCmdExec 255, Movement_02FC
     ActorCmdWait
-    ActorMsg 1024, 2, 9, 0, 0
+    // "[f000]Ā\u0001\u0001: You're already here, huh?[f000]븁\u0000\nAnyone who tries to block us\nwill go running away with[f000]븀\u0000\ntheir tail between their legs![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 9, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 10, 60, 41, 1, 8, 1
     VMSleep 8
@@ -61,9 +62,11 @@ Script_7:
     ActorCmdExec 9, Movement_0324
     ActorCmdExec 255, Movement_0304
     ActorCmdWait
+    // "Hey, it's good! We're all set here![f000]븁\u0000"
     InfoMsg 3, 2
     MsgWinCloseAll
-    ActorMsg 1024, 4, 6, 0, 0
+    // "It's finally time!\nC'mon! Let's go![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 6, 0, 0
     MsgWinCloseAll
     ActorWalkRoute 6, 61, 45, 1, 8, 1
     ActorWalkRoute 11, 61, 45, 1, 8, 0
@@ -78,19 +81,24 @@ Script_7:
     ActorCmdWait
     ActorCmdExec 255, Movement_0304
     ActorCmdWait
-    ActorMsg 1024, 5, 9, 5, 0
+    // "[f000]Ā\u0001\u0001: You're all alone now...\nSo, which one of us are you gonna tackle?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 9, 5, 0
     MsgWinCloseAll
     ActorCmdExec 10, Movement_0324
     ActorCmdWait
     ActorCmdExec 10, Movement_02FC
     ActorCmdWait
-    ActorMsg 1024, 6, 10, 4, 0
+    // "Oi! It's me! Me!\nThe ex-Team Plasma guy![f000]븀\u0000\nThe one Rood asked to be a spy![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 10, 4, 0
     MsgWinCloseAll
-    ActorMsg 1024, 7, 9, 5, 0
+    // "[f000]Ā\u0001\u0001: Oh, yeah...\nI remember you.[f000]븁\u0000\nBeing ex-Team Plasma\nis really rough, eh?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 9, 5, 0
     MsgWinCloseAll
-    ActorMsg 1024, 8, 10, 4, 0
+    // "You know, N was so nice to Pokémon...[f000]븁\u0000\nAnd all I wanted to do was protect\nPokémon from bad people...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 10, 4, 0
     MsgWinCloseAll
-    ActorMsg 1024, 9, 9, 5, 0
+    // "[f000]Ā\u0001\u0001: Well, I suppose...[f000]븁\u0000\nIf we don't crush Team Plasma, then\nguys like you and that N guy[f000]븀\u0000\nwill always be treated like villains.[f000]븁\u0000\nOK!\nI'm outta here, [f000]Ā\u0001\u0000![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 9, 5, 0
     MsgWinCloseAll
     ActorWalkRoute 9, 61, 51, 1, 4, 1
     VMSleep 12
@@ -98,7 +106,8 @@ Script_7:
     ActorCmdWait
     ActorCmdExec 10, Movement_02FC
     ActorCmdWait
-    ActorMsg 1024, 10, 10, 4, 0
+    // "Oh, thank you.\nThat's so nice.[f000]븁\u0000\nEven if we said it was for Pokémon, in the\nend, we were doing what we wanted to do.[f000]븁\u0000\nPlease excuse me.\nThere's still something I have to do![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 10, 4, 0
     MsgWinCloseAll
     ActorWalkRoute 10, 60, 51, 1, 8, 1
     ActorCmdWait
@@ -109,7 +118,7 @@ Script_7:
     FlagSet 880
     FlagSet 857
     WorkSetConst 0x4070, 2
-    Cmd_0262 1, 33
+    HollowRivalCmd_0262 1, 33
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -120,9 +129,11 @@ Script_7:
 Script_3:
     ActorsPauseAll
     SEPlay 1351
-    ActorMsg 1024, 0, 11, 3, 0
+    // "How long does “wait until everyone\nelse arrives\" mean, exactly?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 11, 3, 0
     MsgWinCloseAll
-    ActorMsg 1024, 1, 6, 5, 0
+    // "The area past here is important![f000]븁\u0000\nThe people heading to Route 21\nare definitely important, but we have[f000]븀\u0000\nan important role as well!"
+    ActorMsg MSGFILE_SCRIPT, 1, 6, 5, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -133,7 +144,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "Oh, thank you.\nThat's so nice.[f000]븁\u0000\nEven if we said it was for Pokémon, in the\nend, we were doing what we wanted to do.[f000]븁\u0000\nPlease excuse me.\nThere's still something I have to do![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -143,7 +155,8 @@ Script_4:
 Script_5:
     ActorsPauseAll
     SEPlay 1351
-    ActorMsg 1024, 11, 7, 0, 0
+    // "We're standing watch here\nso our allies don't go AWOL!"
+    ActorMsg MSGFILE_SCRIPT, 11, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents
@@ -153,7 +166,8 @@ Script_5:
 Script_6:
     ActorsPauseAll
     SEPlay 1351
-    ActorMsg 1024, 12, 8, 0, 0
+    // "None shall pass!\nSages' orders!"
+    ActorMsg MSGFILE_SCRIPT, 12, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FinishAllEvents

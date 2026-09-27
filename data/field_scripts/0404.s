@@ -11,8 +11,8 @@ Script_2:
     RTCGetSeason 0x8020
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0033
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0033
     FlagReset 690
 
 L_0033:
@@ -23,11 +23,12 @@ Script_1:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_006A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_006A
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "If you look for something in an empty\nplace like this, you can discover things!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_024B
@@ -35,21 +36,22 @@ Script_1:
 L_006A:
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2747
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0237
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0237
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 1, 2, 0, 0
+    // "If you look for something in an empty\nplace like this, you can discover things![f000]븁\u0000\nLike this Fossil I just found! Take this![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 2, 0, 0
     ActorMsgClose
     Random 0x400f, 7
     VMStackPush 0x400f
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00E0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E0
     VMStackPush 0x8000
     VMStackPush 0x8001
     WorkSet 0x8000, 99
@@ -62,8 +64,8 @@ L_006A:
 L_00E0:
     VMStackPush 0x400f
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0119
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0119
     VMStackPush 0x8000
     VMStackPush 0x8001
     WorkSet 0x8000, 100
@@ -76,8 +78,8 @@ L_00E0:
 L_0119:
     VMStackPush 0x400f
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0152
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0152
     VMStackPush 0x8000
     VMStackPush 0x8001
     WorkSet 0x8000, 101
@@ -90,8 +92,8 @@ L_0119:
 L_0152:
     VMStackPush 0x400f
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_018B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_018B
     VMStackPush 0x8000
     VMStackPush 0x8001
     WorkSet 0x8000, 102
@@ -104,8 +106,8 @@ L_0152:
 L_018B:
     VMStackPush 0x400f
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_01C4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01C4
     VMStackPush 0x8000
     VMStackPush 0x8001
     WorkSet 0x8000, 103
@@ -118,8 +120,8 @@ L_018B:
 L_01C4:
     VMStackPush 0x400f
     VMStackPushConst 5
-    VMStackCmp 1
-    VMJumpIf 255, L_01FD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01FD
     VMStackPush 0x8000
     VMStackPush 0x8001
     WorkSet 0x8000, 104
@@ -139,7 +141,8 @@ L_01FD:
     VMStackPop 0x8000
 
 L_021D:
-    ActorMsg 1024, 2, 2, 0, 0
+    // "If you come again tomorrow, you might be\nable to find a Fossil of your own.[f000]븀\u0000\nSo come on out and play if ya want!"
+    ActorMsg MSGFILE_SCRIPT, 2, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FlagSet 2747
@@ -148,7 +151,8 @@ L_021D:
 L_0237:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "If you come again tomorrow, you might be\nable to find a Fossil of your own.[f000]븀\u0000\nSo come on out and play if ya want!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -166,27 +170,30 @@ Script_3:
     ActorSetEyeToEye
     VMStackPush 0x40fe
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02EA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02EA
     WorkSetConst 0x40fe, 1
-    ActorMsg 1024, 3, 7, 2, 0
+    // "Hello!\nI'm a Heavy Machinery Pro![f000]븁\u0000\nAnd... You!\nDo you like construction trucks?"
+    ActorMsg MSGFILE_SCRIPT, 3, 7, 2, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02D0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02D0
 
 L_02A7:
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02D0
-    ActorMsg 1024, 5, 7, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02D0
+    // "What? Sorry, I couldn't hear you.[f000]븁\u0000\nI'll ask you again!\nDo you like construction trucks?"
+    ActorMsg MSGFILE_SCRIPT, 5, 7, 2, 0
     YesNoWin 0x8010
     VMJump L_02A7
 
 L_02D0:
-    ActorMsg 1024, 4, 7, 2, 0
+    // "Oh! I knew it!\nConstruction trucks are cool, right?[f000]븁\u0000\nNow, I'll give you a quiz![f000]븁\u0000\nThere are five questions in total!\nIf you answer all of them correctly,[f000]븀\u0000\nI may give you a present!"
+    ActorMsg MSGFILE_SCRIPT, 4, 7, 2, 0
     MsgWaitAdvance
     VMCall L_046C
     VMJump L_0466
@@ -194,17 +201,18 @@ L_02D0:
 L_02EA:
     VMStackPush 0x40fe
     VMStackPushConst 1
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x40fe
     VMStackPushConst 5
-    VMStackCmp 3
-    VMStackCmp 7
-    VMJumpIf 255, L_040E
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_040E
     VMStackPushFlag 2769
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0336
-    ActorMsg 1024, 34, 7, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0336
+    // "Yay, a future Heavy Machinery Pro![f000]븁\u0000\nIf you come see me again tomorrow,\nI'll give you the next question.[f000]븀\u0000\nSee you then!"
+    ActorMsg MSGFILE_SCRIPT, 34, 7, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0408
@@ -212,18 +220,20 @@ L_02EA:
 L_0336:
     VMStackPushFlag 2770
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_035F
-    ActorMsg 1024, 35, 7, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_035F
+    // "If you come back tomorrow,\nyou can give that question another try.[f000]븁\u0000\nI'll be waiting for you!"
+    ActorMsg MSGFILE_SCRIPT, 35, 7, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0408
 
 L_035F:
-    ActorMsg 1024, 6, 7, 2, 0
+    // "Hi! I've been waiting for you!\nOK. Let's get started!"
+    ActorMsg MSGFILE_SCRIPT, 6, 7, 2, 0
     MsgWaitAdvance
     WorkCmpConst 0x40fe, 1
-    VMJumpIf 1, L_0380
+    VMJumpIf CMP_EQ, L_0380
     VMJump L_038C
 
 L_0380:
@@ -232,7 +242,7 @@ L_0380:
 
 L_038C:
     WorkCmpConst 0x40fe, 2
-    VMJumpIf 1, L_039F
+    VMJumpIf CMP_EQ, L_039F
     VMJump L_03AB
 
 L_039F:
@@ -241,7 +251,7 @@ L_039F:
 
 L_03AB:
     WorkCmpConst 0x40fe, 3
-    VMJumpIf 1, L_03BE
+    VMJumpIf CMP_EQ, L_03BE
     VMJump L_03CA
 
 L_03BE:
@@ -250,7 +260,7 @@ L_03BE:
 
 L_03CA:
     WorkCmpConst 0x40fe, 4
-    VMJumpIf 1, L_03DD
+    VMJumpIf CMP_EQ, L_03DD
     VMJump L_03E9
 
 L_03DD:
@@ -259,7 +269,7 @@ L_03DD:
 
 L_03E9:
     WorkCmpConst 0x40fe, 5
-    VMJumpIf 1, L_03FC
+    VMJumpIf CMP_EQ, L_03FC
     VMJump L_0408
 
 L_03FC:
@@ -272,21 +282,23 @@ L_0408:
 L_040E:
     VMStackPush 0x40fe
     VMStackPushConst 6
-    VMStackCmp 1
-    VMJumpIf 255, L_0466
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0466
     WorkSetConst 0x8024, 0
     MedalIsObtained 0x8024, 99
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0456
-    ActorMsg 1024, 37, 7, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0456
+    // "I'll tell Mr. Medal about your talent\nas a Heavy Machinery Pro."
+    ActorMsg MSGFILE_SCRIPT, 37, 7, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0466
 
 L_0456:
-    ActorMsg 1024, 38, 7, 2, 0
+    // "I'm so happy that I witnessed the\ncrowning of a Heavy Machinery Pro[f000]븀\u0000\nof a new generation!"
+    ActorMsg MSGFILE_SCRIPT, 38, 7, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -296,7 +308,8 @@ L_0466:
     VMHalt
 
 L_046C:
-    ActorMsg 1024, 7, 7, 2, 0
+    // "Construction Truck Quiz!\nFor short: TruQ![f000]븁\u0000\nNow, here's the question![f000]븁\u0000\nWhich place is famous for\nan old rusty crane truck?"
+    ActorMsg MSGFILE_SCRIPT, 7, 7, 2, 0
     MsgWaitAdvance
     ListMenu_AnchorTopRight 31, 5, 0, 1, 32801
     ListMenuAdd 8, 65535, 0
@@ -306,9 +319,10 @@ L_046C:
     ListMenuShow
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04D8
-    ActorMsg 1024, 32, 7, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04D8
+    // "...[f000]븁\u0000\nCorrect!\nWell done![f000]븁\u0000\nYou're sharp!"
+    ActorMsg MSGFILE_SCRIPT, 32, 7, 2, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2769
@@ -316,7 +330,8 @@ L_046C:
     VMJump L_04EC
 
 L_04D8:
-    ActorMsg 1024, 33, 7, 2, 0
+    // "...[f000]븁\u0000\nHmm... Close!\nToo bad![f000]븁\u0000\nBut you were on the right track!"
+    ActorMsg MSGFILE_SCRIPT, 33, 7, 2, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2770
@@ -325,7 +340,8 @@ L_04EC:
     VMReturn
 
 L_04EE:
-    ActorMsg 1024, 12, 7, 2, 0
+    // "Construction Truck Quiz!\nFor short: TruQ![f000]븁\u0000\nNow, here's the question![f000]븁\u0000\nThe trucks that run on Route 4\ncome in three different colors:[f000]븀\u0000\nred, blue, and...what?"
+    ActorMsg MSGFILE_SCRIPT, 12, 7, 2, 0
     MsgWaitAdvance
     ListMenu_AnchorTopRight 31, 5, 0, 1, 32801
     ListMenuAdd 13, 65535, 0
@@ -335,9 +351,10 @@ L_04EE:
     ListMenuShow
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_055A
-    ActorMsg 1024, 32, 7, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_055A
+    // "...[f000]븁\u0000\nCorrect!\nWell done![f000]븁\u0000\nYou're sharp!"
+    ActorMsg MSGFILE_SCRIPT, 32, 7, 2, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2769
@@ -345,7 +362,8 @@ L_04EE:
     VMJump L_056E
 
 L_055A:
-    ActorMsg 1024, 33, 7, 2, 0
+    // "...[f000]븁\u0000\nHmm... Close!\nToo bad![f000]븁\u0000\nBut you were on the right track!"
+    ActorMsg MSGFILE_SCRIPT, 33, 7, 2, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2770
@@ -354,7 +372,8 @@ L_056E:
     VMReturn
 
 L_0570:
-    ActorMsg 1024, 17, 7, 2, 0
+    // "Construction Truck Quiz!\nFor short: TruQ![f000]븁\u0000\nNow, here's the question![f000]븁\u0000\nWhich question is this?"
+    ActorMsg MSGFILE_SCRIPT, 17, 7, 2, 0
     MsgWaitAdvance
     ListMenu_AnchorTopRight 31, 5, 0, 1, 32801
     ListMenuAdd 18, 65535, 0
@@ -364,9 +383,10 @@ L_0570:
     ListMenuShow
     VMStackPush 0x8021
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_05DC
-    ActorMsg 1024, 32, 7, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05DC
+    // "...[f000]븁\u0000\nCorrect!\nWell done![f000]븁\u0000\nYou're sharp!"
+    ActorMsg MSGFILE_SCRIPT, 32, 7, 2, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2769
@@ -374,7 +394,8 @@ L_0570:
     VMJump L_05F0
 
 L_05DC:
-    ActorMsg 1024, 33, 7, 2, 0
+    // "...[f000]븁\u0000\nHmm... Close!\nToo bad![f000]븁\u0000\nBut you were on the right track!"
+    ActorMsg MSGFILE_SCRIPT, 33, 7, 2, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2770
@@ -383,7 +404,8 @@ L_05F0:
     VMReturn
 
 L_05F2:
-    ActorMsg 1024, 22, 7, 2, 0
+    // "Construction Truck Quiz!\nFor short: TruQ![f000]븁\u0000\nNow, here's the question![f000]븁\u0000\nWhich Gym has a yellow drill car?"
+    ActorMsg MSGFILE_SCRIPT, 22, 7, 2, 0
     MsgWaitAdvance
     ListMenu_AnchorTopRight 31, 5, 0, 1, 32801
     ListMenuAdd 23, 65535, 0
@@ -393,9 +415,10 @@ L_05F2:
     ListMenuShow
     VMStackPush 0x8021
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_065E
-    ActorMsg 1024, 32, 7, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_065E
+    // "...[f000]븁\u0000\nCorrect!\nWell done![f000]븁\u0000\nYou're sharp!"
+    ActorMsg MSGFILE_SCRIPT, 32, 7, 2, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2769
@@ -403,7 +426,8 @@ L_05F2:
     VMJump L_0672
 
 L_065E:
-    ActorMsg 1024, 33, 7, 2, 0
+    // "...[f000]븁\u0000\nHmm... Close!\nToo bad![f000]븁\u0000\nBut you were on the right track!"
+    ActorMsg MSGFILE_SCRIPT, 33, 7, 2, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2770
@@ -412,7 +436,8 @@ L_0672:
     VMReturn
 
 L_0674:
-    ActorMsg 1024, 27, 7, 2, 0
+    // "Construction Truck Quiz!\nFor short: TruQ![f000]븁\u0000\nNow, here's the question![f000]븁\u0000\nHow many bulldozers\nare there in Twist Mountain?"
+    ActorMsg MSGFILE_SCRIPT, 27, 7, 2, 0
     MsgWaitAdvance
     ListMenu_AnchorTopRight 31, 5, 0, 1, 32801
     ListMenuAdd 28, 65535, 0
@@ -422,13 +447,16 @@ L_0674:
     ListMenuShow
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0700
-    ActorMsg 1024, 32, 7, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0700
+    // "...[f000]븁\u0000\nCorrect!\nWell done![f000]븁\u0000\nYou're sharp!"
+    ActorMsg MSGFILE_SCRIPT, 32, 7, 2, 0
     MsgWaitAdvance
-    ActorMsg 1024, 36, 7, 2, 0
+    // "Wow! You're amazing!\nYou got a perfect score on the TruQ![f000]븁\u0000\nI thought of those questions with\nall my might, you know![f000]븁\u0000\nYou are a true Heavy Machinery Pro...[f000]븁\u0000\nYes! You're a Heavy Machinery Pro\nrecognized by a wandering judge[f000]븀\u0000\nfrom the Medal Office, which is me!"
+    ActorMsg MSGFILE_SCRIPT, 36, 7, 2, 0
     MsgWaitAdvance
-    ActorMsg 1024, 37, 7, 2, 0
+    // "I'll tell Mr. Medal about your talent\nas a Heavy Machinery Pro."
+    ActorMsg MSGFILE_SCRIPT, 37, 7, 2, 0
     LastKeyWait
     MsgWinCloseAll
     MedalGive 99
@@ -437,7 +465,8 @@ L_0674:
     VMJump L_0714
 
 L_0700:
-    ActorMsg 1024, 33, 7, 2, 0
+    // "...[f000]븁\u0000\nHmm... Close!\nToo bad![f000]븁\u0000\nBut you were on the right track!"
+    ActorMsg MSGFILE_SCRIPT, 33, 7, 2, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 2770

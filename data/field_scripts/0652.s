@@ -22,12 +22,12 @@ Script_9:
     RTCGetWeekDay 0x8023
     VMStackPush 0x8023
     VMStackPushConst 4
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2774
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_007B
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_007B
     FlagReset 902
     VMJump L_007F
 
@@ -37,25 +37,25 @@ L_007B:
 L_007F:
     VMStackPush 0x4111
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_00AE
-    Cmd_0262 2, 14
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00AE
+    HollowRivalCmd_0262 2, 14
     VMJump L_00D7
 
 L_00AE:
     VMStackPush 0x4111
     VMStackPushConst 0
-    VMStackCmp 5
+    VMStackCmp CMP_NE
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_00D7
-    Cmd_0262 2, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00D7
+    HollowRivalCmd_0262 2, 0
 
 L_00D7:
     VMHalt
@@ -66,13 +66,13 @@ Script_5:
     PlayerGetDir 0x8020
     VMStackPush 0x8021
     VMStackPushConst 432
-    VMStackCmp 1
-    VMJumpIf 255, L_0139
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0139
     ActorCmdExec 15, Movement_04A0
     VMStackPush 0x8020
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_011F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_011F
     VMSleep 20
     ActorCmdExec 255, Movement_06B8
 
@@ -86,8 +86,8 @@ L_011F:
 L_0139:
     VMStackPush 0x8021
     VMStackPushConst 430
-    VMStackCmp 1
-    VMJumpIf 255, L_017C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_017C
     ActorWalkRoute 15, 431, 583, 0, 8, 0
     ActorCmdExec 255, Movement_0680
     ActorCmdWait
@@ -99,8 +99,8 @@ L_0139:
 L_017C:
     VMStackPush 0x8021
     VMStackPushConst 431
-    VMStackCmp 1
-    VMJumpIf 255, L_01B1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01B1
     ActorCmdExec 15, Movement_04B4
     ActorCmdWait
     ActorCmdExec 15, Movement_06C8
@@ -121,8 +121,10 @@ L_01B1:
     ActorCmdWait
 
 L_01F9:
-    ActorMsg 1024, 3, 15, 0, 0
-    ActorMsg 1024, 4, 15, 0, 0
+    // "Colress: I've been waiting for you![f000]븁\u0000\nWhat's the matter?\nInterested in what's behind me?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 15, 0, 0
+    // "These are not mere rocks, but\nthe Pokémon known as Crustle.[f000]븁\u0000\nObserve.[f000]븁\u0000\nWith this device I created\nto energize Pokémon, I'll...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 15, 0, 0
     MsgWinCloseAll
     ActorCmdExec 15, Movement_06B8
     VMSleep 4
@@ -172,26 +174,29 @@ L_01F9:
     ActorDelete 24
     FadeEx 3, 16, 0, 4
     FadeExWait
-    ActorMsg 1024, 6, 15, 0, 0
+    // "Colress: Those Crustle...[f000]븁\u0000\nWere they just lying here,\nout of energy, with their[f000]븀\u0000\nboulders on their backs?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 15, 0, 0
     MsgWinCloseAll
     BGMPlay 1238
     ActorCmdExec 15, Movement_06C8
     VMSleep 4
     ActorCmdExec 255, Movement_06D0
     ActorCmdWait
-    ActorMsg 1024, 7, 15, 0, 0
+    // "Team Plasma said we should recognize\nthe potential in Pokémon and[f000]븀\u0000\nliberate them from humans.[f000]븁\u0000\nI disagree.[f000]븁\u0000\nConversely, it should be humans who bring\nout the hidden potential in Pokémon![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 15, 0, 0
     MsgWinCloseAll
     ActorCmdExec 15, Movement_04E0
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 8, 15, 0, 0
+    // "Now that I think of it,\nI never asked your name.[f000]븁\u0000\n...\n...[f000]븁\u0000\n[f000]Ā\u0001\u0000...\nI'll remember that name.[f000]븁\u0000\nWell then, I will test you to see if\nyou're a Trainer who can bring out[f000]븀\u0000\nthe hidden potential of Pokémon![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 15, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 358, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_039B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_039B
     CallTrainerBattleEnd
     VMJump L_039D
 
@@ -200,7 +205,8 @@ L_039B:
 
 L_039D:
     WordSetPlayerName 0
-    ActorMsg 1024, 9, 15, 0, 0
+    // "Colress: I see! Just like the\nGym Leaders in each area or the[f000]븀\u0000\nElite Four and Champion in the[f000]븀\u0000\nPokémon League, you bring out the[f000]븀\u0000\npower in Pokémon by being kind to them![f000]븁\u0000\nThat's the kind of person you are.[f000]븁\u0000\nI'm extremely grateful for your help.\nThis is a token of my gratitude.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 15, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -210,7 +216,8 @@ L_039D:
     VMStackPop 0x8001
     VMStackPop 0x8000
     WordSetPlayerName 0
-    ActorMsg 1024, 10, 15, 0, 0
+    // "Colress: It's so frustrating![f000]븁\u0000\nIf only we could talk to Pokémon\nin order to bring out their power![f000]븁\u0000\nBut there's no way a person\nlike that could ever exist![f000]븁\u0000\nWell then, [f000]Ā\u0001\u0000,\nI hope to see you again sometime.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 15, 0, 0
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
     ActorWalkRoute 15, 431, 572, 4, 8, 0
@@ -231,11 +238,12 @@ Script_6:
     ActorsPauseAll
     VMStackPush 0x40b6
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_044E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_044E
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "I never would have guessed\nthey were Crustle...[f000]븁\u0000\nIf you're interested in Crustle,\nyou'll find them in the Desert Resort,[f000]븀\u0000\nwhich is just past here!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0462
@@ -243,7 +251,8 @@ Script_6:
 L_044E:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Hey, Trainer![f000]븁\u0000\nThese boulders suddenly\nlined up like this...[f000]븁\u0000\nWhat's more, the HM Strength\nwon't budge them."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -256,7 +265,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "Team Plasma said we should recognize\nthe potential in Pokémon and[f000]븀\u0000\nliberate them from humans.[f000]븁\u0000\nI disagree.[f000]븁\u0000\nConversely, it should be humans who bring\nout the hidden potential in Pokémon![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -267,6 +277,7 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     WordSetPlayerName 0
+    // "It's a big boulder, but it doesn't\nlook like a Pokémon can move it..."
     SystemMsg 2, 2
     LastKeyWait
     MsgWinCloseAll
@@ -330,7 +341,8 @@ Script_10:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 13, 0, 0
+    // "Places with ruins are being\ndeveloped one after another.[f000]븁\u0000\nWe end up losing parts of our history..."
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -341,7 +353,8 @@ Script_11:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 15, 0, 0
+    // "Oh! Trainer, when you see sand...[f000]븁\u0000\nDo you notice how some areas are lighter?\nAnd some of the sand looks...darker...[f000]븁\u0000\nPokémon are hiding in the darker sand!"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -352,7 +365,8 @@ Script_12:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 14, 0, 0
+    // "The Relic Castle is being buried in sand...\nSomeday, memories of it may be[f000]븀\u0000\nburied, too."
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -363,6 +377,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Trainer Tips![f000]븁\u0000\n\nPokémon have a source of energy\nfor using moves.[f000]븁\u0000\nIt's called PP, meaning Power Points.\nThey have PP for each move.[f000]븁\u0000\nWhen a move has no PP remaining,\nthat Pokémon cannot use that move.[f000]븁\u0000\nThat's a good time to head for\nthe Pokémon Center!"
     MsgPlaceSign 17, 0
     MsgPlaceSignClose
     FlagSet 2667
@@ -374,6 +389,7 @@ Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Route 4\nPlanned route-expansion area"
     MsgPlaceSign 18, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -384,6 +400,7 @@ Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Route 4"
     MsgPlaceSign 16, 3
     MsgPlaceSignClose
     FinishAllEvents
@@ -394,6 +411,7 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     PVPlay 630, 0
+    // "Awwwwk!"
     ScreamMsg 11, 2
     PVWait
     MsgWaitAdvance
@@ -406,8 +424,8 @@ Script_8:
     WildBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0620
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0620
     FlagSet 902
     FlagSet 2774
     ActorDelete 25
@@ -420,7 +438,7 @@ L_0620:
 L_0622:
     WildBattleGetResult 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_0639
+    VMJumpIf CMP_EQ, L_0639
     VMJump L_063F
 
 L_0639:
@@ -428,12 +446,13 @@ L_0639:
 
 L_063F:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_065F
+    VMJumpIf CMP_EQ, L_065F
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_065F
+    VMJumpIf CMP_EQ, L_065F
     VMJump L_066F
 
 L_065F:
+    // "Mandibuzz flew off into the sky..."
     SystemMsg 12, 2
     LastKeyWait
     InfoMsgClose

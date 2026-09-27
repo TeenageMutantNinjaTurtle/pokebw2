@@ -20,11 +20,12 @@ Script_1:
     ActorsPauseAll
     VMStackPushFlag 457
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0077
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0077
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "This bread will have tons of Honey.\nI'll call it Honey Bread![f000]븁\u0000\nI want to bake it soon, but I'm busy\nmaking Village Sandwiches."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0289
@@ -35,33 +36,36 @@ L_0077:
     TrainerFlagGet 335, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01DD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01DD
     VMStackPushFlag 456
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00BD
-    ParentActorMsg 1024, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00BD
+    // "Oh!\nYou're a newcomer, aren't you?[f000]븁\u0000\nThen, let's battle without saying a word!\nAre you ready?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     FlagSet 456
     VMJump L_00C7
 
 L_00BD:
-    ParentActorMsg 1024, 3, 0, 0
+    // "Let's battle without saying a word!\nAre you ready?"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
 
 L_00C7:
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01C9
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01C9
+    // "All right![f000]븁\u0000\nI want to bake tasty bread\nfor strong Pokémon![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 335, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0115
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0115
     CallTrainerBattleEnd
     TrainerFlagSet 335
     VMJump L_0117
@@ -72,21 +76,24 @@ L_0115:
 L_0117:
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01B5
-    ParentActorMsg 1024, 4, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01B5
+    // "Wow, what a Trainer![f000]븁\u0000\nYou understand and trust your Pokémon.\nThat's why you got this result!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 5, 0, 0
+    // "I have a favor to ask\nof such a wonderful Trainer![f000]븁\u0000\nI'm planning to bake bread\nwith tons of Honey![f000]븁\u0000\nWould you show me a Pokémon\nwith the Honey Gather Ability?"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     VMCall L_028F
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01AB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01AB
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 0, Movement_03C8
     ActorCmdWait
-    ParentActorMsg 1024, 6, 0, 0
+    // "This [f000]ā\u0001\u0000\nwill gather Honey![f000]븁\u0000\nThank you!\nThis gift is a token of my gratitude![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -95,7 +102,8 @@ L_0117:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 8, 0, 0
+    // "This bread will have tons of Honey.\nI'll call it Honey Bread![f000]븁\u0000\nI want to bake it soon, but I'm busy\nmaking Village Sandwiches."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 457
@@ -109,7 +117,8 @@ L_01AF:
     VMJump L_01C3
 
 L_01B5:
-    ParentActorMsg 1024, 4, 0, 0
+    // "Wow, what a Trainer![f000]븁\u0000\nYou understand and trust your Pokémon.\nThat's why you got this result!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -117,7 +126,8 @@ L_01C3:
     VMJump L_01D7
 
 L_01C9:
-    ParentActorMsg 1024, 2, 0, 0
+    // "Uh-oh... That's fine.\nWhen you change your mind, come back!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -127,21 +137,24 @@ L_01D7:
 L_01DD:
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_027B
-    ParentActorMsg 1024, 4, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_027B
+    // "Wow, what a Trainer![f000]븁\u0000\nYou understand and trust your Pokémon.\nThat's why you got this result!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     MsgWaitAdvance
-    ParentActorMsg 1024, 5, 0, 0
+    // "I have a favor to ask\nof such a wonderful Trainer![f000]븁\u0000\nI'm planning to bake bread\nwith tons of Honey![f000]븁\u0000\nWould you show me a Pokémon\nwith the Honey Gather Ability?"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     VMCall L_028F
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0271
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0271
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 0, Movement_03C8
     ActorCmdWait
-    ParentActorMsg 1024, 7, 0, 0
+    // "This [f000]ā\u0001\u0000\nwill gather Honey![f000]븁\u0000\nThank you!\nThis gift is a token of my gratitude![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -150,7 +163,8 @@ L_01DD:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 8, 0, 0
+    // "This bread will have tons of Honey.\nI'll call it Honey Bread![f000]븁\u0000\nI want to bake it soon, but I'm busy\nmaking Village Sandwiches."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagSet 457
@@ -164,7 +178,8 @@ L_0275:
     VMJump L_0289
 
 L_027B:
-    ParentActorMsg 1024, 4, 0, 0
+    // "Wow, what a Trainer![f000]븁\u0000\nYou understand and trust your Pokémon.\nThat's why you got this result!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -179,22 +194,22 @@ L_028F:
 L_0295:
     VMStackPush 0x8020
     VMStackPush 0x8021
-    VMStackCmp 2
-    VMJumpIf 255, L_0306
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_0306
     PokePartyGetParam 0x8022, 0x8021, 10
     PokePartyIsEgg 0x8024, 0x8021
     VMStackPush 0x8022
     VMStackPushConst 118
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_02FA
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_02FA
     PokePartyGetSpecies 0x8026, 0x8021
     WordSetPokeSpecies 0, 0x8026
     WorkSetConst 0x8023, 1
@@ -210,7 +225,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "I'm totally hooked on Village Sandwiches![f000]븁\u0000\nI come here every day to eat them!"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -221,7 +237,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "Pokémon make the most adorable\nfaces when they bite into sandwiches!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -232,7 +249,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "I'm so happy to be able to eat\nwith my Pokémon."
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -244,7 +262,8 @@ Script_6:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 572, 0
-    ParentActorMsg 1024, 12, 0, 0
+    // "Myu myuweee."
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -257,7 +276,8 @@ Script_5:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 504, 0
-    ParentActorMsg 1024, 13, 0, 0
+    // "Skwee weep..."
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -270,7 +290,8 @@ Script_7:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 552, 0
-    ParentActorMsg 1024, 14, 0, 0
+    // "Kroooko!"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

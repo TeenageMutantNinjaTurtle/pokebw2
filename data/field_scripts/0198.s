@@ -68,7 +68,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Hotels now line Driftveil.[f000]븁\u0000\nI guess Driftveil's heartbreaker,\nCharles, isn't the big attraction now..."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

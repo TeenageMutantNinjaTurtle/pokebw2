@@ -19,11 +19,12 @@ Script_4:
     ActorsPauseAll
     VMStackPush 0x411e
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0061
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0061
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "The Marine Tube is just ahead.[f000]븁\u0000\nBut please wait for a little bit longer.\nJust a little bit..."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0075
@@ -31,7 +32,8 @@ Script_4:
 L_0061:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "The Marine Tube is ahead!\nPlease enjoy the stunning scenery!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -44,7 +46,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "I moved here just to be the first person\nto go through the Marine Tube."
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -55,7 +58,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "The Marine Tube.[f000]븁\u0000\nIt's an undersea tunnel, so to speak.\nDo you know how such tunnels are made?[f000]븁\u0000\nIt's quite simple!\nThey're built on land[f000]븀\u0000\nand then sunk into the sea![f000]븁\u0000\nWithout Pokémon, the construction\nwould've been impossible."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -70,7 +74,8 @@ Script_5:
     WorkAdd 0x8021, 2
     ActorWalkRoute 1, 0x8021, 0x8022, 1, 4, 1
     ActorCmdWait
-    ActorMsg 1024, 2, 1, 0, 0
+    // "Sorry, I'll be finished with the cleaning\nsoon. Please wait until then![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 1, 0, 0
     MsgWinCloseAll
     ActorCmdExec 255, Movement_017C
     ActorWalkRoute 1, 18, 8, 1, 4, 0
@@ -101,6 +106,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     SEPlay 1351
+    // "It's a sign that explains\nthe Marine Tube.[f000]븁\u0000"
     InfoMsg 5, 2
     MsgWinCloseAll
     FadeOutBlackQ

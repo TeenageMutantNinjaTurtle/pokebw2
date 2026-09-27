@@ -14,7 +14,7 @@
 Script_1:
     RTCGetWeekDay 0x8020
     WorkCmpConst 0x8020, 0
-    VMJumpIf 1, L_003F
+    VMJumpIf CMP_EQ, L_003F
     VMJump L_0051
 
 L_003F:
@@ -24,7 +24,7 @@ L_003F:
 
 L_0051:
     WorkCmpConst 0x8020, 1
-    VMJumpIf 1, L_0064
+    VMJumpIf CMP_EQ, L_0064
     VMJump L_0076
 
 L_0064:
@@ -34,7 +34,7 @@ L_0064:
 
 L_0076:
     WorkCmpConst 0x8020, 2
-    VMJumpIf 1, L_0089
+    VMJumpIf CMP_EQ, L_0089
     VMJump L_009B
 
 L_0089:
@@ -44,7 +44,7 @@ L_0089:
 
 L_009B:
     WorkCmpConst 0x8020, 3
-    VMJumpIf 1, L_00AE
+    VMJumpIf CMP_EQ, L_00AE
     VMJump L_00C0
 
 L_00AE:
@@ -54,7 +54,7 @@ L_00AE:
 
 L_00C0:
     WorkCmpConst 0x8020, 4
-    VMJumpIf 1, L_00D3
+    VMJumpIf CMP_EQ, L_00D3
     VMJump L_00E5
 
 L_00D3:
@@ -64,7 +64,7 @@ L_00D3:
 
 L_00E5:
     WorkCmpConst 0x8020, 5
-    VMJumpIf 1, L_00F8
+    VMJumpIf CMP_EQ, L_00F8
     VMJump L_010A
 
 L_00F8:
@@ -74,7 +74,7 @@ L_00F8:
 
 L_010A:
     WorkCmpConst 0x8020, 6
-    VMJumpIf 1, L_011D
+    VMJumpIf CMP_EQ, L_011D
     VMJump L_012F
 
 L_011D:
@@ -89,11 +89,12 @@ Script_2:
     ActorsPauseAll
     VMStackPushFlag 2735
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0160
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0160
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Enjoy the taste of our specialty!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_021A
@@ -102,11 +103,12 @@ L_0160:
     RTCGetWeekDay 0x8020
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_01B5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01B5
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 1, 0, 0, 0
+    // "Welcome to Café Warehouse,\na stylish café in a rural area![f000]븁\u0000\nOur café has a special on Wednesdays!\nHere, have a Soda Pop![f000]븁\u0000\nEnjoy the taste of our specialty![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     ActorMsgClose
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -121,11 +123,12 @@ L_0160:
 L_01B5:
     VMStackPush 0x8020
     VMStackPushConst 6
-    VMStackCmp 1
-    VMJumpIf 255, L_0206
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0206
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 3, 0, 0, 0
+    // "Welcome to Café Warehouse,\nthe stylish café in the country![f000]븁\u0000\nWe have a special on Saturdays!\nHave a complimentary Lemonade![f000]븁\u0000\nWe're really proud of our original recipe![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
     ActorMsgClose
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -140,7 +143,8 @@ L_01B5:
 L_0206:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Welcome to Café Warehouse,\na stylish café in a rural area!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -154,21 +158,23 @@ Script_3:
     SEPlay 1351
     ActorSetEyeToEye
     WorkCmpConst 0x4020, 43
-    VMJumpIf 1, L_023B
+    VMJumpIf CMP_EQ, L_023B
     VMJump L_0364
 
 L_023B:
     VMStackPush 0x40dc
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02BD
-    ParentActorMsg 1024, 5, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02BD
+    // "I found a handkerchief.\nI think one of our regulars dropped it.[f000]븁\u0000\nI think that the customer had a brown\nPokémon that can use Super Fang...[f000]븁\u0000\nI'm the kind of person who instantly\nforgets about these kinds of things...[f000]븁\u0000\nIf you don't mind, would you look\nfor the owner of this handkerchief?"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02A9
-    ParentActorMsg 1024, 6, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02A9
+    // "Thank you!\nI'll let you hang on to it.[f000]븁\u0000\nEvery day, we get a lot of different\ncustomers, so all ya gotta do is ask 'em!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMStackPush 0x8000
@@ -182,7 +188,8 @@ L_023B:
     VMJump L_02B7
 
 L_02A9:
-    ParentActorMsg 1024, 7, 0, 0
+    // "Sniff...[f000]븁\u0000\nI sure want to give this forgotten\nhandkerchief back to its owner..."
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -192,9 +199,10 @@ L_02B7:
 L_02BD:
     VMStackPush 0x40dc
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02E4
-    ParentActorMsg 1024, 8, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02E4
+    // "I think it might have been the customer\nwho had a brown Pokémon[f000]븀\u0000\nthat can use Super Fang..."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_035E
@@ -202,9 +210,10 @@ L_02BD:
 L_02E4:
     VMStackPush 0x40dc
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_033D
-    ParentActorMsg 1024, 9, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_033D
+    // "What? You found the customer\nwho lost his handkerchief?![f000]븁\u0000\nIt was the person with Patrat, you say?\nWhat a relief. Thank you so much![f000]븁\u0000\nHere, this is for you![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -213,7 +222,8 @@ L_02E4:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 10, 0, 0
+    // "Work is so much fun![f000]븁\u0000\nI mean, I get to meet so many\npeople and Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x40dc, 3
@@ -222,9 +232,10 @@ L_02E4:
 L_033D:
     VMStackPush 0x40dc
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_035E
-    ParentActorMsg 1024, 10, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_035E
+    // "Work is so much fun![f000]븁\u0000\nI mean, I get to meet so many\npeople and Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -233,20 +244,22 @@ L_035E:
 
 L_0364:
     WorkCmpConst 0x4020, 52
-    VMJumpIf 1, L_0377
+    VMJumpIf CMP_EQ, L_0377
     VMJump L_03B0
 
 L_0377:
     VMStackPush 0x40dc
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_039C
-    ParentActorMsg 1024, 12, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_039C
+    // "Hm? Did I lose something?\nNo, I don't think so...[f000]븁\u0000\nI bet it was a customer on another day."
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     LastKeyWait
     VMJump L_03A8
 
 L_039C:
-    ParentActorMsg 1024, 11, 0, 0
+    // "It's Monday! I'm drinking a Moomoo Milk\nto get myself stoked up for the week![f000]븁\u0000\nIt makes me feel like Krokorok and I\nare both ready to take on another week!"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
 
 L_03A8:
@@ -255,20 +268,22 @@ L_03A8:
 
 L_03B0:
     WorkCmpConst 0x4020, 45
-    VMJumpIf 1, L_03C3
+    VMJumpIf CMP_EQ, L_03C3
     VMJump L_03FC
 
 L_03C3:
     VMStackPush 0x40dc
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03E8
-    ParentActorMsg 1024, 14, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03E8
+    // "What? No, I haven't lost anything.[f000]븁\u0000\nMy sweet Lillipup can't use\nSuper Fang, either.[f000]븁\u0000\nPerhaps it was another customer.[f000]븁\u0000\nMany people come to this café only\non a certain day."
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     VMJump L_03F4
 
 L_03E8:
-    ParentActorMsg 1024, 13, 0, 0
+    // "I always come here to relax with Lillipup\nand look at lovely Fossils in the museum.[f000]븁\u0000\nBy the way, my little Lillipup's\nspecialty is Roar."
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
 
 L_03F4:
@@ -277,20 +292,22 @@ L_03F4:
 
 L_03FC:
     WorkCmpConst 0x4020, 16
-    VMJumpIf 1, L_040F
+    VMJumpIf CMP_EQ, L_040F
     VMJump L_0448
 
 L_040F:
     VMStackPush 0x40dc
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0434
-    ParentActorMsg 1024, 16, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0434
+    // "You're looking for someone\nwho lost something? Aren't you nice?[f000]븁\u0000\nMunna isn't brown, though,\nso it must be a different customer.[f000]븁\u0000\nI think I might have seen someone with a\nbrown Pokémon on Thursday..."
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     LastKeyWait
     VMJump L_0440
 
 L_0434:
-    ParentActorMsg 1024, 15, 0, 0
+    // "Don't you think my Munna would\nbe a superstar if it was in[f000]븀\u0000\na Pokémon Musical?[f000]븁\u0000\nIt's on the path to success, just like\nme and my career as a Pokémon Trainer!"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     LastKeyWait
 
 L_0440:
@@ -299,25 +316,28 @@ L_0440:
 
 L_0448:
     WorkCmpConst 0x4020, 20
-    VMJumpIf 1, L_045B
+    VMJumpIf CMP_EQ, L_045B
     VMJump L_04EC
 
 L_045B:
     VMStackPush 0x40dc
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_04B3
-    ParentActorMsg 1024, 18, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04B3
+    // "Huh?\nDid I lose something?[f000]븁\u0000\nHey! That handkerchief!\nIt's mine![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     MsgWinCloseAll
     WordSetPlayerName 0
     SEPlay 2017
+    // "[f000]Ā\u0001\u0000\nhanded over the Grubby Hanky!"
     SystemMsg 19, 0
     MsgWaitAdvance
     InfoMsgClose
     SEWait
     WorkSetConst 0x8021, 0
-    ItemSub 634, 1, 0x8021
-    ParentActorMsg 1024, 20, 0, 0
+    ItemSub ITEM_GRUBBY_HANKY, 1, 0x8021
+    // "Thank you so much for\nfinding that for me![f000]븁\u0000\nI need that handkerchief so I can wipe\nPatrat's cheeks after it eats Berries."
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     LastKeyWait
     WorkSetConst 0x40dc, 2
     VMJump L_04E4
@@ -325,14 +345,16 @@ L_045B:
 L_04B3:
     VMStackPush 0x40dc
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_04D8
-    ParentActorMsg 1024, 20, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04D8
+    // "Thank you so much for\nfinding that for me![f000]븁\u0000\nI need that handkerchief so I can wipe\nPatrat's cheeks after it eats Berries."
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     LastKeyWait
     VMJump L_04E4
 
 L_04D8:
-    ParentActorMsg 1024, 17, 0, 0
+    // "I always come to Café Warehouse\nto relax after Patrat and I go[f000]븀\u0000\nfor a jog in Pinwheel Forest.[f000]븁\u0000\nGetting a refreshing drink after\nexercising is just the best! Right?"
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     LastKeyWait
 
 L_04E4:
@@ -341,20 +363,22 @@ L_04E4:
 
 L_04EC:
     WorkCmpConst 0x4020, 64
-    VMJumpIf 1, L_04FF
+    VMJumpIf CMP_EQ, L_04FF
     VMJump L_0538
 
 L_04FF:
     VMStackPush 0x40dc
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0524
-    ParentActorMsg 1024, 22, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0524
+    // "I haven't lost anything.\nWatchog doesn't let anything get by it![f000]븁\u0000\nI'm sure whatever it is belongs\nto some other customer."
+    ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
     LastKeyWait
     VMJump L_0530
 
 L_0524:
-    ParentActorMsg 1024, 21, 0, 0
+    // "Wa ha ha! My Watchog has nice fur!\nDoesn't it look impressive?[f000]븁\u0000\nI always come here to Café Warehouse\nevery week and brag myself silly about it![f000]븁\u0000\nIts Super Fang is super cool!"
+    ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
     LastKeyWait
 
 L_0530:
@@ -363,20 +387,22 @@ L_0530:
 
 L_0538:
     WorkCmpConst 0x4020, 53
-    VMJumpIf 1, L_054B
+    VMJumpIf CMP_EQ, L_054B
     VMJump L_0584
 
 L_054B:
     VMStackPush 0x40dc
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0570
-    ParentActorMsg 1024, 24, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0570
+    // "My! That handkerchief looks just like\nmine, but it belongs to someone else.[f000]븁\u0000\nIt does have a certain, hmm, ah,\nje ne sais quoi about it.[f000]븁\u0000\nWhat's with that look?[f000]븁\u0000\nOK. OK. It smells like a Patrat."
+    ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
     LastKeyWait
     VMJump L_057C
 
 L_0570:
-    ParentActorMsg 1024, 23, 0, 0
+    // "Taking it easy in the café on weekends\nmakes me forget the stress of workdays."
+    ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
     LastKeyWait
 
 L_057C:
@@ -394,14 +420,15 @@ Script_4:
     SEPlay 1351
     ActorSetEyeToEye
     WorkCmpConst 0x4021, 309
-    VMJumpIf 1, L_05AB
+    VMJumpIf CMP_EQ, L_05AB
     VMJump L_05CD
 
 L_05AB:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 511, 0
-    ParentActorMsg 1024, 25, 0, 0
+    // "Sei jii!"
+    ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -409,14 +436,15 @@ L_05AB:
 
 L_05CD:
     WorkCmpConst 0x4021, 131
-    VMJumpIf 1, L_05E0
+    VMJumpIf CMP_EQ, L_05E0
     VMJump L_0602
 
 L_05E0:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 552, 0
-    ParentActorMsg 1024, 26, 0, 0
+    // "Bwaa!"
+    ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -424,14 +452,15 @@ L_05E0:
 
 L_0602:
     WorkCmpConst 0x4021, 306
-    VMJumpIf 1, L_0615
+    VMJumpIf CMP_EQ, L_0615
     VMJump L_0637
 
 L_0615:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 506, 0
-    ParentActorMsg 1024, 27, 0, 0
+    // "Yap, yap! ♪"
+    ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -439,14 +468,15 @@ L_0615:
 
 L_0637:
     WorkCmpConst 0x4021, 126
-    VMJumpIf 1, L_064A
+    VMJumpIf CMP_EQ, L_064A
     VMJump L_066C
 
 L_064A:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 517, 0
-    ParentActorMsg 1024, 28, 0, 0
+    // "Muuuuuuuuuun!"
+    ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -454,14 +484,15 @@ L_064A:
 
 L_066C:
     WorkCmpConst 0x4021, 128
-    VMJumpIf 1, L_067F
+    VMJumpIf CMP_EQ, L_067F
     VMJump L_06A1
 
 L_067F:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 504, 0
-    ParentActorMsg 1024, 29, 0, 0
+    // "Kee keeh!"
+    ParentActorMsg MSGFILE_SCRIPT, 29, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -469,14 +500,15 @@ L_067F:
 
 L_06A1:
     WorkCmpConst 0x4021, 305
-    VMJumpIf 1, L_06B4
+    VMJumpIf CMP_EQ, L_06B4
     VMJump L_06D6
 
 L_06B4:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 505, 0
-    ParentActorMsg 1024, 30, 0, 0
+    // "Waach-ch-ch!"
+    ParentActorMsg MSGFILE_SCRIPT, 30, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -484,14 +516,15 @@ L_06B4:
 
 L_06D6:
     WorkCmpConst 0x4021, 314
-    VMJumpIf 1, L_06E9
+    VMJumpIf CMP_EQ, L_06E9
     VMJump L_070B
 
 L_06E9:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 559, 0
-    ParentActorMsg 1024, 31, 0, 0
+    // "Skraaa!"
+    ParentActorMsg MSGFILE_SCRIPT, 31, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -506,7 +539,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 32, 0, 0
+    // "Some things may be famous and good,\nbut some good things aren't famous.[f000]븁\u0000\nWhat matters is whether you like them.\nDon't you agree?"
+    ParentActorMsg MSGFILE_SCRIPT, 32, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -517,7 +551,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 33, 0, 0
+    // "I've been getting really, really heavy,\nbut I just can't stop getting seconds.[f000]븁\u0000\nWho was it?\nWho used the move Encore on me?!"
+    ParentActorMsg MSGFILE_SCRIPT, 33, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -528,7 +563,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 34, 0, 0
+    // "I like Nacrene's Café Warehouse\nand Striaton's restaurant, too.[f000]븁\u0000\nEach offers such different flavors!"
+    ParentActorMsg MSGFILE_SCRIPT, 34, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -539,7 +575,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "This café has a special on\nWednesdays and Saturdays!"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

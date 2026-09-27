@@ -14,13 +14,14 @@ Script_1:
     ActorSetEyeToEye
     VMStackPush 0x40d8
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0041
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0041
     VMCall L_00A8
     VMJump L_004F
 
 L_0041:
-    ParentActorMsg 1024, 0, 0, 0
+    // "Hm![f000]븁\u0000\nIf you want past here,\nyou have to defeat me,[f000]븀\u0000\nand my Roggenrola![f000]븀\u0000\nAnd we're as sturdy as rock![f000]븁\u0000\nBut, my Roggenrola and I\nonly battle strong Trainers.[f000]븁\u0000\nThat is my, and my Roggenrola's,\npolicy! It's as sturdy as rock!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -38,8 +39,8 @@ Script_2:
     PlayerGetDir 0x8020
     VMStackPush 0x8020
     VMStackPushConst 1
-    VMStackCmp 5
-    VMJumpIf 255, L_008C
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_008C
     ActorCmdExec 255, Movement_0320
 
 L_008C:
@@ -52,17 +53,20 @@ L_008C:
     VMHalt
 
 L_00A8:
-    ActorMsg 1024, 1, 12, 0, 0
+    // "Mmm![f000]븁\u0000\nMy Roggenrola and I\nhave been waiting for[f000]븀\u0000\na strong Trainer like you![f000]븁\u0000\nIf you want to pass, you must beat\nmy Roggenrola and me![f000]븁\u0000\nCan you defeat our rock-hard will?"
+    ActorMsg MSGFILE_SCRIPT, 1, 12, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0137
-    ActorMsg 1024, 2, 12, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0137
+    // "Just to let you know, my Roggenrola and\nI are the sturdiest things that were[f000]븀\u0000\never sturdy![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 12, 0, 0
     MsgWinCloseAll
     CallTrainerBattle 580, 0, 0
     VMCall L_0149
-    ActorMsg 1024, 4, 12, 0, 0
+    // "Mmm![f000]븁\u0000\nYour strength is the real thing![f000]븁\u0000\nMy Roggenrola and I must\nbecome even sturdier,[f000]븀\u0000\nso we're off to continue our training![f000]븁\u0000\nFarewell!"
+    ActorMsg MSGFILE_SCRIPT, 4, 12, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     VMSleep 15
@@ -80,7 +84,8 @@ L_00A8:
     VMJump L_0147
 
 L_0137:
-    ActorMsg 1024, 3, 12, 0, 0
+    // "What a flimsy answer!"
+    ActorMsg MSGFILE_SCRIPT, 3, 12, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -91,8 +96,8 @@ L_0149:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0168
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0168
     CallTrainerBattleEnd
     VMJump L_016A
 
@@ -107,7 +112,8 @@ Script_3:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 524, 0
-    ParentActorMsg 1024, 6, 0, 0
+    // "Stur! Stur!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -120,7 +126,8 @@ Script_4:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 524, 0
-    ParentActorMsg 1024, 7, 0, 0
+    // "De deee!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -133,7 +140,8 @@ Script_5:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 524, 0
-    ParentActorMsg 1024, 8, 0, 0
+    // "Rorooog!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -146,12 +154,13 @@ Script_6:
     SEPlay 1351
     VMStackPushFlag 368
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01FD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01FD
     VMCall L_020D
     VMJump L_0207
 
 L_01FD:
+    // "It's a big boulder, but it doesn't\nlook like a Pokémon can move it..."
     SystemMsg 9, 2
     LastKeyWait
     MsgWinCloseAll
@@ -162,12 +171,13 @@ L_0207:
     VMHalt
 
 L_020D:
+    // "Use the Colress Machine on the\nbig boulder?"
     SystemMsg 10, 2
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02EE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02EE
     MsgWinCloseAll
     SEPlay 1589
     SEWait
@@ -175,16 +185,16 @@ L_020D:
     PlayerGetDir 0x8021
     VMStackPush 0x8021
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_025D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_025D
     ActorCmdExec 9, Movement_033C
     VMJump L_0286
 
 L_025D:
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_027E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_027E
     ActorCmdExec 9, Movement_0344
     VMJump L_0286
 
@@ -195,6 +205,7 @@ L_0286:
     ActorCmdWait
     WorkSetConst 0x8021, 0
     PVPlay 558, 0
+    // "Crus chul!"
     InfoMsg 11, 2
     PVWait
     MsgWaitAdvance
@@ -203,8 +214,8 @@ L_0286:
     WildBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02CE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02CE
     FlagSet 868
     ActorDelete 9
     CallWildBattleEnd
@@ -214,11 +225,12 @@ L_02CE:
     CallWildLose
 
 L_02D0:
+    // "The Colress Machine broke..."
     SystemMsg 12, 2
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x8022, 0
-    ItemSub 635, 1, 0x8022
+    ItemSub ITEM_COLRESS_MCHN, 1, 0x8022
     VMJump L_02F0
 
 L_02EE:

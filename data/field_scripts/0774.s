@@ -15,7 +15,8 @@ Script_1:
     EvCameraUnbind
     EvCameraMoveTo 9688, 0, 0xed000, 0x2704000, 0x5004f, 0x2c78000, 30
     EvCameraWait
-    ActorMsg 1024, 0, 2, 1, 1
+    // "The ring is my roiling sea. ♪\nThe towering waves shaped me.[f000]븁\u0000\nCrash! Crash! Crasher Wake!\nCrash! Crash! Crasher Wake![f000]븁\u0000\nI'm the tidal wave of power to wash\nyou away![f000]븁\u0000\nPut out the fire, Crasher Wake!\nRun from electricity, Crasher Wake![f000]븁\u0000\nAh, ah, aaaah!\nThe ring is my sea. ♪[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 2, 1, 1
     ActorMsgClose
     EvCameraReturn 30
     EvCameraWait
@@ -23,7 +24,7 @@ Script_1:
     EvCameraEnd
     PlayerGetDir 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_0075
+    VMJumpIf CMP_EQ, L_0075
     VMJump L_0083
 
 L_0075:
@@ -32,7 +33,7 @@ L_0075:
 
 L_0083:
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0096
+    VMJumpIf CMP_EQ, L_0096
     VMJump L_00A4
 
 L_0096:
@@ -44,34 +45,39 @@ L_00A4:
     Cmd_02D5 49, 0x8023
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00D3
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00D3
+    // "Oh! It's you! Hey!\nI had a good time battling you![f000]븁\u0000\nYes! I'm in the mood for a\nbattle both the winner and[f000]븀\u0000\nloser will say is fun![f000]븁\u0000\nOK! Time to take off for\nDriftveil City! Yeah!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     VMJump L_011A
 
 L_00D3:
-    ParentActorMsg 1024, 2, 0, 0
+    // "Do you know what the Wake is singing?[f000]븁\u0000\nIt's the theme song of Crasher Wake,\npro wrestler and Gym Leader[f000]븀\u0000\nof Pastoria City in the Sinnoh region![f000]븁\u0000\nYou know it?[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0104
-    ParentActorMsg 1024, 3, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0104
+    // "Yeeeeah![f000]븁\u0000\nThat's right! I'm the Gym Leader\nwho's got it all--as a Pokémon[f000]븀\u0000\npro wrestler and as a singer![f000]븀\u0000\nI'm Pastoria Gym's Crasher Wake![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     VMJump L_010E
 
 L_0104:
-    ParentActorMsg 1024, 4, 0, 0
+    // "You've got to be kidding![f000]븁\u0000\nI'm the Gym Leader\nwho's got it all--as a Pokémon[f000]븀\u0000\npro wrestler and as a singer![f000]븀\u0000\nI'm Pastoria Gym's Crasher Wake![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
 
 L_010E:
-    ParentActorMsg 1024, 5, 0, 0
+    // "Here's a little bit of\nCrasher Wake trivia for ya![f000]븁\u0000\nEveryone says I'm a wrestler\nfrom abroad, but the truth is...[f000]븁\u0000\nI was born and raised\nin the Sinnoh region![f000]븁\u0000\nIt's what they call my gimmick!\nHey, but that's a secret, OK?[f000]븁\u0000\nOK! Time to take off for\nDriftveil City! Yeah![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     MsgWinCloseAll
 
 L_011A:
     PlayerGetDir 0x8010
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0131
+    VMJumpIf CMP_EQ, L_0131
     VMJump L_014D
 
 L_0131:

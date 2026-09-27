@@ -7,15 +7,17 @@ Script_1:
     ActorsPauseAll
     VMStackPushFlag 2458
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0050
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0050
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "I'm here collecting Shards so that\nI can have my Pokémon be taught moves.[f000]븁\u0000\nThey can be found in the dust clouds,\nbut rarely you'll find a Pokémon instead."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     Cmd_0275 0, 15, 0
     SEPlay 1908
+    // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink."
     SystemMsg 1, 0
     SEWait
     LastKeyWait
@@ -26,7 +28,8 @@ Script_1:
 L_0050:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "I'm here collecting Shards so that\nI can have my Pokémon be taught moves.[f000]븁\u0000\nThey can be found in the dust clouds,\nbut rarely you'll find a Pokémon instead."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 

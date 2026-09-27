@@ -18,7 +18,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Well, how many gates do you think\nthere are in the Unova region?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -29,7 +30,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "My friend's friend was saying that\nPokémon Eggs are sometimes discovered[f000]븀\u0000\nat the Day Care on Route 3!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -40,7 +42,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Are you checking the electric\nbulletin boards?[f000]븁\u0000\nRight now, news about mass outbreaks\nof Pokémon is really hot!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -51,48 +54,54 @@ Script_5:
     ActorsPauseAll
     VMStackPushFlag 437
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0153
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0153
     SEPlay 1351
     ActorSetEyeToEye
     VMStackPushFlag 436
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00B4
-    ParentActorMsg 1024, 4, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B4
+    // "This Pokémon Egg was\nfound at the Day Care.[f000]븀\u0000\nWould you raise it?"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     VMJump L_00C2
 
 L_00B4:
-    ParentActorMsg 1024, 3, 0, 0
+    // "Um... Excuse me...\nTrainer?[f000]븁\u0000\nThis Pokémon Egg was found at the\nDay Care. Would you raise it?"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     FlagSet 436
 
 L_00C2:
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_013F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_013F
     PokePartyAddEgg 0x8010, 440, 0
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_012B
-    ParentActorMsg 1024, 7, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_012B
+    // "Oh! OK![f000]븁\u0000\nPlease take good care of this Egg![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     MsgWinCloseAll
     FlagSet 437
     WordSetPlayerName 0
     MEPlay 1317
+    // "[f000]Ā\u0001\u0000 received the Egg!"
     SystemMsg 9, 0
     MEWait
     MsgWaitAdvance
     MsgWinCloseAll
-    ParentActorMsg 1024, 8, 0, 0
+    // "Apparently, putting Pokémon Eggs next\nto healthy Pokémon is a good thing.[f000]븁\u0000\nIn other words, walk with the Egg.[f000]븁\u0000\nYou know, the Day Care is on Route 3.\nThey might be able to tell you more."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_0139
 
 L_012B:
-    ParentActorMsg 1024, 5, 0, 0
+    // "Um...[f000]븁\u0000\nYour party is full.\nYou don't have room to hold the Egg."
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -100,7 +109,8 @@ L_0139:
     VMJump L_014D
 
 L_013F:
-    ParentActorMsg 1024, 6, 0, 0
+    // "Oh... OK.\nI understand.[f000]븁\u0000\nIf you change your mind,\nplease come talk to me again."
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -110,7 +120,8 @@ L_014D:
 L_0153:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "Apparently, putting Pokémon Eggs next\nto healthy Pokémon is a good thing.[f000]븁\u0000\nIn other words, walk with the Egg.[f000]븁\u0000\nYou know, the Day Care is on Route 3.\nThey might be able to tell you more."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
 

@@ -33,8 +33,8 @@
 Script_24:
     VMStackPush 0x418f
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0087
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0087
     WorkSetConst 0x418f, 2
 
 L_0087:
@@ -43,8 +43,8 @@ L_0087:
 Script_22:
     VMStackPush 0x4094
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00B4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B4
     ActorSetGPos 0, 77, 3, 77, 1
     ActorSetGPos 1, 77, 3, 77, 1
 
@@ -54,8 +54,8 @@ L_00B4:
 Script_23:
     VMStackPush 0x4094
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00E1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E1
     ActorSetGPos 0, 77, 3, 77, 1
     ActorSetGPos 1, 77, 3, 77, 1
 
@@ -67,8 +67,8 @@ L_00E3:
     Cmd_0230 0x8020, 0
     VMStackPush 0x418f
     VMStackPushConst 2
-    VMStackCmp 4
-    VMJumpIf 255, L_0108
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0108
     MsgPlaceSignClose
     MsgPlaceSign 0x8021, 0
 
@@ -244,19 +244,21 @@ Script_19:
     Plugin5_Cmd1001 0x8022
     VMStackPush 0x4094
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_030B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_030B
     VMCall L_0338
     VMJump L_0332
 
 L_030B:
     SEPlay 1351
+    // "HOJLFWBSCOPPH[f000]븁\u0000"
     Cmd_0230 19, 0
     VMStackPush 0x418f
     VMStackPushConst 2
-    VMStackCmp 4
-    VMJumpIf 255, L_0330
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0330
     MsgPlaceSignClose
+    // "GNIKEVARBNOOG"
     MsgPlaceSign 41, 0
 
 L_0330:
@@ -270,15 +272,17 @@ L_0332:
 L_0338:
     VMStackPush 0x8022
     VMStackPushConst 190
-    VMStackCmp 3
-    VMJumpIf 255, L_03B2
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_03B2
     SEPlay 1351
+    // "HOJLFWBSCOPPH[f000]븁\u0000"
     Cmd_0230 19, 0
     VMStackPush 0x418f
     VMStackPushConst 2
-    VMStackCmp 4
-    VMJumpIf 255, L_0370
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0370
     MsgPlaceSignClose
+    // "GNIKEVARBNOOG"
     MsgPlaceSign 41, 0
 
 L_0370:
@@ -289,6 +293,7 @@ L_0370:
     ActorCmdExec 1, Movement_03E0
     ActorCmdWait
     SEWait
+    // "The wall moved, and you can proceed now!"
     SystemMsg 20, 2
     LastKeyWait
     InfoMsgClose
@@ -297,12 +302,14 @@ L_0370:
 
 L_03B2:
     SEPlay 1351
+    // "UTPMTUFHHOJLPO"
     Cmd_0230 18, 0
     VMStackPush 0x418f
     VMStackPushConst 2
-    VMStackCmp 4
-    VMJumpIf 255, L_03D7
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_03D7
     MsgPlaceSignClose
+    // "TSOLSTEGGNIKON"
     MsgPlaceSign 40, 0
 
 L_03D7:
@@ -320,18 +327,19 @@ Movement_03E0:
 
 Script_20:
     ActorsPauseAll
+    // "It looks like you can climb up here![f000]븁\u0000\nWill you proceed to the upper floor?"
     SystemMsg 21, 2
     YesNoWin 0x8010
     InfoMsgClose
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04AC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04AC
     WorkSetConst 0x8023, 0
     WorkSetConst 0x8024, 0
     PlayerGetGPos 0x8023, 0x8024
     WorkCmpConst 0x8023, 80
-    VMJumpIf 1, L_0432
+    VMJumpIf CMP_EQ, L_0432
     VMJump L_0440
 
 L_0432:
@@ -340,7 +348,7 @@ L_0432:
 
 L_0440:
     WorkCmpConst 0x8023, 81
-    VMJumpIf 1, L_0453
+    VMJumpIf CMP_EQ, L_0453
     VMJump L_0461
 
 L_0453:
@@ -349,7 +357,7 @@ L_0453:
 
 L_0461:
     WorkCmpConst 0x8023, 82
-    VMJumpIf 1, L_0474
+    VMJumpIf CMP_EQ, L_0474
     VMJump L_0482
 
 L_0474:
@@ -370,7 +378,7 @@ L_04AC:
     WorkSetConst 0x8025, 0
     PlayerGetDir 0x8025
     WorkCmpConst 0x8025, 0
-    VMJumpIf 1, L_04C9
+    VMJumpIf CMP_EQ, L_04C9
     VMJump L_04D9
 
 L_04C9:
@@ -380,7 +388,7 @@ L_04C9:
 
 L_04D9:
     WorkCmpConst 0x8025, 1
-    VMJumpIf 1, L_04EC
+    VMJumpIf CMP_EQ, L_04EC
     VMJump L_04FC
 
 L_04EC:
@@ -390,7 +398,7 @@ L_04EC:
 
 L_04FC:
     WorkCmpConst 0x8025, 2
-    VMJumpIf 1, L_050F
+    VMJumpIf CMP_EQ, L_050F
     VMJump L_051F
 
 L_050F:
@@ -400,7 +408,7 @@ L_050F:
 
 L_051F:
     WorkCmpConst 0x8025, 3
-    VMJumpIf 1, L_0532
+    VMJumpIf CMP_EQ, L_0532
     VMJump L_0542
 
 L_0532:

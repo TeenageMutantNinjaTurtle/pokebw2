@@ -17,10 +17,11 @@ Script_1:
     ActorsPauseAll
     VMStackPush 0x4001
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0093
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0093
     VMSleep 30
-    ActorMsg 1024, 0, 0, 1, 0
+    // "Welcome, challenger![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 1, 0
     MsgWinCloseAll
     Plugin3_Cmd1017
     Plugin3_Cmd1019 0
@@ -29,14 +30,16 @@ Script_1:
     VMSleep 60
     ActorCmdExec 0, Movement_044C
     ActorCmdWait
-    ActorMsg 1024, 1, 0, 1, 0
+    // "I've been waiting for this!"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 1, 0
     MsgWaitAdvance
     MsgWinCloseAll
     WorkSetConst 0x4001, 1
     VMJump L_00A1
 
 L_0093:
-    ActorMsg 1024, 7, 0, 1, 0
+    // "Whaa?!\nWhere are you going?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0, 1, 0
     MsgWinCloseAll
 
 L_00A1:
@@ -56,7 +59,7 @@ Script_2:
     EvCameraMoveTo 10317, 0, 0x72000, 0x108000, 0xd00cf, 0x31b000, 60
     PlayerGetDir 0x8010
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_00EE
+    VMJumpIf CMP_EQ, L_00EE
     VMJump L_00FC
 
 L_00EE:
@@ -65,7 +68,7 @@ L_00EE:
 
 L_00FC:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_010F
+    VMJumpIf CMP_EQ, L_010F
     VMJump L_011D
 
 L_010F:
@@ -74,7 +77,7 @@ L_010F:
 
 L_011D:
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_0130
+    VMJumpIf CMP_EQ, L_0130
     VMJump L_013E
 
 L_0130:
@@ -93,9 +96,10 @@ L_013E:
     Plugin3_Cmd1021
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01FF
-    ActorMsg 1024, 2, 0, 1, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01FF
+    // "Know what?[f000]븁\u0000\nI really look forward to having\nserious battles with strong Trainers![f000]븁\u0000\nI mean, come on! The Trainers who\nmake it here are Trainers who desire[f000]븀\u0000\nvictory with every fiber of their being![f000]븁\u0000\nAnd they are battling alongside\nPokémon that have been through[f000]븀\u0000\ncountless difficult battles![f000]븁\u0000\nIf I battle with people like that,\nnot only will I get stronger,[f000]븀\u0000\nmy Pokémon will, too![f000]븁\u0000\nAnd we'll get to know\neach other even better![f000]븁\u0000\nOK! Brace yourself![f000]븁\u0000\nI'm Iris, the Pokémon League Champion,\nand I'm going to defeat you![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 1, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_04D4
     ActorCmdExec 255, Movement_04CC
@@ -104,8 +108,8 @@ L_013E:
     GameGetDifficulty 0x8027
     VMStackPush 0x8027
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_01C4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01C4
     CallTrainerBattle 776, 0, 0
     VMJump L_01CC
 
@@ -117,8 +121,8 @@ L_01CC:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01F7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01F7
     VMCall L_036B
     CallTrainerBattleEnd
     VMJump L_01F9
@@ -130,7 +134,8 @@ L_01F9:
     VMJump L_027F
 
 L_01FF:
-    ActorMsg 1024, 3, 0, 1, 0
+    // "The Trainers who come here\nare Trainers who desire victory[f000]븀\u0000\nwith every fiber of their being![f000]븁\u0000\nAnd they are battling alongside\nPokémon that have been through[f000]븀\u0000\ncountless difficult battles![f000]븁\u0000\nIf I battle with people like that,\nnot only will I get stronger,[f000]븀\u0000\nmy Pokémon will, too![f000]븁\u0000\nAnd we'll get to know\neach other even better![f000]븁\u0000\nOK! Brace yourself![f000]븁\u0000\nI'm Iris, the Pokémon League Champion,\nand I'm going to defeat you![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 1, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_04D4
     ActorCmdExec 255, Movement_04CC
@@ -139,8 +144,8 @@ L_01FF:
     GameGetDifficulty 0x8028
     VMStackPush 0x8028
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_024A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_024A
     CallTrainerBattle 781, 0, 0
     VMJump L_0252
 
@@ -152,8 +157,8 @@ L_0252:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_027D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_027D
     VMCall L_036B
     CallTrainerBattleEnd
     VMJump L_027F
@@ -163,7 +168,8 @@ L_027D:
 
 L_027F:
     VMSleep 8
-    ActorMsg 1024, 4, 0, 1, 0
+    // "Iris: I'm upset I couldn't win![f000]븁\u0000\nBut you know what?\nMore than that, I'm happy![f000]븁\u0000\nI mean, come on.\nBy having a serious battle,[f000]븀\u0000\nyou and your Pokémon,[f000]븀\u0000\nand me and my Pokémon,[f000]븀\u0000\nwe all got to know one another[f000]븀\u0000\nbetter than before![f000]븁\u0000\nYep, we sure did!\nOK, let's go![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 1, 0
     MsgWinCloseAll
     EvCameraReturn 60
     ActorCmdExec 0, Movement_049C
@@ -188,6 +194,8 @@ L_027F:
     VMSleep 8
     ActorCmdExec 251, Movement_04B4
     ActorCmdWait
+    // "OK! Go on ahead! Hurry![f000]븁\u0000"
+    // "OK! Go on ahead! Hurry![f000]븁\u0000"
     ActorMsgGendered 1024, 5, 6, 0, 1, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_048C
@@ -218,7 +226,7 @@ L_036B:
     ActorCmdWait
     TrainerCardGetSex 0x8026
     WorkCmpConst 0x8026, 0
-    VMJumpIf 1, L_0398
+    VMJumpIf CMP_EQ, L_0398
     VMJump L_03AC
 
 L_0398:
@@ -227,7 +235,7 @@ L_0398:
 
 L_03AC:
     WorkCmpConst 0x8026, 1
-    VMJumpIf 1, L_03BF
+    VMJumpIf CMP_EQ, L_03BF
     VMJump L_03D3
 
 L_03BF:

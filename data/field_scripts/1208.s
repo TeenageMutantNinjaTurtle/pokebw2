@@ -23,8 +23,8 @@ Script_1:
     GameGetVersion 0x8010
     VMStackPush 0x8010
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0075
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0075
     WorkSetConst 0x4020, 121
     WorkSetConst 0x4021, 365
     WorkSetConst 0x4022, 368
@@ -41,28 +41,28 @@ L_0087:
 Script_2:
     VMStackPush 0x4072
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_00AE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00AE
     ActorSetGPos 0, 17, 0, 16, 1
     VMJump L_00D9
 
 L_00AE:
     VMStackPush 0x4072
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_00D9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00D9
     ActorSetGPos 3, 15, 0, 22, 0
     ActorSetGPos 0, 17, 0, 16, 2
 
 L_00D9:
     VMStackPush 0x4072
     VMStackPushConst 4
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x410d
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0108
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0108
     ActorSetGPos 11, 15, 0, 18, 1
 
 L_0108:
@@ -76,8 +76,8 @@ Script_3:
     PlayerGetExState 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0143
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0143
     PlayerSetSpecialSequence 1
 
 L_0143:
@@ -86,14 +86,16 @@ L_0143:
     EvCameraWait
     VMSleep 10
     BGMPlay 1093
-    ActorMsg 1024, 0, 0, 0, 0
+    // "Ghetsis: The Giant Chasm![f000]븁\u0000\nThis is the spot where\nKyurem's power resonates.[f000]븁\u0000\nHere, Kyurem can use the\nfull extent of its power[f000]븀\u0000\nand easily cover all of Unova in ice![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_06AC
     VMSleep 76
     SEPlay 2274
     SEWait
     ActorCmdWait
-    ActorMsg 1024, 1, 0, 0, 0
+    // "Kyurem, come![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     MsgWinCloseAll
     PlayFieldEffect 109
     ActorSetGPos 2, 14, 0, 16, 1
@@ -101,20 +103,24 @@ L_0143:
     FadeEx 12, 16, 0, 1
     FadeExWait
     PVPlay 646, 0
-    ActorMsg 1024, 2, 2, 5, 0
+    // "Haaahraaan!"
+    ActorMsg MSGFILE_SCRIPT, 2, 2, 5, 0
     PVWait
     MsgWaitAdvance
     ActorMsgClose
-    ActorMsg 1024, 3, 0, 0, 0
+    // "Ghetsis: I have a memory that\nhas continued to haunt me.[f000]븀\u0000\nJust one.[f000]븁\u0000\nThat unpleasant look in your eyes\nreminds me of it.[f000]븁\u0000\nThat aside, this is my gift to you\nto show my respect for making[f000]븀\u0000\nit this far.[f000]븁\u0000\nI'll freeze you solid right here\nso you can watch my glorious ascent![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_06BC
     VMSleep 30
     SEPlay 2274
     SEWait
     ActorCmdWait
+    // "Kyurem!\nGlaciate![f000]븁\u0000"
     ScreamMsg 4, 1
     InfoMsgClose_0039
     PVPlay 646, 0
+    // "Haahraa!"
     ScreamMsg 5, 2
     PVWait
     MsgWaitAdvance
@@ -130,12 +136,14 @@ L_0143:
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_025D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_025D
+    // "[f000]븉\u0001\u0001[f000][ff00]\u0001\u0002Zekrom!\nFusion Bolt!![f000]븉\u0001\u0000[f000][ff00]\u0001\u0000"
     ScreamMsg 6, 2
     VMJump L_0262
 
 L_025D:
+    // "[f000]븉\u0001\u0001[f000][ff00]\u0001\u0001Reshiram!\nFusion Flare!![f000][ff00]\u0001\u0000[f000]븉\u0001\u0000"
     ScreamMsg 7, 2
 
 L_0262:
@@ -146,8 +154,8 @@ L_0262:
     Cmd_02E9 2, 0
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_028F
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_028F
     PlayFieldEffect 107
     VMJump L_0293
 
@@ -159,7 +167,8 @@ L_0293:
     VMSleep 50
     EvCameraMoveTo 9688, 0, 0xed000, 0xf8000, 0, 0x108000, 20
     EvCameraWait
-    ActorMsg 1024, 8, 0, 0, 0
+    // "Ghetsis: So you came...[f000]븁\u0000\nThe freak without a human heart...\nN![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 0, 0, 0
     MsgWinCloseAll
     BGMPlay 1269
     FlagSet 2556
@@ -181,8 +190,8 @@ L_0293:
     ActorSetGPos 0, 17, 0, 16, 1
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0348
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0348
     Plugin6_Cmd1006 3, 0
     VMStackPush 30
     VMStackPushConst 0
@@ -198,13 +207,16 @@ L_035C:
     FlagSet 2555
     FlagReset 2556
     VMSleep 7
+    // "N: [f000]븉\u0001\u0001Reshiram told me\nKyurem is suffering![f000]븁\u0000\nI can't allow selfish humans\nto make Pokémon suffer![f000]븁\u0000\nAnd I like Unova.[f000]븁\u0000\nIt's the place that taught me\nhow to live as a human...[f000]븁\u0000\nIt's the place that made me notice the\nharmony between Pokémon and humans[f000]븀\u0000\nliving together...[f000]븁\u0000\nI will protect the Pokémon\nand humans who live here![f000]븉\u0001\u0000[f000]븁\u0000"
+    // "N: [f000]븉\u0001\u0001Zekrom told me\nKyurem is suffering![f000]븁\u0000\nI can't allow selfish humans\nto make Pokémon suffer![f000]븁\u0000\nAnd I like Unova.[f000]븁\u0000\nIt's the place that taught me\nhow to live as a human...[f000]븁\u0000\nIt's the place that made me notice the\nharmony between Pokémon and humans[f000]븀\u0000\nliving together...[f000]븁\u0000\nI will protect the Pokémon\nand humans who live here![f000]븉\u0001\u0000[f000]븁\u0000"
     ActorMsgVersioned 1024, 10, 9, 4, 2, 0
     MsgWinCloseAll
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_03A2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03A2
     PVPlay 644, 0
+    // "Bazzazzazzash!"
     ScreamMsg 11, 2
     PVWait
     MsgWaitAdvance
@@ -213,27 +225,34 @@ L_035C:
 
 L_03A2:
     PVPlay 643, 0
+    // "Preeeeaah!"
     ScreamMsg 12, 2
     PVWait
     MsgWaitAdvance
     InfoMsgClose_0039
 
 L_03B3:
-    ActorMsg 1024, 13, 0, 1, 0
+    // "Ghetsis: Excellent!\nThat was a moving expression[f000]븀\u0000\nof your determination![f000]븁\u0000\nSo the education I provided\nto make you king wasn't[f000]븀\u0000\na complete waste, then![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 0, 1, 0
     MsgWinCloseAll
-    ActorMsg 1024, 14, 0, 1, 0
+    // "But I still haven't forgotten that even\nthough I was kind enough to find you[f000]븀\u0000\nwhen you were living in the forest with[f000]븀\u0000\nPokémon, and take you in, and care[f000]븀\u0000\nfor you, in the end you were selfish[f000]븀\u0000\nand disrupted my plans.[f000]븁\u0000\nI was supposed to use your\nabilities to rule Unova![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 0, 1, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_1190
     ActorCmdWait
     VMSleep 30
     ActorCmdExec 0, Movement_1180
     ActorCmdWait
+    // "But I'll forgive you for that as well.[f000]븁\u0000\nReshiram, which you were kind enough\nto bring with you, can melt ice![f000]븁\u0000\nNow you've saved me the work\nof searching for it![f000]븁\u0000\nWell, actually, I knew you'd appear\nif we fired ice missiles into Opelucid City[f000]븀\u0000\nand you noticed the change![f000]븁\u0000"
+    // "But I'll forgive you for that as well.[f000]븁\u0000\nZekrom, which you were kind enough\nto bring with you, can shatter ice![f000]븁\u0000\nNow you've saved me the work\nof searching for it![f000]븁\u0000\nWell, actually, I knew you'd appear\nif we fired ice missiles into Opelucid City[f000]븀\u0000\nand you noticed the change![f000]븁\u0000"
     ActorMsgVersioned 1024, 16, 15, 0, 1, 0
     MsgWinCloseAll
-    ActorMsg 1024, 17, 4, 2, 0
+    // "N: [f000]븉\u0001\u0001That's an ugly formula!\nIt won't work![f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 17, 4, 2, 0
     MsgWinCloseAll
     BGMFadeOutAll 12
-    ActorMsg 1024, 18, 0, 1, 0
+    // "Ghetsis: Oh, but it will![f000]븁\u0000\nIf I use these![f000]븁\u0000\nThe DNA Splicers![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 18, 0, 1, 0
     MsgWinCloseAll
     BGMPlay 1270
     EvCameraMoveTo 9688, 0, 0xed000, 0xf8000, 0, 0xf0000, 35
@@ -247,8 +266,8 @@ L_03B3:
     SEWait
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_046C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_046C
     PlayFieldEffect 110
     VMJump L_0470
 
@@ -269,8 +288,8 @@ L_0470:
     FieldOpen
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_04BB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04BB
     FieldClose
     Call3DDemo 17, 0
     FieldOpen
@@ -289,12 +308,12 @@ L_04C5:
     ActorSetGPos 0, 17, 0, 16, 1
     ActorSetGPos 2, 15, 0, 16, 1
     ActorSetGPos 4, 17, 0, 19, 2
-    Plugin6_Cmd1006 4, 0xfffc
+    Plugin6_Cmd1006 4, 65532
     VMNop
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0536
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0536
     ActorNew 15, 18, 1, 251, 143, 0
     VMJump L_0544
 
@@ -306,12 +325,15 @@ L_0544:
     VMStackPushConst 1003
     MoneyCheck 419, 162
     VMNop
+    // "Let's battle without saying a word!\nAre you ready?"
     ActorMsg 423, 3, 18, 73, 1024
     VMRegSet8 19, 0
     VMCall L_056E
     MsgWinCloseAll
 
 L_056E:
+    // "Kyurem!\nAbsorb Reshiram![f000]븀\u0000\nUse Absofusion![f000]븁\u0000"
+    // "Kyurem!\nAbsorb Zekrom![f000]븀\u0000\nUse Absofusion![f000]븁\u0000"
     ActorMsgVersioned 1024, 22, 21, 0, 1, 0
     MsgWinCloseAll
     FadeOutBlackQ
@@ -324,8 +346,8 @@ L_056E:
     EvCameraEnd
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_05C3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05C3
     FieldClose
     Call3DDemo 18, 0
     FieldOpen
@@ -355,23 +377,28 @@ L_05D7:
     FadeInBlackQ
     BGMPop 0, 60
     FadeWait
-    ActorMsg 1024, 23, 4, 0, 0
+    // "N: [f000]븉\u0001\u0001...![f000]븁\u0000\nI never would have believed that\nPokémon could fuse together...[f000]븀\u0000\nThat there was a formula like this...[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 23, 4, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 24, 0, 0, 0
+    // "Ghetsis: You fool...[f000]븁\u0000\nLast time, I was going to use\nyou to capture people's hearts[f000]븀\u0000\nand minds to rule them![f000]븁\u0000\nBut this time, I'm simply going to use\noverwhelming power and rule[f000]븀\u0000\nwith an iron fist![f000]븁\u0000\nDo you understand?\nIf you had simply become king,[f000]븀\u0000\nUnova would have remained beautiful![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 24, 0, 0, 0
     MsgWinCloseAll
     VMSleep 8
-    ActorMsg 1024, 25, 0, 0, 0
+    // "Come now, Trainer.\nThis time no one will save you![f000]븁\u0000\nBut to make things interesting,\nI'll give you a chance.[f000]븁\u0000\nLet's see if you can stop\nTHIS Kyurem![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 25, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_11A0
     ActorCmdWait
-    ActorMsg 1024, 26, 0, 0, 0
+    // "What's this?\nYour Poké Balls are trembling.[f000]븁\u0000\nCould your Pokémon\nbe shaking with rage?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 26, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_06D4
     VMSleep 25
     SEPlay 2274
     SEWait
     ActorCmdWait
-    ActorMsg 1024, 27, 0, 0, 0
+    // "No!\nThat's not possible![f000]븁\u0000\nSimple tools don't have emotion\nor thought![f000]븁\u0000\nCome!\nChallenge Kyurem![f000]븁\u0000\nJust so you know,\ncatching it is impossible![f000]븁\u0000\nMy cane emits signals that disrupt\nthe function of all Poké Balls![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 27, 0, 0, 0
     MsgWinCloseAll
     EvCameraMoveToDefault 10
     EvCameraWait
@@ -408,13 +435,15 @@ Movement_06D4:
 L_06EC:
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0710
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0710
+    // "Bazzash!"
     ScreamMsg 33, 2
     PVPlay 644, 0
     VMJump L_071B
 
 L_0710:
+    // "Preeeeaah!"
     ScreamMsg 34, 2
     PVPlay 643, 0
 
@@ -423,18 +452,21 @@ L_071B:
     MsgWaitAdvance
     InfoMsgClose_0039
     PVPlay 646, 0
+    // "Haaahraaan!"
     ScreamMsg 35, 5
     PVWait
     MsgWaitAdvance
     InfoMsgClose_0039
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0750
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0750
+    // "Kyurem and Zekrom\nwere separated!"
     InfoMsg 36, 2
     VMJump L_0755
 
 L_0750:
+    // "Kyurem and Reshiram\nwere separated!"
     InfoMsg 37, 2
 
 L_0755:
@@ -443,10 +475,13 @@ L_0755:
     Cmd_02E9 1, 0
     ActorCmdExec 255, Movement_1190
     ActorCmdWait
+    // "Ghetsis: I can't believe it!\nThe White Kyurem I went to[f000]븀\u0000\nall the trouble of preparing![f000]븁\u0000\nHow irritating![f000]븁\u0000\nNow I have to go recapture\nKyurem, don't I?[f000]븁\u0000\nBut first, I'll take down this disgusting\nTrainer with my own hand![f000]븁\u0000\nThis time I WILL succeed!\nNo matter what they try,[f000]븀\u0000\nno one will be able to stop me![f000]븁\u0000"
+    // "Ghetsis: I can't believe it!\nThe Black Kyurem I went to[f000]븀\u0000\nall the trouble of preparing![f000]븁\u0000\nHow irritating![f000]븁\u0000\nNow I have to go recapture\nKyurem, don't I?[f000]븁\u0000\nBut first, I'll take down this disgusting\nTrainer with my own hand![f000]븁\u0000\nThis time I WILL succeed!\nNo matter what they try,[f000]븀\u0000\nno one will be able to stop me![f000]븁\u0000"
     ActorMsgVersioned 1024, 39, 38, 0, 5, 0
     MsgWinCloseAll
     WordSetPlayerName 0
-    ActorMsg 1024, 42, 4, 0, 0
+    // "N: [f000]븉\u0001\u0001...![f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 42, 4, 0, 0
     MsgWinCloseAll
     SEPlay 2059
     PokePartyRecoverAll
@@ -461,13 +496,13 @@ Script_10:
     PlayerGetExState 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_07C3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_07C3
     PlayerSetSpecialSequence 1
 
 L_07C3:
     WorkCmpConst 0x8022, 13
-    VMJumpIf 1, L_07D6
+    VMJumpIf CMP_EQ, L_07D6
     VMJump L_07E4
 
 L_07D6:
@@ -476,7 +511,7 @@ L_07D6:
 
 L_07E4:
     WorkCmpConst 0x8022, 14
-    VMJumpIf 1, L_07F7
+    VMJumpIf CMP_EQ, L_07F7
     VMJump L_0805
 
 L_07F7:
@@ -485,7 +520,7 @@ L_07F7:
 
 L_0805:
     WorkCmpConst 0x8022, 15
-    VMJumpIf 1, L_0818
+    VMJumpIf CMP_EQ, L_0818
     VMJump L_0826
 
 L_0818:
@@ -494,7 +529,7 @@ L_0818:
 
 L_0826:
     WorkCmpConst 0x8022, 16
-    VMJumpIf 1, L_0839
+    VMJumpIf CMP_EQ, L_0839
     VMJump L_0847
 
 L_0839:
@@ -503,7 +538,7 @@ L_0839:
 
 L_0847:
     WorkCmpConst 0x8022, 17
-    VMJumpIf 1, L_085A
+    VMJumpIf CMP_EQ, L_085A
     VMJump L_0868
 
 L_085A:
@@ -512,6 +547,8 @@ L_085A:
 
 L_0868:
     ActorCmdWait
+    // "Ghetsis: I'll take down this\ndisgusting Trainer with my own hand![f000]븁\u0000\nThis time I WILL succeed!\nNo matter what they try,[f000]븀\u0000\nno one will be able to stop me![f000]븁\u0000"
+    // "Ghetsis: I'll take down this\ndisgusting Trainer with my own hand![f000]븁\u0000\nThis time I WILL succeed!\nNo matter what they try,[f000]븀\u0000\nno one will be able to stop me![f000]븁\u0000"
     ActorMsgVersioned 1024, 41, 40, 0, 5, 0
     MsgWinCloseAll
     VMCall L_08D4
@@ -554,8 +591,8 @@ L_08D4:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0941
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0941
     FlagSet 885
     FlagReset 968
     FlagReset 969
@@ -576,27 +613,34 @@ L_0941:
 L_0943:
     ActorCmdExec 5, Movement_0C6C
     ActorCmdWait
-    ActorMsg 1024, 43, 5, 5, 0
+    // "Ghetsis: How can this be?[f000]븁\u0000\nI'm the creator of Team Plasma!\nI'm perfect![f000]븁\u0000\nI'm the absolute ruler\nwho will change the world![f000]븁\u0000\nAnd I've lost to some unknown\nTrainer not once, but TWICE?![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 43, 5, 5, 0
     MsgWinCloseAll
     ActorCmdExec 5, Movement_0C58
     ActorCmdWait
-    ActorMsg 1024, 44, 5, 5, 0
+    // "I can't accept this!\nThis isn't possible![f000]븁\u0000\nI can't be bested by\nfools who can't even[f000]븀\u0000\nuse Pokémon correctly![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 44, 5, 5, 0
     MsgWinCloseAll
     BGMPlay 1271
-    ActorMsg 1024, 45, 4, 6, 0
+    // "N: [f000]븉\u0001\u0001It's hard to call you this, but...[f000]븁\u0000\nFather!\nPlease understand.[f000]븁\u0000\nPokémon are not tools.[f000]븁\u0000\nPokémon and humans take\neach other to greater heights.[f000]븀\u0000\nThey are our wonderful partners.[f000]븁\u0000\nSome humans understand this.[f000]븁\u0000\nWhy can't you?[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 45, 4, 6, 0
     MsgWinCloseAll
     ActorCmdExec 5, Movement_1178
     ActorCmdWait
-    ActorMsg 1024, 46, 5, 5, 1
+    // "Ghetsis: Shut your mouth![f000]븁\u0000\nShut up! Shut up! Shut UP![f000]븁\u0000\nDon't talk like a person, you freak!\nNo real person could talk to Pokémon![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 46, 5, 5, 1
     MsgWinCloseAll
     ActorNew 18, 17, 1, 251, 182, 0
     ActorCmdExec 251, Movement_0C7C
     ActorCmdWait
-    ActorMsg 1024, 47, 251, 5, 0
+    // "Shadow Triad: Lord Ghetsis has...\nlost control...[f000]븁\u0000\nWe'll take it from here...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 47, 251, 5, 0
     MsgWinCloseAll
-    ActorMsg 1024, 48, 4, 0, 0
+    // "N: [f000]븉\u0001\u0001OK...[f000]븁\u0000\nWithout Father,\nTeam Plasma is...[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 48, 4, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 49, 251, 5, 0
+    // "Shadow Triad: Farewell...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 49, 251, 5, 0
     MsgWinCloseAll
     ActorCmdExec 251, Movement_1178
     ActorCmdWait
@@ -611,15 +655,17 @@ L_0943:
     VMSleep 8
     ActorCmdExec 255, Movement_1180
     ActorCmdWait
-    ActorMsg 1024, 50, 4, 6, 0
+    // "N: [f000]븉\u0001\u0001On behalf of everyone...[f000]븁\u0000\nThank you.[f000]븁\u0000\nKyurem is fine.[f000]븁\u0000\nNow, it has lost its power,\nbut it will come here again.[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 50, 4, 6, 0
     MsgWinCloseAll
     ActorCmdExec 4, Movement_1180
     ActorCmdWait
     GameGetVersion 0x8020
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0A63
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A63
+    // "Bazzash!"
     InfoMsg 51, 1
     PVPlay 644, 0
     PVWait
@@ -628,6 +674,7 @@ L_0943:
     VMJump L_0A74
 
 L_0A63:
+    // "Preeeeaah!"
     InfoMsg 52, 1
     PVPlay 643, 0
     PVWait
@@ -637,6 +684,8 @@ L_0A63:
 L_0A74:
     ActorCmdExec 4, Movement_1178
     ActorCmdWait
+    // "N: [f000]븉\u0001\u0001Reshiram says thank you as well![f000]븁\u0000\nThat's right...\nI can talk with Pokémon.[f000]븉\u0001\u0000[f000]븁\u0000"
+    // "N: [f000]븉\u0001\u0001Zekrom says thank you as well![f000]븁\u0000\nThat's right...\nI can talk with Pokémon.[f000]븉\u0001\u0000[f000]븁\u0000"
     ActorMsgVersioned 1024, 54, 53, 4, 6, 0
     MsgWinCloseAll
     ActorCmdExec 4, Movement_1190
@@ -647,21 +696,27 @@ L_0A74:
     Cmd_02B4 0, 0x400f
     VMStackPush 0x400f
     VMStackPushConst 1
-    VMStackCmp 4
-    VMJumpIf 255, L_0AD7
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_0AD7
     Cmd_02B5 0, 1
-    ActorMsg 1024, 56, 4, 6, 0
+    // "[f000]븉\u0001\u0001On that day two years ago, [f000]Ā\u0001\u0001\nand Alder taught me something...[f000]븁\u0000\nBy accepting different ideas, this world\ncreates a chemical reaction...[f000]븁\u0000\nSo I met many different Pokémon\nand people and heard so much...[f000]븁\u0000\nAnd that's how my world\nquietly grew bigger...[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 56, 4, 6, 0
     VMJump L_0AE3
 
 L_0AD7:
-    ActorMsg 1024, 55, 4, 6, 0
+    // "[f000]븉\u0001\u0001On that day two years ago, a certain\nTrainer and Alder taught me something...[f000]븁\u0000\nBy accepting different ideas, this world\ncreates a chemical reaction...[f000]븁\u0000\nSo I met many different Pokémon\nand people and heard so much...[f000]븁\u0000\nAnd that's how my world\nquietly grew bigger...[f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 55, 4, 6, 0
 
 L_0AE3:
+    // "[f000]븉\u0001\u0001By being with Pokémon, humans\ncan continue toward new horizons.[f000]븁\u0000\nBy being with humans, Pokémon\ncan exhibit their true power.[f000]븁\u0000\nThat's what Reshiram taught me:\nthe truth for Pokémon and me.[f000]븁\u0000\nAnd someday both truth and ideals\nwill come together...[f000]븁\u0000\nThen Pokémon and humans will be\nfree from the oppression of Poké Balls.[f000]븉\u0001\u0000[f000]븁\u0000"
+    // "[f000]븉\u0001\u0001By being with Pokémon, humans\ncan continue toward new horizons.[f000]븁\u0000\nBy being with humans, Pokémon\ncan exhibit their true power.[f000]븁\u0000\nThat's what Zekrom taught me:\nthe ideal for Pokémon and me.[f000]븁\u0000\nAnd someday both ideals and truth\nwill come together...[f000]븁\u0000\nThen Pokémon and humans will be\nfree from the oppression of Poké Balls.[f000]븉\u0001\u0000[f000]븁\u0000"
     ActorMsgVersioned 1024, 58, 57, 4, 6, 0
     MsgWinCloseAll
     ActorCmdExec 4, Movement_1140
     ActorCmdWait
     WordSetPlayerName 0
+    // "[f000]븉\u0001\u0001You![f000]븁\u0000\nWhat are you and your Pokémon\nstriving for?[f000]븁\u0000\nYou should head to the Pokémon League\nand put your truths to the test![f000]븉\u0001\u0000[f000]븁\u0000"
+    // "[f000]븉\u0001\u0001You![f000]븁\u0000\nWhat are you and your Pokémon\nstriving for?[f000]븁\u0000\nYou should head to the Pokémon League\nand put your ideals to the test![f000]븉\u0001\u0000[f000]븁\u0000"
     ActorMsgVersioned 1024, 60, 59, 4, 6, 0
     MsgWinCloseAll
     FadeEx 3, 0, 16, 4
@@ -687,28 +742,34 @@ L_0AE3:
     ActorCmdWait
     ActorCmdExec 11, Movement_1190
     ActorCmdWait
-    ActorMsg 1024, 70, 11, 0, 0
+    // "Team Plasma's ship flew away...\nIs it over?"
+    ActorMsg MSGFILE_SCRIPT, 70, 11, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0BBD
-    ActorMsg 1024, 71, 11, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0BBD
+    // "I see...\nSo it's finally over.[f000]븁\u0000\nMore importantly, you rescued\nKyurem from Team Plasma, right?[f000]븀\u0000\nYou're really something![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 71, 11, 0, 0
     VMJump L_0BC9
 
 L_0BBD:
-    ActorMsg 1024, 72, 11, 0, 0
+    // "I suppose... You have to be the one\nwho decides when it's over.[f000]븁\u0000\nMore importantly, you rescued\nKyurem from Team Plasma, right?[f000]븀\u0000\nYou're really something![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 72, 11, 0, 0
 
 L_0BC9:
     MsgWinCloseAll
     ActorCmdExec 11, Movement_1180
     ActorCmdWait
-    ActorMsg 1024, 73, 11, 0, 0
+    // "I'm...gonna make sure Purrloin\ngets back to my sister![f000]븁\u0000\nStill can't take it out of\nthe Poké Ball yet, though...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 73, 11, 0, 0
     MsgWinCloseAll
     ActorCmdExec 11, Movement_0CA8
     ActorCmdWait
-    ActorMsg 1024, 74, 11, 0, 0
-    ActorMsg 1024, 75, 11, 0, 0
+    // "What are you gonna do?[f000]븁\u0000\n...\n...[f000]븁\u0000\nHe said go to the Pokémon League?\nThat's a good idea![f000]븁\u0000\nI mean, now you're the\nstrongest in Unova, right?[f000]븀\u0000\nGo prove it![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 74, 11, 0, 0
+    // "Do you remember where we first\nmet up in the Giant Chasm?[f000]븁\u0000\nIf you follow the path from there,\nit goes out onto Route 23.[f000]븁\u0000\nVictory Road and the Pokémon League\nare just past there!"
+    ActorMsg MSGFILE_SCRIPT, 75, 11, 0, 0
     LastKeyWait
     MsgWinCloseAll
     FlagReset 364
@@ -722,11 +783,11 @@ L_0BC9:
     FlagSet 886
     FlagSet 888
     FlagSet 854
-    Cmd_0262 0, 6
-    Cmd_0262 1, 36
-    Cmd_0262 2, 12
-    Cmd_0262 3, 7
-    Cmd_0262 4, 0
+    HollowRivalCmd_0262 0, 6
+    HollowRivalCmd_0262 1, 36
+    HollowRivalCmd_0262 2, 12
+    HollowRivalCmd_0262 3, 7
+    HollowRivalCmd_0262 4, 0
     VMReturn
     .balign 4, 0
 
@@ -771,7 +832,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 30, 0, 0
+    // "Ghetsis: Come now![f000]븁\u0000\nI want to see your face at the moment\nyou lose all hope![f000]븁\u0000\nBattle to protect Unova![f000]븁\u0000\nI've prepared the finest stage, and\nit's wasted on a bit player like you![f000]븀\u0000\nLose and go down in flames!"
+    ParentActorMsg MSGFILE_SCRIPT, 30, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -782,6 +844,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
+    // "N: [f000]븉\u0001\u0001It's faint, but I can hear my friend.\nI can hear Reshiram's voice.[f000]븀\u0000\nIt says they can be separated again![f000]븁\u0000\nI beg you!\nPlease save my friend![f000]븁\u0000\nAnd all of Unova's\nPokémon and humans...[f000]븉\u0001\u0000"
+    // "N: [f000]븉\u0001\u0001It's faint, but I can hear my friend.\nI can hear Zekrom's voice.[f000]븀\u0000\nIt says they can be separated again![f000]븁\u0000\nI beg you!\nPlease save my friend![f000]븁\u0000\nAnd all of Unova's\nPokémon and humans...[f000]븉\u0001\u0000"
     ActorMsgVersioned 1024, 29, 28, 4, 0, 0
     LastKeyWait
     MsgWinCloseAll
@@ -793,7 +857,8 @@ Script_11:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 75, 0, 0
+    // "Do you remember where we first\nmet up in the Giant Chasm?[f000]븁\u0000\nIf you follow the path from there,\nit goes out onto Route 23.[f000]븁\u0000\nVictory Road and the Pokémon League\nare just past there!"
+    ParentActorMsg MSGFILE_SCRIPT, 75, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -805,8 +870,8 @@ Script_6:
     PlayerGetExState 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0D29
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0D29
     PlayerSetSpecialSequence 1
 
 L_0D29:
@@ -822,10 +887,11 @@ L_0D29:
     WorkOr 0x8024, 16
     VMStackPush 0x8020
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_0DA5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0DA5
     ActorCmdExec 1, Movement_0EE0
     ActorCmdWait
+    // "Bazzakyurom!"
     ScreamMsg 31, 2
     PVPlay 646, 2
     PVWait
@@ -837,6 +903,7 @@ L_0D29:
 L_0DA5:
     ActorCmdExec 1, Movement_0ED8
     ActorCmdWait
+    // "Preeeahkyuram!"
     ScreamMsg 32, 2
     PVPlay 646, 1
     PVWait
@@ -851,12 +918,12 @@ L_0DCA:
     WildBattleGetResult 0x8026
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0E8D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0E8D
     VMStackPush 0x8026
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_0E58
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0E58
     EvCameraInit
     EvCameraUnbind
     EvCameraMoveToDefault 1
@@ -878,8 +945,8 @@ L_0DCA:
 L_0E58:
     VMStackPush 0x8026
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0E87
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0E87
     EvCameraInit
     EvCameraUnbind
     EvCameraMoveToDefault 1
@@ -897,8 +964,8 @@ L_0E87:
 L_0E8D:
     VMStackPushFlag 889
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0EA4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0EA4
     FlagReset 889
 
 L_0EA4:
@@ -906,7 +973,7 @@ L_0EA4:
 
 L_0EA6:
     WorkCmpConst 0x8026, 2
-    VMJumpIf 1, L_0EB9
+    VMJumpIf CMP_EQ, L_0EB9
     VMJump L_0EC5
 
 L_0EB9:
@@ -932,6 +999,7 @@ Movement_0EE0:
 Script_7:
     ActorsPauseAll
     SEPlay 1351
+    // "It's the cane Ghetsis was holding.[f000]븁\u0000\nWas he controlling Kyurem with it?"
     InfoMsg 63, 2
     LastKeyWait
     MsgWinCloseAll
@@ -960,6 +1028,7 @@ Script_9:
     ActorsPauseAll
     SEPlay 1351
     PVPlay 646, 0
+    // "Haaahraaan!"
     ScreamMsg 61, 1
     PVWait
     MsgWaitAdvance
@@ -968,22 +1037,22 @@ Script_9:
     WildBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0FB5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0FB5
     FlagSet 1004
     ActorDelete 8
     VMStackPushFlag 481
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0F8E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0F8E
     FlagReset 1003
     ActorAdd 7
 
 L_0F8E:
     VMStackPushFlag 483
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0FAD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0FAD
     ActorSetGPos 255, 15, 0, 16, 0
 
 L_0FAD:
@@ -996,7 +1065,7 @@ L_0FB5:
 L_0FB7:
     WildBattleGetResult 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_0FCE
+    VMJumpIf CMP_EQ, L_0FCE
     VMJump L_0FDC
 
 L_0FCE:
@@ -1006,12 +1075,13 @@ L_0FCE:
 
 L_0FDC:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0FFC
+    VMJumpIf CMP_EQ, L_0FFC
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0FFC
+    VMJumpIf CMP_EQ, L_0FFC
     VMJump L_100C
 
 L_0FFC:
+    // "Kyurem vanished into the darkness\nof the cave..."
     SystemMsg 62, 0
     MsgWaitAdvance
     InfoMsgClose
@@ -1020,8 +1090,8 @@ L_0FFC:
 L_100C:
     VMStackPushFlag 483
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_1025
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1025
     VMCall L_102B
 
 L_1025:
@@ -1040,27 +1110,33 @@ L_102B:
     ActorCmdExec 255, Movement_1180
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 64, 9, 6, 0
+    // "Cheren: [f000]Ā\u0001\u0000!\nThat was Kyurem just now, right?[f000]븁\u0000\nSo that's the legendary Pokémon\nTeam Plasma, or should I say Ghetsis,[f000]븀\u0000\nwas using...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 64, 9, 6, 0
     MsgWinCloseAll
-    ActorMsg 1024, 65, 10, 4, 0
+    // "Bianca: [f000]Ā\u0001\u0000, you're amazing!\nYou've met so many Pokémon![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 65, 10, 4, 0
     VMStackPushFlag 388
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_10B3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_10B3
     MsgWinCloseAll
     ActorCmdExec 10, Movement_1198
     ActorCmdWait
-    ActorMsg 1024, 66, 10, 4, 0
+    // "Hey now! Your Pokédex should be\npretty full, right?[f000]븁\u0000\nI'm sure Professor Juniper will\nbe really happy if you show her![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 66, 10, 4, 0
     VMJump L_10BF
 
 L_10B3:
-    ActorMsg 1024, 67, 10, 4, 0
+    // "You showed Professor Juniper\nyour Pokédex, didn't you?[f000]븁\u0000\nShe told me about how\nhappy she was![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 67, 10, 4, 0
 
 L_10BF:
     MsgWinCloseAll
-    ActorMsg 1024, 68, 9, 6, 0
+    // "Cheren: I'm sure she was![f000]븁\u0000\nIn Unova, actually in the whole world,\nthere are still many Pokémon[f000]븀\u0000\nthat are waiting to meet you, though![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 68, 9, 6, 0
     MsgWinCloseAll
-    ActorMsg 1024, 69, 10, 4, 0
+    // "Bianca: Still...\nHow many Pokémon[f000]븀\u0000\ncould there be in all?[f000]븁\u0000\nI think I'll go back to Nuvema Town\nand ask Professor Juniper![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 69, 10, 4, 0
     MsgWinCloseAll
     ActorWalkRoute 9, 15, 25, 0, 8, 0
     VMSleep 4
@@ -1075,8 +1151,8 @@ L_10BF:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_1134
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1134
     CallTrainerBattleEnd
     VMJump L_1136
 

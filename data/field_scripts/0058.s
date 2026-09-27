@@ -15,24 +15,24 @@
 Script_10:
     VMStackPushFlag 266
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x409d
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_005F
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_005F
     ActorSetGPos 0, 25, 20, 17, 2
     VMJump L_008E
 
 L_005F:
     VMStackPushFlag 266
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x409d
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_008E
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_008E
     ActorSetGPos 0, 27, 20, 16, 1
 
 L_008E:
@@ -43,7 +43,7 @@ Script_1:
     PlayerGetDir 0x8020
     Cmd_0269
     WorkCmpConst 0x8020, 0
-    VMJumpIf 1, L_00AF
+    VMJumpIf CMP_EQ, L_00AF
     VMJump L_00BD
 
 L_00AF:
@@ -52,7 +52,7 @@ L_00AF:
 
 L_00BD:
     WorkCmpConst 0x8020, 2
-    VMJumpIf 1, L_00D0
+    VMJumpIf CMP_EQ, L_00D0
     VMJump L_00DE
 
 L_00D0:
@@ -61,7 +61,7 @@ L_00D0:
 
 L_00DE:
     WorkCmpConst 0x8020, 3
-    VMJumpIf 1, L_00F1
+    VMJumpIf CMP_EQ, L_00F1
     VMJump L_00FF
 
 L_00F1:
@@ -83,7 +83,7 @@ Script_2:
     ActorCmdExec 255, Movement_0320
     ActorCmdWait
     WorkCmpConst 0x8022, 1
-    VMJumpIf 1, L_0148
+    VMJumpIf CMP_EQ, L_0148
     VMJump L_0156
 
 L_0148:
@@ -92,7 +92,7 @@ L_0148:
 
 L_0156:
     WorkCmpConst 0x8022, 2
-    VMJumpIf 1, L_0169
+    VMJumpIf CMP_EQ, L_0169
     VMJump L_0177
 
 L_0169:
@@ -101,7 +101,7 @@ L_0169:
 
 L_0177:
     WorkCmpConst 0x8022, 3
-    VMJumpIf 1, L_018A
+    VMJumpIf CMP_EQ, L_018A
     VMJump L_0198
 
 L_018A:
@@ -121,8 +121,8 @@ Script_3:
     WorkGet 0x8023, 0x8000
     VMStackPush 0x8023
     VMStackPushConst 14
-    VMStackCmp 1
-    VMJumpIf 255, L_01E3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01E3
     MapChangeCore 488, 15, 65535, 20, 0
     VMJump L_01EF
 
@@ -144,8 +144,8 @@ Script_4:
     ActorCmdWait
     VMStackPushFlag 265
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_023A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_023A
     Cmd_0268 0
     VMCall L_025A
     FlagSet 265
@@ -248,14 +248,15 @@ Script_6:
     TrainerBGMPlayPush 735
     ActorCmdExec 0, Movement_03B8
     ActorCmdWait
-    ActorMsg 1024, 0, 0, 0, 0
+    // "When the cocoon breaks open,\nthe one that pops out is--moi![f000]븁\u0000\nOn that note, have a battle with moi![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     ActorMsgClose
     CallTrainerBattle 735, 0, 0
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0385
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0385
     CallTrainerBattleEnd
     VMJump L_038B
 
@@ -264,7 +265,8 @@ L_0385:
     CallTrainerLose
 
 L_038B:
-    ActorMsg 1024, 1, 0, 0, 0
+    // "Hiding makes battle instincts dull,\nyou know.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     ActorMsgClose
     ActorCmdExec 0, Movement_03C4
     ActorCmdWait
@@ -293,7 +295,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 2, 0, 0, 0
+    // "Hiding makes battle instincts dull,\nyou know."
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -307,13 +310,14 @@ Script_8:
     TrainerCardHasBadge 0x8008, 2
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_047E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_047E
     VMStackPushFlag 109
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_046A
-    ParentActorMsg 1024, 5, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_046A
+    // "Clyde: Hello! You're probably\ntired from wandering all over[f000]븀\u0000\nthe crowded streets of Castelia City[f000]븀\u0000\nlooking for Team Plasma and[f000]븀\u0000\nthe Gym Leader.[f000]븁\u0000\nSo, here,\nI'll give you this![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     ActorMsgClose
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -322,14 +326,16 @@ Script_8:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ParentActorMsg 1024, 6, 0, 0
+    // "The theme of this Gym\nis none other than cocoons![f000]븁\u0000\nYou head upward by going inside\nthe cocoons and traveling[f000]븀\u0000\nup the threads![f000]븁\u0000\nThe threads are definitely\nconnected to Burgh...eventually!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FlagSet 109
     VMJump L_0478
 
 L_046A:
-    ParentActorMsg 1024, 6, 0, 0
+    // "The theme of this Gym\nis none other than cocoons![f000]븁\u0000\nYou head upward by going inside\nthe cocoons and traveling[f000]븀\u0000\nup the threads![f000]븁\u0000\nThe threads are definitely\nconnected to Burgh...eventually!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -337,7 +343,8 @@ L_0478:
     VMJump L_048C
 
 L_047E:
-    ParentActorMsg 1024, 7, 0, 0
+    // "Wow! That's amazing![f000]븁\u0000\nYou swatted aside our Gym Leader\nBurgh's tricky attacks...[f000]븁\u0000\nI can barely imagine how much\nstronger you're going to get!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -354,21 +361,24 @@ Script_9:
     WordSetLoadRivalName 1
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04C5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04C5
     WordSetPlayerName 0
+    // "Castelia Pokémon Gym[f000]븁\u0000\nGym Leader: Burgh\nCertified Trainers:"
     InfoMsg 8, 2
     VMJump L_04E8
 
 L_04C5:
     VMStackPushFlag 2477
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04E3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04E3
+    // "Castelia Pokémon Gym[f000]븁\u0000\nGym Leader: Burgh\nCertified Trainers:[f000]븀\u0000\n[f000]Ā\u0001\u0000"
     InfoMsg 9, 2
     VMJump L_04E8
 
 L_04E3:
+    // "Castelia Pokémon Gym[f000]븁\u0000\nGym Leader: Burgh\nCertified Trainers:[f000]븀\u0000\n[f000]Ā\u0001\u0000, [f000]Ā\u0001\u0001"
     InfoMsg 10, 2
 
 L_04E8:

@@ -13,7 +13,7 @@ Script_1:
     WorkAdd 0x8020, 0x400b
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0x8020, 0, 0
+    ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
     ActorMsgClose
     WorkSetConst 0x8020, 0
@@ -25,7 +25,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "Dire Hit? In Unova, it's called Dire Hit.\nHuh? No difference?"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -36,7 +37,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 7, 0x8011, 2, 0
+    // "It's been two years since I opened for\nbusiness, and thanks to everyone,[f000]븀\u0000\nI'm doing great![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0x8011, 2, 0
     VMStackPush 0x8000
     VMStackPush 0x8001
     WorkSet 0x8000, 14

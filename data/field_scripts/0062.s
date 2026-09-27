@@ -13,35 +13,42 @@ Script_2:
     ActorsPauseAll
     VMStackPush 0x40b1
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0150
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0150
     SEPlay 1351
     ActorSetEyeToEye
     EvCameraInit
     EvCameraUnbind
     EvCameraMoveTo 6917, 0, 0xcc000, 0x178000, 0, 0x308000, 40
     EvCameraWait
-    ActorMsg 1024, 0, 0, 0, 0
+    // "If you're looking for the Gym Leader,\nBurgh, he said there might be trouble[f000]븀\u0000\nand then he took off![f000]븁\u0000\nYou can go look for him if you'd like![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     MsgWinCloseAll
     ActorNew 20, 56, 0, 251, 355, 0
+    // "???: Huh? Burgh vanished again?[f000]븁\u0000"
     InfoMsg 1, 2
     MsgWinCloseAll
     ActorWalkRoute 251, 21, 48, 0, 8, 1
     ActorCmdExec 0, Movement_0288
     ActorCmdExec 255, Movement_0210
     ActorCmdWait
-    ActorMsg 1024, 2, 0, 0, 0
+    // "Clyde: Oh! Hello, Iris.[f000]븁\u0000\nSomething came up, and Burgh\nisn't here right now.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     MsgWinCloseAll
-    ActorMsg 1024, 3, 251, 0, 0
-    ActorMsg 1024, 4, 251, 0, 0
+    // "Iris: Hmm...[f000]븁\u0000\nIsn't Burgh always vanishing, though?[f000]븁\u0000\nHe always says he's got artist's block\nand just goes wandering out of the Gym.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 251, 0, 0
+    // "Hi there! Who are you?[f000]븁\u0000\n...[f000]븁\u0000\nLooking for Team Plasma?[f000]븁\u0000\nBut Team Plasma disbanded\ntwo years ago![f000]븁\u0000\nI guess that doesn't matter!\nYou're having problems,[f000]븀\u0000\nso I'll help you out![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 251, 0, 0
     MsgWinCloseAll
     ActorCmdExec 251, Movement_0270
     ActorCmdWait
-    ActorMsg 1024, 5, 251, 0, 0
+    // "Hmm... Now where would\nsuspicious people go to hide?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 251, 0, 0
     MsgWinCloseAll
     ActorCmdExec 251, Movement_0288
     ActorCmdWait
-    ActorMsg 1024, 6, 251, 0, 0
+    // "That's it!\nThat might be where they are![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 251, 0, 0
     MsgWinCloseAll
     ActorCmdExec 251, Movement_0220
     VMSleep 6
@@ -52,7 +59,8 @@ Script_2:
     ActorCmdExec 0, Movement_0278
     ActorCmdExec 255, Movement_0280
     ActorCmdWait
-    ActorMsg 1024, 7, 0, 0, 0
+    // "Clyde: Good grief...\nBurgh and Iris are so similar.[f000]븁\u0000\nIt looks like she went around the corner,\ntoward the Pokémon Center.[f000]븁\u0000\nDo you know where the Pokémon Center is?[f000]븁\u0000\nIf you keep following the street\nthat goes around Castelia City,[f000]븀\u0000\nit's right there!"
+    ActorMsg MSGFILE_SCRIPT, 7, 0, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     EvCameraMoveToDefault 40
@@ -66,7 +74,8 @@ Script_2:
 L_0150:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "Clyde: Good grief...\nBurgh and Iris are so similar.[f000]븁\u0000\nIt looks like she went around the corner,\ntoward the Pokémon Center.[f000]븁\u0000\nDo you know where the Pokémon Center is?[f000]븁\u0000\nIf you keep following the street\nthat goes around Castelia City,[f000]븀\u0000\nit's right there!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -79,7 +88,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "When it comes to loving my Pokémon,\nI won't lose to anybody![f000]븁\u0000\nI hope that gets through\nto my Pokémon..."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -90,7 +100,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "I've got plenty of Potions!\nWith them, I'll bet I can[f000]븀\u0000\nbeat the Gym Leader!"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -101,7 +112,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "Wanting to become stronger\nas a Pokémon Trainer is good![f000]븁\u0000\nYou can have a good time playing with\nPokémon or put them to work instead!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -112,7 +124,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "If I only had five Badges,\nI could buy Ultra Balls..."
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -123,7 +136,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 12, 0, 0
+    // "My little Palpitoad\nis utterly charming![f000]븁\u0000\nWhen I come home tired,\nit makes me feel better!"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -134,6 +148,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Castelia City Pokémon Gym\nLeader: Burgh[f000]븀\u0000\nPremier Insect Artist"
     MsgPlaceSign 13, 2
     MsgPlaceSignClose
     FinishAllEvents

@@ -15,16 +15,16 @@ Script_5:
     PlayerGetGPos 0x8020, 0x8021
     VMStackPushFlag 260
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_007E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_007E
     VMStackPush 0x8020
     VMStackPushConst 7
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8021
     VMStackPushConst 12
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_006C
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_006C
     VMJump L_007E
 
 L_006C:
@@ -42,23 +42,24 @@ Script_4:
     WorkSetConst 0x8022, 0
     WorkSetConst 0x8023, 0
     PlayerGetDir 0x8022
-    Cmd_0233 0x8023
+    UnityTowerGetVisitorCountry 0x8023
     SEPlay 1351
     ActorSetEyeToEye
     VMStackPushFlag 260
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4001
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0130
-    ParentActorMsg 1024, 8, 0, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0130
+    // "Wanna recover Pokémon?\nOh, soooooorry![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     MsgWinCloseAll
     WorkCmpConst 0x8022, 0
-    VMJumpIf 1, L_00FB
+    VMJumpIf CMP_EQ, L_00FB
     WorkCmpConst 0x8022, 3
-    VMJumpIf 1, L_00FB
+    VMJumpIf CMP_EQ, L_00FB
     VMJump L_0109
 
 L_00FB:
@@ -67,7 +68,7 @@ L_00FB:
 
 L_0109:
     WorkCmpConst 0x8022, 2
-    VMJumpIf 1, L_011C
+    VMJumpIf CMP_EQ, L_011C
     VMJump L_012A
 
 L_011C:
@@ -79,17 +80,19 @@ L_012A:
     ActorCmdWait
 
 L_0130:
-    ActorMsg 1024, 9, 8, 2, 0
+    // "Do you know Geonet?"
+    ActorMsg MSGFILE_SCRIPT, 9, 8, 2, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0179
-    ActorMsg 1024, 10, 8, 2, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0179
+    // "You! You, using Geonet!\nI'll tell you something good[f000]븀\u0000\nbecause you're great.[f000]븁\u0000\nWith the latest technology, we can trade\nPokémon with people far away![f000]븁\u0000\n...I know it sounds crazy,\nbut give it a try. You'll be surprised!"
+    ActorMsg MSGFILE_SCRIPT, 10, 8, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_01CC
@@ -97,13 +100,14 @@ L_0130:
 L_0179:
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_01B2
-    ActorMsg 1024, 11, 8, 2, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_01B2
+    // "Oh! You know Geonet!\nGreat, great![f000]븁\u0000\nThis is even greater, lemme tell ya![f000]븁\u0000\nIf you try Geonet, you can register\nthe place where you live!"
+    ActorMsg MSGFILE_SCRIPT, 11, 8, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_01CC
@@ -111,7 +115,8 @@ L_0179:
 L_01B2:
     ActorCmdExec 8, Movement_01F8
     ActorCmdWait
-    ActorMsg 1024, 12, 8, 2, 0
+    // "You see the globe on the second floor\nof this Pokémon Center?[f000]븁\u0000\nThat is Geonet.[f000]븁\u0000\nIf you check on Geonet, you can register\nthe place where you live!"
+    ActorMsg MSGFILE_SCRIPT, 12, 8, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -188,8 +193,8 @@ Script_3:
     PokePartyGetCount 0x8024, 4
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_02C3
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_02C3
     VMCall L_02CF
     VMJump L_02C9
 
@@ -202,7 +207,8 @@ L_02C9:
     VMHalt
 
 L_02CF:
-    ParentActorMsg 1024, 5, 0, 0
+    // "I want to know\neveryone's favorite kind of Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMReturn
@@ -211,36 +217,41 @@ L_02DF:
     PokePartyIsEgg 0x8025, 0
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0308
-    ParentActorMsg 1024, 1, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0308
+    // "Your favorite is that Egg, isn't it?"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     VMJump L_0317
 
 L_0308:
     WordSetPartyPokeSpecies 0, 0
-    ParentActorMsg 1024, 0, 0, 0
+    // "Your favorite is [f000]ā\u0001\u0000, isn't it?"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
 
 L_0317:
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0342
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0342
     TrainerCardSetFavePokemon 0
-    ParentActorMsg 1024, 2, 0, 0
+    // "Yes, I was right! I thought so!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     VMJump L_0374
 
 L_0342:
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0365
-    ParentActorMsg 1024, 4, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0365
+    // "...Oh? Your favorite really is that Egg,\nisn't it?"
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     VMJump L_0374
 
 L_0365:
     WordSetPartyPokeSpecies 0, 0
-    ParentActorMsg 1024, 3, 0, 0
+    // "What? Your favorite isn't [f000]ā\u0001\u0000?!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
 
 L_0374:
     LastKeyWait
@@ -251,7 +262,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "Fennel has moved to Castelia City![f000]븁\u0000\nFennel is a professor who is\nresearching about Pokémon Trainers!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -263,7 +275,8 @@ Script_7:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 531, 0
-    ParentActorMsg 1024, 7, 0, 0
+    // "Au-di-no?"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose

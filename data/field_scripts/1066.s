@@ -15,12 +15,12 @@
 Script_1:
     VMStackPush 0x4120
     VMStackPushConst 2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2406
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_005D
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_005D
     WorkSetConst 0x4120, 1
     FlagReset 959
 
@@ -35,24 +35,28 @@ Script_3:
     WordSetPlayerName 0
     VMStackPushFlag 427
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_013C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_013C
     PlayerGetExState 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0094
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0094
     PlayerSetSpecialSequence 1
 
 L_0094:
     ActorCmdExec 13, Movement_01D4
     ActorCmdWait
+    // "Bianca: Heeey! [f000]Ā\u0001\u0000![f000]븁\u0000"
+    // "Bianca: Hi there, [f000]Ā\u0001\u0000![f000]븁\u0000"
     ActorMsgGendered 1024, 0, 1, 13, 0, 0
-    ActorMsg 1024, 2, 13, 0, 0
+    // "Um, you know what?[f000]븁\u0000\nThere's something I want to investigate\nhere in Reversal Mountain.[f000]븁\u0000\nBut the wild Pokémon here are really\ntough, and I'm having trouble with them![f000]븁\u0000\nCould you come with me? Please?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 13, 0, 0
     MsgWinCloseAll
     ActorCmdExec 13, Movement_0550
     ActorCmdWait
-    ActorMsg 1024, 3, 13, 0, 0
+    // "Oh! Don't worry![f000]븁\u0000\nI'll take care of healing\nour Pokémon, OK?[f000]븁\u0000\nReady? Let's go![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 13, 0, 0
     MsgWinCloseAll
     ActorCmdExec 255, Movement_0500
     ActorCmdWait
@@ -74,21 +78,22 @@ L_0094:
     VMStackPop 0x8000
     FlagSet 427
     WorkSetConst 0x4121, 1
-    Cmd_0262 1, 20
+    HollowRivalCmd_0262 1, 20
     VMJump L_01C3
 
 L_013C:
     PlayerGetExState 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0157
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0157
     PlayerSetSpecialSequence 1
 
 L_0157:
     ActorCmdExec 13, Movement_01D4
     ActorCmdWait
-    ActorMsg 1024, 18, 13, 0, 0
+    // "There's still something I want to\nlook for in Reversal Mountain.[f000]븀\u0000\nCome with me![f000]븁\u0000\nDon't worry. I'll take care of healing\nour Pokémon, OK?[f000]븁\u0000\nOK, here we go![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 18, 13, 0, 0
     MsgWinCloseAll
     ActorCmdExec 255, Movement_0500
     ActorCmdWait
@@ -126,24 +131,27 @@ Script_4:
     ActorsPauseAll
     WordSetPlayerName 0
     VMCall L_038F
-    ActorMsg 1024, 13, 254, 0, 0
+    // "Oh! I want to do a little\nmore looking around.[f000]븀\u0000\nWant to split up for now?"
+    ActorMsg MSGFILE_SCRIPT, 13, 254, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02BE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02BE
     VMStackPush 0x4121
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0241
-    ActorMsg 1024, 14, 254, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0241
+    // "OK, then![f000]븁\u0000\nI want to do a little more research\nabout where Heatran might be![f000]븁\u0000\nThank you for coming with me!\nBe careful on the rest of your journey![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 254, 0, 0
     WorkSetConst 0x4120, 3
     FlagSet 959
     FlagReset 960
     VMJump L_0251
 
 L_0241:
-    ActorMsg 1024, 15, 254, 0, 0
+    // "Oh, OK![f000]븁\u0000\nI want to do a little more\ninvestigating about Heatran.[f000]븁\u0000\nHeatran is a very rarely seen Pokémon,\nso if I find out more about it,[f000]븀\u0000\nProfessor Juniper will be really happy![f000]븁\u0000\nThanks for helping me!\nBe careful on your journey![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 254, 0, 0
     FlagReset 959
 
 L_0251:
@@ -161,8 +169,8 @@ L_0251:
     VMStackPop 0x8000
     VMStackPush 0x4120
     VMStackPushConst 3
-    VMStackCmp 5
-    VMJumpIf 255, L_02B8
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_02B8
     ActorCmdExec 255, Movement_0508
     ActorCmdWait
     RTReserveScript 1
@@ -172,7 +180,8 @@ L_02B8:
     VMJump L_02DC
 
 L_02BE:
-    ActorMsg 1024, 16, 254, 0, 0
+    // "OK! Then let's do a little more\nlooking around![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 254, 0, 0
     MsgWinCloseAll
     ActorPairSetMoveEnable 1
     ActorCmdExec 255, Movement_0500
@@ -192,8 +201,8 @@ Script_5:
     VMSleep 8
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0318
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0318
     ActorCmdExec 255, Movement_0540
     VMJump L_0320
 
@@ -206,8 +215,8 @@ L_0320:
     ActorCmdWait
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_034D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_034D
     ActorCmdExec 254, Movement_0548
     VMJump L_0355
 
@@ -216,6 +225,8 @@ L_034D:
 
 L_0355:
     ActorCmdWait
+    // "Oh! [f000]Ā\u0001\u0000![f000]븁\u0000\nHere! This is the place!\nLet's look around a little![f000]븁\u0000"
+    // "Oh! [f000]Ā\u0001\u0000![f000]븁\u0000\nHere! This is the place!\nLet's look around a little![f000]븁\u0000"
     ActorMsgGendered 1024, 4, 5, 254, 0, 0
     MsgWinCloseAll
     WorkSetConst 0x4121, 2
@@ -227,7 +238,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 17, 0, 0
+    // "Reversal Mountain... I wonder...\nCould a Magma Stone be in there?[f000]븁\u0000\nHave you heard of it?\nThey say a Magma Stone was found[f000]븀\u0000\nin a volcano in the distant Sinnoh region.[f000]븁\u0000\nApparently, it had something\nto do with Heatran!"
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -237,7 +249,7 @@ Script_6:
 L_038F:
     PlayerGetDir 0x8020
     WorkCmpConst 0x8020, 2
-    VMJumpIf 1, L_03A6
+    VMJumpIf CMP_EQ, L_03A6
     VMJump L_03BC
 
 L_03A6:
@@ -247,7 +259,7 @@ L_03A6:
 
 L_03BC:
     WorkCmpConst 0x8020, 3
-    VMJumpIf 1, L_03CF
+    VMJumpIf CMP_EQ, L_03CF
     VMJump L_03E5
 
 L_03CF:
@@ -257,7 +269,7 @@ L_03CF:
 
 L_03E5:
     WorkCmpConst 0x8020, 0
-    VMJumpIf 1, L_03F8
+    VMJumpIf CMP_EQ, L_03F8
     VMJump L_040E
 
 L_03F8:
@@ -267,7 +279,7 @@ L_03F8:
 
 L_040E:
     WorkCmpConst 0x8020, 1
-    VMJumpIf 1, L_0421
+    VMJumpIf CMP_EQ, L_0421
     VMJump L_0437
 
 L_0421:
@@ -283,17 +295,19 @@ Script_7:
     ActorsPauseAll
     VMStackPushFlag 469
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04D5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04D5
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 19, 0, 0
+    // "You strike me as the type\nwho fills out the Habitat List![f000]븁\u0000\nC'mon, tell me what kind of Pokémon\nlive in Reversal Mountain![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
     PokeDexCheckHabitatList 461, 0, 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_04C1
-    ParentActorMsg 1024, 21, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04C1
+    // "Huh! That's amazing.\nSo these Pokémon live here, then![f000]븁\u0000\nThanks for showing me something good!\nLet me pay you back with this![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -303,13 +317,15 @@ Script_7:
     VMStackPop 0x8001
     VMStackPop 0x8000
     FlagSet 469
-    ParentActorMsg 1024, 22, 0, 0
+    // "False Swipe leaves a Pokémon\nwith 1 HP when it would have fainted.[f000]븁\u0000\nIt's a very restrained move.[f000]븁\u0000\nIt's a great TM to use for catching\nPokémon and filling out the Habitat List!"
+    ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_04CF
 
 L_04C1:
-    ParentActorMsg 1024, 20, 0, 0
+    // "Oh... Still looking into it, huh?[f000]븁\u0000\nSome of the Pokémon are on the\noutside of Reversal Mountain as well."
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -319,7 +335,8 @@ L_04CF:
 L_04D5:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 22, 0, 0
+    // "False Swipe leaves a Pokémon\nwith 1 HP when it would have fainted.[f000]븁\u0000\nIt's a very restrained move.[f000]븁\u0000\nIt's a great TM to use for catching\nPokémon and filling out the Habitat List!"
+    ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
     LastKeyWait
     ActorMsgClose
 

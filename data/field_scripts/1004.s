@@ -19,12 +19,12 @@ Script_1:
     TrainerCardHasBadge 0x8008, 1
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00B3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B3
     VMStackPushFlag 270
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_007C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_007C
     WorkSetConst 0x4000, 1
     WorkSetConst 0x4003, 1
     VMJump L_0088
@@ -36,8 +36,8 @@ L_007C:
 L_0088:
     VMStackPushFlag 271
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00A7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00A7
     WorkSetConst 0x4001, 1
     VMJump L_00AD
 
@@ -54,8 +54,8 @@ L_00B3:
 L_00BF:
     VMStackPushFlag 763
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00EA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00EA
     WorkSetConst 0x4000, 1
     WorkSetConst 0x4001, 1
     WorkSetConst 0x4002, 1
@@ -67,15 +67,15 @@ L_00EA:
 Script_2:
     VMStackPush 0x4000
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0103
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0103
     Cmd_0292 1
 
 L_0103:
     VMStackPush 0x4001
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_011A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_011A
     Cmd_0292 2
 
 L_011A:
@@ -85,14 +85,15 @@ Script_3:
     ActorsPauseAll
     VMStackPush 0x4000
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4001
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_0157
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_0157
     SEPlay 1351
     WordSetPlayerName 0
+    // "It's too loud!\nShe can't hear your voice!"
     InfoMsg 0, 2
     LastKeyWait
     MsgWinCloseAll
@@ -105,8 +106,8 @@ L_0157:
     TrainerCardHasBadge 0x8008, 1
     VMStackPush 0x8008
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0188
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0188
     VMCall L_01D3
     VMJump L_01CD
 
@@ -116,15 +117,17 @@ L_0188:
     Cmd_0291 2
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01BD
-    ActorMsg 1024, 6, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01BD
+    // "Your Pokémon WANTED this win![f000]븁\u0000\nKeep on going on like this,\nand do all sorts of stuff!"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_01CD
 
 L_01BD:
-    ActorMsg 1024, 8, 0, 0, 0
+    // "Using the Pokémon I like and\ngetting through to people with[f000]븀\u0000\nthe music I like is who I am![f000]븁\u0000\nIf you can do what you enjoy\nin the way you want, then great![f000]븁\u0000\nJust be sure not to cause\nanyone any trouble!"
+    ActorMsg MSGFILE_SCRIPT, 8, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -134,14 +137,15 @@ L_01CD:
     VMHalt
 
 L_01D3:
-    ActorMsg 1024, 1, 0, 0, 1
+    // "Get ready! I'm gonna knock\nsome sense outta ya![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 1
     MsgWinCloseAll
     WorkSetConst 0x8024, 0
     GameGetDifficulty 0x8024
     VMStackPush 0x8024
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_020C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_020C
     CallTrainerBattle 765, 0, 0
     VMJump L_0214
 
@@ -153,15 +157,15 @@ L_0214:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02B2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02B2
     FlagSet 763
     FlagReset 721
     ActorDelete 0
     ActorAdd 4
     PlayerGetDir 0x8010
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0258
+    VMJumpIf CMP_EQ, L_0258
     VMJump L_0266
 
 L_0258:
@@ -170,7 +174,7 @@ L_0258:
 
 L_0266:
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0279
+    VMJumpIf CMP_EQ, L_0279
     VMJump L_0287
 
 L_0279:
@@ -179,7 +183,7 @@ L_0279:
 
 L_0287:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_029A
+    VMJumpIf CMP_EQ, L_029A
     VMJump L_02A8
 
 L_029A:
@@ -199,7 +203,8 @@ L_02B4:
     Cmd_0291 0
     Cmd_0291 1
     Cmd_0291 2
-    ActorMsg 1024, 2, 4, 0, 0
+    // "Sigh!\nWhat are you doing losing, Roxie?![f000]븁\u0000\nWell...\nI guess that means you're strong![f000]븁\u0000\nThis stinks,\nbut I gave it everything I had, and[f000]븀\u0000\nI feel revitalized and refreshed now![f000]븁\u0000\nHere!\nProof that you beat me![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 4, 0, 0
     ActorMsgClose
     TrainerCardSaveGymVictoryParty 1
     TrainerCardAddBadge 1
@@ -209,8 +214,8 @@ L_02B4:
     TrainerCardGetSex 0x8025
     VMStackPush 0x8025
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_030A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_030A
     PlayFieldEffect 4
     VMJump L_030E
 
@@ -220,9 +225,11 @@ L_030A:
 L_030E:
     MEWait
     WorkSetConst 0x8025, 0
+    // "[f000]Ā\u0001\u0000 received the\nToxic Badge from Roxie![f000]븁\u0000"
     SystemMsg 3, 0
     InfoMsgClose
-    ActorMsg 1024, 4, 4, 0, 0
+    // "Two Badges![f000]븁\u0000\nNow Pokémon up to Lv. 30,\neven Pokémon you got in trades,[f000]븀\u0000\nwill realize how good you are[f000]븀\u0000\nand won't ignore your commands![f000]븁\u0000\nAlso, here!\nUse this TM![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 4, 0, 0
     ActorMsgClose
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -231,7 +238,8 @@ L_030E:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 5, 4, 0, 0
+    // "TM09 is Venoshock!\nIt covers the target in[f000]븀\u0000\na special poisonous liquid![f000]븁\u0000\nEven better, if your target's already\npoisoned, it does double damage![f000]븀\u0000\nHeh heh! It almost packs too much[f000]븀\u0000\nof a punch!"
+    ActorMsg MSGFILE_SCRIPT, 5, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     TrainerFlagSet 178
@@ -247,7 +255,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "Your Pokémon WANTED this win![f000]븁\u0000\nKeep on going on like this,\nand do all sorts of stuff!"
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -261,8 +270,8 @@ Script_5:
     WorkSetConst 0x8020, 178
     VMStackPushFlag 270
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03CF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03CF
     VMCall L_04F9
     VMCall L_049D
     VMJump L_0404
@@ -272,8 +281,8 @@ L_03CF:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03FE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03FE
     CallTrainerBattleEnd
     VMCall L_049D
     FlagSet 270
@@ -297,8 +306,8 @@ Script_6:
     WorkSetConst 0x8020, 179
     VMStackPushFlag 271
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_043D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_043D
     VMCall L_04F9
     VMCall L_04D0
     VMJump L_0472
@@ -308,8 +317,8 @@ L_043D:
     TrainerBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_046C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_046C
     CallTrainerBattleEnd
     VMCall L_04D0
     FlagSet 271
@@ -330,8 +339,8 @@ L_0478:
     ISSSwitchQuery 0x8010, 3
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_049B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_049B
     ISSSwitchDisable 3
     WorkSetConst 0x4002, 1
 
@@ -342,8 +351,8 @@ L_049D:
     ISSSwitchQuery 0x8010, 1
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_04CE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04CE
     ISSSwitchDisable 1
     ISSSwitchDisable 4
     Cmd_0292 1
@@ -357,8 +366,8 @@ L_04D0:
     ISSSwitchQuery 0x8010, 2
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_04F7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04F7
     ISSSwitchDisable 2
     Cmd_0292 2
     WorkSetConst 0x4001, 1
@@ -384,7 +393,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "That's a Gym Leader for you!\nShe really brings out the charms[f000]븀\u0000\nof her Pokémon![f000]븁\u0000\nBut she's too wrapped up\nin what she's doing here..."
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -395,7 +405,8 @@ Script_9:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "I'm running the PA![f000]븁\u0000\nI balance the sound in the venue\nso it's easy to hear![f000]븁\u0000\nAre you a Trainer?[f000]븁\u0000\nSo does that mean you're thinking about\nthe type balance of the Pokémon in[f000]븀\u0000\nyour party?"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -411,8 +422,8 @@ Script_8:
     BGMPlay 1203
     VMStackPush 0x8026
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_05A8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05A8
     ActorCmdExec 3, Movement_06C0
     VMJump L_05B0
 
@@ -423,12 +434,13 @@ L_05B0:
     ActorCmdWait
     ActorCmdExec 255, Movement_077C
     ActorCmdWait
-    ActorMsg 1024, 10, 3, 0, 0
+    // "Hey you![f000]븁\u0000\nI felt like you were something special\nduring your battle with Roxie.[f000]븁\u0000\nPlease come with me to Pokéstar Studios![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 3, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8026
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_05EF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05EF
     ActorCmdExec 3, Movement_06D0
     VMSleep 10
     VMJump L_05FB
@@ -441,8 +453,8 @@ L_05FB:
     BGMChangeMap
     VMStackPush 0x8026
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0622
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0622
     VMSleep 30
     ActorCmdExec 4, Movement_06E0
     VMJump L_062E
@@ -455,8 +467,8 @@ L_062E:
     ActorCmdWait
     VMStackPush 0x8026
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0649
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0649
     VMJump L_0653
 
 L_0649:
@@ -464,12 +476,13 @@ L_0649:
     ActorCmdWait
 
 L_0653:
-    ActorMsg 1024, 7, 4, 0, 0
+    // "You're going to Pokéstar Studios?![f000]븁\u0000\nOH! I forgot! The old man!\nI have to get him back to work[f000]븀\u0000\nas captain![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 4, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8026
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0682
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0682
     ActorCmdExec 4, Movement_0710
     VMJump L_0696
 

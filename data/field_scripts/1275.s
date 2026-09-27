@@ -20,13 +20,13 @@ Script_5:
     WorkAdd 0x8008, 0x4181
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 0x8008, 254, 0, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8008, 254, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMStackPush 0x4181
     VMStackPushConst 2
-    VMStackCmp 5
-    VMJumpIf 255, L_0073
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0073
     WorkAdd 0x4181, 1
 
 L_0073:
@@ -43,13 +43,13 @@ Script_6:
     WorkAdd 0x8008, 0x4174
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 0x8008, 254, 0, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8008, 254, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMStackPush 0x4174
     VMStackPushConst 4
-    VMStackCmp 5
-    VMJumpIf 255, L_00C0
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_00C0
     WorkAdd 0x4174, 1
 
 L_00C0:
@@ -62,11 +62,12 @@ Script_3:
     RTGetZoneID 0x400f
     VMStackPush 0x400f
     VMStackPushConst 273
-    VMStackCmp 1
-    VMJumpIf 255, L_00F9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00F9
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "[f000]븉\u0001\u0001I remember...[f000]븁\u0000\nThis is the place where Anthea and\nConcordia took care of me as a human.[f000]븁\u0000\nThe Seven Sages all taught\nme many different things...[f000]븉\u0001\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_010D
@@ -74,7 +75,8 @@ Script_3:
 L_00F9:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 12, 0, 0
+    // "[f000]븉\u0001\u0001I...want to see things no one can see.[f000]븉\u0001\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -91,13 +93,13 @@ Script_4:
     WorkAdd 0x8008, 0x4195
     SEPlay 1351
     ActorSetEyeToEye
-    ActorMsg 1024, 0x8008, 254, 0, 0
+    ActorMsg MSGFILE_SCRIPT, 0x8008, 254, 0, 0
     LastKeyWait
     MsgWinCloseAll
     VMStackPush 0x4195
     VMStackPushConst 4
-    VMStackCmp 5
-    VMJumpIf 255, L_0157
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0157
     WorkAdd 0x4195, 1
 
 L_0157:
@@ -108,8 +110,8 @@ L_0157:
 Script_1:
     VMStackPushFlag 2406
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0172
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0172
     RTEndGlobal
 
 L_0172:
@@ -121,8 +123,8 @@ L_0172:
 Script_2:
     VMStackPushFlag 2406
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_019B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_019B
     RTEndGlobal
 
 L_019B:

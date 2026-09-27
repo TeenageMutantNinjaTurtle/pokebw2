@@ -21,13 +21,15 @@ Script_1:
     RTEndGlobal
 
 L_004C:
-    ActorMsg 1024, 17, 0x8011, 0, 0
+    // "Drayden: If you wish, I can teach your\nPokémon the strongest[f000]븀\u0000\nDragon-type move.[f000]븁\u0000\nWould you like your Pokémon to learn\nthat move?"
+    ActorMsg MSGFILE_SCRIPT, 17, 0x8011, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0081
-    ActorMsg 1024, 18, 0x8011, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0081
+    // "Understood.\nCome again if you change your mind."
+    ActorMsg MSGFILE_SCRIPT, 18, 0x8011, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -36,9 +38,10 @@ L_0081:
     MoveTutorCheckParty 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00B2
-    ActorMsg 1024, 20, 0x8011, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B2
+    // "I see...[f000]븁\u0000\nBut there are no Pokémon with\nyou right now that can learn this move."
+    ActorMsg MSGFILE_SCRIPT, 20, 0x8011, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -47,22 +50,25 @@ L_0081:
 L_00B2:
     VMStackPush 0x8010
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_00D7
-    ActorMsg 1024, 19, 0x8011, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00D7
+    // "Hmm...[f000]븁\u0000\nThis Pokémon can learn this move, but\nyour bond of friendship is not yet[f000]븀\u0000\nstrong enough.[f000]븁\u0000\nThat means I cannot teach\nit this move."
+    ActorMsg MSGFILE_SCRIPT, 19, 0x8011, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
 
 L_00D7:
-    ActorMsg 1024, 21, 0x8011, 0, 0
+    // "Which Pokémon should\nlearn this move?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 21, 0x8011, 0, 0
     ActorMsgClose
     MoveTutorCallPokeSelect 0, 0x8010, 0x8020
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0112
-    ActorMsg 1024, 18, 0x8011, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0112
+    // "Understood.\nCome again if you change your mind."
+    ActorMsg MSGFILE_SCRIPT, 18, 0x8011, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -71,9 +77,10 @@ L_0112:
     PokePartyIsEgg 0x8010, 0x8020
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_013D
-    ActorMsg 1024, 23, 0x8011, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_013D
+    // "That's an interesting request, but...\nNot even I can teach a move to an Egg."
+    ActorMsg MSGFILE_SCRIPT, 23, 0x8011, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -81,11 +88,12 @@ L_0112:
 L_013D:
     MoveTutorCheckPkm 0, 0x8020, 0x8010
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0158
+    VMJumpIf CMP_EQ, L_0158
     VMJump L_0170
 
 L_0158:
-    ActorMsg 1024, 19, 0x8011, 0, 0
+    // "Hmm...[f000]븁\u0000\nThis Pokémon can learn this move, but\nyour bond of friendship is not yet[f000]븀\u0000\nstrong enough.[f000]븁\u0000\nThat means I cannot teach\nit this move."
+    ActorMsg MSGFILE_SCRIPT, 19, 0x8011, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -93,11 +101,12 @@ L_0158:
 
 L_0170:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0183
+    VMJumpIf CMP_EQ, L_0183
     VMJump L_019B
 
 L_0183:
-    ActorMsg 1024, 22, 0x8011, 0, 0
+    // "I'm very sorry, but...[f000]븁\u0000\nThis Pokémon cannot learn this move."
+    ActorMsg MSGFILE_SCRIPT, 22, 0x8011, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -105,12 +114,13 @@ L_0183:
 
 L_019B:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_01AE
+    VMJumpIf CMP_EQ, L_01AE
     VMJump L_01CB
 
 L_01AE:
-    WordSetMoveName 0, 434
-    ActorMsg 1024, 24, 0x8011, 0, 0
+    WordSetMoveName 0, MOVE_DRACO_METEOR
+    // "Hmm... It looks like this Pokémon\nalready knows [f000]ć\u0001\u0000."
+    ActorMsg MSGFILE_SCRIPT, 24, 0x8011, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -123,9 +133,10 @@ L_01CB:
     VMCall L_098A
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0206
-    ActorMsg 1024, 25, 0x8011, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0206
+    // "Drayden: Draco Meteor's power is\nexceptional, but using it lowers[f000]븀\u0000\nthe user's Sp. Atk stat."
+    ActorMsg MSGFILE_SCRIPT, 25, 0x8011, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -142,13 +153,15 @@ Script_2:
     VMHalt
 
 L_021C:
-    ParentActorMsg 1024, 26, 0, 0
+    // "Your quest for power has brought\nyou here...[f000]븁\u0000\nVery well.[f000]븁\u0000\nLet me reward your passion with some\nabsolutely astounding moves.[f000]븁\u0000\nThey're the ultimate moves![f000]븁\u0000\nShall I teach them to\nyour Pokémon?"
+    ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_024D
-    ParentActorMsg 1024, 29, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_024D
+    // "Hmm... Well, that is fine, as well.\nVisit if you have a change of heart."
+    ParentActorMsg MSGFILE_SCRIPT, 29, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -157,9 +170,10 @@ L_024D:
     MoveTutorCheckParty 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_027C
-    ParentActorMsg 1024, 28, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_027C
+    // "The Pokémon with you can't\nlearn these moves![f000]븁\u0000\nGo talk to my wife! Keh!!"
+    ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -168,22 +182,25 @@ L_024D:
 L_027C:
     VMStackPush 0x8010
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_029F
-    ParentActorMsg 1024, 33, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_029F
+    // "The bond with your Pokémon\nis not strong enough! Keh!"
+    ParentActorMsg MSGFILE_SCRIPT, 33, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
 
 L_029F:
-    ParentActorMsg 1024, 30, 0, 0
+    // "Well, which Pokémon should I teach?[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 30, 0, 0
     ActorMsgClose
     MoveTutorCallPokeSelect 1, 0x8010, 0x8020
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02D6
-    ParentActorMsg 1024, 29, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02D6
+    // "Hmm... Well, that is fine, as well.\nVisit if you have a change of heart."
+    ParentActorMsg MSGFILE_SCRIPT, 29, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -192,9 +209,10 @@ L_02D6:
     PokePartyIsEgg 0x8010, 0x8020
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_02FF
-    ParentActorMsg 1024, 32, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02FF
+    // "Teach a move to an Egg?\nImpossible, even for me! Keh!"
+    ParentActorMsg MSGFILE_SCRIPT, 32, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -202,11 +220,12 @@ L_02D6:
 L_02FF:
     MoveTutorCheckPkm 1, 0x8020, 0x8010
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_031A
+    VMJumpIf CMP_EQ, L_031A
     VMJump L_0330
 
 L_031A:
-    ParentActorMsg 1024, 33, 0, 0
+    // "The bond with your Pokémon\nis not strong enough! Keh!"
+    ParentActorMsg MSGFILE_SCRIPT, 33, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -214,11 +233,12 @@ L_031A:
 
 L_0330:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0343
+    VMJumpIf CMP_EQ, L_0343
     VMJump L_0359
 
 L_0343:
-    ParentActorMsg 1024, 31, 0, 0
+    // "That Pokémon can't learn a move!\nGo talk to my wife! Keh!"
+    ParentActorMsg MSGFILE_SCRIPT, 31, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -226,11 +246,12 @@ L_0343:
 
 L_0359:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_036C
+    VMJumpIf CMP_EQ, L_036C
     VMJump L_0382
 
 L_036C:
-    ParentActorMsg 1024, 34, 0, 0
+    // "That Pokémon already knows\nthat move! Keh!"
+    ParentActorMsg MSGFILE_SCRIPT, 34, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -240,13 +261,15 @@ L_0382:
     MoveTutorGetMoveID 1, 0x8020, 0x8021
     WordSetPartyPokeName 0, 0x8020
     WordSetMoveName 1, 0x8021
-    ParentActorMsg 1024, 35, 0, 0
+    // "I should teach [f000]ć\u0001\u0001 to\n[f000]ā\u0001\u0000, right? Keh!"
+    ParentActorMsg MSGFILE_SCRIPT, 35, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03C5
-    ParentActorMsg 1024, 29, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03C5
+    // "Hmm... Well, that is fine, as well.\nVisit if you have a change of heart."
+    ParentActorMsg MSGFILE_SCRIPT, 29, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -258,8 +281,8 @@ L_03C5:
     VMCall L_098A
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03EC
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03EC
 
 L_03EC:
     VMReturn
@@ -276,22 +299,25 @@ Script_3:
 L_0402:
     VMStackPushFlag 253
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0429
-    ParentActorMsg 1024, 37, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0429
+    // "Heya![f000]븁\u0000\nThe professor gave you a Pokémon to\nstart your journey, right?[f000]븁\u0000\nIf that Pokémon is still with you, and if\nyou two have a strong bond, there's a[f000]븀\u0000\nspecial move it can learn...[f000]븁\u0000\nWant me to teach it a battle-combo move?"
+    ParentActorMsg MSGFILE_SCRIPT, 37, 0, 0
     FlagSet 253
     VMJump L_0433
 
 L_0429:
-    ParentActorMsg 1024, 38, 0, 0
+    // "A special move...\nShould I teach it a battle-combo move?"
+    ParentActorMsg MSGFILE_SCRIPT, 38, 0, 0
 
 L_0433:
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_045A
-    ParentActorMsg 1024, 40, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_045A
+    // "Is that so...\nWell, come on back now, y'hear?"
+    ParentActorMsg MSGFILE_SCRIPT, 40, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -300,9 +326,10 @@ L_045A:
     MoveTutorCheckParty 2, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0489
-    ParentActorMsg 1024, 39, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0489
+    // "I can't teach these Pokémon."
+    ParentActorMsg MSGFILE_SCRIPT, 39, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -311,22 +338,25 @@ L_045A:
 L_0489:
     VMStackPush 0x8010
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_04AC
-    ParentActorMsg 1024, 44, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04AC
+    // "This Pokémon... Well, it doesn't look\nlike it's too comfortable with you yet."
+    ParentActorMsg MSGFILE_SCRIPT, 44, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
 
 L_04AC:
-    ParentActorMsg 1024, 41, 0, 0
+    // "Which Pokémon should learn the move?[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 41, 0, 0
     ActorMsgClose
     MoveTutorCallPokeSelect 2, 0x8010, 0x8020
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_04E3
-    ParentActorMsg 1024, 40, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04E3
+    // "Is that so...\nWell, come on back now, y'hear?"
+    ParentActorMsg MSGFILE_SCRIPT, 40, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -335,9 +365,10 @@ L_04E3:
     PokePartyIsEgg 0x8010, 0x8020
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_050C
-    ParentActorMsg 1024, 43, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_050C
+    // "Teach a move to an Egg?\nWhat kinda crazy talk is that?!"
+    ParentActorMsg MSGFILE_SCRIPT, 43, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -345,11 +376,12 @@ L_04E3:
 L_050C:
     MoveTutorCheckPkm 2, 0x8020, 0x8010
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0527
+    VMJumpIf CMP_EQ, L_0527
     VMJump L_053D
 
 L_0527:
-    ParentActorMsg 1024, 44, 0, 0
+    // "This Pokémon... Well, it doesn't look\nlike it's too comfortable with you yet."
+    ParentActorMsg MSGFILE_SCRIPT, 44, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -357,11 +389,12 @@ L_0527:
 
 L_053D:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_0550
+    VMJumpIf CMP_EQ, L_0550
     VMJump L_0566
 
 L_0550:
-    ParentActorMsg 1024, 42, 0, 0
+    // "Now, that Pokémon can't learn this\nspecial move![f000]븁\u0000\nI told ya, it's only for the Pokémon who\nstarted your journey with you."
+    ParentActorMsg MSGFILE_SCRIPT, 42, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -369,11 +402,12 @@ L_0550:
 
 L_0566:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_0579
+    VMJumpIf CMP_EQ, L_0579
     VMJump L_058F
 
 L_0579:
-    ParentActorMsg 1024, 45, 0, 0
+    // "I can't teach it twice. This Pokémon\nalready knows the special move!"
+    ParentActorMsg MSGFILE_SCRIPT, 45, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -383,13 +417,15 @@ L_058F:
     MoveTutorGetMoveID 2, 0x8020, 0x8021
     WordSetPartyPokeName 0, 0x8020
     WordSetMoveName 1, 0x8021
-    ParentActorMsg 1024, 46, 0, 0
+    // "Want me to teach [f000]ć\u0001\u0001\nto [f000]ā\u0001\u0000?"
+    ParentActorMsg MSGFILE_SCRIPT, 46, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_05D2
-    ParentActorMsg 1024, 40, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05D2
+    // "Is that so...\nWell, come on back now, y'hear?"
+    ParentActorMsg MSGFILE_SCRIPT, 40, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -401,8 +437,8 @@ L_05D2:
     VMCall L_098A
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_05F9
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05F9
 
 L_05F9:
     VMReturn
@@ -414,15 +450,17 @@ Script_4:
     WorkSetConst 0x8024, 72
     VMStackPushFlag 325
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0638
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0638
     WordSetItemNameEx 0, 0x8024, 2, 0
-    ParentActorMsg 1024, 48, 0, 0
+    // "I'm the master Move Tutor![f000]븁\u0000\nAnd I'm also obsessed with\n[f000]ĉ\u0001\u0000![f000]븁\u0000\nGive me [f000]ĉ\u0001\u0000,\nand I'll thank you by teaching[f000]븀\u0000\nyour Pokémon a move![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 48, 0, 0
     FlagSet 325
     VMJump L_0642
 
 L_0638:
-    ParentActorMsg 1024, 49, 0, 0
+    // "I'm the master Move Tutor![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 49, 0, 0
 
 L_0642:
     VMCall L_0747
@@ -437,15 +475,17 @@ Script_5:
     WorkSetConst 0x8024, 73
     VMStackPushFlag 326
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_068B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_068B
     WordSetItemNameEx 0, 0x8024, 2, 0
-    ParentActorMsg 1024, 48, 0, 0
+    // "I'm the master Move Tutor![f000]븁\u0000\nAnd I'm also obsessed with\n[f000]ĉ\u0001\u0000![f000]븁\u0000\nGive me [f000]ĉ\u0001\u0000,\nand I'll thank you by teaching[f000]븀\u0000\nyour Pokémon a move![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 48, 0, 0
     FlagSet 326
     VMJump L_0695
 
 L_068B:
-    ParentActorMsg 1024, 49, 0, 0
+    // "I'm the master Move Tutor![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 49, 0, 0
 
 L_0695:
     VMCall L_0747
@@ -460,15 +500,17 @@ Script_6:
     WorkSetConst 0x8024, 74
     VMStackPushFlag 327
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_06DE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06DE
     WordSetItemNameEx 0, 0x8024, 2, 0
-    ParentActorMsg 1024, 48, 0, 0
+    // "I'm the master Move Tutor![f000]븁\u0000\nAnd I'm also obsessed with\n[f000]ĉ\u0001\u0000![f000]븁\u0000\nGive me [f000]ĉ\u0001\u0000,\nand I'll thank you by teaching[f000]븀\u0000\nyour Pokémon a move![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 48, 0, 0
     FlagSet 327
     VMJump L_06E8
 
 L_06DE:
-    ParentActorMsg 1024, 49, 0, 0
+    // "I'm the master Move Tutor![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 49, 0, 0
 
 L_06E8:
     VMCall L_0747
@@ -483,15 +525,17 @@ Script_7:
     WorkSetConst 0x8024, 75
     VMStackPushFlag 328
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0731
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0731
     WordSetItemNameEx 0, 0x8024, 2, 0
-    ParentActorMsg 1024, 48, 0, 0
+    // "I'm the master Move Tutor![f000]븁\u0000\nAnd I'm also obsessed with\n[f000]ĉ\u0001\u0000![f000]븁\u0000\nGive me [f000]ĉ\u0001\u0000,\nand I'll thank you by teaching[f000]븀\u0000\nyour Pokémon a move![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 48, 0, 0
     FlagSet 328
     VMJump L_073B
 
 L_0731:
-    ParentActorMsg 1024, 49, 0, 0
+    // "I'm the master Move Tutor![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 49, 0, 0
 
 L_073B:
     VMCall L_0747
@@ -500,26 +544,29 @@ L_073B:
     VMHalt
 
 L_0747:
-    ParentActorMsg 1024, 50, 0, 0
+    // "Want me to teach your\nPokémon a move?"
+    ParentActorMsg MSGFILE_SCRIPT, 50, 0, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0780
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0780
     WordSetItemNameEx 0, 0x8024, 2, 0
-    ParentActorMsg 1024, 52, 0, 0
+    // "If you collect some [f000]ĉ\u0001\u0000,\nyou come back now."
+    ParentActorMsg MSGFILE_SCRIPT, 52, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
 
 L_0780:
-    ParentActorMsg 1024, 51, 0, 0
+    // "Well, that's just fine![f000]븁\u0000\nPick the move you want\nme to teach![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 51, 0, 0
     WorkSetConst 0x400c, 0
     WorkSetConst 0x400d, 0
     WorkSetConst 0x400e, 0
     WorkSetConst 0x400f, 0
     WorkCmpConst 0x8024, 72
-    VMJumpIf 1, L_07B5
+    VMJumpIf CMP_EQ, L_07B5
     VMJump L_07DB
 
 L_07B5:
@@ -534,7 +581,7 @@ L_07B5:
 
 L_07DB:
     WorkCmpConst 0x8024, 73
-    VMJumpIf 1, L_07EE
+    VMJumpIf CMP_EQ, L_07EE
     VMJump L_0814
 
 L_07EE:
@@ -549,7 +596,7 @@ L_07EE:
 
 L_0814:
     WorkCmpConst 0x8024, 74
-    VMJumpIf 1, L_0827
+    VMJumpIf CMP_EQ, L_0827
     VMJump L_084D
 
 L_0827:
@@ -564,7 +611,7 @@ L_0827:
 
 L_084D:
     WorkCmpConst 0x8024, 75
-    VMJumpIf 1, L_0860
+    VMJumpIf CMP_EQ, L_0860
     VMJump L_0886
 
 L_0860:
@@ -584,10 +631,11 @@ L_0886:
     DebugPrint 0x400f
     VMStackPush 0x400c
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_08C1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08C1
     WordSetItemNameEx 0, 0x8024, 2, 0
-    ParentActorMsg 1024, 52, 0, 0
+    // "If you collect some [f000]ĉ\u0001\u0000,\nyou come back now."
+    ParentActorMsg MSGFILE_SCRIPT, 52, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -595,9 +643,10 @@ L_0886:
 L_08C1:
     VMStackPush 0x400c
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_08E4
-    ParentActorMsg 1024, 54, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_08E4
+    // "This Pokémon can't learn\nthat move!"
+    ParentActorMsg MSGFILE_SCRIPT, 54, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -606,9 +655,10 @@ L_08E4:
     PokePartyHasMove 0x8010, 0x400d, 0x400e
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_090F
-    ParentActorMsg 1024, 55, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_090F
+    // "This Pokémon already knows that move!"
+    ParentActorMsg MSGFILE_SCRIPT, 55, 0, 0
     LastKeyWait
     ActorMsgClose
     VMReturn
@@ -621,10 +671,11 @@ L_090F:
     VMCall L_098A
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0956
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0956
     WordSetItemNameEx 0, 0x8024, 2, 0
-    ParentActorMsg 1024, 52, 0, 0
+    // "If you collect some [f000]ĉ\u0001\u0000,\nyou come back now."
+    ParentActorMsg MSGFILE_SCRIPT, 52, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -635,6 +686,7 @@ Script_8:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "The Pokémon I've taken a shine to are\nthe ones you get from the professor![f000]븁\u0000\nTo teach all of these Pokémon a\nspecial move, a battle-combo move...[f000]븀\u0000\nThat's my pledge!"
     MsgPlaceSign 47, 1
     MsgPlaceSignClose
     FinishAllEvents
@@ -650,17 +702,18 @@ L_098A:
     PokePartyGetMoveCount 0x8010, 0x8020
     VMStackPush 0x8010
     VMStackPushConst 4
-    VMStackCmp 5
-    VMJumpIf 255, L_0A39
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0A39
     WordSetPartyPokeName 0, 0x8020
     WordSetMoveName 1, 0x8021
     MEPlay 1301
+    // "[f000]Ă\u0001\u0000 learned\n[f000]ć\u0001\u0001!"
     SystemMsg 10, 0
     MEWait
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_09DA
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_09DA
     LastKeyWait
     VMJump L_09DC
 
@@ -670,17 +723,18 @@ L_09DA:
 L_09DC:
     VMStackPush 0x400c
     VMStackPushConst 2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x400f
     VMStackPushConst 0
-    VMStackCmp 2
-    VMStackCmp 7
-    VMJumpIf 255, L_0A2D
+    VMStackCmp CMP_GT
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0A2D
     WorkSetConst 0x8029, 0
     ItemSub 0x8024, 0x400f, 0x8029
     WordSetPlayerName 0
     WordSetItemNameEx 1, 0x8024, 0x400f, 0
     WordSetNumber 2, 0x400f, 2
+    // "[f000]Ā\u0001\u0000 handed over\n[f000]ȁ\u0001\u0002 [f000]ĉ\u0001\u0001 in exchange."
     SystemMsg 53, 0
     LastKeyWait
     WorkSetConst 0x8029, 0
@@ -696,13 +750,13 @@ L_0A39:
 L_0A3F:
     VMStackPush 0x8027
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0AA8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0AA8
     VMCall L_0B0B
     VMStackPush 0x8028
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0A7D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A7D
     WorkSetConst 0x8010, 1
     WorkSetConst 0x8027, 0
     VMJump L_0AA2
@@ -711,8 +765,8 @@ L_0A7D:
     VMCall L_0AAA
     VMStackPush 0x8028
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0AA2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0AA2
     WorkSetConst 0x8010, 0
     WorkSetConst 0x8027, 0
 
@@ -724,19 +778,21 @@ L_0AA8:
 
 L_0AAA:
     WordSetMoveName 0, 0x8021
+    // "Give up on learning the\nmove [f000]ć\u0001\u0000?"
     SystemMsg 12, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0B03
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B03
     WordSetPartyPokeName 0, 0x8020
     WordSetMoveName 1, 0x8021
+    // "[f000]Ă\u0001\u0000 did not learn [f000]ć\u0001\u0001!"
     SystemMsg 13, 0
     VMStackPush 0x8022
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0AF7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0AF7
     LastKeyWait
     VMJump L_0AF9
 
@@ -756,12 +812,13 @@ L_0B0B:
     WorkSetConst 0x8028, 0
     WordSetPartyPokeName 0, 0x8020
     WordSetMoveName 1, 0x8021
+    // "[f000]Ă\u0001\u0000 is trying to\nlearn [f000]ć\u0001\u0001![f000]븁\u0000\nBut [f000]Ă\u0001\u0000 can't learn more than\nfour moves.[f000]븁\u0000\nDelete a move to make room\nfor [f000]ć\u0001\u0001?"
     SystemMsg 11, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0B3A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B3A
     VMReturn
 
 L_0B3A:
@@ -769,19 +826,20 @@ L_0B3A:
     CallPokeMoveReplace 0x8010, 0x8025, 0x8020, 0x8021
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0B5B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B5B
     VMReturn
 
 L_0B5B:
     PokePartyGetMove 0x8026, 0x8020, 0x8025
     WordSetMoveName 0, 0x8026
+    // "Is it OK to forget the\nmove [f000]ć\u0001\u0000?"
     SystemMsg 14, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0B87
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0B87
     VMReturn
 
 L_0B87:
@@ -789,14 +847,16 @@ L_0B87:
     WordSetPartyPokeName 0, 0x8020
     WordSetMoveName 1, 0x8026
     WordSetMoveName 2, 0x8021
+    // "1, [f000]븂\u0001\u00142, and[f000]븂\u0001\u0014... [f000]븂\u0001\u0014... [f000]븂\u0001\u0014... Ta-da![f000]븅\u0001\u0003[f000]븅\u0001\u0006[f000]븁\u0000\n[f000]Ă\u0001\u0000 forgot how to\nuse [f000]ć\u0001\u0001.[f000]븁\u0000\nAnd...[f000]븁\u0000"
     SystemMsg 15, 0
+    // "[f000]Ă\u0001\u0000 learned [f000]ć\u0001\u0002!"
     SystemMsg 16, 0
     MEPlay 1301
     MEWait
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0BCB
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0BCB
     LastKeyWait
     VMJump L_0BCD
 
@@ -806,17 +866,18 @@ L_0BCB:
 L_0BCD:
     VMStackPush 0x400c
     VMStackPushConst 2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x400f
     VMStackPushConst 0
-    VMStackCmp 2
-    VMStackCmp 7
-    VMJumpIf 255, L_0C1E
+    VMStackCmp CMP_GT
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0C1E
     WorkSetConst 0x802a, 0
     ItemSub 0x8024, 0x400f, 0x802a
     WordSetPlayerName 0
     WordSetItemNameEx 1, 0x8024, 0x400f, 0
     WordSetNumber 2, 0x400f, 2
+    // "[f000]Ā\u0001\u0000 handed over\n[f000]ȁ\u0001\u0002 [f000]ĉ\u0001\u0001 in exchange."
     SystemMsg 53, 0
     LastKeyWait
     WorkSetConst 0x802a, 0

@@ -15,16 +15,16 @@ Script_1:
     GameGetVersion 0x8024
     VMStackPush 0x8024
     VMStackPushConst 23
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2775
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0077
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0077
     FlagReset 903
     WorkSetConst 0x4020, 323
     VMJump L_00BE
@@ -32,16 +32,16 @@ Script_1:
 L_0077:
     VMStackPush 0x8024
     VMStackPushConst 22
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8023
     VMStackPushConst 4
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2775
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_00BA
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_00BA
     FlagReset 903
     WorkSetConst 0x4020, 324
     VMJump L_00BE
@@ -59,9 +59,10 @@ Script_2:
     GameGetVersion 0x8024
     VMStackPush 0x8024
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_011C
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_011C
     PVPlay 593, 0
+    // "Jelliiii!"
     ScreamMsg 0, 2
     PVWait
     MsgWaitAdvance
@@ -77,9 +78,10 @@ Script_2:
 L_011C:
     VMStackPush 0x8024
     VMStackPushConst 22
-    VMStackCmp 1
-    VMJumpIf 255, L_0166
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0166
     PVPlay 593, 0
+    // "Jeeelliii. ♪"
     ScreamMsg 2, 2
     PVWait
     MsgWaitAdvance
@@ -95,8 +97,8 @@ L_0166:
     WildBattleIsVictory 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0191
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0191
     FlagSet 903
     FlagSet 2775
     ActorDelete 8
@@ -109,7 +111,7 @@ L_0191:
 L_0193:
     WildBattleGetResult 0x8010
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_01AA
+    VMJumpIf CMP_EQ, L_01AA
     VMJump L_01B0
 
 L_01AA:
@@ -117,17 +119,18 @@ L_01AA:
 
 L_01B0:
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_01D0
+    VMJumpIf CMP_EQ, L_01D0
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_01D0
+    VMJumpIf CMP_EQ, L_01D0
     VMJump L_021A
 
 L_01D0:
     GameGetVersion 0x8024
     VMStackPush 0x8024
     VMStackPushConst 23
-    VMStackCmp 1
-    VMJumpIf 255, L_01F7
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01F7
+    // "Jellicent dove down into\nthe depths of the ocean..."
     SystemMsg 1, 2
     LastKeyWait
     InfoMsgClose
@@ -136,8 +139,9 @@ L_01D0:
 L_01F7:
     VMStackPush 0x8024
     VMStackPushConst 22
-    VMStackCmp 1
-    VMJumpIf 255, L_0214
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0214
+    // "Jellicent dove down into\nthe depths of the ocean..."
     SystemMsg 3, 2
     LastKeyWait
     InfoMsgClose
@@ -153,9 +157,11 @@ L_021A:
 Script_3:
     ActorsPauseAll
     MEPlay 1327
+    // "The Xtransceiver is ringing."
     SystemMsg 4, 2
     MEWait
     WordSetPlayerName 0
+    // "[f000]Ā\u0001\u0000 picked up the Xtransceiver.[f000]븁\u0000"
     SystemMsg 5, 2
     MsgWinCloseAll
     FadeOutBlackQ

@@ -9,14 +9,15 @@
 
 Script_1:
     ActorsPauseAll
-    Cmd_02D1 0x8020
+    KeysCmd_02D1 0x8020
     VMStackPush 0x8020
     VMStackPushConst 4
-    VMStackCmp 3
-    VMJumpIf 255, L_004B
+    VMStackCmp CMP_LE
+    VMJumpIf CMP_STACK, L_004B
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Ho! Hoo!\nWelcome to White Forest![f000]븁\u0000\nIn White Forest, people live\nin harmony with nature and with Pokémon.[f000]븁\u0000\nPlease listen to the voice of the forest\nand of the White Treehollow.[f000]븁\u0000\nThey're saying “Bienvenue!\"\nHo! Hoo! Hoo!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_00AF
@@ -24,15 +25,16 @@ Script_1:
 L_004B:
     VMStackPush 0x8020
     VMStackPushConst 5
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPush 0x8020
     VMStackPushConst 9
-    VMStackCmp 3
-    VMStackCmp 7
-    VMJumpIf 255, L_0088
+    VMStackCmp CMP_LE
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0088
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Ho! Hoo![f000]븁\u0000\nIt seems as if you have heard\nthe voice of the White Treehollow.[f000]븁\u0000\nBut you can't hear its true voice\nuntil you go to the deepest part.[f000]븁\u0000\nCome now, do your best!\nHo! Hoo! Hoo!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_00AF
@@ -40,11 +42,12 @@ L_004B:
 L_0088:
     VMStackPush 0x8020
     VMStackPushConst 10
-    VMStackCmp 4
-    VMJumpIf 255, L_00AF
+    VMStackCmp CMP_GE
+    VMJumpIf CMP_STACK, L_00AF
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Ho! Hoo! Hoo![f000]븁\u0000\nIt seems as if you have heard the\nvoice of the White Treehollow's heart.[f000]븀\u0000\nPlease let me hear it...[f000]븁\u0000\nNo, wait!\nThings like these shouldn't be[f000]븀\u0000\nheard from someone else![f000]븁\u0000\nIf I want to hear the true voice,\nI should go to the deepest part[f000]븀\u0000\non my own.[f000]븁\u0000\nWell, I guess I'll just have to\ndo my best, then![f000]븁\u0000\nHo! Hoo! Hoo!"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -57,7 +60,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "When people build too many\ntall buildings, the sky gets smaller,[f000]븀\u0000\nand you can't see the sun anymore!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -68,7 +72,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "I want to know about how Pokémon\nfeel, so I live in nature with them."
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -79,7 +84,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "If you know how delicious a meal of\nBerries can be, you don't have to worry[f000]븀\u0000\nabout wanting to eat this and that!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

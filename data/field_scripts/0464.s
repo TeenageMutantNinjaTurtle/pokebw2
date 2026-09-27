@@ -9,7 +9,8 @@ Script_1:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Rood: Oh! You're safe!\nI'm so glad![f000]븁\u0000\nAs for Team Plasma's ship,\na man in a white lab coat appeared.[f000]븁\u0000\nHe said that a Trainer had given\nhim the answer he'd been seeking,[f000]븀\u0000\nand, as thanks, he would disband[f000]븀\u0000\nTeam Plasma...[f000]븁\u0000\nThen he said, “Farewell! Walk a just path\nwith Pokémon!\" and he flew the ship away.[f000]븀\u0000\nSo everything has been resolved.[f000]븁\u0000\nWe were even able to confirm\nthat Lord N is safe."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -20,7 +21,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "I'm in no position to say anything.\nIn the past, I stole Pokémon, too."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -31,7 +33,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "I wonder if that guy who ran off\nhad figured something out..."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

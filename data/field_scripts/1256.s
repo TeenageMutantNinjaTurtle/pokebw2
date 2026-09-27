@@ -18,46 +18,48 @@ Script_1:
     PokePartyGetCountBySpecies 479, 0x8028
     VMStackPush 0x8028
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_006D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_006D
     WorkSetConst 0x8022, 0
     VMCall L_0132
     VMJump L_012C
 
 L_006D:
+    // "It's full of cardboard boxes with\nelectrical appliances in them.[f000]븁\u0000\nOh? Rotom would like to investigate the\nmotors of the electrical appliances...[f000]븁\u0000\nIs that OK?"
     SystemMsg 1, 2
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0120
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0120
     VMStackPush 0x8028
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00C4
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00C4
     PokePartyFindBySpecies 479, 0x8010, 0x8021
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00BE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00BE
     VMCall L_01CC
 
 L_00BE:
     VMJump L_011A
 
 L_00C4:
+    // "Which Rotom will you allow\nto enter a motor?[f000]븁\u0000"
     SystemMsg 3, 2
     InfoMsgClose
     CallPokeSelect 0, 0x8010, 0x8021, 0
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_010E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_010E
     VMCall L_0150
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0108
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0108
     VMCall L_01CC
 
 L_0108:
@@ -100,8 +102,8 @@ L_0150:
     PokePartyIsEgg 0x802a, 0x8021
     VMStackPush 0x802a
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0193
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0193
     WorkSetConst 0x8022, 5
     VMCall L_0132
     WorkSetConst 0x8010, 0
@@ -111,8 +113,8 @@ L_0193:
     PokePartyGetSpecies 0x8029, 0x8021
     VMStackPush 0x8029
     VMStackPushConst 479
-    VMStackCmp 1
-    VMJumpIf 255, L_01B8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01B8
     WorkSetConst 0x8010, 1
     VMJump L_01CA
 
@@ -135,8 +137,9 @@ L_01CC:
 L_01EF:
     VMStackPush 0x802c
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02FF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02FF
+    // "Which appliance's motor will you\nallow [f000]Ă\u0001\u0000 to enter?"
     SystemMsg 6, 2
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32813
     ListMenuAdd 7, 65535, 1
@@ -149,8 +152,8 @@ L_01EF:
     ListMenuShow
     VMStackPush 0x802d
     VMStackPushConst 6
-    VMStackCmp 1
-    VMJumpIf 255, L_0272
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0272
     WorkSetConst 0x8022, 25
     VMCall L_0132
     VMReturn
@@ -159,8 +162,8 @@ L_01EF:
 L_0272:
     VMStackPush 0x802d
     VMStackPushConst 65534
-    VMStackCmp 1
-    VMJumpIf 255, L_0293
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0293
     WorkSetConst 0x8022, 25
     VMCall L_0132
     VMReturn
@@ -172,18 +175,20 @@ L_0293:
     WorkGet 0x8024, 0x8027
     VMStackPush 0x8020
     VMStackPush 0x802b
-    VMStackCmp 1
-    VMJumpIf 255, L_02F3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02F3
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02E2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02E2
     WordSetPartyPokeName 0, 0x8021
+    // "[f000]Ă\u0001\u0000 hasn't entered a motor.[f000]븁\u0000"
     SystemMsg 24, 2
     VMJump L_02ED
 
 L_02E2:
     WordSetPartyPokeName 0, 0x8021
+    // "This [f000]Ă\u0001\u0000 has already entered\nthat appliance motor.[f000]븁\u0000"
     SystemMsg 22, 2
 
 L_02ED:
@@ -198,8 +203,8 @@ L_02F9:
 L_02FF:
     VMStackPush 0x802b
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0335
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0335
     VMCall L_044B
     WordSetPartyPokeName 0, 0x8021
     WorkSetConst 0x8022, 23
@@ -210,6 +215,7 @@ L_02FF:
 L_0335:
     WordSetPartyPokeName 0, 0x8021
     PVPlay 479, 0
+    // "[f000]Ă\u0001\u0000 entered the motor."
     SystemMsg 14, 2
     PVWait
     MsgWaitAdvance
@@ -219,8 +225,8 @@ L_0335:
 L_0356:
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0377
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0377
     PokePartyChangeRotomForme 0x8021, 0x8023, 0x802b
     VMJump L_038D
 
@@ -235,7 +241,7 @@ L_038D:
 
 L_038F:
     WorkCmpConst 0x8026, 0
-    VMJumpIf 1, L_03A2
+    VMJumpIf CMP_EQ, L_03A2
     VMJump L_03AE
 
 L_03A2:
@@ -244,7 +250,7 @@ L_03A2:
 
 L_03AE:
     WorkCmpConst 0x8026, 1
-    VMJumpIf 1, L_03C1
+    VMJumpIf CMP_EQ, L_03C1
     VMJump L_03CD
 
 L_03C1:
@@ -253,7 +259,7 @@ L_03C1:
 
 L_03CD:
     WorkCmpConst 0x8026, 2
-    VMJumpIf 1, L_03E0
+    VMJumpIf CMP_EQ, L_03E0
     VMJump L_03EC
 
 L_03E0:
@@ -262,7 +268,7 @@ L_03E0:
 
 L_03EC:
     WorkCmpConst 0x8026, 3
-    VMJumpIf 1, L_03FF
+    VMJumpIf CMP_EQ, L_03FF
     VMJump L_040B
 
 L_03FF:
@@ -271,7 +277,7 @@ L_03FF:
 
 L_040B:
     WorkCmpConst 0x8026, 4
-    VMJumpIf 1, L_041E
+    VMJumpIf CMP_EQ, L_041E
     VMJump L_042A
 
 L_041E:
@@ -280,7 +286,7 @@ L_041E:
 
 L_042A:
     WorkCmpConst 0x8026, 5
-    VMJumpIf 1, L_043D
+    VMJumpIf CMP_EQ, L_043D
     VMJump L_0449
 
 L_043D:
@@ -300,12 +306,12 @@ L_044B:
     PokePartyGetMoveCount 0x802f, 0x8021
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_04BF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04BF
     VMStackPush 0x802f
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_04AF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_04AF
     WorkGet 0x8025, 0x802e
     VMCall L_0574
     VMJump L_04BF
@@ -313,6 +319,7 @@ L_044B:
 L_04AF:
     WordSetPartyPokeName 0, 0x8021
     WordSetMoveName 2, 0x802e
+    // "[f000]Ă\u0001\u0000 forgot [f000]ć\u0001\u0002...[f000]븁\u0000"
     SystemMsg 21, 2
 
 L_04BF:
@@ -325,8 +332,8 @@ L_04C1:
     WorkGet 0x8030, 0x8027
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_04FA
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_04FA
     PokePartyHasMove 0x8010, 0x8030, 0x8021
     VMJump L_0500
 
@@ -336,8 +343,8 @@ L_04FA:
 L_0500:
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_052B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_052B
     WorkGet 0x8025, 0x8030
     VMCall L_0574
     WorkSetConst 0x8010, 1
@@ -348,8 +355,8 @@ L_052B:
     PokePartyGetMoveCount 0x8031, 0x8021
     VMStackPush 0x8031
     VMStackPushConst 4
-    VMStackCmp 1
-    VMJumpIf 255, L_0556
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0556
     VMCall L_0597
     VMJump L_0572
 
@@ -367,6 +374,7 @@ L_0574:
     WordSetPartyPokeName 0, 0x8021
     WordSetMoveName 1, 0x8025
     WordSetMoveName 2, 0x8024
+    // "1, [f000]븂\u0001\u00142, and[f000]븂\u0001\u0014... [f000]븂\u0001\u0014... [f000]븂\u0001\u0014... Ta-da![f000]븅\u0001\u0003[f000]븅\u0001\u0006[f000]븁\u0000\n[f000]Ă\u0001\u0000 forgot how to\nuse [f000]ć\u0001\u0001.[f000]븁\u0000\nAnd...[f000]븁\u0000"
     SystemMsg 19, 2
     WorkSetConst 0x8022, 20
     VMCall L_013E
@@ -379,27 +387,28 @@ L_0597:
 L_05A3:
     VMStackPush 0x8032
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_06C5
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06C5
     WordSetPartyPokeName 0, 0x8021
     WordSetMoveName 1, 0x8024
+    // "[f000]Ă\u0001\u0000 is trying to\nlearn [f000]ć\u0001\u0001.[f000]븁\u0000\nBut [f000]Ă\u0001\u0000 can't learn\nmore than four moves.[f000]븁\u0000\nDelete a move to make\nroom for [f000]ć\u0001\u0001?"
     SystemMsg 15, 2
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0698
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0698
     InfoMsgClose
     CallPokeMoveReplace 0x8010, 0x8023, 0x8021, 0x8024
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0629
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0629
     VMCall L_06C7
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0623
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0623
     InfoMsgClose
     WorkSetConst 0x8010, 0
     WorkSetConst 0x8032, 1
@@ -410,12 +419,13 @@ L_0623:
 L_0629:
     PokePartyGetMove 0x8025, 0x8021, 0x8023
     WordSetMoveName 1, 0x8025
+    // "Is it OK to forget\nthe move [f000]ć\u0001\u0001?"
     SystemMsg 18, 2
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_066B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_066B
     VMCall L_0574
     WorkSetConst 0x8010, 1
     WorkSetConst 0x8032, 1
@@ -425,8 +435,8 @@ L_066B:
     VMCall L_06C7
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0692
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0692
     InfoMsgClose
     WorkSetConst 0x8010, 0
     WorkSetConst 0x8032, 1
@@ -438,8 +448,8 @@ L_0698:
     VMCall L_06C7
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_06BF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06BF
     InfoMsgClose
     WorkSetConst 0x8010, 0
     WorkSetConst 0x8032, 1
@@ -452,6 +462,7 @@ L_06C5:
 
 L_06C7:
     WordSetMoveName 1, 0x8024
+    // "Give up on learning the\nmove [f000]ć\u0001\u0001?"
     SystemMsg 16, 2
     YesNoWin 0x8010
     VMReturn

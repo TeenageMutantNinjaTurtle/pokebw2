@@ -12,8 +12,8 @@
 L_0026:
     VMStackPushFlag 364
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0049
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0049
     ObjInitWarpGPos 0, 25, 0, 25
     VMJump L_0053
 

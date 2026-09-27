@@ -9,6 +9,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Twist Mountain ahead.\nWatch out for wild Pokémon."
     MsgPlaceSign 4, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -19,11 +20,12 @@ Script_2:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_005B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_005B
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "I'm Marshal, one of the Elite Four![f000]븁\u0000\nYou look like you're a\nPokémon Trainer with potential,[f000]븀\u0000\nbut I can't let you into Twist Mountain![f000]븁\u0000\nThe inside collapsed,\nand you can't get through!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FlagSet 489
@@ -34,18 +36,20 @@ L_005B:
     ActorSetEyeToEye
     PlayerGetDir 0x8010
     WordSetPlayerName 0
-    ParentActorMsg 1024, 1, 0, 0
+    // "[f000]Ā\u0001\u0000![f000]븁\u0000\nOh, I see! So, you travel all around\nlike this and toughen yourself up, then."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0288
     VMSleep 10
     ActorCmdExec 255, Movement_02D0
     ActorCmdWait
-    ParentActorMsg 1024, 2, 0, 0
+    // "Well, I suppose you have\nmany battles ahead of you.[f000]븁\u0000\nPokémon battles as a Pokémon Trainer.[f000]븁\u0000\nBattles about how you\nshould live your life...[f000]븁\u0000\nYou'll lose sometimes,\nbut I think what matters[f000]븀\u0000\nis that you do things your own way.[f000]븁\u0000\nIf you surpass what you've done before,\nyou have bested yourself."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_00AD
+    VMJumpIf CMP_EQ, L_00AD
     VMJump L_00BB
 
 L_00AD:
@@ -54,7 +58,7 @@ L_00AD:
 
 L_00BB:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_00CE
+    VMJumpIf CMP_EQ, L_00CE
     VMJump L_00DC
 
 L_00CE:
@@ -63,12 +67,13 @@ L_00CE:
 
 L_00DC:
     ActorCmdWait
-    ParentActorMsg 1024, 3, 0, 0
+    // "Well then. I'll be waiting for\nyour challenge at the Pokémon League![f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_02B0
     ActorCmdWait
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0107
+    VMJumpIf CMP_EQ, L_0107
     VMJump L_0117
 
 L_0107:
@@ -77,7 +82,7 @@ L_0107:
 
 L_0117:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_012A
+    VMJumpIf CMP_EQ, L_012A
     VMJump L_013A
 
 L_012A:
@@ -100,14 +105,15 @@ Script_3:
     ActorsPauseAll
     VMStackPushFlag 2400
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01AD
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01AD
     ActorCmdExec 0, Movement_02E8
     ActorCmdWait
     ActorCmdExec 0, Movement_02B0
     ActorCmdExec 255, Movement_02C8
     ActorCmdWait
-    ActorMsg 1024, 0, 0, 0, 0
+    // "I'm Marshal, one of the Elite Four![f000]븁\u0000\nYou look like you're a\nPokémon Trainer with potential,[f000]븀\u0000\nbut I can't let you into Twist Mountain![f000]븁\u0000\nThe inside collapsed,\nand you can't get through!"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 255, Movement_0298
@@ -122,19 +128,22 @@ L_01AD:
     ActorCmdExec 255, Movement_02C8
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 1, 0, 0, 0
+    // "[f000]Ā\u0001\u0000![f000]븁\u0000\nOh, I see! So, you travel all around\nlike this and toughen yourself up, then."
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 0, Movement_0274
     VMSleep 10
     ActorCmdExec 255, Movement_02E0
     ActorCmdWait
-    ActorMsg 1024, 2, 0, 0, 0
+    // "Well, I suppose you have\nmany battles ahead of you.[f000]븁\u0000\nPokémon battles as a Pokémon Trainer.[f000]븁\u0000\nBattles about how you\nshould live your life...[f000]븁\u0000\nYou'll lose sometimes,\nbut I think what matters[f000]븀\u0000\nis that you do things your own way.[f000]븁\u0000\nIf you surpass what you've done before,\nyou have bested yourself."
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 0, Movement_02D8
     ActorCmdWait
-    ActorMsg 1024, 3, 0, 0, 0
+    // "Well then. I'll be waiting for\nyour challenge at the Pokémon League![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_02B0
     ActorCmdWait

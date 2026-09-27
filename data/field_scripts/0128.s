@@ -20,17 +20,17 @@
 Script_3:
     VMStackPushFlag 264
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0055
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0055
     FlagReset 2429
 
 L_0055:
     WorkSetConst 0x8020, 0
     WorkSetConst 0x8021, 0
-    Cmd_0266 0x8020
+    HollowRivalCmd_0266 0x8020
     RTCGetWeekDay 0x8010
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_007C
+    VMJumpIf CMP_EQ, L_007C
     VMJump L_0088
 
 L_007C:
@@ -39,7 +39,7 @@ L_007C:
 
 L_0088:
     WorkCmpConst 0x8010, 3
-    VMJumpIf 1, L_009B
+    VMJumpIf CMP_EQ, L_009B
     VMJump L_00A7
 
 L_009B:
@@ -48,7 +48,7 @@ L_009B:
 
 L_00A7:
     WorkCmpConst 0x8010, 5
-    VMJumpIf 1, L_00BA
+    VMJumpIf CMP_EQ, L_00BA
     VMJump L_00C6
 
 L_00BA:
@@ -57,7 +57,7 @@ L_00BA:
 
 L_00C6:
     WorkCmpConst 0x8010, 6
-    VMJumpIf 1, L_00D9
+    VMJumpIf CMP_EQ, L_00D9
     VMJump L_00E5
 
 L_00D9:
@@ -67,13 +67,13 @@ L_00D9:
 L_00E5:
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_012D
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_012D
     TrainerCardGetSex 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_011B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_011B
     WorkSetConst 0x4020, 290
     VMJump L_0121
 
@@ -87,16 +87,16 @@ L_0121:
 L_012D:
     VMStackPush 0x8021
     VMStackPushConst 0
-    VMStackCmp 2
+    VMStackCmp CMP_GT
     VMStackPushFlag 2773
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_0172
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0172
     WorkGet 0x4020, 0x8021
     WorkSetConst 0x4188, 1
     VMJump L_01E7
@@ -107,8 +107,8 @@ L_0172:
     RTCGetSeason 0x8023
     VMStackPush 0x4173
     VMStackPush 0x8023
-    VMStackCmp 5
-    VMJumpIf 255, L_0199
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0199
     FlagReset 2740
 
 L_0199:
@@ -135,126 +135,126 @@ L_01E7:
     RTCGetWeekDay 0x8024
     VMStackPush 0x8024
     VMStackPushConst 2
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2773
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_023C
-    Cmd_0262 1, 44
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_023C
+    HollowRivalCmd_0262 1, 44
     VMJump L_02B4
 
 L_023C:
     VMStackPush 0x8024
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2773
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_027B
-    Cmd_0262 3, 11
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_027B
+    HollowRivalCmd_0262 3, 11
     VMJump L_02B4
 
 L_027B:
     VMStackPush 0x8024
     VMStackPushConst 6
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2773
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_02B4
-    Cmd_0262 2, 13
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_02B4
+    HollowRivalCmd_0262 2, 13
 
 L_02B4:
     VMStackPush 0x8024
     VMStackPushConst 2
-    VMStackCmp 5
+    VMStackCmp CMP_NE
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_035E
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_035E
     VMStackPushFlag 417
     VMStackPushConst 0
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 491
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0306
-    Cmd_0262 1, 41
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0306
+    HollowRivalCmd_0262 1, 41
     VMJump L_035E
 
 L_0306:
     VMStackPushFlag 417
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 491
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0335
-    Cmd_0262 1, 42
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0335
+    HollowRivalCmd_0262 1, 42
     VMJump L_035E
 
 L_0335:
     VMStackPushFlag 417
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPushFlag 491
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_035E
-    Cmd_0262 1, 43
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_035E
+    HollowRivalCmd_0262 1, 43
 
 L_035E:
     VMStackPush 0x8024
     VMStackPushConst 3
-    VMStackCmp 5
+    VMStackCmp CMP_NE
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0387
-    Cmd_0262 3, 0
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0387
+    HollowRivalCmd_0262 3, 0
 
 L_0387:
     VMStackPush 0x8024
     VMStackPushConst 6
-    VMStackCmp 5
+    VMStackCmp CMP_NE
     VMStackPushFlag 2400
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_03E2
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_03E2
     VMStackPush 0x4111
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_03C9
-    Cmd_0262 2, 14
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03C9
+    HollowRivalCmd_0262 2, 14
     VMJump L_03E2
 
 L_03C9:
     VMStackPush 0x4111
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_03E2
-    Cmd_0262 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03E2
+    HollowRivalCmd_0262 2, 0
 
 L_03E2:
     WorkSetConst 0x8024, 0
@@ -264,6 +264,7 @@ Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "Nimbasa City Pokémon Gym\nLeader: Elesa[f000]븀\u0000\nThe Shining Beauty"
     MsgPlaceSign 8, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -274,6 +275,7 @@ Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
     SEPlay 1351
+    // "The Shining Roller Coaster\nFormer Nimbasa City Pokémon Gym"
     MsgPlaceSign 16, 2
     MsgPlaceSignClose
     FinishAllEvents
@@ -287,7 +289,7 @@ Script_13:
     TrainerCardGetSex 0x8025
     ActorDelete 11
     WorkCmpConst 0x8025, 0
-    VMJumpIf 1, L_0445
+    VMJumpIf CMP_EQ, L_0445
     VMJump L_046B
 
 L_0445:
@@ -302,7 +304,7 @@ L_0445:
 
 L_046B:
     WorkCmpConst 0x8025, 1
-    VMJumpIf 1, L_047E
+    VMJumpIf CMP_EQ, L_047E
     VMJump L_04A4
 
 L_047E:
@@ -318,19 +320,21 @@ L_047E:
 L_04A4:
     MEPlay 1327
     WorkCmpConst 0x8025, 0
-    VMJumpIf 1, L_04BB
+    VMJumpIf CMP_EQ, L_04BB
     VMJump L_04C7
 
 L_04BB:
+    // "The Xtransceiver you found is ringing."
     SystemMsg 4, 2
     VMJump L_04E6
 
 L_04C7:
     WorkCmpConst 0x8025, 1
-    VMJumpIf 1, L_04DA
+    VMJumpIf CMP_EQ, L_04DA
     VMJump L_04E6
 
 L_04DA:
+    // "The Xtransceiver you found is ringing."
     SystemMsg 6, 2
     VMJump L_04E6
 
@@ -338,19 +342,21 @@ L_04E6:
     MEWait
     WordSetPlayerName 0
     WorkCmpConst 0x8025, 0
-    VMJumpIf 1, L_04FE
+    VMJumpIf CMP_EQ, L_04FE
     VMJump L_050A
 
 L_04FE:
+    // "[f000]Ā\u0001\u0000 picked up\nthe Xtransceiver.[f000]븁\u0000"
     SystemMsg 5, 2
     VMJump L_0529
 
 L_050A:
     WorkCmpConst 0x8025, 1
-    VMJumpIf 1, L_051D
+    VMJumpIf CMP_EQ, L_051D
     VMJump L_0529
 
 L_051D:
+    // "[f000]Ā\u0001\u0000 picked up\nthe Xtransceiver.[f000]븁\u0000"
     SystemMsg 7, 2
     VMJump L_0529
 
@@ -359,7 +365,7 @@ L_0529:
     FadeOutBlackQ
     FadeWait
     WorkCmpConst 0x8025, 0
-    VMJumpIf 1, L_0542
+    VMJumpIf CMP_EQ, L_0542
     VMJump L_054E
 
 L_0542:
@@ -368,7 +374,7 @@ L_0542:
 
 L_054E:
     WorkCmpConst 0x8025, 1
-    VMJumpIf 1, L_0561
+    VMJumpIf CMP_EQ, L_0561
     VMJump L_056D
 
 L_0561:
@@ -378,7 +384,7 @@ L_0561:
 L_056D:
     FadeInBlackQ
     FadeWait
-    Cmd_0263 5
+    HollowRivalCmd_0263 5
     FlagSet 671
     WorkSetConst 0x4126, 1
     WorkSetConst 0x4127, 1
@@ -403,7 +409,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "It's a shining, sparkling, bright\nfashion show!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -414,7 +421,8 @@ Script_5:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "I hear that a Clown's makeup\nincludes a teardrop mark."
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -425,7 +433,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "A roller coaster and a Ferris wheel!\nWhich one should I ride first?!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -436,7 +445,8 @@ Script_7:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "Ah ah ah ah aaah! ♪[f000]븁\u0000\nWh-what should I talk about\non my first date..."
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -447,7 +457,8 @@ Script_8:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "Oh, this guy! Even in the amusement\npark, he does nothing but play guitar...[f000]븁\u0000\nHow cool! He loves music from\nthe bottom of his heart!"
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -458,7 +469,8 @@ Script_9:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "What's that? Uh, I dunno. Audino?"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -469,7 +481,8 @@ Script_10:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 12, 0, 0
+    // "A famous TV star came here\nfor a shoot recently! ♪[f000]븁\u0000\nIt's that one who's always on TV.[f000]븁\u0000\nOne thing I noticed while watching\nthe shoot is that star spends a lot[f000]븀\u0000\nof time on the Xtransceiver![f000]븁\u0000\nThe entire break it was talk, talk,\ntalk, laugh, laugh, laugh! ♪"
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -481,7 +494,8 @@ Script_11:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 531, 0
-    ParentActorMsg 1024, 13, 0, 0
+    // "Chuuu! ♪"
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -494,7 +508,8 @@ Script_12:
     SEPlay 1351
     ActorSetEyeToEye
     PVPlay 559, 0
-    ParentActorMsg 1024, 14, 0, 0
+    // "Uuugh!"
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     PVWait
     LastKeyWait
     ActorMsgClose
@@ -506,7 +521,8 @@ Script_14:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Oh? Are you a challenger perhaps?[f000]븁\u0000\nI'm very sorry,\nthe Gym Leader is out right now...[f000]븁\u0000\nI know where she went though.[f000]븁\u0000\nShe should be in the building where\nyou can ride the roller coaster.[f000]븁\u0000\nIt's by the entrance\nto this amusement park."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -517,7 +533,8 @@ Script_15:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 15, 0, 0
+    // "The best part of riding a roller coaster\nis screaming your heart out!"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

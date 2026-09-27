@@ -16,14 +16,15 @@ Script_1:
     ActorCmdWait
     VMStackPush 0x417b
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_01E8
-    ActorMsg 1024, 12, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01E8
+    // "Congratulations![f000]븁\u0000\nYou've defeated all the Trainers\non the ship![f000]븁\u0000\nPlease accept this prize.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 0, 0, 0
     MsgWinCloseAll
     WorkSetConst 0x8020, 0
     RTCGetWeekDay 0x8020
     WorkCmpConst 0x8020, 1
-    VMJumpIf 1, L_006C
+    VMJumpIf CMP_EQ, L_006C
     VMJump L_0092
 
 L_006C:
@@ -38,7 +39,7 @@ L_006C:
 
 L_0092:
     WorkCmpConst 0x8020, 2
-    VMJumpIf 1, L_00A5
+    VMJumpIf CMP_EQ, L_00A5
     VMJump L_00CB
 
 L_00A5:
@@ -53,7 +54,7 @@ L_00A5:
 
 L_00CB:
     WorkCmpConst 0x8020, 3
-    VMJumpIf 1, L_00DE
+    VMJumpIf CMP_EQ, L_00DE
     VMJump L_0104
 
 L_00DE:
@@ -68,7 +69,7 @@ L_00DE:
 
 L_0104:
     WorkCmpConst 0x8020, 4
-    VMJumpIf 1, L_0117
+    VMJumpIf CMP_EQ, L_0117
     VMJump L_013D
 
 L_0117:
@@ -83,7 +84,7 @@ L_0117:
 
 L_013D:
     WorkCmpConst 0x8020, 5
-    VMJumpIf 1, L_0150
+    VMJumpIf CMP_EQ, L_0150
     VMJump L_0176
 
 L_0150:
@@ -98,7 +99,7 @@ L_0150:
 
 L_0176:
     WorkCmpConst 0x8020, 6
-    VMJumpIf 1, L_0189
+    VMJumpIf CMP_EQ, L_0189
     VMJump L_01AF
 
 L_0189:
@@ -113,7 +114,7 @@ L_0189:
 
 L_01AF:
     WorkCmpConst 0x8020, 0
-    VMJumpIf 1, L_01C2
+    VMJumpIf CMP_EQ, L_01C2
     VMJump L_01E8
 
 L_01C2:
@@ -127,7 +128,8 @@ L_01C2:
     VMJump L_01E8
 
 L_01E8:
-    ActorMsg 1024, 10, 0, 0, 0
+    // "Thank you for sailing with us on the\nRoyal Unova.[f000]븁\u0000\nHave a nice day!"
+    ActorMsg MSGFILE_SCRIPT, 10, 0, 0, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x417b, 0
@@ -164,29 +166,30 @@ Script_2:
     WorkSetConst 0x8024, 0
     VMStackPushFlag 2744
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0414
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0414
     RTCGetDayPart 0x8021
     VMStackPush 0x8021
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_03FE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_03FE
     MoneyWinDisp 31, 1
-    ActorMsg 1024, 0, 0, 2, 0
+    // "Welcome to the Royal Unova![f000]븁\u0000\nThe scenery is exhilarating.\nThe battles are exciting.[f000]븁\u0000\nThe ticket is $1,000.\nWould you like to get on board?"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 2, 0
     WorkSetConst 0x8024, 0
 
 L_029A:
     VMStackPush 0x8024
     VMStackPushConst 1
-    VMStackCmp 5
-    VMJumpIf 255, L_03F8
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_03F8
     ListMenu_AnchorTopRight 31, 5, 0, 1, 32803
     ListMenuAdd 13, 65535, 0
     ListMenuAdd 14, 65535, 1
     ListMenuAdd 15, 65535, 2
     ListMenuShow
     WorkCmpConst 0x8023, 0
-    VMJumpIf 1, L_02E3
+    VMJumpIf CMP_EQ, L_02E3
     VMJump L_038A
 
 L_02E3:
@@ -194,26 +197,28 @@ L_02E3:
     MoneyCheck 0x8022, 1000
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0372
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0372
     WorkSetConst 0x8025, 0
     Cmd_024A 0x8025
     VMStackPush 0x8025
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0366
-    ActorMsg 1024, 7, 0, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0366
+    // "The power of the C-Gear will be turned\noff. Is that OK?"
+    ActorMsg MSGFILE_SCRIPT, 7, 0, 2, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_034E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_034E
     VMCall L_0450
     VMJump L_0360
 
 L_034E:
     MoneyWinClose
-    ActorMsg 1024, 9, 0, 2, 0
+    // "Certainly.\nPlease come back again."
+    ActorMsg MSGFILE_SCRIPT, 9, 0, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -228,7 +233,8 @@ L_036C:
 
 L_0372:
     MoneyWinClose
-    ActorMsg 1024, 3, 0, 2, 0
+    // "I'm sorry, you don't have enough money.\nPlease come back again."
+    ActorMsg MSGFILE_SCRIPT, 3, 0, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -237,7 +243,7 @@ L_0384:
 
 L_038A:
     WorkCmpConst 0x8023, 1
-    VMJumpIf 1, L_039D
+    VMJumpIf CMP_EQ, L_039D
     VMJump L_03A9
 
 L_039D:
@@ -246,13 +252,14 @@ L_039D:
 
 L_03A9:
     WorkCmpConst 0x8023, 2
-    VMJumpIf 1, L_03BC
+    VMJumpIf CMP_EQ, L_03BC
     VMJump L_03DA
 
 L_03BC:
     MoneyWinClose
     WorkSetConst 0x8024, 1
-    ActorMsg 1024, 9, 0, 2, 0
+    // "Certainly.\nPlease come back again."
+    ActorMsg MSGFILE_SCRIPT, 9, 0, 2, 0
     LastKeyWait
     MsgWinCloseAll
     VMJump L_03F2
@@ -260,7 +267,8 @@ L_03BC:
 L_03DA:
     MoneyWinClose
     WorkSetConst 0x8024, 1
-    ActorMsg 1024, 9, 0, 2, 0
+    // "Certainly.\nPlease come back again."
+    ActorMsg MSGFILE_SCRIPT, 9, 0, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -271,7 +279,8 @@ L_03F8:
     VMJump L_040E
 
 L_03FE:
-    ActorMsg 1024, 2, 0, 2, 0
+    // "The Royal Unova operates only in\nthe evening.[f000]븀\u0000\nPlease come back again."
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -279,7 +288,8 @@ L_040E:
     VMJump L_0424
 
 L_0414:
-    ActorMsg 1024, 11, 0, 2, 0
+    // "We are closed for the day.\nPlease come again tomorrow."
+    ActorMsg MSGFILE_SCRIPT, 11, 0, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -309,14 +319,15 @@ L_0450:
     SEWait
     FieldSubscreenDisable
     FunfestBGMReturn
-    ActorMsg 1024, 8, 0, 2, 0
+    // "We are leaving the port shortly.\nBon voyage![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 0, 2, 0
     MsgWinCloseAll
     MoneyWinClose
     PlayerGetExState 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_048B
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_048B
     PlayerSetSpecialSequence 1
 
 L_048B:
@@ -331,10 +342,14 @@ L_048B:
     VMReturn
 
 L_04BD:
-    ActorMsg 1024, 1, 0, 2, 0
-    ActorMsg 1024, 5, 0, 2, 0
-    ActorMsg 1024, 6, 0, 2, 0
-    ActorMsg 1024, 4, 0, 2, 0
+    // "The Royal Unova leaves once a day.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 2, 0
+    // "The ship goes under a big bridge called\nthe Skyarrow Bridge in the Unova region,[f000]븀\u0000\nthen turns around at Marvelous Bridge[f000]븀\u0000\nand returns to Castelia City.[f000]븁\u0000\nWhen the whistle blows five times,\nit means we've arrived at the dock.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 2, 0
+    // "From the deck of the world-famous Royal\nUnova, you can enjoy a spectacular view.[f000]븁\u0000\nAnd the passenger cabins are full of\nTrainers who love to battle.[f000]븁\u0000\nPlease enjoy both the view and\nthe battles![f000]븁\u0000\nNote that as C-Gears may affect radio\nsignals or instruments in the ship,[f000]븀\u0000\nwe ask that you refrain from using them.[f000]븀\u0000\nThank you.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 2, 0
+    // "The ticket is $1,000.\nWould you like to get on board?"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 2, 0
     VMReturn
     .balign 4, 0
     Move 13, 1

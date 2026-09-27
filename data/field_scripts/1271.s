@@ -30,12 +30,13 @@ Script_1:
     VMHalt
 
 L_003E:
-    Cmd_0218 0, 0x8010
+    AreaNPCCmd_0218 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0069
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0069
     WordSetLoadEntreeForestPkmName 0x8011, 0
+    // "[f000]ā\u0001\u0000 is\nmoving around energetically!"
     SystemMsg 0, 0
     LastKeyWait
     InfoMsgClose
@@ -45,15 +46,16 @@ L_0069:
     PokePartyGetCount 0x8010, 5
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00B2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B2
     BoxGetCount 0x8010, 5
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_00B2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B2
     WordSetLoadEntreeForestPkmName 0x8011, 0
     WordSetPlayerName 1
+    // "[f000]ā\u0001\u0000 looks happy\nto meet [f000]Ā\u0001\u0001![f000]븁\u0000"
     SystemMsg 1, 0
     VMCall L_011F
     VMReturn
@@ -61,21 +63,23 @@ L_0069:
 L_00B2:
     WordSetLoadEntreeForestPkmName 0x8011, 0
     WordSetPlayerName 1
+    // "[f000]ā\u0001\u0000 seems to want\nto join [f000]Ā\u0001\u0001's party...[f000]븁\u0000"
     SystemMsg 2, 2
+    // "Would you like to add\nthe Pokémon to your party?"
     SystemMsg 3, 2
     YesNoWin 0x8010
     InfoMsgClose
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0117
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0117
     EntreeForestStartBattle 0x8011, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0113
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0113
     RecordAdd 46, 1
-    Cmd_021D 0x8011
+    AreaNPCCmd_021D 0x8011
     ActorDelete 0x8011
     CallWildBattleEnd
     MapChangeEntreeForest 9
@@ -92,25 +96,27 @@ L_0117:
     VMReturn
 
 L_011F:
-    Cmd_0218 1, 0x8010
+    AreaNPCCmd_0218 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_01A8
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01A8
     WordSetLoadEntreeForestPkmName 0x8011, 0
+    // "Would you like [f000]ā\u0001\u0000\nto move to the Forest Clearing?"
     SystemMsg 6, 2
     YesNoWin 0x8010
     InfoMsgClose
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01A2
-    Cmd_0219 0x8011, 0x8010
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01A2
+    AreaNPCCmd_0219 0x8011, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_018E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_018E
     WordSetLoadEntreeForestPkmName 0x8011, 0
+    // "There's no more room in the Forest\nClearing, so [f000]ā\u0001\u0000 could not move!"
     SystemMsg 7, 2
     LastKeyWait
     InfoMsgClose
@@ -119,6 +125,7 @@ L_011F:
 
 L_018E:
     VMCall L_0214
+    // "[f000]ā\u0001\u0000 moved to\nthe Forest Clearing![f000]븁\u0000"
     SystemMsg 9, 0
     InfoMsgClose
     MapChangeEntreeForest 9
@@ -129,19 +136,21 @@ L_01A2:
 
 L_01A8:
     WordSetLoadEntreeForestPkmName 0x8011, 0
+    // "Would you like [f000]ā\u0001\u0000\nto move to the Deepest Clearing?"
     SystemMsg 4, 2
     YesNoWin 0x8010
     InfoMsgClose
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0212
-    Cmd_0219 0x8011, 0x8010
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0212
+    AreaNPCCmd_0219 0x8011, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01FE
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01FE
     WordSetLoadEntreeForestPkmName 0x8011, 0
+    // "There's no more room in the Deepest\nClearing, so [f000]ā\u0001\u0000 could not move!"
     SystemMsg 5, 2
     LastKeyWait
     InfoMsgClose
@@ -150,6 +159,7 @@ L_01A8:
 
 L_01FE:
     VMCall L_0214
+    // "[f000]ā\u0001\u0000 moved to\nthe Deepest Clearing![f000]븁\u0000"
     SystemMsg 8, 0
     InfoMsgClose
     MapChangeEntreeForest 9
@@ -161,8 +171,8 @@ L_0212:
 L_0214:
     WorkSetConst 0x8020, 0
     WorkSetConst 0x8021, 0
-    Cmd_0218 3, 0x8020
-    Cmd_0218 4, 0x8021
+    AreaNPCCmd_0218 3, 0x8020
+    AreaNPCCmd_0218 4, 0x8021
     PVPlay 0x8020, 0x8021
     PVWait
     ActorDelete 0x8011

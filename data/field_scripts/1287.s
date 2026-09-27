@@ -12,8 +12,8 @@
 Script_4:
     VMStackPush 0x410a
     VMStackPushConst 3
-    VMStackCmp 0
-    VMJumpIf 255, L_0041
+    VMStackCmp CMP_LT
+    VMJumpIf CMP_STACK, L_0041
     ActorSetGPos 25, 15, 0, 29, 1
     ActorSetGPos 26, 12, 0, 23, 3
 
@@ -31,7 +31,8 @@ L_0041:
 
 Script_3:
     ActorsPauseAll
-    ActorMsg 1024, 16, 25, 2, 0
+    // "Here we are!\nThis is the reception area.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 16, 25, 2, 0
     MsgWinCloseAll
     ActorWalkRoute 255, 15, 24, 1, 8, 1
     VMSleep 4
@@ -44,40 +45,51 @@ Script_3:
     ActorCmdExec 255, Movement_0BCC
     ActorCmdExec 25, Movement_0BCC
     ActorCmdWait
-    ActorMsg 1024, 17, 26, 2, 0
+    // "Oh, if it isn't the scout himself!\nThanks to you, I've made my movie debut![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 17, 26, 2, 0
     MsgWinCloseAll
-    ActorMsg 1024, 18, 25, 1, 0
+    // "Wow!\nI'm glad to hear that![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 18, 25, 1, 0
     MsgWinCloseAll
     ActorCmdExec 26, Movement_0B6C
     ActorCmdWait
     ActorCmdExec 26, Movement_0BD4
     ActorCmdWait
-    ActorMsg 1024, 19, 26, 2, 0
+    // "And who would that be?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 19, 26, 2, 0
     MsgWinCloseAll
     WordSetPlayerName 0
-    ActorMsg 1024, 20, 25, 1, 0
+    // "This is [f000]Ā\u0001\u0000![f000]븁\u0000\nI witnessed this Trainer challenging your\ndaughter. It struck me--here's someone[f000]븀\u0000\nwith real potential![f000]븁\u0000\nA fresh discovery for Pokéstar Studios![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 20, 25, 1, 0
     MsgWinCloseAll
-    ActorMsg 1024, 21, 26, 2, 0
+    // "You beat Roxie, I see.\nYou must be a pretty good Trainer.[f000]븁\u0000\nOh, you know what?\nThey're releasing my movie now![f000]븁\u0000\nAre you thinking about making a\nPokéstar Studios debut, too?[f000]븁\u0000\nThen, I do insist you watch my movie\nin order to gain acting tips from a[f000]븀\u0000\nprofessional such as myself.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 21, 26, 2, 0
     MsgWinCloseAll
     ActorCmdExec 25, Movement_02B0
     ActorCmdWait
-    ActorMsg 1024, 22, 25, 1, 0
+    // "That's a good idea![f000]븁\u0000\n[f000]Ā\u0001\u0000, it should be a good\nintroduction to filmmaking for you![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 22, 25, 1, 0
     MsgWinCloseAll
-    ActorMsg 1024, 23, 26, 2, 0
+    // "Awesome! Let's go![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 23, 26, 2, 0
     MsgWinCloseAll
     VMCall L_02CC
-    ActorMsg 1024, 26, 26, 1, 0
+    // "...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 26, 26, 1, 0
     MsgWinCloseAll
     ActorSetGPos 25, 15, 0, 17, 0
     ActorWalkRoute 25, 15, 13, 0, 8, 1
     ActorCmdWait
     ActorCmdExec 255, Movement_0BC4
     ActorCmdWait
-    ActorMsg 1024, 27, 25, 2, 0
+    // "I hope you had a good time!\nHow did you enjoy the movie?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 27, 25, 2, 0
     MsgWinCloseAll
-    ActorMsg 1024, 28, 26, 1, 0
+    // "...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 28, 26, 1, 0
     MsgWinCloseAll
-    ActorMsg 1024, 29, 25, 2, 0
+    // "What's the matter?"
+    ActorMsg MSGFILE_SCRIPT, 29, 25, 2, 0
     MsgWaitAdvance
     MsgWinCloseAll
     ActorCmdExec 26, Movement_0B8C
@@ -85,20 +97,25 @@ Script_3:
     ActorCmdExec 25, Movement_0BCC
     ActorCmdExec 255, Movement_0BCC
     ActorCmdWait
-    ActorMsg 1024, 30, 26, 1, 0
+    // "Ha ha ha. I've always dreamed of making\nmy debut on the silver screen...[f000]븁\u0000\nNow I've fulfilled that dream...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 30, 26, 1, 0
     MsgWinCloseAll
-    ActorMsg 1024, 31, 25, 2, 0
+    // "What are you saying?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 31, 25, 2, 0
     MsgWinCloseAll
     ActorCmdExec 26, Movement_0B94
     ActorCmdWait
-    ActorMsg 1024, 32, 26, 1, 0
+    // "Different people have different talents.\nI knew it all along.[f000]븁\u0000\nBut I see my daughter striving to\nbalance the responsibility of being a[f000]븀\u0000\nGym Leader while pursuing her own[f000]븀\u0000\ndream of being in a band.[f000]븁\u0000\nAlthough I'm a father, I really wanted\nto pursue my own long-held dream...[f000]븁\u0000\nIf you stop pursuing your dreams,\nyour life might as well be over, right?[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 32, 26, 1, 0
     MsgWinCloseAll
-    ActorMsg 1024, 33, 25, 2, 0
+    // "...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 33, 25, 2, 0
     MsgWinCloseAll
     ActorCmdExec 26, Movement_0BD4
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 34, 26, 1, 0
+    // "I'm going back to my duties as a ship\ncaptain for now.[f000]븁\u0000\nSomeday, I'll return to the screen![f000]븁\u0000\nUntil that day comes, I'll leave\nall the starring roles to you![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 34, 26, 1, 0
     MsgWinCloseAll
     ActorCmdExec 26, Movement_02C0
     VMSleep 10
@@ -108,7 +125,8 @@ Script_3:
     VMSleep 20
     ActorCmdExec 25, Movement_0BBC
     ActorCmdWait
-    ActorMsg 1024, 35, 25, 2, 0
+    // "We had better get going.\nMr. Deeoh should be ready by now.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 35, 25, 2, 0
     MsgWinCloseAll
     FadeOutBlack
     ActorWalkRoute 25, 15, 18, 1, 8, 1
@@ -142,13 +160,15 @@ L_02CC:
     ActorCmdExec 255, Movement_03E4
     ActorCmdExec 25, Movement_0BBC
     ActorCmdWait
-    ActorMsg 1024, 24, 0, 1, 0
+    // "Welcome to the Pokéstar Studios theater.\nThis is the reception counter.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 24, 0, 1, 0
     MsgWinCloseAll
     ActorCmdExec 26, Movement_0BCC
     VMSleep 8
     ActorCmdExec 255, Movement_0BD4
     ActorCmdWait
-    ActorMsg 1024, 25, 26, 1, 0
+    // "This is where you choose\nthe movie you want to watch.[f000]븁\u0000\nThere are eight screens in the theater\nhere in Pokéstar Studios![f000]븀\u0000\nPretty impressive, huh?[f000]븁\u0000\nNow...\nHuh?[f000]븁\u0000\nIt seems my movie will be\nshown on a special screen.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 25, 26, 1, 0
     MsgWinCloseAll
     ActorCmdExec 26, Movement_03F8
     VMSleep 8
@@ -234,14 +254,15 @@ Script_1:
 L_043C:
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 5
-    VMJumpIf 255, L_0510
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_0510
     WorkCmpConst 0x8020, 1
-    VMJumpIf 1, L_0462
+    VMJumpIf CMP_EQ, L_0462
     VMJump L_047E
 
 L_0462:
-    ActorMsg 1024, 8, 0x8011, 2, 0
+    // "Please come again!"
+    ActorMsg MSGFILE_SCRIPT, 8, 0x8011, 2, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x8020, 0
@@ -249,7 +270,7 @@ L_0462:
 
 L_047E:
     WorkCmpConst 0x8020, 2
-    VMJumpIf 1, L_0491
+    VMJumpIf CMP_EQ, L_0491
     VMJump L_049D
 
 L_0491:
@@ -258,7 +279,7 @@ L_0491:
 
 L_049D:
     WorkCmpConst 0x8020, 3
-    VMJumpIf 1, L_04B0
+    VMJumpIf CMP_EQ, L_04B0
     VMJump L_04BC
 
 L_04B0:
@@ -267,7 +288,7 @@ L_04B0:
 
 L_04BC:
     WorkCmpConst 0x8020, 4
-    VMJumpIf 1, L_04CF
+    VMJumpIf CMP_EQ, L_04CF
     VMJump L_04DF
 
 L_04CF:
@@ -277,7 +298,7 @@ L_04CF:
 
 L_04DF:
     WorkCmpConst 0x8020, 5
-    VMJumpIf 1, L_04F2
+    VMJumpIf CMP_EQ, L_04F2
     VMJump L_0504
 
 L_04F2:
@@ -303,25 +324,27 @@ L_0518:
 L_051E:
     VMStackPush 0x8022
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_05F1
-    ActorMsg 1024, 3, 0x8011, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05F1
+    // "Welcome to Pokéstar Studios.\nHow may I help you?"
+    ActorMsg MSGFILE_SCRIPT, 3, 0x8011, 2, 0
     ListMenu_AnchorTopRight 31, 1, 0, 1, 32801
     ListMenuAdd 0, 65535, 0
     ListMenuAdd 1, 65535, 1
     ListMenuAdd 2, 65535, 2
     ListMenuShow
     WorkCmpConst 0x8021, 0
-    VMJumpIf 1, L_0573
+    VMJumpIf CMP_EQ, L_0573
     VMJump L_05BA
 
 L_0573:
     Plugin10_Cmd1008 0x8024
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_05A8
-    ActorMsg 1024, 6, 0x8011, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_05A8
+    // "I apologize.\nWe have no movies available to show.[f000]븁\u0000\nI wonder if anyone would be interested\nin helping to create new movies, hmm...[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 6, 0x8011, 2, 0
     WorkSetConst 0x8022, 0
     WorkSetConst 0x8020, 1
     VMJump L_05B4
@@ -335,11 +358,12 @@ L_05B4:
 
 L_05BA:
     WorkCmpConst 0x8021, 1
-    VMJumpIf 1, L_05CD
+    VMJumpIf CMP_EQ, L_05CD
     VMJump L_05DF
 
 L_05CD:
-    ActorMsg 1024, 4, 0x8011, 2, 0
+    // "This is where the movies developed\nat the film studio are released.[f000]븁\u0000\nYou'll find a monitor in the movie theater\nto check the records of these movies.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 4, 0x8011, 2, 0
     VMJump L_05EB
 
 L_05DF:
@@ -353,14 +377,15 @@ L_05F1:
     VMReturn
 
 L_05F3:
-    ActorMsg 1024, 5, 0x8011, 2, 0
+    // "Please select the movie\nyou'd like to watch.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 5, 0x8011, 2, 0
     MsgWinCloseAll
     Plugin10_Cmd1003 0, 0x8023
     DebugPrint 0x8023
     VMStackPush 0x8023
     VMStackPushConst 8
-    VMStackCmp 1
-    VMJumpIf 255, L_062A
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_062A
     WorkSetConst 0x8020, 1
     VMJump L_0630
 
@@ -372,7 +397,8 @@ L_0630:
 
 L_0632:
     FunfestBGMReturn
-    ActorMsg 1024, 7, 0x8011, 2, 0
+    // "The movie is about to begin.\nPlease enjoy.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 0x8011, 2, 0
     MsgWinCloseAll
     ActorCmdExec 255, Movement_0748
     ActorCmdWait
@@ -390,24 +416,24 @@ L_0632:
     Plugin10_Cmd1017 0x8023, 0x8010
     VMStackPush 0x8026
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_06B3
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_06B3
     VMCall L_0764
 
 L_06B3:
     VMStackPush 0x413c
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_06E3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06E3
     Plugin10_Cmd1021 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_06E3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_06E3
     WorkSetConst 0x413c, 1
 
 L_06E3:
@@ -425,8 +451,8 @@ L_06E3:
     BMHndAnmWait 0x8025
     VMStackPush 0x8026
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_073E
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_073E
     WorkSetConst 0x8020, 5
     VMJump L_0744
 
@@ -455,24 +481,24 @@ L_0764:
     DebugPrint 0x8010
     VMStackPush 0x8010
     VMStackPush 0
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPushFlag 980
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0797
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0797
     FlagReset 980
     ActorAdd 1
 
 L_0797:
     VMStackPush 0x8010
     VMStackPush 1
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPushFlag 981
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_07CA
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_07CA
     FlagReset 981
     ActorAdd 2
     ActorAdd 3
@@ -481,12 +507,12 @@ L_0797:
 L_07CA:
     VMStackPush 0x8010
     VMStackPush 2
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPushFlag 982
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0801
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0801
     FlagReset 982
     ActorAdd 5
     ActorAdd 10
@@ -496,12 +522,12 @@ L_07CA:
 L_0801:
     VMStackPush 0x8010
     VMStackPush 3
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPushFlag 983
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0840
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0840
     FlagReset 983
     ActorAdd 9
     ActorAdd 6
@@ -513,12 +539,12 @@ L_0801:
 L_0840:
     VMStackPush 0x8010
     VMStackPush 4
-    VMStackCmp 4
+    VMStackCmp CMP_GE
     VMStackPushFlag 984
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_0887
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_0887
     FlagReset 984
     ActorAdd 15
     ActorAdd 16
@@ -549,8 +575,8 @@ L_08D1:
     Plugin10_Cmd1022 0x8023
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0906
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0906
     WorkSetConst 0x4000, 1
     WorkGet 0x4001, 0x8023
     WorkSetConst 0x4003, 1
@@ -577,11 +603,12 @@ L_0922:
     ActorCmdExec 251, Movement_0AD8
     ActorCmdWait
     WordSetPlayerName 0
-    ActorMsg 1024, 10, 251, 1, 0
+    // "Well, well!\nIf it isn't [f000]Ā\u0001\u0000, dahling![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 10, 251, 1, 0
     MsgWinCloseAll
     PlayerGetGPos 0x8027, 0x8028
     WorkCmpConst 0x8027, 14
-    VMJumpIf 1, L_096A
+    VMJumpIf CMP_EQ, L_096A
     VMJump L_0984
 
 L_096A:
@@ -593,7 +620,7 @@ L_096A:
 
 L_0984:
     WorkCmpConst 0x8027, 15
-    VMJumpIf 1, L_0997
+    VMJumpIf CMP_EQ, L_0997
     VMJump L_09A7
 
 L_0997:
@@ -603,7 +630,7 @@ L_0997:
 
 L_09A7:
     WorkCmpConst 0x8027, 16
-    VMJumpIf 1, L_09BA
+    VMJumpIf CMP_EQ, L_09BA
     VMJump L_09D4
 
 L_09BA:
@@ -617,46 +644,51 @@ L_09D4:
     WordSetPlayerName 0
     Plugin10_Cmd1010 0x4001, 0x8010
     WorkCmpConst 0x8010, 1
-    VMJumpIf 1, L_09F0
+    VMJumpIf CMP_EQ, L_09F0
     VMJump L_0A02
 
 L_09F0:
-    ActorMsg 1024, 13, 251, 2, 0
+    // "[f000]Ā\u0001\u0000--this particular effort\nturned out to be...[f000]븁\u0000\n...a spec-tac-ulah hit, dahling![f000]븁\u0000\nKeep it up, and you'll be loved by\nmovie buffs everywhere--and our staff.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 13, 251, 2, 0
     VMJump L_0A4C
 
 L_0A02:
     WorkCmpConst 0x8010, 0
-    VMJumpIf 1, L_0A15
+    VMJumpIf CMP_EQ, L_0A15
     VMJump L_0A27
 
 L_0A15:
-    ActorMsg 1024, 11, 251, 2, 0
+    // "[f000]Ā\u0001\u0000--this particular effort\nturned out to be...[f000]븁\u0000\n...a complete flop, dahling.\nBut I thought it was quite a unique[f000]븀\u0000\nlittle film in its own way. I liked it![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 11, 251, 2, 0
     VMJump L_0A4C
 
 L_0A27:
     WorkCmpConst 0x8010, 2
-    VMJumpIf 1, L_0A3A
+    VMJumpIf CMP_EQ, L_0A3A
     VMJump L_0A4C
 
 L_0A3A:
-    ActorMsg 1024, 12, 251, 2, 0
+    // "[f000]Ā\u0001\u0000, this time your movie\nturned out to...[f000]븁\u0000\n...exceed everyone's expectations!\nEverybody's talking about it, dahling.[f000]븁\u0000\nWith an amazing film like this, movie\nbuffs--and our staff--will definitely[f000]븀\u0000\nnotice you, [f000]Ā\u0001\u0000![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 12, 251, 2, 0
     VMJump L_0A4C
 
 L_0A4C:
     Plugin10_Cmd1018 0x4001, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0A71
-    ActorMsg 1024, 14, 251, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A71
+    // "Dahling, [f000]Ā\u0001\u0000, I must tell you...\nYour Pokémon that performed[f000]븀\u0000\nin this movie may be showing more[f000]븀\u0000\nacting chops than before.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 14, 251, 2, 0
 
 L_0A71:
-    ActorMsg 1024, 15, 251, 2, 0
+    // "Bye for now, [f000]Ā\u0001\u0000! I'm so looking\nforward to your next picture, dahling![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 15, 251, 2, 0
     MsgWinCloseAll
     WorkCmpConst 0x8027, 14
-    VMJumpIf 1, L_0A9F
+    VMJumpIf CMP_EQ, L_0A9F
     WorkCmpConst 0x8027, 16
-    VMJumpIf 1, L_0A9F
+    VMJumpIf CMP_EQ, L_0A9F
     VMJump L_0AAD
 
 L_0A9F:
@@ -665,7 +697,7 @@ L_0A9F:
 
 L_0AAD:
     WorkCmpConst 0x8027, 15
-    VMJumpIf 1, L_0AC0
+    VMJumpIf CMP_EQ, L_0AC0
     VMJump L_0ACE
 
 L_0AC0:
@@ -719,13 +751,14 @@ Script_2:
     Plugin10_Cmd1025 5, 0x8029
     VMStackPush 0x8029
     VMStackPushConst 0
-    VMStackCmp 2
-    VMJumpIf 255, L_0B53
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_0B53
     SEPlay 1351
     Plugin10_Cmd1023 0x8010
     VMJump L_0B5D
 
 L_0B53:
+    // "This monitor is currently being tested."
     SystemMsg 9, 2
     LastKeyWait
     InfoMsgClose

@@ -17,6 +17,7 @@
 
 Script_1:
     ActorsPauseAll
+    // "This is Battle Company.\nResearch and Development of Items!"
     InfoMsg 22, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -26,6 +27,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
+    // "Burgh's signature is scrawled in the\ncorner of the painting."
     InfoMsg 23, 2
     LastKeyWait
     InfoMsgClose_0039
@@ -37,7 +39,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "Welcome![f000]븁\u0000\nIf you use the elevator, please use the\nbuttons on the door or next to the door."
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -48,7 +51,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "Every morning, my Pokémon wakes me\nwith Uproar, so I always look like[f000]븀\u0000\na wreck.[f000]븁\u0000\nBut I appreciate its good intentions.\nI'll work my hardest to provide for it[f000]븀\u0000\ntoday, as always."
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -61,16 +65,17 @@ Script_5:
     ActorSetEyeToEye
     VMStackPushFlag 361
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02E9
-    ActorMsg 1024, 6, 2, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02E9
+    // "That thing you have is a Pokédex,\nisn't it?[f000]븁\u0000\nWow! Coooooool! You collect Pokémon!\nOK! I'll help you.[f000]븁\u0000\nWhich Pokémon did you choose at the\nbeginning of your journey?"
+    ActorMsg MSGFILE_SCRIPT, 6, 2, 2, 0
     WorkSetConst 0x8024, 0
 
 L_00C7:
     VMStackPush 0x8024
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02E3
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02E3
     ListMenu_AnchorTopRight 31, 5, 0, 1, 32803
     ListMenuAdd 11, 65535, 0
     ListMenuAdd 12, 65535, 1
@@ -79,15 +84,17 @@ L_00C7:
     ListMenuShow
     VMStackPush 0x8023
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_019B
-    ActorMsg 1024, 15, 2, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_019B
+    // "Do you have Snivy?"
+    ActorMsg MSGFILE_SCRIPT, 15, 2, 2, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0189
-    ActorMsg 1024, 7, 2, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0189
+    // "You have Snivy! Then I will give you this![f000]븁\u0000\nWhen you have your Pokémon hold it, it\ncan raise the power of Grass-type moves![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 7, 2, 2, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -97,14 +104,16 @@ L_00C7:
     VMStackPop 0x8001
     VMStackPop 0x8000
     FlagSet 361
-    ActorMsg 1024, 10, 2, 2, 0
+    // "A lot of items have effects when Pokémon\nhold them, so be on the lookout for[f000]븀\u0000\nthese items![f000]븁\u0000\nWell, work hard to fill up your Pokédex!\nGood luck!"
+    ActorMsg MSGFILE_SCRIPT, 10, 2, 2, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x8024, 1
     VMJump L_0195
 
 L_0189:
-    ActorMsg 1024, 18, 2, 2, 0
+    // "Then, what is the Pokémon you chose\nat the beginning of your journey?"
+    ActorMsg MSGFILE_SCRIPT, 18, 2, 2, 0
 
 L_0195:
     VMJump L_02DD
@@ -112,15 +121,17 @@ L_0195:
 L_019B:
     VMStackPush 0x8023
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0231
-    ActorMsg 1024, 16, 2, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0231
+    // "Do you have Oshawott?"
+    ActorMsg MSGFILE_SCRIPT, 16, 2, 2, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_021F
-    ActorMsg 1024, 8, 2, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_021F
+    // "You have Oshawott! Then I will give\nyou this![f000]븁\u0000\nWhen you have your Pokémon hold it, it\ncan raise the power of Water-type moves![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 8, 2, 2, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -130,14 +141,16 @@ L_019B:
     VMStackPop 0x8001
     VMStackPop 0x8000
     FlagSet 361
-    ActorMsg 1024, 10, 2, 2, 0
+    // "A lot of items have effects when Pokémon\nhold them, so be on the lookout for[f000]븀\u0000\nthese items![f000]븁\u0000\nWell, work hard to fill up your Pokédex!\nGood luck!"
+    ActorMsg MSGFILE_SCRIPT, 10, 2, 2, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x8024, 1
     VMJump L_022B
 
 L_021F:
-    ActorMsg 1024, 18, 2, 2, 0
+    // "Then, what is the Pokémon you chose\nat the beginning of your journey?"
+    ActorMsg MSGFILE_SCRIPT, 18, 2, 2, 0
 
 L_022B:
     VMJump L_02DD
@@ -145,15 +158,17 @@ L_022B:
 L_0231:
     VMStackPush 0x8023
     VMStackPushConst 2
-    VMStackCmp 1
-    VMJumpIf 255, L_02C7
-    ActorMsg 1024, 17, 2, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02C7
+    // "Do you have Tepig?"
+    ActorMsg MSGFILE_SCRIPT, 17, 2, 2, 0
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_02B5
-    ActorMsg 1024, 9, 2, 2, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_02B5
+    // "You have Tepig! Then I will give you this![f000]븁\u0000\nWhen you have your Pokémon hold it, it\ncan raise the power of Fire-type moves![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 9, 2, 2, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -163,20 +178,23 @@ L_0231:
     VMStackPop 0x8001
     VMStackPop 0x8000
     FlagSet 361
-    ActorMsg 1024, 10, 2, 2, 0
+    // "A lot of items have effects when Pokémon\nhold them, so be on the lookout for[f000]븀\u0000\nthese items![f000]븁\u0000\nWell, work hard to fill up your Pokédex!\nGood luck!"
+    ActorMsg MSGFILE_SCRIPT, 10, 2, 2, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x8024, 1
     VMJump L_02C1
 
 L_02B5:
-    ActorMsg 1024, 18, 2, 2, 0
+    // "Then, what is the Pokémon you chose\nat the beginning of your journey?"
+    ActorMsg MSGFILE_SCRIPT, 18, 2, 2, 0
 
 L_02C1:
     VMJump L_02DD
 
 L_02C7:
-    ActorMsg 1024, 19, 2, 2, 0
+    // "If you want to tell me, please speak\nto me!"
+    ActorMsg MSGFILE_SCRIPT, 19, 2, 2, 0
     LastKeyWait
     MsgWinCloseAll
     WorkSetConst 0x8024, 1
@@ -188,7 +206,8 @@ L_02E3:
     VMJump L_02F9
 
 L_02E9:
-    ActorMsg 1024, 10, 2, 2, 0
+    // "A lot of items have effects when Pokémon\nhold them, so be on the lookout for[f000]븀\u0000\nthese items![f000]븁\u0000\nWell, work hard to fill up your Pokédex!\nGood luck!"
+    ActorMsg MSGFILE_SCRIPT, 10, 2, 2, 0
     LastKeyWait
     MsgWinCloseAll
 
@@ -201,7 +220,8 @@ Script_6:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "I am a janitorial man. ♪\nI make everything spick and span. ♪[f000]븁\u0000"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -218,8 +238,10 @@ Script_7:
     ActorCmdWait
     ActorCmdExec 3, Movement_047C
     ActorCmdWait
-    ActorMsg 1024, 0, 3, 0, 0
-    ActorMsg 1024, 1, 3, 0, 0
+    // "People who work in this building have\nPokémon battles, not opinion battles.[f000]븁\u0000\nYou appear to be strong, but if you go\nupstairs, please be extra careful.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 0, 3, 0, 0
+    // "Oh, yes! If you'd like, you should\nhave your Pokémon hold this![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 1, 3, 0, 0
     MsgWinCloseAll
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -228,8 +250,10 @@ Script_7:
     RTCallGlobal 2805
     VMStackPop 0x8001
     VMStackPop 0x8000
-    ActorMsg 1024, 2, 3, 0, 0
-    ActorMsg 1024, 3, 3, 0, 0
+    // "That's the Exp. Share![f000]븁\u0000\nA Pokémon holding an Exp. Share gets\nsome of the Exp. Points from every[f000]븀\u0000\nbattle, even if it's not involved.[f000]븁\u0000\nIt may be useful for\nraising weak Pokémon![f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 3, 0, 0
+    // "I am a janitorial man. ♪\nI make everything spick and span. ♪[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 3, 3, 0, 0
     MsgWinCloseAll
     EvCameraInit
     EvCameraUnbind
@@ -239,8 +263,8 @@ Script_7:
     ActorCmdWait
     VMStackPush 0x8021
     VMStackPushConst 7
-    VMStackCmp 5
-    VMJumpIf 255, L_03EC
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_03EC
     ActorCmdExec 3, Movement_0474
     ActorCmdWait
 
@@ -300,14 +324,15 @@ Script_8:
     ActorSetEyeToEye
     VMStackPush 0x40e2
     VMStackPushConst 6
-    VMStackCmp 5
+    VMStackCmp CMP_NE
     VMStackPushFlag 314
     VMStackPushConst 0
-    VMStackCmp 1
-    VMStackCmp 7
-    VMJumpIf 255, L_04DB
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_04DB
     SEPlay 1690
-    ParentActorMsg 1024, 20, 0, 0
+    // "I'm from the Castelia Harlequin Hunt![f000]븁\u0000\nYou found the Battle Company\nHarlequin! All riiight!"
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     FlagSet 314
     WorkAdd 0x40e2, 1
     SEWait
@@ -316,7 +341,8 @@ Script_8:
     VMJump L_04E9
 
 L_04DB:
-    ParentActorMsg 1024, 21, 0, 0
+    // "Battle Company develops many\ndifferent items for Pokémon and Trainers!"
+    ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
     LastKeyWait
     MsgWinCloseAll
 

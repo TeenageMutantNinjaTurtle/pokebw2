@@ -16,33 +16,34 @@ Script_1:
     MusicalIsPropOwned 96, 0x4004
     VMStackPush 0x4001
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4002
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4003
     VMStackPushConst 1
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x4004
     VMStackPushConst 1
-    VMStackCmp 1
-    VMStackCmp 7
-    VMStackCmp 7
-    VMStackCmp 7
-    VMJumpIf 255, L_007A
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMStackCmp CMP_AND
+    VMJumpIf CMP_STACK, L_007A
     WorkSetConst 0x4084, 1
 
 L_007A:
-    ItemCheckAmount 578, 1, 0x8010
+    ItemCheckAmount ITEM_PROP_CASE, 1, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_0222
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0222
     VMStackPush 0x4084
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00BE
-    ActorMsg 1024, 6, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00BE
+    // "You know what? I'm a huge musical fan! ♪[f000]븁\u0000\nI want people all over the world\nto enjoy musicals. ♪"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_021C
@@ -50,32 +51,36 @@ L_007A:
 L_00BE:
     VMStackPushFlag 2730
     VMStackPushConst 1
-    VMStackCmp 1
-    VMJumpIf 255, L_00E7
-    ActorMsg 1024, 5, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00E7
+    // "You know what? I'm a huge musical fan! ♪[f000]븁\u0000\nIf you come see me again tomorrow,\nI'll give you a different Prop! ♪"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_021C
 
 L_00E7:
-    ActorMsg 1024, 1, 0, 0, 0
+    // "Know what? I am a huge musical fan! ♪[f000]븁\u0000\nOh, you have a Prop Case! You must be\na huge musical fan, too! ♪[f000]븁\u0000\nWould you like a new Prop to use\nin the musical?"
+    ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     WorkSetConst 0x8020, 0
     YesNoWin 0x8020
     VMStackPush 0x8020
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_020C
-    ActorMsg 1024, 2, 0, 0, 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_020C
+    // "I am so glad! ♪ You are also a huge\nmusical fan! ♪[f000]븁\u0000\nYou should try putting various Props\non your Pokémon! That would be fun. ♪[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
     ActorMsgClose
     WorkSetConst 0x8021, 0
     VMStackPush 0x4001
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_015D
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_015D
     WorkSetConst 0x8008, 99
     WorkSetConst 0x8009, 1
     RTCallGlobal 10466
-    ActorMsg 1024, 5, 0, 0, 0
+    // "You know what? I'm a huge musical fan! ♪[f000]븁\u0000\nIf you come see me again tomorrow,\nI'll give you a different Prop! ♪"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0202
@@ -83,12 +88,13 @@ L_00E7:
 L_015D:
     VMStackPush 0x4002
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0196
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0196
     WorkSetConst 0x8008, 98
     WorkSetConst 0x8009, 1
     RTCallGlobal 10466
-    ActorMsg 1024, 5, 0, 0, 0
+    // "You know what? I'm a huge musical fan! ♪[f000]븁\u0000\nIf you come see me again tomorrow,\nI'll give you a different Prop! ♪"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0202
@@ -96,12 +102,13 @@ L_015D:
 L_0196:
     VMStackPush 0x4003
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_01CF
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01CF
     WorkSetConst 0x8008, 95
     WorkSetConst 0x8009, 1
     RTCallGlobal 10466
-    ActorMsg 1024, 5, 0, 0, 0
+    // "You know what? I'm a huge musical fan! ♪[f000]븁\u0000\nIf you come see me again tomorrow,\nI'll give you a different Prop! ♪"
+    ActorMsg MSGFILE_SCRIPT, 5, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_0202
@@ -109,12 +116,13 @@ L_0196:
 L_01CF:
     VMStackPush 0x4004
     VMStackPushConst 0
-    VMStackCmp 1
-    VMJumpIf 255, L_0202
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0202
     WorkSetConst 0x8008, 96
     WorkSetConst 0x8009, 1
     RTCallGlobal 10466
-    ActorMsg 1024, 6, 0, 0, 0
+    // "You know what? I'm a huge musical fan! ♪[f000]븁\u0000\nI want people all over the world\nto enjoy musicals. ♪"
+    ActorMsg MSGFILE_SCRIPT, 6, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -123,7 +131,8 @@ L_0202:
     VMJump L_021C
 
 L_020C:
-    ActorMsg 1024, 4, 0, 0, 0
+    // "What?[f000]븁\u0000\nDon't you know how cute Pokémon\nwith Props are?!"
+    ActorMsg MSGFILE_SCRIPT, 4, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -131,7 +140,8 @@ L_021C:
     VMJump L_0232
 
 L_0222:
-    ActorMsg 1024, 0, 0, 0, 0
+    // "Know what? I am a huge musical fan! ♪[f000]븁\u0000\nWhat's this? What's this, what's this? ♪[f000]븁\u0000\nOh, you don't have a Prop Case![f000]븁\u0000\nWhy don't you go watch the musical\nin Nimbasa City?"
+    ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -146,7 +156,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "If you have a lot of Props, it makes you\nwant to put them on Pokémon.[f000]븁\u0000\nIf you put Props on Pokémon, it makes\nyou want to participate in a musical![f000]븁\u0000\nDon't you agree?"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -157,7 +168,8 @@ Script_3:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "Know what? I hear there is a Prop\nyou can get on your birthday!"
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

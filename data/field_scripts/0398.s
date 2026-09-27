@@ -12,8 +12,8 @@ Script_1:
     FlagSet 682
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0037
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0037
     FlagReset 682
 
 L_0037:
@@ -23,7 +23,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "When you walk on snow,\nyour feet sink deeper than usual.[f000]븁\u0000\nThe sensation is so powerful\nand gripping!"
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
@@ -35,11 +36,12 @@ Script_3:
     RTCGetSeason 0x8020
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 1
-    VMJumpIf 255, L_0088
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0088
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Whiteness of snow hides impurities,\nand blackness of night conceals worries."
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     VMJump L_009C
@@ -47,7 +49,8 @@ Script_3:
 L_0088:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "In winter, snow piles up\nall over Twist Mountain.[f000]븁\u0000\nIt gets totally white!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
 
@@ -60,7 +63,8 @@ Script_4:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Twist and twist, twisting mountain. ♪\nSpiraling up like a fountain. ♪"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents

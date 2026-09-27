@@ -33,7 +33,8 @@
 Script_1:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 20, 0, 0
+    // "Every day, everybody goes their own way."
+    ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -41,7 +42,8 @@ Script_1:
 Script_2:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 17, 0, 0
+    // "People from all over the world\ngather here in Castelia City.[f000]븁\u0000\nThis city is like a little world map!"
+    ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -49,7 +51,8 @@ Script_2:
 Script_3:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 12, 0, 0
+    // "You need to enjoy your work.\nOtherwise life is boring![f000]븁\u0000\nBecause we spend most of the day\nat work."
+    ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -57,7 +60,8 @@ Script_3:
 Script_4:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 21, 0, 0
+    // "My business card has a picture of\nthe Pokémon I like best."
+    ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -65,7 +69,8 @@ Script_4:
 Script_21:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 15, 0, 0
+    // "I traveled with my Pokémon\nfor the first time in a long time.[f000]븁\u0000\nIt was fun!"
+    ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -73,7 +78,8 @@ Script_21:
 Script_22:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 4, 0, 0
+    // "Every day, the city has more people..."
+    ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -81,7 +87,8 @@ Script_22:
 Script_5:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 1, 0, 0
+    // "Pokémon battles with my sisters!\nThe more we battle,[f000]븀\u0000\nthe more we care about each other!"
+    ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -89,7 +96,8 @@ Script_5:
 Script_6:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 9, 0, 0
+    // "Pokémon Eggs!\nPokémon Eggs!"
+    ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -97,7 +105,8 @@ Script_6:
 Script_7:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 8, 0, 0
+    // "I want to see you soon..."
+    ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -105,7 +114,8 @@ Script_7:
 Script_8:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 22, 0, 0
+    // "I always walk here, so I can walk\neven with my eyes closed!"
+    ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -113,7 +123,8 @@ Script_8:
 Script_23:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 23, 0, 0
+    // "I'll turn an old subway train into\na habitat for fish Pokémon!"
+    ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -121,7 +132,8 @@ Script_23:
 Script_24:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 6, 0, 0
+    // "This city is a sleepless city...\nBut I need to sleep to dream..."
+    ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -129,7 +141,8 @@ Script_24:
 Script_9:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 3, 0, 0
+    // "They say time is money. But when you\nspend time, you can't get it back.[f000]븀\u0000\nI don't want to regret that."
+    ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -137,7 +150,8 @@ Script_9:
 Script_10:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 7, 0, 0
+    // "I wish there were shoes\nthat recharge energy by walking!"
+    ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -145,7 +159,8 @@ Script_10:
 Script_11:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 14, 0, 0
+    // "Have you had a Pokémon battle\nwith the Gym Leader, Burgh?[f000]븁\u0000\nHe's a strange one, but he likes Pokémon\nvery much."
+    ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -153,7 +168,8 @@ Script_11:
 Script_12:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 16, 0, 0
+    // "I will go to the Hoenn region\nfor business."
+    ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -161,7 +177,8 @@ Script_12:
 Script_25:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Brisk walking is a part of\nNinja training."
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -169,7 +186,8 @@ Script_25:
 Script_26:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 13, 0, 0
+    // "I want to go to Pokéstar Studios."
+    ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -177,7 +195,8 @@ Script_26:
 Script_13:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 10, 0, 0
+    // "It's your choice to work frantically.\nIt's also your choice to slack off."
+    ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -185,7 +204,8 @@ Script_13:
 Script_14:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 11, 0, 0
+    // "Which should I watch, baseball\nor basketball?"
+    ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -193,7 +213,8 @@ Script_14:
 Script_15:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 5, 0, 0
+    // "When I work, I do it all out!\nWhen I loaf, I do it all out, too!"
+    ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -201,7 +222,8 @@ Script_15:
 Script_16:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 2, 0, 0
+    // "Hello! Hello!\nGreetings are important, aren't they?"
+    ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -209,7 +231,8 @@ Script_16:
 Script_27:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 18, 0, 0
+    // "Castelia, Nimbasa,\nNimbasa, Castelia..."
+    ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -217,7 +240,8 @@ Script_27:
 Script_28:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 19, 0, 0
+    // "Even in the crowd of people,\ndon't lose sight of yourself!"
+    ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -225,7 +249,8 @@ Script_28:
 Script_17:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 24, 0, 0
+    // "Hey, hey, kid!\nIt's dangerous!"
+    ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -233,7 +258,8 @@ Script_17:
 Script_18:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 25, 0, 0
+    // "Will you become a motorbike rider\nwhen you grow up?"
+    ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -241,7 +267,8 @@ Script_18:
 Script_19:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 26, 0, 0
+    // "The night wind is piercing right through\nme... My motorbike is freezing, too..."
+    ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt
@@ -249,7 +276,8 @@ Script_19:
 Script_20:
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 27, 0, 0
+    // "Zowieee!"
+    ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
     LastKeyWait
     ActorMsgClose
     VMHalt

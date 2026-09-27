@@ -9,12 +9,12 @@ Script_1:
     RTCGetDayPart 0x8020
     VMStackPush 0x8020
     VMStackPushConst 3
-    VMStackCmp 1
+    VMStackCmp CMP_EQ
     VMStackPush 0x8020
     VMStackPushConst 4
-    VMStackCmp 1
-    VMStackCmp 6
-    VMJumpIf 255, L_0041
+    VMStackCmp CMP_EQ
+    VMStackCmp CMP_OR
+    VMJumpIf CMP_STACK, L_0041
     FlagReset 786
     VMJump L_0045
 
@@ -28,7 +28,8 @@ Script_2:
     ActorsPauseAll
     SEPlay 1351
     ActorSetEyeToEye
-    ParentActorMsg 1024, 0, 0, 0
+    // "Of course it's dangerous\nto go out at night.[f000]븁\u0000\nMaybe you should stay inside\nduring the afternoon, too.[f000]븀\u0000\nThen there's no danger at all!"
+    ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
     ActorMsgClose
     FinishAllEvents
