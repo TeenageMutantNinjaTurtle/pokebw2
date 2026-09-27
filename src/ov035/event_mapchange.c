@@ -42,6 +42,14 @@ typedef struct {
 } GameSystemProcData;
 
 typedef struct {
+    u16 componentId;
+    u8 componentIsLine;
+    u8 railDirection;
+    s16 posSide;
+    u16 posFront;
+} RailPosition;
+
+typedef struct {
     u32 changeType;
     s16 zoneId;
     u16 warpId;
@@ -111,7 +119,13 @@ typedef struct {
 
 typedef void (*DSProtCallback)(EventMapChange *wk, GameSystem *gsys);
 
-#define ZONE_SPAWN_CHANGE_TYPE_WARP 1
+// Spawns at a position instead of a warp, warpId is -1
+#define ZONE_SPAWN_CHANGE_TYPE_POSITION 1
+
+#define WARP_DIR_UP 1
+#define WARP_DIR_DOWN 2
+
+#define FX32_CONST(x) ((s32)((x) * 4096))
 
 #define EVENT_FLAG_CONTINUE_SCRIPT 0x965
 #define EVENT_WORK_CONTINUE_SCRIPT 0x4041
@@ -303,6 +317,42 @@ extern void FieldSubscreen_ChangeImm(FieldSubscreen *subscreen, u32 mode);
 extern void func_ov028_02170ec8(GameSystem *gsys);
 extern EncountSystem *Field_GetEncountSystem(Field *field);
 extern void func_ov036_021a2398(EncountSystem *encount, u32 a1);
+extern u16 ConvDirToWarpDir(u16 dir);
+extern void CreateZoneChangeData(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpDir, s32 x, s32 y, s32 z);
+extern void func_0201906c(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpDir, u16 componentId, u16 posFront,
+                          s16 posSide);
+extern ZoneSpawnInfo *GameData_GetEscapeRopeZone(GameData *gameData);
+extern u16 GetReturnLocationIdx(GameData *gameData);
+extern u16 GetRespawnZoneMainZone(u16 index);
+extern void LoadZoneSpawnInfoCheckRail(ZoneSpawnInfo *spawn, u16 zoneId);
+typedef struct HighLinkSave HighLinkSave;
+extern VecFx32 *PlayerState_GetWPos(PlayerState *playerState);
+extern u16 PlayerState_GetZoneID(PlayerState *playerState);
+extern u16 PlayerState_CalcDirection(PlayerState *playerState);
+extern void GameData_SetNextZone(GameData *gameData, ZoneSpawnInfo *spawn);
+extern void GameData_SetEntralinkParentSpawnInfo(GameData *gameData, ZoneSpawnInfo *spawn);
+extern ZoneSpawnInfo *GameData_GetEntralinkParentSpawnInfo(GameData *gameData);
+extern HighLinkSave *getHighLinkBlockAddress(SaveControl *save);
+extern u32 func_02017a40(GameData *gameData);
+extern void func_0200c6f0(HighLinkSave *highLink, u32 a1, u32 a2);
+extern void func_0202be00(void *comm);
+extern void GameData_SetForceSeasonSync(GameData *gameData, BOOL force);
+extern void func_020175d8(GameData *gameData, u32 a1);
+extern void func_02017608(GameData *gameData, u32 a1);
+extern void func_020175c4(GameData *gameData, u32 a1);
+extern u32 Field_GetResolvedControllerTypeID(Field *field);
+extern VecFx32 *GetMModelWPosPtr(FieldActor *actor);
+extern void func_ov036_0219ad24(FieldPlayer *player, RailPosition *pos);
+GameEvent *EventEntralinkWarpIn_CreateCore(GameSystem *gsys, Field *field, ZoneSpawnInfo *spawn, u32 a3, u32 a4);
+GameEvent *EventEntralinkWarp_Create(GameSystem *gsys, Field *field, ZoneSpawnInfo *spawn);
+void EventEntralinkWarp_CreateReturnLocation(ZoneSpawnInfo *spawn, Field *field);
+extern BOOL IsWarpDestId256(ZoneWarp *warp);
+extern void SetupWarpParamByWarp(ZoneWarp *warp, ZoneSpawnInfo *spawn, u32 a2);
+extern ZoneSpawnInfo *GetOutboundWarpRememberSpawnInfo(GameData *gameData);
+extern BOOL GetIsZoneMatrix0(u16 zoneId);
+extern void GameData_SetEscapeRopeZone(GameData *gameData, ZoneSpawnInfo *spawn);
+void func_ov035_0217ebc8(GameData *gameData, ZoneSpawnInfo *spawn);
+void func_ov035_0217ec48(GameData *gameData, ZoneSpawnInfo *spawn);
 void GameData_AdjustPlayerStateOnDiveOut(GameData *gameData);
 void func_ov035_0217ed1c(EventMapChange *wk, GameSystem *gsys);
 void func_ov035_0217eccc(EventMapChange *wk, GameSystem *gsys);
@@ -314,6 +364,13 @@ GameEvent *EventFieldContinue_Create(GameSystem *gsys, GameSystemProcData *procD
 void func_ov035_0217ca2c(GameSystem *gsys);
 void func_ov035_0217cbec(GameSystem *gsys);
 void func_ov035_0217ed20(u16 *out, PlayerInfo *player, SaveControl *save, u32 unused);
+
+// From the NitroSDK
+static inline void VEC_Set(VecFx32 *v, s32 x, s32 y, s32 z) {
+    v->x = x;
+    v->y = y;
+    v->z = z;
+}
 
 static inline void ClearLCDCVram(void) {
     gfxSetLCDCBanks(0x1ff);
@@ -610,7 +667,7 @@ void EventMapChange_SetupWarpSequenceIn(EventMapChange *wk, GameEvent *parent) {
     warp->seasonChanged = (wk->unk40 && wk->seasonChanged) ? TRUE : FALSE;
     warp->startSeason = Season_GetNext(wk->prevSeason);
     warp->endSeason = wk->season;
-    if (wk->spawn.changeType == ZONE_SPAWN_CHANGE_TYPE_WARP) {
+    if (wk->spawn.changeType == ZONE_SPAWN_CHANGE_TYPE_POSITION) {
         warp->transitionType = 0;
     } else {
         warp->transitionType = GetWarpTransitionType(GetZoneWarpByID(GameData_GetEventData(wk->gameData), wk->spawn.warpId));
@@ -1155,4 +1212,296 @@ void InitMapChangeEvent(EventMapChange *wk, GameSystem *gsys) {
     wk->prevSeason = season;
     wk->season = season;
     func_ov036_021a2398(Field_GetEncountSystem(wk->field), 1);
+}
+
+GameEvent *EventMapChangeWarp_CreateGrid(GameSystem *gsys, Field *field, u16 zoneId, const VecFx32 *pos, u16 dir,
+                                         BOOL unk40) {
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventMapChangeWarp_Callback, sizeof(EventMapChange));
+    EventMapChange *wk = GameEvent_GetData(event);
+
+    InitMapChangeEvent(wk, gsys);
+    dir = ConvDirToWarpDir(dir);
+    CreateZoneChangeData(&wk->spawn, zoneId, dir, pos->x, pos->y, pos->z);
+    wk->unk2C = 0;
+    wk->unk40 = unk40;
+    wk->lensFlareStarted = TRUE;
+    return event;
+}
+
+GameEvent *EventMapChangeWarp_CreateRail(GameSystem *gsys, Field *field, u16 zoneId, const RailPosition *pos, u16 dir,
+                                         BOOL unk40) {
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventMapChangeWarp_Callback, sizeof(EventMapChange));
+    EventMapChange *wk = GameEvent_GetData(event);
+
+    InitMapChangeEvent(wk, gsys);
+    dir = ConvDirToWarpDir(dir);
+    func_0201906c(&wk->spawn, zoneId, dir, pos->componentId, pos->posFront, pos->posSide);
+    wk->unk2C = 0;
+    wk->unk40 = unk40;
+    wk->lensFlareStarted = TRUE;
+    return event;
+}
+
+GameEvent *EventMapChange_CreateRail(GameSystem *gsys, Field *field, u16 zoneId, const RailPosition *pos, u16 dir,
+                                     BOOL unk40) {
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventMapChange_Callback, sizeof(EventMapChange));
+    EventMapChange *wk = GameEvent_GetData(event);
+
+    InitMapChangeEvent(wk, gsys);
+    dir = ConvDirToWarpDir(dir);
+    func_0201906c(&wk->spawn, zoneId, dir, pos->componentId, pos->posFront, pos->posSide);
+    wk->unk2C = 0;
+    wk->unk40 = unk40;
+    return event;
+}
+
+GameEvent *EventMapChangeQuicksand_Create(GameSystem *gsys, Field *field, const VecFx32 *effectPos, u16 zoneId,
+                                          VecFx32 *pos) {
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventMapChangeQuicksand_Callback, sizeof(EventMapChange));
+    EventMapChange *wk = GameEvent_GetData(event);
+
+    InitMapChangeEvent(wk, gsys);
+    CreateZoneChangeData(&wk->spawn, zoneId, 1, pos->x, pos->y, pos->z);
+    VEC_Set(&wk->unk34, effectPos->x, effectPos->y, effectPos->z);
+    wk->unk2C = 0;
+    return event;
+}
+
+GameEvent *EventMapChangeEscapeRope_Create(Field *field, GameSystem *gsys) {
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventMapChangeEscapeRope_Callback, sizeof(EventMapChange));
+    EventMapChange *wk = GameEvent_GetData(event);
+
+    InitMapChangeEvent(wk, gsys);
+    wk->spawn = *GameData_GetEscapeRopeZone(wk->gameData);
+    func_ov035_0217ec48(wk->gameData, &wk->spawn);
+    wk->spawn.changeType = ZONE_SPAWN_CHANGE_TYPE_POSITION;
+    wk->unk2C = 0;
+    wk->unk40 = TRUE;
+    return event;
+}
+
+GameEvent *EventMapChangeDig_Create(GameSystem *gsys) {
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventMapChangeDig_Callback, sizeof(EventMapChange));
+    EventMapChange *wk = GameEvent_GetData(event);
+
+    InitMapChangeEvent(wk, gsys);
+    wk->spawn = *GameData_GetEscapeRopeZone(wk->gameData);
+    func_ov035_0217ec48(wk->gameData, &wk->spawn);
+    wk->spawn.changeType = ZONE_SPAWN_CHANGE_TYPE_POSITION;
+    wk->unk2C = 0;
+    wk->unk40 = TRUE;
+    return event;
+}
+
+GameEvent *EventMapChangeTeleport_Create(GameSystem *gsys) {
+    u16 returnLocation = GetReturnLocationIdx(GSYS_GetGameData(gsys));
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventMapChangeTeleport_Callback, sizeof(EventMapChange));
+    EventMapChange *wk = GameEvent_GetData(event);
+
+    InitMapChangeEvent(wk, gsys);
+    LoadZoneSpawnInfoCheckRail(&wk->spawn, GetRespawnZoneMainZone(returnLocation));
+    wk->spawn.changeType = ZONE_SPAWN_CHANGE_TYPE_POSITION;
+    wk->unk2C = 0;
+    return event;
+}
+
+GameEvent *EventMapChangeDiveOut_Create(GameSystem *gsys) {
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventMapChangeDiveOut_Callback, sizeof(EventMapChange));
+    EventMapChange *wk = GameEvent_GetData(event);
+
+    InitMapChangeEvent(wk, gsys);
+    wk->spawn = *GameData_GetNextZone(wk->gameData);
+    wk->spawn.changeType = ZONE_SPAWN_CHANGE_TYPE_POSITION;
+    wk->spawn.warpDir = WARP_DIR_DOWN;
+    wk->unk2C = 0;
+    return event;
+}
+
+GameEvent *EventMapChangeDiveIn_Create(GameSystem *gsys, u16 zoneId) {
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventMapChangeDiveIn_Callback, sizeof(EventMapChange));
+    EventMapChange *wk = GameEvent_GetData(event);
+    ZoneSpawnInfo returnSpawn;
+    PlayerState *playerState;
+    VecFx32 *pos;
+    u16 currentZoneId;
+
+    InitMapChangeEvent(wk, gsys);
+    LoadZoneSpawnInfoCheckRail(&wk->spawn, zoneId);
+    wk->unk2C = 0;
+    wk->spawn.warpDir = WARP_DIR_UP;
+
+    // Resurface where the dive started
+    playerState = GameData_GetPlayerState(wk->gameData);
+    pos = PlayerState_GetWPos(playerState);
+    currentZoneId = PlayerState_GetZoneID(playerState);
+    CreateZoneChangeData(&returnSpawn, currentZoneId, PlayerState_CalcDirection(playerState), pos->x, pos->y, pos->z);
+    GameData_SetNextZone(wk->gameData, &returnSpawn);
+    return event;
+}
+
+GameEvent *EventMapChangeWarpPad_Create(GameSystem *gsys, Field *field, u16 zoneId, const VecFx32 *pos, u16 dir) {
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventMapChangeWarpPad_Callback, sizeof(EventMapChange));
+    EventMapChange *wk = GameEvent_GetData(event);
+
+    InitMapChangeEvent(wk, gsys);
+    dir = ConvDirToWarpDir(dir);
+    CreateZoneChangeData(&wk->spawn, zoneId, dir, pos->x, pos->y, pos->z);
+    wk->unk2C = 5;
+    wk->unk40 = FALSE;
+    wk->lensFlareStarted = TRUE;
+    return event;
+}
+
+GameEvent *EventUnionRoomWarp_Create(GameSystem *gsys) {
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventUnionRoomWarp_Callback, sizeof(EventMapChange));
+    EventMapChange *wk = GameEvent_GetData(event);
+
+    InitMapChangeEvent(wk, gsys);
+    CreateZoneChangeData(&wk->spawn, 0x1a6, ConvDirToWarpDir(0), FX32_CONST(184), 0, FX32_CONST(248));
+    wk->unk2C = 0;
+    return event;
+}
+
+GameEvent *EventMapChangeUnionRoomExit_Create(GameSystem *gsys) {
+    ZoneSpawnInfo *next = GameData_GetNextZone(GSYS_GetGameData(gsys));
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventMapChangeUnionRoomExit_Callback, sizeof(EventMapChange));
+    EventMapChange *wk = GameEvent_GetData(event);
+
+    InitMapChangeEvent(wk, gsys);
+    wk->spawn = *next;
+    return event;
+}
+
+GameEvent *EventEntralinkWarpIn_Create(GameSystem *gsys, u16 zoneId, VecFx32 *pos, u32 a3) {
+    Field *field = GSYS_GetField(gsys);
+    GameData *gameData = GSYS_GetGameData(gsys);
+    VecFx32 spawnPos = *pos;
+    ZoneSpawnInfo returnSpawn;
+    ZoneSpawnInfo spawn;
+
+    EventEntralinkWarp_CreateReturnLocation(&returnSpawn, field);
+    GameData_SetEntralinkParentSpawnInfo(gameData, &returnSpawn);
+    func_0200c6f0(getHighLinkBlockAddress(GameData_GetSaveControl(gameData)), func_02017a40(gameData), 0);
+    CreateZoneChangeData(&spawn, zoneId, ConvDirToWarpDir(0), spawnPos.x, spawnPos.y, spawnPos.z);
+    return EventEntralinkWarpIn_CreateCore(gsys, field, &spawn, a3, 0);
+}
+
+GameEvent *EventEntralinkWarp_CreateOut(GameSystem *gsys) {
+    GameData *gameData = GSYS_GetGameData(gsys);
+    Field *field = GSYS_GetField(gsys);
+    ZoneSpawnInfo spawn = *GameData_GetEntralinkParentSpawnInfo(gameData);
+    GameEvent *event = EventEntralinkWarp_Create(gsys, field, &spawn);
+    void *comm = GSYS_GetGameCommSystem(gsys);
+
+    if (!GameCommSys_BootCheck(comm)) {
+        func_0202be00(comm);
+    }
+    GameData_SetForceSeasonSync(gameData, FALSE);
+    func_020175d8(gameData, 0);
+    func_02017608(gameData, 0);
+    func_020175c4(gameData, 1);
+    return event;
+}
+
+void EventEntralinkWarp_CreateReturnLocation(ZoneSpawnInfo *spawn, Field *field) {
+    FieldPlayer *player = Field_GetPlayer(field);
+
+    if (Field_GetResolvedControllerTypeID(field) == 0) {
+        VecFx32 *pos = GetMModelWPosPtr(FieldPlayer_GetActor(player));
+
+        CreateZoneChangeData(spawn, Field_GetPlayerStateZoneID(field), WARP_DIR_DOWN, pos->x, pos->y, pos->z);
+    } else {
+        RailPosition railPos;
+
+        func_ov036_0219ad24(player, &railPos);
+        func_0201906c(spawn, Field_GetPlayerStateZoneID(field), WARP_DIR_DOWN, railPos.componentId, railPos.posFront,
+                      railPos.posSide);
+    }
+}
+
+GameEvent *EventMapChangeWarp_CreateFromEntity(GameSystem *gsys, Field *field, ZoneWarp *warp, u32 a3) {
+    EventMapChange *wk;
+    GameEvent *event;
+    ZoneSpawnInfo *remember;
+    GameData *gameData;
+
+    gameData = GSYS_GetGameData(gsys);
+    event = GameEvent_Create(gsys, NULL, EventMapChangeWarp_Callback, sizeof(EventMapChange));
+    wk = GameEvent_GetData(event);
+    InitMapChangeEvent(wk, gsys);
+    wk->unk40 = TRUE;
+    if (IsWarpDestId256(warp)) {
+        wk->spawn = *GameData_GetNextZone(gameData);
+    } else {
+        SetupWarpParamByWarp(warp, &wk->spawn, a3);
+    }
+    wk->unk2C = GetWarpTransitionType(warp);
+
+    // Remember the exit when going from the overworld into a building or cave
+    remember = GetOutboundWarpRememberSpawnInfo(gameData);
+    if (GetIsZoneMatrix0(remember->zoneId) == TRUE && GetIsZoneMatrix0(wk->spawn.zoneId) == FALSE) {
+        GameData_SetEscapeRopeZone(gameData, remember);
+    }
+    func_ov035_0217ebc8(gameData, &wk->spawn);
+    FieldStatus_SetBusyFlag(GameData_GetFieldStatus(gameData), 2);
+    return event;
+}
+
+GameEvent *EventMapChange_CreateGrid(GameSystem *gsys, Field *field, u8 mode, u16 zoneId, VecFx32 *pos, u16 dir) {
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventMapChange_Callback, sizeof(EventMapChange));
+    EventMapChange *wk = GameEvent_GetData(event);
+
+    InitMapChangeEvent(wk, gsys);
+    dir = ConvDirToWarpDir(dir);
+    CreateZoneChangeData(&wk->spawn, zoneId, dir, pos->x, pos->y, pos->z);
+    wk->unk2C = 0;
+    wk->mode = mode;
+    wk->lensFlareStarted = TRUE;
+    return event;
+}
+
+GameEvent *EventMapChange_CreateGridDefault(GameSystem *gsys, Field *field, u16 zoneId, VecFx32 *pos, u16 dir) {
+    return EventMapChange_CreateGrid(gsys, field, 0, zoneId, pos, dir);
+}
+
+GameEvent *EventMapChange_CreateForFly(GameSystem *gsys, Field *field, u32 unused, ZoneSpawnInfo *spawn, u16 warpDir) {
+    GameData *gameData = GSYS_GetGameData(gsys);
+    GameEvent *event;
+    EventMapChange *wk;
+
+    SetPlayerSpecialState(GameData_GetPlayerState(gameData), 0);
+    event = GameEvent_Create(gsys, NULL, EventMapChange_Callback, sizeof(EventMapChange));
+    wk = GameEvent_GetData(event);
+    InitMapChangeEvent(wk, gsys);
+    wk->spawn = *spawn;
+    wk->spawn.warpDir = warpDir;
+    wk->unk2C = 0;
+    wk->mode = 1;
+    func_ov035_0217ebc8(gameData, &wk->spawn);
+    return event;
+}
+
+GameEvent *EventMapChangeFakeWarp_Create(GameSystem *gsys, Field *field, u16 zoneId, const VecFx32 *pos, u16 dir) {
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventMapChangeFakeWarp_Callback, sizeof(EventMapChange));
+    EventMapChange *wk = GameEvent_GetData(event);
+
+    InitMapChangeEvent(wk, gsys);
+    dir = ConvDirToWarpDir(dir);
+    CreateZoneChangeData(&wk->spawn, zoneId, dir, pos->x, pos->y, pos->z);
+    wk->unk2C = 0;
+    wk->lensFlareStarted = TRUE;
+    return event;
+}
+
+GameEvent *EventMapChangeEnding_Create(GameSystem *gsys, Field *field, u16 zoneId, const VecFx32 *pos, u16 dir) {
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventMapChangeEnding_Callback, sizeof(EventMapChange));
+    EventMapChange *wk = GameEvent_GetData(event);
+
+    InitMapChangeEvent(wk, gsys);
+    dir = ConvDirToWarpDir(dir);
+    CreateZoneChangeData(&wk->spawn, zoneId, dir, pos->x, pos->y, pos->z);
+    wk->unk2C = 0;
+    wk->mode = 0;
+    wk->lensFlareStarted = TRUE;
+    return event;
 }
