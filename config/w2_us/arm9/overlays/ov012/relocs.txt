@@ -1944,7 +1944,8 @@ from:0x02157b84 kind:thumb_call to:0x02154950 module:overlay(12)
 from:0x02157b92 kind:thumb_call to:0x02016af0 module:main
 from:0x02157ba2 kind:thumb_call to:0x02016ea0 module:main
 from:0x02157baa kind:thumb_call to:0x021538c0 module:overlay(12)
-from:0x02157bb8 kind:load to:0x0214f63d module:overlays(3,5)
+from:0x02157bb4 kind:overlay_id to:3
+from:0x02157bb8 kind:load to:0x0214f63d module:overlay(3)
 from:0x02157bc4 kind:thumb_call to:0x021551ac module:overlay(12)
 from:0x02157bce kind:thumb_call to:0x02154950 module:overlay(12)
 from:0x02157bd8 kind:thumb_call to:0x0203ce38 module:main

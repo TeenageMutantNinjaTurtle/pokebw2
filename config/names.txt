@@ -25,6 +25,10 @@
 . 0x02037ff4 JoinAvenuePersonList_Free
 . 0x0203802c JoinAvenuePersonList_GetCount
 . 0x02038060 JoinAvenuePersonList_Get
+. 0x0208fe14 BATTLE_VIDEO_PROC_FUNCTIONS
+overlays/ov003 0x0214f500 EventBattleVideo_Callback
+overlays/ov003 0x0214f5bc EventBattleVideo_Create
+overlays/ov003 0x0214f5fc EventBattleVideo_CreateFromArgs
 overlays/ov004 0x0214f500 EventWorldTrade_CreateFromArgs
 overlays/ov004 0x0214f50c EventWorldTrade_Create
 overlays/ov004 0x0214f5d0 EventWorldTrade_Callback
