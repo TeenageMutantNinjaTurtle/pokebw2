@@ -22,6 +22,9 @@ VERSIONS = {
 }
 
 WIBO_VERSION = "1.2.0"
+OBJDIFF_VERSION = "v3.8.1"
+# decomp.me name of the dsi/1.1 compiler, for objdiff's scratch button
+DECOMP_ME_COMPILER = "mwcc_40_1018"
 MWCCARM_URL = "http://decomp.aetias.com/files/mwccarm.zip"
 # Compiler for decompiled code. dsi/1.1 to dsi/1.3p1 generate identical code for everything tested so far,
 # while dsi/1.6 does not match the game.
@@ -106,6 +109,13 @@ def download_tools(tools_dir: Path):
         urllib.request.urlretrieve(url, wibo)
         wibo.chmod(wibo.stat().st_mode | stat.S_IEXEC)
 
+    objdiff = tools_dir / "objdiff-cli"
+    if not objdiff.exists():
+        print(f"Downloading objdiff-cli {OBJDIFF_VERSION}")
+        url = f"https://github.com/encounter/objdiff/releases/download/{OBJDIFF_VERSION}/objdiff-cli-linux-x86_64"
+        urllib.request.urlretrieve(url, objdiff)
+        objdiff.chmod(objdiff.stat().st_mode | stat.S_IEXEC)
+
     mwccarm = tools_dir / "mwccarm"
     if not mwccarm.exists():
         print("Downloading mwccarm")
@@ -175,6 +185,18 @@ def add_version(n: Writer, version: str, dsd: Path) -> tuple[list[Path], list[st
     rom_ok = stamp_dir / "rom.ok"
     n.build([rom_ok], "sha1", [sha1_file], implicit=[rom], variables={"rom": str(rom)})
     n.build([version], "phony", [modules_ok, rom_ok])
+
+    # Context files for decomp.me scratches, made by objdiff
+    for f in files:
+        obj = f["object_to_link"]
+        if obj != f["delink_file"]:
+            source = Path(f["name"])
+            n.build([Path(obj).with_suffix(f".ctx{source.suffix}")], "ctx", [source], variables={"defines": defines})
+
+    # Progress report, compares every delinked object with its compiled counterpart
+    report = build_dir / "report.json"
+    n.build([report], "report", [], implicit=["objdiff.json", *objects, *delink_outputs])
+    n.build([f"{version}_progress"], "progress", [report])
     return [modules_ok, rom_ok], dsd_configs
 
 
@@ -219,6 +241,12 @@ def main():
     n.rule("rom_build", "$dsd rom build --config $in --rom $out", "Building $out")
     n.rule("check_modules", "$dsd check modules --config-path $config --fail && touch $out", "Checking modules")
     n.rule("sha1", "sha1sum --quiet -c $in && touch $out", "Checking $rom")
+    n.rule("ctx", f"$wine {shlex.quote(str(mwcc))} -EP -lang=c99 -gccinc $defines -i include $in "
+           "| grep -v -e '^#line' -e 'prepdump' > $out", "Preprocessing $in")
+    n.rule("objdiff_config", f"$python tools/scripts/objdiff_config.py $version --dsd $dsd "
+           f"--compiler {DECOMP_ME_COMPILER} --c-flags '{' '.join(CC_FLAGS)}' -o $out", "Writing $out")
+    n.rule("report", f"{tools_dir / 'objdiff-cli'} report generate -p . -o $out", "Generating $out")
+    n.rule("progress", "$python tools/scripts/progress.py $in", "Progress")
     n.rule("configure", f"$python configure.py {' '.join(args.versions)}", "Reconfiguring", generator="1")
 
     checks, configs = [], []
@@ -227,9 +255,16 @@ def main():
         checks += version_checks
         configs += version_configs
 
+    # objdiff.json covers one version, the primary one if it is being built
+    objdiff_version = versions[0]
+    n.build(["objdiff.json"], "objdiff_config", configs, implicit=["tools/scripts/objdiff_config.py"],
+            variables={"version": objdiff_version})
+    n.build(["report"], "phony", [Path("build") / objdiff_version / "report.json"])
+    n.build(["progress"], "phony", [f"{objdiff_version}_progress"])
+
     n.build(["build.ninja"], "configure", ["configure.py"], implicit=configs)
     n.build(["check"], "phony", checks)
-    n.default(["check"])
+    n.default(["check", "objdiff.json"])
 
     (ROOT / "build.ninja").write_text(n.out.getvalue())
     print(f"Wrote build.ninja for {', '.join(versions)}, now run ninja")

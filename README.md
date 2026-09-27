@@ -92,6 +92,21 @@ game, ignoring relocated bytes. For example:
 It needs `pyelftools`, `capstone` and `pyyaml`. To look at a function's disassembly, run `dsd dis` into
 `build/asm`, then use `tools/scripts/show_func.py`.
 
+## Decompiling
+
+Matching is checked per function with [objdiff](https://github.com/encounter/objdiff). A default `ninja` also writes
+`objdiff.json` for the first configured version, Black 2 by default, which the objdiff GUI opens from this directory.
+
+1. Move a range of functions into a source file by adding it to the module's `delinks.txt`, as `src/ov004/ov004.c`
+   is in `config/b2_us/arm9/overlays/ov004/delinks.txt`. Mark it `complete` once all its functions match. Add the
+   same entry to `config/w2_us` with White 2's addresses, which `build/version_map.tsv` lists.
+2. Write the C code. objdiff rebuilds the object with ninja whenever a source file changes, and diffs every function
+   against the original.
+3. objdiff can also create a decomp.me scratch for a function. The scratch uses compiler `mwcc_40_1018` (dsi/1.1),
+   and a context file preprocessed from the source.
+
+`ninja progress` prints how much of the game matches, from the report at `build/b2_us/report.json`.
+
 ## Versions
 
 Black 2 is the primary version. White 2 is the same program: of its 41,423 functions, 41,311 are byte-identical to
