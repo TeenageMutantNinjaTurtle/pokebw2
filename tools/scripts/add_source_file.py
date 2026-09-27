@@ -68,7 +68,7 @@ def map_range(name, start, end, module, other, primary_config, other_config, fun
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("source", help="path of the source file, e.g. src/ov279/ov279.c")
+    parser.add_argument("source", help="path of the source file, e.g. src/ov279/new_game.c")
     parser.add_argument("module", help="module path in the config, e.g. overlays/ov279 or . for ARM9 main")
     parser.add_argument("sections", nargs="+", help="section ranges in the primary version, e.g. .text:0x021e8be0-0x021e8c74")
     parser.add_argument("--incomplete", action="store_true", help="do not mark the file as complete")
