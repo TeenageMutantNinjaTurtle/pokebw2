@@ -1,6 +1,6 @@
-func_ov294_021a1b20 kind:function(thumb,size=0xa4) addr:0x021a1ba0
-func_ov294_021a1bc4 kind:function(thumb,size=0x4c) addr:0x021a1c44
-func_ov294_021a1c10 kind:function(thumb,size=0x40) addr:0x021a1c90
+IntroProc_Init kind:function(thumb,size=0xa4) addr:0x021a1ba0
+IntroProc_Exit kind:function(thumb,size=0x4c) addr:0x021a1c44
+IntroProc_Main kind:function(thumb,size=0x40) addr:0x021a1c90
 func_ov294_021a1c50 kind:function(thumb,size=0xa8) addr:0x021a1cd0
 func_ov294_021a1cf8 kind:function(thumb,size=0xdc) addr:0x021a1d78
 func_ov294_021a1dd4 kind:function(thumb,size=0x5c) addr:0x021a1e54
@@ -130,9 +130,9 @@ func_ov294_021a3bf8 kind:function(thumb,size=0xac) addr:0x021a3c78
 func_ov294_021a3ca4 kind:function(thumb,size=0x10) addr:0x021a3d24
 func_ov294_021a3cb4 kind:function(thumb,size=0x8) addr:0x021a3d34
 func_ov294_021a3cbc kind:function(thumb,size=0x38) addr:0x021a3d3c
-data_ov294_021a3cf4 kind:data(any) addr:0x021a3d74
-data_ov294_021a3cf8 kind:data(any) addr:0x021a3d78
-data_ov294_021a3d04 kind:data(any) addr:0x021a3d84
+INTRO_SOUND_COUNT kind:data(any) addr:0x021a3d74
+INTRO_PROC_FUNCTIONS kind:data(any) addr:0x021a3d78
+INTRO_SOUNDS kind:data(any) addr:0x021a3d84
 data_ov294_021a3d20 kind:data(any) addr:0x021a3da0
 data_ov294_021a3d28 kind:data(any) addr:0x021a3da8
 data_ov294_021a3d30 kind:data(any) addr:0x021a3db0

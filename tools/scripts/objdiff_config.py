@@ -38,6 +38,12 @@ def main():
         cwd=ROOT, capture_output=True, text=True, check=True,
     )
     config = normalize(json.loads(result.stdout))
+    # A source file that isn't written yet has no object to compare, only the delinked one
+    for unit in config.get("units", []):
+        source = unit.get("metadata", {}).get("source_path")
+        if source and not (ROOT / source).exists():
+            unit.pop("base_path", None)
+            unit.pop("scratch", None)
     args.output.write_text(json.dumps(config, indent=2) + "\n")
 
 

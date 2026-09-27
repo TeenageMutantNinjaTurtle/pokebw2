@@ -50,5 +50,7 @@ enum {
 
 void *GFL_HeapAllocate(HeapID heapId, u32 size, BOOL clear, const char *file, u16 line);
 void GFL_HeapFree(void *ptr);
+void GFL_HeapCreateChild(HeapID parentHeapId, HeapID heapId, u32 size);
+void GFL_HeapDelete(HeapID heapId);
 
 #endif // POKEBW2_GFL_HEAP_H

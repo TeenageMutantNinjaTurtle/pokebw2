@@ -18,6 +18,9 @@ struct GameProcFunctions {
 GameProcManager *CreateGameProcManager(HeapID heapId);
 void FreeGameProcManager(GameProcManager *manager);
 BOOL GFL_ProcMgrUpdate(GameProcManager *manager);
+// Allocates the work of a process from the heap, which the process functions get as work
+void *GFL_ProcInitSubsystem(GameProc *proc, u32 size, HeapID heapId);
+void GFL_ProcReleaseSubsystem(GameProc *proc);
 void QueueGameProc(GameProcManager *manager, s32 overlayId, const GameProcFunctions *functions, void *param);
 
 #endif // POKEBW2_GFL_PROC_H

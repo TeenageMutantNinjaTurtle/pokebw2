@@ -5,6 +5,7 @@
     .bss        start:0x021a4d40 end:0x021a4d40 kind:bss align:32
 
 src/ov294/intro.c:
+    complete
     .text       start:0x021a1b20 end:0x021a1c50
     .rodata     start:0x021a3cf4 end:0x021a3d20
 
