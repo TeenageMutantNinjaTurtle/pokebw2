@@ -1,0 +1,17 @@
+# Base ROMs and anything extracted from them are never committed
+orig/*.nds
+*.nds
+extract/
+build/
+
+# Tools downloaded or built by configure
+tools/dsd
+tools/objdiff-cli
+tools/wibo
+tools/mwccarm/
+
+.venv/
+__pycache__/
+build.ninja
+.ninja_*
+objdiff.json
