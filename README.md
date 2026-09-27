@@ -124,3 +124,10 @@ tools/dsd init --rom-config extract/b2_us/config.yaml --output-path config/b2_us
 ```
 
 Regenerating overwrites any symbol names and delinks added by hand, so the names must be imported again afterwards.
+
+## License
+
+This project is licensed under the GNU General Public License v3.0, see [LICENSE](LICENSE). The symbol names imported
+from swan are also GPL-3.0.
+
+The repository contains no game code or assets. Building it requires your own dump of the game.
