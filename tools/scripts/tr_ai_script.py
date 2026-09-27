@@ -248,6 +248,9 @@ RESULTS = {
     "LoadAbility": "ability",
     "LoadSpecies": "species",
 }
+# The scripts, in archive order, which is the bit of the AI flag that runs each (AI_FLAG_* in constants/tr_ai.h)
+SCRIPTS = ["basic", "eval_attack", "expert", "setup_first_turn", "target_hp", "fusion_moves", "baton_pass",
+           "tag_strategy", "check_hp", "weather", "harassment", "roaming_pokemon", "safari", "catch_tutorial"]
 # Commands after which the script doesn't continue: jump, end and jump_by_move_effect
 NO_FALLTHROUGH = {76, 77, 115}
 REFERENCES = ("jump", "list", "table")
@@ -626,7 +629,8 @@ def main():
             names = {int(offset): name for offset, name in labels.get(str(i), {}).items()}
             script = Script(data, f"TrAI{i:02d}", constants, names)
             text = f'#include "asm/tr_ai.inc"\n\n{script.disassemble()}'
-            (args.output / f"tr_ai_{i:02d}.s").write_text(text)
+            name = SCRIPTS[i] if i < len(SCRIPTS) else "unknown"
+            (args.output / f"{i:02d}_{name}.s").write_text(text)
 
 
 if __name__ == "__main__":
