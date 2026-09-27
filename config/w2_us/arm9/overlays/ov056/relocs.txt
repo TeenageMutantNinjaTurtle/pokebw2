@@ -135,4 +135,5 @@ from:0x021e7bb8 kind:thumb_call to:0x02154950 module:overlay(12)
 from:0x021e7bc0 kind:thumb_call to:0x02154928 module:overlay(12)
 from:0x021e7bcc kind:thumb_call to:0x02016ea0 module:main
 from:0x021e7bd4 kind:thumb_call to:0x021538c0 module:overlay(12)
-from:0x021e7be0 kind:load to:0x0214f541 module:overlays(0,1,2,3,4,5,8,9)
+from:0x021e7bdc kind:overlay_id to:5
+from:0x021e7be0 kind:load to:0x0214f541 module:overlay(5)

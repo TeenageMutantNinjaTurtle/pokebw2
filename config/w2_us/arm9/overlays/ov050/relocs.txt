@@ -260,7 +260,8 @@ from:0x021e6512 kind:thumb_call to:0x0200c260 module:main
 from:0x021e6518 kind:thumb_call to:0x0200c28c module:main
 from:0x021e6524 kind:load to:0x021e7174 module:overlay(50)
 from:0x021e6528 kind:load to:0x021e70d0 module:overlay(50)
-from:0x021e6534 kind:load to:0x0214f541 module:overlays(0,1,2,3,4,5,8,9)
+from:0x021e6530 kind:overlay_id to:9
+from:0x021e6534 kind:load to:0x0214f541 module:overlay(9)
 from:0x021e6546 kind:thumb_call to:0x0201735c module:main
 from:0x021e654e kind:thumb_call to:0x0201f294 module:main
 from:0x021e6556 kind:thumb_call to:0x0203a278 module:main

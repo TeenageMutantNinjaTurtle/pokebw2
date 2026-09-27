@@ -97,7 +97,7 @@ It needs `pyelftools`, `capstone` and `pyyaml`. To look at a function's disassem
 Matching is checked per function with [objdiff](https://github.com/encounter/objdiff). A default `ninja` also writes
 `objdiff.json` for the first configured version, Black 2 by default, which the objdiff GUI opens from this directory.
 
-1. Move a range of functions into a source file by adding it to the module's `delinks.txt`, as `src/ov004/ov004.c`
+1. Move a range of functions into a source file by adding it to the module's `delinks.txt`, as `src/ov004/event_worldtrade.c`
    is in `config/b2_us/arm9/overlays/ov004/delinks.txt`. Mark it `complete` once all its functions match. Add the
    same entry to `config/w2_us` with White 2's addresses, which `build/version_map.tsv` lists.
 2. Write the C code. objdiff rebuilds the object with ninja whenever a source file changes, and diffs every function

@@ -1,8 +1,12 @@
 # Names that are not in swan, applied by tools/scripts/rename_symbol.py
 # module address(b2_us) name
+. 0x02008dd0 SaveControl_GetPlayerInfo
+. 0x0200a3dc WifiList_GetMyGSID
+. 0x0200b488 SaveControl_GetWorldTradeData
 . 0x02010050 JoinAvenue_GetPersonList
 . 0x02010564 KeyInfo_GetCityKey
 . 0x02017214 GameData_GetMyCityState
+. 0x02017238 GameData_GetWifiList
 . 0x02017414 GameData_SaveCGearPowerRequest
 . 0x02017424 GameData_RestoreCGearPowerRequest
 . 0x02017b7c GameData_GetJoinAvenuePersonListPtr
@@ -21,6 +25,9 @@
 . 0x02037ff4 JoinAvenuePersonList_Free
 . 0x0203802c JoinAvenuePersonList_GetCount
 . 0x02038060 JoinAvenuePersonList_Get
+overlays/ov004 0x0214f500 EventWorldTrade_CreateFromArgs
+overlays/ov004 0x0214f50c EventWorldTrade_Create
+overlays/ov004 0x0214f5d0 EventWorldTrade_Callback
 overlays/ov035 0x0217ca2c EventFieldFirst_SetupCity
 overlays/ov035 0x0217cbec EventFieldContinue_SetupCity
 overlays/ov035 0x0217e62c GameData_UpdateJoinAvenueForZone
@@ -38,3 +45,4 @@ overlays/ov035 0x0217ed70 ElScoreboard_Create
 overlays/ov035 0x0217ee00 ElScoreboard_Free
 overlays/ov035 0x0217ee08 ElScoreboard_Update
 overlays/ov035 0x0217ee2c ElScoreboard_UploadPalette
+overlays/ov214 0x021e1ab8 WORLDTRADE_PROC_FUNCTIONS

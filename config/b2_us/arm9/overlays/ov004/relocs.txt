@@ -39,4 +39,4 @@ from:0x0214f680 kind:thumb_call to:0x02016d68 module:main
 from:0x0214f69e kind:thumb_call to:0x021b878c module:overlay(36)
 from:0x0214f6a6 kind:thumb_call to:0x02016d68 module:main
 from:0x0214f6bc kind:overlay_id to:214
-from:0x0214f6c0 kind:load to:0x021e1ab8 module:overlays(36,214)
+from:0x0214f6c0 kind:load to:0x021e1ab8 module:overlay(214)

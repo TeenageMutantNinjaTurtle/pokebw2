@@ -529,7 +529,7 @@ func_ov214_021e18d8 kind:function(thumb,size=0x24) addr:0x021e18d8
 func_ov214_021e18fc kind:function(thumb,size=0x58) addr:0x021e18fc
 func_ov214_021e1954 kind:function(thumb,size=0xd4) addr:0x021e1954
 func_ov214_021e1a28 kind:function(thumb,size=0x90) addr:0x021e1a28
-data_ov214_021e1ab8 kind:data(any) addr:0x021e1ab8 ambiguous
+WORLDTRADE_PROC_FUNCTIONS kind:data(any) addr:0x021e1ab8 ambiguous
 data_ov214_021e1ac4 kind:data(any) addr:0x021e1ac4
 data_ov214_021e1ad4 kind:data(any) addr:0x021e1ad4
 data_ov214_021e1aec kind:data(any) addr:0x021e1aec
