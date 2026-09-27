@@ -120,6 +120,11 @@ Things that affect whether MWCC output matches:
   swapped.
 - Loads through a pointer are not moved above stores unless the pointee is `const`. A load that the original
   schedules early, such as an argument loaded before the stack arguments are stored, points to a `const` parameter.
+- The same rule moves a call's stack argument stores. When loads through a pointer that is not `const` follow the
+  call, the stack arguments are stored before the register arguments are set up. If the original stores them last,
+  the pointer is `const`.
+- Float arithmetic calls MWCC's runtime helpers, such as `_fadd` and `_ffix`, which swan names `__aeabi_*`. When a
+  complete file fails to link on one of them, rename it to the MWCC name with `rename_symbol.py`.
 - Structs passed by value go in registers and on the stack. Code that copies a struct to the stack and passes its
   address takes a pointer to a local copy.
 - Static data and stack locals are laid out in reverse declaration order.

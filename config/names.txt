@@ -35,6 +35,12 @@
 . 0x02037ff4 JoinAvenuePersonList_Free
 . 0x0203802c JoinAvenuePersonList_GetCount
 . 0x02038060 JoinAvenuePersonList_Get
+. 0x0208d3bc _ffltu
+. 0x0208da4c _ffix
+. 0x0208dd34 _fmul
+. 0x0208df14 _fadd
+. 0x0208e144 _fsub
+. 0x0208e3c8 _fdiv
 . 0x0208fe14 BATTLE_VIDEO_PROC_FUNCTIONS
 overlays/ov000 0x0214f500 EventGameSync_Callback
 overlays/ov000 0x0214f8a8 EventGameSync_CreateFromArgs

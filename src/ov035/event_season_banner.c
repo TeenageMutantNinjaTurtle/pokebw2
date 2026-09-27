@@ -50,7 +50,7 @@ void EventSeasonBanner_FreeRendererFieldOpen(EventSeasonBanner *wk);
 void EventSeasonBanner_FreeRendererStandalone(EventSeasonBanner *wk);
 void EventSeasonBanner_LoadGraphics(u8 season, HeapID heapId);
 void EventSeasonBanner_UpdateRenderFX(EventSeasonBanner *wk, u32 state);
-void EventSeasonBanner_UpdateRenderFXFieldOpen(EventSeasonBanner *wk, u32 state);
+void EventSeasonBanner_UpdateRenderFXFieldOpen(const EventSeasonBanner *wk, u32 state);
 void EventSeasonBanner_UpdateRenderFXStandalone(EventSeasonBanner *wk, u32 state);
 u32 EventSeasonBanner_GetUpdatedState(EventSeasonBanner *wk, u32 state);
 void EventSeasonBanner_ProcessState(EventSeasonBanner *wk, u32 *state, u32 newState);
@@ -276,9 +276,7 @@ void EventSeasonBanner_UpdateRenderFX(EventSeasonBanner *wk, u32 state) {
     }
 }
 
-// TODO: Does not match yet. The original stores the alpha blend's stack argument after setting up the register
-// arguments. This file is therefore not marked complete, and the original code is linked instead.
-void EventSeasonBanner_UpdateRenderFXFieldOpen(EventSeasonBanner *wk, u32 state) {
+void EventSeasonBanner_UpdateRenderFXFieldOpen(const EventSeasonBanner *wk, u32 state) {
     if (state == SEASON_BANNER_STATE_FADE_IN) {
         gfxRegSetBrightnessBlend(REG_BLDCNT_ADDR, 8, (s32)((f32)wk->timer / (f32)wk->duration * 16.0f + -16.0f));
     } else if (state == SEASON_BANNER_STATE_FADE_OUT) {
