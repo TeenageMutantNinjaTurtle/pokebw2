@@ -123,7 +123,27 @@ typedef struct {
     ZoneSpawnInfo spawn;
 } EventMapChangeBlackout;
 
-typedef void (*DSProtCallback)(EventMapChange *wk, GameSystem *gsys);
+typedef struct {
+    u32 zoneId;
+    u16 gimmickId;
+} ZoneGimmick;
+
+typedef void *(*DSProtCallback)(void *arg0, void *arg1);
+
+typedef struct {
+    ZoneSpawnInfo spawn;
+    GameSystem *gsys;
+    GameData *gameData;
+    Field *field;
+    u32 unk28;
+    u8 unk2C;
+    u32 festMissionStatus;
+} EventEntralinkWarp;
+
+typedef struct {
+    u16 unk0;
+    u16 unk2;
+} UnkStruct_ov035_0217ed20;
 
 // Spawns at a position instead of a warp, warpId is -1
 #define ZONE_SPAWN_CHANGE_TYPE_POSITION 1
@@ -135,6 +155,24 @@ typedef void (*DSProtCallback)(EventMapChange *wk, GameSystem *gsys);
 #define WARP_DIR_RIGHT 4
 
 #define FX32_CONST(x) ((s32)((x) * 4096))
+
+// Allocates from the end of the heap
+#define HEAP_LOW(heapId) ((heapId) | 0x8000)
+#define HEAPID_FIELD 1
+
+#define ARC_ZONE_GIMMICKS 0x66
+
+#define SEQ_SE_ENTRALINK_WARP 0x772
+
+// Areas that exist only in one version, such as Black City and White Forest
+#define VERSION_AREA_BLACK2 0
+#define VERSION_AREA_WHITE2 1
+#define VERSION_AREA_2 2
+#ifdef BLACK2
+#define VERSION_AREA_OWN VERSION_AREA_BLACK2
+#else
+#define VERSION_AREA_OWN VERSION_AREA_WHITE2
+#endif
 
 #define EVENT_FLAG_CONTINUE_SCRIPT 0x965
 #define EVENT_WORK_CONTINUE_SCRIPT 0x4041
@@ -213,7 +251,7 @@ extern GameEvent *EventFieldOpen_Create(GameSystem *gsys);
 extern FieldPlayer *Field_GetPlayer(Field *field);
 extern FieldActor *FieldPlayer_GetActor(FieldPlayer *player);
 extern void SetActorFlag(FieldActor *actor, u32 flag);
-extern void EventScriptCall_Start(GameEvent *event, u32 scriptId, void *a2, void *a3, u32 a4);
+extern void EventScriptCall_Start(GameEvent *event, u16 scriptId, void *a2, void *a3, u32 heapId);
 extern GameEvent *CallFieldMapEntranceInTransition(GameSystem *gsys, Field *field, u32 a2, u32 a3, u32 a4, u8 a5,
                                                   u8 a6);
 extern void LoadAspertiaCitySpawnInfo(ZoneSpawnInfo *spawn);
@@ -271,8 +309,8 @@ extern void func_ov337_02180bdc(void);
 extern BOOL func_02018b10(u16 zoneId);
 extern u8 GameCommSys_BootCheck(void *comm);
 extern void func_0202bd80(void *comm);
-extern void func_ov337_02180a84(EventMapChange *wk, GameSystem *gsys);
-extern void func_ov337_02180b30(EventMapChange *wk, GameSystem *gsys);
+extern void *func_ov337_02180a84(void *arg0, void *arg1);
+extern void *func_ov337_02180b30(void *arg0, void *arg1);
 extern void *GameData_GetParty(GameData *gameData);
 extern void func_ov012_021643f0(GameData *gameData, void *party, void *a2, u8 season);
 extern void func_ov035_0217e73c(GameData *gameData, u16 zoneId, u16 prevZoneId);
@@ -389,22 +427,99 @@ extern u32 GetZoneNPCsCount(EventData *eventData);
 extern void *GetZoneNPCs(EventData *eventData);
 extern void SpawnAllZoneNPCs(MMSys *mmSys, void *npcs, int zoneId, u32 count, EventWork *eventWork);
 extern void FldActSys_DeleteAllActors(MMSys *mmSys);
+typedef struct MapMatrix MapMatrix;
+typedef struct GimmickState GimmickState;
+typedef struct ArcTool ArcTool;
+typedef struct JoinAvenueSave JoinAvenueSave;
+typedef struct JoinAvenueInfo JoinAvenueInfo;
+extern void *func_02017b84(GameData *gameData);
+extern void **func_02017b7c(GameData *gameData);
+extern BOOL IsZoneJoinAvenue(u16 zoneId);
+extern BOOL func_02018c10(u16 zoneId);
+extern void *func_02037fc4(u32 a0, u32 a1);
+extern void func_02037ff4(void *a0);
+extern JoinAvenueSave *SaveControl_GetJoinAvenue(SaveControl *save);
+extern JoinAvenueInfo *JoinAvenue_GetInfo(JoinAvenueSave *joinAvenue);
+extern u32 JoinAvenue_GetParam(JoinAvenueInfo *info, u32 param, u32 a2);
+extern void func_02017b64(GameData *gameData, u8 a1);
+extern void func_02038bc8(u32 a0);
+extern void func_02039980(void *a0, u32 a1, u32 a2);
+extern void *func_02010050(JoinAvenueSave *joinAvenue);
+extern u32 func_0203802c(void *list);
+extern void *func_02038060(void *list, u32 index);
+extern BOOL func_02036e44(void *a0);
+extern void func_020373ec(void *a0, u32 a1, u32 a2);
+extern u32 GetZoneFlashFlags(u16 zoneId);
+extern BOOL FieldStatus_CheckFlashUsed(FieldStatus *status);
+extern void FieldStatus_SetFlashPerms(FieldStatus *status, u32 flags);
+extern BOOL GameData_IsForceSeasonSync(GameData *gameData);
+extern BOOL IsZoneEntralinkHub(u16 zoneId);
+extern void func_02019318(FieldStatus *status, BOOL a1);
+extern BOOL GetZoneIsUnionRoom(u16 zoneId);
+extern BOOL IsZone150Or151(u16 zoneId);
+extern BOOL GetZoneIsMusicalTheater(u16 zoneId);
+extern BOOL IsZoneRoyalUnova(u16 zoneId);
+extern BOOL GetZoneIsPWTBattleStage(u16 zoneId);
+extern u32 GameData_GetLastSubscreen(GameData *gameData);
+extern void GameData_SetLastSubscreen(GameData *gameData, u32 subscreen);
+extern void EventData_LoadZone(EventData *eventData, u16 zoneId, u8 season);
+extern MapMatrix *GetMapMatrixSystem(GameData *gameData);
+extern u16 GetZoneMatrixId(u16 zoneId);
+extern void MapMatrix_Load(MapMatrix *matrix, u16 matrixId, u16 zoneId, u16 heapId);
+extern void MapMatrix_Patch(MapMatrix *matrix, GameSystem *gsys, u16 heapId);
+extern void SetAllowVersionSpecificArea(u32 area, BOOL allow);
+extern BOOL func_ov011_02154e70(GameData *gameData, u32 a1);
+extern void SetActorHidden(FieldActor *actor, BOOL hidden);
+extern GimmickState *GameData_GetGimmickState(GameData *gameData);
+extern void GimmickState_Reset(GimmickState *gimmick);
+extern void GimmickState_SetID(GimmickState *gimmick, u16 gimmickId);
+extern ArcTool *GFL_ArcSysCreateFileHandle(u32 arcId, u16 heapId);
+extern void *GFL_ArcToolReadHeapNew(ArcTool *handle, u32 fileId, u16 heapId);
+extern u32 GFL_ArcToolGetDataLength(ArcTool *handle, u32 fileId);
+extern void GFL_ArcToolFree(ArcTool *handle);
+extern void GFL_HeapFree(void *ptr);
+typedef struct LinkFestival LinkFestival;
+typedef struct EncEff EncEff;
+typedef struct KeyInfoSave KeyInfoSave;
+extern void *GFL_HeapAllocate(u16 heapId, u32 size, BOOL clear, const char *file, u32 line);
+extern LinkFestival *GSYS_GetLinkFestival(GameSystem *gsys);
+extern u32 getStatusOfFesMission(LinkFestival *festival);
+extern void func_ov036_021b5168(PlaceName *placeName);
+extern void GFL_SndSEPlay(u16 se);
+extern GameEvent *CallFieldMapEntranceOutTransition(GameSystem *gsys, Field *field, u32 type, u32 a3, u32 a4);
+extern EncEff *Field_GetEncEff(Field *field);
+extern void EncEff_StartEvent(EncEff *encEff, GameEvent *event, u32 effect);
+extern GameEvent *func_ov036_021b8850(GameSystem *gsys, Field *field, u32 a2, u32 a3, u32 a4);
+extern void BeginForcePlaceNameDisp(PlaceName *placeName, int zoneId);
+extern BOOL EventEntralinkWarpIn_CheckAllowed(GameSystem *gsys);
+extern BOOL GameData_CheckPairFlag(GameData *gameData);
+extern u32 func_0203ffc4(void);
+extern ZoneSpawnInfo *GetGameDataNowSpawnZone(GameData *gameData);
+extern BOOL func_02018ecc(u16 zoneId);
+extern BOOL GetZoneFlagsEnableEscapeRope(u16 zoneId);
+extern BOOL IsZoneAbyssalRuinsOutside(u16 zoneId);
+extern u32 FieldPlayerState_GetExState(PlayerState *playerState);
+extern KeyInfoSave *getKeyInfoSaveBlk(SaveControl *save);
+extern BOOL func_02010564(KeyInfoSave *keyInfo);
+GameEventReturnCode EventEntralinkWarpIn_Callback(GameEvent *event, u32 *state, EventEntralinkWarp *wk);
+GameEventReturnCode EventEntralinkWarp_Callback(GameEvent *event, u32 *state, EventEntralinkWarp *wk);
+void func_ov035_0217e62c(GameData *gameData, u16 zoneId);
 void GameData_SetGimmickByZone(GameData *gameData, int zoneId);
 void GameData_UpdateFlashStatus(GameData *gameData, u16 zoneId);
 void CallSpawnAllZoneNPCs(GameData *gameData, const ZoneSpawnInfo *spawn);
-void func_ov035_0217ebc8(GameData *gameData, ZoneSpawnInfo *spawn);
+void func_ov035_0217ebc8(GameData *gameData, const ZoneSpawnInfo *spawn);
 void func_ov035_0217ec48(GameData *gameData, ZoneSpawnInfo *spawn);
 void GameData_AdjustPlayerStateOnDiveOut(GameData *gameData);
-void func_ov035_0217ed1c(EventMapChange *wk, GameSystem *gsys);
-void func_ov035_0217eccc(EventMapChange *wk, GameSystem *gsys);
-void func_ov035_0217ecf4(EventMapChange *wk, GameSystem *gsys);
+void *func_ov035_0217ed1c(void *arg0, void *arg1);
+void *func_ov035_0217eccc(void *arg0, void *arg1);
+void *func_ov035_0217ecf4(void *arg0, void *arg1);
 
 GameEvent *EventGameOpening_Create(GameSystem *gsys, GameSystemProcData *procData);
 GameEvent *EventFieldFirst_Create(GameSystem *gsys, GameSystemProcData *procData);
 GameEvent *EventFieldContinue_Create(GameSystem *gsys, GameSystemProcData *procData);
 void func_ov035_0217ca2c(GameSystem *gsys);
 void func_ov035_0217cbec(GameSystem *gsys);
-void func_ov035_0217ed20(u16 *out, PlayerInfo *player, SaveControl *save, u32 unused);
+void func_ov035_0217ed20(UnkStruct_ov035_0217ed20 *out, PlayerInfo *player, SaveControl *save, u32 unused);
 
 // From the NitroSDK
 static inline void VEC_Set(VecFx32 *v, s32 x, s32 y, s32 z) {
@@ -1685,4 +1800,354 @@ void CallSpawnAllZoneNPCs(GameData *gameData, const ZoneSpawnInfo *spawn) {
 
 void GameData_DeleteAllActors(GameData *gameData) {
     FldActSys_DeleteAllActors(GameData_GetMMSys(gameData));
+}
+
+void func_ov035_0217e62c(GameData *gameData, u16 zoneId) {
+    void *unk = func_02017b84(gameData);
+    void **joinAvenueList;
+
+    if (IsZoneJoinAvenue(zoneId) || func_02018c10(zoneId)) {
+        joinAvenueList = func_02017b7c(gameData);
+        if (*joinAvenueList == NULL) {
+            *joinAvenueList = func_02037fc4(4, 8);
+        }
+    } else {
+        joinAvenueList = func_02017b7c(gameData);
+        if (*joinAvenueList != NULL) {
+            func_02037ff4(*joinAvenueList);
+            *joinAvenueList = NULL;
+        }
+    }
+
+    if (IsZoneJoinAvenue(zoneId)) {
+        u16 param = JoinAvenue_GetParam(JoinAvenue_GetInfo(SaveControl_GetJoinAvenue(GameData_GetSaveControl(gameData))),
+                                        5, 0);
+        func_02017b64(gameData, param);
+        func_02038bc8(0x18);
+    }
+
+    func_02039980(unk, 8, 0);
+    {
+        JoinAvenueSave *joinAvenue = SaveControl_GetJoinAvenue(GameData_GetSaveControl(gameData));
+        void *lists[2] = {NULL, NULL};
+        int i;
+
+        joinAvenueList = func_02017b7c(gameData);
+        lists[0] = func_02010050(joinAvenue);
+        if (*joinAvenueList != NULL) {
+            lists[1] = *joinAvenueList;
+        }
+        for (i = 0; i < 2; i++) {
+            if (lists[i] != NULL) {
+                u32 j;
+
+                for (j = 0; j < func_0203802c(lists[i]); j++) {
+                    void *entry = func_02038060(lists[i], j);
+
+                    if (!func_02036e44(entry)) {
+                        func_020373ec(entry, 0x26, 0);
+                    }
+                }
+            }
+        }
+    }
+}
+
+void func_ov035_0217e73c(GameData *gameData, u16 zoneId, u16 prevZoneId) {
+    void *unk = func_02017b84(gameData);
+
+    if (zoneId != prevZoneId) {
+        func_02039980(unk, 8, 1);
+    }
+}
+
+void GameData_UpdateFlashStatus(GameData *gameData, u16 zoneId) {
+    FieldStatus *status = GameData_GetFieldStatus(gameData);
+    u32 flags = GetZoneFlashFlags(zoneId);
+
+    if ((flags & 1) && FieldStatus_CheckFlashUsed(status)) {
+        flags &= ~1;
+        flags |= 2;
+    }
+    FieldStatus_SetFlashPerms(status, flags);
+}
+
+void FieldMapControl_LoadZone(GameSystem *gsys, u16 zoneId) {
+    GameData *gameData = GSYS_GetGameData(gsys);
+    EventData *eventData = GameData_GetEventData(gameData);
+    Field *field = GSYS_GetField(gsys);
+    MapMatrix *matrix;
+
+    if (GameData_IsForceSeasonSync(gameData) == TRUE && !IsZoneEntralinkHub(zoneId)) {
+        func_02019318(GameData_GetFieldStatus(gameData), TRUE);
+    } else {
+        func_02019318(GameData_GetFieldStatus(gameData), FALSE);
+    }
+
+    if (GetZoneIsUnionRoom(zoneId)) {
+        GameData_SetLastSubscreen(gameData, 2);
+    } else if (IsZone150Or151(zoneId) || GetZoneIsMusicalTheater(zoneId) || IsZoneRoyalUnova(zoneId)) {
+        GameData_SetLastSubscreen(gameData, 5);
+    } else if (GetZoneIsPWTBattleStage(zoneId)) {
+        GameData_SetLastSubscreen(gameData, 11);
+    } else {
+        u32 subscreen;
+
+        if (GameData_IsForceSeasonSync(gameData) == TRUE && GameData_GetLastSubscreen(gameData) != 3) {
+            GameData_SetLastSubscreen(gameData, 3);
+        } else if (GameData_IsForceSeasonSync(gameData) == FALSE && GameData_GetLastSubscreen(gameData) == 3) {
+            GameData_SetLastSubscreen(gameData, 0);
+        }
+        subscreen = GameData_GetLastSubscreen(gameData);
+        if (subscreen != 3 && subscreen != 4 && subscreen != 10 && subscreen != 6) {
+            GameData_SetLastSubscreen(gameData, 0);
+        }
+    }
+
+    EventData_LoadZone(eventData, zoneId, GameData_GetSeason(gameData));
+    matrix = GetMapMatrixSystem(gameData);
+    MapMatrix_Load(matrix, GetZoneMatrixId(zoneId), zoneId, HEAP_LOW(HEAPID_FIELD));
+    MapMatrix_Patch(matrix, gsys, HEAP_LOW(HEAPID_FIELD));
+    GameData_UpdateFlashStatus(gameData, zoneId);
+    func_ov035_0217e62c(gameData, zoneId);
+
+    SetAllowVersionSpecificArea(VERSION_AREA_BLACK2, FALSE);
+    SetAllowVersionSpecificArea(VERSION_AREA_WHITE2, FALSE);
+    SetAllowVersionSpecificArea(VERSION_AREA_2, FALSE);
+    if (func_ov011_02154e70(gameData, 0)) {
+        SetAllowVersionSpecificArea(VERSION_AREA_2, TRUE);
+        SetAllowVersionSpecificArea(VERSION_AREA_OWN, TRUE);
+    }
+}
+
+void FieldMapControl_DeleteAllActors(GameSystem *gsys) {
+    GameData *gameData = GSYS_GetGameData(gsys);
+    Field *field = GSYS_GetField(gsys);
+
+    GameData_DeleteAllActors(gameData);
+}
+
+void Field_SetPlayerHidden(Field *field, BOOL hidden) {
+    SetActorHidden(FieldPlayer_GetActor(Field_GetPlayer(field)), hidden);
+}
+
+void GameData_SetGimmickByZone(GameData *gameData, int zoneId) {
+    GimmickState *gimmick = GameData_GetGimmickState(gameData);
+    ArcTool *handle;
+    u32 i;
+    ZoneGimmick *gimmicks;
+    u32 count;
+
+    GimmickState_Reset(gimmick);
+    handle = GFL_ArcSysCreateFileHandle(ARC_ZONE_GIMMICKS, HEAP_LOW(HEAPID_FIELD));
+    gimmicks = GFL_ArcToolReadHeapNew(handle, 0, HEAP_LOW(HEAPID_FIELD));
+    count = GFL_ArcToolGetDataLength(handle, 0) / sizeof(ZoneGimmick);
+    for (i = 0; i < count; i++) {
+        if (zoneId == gimmicks[i].zoneId) {
+            GimmickState_SetID(gimmick, gimmicks[i].gimmickId);
+            break;
+        }
+    }
+    GFL_HeapFree(gimmicks);
+    GFL_ArcToolFree(handle);
+}
+
+GameEvent *EventEntralinkWarpIn_CreateCore(GameSystem *gsys, Field *field, ZoneSpawnInfo *spawn, u32 a3, u32 a4) {
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventEntralinkWarpIn_Callback, sizeof(EventEntralinkWarp));
+    EventEntralinkWarp *wk = GameEvent_GetData(event);
+
+    wk->spawn = *spawn;
+    wk->gsys = gsys;
+    wk->gameData = GSYS_GetGameData(gsys);
+    wk->field = field;
+    wk->unk28 = a3;
+    wk->unk2C = a4;
+    return event;
+}
+
+GameEvent *EventEntralinkWarp_Create(GameSystem *gsys, Field *field, ZoneSpawnInfo *spawn) {
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventEntralinkWarp_Callback, sizeof(EventEntralinkWarp));
+    EventEntralinkWarp *wk = GameEvent_GetData(event);
+
+    wk->spawn = *spawn;
+    wk->gsys = gsys;
+    wk->gameData = GSYS_GetGameData(gsys);
+    wk->field = field;
+    wk->festMissionStatus = getStatusOfFesMission(GSYS_GetLinkFestival(gsys));
+    return event;
+}
+
+GameEventReturnCode EventEntralinkWarp_Callback(GameEvent *event, u32 *state, EventEntralinkWarp *wk) {
+    GameSystem *gsys = wk->gsys;
+    Field *field = wk->field;
+
+    switch (*state) {
+    case 0:
+        func_ov036_021b5168(Field_GetPlaceName(field));
+        if (wk->festMissionStatus != 0) {
+            GFL_SndSEPlay(SEQ_SE_ENTRALINK_WARP);
+            GameEvent_ChainNext(event, CallFieldMapEntranceOutTransition(gsys, field, 1, 0, 4));
+        } else {
+            GFL_SndSEPlay(SEQ_SE_ENTRALINK_WARP);
+            EncEff_StartEvent(Field_GetEncEff(field), event, 0x25);
+        }
+        (*state)++;
+        break;
+    case 1: {
+        GameEvent *mapChange = GameEvent_Create(gsys, NULL, EventMapChange_Callback, sizeof(EventMapChange));
+        EventMapChange *mapChangeWk = GameEvent_GetData(mapChange);
+
+        InitMapChangeEvent(mapChangeWk, gsys);
+        mapChangeWk->spawn = wk->spawn;
+        mapChangeWk->unk2C = 0;
+        mapChangeWk->unk40 = FALSE;
+        GameEvent_ChainNext(event, mapChange);
+        (*state)++;
+        break;
+    }
+    case 2:
+        if (wk->festMissionStatus != 0) {
+            GameEvent_ChainNext(event, func_ov036_021b8850(gsys, field, 1, 0, 2));
+        } else {
+            GameEvent_ChainNext(event, func_ov036_021b8850(gsys, field, 0, 0, 2));
+        }
+        (*state)++;
+        break;
+    case 3:
+        BeginForcePlaceNameDisp(Field_GetPlaceName(field), wk->spawn.zoneId);
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEventReturnCode EventEntralinkWarpIn_Callback(GameEvent *event, u32 *state, EventEntralinkWarp *wk) {
+    void *comm = GSYS_GetGameCommSystem(wk->gsys);
+
+    switch (*state) {
+    case 0: {
+        u32 scriptId;
+
+        if (!EventEntralinkWarpIn_CheckAllowed(wk->gsys)) {
+            scriptId = 0x279c;
+            *state = 2;
+        } else if (GameData_CheckPairFlag(wk->gameData)) {
+            scriptId = 0x27a1;
+            *state = 2;
+        } else {
+            scriptId = 0x279a;
+            func_0202bd80(comm);
+            *state = 1;
+        }
+        EventScriptCall_Start(event, scriptId, NULL, NULL, Field_GetHeapID(wk->field));
+        break;
+    }
+    case 1:
+        if (!GameCommSys_BootCheck(comm)) {
+            func_0202be00(comm);
+            GameData_SetForceSeasonSync(wk->gameData, TRUE);
+            func_020175d8(wk->gameData, func_0203ffc4());
+            GameEvent_ChainNext(event, EventEntralinkWarp_Create(wk->gsys, wk->field, &wk->spawn));
+            *state = 2;
+        }
+        break;
+    case 2:
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+void func_ov035_0217ebc8(GameData *gameData, const ZoneSpawnInfo *spawn) {
+    ZoneSpawnInfo *remember = GetOutboundWarpRememberSpawnInfo(gameData);
+    ZoneSpawnInfo *now = GetGameDataNowSpawnZone(gameData);
+    ZoneSpawnInfo escapeRopeSpawn;
+
+    if (func_02018ecc(spawn->zoneId)) {
+        if (now->zoneId == 0x88) {
+            GameData_SetEscapeRopeZone(gameData, remember);
+        } else if (now->zoneId == 0x23d) {
+            LoadZoneSpawnInfoCheckRail(&escapeRopeSpawn, 0x23d);
+            GameData_SetEscapeRopeZone(gameData, &escapeRopeSpawn);
+        }
+    }
+    if (now->zoneId == 0x9e && GetZoneFlagsEnableEscapeRope(spawn->zoneId)) {
+        GameData_SetEscapeRopeZone(gameData, remember);
+    }
+    if (now->zoneId == 0x28 && spawn->zoneId == 0x1ef) {
+        GameData_SetEscapeRopeZone(gameData, remember);
+    }
+}
+
+void func_ov035_0217ec48(GameData *gameData, ZoneSpawnInfo *spawn) {
+    if (IsZoneAbyssalRuinsOutside(GetGameDataNowSpawnZone(gameData)->zoneId)) {
+        *spawn = *GameData_GetNextZone(gameData);
+    }
+}
+
+void GameData_AdjustPlayerStateOnDiveOut(GameData *gameData) {
+    PlayerState *playerState = GameData_GetPlayerState(gameData);
+
+    if (FieldPlayerState_GetExState(playerState) != 3) {
+        SetPlayerSpecialState(playerState, 0);
+    } else {
+        SetPlayerSpecialState(playerState, 2);
+    }
+}
+
+void func_ov035_0217ec9c(GameData *gameData) {
+    SaveControl *save = GameData_GetSaveControl(gameData);
+    void *party = SaveControl_GetPokePartySave(save);
+    u8 season = GameData_GetSeason(gameData);
+
+    func_ov012_021643f0(gameData, party, (u8 *)getSaveAdventureTimeBlock(save) + 0x14, season);
+}
+
+// DS Protect tamper responses, which leak memory
+void *func_ov035_0217eccc(void *arg0, void *arg1) {
+    GFL_HeapAllocate(HEAP_LOW(4), 0x1000, FALSE, "event_mapchange.c", 3931);
+    return arg0;
+}
+
+void *func_ov035_0217ecf4(void *arg0, void *arg1) {
+    GFL_HeapAllocate(HEAP_LOW(4), 0x1000, FALSE, "event_mapchange.c", 3937);
+    return arg1;
+}
+
+void *func_ov035_0217ed1c(void *arg0, void *arg1) {
+    return arg0;
+}
+
+void func_ov035_0217ed20(UnkStruct_ov035_0217ed20 *out, PlayerInfo *player, SaveControl *save, u32 unused) {
+    BOOL result = func_02010564(getKeyInfoSaveBlk(save));
+
+    out->unk0 = 1;
+#ifdef BLACK2
+    if (!result) {
+        out->unk2 = 0;
+    } else {
+        out->unk2 = 1;
+    }
+#else
+    if (!result) {
+        out->unk2 = 1;
+    } else {
+        out->unk2 = 0;
+    }
+#endif
+}
+
+BOOL func_ov035_0217ed40(UnkStruct_ov035_0217ed20 *a0) {
+    if (a0->unk0 == 1 && a0->unk2 >= 2) {
+        return FALSE;
+    }
+    return TRUE;
+}
+
+BOOL func_ov035_0217ed54(UnkStruct_ov035_0217ed20 *a0) {
+    if (a0->unk0 == 0) {
+        return FALSE;
+    }
+    if (func_ov035_0217ed40(a0)) {
+        return TRUE;
+    }
+    return FALSE;
 }

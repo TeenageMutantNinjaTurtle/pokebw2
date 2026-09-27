@@ -132,7 +132,8 @@ so source files are shared, and code that differs uses the `BLACK2` and `WHITE2`
 get a `_w2_us` suffix.
 
 `tools/scripts/version_map.py` pairs the functions of two versions by their bytes, and pairs other symbols through
-relocations and section offsets.
+relocations and section offsets. Functions that differ are marked `different` in `build/version_map.tsv`. Check them
+with `compiler_probe.py --version w2_us`, which compiles with the `WHITE2` define, before marking a file complete.
 
 ## Names
 

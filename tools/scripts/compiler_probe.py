@@ -22,6 +22,8 @@ DEFAULT_FLAGS = (
     "-O4,p -proc arm946e -thumb -interworking -enum int -char signed -fp soft -lang=c99 -Cpp_exceptions off -gccext,on -gccinc "
     "-inline on,noauto -ipa file -nolink -msgstyle gcc -w off"
 )
+# Preprocessor defines of each game version, as in configure.py
+VERSION_DEFINES = {"b2_us": ["BLACK2"], "w2_us": ["WHITE2"]}
 SYMBOL_RE = re.compile(r"^(\S+) kind:function\((\w+),size=(0x[0-9a-f]+)[^)]*\) addr:(0x[0-9a-f]+)")
 
 
@@ -116,6 +118,7 @@ def main():
                 str(compilers_dir / compiler / "mwccarm.exe"),
                 *shlex.split(args.flags),
                 *shlex.split(args.extra_flags),
+                *(arg for define in VERSION_DEFINES.get(args.version, []) for arg in ("-d", define)),
                 "-i", str(ROOT / "include"),
                 "-o", str(obj),
                 str(args.source),
