@@ -51,7 +51,7 @@ GameEventReturnCode EventBattleVideo_Callback(GameEvent *event, u32 *state, void
         (*state)++;
         break;
     case 5:
-        GFL_SndBGMPlay(wk->bgm, 0xffff);
+        GFL_SndBGMPlay(wk->bgm, SND_CHANNEL_MASK_ALL);
         GFL_SndBGMFadeIn(60);
         GameEvent_ChainNext(event, EventFieldOpen_CreateHeadless(gsys));
         (*state)++;

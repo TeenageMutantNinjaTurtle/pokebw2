@@ -210,8 +210,10 @@ GameEventReturnCode EventFieldFirst_Callback(GameEvent *event, u32 *state, void 
         (*state)++;
         break;
     case 1:
-        GameEvent_ChainNext(event, EventBGMChange_Create(gsys,
-            GetMapBGMIDByPlayerState2(gameData, wk->spawn.zoneId, GameData_GetSeason(gameData)), 0, 60));
+        GameEvent_ChainNext(
+            event,
+            EventBGMChange_Create(
+                gsys, GetMapBGMIDByPlayerState2(gameData, wk->spawn.zoneId, GameData_GetSeason(gameData)), 0, 60));
         (*state)++;
         break;
     case 2:
@@ -309,8 +311,9 @@ GameEventReturnCode EventFieldContinue_Callback(GameEvent *event, u32 *state, vo
         (*state)++;
         break;
     case 1:
-        GameEvent_ChainNext(event, EventBGMChange_Create(gsys,
-            GetMapBGMIDByPlayerState2(gameData, wk->zoneId, GameData_GetSeason(gameData)), 0, 60));
+        GameEvent_ChainNext(
+            event, EventBGMChange_Create(
+                       gsys, GetMapBGMIDByPlayerState2(gameData, wk->zoneId, GameData_GetSeason(gameData)), 0, 60));
         (*state)++;
         break;
     case 2:
@@ -323,7 +326,7 @@ GameEventReturnCode EventFieldContinue_Callback(GameEvent *event, u32 *state, vo
         } else {
             u8 season = GameData_GetSeason(gameData);
             GameEvent_ChainNext(event,
-                CallFieldMapEntranceInTransition(gsys, GSYS_GetField(gsys), 3, 0, 0, season, season));
+                                CallFieldMapEntranceInTransition(gsys, GSYS_GetField(gsys), 3, 0, 0, season, season));
         }
         (*state)++;
         break;
@@ -376,7 +379,7 @@ GameEvent *EventFieldContinue_Create(GameSystem *gsys, GameSystemProcData *procD
 void EventMapChange_LoadSeasons(EventMapChange *wk) {
     u16 prevSeason;
     u16 season;
-    u16 heapId;
+    HeapID heapId;
     AreaData *areaData;
     BOOL isExterior;
 
@@ -433,7 +436,8 @@ void EventMapChange_SetupWarpSequenceIn(EventMapChange *wk, GameEvent *parent) {
     if (wk->spawn.changeType == ZONE_SPAWN_CHANGE_TYPE_POSITION) {
         warp->transitionType = 0;
     } else {
-        warp->transitionType = GetWarpTransitionType(GetZoneWarpByID(GameData_GetEventData(wk->gameData), wk->spawn.warpId));
+        warp->transitionType =
+            GetWarpTransitionType(GetZoneWarpByID(GameData_GetEventData(wk->gameData), wk->spawn.warpId));
     }
 }
 
@@ -639,8 +643,9 @@ GameEventReturnCode EventMapChangeFakeWarp_Callback(GameEvent *event, u32 *state
         if (wk->unk40 && wk->seasonChanged) {
             GameEvent_ChainNext(event, CallFieldMapEntranceOutTransitionDefault(gsys, field, 0, 0));
         } else {
-            GameEvent_ChainNext(event, CallFieldMapEntranceOutTransitionDefault(gsys, field,
-                GetOutTransitionTypeBetweenZones(wk->zoneId, wk->spawn.zoneId), 0));
+            GameEvent_ChainNext(event,
+                                CallFieldMapEntranceOutTransitionDefault(
+                                    gsys, field, GetOutTransitionTypeBetweenZones(wk->zoneId, wk->spawn.zoneId), 0));
         }
         (*state)++;
         break;
@@ -651,10 +656,11 @@ GameEventReturnCode EventMapChangeFakeWarp_Callback(GameEvent *event, u32 *state
     case 3:
         if (wk->unk40 && wk->seasonChanged) {
             GameEvent_ChainNext(event,
-                CallFieldMapEntranceInTransition(gsys, field, 3, 0, 0, wk->prevSeason, wk->season));
+                                CallFieldMapEntranceInTransition(gsys, field, 3, 0, 0, wk->prevSeason, wk->season));
         } else {
-            GameEvent_ChainNext(event, CallFieldMapEntranceInTransition(gsys, field,
-                GetInTransitionTypeBetweenZones(wk->zoneId, wk->spawn.zoneId), 0, 1, 0, 0));
+            GameEvent_ChainNext(
+                event, CallFieldMapEntranceInTransition(
+                           gsys, field, GetInTransitionTypeBetweenZones(wk->zoneId, wk->spawn.zoneId), 0, 1, 0, 0));
         }
         (*state)++;
         break;
@@ -728,7 +734,7 @@ GameEventReturnCode EventMapChangeEscapeRope_Callback(GameEvent *event, u32 *sta
         break;
     case 4:
         GameEvent_ChainNext(event,
-            func_ov036_021b95ac(event, gsys, field, wk->seasonChanged, wk->prevSeason, wk->season));
+                            func_ov036_021b95ac(event, gsys, field, wk->seasonChanged, wk->prevSeason, wk->season));
         (*state)++;
         break;
     case 5:
@@ -767,7 +773,7 @@ GameEventReturnCode EventMapChangeDig_Callback(GameEvent *event, u32 *state, voi
         break;
     case 4:
         GameEvent_ChainNext(event,
-            func_ov036_021b95e0(event, gsys, field, wk->seasonChanged, wk->prevSeason, wk->season));
+                            func_ov036_021b95e0(event, gsys, field, wk->seasonChanged, wk->prevSeason, wk->season));
         (*state)++;
         break;
     case 5:
@@ -1191,8 +1197,8 @@ void EventEntralinkWarp_CreateReturnLocation(ZoneSpawnInfo *spawn, Field *field)
         RailPosition railPos;
 
         func_ov036_0219ad24(player, &railPos);
-        CreateZoneChangeDataRail(spawn, Field_GetPlayerStateZoneID(field), WARP_DIR_DOWN, railPos.componentId, railPos.posFront,
-                      railPos.posSide);
+        CreateZoneChangeDataRail(spawn, Field_GetPlayerStateZoneID(field), WARP_DIR_DOWN, railPos.componentId,
+                                 railPos.posFront, railPos.posSide);
     }
 }
 
@@ -1302,6 +1308,7 @@ void FieldMapControl_LoadBlackoutZone(GameSystem *gsys) {
 
 GameEventReturnCode EventMapChangeBlackout_Callback(GameEvent *event, u32 *state, void *data) {
     EventMapChangeBlackout *wk = data;
+
     switch (*state) {
     case 0:
         FieldMapControl_LoadBlackoutZone(wk->gsys);
@@ -1311,7 +1318,9 @@ GameEventReturnCode EventMapChangeBlackout_Callback(GameEvent *event, u32 *state
         SetPlayerSpecialState(GameData_GetPlayerState(GSYS_GetGameData(wk->gsys)), 0);
         ISSSwitchSys_ResetSwitches(ISS_GetSwitchSys(GameSystem_GetISS(wk->gsys)));
         GameEvent_ChainNext(event, EventBGMChange_Create(wk->gsys,
-            GetMapBGMIDByPlayerState2(wk->gameData, wk->spawn.zoneId, GameData_GetSeason(wk->gameData)), 0, 60));
+                                                         GetMapBGMIDByPlayerState2(wk->gameData, wk->spawn.zoneId,
+                                                                                   GameData_GetSeason(wk->gameData)),
+                                                         0, 60));
         (*state)++;
         break;
     case 2:
@@ -1443,8 +1452,8 @@ void GameData_UpdateJoinAvenueForZone(GameData *gameData, u16 zoneId) {
     }
 
     if (IsZoneJoinAvenue(zoneId)) {
-        u16 param = JoinAvenue_GetParam(JoinAvenue_GetInfo(SaveControl_GetJoinAvenue(GameData_GetSaveControl(gameData))),
-                                        5, 0);
+        u16 param =
+            JoinAvenue_GetParam(JoinAvenue_GetInfo(SaveControl_GetJoinAvenue(GameData_GetSaveControl(gameData))), 5, 0);
         func_02017b64(gameData, param);
         func_02038bc8(0x18);
     }
@@ -1452,7 +1461,7 @@ void GameData_UpdateJoinAvenueForZone(GameData *gameData, u16 zoneId) {
     func_02039980(unk, 8, 0);
     {
         JoinAvenueSave *joinAvenue = SaveControl_GetJoinAvenue(GameData_GetSaveControl(gameData));
-        JoinAvenuePersonList *lists[2] = {NULL, NULL};
+        JoinAvenuePersonList *lists[2] = { NULL, NULL };
         int i;
 
         personList = GameData_GetJoinAvenuePersonListPtr(gameData);

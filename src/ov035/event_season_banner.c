@@ -28,7 +28,7 @@ typedef enum {
 typedef struct {
     GameSystem *gsys;
     Field *field;
-    u16 heapId;
+    HeapID heapId;
     u32 type;
     BOOL cancelled;
     volatile u8 endSeason;
@@ -48,7 +48,7 @@ void EventSeasonBanner_InitRendererStandalone(EventSeasonBanner *wk);
 void EventSeasonBanner_FreeRenderer(EventSeasonBanner *wk);
 void EventSeasonBanner_FreeRendererFieldOpen(EventSeasonBanner *wk);
 void EventSeasonBanner_FreeRendererStandalone(EventSeasonBanner *wk);
-void EventSeasonBanner_LoadGraphics(u8 season, u16 heapId);
+void EventSeasonBanner_LoadGraphics(u8 season, HeapID heapId);
 void EventSeasonBanner_UpdateRenderFX(EventSeasonBanner *wk, u32 state);
 void EventSeasonBanner_UpdateRenderFXFieldOpen(EventSeasonBanner *wk, u32 state);
 void EventSeasonBanner_UpdateRenderFXStandalone(EventSeasonBanner *wk, u32 state);
@@ -77,6 +77,7 @@ static const u32 SEASON_BANNER_LCD_CONFIG[4] = { 1, 0, 0, 1 };
 
 GameEventReturnCode EventSeasonBanner_Callback(GameEvent *event, u32 *state, void *data) {
     EventSeasonBanner *wk = data;
+
     switch (*state) {
     case SEASON_BANNER_STATE_INIT:
         EventSeasonBanner_SetFieldBannerFlag(wk);
@@ -212,7 +213,7 @@ void EventSeasonBanner_FreeRendererStandalone(EventSeasonBanner *wk) {
     GFL_BGSysFree();
 }
 
-void EventSeasonBanner_LoadGraphics(u8 season, u16 heapId) {
+void EventSeasonBanner_LoadGraphics(u8 season, HeapID heapId) {
     ArcTool *handle;
     NNSG2dPaletteData *palette;
     NNSG2dCharacterData *character;

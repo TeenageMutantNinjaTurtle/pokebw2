@@ -65,6 +65,7 @@ GameEvent *EventWorldTrade_Create(GameSystem *gsys, Field *field, u32 unused) {
 
 GameEventReturnCode EventWorldTrade_Callback(GameEvent *event, u32 *state, void *data) {
     EventWorldTrade *wk = data;
+
     switch (*state) {
     case 0:
         // Wait for the comm system to shut down
@@ -90,7 +91,7 @@ GameEventReturnCode EventWorldTrade_Callback(GameEvent *event, u32 *state, void 
         break;
     case 4:
         if (!GSYS_GetProcMgrState(wk->gsys)) {
-            GFL_SndBGMPlay(wk->bgm, 0xffff);
+            GFL_SndBGMPlay(wk->bgm, SND_CHANNEL_MASK_ALL);
             GFL_SndBGMFadeIn(60);
             GameEvent_ChainNext(event, EventFieldOpen_CreateHeadless(wk->gsys));
             *state = 5;

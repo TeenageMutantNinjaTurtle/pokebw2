@@ -38,6 +38,7 @@ GameEvent *EventWbtWifi_Create(GameSystem *gsys, void *args) {
 
 GameEventReturnCode EventWbtWifi_Callback(GameEvent *event, u32 *state, void *data) {
     EventWbtWifi *wk = data;
+
     switch (*state) {
     case 0:
         // Wait for the comm system to shut down

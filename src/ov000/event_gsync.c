@@ -91,7 +91,7 @@ GameEventReturnCode EventGameSync_Callback(GameEvent *event, u32 *state, void *d
         // Back from the Wi-Fi settings
         OS_EnableIrq();
         GFL_SndInit();
-        GFL_SndBGMPlay(wk->bgm, 0xffff);
+        GFL_SndBGMPlay(wk->bgm, SND_CHANNEL_MASK_ALL);
         GFL_SndBGMFadeIn(60);
         *state = 15;
         break;
@@ -119,8 +119,8 @@ GameEventReturnCode EventGameSync_Callback(GameEvent *event, u32 *state, void *d
     case 13:
         return GAMEEVENT_DONE;
     case 16: {
-        BOOL asleep = DreamWorldSave_IsPokemonAsleep(
-            getDreamWorldStuffAddress(GameData_GetSaveControl(GSYS_GetGameData(gsys))));
+        BOOL asleep =
+            DreamWorldSave_IsPokemonAsleep(getDreamWorldStuffAddress(GameData_GetSaveControl(GSYS_GetGameData(gsys))));
 
         if (howManyNormalPokesAreInAllBoxes(GameData_GetBoxSaveAccessor(GSYS_GetGameData(gsys))) == 0 && !asleep) {
             wk->gsyncResult = GSYNC_RESULT_NO_POKEMON;

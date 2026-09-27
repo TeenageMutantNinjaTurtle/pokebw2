@@ -164,7 +164,7 @@ GameEventReturnCode EventGtsNego_Callback(GameEvent *event, u32 *state, void *da
         GFL_HeapFree(wk->nego.playerInfo);
         GFL_HeapFree(wk->nego.playerInfo2);
         GFL_HeapFree(wk->party);
-        GFL_SndBGMPlay(wk->bgm, 0xffff);
+        GFL_SndBGMPlay(wk->bgm, SND_CHANNEL_MASK_ALL);
         GFL_SndBGMFadeIn(60);
         GameEvent_ChainNext(event, EventFieldOpen_CreateHeadless(gsys));
         (*state)++;

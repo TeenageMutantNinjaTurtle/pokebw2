@@ -5,6 +5,7 @@
 #include "app/wificlub.h"
 #include "battle/battle_proc.h"
 #include "battle/btl_setup.h"
+#include "constants/sound.h"
 #include "demo/shinka_demo.h"
 #include "field/event_wificlub.h"
 #include "field/field_event.h"
@@ -21,9 +22,6 @@
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
-
-#define SEQ_BGM_WIFI_CLUB 0x481
-#define SEQ_BGM_WIFI_BATTLE 0x48c
 
 typedef struct {
     u8 battleMode;
@@ -191,8 +189,8 @@ void EventWifiClub_SetBattleParty(EventWifiClub *wk, GameData *gameData, u32 unu
 
 // Resets the volume before logging in again
 void EventWifiClub_ResetForLogin(EventWifiClub *wk) {
-    GFL_SndPlayerSetVolumeEx(127, 63);
-    PokeVoice_SetMasterVolume(127);
+    GFL_SndPlayerSetVolumeEx(SND_VOLUME_MAX, SND_PLAYER_MASK_ALL);
+    PokeVoice_SetMasterVolume(SND_VOLUME_MAX);
     wk->login.unk14 = 1;
 }
 
@@ -224,7 +222,7 @@ GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, void *d
             (*state)++;
             EventWifiClub_Free(wk);
             PokeVoice_ResetMasterVolume();
-            GFL_SndBGMPlay(wk->bgm, 0xffff);
+            GFL_SndBGMPlay(wk->bgm, SND_CHANNEL_MASK_ALL);
             GFL_SndBGMFadeIn(60);
         }
         break;
@@ -252,7 +250,7 @@ GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, void *d
         wk->login.unk4 = 0;
         wk->login.unkC = 10;
         wk->login.unk18 = 1;
-        GFL_SndBGMPlay(SEQ_BGM_WIFI_CLUB, 0xffff);
+        GFL_SndBGMPlay(SEQ_BGM_WIFI_CLUB, SND_CHANNEL_MASK_ALL);
         wk->procManager = CreateGameProcManager(HEAPID_GAMEEVENT);
         QueueGameProc(wk->procManager, OVERLAY_WIFILOGIN, &WIFILOGIN_PROC_FUNCTIONS, &wk->login);
         wk->club->mode = 0;
@@ -356,7 +354,7 @@ GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, void *d
     case 16: {
         int i;
 
-        GFL_SndBGMPlay(SEQ_BGM_WIFI_BATTLE, 0xffff);
+        GFL_SndBGMPlay(SEQ_BGM_WIFI_BATTLE, SND_CHANNEL_MASK_ALL);
         wk->unk124 = 1;
         if (func_02042a6c(func_02040440()) == 0) {
             for (i = 0; i < 2; i++) {

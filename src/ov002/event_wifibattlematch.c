@@ -73,7 +73,7 @@ GameEventReturnCode EventWifiBattleMatch_Callback(GameEvent *event, u32 *state, 
         break;
     case 6:
         GameEvent_ChainNext(event, EventFieldOpen_CreateHeadless(gsys));
-        GFL_SndBGMPlay(wk->bgm, 0xffff);
+        GFL_SndBGMPlay(wk->bgm, SND_CHANNEL_MASK_ALL);
         GFL_SndBGMFadeIn(60);
         (*state)++;
         break;

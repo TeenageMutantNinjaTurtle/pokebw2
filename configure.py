@@ -251,6 +251,8 @@ def main():
     n.rule("report", f"{tools_dir / 'objdiff-cli'} report generate -p . -o $out", "Generating $out")
     n.rule("progress", "$python tools/scripts/progress.py $in", "Progress")
     n.rule("configure", f"$python configure.py {' '.join(args.versions)}", "Reconfiguring", generator="1")
+    # Formats the sources and headers in place with clang-format and .clang-format
+    n.rule("format", "clang-format -i $in", "Formatting")
 
     checks, configs = [], []
     for version in versions:
@@ -266,6 +268,8 @@ def main():
     n.build(["progress"], "phony", [f"{objdiff_version}_progress"])
 
     n.build(["build.ninja"], "configure", ["configure.py"], implicit=configs)
+    sources = sorted(str(p.relative_to(ROOT)) for p in [*ROOT.glob("src/**/*.c"), *ROOT.glob("include/**/*.h")])
+    n.build(["format"], "format", sources)
     n.build(["check"], "phony", checks)
     n.default(["check", "objdiff.json"])
 

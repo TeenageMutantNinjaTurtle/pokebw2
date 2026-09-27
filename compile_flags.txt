@@ -1,3 +1,5 @@
+--target=armv5te-none-eabi
+-ffreestanding
 -Iinclude
 -std=c99
 -DBLACK2
