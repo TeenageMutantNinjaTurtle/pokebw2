@@ -50,6 +50,9 @@ delinked code.
 | Path | Contents |
 | --- | --- |
 | `config/<version>/` | dsd configs: sections (`delinks.txt`), symbols and relocations for every module |
+| `config/names.txt`, `config/fixes.txt` | Our own names and fixes to dsd's analysis, applied again after regenerating the configs |
+| `src/<module>/` | Decompiled C, one directory per module, such as `src/ov035/event_mapchange.c` |
+| `include/` | Headers shared by the C code, see [Code organization](#code-organization) |
 | `tools/scripts/` | Helper scripts, such as `romdiff.py` to compare two ROMs region by region |
 | `extract/`, `build/` | Generated, never committed |
 
@@ -120,8 +123,8 @@ Things that affect whether MWCC output matches:
 - Structs passed by value go in registers and on the stack. Code that copies a struct to the stack and passes its
   address takes a pointer to a local copy.
 - Static data and stack locals are laid out in reverse declaration order.
-- Overlay IDs are linker symbols, such as `(u32)OVERLAY_279_ID` with `extern u32 OVERLAY_279_ID[]`, which gives the
-  literal pool entry a relocation. Mark the literal in the config with `tools/scripts/add_overlay_id_reloc.py`.
+- Overlay IDs are linker symbols, written `OVERLAY_ID(279)` from `gfl/overlay.h`, which gives the literal pool entry
+  a relocation. Mark the literal in the config with `tools/scripts/config_fixes.py overlay-id`.
 - A switch case that ends in the same code as another case is merged into it, so its end moves.
 - Switch cases are laid out in source order, not by value, so the layout shows the order the cases were written in.
 - Identical statements in different branches are merged, so a branch that jumps into the middle of another block had
@@ -165,6 +168,38 @@ Names that swan lacks are ours, and are recorded in `config/names.txt` by module
 .venv/bin/python tools/scripts/rename_symbol.py func_ov035_0217ed70 ElScoreboard_Create
 ```
 
+### Code organization
+
+- `struct_decls.h` declares every struct type once. The header of the module that owns a struct defines its layout
+  when that is known, and other code only uses pointers to it.
+- Headers are grouped like the game's code: `system/` (game system, game data, events), `field/`, `save/`, `gfl/`
+  (Game Freak's library), `pml/` (Pokémon data), `battle/`, `demo/`, `nitro/` (NitroSDK), `dsprot/` and `constants/`.
+- Each proc that an event starts has a header in `app/` with its parameter struct, proc table and overlay ID, such as
+  `app/worldtrade.h`. Each event has a header in `field/` with its create functions, such as
+  `field/event_worldtrade.h`.
+- A struct that only one file uses, such as an event's work, is defined in that file. Functions only called within
+  their file are declared at the top of it, since `-requireprotos` requires a prototype for every function.
+- Event callbacks take `void *data`, as `GameEventCallback` does, and cast it to their work.
+- Names, layouts and constants from swan are marked as such. swan's headers are generated for hacking tools, so
+  they are a reference rather than copied as they are.
+
+`ninja format` formats `src/` and `include/` with clang-format, using `.clang-format`. `compile_flags.txt` makes
+clangd check the code as 32-bit ARM.
+
+### Fixing the configs
+
+dsd sometimes cannot tell which overlay a relocation points to, because many overlays share addresses. It then lists
+every candidate, such as `module:overlays(36,214)`, and the build links to the first one, which gives the right bytes
+but the wrong symbol. `tools/scripts/config_fixes.py` fixes such relocations and other mistakes in both versions, and
+records them in `config/fixes.txt`:
+
+```sh
+.venv/bin/python tools/scripts/config_fixes.py reloc-module overlays/ov004 'overlay(214)' 0x0214f6c0
+.venv/bin/python tools/scripts/config_fixes.py overlay-id overlays/ov004 214 0x0214f6bc
+```
+
+It also removes relocations and symbols that are not real (`remove-reloc`, `remove-symbol`).
+
 ## Regenerating configs
 
 After improving dsd's analysis, regenerate the configs of both versions and import the names again:
@@ -181,8 +216,8 @@ tools/dsd init --rom-config extract/b2_us/config.yaml --output-path config/b2_us
     --allow-unknown-function-calls
 ```
 
-The names from swan and `config/names.txt` are applied again afterwards. Other changes to the configs, such as
-relocations added with `add_overlay_id_reloc.py` or `set_reloc_module.py`, have to be made again.
+The fixes in `config/fixes.txt` and the names from swan and `config/names.txt` are applied again afterwards, so only
+changes made to the configs by hand are lost.
 
 ## License
 
