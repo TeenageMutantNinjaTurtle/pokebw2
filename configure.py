@@ -22,7 +22,8 @@ VERSIONS = {
 
 WIBO_VERSION = "1.2.0"
 MWCCARM_URL = "http://decomp.aetias.com/files/mwccarm.zip"
-# Compiler for decompiled code. Not yet verified against the game, pokeblack uses dsi/1.1 for Black.
+# Compiler for decompiled code. dsi/1.1 to dsi/1.3p1 generate identical code for everything tested so far,
+# while dsi/1.6 does not match the game.
 MWCC_VERSION = "dsi/1.1"
 # The linker only places delinked objects, so its version does not affect matching
 MWLD_VERSION = "dsi/1.1"
@@ -36,9 +37,11 @@ CC_FLAGS = [
     "-char signed",        # char is signed
     "-fp soft",            # Software floating point
     "-lang=c99",
+    "-Cpp_exceptions off", # No exception tables
     "-gccext,on",          # GCC extensions
     "-gccinc",             # #include "..." and <...> search the same paths
     "-inline on,noauto",   # Only inline functions marked inline
+    "-ipa file",           # Interprocedural analysis within each file
     "-sym on",             # Debug info for objdiff
     "-nolink",
     "-msgstyle gcc",
@@ -168,8 +171,8 @@ def main():
     n.rule("extract", "$dsd rom extract --rom $in --output-path $extract_dir", "Extracting $in")
     n.rule("delink", "$dsd delink --config-path $config", "Delinking")
     n.rule("lcf", "$dsd lcf --config-path $config", "Generating linker script")
-    n.rule("mwcc", f"$wine {shlex.quote(str(mwcc))} {' '.join(CC_FLAGS)} -i include -o $out $in",
-           "Compiling $in")
+    n.rule("mwcc", f"mkdir -p $$(dirname $out) && $wine {shlex.quote(str(mwcc))} {' '.join(CC_FLAGS)} -i include "
+           "-o $out $in", "Compiling $in")
     n.rule("mwld", f"$wine {shlex.quote(str(mwld))} {' '.join(LD_FLAGS)} @$objects $lcf -o $out", "Linking $out")
     n.rule("rom_config", "$dsd rom config --elf $in --config $config", "Configuring ROM")
     n.rule("rom_build", "$dsd rom build --config $in --rom $out", "Building $out")

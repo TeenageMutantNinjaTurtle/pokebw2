@@ -10,7 +10,7 @@ It builds the following ROM:
 
 ## Status
 
-The ROM rebuilds byte for byte from delinked code. No code has been decompiled to C yet.
+The ROM rebuilds byte for byte. Overlay 4 is decompiled to C, and everything else is still delinked code.
 
 - 41,423 functions found by [dsd](https://github.com/AetiasHax/ds-decomp) in the ARM9, its 344 overlays, ITCM, DTCM, and the two TWL autoloads.
 - The DSi-only ARM9i/ARM7i programs are extracted (decrypted) and rebuilt, but not analyzed yet.
@@ -65,8 +65,24 @@ Black 2 is an NDS/DSi hybrid built with the TWL-SDK, which differs from DS-only 
 - LTD main (`0x02700000`–`0x0276aee0`) is not a dsd module yet, so 5 calls from ARM9 main into it and 6 calls through
   veneers have no relocation. Matching is unaffected, but these calls would break if code moved.
 - 4 local calls lead to functions dsd did not discover. They got placeholder symbols.
-- The compiler version for decompiled code is not verified yet. `configure.py` assumes `dsi/1.1`, the version
-  used for Pokémon Black.
+
+## Compiler
+
+The game was built with CodeWarrior for DSi, a version between `dsi/1.1` and `dsi/1.3p1`:
+
+- `dsi/1.6sp1` and `dsi/1.6sp2` do not match overlay 4's switch statement.
+- `dsi/1.1` through `dsi/1.3p1` produce identical code for every game function and synthetic test tried so far.
+  `configure.py` uses `dsi/1.1`, the version used for Pokémon Black.
+
+`tools/scripts/compiler_probe.py` compiles a C file with every version and compares each function against the
+game, ignoring relocated bytes. For example:
+
+```sh
+.venv/bin/python tools/scripts/compiler_probe.py tools/compiler_tests/main_loops.c
+```
+
+It needs `pyelftools`, `capstone` and `pyyaml`. To look at a function's disassembly, run `dsd dis` into
+`build/asm`, then use `tools/scripts/show_func.py`.
 
 ## Regenerating configs
 
