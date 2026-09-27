@@ -107,6 +107,23 @@ Matching is checked per function with [objdiff](https://github.com/encounter/obj
 
 `ninja progress` prints how much of the game matches, from the report at `build/b2_us/report.json`.
 
+`tools/scripts/add_source_file.py` adds a source file to both versions' `delinks.txt`, with White 2's ranges taken
+from the version map. `tools/scripts/compiler_probe.py src/... --compilers 1.1 --show-diff 1.1` compiles a file and
+diffs every function in it against the original.
+
+Things that affect whether MWCC output matches:
+
+- Register allocation follows the declaration order of locals, so try reordering declarations when registers are
+  swapped.
+- Loads through a pointer are not moved above stores unless the pointee is `const`. A load that the original
+  schedules early, such as an argument loaded before the stack arguments are stored, points to a `const` parameter.
+- Structs passed by value go in registers and on the stack. Code that copies a struct to the stack and passes its
+  address takes a pointer to a local copy.
+- Static data and stack locals are laid out in reverse declaration order.
+- Overlay IDs are linker symbols, such as `(u32)OVERLAY_279_ID` with `extern u32 OVERLAY_279_ID[]`, which gives the
+  literal pool entry a relocation. Mark the literal in the config with `tools/scripts/add_overlay_id_reloc.py`.
+- A switch case that ends in the same code as another case is merged into it, so its end moves.
+
 ## Versions
 
 Black 2 is the primary version. White 2 is the same program: of its 41,423 functions, 41,311 are byte-identical to

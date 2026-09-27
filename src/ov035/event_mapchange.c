@@ -53,7 +53,7 @@ typedef struct {
     u32 changeType;
     s16 zoneId;
     u16 warpId;
-    u16 warpDir;
+    s16 warpDir;
     u16 posWeightBits;
     BOOL isRail;
     VecFx32 pos;
@@ -117,13 +117,22 @@ typedef struct {
     EventMapChange *mapChange;
 } EventMapChangeCore;
 
+typedef struct {
+    GameSystem *gsys;
+    GameData *gameData;
+    ZoneSpawnInfo spawn;
+} EventMapChangeBlackout;
+
 typedef void (*DSProtCallback)(EventMapChange *wk, GameSystem *gsys);
 
 // Spawns at a position instead of a warp, warpId is -1
 #define ZONE_SPAWN_CHANGE_TYPE_POSITION 1
+#define ZONE_SPAWN_CHANGE_TYPE_3 3
 
 #define WARP_DIR_UP 1
 #define WARP_DIR_DOWN 2
+#define WARP_DIR_LEFT 3
+#define WARP_DIR_RIGHT 4
 
 #define FX32_CONST(x) ((s32)((x) * 4096))
 
@@ -351,6 +360,38 @@ extern void SetupWarpParamByWarp(ZoneWarp *warp, ZoneSpawnInfo *spawn, u32 a2);
 extern ZoneSpawnInfo *GetOutboundWarpRememberSpawnInfo(GameData *gameData);
 extern BOOL GetIsZoneMatrix0(u16 zoneId);
 extern void GameData_SetEscapeRopeZone(GameData *gameData, ZoneSpawnInfo *spawn);
+typedef struct ISS ISS;
+typedef struct ISSSwitchSys ISSSwitchSys;
+extern void SetupTeleportZoneChange(u16 returnLocation, ZoneSpawnInfo *spawn);
+extern void func_ov012_0215ef00(GameData *gameData, u16 zoneId);
+extern ISS *GameSystem_GetISS(GameSystem *gsys);
+extern ISSSwitchSys *ISS_GetSwitchSys(ISS *iss);
+extern void func_02032538(ISSSwitchSys *switchSys);
+extern BOOL SetupZoneWarpArrival(EventData *eventData, ZoneSpawnInfo *spawn, u16 warpId, u16 posWeightBits);
+extern void FieldStatus_SetNewLoadFlag(FieldStatus *status, BOOL flag);
+extern void PlayerState_SetZoneID(PlayerState *playerState, u16 zoneId);
+extern void PlayerState_SetRotation(PlayerState *playerState, u16 angle);
+extern BOOL GetZoneSpawnInfoIsRail(ZoneSpawnInfo *spawn);
+extern void PlayerState_SetWPos(PlayerState *playerState, VecFx32 *pos);
+extern void PlayerState_SetRailPos(PlayerState *playerState, VecFx32 *pos);
+extern void PlayerState_SetIsRail(PlayerState *playerState, BOOL isRail);
+extern void ISS_ChangeZone(ISS *iss, u16 zoneId);
+extern void SetGameDataNowSpawnZone(GameData *gameData, ZoneSpawnInfo *spawn);
+extern u32 GetRespawnLocationIndexForRespawnZone(int zoneId);
+extern void SetCurrentTeleportOrDeathZone(GameData *gameData, u16 respawnLocation);
+extern void func_ov012_0215ee40(GameData *gameData, u16 zoneId);
+extern void SetTeleportZoneDiscover(GameData *gameData, int zoneId);
+extern void FieldScript_CallOnZoneInit(GameSystem *gsys, u32 a1);
+extern void resetRebattleTrainers(EventWork *eventWork);
+extern void func_ov012_021683f4(GameSystem *gsys, u16 zoneId);
+extern void ResetWeather(GameSystem *gsys, int zoneId);
+extern u32 GetZoneNPCsCount(EventData *eventData);
+extern void *GetZoneNPCs(EventData *eventData);
+extern void SpawnAllZoneNPCs(MMSys *mmSys, void *npcs, int zoneId, u32 count, EventWork *eventWork);
+extern void FldActSys_DeleteAllActors(MMSys *mmSys);
+void GameData_SetGimmickByZone(GameData *gameData, int zoneId);
+void GameData_UpdateFlashStatus(GameData *gameData, u16 zoneId);
+void CallSpawnAllZoneNPCs(GameData *gameData, const ZoneSpawnInfo *spawn);
 void func_ov035_0217ebc8(GameData *gameData, ZoneSpawnInfo *spawn);
 void func_ov035_0217ec48(GameData *gameData, ZoneSpawnInfo *spawn);
 void GameData_AdjustPlayerStateOnDiveOut(GameData *gameData);
@@ -1504,4 +1545,144 @@ GameEvent *EventMapChangeEnding_Create(GameSystem *gsys, Field *field, u16 zoneI
     wk->mode = 0;
     wk->lensFlareStarted = TRUE;
     return event;
+}
+
+void FieldMapControl_LoadBlackoutZone(GameSystem *gsys) {
+    GameData *gameData = GSYS_GetGameData(gsys);
+    ZoneSpawnInfo spawn;
+    ZoneSpawnInfo escapeRopeSpawn;
+
+    SetupTeleportZoneChange(GetReturnLocationIdx(gameData), &spawn);
+    LoadZoneSpawnInfoCheckRail(&escapeRopeSpawn, GetRespawnZoneMainZone(GetReturnLocationIdx(gameData)));
+    GameData_SetEscapeRopeZone(gameData, &escapeRopeSpawn);
+    FieldMapControl_DeleteAllActors(gsys);
+    FieldMapControl_LoadZone(gsys, spawn.zoneId);
+    FieldMapControl_InitSpawn(gsys, &spawn);
+    func_0202d3f0(spawn.zoneId, gameData);
+    func_ov012_02162f44(gameData);
+    func_ov012_0215ef00(gameData, spawn.zoneId);
+    ShutdownFollowWork(gameData);
+}
+
+GameEventReturnCode EventMapChangeBlackout_Callback(GameEvent *event, u32 *state, EventMapChangeBlackout *wk) {
+    switch (*state) {
+    case 0:
+        FieldMapControl_LoadBlackoutZone(wk->gsys);
+        (*state)++;
+        break;
+    case 1:
+        SetPlayerSpecialState(GameData_GetPlayerState(GSYS_GetGameData(wk->gsys)), 0);
+        func_02032538(ISS_GetSwitchSys(GameSystem_GetISS(wk->gsys)));
+        GameEvent_ChainNext(event, EventBGMChange_Create(wk->gsys,
+            GetMapBGMIDByPlayerState2(wk->gameData, wk->spawn.zoneId, GameData_GetSeason(wk->gameData)), 0, 60));
+        (*state)++;
+        break;
+    case 2:
+        GameEvent_ChainNext(event, EventFieldOpen_Create(wk->gsys));
+        (*state)++;
+        break;
+    case 3:
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEvent *EventMapChangeBlackout_Create(GameSystem *gsys) {
+    GameData *gameData = GSYS_GetGameData(gsys);
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventMapChangeBlackout_Callback, sizeof(EventMapChangeBlackout));
+    EventMapChangeBlackout *wk = GameEvent_GetData(event);
+
+    wk->gsys = gsys;
+    wk->gameData = GSYS_GetGameData(gsys);
+    SetupTeleportZoneChange(GetReturnLocationIdx(wk->gameData), &wk->spawn);
+    return event;
+}
+
+u16 ConvWarpDirToAngle(int warpDir) {
+    switch (warpDir) {
+    default:
+    case WARP_DIR_UP:
+        return 0;
+    case WARP_DIR_LEFT:
+        return 0x4000;
+    case WARP_DIR_DOWN:
+        return 0x8000;
+    case WARP_DIR_RIGHT:
+        return 0xc000;
+    }
+}
+
+void SetupZoneChangeSpawn(EventData *eventData, ZoneSpawnInfo *next, ZoneSpawnInfo *spawn) {
+    if (next->changeType == ZONE_SPAWN_CHANGE_TYPE_POSITION) {
+        *spawn = *next;
+    } else if (!SetupZoneWarpArrival(eventData, spawn, next->warpId, next->posWeightBits)) {
+        LoadZoneSpawnInfoCheckRail(spawn, next->zoneId);
+    }
+}
+
+void FieldMapControl_InitSpawn(GameSystem *gsys, ZoneSpawnInfo *next) {
+    GameData *gameData = GSYS_GetGameData(gsys);
+    PlayerState *playerState = GameData_GetPlayerState(gameData);
+    EventData *eventData = GameData_GetEventData(gameData);
+    ZoneSpawnInfo spawn;
+    u16 respawnLocation;
+    s32 cacheIdx;
+    MMSys *mmSys;
+
+    FieldStatus_SetNewLoadFlag(GameData_GetFieldStatus(gameData), TRUE);
+    SetupZoneChangeSpawn(eventData, next, &spawn);
+    if (spawn.changeType == ZONE_SPAWN_CHANGE_TYPE_3) {
+        GameData_SetNextZone(gameData, GetOutboundWarpRememberSpawnInfo(gameData));
+    }
+
+    PlayerState_SetZoneID(playerState, spawn.zoneId);
+    PlayerState_SetRotation(playerState, ConvWarpDirToAngle(spawn.warpDir));
+    if (!GetZoneSpawnInfoIsRail(&spawn)) {
+        PlayerState_SetWPos(playerState, &spawn.pos);
+        PlayerState_SetIsRail(playerState, FALSE);
+    } else {
+        PlayerState_SetRailPos(playerState, &spawn.pos);
+        PlayerState_SetIsRail(playerState, TRUE);
+    }
+
+    ISS_ChangeZone(GameSystem_GetISS(gsys), spawn.zoneId);
+    SetGameDataNowSpawnZone(gameData, &spawn);
+    respawnLocation = GetRespawnLocationIndexForRespawnZone(spawn.zoneId);
+    if (respawnLocation != 0) {
+        SetCurrentTeleportOrDeathZone(gameData, respawnLocation);
+    }
+    GameData_SetGimmickByZone(gameData, spawn.zoneId);
+    func_ov012_02162f44(gameData);
+    func_ov012_0215ee40(gameData, spawn.zoneId);
+    SetTeleportZoneDiscover(gameData, spawn.zoneId);
+    FieldScript_CallOnZoneInit(gsys, 4);
+    resetRebattleTrainers(GameData_GetEventWork(gameData));
+    CallSpawnAllZoneNPCs(gameData, next);
+    func_ov012_021683f4(gsys, spawn.zoneId);
+    GameData_UpdateFlashStatus(gameData, spawn.zoneId);
+    ResetWeather(gsys, spawn.zoneId);
+
+    cacheIdx = GetZoneNPCInfoCacheIdx(spawn.zoneId);
+    mmSys = GameData_GetMMSys(gameData);
+    if (cacheIdx < 24) {
+        LoadMModelSystemInfoCache(mmSys, cacheIdx);
+    } else {
+        FldActSys_ClearCache(mmSys);
+    }
+}
+
+void CallSpawnAllZoneNPCs(GameData *gameData, const ZoneSpawnInfo *spawn) {
+    EventData *eventData = GameData_GetEventData(gameData);
+    u32 count = GetZoneNPCsCount(eventData);
+
+    if (count != 0) {
+        EventWork *eventWork = GameData_GetEventWork(gameData);
+        MMSys *mmSys = GameData_GetMMSys(gameData);
+
+        SpawnAllZoneNPCs(mmSys, GetZoneNPCs(eventData), spawn->zoneId, count, eventWork);
+    }
+}
+
+void GameData_DeleteAllActors(GameData *gameData) {
+    FldActSys_DeleteAllActors(GameData_GetMMSys(gameData));
 }
