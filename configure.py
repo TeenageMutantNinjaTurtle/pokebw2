@@ -7,6 +7,7 @@ import argparse
 import io
 import json
 import shlex
+import shutil
 import stat
 import subprocess
 import sys
@@ -53,6 +54,12 @@ CC_FLAGS = [
     "-msgstyle gcc",
 ]
 
+# Archives built from source, which replace their extracted counterparts in the ROM. Each maps its path under files/ to
+# the directory of its members, one assembly file each, in archive order.
+ARCHIVES = {
+    "a/1/6/9": "data/tr_ai",  # Trainer AI scripts, see tools/scripts/tr_ai_script.py
+}
+
 LD_FLAGS = [
     "-proc arm946e",
     "-nodead",             # Dead-stripping is on by default and would drop unreferenced delinked objects
@@ -84,7 +91,7 @@ class Writer:
             self.out.write(f"  {key} = {value}\n")
         self.out.write("\n")
 
-    def build(self, outputs, rule, inputs=(), implicit=(), variables=None, implicit_outputs=()):
+    def build(self, outputs, rule, inputs=(), implicit=(), variables=None, implicit_outputs=(), order_only=()):
         def esc(paths):
             return " ".join(str(p).replace("$", "$$").replace(" ", "$ ").replace(":", "$:") for p in paths)
 
@@ -94,6 +101,8 @@ class Writer:
         line += f": {rule} {esc(inputs)}"
         if implicit:
             line += f" | {esc(implicit)}"
+        if order_only:
+            line += f" || {esc(order_only)}"
         self.out.write(line + "\n")
         for key, value in (variables or {}).items():
             self.out.write(f"  {key} = {value}\n")
@@ -182,9 +191,34 @@ def add_version(n: Writer, version: str, dsd: Path) -> tuple[list[Path], list[st
     arm9_o = build_dir / "arm9.o"
     n.build([arm9_o], "mwld", objects, implicit=[lcf_file, objects_file],
             variables={"objects": objects_file, "lcf": lcf_file})
+
+    # The ROM's file system is the extracted one, with the archives built from source in place of the extracted ones.
+    # The tree is made first, so that no archive is written through a link into extract/.
+    files_dir = build_dir / "files"
+    files_ok = stamp_dir / "files.ok"
+    n.build([files_ok], "files_tree", [], implicit=[extract_dir / "config.yaml", "tools/scripts/files_tree.py"],
+            variables={"source": str(extract_dir / "files"), "output": str(files_dir), "built": " ".join(ARCHIVES)})
+    includes = sorted(Path("include/asm").glob("*.inc"))
+    archives = []
+    checks = []
+    for path, source_dir in ARCHIVES.items():
+        members = []
+        for source in sorted(Path(source_dir).glob("*.s")):
+            obj = build_dir / source.with_suffix(".o")
+            n.build([obj], "as", [source], implicit=includes)
+            n.build([obj.with_suffix(".bin")], "objcopy_bin", [obj])
+            members.append(obj.with_suffix(".bin"))
+        archive = files_dir / path
+        n.build([archive], "narc", members, implicit=["tools/scripts/narc.py"], order_only=[files_ok])
+        archive_ok = stamp_dir / "files" / f"{path.replace('/', '_')}.ok"
+        n.build([archive_ok], "check_file", [archive], implicit=[extract_dir / "config.yaml"],
+                variables={"original": str(extract_dir / "files" / path)})
+        archives.append(archive)
+        checks.append(archive_ok)
+
     rom_config = build_dir / "build" / "rom_config.yaml"
     n.build([rom_config], "rom_config", [arm9_o], variables={"config": str(arm9_config)})
-    n.build([rom], "rom_build", [rom_config])
+    n.build([rom], "rom_build", [rom_config], implicit=[files_ok, *archives])
 
     modules_ok = stamp_dir / "modules.ok"
     n.build([modules_ok], "check_modules", [rom_config], variables={"config": str(arm9_config)})
@@ -201,7 +235,7 @@ def add_version(n: Writer, version: str, dsd: Path) -> tuple[list[Path], list[st
     report = build_dir / "report.json"
     n.build([report], "report", [], implicit=["objdiff.json", *compiled, *delink_outputs])
     n.build([f"{version}_progress"], "progress", [report])
-    return [modules_ok, rom_ok], dsd_configs
+    return [modules_ok, rom_ok, *checks], dsd_configs
 
 
 def main():
@@ -224,6 +258,10 @@ def main():
     if not args.no_download:
         download_tools(tools_dir)
     wine = args.wine or str(tools_dir / "wibo")
+    llvm_mc = shutil.which("llvm-mc")
+    llvm_objcopy = shutil.which("llvm-objcopy")
+    if not llvm_mc or not llvm_objcopy:
+        sys.exit("llvm-mc and llvm-objcopy not found, see README.md")
     mwcc = tools_dir / "mwccarm" / MWCC_VERSION / "mwccarm.exe"
     mwld = tools_dir / "mwccarm" / MWLD_VERSION / "mwldarm.exe"
 
@@ -243,7 +281,16 @@ def main():
            "-gccdep -MD -i include -o $out $in && $python tools/scripts/fix_depfile.py $dep", "Compiling $in",
            depfile="$dep", deps="gcc")
     n.rule("mwld", f"$wine {shlex.quote(str(mwld))} {' '.join(LD_FLAGS)} @$objects $lcf -o $out", "Linking $out")
-    n.rule("rom_config", "$dsd rom config --elf $in --config $config", "Configuring ROM for $config")
+    n.rule("as", f"{shlex.quote(llvm_mc)} -triple=armv5te-none-eabi -filetype=obj -I include -o $out $in",
+           "Assembling $in")
+    n.rule("objcopy_bin", f"{shlex.quote(llvm_objcopy)} -O binary $in $out", "Converting $in")
+    n.rule("narc", "$python tools/scripts/narc.py pack $out $in", "Packing $out")
+    n.rule("check_file", "cmp $in $original && mkdir -p $$(dirname $out) && touch $out", "Checking $in")
+    n.rule("files_tree", "$python tools/scripts/files_tree.py $source $output $built --stamp $out",
+           "Linking the files of $output")
+    # dsd points the ROM at the extracted files, and the build's own file system replaces them
+    n.rule("rom_config", "$dsd rom config --elf $in --config $config && sed -i 's|^files_dir: .*|files_dir: ../files|' "
+           "$out", "Configuring ROM for $config")
     n.rule("rom_build", "$dsd rom build --config $in --rom $out", "Building $out")
     n.rule("check_modules", "$dsd check modules --config-path $config --fail && touch $out", "Checking modules")
     n.rule("sha1", "sha1sum --quiet -c $in && touch $out", "Checking $rom")

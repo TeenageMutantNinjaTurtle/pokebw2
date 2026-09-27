@@ -11,8 +11,9 @@ It builds the following ROMs:
 
 ## Status
 
-Both ROMs rebuild byte for byte from the same source tree. Overlay 4 is decompiled to C, and everything else is still
-delinked code.
+Both ROMs rebuild byte for byte from the same source tree. 14 source files match, including the script VM and the
+trainer AI, and everything else is still delinked code. The trainer AI scripts are built from source, see
+[Scripts](#scripts).
 
 - 41,423 functions found by [dsd](https://github.com/AetiasHax/ds-decomp) in the ARM9, its 344 overlays, ITCM, DTCM, and the two TWL autoloads.
 - 8,152 functions and 573 data symbols have real names, imported from [swan](#names).
@@ -30,11 +31,13 @@ delinked code.
    cd ../ds-decomp && cargo build --release && cp target/release/dsd ../pokebw2/tools/dsd
    ```
 
-2. Place your own dumps at `orig/baserom_b2_us.nds` and/or `orig/baserom_w2_us.nds`. They must match the SHA1s above.
+2. Install LLVM, whose `llvm-mc` and `llvm-objcopy` assemble the scripts and must be on the `PATH`.
+
+3. Place your own dumps at `orig/baserom_b2_us.nds` and/or `orig/baserom_w2_us.nds`. They must match the SHA1s above.
    They are not included and will not be provided. `tools/scripts/verify_dsi_rom.py` checks a dump against the
    digests in its own header.
 
-3. Configure and build. `configure.py` downloads [wibo](https://github.com/decompals/wibo) and the Metrowerks
+4. Configure and build. `configure.py` downloads [wibo](https://github.com/decompals/wibo) and the Metrowerks
    CodeWarrior tools on first run.
 
    ```sh
@@ -53,6 +56,8 @@ delinked code.
 | `config/names.txt`, `config/fixes.txt` | Our own names and fixes to dsd's analysis, applied again after regenerating the configs |
 | `src/<module>/` | Decompiled C, one directory per module, such as `src/ov035/event_mapchange.c` |
 | `include/` | Headers shared by the C code, see [Code organization](#code-organization) |
+| `data/` | Scripts assembled into the ROM's files, see [Scripts](#scripts) |
+| `include/asm/` | Macros for the scripts |
 | `tools/scripts/` | Helper scripts, such as `romdiff.py` to compare two ROMs region by region |
 | `extract/`, `build/` | Generated, never committed |
 
@@ -112,7 +117,7 @@ Matching is checked per function with [objdiff](https://github.com/encounter/obj
    same entry to `config/w2_us` with White 2's addresses, which `build/version_map.tsv` lists.
 2. Write the C code. objdiff rebuilds the object with ninja whenever a source file changes, and diffs every function
    against the original.
-3. objdiff can also create a decomp.me scratch for a function. The scratch uses compiler `mwcc_40_1018` (dsi/1.1),
+3. objdiff can also create a decomp.me scratch for a function. The scratch uses compiler `mwcc_40_1024` (dsi/1.1p1),
    and a context file preprocessed from the source.
 
 `ninja progress` prints how much of the game matches, from the report at `build/b2_us/report.json`.
@@ -156,6 +161,33 @@ Things that affect whether MWCC output matches:
   orders.
 - When the order of instructions differs and no source change moves it, try `tools/scripts/permuter_setup.py`, which
   prepares a function for [decomp-permuter](https://github.com/simonlindholm/decomp-permuter).
+
+## Scripts
+
+The script VM in `src/main/vm.c` runs four sets of commands: field events, the trainer AI, battle move animations and
+musicals. Scripts are files in the ROM's NARC archives. Each command is a 16-bit ID followed by its arguments.
+
+The trainer AI scripts are built from source. Archive `a/1/6/9` holds 14 scripts, one per AI flag, which run in turn
+for each flag the trainer has. They are written in `data/tr_ai/tr_ai_NN.s` with the macros in
+`include/asm/tr_ai.inc`. Each macro is one command of `src/ov170/tr_ai.c`, named for what the command does. Its
+arguments are 32-bit. Jump, list and table arguments are labels, which the macros encode relative to the end of the
+argument. Lists of values end with `list_end`.
+
+`ninja` assembles each script with `llvm-mc`, converts it to a binary with `llvm-objcopy`, packs the binaries with
+`tools/scripts/narc.py` into `build/<version>/files/a/1/6/9`, and checks the archive against the extracted one. The
+ROM is built from `build/<version>/files`, which `tools/scripts/files_tree.py` fills with links to the extracted files,
+except for the files built from source. `ARCHIVES` in `configure.py` lists them.
+
+`tools/scripts/tr_ai_script.py` disassembled the scripts, and can regenerate them and the macros:
+
+```sh
+python3 tools/scripts/tr_ai_script.py disasm extract/b2_us/files/a/1/6/9 data/tr_ai
+python3 tools/scripts/tr_ai_script.py inc include/asm/tr_ai.inc
+```
+
+The disassembler follows the jumps from the start of each script. Bytes it does not reach are decoded as commands
+where they are valid, then as lists, and otherwise kept as `.byte`. Script 12 does not decode with this game's
+commands. Its first command, 62, reads no arguments here, and the bytes after it are kept as they are.
 
 ## Versions
 
