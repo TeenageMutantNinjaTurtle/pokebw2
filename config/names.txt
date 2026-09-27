@@ -6,6 +6,8 @@
 . 0x02009a0c DreamWorldSave_IsPokemonAsleep
 . 0x0200a3dc WifiList_GetMyGSID
 . 0x0200b488 SaveControl_GetWorldTradeData
+. 0x0200b50c Regulation_Create
+. 0x0200b608 Regulation_SetParam
 . 0x0200f2f8 RecordSave_ClearMatchInProgress
 . 0x02010050 JoinAvenue_GetPersonList
 . 0x02010564 KeyInfo_GetCityKey

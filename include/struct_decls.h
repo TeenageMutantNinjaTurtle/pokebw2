@@ -4,6 +4,8 @@
 // Every struct type is declared here once, and defined in the header of the module that owns it, if its layout is
 // known
 
+typedef struct AdventureSave AdventureSave;
+typedef struct AdventureTime AdventureTime;
 typedef struct ArcTool ArcTool;
 typedef struct AreaData AreaData;
 typedef struct BagSave BagSave;
@@ -33,6 +35,7 @@ typedef struct GameEvent GameEvent;
 typedef struct GameProc GameProc;
 typedef struct GameProcFunctions GameProcFunctions;
 typedef struct GameProcManager GameProcManager;
+typedef struct GameRecords GameRecords;
 typedef struct GameSystem GameSystem;
 typedef struct GameSystemProcData GameSystemProcData;
 typedef struct GimmickState GimmickState;
@@ -51,13 +54,19 @@ typedef struct NetHandle NetHandle;
 typedef struct PlaceName PlaceName;
 typedef struct PlayerInfo PlayerInfo;
 typedef struct PlayerState PlayerState;
+typedef struct PokeDexSave PokeDexSave;
 typedef struct PokeParty PokeParty;
 typedef struct RailPosition RailPosition;
 typedef struct RecordSave RecordSave;
+typedef struct Regulation Regulation;
 typedef struct SaveControl SaveControl;
+typedef struct TrainerCardSave TrainerCardSave;
+typedef struct TrainerDataSave TrainerDataSave;
+typedef struct UnityTowerSurveySave UnityTowerSurveySave;
 typedef struct WarpSequence WarpSequence;
 typedef struct WifiList WifiList;
 typedef struct WorldTradeData WorldTradeData;
+typedef struct ZoneNPC ZoneNPC;
 typedef struct ZoneSpawnInfo ZoneSpawnInfo;
 typedef struct ZoneWarp ZoneWarp;
 

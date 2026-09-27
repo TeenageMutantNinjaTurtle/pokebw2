@@ -28,9 +28,9 @@ typedef struct {
 } BattleParam;
 
 typedef struct {
-    void *unk0;
+    Regulation *regulation;
     PokeParty *party;
-    void *otherName;
+    u16 *otherName;
     u8 otherGender;
     PokeParty *otherParty;
     GameData *gameData;

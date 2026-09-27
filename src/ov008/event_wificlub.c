@@ -5,6 +5,7 @@
 #include "app/wificlub.h"
 #include "battle/battle_proc.h"
 #include "battle/btl_setup.h"
+#include "battle/regulation.h"
 #include "constants/sound.h"
 #include "demo/shinka_demo.h"
 #include "field/event_wificlub.h"
@@ -51,7 +52,7 @@ typedef struct {
     u32 battleResult;
     u32 unk124;
     u8 unk128[0xc];
-    void *records;
+    GameRecords *records;
     BattleParam battle;
     u8 unk150[0x18];
     PokeParty *party;
@@ -80,9 +81,9 @@ void EventWifiClub_SetupBattle(EventWifiClub *wk, u32 mode) {
     u32 rule;
 
     if (unk48) {
-        func_0200b608(wk->club->unk1C, 13, TRUE);
+        Regulation_SetParam(wk->club->regulation, 13, TRUE);
     } else {
-        func_0200b608(wk->club->unk1C, 13, FALSE);
+        Regulation_SetParam(wk->club->regulation, 13, FALSE);
     }
 
     switch (mode) {
@@ -158,9 +159,9 @@ void EventWifiClub_SetupBattle(EventWifiClub *wk, u32 mode) {
     }
 
     func_020186b0(wk->btlSetup, 1);
-    func_02017d30(wk->btlSetup, wk->club->unk1C, HEAPID_GAMEEVENT);
-    func_0201f63c(wk->club->unk1C, wk->club->parties[0]);
-    func_0201f63c(wk->club->unk1C, wk->club->parties[1]);
+    func_02017d30(wk->btlSetup, wk->club->regulation, HEAPID_GAMEEVENT);
+    func_0201f63c(wk->club->regulation, wk->club->parties[0]);
+    func_0201f63c(wk->club->regulation, wk->club->parties[1]);
     wk->btlSetup->records = GameData_GetRecords(GSYS_GetGameData(wk->gsys));
 }
 
@@ -170,7 +171,7 @@ void EventWifiClub_SetupBattleSelect(EventWifiClub *wk, GameData *gameData, u32 
     PlayerInfo *other = func_02017378(gameData, otherNetId);
     BattleSelectParam *select = &wk->select;
 
-    select->unk0 = wk->club->unk1C;
+    select->regulation = wk->club->regulation;
     select->party = wk->club->parties[netId];
     select->otherName = GetPlayerName(other);
     select->otherGender = getTrainerGender(other);
@@ -485,7 +486,7 @@ void EventWifiClub_Free(EventWifiClub *wk) {
     }
     GFL_HeapFree(wk->club->parties[0]);
     GFL_HeapFree(wk->club->parties[1]);
-    GFL_HeapFree(wk->club->unk1C);
+    GFL_HeapFree(wk->club->regulation);
     GFL_HeapFree(wk->party);
     GFL_HeapFree(wk->club->buffer);
     GFL_HeapFree(wk->club);
@@ -518,7 +519,7 @@ void EventWifiClub_Init(GameEvent *event, GameSystem *gsys, Field *field, BOOL u
     wk->bgm = GFL_SndBGMGetID();
     wk->club->parties[0] = PokeParty_Create(HEAPID_TAIL(HEAPID_USER));
     wk->club->parties[1] = PokeParty_Create(HEAPID_TAIL(HEAPID_USER));
-    wk->club->unk1C = func_0200b50c(HEAPID_TAIL(HEAPID_USER));
+    wk->club->regulation = Regulation_Create(HEAPID_TAIL(HEAPID_USER));
     wk->club->unk20 = 1;
 }
 

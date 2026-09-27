@@ -11,15 +11,15 @@
 
 typedef struct {
     WorldTradeData *worldTrade;
-    void *adventure;
-    void *party;
+    AdventureSave *adventure;
+    PokeParty *party;
     BoxSaveAccessor *boxes;
-    void *pokedex;
+    PokeDexSave *pokedex;
     WifiList *wifiList;
-    void *unityTowerSurvey;
+    UnityTowerSurveySave *unityTowerSurvey;
     PlayerInfo *playerInfo;
-    void *trainerData;
-    void *trainerCardInfo;
+    TrainerDataSave *trainerData;
+    GameRecords *trainerCardInfo;
     BagSave *bag;
     BOOL isNationalDex;
     s32 profileId;

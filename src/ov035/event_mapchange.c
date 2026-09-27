@@ -25,12 +25,14 @@
 #include "gfl/std.h"
 #include "nitro/fx.h"
 #include "pml/poke_party.h"
+#include "save/adventure.h"
 #include "save/dream_world.h"
 #include "save/event_work.h"
 #include "save/join_avenue.h"
 #include "save/key_info.h"
 #include "save/player_info.h"
 #include "save/save_control.h"
+#include "save/trainer_card.h"
 #include "system/game_comm.h"
 #include "system/game_data.h"
 #include "system/game_event.h"
@@ -199,8 +201,8 @@ GameEventReturnCode EventFieldFirst_Callback(GameEvent *event, u32 *state, void 
     EventFieldFirst *wk = data;
     GameSystem *gsys = wk->gsys;
     GameData *gameData = GSYS_GetGameData(gsys);
-    EventWork *eventWork = GameData_GetEventWork(gameData);
 
+    GameData_GetEventWork(gameData);
     switch (*state) {
     case 0:
         FieldScript_CallPlayerInitSetup(gsys, 1);
@@ -347,9 +349,9 @@ GameEvent *EventFieldContinue_Create(GameSystem *gsys, GameSystemProcData *procD
     EventFieldContinue *wk = GameEvent_GetData(event);
     EventWork *eventWork;
     SaveControl *save;
-    void *adventure;
-    void *party;
-    void *trainerCard;
+    AdventureSave *adventure;
+    PokeParty *party;
+    TrainerCardSave *trainerCard;
 
     wk->gsys = gsys;
     wk->gameData = GSYS_GetGameData(gsys);
@@ -447,7 +449,7 @@ GameEventReturnCode EventMapChangeCore_Callback(GameEvent *event, u32 *state, vo
     GameSystem *gsys = wk->gsys;
     GameData *gameData = wk->gameData;
     Field *field = wk->field;
-    void *comm = GSYS_GetGameCommSystem(gsys);
+    GameCommSys *comm = GSYS_GetGameCommSystem(gsys);
 
     switch (*state) {
     case 0: {
@@ -484,16 +486,16 @@ GameEventReturnCode EventMapChangeCore_Callback(GameEvent *event, u32 *state, vo
         DSPROT_CHECKED_CALL(func_ov337_02180a84, EventMapChange_DSProtNop, EventMapChange_DSProtTamper1, wk, gsys);
         FieldMapControl_DeleteAllActors(gsys);
         if (wk->unk40 && wk->seasonChanged) {
-            void *adventureTime;
+            AdventureTime *adventureTime;
             u8 season;
-            void *party;
+            PokeParty *party;
 
             Season_Set(gameData, wk->season);
             adventureTime = getSaveAdventureTimeBlock(GameData_GetSaveControl(gameData));
             season = GameData_GetSeason(gameData);
             party = GameData_GetParty(gameData);
             TransformVsPokePartyBySeason(gameData, party, season);
-            func_ov012_021643f0(gameData, party, (u8 *)adventureTime + 0x14, season);
+            func_ov012_021643f0(gameData, party, &adventureTime->time, season);
         }
         DSPROT_CHECKED_CALL(func_ov337_02180b30, EventMapChange_DSProtNop, EventMapChange_DSProtTamper2, wk, gsys);
         FieldMapControl_LoadZone(gsys, wk->spawn.zoneId);
@@ -1174,7 +1176,7 @@ GameEvent *EventEntralinkWarp_CreateOut(GameSystem *gsys) {
     Field *field = GSYS_GetField(gsys);
     ZoneSpawnInfo spawn = *GameData_GetEntralinkParentSpawnInfo(gameData);
     GameEvent *event = EventEntralinkWarp_Create(gsys, field, &spawn);
-    void *comm = GSYS_GetGameCommSystem(gsys);
+    GameCommSys *comm = GSYS_GetGameCommSystem(gsys);
 
     if (!GameCommSys_BootCheck(comm)) {
         func_0202be00(comm);
@@ -1334,7 +1336,7 @@ GameEventReturnCode EventMapChangeBlackout_Callback(GameEvent *event, u32 *state
 }
 
 GameEvent *EventMapChangeBlackout_Create(GameSystem *gsys) {
-    GameData *gameData = GSYS_GetGameData(gsys);
+    GSYS_GetGameData(gsys);
     GameEvent *event = GameEvent_Create(gsys, NULL, EventMapChangeBlackout_Callback, sizeof(EventMapChangeBlackout));
     EventMapChangeBlackout *wk = GameEvent_GetData(event);
 
@@ -1435,7 +1437,7 @@ void GameData_DeleteAllActors(GameData *gameData) {
 
 // Allocates a list of people while in Join Avenue and frees it elsewhere, then resets the people in it and in the save
 void GameData_UpdateJoinAvenueForZone(GameData *gameData, u16 zoneId) {
-    void *unk = func_02017b84(gameData);
+    u32 *unk = func_02017b84(gameData);
     JoinAvenuePersonList **personList;
 
     if (IsZoneJoinAvenue(zoneId) || IsZoneJoinAvenueSubZone(zoneId)) {
@@ -1487,7 +1489,7 @@ void GameData_UpdateJoinAvenueForZone(GameData *gameData, u16 zoneId) {
 
 // Sets flag 8 when the zone changed, which GameData_UpdateJoinAvenueForZone clears
 void GameData_UpdateZoneChangeFlag(GameData *gameData, u16 zoneId, u16 prevZoneId) {
-    void *unk = func_02017b84(gameData);
+    u32 *unk = func_02017b84(gameData);
 
     if (zoneId != prevZoneId) {
         func_02039980(unk, 8, 1);
@@ -1508,8 +1510,9 @@ void GameData_UpdateFlashStatus(GameData *gameData, u16 zoneId) {
 void FieldMapControl_LoadZone(GameSystem *gsys, u16 zoneId) {
     GameData *gameData = GSYS_GetGameData(gsys);
     EventData *eventData = GameData_GetEventData(gameData);
-    Field *field = GSYS_GetField(gsys);
     MapMatrix *matrix;
+
+    GSYS_GetField(gsys);
 
     if (GameData_IsForceSeasonSync(gameData) == TRUE && !IsZoneEntralinkHub(zoneId)) {
         FieldStatus_SetInLinkedWorld(GameData_GetFieldStatus(gameData), TRUE);
@@ -1555,8 +1558,8 @@ void FieldMapControl_LoadZone(GameSystem *gsys, u16 zoneId) {
 
 void FieldMapControl_DeleteAllActors(GameSystem *gsys) {
     GameData *gameData = GSYS_GetGameData(gsys);
-    Field *field = GSYS_GetField(gsys);
 
+    GSYS_GetField(gsys);
     GameData_DeleteAllActors(gameData);
 }
 
@@ -1656,7 +1659,7 @@ GameEventReturnCode EventEntralinkWarp_Callback(GameEvent *event, u32 *state, vo
 
 GameEventReturnCode EventEntralinkWarpIn_Callback(GameEvent *event, u32 *state, void *data) {
     EventEntralinkWarp *wk = data;
-    void *comm = GSYS_GetGameCommSystem(wk->gsys);
+    GameCommSys *comm = GSYS_GetGameCommSystem(wk->gsys);
 
     switch (*state) {
     case 0: {
@@ -1736,10 +1739,10 @@ void GameData_AdjustPlayerStateOnDiveOut(GameData *gameData) {
 // reverting to Land Forme.
 void GameData_UpdatePartyForTimeOfDay(GameData *gameData) {
     SaveControl *save = GameData_GetSaveControl(gameData);
-    void *party = SaveControl_GetPokePartySave(save);
+    PokeParty *party = SaveControl_GetPokePartySave(save);
     u8 season = GameData_GetSeason(gameData);
 
-    func_ov012_021643f0(gameData, party, (u8 *)getSaveAdventureTimeBlock(save) + 0x14, season);
+    func_ov012_021643f0(gameData, party, &getSaveAdventureTimeBlock(save)->time, season);
 }
 
 // DS Protect tamper responses, which leak memory

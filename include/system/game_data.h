@@ -28,10 +28,10 @@ u32 GameData_GetLastSubscreen(GameData *gameData);
 MMSys *GameData_GetMMSys(GameData *gameData);
 CityState *GameData_GetMyCityState(GameData *gameData);
 ZoneSpawnInfo *GameData_GetNextZone(GameData *gameData);
-void *GameData_GetParty(GameData *gameData);
+PokeParty *GameData_GetParty(GameData *gameData);
 PlayerState *GameData_GetPlayerState(GameData *gameData);
-void *GameData_GetPokedex(GameData *gameData);
-void *GameData_GetRecords(GameData *gameData);
+PokeDexSave *GameData_GetPokedex(GameData *gameData);
+GameRecords *GameData_GetRecords(GameData *gameData);
 SaveControl *GameData_GetSaveControl(GameData *gameData);
 u8 GameData_GetSeason(GameData *gameData);
 void GameData_GetSeasons(GameData *gameData, u16 *prevSeason, u16 *season);
@@ -60,7 +60,7 @@ void func_020175d8(GameData *gameData, u32 a1);
 void func_02017608(GameData *gameData, u32 a1);
 u32 func_02017a40(GameData *gameData);
 void func_02017b64(GameData *gameData, u8 a1);
-void *func_02017b84(GameData *gameData);
-void func_02039980(void *a0, u32 index, u32 value);
+u32 *func_02017b84(GameData *gameData);
+void func_02039980(u32 *a0, u32 index, u32 value);
 
 #endif // POKEBW2_SYSTEM_GAME_DATA_H

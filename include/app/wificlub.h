@@ -19,7 +19,7 @@ typedef struct {
     u32 mode;
     u32 unk10;
     PokeParty *parties[2];
-    void *unk1C;
+    Regulation *regulation;
     u8 unk20;
     u8 unk21[0x25];
     u8 unk46;

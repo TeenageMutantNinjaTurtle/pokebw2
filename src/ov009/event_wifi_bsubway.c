@@ -24,7 +24,7 @@ GameEvent *EventWifiBSubway_CreateFromArgs(GameSystem *gsys, void *data) {
 }
 
 GameEvent *EventWifiBSubway_Create(GameSystem *gsys, u32 mode, u16 *result) {
-    GameData *gameData = GSYS_GetGameData(gsys);
+    GSYS_GetGameData(gsys);
     GameEvent *event = GameEvent_Create(gsys, NULL, EventWifiBSubway_Callback, sizeof(EventWifiBSubway));
     EventWifiBSubway *wk = GameEvent_GetData(event);
 

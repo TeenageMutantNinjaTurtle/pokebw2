@@ -18,7 +18,7 @@ typedef struct {
     BagSave *bag;
     PlayerInfo *playerInfo;
     u32 unk14;
-    void *trainerData;
+    TrainerDataSave *trainerData;
     u32 unk1C;
     void *unk20;
     u32 mode;
