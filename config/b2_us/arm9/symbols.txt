@@ -190,6 +190,7 @@ PokeVoice_CreateChatterInfo kind:function(thumb,size=0x10) addr:0x02006d54
 setupMic kind:function(thumb,size=0x80) addr:0x02006d64
 func_02006de4 kind:function(arm,size=0x4) addr:0x02006de4
 func_02006de8 kind:function(thumb,size=0x24) addr:0x02006de8
+.L_02006dec kind:label(thumb) addr:0x02006dec
 func_02006e0c kind:function(thumb,size=0x30) addr:0x02006e0c
 func_02006e3c kind:function(thumb,size=0x18) addr:0x02006e3c
 func_02006e54 kind:function(thumb,size=0x2c) addr:0x02006e54
@@ -7447,6 +7448,7 @@ func_0207e930 kind:function(thumb,size=0x20) addr:0x0207e930
 .L_0207e934 kind:label(thumb) addr:0x0207e934
 func_0207e950 kind:function(arm,size=0x4) addr:0x0207e950
 func_0207e954 kind:function(thumb,size=0x1a) addr:0x0207e954
+.L_0207e958 kind:label(thumb) addr:0x0207e958
 func_0207e970 kind:function(arm,size=0x4) addr:0x0207e970
 func_0207e974 kind:function(thumb,size=0xac) addr:0x0207e974
 func_0207ea20 kind:function(thumb,size=0xbc) addr:0x0207ea20

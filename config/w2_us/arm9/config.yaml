@@ -40,6 +40,14 @@ autoloads:
     delinks: autoload_3/delinks.txt
     symbols: autoload_3/symbols.txt
     relocations: autoload_3/relocs.txt
+  - kind:
+      Ltd: 0
+    name: ltd_autoload_0
+    object: ../../../build/w2_us/build/ltd_autoload_0.bin
+    hash: 9ca7c0f170166637
+    delinks: ltd_autoload_0/delinks.txt
+    symbols: ltd_autoload_0/symbols.txt
+    relocations: ltd_autoload_0/relocs.txt
 overlays:
   - id: 0
     signed: true

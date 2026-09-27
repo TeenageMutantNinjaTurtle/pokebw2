@@ -16,7 +16,8 @@ delinked code.
 
 - 41,423 functions found by [dsd](https://github.com/AetiasHax/ds-decomp) in the ARM9, its 344 overlays, ITCM, DTCM, and the two TWL autoloads.
 - 8,152 functions and 573 data symbols have real names, imported from [swan](#names).
-- The DSi-only ARM9i/ARM7i programs are extracted (decrypted) and rebuilt, but not analyzed yet.
+- The DSi-only LTD module in ARM9i is decompressed, analyzed and linked like the other modules. The ARM7i program is
+  only extracted (decrypted) and rebuilt.
 
 ## Setup
 
@@ -63,13 +64,15 @@ Black 2 is an NDS/DSi hybrid built with the TWL-SDK, which differs from DS-only 
   program. The build recomputes all of these.
 - The digests of the ARM9 secure area are computed over its encrypted form. Without an ARM7 BIOS the build reuses
   the original values, which stay valid as long as the secure area is unchanged.
-- The DSi-only "LTD main" code in ARM9i is loaded to `0x02700000` at runtime, and ARM9 main calls into it.
+- The DSi-only LTD ("limited") module is compressed inside ARM9i and loaded to `0x02700000` in DSi mode. ARM9 main
+  calls into it. Extraction splits ARM9i into this module (`dsi/ltd_autoload_0.bin`), and the build links, recompresses
+  and reinserts it.
 
 ## Known gaps
 
-- LTD main (`0x02700000`–`0x0276aee0`) is not a dsd module yet, so 5 calls from ARM9 main into it and 6 calls through
-  veneers have no relocation. Matching is unaffected, but these calls would break if code moved.
-- 4 local calls lead to functions dsd did not discover. They got placeholder symbols.
+- dsd only finds 253 functions in the LTD module's 437 KB. Its layout, with code after the static initializers,
+  does not fit dsd's section heuristics yet.
+- 8 calls lead to functions dsd did not discover, and got placeholder symbols (`func_..._unk`).
 
 ## Compiler
 
@@ -116,7 +119,14 @@ ds-pokemon-hacking community, revision `4324f73` (2025-07-03). `tools/scripts/im
 
 ## Regenerating configs
 
-The configs were generated with the following command, once per version:
+After improving dsd's analysis, regenerate the configs of both versions and import the names again:
+
+```sh
+.venv/bin/python tools/scripts/regenerate_configs.py path/to/swan
+```
+
+This keeps the source files listed in each `delinks.txt`, but loses any other manual changes to the configs. It runs
+the following command once per version:
 
 ```sh
 tools/dsd init --rom-config extract/b2_us/config.yaml --output-path config/b2_us --build-path build/b2_us \

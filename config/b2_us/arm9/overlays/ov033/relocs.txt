@@ -683,12 +683,12 @@ from:0x02178e98 kind:thumb_call to:0x02024920 module:main
 from:0x02178e9e kind:thumb_call to:0x02048564 module:main
 from:0x02178ea4 kind:thumb_call to:0x02188474 module:overlay(36)
 from:0x02178eb0 kind:thumb_call to:0x021883b0 module:overlay(36)
-from:0x02178eb4 kind:thumb_call to:0x02006dec module:none
+from:0x02178eb4 kind:thumb_call to:0x02006dec module:main
 from:0x02178eba kind:thumb_call to:0x0203d134 module:main
 from:0x02178ec4 kind:thumb_call to:0x0202f8a4 module:main
 from:0x02178ecc kind:thumb_call to:0x02016d68 module:main
 from:0x02178edc kind:thumb_call to:0x02006ec0 module:main
-from:0x02178ee0 kind:thumb_call to:0x02006dec module:none
+from:0x02178ee0 kind:thumb_call to:0x02006dec module:main
 from:0x02178ee8 kind:thumb_call to:0x0203d134 module:main
 from:0x02178ef2 kind:thumb_call to:0x0202f8a4 module:main
 from:0x02178efa kind:thumb_call to:0x02016d68 module:main

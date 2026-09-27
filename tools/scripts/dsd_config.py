@@ -80,9 +80,9 @@ def reloc_module_names(module: str) -> list[str]:
     match = re.match(r"^overlays?\(([\d,\s]+)\)$", module)
     if match:
         return [f"overlays/ov{int(i):03d}" for i in match.group(1).split(",")]
-    match = re.match(r"^autoload\((\d+)\)$", module)
+    match = re.match(r"^(ltd_)?autoload\((\d+)\)$", module)
     if match:
-        return [f"autoload_{match.group(1)}"]
+        return [f"{match.group(1) or ''}autoload_{match.group(2)}"]
     return []
 
 
@@ -114,6 +114,10 @@ def load_modules(version: str, with_symbols: bool = True) -> dict[str, Module]:
             name = f"autoload_{index}"
             modules[name] = Module(name, config / name, extract / "arm9" / f"unk_autoload_{index}.bin",
                                    info["base_address"])
+    for ltd_yaml in sorted((extract / "dsi").glob("ltd_autoload_*.yaml")):
+        info = yaml.safe_load(ltd_yaml.read_text())
+        name = ltd_yaml.stem
+        modules[name] = Module(name, config / name, ltd_yaml.with_suffix(".bin"), info["base_address"])
     overlays = yaml.safe_load((extract / "arm9_overlays" / "overlays.yaml").read_text())["overlays"]
     for overlay in overlays:
         name = f"overlays/ov{overlay['id']:03d}"

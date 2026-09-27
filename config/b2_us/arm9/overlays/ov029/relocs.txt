@@ -88,7 +88,7 @@ from:0x0219292c kind:load to:0x02197440 module:overlay(29)
 from:0x02192940 kind:load to:0x02197440 module:overlay(29)
 from:0x02192956 kind:thumb_call to:0x020352e0 module:main
 from:0x0219295e kind:thumb_call to:0x0207e8d4 module:main
-from:0x02192964 kind:thumb_call to:0x0207e958 module:none
+from:0x02192964 kind:thumb_call to:0x0207e958 module:main
 from:0x02192970 kind:thumb_call to:0x0206c670 module:main
 from:0x02192978 kind:thumb_call to:0x0206c50c module:main
 from:0x0219297c kind:thumb_call_arm to:0x02196fec module:overlay(29)

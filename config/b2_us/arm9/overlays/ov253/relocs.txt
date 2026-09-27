@@ -164,14 +164,14 @@ from:0x0217d1ae kind:thumb_call_arm to:0x020787a8 module:main
 from:0x0217d1d2 kind:thumb_call to:0x02006e3c module:main
 from:0x0217d1e0 kind:load to:0x0217d800 module:overlay(253)
 from:0x0217d1ec kind:thumb_call to:0x0203a24c module:main
-from:0x0217d1f0 kind:thumb_call to:0x02006dec module:none
+from:0x0217d1f0 kind:thumb_call to:0x02006dec module:main
 from:0x0217d1f6 kind:thumb_call to:0x0203d134 module:main
 from:0x0217d202 kind:thumb_call to:0x02006e0c module:main
 from:0x0217d206 kind:thumb_call to:0x02006e3c module:main
 from:0x0217d222 kind:thumb_call to:0x0217d26c module:overlay(253)
 from:0x0217d244 kind:thumb_call to:0x0217d250 module:overlay(253)
 from:0x0217d25a kind:thumb_call to:0x0207e934 module:main
-from:0x0217d270 kind:thumb_call to:0x0207e958 module:none
+from:0x0217d270 kind:thumb_call to:0x0207e958 module:main
 from:0x0217d2b6 kind:thumb_call to:0x0217d27c module:overlay(253)
 from:0x0217d2c6 kind:thumb_call to:0x0217d38c module:overlay(253)
 from:0x0217d2d8 kind:thumb_call to:0x0217d38c module:overlay(253)
