@@ -92,7 +92,7 @@ typedef struct {
     u16 zoneId;
     ZoneSpawnInfo spawn;
     u32 unk2C;
-    u32 unk30;
+    u8 mode;
     u32 unk34;
     u32 unk38;
     u32 unk3C;
@@ -101,7 +101,15 @@ typedef struct {
     u16 prevSeason;
     u16 season;
     WarpSequence warp;
+    u32 unk9C;
+    BOOL lensFlareStarted;
 } EventMapChange;
+
+typedef struct {
+    EventMapChange *mapChange;
+} EventMapChangeCore;
+
+typedef void (*DSProtCallback)(EventMapChange *wk, GameSystem *gsys);
 
 #define ZONE_SPAWN_CHANGE_TYPE_WARP 1
 
@@ -110,7 +118,41 @@ typedef struct {
 
 // Defined by the linker script, the address is the overlay ID
 extern u32 OVERLAY_279_ID[];
+extern u32 OVERLAY_337_ID[];
 #define OVERLAY_NEW_GAME ((u32)OVERLAY_279_ID)
+#define OVERLAY_DSPROT ((u32)OVERLAY_337_ID)
+
+#define HW_VBLANK_COUNT_BUF 0x02fffc3c
+#define DSPROT_CHECKSUM 0x9f75a8d6
+
+// DS Protect state in overlay 337
+extern u32 data_ov337_02182440;
+extern DSProtCallback data_ov337_02182444[2];
+
+// Calls a DS Protect function after verifying its code. If the checksum does not match, `tamper` is called instead.
+// The dummy and tamper functions are put in a table in a random order, picked with the VBlank counter.
+#define DSPROT_CHECKED_CALL(func, tamper, arg0, arg1)                                                                  \
+    {                                                                                                                  \
+        u32 index = *(u32 *)HW_VBLANK_COUNT_BUF & 1;                                                                   \
+        u32 tamperIndex;                                                                                               \
+        u32 i;                                                                                                         \
+        u32 checksum;                                                                                                  \
+        u32 *code;                                                                                                     \
+        data_ov337_02182440 = index;                                                                                   \
+        tamperIndex = index ^ 1;                                                                                       \
+        data_ov337_02182444[index] = func_ov035_0217ed1c;                                                              \
+        data_ov337_02182444[tamperIndex] = tamper;                                                                     \
+        code = (u32 *)func;                                                                                            \
+        for (i = 0x25, checksum = 0; i != 0; i--) {                                                                    \
+            checksum ^= (*code >> i) | (*code << (32 - i));                                                            \
+            code++;                                                                                                    \
+        }                                                                                                              \
+        if (checksum == DSPROT_CHECKSUM) {                                                                             \
+            func(arg0, arg1);                                                                                          \
+        } else {                                                                                                       \
+            data_ov337_02182444[tamperIndex](arg0, arg1);                                                              \
+        }                                                                                                              \
+    }
 
 extern GameEvent *GameEvent_Create(GameSystem *gsys, GameEvent *parent, void *callback, u32 size);
 extern void *GameEvent_GetData(GameEvent *event);
@@ -190,6 +232,36 @@ extern u32 GetInTransitionTypeBetweenZones(u16 fromZone, u16 toZone);
 extern EventData *GameData_GetEventData(GameData *gameData);
 extern ZoneWarp *GetZoneWarpByID(EventData *eventData, u16 warpId);
 extern u32 GetWarpTransitionType(ZoneWarp *warp);
+extern void *GSYS_GetGameCommSystem(GameSystem *gsys);
+extern void FieldStatus_SetBusyFlag(FieldStatus *status, u32 flag);
+typedef struct FieldLensFlare FieldLensFlare;
+extern FieldLensFlare *Field_GetLensFlare(Field *field);
+extern u32 GetZoneFogIndexAll(Field *field, u16 zoneId);
+extern u16 Field_GetPlayerStateZoneID(Field *field);
+extern void FieldLensFlare_DecideForZoneTransit(FieldLensFlare *lensFlare, u16 zoneId, u16 prevZoneId, u32 fog);
+extern GameEvent *EventFieldCloseKeepSound_Create(GameSystem *gsys, Field *field);
+extern void func_ov337_02180bdc(void);
+extern BOOL func_02018b10(u16 zoneId);
+extern u8 GameCommSys_BootCheck(void *comm);
+extern void func_0202bd80(void *comm);
+extern void func_ov337_02180a84(EventMapChange *wk, GameSystem *gsys);
+extern void func_ov337_02180b30(EventMapChange *wk, GameSystem *gsys);
+extern void *GameData_GetParty(GameData *gameData);
+extern void func_ov012_021643f0(GameData *gameData, void *party, void *a2, u8 season);
+extern void func_ov035_0217e73c(GameData *gameData, u16 zoneId, u16 prevZoneId);
+extern void func_ov012_0215ee94(GameData *gameData, u16 zoneId);
+extern void func_ov012_0215eedc(GameData *gameData, u16 zoneId);
+extern void func_ov012_0215eeb8(GameData *gameData, u16 zoneId);
+extern void ShutdownFollowWork(GameData *gameData);
+extern void func_ov012_02153668(void *comm);
+extern BOOL GameData_IsLensFlareRequested(GameData *gameData);
+extern void GameData_SetLensFlareRequested(GameData *gameData, BOOL requested);
+extern void FieldLensFlare_RequestStart(FieldLensFlare *lensFlare);
+extern void GameData_InitEncountTerrain(GameData *gameData, Field *field);
+extern GameEvent *func_0202fee8(GameSystem *gsys);
+void func_ov035_0217ed1c(EventMapChange *wk, GameSystem *gsys);
+void func_ov035_0217eccc(EventMapChange *wk, GameSystem *gsys);
+void func_ov035_0217ecf4(EventMapChange *wk, GameSystem *gsys);
 
 GameEvent *EventGameOpening_Create(GameSystem *gsys, GameSystemProcData *procData);
 GameEvent *EventFieldFirst_Create(GameSystem *gsys, GameSystemProcData *procData);
@@ -498,4 +570,116 @@ void EventMapChange_SetupWarpSequenceIn(EventMapChange *wk, u32 unk0) {
     } else {
         warp->transitionType = GetWarpTransitionType(GetZoneWarpByID(GameData_GetEventData(wk->gameData), wk->spawn.warpId));
     }
+}
+
+GameEventReturnCode EventMapChangeCore_Callback(GameEvent *event, u32 *state, EventMapChangeCore *core) {
+    EventMapChange *wk = core->mapChange;
+    GameSystem *gsys = wk->gsys;
+    GameData *gameData = wk->gameData;
+    Field *field = wk->field;
+    void *comm = GSYS_GetGameCommSystem(gsys);
+
+    switch (*state) {
+    case 0: {
+        FieldLensFlare *lensFlare;
+        u32 fog;
+
+        FieldStatus_SetBusyFlag(GameData_GetFieldStatus(gameData), 2);
+        lensFlare = Field_GetLensFlare(field);
+        fog = GetZoneFogIndexAll(field, wk->spawn.zoneId);
+        FieldLensFlare_DecideForZoneTransit(lensFlare, wk->spawn.zoneId, Field_GetPlayerStateZoneID(field), fog);
+        GameEvent_ChainNext(event, EventFieldCloseKeepSound_Create(gsys, field));
+        (*state)++;
+        break;
+    }
+    case 1:
+        GFL_OvlLoad(OVERLAY_DSPROT);
+        func_ov337_02180bdc();
+        if (func_02018b10(wk->spawn.zoneId) == TRUE) {
+            u8 status = GameCommSys_BootCheck(comm);
+            if (status == 1 || status == 2) {
+                func_0202bd80(comm);
+                *state = 2;
+                break;
+            }
+        }
+        *state = 3;
+        break;
+    case 2:
+        if (!GameCommSys_BootCheck(comm)) {
+            *state = 3;
+        }
+        break;
+    case 3:
+        DSPROT_CHECKED_CALL(func_ov337_02180a84, func_ov035_0217eccc, wk, gsys);
+        FieldMapControl_DeleteAllActors(gsys);
+        if (wk->unk40 && wk->seasonChanged) {
+            void *adventureTime;
+            u8 season;
+            void *party;
+
+            Season_Set(gameData, wk->season);
+            adventureTime = getSaveAdventureTimeBlock(GameData_GetSaveControl(gameData));
+            season = GameData_GetSeason(gameData);
+            party = GameData_GetParty(gameData);
+            TransformVsPokePartyBySeason(gameData, party, season);
+            func_ov012_021643f0(gameData, party, (u8 *)adventureTime + 0x14, season);
+        }
+        DSPROT_CHECKED_CALL(func_ov337_02180b30, func_ov035_0217ecf4, wk, gsys);
+        FieldMapControl_LoadZone(gsys, wk->spawn.zoneId);
+        func_ov035_0217e73c(gameData, wk->spawn.zoneId, wk->zoneId);
+        FieldMapControl_InitSpawn(gsys, &wk->spawn);
+        if (wk->mode != 4) {
+            func_0202d3f0(wk->spawn.zoneId, gameData);
+        }
+        switch (wk->mode) {
+        case 1:
+            func_ov012_0215ee94(gameData, wk->spawn.zoneId);
+            break;
+        case 2:
+            func_ov012_0215eedc(gameData, wk->spawn.zoneId);
+            break;
+        case 3:
+            func_ov012_0215eeb8(gameData, wk->spawn.zoneId);
+            break;
+        }
+        if (wk->mode != 0) {
+            ShutdownFollowWork(wk->gameData);
+        }
+        GFL_OvlUnload(OVERLAY_DSPROT);
+        func_ov012_02153668(comm);
+        (*state)++;
+        break;
+    case 4:
+        GameEvent_ChainNext(event, EventFieldOpen_Create(gsys));
+        (*state)++;
+        break;
+    case 5: {
+        Field *currentField = GSYS_GetField(gsys);
+
+        if (GameData_IsLensFlareRequested(gameData)) {
+            wk->lensFlareStarted = FALSE;
+            GameData_SetLensFlareRequested(gameData, FALSE);
+        }
+        if (!wk->lensFlareStarted) {
+            FieldLensFlare_RequestStart(Field_GetLensFlare(currentField));
+        }
+        GameData_InitEncountTerrain(gameData, currentField);
+        GameEvent_ChainNext(event, func_0202fee8(gsys));
+        (*state)++;
+        break;
+    }
+    case 6:
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEvent *EventMapChangeCore_Create(EventMapChange *wk, u8 mode) {
+    GameEvent *event = GameEvent_Create(wk->gsys, NULL, EventMapChangeCore_Callback, sizeof(EventMapChangeCore));
+    EventMapChangeCore *core = GameEvent_GetData(event);
+
+    core->mapChange = wk;
+    wk->mode = mode;
+    return event;
 }

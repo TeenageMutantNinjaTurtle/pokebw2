@@ -187,6 +187,7 @@ from:0x0217d264 kind:thumb_call to:0x02181318 module:overlay(36)
 from:0x0217d268 kind:thumb_call to:0x021c85d8 module:overlay(36)
 from:0x0217d270 kind:thumb_call to:0x021591c0 module:overlay(12)
 from:0x0217d276 kind:thumb_call to:0x0202fee8 module:main
+from:0x0217d288 kind:overlay_id to:337
 from:0x0217d290 kind:load to:0x02182440 module:overlay(337)
 from:0x0217d294 kind:load to:0x0217ed1d module:overlay(35)
 from:0x0217d298 kind:load to:0x02182444 module:overlay(337)
