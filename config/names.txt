@@ -1,6 +1,7 @@
 # Names that are not in swan, applied by tools/scripts/rename_symbol.py
 # module address(b2_us) name
 . 0x02005c70 GFL_SndDestroyHeap
+. 0x02008b08 PlayerInfo_GetSize
 . 0x02008dd0 SaveControl_GetPlayerInfo
 . 0x02009a0c DreamWorldSave_IsPokemonAsleep
 . 0x0200a3dc WifiList_GetMyGSID
@@ -36,6 +37,10 @@
 overlays/ov000 0x0214f500 EventGameSync_Callback
 overlays/ov000 0x0214f8a8 EventGameSync_CreateFromArgs
 overlays/ov000 0x0214f8b0 EventGameSync_Create
+overlays/ov001 0x0214f500 EventGtsNego_Callback
+overlays/ov001 0x0214f7a0 EventGtsNego_Init
+overlays/ov001 0x0214f8ac EventGtsNego_Create
+overlays/ov001 0x0214f8d4 EventGtsNego_CreateFromArgs
 overlays/ov002 0x0214f500 EventWifiBattleMatch_Callback
 overlays/ov002 0x0214f63c EventWifiBattleMatch_Create
 overlays/ov002 0x0214f68c EventWifiBattleMatch_CreateFromArgs
@@ -71,9 +76,12 @@ overlays/ov182 0x021bd2d8 DWC_UTILITY_PROC_FUNCTIONS
 overlays/ov190 0x021b50a8 WIFILOGIN_PROC_FUNCTIONS
 overlays/ov190 0x021b52bc WIFILOGOUT_PROC_FUNCTIONS
 overlays/ov191 0x021b7168 WIFI_BSUBWAY_PROC_FUNCTIONS
+overlays/ov194 0x021c63a0 POKEMONTRADE_PROC_FUNCTIONS
+overlays/ov195 0x021b78bc GTSNEGO_PROC_FUNCTIONS
 overlays/ov199 0x021b95ec GSYNC_PROC_FUNCTIONS
 overlays/ov199 0x021b97f4 PDWACC_PROC_FUNCTIONS
 overlays/ov214 0x021e1ab8 WORLDTRADE_PROC_FUNCTIONS
 overlays/ov255 0x021d6f6c BOX2_PROC_FUNCTIONS
+overlays/ov284 0x021e7d9c SHINKA_DEMO_PROC_FUNCTIONS
 overlays/ov290 0x021fcf84 WIFIBATTLEMATCH_PROC_FUNCTIONS
 overlays/ov327 0x021b70d4 WBT_DOWNLOAD_PROC_FUNCTIONS

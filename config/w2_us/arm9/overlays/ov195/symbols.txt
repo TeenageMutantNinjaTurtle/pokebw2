@@ -178,7 +178,7 @@ data_ov195_021b7878 kind:data(any) addr:0x021b78b8
 data_ov195_021b7880 kind:data(any) addr:0x021b78c0
 data_ov195_021b7894 kind:data(any) addr:0x021b78d4
 data_ov195_021b78b4 kind:data(any) addr:0x021b78f4
-data_ov195_021b78bc kind:data(any) addr:0x021b78fc ambiguous
+GTSNEGO_PROC_FUNCTIONS kind:data(any) addr:0x021b78fc ambiguous
 data_ov195_021b78c8 kind:data(any) addr:0x021b7908
 data_ov195_021b78cc kind:data(any) addr:0x021b790c
 data_ov195_021b78d0 kind:data(any) addr:0x021b7910

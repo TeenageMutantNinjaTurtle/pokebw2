@@ -29,12 +29,16 @@ from:0x0214f78c kind:thumb_call to:0x0203a278 module:main
 from:0x0214f794 kind:thumb_call to:0x02005df4 module:main
 from:0x0214f79a kind:thumb_call to:0x02005e68 module:main
 from:0x0214f7a0 kind:thumb_call to:0x020194c0 module:main
-from:0x0214f7b8 kind:load to:0x021b50e8 module:overlays(190,257)
-from:0x0214f7c0 kind:load to:0x021b78fc module:overlays(195,257)
+from:0x0214f7b4 kind:overlay_id to:190
+from:0x0214f7b8 kind:load to:0x021b50e8 module:overlay(190)
+from:0x0214f7bc kind:overlay_id to:195
+from:0x0214f7c0 kind:load to:0x021b78fc module:overlay(195)
+from:0x0214f7c4 kind:overlay_id to:194
 from:0x0214f7c8 kind:load to:0x021c63e0 module:overlay(194)
 from:0x0214f7cc kind:load to:0x0214f920 module:overlay(1)
 from:0x0214f7d0 kind:load to:0x021e7ddc module:overlay(284)
-from:0x0214f7d8 kind:load to:0x021b52fc module:overlays(190,257)
+from:0x0214f7d4 kind:overlay_id to:284
+from:0x0214f7d8 kind:load to:0x021b52fc module:overlay(190)
 from:0x0214f7ec kind:thumb_call to:0x02016b20 module:main
 from:0x0214f7f0 kind:thumb_call to:0x0202be00 module:main
 from:0x0214f7fa kind:thumb_call to:0x02016b20 module:main

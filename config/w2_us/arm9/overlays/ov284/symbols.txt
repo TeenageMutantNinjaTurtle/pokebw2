@@ -154,7 +154,7 @@ func_ov284_021e7d6c kind:function(thumb,size=0x6) addr:0x021e7dac
 func_ov284_021e7d74 kind:function(thumb,size=0xe) addr:0x021e7db4
 func_ov284_021e7d84 kind:function(thumb,size=0x6) addr:0x021e7dc4
 func_ov284_021e7d8c kind:function(thumb,size=0xe) addr:0x021e7dcc
-data_ov284_021e7d9c kind:data(any) addr:0x021e7ddc
+SHINKA_DEMO_PROC_FUNCTIONS kind:data(any) addr:0x021e7ddc
 data_ov284_021e7da8 kind:data(any) addr:0x021e7de8
 data_ov284_021e7dd8 kind:data(any) addr:0x021e7e18
 data_ov284_021e7de4 kind:data(any) addr:0x021e7e24
