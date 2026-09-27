@@ -3,6 +3,7 @@
 . 0x02008dd0 SaveControl_GetPlayerInfo
 . 0x0200a3dc WifiList_GetMyGSID
 . 0x0200b488 SaveControl_GetWorldTradeData
+. 0x0200f2f8 RecordSave_ClearMatchInProgress
 . 0x02010050 JoinAvenue_GetPersonList
 . 0x02010564 KeyInfo_GetCityKey
 . 0x02017214 GameData_GetMyCityState
@@ -26,6 +27,9 @@
 . 0x0203802c JoinAvenuePersonList_GetCount
 . 0x02038060 JoinAvenuePersonList_Get
 . 0x0208fe14 BATTLE_VIDEO_PROC_FUNCTIONS
+overlays/ov002 0x0214f500 EventWifiBattleMatch_Callback
+overlays/ov002 0x0214f63c EventWifiBattleMatch_Create
+overlays/ov002 0x0214f68c EventWifiBattleMatch_CreateFromArgs
 overlays/ov003 0x0214f500 EventBattleVideo_Callback
 overlays/ov003 0x0214f5bc EventBattleVideo_Create
 overlays/ov003 0x0214f5fc EventBattleVideo_CreateFromArgs
@@ -56,4 +60,5 @@ overlays/ov035 0x0217ee08 ElScoreboard_Update
 overlays/ov035 0x0217ee2c ElScoreboard_UploadPalette
 overlays/ov191 0x021b7168 WIFI_BSUBWAY_PROC_FUNCTIONS
 overlays/ov214 0x021e1ab8 WORLDTRADE_PROC_FUNCTIONS
+overlays/ov290 0x021fcf84 WIFIBATTLEMATCH_PROC_FUNCTIONS
 overlays/ov327 0x021b70d4 WBT_DOWNLOAD_PROC_FUNCTIONS

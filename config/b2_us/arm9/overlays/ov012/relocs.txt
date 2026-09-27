@@ -1937,6 +1937,7 @@ from:0x02157ab2 kind:thumb_call to:0x02154910 module:overlay(12)
 from:0x02157af6 kind:thumb_call to:0x02016af0 module:main
 from:0x02157b0c kind:thumb_call to:0x02016ea0 module:main
 from:0x02157b14 kind:thumb_call to:0x02153880 module:overlay(12)
+from:0x02157b20 kind:overlay_id to:2
 from:0x02157b24 kind:load to:0x0214f68d module:overlay(2)
 from:0x02157b32 kind:thumb_call to:0x02155184 module:overlay(12)
 from:0x02157b3a kind:thumb_call to:0x0215516c module:overlay(12)

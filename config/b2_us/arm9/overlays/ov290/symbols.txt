@@ -34,7 +34,7 @@ func_ov290_021fcb44 kind:function(thumb,size=0x6) addr:0x021fcb44
 func_ov290_021fcb4c kind:function(thumb,size=0x3c) addr:0x021fcb4c
 func_ov290_021fcb88 kind:function(thumb,size=0x44) addr:0x021fcb88
 func_ov290_021fcbcc kind:function(thumb,size=0x3b6) addr:0x021fcbcc
-data_ov290_021fcf84 kind:data(any) addr:0x021fcf84
+WIFIBATTLEMATCH_PROC_FUNCTIONS kind:data(any) addr:0x021fcf84
 data_ov290_021fcf90 kind:data(any) addr:0x021fcf90
 data_ov290_021fd020 kind:data(any) addr:0x021fd020
 data_ov290_021fd040 kind:data(any) addr:0x021fd040
