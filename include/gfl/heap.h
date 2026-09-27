@@ -46,7 +46,7 @@ enum {
 
 // Allocates from the end of the heap instead of the start
 #define HEAPID_TAIL_BIT 0x8000
-#define HEAPID_TAIL(heapId) ((heapId) | HEAPID_TAIL_BIT)
+#define HEAPID_TAIL(heapId) ((HeapID)(((heapId) & (HEAPID_TAIL_BIT - 1)) | HEAPID_TAIL_BIT))
 
 void *GFL_HeapAllocate(HeapID heapId, u32 size, BOOL clear, const char *file, u16 line);
 void GFL_HeapFree(void *ptr);

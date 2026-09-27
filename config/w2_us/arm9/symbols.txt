@@ -7762,7 +7762,7 @@ mod64Signed kind:function(arm,size=0x1c0) addr:0x0208d430
 .L_0208d440 kind:label(arm) addr:0x0208d440
 __aeabi_uldivmod kind:function(arm,size=0x48) addr:0x0208d5f0
 .L_0208d5fc kind:label(arm) addr:0x0208d5fc
-__aeabi_lmul kind:function(arm,size=0x20) addr:0x0208d638
+_ull_mul kind:function(arm,size=0x20) addr:0x0208d638
 __aeabi_llsl kind:function(arm,size=0x30) addr:0x0208d658
 __aeabi_idivmod kind:function(arm,size=0x20c) addr:0x0208d688
 __aeabi_uidivmod kind:function(arm,size=0x1e4) addr:0x0208d894

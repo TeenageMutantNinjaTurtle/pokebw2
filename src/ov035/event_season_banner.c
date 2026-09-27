@@ -31,8 +31,8 @@ typedef struct {
     HeapID heapId;
     u32 type;
     BOOL cancelled;
-    volatile u8 endSeason;
-    volatile u8 season;
+    u8 endSeason;
+    u8 season;
     u32 timer;
     u32 duration;
     EventSeasonBannerCallback callback;

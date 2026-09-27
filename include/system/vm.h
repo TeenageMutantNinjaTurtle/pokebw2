@@ -1,0 +1,49 @@
+#ifndef POKEBW2_SYSTEM_VM_H
+#define POKEBW2_SYSTEM_VM_H
+
+#include "types.h"
+#include "gfl/heap.h"
+#include "struct_decls.h"
+
+// A script virtual machine. A script is a sequence of 16-bit command IDs, each followed by its arguments. The command
+// reads its arguments from the script, and returns TRUE to make VM_Run return, or FALSE to run the next command.
+
+typedef BOOL (*VMCommand)(VM *vm, void *env);
+typedef BOOL (*VMNativeFunc)(VM *vm, void *env);
+
+typedef struct {
+    u16 stackSize;
+    u16 workSize;
+    const VMCommand *commands;
+    u32 commandCount;
+    // Commands with IDs from extraCommandStart
+    const VMCommand *extraCommands;
+    u32 extraCommandCount;
+    u32 extraCommandStart;
+} VMInitParam;
+
+struct VM {
+    VMInitParam param;
+    u8 stackPos;
+    u8 status;
+    u8 unk1A;
+    VMNativeFunc native;
+    const u8 *pc;
+    u32 *stack;
+    u32 *work;
+    void *env;
+    void *verifier;
+    void *verifierArg;
+};
+
+VM *VM_Create(HeapID heapId, const VMInitParam *param);
+void VM_Free(VM *vm);
+void VM_ChangeEnv(VM *vm, void *env);
+void *VM_GetEnv(VM *vm);
+void VM_LoadScript(VM *vm, const void *script);
+BOOL VM_Run(VM *vm);
+void VM_Halt(VM *vm);
+void VM_Jump(VM *vm, const u8 *pc);
+u32 VM_Read32(VM *vm);
+
+#endif // POKEBW2_SYSTEM_VM_H

@@ -11,6 +11,7 @@ typedef s64 fx64;
 #define FX32_SHIFT 12
 #define FX32_ONE (1 << FX32_SHIFT)
 #define FX32_CONST(x) ((fx32)((x) * FX32_ONE))
+#define FX_Whole(a) ((s32)((a) >> FX32_SHIFT))
 
 typedef struct {
     fx32 x;

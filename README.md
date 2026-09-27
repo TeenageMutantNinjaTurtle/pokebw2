@@ -79,11 +79,18 @@ Black 2 is an NDS/DSi hybrid built with the TWL-SDK, which differs from DS-only 
 
 ## Compiler
 
-The game was built with CodeWarrior for DSi, a version between `dsi/1.1` and `dsi/1.3p1`:
+The game code was built with CodeWarrior for DSi, a version between `dsi/1.1p1` and `dsi/1.3p1`, and
+`configure.py` uses `dsi/1.1p1` (build 1024, `mwcc_40_1024` on decomp.me):
 
 - `dsi/1.6sp1` and `dsi/1.6sp2` do not match overlay 4's switch statement.
-- `dsi/1.1` through `dsi/1.3p1` produce identical code for every game function and synthetic test tried so far.
-  `configure.py` uses `dsi/1.1`, the version used for Pokémon Black.
+- `dsi/1.1` differs from the later builds in one way: after a store to a field, it reuses the stored register where
+  the game reloads the field (`strb r0, [r4, r7]; ldrb r0, [r4, r7]`). That reload is the compiler, not `volatile`.
+- `dsi/1.1p1` through `dsi/1.3p1` produce identical code for every game function tried so far.
+
+The ROM was not necessarily built with one compiler. The Pokémon Black decomp by Goldoire found library code in Black
+built with other versions (`2.0/sp2p2` and `1.2`), so try `compiler_probe.py --compilers all` on library code that
+doesn't match. `configure.py` extracts only the `dsi` compilers; the others are in `build/mwccarm.zip`, and `1.2`
+rejects `-ipa file`.
 
 `tools/scripts/compiler_probe.py` compiles a C file with every version and compares each function against the
 game, ignoring relocated bytes. For example:
@@ -139,6 +146,16 @@ Things that affect whether MWCC output matches:
   check fails if a table ends up in the wrong section, even when every function matches.
 - `a == 4 || a == 5` becomes a range check. Separate comparisons that jump to the same code come from separate
   branches with the same body.
+- The types of locals and of the values they hold change how spilled values are scheduled. The trainer AI's speed
+  comparison only matches with the speed function returning `u16` into `u16` locals: a spilled `u16` is reloaded after
+  the call's stack argument is stored, while a spilled `u32` is reloaded before it.
+- Masks written with `~` clear bits with `bic`. The game's `and` with a constant such as `0xef` is `x &= (u8)~FLAG`.
+- `arr[count++] = x` and `arr[count] = x; count++;` allocate registers differently, as do `count = 1; arr[0] = x;` and
+  the reverse order.
+- When comparing a call's result, `v = f(); if (v == x)` and `if (f() == x)` put the operands of `cmp` in opposite
+  orders.
+- When the order of instructions differs and no source change moves it, try `tools/scripts/permuter_setup.py`, which
+  prepares a function for [decomp-permuter](https://github.com/simonlindholm/decomp-permuter).
 
 ## Versions
 

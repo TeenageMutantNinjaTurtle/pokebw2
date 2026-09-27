@@ -23,12 +23,13 @@ VERSIONS = {
 
 WIBO_VERSION = "1.2.0"
 OBJDIFF_VERSION = "v3.8.1"
-# decomp.me name of the dsi/1.1 compiler, for objdiff's scratch button
-DECOMP_ME_COMPILER = "mwcc_40_1018"
+# decomp.me name of the dsi/1.1p1 compiler (build 1024), for objdiff's scratch button
+DECOMP_ME_COMPILER = "mwcc_40_1024"
 MWCCARM_URL = "http://decomp.aetias.com/files/mwccarm.zip"
-# Compiler for decompiled code. dsi/1.1 to dsi/1.3p1 generate identical code for everything tested so far,
-# while dsi/1.6 does not match the game.
-MWCC_VERSION = "dsi/1.1"
+# Compiler for decompiled code. The game code needs dsi/1.1p1 or later: after a store to a field, dsi/1.1 reuses the
+# stored register where the game reloads the field. dsi/1.1p1 to dsi/1.3p1 generate identical code for everything
+# tested so far, while dsi/1.6 does not match the game.
+MWCC_VERSION = "dsi/1.1p1"
 # The linker only places delinked objects, so its version does not affect matching
 MWLD_VERSION = "dsi/1.1"
 
