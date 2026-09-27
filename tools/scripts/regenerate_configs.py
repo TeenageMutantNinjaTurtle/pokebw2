@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Regenerate the dsd configs of every version, such as after improving dsd's analysis.
 
-The source files listed in each delinks.txt are kept, and names are imported again from swan afterwards. Any other
-manual changes to the configs are lost.
+The source files listed in each delinks.txt are kept. Afterwards, names are imported again from swan, and the names in
+config/names.txt are applied. Any other manual changes to the configs are lost.
 """
 import argparse
 import shutil
@@ -56,6 +56,7 @@ def main():
         "--symbols-output", "build/version_map_symbols.tsv")
     run(python, str(scripts / "import_swan.py"), str(args.swan), "--primary", PRIMARY, "--other", other,
         "--map", "build/version_map.tsv", "--symbols-map", "build/version_map_symbols.tsv")
+    run(python, str(scripts / "rename_symbol.py"), "--apply")
 
 
 if __name__ == "__main__":

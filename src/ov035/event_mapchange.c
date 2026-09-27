@@ -140,10 +140,14 @@ typedef struct {
     u32 festMissionStatus;
 } EventEntralinkWarp;
 
+// The city of the player's version, which a key from Unova Link can switch
+#define CITY_BLACK_CITY 0
+#define CITY_WHITE_FOREST 1
+
 typedef struct {
-    u16 unk0;
-    u16 unk2;
-} UnkStruct_ov035_0217ed20;
+    u16 initialized;
+    u16 city;
+} CityState;
 
 // Spawns at a position instead of a warp, warpId is -1
 #define ZONE_SPAWN_CHANGE_TYPE_POSITION 1
@@ -164,7 +168,7 @@ typedef struct {
 
 #define SEQ_SE_ENTRALINK_WARP 0x772
 
-// Areas that exist only in one version, such as Black City and White Forest
+// With a map replace event set, each version allows its own area
 #define VERSION_AREA_BLACK2 0
 #define VERSION_AREA_WHITE2 1
 #define VERSION_AREA_2 2
@@ -205,7 +209,7 @@ extern DSProtCallback data_ov337_02182444[2];
         u32 *code;                                                                                                     \
         data_ov337_02182440 = index;                                                                                   \
         tamperIndex = index ^ 1;                                                                                       \
-        data_ov337_02182444[index] = func_ov035_0217ed1c;                                                              \
+        data_ov337_02182444[index] = EventMapChange_DSProtNop;                                                         \
         data_ov337_02182444[tamperIndex] = tamper;                                                                     \
         code = (u32 *)func;                                                                                            \
         for (i = 0x25, checksum = 0; i != 0; i--) {                                                                    \
@@ -235,10 +239,10 @@ extern void Season_Set(GameData *gameData, u16 season);
 extern u8 GameData_GetSeason(GameData *gameData);
 extern void GameData_GetSeasons(GameData *gameData, u16 *prevSeason, u16 *season);
 extern u32 Season_GetNext(u8 season);
-extern void *func_02017214(GameData *gameData);
+extern CityState *func_02017214(GameData *gameData);
 extern PlayerInfo *GetGameDataPlayerInfo(GameData *gameData);
 extern SaveControl *GameData_GetSaveControl(GameData *gameData);
-extern void func_ov012_0215cd58(void *a0);
+extern void func_ov012_0215cd58(CityState *state);
 extern EventWork *GameData_GetEventWork(GameData *gameData);
 extern void FieldScript_CallPlayerInitSetup(GameSystem *gsys, u32 a1);
 extern void FieldMapControl_LoadZone(GameSystem *gsys, u16 zoneId);
@@ -265,7 +269,7 @@ extern void GameSystemTimer_Start(void);
 extern FieldStatus *GameData_GetFieldStatus(GameData *gameData);
 extern void FieldStatus_SetContinueFlag(FieldStatus *status, BOOL flag);
 extern ZoneSpawnInfo *GameData_GetNextZone(GameData *gameData);
-extern void func_ov035_0217ec9c(GameData *gameData);
+void GameData_RevertShayminAtNight(GameData *gameData);
 extern void func_ov012_02162f44(GameData *gameData);
 extern void func_ov012_0215ef24(GameData *gameData, u16 zoneId);
 extern void UpdateWeatherToDefault(GameData *gameData, u16 zoneId);
@@ -312,8 +316,8 @@ extern void func_0202bd80(void *comm);
 extern void *func_ov337_02180a84(void *arg0, void *arg1);
 extern void *func_ov337_02180b30(void *arg0, void *arg1);
 extern void *GameData_GetParty(GameData *gameData);
-extern void func_ov012_021643f0(GameData *gameData, void *party, void *a2, u8 season);
-extern void func_ov035_0217e73c(GameData *gameData, u16 zoneId, u16 prevZoneId);
+extern void func_ov012_021643f0(GameData *gameData, void *party, void *hour, u8 season);
+void GameData_UpdateZoneChangeFlag(GameData *gameData, u16 zoneId, u16 prevZoneId);
 extern void func_ov012_0215ee94(GameData *gameData, u16 zoneId);
 extern void func_ov012_0215eedc(GameData *gameData, u16 zoneId);
 extern void func_ov012_0215eeb8(GameData *gameData, u16 zoneId);
@@ -500,26 +504,27 @@ extern BOOL GetZoneFlagsEnableEscapeRope(u16 zoneId);
 extern BOOL IsZoneAbyssalRuinsOutside(u16 zoneId);
 extern u32 FieldPlayerState_GetExState(PlayerState *playerState);
 extern KeyInfoSave *getKeyInfoSaveBlk(SaveControl *save);
-extern BOOL func_02010564(KeyInfoSave *keyInfo);
+// Returns 1 if the key that switches the city is set
+extern u32 func_02010564(KeyInfoSave *keyInfo);
 GameEventReturnCode EventEntralinkWarpIn_Callback(GameEvent *event, u32 *state, EventEntralinkWarp *wk);
 GameEventReturnCode EventEntralinkWarp_Callback(GameEvent *event, u32 *state, EventEntralinkWarp *wk);
-void func_ov035_0217e62c(GameData *gameData, u16 zoneId);
+void GameData_UpdateJoinAvenueForZone(GameData *gameData, u16 zoneId);
 void GameData_SetGimmickByZone(GameData *gameData, int zoneId);
 void GameData_UpdateFlashStatus(GameData *gameData, u16 zoneId);
 void CallSpawnAllZoneNPCs(GameData *gameData, const ZoneSpawnInfo *spawn);
-void func_ov035_0217ebc8(GameData *gameData, const ZoneSpawnInfo *spawn);
-void func_ov035_0217ec48(GameData *gameData, ZoneSpawnInfo *spawn);
+void GameData_UpdateEscapeRopeZone(GameData *gameData, const ZoneSpawnInfo *spawn);
+void AdjustEscapeRopeSpawn(GameData *gameData, ZoneSpawnInfo *spawn);
 void GameData_AdjustPlayerStateOnDiveOut(GameData *gameData);
-void *func_ov035_0217ed1c(void *arg0, void *arg1);
-void *func_ov035_0217eccc(void *arg0, void *arg1);
-void *func_ov035_0217ecf4(void *arg0, void *arg1);
+void *EventMapChange_DSProtNop(void *arg0, void *arg1);
+void *EventMapChange_DSProtTamper1(void *arg0, void *arg1);
+void *EventMapChange_DSProtTamper2(void *arg0, void *arg1);
 
 GameEvent *EventGameOpening_Create(GameSystem *gsys, GameSystemProcData *procData);
 GameEvent *EventFieldFirst_Create(GameSystem *gsys, GameSystemProcData *procData);
 GameEvent *EventFieldContinue_Create(GameSystem *gsys, GameSystemProcData *procData);
-void func_ov035_0217ca2c(GameSystem *gsys);
-void func_ov035_0217cbec(GameSystem *gsys);
-void func_ov035_0217ed20(UnkStruct_ov035_0217ed20 *out, PlayerInfo *player, SaveControl *save, u32 unused);
+void EventFieldFirst_SetupCity(GameSystem *gsys);
+void EventFieldContinue_SetupCity(GameSystem *gsys);
+void CityState_InitFromSave(CityState *state, PlayerInfo *player, SaveControl *save, u32 unused);
 
 // From the NitroSDK
 static inline void VEC_Set(VecFx32 *v, s32 x, s32 y, s32 z) {
@@ -581,12 +586,12 @@ GameEvent *EventGameOpening_Create(GameSystem *gsys, GameSystemProcData *procDat
     return event;
 }
 
-void func_ov035_0217ca2c(GameSystem *gsys) {
+void EventFieldFirst_SetupCity(GameSystem *gsys) {
     GameData *gameData = GSYS_GetGameData(gsys);
-    void *keys = func_02017214(gameData);
+    CityState *city = func_02017214(gameData);
     PlayerInfo *player = GetGameDataPlayerInfo(gameData);
 
-    func_ov035_0217ed20(keys, player, GameData_GetSaveControl(gameData), 1);
+    CityState_InitFromSave(city, player, GameData_GetSaveControl(gameData), 1);
     func_ov012_0215cd58(func_02017214(gameData));
 }
 
@@ -649,19 +654,19 @@ GameEvent *EventFieldFirst_Create(GameSystem *gsys, GameSystemProcData *procData
         GFL_OvlUnload(OVERLAY_NEW_GAME);
     }
 
-    func_ov035_0217ca2c(gsys);
+    EventFieldFirst_SetupCity(gsys);
     setAdvTimeBlkRtcOffsetOwnerMacBdayMonthDay(getSaveAdventureDataBlk(GameData_GetSaveControl(wk->gameData)));
     GameSystemTimer_Start();
     ClearLCDCVram();
     return event;
 }
 
-void func_ov035_0217cbec(GameSystem *gsys) {
+void EventFieldContinue_SetupCity(GameSystem *gsys) {
     GameData *gameData = GSYS_GetGameData(gsys);
-    void *keys = func_02017214(gameData);
+    CityState *city = func_02017214(gameData);
     PlayerInfo *player = GetGameDataPlayerInfo(gameData);
 
-    func_ov035_0217ed20(keys, player, GameData_GetSaveControl(gameData), 1);
+    CityState_InitFromSave(city, player, GameData_GetSaveControl(gameData), 1);
     func_ov012_0215cd58(func_02017214(gameData));
 }
 
@@ -679,7 +684,7 @@ GameEventReturnCode EventFieldContinue_Callback(GameEvent *event, u32 *state, Ev
             wk->zoneId = next->zoneId;
             FieldMapControl_DeleteAllActors(gsys);
             FieldMapControl_LoadZone(gsys, wk->zoneId);
-            func_ov035_0217ec9c(gameData);
+            GameData_RevertShayminAtNight(gameData);
             FieldMapControl_InitSpawn(gsys, next);
             func_0202d3f0(next->zoneId, gameData);
         } else {
@@ -687,7 +692,7 @@ GameEventReturnCode EventFieldContinue_Callback(GameEvent *event, u32 *state, Ev
             MMSys *mmSys;
 
             FieldMapControl_LoadZone(gsys, wk->zoneId);
-            func_ov035_0217ec9c(gameData);
+            GameData_RevertShayminAtNight(gameData);
             func_ov012_02162f44(gameData);
             func_ov012_0215ef24(gameData, wk->zoneId);
             UpdateWeatherToDefault(gameData, wk->zoneId);
@@ -760,7 +765,7 @@ GameEvent *EventFieldContinue_Create(GameSystem *gsys, GameSystemProcData *procD
     setAdvTimeBlkRtcOffsetOwnerMacBdayMonthDay(adventure);
     TransformVsPokePartyBySeason(wk->gameData, party, GameData_GetSeason(wk->gameData));
 
-    func_ov035_0217cbec(gsys);
+    EventFieldContinue_SetupCity(gsys);
     GameSystemTimer_Start();
     ClearLCDCVram();
     return event;
@@ -869,7 +874,7 @@ GameEventReturnCode EventMapChangeCore_Callback(GameEvent *event, u32 *state, Ev
         }
         break;
     case 3:
-        DSPROT_CHECKED_CALL(func_ov337_02180a84, func_ov035_0217eccc, wk, gsys);
+        DSPROT_CHECKED_CALL(func_ov337_02180a84, EventMapChange_DSProtTamper1, wk, gsys);
         FieldMapControl_DeleteAllActors(gsys);
         if (wk->unk40 && wk->seasonChanged) {
             void *adventureTime;
@@ -883,9 +888,9 @@ GameEventReturnCode EventMapChangeCore_Callback(GameEvent *event, u32 *state, Ev
             TransformVsPokePartyBySeason(gameData, party, season);
             func_ov012_021643f0(gameData, party, (u8 *)adventureTime + 0x14, season);
         }
-        DSPROT_CHECKED_CALL(func_ov337_02180b30, func_ov035_0217ecf4, wk, gsys);
+        DSPROT_CHECKED_CALL(func_ov337_02180b30, EventMapChange_DSProtTamper2, wk, gsys);
         FieldMapControl_LoadZone(gsys, wk->spawn.zoneId);
-        func_ov035_0217e73c(gameData, wk->spawn.zoneId, wk->zoneId);
+        GameData_UpdateZoneChangeFlag(gameData, wk->spawn.zoneId, wk->zoneId);
         FieldMapControl_InitSpawn(gsys, &wk->spawn);
         if (wk->mode != 4) {
             func_0202d3f0(wk->spawn.zoneId, gameData);
@@ -1429,7 +1434,7 @@ GameEvent *EventMapChangeEscapeRope_Create(Field *field, GameSystem *gsys) {
 
     InitMapChangeEvent(wk, gsys);
     wk->spawn = *GameData_GetEscapeRopeZone(wk->gameData);
-    func_ov035_0217ec48(wk->gameData, &wk->spawn);
+    AdjustEscapeRopeSpawn(wk->gameData, &wk->spawn);
     wk->spawn.changeType = ZONE_SPAWN_CHANGE_TYPE_POSITION;
     wk->unk2C = 0;
     wk->unk40 = TRUE;
@@ -1442,7 +1447,7 @@ GameEvent *EventMapChangeDig_Create(GameSystem *gsys) {
 
     InitMapChangeEvent(wk, gsys);
     wk->spawn = *GameData_GetEscapeRopeZone(wk->gameData);
-    func_ov035_0217ec48(wk->gameData, &wk->spawn);
+    AdjustEscapeRopeSpawn(wk->gameData, &wk->spawn);
     wk->spawn.changeType = ZONE_SPAWN_CHANGE_TYPE_POSITION;
     wk->unk2C = 0;
     wk->unk40 = TRUE;
@@ -1598,7 +1603,7 @@ GameEvent *EventMapChangeWarp_CreateFromEntity(GameSystem *gsys, Field *field, Z
     if (GetIsZoneMatrix0(remember->zoneId) == TRUE && GetIsZoneMatrix0(wk->spawn.zoneId) == FALSE) {
         GameData_SetEscapeRopeZone(gameData, remember);
     }
-    func_ov035_0217ebc8(gameData, &wk->spawn);
+    GameData_UpdateEscapeRopeZone(gameData, &wk->spawn);
     FieldStatus_SetBusyFlag(GameData_GetFieldStatus(gameData), 2);
     return event;
 }
@@ -1633,7 +1638,7 @@ GameEvent *EventMapChange_CreateForFly(GameSystem *gsys, Field *field, u32 unuse
     wk->spawn.warpDir = warpDir;
     wk->unk2C = 0;
     wk->mode = 1;
-    func_ov035_0217ebc8(gameData, &wk->spawn);
+    GameData_UpdateEscapeRopeZone(gameData, &wk->spawn);
     return event;
 }
 
@@ -1802,7 +1807,8 @@ void GameData_DeleteAllActors(GameData *gameData) {
     FldActSys_DeleteAllActors(GameData_GetMMSys(gameData));
 }
 
-void func_ov035_0217e62c(GameData *gameData, u16 zoneId) {
+// Allocates the Join Avenue data while in Join Avenue and frees it elsewhere, then resets its visitors
+void GameData_UpdateJoinAvenueForZone(GameData *gameData, u16 zoneId) {
     void *unk = func_02017b84(gameData);
     void **joinAvenueList;
 
@@ -1853,7 +1859,8 @@ void func_ov035_0217e62c(GameData *gameData, u16 zoneId) {
     }
 }
 
-void func_ov035_0217e73c(GameData *gameData, u16 zoneId, u16 prevZoneId) {
+// Sets flag 8 when the zone changed, which GameData_UpdateJoinAvenueForZone clears
+void GameData_UpdateZoneChangeFlag(GameData *gameData, u16 zoneId, u16 prevZoneId) {
     void *unk = func_02017b84(gameData);
 
     if (zoneId != prevZoneId) {
@@ -1909,7 +1916,7 @@ void FieldMapControl_LoadZone(GameSystem *gsys, u16 zoneId) {
     MapMatrix_Load(matrix, GetZoneMatrixId(zoneId), zoneId, HEAP_LOW(HEAPID_FIELD));
     MapMatrix_Patch(matrix, gsys, HEAP_LOW(HEAPID_FIELD));
     GameData_UpdateFlashStatus(gameData, zoneId);
-    func_ov035_0217e62c(gameData, zoneId);
+    GameData_UpdateJoinAvenueForZone(gameData, zoneId);
 
     SetAllowVersionSpecificArea(VERSION_AREA_BLACK2, FALSE);
     SetAllowVersionSpecificArea(VERSION_AREA_WHITE2, FALSE);
@@ -2056,7 +2063,8 @@ GameEventReturnCode EventEntralinkWarpIn_Callback(GameEvent *event, u32 *state, 
     return GAMEEVENT_CONTINUE;
 }
 
-void func_ov035_0217ebc8(GameData *gameData, const ZoneSpawnInfo *spawn) {
+// Sets where an Escape Rope leads when warping into the zones that need a special exit
+void GameData_UpdateEscapeRopeZone(GameData *gameData, const ZoneSpawnInfo *spawn) {
     ZoneSpawnInfo *remember = GetOutboundWarpRememberSpawnInfo(gameData);
     ZoneSpawnInfo *now = GetGameDataNowSpawnZone(gameData);
     ZoneSpawnInfo escapeRopeSpawn;
@@ -2077,7 +2085,8 @@ void func_ov035_0217ebc8(GameData *gameData, const ZoneSpawnInfo *spawn) {
     }
 }
 
-void func_ov035_0217ec48(GameData *gameData, ZoneSpawnInfo *spawn) {
+// An Escape Rope used outside the Abyssal Ruins leads to the next zone instead
+void AdjustEscapeRopeSpawn(GameData *gameData, ZoneSpawnInfo *spawn) {
     if (IsZoneAbyssalRuinsOutside(GetGameDataNowSpawnZone(gameData)->zoneId)) {
         *spawn = *GameData_GetNextZone(gameData);
     }
@@ -2093,7 +2102,8 @@ void GameData_AdjustPlayerStateOnDiveOut(GameData *gameData) {
     }
 }
 
-void func_ov035_0217ec9c(GameData *gameData) {
+// Sky Forme Shaymin in the party reverts to Land Forme at night
+void GameData_RevertShayminAtNight(GameData *gameData) {
     SaveControl *save = GameData_GetSaveControl(gameData);
     void *party = SaveControl_GetPokePartySave(save);
     u8 season = GameData_GetSeason(gameData);
@@ -2102,51 +2112,51 @@ void func_ov035_0217ec9c(GameData *gameData) {
 }
 
 // DS Protect tamper responses, which leak memory
-void *func_ov035_0217eccc(void *arg0, void *arg1) {
+void *EventMapChange_DSProtTamper1(void *arg0, void *arg1) {
     GFL_HeapAllocate(HEAP_LOW(4), 0x1000, FALSE, "event_mapchange.c", 3931);
     return arg0;
 }
 
-void *func_ov035_0217ecf4(void *arg0, void *arg1) {
+void *EventMapChange_DSProtTamper2(void *arg0, void *arg1) {
     GFL_HeapAllocate(HEAP_LOW(4), 0x1000, FALSE, "event_mapchange.c", 3937);
     return arg1;
 }
 
-void *func_ov035_0217ed1c(void *arg0, void *arg1) {
+void *EventMapChange_DSProtNop(void *arg0, void *arg1) {
     return arg0;
 }
 
-void func_ov035_0217ed20(UnkStruct_ov035_0217ed20 *out, PlayerInfo *player, SaveControl *save, u32 unused) {
-    BOOL result = func_02010564(getKeyInfoSaveBlk(save));
+void CityState_InitFromSave(CityState *state, PlayerInfo *player, SaveControl *save, u32 unused) {
+    u32 switched = func_02010564(getKeyInfoSaveBlk(save));
 
-    out->unk0 = 1;
+    state->initialized = TRUE;
 #ifdef BLACK2
-    if (!result) {
-        out->unk2 = 0;
+    if (!switched) {
+        state->city = CITY_BLACK_CITY;
     } else {
-        out->unk2 = 1;
+        state->city = CITY_WHITE_FOREST;
     }
 #else
-    if (!result) {
-        out->unk2 = 1;
+    if (!switched) {
+        state->city = CITY_WHITE_FOREST;
     } else {
-        out->unk2 = 0;
+        state->city = CITY_BLACK_CITY;
     }
 #endif
 }
 
-BOOL func_ov035_0217ed40(UnkStruct_ov035_0217ed20 *a0) {
-    if (a0->unk0 == 1 && a0->unk2 >= 2) {
+BOOL CityState_IsCityValid(CityState *state) {
+    if (state->initialized == TRUE && state->city >= 2) {
         return FALSE;
     }
     return TRUE;
 }
 
-BOOL func_ov035_0217ed54(UnkStruct_ov035_0217ed20 *a0) {
-    if (a0->unk0 == 0) {
+BOOL CityState_IsSet(CityState *state) {
+    if (!state->initialized) {
         return FALSE;
     }
-    if (func_ov035_0217ed40(a0)) {
+    if (CityState_IsCityValid(state)) {
         return TRUE;
     }
     return FALSE;

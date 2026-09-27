@@ -40,9 +40,9 @@ static const u16 sScoreboardPalette0[4] = { 0x0000, 0x2108, 0x0df3, 0x031f };
 
 static const u16 *sScoreboardPalettes[4] = { sScoreboardPalette3, sScoreboardPalette2, sScoreboardPalette1, sScoreboardPalette0 };
 
-void func_ov035_0217ee2c(ElScoreboardPaletteTarget *target, int frame);
+void ElScoreboard_UploadPalette(ElScoreboardPaletteTarget *target, int frame);
 
-ElScoreboard *func_ov035_0217ed70(void *a0, u32 a1, u32 a2, u32 a3, u16 a4, u16 a5, u16 heapId) {
+ElScoreboard *ElScoreboard_Create(void *a0, u32 a1, u32 a2, u32 a3, u16 a4, u16 a5, u16 heapId) {
     G3DTextDrawResource resource;
     ElScoreboard *board = GFL_HeapAllocate(heapId, sizeof(ElScoreboard), TRUE, "el_scoreboard.c", 412);
 
@@ -63,21 +63,21 @@ ElScoreboard *func_ov035_0217ed70(void *a0, u32 a1, u32 a2, u32 a3, u16 a4, u16 
     return board;
 }
 
-void func_ov035_0217ee00(ElScoreboard *board) {
+void ElScoreboard_Free(ElScoreboard *board) {
     GFL_HeapFree(board);
 }
 
-void func_ov035_0217ee08(ElScoreboard *board) {
+void ElScoreboard_Update(ElScoreboard *board) {
     ElScoreboardPaletteTarget target;
 
     board->frame++;
     if (board->unk14 != -1) {
         target.palette = board->unkC;
         target.vramOffset = board->unk14;
-        func_ov035_0217ee2c(&target, board->frame);
+        ElScoreboard_UploadPalette(&target, board->frame);
     }
 }
 
-void func_ov035_0217ee2c(ElScoreboardPaletteTarget *target, int frame) {
+void ElScoreboard_UploadPalette(ElScoreboardPaletteTarget *target, int frame) {
     gfxUploadAsync(1, target->vramOffset + (u16)target->palette * 8, sScoreboardPalettes[(frame & 0x1f) / 8], 8);
 }

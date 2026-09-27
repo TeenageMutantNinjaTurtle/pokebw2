@@ -1,0 +1,19 @@
+# Names that are not in swan, applied by tools/scripts/rename_symbol.py
+# module address(b2_us) name
+overlays/ov035 0x0217ca2c EventFieldFirst_SetupCity
+overlays/ov035 0x0217cbec EventFieldContinue_SetupCity
+overlays/ov035 0x0217e62c GameData_UpdateJoinAvenueForZone
+overlays/ov035 0x0217e73c GameData_UpdateZoneChangeFlag
+overlays/ov035 0x0217ebc8 GameData_UpdateEscapeRopeZone
+overlays/ov035 0x0217ec48 AdjustEscapeRopeSpawn
+overlays/ov035 0x0217ec9c GameData_RevertShayminAtNight
+overlays/ov035 0x0217eccc EventMapChange_DSProtTamper1
+overlays/ov035 0x0217ecf4 EventMapChange_DSProtTamper2
+overlays/ov035 0x0217ed1c EventMapChange_DSProtNop
+overlays/ov035 0x0217ed20 CityState_InitFromSave
+overlays/ov035 0x0217ed40 CityState_IsCityValid
+overlays/ov035 0x0217ed54 CityState_IsSet
+overlays/ov035 0x0217ed70 ElScoreboard_Create
+overlays/ov035 0x0217ee00 ElScoreboard_Free
+overlays/ov035 0x0217ee08 ElScoreboard_Update
+overlays/ov035 0x0217ee2c ElScoreboard_UploadPalette

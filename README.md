@@ -150,6 +150,13 @@ ds-pokemon-hacking community, revision `4324f73` (2025-07-03). `tools/scripts/im
 .venv/bin/python tools/scripts/import_swan.py path/to/swan --map build/map_b2_w2.tsv --symbols-map build/map_b2_w2_symbols.tsv
 ```
 
+Names that swan lacks are ours, and are recorded in `config/names.txt` by module and Black 2 address.
+`tools/scripts/rename_symbol.py` renames a symbol in both versions, updates the source files and records the name:
+
+```sh
+.venv/bin/python tools/scripts/rename_symbol.py func_ov035_0217ed70 ElScoreboard_Create
+```
+
 ## Regenerating configs
 
 After improving dsd's analysis, regenerate the configs of both versions and import the names again:
@@ -166,7 +173,8 @@ tools/dsd init --rom-config extract/b2_us/config.yaml --output-path config/b2_us
     --allow-unknown-function-calls
 ```
 
-Regenerating overwrites any symbol names and delinks added by hand, so the names must be imported again afterwards.
+The names from swan and `config/names.txt` are applied again afterwards. Other changes to the configs, such as
+relocations added with `add_overlay_id_reloc.py` or `set_reloc_module.py`, have to be made again.
 
 ## License
 
