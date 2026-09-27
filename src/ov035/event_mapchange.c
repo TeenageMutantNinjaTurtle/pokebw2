@@ -269,7 +269,7 @@ extern void GameSystemTimer_Start(void);
 extern FieldStatus *GameData_GetFieldStatus(GameData *gameData);
 extern void FieldStatus_SetContinueFlag(FieldStatus *status, BOOL flag);
 extern ZoneSpawnInfo *GameData_GetNextZone(GameData *gameData);
-void GameData_RevertShayminAtNight(GameData *gameData);
+void GameData_UpdatePartyForTimeOfDay(GameData *gameData);
 extern void func_ov012_02162f44(GameData *gameData);
 extern void func_ov012_0215ef24(GameData *gameData, u16 zoneId);
 extern void UpdateWeatherToDefault(GameData *gameData, u16 zoneId);
@@ -684,7 +684,7 @@ GameEventReturnCode EventFieldContinue_Callback(GameEvent *event, u32 *state, Ev
             wk->zoneId = next->zoneId;
             FieldMapControl_DeleteAllActors(gsys);
             FieldMapControl_LoadZone(gsys, wk->zoneId);
-            GameData_RevertShayminAtNight(gameData);
+            GameData_UpdatePartyForTimeOfDay(gameData);
             FieldMapControl_InitSpawn(gsys, next);
             func_0202d3f0(next->zoneId, gameData);
         } else {
@@ -692,7 +692,7 @@ GameEventReturnCode EventFieldContinue_Callback(GameEvent *event, u32 *state, Ev
             MMSys *mmSys;
 
             FieldMapControl_LoadZone(gsys, wk->zoneId);
-            GameData_RevertShayminAtNight(gameData);
+            GameData_UpdatePartyForTimeOfDay(gameData);
             func_ov012_02162f44(gameData);
             func_ov012_0215ef24(gameData, wk->zoneId);
             UpdateWeatherToDefault(gameData, wk->zoneId);
@@ -2102,8 +2102,9 @@ void GameData_AdjustPlayerStateOnDiveOut(GameData *gameData) {
     }
 }
 
-// Sky Forme Shaymin in the party reverts to Land Forme at night
-void GameData_RevertShayminAtNight(GameData *gameData) {
+// Applies the form changes of party Pokemon that happen at night. In the base game, only Sky Forme Shaymin changes,
+// reverting to Land Forme.
+void GameData_UpdatePartyForTimeOfDay(GameData *gameData) {
     SaveControl *save = GameData_GetSaveControl(gameData);
     void *party = SaveControl_GetPokePartySave(save);
     u8 season = GameData_GetSeason(gameData);

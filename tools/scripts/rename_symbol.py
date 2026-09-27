@@ -22,6 +22,8 @@ NAMES = ROOT / "config" / "names.txt"
 MAPS = [ROOT / "build" / "version_map.tsv", ROOT / "build" / "version_map_symbols.tsv"]
 SOURCE_DIRS = [ROOT / "src", ROOT / "include"]
 IDENTIFIER_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+# The names dsd generates, such as func_ov035_0217ec9c
+DEFAULT_NAME_RE = re.compile(r"^(func|data|bss)_(ov\d{3}_)?[0-9a-f]{8}$")
 
 
 def symbol_files(version: str) -> dict[str, Path]:
@@ -150,7 +152,10 @@ def main():
 
     module, addr = found
     old_names = apply(module, addr, args.new, pairs)
-    names = [n for n in names if (n[0], n[1]) != (module, addr)] + [(module, addr, args.new)]
+    # A default name is not recorded, so renaming a symbol back to it removes its entry
+    names = [n for n in names if (n[0], n[1]) != (module, addr)]
+    if not DEFAULT_NAME_RE.match(args.new):
+        names.append((module, addr, args.new))
     save_names(names)
     rename_in_sources(old_names, args.new)
     print(f"{args.old} -> {args.new} ({module} {addr:#010x})")

@@ -6,7 +6,7 @@ overlays/ov035 0x0217e62c GameData_UpdateJoinAvenueForZone
 overlays/ov035 0x0217e73c GameData_UpdateZoneChangeFlag
 overlays/ov035 0x0217ebc8 GameData_UpdateEscapeRopeZone
 overlays/ov035 0x0217ec48 AdjustEscapeRopeSpawn
-overlays/ov035 0x0217ec9c GameData_RevertShayminAtNight
+overlays/ov035 0x0217ec9c GameData_UpdatePartyForTimeOfDay
 overlays/ov035 0x0217eccc EventMapChange_DSProtTamper1
 overlays/ov035 0x0217ecf4 EventMapChange_DSProtTamper2
 overlays/ov035 0x0217ed1c EventMapChange_DSProtNop
