@@ -1,13 +1,10 @@
 #include "types.h"
-
-typedef struct GameSystem GameSystem;
-typedef struct GameEvent GameEvent;
-typedef struct GameData GameData;
-typedef struct Field Field;
-
-typedef u32 GameEventReturnCode;
-#define GAMEEVENT_CONTINUE 0
-#define GAMEEVENT_DONE 1
+#include "app/wifi_bsubway.h"
+#include "field/event_wifi_bsubway.h"
+#include "field/field_event.h"
+#include "system/game_comm.h"
+#include "system/game_event.h"
+#include "system/game_system.h"
 
 // Also the parameter of the Wi-Fi Battle Subway proc, which sets procResult
 typedef struct {
@@ -17,36 +14,12 @@ typedef struct {
     u16 *result;
 } EventWifiBSubway;
 
-typedef struct {
-    u32 mode;
-    u16 *result;
-} EventWifiBSubwayArgs;
-
-extern GameEvent *GameEvent_Create(GameSystem *gsys, GameEvent *parent, void *callback, u32 size);
-extern void *GameEvent_GetData(GameEvent *event);
-extern void GameEvent_ChainNext(GameEvent *event, GameEvent *next);
-extern GameData *GSYS_GetGameData(GameSystem *gsys);
-extern Field *GSYS_GetField(GameSystem *gsys);
-extern void *GSYS_GetGameCommSystem(GameSystem *gsys);
-extern BOOL GameCommSys_BootCheck(void *comm);
-extern void GameCommSys_ExitReq(void *comm);
-extern GameEvent *CallFieldMapEntranceOutTransitionDefault(GameSystem *gsys, Field *field, u32 type, u32 a3);
-extern GameEvent *CallFieldMapEntranceInTransition(GameSystem *gsys, Field *field, u32 a2, u32 a3, u32 a4, u32 a5,
-                                                  u32 a6);
-extern GameEvent *CreateFieldCloseEvent(GameSystem *gsys, Field *field);
-extern void GSYS_QueueProc(GameSystem *gsys, u32 overlayId, const void *procFunctions, void *param);
-extern BOOL GSYS_GetProcMgrState(GameSystem *gsys);
-extern GameEvent *EventFieldOpen_CreateHeadless(GameSystem *gsys);
-extern const u8 WIFI_BSUBWAY_PROC_FUNCTIONS[];
-// Defined by the linker script, the address is the overlay ID
-extern u32 OVERLAY_191_ID[];
-#define OVERLAY_WIFI_BSUBWAY ((u32)OVERLAY_191_ID)
-
-GameEvent *EventWifiBSubway_Create(GameSystem *gsys, u32 mode, u16 *result);
-GameEventReturnCode EventWifiBSubway_Callback(GameEvent *event, u32 *state, EventWifiBSubway *wk);
+GameEventReturnCode EventWifiBSubway_Callback(GameEvent *event, u32 *state, void *data);
 
 // Called through GameEvent_CreateOverlayDelegate, by a script command in overlay 50
-GameEvent *EventWifiBSubway_CreateFromArgs(GameSystem *gsys, EventWifiBSubwayArgs *args) {
+GameEvent *EventWifiBSubway_CreateFromArgs(GameSystem *gsys, void *data) {
+    EventWifiBSubwayArgs *args = data;
+
     return EventWifiBSubway_Create(gsys, args->mode, args->result);
 }
 
@@ -64,7 +37,8 @@ GameEvent *EventWifiBSubway_Create(GameSystem *gsys, u32 mode, u16 *result) {
     return event;
 }
 
-GameEventReturnCode EventWifiBSubway_Callback(GameEvent *event, u32 *state, EventWifiBSubway *wk) {
+GameEventReturnCode EventWifiBSubway_Callback(GameEvent *event, u32 *state, void *data) {
+    EventWifiBSubway *wk = data;
     GameSystem *gsys = wk->gsys;
     Field *field = GSYS_GetField(gsys);
 
@@ -84,7 +58,7 @@ GameEventReturnCode EventWifiBSubway_Callback(GameEvent *event, u32 *state, Even
         (*state)++;
         break;
     case 3:
-        GSYS_QueueProc(gsys, OVERLAY_WIFI_BSUBWAY, WIFI_BSUBWAY_PROC_FUNCTIONS, wk);
+        GSYS_QueueProc(gsys, OVERLAY_WIFI_BSUBWAY, &WIFI_BSUBWAY_PROC_FUNCTIONS, wk);
         (*state)++;
         break;
     case 4:

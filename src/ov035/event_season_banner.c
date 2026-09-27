@@ -1,16 +1,15 @@
 #include "types.h"
-
-typedef struct GameSystem GameSystem;
-typedef struct GameEvent GameEvent;
-typedef struct Field Field;
-typedef struct FieldLensFlare FieldLensFlare;
-typedef struct ArcHandle ArcHandle;
-
-typedef u32 GameEventReturnCode;
-#define GAMEEVENT_CONTINUE 0
-#define GAMEEVENT_DONE 1
-
-typedef void (*EventSeasonBannerCallback)(void *arg);
+#include "constants/arc.h"
+#include "field/event_season_banner.h"
+#include "field/field.h"
+#include "gfl/arc.h"
+#include "gfl/graphics.h"
+#include "gfl/heap.h"
+#include "gfl/input.h"
+#include "nitro/g2d.h"
+#include "nitro/hw.h"
+#include "system/game_event.h"
+#include "system/season.h"
 
 typedef enum {
     SEASON_BANNER_TYPE_FIELD,
@@ -40,79 +39,9 @@ typedef struct {
     void *callbackArg;
 } EventSeasonBanner;
 
-typedef struct {
-    u32 format;
-    u32 extendedPalette;
-    u32 size;
-    void *rawData;
-} NNSG2dPaletteData;
-
-typedef struct {
-    u16 height;
-    u16 width;
-    u32 pixelFormat;
-    u32 mappingType;
-    u32 characterFormat;
-    u32 size;
-    void *rawData;
-} NNSG2dCharacterData;
-
-typedef struct {
-    u16 width;
-    u16 height;
-    u16 colorMode;
-    u16 format;
-    u32 size;
-    u32 rawData[1];
-} NNSG2dScreenData;
-
-#define REG_BLDCNT_ADDR 0x04000050
-#define REG_MASTER_BRIGHT_ADDR 0x0400006c
-#define REG_DB_MASTER_BRIGHT_ADDR 0x0400106c
-
-#define PAD_BUTTON_A 0x1
-
-#define ARC_SEASON_BANNER 150
 #define SEASON_BANNER_BG 3
 
-extern GameEvent *GameEvent_Create(GameSystem *gsys, GameEvent *parent, void *callback, u32 size);
-extern void *GameEvent_GetData(GameEvent *event);
-extern u32 *GameEvent_GetStatePtr(GameEvent *event);
-extern u16 Field_GetHeapID(Field *field);
-extern FieldLensFlare *Field_GetLensFlare(Field *field);
-extern void FieldLensFlare_Cancel(FieldLensFlare *lensFlare);
-extern void Field_SetSeasonBannerOverdrawFlag(Field *field, BOOL flag);
-extern void FieldG2D_SetLCDConfig(void);
-extern void FieldG2D_Prepare3DSurface(Field *field);
-extern u32 Season_GetPrevious(u32 season);
-extern u32 Season_GetNext(u32 season);
-extern u32 GCTX_HIDGetPressedKeys(void);
-extern u32 GFL_BGSysGetEnabledBGsA(void);
-extern void GFL_BGSysSetEnabledBGsA(u32 enabled);
-extern void GFL_BGSysSetBGPriority(u32 bg, u32 priority);
-extern void GFL_BGSysClearBG(u32 bg);
-extern void GFL_BGSysSetVRAMBanks(const void *config);
-extern void GFL_BGSysCreate(u16 heapId);
-extern void GFL_BGSysSetLCDConfig(const void *config);
-extern void GFL_BGSysCreateBG(u32 bg, const void *setup, u32 mode);
-extern void GFL_BGSysReleaseBG(u32 bg);
-extern void GFL_BGSysFree(void);
-extern void GFL_BGSysSetBGEnabled(u32 bg, BOOL enabled);
-extern void GFL_BGSysUploadStdPalette(u32 bg, void *data, u32 size, u32 offset);
-extern void GFL_BGSysLoadChar(u32 bg, void *data, u32 size, u32 offset);
-extern void GFL_BGSysLoadScrCore(u32 bg, void *data, u32 size, u32 offset);
-extern ArcHandle *GFL_ArcSysCreateFileHandle(u32 arcId, u16 heapId);
-extern void *GFL_ArcToolReadHeapNew(ArcHandle *handle, u32 fileId, u16 heapId);
-extern void GFL_ArcToolFree(ArcHandle *handle);
-extern void GFL_HeapFree(void *ptr);
-extern BOOL RelocatePaletteResGetDataPtr(void *file, NNSG2dPaletteData **palette);
-extern BOOL NNS_G2DPrepareBGChar(void *file, NNSG2dCharacterData **character);
-extern BOOL NNS_G2DPrepareScreen(void *file, NNSG2dScreenData **screen);
-extern void gfxRegSetBrightnessBlend(u32 reg, u32 plane, s32 brightness);
-extern void gfxRegSetAlphaBlend(u32 reg, u32 plane1, u32 plane2, s32 alpha1, s32 alpha2);
-extern void GFXRegSetMasterBrightness(u32 reg, s32 brightness);
-
-GameEventReturnCode EventSeasonBanner_Callback(GameEvent *event, u32 *state, EventSeasonBanner *wk);
+GameEventReturnCode EventSeasonBanner_Callback(GameEvent *event, u32 *state, void *data);
 void EventSeasonBanner_InitRenderer(EventSeasonBanner *wk);
 void EventSeasonBanner_InitRendererFieldOpen(EventSeasonBanner *wk);
 void EventSeasonBanner_InitRendererStandalone(EventSeasonBanner *wk);
@@ -146,7 +75,8 @@ static const u32 SEASON_BANNER_BG3_SETUP[8] = {
 };
 static const u32 SEASON_BANNER_LCD_CONFIG[4] = { 1, 0, 0, 1 };
 
-GameEventReturnCode EventSeasonBanner_Callback(GameEvent *event, u32 *state, EventSeasonBanner *wk) {
+GameEventReturnCode EventSeasonBanner_Callback(GameEvent *event, u32 *state, void *data) {
+    EventSeasonBanner *wk = data;
     switch (*state) {
     case SEASON_BANNER_STATE_INIT:
         EventSeasonBanner_SetFieldBannerFlag(wk);
@@ -283,7 +213,7 @@ void EventSeasonBanner_FreeRendererStandalone(EventSeasonBanner *wk) {
 }
 
 void EventSeasonBanner_LoadGraphics(u8 season, u16 heapId) {
-    ArcHandle *handle;
+    ArcTool *handle;
     NNSG2dPaletteData *palette;
     NNSG2dCharacterData *character;
     NNSG2dScreenData *screen;
@@ -314,7 +244,7 @@ void EventSeasonBanner_LoadGraphics(u8 season, u16 heapId) {
         break;
     }
 
-    handle = GFL_ArcSysCreateFileHandle(ARC_SEASON_BANNER, heapId);
+    handle = GFL_ArcSysCreateFileHandle(ARCID_SEASON_BANNER, heapId);
 
     file = GFL_ArcToolReadHeapNew(handle, paletteId, heapId);
     RelocatePaletteResGetDataPtr(file, &palette);

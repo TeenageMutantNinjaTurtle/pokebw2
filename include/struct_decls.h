@@ -1,0 +1,64 @@
+#ifndef POKEBW2_STRUCT_DECLS_H
+#define POKEBW2_STRUCT_DECLS_H
+
+// Every struct type is declared here once, and defined in the header of the module that owns it, if its layout is
+// known
+
+typedef struct ArcTool ArcTool;
+typedef struct AreaData AreaData;
+typedef struct BagSave BagSave;
+typedef struct BoxSaveAccessor BoxSaveAccessor;
+typedef struct BtlSetup BtlSetup;
+typedef struct CityState CityState;
+typedef struct DreamRadarSave DreamRadarSave;
+typedef struct DreamWorldSave DreamWorldSave;
+typedef struct ElScoreboard ElScoreboard;
+typedef struct EncEff EncEff;
+typedef struct EncountSystem EncountSystem;
+typedef struct EventData EventData;
+typedef struct EventWork EventWork;
+typedef struct Field Field;
+typedef struct FieldActor FieldActor;
+typedef struct FieldActorSystem FieldActorSystem;
+typedef struct FieldLensFlare FieldLensFlare;
+typedef struct FieldPlayer FieldPlayer;
+typedef struct FieldSound FieldSound;
+typedef struct FieldStatus FieldStatus;
+typedef struct FieldSubscreen FieldSubscreen;
+typedef struct FieldTaskManager FieldTaskManager;
+typedef struct G3DTextDrawResource G3DTextDrawResource;
+typedef struct GameCommSys GameCommSys;
+typedef struct GameData GameData;
+typedef struct GameEvent GameEvent;
+typedef struct GameProc GameProc;
+typedef struct GameProcFunctions GameProcFunctions;
+typedef struct GameProcManager GameProcManager;
+typedef struct GameSystem GameSystem;
+typedef struct GameSystemProcData GameSystemProcData;
+typedef struct GimmickState GimmickState;
+typedef struct HighLinkSave HighLinkSave;
+typedef struct ISS ISS;
+typedef struct ISSSwitchSys ISSSwitchSys;
+typedef struct JoinAvenueInfo JoinAvenueInfo;
+typedef struct JoinAvenuePerson JoinAvenuePerson;
+typedef struct JoinAvenuePersonList JoinAvenuePersonList;
+typedef struct JoinAvenueSave JoinAvenueSave;
+typedef struct KeyInfoSave KeyInfoSave;
+typedef struct LinkFestival LinkFestival;
+typedef struct MMSys MMSys;
+typedef struct MapMatrix MapMatrix;
+typedef struct NetHandle NetHandle;
+typedef struct PlaceName PlaceName;
+typedef struct PlayerInfo PlayerInfo;
+typedef struct PlayerState PlayerState;
+typedef struct PokeParty PokeParty;
+typedef struct RailPosition RailPosition;
+typedef struct RecordSave RecordSave;
+typedef struct SaveControl SaveControl;
+typedef struct WarpSequence WarpSequence;
+typedef struct WifiList WifiList;
+typedef struct WorldTradeData WorldTradeData;
+typedef struct ZoneSpawnInfo ZoneSpawnInfo;
+typedef struct ZoneWarp ZoneWarp;
+
+#endif // POKEBW2_STRUCT_DECLS_H

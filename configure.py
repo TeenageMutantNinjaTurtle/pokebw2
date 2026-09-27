@@ -47,6 +47,7 @@ CC_FLAGS = [
     "-inline on,noauto",   # Only inline functions marked inline
     "-ipa file",           # Interprocedural analysis within each file
     "-sym on",             # Debug info for objdiff
+    "-requireprotos",      # Calling an undeclared function is an error, instead of an implicit declaration
     "-nolink",
     "-msgstyle gcc",
 ]

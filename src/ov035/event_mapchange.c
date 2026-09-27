@@ -1,63 +1,43 @@
 #include "types.h"
-
-typedef struct GameSystem GameSystem;
-typedef struct GameEvent GameEvent;
-typedef struct GameData GameData;
-typedef struct SaveControl SaveControl;
-typedef struct PlayerInfo PlayerInfo;
-typedef struct EventWork EventWork;
-typedef struct Field Field;
-typedef struct FieldPlayer FieldPlayer;
-typedef struct FieldStatus FieldStatus;
-typedef struct FieldActor FieldActor;
-typedef struct MMSys MMSys;
-typedef struct PlaceName PlaceName;
-typedef struct AreaData AreaData;
-typedef struct EventData EventData;
-typedef struct ZoneWarp ZoneWarp;
-
-typedef u32 GameEventReturnCode;
-#define GAMEEVENT_CONTINUE 0
-#define GAMEEVENT_DONE 1
-// Runs the current event again in the same frame, such as an event that was just chained
-#define GAMEEVENT_CONTINUE_DIRECT 0x21
-
-typedef enum {
-    GAME_ENTRYPOINT_OPENING,
-    GAME_ENTRYPOINT_FIELD_CONTINUE,
-    GAME_ENTRYPOINT_DEBUG,
-} GameEntryPoint;
-
-typedef struct {
-    s32 x;
-    s32 y;
-    s32 z;
-} VecFx32;
-
-typedef struct {
-    GameEntryPoint entryPoint;
-    VecFx32 spawnPos;
-    u16 zoneId;
-    u16 unk12;
-} GameSystemProcData;
-
-typedef struct {
-    u16 componentId;
-    u8 componentIsLine;
-    u8 railDirection;
-    s16 posSide;
-    u16 posFront;
-} RailPosition;
-
-typedef struct {
-    u32 changeType;
-    s16 zoneId;
-    u16 warpId;
-    s16 warpDir;
-    u16 posWeightBits;
-    BOOL isRail;
-    VecFx32 pos;
-} ZoneSpawnInfo;
+#include "constants/arc.h"
+#include "constants/flags.h"
+#include "constants/sound.h"
+#include "constants/zones.h"
+#include "dsprot/dsprot.h"
+#include "field/event_mapchange.h"
+#include "field/event_season_banner.h"
+#include "field/field.h"
+#include "field/field_actor.h"
+#include "field/field_event.h"
+#include "field/field_map.h"
+#include "field/field_script.h"
+#include "field/field_status.h"
+#include "field/iss.h"
+#include "field/player_state.h"
+#include "field/zone.h"
+#include "gfl/arc.h"
+#include "gfl/graphics.h"
+#include "gfl/heap.h"
+#include "gfl/net.h"
+#include "gfl/overlay.h"
+#include "gfl/random.h"
+#include "gfl/sound.h"
+#include "gfl/std.h"
+#include "nitro/fx.h"
+#include "pml/poke_party.h"
+#include "save/dream_world.h"
+#include "save/event_work.h"
+#include "save/join_avenue.h"
+#include "save/key_info.h"
+#include "save/player_info.h"
+#include "save/save_control.h"
+#include "system/game_comm.h"
+#include "system/game_data.h"
+#include "system/game_event.h"
+#include "system/game_system.h"
+#include "system/new_game.h"
+#include "system/rtc.h"
+#include "system/season.h"
 
 typedef struct {
     GameSystem *gsys;
@@ -76,24 +56,6 @@ typedef struct {
     u16 zoneId;
     BOOL continueFromSave;
 } EventFieldContinue;
-
-typedef struct {
-    GameEvent *parent;
-    GameSystem *gsys;
-    GameData *gameData;
-    Field *field;
-    u32 unk10;
-    u32 transitionType;
-    u16 zoneId;
-    ZoneSpawnInfo spawn;
-    u32 outTransition;
-    u32 inTransition;
-    BOOL seasonChanged;
-    u8 startSeason;
-    u8 endSeason;
-    u32 unk48;
-    u32 unk4C;
-} WarpSequence;
 
 typedef struct {
     GameSystem *gsys;
@@ -128,8 +90,6 @@ typedef struct {
     u16 gimmickId;
 } ZoneGimmick;
 
-typedef void *(*DSProtCallback)(void *arg0, void *arg1);
-
 typedef struct {
     ZoneSpawnInfo spawn;
     GameSystem *gsys;
@@ -140,410 +100,37 @@ typedef struct {
     u32 festMissionStatus;
 } EventEntralinkWarp;
 
-// The city of the player's version, which a key from Unova Link can switch
-#define CITY_BLACK_CITY 0
-#define CITY_WHITE_FOREST 1
-
-typedef struct {
-    u16 initialized;
-    u16 city;
-} CityState;
-
-// Spawns at a position instead of a warp, warpId is -1
-#define ZONE_SPAWN_CHANGE_TYPE_POSITION 1
-#define ZONE_SPAWN_CHANGE_TYPE_3 3
-
-#define ZONE_POKEMON_LEAGUE 0x88
-#define ZONE_UNION_ROOM 0x1a6
-#define ZONE_CASTELIA_SEWERS 0x1ef
-#define ZONE_VICTORY_ROAD 0x23d
-
-#define WARP_DIR_UP 1
-#define WARP_DIR_DOWN 2
-#define WARP_DIR_LEFT 3
-#define WARP_DIR_RIGHT 4
-
-#define FX32_CONST(x) ((s32)((x) * 4096))
-
-// Allocates from the end of the heap
-#define HEAP_LOW(heapId) ((heapId) | 0x8000)
-// Heap IDs, named as in swan
-#define HEAPID_USER 0x1
-#define HEAPID_GAMEEVENT 0x4
-#define HEAPID_FIELDMAP 0x15
-
-#define ARC_ZONE_GIMMICKS 0x66
-
-#define SEQ_SE_ENTRALINK_WARP 0x772
-
-// With a map replace event set, each version allows its own area
-#define VERSION_AREA_BLACK2 0
-#define VERSION_AREA_WHITE2 1
-#define VERSION_AREA_2 2
-#ifdef BLACK2
-#define VERSION_AREA_OWN VERSION_AREA_BLACK2
-#else
-#define VERSION_AREA_OWN VERSION_AREA_WHITE2
-#endif
-
-#define EVENT_FLAG_CONTINUE_SCRIPT 0x965
-#define EVENT_WORK_CONTINUE_SCRIPT 0x4041
-
-// Defined by the linker script, the address is the overlay ID
-extern u32 OVERLAY_27_ID[];
-extern u32 OVERLAY_28_ID[];
-extern u32 OVERLAY_279_ID[];
-extern u32 OVERLAY_337_ID[];
-#define OVERLAY_27 ((u32)OVERLAY_27_ID)
-#define OVERLAY_28 ((u32)OVERLAY_28_ID)
-#define OVERLAY_NEW_GAME ((u32)OVERLAY_279_ID)
-#define OVERLAY_DSPROT ((u32)OVERLAY_337_ID)
-
-#define HW_VBLANK_COUNT_BUF 0x02fffc3c
-#define DSPROT_CHECKSUM 0x9f75a8d6
-
-// DS Protect state in overlay 337
-extern u32 data_ov337_02182440;
-extern DSProtCallback data_ov337_02182444[2];
-
-// Calls a DS Protect function after verifying its code. If the checksum does not match, `tamper` is called instead.
-// The dummy and tamper functions are put in a table in a random order, picked with the VBlank counter.
-#define DSPROT_CHECKED_CALL(func, tamper, arg0, arg1)                                                                  \
-    {                                                                                                                  \
-        u32 index = *(u32 *)HW_VBLANK_COUNT_BUF & 1;                                                                   \
-        u32 tamperIndex;                                                                                               \
-        u32 i;                                                                                                         \
-        u32 checksum;                                                                                                  \
-        u32 *code;                                                                                                     \
-        data_ov337_02182440 = index;                                                                                   \
-        tamperIndex = index ^ 1;                                                                                       \
-        data_ov337_02182444[index] = EventMapChange_DSProtNop;                                                         \
-        data_ov337_02182444[tamperIndex] = tamper;                                                                     \
-        code = (u32 *)func;                                                                                            \
-        for (i = 0x25, checksum = 0; i != 0; i--) {                                                                    \
-            checksum ^= (*code >> i) | (*code << (32 - i));                                                            \
-            code++;                                                                                                    \
-        }                                                                                                              \
-        if (checksum == DSPROT_CHECKSUM) {                                                                             \
-            func(arg0, arg1);                                                                                          \
-        } else {                                                                                                       \
-            data_ov337_02182444[tamperIndex](arg0, arg1);                                                              \
-        }                                                                                                              \
-    }
-
-extern GameEvent *GameEvent_Create(GameSystem *gsys, GameEvent *parent, void *callback, u32 size);
-extern void *GameEvent_GetData(GameEvent *event);
-extern void GameEvent_ChainNext(GameEvent *event, GameEvent *next);
-extern void GameEvent_Replace(GameEvent *event, GameEvent *next);
-extern GameData *GSYS_GetGameData(GameSystem *gsys);
-extern Field *GSYS_GetField(GameSystem *gsys);
-extern GameEvent *EventSeasonBanner_CreateStandalone(GameSystem *gsys, u8 startSeason, u8 endSeason);
-extern GameEvent *Event3DDemo_Create(GameSystem *gsys, GameEvent *parent, u32 demoId, u32 unk3, u32 unk4);
-extern void gfxSetLCDCBanks(u32 banks);
-extern void gfxDisableLCDCBanks(void);
-extern void sys_memset32_fast(u32 value, void *dest, u32 size);
-extern u32 Season_GetRealTime(void);
-extern void Season_Set(GameData *gameData, u16 season);
-extern u8 GameData_GetSeason(GameData *gameData);
-extern void GameData_GetSeasons(GameData *gameData, u16 *prevSeason, u16 *season);
-extern u32 Season_GetNext(u8 season);
-// Index 1 of GameData's city states is the player's own, and index 0 is the linked player's
-extern CityState *GameData_GetMyCityState(GameData *gameData);
-extern PlayerInfo *GetGameDataPlayerInfo(GameData *gameData);
-extern SaveControl *GameData_GetSaveControl(GameData *gameData);
-extern void func_ov012_0215cd58(CityState *state);
-extern EventWork *GameData_GetEventWork(GameData *gameData);
-extern void FieldScript_CallPlayerInitSetup(GameSystem *gsys, u32 a1);
-extern void FieldMapControl_LoadZone(GameSystem *gsys, u16 zoneId);
-extern void FieldMapControl_InitSpawn(GameSystem *gsys, ZoneSpawnInfo *spawn);
-extern void FieldMapControl_DeleteAllActors(GameSystem *gsys);
-extern void GameBeacon_SetZone(u16 zoneId, GameData *gameData);
-extern u32 GetMapBGMIDByPlayerState2(GameData *gameData, int zoneId, u8 season);
-extern GameEvent *EventBGMChange_Create(GameSystem *gsys, u32 bgm, u32 a2, u32 a3);
-extern GameEvent *EventFieldOpen_Create(GameSystem *gsys);
-extern FieldPlayer *Field_GetPlayer(Field *field);
-extern FieldActor *FieldPlayer_GetActor(FieldPlayer *player);
-extern void SetActorFlag(FieldActor *actor, u32 flag);
-extern void EventScriptCall_Start(GameEvent *event, u16 scriptId, void *a2, void *a3, u32 heapId);
-extern GameEvent *CallFieldMapEntranceInTransition(GameSystem *gsys, Field *field, u32 a2, u32 a3, u32 a4, u8 a5,
-                                                  u8 a6);
-extern void LoadAspertiaCitySpawnInfo(ZoneSpawnInfo *spawn);
-extern void GFL_OvlLoad(u32 overlayId);
-extern void GFL_OvlUnload(u32 overlayId);
-extern void InitDreamRadarFlagSave(GameData *gameData, u32 heapId);
-extern void InitItemBag(GameData *gameData, u32 heapId);
-extern void *getSaveAdventureDataBlk(SaveControl *save);
-extern void setAdvTimeBlkRtcOffsetOwnerMacBdayMonthDay(void *adventure);
-extern void GameSystemTimer_Start(void);
-extern FieldStatus *GameData_GetFieldStatus(GameData *gameData);
-extern void FieldStatus_SetContinueFlag(FieldStatus *status, BOOL flag);
-extern ZoneSpawnInfo *GameData_GetNextZone(GameData *gameData);
-void GameData_UpdatePartyForTimeOfDay(GameData *gameData);
-extern void func_ov012_02162f44(GameData *gameData);
-extern void func_ov012_0215ef24(GameData *gameData, u16 zoneId);
-extern void UpdateWeatherToDefault(GameData *gameData, u16 zoneId);
-extern s32 GetZoneNPCInfoCacheIdx(u16 zoneId);
-extern MMSys *GameData_GetMMSys(GameData *gameData);
-extern void LoadMModelSystemInfoCache(MMSys *mmSys, s32 index);
-extern void FldActSys_ClearCache(MMSys *mmSys);
-extern u16 *EventWork_GetWkPtr(EventWork *eventWork, u32 work);
-extern PlaceName *Field_GetPlaceName(Field *field);
-extern void BeginContinuePlaceNameDisp(PlaceName *placeName, u16 zoneId);
-extern BOOL EventWork_FlagGet(EventWork *eventWork, u32 flag);
-extern void EventWork_FlagReset(EventWork *eventWork, u32 flag);
-extern void *SaveControl_GetPokePartySave(SaveControl *save);
-extern void *getTrainerCardDataBlkAddress(GameData *gameData);
-extern BOOL hasClockNotBeenTampered(void *adventure);
-extern void *getSaveAdventureTimeBlock(SaveControl *save);
-extern void setNewDayForCountdown(void *adventureTime);
-extern u32 func_ov012_02164428(GameData *gameData, void *party);
-extern s64 RTC_ConvertSecondsCached(u32 time);
-extern void setSecondsCurrentTimeInTrainerCard(void *trainerCard, s64 seconds);
-extern void TransformVsPokePartyBySeason(GameData *gameData, void *party, u8 season);
-extern u16 Field_GetHeapID(Field *field);
-extern u16 ZoneData_GetAreaID(u16 zoneId);
-extern AreaData *AreaData_Create(u16 heapId, u16 areaId, u32 a2);
-extern BOOL AreaData_IsExterior(AreaData *areaData);
-extern void AreaData_Free(AreaData *areaData);
-extern u32 GetOutTransitionTypeBetweenZones(u16 fromZone, u16 toZone);
-extern u32 GetInTransitionTypeBetweenZones(u16 fromZone, u16 toZone);
-extern EventData *GameData_GetEventData(GameData *gameData);
-extern ZoneWarp *GetZoneWarpByID(EventData *eventData, u16 warpId);
-extern u32 GetWarpTransitionType(ZoneWarp *warp);
-extern void *GSYS_GetGameCommSystem(GameSystem *gsys);
-extern void FieldStatus_SetBusyFlag(FieldStatus *status, u32 flag);
-typedef struct FieldLensFlare FieldLensFlare;
-extern FieldLensFlare *Field_GetLensFlare(Field *field);
-extern u32 GetZoneFogIndexAll(Field *field, u16 zoneId);
-extern u16 Field_GetPlayerStateZoneID(Field *field);
-extern void FieldLensFlare_DecideForZoneTransit(FieldLensFlare *lensFlare, u16 zoneId, u16 prevZoneId, u32 fog);
-extern GameEvent *EventFieldCloseKeepSound_Create(GameSystem *gsys, Field *field);
-extern void func_ov337_02180bdc(void);
-extern BOOL IsZoneGameCommDisabled(u16 zoneId);
-extern u8 GameCommSys_BootCheck(void *comm);
-extern void GameCommSys_ExitReq(void *comm);
-extern void *func_ov337_02180a84(void *arg0, void *arg1);
-extern void *func_ov337_02180b30(void *arg0, void *arg1);
-extern void *GameData_GetParty(GameData *gameData);
-extern void func_ov012_021643f0(GameData *gameData, void *party, void *hour, u8 season);
-void GameData_UpdateZoneChangeFlag(GameData *gameData, u16 zoneId, u16 prevZoneId);
-extern void func_ov012_0215ee94(GameData *gameData, u16 zoneId);
-extern void func_ov012_0215eedc(GameData *gameData, u16 zoneId);
-extern void func_ov012_0215eeb8(GameData *gameData, u16 zoneId);
-extern void ShutdownFollowWork(GameData *gameData);
-extern void func_ov012_02153668(void *comm);
-extern BOOL GameData_IsLensFlareRequested(GameData *gameData);
-extern void GameData_SetLensFlareRequested(GameData *gameData, BOOL requested);
-extern void FieldLensFlare_RequestStart(FieldLensFlare *lensFlare);
-extern void GameData_InitEncountTerrain(GameData *gameData, Field *field);
-extern GameEvent *EventWaitFieldSound_Create(GameSystem *gsys);
-typedef struct FieldSound FieldSound;
-typedef struct FieldActorSystem FieldActorSystem;
-typedef struct FieldTaskManager FieldTaskManager;
-typedef struct FieldSubscreen FieldSubscreen;
-typedef struct PlayerState PlayerState;
-typedef struct EncountSystem EncountSystem;
-extern FieldSound *GameData_GetFieldSoundSystem(GameData *gameData);
-extern void FieldSnd_SetZoneBGM(FieldSound *fieldSound, GameData *gameData, u16 zoneId, u8 season);
-extern void FieldSnd_FadeInImmediate(FieldSound *fieldSound, GameData *gameData);
-extern GameEvent *CallEventPrepareResidentActorsForZoneChange(GameSystem *gsys, Field *field);
-extern FieldActorSystem *Field_GetActorSystem(Field *field);
-extern void DisableAllActorsMovement(FieldActorSystem *actorSystem);
-extern GameEvent *EventWarpSequence_CreateOut(WarpSequence *warp);
-extern GameEvent *EventWarpSequence_CreateIn(WarpSequence *warp);
-extern GameEvent *CallFieldMapEntranceOutTransitionDefault(GameSystem *gsys, Field *field, u32 type, u32 a3);
-extern GameEvent *EventQuicksandDrawIn_Create(GameEvent *event, GameSystem *gsys, Field *field, VecFx32 *pos);
-extern GameEvent *EventQuicksandArrive_Create(GameEvent *event, GameSystem *gsys, Field *field);
-extern GameEvent *EventEscapeRope_Create(GameEvent *event, GameSystem *gsys, Field *field, BOOL seasonChanged);
-extern GameEvent *EventDig_Create(GameEvent *event, GameSystem *gsys, Field *field, BOOL seasonChanged);
-extern GameEvent *EventTeleportEffect_Create(GameEvent *event, GameSystem *gsys, Field *field, BOOL a3);
-extern GameEvent *func_ov036_021b95ac(GameEvent *event, GameSystem *gsys, Field *field, BOOL seasonChanged,
-                                      u16 prevSeason, u16 season);
-extern GameEvent *func_ov036_021b95e0(GameEvent *event, GameSystem *gsys, Field *field, BOOL seasonChanged,
-                                      u16 prevSeason, u16 season);
-extern GameEvent *func_ov036_021b9614(GameEvent *event, GameSystem *gsys, Field *field);
-extern GameEvent *func_ov036_021b9664(GameEvent *event, GameSystem *gsys, Field *field);
-extern GameEvent *func_ov036_021b9df8(GameEvent *event, GameSystem *gsys, Field *field);
-extern GameEvent *EventPlayerSpinDown_Create(GameEvent *event, GameSystem *gsys, Field *field);
-extern void func_ov036_021b50c8(PlaceName *placeName, int zoneId);
-extern PlayerState *GameData_GetPlayerState(GameData *gameData);
-extern void SetPlayerSpecialState(PlayerState *playerState, u32 state);
-extern FieldTaskManager *Field_GetTaskManager(Field *field);
-extern BOOL FieldTaskManager_IsIdle(FieldTaskManager *taskManager);
-extern void GameData_SaveCGearPowerRequest(GameData *gameData);
-extern void GameData_RestoreCGearPowerRequest(GameData *gameData);
-extern FieldSubscreen *Field_GetSubscreen(Field *field);
-extern void FieldSubscreen_ChangeImm(FieldSubscreen *subscreen, u32 mode);
-extern void func_ov028_02170ec8(GameSystem *gsys);
-extern EncountSystem *Field_GetEncountSystem(Field *field);
-extern void func_ov036_021a2398(EncountSystem *encount, u32 a1);
-extern u16 ConvDirToWarpDir(u16 dir);
-extern void CreateZoneChangeData(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpDir, s32 x, s32 y, s32 z);
-extern void CreateZoneChangeDataRail(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpDir, u16 componentId, u16 posFront,
-                          s16 posSide);
-extern ZoneSpawnInfo *GameData_GetEscapeRopeZone(GameData *gameData);
-extern u16 GetReturnLocationIdx(GameData *gameData);
-extern u16 GetRespawnZoneMainZone(u16 index);
-extern void LoadZoneSpawnInfoCheckRail(ZoneSpawnInfo *spawn, u16 zoneId);
-typedef struct HighLinkSave HighLinkSave;
-extern VecFx32 *PlayerState_GetWPos(PlayerState *playerState);
-extern u16 PlayerState_GetZoneID(PlayerState *playerState);
-extern u16 PlayerState_CalcDirection(PlayerState *playerState);
-extern void GameData_SetNextZone(GameData *gameData, ZoneSpawnInfo *spawn);
-extern void GameData_SetEntralinkParentSpawnInfo(GameData *gameData, ZoneSpawnInfo *spawn);
-extern ZoneSpawnInfo *GameData_GetEntralinkParentSpawnInfo(GameData *gameData);
-extern HighLinkSave *getHighLinkBlockAddress(SaveControl *save);
-extern u32 func_02017a40(GameData *gameData);
-extern void func_0200c6f0(HighLinkSave *highLink, u32 a1, u32 a2);
-extern void func_0202be00(void *comm);
-extern void GameData_SetForceSeasonSync(GameData *gameData, BOOL force);
-extern void func_020175d8(GameData *gameData, u32 a1);
-extern void func_02017608(GameData *gameData, u32 a1);
-extern void func_020175c4(GameData *gameData, u32 a1);
-extern u32 Field_GetResolvedControllerTypeID(Field *field);
-extern VecFx32 *GetMModelWPosPtr(FieldActor *actor);
-extern void func_ov036_0219ad24(FieldPlayer *player, RailPosition *pos);
-GameEvent *EventEntralinkWarpIn_CreateCore(GameSystem *gsys, Field *field, ZoneSpawnInfo *spawn, u32 a3, u32 a4);
-GameEvent *EventEntralinkWarp_Create(GameSystem *gsys, Field *field, ZoneSpawnInfo *spawn);
-void EventEntralinkWarp_CreateReturnLocation(ZoneSpawnInfo *spawn, Field *field);
-extern BOOL IsWarpDestId256(ZoneWarp *warp);
-extern void SetupWarpParamByWarp(ZoneWarp *warp, ZoneSpawnInfo *spawn, u32 a2);
-extern ZoneSpawnInfo *GetOutboundWarpRememberSpawnInfo(GameData *gameData);
-extern BOOL GetIsZoneMatrix0(u16 zoneId);
-extern void GameData_SetEscapeRopeZone(GameData *gameData, ZoneSpawnInfo *spawn);
-typedef struct ISS ISS;
-typedef struct ISSSwitchSys ISSSwitchSys;
-extern void SetupTeleportZoneChange(u16 returnLocation, ZoneSpawnInfo *spawn);
-extern void func_ov012_0215ef00(GameData *gameData, u16 zoneId);
-extern ISS *GameSystem_GetISS(GameSystem *gsys);
-extern ISSSwitchSys *ISS_GetSwitchSys(ISS *iss);
-extern void ISSSwitchSys_ResetSwitches(ISSSwitchSys *switchSys);
-extern BOOL SetupZoneWarpArrival(EventData *eventData, ZoneSpawnInfo *spawn, u16 warpId, u16 posWeightBits);
-extern void FieldStatus_SetNewLoadFlag(FieldStatus *status, BOOL flag);
-extern void PlayerState_SetZoneID(PlayerState *playerState, u16 zoneId);
-extern void PlayerState_SetRotation(PlayerState *playerState, u16 angle);
-extern BOOL GetZoneSpawnInfoIsRail(ZoneSpawnInfo *spawn);
-extern void PlayerState_SetWPos(PlayerState *playerState, VecFx32 *pos);
-extern void PlayerState_SetRailPos(PlayerState *playerState, VecFx32 *pos);
-extern void PlayerState_SetIsRail(PlayerState *playerState, BOOL isRail);
-extern void ISS_ChangeZone(ISS *iss, u16 zoneId);
-extern void SetGameDataNowSpawnZone(GameData *gameData, ZoneSpawnInfo *spawn);
-extern u32 GetRespawnLocationIndexForRespawnZone(int zoneId);
-extern void SetCurrentTeleportOrDeathZone(GameData *gameData, u16 respawnLocation);
-extern void func_ov012_0215ee40(GameData *gameData, u16 zoneId);
-extern void SetTeleportZoneDiscover(GameData *gameData, int zoneId);
-extern void FieldScript_CallOnZoneInit(GameSystem *gsys, u32 a1);
-extern void resetRebattleTrainers(EventWork *eventWork);
-extern void func_ov012_021683f4(GameSystem *gsys, u16 zoneId);
-extern void ResetWeather(GameSystem *gsys, int zoneId);
-extern u32 GetZoneNPCsCount(EventData *eventData);
-extern void *GetZoneNPCs(EventData *eventData);
-extern void SpawnAllZoneNPCs(MMSys *mmSys, void *npcs, int zoneId, u32 count, EventWork *eventWork);
-extern void FldActSys_DeleteAllActors(MMSys *mmSys);
-typedef struct MapMatrix MapMatrix;
-typedef struct GimmickState GimmickState;
-typedef struct ArcTool ArcTool;
-typedef struct JoinAvenueSave JoinAvenueSave;
-typedef struct JoinAvenueInfo JoinAvenueInfo;
-typedef struct JoinAvenuePerson JoinAvenuePerson;
-typedef struct JoinAvenuePersonList JoinAvenuePersonList;
-extern void *func_02017b84(GameData *gameData);
-extern JoinAvenuePersonList **GameData_GetJoinAvenuePersonListPtr(GameData *gameData);
-extern BOOL IsZoneJoinAvenue(u16 zoneId);
-extern BOOL IsZoneJoinAvenueSubZone(u16 zoneId);
-extern JoinAvenuePersonList *JoinAvenuePersonList_Create(u16 heapId, u32 count);
-extern void JoinAvenuePersonList_Free(JoinAvenuePersonList *list);
-extern JoinAvenueSave *SaveControl_GetJoinAvenue(SaveControl *save);
-extern JoinAvenueInfo *JoinAvenue_GetInfo(JoinAvenueSave *joinAvenue);
-extern u32 JoinAvenue_GetParam(JoinAvenueInfo *info, u32 param, u32 a2);
-extern void func_02017b64(GameData *gameData, u8 a1);
-extern void func_02038bc8(u32 a0);
-extern void func_02039980(void *a0, u32 a1, u32 a2);
-extern JoinAvenuePersonList *JoinAvenue_GetPersonList(JoinAvenueSave *joinAvenue);
-extern u32 JoinAvenuePersonList_GetCount(JoinAvenuePersonList *list);
-extern JoinAvenuePerson *JoinAvenuePersonList_Get(JoinAvenuePersonList *list, u32 index);
-extern BOOL JoinAvenuePerson_IsEmpty(JoinAvenuePerson *person);
-extern void JoinAvenuePerson_SetParam(JoinAvenuePerson *person, u32 param, u32 value);
-extern u32 GetZoneFlashFlags(u16 zoneId);
-extern BOOL FieldStatus_CheckFlashUsed(FieldStatus *status);
-extern void FieldStatus_SetFlashPerms(FieldStatus *status, u32 flags);
-extern BOOL GameData_IsForceSeasonSync(GameData *gameData);
-extern BOOL IsZoneEntralinkHub(u16 zoneId);
-// Set while in another player's world through the Entralink
-extern void FieldStatus_SetInLinkedWorld(FieldStatus *status, BOOL inLinkedWorld);
-extern BOOL GetZoneIsUnionRoom(u16 zoneId);
-extern BOOL IsZone150Or151(u16 zoneId);
-extern BOOL GetZoneIsMusicalTheater(u16 zoneId);
-extern BOOL IsZoneRoyalUnova(u16 zoneId);
-extern BOOL GetZoneIsPWTBattleStage(u16 zoneId);
-extern u32 GameData_GetLastSubscreen(GameData *gameData);
-extern void GameData_SetLastSubscreen(GameData *gameData, u32 subscreen);
-extern void EventData_LoadZone(EventData *eventData, u16 zoneId, u8 season);
-extern MapMatrix *GetMapMatrixSystem(GameData *gameData);
-extern u16 GetZoneMatrixId(u16 zoneId);
-extern void MapMatrix_Load(MapMatrix *matrix, u16 matrixId, u16 zoneId, u16 heapId);
-extern void MapMatrix_Patch(MapMatrix *matrix, GameSystem *gsys, u16 heapId);
-extern void SetAllowVersionSpecificArea(u32 area, BOOL allow);
-extern BOOL func_ov011_02154e70(GameData *gameData, u32 a1);
-extern void SetActorHidden(FieldActor *actor, BOOL hidden);
-extern GimmickState *GameData_GetGimmickState(GameData *gameData);
-extern void GimmickState_Reset(GimmickState *gimmick);
-extern void GimmickState_SetID(GimmickState *gimmick, u16 gimmickId);
-extern ArcTool *GFL_ArcSysCreateFileHandle(u32 arcId, u16 heapId);
-extern void *GFL_ArcToolReadHeapNew(ArcTool *handle, u32 fileId, u16 heapId);
-extern u32 GFL_ArcToolGetDataLength(ArcTool *handle, u32 fileId);
-extern void GFL_ArcToolFree(ArcTool *handle);
-extern void GFL_HeapFree(void *ptr);
-typedef struct LinkFestival LinkFestival;
-typedef struct EncEff EncEff;
-typedef struct KeyInfoSave KeyInfoSave;
-extern void *GFL_HeapAllocate(u16 heapId, u32 size, BOOL clear, const char *file, u32 line);
-extern LinkFestival *GSYS_GetLinkFestival(GameSystem *gsys);
-extern u32 getStatusOfFesMission(LinkFestival *festival);
-extern void func_ov036_021b5168(PlaceName *placeName);
-extern void GFL_SndSEPlay(u16 se);
-extern GameEvent *CallFieldMapEntranceOutTransition(GameSystem *gsys, Field *field, u32 type, u32 a3, u32 a4);
-extern EncEff *Field_GetEncEff(Field *field);
-extern void EncEff_StartEvent(EncEff *encEff, GameEvent *event, u32 effect);
-extern GameEvent *func_ov036_021b8850(GameSystem *gsys, Field *field, u32 a2, u32 a3, u32 a4);
-extern void BeginForcePlaceNameDisp(PlaceName *placeName, int zoneId);
-extern BOOL EventEntralinkWarpIn_CheckAllowed(GameSystem *gsys);
-extern BOOL GameData_CheckPairFlag(GameData *gameData);
-extern u32 func_0203ffc4(void);
-extern ZoneSpawnInfo *GetGameDataNowSpawnZone(GameData *gameData);
-extern BOOL IsZoneInVictoryRoad(u16 zoneId);
-extern BOOL GetZoneFlagsEnableEscapeRope(u16 zoneId);
-extern BOOL IsZoneAbyssalRuinsOutside(u16 zoneId);
-extern u32 FieldPlayerState_GetExState(PlayerState *playerState);
-extern KeyInfoSave *getKeyInfoSaveBlk(SaveControl *save);
-// Returns 1 if the key that switches the city is set
-extern u32 KeyInfo_GetCityKey(KeyInfoSave *keyInfo);
-GameEventReturnCode EventEntralinkWarpIn_Callback(GameEvent *event, u32 *state, EventEntralinkWarp *wk);
-GameEventReturnCode EventEntralinkWarp_Callback(GameEvent *event, u32 *state, EventEntralinkWarp *wk);
-void GameData_UpdateJoinAvenueForZone(GameData *gameData, u16 zoneId);
-void GameData_SetGimmickByZone(GameData *gameData, int zoneId);
-void GameData_UpdateFlashStatus(GameData *gameData, u16 zoneId);
-void CallSpawnAllZoneNPCs(GameData *gameData, const ZoneSpawnInfo *spawn);
-void GameData_UpdateEscapeRopeZone(GameData *gameData, const ZoneSpawnInfo *spawn);
-void AdjustEscapeRopeSpawn(GameData *gameData, ZoneSpawnInfo *spawn);
-void GameData_AdjustPlayerStateOnDiveOut(GameData *gameData);
+GameEventReturnCode EventEntralinkWarp_Callback(GameEvent *event, u32 *state, void *data);
+GameEventReturnCode EventEntralinkWarpIn_Callback(GameEvent *event, u32 *state, void *data);
 void *EventMapChange_DSProtNop(void *arg0, void *arg1);
 void *EventMapChange_DSProtTamper1(void *arg0, void *arg1);
 void *EventMapChange_DSProtTamper2(void *arg0, void *arg1);
 
-GameEvent *EventGameOpening_Create(GameSystem *gsys, GameSystemProcData *procData);
-GameEvent *EventFieldFirst_Create(GameSystem *gsys, GameSystemProcData *procData);
-GameEvent *EventFieldContinue_Create(GameSystem *gsys, GameSystemProcData *procData);
+GameEventReturnCode EventGameOpening_Callback(GameEvent *event, u32 *state, void *data);
 void EventFieldFirst_SetupCity(GameSystem *gsys);
+GameEventReturnCode EventFieldFirst_Callback(GameEvent *event, u32 *state, void *data);
 void EventFieldContinue_SetupCity(GameSystem *gsys);
-void CityState_InitFromSave(CityState *state, PlayerInfo *player, SaveControl *save, u32 unused);
-
-// From the NitroSDK
-static inline void VEC_Set(VecFx32 *v, s32 x, s32 y, s32 z) {
-    v->x = x;
-    v->y = y;
-    v->z = z;
-}
+GameEventReturnCode EventFieldContinue_Callback(GameEvent *event, u32 *state, void *data);
+void EventMapChange_LoadSeasons(EventMapChange *wk);
+void EventMapChange_SetupWarpSequenceOut(EventMapChange *wk, GameEvent *parent);
+void EventMapChange_SetupWarpSequenceIn(EventMapChange *wk, GameEvent *parent);
+GameEventReturnCode EventMapChangeCore_Callback(GameEvent *event, u32 *state, void *data);
+GameEvent *EventMapChangeCore_Create(EventMapChange *wk, u8 mode);
+GameEventReturnCode EventMapChangeWarp_Callback(GameEvent *event, u32 *state, void *data);
+GameEventReturnCode EventMapChange_Callback(GameEvent *event, u32 *state, void *data);
+GameEventReturnCode EventMapChangeEnding_Callback(GameEvent *event, u32 *state, void *data);
+GameEventReturnCode EventMapChangeFakeWarp_Callback(GameEvent *event, u32 *state, void *data);
+GameEventReturnCode EventMapChangeQuicksand_Callback(GameEvent *event, u32 *state, void *data);
+GameEventReturnCode EventMapChangeEscapeRope_Callback(GameEvent *event, u32 *state, void *data);
+GameEventReturnCode EventMapChangeDig_Callback(GameEvent *event, u32 *state, void *data);
+GameEventReturnCode EventMapChangeTeleport_Callback(GameEvent *event, u32 *state, void *data);
+GameEventReturnCode EventMapChangeDiveOut_Callback(GameEvent *event, u32 *state, void *data);
+GameEventReturnCode EventMapChangeDiveIn_Callback(GameEvent *event, u32 *state, void *data);
+GameEventReturnCode EventMapChangeWarpPad_Callback(GameEvent *event, u32 *state, void *data);
+GameEventReturnCode EventMapChangeUnionRoomExit_Callback(GameEvent *event, u32 *state, void *data);
+GameEventReturnCode EventUnionRoomWarp_Callback(GameEvent *event, u32 *state, void *data);
+void InitMapChangeEvent(EventMapChange *wk, GameSystem *gsys);
+GameEventReturnCode EventMapChangeBlackout_Callback(GameEvent *event, u32 *state, void *data);
 
 static inline void ClearLCDCVram(void) {
     gfxSetLCDCBanks(0x1ff);
@@ -562,7 +149,8 @@ GameEvent *CreateGameEntryPointEvent(GameSystem *gsys, GameSystemProcData *procD
     }
 }
 
-GameEventReturnCode EventGameOpening_Callback(GameEvent *event, u32 *state, EventGameOpening *wk) {
+GameEventReturnCode EventGameOpening_Callback(GameEvent *event, u32 *state, void *data) {
+    EventGameOpening *wk = data;
     GameSystem *gsys = wk->gsys;
     GameData *gameData = GSYS_GetGameData(gsys);
     u8 season;
@@ -607,7 +195,8 @@ void EventFieldFirst_SetupCity(GameSystem *gsys) {
     func_ov012_0215cd58(GameData_GetMyCityState(gameData));
 }
 
-GameEventReturnCode EventFieldFirst_Callback(GameEvent *event, u32 *state, EventFieldFirst *wk) {
+GameEventReturnCode EventFieldFirst_Callback(GameEvent *event, u32 *state, void *data) {
+    EventFieldFirst *wk = data;
     GameSystem *gsys = wk->gsys;
     GameData *gameData = GSYS_GetGameData(gsys);
     EventWork *eventWork = GameData_GetEventWork(gameData);
@@ -682,7 +271,8 @@ void EventFieldContinue_SetupCity(GameSystem *gsys) {
     func_ov012_0215cd58(GameData_GetMyCityState(gameData));
 }
 
-GameEventReturnCode EventFieldContinue_Callback(GameEvent *event, u32 *state, EventFieldContinue *wk) {
+GameEventReturnCode EventFieldContinue_Callback(GameEvent *event, u32 *state, void *data) {
+    EventFieldContinue *wk = data;
     GameSystem *gsys = wk->gsys;
     GameData *gameData = GSYS_GetGameData(gsys);
     EventWork *eventWork = GameData_GetEventWork(gameData);
@@ -847,7 +437,8 @@ void EventMapChange_SetupWarpSequenceIn(EventMapChange *wk, GameEvent *parent) {
     }
 }
 
-GameEventReturnCode EventMapChangeCore_Callback(GameEvent *event, u32 *state, EventMapChangeCore *core) {
+GameEventReturnCode EventMapChangeCore_Callback(GameEvent *event, u32 *state, void *data) {
+    EventMapChangeCore *core = data;
     EventMapChange *wk = core->mapChange;
     GameSystem *gsys = wk->gsys;
     GameData *gameData = wk->gameData;
@@ -886,7 +477,7 @@ GameEventReturnCode EventMapChangeCore_Callback(GameEvent *event, u32 *state, Ev
         }
         break;
     case 3:
-        DSPROT_CHECKED_CALL(func_ov337_02180a84, EventMapChange_DSProtTamper1, wk, gsys);
+        DSPROT_CHECKED_CALL(func_ov337_02180a84, EventMapChange_DSProtNop, EventMapChange_DSProtTamper1, wk, gsys);
         FieldMapControl_DeleteAllActors(gsys);
         if (wk->unk40 && wk->seasonChanged) {
             void *adventureTime;
@@ -900,7 +491,7 @@ GameEventReturnCode EventMapChangeCore_Callback(GameEvent *event, u32 *state, Ev
             TransformVsPokePartyBySeason(gameData, party, season);
             func_ov012_021643f0(gameData, party, (u8 *)adventureTime + 0x14, season);
         }
-        DSPROT_CHECKED_CALL(func_ov337_02180b30, EventMapChange_DSProtTamper2, wk, gsys);
+        DSPROT_CHECKED_CALL(func_ov337_02180b30, EventMapChange_DSProtNop, EventMapChange_DSProtTamper2, wk, gsys);
         FieldMapControl_LoadZone(gsys, wk->spawn.zoneId);
         GameData_UpdateZoneChangeFlag(gameData, wk->spawn.zoneId, wk->zoneId);
         FieldMapControl_InitSpawn(gsys, &wk->spawn);
@@ -959,7 +550,8 @@ GameEvent *EventMapChangeCore_Create(EventMapChange *wk, u8 mode) {
     return event;
 }
 
-GameEventReturnCode EventMapChangeWarp_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+GameEventReturnCode EventMapChangeWarp_Callback(GameEvent *event, u32 *state, void *data) {
+    EventMapChange *wk = data;
     Field *field = wk->field;
 
     switch (*state) {
@@ -985,7 +577,8 @@ GameEventReturnCode EventMapChangeWarp_Callback(GameEvent *event, u32 *state, Ev
     return GAMEEVENT_CONTINUE;
 }
 
-GameEventReturnCode EventMapChange_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+GameEventReturnCode EventMapChange_Callback(GameEvent *event, u32 *state, void *data) {
+    EventMapChange *wk = data;
     GameSystem *gsys = wk->gsys;
     Field *field = wk->field;
     GameData *gameData = wk->gameData;
@@ -1011,7 +604,8 @@ GameEventReturnCode EventMapChange_Callback(GameEvent *event, u32 *state, EventM
     return GAMEEVENT_CONTINUE;
 }
 
-GameEventReturnCode EventMapChangeEnding_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+GameEventReturnCode EventMapChangeEnding_Callback(GameEvent *event, u32 *state, void *data) {
+    EventMapChange *wk = data;
     GameSystem *gsys = wk->gsys;
     Field *field = wk->field;
 
@@ -1030,7 +624,8 @@ GameEventReturnCode EventMapChangeEnding_Callback(GameEvent *event, u32 *state, 
     return GAMEEVENT_CONTINUE;
 }
 
-GameEventReturnCode EventMapChangeFakeWarp_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+GameEventReturnCode EventMapChangeFakeWarp_Callback(GameEvent *event, u32 *state, void *data) {
+    EventMapChange *wk = data;
     GameSystem *gsys = wk->gsys;
     Field *field = wk->field;
 
@@ -1069,7 +664,8 @@ GameEventReturnCode EventMapChangeFakeWarp_Callback(GameEvent *event, u32 *state
     return GAMEEVENT_CONTINUE;
 }
 
-GameEventReturnCode EventMapChangeQuicksand_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+GameEventReturnCode EventMapChangeQuicksand_Callback(GameEvent *event, u32 *state, void *data) {
+    EventMapChange *wk = data;
     GameSystem *gsys = wk->gsys;
     GameData *gameData = wk->gameData;
     Field *field = wk->field;
@@ -1103,7 +699,8 @@ GameEventReturnCode EventMapChangeQuicksand_Callback(GameEvent *event, u32 *stat
     return GAMEEVENT_CONTINUE;
 }
 
-GameEventReturnCode EventMapChangeEscapeRope_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+GameEventReturnCode EventMapChangeEscapeRope_Callback(GameEvent *event, u32 *state, void *data) {
+    EventMapChange *wk = data;
     GameSystem *gsys = wk->gsys;
     GameData *gameData = wk->gameData;
     Field *field = wk->field;
@@ -1141,7 +738,8 @@ GameEventReturnCode EventMapChangeEscapeRope_Callback(GameEvent *event, u32 *sta
     return GAMEEVENT_CONTINUE;
 }
 
-GameEventReturnCode EventMapChangeDig_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+GameEventReturnCode EventMapChangeDig_Callback(GameEvent *event, u32 *state, void *data) {
+    EventMapChange *wk = data;
     GameSystem *gsys = wk->gsys;
     GameData *gameData = wk->gameData;
     Field *field = wk->field;
@@ -1179,7 +777,8 @@ GameEventReturnCode EventMapChangeDig_Callback(GameEvent *event, u32 *state, Eve
     return GAMEEVENT_CONTINUE;
 }
 
-GameEventReturnCode EventMapChangeTeleport_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+GameEventReturnCode EventMapChangeTeleport_Callback(GameEvent *event, u32 *state, void *data) {
+    EventMapChange *wk = data;
     GameSystem *gsys = wk->gsys;
     GameData *gameData = wk->gameData;
     Field *field = wk->field;
@@ -1215,7 +814,8 @@ GameEventReturnCode EventMapChangeTeleport_Callback(GameEvent *event, u32 *state
     return GAMEEVENT_CONTINUE;
 }
 
-GameEventReturnCode EventMapChangeDiveOut_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+GameEventReturnCode EventMapChangeDiveOut_Callback(GameEvent *event, u32 *state, void *data) {
+    EventMapChange *wk = data;
     GameSystem *gsys = wk->gsys;
     Field *field = wk->field;
     FieldTaskManager *taskManager = Field_GetTaskManager(field);
@@ -1246,7 +846,8 @@ GameEventReturnCode EventMapChangeDiveOut_Callback(GameEvent *event, u32 *state,
     return GAMEEVENT_CONTINUE;
 }
 
-GameEventReturnCode EventMapChangeDiveIn_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+GameEventReturnCode EventMapChangeDiveIn_Callback(GameEvent *event, u32 *state, void *data) {
+    EventMapChange *wk = data;
     GameSystem *gsys = wk->gsys;
     Field *field = wk->field;
 
@@ -1279,7 +880,8 @@ GameEventReturnCode EventMapChangeDiveIn_Callback(GameEvent *event, u32 *state, 
     return GAMEEVENT_CONTINUE;
 }
 
-GameEventReturnCode EventMapChangeWarpPad_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+GameEventReturnCode EventMapChangeWarpPad_Callback(GameEvent *event, u32 *state, void *data) {
+    EventMapChange *wk = data;
     GameSystem *gsys = wk->gsys;
     GameData *gameData = wk->gameData;
     Field *field = wk->field;
@@ -1311,7 +913,8 @@ GameEventReturnCode EventMapChangeWarpPad_Callback(GameEvent *event, u32 *state,
     return GAMEEVENT_CONTINUE;
 }
 
-GameEventReturnCode EventMapChangeUnionRoomExit_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+GameEventReturnCode EventMapChangeUnionRoomExit_Callback(GameEvent *event, u32 *state, void *data) {
+    EventMapChange *wk = data;
     GameSystem *gsys = wk->gsys;
     Field *field = wk->field;
     GameData *gameData = wk->gameData;
@@ -1326,8 +929,8 @@ GameEventReturnCode EventMapChangeUnionRoomExit_Callback(GameEvent *event, u32 *
         (*state)++;
         break;
     case 2:
-        GFL_OvlUnload(OVERLAY_28);
-        GFL_OvlLoad(OVERLAY_27);
+        GFL_OvlUnload(OVERLAY_ID(28));
+        GFL_OvlLoad(OVERLAY_ID(27));
         GameData_RestoreCGearPowerRequest(gameData);
         FieldSubscreen_ChangeImm(Field_GetSubscreen(field), 0);
         EventScriptCall_Start(event, 0x83a, NULL, NULL, HEAPID_FIELDMAP);
@@ -1339,7 +942,8 @@ GameEventReturnCode EventMapChangeUnionRoomExit_Callback(GameEvent *event, u32 *
     return GAMEEVENT_CONTINUE;
 }
 
-GameEventReturnCode EventUnionRoomWarp_Callback(GameEvent *event, u32 *state, EventMapChange *wk) {
+GameEventReturnCode EventUnionRoomWarp_Callback(GameEvent *event, u32 *state, void *data) {
+    EventMapChange *wk = data;
     GameSystem *gsys = wk->gsys;
     Field *field = wk->field;
     GameData *gameData = wk->gameData;
@@ -1352,8 +956,8 @@ GameEventReturnCode EventUnionRoomWarp_Callback(GameEvent *event, u32 *state, Ev
         (*state)++;
         break;
     case 1:
-        GFL_OvlUnload(OVERLAY_27);
-        GFL_OvlLoad(OVERLAY_28);
+        GFL_OvlUnload(OVERLAY_ID(27));
+        GFL_OvlLoad(OVERLAY_ID(28));
         GameEvent_ChainNext(event, EventMapChangeCore_Create(wk, 4));
         (*state)++;
         break;
@@ -1696,7 +1300,8 @@ void FieldMapControl_LoadBlackoutZone(GameSystem *gsys) {
     ShutdownFollowWork(gameData);
 }
 
-GameEventReturnCode EventMapChangeBlackout_Callback(GameEvent *event, u32 *state, EventMapChangeBlackout *wk) {
+GameEventReturnCode EventMapChangeBlackout_Callback(GameEvent *event, u32 *state, void *data) {
+    EventMapChangeBlackout *wk = data;
     switch (*state) {
     case 0:
         FieldMapControl_LoadBlackoutZone(wk->gsys);
@@ -1770,10 +1375,10 @@ void FieldMapControl_InitSpawn(GameSystem *gsys, ZoneSpawnInfo *next) {
     PlayerState_SetZoneID(playerState, spawn.zoneId);
     PlayerState_SetRotation(playerState, ConvWarpDirToAngle(spawn.warpDir));
     if (!GetZoneSpawnInfoIsRail(&spawn)) {
-        PlayerState_SetWPos(playerState, &spawn.pos);
+        PlayerState_SetWPos(playerState, &spawn.pos.vec);
         PlayerState_SetIsRail(playerState, FALSE);
     } else {
-        PlayerState_SetRailPos(playerState, &spawn.pos);
+        PlayerState_SetRailPos(playerState, &spawn.pos.rail);
         PlayerState_SetIsRail(playerState, TRUE);
     }
 
@@ -1925,8 +1530,8 @@ void FieldMapControl_LoadZone(GameSystem *gsys, u16 zoneId) {
 
     EventData_LoadZone(eventData, zoneId, GameData_GetSeason(gameData));
     matrix = GetMapMatrixSystem(gameData);
-    MapMatrix_Load(matrix, GetZoneMatrixId(zoneId), zoneId, HEAP_LOW(HEAPID_USER));
-    MapMatrix_Patch(matrix, gsys, HEAP_LOW(HEAPID_USER));
+    MapMatrix_Load(matrix, GetZoneMatrixId(zoneId), zoneId, HEAPID_TAIL(HEAPID_USER));
+    MapMatrix_Patch(matrix, gsys, HEAPID_TAIL(HEAPID_USER));
     GameData_UpdateFlashStatus(gameData, zoneId);
     GameData_UpdateJoinAvenueForZone(gameData, zoneId);
 
@@ -1958,8 +1563,8 @@ void GameData_SetGimmickByZone(GameData *gameData, int zoneId) {
     u32 count;
 
     GimmickState_Reset(gimmick);
-    handle = GFL_ArcSysCreateFileHandle(ARC_ZONE_GIMMICKS, HEAP_LOW(HEAPID_USER));
-    gimmicks = GFL_ArcToolReadHeapNew(handle, 0, HEAP_LOW(HEAPID_USER));
+    handle = GFL_ArcSysCreateFileHandle(ARCID_GIMMICK_TBL, HEAPID_TAIL(HEAPID_USER));
+    gimmicks = GFL_ArcToolReadHeapNew(handle, 0, HEAPID_TAIL(HEAPID_USER));
     count = GFL_ArcToolGetDataLength(handle, 0) / sizeof(ZoneGimmick);
     for (i = 0; i < count; i++) {
         if (zoneId == gimmicks[i].zoneId) {
@@ -1996,7 +1601,8 @@ GameEvent *EventEntralinkWarp_Create(GameSystem *gsys, Field *field, ZoneSpawnIn
     return event;
 }
 
-GameEventReturnCode EventEntralinkWarp_Callback(GameEvent *event, u32 *state, EventEntralinkWarp *wk) {
+GameEventReturnCode EventEntralinkWarp_Callback(GameEvent *event, u32 *state, void *data) {
+    EventEntralinkWarp *wk = data;
     GameSystem *gsys = wk->gsys;
     Field *field = wk->field;
 
@@ -2039,7 +1645,8 @@ GameEventReturnCode EventEntralinkWarp_Callback(GameEvent *event, u32 *state, Ev
     return GAMEEVENT_CONTINUE;
 }
 
-GameEventReturnCode EventEntralinkWarpIn_Callback(GameEvent *event, u32 *state, EventEntralinkWarp *wk) {
+GameEventReturnCode EventEntralinkWarpIn_Callback(GameEvent *event, u32 *state, void *data) {
+    EventEntralinkWarp *wk = data;
     void *comm = GSYS_GetGameCommSystem(wk->gsys);
 
     switch (*state) {
@@ -2128,12 +1735,12 @@ void GameData_UpdatePartyForTimeOfDay(GameData *gameData) {
 
 // DS Protect tamper responses, which leak memory
 void *EventMapChange_DSProtTamper1(void *arg0, void *arg1) {
-    GFL_HeapAllocate(HEAP_LOW(HEAPID_GAMEEVENT), 0x1000, FALSE, "event_mapchange.c", 3931);
+    GFL_HeapAllocate(HEAPID_TAIL(HEAPID_GAMEEVENT), 0x1000, FALSE, "event_mapchange.c", 3931);
     return arg0;
 }
 
 void *EventMapChange_DSProtTamper2(void *arg0, void *arg1) {
-    GFL_HeapAllocate(HEAP_LOW(HEAPID_GAMEEVENT), 0x1000, FALSE, "event_mapchange.c", 3937);
+    GFL_HeapAllocate(HEAPID_TAIL(HEAPID_GAMEEVENT), 0x1000, FALSE, "event_mapchange.c", 3937);
     return arg1;
 }
 

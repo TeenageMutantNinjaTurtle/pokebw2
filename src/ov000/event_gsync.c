@@ -1,78 +1,22 @@
 #include "types.h"
-
-typedef struct GameSystem GameSystem;
-typedef struct GameEvent GameEvent;
-typedef struct GameData GameData;
-typedef struct Field Field;
-typedef struct SaveControl SaveControl;
-typedef struct DreamWorldSave DreamWorldSave;
-typedef struct BoxSaveAccessor BoxSaveAccessor;
-
-typedef u32 GameEventReturnCode;
-#define GAMEEVENT_CONTINUE 0
-#define GAMEEVENT_DONE 1
-
-#define reg_OS_IME (*(volatile u16 *)0x04000208)
-#define reg_GX_POWCNT (*(volatile u16 *)0x04000304)
-// Swaps the screens, so that the main engine drives the top screen
-#define REG_GX_POWCNT_DSEL_MASK 0x8000
-
-// From the NitroSDK
-static inline BOOL OS_EnableIrq(void) {
-    u16 prev = reg_OS_IME;
-    reg_OS_IME = 1;
-    return prev;
-}
-
-// Results of the Game Sync procs
-#define GSYNC_RESULT_ACCOUNT 1
-#define GSYNC_RESULT_CONNECT 2
-#define GSYNC_RESULT_WIFI_SETTINGS 3
-#define GSYNC_RESULT_NO_POKEMON 4
-#define GSYNC_RESULT_SELECT_POKEMON 5
-#define GSYNC_RESULT_RETRY_LOGIN 7
-
-#define BOX2_MODE_DREAM_WORLD 5
-
-typedef struct {
-    GameData *gameData;
-    u32 unk4;
-    u32 unk8;
-    u32 unkC;
-    void *buffer;
-    u32 unk14;
-    u32 unk18;
-    u32 result;
-    u32 unk20;
-    u32 unk24;
-} WifiLoginParam;
-
-typedef struct {
-    GameData *gameData;
-    u32 unk4;
-    u32 unk8;
-    u32 unkC;
-    u32 unk10;
-    u32 unk14;
-    u32 unk18;
-} WifiLogoutParam;
-
-typedef struct {
-    GameData *gameData;
-    BoxSaveAccessor *boxes;
-    void *party;
-    void *bag;
-    void *playerInfo;
-    u32 unk14;
-    void *trainerData;
-    u32 unk1C;
-    void *unk20;
-    u32 mode;
-    u16 unk28;
-    // Where the chosen Pokemon is, 0xff for both if none was chosen
-    u8 tray;
-    u8 position;
-} Box2Param;
+#include "app/box2.h"
+#include "app/dwc_utility.h"
+#include "app/gsync.h"
+#include "app/wifi_login.h"
+#include "field/event_gsync.h"
+#include "field/field_event.h"
+#include "gfl/net.h"
+#include "gfl/sound.h"
+#include "gfl/std.h"
+#include "nitro/hw.h"
+#include "pml/poke_party.h"
+#include "save/box.h"
+#include "save/dream_world.h"
+#include "save/player_info.h"
+#include "save/save_control.h"
+#include "system/game_data.h"
+#include "system/game_event.h"
+#include "system/game_system.h"
 
 // The Game Sync procs also take this as their parameter
 typedef struct {
@@ -94,60 +38,10 @@ typedef struct {
     BOOL unk2C8;
 } EventGameSync;
 
-extern GameEvent *GameEvent_Create(GameSystem *gsys, GameEvent *parent, void *callback, u32 size);
-extern void *GameEvent_GetData(GameEvent *event);
-extern void GameEvent_ChainNext(GameEvent *event, GameEvent *next);
-extern GameData *GSYS_GetGameData(GameSystem *gsys);
-extern Field *GSYS_GetField(GameSystem *gsys);
-extern SaveControl *GameData_GetSaveControl(GameData *gameData);
-extern BoxSaveAccessor *GameData_GetBoxSaveAccessor(GameData *gameData);
-extern void *GameData_GetParty(GameData *gameData);
-extern void *GameData_GetBag(GameData *gameData);
-extern void *GetGameDataPlayerInfo(GameData *gameData);
-extern void *getTrainerDataBlkAddress(SaveControl *save);
-extern DreamWorldSave *getDreamWorldStuffAddress(SaveControl *save);
-extern BOOL DreamWorldSave_IsPokemonAsleep(DreamWorldSave *dreamWorld);
-extern u32 howManyNormalPokesAreInAllBoxes(BoxSaveAccessor *boxes);
-extern void sys_memset(void *dest, u32 value, u32 size);
-extern u32 GFL_SndBGMGetID(void);
-extern void GFL_SndBGMPlay(u32 bgm, u32 a1);
-extern void GFL_SndBGMFadeIn(u32 frames);
-extern void GFL_SndBGMPush(void);
-extern void GFL_SndBGMPop(void);
-extern void GFL_SndBGMSetPaused(BOOL paused);
-extern void GFL_SndInit(void);
-extern void GFL_SndDestroyHeap(void);
-extern BOOL GFL_NetErrCheck(void);
-extern void GFL_NetErrMarkShown(void);
-extern void GFL_NetErrShow(u32 a0);
-extern GameEvent *CallFieldMapEntranceOutTransitionDefault(GameSystem *gsys, Field *field, u32 type, u32 a3);
-extern GameEvent *CallFieldMapEntranceInTransition(GameSystem *gsys, Field *field, u32 a2, u32 a3, u32 a4, u32 a5,
-                                                  u32 a6);
-extern GameEvent *CreateFieldCloseEvent(GameSystem *gsys, Field *field);
-extern GameEvent *EventFieldOpen_CreateHeadless(GameSystem *gsys);
-extern void GSYS_QueueProc(GameSystem *gsys, u32 overlayId, const void *procFunctions, void *param);
-extern void GSYS_QueueProcAsEvent(GameEvent *event, u32 overlayId, const void *procFunctions, void *param);
-extern BOOL GSYS_GetProcMgrState(GameSystem *gsys);
-extern BOOL GSYS_TryBootGameComm(GameSystem *gsys);
-extern const u8 GSYNC_PROC_FUNCTIONS[];
-extern const u8 PDWACC_PROC_FUNCTIONS[];
-extern const u8 DWC_UTILITY_PROC_FUNCTIONS[];
-extern const u8 WIFILOGIN_PROC_FUNCTIONS[];
-extern const u8 WIFILOGOUT_PROC_FUNCTIONS[];
-extern const u8 BOX2_PROC_FUNCTIONS[];
-// Defined by the linker script, the address is the overlay ID
-extern u32 OVERLAY_182_ID[];
-extern u32 OVERLAY_190_ID[];
-extern u32 OVERLAY_199_ID[];
-extern u32 OVERLAY_255_ID[];
-#define OVERLAY_DWC_UTILITY ((u32)OVERLAY_182_ID)
-#define OVERLAY_WIFILOGIN ((u32)OVERLAY_190_ID)
-#define OVERLAY_GSYNC ((u32)OVERLAY_199_ID)
-#define OVERLAY_BOX2 ((u32)OVERLAY_255_ID)
+GameEventReturnCode EventGameSync_Callback(GameEvent *event, u32 *state, void *data);
 
-GameEvent *EventGameSync_Create(GameSystem *gsys);
-
-GameEventReturnCode EventGameSync_Callback(GameEvent *event, u32 *state, EventGameSync *wk) {
+GameEventReturnCode EventGameSync_Callback(GameEvent *event, u32 *state, void *data) {
+    EventGameSync *wk = data;
     GameSystem *gsys = wk->gsys;
     Field *field = GSYS_GetField(gsys);
 
@@ -164,7 +58,7 @@ GameEventReturnCode EventGameSync_Callback(GameEvent *event, u32 *state, EventGa
     case 2:
         sys_memset(wk->unkC, 0, sizeof(wk->unkC));
         wk->unk50 = 0;
-        GSYS_QueueProc(gsys, OVERLAY_GSYNC, GSYNC_PROC_FUNCTIONS, wk);
+        GSYS_QueueProc(gsys, OVERLAY_GSYNC, &GSYNC_PROC_FUNCTIONS, wk);
         (*state)++;
         break;
     case 3:
@@ -185,7 +79,7 @@ GameEventReturnCode EventGameSync_Callback(GameEvent *event, u32 *state, EventGa
         // Nintendo Wi-Fi Connection settings, which need the sound heap's memory
         wk->bgm = GFL_SndBGMGetID();
         GFL_SndDestroyHeap();
-        GSYS_QueueProc(gsys, OVERLAY_DWC_UTILITY, DWC_UTILITY_PROC_FUNCTIONS, wk);
+        GSYS_QueueProc(gsys, OVERLAY_DWC_UTILITY, &DWC_UTILITY_PROC_FUNCTIONS, wk);
         (*state)++;
         break;
     case 7:
@@ -242,7 +136,7 @@ GameEventReturnCode EventGameSync_Callback(GameEvent *event, u32 *state, EventGa
     }
     case 17:
         wk->login.buffer = wk->loginBuffer;
-        GSYS_QueueProc(gsys, OVERLAY_WIFILOGIN, WIFILOGIN_PROC_FUNCTIONS, &wk->login);
+        GSYS_QueueProc(gsys, OVERLAY_WIFILOGIN, &WIFILOGIN_PROC_FUNCTIONS, &wk->login);
         (*state)++;
         break;
     case 18:
@@ -259,7 +153,7 @@ GameEventReturnCode EventGameSync_Callback(GameEvent *event, u32 *state, EventGa
         }
         break;
     case 19:
-        GSYS_QueueProc(gsys, OVERLAY_GSYNC, PDWACC_PROC_FUNCTIONS, wk);
+        GSYS_QueueProc(gsys, OVERLAY_GSYNC, &PDWACC_PROC_FUNCTIONS, wk);
         (*state)++;
         break;
     case 20:
@@ -290,7 +184,7 @@ GameEventReturnCode EventGameSync_Callback(GameEvent *event, u32 *state, EventGa
         wk->box.unk20 = wk->unk1D8;
         wk->box.unk1C = 0;
         wk->box.mode = BOX2_MODE_DREAM_WORLD;
-        GSYS_QueueProcAsEvent(event, OVERLAY_BOX2, BOX2_PROC_FUNCTIONS, &wk->box);
+        GSYS_QueueProcAsEvent(event, OVERLAY_BOX2, &BOX2_PROC_FUNCTIONS, &wk->box);
         (*state)++;
         break;
     case 22:
@@ -318,7 +212,7 @@ GameEventReturnCode EventGameSync_Callback(GameEvent *event, u32 *state, EventGa
         wk->logout.gameData = GSYS_GetGameData(gsys);
         wk->logout.unk4 = 1;
         wk->logout.unk8 = 0;
-        GSYS_QueueProc(gsys, OVERLAY_WIFILOGIN, WIFILOGOUT_PROC_FUNCTIONS, &wk->logout);
+        GSYS_QueueProc(gsys, OVERLAY_WIFILOGIN, &WIFILOGOUT_PROC_FUNCTIONS, &wk->logout);
         (*state)++;
         break;
     case 24:

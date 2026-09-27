@@ -1,0 +1,21 @@
+#ifndef POKEBW2_APP_COMM_TVT_H
+#define POKEBW2_APP_COMM_TVT_H
+
+#include "types.h"
+#include "gfl/overlay.h"
+#include "gfl/proc.h"
+#include "struct_decls.h"
+
+// Video chat with the Xtransceiver
+#define OVERLAY_COMM_TVT OVERLAY_ID(257)
+
+typedef struct {
+    GameData *gameData;
+    u32 unk4;
+    u32 unk8;
+    u32 unkC;
+} CommTvtParam;
+
+extern const GameProcFunctions COMM_TVT_PROC_FUNCTIONS;
+
+#endif // POKEBW2_APP_COMM_TVT_H

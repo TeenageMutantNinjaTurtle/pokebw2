@@ -1,29 +1,17 @@
 #include "types.h"
-
-typedef struct GameData GameData;
-typedef struct SaveControl SaveControl;
-typedef struct BagSave BagSave;
-typedef struct PlayerInfo PlayerInfo;
-typedef struct DreamRadarSave DreamRadarSave;
-
-extern BagSave *GameData_GetBag(GameData *gameData);
-extern PlayerInfo *GetGameDataPlayerInfo(GameData *gameData);
-extern SaveControl *GameData_GetSaveControl(GameData *gameData);
-extern void BagSave_Init(BagSave *bag);
-extern BOOL BagSave_AddItem(BagSave *bag, u32 item, u32 count, u32 heapId);
-extern u32 getTrainerGender(PlayerInfo *player);
-extern DreamRadarSave *GetDreamRadarSaveBlock(SaveControl *save);
-extern void SetDreamRadarFlag(DreamRadarSave *save, u32 flag, u32 value);
-extern u32 GFL_RandomLC(u32 max);
-
-#define GENDER_MALE 0
-
-#define ITEM_PAL_PAD 437
-// The male and female Xtransceivers are separate items
-#define ITEM_XTRANSCEIVER_MALE 621
-#define ITEM_XTRANSCEIVER_FEMALE 626
+#include "constants/items.h"
+#include "gfl/random.h"
+#include "save/bag.h"
+#include "save/dream_world.h"
+#include "save/player_info.h"
+#include "save/save_control.h"
+#include "system/game_data.h"
+#include "system/new_game.h"
 
 // Overlay 279 is only loaded to set up the save data of a new game
+
+void InitItemBag_(GameData *gameData, u32 heapId);
+void InitDreamRadarFlagSave_(GameData *gameData);
 
 void InitItemBag_(GameData *gameData, u32 heapId) {
     BagSave *bag = GameData_GetBag(gameData);

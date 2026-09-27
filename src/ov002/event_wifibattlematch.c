@@ -1,26 +1,15 @@
 #include "types.h"
-
-typedef struct GameSystem GameSystem;
-typedef struct GameEvent GameEvent;
-typedef struct GameData GameData;
-typedef struct Field Field;
-typedef struct SaveControl SaveControl;
-typedef struct RecordSave RecordSave;
-
-typedef u32 GameEventReturnCode;
-#define GAMEEVENT_CONTINUE 0
-#define GAMEEVENT_DONE 1
-
-#define HEAPID_GAMEEVENT 0x4
-
-// Passed to the Wi-Fi battle match proc
-typedef struct {
-    GameData *gameData;
-    u32 unk4;
-    u32 unk8;
-    u32 unkC;
-    u32 unk10;
-} WifiBattleMatchParam;
+#include "app/wifibattlematch.h"
+#include "field/event_wifibattlematch.h"
+#include "field/field_event.h"
+#include "gfl/heap.h"
+#include "gfl/sound.h"
+#include "save/records.h"
+#include "save/save_control.h"
+#include "system/game_comm.h"
+#include "system/game_data.h"
+#include "system/game_event.h"
+#include "system/game_system.h"
 
 typedef struct {
     u32 bgm;
@@ -34,45 +23,10 @@ typedef struct {
     BOOL useTransitions;
 } EventWifiBattleMatch;
 
-typedef struct {
-    Field *field;
-    u32 unk4;
-    u32 unk8;
-    u32 unkC;
-} EventWifiBattleMatchArgs;
+GameEventReturnCode EventWifiBattleMatch_Callback(GameEvent *event, u32 *state, void *data);
 
-extern GameEvent *GameEvent_Create(GameSystem *gsys, GameEvent *parent, void *callback, u32 size);
-extern void *GameEvent_GetData(GameEvent *event);
-extern void GameEvent_ChainNext(GameEvent *event, GameEvent *next);
-extern GameData *GSYS_GetGameData(GameSystem *gsys);
-extern void *GSYS_GetGameCommSystem(GameSystem *gsys);
-extern BOOL GameCommSys_BootCheck(void *comm);
-extern void GameCommSys_ExitReq(void *comm);
-extern u32 GFL_SndBGMGetID(void);
-extern void GFL_SndBGMFadeOut(u32 frames);
-extern void GFL_SndBGMPlay(u32 bgm, u32 a1);
-extern void GFL_SndBGMFadeIn(u32 frames);
-extern void *GFL_HeapAllocate(u16 heapId, u32 size, BOOL clear, const char *file, u32 line);
-extern void GFL_HeapFree(void *ptr);
-extern GameEvent *CallFieldMapEntranceOutTransitionDefault(GameSystem *gsys, Field *field, u32 type, u32 a3);
-extern GameEvent *CallFieldMapEntranceInTransition(GameSystem *gsys, Field *field, u32 a2, u32 a3, u32 a4, u32 a5,
-                                                  u32 a6);
-extern GameEvent *CreateFieldCloseEvent(GameSystem *gsys, Field *field);
-extern void GSYS_QueueProc(GameSystem *gsys, u32 overlayId, const void *procFunctions, void *param);
-extern BOOL GSYS_GetProcMgrState(GameSystem *gsys);
-extern GameEvent *EventFieldOpen_CreateHeadless(GameSystem *gsys);
-extern SaveControl *GameData_GetSaveControl(GameData *gameData);
-extern RecordSave *getRecordBlkAddress(SaveControl *save);
-// Clears the flag that is set, with the console's MAC address and the time, while a match is in progress
-extern void RecordSave_ClearMatchInProgress(RecordSave *record);
-extern const u8 WIFIBATTLEMATCH_PROC_FUNCTIONS[];
-// Defined by the linker script, the address is the overlay ID
-extern u32 OVERLAY_290_ID[];
-#define OVERLAY_WIFIBATTLEMATCH ((u32)OVERLAY_290_ID)
-
-GameEvent *EventWifiBattleMatch_Create(GameSystem *gsys, Field *field, u32 unk10, u32 unk14, u32 unk18);
-
-GameEventReturnCode EventWifiBattleMatch_Callback(GameEvent *event, u32 *state, EventWifiBattleMatch *wk) {
+GameEventReturnCode EventWifiBattleMatch_Callback(GameEvent *event, u32 *state, void *data) {
+    EventWifiBattleMatch *wk = data;
     GameSystem *gsys = wk->gsys;
 
     switch (*state) {
@@ -103,7 +57,7 @@ GameEventReturnCode EventWifiBattleMatch_Callback(GameEvent *event, u32 *state, 
         param->gameData = GSYS_GetGameData(gsys);
         param->unk4 = wk->unk18;
         param->unkC = wk->unk14;
-        GSYS_QueueProc(gsys, OVERLAY_WIFIBATTLEMATCH, WIFIBATTLEMATCH_PROC_FUNCTIONS, wk->param);
+        GSYS_QueueProc(gsys, OVERLAY_WIFIBATTLEMATCH, &WIFIBATTLEMATCH_PROC_FUNCTIONS, wk->param);
         (*state)++;
         break;
     }
@@ -154,6 +108,8 @@ GameEvent *EventWifiBattleMatch_Create(GameSystem *gsys, Field *field, u32 unk10
 }
 
 // Called through GameEvent_CreateOverlayDelegate, by the NetConnectWiFiBattle script command
-GameEvent *EventWifiBattleMatch_CreateFromArgs(GameSystem *gsys, EventWifiBattleMatchArgs *args) {
+GameEvent *EventWifiBattleMatch_CreateFromArgs(GameSystem *gsys, void *data) {
+    EventWifiBattleMatchArgs *args = data;
+
     return EventWifiBattleMatch_Create(gsys, args->field, args->unk4, args->unk8, args->unkC);
 }

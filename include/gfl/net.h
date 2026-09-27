@@ -1,0 +1,30 @@
+#ifndef POKEBW2_GFL_NET_H
+#define POKEBW2_GFL_NET_H
+
+#include "types.h"
+#include "struct_decls.h"
+
+// The unnamed functions below are from the network library. Some appear to synchronize with the other player or
+// toggle error checks, but that is not confirmed.
+
+BOOL GFL_NetErrCheck(void);
+void GFL_NetErrMarkShown(void);
+void GFL_NetErrShow(u32 a0);
+void func_02011de0(void);
+void func_02012154(void);
+u32 func_0203ffc4(void);
+NetHandle *func_02040440(void);
+void func_02040624(NetHandle *handle, u32 a1, u32 a2);
+BOOL func_02040664(NetHandle *handle, u32 a1, u32 a2);
+void func_02040c20(u32 a0, const void *commands, u32 count, u32 a3);
+void func_02040c64(u32 a0);
+void func_020421ac(u32 a0);
+BOOL func_02042788(void);
+BOOL func_020427a4(void);
+void func_02042860(u32 a0);
+u32 func_02042a6c(NetHandle *handle);
+BOOL func_02042ab8(void);
+void func_02042e94(BOOL a0);
+void func_02042e9c(BOOL a0);
+
+#endif // POKEBW2_GFL_NET_H

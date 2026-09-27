@@ -1,22 +1,12 @@
 #include "types.h"
-
-typedef struct GameSystem GameSystem;
-typedef struct GameEvent GameEvent;
-typedef struct GameData GameData;
-typedef struct Field Field;
-
-typedef u32 GameEventReturnCode;
-#define GAMEEVENT_CONTINUE 0
-#define GAMEEVENT_DONE 1
-
-// The proc is in the main program, so no overlay is loaded for it
-#define OVERLAY_NONE 0xffffffff
-
-// Passed to the Battle Video proc
-typedef struct {
-    GameData *gameData;
-    u32 mode;
-} BattleVideoParam;
+#include "app/battle_video.h"
+#include "field/event_battle_video.h"
+#include "field/field_event.h"
+#include "gfl/overlay.h"
+#include "gfl/sound.h"
+#include "system/game_comm.h"
+#include "system/game_event.h"
+#include "system/game_system.h"
 
 typedef struct {
     u32 bgm;
@@ -27,29 +17,10 @@ typedef struct {
     u32 unk18;
 } EventBattleVideo;
 
-typedef struct {
-    Field *field;
-    u32 mode;
-} EventBattleVideoArgs;
+GameEventReturnCode EventBattleVideo_Callback(GameEvent *event, u32 *state, void *data);
 
-extern GameEvent *GameEvent_Create(GameSystem *gsys, GameEvent *parent, void *callback, u32 size);
-extern void *GameEvent_GetData(GameEvent *event);
-extern void GameEvent_ChainNext(GameEvent *event, GameEvent *next);
-extern GameData *GSYS_GetGameData(GameSystem *gsys);
-extern void *GSYS_GetGameCommSystem(GameSystem *gsys);
-extern BOOL GameCommSys_BootCheck(void *comm);
-extern void GameCommSys_ExitReq(void *comm);
-extern u32 GFL_SndBGMGetID(void);
-extern void GFL_SndBGMFadeOut(u32 frames);
-extern void GFL_SndBGMPlay(u32 bgm, u32 a1);
-extern void GFL_SndBGMFadeIn(u32 frames);
-extern GameEvent *CreateFieldCloseEvent(GameSystem *gsys, Field *field);
-extern void GSYS_QueueProc(GameSystem *gsys, u32 overlayId, const void *procFunctions, void *param);
-extern BOOL GSYS_GetProcMgrState(GameSystem *gsys);
-extern GameEvent *EventFieldOpen_CreateHeadless(GameSystem *gsys);
-extern const u8 BATTLE_VIDEO_PROC_FUNCTIONS[];
-
-GameEventReturnCode EventBattleVideo_Callback(GameEvent *event, u32 *state, EventBattleVideo *wk) {
+GameEventReturnCode EventBattleVideo_Callback(GameEvent *event, u32 *state, void *data) {
+    EventBattleVideo *wk = data;
     GameSystem *gsys = wk->gsys;
 
     switch (*state) {
@@ -68,7 +39,7 @@ GameEventReturnCode EventBattleVideo_Callback(GameEvent *event, u32 *state, Even
     case 2:
         wk->param.gameData = GSYS_GetGameData(gsys);
         wk->param.mode = wk->mode;
-        GSYS_QueueProc(gsys, OVERLAY_NONE, BATTLE_VIDEO_PROC_FUNCTIONS, &wk->param);
+        GSYS_QueueProc(gsys, OVERLAY_NONE, &BATTLE_VIDEO_PROC_FUNCTIONS, &wk->param);
         (*state)++;
         break;
     case 3:
@@ -107,6 +78,8 @@ GameEvent *EventBattleVideo_Create(GameSystem *gsys, Field *field, u32 mode) {
 }
 
 // Called through GameEvent_CreateOverlayDelegate, by the NetConnectBattleVideo script command
-GameEvent *EventBattleVideo_CreateFromArgs(GameSystem *gsys, EventBattleVideoArgs *args) {
+GameEvent *EventBattleVideo_CreateFromArgs(GameSystem *gsys, void *data) {
+    EventBattleVideoArgs *args = data;
+
     return EventBattleVideo_Create(gsys, args->field, args->mode);
 }

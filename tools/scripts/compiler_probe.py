@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[2]
 TOOLS = ROOT / "tools"
 DEFAULT_FLAGS = (
     "-O4,p -proc arm946e -thumb -interworking -enum int -char signed -fp soft -lang=c99 -Cpp_exceptions off -gccext,on -gccinc "
-    "-inline on,noauto -ipa file -nolink -msgstyle gcc -w off"
+    "-inline on,noauto -ipa file -requireprotos -nolink -msgstyle gcc -w off"
 )
 # Preprocessor defines of each game version, as in configure.py
 VERSION_DEFINES = {"b2_us": ["BLACK2"], "w2_us": ["WHITE2"]}

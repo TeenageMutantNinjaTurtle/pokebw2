@@ -1,142 +1,34 @@
 #include "types.h"
-
-typedef struct GameSystem GameSystem;
-typedef struct GameEvent GameEvent;
-typedef struct GameData GameData;
-typedef struct Field Field;
-typedef struct SaveControl SaveControl;
-typedef struct PlayerInfo PlayerInfo;
-typedef struct PokeParty PokeParty;
-typedef struct WifiList WifiList;
-typedef struct GameProcManager GameProcManager;
-typedef struct NetHandle NetHandle;
-
-typedef u32 GameEventReturnCode;
-#define GAMEEVENT_CONTINUE 0
-#define GAMEEVENT_DONE 1
-
-#define HEAPID_USER 0x1
-#define HEAPID_GAMEEVENT 0x4
-// Allocates from the end of the heap
-#define HEAP_LOW(heapId) ((heapId) | 0x8000)
+#include "app/comm_tvt.h"
+#include "app/pokemon_trade.h"
+#include "app/wifi_login.h"
+#include "app/wificlub.h"
+#include "battle/battle_proc.h"
+#include "battle/btl_setup.h"
+#include "demo/shinka_demo.h"
+#include "field/event_wificlub.h"
+#include "field/field_event.h"
+#include "gfl/heap.h"
+#include "gfl/net.h"
+#include "gfl/overlay.h"
+#include "gfl/proc.h"
+#include "gfl/sound.h"
+#include "gfl/std.h"
+#include "pml/poke_party.h"
+#include "save/player_info.h"
+#include "save/wifi_list.h"
+#include "system/game_comm.h"
+#include "system/game_data.h"
+#include "system/game_event.h"
+#include "system/game_system.h"
 
 #define SEQ_BGM_WIFI_CLUB 0x481
 #define SEQ_BGM_WIFI_BATTLE 0x48c
 
 typedef struct {
-    u8 unk0[0x84];
-    void *records;
-} BtlSetup;
-
-// Shared with the Wi-Fi Club proc
-typedef struct {
-    void *buffer;
-    GameData *gameData;
-    SaveControl *save;
-    // What the player chose in the Wi-Fi Club, an index into sWifiClubModes
-    u32 mode;
-    u32 unk10;
-    PokeParty *parties[2];
-    void *unk1C;
-    u8 unk20;
-    u8 unk21[0x25];
-    u8 unk46;
-    // The friend's index in the friend list, plus 1
-    u8 friendIndex;
-    u8 unk48;
-    u8 unk49;
-    u8 unk4A[2];
-} WifiClubData;
-
-typedef struct {
     u8 battleMode;
     u16 nextState;
 } WifiClubMode;
-
-typedef struct {
-    void *unk0;
-    PokeParty *party;
-    void *otherName;
-    u8 otherGender;
-    PokeParty *otherParty;
-    GameData *gameData;
-    u8 unk18;
-    PokeParty *unk1C;
-    PokeParty *party0;
-    PokeParty *party1;
-    u32 result;
-} BattleSelectParam;
-
-typedef struct {
-    GameData *gameData;
-    u32 unk4;
-    u32 unk8;
-    u32 unkC;
-} CommTvtParam;
-
-typedef struct {
-    GameData *gameData;
-    PokeParty *party;
-    u16 partyIndex;
-    u8 unkA;
-    u8 unkB;
-    u32 unkC;
-    u32 unk10;
-} ShinkaDemoParam;
-
-typedef struct {
-    u32 unk0;
-    u32 unk4;
-    u32 next;
-    u32 unkC;
-    u32 unk10;
-    GameData *gameData;
-    void *unk18;
-    PokeParty *party;
-    ShinkaDemoParam *evolution;
-    void *unk24;
-    u32 unk28;
-    u16 friendIndex;
-} PokemonTradeParam;
-
-typedef struct {
-    GameData *gameData;
-    u32 unk4;
-    u32 unk8;
-    u32 unkC;
-    void *buffer;
-    u32 unk14;
-    u32 unk18;
-    u32 result;
-    u32 unk20;
-    u32 unk24;
-} WifiLoginParam;
-
-typedef struct {
-    GameData *gameData;
-    u32 unk4;
-    u32 unk8;
-    u32 unkC;
-    u32 unk10;
-    u32 unk14;
-    u32 unk18;
-} WifiLogoutParam;
-
-typedef struct {
-    PokeParty *party;
-    PlayerInfo *info;
-    u32 unk8;
-    u32 unkC;
-} BattlePlayer;
-
-typedef struct {
-    GameData *gameData;
-    BtlSetup *setup;
-    BattlePlayer *players;
-    u32 rule;
-    u32 unk10;
-    u32 unk14;
-} BattleParam;
 
 typedef struct {
     GameEvent *event;
@@ -170,114 +62,14 @@ typedef struct {
     u8 battleMode;
 } EventWifiClub;
 
-typedef struct {
-    Field *field;
-    BOOL useTransitions;
-} EventWifiClubArgs;
-
-extern GameEvent *GameEvent_Create(GameSystem *gsys, GameEvent *parent, void *callback, u32 size);
-extern void *GameEvent_GetData(GameEvent *event);
-extern void GameEvent_ChainNext(GameEvent *event, GameEvent *next);
-extern GameData *GSYS_GetGameData(GameSystem *gsys);
-extern void *GSYS_GetGameCommSystem(GameSystem *gsys);
-extern BOOL GameCommSys_BootCheck(void *comm);
-extern void GameCommSys_ExitReq(void *comm);
-extern SaveControl *GameData_GetSaveControl(GameData *gameData);
-extern WifiList *GameData_GetWifiList(GameData *gameData);
-extern void *GameData_GetRecords(GameData *gameData);
-extern PlayerInfo *func_02017378(GameData *gameData, u32 netId);
-extern void *GetPlayerName(PlayerInfo *info);
-extern u32 getTrainerGender(PlayerInfo *info);
-extern PokeParty *PokeParty_Create(u16 heapId);
-extern void PokeParty_Init(PokeParty *party);
-extern void *GFL_HeapAllocate(u16 heapId, u32 size, BOOL clear, const char *file, u32 line);
-extern void GFL_HeapFree(void *ptr);
-extern void sys_memset(void *dest, u32 value, u32 size);
-extern void GFL_OvlLoad(u32 overlayId);
-extern void GFL_OvlUnload(u32 overlayId);
-extern u32 GFL_SndBGMGetID(void);
-extern void GFL_SndBGMFadeOut(u32 frames);
-extern void GFL_SndBGMPlay(u32 bgm, u32 a1);
-extern void GFL_SndBGMFadeIn(u32 frames);
-extern void GFL_SndSetVolumeControlCallbacks(void);
-extern void GFL_SndPlayerSetVolumeEx(u32 volume, u32 a1);
-extern void PokeVoice_SetMasterVolume(u32 volume);
-extern void PokeVoice_ResetMasterVolume(void);
-extern void GFL_NetErrShow(u32 a0);
-extern BOOL GFL_NetErrCheck(void);
-extern GameEvent *CreateFieldCloseEvent(GameSystem *gsys, Field *field);
-extern GameEvent *EventFieldOpen_CreateHeadless(GameSystem *gsys);
-extern GameEvent *CallFieldMapEntranceInTransition(GameSystem *gsys, Field *field, u32 a2, u32 a3, u32 a4, u32 a5,
-                                                  u32 a6);
-extern void GSYS_QueueProcAsEvent(GameEvent *event, u32 overlayId, const void *procFunctions, void *param);
-extern GameProcManager *CreateGameProcManager(u16 heapId);
-extern void FreeGameProcManager(GameProcManager *manager);
-extern void QueueGameProc(GameProcManager *manager, u32 overlayId, const void *procFunctions, void *param);
-extern BOOL GFL_ProcMgrUpdate(GameProcManager *manager);
-extern BtlSetup *BtlSetup_Create(u16 heapId);
-extern void BtlSetup_Free(BtlSetup *setup);
-extern void BtlSetup_SetNet1v1Single(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, u16 heapId);
-extern void BtlSetup_SetNet1v1Double(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, u16 heapId);
-extern void BtlSetup_SetNetTriple(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, u16 heapId);
-extern void BtlSetup_SetNetRotation(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, u16 heapId);
-extern void func_0200b608(void *a0, u32 a1, BOOL a2);
-extern void *func_0200b50c(u16 heapId);
-extern void func_020186b0(BtlSetup *setup, u32 a1);
-extern void func_02017d30(BtlSetup *setup, void *a1, u16 heapId);
-extern void func_0201f63c(void *a0, PokeParty *party);
-extern void func_02017cfc(BtlSetup *setup, PokeParty *party, u32 a2);
-extern BOOL func_0200a150(WifiList *wifiList);
-extern void func_0200a2d4(WifiList *wifiList, u32 friendIndex, u32 wins, u32 losses, u32 draws);
-extern void func_0203021c(void);
-// Network functions
-extern BOOL func_02042788(void);
-extern NetHandle *func_02040440(void);
-extern u32 func_02042a6c(NetHandle *handle);
-extern void func_02040624(NetHandle *handle, u32 a1, u32 a2);
-extern BOOL func_02040664(NetHandle *handle, u32 a1, u32 a2);
-extern void func_02040c20(u32 a0, const void *commands, u32 count, u32 a3);
-extern void func_02040c64(u32 a0);
-extern BOOL func_020427a4(void);
-extern void func_02042860(u32 a0);
-extern BOOL func_02042ab8(void);
-extern void func_02012154(void);
-extern void func_02011de0(void);
-extern void func_ov173_021a6240(void *buffer);
-extern const u8 WIFILOGIN_PROC_FUNCTIONS[];
-extern const u8 WIFILOGOUT_PROC_FUNCTIONS[];
-extern const u8 WIFICLUB_PROC_FUNCTIONS[];
-extern const u8 POKEMONTRADE_WIFICLUB_PROC_FUNCTIONS[];
-extern const u8 SHINKA_DEMO_PROC_FUNCTIONS[];
-extern const u8 COMM_TVT_PROC_FUNCTIONS[];
-// The battle party selection, the battle's comm commands and the battle
-extern const u8 data_ov213_021bbb38[];
-extern const u8 data_ov167_021d7448[];
-extern const u8 data_ov010_0215039c[];
-// Defined by the linker script, the address is the overlay ID
-extern u32 OVERLAY_10_ID[];
-extern u32 OVERLAY_139_ID[];
-extern u32 OVERLAY_167_ID[];
-extern u32 OVERLAY_173_ID[];
-extern u32 OVERLAY_190_ID[];
-extern u32 OVERLAY_194_ID[];
-extern u32 OVERLAY_203_ID[];
-extern u32 OVERLAY_213_ID[];
-extern u32 OVERLAY_257_ID[];
-extern u32 OVERLAY_284_ID[];
-#define OVERLAY_BATTLE ((u32)OVERLAY_10_ID)
-#define OVERLAY_139 ((u32)OVERLAY_139_ID)
-#define OVERLAY_BATTLE_MAIN ((u32)OVERLAY_167_ID)
-#define OVERLAY_WIFICLUB_MAIN ((u32)OVERLAY_173_ID)
-#define OVERLAY_WIFILOGIN ((u32)OVERLAY_190_ID)
-#define OVERLAY_POKEMONTRADE ((u32)OVERLAY_194_ID)
-#define OVERLAY_WIFICLUB ((u32)OVERLAY_203_ID)
-#define OVERLAY_BATTLE_SELECT ((u32)OVERLAY_213_ID)
-#define OVERLAY_COMM_TVT ((u32)OVERLAY_257_ID)
-#define OVERLAY_SHINKA_DEMO ((u32)OVERLAY_284_ID)
-
 void EventWifiClub_Free(EventWifiClub *wk);
-GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, EventWifiClub *wk);
+GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, void *data);
 void EventWifiClub_Init(GameEvent *event, GameSystem *gsys, Field *field, BOOL useTransitions);
+
+void EventWifiClub_SetupBattle(EventWifiClub *wk, u32 mode);
+void EventWifiClub_SetupBattleSelect(EventWifiClub *wk, GameData *gameData, u32 unused);
+void EventWifiClub_SetBattleParty(EventWifiClub *wk, GameData *gameData, u32 unused);
+void EventWifiClub_ResetForLogin(EventWifiClub *wk);
 
 static WifiClubMode sWifiClubModes[16] = {
     { 0, 25 }, { 0, 9 },  { 0, 25 },  { 0, 25 },  { 0, 25 },  { 0, 23 },  { 0, 18 },  { 7, 13 },
@@ -404,7 +196,8 @@ void EventWifiClub_ResetForLogin(EventWifiClub *wk) {
     wk->login.unk14 = 1;
 }
 
-GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, EventWifiClub *wk) {
+GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, void *data) {
+    EventWifiClub *wk = data;
     GameSystem *gsys = wk->gsys;
     u32 seq = *state;
 
@@ -461,7 +254,7 @@ GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, EventWi
         wk->login.unk18 = 1;
         GFL_SndBGMPlay(SEQ_BGM_WIFI_CLUB, 0xffff);
         wk->procManager = CreateGameProcManager(HEAPID_GAMEEVENT);
-        QueueGameProc(wk->procManager, OVERLAY_WIFILOGIN, WIFILOGIN_PROC_FUNCTIONS, &wk->login);
+        QueueGameProc(wk->procManager, OVERLAY_WIFILOGIN, &WIFILOGIN_PROC_FUNCTIONS, &wk->login);
         wk->club->mode = 0;
         *state = 10;
         break;
@@ -493,7 +286,7 @@ GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, EventWi
         wk->logout.unk14 = 0;
         wk->logout.unk18 = 0;
         wk->procManager = CreateGameProcManager(HEAPID_GAMEEVENT);
-        QueueGameProc(wk->procManager, OVERLAY_WIFILOGIN, WIFILOGOUT_PROC_FUNCTIONS, &wk->logout);
+        QueueGameProc(wk->procManager, OVERLAY_WIFILOGIN, &WIFILOGOUT_PROC_FUNCTIONS, &wk->logout);
         (*state)++;
         break;
     case 31:
@@ -513,7 +306,7 @@ GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, EventWi
             BtlSetup_Free(wk->btlSetup);
             wk->btlSetup = NULL;
         }
-        GSYS_QueueProcAsEvent(wk->event, OVERLAY_WIFICLUB, WIFICLUB_PROC_FUNCTIONS, wk->club);
+        GSYS_QueueProcAsEvent(wk->event, OVERLAY_WIFICLUB, &WIFICLUB_PROC_FUNCTIONS, wk->club);
         (*state)++;
         break;
     case 12:
@@ -530,7 +323,7 @@ GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, EventWi
         EventWifiClub_SetupBattleSelect(wk, GSYS_GetGameData(gsys), seq);
         wk->btlSetup = BtlSetup_Create(HEAPID_GAMEEVENT);
         EventWifiClub_SetupBattle(wk, wk->club->mode);
-        GSYS_QueueProcAsEvent(wk->event, OVERLAY_BATTLE_SELECT, data_ov213_021bbb38, &wk->select);
+        GSYS_QueueProcAsEvent(wk->event, OVERLAY_BATTLE_SELECT, &data_ov213_021bbb38, &wk->select);
         (*state)++;
         break;
     case 14:
@@ -584,7 +377,7 @@ GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, EventWi
         wk->battle.unk14 = 1;
         wk->records = GameData_GetRecords(GSYS_GetGameData(wk->gsys));
         GFL_OvlUnload(OVERLAY_BATTLE_MAIN);
-        GSYS_QueueProcAsEvent(wk->event, OVERLAY_BATTLE, data_ov010_0215039c, &wk->battle);
+        GSYS_QueueProcAsEvent(wk->event, OVERLAY_BATTLE, &data_ov010_0215039c, &wk->battle);
         (*state)++;
         break;
     }
@@ -609,7 +402,7 @@ GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, EventWi
         break;
     case 19:
         wk->trade.gameData = GSYS_GetGameData(gsys);
-        GSYS_QueueProcAsEvent(wk->event, OVERLAY_POKEMONTRADE, POKEMONTRADE_WIFICLUB_PROC_FUNCTIONS, &wk->trade);
+        GSYS_QueueProcAsEvent(wk->event, OVERLAY_POKEMONTRADE, &POKEMONTRADE_WIFICLUB_PROC_FUNCTIONS, &wk->trade);
         (*state)++;
         break;
     case 20:
@@ -642,7 +435,7 @@ GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, EventWi
         evolution->unkC = 1;
         evolution->unk10 = 0;
         wk->trade.evolution = evolution;
-        GSYS_QueueProcAsEvent(wk->event, OVERLAY_SHINKA_DEMO, SHINKA_DEMO_PROC_FUNCTIONS, evolution);
+        GSYS_QueueProcAsEvent(wk->event, OVERLAY_SHINKA_DEMO, &SHINKA_DEMO_PROC_FUNCTIONS, evolution);
         *state = 22;
         break;
     }
@@ -658,7 +451,7 @@ GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, EventWi
     case 23:
         wk->tvt.gameData = GSYS_GetGameData(gsys);
         wk->tvt.unk4 = 3;
-        GSYS_QueueProcAsEvent(wk->event, OVERLAY_COMM_TVT, COMM_TVT_PROC_FUNCTIONS, &wk->tvt);
+        GSYS_QueueProcAsEvent(wk->event, OVERLAY_COMM_TVT, &COMM_TVT_PROC_FUNCTIONS, &wk->tvt);
         (*state)++;
         break;
     case 24:
@@ -712,8 +505,8 @@ void EventWifiClub_Init(GameEvent *event, GameSystem *gsys, Field *field, BOOL u
     wk->field = field;
     wk->event = event;
     wk->useTransitions = useTransitions;
-    wk->club = GFL_HeapAllocate(HEAP_LOW(HEAPID_GAMEEVENT), sizeof(WifiClubData), TRUE, "event_wificlub.c", 683);
-    wk->club->buffer = GFL_HeapAllocate(HEAP_LOW(HEAPID_GAMEEVENT), 0x20, TRUE, "event_wificlub.c", 684);
+    wk->club = GFL_HeapAllocate(HEAPID_TAIL(HEAPID_GAMEEVENT), sizeof(WifiClubData), TRUE, "event_wificlub.c", 683);
+    wk->club->buffer = GFL_HeapAllocate(HEAPID_TAIL(HEAPID_GAMEEVENT), 0x20, TRUE, "event_wificlub.c", 684);
     wk->club->gameData = GSYS_GetGameData(wk->gsys);
     wk->club->save = GameData_GetSaveControl(wk->club->gameData);
     wk->club->unk46 = 1;
@@ -721,13 +514,13 @@ void EventWifiClub_Init(GameEvent *event, GameSystem *gsys, Field *field, BOOL u
     wk->gameData = wk->club->gameData;
     wk->wifiList = GameData_GetWifiList(wk->gameData);
     wk->club->mode = 0;
-    wk->party = PokeParty_Create(HEAP_LOW(HEAPID_GAMEEVENT));
+    wk->party = PokeParty_Create(HEAPID_TAIL(HEAPID_GAMEEVENT));
     wk->trade.party = wk->party;
     wk->self = wk;
     wk->bgm = GFL_SndBGMGetID();
-    wk->club->parties[0] = PokeParty_Create(HEAP_LOW(HEAPID_USER));
-    wk->club->parties[1] = PokeParty_Create(HEAP_LOW(HEAPID_USER));
-    wk->club->unk1C = func_0200b50c(HEAP_LOW(HEAPID_USER));
+    wk->club->parties[0] = PokeParty_Create(HEAPID_TAIL(HEAPID_USER));
+    wk->club->parties[1] = PokeParty_Create(HEAPID_TAIL(HEAPID_USER));
+    wk->club->unk1C = func_0200b50c(HEAPID_TAIL(HEAPID_USER));
     wk->club->unk20 = 1;
 }
 
@@ -739,6 +532,8 @@ GameEvent *EventWifiClub_Create(GameSystem *gsys, Field *field, BOOL useTransiti
 }
 
 // Called through GameEvent_CreateOverlayDelegate, by the NetConnectWiFiClub script command
-GameEvent *EventWifiClub_CreateFromArgs(GameSystem *gsys, EventWifiClubArgs *args) {
+GameEvent *EventWifiClub_CreateFromArgs(GameSystem *gsys, void *data) {
+    EventWifiClubArgs *args = data;
+
     return EventWifiClub_Create(gsys, args->field, args->useTransitions);
 }
