@@ -58,7 +58,7 @@ func_ov327_021b6fa4 kind:function(thumb,size=0x70) addr:0x021b6fe4
 func_ov327_021b7014 kind:function(thumb,size=0x4c) addr:0x021b7054
 func_ov327_021b7060 kind:function(thumb,size=0x28) addr:0x021b70a0
 func_ov327_021b7088 kind:function(thumb,size=0x4a) addr:0x021b70c8
-data_ov327_021b70d4 kind:data(any) addr:0x021b7114 ambiguous
+WBT_DOWNLOAD_PROC_FUNCTIONS kind:data(any) addr:0x021b7114 ambiguous
 data_ov327_021b70e0 kind:data(any) addr:0x021b7120
 data_ov327_021b7120 kind:data(any) addr:0x021b7160
 data_ov327_021b7130 kind:data(any) addr:0x021b7170

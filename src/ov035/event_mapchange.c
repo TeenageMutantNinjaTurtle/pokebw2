@@ -167,7 +167,10 @@ typedef struct {
 
 // Allocates from the end of the heap
 #define HEAP_LOW(heapId) ((heapId) | 0x8000)
-#define HEAPID_FIELD 1
+// Heap IDs, named as in swan
+#define HEAPID_USER 0x1
+#define HEAPID_GAMEEVENT 0x4
+#define HEAPID_FIELDMAP 0x15
 
 #define ARC_ZONE_GIMMICKS 0x66
 
@@ -628,7 +631,7 @@ GameEventReturnCode EventFieldFirst_Callback(GameEvent *event, u32 *state, Event
         break;
     case 3:
         SetActorFlag(FieldPlayer_GetActor(Field_GetPlayer(GSYS_GetField(gsys))), 4);
-        EventScriptCall_Start(event, 0x1d, NULL, NULL, 1);
+        EventScriptCall_Start(event, 0x1d, NULL, NULL, HEAPID_USER);
         (*state)++;
         break;
     case 4:
@@ -636,7 +639,7 @@ GameEventReturnCode EventFieldFirst_Callback(GameEvent *event, u32 *state, Event
         (*state)++;
         break;
     case 5:
-        EventScriptCall_Start(event, 0x1e, NULL, NULL, 1);
+        EventScriptCall_Start(event, 0x1e, NULL, NULL, HEAPID_USER);
         (*state)++;
         break;
     case 6:
@@ -654,12 +657,12 @@ GameEvent *EventFieldFirst_Create(GameSystem *gsys, GameSystemProcData *procData
     LoadAspertiaCitySpawnInfo(&wk->spawn);
 
     GFL_OvlLoad(OVERLAY_NEW_GAME);
-    InitDreamRadarFlagSave(GSYS_GetGameData(gsys), 1);
+    InitDreamRadarFlagSave(GSYS_GetGameData(gsys), HEAPID_USER);
     GFL_OvlUnload(OVERLAY_NEW_GAME);
 
     if (procData->entryPoint == GAME_ENTRYPOINT_OPENING) {
         GFL_OvlLoad(OVERLAY_NEW_GAME);
-        InitItemBag(GSYS_GetGameData(gsys), 1);
+        InitItemBag(GSYS_GetGameData(gsys), HEAPID_USER);
         GFL_OvlUnload(OVERLAY_NEW_GAME);
     }
 
@@ -726,7 +729,7 @@ GameEventReturnCode EventFieldContinue_Callback(GameEvent *event, u32 *state, Ev
         break;
     case 3:
         if (wk->continueFromSave && *EventWork_GetWkPtr(eventWork, EVENT_WORK_CONTINUE_SCRIPT) != 0) {
-            EventScriptCall_Start(event, 0x83b, NULL, NULL, 0x15);
+            EventScriptCall_Start(event, 0x83b, NULL, NULL, HEAPID_FIELDMAP);
         } else {
             u8 season = GameData_GetSeason(gameData);
             GameEvent_ChainNext(event,
@@ -1327,7 +1330,7 @@ GameEventReturnCode EventMapChangeUnionRoomExit_Callback(GameEvent *event, u32 *
         GFL_OvlLoad(OVERLAY_27);
         GameData_RestoreCGearPowerRequest(gameData);
         FieldSubscreen_ChangeImm(Field_GetSubscreen(field), 0);
-        EventScriptCall_Start(event, 0x83a, NULL, NULL, 0x15);
+        EventScriptCall_Start(event, 0x83a, NULL, NULL, HEAPID_FIELDMAP);
         (*state)++;
         break;
     case 3:
@@ -1922,8 +1925,8 @@ void FieldMapControl_LoadZone(GameSystem *gsys, u16 zoneId) {
 
     EventData_LoadZone(eventData, zoneId, GameData_GetSeason(gameData));
     matrix = GetMapMatrixSystem(gameData);
-    MapMatrix_Load(matrix, GetZoneMatrixId(zoneId), zoneId, HEAP_LOW(HEAPID_FIELD));
-    MapMatrix_Patch(matrix, gsys, HEAP_LOW(HEAPID_FIELD));
+    MapMatrix_Load(matrix, GetZoneMatrixId(zoneId), zoneId, HEAP_LOW(HEAPID_USER));
+    MapMatrix_Patch(matrix, gsys, HEAP_LOW(HEAPID_USER));
     GameData_UpdateFlashStatus(gameData, zoneId);
     GameData_UpdateJoinAvenueForZone(gameData, zoneId);
 
@@ -1955,8 +1958,8 @@ void GameData_SetGimmickByZone(GameData *gameData, int zoneId) {
     u32 count;
 
     GimmickState_Reset(gimmick);
-    handle = GFL_ArcSysCreateFileHandle(ARC_ZONE_GIMMICKS, HEAP_LOW(HEAPID_FIELD));
-    gimmicks = GFL_ArcToolReadHeapNew(handle, 0, HEAP_LOW(HEAPID_FIELD));
+    handle = GFL_ArcSysCreateFileHandle(ARC_ZONE_GIMMICKS, HEAP_LOW(HEAPID_USER));
+    gimmicks = GFL_ArcToolReadHeapNew(handle, 0, HEAP_LOW(HEAPID_USER));
     count = GFL_ArcToolGetDataLength(handle, 0) / sizeof(ZoneGimmick);
     for (i = 0; i < count; i++) {
         if (zoneId == gimmicks[i].zoneId) {
@@ -2125,12 +2128,12 @@ void GameData_UpdatePartyForTimeOfDay(GameData *gameData) {
 
 // DS Protect tamper responses, which leak memory
 void *EventMapChange_DSProtTamper1(void *arg0, void *arg1) {
-    GFL_HeapAllocate(HEAP_LOW(4), 0x1000, FALSE, "event_mapchange.c", 3931);
+    GFL_HeapAllocate(HEAP_LOW(HEAPID_GAMEEVENT), 0x1000, FALSE, "event_mapchange.c", 3931);
     return arg0;
 }
 
 void *EventMapChange_DSProtTamper2(void *arg0, void *arg1) {
-    GFL_HeapAllocate(HEAP_LOW(4), 0x1000, FALSE, "event_mapchange.c", 3937);
+    GFL_HeapAllocate(HEAP_LOW(HEAPID_GAMEEVENT), 0x1000, FALSE, "event_mapchange.c", 3937);
     return arg1;
 }
 

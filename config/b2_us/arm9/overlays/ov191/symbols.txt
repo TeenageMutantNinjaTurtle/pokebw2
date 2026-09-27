@@ -78,7 +78,7 @@ func_ov191_021b70bc kind:function(thumb,size=0xc) addr:0x021b70bc
 func_ov191_021b70c8 kind:function(thumb,size=0x60) addr:0x021b70c8
 func_ov191_021b7128 kind:function(thumb,size=0x38) addr:0x021b7128
 func_ov191_021b7160 kind:function(thumb,size=0x8) addr:0x021b7160
-data_ov191_021b7168 kind:data(any) addr:0x021b7168 ambiguous
+WIFI_BSUBWAY_PROC_FUNCTIONS kind:data(any) addr:0x021b7168 ambiguous
 data_ov191_021b7174 kind:data(any) addr:0x021b7174
 data_ov191_021b7184 kind:data(any) addr:0x021b7184
 data_ov191_021b71b4 kind:data(any) addr:0x021b71b4

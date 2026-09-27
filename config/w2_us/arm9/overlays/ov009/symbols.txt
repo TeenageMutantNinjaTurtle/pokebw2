@@ -1,3 +1,3 @@
-func_ov009_0214f500 kind:function(thumb,size=0xc) addr:0x0214f540
-func_ov009_0214f50c kind:function(thumb,size=0x44) addr:0x0214f54c
-func_ov009_0214f550 kind:function(thumb,size=0xc4) addr:0x0214f590
+EventWifiBSubway_CreateFromArgs kind:function(thumb,size=0xc) addr:0x0214f540
+EventWifiBSubway_Create kind:function(thumb,size=0x44) addr:0x0214f54c
+EventWifiBSubway_Callback kind:function(thumb,size=0xc4) addr:0x0214f590

@@ -32,6 +32,11 @@ overlays/ov003 0x0214f5fc EventBattleVideo_CreateFromArgs
 overlays/ov004 0x0214f500 EventWorldTrade_CreateFromArgs
 overlays/ov004 0x0214f50c EventWorldTrade_Create
 overlays/ov004 0x0214f5d0 EventWorldTrade_Callback
+overlays/ov005 0x0214f500 EventWbtWifi_Create
+overlays/ov005 0x0214f56c EventWbtWifi_Callback
+overlays/ov009 0x0214f500 EventWifiBSubway_CreateFromArgs
+overlays/ov009 0x0214f50c EventWifiBSubway_Create
+overlays/ov009 0x0214f550 EventWifiBSubway_Callback
 overlays/ov035 0x0217ca2c EventFieldFirst_SetupCity
 overlays/ov035 0x0217cbec EventFieldContinue_SetupCity
 overlays/ov035 0x0217e62c GameData_UpdateJoinAvenueForZone
@@ -49,4 +54,6 @@ overlays/ov035 0x0217ed70 ElScoreboard_Create
 overlays/ov035 0x0217ee00 ElScoreboard_Free
 overlays/ov035 0x0217ee08 ElScoreboard_Update
 overlays/ov035 0x0217ee2c ElScoreboard_UploadPalette
+overlays/ov191 0x021b7168 WIFI_BSUBWAY_PROC_FUNCTIONS
 overlays/ov214 0x021e1ab8 WORLDTRADE_PROC_FUNCTIONS
+overlays/ov327 0x021b70d4 WBT_DOWNLOAD_PROC_FUNCTIONS

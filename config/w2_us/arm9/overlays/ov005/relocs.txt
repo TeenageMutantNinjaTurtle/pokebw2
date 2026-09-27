@@ -15,4 +15,5 @@ from:0x0214f5c8 kind:thumb_call to:0x0202be00 module:main
 from:0x0214f5e2 kind:thumb_call to:0x020195ec module:main
 from:0x0214f5ea kind:thumb_call to:0x02016d68 module:main
 from:0x0214f5f4 kind:thumb_call to:0x0203a278 module:main
-from:0x0214f600 kind:load to:0x021b7114 module:overlays(193,257,327)
+from:0x0214f600 kind:load to:0x021b7114 module:overlay(327)
+from:0x0214f604 kind:overlay_id to:327
