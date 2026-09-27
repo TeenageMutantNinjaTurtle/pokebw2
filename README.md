@@ -31,7 +31,7 @@ trainer AI, and everything else is still delinked code. The trainer AI scripts a
    cd ../ds-decomp && cargo build --release && cp target/release/dsd ../pokebw2/tools/dsd
    ```
 
-2. Install LLVM, whose `llvm-mc` and `llvm-objcopy` assemble the scripts and must be on the `PATH`.
+2. Install clang and LLVM, whose `clang` and `llvm-objcopy` assemble the scripts and must be on the `PATH`.
 
 3. Place your own dumps at `orig/baserom_b2_us.nds` and/or `orig/baserom_w2_us.nds`. They must match the SHA1s above.
    They are not included and will not be provided. `tools/scripts/verify_dsi_rom.py` checks a dump against the
@@ -173,7 +173,22 @@ for each flag the trainer has. They are written in `data/tr_ai/tr_ai_NN.s` with 
 arguments are 32-bit. Jump, list and table arguments are labels, which the macros encode relative to the end of the
 argument. Lists of values end with `list_end`.
 
-`ninja` assembles each script with `llvm-mc`, converts it to a binary with `llvm-objcopy`, packs the binaries with
+The `load_` commands set a result, which `if_equal` and the other comparisons test:
+
+```
+    load_known_ability TRAI_SIDE_DEFENDER
+    if_equal ABILITY_VOLT_ABSORB, TrAI00_00AA
+```
+
+Scripts go through the C preprocessor, so they use the same constants as the C code. `include/constants/` holds
+only `#define`s for this reason. The move, ability, item, species and type constants are named after the game's
+own text by `tools/scripts/make_constants.py`, which reads it with `tools/scripts/msgdata.py`:
+
+```sh
+python3 tools/scripts/make_constants.py extract/b2_us/files/a/0/0/2 include/constants
+```
+
+`ninja` assembles each script with `clang`, converts it to a binary with `llvm-objcopy`, packs the binaries with
 `tools/scripts/narc.py` into `build/<version>/files/a/1/6/9`, and checks the archive against the extracted one. The
 ROM is built from `build/<version>/files`, which `tools/scripts/files_tree.py` fills with links to the extracted files,
 except for the files built from source. `ARCHIVES` in `configure.py` lists them.
@@ -186,7 +201,8 @@ python3 tools/scripts/tr_ai_script.py inc include/asm/tr_ai.inc
 ```
 
 The disassembler follows the jumps from the start of each script. Bytes it does not reach are decoded as commands
-where they are valid, then as lists, and otherwise kept as `.byte`. Script 12 does not decode with this game's
+where they are valid, then as lists, and otherwise kept as `.byte`. A value compared with the result is written as a
+constant when every way to the comparison loads the same kind of value. Script 12 does not decode with this game's
 commands. Its first command, 62, reads no arguments here, and the bytes after it are kept as they are.
 
 ## Versions

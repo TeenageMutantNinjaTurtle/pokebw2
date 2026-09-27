@@ -198,14 +198,13 @@ def add_version(n: Writer, version: str, dsd: Path) -> tuple[list[Path], list[st
     files_ok = stamp_dir / "files.ok"
     n.build([files_ok], "files_tree", [], implicit=[extract_dir / "config.yaml", "tools/scripts/files_tree.py"],
             variables={"source": str(extract_dir / "files"), "output": str(files_dir), "built": " ".join(ARCHIVES)})
-    includes = sorted(Path("include/asm").glob("*.inc"))
     archives = []
     checks = []
     for path, source_dir in ARCHIVES.items():
         members = []
         for source in sorted(Path(source_dir).glob("*.s")):
             obj = build_dir / source.with_suffix(".o")
-            n.build([obj], "as", [source], implicit=includes)
+            n.build([obj], "as", [source], variables={"dep": obj.with_suffix(".d")})
             n.build([obj.with_suffix(".bin")], "objcopy_bin", [obj])
             members.append(obj.with_suffix(".bin"))
         archive = files_dir / path
@@ -258,10 +257,10 @@ def main():
     if not args.no_download:
         download_tools(tools_dir)
     wine = args.wine or str(tools_dir / "wibo")
-    llvm_mc = shutil.which("llvm-mc")
+    clang = shutil.which("clang")
     llvm_objcopy = shutil.which("llvm-objcopy")
-    if not llvm_mc or not llvm_objcopy:
-        sys.exit("llvm-mc and llvm-objcopy not found, see README.md")
+    if not clang or not llvm_objcopy:
+        sys.exit("clang and llvm-objcopy not found, see README.md")
     mwcc = tools_dir / "mwccarm" / MWCC_VERSION / "mwccarm.exe"
     mwld = tools_dir / "mwccarm" / MWLD_VERSION / "mwldarm.exe"
 
@@ -281,8 +280,9 @@ def main():
            "-gccdep -MD -i include -o $out $in && $python tools/scripts/fix_depfile.py $dep", "Compiling $in",
            depfile="$dep", deps="gcc")
     n.rule("mwld", f"$wine {shlex.quote(str(mwld))} {' '.join(LD_FLAGS)} @$objects $lcf -o $out", "Linking $out")
-    n.rule("as", f"{shlex.quote(llvm_mc)} -triple=armv5te-none-eabi -filetype=obj -I include -o $out $in",
-           "Assembling $in")
+    # Scripts go through the C preprocessor, so that they can include the constant headers
+    n.rule("as", f"{shlex.quote(clang)} --target=armv5te-none-eabi -x assembler-with-cpp -c -I include -MD -MF $dep "
+           "-o $out $in", "Assembling $in", depfile="$dep", deps="gcc")
     n.rule("objcopy_bin", f"{shlex.quote(llvm_objcopy)} -O binary $in $out", "Converting $in")
     n.rule("narc", "$python tools/scripts/narc.py pack $out $in", "Packing $out")
     n.rule("check_file", "cmp $in $original && mkdir -p $$(dirname $out) && touch $out", "Checking $in")

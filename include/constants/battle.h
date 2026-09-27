@@ -1,0 +1,18 @@
+#ifndef POKEBW2_CONSTANTS_BATTLE_H
+#define POKEBW2_CONSTANTS_BATTLE_H
+
+// Battle styles, from BtlSetup_GetBattleStyle
+#define BTL_STYLE_SINGLE 0
+#define BTL_STYLE_DOUBLE 1
+#define BTL_STYLE_TRIPLE 2
+#define BTL_STYLE_ROTATION 3
+
+// Type effectiveness, which multiplies the power by 0, 1/4, 1/2, 1, 2 or 4
+#define TYPE_EFFECTIVENESS_IMMUNE 0
+#define TYPE_EFFECTIVENESS_QUARTER 1
+#define TYPE_EFFECTIVENESS_HALF 2
+#define TYPE_EFFECTIVENESS_NORMAL 3
+#define TYPE_EFFECTIVENESS_DOUBLE 4
+#define TYPE_EFFECTIVENESS_QUADRUPLE 5
+
+#endif // POKEBW2_CONSTANTS_BATTLE_H

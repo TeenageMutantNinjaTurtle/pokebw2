@@ -7,9 +7,11 @@ followed by 32-bit arguments; the argument layout of every command comes from it
     tr_ai_script.py inc include/asm/tr_ai.inc      # write the assembler macros
     tr_ai_script.py disasm ARCHIVE data/tr_ai      # write one .s file per script
 
-The .s files assemble with llvm-mc and the macros back to the original bytes.
+The .s files go through the C preprocessor, so that they can use the constants in include/constants, and assemble
+back to the original bytes.
 """
 import argparse
+import re
 import struct
 import sys
 from pathlib import Path
@@ -19,12 +21,13 @@ from narc import read_narc  # noqa: E402
 
 # Argument kinds:
 #   value   a 32-bit value
-#   side    which Pokemon: AI_DEFENDER, AI_ATTACKER, AI_DEFENDER_PARTNER or AI_ATTACKER_PARTNER
+#   result  a value compared with the result, written as the kind of value that the result holds
 #   jump    a jump target, relative to the end of this argument, which ends the command
 #   list    a list of values ending with 0xffffffff, relative to the end of this argument
 #   table   a jump table indexed by the move's effect, relative to the end of this argument
+# and the kinds in CONSTANTS, which are values written as constants.
 #
-# The result is the value that load_ commands set and that if_less_than and the other result comparisons read.
+# The result is the value that every load_ command sets, and that if_equal and the other result comparisons read.
 COMMANDS = [
     ("if_random_less_than", ["value", "jump"], "AIGreaterThanRandom: jumps if a random number below 256 is less than value"),
     ("if_random_greater_than", ["value", "jump"], "AILessThanRandom"),
@@ -47,31 +50,31 @@ COMMANDS = [
     ("if_not_side_effect", ["side", "value", "jump"], "AIIfNotSideEffect"),
     ("if_less_than", ["value", "jump"], "AIIfLessThan: compares the result"),
     ("if_greater_than", ["value", "jump"], "AIIfGreaterThan"),
-    ("if_equal", ["value", "jump"], "AIIfEqual"),
-    ("if_not_equal", ["value", "jump"], "AIIfNotEqual"),
+    ("if_equal", ["result", "jump"], "AIIfEqual"),
+    ("if_not_equal", ["result", "jump"], "AIIfNotEqual"),
     ("if_bits_set", ["value", "jump"], "AIIfBit: jumps if the result has any of the bits"),
     ("if_bits_clear", ["value", "jump"], "AIIfNotBit"),
-    ("if_move", ["value", "jump"], "AIIfMove: compares the move being scored"),
-    ("if_not_move", ["value", "jump"], "AIIfNotMove"),
+    ("if_move", ["move", "jump"], "AIIfMove: compares the move being scored"),
+    ("if_not_move", ["move", "jump"], "AIIfNotMove"),
     ("if_in_list", ["list", "jump"], "AIIfResultInList"),
     ("if_not_in_list", ["list", "jump"], "AIIfResultNotInList"),
     ("if_has_damaging_move", ["jump"], "AIHasDamagingMove: jumps if the attacker has a move with power"),
     ("if_no_damaging_move", ["jump"], "AIDoesNotHaveDamagingMove"),
     ("load_turn_count", [], "AIGetTurnCount"),
-    ("load_type", ["value"], "AIGetType"),
+    ("load_type", ["type_of"], "AIGetType"),
     ("load_power", [], "AIGetBasePower: the base power of the move being scored"),
     ("load_damage_rank", ["value"], "AIGetHighestDamagingMove: 0 if the move deals no damage, 1 if another move deals "
      "more, 2 otherwise"),
     ("load_last_move", ["side"], "AIGetPreviousMove"),
-    ("if_equal_2", ["value", "jump"], "AIIfEqual, a second ID"),
-    ("if_not_equal_2", ["value", "jump"], "AIIfNotEqual, a second ID"),
+    ("if_equal_2", ["result", "jump"], "AIIfEqual, a second ID"),
+    ("if_not_equal_2", ["result", "jump"], "AIIfNotEqual, a second ID"),
     ("if_speed_compare", ["value", "jump"], "AICompareSpeed: 0 jumps if the attacker is faster, 1 if slower, 2 if equal"),
     ("load_able_party_count", ["side"], "AICheckTeamCount: the party's Pokemon that aren't in battle and can battle"),
     ("load_move", [], "AICheckMoveID: the move being scored"),
     ("load_move_effect", [], "AICheckMoveEffect"),
     ("load_known_ability", ["side"], "AICheckAbility: the ability the AI knows or guesses"),
     ("nop_43", [], "AINop43"),
-    ("if_effectiveness", ["value", "jump"], "AIIfTypeEffectiveness: TYPE_EFFECTIVENESS_* of the move being scored"),
+    ("if_effectiveness", ["effectiveness", "jump"], "AIIfTypeEffectiveness: of the move being scored"),
     ("if_party_member_no_status", ["side", "jump"], "AIIfStatusInParty: jumps if a party member that isn't in battle "
      "has no status"),
     ("if_party_member_status", ["side", "jump"], "AIIfStatusNotInParty"),
@@ -84,8 +87,8 @@ COMMANDS = [
     ("if_stat_stage_not_equal", ["side", "value", "value", "jump"], "AIStatStageNotEqual"),
     ("if_can_faint", ["value", "jump"], "AIIfCanFaint: the first argument is unused"),
     ("if_cannot_faint", ["value", "jump"], "AIIfCannotFaint"),
-    ("if_knows_move", ["side", "value", "jump"], "AIIfHasMove: for the defender, only the moves it was seen to use"),
-    ("if_not_knows_move", ["side", "value", "jump"], "AIIfDoesNotHaveMove"),
+    ("if_knows_move", ["side", "move", "jump"], "AIIfHasMove: for the defender, only the moves it was seen to use"),
+    ("if_not_knows_move", ["side", "move", "jump"], "AIIfDoesNotHaveMove"),
     ("if_knows_move_effect", ["side", "value", "jump"], "AIIfHasMoveWithEffect"),
     ("if_not_knows_move_effect", ["side", "value", "jump"], "AIIfDoesNotHaveMoveWithEffect"),
     ("nop_60", [], "AINop60"),
@@ -111,10 +114,10 @@ COMMANDS = [
     ("if_taunted", ["jump"], "AIIfTaunted: the defender"),
     ("if_not_taunted", ["jump"], "AIIfNotTaunted"),
     ("if_target_is_ally", ["jump"], "AIIfTargetIsAlly"),
-    ("load_has_type", ["side", "value"], "AIDoesMonHaveType"),
-    ("load_known_ability_is", ["side", "value"], "AIGuessAbility"),
+    ("load_has_type", ["side", "type"], "AIDoesMonHaveType"),
+    ("load_known_ability_is", ["side", "ability"], "AIGuessAbility"),
     ("if_flash_fire", ["side", "jump"], "AIIfFlashFireIsActive"),
-    ("if_held_item", ["side", "value", "jump"], "AIIfHasItem"),
+    ("if_held_item", ["side", "item", "jump"], "AIIfHasItem"),
     ("if_field_effect", ["value", "jump"], "AIIfFieldEffect"),
     ("load_side_effect", ["side", "value"], "AIGetSideEffect"),
     ("if_party_member_damaged", ["side", "jump"], "AIIfPartyMemberDamaged"),
@@ -152,17 +155,53 @@ COMMANDS = [
     ("if_attack_equal_sp_attack", ["side", "jump"], "AIIsAtkEqualToSpAtk"),
 ]
 
-SIDES = ["AI_DEFENDER", "AI_ATTACKER", "AI_DEFENDER_PARTNER", "AI_ATTACKER_PARTNER"]
+INCLUDE = Path(__file__).resolve().parent.parent.parent / "include"
+# The headers that the scripts include, and the prefix of the constants for each kind of value
+CONSTANTS = {
+    "side": ("constants/tr_ai.h", "TRAI_SIDE_"),
+    "type_of": ("constants/tr_ai.h", "TRAI_TYPE_"),
+    "move": ("constants/moves.h", "MOVE_"),
+    "ability": ("constants/abilities.h", "ABILITY_"),
+    "item": ("constants/items.h", "ITEM_"),
+    "species": ("constants/species.h", "SPECIES_"),
+    "type": ("constants/types.h", "TYPE_"),
+    "effectiveness": ("constants/battle.h", "TYPE_EFFECTIVENESS_"),
+    "battle_style": ("constants/battle.h", "BTL_STYLE_"),
+}
+# The kind of value that load_ commands put in the result, where it is one of the kinds in CONSTANTS
+RESULTS = {
+    "load_type": "type",
+    "load_last_move": "move",
+    "load_move": "move",
+    "load_known_ability": "ability",
+    "load_held_item": "item",
+    "load_battle_style": "battle_style",
+    "load_consumed_item": "item",
+    "load_ability": "ability",
+    "load_species": "species",
+}
 # Commands after which the script doesn't continue: jump, end and jump_by_move_effect
 NO_FALLTHROUGH = {76, 77, 115}
+REFERENCES = ("jump", "list", "table")
 LIST_END = 0xFFFFFFFF
 
 
+def load_constants() -> dict[str, dict[int, str]]:
+    constants = {}
+    for kind, (header, prefix) in CONSTANTS.items():
+        names = {}
+        for match in re.finditer(rf"^#define ({prefix}\w+) (\d+)$", (INCLUDE / header).read_text(), re.MULTILINE):
+            names.setdefault(int(match[2]), match[1])
+        constants[kind] = names
+    return constants
+
+
 def write_inc(path: Path):
+    headers = sorted({header for header, _ in CONSTANTS.values()})
     lines = [
         "@ Macros for the trainer AI scripts, written by tools/scripts/tr_ai_script.py inc",
         "",
-        *(f"    .set {name}, {i}" for i, name in enumerate(SIDES)),
+        *(f'#include "{header}"' for header in headers),
         "",
         "    .macro ai_cmd id",
         "    .2byte \\id",
@@ -179,7 +218,7 @@ def write_inc(path: Path):
         lines.append(f"    .macro {name}{' ' if params else ''}{', '.join(params)}")
         lines.append(f"    ai_cmd {cmd_id}")
         for param, kind in zip(params, args):
-            if kind in ("jump", "list", "table"):
+            if kind in REFERENCES:
                 lines.append(f"    .4byte \\{param} - (. + 4)")
             else:
                 lines.append(f"    .4byte \\{param}")
@@ -193,9 +232,10 @@ def s32(value: int) -> int:
 
 
 class Script:
-    def __init__(self, data: bytes, label_prefix: str):
+    def __init__(self, data: bytes, label_prefix: str, constants: dict[str, dict[int, str]] | None = None):
         self.data = data
         self.prefix = label_prefix
+        self.constants = constants or {}
         self.instructions: dict[int, tuple[int, list[tuple[str, int]], int]] = {}
         self.labels: set[int] = {0}
         self.lists: dict[int, int] = {}  # start -> end
@@ -218,7 +258,7 @@ class Script:
         for i, kind in enumerate(kinds):
             field = pc + 2 + 4 * i
             value = struct.unpack_from("<I", self.data, field)[0]
-            if kind in ("jump", "list", "table"):
+            if kind in REFERENCES:
                 target = field + 4 + s32(value)
                 # A target outside the file means these bytes aren't this command
                 if not 0 <= target < len(self.data):
@@ -369,14 +409,50 @@ class Script:
         starts.add(len(self.data))
         return starts
 
+    def successors(self, pc: int) -> list[int]:
+        cmd_id, args, end = self.instructions[pc]
+        targets = [target for kind, target in args if kind == "jump"]
+        for kind, table in args:
+            if kind == "table" and table in self.tables:
+                targets += [table + struct.unpack_from("<I", self.data, table + 4 * i)[0]
+                            for i in range(self.tables[table])]
+        if cmd_id not in NO_FALLTHROUGH:
+            targets.append(end)
+        return [target for target in targets if target in self.instructions]
+
+    def result_kinds(self) -> dict[int, str | None]:
+        """Returns the kind of value in the result when each command runs, where every way to the command agrees."""
+        predecessors = {pc: [] for pc in self.instructions}
+        for pc in self.instructions:
+            for target in self.successors(pc):
+                predecessors[target].append(pc)
+        before = {pc: None for pc, sources in predecessors.items() if pc == 0 or not sources}
+        pending = list(before)
+        while pending:
+            pc = pending.pop()
+            name = COMMANDS[self.instructions[pc][0]][0]
+            after = RESULTS.get(name) if name.startswith("load_") else before[pc]
+            for target in self.successors(pc):
+                if target not in before:
+                    before[target] = after
+                elif before[target] != after and before[target] is not None:
+                    before[target] = None
+                else:
+                    continue
+                pending.append(target)
+        return before
+
     def format_arg(self, kind: str, value: int) -> str:
-        if kind in ("jump", "list", "table"):
+        if kind in REFERENCES:
             if value not in self.placeable:
                 # The target is inside another command, so give it as an offset from this argument's end
                 return f". + 4 + {value - self.current_field - 4}"
             return self.label(value)
-        if kind == "side" and value < len(SIDES):
-            return SIDES[value]
+        if kind == "result":
+            kind = self.current_result
+        name = self.constants.get(kind, {}).get(value)
+        if name is not None:
+            return name
         signed = s32(value)
         return str(signed) if -0x10000 < signed < 0x10000 else f"{value:#x}"
 
@@ -385,6 +461,13 @@ class Script:
         self.fill_gaps()
         self.labels.update(self.lists)
         self.placeable = self.boundaries()
+        results = self.result_kinds()
+        # A list holds the kind of value that the result holds where the list is used, if that is always the same
+        list_kinds = {}
+        for pc, (cmd_id, args, _) in self.instructions.items():
+            for kind, target in args:
+                if kind == "list":
+                    list_kinds.setdefault(target, set()).add(results.get(pc))
         # The files are padded with zeros to a multiple of 4 bytes
         covered = self.covered()
         padded = len(self.data)
@@ -398,6 +481,7 @@ class Script:
             if pc in self.instructions:
                 self.emit_label(out, pc)
                 cmd_id, args, end = self.instructions[pc]
+                self.current_result = results.get(pc)
                 parts = []
                 for i, (kind, value) in enumerate(args):
                     self.current_field = pc + 2 + 4 * i
@@ -406,10 +490,12 @@ class Script:
                 out.append(f"    {COMMANDS[cmd_id][0]}{' ' if text else ''}{text}")
                 pc = end
             elif pc in self.lists:
+                kinds = list_kinds.get(pc, set())
+                self.current_result = next(iter(kinds)) if len(kinds) == 1 else None
                 for element in range(pc, self.lists[pc], 4):
                     self.emit_label(out, element)
                     value = struct.unpack_from("<I", self.data, element)[0]
-                    out.append("    list_end" if value == LIST_END else f"    .4byte {self.format_arg('value', value)}")
+                    out.append("    list_end" if value == LIST_END else f"    .4byte {self.format_arg('result', value)}")
                 pc = self.lists[pc]
             elif pc in self.tables:
                 table = pc
@@ -447,9 +533,10 @@ def main():
         write_inc(args.output)
     else:
         args.output.mkdir(parents=True, exist_ok=True)
+        constants = load_constants()
         for i, data in enumerate(read_narc(args.archive.read_bytes())):
-            script = Script(data, f"TrAI{i:02d}")
-            text = f'    .include "asm/tr_ai.inc"\n\n{script.disassemble()}'
+            script = Script(data, f"TrAI{i:02d}", constants)
+            text = f'#include "asm/tr_ai.inc"\n\n{script.disassemble()}'
             (args.output / f"tr_ai_{i:02d}.s").write_text(text)
 
 

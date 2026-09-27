@@ -8,6 +8,7 @@
 #include "constants/abilities.h"
 #include "constants/arc.h"
 #include "constants/moves.h"
+#include "constants/tr_ai.h"
 #include "gfl/arc.h"
 #include "gfl/heap.h"
 #include "gfl/random.h"
@@ -39,12 +40,6 @@
 #define TRAI_SEQ_LOAD_SCRIPT 0
 #define TRAI_SEQ_RUN_SCRIPT 1
 #define TRAI_SEQ_DONE 2
-
-// Which Pokemon a command refers to
-#define TRAI_SIDE_DEFENDER 0
-#define TRAI_SIDE_ATTACKER 1
-#define TRAI_SIDE_DEFENDER_PARTNER 2
-#define TRAI_SIDE_ATTACKER_PARTNER 3
 
 // How AIConditionalJump compares a value with the script's value
 enum {
@@ -1073,34 +1068,34 @@ BOOL AIGetType(VM *vm, void *work) {
     PokeTypePair defenderTypes = GetPokeType(wk->defender);
 
     switch (which) {
-    case 1:
+    case TRAI_TYPE_ATTACKER_1:
         wk->result = PokeTypePair_GetType1(attackerTypes);
         break;
-    case 0:
+    case TRAI_TYPE_DEFENDER_1:
         wk->result = PokeTypePair_GetType1(defenderTypes);
         break;
-    case 3:
+    case TRAI_TYPE_ATTACKER_2:
         wk->result = PokeTypePair_GetType2(attackerTypes);
         break;
-    case 2:
+    case TRAI_TYPE_DEFENDER_2:
         wk->result = PokeTypePair_GetType2(defenderTypes);
         break;
-    case 4:
+    case TRAI_TYPE_MOVE:
         wk->result = GetMoveData(wk, wk->moveId, MOVE_PARAM_TYPE);
         break;
-    case 6:
+    case TRAI_TYPE_ATTACKER_PARTNER_1:
         wk->result = PokeTypePair_GetType1(
             GetPokeType(TrAI_GetBattleMon(wk, TrAI_GetTargetPos(wk, TRAI_SIDE_ATTACKER_PARTNER))));
         break;
-    case 5:
+    case TRAI_TYPE_DEFENDER_PARTNER_1:
         wk->result = PokeTypePair_GetType1(
             GetPokeType(TrAI_GetBattleMon(wk, TrAI_GetTargetPos(wk, TRAI_SIDE_DEFENDER_PARTNER))));
         break;
-    case 8:
+    case TRAI_TYPE_ATTACKER_PARTNER_2:
         wk->result = PokeTypePair_GetType2(
             GetPokeType(TrAI_GetBattleMon(wk, TrAI_GetTargetPos(wk, TRAI_SIDE_ATTACKER_PARTNER))));
         break;
-    case 7:
+    case TRAI_TYPE_DEFENDER_PARTNER_2:
         wk->result = PokeTypePair_GetType2(
             GetPokeType(TrAI_GetBattleMon(wk, TrAI_GetTargetPos(wk, TRAI_SIDE_DEFENDER_PARTNER))));
         break;

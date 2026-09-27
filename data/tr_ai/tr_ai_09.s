@@ -1,4 +1,4 @@
-    .include "asm/tr_ai.inc"
+#include "asm/tr_ai.inc"
 
 TrAI09_0000:
     if_target_is_ally TrAI09_0098
@@ -25,7 +25,7 @@ TrAI09_0070:
     if_equal 3, TrAI09_0098
     jump TrAI09_0082
 TrAI09_0082:
-    load_fake_out_active AI_ATTACKER
+    load_fake_out_active TRAI_SIDE_ATTACKER
     if_equal 0, TrAI09_0098
     add_to_score 5
 TrAI09_0098:

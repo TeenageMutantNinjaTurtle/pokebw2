@@ -1,13 +1,13 @@
-    .include "asm/tr_ai.inc"
+#include "asm/tr_ai.inc"
 
 TrAI04_0000:
     load_damage_rank 0
     if_not_equal 0, TrAI04_0052
-    if_hp_greater_than AI_DEFENDER, 50, TrAI04_0064
+    if_hp_greater_than TRAI_SIDE_DEFENDER, 50, TrAI04_0064
     if_random_less_than 128, TrAI04_002E
     add_to_score 1
 TrAI04_002E:
-    if_hp_greater_than AI_DEFENDER, 25, TrAI04_0064
+    if_hp_greater_than TRAI_SIDE_DEFENDER, 25, TrAI04_0064
     if_random_less_than 128, TrAI04_0064
     add_to_score 1
     jump TrAI04_0064

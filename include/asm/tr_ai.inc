@@ -1,9 +1,12 @@
 @ Macros for the trainer AI scripts, written by tools/scripts/tr_ai_script.py inc
 
-    .set AI_DEFENDER, 0
-    .set AI_ATTACKER, 1
-    .set AI_DEFENDER_PARTNER, 2
-    .set AI_ATTACKER_PARTNER, 3
+#include "constants/abilities.h"
+#include "constants/battle.h"
+#include "constants/items.h"
+#include "constants/moves.h"
+#include "constants/species.h"
+#include "constants/tr_ai.h"
+#include "constants/types.h"
 
     .macro ai_cmd id
     .2byte \id
@@ -313,7 +316,7 @@
     ai_cmd 43
     .endm
 
-    @ AIIfTypeEffectiveness: TYPE_EFFECTIVENESS_* of the move being scored
+    @ AIIfTypeEffectiveness: of the move being scored
     .macro if_effectiveness a0, a1
     ai_cmd 44
     .4byte \a0

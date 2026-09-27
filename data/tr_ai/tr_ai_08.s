@@ -1,9 +1,9 @@
-    .include "asm/tr_ai.inc"
+#include "asm/tr_ai.inc"
 
 TrAI08_0000:
     if_target_is_ally TrAI08_00CA
-    if_hp_greater_than AI_ATTACKER, 70, TrAI08_0034
-    if_hp_greater_than AI_ATTACKER, 30, TrAI08_0046
+    if_hp_greater_than TRAI_SIDE_ATTACKER, 70, TrAI08_0034
+    if_hp_greater_than TRAI_SIDE_ATTACKER, 30, TrAI08_0046
     load_move_effect
     if_in_list TrAI08_01BC, TrAI08_0058
     jump TrAI08_0068
@@ -19,8 +19,8 @@ TrAI08_0058:
     if_random_less_than 50, TrAI08_0068
     add_to_score -2
 TrAI08_0068:
-    if_hp_greater_than AI_DEFENDER, 70, TrAI08_0096
-    if_hp_greater_than AI_DEFENDER, 30, TrAI08_00A8
+    if_hp_greater_than TRAI_SIDE_DEFENDER, 70, TrAI08_0096
+    if_hp_greater_than TRAI_SIDE_DEFENDER, 30, TrAI08_00A8
     load_move_effect
     if_in_list TrAI08_033C, TrAI08_00BA
     jump TrAI08_00CA

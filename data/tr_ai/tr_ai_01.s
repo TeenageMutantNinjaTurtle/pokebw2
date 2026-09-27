@@ -1,4 +1,4 @@
-    .include "asm/tr_ai.inc"
+#include "asm/tr_ai.inc"
 
 TrAI01_0000:
     if_target_is_ally TrAI01_00C6
@@ -13,7 +13,7 @@ TrAI01_0044:
     if_random_less_than 51, TrAI01_0054
     add_to_score -2
 TrAI01_0054:
-    if_effectiveness 5, TrAI01_0060
+    if_effectiveness TYPE_EFFECTIVENESS_QUADRUPLE, TrAI01_0060
     end
 TrAI01_0060:
     if_random_less_than 80, TrAI01_00C6

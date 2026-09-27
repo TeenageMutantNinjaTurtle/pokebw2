@@ -2,16 +2,11 @@
 #define POKEBW2_BATTLE_BTL_MAIN_H
 
 #include "types.h"
+#include "constants/battle.h"
 #include "struct_decls.h"
 
 // The battle positions, 0 to 5. Even positions are on one side and odd positions on the other
 #define BTL_POS_MAX 6
-
-// Battle styles, from BtlSetup_GetBattleStyle
-#define BTL_STYLE_SINGLE 0
-#define BTL_STYLE_DOUBLE 1
-#define BTL_STYLE_TRIPLE 2
-#define BTL_STYLE_ROTATION 3
 
 // Swan's names for these two take the main module, whose first field points to the BtlSetup
 u32 BtlSetup_GetBattleStyle(BtlMainModule *mainModule);

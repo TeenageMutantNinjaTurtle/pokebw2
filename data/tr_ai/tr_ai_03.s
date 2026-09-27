@@ -1,4 +1,4 @@
-    .include "asm/tr_ai.inc"
+#include "asm/tr_ai.inc"
 
 TrAI03_0000:
     if_target_is_ally TrAI03_002E

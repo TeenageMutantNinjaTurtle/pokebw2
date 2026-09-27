@@ -1,4 +1,4 @@
-    .include "asm/tr_ai.inc"
+#include "asm/tr_ai.inc"
 
 TrAI12_0000:
     nop_62
