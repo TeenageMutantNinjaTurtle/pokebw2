@@ -505,7 +505,7 @@ data_ov173_021a716c kind:data(any) addr:0x021a716c
 data_ov173_021a7190 kind:data(any) addr:0x021a7190
 data_ov173_021a71c4 kind:data(any) addr:0x021a71c4
 data_ov173_021a71cc kind:data(any) addr:0x021a71cc
-data_ov173_021a71d8 kind:data(any) addr:0x021a71d8 ambiguous
+WIFICLUB_PROC_FUNCTIONS kind:data(any) addr:0x021a71d8 ambiguous
 data_ov173_021a71e4 kind:data(any) addr:0x021a71e4
 data_ov173_021a71f4 kind:data(any) addr:0x021a71f4
 data_ov173_021a71f9 kind:data(any) addr:0x021a71f9 ambiguous

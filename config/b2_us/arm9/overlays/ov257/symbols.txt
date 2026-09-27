@@ -794,7 +794,7 @@ data_ov257_021b2674 kind:data(any) addr:0x021b2674
 data_ov257_021b2680 kind:data(any) addr:0x021b2680
 data_ov257_021b2694 kind:data(any) addr:0x021b2694
 data_ov257_021b26a4 kind:data(any) addr:0x021b26a4
-data_ov257_021b26bc kind:data(any) addr:0x021b26bc ambiguous
+COMM_TVT_PROC_FUNCTIONS kind:data(any) addr:0x021b26bc ambiguous
 data_ov257_021b26c8 kind:data(any) addr:0x021b26c8
 data_ov257_021b26d8 kind:data(any) addr:0x021b26d8
 data_ov257_021b26e8 kind:data(any) addr:0x021b26e8

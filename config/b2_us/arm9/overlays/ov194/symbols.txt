@@ -528,7 +528,7 @@ data_ov194_021c6398 kind:data(any) addr:0x021c6398
 POKEMONTRADE_PROC_FUNCTIONS kind:data(any) addr:0x021c63a0
 data_ov194_021c63ac kind:data(any) addr:0x021c63ac
 data_ov194_021c63b8 kind:data(any) addr:0x021c63b8
-data_ov194_021c63c4 kind:data(any) addr:0x021c63c4
+POKEMONTRADE_WIFICLUB_PROC_FUNCTIONS kind:data(any) addr:0x021c63c4
 data_ov194_021c63d0 kind:data(any) addr:0x021c63d0
 data_ov194_021c63dc kind:data(any) addr:0x021c63dc
 data_ov194_021c63e8 kind:data(any) addr:0x021c63e8

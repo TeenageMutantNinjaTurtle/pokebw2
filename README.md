@@ -127,6 +127,8 @@ Things that affect whether MWCC output matches:
 - Identical statements in different branches are merged, so a branch that jumps into the middle of another block had
   the same code in the source. For example, `if (a) { x = 3; y = 19; } else { x = 0; y = 19; }` compiles differently
   from `x = a ? 3 : 0; y = 19;`.
+- `static const` data goes in `.rodata`, so a table that the original has in `.data` is not `const`. The module
+  check fails if a table ends up in the wrong section, even when every function matches.
 - `a == 4 || a == 5` becomes a range check. Separate comparisons that jump to the same code come from separate
   branches with the same body.
 
