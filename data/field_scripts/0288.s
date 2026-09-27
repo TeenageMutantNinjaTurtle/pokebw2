@@ -26,7 +26,7 @@ Script_1:
     Plugin3_Cmd1017
     Plugin3_Cmd1019 0
     Plugin3_Cmd1019 255
-    SEPlay 2229
+    SEPlay SEQ_SE_SW_CHAMPIRIS_01
     VMSleep 60
     ActorCmdExec 0, Movement_044C
     ActorCmdWait
@@ -51,7 +51,7 @@ L_00A1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     FunfestBGMReturn
     EvCameraInit
@@ -180,14 +180,14 @@ L_027F:
     EvCameraRebind
     EvCameraEnd
     Plugin3_Cmd1018
-    SEPlay 2230
-    SEPlay 2234
+    SEPlay SEQ_SE_SW_CHAMPIRIS_02
+    SEPlay SEQ_SE_SW_CHAMPIRIS_06
     VMSleep 130
-    SEPlay 2231
+    SEPlay SEQ_SE_SW_CHAMPIRIS_03
     VMSleep 105
-    SEPlay 2232
+    SEPlay SEQ_SE_SW_CHAMPIRIS_04
     VMSleep 77
-    SEPlay 2233
+    SEPlay SEQ_SE_SW_CHAMPIRIS_05
     VMSleep 58
     VMSleep 16
     ActorCmdExec 0, Movement_04D4

@@ -5,7 +5,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x4165
     VMStackPushConst 0

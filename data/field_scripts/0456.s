@@ -11,10 +11,10 @@ Script_1:
     WordSetPlayerName 0
     WordSetLoadRivalName 1
     PlayerGetGPos 0x8021, 0x8022
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorNew 21, 0x8022, 0, 251, 291, 0
     SEWait
-    BGMPlay 1237
+    BGMPlay SEQ_BGM_E_HUE
     // "Wait up![f000]븁\u0000"
     InfoMsg 0, 2
     InfoMsgClose_0039
@@ -79,7 +79,7 @@ L_00E8:
     MsgWinCloseAll
     ActorWalkRoute 251, 21, 0x8022, 1, 8, 0
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 251
     SEWait
     BGMChangeMap

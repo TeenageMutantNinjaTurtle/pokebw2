@@ -15,7 +15,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm very particular about a\nPokémon's Speed!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -27,7 +27,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2772
     VMStackPushConst 0

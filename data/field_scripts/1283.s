@@ -24,7 +24,7 @@
     WorkSetConst 0x8020, 0
 
 L_0058:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Look!\nYou've found a narrow path![f000]븁\u0000\nWill you follow it?"
     SystemMsg 0, 2
     YesNoWin 0x8010
@@ -35,7 +35,7 @@ L_0058:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0089
     Cmd_02C5 27
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     HiddenHollowCallWarpIn 0x8020
 
 L_0089:

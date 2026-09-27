@@ -89,7 +89,7 @@ L_0128:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Cmd_02B2 0, 0x400f
     VMStackPush 0x400f
@@ -286,7 +286,7 @@ Script_2:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0413
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "So cool, isn't it?[f000]븁\u0000\nThat strong figure standing\nthere in the background!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -295,7 +295,7 @@ Script_2:
     VMJump L_0427
 
 L_0413:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, I'm so sorry.[f000]븁\u0000\nBrycen decided to try to\nreturn to his acting roots.[f000]븁\u0000\nCurrently, he's working hard at\nPokéstar Studios!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -309,7 +309,7 @@ L_0427:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Former Icirrus City\nPokémon Gym"
     InfoMsg 7, 2
     LastKeyWait
@@ -320,7 +320,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1743
+    SEPlay SEQ_SE_FLD_64
     Cmd_018F 0
     Cmd_0190 0
     VMStackPush 0x4001
@@ -344,7 +344,7 @@ L_04A5:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1743
+    SEPlay SEQ_SE_FLD_64
     Cmd_018F 1
     Cmd_0190 1
     VMStackPush 0x4002
@@ -368,7 +368,7 @@ L_050E:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1743
+    SEPlay SEQ_SE_FLD_64
     Cmd_018F 2
     Cmd_0190 2
     VMStackPush 0x4003

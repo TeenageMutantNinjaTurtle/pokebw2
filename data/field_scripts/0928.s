@@ -21,7 +21,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x4108
     VMStackPushConst 5
@@ -40,7 +40,7 @@ Script_2:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_011A
     MsgWinCloseAll
-    SEPlay 2017
+    SEPlay SEQ_SE_ARDEMO_01
     SEWait
     // "Refreshed!![f000]븁\u0000\nI'm 100% rehydrated!\nI feel better now! Thank you![f000]븁\u0000\nI'll dash to the next bridge!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 1, 0
@@ -121,7 +121,7 @@ Movement_0188:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This is what the undersea world\nlooks like![f000]븁\u0000\nI've never seen this before,\nbecause I can't swim![f000]븁\u0000\nI'd given up on seeing this.\nI'm so moved!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 1, 0
@@ -133,7 +133,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This place is like a walk-through\naquarium, but isn't this a place[f000]븀\u0000\nfor Pokémon to see us?"
     ParentActorMsg MSGFILE_SCRIPT, 5, 1, 0
@@ -145,7 +145,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Wow!\nIt's an ocean trench![f000]븁\u0000\nSo deep!\nMaybe six miles deep?"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -157,7 +157,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "That's right... It's deep...\nLove is infinitely deep..."
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -169,7 +169,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Rain Dance is a move to use\nwith a feeling of yearning.[f000]븁\u0000\nAs for when to use it...[f000]븁\u0000\nSigh... What's wrong with me?\nI can't think of any gripping ideas.[f000]븁\u0000\nWith a condition like this,\nI can't explain well on TV."
     ParentActorMsg MSGFILE_SCRIPT, 8, 1, 0
@@ -181,7 +181,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 389
     VMStackPushConst 0

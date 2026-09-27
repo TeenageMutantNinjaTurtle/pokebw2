@@ -93,7 +93,7 @@ L_0142:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0178
-    MEPlay 1316
+    MEPlay SEQ_ME_HYOUKA6
     VMJump L_017E
 
 L_0178:
@@ -106,7 +106,7 @@ L_017E:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_01A3
-    MEPlay 1316
+    MEPlay SEQ_ME_HYOUKA6
     VMJump L_01A9
 
 L_01A3:
@@ -120,7 +120,7 @@ L_01AB:
     VMStackPushConst 39
     VMStackCmp CMP_LE
     VMJumpIf CMP_STACK, L_01C8
-    MEPlay 1311
+    MEPlay SEQ_ME_HYOUKA1
     VMJump L_0240
 
 L_01C8:
@@ -128,7 +128,7 @@ L_01C8:
     VMStackPushConst 99
     VMStackCmp CMP_LE
     VMJumpIf CMP_STACK, L_01E5
-    MEPlay 1312
+    MEPlay SEQ_ME_HYOUKA2
     VMJump L_0240
 
 L_01E5:
@@ -136,7 +136,7 @@ L_01E5:
     VMStackPushConst 149
     VMStackCmp CMP_LE
     VMJumpIf CMP_STACK, L_0202
-    MEPlay 1313
+    MEPlay SEQ_ME_HYOUKA3
     VMJump L_0240
 
 L_0202:
@@ -144,7 +144,7 @@ L_0202:
     VMStackPushConst 199
     VMStackCmp CMP_LE
     VMJumpIf CMP_STACK, L_021F
-    MEPlay 1314
+    MEPlay SEQ_ME_HYOUKA4
     VMJump L_0240
 
 L_021F:
@@ -152,11 +152,11 @@ L_021F:
     VMStackPushConst 249
     VMStackCmp CMP_LE
     VMJumpIf CMP_STACK, L_023C
-    MEPlay 1315
+    MEPlay SEQ_ME_HYOUKA5
     VMJump L_0240
 
 L_023C:
-    MEPlay 1315
+    MEPlay SEQ_ME_HYOUKA5
 
 L_0240:
     VMReturn
@@ -165,7 +165,7 @@ L_0240:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0265
-    MEPlay 1316
+    MEPlay SEQ_ME_HYOUKA6
     VMJump L_02FA
 
 L_0265:
@@ -173,7 +173,7 @@ L_0265:
     VMStackPushConst 159
     VMStackCmp CMP_LE
     VMJumpIf CMP_STACK, L_0282
-    MEPlay 1311
+    MEPlay SEQ_ME_HYOUKA1
     VMJump L_02FA
 
 L_0282:
@@ -181,7 +181,7 @@ L_0282:
     VMStackPushConst 349
     VMStackCmp CMP_LE
     VMJumpIf CMP_STACK, L_029F
-    MEPlay 1312
+    MEPlay SEQ_ME_HYOUKA2
     VMJump L_02FA
 
 L_029F:
@@ -189,7 +189,7 @@ L_029F:
     VMStackPushConst 449
     VMStackCmp CMP_LE
     VMJumpIf CMP_STACK, L_02BC
-    MEPlay 1313
+    MEPlay SEQ_ME_HYOUKA3
     VMJump L_02FA
 
 L_02BC:
@@ -197,7 +197,7 @@ L_02BC:
     VMStackPushConst 549
     VMStackCmp CMP_LE
     VMJumpIf CMP_STACK, L_02D9
-    MEPlay 1314
+    MEPlay SEQ_ME_HYOUKA4
     VMJump L_02FA
 
 L_02D9:
@@ -205,11 +205,11 @@ L_02D9:
     VMStackPushConst 633
     VMStackCmp CMP_LE
     VMJumpIf CMP_STACK, L_02F6
-    MEPlay 1315
+    MEPlay SEQ_ME_HYOUKA5
     VMJump L_02FA
 
 L_02F6:
-    MEPlay 1315
+    MEPlay SEQ_ME_HYOUKA5
 
 L_02FA:
     VMReturn

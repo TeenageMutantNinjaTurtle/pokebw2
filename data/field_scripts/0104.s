@@ -81,7 +81,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8020, 0
     WorkSetConst 0x8021, 0
@@ -138,7 +138,7 @@ L_021D:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 228
     VMStackPushConst 0
@@ -208,7 +208,7 @@ L_0309:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Some guests like to tell really long\nstories, and they just keep talking[f000]븀\u0000\nuntil they hear a whistle!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -220,7 +220,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Royal Unova's renowned observation\ndeck is just ahead."
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -238,7 +238,7 @@ Script_6:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0382
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you’re looking in the cabins with\nblue doors for someone to battle,[f000]븀\u0000\nyou’ll find only one Trainer there today."
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -248,7 +248,7 @@ Script_6:
 
 L_0382:
     WordSetNumber 2, 0x8024, 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It seems the number of Trainers in the\ncabins with blue doors today is [f000]Ȁ\u0001\u0002."
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -262,7 +262,7 @@ L_039D:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It's running on the ocean!\nWhat a peculiar thing to see!"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -274,7 +274,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I can't make up my mind whether to go to\nthe observation deck or battle some[f000]븀\u0000\nTrainers in the cabins."
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -286,7 +286,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm running with the rhythm of the waves,\nbut it's a real challenge!"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -298,7 +298,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Having battles on the ship and seeing\nthe scenery from the deck...[f000]븀\u0000\nThis ship is the best!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -310,7 +310,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I've been wondering which cabin to enter\nthis whole time!"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -481,7 +481,7 @@ L_05CE:
     VMJumpIf CMP_STACK, L_0627
     WorkSetConst 0x8028, 1
     Cmd_01A1 0x4000, 7, 0x8028, 0x8026
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x8026, 0, 0
     LastKeyWait
@@ -497,7 +497,7 @@ L_0627:
     Cmd_01A1 0x4000, 7, 0x8028, 0x8026
     Cmd_01A1 0x4000, 6, 0, 0x8027
     DebugPrint 0x8027
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x8026, 0, 0
     ActorMsgClose
@@ -534,7 +534,7 @@ L_06D2:
 L_06D8:
     WorkSetConst 0x8028, 1
     Cmd_01A1 0x4000, 7, 0x8028, 0x8026
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x8026, 0, 0
     LastKeyWait
@@ -547,7 +547,7 @@ L_06FE:
     WorkSetConst 0x802b, 0
     Cmd_01A1 0x4000, 7, 0, 0x802b
     DebugPrint 0x802b
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x802b, 0, 0
     LastKeyWait
@@ -558,14 +558,14 @@ L_06FE:
 L_072E:
     WorkSetConst 0x802c, 0
     Cmd_01A1 0x4000, 7, 0, 0x802c
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x802c, 0, 0
     ActorMsgClose
-    SEPlay 1757
+    SEPlay SEQ_SE_FLD_78
     SEWait
     Cmd_01A1 0x4000, 7, 1, 0x802c
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x802c, 0, 0
     LastKeyWait
@@ -575,7 +575,7 @@ L_072E:
 
 Script_28:
     ActorsPauseAll
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     FadeOutBlackQ
     SEWait
     FadeWait
@@ -590,7 +590,7 @@ Script_28:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_07CB
-    SEPlay 1757
+    SEPlay SEQ_SE_FLD_78
     SEWait
     // "Thank you for sailing with us.[f000]븁\u0000\nThis cruise ship will arrive\nin Castelia City shortly.[f000]븁\u0000"
     SystemMsg 67, 2

@@ -68,7 +68,7 @@ L_00DF:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Striaton City\nThree Stand Together as One!"
     MsgPlaceSign 26, 1
     MsgPlaceSignClose
@@ -79,7 +79,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Dreamyard Ahead"
     MsgPlaceSign 27, 2
     MsgPlaceSignClose
@@ -90,7 +90,7 @@ Script_3:
 Script_4:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Trainers' School\nBrush up on Pokémon knowledge!"
     MsgPlaceSign 28, 2
     MsgPlaceSignClose
@@ -100,7 +100,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a well-kept flower bed.[f000]븁\u0000\nSomeone who loves plants\nmust be taking care of it."
     InfoMsg 29, 2
     LastKeyWait
@@ -181,7 +181,7 @@ Script_8:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_OR
     VMJumpIf CMP_STACK, L_0276
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Right now, the hot thing is\nStriaton City's Stunfisk nights![f000]븁\u0000\nA huge school of them gathers.\nIt's a sight that's hard to describe.[f000]븁\u0000\nYou have to be careful not to\nstep on them."
     ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
@@ -190,7 +190,7 @@ Script_8:
     VMJump L_028A
 
 L_0276:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Recently, you can see Stunfisk\nin this pond when the sun goes down!"
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
@@ -201,7 +201,7 @@ L_028A:
     VMJump L_02A4
 
 L_0290:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Summer's so far away. I want to see\nagain the sight I saw that night."
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
@@ -215,7 +215,7 @@ L_02A4:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 618, 0
     // "Unn unnn?!"
@@ -229,7 +229,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Well, I'll be!\nThose are some sparkling Gym Badges![f000]븁\u0000\nAnd you have eight of them, too![f000]븁\u0000\nThose Badges shine so brightly, it's like\nyou're gleaming as much as they are!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -241,7 +241,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I still haven't defeated the\nStriaton City Gym Leaders...[f000]븁\u0000\nBut that's all right.[f000]븁\u0000\nI'm going to become such a strong\nTrainer, they'll want to challenge me!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -253,7 +253,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If a Pokémon type and a move type are\nthe same, the move's power will increase![f000]븁\u0000\nIf the Pokémon is holding a gem of that\ntype, the move's power goes up yet more!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -265,7 +265,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "From the factory's once-busy days, many\ndreams still linger in the Dreamyard.[f000]븁\u0000\nA Pokémon led there by those dreams\nmay be somewhere about."
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -277,7 +277,7 @@ Script_13:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "When I explain to someone what I learned\nat school, I'm more connected to people,[f000]븀\u0000\nthanks to Pokémon!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -289,7 +289,7 @@ Script_14:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Technical Machines can be used\nover and over, right?[f000]븁\u0000\nI tried so many different things!\nIt's sure hard to decide, eh?"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -301,7 +301,7 @@ Script_15:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Random 0x4000, 3
     VMStackPush 0x4000
@@ -342,7 +342,7 @@ L_03F3:
 
 Script_17:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Gym is gone, but the Dreamyard still\nbustles with Trainers looking to improve!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -354,7 +354,7 @@ Script_17:
 
 Script_18:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, my!\nYour Medal Box...[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
@@ -419,7 +419,7 @@ L_04E8:
 
 Script_19:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This is a delicious restaurant where\nyou can also enjoy Pokémon battles![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0

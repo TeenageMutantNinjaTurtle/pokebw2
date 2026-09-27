@@ -41,7 +41,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -56,7 +56,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -71,7 +71,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a subway map of the Unova region.[f000]븁\u0000"
     InfoMsg 0, 2
     MsgWinCloseAll

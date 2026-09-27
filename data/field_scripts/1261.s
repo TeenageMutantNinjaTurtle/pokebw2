@@ -21,7 +21,7 @@ L_0031:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMCall L_004D
     FinishAllEvents
@@ -52,7 +52,7 @@ L_007C:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_00C2
-    MEPlay 1302
+    MEPlay SEQ_ME_ITEM
     // "[f000]Ā\u0001\u0000 received\nthe item(s)!"
     SystemMsg 3, 0
     MEWait

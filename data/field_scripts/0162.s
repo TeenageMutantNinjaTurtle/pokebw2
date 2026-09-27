@@ -120,7 +120,7 @@ L_01FE:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Athletes who score points, and athletes\nwho support them...[f000]븁\u0000\nDetermining their different roles is the\nkey to building a team!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
@@ -131,7 +131,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Football is a fun sport that is divided\ninto offense and defense."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
@@ -142,7 +142,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "His... Those eyes...[f000]븁\u0000\nIt looks like he's coming\nright at me!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
@@ -153,7 +153,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "The helmet and pads weigh\n15 to 18 pounds!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
@@ -164,7 +164,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "I've trained and built up my muscles\nby tackling Pokémon![f000]븁\u0000\nNothing can move me!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
     LastKeyWait
@@ -175,7 +175,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "OK! I will defend to the end with moves\nlike Protect and Detect!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
     LastKeyWait
@@ -186,7 +186,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "My favorite moves?[f000]븁\u0000\n...Hmm.\nI'd say Tackle and Take Down."
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     LastKeyWait
@@ -197,7 +197,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Reading your opponent's attack and\ndeciding your next move...[f000]븁\u0000\nBoth Pokémon battles and football have\nthe same thrill!"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
@@ -208,7 +208,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "The appeal of football?\nLet me see...[f000]븁\u0000\nFirst, just watch a game without thinking\nabout the rules!"
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait
@@ -219,7 +219,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "I'll protect my team with my whole body\nto avoid our opponents' interference!"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
@@ -230,7 +230,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "In football, the quarterback is the\nathlete who decides a strategy and[f000]븀\u0000\ncarries it out.[f000]븁\u0000\nHe's kind of like a Pokémon Trainer!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     LastKeyWait
@@ -241,7 +241,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "In football, you have to learn each and\nevery formation by heart!"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
     LastKeyWait
@@ -252,7 +252,7 @@ Script_13:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The ball used in football is oval-shaped\nand hard to throw, isn't it?[f000]븁\u0000\nBut once you get the hang of it, you can\nthrow it perfectly!"
     ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
@@ -264,7 +264,7 @@ Script_14:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I am a greeeeeat secret weapon![f000]븁\u0000\nThe only problem is, I am so secret that\nI've never been in a game..."
     ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
@@ -276,7 +276,7 @@ Script_15:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Yoo-hoo! Pass me the ball!"
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
@@ -288,7 +288,7 @@ Script_16:
 
 Script_17:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Bodies crashing into other bodies!\nGo, go, go![f000]븁\u0000\nI am the owner. That’s what\nI like to see."
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
@@ -300,7 +300,7 @@ Script_17:
 
 Script_18:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 511, 0
     // "Ook!"
@@ -314,7 +314,7 @@ Script_18:
 
 Script_19:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 513, 0
     // "Ookiii!"
@@ -328,7 +328,7 @@ Script_19:
 
 Script_20:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 515, 0
     // "Ook! Ook!"

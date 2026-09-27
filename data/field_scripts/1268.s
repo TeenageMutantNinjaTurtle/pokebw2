@@ -26,7 +26,7 @@ Script_1:
     ActorsPauseAll
     WorkSetConst 0x8022, 0
     Cmd_0167 0, 0, 0, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Welcome to the Pokémon Musical![f000]븁\u0000\nHere you can participate in\na musical alone.[f000]븁\u0000\nWould you like to participate?"
     ActorMsg MSGFILE_SCRIPT, 0, 0x8011, 2, 0
@@ -59,7 +59,7 @@ L_00DF:
     Cmd_02C5 5
     FunfestBGMReturn
     VMCall L_0B9C
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     FadeOutBlackQ
     SEWait
     FadeWait
@@ -80,7 +80,7 @@ Script_2:
     ActorsPauseAll
     WorkSetConst 0x8022, 0
     Cmd_0167 0, 0, 0, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMCall L_0206
     FinishAllEvents
@@ -91,7 +91,7 @@ Script_3:
     ActorsPauseAll
     WorkSetConst 0x8022, 1
     Cmd_0167 0, 0, 0, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Welcome to the Pokémon Musical![f000]븁\u0000\nThis is a changing room for Dress Up only.\nWould you like to Dress Up your Pokémon?"
     ActorMsg MSGFILE_SCRIPT, 56, 0x8011, 2, 0
@@ -110,7 +110,7 @@ Script_3:
     ActorMsgClose
     FunfestBGMReturn
     VMCall L_0BC8
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     FadeOutBlackQ
     BGMPush 6
     FadeWait
@@ -439,7 +439,7 @@ L_0682:
     Cmd_02C5 5
     FunfestBGMReturn
     VMCall L_0BB2
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     FadeOutBlackQ
     SEWait
     FadeWait
@@ -834,7 +834,7 @@ Movement_0C60:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Which show would you like\nto participate in?"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -870,7 +870,7 @@ L_0CF1:
     WorkSetConst 0x802e, 0
     WorkSetConst 0x802f, 0
     WorkSetConst 0x8030, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     MusicalCmd_0166 0x8020, 0, 0x802d
     VMStackPush 0x802d
@@ -1015,7 +1015,7 @@ Script_17:
     ActorsPauseAll
     WordSetPlayerName 0
     WordSetMusicalInfo 1, 1, 0x8008
-    MEPlay 1308
+    MEPlay SEQ_ME_ACCE
     // "Received the [f000][ff00]\u0001\u0002[f000]Ċ\u0001\u0001[f000][ff00]\u0001\u0000!"
     SystemMsg 26, 0
     MEWait

@@ -10,7 +10,7 @@ Script_1:
     ActorsPauseAll
     WorkSetConst 0x8023, 0
     WorkSetConst 0x8024, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WorkSetConst 0x8023, 1
     WorkSetConst 0x8024, 0
     WorkSetConst 0x8022, 0

@@ -56,7 +56,7 @@ L_00CB:
     VMHalt
 
 L_00CD:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     Cmd_0230 0x8020, 0
     VMStackPush 0x418f
     VMStackPushConst 2
@@ -361,7 +361,7 @@ Movement_04A4:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     SEWait
     ActorCmdExec 255, Movement_04D0
     FadeInBlack
@@ -378,7 +378,7 @@ Movement_04D0:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     SEWait
     ActorCmdExec 255, Movement_04F8
     FadeInBlack

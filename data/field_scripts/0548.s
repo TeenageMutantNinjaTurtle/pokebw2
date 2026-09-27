@@ -61,7 +61,7 @@ Script_11:
     VMSleep 40
     ActorCmdExec 255, Movement_028C
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 251
     SEWait
     EvCameraWait
@@ -94,7 +94,7 @@ Script_10:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a slightly dirty basketball.\nThe name “Harmonia\" is written on it."
     InfoMsg 5, 2
     LastKeyWait
@@ -105,7 +105,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a home-style basketball hoop.\nIt's been knocked over."
     InfoMsg 6, 2
     LastKeyWait
@@ -116,7 +116,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a toy box, but its contents\nhave spilled out."
     InfoMsg 7, 2
     LastKeyWait
@@ -127,7 +127,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "The rubber of these wheels\nhas rotted away."
     InfoMsg 8, 2
     LastKeyWait
@@ -138,7 +138,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "A halfpipe for skateboards...[f000]븁\u0000\nIt has Pokémon scratch marks\non it here and there..."
     InfoMsg 9, 2
     LastKeyWait
@@ -149,7 +149,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "An art panel with a\nprinted geometric pattern."
     InfoMsg 10, 2
     LastKeyWait
@@ -160,7 +160,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "This panel has a dart stuck in it."
     InfoMsg 11, 2
     LastKeyWait
@@ -171,7 +171,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a set of trains and tracks.\nIt hasn't been touched in a long time."
     InfoMsg 12, 2
     LastKeyWait
@@ -182,7 +182,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "This toy box has been tipped over."
     InfoMsg 13, 2
     LastKeyWait

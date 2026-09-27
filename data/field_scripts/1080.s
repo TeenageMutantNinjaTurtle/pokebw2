@@ -121,7 +121,7 @@ L_01C6:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 485, 0
     // "Gwogobo gwobobobo!"

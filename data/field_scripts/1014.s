@@ -6,7 +6,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, Trainer!\nWant to ride this mining cart?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -22,7 +22,7 @@ Script_1:
     ActorCmdExec 7, Movement_00AC
     FadeWait
     ActorCmdWait
-    SEPlay 2225
+    SEPlay SEQ_SE_SW_YACONROAD_01
     SEWait
     FlagSet 951
     FlagReset 948

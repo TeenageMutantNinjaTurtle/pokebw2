@@ -8,7 +8,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Bianca: Know what?\nI'm here at Professor Juniper's request![f000]븁\u0000\nI'm researching a Pokémon\ncalled Tynamo![f000]븁\u0000\nBut there aren't very many,\nand they don't seem very strong..."
     ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
@@ -28,7 +28,7 @@ Script_2:
     VMJump L_0067
 
 L_0051:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "That's a Nugget![f000]븁\u0000\nHow'd it get so golden without\ndeep-frying? Trade secret!"
     ActorMsg MSGFILE_SCRIPT, 5, 2, 0, 0
@@ -50,7 +50,7 @@ Script_3:
     VMJump L_00A4
 
 L_008E:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Nuggetaboutit!"
     ActorMsg MSGFILE_SCRIPT, 6, 1, 0, 0
@@ -63,7 +63,7 @@ L_00A4:
     VMHalt
 
 Script_4:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     PlayerGetDir 0x8010
     WorkCmpConst 0x8010, 2
     VMJumpIf CMP_EQ, L_00C5

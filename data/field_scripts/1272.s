@@ -106,7 +106,7 @@ L_0161:
     DebugPrint 0x8023
     DebugPrint 0x8026
     DebugPrint 0x8025
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -124,7 +124,7 @@ L_0161:
     VMStackPop 0x8001
     VMStackPop 0x8000
     ActorMsgClose
-    BGMPlay 1103
+    BGMPlay SEQ_BGM_E_KANRANSYA
     ActorCmdExec 0x8011, Movement_09E4
     ActorCmdWait
     WorkSetConst 0x8028, 9
@@ -439,7 +439,7 @@ L_069B:
     WorkSetConst 0x8023, 229
     WorkAdd 0x8023, 0x8035
     FlagGet 0x8023, 0x8025
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMCall L_0701
     WorkSetConst 0x8035, 0
@@ -562,7 +562,7 @@ L_08BE:
     VMStackPop 0x8001
     VMStackPop 0x8000
     ActorMsgClose
-    BGMPlay 1103
+    BGMPlay SEQ_BGM_E_KANRANSYA
     ActorCmdExec 0x8011, Movement_09E4
     ActorCmdWait
     WorkGet 0x8037, 0x8021
@@ -704,7 +704,7 @@ L_0B42:
 
 L_0B62:
     WorkSetConst 0x803d, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WordSetPlayerName 0
     ActorCmdExec 0x8011, Movement_0CF0
@@ -714,7 +714,7 @@ L_0B62:
     ActorMsgGendered 1024, 110, 115, 0x8011, 0, 0
     MsgWinCloseAll
     TrainerCardGetSex 0x803d
-    SEPlay 2017
+    SEPlay SEQ_SE_ARDEMO_01
     WorkCmpConst 0x803d, 0
     VMJumpIf CMP_EQ, L_0BA6
     VMJump L_0BB2
@@ -779,7 +779,7 @@ L_0C59:
     VMJump L_0C65
 
 L_0C65:
-    SEPlay 2177
+    SEPlay SEQ_SE_SW_LC_NO
     SEWait
     InfoMsgClose
     // "Can I ask you one more thing?[f000]븁\u0000\nI called you on the Xtransceiver\ntoo often, and Ma...[f000]븀\u0000\nI mean one of my coworkers...[f000]븀\u0000\ngot really mad at me...[f000]븁\u0000\nSo, [f000]Ā\u0001\u0000,\ncould you call me?[f000]븁\u0000\n...[f000]븁\u0000\nWhat? Really? Thanks...[f000]븁\u0000\n[f000]Ā\u0001\u0000, you're really nice.[f000]븁\u0000\nHee hee...[f000]븁\u0000\nI'm usually at work, and sometimes\nI have trouble picking up a signal...[f000]븁\u0000\nBut I'd like it if you check your\nXtransceiver often and give me a call...[f000]븁\u0000\nAh ha ha![f000]븁\u0000\nWell, I'll be heading home!\nGood-bye, [f000]Ā\u0001\u0000![f000]븁\u0000"

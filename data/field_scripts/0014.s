@@ -191,7 +191,7 @@ L_02C1:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_02EE
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Eeeooow! You're intense![f000]븁\u0000\nBattling together with you\ngot me all fired up, man![f000]븀\u0000\nCome battle again sometime!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -200,7 +200,7 @@ L_02C1:
     VMJump L_0302
 
 L_02EE:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You look like you'd be fun to\nbattle together with![f000]븀\u0000\nAll right! Team up with me tomorrow!"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -220,7 +220,7 @@ L_031B:
     VMStackPushConst 2
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0348
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Battling together with you helped\nme find new potential in myself.[f000]븀\u0000\nThat's what I think.[f000]븁\u0000\nI'd like it if you were to team up\nwith me tomorrow as well."
     ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
@@ -229,7 +229,7 @@ L_031B:
     VMJump L_035C
 
 L_0348:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Losing made me realize something.[f000]븁\u0000\nIf I were to team up with you,\nour onslaught would be like a torrent!"
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
@@ -249,7 +249,7 @@ L_0375:
     VMStackPushConst 3
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_03A2
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "...What a surprise.\nYou...are very strong.[f000]븁\u0000\nWould you team up with me again sometime?\nThere's still much I want to learn."
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
@@ -258,7 +258,7 @@ L_0375:
     VMJump L_03B6
 
 L_03A2:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "During the battle I was so\ntaken with your fighting style,[f000]븁\u0000\nI almost lost the timing for\ngiving my Pokémon directions![f000]븁\u0000\nNext time, I would like to\nteam up with you."
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
@@ -272,7 +272,7 @@ L_03BC:
     VMJump L_0B3F
 
 L_03C2:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkCmpConst 0x400a, 1
     VMJumpIf CMP_EQ, L_03DB
@@ -784,7 +784,7 @@ L_0BA4:
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_0C0C
     WorkSetConst 0x4196, 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Let us tell you why the Trio Badge\nno longer exists![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 45, 0, 0
@@ -796,7 +796,7 @@ L_0C0C:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0C3D
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hey! You've got the...\nOh yeah...[f000]븀\u0000\nThere's no Trio Badge now!"
     ParentActorMsg MSGFILE_SCRIPT, 44, 0, 0
@@ -810,7 +810,7 @@ L_0C3D:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0C64
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hey! You've got the...\nOh yeah...[f000]븀\u0000\nThere's no Trio Badge now!"
     ParentActorMsg MSGFILE_SCRIPT, 44, 0, 0
@@ -838,7 +838,7 @@ L_0C6A:
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_0CD2
     WorkSetConst 0x4196, 2
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "A day that's important to me, Cress...[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 48, 0, 0
@@ -850,7 +850,7 @@ L_0CD2:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0D03
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I hope today is a special day for you."
     ParentActorMsg MSGFILE_SCRIPT, 47, 0, 0
@@ -864,7 +864,7 @@ L_0D03:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0D2A
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I hope today is a special day for you."
     ParentActorMsg MSGFILE_SCRIPT, 47, 0, 0
@@ -892,7 +892,7 @@ L_0D30:
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_0D98
     WorkSetConst 0x4196, 3
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Well, why don't I tell you\nwhat happened...[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 51, 0, 0
@@ -904,7 +904,7 @@ L_0D98:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0DC9
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Welcome to Striaton Restaurant![f000]븁\u0000\nThis place used to be a\nPokémon Gym, but a lot happened..."
     ParentActorMsg MSGFILE_SCRIPT, 50, 0, 0
@@ -918,7 +918,7 @@ L_0DC9:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0DF0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Welcome to Striaton Restaurant![f000]븁\u0000\nThis place used to be a\nPokémon Gym, but a lot happened..."
     ParentActorMsg MSGFILE_SCRIPT, 50, 0, 0
@@ -977,7 +977,7 @@ L_0E7F:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hello! I'm giving out water!"
     ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
@@ -989,7 +989,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Welcome![f000]븁\u0000\nThis is a lively restaurant where\nyou can enjoy a show!"
     ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
@@ -1125,7 +1125,7 @@ L_10C2:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_10EF
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You want to see the [f000]ā\u0001\u0001 again?[f000]븁\u0000\nThere are a lot of preparations and\nsuch to make, so come back tomorrow!"
     ParentActorMsg MSGFILE_SCRIPT, 39, 0, 0
@@ -1138,7 +1138,7 @@ L_10EF:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_11AB
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkCmpConst 0x418e, 0
     VMJumpIf CMP_EQ, L_111B
@@ -1188,7 +1188,7 @@ L_11A5:
     VMJump L_11BF
 
 L_11AB:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "OK! Find the [f000]ā\u0001\u0001 that\nI asked you to follow!"
     ParentActorMsg MSGFILE_SCRIPT, 34, 0, 0
@@ -1542,7 +1542,7 @@ L_17F0:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_1919
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkCmpConst 0x418e, 0
     VMJumpIf CMP_EQ, L_181C
@@ -1838,7 +1838,7 @@ L_1C0B:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 505, 0
     // "Waaatch!"
@@ -1852,7 +1852,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 505, 0
     // "Tch-hooog!"
@@ -1866,7 +1866,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh? This show doesn't\nfeature Patrat..."
     ParentActorMsg MSGFILE_SCRIPT, 42, 0, 0
@@ -1878,7 +1878,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Striaton City's triplets\nmake a fantastic combination![f000]븁\u0000\nThe user of Grass-type Pokémon, Cilan,\ncan pick the finest leaves.[f000]븁\u0000\nThe user of Water-type Pokémon, Cress,\ncan bring the finest water.[f000]븁\u0000\nThe user of Fire-type Pokémon, Chili, can\nheat water to the perfect temperature.[f000]븁\u0000\nNow I get it!\nThey can make the perfect tea!"
     ParentActorMsg MSGFILE_SCRIPT, 43, 0, 0

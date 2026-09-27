@@ -47,7 +47,7 @@ Movement_008C:
 Script_3:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Top stars always have such\ngreat faces...[f000]븁\u0000\n[f000]Ā\u0001\u0000, your eyelids\nshine brighter than any eye shadow![f000]븁\u0000\nJust like the boss when he\nwas younger..."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -60,7 +60,7 @@ Script_3:
 Script_4:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Top stars always have such\ngreat faces...[f000]븁\u0000\n[f000]Ā\u0001\u0000, your lips\nare glossier than any lipstick![f000]븁\u0000\nJust like the boss when he\nwas younger..."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -73,7 +73,7 @@ Script_4:
 Script_5:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hey, [f000]Ā\u0001\u0000,\nare you using your own Pokémon[f000]븀\u0000\nwhen you shoot movies?[f000]븁\u0000\nPokémon are actors, too![f000]븁\u0000\nIf they act well in movies, they'll\nalso become like shining stars!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -86,7 +86,7 @@ Script_5:
 Script_6:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm the guard for this room.\nI've been waiting for your arrival.[f000]븁\u0000\nWhen I was young, my boss was...[f000]븁\u0000\nMr. Brycen...[f000]븁\u0000\nYou're the third star\nto use this dressing room."
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -98,7 +98,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a lot of fan letters!"
     InfoMsg 5, 2
     LastKeyWait
@@ -109,7 +109,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's packed with worn-\nout, old movie scripts...[f000]븁\u0000\n“Shuckle-Berry Finneon\"[f000]븁\u0000\n“The Kricketune of Castelia Square\"[f000]븁\u0000\n“The Black Clamperl\"[f000]븁\u0000\n“Saint Geodude and the Dragonite\"[f000]븁\u0000\n“Make Way for Ducklett\"[f000]븁\u0000\n“The Boxcar Cinccino\"[f000]븁\u0000\n“The Trumpet of the Swanna\"[f000]븁\u0000\n“The Legend of Sleepy Drowzee\"[f000]븁\u0000\n“Little Wurmple\"[f000]븁\u0000\n“A Tale of Two Skitty\"[f000]븁\u0000\n“The Safari Zone Book\"[f000]븁\u0000\n“The Tale of Betty Buneary\"[f000]븁\u0000\n“One Basculin, Two Basculin,\nRed-Striped Basculin,[f000]븀\u0000\nBlue-Striped Basculin\"[f000]븁\u0000\n“The Empoleon's New Clothes\"[f000]븁\u0000\n“The Cobalion and the Sandshrew\"[f000]븁\u0000\n“The House at Foongus Corner\"[f000]븁\u0000\n“The Reluctant Dragonite\"[f000]븁\u0000\n“Three Little Tepig\"[f000]븁\u0000\n“Rip Van Dwebble\"[f000]븁\u0000\n“Galvantula's Travels\"[f000]븁\u0000\n“Galvantula's Travels 2:\nEelektrik Boogaloo\"[f000]븁\u0000\n“The Golett\"[f000]븁\u0000\n“The Pokey Little Lillipup\"[f000]븁\u0000\n“Enspoinklopedia Brown\"[f000]븁\u0000\n“Snivy in Ivyland\""
     InfoMsg 6, 2
     LastKeyWait
@@ -120,7 +120,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a huge mirror that looks\nlike it will reach the ceiling!"
     InfoMsg 7, 2
     LastKeyWait
@@ -131,7 +131,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "These vividly colored bottles\nare for makeup..."
     InfoMsg 8, 2
     LastKeyWait
@@ -142,7 +142,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "There are costumes with lamé fabric!\nThe gold gleams in the light!"
     InfoMsg 9, 2
     LastKeyWait
@@ -153,7 +153,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a costume made of gold lamé!\nIt gleams in the light![f000]븁\u0000\nThere's also a dress with a Swanna\nDoll that wraps around the waist!"
     InfoMsg 10, 2
     LastKeyWait

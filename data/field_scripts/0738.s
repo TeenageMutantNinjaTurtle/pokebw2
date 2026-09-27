@@ -16,7 +16,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "...I'm sorry.\nI ended up losing my uniform."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -28,7 +28,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I did my best to choose a Pokémon\nwho was both cute and strong!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -40,7 +40,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My Minccino!\nMy grandpa caught it for me![f000]븀\u0000\nTail Slap is its specialty!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -52,7 +52,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 572, 0
     // "Chichino! ♪"

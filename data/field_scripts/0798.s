@@ -12,7 +12,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Listen up! You Trainers should always\nkeep a smile on your face![f000]븁\u0000\nIf you're not smiling, your Pokémon might\nfeel like something's wrong, you know?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -24,7 +24,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Which Pokémon should hold what item...[f000]븁\u0000\nThere's no right answer,\nso it's hard to decide.[f000]븁\u0000\nStill, I like spending time thinking\nit over."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -36,7 +36,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Wow! A Pokémon!\nHow cool! I'm so jealous![f000]븁\u0000\nHa ha! Just kidding!\nI'm a Pokémon Trainer now![f000]븁\u0000\nJust like the Trainer from\nNuvema I met two years ago!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -48,7 +48,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 515, 0
     // "Paaan!"
@@ -62,7 +62,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 433
     VMStackPushConst 0

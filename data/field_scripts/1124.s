@@ -53,7 +53,7 @@ Script_1:
     VMJumpIf CMP_STACK, L_00FD
     WordSetPlayerName 0
     WordSetLoadRivalName 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "[f000]Ā\u0001\u0001: Go on ahead![f000]븁\u0000\nI'm going to make them tell me\nabout the Shadow Triad![f000]븁\u0000\nIf you find Purrloin or the Shadow Triad,\nlet me know!"
     ActorMsg MSGFILE_SCRIPT, 0, 4, 0, 0
@@ -79,7 +79,7 @@ L_00F3:
 L_00FD:
     WordSetPlayerName 0
     WordSetLoadRivalName 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "You...\nWhere are the Shadow Triad?"
     ActorMsg MSGFILE_SCRIPT, 1, 4, 0, 0
     LastKeyWait
@@ -92,7 +92,7 @@ L_0117:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Cretin! Don't interfere with\nTeam Plasma's conquest of Unova!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
     LastKeyWait
@@ -103,7 +103,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Struggle and squirm![f000]븁\u0000\nKyurem's ice is more powerful\nthan Reshiram's columns of fire[f000]븀\u0000\nor Zekrom's crackling lightning!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
     LastKeyWait
@@ -114,7 +114,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "H-he's terrifying!\nHe can't be human![f000]븁\u0000\nBut he has a silly-looking\nQwilfish hairstyle!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -126,7 +126,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "All of Unova will be\nfrozen with Kyurem's ice![f000]븁\u0000\nI wonder if Zinzolin will be OK...\nHe really doesn't like the cold."
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0

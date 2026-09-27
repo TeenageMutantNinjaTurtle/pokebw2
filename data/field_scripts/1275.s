@@ -13,12 +13,12 @@
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WordSetPlayerName 0
     WordSetLoadRivalName 1
     WorkSetConst 0x8008, 13
     WorkAdd 0x8008, 0x4181
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorMsg MSGFILE_SCRIPT, 0x8008, 254, 0, 0
     LastKeyWait
@@ -36,12 +36,12 @@ L_0073:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WordSetPlayerName 0
     WordSetLoadRivalName 1
     WorkSetConst 0x8008, 23
     WorkAdd 0x8008, 0x4174
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorMsg MSGFILE_SCRIPT, 0x8008, 254, 0, 0
     LastKeyWait
@@ -64,7 +64,7 @@ Script_3:
     VMStackPushConst 273
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_00F9
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "[f000]븉\u0001\u0001I remember...[f000]븁\u0000\nThis is the place where Anthea and\nConcordia took care of me as a human.[f000]븁\u0000\nThe Seven Sages all taught\nme many different things...[f000]븉\u0001\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -73,7 +73,7 @@ Script_3:
     VMJump L_010D
 
 L_00F9:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "[f000]븉\u0001\u0001I...want to see things no one can see.[f000]븉\u0001\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
@@ -87,11 +87,11 @@ L_010D:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WordSetPlayerName 0
     WorkSetConst 0x8008, 2
     WorkAdd 0x8008, 0x4195
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorMsg MSGFILE_SCRIPT, 0x8008, 254, 0, 0
     LastKeyWait

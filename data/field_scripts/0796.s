@@ -8,7 +8,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -23,7 +23,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -38,7 +38,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm looking at my PC Boxes and\ngoing over my journey so far.[f000]븁\u0000\nYou know, remembering when I met this\nPokémon or where I caught that one.[f000]븁\u0000\n...Just mulling over things like that.[f000]븁\u0000\nMaybe I'll change my party Pokémon\nand go back to one of those places again."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -50,7 +50,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh wow! A Pokédex!\nHey! How full is your Habitat List?"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0

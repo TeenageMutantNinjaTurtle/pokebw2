@@ -514,7 +514,7 @@ Movement_06EC:
 Script_12:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Badge Check Gate Ahead"
     MsgPlaceSign 18, 2
     MsgPlaceSignClose
@@ -525,7 +525,7 @@ Script_12:
 Script_13:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "The Pokémon League\nis through this tunnel!"
     MsgPlaceSign 19, 2
     MsgPlaceSignClose

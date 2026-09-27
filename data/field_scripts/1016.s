@@ -11,7 +11,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, Trainer!\nWant to ride this mining cart?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -27,7 +27,7 @@ Script_1:
     ActorCmdExec 8, Movement_037C
     FadeWait
     ActorCmdWait
-    SEPlay 2225
+    SEPlay SEQ_SE_SW_YACONROAD_01
     SEWait
     FlagSet 956
     FlagReset 950
@@ -48,7 +48,7 @@ L_0093:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, Trainer!\nWant to ride this mining cart?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -64,7 +64,7 @@ Script_2:
     ActorCmdExec 13, Movement_037C
     FadeWait
     ActorCmdWait
-    SEPlay 2225
+    SEPlay SEQ_SE_SW_YACONROAD_01
     SEWait
     FlagSet 957
     FlagReset 949
@@ -85,7 +85,7 @@ L_010E:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, Trainer!\nWant to ride this mining cart?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -101,7 +101,7 @@ Script_3:
     ActorCmdExec 9, Movement_0394
     FadeExWait
     ActorCmdWait
-    SEPlay 2225
+    SEPlay SEQ_SE_SW_YACONROAD_01
     SEWait
     FlagSet 952
     FlagReset 953
@@ -126,7 +126,7 @@ L_01A5:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, Trainer!\nWant to ride this mining cart?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -142,7 +142,7 @@ Script_4:
     ActorCmdExec 12, Movement_0394
     FadeExWait
     ActorCmdWait
-    SEPlay 2225
+    SEPlay SEQ_SE_SW_YACONROAD_01
     SEWait
     FlagSet 953
     FlagReset 952
@@ -167,7 +167,7 @@ L_023C:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, Trainer!\nWant to ride this mining cart?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -183,7 +183,7 @@ Script_5:
     ActorCmdExec 10, Movement_037C
     FadeExWait
     ActorCmdWait
-    SEPlay 2225
+    SEPlay SEQ_SE_SW_YACONROAD_01
     SEWait
     FlagSet 954
     FlagReset 955
@@ -208,7 +208,7 @@ L_02D3:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, Trainer!\nWant to ride this mining cart?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -224,7 +224,7 @@ Script_6:
     ActorCmdExec 11, Movement_0394
     FadeExWait
     ActorCmdWait
-    SEPlay 2225
+    SEPlay SEQ_SE_SW_YACONROAD_01
     SEWait
     FlagSet 955
     FlagReset 954

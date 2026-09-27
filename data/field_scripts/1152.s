@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Helping someone even though the person\ndoesn't ask for help...[f000]븀\u0000\nIt's like, “Who do you think you are?\"[f000]븁\u0000\nI don't get it, because I can't tell\nwhether another person is happy or not."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -19,7 +19,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Nobody has used the beds\nin this room.[f000]븁\u0000\nIf you think I'm lying, take a look,\nthen take a rest!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -31,7 +31,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WordSetPlayerName 0
     // "The bed looks nice and comfortable.\nWill you take a quick rest?"
     SystemMsg 2, 0
@@ -46,7 +46,7 @@ Script_3:
     FadeEx 3, 0, 16, 2
     FadeExWait
     PokePartyRecoverAll
-    MEPlay 1300
+    MEPlay SEQ_ME_ASA
     MEWait
     FadeEx 3, 16, 0, 2
     FadeExWait

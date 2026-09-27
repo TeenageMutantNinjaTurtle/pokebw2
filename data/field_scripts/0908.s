@@ -9,7 +9,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -24,7 +24,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -39,7 +39,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Listen! Challenge Poison-type Pokémon\nwith Poison-type Pokémon![f000]븀\u0000\nAt least, that's what Roxie told me.[f000]븁\u0000\nRoxie's a Gym Leader!\nShe plays an instrument. Pretty cool!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -51,7 +51,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8020, 0
     TrainerCardGetBadgeCount 0x8020
@@ -77,7 +77,7 @@ L_00D8:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hi! I have some questions for you![f000]븁\u0000\nIf you want to play, where do\nyou prefer: outside or at home?"
     ActorMsg MSGFILE_SCRIPT, 3, 8, 2, 0

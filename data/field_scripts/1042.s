@@ -6,7 +6,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Even when I feel sad, looking at my\nPokémon's cute, round eyes[f000]븀\u0000\nmakes my sad feeling melt away."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -18,7 +18,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 506, 0
     // "Yip! Yip!"

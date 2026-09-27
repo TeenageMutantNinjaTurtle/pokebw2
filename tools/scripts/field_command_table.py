@@ -184,6 +184,8 @@ SINKS = {
     ("loadTypeTextToStrbuf", 2): "type",
     ("LoadFieldScriptMessage", 1): "message_file", ("LoadFieldScriptMessage", 2): "message",
     ("ScriptWork_AddVM", 2): "script", ("FieldStatus_ReserveScript", 1): "script", ("SetActorSCRID", 1): "script",
+    ("GFL_SndSEPlay", 0): "sound", ("EventBGMPlay_Create", 1): "sound", ("EventBGMPlayPush_Create", 1): "sound",
+    ("EventMEPlay_Create", 1): "sound", ("GFL_SndBGMIsPlaying", 0): "sound",
     ("TrainerData_GetParam", 0): "trainer", ("TrainerFlagGet", 1): "trainer", ("setTrainerBattleFlag", 1): "trainer",
     ("clearTrainerBattleFlag", 1): "trainer", ("TrainerMsg_Load", 1): "trainer",
 }

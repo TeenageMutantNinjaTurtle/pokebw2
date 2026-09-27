@@ -26,7 +26,7 @@ L_0045:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Of course it's dangerous\nto go out at night.[f000]븁\u0000\nMaybe you should stay inside\nduring the afternoon, too.[f000]븀\u0000\nThen there's no danger at all!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0

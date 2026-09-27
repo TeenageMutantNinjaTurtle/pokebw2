@@ -9,7 +9,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8020, 0
     WorkSetConst 0x8021, 0
@@ -74,7 +74,7 @@ L_00EF:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "C-Gear Help[f000]븁\u0000\nIf you have trouble using it, touch the\n“?\" icon on the C-Gear screen!"
     SystemMsg 31, 2
     LastKeyWait
@@ -85,7 +85,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "What is the Pokémon Storage System?[f000]븁\u0000\nThe person who developed the\nPokémon Storage System for the PC[f000]븀\u0000\nconnection is Bill in the Kanto region."
     SystemMsg 32, 2
     LastKeyWait
@@ -96,7 +96,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 393
     VMStackPushConst 0
@@ -194,7 +194,7 @@ Movement_0274:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8024, 0
     VMStackPushFlag 2411
@@ -261,7 +261,7 @@ L_0372:
     MsgWinCloseAll
     PokePartyAddEx 0x8010, 133, 0, 10, 3, 0, 0, 0, 4
     WordSetPlayerName 0
-    MEPlay 1304
+    MEPlay SEQ_ME_POKEGET
     // "[f000]Ā\u0001\u0000 received\nan Eevee!"
     SystemMsg 19, 0
     MEWait

@@ -26,7 +26,7 @@ L_0055:
     ActorCmdWait
     ActorCmdExec 0, Movement_04F4
     ActorCmdWait
-    BGMPlay 1238
+    BGMPlay SEQ_BGM_E_ACHROMA
     // "???: Oh, it's you again![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     MsgWinCloseAll
@@ -222,7 +222,7 @@ L_034D:
     WorkSetConst 0x8023, 0
     ActorWalkRoute 0, 15, 1, 0, 8, 0
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 0
     SEWait
     BGMChangeMap
@@ -238,7 +238,7 @@ L_034D:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Castelia City, Central Plaza\nAhead: Route 4"
     MsgPlaceSign 13, 2
     MsgPlaceSignClose
@@ -249,7 +249,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Ahead: Mode Street\nCasteliacones and Studio Castelia"
     MsgPlaceSign 14, 2
     MsgPlaceSignClose
@@ -263,13 +263,13 @@ Script_4:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0437
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I've got some advice for you![f000]븁\u0000\nIf you want to become strong,\nbattle lots of Trainers[f000]븀\u0000\nand know your Pokémon well![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     MsgWinCloseAll
     Cmd_0275 0, 7, 0
-    SEPlay 1908
+    SEPlay SEQ_SE_FLD_133
     // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink!"
     SystemMsg 11, 0
     SEWait
@@ -283,7 +283,7 @@ Script_4:
     VMJump L_044B
 
 L_0437:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you keep on battling,\nyou'll get stronger someday!"
     ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0

@@ -236,7 +236,7 @@ L_0355:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Reversal Mountain... I wonder...\nCould a Magma Stone be in there?[f000]븁\u0000\nHave you heard of it?\nThey say a Magma Stone was found[f000]븀\u0000\nin a volcano in the distant Sinnoh region.[f000]븁\u0000\nApparently, it had something\nto do with Heatran!"
     ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
@@ -297,7 +297,7 @@ Script_7:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_04D5
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You strike me as the type\nwho fills out the Habitat List![f000]븁\u0000\nC'mon, tell me what kind of Pokémon\nlive in Reversal Mountain![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
@@ -333,7 +333,7 @@ L_04CF:
     VMJump L_04E9
 
 L_04D5:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "False Swipe leaves a Pokémon\nwith 1 HP when it would have fainted.[f000]븁\u0000\nIt's a very restrained move.[f000]븁\u0000\nIt's a great TM to use for catching\nPokémon and filling out the Habitat List!"
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0

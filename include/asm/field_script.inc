@@ -4,6 +4,7 @@
 #include "constants/field_script.h"
 #include "constants/items.h"
 #include "constants/moves.h"
+#include "constants/sound.h"
 #include "constants/species.h"
 #include "constants/types.h"
 

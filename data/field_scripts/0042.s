@@ -21,7 +21,7 @@ L_0039:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm thinking about becoming\nLoblolly's apprentice!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -33,7 +33,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Loblolly's furniture is the finest around!\nIt's like furniture out of a dream."
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -45,7 +45,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "She said, even if I'm clumsy,\nif I keep at it, I can make furniture!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -57,7 +57,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm surrounded by furniture I admire!\nNow THIS is a dream world!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0

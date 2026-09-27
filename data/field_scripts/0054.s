@@ -16,7 +16,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Well, how many gates do you think\nthere are in the Unova region?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -28,7 +28,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My friend's friend was saying that\nPokémon Eggs are sometimes discovered[f000]븀\u0000\nat the Day Care on Route 3!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -40,7 +40,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Are you checking the electric\nbulletin boards?[f000]븁\u0000\nRight now, news about mass outbreaks\nof Pokémon is really hot!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -56,7 +56,7 @@ Script_5:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0153
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 436
     VMStackPushConst 1
@@ -87,7 +87,7 @@ L_00C2:
     MsgWinCloseAll
     FlagSet 437
     WordSetPlayerName 0
-    MEPlay 1317
+    MEPlay SEQ_ME_TAMAGO_GET
     // "[f000]Ā\u0001\u0000 received the Egg!"
     SystemMsg 9, 0
     MEWait
@@ -118,7 +118,7 @@ L_014D:
     VMJump L_0167
 
 L_0153:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Apparently, putting Pokémon Eggs next\nto healthy Pokémon is a good thing.[f000]븁\u0000\nIn other words, walk with the Egg.[f000]븁\u0000\nYou know, the Day Care is on Route 3.\nThey might be able to tell you more."
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0

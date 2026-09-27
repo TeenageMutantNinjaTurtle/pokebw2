@@ -8,7 +8,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My Pokémon and I like to laugh![f000]븁\u0000\nWhen either of us starts laughing,\nwe both start laughing! Gwa ha ha!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -20,7 +20,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 572, 0
     // "Gahoohoo!"
@@ -34,7 +34,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "What do you like on TV?\nI like the lady and Watchy Watchog!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -46,7 +46,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Once when I tried to catch a Pokémon,\nthe Poké Ball only shook once![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 3, 3, 5, 0
     MsgWinCloseAll

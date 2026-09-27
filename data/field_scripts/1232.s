@@ -33,7 +33,7 @@ Script_1:
     WorkSetConst 0x802b, 0
     VMCall L_004C
     VMCall L_0062
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8026
     VMStackPushConst 1
@@ -71,7 +71,7 @@ L_00FB:
     DayCareBreed
     ActorMsgClose
     WordSetPlayerName 0
-    MEPlay 1317
+    MEPlay SEQ_ME_TAMAGO_GET
     // "[f000]Ā\u0001\u0000 received the Egg from\nthe Day-Care Man."
     SystemMsg 7, 0
     MEWait
@@ -213,7 +213,7 @@ Script_2:
     WorkSetConst 0x802d, 0
     VMCall L_004C
     VMCall L_0062
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8026
     VMStackPushConst 1
@@ -563,7 +563,7 @@ L_081A:
 L_083B:
     MoneySub 0x8037
     MoneyWinUpdate
-    SEPlay 1621
+    SEPlay SEQ_SE_SYS_22
     SEWait
     ActorMsgClose
     ActorCmdExec 0, Movement_08B8

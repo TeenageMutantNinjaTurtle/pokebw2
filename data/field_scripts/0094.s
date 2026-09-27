@@ -8,7 +8,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8020, 0
     MedalGetCount 3, 0x8020
@@ -110,7 +110,7 @@ L_0185:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The maniacs for items are sure odd![f000]븁\u0000\nThey'll buy ordinary items\nfor much more than normal![f000]븁\u0000\nIf you hold on to items, even ones\nyou have no use for, you might be able to[f000]븀\u0000\nsell them to a maniac!"
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -122,7 +122,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My Roggenrola's Ability is Sturdy![f000]븁\u0000\nIf an attack that would knock it out\nhits it when its HP is full,[f000]븀\u0000\nit will stay standing with one HP!"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -134,7 +134,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 524, 0
     // "Sturrr!"

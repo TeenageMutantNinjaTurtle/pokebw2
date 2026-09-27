@@ -15,7 +15,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1747
+    SEPlay SEQ_SE_FLD_68
     SEWait
     // "Click![f000]븁\u0000\nThe sound reverberates."
     InfoMsg 0, 2
@@ -34,7 +34,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1985
+    SEPlay SEQ_SE_FLD_153
     SEWait
     // "A dull sound came from far away."
     InfoMsg 1, 2
@@ -46,7 +46,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1986
+    SEPlay SEQ_SE_FLD_154
     EvCameraShake 5, 0, 3, 8, 1, 0, 1, 5
     SEWait
     // "A dull sound echoed."
@@ -59,7 +59,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1987
+    SEPlay SEQ_SE_FLD_155
     EvCameraShake 8, 0, 3, 15, 1, 0, 1, 5
     SEWait
     // "The dull sound is close!"
@@ -76,7 +76,7 @@ Script_6:
     InfoMsg 4, 2
     LastKeyWait
     InfoMsgClose_0039
-    SEPlay 1988
+    SEPlay SEQ_SE_FLD_156
     EvCameraShake 10, 0, 3, 20, 1, 0, 1, 5
     SEWait
     CallDiving 2
@@ -96,7 +96,7 @@ Script_7:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_016F
     EvCameraShake 0, 1, 3, 6, 1, 0, 1, 5
-    SEPlay 1893
+    SEPlay SEQ_SE_FLD_126
     ActorCmdExec 0, Movement_01D0
     ActorCmdExec 1, Movement_01D0
     ActorCmdWait
@@ -120,7 +120,7 @@ Script_8:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_01C7
     EvCameraShake 0, 1, 3, 6, 1, 0, 1, 5
-    SEPlay 1893
+    SEPlay SEQ_SE_FLD_126
     ActorCmdExec 0, Movement_01DC
     ActorCmdExec 1, Movement_01DC
     ActorCmdWait

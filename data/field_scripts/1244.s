@@ -164,7 +164,7 @@ L_0242:
     WorkSetConst 0x802b, 0
     FlagGet 2400, 0x802a
     FlagGet 249, 0x802b
-    SEPlay 1372
+    SEPlay SEQ_SE_PC_LOGIN
     // "The Pokémon Storage System\nwas accessed.[f000]븁\u0000"
     SystemMsg 14, 2
     VMStackPush 0x802a
@@ -176,7 +176,7 @@ L_0242:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_02B2
-    MEPlay 1308
+    MEPlay SEQ_ME_ACCE
     MEWait
     // "Congratulations![f000]븁\u0000\nWallpapers were added to commemorate\nyour victory against the Champion.[f000]븁\u0000"
     SystemMsg 12, 2
@@ -192,7 +192,7 @@ L_02B2:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_02EE
-    MEPlay 1308
+    MEPlay SEQ_ME_ACCE
     MEWait
     // "Congratulations![f000]븁\u0000\nWallpapers were added to commemorate\nyour catching Kyurem.[f000]븁\u0000"
     SystemMsg 13, 2
@@ -300,7 +300,7 @@ L_0446:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0469
-    SEPlay 1372
+    SEPlay SEQ_SE_PC_LOGIN
     VMJump L_047B
 
 L_0469:
@@ -323,7 +323,7 @@ L_04A1:
     WorkSetConst 0x802c, 0
     WorkSetConst 0x802d, 0
     WorkSetConst 0x802e, 0
-    SEPlay 1372
+    SEPlay SEQ_SE_PC_LOGIN
     WordSetPlayerName 0
     // "Accessed [f000]Ā\u0001\u0000's PC.[f000]븁\u0000"
     SystemMsg 27, 2
@@ -381,7 +381,7 @@ L_055B:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0586
-    SEPlay 1372
+    SEPlay SEQ_SE_PC_LOGIN
     VMJump L_0598
 
 L_0586:
@@ -399,7 +399,7 @@ L_059E:
     VMReturn
 
 L_05B2:
-    SEPlay 1372
+    SEPlay SEQ_SE_PC_LOGIN
     // "Accessed Professor Juniper's PC.[f000]븁\u0000"
     SystemMsg 39, 2
     RTCallGlobal 10382
@@ -408,7 +408,7 @@ L_05B2:
 L_05C2:
     WorkSetConst 0x802f, 0
     WorkSetConst 0x8030, 0
-    SEPlay 1372
+    SEPlay SEQ_SE_PC_LOGIN
     // "Accessed the Record System![f000]븁\u0000"
     SystemMsg 35, 2
     InfoMsgClose
@@ -438,7 +438,7 @@ L_0620:
     VMReturn
 
 L_062E:
-    SEPlay 1372
+    SEPlay SEQ_SE_PC_LOGIN
     // "Accessed the Help System.[f000]븁\u0000"
     SystemMsg 40, 2
     InfoMsgClose

@@ -181,7 +181,7 @@ Script_2:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_02B3
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Roxie's poison is intense!\nIt stings, stings, and stiiiings![f000]븁\u0000\nBut, know what I did?\nI caught a Magnemite in the complex,[f000]븀\u0000\nand I was just fine!"
     ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
@@ -190,7 +190,7 @@ Script_2:
     VMJump L_02EB
 
 L_02B3:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Roxie's poison is intense!\nIt stings, stings, and stiiiings![f000]븁\u0000\nBut, know what I did?\nI caught a Magnemite in the complex,[f000]븀\u0000\nand I was just fine![f000]븁\u0000\nHere, I'll give you these,\nso go catch a Magnemite or something![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 25, 2, 0, 0
@@ -211,7 +211,7 @@ L_02EB:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If I didn't have Pokémon, all of the work\nat the complex would make me a wreck!"
     ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
@@ -223,7 +223,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Kid!\nDo you know about the Battle Box?[f000]븁\u0000\nIt's a convenient feature you can use\non the PCs at the Pokémon Center."
     ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0
@@ -235,7 +235,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This Watchog has been with me\nsince I was born![f000]븁\u0000\nIts Keen Eye Ability\nhas helped me so many times!"
     ParentActorMsg MSGFILE_SCRIPT, 29, 0, 0
@@ -247,7 +247,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Roxie's band![f000]븁\u0000\nIt's getting hard to buy\ntickets to their shows lately! ♪[f000]븁\u0000\nMaybe they'll go on a world\ntour soon!"
     ParentActorMsg MSGFILE_SCRIPT, 31, 0, 0
     LastKeyWait
@@ -258,7 +258,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Past here is the charming wonderland--\nPokéstar Studios![f000]븁\u0000\nIt's a movie studio, but right\nnow auditions are in progress...[f000]븁\u0000\nThey're having a look at the captain's\nacting. No unauthorized people allowed!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -390,7 +390,7 @@ Movement_0508:
 
 Script_9:
     ActorsPauseAll
-    MEPlay 1327
+    MEPlay SEQ_ME_CALL
     // "The Xtransceiver is ringing!"
     SystemMsg 6, 2
     MEWait
@@ -416,7 +416,7 @@ Script_10:
     VMHalt
 
 L_0555:
-    BGMPlay 1266
+    BGMPlay SEQ_BGM_E_PLASMA
     // "Roxie: So, are you guys\nTeam Plasma, then?[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 8, 7, 0, 0
     MsgWinCloseAll
@@ -463,7 +463,7 @@ Script_11:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_064C
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Roxie: [f000]Ā\u0001\u0000!\nHelp out!"
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
@@ -474,7 +474,7 @@ Script_11:
     VMJump L_0666
 
 L_064C:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorWalkRoute 255, 239, 670, 0, 8, 1
     ActorCmdWait
     VMCall L_0555
@@ -492,7 +492,7 @@ Script_12:
     VMJumpIf CMP_STACK, L_069F
     WordSetPlayerName 0
     WordSetLoadRivalName 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "[f000]Ā\u0001\u0001: Dirty Pokémon thieves..."
     ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
     MsgWaitAdvance
@@ -500,7 +500,7 @@ Script_12:
     VMJump L_0703
 
 L_069F:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WorkSetConst 0x8022, 0
     PlayerGetDir 0x8022
     WorkCmpConst 0x8022, 3
@@ -531,7 +531,7 @@ L_0703:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma: What?\nThink you can beat me?"
     ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
@@ -705,7 +705,7 @@ Movement_09CC:
 Script_15:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "This is Virbank City!\nCity of falling fog and rising stars!"
     MsgPlaceSign 41, 1
     MsgPlaceSignClose
@@ -716,7 +716,7 @@ Script_15:
 Script_16:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Pokéstar Studios Ahead\nBringing a new golden age of cinema!"
     MsgPlaceSign 42, 2
     MsgPlaceSignClose
@@ -727,7 +727,7 @@ Script_16:
 Script_17:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Virbank City Pokémon Gym\nLeader: Roxie[f000]븀\u0000\nPoison days, poison on the stage!"
     MsgPlaceSign 43, 2
     MsgPlaceSignClose
@@ -737,7 +737,7 @@ Script_17:
 
 Script_18:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 505, 0
     // "Hoooog!"
@@ -751,7 +751,7 @@ Script_18:
 
 Script_19:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My Medal's really pretty, isn't it?![f000]븁\u0000\nIf you solve the Hint Medal riddles,\nyou can collect more and more of them!"
     ParentActorMsg MSGFILE_SCRIPT, 32, 0, 0
@@ -763,7 +763,7 @@ Script_19:
 
 Script_20:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "First, turn the C-Gear's power on![f000]븁\u0000\nThen tap [f000][ff00]\u0001\u0001CONNECTED[f000][ff00]\u0001\u0000\nin the center of the C-Gear screen[f000]븀\u0000\nto check the Tag Log!"
     ParentActorMsg MSGFILE_SCRIPT, 33, 0, 0
@@ -775,7 +775,7 @@ Script_20:
 
 Script_21:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "First, turn the C-Gear's power on![f000]븁\u0000\nThen tap [f000][ff00]\u0001\u0001WIRELESS[f000][ff00]\u0001\u0000.\nFinally, tap [f000][ff00]\u0001\u0001ENTRALINK[f000][ff00]\u0001\u0000![f000]븀\u0000\nIf you have some time, give it a try![f000]븀\u0000\nIt's amazing!"
     ParentActorMsg MSGFILE_SCRIPT, 34, 0, 0
@@ -787,7 +787,7 @@ Script_21:
 
 Script_22:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "One, two, three, four, five, six![f000]븁\u0000\nThe number of Poké Balls\nyou can put in your belt is six.[f000]븀\u0000\nSo you can take six Pokémon with you!"
     ParentActorMsg MSGFILE_SCRIPT, 35, 0, 0
@@ -926,7 +926,7 @@ L_0C82:
     ActorCmdWait
     ActorCmdExec 0, Movement_020C
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 0
     SEWait
     EvCameraMoveToDefault 20

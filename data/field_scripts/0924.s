@@ -6,7 +6,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's impossible to tell\nwhen this portrait was painted..."
     InfoMsg 0, 2
     LastKeyWait
@@ -17,7 +17,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "If you look at it closely, you can see\nit's covered in scratches."
     InfoMsg 1, 2
     LastKeyWait

@@ -8,7 +8,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Cedric Juniper: Two years ago...\nOn the top floor of this tower...[f000]븁\u0000\nOne lone man faced\na legendary Pokémon.[f000]븁\u0000\nHis name was N.[f000]븁\u0000\nHe sought Reshiram in order to\nunderstand the meaning of truth.[f000]븁\u0000\nI wonder if he succeeded\nin finding his own truth."
     // "Cedric Juniper: Two years ago...\nOn the top floor of this tower...[f000]븁\u0000\nOne lone man faced\na legendary Pokémon.[f000]븁\u0000\nHis name was N.[f000]븁\u0000\nHe sought Zekrom in order to\nunderstand his ideals.[f000]븁\u0000\nI wonder if he succeeded in\ndiscovering his ideals."
@@ -124,7 +124,7 @@ L_01D2:
 L_01DC:
     ActorCmdExec 255, Movement_0248
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 1
     SEWait
     FlagSet 1012

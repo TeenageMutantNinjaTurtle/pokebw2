@@ -19,7 +19,7 @@ Script_4:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Liberty Garden, huh?[f000]븁\u0000\nA long time ago, an extremely rich\nperson hid a very amazing[f000]븀\u0000\nPokémon called Victini there!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -31,7 +31,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Ho ho! Trying to become stronger\nby misusing Victini's powers...[f000]븁\u0000\nTeam Plasma fell apart exactly because\nthey planned to do things like that!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -43,7 +43,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 446
     VMStackPushConst 0

@@ -40,6 +40,7 @@ CONSTANTS = {
     "species": ("constants/species.h", "SPECIES_"),
     "ability": ("constants/abilities.h", "ABILITY_"),
     "type": ("constants/types.h", "TYPE_"),
+    "sound": ("constants/sound.h", "SEQ_"),
 }
 ZONE_TEXT = 10  # offset of the text file in a zone header
 ZONE_SIZE = 48

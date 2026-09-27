@@ -43,7 +43,7 @@ Script_4:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I asked Alder from Floccesy Town\nto teach here.[f000]븁\u0000\nHe declined, saying it was the\nera of young people now."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -55,7 +55,7 @@ Script_3:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "There's a technique that enables you\nto cancel evolution![f000]븁\u0000\nHere, I'll read the textbook to you.[f000]븁\u0000\n“You can surprise a Pokémon and stop\nits evolution by pressing the B Button[f000]븀\u0000\nwhen a Pokémon is evolving.\""
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -67,7 +67,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WordSetPlayerName 0
     WordSetLoadRivalName 1
     TrainerCardHasBadge 0x8008, 0
@@ -101,7 +101,7 @@ L_012B:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You know how you can have\nyour Pokémon hold items?[f000]븁\u0000\nWell, it seems like they don't know\nhow to use items made by people,[f000]븀\u0000\nlike Potions."
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -113,7 +113,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Normal-type Pokémon are weak\nto Fighting-type Pokémon.[f000]븁\u0000\nBut the only Pokémon around here like\nthat are the Riolu in Floccesy Ranch...[f000]븁\u0000\nIf you're going to battle with a Fire-,\nWater-, or Grass-type Pokémon,[f000]븀\u0000\nit'll be a simple test of strength!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -125,7 +125,7 @@ Script_2:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Gym Leader is in the middle\nof a heated battle right now!"
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
@@ -138,7 +138,7 @@ Script_8:
 Script_5:
     ActorsPauseAll
     WorkSetConst 0x8023, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "The blackboard explains Pokémon\nstatus changes in battle.[f000]븁\u0000"
     SystemMsg 6, 2
 

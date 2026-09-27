@@ -7,7 +7,7 @@
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Virbank Complex\nWhere Fire Meets Steel"
     MsgPlaceSign 0, 2
     MsgPlaceSignClose
@@ -18,7 +18,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     WorkSetConst 0x8020, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2763
     VMStackPushConst 0
@@ -58,7 +58,7 @@ L_00B2:
     MsgWinCloseAll
     WordSetItemName 0, 4
     WordSetItemName 2, 3
-    MEPlay 1302
+    MEPlay SEQ_ME_ITEM
     // "Gave the [f000]ĉ\u0001\u0000 in exchange for\nthe [f000]ĉ\u0001\u0002!"
     SystemMsg 7, 0
     MEWait

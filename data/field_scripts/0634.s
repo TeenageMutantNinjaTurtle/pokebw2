@@ -50,7 +50,7 @@ L_00A0:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Route 1"
     MsgPlaceSign 5, 3
     MsgPlaceSignClose
@@ -61,7 +61,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Route 1"
     MsgPlaceSign 6, 3
     MsgPlaceSignClose
@@ -72,7 +72,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Trainer Tips![f000]븁\u0000\n\nMake an effort to talk to all the\npeople you meet during your journey![f000]븁\u0000\nChances are they will have something\nuseful to tell you."
     MsgPlaceSign 7, 0
     MsgPlaceSignClose
@@ -117,7 +117,7 @@ Script_5:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_019B
     Cmd_02B5 0, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Two years ago, [f000]Ā\u0001\u0000, a Trainer\nfrom Nuvema did some amazing things,[f000]븀\u0000\nincluding battling Team Plasma[f000]븀\u0000\nand saving Unova![f000]븁\u0000\nI was the one who told that Trainer that\nwild Pokémon are hiding in the tall grass.[f000]븁\u0000\nAnd that you can battle\nor capture wild Pokémon there![f000]븁\u0000\nSo, you could say that I'm one\nof the people who saved Unova, too!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -126,7 +126,7 @@ Script_5:
     VMJump L_01AF
 
 L_019B:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Two years ago, a Trainer from Nuvema\ndid some amazing things, including[f000]븀\u0000\nbattling Team Plasma and saving Unova![f000]븁\u0000\nI was the one who told that Trainer that\nwild Pokémon are hiding in the tall grass.[f000]븁\u0000\nAnd that you can battle\nor capture wild Pokémon there![f000]븁\u0000\nSo, you could say that I'm one\nof the people who saved Unova, too!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -140,7 +140,7 @@ L_01AF:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'd like to land all of the\nPokémon beyond here, too!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -177,7 +177,7 @@ L_0222:
 
 L_022D:
     InfoMsgClose_0039
-    BGMPlay 1088
+    BGMPlay SEQ_BGM_E_BERU
     ActorCmdExec 255, Movement_0618
     ActorCmdWait
     ActorGetGPos 255, 0x8021, 0x8022

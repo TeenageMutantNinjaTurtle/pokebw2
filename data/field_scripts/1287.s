@@ -246,7 +246,7 @@ Movement_041C:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin10_Cmd1011
     WorkSetConst 0x8020, 2
@@ -598,7 +598,7 @@ Script_5:
 
 L_0922:
     ActorNew 15, 31, 0, 251, 345, 0
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     SEWait
     ActorCmdExec 251, Movement_0AD8
     ActorCmdWait
@@ -753,7 +753,7 @@ Script_2:
     VMStackPushConst 0
     VMStackCmp CMP_GT
     VMJumpIf CMP_STACK, L_0B53
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     Plugin10_Cmd1023 0x8010
     VMJump L_0B5D
 

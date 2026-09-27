@@ -26,9 +26,9 @@ L_0061:
     FadeEx 4, 16, 0, 2
 
 L_006B:
-    SEPlay 2406
-    SEPlay 2407
-    SEPlay 2408
+    SEPlay SEQ_SE_SW_ENDING_01
+    SEPlay SEQ_SE_SW_ENDING_02
+    SEPlay SEQ_SE_SW_ENDING_03
     FadeExWait
     .byte 0xf1
     .byte 0x03

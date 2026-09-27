@@ -18,7 +18,7 @@ Script_1:
     WorkSetConst 0x8022, 0
     WorkSetConst 0x8023, 0
     WorkSetConst 0x8024, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PokePartyGetCount 0x8020, 0
 
@@ -54,7 +54,7 @@ L_00A6:
     FadeEx 3, 0, 16, 2
     FadeExWait
     PokePartyRecoverAll
-    MEPlay 1300
+    MEPlay SEQ_ME_ASA
     MEWait
     FadeEx 3, 16, 0, 2
     FadeExWait
@@ -82,7 +82,7 @@ L_010D:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "We don't raise little ones,\nwe help them grow.[f000]븁\u0000\nThat's what I think, and the Day-Care\nCouple next door feels the same."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -94,7 +94,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Are you aware of the Pokémon Ability\nFlame Body?"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -122,7 +122,7 @@ L_0198:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Nice guys from Striaton City\ngave this preschool its Pokémon!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -134,7 +134,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm gonna be a Pokémon\nwhen I grow up!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -146,7 +146,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Pokémon Trainers are here\nbecause of Pokémon![f000]븁\u0000\nPokémon are here\nbecause of Pokémon Trainers![f000]븁\u0000\nI wonder which one came first?"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -158,7 +158,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 511, 0
     // "Ega snap!"
@@ -172,7 +172,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 513, 0
     // "Rae snap!"
@@ -186,7 +186,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 515, 0
     // "Ruo pnap!"

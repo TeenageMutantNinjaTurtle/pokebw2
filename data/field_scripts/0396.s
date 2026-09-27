@@ -8,7 +8,7 @@
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Twist Mountain ahead.\nWatch out for wild Pokémon."
     MsgPlaceSign 4, 2
     MsgPlaceSignClose
@@ -22,7 +22,7 @@ Script_2:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_005B
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm Marshal, one of the Elite Four![f000]븁\u0000\nYou look like you're a\nPokémon Trainer with potential,[f000]븀\u0000\nbut I can't let you into Twist Mountain![f000]븁\u0000\nThe inside collapsed,\nand you can't get through!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -32,7 +32,7 @@ Script_2:
     VMJump L_0152
 
 L_005B:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PlayerGetDir 0x8010
     WordSetPlayerName 0

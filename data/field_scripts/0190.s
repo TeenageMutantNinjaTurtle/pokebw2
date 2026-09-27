@@ -8,7 +8,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 213
     VMStackPushConst 0
@@ -40,7 +40,7 @@ Script_2:
     ActorsPauseAll
     PokePartyGetMemberByType 0x8010, 2
     WordSetPartyPokeSpecies 0, 0x8010
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you love your Pokémon, even if it\nchanges its appearance, you'll stay[f000]븀\u0000\nconnected with your Pokémon.[f000]븁\u0000\nYou and [f000]ā\u0001\u0000 are...[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -75,7 +75,7 @@ L_00EA:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Pokémon evolve in many different ways.[f000]븁\u0000\nSome evolve by becoming stronger\nthrough battle.[f000]븁\u0000\nOthers evolve when certain items\nare used on them.[f000]븁\u0000\nSome even evolve during Link Trades.[f000]븁\u0000\nIf you ask Professor Juniper, she'll\ntell you anything you need to know!"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0

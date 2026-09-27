@@ -93,7 +93,7 @@ L_0148:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkCmpConst 0x4160, 4
     VMJumpIf CMP_EQ, L_0165
@@ -154,7 +154,7 @@ L_01FE:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I am sorry.[f000]븁\u0000\nBut you cannot enter the court\nbecause a game is in progress."
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -166,7 +166,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I am sorry.[f000]븁\u0000\nBut you cannot enter the court\nbecause a game is in progress."
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -178,7 +178,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I am sorry.[f000]븁\u0000\nBut you cannot enter the court\nbecause a game is in progress."
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -190,7 +190,7 @@ Script_8:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "We love sports.\nWatching games is great, but we enjoy[f000]븀\u0000\nwatching practices, too!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -202,7 +202,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "New styles of basketball and tennis\ncreated by people and Pokémon...[f000]븀\u0000\nThese may be advanced forms of sports."
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -214,7 +214,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you speak to athletes during a\npractice, they may challenge you to a[f000]븀\u0000\nPokémon battle!"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -226,7 +226,7 @@ Script_3:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkCmpConst 0x4160, 4
     VMJumpIf CMP_EQ, L_02C7

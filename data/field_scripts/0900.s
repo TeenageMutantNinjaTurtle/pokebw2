@@ -10,7 +10,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My Pokémon used to be wimpy,\nbut they've trained in the complex,[f000]븀\u0000\nand now they are very buff!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -50,7 +50,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Children teach me many things,\nso they are my teachers.[f000]븀\u0000\nPokémon are your teachers!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -62,7 +62,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Clerks in Poké Marts\nsell different items!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -74,7 +74,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "When you use a Repel,\nwild Pokémon won't come out as much![f000]븀\u0000\nDid you know that?"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -86,7 +86,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "A Pokémon that jumps out in a battle is\nthe Pokémon on the top left in the list.[f000]븁\u0000\nSo have a weak Pokémon\non the top left![f000]븁\u0000\nWhen a battle starts,\nswitch it to a strong Pokémon![f000]븀\u0000\nSee? I know a great thing, don't I?"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0

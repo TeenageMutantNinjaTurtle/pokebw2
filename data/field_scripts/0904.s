@@ -18,7 +18,7 @@ Script_5:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The ship to Castelia City\nleaves from here![f000]븁\u0000\nIt can even cross seas that are too\nrough for Pokémon to get through!"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -30,7 +30,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 723
     VMStackPushConst 1
@@ -53,7 +53,7 @@ L_0075:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "What can I do for you?\nShall we set sail for Castelia City?"
     ActorMsg MSGFILE_SCRIPT, 4, 2, 2, 0
@@ -88,7 +88,7 @@ L_00F0:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WordSetLoadRivalName 1
     // "[f000]Ā\u0001\u0001: You're going\nto Castelia City, right?"

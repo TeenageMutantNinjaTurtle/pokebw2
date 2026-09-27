@@ -828,7 +828,7 @@ Script_1:
 
 Script_816:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMCall L_0F57
     ActorGetTrainerID 0x8020
@@ -975,7 +975,7 @@ L_0EE9:
     FadeEx 3, 0, 16, 2
     FadeExWait
     PokePartyRecoverAll
-    MEPlay 1300
+    MEPlay SEQ_ME_ASA
     MEWait
     FadeEx 3, 16, 0, 2
     FadeExWait

@@ -177,7 +177,7 @@ Movement_0238:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerCardHasBadge 0x8008, 1
     VMStackPush 0x8008
@@ -203,7 +203,7 @@ L_0283:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WordSetPlayerName 0
     WordSetLoadRivalName 1
     TrainerCardHasBadge 0x8008, 1
@@ -237,7 +237,7 @@ L_02DC:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "I can sing!\nWanted: The rest of a band!"
     InfoMsg 6, 2
     LastKeyWait

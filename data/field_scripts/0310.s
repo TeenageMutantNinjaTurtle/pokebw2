@@ -138,12 +138,12 @@ Movement_0210:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WordSetPlayerName 0
     WordSetLoadRivalName 1
     WorkSetConst 0x8008, 5
     WorkAdd 0x8008, 0x418a
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorMsg MSGFILE_SCRIPT, 0x8008, 254, 0, 0
     LastKeyWait
@@ -295,7 +295,7 @@ L_048D:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The legendary Pokémon...\nIs it true it was really beyond here?"
     ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
@@ -309,7 +309,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm going to do a lap around Unova\nclockwise from Nimbasa City[f000]븀\u0000\nwithout healing my Pokémon![f000]븁\u0000\nIt's the Unova Spartan Marathon,\nand next time, I'm going to race!"
     ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
@@ -321,7 +321,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "We're thinning trees to\nprotect the forest.[f000]븁\u0000\nThat's why we're having Pokémon\ncut down trees.[f000]븁\u0000\nWhen there are too many trees,\nthe whole forest gets weaker...[f000]븁\u0000\nThese trees are being cut down\nso the whole forest will thrive..."
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
@@ -333,7 +333,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Ah, wouldn't it be nice if the Pokémon\nliving in the forest liked the sunbeams[f000]븀\u0000\nfiltering through the leaves, too!"
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
@@ -345,7 +345,7 @@ Script_10:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "The surface is covered with moss.\nTouching it feels good somehow."
     InfoMsg 28, 2
     LastKeyWait
@@ -357,7 +357,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Trainer Tips![f000]븁\u0000\n\nA forest is likely to contain many\nwell-hidden items![f000]븁\u0000\nThey may be hard to find,\nso look carefully!"
     MsgPlaceSign 29, 0
     MsgPlaceSignClose
@@ -417,7 +417,7 @@ Script_6:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0694
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hi, Trainer.[f000]븁\u0000\nIf you have a Pokédex, could you show me\nyour Habitat List?[f000]븁\u0000\nI want to know about the Pokémon\nthat live in Pinwheel Forest.[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
@@ -466,7 +466,7 @@ L_068E:
     VMJump L_06A8
 
 L_0694:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Finding the Pokémon that can\nonly be found in the rustling grass[f000]븀\u0000\nis really amazing!"
     ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0

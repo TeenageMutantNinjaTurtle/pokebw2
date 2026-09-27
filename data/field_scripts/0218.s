@@ -9,7 +9,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -24,7 +24,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -39,7 +39,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Entralink... Some say it's the source\nof the special powers in Unova.[f000]븁\u0000\nThe Entree and Pass Powers...\nEven now, they're very mysterious."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -51,7 +51,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 580, 0
     // "Kwack!"
@@ -65,7 +65,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "After our Pokémon battle,\nI felt a little burned out.[f000]븁\u0000\nBut, as long as my dear Litwick is\nwith me, I'll be OK anytime, anywhere!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0

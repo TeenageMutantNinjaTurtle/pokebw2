@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WordSetPlayerName 1
     MusicalIsPropOwned 99, 0x4001
@@ -154,7 +154,7 @@ L_0232:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you have a lot of Props, it makes you\nwant to put them on Pokémon.[f000]븁\u0000\nIf you put Props on Pokémon, it makes\nyou want to participate in a musical![f000]븁\u0000\nDon't you agree?"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -166,7 +166,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Know what? I hear there is a Prop\nyou can get on your birthday!"
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0

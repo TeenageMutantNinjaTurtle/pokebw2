@@ -34,7 +34,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Balloon! Balloon! Balloon!\nXtransceiver minigames![f000]븁\u0000\nMy elegant hobby is\nminigames on the Xtransceiver!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0

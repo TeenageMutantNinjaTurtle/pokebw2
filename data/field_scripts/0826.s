@@ -14,7 +14,7 @@ Script_3:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_00AE
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8020, 0
     TrainerCardGetSex 0x8020
@@ -48,7 +48,7 @@ L_0074:
     VMJump L_00C2
 
 L_00AE:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Isn't the Prism Scale beautiful?\nIt may be good to let a Pokémon hold it."
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -63,7 +63,7 @@ L_00C2:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Undella Bay's Abyssal Ruins\nhave messages carved into the walls..."
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -75,7 +75,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I can buy the Poké Balls sold here,\nbecause somewhere, somebody[f000]븀\u0000\nis making them.[f000]븁\u0000\nThank you, person I don't know,\nmaking Poké Balls somewhere!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -87,7 +87,7 @@ Script_5:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -102,7 +102,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -121,7 +121,7 @@ Script_6:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_01E9
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Heh heh... Hey, you.\nIf someone offered you[f000]븀\u0000\na plain old Sitrus Berry for $1,000,[f000]븀\u0000\nwould you buy it?"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -141,7 +141,7 @@ L_01AE:
 L_01B8:
     MsgWinCloseAll
     Cmd_0275 0, 24, 0
-    SEPlay 1908
+    SEPlay SEQ_SE_FLD_133
     // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink."
     SystemMsg 8, 0
     SEWait
@@ -155,7 +155,7 @@ L_01B8:
     VMJump L_01FD
 
 L_01E9:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Heh heh...[f000]븁\u0000\nWhat's important is\nwhether you agree or not!"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0

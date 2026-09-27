@@ -8,7 +8,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Welcome to the Grand Hotel Driftveil.\nI'm sorry but we're completely full.[f000]븁\u0000\nBut please feel free to relax."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -20,7 +20,7 @@ Script_1:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Did you know this?\nIt's from an article in Pokémon Pal.[f000]븁\u0000\n“Press the L Button while selecting\na move during battle to display[f000]븀\u0000\ndetailed information about that move!\""
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -32,7 +32,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Battling Pokémon stronger\nthan you gives you more Exp. Points!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -46,7 +46,7 @@ Script_2:
     ActorsPauseAll
     WorkSetConst 0x8020, 0
     PokeDexGetCount 0, 0x8020
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8020
     VMStackPushConst 70

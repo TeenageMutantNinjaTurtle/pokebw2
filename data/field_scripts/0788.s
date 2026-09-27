@@ -34,7 +34,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Cmd_02B4 0, 0x400f
     VMStackPush 0x400f

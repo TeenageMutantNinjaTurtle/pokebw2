@@ -223,7 +223,7 @@ L_02DB:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_031B
-    SEPlay 1368
+    SEPlay SEQ_SE_SAVE
     WordSetPlayerName 0
     // "[f000]Ā\u0001\u0000 saved the game."
     SystemMsg 5, 2

@@ -70,7 +70,7 @@ Script_5:
     ActorCmdWait
     ActorCmdExec 4, Movement_08A0
     VMSleep 24
-    SEPlay 2274
+    SEPlay SEQ_SE_SW_GHETSIS_STICK_01
     SEWait
     ActorCmdWait
     // "The fool is far too committed\nto pure science.[f000]븁\u0000\nThis is how he repays me for\nmaking him the boss of Team Plasma?[f000]븁\u0000\nHow dare he put his personal\nintellectual curiosity before our[f000]븀\u0000\nultimate mission of conquering Unova![f000]븁\u0000"
@@ -90,7 +90,7 @@ Script_5:
     ActorCmdWait
     ActorCmdExec 4, Movement_08A0
     VMSleep 24
-    SEPlay 2274
+    SEPlay SEQ_SE_SW_GHETSIS_STICK_01
     SEWait
     ActorCmdWait
     // "Kyurem is an empty being.[f000]븁\u0000\nThe remnants of a certain Pokémon\nwhen it split into Reshiram and[f000]븀\u0000\nZekrom...[f000]븁\u0000\nMy desire is absolute rule of Unova![f000]븁\u0000"
@@ -127,7 +127,7 @@ Script_5:
     ActorCmdExec 1, Movement_0988
     ActorCmdExec 255, Movement_0988
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 4
     SEWait
     ActorAdd 0
@@ -215,7 +215,7 @@ Movement_0384:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Shadow Triad: Can you defeat\nall three of us?"
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
@@ -232,7 +232,7 @@ Script_7:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0430
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Shadow Triad: I have no problem\nwith you, but this is for Lord Ghetsis![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 17, 5, 0, 0
@@ -260,7 +260,7 @@ L_042A:
     VMJump L_0444
 
 L_0430:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Shadow Triad: Even if I lose,\nLord Ghetsis simply has to win..."
     ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
@@ -279,7 +279,7 @@ Script_8:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_04CA
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Shadow Triad: We swore to be loyal\nto Lord Ghetsis since he saved us![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 19, 3, 0, 0
@@ -307,7 +307,7 @@ L_04C4:
     VMJump L_04DE
 
 L_04CA:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Shadow Triad: Even if I lose,\nLord Ghetsis simply has to win..."
     ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
@@ -394,7 +394,7 @@ Script_9:
     VMStackPushConst 4
     VMStackCmp CMP_LT
     VMJumpIf CMP_STACK, L_065D
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "[f000]Ā\u0001\u0001: Sorry...[f000]븁\u0000\nThis situation is messing with my head...\nI just don't know what to do...[f000]븁\u0000\nI finally found my sister's Pokémon,\nbut now it's glaring at me...[f000]븁\u0000\nWhy?!"
     ActorMsg MSGFILE_SCRIPT, 24, 0, 0, 0
@@ -417,7 +417,7 @@ L_0657:
     VMJump L_069E
 
 L_065D:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "[f000]Ā\u0001\u0001: ...[f000]븁\u0000\n...[f000]븁\u0000\nHey...\n[f000]Ā\u0001\u0000...[f000]븁\u0000\nIf we let Team Plasma\ndo whatever they want...[f000]븁\u0000\nThere'll be more sad Pokémon\nlike Purrloin and Kyurem..."
     ActorMsg MSGFILE_SCRIPT, 25, 0, 0, 0
@@ -443,7 +443,7 @@ L_069E:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     PVPlay 510, 0
     VMStackPush 0x40f4
     VMStackPushConst 4
@@ -556,7 +556,7 @@ L_07FF:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     VMStackPushFlag 2400
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -578,7 +578,7 @@ L_082E:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     VMStackPushFlag 2400
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -600,7 +600,7 @@ L_0861:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     VMStackPushFlag 2400
     VMStackPushConst 0
     VMStackCmp CMP_EQ

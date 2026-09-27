@@ -109,7 +109,7 @@ L_018A:
     VMJump L_0198
 
 L_0198:
-    SEPlay 2068
+    SEPlay SEQ_SE_GYM_M03
     ActorCmdWait
     WorkSetConst 0x8022, 0
     WorkSetConst 0x8021, 0
@@ -133,7 +133,7 @@ L_01EF:
     FadeInBlackQ
     FadeWait
     ActorCmdExec 255, Movement_02F8
-    SEPlay 2068
+    SEPlay SEQ_SE_GYM_M03
     ActorCmdWait
     WorkSetConst 0x8024, 0
     WorkSetConst 0x8023, 0
@@ -152,26 +152,26 @@ Script_4:
 
 L_023A:
     ActorCmdExec 255, Movement_0300
-    SEPlay 2068
+    SEPlay SEQ_SE_GYM_M03
     ActorCmdWait
     VMHalt
 
 Script_5:
     ActorCmdExec 255, Movement_030C
-    SEPlay 2068
+    SEPlay SEQ_SE_GYM_M03
     ActorCmdWait
     VMHalt
 
 L_025A:
-    SEPlay 2069
+    SEPlay SEQ_SE_GYM_M04
     VMSleep 5
-    SEPlay 2069
+    SEPlay SEQ_SE_GYM_M04
     VMSleep 5
-    SEPlay 2069
+    SEPlay SEQ_SE_GYM_M04
     VMSleep 7
-    SEPlay 2070
+    SEPlay SEQ_SE_GYM_M05
     VMSleep 28
-    SEPlay 2071
+    SEPlay SEQ_SE_GYM_M06
     VMReturn
 
 Movement_0280:
@@ -293,7 +293,7 @@ Movement_03C4:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hiding makes battle instincts dull,\nyou know."
     ActorMsg MSGFILE_SCRIPT, 2, 0, 0, 0
@@ -305,7 +305,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerCardHasBadge 0x8008, 2
     VMStackPush 0x8008
@@ -355,7 +355,7 @@ L_048C:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     TrainerCardHasBadge 0x8008, 2
     WordSetPlayerName 0
     WordSetLoadRivalName 1

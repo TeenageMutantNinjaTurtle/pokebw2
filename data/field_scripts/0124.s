@@ -130,7 +130,7 @@ Movement_01DC:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Nimbasa City\nLit by the Flash of Lightning!"
     MsgPlaceSign 56, 1
     MsgPlaceSignClose
@@ -141,7 +141,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Big Stadium\nBaseball, Football, and Soccer"
     MsgPlaceSign 57, 2
     MsgPlaceSignClose
@@ -152,7 +152,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Small Court\nTennis and Basketball"
     MsgPlaceSign 58, 2
     MsgPlaceSignClose
@@ -163,7 +163,7 @@ Script_3:
 Script_4:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Battle Subway\nBattle and Ride!"
     MsgPlaceSign 59, 2
     MsgPlaceSignClose
@@ -174,7 +174,7 @@ Script_4:
 Script_5:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Musical Theater\nProps, Music, Dance, Excitement!"
     MsgPlaceSign 60, 2
     MsgPlaceSignClose
@@ -185,7 +185,7 @@ Script_5:
 Script_6:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Trainer Tips![f000]븁\u0000\n\nGames occur at specific times in\nBig Stadium and Small Court![f000]븁\u0000\nYou might be able to have a Pokémon\nbattle with your favorite athlete!"
     MsgPlaceSign 61, 0
     MsgPlaceSignClose
@@ -197,7 +197,7 @@ Script_6:
 Script_10:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Trainer Tips![f000]븁\u0000\n\nThe Musical Theater is always\nlooking for participants![f000]븁\u0000\nYou might get more wonderful Props\nif you participate repeatedly!"
     MsgPlaceSign 62, 0
     MsgPlaceSignClose
@@ -209,7 +209,7 @@ Script_10:
 Script_11:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Battle Institute!\nTest your Trainer Skills!"
     MsgPlaceSign 63, 2
     MsgPlaceSignClose
@@ -219,7 +219,7 @@ Script_11:
 
 Script_22:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The combination of athletes and Pokémon\nis a super play for sure![f000]븁\u0000\nWhere can you see it?\nCheck out Big Stadium and Small Court!"
     ParentActorMsg MSGFILE_SCRIPT, 43, 0, 0
@@ -231,7 +231,7 @@ Script_22:
 
 Script_23:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Nimbasa City is full of plaaaces ♪\nfor toughening uuuuup your Pokémon! ♪"
     ParentActorMsg MSGFILE_SCRIPT, 44, 0, 0
@@ -243,7 +243,7 @@ Script_23:
 
 Script_24:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I want to go to Anville Town.\nWhere is Gear Station?"
     ParentActorMsg MSGFILE_SCRIPT, 45, 0, 0
@@ -256,7 +256,7 @@ Script_24:
 Script_25:
     ActorsPauseAll
     WordSetLoadJoinAvenueName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "When I pass by people, I eagerly\nawait the opening of a new store[f000]븀\u0000\nin [f000]Ĺ\u0001\u0000!"
     ParentActorMsg MSGFILE_SCRIPT, 46, 0, 0
@@ -268,7 +268,7 @@ Script_25:
 
 Script_26:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You have to have three Pokémon for\nTriple Battles and Rotation Battles![f000]븁\u0000\nWhat should I do? I still only have\ntwo partners right now!"
     ParentActorMsg MSGFILE_SCRIPT, 47, 0, 0
@@ -280,7 +280,7 @@ Script_26:
 
 Script_27:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I was a good girl, so I got\nto go to the amusement park![f000]븀\u0000\nThis time Pansear came, too!"
     ParentActorMsg MSGFILE_SCRIPT, 48, 0, 0
@@ -292,7 +292,7 @@ Script_27:
 
 Script_28:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 513, 0
     // "Raesnap!"
@@ -306,7 +306,7 @@ Script_28:
 
 Script_29:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "And I rode the roller coaster,\nand it went like zoom, zoom![f000]븁\u0000\nAnd it was like a Pokémon move.\nLike Quick Attack!"
     ParentActorMsg MSGFILE_SCRIPT, 50, 0, 0
@@ -318,7 +318,7 @@ Script_29:
 
 Script_30:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Nimbasa City's Gym Leader,\nElesa, is a fashion model![f000]븁\u0000\nI'd love to see her glide\nlightly down the catwalk!"
     ParentActorMsg MSGFILE_SCRIPT, 51, 0, 0
@@ -336,7 +336,7 @@ Script_12:
     EvCameraUnbind
     EvCameraMoveTo 9688, 0, 0xed000, 0x1978000, 0x1000f, 0x1b68000, 20
     EvCameraWait
-    BGMPlay 1266
+    BGMPlay SEQ_BGM_E_PLASMA
     WordSetLoadRivalName 1
     // "[f000]Ā\u0001\u0001: Hold it!\nWhat are you guys up to here anyway?[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 0, 3, 0, 0
@@ -391,7 +391,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WordSetPlayerName 0
     WordSetLoadRivalName 1
@@ -406,7 +406,7 @@ Script_13:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Team Plasma: M-me, losing in an instant?!\nWho IS this guy?"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
@@ -417,7 +417,7 @@ Script_14:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PlayerGetExState 0x8010
     VMStackPush 0x8010
@@ -495,7 +495,7 @@ L_062E:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PlayerGetExState 0x8010
     VMStackPush 0x8010
@@ -651,7 +651,7 @@ L_08A4:
     VMSleep 45
     ActorCmdExec 3, Movement_0FAC
     ActorCmdWait
-    BGMPlay 1095
+    BGMPlay SEQ_BGM_E_EMOTION
     WordSetLoadRivalName 1
     // "[f000]Ā\u0001\u0001: Five years ago...[f000]븁\u0000\nTeam Plasma stole\nmy little sister's Purrloin.[f000]븀\u0000\nIt had been given to her as a present.[f000]븁\u0000\nI was only a little kid...\nI couldn't do anything...[f000]븁\u0000\nSo... So that's why I have\nto get stronger![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 14, 3, 0, 0
@@ -664,7 +664,7 @@ L_08A4:
     ActorMsg MSGFILE_SCRIPT, 15, 3, 0, 0
     MsgWinCloseAll
     PokePartyRecoverAll
-    SEPlay 1391
+    SEPlay SEQ_SE_RECOVERY
     SEWait
     WordSetLoadRivalName 1
     WordSetPlayerName 0
@@ -695,7 +695,7 @@ Script_17:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_09D0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I heard that in Gear Station\nyou can have Pokémon battles[f000]븀\u0000\nin the subway![f000]븁\u0000\nSo I came here to test my skills,\nand, what do you know...[f000]븀\u0000\nthe Subway Bosses were here![f000]븁\u0000\nIsn't that amazing? I mean, they're\nthe strongest Trainers in Gear Station![f000]븁\u0000\nAnd they said they'd battle\nif it's two on two![f000]븁\u0000\nThis is an a-MAZ-ing opportunity!\nWould you PLEASE battle with me?"
     // "I heard that in Gear Station\nyou can have Pokémon battles[f000]븀\u0000\nin the subway![f000]븁\u0000\nSo I came here to test my skills,\nand, what do you know...[f000]븀\u0000\nthe Subway Bosses were here![f000]븁\u0000\nIsn't that amazing? I mean, they're\nthe strongest Trainers in Gear Station![f000]븁\u0000\nAnd they said they'd battle\nif it's two on two![f000]븁\u0000\nThis is an awesome opportunity!\nWould you battle with me?"
@@ -704,7 +704,7 @@ Script_17:
     VMJump L_09E4
 
 L_09D0:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You're prepared, right?\nWill you battle alongside me?"
     // "You're prepared, right?\nWill you battle alongside me?"
@@ -879,7 +879,7 @@ L_0C83:
     ActorDelete 7
     ActorWalkRoute 6, 422, 459, 1, 8, 1
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 6
     SEWait
     VMSleep 15
@@ -909,7 +909,7 @@ L_0C83:
     VMSleep 8
     ActorCmdExec 255, Movement_0F7C
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 5
     SEWait
     EvCameraReturn 16
@@ -935,7 +935,7 @@ L_0DDC:
 
 Script_18:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm a Subway Boss.\nMy name is Ingo![f000]븁\u0000\nUsually, I'm having Pokémon\nbattles in the subway that[f000]븀\u0000\ndeparts from Gear Station."
     ParentActorMsg MSGFILE_SCRIPT, 32, 0, 0
@@ -947,7 +947,7 @@ Script_18:
 
 Script_19:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm Emmet.[f000]븁\u0000\nI'm a Subway Boss.[f000]븁\u0000\nI love Double Battles![f000]븁\u0000\nAnd I love the combination\nof two Pokémon!"
     ParentActorMsg MSGFILE_SCRIPT, 33, 0, 0
@@ -959,7 +959,7 @@ Script_19:
 
 Script_20:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "What? A Trainer in Anville Town\nis looking for a Pokémon?[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 39, 0, 0
@@ -1027,7 +1027,7 @@ L_0F19:
 
 Script_21:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 511, 0
     // "Ook!"
@@ -1128,7 +1128,7 @@ Script_32:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_104B
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh my! You have a Vs. Recorder!\nIf you have a Vs. Recorder,[f000]븀\u0000\nyou can record battles with friends[f000]븀\u0000\nor on the Battle Subway![f000]븁\u0000\nBut only the strongest\ncan enter this Battle Institute![f000]븁\u0000\nSo, if you beat the Champion, come back!\nYou'll be invited to the Battle Institute!"
     ParentActorMsg MSGFILE_SCRIPT, 54, 0, 0
@@ -1137,7 +1137,7 @@ Script_32:
     VMJump L_105F
 
 L_104B:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "No matter which way I look at it,\nyou're a Trainer![f000]븁\u0000\nBut only the strongest\ncan enter this Battle Institute![f000]븁\u0000\nSo, if you beat the Champion, come back!\nYou'll be invited to the Battle Institute!"
     ParentActorMsg MSGFILE_SCRIPT, 55, 0, 0

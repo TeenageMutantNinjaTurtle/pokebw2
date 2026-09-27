@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    MEPlay 1327
+    MEPlay SEQ_ME_CALL
     // "The Xtransceiver is ringing!"
     SystemMsg 0, 2
     MEWait

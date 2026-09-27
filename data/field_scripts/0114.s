@@ -37,7 +37,7 @@ Script_1:
     ActorMsgClose
     ActorCmdExec 255, Movement_03B4
     ActorCmdWait
-    SEPlay 1768
+    SEPlay SEQ_SE_FLD_87
     SEWait
     ActorAdd 4
     WorkSetConst 0x8020, 0
@@ -81,7 +81,7 @@ Script_1:
     // "To honor your achievement...\nI will present you with[f000]븀\u0000\nthe [f000][ff00]\u0001\u0002[f000]ĵ\u0001\u0001[f000][ff00]\u0001\u0000 Medal![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 4, 4, 2, 0
     MsgWinCloseAll
-    MEPlay 1336
+    MEPlay SEQ_ME_MD_FAN03
     MedalGetFieldEffectID 1, 0x400f
     PlayFieldEffect 0x400f
     MEWait
@@ -116,7 +116,7 @@ Script_2:
     ActorMsgClose
     ActorCmdExec 255, Movement_03B4
     ActorCmdWait
-    SEPlay 1768
+    SEPlay SEQ_SE_FLD_87
     SEWait
     ActorAdd 4
     WorkSetConst 0x8021, 0
@@ -160,7 +160,7 @@ Script_2:
     // "...To honor your achievement,\nI will present you with[f000]븀\u0000\nthe [f000][ff00]\u0001\u0002[f000]ĵ\u0001\u0001[f000][ff00]\u0001\u0000 Medal![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 12, 4, 2, 0
     MsgWinCloseAll
-    MEPlay 1337
+    MEPlay SEQ_ME_MD_FAN04
     MedalGetFieldEffectID 6, 0x400f
     PlayFieldEffect 0x400f
     MEWait
@@ -239,7 +239,7 @@ Script_10:
     VMStackPushConst 3
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_042E
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Medal Rally is far from over![f000]븁\u0000\nKeep up the good work,\nand receive many more Medals![f000]븁\u0000\nSee you!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -248,7 +248,7 @@ Script_10:
     VMJump L_0442
 
 L_042E:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The legend of [f000]Ā\u0001\u0000,\nwho collected all the Medals, will be[f000]븀\u0000\npassed down forever![f000]븁\u0000\nYou're the Top Medalist!"
     ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
@@ -262,7 +262,7 @@ L_0442:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8022, 0
     MedalGetCount 7, 0x8022
@@ -324,7 +324,7 @@ L_0512:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8024, 0
     WorkSetConst 0x8025, 0
@@ -413,7 +413,7 @@ Script_5:
     VMStackPushConst 1
     VMStackCmp CMP_LE
     VMJumpIf CMP_STACK, L_069E
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Actually, I've been secretly cheering\nfor you.[f000]븁\u0000\nOf course, as a staff member at the\nMedal Office,[f000]븀\u0000\nI will judge fairly, though."
     ParentActorMsg MSGFILE_SCRIPT, 36, 0, 0
@@ -426,7 +426,7 @@ L_069E:
     VMStackPushConst 3
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_06CB
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Actually, I believed that you would be\nable to reach the goal.[f000]븁\u0000\nI was right![f000]븁\u0000\nI'll keep cheering for you.\nGood luck!"
     ParentActorMsg MSGFILE_SCRIPT, 35, 0, 0
@@ -439,7 +439,7 @@ L_06CB:
     VMStackPushConst 5
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_06F2
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Actually, I believed that you would be\nable to collect all the Medals.[f000]븁\u0000\nYou lived up to my expectation!\nYou're really great![f000]븁\u0000\nI'm very moved.\nThank you!"
     ParentActorMsg MSGFILE_SCRIPT, 34, 0, 0
@@ -453,7 +453,7 @@ L_06F2:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Welcome to the Medal Office."
     InfoMsg 45, 2
     LastKeyWait
@@ -471,7 +471,7 @@ Script_7:
     WorkSetConst 0x8027, 0
     MedalGetCount 7, 0x8027
     WordSetMedalRank 2, 0x8027
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a graph showing the results\nof the Medal Rally.[f000]븁\u0000\n...[f000]븁\u0000\n[f000]Ā\u0001\u0000\nMedals received: [f000]Ȃ\u0001\u0001.[f000]븀\u0000\n[f000]Ķ\u0001\u0002 Rank[f000]븁\u0000\n..."
     InfoMsg 46, 2
     LastKeyWait
@@ -484,7 +484,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Many types of Medals\nare on the wall."
     InfoMsg 47, 2
     LastKeyWait
@@ -495,7 +495,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x40e2
     VMStackPushConst 6
@@ -505,7 +505,7 @@ Script_9:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_07B7
-    SEPlay 1690
+    SEPlay SEQ_SE_FLD_41
     // "I'm from the Castelia Harlequin Hunt![f000]븁\u0000\nYou found the Medal Office.\nAll riiight!"
     ParentActorMsg MSGFILE_SCRIPT, 43, 0, 0
     FlagSet 312

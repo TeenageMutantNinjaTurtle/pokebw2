@@ -37,7 +37,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Welcome![f000]븁\u0000\nIf you use the elevator, please use the\nbuttons on the door or next to the door."
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -49,7 +49,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Every morning, my Pokémon wakes me\nwith Uproar, so I always look like[f000]븀\u0000\na wreck.[f000]븁\u0000\nBut I appreciate its good intentions.\nI'll work my hardest to provide for it[f000]븀\u0000\ntoday, as always."
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -61,7 +61,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 361
     VMStackPushConst 0
@@ -218,7 +218,7 @@ L_02F9:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I am a janitorial man. ♪\nI make everything spick and span. ♪[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -270,7 +270,7 @@ Script_7:
 
 L_03EC:
     VMSleep 12
-    SEPlay 1768
+    SEPlay SEQ_SE_FLD_87
     SEWait
     WorkSetConst 0x8025, 0
     BMCreateHandleByGPos 0x8025, 1, 7, 1
@@ -320,7 +320,7 @@ Movement_0484:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x40e2
     VMStackPushConst 6
@@ -330,7 +330,7 @@ Script_8:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_04DB
-    SEPlay 1690
+    SEPlay SEQ_SE_FLD_41
     // "I'm from the Castelia Harlequin Hunt![f000]븁\u0000\nYou found the Battle Company\nHarlequin! All riiight!"
     ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     FlagSet 314

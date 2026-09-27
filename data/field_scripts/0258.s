@@ -6,7 +6,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I was able to get to know\nher through trading Pokémon![f000]븁\u0000\nOur battle styles, tastes,\nand ways of thinking are different,[f000]븀\u0000\nbut it's more interesting that way!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -18,7 +18,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "There are some Pokémon that evolve by\ntrading parts of their bodies![f000]븁\u0000\nWe might evolve by exchanging\nour thoughts and opinions!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0

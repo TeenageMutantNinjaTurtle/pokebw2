@@ -12,7 +12,7 @@ Script_1:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0051
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Long ago, I was a sharp-lookin' young\nman, and my wife was a fine-lookin' girl.[f000]븀\u0000\nThis is a story from way back then.[f000]븁\u0000\nRight around here, a certain Pokémon\ntaught Tornadus and Thundurus a lesson.[f000]븁\u0000\nFor about 30 years after that, those\ntwo Pokémon kept it calm and quiet.[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 1, 1, 0, 0
@@ -24,7 +24,7 @@ Script_1:
     VMJump L_00D5
 
 L_0051:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Long ago, I was a sharp-lookin' young\nman, and my wife was a fine-lookin' girl.[f000]븀\u0000\nThis is a story from way back then.[f000]븁\u0000\nRight around here, a certain Pokémon\ntaught Tornadus and Thundurus a lesson.[f000]븁\u0000\nFor about 30 years after that, those\ntwo Pokémon kept it calm and quiet.[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 3, 1, 0, 0
@@ -60,7 +60,7 @@ L_00D5:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "In the Unova region, you see,\nthere's a Pokémon called Thundurus[f000]븀\u0000\nthat causes thunder, and another called[f000]븀\u0000\nTornadus that causes heavy rain.[f000]븁\u0000\nThey fly around the region lettin' wild\nwinds loose while the rain pounds and[f000]븀\u0000\nthe lightnin' crashes.[f000]븁\u0000\nThey ruin the crops I work so hard\nto raise."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -72,7 +72,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I saw them![f000]븁\u0000\nTheir appearances were totally\ndifferent, but they must be Landorus,[f000]븀\u0000\nTornadus, and Thundurus!"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -84,7 +84,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8020, 0
     WorkSetConst 0x8021, 0
@@ -125,7 +125,7 @@ L_0193:
     FadeEx 3, 0, 16, 2
     FadeExWait
     PokePartyRecoverAll
-    MEPlay 1300
+    MEPlay SEQ_ME_ASA
     MEWait
     FadeEx 3, 16, 0, 2
     FadeExWait

@@ -87,7 +87,7 @@ Script_1:
     FlagReset 1035
     ActorAdd 0
     ActorSetGPos 0, 16, 0, 48, 0
-    BGMPlay 1091
+    BGMPlay SEQ_BGM_E_N_SWAN
     // "[f000]븉\u0001\u0001That's the place![f000]븉\u0001\u0000[f000]븁\u0000"
     InfoMsg 0, 2
     MsgWinCloseAll
@@ -322,7 +322,7 @@ L_0474:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x4114
     VMStackPushConst 3
@@ -344,7 +344,7 @@ L_04E9:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_0526
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "[f000]븉\u0001\u0001Go to Dragonspiral Tower.[f000]븁\u0000\nI will...[f000]븁\u0000\nI'll search for that Trainer\nI battled two years ago.[f000]븁\u0000\nAnd...[f000]븁\u0000\nI plan to say thank you.[f000]븉\u0001\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 32, 0, 0
@@ -353,7 +353,7 @@ L_04E9:
     VMJump L_0530
 
 L_0526:
-    BGMPlay 1091
+    BGMPlay SEQ_BGM_E_N_SWAN
     VMCall L_057D
 
 L_0530:

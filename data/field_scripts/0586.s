@@ -17,7 +17,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "                                                                                             "
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -29,7 +29,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "                                                    "
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0

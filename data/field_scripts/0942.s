@@ -8,7 +8,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "How was it?\nFor Pokémon under the ocean,[f000]븀\u0000\nthe world looks like that, doesn't it?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -20,7 +20,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The path is to see rather than to move."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -60,7 +60,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a sign that explains\nthe Marine Tube.[f000]븁\u0000"
     InfoMsg 4, 2
     MsgWinCloseAll

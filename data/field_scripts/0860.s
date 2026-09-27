@@ -48,7 +48,7 @@ Script_2:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_00BD
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "[f000]Ā\u0001\u0000, did you find\nthat lady called Bianca?[f000]븁\u0000\nI hope you get a Pokémon soon!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -66,7 +66,7 @@ L_00BD:
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_0100
     VMCall L_01E7
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I wish...[f000]븁\u0000\nI wish my big brother could go on a\njourney for his Pokémon, not for me."
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -84,7 +84,7 @@ L_0100:
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_0143
     VMCall L_01E7
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, [f000]Ā\u0001\u0000!\nTake care of [f000]ā\u0001\u0001![f000]븁\u0000\nOnly Trainers can protect\ntheir own Pokémon!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -110,7 +110,7 @@ L_0143:
     VMStackCmp CMP_AND
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_01A9
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "[f000]Ā\u0001\u0000![f000]븁\u0000\nLook![f000]븁\u0000\nLiepard looks so happy\nwhen I pet its head!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -119,7 +119,7 @@ L_0143:
     VMJump L_01C1
 
 L_01A9:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Know what?\nMy big brother told me something.[f000]븁\u0000\nHe said to talk to the Liepard\ninside the Poké Ball lots and lots,[f000]븀\u0000\nlike I'm doing, until it remembers me![f000]븁\u0000\nAnd to pet it, even if it's just on\nthe outside of the Poké Ball!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -132,7 +132,7 @@ L_01C1:
 
 L_01C7:
     VMCall L_01E7
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hi, [f000]Ā\u0001\u0000![f000]븁\u0000\nWow! It's [f000]ā\u0001\u0001![f000]븁\u0000\nYou know lots of other Pokémon, right?\nCool!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -151,7 +151,7 @@ L_01E7:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 510, 0
     // "Preoooww... ♪"
@@ -165,7 +165,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a map of the Unova region."
     InfoMsg 8, 2
     LastKeyWait

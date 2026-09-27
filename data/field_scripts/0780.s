@@ -67,7 +67,7 @@ L_00D2:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x400a
     VMStackPushConst 0
@@ -79,7 +79,7 @@ Script_1:
     FadeEx 3, 0, 16, 2
     FadeExWait
     PokePartyRecoverAll
-    MEPlay 1300
+    MEPlay SEQ_ME_ASA
     MEWait
     FadeEx 3, 16, 0, 2
     FadeExWait
@@ -157,7 +157,7 @@ Script_2:
     FadeEx 3, 0, 16, 2
     FadeExWait
     ActorMsgClose
-    MEPlay 1300
+    MEPlay SEQ_ME_ASA
     MEWait
     PokePartyRecoverAll
     FadeEx 3, 16, 0, 2

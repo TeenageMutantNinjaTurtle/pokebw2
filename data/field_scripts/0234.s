@@ -68,7 +68,7 @@ L_0105:
     WordSetPlayerName 0
     ActorCmdExec 0, Movement_03F8
     ActorCmdWait
-    BGMPlay 1086
+    BGMPlay SEQ_BGM_E_TSURETEKE2
     ActorCmdExec 0, Movement_0400
     ActorCmdWait
     // "Wye: Hi!\nThis way, pleeeeease![f000]븁\u0000"
@@ -95,7 +95,7 @@ L_0105:
     ActorMsgClose
     // "Aha: A question![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 4, 1, 0, 0
-    MEPlay 1328
+    MEPlay SEQ_ME_QUIZ
     MEWait
     ActorMsg MSGFILE_SCRIPT, 0x8025, 1, 0, 0
     ActorMsgClose
@@ -146,7 +146,7 @@ L_0280:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_02F1
-    SEPlay 1690
+    SEPlay SEQ_SE_FLD_41
     SEWait
     // "Aha: Woo-hoo!\nThat is c-o-r-r-e-c-t![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 10, 1, 0, 0
@@ -168,7 +168,7 @@ L_0280:
     VMJump L_0349
 
 L_02F1:
-    SEPlay 1691
+    SEPlay SEQ_SE_FLD_42
     SEWait
     // "Aha: Oh, no. Too bad!\nThat's not right, 'cause you are wrong![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 14, 1, 0, 0
@@ -189,7 +189,7 @@ L_02F1:
     WorkSetConst 0x8024, 22
 
 L_0349:
-    SEPlay 1659
+    SEPlay SEQ_SE_FLD_10
     ActorNew 4, 5, 1, 251, 110, 0
     SEWait
     ActorCmdExec 255, Movement_0430
@@ -213,7 +213,7 @@ L_0349:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Wye: I want to be on TV soon!"
     ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
@@ -225,7 +225,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Aha: Do you like quiz shows?"
     ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
@@ -237,7 +237,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Ditoh: Gussssssssstle!"
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0

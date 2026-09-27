@@ -13,7 +13,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "There are medicinal herbs that make\nPokémon healthy.[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
@@ -30,7 +30,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8020, 0
     WorkSetConst 0x8021, 0
@@ -97,7 +97,7 @@ L_0161:
     VMJump L_01FB
 
 L_018C:
-    SEPlay 1621
+    SEPlay SEQ_SE_SYS_22
     MoneySub 0x8022
     MoneyWinUpdate
     SEWait
@@ -144,7 +144,7 @@ L_0213:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I used to be part of Team Plasma.\nI have various kinds of incense.[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 24, 3, 0, 0
@@ -161,7 +161,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The medicinal herbs imported from\nanother region work very well![f000]븁\u0000\nBut Pokémon don't seem to like them,\nbecause they taste a little bitter."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -173,7 +173,7 @@ Script_4:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, I'm sorry. I'm all sold out.[f000]븁\u0000\nThat Charles guy bought\neverything I had."
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -185,7 +185,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "There must be a convenient town where\neverything is imported and everything[f000]븀\u0000\nis available."
     // "Somewhere, there's a laid-back town\nwhere people value the year's seasons.[f000]븁\u0000\nI heard we've imported a lot of goods\nfrom that town!"
@@ -198,7 +198,7 @@ Script_7:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Looking at seasonal vegetables is fun.[f000]븁\u0000\nBecause when the seasons change,\nthe vegetables available change!"
     // "Whenever we come to the market,\nvegetables of all seasons are available.[f000]븁\u0000\nIsn't that a marvel?"
@@ -211,7 +211,7 @@ Script_9:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Goods carried away from Driftveil arrive\nin a town somewhere else...[f000]븁\u0000\nYeah. The world is connected."
     // "Goods carried away from a town\nsomewhere else arrive in Driftveil...[f000]븁\u0000\nYeah. The world is connected."
@@ -224,7 +224,7 @@ Script_8:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 324
     VMStackPushConst 0

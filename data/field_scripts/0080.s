@@ -80,7 +80,7 @@ L_014F:
     EvCameraWait
     EvCameraRebind
     EvCameraEnd
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 2
     SEWait
     ActorCmdExec 1, Movement_03C0
@@ -158,7 +158,7 @@ Script_2:
     VMStackPushConst 3
     VMStackCmp CMP_GT
     VMJumpIf CMP_STACK, L_02C3
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "So what are you going to do now?[f000]븁\u0000\nYou ran into Gym Leader Burgh\nin the sewers, didn't you?[f000]븁\u0000\nMaybe you should go to the Pokémon Gym\nand see how far you've come![f000]븁\u0000\nI'm sure battling will help your Pokémon\ncome to understand you better[f000]븀\u0000\nas a Trainer, too!"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -167,7 +167,7 @@ Script_2:
     VMJump L_02D7
 
 L_02C3:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Iris: Yep! The sewers are\na perfect place for hiding!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -181,7 +181,7 @@ L_02D7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Stick up your thumbs, and curl in\nyour fingers.[f000]븁\u0000\nThis is a thumbs-up pose. That means OK!\nIn some places, it also means well done!"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -197,7 +197,7 @@ Script_3:
     VMStackPushConst 1
     VMStackCmp CMP_LT
     VMJumpIf CMP_STACK, L_0328
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Some Trainers even toughen up\ntheir Pokémon in the sewers..."
     ActorMsg MSGFILE_SCRIPT, 8, 0, 0, 0
     LastKeyWait
@@ -209,7 +209,7 @@ L_0328:
     VMStackPushConst 4
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0355
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Because of the tide, you sometimes\nmight not be able to get into[f000]븀\u0000\nthe Castelia Sewers.[f000]븀\u0000\nIt depends on the season."
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -218,7 +218,7 @@ L_0328:
     VMJump L_0369
 
 L_0355:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "What?\nYou want to go into the sewers?[f000]븁\u0000\nWell, OK... But watch out\nfor wild Pokémon."
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0

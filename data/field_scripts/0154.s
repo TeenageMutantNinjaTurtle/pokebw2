@@ -353,7 +353,7 @@ Movement_0514:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     MusicalCmd_0165 7, 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
@@ -378,7 +378,7 @@ L_0567:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Musical Theater\nProps + Music + Dance = Moving Spectacle!"
     InfoMsg 34, 2
     LastKeyWait
@@ -389,7 +389,7 @@ Script_14:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "When you play Dress Up, matching the\nshow you're performing in is im-por-tant![f000]븁\u0000\nIf it's a good match, you can win the\nhearts of the audience![f000]븀\u0000\nYou'll be sure to attract attention.[f000]븁\u0000\nIf you're going to get on stage,\nit's a waste if you don't stand out!"
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
@@ -401,7 +401,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Pokémon Props each have their own image:\ncool, cute, elegant, or quirky.[f000]븁\u0000\nBefore you play Dress Up, take a moment\nto think about the image you prefer."
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
@@ -413,7 +413,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm not trying to brag, but we're\nrather rich.[f000]븁\u0000\nWhen you say rich people, you think\nmusical. It's a matter of taste, I guess."
     ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
@@ -425,7 +425,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Know what? When there are cute Pokémon,\nmy eyes are glued to the stage!"
     ParentActorMsg MSGFILE_SCRIPT, 29, 0, 0
@@ -437,7 +437,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Originally, people performed in this\nMusical Theater.[f000]븁\u0000\nOne time, a Pokémon wandered up on\nstage and started imitating the actors.[f000]븁\u0000\nEverybody thought it was sensational!\nTa-daaa! The Pokémon Musical was born."
     ParentActorMsg MSGFILE_SCRIPT, 30, 0, 0
@@ -453,7 +453,7 @@ Script_1:
     WorkSetConst 0x8028, 0
     WorkSetConst 0x8029, 0
     WorkSetConst 0x802a, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Cmd_02B4 1, 0x8028
     MusicalCmd_02B6 0, 0x8027
@@ -553,7 +553,7 @@ Script_18:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_07C8
     WordSetPlayerName 0
-    MEPlay 1303
+    MEPlay SEQ_ME_KEYITEM
     // "[f000]Ā\u0001\u0000 received\na set of Props![f000]븁\u0000"
     SystemMsg 46, 0
     MEWait
@@ -717,7 +717,7 @@ L_0A30:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 552, 0
     // "Gwah!"
@@ -731,14 +731,14 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     MusicalCmd_0165 1, 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 2
     VMStackCmp CMP_LT
     VMJumpIf CMP_STACK, L_0A98
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It is such a treat when Trainers have\nplayed Dress Up with their Pokémon[f000]븀\u0000\nwith such charming results."
     ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
@@ -751,7 +751,7 @@ L_0A98:
     VMStackPushConst 5
     VMStackCmp CMP_LT
     VMJumpIf CMP_STACK, L_0AC5
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Your Pokémon are wonderful!\nI'm always watching them.[f000]븁\u0000\nI hope you can keep entertaining us with\nyour performances."
     ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
@@ -760,7 +760,7 @@ L_0A98:
     VMJump L_0AD9
 
 L_0AC5:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I always make sure to watch the\nshows you participate in![f000]븁\u0000\nEven from the perspective of a rich\nman like me, the Pokémon Musical[f000]븀\u0000\nis impressive![f000]븁\u0000\nIt's unparalleled entertainment!"
     ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
@@ -785,7 +785,7 @@ Script_9:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0B38
     WordSetMusicalInfo 7, 0, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Great work! I saw your Pokémon up\nthere today![f000]븁\u0000\nOverall, totally [f000]ģ\u0001\u0000![f000]븁\u0000\nThe [f000]ģ\u0001\u0001 Prop\nwas a great accent.[f000]븁\u0000\nI noticed that your [f000]ģ\u0001\u0002\nfactor was a bit subdued today.[f000]븁\u0000\nOK! I'm not going to lose!"
     ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
@@ -795,7 +795,7 @@ Script_9:
     VMJump L_0B4C
 
 L_0B38:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I want to make Pokémon more glamorous\nthan ever before, so I'm researching the[f000]븀\u0000\nstyles others use when playing Dress Up."
     ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
@@ -806,7 +806,7 @@ L_0B4C:
     VMJump L_0B66
 
 L_0B52:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I want to make Pokémon more glamorous\nthan ever before, so I'm researching the[f000]븀\u0000\nstyles others use when playing Dress Up."
     ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
@@ -848,7 +848,7 @@ Script_13:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The seats are beyond this entrance,\nbut I think you belong on the[f000]븀\u0000\nspectacular stage!"
     ParentActorMsg MSGFILE_SCRIPT, 35, 0, 0
@@ -866,7 +866,7 @@ Script_16:
     Cmd_02B4 1, 0x8031
     MusicalCmd_02B6 1, 0x8032
     MusicalCmd_0165 0, 0, 0x8033
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8031
     VMStackPushConst 0

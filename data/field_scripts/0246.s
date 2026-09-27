@@ -50,7 +50,7 @@ Script_3:
     // "Oh, the DNA Splicers\nare stored very safely.[f000]븁\u0000\nI guard them because I don't know\nwhat kind of power might lie within them.[f000]븁\u0000\nBut here's what's been bothering me...\nCould there be one more dragon Pokémon?[f000]븁\u0000\nEven if Kyurem really exists,\nwe don't know what kind of Pokémon it is.[f000]븁\u0000\nFor starters, the two Pokémon\nthe ancient Pokémon split into[f000]븀\u0000\nare both overwhelmingly powerful.[f000]븁\u0000\nSo if Kyurem exists, could it be just\na husk--a shell that was left over?[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 6, 0, 0, 0
     MsgWinCloseAll
-    SEPlay 2266
+    SEPlay SEQ_SE_SW_SOURYU_RUMBLE
     EvCameraShake 0, 1, 3, 6, 0, 0, 0, 0
     // "Boom![f000]븁\u0000"
     ScreamMsg 7, 2
@@ -68,7 +68,7 @@ Script_3:
     ActorCmdExec 0, Movement_01BC
     ActorCmdExec 255, Movement_01B0
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 0
     SEWait
     ActorWalkRoute 255, 9, 14, 0, 8, 0
@@ -123,7 +123,7 @@ Movement_01BC:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     RTCallGlobal 2280
     FinishAllEvents
@@ -132,7 +132,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 610, 0
     // "Ax! Axew!"

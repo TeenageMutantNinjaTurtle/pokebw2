@@ -20,7 +20,7 @@ L_0031:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Somehow, customers don't come\nto this place.[f000]븁\u0000\nOh! I have an idea!\nYou're a Trainer, aren't you?[f000]븁\u0000\nDo your best and become\nthe Champion![f000]븁\u0000\nThen, I can advertise this place\nas a room that the Champion visited!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -36,7 +36,7 @@ Script_3:
     VMStackPushConst 7
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_007E
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You're a wonderful person.\nYou can do things for others.[f000]븁\u0000\nIf such a person rings the bell,\nthe sound should reach here..."
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -45,7 +45,7 @@ Script_3:
     VMJump L_0092
 
 L_007E:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "To choose this place for our honeymoon.\nThat's the man I chose!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -59,7 +59,7 @@ L_0092:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x40ee
     VMStackPushConst 0

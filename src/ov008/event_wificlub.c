@@ -251,7 +251,7 @@ GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, void *d
         wk->login.unk4 = 0;
         wk->login.unkC = 10;
         wk->login.unk18 = 1;
-        GFL_SndBGMPlay(SEQ_BGM_WIFI_CLUB, SND_CHANNEL_MASK_ALL);
+        GFL_SndBGMPlay(SEQ_BGM_WIFI_ACCESS, SND_CHANNEL_MASK_ALL);
         wk->procManager = CreateGameProcManager(HEAPID_GAMEEVENT);
         QueueGameProc(wk->procManager, OVERLAY_WIFILOGIN, &WIFILOGIN_PROC_FUNCTIONS, &wk->login);
         wk->club->mode = 0;
@@ -355,7 +355,7 @@ GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, void *d
     case 16: {
         int i;
 
-        GFL_SndBGMPlay(SEQ_BGM_WIFI_BATTLE, SND_CHANNEL_MASK_ALL);
+        GFL_SndBGMPlay(SEQ_BGM_VS_TRAINER_WIFI, SND_CHANNEL_MASK_ALL);
         wk->unk124 = 1;
         if (func_02042a6c(func_02040440()) == 0) {
             for (i = 0; i < 2; i++) {

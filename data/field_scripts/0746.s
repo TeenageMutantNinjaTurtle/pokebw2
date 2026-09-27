@@ -10,7 +10,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm really annoyed by what\nTeam Plasma said in the past.[f000]븁\u0000\nSo, I live with Pokémon\nwithout putting them in Poké Balls![f000]븁\u0000\nBut Panpour doesn't\nlisten to me at all..."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -22,7 +22,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 515, 0
     // "Chatttteeeer!!"
@@ -36,7 +36,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The creation of Poké Balls made it\npossible for everyone to be with Pokémon.[f000]븁\u0000\nYes, everyone..."
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0

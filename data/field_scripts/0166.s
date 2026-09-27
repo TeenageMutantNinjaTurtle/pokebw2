@@ -110,7 +110,7 @@ L_01D6:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Everybody makes mistakes.[f000]븁\u0000\nBut goalkeepers cannot afford a mistake,\nbecause they cannot score goals to make[f000]븀\u0000\nup for it.[f000]븁\u0000\nIf one Pokémon on a team makes a\nmistake, however, the other Pokémon[f000]븀\u0000\nand their Trainer can cover for it!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -122,7 +122,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If a Striker catches a teammate's eye,\nthey understand each other.[f000]븁\u0000\nA Pokémon and its Trainer are the same.\nDon't you agree?"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -134,7 +134,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Really strong Trainers thoroughly do\nwhatever they can do!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -146,7 +146,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Soccer is beautiful and fun!\nPokémon are also beautiful and fun!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -158,7 +158,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Soccer with Pokémon is Pokémon soccer.\nThe abbreviation is...Poker?[f000]븀\u0000\nNo, wait, that's a fireplace tool.[f000]븀\u0000\nHow about Poccer?"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -170,7 +170,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Throw a sound pass to a team member![f000]븁\u0000\nAfter that, to receive a sound pass,\nyou'll need to move swiftly."
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -182,7 +182,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Run! Run!\nJust think about running!"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -194,7 +194,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 504, 0
     // "Squeeskwaa!"
@@ -208,7 +208,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 504, 0
     // "Meep! ♪"

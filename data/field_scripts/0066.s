@@ -54,7 +54,7 @@ Script_14:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Studio Castelia"
     MsgPlaceSign 22, 2
     MsgPlaceSignClose
@@ -65,7 +65,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Castelia's Famous Casteliacone"
     MsgPlaceSign 23, 2
     MsgPlaceSignClose
@@ -75,7 +75,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2752
     VMStackPushConst 0
@@ -176,7 +176,7 @@ L_0263:
     VMJump L_02F5
 
 L_028C:
-    SEPlay 1621
+    SEPlay SEQ_SE_SYS_22
     MoneySub 0x8025
     MoneyWinUpdate
     SEWait
@@ -285,7 +285,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I rode the train and came clear\nfrom Anville Town to get one!"
     ActorMsg MSGFILE_SCRIPT, 14, 2, 0, 0
@@ -299,7 +299,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Boy oh boy! If the Champion\nbuys them, too, these have to be cool!"
     ActorMsg MSGFILE_SCRIPT, 15, 3, 0, 0
@@ -313,7 +313,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I can't wait to eat one!"
     ActorMsg MSGFILE_SCRIPT, 16, 4, 0, 0
@@ -327,7 +327,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My daughter asked me to get\nthem for her, but look at this line!"
     ActorMsg MSGFILE_SCRIPT, 17, 5, 0, 0
@@ -341,7 +341,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2752
     VMStackPushConst 0
@@ -625,7 +625,7 @@ L_0A38:
     VMJump L_0AA1
 
 L_0A61:
-    SEPlay 1621
+    SEPlay SEQ_SE_SYS_22
     MoneySub 0x8025
     MoneyWinUpdate
     SEWait

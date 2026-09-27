@@ -9,7 +9,7 @@
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Here is a little advice!\nKeep a lot of Potions![f000]븁\u0000\nHere is some more advice!\nKeep a lot of Poké Balls, too!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -21,7 +21,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8020, 0
     PokePartyGetMemberByType 0x8020, 2
@@ -64,7 +64,7 @@ L_00BB:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I read the Help on the PC.\nI feel I became smarter!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -76,7 +76,7 @@ Script_5:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -91,7 +91,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001

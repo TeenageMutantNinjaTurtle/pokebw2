@@ -77,7 +77,7 @@ Script_3:
     ActorsPauseAll
     Plugin10_Cmd1011
     WorkSetConst 0x8022, 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2440
     VMStackPushConst 0
@@ -118,7 +118,7 @@ L_016C:
     WordSetPlayerName 0
     // "Hey, [f000]Ā\u0001\u0000![f000]븁\u0000\nRecently, you've even begun\nto look like a movie star!"
     ActorMsg MSGFILE_SCRIPT, 13, 0x8011, 2, 0
-    SEPlay 1924
+    SEPlay SEQ_SE_TDEMO_001
     SEWait
     MsgWaitAdvance
 
@@ -858,7 +858,7 @@ Script_5:
     // "Brycen!\nWould you join us?[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 50, 2, 2, 0
     MsgWinCloseAll
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     SEWait
     ActorNew 14, 11, 1, 251, 91, 0
     ActorCmdExec 251, Movement_0CC0
@@ -879,7 +879,7 @@ Script_5:
     ActorCmdExec 251, Movement_0CD0
     ActorCmdWait
     ActorDelete 251
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     SEWait
     // "Mhm!\nAs cool as ever![f000]븁\u0000\nSo that's the situation![f000]븁\u0000\nIf you talk to that fine staff member\nover there, you can shoot the film![f000]븁\u0000\nDon't be afraid of making mistakes!\nTo start with, try going big!"
     ActorMsg MSGFILE_SCRIPT, 54, 2, 2, 0
@@ -940,7 +940,7 @@ Movement_0D1C:
 Script_6:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Movies! They're amazement itself![f000]븁\u0000\nCome now, [f000]Ā\u0001\u0000, dahling,\nbe surprised and moved![f000]븀\u0000\nTry the experience for yourself!"
     ParentActorMsg MSGFILE_SCRIPT, 55, 0, 0
@@ -953,7 +953,7 @@ Script_6:
 Script_7:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Well now, [f000]Ā\u0001\u0000!\nLooking forward to working with you![f000]븁\u0000\nPlease do your best until we make\na movie to release in the theater!"
     ParentActorMsg MSGFILE_SCRIPT, 56, 0, 0
@@ -965,7 +965,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Pokéstar Studios...[f000]븁\u0000\nThis is a stage of dreams that only\nchosen Trainers can stand on![f000]븁\u0000\nPlease finish the procedures for\nfilming with the gentleman by the door..."
     ParentActorMsg MSGFILE_SCRIPT, 61, 0, 0

@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hello, hello!\nI am the official Name Rater![f000]븁\u0000\nWant me to rate the nicknames\nof your Pokémon?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0

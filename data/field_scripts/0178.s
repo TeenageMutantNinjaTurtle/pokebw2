@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 262
     VMStackPushConst 0
@@ -60,7 +60,7 @@ L_00B8:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "A sports game, like baseball or football,\nstarts at a certain time every day.[f000]븁\u0000\nThat's in Big Stadium!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -72,7 +72,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "In the Small Court, you can find games of\nbasketball and tennis."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0

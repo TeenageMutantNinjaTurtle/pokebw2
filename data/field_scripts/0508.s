@@ -31,7 +31,7 @@ Script_2:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This Tubeline Bridge was No. 1\nin the bridge rankings in Unova.[f000]븀\u0000\nThat means it's the sturdiest!"
     ActorMsg MSGFILE_SCRIPT, 14, 0, 1, 0
@@ -48,7 +48,7 @@ Script_5:
     WorkSetConst 0x8022, 0
     WorkSetConst 0x8023, 0
     WorkSetConst 0x8024, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x4185
     VMStackPushConst 0
@@ -199,7 +199,7 @@ Script_7:
     VMStackCmp CMP_GE
     VMJumpIf CMP_STACK, L_02DD
     Cmd_02B5 0, 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "We were riding our motorbikes\nto our hearts' content...[f000]븁\u0000\nWe believed we could\nride forever and ever...[f000]븁\u0000\nYes, it's an infinite,\nlimitless, breakneck road...[f000]븁\u0000\nWith the breakneck team, Black Empoleon![f000]븁\u0000\nBack when I had a one-on-one\nbattle with [f000]Ā\u0001\u0001...[f000]븀\u0000\nthat was our golden age.[f000]븁\u0000\nIt was the age of gold."
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -208,7 +208,7 @@ Script_7:
     VMJump L_02F1
 
 L_02DD:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "We were riding our motorbikes\nto our hearts' content...[f000]븁\u0000\nWe believed we could\nride forever and ever...[f000]븁\u0000\nYes, it's an infinite,\nlimitless, breakneck road...[f000]븁\u0000\nWith the breakneck team, Black Empoleon![f000]븁\u0000\nBack when I had a one-on-one\nbattle with the Trainer...[f000]븀\u0000\nthat was our golden age.[f000]븁\u0000\nIt was the age of gold."
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -222,7 +222,7 @@ L_02F1:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x4108
     VMStackPushConst 2
@@ -241,7 +241,7 @@ Script_8:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_03B7
     MsgWinCloseAll
-    SEPlay 2017
+    SEPlay SEQ_SE_ARDEMO_01
     SEWait
     // "Refreshed!![f000]븁\u0000\nI'm 100% rehydrated!\nI feel better now! Thank you![f000]븁\u0000\nI'll dash to the next bridge!"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0

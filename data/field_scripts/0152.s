@@ -65,7 +65,7 @@ L_0117:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x4179
     VMStackPushConst 2
@@ -765,7 +765,7 @@ L_0C21:
     WorkSetConst 0x8020, 26
 
 L_0C3A:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
@@ -783,7 +783,7 @@ Script_5:
     VMStackPushConst 4
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0C95
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin1_Cmd1003 37, 0x8011, 0, 0
     VMJump L_0CDC
@@ -799,7 +799,7 @@ L_0C95:
 
 L_0CBE:
     Plugin1_Cmd1003 26, 0x8011, 0, 32800
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
@@ -947,7 +947,7 @@ L_0ECD:
     WordSetNumber 1, 0x8030, 2
     // "[f000]Ā\u0001\u0000 received [f000]ȁ\u0001\u0001 BP!"
     SystemMsg 0, 2
-    MEPlay 1318
+    MEPlay SEQ_ME_BPGET
     MEWait
     MsgWaitAdvance
     InfoMsgClose
@@ -958,7 +958,7 @@ L_0ECD:
     VMJumpIf CMP_STACK, L_0FF8
     // "Also, to commemorate this, I give you\nthis trophy.[f000]븁\u0000\nPlease display it in your home!"
     ActorMsg MSGFILE_SCRIPT, 8, 0x802e, 2, 0
-    MEPlay 1316
+    MEPlay SEQ_ME_HYOUKA6
     MEWait
     MsgWaitAdvance
     MsgWinCloseAll
@@ -1011,7 +1011,7 @@ L_0FFE:
     WordSetNumber 1, 0x8030, 2
     // "[f000]Ā\u0001\u0000 received [f000]ȁ\u0001\u0001 BP!"
     SystemMsg 0, 2
-    MEPlay 1318
+    MEPlay SEQ_ME_BPGET
     MEWait
     MsgWaitAdvance
     InfoMsgClose
@@ -1081,7 +1081,7 @@ L_1113:
     WordSetNumber 1, 0x8030, 2
     // "[f000]Ā\u0001\u0000 received [f000]ȁ\u0001\u0001 BP!"
     SystemMsg 0, 2
-    MEPlay 1318
+    MEPlay SEQ_ME_BPGET
     MEWait
     MsgWaitAdvance
     InfoMsgClose
@@ -1279,9 +1279,9 @@ L_147D:
     FadeInBlackQ
     FadeWait
     VMSleep 10
-    SEPlay 1972
+    SEPlay SEQ_SE_BDEMO_03
     VMSleep 60
-    SEPlay 1970
+    SEPlay SEQ_SE_BDEMO_01
     ActorCmdExec 255, Movement_1548
     VMStackPush 0x8032
     VMStackPushConst 1
@@ -1305,9 +1305,9 @@ L_14E7:
     VMJumpIf CMP_STACK, L_153E
     VMSleep 30
     Plugin1_Cmd1003 19, 0, 0, 0
-    SEPlay 1970
+    SEPlay SEQ_SE_BDEMO_01
     VMSleep 20
-    SEPlay 1973
+    SEPlay SEQ_SE_BDEMO_04
     VMSleep 30
     FadeEx 3, 0, 16, 2
     FadeExWait
@@ -1377,9 +1377,9 @@ L_1620:
     VMJumpIf CMP_STACK, L_1661
     Plugin1_Cmd1003 19, 2, 1, 0
     Plugin1_Cmd1003 20, 0, 0, 0
-    SEPlay 1972
+    SEPlay SEQ_SE_BDEMO_03
     VMSleep 70
-    SEPlay 1970
+    SEPlay SEQ_SE_BDEMO_01
     VMSleep 20
 
 L_1661:
@@ -1394,9 +1394,9 @@ L_1661:
 L_1686:
     ActorCmdWait
     Plugin1_Cmd1003 19, 3, 1, 0
-    SEPlay 1970
+    SEPlay SEQ_SE_BDEMO_01
     VMSleep 30
-    SEPlay 1971
+    SEPlay SEQ_SE_BDEMO_02
     VMSleep 30
     FadeOutBlackQ
     FadeWait
@@ -1547,7 +1547,7 @@ L_18E3:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a subway map of the Unova region.[f000]븁\u0000"
     InfoMsg 117, 2
     MsgWinCloseAll

@@ -5,7 +5,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Apparently, this is where\nit all began for Castelia City."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0

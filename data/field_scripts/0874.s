@@ -115,7 +115,7 @@ L_0205:
     VMSleep 16
     ActorCmdExec 255, Movement_0798
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 5
     SEWait
     VMReturn
@@ -123,7 +123,7 @@ L_0205:
     ActorCmdWait
     ActorCmdExec 251, Movement_0750
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 251
     SEWait
     VMReturn
@@ -160,7 +160,7 @@ Script_2:
     ActorCmdExec 255, Movement_0790
     ActorCmdWait
     EvCameraWait
-    BGMPlay 1101
+    BGMPlay SEQ_BGM_E_CHAMPION
     // "My name is Alder![f000]븁\u0000\nI'm a Trainer with a keen interest in the\nworld. One of my goals is to tell people[f000]븀\u0000\nabout how wonderful it is to walk toward[f000]븀\u0000\nthe future together with Pokémon.[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 9, 1, 0, 0
     MsgWinCloseAll
@@ -292,7 +292,7 @@ Script_7:
     ActorCmdExec 255, Movement_0790
     ActorCmdWait
     EvCameraWait
-    BGMPlay 1101
+    BGMPlay SEQ_BGM_E_CHAMPION
     VMSleep 40
     EvCameraMoveToDefault 64
     ActorJumpToGPos 1, 93, 1, 693
@@ -369,7 +369,7 @@ Script_8:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 16
     VMStackPushConst 0
@@ -433,7 +433,7 @@ L_06AF:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Know what? I'm searching for\nPokémon in the tall grass![f000]븁\u0000\nThat's right! If you don't want\nto meet Pokémon, avoid the tall grass!"
     ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
@@ -445,7 +445,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You can use Surf?\nNice! We can be Surf buddies!"
     ParentActorMsg MSGFILE_SCRIPT, 34, 0, 0
@@ -458,7 +458,7 @@ Script_10:
 Script_4:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Route 19"
     MsgPlaceSign 31, 3
     MsgPlaceSignClose
@@ -469,7 +469,7 @@ Script_4:
 Script_5:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Route 19"
     MsgPlaceSign 32, 3
     MsgPlaceSignClose
@@ -480,7 +480,7 @@ Script_5:
 Script_6:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Trainer Tips![f000]븁\u0000\n\nMake an effort to talk to all the\npeople you meet during your journey![f000]븁\u0000\nChances are they will have something\nuseful to tell you."
     MsgPlaceSign 33, 0
     MsgPlaceSignClose

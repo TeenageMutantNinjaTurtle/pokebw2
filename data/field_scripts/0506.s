@@ -12,14 +12,14 @@ Script_1:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_005C
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Sometimes, above the bridge, you can\nsee the shadows of bird Pokémon, right?[f000]븁\u0000\nTheir feathers drift to the ground here![f000]븁\u0000\nAnd when you try to pick them up,\noccasionally you'll run into a Pokémon."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     MsgWaitAdvance
     MsgWinCloseAll
     Cmd_0275 0, 14, 0
-    SEPlay 1908
+    SEPlay SEQ_SE_FLD_133
     // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink!"
     SystemMsg 1, 0
     SEWait
@@ -29,7 +29,7 @@ Script_1:
     VMJump L_0070
 
 L_005C:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Sometimes, above the bridge, you can\nsee the shadows of bird Pokémon, right?[f000]븁\u0000\nTheir feathers drift to the ground here![f000]븁\u0000\nAnd when you try to pick them up,\noccasionally you'll run into a Pokémon."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -43,7 +43,7 @@ L_0070:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Driftveil City is famous for this\ndrawbridge, the PWT, and of course,[f000]븀\u0000\nthe heartbreaker, Charles."
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -59,7 +59,7 @@ Script_3:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_00C1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I wonder if the people who made\nthis drawbridge were with Charizard."
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -75,7 +75,7 @@ L_00C1:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0102
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Driftveil Drawbridge...\nIt's also known as the Charizard Bridge![f000]븁\u0000\nBecause the raised drawbridge looks like\nthe Pokémon called Charizard.[f000]븁\u0000\n...But, I've never seen Charizard,\nso I don't know..."
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -84,7 +84,7 @@ L_00C1:
     VMJump L_014A
 
 L_0102:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Driftveil Drawbridge...\nIt's also known as the Charizard Bridge![f000]븁\u0000\nBecause the raised drawbridge looks like\nthe Pokémon called Charizard.[f000]븁\u0000\n...But, I've never seen Charizard,\nso I don't know...[f000]븁\u0000\n...What?!\nAre you with Charizard?[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -152,7 +152,7 @@ L_01DE:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x4108
     VMStackPushConst 1
@@ -171,7 +171,7 @@ Script_4:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_02A8
     MsgWinCloseAll
-    SEPlay 2017
+    SEPlay SEQ_SE_ARDEMO_01
     SEWait
     // "Refreshed!![f000]븁\u0000\nI'm 100% rehydrated!\nI feel better now! Thank you![f000]븁\u0000\nI'll dash to the next bridge!"
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0

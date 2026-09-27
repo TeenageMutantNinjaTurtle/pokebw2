@@ -11,7 +11,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 200
     VMStackPushConst 0
@@ -214,7 +214,7 @@ L_0325:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Welcome to the Pokémon Fan Club.[f000]븁\u0000\nShall I check how friendly your Pokémon\nis toward you?"
     ActorMsg MSGFILE_SCRIPT, 14, 0, 0, 0
@@ -349,7 +349,7 @@ L_0529:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 517, 0
     // "Muuun!"
@@ -363,7 +363,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 552, 0
     // "Glibalugga!"
@@ -377,7 +377,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 531, 0
     // "Dii?"
@@ -391,7 +391,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 580, 0
     // "Quaa!"
@@ -405,7 +405,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 524, 0
     // "Rola."

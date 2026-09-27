@@ -8,7 +8,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My friend worries about everyone's\nhealth when they set off on journeys,[f000]븀\u0000\nso he always nicknames Pokémon[f000]븀\u0000\nhe trades “Gesundheit.\"[f000]븁\u0000\nI wonder how he's doing?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -20,7 +20,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 511, 0
     // "Gesundheit: ...Pan?"
@@ -34,7 +34,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Mr. Lock...\nHe was a mysterious man..."
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0

@@ -28,7 +28,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "The portrait has fallen..."
     InfoMsg 1, 2
     LastKeyWait
@@ -39,7 +39,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "No one saw it change, but now\nthe picture is hanging upside down..."
     InfoMsg 2, 2
     LastKeyWait

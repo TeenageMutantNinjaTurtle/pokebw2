@@ -116,7 +116,7 @@ Script_1:
     ActorsPauseAll
     ActorWalkRoute 255, 7, 20, 1, 8, 0
     VMSleep 16
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorNew 7, 25, 0, 251, 291, 0
     SEWait
     ActorCmdWait
@@ -167,7 +167,7 @@ Script_1:
     VMSleep 8
     ActorCmdExec 255, Movement_0A50
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 251
     SEWait
     ActorCmdExec 0, Movement_0A78
@@ -207,7 +207,7 @@ Script_2:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_038C
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Rood: Could you please look after this\nPokémon, Zorua?"
     ActorMsg MSGFILE_SCRIPT, 12, 0, 3, 0
@@ -229,7 +229,7 @@ L_0386:
     VMJump L_03A0
 
 L_038C:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My lord N is a wonderful person\nwho has the power to understand[f000]븀\u0000\nthe hearts of Pokémon.[f000]븁\u0000\nBut still, he has much to learn about\nunderstanding the hearts of people...[f000]븁\u0000\nI hope he will develop this skill while\nhe travels with the legendary Pokémon[f000]븀\u0000\nto atone for the trouble he caused[f000]븀\u0000\nin Unova as the king of Team Plasma."
     ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
@@ -364,7 +364,7 @@ L_0598:
     ActorDelete 1
     PokePartyAddNPoke 0x8010, 570, 25, 11, 0, 0
     WordSetPlayerName 0
-    MEPlay 1304
+    MEPlay SEQ_ME_POKEGET
     // "[f000]Ā\u0001\u0000 received Zorua!"
     SystemMsg 38, 0
     MEWait
@@ -451,7 +451,7 @@ Script_3:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_071B
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma is an organization\ncreated by a man named Ghetsis[f000]븀\u0000\nto help him take over the Unova region.[f000]븁\u0000\nThe one he groomed to help him\nfurther his nefarious aims was N.[f000]븁\u0000\nN was a strange boy who was\ncalled the child of the Pokémon."
     ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
@@ -460,7 +460,7 @@ Script_3:
     VMJump L_072F
 
 L_071B:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I wonder if N understands now.[f000]븁\u0000\nTrainers battle with Pokémon not to hurt\nthem, but so Trainers and Pokémon can[f000]븀\u0000\nunderstand one another better![f000]븁\u0000\nIt's the simplest way\nfor them to do this.[f000]븁\u0000\nThe more serious the battle,\nthe more the true nature of Pokémon[f000]븀\u0000\nand people becomes apparent!"
     ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
@@ -478,7 +478,7 @@ Script_4:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0764
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "N was an orphan.[f000]븁\u0000\nI heard that right after he was born,\nhe upset people with behavior that[f000]븀\u0000\nsuggested he could talk to Pokémon.[f000]븁\u0000\nWhen he was living in the woods\nwith Darmanitan and Zorua,[f000]븀\u0000\nGhetsis took him in.[f000]븁\u0000\nWe are also orphans Ghetsis took in.\nOur task was to take care of N."
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
@@ -487,7 +487,7 @@ Script_4:
     VMJump L_0778
 
 L_0764:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I don't understand N's\npure and innocent feelings.[f000]븁\u0000\nBut I will be very happy if he\nfigured out what he wants to do[f000]븀\u0000\non his own during his travels[f000]븀\u0000\nwith the legendary Pokémon."
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
@@ -501,7 +501,7 @@ L_0778:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm waiting for my lord N to return.\nHe can talk to Pokémon.[f000]븁\u0000\nIf he comes back, we can find out\nwhat the Pokémon here want."
     ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
@@ -513,7 +513,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "We're taking care of the Pokémon\nwhose Trainers we can't find.[f000]븁\u0000\nI know it seems arrogant,\nbut it's a small way to make up[f000]븀\u0000\nfor what we've done."
     ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
@@ -525,7 +525,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You can't change the past,\nbut you can change the future![f000]븁\u0000\nThat's why I changed my outfit.\nI can still fit into the old one, though![f000]븀\u0000\nReally!"
     ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
@@ -537,7 +537,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This Pokémon has become attached to me.[f000]븁\u0000\nThat's why I'm treating it like\na friend and not like a tool!"
     ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
@@ -549,7 +549,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 507, 0
     // "Bwoaf bowoaf!"
@@ -563,7 +563,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 596, 0
     // "Swwaaa!"
@@ -577,7 +577,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 559, 0
     // "Scrarara!"
@@ -591,7 +591,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 504, 0
     // "Skreeree..."
@@ -605,7 +605,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 570, 0
     // "Yeowwln!"
@@ -619,7 +619,7 @@ Script_13:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WordSetPlayerName 0
     WordSetLoadRivalName 1

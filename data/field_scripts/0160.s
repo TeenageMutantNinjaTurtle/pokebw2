@@ -12,7 +12,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 220
     VMStackPushConst 1
@@ -35,7 +35,7 @@ L_0057:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkCmpConst 0x4160, 3
     VMJumpIf CMP_EQ, L_007C
@@ -69,7 +69,7 @@ L_00B9:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "On the field, they play games in earnest!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -81,7 +81,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Just one ball can make people and\nPokémon smile.[f000]븁\u0000\nSports are wonderful things!"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -93,7 +93,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Eeeee! Turn this waaaaay!"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -105,7 +105,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "There!\nThere, turn like that!"
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -117,7 +117,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Following a ball right and left\nmakes me feel woozy."
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -129,7 +129,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Yahooooooo!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0

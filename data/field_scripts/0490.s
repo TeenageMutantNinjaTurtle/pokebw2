@@ -63,7 +63,7 @@ L_00E1:
     VMHalt
 
 L_00E3:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     Cmd_0230 0x8020, 0
     VMStackPush 0x418f
     VMStackPushConst 2
@@ -250,7 +250,7 @@ Script_19:
     VMJump L_0332
 
 L_030B:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "HOJLFWBSCOPPH[f000]븁\u0000"
     Cmd_0230 19, 0
     VMStackPush 0x418f
@@ -274,7 +274,7 @@ L_0338:
     VMStackPushConst 190
     VMStackCmp CMP_LE
     VMJumpIf CMP_STACK, L_03B2
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "HOJLFWBSCOPPH[f000]븁\u0000"
     Cmd_0230 19, 0
     VMStackPush 0x418f
@@ -288,7 +288,7 @@ L_0338:
 L_0370:
     MsgPlaceSignClose
     EvCameraShake 0, 1, 3, 6, 1, 0, 1, 5
-    SEPlay 1893
+    SEPlay SEQ_SE_FLD_126
     ActorCmdExec 0, Movement_03E0
     ActorCmdExec 1, Movement_03E0
     ActorCmdWait
@@ -301,7 +301,7 @@ L_0370:
     VMJump L_03DB
 
 L_03B2:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "UTPMTUFHHOJLPO"
     Cmd_0230 18, 0
     VMStackPush 0x418f
@@ -455,7 +455,7 @@ Movement_0580:
 
 Script_21:
     ActorsPauseAll
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     SEWait
     FadeInBlackQ
     FadeWait

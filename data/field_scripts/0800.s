@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "When you just can't find common ground,\nit's time for a Pokémon battle![f000]븁\u0000\nBut I think my husband might be\ntaking it easy on me..."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -19,7 +19,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Look carefully and you'll see that\neven if it's the same kind of Pokémon,[f000]븀\u0000\neach individual has its own[f000]븀\u0000\nNature and strengths."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -31,7 +31,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Sometimes you fight with others\nbecause they're different from you.[f000]븁\u0000\nBut sometimes you like them\nbecause they're different![f000]븁\u0000\nSometimes...I don't get it!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0

@@ -42,7 +42,7 @@ L_008D:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Nacrene City\nA Pearl of a Place"
     MsgPlaceSign 11, 1
     MsgPlaceSignClose
@@ -53,7 +53,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Café Warehouse[f000]븁\u0000\n\nTry our delicious specials\non Wednesdays and Saturdays!"
     MsgPlaceSign 12, 2
     MsgPlaceSignClose
@@ -64,7 +64,7 @@ Script_3:
 Script_4:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Nacrene Museum"
     MsgPlaceSign 13, 2
     MsgPlaceSignClose
@@ -74,7 +74,7 @@ Script_4:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "These old textile storehouses\nare being reused as studios.[f000]븁\u0000\nHow innovative![f000]븁\u0000\nNew ideas create new values, don't they!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -86,7 +86,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hey, Trainer! Step inside for a moment!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -98,7 +98,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You see, I believed it would become\npopular because it was a storehouse!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -110,7 +110,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The rail line was abandoned, and\nthe storehouses went unused...[f000]븁\u0000\nThen young people with artistic\naspirations started renting them[f000]븀\u0000\ncheaply as art studios.[f000]븁\u0000\nIf people hadn't been so creative,\nPokémon might be living here now."
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -122,7 +122,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My accordion's heavy!\nIt weighs over 20 pounds."
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -134,7 +134,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "What do you call a storehouse\nyou can't find? A where-house!"
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -146,7 +146,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "How many houses could a warehouse\nwear if a warehouse could wear houses?"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -158,7 +158,7 @@ Script_13:
 
 Script_17:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Walking on abandoned railroad tracks...\nEveryone does it sometimes, right?"
     ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
@@ -170,7 +170,7 @@ Script_17:
 
 Script_18:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I was just collecting the Pokémon\nI like, and before I knew it, I had six!"
     ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
@@ -182,7 +182,7 @@ Script_18:
 
 Script_19:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The one trying to draw\nSmeargle's move Sketch is me!"
     ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
@@ -241,7 +241,7 @@ L_02A0:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 480, 0
     // "Kyouuuun!"
@@ -308,7 +308,7 @@ Movement_0368:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Nacrene Museum\nExhibit Schedule"
     InfoMsg 14, 2
     LastKeyWait
@@ -319,7 +319,7 @@ Script_14:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Special Exhibit\nThat Pokémon's dormant form!"
     InfoMsg 15, 2
     LastKeyWait
@@ -331,7 +331,7 @@ Script_15:
 Script_16:
     ActorsPauseAll
     WordSetLoadJoinAvenueName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I heard there's a café in [f000]Ĺ\u0001\u0000\nwhere Pokémon can eat![f000]븁\u0000\nMaybe I should go try it and see how it\ncompares to Café Warehouse!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0

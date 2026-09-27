@@ -17,7 +17,7 @@ Script_3:
 Script_1:
     ActorsPauseAll
     WorkSetConst 0x8020, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 612, 0
     // "Gwaooooogh!"
@@ -73,7 +73,7 @@ L_00D1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It's a hop, skip, and a jump by my plane!\nWant to go back to Mistralton City?"
     ActorMsg MSGFILE_SCRIPT, 2, 0, 2, 0

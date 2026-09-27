@@ -129,7 +129,7 @@ Script_8:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Mistralton City\nStrewn with Windblown Leaves"
     MsgPlaceSign 41, 1
     MsgPlaceSignClose
@@ -140,7 +140,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Mistralton Cargo Service\nOur slogan is “Quick and Safe!\""
     MsgPlaceSign 42, 2
     MsgPlaceSignClose
@@ -151,7 +151,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Mistralton City Pokémon Gym\nLeader: Skyla[f000]븀\u0000\nThe Highflying Girl"
     MsgPlaceSign 43, 2
     MsgPlaceSignClose
@@ -161,7 +161,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     FlagReset 621
     ActorAdd 1
     ActorAdd 2
@@ -227,7 +227,7 @@ Script_5:
     ActorCmdWait
     ActorCmdExec 4, Movement_091C
     ActorCmdWait
-    BGMPlay 1089
+    BGMPlay SEQ_BGM_E_DOCTOR
     PlayerGetGPos 0x8021, 0x8022
     WorkSub 0x8022, 1
     ActorWalkRoute 4, 0x8021, 0x8022, 1, 8, 0
@@ -385,7 +385,7 @@ Script_6:
     FlagReset 699
     ActorAdd 3
     ActorAdd 4
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorSetGPos 3, 78, 0, 268, 1
     SEWait
     ActorSetGPos 4, 84, 0, 279, 0
@@ -452,7 +452,7 @@ L_0731:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hey, what's up?[f000]븁\u0000\nI know! Since you're here,\nI'll tell you a little secret![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 35, 0, 0
@@ -471,7 +471,7 @@ Script_20:
     ActorWalkRoute 255, 78, 271, 0, 8, 1
     ActorCmdWait
     ActorAdd 3
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorSetGPos 3, 78, 0, 268, 1
     SEWait
     ActorCmdExec 255, Movement_09A8
@@ -499,7 +499,7 @@ Script_10:
     MsgWinCloseAll
     ActorCmdExec 3, Movement_0914
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 3
     SEWait
     WorkSetConst 0x4049, 1
@@ -511,7 +511,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "We've arranged it so Mistralton's planes\nare now available for passenger service.[f000]븁\u0000\nIt's not like everyone's Pokémon\ncan use Fly!"
     ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
@@ -523,7 +523,7 @@ Script_11:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Fly is an amazing move![f000]븁\u0000\nEven a teeny-weeny Pokémon\ncan carry a person easily!"
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
@@ -535,7 +535,7 @@ Script_13:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "That Skyla...\nShe's even surpassed her grandpa,[f000]븀\u0000\nwho was a legendary pilot!"
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
@@ -547,7 +547,7 @@ Script_12:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Mistralton City used to be a\ndesolate patch of land...[f000]븁\u0000\nThis place was built through the\ncooperation of people and Pokémon."
     ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
@@ -559,7 +559,7 @@ Script_14:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Planes need a runway to fly,\nbut Pokémon don't need a thing![f000]븁\u0000\nBut planes can carry a lot more\ncargo than Pokémon can."
     ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
@@ -571,7 +571,7 @@ Script_15:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma went after certain\nPokémon, like Purrloin![f000]븁\u0000\nMany people had their Pokémon stolen.\nThat's just unforgivable!"
     ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
@@ -583,7 +583,7 @@ Script_16:
 
 Script_17:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you want to eat delicious vegetables,\nthe ones grown in the wild are the best.[f000]븁\u0000\nSometimes they are eaten by Pokémon...\nAh, I mean we can give them to Pokémon."
     // "Vegetables grown efficiently\nin a greenhouse are the best.[f000]븁\u0000\nTheir nutrients all go into forming\na very delicious vegetable!"
@@ -689,13 +689,13 @@ Script_18:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0A36
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Know what?\nMy Pokémon loves Berries![f000]븁\u0000\nThat's why I'm wandering all over,\nlooking for Berries![f000]븁\u0000\nI dream about a wonderful city somewhere\nthat is overflowing with Berries...[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 37, 0, 0
     MsgWinCloseAll
     Cmd_0275 0, 20, 0
-    SEPlay 1908
+    SEPlay SEQ_SE_FLD_133
     // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink."
     SystemMsg 38, 0
     SEWait
@@ -709,7 +709,7 @@ Script_18:
     VMJump L_0A4A
 
 L_0A36:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My Pokémon's favorite\nBerry is the Leppa Berry![f000]븁\u0000\nIt restores PP!\nIsn't it a useful Berry?"
     ParentActorMsg MSGFILE_SCRIPT, 39, 0, 0
@@ -724,7 +724,7 @@ L_0A4A:
 Script_19:
     ActorsPauseAll
     WordSetLoadJoinAvenueName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Do you know the big street\ncalled [f000]Ĺ\u0001\u0000?[f000]븁\u0000\nThere are a lot of unique shops there!\nIt's so cool!"
     ParentActorMsg MSGFILE_SCRIPT, 40, 0, 0

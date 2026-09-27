@@ -35,7 +35,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Every Monday, Pokémon fly here\nfrom somewhere."
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -47,7 +47,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If Pokémon are released\nand demonstrate their true skills...[f000]븁\u0000\nWill we be used by Pokémon\nand battle for them someday...?"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0

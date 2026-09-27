@@ -6,7 +6,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This Pokémon... I feel sorry for it\nbecause it's been left alone.[f000]븁\u0000\nWhat should I do? Should I ask the guys\nin Driftveil City to take care of it...?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -18,7 +18,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 505, 0
     // "Squuu..."

@@ -30,7 +30,7 @@ L_0057:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -45,7 +45,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -64,7 +64,7 @@ Script_4:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_00E4
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "True, nobody goes outside at night\nand it's very peaceful...[f000]븁\u0000\nBut it's all because of\na terrifying Pokémon.[f000]븁\u0000\nI'm not sure how I feel about that."
     ParentActorMsg MSGFILE_SCRIPT, 29, 0, 0
@@ -73,7 +73,7 @@ Script_4:
     VMJump L_00F8
 
 L_00E4:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I don't have anything to do ever since\nI took a post here.[f000]븁\u0000\nSince nobody goes outside at night,\nit's very peaceful."
     ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0
@@ -87,7 +87,7 @@ L_00F8:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Every Gym Badge tells the story\nof a hard-won victory against[f000]븀\u0000\na worthy opponent.[f000]븁\u0000\nI can look at a Gym Badge and\ntell you that story.[f000]븁\u0000\nCan I see one of your Gym Badges?"
     ActorMsg MSGFILE_SCRIPT, 0, 0x8011, 2, 0

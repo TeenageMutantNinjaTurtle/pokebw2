@@ -8,7 +8,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I hope a new winner\nhas emerged in the PWT!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -20,7 +20,7 @@ Script_1:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'd like to go to Pokéstar Studios.\nI haven't been there in a while.[f000]븁\u0000\nI'm a fan of Mr. Stu Deeoh.\nI wish he would be in a movie."
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -36,7 +36,7 @@ Script_2:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_00FC
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This Pokémon used to deliver\nMail to everyone![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -78,7 +78,7 @@ L_00E4:
     VMJump L_0110
 
 L_00FC:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It doesn't matter to this Pokémon even\nif it doesn't battle very well!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -92,7 +92,7 @@ L_0110:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 278, 0
     // "Wree wreek!"

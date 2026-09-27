@@ -13,7 +13,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMCall L_004E
     FinishAllEvents
@@ -321,7 +321,7 @@ L_0460:
     ActorCmdExec 0, Movement_051C
     ActorCmdWait
     BMCreateHandleByGPos 0x8027, 9, 10, 3
-    SEPlay 1892
+    SEPlay SEQ_SE_FLD_125
     BMHndAudioVisualAnmPlay 0x8027, 0
     BMHndAnmWait 0x8027
     BMHndAnmPlay 0x8027, 1
@@ -524,7 +524,7 @@ L_06B4:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Your Pokémon can't be holding items when\nyou transfer them. It's safer that way.[f000]븁\u0000\nIn rare cases, there are Pokémon that\ncannot be transferred, but[f000]븀\u0000\nProfessor Park will explain it to you."
     ParentActorMsg MSGFILE_SCRIPT, 35, 0, 0
@@ -536,7 +536,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "With this research of mine, I also want to\nhave an impact on people in the future...[f000]븀\u0000\npeople living 100 or 200 years from now!"
     ParentActorMsg MSGFILE_SCRIPT, 36, 0, 0
@@ -548,7 +548,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Here, we are monitoring Poké Transfer.[f000]븁\u0000\nWe're keeping a careful eye to make sure\nall the Pokémon have safe travels!"
     ParentActorMsg MSGFILE_SCRIPT, 37, 0, 0

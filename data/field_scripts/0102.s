@@ -50,10 +50,10 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FlagReset 814
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorAdd 2
     SEWait
-    BGMPlay 1088
+    BGMPlay SEQ_BGM_E_BERU
     TrainerCardGetSex 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
@@ -95,7 +95,7 @@ L_00C6:
     MsgWinCloseAll
     ActorWalkRoute 2, 5, 14, 1, 8, 0
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 2
     SEWait
     BGMChangeMap
@@ -108,7 +108,7 @@ L_00C6:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Pokémon Breeder on Route 4 past\nthis gate always challenges Trainers[f000]븀\u0000\nto battle when she sees them.[f000]븁\u0000\nJust what you expect from Route 4, which\nhas ruins. Discovery is so exciting!"
     // "The Pokémon Breeder on Route 4 past\nthis gate always challenges Trainers[f000]븀\u0000\nto battle when she sees them.[f000]븁\u0000\nJust what you expect from Route 4,\nwhich has a lot of buildings.[f000]븀\u0000\nChanges are so exciting!"
@@ -121,7 +121,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Nimbasa City is at the end\nof Route 4."
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -133,7 +133,7 @@ Script_4:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x40e2
     VMStackPushConst 6

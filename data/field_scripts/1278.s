@@ -149,7 +149,7 @@ L_0240:
     VMHalt
 
 L_0256:
-    SEPlay 2101
+    SEPlay SEQ_SE_SW_WBT_07
     Plugin7_Cmd1047 0
     Plugin7_Cmd1003 2
     Plugin7_Cmd1012 0x8029
@@ -168,7 +168,7 @@ L_0256:
     EvCameraUnbind
     EvCameraMoveTo 3544, 0, 0xed000, 0x2ac000, 0x2001f, 0x108000, 1
     EvCameraWait
-    SEPlay 2101
+    SEPlay SEQ_SE_SW_WBT_07
     FadeInBlackQ
     FadeWait
     WordSetPlayerName 1
@@ -241,12 +241,12 @@ L_0436:
     // "The first round!\n[f000]Ā\u0001\u0000 vs. [f000]Ā\u0001\u0001.[f000]븁\u0000"
     InfoMsg 0, 1
     InfoMsgClose_0039
-    SEPlay 2108
+    SEPlay SEQ_SE_SW_WBT_16
     Plugin7_Cmd1052 0
     VMSleep 29
-    SEPlay 2113
+    SEPlay SEQ_SE_SW_WBT_21
     VMSleep 31
-    SEPlay 2114
+    SEPlay SEQ_SE_SW_WBT_22
     VMSleep 30
     Plugin7_Cmd1041 0, 251
     ActorMsgClose
@@ -255,7 +255,7 @@ L_0436:
     ActorCmdExec 251, Movement_0AFC
     ActorCmdWait
     Plugin7_Cmd1042 0x8027
-    SEPlay 2101
+    SEPlay SEQ_SE_SW_WBT_07
     Plugin7_Cmd1052 3
     EvCameraInit
     EvCameraUnbind
@@ -268,7 +268,7 @@ L_0436:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0519
     WordSetPlayerName 0
-    SEPlay 2096
+    SEPlay SEQ_SE_SW_WBT_02
     // "The winner of the first round is...\n[f000]Ā\u0001\u0000![f000]븁\u0000"
     ScreamMsg 6, 1
     VMStackPush 0x8029
@@ -294,7 +294,7 @@ L_04F1:
 
 L_0519:
     Plugin7_Cmd1045 0
-    SEPlay 2096
+    SEPlay SEQ_SE_SW_WBT_02
     // "The winner of the first round is...\n[f000]Ā\u0001\u0000![f000]븁\u0000"
     ScreamMsg 6, 1
     InfoMsgClose_0039
@@ -312,7 +312,7 @@ L_053D:
     InfoMsg 8, 1
     InfoMsgClose_0039
     FadeOutBlack
-    SEPlay 2112
+    SEPlay SEQ_SE_SW_WBT_20
     EvCameraMoveTo 3554, 0, 0xecf4c, 0x170000, 0x2a01f, 0x56000, 18
     FadeWait
     EvCameraWait
@@ -329,7 +329,7 @@ L_053D:
     EvCameraWait
     Plugin7_Cmd1052 3
     FadeInBlack
-    SEPlay 2096
+    SEPlay SEQ_SE_SW_WBT_02
     EvCameraMoveTo 2008, 0, 0xfd000, 0x172000, 0x2001f, 0xe7000, 30
     ActorCmdExec 255, Movement_0AAC
     EvCameraWait
@@ -348,7 +348,7 @@ L_053D:
     MsgWinCloseAll
     ActorCmdExec 251, Movement_0ADC
     ActorCmdWait
-    SEPlay 2101
+    SEPlay SEQ_SE_SW_WBT_07
     ActorCmdExec 251, Movement_0AB4
     EvCameraMoveTo 2008, 0, 0xfd000, 0x172000, 0x2001f, 0xe7000, 78
     VMSleep 20
@@ -380,12 +380,12 @@ L_06BB:
     // "The second round!\n[f000]Ā\u0001\u0000 vs. [f000]Ā\u0001\u0001.[f000]븁\u0000"
     InfoMsg 1, 1
     InfoMsgClose_0039
-    SEPlay 2108
+    SEPlay SEQ_SE_SW_WBT_16
     Plugin7_Cmd1052 0
     VMSleep 29
-    SEPlay 2113
+    SEPlay SEQ_SE_SW_WBT_21
     VMSleep 31
-    SEPlay 2114
+    SEPlay SEQ_SE_SW_WBT_22
     VMSleep 30
     Plugin7_Cmd1041 1, 251
     ActorMsgClose
@@ -394,7 +394,7 @@ L_06BB:
     ActorCmdExec 251, Movement_0AFC
     ActorCmdWait
     Plugin7_Cmd1042 0x8027
-    SEPlay 2101
+    SEPlay SEQ_SE_SW_WBT_07
     Plugin7_Cmd1052 3
     EvCameraInit
     EvCameraUnbind
@@ -402,13 +402,13 @@ L_06BB:
     EvCameraWait
     FadeInBlackQ_
     FadeWait
-    SEPlay 2096
+    SEPlay SEQ_SE_SW_WBT_02
     VMStackPush 0x8027
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_07B2
     WordSetPlayerName 0
-    SEPlay 2096
+    SEPlay SEQ_SE_SW_WBT_02
     // "The winner of the second round is...\n[f000]Ā\u0001\u0000![f000]븁\u0000"
     ScreamMsg 7, 1
     VMStackPush 0x8029
@@ -423,7 +423,7 @@ L_06BB:
 
 L_077E:
     InfoMsgClose_0039
-    SEPlay 2109
+    SEPlay SEQ_SE_SW_WBT_17
     Plugin7_Cmd1056 2
     VMSleep 60
     Plugin7_Cmd1041 5, 251
@@ -437,11 +437,11 @@ L_077E:
 
 L_07B2:
     Plugin7_Cmd1045 0
-    SEPlay 2096
+    SEPlay SEQ_SE_SW_WBT_02
     // "The winner of the second round is...\n[f000]Ā\u0001\u0000![f000]븁\u0000"
     ScreamMsg 7, 1
     InfoMsgClose_0039
-    SEPlay 2109
+    SEPlay SEQ_SE_SW_WBT_17
     Plugin7_Cmd1056 2
     VMSleep 60
     Plugin7_Cmd1041 6, 251
@@ -457,7 +457,7 @@ L_07E0:
     InfoMsg 40, 1
     InfoMsgClose_0039
     FadeOutBlack
-    SEPlay 2112
+    SEPlay SEQ_SE_SW_WBT_20
     EvCameraMoveTo 3554, 0, 0xecf4c, 0x170000, 0x2a01f, 0x56000, 18
     FadeWait
     EvCameraWait
@@ -481,7 +481,7 @@ L_07E0:
     FadeWait
     VMSleep 30
     VMCall L_16D1
-    SEPlay 2101
+    SEPlay SEQ_SE_SW_WBT_07
     ActorCmdExec 255, Movement_0ADC
     ActorCmdWait
     Plugin7_Cmd1055 1, 1
@@ -495,13 +495,13 @@ L_07E0:
     VMSleep 40
 
 L_08B6:
-    SEPlay 2095
+    SEPlay SEQ_SE_SW_WBT_01
     ActorCmdExec 255, Movement_0AE4
     EvCameraMoveTo 2008, 0, 0xfd000, 0x172000, 0x2001f, 0xe7000, 146
     VMCall L_0FEF
     ActorCmdWait
     EvCameraWait
-    SEPlay 2110
+    SEPlay SEQ_SE_SW_WBT_18
     Plugin7_Cmd1056 1
     VMSleep 60
     Plugin7_Cmd1012 0x8010
@@ -532,13 +532,13 @@ L_08B6:
     VMSleep 40
 
 L_0979:
-    SEPlay 2095
+    SEPlay SEQ_SE_SW_WBT_01
     ActorCmdExec 251, Movement_0AEC
     EvCameraMoveTo 2008, 0, 0xfd000, 0x172000, 0x2001f, 0xe7000, 146
     VMCall L_11FA
     ActorCmdWait
     EvCameraWait
-    SEPlay 2110
+    SEPlay SEQ_SE_SW_WBT_18
     Plugin7_Cmd1056 0
     VMSleep 60
     Plugin7_Cmd1039
@@ -558,12 +558,12 @@ L_09DE:
     // "The final round!\n[f000]Ā\u0001\u0000 vs. [f000]Ā\u0001\u0001.[f000]븁\u0000"
     InfoMsg 2, 1
     InfoMsgClose_0039
-    SEPlay 2108
+    SEPlay SEQ_SE_SW_WBT_16
     Plugin7_Cmd1052 0
     VMSleep 29
-    SEPlay 2113
+    SEPlay SEQ_SE_SW_WBT_21
     VMSleep 31
-    SEPlay 2114
+    SEPlay SEQ_SE_SW_WBT_22
     VMSleep 30
     Plugin7_Cmd1041 2, 251
     ActorMsgClose
@@ -571,7 +571,7 @@ L_09DE:
     ActorCmdExec 255, Movement_0B08
     ActorCmdExec 251, Movement_0AFC
     ActorCmdWait
-    SEPlay 2111
+    SEPlay SEQ_SE_SW_WBT_19
     Plugin7_Cmd1056 3
     VMSleep 30
     SEWait
@@ -680,7 +680,7 @@ L_0B3B:
     Plugin7_Cmd1045 0
 
 L_0B3E:
-    SEPlay 2107
+    SEPlay SEQ_SE_SW_WBT_15
     VMStackPush 0x8027
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -694,11 +694,11 @@ L_0B5F:
 L_0B63:
     Plugin7_Cmd1054
     VMSleep 80
-    SEPlay 2101
-    SEPlay 2097
+    SEPlay SEQ_SE_SW_WBT_07
+    SEPlay SEQ_SE_SW_WBT_03
     // "[f000]Ā\u0001\u0000!"
     ScreamMsg 9, 1
-    BGMPlay 1202
+    BGMPlay SEQ_BGM_WBT_FANFARE
     VMSleep 120
     MsgWaitAdvance
     InfoMsgClose_0039
@@ -731,7 +731,7 @@ L_0BDD:
     Plugin7_Cmd1031
     // "How strong are your Pokémon\nwhen they face your own party?[f000]븁\u0000\nLet's mix them![f000]븁\u0000"
     ScreamMsg 43, 1
-    SEPlay 2095
+    SEPlay SEQ_SE_SW_WBT_01
     VMSleep 30
     MsgWinCloseAll
     WorkSetConst 0x8030, 0
@@ -744,7 +744,7 @@ L_0BDD:
     VMJumpIf CMP_STACK, L_0C38
     // "Let's swap another Pokémon![f000]븁\u0000"
     ScreamMsg 52, 1
-    SEPlay 2095
+    SEPlay SEQ_SE_SW_WBT_01
     VMSleep 30
     MsgWinCloseAll
     WorkSetConst 0x8030, 1
@@ -1591,7 +1591,7 @@ L_17EE:
     VMJump L_1815
 
 L_1805:
-    SEPlay 2106
+    SEPlay SEQ_SE_SW_WBT_13
     WorkSetConst 0x802a, 20
     VMJump L_1C0C
 
@@ -1602,7 +1602,7 @@ L_1815:
 
 L_1828:
     Plugin7_Cmd1014 0x802b
-    SEPlay 2098
+    SEPlay SEQ_SE_SW_WBT_04
     WorkCmpConst 0x802b, 0
     VMJumpIf CMP_EQ, L_1843
     VMJump L_184F
@@ -1764,7 +1764,7 @@ L_1A45:
     VMJump L_1A68
 
 L_1A58:
-    SEPlay 2104
+    SEPlay SEQ_SE_SW_WBT_11
     WorkSetConst 0x802a, 18
     VMJump L_1C0C
 
@@ -1774,7 +1774,7 @@ L_1A68:
     VMJump L_1A8B
 
 L_1A7B:
-    SEPlay 2103
+    SEPlay SEQ_SE_SW_WBT_10
     WorkSetConst 0x802a, 17
     VMJump L_1C0C
 
@@ -1784,7 +1784,7 @@ L_1A8B:
     VMJump L_1AAE
 
 L_1A9E:
-    SEPlay 2103
+    SEPlay SEQ_SE_SW_WBT_10
     WorkSetConst 0x802a, 17
     VMJump L_1C0C
 
@@ -1794,7 +1794,7 @@ L_1AAE:
     VMJump L_1AD1
 
 L_1AC1:
-    SEPlay 2103
+    SEPlay SEQ_SE_SW_WBT_10
     WorkSetConst 0x802a, 17
     VMJump L_1C0C
 
@@ -1804,7 +1804,7 @@ L_1AD1:
     VMJump L_1AF4
 
 L_1AE4:
-    SEPlay 2103
+    SEPlay SEQ_SE_SW_WBT_10
     WorkSetConst 0x802a, 17
     VMJump L_1C0C
 
@@ -1814,7 +1814,7 @@ L_1AF4:
     VMJump L_1B17
 
 L_1B07:
-    SEPlay 2104
+    SEPlay SEQ_SE_SW_WBT_11
     WorkSetConst 0x802a, 18
     VMJump L_1C0C
 
@@ -1824,7 +1824,7 @@ L_1B17:
     VMJump L_1B3A
 
 L_1B2A:
-    SEPlay 2104
+    SEPlay SEQ_SE_SW_WBT_11
     WorkSetConst 0x802a, 18
     VMJump L_1C0C
 
@@ -1834,7 +1834,7 @@ L_1B3A:
     VMJump L_1B5D
 
 L_1B4D:
-    SEPlay 2104
+    SEPlay SEQ_SE_SW_WBT_11
     WorkSetConst 0x802a, 18
     VMJump L_1C0C
 
@@ -1844,7 +1844,7 @@ L_1B5D:
     VMJump L_1B80
 
 L_1B70:
-    SEPlay 2104
+    SEPlay SEQ_SE_SW_WBT_11
     WorkSetConst 0x802a, 18
     VMJump L_1C0C
 
@@ -1854,7 +1854,7 @@ L_1B80:
     VMJump L_1BA3
 
 L_1B93:
-    SEPlay 2104
+    SEPlay SEQ_SE_SW_WBT_11
     WorkSetConst 0x802a, 18
     VMJump L_1C0C
 
@@ -1864,7 +1864,7 @@ L_1BA3:
     VMJump L_1BC6
 
 L_1BB6:
-    SEPlay 2105
+    SEPlay SEQ_SE_SW_WBT_12
     WorkSetConst 0x802a, 19
     VMJump L_1C0C
 
@@ -1874,7 +1874,7 @@ L_1BC6:
     VMJump L_1BE9
 
 L_1BD9:
-    SEPlay 2105
+    SEPlay SEQ_SE_SW_WBT_12
     WorkSetConst 0x802a, 19
     VMJump L_1C0C
 
@@ -1884,7 +1884,7 @@ L_1BE9:
     VMJump L_1C0C
 
 L_1BFC:
-    SEPlay 2105
+    SEPlay SEQ_SE_SW_WBT_12
     WorkSetConst 0x802a, 19
     VMJump L_1C0C
 

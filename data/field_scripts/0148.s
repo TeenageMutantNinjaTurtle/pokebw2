@@ -18,7 +18,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a subway map of the Unova region.[f000]븁\u0000"
     InfoMsg 0, 2
     MsgWinCloseAll
@@ -34,7 +34,7 @@ Script_3:
     VMHalt
 
 Script_4:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This is the platform for the train to\nAnville Town."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0

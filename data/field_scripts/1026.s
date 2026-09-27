@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     FlagSet 899
     ActorDelete 0
     VMStackPush 0x8000

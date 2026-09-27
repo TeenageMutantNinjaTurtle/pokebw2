@@ -25,7 +25,7 @@ Script_1:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_006A
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you look for something in an empty\nplace like this, you can discover things!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -42,7 +42,7 @@ L_006A:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_0237
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you look for something in an empty\nplace like this, you can discover things![f000]븁\u0000\nLike this Fossil I just found! Take this![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 1, 2, 0, 0
@@ -149,7 +149,7 @@ L_021D:
     VMJump L_024B
 
 L_0237:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you come again tomorrow, you might be\nable to find a Fossil of your own.[f000]븀\u0000\nSo come on out and play if ya want!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -166,7 +166,7 @@ Script_3:
     WorkSetConst 0x8021, 0
     WorkSetConst 0x8022, 0
     WorkSetConst 0x8023, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x40fe
     VMStackPushConst 0

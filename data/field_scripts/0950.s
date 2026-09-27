@@ -72,7 +72,7 @@ L_00FA:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 482, 0
     // "Kyuuun!"

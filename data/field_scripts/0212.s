@@ -11,7 +11,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm very sorry.[f000]븁\u0000\nThe Pokémon World Tournament\nwill commence shortly,[f000]븀\u0000\nbut we're still preparing the area.[f000]븁\u0000\nOh, you don't have the Driftveil City\nGym Badge yet?[f000]븁\u0000\nIn that case, how about taking\non the Pokémon Gym first?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -97,7 +97,7 @@ Movement_0154:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you keep winning, you get BP!\nWhich is to say, you win Battle Points![f000]븁\u0000\nSo save up lots of BP, and exchange\nthem for great items!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -109,7 +109,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Pokémon World Tournament\nis ahead!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0

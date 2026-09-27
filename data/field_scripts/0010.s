@@ -35,7 +35,7 @@ Script_1:
     VMHalt
 
 L_0096:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 0x802e
     VMStackPushConst 0
@@ -86,7 +86,7 @@ L_0152:
     VMJump L_01CF
 
 L_0179:
-    SEPlay 1621
+    SEPlay SEQ_SE_SYS_22
     MoneySub 0x802c
     MoneyWinUpdate
     SEWait
@@ -269,7 +269,7 @@ Script_6:
     VMStackPushConst 4
     VMStackCmp CMP_LE
     VMJumpIf CMP_STACK, L_045E
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Welcome to Black City.[f000]븁\u0000\nThis is the city of dreams, greed, and\nmore greed.[f000]븁\u0000\nAnd I am Black City's boss, so I'm\na whirlpool of greed!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -286,7 +286,7 @@ L_045E:
     VMStackCmp CMP_LE
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_049B
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Your greed is impressive.\nI know.[f000]븁\u0000\nYou climbed right up the Black Tower.\nThat's great![f000]븁\u0000\nI like people who are\nfilled with ambition and greed."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -299,7 +299,7 @@ L_049B:
     VMStackPushConst 10
     VMStackCmp CMP_GE
     VMJumpIf CMP_STACK, L_04C2
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Having amazing Trainers like\nyou here in Black City makes[f000]븀\u0000\nme seem less impressive.[f000]븁\u0000\nBut, whatever!\nMy greed knows no bounds...[f000]븁\u0000\nThat's right! That's why I'm\nthe boss of Black City!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -313,7 +313,7 @@ L_04C2:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It has worth because it's expensive.\nIf you think that, you'll get burned![f000]븁\u0000\nYou have to get smarter so you\nwon't get tricked!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -325,7 +325,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I want to become really powerful\nso I can make more money!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -337,7 +337,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Money can't get you everything.[f000]븁\u0000\nStill, if you have it,\nyou can get almost anything!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -349,7 +349,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You can't be satisfied by\nbeing the same as everyone else![f000]븁\u0000\nIf you are, you're just not thinking,\nand you'll be tricked by bad people."
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -361,7 +361,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hmmm... Isn't there a better job where\nI can make more money?[f000]븁\u0000\nI mean, come on![f000]븁\u0000\nI want more money\nif I'm going to do the same job!"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -373,7 +373,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I wonder how strong this Pokémon\ncould become...[f000]븁\u0000\nStrength is a measure of worth, right?"
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -385,7 +385,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Everything I want is here!\nIf I only had money! If only![f000]븀\u0000\nThat's right![f000]븀\u0000\nI'm going to work hard to make money!"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -397,7 +397,7 @@ Script_13:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Did civilization develop so that\npeople can get what they want?"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0

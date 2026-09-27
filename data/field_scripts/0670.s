@@ -10,7 +10,7 @@ Script_1:
     WorkSetConst 0x8022, 0
     WorkSetConst 0x8023, 0
     WorkSetConst 0x8024, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I've been searching for the legendary\nPokémon Cobalion for decades..."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0

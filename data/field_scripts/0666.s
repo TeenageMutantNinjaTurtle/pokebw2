@@ -19,7 +19,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I heard there was a legendary Pokémon\nin Mistralton Cave..."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0

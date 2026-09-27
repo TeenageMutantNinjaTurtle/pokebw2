@@ -8,7 +8,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -23,7 +23,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -38,7 +38,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Thanks to my Pokémon,\nI've collected eight Gym Badges![f000]븁\u0000\nBut I'm too afraid to go further.\nI'm stuck at Victory Road."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -50,7 +50,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "First of all, go through this long and\ndifficult Victory Road.[f000]븁\u0000\nThen, defeat even one of the\nElite Four.[f000]븁\u0000\nIncrease what you can do little by little,\nand get close to the Champion!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0

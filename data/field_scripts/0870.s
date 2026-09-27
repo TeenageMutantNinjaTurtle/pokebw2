@@ -111,7 +111,7 @@ Script_3:
     MsgWinCloseAll
     ActorCmdExec 8, Movement_0278
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 8
     SEWait
     FlagReset 2430
@@ -148,7 +148,7 @@ Movement_0278:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -163,7 +163,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -264,7 +264,7 @@ Movement_03AC:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8021, 0
     WorkSetConst 0x8022, 0
@@ -285,7 +285,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "All right! Here's some advice from a\nguy who spends all of his time[f000]븀\u0000\nin Pokémon Centers![f000]븁\u0000\nWhen your Pokémon's HP goes down,\nmake sure to restore it!"
     ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0

@@ -14,7 +14,7 @@
 Script_1:
     ActorsPauseAll
     WordSetPlayerName 0
-    BGMPlay 1160
+    BGMPlay SEQ_BGM_E_SHIRONA
     ActorCmdExec 1, Movement_00D4
     ActorCmdWait
     // "???: What's this?[f000]븁\u0000"
@@ -102,7 +102,7 @@ L_0134:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WordSetPlayerName 0
     WorkSetConst 0x8021, 0
@@ -302,7 +302,7 @@ L_0419:
     VMJumpIf CMP_STACK, L_044C
     WorkSetConst 0x8020, 29
     WorkAdd 0x8020, 0x4166
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
@@ -318,7 +318,7 @@ Script_3:
     ActorsPauseAll
     WorkSetConst 0x8020, 19
     WorkAdd 0x8020, 0x4167
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
@@ -331,7 +331,7 @@ Script_4:
     ActorsPauseAll
     WorkSetConst 0x8020, 24
     WorkAdd 0x8020, 0x4168
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
@@ -344,7 +344,7 @@ Script_5:
     ActorsPauseAll
     WorkSetConst 0x8020, 39
     WorkAdd 0x8020, 0x416a
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
@@ -357,7 +357,7 @@ Script_6:
     ActorsPauseAll
     WorkSetConst 0x8020, 44
     WorkAdd 0x8020, 0x416b
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
@@ -370,7 +370,7 @@ Script_7:
     ActorsPauseAll
     WorkSetConst 0x8020, 34
     WorkAdd 0x8020, 0x416c
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
@@ -381,7 +381,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This villa belongs to Caitlin, one of the\nPokémon League's Elite Four."
     ParentActorMsg MSGFILE_SCRIPT, 49, 0, 0

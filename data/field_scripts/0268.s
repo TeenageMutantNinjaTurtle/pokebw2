@@ -12,7 +12,7 @@ Script_1:
     VMStackPushConst 23
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0043
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Pursuing ideals...\nWhat does that really mean?[f000]븁\u0000\nYou see, there was this guy called N,\nwho the legendary Pokémon Zekrom[f000]븀\u0000\nrecognized as the hero..."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -21,7 +21,7 @@ Script_1:
     VMJump L_0057
 
 L_0043:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Pursuing truth...\nWhat does that really mean?[f000]븁\u0000\nYou see, there was this guy called N,\nwho the legendary Pokémon Reshiram[f000]븀\u0000\nrecognized as the hero..."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0

@@ -134,7 +134,7 @@ Script_3:
     BMCreateHandleByGPos 0x8029, 1, 107, 661
     BMHndAudioVisualAnmPlay 0x8029, 0
     BMHndAnmWait 0x8029
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorSetGPos 0, 107, 2, 661, 1
     SEWait
     ActorWalkRoute 0, 107, 662, 1, 8, 0
@@ -154,7 +154,7 @@ Script_3:
     BMHndAnmWait 0x8029
     ActorCmdExec 0, Movement_07A8
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 0
     SEWait
     BMHndAudioVisualAnmPlay 0x8029, 1
@@ -228,7 +228,7 @@ Movement_0354:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkCmpConst 0x409e, 0
     VMJumpIf CMP_EQ, L_037F
@@ -487,7 +487,7 @@ L_05C9:
     WordSetMedalRank 1, 0x8021
     // "[f000]Ā\u0001\u0000's Medal Box\nhas been upgraded to[f000]븀\u0000\n[f000][ff00]\u0001\u0002[f000]Ķ\u0001\u0001[f000][ff00]\u0001\u0000 Rank!"
     SystemMsg 19, 0
-    MEPlay 1335
+    MEPlay SEQ_ME_MD_FAN01
     MEWait
     MsgWaitAdvance
     InfoMsgClose

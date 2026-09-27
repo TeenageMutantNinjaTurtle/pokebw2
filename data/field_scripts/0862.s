@@ -6,7 +6,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WordSetPlayerName 0
     WordSetLoadRivalName 1
@@ -14,7 +14,7 @@ Script_1:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0045
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hey there, [f000]Ā\u0001\u0000![f000]븁\u0000\nWhy, look at that! You've got a Pokémon\nwith you! That's great!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -23,7 +23,7 @@ Script_1:
     VMJump L_0059
 
 L_0045:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hey there, [f000]Ā\u0001\u0000![f000]븁\u0000\nGoing to have [f000]Ā\u0001\u0001 brag to you\nabout his Pokémon again today?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -37,13 +37,13 @@ L_0059:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2401
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0094
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Take good care of your Pokémon![f000]븁\u0000\nI'm sure that little one will show\nyou a whole new world!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -52,7 +52,7 @@ Script_2:
     VMJump L_00A8
 
 L_0094:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you have a Pokémon with you,\nyou can even walk outside of town!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0

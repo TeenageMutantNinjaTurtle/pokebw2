@@ -233,7 +233,7 @@ Script_16:
 
 Script_17:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You know what troubles me...[f000]븁\u0000\nHow come all of us who were in\nTeam Plasma together--thinking we[f000]븀\u0000\nknew what was right--are now divided[f000]븀\u0000\ninto former Team Plasma members and[f000]븀\u0000\ncontinuing Team Plasma members,[f000]븀\u0000\nboth with opposing points of view?[f000]븁\u0000\nWhere's the line between friend and foe?\nI spend a lot of time asking myself that.[f000]븁\u0000\nAs for you, on this floor, you'll need\nto deactivate barriers to continue on.[f000]븀\u0000\nDeactivate them by stepping on switches.[f000]븁\u0000\nMove around by stepping on warp panels,\nand you'll find four switches."
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -245,7 +245,7 @@ Script_17:
 
 Script_41:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Zinzolin: Beaten again?![f000]븁\u0000\nNo matter!\nTeam Plasma will get the last laugh!"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -266,7 +266,7 @@ Script_18:
     InfoMsg 9, 2
     MsgWinCloseAll
     ActorAdd 10
-    BGMPlayPush 1240
+    BGMPlayPush SEQ_BGM_E_7_SAGE
     PlayerGetGPos 0x8022, 0x8023
     WorkAdd 0x8023, 2
     ActorWalkRoute 10, 0x8022, 0x8023, 1, 16, 0
@@ -314,7 +314,7 @@ Movement_0328:
 
 Script_19:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It looks like it controls the\ntemperature inside the ship."
     SystemMsg 12, 2
     VMStackPushFlag 909
@@ -348,7 +348,7 @@ L_0389:
 
 Script_20:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a device to control\nthe ship's energy system."
     SystemMsg 13, 2
     VMStackPushFlag 909
@@ -419,7 +419,7 @@ Script_26:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0493
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Humph! If you intend to continue,\nstep on the other warp panel.[f000]븁\u0000\nKeep in mind that you're going\nto get beaten up if you do!"
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
@@ -428,7 +428,7 @@ Script_26:
     VMJump L_04B5
 
 L_0493:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorCmdExec 11, Movement_0C0C
     ActorCmdWait
     // "What?! You beat Colress?![f000]븁\u0000\nWaaah! I pretended to be strong,\nbut I don't have any Pokémon![f000]븁\u0000"
@@ -471,7 +471,7 @@ Movement_0510:
 
 Script_21:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, poor Kyurem. Ghetsis's device\ncruelly forced it to work.[f000]븁\u0000\nIt must have felt terrible."
     ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
@@ -483,7 +483,7 @@ Script_21:
 
 Script_22:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Plasma Frigate is a ship designed\nto be ecological. It runs on[f000]븀\u0000\nKyurem's ice energy and solar panels.[f000]븁\u0000\nYou've got to keep the environment in\nmind when ruling a region like Unova."
     ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
@@ -495,7 +495,7 @@ Script_22:
 
 Script_23:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Colress doesn't know N.\nI wonder how he'll react if he meets him."
     ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
@@ -532,7 +532,7 @@ Script_6:
 Script_12:
     ActorsPauseAll
     WorkSetConst 0x40f5, 1
-    SEPlay 2217
+    SEPlay SEQ_SE_SW_PLAZMASHIP_04
     // "A barrier was deactivated!"
     InfoMsg 3, 2
     VMStackPush 0x40f5
@@ -596,7 +596,7 @@ L_066C:
 Script_13:
     ActorsPauseAll
     WorkSetConst 0x40f6, 1
-    SEPlay 2217
+    SEPlay SEQ_SE_SW_PLAZMASHIP_04
     // "A barrier was deactivated!"
     InfoMsg 3, 2
     VMStackPush 0x40f5
@@ -660,7 +660,7 @@ L_0728:
 Script_14:
     ActorsPauseAll
     WorkSetConst 0x40f7, 1
-    SEPlay 2217
+    SEPlay SEQ_SE_SW_PLAZMASHIP_04
     // "A barrier was deactivated!"
     InfoMsg 3, 2
     VMStackPush 0x40f5
@@ -723,7 +723,7 @@ L_07E4:
 Script_15:
     ActorsPauseAll
     WorkSetConst 0x40f8, 1
-    SEPlay 2217
+    SEPlay SEQ_SE_SW_PLAZMASHIP_04
     // "A barrier was deactivated!"
     InfoMsg 3, 2
     VMStackPush 0x40f5
@@ -853,7 +853,7 @@ Script_11:
     ActorsPauseAll
     ActorCmdExec 255, Movement_0B8C
     ActorCmdWait
-    SEPlay 2221
+    SEPlay SEQ_SE_SW_PLAZMASHIP_08
     ActorCmdExec 255, Movement_0B98
     ActorCmdWait
     SEWait
@@ -1009,7 +1009,7 @@ L_0B44:
     WorkSetConst 0x8027, 0
     DebugPrint 0x8024
     DebugPrint 0x8026
-    SEPlay 2223
+    SEPlay SEQ_SE_SW_PLAZMASHIP_10
     PlayerGetDir 0x8027
     FadeEx 3, 0, 16, 2
     FadeExWait

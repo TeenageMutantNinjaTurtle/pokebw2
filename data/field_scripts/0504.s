@@ -21,7 +21,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hello! If you cross the Skyarrow Bridge\nfrom this side, you will reach[f000]븀\u0000\nPinwheel Forest and Nacrene City."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -37,7 +37,7 @@ Script_3:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0087
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I walked so far! My legs are sore!\n...Um, you don't have to look."
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -46,7 +46,7 @@ Script_3:
     VMJump L_009B
 
 L_0087:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Skyarrow Bridge has\nbeen around for a long time."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -60,7 +60,7 @@ L_009B:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "We're inspecting the Skyarrow Bridge\nto make sure it's strong enough.[f000]븁\u0000\nThis is the first inspection in a few\nyears, so it may take a while.[f000]븀\u0000\nPlease wait. Thank you."
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -137,7 +137,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x40e2
     VMStackPushConst 6

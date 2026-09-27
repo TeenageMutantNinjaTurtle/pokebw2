@@ -480,7 +480,7 @@ L_06AD:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorDelete 11
     VMStackPush 0x8000
     VMStackPush 0x8001

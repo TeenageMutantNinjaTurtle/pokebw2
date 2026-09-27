@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Lenora's research materials are stored\nin an orderly fashion."
     InfoMsg 11, 2
     LastKeyWait
@@ -18,7 +18,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "The bones Lenora is using for research\nare on display."
     InfoMsg 12, 2
     LastKeyWait
@@ -31,7 +31,7 @@ Script_3:
     ActorsPauseAll
     WorkSetConst 0x8020, 0
     WorkSetConst 0x8021, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 445
     VMStackPushConst 1

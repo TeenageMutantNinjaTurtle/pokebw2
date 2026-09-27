@@ -6,7 +6,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     PokePartyFindEx 647, 0, 0x8020, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
@@ -192,7 +192,7 @@ L_02C5:
     WordSetPartyPokeName 0, 0x8021
     // "[f000]Ă\u0001\u0000 remembered the move\nSecret Sword!"
     SystemMsg 9, 0
-    MEPlay 1301
+    MEPlay SEQ_ME_LVUP
     MEWait
     MsgWaitAdvance
     InfoMsgClose
@@ -292,7 +292,7 @@ L_0431:
     SystemMsg 8, 0
     // "[f000]Ă\u0001\u0000 remembered the move\nSecret Sword!"
     SystemMsg 9, 0
-    MEPlay 1301
+    MEPlay SEQ_ME_LVUP
     MEWait
     MsgWaitAdvance
     InfoMsgClose

@@ -86,7 +86,7 @@ Script_9:
     MsgWinCloseAll
     ActorCmdExec 12, Movement_015C
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 12
     SEWait
     WorkSetConst 0x40b1, 3
@@ -424,7 +424,7 @@ L_0650:
 
 Script_21:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x40e2
     VMStackPushConst 6
@@ -532,7 +532,7 @@ L_07F5:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Castelia City\nA City of Grandeur"
     MsgPlaceSign 21, 1
     MsgPlaceSignClose
@@ -543,7 +543,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Castelia City\nA City of Grandeur"
     MsgPlaceSign 21, 2
     MsgPlaceSignClose
@@ -554,7 +554,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Ahead: Castelia Street\nOcean Side: Cruise Dock"
     MsgPlaceSign 22, 2
     MsgPlaceSignClose
@@ -565,7 +565,7 @@ Script_3:
 Script_4:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Ahead: Mode Street\nOcean Side: Prime Pier"
     MsgPlaceSign 23, 2
     MsgPlaceSignClose
@@ -576,7 +576,7 @@ Script_4:
 Script_5:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Ahead: Narrow Street\nOcean Side: Unity Pier"
     MsgPlaceSign 24, 2
     MsgPlaceSignClose
@@ -587,7 +587,7 @@ Script_5:
 Script_6:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Ahead: Pokémon Gym\nOcean Side: Liberty Pier"
     MsgPlaceSign 25, 2
     MsgPlaceSignClose
@@ -598,7 +598,7 @@ Script_6:
 Script_7:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Passerby Analytics HQ\n...People pass by as they walk along."
     MsgPlaceSign 26, 2
     MsgPlaceSignClose
@@ -609,7 +609,7 @@ Script_7:
 Script_8:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Battle Company\nTalented Trainers Welcome!"
     MsgPlaceSign 27, 2
     MsgPlaceSignClose
@@ -752,7 +752,7 @@ Movement_0A2C:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "To live surrounded by people,\ndo you have to grow to like everyone,[f000]븀\u0000\nor do you only have to like yourself?"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -764,7 +764,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I wonder what Castelia\nwas like before it got this big."
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -776,7 +776,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It's wonderful how the Pokémon\nand women here are so full of life!"
     ActorMsg MSGFILE_SCRIPT, 9, 6, 1, 0
@@ -788,7 +788,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Battle Company needs\npeople for focus testing.[f000]븁\u0000\nTrainers who are confident in\ntheir abilities should come try it!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -800,7 +800,7 @@ Script_13:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Seasons and trends always pass..."
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -812,7 +812,7 @@ Script_14:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "...When I fall asleep in my bed.[f000]븁\u0000\n...When my Pokémon's attack\nhits critically![f000]븁\u0000\nMy life is full of things\nthat bring me joy!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -824,7 +824,7 @@ Script_15:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm a battling Clerk ⑭!\nIf I don't give up, I'll win someday!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -836,7 +836,7 @@ Script_16:
 
 Script_17:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Everyone's faces blend together!\nIs that because I'm tired?"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -848,7 +848,7 @@ Script_17:
 
 Script_18:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "When you're tired, rest!\nDon't force yourself to be energetic!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -860,7 +860,7 @@ Script_18:
 
 Script_19:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Should I change my Pokémon's moves\nor its held items?"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0

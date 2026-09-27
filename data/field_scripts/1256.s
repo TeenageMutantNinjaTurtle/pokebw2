@@ -14,7 +14,7 @@
 Script_1:
     ActorsPauseAll
     WorkSetConst 0x8028, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     PokePartyGetCountBySpecies 479, 0x8028
     VMStackPush 0x8028
     VMStackPushConst 0
@@ -89,7 +89,7 @@ L_0132:
 
 L_013E:
     SystemMsg 0x8022, 2
-    MEPlay 1301
+    MEPlay SEQ_ME_LVUP
     MEWait
     LastKeyWait
     InfoMsgClose

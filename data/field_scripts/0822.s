@@ -27,7 +27,7 @@ L_0049:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "There are a lot of people in the world,\nand there are just as many different[f000]븀\u0000\ncharacteristics and ideas.[f000]븁\u0000\nI think I'd be really happy if I could\nmeet a lot of people and see the[f000]븀\u0000\ndifferences for myself!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -43,7 +43,7 @@ Script_3:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0142
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My work always keeps me very busy, so\nI'm thrilled if I can go home at night.[f000]븁\u0000\nI'm sorry to leave my wife lonely, but\nthat's the life of a powerful executive.[f000]븁\u0000\nOh, this is a souvenir from a business\ntrip. She does not seem to need it,[f000]븀\u0000\nso I will give it to you.[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 1, 2, 0, 0
@@ -94,7 +94,7 @@ L_0128:
     VMJump L_0156
 
 L_0142:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Tomorrow it's work as always![f000]븁\u0000\nI'm a super businessman, aren't I?"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0

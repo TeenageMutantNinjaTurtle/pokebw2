@@ -82,7 +82,7 @@ L_0123:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMCall L_0139
     FinishAllEvents
@@ -160,7 +160,7 @@ L_0208:
     VMJump L_0239
 
 L_0227:
-    MEPlay 1304
+    MEPlay SEQ_ME_POKEGET
     SystemMsg 0x8025, 0
     MEWait
     VMJump L_02F6
@@ -171,7 +171,7 @@ L_0239:
     VMJump L_025E
 
 L_024C:
-    MEPlay 1317
+    MEPlay SEQ_ME_TAMAGO_GET
     SystemMsg 0x8025, 0
     MEWait
     VMJump L_02F6
@@ -193,7 +193,7 @@ L_0283:
     VMJump L_02AC
 
 L_0296:
-    MEPlay 1303
+    MEPlay SEQ_ME_KEYITEM
     PlayFieldEffect 54
     SystemMsg 0x8025, 0
     MEWait
@@ -205,7 +205,7 @@ L_02AC:
     VMJump L_02D1
 
 L_02BF:
-    SEPlay 1908
+    SEPlay SEQ_SE_FLD_133
     SystemMsg 0x8025, 0
     SEWait
     VMJump L_02F6
@@ -216,7 +216,7 @@ L_02D1:
     VMJump L_02F6
 
 L_02E4:
-    SEPlay 1908
+    SEPlay SEQ_SE_FLD_133
     SystemMsg 0x8025, 0
     SEWait
     VMJump L_02F6

@@ -145,7 +145,7 @@ L_0206:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMCall L_021C
     FinishAllEvents
@@ -289,7 +289,7 @@ L_03EC:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMCall L_0402
     FinishAllEvents
@@ -445,7 +445,7 @@ L_05F9:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8024, 72
     VMStackPushFlag 325
@@ -470,7 +470,7 @@ L_0642:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8024, 73
     VMStackPushFlag 326
@@ -495,7 +495,7 @@ L_0695:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8024, 74
     VMStackPushFlag 327
@@ -520,7 +520,7 @@ L_06E8:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8024, 75
     VMStackPushFlag 328
@@ -685,7 +685,7 @@ L_0956:
 Script_8:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "The Pokémon I've taken a shine to are\nthe ones you get from the professor![f000]븁\u0000\nTo teach all of these Pokémon a\nspecial move, a battle-combo move...[f000]븀\u0000\nThat's my pledge!"
     MsgPlaceSign 47, 1
     MsgPlaceSignClose
@@ -706,7 +706,7 @@ L_098A:
     VMJumpIf CMP_STACK, L_0A39
     WordSetPartyPokeName 0, 0x8020
     WordSetMoveName 1, 0x8021
-    MEPlay 1301
+    MEPlay SEQ_ME_LVUP
     // "[f000]Ă\u0001\u0000 learned\n[f000]ć\u0001\u0001!"
     SystemMsg 10, 0
     MEWait
@@ -851,7 +851,7 @@ L_0B87:
     SystemMsg 15, 0
     // "[f000]Ă\u0001\u0000 learned [f000]ć\u0001\u0002!"
     SystemMsg 16, 0
-    MEPlay 1301
+    MEPlay SEQ_ME_LVUP
     MEWait
     VMStackPush 0x8023
     VMStackPushConst 0

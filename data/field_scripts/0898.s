@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "When a Pokémon evolves, its appearance\nwill change, and it'll get more powerful![f000]븁\u0000\nIf you keep a Pokémon from evolving,\nit will learn moves more quickly!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -19,7 +19,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x40ac
     VMStackPushConst 2
@@ -42,7 +42,7 @@ L_005F:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 531, 0
     // "Brrrm...brrrm."

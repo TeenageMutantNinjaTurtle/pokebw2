@@ -8,7 +8,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hi, Trainer!\nYou have a Pokédex, I see.[f000]븁\u0000\nI'm a traveler. I enjoy trekking around\nthe world and talking with various people.[f000]븁\u0000\nBy the way, do you know a Pokémon\ncalled Zoroark?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0

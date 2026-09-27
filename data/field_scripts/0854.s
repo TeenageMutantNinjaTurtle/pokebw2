@@ -144,7 +144,7 @@ L_0255:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x40a1
     VMStackPushConst 2
@@ -170,7 +170,7 @@ L_029B:
     VMJump L_02D1
 
 L_02C7:
-    BGMPlay 1237
+    BGMPlay SEQ_BGM_E_HUE
     VMCall L_0B1A
 
 L_02D1:
@@ -200,7 +200,7 @@ L_0317:
     VMStackPushConst 4
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0346
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Still, that Professor Juniper![f000]븁\u0000\nThe normal thing to do is to\nget an OK before sending[f000]븀\u0000\nsomeone clear out here, right?"
     ActorMsg MSGFILE_SCRIPT, 51, 2, 1, 0
@@ -213,7 +213,7 @@ L_0346:
     VMStackPushConst 5
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0373
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Bianca: Ooh, I thought of something cool![f000]븁\u0000\nYou both have Pokémon, right?\nWhy don't you have a Pokémon battle?"
     ParentActorMsg MSGFILE_SCRIPT, 59, 0, 0
@@ -231,7 +231,7 @@ L_0373:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_03B7
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Check this! The C-Gear was activated,\nand that screen showed up![f000]븁\u0000\nIf you touch the “?\" icon in the\nbottom-right corner of the[f000]븀\u0000\nC-Gear screen, you can read about[f000]븀\u0000\nthe C-Gear.[f000]븁\u0000\nLike, what are you going to do now?\nYou know, there's another Pokémon Gym[f000]븀\u0000\nin Virbank City, which is just past[f000]븀\u0000\nFloccesy Town."
     ParentActorMsg MSGFILE_SCRIPT, 106, 0, 0
@@ -240,7 +240,7 @@ L_0373:
     VMJump L_03CB
 
 L_03B7:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you want to turn on the C-Gear, touch\nthe Power symbol at the bottom right of[f000]븀\u0000\nthe C-Gear screen.[f000]븁\u0000\nThen, after turning on the power,\nif you touch the “?\" icon in the[f000]븀\u0000\nbottom-right corner of the[f000]븀\u0000\nC-Gear screen, you can read about[f000]븀\u0000\nthe C-Gear.[f000]븁\u0000\nLike, what are you going to do now?\nYou know, there's another Pokémon Gym[f000]븀\u0000\nin Virbank City, which is just past[f000]븀\u0000\nFloccesy Town."
     ParentActorMsg MSGFILE_SCRIPT, 107, 0, 0
@@ -251,7 +251,7 @@ L_03CB:
     VMJump L_03E5
 
 L_03D1:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Bianca: Well, OK![f000]븁\u0000\nI don't really get it, but going\non a journey is always good![f000]븁\u0000\nAnyway, I just happen to have\nanother Pokédex on me![f000]븁\u0000\nIt looks like Pokémon distribution has\nreally changed compared to two years[f000]븀\u0000\nago, so the more, the merrier![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 58, 0, 0
@@ -264,8 +264,8 @@ L_03E5:
     VMHalt
 
 L_03EB:
-    SEPlay 1351
-    BGMPlay 1088
+    SEPlay SEQ_SE_MESSAGE
+    BGMPlay SEQ_BGM_E_BERU
     // "???: It's sooo pretty![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 20, 2, 1, 0
     MsgWinCloseAll
@@ -355,7 +355,7 @@ Movement_0528:
     VMNop
 
 L_0538:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Bianca: OK, then![f000]븁\u0000\nTa-daaa![f000]븁\u0000\nIn here is the Pokémon\nthat will be your partner![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 31, 2, 1, 0
@@ -400,7 +400,7 @@ L_05D2:
     WordSetPokeSpecies 2, 501
 
 L_05EE:
-    MEPlay 1304
+    MEPlay SEQ_ME_POKEGET
     WordSetPlayerName 0
     // "[f000]Ā\u0001\u0000 chose [f000]ā\u0001\u0001!"
     SystemMsg 43, 1
@@ -434,7 +434,7 @@ L_0658:
     ActorMsg MSGFILE_SCRIPT, 48, 2, 1, 0
     MsgWinCloseAll
     FlagSet 2402
-    MEPlay 1303
+    MEPlay SEQ_ME_KEYITEM
     TrainerCardGetSex 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
@@ -523,7 +523,7 @@ L_078E:
 
 Script_24:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Cheren: Bianca makes a good point.[f000]븁\u0000\nI'll tell you what I know about Pokémon\nAbilities and Pokémon type matchups.[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 94, 0, 0
@@ -554,7 +554,7 @@ L_07F6:
     WordSetPokeSpecies 2, 501
 
 L_07FB:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Mom: Bon voyage![f000]븁\u0000\nTake [f000]ā\u0001\u0002 and go see\nmany different Pokémon and[f000]븀\u0000\npeople with your own eyes!"
     ParentActorMsg MSGFILE_SCRIPT, 76, 0, 0
@@ -567,7 +567,7 @@ L_07FB:
 Script_10:
     ActorsPauseAll
     WordSetLoadRivalName 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "[f000]Ā\u0001\u0001's Sister: Get along\nwith your Pokémon!"
     ParentActorMsg MSGFILE_SCRIPT, 77, 0, 0
@@ -746,7 +746,7 @@ Script_8:
     ActorsPauseAll
     ActorCmdExec 0, Movement_1F14
     ActorCmdWait
-    BGMPlay 1237
+    BGMPlay SEQ_BGM_E_HUE
     PlayerGetGPos 0x8021, 0x8022
     ActorWalkRoute 0, 0x8021, 715, 1, 8, 0
     ActorCmdWait
@@ -1020,7 +1020,7 @@ L_0EDB:
     ActorWalkRoute 1, 47, 740, 1, 8, 0
     ActorCmdWait
     GiveRunningShoes
-    MEPlay 1303
+    MEPlay SEQ_ME_KEYITEM
     WordSetPlayerName 0
     // "[f000]Ā\u0001\u0000 received\na pair of [f000][ff00]\u0001\u0002Running Shoes[f000][ff00]\u0001\u0000!"
     SystemMsg 68, 0
@@ -1140,7 +1140,7 @@ Script_23:
     EvCameraInit
     EvCameraUnbind
     EvCameraMoveTo 9688, 0, 0xed000, 0x278000, 0x1000f, 0x2e2b000, 24
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     FlagReset 741
     ActorAdd 7
     SEWait
@@ -1172,7 +1172,7 @@ Script_23:
     VMSleep 8
     ActorCmdExec 255, Movement_1ED4
     ActorCmdWait
-    SEPlay 2177
+    SEPlay SEQ_SE_SW_LC_NO
     SEWait
     // "Now, you can communicate\nwith me from your Xtransceiver.[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 87, 7, 0, 0
@@ -1184,7 +1184,7 @@ Script_23:
     VMSleep 8
     ActorCmdExec 255, Movement_1EEC
     ActorCmdWait
-    SEPlay 2177
+    SEPlay SEQ_SE_SW_LC_NO
     SEWait
     // "I registered Professor Juniper\nfor you, too![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 89, 2, 0, 0
@@ -1192,7 +1192,7 @@ Script_23:
     HollowRivalCmd_0263 2
     HollowRivalCmd_0263 3
     HollowRivalCmd_0263 0
-    MEPlay 1327
+    MEPlay SEQ_ME_CALL
     // "The Xtransceiver is ringing!"
     SystemMsg 90, 2
     MEWait
@@ -1240,7 +1240,7 @@ Script_23:
     VMSleep 8
     ActorCmdExec 255, Movement_1EB4
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 7
     SEWait
     ActorCmdExec 251, Movement_1550
@@ -1250,7 +1250,7 @@ Script_23:
     ActorMsgClose
     ActorWalkRoute 251, 39, 738, 4, 4, 0
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 251
     SEWait
     // "Bianca: Being a Gym Leader\nis even harder than I imagined.[f000]븁\u0000"
@@ -1288,7 +1288,7 @@ Script_23:
     VMHalt
 
 L_1406:
-    MEPlay 1303
+    MEPlay SEQ_ME_KEYITEM
     WordSetPlayerName 0
     // "[f000]Ā\u0001\u0000 obtained\nthe [f000][ff00]\u0001\u0001C-Gear[f000][ff00]\u0001\u0000!"
     SystemMsg 100, 2
@@ -1319,7 +1319,7 @@ L_1421:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_14A1
     MsgWinCloseAll
-    SEPlay 1358
+    SEPlay SEQ_SE_DECIDE3
     CGearPowerOn 1
     SEWait
     // "Check this! The C-Gear was activated,\nand that screen showed up![f000]븁\u0000\nIf you touch the “?\" icon in the\nbottom-right corner of the[f000]븀\u0000\nC-Gear screen, you can read about[f000]븀\u0000\nthe C-Gear.[f000]븁\u0000\nLike, what are you going to do now?\nYou know, there's another Pokémon Gym[f000]븀\u0000\nin Virbank City, which is just past[f000]븀\u0000\nFloccesy Town."
@@ -1589,7 +1589,7 @@ Script_11:
     VMStackPushConst 1
     VMStackCmp CMP_LT
     VMJumpIf CMP_STACK, L_18B0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I wish the Trainers' School\nwould hurry up and open![f000]븁\u0000\nThere's so much about\nPokémon I want to know!"
     ParentActorMsg MSGFILE_SCRIPT, 116, 0, 0
@@ -1598,7 +1598,7 @@ Script_11:
     VMJump L_18C4
 
 L_18B0:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I know lots about Pokémon![f000]븁\u0000\n'Cause I learned so much\nat the Trainers' School!"
     ParentActorMsg MSGFILE_SCRIPT, 117, 0, 0
@@ -1616,7 +1616,7 @@ Script_31:
     VMStackPushConst 1
     VMStackCmp CMP_LT
     VMJumpIf CMP_STACK, L_18F9
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Trainers are the ones who\nhave their Pokémon partners battle.[f000]븁\u0000\nI hear Gym Leaders are\nreally strong Trainers!"
     ParentActorMsg MSGFILE_SCRIPT, 114, 0, 0
@@ -1625,7 +1625,7 @@ Script_31:
     VMJump L_190D
 
 L_18F9:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "So about the Gym Leader Cheren...[f000]븁\u0000\nA few years ago he traveled all over\nthe Unova region with his Pokémon."
     ParentActorMsg MSGFILE_SCRIPT, 115, 0, 0
@@ -1639,7 +1639,7 @@ L_190D:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The view of Route 19\nfrom the outlook is[f000]븀\u0000\nAspertia City's pride and joy."
     ParentActorMsg MSGFILE_SCRIPT, 118, 0, 0
@@ -1651,7 +1651,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The power of science is amazing![f000]븁\u0000\nNow you can use communications\nto play with a hundred people[f000]븀\u0000\nat the same time!"
     ParentActorMsg MSGFILE_SCRIPT, 119, 0, 0
@@ -1663,7 +1663,7 @@ Script_13:
 
 Script_26:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "People go on journeys and become adults.\nMaybe I should leave this city, too..."
     ParentActorMsg MSGFILE_SCRIPT, 120, 0, 0
@@ -1675,7 +1675,7 @@ Script_26:
 
 Script_27:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Sometimes wild Pokémon attack people![f000]븁\u0000\nBut the ones you befriend, the ones that\nstay by your side, are Pokémon, too!"
     ParentActorMsg MSGFILE_SCRIPT, 121, 0, 0
@@ -1687,7 +1687,7 @@ Script_27:
 
 Script_28:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Your mom's really good at\ngetting Pokémon to rest[f000]븀\u0000\nand making them feel better!"
     ParentActorMsg MSGFILE_SCRIPT, 122, 0, 0
@@ -1700,7 +1700,7 @@ Script_28:
 Script_14:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "This is Aspertia City.\nA city that reaches for the sky."
     MsgPlaceSign 125, 1
     MsgPlaceSignClose
@@ -1712,7 +1712,7 @@ Script_15:
     ActorsPauseAll
     WordSetPlayerName 0
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "[f000]Ā\u0001\u0000's House"
     MsgPlaceSign 126, 2
     MsgPlaceSignClose
@@ -1723,7 +1723,7 @@ Script_15:
 Script_16:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Aspertia City Outlook Ahead\nUnova Unfolds before Your Eyes"
     MsgPlaceSign 127, 2
     MsgPlaceSignClose
@@ -1738,7 +1738,7 @@ Script_17:
     VMStackCmp CMP_LT
     VMJumpIf CMP_STACK, L_1A1D
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Trainers' School\nUnder Construction"
     MsgPlaceSign 128, 2
     MsgPlaceSignClose
@@ -1746,7 +1746,7 @@ Script_17:
 
 L_1A1D:
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Aspertia City Pokémon Gym\nGym Leader: Cheren[f000]븀\u0000\nThe one who seeks the right path."
     MsgPlaceSign 129, 2
     MsgPlaceSignClose
@@ -1822,7 +1822,7 @@ Script_30:
     ActorCmdExec 251, Movement_1E38
     ActorCmdWait
     VMSleep 45
-    MEPlay 1327
+    MEPlay SEQ_ME_CALL
     MEWait
     ActorCmdExec 251, Movement_1F14
     ActorCmdWait
@@ -1836,7 +1836,7 @@ Script_30:
     ActorMsg MSGFILE_SCRIPT, 124, 251, 0, 0
     MsgWinCloseAll
     VMSleep 15
-    SEPlay 1853
+    SEPlay SEQ_SE_SYS_72
     ActorCmdExec 251, Movement_1E4C
     ActorCmdWait
     SEWait

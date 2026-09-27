@@ -15,7 +15,7 @@ Script_4:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_009D
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The legendary Fire-type\nPokémon Reshiram![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -43,7 +43,7 @@ Script_4:
     VMJump L_00B1
 
 L_009D:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I yearned for them since I was a child.\nWhen I saw them two years ago,[f000]븀\u0000\nI was so moved that I cried!"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -61,7 +61,7 @@ Script_1:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_00E6
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I make bread every day.[f000]븁\u0000\nThat's what I like, so I'm satisfied,\nbut I wonder if everybody is fine[f000]븀\u0000\nwith only bread and water every day."
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -70,7 +70,7 @@ Script_1:
     VMJump L_00FA
 
 L_00E6:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Eat a lot![f000]븁\u0000\nYou can't love anyone\non an empty stomach!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -84,7 +84,7 @@ L_00FA:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Colress told me that if I can bring out\nthe power of Pokémon by taking good care[f000]븀\u0000\nof them, I can stay here!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -96,7 +96,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "As long as I did what Team Plasma\nordered, I was able to eat bread...[f000]븁\u0000\nI didn't think for myself, and\nthat's why I became like this.[f000]븁\u0000\nAh!\nBut the bread here is yummy!"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -108,7 +108,7 @@ Script_3:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It's you the announcement\nwas warning about?[f000]븁\u0000\nFine.\nI'm very strong.[f000]븁\u0000\nI'll look the other way\nfor a child like you..."
     ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
@@ -120,7 +120,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I failed in my duty,\nand my Pokémon were taken away.[f000]븁\u0000\nI lost a lot of Pokémon\nI had stolen, too..."
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
@@ -132,7 +132,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 2222
+    SEPlay SEQ_SE_SW_PLAZMASHIP_09
     SEWait
     // "Warning! Warning!\nIntruders in the vessel![f000]븀\u0000\nEveryone, please respond."
     InfoMsg 12, 2

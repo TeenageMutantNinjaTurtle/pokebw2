@@ -29,7 +29,7 @@ L_0051:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "When I think about it,\nmy Pokémon is much stronger than me...[f000]븁\u0000\nPoké Balls are sure amazing."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -41,7 +41,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 572, 0
     // "Gahoohoo..."
@@ -55,7 +55,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This is Lacunosa Town. Here, everyone\nlives according to the rules, from the[f000]븀\u0000\nmoment they awaken to the time they[f000]븀\u0000\ngo to sleep."
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -67,7 +67,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The scary monster that comes out of\nthe big hole at night is actually[f000]븀\u0000\na Pokémon right?[f000]븁\u0000\nAdults were just saying\nthat to frighten children, huh?"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0

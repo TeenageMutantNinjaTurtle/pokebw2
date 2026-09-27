@@ -35,7 +35,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I was born here and will die here.[f000]븁\u0000\nLentimas Town is a country town,\nbut I don't mind, because I don't know[f000]븀\u0000\nanywhere else."
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -47,7 +47,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "There is nothing but beauty here,\nbut Skyla delivers things[f000]븀\u0000\nwe don't have."
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0

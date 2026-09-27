@@ -426,7 +426,7 @@ Script_9:
     EvCameraMoveTo 9688, 0, 0xed000, 0x1958000, 0, 0x918000, 24
     FlagReset 794
     FlagSet 799
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorAdd 0
     SEWait
     ActorWalkRoute 0, 405, 145, 0, 8, 0
@@ -497,7 +497,7 @@ Script_11:
     BMHndAnmWait 0x8027
     ActorCmdExec 0, Movement_2414
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 0
     SEWait
     BMHndAudioVisualAnmPlay 0x8027, 1
@@ -608,7 +608,7 @@ L_09B5:
     MsgWinCloseAll
     ActorCmdExec 251, Movement_0EAC
     VMSleep 2
-    SEPlay 1475
+    SEPlay SEQ_SE_W121_01
     ActorCmdWait
     SEWait
     ActorCmdExec 251, Movement_2474
@@ -639,7 +639,7 @@ L_0A6A:
     // "???: I don't think that's going to work.[f000]븁\u0000"
     InfoMsg 14, 2
     MsgWinCloseAll
-    BGMPlay 1240
+    BGMPlay SEQ_BGM_E_7_SAGE
     VMStackPush 0x8023
     VMStackPushConst 23
     VMStackCmp CMP_EQ
@@ -736,7 +736,7 @@ L_0C89:
     ActorSetGPos 5, 429, 65535, 179, 2
 
 L_0CDA:
-    BGMPlay 1241
+    BGMPlay SEQ_BGM_E_C08_ICE
     VMStackPush 0x8023
     VMStackPushConst 23
     VMStackCmp CMP_EQ
@@ -910,7 +910,7 @@ L_0F83:
     // "Drayden: You're even better than I\nhoped. Thanks to you, we drove them off.[f000]븁\u0000\nI'm grateful to your Pokémon, also.[f000]븁\u0000\nAfter all that, the least I can do\nis heal them with this medicine.[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 40, 0, 1, 0
     MsgWinCloseAll
-    SEPlay 1391
+    SEPlay SEQ_SE_RECOVERY
     SEWait
     PokePartyRecoverAll
     // "Wait here a moment.\nI'll be right back.[f000]븁\u0000"
@@ -937,11 +937,11 @@ L_0FD6:
 
 L_0FF5:
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 0
     SEWait
     VMSleep 8
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorAdd 0
     SEWait
     VMStackPush 0x8023
@@ -991,7 +991,7 @@ L_10B2:
     // "Look, [f000]Ā\u0001\u0000.\nThese are the DNA Splicers![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 43, 0, 1, 0
     MsgWinCloseAll
-    SEPlay 1780
+    SEPlay SEQ_SE_W234_HIKARI
     FieldEffect 628
     SEWait
     // "This is what they were after![f000]븁\u0000\nWe're really fortunate Team Plasma\ndidn't get their hands on them![f000]븁\u0000\nI don't know what their goal is, but I'm\nsure they're planning something wicked.[f000]븁\u0000"
@@ -1011,7 +1011,7 @@ L_1110:
 L_111C:
     ActorCmdExec 8, Movement_13C8
     ActorCmdWait
-    BGMPlay 1239
+    BGMPlay SEQ_BGM_DARK_TRINITY
     VMStackPush 0x8021
     VMStackPushConst 405
     VMStackCmp CMP_EQ
@@ -1300,9 +1300,9 @@ Movement_151C:
 
 Script_34:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
-    BGMPlay 1239
+    BGMPlay SEQ_BGM_DARK_TRINITY
     VMCall L_15B7
     FinishAllEvents
     ActorsUnpauseAll
@@ -1310,7 +1310,7 @@ Script_34:
 
 Script_12:
     ActorsPauseAll
-    BGMPlay 1239
+    BGMPlay SEQ_BGM_DARK_TRINITY
     PlayerGetGPos 0x8021, 0x8022
     PlayerGetDir 0x8020
     WorkAdd 0x8021, 1
@@ -1442,7 +1442,7 @@ L_1775:
 
 L_1781:
     MsgWinCloseAll
-    MEPlay 1327
+    MEPlay SEQ_ME_CALL
     // "The Xtransceiver is ringing."
     SystemMsg 53, 2
     MEWait
@@ -1471,10 +1471,10 @@ L_17CF:
 L_17DB:
     MsgWinCloseAll
     PlayerGetGPos 0x8021, 0x8022
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorNew 446, 175, 2, 251, 223, 0
     SEWait
-    BGMPlay 1087
+    BGMPlay SEQ_BGM_E_CHEREN
     ActorCmdExec 0, Movement_2464
     ActorCmdExec 255, Movement_2464
     ActorCmdWait
@@ -1585,7 +1585,7 @@ L_1999:
 L_19A7:
     ActorCmdWait
     BGMChangeMap
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 251
     SEWait
     WordSetPlayerName 0
@@ -1681,7 +1681,7 @@ Script_13:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_1B34
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I was just reminded of Iris.[f000]븁\u0000\nYes, the Champion.\nThat Iris...[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 82, 0, 0, 0
@@ -1697,7 +1697,7 @@ L_1B34:
     VMStackPushConst 4
     VMStackCmp CMP_LE
     VMJumpIf CMP_STACK, L_1B61
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Drayden: They're getting tougher![f000]븁\u0000\n[f000]Ā\u0001\u0000!\nTake care of the others!"
     ActorMsg MSGFILE_SCRIPT, 34, 0, 0, 0
     LastKeyWait
@@ -1713,7 +1713,7 @@ L_1B61:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_1B9E
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Drayden: Little by little,\nthe ice is starting to melt.[f000]븁\u0000\nIt's all thanks to you.\nAs a fellow Trainer, I heartily thank you!"
     ParentActorMsg MSGFILE_SCRIPT, 62, 0, 0
@@ -1730,7 +1730,7 @@ L_1B9E:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_1BDB
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Drayden: The only one left is\nZinzolin of the Seven Sages![f000]븀\u0000\nWhere could he be?[f000]븁\u0000\nOh!\nWhat's going on at the Pokémon Gym?!"
     ParentActorMsg MSGFILE_SCRIPT, 35, 0, 0
@@ -1743,7 +1743,7 @@ L_1BDB:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_1C08
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Drayden: They don't seem to be in\nthis area. However, they can hide their[f000]븀\u0000\npresence, so be on guard as you look!"
     ParentActorMsg MSGFILE_SCRIPT, 49, 0, 0
@@ -1756,7 +1756,7 @@ L_1C08:
     VMStackPushConst 2
     VMStackCmp CMP_GE
     VMJumpIf CMP_STACK, L_1C2F
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Drayden: Humilau City, huh...[f000]븁\u0000\nIs there anything to the\nnorth of Undella Town?[f000]븁\u0000\n[f000]Ā\u0001\u0000, protect Pokémon\nfrom Team Plasma![f000]븁\u0000\nAll people should think for themselves\nabout the nature of the relationship[f000]븀\u0000\nbetween people and Pokémon.[f000]븁\u0000\nIt's not something Team Plasma gets\nto decide for everyone!"
     ParentActorMsg MSGFILE_SCRIPT, 61, 0, 0
@@ -1770,9 +1770,9 @@ L_1C2F:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
-    BGMPlayPush 1240
+    BGMPlayPush SEQ_BGM_E_7_SAGE
     // "Zinzolin: Oh, for crying out loud...[f000]븁\u0000\nI didn't expect to have to fight\nhampered by cold like this.[f000]븁\u0000\nWell, no matter! The fact that I'm\nshivering means I'm truly alive![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 38, 1, 0, 0
     ActorMsgClose
@@ -1820,7 +1820,7 @@ L_1CC0:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerFlagGet 585, 0x8010
     VMStackPush 0x8010
@@ -1866,7 +1866,7 @@ L_1DA9:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerFlagGet 586, 0x8010
     VMStackPush 0x8010
@@ -1912,7 +1912,7 @@ L_1E4E:
 
 Script_19:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerFlagGet 587, 0x8010
     VMStackPush 0x8010
@@ -1977,7 +1977,7 @@ Script_17:
     VMStackPushConst 5
     VMStackCmp CMP_GE
     VMJumpIf CMP_STACK, L_1F4B
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma: I think Zinzolin was going\nto check the Pokémon Gym..."
     ParentActorMsg MSGFILE_SCRIPT, 32, 0, 0
@@ -1986,7 +1986,7 @@ Script_17:
     VMJump L_1F5F
 
 L_1F4B:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma: I lost.\nI didn't stand a chance...[f000]븁\u0000\nI can't believe Haxorus blasted me\nall the way over here!"
     ParentActorMsg MSGFILE_SCRIPT, 31, 0, 0
@@ -2000,7 +2000,7 @@ L_1F5F:
 
 Script_18:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Team Plasma: I've been nursing a\ngrudge for two years, old man.[f000]븁\u0000\n...Even if this is the first time\nI've battled you!"
     ActorMsg MSGFILE_SCRIPT, 33, 6, 0, 0
     LastKeyWait
@@ -2015,7 +2015,7 @@ Script_20:
     VMStackPushConst 5
     VMStackCmp CMP_GE
     VMJumpIf CMP_STACK, L_1FB0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma: Oh, that Drayden!\nWhere did he hide the DNA Splicers?[f000]븀\u0000\nSomewhere familiar and common, right?"
     ParentActorMsg MSGFILE_SCRIPT, 37, 0, 0
@@ -2024,7 +2024,7 @@ Script_20:
     VMJump L_1FC4
 
 L_1FB0:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma: That old guy won't hold\nback even if his opponent is a young girl."
     ParentActorMsg MSGFILE_SCRIPT, 36, 0, 0
@@ -2082,7 +2082,7 @@ Script_33:
     BMCreateHandleByGPos 0x8029, 1, 418, 159
     BMHndAudioVisualAnmPlay 0x8029, 0
     BMHndAnmWait 0x8029
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorSetGPos 0, 418, 0, 159, 1
     SEWait
     ActorCmdExec 255, Movement_244C
@@ -2132,7 +2132,7 @@ Script_22:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_216B
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Why do Pokémon stay by our sides?[f000]븁\u0000\nIf we could talk to them, we could ask.\nI'm a bit scared about what they'd say."
     ParentActorMsg MSGFILE_SCRIPT, 63, 0, 0
@@ -2141,7 +2141,7 @@ Script_22:
     VMJump L_2183
 
 L_216B:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The memories of everyone who has lived\nin this city have built up over the years[f000]븀\u0000\nwithout changing much."
     // "This city changes endlessly.[f000]븁\u0000\nAnd every change is engraved in the\nmemories of the people who live here."
@@ -2160,7 +2160,7 @@ Script_23:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_21B8
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I reached heights I never could\nhave arrived at because I had[f000]븀\u0000\nPokémon by my side.[f000]븁\u0000\nAnd I believe my Pokémon became\ntough because they were with me!"
     ParentActorMsg MSGFILE_SCRIPT, 66, 0, 0
@@ -2169,7 +2169,7 @@ Script_23:
     VMJump L_21D0
 
 L_21B8:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I think some things shouldn't be\nchanged, even if it's inconvenient."
     // "I think some things must be changed\nno matter how much you love them!"
@@ -2188,7 +2188,7 @@ Script_24:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_2205
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "A person called N had the\nlegendary Pokémon with him,[f000]븀\u0000\nbut was he really the hero?"
     ParentActorMsg MSGFILE_SCRIPT, 69, 0, 0
@@ -2197,7 +2197,7 @@ Script_24:
     VMJump L_221D
 
 L_2205:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "A world of ice.[f000]븁\u0000\nSuch beauty goes beyond old and new--\ninspirational, yet terrifying.[f000]븁\u0000\nThough, to me, there's a comfort in\nold things that you can't find in the new."
     // "A world of ice.[f000]븁\u0000\nSuch beauty goes beyond new and old--\ninspirational, yet terrifying.[f000]븁\u0000\nThough, to me, there's a coolness to new\nthings that I prize more than the old."
@@ -2216,7 +2216,7 @@ Script_25:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_2252
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Gym Leader Drayden leads\nOpelucid City as its mayor![f000]븁\u0000\nHe's always training by wrestling\nwith his Pokémon."
     ParentActorMsg MSGFILE_SCRIPT, 72, 0, 0
@@ -2225,7 +2225,7 @@ Script_25:
     VMJump L_2266
 
 L_2252:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My Pokémon show me affection,\nso I'm not lonely![f000]븁\u0000\nAnd I return their affection even more!"
     ParentActorMsg MSGFILE_SCRIPT, 73, 0, 0
@@ -2243,7 +2243,7 @@ Script_27:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_229B
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "There was a group that told\npeople to release their Pokémon.[f000]븁\u0000\nThey were great big liars, but it\ncreated a good opportunity to think."
     ParentActorMsg MSGFILE_SCRIPT, 74, 0, 0
@@ -2252,7 +2252,7 @@ Script_27:
     VMJump L_22B3
 
 L_229B:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "After that speech, my Pokémon\nand I have been thinking about[f000]븀\u0000\nwhat's true for us."
     // "After that speech, I've been thinking\nabout the ideal relationship for me and[f000]븀\u0000\nmy Pokémon as we move forward together."
@@ -2271,7 +2271,7 @@ Script_28:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_22E8
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Unova's symbols are\nZekrom and Reshiram,[f000]븀\u0000\nbut I wonder where they are now.[f000]븁\u0000\nAre they passing along their\nancient knowledge to someone?"
     ParentActorMsg MSGFILE_SCRIPT, 77, 0, 0
@@ -2280,7 +2280,7 @@ Script_28:
     VMJump L_2300
 
 L_22E8:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Pursuing ideals is different from person\nto person and Pokémon to Pokémon.[f000]븁\u0000\nIn this city, it seems the ideal is\nto cherish the past."
     // "The truth people pursue is different\nfrom person to person and[f000]븀\u0000\nPokémon to Pokémon.[f000]븁\u0000\nIn this city, it seems the truth is\nconstant change."
@@ -2295,7 +2295,7 @@ L_2300:
 
 Script_26:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The hopes of an ancient people are put\ninto this melody...[f000]븁\u0000\nI will bring them back to us now."
     // "Our hopes are put into this melody...\nI will send them to the future."
@@ -2309,7 +2309,7 @@ Script_26:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Opelucid City\nTime's Dividing Line"
     MsgPlaceSign 84, 1
     MsgPlaceSignClose
@@ -2320,7 +2320,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Drayden's House"
     MsgPlaceSign 85, 2
     MsgPlaceSignClose
@@ -2336,7 +2336,7 @@ Script_3:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_238B
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Formerly the Battle House..."
     MsgPlaceSign 87, 2
     MsgPlaceSignClose
@@ -2344,7 +2344,7 @@ Script_3:
 
 L_238B:
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Formerly the Battle House..."
     MsgPlaceSign 86, 2
     MsgPlaceSignClose
@@ -2357,7 +2357,7 @@ L_239D:
 Script_4:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Trainer Tips![f000]븁\u0000\n\nMayor Drayden will teach you if he\nrecognizes you as a strong Trainer.[f000]븁\u0000\nVisit his home to learn the\nmost powerful Dragon-type move!"
     MsgPlaceSign 88, 0
     MsgPlaceSignClose
@@ -2374,7 +2374,7 @@ Script_5:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_23F2
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Opelucid City Pokémon Gym\nLeader: Drayden[f000]븀\u0000\nThe Spartan Mayor"
     MsgPlaceSign 90, 2
     MsgPlaceSignClose
@@ -2382,7 +2382,7 @@ Script_5:
 
 L_23F2:
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Opelucid City Pokémon Gym\nLeader: Drayden[f000]븀\u0000\nThe Spartan Mayor"
     MsgPlaceSign 89, 2
     MsgPlaceSignClose

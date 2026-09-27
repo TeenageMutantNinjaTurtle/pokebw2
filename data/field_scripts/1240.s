@@ -4006,7 +4006,7 @@ Script_400:
 Script_401:
     WorkSetConst 0x8020, 0
     WorkSetConst 0x8021, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkGet 0x8008, 0x800c
     WorkGet 0x8009, 0x800d

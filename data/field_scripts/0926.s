@@ -80,7 +80,7 @@ Script_4:
     EvCameraWait
     EvCameraRebind
     EvCameraEnd
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorAdd 9
     SEWait
     ActorCmdExec 9, Movement_06B4
@@ -145,7 +145,7 @@ L_0242:
     InfoMsg 2, 2
     MsgWinCloseAll
     Cmd_02E8 1, 1
-    SEPlay 2199
+    SEPlay SEQ_SE_SW_RENBU_02
     // "A heavy gangplank fell\nwith a solid thud...[f000]븁\u0000"
     InfoMsg 3, 2
     MsgWinCloseAll
@@ -243,7 +243,7 @@ Script_7:
     ActorCmdExec 255, Movement_06A4
     ActorCmdExec 9, Movement_06A4
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 10
     SEWait
     EvCameraWait
@@ -260,7 +260,7 @@ Script_7:
     VMSleep 4
     ActorCmdExec 255, Movement_06AC
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 9
     ActorCmdWait
     SEWait
@@ -328,7 +328,7 @@ Script_5:
     // "[f000]Ā\u0001\u0001: Team Plasma![f000]븁\u0000\nNo matter where you fly,\nI won't let you get away![f000]븁\u0000\nBut, what's over there anyway?[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 14, 9, 0, 0
     MsgWinCloseAll
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorAdd 11
     ActorCmdWait
     SEWait
@@ -356,7 +356,7 @@ Script_5:
     ActorCmdExec 11, Movement_06A4
     ActorCmdExec 255, Movement_06A4
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 9
     SEWait
     ActorCmdExec 11, Movement_06AC
@@ -401,7 +401,7 @@ Movement_0624:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Cheren: Yeah...[f000]븁\u0000\nYou can get to the Giant Chasm\nfrom Route 22."
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0

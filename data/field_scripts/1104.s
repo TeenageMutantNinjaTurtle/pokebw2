@@ -215,7 +215,7 @@ Script_22:
     ActorWalkRoute 13, 14, 27, 1, 8, 1
     ActorCmdWait
     WordSetLoadRivalName 1
-    BGMPlay 1194
+    BGMPlay SEQ_BGM_SW_D_27_F_AJITO
     FlagReset 2560
     BGMAmbienceResume
     // "[f000]Ā\u0001\u0001: You guys...\nSeriously, this is Team Plasma's base?[f000]븁\u0000"
@@ -358,7 +358,7 @@ Script_6:
     VMStackPushConst 2
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0701
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "[f000]Ā\u0001\u0001: This is a piece of cake!\nGo back up Cheren!"
     ActorMsg MSGFILE_SCRIPT, 31, 0, 0, 0
     LastKeyWait
@@ -370,7 +370,7 @@ L_0701:
     VMStackPushConst 3
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0852
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "[f000]Ā\u0001\u0001: I'm gonna end this,\nso back me up![f000]븁\u0000\nOK, Plasma punk, are YOU the thief\nwho stole a Purrloin in Aspertia[f000]븀\u0000\nfive years back?[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 32, 0, 0, 0
     MsgWinCloseAll
@@ -454,7 +454,7 @@ L_0852:
     VMJumpIf CMP_STACK, L_0895
     WordSetPlayerName 0
     WordSetLoadRivalName 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "[f000]Ā\u0001\u0001: Take care of that guy!\nHe's no problem for you, right?[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 43, 0, 0
@@ -465,7 +465,7 @@ L_0852:
 L_0895:
     WordSetPlayerName 0
     WordSetLoadRivalName 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "[f000]Ā\u0001\u0001: I'm fine...\nLet's try to find a way inside."
     ParentActorMsg MSGFILE_SCRIPT, 44, 0, 0
@@ -497,7 +497,7 @@ Script_7:
     VMStackPushConst 2
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0A28
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Team Plasma: Tch!\nIt's two against one now![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 16, 5, 0, 0
     MsgWinCloseAll
@@ -570,7 +570,7 @@ L_09CF:
     VMJump L_0A3C
 
 L_0A28:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Cheren: There are so many of them.\nWhat a bother!"
     ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
@@ -620,10 +620,10 @@ L_0A60:
     MsgWinCloseAll
     FlagReset 833
     FlagReset 834
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorAdd 16
     SEWait
-    BGMPlay 1240
+    BGMPlay SEQ_BGM_E_7_SAGE
     // "???: What is going on?[f000]븁\u0000"
     InfoMsg 35, 1
     MsgWinCloseAll
@@ -718,7 +718,7 @@ Movement_0C50:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma: Go! Go![f000]븁\u0000\nSomebody avenge me\nand take these guys out!"
     ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
@@ -730,7 +730,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma: What's with this Trainer?![f000]븁\u0000\nThis reminds me of that Trainer who\nmessed with us two years ago..."
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
@@ -746,7 +746,7 @@ Script_10:
     VMStackPushConst 3
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0CCB
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma: The Gym Leader is\nirritating, but you...[f000]븀\u0000\nYou are a horrible little brat!"
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
@@ -755,7 +755,7 @@ Script_10:
     VMJump L_0CDF
 
 L_0CCB:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma: Hey, I remember you!\nYou're gonna pay for Virbank![f000]븁\u0000\nYou and the Gym Leader are going\ndown, so you'd better brace yourself!"
     ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
@@ -769,7 +769,7 @@ L_0CDF:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma: Tch!\nIt's two against one now![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
@@ -781,7 +781,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Team Plasma: This guy...\nMore than strong, he's scary![f000]븀\u0000\nHe's really cheesed off!"
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
     LastKeyWait
@@ -792,7 +792,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma: Look around you![f000]븁\u0000\nSee how many of us there are?\nJust surrender already!"
     ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
@@ -804,7 +804,7 @@ Script_13:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma: Ooogz...\nStrong for such a little brat!"
     ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
@@ -816,7 +816,7 @@ Script_14:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma: That little punk\nwas too intense![f000]븁\u0000\nEspecially for someone whose head\nlooks like a Qwilfish!"
     ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
@@ -828,7 +828,7 @@ Script_15:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma: I'm not losing![f000]븁\u0000\nWell, actually, I haven't\nreceived a Pokémon yet!"
     ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
@@ -840,7 +840,7 @@ Script_16:
 
 Script_17:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma: What's this?[f000]븁\u0000\nAre the Gym Leaders\ngoing to interfere with us again?"
     ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0
@@ -852,7 +852,7 @@ Script_17:
 
 Script_18:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma: I didn't stand a chance...[f000]븁\u0000\nAnd I bullied--I mean trained--my\nPokémon for two whole years, too!"
     ParentActorMsg MSGFILE_SCRIPT, 29, 0, 0
@@ -864,7 +864,7 @@ Script_18:
 
 Script_19:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma: Sniff...\nOur plans might fail again..."
     ParentActorMsg MSGFILE_SCRIPT, 30, 0, 0
@@ -876,7 +876,7 @@ Script_19:
 
 Script_20:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Intruders!"
     ParentActorMsg MSGFILE_SCRIPT, 54, 0, 0
     LastKeyWait
@@ -887,7 +887,7 @@ Script_20:
 
 Script_21:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "For now, let them through!"
     ParentActorMsg MSGFILE_SCRIPT, 55, 0, 0
     LastKeyWait
@@ -898,7 +898,7 @@ Script_21:
 
 Script_27:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Don't try to get out of your\nwatch with stupid talk like that!"
     ParentActorMsg MSGFILE_SCRIPT, 56, 0, 0
     LastKeyWait
@@ -909,7 +909,7 @@ Script_27:
 
 Script_28:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "And, um, did you find the swimsuit\nguy who lowered the gangplank?"
     ParentActorMsg MSGFILE_SCRIPT, 57, 0, 0
     LastKeyWait
@@ -1039,7 +1039,7 @@ L_1053:
     MsgWinCloseAll
     ActorCmdExec 0, Movement_10A8
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 0
     SEWait
     ActorWalkRoute 255, 18, 15, 1, 8, 0
@@ -1079,7 +1079,7 @@ L_10E7:
     MsgWinCloseAll
     ActorCmdExec 0, Movement_10A8
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 0
     SEWait
     ActorWalkRoute 255, 18, 15, 1, 8, 0
@@ -1094,7 +1094,7 @@ L_10E7:
 
 Script_24:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorCmdExec 22, Movement_1410
     ActorCmdWait
     // "Zzz...\nZzz...[f000]븁\u0000\nLooks like he's asleep."
@@ -1107,7 +1107,7 @@ Script_24:
 
 Script_29:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2793
     VMStackPushConst 0
@@ -1177,7 +1177,7 @@ L_122A:
 
 Script_25:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma: The sky sure is vast."
     ParentActorMsg MSGFILE_SCRIPT, 52, 0, 0
@@ -1189,7 +1189,7 @@ Script_25:
 
 Script_26:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma: I knew...[f000]븁\u0000\nI knew that Ghetsis\nwas using me...[f000]븁\u0000\nBut I had friends here..."
     ParentActorMsg MSGFILE_SCRIPT, 53, 0, 0

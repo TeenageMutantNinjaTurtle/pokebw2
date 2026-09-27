@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "We can live unchanged,\nbecause we keep changing.[f000]븁\u0000\nI mean, Pokémon also evolve,\nbut their Natures stay the same."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -19,7 +19,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Driftveil City that I remembered\nhad sort of a dowdy, you know,[f000]븀\u0000\nshabby look..."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -31,7 +31,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 320
     VMStackPushConst 0
@@ -56,7 +56,7 @@ Script_3:
     VMJump L_00C5
 
 L_00A9:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 610, 0
     // "Roooooar!"

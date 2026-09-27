@@ -57,9 +57,9 @@ Script_1:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_0105
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WordSetPlayerName 0
-    SEPlay 1740
+    SEPlay SEQ_SE_FLD_61
     // "[f000]Ā\u0001\u0000 pressed the\nswitch on the elevator!"
     InfoMsg 2, 2
     SEWait
@@ -78,7 +78,7 @@ L_0105:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WordSetPlayerName 0
     WordSetLoadRivalName 1
     TrainerCardHasBadge 0x8008, 4
@@ -103,7 +103,7 @@ L_0140:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Welcome to the Driftveil Pokémon Gym![f000]븁\u0000\nIn this Gym, elevators are provided for\nyour use."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0

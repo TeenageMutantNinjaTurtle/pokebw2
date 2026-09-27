@@ -9,7 +9,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I am researching Pokémon Fossils here.[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -239,7 +239,7 @@ L_03B4:
     ActorMsgClose
     WordSetPlayerName 0
     WordSetPokeSpecies 1, 0x8023
-    MEPlay 1304
+    MEPlay SEQ_ME_POKEGET
     // "[f000]Ā\u0001\u0000 received\n[f000]ā\u0001\u0001!"
     SystemMsg 7, 2
     MEWait

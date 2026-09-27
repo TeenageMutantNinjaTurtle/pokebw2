@@ -14,7 +14,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh my! You have eight Gym Badges?!\nWhy, you must be very strong![f000]븁\u0000\nBut, I wonder what would separate\nTrainers who both have eight Badges..."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -26,7 +26,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "There's a model who I've been\na fan of for years![f000]븁\u0000\nHer name is Elesa,\nand her Pokémon are strong, too![f000]븁\u0000\nHuh? You've battled with her?\nYou're really something!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -38,7 +38,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The GTS! It links the world from the\nsecond floor of a Pokémon Center![f000]븁\u0000\nThe full name of the GTS is the\nGlobal Trade Station![f000]븁\u0000\nNow in Driftveil City, you can find the\nPokémon World Tournament.[f000]븀\u0000\nIt's the PWT for short!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -54,7 +54,7 @@ Script_4:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0245
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hi, hi!\nLet's play Pokémon rock-paper-scissors![f000]븁\u0000\nI'm really good at it!\nI've beaten all of my friends![f000]븀\u0000\nAre you ready?[f000]븁\u0000\nHere we go!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 2, 0
@@ -144,7 +144,7 @@ L_01D8:
     ParentActorMsg MSGFILE_SCRIPT, 8, 2, 0
     MsgWinCloseAll
     Cmd_0275 0, 41, 0
-    SEPlay 1908
+    SEPlay SEQ_SE_FLD_133
     // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink!"
     SystemMsg 9, 0
     SEWait
@@ -158,7 +158,7 @@ L_01D8:
     VMJump L_0259
 
 L_0245:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Until I figure out a way\nto win every time for sure,[f000]븀\u0000\nI won't play anymore!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0

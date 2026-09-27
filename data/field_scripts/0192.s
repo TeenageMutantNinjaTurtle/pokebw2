@@ -196,7 +196,7 @@ L_0304:
     MsgWinCloseAll
     ActorWalkRoute 3, 218, 432, 1, 4, 1
     VMSleep 7
-    SEPlay 1653
+    SEPlay SEQ_SE_FLD_04
     ActorCmdExec 2, Movement_04B0
     ActorCmdWait
     SEWait
@@ -223,7 +223,7 @@ L_0304:
     VMSleep 28
     ActorCmdExec 255, Movement_04D0
     VMSleep 20
-    SEPlay 1420
+    SEPlay SEQ_SE_W001_01
     ActorCmdExec 3, Movement_04C0
     ActorCmdExec 2, Movement_0E24
     ActorCmdWait
@@ -398,7 +398,7 @@ Movement_0668:
 Script_10:
     ActorsPauseAll
     WordSetLoadRivalName 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "[f000]Ā\u0001\u0001: Challenging the Gym, huh?\nNice! Keep getting stronger![f000]븁\u0000\nLet me tell you, though,\nClay's tough![f000]븁\u0000\nEven if all you have to use against\nGround types is Water-type Pokémon,[f000]븀\u0000\nyou might still be in for a rough fight!"
     ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
@@ -410,7 +410,7 @@ Script_10:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Rood: If you're going to come inside,\nI would like to see what kind[f000]븀\u0000\nof person you are, Trainer.[f000]븁\u0000\nThat's right. In a Pokémon battle.\nDo you find this acceptable?"
     ActorMsg MSGFILE_SCRIPT, 21, 4, 3, 0
@@ -473,7 +473,7 @@ L_072F:
     MsgWinCloseAll
     ActorCmdExec 4, Movement_0DEC
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 4
     SEWait
     ActorCmdExec 255, Movement_07E4
@@ -502,7 +502,7 @@ Movement_07EC:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Ex-Team Plasma: I'm sorry...[f000]븁\u0000\nSage Rood is only saying\nthat in order to protect us."
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
@@ -514,7 +514,7 @@ Script_9:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Gym Leader, Clay, is currently\nin the middle of something.[f000]븀\u0000\nPlease come back again later."
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -527,7 +527,7 @@ Script_7:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Welcome to Driftveil City!"
     MsgPlaceSign 65, 2
     MsgPlaceSignClose
@@ -538,7 +538,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Driftveil Drawbridge"
     MsgPlaceSign 64, 2
     MsgPlaceSignClose
@@ -549,7 +549,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Driftveil City\nA City of Billowing Sails"
     MsgPlaceSign 66, 1
     MsgPlaceSignClose
@@ -560,7 +560,7 @@ Script_3:
 Script_4:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Driftveil Market"
     MsgPlaceSign 67, 2
     MsgPlaceSignClose
@@ -571,7 +571,7 @@ Script_4:
 Script_5:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Driftveil City Pokémon Gym\nLeader: Clay[f000]븀\u0000\nThe Underground Boss"
     MsgPlaceSign 68, 2
     MsgPlaceSignClose
@@ -582,7 +582,7 @@ Script_5:
 Script_26:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Clay Tunnel Ahead"
     MsgPlaceSign 69, 2
     MsgPlaceSignClose
@@ -592,7 +592,7 @@ Script_26:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8023, 0
     GameGetVersion 0x8023
@@ -803,7 +803,7 @@ L_0BAD:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "So how about this city's pride and joy,\nthe drawbridge?[f000]븁\u0000\nWe also call it the Charizard Bridge\ndue to its elegant form!"
     ParentActorMsg MSGFILE_SCRIPT, 34, 0, 0
@@ -815,7 +815,7 @@ Script_15:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Elite Four of the Pokémon League\nare extremely tough![f000]븁\u0000\nI hear you can't battle them unless\nyou have eight Gym Badges!"
     ParentActorMsg MSGFILE_SCRIPT, 35, 0, 0
@@ -827,7 +827,7 @@ Script_16:
 
 Script_17:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "When there's an item in your Bag\nyou want to switch,[f000]븀\u0000\njust press SELECT[f000]븀\u0000\nand give it a new niche! ♪[f000]븁\u0000\nDoesn't that jingle take you back?"
     ParentActorMsg MSGFILE_SCRIPT, 36, 0, 0
@@ -839,7 +839,7 @@ Script_17:
 
 Script_18:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "A long time ago, Team Plasma\nstole my Pokémon...[f000]븁\u0000\nWell, they did give it back later!"
     ParentActorMsg MSGFILE_SCRIPT, 37, 0, 0
@@ -851,7 +851,7 @@ Script_18:
 
 Script_19:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I want to level up my dear Pokémon\nso they never have to feel[f000]븀\u0000\nthe sting of defeat!"
     ParentActorMsg MSGFILE_SCRIPT, 39, 0, 0
@@ -863,7 +863,7 @@ Script_19:
 
 Script_27:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 552, 0
     // "Rokorroook!"
@@ -877,7 +877,7 @@ Script_27:
 
 Script_20:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Whoooa, dude! If a Pokémon uses the move\nSurf, it can catch a wave!"
     ParentActorMsg MSGFILE_SCRIPT, 40, 0, 0
@@ -889,7 +889,7 @@ Script_20:
 
 Script_21:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Even though I used to look\nat the Cold Storage every day...[f000]븁\u0000\nI've already forgotten\nwhat it looked like..."
     ParentActorMsg MSGFILE_SCRIPT, 41, 0, 0
@@ -901,7 +901,7 @@ Script_21:
 
 Script_22:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "A Pokémon of thunder and\na Pokémon of wind were roaming[f000]븀\u0000\neverywhere and causing trouble![f000]븁\u0000\nThen they were punished\nby a Pokémon of the soil.[f000]븁\u0000\nI like that story!"
     ParentActorMsg MSGFILE_SCRIPT, 42, 0, 0
@@ -913,7 +913,7 @@ Script_22:
 
 Script_23:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "On the other side of the ocean...\nAnd all over the world, there sure[f000]븀\u0000\nare a lot of different Pokémon!"
     ParentActorMsg MSGFILE_SCRIPT, 43, 0, 0
@@ -925,7 +925,7 @@ Script_23:
 
 Script_24:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "There are former members of\nTeam Plasma in there...[f000]븁\u0000\nI'm worried that they might\nbe up to no good again..."
     ParentActorMsg MSGFILE_SCRIPT, 44, 0, 0
@@ -937,7 +937,7 @@ Script_24:
 
 Script_25:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Bridges connect different lands.[f000]븁\u0000\nTrading and battling with Pokémon\ncan connect different people.[f000]븁\u0000\nI guess that means Pokémon\nare a kind of bridge as well!"
     ParentActorMsg MSGFILE_SCRIPT, 45, 0, 0
@@ -949,7 +949,7 @@ Script_25:
 
 Script_28:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Construction on a shortcut\nto Twist Mountain has started.[f000]븁\u0000\nBut it's going to take a while\n'cause digging's difficult."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0

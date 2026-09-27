@@ -28,7 +28,7 @@ L_004F:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Nuvema Town\nThe Start of Something Big!"
     MsgPlaceSign 5, 1
     MsgPlaceSignClose
@@ -45,7 +45,7 @@ Script_2:
     VMJumpIf CMP_STACK, L_00A4
     Cmd_02B5 2, 0
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "[f000]Ā\u0001\u0000's House"
     MsgPlaceSign 6, 2
     MsgPlaceSignClose
@@ -53,7 +53,7 @@ Script_2:
 
 L_00A4:
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "...'s House"
     MsgPlaceSign 7, 2
     MsgPlaceSignClose
@@ -66,7 +66,7 @@ L_00B6:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Cheren's House"
     MsgPlaceSign 8, 2
     MsgPlaceSignClose
@@ -77,7 +77,7 @@ Script_3:
 Script_4:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Bianca's House"
     MsgPlaceSign 9, 2
     MsgPlaceSignClose
@@ -88,7 +88,7 @@ Script_4:
 Script_5:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Juniper Pokémon Lab"
     MsgPlaceSign 10, 2
     MsgPlaceSignClose
@@ -98,7 +98,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The power of science is amazing![f000]븁\u0000\nNow you can use infrared to trade\nPokémon and have battles--[f000]븀\u0000\nall in the blink of an eye!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -110,7 +110,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Do you think traveling with Pokémon\nchanges people?"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -138,7 +138,7 @@ L_0171:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Know what? On my next birthday,\nProfessor Juniper is going to[f000]븀\u0000\ngive me a Pokémon as a present![f000]븁\u0000\nI'll get a Pokédex, too, of course![f000]븁\u0000\nMaybe I'll grow up to be a Pokémon\nprofessor, or a Champion![f000]븁\u0000\nI haven't decided yet, but\nI'll pick my own dream to pursue!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0

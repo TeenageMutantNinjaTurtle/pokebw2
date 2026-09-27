@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8020, 0
     WorkSetConst 0x8021, 0
@@ -156,7 +156,7 @@ L_0246:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "When I gaze down at the city from a\ntall building, I tremble.[f000]븁\u0000\nBecause...\nI-I-I'm scared of heights..."
     ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
@@ -168,7 +168,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 507, 0
     // "Hwoof hwoof!"

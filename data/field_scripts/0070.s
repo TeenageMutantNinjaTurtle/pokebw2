@@ -10,7 +10,7 @@
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Café Sonata"
     MsgPlaceSign 13, 2
     MsgPlaceSignClose
@@ -191,7 +191,7 @@ Movement_0268:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x4137
     VMStackPushConst 0
@@ -240,7 +240,7 @@ Script_5:
     VMHalt
 
 L_030B:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     MultiMsg 5, 22, 21, 1
     VMSleep 20
     MultiMsg 6, 15, 12, 2

@@ -144,7 +144,7 @@ Script_5:
     ActorsPauseAll
     ActorCmdExec 255, Movement_0230
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     HiddenHollowCallWarpOut
     FinishAllEvents
     ActorsUnpauseAll

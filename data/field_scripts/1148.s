@@ -49,7 +49,7 @@ Script_1:
 
 Script_24:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Movies are wonderful!\nThey get two thumbs up!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -61,7 +61,7 @@ Script_24:
 
 Script_25:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The records set by Pokéstar Studios\nmovies are left on this board!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -413,7 +413,7 @@ Script_23:
     VMHalt
 
 L_0686:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WordSetPlayerName 0
     ActorMsg MSGFILE_SCRIPT, 0x8020, 0x8011, 2, 0

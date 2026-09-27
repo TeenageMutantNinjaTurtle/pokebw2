@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I will be a hero and become friends\nwith Reshiram![f000]븁\u0000\nReshiram is a legendary Pokémon!\nBut, I don't know it very well..."
     // "I will be a hero and become friends\nwith Zekrom![f000]븁\u0000\nZekrom is a legendary Pokémon!\nBut, I don't know it very well..."
@@ -20,7 +20,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It was two years ago...\nA bunch of people who identified[f000]븀\u0000\nthemselves as Team Plasma tried[f000]븀\u0000\nto control Unova under the hero[f000]븀\u0000\nwho was with the legendary white[f000]븀\u0000\nPokémon, Reshiram."
     // "It was two years ago...\nA bunch of people who identified[f000]븀\u0000\nthemselves as Team Plasma tried[f000]븀\u0000\nto control Unova under the hero[f000]븀\u0000\nwho was with the legendary black[f000]븀\u0000\nPokémon, Zekrom."
@@ -33,7 +33,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh?\nAre you a Pokémon Trainer?[f000]븁\u0000\nMy grandchild was also visiting\nPokémon Gyms with his Pokémon[f000]븀\u0000\nin various places and collecting Badges."
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0

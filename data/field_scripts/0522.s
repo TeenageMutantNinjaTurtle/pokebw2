@@ -11,7 +11,7 @@ Script_1:
     WorkSetConst 0x8022, 0
     WorkSetConst 0x8023, 0
     WorkSetConst 0x8024, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PokePartyGetCount 0x8020, 0
 
@@ -47,7 +47,7 @@ L_008A:
     FadeEx 3, 0, 16, 2
     FadeExWait
     PokePartyRecoverAll
-    MEPlay 1300
+    MEPlay SEQ_ME_ASA
     MEWait
     FadeEx 3, 16, 0, 2
     FadeExWait
@@ -75,7 +75,7 @@ L_00EB:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 575, 0
     // "Gothoo. ♪"

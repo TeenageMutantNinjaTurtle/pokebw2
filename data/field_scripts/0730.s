@@ -31,7 +31,7 @@ L_005D:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Route 11"
     MsgPlaceSign 2, 3
     MsgPlaceSignClose
@@ -42,7 +42,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Village Bridge Ahead"
     MsgPlaceSign 3, 2
     MsgPlaceSignClose
@@ -99,7 +99,7 @@ L_0124:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 640, 0
     // "Kikwaaaa!"

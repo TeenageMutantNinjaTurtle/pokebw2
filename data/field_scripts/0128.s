@@ -263,7 +263,7 @@ L_03E2:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Nimbasa City Pokémon Gym\nLeader: Elesa[f000]븀\u0000\nThe Shining Beauty"
     MsgPlaceSign 8, 2
     MsgPlaceSignClose
@@ -274,7 +274,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "The Shining Roller Coaster\nFormer Nimbasa City Pokémon Gym"
     MsgPlaceSign 16, 2
     MsgPlaceSignClose
@@ -284,7 +284,7 @@ Script_2:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WorkSetConst 0x8025, 0
     TrainerCardGetSex 0x8025
     ActorDelete 11
@@ -318,7 +318,7 @@ L_047E:
     VMJump L_04A4
 
 L_04A4:
-    MEPlay 1327
+    MEPlay SEQ_ME_CALL
     WorkCmpConst 0x8025, 0
     VMJumpIf CMP_EQ, L_04BB
     VMJump L_04C7
@@ -407,7 +407,7 @@ L_056D:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It's a shining, sparkling, bright\nfashion show!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -419,7 +419,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I hear that a Clown's makeup\nincludes a teardrop mark."
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -431,7 +431,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "A roller coaster and a Ferris wheel!\nWhich one should I ride first?!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -443,7 +443,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Ah ah ah ah aaah! ♪[f000]븁\u0000\nWh-what should I talk about\non my first date..."
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -455,7 +455,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, this guy! Even in the amusement\npark, he does nothing but play guitar...[f000]븁\u0000\nHow cool! He loves music from\nthe bottom of his heart!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -467,7 +467,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "What's that? Uh, I dunno. Audino?"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -479,7 +479,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "A famous TV star came here\nfor a shoot recently! ♪[f000]븁\u0000\nIt's that one who's always on TV.[f000]븁\u0000\nOne thing I noticed while watching\nthe shoot is that star spends a lot[f000]븀\u0000\nof time on the Xtransceiver![f000]븁\u0000\nThe entire break it was talk, talk,\ntalk, laugh, laugh, laugh! ♪"
     ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
@@ -491,7 +491,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 531, 0
     // "Chuuu! ♪"
@@ -505,7 +505,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 559, 0
     // "Uuugh!"
@@ -519,7 +519,7 @@ Script_12:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh? Are you a challenger perhaps?[f000]븁\u0000\nI'm very sorry,\nthe Gym Leader is out right now...[f000]븁\u0000\nI know where she went though.[f000]븁\u0000\nShe should be in the building where\nyou can ride the roller coaster.[f000]븁\u0000\nIt's by the entrance\nto this amusement park."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -531,7 +531,7 @@ Script_14:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The best part of riding a roller coaster\nis screaming your heart out!"
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0

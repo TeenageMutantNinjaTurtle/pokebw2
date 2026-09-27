@@ -71,7 +71,7 @@ Script_17:
     ActorSetGPos 0, 5, 0, 10, 0
     FadeInBlackQ
     FadeWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     SEWait
     ActorWalkRoute 0, 5, 8, 0, 8, 1
     ActorCmdWait
@@ -227,10 +227,10 @@ Script_16:
     ActorCmdExec 0, Movement_0978
     ActorCmdExec 255, Movement_0978
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorNew 5, 10, 0, 251, 104, 0
     SEWait
-    BGMPlay 1090
+    BGMPlay SEQ_BGM_E_DOCTOR2
     ActorWalkRoute 251, 5, 8, 1, 8, 0
     ActorCmdWait
     // "???: Oh, so you're [f000]Ā\u0001\u0000![f000]븁\u0000\nMy name's Juniper![f000]븁\u0000\nThe one who gave you\nyour Pokédex is my daughter![f000]븁\u0000"
@@ -249,7 +249,7 @@ Script_16:
     // "[f000]Ā\u0001\u0000![f000]븁\u0000\nTo commemorate your entering the\nHall of Fame, I'm going to upgrade[f000]븀\u0000\nyour Pokédex![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 30, 251, 2, 0
     MsgWinCloseAll
-    MEPlay 1303
+    MEPlay SEQ_ME_KEYITEM
     WordSetPlayerName 0
     // "[f000]Ā\u0001\u0000's Pokédex\nwas upgraded!"
     SystemMsg 31, 2
@@ -272,7 +272,7 @@ Script_16:
     MsgWinCloseAll
     ActorWalkRoute 251, 5, 10, 1, 8, 0
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 251
     SEWait
     BGMChangeMap
@@ -316,7 +316,7 @@ L_0515:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0542
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh? Are the both of you\nout looking for Bianca?[f000]븁\u0000\nYou still haven't found her?\nLook for the big, green hat!"
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
@@ -329,7 +329,7 @@ L_0542:
     VMStackPushConst 2
     VMStackCmp CMP_LT
     VMJumpIf CMP_STACK, L_056F
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The girl's name is Bianca. I was told\nyou should look for a big, green hat![f000]븁\u0000\nShe might be lost because\nthis is her first time here.[f000]븀\u0000\nGo look for her!"
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
@@ -346,7 +346,7 @@ L_0575:
     VMHalt
 
 L_057B:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x400f
     VMStackPushConst 999
@@ -376,7 +376,7 @@ L_05DE:
     FadeEx 3, 0, 16, 2
     FadeExWait
     PokePartyRecoverAll
-    MEPlay 1300
+    MEPlay SEQ_ME_ASA
     MEWait
     FadeEx 3, 16, 0, 2
     FadeExWait
@@ -443,7 +443,7 @@ Script_5:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_OR
     VMJumpIf CMP_STACK, L_06EB
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hee hee!\nI came to visit![f000]븁\u0000\nProfessor Juniper is investigating\na cave on Route 20!"
     ParentActorMsg MSGFILE_SCRIPT, 49, 0, 0
@@ -460,7 +460,7 @@ L_06EB:
     VMJump L_071E
 
 L_070A:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Bianca: I was just talking to your mom![f000]븁\u0000\nShe told me an amazing\nstory about Professor Juniper!"
     ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
@@ -479,7 +479,7 @@ L_0724:
     VMJump L_0757
 
 L_073D:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Cave of Being...[f000]븁\u0000\nI wonder where those three Pokémon--\nUxie, Mesprit, and Azelf--flew off to?[f000]븁\u0000\nUxie is a Pokémon that\nsymbolizes knowledge...[f000]븁\u0000\nIf you mention a place in Unova\nwhere knowledge is gathered,[f000]븀\u0000\nthe first thing that comes to mind[f000]븀\u0000\nis Nacrene City's museum...[f000]븁\u0000\nMesprit is the Pokémon that\npresides over emotion, right?[f000]븁\u0000\nCelestial Tower's bell stirs emotions...[f000]븁\u0000\nAnd Azelf is willpower...[f000]븁\u0000\nThe desire to see something through...\nWhat place could represent that?"
     ParentActorMsg MSGFILE_SCRIPT, 50, 0, 0
@@ -493,7 +493,7 @@ L_0757:
     VMJump L_0784
 
 L_076A:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Route 23's mysterious Pokémon...[f000]븁\u0000\nJust by being near it you can feel\nsome kind of willpower...[f000]븁\u0000\nIt's best to go have a look\nfor yourself!"
     ParentActorMsg MSGFILE_SCRIPT, 51, 0, 0
@@ -507,7 +507,7 @@ L_0784:
     VMJump L_07B1
 
 L_0797:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Sometimes, there are mass outbreaks\nof Pokémon, right?[f000]븁\u0000\nA lot of the exact same Pokémon\nshow up at the same time,[f000]븀\u0000\nand it's such a surprise![f000]븁\u0000\nLike where were all of you before?[f000]븁\u0000\nIf you look at the electronic bulletin\nboards, you can learn about them!"
     ParentActorMsg MSGFILE_SCRIPT, 52, 0, 0
@@ -521,7 +521,7 @@ L_07B1:
     VMJump L_07DE
 
 L_07C4:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Professor Juniper--I'm talking about\nAurea Juniper, mind you...[f000]븁\u0000\nShe's researching the origins of Pokémon![f000]븁\u0000\nIt's interesting!\nAmong the Pokémon that exist now,[f000]븀\u0000\nthere were some that have been[f000]븀\u0000\naround from the past and some[f000]븀\u0000\nthat were discovered recently.[f000]븁\u0000\nBy the way, her dad is researching\nPokémon distribution and biology!"
     ParentActorMsg MSGFILE_SCRIPT, 53, 0, 0
@@ -535,7 +535,7 @@ L_07DE:
     VMJump L_080B
 
 L_07F1:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Your mom's amazing![f000]븁\u0000\nIt's sweet how she met\nyour dad while working[f000]븀\u0000\nreception at the Pokémon Center.[f000]븁\u0000\nHee hee!\nShe's taught me a lot!"
     ParentActorMsg MSGFILE_SCRIPT, 54, 0, 0
@@ -548,7 +548,7 @@ L_080B:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a Wii console!\nIt has a Wii Remote!"
     InfoMsg 39, 2
     LastKeyWait
@@ -559,7 +559,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a brand-new bed!"
     InfoMsg 40, 2
     LastKeyWait
@@ -571,7 +571,7 @@ Script_7:
 Script_8:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "[f000]Ā\u0001\u0000 checked the PC.[f000]븁\u0000\nAdventure Rule No. 1\nThe X Button opens the menu![f000]븁\u0000\nAdventure Rule No. 2\nRecord your progress with SAVE."
     InfoMsg 41, 2
     LastKeyWait
@@ -582,7 +582,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's an award for completing\nthe Unova Pokédex![f000]븁\u0000"
     InfoMsg 42, 2
     MsgWinCloseAll
@@ -599,7 +599,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's an award for completing\nthe National Mode Pokédex![f000]븁\u0000"
     InfoMsg 43, 2
     MsgWinCloseAll
@@ -616,7 +616,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a trophy proving you defeated\nthe Single Master in the Battle Subway!"
     InfoMsg 44, 2
     LastKeyWait
@@ -627,7 +627,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a trophy proving you defeated\nthe Double Master in the Battle Subway!"
     InfoMsg 45, 2
     LastKeyWait
@@ -638,7 +638,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a trophy proving you defeated\nthe Multi Master in the Battle Subway!"
     InfoMsg 46, 2
     LastKeyWait
@@ -649,7 +649,7 @@ Script_13:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a model of a Ferris wheel\nMom bought as a souvenir."
     InfoMsg 47, 2
     LastKeyWait
@@ -660,7 +660,7 @@ Script_14:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a Darumaka Pokémon doll\nMom received in the past.[f000]븁\u0000\nWhen you get knocked down,\njust get up again!"
     InfoMsg 48, 2
     LastKeyWait

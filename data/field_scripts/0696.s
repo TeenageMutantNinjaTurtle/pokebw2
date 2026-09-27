@@ -9,7 +9,7 @@
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Route 9"
     MsgPlaceSign 0, 3
     MsgPlaceSignClose
@@ -20,7 +20,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Shopping Mall Nine\nColorful and wonderful!"
     MsgPlaceSign 1, 2
     MsgPlaceSignClose
@@ -31,7 +31,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Trainer Tips!\n[f000]븁\u0000\nOne kind of Pokémon\ncan have different Abilities.[f000]븁\u0000\nTry to catch Pokémon you've\nalready caught before!"
     MsgPlaceSign 2, 0
     MsgPlaceSignClose
@@ -43,7 +43,7 @@ Script_3:
 Script_4:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Tubeline Bridge\nUnova's famous railway bridge"
     MsgPlaceSign 3, 2
     MsgPlaceSignClose

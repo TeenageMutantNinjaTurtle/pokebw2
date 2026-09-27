@@ -25,7 +25,7 @@
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Accumula Town\nThe Fast-Growing Town!"
     MsgPlaceSign 20, 1
     MsgPlaceSignClose
@@ -41,7 +41,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PokePartyGetCount 0x8020, 2
 
@@ -141,7 +141,7 @@ L_01DE:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Do you like Pokémon?"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -169,7 +169,7 @@ L_022F:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Now, I wonder which person\nwas the first person in the[f000]븀\u0000\nworld to get along with Pokémon..."
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -181,7 +181,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "See my Audino?[f000]븁\u0000\nShe popped out of the\nswaying tall grass just to meet me!"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -193,7 +193,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 531, 0
     // "Di chee! ♪"
@@ -207,7 +207,7 @@ Script_7:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My cute little Foongus\nlooks just like a Poké Ball!"
     ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
@@ -219,7 +219,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This is a Foongus?"
     InfoMsg 19, 2
@@ -231,7 +231,7 @@ Script_11:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2766
     VMStackPushConst 0
@@ -465,7 +465,7 @@ L_0624:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2767
     VMStackPushConst 0

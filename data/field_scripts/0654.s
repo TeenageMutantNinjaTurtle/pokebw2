@@ -15,7 +15,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2772
     VMStackPushConst 0
@@ -199,7 +199,7 @@ L_02EE:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm very particular about\nPokémon's Attack stat!"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0

@@ -22,7 +22,7 @@ Movement_0024:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Return to Castelia City?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -71,7 +71,7 @@ L_00DE:
     RTReserveScript 3
     FadeOutBlackQ
     FadeWait
-    SEPlay 2007
+    SEPlay SEQ_SE_VDEMO_02
     MapChangeCore 37, 12, 0, 11, 3
     SEWait
     VMJump L_010E

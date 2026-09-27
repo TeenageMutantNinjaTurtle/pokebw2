@@ -211,7 +211,7 @@ L_0312:
     BMHndAnmWait 0x8020
     ActorCmdExec 0, Movement_06D4
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 0
     SEWait
     BMHndAudioVisualAnmPlay 0x8020, 1
@@ -271,7 +271,7 @@ L_0423:
 L_0428:
     MsgWinCloseAll
     WorkSetConst 0x8024, 0
-    BGMPlay 1088
+    BGMPlay SEQ_BGM_E_BERU
     ActorCmdExec 255, Movement_071C
     ActorCmdWait
     PlayerGetGPos 0x8022, 0x8023
@@ -283,7 +283,7 @@ L_0428:
     MsgWinCloseAll
     ActorCmdExec 251, Movement_06DC
     ActorCmdWait
-    SEPlay 2176
+    SEPlay SEQ_SE_SW_ZKN_KAIHOU
     // "[f000]Ā\u0001\u0000's Pokédex\nwas upgraded!"
     SystemMsg 25, 0
     SEWait
@@ -346,7 +346,7 @@ L_04EE:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Just follow this road.\nIt goes right to Route 20![f000]븁\u0000\nI'll be waiting here until you\ndeliver the Town Map!"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -358,7 +358,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "People always think the past\nor the future would be so wonderful.[f000]븁\u0000\nBut the great time we're\nspending with Pokémon[f000]븀\u0000\nis right now!"
     ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
@@ -370,7 +370,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I always save a record of my adventure,\nso I don't forget what I've done so far![f000]븀\u0000\nIt's a good idea for any Trainer!"
     ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
@@ -382,7 +382,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You see, in Floccesy Ranch,\nwild Pokémon might surprise you![f000]븁\u0000\nAt times like that, only your\nown Pokémon can help you out!"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -394,7 +394,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "In the morning, my Pokémon come\nto wake me up when they're hungry.[f000]븁\u0000\nAt night, my Pokémon get tired\nfrom playing and take up the whole bed![f000]븁\u0000\nOh! It fills me with so much joy!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -407,7 +407,7 @@ Script_12:
 Script_13:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Floccesy Town\nProphecy Flocks Here"
     MsgPlaceSign 20, 1
     MsgPlaceSignClose
@@ -418,7 +418,7 @@ Script_13:
 Script_15:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's an old clock tower..."
     MsgPlaceSign 21, 2
     MsgPlaceSignClose
@@ -428,7 +428,7 @@ Script_15:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Are you happy you're\nable to train Pokémon?"
     ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
@@ -456,7 +456,7 @@ L_0673:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Want to know what Alder taught me?"
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0

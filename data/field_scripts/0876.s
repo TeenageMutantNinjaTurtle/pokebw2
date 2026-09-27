@@ -63,7 +63,7 @@ L_0088:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x40e0
     VMStackPushConst 0
@@ -109,7 +109,7 @@ Script_4:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_01A8
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Remember that?[f000]븁\u0000\nThe day you passed this gate\nwith your Pokémon for the first time."
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -122,7 +122,7 @@ L_01A8:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_01E9
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hmm...\nI see. I see![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 4, 1, 0, 0
@@ -134,7 +134,7 @@ L_01A8:
     VMJump L_01FD
 
 L_01E9:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I love to read news and information\nabout the city displayed[f000]븀\u0000\non the electric bulletin board[f000]븀\u0000\non the wall!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0

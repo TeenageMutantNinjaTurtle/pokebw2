@@ -8,7 +8,7 @@ Script_1:
     ActorCmdExec 255, Movement_0210
     ActorCmdWait
     VMSleep 8
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorNew 8, 19, 0, 251, 298, 0
     SEWait
     ActorCmdExec 251, Movement_01DC

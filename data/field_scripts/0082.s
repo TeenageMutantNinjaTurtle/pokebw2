@@ -43,7 +43,7 @@ Script_4:
     WorkSetConst 0x8023, 0
     PlayerGetDir 0x8022
     UnityTowerGetVisitorCountry 0x8023
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 260
     VMStackPushConst 0
@@ -155,7 +155,7 @@ Movement_01F8:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -170,7 +170,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -188,7 +188,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PokePartyGetCount 0x8024, 4
     VMStackPush 0x8024
@@ -260,7 +260,7 @@ L_0374:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Fennel has moved to Castelia City![f000]븁\u0000\nFennel is a professor who is\nresearching about Pokémon Trainers!"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -272,7 +272,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 531, 0
     // "Au-di-no?"

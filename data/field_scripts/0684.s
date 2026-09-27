@@ -29,7 +29,7 @@ Script_2:
     WordSetPlayerName 0
     // "It's the Celestial Tower bell...\nWill you ring the bell?"
     InfoMsg 3, 2
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     YesNoWin 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
@@ -44,7 +44,7 @@ Script_2:
 
 L_0095:
     Cmd_0240 64, 30
-    SEPlay 1968
+    SEPlay SEQ_SE_FLD_151
     // "[f000]Ā\u0001\u0000 rang the bell..."
     InfoMsg 4, 2
     WorkSetConst 0x8023, 0
@@ -128,7 +128,7 @@ L_01B2:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 481, 0
     // "Kyauun!"

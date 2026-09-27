@@ -43,7 +43,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Two years ago, a Pokémon\ncalled Zoroark was hiding it's lair[f000]븀\u0000\nin the Lostlorn Forest on Route 16."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -55,7 +55,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This way leads to Route 16\nand Marvelous Bridge!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0

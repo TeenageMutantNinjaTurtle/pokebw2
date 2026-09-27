@@ -8,7 +8,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Anville Town is packed on the weekends.\nEveryone sure loves trains!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -22,7 +22,7 @@ Script_2:
     ActorsPauseAll
     WorkSetConst 0x8020, 91
     WordSetItemName 0, 0x8020
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "On the weekend, many [f000]ĉ\u0001\u0000\ncollectors gather here.[f000]븁\u0000\nThey'll trade them for different items."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -34,7 +34,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "One day, I'm going to take the\nSubway Bosses Ingo and Emmet down!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0

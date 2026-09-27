@@ -519,7 +519,7 @@ Data_03D0:
     ParentActorMsg 7, 0, 0, 65535
 
 L_03E6:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     VMCall L_045C
     // "Which floor would you like to go to?"
     SystemMsg 14, 2
@@ -538,7 +538,7 @@ L_03E6:
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_0454
     VMSleep 10
-    SEPlay 1672
+    SEPlay SEQ_SE_FLD_23
     FadeOutBlackQ
     FadeWait
     ElevatorChangeMap 0x8010
@@ -546,7 +546,7 @@ L_03E6:
     FadeWait
     VMSleep 15
     SEStop
-    SEPlay 1768
+    SEPlay SEQ_SE_FLD_87
     SEWait
 
 L_0454:

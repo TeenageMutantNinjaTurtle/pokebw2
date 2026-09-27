@@ -9,7 +9,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Nothing happens!\nIt seems you can't go back until you win."
     InfoMsg 0, 2
     LastKeyWait

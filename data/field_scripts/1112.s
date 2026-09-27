@@ -43,7 +43,7 @@ Script_4:
     FlagReset 838
     FlagReset 839
     PlayerGetGPos 0x8022, 0x8023
-    BGMPlayPush 1240
+    BGMPlayPush SEQ_BGM_E_7_SAGE
     ActorCmdExec 4, Movement_0488
     ActorCmdWait
     // "Zinzolin: You're an impressive\nTrainer to have made it this far.[f000]븁\u0000"

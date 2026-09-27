@@ -218,7 +218,7 @@ L_019F:
     ActorDelete 1
     ActorCmdExec 2, Movement_02DC
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 2
     SEWait
     // "[f000]Ā\u0001\u0001: They didn't have\nPurrloin with them![f000]븁\u0000"
@@ -240,7 +240,7 @@ L_019F:
     VMSleep 4
     ActorCmdExec 255, Movement_06B8
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 0
     SEWait
     FlagSet 835
@@ -289,7 +289,7 @@ Movement_02E4:
 Script_4:
     ActorsPauseAll
     WorkSetConst 0x40f5, 1
-    SEPlay 2217
+    SEPlay SEQ_SE_SW_PLAZMASHIP_04
     // "From behind the wall,\nyou heard the sound[f000]븀\u0000\nof a barrier being deactivated!"
     InfoMsg 7, 2
     VMStackPush 0x40f5
@@ -353,7 +353,7 @@ L_03AA:
 Script_5:
     ActorsPauseAll
     WorkSetConst 0x40f6, 1
-    SEPlay 2217
+    SEPlay SEQ_SE_SW_PLAZMASHIP_04
     // "From behind the wall,\nyou heard the sound[f000]븀\u0000\nof a barrier being deactivated!"
     InfoMsg 7, 2
     VMStackPush 0x40f5
@@ -417,7 +417,7 @@ L_0466:
 Script_6:
     ActorsPauseAll
     WorkSetConst 0x40f7, 1
-    SEPlay 2217
+    SEPlay SEQ_SE_SW_PLAZMASHIP_04
     // "From behind the wall,\nyou heard the sound[f000]븀\u0000\nof a barrier being deactivated!"
     InfoMsg 7, 2
     VMStackPush 0x40f5
@@ -480,7 +480,7 @@ L_0522:
 Script_7:
     ActorsPauseAll
     WorkSetConst 0x40f8, 1
-    SEPlay 2217
+    SEPlay SEQ_SE_SW_PLAZMASHIP_04
     // "From behind the wall,\nyou heard the sound[f000]븀\u0000\nof a barrier being deactivated!"
     InfoMsg 7, 2
     VMStackPush 0x40f5
@@ -546,7 +546,7 @@ Script_1:
     ActorsPauseAll
     ActorCmdExec 255, Movement_0650
     ActorCmdWait
-    SEPlay 2221
+    SEPlay SEQ_SE_SW_PLAZMASHIP_08
     ActorCmdExec 255, Movement_065C
     ActorCmdWait
     SEWait

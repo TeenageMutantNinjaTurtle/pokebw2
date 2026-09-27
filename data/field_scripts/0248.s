@@ -36,7 +36,7 @@ Script_1:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Wh-what's going\nto happen to Opelucid City?"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -56,7 +56,7 @@ Script_2:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0149
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I have an item that I don't know how to\nuse. Would you give it a try and see if[f000]븀\u0000\nyou can make it work?"
     ActorMsg MSGFILE_SCRIPT, 6, 1, 0, 0
@@ -92,7 +92,7 @@ L_0143:
     VMJump L_015D
 
 L_0149:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If a Pokémon holds a Ring Target, it can\nbe hit even by a move that would usually[f000]븀\u0000\nhave no effect.[f000]븁\u0000\nFor example, a Normal-type move would\nhit a Ghost-type Pokémon.[f000]븁\u0000\nMastering this item is a bit tough...\nActually, it's very tough, but think[f000]븀\u0000\nhow useful it could be!"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -103,7 +103,7 @@ L_015D:
     VMJump L_0177
 
 L_0163:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It's cold...[f000]븁\u0000\nAnd Dragon types really don't like cold!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -117,7 +117,7 @@ L_0177:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 444
     VMStackPushConst 0

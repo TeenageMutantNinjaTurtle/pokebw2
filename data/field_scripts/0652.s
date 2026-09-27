@@ -130,7 +130,7 @@ L_01F9:
     VMSleep 4
     ActorCmdExec 255, Movement_06B8
     ActorCmdWait
-    SEPlay 1589
+    SEPlay SEQ_SE_SHINKA_W025
     ActorCmdExec 15, Movement_04E0
     ActorCmdWait
     SEWait
@@ -177,7 +177,7 @@ L_01F9:
     // "Colress: Those Crustle...[f000]븁\u0000\nWere they just lying here,\nout of energy, with their[f000]븀\u0000\nboulders on their backs?[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 6, 15, 0, 0
     MsgWinCloseAll
-    BGMPlay 1238
+    BGMPlay SEQ_BGM_E_ACHROMA
     ActorCmdExec 15, Movement_06C8
     VMSleep 4
     ActorCmdExec 255, Movement_06D0
@@ -240,7 +240,7 @@ Script_6:
     VMStackPushConst 3
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_044E
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I never would have guessed\nthey were Crustle...[f000]븁\u0000\nIf you're interested in Crustle,\nyou'll find them in the Desert Resort,[f000]븀\u0000\nwhich is just past here!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -249,7 +249,7 @@ Script_6:
     VMJump L_0462
 
 L_044E:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hey, Trainer![f000]븁\u0000\nThese boulders suddenly\nlined up like this...[f000]븁\u0000\nWhat's more, the HM Strength\nwon't budge them."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -263,7 +263,7 @@ L_0462:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma said we should recognize\nthe potential in Pokémon and[f000]븀\u0000\nliberate them from humans.[f000]븁\u0000\nI disagree.[f000]븁\u0000\nConversely, it should be humans who bring\nout the hidden potential in Pokémon![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -275,7 +275,7 @@ Script_7:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WordSetPlayerName 0
     // "It's a big boulder, but it doesn't\nlook like a Pokémon can move it..."
     SystemMsg 2, 2
@@ -339,7 +339,7 @@ Movement_0508:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Places with ruins are being\ndeveloped one after another.[f000]븁\u0000\nWe end up losing parts of our history..."
     ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
@@ -351,7 +351,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh! Trainer, when you see sand...[f000]븁\u0000\nDo you notice how some areas are lighter?\nAnd some of the sand looks...darker...[f000]븁\u0000\nPokémon are hiding in the darker sand!"
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
@@ -363,7 +363,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Relic Castle is being buried in sand...\nSomeday, memories of it may be[f000]븀\u0000\nburied, too."
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
@@ -376,7 +376,7 @@ Script_12:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Trainer Tips![f000]븁\u0000\n\nPokémon have a source of energy\nfor using moves.[f000]븁\u0000\nIt's called PP, meaning Power Points.\nThey have PP for each move.[f000]븁\u0000\nWhen a move has no PP remaining,\nthat Pokémon cannot use that move.[f000]븁\u0000\nThat's a good time to head for\nthe Pokémon Center!"
     MsgPlaceSign 17, 0
     MsgPlaceSignClose
@@ -388,7 +388,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Route 4\nPlanned route-expansion area"
     MsgPlaceSign 18, 2
     MsgPlaceSignClose
@@ -399,7 +399,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Route 4"
     MsgPlaceSign 16, 3
     MsgPlaceSignClose
@@ -409,7 +409,7 @@ Script_3:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     PVPlay 630, 0
     // "Awwwwk!"
     ScreamMsg 11, 2

@@ -16,7 +16,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PokePartyGetCount 0x8020, 1
     // "Hi! I'll mimic a Pokémon's sound!\nPlease listen!"

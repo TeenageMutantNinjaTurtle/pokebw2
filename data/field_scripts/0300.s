@@ -5,7 +5,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Please take your designated position\nand start the battle."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0

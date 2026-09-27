@@ -21,7 +21,7 @@
     ScriptEntriesEnd
 
 Script_1:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 0x8002
     VMStackPushConst 1
@@ -396,7 +396,7 @@ L_04C9:
     VMStackCmp CMP_OR
     VMStackCmp CMP_OR
     VMJumpIf CMP_STACK, L_0542
-    MEPlay 1326
+    MEPlay SEQ_ME_ITEM_MYSTERY
     VMReturn
 
 L_0542:
@@ -406,7 +406,7 @@ L_0542:
     VMJump L_0565
 
 L_055B:
-    MEPlay 1303
+    MEPlay SEQ_ME_KEYITEM
     VMJump L_05B9
 
 L_0565:
@@ -419,7 +419,7 @@ L_0565:
     VMJump L_059C
 
 L_0592:
-    MEPlay 1302
+    MEPlay SEQ_ME_ITEM
     VMJump L_05B9
 
 L_059C:
@@ -428,7 +428,7 @@ L_059C:
     VMJump L_05B9
 
 L_05AF:
-    MEPlay 1307
+    MEPlay SEQ_ME_WAZA
     VMJump L_05B9
 
 L_05B9:
@@ -517,7 +517,7 @@ Script_16:
     VMJump L_072D
 
 L_06CB:
-    MEPlay 1302
+    MEPlay SEQ_ME_ITEM
     VMSleep 4
     Cmd_0239 0x8028
     VMStackPush 0x8028

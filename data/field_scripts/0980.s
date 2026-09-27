@@ -244,7 +244,7 @@ L_034F:
     ActorCmdWait
     ActorDelete 3
     ActorDelete 4
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 0
     SEWait
     ActorCmdExec 1, Movement_0510
@@ -324,7 +324,7 @@ Movement_0518:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin8_Cmd1007 4, 255, 0, 0
     WorkCmpConst 0x4110, 0
@@ -425,7 +425,7 @@ Movement_065C:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin8_Cmd1007 4, 255, 0, 0
     WorkCmpConst 0x4110, 0
@@ -509,7 +509,7 @@ Script_6:
     ActorDelete 2
     ActorCmdExec 1, Movement_0654
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 1
     SEWait
     Plugin8_Cmd1028 3, 4
@@ -525,7 +525,7 @@ Script_8:
     Plugin8_Cmd1007 8, 255, 0, 0
     Plugin8_Cmd1007 4, 255, 0, 1
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "[f000]Ĺ\u0001\u0000\n[f000]ĺ\u0001\u0001's office[f000]븁\u0000"
     MsgPlaceSign 26, 2
     MsgPlaceSignClose
@@ -537,7 +537,7 @@ Script_9:
     ActorsPauseAll
     Plugin8_Cmd1007 8, 255, 0, 0
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "[f000]Ĺ\u0001\u0000[f000]븁\u0000\nAn avenue that grows as you deepen\nexchanges with other people.[f000]븁\u0000"
     MsgPlaceSign 27, 2
     MsgPlaceSignClose
@@ -549,7 +549,7 @@ Script_10:
     ActorsPauseAll
     Plugin8_Cmd1007 8, 255, 0, 0
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "[f000]Ĺ\u0001\u0000[f000]븁\u0000\nAn avenue that grows as you deepen\nexchanges with other people.[f000]븁\u0000"
     MsgPlaceSign 27, 2
     MsgPlaceSignClose
@@ -643,8 +643,8 @@ L_09B9:
     Plugin8_Cmd1007 10, 0, 0x802a, 5
     // "[f000]Ā\u0001\u0000\nMet on [f000]ȁ\u0001\u0002/[f000]ȁ\u0001\u0003/20[f000]ȁ\u0001\u0001[f000]븁\u0000"
     SystemMsg 31, 2
-    SEPlay 2261
-    SEPlay 2262
+    SEPlay SEQ_SE_SW_JA_01
+    SEPlay SEQ_SE_SW_JA_02
     // "[f000]ĸ\u0001\u0004\nRank [f000]ȁ\u0001\u0005"
     SystemMsg 32, 2
     SEWait
@@ -732,8 +732,8 @@ L_0BB0:
     Plugin8_Cmd1007 21, 3, 0x802a, 1
     Plugin8_Cmd1007 22, 3, 0x802a, 2
     Plugin8_Cmd1007 23, 3, 0x802a, 3
-    SEPlay 2261
-    SEPlay 2262
+    SEPlay SEQ_SE_SW_JA_01
+    SEPlay SEQ_SE_SW_JA_02
     // "Assistant [f000]Ȁ\u0001\u0004: [f000]Ā\u0001\u0000\nMet on [f000]ȁ\u0001\u0002/[f000]ȁ\u0001\u0003/20[f000]ȁ\u0001\u0001"
     SystemMsg 35, 1
     SEWait
@@ -747,8 +747,8 @@ L_0C19:
     Plugin8_Cmd1007 8, 255, 0, 0
     Plugin8_Cmd1007 11, 255, 0, 1
     Plugin8_Cmd1007 4, 255, 0, 2
-    SEPlay 2261
-    SEPlay 2262
+    SEPlay SEQ_SE_SW_JA_01
+    SEPlay SEQ_SE_SW_JA_02
     // "[f000]ĺ\u0001\u0002's [f000]Ĺ\u0001\u0000\nRank [f000]Ȃ\u0001\u0001"
     SystemMsg 33, 1
     SEWait
@@ -765,7 +765,7 @@ L_0C19:
     WorkAdd 0x8029, 36
     SystemMsg 0x8029, 1
     InfoMsgClose
-    SEPlay 1578
+    SEPlay SEQ_SE_MSCL_09
     FadeOutWhite
     FadeWait
     SEWait

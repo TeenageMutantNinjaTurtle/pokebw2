@@ -43,7 +43,7 @@ Script_8:
     ActorWalkRoute 255, 15, 25, 1, 8, 1
     VMSleep 8
     FlagReset 891
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorAdd 5
     SEWait
     ActorCmdWait
@@ -162,7 +162,7 @@ Script_12:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Clay: Whenever yer ready,\nget on over to reception!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -174,7 +174,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Colress: By having battles with\nmany Trainers, I can bring out[f000]븀\u0000\nPokémon's abilities![f000]븁\u0000\nEventually, as I continue to battle,\nthe truth of my theory[f000]븀\u0000\nwill be evident to all!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -188,7 +188,7 @@ Script_13:
     ActorsPauseAll
     WordSetPlayerName 0
     WordSetLoadRivalName 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Cheren: The Unova Gym Leaders\nwill probably participate in order[f000]븀\u0000\nto improve their skills."
     ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
@@ -202,7 +202,7 @@ Script_14:
     ActorsPauseAll
     WordSetPlayerName 0
     WordSetLoadRivalName 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "[f000]Ā\u0001\u0001: Aww...[f000]븁\u0000\nI wanted to win the tournament\nthe first time I participated!"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -214,7 +214,7 @@ Script_14:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Someday, I'll be a famous guy![f000]븁\u0000\nBut for now, I'm just a spectator here."
     ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
@@ -226,7 +226,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Many Trainers from far away will come\nto participate!"
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
@@ -238,7 +238,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Clay is awesome![f000]븁\u0000\nI heard he started all this to encourage\nDriftveil City's development!"
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
@@ -250,7 +250,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Two years ago, this was\nthe Cold Storage area!"
     ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
@@ -262,7 +262,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "That's the Pokémon World Tournament\nfor you! It's packed with spectators!"
     ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
@@ -274,7 +274,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It's crazy popular! This is what\npacked to the rafters means!"
     ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
@@ -286,7 +286,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "What can I do when\neverything's sold out?"
     ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
@@ -298,7 +298,7 @@ Script_7:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It's the Pokémon World Tournament!\nIt's all in the name![f000]븁\u0000\nTrainers have gathered\nfrom all over the world!"
     ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
@@ -310,7 +310,7 @@ Script_15:
 
 Script_18:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hello there, Trainer.\nLet me fill you in about Battle Points.[f000]븁\u0000\nBattle Points, also known as BP, are\npoints you get for winning streaks in[f000]븀\u0000\neither Nimbasa City's Battle Subway[f000]븀\u0000\nor this tournament.[f000]븁\u0000\nWin a lot, save up lots of points, and\nyou can exchange them for useful items!"
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
@@ -322,7 +322,7 @@ Script_18:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -337,7 +337,7 @@ Script_16:
 
 Script_17:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001

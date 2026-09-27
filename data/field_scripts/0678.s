@@ -25,7 +25,7 @@ L_0053:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x40ee
     VMStackPushConst 2
@@ -82,7 +82,7 @@ L_0128:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerFlagGet 455, 0x8010
     VMStackPush 0x8010

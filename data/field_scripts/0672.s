@@ -13,7 +13,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Maybe I should go to\nCelestial Tower on Route 7.[f000]븁\u0000\nI have to ring the bell for my Petilil..."
     // "Maybe I should go to\nCelestial Tower on Route 7.[f000]븁\u0000\nI have to ring the bell for\nmy Cottonee..."
@@ -26,7 +26,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 383
     VMStackPushConst 0
@@ -63,7 +63,7 @@ L_00C3:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PokePartyGetCount 0x8020, 0
 
@@ -105,7 +105,7 @@ L_0144:
     FadeEx 3, 0, 16, 2
     FadeExWait
     PokePartyRecoverAll
-    MEPlay 1300
+    MEPlay SEQ_ME_ASA
     MEWait
     FadeEx 3, 16, 0, 2
     FadeExWait

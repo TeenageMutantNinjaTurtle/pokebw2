@@ -83,7 +83,7 @@ Script_3:
     ActorSetGPos 0, 33, 2, 0x8022, 2
     WorkSub 0x8021, 1
     ActorWalkRoute 0, 0x8021, 0x8022, 1, 8, 0
-    BGMPlayPush 1237
+    BGMPlayPush SEQ_BGM_E_HUE
     ActorCmdWait
     WordSetLoadRivalName 1
     // "[f000]Ā\u0001\u0001: Oh! Nice!\nYou've come here to toughen up![f000]븁\u0000\nAll right! Let's see how much\nstronger you've become! Come at me![f000]븁\u0000"
@@ -127,7 +127,7 @@ L_0221:
     ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
     MsgWinCloseAll
     WordSetPlayerName 0
-    SEPlay 2017
+    SEPlay SEQ_SE_ARDEMO_01
     // "[f000]Ā\u0001\u0000 handed over\nthe Town Map![f000]븁\u0000"
     SystemMsg 2, 0
     InfoMsgClose
@@ -479,7 +479,7 @@ L_07BF:
     VMSleep 4
     ActorWalkRoute 251, 51, 23, 1, 4, 1
     VMSleep 16
-    SEPlay 1422
+    SEPlay SEQ_SE_W003_01
     ActorCmdWait
     SEWait
     ActorDelete 251
@@ -687,7 +687,7 @@ Script_8:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0B2E
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Herdier, where did you go?"
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
@@ -700,7 +700,7 @@ L_0B2E:
     VMStackPushConst 2
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0B5B
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Wow, this ranch is really big!"
     ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
@@ -713,7 +713,7 @@ L_0B5B:
     VMStackPushConst 3
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0B88
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Still, Pokémon don't just wander\noff on their own.[f000]븁\u0000\nIn a worst-case scenario,\nit might be involved in some trouble!"
     ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
@@ -726,7 +726,7 @@ L_0B88:
     VMStackPushConst 4
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0BAF
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Look deeper in the grove!"
     ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
@@ -748,7 +748,7 @@ Script_9:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_0BF8
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Owner: Thanks! It's all thanks\nto you and your Pokémon![f000]븁\u0000\nYou're really great! Hey, is that it?\nDid Alder train you?"
     ParentActorMsg MSGFILE_SCRIPT, 36, 0, 0
@@ -766,7 +766,7 @@ L_0BF8:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_0C35
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This ranch started when a fence\nwas made to protect Pokémon!"
     ParentActorMsg MSGFILE_SCRIPT, 37, 0, 0
@@ -775,7 +775,7 @@ L_0BF8:
     VMJump L_0C49
 
 L_0C35:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Owner: It is strange for Herdier\nto wander off on its own.[f000]븁\u0000\nIt always plays with the other\none or works on the ranch..."
     ParentActorMsg MSGFILE_SCRIPT, 38, 0, 0
@@ -797,7 +797,7 @@ Script_10:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_0C92
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You and your Pokémon\nfound Herdier! Great!"
     ParentActorMsg MSGFILE_SCRIPT, 41, 0, 0
@@ -807,7 +807,7 @@ Script_10:
     VMJump L_0D69
 
 L_0C92:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8023, 0
     WorkSetConst 0x8024, 0
@@ -848,7 +848,7 @@ L_0D10:
     FadeEx 3, 0, 16, 2
     FadeExWait
     PokePartyRecoverAll
-    MEPlay 1300
+    MEPlay SEQ_ME_ASA
     MEWait
     FadeEx 3, 16, 0, 2
     FadeExWait
@@ -873,7 +873,7 @@ L_0D69:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 507, 0
     // "Ba woof! Bawoof!"
@@ -891,7 +891,7 @@ Script_12:
     VMStackPushConst 5
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0DE8
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 507, 0
     // "Bawoof! Ba woof!"
@@ -902,7 +902,7 @@ Script_12:
     VMJump L_0E04
 
 L_0DE8:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 507, 0
     // "Herdier: Bawoo..."
@@ -918,7 +918,7 @@ L_0E04:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 179, 0
     // "Baaah!"
@@ -932,7 +932,7 @@ Script_13:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 179, 0
     // "Baa!"
@@ -946,7 +946,7 @@ Script_14:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 179, 0
     // "Baawn!"
@@ -960,7 +960,7 @@ Script_15:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 179, 0
     // "Baa baa!"
@@ -974,7 +974,7 @@ Script_16:
 
 Script_17:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 179, 0
     // "Baa haa!"
@@ -988,7 +988,7 @@ Script_17:
 
 Script_18:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 179, 0
     // "Ba baaa!"

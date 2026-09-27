@@ -14,7 +14,7 @@
 Script_1:
     ActorsPauseAll
     WorkSetConst 0x8023, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "The blackboard explains Pokémon\nstatus changes in battle.[f000]븁\u0000"
     SystemMsg 44, 2
 
@@ -91,7 +91,7 @@ L_0139:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x40f9
     VMStackPushConst 0
@@ -401,7 +401,7 @@ L_05F9:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "We increased the number of Trainers'\nSchools to meet the demands of[f000]븀\u0000\nTrainers who want to know[f000]븀\u0000\nmore about Pokémon because they[f000]븀\u0000\nlove them!"
     ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
@@ -413,7 +413,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Pokémon have mysterious powers\ncalled Abilities.[f000]븁\u0000\nSome work even when the Pokémon\nis not in battle.[f000]븁\u0000\nFor example, when a Pokémon with the\nSuction Cups or Sticky Hold Ability is at[f000]븀\u0000\nthe front of your party, you're more[f000]븀\u0000\nlikely to get a bite when fishing!"
     ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0
@@ -425,7 +425,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Wide Lens and Zoom Lens are very\nsimilar. Here's the difference.[f000]븁\u0000\nThe Wide Lens boosts accuracy by 10%![f000]븁\u0000\nThe Zoom Lens boosts accuracy by 20%,\nbut only if the holder moves after[f000]븀\u0000\nthe target.[f000]븁\u0000\nThat means the Zoom Lens is best for\nslower Pokémon!"
     ParentActorMsg MSGFILE_SCRIPT, 29, 0, 0
@@ -437,7 +437,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 355
     VMStackPushConst 0

@@ -17,7 +17,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 338
     VMStackPushConst 0
@@ -189,7 +189,7 @@ L_027A:
     FadeEx 3, 16, 0, 4
     FadeExWait
     VMSleep 16
-    MEPlay 1339
+    MEPlay SEQ_ME_OTAMARO
     MEWait
     VMSleep 8
     FadeEx 3, 0, 16, 4
@@ -211,7 +211,7 @@ L_027A:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 535, 0
     // "Pi pi kiii!"
@@ -225,7 +225,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 535, 0
     // "Pun purin?"
@@ -239,7 +239,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 535, 0
     // "Waah weeeen!"
@@ -253,7 +253,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 535, 0
     // "Riiiibbbit. ♪"
@@ -267,7 +267,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 535, 0
     // "Croooak!!"

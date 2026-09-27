@@ -252,7 +252,7 @@ L_03F2:
     BMHndAnmWait 0x8024
     ActorCmdExec 6, Movement_0FB4
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 6
     SEWait
     VMJump L_04F1
@@ -275,7 +275,7 @@ L_046F:
     BMHndAnmWait 0x8024
     ActorCmdExec 251, Movement_0FB4
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 251
     SEWait
     ActorWalkRoute 6, 652, 170, 1, 8, 1
@@ -283,7 +283,7 @@ L_046F:
     ActorCmdExec 6, Movement_0FB4
     ActorCmdWait
     ActorDelete 6
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     SEWait
 
 L_04F1:
@@ -414,7 +414,7 @@ L_05CE:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x40ce
     VMStackPushConst 1
@@ -570,7 +570,7 @@ L_095B:
     // "[f000]Ā\u0001\u0001: What's up?[f000]븁\u0000\nHave you seen Team Plasma\nanywhere around here?[f000]븀\u0000\nI heard a rumor to that effect...[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 30, 12, 0, 0
     MsgWinCloseAll
-    BGMPlay 1266
+    BGMPlay SEQ_BGM_E_PLASMA
     ActorCmdExec 10, Movement_0F74
     ActorCmdExec 11, Movement_0F74
     ActorCmdWait
@@ -791,7 +791,7 @@ L_0CEC:
 Script_7:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Lacunosa Town\nMethodical and Orderly for Safety"
     MsgPlaceSign 44, 1
     MsgPlaceSignClose
@@ -802,7 +802,7 @@ Script_7:
 Script_8:
     ActorsPauseAll
     PlayerGetGPos 0x8021, 0x8022
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Do you want to hear that old tale\nof Lacunosa Town again?[f000]븁\u0000\nIt always takes me a little time\nto tell it."
     ParentActorMsg MSGFILE_SCRIPT, 39, 0, 0
@@ -853,7 +853,7 @@ L_0DB0:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Welcome to Lacunosa Town.[f000]븁\u0000\nIn this town, people live as methodically\nas clockwork from morning to night.[f000]븁\u0000\nIf you live your life soaking up sunlight,\nyou can sleep very well at night."
     ParentActorMsg MSGFILE_SCRIPT, 43, 0, 0
@@ -865,7 +865,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The big scary monster that\ncomes out at night is[f000]븀\u0000\na Pokémon, right?[f000]븁\u0000\nIt must be a really scary Pokémon\nif everyone believes the legend[f000]븀\u0000\nand follows these rules..."
     ParentActorMsg MSGFILE_SCRIPT, 45, 0, 0
@@ -881,7 +881,7 @@ Script_11:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0E1D
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My grandma's stories were\nreally about Kyurem, it seems.[f000]븁\u0000\nI guess old stories sometimes\nhave a kernel of truth to them."
     ParentActorMsg MSGFILE_SCRIPT, 47, 0, 0
@@ -890,7 +890,7 @@ Script_11:
     VMJump L_0E31
 
 L_0E1D:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My granny loves old stories![f000]븁\u0000\nI'm always having to listen\nto her really, really long stories."
     ParentActorMsg MSGFILE_SCRIPT, 46, 0, 0
@@ -904,7 +904,7 @@ L_0E31:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "There are a lot of people in the world,\nand there are just as many different[f000]븀\u0000\ncharacteristics and ideas."
     ParentActorMsg MSGFILE_SCRIPT, 48, 0, 0
@@ -920,7 +920,7 @@ Script_13:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0E82
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "So the reason nobody goes outside\nat night and it's so peaceful[f000]븀\u0000\nis because of a Pokémon?[f000]븀\u0000\nI don't know how to feel about that!"
     ParentActorMsg MSGFILE_SCRIPT, 50, 0, 0
@@ -929,7 +929,7 @@ Script_13:
     VMJump L_0E96
 
 L_0E82:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I don't have anything to do ever since\nI took a post here.[f000]븁\u0000\nSince nobody goes outside at night,\nit's very peaceful."
     ParentActorMsg MSGFILE_SCRIPT, 49, 0, 0
@@ -943,7 +943,7 @@ L_0E96:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 572, 0
     // "Gahoo! Gahoo!"
@@ -957,7 +957,7 @@ Script_14:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My Pokémon just runs around on its own.\nMaybe it doesn't need a Trainer?"
     ParentActorMsg MSGFILE_SCRIPT, 52, 0, 0

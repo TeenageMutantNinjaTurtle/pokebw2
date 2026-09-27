@@ -5,7 +5,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WordSetPlayerName 0
     // "                                                                                                         "
     SystemMsg 0, 2

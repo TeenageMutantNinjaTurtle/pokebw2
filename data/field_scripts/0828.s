@@ -21,7 +21,7 @@ Script_4:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0061
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Marine Tube is just ahead.[f000]븁\u0000\nBut please wait for a little bit longer.\nJust a little bit..."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -30,7 +30,7 @@ Script_4:
     VMJump L_0075
 
 L_0061:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Marine Tube is ahead!\nPlease enjoy the stunning scenery!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -44,7 +44,7 @@ L_0075:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I moved here just to be the first person\nto go through the Marine Tube."
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -56,7 +56,7 @@ Script_7:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Marine Tube.[f000]븁\u0000\nIt's an undersea tunnel, so to speak.\nDo you know how such tunnels are made?[f000]븁\u0000\nIt's quite simple!\nThey're built on land[f000]븀\u0000\nand then sunk into the sea![f000]븁\u0000\nWithout Pokémon, the construction\nwould've been impossible."
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -105,7 +105,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a sign that explains\nthe Marine Tube.[f000]븁\u0000"
     InfoMsg 5, 2
     MsgWinCloseAll

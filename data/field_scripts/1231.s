@@ -251,7 +251,7 @@ L_0310:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Cmd_00CE 0x8021
     TrainerCardGetBirthDate 0x8025, 0x8026
@@ -497,7 +497,7 @@ Script_2:
     WorkSetConst 0x802b, 0
     WorkSetConst 0x802c, 0
     PokePartyGetCount 0x802d, 4
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x802a
     VMStackPushConst 1
@@ -715,13 +715,13 @@ L_09CD:
     VMSleep 16
     ActorCmdExec 255, Movement_0AA4
     ActorCmdWait
-    SEPlay 1671
+    SEPlay SEQ_SE_FLD_22
     BMHndAudioVisualAnmPlay 0x8031, 0
     BMHndAnmWait 0x8031
     SEWait
     ActorCmdExec 255, Movement_0AAC
     ActorCmdWait
-    SEPlay 1671
+    SEPlay SEQ_SE_FLD_22
     BMHndAudioVisualAnmPlay 0x8031, 1
     BMHndAnmWait 0x8031
     SEWait
@@ -729,7 +729,7 @@ L_09CD:
     EvCameraInit
     EvCameraUnbind
     BMCreateHandleByGPos 0x8032, 6, 0x802f, 0x8030
-    SEPlay 1672
+    SEPlay SEQ_SE_FLD_23
     BMHndAudioVisualAnmPlay 0x8032, 1
     PlayerMoveToYAsync_ 0, 40, 64, 0
     BMHndAnmWait 0x8032
@@ -832,7 +832,7 @@ L_0B94:
 
 L_0B96:
     FadeWait
-    SEPlay 1672
+    SEPlay SEQ_SE_FLD_23
     BMHndAudioVisualAnmPlay 0x8037, 0
     PlayerMoveToYAsync_ 1, 40, 64, 0
     VMSleep 2
@@ -842,7 +842,7 @@ L_0B96:
     SEStop
     BMReleaseHandle 0x8037
     BMCreateHandleByGPos 0x8038, 5, 0x8034, 0x8035
-    SEPlay 1671
+    SEPlay SEQ_SE_FLD_22
     BMHndAudioVisualAnmPlay 0x8038, 0
     BMHndAnmWait 0x8038
     SEWait
@@ -852,7 +852,7 @@ L_0B96:
     ActorCmdWait
     ActorCmdExec 0x8011, Movement_0C64
     ActorCmdWait
-    SEPlay 1671
+    SEPlay SEQ_SE_FLD_22
     BMHndAudioVisualAnmPlay 0x8038, 1
     BMHndAnmWait 0x8038
     SEWait
@@ -944,7 +944,7 @@ Movement_0C70:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     VMStackPushFlag 106
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -969,7 +969,7 @@ Script_10:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0CED
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh?\nYou're...[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
@@ -982,7 +982,7 @@ Script_10:
     VMJump L_0D01
 
 L_0CED:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Sorry...[f000]븁\u0000\nWhen I saw you,\nI just started talking for some reason."
     ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0

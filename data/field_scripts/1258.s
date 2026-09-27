@@ -234,7 +234,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMCall L_03EE
     FinishAllEvents
@@ -2413,9 +2413,9 @@ L_2533:
 L_254B:
     ActorCmdWait
     Plugin1_Cmd1003 19, 3, 0, 0
-    SEPlay 1970
+    SEPlay SEQ_SE_BDEMO_01
     VMSleep 20
-    SEPlay 1971
+    SEPlay SEQ_SE_BDEMO_02
     VMSleep 30
     WorkSetConst 0x8031, 0
     WorkSetConst 0x8030, 0
@@ -3454,7 +3454,7 @@ Script_12:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8008, 0
     VMCall L_34A7
@@ -3553,9 +3553,9 @@ L_35FA:
 L_360A:
     ActorCmdWait
     Plugin1_Cmd1003 19, 3, 0, 0
-    SEPlay 1970
+    SEPlay SEQ_SE_BDEMO_01
     VMSleep 20
-    SEPlay 1971
+    SEPlay SEQ_SE_BDEMO_02
     VMSleep 30
     VMReturn
 

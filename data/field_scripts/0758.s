@@ -15,7 +15,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you pass through this gate...\nWhere could it be connected to?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -27,7 +27,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "People come and go from\nthe cities and the country while[f000]븀\u0000\nsearching for a place where they belong."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -39,7 +39,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Unova's Challenge...\nBlack Tower or White Treehollow...[f000]븀\u0000\nWhat in the world are they like?"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0

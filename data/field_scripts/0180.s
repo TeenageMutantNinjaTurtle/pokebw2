@@ -27,7 +27,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you've come from Route 4,\nNimbasa City is ahead.[f000]븁\u0000\nNext! If you've come from Nimbasa City,\nRoute 4 is ahead!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -39,7 +39,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm always in the know about Nimbasa City\nthanks to this electric bulletin board!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0

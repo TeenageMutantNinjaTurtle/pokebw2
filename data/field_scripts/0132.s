@@ -55,7 +55,7 @@ Movement_00A0:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You can take the Battle Subway from\nGear Station!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -67,7 +67,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Battle Subway is the subway\nwhere Trainers see who's strongest!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -79,7 +79,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2400
     VMStackPushConst 1
@@ -103,7 +103,7 @@ L_0115:
 Script_6:
     ActorsPauseAll
     WorkSetConst 0x8022, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMCall L_01A6
     VMStackPush 0x8010
@@ -261,7 +261,7 @@ L_0372:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     Plugin1_Cmd1003 43, 0, 0, 32784
     DebugPrint 0x8010
     VMStackPush 0x8010
@@ -284,7 +284,7 @@ L_03B5:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Platform for Single Trains"
     SystemMsg 18, 2
     LastKeyWait
@@ -295,7 +295,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Platform for Double Trains"
     SystemMsg 19, 2
     LastKeyWait
@@ -306,7 +306,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Platform for Multi Trains"
     SystemMsg 20, 2
     LastKeyWait
@@ -317,7 +317,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Platform for Wi-Fi Trains"
     SystemMsg 21, 2
     LastKeyWait
@@ -328,7 +328,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Platform for Super Single Trains"
     SystemMsg 22, 2
     LastKeyWait
@@ -339,7 +339,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Platform for Super Double Trains"
     SystemMsg 23, 2
     LastKeyWait
@@ -350,7 +350,7 @@ Script_13:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Platform for Super Multi Trains"
     SystemMsg 24, 2
     LastKeyWait
@@ -361,7 +361,7 @@ Script_14:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Platform for Trains to Anville Town"
     SystemMsg 25, 2
     LastKeyWait

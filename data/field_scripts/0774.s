@@ -10,7 +10,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     EvCameraInit
     EvCameraUnbind
     EvCameraMoveTo 9688, 0, 0xed000, 0x2704000, 0x5004f, 0x2c78000, 30
@@ -106,7 +106,7 @@ L_014D:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorDelete 10
     VMStackPush 0x8000
     VMStackPush 0x8001

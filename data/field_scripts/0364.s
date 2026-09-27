@@ -5,7 +5,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     PVPlay 637, 0
     // "Vraahhbrbrbr!"
     ScreamMsg 0, 2

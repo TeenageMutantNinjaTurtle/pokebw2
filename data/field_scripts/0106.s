@@ -16,7 +16,7 @@ Script_1:
     ActorsPauseAll
     WorkSetConst 0x8022, 0
     WorkSetConst 0x8023, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WorkSetConst 0x8023, 0
     PokePartyFindEx 648, 1, 0x8022, 0x8023
     VMStackPush 0x8023
@@ -42,7 +42,7 @@ L_008E:
     // "The scent you brought me reminded me of\na long-ago melody from the fringes of my[f000]븀\u0000\nsepia-toned memories.[f000]븁\u0000\nIt was a song my mother loved...\nIt makes me feel so nostalgic.[f000]븁\u0000\nWould you like to hear the melody?[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     ActorMsgClose
-    BGMPlay 1001
+    BGMPlay SEQ_BGM_SILENCE_FIELD
     VMCall L_0254
     EvCameraInit
     EvCameraUnbind
@@ -54,7 +54,7 @@ L_008E:
     InfoMsg 23, 2
     InfoMsgClose_0039
     VMCall L_02ED
-    BGMPlay 1094
+    BGMPlay SEQ_BGM_E_INISHIE
     ActorCmdExec 0x8011, Movement_03B4
     Plugin3_Cmd1005 251
     DebugPrint 1
@@ -339,7 +339,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I've been letting my tired mind relax\nin this café this whole time..."
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
@@ -351,7 +351,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Listen to him playing guitar...\nI went back to the home I'd left behind,[f000]븀\u0000\nand my mother cried tears of joy...[f000]븀\u0000\nThat's mothers for you."
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
@@ -367,7 +367,7 @@ Script_5:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0563
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You can't change your family,\nbut you can change how you[f000]븀\u0000\ninteract with one another.[f000]븁\u0000\nStill, that said..."
     ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
@@ -380,13 +380,13 @@ L_0563:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_05C1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Thanks to you and Meloetta,\nmemories of my birthplace...[f000]븀\u0000\nmemories of when I was little...[f000]븀\u0000\nmemories of singing together after[f000]븀\u0000\nwe finished gathering Berries...[f000]븀\u0000\nAll these memories came flooding back.[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 17, 4, 0, 0
     MsgWinCloseAll
     Cmd_0275 0, 44, 0
-    SEPlay 1908
+    SEPlay SEQ_SE_FLD_133
     // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink."
     SystemMsg 18, 0
     SEWait
@@ -401,7 +401,7 @@ L_0563:
     VMJump L_05D5
 
 L_05C1:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm going to have fun gathering Berries\nwith the people living in the countryside[f000]븀\u0000\nand the Pokémon I've met here in[f000]븀\u0000\nCastelia City![f000]븁\u0000\nOf course, I'll be humming\nMeloetta's tune while I gather them!"
     ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
@@ -455,7 +455,7 @@ L_0640:
     ActorMsg MSGFILE_SCRIPT, 17, 4, 0, 0
     MsgWinCloseAll
     Cmd_0275 0, 44, 0
-    SEPlay 1908
+    SEPlay SEQ_SE_FLD_133
     // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink."
     SystemMsg 18, 0
     SEWait

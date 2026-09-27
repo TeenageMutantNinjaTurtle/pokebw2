@@ -320,7 +320,7 @@ L_0529:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8010, 1
 
@@ -546,7 +546,7 @@ L_08A0:
 
 L_08AC:
     PokePartyRecoverAll
-    MEPlay 1391
+    MEPlay SEQ_SE_RECOVERY
     MEWait
     VMStackPush 0x8020
     VMStackPushConst 23
@@ -1229,7 +1229,7 @@ L_13BB:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkGet 0x8028, 0x8011
     Plugin9_Cmd1022 0x8028, 0x8026
@@ -1442,7 +1442,7 @@ Script_12:
     WorkSetConst 0x8047, 0
     WorkSetConst 0x8048, 0
     GameGetVersion 0x802c
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     KeysCmd_02D1 0x8024
     Plugin9_Cmd1006 0x8021
@@ -2257,11 +2257,11 @@ L_242D:
     VMStackPushConst 23
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_244E
-    SEPlay 2135
+    SEPlay SEQ_SE_SW_MDUN_BL_05
     VMJump L_2452
 
 L_244E:
-    SEPlay 2140
+    SEPlay SEQ_SE_SW_MDUN_WH_05
 
 L_2452:
     VMReturn
@@ -2272,11 +2272,11 @@ L_2454:
     VMStackPushConst 23
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_2475
-    SEPlay 2133
+    SEPlay SEQ_SE_SW_MDUN_BL_03
     VMJump L_2479
 
 L_2475:
-    SEPlay 2138
+    SEPlay SEQ_SE_SW_MDUN_WH_03
 
 L_2479:
     VMReturn
@@ -2421,11 +2421,11 @@ L_26B6:
     VMStackPushConst 23
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_26D7
-    SEPlay 2134
+    SEPlay SEQ_SE_SW_MDUN_BL_04
     VMJump L_26DB
 
 L_26D7:
-    SEPlay 2139
+    SEPlay SEQ_SE_SW_MDUN_WH_04
 
 L_26DB:
     VMReturn
@@ -2668,7 +2668,7 @@ L_2A0C:
     FadeEx 3, 0, 16, 2
     FadeExWait
     PokePartyRecoverAll
-    MEPlay 1300
+    MEPlay SEQ_ME_ASA
     MEWait
     FadeEx 3, 16, 0, 2
     FadeExWait

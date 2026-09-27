@@ -85,13 +85,13 @@ L_0143:
     ActorCmdWait
     EvCameraWait
     VMSleep 10
-    BGMPlay 1093
+    BGMPlay SEQ_BGM_E_NEW_G_CIS
     // "Ghetsis: The Giant Chasm![f000]븁\u0000\nThis is the spot where\nKyurem's power resonates.[f000]븁\u0000\nHere, Kyurem can use the\nfull extent of its power[f000]븀\u0000\nand easily cover all of Unova in ice![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0
     MsgWinCloseAll
     ActorCmdExec 0, Movement_06AC
     VMSleep 76
-    SEPlay 2274
+    SEPlay SEQ_SE_SW_GHETSIS_STICK_01
     SEWait
     ActorCmdWait
     // "Kyurem, come![f000]븁\u0000"
@@ -113,7 +113,7 @@ L_0143:
     MsgWinCloseAll
     ActorCmdExec 0, Movement_06BC
     VMSleep 30
-    SEPlay 2274
+    SEPlay SEQ_SE_SW_GHETSIS_STICK_01
     SEWait
     ActorCmdWait
     // "Kyurem!\nGlaciate![f000]븁\u0000"
@@ -170,7 +170,7 @@ L_0293:
     // "Ghetsis: So you came...[f000]븁\u0000\nThe freak without a human heart...\nN![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 8, 0, 0, 0
     MsgWinCloseAll
-    BGMPlay 1269
+    BGMPlay SEQ_BGM_EV_GIANTHOLE_01
     FlagSet 2556
     BGMAmbienceResume
     Plugin6_Cmd1004 1
@@ -254,12 +254,12 @@ L_03B3:
     // "Ghetsis: Oh, but it will![f000]븁\u0000\nIf I use these![f000]븁\u0000\nThe DNA Splicers![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 18, 0, 1, 0
     MsgWinCloseAll
-    BGMPlay 1270
+    BGMPlay SEQ_BGM_EV_GIANTHOLE_02
     EvCameraMoveTo 9688, 0, 0xed000, 0xf8000, 0, 0xf0000, 35
     VMSleep 20
     ActorCmdExec 0, Movement_06D4
     VMSleep 23
-    SEPlay 2275
+    SEPlay SEQ_SE_SW_GHETSIS_STICK_02
     BGMAmbienceResume
     EvCameraWait
     ActorCmdWait
@@ -394,7 +394,7 @@ L_05D7:
     MsgWinCloseAll
     ActorCmdExec 0, Movement_06D4
     VMSleep 25
-    SEPlay 2274
+    SEPlay SEQ_SE_SW_GHETSIS_STICK_01
     SEWait
     ActorCmdWait
     // "No!\nThat's not possible![f000]븁\u0000\nSimple tools don't have emotion\nor thought![f000]븁\u0000\nCome!\nChallenge Kyurem![f000]븁\u0000\nJust so you know,\ncatching it is impossible![f000]븁\u0000\nMy cane emits signals that disrupt\nthe function of all Poké Balls![f000]븁\u0000"
@@ -483,7 +483,7 @@ L_0755:
     // "N: [f000]븉\u0001\u0001...![f000]븉\u0001\u0000[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 42, 4, 0, 0
     MsgWinCloseAll
-    SEPlay 2059
+    SEPlay SEQ_SE_FLD_176
     PokePartyRecoverAll
     SEWait
     WorkSetConst 0x4072, 3
@@ -621,7 +621,7 @@ L_0943:
     // "I can't accept this!\nThis isn't possible![f000]븁\u0000\nI can't be bested by\nfools who can't even[f000]븀\u0000\nuse Pokémon correctly![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 44, 5, 5, 0
     MsgWinCloseAll
-    BGMPlay 1271
+    BGMPlay SEQ_BGM_EV_GIANTHOLE_03
     // "N: [f000]븉\u0001\u0001It's hard to call you this, but...[f000]븁\u0000\nFather!\nPlease understand.[f000]븁\u0000\nPokémon are not tools.[f000]븁\u0000\nPokémon and humans take\neach other to greater heights.[f000]븀\u0000\nThey are our wonderful partners.[f000]븁\u0000\nSome humans understand this.[f000]븁\u0000\nWhy can't you?[f000]븉\u0001\u0000[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 45, 4, 6, 0
     MsgWinCloseAll
@@ -830,7 +830,7 @@ Movement_0CA8:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Ghetsis: Come now![f000]븁\u0000\nI want to see your face at the moment\nyou lose all hope![f000]븁\u0000\nBattle to protect Unova![f000]븁\u0000\nI've prepared the finest stage, and\nit's wasted on a bit player like you![f000]븀\u0000\nLose and go down in flames!"
     ParentActorMsg MSGFILE_SCRIPT, 30, 0, 0
@@ -842,7 +842,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "N: [f000]븉\u0001\u0001It's faint, but I can hear my friend.\nI can hear Reshiram's voice.[f000]븀\u0000\nIt says they can be separated again![f000]븁\u0000\nI beg you!\nPlease save my friend![f000]븁\u0000\nAnd all of Unova's\nPokémon and humans...[f000]븉\u0001\u0000"
     // "N: [f000]븉\u0001\u0001It's faint, but I can hear my friend.\nI can hear Zekrom's voice.[f000]븀\u0000\nIt says they can be separated again![f000]븁\u0000\nI beg you!\nPlease save my friend![f000]븁\u0000\nAnd all of Unova's\nPokémon and humans...[f000]븉\u0001\u0000"
@@ -855,7 +855,7 @@ Script_5:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Do you remember where we first\nmet up in the Giant Chasm?[f000]븁\u0000\nIf you follow the path from there,\nit goes out onto Route 23.[f000]븁\u0000\nVictory Road and the Pokémon League\nare just past there!"
     ParentActorMsg MSGFILE_SCRIPT, 75, 0, 0
@@ -875,7 +875,7 @@ Script_6:
     PlayerSetSpecialSequence 1
 
 L_0D29:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     EvCameraInit
     EvCameraUnbind
     EvCameraMoveTo 9688, 0, 0xed000, 0xf8000, 0, 0xff000, 6
@@ -998,7 +998,7 @@ Movement_0EE0:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's the cane Ghetsis was holding.[f000]븁\u0000\nWas he controlling Kyurem with it?"
     InfoMsg 63, 2
     LastKeyWait
@@ -1009,7 +1009,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorDelete 7
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -1026,7 +1026,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     PVPlay 646, 0
     // "Haaahraaan!"
     ScreamMsg 61, 1

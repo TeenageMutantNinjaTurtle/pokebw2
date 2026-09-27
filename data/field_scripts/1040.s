@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Sandstorms are terrible![f000]븁\u0000\nBut Rock-, Ground-, and\nSteel-type Pokémon can weather[f000]븀\u0000\na sandstorm without damage."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -19,7 +19,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 524, 0
     // "Ggggggrrr!"
@@ -33,7 +33,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 412
     VMStackPushConst 1

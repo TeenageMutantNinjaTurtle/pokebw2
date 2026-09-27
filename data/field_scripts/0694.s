@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Watch it! People use “railway fan\" as\na catchall term, but there are many[f000]븀\u0000\ntypes of railway fans![f000]븁\u0000\nThere are riding fans, detraining fans,\nstation fans, train-car fans,[f000]븀\u0000\nschedule-table fans, picture-taking fans,[f000]븀\u0000\nrecording fans, and more![f000]븁\u0000\nDon't go thinking they're all the same!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -19,7 +19,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "For someone like me, who is checking\nout rail lines all over the world,[f000]븀\u0000\nAnville Town, where you can look at[f000]븀\u0000\nvarious trains, gets pretty high marks!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0

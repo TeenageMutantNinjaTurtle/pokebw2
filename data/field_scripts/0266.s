@@ -13,7 +13,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Trainer who came to Opelucid City! Hello![f000]븁\u0000\nTrainer who is going to Route 11!\nPlease come again!"
     // "Trainer who came to Opelucid City! Hello![f000]븁\u0000\nTrainer who is going to Route 11!\nPlease come again!"

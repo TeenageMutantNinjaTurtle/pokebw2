@@ -10,7 +10,7 @@ Script_1:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0039
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Since Poké Balls were invented,\nanyone can be with Pokémon![f000]븁\u0000\nWe take it for granted now, but\nif you think about it, it's amazing!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -19,7 +19,7 @@ Script_1:
     VMJump L_004D
 
 L_0039:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "What kind of relationship do you want\nwith the Pokémon you meet?[f000]븁\u0000\nI'm happy just having them by my side!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -37,7 +37,7 @@ Script_2:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0086
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hey! Is that your Pokémon?\nWhoa! Cool!"
     // "Hey! Is that your Pokémon?\nWhoa! Cool!"
@@ -47,7 +47,7 @@ Script_2:
     VMJump L_009A
 
 L_0086:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I want to have a Pokémon battle soon!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0

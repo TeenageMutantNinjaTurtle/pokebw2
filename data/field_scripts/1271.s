@@ -22,7 +22,7 @@ Script_4:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMCall L_003E
     FinishAllEvents

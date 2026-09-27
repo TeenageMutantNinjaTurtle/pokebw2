@@ -9,7 +9,7 @@ Script_1:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0035
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'll keep experimenting every day!\nIt's important to keep trying.[f000]븀\u0000\nCome back and see how it's going!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -26,7 +26,7 @@ L_003B:
     VMHalt
 
 L_0041:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Lots of toxins build up in the sewer\nsystem. I think I can use them to make[f000]븀\u0000\nmedicines. So I'm running an experiment![f000]븁\u0000\nIf this works, I might be able to use the\nvenom of Poison-type Pokémon to make[f000]븀\u0000\ndifferent medicines. How exciting![f000]븁\u0000\nWell, well...\nThe result of today's experiment was...[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0

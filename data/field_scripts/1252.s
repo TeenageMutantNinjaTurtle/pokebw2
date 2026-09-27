@@ -8,7 +8,7 @@
 Script_1:
     ActorsPauseAll
     WorkSetConst 0x8022, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     PokePartyGetCountBySpecies 386, 0x8022
     VMStackPush 0x8022
     VMStackPushConst 0

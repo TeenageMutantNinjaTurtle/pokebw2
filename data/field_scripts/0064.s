@@ -26,7 +26,7 @@ Script_3:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Route 4 Ahead"
     MsgPlaceSign 8, 3
     MsgPlaceSignClose
@@ -36,7 +36,7 @@ Script_1:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Nimbasa City has\nthe Pokémon Musical.[f000]븁\u0000\nI've tried it several times.\nSigh. It never seems to go well.[f000]븁\u0000\nBut I'll keep trying until I get\nthe perfect Props for my Pokémon!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -48,7 +48,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Trainers and Pokémon make\nan amazing combination![f000]븁\u0000\nThey were responsible for\nexcavating the ruins on Route 4!"
     // "Trainers and Pokémon make\nan amazing combination![f000]븁\u0000\nThey were responsible for the row of\nbrand-new buildings on Route 4!"

@@ -6,7 +6,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Welcome to the Driftveil Chateau Hotel.\nWe're currently all booked up,[f000]븀\u0000\nbut feel free to enjoy the ambiance."
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -22,7 +22,7 @@ Script_2:
     Random 0x400b, 5
     WorkSetConst 0x8020, 1
     WorkAdd 0x8020, 0x400b
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait

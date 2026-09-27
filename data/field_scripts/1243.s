@@ -42,7 +42,7 @@ L_006C:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     FlagGet 2404, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
@@ -141,7 +141,7 @@ L_01A6:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     PokePartyHasMoveAny 0x8010, 57
     VMStackPush 0x8010
     VMStackPushConst 6
@@ -213,7 +213,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     PokePartyHasMoveAny 0x8010, 15
     VMStackPush 0x8010
     VMStackPushConst 6
@@ -262,13 +262,13 @@ L_02FC:
     Cmd_01DD 1, 15, 0
     VMSleep 3
     ActorDelete 0x8011
-    SEPlay 1651
+    SEPlay SEQ_SE_FLD_02
     VMSleep 1
     VMReturn
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WordSetPartyPokeName 0, 0x8000
     // "[f000]Ă\u0001\u0000 used Cut![f000]븁\u0000"
     SystemMsg 1, 2
@@ -291,14 +291,14 @@ Script_6:
 L_039B:
     WorkSetConst 0x8023, 0
     WorkSetConst 0x8022, 0
-    SEPlay 1651
+    SEPlay SEQ_SE_FLD_02
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     PokePartyHasMoveAny 0x8010, 127
     VMStackPush 0x8010
     VMStackPushConst 6

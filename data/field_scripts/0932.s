@@ -9,7 +9,7 @@ Script_1:
     Random 0x400b, 5
     WorkSetConst 0x8020, 1
     WorkAdd 0x8020, 0x400b
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait

@@ -66,7 +66,7 @@ L_00CB:
     VMJump L_00FC
 
 L_00E2:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "There is an old legend about this place.[f000]븁\u0000\nLong ago, when a war between people\nstarted an intense fire in this forest,[f000]븀\u0000\na single young Pokémon was separated[f000]븀\u0000\nfrom its parents.[f000]븁\u0000\nCobalion, Terrakion, and Virizion\nteamed up to take care of this Pokémon.[f000]븁\u0000\nI wonder what that young Pokémon\ngrew up to be like..."
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -80,7 +80,7 @@ L_00FC:
     VMJump L_0147
 
 L_010F:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Ooh! That Pokémon! It couldn't be...[f000]븁\u0000\nA bright red mane...and a lush tail...and\na single, noble horn![f000]븁\u0000\nIt's exactly like the old legend![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -100,7 +100,7 @@ L_0147:
     VMJump L_0192
 
 L_015A:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Ooh! That Pokémon! It couldn't be...[f000]븁\u0000\nA bright red mane...and a lush tail...\nAnd it even has a horn more magnificent[f000]븀\u0000\nthan in the old legend![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0

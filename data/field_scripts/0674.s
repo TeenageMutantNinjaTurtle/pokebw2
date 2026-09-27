@@ -15,7 +15,7 @@ Script_4:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Route 7"
     MsgPlaceSign 3, 3
     MsgPlaceSignClose
@@ -26,7 +26,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Celestial Tower\nA place of rest for innocent spirits"
     MsgPlaceSign 4, 2
     MsgPlaceSignClose
@@ -37,7 +37,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Trainer Tips![f000]븁\u0000\n\nThe number of Exp. Points you get\nafter a battle is based on levels.[f000]븁\u0000\nWhen your Pokémon is weaker than\nits opponent, it will get more.[f000]븁\u0000\nBut if your Pokémon is stronger,\nit won't get as many."
     MsgPlaceSign 5, 0
     MsgPlaceSignClose
@@ -48,7 +48,7 @@ Script_3:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you stand still on the raised walkway,\nyou'll fall off!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -60,7 +60,7 @@ Script_6:
 
 Script_5:
     ActorsPauseAll
-    MEPlay 1327
+    MEPlay SEQ_ME_CALL
     // "The Xtransceiver is ringing."
     SystemMsg 0, 2
     MEWait

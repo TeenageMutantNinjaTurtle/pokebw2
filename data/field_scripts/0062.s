@@ -15,7 +15,7 @@ Script_2:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0150
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     EvCameraInit
     EvCameraUnbind
@@ -72,7 +72,7 @@ Script_2:
     VMJump L_0164
 
 L_0150:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Clyde: Good grief...\nBurgh and Iris are so similar.[f000]븁\u0000\nIt looks like she went around the corner,\ntoward the Pokémon Center.[f000]븁\u0000\nDo you know where the Pokémon Center is?[f000]븁\u0000\nIf you keep following the street\nthat goes around Castelia City,[f000]븀\u0000\nit's right there!"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -86,7 +86,7 @@ L_0164:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "When it comes to loving my Pokémon,\nI won't lose to anybody![f000]븁\u0000\nI hope that gets through\nto my Pokémon..."
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -98,7 +98,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I've got plenty of Potions!\nWith them, I'll bet I can[f000]븀\u0000\nbeat the Gym Leader!"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -110,7 +110,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Wanting to become stronger\nas a Pokémon Trainer is good![f000]븁\u0000\nYou can have a good time playing with\nPokémon or put them to work instead!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -122,7 +122,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If I only had five Badges,\nI could buy Ultra Balls..."
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -134,7 +134,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My little Palpitoad\nis utterly charming![f000]븁\u0000\nWhen I come home tired,\nit makes me feel better!"
     ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
@@ -147,7 +147,7 @@ Script_7:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Castelia City Pokémon Gym\nLeader: Burgh[f000]븀\u0000\nPremier Insect Artist"
     MsgPlaceSign 13, 2
     MsgPlaceSignClose

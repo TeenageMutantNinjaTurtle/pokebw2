@@ -149,7 +149,7 @@ Script_4:
     VMJump L_02BC
 
 L_02A6:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you want to battle me,\nplease defeat those two first, OK?"
     ActorMsg MSGFILE_SCRIPT, 4, 0, 0, 0
@@ -164,7 +164,7 @@ L_02C2:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_02F1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "In the Unova region, there are eight\nPokémon Gyms and eight Gym Badges![f000]븁\u0000\nIf you're a Trainer,\nyou could collect all of them![f000]븁\u0000\nThat will make it easier to fill\nthe pages of the Pokédex as well![f000]븁\u0000\nYes, two years ago, Pokédex in hand,\nI left on a journey with my friends."
     ActorMsg MSGFILE_SCRIPT, 10, 0, 0, 0
@@ -173,7 +173,7 @@ L_02C2:
     VMJump L_0307
 
 L_02F1:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Cheren: You should decide what\nyou're going to do from here out![f000]븁\u0000\nDon't worry about losing your way--\nyou have Pokémon by your side!"
     ActorMsg MSGFILE_SCRIPT, 11, 0, 0, 0
@@ -186,7 +186,7 @@ L_0307:
     VMHalt
 
 L_030D:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorCmdExec 0, Movement_0258
     ActorCmdWait
     VMSleep 35
@@ -254,7 +254,7 @@ L_03EE:
     TrainerCardSaveGymVictoryParty 0
     TrainerCardAddBadge 0
     WordSetPlayerName 0
-    MEPlay 1306
+    MEPlay SEQ_ME_BADGE
     WorkSetConst 0x8024, 0
     TrainerCardGetSex 0x8024
     VMStackPush 0x8024
@@ -299,7 +299,7 @@ L_0434:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerCardHasBadge 0x8008, 0
     VMStackPush 0x8008
@@ -426,7 +426,7 @@ L_067D:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerCardHasBadge 0x8008, 0
     VMStackPush 0x8008
@@ -545,7 +545,7 @@ Script_7:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_086C
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you run out of Pokémon that can fight\nduring a Pokémon battle, you lose![f000]븁\u0000\nSo having a lot of Pokémon with you\nmight work to your advantage!"
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
@@ -554,7 +554,7 @@ Script_7:
     VMJump L_0880
 
 L_086C:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I hope you'll remember the wonderful\nmoment in which you received[f000]븀\u0000\nthat Badge forever."
     ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0

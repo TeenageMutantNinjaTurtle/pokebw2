@@ -26,7 +26,7 @@ L_0057:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerCardHasBadge 0x8008, 5
     VMStackPush 0x40c2
@@ -200,7 +200,7 @@ Movement_02D8:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x40ee
     VMStackPushConst 1
@@ -257,7 +257,7 @@ L_03CB:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "At the very top of the Tower,\nthere's a big bell.[f000]븁\u0000\nI've heard that when you\nring it, it pleases the spirits."
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -269,7 +269,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This is Celestial Tower, where Pokémon\nare laid to rest..."
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0

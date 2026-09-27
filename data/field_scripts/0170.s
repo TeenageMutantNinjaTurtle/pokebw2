@@ -12,7 +12,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "We love sports.\nWatching games is great, but we enjoy[f000]븀\u0000\nwatching practices, too!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -24,7 +24,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "New styles of basketball and tennis\ncreated by people and Pokémon...[f000]븀\u0000\nThese may be advanced forms of sports."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -36,7 +36,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 220
     VMStackPushConst 1
@@ -59,7 +59,7 @@ L_008F:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hm-hum! I can copy that play in my\nnext game."
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -71,7 +71,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Did you see it?\nThat's a great muscle move![f000]븁\u0000\nGood muscle! Good hustle!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -83,7 +83,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh! This could be a once-in-a-lifetime\ngame! I might witness history!"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -95,7 +95,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Woooow! Coooool!\nSomeday I want to be on that court!"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
     LastKeyWait
@@ -106,7 +106,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "I believe in big money!\n...No, I mean I will gain glory!"
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
     LastKeyWait

@@ -91,7 +91,7 @@ Script_2:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0160
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Enjoy the taste of our specialty!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -105,7 +105,7 @@ L_0160:
     VMStackPushConst 3
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_01B5
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Welcome to Café Warehouse,\na stylish café in a rural area![f000]븁\u0000\nOur café has a special on Wednesdays!\nHere, have a Soda Pop![f000]븁\u0000\nEnjoy the taste of our specialty![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 1, 0, 0, 0
@@ -125,7 +125,7 @@ L_01B5:
     VMStackPushConst 6
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0206
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Welcome to Café Warehouse,\nthe stylish café in the country![f000]븁\u0000\nWe have a special on Saturdays!\nHave a complimentary Lemonade![f000]븁\u0000\nWe're really proud of our original recipe![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 3, 0, 0, 0
@@ -141,7 +141,7 @@ L_01B5:
     VMJump L_021A
 
 L_0206:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Welcome to Café Warehouse,\na stylish café in a rural area!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -155,7 +155,7 @@ L_021A:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkCmpConst 0x4020, 43
     VMJumpIf CMP_EQ, L_023B
@@ -328,7 +328,7 @@ L_045B:
     ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
     MsgWinCloseAll
     WordSetPlayerName 0
-    SEPlay 2017
+    SEPlay SEQ_SE_ARDEMO_01
     // "[f000]Ā\u0001\u0000\nhanded over the Grubby Hanky!"
     SystemMsg 19, 0
     MsgWaitAdvance
@@ -417,14 +417,14 @@ L_0584:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkCmpConst 0x4021, 309
     VMJumpIf CMP_EQ, L_05AB
     VMJump L_05CD
 
 L_05AB:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 511, 0
     // "Sei jii!"
@@ -440,7 +440,7 @@ L_05CD:
     VMJump L_0602
 
 L_05E0:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 552, 0
     // "Bwaa!"
@@ -456,7 +456,7 @@ L_0602:
     VMJump L_0637
 
 L_0615:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 506, 0
     // "Yap, yap! ♪"
@@ -472,7 +472,7 @@ L_0637:
     VMJump L_066C
 
 L_064A:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 517, 0
     // "Muuuuuuuuuun!"
@@ -488,7 +488,7 @@ L_066C:
     VMJump L_06A1
 
 L_067F:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 504, 0
     // "Kee keeh!"
@@ -504,7 +504,7 @@ L_06A1:
     VMJump L_06D6
 
 L_06B4:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 505, 0
     // "Waach-ch-ch!"
@@ -520,7 +520,7 @@ L_06D6:
     VMJump L_070B
 
 L_06E9:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 559, 0
     // "Skraaa!"
@@ -537,7 +537,7 @@ L_070B:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Some things may be famous and good,\nbut some good things aren't famous.[f000]븁\u0000\nWhat matters is whether you like them.\nDon't you agree?"
     ParentActorMsg MSGFILE_SCRIPT, 32, 0, 0
@@ -549,7 +549,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I've been getting really, really heavy,\nbut I just can't stop getting seconds.[f000]븁\u0000\nWho was it?\nWho used the move Encore on me?!"
     ParentActorMsg MSGFILE_SCRIPT, 33, 0, 0
@@ -561,7 +561,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I like Nacrene's Café Warehouse\nand Striaton's restaurant, too.[f000]븁\u0000\nEach offers such different flavors!"
     ParentActorMsg MSGFILE_SCRIPT, 34, 0, 0
@@ -573,7 +573,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This café has a special on\nWednesdays and Saturdays!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0

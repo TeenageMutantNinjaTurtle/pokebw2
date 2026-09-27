@@ -12,7 +12,7 @@
 Script_1:
     ActorsPauseAll
     WorkSetConst 0x8020, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Sigh! We've been digging and\ndigging, but...[f000]븁\u0000\nWait a minute! Do you have a Pokémon\nthat's learned Rock Smash?"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -159,7 +159,7 @@ Movement_022C:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Dig, dig! Dig, dig! Dig, dig!\nDig, dig! Dig, dig! Dig, dig!"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
@@ -170,7 +170,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Dig, dig! Dig, dig! Dig, dig!\nDig, dig! Dig, dig! Dig, dig!"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
     LastKeyWait
@@ -181,7 +181,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, Trainer!\nWant to ride this mining cart?"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -197,7 +197,7 @@ Script_4:
     ActorCmdExec 16, Movement_0400
     FadeWait
     ActorCmdWait
-    SEPlay 2225
+    SEPlay SEQ_SE_SW_YACONROAD_01
     SEWait
     FlagSet 948
     FlagReset 951
@@ -218,7 +218,7 @@ L_02DD:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, Trainer!\nWant to ride this mining cart?"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -234,7 +234,7 @@ Script_5:
     ActorCmdExec 18, Movement_03E8
     FadeWait
     ActorCmdWait
-    SEPlay 2225
+    SEPlay SEQ_SE_SW_YACONROAD_01
     SEWait
     FlagSet 950
     FlagReset 956
@@ -255,7 +255,7 @@ L_0358:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, Trainer!\nWant to ride this mining cart?"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -271,7 +271,7 @@ Script_6:
     ActorCmdExec 17, Movement_0400
     FadeWait
     ActorCmdWait
-    SEPlay 2225
+    SEPlay SEQ_SE_SW_YACONROAD_01
     SEWait
     FlagSet 949
     FlagReset 957

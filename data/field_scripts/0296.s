@@ -40,7 +40,7 @@ Script_1:
     ActorsPauseAll
     WorkSetConst 0x8021, 0
     WorkSetConst 0x8022, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hello, and welcome to Unity Tower!\nWould you like to go upstairs?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -77,7 +77,7 @@ L_00F5:
     VMCall L_06C5
     WorkSetConst 0x417e, 1
     RTReserveScript 9
-    SEPlay 1672
+    SEPlay SEQ_SE_FLD_23
     FadeOutBlackQ
     FadeWait
     MapChangeCore 149, 10, 0, 5, 1
@@ -85,7 +85,7 @@ L_00F5:
     FadeWait
     VMSleep 60
     SEStop
-    SEPlay 1768
+    SEPlay SEQ_SE_FLD_87
     SEWait
 
 L_013B:
@@ -104,7 +104,7 @@ L_014F:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This is Unity Tower.[f000]븁\u0000\nTrainers from all over the world cross\nborders and oceans to gather here.[f000]븁\u0000\nVisit whichever floor you like![f000]븁\u0000\nThe more people you know worldwide,\nthe more floors you can visit.[f000]븁\u0000\nPlease enjoy all that we have to offer!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -119,7 +119,7 @@ Script_3:
     WorkSetConst 0x8023, 0
     UnityTowerGetVisitorCount 0x8023
     WordSetNumber 11, 0x8023, 2
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Right now, the number of visitors in\nUnity Tower is [f000]ȁ\u0001\u000b."
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -134,7 +134,7 @@ Script_4:
     WorkSetConst 0x8024, 0
     UnityTowerGetHobby 0x8024
     WordSetHobbyName 6, 0x8024
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Wow! So you like\n[f000]ď\u0001\u0006, then!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -146,7 +146,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Awesome! The ceiling is sooo high![f000]븁\u0000\nI wonder how many of me\nyou'd have to stack up to reach it?"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -158,7 +158,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Coming to Unity Tower always\ngets me excited![f000]븁\u0000\nBeing here always reminds me of how big\nthe world really is!"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -171,7 +171,7 @@ Script_6:
 Script_7:
     ActorsPauseAll
     WorkSetConst 0x8025, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkCmpConst 0x4086, 0
     VMJumpIf CMP_EQ, L_0222
@@ -342,7 +342,7 @@ Script_8:
     WorkSetConst 0x8026, 0
     WorkSetConst 0x8027, 0
     WorkSetConst 0x8026, 1
-    SEPlay 1891
+    SEPlay SEQ_SE_FLD_124
     SEWait
     ActorCmdExec 4, Movement_0BC0
     ActorCmdWait

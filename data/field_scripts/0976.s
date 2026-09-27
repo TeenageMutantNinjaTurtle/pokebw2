@@ -89,7 +89,7 @@ Movement_0104:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerCardHasBadge 0x8008, 2
     VMStackPush 0x8008
@@ -157,7 +157,7 @@ L_01E2:
     TrainerCardSaveGymVictoryParty 2
     TrainerCardAddBadge 2
     WordSetPlayerName 0
-    MEPlay 1306
+    MEPlay SEQ_ME_BADGE
     WorkSetConst 0x8022, 0
     TrainerCardGetSex 0x8022
     VMStackPush 0x8022

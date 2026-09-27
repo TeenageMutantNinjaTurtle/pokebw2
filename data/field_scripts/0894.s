@@ -84,7 +84,7 @@ L_00F6:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You know what they say.\nCheerful company shortens the miles!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -96,7 +96,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Do you know about Audino, the Pokémon\nwho hide in rustling grass?[f000]븁\u0000\nI wonder why Audino give other Pokémon\nso many Exp. Points."
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -108,7 +108,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "When we walk, grass rustles!\nIt's Pokémon hide-and-seek!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0

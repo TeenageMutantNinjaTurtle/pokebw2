@@ -11,7 +11,7 @@ Script_1:
     WorkSetConst 0x8020, 0
     WorkSetConst 0x8021, 0
     WorkSetConst 0x8022, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     PokePartyGetCountBySpecies 378, 0x8020
     PokePartyGetCountBySpecies 377, 0x8021
     PokePartyGetCountBySpecies 379, 0x8022
@@ -96,7 +96,7 @@ L_0128:
 Script_2:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "[f000]Ā\u0001\u0000 read the\nengraved writing...[f000]븁\u0000\n“A body of rock.\nTo summon the king,[f000]븀\u0000\nsuch a thing must be obtained...\""
     InfoMsg 4, 2
     LastKeyWait
@@ -108,7 +108,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "[f000]Ā\u0001\u0000 read the\nengraved writing...[f000]븁\u0000\n“A body of ice.\nTo summon the king,[f000]븀\u0000\nsuch a thing must be obtained...\""
     InfoMsg 5, 2
     LastKeyWait
@@ -120,7 +120,7 @@ Script_3:
 Script_4:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "[f000]Ā\u0001\u0000 read the\nengraved writing...[f000]븁\u0000\n“A body of steel.\nTo summon the king,[f000]븀\u0000\nsuch a thing must be obtained...\""
     InfoMsg 6, 2
     LastKeyWait

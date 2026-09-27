@@ -14,7 +14,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The longest road in Unova...\nI heard it's Route 13."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -26,7 +26,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I love to clear my path by\nhaving Pokémon use Hidden Moves!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0

@@ -11,7 +11,7 @@ Script_1:
     Random 0x400b, 5
     WorkSetConst 0x8020, 1
     WorkAdd 0x8020, 0x400b
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
@@ -23,7 +23,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Dire Hit? In Unova, it's called Dire Hit.\nHuh? No difference?"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -35,7 +35,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It's been two years since I opened for\nbusiness, and thanks to everyone,[f000]븀\u0000\nI'm doing great![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 7, 0x8011, 2, 0

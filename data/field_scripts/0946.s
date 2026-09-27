@@ -11,7 +11,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerCardHasBadge 0x8008, 7
     VMStackPush 0x8008
@@ -81,7 +81,7 @@ L_0102:
     TrainerCardSaveGymVictoryParty 7
     TrainerCardAddBadge 7
     WordSetPlayerName 0
-    MEPlay 1306
+    MEPlay SEQ_ME_BADGE
     WorkSetConst 0x8024, 0
     TrainerCardGetSex 0x8024
     VMStackPush 0x8024
@@ -220,7 +220,7 @@ Script_2:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_034B
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you're looking for the Gym Leader,\nhe went swimming off into the ocean[f000]븀\u0000\nyelling about the sea![f000]븁\u0000\nPlease look for him if you'd like."
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -238,7 +238,7 @@ L_034B:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_03C1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This Gym may feel like a resort,\nbut the Gym Leader's no picnic![f000]븁\u0000\nThis is a present from me.\nPlease focus and prepare![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -258,7 +258,7 @@ L_034B:
     VMJump L_03D5
 
 L_03C1:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "In Humilau's Pokémon Gym,\nyou proceed by hopping on the lily pads[f000]븀\u0000\nand sliding across the water's surface.[f000]븁\u0000\nHere's another piece of advice![f000]븁\u0000\nWater-type Pokémon really don't\nlike Electric- or Grass-type moves![f000]븁\u0000\nBut I'm sure the Gym Leader\nhas planned for that!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -269,7 +269,7 @@ L_03D5:
     VMJump L_03EF
 
 L_03DB:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Marlon's swimming around, isn't he..."
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -283,7 +283,7 @@ L_03EF:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WordSetPlayerName 0
     WordSetLoadRivalName 1
     TrainerCardHasBadge 0x8008, 7

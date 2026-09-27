@@ -315,7 +315,7 @@ Movement_0558:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Rood: At that time, I believed\nwe were on the side of justice.[f000]븁\u0000\nBy serving my king, N,\nI was going to make a world without war.[f000]븁\u0000\nBut I was conceited, and I couldn't\nsee the unhappiness we were causing.[f000]븁\u0000\nThat's why I can't let it happen again!"
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
     LastKeyWait
@@ -326,7 +326,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Don't ignore Pokémon's feelings\nand separate them from their Trainers!"
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
     LastKeyWait
@@ -337,7 +337,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Is this where you come to an\nunderstanding by trading blows?[f000]븀\u0000\nThis is what being young is, right?"
     ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
     LastKeyWait
@@ -348,7 +348,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "That's what I would expect from\nsomeone who binds their Pokémon[f000]븀\u0000\nwith Poké Balls!"
     ParentActorMsg MSGFILE_SCRIPT, 29, 0, 0
@@ -360,7 +360,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "We're going to conquer Unova and\nmake all the Pokémon ours![f000]븁\u0000\nThen our failure two years ago\nwon't matter anymore!"
     ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
     LastKeyWait
@@ -371,7 +371,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Oh! I can feel how strongly\nthis person feels![f000]븀\u0000\nI-it's making me doubt myself!"
     ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
     LastKeyWait
@@ -382,7 +382,7 @@ Script_7:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "That traitorous Sage!\nI'm going to pound him into a pulp!"
     ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
     LastKeyWait
@@ -393,7 +393,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "What you're doing now is nothing\nmore than a futile struggle!"
     ParentActorMsg MSGFILE_SCRIPT, 30, 0, 0
@@ -405,7 +405,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I don't care about you at all!\n'Cause you can't beat our boss![f000]븁\u0000\nI'll stay here and pound these traitors!"
     ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
@@ -417,7 +417,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "We're gonna freeze Unova solid\nand steal everyone's Pokémon!"
     ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0

@@ -50,7 +50,7 @@ Script_1:
     VMStackPushConst 3
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_00FD
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I recognize toughness when I see it.\nSo you're one of us now!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -59,7 +59,7 @@ Script_1:
     VMJump L_0111
 
 L_00FD:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you beat all three of us, maybe\nwe will let you be in our group."
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -78,7 +78,7 @@ Script_2:
     VMStackPushConst 3
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_014C
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You're our leader now, and Tina's\nthe second in command![f000]븀\u0000\nAll right! Let's dance!"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -91,7 +91,7 @@ L_014C:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0179
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "We've always stuck together!\nI'm not going to trust some outsider!"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -100,7 +100,7 @@ L_014C:
     VMJump L_018B
 
 L_0179:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMCall L_020B
     VMCall L_0265
@@ -118,7 +118,7 @@ Script_3:
     VMStackPushConst 3
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_01CC
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "New buildings create old places.[f000]븁\u0000\nGot it?\nEven Castelia City has an underbelly."
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -131,7 +131,7 @@ L_01CC:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_01F9
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you want to battle me, you'll\nhave to defeat Jean-Paul first!"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -140,7 +140,7 @@ L_01CC:
     VMJump L_0205
 
 L_01F9:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMCall L_0265
 

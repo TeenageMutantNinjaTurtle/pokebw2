@@ -107,7 +107,7 @@ L_01CA:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Pokémon tennis is wonderful![f000]븁\u0000\nPlayers are never alone.\nTheir Pokémon are always with them!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -119,7 +119,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Tennis is all about rackets and balls.\nThere's nothing profound about it."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -131,7 +131,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I am a ball boy who collects\ntennis balls.[f000]븁\u0000\nYou are a Pokémon Trainer who\ncollects Pokémon."
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -143,7 +143,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "To become ball boys,\nwe gotta practice."
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -155,7 +155,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 506, 0
     // "Woowoof!"
@@ -169,7 +169,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 506, 0
     // "Yap!"

@@ -43,7 +43,7 @@ Script_1:
     ItemGetCount ITEM_SWEET_HEART, 0x802b
     ItemCheckSpace ITEM_HEART_SCALE, 1, 0x802c
     WordSetItemName 0, 93
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Sweets, lovely Sweet Hearts! ♪\nCheck feelings between two people.[f000]븁\u0000\nIf you are a great match, you can\nget sweet on Sweet Hearts! ♪[f000]븀\u0000\nMeltingly sweet Sweet Hearts! ♪[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 34, 1, 0, 0
@@ -253,7 +253,7 @@ Script_3:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_03B9
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Professor Juniper is researching\nPokémon at Celestial Tower,[f000]븀\u0000\nwhich is at the end of Route 7.[f000]븁\u0000\nPay attention to the signs\nso you don't get lost on the way."
     ActorMsg MSGFILE_SCRIPT, 0, 4, 0, 0
@@ -266,7 +266,7 @@ L_03B9:
     VMStackPushConst 4
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0524
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 290
     VMStackPushConst 0
@@ -297,7 +297,7 @@ L_0407:
     ActorMsg MSGFILE_SCRIPT, 6, 2, 0, 0
     MsgWinCloseAll
     FlagReset 769
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorAdd 3
     SEWait
     ActorWalkRoute 3, 18, 21, 1, 4, 1
@@ -356,7 +356,7 @@ L_0524:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Professor Juniper: Hi there!\nLooks like I kept you waiting! Sorry...[f000]븁\u0000\nShall we give Skyla her chance to\nshow us her piloting skills?"
     ActorMsg MSGFILE_SCRIPT, 5, 2, 0, 0
@@ -368,7 +368,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x802f, 0
     MedalIsObtained 0x802f, 57
@@ -426,7 +426,7 @@ L_05FA:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x40cb
     VMStackPushConst 0
@@ -609,7 +609,7 @@ Movement_0860:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "When you use the move Fly,\nyou can return to a Pokémon Center[f000]븀\u0000\nyou've already visited."
     ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
@@ -621,7 +621,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you don't know a lot about the\nstructure of planes, how can you[f000]븀\u0000\nmaintain them?[f000]븁\u0000\nPokémon battling is the same.[f000]븁\u0000\nThe more you know about Pokémon,\nthe more you can win!"
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
@@ -633,7 +633,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 572, 0
     // "Chulululuwa!"
@@ -647,7 +647,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 472
     VMStackPushConst 0
@@ -695,7 +695,7 @@ L_099C:
     VMJump L_09B6
 
 L_09A2:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Having Pokémon with you\ncan be a big help sometimes, eh?"
     ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0

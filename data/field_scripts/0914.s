@@ -48,7 +48,7 @@ Script_1:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0109
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hey there, Trainer!\nIt looks like you've got energetic[f000]븀\u0000\nPokémon there with ya![f000]븁\u0000\nCan I ask a favor?[f000]븁\u0000\nI need to get the Workers\nin this complex fired up![f000]븁\u0000\nHow about it?\nHelp a guy out, will ya?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -111,7 +111,7 @@ L_0109:
     VMJump L_01BA
 
 L_01A6:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "OK![f000]븁\u0000\nThe three new Workers are\nin different parts of the complex!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -125,7 +125,7 @@ L_01BA:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 306
     VMStackPushConst 0
@@ -178,7 +178,7 @@ L_025D:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 306
     VMStackPushConst 0
@@ -231,7 +231,7 @@ L_0300:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 306
     VMStackPushConst 0
@@ -284,7 +284,7 @@ L_03A3:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WorkCmpConst 0x40dd, 0
     VMJumpIf CMP_EQ, L_03C2
     VMJump L_04C6
@@ -633,7 +633,7 @@ Script_7:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_08F2
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh my! Why, you have a\nPokédex, don't you?[f000]븁\u0000\nI heard that the newest Pokédex\nhas an amazing function called[f000]븀\u0000\nthe Habitat List![f000]븁\u0000\nCould you use it to show me what kind\nof Pokémon live in this complex?[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
@@ -669,7 +669,7 @@ L_08EC:
     VMJump L_0906
 
 L_08F2:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you fill up the Habitat Lists, you might\ncomplete the Pokédex before you know it!"
     ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0

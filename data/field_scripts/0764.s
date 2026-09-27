@@ -9,7 +9,7 @@ Script_1:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0035
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I am so grateful that you traded Pokémon\nwith me![f000]븁\u0000\nI've traded a Rotom and a Ditto\nbefore as well...[f000]븁\u0000\nI guess I just like Ditto!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -18,7 +18,7 @@ Script_1:
     VMJump L_0114
 
 L_0035:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "By any chance, have you caught a\nPokémon called Rotom?[f000]븁\u0000\nI would be very happy if you would trade\nmy Rotom for your Ditto."
     ActorMsg MSGFILE_SCRIPT, 0, 0, 0, 0

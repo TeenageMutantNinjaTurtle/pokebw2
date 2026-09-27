@@ -107,7 +107,7 @@ L_012A:
     ActorDelete 1
     ActorCmdExec 2, Movement_0288
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 2
     SEWait
     // "[f000]Ā\u0001\u0001: They didn't have\nPurrloin with them![f000]븁\u0000"
@@ -135,7 +135,7 @@ L_012A:
     VMSleep 4
     ActorCmdExec 255, Movement_0474
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 0
     SEWait
     FlagSet 836
@@ -184,7 +184,7 @@ Movement_0290:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     VMStackPushFlag 356
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -202,7 +202,7 @@ L_02C9:
     VMJumpIf CMP_STACK, L_038A
     Plugin9_Cmd1005 0x400a
     DebugPrint 0x400a
-    SEPlay 2214
+    SEPlay SEQ_SE_SW_PLAZMASHIP_01
     SEWait
     // "There is a device...\nIt seems to be for entering a password.[f000]븁\u0000\nWill you enter a password?"
     SystemMsg 9, 2
@@ -218,7 +218,7 @@ L_02C9:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_036C
-    SEPlay 2215
+    SEPlay SEQ_SE_SW_PLAZMASHIP_02
     // "You succeeded in\nentering the password!"
     SystemMsg 11, 2
     SEWait
@@ -240,7 +240,7 @@ L_02C9:
     VMJump L_037C
 
 L_036C:
-    SEPlay 2216
+    SEPlay SEQ_SE_SW_PLAZMASHIP_03
     SEWait
     // "The password is not correct."
     SystemMsg 10, 2
@@ -272,7 +272,7 @@ Script_1:
     ActorsPauseAll
     ActorCmdExec 255, Movement_03CC
     ActorCmdWait
-    SEPlay 2221
+    SEPlay SEQ_SE_SW_PLAZMASHIP_08
     ActorCmdExec 255, Movement_03D8
     ActorCmdWait
     SEWait

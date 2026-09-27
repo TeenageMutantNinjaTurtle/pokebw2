@@ -38,7 +38,7 @@ L_0079:
     FlagReset 811
     ActorAdd 7
     PlayerGetGPos 0x8021, 0x8022
-    BGMPlay 1238
+    BGMPlay SEQ_BGM_E_ACHROMA
     WorkCmpConst 0x8020, 2
     VMJumpIf CMP_EQ, L_00A0
     VMJump L_00B2
@@ -269,7 +269,7 @@ L_040F:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 639, 0
     // "Gurooooohhh!"
@@ -408,7 +408,7 @@ Movement_05D8:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Route 22"
     MsgPlaceSign 10, 3
     MsgPlaceSignClose

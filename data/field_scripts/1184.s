@@ -45,7 +45,7 @@ Script_2:
     ActorCmdWait
     ActorCmdExec 9, Movement_0114
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 9
     SEWait
     WorkSetConst 0x4123, 2
@@ -65,7 +65,7 @@ Script_5:
     ActorCmdWait
     ActorCmdExec 9, Movement_0114
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 9
     SEWait
     WorkSetConst 0x4123, 3
@@ -89,7 +89,7 @@ Movement_012C:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 571, 0
     // "Kwaaan!"

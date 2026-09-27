@@ -121,7 +121,7 @@ Script_4:
     // "[f000]븉\u0001\u0001I have to go...[f000]븁\u0000\nI have to go in order to save\nPokémon and protect the very[f000]븀\u0000\nfriend that I have to stop![f000]븉\u0001\u0000[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 9, 11, 0, 0
     MsgWinCloseAll
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 11
     SEWait
     FlagSet 789
@@ -132,7 +132,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Bianca: The bridge fell apart,\nbut it's being fixed right now!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -144,7 +144,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "What could have happened?\nMaybe wild Pokémon ran into it.[f000]븁\u0000\nAt any rate, it's going to take some\ntime to fix. Go wait around Driftveil!"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -187,12 +187,12 @@ Script_7:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_02FC
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "What beautiful stones![f000]븁\u0000\nWouldn't it be lovely if I could\nhave such pretty gems on the[f000]븀\u0000\nwalls of my room?[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
     MsgWinCloseAll
-    SEPlay 1908
+    SEPlay SEQ_SE_FLD_133
     GameGetVersion 0x8010
     VMStackPush 0x8010
     VMStackPushConst 22
@@ -220,7 +220,7 @@ L_02DE:
     VMJump L_0310
 
 L_02FC:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'll live here![f000]븁\u0000\nFrom today on, my home will be here,\namong the beautiful stones!"
     ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0

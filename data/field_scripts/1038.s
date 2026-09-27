@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "We moved here because I heard\nthis place would be developed more..."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -19,7 +19,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Since construction won't be finished,\nguys like them hang around!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -31,7 +31,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I love this place![f000]븁\u0000\nIt's very convenient, because it's\nclose to both Castelia and Nimbasa!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0

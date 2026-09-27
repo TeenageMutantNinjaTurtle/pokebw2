@@ -13,7 +13,7 @@ Script_1:
     WorkSetConst 0x8023, 0
     WorkSetConst 0x8024, 0
     WorkSetConst 0x8025, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2400
     VMStackPushConst 0
@@ -136,7 +136,7 @@ L_01E3:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you sleep on Stunfisk,\nits electricity relaxes the body!"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -148,7 +148,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 618, 0
     // "Stuun!"

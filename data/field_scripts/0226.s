@@ -86,7 +86,7 @@ L_010C:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Icirrus City\nSky Glittering with Flowers of Snow"
     MsgPlaceSign 23, 1
     MsgPlaceSignClose
@@ -97,7 +97,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Fans of Everything Pokémon\nThe Pokémon Fan Club"
     MsgPlaceSign 24, 2
     MsgPlaceSignClose
@@ -108,7 +108,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Former Icirrus City\nPokémon Gym"
     MsgPlaceSign 25, 2
     MsgPlaceSignClose
@@ -118,7 +118,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The legendary Pokémon Reshiram\nshared its wisdom with the hero[f000]븀\u0000\nand defied foes with columns of fire.[f000]븁\u0000\nThe hero and that Pokémon were as\nclose as a parent and child.[f000]븁\u0000\nIt was indeed awe inspiring\nto see them!"
     // "The legendary Pokémon Zekrom\nshared its wisdom with the hero[f000]븀\u0000\nand defied foes with fierce lightning.[f000]븁\u0000\nThe hero and that Pokémon were as\nclose as a parent and child.[f000]븁\u0000\nIt was indeed awe inspiring\nto see them!"
@@ -131,7 +131,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Always, the tower looms,\ndisdainful of the wind and snow.[f000]븁\u0000\nPerhaps its presence is telling us\nnot to forget dreams and ideals..."
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -143,7 +143,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The legendary Pokémon gave help\nto the hero who sought truth.[f000]븀\u0000\nBecause of that, a region was created.[f000]븁\u0000\nThen, when its physical form was lost,\nthe Pokémon became the Light Stone,[f000]븀\u0000\nwaiting patiently for a new hero.[f000]븁\u0000\nThe story I heard when I was little\nturned out to be true."
     // "The legendary Pokémon gave help\nto the hero who sought ideals.[f000]븀\u0000\nBecause of that, a region was created.[f000]븁\u0000\nThen, when its physical form was lost,\nthe Pokémon became the Dark Stone,[f000]븀\u0000\nwaiting patiently for a new hero.[f000]븁\u0000\nThe story I heard when I was little\nturned out to be true."
@@ -156,7 +156,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Brycen has been surrounded by\nIce-type Pokémon and has trained in the[f000]븀\u0000\nmartial arts ever since he was a child.[f000]븁\u0000\nHe's become an action star\nusing that experience!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -168,7 +168,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Truth! Ideals!\nTwo dragons!"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -180,7 +180,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "When one is divided, ♪\nthe world will broaden. ♪"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -192,7 +192,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Fused by splicers.\nDivided by splicers."
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -204,7 +204,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Truth and ideals.\nMove forward hand in hand. ♪"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -222,7 +222,7 @@ Script_12:
     VMStackPushConst 3
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0287
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "When the wetlands freeze, it's slippery.\nI wonder how wetland Pokémon manage?"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -231,7 +231,7 @@ Script_12:
     VMJump L_029B
 
 L_0287:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you walk in the wetlands, you might\nsurprise wild Pokémon into popping out!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -282,7 +282,7 @@ L_0347:
     ActorCmdWait
     ActorCmdExec 255, Movement_0808
     ActorCmdWait
-    BGMPlay 1239
+    BGMPlay SEQ_BGM_DARK_TRINITY
     VMStackPushFlag 406
     VMStackPushConst 0
     VMStackCmp CMP_EQ

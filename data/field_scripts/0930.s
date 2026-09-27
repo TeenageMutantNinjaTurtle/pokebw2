@@ -252,7 +252,7 @@ Script_5:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_03CE
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WordSetLoadRivalName 1
     // "[f000]Ā\u0001\u0001: We'll get the DNA Splicers\nback for sure![f000]븁\u0000\nSo you should focus on\ndefeating the Gym Leader first!"
@@ -264,7 +264,7 @@ Script_5:
 
 L_03CE:
     WordSetLoadRivalName 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "After you get the Badge,\nwe'll look for Team Plasma![f000]븁\u0000\nI'm not gonna let the Unova region\nbecome an ice sculpture!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -278,7 +278,7 @@ L_03E5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Eek! Hee-hee-hee!\nJust try and catch me!"
     ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
@@ -290,7 +290,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "A ha ha! Hey, wait up!\nI'm gonna catch you!"
     ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
@@ -313,13 +313,13 @@ Script_8:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0482
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "With Pokémon and people,\ntreasure every meeting.[f000]븀\u0000\nThere may not be another...[f000]븁\u0000\nThat's why you have to give\nit your best during that moment...[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
     MsgWinCloseAll
     Cmd_0275 0, 40, 0
-    SEPlay 1908
+    SEPlay SEQ_SE_FLD_133
     // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink!"
     SystemMsg 23, 0
     SEWait
@@ -329,7 +329,7 @@ Script_8:
     VMJump L_0496
 
 L_0482:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "With Pokémon and people,\ntreasure every meeting.[f000]븀\u0000\nThere may not be another...[f000]븁\u0000\nThat's why you have to give\nit your best during that moment..."
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
@@ -343,7 +343,7 @@ L_0496:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     PlayerGetDir 0x8020
     VMStackPush 0x8020
     VMStackPushConst 1
@@ -422,7 +422,7 @@ L_05DF:
     // "Say cheese!\nOne, two, three![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 31, 6, 0, 0
     MsgWinCloseAll
-    SEPlay 2063
+    SEPlay SEQ_SE_GYM_E02
     FadeEx 12, 16, 0, 2
     FadeExWait
     SEWait
@@ -499,7 +499,7 @@ L_070A:
 Script_16:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Humilau City\nCalm and Sparkling Seas"
     MsgPlaceSign 26, 1
     MsgPlaceSignClose
@@ -510,7 +510,7 @@ Script_16:
 Script_17:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Marine Tube Ahead\nThe Walk-Through Aquarium"
     MsgPlaceSign 27, 2
     MsgPlaceSignClose
@@ -521,7 +521,7 @@ Script_17:
 Script_18:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Humilau City Pokémon Gym\nGym Leader: Marlon[f000]븀\u0000\nMore Splash than the Sea"
     MsgPlaceSign 28, 2
     MsgPlaceSignClose
@@ -599,7 +599,7 @@ Movement_0804:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This dress is comfy and easy\nto wear..."
     ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
@@ -611,7 +611,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, are you taking on the Gym Leader?[f000]븁\u0000\nBut can you find ol' Marlon?\nHe does whatever he wants!"
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
@@ -623,7 +623,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "When I float between the waves\nlike this, I'm like a mermaid.[f000]븁\u0000\nNow that I think of it,\nthere was a tomboyish-mermaid[f000]븀\u0000\nGym Leader in Kanto."
     ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
@@ -635,7 +635,7 @@ Script_13:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Do you know about Seaside Cave?[f000]븁\u0000\nIf you use the HM Surf\nto go down Route 21,[f000]븀\u0000\nyou'll find the cave there.[f000]븁\u0000\nIf you go through it,\nyou'll reach Undella Town."
     ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
@@ -647,7 +647,7 @@ Script_14:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Controlling the ocean...nature...\nIt's not possible.[f000]븁\u0000\nPeople and Pokémon have to\nfigure out how to live with nature!"
     ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
@@ -659,7 +659,7 @@ Script_15:
 
 Script_20:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hey, thanks to you,\nthe guest rooms are all full!"
     ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
@@ -675,13 +675,13 @@ Script_19:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_090A
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Ahhhhhh!\nThe weather's great today, too![f000]븁\u0000\nI wonder how many days have passed\nsince I came here on my vacation.[f000]븁\u0000\nSpending every day in such abundance\nmakes my brain a little mushy.[f000]븁\u0000\nI wonder if there will be an event\nthat will stimulate me a little.[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 36, 0, 0
     MsgWinCloseAll
     Cmd_0275 0, 25, 0
-    SEPlay 1908
+    SEPlay SEQ_SE_FLD_133
     // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink!"
     SystemMsg 37, 0
     SEWait
@@ -695,7 +695,7 @@ Script_19:
     VMJump L_091E
 
 L_090A:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Ahhhh...\nWas today Sunday?"
     ParentActorMsg MSGFILE_SCRIPT, 38, 0, 0

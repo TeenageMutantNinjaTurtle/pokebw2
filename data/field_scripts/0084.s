@@ -94,7 +94,7 @@ L_01B8:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     FlagGet 204, 0x8010
     VMStackPush 0x8010
@@ -4286,7 +4286,7 @@ L_3C32:
     VMReturn
 
 L_3C34:
-    SEPlay 1897
+    SEPlay SEQ_SE_SYS_80
     SystemMsg 0x804e, 2
     InfoMsgClose
     VMReturn
@@ -4710,7 +4710,7 @@ L_41D8:
     VMReturn
 
 L_41DA:
-    SEPlay 1897
+    SEPlay SEQ_SE_SYS_80
     SystemMsg 0x804e, 2
     InfoMsgClose
     VMReturn
@@ -4762,7 +4762,7 @@ L_427B:
     VMJump L_4287
 
 L_4287:
-    SEPlay 1899
+    SEPlay SEQ_SE_SYS_82
     WordSetPlayerName 1
     SystemMsg 0x8041, 2
     InfoMsgClose
@@ -4772,7 +4772,7 @@ L_4298:
     // "What are people's favorite things?\nWhat is popular right now?[f000]븁\u0000\nHave you ever wondered about\nthese things?[f000]븁\u0000\nWelcome to Passerby Analytics HQ![f000]븁\u0000\nThis is where you can find\nall the answers.[f000]븁\u0000\n...You have good eyes.\nEyes full of curiosity.[f000]븁\u0000\n...Good! I will specially appoint you\nas a statistician![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 6, 0x8011, 2, 0
     ActorMsgClose
-    SEPlay 1899
+    SEPlay SEQ_SE_SYS_82
     WordSetPlayerName 1
     // "[f000]Ā\u0001\u0001 was appointed\nas a statistician![f000]븁\u0000"
     SystemMsg 7, 2
@@ -7112,7 +7112,7 @@ L_618E:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     FlagGet 204, 0x8010
     VMStackPush 0x8010
@@ -8334,7 +8334,7 @@ L_72FF:
     VMReturn
 
 L_7301:
-    SEPlay 1899
+    SEPlay SEQ_SE_SYS_82
     SystemMsg 0x804d, 2
     InfoMsgClose
     VMReturn
@@ -8855,7 +8855,7 @@ Movement_798C:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hello!\nGreeting is important, isn't it?[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 334, 0x8011, 2, 0
@@ -8911,7 +8911,7 @@ L_7A4F:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hello! Do you always have a feeling\nof gratitude?[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 340, 0x8011, 2, 0
@@ -8974,7 +8974,7 @@ L_7B29:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     FlagGet 391, 0x8010
     VMStackPush 0x8010
@@ -9078,7 +9078,7 @@ L_7C85:
 
 L_7C8B:
     WordSetPlayerName 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorMsg MSGFILE_SCRIPT, 0x8008, 0x8011, 2, 0
     LastKeyWait
@@ -9139,7 +9139,7 @@ L_7D4B:
 
 L_7D51:
     WordSetPlayerName 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorMsg MSGFILE_SCRIPT, 0x8008, 0x8011, 2, 0
     LastKeyWait
@@ -9191,7 +9191,7 @@ L_7DF2:
 
 L_7DF8:
     WordSetPlayerName 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorMsg MSGFILE_SCRIPT, 0x8008, 0x8011, 2, 0
     LastKeyWait
@@ -9243,7 +9243,7 @@ L_7E99:
 
 L_7E9F:
     WordSetPlayerName 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorMsg MSGFILE_SCRIPT, 0x8008, 0x8011, 2, 0
     LastKeyWait
@@ -9286,7 +9286,7 @@ L_7F21:
 
 L_7F27:
     WordSetPlayerName 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorMsg MSGFILE_SCRIPT, 0x8008, 0x8011, 2, 0
     LastKeyWait
@@ -9320,7 +9320,7 @@ L_7F8A:
 
 L_7F90:
     WordSetPlayerName 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorMsg MSGFILE_SCRIPT, 0x8008, 0x8011, 2, 0
     LastKeyWait
@@ -9345,7 +9345,7 @@ L_7FD4:
 
 L_7FDA:
     WordSetPlayerName 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorMsg MSGFILE_SCRIPT, 0x8008, 0x8011, 2, 0
     LastKeyWait
@@ -9356,7 +9356,7 @@ L_7FDA:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     Cmd_020A
     FinishAllEvents
     ActorsUnpauseAll
@@ -9364,7 +9364,7 @@ Script_14:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x40e2
     VMStackPushConst 6
@@ -9374,7 +9374,7 @@ Script_16:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_8056
-    SEPlay 1690
+    SEPlay SEQ_SE_FLD_41
     // "I'm from the Castelia Harlequin Hunt![f000]븁\u0000\nYou found the Passerby Analytics HQ\nHarlequin! All riiight!"
     ParentActorMsg MSGFILE_SCRIPT, 383, 0, 0
     FlagSet 313

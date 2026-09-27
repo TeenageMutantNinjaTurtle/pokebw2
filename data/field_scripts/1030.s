@@ -10,7 +10,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x40d8
     VMStackPushConst 2
@@ -109,7 +109,7 @@ L_016A:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 524, 0
     // "Stur! Stur!"
@@ -123,7 +123,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 524, 0
     // "De deee!"
@@ -137,7 +137,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 524, 0
     // "Rorooog!"
@@ -151,7 +151,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     VMStackPushFlag 368
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -179,7 +179,7 @@ L_020D:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_02EE
     MsgWinCloseAll
-    SEPlay 1589
+    SEPlay SEQ_SE_SHINKA_W025
     SEWait
     WorkSetConst 0x8021, 0
     PlayerGetDir 0x8021

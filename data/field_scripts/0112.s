@@ -9,7 +9,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "By taking a Feeling Check, you can get\na Sweet Heart. That's a good item, right?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -21,7 +21,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8020, 0
     Cmd_01CC 0x8020
@@ -77,7 +77,7 @@ L_00D9:
 Script_3:
     ActorsPauseAll
     WorkSetConst 0x8021, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2761
     VMStackPushConst 0
@@ -108,7 +108,7 @@ Script_3:
     ActorMsgClose
     FadeEx 3, 0, 16, 2
     FadeExWait
-    MEPlay 1937
+    MEPlay SEQ_SE_FLD_145
     MEWait
     FadeEx 3, 16, 0, 2
     FadeExWait
@@ -187,7 +187,7 @@ L_026F:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You can't change the name of a Pokémon\nyou got from someone.[f000]븁\u0000\nBecause the name contains wishes\nof the person who named it!"
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
@@ -199,7 +199,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 505, 0
     // "Detect: Faafoon!"

@@ -18,7 +18,7 @@ Script_10:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Father and daughter...[f000]븁\u0000\nIt's a picture of the two\nProfessor Junipers."
     InfoMsg 19, 2
     LastKeyWait
@@ -29,7 +29,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Adventure Rule No. 1\nThe X Button opens the menu."
     InfoMsg 21, 2
     LastKeyWait
@@ -40,7 +40,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Adventure Rule No. 2\nRecord your progress with SAVE."
     InfoMsg 22, 2
     LastKeyWait
@@ -51,7 +51,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "There are lots of books about Pokémon!"
     InfoMsg 23, 2
     LastKeyWait
@@ -62,7 +62,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "There are lots of materials and\nresearch reports about Pokémon!"
     InfoMsg 24, 2
     LastKeyWait
@@ -73,7 +73,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 388
     VMStackPushConst 0
@@ -110,7 +110,7 @@ L_010F:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WordSetPlayerName 0
     VMStackPushFlag 387
@@ -159,7 +159,7 @@ L_01B8:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 505, 0
     // "Skreet! Skreet!"
@@ -173,7 +173,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 573, 0
     // "Pfoooh!"

@@ -17,7 +17,7 @@
 Script_4:
     ActorsPauseAll
     PlayerGetGPos 0x8021, 0x8022
-    BGMPlay 1087
+    BGMPlay SEQ_BGM_E_CHEREN
     WordSetPlayerName 0
     WordSetLoadRivalName 1
     WorkCmpConst 0x8022, 371
@@ -80,7 +80,7 @@ L_00F7:
     WorkSetConst 0x8023, 0
     ActorCmdExec 8, Movement_047C
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 8
     SEWait
     ActorCmdExec 255, Movement_01BC
@@ -148,7 +148,7 @@ L_020E:
     PlayerGetGPos 0x8021, 0x8022
     ActorAnimationInit 251
     ActorAnimationPlay 0
-    SEPlay 2264
+    SEPlay SEQ_SE_SW_KOBALON_01
     ActorAnimationWait
     SEWait
     VMSleep 30
@@ -160,7 +160,7 @@ L_020E:
     MsgWinCloseAll
     VMSleep 12
     ActorAnimationPlay 1
-    SEPlay 2265
+    SEPlay SEQ_SE_SW_KOBALON_02
     ActorAnimationWait
     SEWait
     ActorAnimationFree
@@ -244,7 +244,7 @@ Movement_03A4:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Not just people and Pokémon...[f000]븁\u0000\nIt's best for all creatures to accept\nand trust one another..."
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -256,7 +256,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Did Cobalion appear in front of you\nmerely by accident?[f000]븁\u0000\nOr to plead with you to solve a problem?[f000]븁\u0000\nUnlike Lord N, I don't have the ability\nto understand the minds of Pokémon.[f000]븁\u0000\nTherefore, I don't know\nwhat that Pokémon is thinking.[f000]븁\u0000\nBut if you can befriend Cobalion,\nit will be a great asset to you[f000]븀\u0000\non your journey."
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -268,7 +268,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Water Absorb and Dry Skin.[f000]븁\u0000\nPokémon with those Abilities love\nWater-type moves and rainy weather. ♪[f000]븁\u0000\nThe Gym Leader in Aspertia City\nis very familiar with Pokémon Abilities,[f000]븀\u0000\nisn't he?[f000]븁\u0000\nOh, do you know him? Then you can ask him\nabout Abilities through the Xtransceiver!"
     ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
@@ -280,7 +280,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Chargestone Cave is great![f000]븁\u0000\nThe Ferroseed I met here\nwere absolutely adorable!"
     ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
@@ -293,7 +293,7 @@ Script_9:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Route 6"
     MsgPlaceSign 14, 3
     MsgPlaceSignClose
@@ -304,7 +304,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Trainer Tips![f000]븁\u0000\n\nYou can register certain items with\nthe Y Button to use them easily![f000]븁\u0000\nLook for a square check box beside\nthe name of a Key Item."
     MsgPlaceSign 15, 0
     MsgPlaceSignClose
@@ -316,7 +316,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Researching the Year's Seasons:\nThe Season Research Lab"
     MsgPlaceSign 16, 2
     MsgPlaceSignClose

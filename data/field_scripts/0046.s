@@ -24,7 +24,7 @@ L_0041:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PokePartyGetMemberByType 0x8008, 2
     WordSetPartyPokeSpecies 0, 0x8008
@@ -128,7 +128,7 @@ Script_3:
     VMStackPushConst 23
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_01F4
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 546, 0
     // "Pwoof..."
@@ -139,7 +139,7 @@ Script_3:
     VMJump L_0210
 
 L_01F4:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 548, 0
     // "Fwish fwish!"
@@ -155,7 +155,7 @@ L_0210:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Some Pokémon might think it's\nsafer to live with humans than try[f000]븀\u0000\nto survive in the harsh wilderness."
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0

@@ -114,7 +114,7 @@ Script_2:
     VMJump L_01B2
 
 L_019E:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Man: Oh, yeah...\nReturns not accepted, got that?"
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
@@ -127,7 +127,7 @@ L_01B2:
     VMHalt
 
 L_01B8:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Man: Son!\nI have a deal for YOU! And for you alone.[f000]븁\u0000\nHere's your chance. I will sell you the\nsecret Pokémon Magikarp...[f000]븀\u0000\nFor an unbelievable $500![f000]븁\u0000\nHow about it? Interested?"
     // "Man: Miss!\nI have a deal for YOU! And for you alone.[f000]븁\u0000\nHere's your chance. I will sell you the\nsecret Pokémon Magikarp...[f000]븀\u0000\nFor an unbelievable $500![f000]븁\u0000\nHow about it? Interested?"
@@ -169,7 +169,7 @@ L_0232:
 L_025D:
     ActorMsgClose
     WordSetPlayerName 0
-    MEPlay 1304
+    MEPlay SEQ_ME_POKEGET
     MoneySub 500
     MoneyWinUpdate
     // "[f000]Ā\u0001\u0000 bought the Magikarp\nfor $500."
@@ -219,7 +219,7 @@ L_0309:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x4108
     VMStackPushConst 4
@@ -238,7 +238,7 @@ Script_3:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_03CB
     MsgWinCloseAll
-    SEPlay 2017
+    SEPlay SEQ_SE_ARDEMO_01
     SEWait
     // "Refreshed!![f000]븁\u0000\nI'm 100% rehydrated!\nI feel better now! Thank you![f000]븁\u0000\nI'll dash to the next bridge...\nNo, I'll leave for the Marine Tube!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -365,7 +365,7 @@ Script_5:
     ActorsPauseAll
     FlagSet 488
     WorkSetConst 0x400a, 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 488, 0
     // "Lunaaan..."
@@ -506,7 +506,7 @@ Script_7:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_06DF
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Ahh...\nSuch magnificent scenery..."
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
@@ -519,7 +519,7 @@ L_06DF:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_070C
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Huh... Wha...\nD-did she just disappear?"
     ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
@@ -528,7 +528,7 @@ L_06DF:
     VMJump L_0720
 
 L_070C:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Ahh...\nSuch magnificent scenery..."
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0

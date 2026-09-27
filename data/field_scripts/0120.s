@@ -26,7 +26,7 @@ L_0057:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x411a
     VMStackPushConst 0
@@ -340,7 +340,7 @@ Movement_0474:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm invited to a party, but the person\nin front of the elevator wants[f000]븀\u0000\nto pat me down.[f000]븁\u0000\nOr is it just my imagination?"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -352,7 +352,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I talked with a lot of people upstairs.\nIt was fun!"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -364,7 +364,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Where are you from?[f000]븁\u0000\nReally? You're from Aspertia City?\nIt's a great place![f000]븀\u0000\nThat outlook is fantastic!"
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0

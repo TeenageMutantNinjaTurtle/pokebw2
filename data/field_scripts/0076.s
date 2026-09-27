@@ -92,7 +92,7 @@ Script_2:
     // "Oh yeah. [f000]Ā\u0001\u0000![f000]븁\u0000\nHere, let's register each other's\nXtransceiver number.[f000]븁\u0000\nWe didn't even need to in Aspertia.\nWe could see each other anytime![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 2, 1, 0, 0
     MsgWinCloseAll
-    SEPlay 2177
+    SEPlay SEQ_SE_SW_LC_NO
     SEWait
     EvCameraInit
     EvCameraUnbind
@@ -110,7 +110,7 @@ Script_2:
     EvCameraRebind
     EvCameraEnd
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 1
     SEWait
     HollowRivalCmd_0263 1
@@ -129,7 +129,7 @@ Movement_0208:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "What can I do for you?\nWould you like to sail to Virbank City?"
     ActorMsg MSGFILE_SCRIPT, 4, 0, 0, 0
@@ -214,7 +214,7 @@ L_030B:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "When you just can't stand it anymore,\nscream at the ocean!"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -230,7 +230,7 @@ Script_5:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_035C
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "That black sailing ship...\nWhat could it be?"
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -239,7 +239,7 @@ Script_5:
     VMJump L_0370
 
 L_035C:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "That black sailing ship...\nWhat could it have been?"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0

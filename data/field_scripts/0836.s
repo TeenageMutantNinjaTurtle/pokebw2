@@ -89,7 +89,7 @@ L_0135:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     EvCameraInit
     EvCameraUnbind
@@ -500,7 +500,7 @@ L_0697:
 
 Script_18:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8022, 78
     WorkSetConst 0x8024, 2
@@ -605,7 +605,7 @@ L_0880:
 L_0898:
     WordSetItemNameEx 0, 0x8022, 0x8024, 0
     WordSetItemNameEx 2, 0x8021, 0x8023, 0
-    MEPlay 1302
+    MEPlay SEQ_ME_ITEM
     // "Gave the [f000]ĉ\u0001\u0000 in exchange for\nthe [f000]ĉ\u0001\u0002!"
     SystemMsg 50, 0
     MEWait
@@ -617,7 +617,7 @@ L_0898:
 
 Script_19:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8022, 91
     WorkSetConst 0x8024, 1
@@ -697,7 +697,7 @@ L_09E7:
 
 Script_20:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8022, 4
     WorkSetConst 0x8024, 20
@@ -780,7 +780,7 @@ L_0B1E:
     MsgWinCloseAll
     WorkSetConst 0x8026, 0
     GameGetVersion 0x8026
-    SEPlay 1908
+    SEPlay SEQ_SE_FLD_133
     VMStackPush 0x8026
     VMStackPushConst 23
     VMStackCmp CMP_EQ
@@ -802,7 +802,7 @@ L_0B63:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "A beautiful tune is spreading\nthroughout the town..."
     InfoMsg 0, 2
@@ -814,7 +814,7 @@ Script_2:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The girl on the bridge...[f000]븁\u0000\nShe's playing a lullaby for all the\nsleeping trains of this town."
     ParentActorMsg MSGFILE_SCRIPT, 86, 0, 0
@@ -826,7 +826,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Trains are so cooooool![f000]븁\u0000\nMy mom brought me, but now she's\ntaking pictures somewhere.[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 79, 0, 0
@@ -839,7 +839,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I wanted to get a picture from\nthis angle![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 77, 0, 0
@@ -852,7 +852,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It's so lively on weekends!\nOh, me? I came here to watch the trains."
     ParentActorMsg MSGFILE_SCRIPT, 74, 0, 0
@@ -864,7 +864,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You can trade lots of items.\nIt was surprisingly fun when I tried!"
     ParentActorMsg MSGFILE_SCRIPT, 75, 0, 0
@@ -876,7 +876,7 @@ Script_13:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "What delicious air!"
     ParentActorMsg MSGFILE_SCRIPT, 76, 0, 0
@@ -888,7 +888,7 @@ Script_14:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The device that changes\nthe direction of trains[f000]븀\u0000\nis called a turntable!"
     ParentActorMsg MSGFILE_SCRIPT, 78, 0, 0
@@ -900,7 +900,7 @@ Script_15:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     RTCGetWeekDay 0x8010
     VMStackPush 0x8010
@@ -939,7 +939,7 @@ L_0CC2:
 
 Script_17:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x4162
     VMStackPushConst 0
@@ -976,7 +976,7 @@ L_0D38:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a subway map of the Unova region.[f000]븁\u0000"
     InfoMsg 88, 2
     MsgWinCloseAll
@@ -994,7 +994,7 @@ Script_6:
 Script_7:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Anville Town\nRolling Out the Steel Rails"
     MsgPlaceSign 87, 1
     MsgPlaceSignClose
@@ -1004,7 +1004,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "A train to Nimbasa City is leaving\nthe station shortly.[f000]븁\u0000\nWould you like to board?"
     ParentActorMsg MSGFILE_SCRIPT, 47, 0, 0
@@ -1048,7 +1048,7 @@ L_0E22:
     FadeOutBlackQ
     FadeWait
     VMSleep 15
-    SEPlay 1971
+    SEPlay SEQ_SE_BDEMO_02
     VMSleep 30
     MapChangeCore 74, 16, 0, 14, 1
     VMJump L_0E5A
@@ -1066,7 +1066,7 @@ L_0E5A:
 
 Script_21:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 365
     VMStackPushConst 0
@@ -1138,7 +1138,7 @@ L_0F54:
 
 Script_22:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 511, 0
     // "Ook!"

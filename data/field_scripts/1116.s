@@ -216,7 +216,7 @@ L_02ED:
     VMSleep 4
     ActorCmdExec 255, Movement_0524
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     VMJump L_0338
 
 L_0322:
@@ -298,7 +298,7 @@ Movement_0408:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "In order to reach the heart of\nthis ship, you need a password.[f000]븁\u0000\nPlease get the password from\nthe members of Team Plasma."
     // "In this ship, the Plasma Frigate,\nyou move around by using warp panels.[f000]븀\u0000\nLook sharp!"
@@ -315,7 +315,7 @@ Script_6:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0467
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma has disbanded...[f000]븁\u0000\nAnd I finally just learned how to\nuse the warp panels to get around![f000]븁\u0000\nI'm so frustrated![f000]븁\u0000\nSo I'm going to stay here and use\nthe warp panels as much as I want!"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -324,7 +324,7 @@ Script_6:
     VMJump L_047B
 
 L_0467:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I just joined Team Plasma, and\nthey won't give me a Pokémon yet.[f000]븁\u0000\nBut even a guy like me has\nsomething useful to share.[f000]븁\u0000\nYou need the Plasma Card\nto enter the password!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -342,7 +342,7 @@ Script_7:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_04B0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Team Plasma has disbanded...[f000]븁\u0000\nAnd I finally just learned how to\nuse the warp panels to get around![f000]븁\u0000\nI'm so frustrated![f000]븁\u0000\nSo I'm going to stay here and use\nthe warp panels as much as I want!"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -351,7 +351,7 @@ Script_7:
     VMJump L_04C4
 
 L_04B0:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I can't remember how to use\nthe warp panels to get around.[f000]븀\u0000\nAnd they won't give me a Pokémon yet...[f000]븁\u0000\nBut even a guy like me has\nsomething useful to share.[f000]븁\u0000\nYou step on four switches\nto remove the barrier!"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0

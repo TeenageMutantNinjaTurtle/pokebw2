@@ -113,7 +113,7 @@ L_0164:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x4135
     VMStackPushConst 2
@@ -137,7 +137,7 @@ L_01A3:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2400
     VMStackPushConst 1
@@ -1149,7 +1149,7 @@ L_1068:
     WordSetNumber 1, 0x8010, 2
     // "[f000]Ā\u0001\u0000 received [f000]ȁ\u0001\u0001 BP!"
     SystemMsg 76, 2
-    MEPlay 1318
+    MEPlay SEQ_ME_BPGET
     MEWait
     MsgWaitAdvance
     MsgWinCloseAll
@@ -1482,7 +1482,7 @@ L_1550:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WorkSetConst 0x802d, 0
 
 L_156A:

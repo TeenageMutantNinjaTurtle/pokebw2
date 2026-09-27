@@ -245,7 +245,7 @@ Script_4:
     WordSetLoadRivalName 1
     PlayerGetGPos 0x8021, 0x8022
     ActorNew 0x8021, 307, 1, 251, 291, 0
-    BGMPlay 1237
+    BGMPlay SEQ_BGM_E_HUE
     // "[f000]Ā\u0001\u0001: Wait up![f000]븁\u0000"
     InfoMsg 0, 2
     ActorCmdExec 255, Movement_0B14
@@ -315,7 +315,7 @@ L_04A9:
     VMSleep 12
     ActorCmdExec 255, Movement_0B0C
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 251
     SEWait
     BGMChangeMap
@@ -338,7 +338,7 @@ Movement_04E4:
 
 Script_12:
     ActorsPauseAll
-    MEPlay 1327
+    MEPlay SEQ_ME_CALL
     // "The Xtransceiver is ringing."
     SystemMsg 33, 2
     MEWait
@@ -358,7 +358,7 @@ Script_12:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Undellaaaaa!"
     ActorMsg MSGFILE_SCRIPT, 11, 0, 0, 1
@@ -375,7 +375,7 @@ Script_6:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0576
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Cynthia is participating in the\nPokémon World Tournament![f000]븀\u0000\nI have to cheer for her!"
     ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
@@ -384,7 +384,7 @@ Script_6:
     VMJump L_058A
 
 L_0576:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Pokémon World Tournament...\nI wonder if Cynthia will participate, too."
     ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
@@ -398,7 +398,7 @@ L_058A:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Riches moved far away,\nand it's a little bit lonelier around here."
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
@@ -410,7 +410,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The sunlight is strong...[f000]븁\u0000\nDepending on the Pokémon, that can be\neither an advantage or a disadvantage.[f000]븁\u0000\nStrong sunlight makes Fire-type moves\nstronger and Water-type moves weaker."
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
@@ -422,7 +422,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Yaaaay! Yaaay!\nUndella Town!!"
     ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
@@ -434,7 +434,7 @@ Script_9:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "We're starting construction to\nfurther develop Undella's resorts.[f000]븁\u0000\nWe just connected to the volcano,\nand we're in awe of nature's power!"
     ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
@@ -446,7 +446,7 @@ Script_13:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Sometimes Jellicent\nfloat into Undella Bay.[f000]븀\u0000\nThey have a reputation for[f000]븀\u0000\nbeing a little...unusual."
     ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
@@ -459,7 +459,7 @@ Script_15:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Undella Town\nA Town of Rippling Waves"
     MsgPlaceSign 19, 1
     MsgPlaceSignClose
@@ -470,7 +470,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Marine Tube Ahead\nThe Walk-Through Aquarium"
     MsgPlaceSign 21, 2
     MsgPlaceSignClose
@@ -481,7 +481,7 @@ Script_2:
 Script_14:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Reversal Mountain Ahead"
     MsgPlaceSign 20, 2
     MsgPlaceSignClose
@@ -491,7 +491,7 @@ Script_14:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WordSetPlayerName 0
     WordSetLoadRivalName 1
@@ -575,7 +575,7 @@ L_07B0:
     VMSleep 24
     ActorCmdExec 255, Movement_0B0C
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 6
     SEWait
     FlagSet 417
@@ -660,7 +660,7 @@ L_08EB:
     VMSleep 24
     ActorCmdExec 255, Movement_0B0C
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 6
     SEWait
     FlagSet 417
@@ -829,7 +829,7 @@ Movement_0B2C:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkCmpConst 0x418f, 0
     VMJumpIf CMP_EQ, L_0B57
@@ -977,7 +977,7 @@ L_0D5E:
     VMSleep 24
     ActorCmdExec 255, Movement_0B0C
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 7
     SEWait
     FlagSet 979

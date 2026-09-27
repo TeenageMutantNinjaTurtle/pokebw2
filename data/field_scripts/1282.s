@@ -101,7 +101,7 @@ L_00E6:
     VMReturn
 
 L_0106:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Waaah! Waaaaah!\nI got lost! Waaaah![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -123,7 +123,7 @@ L_0106:
 L_0144:
     WorkSetConst 0x8024, 0
     WorkSetConst 0x8025, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     FunfestGetGenericInfo 0, 0x8024
     WordSetItemName 0, 0x8024
@@ -169,7 +169,7 @@ L_01BD:
     VMReturn
 
 L_01F7:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMCall L_0220
     VMStackPush 0x8020
@@ -256,7 +256,7 @@ L_035E:
     MsgWinCloseAll
     ItemSub 0x8027, 1, 0x802b
     FunfestMissionBroadcast 32, 0
-    MEPlay 1302
+    MEPlay SEQ_ME_ITEM
     // "Gave the [f000]ĉ\u0001\u0000 in exchange for\nthe [f000]ĉ\u0001\u0001!"
     SystemMsg 11, 0
     MEWait
@@ -347,7 +347,7 @@ L_04AE:
     WorkSetConst 0x802e, 0
     WorkSetConst 0x802f, 0
     WorkSetConst 0x8030, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     FunfestGetItemSaleInfo 0x802e, 0x802f
     MoneyWinDisp 31, 1
@@ -395,7 +395,7 @@ L_0567:
     MsgWinCloseAll
     MoneySub 0x802f
     FunfestMissionBroadcast 33, 0x802e
-    SEPlay 1621
+    SEPlay SEQ_SE_SYS_22
     MoneyWinUpdate
     // "Bought the [f000]ĉ\u0001\u0000\nfor $[f000]ȅ\u0001\u0001."
     SystemMsg 33, 2
@@ -412,7 +412,7 @@ L_0567:
     VMReturn
 
 L_05B3:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMCall L_0602
     VMStackPush 0x8020
@@ -619,7 +619,7 @@ L_08DE:
     WorkSetConst 0x8042, 0
     WorkSetConst 0x8043, 0
     WorkSetConst 0x8044, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "OK, here's the question![f000]븁\u0000\nPlease remember the names\nof these Pokémon.[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 62, 2, 0
@@ -695,7 +695,7 @@ L_0A3B:
     WorkSetConst 0x8045, 0
     WorkSetConst 0x8046, 0
     WorkSetConst 0x8047, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     FunfestGetGenericInfo 0, 0x8046
     FunfestDispSalesmanMessage 67, 6, 0
@@ -740,7 +740,7 @@ L_0AE3:
 
 L_0AFF:
     WorkSetConst 0x8048, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hello!\nIt's a present for Pokémon Trainers![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 85, 0, 0
@@ -776,7 +776,7 @@ L_0B4E:
 
 L_0B90:
     WorkSetConst 0x8049, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Pokémon Trainers!\nHello![f000]븁\u0000\nIt's a bit sudden, but I have a question.\nDo you know this Pokémon?[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 88, 0, 0
@@ -803,7 +803,7 @@ L_0B90:
     VMJump L_0C20
 
 L_0C10:
-    SEPlay 1691
+    SEPlay SEQ_SE_FLD_42
     // "Ah, that's too bad!\nIt's not [f000]ā\u0001\u0000!"
     ParentActorMsg MSGFILE_SCRIPT, 91, 0, 0
     SEWait
@@ -814,7 +814,7 @@ L_0C20:
     VMReturn
 
 L_0C26:
-    SEPlay 1690
+    SEPlay SEQ_SE_FLD_41
     // "Correct!\nThe name is [f000]ā\u0001\u0000![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 92, 0, 0
     SEWait

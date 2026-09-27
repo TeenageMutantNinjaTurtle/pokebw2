@@ -6,7 +6,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 405
     VMStackPushConst 1
@@ -85,7 +85,7 @@ L_0106:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I've come to give fashion tips to\nmy boyfriend..."
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0

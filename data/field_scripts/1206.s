@@ -57,12 +57,12 @@ Script_1:
     ActorMsg MSGFILE_SCRIPT, 10, 0, 1, 1
     ActorMsgClose
     ActorCmdExec 0, Movement_0344
-    SEPlay 1653
+    SEPlay SEQ_SE_FLD_04
     ActorCmdWait
     SEWait
     ActorCmdExec 0, Movement_0344
     VMSleep 4
-    SEPlay 1653
+    SEPlay SEQ_SE_FLD_04
     ActorCmdWait
     SEWait
     // "Ouch, ouch, ouch, ouch, ouch!\nOwwwww![f000]븁\u0000"

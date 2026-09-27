@@ -136,7 +136,7 @@ L_0161:
     .byte 0xea
     .byte 0x03
     VMNop2
-    SEPlay 2227
+    SEPlay SEQ_SE_SW_RELIC_02
     VMSleep 30
     ActorCmdExec 255, Movement_0290
     VMSleep 10
@@ -320,7 +320,7 @@ Script_5:
     WorkSetConst 0, 3
     VMRegSet8 234, 3
     VMNop
-    SEPlay 2228
+    SEPlay SEQ_SE_SW_RELIC_03
     ActorCmdWait
     FadeWait
     VMSleep 15
@@ -342,7 +342,7 @@ Script_6:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_047E
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "An old switch is at your feet!\nStep on it?"
     InfoMsg 2, 2
     YesNoWin 0x8010
@@ -352,14 +352,14 @@ Script_6:
     VMJumpIf CMP_STACK, L_047C
     WorkSetConst 0x8023, 0
     KeysCmd_02B1 0x8023
-    SEPlay 1693
+    SEPlay SEQ_SE_FLD_44
     SEWait
     VMStackPush 0x8023
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0475
     InfoMsgClose_0039
-    SEPlay 2226
+    SEPlay SEQ_SE_SW_RELIC_01
     EvCameraShake 6, 0, 3, 10, 1, 0, 1, 3
     FadeEx 3, 0, 16, 4
     FadeExWait
@@ -400,7 +400,7 @@ Script_7:
     VMStackCmp CMP_LT
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_04C9
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "What is going on\nwith this door?[f000]븁\u0000\nIt leads to a different place\ndepending on whether the[f000]븀\u0000\nsun is up or not!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -409,7 +409,7 @@ Script_7:
     VMJump L_04DD
 
 L_04C9:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "What is going on\nwith this door?[f000]븁\u0000\nIt leads to a different place\ndepending on whether the[f000]븀\u0000\nmoon is out or not!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0

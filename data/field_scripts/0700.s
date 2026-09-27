@@ -22,7 +22,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Shopping Mall Nine\nColorful and wonderful!"
     InfoMsg 27, 2
     LastKeyWait
@@ -33,7 +33,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you want all the TMs, the\nShopping Mall is a must-visit![f000]븁\u0000\nThat's right! You should brag about\ncoming here to the TM Collector[f000]븀\u0000\nin Mistralton City!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -45,7 +45,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "On the first floor, they sell medicines.[f000]븁\u0000\nOn the second floor, they sell TMs\nand different kinds of Mail.[f000]븁\u0000\nOn the third floor, they sell items for\nraising stats and battle items.[f000]븁\u0000\nI really admire Mr. Clyde, the\nPokémon Gym guide, so I'm practicing[f000]븀\u0000\nbeing a guide, too!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -57,7 +57,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I was challenged to a Pokémon\nbattle inside the Shopping Mall![f000]븁\u0000\nThat means it's a place where\nonly the strong survive. Got it?"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -69,7 +69,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The thing I buy most often is the item\nthat raises a Pokémon's HP, called HP Up.[f000]븁\u0000\nThere are also a lot of other items that\ncatch my eye."
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -156,7 +156,7 @@ L_01DB:
     VMJump L_01F5
 
 L_01E1:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I can't wait for evening!\nThat's right! Evening itself is a fever!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -170,7 +170,7 @@ L_01F5:
 
 L_01FB:
     WorkSetConst 0x8022, 180
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It's tonight's special evening deal![f000]븁\u0000\nPoké Balls are on sale![f000]븁\u0000\nFor an a-m-a-z-i-n-g...[f000]븁\u0000\n10% off!\nThey're on sale now!"
     ActorMsg MSGFILE_SCRIPT, 5, 3, 2, 0
@@ -206,7 +206,7 @@ L_0269:
     VMJump L_02D2
 
 L_0294:
-    SEPlay 1621
+    SEPlay SEQ_SE_SYS_22
     MoneySub 0x8022
     MoneyWinUpdate
     SEWait
@@ -238,7 +238,7 @@ L_02EA:
 
 L_02EC:
     WorkSetConst 0x8022, 270
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It's tonight's special evening deal![f000]븁\u0000\nPotions are on sale![f000]븁\u0000\nFor an a-m-a-z-i-n-g...[f000]븁\u0000\n10% off!\nThey're on sale now!"
     ActorMsg MSGFILE_SCRIPT, 6, 3, 2, 0
@@ -274,7 +274,7 @@ L_035A:
     VMJump L_03C3
 
 L_0385:
-    SEPlay 1621
+    SEPlay SEQ_SE_SYS_22
     MoneySub 0x8022
     MoneyWinUpdate
     SEWait
@@ -306,7 +306,7 @@ L_03DB:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The better Trainer you are,\nthe more you'll find yourself thinking![f000]븁\u0000\nThat's so you can help your\nPokémon partners win!"
     ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
@@ -318,7 +318,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If I were to play hide-and-seek with\nmy Pokémon, they'd find me right away![f000]븁\u0000\nBut if I were to get lost,\nI'd be glad they could find me right away!"
     ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
@@ -330,7 +330,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Welcome to Shopping Mall Nine!\nIt's called Nine because it's on Route 9.[f000]븁\u0000\nYou can remember it by thinking of this:\n“Done shopping? Nein!\""
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
@@ -342,7 +342,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My Lampent's not good at\nPokémon battles,[f000]븀\u0000\nbut it's great at making toast!"
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
@@ -354,7 +354,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x4184
     VMStackPushConst 0
@@ -520,7 +520,7 @@ L_06A2:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -535,7 +535,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -550,7 +550,7 @@ Script_13:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -565,7 +565,7 @@ Script_14:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -580,7 +580,7 @@ Script_15:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001

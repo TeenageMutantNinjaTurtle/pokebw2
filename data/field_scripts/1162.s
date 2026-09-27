@@ -6,7 +6,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Ah. I slept very well![f000]븁\u0000\nYou're wearing strange clothes.\nAre you new here?[f000]븁\u0000\nAny bed in this room is available.\nFeel free to use them if you're tired!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -18,7 +18,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WordSetPlayerName 0
     // "The bed looks nice and comfortable.\nWill you take a quick rest?"
     SystemMsg 1, 0
@@ -33,7 +33,7 @@ Script_2:
     FadeEx 3, 0, 16, 2
     FadeExWait
     PokePartyRecoverAll
-    MEPlay 1300
+    MEPlay SEQ_ME_ASA
     MEWait
     FadeEx 3, 16, 0, 2
     FadeExWait

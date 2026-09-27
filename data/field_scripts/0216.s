@@ -31,7 +31,7 @@ Script_4:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerCardHasBadge 0x8008, 5
     VMStackPush 0x8008
@@ -114,7 +114,7 @@ L_015C:
     TrainerCardSaveGymVictoryParty 5
     TrainerCardAddBadge 5
     WordSetPlayerName 0
-    MEPlay 1306
+    MEPlay SEQ_ME_BADGE
     WorkSetConst 0x8021, 0
     TrainerCardGetSex 0x8021
     VMStackPush 0x8021
@@ -254,7 +254,7 @@ L_036A:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerCardHasBadge 0x8008, 5
     VMStackPush 0x8008
@@ -280,7 +280,7 @@ L_03BB:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WorkSetConst 0x8024, 0
     TrainerCardHasBadge 0x8008, 5
     VMStackPush 0x8008

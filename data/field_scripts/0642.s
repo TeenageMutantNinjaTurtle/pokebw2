@@ -54,7 +54,7 @@ Movement_0098:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Route 3"
     MsgPlaceSign 15, 3
     MsgPlaceSignClose
@@ -65,7 +65,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Pokémon Day Care\nWe Take Care of Your Precious Pokémon"
     MsgPlaceSign 17, 2
     MsgPlaceSignClose
@@ -76,7 +76,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Trainer Tips!\n[f000]븁\u0000\nTap the yellow button at the top of a\nPC Box to switch to Group Move mode.[f000]븁\u0000\nIt lets you move groups\nof Pokémon in your PC Boxes."
     MsgPlaceSign 16, 0
     MsgPlaceSignClose
@@ -87,7 +87,7 @@ Script_3:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My Pokémon have been with me\nsince I was little![f000]븁\u0000\nThey are always just\nraring to battle!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -99,7 +99,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You know how many people use\nProtect or Detect in Double Battles?[f000]븀\u0000\nThat's the time to use Feint!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -111,7 +111,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Pokémon Trainer!\nDo you have a Pokémon Egg?"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -153,7 +153,7 @@ L_01A2:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Sometimes they let my big brother\nplay together with Pokémon, too!"
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -170,7 +170,7 @@ Script_9:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_01F7
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Go! Go! People who ride Bicycles\nare so cool!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -179,7 +179,7 @@ Script_9:
     VMJump L_020B
 
 L_01F7:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Don't you have a Bicycle?\nCan you even ride one?"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -197,7 +197,7 @@ Script_10:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_02F1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hey! Come on!\nShow me your Habitat List![f000]븁\u0000\nI want to see all of Route 3's Pokémon!\nThe ones in the tall grass, the ones[f000]븀\u0000\nyou fish for, and the ones on the water![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -246,7 +246,7 @@ L_02EB:
     VMJump L_0305
 
 L_02F1:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Pokémon Trainers sure\nare good at meeting Pokémon."
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0

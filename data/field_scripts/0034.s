@@ -211,7 +211,7 @@ Script_20:
     ActorWalkRoute 255, 12, 6, 0, 8, 1
     ActorCmdWait
     ActorAdd 9
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorSetGPos 9, 12, 0, 2, 1
     SEWait
     ActorCmdExec 255, Movement_08EC
@@ -239,7 +239,7 @@ Script_19:
     MsgWinCloseAll
     ActorWalkRoute 9, 12, 2, 1, 8, 1
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     VMSleep 8
     ActorDelete 9
     SEWait
@@ -445,7 +445,7 @@ L_061F:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Welcome to the Nacrene Museum!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -457,7 +457,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Currently, we're exhibiting a replica\nof the Light Stone, which was[f000]븀\u0000\na legendary Pokémon's dormant form."
     // "Currently, we're exhibiting a replica\nof the Dark Stone, which was[f000]븀\u0000\na legendary Pokémon's dormant form."
@@ -474,7 +474,7 @@ Script_6:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0782
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The library is in the next room.\nBeyond that is the director's room.[f000]븁\u0000\nBy the way, Lenora is a former\nGym Leader!"
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
@@ -483,7 +483,7 @@ Script_6:
     VMJump L_0796
 
 L_0782:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Skeletal specimens are so mysterious...[f000]븁\u0000\nFrom the outside, you can't see their\nfunctional, efficient design.[f000]븁\u0000\nIt's almost as if it is an embodiment of\ntheir former essence... So fascinating!"
     ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
@@ -497,7 +497,7 @@ L_0796:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Rarities from around the world...\nMuseums are packed with adventure!"
     ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
@@ -509,7 +509,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I heard that the director, Lenora,\nis too busy with her research[f000]븀\u0000\non Fossils and Pokémon bones, so she[f000]븀\u0000\ntook a break from being a Gym Leader."
     ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
@@ -521,7 +521,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Perhaps there is a Pokémon that came\nfrom space along with this meteorite."
     ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
@@ -533,7 +533,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Thick Club held by Marowak...[f000]븁\u0000\nJust like how Cubone wears\nits mother's skull,[f000]븀\u0000\nMarowak could also battle with[f000]븀\u0000\nthe bone of someone dear to it..."
     ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
@@ -545,7 +545,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "This is a skeletal specimen from a\nPokémon that flew around the world."
     InfoMsg 30, 2
     LastKeyWait
@@ -556,7 +556,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a Fossil of a Pokémon that was\nprotected by a very hard shell."
     InfoMsg 31, 2
     LastKeyWait
@@ -567,7 +567,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "A meteor that has a space virus\nattached to it."
     InfoMsg 32, 2
     LastKeyWait
@@ -578,7 +578,7 @@ Script_13:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     GameGetVersion 0x8023
     VMStackPush 0x8023
     VMStackPushConst 23
@@ -601,7 +601,7 @@ L_0878:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "A plate with an unknown script carved\ninto it."
     InfoMsg 36, 2
     LastKeyWait
@@ -612,7 +612,7 @@ Script_15:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "A mask that ancient people used to wear\nat festivals."
     InfoMsg 37, 2
     LastKeyWait
@@ -623,7 +623,7 @@ Script_16:
 
 Script_17:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Bones that were once carried as weapons\nby a certain kind of Pokémon."
     InfoMsg 38, 2
     LastKeyWait

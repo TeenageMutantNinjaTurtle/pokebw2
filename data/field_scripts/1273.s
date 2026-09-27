@@ -7,7 +7,7 @@
 Script_1:
     ActorsPauseAll
     WorkSetConst 0x8020, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorCmdExec 0x8011, Movement_0128
     ActorCmdWait
@@ -44,7 +44,7 @@ L_0080:
 Script_2:
     ActorsPauseAll
     WorkSetConst 0x8021, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorCmdExec 0x8011, Movement_0128
     ActorCmdWait

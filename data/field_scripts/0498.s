@@ -12,7 +12,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hello. Excuse me.[f000]븁\u0000\nI'm terribly sorry to ask, but\nwill you buy a bottle of Fresh Water[f000]븀\u0000\nfor $300?"
     ActorMsg MSGFILE_SCRIPT, 0, 0, 2, 0
@@ -124,7 +124,7 @@ L_01B2:
     VMJump L_021B
 
 L_01DD:
-    SEPlay 1621
+    SEPlay SEQ_SE_SYS_22
     MoneySub 300
     MoneyWinUpdate
     SEWait
@@ -146,7 +146,7 @@ L_021B:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The curve here is like...errrrk...\nand then when you pass the curve,[f000]븀\u0000\nwhoooosh, zoooom![f000]븁\u0000\n...Do you understand the dialect\nof Goldenrod City?"
     ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
@@ -158,7 +158,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hmm! That man![f000]븁\u0000\nHe's standing right in the middle of\nthe Skyarrow Bridge... I think."
     ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
@@ -170,7 +170,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Good-bye, Castelia City...\nGood-bye, old me..."
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
@@ -182,7 +182,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x4108
     VMStackPushConst 0
@@ -201,7 +201,7 @@ Script_5:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0347
     MsgWinCloseAll
-    SEPlay 2017
+    SEPlay SEQ_SE_ARDEMO_01
     SEWait
     // "Refreshed!![f000]븁\u0000\nI'm 100% rehydrated!\nI feel better now! Thank you![f000]븁\u0000\nI'll dash to the next bridge!"
     ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0

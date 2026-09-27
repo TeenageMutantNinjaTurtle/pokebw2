@@ -9,7 +9,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Welcome to the\nDriftveil Continental Hotel![f000]븁\u0000\nThere are no open rooms,\nbut feel free to relax in the lobby."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -21,7 +21,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My guilty pleasure is the newest films\nfrom Pokéstar Studios."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -33,7 +33,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Driftveil's gone and changed so much,\nI thought I'd been hornswoggled!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -45,7 +45,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm going to watch... ♪\nThe Pokémon World Tournament! ♪[f000]븁\u0000\nHuh? The Pokémon World Tournament\nis in the southernmost part of town."
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -57,7 +57,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "A terrific Trainer!\nLet me share a training tip with you.[f000]븁\u0000\nDuring a battle with a Trainer, even if\nyour Pokémon's items are taken away,[f000]븀\u0000\ndon't worry.[f000]븁\u0000\nThey will be returned to you safely\nafter the battle.[f000]븁\u0000\n...But disposable items seem\nto disappear."
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0

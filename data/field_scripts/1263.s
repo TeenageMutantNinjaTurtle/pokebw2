@@ -11,7 +11,7 @@ Script_1:
     WorkSetConst 0x8023, 0
     WorkSetConst 0x8024, 0
     WorkSetConst 0x8025, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WorkSetConst 0x8025, 0
     WorkSetConst 0x8023, 1
     MoneyWinDisp 31, 1
@@ -105,7 +105,7 @@ L_01A1:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_027A
     VMSleep 10
-    SEPlay 1655
+    SEPlay SEQ_SE_FLD_06
     SEWait
     MoneySub 0x8022
     MoneyWinUpdate
@@ -132,7 +132,7 @@ L_01A1:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_026E
-    SEPlay 1655
+    SEPlay SEQ_SE_FLD_06
     SEWait
     WordSetItemName 0, 0x8021
     // "Bonus! Another [f000]ĉ\u0001\u0000\ndropped down.[f000]븁\u0000"

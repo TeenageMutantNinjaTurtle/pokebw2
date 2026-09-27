@@ -32,7 +32,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     VMCall L_0064
     FinishAllEvents
     ActorsUnpauseAll
@@ -248,7 +248,7 @@ Script_13:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x404d
     VMStackPushConst 1
@@ -327,7 +327,7 @@ L_042A:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8023, 0
     WorkSetConst 0x8024, 0
@@ -382,7 +382,7 @@ L_04F0:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8025, 0
     WorkSetConst 0x8026, 0
@@ -437,7 +437,7 @@ L_05BE:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Entree Forest connects dreams\nand reality.[f000]븁\u0000\nPeople say dreams come true here.[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 2, 5, 2, 0
@@ -494,7 +494,7 @@ L_0698:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You can go back to the original world\nfrom this place.[f000]븁\u0000\nIf you want to go back to the original\nworld, please come back here."
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0

@@ -30,7 +30,7 @@ L_005C:
 Script_2:
     ActorsPauseAll
     GameGetVersion 0x8020
-    SEPlay 2031
+    SEPlay SEQ_SE_END_02
     EvCameraShake 4, 0, 4, 5, 1, 0, 1, 3
     SEWait
     VMSleep 30
@@ -220,7 +220,7 @@ L_0266:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WorkSetConst 0x8023, 0
     PlayerGetDir 0x8023
     WorkCmpConst 0x8023, 1

@@ -476,7 +476,7 @@ Script_4:
     ActorCmdWait
     // "[f000]Ā\u0001\u0000![f000]븁\u0000\nYou are the true star\nof Pokéstar Studios![f000]븁\u0000\nYou're the shooting star across\nthe night sky that is the silver screen!"
     ActorMsg MSGFILE_SCRIPT, 59, 26, 2, 0
-    MEPlay 1346
+    MEPlay SEQ_ME_POKEWOOD
     MEWait
     MsgWaitAdvance
     // "So that's why we got this\nsmall gift for you."
@@ -578,7 +578,7 @@ Script_5:
     WorkSetConst 0x8026, 0
     WorkSetConst 0x8026, 12
     WorkAdd 0x8026, 0x8025
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x8026, 0, 0
     LastKeyWait
@@ -586,7 +586,7 @@ Script_5:
     VMJump L_0968
 
 L_0954:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Why, if it isn't [f000]Ā\u0001\u0000!\nI thought you were my AD![f000]븁\u0000\nA star as big as you\ncan be in one of my films![f000]븁\u0000\nWould you replace that Lillipup\nand play the Pokémon's part?"
     ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
@@ -608,7 +608,7 @@ Script_6:
     VMStackPushConst 3
     VMStackCmp CMP_LT
     VMJumpIf CMP_STACK, L_09AE
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Well now...[f000]븁\u0000\nI'd like to see a love story\njust like ours!"
     ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
     LastKeyWait
@@ -616,7 +616,7 @@ Script_6:
     VMJump L_09C0
 
 L_09AE:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Hm... What movie to see...[f000]븁\u0000\n[f000]Ā\u0001\u0000 is the one who\nalways acts really well, right?"
     ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
     LastKeyWait
@@ -629,7 +629,7 @@ L_09C0:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 506, 0
     // "Bwoo! Bowoof!"
@@ -643,7 +643,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm a rookie assistant director.[f000]븁\u0000\nI love movies, but\nI'm not good at making them yet.[f000]븁\u0000\nThe director is really strict,\nand he's always getting mad at me.[f000]븁\u0000\nBut...[f000]븁\u0000\nWorking for him is teaching me a lot."
     ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
@@ -655,7 +655,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Special sets and movie props\nare stored inside![f000]븁\u0000\nBefore VFX became so advanced,\nwe actually had to make a lot of things!"
     ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
@@ -667,7 +667,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Man... That director's\ngoing off again...[f000]븁\u0000\nHis films may be pretty good,\nbut there's a fine line between[f000]븀\u0000\ngenius and insanity..."
     ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
@@ -679,7 +679,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Just looking at the posters is exciting!\nWhich movie should I watch today?"
     ParentActorMsg MSGFILE_SCRIPT, 37, 0, 0
@@ -691,7 +691,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You're a Pokéstar Studios\nactor as well, right?[f000]븁\u0000\nA single line from an actor\ncan change an entire film![f000]븁\u0000\nMovie shoots are full of\npossibilities at Pokéstar Studios!"
     ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
@@ -703,7 +703,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm rehearsing right now.[f000]븁\u0000\nIn order to make a good film,\ndoing a lot of work before the shoot[f000]븀\u0000\nis really important!"
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
@@ -715,7 +715,7 @@ Script_13:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "There's a dressing room\ninside this trailer.[f000]븁\u0000\nInside they're doing costume fitting,\nmakeup, and script checks![f000]븁\u0000\nI just finished changing!\nI'm going to give it my best today, too!"
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
@@ -733,7 +733,7 @@ Script_15:
     VMStackPushConst 3
     VMStackCmp CMP_LT
     VMJumpIf CMP_STACK, L_0AE2
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Hey, darling!\nWhat are we going to watch today?"
     ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
     LastKeyWait
@@ -741,7 +741,7 @@ Script_15:
     VMJump L_0AF4
 
 L_0AE2:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "C'mon, darling!\nLet's watch one of [f000]Ā\u0001\u0000's[f000]븀\u0000\nmovies today!"
     ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
     LastKeyWait
@@ -760,7 +760,7 @@ Script_16:
     VMStackPushConst 2
     VMStackCmp CMP_LT
     VMJumpIf CMP_STACK, L_0B30
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hello there! How about a portrait of one\nof Pokéstar Studios' famous stars?[f000]븁\u0000\nRight now...[f000]븁\u0000\nBrycen's is a hot ticket\nwith women and kids.[f000]븁\u0000\nSabrina's is extremely popular with guys![f000]븁\u0000\nHuh? I'm afraid we don't carry one\nof [f000]Ā\u0001\u0000."
     ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0
@@ -773,7 +773,7 @@ L_0B30:
     VMStackPushConst 4
     VMStackCmp CMP_LT
     VMJumpIf CMP_STACK, L_0B5D
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Good day! How about a portrait of one of\nPokéstar Studios' famous stars?[f000]븁\u0000\nRight now...[f000]븁\u0000\nBrycen's is very popular with\nwomen and kids.[f000]븁\u0000\nSabrina's is extremely popular with guys![f000]븁\u0000\nHuh? We've started stocking portraits\nof [f000]Ā\u0001\u0000 recently, but the sales[f000]븀\u0000\nare nothing to write home about."
     ParentActorMsg MSGFILE_SCRIPT, 29, 0, 0
@@ -782,7 +782,7 @@ L_0B30:
     VMJump L_0B71
 
 L_0B5D:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hello there! How about a portrait of one\nof Pokéstar Studios' famous stars?[f000]븁\u0000\nRight now, the most popular is...[f000]븁\u0000\n[f000]Ā\u0001\u0000. There's no doubt about it!\nHey, has anyone ever mentioned[f000]븀\u0000\nyou look kinda like [f000]Ā\u0001\u0000?[f000]븁\u0000\nI'm really jealous!\nI wish I resembled a star like that."
     ParentActorMsg MSGFILE_SCRIPT, 30, 0, 0
@@ -802,7 +802,7 @@ Script_17:
     VMStackPushConst 3
     VMStackCmp CMP_LT
     VMJumpIf CMP_STACK, L_0BAD
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Someday, I'm going to be in pictures,\nbecome a famous actor,[f000]븀\u0000\nand buy a mansion![f000]븁\u0000\nA really big mansion! A huge one!"
     ParentActorMsg MSGFILE_SCRIPT, 32, 0, 0
@@ -811,7 +811,7 @@ Script_17:
     VMJump L_0BC1
 
 L_0BAD:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh! It's the star who was in the movie\nI just watched--[f000]Ā\u0001\u0000![f000]븁\u0000\n[f000]Ā\u0001\u0000, you're a star,\nso you're living in a mansion, right?[f000]븀\u0000\nA really big one? A huge one?"
     ParentActorMsg MSGFILE_SCRIPT, 33, 0, 0
@@ -825,7 +825,7 @@ L_0BC1:
 
 Script_18:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I hear Pokéstar Studios\nmakes horror films as well.[f000]븁\u0000\nMan, who even watches kids'\nstuff like that anyway?!"
     ParentActorMsg MSGFILE_SCRIPT, 34, 0, 0
@@ -837,7 +837,7 @@ Script_18:
 
 Script_19:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hey, I know him![f000]븁\u0000\nHe was the guy yelling “Mama!\"\nduring the movie with ghosts!"
     ParentActorMsg MSGFILE_SCRIPT, 35, 0, 0
@@ -849,7 +849,7 @@ Script_19:
 
 Script_20:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "When I look at this from here,\nI feel like I've become a monster![f000]븁\u0000\nRoar![f000]븁\u0000\nHa ha ha..."
     ParentActorMsg MSGFILE_SCRIPT, 36, 0, 0
@@ -861,7 +861,7 @@ Script_20:
 
 Script_21:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Brilliant actors come to Pokéstar Studios\nfrom all over the world to make movies![f000]븁\u0000\nThat's why the titles of movies are\nin so many different languages!"
     ParentActorMsg MSGFILE_SCRIPT, 31, 0, 0
@@ -873,7 +873,7 @@ Script_21:
 
 Script_22:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Not just anybody can take part\nin filming at Pokéstar Studios.[f000]븁\u0000\nOnly Trainers approved by the owner\ncan participate."
     ParentActorMsg MSGFILE_SCRIPT, 39, 0, 0
@@ -885,7 +885,7 @@ Script_22:
 
 Script_23:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorCmdExec 18, Movement_0E78
     ActorCmdWait
     // "Good grief...\nI've been waiting for three hours...[f000]븁\u0000\nHow long does it take\nto put on makeup anyway?"
@@ -899,7 +899,7 @@ Script_23:
 Script_24:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The captain of the illustrious guard\nprotecting the star Sabrina is me![f000]븁\u0000\nI rushed here when I heard she had\nmade a shocking debut as an actress.[f000]븁\u0000\nBut recently, I've been interested\nin a star named [f000]Ā\u0001\u0000!"
     ParentActorMsg MSGFILE_SCRIPT, 40, 0, 0
@@ -912,7 +912,7 @@ Script_24:
 Script_25:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Recently, films starring\n[f000]Ā\u0001\u0000 are getting a lot of buzz.[f000]븁\u0000\n...Wait? [f000]Ā\u0001\u0000?\nI wish I had something for you to sign!"
     ParentActorMsg MSGFILE_SCRIPT, 41, 0, 0
@@ -925,7 +925,7 @@ Script_25:
 Script_26:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Ciao! Come va?\nAre you used to Pokéstar Studios yet?[f000]븁\u0000\nThe staff here is very international!\nIt's very exciting, isn't it?[f000]븁\u0000\nSee you during a shoot someday!\nBuona giornata!"
     ParentActorMsg MSGFILE_SCRIPT, 42, 0, 0
@@ -938,7 +938,7 @@ Script_26:
 Script_27:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "¡Todos me consideran\nuna niña prodigio de la actuación! ¡Por no[f000]븀\u0000\nhablar de que soy una auténtica estrella![f000]븁\u0000\n¡Mi popularidad y mi destreza como actriz\nestán a años luz de ti, principiante!"
     ParentActorMsg MSGFILE_SCRIPT, 43, 0, 0
@@ -951,7 +951,7 @@ Script_27:
 Script_28:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Excuse me, I'm her manager.[f000]븁\u0000\nWhat she just said is,[f000]븁\u0000\n“People know me as a\nbrilliant child actress![f000]븀\u0000\nNot to mention I’m a top star![f000]븀\u0000\nMy popularity and acting skills[f000]븀\u0000\nare way beyond yours, rookie!\""
     ParentActorMsg MSGFILE_SCRIPT, 44, 0, 0
@@ -964,7 +964,7 @@ Script_28:
 Script_29:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Guten Tag![f000]븁\u0000\nSince you've come to Pokéstar Studios,\nwe suit actors have been busy.[f000]븁\u0000\nBis bald!"
     ParentActorMsg MSGFILE_SCRIPT, 45, 0, 0
@@ -977,7 +977,7 @@ Script_29:
 Script_30:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hey! It's [f000]Ā\u0001\u0000!\nC'mon, give me an autograph!"
     ParentActorMsg MSGFILE_SCRIPT, 46, 0, 0
@@ -990,7 +990,7 @@ Script_30:
 Script_31:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Why, [f000]Ā\u0001\u0000...[f000]븁\u0000\nLet me ask you dis... When will you do me\nda honor of being in one of my films?"
     ParentActorMsg MSGFILE_SCRIPT, 47, 0, 0
@@ -1003,7 +1003,7 @@ Script_31:
 Script_32:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "¡Hola! ¿Qué tal?\nYou've become so famous![f000]븁\u0000\nEven me, the top star in my country,\ncan't compete with you in Unova!"
     ParentActorMsg MSGFILE_SCRIPT, 48, 0, 0
@@ -1015,7 +1015,7 @@ Script_32:
 
 Script_34:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Pokéstar Studios Sound Stage\nNo public access!"
     InfoMsg 62, 2
     LastKeyWait
@@ -1026,7 +1026,7 @@ Script_34:
 
 Script_35:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "This fake building is so\ndetailed it looks real."
     InfoMsg 63, 2
     LastKeyWait
@@ -1037,7 +1037,7 @@ Script_35:
 
 Script_36:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's filled with movie props\nfor shooting films."
     InfoMsg 64, 2
     LastKeyWait
@@ -1048,7 +1048,7 @@ Script_36:
 
 Script_37:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "This detailed model of the Royal Unova\nis a set for a movie."
     InfoMsg 65, 2
     LastKeyWait
@@ -1059,7 +1059,7 @@ Script_37:
 
 Script_38:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a set for a movie.[f000]븁\u0000\nIt's a model of the Skyarrow Bridge\ndone to 1/144 scale."
     InfoMsg 66, 2
     LastKeyWait

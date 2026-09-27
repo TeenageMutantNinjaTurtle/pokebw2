@@ -398,7 +398,7 @@ L_052B:
     VMSleep 4
     ActorCmdExec 20, Movement_0920
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorSetGPos 19, 51, 0, 0, 1
     ActorCmdExec 20, Movement_0900
     VMSleep 4
@@ -479,7 +479,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Waitasecond![f000]븁\u0000\nI dropped something here!\nJust wait until I find it!"
     ParentActorMsg MSGFILE_SCRIPT, 33, 0, 0
@@ -491,7 +491,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Phew...\nI finally made it back here.[f000]븁\u0000\nAre you going farther inside?\nThere's nothing in there but Trainers."
     ParentActorMsg MSGFILE_SCRIPT, 35, 0, 0

@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It must have taken a lot of resolve\nfor Cilan, Chili, and Cress to[f000]븀\u0000\nresign as Gym Leaders and leave[f000]븀\u0000\nto go retrain themselves."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -19,7 +19,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 390
     VMStackPushConst 0
@@ -45,7 +45,7 @@ L_006B:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Fennel left for Castelia City.\nWhat's so great about the city, anyway?"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0

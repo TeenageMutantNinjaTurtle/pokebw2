@@ -51,7 +51,7 @@ L_008C:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2400
     VMStackPushConst 0
@@ -255,10 +255,10 @@ L_0359:
 Script_5:
     ActorsPauseAll
     Plugin3_Cmd1002 0
-    SEPlay 2178
+    SEPlay SEQ_SE_SW_GEEMA_01
     VMSleep 20
     Plugin3_Cmd1003 0
-    SEPlay 2179
+    SEPlay SEQ_SE_SW_GEEMA_02
     VMSleep 25
     WorkSetConst 0x4000, 1
     FinishAllEvents
@@ -271,10 +271,10 @@ Script_6:
     Plugin3_Cmd1001 2
     VMSleep 10
     Plugin3_Cmd1003 1
-    SEPlay 2180
+    SEPlay SEQ_SE_SW_GEEMA_03
     VMSleep 50
     Plugin3_Cmd1002 1
-    SEPlay 2178
+    SEPlay SEQ_SE_SW_GEEMA_01
     WorkSetConst 0x4001, 1
     FinishAllEvents
     ActorsUnpauseAll

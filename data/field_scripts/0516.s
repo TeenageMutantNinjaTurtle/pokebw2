@@ -15,7 +15,7 @@ Script_1:
     WorkSetConst 0x8027, 0
     WorkSetConst 0x8028, 0
     WorkSetConst 0x8029, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2753
     VMStackPushConst 0

@@ -13,7 +13,7 @@
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Route 8"
     MsgPlaceSign 8, 3
     MsgPlaceSignClose
@@ -24,7 +24,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Tubeline Bridge\nUnova's famous railway bridge"
     MsgPlaceSign 10, 2
     MsgPlaceSignClose
@@ -35,7 +35,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Trainer Tips!\n[f000]븁\u0000\nPress SELECT to change the location\nof items in the Bag![f000]븁\u0000\nPoink!"
     MsgPlaceSign 9, 0
     MsgPlaceSignClose
@@ -47,7 +47,7 @@ Script_3:
 Script_4:
     ActorsPauseAll
     RTCGetDayPart 0x8010
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2749
     VMStackPushConst 0
@@ -143,7 +143,7 @@ Script_5:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_024A
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hey there, Pokémon Trainer![f000]븁\u0000\nI'm a member of the Hip Waders![f000]븁\u0000\nJust as the name suggests,\nwe're a fishing team![f000]븁\u0000\nIf you want to learn more, come on\nover to my house on Village Bridge![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 0, 1, 0, 0
@@ -167,7 +167,7 @@ L_0236:
     VMJump L_025E
 
 L_024A:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hey there, Pokémon Trainer![f000]븁\u0000\nI'm a member of the Hip Waders![f000]븁\u0000\nOh, you don't have a fishing rod...[f000]븁\u0000\nMaybe I'll go invite Professor Juniper\nin Nuvema Town instead..."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0

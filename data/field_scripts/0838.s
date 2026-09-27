@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Why do people love trains?[f000]븁\u0000\nMaybe it's the design--the way trains can\nrun so fast and still be so comfortable.[f000]븁\u0000\nAll the essential parts work together...\nSimple, but so beautiful!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -19,7 +19,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Isn't it amazing how,\njust by riding a train,[f000]븀\u0000\nyou can see such a variety of scenery?"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -31,7 +31,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 596, 0
     // "Tulaaa..."

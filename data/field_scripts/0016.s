@@ -9,7 +9,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -24,7 +24,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -39,7 +39,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If I were a Gym Leader,\nI wouldn't have quit...[f000]븀\u0000\nI would've felt like it was a waste."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -51,7 +51,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Catching lots of Pokémon?[f000]븁\u0000\nHaving a lot of Pokémon\nmakes looking at the Pokédex[f000]븀\u0000\nor the PC Box so much fun!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -75,7 +75,7 @@ Script_5:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0106
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Since early times in Sinnoh, people\nmade a bouquet of Gracidea flowers[f000]븀\u0000\nto give someone to show their[f000]븀\u0000\nfeelings of appreciation.[f000]븁\u0000\nIsn't that interesting?[f000]븁\u0000\nBy giving a Gracidea bouquet,\nyou don't have to say a word and[f000]븀\u0000\nsomeone will know how grateful you are.[f000]븁\u0000\nQuite a delightful custom!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -84,7 +84,7 @@ Script_5:
     VMJump L_014E
 
 L_0106:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, Shaymin![f000]븁\u0000\nWhen it comes to Shaymin,\nGracidea flowers are important![f000]븁\u0000\nI have a lot of Gracidea flowers,\nso let me share one with you.[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 2, 8, 0, 0
@@ -106,7 +106,7 @@ L_014E:
     VMJump L_0168
 
 L_0154:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Do you know about Gracidea flowers?[f000]븁\u0000\nSince early times in Sinnoh, people\nmade a bouquet of Gracidea flowers[f000]븀\u0000\nto give someone to show their[f000]븀\u0000\nfeelings of appreciation."
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0

@@ -91,7 +91,7 @@ Script_3:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_OR
     VMJumpIf CMP_STACK, L_0157
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WordSetPlayerName 0
     // "It's too loud!\nShe can't hear your voice!"
     InfoMsg 0, 2
@@ -100,7 +100,7 @@ Script_3:
     VMJump L_01CD
 
 L_0157:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMCall L_0478
     TrainerCardHasBadge 0x8008, 1
@@ -209,7 +209,7 @@ L_02B4:
     TrainerCardSaveGymVictoryParty 1
     TrainerCardAddBadge 1
     WordSetPlayerName 0
-    MEPlay 1306
+    MEPlay SEQ_ME_BADGE
     WorkSetConst 0x8025, 0
     TrainerCardGetSex 0x8025
     VMStackPush 0x8025
@@ -253,7 +253,7 @@ L_030E:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Your Pokémon WANTED this win![f000]븁\u0000\nKeep on going on like this,\nand do all sorts of stuff!"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -265,7 +265,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8020, 178
     VMStackPushFlag 270
@@ -301,7 +301,7 @@ L_0404:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8020, 179
     VMStackPushFlag 271
@@ -391,7 +391,7 @@ L_050F:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "That's a Gym Leader for you!\nShe really brings out the charms[f000]븀\u0000\nof her Pokémon![f000]븁\u0000\nBut she's too wrapped up\nin what she's doing here..."
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -403,7 +403,7 @@ Script_7:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm running the PA![f000]븁\u0000\nI balance the sound in the venue\nso it's easy to hear![f000]븁\u0000\nAre you a Trainer?[f000]븁\u0000\nSo does that mean you're thinking about\nthe type balance of the Pokémon in[f000]븀\u0000\nyour party?"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -419,7 +419,7 @@ Script_8:
     WorkSetConst 0x8027, 0
     PlayerGetGPos 0x8026, 0x8027
     ActorSetGPos 3, 13, 0, 6, 2
-    BGMPlay 1203
+    BGMPlay SEQ_BGM_PW_LAND
     VMStackPush 0x8026
     VMStackPushConst 3
     VMStackCmp CMP_EQ

@@ -8,7 +8,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -23,7 +23,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -38,7 +38,7 @@ Script_2:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "No matter how many times the Elite Four\ndefeat me...[f000]븁\u0000\nI'll keep moving forward\nwith my Pokémon!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -50,7 +50,7 @@ Script_4:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Understand what type of Pokémon\neach of the Elite Four uses.[f000]븀\u0000\nThat is a shortcut for victory!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0

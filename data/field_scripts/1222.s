@@ -46,7 +46,7 @@ Movement_0068:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Rock Peak Chamber"
     InfoMsg 3, 2
     LastKeyWait
@@ -57,7 +57,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It protects this place\nwith the power of rock."
     InfoMsg 4, 2
     LastKeyWait
@@ -68,7 +68,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "The Pokémon statue that exudes the\npower of rock started moving![f000]븁\u0000"
     SystemMsg 0, 2
     InfoMsgClose

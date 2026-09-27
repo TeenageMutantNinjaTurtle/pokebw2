@@ -1622,10 +1622,10 @@ GameEventReturnCode EventEntralinkWarp_Callback(GameEvent *event, u32 *state, vo
     case 0:
         func_ov036_021b5168(Field_GetPlaceName(field));
         if (wk->festMissionStatus != 0) {
-            GFL_SndSEPlay(SEQ_SE_ENTRALINK_WARP);
+            GFL_SndSEPlay(SEQ_SE_FLD_131);
             GameEvent_ChainNext(event, CallFieldMapEntranceOutTransition(gsys, field, 1, 0, 4));
         } else {
-            GFL_SndSEPlay(SEQ_SE_ENTRALINK_WARP);
+            GFL_SndSEPlay(SEQ_SE_FLD_131);
             EncEff_StartEvent(Field_GetEncEff(field), event, 0x25);
         }
         (*state)++;

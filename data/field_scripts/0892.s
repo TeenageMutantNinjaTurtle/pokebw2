@@ -185,7 +185,7 @@ Script_4:
     VMStackPushConst 2
     VMStackCmp CMP_GE
     VMJumpIf CMP_STACK, L_02B3
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "All right... I'm beat![f000]븁\u0000\nWith dependable Pokémon like that,\neven a kid like you can[f000]븀\u0000\nhold your own against an adult. Yup!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -194,7 +194,7 @@ Script_4:
     VMJump L_02C7
 
 L_02B3:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Come on! A kid without a single\nGym Badge continuing on past here?[f000]븁\u0000\nBattle with the Trainers and Pokémon\nin this area, then battle some more!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -216,7 +216,7 @@ Script_3:
     ActorSetGPos 21, 160, 65535, 650, 1
     ActorSetGPos 23, 161, 65535, 650, 1
     PlayerGetGPos 0x8021, 0x8022
-    BGMPlay 1087
+    BGMPlay SEQ_BGM_E_CHEREN
     ActorWalkRoute 23, 161, 658, 4, 8, 0
     VMSleep 4
     ActorWalkRoute 21, 160, 658, 4, 8, 0
@@ -343,7 +343,7 @@ Script_9:
     VMStackPushConst 5
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0531
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "[f000]Ā\u0001\u0001: Help me check Route 20!"
     ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
@@ -352,7 +352,7 @@ Script_9:
     VMJump L_0545
 
 L_0531:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I have to get stronger\nthan Team Plasma!"
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
@@ -366,7 +366,7 @@ L_0545:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorSetGPos 21, 146, 2, 663, 3
     TrainerBGMPlayPush 763
@@ -475,7 +475,7 @@ L_06DB:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Pokémon battles begin\nwhen eyes meet![f000]븀\u0000\nThat's a rule for Trainers!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -488,7 +488,7 @@ Script_11:
 Script_5:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Route 20"
     MsgPlaceSign 5, 3
     MsgPlaceSignClose

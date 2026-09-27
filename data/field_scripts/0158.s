@@ -146,7 +146,7 @@ L_020B:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkCmpConst 0x4160, 3
     VMJumpIf CMP_EQ, L_022C
@@ -211,7 +211,7 @@ L_02D2:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You sure look up to athletes when\nyou're a kid."
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -223,7 +223,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm raising the same Pokémon as\nmy favorite athlete's Pokémon."
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -235,7 +235,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkCmpConst 0x4160, 3
     VMJumpIf CMP_EQ, L_032F
@@ -269,7 +269,7 @@ L_036C:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkCmpConst 0x4160, 3
     VMJumpIf CMP_EQ, L_0391
@@ -303,7 +303,7 @@ L_03CE:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I am sorry.[f000]븁\u0000\nBut you cannot go onto the field\nbecause a game is in progress."
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
@@ -315,7 +315,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I am sorry.[f000]븁\u0000\nBut you cannot go onto the field\nbecause a game is in progress."
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
@@ -327,7 +327,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I am sorry.[f000]븁\u0000\nBut you cannot go onto the field\nbecause a game is in progress."
     ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0

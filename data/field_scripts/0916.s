@@ -92,7 +92,7 @@ L_00FC:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Deliver a lot of cargo quickly!\nThis is Lentimas Cargo Service.[f000]븁\u0000\nWould you like to board the plane\nand fly back to Mistralton City?"
     ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
@@ -126,7 +126,7 @@ L_01C1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Drayden is a Gym Leader,\nso unless you defeat him in a Pokémon[f000]븀\u0000\nbattle, he probably won't talk to you."
     ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
@@ -138,7 +138,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If the season changes,\nthe scenery from the plane changes.[f000]븁\u0000\nIf the climate changes,\nthe local architecture changes!"
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
@@ -150,7 +150,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Why am I on a journey?[f000]븁\u0000\nDo you remember exactly\nwhy you're traveling?"
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
@@ -162,7 +162,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm fine even right by a volcano\nthanks to my li'l Krokorok![f000]븀\u0000\nIt really rocks!"
     ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
@@ -174,7 +174,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 552, 0
     // "Rah feh feh!"
@@ -189,7 +189,7 @@ Script_6:
 Script_7:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Lentimas Town\nWhere Rough Mountain Trails Lead"
     MsgPlaceSign 21, 1
     MsgPlaceSignClose

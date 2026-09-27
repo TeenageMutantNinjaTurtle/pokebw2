@@ -10,7 +10,7 @@ Script_1:
     Random 0x400b, 5
     WorkSetConst 0x8020, 1
     WorkAdd 0x8020, 0x400b
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x8020, 0, 0
     LastKeyWait
@@ -22,7 +22,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This quiz is difficult.[f000]븁\u0000\n“What will happen when you press SELECT\nwhile you are checking the Town Map?\"[f000]븁\u0000\nI don't know, because I don't have one!"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0

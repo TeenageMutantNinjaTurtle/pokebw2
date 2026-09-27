@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Trading Sweet Hearts you receive\nthrough Feeling Checks is one way[f000]븀\u0000\nto get Heart Scales.[f000]븁\u0000\nIf you show off your Pokémon\nto a lady in Driftveil City, you[f000]븀\u0000\ncan get Heart Scales, too."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -23,7 +23,7 @@ Script_2:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_005B
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh! You're a TM Master![f000]븁\u0000\nThank you for showing me\na lot of TMs.[f000]븁\u0000\nUse lots of different moves, and\nbring out your Pokémon's power!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -32,7 +32,7 @@ Script_2:
     VMJump L_02C7
 
 L_005B:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 449
     VMStackPushConst 0

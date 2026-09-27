@@ -26,7 +26,7 @@ L_0051:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_007E
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "But if you change your mind,\nI don't mind asking you to walk[f000]븀\u0000\nwith my Mienfoo again."
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -43,7 +43,7 @@ L_007E:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_01E3
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hey, you!\nWould you walk with my dear Mienfoo?[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 0, 1, 0, 0
@@ -127,7 +127,7 @@ L_01E3:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_02AC
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8025, 0
     // "You've just started walking.\nPlease walk more![f000]븁\u0000\n...Whaaat?[f000]븁\u0000\nYou're not going to say\nyou will quit in the middle of[f000]븀\u0000\nwalking my cute Mienfoo, are you?[f000]븁\u0000"
@@ -167,7 +167,7 @@ L_02A6:
     VMJump L_032A
 
 L_02AC:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh my![f000]븁\u0000\nMy cute Mienfoo\nlooks very tough now.[f000]븁\u0000\nThank you very much\nfor walking my Mienfoo.[f000]븁\u0000\nI'll give this to you\nas a token of my appreciation.[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 3, 1, 0, 0
@@ -488,7 +488,7 @@ Script_2:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_076F
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 619, 0
     // "...Yeep?"
@@ -507,7 +507,7 @@ L_076F:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_07B4
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 619, 0
     // "Yeeeep. ♪"
@@ -526,7 +526,7 @@ L_07B4:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_07F9
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 619, 0
     // "Yeep!"
@@ -537,7 +537,7 @@ L_07B4:
     VMJump L_08B0
 
 L_07F9:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     DebugPrint 0x400e
     WordSetPlayerName 0
@@ -604,7 +604,7 @@ L_08B0:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     VMStackPushFlag 15
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -618,7 +618,7 @@ Script_3:
 L_08DF:
     ActorCmdExec 1, Movement_0A38
     ActorCmdWait
-    SEPlay 1835
+    SEPlay SEQ_SE_SYS_58
     // "Hey, you!"
     ScreamMsg 11, 2
     SEWait
@@ -639,7 +639,7 @@ L_091A:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     VMStackPushFlag 15
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -653,7 +653,7 @@ Script_4:
 L_0949:
     ActorCmdExec 1, Movement_0A50
     ActorCmdWait
-    SEPlay 1835
+    SEPlay SEQ_SE_SYS_58
     // "Hey, you!"
     ScreamMsg 11, 2
     SEWait
@@ -677,7 +677,7 @@ L_09A2:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1835
+    SEPlay SEQ_SE_SYS_58
     ActorCmdExec 1, Movement_0A40
     ActorCmdWait
     // "Hey, you!"

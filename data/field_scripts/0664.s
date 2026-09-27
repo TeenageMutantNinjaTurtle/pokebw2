@@ -87,7 +87,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Sorry to have slowed you down.[f000]븁\u0000\nSome strange things may be happening,\nso be careful on your journey!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -99,7 +99,7 @@ Script_4:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WorkSetConst 0x8021, 0
     RTCGetSeason 0x8021
     VMStackPush 0x8021
@@ -142,7 +142,7 @@ L_01E6:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WorkSetConst 0x8022, 0
     WorkSetConst 0x8023, 0
     RTCGetSeason 0x8022
@@ -191,7 +191,7 @@ L_0287:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This is the Season Research Lab.[f000]븁\u0000\nTwist Mountain, just beyond Mistralton,\nhas snow, depending on the season."
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -203,7 +203,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Some Pokémon change their appearance\ndepending on the season.[f000]븁\u0000\nCould that also be considered\na type of evolution?"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -215,7 +215,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 426
     VMStackPushConst 0
@@ -303,7 +303,7 @@ L_0425:
 
 L_044C:
     WordSetPlayerName 0
-    MEPlay 1304
+    MEPlay SEQ_ME_POKEGET
     // "[f000]Ā\u0001\u0000 received Deerling!"
     SystemMsg 9, 0
     MEWait
@@ -337,7 +337,7 @@ L_04A0:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The temperature and humidity\ninside the case next to me[f000]븀\u0000\nare controlled by a machine."
     ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
@@ -349,7 +349,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 585, 0
     // "Dreee!"
@@ -363,7 +363,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 585, 0
     // "Dreee! Dree dree!"
@@ -377,7 +377,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 585, 0
     // "Dreen! Droooon!"
@@ -391,7 +391,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 585, 0
     // "Droon..."
@@ -429,7 +429,7 @@ Script_14:
     WorkSetConst 0x8037, 3
     WorkSetConst 0x8038, 4
     WorkSetConst 0x8039, 5
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerCardGetBirthDate 0x8027, 0x8028
     RTCGetDate 0x8029, 0x802a

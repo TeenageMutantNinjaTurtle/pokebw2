@@ -26,7 +26,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x4000
     VMStackPushConst 0
@@ -199,7 +199,7 @@ Script_2:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_039B
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm not a mimicker.\nBut mimicking is fun."
     ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
@@ -221,7 +221,7 @@ L_039B:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_046B
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Did that friend mimic me?"
     ActorMsg MSGFILE_SCRIPT, 8, 0, 0, 0
     YesNoWin 0x8010
@@ -282,7 +282,7 @@ Script_3:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_04C1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I want to cherish my originality."
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
@@ -304,7 +304,7 @@ L_04C1:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0591
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Did that friend mimic me?"
     ActorMsg MSGFILE_SCRIPT, 8, 0, 0, 0
     YesNoWin 0x8010
@@ -365,7 +365,7 @@ Script_4:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_05E7
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It's nicer to be mimicked\nthan to mimic somebody!"
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
@@ -387,7 +387,7 @@ L_05E7:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_06B7
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Did that friend mimic me?"
     ActorMsg MSGFILE_SCRIPT, 8, 0, 0, 0
     YesNoWin 0x8010
@@ -444,7 +444,7 @@ L_06B7:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You can use the target's\nlast move during a battle.[f000]븁\u0000\nThat is Mimic![f000]븁\u0000\nMy Galvantula is charming,\neven though it won't learn Mimic!"
     ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
@@ -456,7 +456,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 596, 0
     // "Bzzz... Zzz..."

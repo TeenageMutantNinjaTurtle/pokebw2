@@ -128,7 +128,7 @@ Script_7:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "How long does “wait until everyone\nelse arrives\" mean, exactly?[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 0, 11, 3, 0
     MsgWinCloseAll
@@ -142,7 +142,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, thank you.\nThat's so nice.[f000]븁\u0000\nEven if we said it was for Pokémon, in the\nend, we were doing what we wanted to do.[f000]븁\u0000\nPlease excuse me.\nThere's still something I have to do![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -154,7 +154,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "We're standing watch here\nso our allies don't go AWOL!"
     ActorMsg MSGFILE_SCRIPT, 11, 7, 0, 0
     LastKeyWait
@@ -165,7 +165,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "None shall pass!\nSages' orders!"
     ActorMsg MSGFILE_SCRIPT, 12, 8, 0, 0
     LastKeyWait

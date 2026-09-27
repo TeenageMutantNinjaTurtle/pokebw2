@@ -92,7 +92,7 @@ Script_2:
     ActorsPauseAll
     WorkSetConst 0x8025, 0
     WorkSetConst 0x8026, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8025, 1
 
@@ -724,7 +724,7 @@ L_0BCB:
     ActorCmdWait
     ActorDelete 2
     ActorDelete 3
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 1
     SEWait
     VMReturn

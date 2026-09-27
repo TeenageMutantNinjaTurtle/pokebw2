@@ -9,7 +9,7 @@ Script_1:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0085
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The legendary Pokémon that\ncreated the Unova region, Reshiram.[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -37,7 +37,7 @@ Script_1:
     VMJump L_0099
 
 L_0085:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you have these Pokémon,\nit's so easy to control[f000]븀\u0000\nthe Unova region, right?"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0

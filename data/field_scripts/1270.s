@@ -9,7 +9,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8020, 0
     WorkSetConst 0x8021, 0
@@ -73,7 +73,7 @@ L_00E6:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_015C
     MsgWinCloseAll
-    SEPlay 1621
+    SEPlay SEQ_SE_SYS_22
     ItemCollectorSell 0x8020, 0
     MoneyWinUpdate
     // "Turned over the [f000]ĉ\u0001\u0000 and\nreceived $[f000]ȇ\u0001\u0001!"
@@ -118,7 +118,7 @@ L_0180:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8025, 0
     WorkSetConst 0x8026, 0
@@ -182,7 +182,7 @@ L_0274:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_02EA
     MsgWinCloseAll
-    SEPlay 1621
+    SEPlay SEQ_SE_SYS_22
     ItemCollectorSell 0x8025, 1
     MoneyWinUpdate
     // "Turned over the [f000]ĉ\u0001\u0000\nand received $[f000]ȇ\u0001\u0001!"
@@ -228,7 +228,7 @@ L_0310:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x802a, 0
     WorkSetConst 0x802b, 0
@@ -266,7 +266,7 @@ L_0375:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_042B
     MsgWinCloseAll
-    SEPlay 1621
+    SEPlay SEQ_SE_SYS_22
     ItemCollectorSell 0x802a, 2
     MoneyWinUpdate
     // "Turned over the [f000]ĉ\u0001\u0000\nand received $[f000]ȇ\u0001\u0001!"
@@ -366,7 +366,7 @@ L_051E:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0594
     MsgWinCloseAll
-    SEPlay 1621
+    SEPlay SEQ_SE_SYS_22
     ItemCollectorSell 0x802f, 2
     MoneyWinUpdate
     // "Turned over the [f000]ĉ\u0001\u0000\nand received $[f000]ȇ\u0001\u0001!"
@@ -409,7 +409,7 @@ L_05B8:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8034, 0
     WorkSetConst 0x8035, 0
@@ -473,7 +473,7 @@ L_06A8:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_071E
     MsgWinCloseAll
-    SEPlay 1621
+    SEPlay SEQ_SE_SYS_22
     ItemCollectorSell 0x8034, 3
     MoneyWinUpdate
     // "Turned over the [f000]ĉ\u0001\u0000\nand received $[f000]ȇ\u0001\u0001!"
@@ -518,7 +518,7 @@ L_0742:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8039, 0
     WorkSetConst 0x803a, 0
@@ -582,7 +582,7 @@ L_0836:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_08AC
     MsgWinCloseAll
-    SEPlay 1621
+    SEPlay SEQ_SE_SYS_22
     ItemCollectorSell 0x8039, 4
     MoneyWinUpdate
     // "Turned over the [f000]ĉ\u0001\u0000\nand received $[f000]ȇ\u0001\u0001!"

@@ -13,7 +13,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     RTCallGlobal 2004
@@ -499,7 +499,7 @@ L_0762:
     ActorCmdExec 0, Movement_0A40
     ActorCmdExec 255, Movement_0A4C
     ActorCmdWait
-    MEPlay 1300
+    MEPlay SEQ_ME_ASA
     MEWait
     WorkGet 0x8034, 0x8022
     WorkAdd 0x8034, 1
@@ -723,7 +723,7 @@ Script_2:
     WorkSetConst 0x8038, 0
     WorkSetConst 0x8039, 0
     WorkSetConst 0x803a, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     Cmd_01F5 0x803a
     WorkSetConst 0x8039, 0
     VMStackPush 0x803a

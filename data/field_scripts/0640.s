@@ -14,7 +14,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Good afternoon, Trainer![f000]븁\u0000\nThe electric bulletin board also\ndisplays information about mass[f000]븀\u0000\noutbreaks! Be sure to check it!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -26,7 +26,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I love imagining what letter will display\nnext on the electric bulletin board...[f000]븀\u0000\nIt makes me so happy!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0

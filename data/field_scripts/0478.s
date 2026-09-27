@@ -56,7 +56,7 @@ Script_4:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkCmpConst 0x408f, 2
     VMJumpIf CMP_EQ, L_00CA
@@ -227,7 +227,7 @@ L_0353:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "There is a memo stuck to the\nside of the monitor.[f000]븁\u0000\nRead it?"
     SystemMsg 16, 0
     YesNoWin 0x8010

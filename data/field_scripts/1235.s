@@ -40,7 +40,7 @@ L_003A:
     WordSetMoveName 0, 0x8023
     // "It worked perfectly![f000]븁\u0000\nYour Pokémon has forgotten the move\n[f000]ć\u0001\u0000 completely."
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
-    MEPlay 1309
+    MEPlay SEQ_ME_WASURE
     MEWait
     LastKeyWait
     ActorMsgClose
@@ -124,7 +124,7 @@ Script_1:
     ActorsPauseAll
     WorkSetConst 0x8029, 0
     WorkSetConst 0x8021, 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 1
     VMStackPushConst 0
@@ -160,7 +160,7 @@ L_0249:
 Script_2:
     ActorsPauseAll
     WorkSetConst 0x802a, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x802b, 0
     FlagGet 124, 0x802b

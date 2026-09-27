@@ -9,7 +9,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -24,7 +24,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -39,7 +39,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Pokémon with me right now are the\nones that, out of all those I've met so[f000]븀\u0000\nfar, I've taken a particular shine to!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -51,7 +51,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I hear that the bones in the museum\nwere found in Twist Mountain.[f000]븁\u0000\nThe word is you can find a lot of\nother Fossils there, too."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -63,7 +63,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Phew! I just read all the articles\nin Help on the PC!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0

@@ -11,7 +11,7 @@
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "What? That Trainer named Benga is\nAlder's grandson?[f000]븁\u0000\nI should ask Alder in Floccesy Town\nto train me, too."
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -23,7 +23,7 @@ Script_3:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     KeysCmd_02D1 0x8020
     VMStackPush 0x8020
@@ -54,7 +54,7 @@ L_0086:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     KeysCmd_02D1 0x8020
     VMStackPush 0x8020

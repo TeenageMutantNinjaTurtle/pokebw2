@@ -26,7 +26,7 @@ L_004B:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 256
     VMStackPushConst 1
@@ -105,7 +105,7 @@ L_0155:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Watching Pokémon play together\nmakes me really happy..."
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -122,7 +122,7 @@ Script_3:
     VMStackPushConst 23
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_01C4
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 546, 0
     // "Fwoo-ooo-ooosh..."
@@ -133,7 +133,7 @@ Script_3:
     VMJump L_01E0
 
 L_01C4:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 548, 0
     // "Tralalala! ♪"
@@ -154,7 +154,7 @@ Script_4:
     VMStackPushConst 23
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0221
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 546, 0
     // "Cotttooon. ♪"
@@ -165,7 +165,7 @@ Script_4:
     VMJump L_023D
 
 L_0221:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 548, 0
     // "Peti peti!"

@@ -14,7 +14,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8020, 0
     WorkSetConst 0x8021, 0
@@ -130,7 +130,7 @@ Script_2:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_01FF
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Good day!\nMr. Deeoh told me about it![f000]븁\u0000\n[f000]Ā\u0001\u0000, please,\nenter the dressing room,[f000]븀\u0000\nand relax to your heart's content."
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -139,7 +139,7 @@ Script_2:
     VMJump L_0213
 
 L_01FF:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Only special stars approved\nby our boss are allowed into[f000]븀\u0000\nthis special dressing room.[f000]븁\u0000\nA brat like you has no business here.\nScram! Get out of here!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -159,7 +159,7 @@ Script_8:
     VMStackPushConst 4
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_024F
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Whaugh! [f000]Ā\u0001\u0000![f000]븁\u0000\nThanks as always for your hard work!\nI'm putting my whole heart and soul[f000]븀\u0000\ninto my guard duty and making sure[f000]븀\u0000\nnot even a single Joltik will get through."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -168,7 +168,7 @@ Script_8:
     VMJump L_0263
 
 L_024F:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Heh heh heh...[f000]븁\u0000\nYou see, this is the dressing room\nfor an amazing beauty scouted[f000]븀\u0000\nfrom the something-or-other region.[f000]븁\u0000\nI wonder what's going on inside..."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -182,7 +182,7 @@ L_0263:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Pokéstar Studios movies are shot\nusing rental Pokémon, right?[f000]븁\u0000\nDoes this mean my little\nLillipup can't be in the movies?[f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 4, 5, 5, 0
     MsgWinCloseAll
@@ -196,7 +196,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 618, 0
     // "..."
@@ -215,7 +215,7 @@ Script_5:
     WorkSetConst 0x8022, 0
     WorkSetConst 0x8022, 7
     WorkAdd 0x8022, 0x400f
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x8022, 0, 0
     LastKeyWait
@@ -261,7 +261,7 @@ L_036C:
     VMJump L_0378
 
 L_0378:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ParentActorMsg MSGFILE_SCRIPT, 0x8023, 0, 0
     LastKeyWait
@@ -273,7 +273,7 @@ L_0378:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm the VFX specialist![f000]븁\u0000\nYou've seen those green screens\nin the soundstage, right?[f000]븁\u0000\nImages filmed in front of them\nare turned into impressive[f000]븀\u0000\nmovies using computers!"
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0

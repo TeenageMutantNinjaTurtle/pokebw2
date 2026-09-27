@@ -8,7 +8,7 @@
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Yo! Traveling Trainer![f000]븁\u0000\nBring a strong Pokémon\nto smash the challenge rock!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -20,7 +20,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Forest paths were created by\nthe Pokémon that often walk there.[f000]븁\u0000\nIf you walk the paths, sometimes\nyou can feel like a Pokémon yourself."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -32,7 +32,7 @@ Script_4:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     VMStackPushFlag 2760
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -140,7 +140,7 @@ L_01B0:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Pinwheel Forest\nDid you remember to pack an Antidote?"
     MsgPlaceSign 5, 3
     MsgPlaceSignClose

@@ -92,7 +92,7 @@ L_0144:
     ActorCmdExec 2, Movement_0C9C
     ActorCmdExec 255, Movement_0CA4
     ActorCmdWait
-    SEPlay 1391
+    SEPlay SEQ_SE_RECOVERY
     SEWait
     PokePartyRecoverAll
     ActorCmdExec 2, Movement_0C8C
@@ -143,7 +143,7 @@ L_0213:
     // "Let's heal those hard-working Pokémon![f000]븁\u0000\n[f000]ā\u0001\u0001!\nYou did a great job for [f000]Ā\u0001\u0000![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 12, 2, 0, 0
     MsgWinCloseAll
-    SEPlay 1391
+    SEPlay SEQ_SE_RECOVERY
     SEWait
     PokePartyRecoverAll
     // "Meeting Pokémon and people you\nnever would have met otherwise[f000]븀\u0000\nis truly one of the great things[f000]븀\u0000\nabout traveling!"
@@ -224,7 +224,7 @@ L_0358:
     VMStackCmp CMP_LE
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_0399
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Alder: He's a lively one,\neven for MY grandson![f000]븁\u0000\nI'll explain what he was\ntalking about.[f000]븁\u0000\nHe challenged a place called\nthe White Treehollow, which[f000]븀\u0000\nappeared in White Forest.[f000]븁\u0000\nYou'll find out what kind of\nplace it is if you go there.[f000]븁\u0000\nAn ordinary Trainer, however,\ncan't make it to where he is.[f000]븁\u0000\nSo that's the story!\nIf you'd like, you should take[f000]븀\u0000\nthe challenge as well."
     // "Alder: He's a lively one,\neven for MY grandson![f000]븁\u0000\nI'll explain what he was\ntalking about.[f000]븁\u0000\nHe challenged a place called\nthe Black Tower, which[f000]븀\u0000\nappeared in Black City.[f000]븁\u0000\nYou'll find out what kind of\nplace it is if you go there.[f000]븁\u0000\nAn ordinary Trainer, however,\ncan't make it to where he is.[f000]븁\u0000\nSo that's the story!\nIf you'd like, you should take[f000]븀\u0000\nthe challenge as well."
@@ -238,7 +238,7 @@ L_0399:
     VMStackPushConst 10
     VMStackCmp CMP_GE
     VMJumpIf CMP_STACK, L_03C2
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Alder: When you find something\nyou want to do, you should[f000]븀\u0000\ntake it on without a moment of doubt![f000]븁\u0000\nDon't worry!\nYou have Pokémon by your side, right?[f000]븁\u0000\nIf you're together,\nyou can do things you can't do alone,[f000]븀\u0000\nand your Pokémon can go places[f000]븀\u0000\nthey couldn't go on their own."
     ActorMsg MSGFILE_SCRIPT, 36, 2, 0, 0
@@ -256,7 +256,7 @@ L_03C8:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0405
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Meeting Pokémon and people you\nnever would have met otherwise[f000]븀\u0000\nis truly one of the great things[f000]븀\u0000\nabout traveling!"
     ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
@@ -269,7 +269,7 @@ L_0405:
     VMStackPushConst 1
     VMStackCmp CMP_GT
     VMJumpIf CMP_STACK, L_0432
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Alder: Getting that many\nGym Badges is impressive![f000]븁\u0000\nBut you're only partway\nthrough your journey...[f000]븁\u0000\nWhat does being strong\nreally mean?"
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
@@ -278,7 +278,7 @@ L_0405:
     VMJump L_0446
 
 L_0432:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Alder: Oh!\nYou won a Gym Badge![f000]븁\u0000\nThat's the result of\nunderstanding your Pokémon[f000]븀\u0000\nand bringing out their power!"
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
@@ -294,7 +294,7 @@ L_044C:
     VMHalt
 
 L_0452:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Cmd_02D5 19, 0x400f
     VMStackPush 0x400f
@@ -374,7 +374,7 @@ L_0571:
     ActorMsg MSGFILE_SCRIPT, 20, 2, 0, 0
     MsgWinCloseAll
     VMSleep 16
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorNew 6, 12, 0, 251, 304, 0
     SEWait
     PlayerGetDir 0x8020
@@ -614,7 +614,7 @@ L_093A:
 
 L_0958:
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 251
     SEWait
     PlayerGetGPos 0x8021, 0x8022
@@ -692,7 +692,7 @@ L_0A70:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WordSetPlayerName 0
     WorkSetConst 0x8028, 0
@@ -720,7 +720,7 @@ L_0AE8:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0BCB
     WordSetPlayerName 0
-    MEPlay 1304
+    MEPlay SEQ_ME_POKEGET
     // "[f000]Ā\u0001\u0000 received\n[f000]ā\u0001\u0001!"
     SystemMsg 41, 0
     MEWait
@@ -768,7 +768,7 @@ L_0B96:
 
 L_0BB5:
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 3
     SEWait
     FlagSet 996
@@ -807,7 +807,7 @@ Movement_0C1C:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I think I can get even stronger\nif I learn more about Pokémon![f000]븁\u0000\nThat's why I want to go to many\ndifferent places--so I can learn a lot!"
     ParentActorMsg MSGFILE_SCRIPT, 38, 0, 0
@@ -819,7 +819,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My dream is to strengthen my Pokémon\nhere and become the strongest[f000]븀\u0000\nTrainer in Unova!"
     ParentActorMsg MSGFILE_SCRIPT, 37, 0, 0

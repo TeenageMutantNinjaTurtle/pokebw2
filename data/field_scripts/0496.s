@@ -25,7 +25,7 @@ L_004B:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     SEWait
     ActorCmdExec 255, Movement_006C
     FadeInBlack
@@ -42,7 +42,7 @@ Movement_006C:
     MoveEnd
 
 L_0078:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     Cmd_0230 0x8020, 0
     VMStackPush 0x418f
     VMStackPushConst 2
@@ -234,7 +234,7 @@ Movement_02CC:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorDelete 0
     VMStackPush 0x8000
     VMStackPush 0x8001

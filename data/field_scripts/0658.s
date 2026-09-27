@@ -87,7 +87,7 @@ L_012A:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Route 5\nPerformer Street"
     MsgPlaceSign 58, 3
     MsgPlaceSignClose
@@ -98,7 +98,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Driftveil Drawbridge"
     MsgPlaceSign 59, 2
     MsgPlaceSignClose
@@ -109,7 +109,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Trainer Tips![f000]븁\u0000\n\nThere are different Cases\nfor each type of item.[f000]븁\u0000\nItems are placed automatically in\nthe correct Case by their type.[f000]븁\u0000\nThe name of the Case tells you\nwhat type of items will be kept there.[f000]븁\u0000\nAlso, you can place anything in\nFree Space, no matter what it is.[f000]븁\u0000\nSo you can keep items you often use\nin one place."
     MsgPlaceSign 60, 0
     MsgPlaceSignClose
@@ -121,7 +121,7 @@ Script_3:
 Script_18:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorNew 377, 438, 2, 251, 249, 0
     SEWait
     // "Bianca: Heeey!"
@@ -142,7 +142,7 @@ Script_18:
     PlayerSetSpecialSequence 1
 
 L_01E0:
-    BGMPlay 1088
+    BGMPlay SEQ_BGM_E_BERU
     VMStackPush 0x8021
     VMStackPushConst 438
     VMStackCmp CMP_NE
@@ -258,7 +258,7 @@ L_03E8:
 L_03EA:
     HiddenHollowSet 1, 0, 0, 0
     RTReserveScript 6
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     HiddenHollowCallWarpIn 1
     BGMChangeMap
     WorkSetConst 0x4139, 1
@@ -338,13 +338,13 @@ L_04E3:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0508
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMCall L_0522
     VMJump L_051C
 
 L_0508:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'll keep gathering Berries. Come back\ntomorrow if you want more!"
     ParentActorMsg MSGFILE_SCRIPT, 35, 0, 0
@@ -513,7 +513,7 @@ L_0745:
     VMJump L_08F8
 
 L_0770:
-    SEPlay 1621
+    SEPlay SEQ_SE_SYS_22
     MoneySub 0x8026
     MoneyWinUpdate
     SEWait
@@ -634,7 +634,7 @@ L_0910:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerCardHasBadge 0x8024, 3
     VMStackPush 0x8024
@@ -651,7 +651,7 @@ Script_5:
     VMJump L_09D3
 
 L_0959:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 281
     VMStackPushConst 0
@@ -1033,7 +1033,7 @@ Script_6:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0F41
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorCmdExec 9, Movement_0E10
     ActorCmdWait
     // "Am I going to lose to the heartbreaker?\nI have a girlfriend!"
@@ -1043,7 +1043,7 @@ Script_6:
     VMJump L_0F5F
 
 L_0F41:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorCmdExec 9, Movement_0E58
     ActorCmdWait
@@ -1059,7 +1059,7 @@ L_0F5F:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Because it's a battle, one person has\nto win and one person has to lose.[f000]븁\u0000\nI wish my boyfriend could just enjoy\nthe battle and not worry about losing.[f000]븀\u0000\nSometimes he gets too serious."
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
@@ -1071,7 +1071,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "There seems to be a lot to think about,\nbut it looks really fun!"
     ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
@@ -1083,7 +1083,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Battling with three Pokémon.\nThat itself makes me very excited!"
     ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
@@ -1095,7 +1095,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Triple Battle and\nRotation Battle...[f000]븁\u0000\nThere are various styles of\nPokémon battling."
     ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
@@ -1107,7 +1107,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Trainer called Charles\nis quite tough to beat.[f000]븁\u0000\nIf you have four Gym Badges,\nyou might be a match for him."
     ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
@@ -1119,7 +1119,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "There are so many different Pokémon,\nit's difficult to decide which ones[f000]븀\u0000\nto battle with."
     ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
@@ -1131,7 +1131,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "There are a lot of Pokémon.\nSo I like this!"
     ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0
@@ -1143,7 +1143,7 @@ Script_13:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Looking at this kind of battle\nmakes me curious about the[f000]븀\u0000\nPokémon World Tournament.[f000]븀\u0000\nI hear it will be held in Driftveil City."
     ParentActorMsg MSGFILE_SCRIPT, 29, 0, 0
@@ -1155,7 +1155,7 @@ Script_14:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The drawbridge goes up\nwhen a ship needs to pass.[f000]븁\u0000\nThen, the Pokémon that are resting\non the bridge fly away all at once!"
     ParentActorMsg MSGFILE_SCRIPT, 37, 0, 0
@@ -1167,7 +1167,7 @@ Script_15:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 435
     VMStackPushConst 0
@@ -1281,7 +1281,7 @@ Script_19:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_12D8
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerFlagGet 256, 0x8010
     VMStackPush 0x8010
@@ -1342,7 +1342,7 @@ L_12D2:
     VMJump L_12EC
 
 L_12D8:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hum fiercely! My battle song!\nBattle fiercely! My Pokémon![f000]븁\u0000\nHuh?\nYou don't have a Prop Case, do you?[f000]븀\u0000\nThen I won't battle you!"
     ParentActorMsg MSGFILE_SCRIPT, 38, 0, 0
@@ -1356,7 +1356,7 @@ L_12EC:
 
 Script_20:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "In hot summer, I want to cool down\nwith Water-type Pokémon.[f000]븁\u0000\nOn the other hand, in cold winter,\nI want to warm up with Fire-type Pokémon."
     ParentActorMsg MSGFILE_SCRIPT, 43, 0, 0
@@ -1368,7 +1368,7 @@ Script_20:
 
 Script_21:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "A Pokémon you are proud of\nwins with your favorite move![f000]븁\u0000\nThat's when a Trainer definitely smiles."
     ParentActorMsg MSGFILE_SCRIPT, 44, 0, 0

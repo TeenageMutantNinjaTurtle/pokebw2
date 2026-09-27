@@ -75,7 +75,7 @@ L_0116:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Reversal Mountain... I wonder...\nCould a Magma Stone be in there?[f000]븁\u0000\nHave you heard of it?\nThey say a Magma Stone was found[f000]븀\u0000\nin a volcano in the distant Sinnoh region.[f000]븁\u0000\nApparently, it had something\nto do with Heatran!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0

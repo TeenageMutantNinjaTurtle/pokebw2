@@ -62,7 +62,7 @@ L_00BD:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2400
     VMStackPushConst 0
@@ -279,10 +279,10 @@ Script_5:
     ActorsPauseAll
     VMSleep 5
     Plugin3_Cmd1013
-    SEPlay 2198
+    SEPlay SEQ_SE_SW_RENBU_01
     VMSleep 60
     Plugin3_Cmd1014 0
-    SEPlay 2199
+    SEPlay SEQ_SE_SW_RENBU_02
     VMSleep 20
     WorkSetConst 0x4000, 1
     FinishAllEvents
@@ -296,7 +296,7 @@ Script_6:
     ActorCmdExec 255, Movement_043C
     ActorCmdWait
     Plugin3_Cmd1014 1
-    SEPlay 2200
+    SEPlay SEQ_SE_SW_RENBU_03
     VMSleep 30
     Plugin3_Cmd1016
     VMSleep 30
@@ -304,7 +304,7 @@ Script_6:
     ActorCmdWait
     VMSleep 10
     Plugin3_Cmd1015
-    SEPlay 2202
+    SEPlay SEQ_SE_SW_RENBU_05
     VMSleep 5
     WorkSetConst 0x4001, 1
     FinishAllEvents

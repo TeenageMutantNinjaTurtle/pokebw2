@@ -50,7 +50,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Reversal Mountain Ahead"
     MsgPlaceSign 0, 2
     MsgPlaceSignClose

@@ -1234,7 +1234,7 @@ Script_17:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     .byte 0xed
     .byte 0x03
@@ -1400,7 +1400,7 @@ L_06EE:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     .byte 0xed
     .byte 0x03
@@ -1569,7 +1569,7 @@ L_07BF:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     .byte 0xed
     .byte 0x03
@@ -1734,7 +1734,7 @@ L_0890:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     .byte 0xed
     .byte 0x03
@@ -1898,7 +1898,7 @@ L_0961:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Tee hee hee... A Trainer who battles\nlooking for the password.[f000]븁\u0000\nEven if you win a battle,\nyou won't necessarily get the answer.[f000]븁\u0000\nYou might get something else, though."
     ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
@@ -1910,7 +1910,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     .byte 0xed
     .byte 0x03
@@ -2074,7 +2074,7 @@ L_0A4E:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     .byte 0xed
     .byte 0x03

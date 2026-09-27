@@ -50,7 +50,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin8_Cmd1000
     Plugin8_Cmd1002 0, 0x8023
@@ -274,7 +274,7 @@ L_0462:
     FadeWait
     // "...!![f000]븁\u0000"
     SystemMsg 246, 2
-    MEPlay 1340
+    MEPlay SEQ_ME_AVENUE_01
     // "A nice [f000]Ł\u0001\u0000 called\n[f000]ĸ\u0001\u0001[f000]븀\u0000\nwas built!"
     SystemMsg 247, 2
     MEWait
@@ -875,7 +875,7 @@ L_0E5C:
     // "[f000]ĸ\u0001\u0001's\npopularity went up by [f000]Ȃ\u0001\u0005 points![f000]븁\u0000"
     SystemMsg 269, 2
     SEWait
-    SEPlay 2260
+    SEPlay SEQ_SE_SW_JA_EXP
     SEWait
     WordSetNumber 6, 0x8044, 2
     WorkCmpConst 0x8026, 1
@@ -885,7 +885,7 @@ L_0E5C:
 L_0EC4:
     // "...!![f000]븂\u0001<"
     SystemMsg 262, 2
-    MEPlay 1340
+    MEPlay SEQ_ME_AVENUE_01
     // "[f000]ĸ\u0001\u0001 reached\nRank [f000]Ȃ\u0001\u0006!"
     SystemMsg 263, 2
     MEWait
@@ -902,7 +902,7 @@ L_0EE4:
 L_0EF7:
     // "...!![f000]븂\u0001<"
     SystemMsg 262, 2
-    MEPlay 1340
+    MEPlay SEQ_ME_AVENUE_01
     // "[f000]ĸ\u0001\u0001 reached\nRank [f000]Ȃ\u0001\u0006!"
     SystemMsg 263, 2
     MEWait
@@ -921,7 +921,7 @@ L_0EF7:
     FadeInWhite
     FadeWait
     Plugin8_Cmd1007 1, 0, 0x802c, 0
-    MEPlay 1341
+    MEPlay SEQ_ME_AVENUE_02
     // "[f000]ĸ\u0001\u0001\nis now [f000]ĸ\u0001\u0000!"
     SystemMsg 276, 2
     MEWait
@@ -1011,7 +1011,7 @@ L_10B2:
     // "[f000]Ĺ\u0001\u0000's\npopularity went up by [f000]ȃ\u0001\u0007 points![f000]븁\u0000"
     SystemMsg 270, 2
     SEWait
-    SEPlay 2260
+    SEPlay SEQ_SE_SW_JA_EXP
     SEWait
     VMStackPush 0x8045
     VMStackPushConst 1
@@ -1033,7 +1033,7 @@ L_10B2:
     WordSetNumber 8, 0x8046, 4
     // "...!![f000]븂\u0001<"
     SystemMsg 271, 2
-    MEPlay 1341
+    MEPlay SEQ_ME_AVENUE_02
     // "[f000]Ĺ\u0001\u0000 reached\nRank [f000]ȃ\u0001\b!"
     SystemMsg 272, 2
     MEWait
@@ -1405,7 +1405,7 @@ L_17EE:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin8_Cmd1000
     Plugin8_Cmd1002 0, 0x8023
@@ -1797,7 +1797,7 @@ L_1E39:
     VMCall L_1EFA
     FadeInBlack
     FadeWait
-    MEPlay 1340
+    MEPlay SEQ_ME_AVENUE_01
     // "Changed into\n[f000]ĸ\u0001\u0000!"
     SystemMsg 255, 2
     MEWait
@@ -1986,7 +1986,7 @@ L_21C3:
 L_21ED:
     WordSetNumber 0, 0x8026, 2
     Plugin8_Cmd1003 140, 0x8024
-    MEPlay 1342
+    MEPlay SEQ_ME_AVENUE_03
     ActorMsg MSGFILE_SCRIPT, 0x8024, 0x8023, 1, 0
     MEWait
     MsgWaitAdvance
@@ -2676,7 +2676,7 @@ L_2C4D:
     ActorMsg MSGFILE_SCRIPT, 0x8024, 0x8023, 2, 0
     ActorMsgClose
     Plugin8_Cmd1021 0x802d, 0x802c
-    SEPlay 1621
+    SEPlay SEQ_SE_SYS_22
     MoneyWinUpdate
     WordSetPlayerName 0
     // "[f000]Ā\u0001\u0000 paid\n$[f000]ȅ\u0001\u0001![f000]븁\u0000"
@@ -2687,7 +2687,7 @@ L_2C4D:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin8_Cmd1000
     Plugin8_Cmd1002 0, 0x8023
@@ -3008,7 +3008,7 @@ Script_5:
     ActorsPauseAll
     WorkSetConst 0x8053, 0
     WorkSetConst 0x8054, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin8_Cmd1000
     Plugin8_Cmd1002 0, 0x8023
@@ -3185,7 +3185,7 @@ L_349C:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin8_Cmd1000
     Plugin8_Cmd1002 0, 0x8023
@@ -3199,7 +3199,7 @@ Script_6:
     FadeEx 3, 0, 16, 2
     FadeExWait
     PokePartyRecoverAll
-    MEPlay 1300
+    MEPlay SEQ_ME_ASA
     MEWait
     FadeEx 3, 16, 0, 2
     FadeExWait
@@ -3210,7 +3210,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin8_Cmd1000
     Plugin8_Cmd1002 0, 0x8023
@@ -3387,7 +3387,7 @@ L_37B5:
 Script_8:
     ActorsPauseAll
     WorkSetConst 0x8055, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin8_Cmd1000
     Plugin8_Cmd1002 0, 0x8023
@@ -3564,7 +3564,7 @@ L_3ABB:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin8_Cmd1000
     Plugin8_Cmd1002 0, 0x8023
@@ -3672,7 +3672,7 @@ L_3C55:
 Script_10:
     ActorsPauseAll
     WorkSetConst 0x8057, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin8_Cmd1029 0x8057, 0, 0x8023
     Plugin8_Cmd1029 0x8023, 33, 0x802e
@@ -3827,7 +3827,7 @@ Script_11:
     WorkSetConst 0x805a, 0
     WorkSetConst 0x805b, 0
     Plugin8_Cmd1013 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin8_Cmd1029 0x8023, 0, 0x8023
     Plugin8_Cmd1007 8, 255, 0, 0
@@ -4093,7 +4093,7 @@ L_4425:
     WorkAdd 0x802e, 12
     Plugin8_Cmd1003 0x802e, 0x8024
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     MsgPlaceSign 0x8024, 2
     MsgPlaceSignClose
     WorkSetConst 0x805d, 0
@@ -4104,7 +4104,7 @@ L_4425:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin8_Cmd1000
     Plugin8_Cmd1002 0, 0x8023
@@ -4177,7 +4177,7 @@ L_4553:
 Script_14:
     ActorsPauseAll
     WorkSetConst 0x8031, 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin8_Cmd1000
     Plugin8_Cmd1002 0, 0x8023
@@ -4250,7 +4250,7 @@ L_465D:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin8_Cmd1000
     Plugin8_Cmd1002 0, 0x8023

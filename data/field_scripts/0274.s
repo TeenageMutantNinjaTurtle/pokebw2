@@ -26,7 +26,7 @@ Script_2:
     BMHndAudioVisualAnmPlay 0x8020, 0
     BMHndAnmWait 0x8020
     BMReleaseHandle 0x8020
-    SEPlay 1879
+    SEPlay SEQ_SE_FLD_118
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -61,7 +61,7 @@ Script_3:
     VMJump L_00F9
 
 L_00EC:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Words are engraved on the statue:[f000]븁\u0000\n“Four great warriors form\n this Pokémon League.[f000]븁\u0000\n To the southwest is one who\n does not fear the Ghost type.[f000]븁\u0000\n To the southeast is one who\n channels the power of the Fighting type.[f000]븁\u0000\n To the northwest is one who\n has mastered the Dark type.[f000]븁\u0000\n To the northeast is one who\n knows the mind of the Psychic type.[f000]븁\u0000\n If you can defeat these warriors with\n your courage and wisdom,[f000]븀\u0000\n you shall be led to the summit,[f000]븀\u0000\n where the strongest Champion awaits.\""
     InfoMsg 0, 2
     LastKeyWait

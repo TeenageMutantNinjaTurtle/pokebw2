@@ -7,7 +7,7 @@
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Route 16"
     MsgPlaceSign 0, 3
     MsgPlaceSignClose
@@ -18,7 +18,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Marvelous Bridge\nTruly marvelous! And also a bridge!"
     MsgPlaceSign 1, 2
     MsgPlaceSignClose

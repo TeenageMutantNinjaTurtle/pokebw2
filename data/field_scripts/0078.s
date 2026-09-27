@@ -158,7 +158,7 @@ Movement_022C:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     WorkSetConst 0x8021, 0
     WorkSetConst 0x8022, 0
@@ -315,7 +315,7 @@ Movement_0444:
 L_0450:
     MoneySub 1000
     MoneyWinUpdate
-    SEPlay 1621
+    SEPlay SEQ_SE_SYS_22
     SEWait
     FieldSubscreenDisable
     FunfestBGMReturn

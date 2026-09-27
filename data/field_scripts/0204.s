@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Welcome to the Driftveil Luxury Suites.\nI'm so sorry, but we're full.[f000]븁\u0000\nPlease enjoy our lobby."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -19,7 +19,7 @@ Script_1:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Different kinds of Pokémon can learn\ndifferent kinds of moves."
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -31,7 +31,7 @@ Script_3:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 321
     VMStackPushConst 0

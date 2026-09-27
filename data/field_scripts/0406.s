@@ -6,7 +6,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a rock covered with ice.\nTouching it could make you freeze."
     InfoMsg 0, 2
     LastKeyWait

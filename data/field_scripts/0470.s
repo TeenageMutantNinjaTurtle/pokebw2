@@ -86,7 +86,7 @@ Script_13:
     ActorCmdWait
     ActorCmdExec 251, Movement_052C
     ActorCmdWait
-    BGMPlay 1089
+    BGMPlay SEQ_BGM_E_DOCTOR
     ActorCmdExec 251, Movement_0244
     ActorCmdWait
     WorkCmpConst 0x400a, 1
@@ -167,7 +167,7 @@ L_026B:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Do you want to go back to Castelia City?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -186,7 +186,7 @@ Script_1:
     RTReserveScript 4
     FadeOutBlackQ
     FadeWait
-    SEPlay 2007
+    SEPlay SEQ_SE_VDEMO_02
     MapChangeRail 36, 0, 2, 11, 3
     SEWait
     VMJump L_02F4
@@ -204,7 +204,7 @@ L_02F4:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Somehow, coming here gives me power!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -222,7 +222,7 @@ Script_3:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_034F
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Have you heard about this?[f000]븁\u0000\nA rich person was protecting\na Pokémon from bad people here!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -231,7 +231,7 @@ Script_3:
     VMJump L_0363
 
 L_034F:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Have you heard about this?[f000]븁\u0000\nA rich person was protecting\na Pokémon from bad people here!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -245,7 +245,7 @@ L_0363:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I wonder how the Pokémon felt\nwhile it was in that room...[f000]븀\u0000\nIt must have been lonely for a long time."
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -281,7 +281,7 @@ L_03CF:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_03FC
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Th...that... Your Pokémon...\nIs that the Victory Pokémon, Victini?![f000]븁\u0000\nIs it true?\nHave you just kept winning and winning[f000]븀\u0000\nwith Victini's help?[f000]븁\u0000\nI wish I had your luck..."
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -290,7 +290,7 @@ L_03CF:
     VMJump L_0410
 
 L_03FC:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Victory Pokémon, Victini...[f000]븁\u0000\nThey say it can give its Trainer\nincredible power.[f000]븁\u0000\nI wonder who has access\nto that power now..."
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0
@@ -304,7 +304,7 @@ L_0410:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Pokémon follow their Trainers'\norders without question.[f000]븁\u0000\nAnd yet, some people try\nto make Pokémon do bad things!"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -316,7 +316,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Nowadays, there aren't as many tourists\nvisiting here. It's boring...[f000]븁\u0000\nBut if the alternative is guys like\nTeam Plasma, I'm OK with being bored!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -329,7 +329,7 @@ Script_7:
 Script_8:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Two hundred years ago, an ultra-rich\nfamily bought this island.\nThey named it Liberty Garden.\n\nIt's a place where people and Pokémon\ncan live freely."
     MsgPlaceSign 11, 2
     MsgPlaceSignClose
@@ -340,7 +340,7 @@ Script_8:
 Script_9:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Dock 2\nTo board the tour boat, go to Dock 1."
     MsgPlaceSign 12, 2
     MsgPlaceSignClose
@@ -351,7 +351,7 @@ Script_9:
 Script_10:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "This lighthouse shines with the light\nof freedom.[f000]븁\u0000\nOnly authorized personnel may enter."
     MsgPlaceSign 13, 2
     MsgPlaceSignClose

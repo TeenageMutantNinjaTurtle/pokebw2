@@ -10,7 +10,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin6_Cmd1022 0, 0x8010
     VMCall L_0060
@@ -20,7 +20,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin6_Cmd1022 1, 0x8010
     VMCall L_0060
@@ -30,7 +30,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin6_Cmd1022 2, 0x8010
     VMCall L_0060
@@ -49,7 +49,7 @@ L_0060:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     Plugin6_Cmd1018 4, 17, 0x8010
     VMStackPush 0x8010

@@ -7,7 +7,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "I gave the Pokémon a nickname!\nI also let it hold an item![f000]븀\u0000\nSo, please take good care of it!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
     LastKeyWait
@@ -18,7 +18,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Great! We can trade Pokémon using\nwireless communications[f000]븀\u0000\neven when we're apart!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
     LastKeyWait
@@ -29,7 +29,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "He's trading Pokémon right after\nhe came to a foreign place...[f000]븁\u0000\nChildren have the gift to make friends."
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0

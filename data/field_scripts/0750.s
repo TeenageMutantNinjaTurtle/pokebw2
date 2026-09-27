@@ -16,7 +16,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "A town is something\nthat keeps changing..."
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -28,7 +28,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Of course! When you compare\ndifferent things, it's natural to find[f000]븀\u0000\ngood points and bad points!"
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -40,7 +40,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Today, we're dancing for no reason. ♪\nSomeday, we'll disappear for no reason."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0

@@ -134,7 +134,7 @@ L_01B8:
     EvCameraEnd
     ActorCmdExec 7, Movement_0280
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 7
     SEWait
     ActorCmdExec 255, Movement_028C
@@ -191,7 +191,7 @@ Script_2:
     EvCameraMoveTo 9688, 0, 0xed000, 0xc58000, 0, 0x1d48000, 10
     ActorCmdExec 255, Movement_0490
     VMSleep 12
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorAdd 6
     SEWait
     ActorCmdExec 6, Movement_049C
@@ -225,10 +225,10 @@ Script_2:
     // "Stop.[f000]븁\u0000"
     InfoMsg 5, 1
     MsgWinCloseAll
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorAdd 9
     SEWait
-    BGMPlay 1238
+    BGMPlay SEQ_BGM_E_ACHROMA
     ActorCmdExec 9, Movement_04D4
     VMSleep 8
     ActorCmdExec 6, Movement_08BC
@@ -377,7 +377,7 @@ Movement_05BC:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Colress: Trust...\nIt's too much of an unknown factor.[f000]븁\u0000\nBut if believing in your Pokémon\ngives you the courage to stand up[f000]븀\u0000\nto Team Plasma...[f000]븁\u0000\nAnd the courage to help your friends...[f000]븁\u0000\nThen follow them south to the dock!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -417,7 +417,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Water Pledge,\nFire Pledge,[f000]븀\u0000\nand Grass Pledge.[f000]븁\u0000\nWhen combinations of these\nthree moves are used in battle,[f000]븀\u0000\nspecial things happen!"
     ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
@@ -429,7 +429,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My husband can teach some Pokémon the\nultimate moves! I'll tell you their names.[f000]븁\u0000\nThe blazing Fire-type Pokémon:\nCharizard, Typhlosion, Blaziken,[f000]븀\u0000\nInfernape, and Emboar![f000]븁\u0000\nThe restless Water-type Pokémon:\nBlastoise, Feraligatr, Swampert,[f000]븀\u0000\nEmpoleon, and Samurott![f000]븁\u0000\nThe quiet Grass-type Pokémon:\nVenusaur, Meganium, Sceptile,[f000]븀\u0000\nTorterra, and Serperior!"
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
@@ -441,7 +441,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "What kind of Trainers will come?\nWhat kind of battle will it be?"
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
@@ -453,7 +453,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "When battling in front of people,\nit's well known that you should stand[f000]븀\u0000\nyour ground and not dance around.[f000]븁\u0000\nBut I can't resist moves that groove,\nlike Petal Dance, Quiver Dance,[f000]븀\u0000\nFiery Dance, and Dragon Dance.[f000]븁\u0000\nAnd on rare occasions, even Lunar Dance!"
     ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
@@ -465,7 +465,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The crowd will go wild for my Pokémon!"
     ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
@@ -477,7 +477,7 @@ Script_12:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Isn't it wonderful how people\nchallenging themselves helps[f000]븀\u0000\nbring the world together!"
     ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
@@ -489,7 +489,7 @@ Script_13:
 
 Script_15:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "A ship's only really a ship when\nit's crossing an ocean.[f000]븀\u0000\nDocked ships sure look lonely."
     ParentActorMsg MSGFILE_SCRIPT, 34, 0, 0
@@ -501,7 +501,7 @@ Script_15:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "That cave down there\nis the Relic Passage![f000]븁\u0000\nIt was recently discovered,\nbut amazingly, it's...[f000]븁\u0000\nWait? Where was it\nconnected to again?"
     ParentActorMsg MSGFILE_SCRIPT, 33, 0, 0
@@ -514,7 +514,7 @@ Script_16:
 Script_18:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "The Pokémon World Tournament\naka the PWT[f000]븀\u0000\nCall it what you like!"
     MsgPlaceSign 36, 2
     MsgPlaceSignClose
@@ -524,7 +524,7 @@ Script_18:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 135
     VMStackPushConst 0

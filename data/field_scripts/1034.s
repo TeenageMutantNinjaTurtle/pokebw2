@@ -170,7 +170,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Still...this space...[f000]븁\u0000\nIt's hard to put into words, but\nit feels full of something..."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0

@@ -72,7 +72,7 @@ Script_9:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorCmdExec 6, Movement_04DC
     ActorCmdWait
     ActorCmdExec 255, Movement_04E4
@@ -103,7 +103,7 @@ L_0117:
 L_0174:
     VMCall L_03FA
     RTReserveScript 9
-    SEPlay 1672
+    SEPlay SEQ_SE_FLD_23
     FadeOutBlackQ
     FadeWait
     MapChangeCore 148, 14, 0, 5, 1
@@ -111,7 +111,7 @@ L_0174:
     FadeWait
     VMSleep 60
     SEStop
-    SEPlay 1768
+    SEPlay SEQ_SE_FLD_87
     SEWait
     VMJump L_024E
 
@@ -140,7 +140,7 @@ L_01BB:
     UnityTowerSetFloor 0x8025, 0x8024
     WorkSetConst 0x417e, 1
     RTReserveScript 9
-    SEPlay 1672
+    SEPlay SEQ_SE_FLD_23
     FadeOutBlackQ
     FadeWait
     MapChangeCore 149, 10, 0, 5, 1
@@ -148,7 +148,7 @@ L_01BB:
     FadeWait
     VMSleep 60
     SEStop
-    SEPlay 1768
+    SEPlay SEQ_SE_FLD_87
     SEWait
 
 L_0236:
@@ -166,7 +166,7 @@ Script_2:
     WorkSetConst 0x8027, 0
     WorkSetConst 0x8028, 0
     WorkSetConst 0x8029, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     UnityTowerGetStateParam 0, 0x8026
     UnityTowerGetStateParam 2, 0x8028
@@ -211,7 +211,7 @@ L_02EA:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMCall L_0117
     FinishAllEvents
@@ -260,7 +260,7 @@ Script_7:
 
 L_037D:
     WorkSetConst 0x802a, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     UnityTowerGetVisitorParam 0x4000, 0x8010
     VMStackPush 0x8010

@@ -10,7 +10,7 @@ Script_1:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0039
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My flaky fortune-telling says that\nyou'll meet a Pokémon!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -19,7 +19,7 @@ Script_1:
     VMJump L_00CB
 
 L_0039:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 277
     VMStackPushConst 0
@@ -72,7 +72,7 @@ Script_2:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0100
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I wonder if there's a Pokémon that was\ndropped on the ground somewhere..."
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -81,7 +81,7 @@ Script_2:
     VMJump L_0114
 
 L_0100:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It's the worst when you find the Pokémon\nyou were looking for and you don't[f000]븀\u0000\nhave any Poké Balls."
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0

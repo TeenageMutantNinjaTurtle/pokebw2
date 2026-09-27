@@ -25,7 +25,7 @@ L_0045:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I've trained only Fire-type Pokémon,\n'cause they're my favorites![f000]븁\u0000\nThey don't do well against Water-, Rock-,\nor Ground-type Pokémon and moves.[f000]븁\u0000\nBut thinking about how to compensate\nfor that is one of the fun things[f000]븀\u0000\nabout being a Trainer."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -37,7 +37,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Sometimes I look through my PC Box and\npick out an interesting Pokémon to raise![f000]븁\u0000\nThere are so many things you never\nknow until you raise a certain Pokémon."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -49,7 +49,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 504, 0
     // "Skreee!"
@@ -68,7 +68,7 @@ Script_5:
     VMStackPushConst 23
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_00DE
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 546, 0
     // "Fwee-oosh!"
@@ -79,7 +79,7 @@ Script_5:
     VMJump L_00FA
 
 L_00DE:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 548, 0
     // "Fwee lee lee... ♪"

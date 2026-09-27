@@ -28,7 +28,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "There are markings on the wall\nwhere the portrait was hung..."
     InfoMsg 1, 2
     LastKeyWait
@@ -39,7 +39,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Could there be another painting\nbehind the scratches?"
     InfoMsg 2, 2
     LastKeyWait

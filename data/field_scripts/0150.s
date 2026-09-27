@@ -824,7 +824,7 @@ L_0CDF:
     VMCall L_1340
 
 L_0CE5:
-    MEPlay 1300
+    MEPlay SEQ_ME_ASA
     MEWait
     VMStackPush 0x8030
     VMStackPushConst 3

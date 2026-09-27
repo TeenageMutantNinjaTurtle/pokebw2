@@ -58,7 +58,7 @@ Script_2:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerCardHasBadge 0x8008, 4
     VMStackPush 0x8008
@@ -99,7 +99,7 @@ L_014B:
     ActorMsgClose
     TrainerCardSaveGymVictoryParty 4
     TrainerCardAddBadge 4
-    MEPlay 1306
+    MEPlay SEQ_ME_BADGE
     WorkSetConst 0x8022, 0
     TrainerCardGetSex 0x8022
     VMStackPush 0x8022
@@ -190,13 +190,13 @@ L_02B1:
     FadeOutBlack
     Cmd_018D 2
     FadeWait
-    SEPlay 1738
+    SEPlay SEQ_SE_FLD_59
     VMSleep 40
     SEStop
-    SEPlay 1738
+    SEPlay SEQ_SE_FLD_59
     VMSleep 40
     SEStop
-    SEPlay 1738
+    SEPlay SEQ_SE_FLD_59
     RTReserveScript 3
     MapChangeCore 98, 6, 0, 4, 1
     VMJump L_0322
@@ -225,7 +225,7 @@ L_0322:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerCardHasBadge 0x8008, 4
     VMStackPush 0x8008
@@ -277,7 +277,7 @@ Script_4:
     ActorsPauseAll
     WorkSetConst 0x8020, 0
     VMCall L_04B0
-    SEPlay 1740
+    SEPlay SEQ_SE_FLD_61
     SEWait
     VMCall L_04C2
     Cmd_018C 0, 0
@@ -293,7 +293,7 @@ Script_5:
     ActorsPauseAll
     WorkSetConst 0x8020, 1
     VMCall L_04B0
-    SEPlay 1740
+    SEPlay SEQ_SE_FLD_61
     SEWait
     VMCall L_04C2
     Cmd_018C 1, 0
@@ -309,7 +309,7 @@ Script_6:
     ActorsPauseAll
     WorkSetConst 0x8020, 2
     VMCall L_04B0
-    SEPlay 1740
+    SEPlay SEQ_SE_FLD_61
     SEWait
     VMCall L_04C2
     Cmd_018C 2, 0
@@ -325,7 +325,7 @@ Script_7:
     ActorsPauseAll
     WorkSetConst 0x8020, 3
     VMCall L_04B0
-    SEPlay 1740
+    SEPlay SEQ_SE_FLD_61
     SEWait
     VMCall L_04C2
     Cmd_018C 3, 0
@@ -338,7 +338,7 @@ Script_7:
     VMHalt
 
 L_04B0:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WordSetPlayerName 0
     // "[f000]Ā\u0001\u0000 pressed the\nswitch on the elevator!"
     InfoMsg 24, 2
@@ -437,7 +437,7 @@ L_0656:
 Script_8:
     ActorsPauseAll
     WordSetPlayerName 0
-    SEPlay 1740
+    SEPlay SEQ_SE_FLD_61
     // "[f000]Ā\u0001\u0000 pressed the\nswitch on the elevator!"
     InfoMsg 24, 2
     SEWait
@@ -541,7 +541,7 @@ Script_11:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_07C4
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorCmdExec 6, Movement_0744
     TrainerBGMPlayPush 324
@@ -570,7 +570,7 @@ L_07AA:
     VMJump L_07D8
 
 L_07C4:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Clay's awesome!\nHe can just tell if minerals will be there![f000]븁\u0000\nGot it? Another way to say it is\nthat Clay will be wherever[f000]븀\u0000\nthere are oodles of ores!"
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -665,7 +665,7 @@ Script_12:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_096F
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorCmdExec 1, Movement_0744
     TrainerBGMPlayPush 323
@@ -694,7 +694,7 @@ L_0955:
     VMJump L_0983
 
 L_096F:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Have you used the elevator?[f000]븁\u0000\nIf you get on the elevator,\nyou can figure out where you[f000]븀\u0000\nhaven't been, right?"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -762,7 +762,7 @@ Script_13:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0AB7
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorCmdExec 2, Movement_0744
     TrainerBGMPlayPush 321
@@ -791,7 +791,7 @@ L_0A9D:
     VMJump L_0ACB
 
 L_0AB7:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Something distant but close...[f000]븁\u0000\nI'm talking about Clay, who is near here\nbut is rather reserved.[f000]븁\u0000\nSorry... I think you were expecting\nsomething more interesting!"
     ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
@@ -841,7 +841,7 @@ Script_14:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0BB6
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorCmdExec 3, Movement_0744
     TrainerBGMPlayPush 322
@@ -870,7 +870,7 @@ L_0B9C:
     VMJump L_0BCA
 
 L_0BB6:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Driftveil City's Pokémon Gym is soaked in\nthe sweat and tears of the Pokémon that[f000]븀\u0000\nworked so hard to dig it out of the rock.[f000]븀\u0000\nSo...well...it smells kinda funny!"
     ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
@@ -920,7 +920,7 @@ Script_15:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0CB5
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorCmdExec 4, Movement_0744
     TrainerBGMPlayPush 320
@@ -949,7 +949,7 @@ L_0C9B:
     VMJump L_0CC9
 
 L_0CB5:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Drilbur and Excadrill know the move\nDrill Run![f000]븁\u0000\nWhen I order them to use that move,\nI get all wound up!"
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
@@ -999,7 +999,7 @@ Script_16:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0DB4
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorCmdExec 5, Movement_0744
     TrainerBGMPlayPush 319
@@ -1028,7 +1028,7 @@ L_0D9A:
     VMJump L_0DC8
 
 L_0DB4:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Isn't darkness great?[f000]븁\u0000\nIt's the space of dreams where\nyou don't know what's even there!"
     ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
@@ -1078,7 +1078,7 @@ Script_17:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0EB3
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     ActorCmdExec 8, Movement_0744
     TrainerBGMPlayPush 325
@@ -1107,7 +1107,7 @@ L_0E99:
     VMJump L_0EC7
 
 L_0EB3:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Life is filled with pitfalls!\nIf you fall in, do your best to crawl out!"
     ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0

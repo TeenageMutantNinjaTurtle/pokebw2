@@ -54,7 +54,7 @@ L_00BE:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     GameGetVersion 0x8024
     VMStackPush 0x8024
@@ -156,7 +156,7 @@ L_021A:
 
 Script_3:
     ActorsPauseAll
-    MEPlay 1327
+    MEPlay SEQ_ME_CALL
     // "The Xtransceiver is ringing."
     SystemMsg 4, 2
     MEWait

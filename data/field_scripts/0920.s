@@ -9,7 +9,7 @@
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -24,7 +24,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x8000
     VMStackPush 0x8001
@@ -39,7 +39,7 @@ Script_5:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "A cool mind feels no heat!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -79,7 +79,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Hmm?\nAre you going to check the volcano, too?[f000]븁\u0000\nThe volcano here is the same kind of\nvolcano as Stark Mountain in the[f000]븀\u0000\nSinnoh region."
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0

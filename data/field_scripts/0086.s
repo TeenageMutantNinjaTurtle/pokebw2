@@ -16,7 +16,7 @@
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Title “White and Black Dragons\""
     InfoMsg 2, 2
     LastKeyWait
@@ -27,7 +27,7 @@ Script_1:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Title “Sin and Money Stack Up\""
     InfoMsg 3, 2
     LastKeyWait
@@ -38,7 +38,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Title “Ugly Truth\""
     InfoMsg 4, 2
     LastKeyWait
@@ -49,7 +49,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Title “Vanished Hero\""
     InfoMsg 5, 2
     LastKeyWait
@@ -60,7 +60,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Title “Eternal Ideals\""
     InfoMsg 6, 2
     LastKeyWait
@@ -71,7 +71,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Title “Two Beings--A Meeting\nThat Must Occur\""
     InfoMsg 7, 2
     LastKeyWait
@@ -82,7 +82,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2731
     VMStackPushConst 0
@@ -284,7 +284,7 @@ L_03DA:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Currently, we're exhibiting works\nfrom up-and-coming young artists!"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -296,7 +296,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "In Castelia City, the Pokémon Gym\nitself is Burgh's artwork!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -308,7 +308,7 @@ Script_9:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Title “The Recipient\""
     InfoMsg 22, 2
     LastKeyWait
@@ -319,7 +319,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Title “The Moving Pokémon\""
     InfoMsg 23, 2
     LastKeyWait
@@ -330,7 +330,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Title “A Gift\""
     InfoMsg 24, 2
     LastKeyWait

@@ -47,7 +47,7 @@ L_009E:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2754
     VMStackPushConst 1
@@ -85,7 +85,7 @@ L_0111:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 2754
     VMStackPushConst 1

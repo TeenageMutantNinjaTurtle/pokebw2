@@ -115,7 +115,7 @@ Script_13:
 
 Script_14:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You know what troubles me...[f000]븁\u0000\nHow come all of us who were in\nTeam Plasma together--thinking we[f000]븀\u0000\nknew what was right--are now divided[f000]븀\u0000\ninto former Team Plasma members and[f000]븀\u0000\ncontinuing Team Plasma members,[f000]븀\u0000\nboth with opposing points of view?[f000]븁\u0000\nWhere's the line between friend and foe?\nI spend a lot of time asking myself that.[f000]븁\u0000\nAs for you, on this floor, you'll need\nto enter a password to continue on.[f000]븀\u0000\nAnd that password is...[f000]븁\u0000\nHa! You didn't think I was just going\nto tell you the password, did you?[f000]븁\u0000\nYou'll have to figure it out\nfrom the others!"
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -127,7 +127,7 @@ Script_14:
 
 Script_24:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Zinzolin: Beaten again?![f000]븁\u0000\nNo matter!\nTeam Plasma will get the last laugh!"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -148,7 +148,7 @@ Script_15:
     InfoMsg 9, 2
     MsgWinCloseAll
     ActorAdd 10
-    BGMPlayPush 1240
+    BGMPlayPush SEQ_BGM_E_7_SAGE
     PlayerGetGPos 0x8022, 0x8023
     WorkAdd 0x8023, 2
     ActorWalkRoute 10, 0x8022, 0x8023, 1, 16, 0
@@ -196,7 +196,7 @@ Movement_0268:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It looks like it controls the\ntemperature inside the ship."
     SystemMsg 12, 2
     VMStackPushFlag 909
@@ -230,7 +230,7 @@ L_02C9:
 
 Script_17:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a device to control\nthe ship's energy system."
     SystemMsg 13, 2
     VMStackPushFlag 909
@@ -301,7 +301,7 @@ Script_23:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_03D3
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Humph! If you intend to continue,\nstep on the other warp panel.[f000]븁\u0000\nKeep in mind that you're going\nto get beaten up if you do!"
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
@@ -310,7 +310,7 @@ Script_23:
     VMJump L_03F5
 
 L_03D3:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorCmdExec 9, Movement_0754
     ActorCmdWait
     // "What?! You beat Colress?![f000]븁\u0000\nWaaah! I pretended to be strong,\nbut I don't have any Pokémon![f000]븁\u0000"
@@ -353,7 +353,7 @@ Movement_0450:
 
 Script_18:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh, poor Kyurem.\nIt was cruelly forced to work.[f000]븁\u0000\nIt must have felt terrible."
     ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
@@ -365,7 +365,7 @@ Script_18:
 
 Script_19:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "The Plasma Frigate is a ship designed\nto be ecological. It runs on[f000]븀\u0000\nKyurem's ice energy and solar panels.[f000]븁\u0000\nYou've got to keep the environment in\nmind when ruling a region like Unova."
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
@@ -377,7 +377,7 @@ Script_19:
 
 Script_20:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Colress doesn't know N.\nI wonder how he'll react if he meets him."
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
@@ -464,7 +464,7 @@ Script_10:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     VMStackPushFlag 356
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -598,7 +598,7 @@ L_05AF:
     WorkSetConst 0x40fa, 1
     FlagSet 357
     VMJump L_0662
-    SEPlay 2216
+    SEPlay SEQ_SE_SW_PLAZMASHIP_03
     SEWait
     // "The password is not correct."
     SystemMsg 2, 2
@@ -628,7 +628,7 @@ Script_11:
     ActorsPauseAll
     ActorCmdExec 255, Movement_06D4
     ActorCmdWait
-    SEPlay 2221
+    SEPlay SEQ_SE_SW_PLAZMASHIP_08
     ActorCmdExec 255, Movement_06E0
     ActorCmdWait
     SEWait

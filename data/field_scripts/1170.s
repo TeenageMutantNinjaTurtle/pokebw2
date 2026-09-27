@@ -326,7 +326,7 @@ Movement_03D8:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you press the switches, the\nroller coaster's path will change."
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -338,7 +338,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "In other places, roller coasters\nare called jet coasters."
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -354,7 +354,7 @@ Script_15:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0453
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "So, I hear the Gym Leader\nlikes the thrill of this roller coaster."
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -363,7 +363,7 @@ Script_15:
     VMJump L_049B
 
 L_0453:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh my! Did you come here\nlooking for the Gym Leader?[f000]븁\u0000\nI'm sorry, you just missed her.\nShe just left for the Gym.[f000]븁\u0000\nTake this for making it\nall the way here![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -389,7 +389,7 @@ L_049B:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "To ride this roller coaster,\nthe first step is to get in the car.[f000]븁\u0000\nNext comes the platform!\nThere, you can change[f000]븀\u0000\nwhere the coaster is going![f000]븁\u0000\nSometimes you continue by riding\nthe cars of opponents you defeat.[f000]븀\u0000\nThat's how you aim for the back!"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -401,7 +401,7 @@ Script_16:
 
 Script_17:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Elesa's really amazing![f000]븁\u0000\nUsually, you just remodel the Gym,\nbut she built a completely new one![f000]븁\u0000\nElesa's really amazing!"
     ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
@@ -413,7 +413,7 @@ Script_17:
 
 Script_18:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Faster! Faster!\nA speed boost makes you feel great!"
     ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0

@@ -51,7 +51,7 @@ Script_5:
     ActorCmdExec 255, Movement_04C8
     ActorCmdWait
     EvCameraWait
-    BGMPlay 1238
+    BGMPlay SEQ_BGM_E_ACHROMA
     ActorCmdExec 0, Movement_04D0
     ActorCmdWait
     // "Colress: Welcome![f000]븁\u0000"
@@ -102,7 +102,7 @@ Movement_0190:
     MoveEnd
 
 L_019C:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "It looks like you're ready, then!\nOK! Let us begin![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 4, 0, 0, 0
@@ -210,7 +210,7 @@ L_0319:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_0356
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "But you have shown me the\npotential of your approach.[f000]븁\u0000\nTo me, whether Team Plasma wins\nor whether you win will decide[f000]븀\u0000\nhow the relationship between[f000]븀\u0000\npeople and Pokémon should be![f000]븁\u0000\nSo where will this be settled?[f000]븁\u0000\nStep on the warp panel on the other\nside of the room where Kyurem is[f000]븀\u0000\nbeing held.[f000]븁\u0000\nGood luck in your battle!"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -219,7 +219,7 @@ L_0319:
     VMJump L_0418
 
 L_0356:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 429
     VMStackPushConst 0

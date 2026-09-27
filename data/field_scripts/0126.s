@@ -144,7 +144,7 @@ L_023A:
 
 Script_1:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerCardHasBadge 0x8008, 3
     VMStackPush 0x8008
@@ -245,7 +245,7 @@ L_039A:
     ActorMsgClose
     TrainerCardSaveGymVictoryParty 3
     TrainerCardAddBadge 3
-    MEPlay 1306
+    MEPlay SEQ_ME_BADGE
     WorkSetConst 0x8021, 0
     TrainerCardGetSex 0x8021
     VMStackPush 0x8021
@@ -1002,7 +1002,7 @@ L_0E38:
     BGMFadeOutAll 90
     EvCameraMoveTo 3672, 0, 0xed000, 0xf8000, 0x6802f, 0x3f000, 70
     EvCameraWait
-    BGMPlay 1097
+    BGMPlay SEQ_BGM_ERECTRIC_GYM_02
     Cmd_025C 1, 4, 3
     VMSleep 12
     Cmd_025C 1, 4, 1
@@ -1280,7 +1280,7 @@ Script_7:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_12B3
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Isn't this Gym beautiful when it's lit up?[f000]븁\u0000\nThe Pokémon also look beautiful\nin this lighting!"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -1289,7 +1289,7 @@ Script_7:
     VMJump L_12C7
 
 L_12B3:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "You and your Pokémon\nsparkle and shine!"
     ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
@@ -1307,7 +1307,7 @@ Script_8:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_12FC
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Ms. Elesa is strong and beautiful...[f000]븁\u0000\nDon't make the mistake of thinking\nshe's the same as us."
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
@@ -1316,7 +1316,7 @@ Script_8:
     VMJump L_1310
 
 L_12FC:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Beauty isn't just about looks.[f000]븁\u0000\nStrength is a part of beauty,\nboth for you and for Elesa."
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
@@ -1334,7 +1334,7 @@ Script_9:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_1345
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Being able to see a match between\na challenger and Elesa this close...[f000]븁\u0000\nThat makes even us gleam with joy!"
     ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
@@ -1343,7 +1343,7 @@ Script_9:
     VMJump L_1359
 
 L_1345:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "That was a beautiful Pokémon battle\nyou and Elesa had![f000]븁\u0000\nI was captivated by it!\nWhat an absolutely marvelous show!"
     ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
@@ -1357,7 +1357,7 @@ L_1359:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerCardHasBadge 0x8008, 3
     VMStackPush 0x8008
@@ -1442,7 +1442,7 @@ Script_14:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     WordSetPlayerName 0
     WordSetLoadRivalName 1
     TrainerCardHasBadge 0x8008, 3

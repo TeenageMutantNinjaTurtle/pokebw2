@@ -50,7 +50,7 @@ Script_3:
     ActorCmdWait
     FlagReset 782
     ActorAdd 2
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     SEWait
     ActorWalkRoute 2, 6, 6, 1, 8, 1
     ActorCmdWait
@@ -126,7 +126,7 @@ L_0113:
     VMSleep 16
     ActorCmdExec 255, Movement_0330
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 1
     ActorDelete 2
     SEWait
@@ -142,7 +142,7 @@ L_0113:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x40cc
     VMStackPushConst 4
@@ -181,7 +181,7 @@ L_02C7:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My grandma loves old stories![f000]븁\u0000\nI'm always having to listen\nto her really long stories.[f000]븁\u0000\nBut sometimes if it's night, she'll\nfall asleep right in the middle of a story.[f000]븁\u0000\nIt's OK, though. She's not only healthy,\nshe's a free-spirited grandma, too!"
     ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0

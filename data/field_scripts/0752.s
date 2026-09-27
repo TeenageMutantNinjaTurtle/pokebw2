@@ -179,7 +179,7 @@ L_0275:
     EvCameraEnd
     ActorCmdExec 13, Movement_03C0
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 13
     SEWait
     ActorCmdExec 14, Movement_03C8
@@ -194,7 +194,7 @@ L_0275:
     VMSleep 16
     ActorCmdExec 255, Movement_04B0
     ActorCmdWait
-    SEPlay 1369
+    SEPlay SEQ_SE_KAIDAN
     ActorDelete 14
     SEWait
     WorkSetConst 0x4155, 1
@@ -259,13 +259,13 @@ Script_1:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0436
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Why do delicious vegetables grow in the\nfields of Mistralton City?[f000]븁\u0000\nIt's because the ones who grow them are\nvery picky about the mulch they use.[f000]븁\u0000\nIt's good mulch. Strong mulch. It's\nstored up a lot of energy from nature.[f000]븀\u0000\nAnd that makes it really stinky![f000]븁\u0000\nSuch a powerful aroma! It burns\nall the way to the back of your nose![f000]븁\u0000\nAww. Just remembering it\nmakes me dizzy![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
     MsgWinCloseAll
     Cmd_0275 0, 39, 0
-    SEPlay 1908
+    SEPlay SEQ_SE_FLD_133
     // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink."
     SystemMsg 7, 0
     SEWait
@@ -279,7 +279,7 @@ Script_1:
     VMJump L_044A
 
 L_0436:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Stinky, stinky mulch\ngrows delicious vegetables!"
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -293,7 +293,7 @@ L_044A:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "It's a small, weathered shrine."
     InfoMsg 20, 2
     LastKeyWait

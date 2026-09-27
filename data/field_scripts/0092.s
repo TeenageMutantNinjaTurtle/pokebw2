@@ -89,7 +89,7 @@ L_015F:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If you want to make a weak\nPokémon stronger, you should[f000]븀\u0000\nuse that Exp. Share.[f000]븁\u0000\nAny Pokémon that holds it receives\nExp. Points, even when it doesn't[f000]븀\u0000\nparticipate in battle!"
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -101,7 +101,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My dream as president is to\nrelease a device that lets[f000]븀\u0000\npeople talk to Pokémon!"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0

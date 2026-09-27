@@ -22,7 +22,7 @@ Script_2:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0062
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "That elevator wasn't broken.\nI heard a Pokémon called Rotom[f000]븀\u0000\nwas playing a prank![f000]븁\u0000\nThat's right! Rotom is a Pokémon\nthat can go inside electrical appliances!"
     ParentActorMsg MSGFILE_SCRIPT, 1, 0, 0
@@ -31,7 +31,7 @@ Script_2:
     VMJump L_0076
 
 L_0062:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "What? Oh no!\nIs the elevator broken?"
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -45,7 +45,7 @@ L_0076:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "No matter what time or place,\nI have my umbrella at the ready![f000]븁\u0000\nAn ounce of prevention\nis worth a pound of cure!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -57,7 +57,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 385
     VMStackPushConst 0

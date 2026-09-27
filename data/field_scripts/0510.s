@@ -37,7 +37,7 @@ L_0083:
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Village Bridge"
     MsgPlaceSign 32, 3
     MsgPlaceSignClose
@@ -48,7 +48,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Village Bridge"
     MsgPlaceSign 32, 3
     MsgPlaceSignClose
@@ -59,7 +59,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Village Bridge Restaurant\nVillage Sandwiches are our specialty!"
     MsgPlaceSign 33, 2
     MsgPlaceSignClose
@@ -79,7 +79,7 @@ Script_4:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_011F
     ISSSwitchEnable 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Derleth: Fweet fweet...\nFweeeeeet fweet fweet..."
     ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
@@ -89,7 +89,7 @@ Script_4:
 
 L_011F:
     ISSSwitchEnable 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Derleth: Fwee... Fwee...\nFffweeet fweet..."
     ParentActorMsg MSGFILE_SCRIPT, 14, 0, 0
@@ -105,7 +105,7 @@ L_013D:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0174
     ISSSwitchDisable 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Derleth: What is piercing my mind is\na sad sound.[f000]븁\u0000\nWhat is piercing my heart is\na cold night wind."
     ParentActorMsg MSGFILE_SCRIPT, 13, 0, 0
@@ -116,7 +116,7 @@ L_013D:
 
 L_0174:
     ISSSwitchDisable 1
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Derleth: The only things that come out\nof my mouth are my whistle tunes and[f000]븀\u0000\ncomplaints about my life.[f000]븁\u0000\nThis bridge is a meeting place for people\nlike me who like to complain."
     ParentActorMsg MSGFILE_SCRIPT, 15, 0, 0
@@ -140,7 +140,7 @@ Script_5:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_01DE
     ISSSwitchEnable 3
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Aickman: How about this? This sound!\nDoesn't it get to your heart? Your mind?"
     ParentActorMsg MSGFILE_SCRIPT, 16, 0, 0
@@ -150,7 +150,7 @@ Script_5:
 
 L_01DE:
     ISSSwitchEnable 3
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Aickman: This is my best friend, my pal.\nIt knows all my sorrow, all my tears."
     ParentActorMsg MSGFILE_SCRIPT, 18, 0, 0
@@ -166,7 +166,7 @@ L_01FC:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0233
     ISSSwitchDisable 3
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Aickman: I know my sound doesn't fit\nthis city, this town.[f000]븁\u0000\nBut I... I cannot change\nmy life, my style."
     ParentActorMsg MSGFILE_SCRIPT, 17, 0, 0
@@ -177,7 +177,7 @@ L_01FC:
 
 L_0233:
     ISSSwitchDisable 3
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Aickman: Y-you have great sparkles...\nSparkles in your eyes.[f000]븁\u0000\nPlease make our hopes, our dreams,\ncome true for us.[f000]븁\u0000\nGo grab the glory--go take on the world!"
     ParentActorMsg MSGFILE_SCRIPT, 19, 0, 0
@@ -201,7 +201,7 @@ Script_6:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_029D
     ISSSwitchEnable 2
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Russo: La la la la la..."
     ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
@@ -211,7 +211,7 @@ Script_6:
 
 L_029D:
     ISSSwitchEnable 2
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Russo: Testing...\nCheck one, check two, check, check, yup."
     ParentActorMsg MSGFILE_SCRIPT, 22, 0, 0
@@ -227,7 +227,7 @@ L_02BB:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_02F2
     ISSSwitchDisable 2
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Russo: Ahem, ahem!\nNow, something's not quite right.[f000]븁\u0000\nThis here microphone's all screwy.\nI can sing real good, promise!"
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
@@ -238,7 +238,7 @@ L_02BB:
 
 L_02F2:
     ISSSwitchDisable 2
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Russo: Now, you're the first person in an\nawful long time who's hung around to[f000]븀\u0000\nlisten and hear what I was singin' about.[f000]븁\u0000\nMuch obliged!"
     ParentActorMsg MSGFILE_SCRIPT, 23, 0, 0
@@ -261,7 +261,7 @@ Script_7:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_035C
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Koontz: Singing gives life to my spirit.\nWill you listen to the voice of my spirit?"
     ParentActorMsg MSGFILE_SCRIPT, 24, 0, 0
@@ -271,7 +271,7 @@ Script_7:
     VMJump L_0374
 
 L_035C:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Koontz: Oh, you want to listen to my song\nafter all! Yes!"
     ParentActorMsg MSGFILE_SCRIPT, 26, 0, 0
@@ -288,7 +288,7 @@ L_037A:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_03B1
     ISSSwitchDisable 4
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Koontz: Huh? Are you leaving already?\nI am always here."
     ParentActorMsg MSGFILE_SCRIPT, 25, 0, 0
@@ -299,7 +299,7 @@ L_037A:
 
 L_03B1:
     ISSSwitchDisable 4
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Koontz: My song...\nDon't you like it?"
     ParentActorMsg MSGFILE_SCRIPT, 27, 0, 0
@@ -313,7 +313,7 @@ L_03C9:
 
 Script_8:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I've steadily extended my win streak\nfor two years... And now it's over...[f000]븁\u0000\nBut I have a strong will.\nI declare that I'll try again[f000]븀\u0000\nto have a 1,000-win streak![f000]븁\u0000\nI won't battle you next time, though.\nYou'll just break my streak."
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -693,7 +693,7 @@ L_0913:
 
 Script_10:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "My favorite thing nowadays\nis to compete in the PWT!"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -705,7 +705,7 @@ Script_10:
 
 Script_11:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Practice as if it were a real game! Play\nin a real game as if it were a practice!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -717,7 +717,7 @@ Script_11:
 
 Script_12:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'll cross all the bridges\nin the Unova region![f000]븁\u0000\nEven the Marine Tube from Undella Town!\nHmm! I am so looking forward to it!"
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -729,7 +729,7 @@ Script_12:
 
 Script_16:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I tried to ask for directions, but\nit turned out I was talking to a[f000]븀\u0000\nPokémon Trainer![f000]븁\u0000\nYou need to be careful, too."
     ParentActorMsg MSGFILE_SCRIPT, 31, 0, 0
@@ -741,7 +741,7 @@ Script_16:
 
 Script_13:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x4108
     VMStackPushConst 3
@@ -760,7 +760,7 @@ Script_13:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0A5F
     MsgWinCloseAll
-    SEPlay 2017
+    SEPlay SEQ_SE_ARDEMO_01
     SEWait
     // "Refreshed!![f000]븁\u0000\nI'm 100% rehydrated!\nI feel better now! Thank you![f000]븁\u0000\nI'll dash to the next bridge!"
     ParentActorMsg MSGFILE_SCRIPT, 6, 0, 0
@@ -1028,7 +1028,7 @@ Script_15:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0CD7
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Keep somebody's secret.\nOtherwise, your secret will be out."
     ParentActorMsg MSGFILE_SCRIPT, 30, 0, 0
@@ -1066,7 +1066,7 @@ L_0CD7:
     VMJump L_0D68
 
 L_0D54:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I hear a sound from somewhere.\nSometimes it sounds sad.[f000]븀\u0000\nSometimes it sounds a little goofy...[f000]븀\u0000\nDo you think it could be a ghost?"
     ParentActorMsg MSGFILE_SCRIPT, 28, 0, 0

@@ -22,7 +22,7 @@ Script_1:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0077
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "This bread will have tons of Honey.\nI'll call it Honey Bread![f000]븁\u0000\nI want to bake it soon, but I'm busy\nmaking Village Sandwiches."
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -31,7 +31,7 @@ Script_1:
     VMJump L_0289
 
 L_0077:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     TrainerFlagGet 335, 0x8010
     VMStackPush 0x8010
@@ -223,7 +223,7 @@ L_0306:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm totally hooked on Village Sandwiches![f000]븁\u0000\nI come here every day to eat them!"
     ParentActorMsg MSGFILE_SCRIPT, 9, 0, 0
@@ -235,7 +235,7 @@ Script_2:
 
 Script_4:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Pokémon make the most adorable\nfaces when they bite into sandwiches!"
     ParentActorMsg MSGFILE_SCRIPT, 10, 0, 0
@@ -247,7 +247,7 @@ Script_4:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I'm so happy to be able to eat\nwith my Pokémon."
     ParentActorMsg MSGFILE_SCRIPT, 11, 0, 0
@@ -259,7 +259,7 @@ Script_3:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 572, 0
     // "Myu myuweee."
@@ -273,7 +273,7 @@ Script_6:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 504, 0
     // "Skwee weep..."
@@ -287,7 +287,7 @@ Script_5:
 
 Script_7:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 552, 0
     // "Kroooko!"

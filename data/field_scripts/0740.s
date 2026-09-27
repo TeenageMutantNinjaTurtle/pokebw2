@@ -14,7 +14,7 @@
 Script_1:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Route 13"
     MsgPlaceSign 5, 3
     MsgPlaceSignClose
@@ -25,7 +25,7 @@ Script_1:
 Script_2:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Route 13"
     MsgPlaceSign 6, 3
     MsgPlaceSignClose
@@ -36,7 +36,7 @@ Script_2:
 Script_3:
     ActorsPauseAll
     FunfestMissionBroadcast 17, 0
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "Trainer Tips!\n[f000]븁\u0000\nChange your type on the Trainer Card\nto change how other players see you.[f000]븁\u0000\nYou'll look different to others in the\nUnion Room and the Tag Log![f000]븁\u0000\nMatch it with your introduction or\ncharacter to show your individuality!"
     MsgPlaceSign 7, 0
     MsgPlaceSignClose
@@ -79,7 +79,7 @@ L_00CB:
 
 Script_5:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 638, 0
     // "Kawbraa!"
@@ -155,7 +155,7 @@ L_01E9:
 
 Script_6:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPushFlag 218
     VMStackPushConst 0

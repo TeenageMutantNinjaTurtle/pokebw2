@@ -13,7 +13,7 @@ Script_4:
 
 Script_2:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Oh! A sea of sand! I don't need\nGo-Goggles here![f000]븁\u0000\nThe Mirage Tower in a desert\nof the Hoenn region has disappeared.[f000]븁\u0000\nUnova's desert is also swallowing\nup the Relic Castle little by little."
     ParentActorMsg MSGFILE_SCRIPT, 4, 0, 0
@@ -25,7 +25,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "I came clear out to the Desert Resort\nto train, but...[f000]븁\u0000\nIt would be so much easier to\nproceed if I had a Water-type Pokémon..."
     ParentActorMsg MSGFILE_SCRIPT, 0, 0, 0
@@ -70,7 +70,7 @@ L_00D5:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0102
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "According to what I've heard, that\nRelic Castle is the ruins of a city built[f000]븀\u0000\nby the hero of old and the dragon[f000]븀\u0000\nPokémon that accompanied the hero."
     ParentActorMsg MSGFILE_SCRIPT, 3, 0, 0
@@ -79,7 +79,7 @@ L_00D5:
     VMJump L_0116
 
 L_0102:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "If a Pokémon holds this Soft Sand, the\npower of its Ground-type moves goes up!"
     ParentActorMsg MSGFILE_SCRIPT, 2, 0, 0
@@ -97,7 +97,7 @@ Script_5:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_019C
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "An expansive desert and\na castle buried in sand![f000]븁\u0000\nThere's no doubt about it!\nTreasure is here![f000]븁\u0000\nIt's been a year since the day my\ninternal treasure detector went off,[f000]븀\u0000\nbut I still haven't found any yet.[f000]븀\u0000\nI'm still following my dream, though...[f000]븁\u0000\nAnd I'm having so much fun\nI can barely stand it![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 5, 0, 0
@@ -115,7 +115,7 @@ L_016D:
     Cmd_0275 0, 10, 0
 
 L_0174:
-    SEPlay 1908
+    SEPlay SEQ_SE_FLD_133
     // "The Funfest Mission\n“[f000]ŀ\u0001\u0000\"[f000]븀\u0000\nhas been added to the Entralink!"
     SystemMsg 6, 0
     SEWait
@@ -129,7 +129,7 @@ L_0174:
     VMJump L_01B0
 
 L_019C:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Spending each day living my dream...\nIs THAT my treasure?!"
     ParentActorMsg MSGFILE_SCRIPT, 7, 0, 0

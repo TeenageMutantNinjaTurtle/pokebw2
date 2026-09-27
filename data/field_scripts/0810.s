@@ -28,7 +28,7 @@ L_005F:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_00D5
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Shall I play a song I like for you?"
     ParentActorMsg MSGFILE_SCRIPT, 8, 0, 0
@@ -56,7 +56,7 @@ L_00CF:
     VMJump L_00E2
 
 L_00D5:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "She's absorbed in her performance!"
     InfoMsg 11, 2
     LastKeyWait
@@ -68,7 +68,7 @@ L_00E2:
     VMHalt
 
 L_00E8:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     VMStackPush 0x4107
     VMStackPushConst 0
@@ -275,7 +275,7 @@ Script_2:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0446
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     // "Do you want to listen to my drum?"
     ParentActorMsg MSGFILE_SCRIPT, 12, 0, 0
@@ -303,7 +303,7 @@ L_0440:
     VMJump L_0453
 
 L_0446:
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     // "He is concentrating on his performance!"
     InfoMsg 15, 2
     LastKeyWait
@@ -316,7 +316,7 @@ L_0453:
 
 Script_3:
     ActorsPauseAll
-    SEPlay 1351
+    SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
     PVPlay 572, 0
     // "Chip kwip!"
