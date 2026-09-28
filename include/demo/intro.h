@@ -2,6 +2,7 @@
 #define POKEBW2_DEMO_INTRO_H
 
 #include "types.h"
+#include "gfl/clact.h"
 #include "gfl/heap.h"
 #include "gfl/overlay.h"
 #include "gfl/proc.h"
@@ -11,11 +12,17 @@
 // The intro of a new game, overlay 294, which ov162 runs before and after the name entry
 #define OVERLAY_INTRO OVERLAY_ID(294)
 
+// Which part of the intro runs: ov162 runs the intro, then the player's name entry, the intro again, the rival's name
+// entry, and the intro once more
+#define INTRO_MODE_START 1
+#define INTRO_MODE_PLAYER_NAMED 7
+#define INTRO_MODE_RIVAL_NAMED 10
+
 typedef struct {
     void *unk0;
     void *unk4;
-    // 1 at the start of the intro, and 7 when ov162 runs it again after the name entry
-    u32 unk8;
+    // INTRO_MODE_*
+    u32 mode;
     void *unkC;
     void *unk10;
     void *unk14;
@@ -33,11 +40,12 @@ extern const u32 INTRO_SOUND_COUNT;
 extern const u32 INTRO_SOUNDS[];
 
 // intro_graphic.c
-IntroGraphic *func_ov294_021a1cf8(u32 a0, u32 a1, HeapID heapId);
-void func_ov294_021a1dd4(IntroGraphic *graphic);
-void func_ov294_021a1e30(IntroGraphic *graphic);
-void func_ov294_021a1e44(IntroGraphic *graphic);
-void func_ov294_021a1e50(IntroGraphic *graphic);
+IntroGraphic *IntroGraphic_Create(u32 layout, u32 mode, HeapID heapId);
+void IntroGraphic_Free(IntroGraphic *graphic);
+void IntroGraphic_Update(IntroGraphic *graphic);
+void IntroGraphic_Begin3D(IntroGraphic *graphic);
+void IntroGraphic_End3D(IntroGraphic *graphic);
+ClActUnit *IntroGraphic_GetClActUnit(IntroGraphic *graphic);
 
 // intro_cmd.c
 IntroCmd *func_ov294_021a2ee8(IntroG3d *g3d, IntroParticle *particle, IntroMcss *mcss, IntroParam *param,
@@ -46,7 +54,7 @@ void func_ov294_021a2f3c(IntroCmd *cmd);
 BOOL func_ov294_021a2f50(IntroCmd *cmd);
 
 // intro_mcss.c
-IntroMcss *IntroMcss_Create(HeapID heapId, u32 a1);
+IntroMcss *IntroMcss_Create(HeapID heapId, u32 mode);
 void IntroMcss_Free(IntroMcss *mcss);
 void IntroMcss_Draw(IntroMcss *mcss);
 void IntroMcss_Add(IntroMcss *mcss, fx32 x, fx32 y, fx32 z, const MCSSLoadInfo *info, u8 index);
@@ -62,7 +70,7 @@ BOOL IntroMcss_DecreaseY(IntroMcss *mcss, fx32 step, fx32 min);
 void IntroMcss_Update(IntroMcss *mcss);
 
 // intro_g3d.c
-IntroG3d *IntroG3d_Create(IntroGraphic *graphic, u32 a1, HeapID heapId);
+IntroG3d *IntroG3d_Create(IntroGraphic *graphic, u32 mode, HeapID heapId);
 void IntroG3d_Free(IntroG3d *g3d);
 void IntroG3d_Draw(IntroG3d *g3d);
 BOOL IntroG3d_Open(IntroG3d *g3d);

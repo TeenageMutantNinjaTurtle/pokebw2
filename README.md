@@ -139,9 +139,14 @@ Things that affect whether MWCC output matches:
   complete file fails to link on one of them, rename it to the MWCC name with `rename_symbol.py`.
 - Structs passed by value go in registers and on the stack. Code that copies a struct to the stack and passes its
   address takes a pointer to a local copy.
-- Static data and stack locals are laid out in reverse declaration order. Static variables that a function uses are
-  laid out by how it uses them instead: when the original has them in order but the code uses them out of order, they
-  were one array or struct, as the intro's particle camera is.
+- Stack locals are laid out in reverse declaration order.
+- Static data is sorted by size. MWCC lists each object of a section when it is declared, a local struct initializer
+  when its function is, and heapsorts the list by size starting from the last object declared. Objects of 64 bytes or
+  more and local initializers get sections of their own, which follow the others in the same order. Heapsort is not
+  stable, so objects of the same size come out in an order that depends on where every object in the file is
+  declared, and moving one object can reorder others. `tools/scripts/rodata_order.py` predicts the layout for a
+  declaration order and tries the orders of the objects given with `--permute`; `intro_graphic.c` matches only with its
+  light setups declared after the function whose BG setups are local initializers.
 - Overlay IDs are linker symbols, written `OVERLAY_ID(279)` from `gfl/overlay.h`, which gives the literal pool entry
   a relocation. Mark the literal in the config with `tools/scripts/config_fixes.py overlay-id`.
 - A switch case that ends in the same code as another case is merged into it, so its end moves.

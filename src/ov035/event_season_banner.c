@@ -67,13 +67,16 @@ u32 EventSeasonBanner_GetStayTime(EventSeasonBanner *wk);
 void EventSeasonBanner_InvokeCallback(EventSeasonBanner *wk);
 
 // Declared in reverse, as the compiler emits them in reverse order
-static const u32 SEASON_BANNER_VRAM_CONFIG[12] = {
-    0x08, 0x00, 0x80, 0x00, 0x10, 0x00, 0x100, 0x00, 0x07, 0x40, 0x00100010, 0x10,
+static const BGSysVRAMConfig SEASON_BANNER_VRAM_CONFIG = {
+    GX_VRAM_BG_128_D,      GX_VRAM_BGEXTPLTT_NONE,  GX_VRAM_SUB_BG_32_H,        GX_VRAM_SUB_BGEXTPLTT_NONE,
+    GX_VRAM_OBJ_64_E,      GX_VRAM_OBJEXTPLTT_NONE, GX_VRAM_SUB_OBJ_16_I,       GX_VRAM_SUB_OBJEXTPLTT_NONE,
+    GX_VRAM_TEX_012_ABC,   GX_VRAM_TEXPLTT_0_G,     GX_OBJVRAMMODE_CHAR_1D_64K, GX_OBJVRAMMODE_CHAR_1D_32K,
 };
-static const u32 SEASON_BANNER_BG3_SETUP[8] = {
-    0x00, 0x00, 0x800, 0x00, 0x01010001, 0x8000, 0x00, 0x00,
+static const BGSetup SEASON_BANNER_BG3_SETUP = {
+    0, 0, 0x800, 0, BGRES_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE(0x0800), GX_BG_CHARBASE(0x04000), 0x8000,
+    GX_BG_EXTPLTT_01, 0, GX_BG_AREAOVER_XLU, FALSE,
 };
-static const u32 SEASON_BANNER_LCD_CONFIG[4] = { 1, 0, 0, 1 };
+static const BGSysLCDConfig SEASON_BANNER_LCD_CONFIG = { GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BGMODE_0, GX_BG0_AS_3D };
 
 GameEventReturnCode EventSeasonBanner_Callback(GameEvent *event, u32 *state, void *data) {
     EventSeasonBanner *wk = data;
@@ -183,10 +186,10 @@ void EventSeasonBanner_InitRendererFieldOpen(EventSeasonBanner *wk) {
 }
 
 void EventSeasonBanner_InitRendererStandalone(EventSeasonBanner *wk) {
-    GFL_BGSysSetVRAMBanks(SEASON_BANNER_VRAM_CONFIG);
+    GFL_BGSysSetVRAMBanks(&SEASON_BANNER_VRAM_CONFIG);
     GFL_BGSysCreate(wk->heapId);
-    GFL_BGSysSetLCDConfig(SEASON_BANNER_LCD_CONFIG);
-    GFL_BGSysCreateBG(SEASON_BANNER_BG, SEASON_BANNER_BG3_SETUP, 0);
+    GFL_BGSysSetLCDConfig(&SEASON_BANNER_LCD_CONFIG);
+    GFL_BGSysCreateBG(SEASON_BANNER_BG, &SEASON_BANNER_BG3_SETUP, BGMODE_TEXT);
     GFL_BGSysSetBGPriority(0, 1);
     GFL_BGSysSetBGPriority(SEASON_BANNER_BG, 0);
     GFL_BGSysSetBGPriority(1, 3);

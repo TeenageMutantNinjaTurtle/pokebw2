@@ -8,6 +8,7 @@ typedef s16 fx16;
 typedef s32 fx32;
 typedef s64 fx64;
 
+#define FX16_ONE (1 << 12)
 #define FX32_SHIFT 12
 #define FX32_ONE (1 << FX32_SHIFT)
 #define FX32_CONST(x) ((fx32)(((x) > 0) ? ((x) * FX32_ONE + 0.5f) : ((x) * FX32_ONE - 0.5f)))
@@ -20,8 +21,28 @@ typedef struct {
 } VecFx32;
 
 typedef struct {
+    fx16 x;
+    fx16 y;
+    fx16 z;
+} VecFx16;
+
+typedef struct {
     fx32 m[3][3];
 } MtxFx33;
+
+// The sine and cosine of 4096 angles around the circle, as pairs
+extern const fx16 FX_SIN_COS_TABLE[4096 * 2];
+
+// An angle in whole degrees as the 16-bit angle that FX_SinIdx and FX_CosIdx take, 0x10000 for a full turn
+#define DEG_TO_IDX(deg) ((u16)((deg) * 0x10000 / 360))
+
+static inline fx16 FX_SinIdx(int idx) {
+    return FX_SIN_COS_TABLE[(idx >> 4) << 1];
+}
+
+static inline fx16 FX_CosIdx(int idx) {
+    return FX_SIN_COS_TABLE[((idx >> 4) << 1) + 1];
+}
 
 void MAT3_Identity(MtxFx33 *mtx);
 

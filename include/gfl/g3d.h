@@ -7,9 +7,11 @@
 #include "types.h"
 #include "gfl/heap.h"
 #include "nitro/fx.h"
+#include "nitro/gx.h"
 
 typedef struct G3DActor G3DActor;
 typedef struct G3DCamera G3DCamera;
+typedef struct G3DLight G3DLight;
 typedef struct G3DManager G3DManager;
 
 typedef enum {
@@ -23,6 +25,23 @@ typedef struct {
     VecFx32 scale;
     MtxFx33 rotation;
 } SRTMatrix;
+
+typedef void (*G3DSystemInitCallback)(void);
+
+typedef struct {
+    VecFx16 direction;
+    GXRgb color;
+} Light;
+
+typedef struct {
+    u8 index;
+    Light light;
+} LightSetup;
+
+typedef struct {
+    const LightSetup *lights;
+    u8 count;
+} LightSetupList;
 
 // A scene that GFL_G3DMgrNewScene loads: its resources, and its actors, each a model with animations
 typedef struct {
@@ -52,11 +71,26 @@ typedef struct {
     u32 actorCount;
 } G3DSceneSetup;
 
+void GFL_G3DSysCreate(BOOL useFrmHeapVramMgr, u32 numMgmtBlks, u32 dat3, u32 dat4, u16 dtcmAllocSize, HeapID heapId,
+                      G3DSystemInitCallback initCallback);
+void GFL_G3DSysFree(void);
+void GFL_G3DSysLightSet(u8 lightId, const Light *light);
+void GFL_G3DSysMtxViewFlush(void);
+void GFL_G3DSysReqSwapBuffers(void);
+void GFL_G3DSysReset(void);
+void GFL_G3DSysSetSwapBufferParams(u32 sortMode, u32 bufferMode);
+
+G3DLight *GFL_G3DLightCreate(const LightSetupList *setup, HeapID heapId);
+void GFL_G3DLightFree(G3DLight *lights);
+void GFL_G3DLightFlush(G3DLight *lights);
+
 G3DCamera *GFL_G3DCameraCreate(G3DCameraProjectionMode proj, fx32 param1, fx32 param2, fx32 param3, fx32 param4,
-                               fx32 near, fx32 far, fx32 ndcRangeOverride, VecFx32 *position, VecFx32 *upVector,
-                               VecFx32 *target, HeapID heapId);
+                               fx32 near, fx32 far, fx32 ndcRangeOverride, const VecFx32 *position,
+                               const VecFx32 *upVector, const VecFx32 *target, HeapID heapId);
 void GFL_G3DCameraFree(G3DCamera *cam);
 void GFL_G3DCameraFlush(G3DCamera *cam);
+void GFL_G3DCameraSetProjectionZNear(G3DCamera *cam, fx32 *zNear);
+void GFL_G3DCameraSetProjectionZFar(G3DCamera *cam, fx32 *zFar);
 
 BOOL GFL_G3DActorBindAnm(G3DActor *actor, u8 anmIdx);
 BOOL GFL_G3DActorUnbindAnm(G3DActor *actor, u8 anmIdx);

@@ -4,6 +4,7 @@
 #include "types.h"
 #include "gfl/heap.h"
 #include "nitro/g2d.h"
+#include "nitro/gx.h"
 #include "struct_decls.h"
 
 struct G3DTextDrawResource {
@@ -15,29 +16,100 @@ struct G3DTextDrawResource {
     u32 unk10;
 };
 
+// The BG system's setups. Names and layouts from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
+
+// BG sizes in pixels
+#define BGRES_128x128 0
+#define BGRES_256x256 1
+#define BGRES_256x512 2
+#define BGRES_512x256 3
+#define BGRES_512x512 4
+#define BGRES_1024x1024 5
+
+#define BGMODE_TEXT 0
+#define BGMODE_AFFINE 1
+#define BGMODE_EXTENDED 2
+
+#define BG_MOVE_SET_X 0
+#define BG_MOVE_RIGHT 1
+#define BG_MOVE_LEFT 2
+#define BG_MOVE_SET_Y 3
+#define BG_MOVE_DOWN 4
+#define BG_MOVE_UP 5
+
+typedef struct {
+    u32 x;
+    u32 y;
+    u32 screenSize;
+    u32 screenOffset;
+    u8 resolution;
+    u8 colorMode;
+    u8 screenBase;
+    u8 charBase;
+    u32 charSize;
+    u8 extPaletteSlot;
+    u8 priority;
+    u8 areaOverflow;
+    u32 mosaic;
+} BGSetup;
+
+typedef struct {
+    u32 displayMode;
+    u32 bgModeMain;
+    u32 bgModeSub;
+    BOOL bg0Is3D;
+} BGSysLCDConfig;
+
+typedef struct {
+    u32 bgMain;
+    u32 bgExtPaletteMain;
+    u32 bgSub;
+    u32 bgExtPaletteSub;
+    u32 objMain;
+    u32 objExtPaletteMain;
+    u32 objSub;
+    u32 objExtPaletteSub;
+    u32 texture;
+    u32 texturePalette;
+    u32 objMappingMain;
+    u32 objMappingSub;
+} BGSysVRAMConfig;
+
 BOOL G3DTextDraw_CreateResource(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 a5, u16 a6, u32 a7, HeapID heapId,
                                 G3DTextDrawResource *resource);
-void GFL_BGSysClearBG(u32 bg);
+void GFL_BGSysClearBG(u8 bg);
 void GFL_BGSysCreate(HeapID heapId);
-void GFL_BGSysCreateBG(u32 bg, const void *setup, u32 mode);
+void GFL_BGSysCreateBG(u8 bg, const BGSetup *setup, u8 mode);
+void GFL_BGSysDisableAllA(void);
+void GFL_BGSysDisableAllB(void);
+void GFL_BGSysEnableEngines(void);
 void GFL_BGSysFree(void);
 u32 GFL_BGSysGetEnabledBGsA(void);
+void GFL_BGSysInitVRAM(u32 banks);
 void GFL_BGSysLoadChar(u32 bg, void *data, u32 size, u32 offset);
 void GFL_BGSysLoadScrCore(u32 bg, void *data, u32 size, u32 offset);
+void GFL_BGSysMoveBGReq(u8 bg, u32 type, u32 value);
 void GFL_BGSysReleaseBG(u32 bg);
-void GFL_BGSysSetBGEnabled(u32 bg, BOOL enabled);
+void GFL_BGSysSetBGEnabled(u8 bg, u8 enabled);
+// Enables or disables the planes of GX_PLANEMASK on the main or sub engine
+void GFL_BGSysSetBGEnabledA(u32 planes, BOOL enabled);
+void GFL_BGSysSetBGEnabledB(u32 planes, BOOL enabled);
 void GFL_BGSysSetBGPriority(u32 bg, u32 priority);
+void GFL_BGSysSetDisplayLayout(u32 layout);
 void GFL_BGSysSetEnabledBGsA(u32 enabled);
-void GFL_BGSysSetLCDConfig(const void *config);
-void GFL_BGSysSetVRAMBanks(const void *config);
+void GFL_BGSysSetLCDConfig(const BGSysLCDConfig *config);
+void GFL_BGSysSetVRAMBanks(const BGSysVRAMConfig *config);
+void GFL_BGSysUpdate(void);
 void GFL_BGSysUploadStdPalette(u32 bg, void *data, u32 size, u32 offset);
 void GFXRegSetMasterBrightness(u32 reg, s32 brightness);
 BOOL NNS_G2DPrepareBGChar(void *file, NNSG2dCharacterData **character);
 BOOL NNS_G2DPrepareScreen(void *file, NNSG2dScreenData **screen);
 BOOL RelocatePaletteResGetDataPtr(void *file, NNSG2dPaletteData **palette);
+void gfxClearColor(GXRgb color, u8 alpha, s16 depth, u8 polygonId, BOOL fog);
 void gfxDisableLCDCBanks(void);
 void gfxRegSetAlphaBlend(u32 reg, u32 plane1, u32 plane2, s32 alpha1, s32 alpha2);
 void gfxRegSetBrightnessBlend(u32 reg, u32 plane, s32 brightness);
+void gfxSetFog(u8 enabled, u16 alphaMode, u16 depthShift, u16 offset);
 void gfxSetLCDCBanks(u32 banks);
 void gfxUploadAsync(u32 type, u32 dest, const void *src, u32 size);
 

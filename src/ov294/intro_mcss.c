@@ -31,12 +31,12 @@ static const VecFx32 sScale = { FX32_CONST(16), FX32_CONST(16), FX32_ONE };
 // Pokémon face the other way
 static const VecFx32 sPokemonScale = { -FX32_CONST(16), FX32_CONST(16), FX32_ONE };
 
-IntroMcss *IntroMcss_Create(HeapID heapId, u32 a1) {
+IntroMcss *IntroMcss_Create(HeapID heapId, u32 mode) {
     IntroMcss *mcss = GFL_HeapAllocate(heapId, sizeof(IntroMcss), TRUE, "intro_mcss.c", 98);
 
     mcss->system = MCSSSys_Create(SPRITE_COUNT, heapId);
     mcss->heapId = heapId;
-    if (a1 != 7 && a1 != 10) {
+    if (mode != INTRO_MODE_PLAYER_NAMED && mode != INTRO_MODE_RIVAL_NAMED) {
         func_0201aefc(mcss->system, 0x70000);
     }
     func_0201af00(mcss->system, 0x4000);

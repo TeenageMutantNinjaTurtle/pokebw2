@@ -40,11 +40,11 @@ BOOL IntroProc_Init(GameProc *proc, u32 *state, void *param, void *work) {
     sys_memset(wk, 0, sizeof(IntroWork));
     wk->heapId = HEAPID_INTRO;
     wk->param = param;
-    wk->graphic = func_ov294_021a1cf8(1, wk->param->unk8, wk->heapId);
+    wk->graphic = IntroGraphic_Create(1, wk->param->mode, wk->heapId);
     wk->font = GFL_FontCreate(ARCID_FONT, 0, 0, 0, wk->heapId);
     wk->msgData = GFL_MsgSysLoadData(FALSE, ARCID_SYSTEM_MESSAGE, 85, wk->heapId);
-    wk->mcss = IntroMcss_Create(wk->heapId, wk->param->unk8);
-    wk->g3d = IntroG3d_Create(wk->graphic, wk->param->unk8, wk->heapId);
+    wk->mcss = IntroMcss_Create(wk->heapId, wk->param->mode);
+    wk->g3d = IntroG3d_Create(wk->graphic, wk->param->mode, wk->heapId);
     wk->particle = IntroParticle_Create(wk->graphic, wk->heapId);
     wk->cmd = func_ov294_021a2ee8(wk->g3d, wk->particle, wk->mcss, wk->param, wk->graphic, wk->heapId);
     return TRUE;
@@ -60,7 +60,7 @@ BOOL IntroProc_Exit(GameProc *proc, u32 *state, void *param, void *work) {
     GFL_MsgDataFree(wk->msgData);
     GFL_FontFree(wk->font);
     func_ov294_021a2f3c(wk->cmd);
-    func_ov294_021a1dd4(wk->graphic);
+    IntroGraphic_Free(wk->graphic);
     heapId = wk->heapId;
     GFL_ProcReleaseSubsystem(proc);
     GFL_HeapDelete(heapId);
@@ -74,12 +74,12 @@ BOOL IntroProc_Main(GameProc *proc, u32 *state, void *param, void *work) {
     if (!func_ov294_021a2f50(wk->cmd)) {
         return TRUE;
     }
-    func_ov294_021a1e30(wk->graphic);
-    func_ov294_021a1e44(wk->graphic);
+    IntroGraphic_Update(wk->graphic);
+    IntroGraphic_Begin3D(wk->graphic);
     IntroMcss_Update(wk->mcss);
     IntroMcss_Draw(wk->mcss);
     IntroParticle_Update(wk->particle);
     IntroG3d_Draw(wk->g3d);
-    func_ov294_021a1e50(wk->graphic);
+    IntroGraphic_End3D(wk->graphic);
     return FALSE;
 }

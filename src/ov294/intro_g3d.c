@@ -48,7 +48,7 @@ static const G3DSceneActorSetup sActors[] = {
 
 static const G3DSceneSetup sSceneSetup = { sResources, NELEMS(sResources), sActors, NELEMS(sActors) };
 
-IntroG3d *IntroG3d_Create(IntroGraphic *graphic, u32 a1, HeapID heapId) {
+IntroG3d *IntroG3d_Create(IntroGraphic *graphic, u32 mode, HeapID heapId) {
     IntroG3d *g3d = GFL_HeapAllocate(heapId, sizeof(IntroG3d), TRUE, "intro_g3d.c", 176);
     VecFx32 position;
     VecFx32 upVector;
@@ -64,7 +64,7 @@ IntroG3d *IntroG3d_Create(IntroGraphic *graphic, u32 a1, HeapID heapId) {
     g3d->camera = GFL_G3DCameraCreate(G3DCAM_PROJECTION_ORTHO, FX32_CONST(6), -FX32_CONST(6), -FX32_CONST(8),
                                       FX32_CONST(8), FX32_ONE, FX32_CONST(1024), FX32_ONE, &position, &upVector, &target,
                                       heapId);
-    if (a1 != 7 && a1 != 10) {
+    if (mode != INTRO_MODE_PLAYER_NAMED && mode != INTRO_MODE_RIVAL_NAMED) {
         g3d->scene = GFL_G3DMgrNewScene(g3d->manager, &sSceneSetup);
         actor = GFL_G3DMgrGetActor(g3d->manager, g3d->scene);
         GFL_G3DActorBindAnm(actor, 3);
