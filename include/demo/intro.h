@@ -51,9 +51,15 @@ void func_ov294_021a35dc(IntroMcss *mcss);
 void func_ov294_021a3864(IntroMcss *mcss);
 
 // intro_g3d.c
-IntroG3d *func_ov294_021a38a8(IntroGraphic *graphic, u32 a1, HeapID heapId);
-void func_ov294_021a39a4(IntroG3d *g3d);
-void func_ov294_021a39d0(IntroG3d *g3d);
+IntroG3d *IntroG3d_Create(IntroGraphic *graphic, u32 a1, HeapID heapId);
+void IntroG3d_Free(IntroG3d *g3d);
+void IntroG3d_Draw(IntroG3d *g3d);
+BOOL IntroG3d_Open(IntroG3d *g3d);
+void IntroG3d_SetVisible(IntroG3d *g3d, BOOL visible);
+void IntroG3d_SetMode(IntroG3d *g3d, u32 mode);
+BOOL IntroG3d_Animate(IntroG3d *g3d);
+BOOL IntroG3d_AnimateBack(IntroG3d *g3d);
+void IntroG3d_SetFrame(IntroG3d *g3d, u32 frame);
 
 // intro_particle.c
 IntroParticle *IntroParticle_Create(IntroGraphic *graphic, HeapID heapId);

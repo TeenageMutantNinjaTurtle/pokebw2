@@ -30,6 +30,7 @@ src/ov294/intro_mcss.c:
     .data       start:0x021a4d60 end:0x021a4d70
 
 src/ov294/intro_g3d.c:
+    complete
     .text       start:0x021a3928 end:0x021a3c78
     .rodata     start:0x021a4b74 end:0x021a4c14
     .data       start:0x021a4d70 end:0x021a4d7c
