@@ -56,8 +56,8 @@ void func_ov294_021a39a4(IntroG3d *g3d);
 void func_ov294_021a39d0(IntroG3d *g3d);
 
 // intro_particle.c
-IntroParticle *func_ov294_021a3bf8(IntroGraphic *graphic, HeapID heapId);
-void func_ov294_021a3ca4(IntroParticle *particle);
-void func_ov294_021a3cb4(IntroParticle *particle);
+IntroParticle *IntroParticle_Create(IntroGraphic *graphic, HeapID heapId);
+void IntroParticle_Free(IntroParticle *particle);
+void IntroParticle_Update(IntroParticle *particle);
 
 #endif // POKEBW2_DEMO_INTRO_H

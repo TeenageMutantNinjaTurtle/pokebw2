@@ -174,7 +174,12 @@ overlays/ov290 0x021fcf84 WIFIBATTLEMATCH_PROC_FUNCTIONS
 overlays/ov294 0x021a1b20 IntroProc_Init
 overlays/ov294 0x021a1bc4 IntroProc_Exit
 overlays/ov294 0x021a1c10 IntroProc_Main
+overlays/ov294 0x021a3bf8 IntroParticle_Create
+overlays/ov294 0x021a3ca4 IntroParticle_Free
+overlays/ov294 0x021a3cb4 IntroParticle_Update
+overlays/ov294 0x021a3cbc IntroParticle_SetPos
 overlays/ov294 0x021a3cf4 INTRO_SOUND_COUNT
 overlays/ov294 0x021a3cf8 INTRO_PROC_FUNCTIONS
 overlays/ov294 0x021a3d04 INTRO_SOUNDS
+overlays/ov294 0x021a4cfc sCameraVectors
 overlays/ov327 0x021b70d4 WBT_DOWNLOAD_PROC_FUNCTIONS

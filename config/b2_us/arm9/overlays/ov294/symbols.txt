@@ -126,10 +126,10 @@ func_ov294_021a3abc kind:function(thumb,size=0x42) addr:0x021a3abc
 func_ov294_021a3b00 kind:function(thumb,size=0x74) addr:0x021a3b00
 func_ov294_021a3b74 kind:function(thumb,size=0x26) addr:0x021a3b74
 func_ov294_021a3b9c kind:function(thumb,size=0x5c) addr:0x021a3b9c
-func_ov294_021a3bf8 kind:function(thumb,size=0xac) addr:0x021a3bf8
-func_ov294_021a3ca4 kind:function(thumb,size=0x10) addr:0x021a3ca4
-func_ov294_021a3cb4 kind:function(thumb,size=0x8) addr:0x021a3cb4
-func_ov294_021a3cbc kind:function(thumb,size=0x38) addr:0x021a3cbc
+IntroParticle_Create kind:function(thumb,size=0xac) addr:0x021a3bf8
+IntroParticle_Free kind:function(thumb,size=0x10) addr:0x021a3ca4
+IntroParticle_Update kind:function(thumb,size=0x8) addr:0x021a3cb4
+IntroParticle_SetPos kind:function(thumb,size=0x38) addr:0x021a3cbc
 INTRO_SOUND_COUNT kind:data(any) addr:0x021a3cf4
 INTRO_PROC_FUNCTIONS kind:data(any) addr:0x021a3cf8
 INTRO_SOUNDS kind:data(any) addr:0x021a3d04
@@ -188,7 +188,7 @@ data_ov294_021a4c9c kind:data(any) addr:0x021a4c9c
 data_ov294_021a4cd4 kind:data(any) addr:0x021a4cd4
 data_ov294_021a4ce0 kind:data(any) addr:0x021a4ce0
 data_ov294_021a4cf0 kind:data(any) addr:0x021a4cf0
-data_ov294_021a4cfc kind:data(any) addr:0x021a4cfc
+sCameraVectors kind:data(any) addr:0x021a4cfc
 data_ov294_021a4d08 kind:data(any) addr:0x021a4d08
 data_ov294_021a4d14 kind:data(any) addr:0x021a4d14
 data_ov294_021a4d20 kind:data(any) addr:0x021a4d20

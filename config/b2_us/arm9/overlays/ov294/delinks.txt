@@ -35,5 +35,6 @@ src/ov294/intro_g3d.c:
     .data       start:0x021a4cf0 end:0x021a4cfc
 
 src/ov294/intro_particle.c:
+    complete
     .text       start:0x021a3bf8 end:0x021a3cf4
     .data       start:0x021a4cfc end:0x021a4d40
