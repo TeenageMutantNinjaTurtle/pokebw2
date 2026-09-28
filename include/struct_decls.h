@@ -58,6 +58,7 @@ typedef struct LinkFestival LinkFestival;
 typedef struct MMSys MMSys;
 typedef struct MapMatrix MapMatrix;
 typedef struct NetHandle NetHandle;
+typedef struct PartyPkm PartyPkm;
 typedef struct PlaceName PlaceName;
 typedef struct PlayerInfo PlayerInfo;
 typedef struct PlayerState PlayerState;

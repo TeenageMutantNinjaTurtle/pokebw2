@@ -6,6 +6,7 @@
 #include "gfl/overlay.h"
 #include "gfl/proc.h"
 #include "struct_decls.h"
+#include "system/mcss.h"
 
 // The intro of a new game, overlay 294, which ov162 runs before and after the name entry
 #define OVERLAY_INTRO OVERLAY_ID(294)
@@ -45,10 +46,20 @@ void func_ov294_021a2f3c(IntroCmd *cmd);
 BOOL func_ov294_021a2f50(IntroCmd *cmd);
 
 // intro_mcss.c
-IntroMcss *func_ov294_021a355c(HeapID heapId, u32 a1);
-void func_ov294_021a35ac(IntroMcss *mcss);
-void func_ov294_021a35dc(IntroMcss *mcss);
-void func_ov294_021a3864(IntroMcss *mcss);
+IntroMcss *IntroMcss_Create(HeapID heapId, u32 a1);
+void IntroMcss_Free(IntroMcss *mcss);
+void IntroMcss_Draw(IntroMcss *mcss);
+void IntroMcss_Add(IntroMcss *mcss, fx32 x, fx32 y, fx32 z, const MCSSLoadInfo *info, u8 index);
+void IntroMcss_AddPokemon(IntroMcss *mcss, fx32 x, fx32 y, fx32 z, u32 species, u8 index);
+void IntroMcss_SetVisible(IntroMcss *mcss, BOOL visible, u8 index);
+void IntroMcss_SetAnimation(IntroMcss *mcss, u8 index, u32 animation, BOOL restartAtEnd);
+BOOL IntroMcss_IsAnimationEnded(IntroMcss *mcss, u8 index);
+void IntroMcss_ClearAnimationEnded(IntroMcss *mcss, u8 index);
+void IntroMcss_SetAlpha(IntroMcss *mcss, u8 index, u32 alpha);
+void func_ov294_021a3798(IntroMcss *mcss, u8 index, BOOL a2);
+BOOL IntroMcss_MoveX(IntroMcss *mcss, u8 index, fx32 step, fx32 target);
+BOOL IntroMcss_DecreaseY(IntroMcss *mcss, fx32 step, fx32 min);
+void IntroMcss_Update(IntroMcss *mcss);
 
 // intro_g3d.c
 IntroG3d *IntroG3d_Create(IntroGraphic *graphic, u32 a1, HeapID heapId);
