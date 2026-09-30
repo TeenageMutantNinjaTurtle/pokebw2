@@ -68,7 +68,7 @@ Script_1:
     // "Thank you for sailing with us.[f000]븁\u0000\nThis cruise ship will arrive\nin Castelia City shortly.[f000]븁\u0000"
     SystemMsg 67, 2
     InfoMsgClose
-    Plugin2_Cmd1005
+    PleasureBoatCmd_StopClock
     FadeOutBlack
     FadeWait
     VMCall L_083D
@@ -85,8 +85,8 @@ Script_2:
     ActorSetEyeToEye
     WorkSetConst 0x8020, 0
     WorkSetConst 0x8021, 0
-    Plugin2_Cmd1002 4, 0x8020
-    Plugin2_Cmd1002 5, 0x8021
+    PleasureBoatCmd_GetInfo 4, 0x8020
+    PleasureBoatCmd_GetInfo 5, 0x8021
     WordSetNumber 3, 0x8020, 1
     WordSetNumber 4, 0x8021, 1
     VMStackPush 0x8020
@@ -119,7 +119,7 @@ L_01DA:
     // "Certainly. Just a moment, please.[f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 62, 0, 0
     ActorMsgClose
-    Plugin2_Cmd1005
+    PleasureBoatCmd_StopClock
     FadeOutBlack
     FadeWait
     VMCall L_083D
@@ -161,8 +161,8 @@ L_025C:
     VMJumpIf CMP_STACK, L_02FB
     WorkSetConst 0x8022, 0
     WorkSetConst 0x8023, 0
-    Plugin2_Cmd1002 0, 0x8022
-    Plugin2_Cmd1002 1, 0x8023
+    PleasureBoatCmd_GetInfo 0, 0x8022
+    PleasureBoatCmd_GetInfo 1, 0x8023
     WordSetNumber 0, 0x8022, 1
     WordSetNumber 1, 0x8023, 1
     VMStackPush 0x8022
@@ -233,7 +233,7 @@ Script_5:
 Script_6:
     ActorsPauseAll
     WorkSetConst 0x8024, 0
-    Plugin2_Cmd1002 3, 0x8024
+    PleasureBoatCmd_GetInfo 3, 0x8024
     VMStackPush 0x8024
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -514,11 +514,11 @@ L_0691:
     CallTrainerLose
 
 L_0693:
-    Plugin2_Cmd1004 0x4000, 8, 0, 1
+    PleasureBoatCmd_SetTrainerInfo 0x4000, 8, 0, 1
     WorkSetConst 0x8029, 0
     WorkSetConst 0x802a, 0
-    Plugin2_Cmd1002 4, 0x8029
-    Plugin2_Cmd1002 5, 0x802a
+    PleasureBoatCmd_GetInfo 4, 0x8029
+    PleasureBoatCmd_GetInfo 5, 0x802a
     VMStackPush 0x8029
     VMStackPush 0x802a
     VMStackCmp CMP_LE
@@ -552,7 +552,7 @@ L_06FE:
     ParentActorMsg MSGFILE_SCRIPT, 0x802b, 0, 0
     LastKeyWait
     ActorMsgClose
-    Plugin2_Cmd1003 10, 1
+    PleasureBoatCmd_AdvanceClock 10, 1
     VMReturn
 
 L_072E:
@@ -570,7 +570,7 @@ L_072E:
     ParentActorMsg MSGFILE_SCRIPT, 0x802c, 0, 0
     LastKeyWait
     ActorMsgClose
-    Plugin2_Cmd1003 45, 0
+    PleasureBoatCmd_AdvanceClock 45, 0
     VMReturn
 
 Script_28:
@@ -595,7 +595,7 @@ Script_28:
     // "Thank you for sailing with us.[f000]븁\u0000\nThis cruise ship will arrive\nin Castelia City shortly.[f000]븁\u0000"
     SystemMsg 67, 2
     InfoMsgClose
-    Plugin2_Cmd1005
+    PleasureBoatCmd_StopClock
     FadeOutBlack
     FadeWait
     VMCall L_083D
@@ -613,8 +613,8 @@ Movement_07D4:
 Script_29:
     ActorsPauseAll
     WorkSetConst 0x802d, 0
-    Plugin2_Cmd1000 2400
-    Plugin2_Cmd1002 4, 0x802d
+    PleasureBoatCmd_Create 2400
+    PleasureBoatCmd_GetInfo 4, 0x802d
     ActorCmdExec 0, Movement_0884
     ActorCmdExec 255, Movement_08AC
     ActorCmdWait
@@ -640,8 +640,8 @@ Script_29:
 L_083D:
     WorkSetConst 0x802e, 0
     WorkSetConst 0x802f, 0
-    Plugin2_Cmd1002 4, 0x802e
-    Plugin2_Cmd1002 5, 0x802f
+    PleasureBoatCmd_GetInfo 4, 0x802e
+    PleasureBoatCmd_GetInfo 5, 0x802f
     VMStackPush 0x802e
     VMStackPush 0x802f
     VMStackCmp CMP_LE
@@ -649,7 +649,7 @@ L_083D:
     WorkSetConst 0x417b, 2
 
 L_086E:
-    Plugin2_Cmd1001
+    PleasureBoatCmd_Free
     RTReserveScript 1
     MapChangeCore 39, 19, 0, 16, 2
     VMReturn

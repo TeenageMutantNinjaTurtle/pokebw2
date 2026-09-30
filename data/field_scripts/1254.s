@@ -192,10 +192,10 @@ L_0276:
     ActorMsgClose
     VMCall L_0460
     WorkSetConst 0x408d, 1
-    PalPark_CallMbParent
+    PalParkCmd_CallMbParent
     WorkSetConst 0x408d, 0
     VMCall L_04CA
-    PalPark_GetInfo 0, 0x8024
+    PalParkCmd_GetInfo 0, 0x8024
     VMStackPush 0x8024
     VMStackPushConst 3
     VMStackCmp CMP_EQ

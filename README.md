@@ -321,13 +321,13 @@ does not name, a few are named after the function they call, such as `IsFestMiss
 tell the save data they use get its area, such as `MusicalCmd_0165`, and the rest are `Cmd_NNNN`.
 
 Commands from ID 1000 up come from the script plugin, overlays that the zone loads. They take their handler's name once
-it has one, such as `BadgeGate_PlayCheck`, and are `PluginN_CmdNNNN` until then. Overlay 12's `SCRIPT_PLUGIN_TABLE`
+it has one, such as `BadgeGateCmd_PlayCheck`, and are `PluginN_CmdNNNN` until then. Overlay 12's `SCRIPT_PLUGIN_TABLE`
 lists the plugins:
 
 | Plugin | Overlays | For | Files named in the overlays |
 |---|---|---|---|
 | 1 | 50 | Battle Subway: Gear Station and the trains | |
-| 2 | 51 | The Royal Unova | |
+| 2 | 51 | The Royal Unova, the "pleasure boat" of overlay 36's `pleasure_boat.c` | |
 | 3 | 52 | Pokémon League: the Elite Four's rooms | |
 | 4 | 53 | Poké Transfer Lab | `scrcmd_palpark.c` |
 | 5 | 54 | Abyssal Ruins | |

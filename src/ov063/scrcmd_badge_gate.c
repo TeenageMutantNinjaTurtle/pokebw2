@@ -6,7 +6,7 @@
 // The script plugin of the badge gates on the way to Victory Road (plugin 11), commands from 1000
 
 // Plays the gate of a badge (0 to 7, from the script) checking it
-static BOOL BadgeGate_PlayCheck(VM *vm, FieldScriptEnv *env) {
+static BOOL BadgeGateCmd_PlayCheck(VM *vm, FieldScriptEnv *env) {
     ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
     GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
     u8 badge = ScriptReadAny(vm, env);
@@ -20,7 +20,7 @@ static BOOL BadgeGate_PlayCheck(VM *vm, FieldScriptEnv *env) {
 }
 
 // Plays the last gate
-static BOOL BadgeGate_PlayLastGate(VM *vm, FieldScriptEnv *env) {
+static BOOL BadgeGateCmd_PlayLastGate(VM *vm, FieldScriptEnv *env) {
     ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
     GameEvent *event = BadgeGate_CreateLastGateEvent(FieldScriptEnv_GetGameSystem(env));
 
@@ -32,7 +32,7 @@ static BOOL BadgeGate_PlayLastGate(VM *vm, FieldScriptEnv *env) {
 }
 
 const FieldScriptCommand BADGE_GATE_SCRIPT_COMMANDS[] = {
-    BadgeGate_PlayCheck,
-    BadgeGate_PlayLastGate,
+    BadgeGateCmd_PlayCheck,
+    BadgeGateCmd_PlayLastGate,
     (FieldScriptCommand)0xFFFFFFFF,
 };

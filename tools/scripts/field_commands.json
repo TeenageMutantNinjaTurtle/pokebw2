@@ -5397,7 +5397,7 @@
    ],
    "commands": {
     "1000": {
-     "handler": "func_ov051_021e5800",
+     "handler": "PleasureBoatCmd_Create",
      "overlay": 51,
      "args": [
       "any"
@@ -5407,12 +5407,12 @@
      ]
     },
     "1001": {
-     "handler": "func_ov051_021e5848",
+     "handler": "PleasureBoatCmd_Free",
      "overlay": 51,
      "args": []
     },
     "1002": {
-     "handler": "func_ov051_021e5868",
+     "handler": "PleasureBoatCmd_GetInfo",
      "overlay": 51,
      "args": [
       "u16",
@@ -5420,7 +5420,7 @@
      ]
     },
     "1003": {
-     "handler": "func_ov051_021e58ac",
+     "handler": "PleasureBoatCmd_AdvanceClock",
      "overlay": 51,
      "args": [
       "u16",
@@ -5428,7 +5428,7 @@
      ]
     },
     "1004": {
-     "handler": "func_ov051_021e58ec",
+     "handler": "PleasureBoatCmd_SetTrainerInfo",
      "overlay": 51,
      "args": [
       "any",
@@ -5438,7 +5438,7 @@
      ]
     },
     "1005": {
-     "handler": "func_ov051_021e5960",
+     "handler": "PleasureBoatCmd_StopClock",
      "overlay": 51,
      "args": []
     }
@@ -5600,12 +5600,12 @@
    ],
    "commands": {
     "1000": {
-     "handler": "PalPark_CallMbParent",
+     "handler": "PalParkCmd_CallMbParent",
      "overlay": 53,
      "args": []
     },
     "1001": {
-     "handler": "PalPark_GetInfo",
+     "handler": "PalParkCmd_GetInfo",
      "overlay": 53,
      "args": [
       "u8",
@@ -5627,12 +5627,12 @@
    ],
    "commands": {
     "1000": {
-     "handler": "AbyssalRuins_StartUnderwaterEffect",
+     "handler": "AbyssalRuinsCmd_StartUnderwaterEffect",
      "overlay": 54,
      "args": []
     },
     "1001": {
-     "handler": "AbyssalRuins_GetStepCounter",
+     "handler": "AbyssalRuinsCmd_GetStepCounter",
      "overlay": 54,
      "args": [
       "var"
@@ -7075,14 +7075,14 @@
    ],
    "commands": {
     "1000": {
-     "handler": "BadgeGate_PlayCheck",
+     "handler": "BadgeGateCmd_PlayCheck",
      "overlay": 63,
      "args": [
       "any"
      ]
     },
     "1001": {
-     "handler": "BadgeGate_PlayLastGate",
+     "handler": "BadgeGateCmd_PlayLastGate",
      "overlay": 63,
      "args": []
     }

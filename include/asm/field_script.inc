@@ -3911,33 +3911,28 @@
 
     // Plugin 2
 
-    // func_ov051_021e5800
-    .macro Plugin2_Cmd1000 a0
+    .macro PleasureBoatCmd_Create a0
     FieldCommand 1000
     .2byte \a0
     .endm
 
-    // func_ov051_021e5848
-    .macro Plugin2_Cmd1001
+    .macro PleasureBoatCmd_Free
     FieldCommand 1001
     .endm
 
-    // func_ov051_021e5868
-    .macro Plugin2_Cmd1002 a0, a1
+    .macro PleasureBoatCmd_GetInfo a0, a1
     FieldCommand 1002
     .2byte \a0
     .2byte \a1
     .endm
 
-    // func_ov051_021e58ac
-    .macro Plugin2_Cmd1003 a0, a1
+    .macro PleasureBoatCmd_AdvanceClock a0, a1
     FieldCommand 1003
     .2byte \a0
     .2byte \a1
     .endm
 
-    // func_ov051_021e58ec
-    .macro Plugin2_Cmd1004 a0, a1, a2, a3
+    .macro PleasureBoatCmd_SetTrainerInfo a0, a1, a2, a3
     FieldCommand 1004
     .2byte \a0
     .2byte \a1
@@ -3945,8 +3940,7 @@
     .2byte \a3
     .endm
 
-    // func_ov051_021e5960
-    .macro Plugin2_Cmd1005
+    .macro PleasureBoatCmd_StopClock
     FieldCommand 1005
     .endm
 
@@ -4076,11 +4070,11 @@
 
     // Plugin 4
 
-    .macro PalPark_CallMbParent
+    .macro PalParkCmd_CallMbParent
     FieldCommand 1000
     .endm
 
-    .macro PalPark_GetInfo a0, a1
+    .macro PalParkCmd_GetInfo a0, a1
     FieldCommand 1001
     .byte \a0
     .2byte \a1
@@ -4088,11 +4082,11 @@
 
     // Plugin 5
 
-    .macro AbyssalRuins_StartUnderwaterEffect
+    .macro AbyssalRuinsCmd_StartUnderwaterEffect
     FieldCommand 1000
     .endm
 
-    .macro AbyssalRuins_GetStepCounter a0
+    .macro AbyssalRuinsCmd_GetStepCounter a0
     FieldCommand 1001
     .2byte \a0
     .endm
@@ -5282,11 +5276,11 @@
 
     // Plugin 11
 
-    .macro BadgeGate_PlayCheck a0
+    .macro BadgeGateCmd_PlayCheck a0
     FieldCommand 1000
     .2byte \a0
     .endm
 
-    .macro BadgeGate_PlayLastGate
+    .macro BadgeGateCmd_PlayLastGate
     FieldCommand 1001
     .endm

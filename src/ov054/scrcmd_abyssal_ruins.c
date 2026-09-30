@@ -9,7 +9,7 @@
 // The script plugin of the Abyssal Ruins (plugin 5), commands from 1000
 
 // Starts the underwater effect
-static BOOL AbyssalRuins_StartUnderwaterEffect(VM *vm, FieldScriptEnv *env) {
+static BOOL AbyssalRuinsCmd_StartUnderwaterEffect(VM *vm, FieldScriptEnv *env) {
     ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
     FieldAsyncProcManager *mgr = Field_GetAsyncProcMgr(GSYS_GetField(FieldScriptEnv_GetGameSystem(env)));
 
@@ -18,7 +18,7 @@ static BOOL AbyssalRuins_StartUnderwaterEffect(VM *vm, FieldScriptEnv *env) {
 }
 
 // Sets a variable to the steps counted in the Abyssal Ruins
-static BOOL AbyssalRuins_GetStepCounter(VM *vm, FieldScriptEnv *env) {
+static BOOL AbyssalRuinsCmd_GetStepCounter(VM *vm, FieldScriptEnv *env) {
     ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
     PlayerSave *playerSave =
         SaveControl_GetPlayerSave(GameData_GetSaveControl(GSYS_GetGameData(FieldScriptEnv_GetGameSystem(env))));
@@ -29,7 +29,7 @@ static BOOL AbyssalRuins_GetStepCounter(VM *vm, FieldScriptEnv *env) {
 }
 
 const FieldScriptCommand ABYSSAL_RUINS_SCRIPT_COMMANDS[] = {
-    AbyssalRuins_StartUnderwaterEffect,
-    AbyssalRuins_GetStepCounter,
+    AbyssalRuinsCmd_StartUnderwaterEffect,
+    AbyssalRuinsCmd_GetStepCounter,
     (FieldScriptCommand)0xFFFFFFFF,
 };

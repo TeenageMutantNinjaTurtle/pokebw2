@@ -241,7 +241,7 @@ Script_18:
 Script_19:
     ActorsPauseAll
     WorkSetConst 0x8022, 0
-    AbyssalRuins_GetStepCounter 0x8022
+    AbyssalRuinsCmd_GetStepCounter 0x8022
     VMStackPush 0x4094
     VMStackPushConst 0
     VMStackCmp CMP_EQ

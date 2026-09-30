@@ -20,6 +20,8 @@ ZoneSpawnInfo *GameData_GetEntralinkParentSpawnInfo(GameData *gameData);
 ZoneSpawnInfo *GameData_GetEscapeRopeZone(GameData *gameData);
 EventData *GameData_GetEventData(GameData *gameData);
 EventWork *GameData_GetEventWork(GameData *gameData);
+// The Royal Unova's cruise while the player is aboard, or NULL
+PleasureBoat **GameData_GetPleasureBoatPtr(GameData *gameData);
 FieldSound *GameData_GetFieldSoundSystem(GameData *gameData);
 FieldStatus *GameData_GetFieldStatus(GameData *gameData);
 GimmickState *GameData_GetGimmickState(GameData *gameData);
