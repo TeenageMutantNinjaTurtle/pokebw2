@@ -9,6 +9,10 @@
 . 0x0200b488 SaveControl_GetWorldTradeData
 . 0x0200b50c Regulation_Create
 . 0x0200b608 Regulation_SetParam
+. 0x0200c8cc TrainerGameInfo_GetPalParkHighScore
+. 0x0200c8d4 TrainerGameInfo_SetPalParkHighScore
+. 0x0200c8ec TrainerGameInfo_GetPalParkResult
+. 0x0200c8f8 TrainerGameInfo_SetPalParkResult
 . 0x0200f2f8 RecordSave_ClearMatchInProgress
 . 0x02010050 JoinAvenue_GetPersonList
 . 0x02010564 KeyInfo_GetCityKey
@@ -26,6 +30,7 @@
 . 0x02018ecc IsZoneInVictoryRoad
 . 0x0201906c CreateZoneChangeDataRail
 . 0x02019318 FieldStatus_SetInLinkedWorld
+. 0x02019708 EventFieldSubprocessCall_CreateWithCallback
 . 0x020199e8 MCSSSys_Create
 . 0x02019a88 MCSSSys_Free
 . 0x02019ae8 MCSSSys_Update
@@ -143,6 +148,9 @@ overlays/ov035 0x0217ee00 ElScoreboard_Free
 overlays/ov035 0x0217ee08 ElScoreboard_Update
 overlays/ov035 0x0217ee2c ElScoreboard_UploadPalette
 overlays/ov036 0x0219a6dc FieldPlayer_GetSex
+overlays/ov053 0x021e5800 PalPark_CallMbParent
+overlays/ov053 0x021e5868 PalPark_GetInfo
+overlays/ov053 0x021e58a4 PAL_PARK_SCRIPT_COMMANDS
 overlays/ov054 0x021e5800 AbyssalRuins_StartUnderwaterEffect
 overlays/ov054 0x021e5830 AbyssalRuins_GetStepCounter
 overlays/ov054 0x021e5868 ABYSSAL_RUINS_SCRIPT_COMMANDS

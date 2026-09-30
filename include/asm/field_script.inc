@@ -4076,13 +4076,11 @@
 
     // Plugin 4
 
-    // func_ov053_021e5800
-    .macro Plugin4_Cmd1000
+    .macro PalPark_CallMbParent
     FieldCommand 1000
     .endm
 
-    // func_ov053_021e5868
-    .macro Plugin4_Cmd1001 a0, a1
+    .macro PalPark_GetInfo a0, a1
     FieldCommand 1001
     .byte \a0
     .2byte \a1

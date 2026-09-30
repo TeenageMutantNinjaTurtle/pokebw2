@@ -3,13 +3,6 @@
 #include "gfl/std.h"
 #include "system/vm.h"
 
-static inline u8 VM_Read8(VM *vm) {
-    u8 value = *vm->pc;
-
-    vm->pc++;
-    return value;
-}
-
 void VM_Reset(VM *vm) {
     vm->pc = NULL;
     vm->cmpResult = 0;

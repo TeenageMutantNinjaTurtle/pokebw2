@@ -38,6 +38,10 @@ GameEvent *EventEscapeRope_Create(GameEvent *event, GameSystem *gsys, Field *fie
 GameEvent *EventFieldCloseKeepSound_Create(GameSystem *gsys, Field *field);
 GameEvent *EventFieldOpen_Create(GameSystem *gsys);
 GameEvent *EventFieldOpen_CreateHeadless(GameSystem *gsys);
+// Runs the proc as a field subprocess, then calls callback with work if there is a callback, and frees work
+GameEvent *EventFieldSubprocessCall_CreateWithCallback(GameSystem *gsys, Field *field, s32 overlayId,
+                                                       const GameProcFunctions *functions, void *param,
+                                                       void (*callback)(void *work), void *work);
 GameEvent *EventFieldSubprocessTransition_Create(GameSystem *gsys, Field *field, s32 overlayId,
                                                  const GameProcFunctions *functions, void *param);
 GameEvent *EventPlayerSpinDown_Create(GameEvent *event, GameSystem *gsys, Field *field);

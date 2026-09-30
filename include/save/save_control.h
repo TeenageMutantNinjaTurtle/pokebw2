@@ -12,6 +12,12 @@ u32 func_02007464(SaveControl *save);
 void func_0200749c(SaveControl *save);
 void func_02007324(SaveControl *save);
 TrainerGameInfoSave *getTrainerGameInfoAddress(SaveControl *save);
+// Poké Transfer's high score, 28 bits
+u32 TrainerGameInfo_GetPalParkHighScore(TrainerGameInfoSave *info);
+void TrainerGameInfo_SetPalParkHighScore(TrainerGameInfoSave *info, u32 score);
+// How the last Poké Transfer session ended, 4 bits, which the Poké Transfer Lab's scripts react to
+u8 TrainerGameInfo_GetPalParkResult(TrainerGameInfoSave *info);
+void TrainerGameInfo_SetPalParkResult(TrainerGameInfoSave *info, u8 result);
 
 // Where the player saved
 typedef struct {

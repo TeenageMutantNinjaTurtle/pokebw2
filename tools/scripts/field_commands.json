@@ -5600,18 +5600,17 @@
    ],
    "commands": {
     "1000": {
-     "handler": "func_ov053_021e5800",
+     "handler": "PalPark_CallMbParent",
      "overlay": 53,
      "args": []
     },
     "1001": {
-     "handler": "func_ov053_021e5868",
+     "handler": "PalPark_GetInfo",
      "overlay": 53,
      "args": [
       "u8",
       "var"
-     ],
-     "area": "TrainerGameInfo"
+     ]
     }
    }
   },

@@ -58,6 +58,13 @@ void VM_Halt(VM *vm);
 BOOL VM_Run(VM *vm);
 void *VM_GetEnv(VM *vm);
 void VM_SetCallbackVerifier(VM *vm, VMVerifier verifier, void *arg);
+static inline u8 VM_Read8(VM *vm) {
+    u8 value = *vm->pc;
+
+    vm->pc++;
+    return value;
+}
+
 u16 VM_Read16(VM *vm);
 u32 VM_Read32(VM *vm);
 void VM_StackPush(VM *vm, u32 value);

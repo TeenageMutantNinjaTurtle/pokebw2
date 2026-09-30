@@ -6,7 +6,8 @@ from:0x021e5834 kind:thumb_call to:0x0203a1fc module:main
 from:0x021e584a kind:thumb_call to:0x02019708 module:main
 from:0x021e5852 kind:thumb_call to:0x02153880 module:overlay(12)
 from:0x021e585c kind:load to:0x021e58c0 module:overlay(53)
-from:0x021e5864 kind:load to:0x021a42b8 module:overlays(165,181,293,294,300)
+from:0x021e5860 kind:overlay_id to:181
+from:0x021e5864 kind:load to:0x021a42b8 module:overlay(181)
 from:0x021e5874 kind:thumb_call to:0x021548e8 module:overlay(12)
 from:0x021e587c kind:thumb_call to:0x02155174 module:overlay(12)
 from:0x021e5880 kind:thumb_call to:0x02017934 module:main
