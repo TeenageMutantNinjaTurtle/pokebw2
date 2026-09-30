@@ -1257,19 +1257,14 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
         BOOL first;
         BOOL second;
         BOOL gathered = TRUE;
-        fx32 dx;
-        fx32 dy;
-        fx32 dz;
         fx32 distSqXZ;
         fx32 distSqY;
-        fx32 x;
-        fx32 z;
         fx32 invDist;
         fx32 sign;
         BOOL nearXZ;
         BOOL nearY;
 
-        first = second = TRUE;
+        second = first = TRUE;
         for (row = 0; row < PIECE_ROWS; row++) {
             for (col = 0; col < PIECE_COLUMNS; col++) {
                 piece = &pieces->pieces[row][col];
@@ -1302,6 +1297,10 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
                         piece->frame++;
                         pieces->rowCount = row + 1;
                     } else {
+                        fx32 dx;
+                        fx32 dy;
+                        fx32 dz;
+
                         dy = piece->target.y - piece->pos.y;
                         dz = piece->target.z - piece->pos.z;
                         dx = piece->target.x - piece->pos.x;
@@ -1329,11 +1328,9 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
                                 piece->pos.z = piece->target.z;
                             } else {
                                 invDist = FX_InvSqrt(distSqXZ);
-                                x = piece->pos.x;
-                                piece->pos.x = x + FX_Mul(x - piece->prevPos.x, FX32_ONE / 10) +
+                                piece->pos.x = piece->pos.x + FX_Mul(piece->pos.x - piece->prevPos.x, FX32_ONE / 10) +
                                                FX_Mul(FX_Mul(dx, invDist), FX32_CONST(0.875));
-                                z = piece->pos.z;
-                                piece->pos.z = z + FX_Mul(z - piece->prevPos.z, FX32_ONE / 10) +
+                                piece->pos.z = piece->pos.z + FX_Mul(piece->pos.z - piece->prevPos.z, FX32_ONE / 10) +
                                                FX_Mul(FX_Mul(dz, invDist), FX32_CONST(0.875));
                             }
                             if (nearY) {
@@ -1438,9 +1435,8 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
         fx32 distSqXZ;
         fx32 distSqY;
         fx32 invDist;
-        fx32 homeX;
 
-        first = second = TRUE;
+        second = first = TRUE;
         for (row = PIECE_ROWS - 1; row >= 0; row--) {
             for (col = PIECE_COLUMNS - 1; col >= 0; col--) {
                 piece = &pieces->pieces[row][col];
@@ -1505,14 +1501,13 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
                         fx32 dx;
                         fx32 dz;
 
-                        homeX = piece->home.x;
-                        dx = homeX - piece->pos.x;
+                        dx = piece->home.x - piece->pos.x;
                         dy = piece->home.y - piece->pos.y;
                         dz = piece->home.z - piece->pos.z;
                         distSqXZ = SquaredLengthXZ(dx, dz);
                         distSqY = FX_Mul(dy, dy);
                         if (distSqXZ < PIECE_ARRIVED_DIST_SQ && distSqY < PIECE_ARRIVED_DIST_SQ) {
-                            piece->pos.x = homeX;
+                            piece->pos.x = piece->home.x;
                             piece->pos.z = piece->home.z;
                             piece->pos.y = piece->home.y;
                             piece->frame = 0;
