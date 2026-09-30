@@ -1,5 +1,7 @@
 #include "asm/field_script.inc"
 
+// Script plugin 13, from the zones that start its scripts
+
     ScriptEntry Script_1
     ScriptEntry Script_2
     ScriptEntry Script_3

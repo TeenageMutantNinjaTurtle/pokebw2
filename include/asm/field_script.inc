@@ -3952,8 +3952,7 @@
     .2byte \a0
     .endm
 
-    // func_ov052_021e5834
-    .macro Plugin3_Cmd1001 a0
+    .macro PokemonLeagueCmd_SetCamera a0
     FieldCommand 1001
     .2byte \a0
     .endm
@@ -3970,8 +3969,7 @@
     .2byte \a0
     .endm
 
-    // func_ov052_021e58ec
-    .macro Plugin3_Cmd1004
+    .macro PokemonLeagueCmd_PlayCaitlinAmbience
     FieldCommand 1004
     .endm
 
@@ -5283,4 +5281,271 @@
 
     .macro BadgeGateCmd_PlayLastGate
     FieldCommand 1001
+    .endm
+
+    // Plugin 12
+
+    // func_ov064_021e5800
+    .macro Plugin12_Cmd1000 a0
+    FieldCommand 1000
+    .2byte \a0
+    .endm
+
+    // func_ov064_021e5838
+    .macro Plugin12_Cmd1001 a0, a1
+    FieldCommand 1001
+    .2byte \a0
+    .2byte \a1
+    .endm
+
+    // func_ov064_021e586c
+    .macro Plugin12_Cmd1002 a0
+    FieldCommand 1002
+    .2byte \a0
+    .endm
+
+    // func_ov064_021e588c
+    .macro Plugin12_Cmd1003 a0
+    FieldCommand 1003
+    .2byte \a0
+    .endm
+
+    // func_ov064_021e58ac
+    .macro Plugin12_Cmd1004 a0
+    FieldCommand 1004
+    .2byte \a0
+    .endm
+
+    // func_ov064_021e58e4
+    .macro Plugin12_Cmd1005 a0
+    FieldCommand 1005
+    .2byte \a0
+    .endm
+
+    // func_ov064_021e5910
+    .macro Plugin12_Cmd1006 a0, a1
+    FieldCommand 1006
+    .2byte \a0
+    .2byte \a1
+    .endm
+
+    // func_ov064_021e5944
+    .macro Plugin12_Cmd1007 a0
+    FieldCommand 1007
+    .2byte \a0
+    .endm
+
+    // func_ov064_021e5964
+    .macro Plugin12_Cmd1008 a0
+    FieldCommand 1008
+    .2byte \a0
+    .endm
+
+    // Plugin 13
+
+    // func_ov065_021e5800
+    .macro Plugin13_Cmd1000 a0
+    FieldCommand 1000
+    .2byte \a0
+    .endm
+
+    // func_ov065_021e58f0
+    .macro Plugin13_Cmd1001 a0, a1
+    FieldCommand 1001
+    .2byte \a0
+    .2byte \a1
+    .endm
+
+    // func_ov065_021e6508
+    .macro Plugin13_Cmd1005 a0, a1
+    FieldCommand 1005
+    .2byte \a0
+    .2byte \a1
+    .endm
+
+    // func_ov065_021e658c
+    .macro Plugin13_Cmd1006
+    FieldCommand 1006
+    .endm
+
+    // func_ov065_021e65b8
+    .macro Plugin13_Cmd1007
+    FieldCommand 1007
+    .endm
+
+    // func_ov065_021e65dc
+    .macro Plugin13_Cmd1008 a0, a1
+    FieldCommand 1008
+    .2byte \a0
+    .2byte \a1
+    .endm
+
+    // func_ov065_021e6634
+    .macro Plugin13_Cmd1009 a0
+    FieldCommand 1009
+    .2byte \a0
+    .endm
+
+    // Plugin 14
+
+    // func_ov066_021e597c
+    .macro Plugin14_Cmd1000
+    FieldCommand 1000
+    .endm
+
+    // func_ov066_021e5800
+    .macro Plugin14_Cmd1001 a0
+    FieldCommand 1001
+    .2byte \a0
+    .endm
+
+    // func_ov066_021e5820
+    .macro Plugin14_Cmd1002 a0
+    FieldCommand 1002
+    .2byte \a0
+    .endm
+
+    // func_ov066_021e5840
+    .macro Plugin14_Cmd1003 a0
+    FieldCommand 1003
+    .2byte \a0
+    .endm
+
+    // func_ov066_021e5860
+    .macro Plugin14_Cmd1004 a0
+    FieldCommand 1004
+    .2byte \a0
+    .endm
+
+    // func_ov066_021e5888
+    .macro Plugin14_Cmd1005
+    FieldCommand 1005
+    .endm
+
+    // func_ov066_021e5898
+    .macro Plugin14_Cmd1006 a0, a1, a2
+    FieldCommand 1006
+    .2byte \a0
+    .2byte \a1
+    .2byte \a2
+    .endm
+
+    // func_ov066_021e5910
+    .macro Plugin14_Cmd1007
+    FieldCommand 1007
+    .endm
+
+    // func_ov066_021e598c
+    .macro Plugin14_Cmd1009
+    FieldCommand 1009
+    .endm
+
+    // func_ov066_021e599c
+    .macro Plugin14_Cmd1010 a0
+    FieldCommand 1010
+    .2byte \a0
+    .endm
+
+    // func_ov066_021e5a1c
+    .macro Plugin14_Cmd1011
+    FieldCommand 1011
+    .endm
+
+    // func_ov066_021e5a2c
+    .macro Plugin14_Cmd1012
+    FieldCommand 1012
+    .endm
+
+    // func_ov066_021e5a54
+    .macro Plugin14_Cmd1013 a0, a1, a2, a3, a4, a5
+    FieldCommand 1013
+    .2byte \a0
+    .2byte \a1
+    .2byte \a2
+    .2byte \a3
+    .2byte \a4
+    .2byte \a5
+    .endm
+
+    // func_ov066_021e5b00
+    .macro Plugin14_Cmd1014 a0, a1, a2
+    FieldCommand 1014
+    .2byte \a0
+    .2byte \a1
+    .2byte \a2
+    .endm
+
+    // func_ov066_021e5b50
+    .macro Plugin14_Cmd1015
+    FieldCommand 1015
+    .endm
+
+    // func_ov066_021e5b78
+    .macro Plugin14_Cmd1016
+    FieldCommand 1016
+    .endm
+
+    // Plugin 15
+
+    // func_ov067_021e5800
+    .macro Plugin15_Cmd1000 a0, a1, a2
+    FieldCommand 1000
+    .2byte \a0
+    .2byte \a1
+    .2byte \a2
+    .endm
+
+    // func_ov067_021e5840
+    .macro Plugin15_Cmd1001 a0, a1, a2, a3
+    FieldCommand 1001
+    .2byte \a0
+    .2byte \a1
+    .2byte \a2
+    .2byte \a3
+    .endm
+
+    // Plugin 16
+
+    // func_ov068_021e5800
+    .macro Plugin16_Cmd1000 a0
+    FieldCommand 1000
+    .2byte \a0
+    .endm
+
+    // func_ov068_021e582c
+    .macro Plugin16_Cmd1001 a0
+    FieldCommand 1001
+    .2byte \a0
+    .endm
+
+    // func_ov068_021e5854
+    .macro Plugin16_Cmd1002 a0
+    FieldCommand 1002
+    .2byte \a0
+    .endm
+
+    // func_ov068_021e587c
+    .macro Plugin16_Cmd1003
+    FieldCommand 1003
+    .endm
+
+    // func_ov068_021e58a4
+    .macro Plugin16_Cmd1004
+    FieldCommand 1004
+    .endm
+
+    // func_ov068_021e58b4
+    .macro Plugin16_Cmd1005 a0
+    FieldCommand 1005
+    .2byte \a0
+    .endm
+
+    // func_ov068_021e58f8
+    .macro Plugin16_Cmd1006
+    FieldCommand 1006
+    .endm
+
+    // func_ov068_021e5940
+    .macro Plugin16_Cmd1007
+    FieldCommand 1007
     .endm

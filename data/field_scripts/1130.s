@@ -1,5 +1,7 @@
 #include "asm/field_script.inc"
 
+// Script plugin 16, from the zones that use this file
+
     ScriptEntry Script_1
     ScriptEntry Script_2
     ScriptEntry Script_3
@@ -35,10 +37,7 @@ L_004F:
     VMJump L_006C
 
 L_0062:
-    .byte 0xe8
-    .byte 0x03
-    .byte 0x03
-    .byte 0x00
+    Plugin16_Cmd1000 3
     VMJump L_00C7
 
 L_006C:
@@ -47,9 +46,7 @@ L_006C:
     VMJump L_0089
 
 L_007F:
-    .byte 0xe8
-    .byte 0x03
-    VMNop
+    Plugin16_Cmd1000 0
     VMJump L_00C7
 
 L_0089:
@@ -58,9 +55,7 @@ L_0089:
     VMJump L_00A6
 
 L_009C:
-    .byte 0xe8
-    .byte 0x03
-    VMNop2
+    Plugin16_Cmd1000 1
     VMJump L_00C7
 
 L_00A6:
@@ -69,16 +64,11 @@ L_00A6:
     VMJump L_00C3
 
 L_00B9:
-    .byte 0xe8
-    .byte 0x03
-    VMHalt
+    Plugin16_Cmd1000 2
     VMJump L_00C7
 
 L_00C3:
-    .byte 0xe8
-    .byte 0x03
-    .byte 0x03
-    .byte 0x00
+    Plugin16_Cmd1000 3
 
 L_00C7:
     VMReturn
@@ -129,13 +119,8 @@ L_0161:
     EvCameraUnbind
     EvCameraMoveTo 5720, 0, 0xed000, 0xf8000, 0, 0x15000, 40
     EvCameraWait
-    .byte 0xe9
-    .byte 0x03
-    .byte 0x00
-    .byte 0x00
-    .byte 0xea
-    .byte 0x03
-    VMNop2
+    Plugin16_Cmd1001 0
+    Plugin16_Cmd1002 1
     SEPlay SEQ_SE_SW_RELIC_02
     VMSleep 30
     ActorCmdExec 255, Movement_0290
@@ -277,49 +262,15 @@ L_036A:
 
 Script_5:
     ActorsPauseAll
-    .byte 0xe9
-    .byte 0x03
-    .byte 0x01
-    .byte 0x00
-    .byte 0x3f
-    .byte 0x01
-    .byte 0x41
-    .byte 0x01
-    .byte 0x43
-    .byte 0x01
-    .byte 0x58
-    .byte 0x16
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0xd0
-    .byte 0x0e
-    .byte 0x00
-    .byte 0x00
-    .byte 0x80
-    .byte 0x0f
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x50
-    .byte 0x01
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x45
-    .byte 0x01
-    .byte 0xab
-    .byte 0x01
-    .byte 0x64
-    .byte 0x00
-    .byte 0xff
-    .byte 0x00
-    WorkSetConst 0, 3
-    VMRegSet8 234, 3
-    VMNop
+    Plugin16_Cmd1001 1
+    EvCameraInit
+    EvCameraUnbind
+    EvCameraMoveTo 5720, 0, 0xed000, 0xf8000, 0, 0x15000, 1
+    EvCameraWait
+    FadeInBlack
+    ActorCmdExec 255, Movement_03CC
+    VMSleep 20
+    Plugin16_Cmd1002 0
     SEPlay SEQ_SE_SW_RELIC_03
     ActorCmdWait
     FadeWait
@@ -333,6 +284,8 @@ Script_5:
     ActorsUnpauseAll
     VMHalt
     .balign 4, 0
+
+Movement_03CC:
     Move 9, 3
     MoveEnd
 
@@ -363,9 +316,7 @@ Script_6:
     EvCameraShake 6, 0, 3, 10, 1, 0, 1, 3
     FadeEx 3, 0, 16, 4
     FadeExWait
-    .byte 0xe8
-    .byte 0x03
-    VMNop
+    Plugin16_Cmd1000 0
     VMSleep 60
     FadeEx 3, 16, 0, 4
     FadeExWait

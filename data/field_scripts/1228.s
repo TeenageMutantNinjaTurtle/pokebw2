@@ -1,5 +1,7 @@
 #include "asm/field_script.inc"
 
+// Script plugin 16, from the zones that use this file
+
     ScriptEntry Script_1
     ScriptEntriesEnd
     WorkSetConst 0x8020, 0
@@ -141,22 +143,10 @@ L_0227:
     // "What?\n[f000]Ă\u0001\u0000 is...[f000]븁\u0000"
     InfoMsg 10, 2
     InfoMsgClose_0039
-    .byte 0xeb
-    .byte 0x03
-    .byte 0xb3
-    .byte 0x00
-    .byte 0x0c
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x10
-    .byte 0x00
-    .byte 0x04
-    .byte 0x00
-    .byte 0xb4
-    .byte 0x00
-    .byte 0xec
-    .byte 0x03
+    Plugin16_Cmd1003
+    FadeEx 12, 0, 16, 4
+    FadeExWait
+    Plugin16_Cmd1004
     ActorDelete 251
     ActorNew 15, 13, 1, 251, 373, 0
     PlayFieldEffect 115

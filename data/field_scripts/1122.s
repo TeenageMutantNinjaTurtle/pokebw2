@@ -1,5 +1,7 @@
 #include "asm/field_script.inc"
 
+// Script plugin 12, from the zones that use this file
+
     ScriptEntry Script_1
     ScriptEntry Script_2
     ScriptEntry Script_3
@@ -64,26 +66,10 @@ L_00D2:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_00FD
-    .byte 0xe9
-    .byte 0x03
-    .byte 0x00
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0xe9
-    .byte 0x03
-    .byte 0x01
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0xe9
-    .byte 0x03
-    VMHalt
-    .byte 0x01
-    .byte 0x00
-    .byte 0xe9
-    .byte 0x03
-    VMSleep 1
+    Plugin12_Cmd1001 0, 1
+    Plugin12_Cmd1001 1, 1
+    Plugin12_Cmd1001 2, 1
+    Plugin12_Cmd1001 3, 1
 
 L_00FD:
     VMReturn
@@ -417,9 +403,7 @@ Script_7:
     WorkSetConst 0x4001, 0
     WorkSetConst 0x4002, 0
     WorkSetConst 0x4003, 0
-    .byte 0xe8
-    .byte 0x03
-    VMNop
+    Plugin12_Cmd1000 0
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -430,9 +414,7 @@ Script_8:
     WorkSetConst 0x4000, 0
     WorkSetConst 0x4002, 0
     WorkSetConst 0x4003, 0
-    .byte 0xe8
-    .byte 0x03
-    VMNop2
+    Plugin12_Cmd1000 1
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -443,9 +425,7 @@ Script_9:
     WorkSetConst 0x4000, 0
     WorkSetConst 0x4001, 0
     WorkSetConst 0x4003, 0
-    .byte 0xe8
-    .byte 0x03
-    VMHalt
+    Plugin12_Cmd1000 2
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -456,9 +436,8 @@ Script_10:
     WorkSetConst 0x4000, 0
     WorkSetConst 0x4001, 0
     WorkSetConst 0x4002, 0
-    .byte 0xe8
-    .byte 0x03
-    VMSleep 48
+    Plugin12_Cmd1000 3
+    FinishAllEvents
     ActorsUnpauseAll
     VMHalt
 
@@ -480,117 +459,37 @@ L_05AF:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0670
-    .byte 0xed
-    .byte 0x03
-    .byte 0x0a
-    .byte 0x40
-    .byte 0x06
-    .byte 0x00
-    .byte 0x0a
-    .byte 0x40
-    .byte 0xa6
-    .byte 0x00
-    .byte 0xa6
-    .byte 0x08
-    .byte 0xa8
-    .byte 0x00
-    .byte 0x34
-    .byte 0x00
-    VMNop2
-    VMHalt
-    .byte 0x47
-    .byte 0x00
-    .byte 0x10
-    .byte 0x80
-    .byte 0x09
-    .byte 0x00
-    .byte 0x10
-    .byte 0x80
-    .byte 0x08
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x11
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x1f
-    .byte 0x00
-    .byte 0xff
-    .byte 0x7b
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x3f
-    .byte 0x00
-    .byte 0x28
-    .byte 0x00
-    .byte 0x24
-    .byte 0x80
-    .byte 0x00
-    .byte 0x00
-    .byte 0xec
-    .byte 0x03
-    .byte 0x24
-    .byte 0x80
-    .byte 0x09
-    .byte 0x00
-    .byte 0x24
-    .byte 0x80
-    .byte 0x08
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x11
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x1f
-    .byte 0x00
-    .byte 0xff
-    .byte 0x46
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0xa6
-    .byte 0x00
-    .byte 0xa7
-    .byte 0x08
-    .byte 0x34
-    .byte 0x00
-    .byte 0x03
-    .byte 0x00
-    VMHalt
-    .byte 0xa8
-    .byte 0x00
-    .byte 0x4b
-    .byte 0x00
-    .byte 0x3f
-    .byte 0x00
-    .byte 0xea
-    .byte 0x03
-    .byte 0x00
-    .byte 0x00
-    .byte 0x03
-    .byte 0x00
-    .byte 0x08
-    .byte 0x00
-    .byte 0xea
-    .byte 0x03
-    .byte 0x01
-    .byte 0x00
-    .byte 0x03
-    .byte 0x00
-    VMStackPushConst 1002
-    VMHalt
-    .byte 0x03
-    .byte 0x00
-    .byte 0x08
-    .byte 0x00
-    .byte 0xea
-    .byte 0x03
-    .byte 0x03
-    .byte 0x00
+    Plugin12_Cmd1005 0x400a
+    DebugPrint 0x400a
+    SEPlay SEQ_SE_SW_PLAZMASHIP_01
+    SEWait
+    // "There is a device...\nIt seems to be for entering a password.[f000]븁\u0000\nWill you enter a password?"
+    SystemMsg 1, 2
+    YesNoWin 0x8010
+    VMStackPush 0x8010
+    VMStackPushConst 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0668
+    MsgWinCloseAll
+    WorkSetConst 0x8024, 0
+    Plugin12_Cmd1004 0x8024
+    VMStackPush 0x8024
+    VMStackPushConst 1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0652
+    SEPlay SEQ_SE_SW_PLAZMASHIP_02
+    // "You succeeded in\nentering the password!"
+    SystemMsg 3, 2
+    SEWait
+    MsgWaitAdvance
+    MsgWinCloseAll
+    Plugin12_Cmd1002 0
+    VMSleep 8
+    Plugin12_Cmd1002 1
+    VMSleep 8
+    Plugin12_Cmd1002 2
+    VMSleep 8
+    Plugin12_Cmd1002 3
     // "All barriers were deactivated,\nand you can proceed now."
     SystemMsg 4, 2
     LastKeyWait
@@ -598,6 +497,8 @@ L_05AF:
     WorkSetConst 0x40fa, 1
     FlagSet 357
     VMJump L_0662
+
+L_0652:
     SEPlay SEQ_SE_SW_PLAZMASHIP_03
     SEWait
     // "The password is not correct."
@@ -607,6 +508,8 @@ L_05AF:
 
 L_0662:
     VMJump L_066A
+
+L_0668:
     MsgWinCloseAll
 
 L_066A:

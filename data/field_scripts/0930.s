@@ -1,5 +1,7 @@
 #include "asm/field_script.inc"
 
+// Script plugin 15, from the zones that use this file
+
     ScriptEntry Script_1
     ScriptEntry Script_2
     ScriptEntry Script_3
@@ -100,18 +102,8 @@ L_013A:
 Script_9:
     ActorsPauseAll
     ActorNew 792, 100, 1, 251, 230, 0
-    .byte 0xe8
-    .byte 0x03
-    .byte 0x17
-    .byte 0x03
-    .byte 0xfb
-    .byte 0xff
-    .byte 0x97
-    .byte 0x00
-    .byte 0xe9
-    .byte 0x03
-    MoneyCheck 791, 156
-    VMNop2
+    Plugin15_Cmd1000 791, 65531, 151
+    Plugin15_Cmd1001 251, 791, 156, 1
     // "Uihaa![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 4, 251, 0, 0
     MsgWinCloseAll

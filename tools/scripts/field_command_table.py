@@ -32,7 +32,7 @@ SCRIPT_PLUGIN_TABLE = "SCRIPT_PLUGIN_TABLE"
 # Script IDs from 2000 up are global scripts, in the files this table gives
 GLOBAL_SCRIPT_TABLE = "GLOBAL_SCRIPT_TABLE"
 GLOBAL_SCRIPT_COUNT = 60
-PLUGIN_COUNT = 12
+PLUGIN_COUNT = 17
 PLUGIN_FIRST_ID = 1000
 
 PRIMITIVES = {"VM_Read16": "u16", "VM_Read32": "u32", "ScriptReadAny": "any", "ScriptReadVar": "var"}

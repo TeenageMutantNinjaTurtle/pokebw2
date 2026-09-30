@@ -22,7 +22,7 @@ L_0037:
     VMHalt
 
 Script_2:
-    Plugin3_Cmd1004
+    PokemonLeagueCmd_PlayCaitlinAmbience
     VMStackPush 0x4001
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -40,13 +40,13 @@ L_0075:
     VMHalt
 
 Script_3:
-    Plugin3_Cmd1004
+    PokemonLeagueCmd_PlayCaitlinAmbience
     VMStackPush 0x4001
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_009A
     Plugin3_Cmd1000 4
-    Plugin3_Cmd1001 4
+    PokemonLeagueCmd_SetCamera 4
     VMJump L_00A6
 
 L_009A:
@@ -279,7 +279,7 @@ Script_5:
 Script_6:
     ActorsPauseAll
     Plugin3_Cmd1000 4
-    Plugin3_Cmd1001 4
+    PokemonLeagueCmd_SetCamera 4
     VMSleep 5
     Plugin3_Cmd1005 1
     VMSleep 40

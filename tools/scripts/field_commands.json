@@ -5464,7 +5464,7 @@
      ]
     },
     "1001": {
-     "handler": "func_ov052_021e5834",
+     "handler": "PokemonLeagueCmd_SetCamera",
      "overlay": 52,
      "args": [
       "any"
@@ -5485,7 +5485,7 @@
      ]
     },
     "1004": {
-     "handler": "func_ov052_021e58ec",
+     "handler": "PokemonLeagueCmd_PlayCaitlinAmbience",
      "overlay": 52,
      "args": []
     },
@@ -7084,6 +7084,378 @@
     "1001": {
      "handler": "BadgeGateCmd_PlayLastGate",
      "overlay": 63,
+     "args": []
+    }
+   }
+  },
+  "12": {
+   "overlays": [
+    64
+   ],
+   "zones": [
+    561,
+    564,
+    553,
+    563,
+    558,
+    579,
+    580,
+    581,
+    582,
+    583
+   ],
+   "commands": {
+    "1000": {
+     "handler": "func_ov064_021e5800",
+     "overlay": 64,
+     "args": [
+      "u16"
+     ]
+    },
+    "1001": {
+     "handler": "func_ov064_021e5838",
+     "overlay": 64,
+     "args": [
+      "u16",
+      "any"
+     ]
+    },
+    "1002": {
+     "handler": "func_ov064_021e586c",
+     "overlay": 64,
+     "args": [
+      "u16"
+     ]
+    },
+    "1003": {
+     "handler": "func_ov064_021e588c",
+     "overlay": 64,
+     "args": [
+      "u16"
+     ]
+    },
+    "1004": {
+     "handler": "func_ov064_021e58ac",
+     "overlay": 64,
+     "args": [
+      "var"
+     ]
+    },
+    "1005": {
+     "handler": "func_ov064_021e58e4",
+     "overlay": 64,
+     "args": [
+      "var"
+     ]
+    },
+    "1006": {
+     "handler": "func_ov064_021e5910",
+     "overlay": 64,
+     "args": [
+      "u16",
+      "any"
+     ]
+    },
+    "1007": {
+     "handler": "func_ov064_021e5944",
+     "overlay": 64,
+     "args": [
+      "u16"
+     ]
+    },
+    "1008": {
+     "handler": "func_ov064_021e5964",
+     "overlay": 64,
+     "args": [
+      "u16"
+     ]
+    }
+   }
+  },
+  "13": {
+   "overlays": [
+    65
+   ],
+   "zones": [
+    1,
+    8,
+    20,
+    41,
+    65,
+    99,
+    109,
+    115,
+    122,
+    398,
+    407,
+    413,
+    425,
+    435,
+    443,
+    454,
+    460,
+    472,
+    602,
+    146
+   ],
+   "commands": {
+    "1000": {
+     "handler": "func_ov065_021e5800",
+     "overlay": 65,
+     "args": [
+      "u16"
+     ]
+    },
+    "1001": {
+     "handler": "func_ov065_021e58f0",
+     "overlay": 65,
+     "args": [
+      "var",
+      "var"
+     ]
+    },
+    "1005": {
+     "handler": "func_ov065_021e6508",
+     "overlay": 65,
+     "args": [
+      "any",
+      "var"
+     ]
+    },
+    "1006": {
+     "handler": "func_ov065_021e658c",
+     "overlay": 65,
+     "args": []
+    },
+    "1007": {
+     "handler": "func_ov065_021e65b8",
+     "overlay": 65,
+     "args": []
+    },
+    "1008": {
+     "handler": "func_ov065_021e65dc",
+     "overlay": 65,
+     "args": [
+      "any",
+      "any"
+     ],
+     "area": "TrainerCard"
+    },
+    "1009": {
+     "handler": "func_ov065_021e6634",
+     "overlay": 65,
+     "args": [
+      "any"
+     ],
+     "area": "TrainerCard"
+    }
+   }
+  },
+  "14": {
+   "overlays": [
+    66
+   ],
+   "zones": [
+    604,
+    427,
+    139,
+    213
+   ],
+   "commands": {
+    "1000": {
+     "handler": "func_ov066_021e597c",
+     "overlay": 66,
+     "args": []
+    },
+    "1001": {
+     "handler": "func_ov066_021e5800",
+     "overlay": 66,
+     "args": [
+      "u16"
+     ]
+    },
+    "1002": {
+     "handler": "func_ov066_021e5820",
+     "overlay": 66,
+     "args": [
+      "u16"
+     ]
+    },
+    "1003": {
+     "handler": "func_ov066_021e5840",
+     "overlay": 66,
+     "args": [
+      "u16"
+     ]
+    },
+    "1004": {
+     "handler": "func_ov066_021e5860",
+     "overlay": 66,
+     "args": [
+      "any"
+     ]
+    },
+    "1005": {
+     "handler": "func_ov066_021e5888",
+     "overlay": 66,
+     "args": []
+    },
+    "1006": {
+     "handler": "func_ov066_021e5898",
+     "overlay": 66,
+     "args": [
+      "any",
+      "any",
+      "any"
+     ]
+    },
+    "1007": {
+     "handler": "func_ov066_021e5910",
+     "overlay": 66,
+     "args": []
+    },
+    "1009": {
+     "handler": "func_ov066_021e598c",
+     "overlay": 66,
+     "args": []
+    },
+    "1010": {
+     "handler": "func_ov066_021e599c",
+     "overlay": 66,
+     "args": [
+      "any"
+     ]
+    },
+    "1011": {
+     "handler": "func_ov066_021e5a1c",
+     "overlay": 66,
+     "args": []
+    },
+    "1012": {
+     "handler": "func_ov066_021e5a2c",
+     "overlay": 66,
+     "args": []
+    },
+    "1013": {
+     "handler": "func_ov066_021e5a54",
+     "overlay": 66,
+     "args": [
+      "any",
+      "any",
+      "any",
+      "any",
+      "any",
+      "any"
+     ]
+    },
+    "1014": {
+     "handler": "func_ov066_021e5b00",
+     "overlay": 66,
+     "args": [
+      "any",
+      "any",
+      "any"
+     ]
+    },
+    "1015": {
+     "handler": "func_ov066_021e5b50",
+     "overlay": 66,
+     "args": []
+    },
+    "1016": {
+     "handler": "func_ov066_021e5b78",
+     "overlay": 66,
+     "args": []
+    }
+   }
+  },
+  "15": {
+   "overlays": [
+    67
+   ],
+   "zones": [
+    465,
+    463,
+    474
+   ],
+   "commands": {
+    "1000": {
+     "handler": "func_ov067_021e5800",
+     "overlay": 67,
+     "args": [
+      "any",
+      "any",
+      "any"
+     ]
+    },
+    "1001": {
+     "handler": "func_ov067_021e5840",
+     "overlay": 67,
+     "args": [
+      "any",
+      "any",
+      "any",
+      "any"
+     ]
+    }
+   }
+  },
+  "16": {
+   "overlays": [
+    68
+   ],
+   "zones": [
+    565,
+    614,
+    53
+   ],
+   "commands": {
+    "1000": {
+     "handler": "func_ov068_021e5800",
+     "overlay": 68,
+     "args": [
+      "any"
+     ]
+    },
+    "1001": {
+     "handler": "func_ov068_021e582c",
+     "overlay": 68,
+     "args": [
+      "any"
+     ]
+    },
+    "1002": {
+     "handler": "func_ov068_021e5854",
+     "overlay": 68,
+     "args": [
+      "any"
+     ]
+    },
+    "1003": {
+     "handler": "func_ov068_021e587c",
+     "overlay": 68,
+     "args": []
+    },
+    "1004": {
+     "handler": "func_ov068_021e58a4",
+     "overlay": 68,
+     "args": []
+    },
+    "1005": {
+     "handler": "func_ov068_021e58b4",
+     "overlay": 68,
+     "args": [
+      "any"
+     ]
+    },
+    "1006": {
+     "handler": "func_ov068_021e58f8",
+     "overlay": 68,
+     "args": []
+    },
+    "1007": {
+     "handler": "func_ov068_021e5940",
+     "overlay": 68,
      "args": []
     }
    }

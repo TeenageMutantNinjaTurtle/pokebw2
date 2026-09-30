@@ -37,7 +37,7 @@ Script_3:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0071
     Plugin3_Cmd1000 2
-    Plugin3_Cmd1001 2
+    PokemonLeagueCmd_SetCamera 2
 
 L_0071:
     VMStackPushFlag 2408
@@ -268,7 +268,7 @@ Script_5:
 Script_6:
     ActorsPauseAll
     Plugin3_Cmd1000 2
-    Plugin3_Cmd1001 2
+    PokemonLeagueCmd_SetCamera 2
     VMSleep 10
     Plugin3_Cmd1003 1
     SEPlay SEQ_SE_SW_GEEMA_03

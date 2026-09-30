@@ -162,6 +162,11 @@ overlays/ov051 0x021e58ac PleasureBoatCmd_AdvanceClock
 overlays/ov051 0x021e58ec PleasureBoatCmd_SetTrainerInfo
 overlays/ov051 0x021e5960 PleasureBoatCmd_StopClock
 overlays/ov051 0x021e5984 PLEASURE_BOAT_SCRIPT_COMMANDS
+overlays/ov052 0x021e5834 PokemonLeagueCmd_SetCamera
+overlays/ov052 0x021e58a0 PokemonLeague_GetRoomCamera
+overlays/ov052 0x021e58ec PokemonLeagueCmd_PlayCaitlinAmbience
+overlays/ov052 0x021e5b44 sRoomCameras
+overlays/ov052 0x021e5b54 POKEMON_LEAGUE_SCRIPT_COMMANDS
 overlays/ov053 0x021e5800 PalParkCmd_CallMbParent
 overlays/ov053 0x021e5868 PalParkCmd_GetInfo
 overlays/ov053 0x021e58a4 PAL_PARK_SCRIPT_COMMANDS

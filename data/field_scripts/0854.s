@@ -1,5 +1,7 @@
 #include "asm/field_script.inc"
 
+// Script plugin 14, from the zones that use this file
+
     ScriptEntry Script_1
     ScriptEntry Script_2
     ScriptEntry Script_3
@@ -1817,8 +1819,7 @@ Script_29:
 
 Script_30:
     ActorsPauseAll
-    .byte 0xe8
-    .byte 0x03
+    Plugin14_Cmd1000
     ActorCmdExec 251, Movement_1E38
     ActorCmdWait
     VMSleep 45
@@ -1858,8 +1859,7 @@ Script_30:
 
 Script_32:
     ActorsPauseAll
-    .byte 0xf3
-    .byte 0x03
+    Plugin14_Cmd1011
     ActorDelete 4
     ActorSetGPos 255, 53, 0, 750, 1
     GameGetVersion 0x8010

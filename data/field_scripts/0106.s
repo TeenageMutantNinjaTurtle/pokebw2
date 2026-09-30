@@ -1,6 +1,6 @@
 #include "asm/field_script.inc"
 
-// Script plugin 3, from the only plugin whose commands it decodes with
+// Script plugin 16, from the zones that use this file
 
     ScriptEntry Script_1
     ScriptEntry Script_2
@@ -56,7 +56,7 @@ L_008E:
     VMCall L_02ED
     BGMPlay SEQ_BGM_E_INISHIE
     ActorCmdExec 0x8011, Movement_03B4
-    Plugin3_Cmd1005 251
+    Plugin16_Cmd1005 251
     DebugPrint 1
     ActorCmdExec 251, Movement_0418
     VMSleep 129
@@ -72,7 +72,7 @@ L_008E:
     DebugPrint 3
     ActorCmdExec 251, Movement_042C
     ActorCmdExec 0x8011, Movement_03C4
-    Plugin3_Cmd1006
+    Plugin16_Cmd1006
     DebugPrint 4
     ActorCmdWait
     DebugPrint 5
@@ -91,7 +91,7 @@ L_008E:
     InfoMsgClose
 
 L_019B:
-    Plugin3_Cmd1007
+    Plugin16_Cmd1007
     EvCameraMoveTo 9688, 0, 0xed000, 0x58000, 0, 0x78000, 25
     EvCameraWait
     VMStackPush 0x8023

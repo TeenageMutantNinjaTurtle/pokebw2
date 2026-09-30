@@ -1,6 +1,6 @@
 #include "asm/field_script.inc"
 
-// Script plugin 6, from the only plugin whose commands it decodes with
+// Script plugin 14, from the zones that use this file
 
     ScriptEntry Script_1
     ScriptEntry Script_2
@@ -125,7 +125,7 @@ L_0143:
     PVWait
     MsgWaitAdvance
     InfoMsgClose_0039
-    Plugin6_Cmd1002 0
+    Plugin14_Cmd1002 0
     VMSleep 300
     EvCameraMoveTo 9688, 0, 0xed000, 0xf8000, 0, 0x13d000, 40
     VMSleep 200
@@ -149,8 +149,7 @@ L_025D:
 L_0262:
     VMSleep 60
     InfoMsgClose_0039
-    Plugin6_Cmd1001
-    VMNop2
+    Plugin14_Cmd1001 1
     Cmd_02E9 2, 0
     VMStackPush 0x8020
     VMStackPushConst 23
@@ -163,7 +162,7 @@ L_028F:
     PlayFieldEffect 108
 
 L_0293:
-    Plugin6_Cmd1002 1
+    Plugin14_Cmd1002 1
     VMSleep 50
     EvCameraMoveTo 9688, 0, 0xed000, 0xf8000, 0, 0x108000, 20
     EvCameraWait
@@ -173,7 +172,7 @@ L_0293:
     BGMPlay SEQ_BGM_EV_GIANTHOLE_01
     FlagSet 2556
     BGMAmbienceResume
-    Plugin6_Cmd1004 1
+    Plugin14_Cmd1004 1
     VMSleep 100
     FadeOutBlack
     FadeWait
@@ -192,18 +191,16 @@ L_0293:
     VMStackPushConst 23
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0348
-    Plugin6_Cmd1006 3, 0
-    VMStackPush 30
-    VMStackPushConst 0
+    Plugin14_Cmd1006 3, 0, 9
+    VMJump L_0350
 
 L_0348:
-    Plugin6_Cmd1006 3, 0
-    VMStackPush 1006
-    VMCall L_035C
+    Plugin14_Cmd1006 3, 0, 9
+
+L_0350:
+    Plugin14_Cmd1006 4, 4, 0
     FadeInBlackQ
     FadeWait
-
-L_035C:
     FlagSet 2555
     FlagReset 2556
     VMSleep 7
@@ -308,8 +305,7 @@ L_04C5:
     ActorSetGPos 0, 17, 0, 16, 1
     ActorSetGPos 2, 15, 0, 16, 1
     ActorSetGPos 4, 17, 0, 19, 2
-    Plugin6_Cmd1006 4, 65532
-    VMNop
+    Plugin14_Cmd1006 4, 65532, 0
     VMStackPush 0x8020
     VMStackPushConst 23
     VMStackCmp CMP_EQ
@@ -321,17 +317,16 @@ L_0536:
     ActorNew 15, 18, 1, 251, 144, 0
 
 L_0544:
-    Plugin6_Cmd1006 251, 0
-    VMStackPushConst 1003
-    MoneyCheck 419, 162
-    VMNop
-    // "Let's battle without saying a word!\nAre you ready?"
-    ActorMsg 423, 3, 18, 73, 1024
-    VMRegSet8 19, 0
-    VMCall L_056E
+    Plugin14_Cmd1006 251, 0, 8
+    Plugin14_Cmd1003 251
+    FadeInBlackQ
+    BGMPop 0, 60
+    FadeWait
+    VMSleep 18
+    // "N: [f000]븉\u0001\u0001?![f000]븁\u0000\nR-Reshiram!![f000]븉\u0001\u0000[f000]븁\u0000"
+    // "N: [f000]븉\u0001\u0001?![f000]븁\u0000\nZ-Zekrom![f000]븉\u0001\u0000[f000]븁\u0000"
+    ActorMsgVersioned 1024, 20, 19, 4, 2, 0
     MsgWinCloseAll
-
-L_056E:
     // "Kyurem!\nAbsorb Reshiram![f000]븀\u0000\nUse Absofusion![f000]븁\u0000"
     // "Kyurem!\nAbsorb Zekrom![f000]븀\u0000\nUse Absofusion![f000]븁\u0000"
     ActorMsgVersioned 1024, 22, 21, 0, 1, 0
@@ -729,11 +724,11 @@ L_0AE3:
     ActorDelete 3
     ActorSetGPos 255, 17, 0, 18, 2
     FadeEx 3, 16, 0, 4
-    Plugin6_Cmd1004 0
+    Plugin14_Cmd1004 0
     VMSleep 10
     FadeExWait
     VMSleep 160
-    Plugin6_Cmd1005
+    Plugin14_Cmd1005
     FlagReset 2555
     FlagReset 1031
     ActorAdd 11
@@ -939,8 +934,8 @@ L_0DCA:
     ActorSetGPos 0, 17, 0, 16, 2
     ActorCmdExec 4, Movement_1158
     ActorCmdWait
-    Plugin6_Cmd1007 30, 47
-    VMNop
+    Plugin14_Cmd1007
+    VMJump L_0E87
 
 L_0E58:
     VMStackPush 0x8026

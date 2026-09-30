@@ -328,7 +328,7 @@ lists the plugins:
 |---|---|---|---|
 | 1 | 50 | Battle Subway: Gear Station and the trains | |
 | 2 | 51 | The Royal Unova, the "pleasure boat" of overlay 36's `pleasure_boat.c` | |
-| 3 | 52 | Pokémon League: the Elite Four's rooms | |
+| 3 | 52 | Pokémon League: the Elite Four's rooms, whose gimmicks are overlays 122 (Shauntal), 123 (Grimsley), 124 (Marshal), 125 (Caitlin) and 120 (the Champion) | |
 | 4 | 53 | Poké Transfer Lab | `scrcmd_palpark.c` |
 | 5 | 54 | Abyssal Ruins | |
 | 6, 7 | 55, and 56 or 57 | Pokémon World Tournament | `wbt_*.c` |
@@ -336,6 +336,7 @@ lists the plugins:
 | 9 | 61 | Black Tower and White Treehollow | |
 | 10 | 62 | Pokéstar Studios | `pokewood_*.c` |
 | 11 | 63 | Victory Road's badge gates | |
+| 12 to 16 | 64 to 68 | Not identified yet: 12 has Team Plasma's battles, 15 the DNA Splicers and Terrakion, 16 Meloetta's Relic Song and the Swords of Justice | |
 
 Our files take those names where the overlay has them, and otherwise follow them, as `scrcmd_badge_gate.c`.
 
@@ -368,7 +369,7 @@ python3 tools/scripts/field_script.py disasm extract/b2_us OUTPUT_DIR
 ```
 
 The disassembler follows the code from each script. Bytes it does not reach are decoded as code where it ends
-cleanly, then as movement data, and otherwise kept as `.byte`: about 3,600 bytes, mostly in global files whose plugin
+cleanly, then as movement data, and otherwise kept as `.byte`: about 2,500 bytes, mostly in global files whose plugin
 is not known. The scripts are still written by the disassembler, so improvements to it can be applied by running it
 again.
 

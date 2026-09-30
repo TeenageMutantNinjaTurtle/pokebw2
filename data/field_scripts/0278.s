@@ -1,5 +1,7 @@
 #include "asm/field_script.inc"
 
+// Script plugin 14, from the zones that use this file
+
     ScriptEntry Script_1
     ScriptEntriesEnd
 
@@ -30,48 +32,12 @@ L_006B:
     SEPlay SEQ_SE_SW_ENDING_02
     SEPlay SEQ_SE_SW_ENDING_03
     FadeExWait
-    .byte 0xf1
-    .byte 0x03
-    .byte 0x03
-    .byte 0x00
-    .byte 0x5a
-    .byte 0x00
-    .byte 0x43
-    .byte 0x01
-    .byte 0xd8
-    .byte 0x13
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0xd0
-    .byte 0x0d
-    .byte 0x00
-    .byte 0x00
-    .byte 0x80
-    .byte 0x1f
-    .byte 0x00
-    .byte 0xef
-    .byte 0x92
-    .byte 0x31
-    .byte 0x00
-    .byte 0x00
-    .byte 0x80
-    .byte 0x07
-    .byte 0x00
-    .byte 0x78
-    .byte 0x00
-    .byte 0xf2
-    .byte 0x03
-    .byte 0x66
-    .byte 0x09
-    .byte 0xf2
-    .byte 0x03
-    .byte 0x67
-    .byte 0x09
-    .byte 0xf2
-    .byte 0x03
-    .byte 0x68
-    .byte 0x09
+    Plugin14_Cmd1009
+    VMSleep 90
+    EvCameraMoveTo 5080, 0, 0xdd000, 0x1f8000, 0x3192ef, 0x78000, 120
+    Plugin14_Cmd1010 2406
+    Plugin14_Cmd1010 2407
+    Plugin14_Cmd1010 2408
     EvCameraWait
     ActorCmdExec 255, Movement_0294
     ActorCmdWait

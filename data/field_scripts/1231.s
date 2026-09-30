@@ -1,5 +1,7 @@
 #include "asm/field_script.inc"
 
+// Script plugin 13, from the zones that start its scripts
+
     ScriptEntry Script_1
     ScriptEntry Script_2
     ScriptEntry Script_3
@@ -857,36 +859,14 @@ L_0B96:
     BMHndAnmWait 0x8038
     SEWait
     BMReleaseHandle 0x8038
-    .byte 0xed
-    .byte 0x03
-    .byte 0x04
-    .byte 0x00
-    .byte 0x39
-    .byte 0x80
-    .byte 0x09
-    .byte 0x00
-    .byte 0x39
-    .byte 0x80
-    .byte 0x08
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x11
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x1f
-    .byte 0x00
-    .byte 0xff
-    .byte 0x06
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x04
-    .byte 0x00
-    .byte 0xe6
-    .byte 0x03
-    VMNop
+    Plugin13_Cmd1005 4, 0x8039
+    VMStackPush 0x8039
+    VMStackPushConst 1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0C29
+    VMCall L_100F
+
+L_0C29:
     VMReturn
     .byte 0x28
     .byte 0x00
@@ -1207,128 +1187,42 @@ L_0FF1:
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
-    .byte 0x28
-    .byte 0x00
-    .byte 0x3a
-    .byte 0x80
-    .byte 0x00
-    .byte 0x00
-    .byte 0x28
-    .byte 0x00
-    .byte 0x3b
-    .byte 0x80
-    .byte 0x00
-    .byte 0x00
-    .byte 0xed
-    .byte 0x03
-    .byte 0x00
-    .byte 0x00
-    .byte 0x3a
-    .byte 0x80
-    .byte 0x64
-    .byte 0x00
-    .byte 0xff
-    .byte 0x00
-    .byte 0xa7
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x65
-    .byte 0x00
-    .byte 0x09
-    .byte 0x00
-    .byte 0x3a
-    .byte 0x80
-    .byte 0x08
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x11
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x1f
-    .byte 0x00
-    .byte 0xff
-    .byte 0x14
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x3c
-    .byte 0x00
-    .byte 0x00
-    .byte 0x04
-    RTEndGlobal
-    .byte 0x11
-    .byte 0x80
-    .byte 0x04
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x3e
-    .byte 0x00
-    .byte 0x1e
-    .byte 0x00
-    .byte 0x3d
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0xed
-    .byte 0x03
-    .byte 0x03
-    .byte 0x00
-    .byte 0x3b
-    .byte 0x80
-    .byte 0x09
-    .byte 0x00
-    .byte 0x3b
-    .byte 0x80
-    .byte 0x08
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x11
-    .byte 0x00
-    VMHalt
-    .byte 0x1f
-    .byte 0x00
-    .byte 0xff
-    .byte 0x24
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0xf1
-    .byte 0x03
-    .byte 0x3b
-    .byte 0x80
-    .byte 0x4c
-    .byte 0x00
-    .byte 0x00
-    .byte 0x34
-    .byte 0x00
-    .byte 0x1e
-    SurveyGetCurrentAnswerIDs 0x5c00, 256, 0x803b
-    VMHalt
-    .byte 0xa9
-    .byte 0x00
-    .byte 0x26
-    .byte 0x05
-    .byte 0x34
-    .byte 0x00
-    .byte 0x1f
-    .byte 0x00
-    VMHalt
-    .byte 0xaa
-    .byte 0x00
-    .byte 0x4b
-    .byte 0x00
-    .byte 0x36
-    .byte 0x00
-    .byte 0xf0
-    .byte 0x03
-    .byte 0x04
-    .byte 0x00
-    VMNop
+
+L_100F:
+    WorkSetConst 0x803a, 0
+    WorkSetConst 0x803b, 0
+    Plugin13_Cmd1005 0, 0x803a
+    ActorCmdExec 255, Movement_10D0
+    ActorCmdWait
+    VMStackPush 0x803a
+    VMStackPushConst 1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_1052
+    // "I'm sorry![f000]븁\u0000\nYour system's power was turned\noff during a Random Matchup![f000]븁\u0000\nYou will not be able to participate\nin a Random Matchup[f000]븀\u0000\nor Wi-Fi Competition for an hour.[f000]븁\u0000\nPlease come back later.[f000]븁\u0000"
+    ActorMsg MSGFILE_SCRIPT, 29, 0x8011, 4, 0
+    ActorMsgClose
+    VMJump L_108F
+
+L_1052:
+    Plugin13_Cmd1005 3, 0x803b
+    VMStackPush 0x803b
+    VMStackPushConst 0
+    VMStackCmp CMP_GT
+    VMJumpIf CMP_STACK, L_108F
+    Plugin13_Cmd1009 0x803b
+    WordSetPlayerName 0
+    // "In honor of your achievement in battle,\nI present you with these Battle Points![f000]븁\u0000"
+    SystemMsg 30, 2
+    WordSetNumber 1, 0x803b, 2
+    MEPlay SEQ_ME_BPGET
+    // "[f000]Ā\u0001\u0000 received [f000]ȁ\u0001\u0001 BP!"
+    SystemMsg 31, 2
+    MEWait
+    MsgWaitAdvance
+    InfoMsgClose
+
+L_108F:
+    Plugin13_Cmd1008 4, 0
     // "Saving...\nDon't turn off the power."
     SystemMsg 32, 2
     VMSleep 1
@@ -1345,5 +1239,7 @@ L_10C0:
     WorkSetConst 0x803b, 0
     WorkSetConst 0x803a, 0
     VMReturn
+
+Movement_10D0:
     Move 0, 1
     MoveEnd

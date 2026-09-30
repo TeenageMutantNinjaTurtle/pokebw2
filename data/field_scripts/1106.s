@@ -1,5 +1,7 @@
 #include "asm/field_script.inc"
 
+// Script plugin 12, from the zones that use this file
+
     ScriptEntry Script_1
     ScriptEntry Script_2
     ScriptEntry Script_3
@@ -43,124 +45,44 @@ L_0073:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0092
-    .byte 0xee
-    .byte 0x03
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x1e
-    .byte 0x00
-    .byte 0x06
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
+    Plugin12_Cmd1006 0, 0
+    VMJump L_0098
 
 L_0092:
-    .byte 0xee
-    .byte 0x03
-    .byte 0x00
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x09
-    .byte 0x00
-    .byte 0xf6
-    .byte 0x40
-    .byte 0x08
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x11
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x1f
-    .byte 0x00
-    .byte 0xff
-    .byte 0x0c
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0xee
-    .byte 0x03
-    .byte 0x01
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x1e
-    .byte 0x00
-    .byte 0x06
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0xee
-    .byte 0x03
-    .byte 0x01
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x09
-    .byte 0x00
-    .byte 0xf7
-    .byte 0x40
-    .byte 0x08
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x11
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x1f
-    .byte 0x00
-    .byte 0xff
-    .byte 0x0c
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0xee
-    .byte 0x03
-    VMHalt
-    .byte 0x00
-    .byte 0x00
-    .byte 0x1e
-    .byte 0x00
-    .byte 0x06
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0xee
-    .byte 0x03
-    VMHalt
-    .byte 0x01
-    .byte 0x00
-    .byte 0x09
-    .byte 0x00
-    .byte 0xf8
-    .byte 0x40
-    .byte 0x08
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x11
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x1f
-    .byte 0x00
-    .byte 0xff
-    .byte 0x0c
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0xee
-    .byte 0x03
-    VMSleep 0
+    Plugin12_Cmd1006 0, 1
+
+L_0098:
+    VMStackPush 0x40f6
+    VMStackPushConst 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00B7
+    Plugin12_Cmd1006 1, 0
+    VMJump L_00BD
+
+L_00B7:
+    Plugin12_Cmd1006 1, 1
+
+L_00BD:
+    VMStackPush 0x40f7
+    VMStackPushConst 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_00DC
+    Plugin12_Cmd1006 2, 0
+    VMJump L_00E2
+
+L_00DC:
+    Plugin12_Cmd1006 2, 1
+
+L_00E2:
+    VMStackPush 0x40f8
+    VMStackPushConst 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0101
+    Plugin12_Cmd1006 3, 0
     VMJump L_0107
-    .byte 0xee
-    .byte 0x03
-    VMSleep 1
+
+L_0101:
+    Plugin12_Cmd1006 3, 1
 
 L_0107:
     VMReturn
@@ -317,13 +239,8 @@ L_0350:
 L_0352:
     MsgWinCloseAll
     SEWait
-    .byte 0xef
-    .byte 0x03
-    .byte 0x00
-    .byte 0x00
-    .byte 0xf0
-    .byte 0x03
-    VMNop
+    Plugin12_Cmd1007 0
+    Plugin12_Cmd1008 0
     VMStackPush 0x40f5
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -381,13 +298,8 @@ L_040C:
 L_040E:
     MsgWinCloseAll
     SEWait
-    .byte 0xef
-    .byte 0x03
-    .byte 0x01
-    .byte 0x00
-    .byte 0xf0
-    .byte 0x03
-    VMNop2
+    Plugin12_Cmd1007 1
+    Plugin12_Cmd1008 1
     VMStackPush 0x40f5
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -445,12 +357,8 @@ L_04C8:
 L_04CA:
     MsgWinCloseAll
     SEWait
-    .byte 0xef
-    .byte 0x03
-    VMHalt
-    .byte 0xf0
-    .byte 0x03
-    VMHalt
+    Plugin12_Cmd1007 2
+    Plugin12_Cmd1008 2
     VMStackPush 0x40f5
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -508,14 +416,8 @@ L_0584:
 L_0586:
     MsgWinCloseAll
     SEWait
-    .byte 0xef
-    .byte 0x03
-    .byte 0x03
-    .byte 0x00
-    .byte 0xf0
-    .byte 0x03
-    .byte 0x03
-    .byte 0x00
+    Plugin12_Cmd1007 3
+    Plugin12_Cmd1008 3
     VMStackPush 0x40f5
     VMStackPushConst 1
     VMStackCmp CMP_EQ

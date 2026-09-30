@@ -1,5 +1,7 @@
 #include "asm/field_script.inc"
 
+// Script plugin 13, from the only plugin whose commands it decodes with
+
     ScriptEntry Script_1
     ScriptEntriesEnd
     WorkSetConst 0x8020, 0
@@ -469,64 +471,24 @@ L_06DB:
 L_06F5:
     WorkSetConst 0x8033, 0
     WorkSetConst 0x8034, 0
-    .byte 0xed
-    .byte 0x03
-    .byte 0x00
-    .byte 0x00
-    .byte 0x33
-    .byte 0x80
-    .byte 0x09
-    .byte 0x00
-    .byte 0x33
-    .byte 0x80
-    .byte 0x08
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x11
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x1f
-    .byte 0x00
-    .byte 0xff
-    .byte 0x39
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0xed
-    .byte 0x03
-    VMHalt
-    .byte 0x33
-    .byte 0x80
-    .byte 0x09
-    .byte 0x00
-    .byte 0x33
-    .byte 0x80
-    .byte 0x08
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x11
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x1f
-    .byte 0x00
-    .byte 0xff
-    .byte 0x1a
-    .byte 0x00
-    VMNop
+    Plugin13_Cmd1005 0, 0x8033
+    VMStackPush 0x8033
+    VMStackPushConst 1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0753
+    Plugin13_Cmd1005 2, 0x8033
+    VMStackPush 0x8033
+    VMStackPushConst 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_074D
     // "Since the system was turned off or lost\npower during a Wi-Fi Competition or[f000]븀\u0000\na Random Matchup, you cannot participate[f000]븀\u0000\nin a competition or a Random Matchup[f000]븀\u0000\nfor one hour.[f000]븁\u0000\nPlease come back again\nafter one hour has passed."
     ActorMsg MSGFILE_SCRIPT, 98, 0x8011, 4, 0
     WorkSetConst 0x8020, 251
     VMReturn
     VMJump L_0753
-    .byte 0xf0
-    .byte 0x03
-    VMReturn
-    .byte 0x33
-    .byte 0x80
+
+L_074D:
+    Plugin13_Cmd1008 5, 0x8033
 
 L_0753:
     VMCall L_0026
@@ -629,250 +591,67 @@ L_08E8:
 
 L_0915:
     WorkGet 0x802b, 0x8037
-    .byte 0xee
-    .byte 0x03
-    .byte 0xf0
-    .byte 0x03
-    .byte 0x04
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0xd3
-    .byte 0x00
-    .byte 0x39
-    .byte 0x80
-    .byte 0xdc
-    .byte 0x00
-    .byte 0x39
-    .byte 0x80
-    .byte 0x01
-    .byte 0x00
-    .byte 0x0a
-    .byte 0x00
-    .byte 0xff
-    .byte 0xff
-    .byte 0x01
-    .byte 0x00
-    .byte 0x23
-    .byte 0x00
-    .byte 0x65
-    .byte 0x09
-    .byte 0x28
-    .byte 0x00
-    .byte 0x41
-    .byte 0x40
-    .byte 0x01
-    .byte 0x00
-    .byte 0xed
-    VMHalt
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x09
-    .byte 0x00
-    .byte 0x00
-    .byte 0x80
-    .byte 0x09
-    .byte 0x00
-    .byte 0x01
-    .byte 0x80
-    .byte 0x09
-    .byte 0x00
-    .byte 0x02
-    .byte 0x80
-    .byte 0x09
-    .byte 0x00
-    .byte 0x03
-    .byte 0x80
-    .byte 0x09
-    .byte 0x00
-    .byte 0x04
-    .byte 0x80
-    .byte 0x09
-    .byte 0x00
-    .byte 0x05
-    .byte 0x80
-    .byte 0x1c
-    .byte 0x00
-    .byte 0xd3
-    .byte 0x07
-    .byte 0x2a
-    .byte 0x00
-    .byte 0x37
-    .byte 0x80
-    .byte 0x00
-    .byte 0x80
-    .byte 0x0a
-    .byte 0x00
-    .byte 0x05
-    .byte 0x80
-    .byte 0x0a
-    .byte 0x00
-    .byte 0x04
-    .byte 0x80
-    .byte 0x0a
-    .byte 0x00
-    .byte 0x03
-    .byte 0x80
-    .byte 0x0a
-    .byte 0x00
-    .byte 0x02
-    .byte 0x80
-    .byte 0x0a
-    .byte 0x00
-    .byte 0x01
-    .byte 0x80
-    .byte 0x0a
-    .byte 0x00
-    .byte 0x00
-    .byte 0x80
-    .byte 0x09
-    .byte 0x00
-    .byte 0x37
-    .byte 0x80
-    .byte 0x08
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x11
-    .byte 0x00
-    VMReturn
-    .byte 0x1f
-    .byte 0x00
-    .byte 0xff
-    .byte 0x20
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x28
-    .byte 0x00
-    .byte 0x20
-    .byte 0x80
-    .byte 0xff
-    .byte 0x00
-    .byte 0xef
-    .byte 0x03
-    .byte 0x24
-    .byte 0x00
-    .byte 0x65
-    .byte 0x09
-    .byte 0x28
-    .byte 0x00
-    .byte 0x41
-    .byte 0x40
-    .byte 0x00
-    .byte 0x00
-    .byte 0xf0
-    .byte 0x03
-    .byte 0x04
-    .byte 0x00
-    VMNop
+    Plugin13_Cmd1006
+    Plugin13_Cmd1008 4, 1
+    RTGetZoneID 0x8039
+    FieldSetNextZone 0x8039, 1, 10, 65535, 1
+    FlagSet 2405
+    WorkSetConst 0x4041, 1
+    Cmd_02ED 0, 0
+    VMStackPush 0x8000
+    VMStackPush 0x8001
+    VMStackPush 0x8002
+    VMStackPush 0x8003
+    VMStackPush 0x8004
+    VMStackPush 0x8005
+    RTCallGlobal 2003
+    WorkSet 0x8037, 0x8000
+    VMStackPop 0x8005
+    VMStackPop 0x8004
+    VMStackPop 0x8003
+    VMStackPop 0x8002
+    VMStackPop 0x8001
+    VMStackPop 0x8000
+    VMStackPush 0x8037
+    VMStackPushConst 0
+    VMStackCmp CMP_NE
+    VMJumpIf CMP_STACK, L_09B0
+    WorkSetConst 0x8020, 255
+    Plugin13_Cmd1007
+    FlagReset 2405
+    WorkSetConst 0x4041, 0
+    Plugin13_Cmd1008 4, 0
     Cmd_02ED 1, 0
     VMReturn
-    .byte 0x09
-    .byte 0x00
-    .byte 0x00
-    .byte 0x80
-    .byte 0x1c
-    .byte 0x00
-    .byte 0xd4
-    .byte 0x07
-    .byte 0x2a
-    .byte 0x00
-    .byte 0x37
-    .byte 0x80
-    .byte 0x00
-    .byte 0x80
-    .byte 0x0a
-    .byte 0x00
-    .byte 0x00
-    .byte 0x80
-    .byte 0x09
-    .byte 0x00
-    .byte 0x37
-    .byte 0x80
-    .byte 0x08
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x11
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x1f
-    .byte 0x00
-    .byte 0xff
-    .byte 0x26
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x28
-    .byte 0x00
-    .byte 0x20
-    .byte 0x80
-    .byte 0xff
-    .byte 0x00
-    .byte 0xef
-    .byte 0x03
-    .byte 0x24
-    .byte 0x00
-    .byte 0x65
-    .byte 0x09
-    .byte 0x28
-    .byte 0x00
-    .byte 0x41
-    .byte 0x40
-    .byte 0x00
-    .byte 0x00
-    .byte 0xf0
-    .byte 0x03
-    .byte 0x04
-    .byte 0x00
-    VMNop
+
+L_09B0:
+    VMStackPush 0x8000
+    RTCallGlobal 2004
+    WorkSet 0x8037, 0x8000
+    VMStackPop 0x8000
+    VMStackPush 0x8037
+    VMStackPushConst 1
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_09FB
+    WorkSetConst 0x8020, 255
+    Plugin13_Cmd1007
+    FlagReset 2405
+    WorkSetConst 0x4041, 0
+    Plugin13_Cmd1008 4, 0
     Cmd_02ED 1, 0
     VMReturn
     VMJump L_0A2E
-    .byte 0x09
-    .byte 0x00
-    .byte 0x37
-    .byte 0x80
-    .byte 0x08
-    .byte 0x00
-    VMHalt
-    .byte 0x11
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x1f
-    .byte 0x00
-    .byte 0xff
-    .byte 0x20
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x28
-    .byte 0x00
-    .byte 0x20
-    .byte 0x80
-    .byte 0xfc
-    .byte 0x00
-    .byte 0xef
-    .byte 0x03
-    .byte 0x24
-    .byte 0x00
-    .byte 0x65
-    .byte 0x09
-    .byte 0x28
-    .byte 0x00
-    .byte 0x41
-    .byte 0x40
-    .byte 0x00
-    .byte 0x00
-    .byte 0xf0
-    .byte 0x03
-    .byte 0x04
-    .byte 0x00
-    VMNop
+
+L_09FB:
+    VMStackPush 0x8037
+    VMStackPushConst 2
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0A2E
+    WorkSetConst 0x8020, 252
+    Plugin13_Cmd1007
+    FlagReset 2405
+    WorkSetConst 0x4041, 0
+    Plugin13_Cmd1008 4, 0
     Cmd_02ED 1, 0
     VMReturn
 

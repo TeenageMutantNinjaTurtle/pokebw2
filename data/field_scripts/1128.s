@@ -1,5 +1,7 @@
 #include "asm/field_script.inc"
 
+// Script plugin 12, from the zones that use this file
+
     ScriptEntry Script_1
     ScriptEntry Script_2
     ScriptEntry Script_3
@@ -84,124 +86,44 @@ L_0128:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0147
-    .byte 0xe9
-    .byte 0x03
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x1e
-    .byte 0x00
-    .byte 0x06
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
+    Plugin12_Cmd1001 0, 0
+    VMJump L_014D
 
 L_0147:
-    .byte 0xe9
-    .byte 0x03
-    .byte 0x00
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x09
-    .byte 0x00
-    .byte 0xf6
-    .byte 0x40
-    .byte 0x08
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x11
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x1f
-    .byte 0x00
-    .byte 0xff
-    .byte 0x0c
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0xe9
-    .byte 0x03
-    .byte 0x01
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x1e
-    .byte 0x00
-    .byte 0x06
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0xe9
-    .byte 0x03
-    .byte 0x01
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x09
-    .byte 0x00
-    .byte 0xf7
-    .byte 0x40
-    .byte 0x08
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x11
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x1f
-    .byte 0x00
-    .byte 0xff
-    .byte 0x0c
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0xe9
-    .byte 0x03
-    VMHalt
-    .byte 0x00
-    .byte 0x00
-    .byte 0x1e
-    .byte 0x00
-    .byte 0x06
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0xe9
-    .byte 0x03
-    VMHalt
-    .byte 0x01
-    .byte 0x00
-    .byte 0x09
-    .byte 0x00
-    .byte 0xf8
-    .byte 0x40
-    .byte 0x08
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0x11
-    .byte 0x00
-    .byte 0x01
-    .byte 0x00
-    .byte 0x1f
-    .byte 0x00
-    .byte 0xff
-    .byte 0x0c
-    .byte 0x00
-    .byte 0x00
-    .byte 0x00
-    .byte 0xe9
-    .byte 0x03
-    VMSleep 0
+    Plugin12_Cmd1001 0, 1
+
+L_014D:
+    VMStackPush 0x40f6
+    VMStackPushConst 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_016C
+    Plugin12_Cmd1001 1, 0
+    VMJump L_0172
+
+L_016C:
+    Plugin12_Cmd1001 1, 1
+
+L_0172:
+    VMStackPush 0x40f7
+    VMStackPushConst 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_0191
+    Plugin12_Cmd1001 2, 0
+    VMJump L_0197
+
+L_0191:
+    Plugin12_Cmd1001 2, 1
+
+L_0197:
+    VMStackPush 0x40f8
+    VMStackPushConst 0
+    VMStackCmp CMP_EQ
+    VMJumpIf CMP_STACK, L_01B6
+    Plugin12_Cmd1001 3, 0
     VMJump L_01BC
-    .byte 0xe9
-    .byte 0x03
-    VMSleep 1
+
+L_01B6:
+    Plugin12_Cmd1001 3, 1
 
 L_01BC:
     VMReturn
@@ -560,13 +482,8 @@ L_0612:
 L_0614:
     MsgWinCloseAll
     SEWait
-    .byte 0xeb
-    .byte 0x03
-    .byte 0x00
-    .byte 0x00
-    .byte 0xea
-    .byte 0x03
-    VMNop
+    Plugin12_Cmd1003 0
+    Plugin12_Cmd1002 0
     VMStackPush 0x40f5
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -624,13 +541,8 @@ L_06CE:
 L_06D0:
     MsgWinCloseAll
     SEWait
-    .byte 0xeb
-    .byte 0x03
-    .byte 0x01
-    .byte 0x00
-    .byte 0xea
-    .byte 0x03
-    VMNop2
+    Plugin12_Cmd1003 1
+    Plugin12_Cmd1002 1
     VMStackPush 0x40f5
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -688,12 +600,8 @@ L_078A:
 L_078C:
     MsgWinCloseAll
     SEWait
-    .byte 0xeb
-    .byte 0x03
-    VMHalt
-    .byte 0xea
-    .byte 0x03
-    VMHalt
+    Plugin12_Cmd1003 2
+    Plugin12_Cmd1002 2
     VMStackPush 0x40f5
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -751,14 +659,8 @@ L_0846:
 L_0848:
     MsgWinCloseAll
     SEWait
-    .byte 0xeb
-    .byte 0x03
-    .byte 0x03
-    .byte 0x00
-    .byte 0xea
-    .byte 0x03
-    .byte 0x03
-    .byte 0x00
+    Plugin12_Cmd1003 3
+    Plugin12_Cmd1002 3
     VMStackPush 0x40f5
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -791,9 +693,7 @@ Script_7:
     WorkSetConst 0x4001, 0
     WorkSetConst 0x4002, 0
     WorkSetConst 0x4003, 0
-    .byte 0xe8
-    .byte 0x03
-    VMNop
+    Plugin12_Cmd1000 0
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -804,9 +704,7 @@ Script_8:
     WorkSetConst 0x4000, 0
     WorkSetConst 0x4002, 0
     WorkSetConst 0x4003, 0
-    .byte 0xe8
-    .byte 0x03
-    VMNop2
+    Plugin12_Cmd1000 1
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -817,9 +715,7 @@ Script_9:
     WorkSetConst 0x4000, 0
     WorkSetConst 0x4001, 0
     WorkSetConst 0x4003, 0
-    .byte 0xe8
-    .byte 0x03
-    VMHalt
+    Plugin12_Cmd1000 2
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -830,9 +726,8 @@ Script_10:
     WorkSetConst 0x4000, 0
     WorkSetConst 0x4001, 0
     WorkSetConst 0x4002, 0
-    .byte 0xe8
-    .byte 0x03
-    VMSleep 48
+    Plugin12_Cmd1000 3
+    FinishAllEvents
     ActorsUnpauseAll
     VMHalt
     TrainerBattleIsVictory 0x8010

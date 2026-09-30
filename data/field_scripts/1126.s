@@ -1,6 +1,6 @@
 #include "asm/field_script.inc"
 
-// Script plugin 9, from the only plugin whose commands it decodes with
+// Script plugin 12, from the zones that use this file
 
     ScriptEntry Script_1
     ScriptEntry Script_2
@@ -42,14 +42,10 @@ L_0067:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0092
-    Plugin9_Cmd1006 0
-    VMNop2
-    Plugin9_Cmd1006 1
-    VMNop2
-    Plugin9_Cmd1006 2
-    VMNop2
-    Plugin9_Cmd1006 3
-    VMNop2
+    Plugin12_Cmd1006 0, 1
+    Plugin12_Cmd1006 1, 1
+    Plugin12_Cmd1006 2, 1
+    Plugin12_Cmd1006 3, 1
 
 L_0092:
     VMReturn
@@ -200,7 +196,7 @@ L_02C9:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_038A
-    Plugin9_Cmd1005 0x400a
+    Plugin12_Cmd1005 0x400a
     DebugPrint 0x400a
     SEPlay SEQ_SE_SW_PLAZMASHIP_01
     SEWait
@@ -213,7 +209,7 @@ L_02C9:
     VMJumpIf CMP_STACK, L_0382
     MsgWinCloseAll
     WorkSetConst 0x8020, 0
-    Plugin9_Cmd1004 0x8020
+    Plugin12_Cmd1004 0x8020
     VMStackPush 0x8020
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -224,13 +220,13 @@ L_02C9:
     SEWait
     MsgWaitAdvance
     MsgWinCloseAll
-    Plugin9_Cmd1008 0
+    Plugin12_Cmd1008 0
     VMSleep 8
-    Plugin9_Cmd1008 1
+    Plugin12_Cmd1008 1
     VMSleep 8
-    Plugin9_Cmd1008 2
+    Plugin12_Cmd1008 2
     VMSleep 8
-    Plugin9_Cmd1008 3
+    Plugin12_Cmd1008 3
     // "All the barriers were deactivated,\nand now you can proceed!"
     SystemMsg 12, 2
     LastKeyWait

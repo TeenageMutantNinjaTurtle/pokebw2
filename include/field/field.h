@@ -31,11 +31,13 @@ void Field_DeleteGimmickWorkBlock(Field *field, u32 id);
 void *func_ov036_02184590(G3DMapper *mapper);
 void func_ov036_021ba624(u8 index, u32 x, u32 z, u32 width, u32 depth, u32 value, u32 flags, void *list);
 void FieldSnd_FadeInImmediate(FieldSound *fieldSound, GameData *gameData);
+void FieldSnd_PlayAmbience(FieldSound *fieldSound, u32 se);
 void FieldSnd_SetZoneBGM(FieldSound *fieldSound, GameData *gameData, u16 zoneId, u8 season);
 void FieldSubscreen_ChangeImm(FieldSubscreen *subscreen, u32 mode);
 BOOL FieldTaskManager_IsIdle(FieldTaskManager *taskManager);
 MMSys *Field_GetActorSystem(Field *field);
 FieldCamera *Field_GetCameraSystem(Field *field);
+NoGridMapper *Field_GetNoGridMapper(Field *field);
 FieldExpObjSystem *Field_GetExpObjSystem(Field *field);
 // Whether a fade that FieldFadeTCB_Start started is still running
 BOOL Field_GetFadeFlag(Field *field);

@@ -1,5 +1,7 @@
 #include "asm/field_script.inc"
 
+// Script plugin 14, from the zones that use this file
+
     ScriptEntry Script_1
     ScriptEntry Script_2
     ScriptEntry Script_3
@@ -63,42 +65,17 @@ L_00E5:
     EvCameraMoveTo 9688, 0, 0xed000, 0x108000, 0, 0xa8000, 30
     EvCameraWait
     VMSleep 8
-    .byte 0xf4
-    .byte 0x03
-    .byte 0x35
-    .byte 0x02
-    .byte 0xea
-    .byte 0x03
-    .byte 0x06
-    .byte 0x00
-    .byte 0x24
-    .byte 0x00
-    .byte 0x9b
-    .byte 0x02
-    .byte 0x28
-    .byte 0x00
-    .byte 0x1b
-    .byte 0x41
-    VMHalt
-    .byte 0x28
-    .byte 0x00
-    .byte 0x20
-    .byte 0x40
-    .byte 0x6d
-    .byte 0x01
-    .byte 0x34
-    .byte 0x00
-    VMNop2
-    VMHalt
-    .byte 0x4b
-    .byte 0x00
-    .byte 0x3f
-    .byte 0x00
-    .byte 0x04
-    .byte 0x00
-    DayCareCalcWithdrawCost 0, 30
-    RTEndGlobal
-    VMNop
+    Plugin14_Cmd1012
+    BGMPlayEx 1002, 6
+    FlagReset 667
+    WorkSetConst 0x411b, 2
+    WorkSetConst 0x4020, 365
+    // "The Dark Stone draws in the aura of\nthe surroundings and converts it into[f000]븀\u0000\na powerful force, which is...now...[f000]븁\u0000\nBeing released!"
+    SystemMsg 1, 2
+    MsgWaitAdvance
+    MsgWinCloseAll
+    VMCall L_022D
+    VMJump L_015A
 
 L_013D:
     MsgWinCloseAll
@@ -110,6 +87,8 @@ L_013D:
     SystemMsg 2, 2
     LastKeyWait
     MsgWinCloseAll
+
+L_015A:
     VMJump L_0227
 
 L_0160:
@@ -138,43 +117,17 @@ L_01B2:
     EvCameraMoveTo 9688, 0, 0xed000, 0x108000, 0, 0xa8000, 30
     EvCameraWait
     VMSleep 8
-    .byte 0xf4
-    .byte 0x03
-    .byte 0x35
-    .byte 0x02
-    .byte 0xea
-    .byte 0x03
-    .byte 0x06
-    .byte 0x00
-    .byte 0x24
-    .byte 0x00
-    .byte 0x9b
-    .byte 0x02
-    .byte 0x28
-    .byte 0x00
-    .byte 0x1b
-    .byte 0x41
-    VMHalt
-    .byte 0x28
-    .byte 0x00
-    .byte 0x20
-    .byte 0x40
-    .byte 0x6c
-    .byte 0x01
-    .byte 0x34
-    .byte 0x00
-    .byte 0x06
-    .byte 0x00
-    VMHalt
-    .byte 0x4b
-    .byte 0x00
-    .byte 0x3f
-    .byte 0x00
-    .byte 0x04
-    .byte 0x00
-    WorkGet 0, 30
-    RTEndGlobal
-    VMNop
+    Plugin14_Cmd1012
+    BGMPlayEx 1002, 6
+    FlagReset 667
+    WorkSetConst 0x411b, 2
+    WorkSetConst 0x4020, 364
+    // "The Light Stone draws in the aura of\nthe surroundings and converts it into[f000]븀\u0000\na powerful force, which is...now...[f000]븁\u0000\nBeing released!"
+    SystemMsg 6, 2
+    MsgWaitAdvance
+    MsgWinCloseAll
+    VMCall L_022D
+    VMJump L_0227
 
 L_020A:
     MsgWinCloseAll
@@ -191,6 +144,8 @@ L_0227:
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
+
+L_022D:
     FadeOutBlackQ
     FadeWait
     GameGetVersion 0x8020

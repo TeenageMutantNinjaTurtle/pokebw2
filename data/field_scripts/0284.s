@@ -44,7 +44,7 @@ Script_3:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0096
     Plugin3_Cmd1000 3
-    Plugin3_Cmd1001 3
+    PokemonLeagueCmd_SetCamera 3
     VMJump L_00A2
 
 L_0096:
@@ -292,7 +292,7 @@ Script_5:
 Script_6:
     ActorsPauseAll
     Plugin3_Cmd1000 3
-    Plugin3_Cmd1001 3
+    PokemonLeagueCmd_SetCamera 3
     ActorCmdExec 255, Movement_043C
     ActorCmdWait
     Plugin3_Cmd1014 1

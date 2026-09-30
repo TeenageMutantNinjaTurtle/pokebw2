@@ -8,6 +8,7 @@
 void FieldCamera_CalcTransform(FieldCamera *camera, u32 a1);
 void FieldCamera_CoordsGetTarget(FieldCamera *camera, VecFx32 *target);
 void FieldCamera_DisableDelay(FieldCamera *camera);
+void FieldCamera_SetDefaultsIndex(FieldCamera *camera, u32 index);
 void FieldCamera_EnableDelay(FieldCamera *camera);
 // Tasks that move the camera's zoom over frames: this one by a distance from its current zoom
 void FieldCameraZoomTCB_Create(Field *field, u32 frames, fx32 distance);
