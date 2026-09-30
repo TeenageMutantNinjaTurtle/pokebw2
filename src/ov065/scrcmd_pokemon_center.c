@@ -9,6 +9,7 @@
 #include "nitro/rtc.h"
 #include "pml/poke_party.h"
 #include "save/box.h"
+#include "save/bsubway_save.h"
 #include "save/event_work.h"
 #include "save/medal_box.h"
 #include "save/pokedex.h"

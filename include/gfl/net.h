@@ -16,6 +16,8 @@ void func_02011de0(void);
 void func_02042ba8(u32 a0, HeapID heapId);
 void func_02012154(void);
 u32 func_0203ffc4(void);
+u32 func_02042bc4(void);
+int func_02042a78(void);
 NetHandle *func_02040440(void);
 void func_02040624(NetHandle *handle, u32 a1, u32 a2);
 BOOL func_02040664(NetHandle *handle, u32 a1, u32 a2);

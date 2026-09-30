@@ -51,7 +51,7 @@ struct ZoneSpawnInfo {
 #endif
 
 u16 ConvDirToWarpDir(u16 dir);
-void CreateZoneChangeData(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpDir, s32 x, s32 y, s32 z);
+void CreateZoneChangeData(ZoneSpawnInfo *spawn, u32 zoneId, s16 warpDir, s32 x, s32 y, s32 z);
 void CreateZoneChangeDataRail(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpDir, u16 componentId, u16 posFront,
                               s16 posSide);
 u32 GetInTransitionTypeBetweenZones(u16 fromZone, u16 toZone);

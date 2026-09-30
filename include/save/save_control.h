@@ -22,9 +22,13 @@ u32 getCash(TrainerGameInfoSave *info);
 // Stops at 0
 void subCashFromTotal(TrainerGameInfoSave *info, u32 amount);
 
-// Save block 0x39, from func_0201795c
-void func_0200e318(void *block, u16 value);
-u16 func_0200e370(void *block, u32 index);
+// Returns a pointer to one of the save's blocks
+void *SaveControl_GetBlockPtr(SaveControl *save, u32 block);
+u32 func_0200bcf8(SaveControl *save, u32 a1, void *a2, u32 a3);
+u32 func_0200be50(GameData *gameData, u32 a1, u32 a2, u32 a3, u32 a4, u16 *a5, u16 *a6);
+u32 func_0200c1d0(u8 a0);
+void func_0200c1f0(void);
+void func_0200c200(void);
 BOOL func_0200ae58(MusicalSave *musical);
 
 // Save block 0x45, which swan calls the key data. It keeps the Black Tower's and White Treehollow's progress, and the
@@ -62,6 +66,7 @@ typedef struct {
 void func_02008fb8(SaveControl *save, SaveLocation *location);
 // Save block 0x42, which keeps the rival's name
 RivalDataSave *getHollow_RivalData(SaveControl *save);
+void func_0200f700(RivalDataSave *rivalData, u32 id);
 void copyRivalNameIntoHollowBlock(RivalDataSave *data, const u16 *name);
 u32 func_0200ca64(TrainerGameInfoSave *info);
 void func_0200ca6c(TrainerGameInfoSave *info, u32 value);

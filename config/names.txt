@@ -155,6 +155,8 @@ overlays/ov036 0x021c2168 PleasureBoat_AdvanceClock
 overlays/ov036 0x021c21b8 PleasureBoat_GetInfo
 overlays/ov036 0x021c2254 PleasureBoat_SetTrainerDefeated
 overlays/ov036 0x021c2290 PleasureBoat_StopClock
+overlays/ov050 0x021e5880 BSubwayCmd_Tool
+overlays/ov050 0x021e76b0 BSUBWAY_SCRIPT_COMMANDS
 overlays/ov051 0x021e5800 PleasureBoatCmd_Create
 overlays/ov051 0x021e5848 PleasureBoatCmd_Free
 overlays/ov051 0x021e5868 PleasureBoatCmd_GetInfo

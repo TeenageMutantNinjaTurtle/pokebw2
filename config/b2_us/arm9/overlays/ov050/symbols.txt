@@ -1,7 +1,7 @@
 func_ov050_021e5800 kind:function(thumb,size=0x38) addr:0x021e5800
 func_ov050_021e5838 kind:function(thumb,size=0x1c) addr:0x021e5838
 func_ov050_021e5854 kind:function(thumb,size=0x2a) addr:0x021e5854
-func_ov050_021e5880 kind:function(thumb,size=0x1128) addr:0x021e5880
+BSubwayCmd_Tool kind:function(thumb,size=0x1128) addr:0x021e5880
 .L_021e5e2a kind:label(thumb) addr:0x021e5e2a local
 .L_021e62d2 kind:label(thumb) addr:0x021e62d2
 .L_021e62d4 kind:label(thumb) addr:0x021e62d4
@@ -92,5 +92,5 @@ data_ov050_021e7621 kind:data(any) addr:0x021e7621 ambiguous
 data_ov050_021e7631 kind:data(any) addr:0x021e7631 ambiguous
 data_ov050_021e7675 kind:data(any) addr:0x021e7675 ambiguous
 data_ov050_021e76a9 kind:data(any) addr:0x021e76a9 ambiguous
-data_ov050_021e76b0 kind:data(any) addr:0x021e76b0
+BSUBWAY_SCRIPT_COMMANDS kind:data(any) addr:0x021e76b0
 data_ov050_021e76b5 kind:data(any) addr:0x021e76b5 ambiguous

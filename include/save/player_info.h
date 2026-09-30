@@ -9,9 +9,20 @@
 #define GENDER_MALE 0
 #define GENDER_FEMALE 1
 
+struct PlayerInfo {
+    u16 name[8];
+    u32 id;
+    u8 unk14[7];
+    u8 unk1B;
+    u8 unk1C;
+    u8 gender;
+    u8 unk1E[2];
+};
+
 u16 *GetPlayerName(PlayerInfo *info);
 u32 PlayerInfo_GetSize(void);
 u32 getTrainerGender(PlayerInfo *info);
+u8 func_02008bfc(PlayerInfo *info);
 u32 getIDAsUInt(PlayerInfo *info);
 void setTrainerGender(PlayerInfo *info, u32 gender);
 PlayerInfo *func_02008b0c(HeapID heapId);

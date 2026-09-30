@@ -6,6 +6,7 @@
 
 BOOL EventWork_FlagGet(EventWork *eventWork, u16 flag);
 void EventWork_FlagReset(EventWork *eventWork, u32 flag);
+void EventWork_FlagSet(EventWork *eventWork, u32 flag);
 u16 *EventWork_GetWkPtr(EventWork *eventWork, u16 work);
 
 #endif // POKEBW2_SAVE_EVENT_WORK_H

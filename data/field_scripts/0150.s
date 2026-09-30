@@ -14,9 +14,9 @@ Script_1:
     VMStackPushConst 0
     VMStackCmp CMP_NE
     VMJumpIf CMP_STACK, L_00AF
-    Plugin1_Cmd1003 13, 255, 1, 0
-    Plugin1_Cmd1003 311, 0, 0, 0
-    Plugin1_Cmd1003 310, 0, 0, 32801
+    BSubwayCmd_Tool 13, 255, 1, 0
+    BSubwayCmd_Tool 311, 0, 0, 0
+    BSubwayCmd_Tool 310, 0, 0, 32801
     VMStackPush 0x8021
     VMStackPushConst 2
     VMStackCmp CMP_EQ
@@ -50,8 +50,8 @@ L_00AF:
 L_00B7:
     WorkSetConst 0x8022, 0
     WorkSetConst 0x8023, 0
-    Plugin1_Cmd1003 307, 0, 0, 0
-    Plugin1_Cmd1003 8, 0, 0, 32803
+    BSubwayCmd_Tool 307, 0, 0, 0
+    BSubwayCmd_Tool 8, 0, 0, 32803
     VMCall L_1A18
     VMStackPush 0x8010
     VMStackPushConst 1
@@ -61,14 +61,14 @@ L_00B7:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_0126
-    Plugin1_Cmd1003 311, 1, 0, 0
-    Plugin1_Cmd1003 351, 0, 0, 32776
+    BSubwayCmd_Tool 311, 1, 0, 0
+    BSubwayCmd_Tool 351, 0, 0, 32776
     VMCall L_02B7
     WorkGet 0x4022, 0x8010
     VMJump L_0136
 
 L_0126:
-    Plugin1_Cmd1003 308, 0, 0, 32784
+    BSubwayCmd_Tool 308, 0, 0, 32784
     WorkGet 0x4022, 0x8010
 
 L_0136:
@@ -79,8 +79,8 @@ L_0136:
 
 L_0152:
     WorkSetConst 0x8024, 0
-    Plugin1_Cmd1003 307, 0, 0, 0
-    Plugin1_Cmd1003 8, 0, 0, 32804
+    BSubwayCmd_Tool 307, 0, 0, 0
+    BSubwayCmd_Tool 8, 0, 0, 32804
     VMCall L_1A18
     VMStackPush 0x8010
     VMStackPushConst 1
@@ -90,18 +90,18 @@ L_0152:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_01D1
-    Plugin1_Cmd1003 311, 1, 0, 0
-    Plugin1_Cmd1003 351, 0, 0, 32776
+    BSubwayCmd_Tool 311, 1, 0, 0
+    BSubwayCmd_Tool 351, 0, 0, 32776
     VMCall L_02B7
     WorkGet 0x4022, 0x8010
-    Plugin1_Cmd1003 351, 1, 0, 32776
+    BSubwayCmd_Tool 351, 1, 0, 32776
     VMCall L_02B7
     WorkGet 0x4023, 0x8010
     VMJump L_01E5
 
 L_01D1:
-    Plugin1_Cmd1003 308, 0, 0, 16418
-    Plugin1_Cmd1003 308, 1, 0, 16419
+    BSubwayCmd_Tool 308, 0, 0, 16418
+    BSubwayCmd_Tool 308, 1, 0, 16419
 
 L_01E5:
     ActorNew 9, 5, 2, 226, 164, 0
@@ -110,32 +110,32 @@ L_01E5:
     VMReturn
 
 L_0209:
-    Plugin1_Cmd1003 307, 0, 0, 0
-    Plugin1_Cmd1003 351, 0, 0, 32776
+    BSubwayCmd_Tool 307, 0, 0, 0
+    BSubwayCmd_Tool 351, 0, 0, 32776
     VMCall L_02B7
     VMStackPush 0x8010
     VMStackPushConst 10
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0246
-    Plugin1_Cmd1003 308, 0, 0, 32784
+    BSubwayCmd_Tool 308, 0, 0, 32784
     VMJump L_0250
 
 L_0246:
-    Plugin1_Cmd1003 311, 1, 0, 0
+    BSubwayCmd_Tool 311, 1, 0, 0
 
 L_0250:
     WorkGet 0x4022, 0x8010
-    Plugin1_Cmd1003 351, 1, 0, 32776
+    BSubwayCmd_Tool 351, 1, 0, 32776
     VMCall L_02B7
     VMStackPush 0x8010
     VMStackPushConst 10
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0289
-    Plugin1_Cmd1003 308, 1, 0, 32784
+    BSubwayCmd_Tool 308, 1, 0, 32784
     VMJump L_0293
 
 L_0289:
-    Plugin1_Cmd1003 311, 1, 0, 0
+    BSubwayCmd_Tool 311, 1, 0, 0
 
 L_0293:
     WorkGet 0x4023, 0x8010
@@ -226,8 +226,8 @@ Script_2:
     WorkSetConst 0x8025, 0
     WorkSetConst 0x8026, 0
     WorkSetConst 0x4178, 0
-    Plugin1_Cmd1003 310, 0, 0, 32805
-    Plugin1_Cmd1003 22, 0x8025, 0, 32806
+    BSubwayCmd_Tool 310, 0, 0, 32805
+    BSubwayCmd_Tool 22, 0x8025, 0, 32806
     VMStackPush 0x8026
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -240,27 +240,27 @@ Script_2:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_OR
     VMJumpIf CMP_STACK, L_044B
-    Plugin1_Cmd1003 411, 0, 0, 16416
+    BSubwayCmd_Tool 411, 0, 0, 16416
     ActorNew 4, 3, 3, 224, 162, 0
-    Plugin1_Cmd1003 412, 0, 0, 16417
+    BSubwayCmd_Tool 412, 0, 0, 16417
     ActorNew 4, 5, 3, 225, 163, 0
     VMJump L_047B
 
 L_044B:
-    Plugin1_Cmd1003 12, 0, 0, 16416
+    BSubwayCmd_Tool 12, 0, 0, 16416
     ActorNew 4, 3, 3, 224, 162, 0
-    Plugin1_Cmd1003 31, 0, 0, 16417
+    BSubwayCmd_Tool 31, 0, 0, 16417
     ActorNew 4, 5, 3, 225, 163, 0
 
 L_047B:
     VMJump L_0499
 
 L_0481:
-    Plugin1_Cmd1003 12, 0, 0, 16416
+    BSubwayCmd_Tool 12, 0, 0, 16416
     ActorNew 4, 4, 3, 224, 162, 0
 
 L_0499:
-    Plugin1_Cmd1003 334, 0, 0, 0
+    BSubwayCmd_Tool 334, 0, 0, 0
     FadeInBlackQ
     FadeWait
     VMStackPush 0x8026
@@ -292,11 +292,11 @@ Script_3:
     WorkSetConst 0x8027, 0
     WorkSetConst 0x8028, 0
     WorkSetConst 0x4178, 0
-    Plugin1_Cmd1003 334, 0, 0, 0
+    BSubwayCmd_Tool 334, 0, 0, 0
     FadeInBlackQ
     FadeWait
-    Plugin1_Cmd1003 310, 0, 0, 32807
-    Plugin1_Cmd1003 22, 0x8027, 0, 32808
+    BSubwayCmd_Tool 310, 0, 0, 32807
+    BSubwayCmd_Tool 22, 0x8027, 0, 32808
     VMStackPush 0x8028
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -316,7 +316,7 @@ L_0543:
     VMHalt
 
 L_055B:
-    Plugin1_Cmd1003 12, 0, 0, 16416
+    BSubwayCmd_Tool 12, 0, 0, 16416
     ActorNew 0, 4, 3, 224, 162, 0
     ActorCmdExec 224, Movement_0580
     ActorCmdWait
@@ -330,7 +330,7 @@ Movement_0580:
 
 L_058C:
     WorkSetConst 0x8029, 0
-    Plugin1_Cmd1003 310, 0, 0, 32809
+    BSubwayCmd_Tool 310, 0, 0, 32809
     VMStackPush 0x8029
     VMStackPushConst 3
     VMStackCmp CMP_EQ
@@ -339,20 +339,20 @@ L_058C:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_OR
     VMJumpIf CMP_STACK, L_05FF
-    Plugin1_Cmd1003 411, 0, 0, 16416
+    BSubwayCmd_Tool 411, 0, 0, 16416
     ActorNew 0, 4, 3, 224, 162, 0
     ActorCmdExec 224, Movement_0654
     ActorCmdWait
-    Plugin1_Cmd1003 412, 0, 0, 16417
+    BSubwayCmd_Tool 412, 0, 0, 16417
     ActorNew 0, 4, 3, 225, 163, 0
     VMJump L_0639
 
 L_05FF:
-    Plugin1_Cmd1003 12, 0, 0, 16416
+    BSubwayCmd_Tool 12, 0, 0, 16416
     ActorNew 0, 4, 3, 224, 162, 0
     ActorCmdExec 224, Movement_0654
     ActorCmdWait
-    Plugin1_Cmd1003 31, 0, 0, 16417
+    BSubwayCmd_Tool 31, 0, 0, 16417
     ActorNew 0, 4, 3, 225, 163, 0
 
 L_0639:
@@ -385,9 +385,9 @@ L_0684:
     WorkSetConst 0x802a, 0
     WorkSetConst 0x802b, 0
     WorkSetConst 0x802c, 0
-    Plugin1_Cmd1003 202, 0, 0, 0
-    Plugin1_Cmd1003 310, 0, 0, 32811
-    Plugin1_Cmd1003 200, 4, 0, 32810
+    BSubwayCmd_Tool 202, 0, 0, 0
+    BSubwayCmd_Tool 310, 0, 0, 32811
+    BSubwayCmd_Tool 200, 4, 0, 32810
     VMStackPush 0x802a
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -481,8 +481,8 @@ L_07DE:
     VMReturn
 
 L_07FE:
-    Plugin1_Cmd1003 343, 0, 0, 0
-    Plugin1_Cmd1003 354, 0, 0, 0
+    BSubwayCmd_Tool 343, 0, 0, 0
+    BSubwayCmd_Tool 354, 0, 0, 0
     WorkCmpConst 0x802b, 0
     VMJumpIf CMP_EQ, L_0825
     VMJump L_0831
@@ -595,8 +595,8 @@ L_097B:
 
 L_098F:
     WorkSetConst 0x802d, 0
-    Plugin1_Cmd1003 310, 0, 0, 32813
-    Plugin1_Cmd1003 8, 0, 0, 32784
+    BSubwayCmd_Tool 310, 0, 0, 32813
+    BSubwayCmd_Tool 8, 0, 0, 32784
     VMStackPush 0x8010
     VMStackPushConst 1
     VMStackCmp CMP_GT
@@ -604,8 +604,8 @@ L_098F:
     Cmd_01DD 7, 0x8010, 0
 
 L_09C4:
-    Plugin1_Cmd1003 357, 0, 0, 32784
-    Plugin1_Cmd1003 303, 0, 0, 32784
+    BSubwayCmd_Tool 357, 0, 0, 32784
+    BSubwayCmd_Tool 303, 0, 0, 32784
     VMStackPush 0x8010
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -623,7 +623,7 @@ L_09FD:
 L_0A05:
     WorkSetConst 0x802e, 0
     WorkSetConst 0x802f, 0
-    Plugin1_Cmd1003 310, 0, 0, 32814
+    BSubwayCmd_Tool 310, 0, 0, 32814
     VMStackPush 0x802e
     VMStackPushConst 3
     VMStackCmp CMP_EQ
@@ -632,16 +632,16 @@ L_0A05:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_OR
     VMJumpIf CMP_STACK, L_0A65
-    Plugin1_Cmd1003 416, 0, 0, 32784
+    BSubwayCmd_Tool 416, 0, 0, 32784
     VMStackPush 0x8010
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0A65
-    Plugin1_Cmd1003 354, 1, 0, 0
+    BSubwayCmd_Tool 354, 1, 0, 0
 
 L_0A65:
     VMSleep 40
-    Plugin1_Cmd1003 355, 0, 0, 32784
+    BSubwayCmd_Tool 355, 0, 0, 32784
     VMStackPush 0x8010
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -657,8 +657,8 @@ L_0A65:
     VMCall L_19EE
 
 L_0AAB:
-    Plugin1_Cmd1003 305, 0, 0, 0
-    Plugin1_Cmd1003 22, 0x802e, 0, 32815
+    BSubwayCmd_Tool 305, 0, 0, 0
+    BSubwayCmd_Tool 22, 0x802e, 0, 32815
     VMStackPush 0x802f
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -670,7 +670,7 @@ L_0ADE:
     VMCall L_0C5C
 
 L_0AE4:
-    Plugin1_Cmd1003 350, 0, 0, 0
+    BSubwayCmd_Tool 350, 0, 0, 0
     VMStackPush 0x802f
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -686,8 +686,8 @@ L_0B0F:
     FadeWait
     ActorCmdWait
     WorkSetConst 0x4179, 1
-    Plugin1_Cmd1003 347, 0, 0, 0
-    Plugin1_Cmd1003 202, 1, 0, 0
+    BSubwayCmd_Tool 347, 0, 0, 0
+    BSubwayCmd_Tool 202, 1, 0, 0
     MapChangeCore 76, 75, 0, 12, 1
     WorkSetConst 0x802f, 0
     WorkSetConst 0x802e, 0
@@ -811,8 +811,8 @@ L_0C76:
 L_0CA0:
     WorkSetConst 0x8030, 0
     WorkSetConst 0x8031, 0
-    Plugin1_Cmd1003 310, 0, 0, 32816
-    Plugin1_Cmd1003 22, 0x8030, 0, 32817
+    BSubwayCmd_Tool 310, 0, 0, 32816
+    BSubwayCmd_Tool 22, 0x8030, 0, 32817
     VMStackPush 0x8031
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -851,8 +851,8 @@ L_0D2E:
     WorkSetConst 0x8034, 0
     WorkSetConst 0x8035, 0
     WorkSetConst 0x8036, 0
-    Plugin1_Cmd1003 310, 0, 0, 32820
-    Plugin1_Cmd1003 22, 0x8034, 0, 32821
+    BSubwayCmd_Tool 310, 0, 0, 32820
+    BSubwayCmd_Tool 22, 0x8034, 0, 32821
     WorkSetConst 0x8033, 1
 
 L_0D66:
@@ -860,7 +860,7 @@ L_0D66:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0F9B
-    Plugin1_Cmd1003 358, 0, 0, 32784
+    BSubwayCmd_Tool 358, 0, 0, 32784
     VMStackPush 0x8010
     VMStackPushConst 9999
     VMStackCmp CMP_GT
@@ -869,12 +869,12 @@ L_0D66:
 
 L_0D9C:
     WordSetNumber 0, 0x8010, 4
-    Plugin1_Cmd1003 11, 0, 0, 32784
+    BSubwayCmd_Tool 11, 0, 0, 32784
     WordSetNumber 1, 0x8010, 1
     // "Current winning streak: [f000]ȃ\u0001\u0000![f000]븁\u0000\nNext car: No. [f000]Ȁ\u0001\u0001.\nContinue to battle?"
     SystemMsg 0, 2
     ListMenu_AnchorTopRight 31, 1, 0, 0, 32784
-    Plugin1_Cmd1003 355, 0, 0, 32822
+    BSubwayCmd_Tool 355, 0, 0, 32822
     VMStackPush 0x8036
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -909,12 +909,12 @@ L_0E54:
     VMCall L_1388
 
 L_0E5A:
-    Plugin1_Cmd1003 350, 0, 0, 0
+    BSubwayCmd_Tool 350, 0, 0, 0
     FadeOutBlackQ
     FadeWait
     WorkSetConst 0x4178, 2
-    Plugin1_Cmd1003 347, 0, 0, 0
-    Plugin1_Cmd1003 202, 1, 0, 0
+    BSubwayCmd_Tool 347, 0, 0, 0
+    BSubwayCmd_Tool 202, 1, 0, 0
     MapChangeCore 75, 7, 0, 4, 0
     WorkSetConst 0x8033, 0
     VMJump L_0F95
@@ -942,10 +942,10 @@ L_0ECC:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0F45
     WorkSetConst 0x4176, 1
-    Plugin1_Cmd1003 322, 0, 0, 0
-    Plugin1_Cmd1003 306, 0, 0, 0
-    Plugin1_Cmd1003 347, 0, 0, 0
-    Plugin1_Cmd1003 202, 1, 0, 0
+    BSubwayCmd_Tool 322, 0, 0, 0
+    BSubwayCmd_Tool 306, 0, 0, 0
+    BSubwayCmd_Tool 347, 0, 0, 0
+    BSubwayCmd_Tool 202, 1, 0, 0
     Plugin1_Cmd1002
     // "Saving...\nDon't turn off the power."
     SystemMsg 7, 2
@@ -956,7 +956,7 @@ L_0ECC:
     GameCommDisconnect 0x8010
     FieldSubscreenDisable
     VMSleep 8
-    Plugin1_Cmd1003 1, 0, 0, 0
+    BSubwayCmd_Tool 1, 0, 0, 0
 
 L_0F45:
     VMJump L_0F95
@@ -969,7 +969,7 @@ L_0F4B:
 L_0F5E:
     // "Cancel your challenge?"
     SystemMsg 5, 2
-    Plugin1_Cmd1003 44, 1, 0, 32784
+    BSubwayCmd_Tool 44, 1, 0, 32784
     InfoMsgClose
     VMStackPush 0x8010
     VMStackPushConst 0
@@ -996,7 +996,7 @@ L_0FBB:
     WorkSetConst 0x8037, 0
     WorkSetConst 0x8038, 0
     WorkSetConst 0x8039, 0
-    Plugin1_Cmd1003 402, 51, 0, 32800
+    BSubwayCmd_Tool 402, 51, 0, 32800
     VMStackPush 0x8020
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -1005,12 +1005,12 @@ L_0FBB:
     VMReturn
 
 L_0FF2:
-    Plugin1_Cmd1003 416, 0, 0, 32823
+    BSubwayCmd_Tool 416, 0, 0, 32823
     VMStackPush 0x8037
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_1019
-    Plugin1_Cmd1003 354, 1, 0, 0
+    BSubwayCmd_Tool 354, 1, 0, 0
 
 L_1019:
     WorkSetConst 0x8038, 1
@@ -1020,14 +1020,14 @@ L_101F:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_132C
-    Plugin1_Cmd1003 358, 0, 0, 32784
+    BSubwayCmd_Tool 358, 0, 0, 32784
     WordSetNumber 0, 0x8010, 4
-    Plugin1_Cmd1003 11, 0, 0, 32784
+    BSubwayCmd_Tool 11, 0, 0, 32784
     WordSetNumber 1, 0x8010, 1
     // "Current winning streak: [f000]ȃ\u0001\u0000![f000]븁\u0000\nNext car: No. [f000]Ȁ\u0001\u0001.\nContinue to battle?"
     SystemMsg 0, 2
     ListMenu_AnchorTopRight 31, 1, 0, 0, 32784
-    Plugin1_Cmd1003 355, 0, 0, 32825
+    BSubwayCmd_Tool 355, 0, 0, 32825
     VMStackPush 0x8039
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -1051,8 +1051,8 @@ L_10AE:
 L_10C9:
     // "Awaiting your friend's selection."
     SystemMsg 9, 2
-    Plugin1_Cmd1003 319, 0, 0, 0
-    Plugin1_Cmd1003 402, 52, 0, 32800
+    BSubwayCmd_Tool 319, 0, 0, 0
+    BSubwayCmd_Tool 402, 52, 0, 32800
     VMStackPush 0x8020
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -1063,8 +1063,8 @@ L_10C9:
 
 L_1100:
     WorkSetConst 0x4000, 0
-    Plugin1_Cmd1003 405, 2, 0x4000, 0
-    Plugin1_Cmd1003 415, 0, 0, 32800
+    BSubwayCmd_Tool 405, 2, 0x4000, 0
+    BSubwayCmd_Tool 415, 0, 0, 32800
     VMStackPush 0x8020
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -1074,9 +1074,9 @@ L_1100:
     VMReturn
 
 L_1137:
-    Plugin1_Cmd1003 406, 2, 0, 16384
+    BSubwayCmd_Tool 406, 2, 0, 16384
     InfoMsgClose
-    Plugin1_Cmd1003 415, 0, 0, 32800
+    BSubwayCmd_Tool 415, 0, 0, 32800
     VMStackPush 0x8020
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -1092,7 +1092,7 @@ L_1168:
     // "You have chosen to retire from\nthis challenge."
     SystemMsg 11, 2
     VMSleep 30
-    Plugin1_Cmd1003 402, 54, 0, 32800
+    BSubwayCmd_Tool 402, 54, 0, 32800
     InfoMsgClose
     VMStackPush 0x8020
     VMStackPushConst 0
@@ -1109,11 +1109,11 @@ L_11B6:
 
 L_11BC:
     VMCall L_139C
-    Plugin1_Cmd1003 350, 0, 0, 0
+    BSubwayCmd_Tool 350, 0, 0, 0
     FadeOutBlackQ
     FadeWait
-    Plugin1_Cmd1003 347, 0, 0, 0
-    Plugin1_Cmd1003 202, 1, 0, 0
+    BSubwayCmd_Tool 347, 0, 0, 0
+    BSubwayCmd_Tool 202, 1, 0, 0
     WorkSetConst 0x4178, 2
     MapChangeCore 75, 7, 0, 4, 0
 
@@ -1133,7 +1133,7 @@ L_1215:
 L_1221:
     // "Cancel your challenge?"
     SystemMsg 5, 2
-    Plugin1_Cmd1003 44, 1, 0, 32784
+    BSubwayCmd_Tool 44, 1, 0, 32784
     InfoMsgClose
     VMStackPush 0x8010
     VMStackPushConst 0
@@ -1141,8 +1141,8 @@ L_1221:
     VMJumpIf CMP_STACK, L_1326
     // "Awaiting your friend's selection."
     SystemMsg 9, 2
-    Plugin1_Cmd1003 319, 0, 0, 0
-    Plugin1_Cmd1003 402, 52, 0, 32800
+    BSubwayCmd_Tool 319, 0, 0, 0
+    BSubwayCmd_Tool 402, 52, 0, 32800
     VMStackPush 0x8020
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -1153,8 +1153,8 @@ L_1221:
 
 L_127D:
     WorkSetConst 0x4000, 1
-    Plugin1_Cmd1003 405, 2, 0x4000, 0
-    Plugin1_Cmd1003 415, 0, 0, 32800
+    BSubwayCmd_Tool 405, 2, 0x4000, 0
+    BSubwayCmd_Tool 415, 0, 0, 32800
     VMStackPush 0x8020
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -1164,8 +1164,8 @@ L_127D:
     VMReturn
 
 L_12B4:
-    Plugin1_Cmd1003 406, 2, 0, 16384
-    Plugin1_Cmd1003 415, 0, 0, 32800
+    BSubwayCmd_Tool 406, 2, 0, 16384
+    BSubwayCmd_Tool 415, 0, 0, 32800
     VMStackPush 0x8020
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -1178,7 +1178,7 @@ L_12E5:
     // "You have chosen to retire from\nthis challenge."
     SystemMsg 11, 2
     VMSleep 30
-    Plugin1_Cmd1003 402, 54, 0, 32800
+    BSubwayCmd_Tool 402, 54, 0, 32800
     InfoMsgClose
     VMStackPush 0x8020
     VMStackPushConst 0
@@ -1232,32 +1232,32 @@ L_139C:
     VMReturn
 
 L_13B8:
-    Plugin1_Cmd1003 352, 0, 226, 0
+    BSubwayCmd_Tool 352, 0, 226, 0
     VMCall L_1B6F
-    Plugin1_Cmd1003 309, 0, 0, 0
-    Plugin1_Cmd1003 353, 0, 0, 0
-    Plugin1_Cmd1003 345, 0, 0, 0
-    Plugin1_Cmd1003 332, 0, 0, 32784
+    BSubwayCmd_Tool 309, 0, 0, 0
+    BSubwayCmd_Tool 353, 0, 0, 0
+    BSubwayCmd_Tool 345, 0, 0, 0
+    BSubwayCmd_Tool 332, 0, 0, 32784
     VMReturn
 
 L_13F2:
-    Plugin1_Cmd1003 320, 1, 227, 0
-    Plugin1_Cmd1003 352, 0, 226, 0
+    BSubwayCmd_Tool 320, 1, 227, 0
+    BSubwayCmd_Tool 352, 0, 226, 0
     VMCall L_1B83
-    Plugin1_Cmd1003 309, 0, 0, 0
-    Plugin1_Cmd1003 345, 0, 0, 0
-    Plugin1_Cmd1003 332, 0, 0, 32784
+    BSubwayCmd_Tool 309, 0, 0, 0
+    BSubwayCmd_Tool 345, 0, 0, 0
+    BSubwayCmd_Tool 332, 0, 0, 32784
     VMReturn
 
 L_142C:
     WorkSetConst 0x803a, 0
     WorkSetConst 0x803b, 0
-    Plugin1_Cmd1003 320, 1, 227, 0
-    Plugin1_Cmd1003 352, 0, 226, 0
+    BSubwayCmd_Tool 320, 1, 227, 0
+    BSubwayCmd_Tool 352, 0, 226, 0
     // "Communicating. Please stand by..."
     SystemMsgAsync 15, 2
     VMSleep 15
-    Plugin1_Cmd1003 402, 53, 0, 32800
+    BSubwayCmd_Tool 402, 53, 0, 32800
     MsgWinCloseAll
     VMStackPush 0x8020
     VMStackPushConst 0
@@ -1268,7 +1268,7 @@ L_142C:
 
 L_147D:
     VMCall L_1B83
-    Plugin1_Cmd1003 402, 50, 0, 32800
+    BSubwayCmd_Tool 402, 50, 0, 32800
     VMStackPush 0x8020
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -1277,8 +1277,8 @@ L_147D:
     VMReturn
 
 L_14A8:
-    Plugin1_Cmd1003 309, 0, 0, 0
-    Plugin1_Cmd1003 415, 0, 0, 32800
+    BSubwayCmd_Tool 309, 0, 0, 0
+    BSubwayCmd_Tool 415, 0, 0, 32800
     VMStackPush 0x8020
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -1287,15 +1287,15 @@ L_14A8:
     VMReturn
 
 L_14D7:
-    Plugin1_Cmd1003 345, 0, 0, 0
-    Plugin1_Cmd1003 332, 0, 0, 32826
-    Plugin1_Cmd1003 203, 0, 0, 32784
+    BSubwayCmd_Tool 345, 0, 0, 0
+    BSubwayCmd_Tool 332, 0, 0, 32826
+    BSubwayCmd_Tool 203, 0, 0, 32784
     VMStackPush 0x8010
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_15BE
-    Plugin1_Cmd1003 319, 0, 0, 0
-    Plugin1_Cmd1003 402, 54, 0, 32800
+    BSubwayCmd_Tool 319, 0, 0, 0
+    BSubwayCmd_Tool 402, 54, 0, 32800
     VMStackPush 0x8020
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -1304,8 +1304,8 @@ L_14D7:
     VMReturn
 
 L_1537:
-    Plugin1_Cmd1003 405, 7, 0x803a, 0
-    Plugin1_Cmd1003 415, 0, 0, 32800
+    BSubwayCmd_Tool 405, 7, 0x803a, 0
+    BSubwayCmd_Tool 415, 0, 0, 32800
     VMStackPush 0x8020
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -1314,8 +1314,8 @@ L_1537:
     VMReturn
 
 L_1566:
-    Plugin1_Cmd1003 406, 7, 0, 32827
-    Plugin1_Cmd1003 415, 0, 0, 32800
+    BSubwayCmd_Tool 406, 7, 0, 32827
+    BSubwayCmd_Tool 415, 0, 0, 32800
     VMStackPush 0x8020
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -1341,32 +1341,32 @@ L_15BE:
     VMReturn
 
 L_15D2:
-    Plugin1_Cmd1003 401, 0, 0, 0
+    BSubwayCmd_Tool 401, 0, 0, 0
     Cmd_013C
-    Plugin1_Cmd1003 330, 0, 0, 0
+    BSubwayCmd_Tool 330, 0, 0, 0
     VMReturn
 
 L_15EA:
-    Plugin1_Cmd1003 402, 52, 0, 32800
+    BSubwayCmd_Tool 402, 52, 0, 32800
     VMStackPush 0x8020
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_1611
-    Plugin1_Cmd1003 413, 0, 0, 0
+    BSubwayCmd_Tool 413, 0, 0, 0
 
 L_1611:
     VMCall L_15D2
     VMReturn
 
 L_1619:
-    Plugin1_Cmd1003 413, 0, 0, 0
+    BSubwayCmd_Tool 413, 0, 0, 0
     VMCall L_15D2
     VMReturn
 
 L_162B:
     WorkSetConst 0x803c, 0
     WorkSetConst 0x803d, 0
-    Plugin1_Cmd1003 310, 0, 0, 32829
+    BSubwayCmd_Tool 310, 0, 0, 32829
     VMStackPush 0x803d
     VMStackPushConst 3
     VMStackCmp CMP_EQ
@@ -1375,15 +1375,15 @@ L_162B:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_OR
     VMJumpIf CMP_STACK, L_168B
-    Plugin1_Cmd1003 416, 0, 0, 32784
+    BSubwayCmd_Tool 416, 0, 0, 32784
     VMStackPush 0x8010
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_168B
-    Plugin1_Cmd1003 354, 1, 0, 0
+    BSubwayCmd_Tool 354, 1, 0, 0
 
 L_168B:
-    Plugin1_Cmd1003 355, 0, 0, 32828
+    BSubwayCmd_Tool 355, 0, 0, 32828
     VMStackPush 0x803c
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -1405,18 +1405,18 @@ L_16CD:
     VMReturn
 
 L_16E1:
-    Plugin1_Cmd1003 350, 0, 0, 0
+    BSubwayCmd_Tool 350, 0, 0, 0
     FadeOutBlackQ
     FadeWait
-    Plugin1_Cmd1003 347, 0, 0, 0
-    Plugin1_Cmd1003 202, 1, 0, 0
+    BSubwayCmd_Tool 347, 0, 0, 0
+    BSubwayCmd_Tool 202, 1, 0, 0
     VMCall L_170B
     VMReturn
 
 L_170B:
     WorkSetConst 0x803e, 0
-    Plugin1_Cmd1003 202, 99, 0, 0
-    Plugin1_Cmd1003 21, 0, 0, 32830
+    BSubwayCmd_Tool 202, 99, 0, 0
+    BSubwayCmd_Tool 21, 0, 0, 32830
     WorkCmpConst 0x803e, 0
     VMJumpIf CMP_EQ, L_1738
     VMJump L_174A
@@ -1501,14 +1501,14 @@ L_1872:
     MapChangeCore 67, 11, 0, 15, 3
 
 L_187E:
-    Plugin1_Cmd1003 202, 100, 0, 0
+    BSubwayCmd_Tool 202, 100, 0, 0
     WorkSetConst 0x803e, 0
     VMReturn
 
 L_1890:
     WorkSetConst 0x803f, 0
     WorkSetConst 0x4176, 3
-    Plugin1_Cmd1003 310, 0, 0, 32831
+    BSubwayCmd_Tool 310, 0, 0, 32831
     VMStackPush 0x803f
     VMStackPushConst 3
     VMStackCmp CMP_EQ
@@ -1520,7 +1520,7 @@ L_1890:
     // "Communicating. Please stand by..."
     SystemMsg 15, 2
     VMSleep 30
-    Plugin1_Cmd1003 402, 53, 0, 32800
+    BSubwayCmd_Tool 402, 53, 0, 32800
     MsgWinCloseAll
     VMStackPush 0x8020
     VMStackPushConst 1
@@ -1550,14 +1550,14 @@ L_192A:
     WorkSetConst 0x8042, 0
     WorkSetConst 0x8041, 1
     WorkGet 0x8042, 0x8010
-    Plugin1_Cmd1003 344, 0, 0, 32832
+    BSubwayCmd_Tool 344, 0, 0, 32832
     VMStackPush 0x8040
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_1990
     // "Delete your existing Battle Video and\nsave the last battle?"
     SystemMsg 8, 2
-    Plugin1_Cmd1003 44, 1, 0, 32832
+    BSubwayCmd_Tool 44, 1, 0, 32832
     InfoMsgClose
     VMStackPush 0x8040
     VMStackPushConst 1
@@ -1574,14 +1574,14 @@ L_1990:
     SystemMsg 12, 2
     VMSleep 1
     MsgSetLoadingSpinner 0
-    Plugin1_Cmd1003 346, 0x8042, 0, 0
+    BSubwayCmd_Tool 346, 0x8042, 0, 0
     InfoMsgClose
     WordSetPlayerName 0
     // "[f000]Ā\u0001\u0000's battle has been saved as a\nBattle Video."
     SystemMsg 13, 2
     ABKeyWait
     InfoMsgClose
-    Plugin1_Cmd1003 354, 1, 0, 0
+    BSubwayCmd_Tool 354, 1, 0, 0
 
 L_19D4:
     WorkGet 0x8010, 0x8041
@@ -1591,12 +1591,12 @@ L_19D4:
     VMReturn
 
 L_19EE:
-    Plugin1_Cmd1003 358, 0, 0, 32784
+    BSubwayCmd_Tool 358, 0, 0, 32784
     VMCall L_192A
     VMReturn
 
 L_1A00:
-    Plugin1_Cmd1003 358, 0, 0, 32784
+    BSubwayCmd_Tool 358, 0, 0, 32784
     WorkAdd 0x8010, 1
     VMCall L_192A
     VMReturn
@@ -1605,8 +1605,8 @@ L_1A18:
     WorkSetConst 0x8043, 0
     WorkSetConst 0x8044, 0
     WorkSetConst 0x8045, 0
-    Plugin1_Cmd1003 310, 0, 0, 32836
-    Plugin1_Cmd1003 30, 0x8044, 0, 32835
+    BSubwayCmd_Tool 310, 0, 0, 32836
+    BSubwayCmd_Tool 30, 0x8044, 0, 32835
     WorkSetConst 0x8045, 255
     WorkCmpConst 0x8044, 0
     VMJumpIf CMP_EQ, L_1A57

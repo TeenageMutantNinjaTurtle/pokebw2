@@ -158,6 +158,14 @@ Things that affect whether MWCC output matches:
   a relocation. Mark the literal in the config with `tools/scripts/config_fixes.py overlay-id`.
 - A switch case that ends in the same code as another case is merged into it, so its end moves.
 - Switch cases are laid out in source order, not by value, so the layout shows the order the cases were written in.
+- A switch's comparison tree and jump tables depend on every case value, including cases with no code: the Battle
+  Subway's command switch only splits its values as the game does with an empty `case 102:` inside its first jump
+  table, and empty cases that sit between others still get a comparison.
+- Of two variables that compete for the same register, the one used more gets it: one use of the Battle Subway
+  command's result variable too many gave its register to the command ID. A single `*var = cond ? a : b;` counts as
+  one use where an `if`/`else` with a store in each counts as two.
+- A branch to the very next instruction is left by cross-jumping: two statements that end the same way, such as a
+  store in each case of a switch, share their tail, and the first jumps to it even when it follows.
 - Identical statements in different branches are merged, so a branch that jumps into the middle of another block had
   the same code in the source. For example, `if (a) { x = 3; y = 19; } else { x = 0; y = 19; }` compiles differently
   from `x = a ? 3 : 0; y = 19;`. A run of jumps to one store, as in the start menu's `StartMenu_MoveCursor`, is the
@@ -229,7 +237,8 @@ Things that affect whether MWCC output matches:
 - A `static const` variable whose address is never taken is folded into the code and not emitted. If the original has
   it anyway, it is not `static`: a global that no code refers to gets a section of its own, laid out by size with the
   rest. An object laid out ahead of smaller ones is in a file of its own, linked first, as overlay 65's command table
-  is in `scrcmd_pokemon_center_table.c`.
+  is in `scrcmd_pokemon_center_table.c`, and one laid out after larger ones is in a file linked after, as overlay 50's
+  is in `scrcmd_bsubway_table.c`.
 - `GFL_ASSERT` keeps its expression as a string in `.data`, so the variable it tests keeps its original name, as the
   Medal Rally's `p_sv` does.
 - A clamp that ends in one store, with each limit copied into the value's register, is a conditional expression.

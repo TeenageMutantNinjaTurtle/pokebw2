@@ -27,6 +27,12 @@ u16 ScriptReadAny(VM *vm, FieldScriptEnv *env);
 u16 *ScriptReadVar(VM *vm, FieldScriptEnv *env);
 // Runs event before the script goes on
 void ScriptWork_CallEvent(ScriptWork *work, GameEvent *event);
+void *ScriptWork_GetFieldWork(ScriptWork *work);
+// A variable of the script (IDs from 0x8000) or saved event work (from 0x4000)
+u16 *ScriptWork_GetWkAddr(ScriptWork *work, GameData *gameData, u16 id);
+// Waits a number of frames: UpdateWaitCounter returns TRUE once they have passed
+void FieldScriptEnv_SetWaitCounter(FieldScriptEnv *env, u16 frames);
+BOOL FieldScriptEnv_UpdateWaitCounter(FieldScriptEnv *env);
 GameSystem *ScriptWork_GetGameSystem(ScriptWork *work);
 StrBuf *ScriptWork_GetAltStrBuf(ScriptWork *work);
 FieldActor *ScriptWork_GetParentActor(ScriptWork *work);

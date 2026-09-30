@@ -31,6 +31,7 @@ BOOL GSYS_GetProcMgrState(GameSystem *gsys);
 void GSYS_QueueProc(GameSystem *gsys, s32 overlayId, const GameProcFunctions *functions, void *param);
 void GSYS_QueueProcAsEvent(GameEvent *event, s32 overlayId, const GameProcFunctions *functions, void *param);
 BOOL GSYS_TryBootGameComm(GameSystem *gsys);
+void func_02016b0c(GameSystem *gsys, u32 a1);
 void GameSystemTimer_Start(void);
 ISS *GameSystem_GetISS(GameSystem *gsys);
 u32 getStatusOfFesMission(LinkFestival *festival);

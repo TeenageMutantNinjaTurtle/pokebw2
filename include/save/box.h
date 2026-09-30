@@ -2,6 +2,7 @@
 #define POKEBW2_SAVE_BOX_H
 
 #include "types.h"
+#include "gfl/heap.h"
 #include "struct_decls.h"
 
 u32 howManyNormalPokesAreInAllBoxes(BoxSaveAccessor *boxes);
@@ -11,6 +12,8 @@ BoxPkm *BoxSaveAccessor_GetPkm(BoxSaveAccessor *boxes, u32 box, u32 slot);
 
 // The battle box, save block 0x31
 BattleBoxSave *getBattleBox(SaveControl *save);
+// Allocates a party of the battle box's Pokémon
+PokeParty *convertBoxedPokeSetToParty(BattleBoxSave *battleBox, HeapID heapId);
 BoxPkm *getBoxSlotAddress(BattleBoxSave *battleBox, u32 a1, u32 slot);
 BOOL func_0200c340(BattleBoxSave *battleBox);
 

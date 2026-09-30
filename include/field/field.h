@@ -19,6 +19,20 @@ FieldActor *FieldPlayer_GetActor(FieldPlayer *player);
 // GENDER_MALE or GENDER_FEMALE
 u32 FieldPlayer_GetSex(FieldPlayer *player);
 void FieldPlayer_GetWPos(FieldPlayer *player, VecFx32 *pos);
+u32 FieldPlayer_GetFaceDir(FieldPlayer *player);
+// The player's object code for a sex, in a form or an extra state
+u16 FieldPlayer_GetObjCodeByForme(u32 sex, u32 forme);
+u16 FieldPlayer_GetObjCodeByExState(u32 sex, u32 exState);
+void *Field_GetMsgBGSys(Field *field);
+// A message window on the field's message BG: create, update (0 for the first answer, 2 while waiting) and free
+void *func_ov036_021880d4(void *msgBGSys, u32 a1);
+u32 func_ov036_0218816c(void *window);
+void func_ov036_02187ea0(void *window);
+void *func_ov036_021c3d9c(PlayerInfo *info, Field *field, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
+u32 func_ov036_021c3f98(void *obj);
+void func_ov036_021c3eb4(void *obj);
+void func_ov036_021c65a8(void *obj, u16 a1);
+void func_ov036_021c65e8(void *obj, u16 a1);
 void FieldPlayer_SetWPos(FieldPlayer *player, const VecFx32 *pos);
 void FieldFadeTCB_Start(GameSystem *gsys, Field *field, u32 a2, u32 a3, u32 a4);
 

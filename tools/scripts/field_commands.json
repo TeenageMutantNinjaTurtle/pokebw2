@@ -5374,7 +5374,7 @@
      "args": []
     },
     "1003": {
-     "handler": "func_ov050_021e5880",
+     "handler": "BSubwayCmd_Tool",
      "overlay": 50,
      "args": [
       "u16",

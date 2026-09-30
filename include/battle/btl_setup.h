@@ -6,8 +6,18 @@
 #include "struct_decls.h"
 
 struct BtlSetup {
-    u8 unk0[0x84];
+    u8 unk0[0x24];
+    PokeParty *party;
+    u8 unk28[0x5c];
     GameRecords *records;
+    u8 unk88[0x20];
+    u32 unkA8;
+    u8 unkAC;
+    u8 unkAD;
+    u8 unkAE[0x24];
+    u8 unkD2;
+    u8 unkD3[8];
+    u8 unkDB;
 };
 
 BtlSetup *BtlSetup_Create(HeapID heapId);
@@ -20,5 +30,6 @@ void func_02017cfc(BtlSetup *setup, PokeParty *party, u32 a2);
 void func_02017d30(BtlSetup *setup, Regulation *regulation, HeapID heapId);
 void func_020186b0(BtlSetup *setup, u32 a1);
 void func_0201f63c(Regulation *regulation, PokeParty *party);
+void freeVSPlayerBlkClearPtr(BtlSetup *setup);
 
 #endif // POKEBW2_BATTLE_BTL_SETUP_H

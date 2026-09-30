@@ -16,6 +16,9 @@ struct Regulation {
 Regulation *Regulation_Create(HeapID heapId);
 // Reads a regulation from arc 106
 void func_0201f744(u32 fileId, Regulation *regulation);
+// Allocates a regulation read from arc 106
+Regulation *func_0201f734(u32 fileId, HeapID heapId);
+u32 func_0201f268(Regulation *regulation, PokeParty *party);
 // Values out of the parameter's range are ignored
 void Regulation_SetParam(Regulation *regulation, u32 param, u32 value);
 

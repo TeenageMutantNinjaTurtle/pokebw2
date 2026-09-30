@@ -3,7 +3,15 @@
 
 #include "types.h"
 #include "nitro/fx.h"
+#include "save/player_info.h"
 #include "struct_decls.h"
+
+struct PlayerState {
+    u16 zoneId;
+    u8 unk2[0x1e];
+    PlayerInfo playerInfo;
+    u32 exState;
+};
 
 u32 FieldPlayerState_GetExState(PlayerState *playerState);
 u16 PlayerState_CalcDirection(PlayerState *playerState);

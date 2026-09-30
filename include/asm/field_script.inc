@@ -3900,8 +3900,7 @@
     FieldCommand 1002
     .endm
 
-    // func_ov050_021e5880
-    .macro Plugin1_Cmd1003 a0, a1, a2, a3
+    .macro BSubwayCmd_Tool a0, a1, a2, a3
     FieldCommand 1003
     .2byte \a0
     .2byte \a1

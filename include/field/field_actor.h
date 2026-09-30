@@ -38,6 +38,14 @@ u16 GetActorUID(FieldActor *actor);
 u16 FldAct_GetObjCode(FieldActor *actor);
 void FldAct_SetShadowGroup(FieldActor *actor, u32 group);
 u32 GetActorFaceDir(FieldActor *actor);
+void CheckSetActorFaceDir(FieldActor *actor, u16 dir);
+void DisableActorMovement(FieldActor *actor);
+// The actor's user parameters 0 to 2
+u16 GetActorUserParam(FieldActor *actor, u32 index);
+void SetActorUserParam(FieldActor *actor, u16 value, u32 index);
+void SetActorSCRID(FieldActor *actor, u16 scriptId);
+void SetActorWPosAll(FieldActor *actor, const VecFx32 *pos, u32 dir);
+FieldActor *CreateNewActorByParam(MMSys *mmSys, s16 x, s16 z, u16 dir, u16 id, u16 objCode, u16 moveCode, u16 zoneId);
 void CopyActorWPos(FieldActor *actor, VecFx32 *dest);
 void SetActorWPosValue(FieldActor *actor, const VecFx32 *pos);
 // The actor with an ID, or NULL
