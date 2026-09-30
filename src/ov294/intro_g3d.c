@@ -1,4 +1,5 @@
 #include "types.h"
+#include "constants/arc.h"
 #include "constants/sound.h"
 #include "demo/intro.h"
 #include "gfl/g3d.h"
@@ -32,9 +33,9 @@ static const VecFx32 sTarget = { 0, 0, -FX32_ONE };
 // The model and its animations, which differ by version
 static const G3DSceneResourceSetup sResources[] = {
 #ifdef BLACK2
-    { 168, 22, 0 }, { 168, 16, 0 }, { 168, 17, 0 }, { 168, 18, 0 }, { 168, 12, 0 }, { 168, 13, 0 },
+    { ARCID_INTRO, 22, 0 }, { ARCID_INTRO, 16, 0 }, { ARCID_INTRO, 17, 0 }, { ARCID_INTRO, 18, 0 }, { ARCID_INTRO, 12, 0 }, { ARCID_INTRO, 13, 0 },
 #else
-    { 168, 23, 0 }, { 168, 19, 0 }, { 168, 20, 0 }, { 168, 21, 0 }, { 168, 14, 0 }, { 168, 15, 0 },
+    { ARCID_INTRO, 23, 0 }, { ARCID_INTRO, 19, 0 }, { ARCID_INTRO, 20, 0 }, { ARCID_INTRO, 21, 0 }, { ARCID_INTRO, 14, 0 }, { ARCID_INTRO, 15, 0 },
 #endif
 };
 

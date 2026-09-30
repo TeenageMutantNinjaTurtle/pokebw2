@@ -3,9 +3,10 @@
 
 #include "types.h"
 
-void GFL_SndBGMFadeIn(u32 frames);
-void GFL_SndBGMFadeOut(u32 frames);
+void GFL_SndBGMFadeIn(u16 frames);
+void GFL_SndBGMFadeOut(u16 frames);
 u32 GFL_SndBGMGetID(void);
+BOOL GFL_SndBGMIsPlaying(void);
 // Leaves every channel of the sequence enabled
 #define SND_CHANNEL_MASK_ALL 0xffff
 #define SND_VOLUME_MAX 127
@@ -17,9 +18,19 @@ void GFL_SndBGMPush(void);
 void GFL_SndBGMSetPaused(BOOL paused);
 void GFL_SndDestroyHeap(void);
 void GFL_SndInit(void);
+// The player that plays a sequence
+s32 GFL_SndSeqGetPlayerIndex(u32 seq);
+BOOL GFL_SndPlayerIsActiveAny(void);
+void GFL_SndPlayerStop(s32 player);
+void GFL_SndPlayerSetVolume(s32 player, s32 volume);
+// Changes each value that is not -1
+void GFL_SndPlayerSetParams(s32 player, s32 a1, s32 a2, s32 a3);
 void GFL_SndPlayerSetVolumeEx(u32 volume, u32 playerMask);
-void GFL_SndSEPlay(u16 se);
+void GFL_SndSEPlay(u32 se);
 void GFL_SndSetVolumeControlCallbacks(void);
+// Cries are played through handles
+BOOL PokeVoice_StartPlayback(u32 handle);
+BOOL PokeVoice_IsPlaying(u32 handle);
 void PokeVoice_ResetMasterVolume(void);
 void PokeVoice_SetMasterVolume(u32 volume);
 

@@ -46,7 +46,7 @@ BOOL IntroProc_Init(GameProc *proc, u32 *state, void *param, void *work) {
     wk->mcss = IntroMcss_Create(wk->heapId, wk->param->mode);
     wk->g3d = IntroG3d_Create(wk->graphic, wk->param->mode, wk->heapId);
     wk->particle = IntroParticle_Create(wk->graphic, wk->heapId);
-    wk->cmd = func_ov294_021a2ee8(wk->g3d, wk->particle, wk->mcss, wk->param, wk->graphic, wk->heapId);
+    wk->cmd = IntroCmd_Create(wk->g3d, wk->particle, wk->mcss, wk->param, wk->graphic, wk->heapId);
     return TRUE;
 }
 
@@ -59,7 +59,7 @@ BOOL IntroProc_Exit(GameProc *proc, u32 *state, void *param, void *work) {
     IntroG3d_Free(wk->g3d);
     GFL_MsgDataFree(wk->msgData);
     GFL_FontFree(wk->font);
-    func_ov294_021a2f3c(wk->cmd);
+    IntroCmd_Free(wk->cmd);
     IntroGraphic_Free(wk->graphic);
     heapId = wk->heapId;
     GFL_ProcReleaseSubsystem(proc);
@@ -71,7 +71,7 @@ BOOL IntroProc_Exit(GameProc *proc, u32 *state, void *param, void *work) {
 BOOL IntroProc_Main(GameProc *proc, u32 *state, void *param, void *work) {
     IntroWork *wk = work;
 
-    if (!func_ov294_021a2f50(wk->cmd)) {
+    if (!IntroCmd_Update(wk->cmd)) {
         return TRUE;
     }
     IntroGraphic_Update(wk->graphic);

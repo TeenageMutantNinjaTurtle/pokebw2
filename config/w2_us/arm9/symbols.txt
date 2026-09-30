@@ -2896,11 +2896,11 @@ func_020296e8 kind:function(thumb,size=0x18) addr:0x02029714
 func_02029700 kind:function(thumb,size=0x2e) addr:0x0202972c
 func_02029730 kind:function(thumb,size=0x90) addr:0x0202975c
 func_020297c0 kind:function(thumb,size=0x58) addr:0x020297ec
-func_02029818 kind:function(thumb,size=0x6c) addr:0x02029844
-func_02029884 kind:function(thumb,size=0x38) addr:0x020298b0
+BrightnessController_StartTransition kind:function(thumb,size=0x6c) addr:0x02029844
+BrightnessController_SetScreenBrightness kind:function(thumb,size=0x38) addr:0x020298b0
 func_020298bc kind:function(thumb,size=0x40) addr:0x020298e8
 func_020298fc kind:function(thumb,size=0x2c) addr:0x02029928
-func_02029928 kind:function(thumb,size=0x40) addr:0x02029954
+BrightnessController_IsTransitionComplete kind:function(thumb,size=0x40) addr:0x02029954
 func_02029968 kind:function(thumb,size=0xb8) addr:0x02029994
 func_02029a20 kind:function(thumb,size=0x8) addr:0x02029a4c
 func_02029a28 kind:function(thumb,size=0x4) addr:0x02029a54
@@ -7764,7 +7764,7 @@ __aeabi_uldivmod kind:function(arm,size=0x48) addr:0x0208d5f0
 .L_0208d5fc kind:label(arm) addr:0x0208d5fc
 _ull_mul kind:function(arm,size=0x20) addr:0x0208d638
 __aeabi_llsl kind:function(arm,size=0x30) addr:0x0208d658
-__aeabi_idivmod kind:function(arm,size=0x20c) addr:0x0208d688
+_s32_div_f kind:function(arm,size=0x20c) addr:0x0208d688
 __aeabi_uidivmod kind:function(arm,size=0x1e4) addr:0x0208d894
 .L_0208d89c kind:label(arm) addr:0x0208d89c
 _ffix kind:function(arm,size=0x34) addr:0x0208da78

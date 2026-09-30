@@ -9,7 +9,7 @@
 typedef struct {
     u32 cmd;
     s32 args[4];
-    u32 runNext : 1;
+    u8 runNext : 1;
 } IntroCmdEntry;
 
 enum {

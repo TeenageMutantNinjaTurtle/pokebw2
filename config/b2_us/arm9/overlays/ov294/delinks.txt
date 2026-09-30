@@ -16,6 +16,7 @@ src/ov294/intro_graphic.c:
     .data       start:0x021a4ba0 end:0x021a4bb0
 
 src/ov294/intro_cmd.c:
+    complete
     .text       start:0x021a21ec end:0x021a305c
     .rodata     start:0x021a3fa0 end:0x021a3fcc
     .data       start:0x021a4bb0 end:0x021a4c9c

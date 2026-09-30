@@ -6,6 +6,7 @@
 #include "gfl/heap.h"
 #include "gfl/overlay.h"
 #include "gfl/proc.h"
+#include "gfl/str.h"
 #include "struct_decls.h"
 #include "system/mcss.h"
 
@@ -31,18 +32,30 @@ typedef struct {
     u32 mode;
     // ov162's creation of the save data, which runs while the intro does
     void *saveTask;
-    // The Pokémon's cry
-    void *pokeVoice;
+    // The handle of the Pokémon's cry
+    u32 pokeVoice;
     const u16 *rivalName;
     // INTRO_RESULT_*
     u32 result;
 } IntroParam;
+
+// ov162's creation of the save data, which the intro starts, pauses around the name entries and waits for
+void func_ov162_021a1314(void *saveTask);
+void func_ov162_021a13fc(void *saveTask);
+void func_ov162_021a1408(void *saveTask);
+BOOL func_ov162_021a1414(void *saveTask);
+void func_ov162_021a1430(void *saveTask);
+BOOL func_ov162_021a1434(void *saveTask);
+
+// Sets a flag in IntroParam.unk4
+void func_02008a8c(void *a0, u32 flag);
 
 typedef struct IntroGraphic IntroGraphic;
 typedef struct IntroCmd IntroCmd;
 typedef struct IntroMcss IntroMcss;
 typedef struct IntroG3d IntroG3d;
 typedef struct IntroParticle IntroParticle;
+typedef struct IntroMsg IntroMsg;
 
 extern const GameProcFunctions INTRO_PROC_FUNCTIONS;
 // The sound sequences that the intro plays, which ov162 loads before it
@@ -58,10 +71,38 @@ void IntroGraphic_End3D(IntroGraphic *graphic);
 ClActUnit *IntroGraphic_GetClActUnit(IntroGraphic *graphic);
 
 // intro_cmd.c
-IntroCmd *func_ov294_021a2ee8(IntroG3d *g3d, IntroParticle *particle, IntroMcss *mcss, IntroParam *param,
-                              IntroGraphic *graphic, HeapID heapId);
-void func_ov294_021a2f3c(IntroCmd *cmd);
-BOOL func_ov294_021a2f50(IntroCmd *cmd);
+IntroCmd *IntroCmd_Create(IntroG3d *g3d, IntroParticle *particle, IntroMcss *mcss, IntroParam *param,
+                          IntroGraphic *graphic, HeapID heapId);
+void IntroCmd_Free(IntroCmd *cmd);
+// Runs the script, and returns FALSE once it has ended
+BOOL IntroCmd_Update(IntroCmd *cmd);
+
+// intro_msg.c
+typedef struct {
+    u32 message;
+    s32 value;
+} IntroMenuItem;
+
+// IntroMsg_GetMenuResult's results
+#define INTRO_MENU_NONE 0
+#define INTRO_MENU_CHOSEN 1
+#define INTRO_MENU_CANCELLED 2
+
+IntroMsg *IntroMsg_Create(HeapID heapId);
+void IntroMsg_Free(IntroMsg *msg);
+void IntroMsg_LoadMessages(IntroMsg *msg, BOOL preload, u16 fileId);
+void IntroMsg_Update(IntroMsg *msg);
+void IntroMsg_Print(IntroMsg *msg, u32 messageId, BOOL frame);
+void IntroMsg_Clear(IntroMsg *msg);
+u32 IntroMsg_GetPrintState(IntroMsg *msg);
+BOOL IntroMsg_UpdatePrint(IntroMsg *msg);
+void IntroMsg_OpenMenu(IntroMsg *msg, const IntroMenuItem *items, u32 count, BOOL a3);
+void IntroMsg_CloseMenu(IntroMsg *msg);
+void IntroMsg_UpdateMenu(IntroMsg *msg);
+u32 IntroMsg_GetMenuResult(IntroMsg *msg, s32 *value);
+WordSet *IntroMsg_GetWordSet(IntroMsg *msg);
+void IntroMsg_ShowWaitIcon(IntroMsg *msg);
+void IntroMsg_HideWaitIcon(IntroMsg *msg);
 
 // intro_mcss.c
 IntroMcss *IntroMcss_Create(HeapID heapId, u32 mode);
@@ -94,5 +135,6 @@ void IntroG3d_SetFrame(IntroG3d *g3d, u32 frame);
 IntroParticle *IntroParticle_Create(IntroGraphic *graphic, HeapID heapId);
 void IntroParticle_Free(IntroParticle *particle);
 void IntroParticle_Update(IntroParticle *particle);
+void IntroParticle_SetPos(IntroParticle *particle, fx32 x, fx32 y, fx32 z);
 
 #endif // POKEBW2_DEMO_INTRO_H

@@ -10,5 +10,6 @@
 u16 *GetPlayerName(PlayerInfo *info);
 u32 PlayerInfo_GetSize(void);
 u32 getTrainerGender(PlayerInfo *info);
+void setTrainerGender(PlayerInfo *info, u32 gender);
 
 #endif // POKEBW2_SAVE_PLAYER_INFO_H

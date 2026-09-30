@@ -3,15 +3,18 @@
 
 #include "types.h"
 #include "gfl/heap.h"
+#include "gfl/str.h"
 #include "struct_decls.h"
 
 // Loads a file of a message archive. With preload set, all its text is read at once
 MsgData *GFL_MsgSysLoadData(BOOL preload, u32 arcId, u32 fileId, HeapID heapId);
 void GFL_MsgDataFree(MsgData *msgData);
+void GFL_MsgDataLoadStrbuf(MsgData *msgData, u32 messageId, StrBuf *strbuf);
 
 Font *GFL_FontCreate(u32 arcId, u32 fileId, u32 a2, u32 a3, HeapID heapId);
 void GFL_FontFree(Font *font);
 
+void GFL_TextRndUpdateColorIndexLUT(u8 a0, u8 a1, u8 a2);
 // Both call GFL_TextRndUpdateColorIndexLUT(1, 2, 0)
 void func_020232d0(void);
 void func_020232d8(void);

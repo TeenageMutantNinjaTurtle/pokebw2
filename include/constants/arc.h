@@ -2,7 +2,7 @@
 #define POKEBW2_CONSTANTS_ARC_H
 
 // Names, layouts and constants from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0), except
-// ARCID_SEASON_BANNER and ARCID_TRAI_SCRIPT
+// ARCID_SEASON_BANNER, ARCID_TRAI_SCRIPT and ARCID_INTRO
 
 #define ARCID_SYSTEM_MESSAGE 2
 #define ARCID_SCRIPT_MESSAGE 3
@@ -46,6 +46,8 @@
 #define ARCID_FIELD_CAMERA_MAP_PARAM 156
 #define ARCID_DEMO3D_RESOURCE 158
 #define ARCID_FIELD_CAMERA_SCRIPT_PARAM 162
+// The intro's graphics
+#define ARCID_INTRO 168
 #define ARCID_TRAI_SCRIPT 169
 #define ARCID_FIELD_BBD_COLOR 173
 #define ARCID_AREA_BMTEX_EXT 174

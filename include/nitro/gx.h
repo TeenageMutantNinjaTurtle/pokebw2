@@ -12,6 +12,7 @@ typedef u16 GXRgb;
 #define reg_GX_DISPCNT (*(vu32 *)0x04000000)
 #define reg_G2_BG0CNT (*(vu16 *)0x04000008)
 #define reg_G2_BLDCNT (*(vu16 *)0x04000050)
+#define reg_G2_BLDALPHA (*(vu16 *)0x04000052)
 #define reg_G3X_DISP3DCNT (*(vu16 *)0x04000060)
 #define reg_G3_VIEWPORT (*(vu32 *)0x04000580)
 #define reg_GXS_DB_DISPCNT (*(vu32 *)0x04001000)
@@ -35,6 +36,9 @@ typedef u16 GXRgb;
 #define REG_G3X_DISP3DCNT_GO_MASK 0x2000
 
 #define GX_WNDMASK_NONE 0x00
+
+#define GX_OAM_MODE_NORMAL 0
+#define GX_OAM_MODE_XLU 1
 
 #define GX_PLANEMASK_BG0 0x01
 #define GX_PLANEMASK_BG1 0x02

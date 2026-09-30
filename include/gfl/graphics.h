@@ -83,11 +83,22 @@ void GFL_BGSysCreateBG(u8 bg, const BGSetup *setup, u8 mode);
 void GFL_BGSysDisableAllA(void);
 void GFL_BGSysDisableAllB(void);
 void GFL_BGSysEnableEngines(void);
+void GFL_BGSysFillScrArea(u8 bg, u16 tile, u32 x, u32 y, u8 width, u8 height, u8 palette);
 void GFL_BGSysFree(void);
 u32 GFL_BGSysGetEnabledBGsA(void);
 void GFL_BGSysInitVRAM(u32 banks);
+// Load a BG's characters and screen from a file of an archive
+void GFL_BGSysLoadArcNCGRStatic(ArcTool *arc, u32 fileId, u8 bg, u32 offset, u32 size, BOOL compressed, HeapID heapId);
+void loadBGScrToVramByFileNoReserveNegAlign(ArcTool *arc, u32 fileId, u8 bg, u32 offset, u32 size, BOOL compressed,
+                                            HeapID heapId);
 void GFL_BGSysLoadChar(u32 bg, void *data, u32 size, u32 offset);
+// Loads a palette file of an archive to an offset in BG palette memory
+void GFL_BGSysLoadNCLRDefault(u32 arcId, u32 fileId, u32 type, u32 offset, u32 size, HeapID heapId);
+void GFL_BGSysLoadScr(u8 bg);
+void GFL_BGSysLoadScrAreaLarge(u8 bg, u8 x, u8 y, u8 width, u8 height, const u16 *src, u8 srcX, u8 srcY, u8 srcWidth,
+                               u8 srcHeight);
 void GFL_BGSysLoadScrCore(u32 bg, void *data, u32 size, u32 offset);
+void GFL_BGSysQueueScrLoad(u8 bg);
 void GFL_BGSysMoveBGReq(u8 bg, u32 type, u32 value);
 void GFL_BGSysReleaseBG(u32 bg);
 void GFL_BGSysSetBGEnabled(u8 bg, u8 enabled);
@@ -101,6 +112,10 @@ void GFL_BGSysSetLCDConfig(const BGSysLCDConfig *config);
 void GFL_BGSysSetVRAMBanks(const BGSysVRAMConfig *config);
 void GFL_BGSysUpdate(void);
 void GFL_BGSysUploadStdPalette(u32 bg, void *data, u32 size, u32 offset);
+// Loads a palette file of an archive to palette memory
+void GFL_G2DIOLoadArcNCLRDefault(ArcTool *arc, u32 fileId, u32 type, u32 offset, u32 size, HeapID heapId);
+// Reads a screen file of an archive, and returns the file for GFL_HeapFree
+void *GFL_G2DIOReadNSCRArc(ArcTool *arc, u32 fileId, BOOL compressed, NNSG2dScreenData **screen, HeapID heapId);
 void GFXRegSetMasterBrightness(u32 reg, s32 brightness);
 BOOL NNS_G2DPrepareBGChar(void *file, NNSG2dCharacterData **character);
 BOOL NNS_G2DPrepareScreen(void *file, NNSG2dScreenData **screen);
