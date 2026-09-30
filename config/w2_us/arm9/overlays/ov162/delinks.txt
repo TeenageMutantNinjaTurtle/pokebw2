@@ -14,6 +14,7 @@ src/ov162/startmenu.c:
     .data       start:0x021a1b60 end:0x021a1b6c
 
 src/ov162/game_start.c:
+    complete
     .text       start:0x021a0084 end:0x021a0a94
     .rodata     start:0x021a198c end:0x021a1a5c
 
@@ -22,6 +23,7 @@ src/ov162/boot_screens.c:
     .rodata     start:0x021a1a5c end:0x021a1ae8
 
 src/ov162/delete_save.c:
+    complete
     .text       start:0x021a0da0 end:0x021a1338
     .rodata     start:0x021a1ae8 end:0x021a1b54
     .bss        start:0x021a1b80 end:0x021a1ba0

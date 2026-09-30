@@ -57,4 +57,21 @@ s32 BmpMenuList_Update(BmpMenuList *list);
 void func_02026510(BmpMenuList *list, HeapID heapId);
 void func_02026520(BmpMenuList *list, u32 a1);
 
+// A yes/no menu in its own window
+
+typedef struct ConfirmDialog ConfirmDialog;
+
+typedef struct {
+    u8 bg;
+    u8 x;
+    u8 y;
+    u8 palette;
+    u16 unk4;
+} ConfirmDialogSetup;
+
+ConfirmDialog *ShopUI_CreateConfirmDialog(const ConfirmDialogSetup *setup, u32 frameChar, u32 framePalette, u32 cursor,
+                                          HeapID heapId);
+// Returns 0 for yes and BMPMENULIST_CANCEL for no or B, freeing the dialog, and BMPMENULIST_NULL until then
+u32 func_02025634(ConfirmDialog *dialog);
+
 #endif // POKEBW2_GFL_BMP_MENU_H

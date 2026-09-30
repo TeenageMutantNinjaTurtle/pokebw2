@@ -2,6 +2,7 @@
 #define POKEBW2_NITRO_GX_H
 
 #include "types.h"
+#include "nitro/hw.h"
 
 // The parts of NitroSDK's graphics registers and inline functions that the game's code uses
 
@@ -77,17 +78,23 @@ typedef u16 GXRgb;
 #define GX_VRAM_BG_128_D GX_VRAM_D
 #define GX_VRAM_BGEXTPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_SUB_BG_32_H GX_VRAM_H
+#define GX_VRAM_SUB_BG_128_C GX_VRAM_C
 #define GX_VRAM_SUB_BGEXTPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_OBJ_16_G GX_VRAM_G
 #define GX_VRAM_OBJ_64_E GX_VRAM_E
 #define GX_VRAM_OBJ_128_B GX_VRAM_B
 #define GX_VRAM_OBJEXTPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_SUB_OBJ_16_I GX_VRAM_I
+#define GX_VRAM_SUB_OBJ_128_D GX_VRAM_D
+#define GX_VRAM_TEX_NONE GX_VRAM_NONE
+#define GX_VRAM_TEXPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_SUB_OBJEXTPLTT_NONE GX_VRAM_NONE
+#define GX_VRAM_TEX_01_AB (GX_VRAM_A | GX_VRAM_B)
 #define GX_VRAM_TEX_01_CD (GX_VRAM_C | GX_VRAM_D)
 #define GX_VRAM_TEX_012_ABC (GX_VRAM_A | GX_VRAM_B | GX_VRAM_C)
 #define GX_VRAM_TEX_0123_ABCD (GX_VRAM_A | GX_VRAM_B | GX_VRAM_C | GX_VRAM_D)
 #define GX_VRAM_TEXPLTT_0_G GX_VRAM_G
+#define GX_VRAM_TEXPLTT_01_FG (GX_VRAM_F | GX_VRAM_G)
 #define GX_VRAM_TEXPLTT_0123_E GX_VRAM_E
 
 #define GX_OBJVRAMMODE_CHAR_1D_32K 0x00000010
@@ -109,6 +116,16 @@ typedef u16 GXRgb;
 
 #define GX_PACK_VIEWPORT_PARAM(x1, y1, x2, y2) \
     ((u32)(x1) | ((u32)(y1) << 8) | ((u32)(x2) << 16) | ((u32)(y2) << 24))
+
+#define REG_GX_POWCNT_DSEL_SHIFT 15
+
+// Which engine draws to the top screen
+#define GX_DISP_SELECT_SUB_MAIN 0
+#define GX_DISP_SELECT_MAIN_SUB 1
+
+static inline void GX_SetDispSelect(int select) {
+    reg_GX_POWCNT = (u16)((reg_GX_POWCNT & ~REG_GX_POWCNT_DSEL_MASK) | (select << REG_GX_POWCNT_DSEL_SHIFT));
+}
 
 static inline void GX_SetVisibleWnd(int window) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_W0_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_OW_MASK)) |

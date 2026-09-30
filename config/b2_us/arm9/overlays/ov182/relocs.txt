@@ -5544,7 +5544,7 @@ from:0x021b973c kind:thumb_call_arm to:0x0207c0f8 module:main
 from:0x021b9742 kind:thumb_call to:0x021a3874 module:overlay(181)
 from:0x021b974a kind:thumb_call to:0x021b9654 module:overlay(182)
 from:0x021b975c kind:load to:0x021c417c module:overlay(182)
-from:0x021b9782 kind:thumb_call to:0x021a09a0 module:overlays(162,181)
+from:0x021b9782 kind:thumb_call to:0x021a09a0 module:overlay(181)
 from:0x021b979c kind:load to:0x021c417c module:overlay(182)
 from:0x021b97b8 kind:thumb_call to:0x021a09d4 module:overlays(181,298)
 from:0x021b97c6 kind:thumb_call_arm to:0x0207c0e4 module:main

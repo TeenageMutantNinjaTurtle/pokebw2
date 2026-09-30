@@ -7,6 +7,7 @@
 #include "gfl/overlay.h"
 #include "gfl/proc.h"
 #include "gfl/str.h"
+#include "save/config.h"
 #include "save/save_control_intr.h"
 #include "struct_decls.h"
 #include "system/mcss.h"
@@ -28,7 +29,7 @@
 
 typedef struct {
     PlayerInfo *playerInfo;
-    void *unk4;
+    Config *config;
     // INTRO_MODE_*
     u32 mode;
     // ov162's creation of the save data, which runs while the intro does
@@ -39,9 +40,6 @@ typedef struct {
     // INTRO_RESULT_*
     u32 result;
 } IntroParam;
-
-// Sets a flag in IntroParam.unk4
-void func_02008a8c(void *a0, u32 flag);
 
 typedef struct IntroGraphic IntroGraphic;
 typedef struct IntroCmd IntroCmd;

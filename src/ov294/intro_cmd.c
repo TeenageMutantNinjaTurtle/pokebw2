@@ -105,7 +105,7 @@ static BOOL IntroCmd_SavePause(IntroCmd *cmd, IntroCmdWork *work, s32 *args);
 static BOOL IntroCmd_SaveResume(IntroCmd *cmd, IntroCmdWork *work, s32 *args);
 static BOOL IntroCmd_Save43(IntroCmd *cmd, IntroCmdWork *work, s32 *args);
 static BOOL IntroCmd_SaveWait(IntroCmd *cmd, IntroCmdWork *work, s32 *args);
-static BOOL IntroCmd_SetUnk4Flag(IntroCmd *cmd, IntroCmdWork *work, s32 *args);
+static BOOL IntroCmd_SetMsgLanguage(IntroCmd *cmd, IntroCmdWork *work, s32 *args);
 static BOOL IntroCmd_SetGender(IntroCmd *cmd, IntroCmdWork *work, s32 *args);
 static BOOL IntroCmd_PokemonAppear(IntroCmd *cmd, IntroCmdWork *work, s32 *args);
 static BOOL IntroCmd_Particles(IntroCmd *cmd, IntroCmdWork *work, s32 *args);
@@ -175,7 +175,7 @@ static IntroCmdFunc sCommands[] = {
     [INTRO_CMD_MOVE_SPRITE_X] = IntroCmd_MoveSpriteX,
     [INTRO_CMD_FADE_SPRITE] = IntroCmd_FadeSprite,
     [INTRO_CMD_TALK] = IntroCmd_Talk,
-    [INTRO_CMD_SET_UNK4_FLAG] = IntroCmd_SetUnk4Flag,
+    [INTRO_CMD_SET_MSG_LANGUAGE] = IntroCmd_SetMsgLanguage,
     [INTRO_CMD_SET_GENDER] = IntroCmd_SetGender,
     [INTRO_CMD_POKEMON_APPEAR] = IntroCmd_PokemonAppear,
     [INTRO_CMD_PARTICLES] = IntroCmd_Particles,
@@ -569,13 +569,13 @@ static BOOL IntroCmd_SaveWait(IntroCmd *cmd, IntroCmdWork *work, s32 *args) {
     return FALSE;
 }
 
-static BOOL IntroCmd_SetUnk4Flag(IntroCmd *cmd, IntroCmdWork *work, s32 *args) {
-    void *unk4 = cmd->param->unk4;
+static BOOL IntroCmd_SetMsgLanguage(IntroCmd *cmd, IntroCmdWork *work, s32 *args) {
+    Config *config = cmd->param->config;
 
     if (args[0] == FALSE) {
-        func_02008a8c(unk4, FALSE);
+        func_02008a8c(config, FALSE);
     } else {
-        func_02008a8c(unk4, TRUE);
+        func_02008a8c(config, TRUE);
     }
     return TRUE;
 }

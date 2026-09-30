@@ -10,6 +10,10 @@
 #define REG_GX_POWCNT_DSEL_MASK 0x8000
 
 #define REG_BLDCNT_ADDR 0x04000050
+
+// Palette memory, the first of which is the BG palette of each screen
+#define HW_BG_PLTT 0x05000000
+#define HW_DB_BG_PLTT 0x05000400
 #define REG_MASTER_BRIGHT_ADDR 0x0400006c
 #define REG_DB_MASTER_BRIGHT_ADDR 0x0400106c
 

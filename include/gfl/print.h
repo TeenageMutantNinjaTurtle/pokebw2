@@ -20,8 +20,9 @@ typedef struct WaitIcon WaitIcon;
 #define PRINT_STREAM_PAUSED 1
 #define PRINT_STREAM_DONE 2
 
-// Returns the wait between characters for the text speed in the save data
+// Returns the wait between characters for the text speed in the save data, or for a text speed from 0 to 4
 s32 func_02017bcc(void);
+s32 func_02017c50(u32 speed);
 
 PrintQueue *func_02021998(HeapID heapId);
 void func_02021a18(PrintQueue *queue);
@@ -45,5 +46,8 @@ void func_0202e8d8(KeyCursor *cursor, PrintStream *stream, BmpWin *window);
 WaitIcon *func_02035734(HeapID heapId);
 void func_0203576c(WaitIcon *icon, TCBManager *tcbManager, BmpWin *window, u32 a3, u32 a4);
 void func_0203580c(WaitIcon *icon);
+// The same icon, created shown and stepped by its owner
+WaitIcon *func_02035604(u32 a0, BmpWin *window, u32 a2, u32 a3, HeapID heapId);
+void func_02035884(WaitIcon *icon);
 
 #endif // POKEBW2_GFL_PRINT_H

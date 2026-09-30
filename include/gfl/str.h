@@ -12,6 +12,9 @@ typedef struct WordSet WordSet;
 
 StrBuf *GFL_StrBufCreate(u32 size, HeapID heapId);
 void GFL_StrBufFree(StrBuf *strbuf);
+void GFL_StrBufCopy(StrBuf *dest, const StrBuf *src);
+// Copies the string out, at most size characters
+void GFL_StrBufStoreString(const StrBuf *strbuf, u16 *dest, u32 size);
 
 WordSet *GFL_WordSetSystemCreateDefault(HeapID heapId);
 void GFL_WordSetSystemFree(WordSet *wordSet);

@@ -11,10 +11,14 @@ typedef struct TCBManager TCBManager;
 typedef struct TCBExManager TCBExManager;
 
 typedef void (*TCBFunc)(TCB *tcb, void *data);
+typedef void (*VBlankCallback)(void *data);
 
 TCB *GFL_VBlankTCBAdd(TCBFunc func, void *data, u32 priority);
 BOOL GFL_TCBRemove(TCB *tcb);
 TCBManager *GFL_VBlankGetTCBMgr(void);
+// A single callback that runs every VBlank, for when the tasks cannot
+BOOL GFL_VBlankSetCallback(VBlankCallback callback, void *data);
+void GFL_VBlankResetCallback(void);
 
 TCBExManager *GFL_TCBExMgrCreate(HeapID heapId, u16 a1, u16 a2, u32 a3);
 void GFL_TCBExMgrFree(TCBExManager *manager);

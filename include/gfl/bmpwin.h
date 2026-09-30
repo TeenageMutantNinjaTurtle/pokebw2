@@ -2,7 +2,10 @@
 #define POKEBW2_GFL_BMPWIN_H
 
 #include "types.h"
+#include "gfl/graphics.h"
 #include "gfl/heap.h"
+#include "gfl/str.h"
+#include "struct_decls.h"
 
 // Windows on a BG that are drawn to as bitmaps
 
@@ -23,5 +26,13 @@ void func_02024eec(BmpWin *window, u32 a1);
 void LoadSysMsgBox(u8 bg, u16 frameChar, u8 framePalette, u8 type, HeapID heapId);
 
 void GFL_BitmapFill(GFLBitmap *bitmap, u8 fillIndex);
+void GFL_TextRendererDrawToBitmap(GFLBitmap *bitmap, u32 x, u32 y, const StrBuf *strbuf, Font *font);
+
+// Copies the window's characters and screen, the screen at the next VBlank
+static inline void BmpWin_Transfer(BmpWin *window) {
+    BmpWin_FlushChar(window);
+    BmpWin_FlushMap(window);
+    GFL_BGSysQueueScrLoad(BmpWin_GetBGIndex(window));
+}
 
 #endif // POKEBW2_GFL_BMPWIN_H

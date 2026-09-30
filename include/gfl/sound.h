@@ -28,7 +28,13 @@ void GFL_SndPlayerSetParams(s32 player, s32 a1, s32 a2, s32 a3);
 void GFL_SndPlayerSetVolumeEx(u32 volume, u32 playerMask);
 void GFL_SndSEPlay(u32 se);
 void GFL_SndSetVolumeControlCallbacks(void);
+// Loads sound sequences ahead of time, and frees them
+u32 func_02005af4(const u32 *seqs, u32 count);
+void func_02005b60(u32 handle);
+
 // Cries are played through handles
+u32 PokeVoice_Load(u32 species, u32 form, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
+u32 PokeVoice_Play(u32 species, u32 form, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 BOOL PokeVoice_StartPlayback(u32 handle);
 BOOL PokeVoice_IsPlaying(u32 handle);
 void PokeVoice_ResetMasterVolume(void);

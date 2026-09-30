@@ -73,8 +73,8 @@ enum {
     INTRO_CMD_FADE_SPRITE,
     // message, sprite, frame: prints a message, switching the sprite's frames while the text prints
     INTRO_CMD_TALK,
-    // enabled: sets a flag of IntroParam.unk4
-    INTRO_CMD_SET_UNK4_FLAG,
+    // language: sets the config's message language, the kana or kanji text of the Japanese version
+    INTRO_CMD_SET_MSG_LANGUAGE,
     // gender
     INTRO_CMD_SET_GENDER,
     // The Pokémon, sprite 1, drops in and cries

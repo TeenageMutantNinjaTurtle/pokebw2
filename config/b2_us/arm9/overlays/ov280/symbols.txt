@@ -150,9 +150,9 @@ data_ov280_021dd904 kind:data(any) addr:0x021dd904
 data_ov280_021dd910 kind:data(any) addr:0x021dd910
 data_ov280_021dd91c kind:data(any) addr:0x021dd91c
 data_ov280_021dd929 kind:data(any) addr:0x021dd929
-data_ov280_021dd93c kind:data(any) addr:0x021dd93c ambiguous
-data_ov280_021dd940 kind:data(any) addr:0x021dd940 ambiguous
-data_ov280_021dd94c kind:data(any) addr:0x021dd94c ambiguous
+NAME_ENTRY_SOUND_COUNT kind:data(any) addr:0x021dd93c ambiguous
+NAME_ENTRY_PROC_FUNCTIONS kind:data(any) addr:0x021dd940 ambiguous
+NAME_ENTRY_SOUNDS kind:data(any) addr:0x021dd94c ambiguous
 data_ov280_021dd964 kind:data(any) addr:0x021dd964
 data_ov280_021dd9a4 kind:data(any) addr:0x021dd9a4
 data_ov280_021dd9b4 kind:data(any) addr:0x021dd9b4

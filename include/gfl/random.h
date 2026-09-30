@@ -4,6 +4,7 @@
 #include "types.h"
 
 u32 GFL_RandomLC(u32 max);
+u32 GFL_RandomLCAlt(u32 max);
 u32 GFL_RandomMT(void);
 
 // A random number below range, or any 32-bit number if range is 0
