@@ -15,6 +15,7 @@
 // The first ribbon of each group of ribbons, each followed by the field after the group
 #define PKM_PARAM_RIBBON_CHAMPION_SINNOH 0x19
 #define PKM_PARAM_MOVE1 0x36
+#define PKM_PARAM_IS_EGG 0x4c
 #define PKM_PARAM_RIBBON_G3_COOL 0x4d
 #define PKM_PARAM_FATEFUL_ENCOUNTER 0x6d
 #define PKM_PARAM_FORM 0x6f
@@ -22,12 +23,17 @@
 #define PKM_PARAM_NICKNAME 0x73
 #define PKM_PARAM_RIBBON_G4_COOL 0x78
 #define PKM_PARAM_OT_NAME 0x8d
+#define PKM_PARAM_POKERUS 0x97
 #define PKM_PARAM_POKEBALL 0x98
 #define PKM_PARAM_STATUS 0x9d
 // The mail the Pokémon holds, copied from a MailData
 #define PKM_PARAM_MAIL 0xa7
+// Whether there is a Pokémon in the slot
+#define PKM_PARAM_SPECIES_VALID 0xa9
 // The species, or SPECIES_EGG for an egg
 #define PKM_PARAM_LEGAL_SPECIES 0xab
+// Whether it is one of N's Pokémon
+#define PKM_PARAM_N_POKEMON 0xb2
 #define PKM_PARAM_POKESTAR_FAME 0xb3
 
 // How a Pokémon evolves, the method of its species' evolution table. These are the methods the evolution demo treats

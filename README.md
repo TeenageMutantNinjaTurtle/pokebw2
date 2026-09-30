@@ -227,8 +227,11 @@ Things that affect whether MWCC output matches:
   address written elsewhere. When the original computes an address a second time for another call, the first call
   takes a `const` pointer, as `GymElecFade_IsActive` does.
 - A `static const` variable whose address is never taken is folded into the code and not emitted. If the original has
-  it anyway, it is not `static`: a global goes in a section of its own ahead of the static data and is left out of the
-  size sort.
+  it anyway, it is not `static`: a global that no code refers to gets a section of its own, laid out by size with the
+  rest. An object laid out ahead of smaller ones is in a file of its own, linked first, as overlay 65's command table
+  is in `scrcmd_pokemon_center_table.c`.
+- `GFL_ASSERT` keeps its expression as a string in `.data`, so the variable it tests keeps its original name, as the
+  Medal Rally's `p_sv` does.
 - A clamp that ends in one store, with each limit copied into the value's register, is a conditional expression.
   `if`/`else if` stores each limit separately.
 - The operands of `*` are loaded in source order, so a multiply whose registers are swapped has its operands swapped
@@ -339,7 +342,8 @@ lists the plugins:
 | 10 | 62 | Pokéstar Studios | `pokewood_*.c` |
 | 11 | 63 | Victory Road's badge gates | |
 | 12 | 64 | The Plasma Frigate, with its password device | |
-| 13 to 16 | 65 to 68 | Not identified yet: 15 has the DNA Splicers and Terrakion, 16 Meloetta's Relic Song and the Swords of Justice | |
+| 13 | 65 | Pokémon Centers: Mr. Medal's Medal Rally, and records of link battles | |
+| 14 to 16 | 66 to 68 | Not identified yet: 15 has the DNA Splicers and Terrakion, 16 Meloetta's Relic Song and the Swords of Justice | |
 
 Our files take those names where the overlay has them, and otherwise follow them, as `scrcmd_badge_gate.c`.
 

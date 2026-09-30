@@ -11,5 +11,14 @@
 void RecordSave_ClearMatchInProgress(RecordSave *record);
 
 void RecordAddOne(GameRecords *records, u32 id);
+u32 RecordGet(GameRecords *records, u32 id);
+void RecordAdd(GameRecords *records, u32 id, u32 value);
+RecordSave *func_0200f2bc(SaveControl *save);
+void func_0200f2dc(RecordSave *record);
+u8 func_0200f300(RecordSave *record);
+u32 func_0200f308(RecordSave *record);
+u32 func_0200f334(RecordSave *record);
+void func_0200f37c(RecordSave *record, u32 value);
+u8 func_0200f384(RecordSave *record);
 
 #endif // POKEBW2_SAVE_RECORDS_H

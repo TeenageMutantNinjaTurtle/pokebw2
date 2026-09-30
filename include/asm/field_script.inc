@@ -5341,14 +5341,12 @@
 
     // Plugin 13
 
-    // func_ov065_021e5800
-    .macro Plugin13_Cmd1000 a0
+    .macro PokemonCenterCmd_Medal a0
     FieldCommand 1000
     .2byte \a0
     .endm
 
-    // func_ov065_021e58f0
-    .macro Plugin13_Cmd1001 a0, a1
+    .macro PokemonCenterCmd_FindEarnedMedal a0, a1
     FieldCommand 1001
     .2byte \a0
     .2byte \a1
@@ -5366,8 +5364,7 @@
     FieldCommand 1006
     .endm
 
-    // func_ov065_021e65b8
-    .macro Plugin13_Cmd1007
+    .macro PokemonCenterCmd_ClearMatchInProgress
     FieldCommand 1007
     .endm
 

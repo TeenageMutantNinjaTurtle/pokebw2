@@ -22,6 +22,11 @@ u32 getCash(TrainerGameInfoSave *info);
 // Stops at 0
 void subCashFromTotal(TrainerGameInfoSave *info, u32 amount);
 
+// Save block 0x39, from func_0201795c
+void func_0200e318(void *block, u16 value);
+u16 func_0200e370(void *block, u32 index);
+BOOL func_0200ae58(MusicalSave *musical);
+
 // Save block 0x45, which swan calls the key data. It keeps the Black Tower's and White Treehollow's progress, and the
 // Trainers there that have been defeated (CheckTrainerAlreadyDefeated)
 KeyDataSave *getKeyDataBlkAddress(SaveControl *save);

@@ -14,6 +14,14 @@ u32 PokeParty_GetParam(PartyPkm *pkm, u32 param, void *buffer);
 void PokeParty_SetParam(PartyPkm *pkm, u32 param, u32 value);
 u32 PokeParty_GetSex(PartyPkm *pkm);
 BOOL PokeParty_IsRare(PartyPkm *pkm);
+// Decrypt a Pokémon for a series of reads and writes, and return whether it was encrypted, which is what the
+// encryption afterwards takes
+BOOL PokeParty_DecryptPkm(PartyPkm *pkm);
+void PokeParty_EncryptPkm(PartyPkm *pkm, BOOL wasEncrypted);
+u32 PML_PkmGetParam(BoxPkm *pkm, u32 param, void *buffer);
+BOOL PML_PkmDecrypt(BoxPkm *pkm);
+void PML_PkmReEncrypt(BoxPkm *pkm, BOOL wasEncrypted);
+BOOL PML_PkmIsRare(BoxPkm *pkm);
 // The size of a Pokémon's data
 u32 PokeParty_GetPkmRawSize(void);
 void copyPartyPkm(const PartyPkm *src, PartyPkm *dest);

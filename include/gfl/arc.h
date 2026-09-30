@@ -7,6 +7,11 @@
 
 ArcTool *GFL_ArcSysCreateFileHandle(u32 arcId, HeapID heapId);
 void GFL_ArcToolFree(ArcTool *handle);
+void GFL_ArcToolReadRange(ArcTool *handle, u32 fileId, u32 offset, u32 size, void *dest);
+void GFL_ArcSysRead(void *dest, u32 arcId, u32 fileId);
+// The count of files in the archive
+u32 GFL_ArcSysGetDataMax(u32 arcId);
+void *GFL_ArcSysReadHeapNewRange(u32 arcId, u32 fileId, HeapID heapId, u32 offset, u32 size);
 u32 GFL_ArcToolGetDataLength(ArcTool *handle, u32 fileId);
 void *GFL_ArcToolReadHeapNew(ArcTool *handle, u32 fileId, HeapID heapId);
 

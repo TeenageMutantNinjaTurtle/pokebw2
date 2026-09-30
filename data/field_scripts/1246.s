@@ -617,7 +617,7 @@ L_0915:
     VMStackCmp CMP_NE
     VMJumpIf CMP_STACK, L_09B0
     WorkSetConst 0x8020, 255
-    Plugin13_Cmd1007
+    PokemonCenterCmd_ClearMatchInProgress
     FlagReset 2405
     WorkSetConst 0x4041, 0
     Plugin13_Cmd1008 4, 0
@@ -634,7 +634,7 @@ L_09B0:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_09FB
     WorkSetConst 0x8020, 255
-    Plugin13_Cmd1007
+    PokemonCenterCmd_ClearMatchInProgress
     FlagReset 2405
     WorkSetConst 0x4041, 0
     Plugin13_Cmd1008 4, 0
@@ -648,7 +648,7 @@ L_09FB:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0A2E
     WorkSetConst 0x8020, 252
-    Plugin13_Cmd1007
+    PokemonCenterCmd_ClearMatchInProgress
     FlagReset 2405
     WorkSetConst 0x4041, 0
     Plugin13_Cmd1008 4, 0

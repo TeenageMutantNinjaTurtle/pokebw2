@@ -30,6 +30,11 @@ u32 GameData_GetLastSubscreen(GameData *gameData);
 MMSys *GameData_GetMMSys(GameData *gameData);
 CityState *GameData_GetMyCityState(GameData *gameData);
 u16 func_02017220(GameData *gameData);
+// Save block 0x39
+void *func_0201795c(GameData *gameData);
+u8 func_02017b8c(GameData *gameData);
+void func_02017bb4(GameData *gameData);
+MusicalSave *getMusicalInfoBlkAddress(GameData *gameData);
 ZoneSpawnInfo *GameData_GetNextZone(GameData *gameData);
 PokeParty *GameData_GetParty(GameData *gameData);
 PlayerState *GameData_GetPlayerState(GameData *gameData);

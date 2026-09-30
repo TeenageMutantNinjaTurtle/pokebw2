@@ -34,7 +34,7 @@ L_0073:
     VMHalt
 
 L_0075:
-    Plugin13_Cmd1000 1000
+    PokemonCenterCmd_Medal 1000
     VMCall L_00E2
     VMStackPush 0x8010
     VMStackPushConst 1
@@ -327,7 +327,7 @@ L_04AA:
     // "[f000]Ā\u0001\u0000. I've been waiting for you!\nYou're doing terrific![f000]븀\u0000\nHere's a new Medal![f000]븁\u0000"
     ParentActorMsg MSGFILE_SCRIPT, 20, 0, 0
     ActorMsgClose
-    Plugin13_Cmd1001 0x8010, 0x8020
+    PokemonCenterCmd_FindEarnedMedal 0x8010, 0x8020
     VMStackPush 0x8010
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -335,7 +335,7 @@ L_04AA:
     VMCall L_0771
 
 L_04D8:
-    Plugin13_Cmd1001 0x8010, 0x8020
+    PokemonCenterCmd_FindEarnedMedal 0x8010, 0x8020
 
 L_04DE:
     VMStackPush 0x8010
@@ -346,7 +346,7 @@ L_04DE:
     ParentActorMsg MSGFILE_SCRIPT, 21, 0, 0
     ActorMsgClose
     VMCall L_0771
-    Plugin13_Cmd1001 0x8010, 0x8020
+    PokemonCenterCmd_FindEarnedMedal 0x8010, 0x8020
     VMJump L_04DE
 
 L_050F:
@@ -383,7 +383,7 @@ L_056F:
 
 L_0575:
     InfoMsgClose
-    Plugin13_Cmd1000 1002
+    PokemonCenterCmd_Medal 1002
     MedalGetCount 5, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
@@ -414,7 +414,7 @@ L_05C9:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_06B9
-    Plugin13_Cmd1000 1003
+    PokemonCenterCmd_Medal 1003
     MedalGetCount 7, 0x8021
     WordSetMedalRank 1, 0x8021
     // "[f000]Ā\u0001\u0000's Medal Box\nhas been upgraded to[f000]븀\u0000\n[f000][ff00]\u0001\u0002[f000]Ķ\u0001\u0001[f000][ff00]\u0001\u0000 Rank!"

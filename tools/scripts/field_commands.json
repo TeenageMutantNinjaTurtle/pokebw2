@@ -7200,14 +7200,14 @@
    ],
    "commands": {
     "1000": {
-     "handler": "func_ov065_021e5800",
+     "handler": "PokemonCenterCmd_Medal",
      "overlay": 65,
      "args": [
       "u16"
      ]
     },
     "1001": {
-     "handler": "func_ov065_021e58f0",
+     "handler": "PokemonCenterCmd_FindEarnedMedal",
      "overlay": 65,
      "args": [
       "var",
@@ -7228,7 +7228,7 @@
      "args": []
     },
     "1007": {
-     "handler": "func_ov065_021e65b8",
+     "handler": "PokemonCenterCmd_ClearMatchInProgress",
      "overlay": 65,
      "args": []
     },

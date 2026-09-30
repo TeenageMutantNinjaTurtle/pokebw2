@@ -6,6 +6,7 @@
 #include "struct_decls.h"
 
 BOOL PokeDex_IsNationalObtained(PokeDexSave *pokedex);
+BOOL PokeDex_IsCaught(PokeDexSave *pokedex, u16 species);
 void PokeDex_RegistPkm(PokeDexSave *pokedex, PartyPkm *pkm);
 void addPkmToDex(PokeDexSave *pokedex, PartyPkm *pkm);
 // The count of seen Pokémon, in the national Pokédex once the player has it
