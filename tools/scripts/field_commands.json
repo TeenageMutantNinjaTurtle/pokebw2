@@ -5650,31 +5650,31 @@
    ],
    "commands": {
     "1000": {
-     "handler": "func_ov055_021e58a8",
+     "handler": "WbtCmd_Create",
      "overlay": 55,
      "args": []
     },
     "1001": {
-     "handler": "func_ov055_021e58e0",
+     "handler": "WbtCmd_Free",
      "overlay": 55,
      "args": []
     },
     "1002": {
-     "handler": "func_ov055_021e58fc",
+     "handler": "WbtCmd_IsCreated",
      "overlay": 55,
      "args": [
       "var"
      ]
     },
     "1003": {
-     "handler": "func_ov055_021e5928",
+     "handler": "WbtCmd_SetRound",
      "overlay": 55,
      "args": [
       "any"
      ]
     },
     "1004": {
-     "handler": "func_ov055_021e5944",
+     "handler": "WbtCmd_GetRound",
      "overlay": 55,
      "args": [
       "var"
@@ -5702,49 +5702,49 @@
      ]
     },
     "1008": {
-     "handler": "func_ov056_021e76b4",
+     "handler": "WbtCmd_CheckRegulation",
      "overlay": 56,
      "args": [
       "var"
      ]
     },
     "1009": {
-     "handler": "func_ov055_021e5988",
+     "handler": "WbtCmd_SetStyle",
      "overlay": 55,
      "args": [
       "any"
      ]
     },
     "1010": {
-     "handler": "func_ov055_021e59a4",
+     "handler": "WbtCmd_GetStyle",
      "overlay": 55,
      "args": [
       "var"
      ]
     },
     "1011": {
-     "handler": "func_ov055_021e59c0",
+     "handler": "WbtCmd_SetTournament",
      "overlay": 55,
      "args": [
       "any"
      ]
     },
     "1012": {
-     "handler": "func_ov055_021e59dc",
+     "handler": "WbtCmd_GetTournament",
      "overlay": 55,
      "args": [
       "var"
      ]
     },
     "1013": {
-     "handler": "func_ov055_021e59f8",
+     "handler": "WbtCmd_SetType",
      "overlay": 55,
      "args": [
       "any"
      ]
     },
     "1014": {
-     "handler": "func_ov055_021e5a14",
+     "handler": "WbtCmd_GetType",
      "overlay": 55,
      "args": [
       "var"
@@ -5765,12 +5765,12 @@
      ]
     },
     "1017": {
-     "handler": "func_ov055_021e5a68",
+     "handler": "WbtCmd_RecordWin",
      "overlay": 55,
      "args": []
     },
     "1018": {
-     "handler": "func_ov055_021e5a84",
+     "handler": "WbtCmd_GetWinCount",
      "overlay": 55,
      "args": [
       "any",
@@ -5779,12 +5779,11 @@
      ]
     },
     "1020": {
-     "handler": "func_ov056_021e75d4",
+     "handler": "WbtCmd_AwardBattlePoints",
      "overlay": 56,
      "args": [
       "var"
-     ],
-     "area": "TrainerCard"
+     ]
     },
     "1022": {
      "handler": "func_ov056_021e7988",
@@ -5848,7 +5847,7 @@
      ]
     },
     "1038": {
-     "handler": "func_ov056_021e784c",
+     "handler": "WbtCmd_MakeRentalParty",
      "overlay": 56,
      "args": [
       "any"
@@ -5899,7 +5898,7 @@
      ]
     },
     "1051": {
-     "handler": "func_ov056_021e7b58",
+     "handler": "WbtCmd_Download",
      "overlay": 56,
      "args": [
       "any",
@@ -5939,31 +5938,31 @@
    ],
    "commands": {
     "1000": {
-     "handler": "func_ov055_021e58a8",
+     "handler": "WbtCmd_Create",
      "overlay": 55,
      "args": []
     },
     "1001": {
-     "handler": "func_ov055_021e58e0",
+     "handler": "WbtCmd_Free",
      "overlay": 55,
      "args": []
     },
     "1002": {
-     "handler": "func_ov055_021e58fc",
+     "handler": "WbtCmd_IsCreated",
      "overlay": 55,
      "args": [
       "var"
      ]
     },
     "1003": {
-     "handler": "func_ov055_021e5928",
+     "handler": "WbtCmd_SetRound",
      "overlay": 55,
      "args": [
       "any"
      ]
     },
     "1004": {
-     "handler": "func_ov055_021e5944",
+     "handler": "WbtCmd_GetRound",
      "overlay": 55,
      "args": [
       "var"
@@ -5975,42 +5974,42 @@
      "args": []
     },
     "1009": {
-     "handler": "func_ov055_021e5988",
+     "handler": "WbtCmd_SetStyle",
      "overlay": 55,
      "args": [
       "any"
      ]
     },
     "1010": {
-     "handler": "func_ov055_021e59a4",
+     "handler": "WbtCmd_GetStyle",
      "overlay": 55,
      "args": [
       "var"
      ]
     },
     "1011": {
-     "handler": "func_ov055_021e59c0",
+     "handler": "WbtCmd_SetTournament",
      "overlay": 55,
      "args": [
       "any"
      ]
     },
     "1012": {
-     "handler": "func_ov055_021e59dc",
+     "handler": "WbtCmd_GetTournament",
      "overlay": 55,
      "args": [
       "var"
      ]
     },
     "1013": {
-     "handler": "func_ov055_021e59f8",
+     "handler": "WbtCmd_SetType",
      "overlay": 55,
      "args": [
       "any"
      ]
     },
     "1014": {
-     "handler": "func_ov055_021e5a14",
+     "handler": "WbtCmd_GetType",
      "overlay": 55,
      "args": [
       "var"
@@ -6031,12 +6030,12 @@
      ]
     },
     "1017": {
-     "handler": "func_ov055_021e5a68",
+     "handler": "WbtCmd_RecordWin",
      "overlay": 55,
      "args": []
     },
     "1018": {
-     "handler": "func_ov055_021e5a84",
+     "handler": "WbtCmd_GetWinCount",
      "overlay": 55,
      "args": [
       "any",
@@ -6117,7 +6116,7 @@
      "args": []
     },
     "1039": {
-     "handler": "func_ov057_021e77d4",
+     "handler": "WbtCmd_MakeOpponentParty",
      "overlay": 57,
      "args": []
     },

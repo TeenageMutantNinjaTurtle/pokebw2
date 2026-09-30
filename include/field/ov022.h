@@ -8,6 +8,7 @@
 
 // Events for GameEvent_CreateOverlayDelegate
 GameEvent *func_ov022_0216e6e8(GameSystem *gsys, void *args);
+GameEvent *func_ov022_0216e854(GameSystem *gsys, void *args);
 // Shows the tournament's Trainers from a WbtSetup, then frees it
 GameEvent *func_ov022_0216e73c(GameSystem *gsys, void *args);
 // Run overlay 326's screens with a WbtOv326Param and a WbtOv326Param2, then free them

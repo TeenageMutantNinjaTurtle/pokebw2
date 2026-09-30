@@ -68,6 +68,7 @@ void func_02008fb8(SaveControl *save, SaveLocation *location);
 RivalDataSave *getHollow_RivalData(SaveControl *save);
 void func_0200f700(RivalDataSave *rivalData, u32 id);
 void copyRivalNameIntoHollowBlock(RivalDataSave *data, const u16 *name);
+const u16 *getPtrToRivalName(RivalDataSave *data);
 u32 func_0200ca64(TrainerGameInfoSave *info);
 void func_0200ca6c(TrainerGameInfoSave *info, u32 value);
 u32 func_0200ca74(TrainerGameInfoSave *info);

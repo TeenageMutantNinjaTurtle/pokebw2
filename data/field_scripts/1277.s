@@ -11,7 +11,7 @@
     ScriptEntriesEnd
 
 Script_5:
-    Plugin6_Cmd1002 0x8010
+    WbtCmd_IsCreated 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -93,7 +93,7 @@ L_0119:
     VMReturn
 
 L_012E:
-    Plugin6_Cmd1012 0x8010
+    WbtCmd_GetTournament 0x8010
     VMStackPush 0x8010
     VMStackPushConst 11
     VMStackCmp CMP_NE
@@ -101,7 +101,7 @@ L_012E:
     VMReturn
 
 L_0147:
-    Plugin6_Cmd1004 0x8010
+    WbtCmd_GetRound 0x8010
     VMStackPush 0x8010
     VMStackPushConst 5
     VMStackCmp CMP_EQ
@@ -126,7 +126,7 @@ Script_1:
     VMJump L_01A3
 
 L_0197:
-    Plugin6_Cmd1000
+    WbtCmd_Create
     Plugin6_Cmd1015 1
     VMCall L_01EC
 
@@ -143,7 +143,7 @@ Script_3:
     VMStackPushConst 1
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_01D6
-    Plugin6_Cmd1000
+    WbtCmd_Create
     Plugin6_Cmd1015 2
     VMCall L_01EC
     VMJump L_01E6
@@ -170,7 +170,7 @@ L_01EC:
     WorkSetConst 0x8027, 0
     WorkSetConst 0x8028, 0
     WorkSetConst 0x8029, 0
-    Plugin6_Cmd1003 0
+    WbtCmd_SetRound 0
     // "Welcome to the\nPokémon World Tournament![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 0, 0x8011, 4, 0
     WorkSetConst 0x8020, 1
@@ -219,7 +219,7 @@ L_02CE:
 
 L_02E1:
     VMCall L_05D6
-    Plugin6_Cmd1011 0x8023
+    WbtCmd_SetTournament 0x8023
     WorkGet 0x8021, 0x8023
     WorkCmpConst 0x8021, 0
     VMJumpIf CMP_EQ, L_0304
@@ -235,7 +235,7 @@ L_0310:
     VMJump L_0333
 
 L_0323:
-    Plugin6_Cmd1009 0
+    WbtCmd_SetStyle 0
     WorkSetConst 0x8020, 7
     VMJump L_0377
 
@@ -270,7 +270,7 @@ L_037D:
 
 L_0390:
     WorkSetConst 0x8023, 17
-    Plugin6_Cmd1013 17
+    WbtCmd_SetType 17
     VMCall L_0DED
     VMStackPush 0x8023
     VMStackPushConst 17
@@ -280,7 +280,7 @@ L_0390:
     VMJump L_03C9
 
 L_03BF:
-    Plugin6_Cmd1013 0x8023
+    WbtCmd_SetType 0x8023
     WorkSetConst 0x8020, 6
 
 L_03C9:
@@ -329,12 +329,12 @@ L_044F:
     VMStackCmp CMP_NE
     VMJumpIf CMP_STACK, L_0484
     WorkGet 0x8025, 0x8023
-    Plugin6_Cmd1009 0x8025
+    WbtCmd_SetStyle 0x8025
     WorkSetConst 0x8020, 7
     VMJump L_04AD
 
 L_0484:
-    Plugin6_Cmd1012 0x8021
+    WbtCmd_GetTournament 0x8021
     VMStackPush 0x8021
     VMStackPushConst 2
     VMStackCmp CMP_EQ
@@ -371,7 +371,7 @@ L_04F1:
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0528
     Plugin6_Cmd1005
-    Plugin6_Cmd1003 1
+    WbtCmd_SetRound 1
     VMCall L_0A17
     WorkSetConst 0x8020, 8
     VMJump L_052E
@@ -397,7 +397,7 @@ L_0540:
     ActorMsg MSGFILE_SCRIPT, 6, 0x8011, 4, 0
     LastKeyWait
     MsgWinCloseAll
-    Plugin6_Cmd1001
+    WbtCmd_Free
     VMJump L_056B
 
 L_056B:
@@ -591,7 +591,7 @@ L_085F:
     VMReturn
 
 L_0861:
-    Plugin6_Cmd1012 0x8021
+    WbtCmd_GetTournament 0x8021
     VMStackPush 0x8021
     VMStackPushConst 12
     VMStackCmp CMP_EQ
@@ -671,7 +671,7 @@ L_0970:
     VMReturn
 
 L_0978:
-    Plugin6_Cmd1012 0x8021
+    WbtCmd_GetTournament 0x8021
     VMStackPush 0x8021
     VMStackPushConst 12
     VMStackCmp CMP_EQ
@@ -690,7 +690,7 @@ L_0978:
     // "The moment of truth!\nWhich Pokémon will you receive?[f000]븁\u0000\nCounting down...[f000]븁\u0000\n... ...\n... ...[f000]븁\u0000\nTa-da! Here they are![f000]븁\u0000\nThese are the Pokémon\navailable for rental![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 67, 0x8011, 4, 0
     MsgWinCloseAll
-    Plugin6_Cmd1038 0x8010
+    WbtCmd_MakeRentalParty 0x8010
     VMJump L_09F4
 
 L_09E6:
@@ -1050,7 +1050,7 @@ L_0F1B:
     ActorCmdWait
 
 L_0F48:
-    Plugin6_Cmd1004 0x8010
+    WbtCmd_GetRound 0x8010
     WorkCmpConst 0x8010, 2
     VMJumpIf CMP_EQ, L_0F5F
     VMJump L_0F77
@@ -1089,13 +1089,13 @@ L_0FCD:
     VMJump L_1009
 
 L_0FE0:
-    Plugin6_Cmd1012 0x8021
+    WbtCmd_GetTournament 0x8021
     Plugin6_Cmd1044 0, 0x8021
     // "Congratulations on winning the\n[f000]Ļ\u0001\u0000![f000]븁\u0000"
     ActorMsg MSGFILE_SCRIPT, 72, 0x8011, 4, 0
     VMCall L_1068
     VMCall L_115E
-    Plugin6_Cmd1017
+    WbtCmd_RecordWin
     VMJump L_1009
 
 L_1009:
@@ -1103,7 +1103,7 @@ L_1009:
     ActorMsg MSGFILE_SCRIPT, 6, 0x8011, 4, 0
     LastKeyWait
     MsgWinCloseAll
-    Plugin6_Cmd1001
+    WbtCmd_Free
     VMStackPush 0x8021
     VMStackPushConst 11
     VMStackCmp CMP_EQ
@@ -1136,7 +1136,7 @@ Movement_105C:
     MoveEnd
 
 L_1068:
-    Plugin6_Cmd1020 0x8010
+    WbtCmd_AwardBattlePoints 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
     VMStackCmp CMP_NE
@@ -1222,7 +1222,7 @@ L_1173:
     WorkSetConst 0x802a, 0
     WorkSetConst 0x802b, 0
     WorkSetConst 0x802c, 0
-    Plugin6_Cmd1014 0x802a
+    WbtCmd_GetType 0x802a
     WorkSetConst 0x802b, 0
     WorkSetConst 0x802c, 1
 
@@ -1235,7 +1235,7 @@ L_11A8:
     VMStackCmp CMP_EQ
     VMStackCmp CMP_AND
     VMJumpIf CMP_STACK, L_122A
-    Plugin6_Cmd1018 2, 0x802b, 0x8010
+    WbtCmd_GetWinCount 2, 0x802b, 0x8010
     VMStackPush 0x802b
     VMStackPush 0x802a
     VMStackCmp CMP_EQ
@@ -1273,7 +1273,7 @@ L_1241:
     WorkSetConst 0x802a, 0
 
 L_1253:
-    Plugin6_Cmd1018 0x8021, 17, 0x8010
+    WbtCmd_GetWinCount 0x8021, 17, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -1468,7 +1468,7 @@ L_14CC:
     VMJump L_1550
 
 L_1529:
-    Plugin6_Cmd1018 10, 17, 0x8010
+    WbtCmd_GetWinCount 10, 17, 0x8010
     WorkSetConst 0x8029, 9
     WorkSub 0x8029, 0x8010
     WordSetNumber 0, 0x8029, 2
@@ -1566,7 +1566,7 @@ L_1672:
     // "The Tournament Download System\nwas accessed.[f000]븁\u0000"
     SystemMsg 108, 2
     InfoMsgClose
-    Plugin6_Cmd1051 0, 0x8010
+    WbtCmd_Download 0, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
     VMStackCmp CMP_EQ

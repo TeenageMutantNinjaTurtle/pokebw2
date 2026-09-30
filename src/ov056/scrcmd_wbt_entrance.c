@@ -15,7 +15,6 @@
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
-#include "system/vm.h"
 
 // The commands of the Pokémon World Tournament's entrance (plugin 6) that overlay 55 doesn't have
 
@@ -24,7 +23,7 @@ static BSubwayScoreData *func_ov056_021e75c0(FieldScriptEnv *env) {
 }
 
 // Awards the Battle Points for winning the tournament, and sets a variable to them
-BOOL func_ov056_021e75d4(VM *vm, FieldScriptEnv *env) {
+BOOL WbtCmd_AwardBattlePoints(VM *vm, FieldScriptEnv *env) {
     WbtSystem *sys = func_ov055_021e5800(env);
     u16 *var = ScriptReadVar(vm, env);
     u16 battlePoints = func_ov135_021ef978(sys);
@@ -65,7 +64,7 @@ BOOL func_ov056_021e7674(VM *vm, FieldScriptEnv *env) {
 }
 
 // Sets a variable to whether the player's party meets the tournament's regulation
-BOOL func_ov056_021e76b4(VM *vm, FieldScriptEnv *env) {
+BOOL WbtCmd_CheckRegulation(VM *vm, FieldScriptEnv *env) {
     u16 *var = ScriptReadVar(vm, env);
     WbtSystem *sys = func_ov055_021e5800(env);
     Regulation *regulation = func_ov055_021e5f78(sys);
@@ -153,7 +152,7 @@ BOOL func_ov056_021e7808(VM *vm, FieldScriptEnv *env) {
 }
 
 // Makes the rental party
-BOOL func_ov056_021e784c(VM *vm, FieldScriptEnv *env) {
+BOOL WbtCmd_MakeRentalParty(VM *vm, FieldScriptEnv *env) {
     WbtSystem *sys = func_ov055_021e5800(env);
     PlayerInfo *playerInfo = GetGameDataPlayerInfo(FieldScriptEnv_GetGameData(env));
     u16 placeName = ZoneData_GetPlaceNameID(GetScriptEnvZoneID(env));
@@ -263,7 +262,7 @@ BOOL func_ov056_021e7b00(VM *vm, FieldScriptEnv *env) {
 }
 
 // Downloads a tournament
-BOOL func_ov056_021e7b58(VM *vm, FieldScriptEnv *env) {
+BOOL WbtCmd_Download(VM *vm, FieldScriptEnv *env) {
     GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
     ScriptWork *work;
 

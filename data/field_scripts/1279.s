@@ -51,7 +51,7 @@ Script_4:
     ActorsPauseAll
     SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
-    Plugin6_Cmd1018 4, 17, 0x8010
+    WbtCmd_GetWinCount 4, 17, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
     VMStackCmp CMP_EQ

@@ -84,7 +84,8 @@ struct WbtSystem {
     u32 style;
     u32 unk14;
     u32 round;
-    u8 unk1C;
+    // The Type Expert Tournament's type
+    u8 type;
     u8 unk1D;
     u8 unk1E;
     u8 unk1F;
@@ -107,9 +108,12 @@ struct WbtSystem {
     PokeParty *partyBC;
     PokeParty *partyC0;
     PokeParty *partyC4;
-    u32 unk13C8;
-    u32 unk13CC;
-    u8 unk13D0[0x10];
+    u8 unk13C8[4];
+    void *unk13CC;
+    u8 unk13D0[0xc];
+    // One for each round. Tournaments 1 and 10 award their total as Battle Points
+    u8 unk13DC[3];
+    u8 unk13DF;
     // The script variable that plugin 6 passes with func_ov022_0216e6e8's event
     u16 *unk13E0;
     u32 unk13E4;
@@ -182,7 +186,7 @@ void func_ov055_021e5ca0(WbtSystem *sys, u32 tournament);
 u32 func_ov055_021e5ca4(WbtSystem *sys);
 void func_ov055_021e5ca8(WbtSystem *sys, u32 style);
 u32 func_ov055_021e5cac(WbtSystem *sys);
-void func_ov055_021e5cb0(WbtSystem *sys, u8 value);
+void func_ov055_021e5cb0(WbtSystem *sys, u8 type);
 u8 func_ov055_021e5cb4(WbtSystem *sys);
 void func_ov055_021e5cb8(WbtSystem *sys, u32 value);
 u32 func_ov055_021e5cbc(WbtSystem *sys);
@@ -194,8 +198,8 @@ u8 func_ov055_021e5cd4(WbtSystem *sys);
 void func_ov055_021e5cd8(WbtSystem *sys, u16 *var);
 u16 *func_ov055_021e5ce4(WbtSystem *sys);
 void func_ov055_021e5cf0(WbtSystem *sys, u8 value);
-void func_ov055_021e5cfc(WbtSystem *sys, u32 value);
-u32 func_ov055_021e5d08(WbtSystem *sys);
+void func_ov055_021e5cfc(WbtSystem *sys, void *value);
+void *func_ov055_021e5d08(WbtSystem *sys);
 void func_ov055_021e5d14(WbtSystem *sys, u32 value);
 WbtEntrant *func_ov055_021e5d20(WbtSystem *sys, u32 index);
 WbtEntrant *func_ov055_021e5d28(WbtSystem *sys);

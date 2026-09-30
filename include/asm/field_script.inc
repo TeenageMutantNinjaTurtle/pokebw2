@@ -4090,30 +4090,25 @@
 
     // Plugin 6
 
-    // func_ov055_021e58a8
-    .macro Plugin6_Cmd1000
+    .macro WbtCmd_Create
     FieldCommand 1000
     .endm
 
-    // func_ov055_021e58e0
-    .macro Plugin6_Cmd1001
+    .macro WbtCmd_Free
     FieldCommand 1001
     .endm
 
-    // func_ov055_021e58fc
-    .macro Plugin6_Cmd1002 a0
+    .macro WbtCmd_IsCreated a0
     FieldCommand 1002
     .2byte \a0
     .endm
 
-    // func_ov055_021e5928
-    .macro Plugin6_Cmd1003 a0
+    .macro WbtCmd_SetRound a0
     FieldCommand 1003
     .2byte \a0
     .endm
 
-    // func_ov055_021e5944
-    .macro Plugin6_Cmd1004 a0
+    .macro WbtCmd_GetRound a0
     FieldCommand 1004
     .2byte \a0
     .endm
@@ -4137,44 +4132,37 @@
     .2byte \a1
     .endm
 
-    // func_ov056_021e76b4
-    .macro Plugin6_Cmd1008 a0
+    .macro WbtCmd_CheckRegulation a0
     FieldCommand 1008
     .2byte \a0
     .endm
 
-    // func_ov055_021e5988
-    .macro Plugin6_Cmd1009 a0
+    .macro WbtCmd_SetStyle a0
     FieldCommand 1009
     .2byte \a0
     .endm
 
-    // func_ov055_021e59a4
-    .macro Plugin6_Cmd1010 a0
+    .macro WbtCmd_GetStyle a0
     FieldCommand 1010
     .2byte \a0
     .endm
 
-    // func_ov055_021e59c0
-    .macro Plugin6_Cmd1011 a0
+    .macro WbtCmd_SetTournament a0
     FieldCommand 1011
     .2byte \a0
     .endm
 
-    // func_ov055_021e59dc
-    .macro Plugin6_Cmd1012 a0
+    .macro WbtCmd_GetTournament a0
     FieldCommand 1012
     .2byte \a0
     .endm
 
-    // func_ov055_021e59f8
-    .macro Plugin6_Cmd1013 a0
+    .macro WbtCmd_SetType a0
     FieldCommand 1013
     .2byte \a0
     .endm
 
-    // func_ov055_021e5a14
-    .macro Plugin6_Cmd1014 a0
+    .macro WbtCmd_GetType a0
     FieldCommand 1014
     .2byte \a0
     .endm
@@ -4191,21 +4179,18 @@
     .2byte \a0
     .endm
 
-    // func_ov055_021e5a68
-    .macro Plugin6_Cmd1017
+    .macro WbtCmd_RecordWin
     FieldCommand 1017
     .endm
 
-    // func_ov055_021e5a84
-    .macro Plugin6_Cmd1018 a0, a1, a2
+    .macro WbtCmd_GetWinCount a0, a1, a2
     FieldCommand 1018
     .2byte \a0
     .2byte \a1
     .2byte \a2
     .endm
 
-    // func_ov056_021e75d4
-    .macro Plugin6_Cmd1020 a0
+    .macro WbtCmd_AwardBattlePoints a0
     FieldCommand 1020
     .2byte \a0
     .endm
@@ -4263,8 +4248,7 @@
     .2byte \a2
     .endm
 
-    // func_ov056_021e784c
-    .macro Plugin6_Cmd1038 a0
+    .macro WbtCmd_MakeRentalParty a0
     FieldCommand 1038
     .2byte \a0
     .endm
@@ -4307,8 +4291,7 @@
     .2byte \a0
     .endm
 
-    // func_ov056_021e7b58
-    .macro Plugin6_Cmd1051 a0, a1
+    .macro WbtCmd_Download a0, a1
     FieldCommand 1051
     .2byte \a0
     .2byte \a1
@@ -4334,73 +4317,9 @@
 
     // Plugin 7
 
-    // func_ov055_021e58a8
-    .macro Plugin7_Cmd1000
-    FieldCommand 1000
-    .endm
-
-    // func_ov055_021e58e0
-    .macro Plugin7_Cmd1001
-    FieldCommand 1001
-    .endm
-
-    // func_ov055_021e58fc
-    .macro Plugin7_Cmd1002 a0
-    FieldCommand 1002
-    .2byte \a0
-    .endm
-
-    // func_ov055_021e5928
-    .macro Plugin7_Cmd1003 a0
-    FieldCommand 1003
-    .2byte \a0
-    .endm
-
-    // func_ov055_021e5944
-    .macro Plugin7_Cmd1004 a0
-    FieldCommand 1004
-    .2byte \a0
-    .endm
-
     // func_ov055_021e5960
     .macro Plugin7_Cmd1005
     FieldCommand 1005
-    .endm
-
-    // func_ov055_021e5988
-    .macro Plugin7_Cmd1009 a0
-    FieldCommand 1009
-    .2byte \a0
-    .endm
-
-    // func_ov055_021e59a4
-    .macro Plugin7_Cmd1010 a0
-    FieldCommand 1010
-    .2byte \a0
-    .endm
-
-    // func_ov055_021e59c0
-    .macro Plugin7_Cmd1011 a0
-    FieldCommand 1011
-    .2byte \a0
-    .endm
-
-    // func_ov055_021e59dc
-    .macro Plugin7_Cmd1012 a0
-    FieldCommand 1012
-    .2byte \a0
-    .endm
-
-    // func_ov055_021e59f8
-    .macro Plugin7_Cmd1013 a0
-    FieldCommand 1013
-    .2byte \a0
-    .endm
-
-    // func_ov055_021e5a14
-    .macro Plugin7_Cmd1014 a0
-    FieldCommand 1014
-    .2byte \a0
     .endm
 
     // func_ov055_021e5a30
@@ -4413,19 +4332,6 @@
     .macro Plugin7_Cmd1016 a0
     FieldCommand 1016
     .2byte \a0
-    .endm
-
-    // func_ov055_021e5a68
-    .macro Plugin7_Cmd1017
-    FieldCommand 1017
-    .endm
-
-    // func_ov055_021e5a84
-    .macro Plugin7_Cmd1018 a0, a1, a2
-    FieldCommand 1018
-    .2byte \a0
-    .2byte \a1
-    .2byte \a2
     .endm
 
     // func_ov057_021e7814
@@ -4495,8 +4401,7 @@
     FieldCommand 1037
     .endm
 
-    // func_ov057_021e77d4
-    .macro Plugin7_Cmd1039
+    .macro WbtCmd_MakeOpponentParty
     FieldCommand 1039
     .endm
 

@@ -35,9 +35,16 @@ u16 *ScriptWork_GetWkAddr(ScriptWork *work, GameData *gameData, u16 id);
 void FieldScriptEnv_SetWaitCounter(FieldScriptEnv *env, u16 frames);
 BOOL FieldScriptEnv_UpdateWaitCounter(FieldScriptEnv *env);
 GameSystem *ScriptWork_GetGameSystem(ScriptWork *work);
+StrBuf *ScriptWork_GetMainStrBuf(ScriptWork *work);
 StrBuf *ScriptWork_GetAltStrBuf(ScriptWork *work);
 FieldActor *ScriptWork_GetParentActor(ScriptWork *work);
 WordSet *ScriptWork_GetWordSet(ScriptWork *work);
 MMSys *GetScrEnvMMdlSys(FieldScriptEnv *env);
+// Adds an entry to the script's list menu
+void AddItemToListMenu(FieldScriptEnv *env, u32 a1, u32 message, u32 value, StrBuf *a4, StrBuf *a5);
+
+// Overlay 36: show a message, and have the script wait for it
+BOOL func_ov036_021a8eb4(VM *vm, FieldScriptEnv *env, StrBuf *message, u32 a3, u16 a4, u32 a5);
+BOOL loadMsgBox(VM *vm, FieldScriptEnv *env, StrBuf *message, u32 a3, u8 a4);
 
 #endif // POKEBW2_FIELD_FIELD_SCRIPT_H

@@ -68,12 +68,12 @@ u32 func_ov055_021e5cac(WbtSystem *sys) {
     return sys->style;
 }
 
-void func_ov055_021e5cb0(WbtSystem *sys, u8 value) {
-    sys->unk1C = value;
+void func_ov055_021e5cb0(WbtSystem *sys, u8 type) {
+    sys->type = type;
 }
 
 u8 func_ov055_021e5cb4(WbtSystem *sys) {
-    return sys->unk1C;
+    return sys->type;
 }
 
 void func_ov055_021e5cb8(WbtSystem *sys, u32 value) {
@@ -116,11 +116,11 @@ void func_ov055_021e5cf0(WbtSystem *sys, u8 value) {
     sys->unk13A8 = value;
 }
 
-void func_ov055_021e5cfc(WbtSystem *sys, u32 value) {
+void func_ov055_021e5cfc(WbtSystem *sys, void *value) {
     sys->unk13CC = value;
 }
 
-u32 func_ov055_021e5d08(WbtSystem *sys) {
+void *func_ov055_021e5d08(WbtSystem *sys) {
     return sys->unk13CC;
 }
 
@@ -322,7 +322,7 @@ WbtUnk18A *func_ov055_021e6024(WbtSystem *sys) {
         value = 507;
         break;
     case 2:
-        type = sys->unk1C;
+        type = sys->type;
         value = 507;
         break;
     case 3:

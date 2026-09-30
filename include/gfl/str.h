@@ -20,6 +20,11 @@ BOOL GFL_StrBufCmpIgnoreAccents(const StrBuf *a, const StrBuf *b);
 // Copies the string out, at most size characters
 void GFL_StrBufStoreString(const StrBuf *strbuf, u16 *dest, u32 size);
 void GFL_StrBufLoadString(StrBuf *strbuf, const u16 *src);
+void GFL_StrBufClear(StrBuf *strbuf);
+// Copies src, expanding it if it is compressed, as Trainer names in message file 409 are
+void GFL_StrBufUncompress(StrBuf *dest, const StrBuf *src);
+void textCopy(const u16 *src, StrBuf *dest);
+StrBuf *copyTrainerNameToNewStrbuf(const u16 *name, HeapID heapId);
 
 WordSet *GFL_WordSetSystemCreateDefault(HeapID heapId);
 void GFL_WordSetSystemFree(WordSet *wordSet);

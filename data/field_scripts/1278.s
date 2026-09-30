@@ -27,26 +27,26 @@ Script_1:
     VMStackPushConst 1
     VMStackCmp CMP_NE
     VMJumpIf CMP_STACK, L_008F
-    Plugin7_Cmd1012 0x8010
+    WbtCmd_GetTournament 0x8010
     Cmd_01DD 11, 0x8010, 0
     VMCall L_0139
     VMJump L_0131
 
 L_008F:
-    Plugin7_Cmd1012 0x8010
+    WbtCmd_GetTournament 0x8010
     Cmd_01DD 10, 0x8010, 1
     VMCall L_053D
     VMStackPush 0x8027
     VMStackPushConst 1
     VMStackCmp CMP_NE
     VMJumpIf CMP_STACK, L_00CC
-    Plugin7_Cmd1012 0x8010
+    WbtCmd_GetTournament 0x8010
     Cmd_01DD 11, 0x8010, 1
     VMCall L_0139
     VMJump L_0131
 
 L_00CC:
-    Plugin7_Cmd1012 0x8010
+    WbtCmd_GetTournament 0x8010
     Cmd_01DD 10, 0x8010, 2
     VMCall L_07E0
     VMStackPush 0x8027
@@ -55,15 +55,15 @@ L_00CC:
     VMJumpIf CMP_STACK, L_010F
     WorkSetConst 0x8027, 0
     VMCall L_0B14
-    Plugin7_Cmd1012 0x8010
+    WbtCmd_GetTournament 0x8010
     Cmd_01DD 11, 0x8010, 2
     VMJump L_012B
 
 L_010F:
     WorkSetConst 0x8027, 1
     VMCall L_0B14
-    Plugin7_Cmd1003 5
-    Plugin7_Cmd1012 0x8010
+    WbtCmd_SetRound 5
+    WbtCmd_GetTournament 0x8010
     Cmd_01DD 10, 0x8010, 3
 
 L_012B:
@@ -99,10 +99,10 @@ L_0185:
 
 Script_2:
     ActorsPauseAll
-    Plugin7_Cmd1000
-    Plugin7_Cmd1011 4
-    Plugin7_Cmd1009 0
-    Plugin7_Cmd1003 2
+    WbtCmd_Create
+    WbtCmd_SetTournament 4
+    WbtCmd_SetStyle 0
+    WbtCmd_SetRound 2
     Plugin7_Cmd1005
     Plugin7_Cmd1040 0x4020
     ActorNew 21, 15, 3, 251, 162, 0
@@ -120,10 +120,10 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    Plugin7_Cmd1000
-    Plugin7_Cmd1011 4
-    Plugin7_Cmd1009 0
-    Plugin7_Cmd1003 3
+    WbtCmd_Create
+    WbtCmd_SetTournament 4
+    WbtCmd_SetStyle 0
+    WbtCmd_SetRound 3
     Plugin7_Cmd1005
     Plugin7_Cmd1040 0x4020
     ActorNew 21, 15, 3, 251, 162, 0
@@ -151,8 +151,8 @@ L_0240:
 L_0256:
     SEPlay SEQ_SE_SW_WBT_07
     Plugin7_Cmd1047 0
-    Plugin7_Cmd1003 2
-    Plugin7_Cmd1012 0x8029
+    WbtCmd_SetRound 2
+    WbtCmd_GetTournament 0x8029
     VMStackPush 0x8029
     VMStackPushConst 11
     VMStackCmp CMP_EQ
@@ -224,7 +224,7 @@ L_037F:
     FadeExWait
     ActorCmdWait
     EvCameraWait
-    Plugin7_Cmd1039
+    WbtCmd_MakeOpponentParty
     VMStackPush 0x8029
     VMStackPushConst 14
     VMStackCmp CMP_EQ
@@ -317,7 +317,7 @@ L_053D:
     FadeWait
     EvCameraWait
     Plugin7_Cmd1047 1
-    Plugin7_Cmd1003 3
+    WbtCmd_SetRound 3
     Plugin7_Cmd1040 0x4020
     ActorNew 3, 15, 3, 251, 162, 0
     ActorSetGPos 255, 31, 0, 15, 2
@@ -362,7 +362,7 @@ L_053D:
     VMCall L_0E8B
     ActorCmdWait
     EvCameraWait
-    Plugin7_Cmd1039
+    WbtCmd_MakeOpponentParty
     VMStackPush 0x8029
     VMStackPushConst 14
     VMStackCmp CMP_EQ
@@ -462,7 +462,7 @@ L_07E0:
     FadeWait
     EvCameraWait
     Plugin7_Cmd1047 2
-    Plugin7_Cmd1003 4
+    WbtCmd_SetRound 4
     Plugin7_Cmd1040 0x4020
     ActorNew 3, 15, 3, 251, 162, 0
     ActorSetGPos 255, 42, 0, 15, 2
@@ -504,7 +504,7 @@ L_08B6:
     SEPlay SEQ_SE_SW_WBT_18
     Plugin7_Cmd1056 1
     VMSleep 60
-    Plugin7_Cmd1012 0x8010
+    WbtCmd_GetTournament 0x8010
     Plugin7_Cmd1044 0, 0x8010
     // "[f000]Ļ\u0001\u0000!\nThe final round![f000]븀\u0000\nThe opponent is entering the arena![f000]븁\u0000"
     InfoMsg 3, 1
@@ -541,7 +541,7 @@ L_0979:
     SEPlay SEQ_SE_SW_WBT_18
     Plugin7_Cmd1056 0
     VMSleep 60
-    Plugin7_Cmd1039
+    WbtCmd_MakeOpponentParty
     VMStackPush 0x8029
     VMStackPushConst 14
     VMStackCmp CMP_EQ
@@ -714,7 +714,7 @@ L_0BA1:
 
 L_0BA7:
     ActorMsgClose
-    Plugin7_Cmd1012 0x8010
+    WbtCmd_GetTournament 0x8010
     Plugin7_Cmd1044 0, 0x8010
     // "This concludes the\n[f000]Ļ\u0001\u0000![f000]븀\u0000\nSee you in the next tournament![f000]븁\u0000"
     InfoMsg 10, 1
@@ -737,7 +737,7 @@ L_0BDD:
     WorkSetConst 0x8030, 0
     WorkSetConst 0x8031, 2
     VMCall L_0C3C
-    Plugin7_Cmd1010 0x8010
+    WbtCmd_GetStyle 0x8010
     VMStackPush 0x8010
     VMStackPushConst 2
     VMStackCmp CMP_EQ
@@ -912,7 +912,7 @@ L_0DFB:
     VMReturn
 
 L_0DFD:
-    Plugin7_Cmd1018 0, 17, 0x8020
+    WbtCmd_GetWinCount 0, 17, 0x8020
     DebugPrint 0x8020
     VMStackPush 0x8020
     VMStackPushConst 30
@@ -1499,7 +1499,7 @@ L_16CF:
 
 L_16D1:
     WordSetPlayerName 0
-    Plugin7_Cmd1018 0, 17, 0x8020
+    WbtCmd_GetWinCount 0, 17, 0x8020
     VMStackPush 0x8020
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -1585,7 +1585,7 @@ L_17EA:
     VMReturn
 
 L_17EE:
-    Plugin7_Cmd1012 0x8029
+    WbtCmd_GetTournament 0x8029
     WorkCmpConst 0x8029, 1
     VMJumpIf CMP_EQ, L_1805
     VMJump L_1815
@@ -1601,7 +1601,7 @@ L_1815:
     VMJump L_1A45
 
 L_1828:
-    Plugin7_Cmd1014 0x802b
+    WbtCmd_GetType 0x802b
     SEPlay SEQ_SE_SW_WBT_04
     WorkCmpConst 0x802b, 0
     VMJumpIf CMP_EQ, L_1843
