@@ -5133,29 +5133,25 @@
     .2byte \a1
     .endm
 
-    // func_ov062_021e5d30
-    .macro Plugin10_Cmd1006 a0, a1, a2
+    .macro PokewoodCmd_GetMovieFlag a0, a1, a2
     FieldCommand 1006
     .2byte \a0
     .2byte \a1
     .2byte \a2
     .endm
 
-    // func_ov062_021e5d6c
-    .macro Plugin10_Cmd1007 a0, a1
+    .macro PokewoodCmd_SetMovieFlag a0, a1
     FieldCommand 1007
     .2byte \a0
     .2byte \a1
     .endm
 
-    // func_ov062_021e5dcc
-    .macro Plugin10_Cmd1008 a0
+    .macro PokewoodCmd_CountDownloadedMovies a0
     FieldCommand 1008
     .2byte \a0
     .endm
 
-    // func_ov062_021e5c58
-    .macro Plugin10_Cmd1009 a0, a1
+    .macro PokewoodCmd_CheckDownloadedMovie a0, a1
     FieldCommand 1009
     .2byte \a0
     .2byte \a1
@@ -5168,13 +5164,11 @@
     .2byte \a1
     .endm
 
-    // func_ov062_021e58ac
-    .macro Plugin10_Cmd1011
+    .macro PokewoodCmd_Create
     FieldCommand 1011
     .endm
 
-    // func_ov062_021e58f8
-    .macro Plugin10_Cmd1012
+    .macro PokewoodCmd_Free
     FieldCommand 1012
     .endm
 
@@ -5260,8 +5254,7 @@
     .2byte \a3
     .endm
 
-    // func_ov062_021e5d9c
-    .macro Plugin10_Cmd1025 a0, a1
+    .macro PokewoodCmd_CountMovieFlags a0, a1
     FieldCommand 1025
     .2byte \a0
     .2byte \a1

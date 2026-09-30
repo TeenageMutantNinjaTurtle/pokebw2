@@ -13,6 +13,8 @@ void RecordSave_ClearMatchInProgress(RecordSave *record);
 void RecordAddOne(GameRecords *records, u32 id);
 u32 RecordGet(GameRecords *records, u32 id);
 void RecordAdd(GameRecords *records, u32 id, u32 value);
+// Sets a record to value if that is higher, up to the record's maximum
+void func_02009508(GameRecords *records, u32 id, u32 value);
 RecordSave *func_0200f2bc(SaveControl *save);
 void func_0200f2dc(RecordSave *record);
 u8 func_0200f300(RecordSave *record);

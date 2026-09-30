@@ -75,7 +75,7 @@ L_00DA:
 
 Script_3:
     ActorsPauseAll
-    Plugin10_Cmd1011
+    PokewoodCmd_Create
     WorkSetConst 0x8022, 1
     SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
@@ -98,7 +98,7 @@ L_015E:
     VMCall L_016C
 
 L_0164:
-    Plugin10_Cmd1012
+    PokewoodCmd_Free
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -414,7 +414,7 @@ L_05C5:
     VMJump L_0618
 
 L_05D8:
-    Plugin10_Cmd1006 2, 0x8024, 0x8010
+    PokewoodCmd_GetMovieFlag 2, 0x8024, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 1
     VMStackCmp CMP_EQ
@@ -553,7 +553,7 @@ L_0782:
     VMJump L_07E2
 
 L_07B1:
-    Plugin10_Cmd1008 0x8028
+    PokewoodCmd_CountDownloadedMovies 0x8028
     VMStackPush 0x8028
     VMStackPushConst 8
     VMStackCmp CMP_EQ
@@ -705,7 +705,7 @@ L_09B5:
     VMStackPushConst 8
     VMStackCmp CMP_LT
     VMJumpIf CMP_STACK, L_09EF
-    Plugin10_Cmd1009 0x8026, 0x8010
+    PokewoodCmd_CheckDownloadedMovie 0x8026, 0x8010
     VMStackPush 0x8010
     VMStackPushConst 0
     VMStackCmp CMP_EQ

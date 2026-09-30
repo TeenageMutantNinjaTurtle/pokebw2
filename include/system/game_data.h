@@ -66,6 +66,8 @@ PlayerInfo *func_02017378(GameData *gameData, u32 netId);
 void func_020175c4(GameData *gameData, u32 a1);
 void func_020175d8(GameData *gameData, u32 a1);
 void func_02017608(GameData *gameData, u32 a1);
+// Where Pokéstar Studios keeps its PokewoodSystem while the player makes a movie
+PokewoodSystem **func_02017a04(GameData *gameData);
 u32 func_02017a40(GameData *gameData);
 void func_02017b64(GameData *gameData, u8 a1);
 u32 *func_02017b84(GameData *gameData);

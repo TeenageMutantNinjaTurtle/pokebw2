@@ -57,7 +57,7 @@ from:0x0216ea18 kind:thumb_call to:0x020186b0 module:main
 from:0x0216ea26 kind:thumb_call to:0x0216e8c4 module:overlay(23)
 from:0x0216ea36 kind:thumb_call to:0x0216e6a0 module:overlay(23)
 from:0x0216ea3c kind:thumb_call to:0x0201736c module:main
-from:0x0216ea46 kind:thumb_call to:0x021e62e8 module:overlays(59,62)
+from:0x0216ea46 kind:thumb_call to:0x021e62e8 module:overlay(62)
 from:0x0216ea56 kind:thumb_call to:0x021e6318 module:overlay(62)
 from:0x0216ea6e kind:thumb_call to:0x0216e6a0 module:overlay(23)
 from:0x0216ea7c kind:thumb_call to:0x0203a278 module:main
@@ -198,7 +198,7 @@ from:0x0216f234 kind:thumb_call to:0x02048590 module:main
 from:0x0216f23a kind:thumb_call to:0x02017a04 module:main
 from:0x0216f242 kind:thumb_call to:0x02017994 module:main
 from:0x0216f248 kind:thumb_call to:0x021e62d8 module:overlay(62)
-from:0x0216f26c kind:thumb_call to:0x021e64cc module:overlays(62,168)
+from:0x0216f26c kind:thumb_call to:0x021e64cc module:overlay(62)
 from:0x0216f276 kind:thumb_call to:0x021e66a8 module:overlay(62)
 from:0x0216f27c kind:thumb_call to:0x0216ed40 module:overlay(23)
 from:0x0216f294 kind:load to:0x021d6d20 module:overlays(36,167)
@@ -232,7 +232,7 @@ from:0x0216f408 kind:thumb_call to:0x020195ec module:main
 from:0x0216f410 kind:thumb_call to:0x02016d68 module:main
 from:0x0216f432 kind:thumb_call to:0x02016ad8 module:main
 from:0x0216f436 kind:thumb_call to:0x02017a04 module:main
-from:0x0216f442 kind:thumb_call to:0x021e62f0 module:overlays(55,62)
+from:0x0216f442 kind:thumb_call to:0x021e62f0 module:overlay(62)
 from:0x0216f458 kind:load to:0x021a0874 module:overlays(259,322)
 from:0x0216f462 kind:thumb_call to:0x02016af0 module:main
 from:0x0216f470 kind:thumb_call to:0x02016cb4 module:main
@@ -249,7 +249,7 @@ from:0x0216f542 kind:thumb_call to:0x020193d0 module:main
 from:0x0216f54e kind:thumb_call to:0x02019804 module:main
 from:0x0216f554 kind:thumb_call to:0x020194c0 module:main
 from:0x0216f568 kind:thumb_call to:0x021b87c4 module:overlay(36)
-from:0x0216f574 kind:thumb_call to:0x021e61e0 module:overlays(62,65)
+from:0x0216f574 kind:thumb_call to:0x021e61e0 module:overlay(62)
 from:0x0216f58c kind:thumb_call to:0x02016ad8 module:main
 from:0x0216f594 kind:thumb_call to:0x02016af0 module:main
 from:0x0216f5a2 kind:thumb_call to:0x02016cb4 module:main

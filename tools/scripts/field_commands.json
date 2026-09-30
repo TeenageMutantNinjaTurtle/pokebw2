@@ -6908,7 +6908,7 @@
      ]
     },
     "1006": {
-     "handler": "func_ov062_021e5d30",
+     "handler": "PokewoodCmd_GetMovieFlag",
      "overlay": 62,
      "args": [
       "any",
@@ -6917,7 +6917,7 @@
      ]
     },
     "1007": {
-     "handler": "func_ov062_021e5d6c",
+     "handler": "PokewoodCmd_SetMovieFlag",
      "overlay": 62,
      "args": [
       "any",
@@ -6925,14 +6925,14 @@
      ]
     },
     "1008": {
-     "handler": "func_ov062_021e5dcc",
+     "handler": "PokewoodCmd_CountDownloadedMovies",
      "overlay": 62,
      "args": [
       "var"
      ]
     },
     "1009": {
-     "handler": "func_ov062_021e5c58",
+     "handler": "PokewoodCmd_CheckDownloadedMovie",
      "overlay": 62,
      "args": [
       "any",
@@ -6948,12 +6948,12 @@
      ]
     },
     "1011": {
-     "handler": "func_ov062_021e58ac",
+     "handler": "PokewoodCmd_Create",
      "overlay": 62,
      "args": []
     },
     "1012": {
-     "handler": "func_ov062_021e58f8",
+     "handler": "PokewoodCmd_Free",
      "overlay": 62,
      "args": []
     },
@@ -7052,7 +7052,7 @@
      ]
     },
     "1025": {
-     "handler": "func_ov062_021e5d9c",
+     "handler": "PokewoodCmd_CountMovieFlags",
      "overlay": 62,
      "args": [
       "any",

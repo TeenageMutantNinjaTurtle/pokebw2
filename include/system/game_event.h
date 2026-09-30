@@ -18,6 +18,8 @@ typedef GameEventReturnCode (*GameEventCallback)(GameEvent *event, u32 *state, v
 typedef GameEvent *(*GameEventProvider)(GameSystem *gsys, void *args);
 
 void GameEvent_ChainNext(GameEvent *event, GameEvent *next);
+// Loads an overlay and runs the event that provider, in it, creates with args
+GameEvent *GameEvent_CreateOverlayDelegate(GameSystem *gsys, u32 overlayId, GameEventProvider provider, void *args);
 GameEvent *GameEvent_Create(GameSystem *gsys, GameEvent *parent, GameEventCallback callback, u32 size);
 void *GameEvent_GetData(GameEvent *event);
 u32 *GameEvent_GetStatePtr(GameEvent *event);

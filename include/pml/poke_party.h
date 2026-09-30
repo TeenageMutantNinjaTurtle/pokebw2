@@ -30,6 +30,14 @@ void setChangedPkmSpecies(PartyPkm *pkm, u32 species);
 // Hatches an egg, recording where and by whom
 void hatchEgg(PartyPkm *pkm, PlayerInfo *playerInfo, u16 placeName, HeapID heapId);
 void PokeParty_Init(PokeParty *party);
+void PokeParty_InitCore(PokeParty *party, u32 capacity);
+void PokeParty_ClearPkm(PartyPkm *pkm);
+// Restores a Pokémon's HP and PP and cures its status
+void PokeParty_Recover(PartyPkm *pkm);
+// A species with its form and sex in one u16
+u16 func_02021204(u32 species, u32 form, u32 sex);
+// The level, 0 to 4, of a Pokémon's Pokéstar fame
+int func_0201f010(u8 fame);
 PartyPkm *PokeParty_GetPkm(PokeParty *party, u32 index);
 int PokeParty_GetPkmCount(PokeParty *party);
 int PokeParty_GetCapacity(PokeParty *party);

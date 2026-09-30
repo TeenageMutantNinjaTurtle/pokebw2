@@ -144,7 +144,7 @@ from:0x021e5e18 kind:thumb_call to:0x020110ac module:main
 from:0x021e5e26 kind:thumb_call to:0x020110ac module:main
 from:0x021e5e34 kind:thumb_call to:0x020110d4 module:main
 from:0x021e5e3c kind:thumb_call to:0x0203ce0c module:main
-from:0x021e5e42 kind:thumb_call to:0x0216f698 module:overlays(11,23)
+from:0x021e5e42 kind:thumb_call to:0x0216f698 module:overlay(23)
 from:0x021e5e84 kind:thumb_call to:0x0203cdc8 module:main
 from:0x021e5e98 kind:thumb_call to:0x021548e8 module:overlay(12)
 from:0x021e5ea0 kind:thumb_call to:0x021e5890 module:overlay(62)

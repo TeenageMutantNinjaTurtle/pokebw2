@@ -6,7 +6,8 @@
 #include "gfl/proc.h"
 #include "struct_decls.h"
 
-// Overlay 207's screen that the evolution demo runs to pick a move to forget for a new one
+// Overlay 207's Pokémon summary screen, which the party screen shows and the evolution demo runs to pick a move to
+// forget for a new one
 
 #define OVERLAY_OV207 OVERLAY_ID(207)
 
@@ -23,7 +24,9 @@ typedef struct {
     u8 slot;
     u8 result;
     u16 move;
-    u8 unk16[0xa];
+    u8 unk16[2];
+    BOOL isNationalDex;
+    u8 unk1c[4];
     u32 unk20;
     u32 unk24;
 } Ov207Param;

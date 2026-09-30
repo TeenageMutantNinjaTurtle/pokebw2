@@ -1,0 +1,514 @@
+#include "types.h"
+#include "constants/arc.h"
+#include "field/event_pokewood.h"
+#include "field/field_script.h"
+#include "field/pokewood_system.h"
+#include "gfl/arc.h"
+#include "gfl/heap.h"
+#include "gfl/msg.h"
+#include "gfl/overlay.h"
+#include "gfl/str.h"
+#include "save/player_info.h"
+#include "save/pokewood.h"
+#include "system/game_data.h"
+#include "system/game_event.h"
+#include "system/game_system.h"
+#include "system/vm.h"
+
+// The script plugin of Pokéstar Studios (plugin 10), commands from 1000
+
+#define POKEWOOD_MSG_FILE 354
+
+static u16 func_ov062_021e5800(u16 value) {
+    static const struct {
+        u16 key;
+        u16 value;
+    } sTable[] = {
+        { 0x4c, 0x2c }, { 0x2e, 0x4a },  { 0x7c, 0x100 }, { 0x34, 0x49 }, { 0xdf, 0x15a },
+        { 0x57, 0x41 }, { 0x36, 0x5b },  { 0x32, 0x1e },  { 0x31, 0x1f }, { 0x3a, 0x45 },
+        { 0x30, 0x35 }, { 0xe0, 0x15a }, { 0x0e, 0x9a },  { 0x43, 0x34 }, { 0x1a, 0x9b },
+    };
+    u32 i;
+
+    for (i = 0; i < NELEMS(sTable); i++) {
+        if (value == sTable[i].key) {
+            return sTable[i].value;
+        }
+    }
+    return 11;
+}
+
+static u16 func_ov062_021e582c(u8 index) {
+    static const u16 sTable[] = { 0x1c, 0x53, 0x19, 0x2c, 0x12f };
+
+    if (index >= NELEMS(sTable)) {
+        index = 0;
+    }
+    return sTable[index];
+}
+
+static PokewoodMovie *Pokewood_LoadMovie(HeapID heapId, u32 movie) {
+    return GFL_ArcSysReadHeapNew(ARCID_POKEWOOD_MOVIE, movie, heapId);
+}
+
+static u16 func_ov062_021e5850(u32 movie, u32 field) {
+    u16 value = 0;
+    PokewoodMovie *data = Pokewood_LoadMovie(HEAPID_GAMEEVENT, movie);
+
+    switch (field) {
+    case 0:
+        value = data->unk8;
+        break;
+    case 1:
+        value = data->unk18;
+        break;
+    case 2:
+        value = data->unk1c;
+        break;
+    case 3:
+        value = data->unk4;
+        break;
+    }
+    GFL_HeapFree(data);
+    return value;
+}
+
+static PokewoodSave *Pokewood_GetSave(FieldScriptEnv *env) {
+    return func_02011040(FieldScriptEnv_GetGameData(env));
+}
+
+static PokewoodSystem *Pokewood_GetSystem(FieldScriptEnv *env) {
+    return *func_02017a04(FieldScriptEnv_GetGameData(env));
+}
+
+static BOOL PokewoodCmd_Create(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    PokewoodSave *save = func_02011040(gameData);
+    PokewoodSystem **sys = func_02017a04(gameData);
+
+    *sys = PokewoodSystem_Create(HEAPID_GAMEEVENT);
+    GFL_OvlLoad(OVERLAY_EVENT_POKEWOOD);
+    func_ov023_0216f59c(save, gameData, 0, 0, 0);
+    GFL_OvlUnload(OVERLAY_EVENT_POKEWOOD);
+    return FALSE;
+}
+
+static BOOL PokewoodCmd_Free(VM *vm, FieldScriptEnv *env) {
+    PokewoodSystem **sys = func_02017a04(FieldScriptEnv_GetGameData(env));
+
+    PokewoodSystem_Free(*sys);
+    *sys = NULL;
+    return FALSE;
+}
+
+static BOOL func_ov062_021e5914(VM *vm, FieldScriptEnv *env) {
+    PokewoodSystem *sys = Pokewood_GetSystem(env);
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+    u32 args[2];
+
+    args[0] = ScriptReadAny(vm, env);
+    args[1] = ScriptReadAny(vm, env);
+    PokewoodSystem_SetResultVar(sys, ScriptReadVar(vm, env));
+    ScriptWork_CallEvent(work,
+                         GameEvent_CreateOverlayDelegate(gsys, OVERLAY_EVENT_POKEWOOD, func_ov023_0216f2dc, args));
+    return TRUE;
+}
+
+static BOOL func_ov062_021e597c(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    GameSystem *gsys = ScriptWork_GetGameSystem(work);
+    u16 *var = ScriptReadVar(vm, env);
+    PokewoodSystem *sys = Pokewood_GetSystem(env);
+
+    ScriptWork_CallEvent(work, GameEvent_CreateOverlayDelegate(gsys, OVERLAY_EVENT_POKEWOOD, func_ov023_0216f544, sys));
+    PokewoodSystem_SetResultVar(sys, var);
+    return TRUE;
+}
+
+static BOOL func_ov062_021e59cc(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    GameData *gameData = GSYS_GetGameData(FieldScriptEnv_GetGameSystem(env));
+    PokewoodSystem *sys = Pokewood_GetSystem(env);
+
+    func_ov062_021e62a0(sys, ScriptReadAny(vm, env));
+    return TRUE;
+}
+
+static BOOL func_ov062_021e5a00(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+    GameData *gameData = GSYS_GetGameData(gsys);
+    u32 arg = ScriptReadAny(vm, env);
+    u16 *var = ScriptReadVar(vm, env);
+    PokewoodSystem *sys = Pokewood_GetSystem(env);
+
+    ScriptWork_CallEvent(work,
+                         GameEvent_CreateOverlayDelegate(gsys, OVERLAY_EVENT_POKEWOOD, func_ov023_0216f30c, &arg));
+    PokewoodSystem_SetResultVar(sys, var);
+    return TRUE;
+}
+
+static BOOL func_ov062_021e5a60(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+    GameData *gameData = GSYS_GetGameData(gsys);
+    PokewoodSystem *sys = Pokewood_GetSystem(env);
+
+    ScriptWork_CallEvent(work,
+                         GameEvent_CreateOverlayDelegate(gsys, OVERLAY_EVENT_POKEWOOD, func_ov023_0216f338, NULL));
+    PokewoodSystem_SetResultVar(sys, NULL);
+    return TRUE;
+}
+
+static BOOL func_ov062_021e5aa8(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+    GameData *gameData = GSYS_GetGameData(gsys);
+    HeapID heapId = FieldScriptEnv_GetHeapID(env);
+    u16 *var = ScriptReadVar(vm, env);
+    PokewoodSystem **sys = func_02017a04(gameData);
+    void *param = func_ov062_021e6680(heapId, gsys, var);
+    GameEvent *event = GameEvent_CreateOverlayDelegate(gsys, OVERLAY_EVENT_POKEWOOD, func_ov023_0216f364, param);
+
+    func_ov062_021e66b8(param);
+    ScriptWork_CallEvent(work, event);
+    return TRUE;
+}
+
+static BOOL func_ov062_021e5b14(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+    GameData *gameData = GSYS_GetGameData(gsys);
+    HeapID heapId = FieldScriptEnv_GetHeapID(env);
+    u16 arg = ScriptReadAny(vm, env);
+    u16 *var = ScriptReadVar(vm, env);
+    void *param = func_ov062_021e66c0(heapId, gsys, arg, var);
+    GameEvent *event = GameEvent_CreateOverlayDelegate(gsys, OVERLAY_EVENT_POKEWOOD, func_ov023_0216f41c, param);
+
+    func_ov062_021e670c(param);
+    ScriptWork_CallEvent(work, event);
+    return TRUE;
+}
+
+// Whether the downloaded movie of a slot loads
+static BOOL Pokewood_CheckDownloadedMovie(FieldScriptEnv *env, u32 slot) {
+    SaveControl *save = GameData_GetSaveControl(GSYS_GetGameData(FieldScriptEnv_GetGameSystem(env)));
+    HeapID heapId = FieldScriptEnv_GetHeapID(env);
+    BOOL loads = FALSE;
+
+    allocatePokewoodBlk(heapId);
+    if (func_02010644(save, heapId, slot) == 1 && func_020107b0() == TRUE) {
+        loads = TRUE;
+    }
+    freeAndClearPokewoodBlk();
+    return loads;
+}
+
+// How many slots have a downloaded movie that loads
+static u32 Pokewood_CountDownloadedMovies(FieldScriptEnv *env) {
+    u32 slot;
+    SaveControl *save = GameData_GetSaveControl(GSYS_GetGameData(FieldScriptEnv_GetGameSystem(env)));
+    HeapID heapId = FieldScriptEnv_GetHeapID(env);
+    u32 count = 0;
+
+    allocatePokewoodBlk(heapId);
+    for (slot = 0; slot < 8; slot++) {
+        if (func_02010644(save, heapId, slot) == 1 && func_020107b0() == TRUE) {
+            count++;
+        }
+    }
+    freeAndClearPokewoodBlk();
+    return count;
+}
+
+// A field of the downloaded movie of a slot, and 0 when it doesn't load
+static u32 Pokewood_GetDownloadedMovieField(FieldScriptEnv *env, u32 slot, u32 field, u32 a3) {
+    SaveControl *save = GameData_GetSaveControl(GSYS_GetGameData(FieldScriptEnv_GetGameSystem(env)));
+    HeapID heapId = FieldScriptEnv_GetHeapID(env);
+    u32 value;
+
+    allocatePokewoodBlk(heapId);
+    if (func_02010644(save, heapId, slot) == 1) {
+        value = func_020107f0(field, a3);
+    } else {
+        value = 0;
+    }
+    freeAndClearPokewoodBlk();
+    return value;
+}
+
+static BOOL PokewoodCmd_CheckDownloadedMovie(VM *vm, FieldScriptEnv *env) {
+    u16 slot = ScriptReadAny(vm, env);
+    u16 *var = ScriptReadVar(vm, env);
+
+    *var = Pokewood_CheckDownloadedMovie(env, slot);
+    return FALSE;
+}
+
+static BOOL func_ov062_021e5c7c(VM *vm, FieldScriptEnv *env) {
+    u16 slot = ScriptReadAny(vm, env);
+    u16 *var = ScriptReadVar(vm, env);
+
+    switch (Pokewood_GetDownloadedMovieField(env, slot, 1, 0)) {
+    case 0:
+    default:
+        *var = 0;
+        break;
+    case 1:
+        *var = 1;
+        break;
+    case 2:
+        *var = 2;
+        break;
+    }
+    return FALSE;
+}
+
+static BOOL func_ov062_021e5cbc(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    WordSet *wordSet = ScriptWork_GetWordSet(work);
+    u8 index = VM_Read8(vm);
+    u16 message = ScriptReadAny(vm, env);
+    HeapID heapId = FieldScriptEnv_GetHeapID(env);
+    u32 msgId = message + 42;
+    StrBuf *strbuf = ScriptWork_GetAltStrBuf(work);
+    MsgData *msgData = GFL_MsgSysLoadData(FALSE, ARCID_SYSTEM_MESSAGE, POKEWOOD_MSG_FILE, heapId);
+
+    if (msgData != NULL) {
+        GFL_MsgDataLoadStrbuf(msgData, msgId, strbuf);
+        GFL_MsgDataFree(msgData);
+    }
+    func_0202437c(wordSet, index, strbuf, 2, 1, 2);
+    return FALSE;
+}
+
+static BOOL PokewoodCmd_GetMovieFlag(VM *vm, FieldScriptEnv *env) {
+    PokewoodSave *save = Pokewood_GetSave(env);
+    u16 list = ScriptReadAny(vm, env);
+    u16 movie = ScriptReadAny(vm, env);
+    u16 *var = ScriptReadVar(vm, env);
+
+    *var = func_020110ac(save, list, movie);
+    return FALSE;
+}
+
+static BOOL PokewoodCmd_SetMovieFlag(VM *vm, FieldScriptEnv *env) {
+    PokewoodSave *save = Pokewood_GetSave(env);
+    u16 list = ScriptReadAny(vm, env);
+    u16 movie = ScriptReadAny(vm, env);
+
+    func_020110d4(save, list, movie);
+    return FALSE;
+}
+
+static BOOL PokewoodCmd_CountMovieFlags(VM *vm, FieldScriptEnv *env) {
+    PokewoodSave *save = Pokewood_GetSave(env);
+    u16 list = ScriptReadAny(vm, env);
+    u16 *var = ScriptReadVar(vm, env);
+
+    *var = func_020112d8(save, list);
+    return FALSE;
+}
+
+static BOOL PokewoodCmd_CountDownloadedMovies(VM *vm, FieldScriptEnv *env) {
+    u16 *var = ScriptReadVar(vm, env);
+
+    *var = Pokewood_CountDownloadedMovies(env);
+    return FALSE;
+}
+
+static BOOL func_ov062_021e5de4(VM *vm, FieldScriptEnv *env) {
+    PokewoodSave *save = Pokewood_GetSave(env);
+    u16 movie = ScriptReadAny(vm, env);
+    u16 *var = ScriptReadVar(vm, env);
+    u16 *doneVar = ScriptReadVar(vm, env);
+
+    *doneVar = FALSE;
+    if (func_020110ac(save, 0, movie) == TRUE && func_020110ac(save, 3, movie) == FALSE) {
+        func_020110d4(save, 3, movie);
+        GFL_OvlLoad(OVERLAY_EVENT_POKEWOOD);
+        switch (func_ov023_0216f698(movie)) {
+        case 0:
+        case 1:
+        default:
+            *var = 0;
+            break;
+        case 2:
+            *var = 1;
+            break;
+        case 3:
+            *var = 2;
+            break;
+        case 4:
+            *var = 3;
+            break;
+        case 5:
+            *var = 4;
+            break;
+        case 6:
+            *var = 5;
+            break;
+        case 7:
+            *var = 6;
+            break;
+        }
+        GFL_OvlUnload(OVERLAY_EVENT_POKEWOOD);
+        *doneVar = TRUE;
+    }
+    return FALSE;
+}
+
+static BOOL func_ov062_021e5e94(VM *vm, FieldScriptEnv *env) {
+    u16 *var = ScriptReadVar(vm, env);
+    PokewoodSave *save = Pokewood_GetSave(env);
+    u32 level = func_020111ec(func_020111b0(save));
+
+    *var = func_0201122c(save, level);
+    func_02011240(save, level, 1);
+    return FALSE;
+}
+
+static BOOL func_ov062_021e5ec8(VM *vm, FieldScriptEnv *env) {
+    PokewoodSave *save = Pokewood_GetSave(env);
+    u16 slot = ScriptReadAny(vm, env);
+    u16 *var = ScriptReadVar(vm, env);
+
+    *var = func_020111a0(save, slot);
+    return FALSE;
+}
+
+static BOOL func_ov062_021e5ef8(VM *vm, FieldScriptEnv *env) {
+    PokewoodSave *save = Pokewood_GetSave(env);
+
+    func_020111a8(save, ScriptReadAny(vm, env), 1);
+    return FALSE;
+}
+
+static BOOL func_ov062_021e5f1c(VM *vm, FieldScriptEnv *env) {
+    PokewoodSave *save = Pokewood_GetSave(env);
+    u16 slot = ScriptReadAny(vm, env);
+    u16 *var = ScriptReadVar(vm, env);
+
+    *var = Pokewood_GetDownloadedMovieField(env, slot, 9, 0);
+    return FALSE;
+}
+
+static BOOL func_ov062_021e5f50(VM *vm, FieldScriptEnv *env) {
+    u8 sex = getTrainerGender(GetGameDataPlayerInfo(FieldScriptEnv_GetGameData(env)));
+    u16 movie = ScriptReadAny(vm, env);
+    u16 *var = ScriptReadVar(vm, env);
+    u16 *var2 = ScriptReadVar(vm, env);
+
+    *var = func_ov062_021e5800(func_ov062_021e5850(movie, sex == 0 ? 1 : 2));
+    *var2 = func_ov062_021e582c(func_ov062_021e5850(movie, 0));
+    return FALSE;
+}
+
+static BOOL func_ov062_021e5fb0(VM *vm, FieldScriptEnv *env) {
+    PokewoodSave *save = Pokewood_GetSave(env);
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    PokewoodSystem *sys = Pokewood_GetSystem(env);
+
+    func_ov062_021e62c0(sys, ScriptReadAny(vm, env));
+    return TRUE;
+}
+
+static BOOL func_ov062_021e5fec(VM *vm, FieldScriptEnv *env) {
+    u16 movie = ScriptReadAny(vm, env);
+    u16 *var = ScriptReadVar(vm, env);
+
+    *var = func_ov062_021e5850(movie, 0);
+    return FALSE;
+}
+
+static BOOL func_ov062_021e6010(VM *vm, FieldScriptEnv *env) {
+    PokewoodSave *save = Pokewood_GetSave(env);
+    u16 *var = ScriptReadVar(vm, env);
+
+    if (func_020112d8(save, 2) == POKEWOOD_MOVIE_COUNT) {
+        *var = TRUE;
+    } else {
+        *var = FALSE;
+    }
+    return FALSE;
+}
+
+static BOOL func_ov062_021e6040(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+    GameData *gameData = GSYS_GetGameData(gsys);
+    HeapID heapId = FieldScriptEnv_GetHeapID(env);
+    u16 *var = ScriptReadVar(vm, env);
+    PokewoodSystem **sys = func_02017a04(gameData);
+    void *param = func_ov062_021e6714(heapId, gsys);
+    GameEvent *event = GameEvent_CreateOverlayDelegate(gsys, OVERLAY_EVENT_POKEWOOD, func_ov023_0216f6a4, param);
+
+    func_ov062_021e674c(param);
+    ScriptWork_CallEvent(work, event);
+    return TRUE;
+}
+
+static BOOL func_ov062_021e60a8(VM *vm, FieldScriptEnv *env) {
+    static const u16 sTable6872[][3] = { { 3, 2, 1 }, { 3, 2, 1 }, { 3, 2, 0 }, { 2, 1, 0 } };
+    static const u16 sTable68b2[][4] = {
+        { 0x23b, 0x2a, 0x20, 0x1e }, { 0x1d, 0x19, 0x2b, 0x11 }, { 0x5c, 0x21, 0x4e, 0x8a },
+        { 0x5b, 0x36, 0x1f8, 0x86 }, { 0x17, 0x59, 0x23, 0x22 },
+    };
+    static const u16 sTable688a[][4] = {
+        { 1, 5, 5, 1 }, { 1, 5, 1, 1 }, { 1, 5, 1, 1 }, { 1, 5, 1, 1 }, { 1, 1, 1, 1 },
+    };
+    static const u16 sTable68da[] = {
+        0, 0xff, 0xff, 1, 2, 0xff, 2, 2, 3, 0xff, 0xff, 3, 0xff, 3, 0xff, 0xff, 3, 0xff, 0xff, 0xff, 4, 4,
+    };
+    u16 slot = ScriptReadAny(vm, env);
+    u16 kind = ScriptReadAny(vm, env);
+    u16 *var = ScriptReadVar(vm, env);
+    u16 *var2 = ScriptReadVar(vm, env);
+    u16 a = Pokewood_GetDownloadedMovieField(env, slot, 1, 0);
+    u16 b = func_ov062_021e5850((u16)Pokewood_GetDownloadedMovieField(env, slot, 0, 0), 3) / 2 - 1;
+    u16 column = sTable6872[b][a];
+    u16 row = sTable68da[kind];
+
+    if (row != 0xff) {
+        *var = sTable68b2[row][column];
+        *var2 = sTable688a[row][column];
+    } else {
+        *var = 0;
+        *var2 = 0;
+    }
+    return FALSE;
+}
+
+const FieldScriptCommand POKEWOOD_SCRIPT_COMMANDS[] = {
+    func_ov062_021e5914,
+    func_ov062_021e5a00,
+    func_ov062_021e5aa8,
+    func_ov062_021e5b14,
+    func_ov062_021e5fb0,
+    func_ov062_021e5cbc,
+    PokewoodCmd_GetMovieFlag,
+    PokewoodCmd_SetMovieFlag,
+    PokewoodCmd_CountDownloadedMovies,
+    PokewoodCmd_CheckDownloadedMovie,
+    func_ov062_021e5c7c,
+    PokewoodCmd_Create,
+    PokewoodCmd_Free,
+    func_ov062_021e597c,
+    func_ov062_021e59cc,
+    func_ov062_021e5de4,
+    func_ov062_021e5e94,
+    func_ov062_021e5ec8,
+    func_ov062_021e5f1c,
+    func_ov062_021e5f50,
+    func_ov062_021e5fec,
+    func_ov062_021e6010,
+    func_ov062_021e5ef8,
+    func_ov062_021e6040,
+    func_ov062_021e60a8,
+    PokewoodCmd_CountMovieFlags,
+    func_ov062_021e5a60,
+    (FieldScriptCommand)0xFFFFFFFF,
+};

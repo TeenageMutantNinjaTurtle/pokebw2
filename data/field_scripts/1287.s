@@ -186,9 +186,9 @@ L_02CC:
     FadeOutBlackQ
     FadeWait
     BMReleaseHandle 0x8025
-    Plugin10_Cmd1011
+    PokewoodCmd_Create
     Plugin10_Cmd1026
-    Plugin10_Cmd1012
+    PokewoodCmd_Free
     PlayerGetGPos 0x8027, 0x8028
     BMCreateHandleByGPos 0x8025, 1, 0x8027, 0x8028
     BMHndAudioVisualAnmPlay 0x8025, 1
@@ -248,7 +248,7 @@ Script_1:
     ActorsPauseAll
     SEPlay SEQ_SE_MESSAGE
     ActorSetEyeToEye
-    Plugin10_Cmd1011
+    PokewoodCmd_Create
     WorkSetConst 0x8020, 2
 
 L_043C:
@@ -313,7 +313,7 @@ L_050A:
     VMJump L_043C
 
 L_0510:
-    Plugin10_Cmd1012
+    PokewoodCmd_Free
     FinishAllEvents
     ActorsUnpauseAll
     VMHalt
@@ -338,7 +338,7 @@ L_051E:
     VMJump L_05BA
 
 L_0573:
-    Plugin10_Cmd1008 0x8024
+    PokewoodCmd_CountDownloadedMovies 0x8024
     VMStackPush 0x8024
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -748,7 +748,7 @@ Movement_0B18:
 Script_2:
     ActorsPauseAll
     WorkSetConst 0x8029, 0
-    Plugin10_Cmd1025 5, 0x8029
+    PokewoodCmd_CountMovieFlags 5, 0x8029
     VMStackPush 0x8029
     VMStackPushConst 0
     VMStackCmp CMP_GT

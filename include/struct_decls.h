@@ -81,6 +81,8 @@ typedef struct PokeDexSave PokeDexSave;
 typedef struct PlayTime PlayTime;
 typedef struct PlayerSave PlayerSave;
 typedef struct PokeParty PokeParty;
+typedef struct PokewoodSave PokewoodSave;
+typedef struct PokewoodSystem PokewoodSystem;
 typedef struct RailPosition RailPosition;
 typedef struct RecordSave RecordSave;
 typedef struct Regulation Regulation;

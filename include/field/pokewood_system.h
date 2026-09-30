@@ -1,0 +1,87 @@
+#ifndef POKEBW2_FIELD_POKEWOOD_SYSTEM_H
+#define POKEBW2_FIELD_POKEWOOD_SYSTEM_H
+
+#include "types.h"
+#include "app/ov165.h"
+#include "app/ov207.h"
+#include "battle/regulation.h"
+#include "gfl/heap.h"
+#include "save/pokewood.h"
+#include "struct_decls.h"
+
+// Pokéstar Studios' state while the player makes a movie, in overlay 62 with its script plugin (plugin 10). Overlay
+// 23's event_pokewood.c runs the movie
+
+// The movies, a file each
+#define ARCID_POKEWOOD_MOVIE 269
+
+typedef struct {
+    u32 unk0;
+    u16 unk4;
+    // How many Pokémon take part in the movie's battle
+    s16 castCount;
+    u16 unk8;
+    u8 unkA[0xe];
+    u16 unk18;
+    u16 unk1a;
+    u16 unk1c;
+} PokewoodMovie;
+
+struct PokewoodSystem {
+    HeapID heapId;
+    u8 unk2[6];
+    // The party slots, from 1, of the Pokémon picked for the movie
+    u8 castSlots[6];
+    u16 unkE;
+    u16 unk10;
+    // The movie's rules, whose unk3 is how many Pokémon take part
+    Regulation regulation;
+    u8 unkCE;
+    u8 unkCF;
+    u16 unkD0;
+    u16 movie;
+    u16 *resultVar;
+    u16 unkD8;
+    u16 unkDA;
+    void *pokewoodBlk;
+    PokewoodRecord record;
+    u32 unkF4;
+    u8 unkF8[8];
+};
+
+// pokewood_system.c
+PokewoodSystem *PokewoodSystem_Create(HeapID heapId);
+void PokewoodSystem_Free(PokewoodSystem *sys);
+void func_ov062_021e61a0(PokewoodSystem *sys, const Ov165Param *param);
+void func_ov062_021e61e8(PokewoodSystem *sys, GameData *gameData, Ov165Param *param);
+void func_ov062_021e6254(PokewoodSystem *sys, GameData *gameData, Ov207Param *param);
+void PokewoodSystem_SetResultVar(PokewoodSystem *sys, u16 *var);
+u16 *PokewoodSystem_GetResultVar(PokewoodSystem *sys);
+void func_ov062_021e62a0(PokewoodSystem *sys, u16 value);
+u16 func_ov062_021e62a8(PokewoodSystem *sys);
+void PokewoodSystem_SetMovie(PokewoodSystem *sys, u16 movie);
+u16 PokewoodSystem_GetMovie(PokewoodSystem *sys);
+void func_ov062_021e62c0(PokewoodSystem *sys, u16 value);
+u16 func_ov062_021e62c8(PokewoodSystem *sys);
+void *PokewoodSystem_GetPokewoodBlk(PokewoodSystem *sys);
+void PokewoodSystem_CopyCast(PokewoodSystem *sys, GameData *gameData, PokeParty *party);
+void func_ov062_021e636c(PokewoodSystem *sys, GameData *gameData, u32 movie, u32 result);
+void Pokewood_CheckMedals(GameData *gameData);
+void PokewoodSystem_SetRecord(PokewoodSystem *sys, const void *battleResult);
+void PokewoodSystem_KeepBestRecord(GameData *gameData, PokewoodSystem *sys);
+void func_ov062_021e6584(GameData *gameData, PokewoodSystem *sys);
+void func_ov062_021e65b4(GameData *gameData, PokewoodSystem *sys, u32 result, u32 slot);
+void PokewoodSystem_UpdateCastFame(GameData *gameData, PokewoodSystem *sys);
+void func_ov062_021e663c(GameData *gameData, PokewoodSystem *sys, u32 slot);
+void func_ov062_021e6668(PokewoodSystem *sys, const u8 *src);
+
+// pokewood_setup.c: the parameters of overlay 23's events, which the caller frees once the event has them
+void *func_ov062_021e6680(HeapID heapId, GameSystem *gsys, u16 *var);
+void func_ov062_021e66b8(void *param);
+void *func_ov062_021e66c0(HeapID heapId, GameSystem *gsys, u16 a2, u16 *var);
+void func_ov062_021e670c(void *param);
+void *func_ov062_021e6714(HeapID heapId, GameSystem *gsys);
+void func_ov062_021e674c(void *param);
+GameEvent *func_ov062_021e682c(GameSystem *gsys, u16 *var);
+
+#endif // POKEBW2_FIELD_POKEWOOD_SYSTEM_H

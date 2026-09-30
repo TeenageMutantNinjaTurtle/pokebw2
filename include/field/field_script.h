@@ -27,6 +27,8 @@ u16 ScriptReadAny(VM *vm, FieldScriptEnv *env);
 u16 *ScriptReadVar(VM *vm, FieldScriptEnv *env);
 // Runs event before the script goes on
 void ScriptWork_CallEvent(ScriptWork *work, GameEvent *event);
+GameSystem *ScriptWork_GetGameSystem(ScriptWork *work);
+StrBuf *ScriptWork_GetAltStrBuf(ScriptWork *work);
 FieldActor *ScriptWork_GetParentActor(ScriptWork *work);
 WordSet *ScriptWork_GetWordSet(ScriptWork *work);
 MMSys *GetScrEnvMMdlSys(FieldScriptEnv *env);
