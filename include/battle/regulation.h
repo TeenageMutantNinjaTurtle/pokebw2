@@ -9,7 +9,16 @@ struct Regulation {
     u8 unk0[2];
     u8 unk2;
     u8 unk3;
-    u8 unk4[0xb8];
+    u8 unk4;
+    u8 unk5;
+    u16 unk6;
+    u8 unk8;
+    u8 unk9;
+    u8 unkA[0x52];
+    u8 unk5C[0x4c];
+    u8 unkA8[0x12];
+    u8 unkBA;
+    u8 unkBB;
 };
 
 // The rules of a battle, such as the level cap

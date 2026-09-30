@@ -137,6 +137,14 @@ Things that affect whether MWCC output matches:
 - The same rule moves a call's stack argument stores. When loads through a pointer that is not `const` follow the
   call, the stack arguments are stored before the register arguments are set up. If the original stores them last,
   the pointer is `const`.
+- A load through a `const` pointer is also reused across stores, as the World Tournament's `wbt_setup.c` reads an
+  entrant's bit fields from one load, but it is not hoisted out of a loop: `wbt_party.c`'s filter check reads each
+  list's count again in every iteration because its filter is `const`, where a plain pointer's count is loaded once
+  before the loop.
+- An array index that is a sum, `a[i * 2 + x]`, is split into `(a + x) + i * 2`. When the original adds first and
+  then indexes with the sum, the sum was put in a variable, as `seat` in `wbt_system.c`'s bracket code. Written as
+  `seat = i * 2 + (won ? 0 : 1);`, the sum goes to the register of `i * 2`; with the `0` or `1` set by an `if` into a
+  variable, it goes to that variable's register.
 - Float arithmetic calls MWCC's runtime helpers, such as `_fadd` and `_ffix`, which swan names `__aeabi_*`. When a
   complete file fails to link on one of them, rename it to the MWCC name with `rename_symbol.py`.
 - Structs passed by value go in registers and on the stack. Code that copies a struct to the stack and passes its
@@ -250,7 +258,8 @@ Things that affect whether MWCC output matches:
 - `compiler_probe.py` skips relocated words, so a wrong addend, such as a table index that the compiler folds into a
   literal pool address, or a call to the wrong runtime helper, only shows when the module check fails. Division and
   modulo call `_s32_div_f` for a signed operand and `_u32_div_f` (swan's `__aeabi_uidivmod`) for an unsigned one; a
-  `u8` promotes to a signed `int`, so `(u8)id % 5u` is the unsigned one. Compare the built overlay in `build/<version>/build`
+  `u8` or `u16` promotes to a signed `int`, so `(u8)id % 5u` is the unsigned one, and so is a `u16` divided by a
+  `u32`. Compare the built overlay in `build/<version>/build`
   with the original to find it.
 - When the order of instructions differs and no source change moves it, try `tools/scripts/permuter_setup.py`, which
   prepares a function for [decomp-permuter](https://github.com/simonlindholm/decomp-permuter).

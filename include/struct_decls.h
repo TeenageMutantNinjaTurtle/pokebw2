@@ -98,6 +98,7 @@ typedef struct TrainerGameInfoSave TrainerGameInfoSave;
 typedef struct UnityTowerSurveySave UnityTowerSurveySave;
 typedef struct VM VM;
 typedef struct WarpSequence WarpSequence;
+typedef struct WbtSystem WbtSystem;
 typedef struct WifiList WifiList;
 typedef struct WorldTradeData WorldTradeData;
 typedef struct ZoneNPC ZoneNPC;

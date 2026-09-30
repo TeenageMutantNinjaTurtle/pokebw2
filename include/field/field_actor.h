@@ -36,6 +36,7 @@ void SetActorHidden(FieldActor *actor, BOOL hidden);
 void FldAct_GetGPos(FieldActor *actor, GridPos *pos);
 u16 GetActorUID(FieldActor *actor);
 u16 FldAct_GetObjCode(FieldActor *actor);
+u32 GetIndexOfObjID(u16 objCode);
 void FldAct_SetShadowGroup(FieldActor *actor, u32 group);
 u32 GetActorFaceDir(FieldActor *actor);
 void CheckSetActorFaceDir(FieldActor *actor, u16 dir);

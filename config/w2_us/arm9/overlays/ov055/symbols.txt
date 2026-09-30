@@ -20,8 +20,8 @@ func_ov055_021e5a84 kind:function(thumb,size=0x32) addr:0x021e5ac4
 func_ov055_021e5ab8 kind:function(thumb,size=0x24) addr:0x021e5af8
 func_ov055_021e5adc kind:function(thumb,size=0x5a) addr:0x021e5b1c
 func_ov055_021e5b38 kind:function(thumb,size=0x60) addr:0x021e5b78
-func_ov055_021e5b98 kind:function(thumb,size=0xb8) addr:0x021e5bd8
-func_ov055_021e5c50 kind:function(thumb,size=0x50) addr:0x021e5c90
+WbtSystem_Create kind:function(thumb,size=0xb8) addr:0x021e5bd8
+WbtSystem_Free kind:function(thumb,size=0x50) addr:0x021e5c90
 func_ov055_021e5ca0 kind:function(thumb,size=0x4) addr:0x021e5ce0
 func_ov055_021e5ca4 kind:function(thumb,size=0x4) addr:0x021e5ce4
 func_ov055_021e5ca8 kind:function(thumb,size=0x4) addr:0x021e5ce8
@@ -120,7 +120,7 @@ func_ov055_021e6f34 kind:function(thumb,size=0x40) addr:0x021e6f74
 func_ov055_021e6f74 kind:function(thumb,size=0x1c8) addr:0x021e6fb4
 func_ov055_021e713c kind:function(thumb,size=0xb0) addr:0x021e717c
 func_ov055_021e71ec kind:function(thumb,size=0x78) addr:0x021e722c
-data_ov055_021e7264 kind:data(any) addr:0x021e72a4 ambiguous
+WBT_SCRIPT_COMMANDS kind:data(any) addr:0x021e72a4 ambiguous
 data_ov055_021e735c kind:data(any) addr:0x021e739c
 data_ov055_021e7360 kind:data(any) addr:0x021e73a0
 data_ov055_021e7364 kind:data(any) addr:0x021e73a4
@@ -128,8 +128,6 @@ data_ov055_021e7374 kind:data(any) addr:0x021e73b4
 data_ov055_021e7394 kind:data(any) addr:0x021e73d4
 data_ov055_021e73b4 kind:data(any) addr:0x021e73f4
 data_ov055_021e73d4 kind:data(any) addr:0x021e7414
-data_ov055_021e742d kind:data(any) addr:0x021e746d ambiguous
-data_ov055_021e74cd kind:data(any) addr:0x021e750d ambiguous
 data_ov055_021e74f8 kind:data(any) addr:0x021e7538
 data_ov055_021e74fe kind:data(any) addr:0x021e753e
 data_ov055_021e751c kind:data(any) addr:0x021e755c

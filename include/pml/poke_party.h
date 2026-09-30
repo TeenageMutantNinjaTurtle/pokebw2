@@ -30,7 +30,10 @@ void setChangedPkmSpecies(PartyPkm *pkm, u32 species);
 // Hatches an egg, recording where and by whom
 void hatchEgg(PartyPkm *pkm, PlayerInfo *playerInfo, u16 placeName, HeapID heapId);
 void PokeParty_Init(PokeParty *party);
+void PokeParty_Copy(const PokeParty *src, PokeParty *dest);
 void PokeParty_InitCore(PokeParty *party, u32 capacity);
+// Records how and where the Pokémon was met, with the player as its Trainer
+void PokeParty_SetupMetData(PartyPkm *pkm, u32 a1, PlayerInfo *playerInfo, u16 placeName, HeapID heapId);
 void PokeParty_ClearPkm(PartyPkm *pkm);
 // Restores a Pokémon's HP and PP and cures its status
 void PokeParty_Recover(PartyPkm *pkm);

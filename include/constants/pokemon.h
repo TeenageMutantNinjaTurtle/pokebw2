@@ -11,6 +11,7 @@
 // Fields of a Pokémon, which PokeParty_GetParam and PokeParty_SetParam read and write. Names from swan's PkmField
 #define PKM_PARAM_SPECIES 0x5
 #define PKM_PARAM_ITEM 0x6
+#define PKM_PARAM_ID 0x7
 #define PKM_PARAM_MARKINGS 0xb
 // The first ribbon of each group of ribbons, each followed by the field after the group
 #define PKM_PARAM_RIBBON_CHAMPION_SINNOH 0x19
@@ -23,6 +24,7 @@
 #define PKM_PARAM_NICKNAME 0x73
 #define PKM_PARAM_RIBBON_G4_COOL 0x78
 #define PKM_PARAM_OT_NAME 0x8d
+#define PKM_PARAM_OT_GENDER 0x9a
 #define PKM_PARAM_POKERUS 0x97
 #define PKM_PARAM_POKEBALL 0x98
 #define PKM_PARAM_STATUS 0x9d
@@ -32,6 +34,8 @@
 #define PKM_PARAM_SPECIES_VALID 0xa9
 // The species, or SPECIES_EGG for an egg
 #define PKM_PARAM_LEGAL_SPECIES 0xab
+#define PKM_PARAM_TYPE1 0xae
+#define PKM_PARAM_TYPE2 0xaf
 // Whether it is one of N's Pokémon
 #define PKM_PARAM_N_POKEMON 0xb2
 #define PKM_PARAM_POKESTAR_FAME 0xb3

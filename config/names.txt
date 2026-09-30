@@ -175,6 +175,9 @@ overlays/ov053 0x021e58a4 PAL_PARK_SCRIPT_COMMANDS
 overlays/ov054 0x021e5800 AbyssalRuinsCmd_StartUnderwaterEffect
 overlays/ov054 0x021e5830 AbyssalRuinsCmd_GetStepCounter
 overlays/ov054 0x021e5868 ABYSSAL_RUINS_SCRIPT_COMMANDS
+overlays/ov055 0x021e5b98 WbtSystem_Create
+overlays/ov055 0x021e5c50 WbtSystem_Free
+overlays/ov055 0x021e7264 WBT_SCRIPT_COMMANDS
 overlays/ov061 0x021e6230 BLACK_TOWER_SCRIPT_COMMANDS
 overlays/ov062 0x021e5840 Pokewood_LoadMovie
 overlays/ov062 0x021e5890 Pokewood_GetSave

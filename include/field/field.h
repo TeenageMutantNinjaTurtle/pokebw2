@@ -26,6 +26,10 @@ u16 FieldPlayer_GetObjCodeByExState(u32 sex, u32 exState);
 void *Field_GetMsgBGSys(Field *field);
 // A message window on the field's message BG: create, update (0 for the first answer, 2 while waiting) and free
 void *func_ov036_021880d4(void *msgBGSys, u32 a1);
+// Check the party and the Battle Box against a regulation. func_ov036_021aebf0 returns the event that lets the player
+// choose between them, or NULL when neither can enter
+GameEvent *func_ov036_021aebf0(GameSystem *gsys, u32 a1, Regulation *regulation, u16 *result, HeapID heapId);
+u32 func_ov036_021aece0(GameSystem *gsys, u32 a1, Regulation *regulation, HeapID heapId);
 u32 func_ov036_0218816c(void *window);
 void func_ov036_02187ea0(void *window);
 void *func_ov036_021c3d9c(PlayerInfo *info, Field *field, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);

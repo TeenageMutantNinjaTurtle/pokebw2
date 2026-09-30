@@ -13,6 +13,8 @@ typedef struct WordSet WordSet;
 StrBuf *GFL_StrBufCreate(u32 size, HeapID heapId);
 void GFL_StrBufFree(StrBuf *strbuf);
 void GFL_StrBufCopy(StrBuf *dest, const StrBuf *src);
+// Sets a string buffer to a string of up to length characters
+void GFL_StrBufLoadFixedString(StrBuf *strbuf, const u16 *str, u32 length);
 // Returns TRUE if the strings are the same, taking accented letters as their plain ones
 BOOL GFL_StrBufCmpIgnoreAccents(const StrBuf *a, const StrBuf *b);
 // Copies the string out, at most size characters
