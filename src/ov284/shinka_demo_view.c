@@ -1359,10 +1359,11 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
         break;
     }
     case MOVE_SPIN: {
+        SpritePiece *piece;
         MtxFx43 mtx;
         VecFx32 vec;
-        s16 hideRow;
-        s16 hideColumn;
+        int hideRow;
+        int hideColumn;
 
         if (pieces->frame < 100) {
             pieces->angleSpeed += 0x20;
@@ -1419,6 +1420,7 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
     }
     case MOVE_RETURN: {
         // Two pieces leave the helix each frame, from the last
+        SpritePiece *piece;
         BOOL first = TRUE;
         BOOL second = TRUE;
         BOOL returned = TRUE;
