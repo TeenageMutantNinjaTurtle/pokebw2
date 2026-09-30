@@ -175,6 +175,20 @@ Things that affect whether MWCC output matches:
   the reverse order.
 - When comparing a call's result, `v = f(); if (v == x)` and `if (f() == x)` put the operands of `cmp` in opposite
   orders.
+- A loop that runs once is unrolled when its counter and bound have the same signedness. `int i; i < NELEMS(x)`
+  compares unsigned, so the loop stays, as in the gym files' loops over one-element tables.
+- Initializations are scheduled where they are written: `int i = 0;` declared after a call sets `i` after the call,
+  while `for (i = 0; ...)` sets it at the loop, after any statements before the loop.
+- An address passed to a `const` pointer parameter is converted, and the conversion is not shared with the same
+  address written elsewhere. When the original computes an address a second time for another call, the first call
+  takes a `const` pointer, as `GymElecFade_IsActive` does.
+- A `static const` variable whose address is never taken is folded into the code and not emitted. If the original has
+  it anyway, it is not `static`: a global goes in a section of its own ahead of the static data and is left out of the
+  size sort.
+- A clamp that ends in one store, with each limit copied into the value's register, is a conditional expression.
+  `if`/`else if` stores each limit separately.
+- The operands of `*` are loaded in source order, so a multiply whose registers are swapped has its operands swapped
+  in the source.
 - When the order of instructions differs and no source change moves it, try `tools/scripts/permuter_setup.py`, which
   prepares a function for [decomp-permuter](https://github.com/simonlindholm/decomp-permuter).
 
@@ -356,11 +370,14 @@ records them in `config/fixes.txt`:
 
 It also removes relocations and symbols that are not real (`remove-reloc`, `remove-symbol`), and gives a function a
 second name with `add-label`. MWCC calls the runtime's 64-bit multiply `_ll_mul` for signed values and `_ull_mul` for
-unsigned ones, while the game has one copy of it, so `_ll_mul` is a label on `_ull_mul`.
+unsigned ones, while the game has one copy of it, so `_ll_mul` is a label on `_ull_mul`. In the same way, `_fflt` (int
+to float) is a label on swan's `__aeabi_i2f`, and `_u32_div_f` (unsigned division) on `__aeabi_uidivmod`.
 
 A relocation that dsd could not pin to one overlay only links while its symbol is global. When a function becomes
 `static` in a decompiled file, check `relocs.txt` of both versions for relocations to its address with several
-candidate modules, and fix the ones that belong to another overlay.
+candidate modules, and fix the ones that belong to another overlay. Field gimmicks, such as gym puzzles, share one load
+address, so calls between them are often ambiguous; the gimmick table in ov036 gives each entry's overlay ID, and its
+pointers are fixed from it.
 
 ## Regenerating configs
 

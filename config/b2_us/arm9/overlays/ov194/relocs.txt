@@ -3744,7 +3744,6 @@ from:0x021c6988 kind:load to:0x021c67bc module:overlay(194)
 from:0x021c6990 kind:load to:0x021c687c module:overlay(194)
 from:0x021c6998 kind:load to:0x021c67bc module:overlay(194)
 from:0x021c6c98 kind:load to:0x021e0001 module:overlays(36,168)
-from:0x021c6cb8 kind:load to:0x021f0001 module:overlays(92,96,99,117,129)
 from:0x021c6d78 kind:load to:0x021e0003 module:overlay(36)
 from:0x021c70c4 kind:load to:0x020d0d0d module:main
 from:0x021c70fc kind:load to:0x02120c06 module:main

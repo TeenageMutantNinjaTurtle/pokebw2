@@ -187,5 +187,3 @@ from:0x021ef7e8 kind:load to:0x021ef81c module:overlay(91)
 from:0x021ef824 kind:load to:0x021ef7d2 module:overlay(91)
 from:0x021ef834 kind:load to:0x021ef7d2 module:overlay(91)
 from:0x021ef854 kind:load to:0x021ef7c8 module:overlay(91)
-from:0x021ef924 kind:load to:0x0210000b module:main
-from:0x021ef948 kind:load to:0x0210020f module:main

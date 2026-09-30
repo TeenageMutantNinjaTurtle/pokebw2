@@ -14,6 +14,15 @@ typedef struct G3DCamera G3DCamera;
 typedef struct G3DCurve G3DCurve;
 typedef struct G3DLight G3DLight;
 typedef struct G3DManager G3DManager;
+typedef struct G3DModel G3DModel;
+
+// NitroSystem's model resource, and the start of its render object, which draws a model resource
+typedef struct NNSG3dResMdl NNSG3dResMdl;
+
+typedef struct {
+    u32 flag;
+    NNSG3dResMdl *resMdl;
+} NNSG3dRenderObj;
 
 typedef enum {
     G3DCAM_PROJECTION_PERSPECTIVE,
@@ -62,14 +71,14 @@ typedef struct {
     u16 unk4;
     u16 unk6;
     const G3DSceneAnimationSetup *animations;
-    u32 animationCount;
+    u16 animationCount;
 } G3DSceneActorSetup;
 
 typedef struct {
     const G3DSceneResourceSetup *resources;
     u32 resourceCount;
     const G3DSceneActorSetup *actors;
-    u32 actorCount;
+    u16 actorCount;
 } G3DSceneSetup;
 
 void GFL_G3DSysCreate(BOOL useFrmHeapVramMgr, u32 numMgmtBlks, u32 dat3, u32 dat4, u16 dtcmAllocSize, HeapID heapId,
@@ -101,6 +110,12 @@ BOOL GFL_G3DActorStepAnmFrame(G3DActor *actor, u16 anmIdx, fx16 addend);
 // The same, going back to the start at the end
 BOOL GFL_G3DActorStepAnmFrameLoop(G3DActor *actor, u16 anmIdx, fx16 addend);
 void GFL_G3DSysDrawObj(G3DActor *obj, SRTMatrix *mdlMtx);
+G3DModel *GFL_G3DActorGetMdl(G3DActor *actor);
+NNSG3dRenderObj *GFL_G3DMdlGetEngineModel(G3DModel *model);
+
+// The alpha of a material of a model resource, from 0 to 31
+u32 NNS_G3DResMdlGetMatAlpha(const NNSG3dResMdl *mdl, u32 matId);
+void NNS_G3DResMdlSetMatAlpha(NNSG3dResMdl *mdl, u32 matId, u32 alpha);
 
 G3DManager *GFL_G3DMgrCreate(u16 resourceLimit, u16 actorLimit, HeapID heapId);
 void GFL_G3DMgrFree(G3DManager *manager);
@@ -117,6 +132,11 @@ void GFL_G3DCurveFree(G3DCurve *curve);
 BOOL GFL_G3DCurveFrameStep(G3DCurve *curve, fx32 step);
 void GFL_G3DCurveFrameSet(G3DCurve *curve, fx32 frame);
 fx32 GFL_G3DCurveGetNowFrame(G3DCurve *curve);
+u32 GFL_G3DCurveGetFrameCount(G3DCurve *curve);
+// The curve's values at a frame. They return FALSE when they give no value
+BOOL GFL_G3DCurveGetNowTranslationLoop(G3DCurve *curve, VecFx32 *translation, u32 frame);
+BOOL GFL_G3DCurveGetNowRotationLoop(G3DCurve *curve, VecFx32 *rotation, u32 frame);
+BOOL GFL_G3DCurveGetNowScaleLoop(G3DCurve *curve, VecFx32 *scale, u32 frame);
 void GFL_G3DCurveApplyCamera(G3DCamera *camera, G3DCurve *curve);
 
 #endif // POKEBW2_GFL_G3D_H

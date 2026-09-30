@@ -15,6 +15,7 @@ typedef void (*VBlankCallback)(void *data);
 
 TCB *GFL_VBlankTCBAdd(TCBFunc func, void *data, u32 priority);
 BOOL GFL_TCBRemove(TCB *tcb);
+TCB *GFL_TCBMgrAddTask(TCBManager *manager, TCBFunc func, void *data, u32 priority);
 TCBManager *GFL_VBlankGetTCBMgr(void);
 // A single callback that runs every VBlank, for when the tasks cannot
 BOOL GFL_VBlankSetCallback(VBlankCallback callback, void *data);

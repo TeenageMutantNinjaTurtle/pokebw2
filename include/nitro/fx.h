@@ -45,6 +45,16 @@ static inline fx16 FX_CosIdx(int idx) {
 }
 
 void MAT3_Identity(MtxFx33 *mtx);
+// A rotation matrix from 16-bit angles about each axis
+void MAT3_RotationEulerZYX(u16 x, u16 y, u16 z, MtxFx33 *mtx);
+
+void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
+void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
+fx32 VEC_Mag(const VecFx32 *v);
+
+// An angle in fixed point degrees as a 16-bit angle
+#define FX64C_65536_360 ((s64)0x000000b60b60b60bLL)
+#define FX_DEG_TO_IDX(deg) ((u16)(((deg) * FX64C_65536_360 + 0x80000000000LL) >> 44))
 
 fx32 FX_Div(fx32 numer, fx32 denom);
 

@@ -7,6 +7,8 @@
 void GFL_SndBGMFadeIn(u16 frames);
 void GFL_SndBGMFadeOut(u16 frames);
 u32 GFL_SndBGMGetID(void);
+// The tick count of the BGM's sequence player
+u32 GFL_SndBGMGetTick(void);
 BOOL GFL_SndBGMIsPlaying(void);
 // Leaves every channel of the sequence enabled
 #define SND_CHANNEL_MASK_ALL 0xffff
@@ -28,6 +30,8 @@ void GFL_SndPlayerSetVolume(s32 player, s32 volume);
 void GFL_SndPlayerSetParams(s32 player, s32 a1, s32 a2, s32 a3);
 void GFL_SndPlayerSetVolumeEx(u32 volume, u32 playerMask);
 void GFL_SndSEPlay(u32 se);
+BOOL GFL_SndIsPlaying(u32 seq);
+void GFL_SndStop(void);
 void GFL_SndSetVolumeControlCallbacks(void);
 // Loads sound sequences ahead of time, and frees them
 u32 func_02005af4(const u32 *seqs, u32 count);

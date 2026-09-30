@@ -19942,7 +19942,6 @@ from:0x02091250 kind:load to:0x02170216 module:overlay(25)
 from:0x02091258 kind:load to:0x02190218 module:overlay(11)
 from:0x0209125c kind:load to:0x021b021a module:overlays(189,257)
 from:0x02091260 kind:load to:0x021d021c module:overlays(36,194)
-from:0x02091264 kind:load to:0x021f021e module:overlays(92,96,99,102,117)
 from:0x0209174c kind:load to:0x02028005 module:main
 from:0x02091750 kind:load to:0x02028021 module:main
 from:0x02091754 kind:load to:0x02028041 module:main

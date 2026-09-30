@@ -4,7 +4,7 @@
 #include "types.h"
 #include "struct_decls.h"
 
-BOOL EventWork_FlagGet(EventWork *eventWork, u32 flag);
+BOOL EventWork_FlagGet(EventWork *eventWork, u16 flag);
 void EventWork_FlagReset(EventWork *eventWork, u32 flag);
 u16 *EventWork_GetWkPtr(EventWork *eventWork, u32 work);
 
