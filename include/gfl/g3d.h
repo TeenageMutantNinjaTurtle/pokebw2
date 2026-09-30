@@ -11,6 +11,7 @@
 
 typedef struct G3DActor G3DActor;
 typedef struct G3DCamera G3DCamera;
+typedef struct G3DCurve G3DCurve;
 typedef struct G3DLight G3DLight;
 typedef struct G3DManager G3DManager;
 
@@ -92,17 +93,30 @@ void GFL_G3DCameraFlush(G3DCamera *cam);
 void GFL_G3DCameraSetProjectionZNear(G3DCamera *cam, fx32 *zNear);
 void GFL_G3DCameraSetProjectionZFar(G3DCamera *cam, fx32 *zFar);
 
-BOOL GFL_G3DActorBindAnm(G3DActor *actor, u8 anmIdx);
-BOOL GFL_G3DActorUnbindAnm(G3DActor *actor, u8 anmIdx);
-BOOL GFL_G3DActorSetAnmFrame(G3DActor *actor, u8 anmIdx, fx32 *frame);
+BOOL GFL_G3DActorBindAnm(G3DActor *actor, u16 anmIdx);
+BOOL GFL_G3DActorUnbindAnm(G3DActor *actor, u16 anmIdx);
+BOOL GFL_G3DActorSetAnmFrame(G3DActor *actor, u16 anmIdx, fx32 *frame);
 // Returns FALSE once the animation has reached its end
-BOOL GFL_G3DActorStepAnmFrame(G3DActor *actor, u8 anmIdx, fx16 addend);
+BOOL GFL_G3DActorStepAnmFrame(G3DActor *actor, u16 anmIdx, fx16 addend);
+// The same, going back to the start at the end
+BOOL GFL_G3DActorStepAnmFrameLoop(G3DActor *actor, u16 anmIdx, fx16 addend);
 void GFL_G3DSysDrawObj(G3DActor *obj, SRTMatrix *mdlMtx);
 
 G3DManager *GFL_G3DMgrCreate(u16 resourceLimit, u16 actorLimit, HeapID heapId);
 void GFL_G3DMgrFree(G3DManager *manager);
 u16 GFL_G3DMgrNewScene(G3DManager *manager, const G3DSceneSetup *setup);
 void GFL_G3DMgrDeleteScene(G3DManager *manager, u16 scene);
-G3DActor *GFL_G3DMgrGetActor(G3DManager *manager, u16 scene);
+// The index of an actor, which GFL_G3DMgrGetActor takes. A scene's actors have consecutive indices
+G3DActor *GFL_G3DMgrGetActor(G3DManager *manager, u16 actor);
+u16 GFL_G3DMgrGetSceneFirstActorIdx(G3DManager *manager, u16 scene);
+
+// Curves, which move a camera along a path loaded from a file, a frame at a time
+G3DCurve *GFL_G3DCurveLoadFileAll(HeapID heapId, u32 arcId, u32 fileId);
+void GFL_G3DCurveFree(G3DCurve *curve);
+// Returns TRUE once the curve has reached its last frame, where it stays
+BOOL GFL_G3DCurveFrameStep(G3DCurve *curve, fx32 step);
+void GFL_G3DCurveFrameSet(G3DCurve *curve, fx32 frame);
+fx32 GFL_G3DCurveGetNowFrame(G3DCurve *curve);
+void GFL_G3DCurveApplyCamera(G3DCamera *camera, G3DCurve *curve);
 
 #endif // POKEBW2_GFL_G3D_H

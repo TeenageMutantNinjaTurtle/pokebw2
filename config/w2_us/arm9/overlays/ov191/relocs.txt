@@ -129,7 +129,7 @@ from:0x021b5c34 kind:load to:0x0208ffa8 module:main
 from:0x021b5c38 kind:load to:0x0208ffac module:main
 from:0x021b5c48 kind:thumb_call to:0x0219d164 module:overlays(145,189)
 from:0x021b5c60 kind:thumb_call to:0x02008bdc module:main
-from:0x021b5c6a kind:thumb_call to:0x0219d1f8 module:overlays(162,189)
+from:0x021b5c6a kind:thumb_call to:0x0219d1f8 module:overlay(189)
 from:0x021b5c78 kind:thumb_call to:0x02152080 module:overlay(11)
 from:0x021b5c88 kind:thumb_call to:0x0219d298 module:overlays(144,167,189)
 from:0x021b5c98 kind:thumb_call to:0x0219d2d0 module:overlays(189,326)

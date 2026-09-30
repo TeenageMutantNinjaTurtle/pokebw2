@@ -46,6 +46,12 @@ static inline fx16 FX_CosIdx(int idx) {
 
 void MAT3_Identity(MtxFx33 *mtx);
 
+fx32 FX_Div(fx32 numer, fx32 denom);
+
+static inline fx32 FX_Mul(fx32 v1, fx32 v2) {
+    return (fx32)(((fx64)v1 * v2 + 0x800LL) >> FX32_SHIFT);
+}
+
 static inline void VEC_Set(VecFx32 *v, fx32 x, fx32 y, fx32 z) {
     v->x = x;
     v->y = y;

@@ -1,5 +1,6 @@
 #include "types.h"
 #include "app/boot_screens.h"
+#include "constants/arc.h"
 #include "gfl/fade.h"
 #include "gfl/graphics.h"
 #include "gfl/heap.h"
@@ -11,9 +12,6 @@
 
 // The screens that the game shows when it starts: The Pokémon Company and Nintendo logos, which a button skips, then
 // the copyright notice
-
-#define ARC_LOGOS 26
-#define ARC_COPYRIGHT 162
 
 enum {
     STATE_INIT,
@@ -95,12 +93,12 @@ static BOOL BootScreens_Main(GameProc *proc, u32 *state, void *param, void *work
         }
         break;
     case STATE_LOAD_LOGOS:
-        GFL_BGSysLoadNCGRStatic(ARC_LOGOS, 12, 1, 0, 0, TRUE, HEAPID_TITLE);
-        loadBGScrToVramByNarcNoReserveNegAlign(ARC_LOGOS, 13, 1, 0, 0, TRUE, HEAPID_TITLE);
-        GFL_BGSysLoadNCLRDefault(ARC_LOGOS, 11, 0, 0, 0, HEAPID_TITLE);
-        GFL_BGSysLoadNCGRStatic(ARC_LOGOS, 12, 5, 0, 0, TRUE, HEAPID_TITLE);
-        loadBGScrToVramByNarcNoReserveNegAlign(ARC_LOGOS, 14, 5, 0, 0, TRUE, HEAPID_TITLE);
-        GFL_BGSysLoadNCLRDefault(ARC_LOGOS, 11, 4, 0, 0, HEAPID_TITLE);
+        GFL_BGSysLoadNCGRStatic(ARCID_TITLE, 12, 1, 0, 0, TRUE, HEAPID_TITLE);
+        loadBGScrToVramByNarcNoReserveNegAlign(ARCID_TITLE, 13, 1, 0, 0, TRUE, HEAPID_TITLE);
+        GFL_BGSysLoadNCLRDefault(ARCID_TITLE, 11, 0, 0, 0, HEAPID_TITLE);
+        GFL_BGSysLoadNCGRStatic(ARCID_TITLE, 12, 5, 0, 0, TRUE, HEAPID_TITLE);
+        loadBGScrToVramByNarcNoReserveNegAlign(ARCID_TITLE, 14, 5, 0, 0, TRUE, HEAPID_TITLE);
+        GFL_BGSysLoadNCLRDefault(ARCID_TITLE, 11, 4, 0, 0, HEAPID_TITLE);
         GFL_BGSysSetBGEnabled(1, TRUE);
         GFL_BGSysSetBGEnabled(5, TRUE);
         GFL_BGSysSetDisplayLayout(1);
@@ -139,12 +137,12 @@ static BOOL BootScreens_Main(GameProc *proc, u32 *state, void *param, void *work
         }
         break;
     case STATE_LOAD_COPYRIGHT:
-        GFL_BGSysLoadNCGRStatic(ARC_COPYRIGHT, 1, 1, 0, 0x8000, FALSE, HEAPID_TITLE);
-        loadBGScrToVramByNarcNoReserveNegAlign(ARC_COPYRIGHT, 2, 1, 0, 0, FALSE, HEAPID_TITLE);
-        GFL_BGSysLoadNCLRDefault(ARC_COPYRIGHT, 0, 0, 0, 0, HEAPID_TITLE);
-        GFL_BGSysLoadNCGRStatic(ARC_COPYRIGHT, 3, 5, 0, 0x8000, FALSE, HEAPID_TITLE);
-        loadBGScrToVramByNarcNoReserveNegAlign(ARC_COPYRIGHT, 4, 5, 0, 0, FALSE, HEAPID_TITLE);
-        GFL_BGSysLoadNCLRDefault(ARC_COPYRIGHT, 0, 4, 0, 0, HEAPID_TITLE);
+        GFL_BGSysLoadNCGRStatic(ARCID_COPYRIGHT, 1, 1, 0, 0x8000, FALSE, HEAPID_TITLE);
+        loadBGScrToVramByNarcNoReserveNegAlign(ARCID_COPYRIGHT, 2, 1, 0, 0, FALSE, HEAPID_TITLE);
+        GFL_BGSysLoadNCLRDefault(ARCID_COPYRIGHT, 0, 0, 0, 0, HEAPID_TITLE);
+        GFL_BGSysLoadNCGRStatic(ARCID_COPYRIGHT, 3, 5, 0, 0x8000, FALSE, HEAPID_TITLE);
+        loadBGScrToVramByNarcNoReserveNegAlign(ARCID_COPYRIGHT, 4, 5, 0, 0, FALSE, HEAPID_TITLE);
+        GFL_BGSysLoadNCLRDefault(ARCID_COPYRIGHT, 0, 4, 0, 0, HEAPID_TITLE);
         GFL_BGSysLoadScr(1);
         GFL_BGSysLoadScr(5);
         GFL_BGSysSetBGEnabled(1, TRUE);

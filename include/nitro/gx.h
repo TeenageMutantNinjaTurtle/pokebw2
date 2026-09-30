@@ -15,6 +15,7 @@ typedef u16 GXRgb;
 #define reg_G2_BLDCNT (*(vu16 *)0x04000050)
 #define reg_G2_BLDALPHA (*(vu16 *)0x04000052)
 #define reg_G3X_DISP3DCNT (*(vu16 *)0x04000060)
+#define reg_GX_DISPCAPCNT (*(vu32 *)0x04000064)
 #define reg_G3_VIEWPORT (*(vu32 *)0x04000580)
 #define reg_GXS_DB_DISPCNT (*(vu32 *)0x04001000)
 #define reg_G2S_DB_BLDCNT (*(vu16 *)0x04001050)
@@ -48,6 +49,8 @@ typedef u16 GXRgb;
 #define GX_PLANEMASK_OBJ 0x10
 
 #define GX_DISPMODE_GRAPHICS 1
+// Shows VRAM D, where the display capture can write, instead of the main engine's output
+#define GX_DISPMODE_VRAM_D 0xe
 #define GX_BGMODE_0 0
 #define GX_BG0_AS_2D 0
 #define GX_BG0_AS_3D 1
@@ -74,12 +77,14 @@ typedef u16 GXRgb;
 
 #define GX_VRAM_BG_NONE GX_VRAM_NONE
 #define GX_VRAM_BG_16_F GX_VRAM_F
+#define GX_VRAM_BG_32_FG (GX_VRAM_F | GX_VRAM_G)
 #define GX_VRAM_BG_128_A GX_VRAM_A
 #define GX_VRAM_BG_128_D GX_VRAM_D
 #define GX_VRAM_BGEXTPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_SUB_BG_32_H GX_VRAM_H
 #define GX_VRAM_SUB_BG_128_C GX_VRAM_C
 #define GX_VRAM_SUB_BGEXTPLTT_NONE GX_VRAM_NONE
+#define GX_VRAM_OBJ_NONE GX_VRAM_NONE
 #define GX_VRAM_OBJ_16_G GX_VRAM_G
 #define GX_VRAM_OBJ_64_E GX_VRAM_E
 #define GX_VRAM_OBJ_128_B GX_VRAM_B
@@ -119,12 +124,36 @@ typedef u16 GXRgb;
 
 #define REG_GX_POWCNT_DSEL_SHIFT 15
 
+#define REG_GX_DISPCAPCNT_E_MASK 0x80000000
+#define REG_GX_DISPCAPCNT_MOD_SHIFT 29
+#define REG_GX_DISPCAPCNT_SRCB_SHIFT 25
+#define REG_GX_DISPCAPCNT_SRCA_SHIFT 24
+#define REG_GX_DISPCAPCNT_WSIZE_SHIFT 20
+#define REG_GX_DISPCAPCNT_WB_SHIFT 16
+#define REG_GX_DISPCAPCNT_EVB_SHIFT 8
+#define REG_GX_DISPCAPCNT_EVA_SHIFT 0
+
+// The display capture, which writes the main engine's output to VRAM, blended with an image in VRAM with AB
+#define GX_CAPTURE_SIZE_256x192 3
+#define GX_CAPTURE_MODE_AB 2
+#define GX_CAPTURE_SRCA_2D3D 0
+#define GX_CAPTURE_SRCB_VRAM_0x00000 0
+#define GX_CAPTURE_DEST_VRAM_D_0x00000 3
+
 // Which engine draws to the top screen
 #define GX_DISP_SELECT_SUB_MAIN 0
 #define GX_DISP_SELECT_MAIN_SUB 1
 
 static inline void GX_SetDispSelect(int select) {
     reg_GX_POWCNT = (u16)((reg_GX_POWCNT & ~REG_GX_POWCNT_DSEL_MASK) | (select << REG_GX_POWCNT_DSEL_SHIFT));
+}
+
+// The fields go from the highest bit to the lowest, as NitroSDK's register field macros write them
+static inline void GX_SetCapture(int sz, int mode, int a, int b, int dest, int eva, int evb) {
+    reg_GX_DISPCAPCNT = REG_GX_DISPCAPCNT_E_MASK | (mode << REG_GX_DISPCAPCNT_MOD_SHIFT) |
+                        (b << REG_GX_DISPCAPCNT_SRCB_SHIFT) | (a << REG_GX_DISPCAPCNT_SRCA_SHIFT) |
+                        (sz << REG_GX_DISPCAPCNT_WSIZE_SHIFT) | (dest << REG_GX_DISPCAPCNT_WB_SHIFT) |
+                        (evb << REG_GX_DISPCAPCNT_EVB_SHIFT) | (eva << REG_GX_DISPCAPCNT_EVA_SHIFT);
 }
 
 static inline void GX_SetVisibleWnd(int window) {

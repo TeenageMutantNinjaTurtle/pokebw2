@@ -27,6 +27,9 @@ s32 func_02017c50(u32 speed);
 PrintQueue *func_02021998(HeapID heapId);
 void func_02021a18(PrintQueue *queue);
 void func_02021a3c(PrintQueue *queue);
+// Prints a string into a bitmap through the queue, in a color made of the text, shadow and background color indices
+void func_02021c7c(PrintQueue *queue, GFLBitmap *bitmap, s16 x, s16 y, const StrBuf *strbuf, Font *font, u16 color);
+#define PRINT_COLOR(text, shadow, background) (((text) << 10) | ((shadow) << 5) | (background))
 
 // Prints a string into a window a character at a time
 PrintStream *func_02022268(BmpWin *window, u32 x, u32 y, const StrBuf *strbuf, Font *font, s32 wait,

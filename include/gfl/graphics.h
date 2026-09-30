@@ -83,6 +83,8 @@ void GFL_BGSysCreateBG(u8 bg, const BGSetup *setup, u8 mode);
 void GFL_BGSysDisableAllA(void);
 void GFL_BGSysDisableAllB(void);
 void GFL_BGSysEnableEngines(void);
+// Fills tileCount tiles from offset of a BG's characters with a color index
+void GFL_BGSysFillChar(u8 bg, u32 fillIndex, u32 tileCount, u32 offset);
 void GFL_BGSysFillScrArea(u8 bg, u16 tile, u32 x, u32 y, u8 width, u8 height, u8 palette);
 void GFL_BGSysFree(void);
 u32 GFL_BGSysGetEnabledBGsA(void);
@@ -107,6 +109,8 @@ void GFL_BGSysMoveBGReq(u8 bg, u32 type, u32 value);
 void GFL_BGSysReleaseBG(u32 bg);
 // Fills a screen's standard palette with a color, 0 for the main screen and 4 for the sub screen
 void GFL_BGSysResetStdPalette(u32 type, GXRgb color);
+// Enables BG 0 of the main engine, where the 3D is drawn, and sets its priority
+void GFL_BGSysSet3DBGPriority(u16 priority);
 void GFL_BGSysSetBGEnabled(u8 bg, u8 enabled);
 // Enables or disables the planes of GX_PLANEMASK on the main or sub engine
 void GFL_BGSysSetBGEnabledA(u32 planes, BOOL enabled);

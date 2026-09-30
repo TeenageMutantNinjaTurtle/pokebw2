@@ -1,5 +1,6 @@
 # Fixes to dsd's analysis, applied by tools/scripts/config_fixes.py
 # module address(b2_us) action [argument]
+. 0x0208d60c add_label _ll_mul
 overlays/ov000 0x0214f870 overlay_id 199
 overlays/ov000 0x0214f874 reloc_module overlay(199)
 overlays/ov000 0x0214f878 overlay_id 182
@@ -65,6 +66,8 @@ overlays/ov050 0x021e64f0 overlay_id 9
 overlays/ov050 0x021e64f4 reloc_module overlay(9)
 overlays/ov056 0x021e7b9c overlay_id 5
 overlays/ov056 0x021e7ba0 reloc_module overlay(5)
+overlays/ov162 0x0219d1a4 overlay_id 162
+overlays/ov162 0x0219d1b0 overlay_id 253
 overlays/ov162 0x021a0018 overlay_id 162
 overlays/ov162 0x021a0030 overlay_id 162
 overlays/ov162 0x021a0048 overlay_id 162
@@ -137,6 +140,15 @@ overlays/ov170 0x02181934 reloc_module overlay(167)
 overlays/ov170 0x02181a04 reloc_module overlay(167)
 overlays/ov170 0x02181a0c reloc_module overlay(167)
 overlays/ov182 0x021b9782 reloc_module overlay(181)
+overlays/ov191 0x021b5c2a reloc_module overlay(189)
+overlays/ov194 0x021bde86 reloc_module overlay(189)
+overlays/ov199 0x021b805e reloc_module overlay(189)
+overlays/ov199 0x021b943c reloc_module overlay(189)
+overlays/ov201 0x021b59ce reloc_module overlay(189)
+overlays/ov214 0x021dfeac reloc_module overlay(189)
+overlays/ov260 0x021bb788 reloc_module overlay(189)
+overlays/ov260 0x021bb902 reloc_module overlay(189)
+overlays/ov260 0x021bbba6 reloc_module overlay(189)
 overlays/ov294 0x021a277e reloc_module overlay(162)
 overlays/ov294 0x021a27c2 reloc_module overlay(162)
 overlays/ov294 0x021a27d2 reloc_module overlay(162)
@@ -146,4 +158,6 @@ overlays/ov332 0x021c1e7c reloc_module overlay(181)
 overlays/ov332 0x021c25a4 reloc_module overlay(181)
 overlays/ov332 0x021c25d2 reloc_module overlay(181)
 overlays/ov332 0x021c2632 reloc_module overlay(181)
+overlays/ov332 0x021c26b2 reloc_module overlay(189)
+overlays/ov332 0x021c2898 reloc_module overlay(189)
 overlays/ov332 0x021c2aa0 reloc_module overlay(181)

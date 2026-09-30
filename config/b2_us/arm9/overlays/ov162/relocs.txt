@@ -55,8 +55,10 @@ from:0x0219d16e kind:thumb_call to:0x0200700c module:main
 from:0x0219d174 kind:thumb_call to:0x0203ab10 module:main
 from:0x0219d17a kind:thumb_call to:0x0203a1d0 module:main
 from:0x0219d19c kind:thumb_call to:0x0203a954 module:main
+from:0x0219d1a4 kind:overlay_id to:162
 from:0x0219d1a8 kind:load to:0x021a172c module:overlay(162)
 from:0x0219d1ac kind:load to:0x021a1a70 module:overlay(162)
+from:0x0219d1b0 kind:overlay_id to:253
 from:0x0219d1b4 kind:load to:0x0217d6e4 module:overlay(253)
 from:0x0219d1c4 kind:thumb_call to:0x02074970 module:main
 from:0x0219d1ce kind:thumb_call to:0x02074970 module:main

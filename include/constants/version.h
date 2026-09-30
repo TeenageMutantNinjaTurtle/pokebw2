@@ -1,0 +1,8 @@
+#ifndef POKEBW2_CONSTANTS_VERSION_H
+#define POKEBW2_CONSTANTS_VERSION_H
+
+// The game versions, which getGameVersion returns
+#define VERSION_WHITE2 22
+#define VERSION_BLACK2 23
+
+#endif // POKEBW2_CONSTANTS_VERSION_H

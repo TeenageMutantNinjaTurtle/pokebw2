@@ -17,6 +17,8 @@ StrBuf *GFL_MsgDataLoadStrbufNew(MsgData *msgData, u32 messageId);
 
 Font *GFL_FontCreate(u32 arcId, u32 fileId, u32 a2, u32 a3, HeapID heapId);
 void GFL_FontFree(Font *font);
+// The width in pixels of a string's widest line
+s32 GFL_FontGetBlockWidth(const StrBuf *strbuf, Font *font, u32 spacing);
 
 void GFL_TextRndUpdateColorIndexLUT(u8 a0, u8 a1, u8 a2);
 // Both call GFL_TextRndUpdateColorIndexLUT(1, 2, 0)

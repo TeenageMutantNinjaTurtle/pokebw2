@@ -50,7 +50,7 @@ data_ov253_0217d658 kind:data(any) addr:0x0217d658
 data_ov253_0217d668 kind:data(any) addr:0x0217d668
 data_ov253_0217d68c kind:data(any) addr:0x0217d68c
 data_ov253_0217d6b4 kind:data(any) addr:0x0217d6b4
-data_ov253_0217d6e4 kind:data(any) addr:0x0217d6e4
+MIC_TEST_PROC_FUNCTIONS kind:data(any) addr:0x0217d6e4
 data_ov253_0217d6f0 kind:data(any) addr:0x0217d6f0
 data_ov253_0217d744 kind:data(any) addr:0x0217d744
 data_ov253_0217d800 kind:data(any) addr:0x0217d800

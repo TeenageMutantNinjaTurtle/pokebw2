@@ -52,7 +52,7 @@ from:0x021b59da kind:thumb_call to:0x021b651c module:overlay(201)
 from:0x021b59ee kind:thumb_call to:0x0203cbac module:main
 from:0x021b59f4 kind:thumb_call to:0x0201736c module:main
 from:0x021b59f8 kind:thumb_call to:0x02008bdc module:main
-from:0x021b5a0e kind:thumb_call to:0x0219d1f8 module:overlays(162,189)
+from:0x021b5a0e kind:thumb_call to:0x0219d1f8 module:overlay(189)
 from:0x021b5a24 kind:thumb_call to:0x0219d298 module:overlays(144,167,189)
 from:0x021b5a32 kind:thumb_call to:0x0200bef4 module:main
 from:0x021b5a7a kind:thumb_call to:0x0219d2d0 module:overlays(189,326)

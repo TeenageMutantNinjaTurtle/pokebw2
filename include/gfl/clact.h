@@ -39,6 +39,9 @@ typedef struct {
     u16 unk1A;
 } ClActSysSetup;
 
+// The setup that most apps create the system with, the same as the intro's copy
+extern const ClActSysSetup data_02093f08;
+
 void ClActSys_Create(const ClActSysSetup *setup, const BGSysVRAMConfig *vramConfig, HeapID heapId);
 void func_0204b758(void);
 void func_0204b794(void);
@@ -47,19 +50,21 @@ ClActUnit *func_0204bf1c(u16 count, u8 a1, HeapID heapId);
 void func_0204bf98(ClActUnit *unit);
 void func_0204c028(ClActUnit *unit);
 
-// Load a palette, cells and cell animations from an archive, and return their resource indices
+// Load characters (NCGR), a palette (NCLR), and cells with their animations (NCER and NANR) from an archive, and
+// return their resource indices
 u32 func_0204b81c(ArcTool *arc, u32 fileId, u32 a2, u32 a3, HeapID heapId);
 u32 func_0204bba0(ArcTool *arc, u32 fileId, u32 a2, u32 a3, HeapID heapId);
-u32 func_0204bde0(ArcTool *arc, u32 fileId, u32 a2, HeapID heapId);
-void func_0204b98c(u32 palette);
-void func_0204bcd0(u32 cells);
-void func_0204be64(u32 animations);
-ClActor *func_0204c040(ClActUnit *unit, u32 palette, u32 cells, u32 animations, const ClActorSetup *setup, u16 a5,
+u32 func_0204bde0(ArcTool *arc, u32 cellFileId, u32 animFileId, HeapID heapId);
+void func_0204b98c(u32 chars);
+void func_0204bcd0(u32 palette);
+void func_0204be64(u32 cellAnims);
+ClActor *func_0204c040(ClActUnit *unit, u32 chars, u32 palette, u32 cellAnims, const ClActorSetup *setup, u16 a5,
                        HeapID heapId);
 void func_0204c108(ClActor *actor);
 void func_0204c124(ClActor *actor, BOOL visible);
 // The actor's OBJ mode, GX_OAM_MODE_*
 void func_0204c318(ClActor *actor, u32 mode);
 u32 func_0204c370(ClActor *actor);
+void func_0204c520(ClActor *actor, BOOL a1);
 
 #endif // POKEBW2_GFL_CLACT_H

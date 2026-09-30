@@ -2,6 +2,7 @@
 #define POKEBW2_GFL_SOUND_H
 
 #include "types.h"
+#include "gfl/heap.h"
 
 void GFL_SndBGMFadeIn(u16 frames);
 void GFL_SndBGMFadeOut(u16 frames);
@@ -31,6 +32,15 @@ void GFL_SndSetVolumeControlCallbacks(void);
 // Loads sound sequences ahead of time, and frees them
 u32 func_02005af4(const u32 *seqs, u32 count);
 void func_02005b60(u32 handle);
+
+// A stream of music, which the title screen plays
+void GFL_SndStreamInit(HeapID heapId);
+void GFL_SndStreamFree(void);
+void GFL_SndStreamUpdate(void);
+void GFL_SndStreamPlay(u32 stream);
+void GFL_SndStreamStop(void);
+BOOL GFL_SndStreamIsPlaying(void);
+void GFL_SndStreamFadeStop(u32 frames);
 
 // Cries are played through handles
 u32 PokeVoice_Load(u32 species, u32 form, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);

@@ -2,7 +2,7 @@
 #define POKEBW2_CONSTANTS_ARC_H
 
 // Names, layouts and constants from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0), except
-// ARCID_SEASON_BANNER, ARCID_TRAI_SCRIPT and ARCID_INTRO
+// ARCID_TITLE, ARCID_SEASON_BANNER, ARCID_COPYRIGHT, ARCID_INTRO and ARCID_TRAI_SCRIPT
 
 #define ARCID_SYSTEM_MESSAGE 2
 #define ARCID_SCRIPT_MESSAGE 3
@@ -22,6 +22,8 @@
 #define ARCID_FONT 23
 #define ARCID_ITEMINFO 24
 #define ARCID_ITEMGRA 25
+// The boot logos and the title screen's 2D graphics
+#define ARCID_TITLE 26
 #define ARCID_MMODEL_TBL 47
 #define ARCID_MMODEL_GRA 48
 #define ARCID_EVENT_SCRIPT 56
@@ -45,7 +47,9 @@
 #define ARCID_SEASON_BANNER 150
 #define ARCID_FIELD_CAMERA_MAP_PARAM 156
 #define ARCID_DEMO3D_RESOURCE 158
-#define ARCID_FIELD_CAMERA_SCRIPT_PARAM 162
+// The copyright notice that the game shows when it starts. swan names this archive ARCID_FIELD_CAMERA_SCRIPT_PARAM,
+// but it holds 2D graphics
+#define ARCID_COPYRIGHT 162
 // The intro's graphics
 #define ARCID_INTRO 168
 #define ARCID_TRAI_SCRIPT 169

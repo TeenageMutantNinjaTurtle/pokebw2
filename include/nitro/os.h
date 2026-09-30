@@ -2,6 +2,7 @@
 #define POKEBW2_NITRO_OS_H
 
 #include "types.h"
+#include "nitro/hw.h"
 
 // The tick count of the system timer, which swan names clock
 u64 clock(void);
@@ -15,6 +16,10 @@ extern u32 SDK_AUTOLOAD_DTCM_START[];
 #define HW_INTR_CHECK_BUF (HW_DTCM + 0x3ff8)
 
 #define OS_IE_V_BLANK 0x1
+
+static inline u32 OS_GetVBlankCount(void) {
+    return *(vu32 *)HW_VBLANK_COUNT_BUF;
+}
 
 static inline void OS_SetIrqCheckFlag(u32 interrupts) {
     *(vu32 *)HW_INTR_CHECK_BUF |= interrupts;

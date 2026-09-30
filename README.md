@@ -345,7 +345,13 @@ records them in `config/fixes.txt`:
 .venv/bin/python tools/scripts/config_fixes.py overlay-id overlays/ov004 214 0x0214f6bc
 ```
 
-It also removes relocations and symbols that are not real (`remove-reloc`, `remove-symbol`).
+It also removes relocations and symbols that are not real (`remove-reloc`, `remove-symbol`), and gives a function a
+second name with `add-label`. MWCC calls the runtime's 64-bit multiply `_ll_mul` for signed values and `_ull_mul` for
+unsigned ones, while the game has one copy of it, so `_ll_mul` is a label on `_ull_mul`.
+
+A relocation that dsd could not pin to one overlay only links while its symbol is global. When a function becomes
+`static` in a decompiled file, check `relocs.txt` of both versions for relocations to its address with several
+candidate modules, and fix the ones that belong to another overlay.
 
 ## Regenerating configs
 

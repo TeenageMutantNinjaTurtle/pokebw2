@@ -48,9 +48,9 @@ struct IntroCmd {
     // The screen of the band, which INTRO_CMD_OPEN_BAND copies to BG 2 a few rows at a time
     u16 bandScreen[64 * 32];
     ClActor *obj;
+    u32 objChars;
     u32 objPalette;
-    u32 objCells;
-    u32 objAnimations;
+    u32 objCellAnims;
 };
 
 // Returns TRUE once the command has ended. The arguments are not const: loads through a const pointer are scheduled
@@ -787,21 +787,21 @@ static BOOL IntroCmd_CreateObj(IntroCmd *cmd, IntroCmdWork *work, s32 *args) {
     ArcTool *arc = GFL_ArcSysCreateFileHandle(ARCID_INTRO, cmd->heapId);
     ClActorSetup setup;
 
-    cmd->objPalette = func_0204b81c(arc, 10, 0, 0, cmd->heapId);
-    cmd->objCells = func_0204bba0(arc, 11, 0, 0x20, cmd->heapId);
-    cmd->objAnimations = func_0204bde0(arc, 9, 8, cmd->heapId);
+    cmd->objChars = func_0204b81c(arc, 10, 0, 0, cmd->heapId);
+    cmd->objPalette = func_0204bba0(arc, 11, 0, 0x20, cmd->heapId);
+    cmd->objCellAnims = func_0204bde0(arc, 9, 8, cmd->heapId);
     GFL_ArcToolFree(arc);
     setup = sObjSetup;
-    cmd->obj = func_0204c040(IntroGraphic_GetClActUnit(cmd->graphic), cmd->objPalette, cmd->objCells,
-                             cmd->objAnimations, &setup, 0, cmd->heapId);
+    cmd->obj = func_0204c040(IntroGraphic_GetClActUnit(cmd->graphic), cmd->objChars, cmd->objPalette,
+                             cmd->objCellAnims, &setup, 0, cmd->heapId);
     func_0204c124(cmd->obj, FALSE);
     return TRUE;
 }
 
 static BOOL IntroCmd_FreeObj(IntroCmd *cmd, IntroCmdWork *work, s32 *args) {
-    func_0204b98c(cmd->objPalette);
-    func_0204bcd0(cmd->objCells);
-    func_0204be64(cmd->objAnimations);
+    func_0204b98c(cmd->objChars);
+    func_0204bcd0(cmd->objPalette);
+    func_0204be64(cmd->objCellAnims);
     func_0204c108(cmd->obj);
     return TRUE;
 }

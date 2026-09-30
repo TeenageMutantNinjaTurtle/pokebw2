@@ -3117,7 +3117,7 @@ from:0x021dfe72 kind:thumb_call to:0x0201ef6c module:main
 from:0x021dfe84 kind:thumb_call to:0x0202b57c module:main
 from:0x021dfe94 kind:thumb_call to:0x0202b590 module:main
 from:0x021dfea0 kind:thumb_call to:0x02008bdc module:main
-from:0x021dfeac kind:thumb_call to:0x0219d1b8 module:overlays(162,189)
+from:0x021dfeac kind:thumb_call to:0x0219d1b8 module:overlay(189)
 from:0x021dfeb6 kind:thumb_call to:0x0201c2c8 module:main
 from:0x021dfec6 kind:thumb_call to:0x0219d258 module:overlays(144,167,189)
 from:0x021dfeca kind:thumb_call to:0x0201c2c8 module:main

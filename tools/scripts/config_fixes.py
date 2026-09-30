@@ -11,6 +11,7 @@ after importing names from swan.
     config_fixes.py overlay-id overlays/ov035 279 0x0217cbe4                 # a literal that is an overlay ID
     config_fixes.py remove-reloc overlays/ov035 0x0217f540                   # a relocation that is not one
     config_fixes.py remove-symbol overlays/ov005 0x0214f5fd                  # a symbol that is not one
+    config_fixes.py add-label . _ll_mul 0x0208d60c                           # a second name for a function
     config_fixes.py apply
 """
 import argparse
@@ -95,6 +96,20 @@ def apply_fix(version: str, module: str, addr: int, action: str, argument: str):
         kept = [line for line in lines if not (m := SYMBOL_ADDR_RE.search(line)) or int(m.group(1), 16) != addr]
         path.write_text("\n".join(kept) + "\n")
         return
+    if action == "add_label":
+        # A label with the instruction mode of the function at the address, for code that the compiler calls by
+        # two names, such as the runtime's _ll_mul and _ull_mul
+        path = config_dir(version, module) / "symbols.txt"
+        lines = path.read_text().splitlines()
+        at = [i for i, line in enumerate(lines) if (m := SYMBOL_ADDR_RE.search(line)) and int(m.group(1), 16) == addr]
+        if any(lines[i].split()[0] == argument for i in at):
+            return
+        mode = next((m.group(1) for i in at if (m := re.search(r"kind:function\((arm|thumb)", lines[i]))), None)
+        if mode is None:
+            sys.exit(f"{version}: no function at {module} {addr:#010x}")
+        lines.insert(at[-1] + 1, f"{argument} kind:label({mode}) addr:{addr:#010x}")
+        path.write_text("\n".join(lines) + "\n")
+        return
 
     path = config_dir(version, module) / "relocs.txt"
     lines = path.read_text().splitlines()
@@ -142,6 +157,10 @@ def main():
     command = commands.add_parser("remove-symbol", help="remove symbols")
     command.add_argument("module")
     command.add_argument("addresses", nargs="+")
+    command = commands.add_parser("add-label", help="give a function a second name")
+    command.add_argument("module")
+    command.add_argument("name")
+    command.add_argument("addresses", nargs="+")
     commands.add_parser("apply", help="apply every fix in config/fixes.txt")
     args = parser.parse_args()
 
@@ -154,7 +173,8 @@ def main():
         return
 
     action = args.command.replace("-", "_")
-    argument = {"reloc_module": getattr(args, "destination", ""), "overlay_id": str(getattr(args, "overlay", ""))}
+    argument = {"reloc_module": getattr(args, "destination", ""), "overlay_id": str(getattr(args, "overlay", "")),
+                "add_label": getattr(args, "name", "")}
     argument = argument.get(action, "")
     for address in args.addresses:
         addr = int(address, 16)
