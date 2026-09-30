@@ -28,5 +28,6 @@ u16 *ScriptReadVar(VM *vm, FieldScriptEnv *env);
 void ScriptWork_CallEvent(ScriptWork *work, GameEvent *event);
 FieldActor *ScriptWork_GetParentActor(ScriptWork *work);
 WordSet *ScriptWork_GetWordSet(ScriptWork *work);
+MMSys *GetScrEnvMMdlSys(FieldScriptEnv *env);
 
 #endif // POKEBW2_FIELD_FIELD_SCRIPT_H

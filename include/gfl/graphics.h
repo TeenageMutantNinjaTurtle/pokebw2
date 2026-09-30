@@ -95,6 +95,7 @@ void GFL_BGSysFillScrArea(s32 bg, u16 tile, u8 x, u8 y, u8 width, u8 height, u8 
 void GFL_BGSysFillScrAsync(u8 bg, u16 map);
 void GFL_BGSysFree(void);
 u32 GFL_BGSysGetEnabledBGsA(void);
+u32 GFL_BGSysGetEnabledBGsB(void);
 void GFL_BGSysInitVRAM(u32 banks);
 // Load a BG's characters and screen from a file of an archive
 void GFL_BGSysLoadArcNCGRStatic(ArcTool *arc, u32 fileId, u8 bg, u32 offset, u32 size, BOOL compressed, HeapID heapId);

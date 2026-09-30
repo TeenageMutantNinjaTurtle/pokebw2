@@ -1,0 +1,223 @@
+#include "types.h"
+#include "field/field.h"
+#include "field/field_actor.h"
+#include "field/field_script.h"
+#include "field/field_task.h"
+#include "field/ov112.h"
+#include "field/ov115.h"
+#include "field/ov116.h"
+#include "field/ov132.h"
+#include "gfl/graphics.h"
+#include "gfl/sound.h"
+#include "nitro/hw.h"
+#include "system/game_system.h"
+#include "system/vm.h"
+
+// Script plugin 14 (overlay 66), commands from 1000, of zones with story events: Kyurem's at the Giant Chasm (zone
+// 213, whose gimmick is overlay 132), and zones 139, 427 and 604, whose gimmicks are overlays 115, 112 and 116
+
+typedef struct {
+    u32 seq;
+    s32 volume;
+} Plugin14SeqFadeOut;
+
+static BOOL func_ov066_021e5800(VM *vm, FieldScriptEnv *env) {
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+
+    func_ov116_021eedc0(gsys, VM_Read16(vm));
+    return FALSE;
+}
+
+static BOOL func_ov066_021e5820(VM *vm, FieldScriptEnv *env) {
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+
+    func_ov116_021eee08(gsys, VM_Read16(vm));
+    return FALSE;
+}
+
+static BOOL func_ov066_021e5840(VM *vm, FieldScriptEnv *env) {
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+
+    func_ov116_021eee3c(gsys, VM_Read16(vm));
+    return FALSE;
+}
+
+static BOOL func_ov066_021e5860(VM *vm, FieldScriptEnv *env) {
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+
+    func_ov116_021eeeb4(gsys, ScriptReadAny(vm, env) == TRUE);
+    return FALSE;
+}
+
+static BOOL func_ov066_021e5888(VM *vm, FieldScriptEnv *env) {
+    func_ov116_021eee68(FieldScriptEnv_GetGameSystem(env));
+    return FALSE;
+}
+
+// Moves an actor by whole units along x and z
+static BOOL Plugin14Cmd_ShiftActor(VM *vm, FieldScriptEnv *env) {
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+    u32 actorId = ScriptReadAny(vm, env);
+    s16 dx = ScriptReadAny(vm, env);
+    s16 dz = ScriptReadAny(vm, env);
+    FieldActor *actor = FindFieldActor(GetScrEnvMMdlSys(env), actorId);
+
+    if (actor == NULL) {
+        return FALSE;
+    } else {
+        VecFx32 pos = { 0, 0, 0 };
+
+        CopyActorWPos(actor, &pos);
+        pos.x += dx * FX32_ONE;
+        pos.z += dz * FX32_ONE;
+        SetActorWPosValue(actor, &pos);
+    }
+    return FALSE;
+}
+
+static BOOL func_ov066_021e5910(VM *vm, FieldScriptEnv *env) {
+    Field *field = GSYS_GetField(FieldScriptEnv_GetGameSystem(env));
+    u32 enabledA = GFL_BGSysGetEnabledBGsA();
+    u32 enabledB = GFL_BGSysGetEnabledBGsB();
+
+    FieldG2D_SetLCDConfig();
+    GFL_BGSysSetEnabledBGsA(enabledA);
+    GFL_BGSysSetEnabledBGsB(enabledB);
+    FieldG2D_Prepare3DSurface(field);
+    GFXRegSetMasterBrightness(REG_MASTER_BRIGHT_ADDR, 0);
+    gfxRegSetBrightnessBlend(REG_BLDCNT_ADDR, 0x3d, -16);
+    GFXRegSetMasterBrightness(REG_DB_MASTER_BRIGHT_ADDR, 0);
+    gfxRegSetBrightnessBlend(REG_DB_BLDCNT_ADDR, 0x3f, -16);
+    return FALSE;
+}
+
+static BOOL func_ov066_021e597c(VM *vm, FieldScriptEnv *env) {
+    func_ov112_021eed04(FieldScriptEnv_GetGameSystem(env));
+    return FALSE;
+}
+
+static BOOL func_ov066_021e598c(VM *vm, FieldScriptEnv *env) {
+    func_ov115_021eed08(FieldScriptEnv_GetGameSystem(env));
+    return FALSE;
+}
+
+static BOOL Plugin14_SeqFadeOutTask(void *data);
+
+// Fades a sound sequence out and stops it
+static BOOL Plugin14Cmd_FadeOutSeq(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    Field *field = GSYS_GetField(FieldScriptEnv_GetGameSystem(env));
+    HeapID heapId = Field_GetHeapID(field);
+    u16 seq = ScriptReadAny(vm, env);
+    FieldTaskManager *mgr = Field_GetTaskManager(field);
+    FieldTask *task = FieldTask_Create(heapId, sizeof(Plugin14SeqFadeOut), Plugin14_SeqFadeOutTask);
+    Plugin14SeqFadeOut *fade = FieldTask_GetData(task);
+
+    fade->seq = seq;
+    fade->volume = 127;
+    FieldTaskManager_AddTask(mgr, task, 0);
+    return FALSE;
+}
+
+static BOOL Plugin14_SeqFadeOutTask(void *data) {
+    Plugin14SeqFadeOut *fade = data;
+    s32 volume = fade->volume - 2;
+
+    fade->volume = volume;
+    if (volume < 0) {
+        GFL_SndPlayerStop(GFL_SndSeqGetPlayerIndex(fade->seq));
+        return TRUE;
+    }
+    GFL_SndPlayerSetVolume(GFL_SndSeqGetPlayerIndex(fade->seq), volume);
+    return FALSE;
+}
+
+static BOOL func_ov066_021e5a1c(VM *vm, FieldScriptEnv *env) {
+    func_ov112_021eed44(FieldScriptEnv_GetGameSystem(env));
+    return FALSE;
+}
+
+static BOOL func_ov066_021e5a2c(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    GameEvent *event = func_ov132_021eed78(FieldScriptEnv_GetGameSystem(env));
+
+    if (event == NULL) {
+        return TRUE;
+    }
+    ScriptWork_CallEvent(work, event);
+    return TRUE;
+}
+
+static BOOL func_ov066_021e5a54(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+    Field *field = GSYS_GetField(gsys);
+    u16 actorId = ScriptReadAny(vm, env);
+    u16 x = ScriptReadAny(vm, env);
+    u16 y = ScriptReadAny(vm, env);
+    u16 z = ScriptReadAny(vm, env);
+    u16 a4 = ScriptReadAny(vm, env);
+    u16 a5 = ScriptReadAny(vm, env);
+    FieldActor *actor = FindFieldActor(Field_GetActorSystem(field), actorId);
+    VecFx32 from;
+    VecFx32 to;
+    GameEvent *event;
+
+    if (actor != NULL) {
+        CopyActorWPos(actor, &from);
+    }
+    to.x = x * (16 * FX32_ONE) + 8 * FX32_ONE;
+    to.y = y * (FX32_ONE / 2) * 16;
+    to.z = z * (16 * FX32_ONE) + 8 * FX32_ONE;
+    event = func_ov132_021eef30(gsys, &from, &to, a4 * (FX32_ONE / 2) * 16, a5);
+    if (event == NULL) {
+        return TRUE;
+    }
+    ScriptWork_CallEvent(work, event);
+    return TRUE;
+}
+
+static BOOL func_ov066_021e5b00(VM *vm, FieldScriptEnv *env) {
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+    u16 x = ScriptReadAny(vm, env);
+    u16 y = ScriptReadAny(vm, env);
+    u16 z = ScriptReadAny(vm, env);
+    VecFx32 pos;
+
+    pos.x = x * (16 * FX32_ONE) + 8 * FX32_ONE;
+    pos.y = y * (FX32_ONE / 2) * 16;
+    pos.z = z * (16 * FX32_ONE) + 8 * FX32_ONE;
+    func_ov132_021ef004(gsys, &pos);
+    return FALSE;
+}
+
+static BOOL func_ov066_021e5b50(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    GameEvent *event = func_ov132_021ef09c(FieldScriptEnv_GetGameSystem(env));
+
+    if (event == NULL) {
+        return TRUE;
+    }
+    ScriptWork_CallEvent(work, event);
+    return TRUE;
+}
+
+static BOOL func_ov066_021e5b78(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    GameEvent *event = func_ov132_021ef080(FieldScriptEnv_GetGameSystem(env));
+
+    if (event == NULL) {
+        return TRUE;
+    }
+    ScriptWork_CallEvent(work, event);
+    return TRUE;
+}
+
+const FieldScriptCommand PLUGIN_14_SCRIPT_COMMANDS[] = {
+    func_ov066_021e597c,    func_ov066_021e5800,    func_ov066_021e5820,
+    func_ov066_021e5840,    func_ov066_021e5860,    func_ov066_021e5888,
+    Plugin14Cmd_ShiftActor, func_ov066_021e5910,    NULL,
+    func_ov066_021e598c,    Plugin14Cmd_FadeOutSeq, func_ov066_021e5a1c,
+    func_ov066_021e5a2c,    func_ov066_021e5a54,    func_ov066_021e5b00,
+    func_ov066_021e5b50,    func_ov066_021e5b78,    (FieldScriptCommand)0xFFFFFFFF,
+};

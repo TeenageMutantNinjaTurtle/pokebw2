@@ -7301,7 +7301,7 @@
      "args": []
     },
     "1006": {
-     "handler": "func_ov066_021e5898",
+     "handler": "Plugin14Cmd_ShiftActor",
      "overlay": 66,
      "args": [
       "any",
@@ -7320,7 +7320,7 @@
      "args": []
     },
     "1010": {
-     "handler": "func_ov066_021e599c",
+     "handler": "Plugin14Cmd_FadeOutSeq",
      "overlay": 66,
      "args": [
       "any"

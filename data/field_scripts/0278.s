@@ -35,9 +35,9 @@ L_006B:
     Plugin14_Cmd1009
     VMSleep 90
     EvCameraMoveTo 5080, 0, 0xdd000, 0x1f8000, 0x3192ef, 0x78000, 120
-    Plugin14_Cmd1010 2406
-    Plugin14_Cmd1010 2407
-    Plugin14_Cmd1010 2408
+    Plugin14Cmd_FadeOutSeq 2406
+    Plugin14Cmd_FadeOutSeq 2407
+    Plugin14Cmd_FadeOutSeq 2408
     EvCameraWait
     ActorCmdExec 255, Movement_0294
     ActorCmdWait

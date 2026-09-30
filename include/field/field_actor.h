@@ -39,6 +39,7 @@ u16 FldAct_GetObjCode(FieldActor *actor);
 void FldAct_SetShadowGroup(FieldActor *actor, u32 group);
 u32 GetActorFaceDir(FieldActor *actor);
 void CopyActorWPos(FieldActor *actor, VecFx32 *dest);
+void SetActorWPosValue(FieldActor *actor, const VecFx32 *pos);
 // The actor with an ID, or NULL
 FieldActor *FindFieldActor(MMSys *mmSys, u16 id);
 // Moves grid coordinates or a position by a distance in a direction

@@ -191,14 +191,14 @@ L_0293:
     VMStackPushConst 23
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0348
-    Plugin14_Cmd1006 3, 0, 9
+    Plugin14Cmd_ShiftActor 3, 0, 9
     VMJump L_0350
 
 L_0348:
-    Plugin14_Cmd1006 3, 0, 9
+    Plugin14Cmd_ShiftActor 3, 0, 9
 
 L_0350:
-    Plugin14_Cmd1006 4, 4, 0
+    Plugin14Cmd_ShiftActor 4, 4, 0
     FadeInBlackQ
     FadeWait
     FlagSet 2555
@@ -305,7 +305,7 @@ L_04C5:
     ActorSetGPos 0, 17, 0, 16, 1
     ActorSetGPos 2, 15, 0, 16, 1
     ActorSetGPos 4, 17, 0, 19, 2
-    Plugin14_Cmd1006 4, 65532, 0
+    Plugin14Cmd_ShiftActor 4, 65532, 0
     VMStackPush 0x8020
     VMStackPushConst 23
     VMStackCmp CMP_EQ
@@ -317,7 +317,7 @@ L_0536:
     ActorNew 15, 18, 1, 251, 144, 0
 
 L_0544:
-    Plugin14_Cmd1006 251, 0, 8
+    Plugin14Cmd_ShiftActor 251, 0, 8
     Plugin14_Cmd1003 251
     FadeInBlackQ
     BGMPop 0, 60

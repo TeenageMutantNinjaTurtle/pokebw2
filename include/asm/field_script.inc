@@ -5420,8 +5420,8 @@
     FieldCommand 1005
     .endm
 
-    // func_ov066_021e5898
-    .macro Plugin14_Cmd1006 a0, a1, a2
+    // Plugin14Cmd_ShiftActor
+    .macro Plugin14Cmd_ShiftActor a0, a1, a2
     FieldCommand 1006
     .2byte \a0
     .2byte \a1
@@ -5438,8 +5438,8 @@
     FieldCommand 1009
     .endm
 
-    // func_ov066_021e599c
-    .macro Plugin14_Cmd1010 a0
+    // Plugin14Cmd_FadeOutSeq
+    .macro Plugin14Cmd_FadeOutSeq a0
     FieldCommand 1010
     .2byte \a0
     .endm
