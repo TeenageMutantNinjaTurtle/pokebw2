@@ -338,7 +338,8 @@ lists the plugins:
 | 9 | 61 | Black Tower and White Treehollow | |
 | 10 | 62 | Pokéstar Studios | `pokewood_*.c` |
 | 11 | 63 | Victory Road's badge gates | |
-| 12 to 16 | 64 to 68 | Not identified yet: 12 has Team Plasma's battles, 15 the DNA Splicers and Terrakion, 16 Meloetta's Relic Song and the Swords of Justice | |
+| 12 | 64 | The Plasma Frigate, with its password device | |
+| 13 to 16 | 65 to 68 | Not identified yet: 15 has the DNA Splicers and Terrakion, 16 Meloetta's Relic Song and the Swords of Justice | |
 
 Our files take those names where the overlay has them, and otherwise follow them, as `scrcmd_badge_gate.c`.
 
