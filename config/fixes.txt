@@ -378,7 +378,8 @@ overlays/ov284 0x021e3d7c overlay_id 287
 overlays/ov284 0x021e3eb4 overlay_id 139
 overlays/ov284 0x021e3f20 overlay_id 139
 overlays/ov284 0x021e46da reloc_module overlay(139)
-overlays/ov284 0x021e7f80 add_data data_ov284_021e7f80
+overlays/ov284 0x021e7f80 add_data SHINKA_DEMO_VIEW_UNK_774
+overlays/ov284 0x021e7ff4 add_data SHINKA_DEMO_EFFECT_UNK_FX32
 overlays/ov294 0x021a277e reloc_module overlay(162)
 overlays/ov294 0x021a27c2 reloc_module overlay(162)
 overlays/ov294 0x021a27d2 reloc_module overlay(162)

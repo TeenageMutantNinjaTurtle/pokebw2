@@ -88,6 +88,9 @@ static const G3DSceneActorSetup sModelActors[] = {
 static const G3DSceneSetup sModelScene = { sModelResources, NELEMS(sModelResources), sModelActors,
                                            NELEMS(sModelActors) };
 
+// Not referenced. Its value, FX32_ONE, is the step of the model's looping animation and the scale of its actor
+const fx32 SHINKA_DEMO_EFFECT_UNK_FX32 = FX32_ONE;
+
 static const DemoParticleResource sParticleResources[DEMO_PARTICLE_UNIT_COUNT] = { { ARCID_SHINKA_DEMO, 10 } };
 
 static const DemoParticleEvent sParticleEvents[] = {

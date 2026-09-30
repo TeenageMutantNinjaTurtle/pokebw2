@@ -3,10 +3,17 @@
 
 MWCC lists each data object of a section when it is declared, a local struct initializer when its function is, then
 heapsorts the list by size, starting from the last object declared. Heapsort is not stable, so objects of the same size
-come out in an order that depends on where every object in the list was declared. Objects of 64 bytes or more and
-local initializers get sections of their own, which follow the others in the same order.
+come out in an order that depends on where every object in the list was declared. Objects of 64 bytes or more, local
+initializers, and global objects that no code refers to get sections of their own; the others share one section. The
+sections are created as the sorted list is walked, so the shared section sits where its smallest object comes, and an
+initializer smaller than every shared object is laid out before them.
 
-Objects are given in declaration order as NAME:SIZE. A local initializer is marked with a trailing `@`, as in BG1:32@.
+A global counts as referred to when some code takes its address, or reads it before its value is known, even if that
+code is optimized away or never emitted. A read of a const global whose initializer has been seen is folded and does
+not count.
+
+Objects are given in declaration order as NAME:SIZE. A local initializer is marked with a trailing `@`, as in BG1:32@,
+and a global that no code refers to with a trailing `!`, as in UNK:4!.
 
     rodata_order.py VRAM:48 VRAMNamed:48 Pos:12 Up:12 BG1:32@ BG2:32@
     rodata_order.py VRAM:48 VRAMNamed:48 Pos:12 Up:12 BG1:32@ BG2:32@ --want Pos Up VRAM VRAMNamed BG2 BG1 \
@@ -46,22 +53,34 @@ def heapsort(items: list, key) -> list:
 
 
 def layout(objects: list[tuple[str, int, bool]]) -> list[str]:
-    """Returns the names of the objects in the order they are laid out: the shared section, then the separate ones."""
+    """Returns the names of the objects in the order they are laid out, section by section."""
     ordered = heapsort(list(reversed(objects)), key=lambda o: o[1])
-    shared = [o[0] for o in ordered if not o[2] and o[1] < SEPARATE_SIZE]
-    separate = [o[0] for o in ordered if o[2] or o[1] >= SEPARATE_SIZE]
-    return shared + separate
+    sections = []
+    shared = None
+    for name, size, separate in ordered:
+        if separate or size >= SEPARATE_SIZE:
+            sections.append([name])
+        elif shared is None:
+            shared = [name]
+            sections.append(shared)
+        else:
+            shared.append(name)
+    return [name for section in sections for name in section]
 
 
 def parse(spec: str) -> tuple[str, int, bool]:
-    local = spec.endswith("@")
-    name, size = spec.rstrip("@").split(":")
-    return name, int(size, 0), local
+    separate = spec.endswith(("@", "!"))
+    name, size = spec.rstrip("@!").split(":")
+    return name, int(size, 0), separate
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("objects", nargs="+", help="NAME:SIZE in declaration order, with @ for local initializers")
+    parser.add_argument(
+        "objects",
+        nargs="+",
+        help="NAME:SIZE in declaration order, with @ for local initializers and ! for globals no code refers to",
+    )
     parser.add_argument("--want", nargs="+", help="the wanted layout, by name")
     parser.add_argument("--permute", nargs="+", default=[], help="objects whose declaration order may change")
     args = parser.parse_args()

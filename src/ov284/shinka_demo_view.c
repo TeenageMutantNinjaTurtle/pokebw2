@@ -250,22 +250,25 @@ static void ShinkaDemoRest_Update(SpriteRest *rest, HeapID heapId);
 static void ShinkaDemoRest_Draw(SpriteRest *rest, HeapID heapId);
 static void ShinkaDemoRest_SetPosition(SpriteRest *rest, HeapID heapId, fx32 x, fx32 y, fx32 z);
 
-// Not referenced
-const u32 SHINKA_DEMO_VIEW_UNK_774 = 774;
-// The helix's top, height and distance from its axis at its middle and ends
-const f32 SHINKA_DEMO_HELIX_TOP = 22.0f;
+// The original shares a section with the tables below, which MWCC does only for globals that some code takes the
+// address of, so they go before the local initializers. Nothing in this file does, so ours get sections of their own.
+// The helix's height, and its distance from its axis at its ends
 const f32 SHINKA_DEMO_HELIX_HEIGHT = 44.0f;
 const f32 SHINKA_DEMO_HELIX_RADIUS_MAX = 20.0f;
+// Not referenced
+const u32 SHINKA_DEMO_VIEW_UNK_774 = 774;
+// The helix's top, and its distance from its axis at its middle
+const f32 SHINKA_DEMO_HELIX_TOP = 22.0f;
 const f32 SHINKA_DEMO_HELIX_RADIUS_MIN = 10.0f;
 
-// The top of the rest of the sprite's texture and quad for each count of rows broken away
-static const u8 sRestTexTops[PIECE_ROWS + 1] = {
-    16, 21, 26, 32, 37, 42, 48, 53, 58, 64, 69, 74, 80, 85, 90, 96, 101, 106, 112,
-};
-
+// The top of the rest of the sprite's quad and texture for each count of rows broken away
 static const fx16 sRestTops[PIECE_ROWS + 1] = {
     0x800, 0x72b,  0x655,  0x555,  0x480,  0x3ab,  0x2ab,  0x1d5,  0x100,  0,
     -0xd5, -0x1ab, -0x2ab, -0x380, -0x455, -0x555, -0x62b, -0x700, -0x800,
+};
+
+static const u8 sRestTexTops[PIECE_ROWS + 1] = {
+    16, 21, 26, 32, 37, 42, 48, 53, 58, 64, 69, 74, 80, 85, 90, 96, 101, 106, 112,
 };
 
 ShinkaDemoView *ShinkaDemoView_Create(HeapID heapId, BOOL played, PartyPkm *pkm, u16 species) {

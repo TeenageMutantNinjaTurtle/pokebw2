@@ -12,13 +12,13 @@ src/ov284/shinka_demo_graphic.c:
 
 src/ov284/shinka_demo_effect.c:
     .text       start:0x021e7824 end:0x021e7d9c
-    .rodata     start:0x021e7ff8 end:0x021e8098
+    .rodata     start:0x021e7ff4 end:0x021e8098
     .data       start:0x021e80dc end:0x021e8100
     complete
 
 src/ov284/shinka_demo_view.c:
     .text       start:0x021e4dd0 end:0x021e7824
-    .rodata     start:0x021e7f80 end:0x021e7ff8
+    .rodata     start:0x021e7f80 end:0x021e7ff4
     .data       start:0x021e80c8 end:0x021e80dc
 
 src/ov284/shinka_demo.c:

@@ -164,12 +164,13 @@ data_ov284_021e7e0c kind:data(any) addr:0x021e7e4c
 data_ov284_021e7e28 kind:data(any) addr:0x021e7e68
 data_ov284_021e7e48 kind:data(any) addr:0x021e7e88
 data_ov284_021e7e78 kind:data(any) addr:0x021e7eb8
-data_ov284_021e7f80 kind:data(any) addr:0x021e7fc0
+SHINKA_DEMO_VIEW_UNK_774 kind:data(any) addr:0x021e7fc0
 data_ov284_021e7f94 kind:data(any) addr:0x021e7fd4
 data_ov284_021e7fa8 kind:data(any) addr:0x021e7fe8
 data_ov284_021e7fd0 kind:data(any) addr:0x021e8010
 data_ov284_021e7fdc kind:data(any) addr:0x021e801c
 data_ov284_021e7fe8 kind:data(any) addr:0x021e8028
+SHINKA_DEMO_EFFECT_UNK_FX32 kind:data(any) addr:0x021e8034
 data_ov284_021e7ff8 kind:data(any) addr:0x021e8038
 data_ov284_021e8000 kind:data(any) addr:0x021e8040
 data_ov284_021e800c kind:data(any) addr:0x021e804c

@@ -142,11 +142,14 @@ Things that affect whether MWCC output matches:
 - Stack locals are laid out in reverse declaration order.
 - Static data is sorted by size. MWCC lists each object of a section when it is declared, a local struct initializer
   when its function is, and heapsorts the list by size starting from the last object declared. Objects of 64 bytes or
-  more and local initializers get sections of their own, which follow the others in the same order. Heapsort is not
-  stable, so objects of the same size come out in an order that depends on where every object in the file is
-  declared, and moving one object can reorder others. `tools/scripts/rodata_order.py` predicts the layout for a
-  declaration order and tries the orders of the objects given with `--permute`; `intro_graphic.c` matches only with its
-  light setups declared after the function whose BG setups are local initializers.
+  more, local initializers and globals that no code refers to get sections of their own, and the sections are created
+  as the sorted list is walked: the section the other objects share sits where its smallest object comes, so a 12-byte
+  initializer goes before a file's 19-byte table unless something smaller is shared. A read of a const global whose
+  initializer has been seen is folded and doesn't count as a reference; taking its address does, even in code that is
+  never emitted. Heapsort is not stable, so objects of the same size come out in an order that depends on where every
+  object in the file is declared, and moving one object can reorder others. `tools/scripts/rodata_order.py` predicts
+  the layout for a declaration order and tries the orders of the objects given with `--permute`; `intro_graphic.c`
+  matches only with its light setups declared after the function whose BG setups are local initializers.
 - Overlay IDs are linker symbols, written `OVERLAY_ID(279)` from `gfl/overlay.h`, which gives the literal pool entry
   a relocation. Mark the literal in the config with `tools/scripts/config_fixes.py overlay-id`.
 - A switch case that ends in the same code as another case is merged into it, so its end moves.
