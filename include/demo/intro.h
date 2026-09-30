@@ -12,20 +12,30 @@
 // The intro of a new game, overlay 294, which ov162 runs before and after the name entry
 #define OVERLAY_INTRO OVERLAY_ID(294)
 
-// Which part of the intro runs: ov162 runs the intro, then the player's name entry, the intro again, the rival's name
-// entry, and the intro once more
+// Which part of the intro runs, as the number of the script it starts from: ov162 runs the intro, then the player's
+// name entry, the intro again, the rival's name entry, and the intro once more
 #define INTRO_MODE_START 1
 #define INTRO_MODE_PLAYER_NAMED 7
 #define INTRO_MODE_RIVAL_NAMED 10
 
+// What ov162 does once the intro ends: runs the name entry that the intro asked for, the rival's name entry, or starts
+// the game
+#define INTRO_RESULT_DONE 0
+#define INTRO_RESULT_ENTER_NAME 1
+#define INTRO_RESULT_ENTER_RIVAL_NAME 2
+
 typedef struct {
-    void *unk0;
+    PlayerInfo *playerInfo;
     void *unk4;
     // INTRO_MODE_*
     u32 mode;
-    void *unkC;
-    void *unk10;
-    void *unk14;
+    // ov162's creation of the save data, which runs while the intro does
+    void *saveTask;
+    // The Pokémon's cry
+    void *pokeVoice;
+    const u16 *rivalName;
+    // INTRO_RESULT_*
+    u32 result;
 } IntroParam;
 
 typedef struct IntroGraphic IntroGraphic;

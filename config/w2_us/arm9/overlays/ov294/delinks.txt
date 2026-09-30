@@ -20,10 +20,15 @@ src/ov294/intro_cmd.c:
     .rodata     start:0x021a4020 end:0x021a404c
     .data       start:0x021a4c30 end:0x021a4d1c
 
-src/ov294/intro_msg.c:
-    .text       start:0x021a30dc end:0x021a35dc
+src/ov294/intro_script.c:
+    complete
+    .text       start:0x021a30dc end:0x021a30e8
     .rodata     start:0x021a404c end:0x021a4b5c
-    .data       start:0x021a4d1c end:0x021a4d60
+    .data       start:0x021a4d1c end:0x021a4d54
+
+src/ov294/intro_msg.c:
+    .text       start:0x021a30e8 end:0x021a35dc
+    .data       start:0x021a4d54 end:0x021a4d60
 
 src/ov294/intro_mcss.c:
     complete

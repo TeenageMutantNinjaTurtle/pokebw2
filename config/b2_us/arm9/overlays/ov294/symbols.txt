@@ -85,7 +85,7 @@ func_ov294_021a2f50 kind:function(thumb,size=0x84) addr:0x021a2f50
 func_ov294_021a2fd4 kind:function(thumb,size=0x22) addr:0x021a2fd4
 func_ov294_021a2ff8 kind:function(thumb,size=0x50) addr:0x021a2ff8
 func_ov294_021a3048 kind:function(thumb,size=0x14) addr:0x021a3048
-func_ov294_021a305c kind:function(thumb,size=0xc) addr:0x021a305c
+IntroScript_Get kind:function(thumb,size=0xc) addr:0x021a305c
 func_ov294_021a3068 kind:function(thumb,size=0x104) addr:0x021a3068
 func_ov294_021a316c kind:function(thumb,size=0x5e) addr:0x021a316c
 func_ov294_021a31cc kind:function(thumb,size=0x22) addr:0x021a31cc
@@ -154,22 +154,22 @@ data_ov294_021a3ed0 kind:data(any) addr:0x021a3ed0
 sBGSetups kind:data(any) addr:0x021a3ef0
 data_ov294_021a3fa0 kind:data(any) addr:0x021a3fa0
 data_ov294_021a3fa8 kind:data(any) addr:0x021a3fa8
-data_ov294_021a3fcc kind:data(any) addr:0x021a3fcc
-data_ov294_021a3fe4 kind:data(any) addr:0x021a3fe4
-data_ov294_021a402c kind:data(any) addr:0x021a402c
-data_ov294_021a408c kind:data(any) addr:0x021a408c
+sScriptStart kind:data(any) addr:0x021a3fcc
+sScriptBegin kind:data(any) addr:0x021a3fe4
+sScriptRenamePlayer kind:data(any) addr:0x021a402c
+sScriptFinish kind:data(any) addr:0x021a408c
 data_ov294_021a4094 kind:data(any) addr:0x021a4094 ambiguous
-data_ov294_021a40ec kind:data(any) addr:0x021a40ec
-data_ov294_021a414c kind:data(any) addr:0x021a414c
-data_ov294_021a41c4 kind:data(any) addr:0x021a41c4
-data_ov294_021a426c kind:data(any) addr:0x021a426c
+sScriptRenameRival kind:data(any) addr:0x021a40ec
+sScriptAskName kind:data(any) addr:0x021a414c
+sScriptAboutYou kind:data(any) addr:0x021a41c4
+sScriptAskRivalName kind:data(any) addr:0x021a426c
 data_ov294_021a42b8 kind:data(any) addr:0x021a42b8 ambiguous
-data_ov294_021a435c kind:data(any) addr:0x021a435c
-data_ov294_021a4464 kind:data(any) addr:0x021a4464
-data_ov294_021a456c kind:data(any) addr:0x021a456c
-data_ov294_021a468c kind:data(any) addr:0x021a468c
-data_ov294_021a47c4 kind:data(any) addr:0x021a47c4
-data_ov294_021a4914 kind:data(any) addr:0x021a4914
+sScriptFarewell kind:data(any) addr:0x021a435c
+sScriptGender kind:data(any) addr:0x021a4464
+sScriptGreeting kind:data(any) addr:0x021a456c
+sScriptPlayerNamed kind:data(any) addr:0x021a468c
+sScriptRivalNamed kind:data(any) addr:0x021a47c4
+sScriptPokemon kind:data(any) addr:0x021a4914
 sScale kind:data(any) addr:0x021a4adc
 sPokemonScale kind:data(any) addr:0x021a4ae8
 sTarget kind:data(any) addr:0x021a4af4
@@ -184,7 +184,7 @@ data_ov294_021a4bb0 kind:data(any) addr:0x021a4bb0
 data_ov294_021a4bb4 kind:data(any) addr:0x021a4bb4
 data_ov294_021a4bbc kind:data(any) addr:0x021a4bbc
 data_ov294_021a4c90 kind:data(any) addr:0x021a4c90
-data_ov294_021a4c9c kind:data(any) addr:0x021a4c9c
+sScripts kind:data(any) addr:0x021a4c9c
 data_ov294_021a4cd4 kind:data(any) addr:0x021a4cd4
 data_ov294_021a4ce0 kind:data(any) addr:0x021a4ce0
 data_ov294_021a4cf0 kind:data(any) addr:0x021a4cf0

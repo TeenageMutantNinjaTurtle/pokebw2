@@ -214,6 +214,7 @@ overlays/ov294 0x021a2120 IntroG3dSys_InitNamed
 overlays/ov294 0x021a21b8 IntroG3dSys_Free
 overlays/ov294 0x021a21d0 IntroG3dSys_Begin
 overlays/ov294 0x021a21e4 IntroG3dSys_End
+overlays/ov294 0x021a305c IntroScript_Get
 overlays/ov294 0x021a355c IntroMcss_Create
 overlays/ov294 0x021a35ac IntroMcss_Free
 overlays/ov294 0x021a35dc IntroMcss_Draw
@@ -257,6 +258,20 @@ overlays/ov294 0x021a3dc8 sLightSetups
 overlays/ov294 0x021a3df0 sVRAMConfig
 overlays/ov294 0x021a3e20 sVRAMConfigNamed
 overlays/ov294 0x021a3ef0 sBGSetups
+overlays/ov294 0x021a3fcc sScriptStart
+overlays/ov294 0x021a3fe4 sScriptBegin
+overlays/ov294 0x021a402c sScriptRenamePlayer
+overlays/ov294 0x021a408c sScriptFinish
+overlays/ov294 0x021a40ec sScriptRenameRival
+overlays/ov294 0x021a414c sScriptAskName
+overlays/ov294 0x021a41c4 sScriptAboutYou
+overlays/ov294 0x021a426c sScriptAskRivalName
+overlays/ov294 0x021a435c sScriptFarewell
+overlays/ov294 0x021a4464 sScriptGender
+overlays/ov294 0x021a456c sScriptGreeting
+overlays/ov294 0x021a468c sScriptPlayerNamed
+overlays/ov294 0x021a47c4 sScriptRivalNamed
+overlays/ov294 0x021a4914 sScriptPokemon
 overlays/ov294 0x021a4adc sScale
 overlays/ov294 0x021a4ae8 sPokemonScale
 overlays/ov294 0x021a4af4 sTarget
@@ -266,5 +281,6 @@ overlays/ov294 0x021a4b18 sActors
 overlays/ov294 0x021a4b28 sSceneSetup
 overlays/ov294 0x021a4b38 sAnimations
 overlays/ov294 0x021a4b4c sResources
+overlays/ov294 0x021a4c9c sScripts
 overlays/ov294 0x021a4cfc sCameraVectors
 overlays/ov327 0x021b70d4 WBT_DOWNLOAD_PROC_FUNCTIONS
