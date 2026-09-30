@@ -96,7 +96,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("source", type=Path)
     parser.add_argument("--version", default="b2_us", help="game version")
-    parser.add_argument("--compilers", default="all", help="comma-separated dsi compiler versions, or 'all'")
+    parser.add_argument(
+        "--compilers",
+        default="all",
+        help="comma-separated dsi compiler versions, or 'all'; "
+        "other builds by their directory under tools/mwccarm, as in 2.0/sp2p2",
+    )
     parser.add_argument("--flags", default=DEFAULT_FLAGS)
     parser.add_argument("--extra-flags", default="", help="flags appended to --flags")
     parser.add_argument("--opt", help="optimization flags replacing -O4,p, e.g. -O4,s")
@@ -112,10 +117,10 @@ def main():
     results: dict[str, dict[str, str]] = {}
     with tempfile.TemporaryDirectory() as tmp:
         for compiler in compilers:
-            obj = Path(tmp) / f"{compiler}.o"
+            obj = Path(tmp) / f"{compiler.replace('/', '_')}.o"
             command = [
                 str(TOOLS / "wibo"),
-                str(compilers_dir / compiler / "mwccarm.exe"),
+                str((TOOLS / "mwccarm" / compiler if "/" in compiler else compilers_dir / compiler) / "mwccarm.exe"),
                 *shlex.split(args.flags),
                 *shlex.split(args.extra_flags),
                 *(arg for define in VERSION_DEFINES.get(args.version, []) for arg in ("-d", define)),
