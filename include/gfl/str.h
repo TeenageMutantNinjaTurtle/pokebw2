@@ -21,6 +21,8 @@ WordSet *GFL_WordSetSystemCreateDefault(HeapID heapId);
 void GFL_WordSetSystemFree(WordSet *wordSet);
 void GFL_WordSetFormatStrbuf(WordSet *wordSet, StrBuf *dest, const StrBuf *src);
 void GFL_WordSetLoadStr(WordSet *wordSet, u32 index, const u16 *str);
+// Puts a Pokémon's species name in a word set
+void setPartyPokemonSpeciesNameToStrbuf(WordSet *wordSet, u32 index, PartyPkm *pkm);
 // Puts the player's name in a word set
 void copyVarForText(WordSet *wordSet, u32 index, PlayerInfo *playerInfo);
 // Puts a place name, from the place names' message file, in a word set

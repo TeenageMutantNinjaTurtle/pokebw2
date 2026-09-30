@@ -28,5 +28,7 @@ void func_0205006c(void *system, u32 emitter, const VecFx32 *pos);
 void func_020500cc(void *system, const ParticleProjection *projection, fx32 a2, const VecFx32 *a3, const VecFx32 *a4,
                    const VecFx32 *a5, HeapID heapId);
 void func_02050178(void *system);
+void func_020500b0(void *system);
+u8 func_020503f0(void *resource);
 
 #endif // POKEBW2_GFL_PARTICLE_H

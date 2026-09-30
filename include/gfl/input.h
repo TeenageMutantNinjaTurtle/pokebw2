@@ -27,6 +27,7 @@ u32 GCTX_HIDGetTypedKeys(void);
 // The touch screen, read through the same instance as the keys: whether it is touched, and whether it was touched
 // this frame
 BOOL func_0203da2c(void);
+void func_0203d564(u8 a0);
 BOOL func_0203da48(void);
 
 // A rectangle of the touch screen, in pixels. A table of them ends with top TOUCH_RECT_END

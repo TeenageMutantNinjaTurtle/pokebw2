@@ -110,7 +110,10 @@ void GFL_BGSysLoadScrAreaLarge(u8 bg, u8 x, u8 y, u8 width, u8 height, const u16
 void GFL_BGSysLoadScrCore(u32 bg, void *data, u32 size, u32 offset);
 void GFL_BGSysQueueScrLoad(u32 bg);
 void GFL_BGSysMoveBGReq(u8 bg, u32 type, u32 value);
-void GFL_BGSysReleaseBG(u32 bg);
+void GFL_BGSysReleaseBG(u8 bg);
+// Allocates characters of a BG, returning their position, and frees them
+u16 GFL_BGSysAllocChar(u32 bg, u32 size, u32 dir);
+void GFL_BGSysFreeCharMemory(u32 bg, u16 pos, u16 size);
 // Fills a screen's standard palette with a color, 0 for the main screen and 4 for the sub screen
 void GFL_BGSysResetStdPalette(u32 type, GXRgb color);
 // Enables BG 0 of the main engine, where the 3D is drawn, and sets its priority

@@ -23,7 +23,13 @@ typedef struct {
 
 // In ov012
 NameEntryParam *setupNameEntry(u32 mode, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+// The name entry for a Pokémon's nickname
+NameEntryParam *setupPokemonNameEntry(HeapID heapId, PartyPkm *pkm, u32 a2, u32 a3, TrainerGameInfoSave *gameInfo);
 void func_ov012_02165ae8(NameEntryParam *param);
+// Copies the entered name, and compares it with a string
+void func_ov012_02165afc(NameEntryParam *param, StrBuf *dest);
+BOOL func_ov012_02165b0c(NameEntryParam *param);
+BOOL func_ov012_02165b10(NameEntryParam *param, const StrBuf *str);
 
 extern const GameProcFunctions NAME_ENTRY_PROC_FUNCTIONS;
 // The sound sequences that the name entry plays, which the new game loads before it

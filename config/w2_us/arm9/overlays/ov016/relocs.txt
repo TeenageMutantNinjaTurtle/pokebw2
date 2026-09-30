@@ -11,7 +11,8 @@ from:0x0216e760 kind:thumb_call to:0x021b87c4 module:overlay(36)
 from:0x0216e768 kind:thumb_call to:0x02016d68 module:main
 from:0x0216e772 kind:thumb_call to:0x0201cd24 module:main
 from:0x0216e77a kind:thumb_call to:0x02160110 module:overlay(12)
-from:0x0216e790 kind:load to:0x021df568 module:overlays(36,307)
+from:0x0216e78c kind:overlay_id to:307
+from:0x0216e790 kind:load to:0x021df568 module:overlay(307)
 from:0x0216e7a0 kind:thumb_call to:0x02016cb4 module:main
 from:0x0216e7a6 kind:thumb_call to:0x02016edc module:main
 from:0x0216e7b0 kind:thumb_call to:0x02016af0 module:main

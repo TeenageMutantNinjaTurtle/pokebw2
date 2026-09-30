@@ -54,6 +54,8 @@ void func_0204c028(ClActUnit *unit);
 // return their resource indices
 u32 func_0204b81c(ArcTool *arc, u32 fileId, u32 a2, u32 a3, HeapID heapId);
 u32 func_0204bba0(ArcTool *arc, u32 fileId, u32 a2, u32 a3, HeapID heapId);
+// func_0204bba0 with a4 and a5 0
+u32 func_0204bbb8(ArcTool *arc, u32 fileId, u32 a2, u32 a3, u32 a4, u32 a5, HeapID heapId);
 u32 func_0204bde0(ArcTool *arc, u32 cellFileId, u32 animFileId, HeapID heapId);
 void func_0204b98c(u32 chars);
 void func_0204bcd0(u32 palette);
@@ -73,5 +75,8 @@ void func_0204c124(ClActor *actor, BOOL visible);
 void func_0204c318(ClActor *actor, u32 mode);
 u32 func_0204c370(ClActor *actor);
 void func_0204c520(ClActor *actor, BOOL a1);
+// Act on the actor's animation controller
+void func_0204c504(ClActor *actor, u32 a1);
+BOOL func_0204c560(ClActor *actor);
 
 #endif // POKEBW2_GFL_CLACT_H

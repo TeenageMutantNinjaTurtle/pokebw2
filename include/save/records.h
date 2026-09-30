@@ -10,4 +10,6 @@
 // Clears the flag that is set, with the console's MAC address and the time, while a match is in progress
 void RecordSave_ClearMatchInProgress(RecordSave *record);
 
+void RecordAddOne(GameRecords *records, u32 id);
+
 #endif // POKEBW2_SAVE_RECORDS_H

@@ -20,6 +20,11 @@ GFLBitmap *BmpWin_GetBitmap(BmpWin *window);
 u8 BmpWin_GetBGIndex(BmpWin *window);
 void BmpWin_FlushChar(BmpWin *window);
 void BmpWin_FlushMap(BmpWin *window);
+// Loads a window frame's characters at the end of a BG's characters. The result is their position in the low 16 bits
+// and their size in the high 16, as GFL_BGSysFreeCharMemory takes them
+u32 LoadCursorImageEndOfHeap(u32 bg, u32 a1, u32 a2, HeapID heapId);
+#define CHAR_POS(chars) ((chars) & 0xffff)
+#define CHAR_SIZE(chars) ((chars) >> 16)
 // Clears the window's area of its BG's screen
 void func_020484b4(BmpWin *window);
 

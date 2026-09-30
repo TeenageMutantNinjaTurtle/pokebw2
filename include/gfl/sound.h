@@ -7,6 +7,7 @@
 void GFL_SndBGMFadeIn(u16 frames);
 void GFL_SndBGMFadeOut(u16 frames);
 u32 GFL_SndBGMGetID(void);
+BOOL GFL_SndBGMIsFading(void);
 // The tick count of the BGM's sequence player
 u32 GFL_SndBGMGetTick(void);
 BOOL GFL_SndBGMIsPlaying(void);
@@ -23,6 +24,7 @@ void GFL_SndDestroyHeap(void);
 void GFL_SndInit(void);
 // The player that plays a sequence
 s32 GFL_SndSeqGetPlayerIndex(u32 seq);
+BOOL GFL_SndPlayerIsActive(s32 player);
 BOOL GFL_SndPlayerIsActiveAny(void);
 void GFL_SndPlayerStop(s32 player);
 void GFL_SndPlayerSetVolume(s32 player, s32 volume);
@@ -30,6 +32,10 @@ void GFL_SndPlayerSetVolume(s32 player, s32 volume);
 void GFL_SndPlayerSetParams(s32 player, s32 a1, s32 a2, s32 a3);
 void GFL_SndPlayerSetVolumeEx(u32 volume, u32 playerMask);
 void GFL_SndSEPlay(u32 se);
+void GFL_SEPlayKeepVol(u32 se, s32 player);
+// Called once with start TRUE for a sequence, then each frame with FALSE until it returns TRUE
+BOOL func_02006424(u32 seq, u32 *step, BOOL start);
+void func_02005d8c(void);
 BOOL GFL_SndIsPlaying(u32 seq);
 void GFL_SndStop(void);
 void GFL_SndSetVolumeControlCallbacks(void);
@@ -51,6 +57,7 @@ u32 PokeVoice_Load(u32 species, u32 form, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6
 u32 PokeVoice_Play(u32 species, u32 form, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 BOOL PokeVoice_StartPlayback(u32 handle);
 BOOL PokeVoice_IsPlaying(u32 handle);
+BOOL PokeVoice_IsPlayingAny(void);
 void PokeVoice_ResetMasterVolume(void);
 void PokeVoice_SetMasterVolume(u32 volume);
 

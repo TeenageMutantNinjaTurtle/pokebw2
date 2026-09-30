@@ -27,6 +27,7 @@ s32 func_02017c50(u32 speed);
 PrintQueue *func_02021998(HeapID heapId);
 void func_02021a18(PrintQueue *queue);
 void func_02021a3c(PrintQueue *queue);
+void func_02021c44(PrintQueue *queue);
 // Whether the queue has printed everything, and whether it still has text to print into a bitmap
 BOOL func_02021c0c(PrintQueue *queue);
 BOOL func_02021c1c(PrintQueue *queue, GFLBitmap *bitmap);

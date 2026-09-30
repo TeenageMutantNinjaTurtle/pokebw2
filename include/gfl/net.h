@@ -2,6 +2,7 @@
 #define POKEBW2_GFL_NET_H
 
 #include "types.h"
+#include "gfl/heap.h"
 #include "struct_decls.h"
 
 // The unnamed functions below are from the network library. Some appear to synchronize with the other player or
@@ -11,6 +12,8 @@ BOOL GFL_NetErrCheck(void);
 void GFL_NetErrMarkShown(void);
 void GFL_NetErrShow(u32 a0);
 void func_02011de0(void);
+// Calls into the functions that show the wireless strength icons
+void func_02042ba8(u32 a0, HeapID heapId);
 void func_02012154(void);
 u32 func_0203ffc4(void);
 NetHandle *func_02040440(void);

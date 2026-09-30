@@ -4,12 +4,14 @@
 #include "types.h"
 #include "gfl/heap.h"
 #include "nitro/fx.h"
+#include "nitro/gx.h"
 #include "struct_decls.h"
 
 // MCSS, the system that draws Pokémon and trainer sprites from multi-cell animations. It is mcss.c in the main module
 
 typedef struct MCSSSystem MCSSSystem;
 typedef struct MCSS MCSS;
+typedef struct NNSG2dAnimController NNSG2dAnimController;
 
 // The archive and files of a sprite's graphics, as SetupPokemonLoaderFSTool fills it in
 typedef struct {
@@ -55,6 +57,27 @@ void MCSS_SetAnimationEndCallback(MCSS *mcss, u32 param, MCSSAnimationCallback c
 void MCSS_SetAlpha(MCSS *mcss, u8 alpha);
 void MCSS_SetAnimation(MCSS *mcss, u32 animation);
 void MCSS_RestartAnimation(MCSS *mcss);
+// Alpha from 0 to 31
+u8 func_0201ae88(MCSS *mcss);
+// Fades the palette between two levels of a color, and whether the fade is running
+void func_0201ae2c(MCSS *mcss, u8 startLevel, u8 endLevel, s32 wait, GXRgb color);
+BOOL func_0201aee8(MCSS *mcss);
+void func_0201aecc(MCSS *mcss, u32 a1);
+void func_0201ab54(MCSS *mcss, const VecFx32 *a1);
+u16 func_0201ade8(MCSS *mcss);
+s16 func_0201adf0(MCSS *mcss);
+s16 func_0201adf8(MCSS *mcss);
+// The sprite's animation controller, which NNS_G2dSetAnimCtrlCallBackFunctor takes
+NNSG2dAnimController *func_0201adc4(MCSS *mcss);
+void func_020618c0(NNSG2dAnimController *controller);
+void func_0201c290(MCSS *mcss);
+// Adds the sprite of a party Pokémon
+MCSS *func_0201c14c(MCSSSystem *system, PartyPkm *pkm, u32 a2, fx32 x, fx32 y, fx32 z);
+
+// NitroSystem's callbacks of an animation controller, which get a parameter and the current frame
+typedef void (*NNSG2dAnmCallBackPtr)(u32 param, fx32 frame);
+#define NNS_G2D_ANMCALLBACKTYPE_LAST_FRM 1
+void NNS_G2dSetAnimCtrlCallBackFunctor(NNSG2dAnimController *controller, u32 type, u32 param, NNSG2dAnmCallBackPtr func);
 
 // SetupPokemonLoaderByBoxData for a party Pokémon
 void func_0201bfdc(PartyPkm *pkm, MCSSLoadInfo *info, u32 a2);

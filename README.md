@@ -189,6 +189,11 @@ Things that affect whether MWCC output matches:
   `if`/`else if` stores each limit separately.
 - The operands of `*` are loaded in source order, so a multiply whose registers are swapped has its operands swapped
   in the source.
+- A value moved into an argument register just before a call, and used for nothing else, is an argument the prototype
+  is missing. `GFL_SEPlayKeepVol` takes the sound's player as well as the sound.
+- `compiler_probe.py` skips relocated words, so a wrong addend, such as a table index that the compiler folds into a
+  literal pool address, only shows when the module check fails. Compare the built overlay in `build/<version>/build`
+  with the original to find it.
 - When the order of instructions differs and no source change moves it, try `tools/scripts/permuter_setup.py`, which
   prepares a function for [decomp-permuter](https://github.com/simonlindholm/decomp-permuter).
 
@@ -371,7 +376,9 @@ records them in `config/fixes.txt`:
 It also removes relocations and symbols that are not real (`remove-reloc`, `remove-symbol`), and gives a function a
 second name with `add-label`. MWCC calls the runtime's 64-bit multiply `_ll_mul` for signed values and `_ull_mul` for
 unsigned ones, while the game has one copy of it, so `_ll_mul` is a label on `_ull_mul`. In the same way, `_fflt` (int
-to float) is a label on swan's `__aeabi_i2f`, and `_u32_div_f` (unsigned division) on `__aeabi_uidivmod`.
+to float) is a label on swan's `__aeabi_i2f`, and `_u32_div_f` (unsigned division) on `__aeabi_uidivmod`. `add-data`
+adds an object that nothing references, such as a global constant that the compiler folds into the code but still emits,
+so that the object before it does not seem to run on over it.
 
 A relocation that dsd could not pin to one overlay only links while its symbol is global. When a function becomes
 `static` in a decompiled file, check `relocs.txt` of both versions for relocations to its address with several

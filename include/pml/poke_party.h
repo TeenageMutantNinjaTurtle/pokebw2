@@ -7,6 +7,11 @@
 #include "struct_decls.h"
 
 PokeParty *PokeParty_Create(HeapID heapId);
+// Read and write a field of a Pokémon, PKM_PARAM_*. Fields that are not numbers go through the buffer
+u32 PokeParty_GetParam(PartyPkm *pkm, u32 param, void *buffer);
+void PokeParty_SetParam(PartyPkm *pkm, u32 param, const void *value);
+// Hatches an egg, recording where and by whom
+void hatchEgg(PartyPkm *pkm, PlayerInfo *playerInfo, u16 placeName, HeapID heapId);
 void PokeParty_Init(PokeParty *party);
 // Allocates a Pokémon that is not in a party. What the 64-bit argument sets is not known yet; 0 is one of the values
 // that PML_CreatePkm treats specially

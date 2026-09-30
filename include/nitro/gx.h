@@ -48,6 +48,14 @@ typedef u16 GXRgb;
 #define GX_PLANEMASK_BG3 0x08
 #define GX_PLANEMASK_OBJ 0x10
 
+// The planes that blending takes, which include the backdrop
+#define GX_BLEND_PLANEMASK_BG0 0x01
+#define GX_BLEND_PLANEMASK_BG1 0x02
+#define GX_BLEND_PLANEMASK_BG2 0x04
+#define GX_BLEND_PLANEMASK_BG3 0x08
+#define GX_BLEND_PLANEMASK_OBJ 0x10
+#define GX_BLEND_PLANEMASK_BD 0x20
+
 #define GX_DISPMODE_GRAPHICS 1
 // Shows VRAM D, where the display capture can write, instead of the main engine's output
 #define GX_DISPMODE_VRAM_D 0xe
@@ -95,6 +103,7 @@ typedef u16 GXRgb;
 #define GX_VRAM_TEXPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_SUB_OBJEXTPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_TEX_01_AB (GX_VRAM_A | GX_VRAM_B)
+#define GX_VRAM_TEX_01_BD (GX_VRAM_B | GX_VRAM_D)
 #define GX_VRAM_TEX_01_CD (GX_VRAM_C | GX_VRAM_D)
 #define GX_VRAM_TEX_012_ABC (GX_VRAM_A | GX_VRAM_B | GX_VRAM_C)
 #define GX_VRAM_TEX_0123_ABCD (GX_VRAM_A | GX_VRAM_B | GX_VRAM_C | GX_VRAM_D)
