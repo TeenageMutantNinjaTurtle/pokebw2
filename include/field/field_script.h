@@ -38,6 +38,9 @@ GameSystem *ScriptWork_GetGameSystem(ScriptWork *work);
 StrBuf *ScriptWork_GetMainStrBuf(ScriptWork *work);
 StrBuf *ScriptWork_GetAltStrBuf(ScriptWork *work);
 FieldActor *ScriptWork_GetParentActor(ScriptWork *work);
+void ScriptWork_SetParentActor(ScriptWork *work, FieldActor *actor);
+// A pointer that a command can keep its own work in while the script waits
+void **ScriptWork_GetUserHeapPtr(ScriptWork *work);
 WordSet *ScriptWork_GetWordSet(ScriptWork *work);
 MMSys *GetScrEnvMMdlSys(FieldScriptEnv *env);
 // Adds an entry to the script's list menu

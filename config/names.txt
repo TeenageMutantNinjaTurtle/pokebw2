@@ -196,6 +196,7 @@ overlays/ov056 0x021e76b4 WbtCmd_CheckRegulation
 overlays/ov056 0x021e784c WbtCmd_MakeRentalParty
 overlays/ov056 0x021e7b58 WbtCmd_Download
 overlays/ov057 0x021e77d4 WbtCmd_MakeOpponentParty
+overlays/ov058 0x021e5800 RESORT_SCRIPT_COMMANDS
 overlays/ov061 0x021e6230 BLACK_TOWER_SCRIPT_COMMANDS
 overlays/ov062 0x021e5840 Pokewood_LoadMovie
 overlays/ov062 0x021e5890 Pokewood_GetSave

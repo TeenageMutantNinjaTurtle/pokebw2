@@ -9,9 +9,15 @@
 
 PokeParty *PokeParty_Create(HeapID heapId);
 // Read and write a field of a Pokémon, PKM_PARAM_*. Fields that are not numbers go through the buffer
-u32 PokeParty_GetParam(PartyPkm *pkm, u32 param, void *buffer);
+// A field of a Pokémon, PKM_PARAM_*. The functions take it as an enum, swan's PkmField, and MWCC doesn't share a sum
+// that makes one between two calls, as it would an integer
+typedef enum {
+    PKM_PARAM_COUNT = 0xb4,
+} PkmField;
+
+u32 PokeParty_GetParam(PartyPkm *pkm, PkmField param, void *buffer);
 // A field that is not a number takes a pointer to its value
-void PokeParty_SetParam(PartyPkm *pkm, u32 param, u32 value);
+void PokeParty_SetParam(PartyPkm *pkm, PkmField param, u32 value);
 u32 PokeParty_GetSex(PartyPkm *pkm);
 BOOL PokeParty_IsRare(PartyPkm *pkm);
 // Decrypt a Pokémon for a series of reads and writes, and return whether it was encrypted, which is what the
@@ -37,6 +43,8 @@ void PokeParty_SetupMetData(PartyPkm *pkm, u32 a1, PlayerInfo *playerInfo, u16 p
 void PokeParty_ClearPkm(PartyPkm *pkm);
 // Restores a Pokémon's HP and PP and cures its status
 void PokeParty_Recover(PartyPkm *pkm);
+void PokeParty_RecalcStats(PartyPkm *pkm);
+void setPkmBattleData(PartyPkm *pkm, u32 param, u32 value);
 // A species with its form and sex in one u16
 u16 func_02021204(u32 species, u32 form, u32 sex);
 // The level, 0 to 4, of a Pokémon's Pokéstar fame

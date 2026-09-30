@@ -41,6 +41,8 @@ PokeParty *GameData_GetParty(GameData *gameData);
 PlayerState *GameData_GetPlayerState(GameData *gameData);
 PokeDexSave *GameData_GetPokedex(GameData *gameData);
 GameRecords *GameData_GetRecords(GameData *gameData);
+// Whether a full day has passed since the last check
+BOOL checkForMidnight(GameData *gameData);
 SaveControl *GameData_GetSaveControl(GameData *gameData);
 u8 GameData_GetSeason(GameData *gameData);
 void GameData_GetSeasons(GameData *gameData, u16 *prevSeason, u16 *season);
@@ -77,6 +79,7 @@ void *func_020179f8(GameData *gameData);
 u32 func_02017a40(GameData *gameData);
 void func_02017b64(GameData *gameData, u8 a1);
 u32 *func_02017b84(GameData *gameData);
+u32 func_02039978(u32 *a0, u32 index);
 void func_02039980(u32 *a0, u32 index, u32 value);
 
 #endif // POKEBW2_SYSTEM_GAME_DATA_H

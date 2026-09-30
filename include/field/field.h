@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_FIELD_H
 
 #include "types.h"
+#include "gfl/bmpwin.h"
 #include "gfl/heap.h"
 #include "gfl/tcb.h"
 #include "nitro/fx.h"
@@ -26,6 +27,11 @@ u16 FieldPlayer_GetObjCodeByExState(u32 sex, u32 exState);
 void *Field_GetMsgBGSys(Field *field);
 // A message window on the field's message BG: create, update (0 for the first answer, 2 while waiting) and free
 void *func_ov036_021880d4(void *msgBGSys, u32 a1);
+void func_ov036_02187c1c(void *window);
+BOOL func_ov036_02187c70(void *window);
+void func_ov036_02187c7c(void *window);
+BmpWin *func_ov036_02187c9c(void *window);
+GameEvent *func_ov036_021bfa68(u16 a0, GameSystem *gsys, u32 a2, u16 a3);
 // Check the party and the Battle Box against a regulation. func_ov036_021aebf0 returns the event that lets the player
 // choose between them, or NULL when neither can enter
 GameEvent *func_ov036_021aebf0(GameSystem *gsys, u32 a1, Regulation *regulation, u16 *result, HeapID heapId);
@@ -38,11 +44,14 @@ void func_ov036_021c3eb4(void *obj);
 void func_ov036_021c65a8(void *obj, u16 a1);
 void func_ov036_021c65e8(void *obj, u16 a1);
 void FieldPlayer_SetWPos(FieldPlayer *player, const VecFx32 *pos);
+void FieldPlayer_SetDirection(FieldPlayer *player, u32 dir);
 void FieldFadeTCB_Start(GameSystem *gsys, Field *field, u32 a2, u32 a3, u32 a4);
 
 // The work of the zone's gimmick, such as a gym's puzzle, which the gimmick's overlay allocates at the zone's start
 void *Field_AllocGimmickWorkBlock(Field *field, u32 id, HeapID heapId, u32 size);
 void *Field_GetGimmickWorkBlock(Field *field, u32 id);
+// Whether the gimmick work was allocated with the password
+BOOL Field_CheckGimmickWorkPassword(Field *field, u32 password);
 void Field_DeleteGimmickWorkBlock(Field *field, u32 id);
 
 // A list of areas of the map, which the list's entry index sets: a grid rectangle, a value and flags

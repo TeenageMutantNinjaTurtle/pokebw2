@@ -638,11 +638,9 @@ BOOL BSubwayCmd_Tool(VM *vm, FieldScriptEnv *env) {
     case 333:
         func_ov033_0217bb98(bsw, gsys);
         break;
-    // The game computes i + count + 1 here with i still 0, where this folds it to count + 1: the one instruction by
-    // which BSubwayCmd_Tool differs, so the file is not complete yet. No loop written with a plain local has kept i;
-    // only taking its address has, which also adds a stack slot the game doesn't have
+    // Fades in the switches for the train's cars
     case 334: {
-        int i = 0;
+        ISSSwitchIndex i = 0;
         u16 count = func_0200e2ec(playData);
         ISSSwitchSys *switchSys;
 
@@ -650,7 +648,7 @@ BOOL BSubwayCmd_Tool(VM *vm, FieldScriptEnv *env) {
             switchSys = ISS_GetSwitchSys(GameSystem_GetISS(gsys));
             count = i + count + 1;
             for (; i < count; i++) {
-                if (i < 9 && i != 0) {
+                if (i < ISS_SWITCH_COUNT && i != 0) {
                     ISSSwitchSys_ReqSwitchFadeIn(switchSys, i);
                 }
             }
@@ -755,7 +753,7 @@ BOOL BSubwayCmd_Tool(VM *vm, FieldScriptEnv *env) {
             bsw->ov306Param.unk14 = BSUBWAY_COUNT_MAX;
         }
         ScriptWork_CallEvent(work,
-                             func_020196d0(gsys, field, OVERLAY_ID(306), &data_ov306_0219ed40, &bsw->ov306Param, 0, 0));
+                             func_020196d0(gsys, field, OVERLAY_ID(306), &data_ov306_0219ed40, &bsw->ov306Param, NULL, NULL));
         result = TRUE;
         break;
     case 349:
@@ -887,7 +885,7 @@ BOOL BSubwayCmd_Tool(VM *vm, FieldScriptEnv *env) {
         bsw->ov174Param.gameData = gameData;
         bsw->ov174Param.result = 11;
         ScriptWork_CallEvent(work,
-                             func_020196d0(gsys, field, OVERLAY_ID(174), &data_ov174_0219f0fc, &bsw->ov174Param, 0, 0));
+                             func_020196d0(gsys, field, OVERLAY_ID(174), &data_ov174_0219f0fc, &bsw->ov174Param, NULL, NULL));
         result = TRUE;
         break;
     case 409:

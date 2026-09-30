@@ -65,6 +65,7 @@ typedef struct HighLinkSave HighLinkSave;
 typedef struct ISS ISS;
 typedef struct ISSSwitchSys ISSSwitchSys;
 typedef struct JoinAvenueInfo JoinAvenueInfo;
+typedef struct JoinAvenueOccupants JoinAvenueOccupants;
 typedef struct JoinAvenuePerson JoinAvenuePerson;
 typedef struct JoinAvenuePersonList JoinAvenuePersonList;
 typedef struct JoinAvenueSave JoinAvenueSave;
@@ -92,7 +93,8 @@ typedef struct Regulation Regulation;
 typedef struct RivalDataSave RivalDataSave;
 typedef struct SaveControl SaveControl;
 typedef struct ScriptWork ScriptWork;
-typedef struct TrainerCardSave TrainerCardSave;
+// Save block 0x34, which getTrainerGameInfoAddress, getTrainerCardData_wrapper and getTrainerCardDataBlkAddress return
+typedef struct TrainerGameInfoSave TrainerCardSave;
 typedef struct TrainerDataSave TrainerDataSave;
 typedef struct TrainerGameInfoSave TrainerGameInfoSave;
 typedef struct UnityTowerSurveySave UnityTowerSurveySave;

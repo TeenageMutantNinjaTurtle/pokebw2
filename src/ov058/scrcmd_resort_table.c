@@ -1,0 +1,50 @@
+#include "types.h"
+#include "field/field_script.h"
+#include "field/scrcmd_resort.h"
+
+// The Join Avenue's script plugin (plugin 8), commands from 1000. The table is in its own overlay, 58, as overlay
+// 60's shop command takes overlay 59's place at the first command's address
+
+const FieldScriptCommand RESORT_SCRIPT_COMMANDS[] = {
+    func_ov059_021e58c0,
+    func_ov059_021e591c,
+    func_ov059_021e5950,
+    func_ov059_021e5eb0,
+    func_ov059_021e79a4,
+    func_ov059_021e5f38,
+    func_ov059_021e7ad8,
+    func_ov059_021e6014,
+    func_ov059_021e60a4,
+    func_ov059_021e6778,
+    func_ov059_021e67f8,
+    func_ov059_021e58c0,
+    func_ov059_021e619c,
+    func_ov059_021e6868,
+    func_ov059_021e689c,
+    func_ov059_021e61d8,
+    func_ov059_021e62a8,
+    func_ov059_021e6318,
+    func_ov059_021e63d4,
+    func_ov059_021e64a0,
+    func_ov059_021e65fc,
+    func_ov059_021e6630,
+    func_ov059_021e66d8,
+    func_ov059_021e6bd4,
+    func_ov059_021e6934,
+    func_ov059_021e6b68,
+    func_ov059_021e6c10,
+    func_ov059_021e7a28,
+    func_ov059_021e77c4,
+    func_ov059_021e6c48,
+    func_ov059_021e74cc,
+    func_ov059_021e7608,
+    func_ov059_021e6d50,
+    func_ov059_021e6f14,
+    func_ov059_021e742c,
+    func_ov059_021e6fc8,
+    func_ov059_021e7c70,
+    func_ov059_021e7710,
+    func_ov059_021e7748,
+    func_ov059_021e778c,
+    (FieldScriptCommand)0xFFFFFFFF,
+};

@@ -12,7 +12,12 @@
 #define PKM_PARAM_SPECIES 0x5
 #define PKM_PARAM_ITEM 0x6
 #define PKM_PARAM_ID 0x7
+#define PKM_PARAM_EXP 0x8
+// A friendship, or an egg's remaining steps
+#define PKM_PARAM_HAPPINESS 0x9
 #define PKM_PARAM_MARKINGS 0xb
+// The effort values, HP to special defense
+#define PKM_PARAM_EV_HP 0xd
 // The first ribbon of each group of ribbons, each followed by the field after the group
 #define PKM_PARAM_RIBBON_CHAMPION_SINNOH 0x19
 #define PKM_PARAM_MOVE1 0x36
@@ -28,6 +33,7 @@
 #define PKM_PARAM_POKERUS 0x97
 #define PKM_PARAM_POKEBALL 0x98
 #define PKM_PARAM_STATUS 0x9d
+#define PKM_PARAM_LEVEL 0x9e
 // The mail the Pokémon holds, copied from a MailData
 #define PKM_PARAM_MAIL 0xa7
 // Whether there is a Pokémon in the slot

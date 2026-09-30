@@ -141,6 +141,9 @@ Things that affect whether MWCC output matches:
   entrant's bit fields from one load, but it is not hoisted out of a loop: `wbt_party.c`'s filter check reads each
   list's count again in every iteration because its filter is `const`, where a plain pointer's count is loaded once
   before the loop.
+- MWCC doesn't propagate constants into a variable of an enum type. A loop that still checks its bound before the
+  first pass, as `for (p = 80; p <= 83; p++)` does in the Join Avenue's commands, or a sum that still adds a counter
+  known to be 0, as the Battle Subway's loop over its music switches does, has an enum counter.
 - An array index that is a sum, `a[i * 2 + x]`, is split into `(a + x) + i * 2`. When the original adds first and
   then indexes with the sum, the sum was put in a variable, as `seat` in `wbt_system.c`'s bracket code. Written as
   `seat = i * 2 + (won ? 0 : 1);`, the sum goes to the register of `i * 2`; with the `0` or `1` set by an `if` into a
@@ -355,7 +358,7 @@ lists the plugins:
 | 4 | 53 | Poké Transfer Lab | `scrcmd_palpark.c` |
 | 5 | 54 | Abyssal Ruins | |
 | 6, 7 | 55, and 56 or 57 | Pokémon World Tournament | `wbt_*.c` |
-| 8 | 58 and 59, with 60 swapped in for the shops | Join Avenue | `scrcmd_resort.c`, `scrcmd_resort_shop.c` |
+| 8 | 58 and 59, with 60 swapped in for the shops | Join Avenue | `scrcmd_resort.c`, `scrcmd_medalinfo.c`, `scrcmd_resort_shop.c` |
 | 9 | 61 | Black Tower and White Treehollow | |
 | 10 | 62 | Pokéstar Studios | `pokewood_*.c` |
 | 11 | 63 | Victory Road's badge gates | |
