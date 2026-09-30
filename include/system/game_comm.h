@@ -9,5 +9,7 @@ u8 GameCommSys_BootCheck(GameCommSys *comm);
 void GameCommSys_ExitReq(GameCommSys *comm);
 void func_0202be00(GameCommSys *comm);
 void func_0203021c(void);
+// Sends a beacon of type 0x39, if func_0202cfe8 allows it
+void func_ov012_02160574(void);
 
 #endif // POKEBW2_SYSTEM_GAME_COMM_H

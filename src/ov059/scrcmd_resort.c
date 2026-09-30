@@ -232,8 +232,8 @@ BOOL func_ov059_021e5950(VM *vm, FieldScriptEnv *env) {
         for (i = 0; i < 4; i++) {
             void *record = func_0203888c(occupants, i);
 
-            if (!func_020384e0(record) && func_020385a8(record, 31, 0) == 0) {
-                value = func_020385a8(record, 2, 0);
+            if (!func_020384e0(record) && func_020385a8(record, 31, NULL) == 0) {
+                value = func_020385a8(record, 2, NULL);
                 break;
             }
         }
@@ -246,8 +246,8 @@ BOOL func_ov059_021e5950(VM *vm, FieldScriptEnv *env) {
         for (i = 0; i < 4; i++) {
             void *record = func_0203888c(occupants, i);
 
-            if (!func_020384e0(record) && func_020385a8(record, 31, 0) == 2) {
-                value = func_020385a8(record, 2, 0);
+            if (!func_020384e0(record) && func_020385a8(record, 31, NULL) == 2) {
+                value = func_020385a8(record, 2, NULL);
                 break;
             }
         }
@@ -258,7 +258,7 @@ BOOL func_ov059_021e5950(VM *vm, FieldScriptEnv *env) {
         for (i = 0; i < 4; i++) {
             void *record = func_0203888c(occupants, i);
 
-            if (!func_020384e0(record) && func_020385a8(record, 31, 0) == 0) {
+            if (!func_020384e0(record) && func_020385a8(record, 31, NULL) == 0) {
                 *var = i;
                 break;
             }
@@ -268,7 +268,7 @@ BOOL func_ov059_021e5950(VM *vm, FieldScriptEnv *env) {
         for (i = 0; i < 4; i++) {
             void *record = func_0203888c(occupants, i);
 
-            if (!func_020384e0(record) && func_020385a8(record, 31, 0) == 2) {
+            if (!func_020384e0(record) && func_020385a8(record, 31, NULL) == 2) {
                 *var = i;
                 break;
             }

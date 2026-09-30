@@ -15,6 +15,7 @@
 #define PAD_BUTTON_L 0x200
 #define PAD_BUTTON_X 0x400
 #define PAD_BUTTON_Y 0x800
+#define PAD_PLUS_KEY_MASK 0xf0
 
 // Called on a soft reset, before the game restarts
 typedef void (*SoftResetCallback)(void *work);

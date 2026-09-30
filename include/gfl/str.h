@@ -13,6 +13,7 @@ typedef struct WordSet WordSet;
 StrBuf *GFL_StrBufCreate(u32 size, HeapID heapId);
 void GFL_StrBufFree(StrBuf *strbuf);
 void GFL_StrBufCopy(StrBuf *dest, const StrBuf *src);
+StrBuf *GFL_StrBufClone(const StrBuf *strbuf, HeapID heapId);
 // Sets a string buffer to a string of up to length characters
 void GFL_StrBufLoadFixedString(StrBuf *strbuf, const u16 *str, u32 length);
 // Returns TRUE if the strings are the same, taking accented letters as their plain ones
@@ -27,6 +28,8 @@ void textCopy(const u16 *src, StrBuf *dest);
 StrBuf *copyTrainerNameToNewStrbuf(const u16 *name, HeapID heapId);
 
 WordSet *GFL_WordSetSystemCreateDefault(HeapID heapId);
+// A word set of count words of up to length characters
+WordSet *GFL_WordSetSystemCreate(u32 count, u32 length, HeapID heapId);
 void GFL_WordSetSystemFree(WordSet *wordSet);
 void GFL_WordSetFormatStrbuf(WordSet *wordSet, StrBuf *dest, const StrBuf *src);
 void GFL_WordSetLoadStr(WordSet *wordSet, u32 index, const u16 *str);
@@ -39,6 +42,10 @@ void loadHobbyNameToStrbuf(WordSet *wordSet, u32 index, u8 hobby);
 void setPartyPokemonSpeciesNameToStrbuf(WordSet *wordSet, u32 index, PartyPkm *pkm);
 void loadPokemonNicknameToStrbuf(WordSet *wordSet, u32 index, PartyPkm *pkm);
 void loadMoveNameToStrbuf(WordSet *wordSet, u32 index, u32 move);
+void loadItemNameToStrbuf(WordSet *wordSet, u32 index, u32 item);
+// An item's name: the plural when plural is set, else the one in message file 481 when a4 is set
+void loadItemText(WordSet *wordSet, u32 index, u32 item, BOOL plural, BOOL a4);
+void loadBagPocketNameToStrbuf(WordSet *wordSet, u32 index, u32 pocket);
 // Puts the player's name in a word set
 void copyVarForText(WordSet *wordSet, u32 index, PlayerInfo *playerInfo);
 // Puts a place name, from the place names' message file, in a word set

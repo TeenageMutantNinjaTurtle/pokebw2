@@ -48,6 +48,7 @@ void func_0204b794(void);
 void func_0204b7c8(void);
 ClActUnit *func_0204bf1c(u16 count, u8 a1, HeapID heapId);
 void func_0204bf98(ClActUnit *unit);
+void func_0204bfd4(ClActUnit *unit, BOOL a1);
 void func_0204c028(ClActUnit *unit);
 
 // Load characters (NCGR), a palette (NCLR), and cells with their animations (NCER and NANR) from an archive, and
@@ -60,6 +61,9 @@ u32 func_0204bde0(ArcTool *arc, u32 cellFileId, u32 animFileId, HeapID heapId);
 void func_0204b98c(u32 chars);
 void func_0204bcd0(u32 palette);
 void func_0204be64(u32 cellAnims);
+// Replace the data of loaded characters and a palette
+void func_0204ba40(u32 chars, NNSG2dCharacterData *character);
+void func_0204bd10(u32 palette, NNSG2dPaletteData *data, u32 a2);
 ClActor *func_0204c040(ClActUnit *unit, u32 chars, u32 palette, u32 cellAnims, const ClActorSetup *setup, u16 a5,
                        HeapID heapId);
 void func_0204c108(ClActor *actor);
@@ -75,6 +79,12 @@ void func_0204c124(ClActor *actor, BOOL visible);
 void func_0204c318(ClActor *actor, u32 mode);
 u32 func_0204c370(ClActor *actor);
 void func_0204c520(ClActor *actor, BOOL a1);
+void func_0204c378(ClActor *actor, u32 a1, u32 a2);
+// Sets the actor's animation sequence
+void func_0204c488(ClActor *actor, u16 sequence);
+// Loads a texture of a model file, width by height tiles, into the actor's characters and palette
+void func_020164e8(ClActor *actor, u32 arcId, u16 fileId, u8 texture, u16 width, u16 height, u32 a6, u32 a7,
+                   HeapID heapId);
 // Act on the actor's animation controller
 void func_0204c504(ClActor *actor, u32 a1);
 BOOL func_0204c560(ClActor *actor);

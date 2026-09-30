@@ -210,7 +210,7 @@ void IntroMsg_OpenMenu(IntroMsg *msg, const IntroMenuItem *items, u32 count, BOO
     header.unk16_7 = 1;
     header.unk16_9 = 0;
     header.unk16_15 = 0;
-    header.unk18 = 0;
+    header.work = NULL;
     header.unk1C = 16;
     header.unk1E = 16;
     header.unk20 = 0;

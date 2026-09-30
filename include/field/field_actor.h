@@ -37,6 +37,27 @@ void FldAct_GetGPos(FieldActor *actor, GridPos *pos);
 u16 GetActorUID(FieldActor *actor);
 u16 FldAct_GetObjCode(FieldActor *actor);
 u32 GetIndexOfObjID(u16 objCode);
+// An object code's record in ARCID_MMODEL_TBL, from 4 bytes into the file, at the index GetIndexOfObjID returns
+typedef struct {
+    u8 unk0[9];
+    u8 unk9;
+    u8 unkA[6];
+    u16 unk10;
+    u8 unk12[10];
+} ObjCodeRecord;
+
+// Overlay 36's table that func_ov036_02194650 indexes, by a record's unk9
+typedef struct {
+    u16 unk0_0 : 14;
+    u16 unk0_14 : 2;
+} Ov036Unk021cf1c8Entry;
+
+typedef struct {
+    const Ov036Unk021cf1c8Entry *const *unk0;
+    u32 unk4;
+} Ov036Unk021cf1c8;
+
+extern const Ov036Unk021cf1c8 data_ov036_021cf1c8[];
 void FldAct_SetShadowGroup(FieldActor *actor, u32 group);
 u32 GetActorFaceDir(FieldActor *actor);
 void CheckSetActorFaceDir(FieldActor *actor, u16 dir);

@@ -47,13 +47,23 @@ u8 *GFL_BitmapGetPixelData(GFLBitmap *bitmap);
 // Rearranges the pixels from tiles into rows
 GFLBitmap *GFL_BitmapMakeLinear(GFLBitmap *bitmap, BOOL keepAsNew, HeapID heapId);
 void GFL_BitmapFill(GFLBitmap *bitmap, u8 fillIndex);
+u32 GFL_BitmapGetWidth(GFLBitmap *bitmap);
 void GFL_TextRendererDrawToBitmap(GFLBitmap *bitmap, u32 x, u32 y, const StrBuf *strbuf, Font *font);
+// Draws in a color that PRINT_COLOR makes
+void GFL_TextRendererDrawToBitmapEx(GFLBitmap *bitmap, s16 x, s16 y, const StrBuf *strbuf, Font *font, u16 color);
 
 // Copies the window's characters and screen, the screen at the next VBlank
 static inline void BmpWin_Transfer(BmpWin *window) {
     BmpWin_FlushChar(window);
     BmpWin_FlushMap(window);
     GFL_BGSysQueueScrLoad(BmpWin_GetBGIndex(window));
+}
+
+// BmpWin_Transfer with the screen copied at once
+static inline void BmpWin_TransferNow(BmpWin *window) {
+    BmpWin_FlushChar(window);
+    BmpWin_FlushMap(window);
+    GFL_BGSysLoadScr(BmpWin_GetBGIndex(window));
 }
 
 #endif // POKEBW2_GFL_BMPWIN_H

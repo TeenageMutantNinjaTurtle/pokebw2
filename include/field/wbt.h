@@ -136,18 +136,6 @@ extern const WbtTournamentInfo data_ov036_021d4920[15];
 
 const WbtTournamentInfo *func_ov036_021c98a4(u32 tournament);
 
-// Overlay 36's table that func_ov036_02194650 indexes
-typedef struct {
-    u16 unk0_0 : 14;
-    u16 unk0_14 : 2;
-} Ov036Unk021cf1c8Entry;
-
-typedef struct {
-    const Ov036Unk021cf1c8Entry *const *unk0;
-    u32 unk4;
-} Ov036Unk021cf1c8;
-
-extern const Ov036Unk021cf1c8 data_ov036_021cf1c8[];
 void LoadPWTTournamentTypeText(HeapID heapId, u32 tournament, StrBuf *strbuf);
 
 // The overworld setup of the tournament's Trainers, which overlay 22 shows

@@ -66,6 +66,8 @@ u32 func_ov137_021f1990(ResortPersonData *data, u32 a1, u32 a2);
 u32 func_ov137_021f199c(ResortPersonData *data, ResortPersonData *other, u32 a2, u32 a3);
 ResortPersonData *func_ov137_021f1b94(void *a0, u32 a1, u16 a2);
 ResortPersonData *func_ov137_021f1ba8(void *a0, u32 a1, u32 a2);
+// The data of a person, among what func_ov137_021f2014 returns
+ResortPersonData *func_ov137_021f1b6c(void *a0, JoinAvenuePerson *person);
 
 // resort_npc.c
 void func_ov137_021f1d04(void *a0, u32 a1);
@@ -102,6 +104,7 @@ void func_ov137_021f44f8(ResortPeople *people, void *a1, Field *field, ResortPer
 ResortSys *func_ov137_021f4670(Field *field);
 // The person of the script's actor
 ResortPerson *func_ov137_021f4690(FieldScriptEnv *env, ResortPeople *people);
+StrBuf *func_ov137_021f4930(void *shops, ResortPersonData *data, u16 a2, HeapID heapId);
 u16 func_ov137_021f46a8(ResortSys *sys, ResortPersonData *data, u32 a2);
 void func_ov137_021f4dbc(ResortSys *sys, PlayerInfo *playerInfo, u32 a2, u32 a3, HeapID heapId);
 void func_ov137_021f4ecc(ResortSys *sys, ResortPersonData *a1, ResortPersonData *data);

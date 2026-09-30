@@ -25,6 +25,12 @@ u32 FieldPlayer_GetFaceDir(FieldPlayer *player);
 u16 FieldPlayer_GetObjCodeByForme(u32 sex, u32 forme);
 u16 FieldPlayer_GetObjCodeByExState(u32 sex, u32 exState);
 void *Field_GetMsgBGSys(Field *field);
+// The font of the field's message BG
+Font *func_ov036_0218799c(void *msgBGSys);
+// Turns on or off the alpha blending of the field's message BG
+void setAlphaBlend_wrapper(BOOL enable);
+// The grid position in front of the player, facing dir
+void GetPlayerGPosPlusDir(FieldPlayer *player, u16 dir, s16 *x, s16 *y, s16 *z);
 // A message window on the field's message BG: create, update (0 for the first answer, 2 while waiting) and free
 void *func_ov036_021880d4(void *msgBGSys, u32 a1);
 void func_ov036_02187c1c(void *window);

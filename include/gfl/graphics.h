@@ -83,6 +83,7 @@ typedef struct {
 BOOL G3DTextDraw_CreateResource(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 a5, u16 a6, u32 a7, HeapID heapId,
                                 G3DTextDrawResource *resource);
 void GFL_BGSysClearBG(u8 bg);
+void GFL_BGSysClearScr(u8 bg);
 void GFL_BGSysCreate(HeapID heapId);
 void GFL_BGSysCreateBG(u8 bg, const BGSetup *setup, u8 mode);
 void GFL_BGSysDisableAllA(void);
@@ -147,6 +148,13 @@ void *GFL_G2DIOReadOBJNCGR(u32 arcId, u32 fileId, BOOL compressed, NNSG2dCharact
 void *GFL_G2DIOReadNCLR(u32 arcId, u32 fileId, NNSG2dPaletteData **palette, HeapID heapId);
 // Reads a screen file of an archive, and returns the file for GFL_HeapFree
 void *GFL_G2DIOReadNSCRArc(ArcTool *arc, u32 fileId, BOOL compressed, NNSG2dScreenData **screen, HeapID heapId);
+// The same from an open archive, the characters for OBJ
+void *GFL_G2DIOReadOBJNCGRArc(ArcTool *arc, u32 fileId, BOOL compressed, NNSG2dCharacterData **character,
+                              HeapID heapId);
+void *GFL_G2DIOReadNCLRArc(ArcTool *arc, u32 fileId, NNSG2dPaletteData **palette, HeapID heapId);
+// Loads a screen file of an archive to a BG's screen
+void GFL_G2DIOLoadNSCRSync(ArcTool *arc, u32 fileId, u8 bg, u32 offset, u32 a4, u32 a5, BOOL compressed,
+                           HeapID heapId);
 void GFXRegSetMasterBrightness(u32 reg, s32 brightness);
 // Loaded with part of a palette file, stepped each frame and reset. Unnamed, as what it does is not known
 void *func_02035024(u32 a0, u32 a1, u32 a2, HeapID heapId);

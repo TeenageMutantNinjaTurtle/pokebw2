@@ -256,6 +256,12 @@ Things that affect whether MWCC output matches:
   `if`/`else if` stores each limit separately.
 - The operands of `*` are loaded in source order, so a multiply whose registers are swapped has its operands swapped
   in the source.
+- A product assigned to a variable of its own goes to a new register, with its operand copied there first
+  (`mov r2, r1; mul r2, r0`), while a product used in place multiplies into the operand's register. The Join Avenue
+  shop's arrow is placed with `row = ...; y = row * rowHeight; pos.y = y + 22;`.
+- An address computed before calls is reused after them only when the expression is the same, types included:
+  `a[j].f` read before the calls lets a later `a[j].g` reuse the address, but not `a[(u32)j].g`. An address that the
+  original computes again, where ours keeps it on the stack, is written differently at one of the two places.
 - A value moved into an argument register just before a call, and used for nothing else, is an argument the prototype
   is missing. `GFL_SEPlayKeepVol` takes the sound's player as well as the sound.
 - `compiler_probe.py` skips relocated words, so a wrong addend, such as a table index that the compiler folds into a

@@ -7,6 +7,15 @@
 
 void FieldCamera_CalcTransform(FieldCamera *camera, u32 a1);
 void FieldCamera_CoordsGetTarget(FieldCamera *camera, VecFx32 *target);
+void FieldCamera_CoordsSetTarget(FieldCamera *camera, const VecFx32 *target);
+void FieldCamera_CoordsSetYaw(FieldCamera *camera, u16 yaw);
+// Whether the camera keeps inside the zone's boundary
+BOOL FieldCamera_IsUseBoundaryEnable(FieldCamera *camera);
+void FieldCamera_SetUseBoundaryEnable(FieldCamera *camera, BOOL enable);
+// Stop the camera following its target, and follow it again
+void FieldCamera_ClearBind(FieldCamera *camera);
+void FieldCamera_ResetBind(FieldCamera *camera);
+void FieldCamera_LoadDefaults(FieldCamera *camera);
 void FieldCamera_DisableDelay(FieldCamera *camera);
 void FieldCamera_SetDefaultsIndex(FieldCamera *camera, u32 index);
 void FieldCamera_EnableDelay(FieldCamera *camera);

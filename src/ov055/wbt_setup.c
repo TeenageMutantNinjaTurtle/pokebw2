@@ -1,4 +1,5 @@
 #include "types.h"
+#include "constants/arc.h"
 #include "field/field_actor.h"
 #include "field/wbt.h"
 #include "gfl/arc.h"
@@ -15,15 +16,6 @@ static const u16 sScoreUnk[] = { 8, 13, 18, 23, 28 };
 static void func_ov055_021e695c(HeapID heapId, GameData *gameData, WbtSetupEntrant *dest, const WbtEntrant *entrant);
 static void func_ov055_021e69b0(WbtSystem *sys, WbtSetup *setup);
 static u8 func_ov055_021e6a14(u32 index);
-
-// An object code's record in arc 47
-typedef struct {
-    u8 unk0[9];
-    u8 unk9;
-    u8 unkA[6];
-    u16 unk10;
-    u8 unk12[10];
-} ObjCodeRecord;
 static void func_ov055_021e6a2c(ArcTool *handle, u16 objCode, u8 *unk6, u16 *unk4);
 
 WbtSetup *func_ov055_021e67f4(HeapID heapId, GameSystem *gsys) {
@@ -98,7 +90,7 @@ static void func_ov055_021e695c(HeapID heapId, GameData *gameData, WbtSetupEntra
     dest->unk7 = entrant->unk0_3;
     func_ov055_021e5e3c(entrant, dest->name);
     objCode = entrant->objCode;
-    handle = GFL_ArcSysCreateFileHandle(47, heapId);
+    handle = GFL_ArcSysCreateFileHandle(ARCID_MMODEL_TBL, heapId);
     func_ov055_021e6a2c(handle, objCode, &dest->unk6, &dest->unk4);
     GFL_ArcToolFree(handle);
 }

@@ -12,5 +12,7 @@
 ArcTool *PML_ItemArcHandleCreate(HeapID heapId);
 void *PML_ItemArcHandleReadFile(ArcTool *handle, u16 item, HeapID heapId);
 s32 PML_ItemGetParam(void *data, u32 param);
+// An item's file in ARCID_ITEMGRA: 1 for its icon's characters and 2 for its palette
+u16 GetItemGraphicsDatID(u16 item, u32 type);
 
 #endif // POKEBW2_PML_ITEM_H

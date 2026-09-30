@@ -10,6 +10,10 @@
 
 typedef struct BmpMenuList BmpMenuList;
 
+// Called as the cursor moves to an option, and to print more of an option at a row of the window
+typedef void (*BmpMenuListCursorCallback)(BmpMenuList *list, s32 value, u8 a2);
+typedef void (*BmpMenuListPrintCallback)(BmpMenuList *list, s32 value, u8 y);
+
 typedef struct {
     StrBuf *text;
     s32 value;
@@ -21,8 +25,8 @@ typedef struct {
 
 typedef struct {
     ListMenuOption *options;
-    void *unk4;
-    void *unk8;
+    BmpMenuListCursorCallback cursorCallback;
+    BmpMenuListPrintCallback printCallback;
     u16 count;
     u16 unkE;
     u8 unk10;
@@ -37,7 +41,8 @@ typedef struct {
     u16 unk16_7 : 2;
     u16 unk16_9 : 6;
     u16 unk16_15 : 1;
-    u32 unk18;
+    // For the callbacks, which func_0202651c returns
+    void *work;
     u16 unk1C;
     u16 unk1E;
     u32 unk20;
@@ -50,12 +55,23 @@ typedef struct {
 ListMenuOption *ListMenuCore_CreateOptionList(u32 count, HeapID heapId);
 void ListMenuCore_AppendStrBufOption(ListMenuOption *options, const StrBuf *text, s32 value, HeapID heapId);
 void ListMenuCore_FreeOptionList(ListMenuOption *options);
+void ListMenuCore_AppendMsgOption(ListMenuOption *options, MsgData *msgData, u32 messageId, s32 value, HeapID heapId);
+// The number of options in the list
+u32 ListMenuCore_GetFirstFreeIndex(const ListMenuOption *options);
 
 BmpMenuList *BmpMenuList_Create(const BmpMenuListHeader *header, s16 a1, s16 a2, HeapID heapId);
 void BmpMenuList_Free(BmpMenuList *list, u16 *a1, u16 *a2);
 s32 BmpMenuList_Update(BmpMenuList *list);
 void func_02026510(BmpMenuList *list, HeapID heapId);
 void func_02026520(BmpMenuList *list, u32 a1);
+// Redraws the list
+void func_02025a38(BmpMenuList *list);
+// The list's first shown option and the cursor's row
+void func_02025b04(BmpMenuList *list, u16 *top, u16 *cursor);
+// A parameter of the list's header
+u32 func_02025b58(BmpMenuList *list, u32 param);
+// The header's work
+void *func_0202651c(BmpMenuList *list);
 
 // A yes/no menu in its own window
 
