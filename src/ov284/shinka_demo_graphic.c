@@ -178,7 +178,7 @@ ClActUnit *ShinkaDemoGraphic_GetClActUnit(ShinkaDemoGraphic *graphic) {
     return ShinkaDemoClAct_GetUnit(&graphic->clact);
 }
 
-void ShinkaDemoGraphic_InitSubBG(void) {
+void ShinkaDemoGraphic_InitSubBG(ShinkaDemoGraphic *graphic) {
     u32 i;
 
     GFL_BGSysSetLCDConfigForEngine(&sLCDConfig, BGSYS_ENGINE_SUB);
@@ -191,7 +191,7 @@ void ShinkaDemoGraphic_InitSubBG(void) {
     }
 }
 
-void ShinkaDemoGraphic_FreeSubBG(void) {
+void ShinkaDemoGraphic_FreeSubBG(ShinkaDemoGraphic *graphic) {
     u32 i;
 
     for (i = 0; i < NELEMS(sBGSetups); i++) {

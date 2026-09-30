@@ -129,11 +129,11 @@ GameEventReturnCode EventGtsNego_Callback(GameEvent *event, u32 *state, void *da
 
         evolution->gameData = wk->trade.gameData;
         evolution->party = wk->party;
-        evolution->partyIndex = wk->trade.unkC;
-        evolution->unkA = 0;
-        evolution->unkB = wk->trade.unk10;
+        evolution->species = wk->trade.evolveSpecies;
+        evolution->partyIndex = 0;
+        evolution->method = wk->trade.evolveMethod;
         evolution->unkC = 1;
-        evolution->unk10 = 0;
+        evolution->canCancel = FALSE;
         wk->trade.evolution = evolution;
         GSYS_QueueProc(gsys, OVERLAY_SHINKA_DEMO, &SHINKA_DEMO_PROC_FUNCTIONS, evolution);
         (*state)++;

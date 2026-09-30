@@ -187,6 +187,12 @@ Things that affect whether MWCC output matches:
   computing the row's address, the source takes the address in the inner loop rather than through a row pointer.
 - A local variable that holds a constant, like `fx32 one = FX32_ONE;`, keeps its own stack slot or register, while the
   literal is hoisted out of a loop by the compiler. Extra hoisted constants in our output point to such a variable.
+- A call whose argument is picked by branches comes from one of two sources, told apart by the layout. `f(x ? FALSE :
+  TRUE)` tests `x` with `bne` to the second value, and puts the value for `x == 0` first. Two calls in an `if`/`else`,
+  `if (x) f(FALSE); else f(TRUE);`, are merged into one call after the branches, with `beq` to the else branch and the
+  then branch's value first. The evolution demo's touch screen flags and its view and effect creation are two calls.
+- A caller narrows an argument for a `u8` or `u16` parameter with shifts before the call, so an argument passed without
+  them is for a wider parameter.
 - A caller that keeps an argument register untouched across a call to a function that ignores it is passing that
   argument: `ShinkaDemoPieces_IsFadeDone` takes the heap ID like the functions around it.
 - Reads of a `const` table at a constant index are folded into immediates, but reads in a loop over the table are not,

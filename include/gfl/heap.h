@@ -32,6 +32,8 @@ enum {
     HEAPID_FIELD_PARTICLE = 0x50,
     HEAPID_BATTLE_RETURN = 0x52,
     HEAPID_GAMESYNC = 0x67,
+    // The evolution demo's graphics, which it frees while another screen runs
+    HEAPID_SHINKA_DEMO_GRAPHIC = 0x68,
     HEAPID_DEMO3D = 0x6c,
     HEAPID_INTRO = 0x6f,
     HEAPID_FIELD_MENU = 0x70,
@@ -42,6 +44,7 @@ enum {
     HEAPID_EGG_DEMO = 0x8f,
     HEAPID_FIELD_WEATHER = 0x92,
     HEAPID_FIELD_PLACE_NAME = 0x93,
+    HEAPID_SHINKA_DEMO = 0x94,
     HEAPID_FIELD_SCENEAREA = 0x96,
 };
 

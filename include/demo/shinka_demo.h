@@ -14,11 +14,16 @@
 typedef struct {
     GameData *gameData;
     PokeParty *party;
-    u16 partyIndex;
-    u8 unkA;
-    u8 unkB;
+    // The species to evolve into
+    u16 species;
+    u8 partyIndex;
+    // EVO_METHOD_*
+    u8 method;
+    // Set, the demo pushes and brings back the music that was playing, and picks a move to forget on overlay 207's
+    // screen instead of overlay 287's
     u32 unkC;
-    u32 unk10;
+    // Whether B stops the evolution. The demo clears it for an evolution by item
+    BOOL canCancel;
 } ShinkaDemoParam;
 
 extern const GameProcFunctions SHINKA_DEMO_PROC_FUNCTIONS;
@@ -35,8 +40,8 @@ void ShinkaDemoGraphic_Begin3D(ShinkaDemoGraphic *graphic);
 void ShinkaDemoGraphic_End3D(ShinkaDemoGraphic *graphic);
 ClActUnit *ShinkaDemoGraphic_GetClActUnit(ShinkaDemoGraphic *graphic);
 // Creates and frees the BGs of the sub screen
-void ShinkaDemoGraphic_InitSubBG(void);
-void ShinkaDemoGraphic_FreeSubBG(void);
+void ShinkaDemoGraphic_InitSubBG(ShinkaDemoGraphic *graphic);
+void ShinkaDemoGraphic_FreeSubBG(ShinkaDemoGraphic *graphic);
 
 // shinka_demo_view.c: the evolving Pokémon. played creates it after the evolution has been shown, with the evolved
 // Pokémon

@@ -18,8 +18,9 @@ typedef struct {
     u32 unk0;
     u32 unk4;
     u32 next;
-    u32 unkC;
-    u32 unk10;
+    // After TRADE_NEXT_EVOLVE, the species the Pokémon evolves into and how, which the events pass to the evolution demo
+    u32 evolveSpecies;
+    u32 evolveMethod;
     GameData *gameData;
     GtsNegoParam *nego;
     PokeParty *party;

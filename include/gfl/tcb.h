@@ -21,6 +21,12 @@ TCBManager *GFL_VBlankGetTCBMgr(void);
 BOOL GFL_VBlankSetCallback(VBlankCallback callback, void *data);
 void GFL_VBlankResetCallback(void);
 
+// A manager of count tasks, in a buffer of GFL_TCBMgrCalcAllocSize(count) bytes
+u32 GFL_TCBMgrCalcAllocSize(u32 count);
+TCBManager *GFL_TCBMgrCreate(u32 count, void *buffer);
+void GFL_TCBMgrUpdate(TCBManager *manager);
+void func_0203a610(TCBManager *manager);
+
 TCBExManager *GFL_TCBExMgrCreate(HeapID heapId, u16 a1, u16 a2, u32 a3);
 void GFL_TCBExMgrFree(TCBExManager *manager);
 void GFL_TCBExMgrUpdate(TCBExManager *manager);

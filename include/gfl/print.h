@@ -57,6 +57,11 @@ static inline void PrintWindow_Flush(PrintWindow *printWindow, PrintQueue *queue
 // Prints a string into a window a character at a time
 PrintStream *func_02022268(BmpWin *window, u32 x, u32 y, const StrBuf *strbuf, Font *font, s32 wait,
                            TCBExManager *tcbManager, u32 a7, HeapID heapId, u16 a9);
+// func_02022268 with a callback, which the stream calls with events such as the 3 and 5 of the evolution demo's
+// messages, and which returns whether to wait
+typedef BOOL (*PrintStreamCallback)(u32 event);
+PrintStream *func_02022294(BmpWin *window, u32 x, u32 y, const StrBuf *strbuf, Font *font, s32 wait,
+                           TCBExManager *tcbManager, u32 a7, HeapID heapId, u16 a9, PrintStreamCallback callback);
 u32 func_020223b4(PrintStream *stream);
 // Continues printing after PRINT_STREAM_PAUSED
 void func_020223bc(PrintStream *stream);

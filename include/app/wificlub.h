@@ -2,6 +2,7 @@
 #define POKEBW2_APP_WIFICLUB_H
 
 #include "types.h"
+#include "app/ov139.h"
 #include "gfl/overlay.h"
 #include "gfl/proc.h"
 #include "struct_decls.h"
@@ -9,7 +10,6 @@
 // The Wi-Fi Club runs in overlay 203, and its proc table is in overlay 173, which also has to be loaded
 #define OVERLAY_WIFICLUB OVERLAY_ID(203)
 #define OVERLAY_WIFICLUB_MAIN OVERLAY_ID(173)
-#define OVERLAY_139 OVERLAY_ID(139)
 
 typedef struct {
     void *buffer;

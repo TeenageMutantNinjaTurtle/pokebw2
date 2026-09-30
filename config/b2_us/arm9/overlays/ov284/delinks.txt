@@ -20,3 +20,9 @@ src/ov284/shinka_demo_view.c:
     .text       start:0x021e4dd0 end:0x021e7824
     .rodata     start:0x021e7f80 end:0x021e7ff8
     .data       start:0x021e80c8 end:0x021e80dc
+
+src/ov284/shinka_demo.c:
+    .text       start:0x021e30e0 end:0x021e49b0
+    .rodata     start:0x021e7d9c end:0x021e7dd8
+    .data       start:0x021e80a0 end:0x021e80b0
+    complete

@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "gfl/proc.h"
+#include "gfl/str.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
 
@@ -36,5 +37,7 @@ u32 getStatusOfFesMission(LinkFestival *festival);
 
 // Run by the start menu before the game starts: loads overlay 338 to run a check, and adds an HBlank task if it fails
 void func_0202d6a8(void);
+// Called when a Pokémon evolves, with its new species and its nickname before evolving
+void func_0202d304(u16 species, const StrBuf *nickname);
 
 #endif // POKEBW2_SYSTEM_GAME_SYSTEM_H
