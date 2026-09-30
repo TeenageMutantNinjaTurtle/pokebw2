@@ -111,6 +111,16 @@ overlays/ov035 0x0217ed70 ElScoreboard_Create
 overlays/ov035 0x0217ee00 ElScoreboard_Free
 overlays/ov035 0x0217ee08 ElScoreboard_Update
 overlays/ov035 0x0217ee2c ElScoreboard_UploadPalette
+overlays/ov162 0x021a12c0 SaveControlIntr_Create
+overlays/ov162 0x021a1300 SaveControlIntr_Free
+overlays/ov162 0x021a1314 SaveControlIntr_Start
+overlays/ov162 0x021a1378 SaveControlIntr_Update
+overlays/ov162 0x021a13fc SaveControlIntr_Pause
+overlays/ov162 0x021a1408 SaveControlIntr_Resume
+overlays/ov162 0x021a1414 SaveControlIntr_IsPausedOrDone
+overlays/ov162 0x021a1430 SaveControlIntr_Nop
+overlays/ov162 0x021a1434 SaveControlIntr_IsDone
+overlays/ov162 0x021a144c SaveControlIntr_OnSoftReset
 overlays/ov167 0x0219c4a4 GetPosOnSameSide
 overlays/ov167 0x0219c554 AreClientsOnOppositeSides
 overlays/ov167 0x0219d294 GetClientBattlerCount

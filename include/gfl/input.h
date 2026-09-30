@@ -8,7 +8,11 @@
 #define PAD_KEY_RIGHT 0x10
 #define PAD_KEY_LEFT 0x20
 
+// Called on a soft reset, before the game restarts
+typedef void (*SoftResetCallback)(void *work);
+
 u32 GCTX_HIDGetHeldKeys(void);
+void GCTX_HIDSetSoftResetCallback(SoftResetCallback callback, void *work);
 u32 GCTX_HIDGetPressedKeys(void);
 // The touch screen, read through the same instance as the keys: whether it is touched, and whether it was touched
 // this frame

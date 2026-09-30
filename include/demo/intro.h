@@ -7,6 +7,7 @@
 #include "gfl/overlay.h"
 #include "gfl/proc.h"
 #include "gfl/str.h"
+#include "save/save_control_intr.h"
 #include "struct_decls.h"
 #include "system/mcss.h"
 
@@ -31,21 +32,13 @@ typedef struct {
     // INTRO_MODE_*
     u32 mode;
     // ov162's creation of the save data, which runs while the intro does
-    void *saveTask;
+    SaveControlIntr *saveTask;
     // The handle of the Pokémon's cry
     u32 pokeVoice;
     const u16 *rivalName;
     // INTRO_RESULT_*
     u32 result;
 } IntroParam;
-
-// ov162's creation of the save data, which the intro starts, pauses around the name entries and waits for
-void func_ov162_021a1314(void *saveTask);
-void func_ov162_021a13fc(void *saveTask);
-void func_ov162_021a1408(void *saveTask);
-BOOL func_ov162_021a1414(void *saveTask);
-void func_ov162_021a1430(void *saveTask);
-BOOL func_ov162_021a1434(void *saveTask);
 
 // Sets a flag in IntroParam.unk4
 void func_02008a8c(void *a0, u32 flag);

@@ -44,7 +44,7 @@ struct IntroCmd {
     IntroCmdWork work[RUNNING_MAX];
     // The next command of the script
     u32 pc;
-    void *saveTask;
+    SaveControlIntr *saveTask;
     // The screen of the band, which INTRO_CMD_OPEN_BAND copies to BG 2 a few rows at a time
     u16 bandScreen[64 * 32];
     ClActor *obj;
@@ -514,18 +514,18 @@ static BOOL IntroCmd_Talk(IntroCmd *cmd, IntroCmdWork *work, s32 *args) {
 }
 
 static BOOL IntroCmd_SaveStart(IntroCmd *cmd, IntroCmdWork *work, s32 *args) {
-    func_ov162_021a1314(cmd->saveTask);
+    SaveControlIntr_Start(cmd->saveTask);
     return TRUE;
 }
 
 static BOOL IntroCmd_SavePause(IntroCmd *cmd, IntroCmdWork *work, s32 *args) {
     switch (work->state) {
     case 0:
-        func_ov162_021a13fc(cmd->saveTask);
+        SaveControlIntr_Pause(cmd->saveTask);
         work->state++;
         break;
     case 1:
-        if (func_ov162_021a1414(cmd->saveTask) == TRUE) {
+        if (SaveControlIntr_IsPausedOrDone(cmd->saveTask) == TRUE) {
             return TRUE;
         }
         break;
@@ -534,19 +534,19 @@ static BOOL IntroCmd_SavePause(IntroCmd *cmd, IntroCmdWork *work, s32 *args) {
 }
 
 static BOOL IntroCmd_SaveResume(IntroCmd *cmd, IntroCmdWork *work, s32 *args) {
-    func_ov162_021a1408(cmd->saveTask);
+    SaveControlIntr_Resume(cmd->saveTask);
     return TRUE;
 }
 
 static BOOL IntroCmd_Save43(IntroCmd *cmd, IntroCmdWork *work, s32 *args) {
-    func_ov162_021a1430(cmd->saveTask);
+    SaveControlIntr_Nop(cmd->saveTask);
     return TRUE;
 }
 
 static BOOL IntroCmd_SaveWait(IntroCmd *cmd, IntroCmdWork *work, s32 *args) {
     switch (work->state) {
     case 0:
-        if (func_ov162_021a1434(cmd->saveTask) == TRUE) {
+        if (SaveControlIntr_IsDone(cmd->saveTask) == TRUE) {
             return TRUE;
         }
         // Creating save data. Please wait...
@@ -560,7 +560,7 @@ static BOOL IntroCmd_SaveWait(IntroCmd *cmd, IntroCmdWork *work, s32 *args) {
         }
         break;
     case 2:
-        if (func_ov162_021a1434(cmd->saveTask) == TRUE) {
+        if (SaveControlIntr_IsDone(cmd->saveTask) == TRUE) {
             IntroMsg_HideWaitIcon(cmd->msg);
             return TRUE;
         }
