@@ -7135,14 +7135,14 @@
      ]
     },
     "1004": {
-     "handler": "func_ov064_021e58ac",
+     "handler": "PlasmaFrigateCmd_EnterPassword",
      "overlay": 64,
      "args": [
       "var"
      ]
     },
     "1005": {
-     "handler": "func_ov064_021e58e4",
+     "handler": "PlasmaFrigateCmd_GetPasswordIndex",
      "overlay": 64,
      "args": [
       "var"

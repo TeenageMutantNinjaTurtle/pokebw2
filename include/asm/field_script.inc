@@ -5310,14 +5310,12 @@
     .2byte \a0
     .endm
 
-    // func_ov064_021e58ac
-    .macro Plugin12_Cmd1004 a0
+    .macro PlasmaFrigateCmd_EnterPassword a0
     FieldCommand 1004
     .2byte \a0
     .endm
 
-    // func_ov064_021e58e4
-    .macro Plugin12_Cmd1005 a0
+    .macro PlasmaFrigateCmd_GetPasswordIndex a0
     FieldCommand 1005
     .2byte \a0
     .endm

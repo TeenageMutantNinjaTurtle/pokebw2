@@ -177,6 +177,13 @@ overlays/ov061 0x021e6230 BLACK_TOWER_SCRIPT_COMMANDS
 overlays/ov063 0x021e5800 BadgeGateCmd_PlayCheck
 overlays/ov063 0x021e583c BadgeGateCmd_PlayLastGate
 overlays/ov063 0x021e5864 BADGE_GATE_SCRIPT_COMMANDS
+overlays/ov064 0x021e58ac PlasmaFrigateCmd_EnterPassword
+overlays/ov064 0x021e58e4 PlasmaFrigateCmd_GetPasswordIndex
+overlays/ov064 0x021e5984 PlasmaFrigate_CreatePasswordEvent
+overlays/ov064 0x021e59f0 PlasmaFrigate_PasswordEvent
+overlays/ov064 0x021e5a50 PlasmaFrigate_CheckPassword
+overlays/ov064 0x021e5ab4 PlasmaFrigate_GetPasswordIndex
+overlays/ov064 0x021e5acc PLASMA_FRIGATE_SCRIPT_COMMANDS
 overlays/ov067 0x021e58a4 PLUGIN_15_SCRIPT_COMMANDS
 overlays/ov068 0x021e595c PLUGIN_16_SCRIPT_COMMANDS
 overlays/ov091 0x021eec80 GymInsect_Init

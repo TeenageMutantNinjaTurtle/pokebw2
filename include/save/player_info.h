@@ -12,6 +12,7 @@
 u16 *GetPlayerName(PlayerInfo *info);
 u32 PlayerInfo_GetSize(void);
 u32 getTrainerGender(PlayerInfo *info);
+u32 getIDAsUInt(PlayerInfo *info);
 void setTrainerGender(PlayerInfo *info, u32 gender);
 PlayerInfo *func_02008b0c(HeapID heapId);
 // Copies a player's info

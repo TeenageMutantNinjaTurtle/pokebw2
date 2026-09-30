@@ -2,9 +2,11 @@
 #define POKEBW2_APP_NAME_ENTRY_H
 
 #include "types.h"
+#include "gfl/heap.h"
 #include "gfl/proc.h"
 #include "gfl/str.h"
 #include "save/save_control_intr.h"
+#include "struct_decls.h"
 
 // The name entry, overlay 280
 
@@ -22,7 +24,9 @@ typedef struct {
 } NameEntryParam;
 
 // In ov012
-NameEntryParam *setupNameEntry(u32 mode, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+// The name starts as a copy of name, if given
+NameEntryParam *setupNameEntry(HeapID heapId, u32 mode, u32 a2, u32 a3, u32 maxLength, const StrBuf *name,
+                               TrainerGameInfoSave *gameInfo);
 // The name entry for a Pokémon's nickname
 NameEntryParam *setupPokemonNameEntry(HeapID heapId, PartyPkm *pkm, u32 a2, u32 a3, TrainerGameInfoSave *gameInfo);
 void func_ov012_02165ae8(NameEntryParam *param);

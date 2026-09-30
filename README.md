@@ -236,7 +236,9 @@ Things that affect whether MWCC output matches:
 - A value moved into an argument register just before a call, and used for nothing else, is an argument the prototype
   is missing. `GFL_SEPlayKeepVol` takes the sound's player as well as the sound.
 - `compiler_probe.py` skips relocated words, so a wrong addend, such as a table index that the compiler folds into a
-  literal pool address, only shows when the module check fails. Compare the built overlay in `build/<version>/build`
+  literal pool address, or a call to the wrong runtime helper, only shows when the module check fails. Division and
+  modulo call `_s32_div_f` for a signed operand and `_u32_div_f` (swan's `__aeabi_uidivmod`) for an unsigned one; a
+  `u8` promotes to a signed `int`, so `(u8)id % 5u` is the unsigned one. Compare the built overlay in `build/<version>/build`
   with the original to find it.
 - When the order of instructions differs and no source change moves it, try `tools/scripts/permuter_setup.py`, which
   prepares a function for [decomp-permuter](https://github.com/simonlindholm/decomp-permuter).

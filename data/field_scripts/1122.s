@@ -459,7 +459,7 @@ L_05AF:
     VMStackPushConst 0
     VMStackCmp CMP_EQ
     VMJumpIf CMP_STACK, L_0670
-    Plugin12_Cmd1005 0x400a
+    PlasmaFrigateCmd_GetPasswordIndex 0x400a
     DebugPrint 0x400a
     SEPlay SEQ_SE_SW_PLAZMASHIP_01
     SEWait
@@ -472,7 +472,7 @@ L_05AF:
     VMJumpIf CMP_STACK, L_0668
     MsgWinCloseAll
     WorkSetConst 0x8024, 0
-    Plugin12_Cmd1004 0x8024
+    PlasmaFrigateCmd_EnterPassword 0x8024
     VMStackPush 0x8024
     VMStackPushConst 1
     VMStackCmp CMP_EQ
