@@ -32,6 +32,7 @@ typedef struct FieldExpObjSystem FieldExpObjSystem;
 typedef struct FieldFog FieldFog;
 typedef struct FieldLensFlare FieldLensFlare;
 typedef struct FieldPlayer FieldPlayer;
+typedef struct FieldScriptEnv FieldScriptEnv;
 typedef struct FieldSound FieldSound;
 typedef struct FieldStatus FieldStatus;
 typedef struct FieldSubscreen FieldSubscreen;

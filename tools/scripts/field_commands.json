@@ -7076,14 +7076,14 @@
    ],
    "commands": {
     "1000": {
-     "handler": "func_ov063_021e5800",
+     "handler": "BadgeGate_PlayCheck",
      "overlay": 63,
      "args": [
       "any"
      ]
     },
     "1001": {
-     "handler": "func_ov063_021e583c",
+     "handler": "BadgeGate_PlayLastGate",
      "overlay": 63,
      "args": []
     }

@@ -80,7 +80,7 @@ class Memory:
 
 def load_functions() -> dict[str, list[str]]:
     functions = {}
-    for path in ASM.glob("*.s"):
+    for path in ASM.rglob("*.s"):
         text = path.read_text()
         for m in re.finditer(r"\n    (?:thumb|arm)_func_start (\S+)\n(.*?)\n    (?:thumb|arm)_func_end \1\n", text, re.S):
             functions[m[1]] = m[2].split("\n")

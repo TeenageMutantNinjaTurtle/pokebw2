@@ -318,8 +318,26 @@ L_015C:
 
 Commands are named after swan's names for their handlers, such as `s0024_FlagReset` for `FlagReset`. Of the ones swan
 does not name, a few are named after the function they call, such as `IsFestMissionAvailable`. Those whose calls only
-tell the save data they use get its area, such as `MusicalCmd_0165`, and the rest are `Cmd_NNNN`. Commands from ID
-1000 up come from the script plugin, an overlay that the zone loads, and are named `PluginN_CmdNNNN`.
+tell the save data they use get its area, such as `MusicalCmd_0165`, and the rest are `Cmd_NNNN`.
+
+Commands from ID 1000 up come from the script plugin, overlays that the zone loads. They take their handler's name once
+it has one, such as `BadgeGate_PlayCheck`, and are `PluginN_CmdNNNN` until then. Overlay 12's `SCRIPT_PLUGIN_TABLE`
+lists the plugins:
+
+| Plugin | Overlays | For | Files named in the overlays |
+|---|---|---|---|
+| 1 | 50 | Battle Subway: Gear Station and the trains | |
+| 2 | 51 | The Royal Unova | |
+| 3 | 52 | Pokémon League: the Elite Four's rooms | |
+| 4 | 53 | Poké Transfer Lab | `scrcmd_palpark.c` |
+| 5 | 54 | Abyssal Ruins | |
+| 6, 7 | 55, and 56 or 57 | Pokémon World Tournament | `wbt_*.c` |
+| 8 | 58 and 59, with 60 swapped in for the shops | Join Avenue | `scrcmd_resort.c`, `scrcmd_resort_shop.c` |
+| 9 | 61 | Black Tower and White Treehollow | |
+| 10 | 62 | Pokéstar Studios | `pokewood_*.c` |
+| 11 | 63 | Victory Road's badge gates | |
+
+Our files take those names where the overlay has them, and otherwise follow them, as `scrcmd_badge_gate.c`.
 
 Conditions are computed on a stack: `VMStackPush 0x8010`, `VMStackPushConst 0`, `VMStackCmp CMP_EQ`, and then
 `VMJumpIf CMP_STACK` jumps if the result is TRUE. `VMJumpIf` can also test the comparison register that

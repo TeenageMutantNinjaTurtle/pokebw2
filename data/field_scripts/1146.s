@@ -213,7 +213,7 @@ Script_14:
 
 Script_2:
     ActorsPauseAll
-    Plugin11_Cmd1000 0
+    BadgeGate_PlayCheck 0
     // "Basic Badge confirmed!"
     SystemMsg 10, 2
     LastKeyWait
@@ -225,7 +225,7 @@ Script_2:
 
 Script_3:
     ActorsPauseAll
-    Plugin11_Cmd1000 1
+    BadgeGate_PlayCheck 1
     // "Toxic Badge confirmed!"
     SystemMsg 11, 2
     LastKeyWait
@@ -237,7 +237,7 @@ Script_3:
 
 Script_4:
     ActorsPauseAll
-    Plugin11_Cmd1000 2
+    BadgeGate_PlayCheck 2
     // "Insect Badge confirmed!"
     SystemMsg 12, 2
     LastKeyWait
@@ -249,7 +249,7 @@ Script_4:
 
 Script_5:
     ActorsPauseAll
-    Plugin11_Cmd1000 3
+    BadgeGate_PlayCheck 3
     // "Bolt Badge confirmed!"
     SystemMsg 13, 2
     LastKeyWait
@@ -261,7 +261,7 @@ Script_5:
 
 Script_6:
     ActorsPauseAll
-    Plugin11_Cmd1000 4
+    BadgeGate_PlayCheck 4
     // "Quake Badge confirmed!"
     SystemMsg 14, 2
     LastKeyWait
@@ -273,7 +273,7 @@ Script_6:
 
 Script_7:
     ActorsPauseAll
-    Plugin11_Cmd1000 5
+    BadgeGate_PlayCheck 5
     // "Jet Badge confirmed!"
     SystemMsg 15, 2
     LastKeyWait
@@ -285,7 +285,7 @@ Script_7:
 
 Script_8:
     ActorsPauseAll
-    Plugin11_Cmd1000 6
+    BadgeGate_PlayCheck 6
     // "Legend Badge confirmed!"
     SystemMsg 16, 2
     LastKeyWait
@@ -297,7 +297,7 @@ Script_8:
 
 Script_9:
     ActorsPauseAll
-    Plugin11_Cmd1000 7
+    BadgeGate_PlayCheck 7
     // "Wave Badge confirmed!"
     SystemMsg 17, 2
     LastKeyWait
@@ -331,7 +331,7 @@ Script_10:
 
 L_045E:
     VMCall L_0498
-    Plugin11_Cmd1001
+    BadgeGate_PlayLastGate
     VMCall L_049E
     WorkSetConst 0x40ec, 2
     FlagSet 2530

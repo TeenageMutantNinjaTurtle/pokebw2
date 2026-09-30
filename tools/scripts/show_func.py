@@ -14,7 +14,7 @@ def main():
     args = parser.parse_args()
 
     wanted = set(args.names)
-    for asm in sorted(args.asm_dir.glob("*.s")):
+    for asm in sorted(args.asm_dir.rglob("*.s")):
         text = asm.read_text()
         for name in list(wanted):
             match = re.search(rf"\n    (?:thumb|arm)_func_start {re.escape(name)}\n(.*?)\n    (?:thumb|arm)_func_end {re.escape(name)}\n", text, re.S)

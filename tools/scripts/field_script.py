@@ -111,15 +111,20 @@ def load_commands() -> tuple[dict[int, Command], dict[int, dict[int, Command]], 
         if names[name] > 1:
             name = f"{name}_{cmd:04X}"
         base[cmd] = Command(cmd, name, entry)
-    # Each plugin's commands, by the overlay swapped in ("" for none)
+    # Each plugin's commands, by the overlay swapped in ("" for none). A command is named after its handler once the
+    # handler has a name; plugins that share a handler share the command
+    def plugin_name(entry: dict, fallback: str) -> str:
+        return fallback if entry["handler"].startswith("func_") else entry["handler"]
+
     plugins, zones = {}, {}
     for number, plugin in table["plugins"].items():
         number = int(number)
-        plugins[number] = {"": {int(cmd): Command(int(cmd), f"Plugin{number}_Cmd{int(cmd)}", entry)
+        plugins[number] = {"": {int(cmd): Command(int(cmd), plugin_name(entry, f"Plugin{number}_Cmd{int(cmd)}"), entry)
                                 for cmd, entry in plugin["commands"].items()}}
         for overlay, commands in plugin.get("variants", {}).items():
-            plugins[number][overlay] = {int(cmd): Command(int(cmd), f"Plugin{number}Ov{overlay}_Cmd{int(cmd)}", entry)
-                                        for cmd, entry in commands.items()}
+            plugins[number][overlay] = {
+                int(cmd): Command(int(cmd), plugin_name(entry, f"Plugin{number}Ov{overlay}_Cmd{int(cmd)}"), entry)
+                for cmd, entry in commands.items()}
         zones[number] = plugin["zones"]
     return base, plugins, zones, table["global_scripts"]
 
@@ -207,12 +212,19 @@ def write_inc(path: Path):
 
     for command in base.values():
         lines += macro(command)
+    defined = {}
     for number, variants in plugins.items():
         for overlay, commands in variants.items():
             lines.append(f"    // Plugin {number}" + (f", with overlay {overlay} loaded" if overlay else ""))
             lines.append("")
             for command in commands.values():
-                lines += macro(command)
+                text = macro(command)
+                if command.name in defined:
+                    if defined[command.name] != text:
+                        sys.exit(f"{command.name} is defined differently in two plugins")
+                    continue
+                defined[command.name] = text
+                lines += text
     path.write_text("\n".join(lines))
 
 

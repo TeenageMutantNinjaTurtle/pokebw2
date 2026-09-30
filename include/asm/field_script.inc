@@ -5286,13 +5286,11 @@
 
     // Plugin 11
 
-    // func_ov063_021e5800
-    .macro Plugin11_Cmd1000 a0
+    .macro BadgeGate_PlayCheck a0
     FieldCommand 1000
     .2byte \a0
     .endm
 
-    // func_ov063_021e583c
-    .macro Plugin11_Cmd1001
+    .macro BadgeGate_PlayLastGate
     FieldCommand 1001
     .endm
