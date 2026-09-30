@@ -200,8 +200,12 @@ Things that affect whether MWCC output matches:
 - Variables declared in an inner block are allocated apart from the function's variables of the same name: in
   `ShinkaDemoPieces_Move`, the branch that moves a piece home declares its own `dx` and `dz`, which live on the stack
   while the other branches keep theirs in registers.
-- Two stores of the same constant share a register when chained, `first = second = TRUE;`, and not when written as
-  two initializers. `nearXZ = FALSE; nearY = FALSE;` in that order loads the zero twice, while the other order shares it.
+- Two stores of the same constant share a register when chained, and not when written as two initializers.
+  `second = first = TRUE;` stores `first` first. `nearXZ = FALSE; nearY = FALSE;` in that order loads the zero twice,
+  while the other order shares it.
+- MWCC reuses a field it has loaded, across the 64-bit multiply helpers, so a value that the original keeps on the
+  stack between `piece->home.x - piece->pos.x` and `piece->pos.x = piece->home.x` is MWCC's own copy, not a local.
+  Writing it as a local changes which stack slots everything gets.
 - A call whose argument is picked by branches comes from one of two sources, told apart by the layout. `f(x ? FALSE :
   TRUE)` tests `x` with `bne` to the second value, and puts the value for `x == 0` first. Two calls in an `if`/`else`,
   `if (x) f(FALSE); else f(TRUE);`, are merged into one call after the branches, with `beq` to the else branch and the
