@@ -952,6 +952,10 @@ static void ShinkaDemoPieces_Free(SpritePieces *pieces, HeapID heapId) {
     GFL_HeapFree(pieces);
 }
 
+static inline fx32 SquaredLengthXZ(fx32 x, fx32 z) {
+    return FX_Mul(x, x) + FX_Mul(z, z);
+}
+
 // Lays the pieces out as the sprite, and gives each its place in the helix and the way there
 static void ShinkaDemoPieces_Init(SpritePieces *pieces, HeapID heapId) {
     u8 i;
@@ -959,15 +963,14 @@ static void ShinkaDemoPieces_Init(SpritePieces *pieces, HeapID heapId) {
     u8 col;
     u8 turn;
     u8 index;
-    int rowInTurn;
     SpritePiece *piece;
     f32 y;
     f32 radius;
-    fx32 dx;
-    fx32 dz;
-    fx32 dy;
     fx32 distXZ;
     fx32 distY;
+    fx32 dx;
+    fx32 dy;
+    fx32 dz;
 
     ShinkaDemoPieces_Layout(pieces, heapId);
     pieces->state = PIECES_IDLE;
@@ -989,20 +992,19 @@ static void ShinkaDemoPieces_Init(SpritePieces *pieces, HeapID heapId) {
     pieces->frame = 0;
     pieces->rowCount = 0;
     for (row = 0; row < PIECE_ROWS; row++) {
-        turn = row / 3;
-        rowInTurn = row % 3;
         for (col = 0; col < PIECE_COLUMNS; col++) {
+            turn = row / 3;
             piece = &pieces->pieces[row][col];
             piece->frame = 0;
             piece->home = piece->pos;
             // A turn of the helix takes the left and right halves of its three rows in turn
-            if (rowInTurn == 0) {
+            if (row % 3 == 0) {
                 if (col < PIECE_COLUMNS / 2) {
                     index = col * 6;
                 } else {
                     index = (col - PIECE_COLUMNS / 2) * 6 + 1;
                 }
-            } else if (rowInTurn == 1) {
+            } else if (row % 3 == 1) {
                 if (col < PIECE_COLUMNS / 2) {
                     index = col * 6 + 2;
                 } else {
@@ -1029,8 +1031,10 @@ static void ShinkaDemoPieces_Init(SpritePieces *pieces, HeapID heapId) {
             dx = piece->target.x - piece->pos.x;
             dy = piece->target.y - piece->pos.y;
             dz = piece->target.z - piece->pos.z;
-            distXZ = FX_Sqrt(FX_Mul(dx, dx) + FX_Mul(dz, dz));
-            distY = FX_Sqrt(FX_Mul(dy, dy));
+            distXZ = SquaredLengthXZ(dx, dz);
+            distY = FX_Mul(dy, dy);
+            distXZ = FX_Sqrt(distXZ);
+            distY = FX_Sqrt(distY);
             if (distXZ > FX32_ONE) {
                 piece->velocity.x = FX_Div(dx, distXZ);
                 piece->velocity.z = FX_Div(dz, distXZ);
@@ -1250,8 +1254,8 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
         VecFx32 target;
         MtxFx43 mtx;
         VecFx32 vec;
-        BOOL first = TRUE;
-        BOOL second = TRUE;
+        BOOL first;
+        BOOL second;
         BOOL gathered = TRUE;
         fx32 dx;
         fx32 dy;
@@ -1265,6 +1269,7 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
         BOOL nearXZ;
         BOOL nearY;
 
+        first = second = TRUE;
         for (row = 0; row < PIECE_ROWS; row++) {
             for (col = 0; col < PIECE_COLUMNS; col++) {
                 piece = &pieces->pieces[row][col];
@@ -1300,7 +1305,7 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
                         dy = piece->target.y - piece->pos.y;
                         dz = piece->target.z - piece->pos.z;
                         dx = piece->target.x - piece->pos.x;
-                        distSqXZ = FX_Mul(dx, dx) + FX_Mul(dz, dz);
+                        distSqXZ = SquaredLengthXZ(dx, dz);
                         distSqY = FX_Mul(dy, dy);
                         if (distSqXZ < PIECE_ARRIVED_DIST_SQ && distSqY < PIECE_ARRIVED_DIST_SQ) {
                             piece->pos.x = piece->target.x;
@@ -1312,8 +1317,8 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
                             piece->frame = 0;
                             piece->state = PIECE_SPIN;
                         } else {
-                            nearY = FALSE;
                             nearXZ = FALSE;
+                            nearY = FALSE;
                             if (distSqXZ < PIECE_ARRIVED_DIST_SQ) {
                                 nearXZ = TRUE;
                             } else if (distSqY < PIECE_ARRIVED_DIST_SQ) {
@@ -1424,8 +1429,8 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
     case MOVE_RETURN: {
         // Two pieces leave the helix each frame, from the last
         SpritePiece *piece;
-        BOOL first = TRUE;
-        BOOL second = TRUE;
+        BOOL first;
+        BOOL second;
         BOOL returned = TRUE;
         fx32 dx;
         fx32 dy;
@@ -1435,6 +1440,7 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
         fx32 invDist;
         fx32 homeX;
 
+        first = second = TRUE;
         for (row = PIECE_ROWS - 1; row >= 0; row--) {
             for (col = PIECE_COLUMNS - 1; col >= 0; col--) {
                 piece = &pieces->pieces[row][col];
@@ -1477,7 +1483,7 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
                         dx = piece->pos.x - piece->prevPos.x;
                         dy = piece->pos.y - piece->prevPos.y;
                         dz = piece->pos.z - piece->prevPos.z;
-                        distSqXZ = FX_Mul(dx, dx) + FX_Mul(dz, dz);
+                        distSqXZ = SquaredLengthXZ(dx, dz);
                         distSqY = FX_Mul(dy, dy);
                         if (distSqXZ > FX32_ONE) {
                             invDist = FX_InvSqrt(distSqXZ);
@@ -1496,11 +1502,14 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
                         piece->pos.z += dz;
                         piece->frame++;
                     } else {
+                        fx32 dx;
+                        fx32 dz;
+
                         homeX = piece->home.x;
                         dx = homeX - piece->pos.x;
                         dy = piece->home.y - piece->pos.y;
                         dz = piece->home.z - piece->pos.z;
-                        distSqXZ = FX_Mul(dx, dx) + FX_Mul(dz, dz);
+                        distSqXZ = SquaredLengthXZ(dx, dz);
                         distSqY = FX_Mul(dy, dy);
                         if (distSqXZ < PIECE_ARRIVED_DIST_SQ && distSqY < PIECE_ARRIVED_DIST_SQ) {
                             piece->pos.x = homeX;

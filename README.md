@@ -190,6 +190,18 @@ Things that affect whether MWCC output matches:
   computing the row's address, the source takes the address in the inner loop rather than through a row pointer.
 - A local variable that holds a constant, like `fx32 one = FX32_ONE;`, keeps its own stack slot or register, while the
   literal is hoisted out of a loop by the compiler. Extra hoisted constants in our output point to such a variable.
+- A value the inner loop computes from the outer loop's counter alone, like `turn = row / 3`, is hoisted into the
+  preheader too, so it can be written inside the inner loop. `row % 3` used in both conditions of an `if`/`else if`
+  is computed once, later than a `rowInTurn` variable set with `turn` would be.
+- Where `FX_Mul`'s sign extensions go depends on the statements. In `ShinkaDemoPieces_Init`, squaring `dy` before
+  either square root, `distY = FX_Mul(dy, dy);`, keeps `dy`'s extension in a stack slot across the first one, and only
+  the sum written as a `static inline` function, `distXZ = SquaredLengthXZ(dx, dz);`, puts that extension before the
+  sum's multiplies. The same sum written in place, in any statement order, cast or split, does not.
+- Variables declared in an inner block are allocated apart from the function's variables of the same name: in
+  `ShinkaDemoPieces_Move`, the branch that moves a piece home declares its own `dx` and `dz`, which live on the stack
+  while the other branches keep theirs in registers.
+- Two stores of the same constant share a register when chained, `first = second = TRUE;`, and not when written as
+  two initializers. `nearXZ = FALSE; nearY = FALSE;` in that order loads the zero twice, while the other order shares it.
 - A call whose argument is picked by branches comes from one of two sources, told apart by the layout. `f(x ? FALSE :
   TRUE)` tests `x` with `bne` to the second value, and puts the value for `x == 0` first. Two calls in an `if`/`else`,
   `if (x) f(FALSE); else f(TRUE);`, are merged into one call after the branches, with `beq` to the else branch and the
