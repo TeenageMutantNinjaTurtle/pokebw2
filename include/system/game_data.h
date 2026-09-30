@@ -29,6 +29,7 @@ JoinAvenuePersonList **GameData_GetJoinAvenuePersonListPtr(GameData *gameData);
 u32 GameData_GetLastSubscreen(GameData *gameData);
 MMSys *GameData_GetMMSys(GameData *gameData);
 CityState *GameData_GetMyCityState(GameData *gameData);
+u16 func_02017220(GameData *gameData);
 ZoneSpawnInfo *GameData_GetNextZone(GameData *gameData);
 PokeParty *GameData_GetParty(GameData *gameData);
 PlayerState *GameData_GetPlayerState(GameData *gameData);

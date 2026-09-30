@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "gfl/heap.h"
+#include "gfl/str.h"
 #include "struct_decls.h"
 
 // Runs a script from an event, and returns its work
@@ -25,5 +26,7 @@ u16 ScriptReadAny(VM *vm, FieldScriptEnv *env);
 u16 *ScriptReadVar(VM *vm, FieldScriptEnv *env);
 // Runs event before the script goes on
 void ScriptWork_CallEvent(ScriptWork *work, GameEvent *event);
+FieldActor *ScriptWork_GetParentActor(ScriptWork *work);
+WordSet *ScriptWork_GetWordSet(ScriptWork *work);
 
 #endif // POKEBW2_FIELD_FIELD_SCRIPT_H

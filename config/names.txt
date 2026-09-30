@@ -173,6 +173,7 @@ overlays/ov053 0x021e58a4 PAL_PARK_SCRIPT_COMMANDS
 overlays/ov054 0x021e5800 AbyssalRuinsCmd_StartUnderwaterEffect
 overlays/ov054 0x021e5830 AbyssalRuinsCmd_GetStepCounter
 overlays/ov054 0x021e5868 ABYSSAL_RUINS_SCRIPT_COMMANDS
+overlays/ov061 0x021e6230 BLACK_TOWER_SCRIPT_COMMANDS
 overlays/ov063 0x021e5800 BadgeGateCmd_PlayCheck
 overlays/ov063 0x021e583c BadgeGateCmd_PlayLastGate
 overlays/ov063 0x021e5864 BADGE_GATE_SCRIPT_COMMANDS

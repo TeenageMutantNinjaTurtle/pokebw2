@@ -34,5 +34,5 @@ data_ov061_021e6180 kind:data(any) addr:0x021e6180
 data_ov061_021e619d kind:data(any) addr:0x021e619d ambiguous
 data_ov061_021e61d8 kind:data(any) addr:0x021e61d8
 data_ov061_021e61d9 kind:data(any) addr:0x021e61d9 ambiguous
-data_ov061_021e6230 kind:data(any) addr:0x021e6230
+BLACK_TOWER_SCRIPT_COMMANDS kind:data(any) addr:0x021e6230
 data_ov061_021e62a9 kind:data(any) addr:0x021e62a9 ambiguous

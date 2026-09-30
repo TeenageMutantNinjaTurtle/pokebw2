@@ -44,6 +44,7 @@ typedef struct GameCommSys GameCommSys;
 typedef struct GameData GameData;
 typedef struct GameEvent GameEvent;
 typedef struct GameProc GameProc;
+typedef struct KeyDataSave KeyDataSave;
 typedef struct MsgData MsgData;
 typedef struct Font Font;
 typedef struct GameProcFunctions GameProcFunctions;

@@ -18,6 +18,32 @@ void TrainerGameInfo_SetPalParkHighScore(TrainerGameInfoSave *info, u32 score);
 // How the last Poké Transfer session ended, 4 bits, which the Poké Transfer Lab's scripts react to
 u8 TrainerGameInfo_GetPalParkResult(TrainerGameInfoSave *info);
 void TrainerGameInfo_SetPalParkResult(TrainerGameInfoSave *info, u8 result);
+u32 getCash(TrainerGameInfoSave *info);
+// Stops at 0
+void subCashFromTotal(TrainerGameInfoSave *info, u32 amount);
+
+// Save block 0x45, which swan calls the key data. It keeps the Black Tower's and White Treehollow's progress, and the
+// Trainers there that have been defeated (CheckTrainerAlreadyDefeated)
+KeyDataSave *getKeyDataBlkAddress(SaveControl *save);
+void func_0201024c(KeyDataSave *keyData);
+u8 func_02010274(KeyDataSave *keyData, u32 a1);
+u32 func_02010284(KeyDataSave *keyData);
+BOOL func_02010288(KeyDataSave *keyData, u32 a1, u32 bit);
+u16 func_020102a4(KeyDataSave *keyData);
+u8 func_020102d0(KeyDataSave *keyData);
+u8 func_020102d4(KeyDataSave *keyData);
+u8 func_020102ec(KeyDataSave *keyData);
+void func_020102f0(KeyDataSave *keyData, u8 value, u32 a2);
+void func_02010300(KeyDataSave *keyData, u32 value);
+void func_02010304(KeyDataSave *keyData, u32 a1, u32 bit, BOOL set);
+void func_02010334(KeyDataSave *keyData, u8 value);
+BOOL func_02010340(KeyDataSave *keyData, u32 bit);
+void func_02010354(KeyDataSave *keyData, u32 bit, BOOL set);
+u8 func_02010378(KeyDataSave *keyData);
+u8 func_020103a0(int a0);
+u8 func_020103c4(u8 a0);
+u32 func_020103e8(KeyDataSave *keyData);
+void func_020103ec(KeyDataSave *keyData, u32 value);
 
 // Where the player saved
 typedef struct {

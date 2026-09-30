@@ -34,6 +34,8 @@ void LoadMModelSystemInfoCache(MMSys *mmSys, s32 index);
 void SetActorFlag(FieldActor *actor, u32 flag);
 void SetActorHidden(FieldActor *actor, BOOL hidden);
 void FldAct_GetGPos(FieldActor *actor, GridPos *pos);
+u16 GetActorUID(FieldActor *actor);
+u16 FldAct_GetObjCode(FieldActor *actor);
 void FldAct_SetShadowGroup(FieldActor *actor, u32 group);
 u32 GetActorFaceDir(FieldActor *actor);
 void CopyActorWPos(FieldActor *actor, VecFx32 *dest);
