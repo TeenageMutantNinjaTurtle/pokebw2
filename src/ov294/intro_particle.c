@@ -22,21 +22,21 @@ static VecFx32 sCameraVectors[3] = {
 
 IntroParticle *IntroParticle_Create(IntroGraphic *graphic, HeapID heapId) {
     IntroParticle *particle;
-    ParticleProjection projection;
+    G3DCameraProjection projection;
 
     func_0204f918(heapId);
     particle = GFL_HeapAllocate(heapId, sizeof(IntroParticle), TRUE, "intro_particle.c", 86);
     particle->system = func_0204f968(particle->buffer, INTRO_PARTICLE_BUFFER_SIZE, TRUE, heapId);
     particle->graphic = graphic;
     particle->heapId = heapId;
-    projection.type = PARTICLE_PROJECTION_ORTHO;
+    projection.type = G3DCAM_PROJECTION_ORTHO;
     projection.param1 = FX32_CONST(4);
     projection.param2 = -FX32_CONST(4);
     projection.param3 = -FX32_CONST(3);
     projection.param4 = FX32_CONST(3);
     projection.near = FX32_ONE;
     projection.far = FX32_CONST(1024);
-    projection.scaleW = FX32_ONE;
+    projection.ndcRangeOverride = FX32_ONE;
     func_02050178(particle->system);
     func_020500cc(particle->system, &projection, FX32_CONST(2), &sCameraVectors[1], &sCameraVectors[0],
                   &sCameraVectors[2], particle->heapId);

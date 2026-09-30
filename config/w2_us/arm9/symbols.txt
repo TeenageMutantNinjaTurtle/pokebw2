@@ -6228,8 +6228,8 @@ NNS_G3DRenderStateInit kind:function(thumb,size=0xf4) addr:0x020656c4
 NNS_G3DFlushRenderState kind:function(thumb,size=0x28) addr:0x020657b8
 NNS_G3DFlushViewProjection kind:function(thumb,size=0x54) addr:0x020657e0
 NNS_G3DFlushModelViewProjection kind:function(thumb,size=0x9c) addr:0x02065834
-NNS_G3DRenderTranslationSet kind:function(thumb,size=0x24) addr:0x020658d0
-NNS_G3DRenderScaleSet kind:function(thumb,size=0x24) addr:0x020658f4
+NNS_G3dGlbSetBaseTrans kind:function(thumb,size=0x24) addr:0x020658d0
+NNS_G3dGlbSetBaseScale kind:function(thumb,size=0x24) addr:0x020658f4
 NNS_G3DSetLightVector kind:function(thumb,size=0x30) addr:0x02065918
 NNS_G3DSetLightColor kind:function(thumb,size=0x10) addr:0x02065948
 NNS_G3DSetMatDifAmb kind:function(thumb,size=0x20) addr:0x02065958
@@ -7035,7 +7035,7 @@ sys_memcpy_volatile kind:function(arm,size=0x18) addr:0x020786b0
 sys_memset32_fast kind:function(arm,size=0x4c) addr:0x020786c8
 sys_memcpy32_fast kind:function(arm,size=0x38) addr:0x02078714
 gfxUploadFogTable kind:function(arm,size=0x1c) addr:0x0207874c
-MAT3_Copy kind:function(arm,size=0x1c) addr:0x02078768
+MI_Copy36B kind:function(arm,size=0x1c) addr:0x02078768
 MAT43_Copy kind:function(arm,size=0x24) addr:0x02078784
 MAT4_Copy kind:function(arm,size=0x2c) addr:0x020787a8
 sys_memset kind:function(arm,size=0x94) addr:0x020787d4
@@ -9230,7 +9230,7 @@ data_021439d8 kind:bss addr:0x02143a18
 data_021439e0 kind:bss addr:0x02143a20
 data_021439ec kind:bss addr:0x02143a2c
 g_NNSG3DRenderState kind:bss addr:0x02143a48
-data_02143a0c kind:bss addr:0x02143a4c
+NNS_G3dGlb kind:bss addr:0x02143a4c
 data_02143a10 kind:bss addr:0x02143a50
 data_02143a14 kind:bss addr:0x02143a54
 data_02143a58 kind:bss addr:0x02143a98

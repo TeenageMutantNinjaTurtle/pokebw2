@@ -8,6 +8,7 @@
 #include "gfl/heap.h"
 #include "nitro/fx.h"
 #include "nitro/gx.h"
+#include "nitro/mi.h"
 
 typedef struct G3DActor G3DActor;
 typedef struct G3DCamera G3DCamera;
@@ -29,6 +30,25 @@ typedef enum {
     G3DCAM_PROJECTION_FRUSTUM,
     G3DCAM_PROJECTION_ORTHO,
 } G3DCameraProjectionMode;
+
+// A projection: for a perspective one, the sine and cosine of half its field of view, its aspect ratio and an unused
+// value, or for the others, the top, bottom, left and right of the view
+typedef struct {
+    G3DCameraProjectionMode type;
+    fx32 param1;
+    fx32 param2;
+    fx32 param3;
+    fx32 param4;
+    fx32 near;
+    fx32 far;
+    fx32 ndcRangeOverride;
+} G3DCameraProjection;
+
+typedef struct {
+    VecFx32 position;
+    VecFx32 upVector;
+    VecFx32 target;
+} FxLookAt;
 
 typedef struct {
     VecFx32 translation;
@@ -85,6 +105,10 @@ void GFL_G3DSysCreate(BOOL useFrmHeapVramMgr, u32 numMgmtBlks, u32 dat3, u32 dat
                       G3DSystemInitCallback initCallback);
 void GFL_G3DSysFree(void);
 void GFL_G3DSysLightSet(u8 lightId, const Light *light);
+void GFL_G3DSysMtxGetProjection(G3DCameraProjection *dest);
+void GFL_G3DSysMtxSetProjection(const G3DCameraProjection *projection);
+void GFL_G3DSysMtxGetViewLookAt(FxLookAt *dest);
+void GFL_G3DSysMtxSetViewLookAt(const FxLookAt *lookAt);
 void GFL_G3DSysMtxViewFlush(void);
 void GFL_G3DSysReqSwapBuffers(void);
 void GFL_G3DSysReset(void);
@@ -112,6 +136,48 @@ BOOL GFL_G3DActorStepAnmFrameLoop(G3DActor *actor, u16 anmIdx, fx16 addend);
 void GFL_G3DSysDrawObj(G3DActor *obj, SRTMatrix *mdlMtx);
 G3DModel *GFL_G3DActorGetMdl(G3DActor *actor);
 NNSG3dRenderObj *GFL_G3DMdlGetEngineModel(G3DModel *model);
+
+// NitroSystem's global state of the geometry engine, up to the base matrix that models are drawn with
+typedef struct {
+    u32 cmd0;
+    u32 mtxmode_proj;
+    MtxFx44 projMtx;
+    u32 mtxmode_posvec;
+    MtxFx43 cameraMtx;
+    u32 cmd1;
+    u32 lightVec[4];
+    u32 cmd2;
+    u32 prmMatColor0;
+    u32 prmMatColor1;
+    u32 prmPolygonAttr;
+    u32 prmViewPort;
+    u32 cmd3;
+    u32 lightColor[4];
+    u32 cmd4;
+    MtxFx33 prmBaseRot;
+    VecFx32 prmBaseTrans;
+    VecFx32 prmBaseScale;
+    u32 prmTexImageParam;
+    u32 flag;
+} NNSG3dGlb;
+
+#define NNS_G3D_GLB_FLAG_INVBASE_UPTODATE 0x00000004
+#define NNS_G3D_GLB_FLAG_INVBASECAMERA_UPTODATE 0x00000020
+#define NNS_G3D_GLB_FLAG_BASECAMERA_UPTODATE 0x00000080
+
+extern NNSG3dGlb NNS_G3dGlb;
+
+void NNS_G3dGlbSetBaseTrans(const VecFx32 *trans);
+void NNS_G3dGlbSetBaseScale(const VecFx32 *scale);
+
+static inline void NNS_G3dGlbSetBaseRot(const MtxFx33 *rot) {
+    MI_Copy36B(rot, &NNS_G3dGlb.prmBaseRot);
+    NNS_G3dGlb.flag &= ~(NNS_G3D_GLB_FLAG_BASECAMERA_UPTODATE | NNS_G3D_GLB_FLAG_INVBASE_UPTODATE |
+                         NNS_G3D_GLB_FLAG_INVBASECAMERA_UPTODATE);
+}
+
+// Sends the geometry commands that are waiting in a buffer
+void NNS_G3DWaitFIFO(void);
 
 // The alpha of a material of a model resource, from 0 to 31
 u32 NNS_G3DResMdlGetMatAlpha(const NNSG3dResMdl *mdl, u32 matId);

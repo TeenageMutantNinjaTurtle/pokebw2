@@ -141,6 +141,9 @@ void GFL_BGSysUpdate(void);
 void GFL_BGSysUploadStdPalette(u32 bg, void *data, u32 size, u32 offset);
 // Loads a palette file of an archive to palette memory
 void GFL_G2DIOLoadArcNCLRDefault(ArcTool *arc, u32 fileId, u32 type, u32 offset, u32 size, HeapID heapId);
+// Read a character or palette file of an archive, and return the file for GFL_HeapFree
+void *GFL_G2DIOReadOBJNCGR(u32 arcId, u32 fileId, BOOL compressed, NNSG2dCharacterData **character, HeapID heapId);
+void *GFL_G2DIOReadNCLR(u32 arcId, u32 fileId, NNSG2dPaletteData **palette, HeapID heapId);
 // Reads a screen file of an archive, and returns the file for GFL_HeapFree
 void *GFL_G2DIOReadNSCRArc(ArcTool *arc, u32 fileId, BOOL compressed, NNSG2dScreenData **screen, HeapID heapId);
 void GFXRegSetMasterBrightness(u32 reg, s32 brightness);

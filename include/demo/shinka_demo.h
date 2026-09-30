@@ -25,6 +25,7 @@ extern const GameProcFunctions SHINKA_DEMO_PROC_FUNCTIONS;
 
 typedef struct ShinkaDemoGraphic ShinkaDemoGraphic;
 typedef struct ShinkaDemoEffect ShinkaDemoEffect;
+typedef struct ShinkaDemoView ShinkaDemoView;
 
 // shinka_demo_graphic.c
 ShinkaDemoGraphic *ShinkaDemoGraphic_Create(u32 layout, HeapID heapId);
@@ -36,6 +37,29 @@ ClActUnit *ShinkaDemoGraphic_GetClActUnit(ShinkaDemoGraphic *graphic);
 // Creates and frees the BGs of the sub screen
 void ShinkaDemoGraphic_InitSubBG(void);
 void ShinkaDemoGraphic_FreeSubBG(void);
+
+// shinka_demo_view.c: the evolving Pokémon. played creates it after the evolution has been shown, with the evolved
+// Pokémon
+ShinkaDemoView *ShinkaDemoView_Create(HeapID heapId, BOOL played, PartyPkm *pkm, u16 species);
+void ShinkaDemoView_Free(ShinkaDemoView *view);
+void ShinkaDemoView_Update(ShinkaDemoView *view);
+void ShinkaDemoView_Draw(ShinkaDemoView *view);
+// Plays the Pokémon's cry
+void ShinkaDemoView_Start(ShinkaDemoView *view);
+BOOL ShinkaDemoView_IsCryDone(ShinkaDemoView *view);
+// Turns the sprite white and breaks it into pieces
+void ShinkaDemoView_Evolve(ShinkaDemoView *view);
+BOOL ShinkaDemoView_HavePiecesReturned(ShinkaDemoView *view);
+// Shows the evolved sprite, still white
+void ShinkaDemoView_Reveal(ShinkaDemoView *view);
+// Fades the sprite in from white, then plays its cry
+void ShinkaDemoView_FadeIn(ShinkaDemoView *view);
+BOOL ShinkaDemoView_IsDone(ShinkaDemoView *view);
+BOOL ShinkaDemoView_HavePiecesStarted(ShinkaDemoView *view);
+// Set with HavePiecesReturned
+BOOL ShinkaDemoView_GetUnk3C(ShinkaDemoView *view);
+// Stops the evolution while the pieces are moving, and returns whether it did
+BOOL ShinkaDemoView_Cancel(ShinkaDemoView *view);
 
 // shinka_demo_effect.c: the particles and 3D model around the evolving Pokémon
 ShinkaDemoEffect *ShinkaDemoEffect_Create(HeapID heapId, BOOL played);

@@ -177,6 +177,18 @@ Things that affect whether MWCC output matches:
   orders.
 - A loop that runs once is unrolled when its counter and bound have the same signedness. `int i; i < NELEMS(x)`
   compares unsigned, so the loop stays, as in the gym files' loops over one-element tables.
+- Float arithmetic on a literal passes the literal first, as in `_fmul(4096.0f, x)` for `x * FX32_ONE`, whatever the
+  source order. A constant kept in a local variable, which is reloaded from the literal pool at each use, keeps its
+  place in the source instead, so `col * pixels` with `f32 pixels = 96.0f / 18;` passes `col` first.
+- MWCC doesn't fold float arithmetic on a local variable that holds a constant, so `size / 2.0f` stays a call when
+  `size` is a variable, while an expression of literals is folded.
+- An address that an inner loop computes from the outer loop's counter, such as `&pieces->pieces[row][col]`, is hoisted
+  into the inner loop's preheader, after the inner counter is set. When the original sets the inner counter before
+  computing the row's address, the source takes the address in the inner loop rather than through a row pointer.
+- A local variable that holds a constant, like `fx32 one = FX32_ONE;`, keeps its own stack slot or register, while the
+  literal is hoisted out of a loop by the compiler. Extra hoisted constants in our output point to such a variable.
+- A caller that keeps an argument register untouched across a call to a function that ignores it is passing that
+  argument: `ShinkaDemoPieces_IsFadeDone` takes the heap ID like the functions around it.
 - Reads of a `const` table at a constant index are folded into immediates, but reads in a loop over the table are not,
   even when the loop runs once and is unrolled. An `ldm` from a table straight into argument registers is two fields
   read in such a loop, as the egg and evolution demos' particles load the resource of each of their one unit.

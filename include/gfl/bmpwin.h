@@ -40,6 +40,12 @@ void func_02024eec(BmpWin *window, u32 a1);
 // Loads a window frame's characters and palette for BmpWin_DrawFrame
 void LoadSysMsgBox(u8 bg, u16 frameChar, u8 framePalette, u8 type, HeapID heapId);
 
+// A bitmap of tiles, tileWidth by tileHeight, with bytesPerTile bytes to a tile
+GFLBitmap *GFL_BitmapCreate(u32 tileWidth, u32 tileHeight, u32 bytesPerTile, HeapID heapId);
+void GFL_BitmapFree(GFLBitmap *bitmap);
+u8 *GFL_BitmapGetPixelData(GFLBitmap *bitmap);
+// Rearranges the pixels from tiles into rows
+GFLBitmap *GFL_BitmapMakeLinear(GFLBitmap *bitmap, BOOL keepAsNew, HeapID heapId);
 void GFL_BitmapFill(GFLBitmap *bitmap, u8 fillIndex);
 void GFL_TextRendererDrawToBitmap(GFLBitmap *bitmap, u32 x, u32 y, const StrBuf *strbuf, Font *font);
 

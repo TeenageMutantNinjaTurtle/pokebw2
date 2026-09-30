@@ -30,6 +30,14 @@ typedef struct {
     fx32 m[3][3];
 } MtxFx33;
 
+typedef struct {
+    fx32 m[4][3];
+} MtxFx43;
+
+typedef struct {
+    fx32 m[4][4];
+} MtxFx44;
+
 // The sine and cosine of 4096 angles around the circle, as pairs
 extern const fx16 FX_SIN_COS_TABLE[4096 * 2];
 
@@ -48,6 +56,10 @@ void MAT3_Identity(MtxFx33 *mtx);
 // A rotation matrix from 16-bit angles about each axis
 void MAT3_RotationEulerZYX(u16 x, u16 y, u16 z, MtxFx33 *mtx);
 
+// A rotation about the Y axis from its sine and cosine
+void MAT43_RotationY(MtxFx43 *mtx, fx32 sin, fx32 cos);
+void MAT43_MulVec(const VecFx32 *vec, const MtxFx43 *mtx, VecFx32 *dest);
+
 void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
 void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
 fx32 VEC_Mag(const VecFx32 *v);
@@ -57,6 +69,8 @@ fx32 VEC_Mag(const VecFx32 *v);
 #define FX_DEG_TO_IDX(deg) ((u16)(((deg) * FX64C_65536_360 + 0x80000000000LL) >> 44))
 
 fx32 FX_Div(fx32 numer, fx32 denom);
+fx32 FX_Sqrt(fx32 x);
+fx32 FX_InvSqrt(fx32 x);
 
 static inline fx32 FX_Mul(fx32 v1, fx32 v2) {
     return (fx32)(((fx64)v1 * v2 + 0x800LL) >> FX32_SHIFT);

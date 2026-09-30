@@ -217,19 +217,19 @@ static DemoParticle *ShinkaDemoParticle_Create(HeapID heapId, u16 count, const D
     VecFx32 cameraPosition = { 0, 0, FX32_CONST(13) };
     VecFx32 cameraUp = { 0, FX32_ONE, 0 };
     VecFx32 cameraTarget = { 0, 0, 0 };
-    ParticleProjection projection;
+    G3DCameraProjection projection;
     DemoParticle *particle;
     void *resource;
     u32 i;
 
-    projection.type = PARTICLE_PROJECTION_PERSPECTIVE;
+    projection.type = G3DCAM_PROJECTION_PERSPECTIVE;
     projection.param1 = FX_SinIdx(DEG_TO_IDX(20));
     projection.param2 = FX_CosIdx(DEG_TO_IDX(20));
     projection.param3 = FX32_CONST(4.0 / 3.0);
     projection.param4 = 0;
     projection.near = FX32_ONE;
     projection.far = FX32_CONST(1024);
-    projection.scaleW = 0;
+    projection.ndcRangeOverride = 0;
     particle = GFL_HeapAllocate(heapId, sizeof(DemoParticle), TRUE, "shinka_demo_effect.c", 741);
     particle->frame = 0;
     particle->index = 0;

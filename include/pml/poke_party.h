@@ -10,6 +10,13 @@ PokeParty *PokeParty_Create(HeapID heapId);
 // Read and write a field of a Pokémon, PKM_PARAM_*. Fields that are not numbers go through the buffer
 u32 PokeParty_GetParam(PartyPkm *pkm, u32 param, void *buffer);
 void PokeParty_SetParam(PartyPkm *pkm, u32 param, const void *value);
+u32 PokeParty_GetSex(PartyPkm *pkm);
+BOOL PokeParty_IsRare(PartyPkm *pkm);
+// The size of a Pokémon's data
+u32 PokeParty_GetPkmRawSize(void);
+void copyPartyPkm(const PartyPkm *src, PartyPkm *dest);
+// Changes a Pokémon into another species, as evolution does
+void setChangedPkmSpecies(PartyPkm *pkm, u32 species);
 // Hatches an egg, recording where and by whom
 void hatchEgg(PartyPkm *pkm, PlayerInfo *playerInfo, u16 placeName, HeapID heapId);
 void PokeParty_Init(PokeParty *party);
