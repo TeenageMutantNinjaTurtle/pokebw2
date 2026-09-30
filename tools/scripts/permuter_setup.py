@@ -38,19 +38,20 @@ def relocated_offsets(module_dir: Path, start: int, end: int) -> set[int]:
 
 
 def single_function(source: str, function: str) -> str:
-    """Keeps only the given function's definition, and replaces the others with their prototypes. Static data that
-    refers to functions is dropped."""
+    """Keeps the given function's definition, made global so that MWCC keeps it without its callers, and the inline
+    functions it may use. The other functions are replaced with their prototypes, and all data is kept."""
     ast = pycparser.CParser().parse(source)
     generator = pycparser.c_generator.CGenerator()
     kept = []
     for node in ast.ext:
+        decl = node.decl if isinstance(node, pycparser.c_ast.FuncDef) else node
+        if isinstance(decl, pycparser.c_ast.Decl) and decl.name == function:
+            decl.storage = [s for s in decl.storage if s != "static"]
         if isinstance(node, pycparser.c_ast.FuncDef):
-            if node.decl.name == function:
+            if node.decl.name == function or "inline" in node.decl.funcspec:
                 kept.append(generator.visit(node))
             else:
                 kept.append(generator.visit(node.decl) + ";")
-        elif isinstance(node, pycparser.c_ast.Decl) and node.init is not None and "static" in node.storage:
-            continue
         else:
             kept.append(generator.visit(node) + ";")
     return "\n".join(kept) + "\n"
@@ -61,7 +62,7 @@ def main():
     parser.add_argument("source")
     parser.add_argument("function")
     parser.add_argument("--version", default="b2_us")
-    parser.add_argument("--compiler", default="1.1")
+    parser.add_argument("--compiler", default="1.1p1")
     args = parser.parse_args()
 
     out = ROOT / "build" / "permuter" / args.function

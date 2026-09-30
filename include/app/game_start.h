@@ -5,12 +5,11 @@
 #include "gfl/proc.h"
 
 // Starting the game from the start menu and the screens around it (ov162): a new game, which runs the intro and the
-// name entries, or a continue, which loads the save. Both continues start the game system with bit 10 of the config
-// set or cleared
+// name entries, or a continue, which loads the save. The two continues start the game system with the C-Gear on or off
 
 void GameStart_NewGame(void);
-void GameStart_ContinueFlagOff(void);
-void GameStart_ContinueFlagOn(void);
+void GameStart_ContinueCGearOff(void);
+void GameStart_ContinueCGearOn(void);
 
 extern const GameProcFunctions NEW_GAME_PROC_FUNCTIONS;
 extern const GameProcFunctions CONTINUE_PROC_FUNCTIONS;

@@ -22,6 +22,8 @@ typedef void (*SoftResetCallback)(void *work);
 u32 GCTX_HIDGetHeldKeys(void);
 void GCTX_HIDSetSoftResetCallback(SoftResetCallback callback, void *work);
 u32 GCTX_HIDGetPressedKeys(void);
+// The pressed keys, and the held keys again after a delay, repeating
+u32 GCTX_HIDGetTypedKeys(void);
 // The touch screen, read through the same instance as the keys: whether it is touched, and whether it was touched
 // this frame
 BOOL func_0203da2c(void);

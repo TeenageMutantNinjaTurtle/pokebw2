@@ -4,6 +4,7 @@
 // Names, layouts and constants from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
 
 #include "types.h"
+#include "gfl/heap.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
 
@@ -85,5 +86,9 @@ void SetupTeleportZoneChange(u16 returnLocation, ZoneSpawnInfo *spawn);
 void SetupWarpParamByWarp(ZoneWarp *warp, ZoneSpawnInfo *spawn, u32 a2);
 BOOL SetupZoneWarpArrival(EventData *eventData, ZoneSpawnInfo *spawn, u16 warpId, u16 posWeightBits);
 u16 ZoneData_GetAreaID(u16 zoneId);
+// The zone data, which the functions that read it need loaded
+void InitZoneDataSystem(HeapID heapId);
+void FreeZoneDataSystem(void);
+u16 ZoneData_GetPlaceNameID(u16 zoneId);
 
 #endif // POKEBW2_FIELD_ZONE_H

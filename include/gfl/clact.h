@@ -61,6 +61,13 @@ void func_0204be64(u32 cellAnims);
 ClActor *func_0204c040(ClActUnit *unit, u32 chars, u32 palette, u32 cellAnims, const ClActorSetup *setup, u16 a5,
                        HeapID heapId);
 void func_0204c108(ClActor *actor);
+typedef struct {
+    s16 x;
+    s16 y;
+} ClActorPos;
+
+void func_0204c140(ClActor *actor, const ClActorPos *pos, u32 a2);
+void func_0204c178(ClActor *actor, ClActorPos *pos, u32 a2);
 void func_0204c124(ClActor *actor, BOOL visible);
 // The actor's OBJ mode, GX_OAM_MODE_*
 void func_0204c318(ClActor *actor, u32 mode);

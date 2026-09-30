@@ -17,6 +17,8 @@
 #define GSYNC_RESULT_RETRY_LOGIN 7
 
 extern const GameProcFunctions GSYNC_PROC_FUNCTIONS;
+// The start menu's Game Sync settings, in the main program
+extern const GameProcFunctions GAME_SYNC_SETTINGS_PROC_FUNCTIONS;
 extern const GameProcFunctions PDWACC_PROC_FUNCTIONS;
 
 #endif // POKEBW2_APP_GSYNC_H

@@ -386,7 +386,7 @@ data_ov332_021c8b34 kind:data(any) addr:0x021c8b34
 data_ov332_021c8b3c kind:data(any) addr:0x021c8b3c
 data_ov332_021c8b44 kind:data(any) addr:0x021c8b44
 data_ov332_021c8b54 kind:data(any) addr:0x021c8b54
-data_ov332_021c8b64 kind:data(any) addr:0x021c8b64 ambiguous
+UNOVA_LINK_PROC_FUNCTIONS kind:data(any) addr:0x021c8b64 ambiguous
 data_ov332_021c8b70 kind:data(any) addr:0x021c8b70
 data_ov332_021c8b7c kind:data(any) addr:0x021c8b7c
 data_ov332_021c8b88 kind:data(any) addr:0x021c8b88

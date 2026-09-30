@@ -30,6 +30,11 @@ u32 func_0200ca64(TrainerGameInfoSave *info);
 void func_0200ca6c(TrainerGameInfoSave *info, u32 value);
 u32 func_0200ca74(TrainerGameInfoSave *info);
 void func_0200ca78(TrainerGameInfoSave *info, u32 value);
+u32 getBadgeCount(TrainerGameInfoSave *info);
+// Two bits for each of the start menu's items that are added later: func_0200ca38 sets bits, and func_0200ca50
+// returns them. 1 marks the item as new
+void func_0200ca38(TrainerGameInfoSave *info, u32 item, u32 bits);
+u8 func_0200ca50(TrainerGameInfoSave *info, u32 item);
 BOOL SaveControl_IsDataAlreadyPresent(SaveControl *save);
 
 // Saving a step at a time: func_020073ac starts, func_020073c4 continues and returns the status, and func_02007424
@@ -57,6 +62,7 @@ void func_02011558(HeapID heapId);
 void func_ov331_021bede0(HeapID heapId);
 void *func_ov331_021bea20(HeapID heapId);
 void func_ov331_021bec1c(void *a0);
+void *func_ov331_021bee80(void *a0);
 BOOL func_ov331_021bed54(void *a0);
 void func_ov331_021bed78(void *a0, SaveControl *save);
 void func_ov331_021bee24(HeapID heapId);
@@ -68,6 +74,17 @@ u32 getLockIDStatus_inline_stub(void);
 DreamRadarSave *GetDreamRadarSaveBlock(SaveControl *save);
 JoinAvenueSave *SaveControl_GetJoinAvenue(SaveControl *save);
 PlayerInfo *SaveControl_GetPlayerInfo(SaveControl *save);
+PlayerSave *SaveControl_GetPlayerSave(SaveControl *save);
+ZoneSpawnInfo *PlayerSave_GetNextSpawnZone(PlayerSave *playerSave);
+EventWork *getConstDataBlock(SaveControl *save);
+PokeDexSave *getPokedexSaveAddress(SaveControl *save);
+// The play time: hours and minutes
+PlayTime *func_02008de8(SaveControl *save);
+u16 func_02008cec(PlayTime *time);
+u8 func_02008cf0(PlayTime *time);
+// A byte of this block, at 7, tells the start menu whether to ask about the C-Gear
+void *func_02009918(SaveControl *save);
+u8 func_020098c0(void *a0);
 PokeParty *SaveControl_GetPokePartySave(SaveControl *save);
 WorldTradeData *SaveControl_GetWorldTradeData(SaveControl *save);
 DreamWorldSave *getDreamWorldStuffAddress(SaveControl *save);

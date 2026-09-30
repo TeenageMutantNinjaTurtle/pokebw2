@@ -153,7 +153,16 @@ Things that affect whether MWCC output matches:
 - Switch cases are laid out in source order, not by value, so the layout shows the order the cases were written in.
 - Identical statements in different branches are merged, so a branch that jumps into the middle of another block had
   the same code in the source. For example, `if (a) { x = 3; y = 19; } else { x = 0; y = 19; }` compiles differently
-  from `x = a ? 3 : 0; y = 19;`.
+  from `x = a ? 3 : 0; y = 19;`. A run of jumps to one store, as in the start menu's `StartMenu_MoveCursor`, is the
+  same store written in several `else` branches.
+- A variable gets a register or stack slot for each group of assignments that reach the same uses, so a variable
+  that is assigned in two branches and stored once after them stays in one register, while a copy of the store in
+  each branch lets the two assignments go to different places.
+- An argument that is loaded before a call among the arguments, such as a print queue loaded before
+  `BmpWin_GetBitmap(...)` in the same call, was passed to an inlined helper that makes the call, like
+  `PrintWindow_Print`.
+- A parameter passed on the stack is read from the stack at each use, instead of once into a register, when it is
+  passed on as an `int`, as `GFL_BGSysFillScrArea` takes its BG.
 - `static const` data goes in `.rodata`, so a table that the original has in `.data` is not `const`. The module
   check fails if a table ends up in the wrong section, even when every function matches.
 - `a == 4 || a == 5` becomes a range check. Separate comparisons that jump to the same code come from separate

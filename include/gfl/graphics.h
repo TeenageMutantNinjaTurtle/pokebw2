@@ -85,7 +85,9 @@ void GFL_BGSysDisableAllB(void);
 void GFL_BGSysEnableEngines(void);
 // Fills tileCount tiles from offset of a BG's characters with a color index
 void GFL_BGSysFillChar(u8 bg, u32 fillIndex, u32 tileCount, u32 offset);
-void GFL_BGSysFillScrArea(u8 bg, u16 tile, u32 x, u32 y, u8 width, u8 height, u8 palette);
+void GFL_BGSysFillScrArea(s32 bg, u16 tile, u8 x, u8 y, u8 width, u8 height, u8 palette);
+// Fills a BG's whole screen with a map entry, sent at the next update
+void GFL_BGSysFillScrAsync(u8 bg, u16 map);
 void GFL_BGSysFree(void);
 u32 GFL_BGSysGetEnabledBGsA(void);
 void GFL_BGSysInitVRAM(u32 banks);
@@ -101,10 +103,12 @@ void GFL_BGSysLoadChar(u32 bg, void *data, u32 size, u32 offset);
 // Loads a palette file of an archive to an offset in BG palette memory
 void GFL_BGSysLoadNCLRDefault(u32 arcId, u32 fileId, u32 type, u32 offset, s32 size, HeapID heapId);
 void GFL_BGSysLoadScr(u8 bg);
+void GFL_BGSysLoadScrArea(u8 bg, u8 x, u8 y, u8 width, u8 height, const u16 *src, u8 srcX, u8 srcY, u8 srcWidth,
+                          u8 srcHeight);
 void GFL_BGSysLoadScrAreaLarge(u8 bg, u8 x, u8 y, u8 width, u8 height, const u16 *src, u8 srcX, u8 srcY, u8 srcWidth,
                                u8 srcHeight);
 void GFL_BGSysLoadScrCore(u32 bg, void *data, u32 size, u32 offset);
-void GFL_BGSysQueueScrLoad(u8 bg);
+void GFL_BGSysQueueScrLoad(u32 bg);
 void GFL_BGSysMoveBGReq(u8 bg, u32 type, u32 value);
 void GFL_BGSysReleaseBG(u32 bg);
 // Fills a screen's standard palette with a color, 0 for the main screen and 4 for the sub screen
@@ -121,6 +125,7 @@ void GFL_BGSysSetEnabledBGsA(u32 enabled);
 void GFL_BGSysSetEnabledBGsB(u32 enabled);
 void GFL_BGSysSetLCDConfig(const BGSysLCDConfig *config);
 void GFL_BGSysSetVRAMBanks(const BGSysVRAMConfig *config);
+void GFL_BGSysSetScrPaletteNo(u8 bg, u8 x, u8 y, u8 width, u8 height, u8 palette);
 void GFL_BGSysUpdate(void);
 void GFL_BGSysUploadStdPalette(u32 bg, void *data, u32 size, u32 offset);
 // Loads a palette file of an archive to palette memory
@@ -128,6 +133,12 @@ void GFL_G2DIOLoadArcNCLRDefault(ArcTool *arc, u32 fileId, u32 type, u32 offset,
 // Reads a screen file of an archive, and returns the file for GFL_HeapFree
 void *GFL_G2DIOReadNSCRArc(ArcTool *arc, u32 fileId, BOOL compressed, NNSG2dScreenData **screen, HeapID heapId);
 void GFXRegSetMasterBrightness(u32 reg, s32 brightness);
+// Loaded with part of a palette file, stepped each frame and reset. Unnamed, as what it does is not known
+void *func_02035024(u32 a0, u32 a1, u32 a2, HeapID heapId);
+void func_02035104(void *a0, ArcTool *arc, u32 fileId, u32 a3, u32 a4);
+void func_02035178(void *a0);
+void func_02035198(void *a0);
+void func_020352b0(void *a0);
 BOOL NNS_G2DPrepareBGChar(void *file, NNSG2dCharacterData **character);
 BOOL NNS_G2DPrepareScreen(void *file, NNSG2dScreenData **screen);
 BOOL RelocatePaletteResGetDataPtr(void *file, NNSG2dPaletteData **palette);

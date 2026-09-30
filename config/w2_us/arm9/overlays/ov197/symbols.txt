@@ -237,7 +237,7 @@ func_ov197_021bdd34 kind:function(thumb,size=0x3e) addr:0x021bdd74
 func_ov197_021bdd74 kind:function(thumb,size=0x568) addr:0x021bddb4
 data_ov197_021be2de kind:data(any) addr:0x021be31e
 data_ov197_021be2ec kind:data(any) addr:0x021be32c
-data_ov197_021be328 kind:data(any) addr:0x021be368 ambiguous
+MYSTERY_GIFT_PROC_FUNCTIONS kind:data(any) addr:0x021be368 ambiguous
 data_ov197_021be334 kind:data(any) addr:0x021be374
 data_ov197_021be364 kind:data(any) addr:0x021be3a4
 data_ov197_021be370 kind:data(any) addr:0x021be3b0

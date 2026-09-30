@@ -63,6 +63,8 @@ typedef struct PlaceName PlaceName;
 typedef struct PlayerInfo PlayerInfo;
 typedef struct PlayerState PlayerState;
 typedef struct PokeDexSave PokeDexSave;
+typedef struct PlayTime PlayTime;
+typedef struct PlayerSave PlayerSave;
 typedef struct PokeParty PokeParty;
 typedef struct RailPosition RailPosition;
 typedef struct RecordSave RecordSave;

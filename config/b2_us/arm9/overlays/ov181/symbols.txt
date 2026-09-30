@@ -239,7 +239,7 @@ data_ov181_021a4278 kind:data(any) addr:0x021a4278
 data_ov181_021a42a0 kind:data(any) addr:0x021a42a0
 data_ov181_021a42a8 kind:data(any) addr:0x021a42a8
 data_ov181_021a42b0 kind:data(any) addr:0x021a42b0
-data_ov181_021a42b8 kind:data(any) addr:0x021a42b8 ambiguous
+MB_PARENT_PROC_FUNCTIONS kind:data(any) addr:0x021a42b8 ambiguous
 data_ov181_021a42c4 kind:data(any) addr:0x021a42c4
 data_ov181_021a42d8 kind:data(any) addr:0x021a42d8
 data_ov181_021a42ec kind:data(any) addr:0x021a42ec

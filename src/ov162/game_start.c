@@ -29,7 +29,7 @@
 
 // Starting the game: a new game runs the intro and the name entries while it creates the save data, and a continue
 // loads the save. Both then start the game system. A debug screen, whose questions are blank outside Japan, can set
-// the text, the gender and bit 10 of the config first
+// the text, the gender and whether the C-Gear is on first
 
 // The most sound sequences that the intro and the name entry can load together
 #define PRELOAD_SEQ_MAX 30
@@ -51,25 +51,25 @@ enum {
     NEW_GAME_END,
 };
 
-// The continue's parameters, whether to show the debug screen first or which value to give bit 10 of the config
+// The continue's parameters: show the debug screen first, or start with the C-Gear off or on, as the start menu asks
 enum {
     CONTINUE_DEBUG,
-    CONTINUE_FLAG_OFF,
-    CONTINUE_FLAG_ON,
+    CONTINUE_CGEAR_OFF,
+    CONTINUE_CGEAR_ON,
 };
 
 // The debug screen's questions
 enum {
     DEBUG_QUESTION_TEXT,
     DEBUG_QUESTION_GENDER,
-    DEBUG_QUESTION_FLAG,
+    DEBUG_QUESTION_CGEAR,
     DEBUG_QUESTION_END,
 };
 
 // The work of the new game and the continue. The first fields are the debug screen's parameter
 typedef struct {
     // FALSE asks every question of the debug screen, TRUE only the last
-    BOOL onlyFlagQuestion;
+    BOOL onlyCGearQuestion;
     Config *config;
     PlayerInfo *playerInfo;
     TrainerGameInfoSave *gameInfo;
@@ -160,12 +160,12 @@ void GameStart_NewGame(void) {
     GCTX_ProcMgrReplaceProc(OVERLAY_ID(162), &NEW_GAME_PROC_FUNCTIONS, NULL);
 }
 
-void GameStart_ContinueFlagOff(void) {
-    GCTX_ProcMgrReplaceProc(OVERLAY_ID(162), &CONTINUE_PROC_FUNCTIONS, (void *)CONTINUE_FLAG_OFF);
+void GameStart_ContinueCGearOff(void) {
+    GCTX_ProcMgrReplaceProc(OVERLAY_ID(162), &CONTINUE_PROC_FUNCTIONS, (void *)CONTINUE_CGEAR_OFF);
 }
 
-void GameStart_ContinueFlagOn(void) {
-    GCTX_ProcMgrReplaceProc(OVERLAY_ID(162), &CONTINUE_PROC_FUNCTIONS, (void *)CONTINUE_FLAG_ON);
+void GameStart_ContinueCGearOn(void) {
+    GCTX_ProcMgrReplaceProc(OVERLAY_ID(162), &CONTINUE_PROC_FUNCTIONS, (void *)CONTINUE_CGEAR_ON);
 }
 
 static BOOL NewGame_Init(GameProc *proc, u32 *state, void *param, void *work) {
@@ -184,7 +184,7 @@ static BOOL NewGame_Init(GameProc *proc, u32 *state, void *param, void *work) {
     wk->newPlayerInfo = func_02008b0c(HEAPID_USER);
     wk->newConfig = func_0200898c(HEAPID_USER);
     sys_memset(wk->rivalName, 0, sizeof(wk->rivalName));
-    wk->onlyFlagQuestion = FALSE;
+    wk->onlyCGearQuestion = FALSE;
     wk->config = wk->newConfig;
     wk->playerInfo = wk->newPlayerInfo;
     wk->nameEntryParam = setupNameEntry(1, 0, 0, 0, 7, 0, 0);
@@ -336,7 +336,7 @@ static BOOL NewGame_Exit(GameProc *proc, u32 *state, void *param, void *work) {
 static BOOL Continue_Init(GameProc *proc, u32 *state, void *param, void *work) {
     GameStartWork *wk = GFL_ProcInitSubsystem(proc, sizeof(GameStartWork), HEAPID_USER);
 
-    wk->onlyFlagQuestion = TRUE;
+    wk->onlyCGearQuestion = TRUE;
     wk->config = (Config *)getTrainerDataBlkAddress(SaveControl_GetInstance());
     wk->gameInfo = getTrainerGameInfoAddress(SaveControl_GetInstance());
     wk->playerInfo = NULL;
@@ -350,9 +350,9 @@ static BOOL Continue_Main(GameProc *proc, u32 *state, void *param, void *work) {
     case 0:
         if ((u32)param == CONTINUE_DEBUG) {
             GCTX_ProcMgrQueueProc(OVERLAY_NONE, &DEBUG_GAME_START_PROC_FUNCTIONS, wk);
-        } else if ((u32)param == CONTINUE_FLAG_OFF) {
+        } else if ((u32)param == CONTINUE_CGEAR_OFF) {
             func_02008af0(wk->config, FALSE);
-        } else if ((u32)param == CONTINUE_FLAG_ON) {
+        } else if ((u32)param == CONTINUE_CGEAR_ON) {
             func_02008af0(wk->config, TRUE);
         }
         (*state)++;
@@ -363,12 +363,12 @@ static BOOL Continue_Main(GameProc *proc, u32 *state, void *param, void *work) {
     return TRUE;
 }
 
-// Loads the save and starts the game system where the player saved. Bit 10 of the config and two values of the game
-// info keep the values of this session across the load
+// Loads the save and starts the game system where the player saved. Whether the C-Gear is on and two values of the
+// game info keep the values of this session across the load
 static BOOL Continue_Exit(GameProc *proc, u32 *state, void *param, void *work) {
     GameStartWork *wk = work;
     SaveControl *save = SaveControl_GetInstance();
-    u32 flag = func_02008ae8(wk->config);
+    u32 cgearOn = func_02008ae8(wk->config);
     u32 gameInfoValues[2];
     SaveLocation location;
 
@@ -380,7 +380,7 @@ static BOOL Continue_Exit(GameProc *proc, u32 *state, void *param, void *work) {
     GCTX_ProcMgrReplaceProc(OVERLAY_NONE, &GAMESYSTEM_PROC_FUNCTIONS,
                             GameSystem_CreateProcData(GAME_ENTRYPOINT_FIELD_CONTINUE, location.zoneId,
                                                       &location.pos, location.unk18));
-    func_02008af0(wk->config, flag);
+    func_02008af0(wk->config, cgearOn);
     func_0200ca6c(wk->gameInfo, gameInfoValues[0]);
     func_0200ca78(wk->gameInfo, gameInfoValues[1]);
     GFL_ProcReleaseSubsystem(proc);
@@ -431,10 +431,10 @@ static BOOL DebugGameStart_Init(GameProc *proc, u32 *state, void *param, void *w
 
     GFL_HeapCreateChild(HEAPID_USER, HEAPID_DEBUG_GENDER_SELECT, 0x80000);
     wk = GFL_ProcInitSubsystem(proc, sizeof(DebugGameStartWork), HEAPID_DEBUG_GENDER_SELECT);
-    if (gameStart->onlyFlagQuestion == FALSE) {
+    if (gameStart->onlyCGearQuestion == FALSE) {
         wk->question = DEBUG_QUESTION_TEXT;
     } else {
-        wk->question = DEBUG_QUESTION_FLAG;
+        wk->question = DEBUG_QUESTION_CGEAR;
     }
     wk->cursorColorAngle = 0;
     DebugGameStart_InitBG(wk);
@@ -489,10 +489,10 @@ static BOOL DebugGameStart_Main(GameProc *proc, u32 *state, void *param, void *w
             setTrainerGender(gameStart->playerInfo, GENDER_FEMALE);
         }
         DebugGameStart_FreeWindows(wk);
-        wk->question = DEBUG_QUESTION_FLAG;
+        wk->question = DEBUG_QUESTION_CGEAR;
         DebugGameStart_CreateWindows(wk);
         break;
-    case DEBUG_QUESTION_FLAG:
+    case DEBUG_QUESTION_CGEAR:
         answer = DebugGameStart_UpdateMenu(wk);
         if (answer == 0) {
             break;

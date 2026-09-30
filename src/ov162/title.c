@@ -91,8 +91,7 @@ typedef struct {
 typedef struct {
     BmpWin *window;
     GFLBitmap *bitmap;
-    BmpWin *printWindow;
-    u8 unkC;
+    PrintWindow print;
     BOOL unk10;
     Font *font;
     PrintQueue *printQueue;
@@ -499,8 +498,8 @@ static void TitleBG_Init(TitleBG *bg, HeapID heapId) {
     GFL_BitmapFill(bg->bitmap, 0);
     BmpWin_FlushMap(bg->window);
     BmpWin_FlushChar(bg->window);
-    bg->printWindow = bg->window;
-    bg->unkC = 0;
+    bg->print.window = bg->window;
+    bg->print.flushPending = FALSE;
     GFL_BGSysLoadScr(5);
     bg->font = GFL_FontCreate(ARCID_FONT, 0, 0, 0, heapId);
     bg->printQueue = func_02021998(heapId);

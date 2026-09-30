@@ -34,4 +34,7 @@ void GameSystemTimer_Start(void);
 ISS *GameSystem_GetISS(GameSystem *gsys);
 u32 getStatusOfFesMission(LinkFestival *festival);
 
+// Run by the start menu before the game starts: loads overlay 338 to run a check, and adds an HBlank task if it fails
+void func_0202d6a8(void);
+
 #endif // POKEBW2_SYSTEM_GAME_SYSTEM_H

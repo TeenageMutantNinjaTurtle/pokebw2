@@ -7861,7 +7861,7 @@ data_0208fdbc kind:data(any) addr:0x0208fde8
 data_0208fdbe kind:data(any) addr:0x0208fdea
 data_0208fdc8 kind:data(any) addr:0x0208fdf4
 data_0208fde8 kind:data(any) addr:0x0208fe14
-data_0208fe08 kind:data(any) addr:0x0208fe34
+GAME_SYNC_SETTINGS_PROC_FUNCTIONS kind:data(any) addr:0x0208fe34
 BATTLE_VIDEO_PROC_FUNCTIONS kind:data(any) addr:0x0208fe40
 PASSPOWER_EXPLORING_CHANCES kind:data(any) addr:0x0208fe4c
 PASSPOWER_HOLLOW_CHANCES kind:data(any) addr:0x0208fe58
