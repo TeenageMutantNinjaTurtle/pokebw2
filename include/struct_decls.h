@@ -26,6 +26,8 @@ typedef struct EventData EventData;
 typedef struct EventWork EventWork;
 typedef struct Field Field;
 typedef struct FieldActor FieldActor;
+typedef struct FieldAsyncProc FieldAsyncProc;
+typedef struct FieldAsyncProcManager FieldAsyncProcManager;
 typedef struct FieldCamera FieldCamera;
 typedef struct FieldExpObjAnm FieldExpObjAnm;
 typedef struct FieldExpObjSystem FieldExpObjSystem;

@@ -20,6 +20,8 @@ GameSystem *FieldScriptEnv_GetGameSystem(FieldScriptEnv *env);
 ScriptWork *FieldScriptEnv_GetScriptWork(FieldScriptEnv *env);
 // Reads a value from the script, or the value of the variable it names (IDs from 0x4000)
 u16 ScriptReadAny(VM *vm, FieldScriptEnv *env);
+// Reads a variable's ID from the script, and returns the variable
+u16 *ScriptReadVar(VM *vm, FieldScriptEnv *env);
 // Runs event before the script goes on
 void ScriptWork_CallEvent(ScriptWork *work, GameEvent *event);
 

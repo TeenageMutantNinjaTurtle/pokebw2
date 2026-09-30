@@ -4090,13 +4090,11 @@
 
     // Plugin 5
 
-    // func_ov054_021e5800
-    .macro Plugin5_Cmd1000
+    .macro AbyssalRuins_StartUnderwaterEffect
     FieldCommand 1000
     .endm
 
-    // func_ov054_021e5830
-    .macro Plugin5_Cmd1001 a0
+    .macro AbyssalRuins_GetStepCounter a0
     FieldCommand 1001
     .2byte \a0
     .endm

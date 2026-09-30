@@ -259,6 +259,8 @@ overlays/ov050 0x021e64f0 overlay_id 9
 overlays/ov050 0x021e64f4 reloc_module overlay(9)
 overlays/ov052 0x021e595c reloc_module overlay(125)
 overlays/ov052 0x021e5a8e reloc_module overlay(124)
+overlays/ov054 0x021e5828 overlay_id 126
+overlays/ov054 0x021e582c reloc_module overlay(126)
 overlays/ov056 0x021e7b9c overlay_id 5
 overlays/ov056 0x021e7ba0 reloc_module overlay(5)
 overlays/ov059 0x021e615e reloc_module overlay(137)

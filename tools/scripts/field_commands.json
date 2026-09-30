@@ -5628,12 +5628,12 @@
    ],
    "commands": {
     "1000": {
-     "handler": "func_ov054_021e5800",
+     "handler": "AbyssalRuins_StartUnderwaterEffect",
      "overlay": 54,
      "args": []
     },
     "1001": {
-     "handler": "func_ov054_021e5830",
+     "handler": "AbyssalRuins_GetStepCounter",
      "overlay": 54,
      "args": [
       "var"

@@ -143,6 +143,9 @@ overlays/ov035 0x0217ee00 ElScoreboard_Free
 overlays/ov035 0x0217ee08 ElScoreboard_Update
 overlays/ov035 0x0217ee2c ElScoreboard_UploadPalette
 overlays/ov036 0x0219a6dc FieldPlayer_GetSex
+overlays/ov054 0x021e5800 AbyssalRuins_StartUnderwaterEffect
+overlays/ov054 0x021e5830 AbyssalRuins_GetStepCounter
+overlays/ov054 0x021e5868 ABYSSAL_RUINS_SCRIPT_COMMANDS
 overlays/ov063 0x021e5800 BadgeGate_PlayCheck
 overlays/ov063 0x021e583c BadgeGate_PlayLastGate
 overlays/ov063 0x021e5864 BADGE_GATE_SCRIPT_COMMANDS
@@ -248,6 +251,11 @@ overlays/ov103 0x021ef020 BadgeGate_CreateCheckEvent
 overlays/ov103 0x021ef068 BadgeGate_CheckEvent
 overlays/ov103 0x021ef250 BadgeGate_CreateLastGateEvent
 overlays/ov103 0x021ef2b0 BadgeGate_LastGateEvent
+overlays/ov126 0x021eec80 UnderwaterEffect_Init
+overlays/ov126 0x021eed7c UnderwaterEffect_Free
+overlays/ov126 0x021eeddc UnderwaterEffect_Update
+overlays/ov126 0x021eee18 UnderwaterEffect_Draw
+overlays/ov126 0x021eeec0 UNDERWATER_EFFECT_PROC
 overlays/ov162 0x0219ce80 Title_Init
 overlays/ov162 0x0219ceb4 Title_UpdateTimer
 overlays/ov162 0x0219cf44 Title_HandleInput

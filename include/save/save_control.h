@@ -75,6 +75,7 @@ DreamRadarSave *GetDreamRadarSaveBlock(SaveControl *save);
 JoinAvenueSave *SaveControl_GetJoinAvenue(SaveControl *save);
 PlayerInfo *SaveControl_GetPlayerInfo(SaveControl *save);
 PlayerSave *SaveControl_GetPlayerSave(SaveControl *save);
+u16 PlayerSave_GetAbyssalRuinsStepCounter(PlayerSave *playerSave);
 ZoneSpawnInfo *PlayerSave_GetNextSpawnZone(PlayerSave *playerSave);
 EventWork *getConstDataBlock(SaveControl *save);
 PokeDexSave *getPokedexSaveAddress(SaveControl *save);

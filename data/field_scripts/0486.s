@@ -8,7 +8,7 @@
     ScriptEntriesEnd
 
 Script_1:
-    Plugin5_Cmd1000
+    AbyssalRuins_StartUnderwaterEffect
     VMStackPushFlag 2464
     VMStackPushConst 0
     VMStackCmp CMP_EQ
@@ -19,7 +19,7 @@ L_0027:
     VMHalt
 
 Script_2:
-    Plugin5_Cmd1000
+    AbyssalRuins_StartUnderwaterEffect
     VMHalt
 
 Script_3:
