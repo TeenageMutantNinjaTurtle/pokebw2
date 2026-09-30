@@ -5,21 +5,31 @@
 #include "gfl/heap.h"
 #include "nitro/fx.h"
 
-// A particle system, as the intro uses it. None of these functions has a name yet
+// A particle system. None of these functions has a name yet
+
+// The type of a particle system's projection
+enum {
+    PARTICLE_PROJECTION_PERSPECTIVE,
+    PARTICLE_PROJECTION_ORTHO = 2,
+};
 
 typedef struct {
     u32 type;
-    fx32 top;
-    fx32 bottom;
-    fx32 left;
-    fx32 right;
+    // A perspective projection's sine and cosine of half its field of view, its aspect ratio and an unused 0, or an
+    // orthographic projection's top, bottom, left and right
+    fx32 param1;
+    fx32 param2;
+    fx32 param3;
+    fx32 param4;
     fx32 near;
     fx32 far;
     fx32 scaleW;
 } ParticleProjection;
 
 void func_0204f918(HeapID heapId);
+// func_0204f980 with 5, 6 and 0x3f
 void *func_0204f968(void *work, u32 size, BOOL a2, HeapID heapId);
+void *func_0204f980(void *work, u32 size, BOOL a2, u32 a3, u32 a4, u32 a5, HeapID heapId);
 void func_0204f954(void);
 void func_0204fb4c(void);
 void *func_0204fdf8(u32 arcId, u32 fileId, HeapID heapId);

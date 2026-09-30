@@ -7,6 +7,7 @@
 // functions over this layout, which emit particles at set frames through the particle system of gfl/particle.h
 
 #define DEMO_PARTICLE_BUFFER_SIZE 0x4800
+#define DEMO_PARTICLE_UNIT_COUNT 1
 
 // Particles to emit at a frame, from an emitter of a unit
 typedef struct {
@@ -27,7 +28,7 @@ typedef struct {
     u16 index;
     u16 count;
     const DemoParticleEvent *events;
-    DemoParticleUnit units[1];
+    DemoParticleUnit units[DEMO_PARTICLE_UNIT_COUNT];
     BOOL active;
     // Stops the first unit when it reaches 0
     s32 stopTimer;

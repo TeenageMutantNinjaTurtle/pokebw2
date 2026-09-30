@@ -142,7 +142,7 @@ static const DemoParticleEvent sParticleEvents[] = {
     { HATCH_FRAME, 0, 2 },
 };
 
-static const DemoParticleResource sParticleResource = { ARCID_EGG_DEMO, 10 };
+static const DemoParticleResource sParticleResources[DEMO_PARTICLE_UNIT_COUNT] = { { ARCID_EGG_DEMO, 10 } };
 
 static const DemoParticleEvent sManaphyParticleEvents[] = {
     { 0, 0, 3 },
@@ -509,9 +509,11 @@ static void EggDemoView_FadeFromWhite(EggDemoView *view) {
 }
 
 static DemoParticle *EggDemoParticle_Create(HeapID heapId, u16 count, const DemoParticleEvent *events) {
+    // Not used, like the camera target of the evolution demo's copy of this function
     VecFx32 pos = { 0, 0, 0 };
     DemoParticle *particle = GFL_HeapAllocate(heapId, sizeof(DemoParticle), TRUE, "egg_demo_view.c", 1282);
     void *resource;
+    u32 i;
 
     particle->frame = 0;
     particle->index = 0;
@@ -520,10 +522,12 @@ static DemoParticle *EggDemoParticle_Create(HeapID heapId, u16 count, const Demo
     particle->active = FALSE;
     particle->stopTimer = -1;
     func_0204f918(heapId);
-    particle->units[0].system = func_0204f968(particle->units[0].buffer, DEMO_PARTICLE_BUFFER_SIZE, TRUE, heapId);
-    resource = func_0204fdf8(sParticleResource.arcId, sParticleResource.fileId, heapId);
-    particle->units[0].resourceCount = func_020503f0(resource);
-    func_0204fe04(particle->units[0].system, resource, TRUE, FALSE);
+    for (i = 0; i < DEMO_PARTICLE_UNIT_COUNT; i++) {
+        particle->units[i].system = func_0204f968(particle->units[i].buffer, DEMO_PARTICLE_BUFFER_SIZE, TRUE, heapId);
+        resource = func_0204fdf8(sParticleResources[i].arcId, sParticleResources[i].fileId, heapId);
+        particle->units[i].resourceCount = func_020503f0(resource);
+        func_0204fe04(particle->units[i].system, resource, TRUE, FALSE);
+    }
     return particle;
 }
 

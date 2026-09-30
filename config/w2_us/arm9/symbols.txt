@@ -7751,10 +7751,10 @@ __aeabi_dcmple kind:function(arm,size=0xa4) addr:0x0208cf48
 __aeabi_dcmplt kind:function(arm,size=0x9c) addr:0x0208cfec
 __aeabi_dcmpeq kind:function(arm,size=0x8c) addr:0x0208d088
 doubleIsNotEqual kind:function(arm,size=0x8c) addr:0x0208d114
-floatCmpGE kind:function(arm,size=0x5c) addr:0x0208d1a0
-__aeabi_cfcmpeq kind:function(arm,size=0x5c) addr:0x0208d1fc
-floatCmpLE kind:function(arm,size=0x68) addr:0x0208d258
-__aeabi_cfcmple kind:function(arm,size=0x5c) addr:0x0208d2c0
+_fgeq kind:function(arm,size=0x5c) addr:0x0208d1a0
+_fgr kind:function(arm,size=0x5c) addr:0x0208d1fc
+_fleq kind:function(arm,size=0x68) addr:0x0208d258
+_fls kind:function(arm,size=0x5c) addr:0x0208d2c0
 __aeabi_f2d kind:function(arm,size=0x84) addr:0x0208d31c
 __aeabi_i2f kind:function(arm,size=0x48) addr:0x0208d3a0
 _fflt kind:label(arm) addr:0x0208d3a0

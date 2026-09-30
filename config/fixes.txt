@@ -367,6 +367,7 @@ overlays/ov215 0x021ab0c8 remove_reloc
 overlays/ov260 0x021bb788 reloc_module overlay(189)
 overlays/ov260 0x021bb902 reloc_module overlay(189)
 overlays/ov260 0x021bbba6 reloc_module overlay(189)
+overlays/ov284 0x021e7f80 add_data data_ov284_021e7f80
 overlays/ov294 0x021a277e reloc_module overlay(162)
 overlays/ov294 0x021a27c2 reloc_module overlay(162)
 overlays/ov294 0x021a27d2 reloc_module overlay(162)

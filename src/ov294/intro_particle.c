@@ -29,11 +29,11 @@ IntroParticle *IntroParticle_Create(IntroGraphic *graphic, HeapID heapId) {
     particle->system = func_0204f968(particle->buffer, INTRO_PARTICLE_BUFFER_SIZE, TRUE, heapId);
     particle->graphic = graphic;
     particle->heapId = heapId;
-    projection.type = 2;
-    projection.top = FX32_CONST(4);
-    projection.bottom = -FX32_CONST(4);
-    projection.left = -FX32_CONST(3);
-    projection.right = FX32_CONST(3);
+    projection.type = PARTICLE_PROJECTION_ORTHO;
+    projection.param1 = FX32_CONST(4);
+    projection.param2 = -FX32_CONST(4);
+    projection.param3 = -FX32_CONST(3);
+    projection.param4 = FX32_CONST(3);
     projection.near = FX32_ONE;
     projection.far = FX32_CONST(1024);
     projection.scaleW = FX32_ONE;

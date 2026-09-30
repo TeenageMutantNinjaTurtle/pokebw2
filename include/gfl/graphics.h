@@ -60,6 +60,11 @@ typedef struct {
     BOOL bg0Is3D;
 } BGSysLCDConfig;
 
+enum {
+    BGSYS_ENGINE_MAIN,
+    BGSYS_ENGINE_SUB,
+};
+
 typedef struct {
     u32 bgMain;
     u32 bgExtPaletteMain;
@@ -127,6 +132,9 @@ void GFL_BGSysSetDisplayLayout(u32 layout);
 void GFL_BGSysSetEnabledBGsA(u32 enabled);
 void GFL_BGSysSetEnabledBGsB(u32 enabled);
 void GFL_BGSysSetLCDConfig(const BGSysLCDConfig *config);
+// Sets only the modes of one engine from a config: the display mode, main BG mode and BG 0 of the main engine, or the
+// BG mode of the sub engine
+void GFL_BGSysSetLCDConfigForEngine(const BGSysLCDConfig *config, u32 engine);
 void GFL_BGSysSetVRAMBanks(const BGSysVRAMConfig *config);
 void GFL_BGSysSetScrPaletteNo(u8 bg, u8 x, u8 y, u8 width, u8 height, u8 palette);
 void GFL_BGSysUpdate(void);

@@ -177,6 +177,9 @@ Things that affect whether MWCC output matches:
   orders.
 - A loop that runs once is unrolled when its counter and bound have the same signedness. `int i; i < NELEMS(x)`
   compares unsigned, so the loop stays, as in the gym files' loops over one-element tables.
+- Reads of a `const` table at a constant index are folded into immediates, but reads in a loop over the table are not,
+  even when the loop runs once and is unrolled. An `ldm` from a table straight into argument registers is two fields
+  read in such a loop, as the egg and evolution demos' particles load the resource of each of their one unit.
 - Initializations are scheduled where they are written: `int i = 0;` declared after a call sets `i` after the call,
   while `for (i = 0; ...)` sets it at the loop, after any statements before the loop.
 - An address passed to a `const` pointer parameter is converted, and the conversion is not shared with the same
