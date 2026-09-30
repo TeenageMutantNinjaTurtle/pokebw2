@@ -2,6 +2,7 @@
 #include "constants/pokemon.h"
 #include "constants/species.h"
 #include "demo/shinka_demo.h"
+#include "demo/shinka_demo_view.h"
 #include "gfl/bmpwin.h"
 #include "gfl/g3d.h"
 #include "gfl/graphics.h"
@@ -250,14 +251,10 @@ static void ShinkaDemoRest_Update(SpriteRest *rest, HeapID heapId);
 static void ShinkaDemoRest_Draw(SpriteRest *rest, HeapID heapId);
 static void ShinkaDemoRest_SetPosition(SpriteRest *rest, HeapID heapId, fx32 x, fx32 y, fx32 z);
 
-// The original shares a section with the tables below, which MWCC does only for globals that some code takes the
-// address of, so they go before the local initializers. Nothing in this file does, so ours get sections of their own.
-// The helix's height, and its distance from its axis at its ends
+// Declared in demo/shinka_demo_view.h. This order lays them out as the original has them
 const f32 SHINKA_DEMO_HELIX_HEIGHT = 44.0f;
 const f32 SHINKA_DEMO_HELIX_RADIUS_MAX = 20.0f;
-// Not referenced
 const u32 SHINKA_DEMO_VIEW_UNK_774 = 774;
-// The helix's top, and its distance from its axis at its middle
 const f32 SHINKA_DEMO_HELIX_TOP = 22.0f;
 const f32 SHINKA_DEMO_HELIX_RADIUS_MIN = 10.0f;
 
