@@ -181,8 +181,17 @@ Things that affect whether MWCC output matches:
   switch tests counts about 2 for each comparison and 4 for a jump table. On a tie the variable assigned first wins,
   whatever the declaration order, and a variable assigned later needs about one use more.
 - Spilled variables get their stack slots in the order they are first assigned, the first at the lowest address,
-  whatever their declaration order or use counts. A value that sits above values assigned after it was spilled in a
-  later round of register allocation.
+  whatever their declaration order or use counts, in small functions. A value that sits above values assigned after
+  it was spilled in a later round of register allocation. In the Join Avenue's records command, a large switch, the
+  declarations counted too: one group of slots followed the declaration order in reverse, and the variables declared
+  in a loop body took the highest slots, in their declaration order.
+- A variable reused by several switch cases is split into one value per case (see below), and a split piece that is
+  spilled takes the lowest slot whatever the declarations say. When the original has a case's spilled value among the
+  declared variables' slots, that case had a variable of its own, as case 9 of the records command does.
+- Where a flag is first set changes which register its zero is built in. When the original builds a flag's `FALSE` in
+  the register of a call's argument, or copies it from another zero, the flag was set after the call or loop, as
+  `value = joinAveTextHandler(...); found = FALSE;` and a loop's total followed by `any = FALSE;` in the Join Avenue's
+  records command.
 - A branch to the very next instruction is left by cross-jumping: two statements that end the same way, such as a
   store in each case of a switch, share their tail, and the first jumps to it even when it follows.
 - Identical statements in different branches are merged, so a branch that jumps into the middle of another block had

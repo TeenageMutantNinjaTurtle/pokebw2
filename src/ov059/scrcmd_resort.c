@@ -1170,10 +1170,10 @@ BOOL func_ov059_021e6fc8(VM *vm, FieldScriptEnv *env) {
     u16 index;
     u16 value;
     BOOL found;
-    enum { NONE } any;
+    u16 number;
     enum { MODE_0 } mode;
     MsgData *msgData;
-    u32 target;
+    BOOL any;
     u16 *var;
     JoinAvenuePerson *person;
     u16 date;
@@ -1283,10 +1283,10 @@ BOOL func_ov059_021e6fc8(VM *vm, FieldScriptEnv *env) {
         *var = 1740;
         break;
     case 9:
+        number = joinAveTextHandler(person, 17, NULL);
         found = FALSE;
-        value = joinAveTextHandler(person, 17, NULL);
-        if (value != 0) {
-            if (value == 1) {
+        if (number != 0) {
+            if (number == 1) {
                 for (param = 48; param <= 55; param++) {
                     if (joinAveTextHandler(person, param, NULL) != 0) {
                         found = TRUE;
@@ -1301,16 +1301,15 @@ BOOL func_ov059_021e6fc8(VM *vm, FieldScriptEnv *env) {
             *var = 1743;
             break;
         }
-        WordSetNumber(wordSet, 1, value, 3, 0, 1);
+        WordSetNumber(wordSet, 1, number, 3, 0, 1);
         *var = 1742;
         break;
     case 10:
         total = 0;
-        any = FALSE;
-        // The game passes the flag, still FALSE, where a buffer goes
         for (i = 0; i < 8; i++) {
-            total += joinAveTextHandler(person, i + 48, (void *)any);
+            total += joinAveTextHandler(person, i + 48, NULL);
         }
+        any = FALSE;
         if (total != 0) {
             any = TRUE;
         }
@@ -1345,9 +1344,9 @@ BOOL func_ov059_021e6fc8(VM *vm, FieldScriptEnv *env) {
         msgData = GFL_MsgSysLoadData(FALSE, 3, 609, HEAPID_TAIL(heapId));
         n = 0;
         for (i = 0; i < 8; i++) {
+            u32 target = joinAveTextHandler(person, i + 48, NULL);
             int wanted = mode + 1;
 
-            target = joinAveTextHandler(person, i + 48, NULL);
             if (target != 0 && wanted == ++n) {
                 strbuf = GFL_MsgDataLoadStrbufNew(msgData, i + 280);
                 func_0202437c(wordSet, 1, strbuf, 2, 1, 2);
