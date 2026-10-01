@@ -194,6 +194,13 @@ Things that affect whether MWCC output matches:
   records command.
 - A branch to the very next instruction is left by cross-jumping: two statements that end the same way, such as a
   store in each case of a switch, share their tail, and the first jumps to it even when it follows.
+- `while (cond)` is rotated, with a copy of its test before the loop. A loop that tests once, at its top, is
+  `while (TRUE)` with a `break` or `return` inside, as the Join Avenue's walks through its data are.
+- Blocks are laid out in source order. A switch whose default code comes right after its comparisons or jump table
+  had `default:` written first, and `if (f()) { n++; } else { return FALSE; }` puts the return after the code that goes
+  on, where `if (!f()) { return FALSE; } n++;` puts it before.
+- A sum that the original truncates to `s16` before comparing it was stored in an `s16` local, as the edges of the
+  Join Avenue's balloons are; casting it in the comparison gives the same code but is not needed.
 - Identical statements in different branches are merged, so a branch that jumps into the middle of another block had
   the same code in the source. For example, `if (a) { x = 3; y = 19; } else { x = 0; y = 19; }` compiles differently
   from `x = a ? 3 : 0; y = 19;`. A run of jumps to one store, as in the start menu's `StartMenu_MoveCursor`, is the

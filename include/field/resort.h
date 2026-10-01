@@ -67,21 +67,30 @@ typedef struct {
     void *table;
 } ResortNPCSetup;
 
-// The gimmick's work, whichever of its two layouts the field has
+// The gimmick of the avenue's main zone, which the field sets up, ends and updates, and its parts
+void func_ov137_021eec80(Field *field);
+void func_ov137_021eee4c(Field *field);
+void func_ov137_021eee80(Field *field);
 ResortPeople *func_ov137_021eeeac(Field *field);
 ResortNPC *func_ov137_021eeebc(Field *field);
 ResortSys *func_ov137_021eeec8(Field *field);
 void func_ov137_021eeed4(Field *field, ResortPerson *person);
-void func_ov137_021eeee8(Field *field, u32 a1);
-u32 func_ov137_021eeefc(Field *field, u32 a1);
-void func_ov137_021eef10(Field *field, u32 a1);
+// Starts, checks the end of and ends an animation of the scene, 0 or 1
+void func_ov137_021eeee8(Field *field, u32 index);
+BOOL func_ov137_021eeefc(Field *field, u32 index);
+void func_ov137_021eef10(Field *field, u32 index);
 void func_ov137_021eef24(Field *field);
 void func_ov137_021eef3c(Field *field);
 void func_ov137_021eef4c(Field *field);
-void func_ov137_021eef68(Field *field, u32 a1);
+// Starts or stops the people's balloons
+void func_ov137_021eef68(Field *field, BOOL start);
+// The gimmick of the avenue's other zone
+void func_ov137_021f0d10(Field *field);
+void func_ov137_021f0e28(Field *field);
+void func_ov137_021f0e50(Field *field);
 ResortPeople *func_ov137_021f0e74(Field *field);
 ResortSys *func_ov137_021f0e80(Field *field);
-void *func_ov137_021f0e8c(Field *field);
+ResortNPC *func_ov137_021f0e8c(Field *field);
 
 // resort_people.c
 JoinAvenuePerson *func_ov137_021f0f58(ResortPerson *person);
@@ -101,7 +110,7 @@ FieldActor *func_ov137_021f110c(ResortPerson *person);
 ResortPersonData *func_ov137_021f1110(ResortPerson *person);
 ResortPeople *func_ov137_021f12b4(const ResortPeopleSetup *setup, HeapID heapId);
 void func_ov137_021f1300(ResortPeople *people);
-void func_ov137_021f1348(ResortPeople *people);
+void func_ov137_021f1348(ResortPeople *people, FieldPlayer *player);
 u32 func_ov137_021f134c(ResortPeople *people);
 // Creates the people of the slots of the zone's row, and of the occupants and entries that have slots there
 void func_ov137_021f1350(ResortPeople *people);
@@ -170,13 +179,20 @@ u16 func_ov137_021f1d60(ResortNPC *npc, u32 row, u32 column);
 u16 func_ov137_021f1f00(ResortNPC *npc, u32 row);
 
 // resort_sys.c
+ResortSys *func_ov137_021f1f1c(const ResortSysSetup *setup, u32 *a1, HeapID heapId);
+void func_ov137_021f1fb4(ResortSys *sys);
 void *func_ov137_021f1ff8(ResortSys *sys);
 void *func_ov137_021f2000(ResortSys *sys);
+void *func_ov137_021f2004(ResortSys *sys);
 void *func_ov137_021f2008(ResortSys *sys);
 void *func_ov137_021f200c(ResortSys *sys);
-void *func_ov137_021f2014(ResortSys *sys);
-void *func_ov137_021f2018(ResortSys *sys);
+void *func_ov137_021f2010(ResortSys *sys);
+ResortPersonData **func_ov137_021f2014(ResortSys *sys);
+ResortSlots *func_ov137_021f2018(ResortSys *sys);
 JoinAvenueOccupants *func_ov137_021f201c(ResortSys *sys);
+JoinAvenuePersonList *func_ov137_021f2020(ResortSys *sys);
+JoinAvenuePersonList *func_ov137_021f2024(ResortSys *sys);
+void *func_ov137_021f2028(ResortSys *sys);
 JoinAvenueInfo *func_ov137_021f202c(ResortSys *sys);
 u32 *func_ov137_021f2030(ResortSys *sys);
 u16 func_ov137_021f2040(u32 a0, ResortSys *sys, ResortPersonData *data, GameData *gameData, WordSet *wordSet,
@@ -193,6 +209,7 @@ void *func_ov137_021f3e7c(void *msgBGSys, HeapID heapId);
 void func_ov137_021f3e98(void *a0, JoinAvenueOccupants *occupants, void *msgBGSys, WordSet *wordSet,
                          GameData *gameData, s16 a5, HeapID heapId);
 u32 func_ov137_021f420c(ResortSys *sys, GameData *gameData);
+void func_ov137_021f4b94(ResortSys *sys, GameData *gameData, void *entry, u32 a3, u32 a4, HeapID heapId);
 u32 func_ov137_021f4294(ResortSys *sys, GameData *gameData, u32 a2);
 u16 func_ov137_021f44ac(void *a0, ResortPersonData *data, u32 a2);
 void func_ov137_021f44f8(ResortPeople *people, void *a1, Field *field, ResortPerson *person, u32 a4);

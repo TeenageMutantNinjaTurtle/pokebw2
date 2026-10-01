@@ -322,7 +322,7 @@ void func_ov137_021f1300(ResortPeople *people) {
     GFL_HeapFree(people);
 }
 
-void func_ov137_021f1348(ResortPeople *people) {
+void func_ov137_021f1348(ResortPeople *people, FieldPlayer *player) {
 }
 
 u32 func_ov137_021f134c(ResortPeople *people) {

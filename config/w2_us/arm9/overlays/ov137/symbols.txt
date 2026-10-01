@@ -315,3 +315,4 @@ data_ov137_021f58d8 kind:data(any) addr:0x021f5918
 data_ov137_021f58e8 kind:data(any) addr:0x021f5928
 data_ov137_021f5900 kind:bss addr:0x021f5940
 data_ov137_021f5948 kind:bss addr:0x021f5988
+RESORT_FIELD_SCENE_ANGLE kind:data(any) addr:0x021f52f0

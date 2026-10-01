@@ -26,6 +26,14 @@ u16 FieldPlayer_GetObjCodeByForme(u32 sex, u32 forme);
 u16 FieldPlayer_GetObjCodeByExState(u32 sex, u32 exState);
 void *Field_GetMsgBGSys(Field *field);
 BOOL Field_IsEventRunning(Field *field);
+void FieldPlayer_GetGPos(FieldPlayer *player, s16 *x, s16 *y, s16 *z);
+// A number below 6 that overlay 137 reads from the game data
+u32 func_ov012_02169b78(GameData *gameData);
+// The size of a message in the field's message BG, in tiles
+void CalcMsgWindowDimensions(void *msgBGSys, StrBuf *strbuf, u8 *width, u8 *height);
+// Shows a message as a balloon of an index in the field's message BG, and removes it
+void func_ov036_02188dfc(void *msgBGSys, StrBuf *strbuf, u16 index, u8 x, u8 y, u8 width, u8 a6, u32 a7);
+void func_ov036_02188e90(void *msgBGSys, u16 index);
 // The font of the field's message BG
 Font *func_ov036_0218799c(void *msgBGSys);
 // Turns on or off the alpha blending of the field's message BG

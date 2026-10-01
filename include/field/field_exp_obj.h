@@ -16,6 +16,7 @@ SRTMatrix *FieldExpObj_GetActorMatrixPtr(FieldExpObjSystem *system, u16 scene, u
 void FieldExpObj_SetActorHidden(FieldExpObjSystem *system, u16 scene, u16 actor, BOOL hidden);
 // Sets the first word of an actor's state
 void func_ov036_021b8248(FieldExpObjSystem *system, u16 scene, u16 actor, u32 value);
+u32 func_ov036_021b8268(FieldExpObjSystem *system, u16 scene, u16 actor);
 FieldExpObjAnm *FieldExpObj_GetAnmInfo(FieldExpObjSystem *system, u16 scene, u16 actor, u16 anm);
 void FieldExpObj_SetAnm(FieldExpObjSystem *system, u16 scene, u16 actor, u16 anm, BOOL a4);
 void FieldExpObj_SetAnmFrame(FieldExpObjSystem *system, u16 scene, u16 actor, u16 anm, fx32 frame);

@@ -125,6 +125,7 @@ void GFL_G3DCameraFree(G3DCamera *cam);
 void GFL_G3DCameraFlush(G3DCamera *cam);
 void GFL_G3DCameraSetProjectionZNear(G3DCamera *cam, fx32 *zNear);
 void GFL_G3DCameraSetProjectionZFar(G3DCamera *cam, fx32 *zFar);
+void GFL_G3DCameraGetLookatPos(G3DCamera *cam, VecFx32 *pos);
 
 BOOL GFL_G3DActorBindAnm(G3DActor *actor, u16 anmIdx);
 BOOL GFL_G3DActorUnbindAnm(G3DActor *actor, u16 anmIdx);

@@ -49,6 +49,15 @@ struct ZoneNPC {
     } pos;
 };
 
+// An actor's move code and its functions, called with the actor: unkC before the code is changed
+typedef struct {
+    u32 code;
+    void (*unk4)(FieldActor *actor);
+    void (*unk8)(FieldActor *actor);
+    void (*unkC)(FieldActor *actor);
+    void (*unk10)(FieldActor *actor);
+} FieldActorMoveCode;
+
 GameEvent *CallEventPrepareResidentActorsForZoneChange(GameSystem *gsys, Field *field);
 void DisableAllActorsMovement(MMSys *mmSys);
 void EnableAllActorsMovement(MMSys *mmSys);
@@ -104,6 +113,27 @@ BOOL func_ov012_02167520(FieldActor *actor);
 void func_ov012_02167580(FieldActor *actor, BOOL value);
 // Ends the actor's movement command
 void func_ov012_02166f2c(FieldActor *actor);
+s16 GetGPosX(FieldActor *actor);
+s16 GetGPosZ(FieldActor *actor);
+void SetActorGPos(FieldActor *actor, s16 x, s16 y, s16 z, u16 dir);
+void SetActorMotionDir(FieldActor *actor, u16 dir);
+void ChangeActorMoveCodeSeq(FieldActor *actor, u16 moveCode);
+MMSys *GetActorMModelSystem(FieldActor *actor);
+Field *GetMMSysField(MMSys *mmSys);
+// The movement command of a direction in the row of a table that has the command
+u16 GetAcmdForDir(u32 dir, u32 acmd);
+// The collision flags of the tile next to the actor in a direction
+u32 ActorRouteCollCheckOneTileInDir(FieldActor *actor, u16 dir);
+// Starts a movement command
+void func_ov012_02166eb0(FieldActor *actor, u16 acmd);
+// Whether the actor's movement command has finished
+BOOL func_ov036_0218f01c(FieldActor *actor);
+// Set movement flag 0x10, clear it, and clear flag 0x40
+void func_ov012_021674b0(FieldActor *actor);
+void func_ov012_021674bc(FieldActor *actor);
+void func_ov012_021674e8(FieldActor *actor);
+// Gives the actor a move code of its own functions
+void func_ov012_021682e8(FieldActor *actor, const FieldActorMoveCode *moveCode);
 u16 GetActorZoneID(FieldActor *actor);
 BOOL IsActorFlag16(FieldActor *actor);
 // Steps through the system's actors from *index, returning TRUE with the next one in *actor

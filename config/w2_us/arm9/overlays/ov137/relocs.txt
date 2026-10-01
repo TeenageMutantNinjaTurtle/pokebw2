@@ -1575,7 +1575,6 @@ from:0x021f52de kind:thumb_call to:0x02038894 module:main
 from:0x021f52fc kind:load to:0x02010005 module:main
 from:0x021f5338 kind:load to:0x021f53f8 module:overlay(137)
 from:0x021f5340 kind:load to:0x021f53d8 module:overlay(137)
-from:0x021f534c kind:load to:0x020e0a11 module:main
 from:0x021f539c kind:load to:0x021efb31 module:overlay(137)
 from:0x021f53a0 kind:load to:0x021efb35 module:overlay(137)
 from:0x021f53a4 kind:load to:0x021efb89 module:overlay(137)

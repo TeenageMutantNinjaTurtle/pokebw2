@@ -22,7 +22,8 @@ u32 JoinAvenuePersonList_GetCount(JoinAvenuePersonList *list);
 BOOL JoinAvenuePerson_IsEmpty(JoinAvenuePerson *person);
 void JoinAvenuePerson_SetParam(JoinAvenuePerson *person, JoinAvenuePersonParam param, u32 value);
 JoinAvenueInfo *JoinAvenue_GetInfo(JoinAvenueSave *joinAvenue);
-u32 JoinAvenue_GetParam(JoinAvenueInfo *info, u32 param, u32 a2);
+// A field of the info, which reads into the buffer for the avenue's name
+u32 JoinAvenue_GetParam(JoinAvenueInfo *info, u32 param, void *buffer);
 JoinAvenuePersonList *JoinAvenue_GetPersonList(JoinAvenueSave *joinAvenue);
 void func_02038bc8(u32 a0);
 // Sets a field of the info
@@ -39,6 +40,12 @@ u32 func_020378f8(JoinAvenuePerson *person, u32 a1, u32 a2);
 // person's
 void *func_02010054(JoinAvenueSave *joinAvenue);
 void *func_02037f04(void *entries, u32 index);
+// The number of entries
+u32 func_02037ed4(void *entries);
+// Stores a person list in a global structure, if there is one; NULL clears it
+void func_0202d608(JoinAvenuePersonList *list);
+// Called with an entry by overlay 137, which counts a result of 2 and stops at 0
+u32 func_02010078(JoinAvenueSave *joinAvenue, GameData *gameData, void *entry, u32 a3);
 void *func_02037a40(HeapID heapId);
 void func_02037a68(void *entry);
 void func_02037a70(void *entry);
@@ -94,6 +101,7 @@ u16 func_02039624(const u16 *row);
 void func_02039538(u16 index, u16 *x, u16 *z, u16 *dir);
 void func_02039578(u16 index, u16 *x, u16 *z, u16 *dir);
 u32 func_0203941c(u32 value, u32 a1, u32 a2);
+u32 func_020393e4(JoinAvenueInfo *info, u32 a1, u32 a2);
 u32 func_0203968c(void *table, u32 a1);
 const u16 *func_02039798(void *shops, JoinAvenuePerson *person);
 const u16 *func_020397b4(void *shops, u32 id);

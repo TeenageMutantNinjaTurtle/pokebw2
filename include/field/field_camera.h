@@ -2,10 +2,12 @@
 #define POKEBW2_FIELD_FIELD_CAMERA_H
 
 #include "types.h"
+#include "gfl/g3d.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
 
 void FieldCamera_CalcTransform(FieldCamera *camera, u32 a1);
+G3DCamera *FieldCamera_GetG3DCamera(FieldCamera *camera);
 void FieldCamera_CoordsGetTarget(FieldCamera *camera, VecFx32 *target);
 void FieldCamera_CoordsSetTarget(FieldCamera *camera, const VecFx32 *target);
 void FieldCamera_CoordsSetYaw(FieldCamera *camera, u16 yaw);
