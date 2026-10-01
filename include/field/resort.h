@@ -30,6 +30,26 @@ typedef struct {
     JoinAvenueInfo *info;
 } ResortSysSetup;
 
+// What the people are created with
+typedef struct {
+    MMSys *mmSys;
+    ResortSlots *slots;
+    ResortPersonData **datas;
+    // The number of people
+    u32 count;
+    // The index of the avenue's zone, which is also the row of the slots
+    u32 zone;
+    void *shops;
+    // A table whose columns 1 and 2 are added to a person's x and z, by the person's index
+    void *unk18;
+} ResortPeopleSetup;
+
+// A data and the zone of the person it makes
+typedef struct {
+    ResortPersonData *data;
+    u32 zone;
+} ResortPersonSource;
+
 // A walk through the data of a list of kinds, for func_ov137_021f1ae0 and func_ov137_021f1b0c
 typedef struct {
     u16 kindIndex;
@@ -65,16 +85,29 @@ void *func_ov137_021f0e8c(Field *field);
 
 // resort_people.c
 JoinAvenuePerson *func_ov137_021f0f58(ResortPerson *person);
+void func_ov137_021f0f64(ResortPerson *person);
 void func_ov137_021f0f84(ResortPerson *person, u32 value);
 void *func_ov137_021f0fa8(ResortPerson *person);
+// Moves the person's actor to where its type puts it
 void func_ov137_021f0fb8(ResortPerson *person);
-void func_ov137_021f1020(ResortPerson *person, u16 *a1, u16 *a2, u16 *a3);
+void func_ov137_021f1020(ResortPerson *person, u16 *x, u16 *z, u16 *dir);
+void func_ov137_021f1070(ResortPerson *person, BOOL visible);
+// 0 shows the person's actor, 1 hides it, and 2 shows it if the person is visible
+void func_ov137_021f1098(ResortPerson *person, u32 mode);
 void func_ov137_021f10dc(ResortPerson *person, JoinAvenuePersonParam param, u32 value);
 u32 func_ov137_021f10e8(ResortPerson *person, JoinAvenuePersonParam param, void *buffer);
 u32 func_ov137_021f10f4(ResortPerson *person, u32 which);
+FieldActor *func_ov137_021f110c(ResortPerson *person);
 ResortPersonData *func_ov137_021f1110(ResortPerson *person);
+ResortPeople *func_ov137_021f12b4(const ResortPeopleSetup *setup, HeapID heapId);
+void func_ov137_021f1300(ResortPeople *people);
+void func_ov137_021f1348(ResortPeople *people);
 u32 func_ov137_021f134c(ResortPeople *people);
-ResortPerson *func_ov137_021f14a8(ResortPeople *people, void *a1);
+// Creates the people of the slots of the zone's row, and of the occupants and entries that have slots there
+void func_ov137_021f1350(ResortPeople *people);
+void func_ov137_021f13a4(ResortPeople *people);
+// Creates a person at the first empty slot of the source's zone, or returns NULL
+ResortPerson *func_ov137_021f14a8(ResortPeople *people, const ResortPersonSource *source);
 void func_ov137_021f152c(ResortPeople *people);
 void func_ov137_021f1554(ResortPeople *people, ResortPerson *person);
 void func_ov137_021f15ac(ResortPeople *people, ResortPerson *person);

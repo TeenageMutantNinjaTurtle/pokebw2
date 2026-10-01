@@ -93,6 +93,17 @@ u32 GetActorFaceDir(FieldActor *actor);
 void CheckSetActorFaceDir(FieldActor *actor, u16 dir);
 void DisableActorMovement(FieldActor *actor);
 void EnableActorMovement(FieldActor *actor);
+void DeleteActor(FieldActor *actor);
+// The actor's current movement command
+u16 FldAct_GetAcmd(FieldActor *actor);
+void FldAct_UpdateBlInfoForNewObjCode(FieldActor *actor, u16 objCode);
+void SetActorGPosX(FieldActor *actor, s16 x);
+void SetActorGPosZ(FieldActor *actor, s16 z);
+// Whether the actor has flag 4, and setting or clearing flag 0x80 (set when the value is not TRUE)
+BOOL func_ov012_02167520(FieldActor *actor);
+void func_ov012_02167580(FieldActor *actor, BOOL value);
+// Ends the actor's movement command
+void func_ov012_02166f2c(FieldActor *actor);
 u16 GetActorZoneID(FieldActor *actor);
 BOOL IsActorFlag16(FieldActor *actor);
 // Steps through the system's actors from *index, returning TRUE with the next one in *actor

@@ -87,6 +87,12 @@ void func_020395e4(void *table);
 u16 func_020395f8(void *table, u32 row, u32 column);
 // The number of rows
 u32 func_02039608(void *table);
+// A row of the table found from a1 to a3, of which column 0 matches a1, and the row's column 3
+const u16 *func_02039628(void *table, u32 a1, u32 a2, u16 a3);
+u16 func_02039624(const u16 *row);
+// Positions on the grid and directions, from two tables of {u16 x, u16 z, u32 dir}
+void func_02039538(u16 index, u16 *x, u16 *z, u16 *dir);
+void func_02039578(u16 index, u16 *x, u16 *z, u16 *dir);
 u32 func_0203941c(u32 value, u32 a1, u32 a2);
 u32 func_0203968c(void *table, u32 a1);
 const u16 *func_02039798(void *shops, JoinAvenuePerson *person);

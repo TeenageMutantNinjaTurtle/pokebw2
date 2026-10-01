@@ -1696,10 +1696,7 @@ BOOL func_ov059_021e7a28(VM *vm, FieldScriptEnv *env) {
     u16 zoneId;
     u32 index;
     u16 *var;
-    struct {
-        ResortPersonData *data;
-        u32 unk4;
-    } key;
+    ResortPersonSource key;
 
     FieldScriptEnv_GetScriptWork(env);
     gsys = FieldScriptEnv_GetGameSystem(env);
@@ -1718,7 +1715,7 @@ BOOL func_ov059_021e7a28(VM *vm, FieldScriptEnv *env) {
     case 2:
     case 3:
         key.data = func_ov137_021f1b94(unk30, 1, index);
-        key.unk4 = func_02039518(zoneId);
+        key.zone = func_02039518(zoneId);
         *var = (u16)func_ov137_021f10e8(func_ov137_021f14a8(people, &key), 0, NULL) + 80;
         break;
     }

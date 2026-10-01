@@ -14,3 +14,9 @@ src/ov137/resort_data_manager.c:
     .text       start:0x021f1710 end:0x021f1c24
     .rodata     start:0x021f5598 end:0x021f5688
     .data       start:0x021f58c0 end:0x021f58d8
+
+src/ov137/resort_people.c:
+    complete
+    .text       start:0x021f0e98 end:0x021f1710
+    .rodata     start:0x021f554c end:0x021f5598
+    .data       start:0x021f58b0 end:0x021f58c0
