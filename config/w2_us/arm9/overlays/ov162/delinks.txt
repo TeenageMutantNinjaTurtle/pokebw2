@@ -10,6 +10,7 @@ src/ov162/title.c:
     .rodata     start:0x021a14e0 end:0x021a16ec
 
 src/ov162/startmenu.c:
+    complete
     .text       start:0x0219d954 end:0x021a0084
     .rodata     start:0x021a16ec end:0x021a198c
     .data       start:0x021a1b60 end:0x021a1b6c

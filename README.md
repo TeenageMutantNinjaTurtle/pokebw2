@@ -187,8 +187,9 @@ Things that affect whether MWCC output matches:
 - An argument that is loaded before a call among the arguments, such as a print queue loaded before
   `BmpWin_GetBitmap(...)` in the same call, was passed to an inlined helper that makes the call, like
   `PrintWindow_Print`.
-- A parameter passed on the stack is read from the stack at each use, instead of once into a register, when it is
-  passed on as an `int`, as `GFL_BGSysFillScrArea` takes its BG.
+- A parameter passed on the stack is loaded at the function's entry, along with the register parameters, unless it is
+  an `int` or `s32`, which is loaded where it is first used. `StartMenu_DrawFrame` takes its BG as a `u8`, as
+  `GFL_BGSysFillScrArea` does.
 - `static const` data goes in `.rodata`, so a table that the original has in `.data` is not `const`. The module
   check fails if a table ends up in the wrong section, even when every function matches.
 - `a == 4 || a == 5` becomes a range check. Separate comparisons that jump to the same code come from separate

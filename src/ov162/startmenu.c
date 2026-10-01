@@ -241,7 +241,7 @@ static void StartMenu_HideSavedGame(StartMenuWork *wk);
 static void StartMenu_MoveItemActors(StartMenuWork *wk, s32 dy);
 static BOOL StartMenu_MoveCursor(StartMenuWork *wk, s32 dir);
 static void StartMenu_SetItemActorsVisible(StartMenuWork *wk, BOOL visible);
-static void StartMenu_DrawFrame(u8 x, u8 y, u8 width, u8 height, s32 bg);
+static void StartMenu_DrawFrame(u8 x, u8 y, u8 width, u8 height, u8 bg);
 static void StartMenu_ClearFrame(u8 x, u8 y, u8 width, u8 height, u8 bg);
 static void StartMenu_OpenNewGameWarning(StartMenuWork *wk);
 static void StartMenu_CloseNotice(StartMenuWork *wk, BOOL leaving);
@@ -1005,6 +1005,13 @@ static void StartMenu_LoadBGGraphics(void) {
     LoadSysMsgBox(0, 1, 14, 0, HEAPID_STARTMENU);
     GFL_BGSysLoadNCLRDefault(ARCID_FONT, 5, 0, 15 * 0x20, 0x20, HEAPID_STARTMENU);
     GFL_BGSysLoadNCLRDefault(ARCID_FONT, 5, 4, 15 * 0x20, 0x20, HEAPID_STARTMENU);
+#ifdef WHITE2
+    // White 2 draws BGs 3 and 6, one on each screen, in palette 4
+    GFL_BGSysSetScrPaletteNo(3, 0, 0, 32, 24, 4);
+    GFL_BGSysSetScrPaletteNo(6, 0, 0, 32, 24, 4);
+    GFL_BGSysQueueScrLoad(3);
+    GFL_BGSysQueueScrLoad(6);
+#endif
 }
 
 static void StartMenu_InitUnk16C(StartMenuWork *wk) {
@@ -1161,7 +1168,11 @@ static void StartMenu_InitWindows(StartMenuWork *wk) {
         u32 cityMsg = 0;
 
         if (cityKey != 0) {
+#ifdef BLACK2
             cityMsg = 22;
+#else
+            cityMsg = 23;
+#endif
         }
         if (cityMsg != 0) {
             str = GFL_MsgDataLoadStrbufNew(wk->msgData, cityMsg);
@@ -1597,7 +1608,7 @@ static void StartMenu_SetItemActorsVisible(StartMenuWork *wk, BOOL visible) {
 }
 
 // Draws the frame of a notice with the characters of the frame loaded to the BG
-static void StartMenu_DrawFrame(u8 x, u8 y, u8 width, u8 height, s32 bg) {
+static void StartMenu_DrawFrame(u8 x, u8 y, u8 width, u8 height, u8 bg) {
     GFL_BGSysFillScrArea(bg, 1, x, y, 1, 1, 1);
     GFL_BGSysFillScrArea(bg, 3, x + width - 1, y, 1, 1, 1);
     GFL_BGSysFillScrArea(bg, 7, x, y + height - 1, 1, 1, 1);
