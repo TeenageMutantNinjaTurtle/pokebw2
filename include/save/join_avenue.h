@@ -30,6 +30,22 @@ void func_02039064(JoinAvenueInfo *info, u32 param, u32 value);
 
 // A person's fields. joinAveTextHandler reads one, into the buffer for a name
 u32 joinAveTextHandler(JoinAvenuePerson *person, JoinAvenuePersonParam param, void *buffer);
+// Allocates a person, frees one and clears one
+JoinAvenuePerson *func_02036d94(HeapID heapId);
+void func_02036db8(JoinAvenuePerson *person);
+void func_02036e14(JoinAvenuePerson *person);
+u32 func_020378f8(JoinAvenuePerson *person, u32 a1, u32 a2);
+// The 0x60-byte entries, twelve from 4 bytes into the Join Avenue's save at 0x628, with the same functions as a
+// person's
+void *func_02010054(JoinAvenueSave *joinAvenue);
+void *func_02037f04(void *entries, u32 index);
+void *func_02037a40(HeapID heapId);
+void func_02037a68(void *entry);
+void func_02037a70(void *entry);
+BOOL func_02037a90(void *entry);
+u32 func_02037b38(void *entry, u32 param, void *buffer);
+void func_02037c70(void *entry, u32 param, u32 value);
+u32 func_02037e34(void *entry, u32 a1, u32 a2);
 BOOL func_02036e4c(JoinAvenuePerson *person, u32 bit);
 void *func_02038470(JoinAvenuePerson *person);
 u32 func_02038a20(JoinAvenuePerson *person, PlayerInfo *playerInfo);
@@ -50,11 +66,15 @@ u32 func_0203889c(JoinAvenueOccupants *occupants);
 u32 func_020388c0(JoinAvenueOccupants *occupants);
 void func_02038a0c(JoinAvenueOccupants *occupants, u32 value);
 JoinAvenuePerson *func_02038a18(JoinAvenueOccupants *occupants);
-// The 0x58-byte records
+// The 0x58-byte records: allocated, freed and cleared as a person is
+void *func_020384a4(HeapID heapId);
+void func_020384cc(void *record);
+void func_020384d4(void *record);
 BOOL func_020384e0(void *record);
 // A field of a record, which reads into the buffer for a name, as joinAveTextHandler does for a person
 u32 func_020385a8(void *record, u32 param, void *buffer);
 void func_02038680(void *record, u32 param, u32 value);
+u32 func_020387f4(void *record, u32 a1, u32 a2);
 
 // The shops' data: tables of u16 rows
 u16 func_020394b0(u16 a0, u16 a1, u16 a2, u16 a3, JoinAvenueInfo *info, void *shops);
@@ -67,6 +87,7 @@ void func_020395e4(void *table);
 u16 func_020395f8(void *table, u32 row, u32 column);
 // The number of rows
 u32 func_02039608(void *table);
+u32 func_0203941c(u32 value, u32 a1, u32 a2);
 u32 func_0203968c(void *table, u32 a1);
 const u16 *func_02039798(void *shops, JoinAvenuePerson *person);
 const u16 *func_020397b4(void *shops, u32 id);

@@ -17,6 +17,24 @@ typedef struct ResortPeople ResortPeople;
 typedef struct ResortPerson ResortPerson;
 typedef struct ResortPersonData ResortPersonData;
 typedef struct ResortNPC ResortNPC;
+typedef struct ResortSlots ResortSlots;
+
+// What the gimmick's system is created with
+typedef struct {
+    JoinAvenueOccupants *occupants;
+    JoinAvenuePersonList *list;
+    // A second list, or NULL
+    JoinAvenuePersonList *list2;
+    // The twelve entries of func_02037f04
+    void *entries;
+    JoinAvenueInfo *info;
+} ResortSysSetup;
+
+// A walk through the data of a list of kinds, for func_ov137_021f1ae0 and func_ov137_021f1b0c
+typedef struct {
+    u16 kindIndex;
+    u16 pos;
+} ResortDataIter;
 
 // What the avenue's NPCs are created with
 typedef struct {
@@ -64,22 +82,45 @@ ResortPerson *func_ov137_021f15cc(ResortPeople *people, FieldActor *actor);
 ResortPerson *func_ov137_021f1600(ResortPeople *people, JoinAvenuePerson *person);
 ResortPerson *func_ov137_021f1634(ResortPeople *people, u32 index);
 ResortPerson *func_ov137_021f163c(ResortPeople *people, ResortPersonData *data);
-void func_ov137_021f1748(void *a0);
-u16 func_ov137_021f1878(ResortPersonData *data, void *a1, void *a2, JoinAvenueInfo *info);
 
-// resort_data_manager.c
+// resort_data_manager.c. The data of the avenue's people and records, 40 of them, for kinds 0 to 4: the eight
+// occupants, the four records, the eight of each list and the twelve entries. Each calls the functions of its type
+ResortSlots *func_ov137_021f1710(ResortPersonData **datas, HeapID heapId);
+void func_ov137_021f1740(ResortSlots *slots);
+// Places each data that is not empty in the slot of its params 0 and 1, the slot and the row (1 or 2)
+void func_ov137_021f1748(ResortSlots *slots);
+u16 func_ov137_021f17ec(u32 kind);
+u32 func_ov137_021f17fc(u32 kind);
+// Whether a slot of a row is empty, the data in it, and the first empty one (0xffff if none)
+BOOL func_ov137_021f1808(ResortSlots *slots, u32 row, u32 pos);
+ResortPersonData *func_ov137_021f1824(ResortSlots *slots, u32 row, u32 pos);
+u16 func_ov137_021f184c(ResortSlots *slots, u32 row);
+u16 func_ov137_021f1878(ResortPersonData *data, void *a1, void *a2, JoinAvenueInfo *info);
+ResortPersonData *func_ov137_021f18f0(HeapID heapId, void *person, u32 kind, u16 index);
+void func_ov137_021f1920(ResortPersonData *data);
 void func_ov137_021f1950(ResortPersonData *data);
+BOOL func_ov137_021f195c(ResortPersonData *data);
 u32 func_ov137_021f1968(ResortPersonData *data, JoinAvenuePersonParam param, void *buffer);
 void func_ov137_021f1974(ResortPersonData *data, JoinAvenuePersonParam param, u32 value);
 JoinAvenuePerson *func_ov137_021f1980(ResortPersonData *data);
 u32 func_ov137_021f1984(ResortPersonData *data);
+u32 func_ov137_021f1988(ResortPersonData *data);
 u32 func_ov137_021f198c(ResortPersonData *data);
 u32 func_ov137_021f1990(ResortPersonData *data, u32 a1, u32 a2);
 u32 func_ov137_021f199c(ResortPersonData *data, ResortPersonData *other, u32 a2, u32 a3);
-ResortPersonData *func_ov137_021f1b94(void *a0, u32 a1, u16 a2);
-ResortPersonData *func_ov137_021f1ba8(void *a0, u32 a1, u32 a2);
+ResortPersonData **func_ov137_021f19c4(const ResortSysSetup *setup, HeapID heapId);
+void func_ov137_021f1ac0(ResortPersonData **datas);
+ResortDataIter func_ov137_021f1ae0(ResortPersonData **datas, const u32 *kinds, u32 count);
+// The next data of the kinds, or NULL
+ResortPersonData *func_ov137_021f1b0c(ResortPersonData **datas, ResortDataIter *iter, const u32 *kinds, u32 count);
 // The data of a person, among what func_ov137_021f2014 returns
-ResortPersonData *func_ov137_021f1b6c(void *a0, JoinAvenuePerson *person);
+ResortPersonData *func_ov137_021f1b6c(ResortPersonData **datas, JoinAvenuePerson *person);
+ResortPersonData *func_ov137_021f1b94(ResortPersonData **datas, u32 kind, u16 index);
+// The same for the scripts' numbering of the kinds: 0 the occupants, 1 the entries, 2 the people of both lists and 3
+// the records
+ResortPersonData *func_ov137_021f1ba8(ResortPersonData **datas, u32 which, u16 index);
+// The first empty data of a kind, or NULL
+ResortPersonData *func_ov137_021f1bd0(ResortPersonData **datas, u32 kind);
 
 // resort_npc.c
 ResortNPC *func_ov137_021f1c24(const ResortNPCSetup *setup, HeapID heapId);
