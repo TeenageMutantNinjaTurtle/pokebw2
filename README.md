@@ -174,7 +174,15 @@ Things that affect whether MWCC output matches:
   table, and empty cases that sit between others still get a comparison.
 - Of two variables that compete for the same register, the one used more gets it: one use of the Battle Subway
   command's result variable too many gave its register to the command ID. A single `*var = cond ? a : b;` counts as
-  one use where an `if`/`else` with a store in each counts as two.
+  one use where an `if`/`else` with a store in each counts as two. Measured on small functions, the count is of
+  instructions that refer to the variable once the code is cleaned up: its assignment, a parameter's move out of
+  its argument register, and the shifts that narrow a `u8` or `u16` assigned from a wider value all count, while a
+  use the optimizer deletes does not. A use inside an `if` or a switch case counts like any other. A variable a
+  switch tests counts about 2 for each comparison and 4 for a jump table. On a tie the variable assigned first wins,
+  whatever the declaration order, and a variable assigned later needs about one use more.
+- Spilled variables get their stack slots in the order they are first assigned, the first at the lowest address,
+  whatever their declaration order or use counts. A value that sits above values assigned after it was spilled in a
+  later round of register allocation.
 - A branch to the very next instruction is left by cross-jumping: two statements that end the same way, such as a
   store in each case of a switch, share their tail, and the first jumps to it even when it follows.
 - Identical statements in different branches are merged, so a branch that jumps into the middle of another block had
