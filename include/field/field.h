@@ -25,6 +25,7 @@ u32 FieldPlayer_GetFaceDir(FieldPlayer *player);
 u16 FieldPlayer_GetObjCodeByForme(u32 sex, u32 forme);
 u16 FieldPlayer_GetObjCodeByExState(u32 sex, u32 exState);
 void *Field_GetMsgBGSys(Field *field);
+BOOL Field_IsEventRunning(Field *field);
 // The font of the field's message BG
 Font *func_ov036_0218799c(void *msgBGSys);
 // Turns on or off the alpha blending of the field's message BG

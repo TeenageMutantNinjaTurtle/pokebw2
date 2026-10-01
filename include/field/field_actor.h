@@ -19,6 +19,36 @@ typedef struct {
     s16 unk6;
 } GridPos;
 
+// An actor of a zone's entities, from which actors are created. Names and layout from swan
+// (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
+struct ZoneNPC {
+    u16 uid;
+    u16 modelId;
+    u16 moveCode;
+    u16 evType;
+    u16 spawnFlag;
+    u16 scrId;
+    u16 direction;
+    u16 param0;
+    u16 param1;
+    u16 param2;
+    u16 areaW;
+    u16 areaH;
+    BOOL isRail;
+    union {
+        struct {
+            u16 x;
+            u16 z;
+            s32 y;
+        } grid;
+        struct {
+            u16 railIndex;
+            u16 frontPos;
+            u16 sidePos;
+        } rail;
+    } pos;
+};
+
 GameEvent *CallEventPrepareResidentActorsForZoneChange(GameSystem *gsys, Field *field);
 void DisableAllActorsMovement(MMSys *mmSys);
 void EnableAllActorsMovement(MMSys *mmSys);
@@ -62,6 +92,14 @@ void FldAct_SetShadowGroup(FieldActor *actor, u32 group);
 u32 GetActorFaceDir(FieldActor *actor);
 void CheckSetActorFaceDir(FieldActor *actor, u16 dir);
 void DisableActorMovement(FieldActor *actor);
+void EnableActorMovement(FieldActor *actor);
+u16 GetActorZoneID(FieldActor *actor);
+BOOL IsActorFlag16(FieldActor *actor);
+// Steps through the system's actors from *index, returning TRUE with the next one in *actor
+BOOL NextActor(MMSys *mmSys, FieldActor **actor, u32 *index);
+FieldActor *CreateNewActorByEntityNoWKOBJCODE(MMSys *mmSys, const ZoneNPC *npc, u16 zoneId);
+// Sets a ZoneNPC's position on the grid
+void func_ov012_021682c0(ZoneNPC *npc, u16 x, u16 z, s32 y);
 // The actor's user parameters 0 to 2
 u16 GetActorUserParam(FieldActor *actor, u32 index);
 void SetActorUserParam(FieldActor *actor, u16 value, u32 index);

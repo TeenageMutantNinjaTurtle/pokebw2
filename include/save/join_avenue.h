@@ -59,7 +59,14 @@ void func_02038680(void *record, u32 param, u32 value);
 // The shops' data: tables of u16 rows
 u16 func_020394b0(u16 a0, u16 a1, u16 a2, u16 a3, JoinAvenueInfo *info, void *shops);
 u32 func_02039518(u16 zoneId);
+// The avenue has three zones: the zone of an index, and the index of a zone (0 if it is none of them)
+u16 func_0203950c(u32 index);
+// Tables of u16 rows of a number of columns, read from a file of archive 244 (resort_binary.c)
+void *func_020395ac(u32 fileId, u32 columns, HeapID heapId);
+void func_020395e4(void *table);
 u16 func_020395f8(void *table, u32 row, u32 column);
+// The number of rows
+u32 func_02039608(void *table);
 u32 func_0203968c(void *table, u32 a1);
 const u16 *func_02039798(void *shops, JoinAvenuePerson *person);
 const u16 *func_020397b4(void *shops, u32 id);

@@ -16,10 +16,22 @@ typedef struct ResortSys ResortSys;
 typedef struct ResortPeople ResortPeople;
 typedef struct ResortPerson ResortPerson;
 typedef struct ResortPersonData ResortPersonData;
+typedef struct ResortNPC ResortNPC;
+
+// What the avenue's NPCs are created with
+typedef struct {
+    MMSys *mmSys;
+    u32 unk4;
+    // The index of the avenue's zone, for func_0203950c
+    u32 zone;
+    JoinAvenueInfo *info;
+    // The NPCs' table, of func_020395ac
+    void *table;
+} ResortNPCSetup;
 
 // The gimmick's work, whichever of its two layouts the field has
 ResortPeople *func_ov137_021eeeac(Field *field);
-void *func_ov137_021eeebc(Field *field);
+ResortNPC *func_ov137_021eeebc(Field *field);
 ResortSys *func_ov137_021eeec8(Field *field);
 void func_ov137_021eeed4(Field *field, ResortPerson *person);
 void func_ov137_021eeee8(Field *field, u32 a1);
@@ -70,9 +82,18 @@ ResortPersonData *func_ov137_021f1ba8(void *a0, u32 a1, u32 a2);
 ResortPersonData *func_ov137_021f1b6c(void *a0, JoinAvenuePerson *person);
 
 // resort_npc.c
-void func_ov137_021f1d04(void *a0, u32 a1);
-u16 func_ov137_021f1d60(void *a0, u32 a1, u32 a2);
-u16 func_ov137_021f1f00(void *a0, u32 a1);
+ResortNPC *func_ov137_021f1c24(const ResortNPCSetup *setup, HeapID heapId);
+void func_ov137_021f1c74(ResortNPC *npc);
+// Stops the NPCs' movement while an event is running
+void func_ov137_021f1c88(ResortNPC *npc, Field *field);
+// The actor of an NPC, or NULL
+FieldActor *func_ov137_021f1cc8(ResortNPC *npc, u32 index);
+// The number of NPCs created
+u32 func_ov137_021f1d00(ResortNPC *npc);
+void func_ov137_021f1d04(ResortNPC *npc, BOOL visible);
+// A column of an NPC's row of texts
+u16 func_ov137_021f1d60(ResortNPC *npc, u32 row, u32 column);
+u16 func_ov137_021f1f00(ResortNPC *npc, u32 row);
 
 // resort_sys.c
 void *func_ov137_021f1ff8(ResortSys *sys);
