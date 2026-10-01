@@ -270,7 +270,13 @@ Things that affect whether MWCC output matches:
   shop's arrow is placed with `row = ...; y = row * rowHeight; pos.y = y + 22;`.
 - An address computed before calls is reused after them only when the expression is the same, types included:
   `a[j].f` read before the calls lets a later `a[j].g` reuse the address, but not `a[(u32)j].g`. An address that the
-  original computes again, where ours keeps it on the stack, is written differently at one of the two places.
+  original computes again, where ours keeps it on the stack, is written differently at one of the two places. An
+  inline accessor does it naturally, since its parameter is a copy of the index in the parameter's type: the Join
+  Avenue shop reads `ResortShop_GetEntry(wk, j)->id` with a `u32` index for an `int` `j`, and its later
+  `wk->entries[j]` is computed again while `wk->entries[i]` is reused.
+- A value that a loop uses and the code after it uses again is reused from the copy hoisted out of the loop. When
+  the original computes it again after the loop, the loop assigns it to a variable declared in the loop's body, as
+  `int wanted = mode + 1;` in the Join Avenue's records command.
 - A value moved into an argument register just before a call, and used for nothing else, is an argument the prototype
   is missing. `GFL_SEPlayKeepVol` takes the sound's player as well as the sound.
 - `compiler_probe.py` skips relocated words, so a wrong addend, such as a table index that the compiler folds into a

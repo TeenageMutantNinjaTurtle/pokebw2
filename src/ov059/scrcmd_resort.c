@@ -1345,8 +1345,10 @@ BOOL func_ov059_021e6fc8(VM *vm, FieldScriptEnv *env) {
         msgData = GFL_MsgSysLoadData(FALSE, 3, 609, HEAPID_TAIL(heapId));
         n = 0;
         for (i = 0; i < 8; i++) {
+            int wanted = mode + 1;
+
             target = joinAveTextHandler(person, i + 48, NULL);
-            if (target != 0 && mode + 1 == ++n) {
+            if (target != 0 && wanted == ++n) {
                 strbuf = GFL_MsgDataLoadStrbufNew(msgData, i + 280);
                 func_0202437c(wordSet, 1, strbuf, 2, 1, 2);
                 WordSetNumber(wordSet, 2, target, 1, 0, 1);

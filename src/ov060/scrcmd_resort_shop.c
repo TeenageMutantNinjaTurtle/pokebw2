@@ -143,6 +143,10 @@ struct ResortShop {
     GameSystem *gsys;
 };
 
+static inline ResortShopEntry *ResortShop_GetEntry(ResortShopWork *wk, u32 index) {
+    return &wk->entries[index];
+}
+
 typedef struct {
     u32 bg;
     u8 x;
@@ -1828,7 +1832,7 @@ static void func_ov060_021e85b0(ResortShopWork *wk, u8 mode, u8 subMode) {
             int j = wk->entryCount - 1 - wk->entries[i].id;
 
             if (i != j) {
-                u16 otherId = wk->entries[j].id;
+                u16 otherId = ResortShop_GetEntry(wk, j)->id;
                 JoinAvenuePerson *a = func_02038860(wk->occupants, wk->entries[i].id);
                 u32 a1 = joinAveTextHandler(a, 1, NULL);
                 u16 a0 = joinAveTextHandler(a, 0, NULL);
