@@ -27,3 +27,11 @@ src/ov167/battle_party_count.c:
 src/ov167/battle_party_get_mon.c:
     complete
     .text       start:0x0219d534 end:0x0219d544
+
+src/ov167/battle_party_find.c:
+    complete
+    .text       start:0x0219d5cc end:0x0219d5f0
+
+src/ov167/battle_party_eligible.c:
+    complete
+    .text       start:0x0219cf50 end:0x0219cf90

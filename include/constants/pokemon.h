@@ -34,6 +34,7 @@
 #define PKM_PARAM_POKEBALL 0x98
 #define PKM_PARAM_STATUS 0x9d
 #define PKM_PARAM_LEVEL 0x9e
+#define PKM_PARAM_HP 0xa0
 // The mail the Pokémon holds, copied from a MailData
 #define PKM_PARAM_MAIL 0xa7
 // Whether there is a Pokémon in the slot

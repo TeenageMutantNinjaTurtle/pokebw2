@@ -43,6 +43,7 @@ BattleParty *GetClientParty(BtlPokeCon *pokeCon, u8 clientId);
 BattleParty *GetPartyData(BtlPokeCon *pokeCon, u8 clientId);
 
 s32 FindPartyMon(BattleParty *party, BattleMon *mon);
+s32 GetPartyPkmnEligibleForBattle(PokeParty *party);
 void AddBattleMonToParty(BattleParty *party, BattleMon *mon);
 BattleMon *GetBattleMonFromParty(BattleParty *party, u8 index);
 u8 GetNumMonsInParty(BattleParty *party);
