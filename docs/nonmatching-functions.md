@@ -1,0 +1,23 @@
+# Nonmatching functions
+
+This tracks every function currently implemented in C whose compiled code does not match the original ROM, plus functions with an attempted C translation that remains in the original assembly. Assembly that has not yet been translated is outside this list. Addresses below are for Black 2 unless both versions are shown.
+
+## C implementations that do not match
+
+| Overlay | Function | Source | Black 2 / White 2 | Current difference |
+| --- | --- | --- | --- | --- |
+| 59 | `func_ov059_021e6630` | `src/ov059/scrcmd_resort.c` | `0x021e6630` / `0x021e6670` | Four nonrelocated bytes with DSi 1.1p1. The original keeps zero in `r5` for the last stack argument and return; the current C emits `movs r0, #0` twice. |
+| 284 | `ShinkaDemoPieces_Move` | `src/ov284/shinka_demo_view.c` | `0x021e69c4` / `0x021e6a04` | Eleven nonrelocated bytes with DSi 1.1p1. Differences include stack slot assignment within the large state switch and two Thumb instruction sequences. |
+
+Both source files lack `complete` in both versions' `delinks.txt`. All other functions in those files match in the Black 2 build report. `compiler_probe.py` reproduces the differences for both versions. The full ROMs still rebuild byte for byte because the linker retains the original bytes for these functions.
+
+## C translations attempted, still in assembly
+
+| Overlay | Function | Black 2 / White 2 | Current obstacle |
+| --- | --- | --- | --- |
+| 12 | `TrimPartyTo3Members` | `0x02150460` / `0x021504a0` | Natural loop forms compile to `0x20` bytes; the original is `0x22` and copies the party argument into `r7` before removal. Tested DSi 1.1 through 1.6 and 2.0 variants, declaration and loop changes, and decomp-permuter variants without a match. |
+| 167 | `GetSideFromMonID` | `0x0219d31c` / `0x0219d35c` | A direct C translation has the original `0x10` byte size, but its branch layout differs. The adjacent `IsAllyMonID` and `GetSideFromOpposingMonID` have matching C candidates, so this group remains in assembly until the middle function matches. |
+
+## Keeping this list current
+
+After changing a source file, run `compiler_probe.py` for both `b2_us` and `w2_us`. Add or update a row for each function the probe reports as a mismatch. A file should receive `complete` in both versions' `delinks.txt` only when all its functions match. The Black 2 build report at `build/b2_us/report.json` provides a second inventory: inspect `units` with a `metadata.source_path` and any function whose `fuzzy_match_percent` is below 100. Remove rows when the functions match and the complete ROM builds pass.

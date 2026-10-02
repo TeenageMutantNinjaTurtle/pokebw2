@@ -113,6 +113,8 @@ It needs `pyelftools`, `capstone` and `pyyaml`. To look at a function's disassem
 
 Matching is checked per function with [objdiff](https://github.com/encounter/objdiff). A default `ninja` also writes
 `objdiff.json` for the first configured version, Black 2 by default, which the objdiff GUI opens from this directory.
+The current C mismatches and attempted translations still in assembly are tracked in
+[Nonmatching functions](docs/nonmatching-functions.md).
 
 1. Move a range of functions into a source file by adding it to the module's `delinks.txt`, as `src/ov004/event_worldtrade.c`
    is in `config/b2_us/arm9/overlays/ov004/delinks.txt`. Mark it `complete` once all its functions match. Add the
