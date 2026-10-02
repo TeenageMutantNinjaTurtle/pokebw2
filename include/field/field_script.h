@@ -42,6 +42,24 @@ void resetRebattleTrainers(EventWork *eventWork);
 // A field script command. env is the running script's environment
 typedef BOOL (*FieldScriptCommand)(VM *vm, FieldScriptEnv *env);
 
+BOOL s0000_VMNop(VM *vm, FieldScriptEnv *env);
+BOOL s0001_VMNop2(VM *vm, FieldScriptEnv *env);
+BOOL s0002_VMHalt(VM *vm, FieldScriptEnv *env);
+BOOL swapToScrcmdEnvirDecPauseCtr(VM *vm, void *env);
+BOOL s0003_VMSleep(VM *vm, FieldScriptEnv *env);
+BOOL s0004_VMCall(VM *vm, FieldScriptEnv *env);
+BOOL s0005_VMReturn(VM *vm, FieldScriptEnv *env);
+BOOL s0006_DebugPrint(VM *vm, FieldScriptEnv *env);
+BOOL s0007_DebugStack(VM *vm, FieldScriptEnv *env);
+BOOL s0014_VMRegSet8(VM *vm, FieldScriptEnv *env);
+BOOL s0015_VMRegSet32(VM *vm, FieldScriptEnv *env);
+BOOL s0016_VMRegMov(VM *vm, FieldScriptEnv *env);
+u8 VMCmp(u32 left, u32 right);
+BOOL s0017_VMRegCmp8(VM *vm, FieldScriptEnv *env);
+BOOL s0018_VMRegCmpConst8(VM *vm, FieldScriptEnv *env);
+BOOL s0019_WorkCmpConst(VM *vm, FieldScriptEnv *env);
+BOOL s001A_WorkCmpWork(VM *vm, FieldScriptEnv *env);
+
 GameSystem *FieldScriptEnv_GetGameSystem(FieldScriptEnv *env);
 GameData *FieldScriptEnv_GetGameData(FieldScriptEnv *env);
 HeapID FieldScriptEnv_GetHeapID(FieldScriptEnv *env);

@@ -59,3 +59,15 @@ src/ov012/script_work_extra_accessors.c:
 src/ov012/field_script_sub_event.c:
     complete
     .text       start:0x021540b0 end:0x02154134
+
+src/ov012/field_script_vm_control.c:
+    complete
+    .text       start:0x021541c0 end:0x02154258
+
+src/ov012/field_script_vm_register.c:
+    complete
+    .text       start:0x02154258 end:0x021542ac
+
+src/ov012/field_script_vm_compare.c:
+    complete
+    .text       start:0x021542ac end:0x0215435c
