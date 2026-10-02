@@ -7,3 +7,23 @@
 src/ov167/battle_party_access.c:
     complete
     .text       start:0x0219d408 end:0x0219d420
+
+src/ov167/battle_mon_access.c:
+    complete
+    .text       start:0x0219d23c end:0x0219d268
+
+src/ov167/battle_client_count.c:
+    complete
+    .text       start:0x0219d2d4 end:0x0219d2dc
+
+src/ov167/battle_party_add.c:
+    complete
+    .text       start:0x0219d488 end:0x0219d494
+
+src/ov167/battle_party_count.c:
+    complete
+    .text       start:0x0219d4c8 end:0x0219d4f8
+
+src/ov167/battle_party_get_mon.c:
+    complete
+    .text       start:0x0219d534 end:0x0219d544
