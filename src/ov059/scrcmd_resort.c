@@ -580,7 +580,7 @@ BOOL func_ov059_021e63d4(VM *vm, FieldScriptEnv *env) {
     GameSystem *gsys;
     u16 slot;
     u16 stat;
-    s16 change;
+    s32 change;
     u16 *var;
     PartyPkm *pkm;
     int total;
@@ -593,7 +593,7 @@ BOOL func_ov059_021e63d4(VM *vm, FieldScriptEnv *env) {
     GSYS_GetField(gsys);
     slot = ScriptReadAny(vm, env);
     stat = VM_Read16(vm);
-    change = ScriptReadAny(vm, env);
+    change = (s16)ScriptReadAny(vm, env);
     var = ScriptReadVar(vm, env);
     pkm = PokeParty_GetPkm(GameData_GetParty(GSYS_GetGameData(gsys)), slot);
     if (stat >= 6) {

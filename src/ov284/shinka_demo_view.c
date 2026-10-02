@@ -1224,10 +1224,37 @@ static void ShinkaDemoView_RunPieces(ShinkaDemoView *view) {
 }
 
 static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
+    VecFx32 delta;
     s16 row;
     s16 col;
     s32 angle;
     SpritePiece *piece;
+    SpritePiece *gatherPiece;
+    VecFx32 target;
+    MtxFx43 gatherMatrix;
+    VecFx32 gatherVector;
+    BOOL gatherFirst;
+    BOOL gatherSecond;
+    BOOL done;
+    fx32 distSqXZ;
+    fx32 distSqY;
+    fx32 invDist;
+    fx32 sign;
+    BOOL nearXZ;
+    BOOL nearY;
+    BOOL returnFirst;
+    SpritePiece *spinPiece;
+    MtxFx43 spinMatrix;
+    VecFx32 spinVector;
+    int hideRow;
+    int hideColumn;
+    BOOL returnSecond;
+    MtxFx43 returnSpinMatrix;
+    VecFx32 returnSpinVector;
+    MtxFx43 returnStartMatrix;
+    VecFx32 returnStartVector;
+    fx32 returnHomeDx;
+    fx32 returnHomeDz;
 
     pieces->angle += pieces->angleSpeed;
     if (pieces->angle >= 0x10000) {
@@ -1245,73 +1272,58 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
         pieces->frame = 0;
         pieces->angleSpeed = 0x600;
         break;
-    case MOVE_GATHER: {
+    case MOVE_GATHER:
         // Two pieces leave for the helix each frame, and wait there for the rest
-        SpritePiece *piece;
-        VecFx32 target;
-        MtxFx43 mtx;
-        VecFx32 vec;
-        BOOL first;
-        BOOL second;
-        BOOL gathered = TRUE;
-        fx32 distSqXZ;
-        fx32 distSqY;
-        fx32 invDist;
-        fx32 sign;
-        BOOL nearXZ;
-        BOOL nearY;
+        done = TRUE;
 
-        second = first = TRUE;
+        gatherSecond = gatherFirst = TRUE;
         for (row = 0; row < PIECE_ROWS; row++) {
             for (col = 0; col < PIECE_COLUMNS; col++) {
-                piece = &pieces->pieces[row][col];
-                angle = piece->angle + pieces->angle;
+                gatherPiece = &pieces->pieces[row][col];
+                angle = gatherPiece->angle + pieces->angle;
                 if (angle >= 0x10000) {
                     angle -= 0x10000;
                 }
-                MAT43_RotationY(&mtx, FX_SinIdx(angle), FX_CosIdx(angle));
-                vec.x = piece->radius;
-                vec.y = 0;
-                vec.z = 0;
-                MAT43_MulVec(&vec, &mtx, &target);
-                target.y = piece->height;
-                if (piece->state == PIECE_WAIT) {
-                    if (first || second) {
-                        piece->frame = 0;
-                        piece->state = PIECE_GATHER;
-                        if (first) {
-                            first = FALSE;
+                MAT43_RotationY(&gatherMatrix, FX_SinIdx(angle), FX_CosIdx(angle));
+                gatherVector.x = gatherPiece->radius;
+                gatherVector.y = 0;
+                gatherVector.z = 0;
+                MAT43_MulVec(&gatherVector, &gatherMatrix, &target);
+                target.y = gatherPiece->height;
+                if (gatherPiece->state == PIECE_WAIT) {
+                    if (gatherFirst || gatherSecond) {
+                        gatherPiece->frame = 0;
+                        gatherPiece->state = PIECE_GATHER;
+                        if (gatherFirst) {
+                            gatherFirst = FALSE;
                         } else {
-                            second = FALSE;
+                            gatherSecond = FALSE;
                         }
                     }
-                    gathered = FALSE;
-                } else if (piece->state == PIECE_GATHER) {
-                    if (piece->frame == 0) {
-                        piece->pos.x += piece->velocity.x;
-                        piece->pos.y += piece->velocity.y;
-                        piece->pos.z += piece->velocity.z;
-                        piece->frame++;
+                    done = FALSE;
+                } else if (gatherPiece->state == PIECE_GATHER) {
+                    if (gatherPiece->frame == 0) {
+                        gatherPiece->pos.x += gatherPiece->velocity.x;
+                        gatherPiece->pos.y += gatherPiece->velocity.y;
+                        gatherPiece->pos.z += gatherPiece->velocity.z;
+                        gatherPiece->frame++;
                         pieces->rowCount = row + 1;
                     } else {
-                        fx32 dx;
-                        fx32 dy;
-                        fx32 dz;
 
-                        dy = piece->target.y - piece->pos.y;
-                        dz = piece->target.z - piece->pos.z;
-                        dx = piece->target.x - piece->pos.x;
-                        distSqXZ = SquaredLengthXZ(dx, dz);
-                        distSqY = FX_Mul(dy, dy);
+                        delta.y = gatherPiece->target.y - gatherPiece->pos.y;
+                        delta.z = gatherPiece->target.z - gatherPiece->pos.z;
+                        delta.x = gatherPiece->target.x - gatherPiece->pos.x;
+                        distSqXZ = SquaredLengthXZ(delta.x, delta.z);
+                        distSqY = FX_Mul(delta.y, delta.y);
                         if (distSqXZ < PIECE_ARRIVED_DIST_SQ && distSqY < PIECE_ARRIVED_DIST_SQ) {
-                            piece->pos.x = piece->target.x;
-                            piece->pos.z = piece->target.z;
-                            piece->pos.y = piece->target.y;
-                            piece->pos.x = target.x;
-                            piece->pos.z = target.z;
-                            piece->pos.y = target.y;
-                            piece->frame = 0;
-                            piece->state = PIECE_SPIN;
+                            gatherPiece->pos.x = gatherPiece->target.x;
+                            gatherPiece->pos.z = gatherPiece->target.z;
+                            gatherPiece->pos.y = gatherPiece->target.y;
+                            gatherPiece->pos.x = target.x;
+                            gatherPiece->pos.z = target.z;
+                            gatherPiece->pos.y = target.y;
+                            gatherPiece->frame = 0;
+                            gatherPiece->state = PIECE_SPIN;
                         } else {
                             nearXZ = FALSE;
                             nearY = FALSE;
@@ -1321,51 +1333,45 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
                                 nearY = TRUE;
                             }
                             if (nearXZ) {
-                                piece->pos.x = piece->target.x;
-                                piece->pos.z = piece->target.z;
+                                gatherPiece->pos.x = gatherPiece->target.x;
+                                gatherPiece->pos.z = gatherPiece->target.z;
                             } else {
                                 invDist = FX_InvSqrt(distSqXZ);
-                                piece->pos.x = piece->pos.x + FX_Mul(piece->pos.x - piece->prevPos.x, FX32_ONE / 10) +
-                                               FX_Mul(FX_Mul(dx, invDist), FX32_CONST(0.875));
-                                piece->pos.z = piece->pos.z + FX_Mul(piece->pos.z - piece->prevPos.z, FX32_ONE / 10) +
-                                               FX_Mul(FX_Mul(dz, invDist), FX32_CONST(0.875));
+                                gatherPiece->pos.x = gatherPiece->pos.x + FX_Mul(gatherPiece->pos.x - gatherPiece->prevPos.x, FX32_ONE / 10) +
+                                               FX_Mul(FX_Mul(delta.x, invDist), FX32_CONST(0.875));
+                                gatherPiece->pos.z = gatherPiece->pos.z + FX_Mul(gatherPiece->pos.z - gatherPiece->prevPos.z, FX32_ONE / 10) +
+                                               FX_Mul(FX_Mul(delta.z, invDist), FX32_CONST(0.875));
                             }
                             if (nearY) {
-                                piece->pos.y = piece->target.y;
+                                gatherPiece->pos.y = gatherPiece->target.y;
                             } else {
-                                if (dy >= 0) {
+                                if (delta.y >= 0) {
                                     sign = FX32_ONE;
                                 } else {
                                     sign = -FX32_ONE;
                                 }
-                                piece->pos.y = piece->pos.y + FX_Mul(piece->pos.y - piece->prevPos.y, FX32_ONE / 10) +
+                                gatherPiece->pos.y = gatherPiece->pos.y + FX_Mul(gatherPiece->pos.y - gatherPiece->prevPos.y, FX32_ONE / 10) +
                                                FX_Mul(sign, FX32_CONST(0.875));
                             }
-                            piece->frame++;
+                            gatherPiece->frame++;
                         }
                     }
-                    gathered = FALSE;
-                } else if (piece->state == PIECE_SPIN) {
-                    piece->pos.x = target.x;
-                    piece->pos.z = target.z;
-                    piece->pos.y = target.y;
+                    done = FALSE;
+                } else if (gatherPiece->state == PIECE_SPIN) {
+                    gatherPiece->pos.x = target.x;
+                    gatherPiece->pos.z = target.z;
+                    gatherPiece->pos.y = target.y;
                 }
             }
         }
-        if (gathered) {
+        if (done) {
             pieces->moveState = MOVE_SPIN;
             if (pieces->state != PIECES_GATHERED && pieces->state != PIECES_WHITENING) {
                 pieces->state = PIECES_GATHERED;
             }
         }
         break;
-    }
-    case MOVE_SPIN: {
-        SpritePiece *piece;
-        MtxFx43 mtx;
-        VecFx32 vec;
-        int hideRow;
-        int hideColumn;
+    case MOVE_SPIN:
 
         if (pieces->frame < 100) {
             pieces->angleSpeed += 0x20;
@@ -1375,17 +1381,17 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
         }
         for (row = 0; row < PIECE_ROWS; row++) {
             for (col = 0; col < PIECE_COLUMNS; col++) {
-                piece = &pieces->pieces[row][col];
-                angle = piece->angle + pieces->angle;
+                spinPiece = &pieces->pieces[row][col];
+                angle = spinPiece->angle + pieces->angle;
                 if (angle >= 0x10000) {
                     angle -= 0x10000;
                 }
-                MAT43_RotationY(&mtx, FX_SinIdx(angle), FX_CosIdx(angle));
-                vec.x = piece->radius;
-                vec.y = 0;
-                vec.z = 0;
-                MAT43_MulVec(&vec, &mtx, &piece->pos);
-                piece->pos.y = piece->height;
+                MAT43_RotationY(&spinMatrix, FX_SinIdx(angle), FX_CosIdx(angle));
+                spinVector.x = spinPiece->radius;
+                spinVector.y = 0;
+                spinVector.z = 0;
+                MAT43_MulVec(&spinVector, &spinMatrix, &spinPiece->pos);
+                spinPiece->pos.y = spinPiece->height;
             }
         }
         if (ShinkaDemoPieces_IsWhite(pieces, heapId) && pieces->frame >= 30) {
@@ -1419,21 +1425,11 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
             pieces->frame++;
         }
         break;
-    }
-    case MOVE_RETURN: {
+    case MOVE_RETURN:
         // Two pieces leave the helix each frame, from the last
-        SpritePiece *piece;
-        BOOL first;
-        BOOL second;
-        BOOL returned = TRUE;
-        fx32 dx;
-        fx32 dy;
-        fx32 dz;
-        fx32 distSqXZ;
-        fx32 distSqY;
-        fx32 invDist;
+        done = TRUE;
 
-        second = first = TRUE;
+        returnSecond = returnFirst = TRUE;
         for (row = PIECE_ROWS - 1; row >= 0; row--) {
             for (col = PIECE_COLUMNS - 1; col >= 0; col--) {
                 piece = &pieces->pieces[row][col];
@@ -1442,67 +1438,61 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
                     angle -= 0x10000;
                 }
                 if (piece->state == PIECE_SPIN) {
-                    if (first || second) {
+                    if (returnFirst || returnSecond) {
                         piece->frame = 0;
                         piece->state = PIECE_RETURN;
-                        if (first) {
-                            first = FALSE;
+                        if (returnFirst) {
+                            returnFirst = FALSE;
                         } else {
-                            second = FALSE;
+                            returnSecond = FALSE;
                         }
                     } else {
-                        MtxFx43 mtx;
-                        VecFx32 vec;
 
-                        MAT43_RotationY(&mtx, FX_SinIdx(angle), FX_CosIdx(angle));
-                        vec.x = piece->radius;
-                        vec.y = 0;
-                        vec.z = 0;
-                        MAT43_MulVec(&vec, &mtx, &piece->pos);
+                        MAT43_RotationY(&returnSpinMatrix, FX_SinIdx(angle), FX_CosIdx(angle));
+                        returnSpinVector.x = piece->radius;
+                        returnSpinVector.y = 0;
+                        returnSpinVector.z = 0;
+                        MAT43_MulVec(&returnSpinVector, &returnSpinMatrix, &piece->pos);
                         piece->pos.y = piece->height;
                     }
-                    returned = FALSE;
+                    done = FALSE;
                 } else if (piece->state == PIECE_RETURN) {
                     if (piece->frame == 0) {
-                        MtxFx43 mtx;
-                        VecFx32 vec;
 
-                        MAT43_RotationY(&mtx, FX_SinIdx(angle), FX_CosIdx(angle));
-                        vec.x = piece->radius;
-                        vec.y = 0;
-                        vec.z = 0;
-                        MAT43_MulVec(&vec, &mtx, &piece->pos);
+                        MAT43_RotationY(&returnStartMatrix, FX_SinIdx(angle), FX_CosIdx(angle));
+                        returnStartVector.x = piece->radius;
+                        returnStartVector.y = 0;
+                        returnStartVector.z = 0;
+                        MAT43_MulVec(&returnStartVector, &returnStartMatrix, &piece->pos);
                         piece->pos.y = piece->height;
-                        dx = piece->pos.x - piece->prevPos.x;
-                        dy = piece->pos.y - piece->prevPos.y;
-                        dz = piece->pos.z - piece->prevPos.z;
-                        distSqXZ = SquaredLengthXZ(dx, dz);
-                        distSqY = FX_Mul(dy, dy);
+                        delta.x = piece->pos.x - piece->prevPos.x;
+                        delta.y = piece->pos.y - piece->prevPos.y;
+                        delta.z = piece->pos.z - piece->prevPos.z;
+                        distSqXZ = SquaredLengthXZ(delta.x, delta.z);
+                        distSqY = FX_Mul(delta.y, delta.y);
                         if (distSqXZ > FX32_ONE) {
                             invDist = FX_InvSqrt(distSqXZ);
-                            dx = FX_Mul(dx, invDist);
-                            dz = FX_Mul(dz, invDist);
+                            delta.x = FX_Mul(delta.x, invDist);
+                            delta.z = FX_Mul(delta.z, invDist);
                         }
                         if (distSqY > FX32_ONE) {
-                            if (dy >= 0) {
-                                dy = FX32_ONE;
+                            if (delta.y >= 0) {
+                                delta.y = FX32_ONE;
                             } else {
-                                dy = -FX32_ONE;
+                                delta.y = -FX32_ONE;
                             }
                         }
-                        piece->pos.x += dx;
-                        piece->pos.y += dy;
-                        piece->pos.z += dz;
+                        piece->pos.x += delta.x;
+                        piece->pos.y += delta.y;
+                        piece->pos.z += delta.z;
                         piece->frame++;
                     } else {
-                        fx32 dx;
-                        fx32 dz;
 
-                        dx = piece->home.x - piece->pos.x;
-                        dy = piece->home.y - piece->pos.y;
-                        dz = piece->home.z - piece->pos.z;
-                        distSqXZ = SquaredLengthXZ(dx, dz);
-                        distSqY = FX_Mul(dy, dy);
+                        returnHomeDx = piece->home.x - piece->pos.x;
+                        delta.y = piece->home.y - piece->pos.y;
+                        returnHomeDz = piece->home.z - piece->pos.z;
+                        distSqXZ = SquaredLengthXZ(returnHomeDx, returnHomeDz);
+                        distSqY = FX_Mul(delta.y, delta.y);
                         if (distSqXZ < PIECE_ARRIVED_DIST_SQ && distSqY < PIECE_ARRIVED_DIST_SQ) {
                             piece->pos.x = piece->home.x;
                             piece->pos.z = piece->home.z;
@@ -1512,31 +1502,30 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
                         } else {
                             if (distSqXZ > FX32_ONE) {
                                 invDist = FX_InvSqrt(distSqXZ);
-                                dx = FX_Mul(dx, invDist);
-                                dz = FX_Mul(dz, invDist);
+                                returnHomeDx = FX_Mul(returnHomeDx, invDist);
+                                returnHomeDz = FX_Mul(returnHomeDz, invDist);
                             }
                             if (distSqY > FX32_ONE) {
-                                if (dy >= 0) {
-                                    dy = FX32_ONE;
+                                if (delta.y >= 0) {
+                                    delta.y = FX32_ONE;
                                 } else {
-                                    dy = -FX32_ONE;
+                                    delta.y = -FX32_ONE;
                                 }
                             }
-                            piece->pos.x += dx;
-                            piece->pos.y += dy;
-                            piece->pos.z += dz;
+                            piece->pos.x += returnHomeDx;
+                            piece->pos.y += delta.y;
+                            piece->pos.z += returnHomeDz;
                         }
                     }
-                    returned = FALSE;
+                    done = FALSE;
                 }
             }
         }
-        if (returned) {
+        if (done) {
             pieces->moveState = MOVE_DONE;
             pieces->state = PIECES_RETURNED;
         }
         break;
-    }
     case MOVE_DONE:
         break;
     }

@@ -21,6 +21,7 @@ src/ov162/game_start.c:
     .rodata     start:0x021a198c end:0x021a1a5c
 
 src/ov162/boot_screens.c:
+    complete
     .text       start:0x021a0a94 end:0x021a0da0
     .rodata     start:0x021a1a5c end:0x021a1ae8
 

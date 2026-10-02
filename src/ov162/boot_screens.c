@@ -68,6 +68,7 @@ static BOOL BootScreens_Init(GameProc *proc, u32 *state, void *param, void *work
 static BOOL BootScreens_Main(GameProc *proc, u32 *state, void *param, void *work) {
     BootScreensParam *bootParam = param;
     BootScreensWork *wk = work;
+    enum { BRIGHTNESS_NORMAL = 0 } brightnessEnd;
 
     switch (wk->state) {
     case STATE_INIT:
@@ -93,6 +94,7 @@ static BOOL BootScreens_Main(GameProc *proc, u32 *state, void *param, void *work
         }
         break;
     case STATE_LOAD_LOGOS:
+        brightnessEnd = BRIGHTNESS_NORMAL;
         GFL_BGSysLoadNCGRStatic(ARCID_TITLE, 12, 1, 0, 0, TRUE, HEAPID_TITLE);
         loadBGScrToVramByNarcNoReserveNegAlign(ARCID_TITLE, 13, 1, 0, 0, TRUE, HEAPID_TITLE);
         GFL_BGSysLoadNCLRDefault(ARCID_TITLE, 11, 0, 0, 0, HEAPID_TITLE);
@@ -103,7 +105,7 @@ static BOOL BootScreens_Main(GameProc *proc, u32 *state, void *param, void *work
         GFL_BGSysSetBGEnabled(5, TRUE);
         GFL_BGSysSetDisplayLayout(1);
         GFL_BGSysEnableEngines();
-        GFL_FadeSet(FADE_ENGINE_A_WHITE | FADE_ENGINE_B_WHITE, 16, 0, 2);
+        GFL_FadeSet(FADE_ENGINE_A_WHITE | FADE_ENGINE_B_WHITE, 16, brightnessEnd, 2);
         wk->state = STATE_WAIT_LOGOS_FADE_IN;
         break;
     case STATE_WAIT_LOGOS_FADE_IN:

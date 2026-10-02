@@ -180,7 +180,7 @@ void IntroMsg_OpenMenu(IntroMsg *msg, const IntroMenuItem *items, u32 count, BOO
     IntroMenu *menu;
     BmpWin *window;
     const IntroMenuItem *item;
-    HeapID heapId;
+    u32 heapId;
     u32 i;
     BmpMenuListHeader header;
 

@@ -179,29 +179,59 @@ typedef struct {
     u32 height;
 } ResortShopRect;
 
+// Reading the layouts before their definitions keeps the unused entries in MWCC's
+// shared constant pool, as in the original. This inline accessor emits no code.
+extern const ResortShopWindowSetup sUnk021e8a6c;
+extern const ResortShopWindowSetup sWindow0;
+extern const ResortShopWindowSetup sWindow2;
+extern const ResortShopWindowSetup sWindow3;
+extern const ResortShopWindowSetup sUnk021e8a60;
+extern const ResortShopWindowSetup sWindow6;
+extern const ResortShopWindowSetup sWindow5;
+extern const ResortShopWindowSetup sUnk021e8ab4;
+extern const ResortShopWindowSetup sWindow1;
+extern const ResortShopWindowSetup sWindow4;
+extern const u8 sUnk021e8acc[16];
+
+static inline u32 ResortShop_GetLayoutBG(u32 index) {
+    switch (index) {
+    case 0: return sUnk021e8a6c.bg;
+    case 1: return sWindow0.bg;
+    case 2: return sWindow2.bg;
+    case 3: return sWindow3.bg;
+    case 4: return sUnk021e8a60.bg;
+    case 5: return sWindow6.bg;
+    case 6: return sWindow5.bg;
+    case 7: return sUnk021e8ab4.bg;
+    case 8: return sWindow1.bg;
+    case 9: return sWindow4.bg;
+    default: return sUnk021e8acc[0];
+    }
+}
+
 static const ConfirmDialogSetup sConfirmDialogSetup = { 1, 24, 13, 11, 25 };
 
-static const ResortShopWindowSetup sWindow4 = { 1, 18, 15, 13, 2, 11, 447 };
+const ResortShopWindowSetup sUnk021e8a6c = { 1, 1, 18, 30, 6, 11, 469 };
 
-static const ResortShopWindowSetup sUnk021e8a60 = { 1, 5, 2, 5, 2, 11, 38 };
+const ResortShopWindowSetup sWindow2 = { 1, 12, 1, 19, 16, 2, 54 };
 
-static const ResortShopWindowSetup sUnk021e8a6c = { 1, 1, 18, 30, 6, 11, 469 };
+const ResortShopWindowSetup sWindow6 = { 1, 1, 19, 30, 4, 11, 631 };
 
-static const ResortShopWindowSetup sWindow1 = { 1, 1, 3, 9, 2, 11, 38 };
+const ResortShopWindowSetup sWindow4 = { 1, 18, 15, 13, 2, 11, 447 };
 
-static const ResortShopWindowSetup sWindow3 = { 1, 1, 15, 15, 2, 11, 415 };
+const ResortShopWindowSetup sWindow1 = { 1, 1, 3, 9, 2, 11, 38 };
 
-static const ResortShopWindowSetup sWindow2 = { 1, 12, 1, 19, 16, 2, 54 };
+const ResortShopWindowSetup sUnk021e8ab4 = { 1, 2, 2, 8, 2, 11, 38 };
 
-static const ResortShopWindowSetup sWindow0 = { 1, 1, 1, 9, 2, 11, 20 };
+const ResortShopWindowSetup sWindow5 = { 1, 5, 18, 27, 6, 11, 469 };
 
-static const ResortShopWindowSetup sWindow5 = { 1, 5, 18, 27, 6, 11, 469 };
+const ResortShopWindowSetup sWindow0 = { 1, 1, 1, 9, 2, 11, 20 };
 
-static const ResortShopWindowSetup sUnk021e8ab4 = { 1, 2, 2, 8, 2, 11, 38 };
+const ResortShopWindowSetup sUnk021e8a60 = { 1, 5, 2, 5, 2, 11, 38 };
 
-static const ResortShopWindowSetup sWindow6 = { 1, 1, 19, 30, 4, 11, 631 };
+const ResortShopWindowSetup sWindow3 = { 1, 1, 15, 15, 2, 11, 415 };
 
-static const u8 sUnk021e8acc[] = { 2, 3, 6, 5, 4, 5, 2, 0, 1, 3, 6, 5, 4, 7, 7, 0 };
+const u8 sUnk021e8acc[] = { 2, 3, 6, 5, 4, 5, 2, 0, 1, 3, 6, 5, 4, 7, 7, 0 };
 
 static const ResortShopRect sListRects[] = {
     { 0, 12, 32, 12 },
@@ -221,19 +251,15 @@ static const ResortShopCamera sCameras[] = {
     { 0xc000, 0, FX32_CONST(70) },
 };
 
-static const ClActorSetup sActor0 = { 172, 22, 0, 0, 1 };
-
-static const ClActorSetup sActor1 = { 172, 92, 0, 0, 0 };
-
-static const ClActorSetup sActor2 = { 172, 132, 1, 0, 0 };
-
-static const ClActorSetup sActor3 = { 224, 128, 2, 0, 0 };
-
-static const ClActorSetup sItemIcon = { 21, 172, 0, 0, 1 };
-
-static const ClActorSetup sPersonIcon = { 18, 168, 0, 0, 1 };
-
-static const ClActorSetup sActor5 = { 18, 168, 1, 0, 1 };
+static const ClActorSetup sActorSetups[] = {
+    { 172, 22, 0, 0, 1 },
+    { 172, 92, 0, 0, 0 },
+    { 172, 132, 1, 0, 0 },
+    { 224, 128, 2, 0, 0 },
+    { 21, 172, 0, 0, 1 },
+    { 18, 168, 0, 0, 1 },
+    { 18, 168, 1, 0, 1 },
+};
 
 static const ResortShopWindowSetup *sWindowSetups[] = {
     &sWindow0, &sWindow1, &sWindow2, &sWindow3, &sWindow4, &sWindow5, &sWindow6,
@@ -372,8 +398,8 @@ BOOL func_ov060_021e58c0(VM *vm, FieldScriptEnv *env) {
         break;
     case 1:
         shop->mode = mode;
-        shop->work.update = func_ov060_021e64b0;
         shop->subMode = subMode;
+        shop->work.update = func_ov060_021e64b0;
         switch (subMode) {
         case 0:
         default:
@@ -412,8 +438,8 @@ BOOL func_ov060_021e58c0(VM *vm, FieldScriptEnv *env) {
         break;
     case 2:
         shop->mode = mode;
-        shop->work.update = func_ov060_021e66c4;
         shop->subMode = subMode;
+        shop->work.update = func_ov060_021e66c4;
         switch (subMode) {
         case 0:
             shop->work.create = func_ov060_021e7fe0;
@@ -1283,19 +1309,19 @@ static void func_ov060_021e7404(ResortShopWork *wk, u16 objCode) {
 }
 
 static void func_ov060_021e7470(ResortShopWork *wk, const ClActorSetup *iconSetup) {
-    wk->actors[0] = func_0204c040(wk->clactUnit, wk->res[0].chars, wk->res[0].palette, wk->res[0].cellAnims, &sActor0, 0,
+    wk->actors[0] = func_0204c040(wk->clactUnit, wk->res[0].chars, wk->res[0].palette, wk->res[0].cellAnims, &sActorSetups[0], 0,
                                   wk->heapId);
-    wk->actors[1] = func_0204c040(wk->clactUnit, wk->res[1].chars, wk->res[0].palette, wk->res[1].cellAnims, &sActor1, 0,
+    wk->actors[1] = func_0204c040(wk->clactUnit, wk->res[1].chars, wk->res[0].palette, wk->res[1].cellAnims, &sActorSetups[1], 0,
                                   wk->heapId);
-    wk->actors[2] = func_0204c040(wk->clactUnit, wk->res[1].chars, wk->res[0].palette, wk->res[1].cellAnims, &sActor2, 0,
+    wk->actors[2] = func_0204c040(wk->clactUnit, wk->res[1].chars, wk->res[0].palette, wk->res[1].cellAnims, &sActorSetups[2], 0,
                                   wk->heapId);
-    wk->actors[3] = func_0204c040(wk->clactUnit, wk->res[1].chars, wk->res[0].palette, wk->res[1].cellAnims, &sActor3, 0,
+    wk->actors[3] = func_0204c040(wk->clactUnit, wk->res[1].chars, wk->res[0].palette, wk->res[1].cellAnims, &sActorSetups[3], 0,
                                   wk->heapId);
     func_0204c520(wk->actors[3], TRUE);
     wk->actors[4] = func_0204c040(wk->clactUnit, wk->res[2].chars, wk->res[2].palette, wk->res[2].cellAnims, iconSetup,
                                   0, wk->heapId);
     func_0204c378(wk->actors[4], 0, 1);
-    wk->actors[5] = func_0204c040(wk->clactUnit, wk->res[0].chars, wk->res[0].palette, wk->res[0].cellAnims, &sActor5, 0,
+    wk->actors[5] = func_0204c040(wk->clactUnit, wk->res[0].chars, wk->res[0].palette, wk->res[0].cellAnims, &sActorSetups[6], 0,
                                   wk->heapId);
     func_0204c124(wk->actors[5], FALSE);
     func_0204c124(wk->actors[1], FALSE);
@@ -1312,7 +1338,7 @@ static void func_ov060_021e75b8(ResortShopWork *wk) {
 static void func_ov060_021e75dc(ResortShopWork *wk) {
     wk->iconArc = GFL_ArcSysCreateFileHandle(ARCID_ITEMGRA, wk->heapId);
     func_ov060_021e7318(wk);
-    func_ov060_021e7470(wk, &sItemIcon);
+    func_ov060_021e7470(wk, &sActorSetups[4]);
 }
 
 static void func_ov060_021e7604(ResortShopWork *wk) {
@@ -1320,7 +1346,7 @@ static void func_ov060_021e7604(ResortShopWork *wk) {
     wk->res[2].palette = func_0204bbb8(wk->iconArc, 0, 0, 64, 2, 1, wk->heapId);
     wk->res[2].chars = func_0204b81c(wk->iconArc, 49, 0, 0, wk->heapId);
     wk->res[2].cellAnims = func_0204bde0(wk->iconArc, 65, 66, wk->heapId);
-    func_ov060_021e7470(wk, &sPersonIcon);
+    func_ov060_021e7470(wk, &sActorSetups[5]);
 }
 
 static void func_ov060_021e766c(ResortShopWork *wk) {
