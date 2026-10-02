@@ -30,7 +30,7 @@ from:0x0216e80e kind:thumb_call to:0x021b87c4 module:overlay(36)
 from:0x0216e81a kind:thumb_call to:0x020427b4 module:main
 from:0x0216e824 kind:thumb_call to:0x02180fc0 module:overlay(36)
 from:0x0216e830 kind:thumb_call to:0x02174148 module:overlay(30)
-from:0x0216e848 kind:load to:0x021a0210 module:overlays(143,309)
+from:0x0216e848 kind:load to:0x021a0210 module:overlay(309)
 from:0x0216e858 kind:thumb_call to:0x02016cb4 module:main
 from:0x0216e85e kind:thumb_call to:0x02016edc module:main
 from:0x0216e866 kind:thumb_call to:0x02016ad8 module:main
