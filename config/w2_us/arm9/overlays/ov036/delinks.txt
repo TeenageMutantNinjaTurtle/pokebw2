@@ -15,3 +15,7 @@ src/ov036/field_accessors_early.c:
 src/ov036/field_accessors_late.c:
     complete
     .text       start:0x02180514 end:0x02180520
+
+src/ov036/field_managers.c:
+    complete
+    .text       start:0x021805ac end:0x021805c0

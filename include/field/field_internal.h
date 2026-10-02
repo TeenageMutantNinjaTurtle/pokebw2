@@ -12,13 +12,18 @@ struct Field {
     FieldCamera *cameraSystem;
     u8 unk14[0x14];
     void *msgBGSys;
-    u8 unk2c[0x14];
+    u8 unk2c[0x10];
+    FieldExpObjSystem *expObjSystem;
     MMSys *actorSystem;
     NoGridMapper *noGridMapper;
     u8 unk48[0x8];
     G3DMapper *g3DMapper;
     u8 unk54[0x94];
     u16 playerStateZoneId;
+    u8 unkea[0x36];
+    TCBManager *tcbManager;
+    u8 unk124[0x20];
+    FieldTaskManager *taskManager;
 };
 
 #endif // POKEBW2_FIELD_FIELD_INTERNAL_H
