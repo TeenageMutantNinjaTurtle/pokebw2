@@ -34,4 +34,4 @@ src/ov033/event_dive.c:
 
 src/ov033/event_pokemon_center.c:
     complete
-    .text       start:0x02179d44 end:0x02179dd4
+    .text       start:0x02179b54 end:0x02179dd4

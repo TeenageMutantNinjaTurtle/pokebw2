@@ -63,6 +63,7 @@ typedef struct FieldFog FieldFog;
 typedef struct FieldLensFlare FieldLensFlare;
 typedef struct FieldPlayer FieldPlayer;
 typedef struct FieldPropHandle FieldPropHandle;
+typedef struct FieldPropSystem FieldPropSystem;
 typedef struct FieldScriptEnv FieldScriptEnv;
 typedef struct FieldScriptSupervisor FieldScriptSupervisor;
 typedef struct FieldSound FieldSound;
