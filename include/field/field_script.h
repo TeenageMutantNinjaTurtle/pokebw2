@@ -22,6 +22,8 @@ GameData *FieldScriptEnv_GetGameData(FieldScriptEnv *env);
 HeapID FieldScriptEnv_GetHeapID(FieldScriptEnv *env);
 u16 GetScriptEnvZoneID(FieldScriptEnv *env);
 ScriptWork *FieldScriptEnv_GetScriptWork(FieldScriptEnv *env);
+FieldActorAnmProc *ScriptWork_GetActorAnmProc(ScriptWork *work);
+void ScriptWork_SetActorAnmProc(ScriptWork *work, FieldActorAnmProc *proc);
 // Reads a value from the script, or the value of the variable it names (IDs from 0x4000)
 u16 ScriptReadAny(VM *vm, FieldScriptEnv *env);
 // Reads a variable's ID from the script, and returns the variable

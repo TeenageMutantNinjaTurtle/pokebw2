@@ -19,3 +19,7 @@ src/ov033/field_party_space.c:
 src/ov033/field_party_count.c:
     complete
     .text       start:0x02179898 end:0x021798a8
+
+src/ov033/field_actor_animation_script.c:
+    complete
+    .text       start:0x0217a1f0 end:0x0217a2d8
