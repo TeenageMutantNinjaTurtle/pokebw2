@@ -35,3 +35,7 @@ src/ov033/event_dive.c:
 src/ov033/event_pokemon_center.c:
     complete
     .text       start:0x02179b54 end:0x02179dd4
+
+src/ov033/event_dendou_machine.c:
+    complete
+    .text       start:0x02179664 end:0x02179858
