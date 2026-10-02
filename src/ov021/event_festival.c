@@ -59,7 +59,7 @@ GameEventReturnCode func_ov021_0216e660(GameEvent *event, u32 *state, void *data
     case 2:
         func_02030040(GameData_GetFieldSoundSystem(gameData), GameSystem_GetISS(gsys));
         func_ov021_0216e848(&work->param, work->gsys, work->gameData, work->mode);
-        GSYS_QueueProc(gsys, OVERLAY_ID(309), &data_ov309_021a01d0, &work->param);
+        GSYS_QueueProc(gsys, OVERLAY_FESTIVAL_APP, &data_ov309_021a01d0, &work->param);
         (*state)++;
         break;
     case 3:

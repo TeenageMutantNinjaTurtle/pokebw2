@@ -2,8 +2,11 @@
 #define POKEBW2_APP_DEMO_308_H
 
 #include "types.h"
+#include "gfl/overlay.h"
 #include "gfl/proc.h"
 #include "struct_decls.h"
+
+#define OVERLAY_DEMO_308 OVERLAY_ID(308)
 
 struct Demo308Param {
     GameSystem *gsys;

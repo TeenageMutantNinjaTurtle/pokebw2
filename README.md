@@ -473,18 +473,33 @@ Names that swan lacks are ours, and are recorded in `config/names.txt` by module
 
 ### Code organization
 
-- `struct_decls.h` declares every struct type once. The header of the module that owns a struct defines its layout
-  when that is known, and other code only uses pointers to it.
+- Declare a named struct type once in `struct_decls.h` as `typedef struct Name Name;`. Define a known layout as
+  `struct Name { ... };`, without another typedef. Put a shared layout in the header of the module that owns it;
+  keep a layout used only by one source file in that `.c` file. Other modules can use the forward declaration when
+  they only need a pointer.
 - Headers are grouped like the game's code: `system/` (game system, game data, events), `field/`, `save/`, `gfl/`
   (Game Freak's library), `pml/` (Pokémon data), `battle/`, `demo/`, `nitro/` (NitroSDK), `dsprot/` and `constants/`.
-- Each proc that an event starts has a header in `app/` with its parameter struct, proc table and overlay ID, such as
-  `app/worldtrade.h`. Each event has a header in `field/` with its create functions, such as
-  `field/event_worldtrade.h`.
-- A struct that only one file uses, such as an event's work, is defined in that file. Functions only called within
-  their file are declared at the top of it, since `-requireprotos` requires a prototype for every function.
+- Put functions, data and callback tables used across source files or overlays in the owning subsystem's header.
+  Declare external data with `extern` there, and include the header at each use. Do not duplicate those declarations
+  or add ad hoc `extern` declarations in a `.c` file. The implementation also includes its own public header, so its
+  definition is checked against the declaration. This applies even if the only current caller is assembly or a
+  linker table. Include the headers for APIs a file uses directly rather than relying on transitive includes.
+- Each proc that an event starts has a header in `app/` with its parameter layout when known, proc table and overlay
+  ID, such as `app/demo_308.h`. Each event has a header in `field/` with its create functions, such as
+  `field/event_demo_308.h`.
+- Keep file-local helpers and data in their `.c` file, using `static` where linking permits it. Put forward
+  declarations needed by that file above the definitions: `-requireprotos` requires a prototype for every function.
+  If matching MWCC output requires a file-local declaration before a later definition, as with the constant pool in
+  `src/ov060/scrcmd_resort_shop.c`, keep it in the source and explain why.
 - Event callbacks take `void *data`, as `GameEventCallback` does, and cast it to their work.
-- Names, layouts and constants from swan are marked as such. swan's headers are generated for hacking tools, so
-  they are a reference rather than copied as they are.
+- Mark names, layouts and constants taken from swan as such. Check `config/names.txt` before calling a name
+  swan-derived: that file records names added locally. swan's headers are generated for hacking tools, so they are a
+  reference rather than copied as they are.
+
+Keep code for one feature together when its original ranges allow it. Split a feature into more source files when
+other functions or data interrupt those ranges in `delinks.txt`; each file should then cover an explicit original
+range. After moving declarations or layouts, build both versions and check their ROM hashes, since a successful
+compile alone does not establish a byte match.
 
 `ninja format` formats `src/` and `include/` with clang-format, using `.clang-format`. `compile_flags.txt` makes
 clangd check the code as 32-bit ARM.

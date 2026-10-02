@@ -2,8 +2,11 @@
 #define POKEBW2_APP_FESTIVAL_H
 
 #include "types.h"
+#include "gfl/overlay.h"
 #include "gfl/proc.h"
 #include "struct_decls.h"
+
+#define OVERLAY_FESTIVAL_APP OVERLAY_ID(309)
 
 struct FestivalEventParam {
     GameSystem *gsys;

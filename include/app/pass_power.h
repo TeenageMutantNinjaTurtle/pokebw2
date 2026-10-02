@@ -2,8 +2,11 @@
 #define POKEBW2_APP_PASS_POWER_H
 
 #include "types.h"
+#include "gfl/overlay.h"
 #include "gfl/proc.h"
 #include "struct_decls.h"
+
+#define OVERLAY_PASS_POWER_APP OVERLAY_ID(328)
 
 struct PassPowerEntry {
     u8 id;

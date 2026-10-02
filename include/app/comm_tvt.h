@@ -8,6 +8,7 @@
 
 // Video chat with the Xtransceiver
 #define OVERLAY_COMM_TVT OVERLAY_ID(257)
+#define OVERLAY_COMM_TVT_FIELD_APP OVERLAY_ID(198)
 
 typedef struct {
     GameData *gameData;

@@ -90,7 +90,7 @@ GameEventReturnCode func_ov014_0216e73c(GameEvent *event, u32 *state, void *data
         (*state)++;
     case 3:
         func_ov014_0216e660(&work->param, work->paramArgument, gsys, gameData, 0x8004);
-        GSYS_QueueProc(gsys, OVERLAY_ID(328), &data_ov328_0219ed2c, &work->param);
+        GSYS_QueueProc(gsys, OVERLAY_PASS_POWER_APP, &data_ov328_0219ed2c, &work->param);
         (*state)++;
         break;
     case 4:

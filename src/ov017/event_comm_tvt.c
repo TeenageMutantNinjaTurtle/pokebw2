@@ -42,7 +42,7 @@ GameEventReturnCode func_ov017_0216e660(GameEvent *event, u32 *state, void *data
     case 2:
         (*state)++;
     case 3:
-        GSYS_QueueProc(gsys, OVERLAY_ID(198), &data_ov198_021b44a4, work);
+        GSYS_QueueProc(gsys, OVERLAY_COMM_TVT_FIELD_APP, &data_ov198_021b44a4, work);
         (*state)++;
         break;
     case 4:

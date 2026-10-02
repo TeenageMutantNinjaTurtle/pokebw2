@@ -45,7 +45,7 @@ GameEventReturnCode func_ov015_0216e660(GameEvent *event, u32 *state, void *data
         work->param.gameData = work->gameData;
         work->param.param0 = work->subscreen;
         work->param.unkA[0] = work->mode;
-        GSYS_QueueProc(gsys, OVERLAY_ID(187), &data_ov187_021ea06c, &work->param);
+        GSYS_QueueProc(gsys, OVERLAY_DEMO_187, &data_ov187_021ea06c, &work->param);
         (*state)++;
         break;
     case 4:
