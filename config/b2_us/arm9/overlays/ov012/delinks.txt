@@ -35,3 +35,19 @@ src/ov012/field_script_work_events.c:
 src/ov012/event_script_call_work.c:
     complete
     .text       start:0x021538d4 end:0x021538f8
+
+src/ov012/script_work_accessors.c:
+    complete
+    .text       start:0x02153ea0 end:0x02153ed0
+
+src/ov012/script_work_misc_accessors.c:
+    complete
+    .text       start:0x02153ed8 end:0x02153ee4
+
+src/ov012/script_work_actor.c:
+    complete
+    .text       start:0x02153ee4 end:0x02153f04
+
+src/ov012/script_work_user_heap.c:
+    complete
+    .text       start:0x02153f04 end:0x02153f30

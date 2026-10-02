@@ -6,6 +6,29 @@
 #include "gfl/str.h"
 #include "struct_decls.h"
 
+// Fields accessed by the field script work helpers; the remaining storage is not yet identified.
+struct ScriptWork {
+    u8 unk00[4];
+    u16 scriptId;
+    u16 unk06;
+    FieldActor *parentActor;
+    HeapID heapId;
+    u16 unk0E;
+    GameSystem *gsys;
+    GameEvent *event;
+    u8 fieldWork[8];
+    u8 unk20[0xc];
+    WordSet *wordSet;
+    StrBuf *mainStrBuf;
+    StrBuf *altStrBuf;
+    void *unk38;
+    void *userHeap;
+    u32 seBitMask;
+    u8 unk44[0x38];
+    u16 localWork[0x66];
+    void *subwork;
+};
+
 // Runs a script from an event, and returns its work
 ScriptWork *EventScriptCall_Start(GameEvent *event, u16 scriptId, void *a2, void *a3, HeapID heapId);
 // Sets the script's parameters, which it reads from its work
@@ -34,7 +57,11 @@ void ScriptWork_SetPostEvent(ScriptWork *work, GameEvent *event);
 GameEvent *ScriptWork_GetEvent(ScriptWork *work);
 FieldScriptSupervisor *ScriptWork_GetSupervisor(ScriptWork *work);
 ScriptWork *EventScriptCall_GetWork(GameEvent *event);
+void UpdateScriptFieldWk(void *fieldWork, GameSystem *gsys);
 void *ScriptWork_GetFieldWork(ScriptWork *work);
+void *ScriptWork_GetSubwork(ScriptWork *work);
+u32 *ScriptWork_GetSEBitMask(ScriptWork *work);
+u16 ScriptWork_GetSCRID(ScriptWork *work);
 // A variable of the script (IDs from 0x8000) or saved event work (from 0x4000)
 u16 *ScriptWork_GetWkAddr(ScriptWork *work, GameData *gameData, u16 id);
 // Waits a number of frames: UpdateWaitCounter returns TRUE once they have passed
@@ -47,6 +74,9 @@ FieldActor *ScriptWork_GetParentActor(ScriptWork *work);
 void ScriptWork_SetParentActor(ScriptWork *work, FieldActor *actor);
 // A pointer that a command can keep its own work in while the script waits
 void **ScriptWork_GetUserHeapPtr(ScriptWork *work);
+void *ScriptWork_GetUserHeap(ScriptWork *work);
+void ScriptWork_FreeUserHeap(ScriptWork *work);
+u16 *ScriptWork_GetLocalWork(ScriptWork *work, u16 id);
 WordSet *ScriptWork_GetWordSet(ScriptWork *work);
 MMSys *GetScrEnvMMdlSys(FieldScriptEnv *env);
 // Adds an entry to the script's list menu
