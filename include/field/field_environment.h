@@ -9,6 +9,7 @@
 void *Field_GetLightSystem(Field *field);
 void *Field_GetFogCtrl(Field *field);
 void *Field_GetWeatherSystem(Field *field);
+u16 func_ov036_02199220(void *weatherSystem);
 u8 Field_GetWeatherForZone(Field *field, u16 zoneId);
 
 #endif // POKEBW2_FIELD_FIELD_ENVIRONMENT_H

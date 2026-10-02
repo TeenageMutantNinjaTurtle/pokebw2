@@ -130,6 +130,8 @@ u16 GetAcmdForDir(u32 dir, u32 acmd);
 u32 ActorRouteCollCheckOneTileInDir(FieldActor *actor, u16 dir);
 // Starts a movement command
 void func_ov012_02166eb0(FieldActor *actor, u16 acmd);
+void FldAct_SetAcmd(FieldActor *actor, u16 acmd);
+BOOL func_ov012_02166ef8(FieldActor *actor);
 // Whether the actor's movement command has finished
 BOOL func_ov036_0218f01c(FieldActor *actor);
 // Set movement flag 0x10, clear it, and clear flag 0x40

@@ -137,6 +137,9 @@ typedef struct ScriptWork ScriptWork;
 typedef struct SurveyProbabilityEntry SurveyProbabilityEntry;
 typedef struct SurveyProbabilityState SurveyProbabilityState;
 typedef struct SurveyTextWork SurveyTextWork;
+typedef struct SweetScentEventData SweetScentEventData;
+typedef struct SweetScentPalette SweetScentPalette;
+typedef struct SweetScentScreenWork SweetScentScreenWork;
 // Save block 0x34, which getTrainerGameInfoAddress, getTrainerCardData_wrapper and getTrainerCardDataBlkAddress return
 typedef struct TrainerGameInfoSave TrainerCardSave;
 typedef struct TrainerDataSave TrainerDataSave;

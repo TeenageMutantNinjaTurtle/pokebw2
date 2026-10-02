@@ -6,6 +6,8 @@
 #include "types.h"
 #include "struct_decls.h"
 
+void *FieldG2D_GetDispControl(Field *field);
+
 void *Field_GetFieldEffects(Field *field);
 void *Field_GetG3DObjSys(Field *field);
 

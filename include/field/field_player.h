@@ -10,6 +10,6 @@ BOOL Field_HasPlayer(Field *field);
 BOOL Field_ToggleCycling(Field *field);
 u32 FieldPlayer_GetExState(FieldPlayer *player);
 void FieldPlayer_SetSpecialSeq(FieldPlayer *player, u32 seq);
-void func_ov036_0219a580(FieldPlayer *player);
+BOOL func_ov036_0219a580(FieldPlayer *player);
 
 #endif // POKEBW2_FIELD_FIELD_PLAYER_H

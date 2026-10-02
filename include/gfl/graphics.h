@@ -91,6 +91,7 @@ void GFL_BGSysDisableAllB(void);
 void GFL_BGSysEnableEngines(void);
 // Fills tileCount tiles from offset of a BG's characters with a color index
 void GFL_BGSysFillChar(u8 bg, u32 fillIndex, u32 tileCount, u32 offset);
+void GFL_BGSysFreeFilledChar(u8 bg, u32 fillIndex, u32 offset);
 void GFL_BGSysFillScrArea(u8 bg, u16 tile, u8 x, u8 y, u8 width, u8 height, u8 palette);
 // Fills a BG's whole screen with a map entry, sent at the next update
 void GFL_BGSysFillScrAsync(u8 bg, u16 map);

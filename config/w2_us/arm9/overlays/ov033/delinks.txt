@@ -26,7 +26,7 @@ src/ov033/field_actor_animation.c:
 
 src/ov033/event_sweet_scent.c:
     complete
-    .text       start:0x02178604 end:0x02178654
+    .text       start:0x02178604 end:0x02178948
 
 src/ov033/event_dive.c:
     complete
@@ -39,3 +39,7 @@ src/ov033/event_pokemon_center.c:
 src/ov033/event_dendou_machine.c:
     complete
     .text       start:0x021796a4 end:0x02179898
+
+src/ov033/mystery_gift_delivery.c:
+    complete
+    .text       start:0x02177fe8 end:0x021780b4
