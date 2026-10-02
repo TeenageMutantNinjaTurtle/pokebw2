@@ -39,6 +39,12 @@ BOOL DoesClientExist(BtlMainModule *mainModule, u8 clientId);
 u8 GetClientSide(BtlMainModule *mainModule, u8 clientId);
 BOOL AreClientsOnOppositeSides(BtlMainModule *mainModule, u8 clientId1, u8 clientId2);
 u8 BattlePosToClientID(BtlMainModule *mainModule, u8 pos);
+// First four bytes are the starting mon ID for each client.
+extern const u8 data_ov167_021d6c24[4];
+u8 MonIDToClientID(u8 monId);
+u8 func_ov167_0219c458(BtlMainModule *mainModule, u8 clientId, u8 slot);
+s32 func_ov167_0219d140(BtlPokeCon *pokeCon, u8 clientId, u8 monId);
+u8 MonIDToBattlePos(BtlMainModule *mainModule, BtlPokeCon *pokeCon, u8 monId);
 u8 GetPlayerClientID(BtlMainModule *mainModule);
 BOOL IsAllyClientID(u8 clientId1, u8 clientId2);
 u8 func_ov167_0219c650(BtlMainModule *mainModule, u8 pos);
