@@ -23,6 +23,7 @@ s32 GetClientBattlerCount(BtlMainModule *mainModule, u8 clientId);
 // Whether pos2 is an opponent next to pos1 in a triple battle
 BOOL IsAdjacentOpponent(u8 pos1, u8 pos2);
 BattleParty *GetClientParty(BtlPokeCon *pokeCon, u8 clientId);
+BattleParty *GetPartyData(BtlPokeCon *pokeCon, u8 clientId);
 
 s32 FindPartyMon(BattleParty *party, BattleMon *mon);
 BattleMon *GetBattleMonFromParty(BattleParty *party, u8 index);
