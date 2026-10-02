@@ -75,3 +75,15 @@ src/ov012/field_script_vm_compare.c:
 src/ov012/field_script_vm_stack.c:
     complete
     .text       start:0x0215431c end:0x021544b0
+
+src/ov012/field_script_vm_jump.c:
+    complete
+    .text       start:0x02154584 end:0x02154628
+
+src/ov012/field_script_vm_flags.c:
+    complete
+    .text       start:0x02154628 end:0x021546ec
+
+src/ov012/field_script_vm_work.c:
+    complete
+    .text       start:0x021546ec end:0x02154824
