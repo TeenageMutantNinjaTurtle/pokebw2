@@ -7,3 +7,11 @@
 src/ov012/event_irc_party.c:
     complete
     .text       start:0x02150400 end:0x021504a0
+
+src/ov012/field_script_supervisor.c:
+    complete
+    .text       start:0x02153770 end:0x021537e0
+
+src/ov012/field_script_supervisor_post.c:
+    complete
+    .text       start:0x021537e8 end:0x02153814
