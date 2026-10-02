@@ -20,10 +20,6 @@ src/ov033/field_party_count.c:
     complete
     .text       start:0x02179898 end:0x021798a8
 
-src/ov033/field_actor_animation_script.c:
+src/ov033/field_actor_animation.c:
     complete
-    .text       start:0x0217a1f0 end:0x0217a2d8
-
-src/ov033/field_actor_animation_proc.c:
-    complete
-    .text       start:0x0217a2d8 end:0x0217a3a0
+    .text       start:0x0217a1f0 end:0x0217a4e0

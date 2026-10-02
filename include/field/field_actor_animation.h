@@ -25,11 +25,14 @@ struct FieldActorAnmProc {
 };
 
 extern const FieldAsyncProcDef FIELD_ACTOR_ANM_ASYNC_PROC_TEMPLATE;
+extern const u32 FIELD_ACTOR_ANM_IS_ALLOW_MOVE_ON_END[6];
 
 FieldActorAnmProc *FieldActorAnmProc_Create(Field *field, u16 actorId, const VecFx32 *pos, HeapID heapId);
 void FieldActorAnmProc_Free(FieldActorAnmProc *proc);
 void FieldActorAnmProc_Play(FieldActorAnmProc *proc, u16 animation);
 BOOL FieldActorAnmProc_IsPlaying(FieldActorAnmProc *proc);
+void FieldActorAnmProc_Update(FieldAsyncProc *asyncProc, Field *field, void *data);
+void FieldActorAnmProc_Draw(FieldAsyncProc *asyncProc, Field *field, void *data);
 void FieldActorAnmProc_CommitTransform(G3DCurve *curve, FieldActor *actor, VecFx32 *pos);
 BOOL s0157_ActorAnimationInit(VM *vm, FieldScriptEnv *env);
 BOOL s0158_ActorAnimationFree(VM *vm, FieldScriptEnv *env);
