@@ -8,7 +8,8 @@ struct Field {
     u16 heapId;
     u16 unk2;
     GameSystem *gameSystem;
-    u8 unk8[0x8];
+    GameData *gameData;
+    u8 unkc[0x4];
     FieldCamera *cameraSystem;
     void *lightSystem;
     FieldFog *fog;
@@ -33,7 +34,9 @@ struct Field {
     void *effectBlAct;
     void *wildEffectBlAct;
     FieldAsyncProcManager *asyncProcManager;
-    u8 unkd0[0x18];
+    u32 routineState;
+    u32 routineID;
+    u8 unkd8[0x10];
     u16 playerStateZoneId;
     u8 unkea[0x2e];
     u32 *controllerTypeID;

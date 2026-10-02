@@ -48,3 +48,11 @@ src/ov036/field_controller_type.c:
 src/ov036/fieldmap_ctrl_hybrid.c:
     complete
     .text       start:0x0219e430 end:0x0219e434
+
+src/ov036/field_lifecycle.c:
+    complete
+    .text       start:0x02180414 end:0x02180434
+
+src/ov036/field_cycling.c:
+    complete
+    .text       start:0x02180434 end:0x02180490
