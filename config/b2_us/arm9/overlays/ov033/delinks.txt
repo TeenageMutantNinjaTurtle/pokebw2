@@ -30,4 +30,8 @@ src/ov033/event_sweet_scent.c:
 
 src/ov033/event_dive.c:
     complete
-    .text       start:0x0217a0a4 end:0x0217a0f4
+    .text       start:0x0217a0a4 end:0x0217a1b0
+
+src/ov033/event_pokemon_center.c:
+    complete
+    .text       start:0x02179d44 end:0x02179dd4
