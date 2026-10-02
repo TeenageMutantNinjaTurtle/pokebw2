@@ -7,3 +7,7 @@
 src/ov033/fld_trade.c:
     complete
     .text       start:0x0217a4e0 end:0x0217a5d0
+
+src/ov033/entree_forest_actor.c:
+    complete
+    .text       start:0x02176be4 end:0x02176c10
