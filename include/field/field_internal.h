@@ -35,7 +35,8 @@ struct Field {
     FieldAsyncProcManager *asyncProcManager;
     u8 unkd0[0x18];
     u16 playerStateZoneId;
-    u8 unkea[0x32];
+    u8 unkea[0x2e];
+    u32 *controllerTypeID;
     void *controller;
     TCBManager *tcbManager;
     u8 unk124[0x1c];

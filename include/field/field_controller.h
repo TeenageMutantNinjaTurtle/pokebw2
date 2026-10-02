@@ -8,5 +8,7 @@
 
 void *Field_GetController(Field *field);
 void Field_SetController(Field *field, void *controller);
+u32 Field_GetControllerTypeID(Field *field);
+u32 FieldmapCtrlHybrid_GetActiveTypeID(void *controller);
 
 #endif // POKEBW2_FIELD_FIELD_CONTROLLER_H

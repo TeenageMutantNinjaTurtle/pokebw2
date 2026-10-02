@@ -39,3 +39,12 @@ src/ov036/field_control_accessors.c:
 src/ov036/field_visual_accessors.c:
     complete
     .text       start:0x02180508 end:0x0218051c
+
+src/ov036/field_controller_type.c:
+    complete
+    .text       start:0x0218052c end:0x0218055c
+    .rodata     start:0x021c9ec4 end:0x021c9ec8
+
+src/ov036/fieldmap_ctrl_hybrid.c:
+    complete
+    .text       start:0x0219e430 end:0x0219e434
