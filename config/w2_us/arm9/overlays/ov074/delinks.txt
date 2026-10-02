@@ -2,3 +2,8 @@
     .ctor       start:0x021e9260 end:0x021e9260 kind:rodata align:4
     .data       start:0x021e9280 end:0x021e92e0 kind:data align:32
     .bss        start:0x021e92e0 end:0x021e92e0 kind:bss align:32
+
+src/ov074/gimmick_handlers.c:
+    complete
+    .text       start:0x021e9100 end:0x021e9260
+    .data       start:0x021e9280 end:0x021e92e0
