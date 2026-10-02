@@ -35,3 +35,15 @@ src/ov167/battle_party_find.c:
 src/ov167/battle_party_eligible.c:
     complete
     .text       start:0x0219cf50 end:0x0219cf90
+
+src/ov167/battle_is_ally_mon.c:
+    complete
+    .text       start:0x0219d340 end:0x0219d35c
+
+src/ov167/battle_opposing_side.c:
+    complete
+    .text       start:0x0219d36c end:0x0219d388
+
+src/ov167/battle_adjacent_opponent.c:
+    complete
+    .text       start:0x0219d388 end:0x0219d3cc
