@@ -10,6 +10,10 @@
 
 struct BtlMainModule {
     BtlSetup *setup;
+    u8 unk04[0x424];
+    u8 posClientIds[6];
+    u8 unk42e[0x3e];
+    u8 playerClientId;
 };
 
 // Layout reconstructed from the party accessors in the game code.
@@ -31,7 +35,12 @@ u32 BtlSetup_IsBattleType(BtlMainModule *mainModule, u32 flag);
 
 // The position at index on the same side as pos
 u8 GetPosOnSameSide(u8 pos, u8 index);
+BOOL DoesClientExist(BtlMainModule *mainModule, u8 clientId);
+u8 GetClientSide(BtlMainModule *mainModule, u8 clientId);
 BOOL AreClientsOnOppositeSides(BtlMainModule *mainModule, u8 clientId1, u8 clientId2);
+u8 BattlePosToClientID(BtlMainModule *mainModule, u8 pos);
+u8 GetPlayerClientID(BtlMainModule *mainModule);
+BOOL IsAllyClientID(u8 clientId1, u8 clientId2);
 u8 func_ov167_0219c650(BtlMainModule *mainModule, u8 pos);
 BattleMon *func_ov167_0219d188(BtlPokeCon *pokeCon, u8 pos);
 BattleMon *GetClientMonData(BtlPokeCon *pokeCon, u8 clientId, u8 monId);
