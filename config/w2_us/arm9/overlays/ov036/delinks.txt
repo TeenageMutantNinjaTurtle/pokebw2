@@ -7,3 +7,11 @@
 src/ov036/field_accessors.c:
     complete
     .text       start:0x021804f8 end:0x02180504
+
+src/ov036/field_accessors_early.c:
+    complete
+    .text       start:0x021804d0 end:0x021804dc
+
+src/ov036/field_accessors_late.c:
+    complete
+    .text       start:0x02180514 end:0x02180520
