@@ -30,6 +30,10 @@ u16 ScriptReadAny(VM *vm, FieldScriptEnv *env);
 u16 *ScriptReadVar(VM *vm, FieldScriptEnv *env);
 // Runs event before the script goes on
 void ScriptWork_CallEvent(ScriptWork *work, GameEvent *event);
+void ScriptWork_SetPostEvent(ScriptWork *work, GameEvent *event);
+GameEvent *ScriptWork_GetEvent(ScriptWork *work);
+FieldScriptSupervisor *ScriptWork_GetSupervisor(ScriptWork *work);
+ScriptWork *EventScriptCall_GetWork(GameEvent *event);
 void *ScriptWork_GetFieldWork(ScriptWork *work);
 // A variable of the script (IDs from 0x8000) or saved event work (from 0x4000)
 u16 *ScriptWork_GetWkAddr(ScriptWork *work, GameData *gameData, u16 id);

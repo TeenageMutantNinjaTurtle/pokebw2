@@ -15,3 +15,23 @@ src/ov012/field_script_supervisor.c:
 src/ov012/field_script_supervisor_post.c:
     complete
     .text       start:0x021537e8 end:0x02153814
+
+src/ov012/field_script_supervisor_create.c:
+    complete
+    .text       start:0x02153748 end:0x02153770
+
+src/ov012/field_script_terminator.c:
+    complete
+    .text       start:0x021537e0 end:0x021537e8
+
+src/ov012/field_script_zone.c:
+    complete
+    .text       start:0x02153814 end:0x02153820
+
+src/ov012/field_script_work_events.c:
+    complete
+    .text       start:0x021538c0 end:0x021538e4
+
+src/ov012/event_script_call_work.c:
+    complete
+    .text       start:0x02153914 end:0x02153938
