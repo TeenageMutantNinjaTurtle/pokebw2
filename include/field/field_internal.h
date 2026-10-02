@@ -14,7 +14,7 @@ struct Field {
     FieldFog *fog;
     void *fogCtrl;
     void *weatherSystem;
-    u8 unk24[0x4];
+    FieldSubscreen *subscreen;
     void *msgBGSys;
     u8 unk2c[0x4];
     PlaceName *placeName;
@@ -25,15 +25,21 @@ struct Field {
     NoGridMapper *noGridMapper;
     u8 unk48[0x8];
     G3DMapper *g3DMapper;
-    u8 unk54[0x70];
+    u8 unk54[0x40];
+    FieldPlayer *player;
+    u8 unk98[0x4];
+    void *fieldEffects;
+    u8 unka0[0x24];
     void *effectBlAct;
     void *wildEffectBlAct;
     FieldAsyncProcManager *asyncProcManager;
     u8 unkd0[0x18];
     u16 playerStateZoneId;
-    u8 unkea[0x36];
+    u8 unkea[0x32];
+    void *controller;
     TCBManager *tcbManager;
-    u8 unk124[0x20];
+    u8 unk124[0x1c];
+    void *g3DObjSystem;
     FieldTaskManager *taskManager;
 };
 
