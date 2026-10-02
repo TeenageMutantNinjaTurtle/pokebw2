@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "gfl/heap.h"
+#include "save/config.h"
 #include "struct_decls.h"
 
 struct BtlSetup {
@@ -11,7 +12,8 @@ struct BtlSetup {
     u8 unk8[0x1b];
     u8 unk23;
     PokeParty *party;
-    u8 unk28[0x50];
+    u8 unk28[0x4c];
+    Config *config;
     BagSave *bag;
     u8 unk7c[8];
     GameRecords *records;

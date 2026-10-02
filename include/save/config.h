@@ -13,6 +13,7 @@ Config *func_0200898c(HeapID heapId);
 void initConfig(const Config *config, TrainerDataSave *dest);
 // The text speed option
 u32 func_02008a14(const Config *config);
+BOOL func_02008a68(const Config *config);
 // Bit 8, which also sets the message language: the kana or kanji text of the Japanese version
 void func_02008a8c(Config *config, u32 value);
 void func_02008ab4(TrainerDataSave *config);

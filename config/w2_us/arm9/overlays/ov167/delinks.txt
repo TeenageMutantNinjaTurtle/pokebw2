@@ -95,3 +95,15 @@ src/ov167/battle_mon_id_pos.c:
 src/ov167/battle_client_items.c:
     complete
     .text       start:0x0219c93c end:0x0219c994
+
+src/ov167/battle_switch_mode.c:
+    complete
+    .text       start:0x0219bde0 end:0x0219be20
+
+src/ov167/battle_valid_pos_max.c:
+    complete
+    .text       start:0x0219be9c end:0x0219becc
+
+src/ov167/battle_run_mode.c:
+    complete
+    .text       start:0x0219bf60 end:0x0219bfa8

@@ -34,6 +34,12 @@ struct BtlPokeCon {
 u32 BtlSetup_GetBattleStyle(BtlMainModule *mainModule);
 u32 BtlSetup_GetBattleType(BtlMainModule *mainModule);
 u32 BtlSetup_IsBattleType(BtlMainModule *mainModule, u32 flag);
+u8 func_ov167_0219bee4(BtlMainModule *mainModule);
+u32 func_ov167_0219c988(BtlMainModule *mainModule);
+BOOL IsSwitchMode(BtlMainModule *mainModule);
+u32 GetValidPosMax(BtlMainModule *mainModule);
+u32 GetRunMode(BtlMainModule *mainModule);
+void *GetFieldEffectData(BtlMainModule *mainModule);
 
 // The position at index on the same side as pos
 u8 GetPosOnSameSide(u8 pos, u8 index);
