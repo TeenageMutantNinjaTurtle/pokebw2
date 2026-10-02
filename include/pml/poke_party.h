@@ -52,6 +52,7 @@ u16 func_02021204(u32 species, u32 form, u32 sex);
 int func_0201f010(u8 fame);
 PartyPkm *PokeParty_GetPkm(PokeParty *party, u32 index);
 int PokeParty_GetPkmCount(PokeParty *party);
+int howManyPartyPokesAreNotEggs(PokeParty *party);
 int PokeParty_GetCapacity(PokeParty *party);
 BOOL PokeParty_AddPkm(PokeParty *party, PartyPkm *pkm);
 void PokeParty_RemovePkm(PokeParty *party, u32 index);

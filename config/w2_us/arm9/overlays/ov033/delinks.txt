@@ -11,3 +11,11 @@ src/ov033/fld_trade.c:
 src/ov033/entree_forest_actor.c:
     complete
     .text       start:0x02176be4 end:0x02176c10
+
+src/ov033/field_party_space.c:
+    complete
+    .text       start:0x02178138 end:0x02178150
+
+src/ov033/field_party_count.c:
+    complete
+    .text       start:0x02179898 end:0x021798a8
