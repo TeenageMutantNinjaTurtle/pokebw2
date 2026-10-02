@@ -6,7 +6,9 @@
 #include "struct_decls.h"
 
 struct BtlSetup {
-    u8 unk0[0x24];
+    u32 battleType;
+    u32 battleStyle;
+    u8 unk8[0x1c];
     PokeParty *party;
     u8 unk28[0x5c];
     GameRecords *records;
@@ -21,6 +23,7 @@ struct BtlSetup {
 };
 
 BtlSetup *BtlSetup_Create(HeapID heapId);
+u32 BtlSetup_CheckFlag(BtlSetup *setup, u32 flag);
 void BtlSetup_Free(BtlSetup *setup);
 void BtlSetup_SetNet1v1Double(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, HeapID heapId);
 void BtlSetup_SetNet1v1Single(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, HeapID heapId);

@@ -8,6 +8,10 @@
 // The battle positions, 0 to 5. Even positions are on one side and odd positions on the other
 #define BTL_POS_MAX 6
 
+struct BtlMainModule {
+    BtlSetup *setup;
+};
+
 // Layout reconstructed from the party accessors in the game code.
 struct BattleParty {
     BattleMon *mons[6];
@@ -23,6 +27,7 @@ struct BtlPokeCon {
 // Swan's names for these two take the main module, whose first field points to the BtlSetup
 u32 BtlSetup_GetBattleStyle(BtlMainModule *mainModule);
 u32 BtlSetup_GetBattleType(BtlMainModule *mainModule);
+u32 BtlSetup_IsBattleType(BtlMainModule *mainModule, u32 flag);
 
 // The position at index on the same side as pos
 u8 GetPosOnSameSide(u8 pos, u8 index);
