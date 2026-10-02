@@ -516,6 +516,10 @@ overlays/ov135 0x021efbaa reloc_module overlay(55)
 overlays/ov137 0x021f52ac add_data RESORT_FIELD_SCENE_ANGLE
 overlays/ov137 0x021f5308 remove_reloc
 overlays/ov137 0x021f5688 add_data data_ov137_021f5688
+overlays/ov152 0x021f6228 reloc_module overlay(148)
+overlays/ov152 0x021f6254 reloc_module overlay(150)
+overlays/ov153 0x021f6228 reloc_module overlay(148)
+overlays/ov153 0x021f6256 reloc_module overlay(150)
 overlays/ov162 0x0219d1a4 overlay_id 162
 overlays/ov162 0x0219d1b0 overlay_id 253
 overlays/ov162 0x0219d97e reloc_module overlay(331)
