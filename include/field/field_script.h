@@ -24,8 +24,10 @@ struct ScriptWork {
     void *unk38;
     void *userHeap;
     u32 seBitMask;
-    u8 unk44[0x38];
-    u16 localWork[0x66];
+    u8 trainerState[2][0x1c];
+    u16 localWork[0x62];
+    FieldActorAnmProc *actorAnmProc;
+    void *stadiumTrainers;
     void *subwork;
 };
 
@@ -47,6 +49,15 @@ u16 GetScriptEnvZoneID(FieldScriptEnv *env);
 ScriptWork *FieldScriptEnv_GetScriptWork(FieldScriptEnv *env);
 FieldActorAnmProc *ScriptWork_GetActorAnmProc(ScriptWork *work);
 void ScriptWork_SetActorAnmProc(ScriptWork *work, FieldActorAnmProc *proc);
+void ScriptWork_SetStadiumTrainers(ScriptWork *work, void *trainers);
+void *ScriptWork_GetStadiumTrainers(ScriptWork *work);
+void *ScriptWork_GetTrainerState(ScriptWork *work, int index);
+extern u32 g_ActiveFieldScriptSubEvents;
+void FieldScriptSubEvent_ResetAll(void);
+void FieldScriptSubEvent_Register(int id);
+void FieldScriptSubEvent_Unregister(int id);
+BOOL FieldScriptSubEvent_IsRegistered(int id);
+BOOL FieldScriptSubEvent_IsRegisteredCore(int id);
 // Reads a value from the script, or the value of the variable it names (IDs from 0x4000)
 u16 ScriptReadAny(VM *vm, FieldScriptEnv *env);
 // Reads a variable's ID from the script, and returns the variable

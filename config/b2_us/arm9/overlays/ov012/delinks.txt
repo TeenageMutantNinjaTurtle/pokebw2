@@ -51,3 +51,11 @@ src/ov012/script_work_actor.c:
 src/ov012/script_work_user_heap.c:
     complete
     .text       start:0x02153f04 end:0x02153f30
+
+src/ov012/script_work_extra_accessors.c:
+    complete
+    .text       start:0x02154044 end:0x02154070
+
+src/ov012/field_script_sub_event.c:
+    complete
+    .text       start:0x02154070 end:0x021540f4
