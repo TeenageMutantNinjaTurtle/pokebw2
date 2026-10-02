@@ -8,9 +8,12 @@
 struct BtlSetup {
     u32 battleType;
     u32 battleStyle;
-    u8 unk8[0x1c];
+    u8 unk8[0x1b];
+    u8 unk23;
     PokeParty *party;
-    u8 unk28[0x5c];
+    u8 unk28[0x50];
+    BagSave *bag;
+    u8 unk7c[8];
     GameRecords *records;
     u8 unk88[0x20];
     u32 unkA8;

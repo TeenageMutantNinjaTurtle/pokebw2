@@ -12,7 +12,9 @@ struct BtlMainModule {
     BtlSetup *setup;
     u8 unk04[0x424];
     u8 posClientIds[6];
-    u8 unk42e[0x3e];
+    u8 unk42e[0x3a];
+    u16 heapId;
+    u8 unk46a[2];
     u8 playerClientId;
 };
 
@@ -47,6 +49,8 @@ s32 func_ov167_0219d140(BtlPokeCon *pokeCon, u8 clientId, u8 monId);
 u8 MonIDToBattlePos(BtlMainModule *mainModule, BtlPokeCon *pokeCon, u8 monId);
 u8 GetPlayerClientID(BtlMainModule *mainModule);
 BOOL IsAllyClientID(u8 clientId1, u8 clientId2);
+void BattleClient_SubItem(BtlMainModule *mainModule, u8 clientId, u16 item);
+void BattleClient_AddItem(BtlMainModule *mainModule, u8 clientId, u16 item);
 u8 func_ov167_0219c650(BtlMainModule *mainModule, u8 pos);
 BattleMon *func_ov167_0219d188(BtlPokeCon *pokeCon, u8 pos);
 BattleMon *GetClientMonData(BtlPokeCon *pokeCon, u8 clientId, u8 monId);
