@@ -24,5 +24,7 @@ typedef struct {
 FieldAsyncProcManager *Field_GetAsyncProcMgr(Field *field);
 // Loads the overlay, unless it is OVERLAY_NONE, and starts the process. Returns NULL if there is no room for it
 FieldAsyncProc *FieldAsyncProcManager_AddProc(u32 overlayId, FieldAsyncProcManager *mgr, const FieldAsyncProcDef *def);
+void *FieldAsyncProc_GetData(FieldAsyncProc *proc);
+void FieldAsyncProc_End(FieldAsyncProc *proc);
 
 #endif // POKEBW2_FIELD_FIELD_ASYNC_PROC_H

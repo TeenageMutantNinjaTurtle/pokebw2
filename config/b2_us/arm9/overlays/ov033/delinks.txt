@@ -23,3 +23,7 @@ src/ov033/field_party_count.c:
 src/ov033/field_actor_animation_script.c:
     complete
     .text       start:0x0217a1b0 end:0x0217a298
+
+src/ov033/field_actor_animation_proc.c:
+    complete
+    .text       start:0x0217a298 end:0x0217a360

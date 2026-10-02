@@ -71,6 +71,7 @@ ZoneNPC *GetZoneNPCs(EventData *eventData);
 u32 GetZoneNPCsCount(EventData *eventData);
 void LoadMModelSystemInfoCache(MMSys *mmSys, s32 index);
 void SetActorFlag(FieldActor *actor, u32 flag);
+void SetActorMovementFlag(FieldActor *actor, u32 flag);
 void SetActorHidden(FieldActor *actor, BOOL hidden);
 void FldAct_GetGPos(FieldActor *actor, GridPos *pos);
 u16 GetActorUID(FieldActor *actor);

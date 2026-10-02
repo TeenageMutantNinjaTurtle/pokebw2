@@ -2,16 +2,35 @@
 #define POKEBW2_FIELD_FIELD_ACTOR_ANIMATION_H
 
 #include "types.h"
+#include "field/field_async_proc.h"
+#include "gfl/g3d.h"
 #include "gfl/heap.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
 #include "system/game_event.h"
 
 // Function names from swan.
+// Only the fields needed by the current C accessors are known.
+struct FieldActorAnmProc {
+    FieldActor *actor;
+    u8 unk4[0x180];
+    G3DCurve *curve;
+    FieldAsyncProc *asyncProc;
+    VecFx32 pos;
+    u8 unk198;
+    u8 animation;
+    u8 finished;
+    u8 unk19b;
+    HeapID heapId;
+};
+
+extern const FieldAsyncProcDef FIELD_ACTOR_ANM_ASYNC_PROC_TEMPLATE;
+
 FieldActorAnmProc *FieldActorAnmProc_Create(Field *field, u16 actorId, const VecFx32 *pos, HeapID heapId);
 void FieldActorAnmProc_Free(FieldActorAnmProc *proc);
 void FieldActorAnmProc_Play(FieldActorAnmProc *proc, u16 animation);
 BOOL FieldActorAnmProc_IsPlaying(FieldActorAnmProc *proc);
+void FieldActorAnmProc_CommitTransform(G3DCurve *curve, FieldActor *actor, VecFx32 *pos);
 BOOL s0157_ActorAnimationInit(VM *vm, FieldScriptEnv *env);
 BOOL s0158_ActorAnimationFree(VM *vm, FieldScriptEnv *env);
 BOOL s0159_ActorAnimationPlay(VM *vm, FieldScriptEnv *env);
