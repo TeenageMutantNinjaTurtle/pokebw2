@@ -1,0 +1,63 @@
+#include "types.h"
+#include "field/field_event.h"
+#include "gfl/heap.h"
+#include "gfl/proc.h"
+#include "system/game_event.h"
+#include "system/game_system.h"
+
+typedef struct {
+    GameSystem *gsys;
+    Field *field;
+    GameSystem **param;
+} EventResearchRadar;
+
+extern const GameProcFunctions data_ov310_021a77e0;
+
+static char sFile[] = "event_research_radar.c";
+
+GameEventReturnCode func_ov018_0216e660(GameEvent *event, u32 *state, void *data);
+GameEvent *func_ov018_0216e708(GameSystem *gsys, Field *field);
+
+GameEventReturnCode func_ov018_0216e660(GameEvent *event, u32 *state, void *data) {
+    EventResearchRadar *work = data;
+    GameSystem *gsys = work->gsys;
+    Field *field = work->field;
+
+    switch (*state) {
+    case 0:
+        GameEvent_ChainNext(event, CallFieldMapEntranceOutTransitionDefault(gsys, field, 0, 0));
+        *state = 1;
+        break;
+    case 1:
+        GameEvent_ChainNext(event, CreateFieldCloseEvent(gsys, field));
+        *state = 2;
+        break;
+    case 2:
+        GSYS_QueueProc(gsys, 310, &data_ov310_021a77e0, work->param);
+        *state = 3;
+        break;
+    case 3:
+        GameEvent_ChainNext(event, EventFieldOpen_CreateHeadless(gsys));
+        *state = 4;
+        break;
+    case 4:
+        GameEvent_ChainNext(event, CallFieldMapEntranceInTransition(gsys, field, 0, 0, 1, 0, 0));
+        *state = 5;
+        break;
+    case 5:
+        GFL_HeapFree(work->param);
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEvent *func_ov018_0216e708(GameSystem *gsys, Field *field) {
+    GameEvent *event = GameEvent_Create(gsys, NULL, func_ov018_0216e660, sizeof(EventResearchRadar));
+    EventResearchRadar *work = GameEvent_GetData(event);
+
+    work->gsys = gsys;
+    work->field = field;
+    work->param = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(*work->param), FALSE, sFile, 117);
+    *work->param = gsys;
+    return event;
+}
