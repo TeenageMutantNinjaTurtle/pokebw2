@@ -59,6 +59,16 @@ BOOL s0017_VMRegCmp8(VM *vm, FieldScriptEnv *env);
 BOOL s0018_VMRegCmpConst8(VM *vm, FieldScriptEnv *env);
 BOOL s0019_WorkCmpConst(VM *vm, FieldScriptEnv *env);
 BOOL s001A_WorkCmpWork(VM *vm, FieldScriptEnv *env);
+BOOL s0008_VMStackPushConst(VM *vm, FieldScriptEnv *env);
+BOOL s0009_VMStackPush(VM *vm, FieldScriptEnv *env);
+BOOL s000A_VMStackPop(VM *vm, FieldScriptEnv *env);
+BOOL s000B_VMStackDiscard(VM *vm, FieldScriptEnv *env);
+BOOL s000C_VMStackAdd(VM *vm, FieldScriptEnv *env);
+BOOL s000D_VMStackSub(VM *vm, FieldScriptEnv *env);
+BOOL s000E_VMStackMul(VM *vm, FieldScriptEnv *env);
+BOOL s000F_VMStackDiv(VM *vm, FieldScriptEnv *env);
+BOOL s0010_VMStackPushFlag(VM *vm, FieldScriptEnv *env);
+BOOL s0011_VMStackCmp(VM *vm, FieldScriptEnv *env);
 
 GameSystem *FieldScriptEnv_GetGameSystem(FieldScriptEnv *env);
 GameData *FieldScriptEnv_GetGameData(FieldScriptEnv *env);

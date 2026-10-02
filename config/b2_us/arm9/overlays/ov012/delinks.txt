@@ -71,3 +71,7 @@ src/ov012/field_script_vm_register.c:
 src/ov012/field_script_vm_compare.c:
     complete
     .text       start:0x0215426c end:0x0215431c
+
+src/ov012/field_script_vm_stack.c:
+    complete
+    .text       start:0x0215431c end:0x021544b0
