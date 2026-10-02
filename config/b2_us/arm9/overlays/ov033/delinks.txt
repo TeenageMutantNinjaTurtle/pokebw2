@@ -23,3 +23,11 @@ src/ov033/field_party_count.c:
 src/ov033/field_actor_animation.c:
     complete
     .text       start:0x0217a1b0 end:0x0217a4a0
+
+src/ov033/event_sweet_scent.c:
+    complete
+    .text       start:0x021785c4 end:0x02178614
+
+src/ov033/event_dive.c:
+    complete
+    .text       start:0x0217a0a4 end:0x0217a0f4
