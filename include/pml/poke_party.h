@@ -44,6 +44,7 @@ void PokeParty_ClearPkm(PartyPkm *pkm);
 // Restores a Pokémon's HP and PP and cures its status
 void PokeParty_Recover(PartyPkm *pkm);
 void PokeParty_RecalcStats(PartyPkm *pkm);
+void setLevel(PartyPkm *pkm, u32 level);
 void setPkmBattleData(PartyPkm *pkm, u32 param, u32 value);
 // A species with its form and sex in one u16
 u16 func_02021204(u32 species, u32 form, u32 sex);
@@ -53,6 +54,8 @@ PartyPkm *PokeParty_GetPkm(PokeParty *party, u32 index);
 int PokeParty_GetPkmCount(PokeParty *party);
 int PokeParty_GetCapacity(PokeParty *party);
 BOOL PokeParty_AddPkm(PokeParty *party, PartyPkm *pkm);
+void PokeParty_RemovePkm(PokeParty *party, u32 index);
+void PokeParty_RecoverAll(PokeParty *party);
 void PokeParty_SetMove(PartyPkm *pkm, u32 move, u32 slot);
 // The next move that a Pokémon learns at its level, going on from *index: 0 once there are none left, 0xfffe for one
 // it already knows, and the move with 0x8000 set when it has no free slot for it

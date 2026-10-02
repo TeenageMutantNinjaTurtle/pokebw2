@@ -25,7 +25,9 @@ u32 getTrainerGender(PlayerInfo *info);
 u8 func_02008bfc(PlayerInfo *info);
 u32 getIDAsUInt(PlayerInfo *info);
 void setTrainerGender(PlayerInfo *info, u32 gender);
-PlayerInfo *func_02008b0c(HeapID heapId);
+PlayerInfo *func_02008b0c(u32 heapId);
+void func_02008b40(PlayerInfo *info);
+void copyTrainerName(PlayerInfo *info, const u16 *name);
 // Copies a player's info
 void func_02008b34(const PlayerInfo *src, PlayerInfo *dest);
 void copyTrainerNameFromStrbuf(PlayerInfo *info, const StrBuf *name);
