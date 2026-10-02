@@ -23,3 +23,11 @@ src/ov036/field_managers.c:
 src/ov036/field_subsystems.c:
     complete
     .text       start:0x0218059c end:0x021805ac
+
+src/ov036/field_environment.c:
+    complete
+    .text       start:0x021804dc end:0x021804f8
+
+src/ov036/field_effect_accessors.c:
+    complete
+    .text       start:0x02180504 end:0x02180514

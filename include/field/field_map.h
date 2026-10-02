@@ -15,6 +15,7 @@ void GimmickState_SetID(GimmickState *gimmick, u16 gimmickId);
 void *GimmickState_GetUserData(GimmickState *gimmick, u32 gimmickId);
 void MapMatrix_Load(MapMatrix *matrix, u16 matrixId, u16 zoneId, HeapID heapId);
 void MapMatrix_Patch(MapMatrix *matrix, GameSystem *gsys, HeapID heapId);
+u8 GetWeatherAll(GameSystem *gsys, u16 zoneId);
 void ResetWeather(GameSystem *gsys, s32 zoneId);
 void UpdateWeatherToDefault(GameData *gameData, u16 zoneId);
 

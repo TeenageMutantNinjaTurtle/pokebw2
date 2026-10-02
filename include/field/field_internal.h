@@ -10,7 +10,11 @@ struct Field {
     GameSystem *gameSystem;
     u8 unk8[0x8];
     FieldCamera *cameraSystem;
-    u8 unk14[0x14];
+    void *lightSystem;
+    FieldFog *fog;
+    void *fogCtrl;
+    void *weatherSystem;
+    u8 unk24[0x4];
     void *msgBGSys;
     u8 unk2c[0x4];
     PlaceName *placeName;
@@ -21,7 +25,9 @@ struct Field {
     NoGridMapper *noGridMapper;
     u8 unk48[0x8];
     G3DMapper *g3DMapper;
-    u8 unk54[0x78];
+    u8 unk54[0x70];
+    void *effectBlAct;
+    void *wildEffectBlAct;
     FieldAsyncProcManager *asyncProcManager;
     u8 unkd0[0x18];
     u16 playerStateZoneId;
