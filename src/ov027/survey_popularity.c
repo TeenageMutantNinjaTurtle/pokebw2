@@ -1,15 +1,8 @@
 #include "types.h"
 #include "field/field_script.h"
+#include "field/survey.h"
 #include "save/save_control.h"
 #include "system/game_data.h"
-
-extern void *func_0200ec2c(SaveControl *save);
-extern u32 func_0200ed90(void *survey, u16 question, int answer);
-extern u32 func_0200ed48(void *survey, u16 question, int answer);
-extern int GetSurveyAnswerMsgIDCount(u16 question);
-extern u16 GetSurveyAnswerMsgID(u16 question, int answer);
-
-BOOL s0201_SurveyGetPopularOptionMsgID(VM *vm, FieldScriptEnv *env);
 
 BOOL s0201_SurveyGetPopularOptionMsgID(VM *vm, FieldScriptEnv *env) {
     int i;

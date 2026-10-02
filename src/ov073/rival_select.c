@@ -1,40 +1,11 @@
 #include "types.h"
 #include "field/field.h"
 #include "field/field_actor.h"
+#include "field/rival_select.h"
 #include "field/zone.h"
 #include "gfl/random.h"
 #include "save/save_control.h"
 #include "system/game_data.h"
-
-typedef struct {
-    u8 id;
-    u8 unk1;
-    u8 selected;
-    u8 active;
-    u32 unk4;
-} RivalEntry;
-
-typedef struct {
-    void *unk0;
-    GameData *gameData;
-    void *entryOwner;
-    u8 padding[0xc];
-    Field *field;
-    MMSys *actors;
-} RivalSelectContext;
-
-RivalEntry *func_02014864(void *owner);
-BOOL func_02018fa8(u16 areaId);
-u8 getHollowNum(RivalDataSave *save);
-BOOL func_ov026_0216fa30(RivalSelectContext *context);
-
-RivalEntry *func_ov073_021e8be0(RivalSelectContext *context, u32 id);
-void func_ov073_021e8bfc(RivalSelectContext *context, u32 id);
-BOOL func_ov073_021e8c4c(RivalSelectContext *context);
-BOOL func_ov073_021e8c64(RivalSelectContext *context);
-BOOL func_ov073_021e8cac(RivalSelectContext *context, u32 id);
-void func_ov073_021e8cdc(RivalSelectContext *context, u32 id);
-u8 func_ov073_021e8d00(RivalSelectContext *context, u32 id);
 
 RivalEntry *func_ov073_021e8be0(RivalSelectContext *context, u32 id) {
     RivalEntry *entries = func_02014864(context->entryOwner);

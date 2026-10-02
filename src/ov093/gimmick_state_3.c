@@ -1,12 +1,9 @@
 #include "types.h"
 #include "field/field.h"
 #include "field/field_map.h"
+#include "field/gimmick_state.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
-
-void func_ov093_021eec80(Field *field);
-void func_ov093_021eecb4(Field *field);
-void func_ov093_021eecc0(Field *field);
 
 void func_ov093_021eec80(Field *field) {
     Field_AllocGimmickWorkBlock(field, 1, Field_GetHeapID(field), 4);

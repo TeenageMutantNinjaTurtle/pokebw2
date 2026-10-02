@@ -1,22 +1,21 @@
 #include "types.h"
+#include "app/research_radar.h"
+#include "field/event_research_radar.h"
 #include "field/field_event.h"
 #include "gfl/heap.h"
 #include "gfl/proc.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
 
-typedef struct {
+struct EventResearchRadar {
     GameSystem *gsys;
     Field *field;
     GameSystem **param;
-} EventResearchRadar;
-
-extern const GameProcFunctions data_ov310_021a77e0;
+};
 
 static char sFile[] = "event_research_radar.c";
 
 GameEventReturnCode func_ov018_0216e660(GameEvent *event, u32 *state, void *data);
-GameEvent *func_ov018_0216e708(GameSystem *gsys, Field *field);
 
 GameEventReturnCode func_ov018_0216e660(GameEvent *event, u32 *state, void *data) {
     EventResearchRadar *work = data;

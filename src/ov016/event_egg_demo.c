@@ -1,22 +1,21 @@
 #include "types.h"
 #include "constants/pokemon.h"
 #include "demo/egg_demo.h"
+#include "field/event_egg_demo.h"
 #include "field/field_event.h"
 #include "pml/poke_party.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
 
-typedef struct {
+struct EventEggDemo {
     GameSystem *gsys;
     GameData *gameData;
     Field *field;
     PartyPkm *pkm;
     EggDemoParam demo;
-} EventEggDemo;
+};
 
-void func_ov012_021600d0(u16 species);
 GameEventReturnCode func_ov016_0216e660(GameEvent *event, u32 *state, void *data);
-GameEvent *func_ov016_0216e754(GameSystem *gsys, PartyPkm *pkm);
 
 GameEventReturnCode func_ov016_0216e660(GameEvent *event, u32 *state, void *data) {
     EventEggDemo *work = data;

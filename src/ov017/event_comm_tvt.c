@@ -1,5 +1,6 @@
 #include "types.h"
 #include "app/comm_tvt.h"
+#include "field/event_comm_tvt.h"
 #include "field/field_event.h"
 #include "gfl/overlay.h"
 #include "gfl/proc.h"
@@ -8,7 +9,7 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 
-typedef struct {
+struct EventCommTvt {
     GameSystem *gsys;
     GameData *gameData;
     SaveControl *save;
@@ -18,13 +19,9 @@ typedef struct {
     void *exitArgument;
     u32 unused2C;
     u32 unused30;
-} EventCommTvt;
-
-extern const GameProcFunctions data_ov198_021b44a4;
-extern GameEvent *func_ov033_021773e4(GameSystem *gsys, void *args);
+};
 
 GameEventReturnCode func_ov017_0216e660(GameEvent *event, u32 *state, void *data);
-GameEvent *func_ov017_0216e79c(GameSystem *gsys, void *args);
 
 GameEventReturnCode func_ov017_0216e660(GameEvent *event, u32 *state, void *data) {
     EventCommTvt *work = data;

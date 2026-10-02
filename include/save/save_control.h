@@ -12,6 +12,8 @@ u32 func_02007464(SaveControl *save);
 void func_0200749c(SaveControl *save);
 void func_02007324(SaveControl *save);
 TrainerGameInfoSave *getTrainerGameInfoAddress(SaveControl *save);
+u16 func_0200ca7c(TrainerGameInfoSave *info);
+u16 func_0200ca8c(TrainerGameInfoSave *info, int index);
 // Poké Transfer's high score, 28 bits
 u32 TrainerGameInfo_GetPalParkHighScore(TrainerGameInfoSave *info);
 void TrainerGameInfo_SetPalParkHighScore(TrainerGameInfoSave *info, u32 score);
@@ -136,6 +138,7 @@ PokeParty *SaveControl_GetPokePartySave(SaveControl *save);
 WorldTradeData *SaveControl_GetWorldTradeData(SaveControl *save);
 DreamWorldSave *getDreamWorldStuffAddress(SaveControl *save);
 HighLinkSave *getHighLinkBlockAddress(SaveControl *save);
+void *func_02010dec(SaveControl *save);
 KeyInfoSave *getKeyInfoSaveBlk(SaveControl *save);
 RecordSave *getRecordBlkAddress(SaveControl *save);
 AdventureSave *getSaveAdventureDataBlk(SaveControl *save);

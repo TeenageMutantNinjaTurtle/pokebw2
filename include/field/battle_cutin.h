@@ -1,0 +1,17 @@
+#ifndef POKEBW2_FIELD_BATTLE_CUTIN_H
+#define POKEBW2_FIELD_BATTLE_CUTIN_H
+
+#include "types.h"
+#include "struct_decls.h"
+
+struct BattleCutinParam {
+    u32 cutin;
+    u32 animation;
+    u32 color;
+};
+
+extern const BattleCutinParam BATTLE_CUTIN_DB[];
+
+const BattleCutinParam *BattleCutinDB_GetParam(u32 index);
+
+#endif // POKEBW2_FIELD_BATTLE_CUTIN_H

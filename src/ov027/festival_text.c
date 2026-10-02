@@ -1,17 +1,8 @@
 #include "types.h"
+#include "field/festival.h"
 #include "gfl/arc.h"
 #include "gfl/heap.h"
 #include "gfl/msg.h"
-
-typedef struct {
-    ArcTool *archive;
-    MsgData *message;
-} FestivalText;
-
-extern const char data_ov027_021711e0[];
-
-u32 GetTrainerCardTextMSGID(u32 type);
-FestivalText *getTextFileForFestMissions(HeapID heapId);
 
 u32 GetTrainerCardTextMSGID(u32 type) {
     switch (type) {

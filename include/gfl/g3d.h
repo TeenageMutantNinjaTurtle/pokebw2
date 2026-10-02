@@ -9,6 +9,7 @@
 #include "nitro/fx.h"
 #include "nitro/gx.h"
 #include "nitro/mi.h"
+#include "struct_decls.h"
 
 typedef struct G3DActor G3DActor;
 typedef struct G3DCamera G3DCamera;
@@ -113,6 +114,17 @@ void GFL_G3DSysMtxViewFlush(void);
 void GFL_G3DSysReqSwapBuffers(void);
 void GFL_G3DSysReset(void);
 void GFL_G3DSysSetSwapBufferParams(u32 sortMode, u32 bufferMode);
+void *GFL_G3DSysReadArcToolResource(ArcTool *handle, u32 fileId);
+BOOL GFL_G3DResCheckType(void *resource, u32 type);
+void GFL_G3DResUploadTexData(void *resource);
+void GFL_G3DResFreeTexData(void *resource);
+void GFL_G3DResFree(void *resource);
+G3DModel *GFL_G3DMdlCreate(void *resource, u32 modelId, void *texture);
+void GFL_G3DMdlFree(G3DModel *model);
+void *GFL_G3DAnmCreate(G3DModel *model, void *resource, u32 a2);
+void GFL_G3DAnmFree(void *animation);
+G3DActor *GFL_G3DActorCreate(G3DModel *model, void **animations, u32 count);
+void GFL_G3DActorFree(G3DActor *actor);
 
 G3DLight *GFL_G3DLightCreate(const LightSetupList *setup, HeapID heapId);
 void GFL_G3DLightFree(G3DLight *lights);

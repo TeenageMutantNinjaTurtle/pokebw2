@@ -1,4 +1,6 @@
 #include "types.h"
+#include "app/demo_308.h"
+#include "field/event_demo_308.h"
 #include "field/field.h"
 #include "field/field_event.h"
 #include "gfl/overlay.h"
@@ -8,31 +10,16 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 
-typedef struct {
-    GameSystem *gsys;
-    GameData *gameData;
-    u8 param0;
-    u8 param1;
-    u8 unkA[2];
-} Demo308Param;
-
-typedef struct {
+struct EventDemo308 {
     GameSystem *gsys;
     GameData *gameData;
     SaveControl *save;
     Demo308Param param;
     u8 subscreen;
     u8 mode;
-} EventDemo308;
-
-extern const GameProcFunctions data_ov308_021a17dc;
-
-GameEvent *EventBGMPlayPushEx_Create(GameSystem *gsys, u32 bgm, u32 a2, u32 a3);
-GameEvent *EventBGMPop_CreateEx(GameSystem *gsys, u32 a1, u32 a2);
-GameEvent *EventBGMFadeWait_Create(GameSystem *gsys);
+};
 
 GameEventReturnCode func_ov013_0216e660(GameEvent *event, u32 *state, void *data);
-GameEvent *func_ov013_0216e770(GameSystem *gsys, const u32 *args);
 
 GameEventReturnCode func_ov013_0216e660(GameEvent *event, u32 *state, void *data) {
     EventDemo308 *work = data;

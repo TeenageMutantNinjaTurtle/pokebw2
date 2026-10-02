@@ -17,5 +17,6 @@ typedef struct {
 } CommTvtParam;
 
 extern const GameProcFunctions COMM_TVT_PROC_FUNCTIONS;
+extern const GameProcFunctions data_ov198_021b44a4;
 
 #endif // POKEBW2_APP_COMM_TVT_H

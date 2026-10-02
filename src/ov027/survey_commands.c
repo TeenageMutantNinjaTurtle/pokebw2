@@ -1,15 +1,8 @@
 #include "types.h"
 #include "field/field_script.h"
+#include "field/survey.h"
 #include "save/save_control.h"
 #include "system/game_data.h"
-
-extern u16 func_0200ca7c(TrainerGameInfoSave *info);
-extern u16 func_0200ca8c(TrainerGameInfoSave *info, int index);
-extern u16 detectLengthSinceLastSession(SaveControl *save);
-
-BOOL s01FF_SurveyGetCurrentQuestionID(VM *vm, FieldScriptEnv *env);
-BOOL s0200_SurveyGetCurrentAnswerIDs(VM *vm, FieldScriptEnv *env);
-BOOL s0204_SurveyGetTime(VM *vm, FieldScriptEnv *env);
 
 BOOL s01FF_SurveyGetCurrentQuestionID(VM *vm, FieldScriptEnv *env) {
     TrainerGameInfoSave *info;

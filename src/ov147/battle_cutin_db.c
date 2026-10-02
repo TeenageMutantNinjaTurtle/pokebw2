@@ -1,10 +1,5 @@
 #include "types.h"
-
-typedef struct {
-    u32 cutin;
-    u32 animation;
-    u32 color;
-} BattleCutinParam;
+#include "field/battle_cutin.h"
 
 const BattleCutinParam BATTLE_CUTIN_DB[] = {
     { 0xd, 0xe, 0x52947fff },
@@ -35,8 +30,6 @@ const BattleCutinParam BATTLE_CUTIN_DB[] = {
     { 0x22, 0x0, 0x7fff },
     { 0x23, 0x0, 0x7fff },
 };
-
-const BattleCutinParam *BattleCutinDB_GetParam(u32 index);
 
 const BattleCutinParam *BattleCutinDB_GetParam(u32 index) {
     return &BATTLE_CUTIN_DB[index];

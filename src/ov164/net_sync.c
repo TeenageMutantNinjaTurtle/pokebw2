@@ -1,34 +1,6 @@
 #include "types.h"
 #include "gfl/net.h"
-
-typedef struct {
-    u8 pad0[0x72];
-    u8 state;
-    u8 error;
-    u8 pad1[0x30];
-    u8 received;
-} NetSyncWork;
-
-typedef struct {
-    u16 value;
-    u8 kind;
-    u8 pad;
-} NetSyncPacket;
-
-typedef struct {
-    void (*callback)(u32 a0, u32 a1, const NetSyncPacket *packet, NetSyncWork *work);
-    void *arg;
-} NetSyncCommand;
-
-extern u32 func_02042c18(NetHandle *handle, u32 destination, u32 command, u32 size, const void *data, u32 count, u32 a6, u32 a7);
-
-void func_ov164_021998c0(NetSyncWork *work);
-void func_ov164_021998c8(void);
-void func_ov164_021998d4(NetSyncWork *work);
-u32 func_ov164_02199944(NetSyncWork *work, u8 kind, u16 value);
-void func_ov164_02199984(u32 a0, u32 a1, const NetSyncPacket *packet, NetSyncWork *work);
-void func_ov164_021999a8(u32 ignored, u32 a1);
-BOOL func_ov164_021999bc(NetSyncWork *work, u32 a1);
+#include "gfl/net_sync.h"
 
 const NetSyncCommand data_ov164_021999e8 = {func_ov164_02199984, NULL};
 

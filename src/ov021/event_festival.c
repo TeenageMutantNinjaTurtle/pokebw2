@@ -1,6 +1,10 @@
 #include "types.h"
+#include "app/festival.h"
+#include "field/event_festival.h"
+#include "field/festival.h"
 #include "field/field.h"
 #include "field/field_event.h"
+#include "field/iss.h"
 #include "gfl/net.h"
 #include "gfl/overlay.h"
 #include "gfl/proc.h"
@@ -10,16 +14,7 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 
-typedef struct {
-    GameSystem *gsys;
-    GameData *gameData;
-    u32 mode;
-    LinkFestival *festival;
-    void *missionConfig;
-    void *saveBlock;
-} FestivalEventParam;
-
-typedef struct {
+struct FestivalEventWork {
     GameSystem *gsys;
     GameData *gameData;
     SaveControl *save;
@@ -27,23 +22,9 @@ typedef struct {
     u32 mode;
     u32 communicationFlag;
     GameCommSys *comm;
-} FestivalEventWork;
-
-extern const GameProcFunctions data_ov309_021a01d0;
-extern BOOL func_ov036_02180f80(GameCommSys *comm);
-extern BOOL func_0202bde0(GameCommSys *comm);
-extern void func_ov030_02174108(u32 enabled);
-extern void *Field_GetFesGimmick(Field *field);
-extern void func_ov036_021b6690(void *gimmick);
-extern void func_02030040(FieldSound *sound, ISS *iss);
-extern void func_0203005c(FieldSound *sound, ISS *iss);
-extern u32 LinkFestival_GetNormalChangeBGMID(LinkFestival *festival);
-extern GameEvent *EventBGMPlay_Create(GameSystem *gsys, u32 bgm);
-extern void *GetFestMissionCfg(LinkFestival *festival);
-extern void *func_02010dec(SaveControl *save);
+};
 
 GameEventReturnCode func_ov021_0216e660(GameEvent *event, u32 *state, void *data);
-GameEvent *func_ov021_0216e80c(GameSystem *gsys, const u32 *args);
 void func_ov021_0216e848(FestivalEventParam *param, GameSystem *gsys, GameData *gameData, u32 mode);
 
 GameEventReturnCode func_ov021_0216e660(GameEvent *event, u32 *state, void *data) {

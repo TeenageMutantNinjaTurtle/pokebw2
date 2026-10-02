@@ -32,6 +32,10 @@ GameEvent *CallFieldMapEntranceOutTransitionDefault(GameSystem *gsys, Field *fie
 GameEvent *CreateFieldCloseEvent(GameSystem *gsys, Field *field);
 GameEvent *Event3DDemo_Create(GameSystem *gsys, GameEvent *parent, u32 demoId, u32 unk3, u32 unk4);
 GameEvent *EventBGMChange_Create(GameSystem *gsys, u32 bgm, u32 a2, u32 a3);
+GameEvent *EventBGMPlay_Create(GameSystem *gsys, u32 bgm);
+GameEvent *EventBGMFadeWait_Create(GameSystem *gsys);
+GameEvent *EventBGMPop_CreateEx(GameSystem *gsys, u32 a1, u32 a2);
+GameEvent *EventBGMPlayPushEx_Create(GameSystem *gsys, u32 bgm, u32 a2, u32 a3);
 GameEvent *EventDig_Create(GameEvent *event, GameSystem *gsys, Field *field, BOOL seasonChanged);
 BOOL EventEntralinkWarpIn_CheckAllowed(GameSystem *gsys);
 GameEvent *EventEscapeRope_Create(GameEvent *event, GameSystem *gsys, Field *field, BOOL seasonChanged);
@@ -61,5 +65,7 @@ GameEvent *func_ov036_021b9664(GameEvent *event, GameSystem *gsys, Field *field)
 GameEvent *func_ov036_021b9df8(GameEvent *event, GameSystem *gsys, Field *field);
 GameEvent *EventWarpSequence_CreateIn(WarpSequence *warp);
 GameEvent *EventWarpSequence_CreateOut(WarpSequence *warp);
+GameEvent *func_ov033_021773e4(GameSystem *gsys, void *args);
+GameEvent *func_ov156_021f59e0(GameSystem *gsys, void *args);
 
 #endif // POKEBW2_FIELD_FIELD_EVENT_H

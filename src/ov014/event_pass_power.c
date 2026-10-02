@@ -1,31 +1,18 @@
 #include "types.h"
+#include "app/pass_power.h"
+#include "field/event_pass_power.h"
 #include "field/field.h"
 #include "field/field_event.h"
 #include "gfl/overlay.h"
 #include "gfl/proc.h"
 #include "save/bag.h"
+#include "save/high_link.h"
 #include "save/save_control.h"
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
 
-typedef struct {
-    u8 id;
-    u8 pad;
-    u16 seconds;
-} PassPowerEntry;
-
-typedef struct {
-    GameSystem *gsys;
-    void *argument;
-    u32 highLinkIds[3];
-    u8 highLinkCount;
-    u8 powerCount;
-    u16 itemCount;
-    PassPowerEntry powers[10];
-} PassPowerParam;
-
-typedef struct {
+struct EventPassPower {
     GameSystem *gsys;
     GameData *gameData;
     PassPowerParam param;
@@ -34,22 +21,10 @@ typedef struct {
     u32 unused50;
     void *paramArgument;
     void *exitArgument;
-} EventPassPower;
-
-extern const GameProcFunctions data_ov328_0219ed2c;
-extern GameEvent *func_ov156_021f59e0(GameSystem *gsys, void *args);
-extern GameEvent *func_ov033_021773e4(GameSystem *gsys, void *args);
-extern u32 func_0200c678(HighLinkSave *save, int index);
-extern u32 PassPower_GetUsedIDByEffect(int effect);
-extern u32 PassPower_GetRemainingSeconds(int effect);
-
-GameEvent *EventBGMPlayPushEx_Create(GameSystem *gsys, u32 bgm, u32 a2, u32 a3);
-GameEvent *EventBGMPop_CreateEx(GameSystem *gsys, u32 a1, u32 a2);
-GameEvent *EventBGMFadeWait_Create(GameSystem *gsys);
+};
 
 void func_ov014_0216e660(PassPowerParam *param, void *argument, GameSystem *gsys, GameData *gameData, u16 item);
 GameEventReturnCode func_ov014_0216e73c(GameEvent *event, u32 *state, void *data);
-GameEvent *func_ov014_0216e8ac(GameSystem *gsys, const u32 *args);
 
 void func_ov014_0216e660(PassPowerParam *param, void *argument, GameSystem *gsys, GameData *gameData, u16 item) {
     SaveControl *save = GameData_GetSaveControl(gameData);

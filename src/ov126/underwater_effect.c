@@ -4,24 +4,12 @@
 #include "gfl/arc.h"
 #include "gfl/g3d.h"
 
-typedef struct {
+struct UnderwaterEffectWork {
     void *resources[7];
     G3DModel *models[3];
     void *animations[4];
     G3DActor *actors[3];
-} UnderwaterEffectWork;
-
-extern void *GFL_G3DSysReadArcToolResource(ArcTool *handle, u32 fileId);
-extern BOOL GFL_G3DResCheckType(void *resource, u32 type);
-extern void GFL_G3DResUploadTexData(void *resource);
-extern void GFL_G3DResFreeTexData(void *resource);
-extern void GFL_G3DResFree(void *resource);
-extern G3DModel *GFL_G3DMdlCreate(void *resource, u32 modelId, void *texture);
-extern void GFL_G3DMdlFree(G3DModel *model);
-extern void *GFL_G3DAnmCreate(G3DModel *model, void *resource, u32 a2);
-extern void GFL_G3DAnmFree(void *animation);
-extern G3DActor *GFL_G3DActorCreate(G3DModel *model, void **animations, u32 count);
-extern void GFL_G3DActorFree(G3DActor *actor);
+};
 
 static const u32 sModelResourceIds[3] = {0, 1, 2};
 static const u32 sAnimationModelIds[4] = {0, 1, 2, 0};
