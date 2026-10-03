@@ -39,7 +39,8 @@ struct FieldPropResInfo {
 };
 
 struct FieldPropSystem {
-    u8 unk0[0x1c];
+    u8 unk0[0x18];
+    FieldPropResBundle *resBundle;
     u8 resIdToIndex[0x200];
     u32 resInfoCount;
     u8 unk220[0x20];
@@ -65,6 +66,8 @@ u32 FieldPropSystem_ConvResIDToIndex(const FieldPropSystem *system, u32 resId);
 void *FieldPropResBundle_GetResInfo(FieldPropResBundle *bundle, u32 index);
 void *FieldPropResBundle_GetModelData(FieldPropResBundle *bundle, u32 index);
 void *FieldPropResAnmHeader_GetAnmData(FieldPropResAnmHeader *header, u32 index);
+void *FieldPropSystem_FindResInfo(FieldPropSystem *system, u32 resId);
+void *FieldPropSystem_GetResInfo(FieldPropSystem *system, u32 index);
 void FieldPropSystem_FreeTextures(FieldPropSystem *system);
 void FieldPropRTCState_Init(FieldPropRTCState *state, u8 season);
 void FieldPropRTCState_Update(FieldPropRTCState *state);

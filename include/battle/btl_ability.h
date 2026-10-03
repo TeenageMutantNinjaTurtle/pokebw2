@@ -21,5 +21,21 @@ const BattleEventHandlerEntry *EventAddThickFat(u32 *priority);
 void HandlerThickFat(void *context, void *item, u32 monId);
 const BattleEventHandlerEntry *EventAddHugePower(u32 *priority);
 void HandlerHugePower(void *context, void *item, u32 monId);
+extern const BattleEventHandlerEntry data_ov167_021d77c4[];
+extern const BattleEventHandlerEntry data_ov167_021d765c[];
+extern const BattleEventHandlerEntry data_ov167_021d77cc[];
+extern const BattleEventHandlerEntry data_ov167_021d76ec[];
+extern const BattleEventHandlerEntry data_ov167_021d7a44[];
+void HandlerSwiftSwim(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddSwiftSwim(u32 *priority);
+void HandlerChlorophyll(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddChlorophyll(u32 *priority);
+void HandlerQuickFeet(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddQuickFeet(u32 *priority);
+void HandlerTangledFeet(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddTangledFeet(u32 *priority);
+void HandlerHustleAccuracy(void *context, void *item, u32 monId);
+void HandlerHustlePower(void *context, void *item, u32 monId);
+const BattleEventHandlerEntry *EventAddHustle(u32 *priority);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

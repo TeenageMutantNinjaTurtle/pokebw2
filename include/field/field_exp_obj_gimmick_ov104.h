@@ -16,7 +16,10 @@ struct FieldExpObjGimmickOv104Substate {
 };
 
 struct FieldExpObjGimmickOv104Payload {
-    u32 words[15];
+    u8 count;
+    u8 padding[3];
+    u32 kinds[7];
+    u32 flags[7];
 };
 
 struct FieldExpObjGimmickOv104SaveData {
@@ -61,6 +64,9 @@ void func_ov104_021eeebc(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021eef84(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021eef98(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021eefc0(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021ef02c(FieldExpObjGimmickOv104Work *work, u32 kind, u32 flag);
+u32 func_ov104_021ef04c(FieldExpObjGimmickOv104Work *work);
+u32 func_ov104_021ef068(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021ef168(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021efc8c(void *state);
 void func_ov104_021eeea0(FieldExpObjGimmickOv104Work *work);

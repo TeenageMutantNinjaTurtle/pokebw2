@@ -561,6 +561,10 @@ src/ov012/prepare_resident_actors.c:
     complete
     .text       start:0x0215c6b0 end:0x0215c6dc
 
+src/ov012/event_action_call.c:
+    complete
+    .text       start:0x0215c6dc end:0x0215c844
+
 src/ov012/event_game_clear_card.c:
     complete
     .text       start:0x0215a670 end:0x0215a684

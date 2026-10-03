@@ -1,0 +1,90 @@
+#include "field/event_action_call.h"
+#include "field/field.h"
+#include "field/field_acmd.h"
+#include "field/field_actor.h"
+#include "system/game_event.h"
+#include "system/game_system.h"
+
+GameEventReturnCode EventActionCall_Callback(GameEvent *event, u32 *state, void *data) {
+    EventActionCallWork *work = data;
+    MMSys *mmSys = Field_GetActorSystem(work->field);
+    switch (*state) {
+    case 0: {
+        FieldActor *actor = EventActionCall_FindActor(mmSys, work->actorId);
+        if (actor == NULL) {
+            return GAMEEVENT_DONE;
+        }
+        FieldAcmdTCB *task = FieldAcmdTCB_Create(actor, work->action);
+        EventActionCall_AddTCB(work, task);
+        (*state)++;
+        break;
+    }
+    case 1:
+        if (!EventActionCall_UpdateTCBs(work)) {
+            return GAMEEVENT_DONE;
+        }
+        break;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+GameEvent *EventActionCall_Create(GameSystem *gsys, Field *field, u16 actorId, const u32 *action) {
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventActionCall_Callback, sizeof(EventActionCallWork));
+    EventActionCallWork *work = GameEvent_GetData(event);
+    EventActionCall_ClearTCBs(work);
+    work->gameSystem = gsys;
+    work->field = field;
+    work->gameData = GSYS_GetGameData(gsys);
+    work->actorId = actorId;
+    work->action = action;
+    return event;
+}
+GameEvent *CallMoveOneTileFrontEvent(GameSystem *gsys, Field *field) {
+    u32 direction = GetActorFaceDir(FieldPlayer_GetActor(Field_GetPlayer(field)));
+    const u32 *queue;
+    switch (direction) {
+    case 0: queue = ACMD_QUEUE_WALK_N_8F; break;
+    case 1: queue = ACMD_QUEUE_WALK_S_8F; break;
+    case 2: queue = ACMD_QUEUE_WALK_W_8F; break;
+    case 3: queue = ACMD_QUEUE_WALK_E_8F; break;
+    }
+    return EventActionCall_Create(gsys, field, 0xff, queue);
+}
+FieldActor *EventActionCall_FindActor(MMSys *mmSys, u16 actorId) {
+    if (actorId == 0xf2) {
+        return FindActorByMoveCode(mmSys, 0x30);
+    }
+    if (actorId != 0xf1) {
+        return FindFieldActor(mmSys, actorId);
+    }
+    return (FieldActor *)mmSys;
+}
+void EventActionCall_ClearTCBs(EventActionCallWork *work) {
+    int i;
+    for (i = 0; i < 8; i++) {
+        work->tasks[i] = NULL;
+    }
+}
+void EventActionCall_AddTCB(EventActionCallWork *work, FieldAcmdTCB *task) {
+    int i;
+    for (i = 0; i < 8; i++) {
+        if (work->tasks[i] == NULL) {
+            work->tasks[i] = task;
+            return;
+        }
+    }
+}
+BOOL EventActionCall_UpdateTCBs(EventActionCallWork *work) {
+    int i;
+    BOOL active = 0;
+    for (i = 0; i < 8; i++) {
+        if (work->tasks[i] != NULL) {
+            if (FieldAcmdTCB_CheckEnded(work->tasks[i]) == TRUE) {
+                FieldAcmdTCB_Remove(work->tasks[i]);
+                work->tasks[i] = NULL;
+            } else {
+                active = 1;
+            }
+        }
+    }
+    return active;
+}

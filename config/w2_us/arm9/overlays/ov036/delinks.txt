@@ -237,3 +237,7 @@ src/ov036/field_prop_resource_bundle.c:
 src/ov036/field_prop_free_textures.c:
     complete
     .text       start:0x02183578 end:0x02183598
+
+src/ov036/field_prop_find_res_info.c:
+    complete
+    .text       start:0x02183244 end:0x02183264

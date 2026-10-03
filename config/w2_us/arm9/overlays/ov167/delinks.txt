@@ -511,3 +511,19 @@ src/ov167/battle_ability_thick_fat.c:
 src/ov167/battle_ability_huge_power.c:
     complete
     .text       start:0x021bdf90 end:0x021bdfc8
+
+src/ov167/battle_ability_weather_speed.c:
+    complete
+    .text       start:0x021bdfc8 end:0x021be030
+
+src/ov167/battle_ability_quick_feet.c:
+    complete
+    .text       start:0x021be030 end:0x021be070
+
+src/ov167/battle_ability_tangled_feet.c:
+    complete
+    .text       start:0x021be070 end:0x021be0ac
+
+src/ov167/battle_ability_hustle.c:
+    complete
+    .text       start:0x021be0ac end:0x021be120
