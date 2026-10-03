@@ -102,7 +102,7 @@ static void UnderwaterEffect_Update(FieldAsyncProc *proc, Field *field, void *da
 
 static void UnderwaterEffect_Draw(FieldAsyncProc *proc, Field *field, void *data) {
     UnderwaterEffectWork *work = data;
-    GFL_G3DSysDrawObj(work->actors[0], (SRTMatrix *)&sUnderwaterMatrix);
-    GFL_G3DSysDrawObj(work->actors[1], (SRTMatrix *)&sUnderwaterMatrix);
-    GFL_G3DSysDrawObj(work->actors[2], (SRTMatrix *)&sUnderwaterMatrix);
+    GFL_G3DSysDrawObj(work->actors[0], &sUnderwaterMatrix);
+    GFL_G3DSysDrawObj(work->actors[1], &sUnderwaterMatrix);
+    GFL_G3DSysDrawObj(work->actors[2], &sUnderwaterMatrix);
 }

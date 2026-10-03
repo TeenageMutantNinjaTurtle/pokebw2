@@ -107,7 +107,7 @@ BOOL s0279_FunfestBGMReturn(VM *vm, FieldScriptEnv *env) {
     }
     func_ov036_021b6690(gimmick);
     bgm = LinkFestival_GetNormalChangeBGMID(festival);
-    if (bgm != (u32)-1) {
+    if (bgm != 0xffffffff) {
         ScriptWork_CallEvent(scriptWork, EventBGMPlay_Create(gsys, bgm));
     }
     return TRUE;
@@ -165,8 +165,7 @@ BOOL s027B_FunfestGetItemExchangeInfo(VM *vm, FieldScriptEnv *env) {
     u16 *out1 = ScriptReadVar(vm, env);
 
     if (!FesGimmick_IsCurrent(gimmick, 5)) {
-        *(volatile u16 *)out1 = 0x11;
-        *out0 = *(volatile u16 *)out1;
+        *out0 = *out1 = 0x11;
         return TRUE;
     }
     func_ov072_021e8d08(gimmick, ScriptWork_GetParentActor(scriptWork), arg0, arg1, out0, out1);
@@ -205,8 +204,7 @@ BOOL s027D_FunfestGetPokemonQuizInfo(VM *vm, FieldScriptEnv *env) {
 
     if (!FesGimmick_IsCurrent(gimmick, 5)) {
         *out0 = 1;
-        *(volatile u16 *)out2 = 0;
-        *out1 = *(volatile u16 *)out2;
+        *out1 = *out2 = 0;
         return TRUE;
     }
     func_ov072_021e8ddc(gimmick, out0, out1, out2);
