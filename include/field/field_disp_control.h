@@ -23,12 +23,11 @@ typedef struct FieldDispControl {
 } FieldDispControl;
 
 extern const char data_ov036_021d56f0[];
-extern void (*const FIELD_DISP_CONTROL_PROCS[])(void *params, u32 screen);
 
 FieldDispControl *FieldDispControl_Create(HeapID heapId);
 void FieldDispControl_Free(FieldDispControl *control);
 void FieldDispControl_Update(FieldDispControl *control);
-void FieldDispControlProc_ResetBrightness(void *params, u32 screen);
+void FieldDispControlProc_ResetBrightness(const u32 *params, u32 screen);
 void FieldDispControlProc_SetAlpha(const u32 *params, u32 screen);
 void FieldDispControlProc_SetBrightness(const u32 *params, u32 screen);
 void FieldDispControlProc_SetAll(const u32 *params, u32 screen);

@@ -5,6 +5,17 @@
 #include "gfl/std.h"
 #include "nitro/hw.h"
 
+// The procs of the requests, by request
+static void (*FIELD_DISP_CONTROL_PROCS[])(const u32 *params, u32 screen) = {
+    NULL,
+    FieldDispControlProc_ResetBrightness,
+    FieldDispControlProc_SetAlpha,
+    FieldDispControlProc_SetBrightness,
+    FieldDispControlProc_SetAll,
+    FieldDispControlProc_AdjustAlpha,
+    FieldDispControlProc_AdjustBrightness,
+};
+
 FieldDispControl *FieldDispControl_Create(HeapID heapId) {
     FieldDispControl *control;
 
@@ -18,7 +29,7 @@ void FieldDispControl_Free(FieldDispControl *control) {
 }
 
 void FieldDispControl_Update(FieldDispControl *control) {
-    void (*proc)(void *, u32);
+    void (*proc)(const u32 *, u32);
     s32 i;
 
     proc = FIELD_DISP_CONTROL_PROCS[control->requestA];
@@ -86,7 +97,7 @@ void FieldDispControl_ReqSetAlphaB(FieldDispControl *control, u32 alpha, u32 bet
     control->complementB = complement;
 }
 
-void FieldDispControlProc_ResetBrightness(void *params, u32 screen) {
+void FieldDispControlProc_ResetBrightness(const u32 *params, u32 screen) {
     if (screen != 0) {
         *(vu16 *)REG_BLDCNT_ADDR = 0;
     } else {

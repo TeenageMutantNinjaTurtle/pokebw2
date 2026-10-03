@@ -24,8 +24,9 @@ src/ov036/scrcmd_medal.c:
     .text       start:0x021c7b70 end:0x021c8010
 
 src/ov036/fld_vreq.c:
+    complete
     .text       start:0x021c8010 end:0x021c822c
-    .data       start:0x021d5730 end:0x021d573c
+    .data       start:0x021d5714 end:0x021d573c
 
 src/ov036/field_palace_sys.c:
     .text       start:0x021c822c end:0x021c8420
