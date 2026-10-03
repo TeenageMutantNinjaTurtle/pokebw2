@@ -301,3 +301,11 @@ src/ov036/field_prop_handle_free.c:
 src/ov036/field_prop_create_handle_new.c:
     complete
     .text       start:0x02184074 end:0x021840e4
+
+src/ov036/field_prop_handle_registry.c:
+    complete
+    .text       start:0x0218333c end:0x0218338c
+
+src/ov036/field_prop_handle_id.c:
+    complete
+    .text       start:0x021833c0 end:0x021833f8

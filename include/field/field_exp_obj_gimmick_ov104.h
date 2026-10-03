@@ -11,7 +11,8 @@ struct FieldExpObjGimmickOv104Substate {
     u32 y;
     u32 z;
     u32 direction;
-    u8 unk18[0x5c];
+    u8 unk18[0x4c];
+    u32 fallbackZones[4];
     u32 anmIndex;
     u32 enabled;
 };
@@ -131,6 +132,8 @@ void func_ov104_021ef94c(FieldExpObjGimmickOv104Work *work, struct FieldExpObjGi
 void func_ov104_021ef994(FieldExpObjGimmickOv104Work *work);
 s32 func_ov104_021ef9c8(const FieldExpObjGimmickOv104ZoneList *list);
 void func_ov104_021ef9f8(FieldExpObjGimmickOv104ZoneList *list);
+void func_ov104_021efa18(FieldExpObjGimmickOv104Work *work, FieldExpObjGimmickOv104ZoneList *list);
+void func_ov104_021efad0(FieldExpObjGimmickOv104Work *work, FieldExpObjGimmickOv104ZoneList *list);
 void func_ov104_021efb30(FieldExpObjGimmickOv104Work *work, FieldExpObjGimmickOv104ZoneList *list);
 BOOL func_ov104_021efb90(VM *vm, FieldScriptEnv *env);
 GameEvent *func_ov104_021f02fc(GameSystem *gsys, Field *field, u32 id);

@@ -51,6 +51,15 @@ struct ZoneWarpGridPosition {
     u16 height;
 };
 
+struct ZoneWarpRailPosition {
+    u16 componentId;
+    u16 posFront;
+    s16 posSide;
+    u16 frontSpan;
+    u16 sideSpan;
+    u16 param;
+};
+
 struct ZoneWarp {
     u16 unk0;
     u16 destId;
@@ -91,7 +100,7 @@ BOOL IsWarpZoneOrWarpID0xFFFF(const ZoneWarp *warp);
 void SetZoneWarpLocation(EventData *eventData, u16 warpId, u16 x, u16 y, u16 z);
 u32 ZoneWarp_GetDirection(const ZoneWarp *warp);
 void GetGridWarpOutPos(ZoneWarp *warp, u32 direction, VecFx32 *position);
-s32 CalcWarpTransferAddend(u32 direction, u32 warpDirection, u32 a2, u32 a3, u16 size);
+u16 CalcWarpTransferAddend(u32 direction, u32 warpDirection, u32 a2, u32 a3, u16 size);
 void CreateZoneChangeData(ZoneSpawnInfo *spawn, u32 zoneId, s16 warpDir, s32 x, s32 y, s32 z);
 void CreateZoneChangeDataRail(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpDir, u16 componentId, u16 posFront,
                               s16 posSide);

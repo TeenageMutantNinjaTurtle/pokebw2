@@ -635,3 +635,23 @@ src/ov167/battle_ability_air_lock.c:
 src/ov167/battle_ability_weather_recovery.c:
     complete
     .text       start:0x021bf070 end:0x021bf104
+
+src/ov167/battle_ability_solar_power.c:
+    complete
+    .text       start:0x021bf104 end:0x021bf1a0
+
+src/ov167/battle_ability_shield_dust.c:
+    complete
+    .text       start:0x021bf1a0 end:0x021bf24c
+
+src/ov167/battle_ability_serene_grace.c:
+    complete
+    .text       start:0x021bf24c end:0x021bf290
+
+src/ov167/battle_ability_hydration.c:
+    complete
+    .text       start:0x021bf290 end:0x021bf304
+
+src/ov167/battle_ability_shed_skin.c:
+    complete
+    .text       start:0x021bf304 end:0x021bf368

@@ -185,6 +185,7 @@ typedef struct GameSystem GameSystem;
 typedef struct GameSystemProcData GameSystemProcData;
 typedef struct G3DMapper G3DMapper;
 typedef struct GimmickState GimmickState;
+typedef struct HydrationWork HydrationWork;
 typedef struct HiddenEventArgs HiddenEventArgs;
 typedef struct HiddenEventContext HiddenEventContext;
 typedef struct HiddenEventData HiddenEventData;
@@ -241,8 +242,10 @@ typedef struct ScriptWork ScriptWork;
 typedef struct ScriptOverlayWork ScriptOverlayWork;
 typedef struct ScriptPluginEntry ScriptPluginEntry;
 typedef struct ScriptSubwork ScriptSubwork;
+typedef struct ShedSkinWork ShedSkinWork;
 typedef struct ShortcutMenuWork ShortcutMenuWork;
 typedef struct ShortcutSave ShortcutSave;
+typedef struct SolarPowerWork SolarPowerWork;
 typedef struct SpeedBoostWork SpeedBoostWork;
 typedef struct StadiumTrainerEntry StadiumTrainerEntry;
 typedef struct StatDropGuardMessageWork StatDropGuardMessageWork;
@@ -275,5 +278,6 @@ typedef struct ZoneNPC ZoneNPC;
 typedef struct ZoneSpawnInfo ZoneSpawnInfo;
 typedef struct ZoneWarp ZoneWarp;
 typedef struct ZoneWarpGridPosition ZoneWarpGridPosition;
+typedef struct ZoneWarpRailPosition ZoneWarpRailPosition;
 
 #endif // POKEBW2_STRUCT_DECLS_H

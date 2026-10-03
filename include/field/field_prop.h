@@ -57,7 +57,7 @@ struct FieldPropSystem {
     void *textureResource;
     u8 unk244[4];
     void *resInstances;
-    u8 unk24c[0x1c];
+    FieldPropHandle *handles[7];
     FieldChunkPropHolder chunkPropHolders[0x120];
 };
 
@@ -110,6 +110,7 @@ void FieldPropResInstance_Free(void *instance);
 void FieldPropResInstance_Init(FieldPropSystem *system, void *instance, void *resInfo);
 void FieldPropSystem_DeleteHandle(FieldPropSystem *system, FieldPropHandle *handle);
 void FieldPropSystem_RegistHandle(FieldPropSystem *system, FieldPropHandle *handle);
+u16 FieldPropSystem_GetHandleID(FieldPropSystem *system, FieldPropHandle *handle);
 void FieldChunkPropHolder_Release(FieldPropSystem *system, FieldChunkPropHolder *holder);
 void FieldPropSystem_ReleaseChunkPropHolders(FieldPropSystem *system, void *chunk);
 void FieldPropSystem_ReleaseChunkPropHolder(FieldPropSystem *system, FieldChunkPropHolder *holder);

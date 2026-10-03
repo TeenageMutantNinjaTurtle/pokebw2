@@ -205,5 +205,27 @@ const BattleEventHandlerEntry *EventAddIceBody(u32 *priority);
 void HandlerRainDish(void *context, BtlServerFlow *flow, u32 monId);
 const BattleEventHandlerEntry *EventAddRainDish(u32 *priority);
 void CommonWeatherRecoveryAbility(BtlServerFlow *flow, u32 monId, u32 weather);
+extern const BattleEventHandlerEntry data_ov167_021d79b4[];
+void HandlerSolarPowerWeather(void *context, BtlServerFlow *flow, u32 monId);
+void HandlerSolarPowerPower(void *context, BtlServerFlow *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddSolarPower(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d7d70[];
+BOOL func_ov167_021cde38(u32 monId);
+void HandlerShieldDustStatus(void *context, void *flow, u32 monId);
+void HandlerShieldDustRank(void *context, void *flow, u32 monId);
+void HandlerShieldDustShrink(void *context, void *flow, u32 monId);
+void HandlerShieldDustGuard(void *context, void *flow, u32 monId);
+void HandlerShieldDustGuardHitEnd(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddShieldDust(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d7b0c[];
+void HandlerSereneGrace(void *context, void *flow, u32 monId);
+void HandlerSereneGraceShrink(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddSereneGrace(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d762c[];
+void HandlerHydration(void *context, BtlServerFlow *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddHydration(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d78fc[];
+void HandlerShedSkin(void *context, BtlServerFlow *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddShedSkin(u32 *priority);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H
