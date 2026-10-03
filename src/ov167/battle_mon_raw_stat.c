@@ -1,4 +1,21 @@
+#include "battle/btl_field.h"
 #include "battle/btl_pokeparam.h"
+
+u32 func_ov167_021bb07c(BattleMon *mon, u32 stat) {
+    switch (stat) {
+    case 9:
+        if (IsFieldEffectActive(6)) {
+            stat = 11;
+        }
+        break;
+    case 11:
+        if (IsFieldEffectActive(6)) {
+            stat = 9;
+        }
+        break;
+    }
+    return stat;
+}
 
 // Function name from swan.
 u32 RawBattleMonStat(BattleMon *mon, u32 stat) {

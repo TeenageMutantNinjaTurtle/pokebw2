@@ -254,11 +254,11 @@ src/ov167/battle_mon_type_check.c:
 
 src/ov167/battle_mon_illusion_disguise.c:
     complete
-    .text       start:0x021bb048 end:0x021bb054
+    .text       start:0x021bb048 end:0x021bb07c
 
 src/ov167/battle_mon_raw_stat.c:
     complete
-    .text       start:0x021bb0a8 end:0x021bb10c
+    .text       start:0x021bb07c end:0x021bb10c
 
 src/ov167/battle_stat_change_valid.c:
     complete

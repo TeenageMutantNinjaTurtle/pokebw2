@@ -36,9 +36,9 @@ src/ov012/field_script_env_save.c:
     complete
     .text       start:0x021555cc end:0x021555f8
 
-src/ov012/field_script_cmd_game_version.c:
+src/ov012/field_script_cmd_system.c:
     complete
-    .text       start:0x021555f8 end:0x02155608
+    .text       start:0x021555f8 end:0x02155664
 
 src/ov012/field_script_cmd_random_text.c:
     complete

@@ -176,6 +176,8 @@ BOOL s000F_VMStackDiv(VM *vm, FieldScriptEnv *env);
 BOOL s0010_VMStackPushFlag(VM *vm, FieldScriptEnv *env);
 BOOL s00CD_RTCGetDayPart(VM *vm, FieldScriptEnv *env);
 BOOL s00CB_Random(VM *vm, FieldScriptEnv *env);
+BOOL func_ov012_02155608(VM *vm, FieldScriptEnv *env);
+BOOL func_ov012_02155638(VM *vm, FieldScriptEnv *env);
 BOOL s00CC_RTGetTextFile(VM *vm, FieldScriptEnv *env);
 BOOL s00CF_RTCGetWeekDay(VM *vm, FieldScriptEnv *env);
 BOOL s00D0_RTCGetDate(VM *vm, FieldScriptEnv *env);
