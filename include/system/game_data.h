@@ -127,4 +127,6 @@ void SetScrPluginNo(GameData *gameData, u32 pluginNo);
 u32 func_02039978(u32 *a0, u32 index);
 void func_02039980(u32 *a0, u32 index, u32 value);
 
+void SetNowWeather(GameData *gameData, u8 weather);
+
 #endif // POKEBW2_SYSTEM_GAME_DATA_H
