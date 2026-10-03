@@ -38,8 +38,8 @@ typedef struct {
     HiddenCheckFunc check;
 } HiddenEventSpec;
 
-extern const HiddenEventSpec HIDEN_EVENTS_NORMAL[];
-extern const HiddenEventSpec HIDEN_EVENTS_RUINS[];
+extern const HiddenEventSpec HIDEN_EVENTS_NORMAL[11];
+extern const HiddenEventSpec HIDEN_EVENTS_RUINS[11];
 
 HiddenCheckFunc GetHidenEventCheckFunc(PlayerActionPossibilities *context, u32 kind);
 HiddenCtorFunc GetHidenEventCtorFunc(PlayerActionPossibilities *context, u32 kind);

@@ -16,6 +16,35 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 
+// The events of each hidden move, by its kind, and the same in the Abyssal Ruins, where Strength and Flash differ
+const HiddenEventSpec HIDEN_EVENTS_NORMAL[11] = {
+    { EventCutCall_Create, EventCutCall_Check },
+    { EventSurfCall_Create, EventSurfCall_Check },
+    { EventWaterfallCall_Create, EventWaterfallCall_Check },
+    { EventStrengthCall_Create, EventStrengthCall_Check },
+    { EventFly_Create, EventFly_Check },
+    { EventFlash_Create, EventFlash_Check },
+    { EventTeleportCall_Create, EventTeleportCall_Check },
+    { EventDigCall_Create, EventDigCall_Check },
+    { func_ov012_02159658, func_ov012_02159644 },
+    { func_ov012_02159998, func_ov012_02159984 },
+    { EventDivingCall_Create, EventDivingCall_Check },
+};
+
+const HiddenEventSpec HIDEN_EVENTS_RUINS[11] = {
+    { EventCutCall_Create, EventCutCall_Check },
+    { EventSurfCall_Create, EventSurfCall_Check },
+    { EventWaterfallCall_Create, EventWaterfallCall_Check },
+    { EventRuinsStrengthCall_Create, EventStrengthCall_Check },
+    { EventFly_Create, EventFly_Check },
+    { EventRuinsFlash_Create, EventFlash_Check },
+    { EventTeleportCall_Create, EventTeleportCall_Check },
+    { EventDigCall_Create, EventDigCall_Check },
+    { func_ov012_02159658, func_ov012_02159644 },
+    { func_ov012_02159998, func_ov012_02159984 },
+    { EventDivingCall_Create, EventDivingCall_Check },
+};
+
 u32 CheckAllowHidenEvent(u32 kind, PlayerActionPossibilities *context) {
     HiddenCheckFunc check = GetHidenEventCheckFunc(context, kind);
     if (check == NULL) {
