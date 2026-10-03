@@ -392,6 +392,14 @@ src/ov012/field_script_cmd_day_care_basic.c:
     complete
     .text       start:0x02157c20 end:0x02157c88
 
+src/ov012/field_script_cmd_day_care_queries.c:
+    complete
+    .text       start:0x02157d3c end:0x02157ed4
+
+src/ov012/field_script_cmd_day_care_name.c:
+    complete
+    .text       start:0x02157ed4 end:0x02157f20
+
 src/ov012/field_script_cmd_party_add_egg.c:
     complete
     .text       start:0x02157174 end:0x021572b0

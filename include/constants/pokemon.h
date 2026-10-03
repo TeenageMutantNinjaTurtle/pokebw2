@@ -24,6 +24,7 @@
 #define PKM_PARAM_IS_EGG 0x4c
 #define PKM_PARAM_RIBBON_G3_COOL 0x4d
 #define PKM_PARAM_FATEFUL_ENCOUNTER 0x6d
+#define PKM_PARAM_SEX 0x6e
 #define PKM_PARAM_FORM 0x6f
 // The nickname, copied to or from a StrBuf
 #define PKM_PARAM_NICKNAME 0x73

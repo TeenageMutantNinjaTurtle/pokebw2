@@ -44,6 +44,7 @@ FieldLensFlare *FieldLensFlare_Create(GameSystem *gameSystem, GameData *gameData
                                       u32 effectIndex, u32 dayPeriod, HeapID heapId);
 void FieldLensFlareData_Free(FieldLensFlareData *data);
 void FieldLensFlare_Free(FieldLensFlare *lensFlare);
+void FieldLensFlare_Update(FieldLensFlare *lensFlare, FieldCamera *camera);
 void FieldLensFlare_Load(FieldExpObjSystem *expObjSys, FieldLensFlareData *data, u16 effectId);
 void FieldLensFlare_CalcPos(FieldLensFlare *lensFlare, G3DCamera *camera);
 void FieldLensFlare_RequestStart(FieldLensFlare *lensFlare);

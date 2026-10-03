@@ -283,3 +283,7 @@ src/ov167/battle_handler_swap_poke.c:
 src/ov167/battle_handler_change_weather.c:
     complete
     .text       start:0x021ad464 end:0x021ad520
+
+src/ov167/battle_handler_gravity_check.c:
+    complete
+    .text       start:0x021ae14c end:0x021ae21c

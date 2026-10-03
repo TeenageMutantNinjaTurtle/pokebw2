@@ -43,5 +43,7 @@ void ServerControl_AfterMove(BattleHandler *handler, u8 clientId, u8 firstSlot, 
 BOOL ServerControl_ChangeWeatherCheck(BattleHandler *handler, u8 weather, u8 duration);
 void ServerControl_ChangeWeatherCore(BattleHandler *handler, u8 weather, u8 duration);
 void ServerEvent_NotifyAirLock(BattleHandler *handler);
+BOOL ServerEvent_CheckFloating(BattleHandler *handler, BattleMon *mon, u32 flag);
+void ServerControl_CureCondition(BattleHandler *handler, BattleMon *mon, u32 condition, u32 flag);
 
 #endif // POKEBW2_BATTLE_BTL_SERVER_FLOW_H

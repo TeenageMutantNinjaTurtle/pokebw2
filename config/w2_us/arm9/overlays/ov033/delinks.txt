@@ -234,3 +234,7 @@ src/ov033/funfest_script_misc.c:
 src/ov033/event_entralink_warp_return.c:
     complete
     .text       start:0x021773b0 end:0x02177448
+
+src/ov033/mystery_gift_dispatch.c:
+    complete
+    .text       start:0x02177f10 end:0x02177fe8

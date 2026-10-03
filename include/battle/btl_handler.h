@@ -82,6 +82,8 @@ BOOL BattleHandler_BatonPass(BattleHandler *handler, BattleHandlerBatonPassParam
 BOOL BattleHandler_IllusionBreak(BattleHandler *handler, BattleHandlerIllusionBreakParam *param);
 BOOL BattleHandler_SwapPoke(BattleHandler *handler, BattleHandlerSwapPokeParam *param);
 u8 BattleHandler_ChangeWeather(BattleHandler *handler, BattleHandlerChangeWeatherParam *param);
+BOOL BattleHandler_GravityCheck(BattleHandler *handler, BattleHandlerGravityCheckParam *param);
+u32 HandlerGetAlivePartyCount(BattleHandler *handler, u16 code, u8 *monIds);
 u8 func_ov167_021add78(void *state, u8 monIndex);
 u8 func_ov167_021ae0fc(void *state, u8 monIndex);
 
