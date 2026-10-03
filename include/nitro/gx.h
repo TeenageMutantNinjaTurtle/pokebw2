@@ -736,6 +736,27 @@ void gfxUploadBGChar3B(const void *src, u32 offset, u32 size);
 void gfxUploadStdPaletteBGA(const void *src, u32 offset, u32 size);
 void gfxUploadStdPaletteBGB(const void *src, u32 offset, u32 size);
 
+// NitroSDK's GX_LoadOBJPltt, GXS_LoadOBJPltt, GX_LoadOBJ and GXS_LoadOBJ
+void gfxUploadStdPaletteObjA(const void *src, u32 offset, u32 size);
+void gfxUploadStdPaletteObjB(const void *src, u32 offset, u32 size);
+void gfxUploadObjCharA(const void *src, u32 offset, u32 size);
+void gfxUploadObjCharB(const void *src, u32 offset, u32 size);
+
+// NitroSDK's loads to extended palette VRAM: GX_BeginLoadBGExtPltt, GX_LoadBGExtPltt and GX_EndLoadBGExtPltt, and the
+// same for OBJ and for the sub engine
+void gfxBeginBGExtPltAUpload(void);
+void gfxUploadExtPaletteBGA(const void *src, u32 offset, u32 size);
+void gfxEndBGExtPltAUpload(void);
+void gfxBeginObjExtPltAUpload(void);
+void gfxUploadExtPaletteObjA(const void *src, u32 offset, u32 size);
+void gfxEndObjExtPltAUpload(void);
+void gfxBeginBGExtPltBUpload(void);
+void gfxUploadExtPaletteBGB(const void *src, u32 offset, u32 size);
+void gfxEndBGExtPltBUpload(void);
+void gfxBeginObjExtPltBUpload(void);
+void gfxUploadExtPaletteObjB(const void *src, u32 offset, u32 size);
+void gfxEndObjExtPltBUpload(void);
+
 // NitroSDK's G2_GetBG0CharPtr to G2S_GetBG3CharPtr
 void *gfxGetCharAddrBG0A(void);
 void *gfxGetCharAddrBG1A(void);

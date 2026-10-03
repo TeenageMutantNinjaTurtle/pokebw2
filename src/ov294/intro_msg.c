@@ -2,6 +2,7 @@
 #include "constants/arc.h"
 #include "constants/sound.h"
 #include "demo/intro.h"
+#include "gfl/arc_util.h"
 #include "gfl/bg_sys.h"
 #include "gfl/bmp.h"
 #include "gfl/bmp_menu.h"

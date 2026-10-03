@@ -6,6 +6,7 @@
 #include "constants/arc.h"
 #include "constants/species.h"
 #include "gfl/arc.h"
+#include "gfl/arc_util.h"
 #include "gfl/bg_sys.h"
 #include "gfl/bmp.h"
 #include "gfl/bmpwin.h"

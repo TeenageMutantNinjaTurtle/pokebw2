@@ -943,7 +943,7 @@ static void GFL_BGSysLoadQueuedScreens(void) {
     }
 }
 
-void GFL_BGSysQueueScrLoad(u32 bg) {
+void GFL_BGSysQueueScrLoad(u8 bg) {
     sBGSys->screenRequests |= 1 << bg;
 }
 

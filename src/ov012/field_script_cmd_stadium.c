@@ -3,6 +3,7 @@
 #include "field/stadium_script.h"
 #include "field/trainer_script.h"
 #include "gfl/arc.h"
+#include "gfl/arc_util.h"
 #include "gfl/heap.h"
 #include "system/game_data.h"
 #include "system/game_system.h"

@@ -1,5 +1,6 @@
 #include "types.h"
 #include "gfl/arc.h"
+#include "gfl/arc_util.h"
 #include "gfl/bmp.h"
 #include "gfl/graphics.h"
 #include "gfl/heap.h"

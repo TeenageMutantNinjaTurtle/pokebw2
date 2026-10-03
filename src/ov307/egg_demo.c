@@ -7,6 +7,7 @@
 #include "field/player_state.h"
 #include "field/zone.h"
 #include "gfl/arc.h"
+#include "gfl/arc_util.h"
 #include "gfl/bg_sys.h"
 #include "gfl/bmp.h"
 #include "gfl/bmp_menu.h"

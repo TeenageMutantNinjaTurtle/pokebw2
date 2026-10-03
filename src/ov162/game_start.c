@@ -5,6 +5,7 @@
 #include "constants/sound.h"
 #include "constants/species.h"
 #include "demo/intro.h"
+#include "gfl/arc_util.h"
 #include "gfl/bg_sys.h"
 #include "gfl/bmp.h"
 #include "gfl/bmpwin.h"

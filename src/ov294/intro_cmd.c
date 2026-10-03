@@ -4,6 +4,7 @@
 #include "demo/intro.h"
 #include "demo/intro_script.h"
 #include "gfl/arc.h"
+#include "gfl/arc_util.h"
 #include "gfl/bg_sys.h"
 #include "gfl/brightness.h"
 #include "gfl/clact.h"

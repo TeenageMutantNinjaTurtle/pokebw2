@@ -6020,16 +6020,16 @@ func_0205ff34 kind:function(thumb,size=0x84) addr:0x0205ff60
 func_0205ffb8 kind:function(thumb,size=0x30) addr:0x0205ffe4
 func_0205ffe8 kind:function(thumb,size=0x3c) addr:0x02060014
 func_02060024 kind:function(thumb,size=0x28) addr:0x02060050
-func_0206004c kind:function(thumb,size=0x8) addr:0x02060078
-func_02060054 kind:function(thumb,size=0x8) addr:0x02060080
+NNS_G2dGetUnpackedAnimBank kind:function(thumb,size=0x8) addr:0x02060078
+NNS_G2dGetUnpackedMCAnimBank kind:function(thumb,size=0x8) addr:0x02060080
 func_0206005c kind:function(thumb,size=0xb6) addr:0x02060088
 func_02060114 kind:function(thumb,size=0x12) addr:0x02060140
 func_02060128 kind:function(thumb,size=0x1a) addr:0x02060154
 func_02060144 kind:function(thumb,size=0xc) addr:0x02060170
-func_02060150 kind:function(thumb,size=0x28) addr:0x0206017c
+NNS_G2dGetUnpackedCellBank kind:function(thumb,size=0x28) addr:0x0206017c
 func_02060178 kind:function(thumb,size=0x20) addr:0x020601a4
 func_02060198 kind:function(thumb,size=0x54) addr:0x020601c4
-func_020601ec kind:function(thumb,size=0x28) addr:0x02060218
+NNS_G2dGetUnpackedMultiCellBank kind:function(thumb,size=0x28) addr:0x02060218
 func_02060214 kind:function(thumb,size=0xc) addr:0x02060240
 func_02060220 kind:function(thumb,size=0x42) addr:0x0206024c
 func_02060264 kind:function(thumb,size=0x12) addr:0x02060290
@@ -6038,7 +6038,7 @@ NNS_G2DRelocateObjChar kind:function(thumb,size=0x8) addr:0x020602cc
 NNS_G2DPrepareBGChar kind:function(thumb,size=0x28) addr:0x020602d4
 NNS_G2DRelocateBGChar kind:function(thumb,size=0x8) addr:0x020602fc
 RelocatePaletteResGetDataPtr kind:function(thumb,size=0x28) addr:0x02060304
-func_02060300 kind:function(thumb,size=0x28) addr:0x0206032c
+NNS_G2dGetUnpackedPaletteCompressInfo kind:function(thumb,size=0x28) addr:0x0206032c
 func_02060328 kind:function(thumb,size=0x8) addr:0x02060354
 NNS_G2DRelocatePLTTHeader kind:function(thumb,size=0x8) addr:0x0206035c
 NNS_G2DPrepareScreen kind:function(thumb,size=0x20) addr:0x02060364
@@ -8102,6 +8102,7 @@ DEFAULT_CAMERA_PROJECTION kind:data(any) addr:0x02093df4
 DEFAULT_LOOKAT kind:data(any) addr:0x02093e14
 obj_char_lut kind:data(any) addr:0x02093e48
 pltt_type_lut kind:data(any) addr:0x02093e50
+data_02093e70 kind:data(any) addr:0x02093e70
 data_02093e48 kind:data(any) addr:0x02093e74
 data_02093e4c kind:data(any) addr:0x02093e78
 data_02093e54 kind:data(any) addr:0x02093e80

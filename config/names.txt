@@ -79,6 +79,11 @@
 . 0x02048700 GFL_StrBufConcat
 . 0x02048aac GFL_MsgDataLoadHeader
 . 0x02048b78 GFL_MsgDataSetDefaultLangID
+. 0x0206004c NNS_G2dGetUnpackedAnimBank
+. 0x02060054 NNS_G2dGetUnpackedMCAnimBank
+. 0x02060150 NNS_G2dGetUnpackedCellBank
+. 0x020601ec NNS_G2dGetUnpackedMultiCellBank
+. 0x02060300 NNS_G2dGetUnpackedPaletteCompressInfo
 . 0x02060618 NNS_G2dSetAnimCtrlCallBackFunctor
 . 0x020658a4 NNS_G3dGlbSetBaseTrans
 . 0x020658c8 NNS_G3dGlbSetBaseScale

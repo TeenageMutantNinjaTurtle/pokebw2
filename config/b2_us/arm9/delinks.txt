@@ -51,3 +51,9 @@ src/main/arc_tool.c:
     .text       start:0x0204a7a4 end:0x0204ad88
     .data       start:0x0209af30 end:0x0209af84
     .bss        start:0x02141930 end:0x0214193c
+
+src/main/arc_util.c:
+    complete
+    .text       start:0x0204ad88 end:0x0204b6a8
+    .rodata     start:0x02093e1c end:0x02093e44
+    .data       start:0x0209af84 end:0x0209af90

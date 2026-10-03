@@ -3,6 +3,7 @@
 #include "field/field_map.h"
 #include "field/zone.h"
 #include "gfl/arc.h"
+#include "gfl/arc_util.h"
 #include "gfl/g3d.h"
 #include "gfl/heap.h"
 #include "nitro/fx.h"

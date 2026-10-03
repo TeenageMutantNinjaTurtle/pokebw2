@@ -125,7 +125,7 @@ void GFL_BGSysScaleBGReq(u8 bg, u32 op, fx32 value);
 void GFL_BGSysAdjustBGOriginReq(u8 bg, u32 op, int value);
 // Loads a BG's screen buffer to VRAM now, or at the next update
 void GFL_BGSysLoadScr(u8 bg);
-void GFL_BGSysQueueScrLoad(u32 bg);
+void GFL_BGSysQueueScrLoad(u8 bg);
 // Loads a screen to VRAM at offset map entries. A size of 0 means the data is compressed, and then it goes through
 // the BG's screen buffer if it has one
 void GFL_BGSysLoadScrCore(u8 bg, const void *src, u32 size, u32 offset);
