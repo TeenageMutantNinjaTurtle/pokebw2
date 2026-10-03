@@ -75,6 +75,7 @@ u32 GetOutTransitionTypeBetweenZones(u16 fromZone, u16 toZone);
 u32 GetRespawnLocationIndexForRespawnZone(s32 zoneId);
 u16 GetRespawnZoneMainZone(u16 index);
 u32 GetLeaguePokeCenReturnLocationIdx(void);
+BOOL IsReturnLocationNonLeaguePokeCen(GameData *gameData);
 BOOL RangeCheckTeleportZone(s32 index);
 u32 GetActualRespawnZoneIdx(u32 index);
 void CreateRespawnZoneChangeData(ZoneSpawnInfo *spawn, u16 zoneId, u32 unused, u16 x, u16 z);

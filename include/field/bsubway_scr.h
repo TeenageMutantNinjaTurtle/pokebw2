@@ -123,6 +123,7 @@ u16 func_ov033_0217bcb4(BSubwayScoreData *score, GameSystem *gsys, u32 a2);
 void func_ov033_0217bd34(BSubwayScrWork *bsw);
 PokeParty *func_ov033_0217bd60(BSubwayScrWork *bsw);
 BOOL func_ov033_0217bdf4(const u16 *list, u16 value, u16 count);
+u16 func_ov033_0217be1c(s32 value);
 u16 func_ov033_0217bd84(BSubwayScrWork *bsw);
 void func_ov033_0217bd8c(BSubwayScrWork *bsw);
 void func_ov033_0217bd88(BSubwayScrWork *bsw, u32 score);

@@ -399,3 +399,7 @@ src/ov167/battle_mon_condition_count.c:
 src/ov167/battle_mon_cure_condition.c:
     complete
     .text       start:0x021bb9f0 end:0x021bba64
+
+src/ov167/battle_mon_set_move_condition.c:
+    complete
+    .text       start:0x021bb834 end:0x021bb864

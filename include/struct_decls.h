@@ -55,6 +55,7 @@ typedef struct BattleHandlerSwapPokeParam BattleHandlerSwapPokeParam;
 typedef struct BattleHandlerTransformParam BattleHandlerTransformParam;
 typedef struct BattleHandlerSetCounterParam BattleHandlerSetCounterParam;
 typedef struct BattleHandlerString BattleHandlerString;
+typedef struct BattleLoseData BattleLoseData;
 typedef struct BattleMon BattleMon;
 typedef struct BattleMoveEffectState BattleMoveEffectState;
 typedef struct BattleMoveCore BattleMoveCore;

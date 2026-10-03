@@ -133,6 +133,7 @@ BOOL AreStatsLowered(BattleMon *mon);
 u32 func_ov167_021bb408(BattleMon *mon);
 BattleCondition ZeroConditionTurns(void);
 BOOL IsBasicStatus(u32 condition);
+void SetMoveCondition(BattleMon *mon, u32 condition, BattleCondition value);
 void CureCondition(BattleMon *mon);
 void CureDependentCondition(BattleMon *mon, u32 condition);
 void CureMoveCondition(BattleMon *mon, u32 condition);

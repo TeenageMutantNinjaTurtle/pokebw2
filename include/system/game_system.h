@@ -34,6 +34,7 @@ void GSYS_QueueProc(GameSystem *gsys, s32 overlayId, const GameProcFunctions *fu
 void GSYS_QueueProcAsEvent(GameEvent *event, s32 overlayId, const GameProcFunctions *functions, void *param);
 BOOL GSYS_TryBootGameComm(GameSystem *gsys);
 void func_02016b0c(GameSystem *gsys, u32 a1);
+void func_02016b24(GameSystem *gsys, u32 value);
 void func_02016b40(GameSystem *gsys, u32 value);
 void GameSystemTimer_Start(void);
 ISS *GameSystem_GetISS(GameSystem *gsys);
