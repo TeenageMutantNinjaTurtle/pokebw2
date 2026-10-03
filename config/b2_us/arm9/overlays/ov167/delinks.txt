@@ -544,17 +544,9 @@ src/ov167/battle_ability_immunity_guards.c:
     complete
     .text       start:0x021c041c end:0x021c0554
 
-src/ov167/battle_ability_truant_state.c:
+src/ov167/battle_ability_truant.c:
     complete
-    .text       start:0x021c0554 end:0x021c05ac
-
-src/ov167/battle_ability_truant_end.c:
-    complete
-    .text       start:0x021c0600 end:0x021c062c
-
-src/ov167/battle_ability_damp_cleanup.c:
-    complete
-    .text       start:0x021c06d4 end:0x021c070c
+    .text       start:0x021c0554 end:0x021c062c
 
 src/ov167/battle_ability_mold_breaker_events.c:
     complete
@@ -564,9 +556,9 @@ src/ov167/battle_ability_forecast.c:
     complete
     .text       start:0x021c0a7c end:0x021c0c38
 
-src/ov167/battle_ability_damp_activation.c:
+src/ov167/battle_ability_damp.c:
     complete
-    .text       start:0x021c062c end:0x021c06cc
+    .text       start:0x021c062c end:0x021c070c
 
 src/ov167/battle_ability_flash_fire.c:
     complete

@@ -297,6 +297,7 @@ const BattleEventHandlerEntry *EventAddLevitate(u32 *priority);
 extern const BattleEventHandlerEntry data_ov167_021d7c18[];
 void HandlerTruant(void *context, BtlServerFlow *flow, u32 monId, u32 *state);
 void HandlerTruantGet(void *context, BtlServerFlow *flow, u32 monId, u32 *result);
+void HandlerTruantFailed(void *context, BtlServerFlow *flow, u32 monId, u32 *state);
 void HandlerTruantEndAction(void *context, BtlServerFlow *flow, u32 monId, u32 *result);
 const BattleEventHandlerEntry *EventAddTruant(u32 *priority);
 extern const BattleEventHandlerEntry data_ov167_021d7ca8[];
@@ -315,6 +316,7 @@ void HandlerForecastChangeAbility(BattleEventItem *item, BtlServerFlow *flow, u3
 void HandlerDampEnd(BattleEventItem *item, BtlServerFlow *flow, u32 monId);
 BOOL HandlerDampSkipCheck(void *a, void *b, u32 c, void *d, u16 move);
 void HandlerDampStart(BattleEventItem *item, BtlServerFlow *flow, u32 monId);
+void func_ov167_021c06cc(BattleEventItem *item);
 void HandlerDamp(void *context, BtlServerFlow *flow, u32 monId, u32 *state);
 void HandlerDampEffective(void *context, BtlServerFlow *flow, u32 monId, u32 *state);
 extern const BattleEventHandlerEntry data_ov167_021d7c58[];

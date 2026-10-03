@@ -46,7 +46,7 @@ src/ov033/field_surf.c:
 
 src/ov033/trial_house_work_create.c:
     complete
-    .text       start:0x0217ac70 end:0x0217acd4
+    .text       start:0x0217ac70 end:0x0217ad4c
 
 src/ov033/trial_house_work_delete.c:
     complete
@@ -97,7 +97,11 @@ src/ov033/event_game_manual.c:
 
 src/ov033/trial_house_prepare.c:
     complete
-    .text       start:0x0217adbc end:0x0217ae5c
+    .text       start:0x0217adbc end:0x0217aed0
+
+src/ov033/bsubway_scr_begin.c:
+    complete
+    .text       start:0x0217b468 end:0x0217b478
 
 src/ov033/bsubway_scr_progress.c:
     complete
@@ -157,7 +161,7 @@ src/ov033/trial_event.c:
 
 src/ov033/trial_effect.c:
     complete
-    .text       start:0x0217b2e4 end:0x0217b478
+    .text       start:0x0217b2e4 end:0x0217b468
 
 src/ov033/subway_work.c:
     complete
@@ -165,11 +169,7 @@ src/ov033/subway_work.c:
 
 src/ov033/subway_score.c:
     complete
-    .text       start:0x0217bca0 end:0x0217bda8
-
-src/ov033/subway_progress.c:
-    complete
-    .text       start:0x0217bdc0 end:0x0217be88
+    .text       start:0x0217bca0 end:0x0217be88
 
 src/ov033/subway_setup.c:
     complete

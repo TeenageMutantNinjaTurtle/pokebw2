@@ -132,7 +132,7 @@ src/ov036/field_palace.c:
 
 src/ov036/field_prop_handle.c:
     complete
-    .text       start:0x0218409c end:0x02184240
+    .text       start:0x0218409c end:0x02184260
 
 src/ov036/field_medal.c:
     complete

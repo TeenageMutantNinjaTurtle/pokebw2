@@ -1,6 +1,7 @@
 #include "field/field_prop.h"
 #include "gfl/g3d.h"
 #include "gfl/heap.h"
+#include "gfl/sound.h"
 
 FieldPropHandle *FieldPropSystem_CreateHandleAtPos(FieldPropSystem *system, u32 propId, const VecFx32 *position) {
     FieldChunkPropHolder *holder;
@@ -115,4 +116,13 @@ BOOL FieldPropHandle_GetAnimSoundID(FieldPropHandle *handle, u16 *soundId) {
         return FALSE;
     }
     return FieldPropHandle_GetAnimSoundIDCore(handle, handle->animation, soundId);
+}
+
+BOOL FieldPropHandle_IsAnimSoundFinished(FieldPropHandle *handle) {
+    u16 soundId;
+
+    if (FieldPropHandle_GetAnimSoundID(handle, &soundId) == FALSE) {
+        return FALSE;
+    }
+    return GFL_SndPlayerIsActive(GFL_SndSeqGetPlayerIndex(soundId));
 }

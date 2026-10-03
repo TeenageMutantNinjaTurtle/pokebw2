@@ -311,13 +311,9 @@ src/ov012/event_data_warp.c:
     complete
     .text       start:0x0215cf34 end:0x0215d050
 
-src/ov012/zone_warp_out.c:
-    complete
-    .text       start:0x0215d5f0 end:0x0215d770
-
 src/ov012/zone_position.c:
     complete
-    .text       start:0x0215d7d4 end:0x0215dabc
+    .text       start:0x0215d5f0 end:0x0215dabc
 
 
 src/ov012/field_script_battle.c:

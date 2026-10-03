@@ -38,9 +38,15 @@ Overlay 33 embeds the original names `fld_trade.c`, `trial_house.c`, and
 `bsubway_scr.c`. Its current trade, Trial House, and Battle Subway source
 fragments are separate complete delink ranges around functions still linked
 from assembly. A range without `complete` links its original assembly as a
-whole, even if some functions in the corresponding C file match. As the gaps
-are translated, combine adjacent fragments within their original process and
-keep trade, Trial House, and Battle Subway separate.
+whole, even if some functions in the corresponding C file match. dsd rejects
+a second `.text` range under one source entry (`Section '.text' already
+exists`); repeating the same source path produces the same object twice.
+Therefore, separately linked C fragments across an assembly gap can only be
+combined after the intervening function matches. As the gaps are translated,
+combine adjacent fragments within their original process and keep trade,
+Trial House, and Battle Subway separate. The helper at `0x0217b468` operates
+on Battle Subway state and begins that process, even though the `bsubway_scr.c`
+filename string is first referenced by the following function.
 
 The follow-up review found mixed process code in overlay 12's menu, event
 data, and zone/Pokédex sources; overlay 103's badge gate sources; and three
@@ -49,3 +55,9 @@ Overlay 33's final Battle Subway helper and trade debug stub and overlay 36's
 prop-holder release now sit with adjacent helpers from the same feature.
 File-private work layouts in overlays 103, 104, and 146 were moved to their
 owning C files. These changes were checked against both original ROMs.
+Later matches closed gaps in overlay 12's zone positioning, overlay 33's Trial
+House setup and Battle Subway score handling, overlay 36's prop sound check,
+and overlay 167's Damp and Truant handlers. Their newly continuous ranges
+were combined within their owning features. Attempted translations for
+remaining assembly gaps are tracked in
+[nonmatching-functions.md](nonmatching-functions.md).
