@@ -46,3 +46,7 @@ src/ov103/badge_gate_init.c:
 src/ov103/badge_gate_free_scene3.c:
     complete
     .text       start:0x021ef7c8 end:0x021ef7d4
+
+src/ov103/badge_gate_check.c:
+    complete
+    .text       start:0x021ef0a8 end:0x021ef1c8

@@ -1,13 +1,6 @@
 #include "field/badge_gate.h"
 #include "field/field_exp_obj.h"
 
-typedef struct BadgeGateAnimationEntry {
-    u32 scene;
-    u32 actor;
-    u32 unk08;
-    FieldExpObjSystem *expObj;
-} BadgeGateAnimationEntry;
-
 typedef FieldExpObjAnm *(*BadgeGateAnmInfoGetter)(FieldExpObjSystem *, u16, u16, u32);
 
 void func_ov103_021ef1dc(void *data, u32 anim, u32 paused) {

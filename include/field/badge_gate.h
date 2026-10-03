@@ -19,6 +19,13 @@ struct BadgeGateWork {
     u32 last;
 };
 
+struct BadgeGateAnimationEntry {
+    u32 scene;
+    u32 actor;
+    u32 unk08;
+    FieldExpObjSystem *expObj;
+};
+
 struct BadgeGateCheckEventData {
     BadgeGateWork *gimmickWork;
     u16 badge;

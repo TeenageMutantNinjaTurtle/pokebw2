@@ -11,6 +11,7 @@ typedef struct ActionOrderEntry ActionOrderEntry;
 typedef struct ArcTool ArcTool;
 typedef struct AreaData AreaData;
 typedef struct BagSave BagSave;
+typedef struct BadgeGateAnimationEntry BadgeGateAnimationEntry;
 typedef struct BadgeGateCheckEventData BadgeGateCheckEventData;
 typedef struct BadgeGateLastEventData BadgeGateLastEventData;
 typedef struct BadgeGateWork BadgeGateWork;

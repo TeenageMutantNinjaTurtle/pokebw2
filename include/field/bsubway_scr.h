@@ -51,7 +51,9 @@ struct BSubwayScrWork {
     GameData *gameData;
     BSubwayPlayData *unk70;
     BSubwayScoreData *unk74;
-    u8 unk78[0x5b0];
+    u8 unk78[0x10];
+    u8 unk88[0x240];
+    u8 unk2C8[0x360];
     u8 unk628[0x3c];
     u8 unk664[0x4a];
     u8 unk6AE[0x46];
@@ -133,6 +135,7 @@ void func_ov033_0217bda0(BSubwayScrWork *bsw);
 u16 func_ov033_0217bdc0(u16 mode);
 void func_ov033_0217be88(BSubwayScrWork *bsw, u8 a1);
 void *func_ov033_0217c110(BSubwayScrWork *bsw);
+BtlSetup *func_ov033_0217c094(BSubwayScrWork *bsw, GameSystem *gsys);
 void *func_ov033_0217c264(BSubwayScrWork *bsw, void *param, u16 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 u16 func_ov033_0217c288(u32 value);
 

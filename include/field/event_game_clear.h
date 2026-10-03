@@ -23,8 +23,8 @@ struct GameClearWork {
     u32 unk38;
     GameData *unk3C;
     u32 unk40;
-    void *current;
-    void *states[31];
+    u32 current;
+    u32 states[31];
     u32 unkC4;
 };
 

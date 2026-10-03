@@ -407,3 +407,19 @@ src/ov167/battle_mon_set_move_condition.c:
 src/ov167/battle_mon_hp_basic.c:
     complete
     .text       start:0x021bb7e4 end:0x021bb800
+
+src/ov167/battle_mon_change_type_ability.c:
+    complete
+    .text       start:0x021bbef0 end:0x021bbf18
+
+src/ov167/battle_mon_consumed_item.c:
+    complete
+    .text       start:0x021bbf70 end:0x021bbf84
+
+src/ov167/battle_mon_move_history_primary.c:
+    complete
+    .text       start:0x021bbfdc end:0x021bbff0
+
+src/ov167/battle_mon_move_history_target.c:
+    complete
+    .text       start:0x021bbff8 end:0x021bc010
