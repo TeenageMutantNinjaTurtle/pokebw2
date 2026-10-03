@@ -146,3 +146,7 @@ src/ov033/entree_forest_spawn_all.c:
 src/ov033/event_entree_warp_allowed.c:
     complete
     .text       start:0x02177448 end:0x021775b4
+
+src/ov033/funfest_mission_event_create.c:
+    complete
+    .text       start:0x02176dc8 end:0x02176ddc

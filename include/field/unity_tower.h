@@ -12,6 +12,7 @@ void *UnityTower_GetVisitor(UnityTowerSurveySave *save, u32 index);
 u32 UnityTowerVisitor_GetProvince(void *visitor);
 u32 UnityTower_GetVisitorParam(UnityTowerSurveySave *save, u32 index, u32 param);
 u32 getPlayerSurveys(UnityTowerSurveySave *save);
+void setPlayerSurveys(UnityTowerSurveySave *save, u32 hobby);
 BOOL CountryHasProvinces(u32 country);
 
 void LoadUnityTowerVisitorWordSet(WordSet *wordSet, GameData *gameData, u32 index);

@@ -27,6 +27,7 @@ These source files lack `complete` in both versions' `delinks.txt`. `compiler_pr
 | 167 | `GetSideFromMonID` | `0x0219d31c` / `0x0219d35c` | A direct C translation has the original `0x10` byte size, but its branch layout differs. The adjacent `IsAllyMonID` and `GetSideFromOpposingMonID` now match in C; this function remains in assembly. |
 | 167 | `ActionOrder_SearchByMoveID` | `0x021a0544` / `0x021a0584` | A typed entry array loop compiles to `0x4c` bytes versus the original `0x68` because CodeWarrior stages the stack and loop address differently. The attempt remains in assembly. |
 | 167 | `BattleHandler_AbilityPopupAdd` | `0x021ac7fc` / `0x021ac83c` | The C source matches both standalone compiler probes, but linking it causes a duplicate ARM/Thumb cross-overlay thunk at `0x021ac84c` and changes overlay 167. The original assembly remains linked; `BattleHandler_AbilityPopupRemove` matches when linked separately. |
+| 167 | `BattleHandler_EffectAtPos` | `0x021ae214` / `0x021ae254` | The current unlinked translation has the original `0x3c` byte size, but ten instruction bytes differ because CodeWarrior loads and stores call arguments in a different order before `ServerControl_ViewEffect`. |
 
 ## Keeping this list current
 

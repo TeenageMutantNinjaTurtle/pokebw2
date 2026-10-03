@@ -195,3 +195,15 @@ src/ov167/battle_server_display_popup.c:
 src/ov167/battle_handler_popup_remove.c:
     complete
     .text       start:0x021ac88c end:0x021ac8ac
+
+src/ov167/battle_handler_hide_turn_cancel.c:
+    complete
+    .text       start:0x021ae21c end:0x021ae254
+
+src/ov167/battle_handler_remove_message_window.c:
+    complete
+    .text       start:0x021ae290 end:0x021ae2a0
+
+src/ov167/battle_handler_change_form.c:
+    complete
+    .text       start:0x021ae2a0 end:0x021ae31c

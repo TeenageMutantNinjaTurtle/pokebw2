@@ -19,5 +19,6 @@ u16 func_ov167_021abd08(BtlServerFlow *serverFlow, BattleMon *mon, BOOL a2);
 u32 func_ov167_021abd10(BtlServerFlow *serverFlow, BattleMon *mon, BOOL a2);
 u32 func_ov167_021abe10(BtlServerFlow *serverFlow, u8 pos, u32 sideEffect);
 BOOL func_ov167_021abe34(BtlServerFlow *serverFlow, u8 pos, u32 a2);
+BOOL ServerControl_HideTurnCancel(BattleHandler *handler, BattleMon *mon, u32 flag);
 
 #endif // POKEBW2_BATTLE_BTL_SERVER_FLOW_H

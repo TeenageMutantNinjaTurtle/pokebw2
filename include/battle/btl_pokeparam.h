@@ -75,6 +75,8 @@ u8 GetMovePP(BattleMon *mon, u8 index);
 PokeTypePair GetPokeType(BattleMon *mon);
 u16 GetPreviousMoveID(BattleMon *mon);
 BOOL IsFainted(BattleMon *mon);
+BOOL TransformCheck(BattleMon *mon);
+void ChangeForm(BattleMon *mon, u8 form);
 void func_ov167_021bb7c0(BattleMon *mon, u32 flag);
 void func_ov167_021bb7e4(BattleMon *mon, u32 flag);
 void func_ov167_021bb808(BattleMon *mon, u32 flag);
