@@ -63,7 +63,7 @@ struct BSubwayScrWork {
     PlayerInfo partner;
     u8 unk74C[0x58];
     BSubwayOv174Param ov174Param;
-    u8 unk7CC[4];
+    void *allocatedBuffer;
     BtlSetup *btlSetup;
     BSubwayOv306Param ov306Param;
     u16 unk7EC;

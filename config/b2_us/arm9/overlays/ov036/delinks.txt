@@ -188,3 +188,7 @@ src/ov036/field_medal_actor.c:
 src/ov036/field_medal_actor_uid.c:
     complete
     .text       start:0x021c7f64 end:0x021c7fb0
+
+src/ov036/field_pokemon_form.c:
+    complete
+    .text       start:0x021c9e04 end:0x021c9eb8

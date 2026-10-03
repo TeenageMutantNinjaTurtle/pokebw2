@@ -289,4 +289,12 @@ src/ov033/trial_house_save_flags.c:
 
 src/ov033/trial_house_effect_callback.c:
     complete
-    .text       start:0x0217b3ec end:0x0217b4b8
+    .text       start:0x0217b3ec end:0x0217b4a8
+
+src/ov033/bsubway_scr_begin.c:
+    complete
+    .text       start:0x0217b4a8 end:0x0217b4b8
+
+src/ov033/bsubway_scr_delete.c:
+    complete
+    .text       start:0x0217b6a4 end:0x0217b6f4

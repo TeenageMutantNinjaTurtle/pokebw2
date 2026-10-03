@@ -452,6 +452,14 @@ src/ov012/hidden_event_context.c:
     complete
     .text       start:0x02159b40 end:0x02159b70
 
+src/ov012/field_script_network_callback.c:
+    complete
+    .text       start:0x02159bc0 end:0x02159c20
+
+src/ov012/field_script_cmd_network.c:
+    complete
+    .text       start:0x02159c20 end:0x02159c80
+
 src/ov012/field_script_cmd_party_add_egg.c:
     complete
     .text       start:0x02157174 end:0x021572b0

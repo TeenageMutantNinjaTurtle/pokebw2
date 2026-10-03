@@ -111,5 +111,14 @@ void MoveCore_UpdateNumber(BattleMoveCore *core, u16 move, u8 maxPP);
 void func_ov167_021ba9cc(void *moveWork);
 void ClearUsedMoveFlag(BattleMon *mon);
 void ClearCounter(BattleMon *mon);
+void setupBySrcData(BattleMon *mon, void *src, u32 value, u32 flag);
+void MoveWork_ClearSurface(BattleMon *mon);
+void ClearFormChange(BattleMon *mon);
+void ResetStatStages(u8 *stages);
+BOOL Move_IsPPFull(BattleMon *mon, u8 index, BOOL current);
+u16 Move_IncrementPP(BattleMon *mon, u8 index, u8 amount);
+u16 Move_IncrementPP_Org(BattleMon *mon, u8 index, u8 amount);
+void Move_UpdateID(BattleMon *mon, u8 index, u16 move, u8 maxPP, BOOL updateCurrent);
+BOOL MoveIsUsable(BattleMon *mon, u16 move);
 
 #endif // POKEBW2_BATTLE_BTL_POKEPARAM_H

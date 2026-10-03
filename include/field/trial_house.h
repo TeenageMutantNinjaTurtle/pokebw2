@@ -74,6 +74,5 @@ u32 func_ov033_0217b2e4(u32 unused, TrialHouseWork *work);
 GameEvent *func_ov033_0217b2ec(GameSystem *gsys, u32 unused, u32 mode);
 u32 func_ov033_0217b32c(GameSystem *gsys);
 GameEventReturnCode func_ov033_0217b3ac(GameEvent *event, u32 *state, void *data);
-void func_ov033_0217b468(GameSystem *gsys);
 
 #endif // POKEBW2_FIELD_TRIAL_HOUSE_H
