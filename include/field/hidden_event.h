@@ -5,6 +5,13 @@
 #include "struct_decls.h"
 #include "system/game_event.h"
 
+struct HiddenArea {
+    u16 x;
+    u16 z;
+    u16 width;
+    u16 height;
+};
+
 struct HiddenEventArgs {
     u16 x;
     u16 z;
@@ -48,6 +55,7 @@ void func_ov012_02159418(HiddenEventArgs *args, u16 x, u16 z, GameSystem *gsys);
 GameEvent *CreateHidenEvent(u32 kind, GameSystem *gsys, HiddenEventContext *context);
 BOOL func_ov012_02159440(HiddenEventContext *context);
 u32 func_ov012_02159b5c(HiddenEventContext *context, u32 value);
+BOOL func_ov012_02159b70(const HiddenArea *area, u16 x, u16 z, u16 flag, Field *field);
 void func_ov012_02159b40(HiddenEventData *data, HiddenEventArgs *param, HiddenEventContext *context);
 void func_ov012_0216002c(u32 value);
 BOOL EventCutCall_Check(HiddenEventContext *context);

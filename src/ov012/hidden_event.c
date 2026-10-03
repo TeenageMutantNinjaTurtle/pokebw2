@@ -8,6 +8,7 @@
 #include "field/field_status.h"
 #include "field/skill_map_effect.h"
 #include "field/zone.h"
+#include "save/event_work.h"
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
@@ -482,4 +483,33 @@ u32 func_ov012_02159b5c(HiddenEventContext *context, u32 value) {
     u16 flags = context->flags;
     u32 mask = 1 << value;
     return (flags & mask) ? TRUE : FALSE;
+}
+
+BOOL func_ov012_02159b70(const HiddenArea *area, u16 x, u16 z, u16 flag, Field *field) {
+    GameSystem *gsys;
+    GameData *gameData;
+    EventWork *eventWork;
+    s32 dx;
+    s32 dz;
+
+    gsys = Field_GetGameSystem(field);
+    gameData = GSYS_GetGameData(gsys);
+    eventWork = GameData_GetEventWork(gameData);
+    if (EventWork_FlagGet(eventWork, flag)) {
+        return FALSE;
+    }
+    dx = area->x - x;
+    dz = area->z - z;
+    if (dx < 0) {
+        dx = -dx;
+    }
+    if (dx < area->width) {
+        if (dz < 0) {
+            dz = -dz;
+        }
+        if (dz < area->height) {
+            return TRUE;
+        }
+    }
+    return FALSE;
 }

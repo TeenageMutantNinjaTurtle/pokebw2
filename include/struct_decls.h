@@ -226,6 +226,7 @@ typedef struct GameSystemProcData GameSystemProcData;
 typedef struct G3DMapper G3DMapper;
 typedef struct GimmickState GimmickState;
 typedef struct HydrationWork HydrationWork;
+typedef struct HiddenArea HiddenArea;
 typedef struct HiddenEventArgs HiddenEventArgs;
 typedef struct HiddenEventContext HiddenEventContext;
 typedef struct HiddenEventData HiddenEventData;

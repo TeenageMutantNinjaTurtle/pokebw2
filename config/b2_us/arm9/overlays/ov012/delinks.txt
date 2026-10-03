@@ -286,7 +286,7 @@ src/ov012/field_script_cmd_pokedex.c:
 
 src/ov012/hidden_event.c:
     complete
-    .text       start:0x021593fc end:0x02159b70
+    .text       start:0x021593fc end:0x02159bc0
 
 
 src/ov012/field_script_network.c:

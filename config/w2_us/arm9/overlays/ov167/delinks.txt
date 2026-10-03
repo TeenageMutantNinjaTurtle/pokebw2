@@ -368,9 +368,9 @@ src/ov167/battle_ability_item_rotation.c:
     complete
     .text       start:0x021bdda0 end:0x021bddcc
 
-src/ov167/battle_ability_inner_focus.c:
+src/ov167/battle_ability_flinch_handlers.c:
     complete
-    .text       start:0x021bdee0 end:0x021bdf04
+    .text       start:0x021bdee0 end:0x021bdf58
 
 src/ov167/battle_ability_stat_modifiers.c:
     complete
@@ -443,10 +443,6 @@ src/ov167/battle_ability_flame_body_event.c:
 src/ov167/battle_ability_intimidate.c:
     complete
     .text       start:0x021bde50 end:0x021bdee0
-
-src/ov167/battle_ability_steadfast.c:
-    complete
-    .text       start:0x021bdf04 end:0x021bdf58
 
 src/ov167/battle_ability_regenerator_event.c:
     complete
