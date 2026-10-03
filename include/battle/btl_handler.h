@@ -99,6 +99,8 @@ BOOL BattleHandler_AbilityChange(BattleHandler *handler, BattleHandlerAbilityCha
 u8 func_ov167_021ad1f4(void *state, u8 monIndex);
 BOOL func_ov167_021ad204(u16 species);
 u32 HandlerGetAlivePartyCount(BattleHandler *handler, u16 code, u8 *monIds);
+u32 func_ov167_021ab840(void *flow, u32 monId);
+u8 *func_ov167_021abc60(void *flow, u32 value);
 u8 func_ov167_021add78(void *state, u8 monIndex);
 u8 func_ov167_021ae0fc(void *state, u8 monIndex);
 

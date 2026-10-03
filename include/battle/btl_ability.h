@@ -17,6 +17,7 @@ extern const BattleEventHandlerEntry data_ov167_021d763c[];
 extern const BattleEventHandlerEntry data_ov167_021d784c[];
 extern const BattleEventHandlerEntry data_ov167_021d7944[];
 const BattleEventHandlerEntry *EventAddIntimidate(u32 *priority);
+void HandlerIntimidateMemberIn(void *context, void *flow, u32 monId);
 const BattleEventHandlerEntry *EventAddInnerFocus(u32 *priority);
 void HandlerInnerFocus(void *context, void *item, u32 monId);
 extern const BattleEventHandlerEntry data_ov167_021d7834[];

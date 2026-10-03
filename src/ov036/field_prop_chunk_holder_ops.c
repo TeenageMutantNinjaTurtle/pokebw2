@@ -1,5 +1,25 @@
 #include "field/field_prop.h"
 
+FieldChunkPropHolder *FieldPropSystem_LinkPropToChunk(FieldPropSystem *system, void *chunk, u32 resIndex, u32 propIndex) {
+    FieldChunkPropHolder *holder;
+    u32 i;
+
+    for (i = 0; i < 0x120; i++) {
+        holder = &system->chunkPropHolders[i];
+        if (holder->chunk != NULL) {
+            continue;
+        }
+        FieldPropSystem_InstantiateProp(chunk, resIndex, propIndex);
+        holder->chunk = chunk;
+        holder->savedResIndex = -1;
+        holder->propIndex = propIndex;
+        holder->visible = TRUE;
+        holder->instance = FieldChunk_GetPropInstance(chunk, propIndex);
+        return holder;
+    }
+    return NULL;
+}
+
 void FieldPropSystem_ReleaseChunkPropHolders(FieldPropSystem *system, void *chunk) {
     FieldChunkPropHolder *holders;
     s32 i;
