@@ -47,7 +47,7 @@ intervening function matches. Unmatched attempts are tracked in
 | 017 | Single linked C source; no fragmented C ranges. |
 | 018 | Single linked C source; no fragmented C ranges. |
 | 021 | Single linked C source; no fragmented C ranges. |
-| 027 | Survey probability, command, and popularity C ranges have four intervening assembly functions. |
+| 027 | Two survey commands now extend their continuous command source back to `0x021703a8`. The probability helper ends immediately before this source but has separate ownership; the next command at `0x021704e0` still blocks the matching reset helper at `0x02170580` from joining it. Other survey and text ranges retain intervening assembly. |
 | 033 | Trade, Trial House, Battle Subway, and field-event ranges preserve process boundaries; several same-process fragments still have intervening assembly. |
 | 035 | Three adjacent event sources retain their separate process and data ownership; merging changes non-text section order. |
 | 036 | Prop, zone, and lens-flare data C ranges are grouped within continuous owners; remaining nearby fragments have intervening assembly. Adjacent C pairs cross subsystem boundaries. |

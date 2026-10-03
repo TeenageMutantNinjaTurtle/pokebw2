@@ -1,5 +1,7 @@
 #include "battle/btl_pokeparam.h"
 
+extern const u32 data_ov167_021d7490[];
+
 // Function names from swan.
 u32 GetTurnFlag(BattleMon *mon, u32 flag) {
     u32 bit;
@@ -33,4 +35,22 @@ u32 GetAdditionalConditionFlag(BattleMon *mon, u32 flag) {
         result = FALSE;
     }
     return result;
+}
+
+u32 func_ov167_021bb408(BattleMon *mon) {
+    u32 i;
+
+    for (i = 0; i < 4; i++) {
+        if (GetAdditionalConditionFlag(mon, data_ov167_021d7490[i])) {
+            return data_ov167_021d7490[i];
+        }
+    }
+    return 0x10;
+}
+
+BOOL IsSemiInvulnMove(BattleMon *mon) {
+    if (func_ov167_021bb408(mon) != 0x10) {
+        return TRUE;
+    }
+    return FALSE;
 }

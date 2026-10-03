@@ -268,10 +268,6 @@ src/ov167/battle_mon_stats_lowered.c:
     complete
     .text       start:0x021bb5a8 end:0x021bb600
 
-src/ov167/battle_mon_semi_invuln.c:
-    complete
-    .text       start:0x021bb470 end:0x021bb484
-
 src/ov167/battle_mon_status.c:
     complete
     .text       start:0x021bbae8 end:0x021bbb18
@@ -542,7 +538,7 @@ src/ov167/battle_ability_target_redirect.c:
 
 src/ov167/battle_mon_condition_flags.c:
     complete
-    .text       start:0x021bb3f0 end:0x021bb448
+    .text       start:0x021bb3f0 end:0x021bb484
 
 src/ov167/battle_ability_poison_point_event.c:
     complete
