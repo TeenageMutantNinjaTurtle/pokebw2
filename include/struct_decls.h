@@ -215,7 +215,6 @@ typedef struct GimmickGateSave GimmickGateSave;
 typedef struct GimmickGateWork GimmickGateWork;
 typedef struct GimmickGateZoneData GimmickGateZoneData;
 typedef struct GimmickGateZoneList GimmickGateZoneList;
-typedef struct GimmickHandlerTable GimmickHandlerTable;
 typedef struct GimmickStateA GimmickStateA;
 typedef struct GimmickStateB GimmickStateB;
 typedef struct GlobalScriptEntry GlobalScriptEntry;

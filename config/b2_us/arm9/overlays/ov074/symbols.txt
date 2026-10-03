@@ -5,4 +5,4 @@ func_ov074_021e91b8 kind:function(thumb,size=0x4) addr:0x021e91b8
 func_ov074_021e91bc kind:function(thumb,size=0x24) addr:0x021e91bc
 func_ov074_021e91e0 kind:function(thumb,size=0x12) addr:0x021e91e0
 func_ov074_021e91f4 kind:function(thumb,size=0x2c) addr:0x021e91f4
-data_ov074_021e9240 kind:data(any) addr:0x021e9240
+SUNNY_WEATHER kind:data(any) addr:0x021e9240
