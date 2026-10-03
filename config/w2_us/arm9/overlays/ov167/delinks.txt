@@ -383,3 +383,15 @@ src/ov167/battle_mon_stats_lowered.c:
 src/ov167/battle_mon_semi_invuln.c:
     complete
     .text       start:0x021bb470 end:0x021bb484
+
+src/ov167/battle_mon_status.c:
+    complete
+    .text       start:0x021bbae8 end:0x021bbb18
+
+src/ov167/battle_mon_condition_continuation.c:
+    complete
+    .text       start:0x021bbb54 end:0x021bbb5c
+
+src/ov167/battle_mon_condition_count.c:
+    complete
+    .text       start:0x021bc1ec end:0x021bc1f8
