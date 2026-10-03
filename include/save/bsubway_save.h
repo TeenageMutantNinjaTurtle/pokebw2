@@ -25,6 +25,7 @@ u16 func_0200e2ec(BSubwayPlayData *data);
 void func_0200e318(BSubwayScoreData *score, u16 amount);
 void func_0200e384(BSubwayScoreData *score, u32 mode, u32 value);
 void func_0200e3a0(BSubwayScoreData *score, u32 mode, u32 value);
+void func_0200e3f8(BSubwayScoreData *score, u32 mode);
 u16 func_0200e35c(BSubwayScoreData *score, u16 a1);
 u16 func_0200e370(BSubwayScoreData *score, u32 index);
 void func_0200e3b4(BSubwayScoreData *score, u32 mode);

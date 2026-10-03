@@ -379,3 +379,7 @@ src/ov167/battle_stat_change_valid.c:
 src/ov167/battle_mon_stats_lowered.c:
     complete
     .text       start:0x021bb5a8 end:0x021bb600
+
+src/ov167/battle_mon_semi_invuln.c:
+    complete
+    .text       start:0x021bb470 end:0x021bb484

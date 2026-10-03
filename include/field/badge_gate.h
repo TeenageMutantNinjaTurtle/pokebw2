@@ -33,6 +33,8 @@ GameEventReturnCode BadgeGate_CheckEvent(GameEvent *event, u32 *state, void *dat
 void func_ov103_021ef010(Field *field);
 void *func_ov103_021ef1ac(void *work, u32 index, u32 group);
 void func_ov103_021ef188(BadgeGateCheckEventData *data);
+void func_ov103_021ef1dc(void *entry, u32 anim, u32 paused);
+u32 func_ov103_021ef200(void *work);
 // Plays the last gate, after the eight badge gates, with the camera
 GameEvent *BadgeGate_CreateLastGateEvent(GameSystem *gsys);
 GameEventReturnCode BadgeGate_LastGateEvent(GameEvent *event, u32 *state, void *data);

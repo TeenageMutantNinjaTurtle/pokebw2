@@ -480,6 +480,10 @@ src/ov012/stadium_trainer_index.c:
     complete
     .text       start:0x0215a0ac end:0x0215a0d4
 
+src/ov012/event_game_clear_helpers.c:
+    complete
+    .text       start:0x0215a688 end:0x0215a6b0
+
 src/ov012/field_script_cmd_party_add_egg.c:
     complete
     .text       start:0x021571b4 end:0x021572f0
