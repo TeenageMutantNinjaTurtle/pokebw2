@@ -5,6 +5,7 @@
     .bss        start:0x02171240 end:0x02171240 kind:bss align:32
 
 src/ov027/scrcmd_survey.c:
+    complete
     .text       start:0x02170380 end:0x02170b04
     .rodata     start:0x02170e78 end:0x021711f8
 

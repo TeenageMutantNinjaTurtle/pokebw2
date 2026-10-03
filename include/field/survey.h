@@ -33,8 +33,6 @@ struct SurveyTextWork {
     WordSet *wordSet;
 };
 
-extern const SurveyProbabilityEntry data_ov027_02170e40[];
-
 u16 detectLengthSinceLastSession(SaveControl *save);
 void *func_0200ec2c(SaveControl *save);
 void func_0200ca84(TrainerGameInfoSave *info, u8 value);

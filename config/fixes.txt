@@ -4,6 +4,8 @@
 . 0x0208d60c add_label _ll_mul
 . 0x0208d868 add_label _u32_div_f
 . 0x02091264 remove_reloc
+. 0x02091e60 reloc_module overlay(28)
+. 0x02091e64 reloc_module overlay(28)
 . 0x0210000b remove_symbol
 . 0x0210020f remove_symbol
 overlays/ov000 0x0214f870 overlay_id 199
