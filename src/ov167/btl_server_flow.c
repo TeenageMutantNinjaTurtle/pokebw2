@@ -588,7 +588,6 @@ BOOL BattleHandler_AbilityChange(BtlServerFlow *handler, BattleHandlerAbilityCha
     BattleMon *mon;
     u16 oldAbility;
     u32 state;
-    u32 command;
 
     mon = GetPokeParam(handler->pokeCon, param->targetIndex);
     oldAbility = GetBattleMonStat(mon, 0x10);
@@ -604,19 +603,18 @@ BOOL BattleHandler_AbilityChange(BtlServerFlow *handler, BattleHandlerAbilityCha
         }
         func_ov167_021b1434(handler->display, 0x49, param->targetIndex, param->ability);
         BattleHandler_SetString(handler, &param->string);
-        command = 0x3cf6;
-        state = PushState(&handler->actionState, command);
+        state = PushState(&handler->actionState, 0x3cf6);
         ServerEvent_ChangeAbilityBefore(handler, param->targetIndex, oldAbility, param->ability);
-        PopState(&handler->actionState, state, command + 2);
+        PopState(&handler->actionState, state, 0x3cf8);
         AbilityEvent_RemoveItem(mon);
         ChangeAbility(mon, param->ability);
         func_ov167_021b1434(handler->display, 0x1d, param->targetIndex, param->ability);
         AbilityEvent_AddItem(mon);
         func_ov167_021b1434(handler->display, 0x58, param->targetIndex);
         if (oldAbility != param->ability) {
-            state = PushState(&handler->actionState, command + 0x10);
+            state = PushState(&handler->actionState, 0x3d06);
             ServerEvent_ChangeAbilityAfter(handler, param->targetIndex);
-            PopState(&handler->actionState, state, command + 0x12);
+            PopState(&handler->actionState, state, 0x3d08);
         }
         if (param->popup) {
             func_ov167_021b1434(handler->display, 0x58, param->monIndex);
@@ -639,18 +637,16 @@ BOOL BattleHandler_SetItem(BtlServerFlow *handler, BattleHandlerSetItemParam *pa
     BattleMon *mon;
     u8 result;
     u32 state;
-    u32 command;
 
     mon = GetPokeParam(handler->pokeCon, param->targetIndex);
     if (param->monIndex != param->targetIndex) {
-        command = 0x3d2c;
-        state = PushState(&handler->actionState, command);
+        state = PushState(&handler->actionState, 0x3d2c);
         result = ServerEvent_CheckItemSet(handler, mon, param->item);
-        PopState(&handler->actionState, state, command + 2);
+        PopState(&handler->actionState, state, 0x3d2e);
         if (result) {
-            state = PushState(&handler->actionState, command + 6);
+            state = PushState(&handler->actionState, 0x3d32);
             ServerEvent_ItemSetFailed(handler, mon);
-            PopState(&handler->actionState, state, command + 8);
+            PopState(&handler->actionState, state, 0x3d34);
             return FALSE;
         }
     }
@@ -682,20 +678,18 @@ BOOL BattleHandler_SwapItem(BtlServerFlow *handler, BattleHandlerSwapItemParam *
     u16 secondItem;
     u8 result;
     u32 state;
-    u32 command;
 
     first = GetPokeParam(handler->pokeCon, param->otherIndex);
     second = GetPokeParam(handler->pokeCon, param->monIndex);
     firstItem = GetBattleMonHeldItem(second);
     secondItem = GetBattleMonHeldItem(first);
-    command = 0x3d64;
-    state = PushState(&handler->actionState, command);
+    state = PushState(&handler->actionState, 0x3d64);
     result = ServerEvent_CheckItemSet(handler, first, firstItem);
-    PopState(&handler->actionState, state, command + 2);
+    PopState(&handler->actionState, state, 0x3d66);
     if (result) {
-        state = PushState(&handler->actionState, command + 5);
+        state = PushState(&handler->actionState, 0x3d69);
         ServerEvent_ItemSetFailed(handler, first);
-        PopState(&handler->actionState, state, command + 7);
+        PopState(&handler->actionState, state, 0x3d6b);
         return FALSE;
     }
     if (param->popup) {

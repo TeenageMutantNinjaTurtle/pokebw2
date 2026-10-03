@@ -216,12 +216,10 @@ void func_ov033_0217ae5c(GameSystem *gsys, TrialHouseWork *work, u32 mode) {
     SaveControl *save;
     void *buffer;
     void *extra;
-    u32 size;
 
     save = GameData_GetSaveControl(GSYS_GetGameData(gsys));
-    size = 0x800;
-    buffer = GFL_HeapAllocate(0x8004, size, TRUE, "trial_house.c", 0x14c);
-    if (func_02007560(save, 5, 0x8004, buffer, size) == 1) {
+    buffer = GFL_HeapAllocate(0x8004, 0x800, TRUE, "trial_house.c", 0x14c);
+    if (func_02007560(save, 5, 0x8004, buffer, 0x800) == 1) {
         extra = getAddressOfExtraSaveBlk(save, 5, 0);
         work->trainer = *func_0200ee90(extra, mode);
     }

@@ -193,7 +193,7 @@ void HandlerThickFat(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *
     if (BattleEventVar_GetValue(4) == monId) {
         type = BattleEventVar_GetValue(0x16);
         if (type == 14 || type == 9) {
-            BattleEventVar_MulValue(0x35, 2 << 10);
+            BattleEventVar_MulValue(0x35, FX32_CONST(0.5));
         }
     }
 }
@@ -209,18 +209,15 @@ void HandlerHugePower(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 
     if (BattleEventVar_GetValue(3) == monId) {
         move = BattleEventVar_GetValue(0x12);
         if (PML_MoveGetCategory(move) == 1) {
-            BattleEventVar_MulValue(0x35, 2 << 12);
+            BattleEventVar_MulValue(0x35, FX32_CONST(2));
         }
     }
 }
 
 void HandlerSwiftSwim(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
-    u32 multiplier;
-
-    multiplier = 2;
     if (BattleEventVar_GetValue(2) == monId) {
         if (GetWeather(flow) == 2) {
-            BattleEventVar_MulValue(0x35, multiplier << 12);
+            BattleEventVar_MulValue(0x35, FX32_CONST(2));
         }
     }
 }
@@ -231,12 +228,9 @@ const BattleEventHandlerEntry *EventAddSwiftSwim(u32 *priority) {
 }
 
 void HandlerChlorophyll(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
-    u32 multiplier;
-
-    multiplier = 2;
     if (BattleEventVar_GetValue(2) == monId) {
         if (GetWeather(flow) == 1) {
-            BattleEventVar_MulValue(0x35, multiplier << 12);
+            BattleEventVar_MulValue(0x35, FX32_CONST(2));
         }
     }
 }
@@ -249,7 +243,7 @@ const BattleEventHandlerEntry *EventAddChlorophyll(u32 *priority) {
 void HandlerQuickFeet(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
     if (BattleEventVar_GetValue(2) == monId) {
         if (GetBattleMonStatus(GetBattleMon(flow, monId)) != 0) {
-            BattleEventVar_MulValue(0x35, 6 << 10);
+            BattleEventVar_MulValue(0x35, FX32_CONST(1.5));
             BattleEventVar_RewriteValue(0x51, 0);
         }
     }
@@ -261,12 +255,9 @@ const BattleEventHandlerEntry *EventAddQuickFeet(u32 *priority) {
 }
 
 void HandlerTangledFeet(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
-    u32 multiplier;
-
-    multiplier = 4;
     if (BattleEventVar_GetValue(4) == monId) {
         if (CheckCondition(GetBattleMon(flow, monId), 6)) {
-            BattleEventVar_MulValue(0x35, multiplier << 9);
+            BattleEventVar_MulValue(0x35, FX32_CONST(0.5));
         }
     }
 }
@@ -282,20 +273,18 @@ void HandlerHustleAccuracy(BattleEventItem *item, BtlServerFlow *flow, u8 monId,
     if (BattleEventVar_GetValue(3) == monId) {
         move = BattleEventVar_GetValue(0x12);
         if (PML_MoveGetCategory(move) == 1) {
-            BattleEventVar_MulValue(0x35, 0xccd);
+            BattleEventVar_MulValue(0x35, FX32_CONST(0.8));
         }
     }
 }
 
 void HandlerHustlePower(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
-    u32 multiplier;
     u32 value;
 
-    multiplier = 3;
     if (BattleEventVar_GetValue(3) == monId) {
         if (PML_MoveGetCategory(BattleEventVar_GetValue(0x12)) == 1) {
             value = BattleEventVar_GetValue(0x33);
-            value = fixed_round(value, multiplier << 11);
+            value = fixed_round(value, (3 << 11));
             BattleEventVar_RewriteValue(0x33, value);
         }
     }
@@ -319,7 +308,7 @@ const BattleEventHandlerEntry *EventAddStall(u32 *priority) {
 
 void HandlerCompoundEyes(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
     if (BattleEventVar_GetValue(3) == monId) {
-        BattleEventVar_MulValue(0x35, 0x14cd);
+        BattleEventVar_MulValue(0x35, FX32_CONST(1.3));
     }
 }
 
@@ -331,7 +320,7 @@ const BattleEventHandlerEntry *EventAddCompoundEyes(u32 *priority) {
 void HandlerSandVeil(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
     if (BattleEventVar_GetValue(4) == monId) {
         if (GetWeather(flow) == 4) {
-            BattleEventVar_MulValue(0x35, 0xccd);
+            BattleEventVar_MulValue(0x35, FX32_CONST(0.8));
         }
     }
 }
@@ -348,7 +337,7 @@ const BattleEventHandlerEntry *EventAddSandVeil(u32 *priority) {
 void HandlerSnowCloak(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
     if (BattleEventVar_GetValue(4) == monId) {
         if (GetWeather(flow) == 3) {
-            BattleEventVar_MulValue(0x35, 0xccd);
+            BattleEventVar_MulValue(0x35, FX32_CONST(0.8));
         }
     }
 }
@@ -375,7 +364,7 @@ void CommonWeatherGuard(BattleEventItem *item, BtlServerFlow *flow, u32 monId, u
 void HandlerTintedLens(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
     if (BattleEventVar_GetValue(3) == monId) {
         if (func_ov167_021bd2e8(BattleEventVar_GetValue(0x38)) == 3) {
-            BattleEventVar_MulValue(0x35, 2 << 12);
+            BattleEventVar_MulValue(0x35, FX32_CONST(2));
         }
     }
 }
@@ -388,7 +377,7 @@ const BattleEventHandlerEntry *EventAddTintedLens(u32 *priority) {
 void HandlerSolidRock(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
     if (BattleEventVar_GetValue(4) == monId) {
         if (func_ov167_021bd2e8(BattleEventVar_GetValue(0x38)) == 2) {
-            BattleEventVar_MulValue(0x35, 3 << 10);
+            BattleEventVar_MulValue(0x35, FX32_CONST(0.75));
         }
     }
 }
@@ -399,12 +388,9 @@ const BattleEventHandlerEntry *EventAddSolidRock(u32 *priority) {
 }
 
 void HandlerSniper(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
-    u32 multiplier;
-
-    multiplier = 3;
     if (BattleEventVar_GetValue(3) == monId) {
         if (BattleEventVar_GetValue(0x45) != 0) {
-            BattleEventVar_MulValue(0x35, multiplier << 11);
+            BattleEventVar_MulValue(0x35, FX32_CONST(1.5));
         }
     }
 }
@@ -438,12 +424,9 @@ const BattleEventHandlerEntry *EventAddSpeedBoost(u32 *priority) {
 }
 
 void HandlerAdaptability(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
-    u32 multiplier;
-
-    multiplier = 2;
     if (BattleEventVar_GetValue(2) == monId) {
         if (BattleEventVar_GetValue(0x44) != 0) {
-            BattleEventVar_RewriteValue(0x35, multiplier << 12);
+            BattleEventVar_RewriteValue(0x35, (2 << 12));
         }
     }
 }
@@ -508,14 +491,12 @@ void CommonLowHPBoostAbility(BtlServerFlow *flow, u32 monId, u32 type) {
 
 void HandlerGuts(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
     BattleMon *mon;
-    u32 multiplier;
 
-    multiplier = 3;
     if (BattleEventVar_GetValue(3) == monId) {
         mon = GetBattleMon(flow, monId);
         if (GetBattleMonStatus(mon) != 0) {
             if (PML_MoveGetCategory(BattleEventVar_GetValue(0x12)) == 1) {
-                BattleEventVar_MulValue(0x35, multiplier << 11);
+                BattleEventVar_MulValue(0x35, FX32_CONST(1.5));
             }
         }
     }
@@ -530,7 +511,7 @@ void HandlerPlusMinus(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 
     if (BattleEventVar_GetValue(3) == monId) {
         if (func_ov167_021be5c4(flow, monId, work, 0x39) || func_ov167_021be5c4(flow, monId, work, 0x3a)) {
             if (PML_MoveGetCategory(BattleEventVar_GetValue(0x12)) == 2) {
-                BattleEventVar_MulValue(0x35, 6 << 10);
+                BattleEventVar_MulValue(0x35, FX32_CONST(1.5));
             }
         }
     }
@@ -656,16 +637,14 @@ void HandlerFlowerGiftAbilityChange(BattleEventItem *item, BtlServerFlow *flow, 
 }
 
 void HandlerFlowerGiftPower(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
-    u32 multiplier;
     u8 allyMonId;
 
-    multiplier = 3;
     if (CheckFlowerGiftEnablePokemon(flow, monId)) {
         if (GetWeather(flow) == 1) {
             allyMonId = BattleEventVar_GetValue(3);
             if (IsAllyMonID(monId, allyMonId)) {
                 if (PML_MoveGetCategory(BattleEventVar_GetValue(0x12)) == 1) {
-                    BattleEventVar_MulValue(0x35, multiplier << 11);
+                    BattleEventVar_MulValue(0x35, FX32_CONST(1.5));
                 }
             }
         }
@@ -680,7 +659,7 @@ void HandlerFlowerGiftSpecialDefense(BattleEventItem *item, BtlServerFlow *flow,
             allyMonId = BattleEventVar_GetValue(4);
             if (IsAllyMonID(monId, allyMonId)) {
                 if (BattleEventVar_GetValue(0x1a) == 2) {
-                    BattleEventVar_MulValue(0x35, 6 << 10);
+                    BattleEventVar_MulValue(0x35, FX32_CONST(1.5));
                 }
             }
         }
@@ -709,7 +688,7 @@ void HandlerRivalry(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *w
         defenderGender = GetBattleMonStat(defender, 0x12);
         if (attackerGender != 2 && defenderGender != 2) {
             if (attackerGender == defenderGender) {
-                BattleEventVar_MulValue(0x31, 5 << 10);
+                BattleEventVar_MulValue(0x31, FX32_CONST(1.25));
                 return;
             }
             BattleEventVar_MulValue(0x31, multiplier << 10);
@@ -723,12 +702,9 @@ const BattleEventHandlerEntry *EventAddRivalry(u32 *priority) {
 }
 
 void HandlerTechnician(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
-    u32 multiplier;
-
-    multiplier = 0x30;
     if (BattleEventVar_GetValue(3) == monId) {
         if (BattleEventVar_GetValue(0x30) <= 0x3c) {
-            BattleEventVar_MulValue(0x31, multiplier << 7);
+            BattleEventVar_MulValue(0x31, FX32_CONST(1.5));
         }
     }
 }
@@ -741,7 +717,7 @@ const BattleEventHandlerEntry *EventAddTechnician(u32 *priority) {
 void HandlerIronFist(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
     if (BattleEventVar_GetValue(3) == monId) {
         if (getMoveFlag(BattleEventVar_GetValue(0x12), 7)) {
-            BattleEventVar_MulValue(0x31, 0x1333);
+            BattleEventVar_MulValue(0x31, FX32_CONST(1.2));
         }
     }
 }
@@ -757,7 +733,7 @@ void HandlerReckless(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *
     if (BattleEventVar_GetValue(3) == monId) {
         move = BattleEventVar_GetValue(0x12);
         if (PML_MoveGetParam(move, 0x1e) || move == 0x1a || move == 0x88) {
-            BattleEventVar_MulValue(0x31, 0x1333);
+            BattleEventVar_MulValue(0x31, FX32_CONST(1.2));
         }
     }
 }
@@ -775,7 +751,7 @@ void HandlerMarvelScale(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u3
         if (GetBattleMonStatus(mon)) {
             BattleEventVar_GetValue(0x12);
             if (BattleEventVar_GetValue(0x1a) == 1) {
-                BattleEventVar_MulValue(0x35, 6 << 10);
+                BattleEventVar_MulValue(0x35, FX32_CONST(1.5));
             }
         }
     }
@@ -1033,14 +1009,12 @@ void HandlerObliviousActionEnd(BattleEventItem *item, BtlServerFlow *flow, u8 mo
 
 void HandlerObliviousNoEffectCheck(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
     BattleHandlerMessageParam *param;
-    u32 command;
 
-    command = 4;
     if (BattleEventVar_GetValue(4) == monId) {
         if ((u16)BattleEventVar_GetValue(0x12) == 0x1bd) {
             if (BattleEventVar_RewriteValue(0x40, 1)) {
                 BattleHandler_PushRun(flow, 2, monId);
-                param = BattleHandler_PushWork(flow, command, monId);
+                param = BattleHandler_PushWork(flow, 4, monId);
                 BattleHandler_StrSetup(&param->string, 2, 0xd2);
                 BattleHandler_AddArg(&param->string, monId);
                 BattleHandler_PopWork(flow, param);
@@ -1066,13 +1040,11 @@ BOOL HandlerCommonGuardStatus(void *flow, u32 monId, u32 status) {
 
 void CommonAddStatusFailed(BattleEventItem *item, BtlServerFlow *flow, u32 monId, u32 *result, u16 message) {
     BattleHandlerMessageParam *work;
-    u32 command;
 
-    command = 4;
     if (BattleEventVar_GetValue(4) == monId) {
         if (*result == 1) {
             BattleHandler_PushRun(flow, 2, monId);
-            work = BattleHandler_PushWork(flow, command, monId);
+            work = BattleHandler_PushWork(flow, 4, monId);
             BattleHandler_StrSetup(&work->string, 2, message);
             BattleHandler_AddArg(&work->string, monId);
             BattleHandler_PopWork(flow, work);
@@ -1233,13 +1205,10 @@ void HandlerSolarPowerWeather(BattleEventItem *item, BtlServerFlow *flow, u8 mon
 }
 
 void HandlerSolarPowerPower(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
-    u32 multiplier;
-
-    multiplier = 3;
     if (BattleEventVar_GetValue(3) == monId) {
         if (GetWeather(flow) == 1) {
             if (PML_MoveGetCategory(BattleEventVar_GetValue(0x12)) == 2) {
-                BattleEventVar_MulValue(0x35, multiplier << 11);
+                BattleEventVar_MulValue(0x35, FX32_CONST(1.5));
             }
         }
     }
@@ -1538,13 +1507,11 @@ const BattleEventHandlerEntry *EventAddSturdy(u32 *priority) {
 
 void HandlerSturdyOneshotCheck(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
     BattleHandlerMessageParam *param;
-    u32 command;
 
-    command = 4;
     if (BattleEventVar_GetValue(4) == monId) {
         if (BattleEventVar_RewriteValue(0x41, 1)) {
             BattleHandler_PushRun(flow, 2, monId);
-            param = BattleHandler_PushWork(flow, command, monId);
+            param = BattleHandler_PushWork(flow, 4, monId);
             BattleHandler_StrSetup(&param->string, 2, 0xd2);
             BattleHandler_AddArg(&param->string, monId);
             BattleHandler_PopWork(flow, param);
@@ -1554,12 +1521,9 @@ void HandlerSturdyOneshotCheck(BattleEventItem *item, BtlServerFlow *flow, u8 mo
 }
 
 void HandlerSturdyEndureCheck(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
-    u32 value;
-
-    value = 4;
     if (BattleEventVar_GetValue(4) == monId) {
         if (IsMonFullHP(GetBattleMon(flow, monId))) {
-            *work = BattleEventVar_RewriteValue(0x3a, value);
+            *work = BattleEventVar_RewriteValue(0x3a, 4);
         } else {
             *work = 0;
         }
@@ -1608,12 +1572,9 @@ const BattleEventHandlerEntry *EventAddUnaware(u32 *priority) {
 }
 
 void HandlerHeatproofPower(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
-    u32 factor;
-
-    factor = 4;
     if (BattleEventVar_GetValue(4) == monId) {
         if (BattleEventVar_GetValue(0x16) == 9) {
-            BattleEventVar_MulValue(0x31, factor << 9);
+            BattleEventVar_MulValue(0x31, FX32_CONST(0.5));
         }
     }
 }
@@ -1723,7 +1684,7 @@ void HandlerDrySkinWeather(BattleEventItem *item, BtlServerFlow *flow, u8 monId,
 void HandlerDrySkinDamageRecover(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
     if (BattleEventVar_GetValue(4) == monId) {
         if (BattleEventVar_GetValue(0x16) == 9) {
-            BattleEventVar_MulValue(0x31, 5 << 10);
+            BattleEventVar_MulValue(0x31, FX32_CONST(1.25));
         }
     }
 }
@@ -1787,16 +1748,14 @@ const BattleEventHandlerEntry *EventAddScrappy(u32 *priority) {
 
 void HandlerSoundproof(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
     BattleHandlerMessageParam *param;
-    u32 command;
     u16 move;
 
-    command = 4;
     if (BattleEventVar_GetValue(4) == monId) {
         move = BattleEventVar_GetValue(0x12);
         if (getMoveFlag(move, 8)) {
             if (BattleEventVar_RewriteValue(0x40, 1)) {
                 BattleHandler_PushRun(flow, 2, monId);
-                param = BattleHandler_PushWork(flow, command, monId);
+                param = BattleHandler_PushWork(flow, 4, monId);
                 BattleHandler_StrSetup(&param->string, 2, 0xd2);
                 BattleHandler_AddArg(&param->string, monId);
                 BattleHandler_PopWork(flow, param);
@@ -1812,12 +1771,9 @@ const BattleEventHandlerEntry *EventAddSoundproof(u32 *priority) {
 }
 
 void HandlerLevitate(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
-    u32 key;
-
     if (BattleEventVar_GetValue(2) == monId) {
-        key = 0x51;
-        if (BattleEventVar_GetValue(key) == 0) {
-            *work = BattleEventVar_RewriteValue(key, 1);
+        if (BattleEventVar_GetValue(0x51) == 0) {
+            *work = BattleEventVar_RewriteValue(0x51, 1);
         }
     }
 }
@@ -1990,13 +1946,10 @@ const BattleEventHandlerEntry *EventAddDamp(u32 *priority) {
 }
 
 void HandlerFlashFirePower(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
-    u32 multiplier;
-
-    multiplier = 3;
     if (BattleEventVar_GetValue(3) == monId) {
         if (GetAdditionalConditionFlag(GetBattleMon(flow, monId), 0xd)) {
             if (BattleEventVar_GetValue(0x16) == 9) {
-                BattleEventVar_MulValue(0x35, multiplier << 11);
+                BattleEventVar_MulValue(0x35, FX32_CONST(1.5));
             }
         }
     }
@@ -2004,14 +1957,12 @@ void HandlerFlashFirePower(BattleEventItem *item, BtlServerFlow *flow, u8 monId,
 
 void HandlerFlashFireRemove(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
     BattleHandlerFlagParam *param;
-    u32 condition;
 
     if (BattleEventVar_GetValue(2) == monId) {
-        condition = 0xd;
-        if (GetAdditionalConditionFlag(GetBattleMon(flow, monId), condition)) {
+        if (GetAdditionalConditionFlag(GetBattleMon(flow, monId), 0xd)) {
             param = BattleHandler_PushWork(flow, 0x18, monId);
             param->monIndex = monId;
-            param->flag = condition;
+            param->flag = 0xd;
             BattleHandler_PopWork(flow, param);
         }
     }
@@ -2020,19 +1971,17 @@ void HandlerFlashFireRemove(BattleEventItem *item, BtlServerFlow *flow, u8 monId
 void HandlerFlashFireCheckNoEffect(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
     BattleHandlerMessageParam *message;
     BattleHandlerFlagParam *param;
-    u32 condition;
 
     if (CommonDamageRecoverCheck(flow, monId, 9)) {
         BattleHandler_PushRun(flow, 2, monId);
-        condition = 0xd;
-        if (!GetAdditionalConditionFlag(GetBattleMon(flow, monId), condition)) {
+        if (!GetAdditionalConditionFlag(GetBattleMon(flow, monId), 0xd)) {
             message = BattleHandler_PushWork(flow, 4, monId);
             BattleHandler_StrSetup(&message->string, 2, 0x1ab);
             BattleHandler_AddArg(&message->string, monId);
             BattleHandler_PopWork(flow, message);
             param = BattleHandler_PushWork(flow, 0x17, monId);
             param->monIndex = monId;
-            param->flag = condition;
+            param->flag = 0xd;
             BattleHandler_PopWork(flow, param);
         } else {
             message = BattleHandler_PushWork(flow, 4, monId);
