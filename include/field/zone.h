@@ -49,6 +49,7 @@ struct ZoneWarpGridPosition {
     u16 z;
     u16 width;
     u16 height;
+    u16 unk0a;
 };
 
 struct ZoneWarpRailPosition {
@@ -60,8 +61,10 @@ struct ZoneWarpRailPosition {
     u16 param;
 };
 
+// Field names from swan's ZoneFurniture.
 struct ZoneBGEntity {
-    u8 unk0[4];
+    u16 scrId;
+    u16 condition;
     u16 direction;
     u16 isRail;
     union {
@@ -78,8 +81,12 @@ struct ZoneBGEntity {
     } pos;
 };
 
+// Field names from swan.
 struct ZoneTrigger {
-    u8 unk0[8];
+    u16 scrId;
+    u16 workValue;
+    u16 workId;
+    u16 type;
     u16 isRail;
     union {
         struct {
@@ -106,8 +113,10 @@ struct ZoneWarp {
     u8 unk4;
     u8 transitionType;
     u16 isRail;
-    ZoneWarpGridPosition gridPos;
-    u8 unk12[2];
+    union {
+        ZoneWarpGridPosition grid;
+        ZoneWarpRailPosition rail;
+    } pos;
 };
 
 extern const RespawnZoneInfo RESPAWN_ZONE_INFO[];
@@ -192,9 +201,9 @@ BOOL GetZoneFlagsEnableEscapeRope(u16 zoneId);
 BOOL GetZoneFlagsEnableEntralinkWarp(u16 zoneId);
 BOOL GetZoneFlagsEnableFlyFrom(u16 zoneId);
 BOOL GetZoneIsEntralinkAny(u16 zoneId);
-void *FindCollidingZoneTriggerAtLocation(EventData *eventData, EventWork *eventWork, const VecFx32 *position);
-u16 *FindTriggerAtPosGrid(EventData *eventData, EventWork *eventWork, const VecFx32 *position, u32 direction);
-u16 *FindTriggerAtPosRail(EventData *eventData, EventWork *eventWork, const RailPosition *position);
+ZoneTrigger *FindCollidingZoneTriggerAtLocation(EventData *eventData, EventWork *eventWork, const VecFx32 *position);
+ZoneTrigger *FindTriggerAtPosGrid(EventData *eventData, EventWork *eventWork, const VecFx32 *position, u32 direction);
+ZoneTrigger *FindTriggerAtPosRail(EventData *eventData, EventWork *eventWork, const RailPosition *position);
 u32 GetTriggerSCRIDAtPosGrid(EventData *eventData, EventWork *eventWork, const VecFx32 *position, u32 direction);
 u32 GetSCRIDOfCollidingTriggerAtLocation(EventData *eventData, EventWork *eventWork, const VecFx32 *position);
 u32 GetTriggerSCRIDAtPosRail(EventData *eventData, EventWork *eventWork, const RailPosition *position);

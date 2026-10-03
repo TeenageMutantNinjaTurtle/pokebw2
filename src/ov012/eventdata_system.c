@@ -137,17 +137,17 @@ u32 IsEncountDataLoaded(EventData *data) {
 
 void EventData_Clear(EventData *data) {
     data->prevEntityCount = 0;
-    data->prevCount14 = 0;
+    data->prevNpcCount = 0;
     data->prevWarpCount = 0;
-    data->prevCount18 = 0;
+    data->prevTriggerCount = 0;
     data->entityCount = 0;
-    data->count14 = 0;
+    data->npcCount = 0;
     data->warpCount = 0;
-    data->count18 = 0;
-    data->entityPtr = NULL;
-    data->ptr20 = NULL;
-    data->warpPtr = NULL;
-    data->ptr28 = NULL;
+    data->triggerCount = 0;
+    data->entities = NULL;
+    data->npcs = NULL;
+    data->warps = NULL;
+    data->triggers = NULL;
     sys_memset(data->cache, 0, sizeof(data->cache));
 }
 
@@ -157,7 +157,7 @@ void *GetEncountData(EventData *data) {
 
 s32 GetWarpAtPosition(EventData *data, const VecFx32 *position) {
     s32 index;
-    ZoneWarp *warp = data->warpPtr;
+    ZoneWarp *warp = data->warps;
 
     for (index = 0; index < data->warpCount; index++, warp++) {
         if (CheckWarpPositionMatch(warp, position)) {
@@ -170,7 +170,7 @@ s32 GetWarpAtPosition(EventData *data, const VecFx32 *position) {
 s32 GetWarpIDByPlayerPos(EventData *data, const VecFx32 *position, u16 direction) {
     VecFx32 front = *position;
     s32 index;
-    ZoneWarp *warp = data->warpPtr;
+    ZoneWarp *warp = data->warps;
 
     ExpandVecInGridDir(direction, &front, 0x10000);
     for (index = 0; index < data->warpCount; index++, warp++) {
@@ -189,7 +189,7 @@ s32 GetWarpIDByPlayerPos(EventData *data, const VecFx32 *position, u16 direction
 
 s32 GetWarpIDByPlayerPosRail(EventData *data, const RailPosition *position) {
     s32 index;
-    ZoneWarp *warp = data->warpPtr;
+    ZoneWarp *warp = data->warps;
 
     for (index = 0; index < data->warpCount; index++, warp++) {
         if (CheckWarpPositionMatchRail(warp, position)) {
@@ -200,7 +200,7 @@ s32 GetWarpIDByPlayerPosRail(EventData *data, const RailPosition *position) {
 }
 
 ZoneWarp *GetZoneWarpByID(EventData *data, u16 warpId) {
-    ZoneWarp *warps = data->warpPtr;
+    ZoneWarp *warps = data->warps;
 
     if (warps == NULL) {
         return NULL;
@@ -250,7 +250,7 @@ void SetZoneWarpLocation(EventData *data, u16 warpId, u16 x, u16 y, u16 z) {
     if (data->warpCount < warpId) {
         return;
     }
-    warps = data->warpPtr;
+    warps = data->warps;
     if (warps == NULL) {
         return;
     }
@@ -258,50 +258,47 @@ void SetZoneWarpLocation(EventData *data, u16 warpId, u16 x, u16 y, u16 z) {
     if (warps->isRail != 0) {
         return;
     }
-    pos = &warps->gridPos;
+    pos = &warps->pos.grid;
     pos->x = x * 16 + 8;
     pos->y = y * 16;
     pos->z = z * 16 + 8;
 }
 
 ZoneNPC *GetZoneNPCs(EventData *data) {
-    return data->ptr20;
+    return data->npcs;
 }
 
 u32 GetZoneNPCsCount(EventData *data) {
-    return data->count14;
+    return data->npcCount;
 }
 
 void SetZoneNPCLocation(EventData *data, u32 npcId, u16 direction, u16 x, s32 y, u16 z) {
     ZoneNPC *npc;
-    u16 *coords;
-    u8 *base;
+    ZoneNPCGridPosition *pos;
 
-    if (npcId >= data->count14) {
+    if (npcId >= data->npcCount) {
         return;
     }
-    npcId = npcId * sizeof(ZoneNPC);
-    base = data->ptr20;
-    npc = (ZoneNPC *)(base + npcId);
+    npc = &data->npcs[npcId];
     if (npc->isRail != 0) {
         return;
     }
-    coords = &npc->pos.grid.x;
+    pos = &npc->pos.grid;
     npc->direction = direction;
-    coords[0] = x;
-    *(s32 *)&coords[2] = y;
-    coords[1] = z;
+    pos->x = x;
+    pos->y = y;
+    pos->z = z;
 }
 
 void SetZoneNPCMdlID(EventData *data, u16 npcId, u16 modelId) {
-    if (npcId < data->count14) {
-        ((ZoneNPC *)data->ptr20)[npcId].modelId = modelId;
+    if (npcId < data->npcCount) {
+        data->npcs[npcId].modelId = modelId;
     }
 }
 
 void SetZoneNPCSCRID(EventData *data, u16 npcId, u16 scrId) {
-    if (npcId < data->count14) {
-        ((ZoneNPC *)data->ptr20)[npcId].scrId = scrId;
+    if (npcId < data->npcCount) {
+        data->npcs[npcId].scrId = scrId;
     }
 }
 
@@ -320,29 +317,29 @@ u32 ConvDirToTriggerDir(u32 dir) {
     }
 }
 
-u16 *FindTriggerAtPosGrid(EventData *data, EventWork *eventWork, const VecFx32 *position, u32 direction) {
+ZoneTrigger *FindTriggerAtPosGrid(EventData *data, EventWork *eventWork, const VecFx32 *position, u32 direction) {
     ZoneTrigger *trigger;
     u32 triggerDirection;
     u16 count;
     u16 i;
     u16 *work;
 
-    trigger = data->ptr28;
+    trigger = data->triggers;
     if (trigger != NULL) {
         triggerDirection = ConvDirToTriggerDir(direction);
         i = 0;
-        count = data->count18;
+        count = data->triggerCount;
         if (i < count) {
             do {
                 if (CheckTriggerPositionMatchXYZ(trigger, position)) {
-                    if (((u16 *)trigger)[3] < 5) {
-                        if (direction == 8 || ((u16 *)trigger)[3] == triggerDirection) {
-                            if (((u16 *)trigger)[2] == 0) {
-                                return (u16 *)trigger;
+                    if (trigger->type < 5) {
+                        if (direction == 8 || trigger->type == triggerDirection) {
+                            if (trigger->workId == 0) {
+                                return trigger;
                             }
-                            work = EventWork_GetWkPtr(eventWork, ((u16 *)trigger)[2]);
-                            if (*work == ((u16 *)trigger)[1]) {
-                                return (u16 *)trigger;
+                            work = EventWork_GetWkPtr(eventWork, trigger->workId);
+                            if (*work == trigger->workValue) {
+                                return trigger;
                             }
                         }
                     }
@@ -355,59 +352,28 @@ u16 *FindTriggerAtPosGrid(EventData *data, EventWork *eventWork, const VecFx32 *
     return NULL;
 }
 
-u16 *FindQuicksandTrigger(EventData *data, EventWork *eventWork, const VecFx32 *position, u32 direction) {
+ZoneTrigger *FindQuicksandTrigger(EventData *data, EventWork *eventWork, const VecFx32 *position, u32 direction) {
     ZoneTrigger *trigger;
     u32 triggerDirection;
     u16 count;
     u16 i;
     u16 *work;
 
-    trigger = data->ptr28;
+    trigger = data->triggers;
     if (trigger != NULL) {
         triggerDirection = ConvDirToTriggerDir(direction);
         i = 0;
-        count = data->count18;
+        count = data->triggerCount;
         if (i < count) {
             do {
                 if (CheckTriggerPositionMatchXZ(trigger, position)) {
-                    if (((u16 *)trigger)[3] == triggerDirection) {
-                        if (((u16 *)trigger)[2] == 0) {
-                            return (u16 *)trigger;
+                    if (trigger->type == triggerDirection) {
+                        if (trigger->workId == 0) {
+                            return trigger;
                         }
-                        work = EventWork_GetWkPtr(eventWork, ((u16 *)trigger)[2]);
-                        if (*work == ((u16 *)trigger)[1]) {
-                            return (u16 *)trigger;
-                        }
-                    }
-                }
-                i++;
-                trigger++;
-            } while (i < count);
-        }
-    }
-    return NULL;
-}
-
-void *FindCollidingZoneTriggerAtLocation(EventData *data, EventWork *eventWork, const VecFx32 *position) {
-    ZoneTrigger *trigger;
-    u16 count;
-    u16 i;
-    u16 *work;
-
-    trigger = data->ptr28;
-    if (trigger != NULL) {
-        count = data->count18;
-        i = 0;
-        if (i < count) {
-            do {
-                if (CheckTriggerPositionMatchXYZ(trigger, position)) {
-                    if (((u16 *)trigger)[3] == 6) {
-                        if (((u16 *)trigger)[2] == 0) {
-                            return (u16 *)trigger;
-                        }
-                        work = EventWork_GetWkPtr(eventWork, ((u16 *)trigger)[2]);
-                        if (*work == ((u16 *)trigger)[1]) {
-                            return (u16 *)trigger;
+                        work = EventWork_GetWkPtr(eventWork, trigger->workId);
+                        if (*work == trigger->workValue) {
+                            return trigger;
                         }
                     }
                 }
@@ -419,50 +385,71 @@ void *FindCollidingZoneTriggerAtLocation(EventData *data, EventWork *eventWork, 
     return NULL;
 }
 
-u16 *FindTriggerAtPosRail(EventData *data, EventWork *eventWork, const RailPosition *position) {
+ZoneTrigger *FindCollidingZoneTriggerAtLocation(EventData *data, EventWork *eventWork, const VecFx32 *position) {
     ZoneTrigger *trigger;
     u16 count;
     u16 i;
     u16 *work;
 
-    trigger = data->ptr28;
+    trigger = data->triggers;
     if (trigger != NULL) {
-        count = data->count18;
-        i = 0;
-        if (i < count) {
-            do {
-                if (CheckTriggerPositionMatchRail(trigger, position)) {
-                    work = EventWork_GetWkPtr(eventWork, ((u16 *)trigger)[2]);
-                    if (*work == ((u16 *)trigger)[1]) {
-                        return (u16 *)trigger;
-                    }
+        count = data->triggerCount;
+        for (i = 0; i < count; i++, trigger++) {
+        if (CheckTriggerPositionMatchXYZ(trigger, position)) {
+            if (trigger->type == 6) {
+                if (trigger->workId == 0) {
+                    return trigger;
                 }
-                i++;
-                trigger++;
-            } while (i < count);
+                work = EventWork_GetWkPtr(eventWork, trigger->workId);
+                if (*work == trigger->workValue) {
+                    return trigger;
+                }
+            }
+        }
+        }
+    }
+    return NULL;
+}
+
+ZoneTrigger *FindTriggerAtPosRail(EventData *data, EventWork *eventWork, const RailPosition *position) {
+    ZoneTrigger *trigger;
+    u16 count;
+    u16 i;
+    u16 *work;
+
+    trigger = data->triggers;
+    if (trigger != NULL) {
+        count = data->triggerCount;
+        for (i = 0; i < count; i++, trigger++) {
+        if (CheckTriggerPositionMatchRail(trigger, position)) {
+            work = EventWork_GetWkPtr(eventWork, trigger->workId);
+            if (*work == trigger->workValue) {
+                return trigger;
+            }
+        }
         }
     }
     return NULL;
 }
 
 u32 GetTriggerSCRIDAtPosGrid(EventData *data, EventWork *eventWork, const VecFx32 *position, u32 direction) {
-    u16 *trigger = FindTriggerAtPosGrid(data, eventWork, position, direction);
-    return trigger != NULL ? *trigger : 0xffff;
+    ZoneTrigger *trigger = FindTriggerAtPosGrid(data, eventWork, position, direction);
+    return trigger != NULL ? trigger->scrId : 0xffff;
 }
 
 u32 GetSCRIDOfCollidingTriggerAtLocation(EventData *data, EventWork *eventWork, const VecFx32 *position) {
-    u16 *trigger = FindCollidingZoneTriggerAtLocation(data, eventWork, position);
-    return trigger != NULL ? *trigger : 0xffff;
+    ZoneTrigger *trigger = FindCollidingZoneTriggerAtLocation(data, eventWork, position);
+    return trigger != NULL ? trigger->scrId : 0xffff;
 }
 
 u32 GetTriggerSCRIDAtPosRail(EventData *data, EventWork *eventWork, const RailPosition *position) {
-    u16 *trigger = FindTriggerAtPosRail(data, eventWork, position);
-    return trigger != NULL ? *trigger : 0xffff;
+    ZoneTrigger *trigger = FindTriggerAtPosRail(data, eventWork, position);
+    return trigger != NULL ? trigger->scrId : 0xffff;
 }
 
 void *GetZoneProxiesAndCount(EventData *data, u32 *restrict count) {
     *count = data->entityCount;
-    return data->entityPtr;
+    return data->entities;
 }
 
 s32 CheckProxyEntityEvent(EventData *data, EventWork *eventWork, const void *position, u16 direction) {
@@ -472,55 +459,62 @@ s32 CheckProxyEntityEvent(EventData *data, EventWork *eventWork, const void *pos
     u16 i;
     u16 flag;
 
-    entity = data->entityPtr;
+    entity = data->entities;
     if (entity != NULL) {
-        i = 0;
-        if ((count = data->entityCount) > i) {
-            alternateDirection = direction + 0xfffe;
-            do {
-                if (((u16 *)entity)[1] >= 3) {
-                    goto next;
+        count = data->entityCount;
+        alternateDirection = direction - 2;
+        for (i = 0; i < count; i++, entity++) {
+            if (entity->condition >= 3) {
+                continue;
+            }
+            if (entity->isRail == 0) {
+                if (!CheckBGPositionMatchGrid(entity, position)) {
+                    continue;
                 }
-                if (entity->isRail == 0) {
-                    if (!CheckBGPositionMatchGrid(entity, position)) {
-                        goto next;
+            } else if (!CheckBGPositionMatchRail(entity, position)) {
+                continue;
+            }
+            if (entity->condition == 2) {
+                flag = GetHiddenItemEventFlagNoBySCRID(entity->scrId);
+                if (EventWork_FlagGet(eventWork, flag)) {
+                    continue;
+                }
+                return entity->scrId;
+            }
+            switch (entity->direction) {
+            case 0:
+                if (direction == 0) {
+                        return entity->scrId;
                     }
-                } else if (!CheckBGPositionMatchRail(entity, position)) {
-                    goto next;
-                }
-                if (((u16 *)entity)[1] == 2) {
-                    flag = GetHiddenItemEventFlagNoBySCRID(((u16 *)entity)[0]);
-                    if (EventWork_FlagGet(eventWork, flag)) {
-                        goto next;
+                break;
+            case 1:
+                if (direction == 3) {
+                        return entity->scrId;
                     }
-                    return ((u16 *)entity)[0];
-                }
-                switch (entity->direction) {
-                case 0:
-                    if (direction == 0) return ((u16 *)entity)[0];
-                    break;
-                case 1:
-                    if (direction == 3) return ((u16 *)entity)[0];
-                    break;
-                case 2:
-                    if (direction == 2) return ((u16 *)entity)[0];
-                    break;
-                case 3:
-                    if (direction == 1) return ((u16 *)entity)[0];
-                    break;
-                case 4:
-                    return ((u16 *)entity)[0];
-                case 5:
-                    if (alternateDirection <= 1) return ((u16 *)entity)[0];
-                    break;
-                case 6:
-                    if (direction <= 1) return ((u16 *)entity)[0];
-                    break;
-                }
-            next:
-                i++;
-                entity++;
-            } while (i < count);
+                break;
+            case 2:
+                if (direction == 2) {
+                        return entity->scrId;
+                    }
+                break;
+            case 3:
+                if (direction == 1) {
+                        return entity->scrId;
+                    }
+                break;
+            case 4:
+                return entity->scrId;
+            case 5:
+                if (alternateDirection <= 1) {
+                        return entity->scrId;
+                    }
+                break;
+            case 6:
+                if (direction <= 1) {
+                        return entity->scrId;
+                    }
+                break;
+            }
         }
     }
     return 0xffff;
@@ -553,8 +547,8 @@ void SetBGEntityLocation(EventData *data, u32 index, s32 x, s32 z, u16 y) {
     ZoneBGEntity *entity;
     s32 *coords;
 
-    if (data->entityCount >= index && data->entityPtr != NULL) {
-        entities = data->entityPtr;
+    if (data->entityCount >= index && data->entities != NULL) {
+        entities = data->entities;
         entity = &entities[index];
         if (entity->isRail == 0) {
             coords = &entity->pos.grid.x;
@@ -570,7 +564,7 @@ u16 ZoneWarp_CalcPosWeightBitsGrid_(ZoneWarp *warp, const VecFx32 *position) {
     u32 direction;
 
     direction = ZoneWarp_GetDirection(warp);
-    grid = &warp->gridPos;
+    grid = &warp->pos.grid;
     if (grid->width > 1) {
         return ((grid->width << 4) | (((position->x >> 12) - (s16)grid->x) / 16)) | (direction << 8);
     }
@@ -587,7 +581,7 @@ u16 func_ov012_0215d654(ZoneWarp *warp, const RailPosition *position) {
     BOOL sideFlip;
     s32 offset;
 
-    rail = (const ZoneWarpRailPosition *)&warp->gridPos;
+    rail = &warp->pos.rail;
     frontFlip = FALSE;
     sideFlip = FALSE;
     direction = ZoneWarp_GetDirection(warp);
@@ -638,7 +632,7 @@ u32 ZoneWarp_GetDirection(const ZoneWarp *warp) {
 }
 
 void GetGridWarpOutPos(ZoneWarp *warp, u32 direction, VecFx32 *position) {
-    ZoneWarpGridPosition *grid = &warp->gridPos;
+    ZoneWarpGridPosition *grid = &warp->pos.grid;
     u32 warpDirection = ZoneWarp_GetDirection(warp);
 
     position->x = (s16)grid->x << 12;
@@ -662,7 +656,7 @@ BOOL CheckWarpPositionMatch(const ZoneWarp *warp, const VecFx32 *position) {
     if (warp->isRail == 1) {
         return FALSE;
     }
-    grid = &warp->gridPos;
+    grid = &warp->pos.grid;
     x = position->x >> 12;
     y = position->y >> 12;
     z = position->z >> 12;
@@ -686,22 +680,18 @@ BOOL CheckWarpPositionMatch(const ZoneWarp *warp, const VecFx32 *position) {
 }
 
 void GetRailWarpOutPos(ZoneWarp *warp, u32 direction, RailPosition *position) {
-    ZoneWarpRailPosition *rail = (ZoneWarpRailPosition *)&warp->gridPos;
+    ZoneWarpRailPosition *rail = &warp->pos.rail;
     u32 warpDirection = ZoneWarp_GetDirection(warp);
-    s16 side;
-    u16 param;
 
     position->componentId = rail->componentId;
     position->componentIsLine = 1;
     position->railDirection = ConvDirToRailDir(warpDirection);
-    side = *(volatile s16 *)&rail->posSide;
-    param = rail->param;
-    position->posSide = side;
+    position->posSide = rail->posSide;
     position->posFront = rail->posFront;
     if (rail->sideSpan > 1) {
-        position->posSide += (s16)CalcWarpTransferAddend(direction, warpDirection, 1, param, rail->sideSpan);
+        position->posSide += (s16)CalcWarpTransferAddend(direction, warpDirection, 1, rail->param, rail->sideSpan);
     } else if (rail->frontSpan > 1) {
-        position->posFront += CalcWarpTransferAddend(direction, warpDirection, 1, param, rail->frontSpan);
+        position->posFront += CalcWarpTransferAddend(direction, warpDirection, 1, rail->param, rail->frontSpan);
     }
 }
 
@@ -711,7 +701,7 @@ BOOL CheckWarpPositionMatchRail(const ZoneWarp *warp, const RailPosition *positi
     if (warp->isRail == 0) {
         return FALSE;
     }
-    rail = (const ZoneWarpRailPosition *)&warp->gridPos;
+    rail = &warp->pos.rail;
     if (rail->componentId == position->componentId && rail->posFront <= position->posFront &&
         rail->posFront + rail->frontSpan > position->posFront && rail->posSide <= position->posSide &&
         rail->posSide + rail->sideSpan > position->posSide) {

@@ -22,6 +22,19 @@ typedef struct {
 
 // An actor of a zone's entities, from which actors are created. Names and layout from swan
 // (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
+// Field names from swan's ZoneNPCPositionGrid and ZoneNPCPositionRail.
+struct ZoneNPCGridPosition {
+    u16 x;
+    u16 z;
+    s32 y;
+};
+
+struct ZoneNPCRailPosition {
+    u16 railIndex;
+    u16 frontPos;
+    u16 sidePos;
+};
+
 struct ZoneNPC {
     u16 uid;
     u16 modelId;
@@ -37,16 +50,8 @@ struct ZoneNPC {
     u16 areaH;
     BOOL isRail;
     union {
-        struct {
-            u16 x;
-            u16 z;
-            s32 y;
-        } grid;
-        struct {
-            u16 railIndex;
-            u16 frontPos;
-            u16 sidePos;
-        } rail;
+        ZoneNPCGridPosition grid;
+        ZoneNPCRailPosition rail;
     } pos;
 };
 
