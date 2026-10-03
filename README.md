@@ -481,7 +481,7 @@ every section.
 
 - Name a file after the original. Many functions pass their file's name to `GFL_HeapAllocate` or an assert, so the
   overlay embeds strings such as `"resort_npc.c"`, which sit in that file's `.data`. A file whose name the ROM doesn't
-  give gets a name for what it does, such as `gimmick_nacrene.c`; never an overlay number or a counter.
+  give gets a name for what it does, such as `gym_nacrene.c`; never an overlay number or a counter.
 - An original file is one entry in `delinks.txt`, covering its whole range in each section, even while only some of
   its functions are written. The entry stays without `complete` until every function matches, and the original code
   is linked until then, as with `src/ov059/scrcmd_resort.c`. Never split a file into several entries to link the

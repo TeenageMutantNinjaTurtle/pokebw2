@@ -1,3 +1,4 @@
+#include "types.h"
 #include "field/badge_gate.h"
 #include "field/field.h"
 #include "field/field_camera.h"
@@ -5,6 +6,7 @@
 #include "gfl/sound.h"
 #include "gfl/std.h"
 #include "save/event_work.h"
+#include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
 
@@ -15,6 +17,28 @@ struct BadgeGateCheckEventData {
     u32 state;
     u8 unk0c[0x10];
 };
+
+typedef FieldExpObjAnm *(*BadgeGateAnmInfoGetter)(FieldExpObjSystem *, u16, u16, u32);
+
+void func_ov103_021eec80(Field *field) {
+    HeapID heapId;
+    GameData *gameData;
+    BadgeGateWork *work;
+
+    heapId = Field_GetHeapID(field);
+    gameData = GSYS_GetGameData(Field_GetGameSystem(field));
+    GameData_GetGimmickState(gameData);
+    work = Field_AllocGimmickWorkBlock(field, 0, heapId, sizeof(BadgeGateWork));
+    work->unk00 = 0x15;
+    work->field = field;
+    work->expObj = Field_GetExpObjSystem(field);
+    work->eventWork = GameData_GetEventWork(gameData);
+    work->last = 0;
+    LoadFieldExpandObjData(work->expObj, &data_ov103_021ef814, 0);
+    LoadFieldExpandObjData(work->expObj, &data_ov103_021ef824, 1);
+    LoadFieldExpandObjData(work->expObj, &data_ov103_021ef844, 2);
+    func_ov103_021eecfc(work);
+}
 
 BOOL func_ov103_021eefbc(u32 badge, EventWork *work) {
     u16 *value;
@@ -120,8 +144,6 @@ void *func_ov103_021ef1ac(void *work, u32 index, u32 group) {
     }
 }
 
-typedef FieldExpObjAnm *(*BadgeGateAnmInfoGetter)(FieldExpObjSystem *, u16, u16, u32);
-
 void func_ov103_021ef1dc(void *data, u32 anim, u32 paused) {
     BadgeGateAnimationEntry *entry;
     FieldExpObjAnm *anm;
@@ -145,4 +167,43 @@ u32 func_ov103_021ef200(void *work) {
         }
     }
     return 0;
+}
+
+GameEvent *BadgeGate_CreateLastGateEvent(GameSystem *gsys) {
+    Field *field;
+    GameEvent *event;
+    BadgeGateLastEventData *data;
+
+    field = GSYS_GetField(gsys);
+    event = GameEvent_Create(gsys, NULL, BadgeGate_LastGateEvent, sizeof(BadgeGateLastEventData));
+    data = GameEvent_GetData(event);
+    GSYS_GetGameData(gsys);
+    sys_memset(data, 0, sizeof(BadgeGateLastEventData));
+    data->gimmickWork = Field_GetGimmickWorkBlock(field, 0);
+    data->camera = Field_GetCameraSystem(field);
+    data->field = field;
+    data->state = 0;
+    FieldCamera_CoordsGetEyeOffset(data->camera, &data->eyeOffset);
+    FieldCamera_CoordsGetTargetOffset(data->camera, &data->targetOffset);
+    return event;
+}
+
+void func_ov103_021ef5dc(BadgeGateLastEventData *data) {
+    if (data->state == 100) {
+        GFL_SndSEPlay(0x89d);
+    }
+    if (data->state == 0) {
+        GFL_SndSEPlay(0x89c);
+    }
+    if (data->state == 140) {
+        GFL_SndSEPlay(0x89e);
+        GFL_SndSEPlay(0x8a1);
+    }
+    if (data->state == 0x14a) {
+        GFL_SndSEPlay(0x89f);
+    }
+}
+
+void func_ov103_021ef788(FieldExpObjSystem *system) {
+    FieldExpObj_FreeScene(system, 3);
 }
