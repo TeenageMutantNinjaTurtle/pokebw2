@@ -44,6 +44,8 @@ typedef struct {
 #define TOUCH_RECT_END 0xff
 #define TOUCH_RECT_NONE (-1)
 
+// Returns the rectangle being touched, or TOUCH_RECT_NONE
+s32 func_0203d9c8(const TouchRect *rects);
 // Returns the rectangle that was touched this frame, or TOUCH_RECT_NONE
 s32 func_0203da0c(const TouchRect *rects);
 

@@ -79,6 +79,13 @@
 . 0x02048700 GFL_StrBufConcat
 . 0x02048aac GFL_MsgDataLoadHeader
 . 0x02048b78 GFL_MsgDataSetDefaultLangID
+. 0x0205044c GFL_BMN_Create
+. 0x020504d0 ButtonInit
+. 0x020504dc GFL_BMN_Delete
+. 0x020504f0 GFL_BMN_Main
+. 0x020505b8 ButtonReleased
+. 0x020505d4 ButtonPressed
+. 0x02050608 ButtonSetState
 . 0x0206004c NNS_G2dGetUnpackedAnimBank
 . 0x02060054 NNS_G2dGetUnpackedMCAnimBank
 . 0x02060150 NNS_G2dGetUnpackedCellBank

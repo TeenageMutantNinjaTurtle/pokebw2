@@ -76,3 +76,9 @@ src/main/double3Ddisp.c:
     .text       start:0x0204e188 end:0x0204e3bc
     .data       start:0x0209b03c end:0x0209b04c
     .bss        start:0x02141988 end:0x0214198c
+
+src/main/button_man.c:
+    complete
+    .text       start:0x02050478 end:0x0205063c
+    .rodata     start:0x020940d4 end:0x020940dc
+    .data       start:0x0209b074 end:0x0209b084
