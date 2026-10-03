@@ -1,0 +1,518 @@
+#include "types.h"
+#include "battle/battle_result.h"
+#include "battle/trainer_data.h"
+#include "constants/pokemon.h"
+#include "constants/species.h"
+#include "field/app_call.h"
+#include "field/black_tower_gimmick.h"
+#include "field/day_care.h"
+#include "field/encounter.h"
+#include "field/event_3d_demo.h"
+#include "field/event_action_call.h"
+#include "field/event_actor_move.h"
+#include "field/event_battle_lose.h"
+#include "field/event_battle_video.h"
+#include "field/event_chatot.h"
+#include "field/event_data.h"
+#include "field/event_fly.h"
+#include "field/event_game_clear.h"
+#include "field/event_irc.h"
+#include "field/event_mapchange.h"
+#include "field/event_save.h"
+#include "field/event_sound.h"
+#include "field/event_sweet_scent.h"
+#include "field/event_wifibattlematch.h"
+#include "field/field.h"
+#include "field/field_acmd.h"
+#include "field/field_actor.h"
+#include "field/field_chunk.h"
+#include "field/field_event.h"
+#include "field/field_map.h"
+#include "field/field_menu.h"
+#include "field/field_player.h"
+#include "field/field_script.h"
+#include "field/field_script_event.h"
+#include "field/field_script_plugin.h"
+#include "field/field_script_supervisor.h"
+#include "field/field_sound.h"
+#include "field/field_status.h"
+#include "field/field_visuals.h"
+#include "field/hidden_event.h"
+#include "field/item_use_block.h"
+#include "field/player_action.h"
+#include "field/player_state.h"
+#include "field/pleasure_boat.h"
+#include "field/script_network.h"
+#include "field/shortcut_menu.h"
+#include "field/skill_map_effect.h"
+#include "field/stadium_script.h"
+#include "field/subscreen.h"
+#include "field/trainer_script.h"
+#include "field/zone.h"
+#include "gfl/arc.h"
+#include "gfl/g3d.h"
+#include "gfl/graphics.h"
+#include "gfl/heap.h"
+#include "gfl/input.h"
+#include "gfl/msg.h"
+#include "gfl/overlay.h"
+#include "gfl/random.h"
+#include "gfl/sound.h"
+#include "gfl/std.h"
+#include "gfl/str.h"
+#include "nitro/fx.h"
+#include "nitro/os.h"
+#include "nitro/rtc.h"
+#include "pml/item.h"
+#include "pml/move_reminder.h"
+#include "pml/personal.h"
+#include "pml/poke_party.h"
+#include "save/bag.h"
+#include "save/box.h"
+#include "save/config.h"
+#include "save/encounter.h"
+#include "save/event_work.h"
+#include "save/medal_box.h"
+#include "save/player_info.h"
+#include "save/pokedex.h"
+#include "save/save_control.h"
+#include "save/shortcut.h"
+#include "save/trainer_card.h"
+#include "system/dsi.h"
+#include "system/game_comm.h"
+#include "system/game_data.h"
+#include "system/game_event.h"
+#include "system/game_system.h"
+#include "system/season.h"
+#include "system/version.h"
+#include "system/vm.h"
+
+BOOL s00E0_GameGetVersion(VM *vm, FieldScriptEnv *env) {
+    u16 *value = ScriptReadVar(vm, env);
+#if defined(BLACK2)
+    *value = 23;
+#else
+    *value = 22;
+#endif
+    return FALSE;
+}
+
+BOOL func_ov012_02155608(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData;
+    SaveControl *save;
+    TrainerDataSave *trainerData;
+    u32 mode;
+
+    gameData = FieldScriptEnv_GetGameData(env);
+    save = GameData_GetSaveControl(gameData);
+    trainerData = getTrainerDataBlkAddress(save);
+    mode = func_02008a84(trainerData);
+    if (mode == 0) {
+        mode = 1;
+    } else if (mode == 1) {
+        mode = 0;
+    }
+    func_02008a8c((Config *)trainerData, mode);
+    return FALSE;
+}
+
+BOOL func_ov012_02155638(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData;
+    SaveControl *save;
+    TrainerDataSave *trainerData;
+    u16 *value;
+
+    gameData = FieldScriptEnv_GetGameData(env);
+    save = GameData_GetSaveControl(gameData);
+    trainerData = getTrainerDataBlkAddress(save);
+    value = ScriptReadVar(vm, env);
+    *value = func_02008a84(trainerData);
+    return FALSE;
+}
+
+BOOL s00CB_Random(VM *vm, FieldScriptEnv *env) {
+    u16 *value = ScriptReadVar(vm, env);
+    u16 range = ScriptReadAny(vm, env);
+    *value = GFL_RandomLC(range);
+    return FALSE;
+}
+
+BOOL s00CC_RTGetTextFile(VM *vm, FieldScriptEnv *env) {
+    u16 *value = ScriptReadVar(vm, env);
+    *value = GetFieldScriptMsgFileNo(env);
+    return FALSE;
+}
+
+BOOL func_ov012_0215569c(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData;
+    u16 *value;
+
+    gameData = FieldScriptEnv_GetGameData(env);
+    value = ScriptReadVar(vm, env);
+    *value = func_ov012_02169b78(gameData);
+    return FALSE;
+}
+
+BOOL s00CD_RTCGetDayPart(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    u16 *value = ScriptReadVar(vm, env);
+    *value = GameData_GetDayPeriod(gameData);
+    return FALSE;
+}
+
+BOOL s00CF_RTCGetWeekDay(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    u16 *value = ScriptReadVar(vm, env);
+    *value = getCurrentDayOfWeek(gameData);
+    return FALSE;
+}
+
+BOOL s00D0_RTCGetDate(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    u16 *month = ScriptReadVar(vm, env);
+    u16 *day = ScriptReadVar(vm, env);
+    *month = GameData_GetMonth(gameData);
+    *day = GameData_GetDay(gameData);
+    return FALSE;
+}
+
+BOOL s00D1_RTCGetTime(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    u16 *hour = ScriptReadVar(vm, env);
+    u16 *minute = ScriptReadVar(vm, env);
+    *hour = getCurrentHour(gameData);
+    *minute = getCurrentMinute(gameData);
+    return FALSE;
+}
+
+BOOL s00D2_RTCGetSeason(VM *vm, FieldScriptEnv *env) {
+    u16 *value = ScriptReadVar(vm, env);
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    *value = GameData_GetSeason(gameData);
+    return FALSE;
+}
+
+BOOL s00D4_TrainerCardGetBirthDate(VM *vm, FieldScriptEnv *env) {
+    u16 *month;
+    u16 *day;
+    u8 date[0x58];
+
+    month = ScriptReadVar(vm, env);
+    day = ScriptReadVar(vm, env);
+    func_0207c3bc(date);
+    *month = date[2];
+    *day = date[3];
+    return FALSE;
+}
+
+BOOL s00E1_TrainerCardGetSex(VM *vm, FieldScriptEnv *env) {
+    u16 *value;
+    GameData *gameData;
+    PlayerState *state;
+
+    value = ScriptReadVar(vm, env);
+    gameData = FieldScriptEnv_GetGameData(env);
+    state = GameData_GetPlayerState(gameData);
+    *value = getTrainerGender(&state->playerInfo);
+    return FALSE;
+}
+
+BOOL s00D5_TrainerCardHasBadge(VM *vm, FieldScriptEnv *env) {
+    u16 *value;
+    u16 badgeId;
+    GameData *gameData;
+    TrainerCardSave *card;
+
+    value = ScriptReadVar(vm, env);
+    badgeId = ScriptReadAny(vm, env);
+    gameData = FieldScriptEnv_GetGameData(env);
+    card = getTrainerCardDataBlkAddress(gameData);
+    *value = isBadgeObtained(card, badgeId);
+    return FALSE;
+}
+
+BOOL s00D6_TrainerCardAddBadge(VM *vm, FieldScriptEnv *env) {
+    u16 badgeId;
+    GameData *gameData;
+    TrainerCardSave *card;
+    RTCDate date;
+    void *timeSig;
+
+    badgeId = ScriptReadAny(vm, env);
+    gameData = FieldScriptEnv_GetGameData(env);
+    card = getTrainerCardDataBlkAddress(gameData);
+    addBadge(card, badgeId);
+    RTC_GetCachedDate(&date);
+    timeSig = getTimeSigSaveBlock(gameData);
+    setBadgeGetSecondsTime(timeSig, badgeId, date.year, date.month, date.day);
+    return FALSE;
+}
+
+BOOL s00D7_TrainerCardGetBadgeCount(VM *vm, FieldScriptEnv *env) {
+    u16 *value;
+    GameData *gameData;
+    TrainerCardSave *card;
+
+    value = ScriptReadVar(vm, env);
+    gameData = FieldScriptEnv_GetGameData(env);
+    card = getTrainerCardDataBlkAddress(gameData);
+    *value = getBadgeCount(card);
+    return FALSE;
+}
+
+BOOL s00D3_RTGetZoneID(VM *vm, FieldScriptEnv *env) {
+    u16 *value = ScriptReadVar(vm, env);
+    *value = GetScriptEnvZoneID(env);
+    return FALSE;
+}
+
+BOOL s00D9_FieldSetTeleportZone(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    u16 zone = ScriptReadAny(vm, env);
+    if (RangeCheckTeleportZone(zone) == TRUE) {
+        SetCurrentTeleportOrDeathZone(gameData, zone);
+    }
+    return FALSE;
+}
+
+BOOL s00DB_FieldSetNextZoneHere(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    PlayerState *playerState = GameData_GetPlayerState(gameData);
+    VecFx32 *pos = PlayerState_GetWPos(playerState);
+    u16 zone = PlayerState_GetZoneID(playerState);
+    u16 direction = PlayerState_CalcDirection(playerState);
+    ZoneSpawnInfo spawn;
+
+    CreateZoneChangeData(&spawn, zone, direction, pos->x, pos->y, pos->z);
+    GameData_SetNextZone(gameData, &spawn);
+    return FALSE;
+}
+
+BOOL s00DC_FieldSetNextZone(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    u16 zone = ScriptReadAny(vm, env);
+    u16 direction = ScriptReadAny(vm, env);
+    u16 x = ScriptReadAny(vm, env);
+    u16 y = ScriptReadAny(vm, env);
+    u16 z = ScriptReadAny(vm, env);
+    ZoneSpawnInfo spawn;
+
+    CreateZoneChangeData(&spawn, zone, (s16)direction, x << 16, y << 16, z << 16);
+    GameData_SetNextZone(gameData, &spawn);
+    return FALSE;
+}
+
+BOOL s00DA_MapReplaceSetEvent(VM *vm, FieldScriptEnv *env) {
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    u16 uid = ScriptReadAny(vm, env);
+    u16 set = ScriptReadAny(vm, env);
+    u16 reload = ScriptReadAny(vm, env);
+
+    GameData_SetEventMapReplace(gameData, uid, set);
+    if (reload != 0) {
+        MapMatrix *matrix = GetMapMatrixSystem(gameData);
+        PlayerState *playerState = GameData_GetPlayerState(gameData);
+        u16 zoneId = PlayerState_GetZoneID(playerState);
+        u16 matrixId = GetZoneMatrixId(zoneId);
+        HeapID heapId = FieldScriptEnv_GetHeapID(env);
+
+        MapMatrix_Load(matrix, matrixId, zoneId, heapId);
+        MapMatrix_Patch(matrix, gsys, heapId);
+    }
+
+    return FALSE;
+}
+
+BOOL s00D8_MapReplaceIsEventSet(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    u16 uid = ScriptReadAny(vm, env);
+    u16 *result = ScriptReadVar(vm, env);
+    *result = GameData_IsMapReplaceEventSet(gameData, uid);
+    return FALSE;
+}
+
+BOOL s00DE_PokeDexRegist(VM *vm, FieldScriptEnv *env) {
+    PokeDexSave *pokedex = GameData_GetPokedex(FieldScriptEnv_GetGameData(env));
+    HeapID heapId = FieldScriptEnv_GetHeapID(env);
+    u16 kind = ScriptReadAny(vm, env);
+    u16 species = ScriptReadAny(vm, env);
+    PartyPkm *pkm = PokeParty_NewTempPkm(species, 1, 0xffffffff00000000ULL, heapId);
+
+    switch (kind) {
+    case 0:
+        PokeDex_RegistPkm(pokedex, pkm);
+        break;
+    case 1:
+        break;
+    }
+
+    GFL_HeapFree(pkm);
+    return FALSE;
+}
+
+BOOL s00DF_PokeDexIsRegist(VM *vm, FieldScriptEnv *env) {
+    PokeDexSave *pokedex = GameData_GetPokedex(FieldScriptEnv_GetGameData(env));
+    u16 kind = ScriptReadAny(vm, env);
+    u16 species = ScriptReadAny(vm, env);
+    u16 *result = ScriptReadVar(vm, env);
+
+    switch (kind) {
+    case 0:
+        *result = PokeDex_IsSeen(pokedex, species);
+        break;
+    case 1:
+        *result = PokeDex_IsCaught(pokedex, species);
+        break;
+    default:
+        *result = FALSE;
+        break;
+    }
+    return FALSE;
+}
+
+BOOL s00DD_PokeDexGetCount(VM *vm, FieldScriptEnv *env) {
+    PokeDexSave *pokedex = GameData_GetPokedex(FieldScriptEnv_GetGameData(env));
+    u16 kind = ScriptReadAny(vm, env);
+    u16 *result = ScriptReadVar(vm, env);
+
+    switch (kind) {
+    case 0:
+        *result = PokeDex_GetSeenNoNational(pokedex);
+        break;
+    case 1:
+        *result = PokeDex_GetCaughtNoNational(pokedex);
+        break;
+    default:
+        *result = 0;
+        break;
+    }
+    return FALSE;
+}
+
+BOOL s01C6_PokeDexGiveNational(VM *vm, FieldScriptEnv *env) {
+    PokeDexSave *pokedex = GameData_GetPokedex(FieldScriptEnv_GetGameData(env));
+    PokeDex_EnableHabitatList(pokedex);
+    PokeDex_SetNationalObtained(pokedex);
+    return FALSE;
+}
+
+BOOL s01C7_PokeDexHaveNational(VM *vm, FieldScriptEnv *env) {
+    u16 *value = ScriptReadVar(vm, env);
+    PokeDexSave *pokedex = GameData_GetPokedex(FieldScriptEnv_GetGameData(env));
+    *value = PokeDex_IsNationalObtained(pokedex);
+    return FALSE;
+}
+
+BOOL s01C8_PokeDexEnable(VM *vm, FieldScriptEnv *env) {
+    PokeDexSave *pokedex = GameData_GetPokedex(FieldScriptEnv_GetGameData(env));
+    givePlayerPokedex(pokedex);
+    return FALSE;
+}
+
+BOOL s02D0_PokeDexEnableHabitatList(VM *vm, FieldScriptEnv *env) {
+    PokeDexSave *pokedex = GameData_GetPokedex(FieldScriptEnv_GetGameData(env));
+    PokeDex_EnableHabitatList(pokedex);
+    return FALSE;
+}
+
+BOOL s00E2_SaveDataCheckRequired(VM *vm, FieldScriptEnv *env) {
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+    GameData *gameData = GSYS_GetGameData(gsys);
+    SaveControl *save = GameData_GetSaveControl(gameData);
+    TrainerDataSave *config = getTrainerDataBlkAddress(save);
+    u16 *value = ScriptReadVar(vm, env);
+
+    switch (func_02008ac8(config)) {
+    case 0:
+        *value = 0;
+        break;
+    case 1:
+        *value = 1;
+        break;
+    }
+    return FALSE;
+}
+
+BOOL s00E3_GiveRunningShoes(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    EventWork_FlagSet(GameData_GetEventWork(gameData), 0x963);
+    return FALSE;
+}
+
+BOOL s0095_TrainerFlagSet(VM *vm, FieldScriptEnv *env) {
+    EventWork *eventWork = GameData_GetEventWork(FieldScriptEnv_GetGameData(env));
+    u16 trainerId = ScriptReadAny(vm, env);
+    setTrainerBattleFlag(eventWork, trainerId);
+    return FALSE;
+}
+
+BOOL s0096_TrainerFlagReset(VM *vm, FieldScriptEnv *env) {
+    EventWork *eventWork = GameData_GetEventWork(FieldScriptEnv_GetGameData(env));
+    u16 trainerId = ScriptReadAny(vm, env);
+    clearTrainerBattleFlag(eventWork, trainerId);
+    return FALSE;
+}
+
+BOOL s0097_TrainerFlagGet(VM *vm, FieldScriptEnv *env) {
+    EventWork *eventWork = GameData_GetEventWork(FieldScriptEnv_GetGameData(env));
+    u16 trainerId = ScriptReadAny(vm, env);
+    u16 *result = ScriptReadVar(vm, env);
+    *result = TrainerFlagGet(eventWork, trainerId);
+    return FALSE;
+}
+
+BOOL s008C_CallTrainerLose(VM *vm, FieldScriptEnv *env) {
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    ScriptWork_SetPostEvent(work, EventBattleLose_Create(gsys));
+    VM_Halt(vm);
+    return TRUE;
+}
+
+BOOL s008D_TrainerBattleIsVictory(VM *vm, FieldScriptEnv *env) {
+    u16 *result = ScriptReadVar(vm, env);
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    u32 battleResult = GameData_GetLastBtlResult(gameData);
+    if (IsBattleResultDefeat(battleResult, 1) == TRUE) {
+        *result = 0;
+    } else {
+        *result = 1;
+    }
+    return FALSE;
+}
+
+BOOL s0176_CallWildLose(VM *vm, FieldScriptEnv *env) {
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    ScriptWork_SetPostEvent(work, EventBattleLose_Create(gsys));
+    VM_Halt(vm);
+    return TRUE;
+}
+
+BOOL s0177_WildBattleIsVictory(VM *vm, FieldScriptEnv *env) {
+    u16 *result = ScriptReadVar(vm, env);
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    u32 battleResult = GameData_GetLastBtlResult(gameData);
+    if (IsBattleResultDefeat(battleResult, 0) == TRUE) {
+        *result = 0;
+    } else {
+        *result = 1;
+    }
+    return FALSE;
+}
+
+BOOL s0178_WildBattleGetResult(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    u32 battleResult = GameData_GetLastBtlResult(gameData);
+    u16 *result = ScriptReadVar(vm, env);
+    *result = GetWildBattleResultByCombined(battleResult);
+    return FALSE;
+}
+
+BOOL s02D2_FieldOpenRestoreLCD(VM *vm, FieldScriptEnv *env) {
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    ScriptWork_CallEvent(work, EventFieldOpenRestoreLCD_Create(gsys));
+    return TRUE;
+}

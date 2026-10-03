@@ -87,57 +87,74 @@
 #include "system/version.h"
 #include "system/vm.h"
 
-BOOL RangeCheckTeleportZone(s32 index) {
-    if (index <= 0 || (u32)index > 0x52) {
-        return FALSE;
+EncountState *EncountState_Create(HeapID heapId) {
+    EncountState *state = GFL_HeapAllocate(heapId, sizeof(EncountState), TRUE, "field_encount_st.c", 0x2d);
+    EncountState_SetTerrain(state, 0xff);
+    return state;
+}
+
+void EncountState_Free(EncountState *state) {
+    GFL_HeapFree(state);
+}
+
+void func_ov012_0215917c(GameData *gameData, Field *field) {
+    EncountSystem *system = Field_GetEncountSystem(field);
+    FieldPlayer *player;
+    EncountState *state;
+    u32 terrain;
+
+    player = Field_GetPlayer(field);
+    func_ov036_021a203c(system, system->unk10);
+    state = GameData_GetEncountState(gameData);
+    terrain = FieldPlayer_GetTileTypeUnder(player);
+    EncountState_SetTerrain(state, terrain);
+}
+
+void func_ov012_021591b4(GameData *gameData) {
+    EncountState *state = GameData_GetEncountState(gameData);
+    state->unk14 = 0;
+}
+
+void GameData_InitEncountTerrain(GameData *gameData, Field *field) {
+    FieldPlayer *player = Field_GetPlayer(field);
+    EncountState *state = GameData_GetEncountState(gameData);
+    u32 terrain = FieldPlayer_GetTileTypeUnder(player);
+    EncountState_SetTerrain(state, terrain);
+}
+
+void EncountState_SetTerrain(EncountState *state, u32 terrain) {
+    state->terrain = terrain;
+    state->unk08 = 0;
+    state->unk10 = 1;
+    state->unk06 = 0;
+    state->unk07 = 0;
+}
+
+void func_ov012_021591f4(void) {
+}
+
+u16 EncountSave_GetRoamingPkmZone(EncountSave *save, u8 slot) {
+    u32 clock = EncountSave_GetRoamingPkmZoneClock(save);
+    if (clock > 16) {
+        return 319;
     }
-    return TRUE;
+    return ROAMING_POKEMON_ZONES[clock];
 }
 
-u16 GetRespawnZoneMainZone(u16 index) {
-    return RESPAWN_ZONE_INFO[GetActualRespawnZoneIdx(index)].mainZoneId;
-}
-
-void SetupTeleportZoneChange(u16 index, ZoneSpawnInfo *spawn) {
-    u32 actualIndex = GetActualRespawnZoneIdx(index);
-    const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[actualIndex];
-
-    CreateRespawnZoneChangeData(spawn, RESPAWN_ZONE_INFO[actualIndex].zoneId, 0, info->x, info->z);
-}
-
-u32 GetRespawnLocationIndexForRespawnZone(s32 zoneId) {
-    u32 i;
-
-    for (i = 0; i < 0x52; i++) {
-        const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[i];
-
-        if (zoneId == info->zoneId && info->canReturnHere) {
-            return i + 1;
-        }
-    }
+u32 func_ov012_02159218(EncountSave *save) {
     return 0;
 }
 
-void SetTeleportZoneDiscover(GameData *gameData, s32 respawnZoneId) {
-    u32 i;
-
-    for (i = 0; i < 0x52; i++) {
-        const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[i];
-
-        if (respawnZoneId == info->mainZoneId && info->discoverOnVisit) {
-            EventWork_FlagSet(GameData_GetEventWork(gameData), info->discoveryFlagId);
-            return;
-        }
-    }
+void func_ov012_0215921c(void) {
 }
 
-void CreateRespawnZoneChangeData(ZoneSpawnInfo *spawn, u16 zoneId, u32 unused, u16 x, u16 z) {
-    CreateZoneChangeData(spawn, zoneId, 1, x << 16, 0, z << 16);
+void func_ov012_02159220(GameData *gameData) {
 }
 
-u32 GetActualRespawnZoneIdx(u32 index) {
-    if (!RangeCheckTeleportZone(index)) {
-        index = GetLeaguePokeCenReturnLocationIdx();
-    }
-    return index - 1;
+u32 GetDefaultWeatherValue(void) {
+    return 0xffff;
+}
+
+u32 func_ov012_0215922c(void) {
+    return 0;
 }

@@ -87,57 +87,85 @@
 #include "system/version.h"
 #include "system/vm.h"
 
-BOOL RangeCheckTeleportZone(s32 index) {
-    if (index <= 0 || (u32)index > 0x52) {
-        return FALSE;
+GameEvent *EventFieldAppCall_Create(FieldAppCallInput *input, u16 code) {
+    GameEvent *event = GameEvent_Create(input->gameSystem, input->parent, EventFieldAppCall_Callback, sizeof(FieldAppCallWork));
+    FieldAppCallWork *work = GameEvent_GetData(event);
+
+    sys_memset(work, 0, sizeof(FieldAppCallWork));
+    work->code = code;
+    work->input = input;
+    work->unk10 = 4;
+    work->event = event;
+    work->callback04 = input->context;
+    work->callback08 = input->context;
+    work->callback0C = input->context;
+    work->flag68 = 0;
+    work->value6A = 0;
+    work->unk70 = 0;
+    func_ov012_0215b76c(&work->params, work->input, work->input->canRetry, work->input->callback1,
+                          work->input->callback2, work->input->arg);
+    PlayerActionPerms_Create(&work->perms, work->input->gameSystem, work->input->field);
+    CalcPlayerActionPossibilities(work->input->field, &work->action);
+    return event;
+}
+
+void EventFieldAppCall_ConvAppResultToEventType(u32 result, u32 *eventType) {
+    switch (result) {
+    case 0:
+        *eventType = 0;
+        break;
+    case 1:
+        *eventType = 1;
+        break;
+    case 3:
+        *eventType = 3;
+        break;
+    case 2:
+        *eventType = 2;
+        break;
+    case 5:
+        *eventType = 5;
+        break;
+    default:
+        break;
+    }
+}
+
+void func_ov012_0215b754(FieldAppCallWork *work) {
+    GameSystem *gsys = work->input->gameSystem;
+    GameData *gameData = GSYS_GetGameData(gsys);
+    void *data = func_0201734c(gameData);
+
+    func_020088ec(data, 0);
+}
+
+void func_ov012_0215b76c(FieldAppCallParam *param, void *context, FieldAppCallPredicate canRetry,
+                         FieldAppCallPredicate callback1, FieldAppCallPredicate callback2, void *arg) {
+    sys_memset(param, 0, sizeof(FieldAppCallParam));
+    param->canRetry = canRetry;
+    param->callback1 = callback1;
+    param->callback2 = callback2;
+    param->arg = arg;
+    param->context = context;
+}
+
+BOOL FieldAppCallParam_CanRetry(FieldAppCallParam *param) {
+    if (param->canRetry != NULL) {
+        return param->canRetry(param->context, param->arg);
     }
     return TRUE;
 }
 
-u16 GetRespawnZoneMainZone(u16 index) {
-    return RESPAWN_ZONE_INFO[GetActualRespawnZoneIdx(index)].mainZoneId;
-}
-
-void SetupTeleportZoneChange(u16 index, ZoneSpawnInfo *spawn) {
-    u32 actualIndex = GetActualRespawnZoneIdx(index);
-    const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[actualIndex];
-
-    CreateRespawnZoneChangeData(spawn, RESPAWN_ZONE_INFO[actualIndex].zoneId, 0, info->x, info->z);
-}
-
-u32 GetRespawnLocationIndexForRespawnZone(s32 zoneId) {
-    u32 i;
-
-    for (i = 0; i < 0x52; i++) {
-        const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[i];
-
-        if (zoneId == info->zoneId && info->canReturnHere) {
-            return i + 1;
-        }
+BOOL func_ov012_0215b7a8(FieldAppCallParam *param) {
+    if (param->callback1 != NULL) {
+        return param->callback1(param->context, param->arg);
     }
-    return 0;
+    return TRUE;
 }
 
-void SetTeleportZoneDiscover(GameData *gameData, s32 respawnZoneId) {
-    u32 i;
-
-    for (i = 0; i < 0x52; i++) {
-        const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[i];
-
-        if (respawnZoneId == info->mainZoneId && info->discoverOnVisit) {
-            EventWork_FlagSet(GameData_GetEventWork(gameData), info->discoveryFlagId);
-            return;
-        }
+BOOL func_ov012_0215b7c0(FieldAppCallParam *param) {
+    if (param->callback2 != NULL) {
+        return param->callback2(param->context, param->arg);
     }
-}
-
-void CreateRespawnZoneChangeData(ZoneSpawnInfo *spawn, u16 zoneId, u32 unused, u16 x, u16 z) {
-    CreateZoneChangeData(spawn, zoneId, 1, x << 16, 0, z << 16);
-}
-
-u32 GetActualRespawnZoneIdx(u32 index) {
-    if (!RangeCheckTeleportZone(index)) {
-        index = GetLeaguePokeCenReturnLocationIdx();
-    }
-    return index - 1;
+    return TRUE;
 }

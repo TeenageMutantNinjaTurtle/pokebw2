@@ -87,57 +87,71 @@
 #include "system/version.h"
 #include "system/vm.h"
 
-BOOL RangeCheckTeleportZone(s32 index) {
-    if (index <= 0 || (u32)index > 0x52) {
-        return FALSE;
-    }
-    return TRUE;
+void FieldChunk_SetActive(FieldChunk *chunk, u16 active) {
+    *(u16 *)chunk = active;
 }
 
-u16 GetRespawnZoneMainZone(u16 index) {
-    return RESPAWN_ZONE_INFO[GetActualRespawnZoneIdx(index)].mainZoneId;
+u16 FieldChunk_IsActive(FieldChunk *chunk) {
+    return *(u16 *)chunk;
 }
 
-void SetupTeleportZoneChange(u16 index, ZoneSpawnInfo *spawn) {
-    u32 actualIndex = GetActualRespawnZoneIdx(index);
-    const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[actualIndex];
-
-    CreateRespawnZoneChangeData(spawn, RESPAWN_ZONE_INFO[actualIndex].zoneId, 0, info->x, info->z);
+void FieldChunk_SetWorldPos(FieldChunk *chunk, const VecFx32 *position) {
+    *(VecFx32 *)((u8 *)chunk + 4) = *position;
 }
 
-u32 GetRespawnLocationIndexForRespawnZone(s32 zoneId) {
-    u32 i;
-
-    for (i = 0; i < 0x52; i++) {
-        const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[i];
-
-        if (zoneId == info->zoneId && info->canReturnHere) {
-            return i + 1;
-        }
-    }
-    return 0;
+void FieldChunk_GetWorldPos(FieldChunk *chunk, VecFx32 *position) {
+    *position = *(VecFx32 *)((u8 *)chunk + 4);
 }
 
-void SetTeleportZoneDiscover(GameData *gameData, s32 respawnZoneId) {
-    u32 i;
-
-    for (i = 0; i < 0x52; i++) {
-        const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[i];
-
-        if (respawnZoneId == info->mainZoneId && info->discoverOnVisit) {
-            EventWork_FlagSet(GameData_GetEventWork(gameData), info->discoveryFlagId);
-            return;
-        }
-    }
+void FieldChunk_GetLoaderHandle(FieldChunk *chunk, void **handle) {
+    *handle = (u8 *)chunk + 0xb0;
 }
 
-void CreateRespawnZoneChangeData(ZoneSpawnInfo *spawn, u16 zoneId, u32 unused, u16 x, u16 z) {
-    CreateZoneChangeData(spawn, zoneId, 1, x << 16, 0, z << 16);
+void GetChunkRawDataContainer(FieldChunk *chunk, void **container) {
+    *container = *(void **)((u8 *)chunk + 0xd4);
 }
 
-u32 GetActualRespawnZoneIdx(u32 index) {
-    if (!RangeCheckTeleportZone(index)) {
-        index = GetLeaguePokeCenReturnLocationIdx();
-    }
-    return index - 1;
+void FieldChunk_GetDatID(FieldChunk *chunk, u32 *datID) {
+    *datID = *(u32 *)((u8 *)chunk + 0x14);
+}
+
+void FieldChunk_GetRawDataLength(FieldChunk *chunk, u32 *length) {
+    *length = *(u32 *)((u8 *)chunk + 0xbc);
+}
+
+void FieldChunk_BindModel(FieldChunk *chunk, void *model) {
+    GFL_G3DResBindData(*(void **)((u8 *)chunk + 0x84), 1, model);
+}
+
+void FieldChunk_UnbindModel(FieldChunk *chunk) {
+    GFL_G3DResBindData(*(void **)((u8 *)chunk + 0x84), 1, NULL);
+}
+
+void *FieldChunk_GetModelResource(FieldChunk *chunk) {
+    return *(void **)((u8 *)chunk + 0x84);
+}
+
+void FieldChunk_FreeTexRsc(FieldChunk *chunk) {
+    GFL_G3DResBindData(*(void **)((u8 *)chunk + 0x88), 2, NULL);
+}
+
+void *FieldChunk_GetUsedTexRsc(FieldChunk *chunk) {
+    return FieldChunk_GetUsedTexRscCore(chunk);
+}
+
+void FieldChunk_SetupModel(FieldChunk *chunk) {
+    void *texture = FieldChunk_GetUsedTexRscCore(chunk);
+    FieldChunk_LinkMdlTex(*(void **)((u8 *)chunk + 0x2c), *(void **)((u8 *)chunk + 0x84), texture);
+}
+
+void *FieldChunk_GetModel(FieldChunk *chunk) {
+    return *(void **)((u8 *)chunk + 0x2c);
+}
+
+void FieldChunk_ResetStreamer(FieldChunk *chunk) {
+    *(u32 *)((u8 *)chunk + 0xb4) = 0;
+    *(u32 *)((u8 *)chunk + 0xc0) = 0;
+    *(u32 *)((u8 *)chunk + 0xc8) = 0;
+    *(u32 *)((u8 *)chunk + 0xcc) = 0;
+    *(u32 *)((u8 *)chunk + 0xd0) = 0;
 }

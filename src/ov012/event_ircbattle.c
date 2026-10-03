@@ -87,57 +87,43 @@
 #include "system/version.h"
 #include "system/vm.h"
 
-BOOL RangeCheckTeleportZone(s32 index) {
-    if (index <= 0 || (u32)index > 0x52) {
-        return FALSE;
+// Fields used here are reconstructed from the game code.
+struct IRCPartyWork {
+    GameSystem *gsys;
+    u8 unk04[0x34];
+    PokeParty *party;
+    u8 unk3C[0x10];
+    SaveControl *save;
+};
+
+void setPartyLv50(PokeParty *party) {
+    int i;
+
+    for (i = 0; i < PokeParty_GetPkmCount(party); i++) {
+        setLevel(PokeParty_GetPkm(party, i), 50);
     }
-    return TRUE;
 }
 
-u16 GetRespawnZoneMainZone(u16 index) {
-    return RESPAWN_ZONE_INFO[GetActualRespawnZoneIdx(index)].mainZoneId;
-}
+void battleBoxToLv50Party(BOOL useBattleBox, IRCPartyWork *work) {
+    int i;
+    BattleBoxSave *battleBox;
+    PartyPkm *pkm;
+    PokeParty *party;
 
-void SetupTeleportZoneChange(u16 index, ZoneSpawnInfo *spawn) {
-    u32 actualIndex = GetActualRespawnZoneIdx(index);
-    const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[actualIndex];
-
-    CreateRespawnZoneChangeData(spawn, RESPAWN_ZONE_INFO[actualIndex].zoneId, 0, info->x, info->z);
-}
-
-u32 GetRespawnLocationIndexForRespawnZone(s32 zoneId) {
-    u32 i;
-
-    for (i = 0; i < 0x52; i++) {
-        const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[i];
-
-        if (zoneId == info->zoneId && info->canReturnHere) {
-            return i + 1;
+    battleBox = getBattleBox(work->save);
+    if (!useBattleBox) {
+        party = GameData_GetParty(GSYS_GetGameData(work->gsys));
+        for (i = 0; i < PokeParty_GetPkmCount(party); i++) {
+            pkm = PokeParty_GetPkm(party, i);
+            if (!PokeParty_GetParam(pkm, PKM_PARAM_IS_EGG, NULL)) {
+                PokeParty_AddPkm(work->party, pkm);
+            }
         }
+    } else {
+        party = convertBoxedPokeSetToParty(battleBox, HEAPID_GAMEEVENT);
+        PokeParty_Copy(party, work->party);
+        GFL_HeapFree(party);
     }
-    return 0;
-}
-
-void SetTeleportZoneDiscover(GameData *gameData, s32 respawnZoneId) {
-    u32 i;
-
-    for (i = 0; i < 0x52; i++) {
-        const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[i];
-
-        if (respawnZoneId == info->mainZoneId && info->discoverOnVisit) {
-            EventWork_FlagSet(GameData_GetEventWork(gameData), info->discoveryFlagId);
-            return;
-        }
-    }
-}
-
-void CreateRespawnZoneChangeData(ZoneSpawnInfo *spawn, u16 zoneId, u32 unused, u16 x, u16 z) {
-    CreateZoneChangeData(spawn, zoneId, 1, x << 16, 0, z << 16);
-}
-
-u32 GetActualRespawnZoneIdx(u32 index) {
-    if (!RangeCheckTeleportZone(index)) {
-        index = GetLeaguePokeCenReturnLocationIdx();
-    }
-    return index - 1;
+    PokeParty_RecoverAll(work->party);
+    setPartyLv50(work->party);
 }

@@ -87,57 +87,91 @@
 #include "system/version.h"
 #include "system/vm.h"
 
-BOOL RangeCheckTeleportZone(s32 index) {
-    if (index <= 0 || (u32)index > 0x52) {
-        return FALSE;
-    }
-    return TRUE;
+BOOL GetTerrainAtPosByActor(FieldActor *actor, const VecFx32 *position, FieldTerrain *terrain) {
+    MMSys *system;
+    G3DMapper *mapper;
+
+    system = GetActorMModelSystem(actor);
+    mapper = GetMMSysG3DMapper(system);
+    return FieldG3DMapper_GetTerrain(mapper, position, terrain);
 }
 
-u16 GetRespawnZoneMainZone(u16 index) {
-    return RESPAWN_ZONE_INFO[GetActualRespawnZoneIdx(index)].mainZoneId;
+s16 GetDirectionVectorCompX(u32 direction) {
+    return DIRECTION_VEC_X[direction];
 }
 
-void SetupTeleportZoneChange(u16 index, ZoneSpawnInfo *spawn) {
-    u32 actualIndex = GetActualRespawnZoneIdx(index);
-    const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[actualIndex];
-
-    CreateRespawnZoneChangeData(spawn, RESPAWN_ZONE_INFO[actualIndex].zoneId, 0, info->x, info->z);
+s16 GetDirectionVectorCompZ(u32 direction) {
+    return DIRECTION_VEC_Z[direction];
 }
 
-u32 GetRespawnLocationIndexForRespawnZone(s32 zoneId) {
-    u32 i;
-
-    for (i = 0; i < 0x52; i++) {
-        const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[i];
-
-        if (zoneId == info->zoneId && info->canReturnHere) {
-            return i + 1;
-        }
-    }
-    return 0;
-}
-
-void SetTeleportZoneDiscover(GameData *gameData, s32 respawnZoneId) {
-    u32 i;
-
-    for (i = 0; i < 0x52; i++) {
-        const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[i];
-
-        if (respawnZoneId == info->mainZoneId && info->discoverOnVisit) {
-            EventWork_FlagSet(GameData_GetEventWork(gameData), info->discoveryFlagId);
-            return;
-        }
+void ExpandVecInGridDir(u16 direction, VecFx32 *position, fx32 amount) {
+    switch (direction) {
+    case 0:
+        position->z -= amount;
+        break;
+    case 1:
+        position->z += amount;
+        break;
+    case 2:
+        position->x -= amount;
+        break;
+    case 3:
+        position->x += amount;
+        break;
     }
 }
 
-void CreateRespawnZoneChangeData(ZoneSpawnInfo *spawn, u16 zoneId, u32 unused, u16 x, u16 z) {
-    CreateZoneChangeData(spawn, zoneId, 1, x << 16, 0, z << 16);
+void AdjusGridXZByDir(u32 direction, s16 *x, s16 *z, s16 amount) {
+    switch (direction) {
+    case 0:
+        *z = (s16)(*z - amount);
+        break;
+    case 1:
+        *z = (s16)(*z + amount);
+        break;
+    case 2:
+        *x = (s16)(*x - amount);
+        break;
+    case 3:
+        *x = (s16)(*x + amount);
+        break;
+    }
 }
 
-u32 GetActualRespawnZoneIdx(u32 index) {
-    if (!RangeCheckTeleportZone(index)) {
-        index = GetLeaguePokeCenReturnLocationIdx();
+void ConvGXZToVector(u32 x, u32 z, VecFx32 *position) {
+    position->x = (x << 16) + 0x8000;
+    position->z = (z << 16) + 0x8000;
+}
+
+void VecGPosToWPos(s32 x, s32 y, s32 z, VecFx32 *position) {
+    position->x = x << 16;
+    position->y = y << 16;
+    position->z = z << 16;
+}
+
+u16 GetInverseDirection(u32 direction) {
+    return INV_DIR_TABLE[direction];
+}
+
+u16 GetDirFromPosToPos(s32 x1, s32 z1, s32 x2, s32 z2) {
+    s32 direction;
+
+    if (x1 > x2) {
+        return 2;
     }
-    return index - 1;
+    if (x1 < x2) {
+        return 3;
+    }
+    direction = 1;
+    if (z1 > z2) {
+        direction = 0;
+    }
+    return direction;
+}
+
+u32 func_ov012_0215ed38(u32 direction, u16 angle) {
+    u32 index;
+
+    index = data_ov012_0216cd68[((u32)(data_ov012_0216cd60[direction] + angle) << 16) >> 28];
+    return data_ov012_0216cdc9[index << 2];
 }

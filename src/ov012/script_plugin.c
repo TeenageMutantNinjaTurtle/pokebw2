@@ -87,57 +87,67 @@
 #include "system/version.h"
 #include "system/vm.h"
 
-BOOL RangeCheckTeleportZone(s32 index) {
-    if (index <= 0 || (u32)index > 0x52) {
-        return FALSE;
-    }
-    return TRUE;
-}
-
-u16 GetRespawnZoneMainZone(u16 index) {
-    return RESPAWN_ZONE_INFO[GetActualRespawnZoneIdx(index)].mainZoneId;
-}
-
-void SetupTeleportZoneChange(u16 index, ZoneSpawnInfo *spawn) {
-    u32 actualIndex = GetActualRespawnZoneIdx(index);
-    const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[actualIndex];
-
-    CreateRespawnZoneChangeData(spawn, RESPAWN_ZONE_INFO[actualIndex].zoneId, 0, info->x, info->z);
-}
-
-u32 GetRespawnLocationIndexForRespawnZone(s32 zoneId) {
+void SetScrPluginByZone(GameData *gameData, u16 zoneId) {
     u32 i;
+    u32 j;
 
-    for (i = 0; i < 0x52; i++) {
-        const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[i];
-
-        if (zoneId == info->zoneId && info->canReturnHere) {
-            return i + 1;
-        }
-    }
-    return 0;
-}
-
-void SetTeleportZoneDiscover(GameData *gameData, s32 respawnZoneId) {
-    u32 i;
-
-    for (i = 0; i < 0x52; i++) {
-        const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[i];
-
-        if (respawnZoneId == info->mainZoneId && info->discoverOnVisit) {
-            EventWork_FlagSet(GameData_GetEventWork(gameData), info->discoveryFlagId);
-            return;
+    for (i = 0; i < 17; i++) {
+        if (i != 0) {
+            for (j = 0; j < SCRIPT_PLUGIN_TABLE[i].zoneCount; j++) {
+                if (zoneId == SCRIPT_PLUGIN_TABLE[i].zones[j]) {
+                    SetScrPluginNo(gameData, i);
+                    return;
+                }
+            }
         }
     }
 }
 
-void CreateRespawnZoneChangeData(ZoneSpawnInfo *spawn, u16 zoneId, u32 unused, u16 x, u16 z) {
-    CreateZoneChangeData(spawn, zoneId, 1, x << 16, 0, z << 16);
+void LoadScrPluginOverlays(GameData *gameData) {
+    u32 pluginNo = GetScrPluginNo(gameData);
+
+    if (pluginNo != 0) {
+        if (SCRIPT_PLUGIN_TABLE[pluginNo].overlay0 != -1) {
+            GFL_OvlLoad(SCRIPT_PLUGIN_TABLE[pluginNo].overlay0);
+        }
+        if (SCRIPT_PLUGIN_TABLE[pluginNo].overlay1 != -1) {
+            GFL_OvlLoad(SCRIPT_PLUGIN_TABLE[pluginNo].overlay1);
+        }
+    }
 }
 
-u32 GetActualRespawnZoneIdx(u32 index) {
-    if (!RangeCheckTeleportZone(index)) {
-        index = GetLeaguePokeCenReturnLocationIdx();
+void UnloadScrPluginOverlays(GameData *gameData) {
+    u32 pluginNo = GetScrPluginNo(gameData);
+
+    if (pluginNo != 0) {
+        if (SCRIPT_PLUGIN_TABLE[pluginNo].overlay1 != -1) {
+            GFL_OvlUnload(SCRIPT_PLUGIN_TABLE[pluginNo].overlay1);
+        }
+        if (SCRIPT_PLUGIN_TABLE[pluginNo].overlay0 != -1) {
+            GFL_OvlUnload(SCRIPT_PLUGIN_TABLE[pluginNo].overlay0);
+        }
+        SetScrPluginNo(gameData, 0);
     }
-    return index - 1;
+}
+
+const FieldScriptCommand *GetCurrentScrPluginTable(GameData *gameData) {
+    u32 pluginNo = GetScrPluginNo(gameData);
+
+    if (pluginNo == 0) {
+        return NULL;
+    }
+    return SCRIPT_PLUGIN_TABLE[pluginNo].commands;
+}
+
+u32 GetCurrentScrPluginCmdCount(GameData *gameData) {
+    u32 count;
+
+    if (GetScrPluginNo(gameData) == 0 || GetCurrentScrPluginTable(gameData) == NULL) {
+        return 0;
+    }
+    count = 0;
+    while ((u32)GetCurrentScrPluginTable(gameData)[count] != (u32)-1) {
+        count++;
+    }
+    return count;
 }

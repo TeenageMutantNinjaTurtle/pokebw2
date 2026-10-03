@@ -87,57 +87,42 @@
 #include "system/version.h"
 #include "system/vm.h"
 
-BOOL RangeCheckTeleportZone(s32 index) {
-    if (index <= 0 || (u32)index > 0x52) {
-        return FALSE;
+GameEvent *Event3DDemo_Create(GameSystem *gsys, GameEvent *parent, u32 demoId, u32 param, u32 realTime) {
+    GameEvent *event = GameEvent_Create(gsys, parent, Event3DDemo_Callback, sizeof(Event3DDemoWork));
+    Event3DDemoWork *work = GameEvent_GetData(event);
+    sys_memset(work, 0, sizeof(Event3DDemoWork));
+    work->gameSystem = gsys;
+    work->gameCommSys = GSYS_GetGameCommSystem(gsys);
+    work->demoId = demoId;
+    if (realTime) {
+        SetupPlaySequenceEventRealTime(work->sequence, gsys, demoId, param);
+    } else {
+        SetupPlaySequenceEventGameTime(work->sequence, gsys, demoId, param);
     }
-    return TRUE;
-}
-
-u16 GetRespawnZoneMainZone(u16 index) {
-    return RESPAWN_ZONE_INFO[GetActualRespawnZoneIdx(index)].mainZoneId;
-}
-
-void SetupTeleportZoneChange(u16 index, ZoneSpawnInfo *spawn) {
-    u32 actualIndex = GetActualRespawnZoneIdx(index);
-    const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[actualIndex];
-
-    CreateRespawnZoneChangeData(spawn, RESPAWN_ZONE_INFO[actualIndex].zoneId, 0, info->x, info->z);
-}
-
-u32 GetRespawnLocationIndexForRespawnZone(s32 zoneId) {
-    u32 i;
-
-    for (i = 0; i < 0x52; i++) {
-        const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[i];
-
-        if (zoneId == info->zoneId && info->canReturnHere) {
-            return i + 1;
-        }
+    if (demoId == 3) {
+        GameBeacon_BroadcastFerrisWheel();
     }
-    return 0;
+    return event;
 }
 
-void SetTeleportZoneDiscover(GameData *gameData, s32 respawnZoneId) {
-    u32 i;
+void SetupPlaySequenceEventRealTime(void *out, GameSystem *gsys, u8 demoId, u8 param) {
+    RTCTime time;
+    u32 season;
 
-    for (i = 0; i < 0x52; i++) {
-        const RespawnZoneInfo *info = &RESPAWN_ZONE_INFO[i];
-
-        if (respawnZoneId == info->mainZoneId && info->discoverOnVisit) {
-            EventWork_FlagSet(GameData_GetEventWork(gameData), info->discoveryFlagId);
-            return;
-        }
-    }
+    RTC_GetCachedTime(&time);
+    season = Season_GetRealTime();
+    CreateSeqLoadParam(out, gsys, demoId, param, 0, (u8)time.hour, (u8)time.minute, season);
 }
 
-void CreateRespawnZoneChangeData(ZoneSpawnInfo *spawn, u16 zoneId, u32 unused, u16 x, u16 z) {
-    CreateZoneChangeData(spawn, zoneId, 1, x << 16, 0, z << 16);
-}
+void SetupPlaySequenceEventGameTime(void *out, GameSystem *gsys, u8 demoId, u8 param) {
+    GameData *data;
+    u32 hour;
+    u32 minute;
+    u32 season;
 
-u32 GetActualRespawnZoneIdx(u32 index) {
-    if (!RangeCheckTeleportZone(index)) {
-        index = GetLeaguePokeCenReturnLocationIdx();
-    }
-    return index - 1;
+    data = GSYS_GetGameData(gsys);
+    hour = getCurrentHour(data);
+    minute = getCurrentMinute(data);
+    season = GameData_GetSeason(data);
+    CreateSeqLoadParam(out, gsys, demoId, param, 0, (u8)hour, (u8)minute, season);
 }
