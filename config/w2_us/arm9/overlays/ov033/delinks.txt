@@ -12,10 +12,6 @@ src/ov033/entree_forest_actor.c:
     complete
     .text       start:0x02176be4 end:0x02176c10
 
-src/ov033/field_party_space.c:
-    complete
-    .text       start:0x02178138 end:0x02178150
-
 src/ov033/field_party_count.c:
     complete
     .text       start:0x02179898 end:0x021798a8
@@ -28,10 +24,6 @@ src/ov033/event_sweet_scent.c:
     complete
     .text       start:0x02178604 end:0x02178948
 
-src/ov033/event_dive.c:
-    complete
-    .text       start:0x0217a0e4 end:0x0217a1f0
-
 src/ov033/event_pokemon_center.c:
     complete
     .text       start:0x02179b94 end:0x02179e14
@@ -40,17 +32,9 @@ src/ov033/event_dendou_machine.c:
     complete
     .text       start:0x021796a4 end:0x02179898
 
-src/ov033/mystery_gift_delivery.c:
-    complete
-    .text       start:0x02177fe8 end:0x021780b4
-
 src/ov033/event_field_trade_debug.c:
     complete
     .text       start:0x0217a754 end:0x0217a8a4
-
-src/ov033/event_field_trade_create.c:
-    complete
-    .text       start:0x0217aa18 end:0x0217aa5c
 
 src/ov033/field_move_scripts.c:
     complete
@@ -75,26 +59,6 @@ src/ov033/unity_tower_visitor_word_set.c:
 src/ov033/event_field_trade_pkm.c:
     .text       start:0x0217a5d0 end:0x0217a754
 
-src/ov033/pc_sound_entry.c:
-    complete
-    .text       start:0x0217993c end:0x021799fc
-
-src/ov033/pc_sound_create.c:
-    complete
-    .text       start:0x021799fc end:0x02179a28
-
-src/ov033/pc_sound_logoff.c:
-    complete
-    .text       start:0x02179ac4 end:0x02179b64
-
-src/ov033/event_dive_in_callback.c:
-    complete
-    .text       start:0x02179f44 end:0x0217a024
-
-src/ov033/event_dive_out_callback.c:
-    complete
-    .text       start:0x0217a024 end:0x0217a0e4
-
 src/ov033/event_abyssal_ruins_step.c:
     complete
     .text       start:0x02179ed8 end:0x02179f44
@@ -102,30 +66,6 @@ src/ov033/event_abyssal_ruins_step.c:
 src/ov033/event_cgear_shutdown.c:
     complete
     .text       start:0x021775b4 end:0x02177628
-
-src/ov033/funfest_script_mission.c:
-    complete
-    .text       start:0x02176fd0 end:0x02177060
-
-src/ov033/funfest_script_actor.c:
-    complete
-    .text       start:0x02177060 end:0x02177110
-
-src/ov033/funfest_script_info.c:
-    complete
-    .text       start:0x02177110 end:0x02177308
-
-src/ov033/funfest_entree_event_calls.c:
-    complete
-    .text       start:0x02177368 end:0x021773b0
-
-src/ov033/event_phrase_input_create.c:
-    complete
-    .text       start:0x02177628 end:0x02177718
-
-src/ov033/event_phrase_input_callback.c:
-    complete
-    .text       start:0x02177718 end:0x02177774
 
 src/ov033/random_ffff.c:
     complete
@@ -135,33 +75,9 @@ src/ov033/entree_forest_first_warp.c:
     complete
     .text       start:0x02176f04 end:0x02176fd0
 
-src/ov033/event_field_trade_callback.c:
-    complete
-    .text       start:0x0217a8a8 end:0x0217aa18
-
 src/ov033/entree_forest_spawn_all.c:
     complete
     .text       start:0x02176cec end:0x02176dc8
-
-src/ov033/event_entree_warp_allowed.c:
-    complete
-    .text       start:0x02177448 end:0x021775b4
-
-src/ov033/funfest_mission_event_create.c:
-    complete
-    .text       start:0x02176dc8 end:0x02176ddc
-
-src/ov033/funfest_mission_event_callback.c:
-    complete
-    .text       start:0x02176ddc end:0x02176f04
-
-src/ov033/event_field_fishing_callback.c:
-    complete
-    .text       start:0x021793f8 end:0x021795e4
-
-src/ov033/event_field_fishing_helpers.c:
-    complete
-    .text       start:0x021795e4 end:0x021796a4
 
 src/ov033/event_fly_create.c:
     complete
@@ -175,185 +91,25 @@ src/ov033/event_chatot_create.c:
     complete
     .text       start:0x02178ce8 end:0x02178d50
 
-src/ov033/event_chatot_actor.c:
-    complete
-    .text       start:0x0217900c end:0x0217903c
-
-src/ov033/event_chatot_sprite_free.c:
-    complete
-    .text       start:0x021790e0 end:0x02179104
-
-src/ov033/event_chatot_sprite_update.c:
-    complete
-    .text       start:0x02179104 end:0x02179180
-
-src/ov033/event_chatot_window_create.c:
-    complete
-    .text       start:0x02179180 end:0x021791e8
-
-src/ov033/event_chatot_cleanup.c:
-    complete
-    .text       start:0x021791e8 end:0x02179200
-
-src/ov033/event_chatot_sprite_create.c:
-    complete
-    .text       start:0x0217903c end:0x021790e0
-
 src/ov033/unity_tower_visitor_list_init.c:
     complete
     .text       start:0x0217aa5c end:0x0217aa90
-
-src/ov033/unity_tower_visitor_list_get.c:
-    complete
-    .text       start:0x0217ab04 end:0x0217ab18
-
-src/ov033/unity_tower_visitor_display.c:
-    complete
-    .text       start:0x0217ab18 end:0x0217ab98
 
 src/ov033/event_game_manual.c:
     complete
     .text       start:0x02179e14 end:0x02179ed8
 
-src/ov033/pc_sound_logon.c:
-    complete
-    .text       start:0x02179a28 end:0x02179ac4
-
-src/ov033/pc_subprocess.c:
-    complete
-    .text       start:0x021798a8 end:0x0217993c
-
-src/ov033/pc_sound_logoff_create.c:
-    complete
-    .text       start:0x02179b64 end:0x02179b94
-
-src/ov033/funfest_script_misc.c:
-    complete
-    .text       start:0x02177308 end:0x02177368
-
-src/ov033/event_entralink_warp_return.c:
-    complete
-    .text       start:0x021773b0 end:0x02177448
-
-src/ov033/mystery_gift_dispatch.c:
-    complete
-    .text       start:0x02177f10 end:0x02177fe8
-
-src/ov033/mystery_gift_pokemon.c:
-    complete
-    .text       start:0x02178150 end:0x02178228
-
-src/ov033/mystery_gift_item.c:
-    complete
-    .text       start:0x02178228 end:0x021782b8
-
-src/ov033/mystery_gift_pass_power.c:
-    complete
-    .text       start:0x021782b8 end:0x02178310
-
-src/ov033/mystery_gift_dream_radar.c:
-    complete
-    .text       start:0x02178330 end:0x021783e8
-
-src/ov033/mystery_gift_slots.c:
-    complete
-    .text       start:0x021783e8 end:0x02178488
-
-src/ov033/mystery_gift_pokemon_helpers.c:
-    complete
-    .text       start:0x021780b4 end:0x02178138
-
 src/ov033/trial_house_prepare.c:
     complete
     .text       start:0x0217adfc end:0x0217ae9c
-
-src/ov033/trial_house_event_wrappers.c:
-    complete
-    .text       start:0x0217af10 end:0x0217af28
-
-src/ov033/trial_house_event_create.c:
-    complete
-    .text       start:0x0217af28 end:0x0217af9c
-
-src/ov033/trial_house_event_callback.c:
-    complete
-    .text       start:0x0217af9c end:0x0217b0f4
-
-src/ov033/trial_house_effect_create.c:
-    complete
-    .text       start:0x0217b324 end:0x0217b36c
-
-src/ov033/trial_house_save_flags.c:
-    complete
-    .text       start:0x0217b36c end:0x0217b3ec
-
-src/ov033/trial_house_effect_callback.c:
-    complete
-    .text       start:0x0217b3ec end:0x0217b4a8
 
 src/ov033/bsubway_scr_begin.c:
     complete
     .text       start:0x0217b4a8 end:0x0217b4b8
 
-src/ov033/bsubway_scr_delete.c:
-    complete
-    .text       start:0x0217b6a4 end:0x0217b6f4
-
-src/ov033/bsubway_scr_save.c:
-    complete
-    .text       start:0x0217b6f4 end:0x0217b7d0
-
-src/ov033/bsubway_scr_party_store.c:
-    complete
-    .text       start:0x0217b7d0 end:0x0217b8ac
-
-src/ov033/bsubway_scr_finish.c:
-    complete
-    .text       start:0x0217b8ac end:0x0217b92c
-
 src/ov033/bsubway_scr_progress.c:
     complete
     .text       start:0x0217bb60 end:0x0217bbec
-
-src/ov033/bsubway_scr_rank.c:
-    complete
-    .text       start:0x0217bce0 end:0x0217bcf4
-
-src/ov033/bsubway_scr_score_policy.c:
-    complete
-    .text       start:0x0217bcf4 end:0x0217bd74
-
-src/ov033/bsubway_scr_score.c:
-    complete
-    .text       start:0x0217bd74 end:0x0217bde8
-
-src/ov033/bsubway_scr_index.c:
-    complete
-    .text       start:0x0217be00 end:0x0217be5c
-
-src/ov033/bsubway_scr_div7.c:
-    complete
-    .text       start:0x0217be5c end:0x0217be6c
-
-src/ov033/bsubway_scr_commit_progress.c:
-    complete
-    .text       start:0x0217be6c end:0x0217bec8
-
-src/ov033/bsubway_scr_setup_battle.c:
-    complete
-    .text       start:0x0217c0d4 end:0x0217c150
-
-src/ov033/bsubway_scr_participant.c:
-    complete
-    .text       start:0x0217c150 end:0x0217c15c
-
-src/ov033/bsubway_scr_battle_helpers.c:
-    complete
-    .text       start:0x0217c2a4 end:0x0217c304
-
-src/ov033/bsubway_scr_team_generate.c:
-    complete
-    .text       start:0x0217c304 end:0x0217c368
 
 src/ov033/field_money_window_lifecycle.c:
     complete
@@ -362,3 +118,79 @@ src/ov033/field_money_window_lifecycle.c:
 src/ov033/field_money_window_event.c:
     complete
     .text       start:0x02177b48 end:0x02177db8
+
+src/ov033/funfest_events.c:
+    complete
+    .text       start:0x02176dc8 end:0x02176f04
+
+src/ov033/funfest_scripts.c:
+    complete
+    .text       start:0x02176fd0 end:0x021773b0
+
+src/ov033/entralink_warp.c:
+    complete
+    .text       start:0x021773b0 end:0x021775b4
+
+src/ov033/phrase_input.c:
+    complete
+    .text       start:0x02177628 end:0x02177774
+
+src/ov033/mystery_gift.c:
+    complete
+    .text       start:0x02177f10 end:0x02178310
+
+src/ov033/chatot_sprite.c:
+    complete
+    .text       start:0x0217900c end:0x02179200
+
+src/ov033/fishing.c:
+    complete
+    .text       start:0x021793f8 end:0x021796a4
+
+src/ov033/pc.c:
+    complete
+    .text       start:0x021798a8 end:0x02179b94
+
+src/ov033/dive.c:
+    complete
+    .text       start:0x02179f44 end:0x0217a1f0
+
+src/ov033/unity_visitor.c:
+    complete
+    .text       start:0x0217ab04 end:0x0217ab98
+
+src/ov033/trial_event.c:
+    complete
+    .text       start:0x0217af10 end:0x0217b0f4
+
+src/ov033/trial_effect.c:
+    complete
+    .text       start:0x0217b324 end:0x0217b4a8
+
+src/ov033/subway_work.c:
+    complete
+    .text       start:0x0217b6a4 end:0x0217b92c
+
+src/ov033/subway_score.c:
+    complete
+    .text       start:0x0217bce0 end:0x0217bde8
+
+src/ov033/subway_progress.c:
+    complete
+    .text       start:0x0217be00 end:0x0217bec8
+
+src/ov033/subway_setup.c:
+    complete
+    .text       start:0x0217c0d4 end:0x0217c15c
+
+src/ov033/subway_battle.c:
+    complete
+    .text       start:0x0217c2a4 end:0x0217c368
+
+src/ov033/mystery_gift_aux.c:
+    complete
+    .text       start:0x02178330 end:0x02178488
+
+src/ov033/event_field_trade.c:
+    complete
+    .text       start:0x0217a8a8 end:0x0217aa5c

@@ -16,10 +16,6 @@ src/ov036/field_palace_check_event_flag.c:
     complete
     .text       start:0x021c83a0 end:0x021c83e8
 
-src/ov036/field_script_cmd_medal_initial.c:
-    complete
-    .text       start:0x021c7fb0 end:0x021c7fd8
-
 src/ov036/medal_discover_initial.c:
     complete
     .text       start:0x021c9dfc end:0x021c9e04
@@ -77,10 +73,6 @@ src/ov036/field_prop_chunk_holder_ops.c:
     complete
     .text       start:0x02183da8 end:0x02183e40
 
-src/ov036/field_prop_handle_controls.c:
-    complete
-    .text       start:0x02184110 end:0x021841a0
-
 src/ov036/field_prop_search_area.c:
     complete
     .text       start:0x02184220 end:0x02184244
@@ -123,14 +115,6 @@ src/ov036/field_prop_resource_bundle_ops.c:
     complete
     .text       start:0x021833f8 end:0x02183508
 
-src/ov036/field_prop_handle_lifecycle.c:
-    complete
-    .text       start:0x0218405c end:0x02184110
-
-src/ov036/field_prop_handle_anim_sound.c:
-    complete
-    .text       start:0x021841a0 end:0x02184200
-
 src/ov036/field_prop_holder_lookup.c:
     complete
     .text       start:0x02183eec end:0x02183fa8
@@ -159,6 +143,10 @@ src/ov036/field_palace.c:
     complete
     .text       start:0x021c81f4 end:0x021c8248
 
-src/ov036/field_medal_actor.c:
+src/ov036/field_prop_handle.c:
     complete
-    .text       start:0x021c7f1c end:0x021c7fb0
+    .text       start:0x0218405c end:0x02184200
+
+src/ov036/field_medal.c:
+    complete
+    .text       start:0x021c7f1c end:0x021c7fd8

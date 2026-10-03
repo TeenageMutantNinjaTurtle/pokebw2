@@ -116,10 +116,6 @@ src/ov167/battle_handler_work.c:
     complete
     .text       start:0x021ac3e4 end:0x021ac450
 
-src/ov167/battle_handler_flags.c:
-    complete
-    .text       start:0x021ad268 end:0x021ad310
-
 src/ov167/battle_view_string_param.c:
     complete
     .text       start:0x021d0aec end:0x021d0b4c
@@ -200,17 +196,17 @@ src/ov167/battle_handler_switch_flow.c:
     complete
     .text       start:0x021adc68 end:0x021add78
 
-src/ov167/battle_handler_field_effect.c:
+src/ov167/battle_handler_field_environment.c:
     complete
-    .text       start:0x021ad3d8 end:0x021ad424
+    .text       start:0x021ad3d8 end:0x021ad4e0
 
 src/ov167/battle_handler_stat_stage_recover.c:
     complete
     .text       start:0x021acf88 end:0x021ad008
 
-src/ov167/battle_handler_message.c:
+src/ov167/battle_handler_message_flags.c:
     complete
-    .text       start:0x021ad214 end:0x021ad268
+    .text       start:0x021ad214 end:0x021ad310
 
 src/ov167/battle_handler_set_string.c:
     complete
@@ -220,25 +216,13 @@ src/ov167/battle_handler_decrement_pp.c:
     complete
     .text       start:0x021acb50 end:0x021acba8
 
-src/ov167/battle_handler_illusion_break.c:
+src/ov167/battle_handler_mon_transition.c:
     complete
-    .text       start:0x021ae0b0 end:0x021ae0fc
-
-src/ov167/battle_handler_swap_poke.c:
-    complete
-    .text       start:0x021adf10 end:0x021adfbc
-
-src/ov167/battle_handler_change_weather.c:
-    complete
-    .text       start:0x021ad424 end:0x021ad4e0
+    .text       start:0x021adf10 end:0x021ae0fc
 
 src/ov167/battle_handler_gravity_check.c:
     complete
     .text       start:0x021ae10c end:0x021ae1dc
-
-src/ov167/battle_handler_transform.c:
-    complete
-    .text       start:0x021adfbc end:0x021ae0b0
 
 src/ov167/battle_handler_item.c:
     complete
@@ -436,33 +420,9 @@ src/ov167/battle_ability_inner_focus.c:
     complete
     .text       start:0x021bdea0 end:0x021bdec4
 
-src/ov167/battle_ability_thick_fat.c:
+src/ov167/battle_ability_stat_modifiers.c:
     complete
-    .text       start:0x021bdf18 end:0x021bdf50
-
-src/ov167/battle_ability_huge_power.c:
-    complete
-    .text       start:0x021bdf50 end:0x021bdf88
-
-src/ov167/battle_ability_weather_speed.c:
-    complete
-    .text       start:0x021bdf88 end:0x021bdff0
-
-src/ov167/battle_ability_quick_feet.c:
-    complete
-    .text       start:0x021bdff0 end:0x021be030
-
-src/ov167/battle_ability_tangled_feet.c:
-    complete
-    .text       start:0x021be030 end:0x021be06c
-
-src/ov167/battle_ability_hustle.c:
-    complete
-    .text       start:0x021be06c end:0x021be0e0
-
-src/ov167/battle_ability_stall.c:
-    complete
-    .text       start:0x021be0e0 end:0x021be110
+    .text       start:0x021bdf18 end:0x021be110
 
 src/ov167/battle_ability_compound_eyes.c:
     complete
@@ -524,53 +484,13 @@ src/ov167/battle_ability_simple.c:
     complete
     .text       start:0x021beb68 end:0x021beb94
 
-src/ov167/battle_ability_leaf_guard.c:
+src/ov167/battle_ability_status_guards.c:
     complete
-    .text       start:0x021beb94 end:0x021bec00
+    .text       start:0x021beb94 end:0x021bef6c
 
-src/ov167/battle_ability_limber.c:
+src/ov167/battle_ability_weather_effects.c:
     complete
-    .text       start:0x021bec00 end:0x021bec40
-
-src/ov167/battle_ability_insomnia.c:
-    complete
-    .text       start:0x021bec40 end:0x021becac
-
-src/ov167/battle_ability_magma_armor.c:
-    complete
-    .text       start:0x021becac end:0x021becec
-
-src/ov167/battle_ability_status_immunity.c:
-    complete
-    .text       start:0x021becec end:0x021bed6c
-
-src/ov167/battle_ability_own_tempo.c:
-    complete
-    .text       start:0x021bed6c end:0x021bedc0
-
-src/ov167/battle_ability_oblivious.c:
-    complete
-    .text       start:0x021bedc0 end:0x021bee70
-
-src/ov167/battle_ability_status_common.c:
-    complete
-    .text       start:0x021bee70 end:0x021bef6c
-
-src/ov167/battle_ability_weather_change.c:
-    complete
-    .text       start:0x021bef6c end:0x021bf014
-
-src/ov167/battle_ability_air_lock.c:
-    complete
-    .text       start:0x021bf014 end:0x021bf070
-
-src/ov167/battle_ability_weather_recovery.c:
-    complete
-    .text       start:0x021bf070 end:0x021bf104
-
-src/ov167/battle_ability_solar_power.c:
-    complete
-    .text       start:0x021bf104 end:0x021bf1a0
+    .text       start:0x021bef6c end:0x021bf1a0
 
 src/ov167/battle_ability_shield_dust.c:
     complete
@@ -580,29 +500,13 @@ src/ov167/battle_ability_serene_grace.c:
     complete
     .text       start:0x021bf24c end:0x021bf290
 
-src/ov167/battle_ability_hydration.c:
+src/ov167/battle_ability_status_recovery.c:
     complete
-    .text       start:0x021bf290 end:0x021bf304
+    .text       start:0x021bf290 end:0x021bf3cc
 
-src/ov167/battle_ability_shed_skin.c:
+src/ov167/battle_ability_damage_luck.c:
     complete
-    .text       start:0x021bf304 end:0x021bf368
-
-src/ov167/battle_ability_poison_heal.c:
-    complete
-    .text       start:0x021bf368 end:0x021bf3cc
-
-src/ov167/battle_ability_battle_armor.c:
-    complete
-    .text       start:0x021bf3cc end:0x021bf3f0
-
-src/ov167/battle_ability_super_luck.c:
-    complete
-    .text       start:0x021bf3f0 end:0x021bf420
-
-src/ov167/battle_ability_anger_point.c:
-    complete
-    .text       start:0x021bf420 end:0x021bf4b4
+    .text       start:0x021bf3cc end:0x021bf4b4
 
 src/ov167/battle_ability_move_guards.c:
     complete

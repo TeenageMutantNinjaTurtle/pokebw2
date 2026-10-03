@@ -17,7 +17,7 @@ FieldPropResAnmHeader *FieldPropResInfo_GetAnmHeader(FieldPropResInfo *resInfo) 
 }
 
 u8 FieldPropResInfo_GetTypeConv(const FieldPropResInfo *resInfo) {
-    const u8 lut[16] = {0, 1, 1, 1, 2, 0, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1};
+    const u8 lut[16] = { 0, 1, 1, 1, 2, 0, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1 };
     u16 type = resInfo->type;
 
     if (type >= 16) {

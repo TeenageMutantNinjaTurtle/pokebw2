@@ -112,18 +112,6 @@ src/ov012/field_script_plugin_table.c:
     complete
     .text       start:0x02154a48 end:0x02154aa4
 
-src/ov012/map_matrix_lifecycle.c:
-    complete
-    .text       start:0x02154aa4 end:0x02154b20
-
-src/ov012/map_matrix_queries.c:
-    complete
-    .text       start:0x02154b20 end:0x02154ba4
-
-src/ov012/map_matrix_patch.c:
-    complete
-    .text       start:0x02154ba4 end:0x02154c40
-
 src/ov012/map_matrix_world_coord.c:
     complete
     .text       start:0x02154cb8 end:0x02154cd4
@@ -143,46 +131,6 @@ src/ov012/map_replace_variables.c:
 src/ov012/map_replace_events.c:
     complete
     .text       start:0x02154e60 end:0x02154edc
-
-src/ov012/respawn_zone_index.c:
-    complete
-    .text       start:0x02154edc end:0x02154f04
-
-src/ov012/respawn_zone_setup.c:
-    complete
-    .text       start:0x02154f04 end:0x02154fc0
-
-src/ov012/respawn_zone_actual_index.c:
-    complete
-    .text       start:0x02154fc0 end:0x02154fd8
-
-src/ov012/trainer_script_clash.c:
-    complete
-    .text       start:0x02154fd8 end:0x02155000
-
-src/ov012/trainer_script_ids.c:
-    complete
-    .text       start:0x02155000 end:0x02155054
-
-src/ov012/trainer_script_battle_type.c:
-    complete
-    .text       start:0x02155054 end:0x02155078
-
-src/ov012/trainer_script_flags.c:
-    complete
-    .text       start:0x02155078 end:0x021550b4
-
-src/ov012/trainer_script_rebattle.c:
-    complete
-    .text       start:0x021550b4 end:0x021550e4
-
-src/ov012/script_subwork_init.c:
-    complete
-    .text       start:0x021550e4 end:0x02155124
-
-src/ov012/script_subwork_free.c:
-    complete
-    .text       start:0x02155124 end:0x0215512c
 
 src/ov012/field_script_env_lifecycle.c:
     complete
@@ -581,22 +529,6 @@ src/ov012/sequence_event_setup.c:
     complete
     .text       start:0x0215cd10 end:0x0215cd98
 
-src/ov012/event_data_lifecycle.c:
-    complete
-    .text       start:0x0215cde4 end:0x0215ce70
-
-src/ov012/event_data_load_zone.c:
-    complete
-    .text       start:0x0215ce70 end:0x0215ce94
-
-src/ov012/event_data_load_entities.c:
-    complete
-    .text       start:0x0215ce94 end:0x0215cea0
-
-src/ov012/event_data_encounter.c:
-    complete
-    .text       start:0x0215cea0 end:0x0215cec4
-
 src/ov012/event_data_clear.c:
     complete
     .text       start:0x0215cf44 end:0x0215cf74
@@ -713,3 +645,24 @@ src/ov012/trigger_position.c:
 src/ov012/zone_warp_weight_bits.c:
     complete
     .text       start:0x0215d630 end:0x0215d71c
+
+
+src/ov012/map_matrix.c:
+    complete
+    .text       start:0x02154aa4 end:0x02154c40
+
+src/ov012/respawn_zone.c:
+    complete
+    .text       start:0x02154edc end:0x02154fd8
+
+src/ov012/trainer_script.c:
+    complete
+    .text       start:0x02154fd8 end:0x021550e4
+
+src/ov012/script_subwork.c:
+    complete
+    .text       start:0x021550e4 end:0x0215512c
+
+src/ov012/event_data_loading.c:
+    complete
+    .text       start:0x0215cde4 end:0x0215cec4
