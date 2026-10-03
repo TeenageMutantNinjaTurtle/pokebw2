@@ -455,3 +455,11 @@ src/ov167/battle_event_call_handlers.c:
 src/ov167/battle_event_item_skip_handler.c:
     complete
     .text       start:0x021bcb70 end:0x021bcb7c
+
+src/ov167/battle_math_ratio_over_zero.c:
+    complete
+    .text       start:0x021bd380 end:0x021bd390
+
+src/ov167/battle_math_divide_hp.c:
+    complete
+    .text       start:0x021bd3b4 end:0x021bd3e0

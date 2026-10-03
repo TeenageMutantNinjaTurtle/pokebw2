@@ -23,6 +23,7 @@ u32 PokeParty_GetParam(PartyPkm *pkm, PkmField param, void *buffer);
 // A field that is not a number takes a pointer to its value
 void PokeParty_SetParam(PartyPkm *pkm, PkmField param, u32 value);
 u32 PokeParty_GetSex(PartyPkm *pkm);
+BOOL PokeParty_CheckAnyRibbon(PartyPkm *pkm);
 BOOL PokeParty_IsRare(PartyPkm *pkm);
 // Decrypt a Pokémon for a series of reads and writes, and return whether it was encrypted, which is what the
 // encryption afterwards takes

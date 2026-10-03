@@ -525,6 +525,18 @@ src/ov012/shortcut_menu_check.c:
     complete
     .text       start:0x0215aad8 end:0x0215aaf8
 
+src/ov012/item_use_block_call.c:
+    complete
+    .text       start:0x0215b3a8 end:0x0215b408
+
+src/ov012/item_use_block_create.c:
+    complete
+    .text       start:0x0215b408 end:0x0215b438
+
+src/ov012/shortcut_menu_check_ribbon.c:
+    complete
+    .text       start:0x0215b438 end:0x0215b488
+
 src/ov012/event_game_clear_card.c:
     complete
     .text       start:0x0215a670 end:0x0215a684

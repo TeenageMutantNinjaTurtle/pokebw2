@@ -44,6 +44,7 @@ void func_ov036_021c5ea0(EncEff *effect);
 void *EncEff_AllocWorkArea(EncEff *effect, u32 id, u32 size);
 void *EncEff_GetWorkArea(EncEff *effect);
 void *Field_Get3DCi(Field *field);
+void EncEff_CallRenderFunc(EncEff *effect);
 GameEvent *EventFieldEffect_CreatePokeSprite(GameSystem *gsys, void *g3DCi, u8 partySlot);
 void *func_ov148_021f59e0(void *event, const u32 *params, void (*init)(EffectState *), void (*render)(void *));
 void func_ov150_021f5da0(EffectState *state, const EffectParam *params, int mode);

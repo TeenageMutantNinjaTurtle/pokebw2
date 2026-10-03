@@ -14,3 +14,7 @@ src/ov105/field_exp_obj_gimmick_ov105_step.c:
 src/ov105/field_exp_obj_gimmick_ov105_callbacks.c:
     complete
     .text       start:0x021eee64 end:0x021eee6c
+
+src/ov105/field_exp_obj_gimmick_ov105_setup.c:
+    complete
+    .text       start:0x021eed14 end:0x021eee64

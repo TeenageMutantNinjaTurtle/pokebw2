@@ -29,6 +29,8 @@ void func_ov106_021eedfc(FieldExpObjGimmickWork *work, Field *field);
 void func_ov106_021eee50(FieldExpObjGimmickWork *work, Field *field);
 void func_ov106_021eee54(FieldExpObjGimmickWork *work, Field *field);
 
+extern const G3DSceneSetup data_ov105_021eee54;
+extern const VecFx32 data_ov105_021eee64[6];
 extern const G3DSceneSetup data_ov106_021eee64;
 extern const VecFx32 data_ov106_021eee74[2];
 

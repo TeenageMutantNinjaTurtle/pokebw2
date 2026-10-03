@@ -85,6 +85,8 @@ void SetWeight(BattleMon *mon, u16 weight);
 u16 GetBattleMonWeight(BattleMon *mon);
 void HPAdd(BattleMon *mon, u16 amount);
 void HPZero(BattleMon *mon);
+u32 DivideMaxHp(BattleMon *mon, u32 divisor);
+u32 DivideMaxHPZeroCheck(BattleMon *mon, u32 divisor);
 BOOL IsMonFullHP(BattleMon *mon);
 BOOL StatStageRecover(BattleMon *mon);
 void StatStageReset(BattleMon *mon);
