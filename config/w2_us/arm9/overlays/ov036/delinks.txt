@@ -277,3 +277,11 @@ src/ov036/field_prop_holder_queries.c:
 src/ov036/field_prop_handle_controls.c:
     complete
     .text       start:0x02184150 end:0x021841e0
+
+src/ov036/field_prop_anim_sound_id.c:
+    complete
+    .text       start:0x0218422c end:0x02184240
+
+src/ov036/field_prop_search_area.c:
+    complete
+    .text       start:0x02184260 end:0x02184284

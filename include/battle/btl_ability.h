@@ -134,5 +134,17 @@ void CommonStatDropGuardFixed(void *flow, u32 monId, u32 *result, u16 message);
 extern const BattleEventHandlerEntry data_ov167_021d773c[];
 void HandlerSimple(void *context, void *flow, u32 monId);
 const BattleEventHandlerEntry *EventAddSimple(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d7ac4[];
+void HandlerLeafGuard(void *context, void *flow, u32 monId, u32 *result);
+void HandlerLeafGuardYawnCheck(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddLeafGuard(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d7c80[];
+BOOL HandlerCommonGuardStatus(void *flow, u32 monId, u32 status);
+void CommonAbilityCureStatus(void *flow, u32 monId, u32 status);
+void CommonAbilityCureStatusCore(void *flow, u32 monId, u32 status);
+void HandlerLimberStatus(void *context, void *flow, u32 monId, u32 *result);
+void HandlerLimberCureStatus(void *context, void *flow, u32 monId);
+void HandlerLimberActionEnd(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddLimber(u32 *priority);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

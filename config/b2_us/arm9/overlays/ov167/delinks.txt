@@ -591,3 +591,11 @@ src/ov167/battle_ability_stat_drop_guard.c:
 src/ov167/battle_ability_simple.c:
     complete
     .text       start:0x021beb68 end:0x021beb94
+
+src/ov167/battle_ability_leaf_guard.c:
+    complete
+    .text       start:0x021beb94 end:0x021bec00
+
+src/ov167/battle_ability_limber.c:
+    complete
+    .text       start:0x021bec00 end:0x021bec40

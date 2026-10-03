@@ -122,6 +122,8 @@ BOOL FieldPropHandle_IsCurrentAnmIdle(FieldPropHandle *handle);
 BOOL FieldPropHandle_IsAnmFinished(FieldPropHandle *handle);
 u16 FieldPropHandle_GetPropType(FieldPropHandle *handle);
 void FieldPropHandle_Draw(FieldPropHandle *handle);
+BOOL FieldPropHandle_GetAnimSoundIDCore(FieldPropHandle *handle, u32 animation, u16 *soundId);
+BOOL FieldPropHandle_GetAnimSoundID(FieldPropHandle *handle, u16 *soundId);
 void FieldPropHandle_Free(FieldPropHandle *handle);
 void FieldChunkPropHolder_CallAnmCmd(FieldPropSystem *system, FieldChunkPropHolder *prop, u32 animation, u32 command);
 FieldPropHandle *FieldPropSystem_CreateHandleNew(FieldPropSystem *system, u32 propId, FieldPropTransform *transform);
