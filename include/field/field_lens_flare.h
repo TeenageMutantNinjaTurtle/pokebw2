@@ -30,14 +30,6 @@ struct FieldLensFlare {
     GameData *gameData;
 };
 
-extern const u16 data_ov036_021d4768[][4];
-extern const char data_ov036_021d5728[];
-extern const char data_ov036_021d5710[];
-extern const u16 LENS_FLARE_RESOURCE_IDS[];
-extern const u16 data_ov036_021d47ba[];
-extern const u16 data_ov036_021d47bc[];
-extern const u16 data_ov036_021d47be[];
-extern const u16 data_ov036_021d47c0[];
 
 FieldLensFlareData *FieldLensFlareData_Create(HeapID heapId);
 FieldLensFlare *FieldLensFlare_Create(GameSystem *gameSystem, GameData *gameData, FieldExpObjSystem *expObjSys,
