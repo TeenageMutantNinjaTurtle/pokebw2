@@ -5,10 +5,12 @@
 #include "gfl/input.h"
 #include "gfl/sound.h"
 
-BOOL func_ov033_02177b08(void *unused, u32 *state, FieldMoneyWindowEvent *event) {
+GameEventReturnCode func_ov033_02177b08(GameEvent *unused, u32 *state, void *data) {
+    FieldMoneyWindowEvent *event;
     BmpWin *bitmapWindow;
     u16 remaining;
 
+    event = data;
     switch (*state) {
     case 0:
         remaining = event->count - event->index;

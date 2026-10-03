@@ -377,3 +377,15 @@ src/ov036/field_prop_res_instance_play_inv.c:
 src/ov036/field_prop_res_instance_pause.c:
     complete
     .text       start:0x02183c5c end:0x02183c94
+
+src/ov036/field_prop_anm_controller_dynamic_exec_command.c:
+    complete
+    .text       start:0x02183cec end:0x02183d44
+
+src/ov036/field_prop_res_instance_is_anm_idle.c:
+    complete
+    .text       start:0x02183d48 end:0x02183d88
+
+src/ov036/field_prop_anm_controller_dynamic_update.c:
+    complete
+    .text       start:0x02183ad0 end:0x02183b48

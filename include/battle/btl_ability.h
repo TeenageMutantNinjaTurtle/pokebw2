@@ -323,5 +323,26 @@ void HandlerLevitateAddImmunity(void *context, BtlServerFlow *flow, u32 monId, u
 extern const BattleEventHandlerEntry data_ov167_021d76e4[];
 void HandlerWonderGuard(void *context, BtlServerFlow *flow, u32 monId);
 const BattleEventHandlerEntry *EventAddWonderGuard(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d7b84[];
+const BattleEventHandlerEntry *EventAddSturdy(u32 *priority);
+void HandlerSturdyOneshotCheck(void *context, BtlServerFlow *flow, u32 monId);
+void HandlerSturdyEndureCheck(void *context, BtlServerFlow *flow, u32 monId, u32 *result);
+void HandlerSturdySurvive(void *context, BtlServerFlow *flow, u32 monId, u32 *active);
+void HandlerDrySkinWeather(void *context, BtlServerFlow *flow, u32 monId);
+void HandlerForecastAbilityOff(void *context, BtlServerFlow *flow, u32 monId);
+extern const BattleEventHandlerEntry data_ov167_021d7e58[];
+const BattleEventHandlerEntry *EventAddForecast(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d7adc[];
+extern const BattleEventHandlerEntry data_ov167_021d7af4[];
+u32 CommonMoveTargetChangeToMe(BtlServerFlow *flow, u32 monId, u32 *result, u32 type);
+BOOL func_ov167_021abdd0(BtlServerFlow *flow, u32 attacker, u32 defender, u16 move);
+BOOL func_ov167_021c0d78(u16 move);
+const BattleEventHandlerEntry *EventAddStormDrain(u32 *priority);
+void HandlerStormDrain(void *context, BtlServerFlow *flow, u32 monId, u32 *result);
+void HandlerStormDrainCheckNoEffect(void *context, BtlServerFlow *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddLightningRod(u32 *priority);
+void HandlerLightningRod(void *context, BtlServerFlow *flow, u32 monId, u32 *result);
+void HandlerLightningRodStart(void *context, BtlServerFlow *flow, u32 monId, u32 *active);
+void HandlerLightningRodCheckNoEffect(void *context, BtlServerFlow *flow, u32 monId);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

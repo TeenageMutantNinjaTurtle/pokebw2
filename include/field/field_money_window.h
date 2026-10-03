@@ -4,6 +4,7 @@
 #include "types.h"
 #include "gfl/msg.h"
 #include "gfl/str.h"
+#include "system/game_event.h"
 #include "struct_decls.h"
 
 struct FieldMoneyWindow {
@@ -40,10 +41,11 @@ void func_ov036_02189de8(u32 value, struct GFLBitmap *bitmap, u32 number);
 FieldMoneyWindow *func_ov033_02177998(Field *field, u32 value, u32 lines);
 void func_ov033_02177a28(FieldMoneyWindow *work);
 void func_ov033_02177a60(FieldMoneyWindow *work);
-BOOL func_ov033_02177b08(void *unused, u32 *state, FieldMoneyWindowEvent *event);
+GameEventReturnCode func_ov033_02177b08(GameEvent *unused, u32 *state, void *data);
 u32 *func_ov033_02177bd4(GameData *gameData, HeapID heapId, void *items, u32 *count);
 void func_ov033_02177c48(GameData *gameData, HeapID heapId, void *items);
 u32 func_ov033_02177c8c(GameData *gameData, HeapID heapId, void *items);
 u16 func_ov033_02177cd4(GameData *gameData, HeapID heapId, void *items, u32 position);
+GameEvent *func_ov033_02177d28(GameSystem *gameSystem);
 
 #endif // POKEBW2_FIELD_FIELD_MONEY_WINDOW_H

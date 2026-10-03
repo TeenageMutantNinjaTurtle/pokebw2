@@ -142,6 +142,8 @@ void FieldPropAnmController_RTC_Init(FieldPropSystem *system, FieldPropResInstan
 void FieldPropAnmController_Static_ExecCommand(void *controller, u32 command);
 void FieldPropAnmController_Ambient_Update(void *controller, void *instance);
 void FieldPropAnmController_RTC_Update(FieldPropSystem *system, FieldPropResInstance *instance);
+void FieldPropAnmController_Dynamic_Update(FieldPropSystem *system, FieldPropResInstance *instance);
+void FieldPropAnmController_Dynamic_ExecCommand(FieldPropResInstance *instance, u32 animation, u32 command);
 void FieldPropResInstance_AnmStopAll(FieldPropResInstance *instance);
 void FieldPropResInstance_AnmSetPlay(FieldPropResInstance *instance, u32 animation);
 void FieldPropResInstance_AnmSetPlayLoop(FieldPropResInstance *instance, u32 animation);

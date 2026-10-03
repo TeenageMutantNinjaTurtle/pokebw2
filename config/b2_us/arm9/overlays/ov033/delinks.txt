@@ -382,3 +382,7 @@ src/ov033/field_money_window_count_missing.c:
 src/ov033/field_money_window_find_missing.c:
     complete
     .text       start:0x02177cd4 end:0x02177d28
+
+src/ov033/field_money_window_event_create.c:
+    complete
+    .text       start:0x02177d28 end:0x02177d78

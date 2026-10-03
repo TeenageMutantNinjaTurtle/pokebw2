@@ -110,6 +110,12 @@ struct ZoneWarp {
 };
 
 extern const RespawnZoneInfo RESPAWN_ZONE_INFO[];
+extern const s32 DIRECTION_VEC_X[];
+extern const s32 DIRECTION_VEC_Z[];
+extern const u32 INV_DIR_TABLE[];
+extern const u16 data_ov012_0216cd60[];
+extern const u8 data_ov012_0216cd68[];
+extern const u8 data_ov012_0216cdc9[];
 
 // Spawns at a position instead of a warp, warpId is -1
 #define ZONE_SPAWN_CHANGE_TYPE_POSITION 1
@@ -133,6 +139,12 @@ extern const RespawnZoneInfo RESPAWN_ZONE_INFO[];
 u16 ConvDirToWarpDir(u16 dir);
 u32 ConvDirToRailDir(u32 direction);
 u32 ConvDirToTriggerDir(u32 dir);
+s16 GetDirectionVectorCompX(u32 direction);
+s16 GetDirectionVectorCompZ(u32 direction);
+void VecGPosToWPos(s32 x, s32 y, s32 z, VecFx32 *position);
+u16 GetInverseDirection(u32 direction);
+u16 GetDirFromPosToPos(s32 x1, s32 z1, s32 x2, s32 z2);
+u32 func_ov012_0215ed38(u32 direction, u16 angle);
 BOOL CheckWarpPositionMatch(const ZoneWarp *warp, const VecFx32 *position);
 BOOL CheckWarpPositionMatchRail(const ZoneWarp *warp, const RailPosition *position);
 BOOL CheckBGPositionMatchRail(const ZoneBGEntity *entity, const RailPosition *position);

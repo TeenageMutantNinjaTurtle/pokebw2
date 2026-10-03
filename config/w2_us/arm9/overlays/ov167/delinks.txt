@@ -775,3 +775,23 @@ src/ov167/battle_ability_levitate_immunity.c:
 src/ov167/battle_ability_wonder_guard.c:
     complete
     .text       start:0x021c04f8 end:0x021c0594
+
+src/ov167/battle_ability_sturdy.c:
+    complete
+    .text       start:0x021bff48 end:0x021c0044
+
+src/ov167/battle_ability_type_recovery_common.c:
+    complete
+    .text       start:0x021c0144 end:0x021c0248
+
+src/ov167/battle_ability_dry_skin_weather.c:
+    complete
+    .text       start:0x021c0248 end:0x021c02d8
+
+src/ov167/battle_ability_forecast_common.c:
+    complete
+    .text       start:0x021c0b60 end:0x021c0c78
+
+src/ov167/battle_ability_target_redirect.c:
+    complete
+    .text       start:0x021c0c78 end:0x021c0d50
