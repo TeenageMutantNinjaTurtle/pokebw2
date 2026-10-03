@@ -71,6 +71,7 @@ VecFx32 *GetMModelWPosPtr(FieldActor *actor);
 s32 GetZoneNPCInfoCacheIdx(u16 zoneId);
 ZoneNPC *GetZoneNPCs(EventData *eventData);
 u32 GetZoneNPCsCount(EventData *eventData);
+void SetZoneNPCLocation(EventData *eventData, u32 npcId, u16 direction, u16 x, s32 y, u16 z);
 void SetZoneNPCMdlID(EventData *eventData, u16 npcId, u16 objCode);
 void SetZoneNPCSCRID(EventData *eventData, u16 npcId, u16 scriptId);
 void GetNPCMdlInfoForOBJCODE(MMSys *actorSystem, u16 objCode, void *modelInfo);

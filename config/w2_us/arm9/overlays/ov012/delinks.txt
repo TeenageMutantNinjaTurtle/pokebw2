@@ -144,13 +144,9 @@ src/ov012/city_state.c:
     complete
     .text       start:0x0215cd98 end:0x0215cde4
 
-src/ov012/event_data_npc_access.c:
+src/ov012/event_data_npc.c:
     complete
-    .text       start:0x0215d1d4 end:0x0215d1dc
-
-src/ov012/event_data_npc_set_ids.c:
-    complete
-    .text       start:0x0215d208 end:0x0215d230
+    .text       start:0x0215d1d4 end:0x0215d230
 
 src/ov012/conv_dir_to_trigger_dir.c:
     complete

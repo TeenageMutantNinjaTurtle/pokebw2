@@ -41,7 +41,7 @@ intervening function matches. Unmatched attempts are tracked in
 | Overlay | Disposition |
 | --- | --- |
 | 010 | Single linked C source; no fragmented C ranges. |
-| 012 | Related matrix, script setup, ScriptWork, script-command, warp, and zone entity position ranges are grouped where continuous; the system-option, RTC, Trainer Card, and GameComm commands have coherent owners. `ProcessMapMatrix` and other intervening assembly still separate some ranges. |
+| 012 | Related matrix, script setup, ScriptWork, script-command, warp, NPC access/setter, and zone entity position ranges are grouped where continuous; the system-option, RTC, Trainer Card, and GameComm commands have coherent owners. `ProcessMapMatrix` and other intervening assembly still separate some ranges. |
 | 013 | Single linked C source; no fragmented C ranges. |
 | 014 | Single linked C source; no fragmented C ranges. |
 | 015 | Single linked C source; no fragmented C ranges. |
