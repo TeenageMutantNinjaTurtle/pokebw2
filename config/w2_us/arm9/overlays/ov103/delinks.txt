@@ -14,3 +14,11 @@ src/ov103/badge_gate_last_create.c:
 src/ov103/badge_gate_step_animations.c:
     complete
     .text       start:0x021ef050 end:0x021ef060
+
+src/ov103/badge_gate_entry.c:
+    complete
+    .text       start:0x021ef1ec end:0x021ef21c
+
+src/ov103/badge_gate_sound.c:
+    complete
+    .text       start:0x021ef1c8 end:0x021ef1ec

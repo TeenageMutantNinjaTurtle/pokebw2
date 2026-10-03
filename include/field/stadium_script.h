@@ -13,6 +13,10 @@ struct StadiumTrainerEntry {
 
 BOOL s01E1_StadiumLoadTrainerTable(VM *vm, FieldScriptEnv *env);
 BOOL s01E2_StadiumFreeTrainerTable(VM *vm, FieldScriptEnv *env);
+BOOL s01E3_StadiumSetupActorSingle(VM *vm, FieldScriptEnv *env);
+BOOL s01E0_StadiumSetupActorsDouble(VM *vm, FieldScriptEnv *env);
+BOOL s01E0_StadiumSetupActorsTriple(VM *vm, FieldScriptEnv *env);
 BOOL s01E5_StadiumResetTrainerFlags(VM *vm, FieldScriptEnv *env);
+u32 FindStadiumTrainerIndex(StadiumTrainerEntry *trainers, u16 a, u16 b);
 
 #endif // POKEBW2_FIELD_STADIUM_SCRIPT_H

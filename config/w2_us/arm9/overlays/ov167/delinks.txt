@@ -359,3 +359,23 @@ src/ov167/battle_mon_base_stat.c:
 src/ov167/battle_mon_crit_stat.c:
     complete
     .text       start:0x021bb318 end:0x021bb380
+
+src/ov167/battle_mon_type_check.c:
+    complete
+    .text       start:0x021bb054 end:0x021bb084
+
+src/ov167/battle_mon_illusion_disguise.c:
+    complete
+    .text       start:0x021bb088 end:0x021bb094
+
+src/ov167/battle_mon_raw_stat.c:
+    complete
+    .text       start:0x021bb0e8 end:0x021bb14c
+
+src/ov167/battle_stat_change_valid.c:
+    complete
+    .text       start:0x021bb554 end:0x021bb590
+
+src/ov167/battle_mon_stats_lowered.c:
+    complete
+    .text       start:0x021bb5a8 end:0x021bb600

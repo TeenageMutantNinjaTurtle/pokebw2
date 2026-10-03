@@ -472,6 +472,14 @@ src/ov012/field_script_cmd_stadium_reset.c:
     complete
     .text       start:0x02159f58 end:0x02159f90
 
+src/ov012/field_script_cmd_stadium_actors.c:
+    complete
+    .text       start:0x02159da0 end:0x02159f58
+
+src/ov012/stadium_trainer_index.c:
+    complete
+    .text       start:0x0215a06c end:0x0215a094
+
 src/ov012/field_script_cmd_party_add_egg.c:
     complete
     .text       start:0x02157174 end:0x021572b0

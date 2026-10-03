@@ -124,5 +124,11 @@ u32 func_ov167_021bb07c(BattleMon *mon, u32 stat);
 void SetBaseStatus(BattleMon *mon, u32 stat, u16 value);
 u32 RawBattleMonStat(BattleMon *mon, u32 stat);
 u32 CritAtkDefLevel(BattleMon *mon, u32 stat);
+void splitTypeCore(BattleMon *mon, u8 *type1, u8 *type2);
+BOOL DoesMonHaveType(BattleMon *mon, u32 type);
+void SetIllusionDisguise(BattleMon *mon, void *disguise);
+s8 *func_ov167_021bb4b4(BattleMon *mon, u32 stat, s8 *min, s8 *max);
+BOOL IsStatChangeValid(BattleMon *mon, u32 stat, s32 change);
+BOOL AreStatsLowered(BattleMon *mon);
 
 #endif // POKEBW2_BATTLE_BTL_POKEPARAM_H
