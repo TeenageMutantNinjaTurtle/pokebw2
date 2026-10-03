@@ -579,3 +579,7 @@ src/ov167/battle_ability_rivalry.c:
 src/ov167/battle_ability_move_power.c:
     complete
     .text       start:0x021be950 end:0x021bea04
+
+src/ov167/battle_ability_scale_link.c:
+    complete
+    .text       start:0x021bea04 end:0x021bea70

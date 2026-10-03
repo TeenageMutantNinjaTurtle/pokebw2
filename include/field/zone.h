@@ -80,6 +80,8 @@ BOOL IsWarpZoneOrWarpID0xFFFF(const ZoneWarp *warp);
 void CreateZoneChangeData(ZoneSpawnInfo *spawn, u32 zoneId, s16 warpDir, s32 x, s32 y, s32 z);
 void CreateZoneChangeDataRail(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpDir, u16 componentId, u16 posFront,
                               s16 posSide);
+void SetupZoneSpawnInfoWarp(ZoneSpawnInfo *spawn, u16 zoneId, u16 warpId, u32 direction);
+void SetupWarpParamByWarp(ZoneWarp *warp, ZoneSpawnInfo *spawn, u32 direction);
 u32 GetInTransitionTypeBetweenZones(u16 fromZone, u16 toZone);
 BOOL GetIsZoneMatrix0(u16 zoneId);
 u32 GetMapBGMIDByPlayerState2(GameData *gameData, s32 zoneId, u8 season);

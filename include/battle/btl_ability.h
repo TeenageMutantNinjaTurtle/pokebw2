@@ -111,5 +111,11 @@ void HandlerIronFist(void *context, void *flow, u32 monId);
 const BattleEventHandlerEntry *EventAddIronFist(u32 *priority);
 void HandlerReckless(void *context, void *flow, u32 monId);
 const BattleEventHandlerEntry *EventAddReckless(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d772c[];
+extern const BattleEventHandlerEntry data_ov167_021d769c[];
+void HandlerMarvelScale(void *context, BtlServerFlow *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddMarvelScale(u32 *priority);
+void HandlerSkillLink(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddSkillLink(u32 *priority);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

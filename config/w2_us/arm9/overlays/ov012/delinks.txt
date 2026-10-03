@@ -613,6 +613,18 @@ src/ov012/get_warp_transition_type.c:
     complete
     .text       start:0x0215d17c end:0x0215d180
 
+src/ov012/setup_warp_param_by_warp.c:
+    complete
+    .text       start:0x0215d128 end:0x0215d13c
+
+src/ov012/check_warp_direction.c:
+    complete
+    .text       start:0x0215d14c end:0x0215d17c
+
+src/ov012/is_warp_zone_or_id_ffff.c:
+    complete
+    .text       start:0x0215d180 end:0x0215d19c
+
 src/ov012/event_game_clear_card.c:
     complete
     .text       start:0x0215a6b0 end:0x0215a6c4
