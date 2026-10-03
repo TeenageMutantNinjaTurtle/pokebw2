@@ -46,7 +46,7 @@ src/ov012/field_script_cmd_random_text.c:
 
 src/ov012/field_script_cmd_rtc.c:
     complete
-    .text       start:0x021556c0 end:0x02155794
+    .text       start:0x0215569c end:0x02155794
 
 src/ov012/field_script_cmd_save_setup.c:
     complete

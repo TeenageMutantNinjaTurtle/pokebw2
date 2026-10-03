@@ -179,6 +179,7 @@ BOOL s00CB_Random(VM *vm, FieldScriptEnv *env);
 BOOL func_ov012_02155608(VM *vm, FieldScriptEnv *env);
 BOOL func_ov012_02155638(VM *vm, FieldScriptEnv *env);
 BOOL s00CC_RTGetTextFile(VM *vm, FieldScriptEnv *env);
+BOOL func_ov012_0215569c(VM *vm, FieldScriptEnv *env);
 BOOL s00CF_RTCGetWeekDay(VM *vm, FieldScriptEnv *env);
 BOOL s00D0_RTCGetDate(VM *vm, FieldScriptEnv *env);
 BOOL s00D1_RTCGetTime(VM *vm, FieldScriptEnv *env);

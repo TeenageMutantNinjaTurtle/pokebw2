@@ -1,5 +1,16 @@
+#include "field/field.h"
 #include "field/field_script.h"
 #include "system/game_data.h"
+
+BOOL func_ov012_0215569c(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData;
+    u16 *value;
+
+    gameData = FieldScriptEnv_GetGameData(env);
+    value = ScriptReadVar(vm, env);
+    *value = func_ov012_02169b78(gameData);
+    return FALSE;
+}
 
 BOOL s00CD_RTCGetDayPart(VM *vm, FieldScriptEnv *env) {
     GameData *gameData = FieldScriptEnv_GetGameData(env);
