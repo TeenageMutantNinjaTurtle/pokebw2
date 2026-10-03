@@ -1,5 +1,5 @@
 #include "types.h"
-#include "field/festival.h"
+#include "field/fest_mission_data.h"
 #include "field/field.h"
 #include "field/field_script.h"
 #include "field/survey.h"
@@ -36,21 +36,22 @@ void *func_ov027_02170b18(ArcTool *arc, HeapID heapId) {
     return GFL_ArcToolReadHeapNew(arc, 0, heapId);
 }
 
-void func_ov027_02170b24(ArcTool *arc, u8 index, void *dest) {
-    GFL_ArcToolReadRange(arc, 0, index * 4, 4, dest);
-    GFL_ArcToolReadRange(arc, 1, index * 40, 40, (u8 *)dest + 4);
+void func_ov027_02170b24(ArcTool *arc, u8 index, FestMissionData *dest) {
+    GFL_ArcToolReadRange(arc, 0, index * sizeof(dest->unk00), sizeof(dest->unk00), &dest->unk00);
+    GFL_ArcToolReadRange(arc, 1, index * sizeof(dest->unk04), sizeof(dest->unk04), dest->unk04);
 }
 
-void *func_ov027_02170b50(ArcTool *arc, HeapID heapId) {
+FestMissionData *func_ov027_02170b50(ArcTool *arc, HeapID heapId) {
     s32 i;
-    u8 *data;
-    data = GFL_HeapAllocate(heapId, 0x974, TRUE, "fest_mission_data.c", 0x91);
-    for (i = 0; i < 0x37; i++) {
-        func_ov027_02170b24(arc, i, data + 0x2c * i);
+    FestMissionData *missions;
+
+    missions = GFL_HeapAllocate(heapId, sizeof(FestMissionData) * FEST_MISSION_COUNT, TRUE, "fest_mission_data.c", 0x91);
+    for (i = 0; i < FEST_MISSION_COUNT; i++) {
+        func_ov027_02170b24(arc, i, &missions[i]);
     }
-    return data;
+    return missions;
 }
 
-void *func_ov027_02170b8c(FestivalText *text, HeapID heapId) {
+FestMissionData *func_ov027_02170b8c(FestivalText *text, HeapID heapId) {
     return func_ov027_02170b50(text->archive, heapId);
 }

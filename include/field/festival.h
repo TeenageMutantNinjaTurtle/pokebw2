@@ -5,12 +5,6 @@
 #include "gfl/heap.h"
 #include "struct_decls.h"
 
-struct FestivalText {
-    ArcTool *archive;
-    MsgData *message;
-};
-
-
 void func_ov030_02174108(u32 enabled);
 void *Field_GetFesGimmick(Field *field);
 BOOL FesGimmick_IsCurrent(void *gimmick, u32 type);
@@ -28,11 +22,5 @@ void func_02014774(LinkFestival *festival, u32 arg1);
 void func_ov130_021eed98(GameSystem *gsys);
 void func_ov130_021eedb4(GameSystem *gsys);
 u32 GetTrainerCardTextMSGID(u32 type);
-FestivalText *getTextFileForFestMissions(HeapID heapId);
-void func_ov027_02170b00(FestivalText *text);
-void *func_ov027_02170b18(ArcTool *arc, HeapID heapId);
-void func_ov027_02170b24(ArcTool *arc, u8 index, void *dest);
-void *func_ov027_02170b50(ArcTool *arc, HeapID heapId);
-void *func_ov027_02170b8c(FestivalText *text, HeapID heapId);
 
 #endif // POKEBW2_FIELD_FESTIVAL_H
