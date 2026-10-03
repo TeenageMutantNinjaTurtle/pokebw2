@@ -52,7 +52,8 @@ struct FieldPropSystem {
     FieldPropResBundle *resBundle;
     u8 resIdToIndex[0x200];
     u32 resInfoCount;
-    u8 unk220[0x20];
+    u8 unk220[0x1c];
+    void *resInfoArray;
     void *textureResource;
     u8 unk244[4];
     void *resInstances;
@@ -85,6 +86,7 @@ struct FieldPropRTCState {
 extern const u8 FIELD_PROP_ANM_IDX_FOR_DAY_PART[];
 extern const u16 DOOR_SOUND_ID_LUT[][5];
 extern const u8 data_ov036_021ca8e6[];
+extern const char data_ov036_021d4b2c[];
 
 u32 FieldPropResAnmHeader_GetAnmCount(const FieldPropResAnmHeader *header);
 FieldPropResAnmHeader *FieldPropResInfo_GetAnmHeader(FieldPropResInfo *resInfo);
@@ -105,7 +107,9 @@ void FieldChunk_GetWorldPos(void *chunk, VecFx32 *position);
 void FieldPropResInstance_CallAnmCmd(void *instance, u32 animation, u32 command);
 BOOL FieldPropResInstance_IsAnmIdle(void *instance, u32 animation);
 void FieldPropResInstance_Free(void *instance);
+void FieldPropResInstance_Init(FieldPropSystem *system, void *instance, void *resInfo);
 void FieldPropSystem_DeleteHandle(FieldPropSystem *system, FieldPropHandle *handle);
+void FieldPropSystem_RegistHandle(FieldPropSystem *system, FieldPropHandle *handle);
 void FieldChunkPropHolder_Release(FieldPropSystem *system, FieldChunkPropHolder *holder);
 void FieldPropSystem_ReleaseChunkPropHolders(FieldPropSystem *system, void *chunk);
 void FieldPropSystem_ReleaseChunkPropHolder(FieldPropSystem *system, FieldChunkPropHolder *holder);

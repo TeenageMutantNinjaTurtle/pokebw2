@@ -623,3 +623,15 @@ src/ov167/battle_ability_oblivious.c:
 src/ov167/battle_ability_status_common.c:
     complete
     .text       start:0x021beeb0 end:0x021befac
+
+src/ov167/battle_ability_weather_change.c:
+    complete
+    .text       start:0x021befac end:0x021bf054
+
+src/ov167/battle_ability_air_lock.c:
+    complete
+    .text       start:0x021bf054 end:0x021bf0b0
+
+src/ov167/battle_ability_weather_recovery.c:
+    complete
+    .text       start:0x021bf0b0 end:0x021bf144

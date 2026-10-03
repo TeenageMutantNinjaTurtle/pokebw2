@@ -51,7 +51,7 @@ void EncountState_SetTerrain(EncountState *state, u32 terrain) {
 void func_ov012_021591f4(void) {
 }
 
-u16 EncountSave_GetRoamingPkmZone(EncountSave *save) {
+u16 EncountSave_GetRoamingPkmZone(EncountSave *save, u8 slot) {
     u32 clock = EncountSave_GetRoamingPkmZoneClock(save);
     if (clock > 16) {
         return 319;
@@ -59,7 +59,7 @@ u16 EncountSave_GetRoamingPkmZone(EncountSave *save) {
     return ROAMING_POKEMON_ZONES[clock];
 }
 
-u32 func_ov012_02159218(void) {
+u32 func_ov012_02159218(EncountSave *save) {
     return 0;
 }
 

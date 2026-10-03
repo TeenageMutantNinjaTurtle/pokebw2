@@ -5,6 +5,7 @@
 // known
 
 typedef struct AbilityCureStatusWork AbilityCureStatusWork;
+typedef struct AirLockWeatherWork AirLockWeatherWork;
 typedef struct AdventureSave AdventureSave;
 typedef struct AdventureTime AdventureTime;
 typedef struct ActionOrder ActionOrder;
@@ -265,6 +266,8 @@ typedef struct UnderwaterEffectWork UnderwaterEffectWork;
 typedef struct UnityTowerSurveySave UnityTowerSurveySave;
 typedef struct VM VM;
 typedef struct WarpSequence WarpSequence;
+typedef struct WeatherChangeAbilityWork WeatherChangeAbilityWork;
+typedef struct WeatherRecoveryWork WeatherRecoveryWork;
 typedef struct WbtSystem WbtSystem;
 typedef struct WifiList WifiList;
 typedef struct WorldTradeData WorldTradeData;

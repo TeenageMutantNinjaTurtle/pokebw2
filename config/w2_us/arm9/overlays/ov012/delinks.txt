@@ -641,6 +641,26 @@ src/ov012/trigger_scrid_lookup.c:
     complete
     .text       start:0x0215d3c8 end:0x0215d410
 
+src/ov012/set_zone_warp_location.c:
+    complete
+    .text       start:0x0215d19c end:0x0215d1d4
+
+src/ov012/event_data_proxies.c:
+    complete
+    .text       start:0x0215d410 end:0x0215d418
+
+src/ov012/proxy_entity_event_wrappers.c:
+    complete
+    .text       start:0x0215d500 end:0x0215d510
+
+src/ov012/zone_warp_get_direction.c:
+    complete
+    .text       start:0x0215d71c end:0x0215d74c
+
+src/ov012/get_grid_warp_out_pos.c:
+    complete
+    .text       start:0x0215d74c end:0x0215d7b0
+
 src/ov012/event_game_clear_card.c:
     complete
     .text       start:0x0215a6b0 end:0x0215a6c4

@@ -297,3 +297,7 @@ src/ov036/field_prop_create_handle_at_pos.c:
 src/ov036/field_prop_handle_free.c:
     complete
     .text       start:0x02184124 end:0x02184150
+
+src/ov036/field_prop_create_handle_new.c:
+    complete
+    .text       start:0x021840b4 end:0x02184124

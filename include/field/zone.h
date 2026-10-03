@@ -43,12 +43,22 @@ struct RespawnZoneInfo {
     u8 unk0A[10];
 };
 
+struct ZoneWarpGridPosition {
+    u16 x;
+    u16 y;
+    u16 z;
+    u16 width;
+    u16 height;
+};
+
 struct ZoneWarp {
     u16 unk0;
     u16 destId;
     u8 unk4;
     u8 transitionType;
-    u8 unk6[0xe];
+    u16 isRail;
+    ZoneWarpGridPosition gridPos;
+    u8 unk12[2];
 };
 
 extern const RespawnZoneInfo RESPAWN_ZONE_INFO[];
@@ -78,6 +88,10 @@ BOOL CheckWarpPositionMatch(const ZoneWarp *warp, const VecFx32 *position);
 BOOL CheckWarpPositionMatchRail(const ZoneWarp *warp, const RailPosition *position);
 BOOL CheckWarpDirectionMatch(const ZoneWarp *warp, u16 direction);
 BOOL IsWarpZoneOrWarpID0xFFFF(const ZoneWarp *warp);
+void SetZoneWarpLocation(EventData *eventData, u16 warpId, u16 x, u16 y, u16 z);
+u32 ZoneWarp_GetDirection(const ZoneWarp *warp);
+void GetGridWarpOutPos(ZoneWarp *warp, u32 direction, VecFx32 *position);
+s32 CalcWarpTransferAddend(u32 direction, u32 warpDirection, u32 a2, u32 a3, u16 size);
 void CreateZoneChangeData(ZoneSpawnInfo *spawn, u32 zoneId, s16 warpDir, s32 x, s32 y, s32 z);
 void CreateZoneChangeDataRail(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpDir, u16 componentId, u16 posFront,
                               s16 posSide);

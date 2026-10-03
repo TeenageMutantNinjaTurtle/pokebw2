@@ -79,3 +79,7 @@ src/ov104/field_exp_obj_gimmick_ov104_script_call.c:
 src/ov104/field_exp_obj_gimmick_ov104_state_ops.c:
     complete
     .text       start:0x021efc6c end:0x021efcfc
+
+src/ov104/field_exp_obj_gimmick_ov104_roaming_zone.c:
+    complete
+    .text       start:0x021efb30 end:0x021efb90

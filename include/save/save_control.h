@@ -7,6 +7,7 @@
 #include "struct_decls.h"
 
 SaveControl *SaveControl_GetInstance(void);
+EncountSave *SaveControl_GetEncountSave(SaveControl *save);
 void func_02007560(SaveControl *save, u32 block, u32 heapId, void *buffer, u32 size);
 void *getAddressOfExtraSaveBlk(SaveControl *save, u32 block, u32 arg2);
 void freeIntermediateSaveExtraBlksAfterLoad2(SaveControl *save, u32 block);
