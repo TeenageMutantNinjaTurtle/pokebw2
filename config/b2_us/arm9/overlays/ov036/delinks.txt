@@ -249,3 +249,11 @@ src/ov036/field_prop_res_bank.c:
 src/ov036/field_prop_free_res_bundle.c:
     complete
     .text       start:0x02183454 end:0x02183468
+
+src/ov036/field_prop_load_res_bundle.c:
+    complete
+    .text       start:0x02183400 end:0x02183454
+
+src/ov036/field_prop_build_res_lut.c:
+    complete
+    .text       start:0x02183468 end:0x021834bc

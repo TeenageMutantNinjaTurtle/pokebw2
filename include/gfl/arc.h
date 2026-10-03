@@ -6,6 +6,7 @@
 #include "struct_decls.h"
 
 ArcTool *GFL_ArcSysCreateFileHandle(u32 arcId, HeapID heapId);
+u32 GFL_ArcToolGetDataMax(ArcTool *handle);
 void GFL_ArcToolFree(ArcTool *handle);
 void GFL_ArcToolRead(ArcTool *handle, u32 fileId, void *dest);
 void GFL_ArcToolReadRange(ArcTool *handle, u32 fileId, u32 offset, u32 size, void *dest);

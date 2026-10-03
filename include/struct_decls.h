@@ -98,6 +98,7 @@ typedef struct EncountSave EncountSave;
 typedef struct EncountState EncountState;
 typedef struct EncountSystem EncountSystem;
 typedef struct EncounterCutinWork EncounterCutinWork;
+typedef struct Event3DDemoWork Event3DDemoWork;
 typedef struct EventActionCallWork EventActionCallWork;
 typedef struct EventActorJumpWork EventActorJumpWork;
 typedef struct EventCommTvt EventCommTvt;

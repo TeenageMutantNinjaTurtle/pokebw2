@@ -43,3 +43,7 @@ src/ov104/field_exp_obj_gimmick_ov104_res_lookup.c:
 src/ov104/field_exp_obj_gimmick_ov104_dispatch.c:
     complete
     .text       start:0x021ef2cc end:0x021ef384
+
+src/ov104/field_exp_obj_gimmick_ov104_scene_dispatch.c:
+    complete
+    .text       start:0x021ef384 end:0x021ef400

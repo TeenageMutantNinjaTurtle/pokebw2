@@ -28,5 +28,6 @@ typedef struct {
 
 // The date, as the game last read it
 void RTC_GetCachedDate(RTCDate *date);
+void RTC_GetCachedTime(RTCTime *time);
 
 #endif // POKEBW2_NITRO_RTC_H

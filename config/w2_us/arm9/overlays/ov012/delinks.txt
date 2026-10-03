@@ -573,6 +573,14 @@ src/ov012/field_acmd_walk_one_tile.c:
     complete
     .text       start:0x0215cb3c end:0x0215cb88
 
+src/ov012/event_3d_demo_create.c:
+    complete
+    .text       start:0x0215cb88 end:0x0215cbf0
+
+src/ov012/sequence_event_setup.c:
+    complete
+    .text       start:0x0215cd10 end:0x0215cd98
+
 src/ov012/event_game_clear_card.c:
     complete
     .text       start:0x0215a6b0 end:0x0215a6c4

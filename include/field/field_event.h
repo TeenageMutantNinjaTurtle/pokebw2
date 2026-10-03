@@ -30,7 +30,6 @@ GameEvent *CallFieldMapEntranceInTransition(GameSystem *gsys, Field *field, u32 
 GameEvent *CallFieldMapEntranceOutTransition(GameSystem *gsys, Field *field, u32 type, u32 a3, u32 a4);
 GameEvent *CallFieldMapEntranceOutTransitionDefault(GameSystem *gsys, Field *field, u32 type, u32 a3);
 GameEvent *CreateFieldCloseEvent(GameSystem *gsys, Field *field);
-GameEvent *Event3DDemo_Create(GameSystem *gsys, GameEvent *parent, u32 demoId, u32 unk3, u32 unk4);
 GameEvent *EventBGMChange_Create(GameSystem *gsys, u32 bgm, u32 a2, u32 a3);
 GameEvent *EventBattleLose_Create(GameSystem *gsys);
 GameEvent *EventBGMPlay_Create(GameSystem *gsys, u32 bgm);

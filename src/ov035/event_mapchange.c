@@ -4,6 +4,7 @@
 #include "constants/sound.h"
 #include "constants/zones.h"
 #include "dsprot/dsprot.h"
+#include "field/event_3d_demo.h"
 #include "field/event_mapchange.h"
 #include "field/event_season_banner.h"
 #include "field/field.h"

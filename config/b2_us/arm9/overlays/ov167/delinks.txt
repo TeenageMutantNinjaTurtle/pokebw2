@@ -547,3 +547,19 @@ src/ov167/battle_ability_lens_rock.c:
 src/ov167/battle_ability_sniper.c:
     complete
     .text       start:0x021be3ac end:0x021be3dc
+
+src/ov167/battle_ability_speed_boost.c:
+    complete
+    .text       start:0x021be3dc end:0x021be434
+
+src/ov167/battle_ability_adaptability.c:
+    complete
+    .text       start:0x021be434 end:0x021be464
+
+src/ov167/battle_ability_low_hp_boost.c:
+    complete
+    .text       start:0x021be464 end:0x021be51c
+
+src/ov167/battle_ability_guts.c:
+    complete
+    .text       start:0x021be51c end:0x021be568

@@ -95,6 +95,8 @@ void func_ov104_021ef658(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021ef6dc(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021ef760(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021ef7e4(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021ef868(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021ef924(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021f0324(struct FieldExpObjGimmickOv104ResEntry *entry, u32 arc, u32 index);
 BOOL func_ov104_021f0334(struct FieldExpObjGimmickOv104ResEntry *entry, u16 zone);
 BOOL func_ov104_021f037c(struct FieldExpObjGimmickOv104ResEntry *entry);

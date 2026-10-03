@@ -61,5 +61,27 @@ const BattleEventHandlerEntry *EventAddSolidRock(u32 *priority);
 extern const BattleEventHandlerEntry data_ov167_021d783c[];
 void HandlerSniper(void *context, void *item, u32 monId);
 const BattleEventHandlerEntry *EventAddSniper(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d771c[];
+void HandlerSpeedBoost(void *context, BtlServerFlow *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddSpeedBoost(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d785c[];
+void HandlerAdaptability(void *context, void *item, u32 monId);
+const BattleEventHandlerEntry *EventAddAdaptability(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d7734[];
+extern const BattleEventHandlerEntry data_ov167_021d7694[];
+extern const BattleEventHandlerEntry data_ov167_021d76cc[];
+extern const BattleEventHandlerEntry data_ov167_021d76c4[];
+void HandlerBlaze(void *context, BtlServerFlow *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddBlaze(u32 *priority);
+void HandlerTorrent(void *context, BtlServerFlow *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddTorrent(u32 *priority);
+void HandlerOvergrow(void *context, BtlServerFlow *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddOvergrow(u32 *priority);
+void HandlerSwarm(void *context, BtlServerFlow *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddSwarm(u32 *priority);
+void CommonLowHPBoostAbility(BtlServerFlow *flow, u32 monId, u32 type);
+extern const BattleEventHandlerEntry data_ov167_021d76bc[];
+void HandlerGuts(void *context, BtlServerFlow *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddGuts(u32 *priority);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

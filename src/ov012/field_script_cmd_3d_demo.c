@@ -1,4 +1,4 @@
-#include "field/field_event.h"
+#include "field/event_3d_demo.h"
 #include "field/field_script.h"
 
 BOOL s0154_Call3DDemo(VM *vm, FieldScriptEnv *env) {

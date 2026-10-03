@@ -5,6 +5,7 @@
 #include "struct_decls.h"
 
 void GameBeacon_SetZone(u16 zoneId, GameData *gameData);
+void GameBeacon_BroadcastFerrisWheel(void);
 u8 GameCommSys_BootCheck(GameCommSys *comm);
 void GameCommSys_ExitReq(GameCommSys *comm);
 void func_0202be00(GameCommSys *comm);
