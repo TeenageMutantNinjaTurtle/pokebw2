@@ -10,7 +10,6 @@ struct FestivalText {
     MsgData *message;
 };
 
-extern const char data_ov027_021711e0[];
 
 void func_ov030_02174108(u32 enabled);
 void *Field_GetFesGimmick(Field *field);
