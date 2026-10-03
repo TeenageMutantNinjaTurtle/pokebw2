@@ -7,7 +7,8 @@
 #include "system/game_event.h"
 
 struct FieldExpObjGimmickOv104Substate {
-    u8 unk00[8];
+    u32 zoneId;
+    u32 version;
     u32 x;
     u32 y;
     u32 z;
@@ -166,6 +167,7 @@ BOOL func_ov104_021f037c(struct FieldExpObjGimmickOv104ResEntry *entry);
 void func_ov104_021ef168(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021efc8c(FieldExpObjGimmickOv104State *state);
 void func_ov104_021eeea0(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021eeee0(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021efcc4(FieldExpObjGimmickOv104State *state, u32 value);
 s32 func_ov104_021efcf0(FieldExpObjGimmickOv104State *state);
 u16 func_ov104_021efcf4(FieldExpObjGimmickOv104State *state);
