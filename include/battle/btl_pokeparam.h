@@ -37,8 +37,8 @@ struct BattleCondition {
     };
 };
 
-// A move slot of a BattleMon: the move it has now, which a move like Mimic or Transform can change, and the one it
-// had before
+// A move slot of a BattleMon: its true move and the surface one in use, which a move like Mimic or Transform
+// replaces (MoveWork_ClearSurface resets it)
 struct BattleMoveCore {
     u16 id;
     union {
@@ -59,9 +59,10 @@ struct BattleMoveCore {
 };
 
 struct BattleMoveWork {
-    BattleMoveCore current;
-    BattleMoveCore original;
-    u8 originalActive;
+    BattleMoveCore truth;
+    BattleMoveCore surface;
+    // Set while the surface is the true move, so PP changes go to both
+    u8 linked;
 };
 
 // A Pokémon in battle, 0x1f8 bytes from BattleMon_Create. Offsets are from btl_pokeparam.c's accessors.
@@ -79,11 +80,11 @@ struct BattleMon {
     u8 monId;
     u8 unk1a;
     u8 unk1b_0 : 5;
-    u8 formChange : 1;
+    u8 transformed : 1;
     u8 illusion : 1;
     u8 unk1b_7 : 1;
     BattleCondition conditions[36];
-    u8 moveStatus[0x24];
+    u8 conditionCounters[36];
     u8 unkD0[0x1e];
     u16 attack;
     u16 defense;
@@ -102,17 +103,19 @@ struct BattleMon {
     u8 unk141[3];
     u8 unk144;
     u8 unk145[5];
-    u16 unk14a;
-    u16 unk14c;
-    u16 unk14e;
+    u16 prevMoveUsed;
+    u16 prevMoveId;
+    u16 consecutiveMoveCount;
     u8 unk150[2];
-    u8 unk152;
+    u8 prevTargetPos;
     u8 turnFlags[2];
     u8 conditionFlags[2];
     u8 counters[5];
     u8 unk15c[0x96];
-    u16 spActPriority;
-    u8 unk1f4[4];
+    u16 substituteHP;
+    u16 comboMove;
+    u8 comboMonId;
+    u8 unk1f7;
 };
 
 // The condition word returned by GetConditionContinuationParam.
@@ -143,7 +146,7 @@ void SetConditionFlag(BattleCondition *condition, u32 flag);
 u32 func_ov167_021ce464(BattleCondition condition);
 
 BOOL CanPokemonBattle(BattleMon *mon);
-PartyPkm *GetSrcData(const void *param);
+PartyPkm *GetSrcData(const BattleMon *mon);
 BOOL CheckCondition(BattleMon *mon, u32 condition);
 void CopyBatonPassParams(BattleMon *target, BattleMon *source);
 BOOL Condition_IsBadlyPoisoned(BattleConditionCont cont);
@@ -213,7 +216,7 @@ u16 GetPreviousMoveUsed(BattleMon *mon);
 u8 GetPrevTargetPos(BattleMon *mon);
 void MoveWork_UpdateNumber(BattleMoveWork *work, u16 move, u8 maxPP, BOOL updateCurrent);
 void MoveCore_UpdateNumber(BattleMoveCore *core, u16 move, u8 maxPP);
-void func_ov167_021ba9cc(void *moveWork);
+void func_ov167_021ba9cc(BattleMoveWork *move);
 void ClearUsedMoveFlag(BattleMon *mon);
 void ClearMoveStatusWork(BattleMon *mon, u32 flag);
 void ClearCounter(BattleMon *mon);
@@ -230,13 +233,13 @@ BOOL MoveIsUsable(BattleMon *mon, u16 move);
 u32 func_ov167_021bb07c(BattleMon *mon, u32 stat);
 void func_ov167_021bb10c(BattleMon *mon, u16 *stats);
 void func_ov167_021bb054(BattleMon *mon);
-void *func_ov167_021bb064(BattleMon *mon);
+PartyPkm *func_ov167_021bb064(BattleMon *mon);
 void SetBaseStatus(BattleMon *mon, u32 stat, u16 value);
 u32 RawBattleMonStat(BattleMon *mon, u32 stat);
 u32 CritAtkDefLevel(BattleMon *mon, u32 stat);
 void splitTypeCore(BattleMon *mon, u8 *type1, u8 *type2);
 BOOL DoesMonHaveType(BattleMon *mon, u32 type);
-void SetIllusionDisguise(BattleMon *mon, void *disguise);
+void SetIllusionDisguise(BattleMon *mon, PartyPkm *disguise);
 s8 *func_ov167_021bb4b4(BattleMon *mon, u32 stat, s8 *min, s8 *max);
 BOOL IsStatChangeValid(BattleMon *mon, u32 stat, s32 change);
 BOOL AreStatsLowered(BattleMon *mon);

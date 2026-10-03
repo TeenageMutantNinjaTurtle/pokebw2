@@ -8,16 +8,6 @@
 // The battle positions, 0 to 5. Even positions are on one side and odd positions on the other
 #define BTL_POS_MAX 6
 
-struct BtlMainModule {
-    BtlSetup *setup;
-    u8 unk04[0x424];
-    u8 posClientIds[6];
-    u8 unk42e[0x3a];
-    u16 heapId;
-    u8 unk46a[2];
-    u8 playerClientId;
-};
-
 // Layout reconstructed from the party accessors in the game code.
 struct BattleParty {
     BattleMon *mons[6];
@@ -25,9 +15,29 @@ struct BattleParty {
     u8 unk19[3];
 };
 
+// The parties of the four clients and every BattleMon by mon ID, 0xe8 bytes as the main module holds two
 struct BtlPokeCon {
     u32 unk00;
-    BattleParty parties[6];
+    BattleParty parties[4];
+    u8 unk74[0x10];
+    BattleMon *mons[24];
+    u32 unkE4;
+};
+
+struct BtlMainModule {
+    BtlSetup *setup;
+    u8 unk04[0xc4];
+    BtlPokeCon pokeCons[2];
+    u8 unk298[0x190];
+    u8 posClientIds[6];
+    u8 unk42e[0x3a];
+    u16 heapId;
+    u8 unk46a[2];
+    u8 playerClientId;
+    u8 unk46d[6];
+    u8 unk473_0 : 2;
+    u8 unk473_2 : 1;
+    u8 unk473_3 : 5;
 };
 
 // Swan's names for these two take the main module, whose first field points to the BtlSetup
@@ -48,7 +58,7 @@ u32 GetValidPosMax(BtlMainModule *mainModule);
 u32 func_ov167_0219be8c(BtlMainModule *mainModule);
 BOOL func_ov167_0219bebc(BtlMainModule *mainModule, u32 pos);
 u32 GetRunMode(BtlMainModule *mainModule);
-void *GetFieldEffectData(BtlMainModule *mainModule);
+BtlFieldSituation *GetFieldEffectData(BtlMainModule *mainModule);
 
 // The position at index on the same side as pos
 u8 GetPosOnSameSide(u8 pos, u8 index);
@@ -77,8 +87,8 @@ void ChangeFriendship(BtlMainModule *mainModule, BattleMon *mon, u32 reason);
 u8 func_ov167_0219c650(BtlMainModule *mainModule, u8 pos);
 BattleMon *func_ov167_0219d188(BtlPokeCon *pokeCon, u8 pos);
 BattleMon *GetClientMonData(BtlPokeCon *pokeCon, u8 clientId, u8 monId);
-void *GetPokeParam(void *params, u8 index);
-const void *GetPokeParamConst(const void *params, u8 index);
+BattleMon *GetPokeParam(BtlPokeCon *pokeCon, u8 monId);
+const BattleMon *GetPokeParamConst(const BtlPokeCon *pokeCon, u8 monId);
 // Underlying battle-type-dependent count used by GetClientBattlerCount.
 s32 func_ov167_0219a180(BtlMainModule *mainModule, u8 clientId);
 // How many of the client's Pokemon are in battle at once. They come first in the party, so this is also the index of
@@ -95,7 +105,7 @@ BOOL IsAdjacentOpponent(u8 pos1, u8 pos2);
 BattleParty *GetClientParty(BtlPokeCon *pokeCon, u8 clientId);
 BattleParty *GetPartyData(BtlPokeCon *pokeCon, u8 clientId);
 
-s32 FindPartyMon(BattleParty *party, BattleMon *mon);
+s32 FindPartyMon(const BattleParty *party, BattleMon *mon);
 s32 GetPartyPkmnEligibleForBattle(PokeParty *party);
 void AddBattleMonToParty(BattleParty *party, BattleMon *mon);
 void func_ov167_0219d434(BattleParty *party);
@@ -105,8 +115,8 @@ BattleMon *func_ov167_0219d4e4(BattleParty *party, u32 index);
 void func_ov167_0219d504(BattleParty *party, u32 first, u32 second);
 void func_ov167_0219d518(BattleParty *party, u8 index);
 void func_ov167_0219d544(BattleParty *party, u32 pos, BattleMon **oldOut, BattleMon **newOut);
-s32 func_ov167_0219d5b0(BattleParty *party, u32 monId);
-BattleMon *func_ov167_0219d5dc(BattleParty *party);
+s32 func_ov167_0219d5b0(const BattleParty *party, u32 monId);
+BattleMon *func_ov167_0219d5dc(const BattleParty *party);
 u32 func_ov167_0219d38c(u32 pos);
 u32 func_ov167_0219d3a4(u32 pos);
 BattleMon *GetBattleMonFromParty(BattleParty *party, u8 index);

@@ -37,7 +37,11 @@ struct BtlServerFlow {
     u8 unk18[0x490];
     BattleMoveEffectState *moveEffect;
     u8 unk4ac[0x2fd];
-    u8 unk7a9[0x15cf];
+    u8 unk7a9[0x130f];
+    // Passed to the ov169 function that several BattleHandler commands call through veneers
+    u8 unk1ab8[0x2c];
+    BattleHandlerString message;
+    u8 unk1b0c[0x26c];
     BtlActionState actionState;
 };
 

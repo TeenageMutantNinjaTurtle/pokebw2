@@ -801,7 +801,7 @@ const BattleEventHandlerEntry *EventAddPlusMinus(u32 *priority) {
 }
 
 BOOL func_ov167_021be5c4(void *flow, u32 monId, void *list, u32 ability) {
-    volatile u32 count;
+    u32 count;
     u32 clientCount;
     u16 packed;
     u8 i;

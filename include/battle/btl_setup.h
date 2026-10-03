@@ -6,18 +6,32 @@
 #include "save/config.h"
 #include "struct_decls.h"
 
+// The battle's surroundings, which GetFieldEffectData returns
+struct BtlFieldSituation {
+    u8 unk00[0xa];
+    u16 zoneId;
+    u8 unk0c[6];
+    u16 unk12;
+    u8 unk14[4];
+    u8 unk18;
+    u8 unk19;
+    u8 unk1a;
+    u8 unk1b;
+};
+
 struct BtlSetup {
     u32 battleType;
     u32 battleStyle;
-    u8 unk8[0x1b];
-    u8 unk23;
+    BtlFieldSituation fieldSituation;
     PokeParty *party;
     u8 unk28[0x4c];
     Config *config;
     BagSave *bag;
     u8 unk7c[8];
     GameRecords *records;
-    u8 unk88[0x20];
+    u8 unk88[0x10];
+    u8 unk98;
+    u8 unk99[0xf];
     u32 unkA8;
     u8 unkAC;
     u8 unkAD;
@@ -25,6 +39,9 @@ struct BtlSetup {
     u8 unkD2;
     u8 unkD3[8];
     u8 unkDB;
+    u8 unkDC[0x5c];
+    u16 unk138;
+    u16 unk13a;
 };
 
 BtlSetup *BtlSetup_Create(HeapID heapId);

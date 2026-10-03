@@ -47,28 +47,28 @@ void MoveWork_ClearSurface(BattleMon *mon) {
     mon->moveCount = 0;
     for (i = 0; i < 4; i++) {
         move = &mon->moves[i];
-        move->original.id = move->current.id;
-        move->original.ppPair = move->current.ppPair;
-        move->original.flagsPair = move->current.flagsPair;
-        if (move->original.id != 0) {
+        move->surface.id = move->truth.id;
+        move->surface.ppPair = move->truth.ppPair;
+        move->surface.flagsPair = move->truth.flagsPair;
+        if (move->surface.id != 0) {
             mon->moveCount++;
         }
-        move->originalActive = 1;
+        move->linked = 1;
     }
 }
 
 // Function names from swan.
 void MoveWork_UpdateNumber(BattleMoveWork *work, u16 move, u8 maxPP, BOOL updateCurrent) {
     if (updateCurrent) {
-        MoveCore_UpdateNumber(&work->current, move, maxPP);
-        if (work->originalActive != 0) {
-            work->original.id = work->current.id;
-            work->original.ppPair = work->current.ppPair;
-            work->original.flagsPair = work->current.flagsPair;
+        MoveCore_UpdateNumber(&work->truth, move, maxPP);
+        if (work->linked != 0) {
+            work->surface.id = work->truth.id;
+            work->surface.ppPair = work->truth.ppPair;
+            work->surface.flagsPair = work->truth.flagsPair;
         }
     } else {
-        MoveCore_UpdateNumber(&work->original, move, maxPP);
-        work->originalActive = 0;
+        MoveCore_UpdateNumber(&work->surface, move, maxPP);
+        work->linked = 0;
     }
 }
 
@@ -92,34 +92,30 @@ void MoveCore_UpdateNumber(BattleMoveCore *core, u16 move, u8 maxPP) {
 
 // Function name from swan.
 void ClearFormChange(BattleMon *mon) {
-    if (mon->formChange) {
+    if (mon->transformed) {
         setupBySrcData(mon, mon->src, 0, 1);
         MoveWork_ClearSurface(mon);
-        mon->formChange = 0;
+        mon->transformed = 0;
     }
 }
 
 void ClearUsedMoveFlag(BattleMon *mon) {
     u32 i;
-    u8 *data;
 
-    data = (u8 *)mon;
     for (i = 0; i < 4; i++) {
-        func_ov167_021ba9cc(data + 0x104 + i * 14);
+        func_ov167_021ba9cc(&mon->moves[i]);
     }
-    *(u16 *)(data + 0x14a) = 0;
-    *(u16 *)(data + 0x14c) = 0;
-    data[0x144] = 0x11;
-    *(u16 *)(data + 0x14e) = 0;
+    mon->prevMoveUsed = 0;
+    mon->prevMoveId = 0;
+    mon->unk144 = 0x11;
+    mon->consecutiveMoveCount = 0;
 }
 
 void ClearCounter(BattleMon *mon) {
     u32 i;
-    u8 *data;
 
-    data = (u8 *)mon;
     for (i = 0; i < 5; i++) {
-        data[0x157 + i] = 0;
+        mon->counters[i] = 0;
     }
 }
 
@@ -135,15 +131,15 @@ void ResetStatStages(u8 *stages) {
 }
 
 // Function name from swan.
-BOOL Move_IsPPFull(BattleMon *mon, u8 index, BOOL current) {
-    u8 *move;
+BOOL Move_IsPPFull(BattleMon *mon, u8 index, BOOL truth) {
+    BattleMoveCore *move;
 
-    if (current != 0) {
-        move = (u8 *)mon + 0x104 + index * 14;
+    if (truth != 0) {
+        move = &mon->moves[index].truth;
     } else {
-        move = (u8 *)mon + 0x10a + index * 14;
+        move = &mon->moves[index].surface;
     }
-    if (*(u16 *)move != 0 && move[2] == move[3]) {
+    if (move->id != 0 && move->pp == move->maxPP) {
         return TRUE;
     }
     return FALSE;
@@ -151,43 +147,43 @@ BOOL Move_IsPPFull(BattleMon *mon, u8 index, BOOL current) {
 
 // Function names from swan.
 u16 Move_IncrementPP(BattleMon *mon, u8 index, u8 amount) {
-    u8 *move;
+    BattleMoveWork *move;
 
-    move = (u8 *)mon + 0x104 + index * 14;
-    move[8] += amount;
-    if (move[8] > move[9]) {
-        move[8] = move[9];
+    move = &mon->moves[index];
+    move->surface.pp += amount;
+    if (move->surface.pp > move->surface.maxPP) {
+        move->surface.pp = move->surface.maxPP;
     }
-    if (move[12] != 0) {
-        move[2] = move[8];
+    if (move->linked != 0) {
+        move->truth.pp = move->surface.pp;
     }
-    return *(u16 *)(move + 6);
+    return move->surface.id;
 }
 
 u16 Move_IncrementPP_Org(BattleMon *mon, u8 index, u8 amount) {
-    u8 *move;
+    BattleMoveWork *move;
 
-    move = (u8 *)mon + 0x104 + index * 14;
-    move[2] += amount;
-    if (move[2] > move[3]) {
-        move[2] = move[3];
+    move = &mon->moves[index];
+    move->truth.pp += amount;
+    if (move->truth.pp > move->truth.maxPP) {
+        move->truth.pp = move->truth.maxPP;
     }
-    if (move[12] != 0) {
-        move[8] = move[2];
+    if (move->linked != 0) {
+        move->surface.pp = move->truth.pp;
     }
-    return *(u16 *)move;
+    return move->truth.id;
 }
 
 // Function names from swan.
 void Move_UpdateID(BattleMon *mon, u8 index, u16 move, u8 maxPP, BOOL updateCurrent) {
-    MoveWork_UpdateNumber((BattleMoveWork *)((u8 *)mon + 0x104 + index * 14), move, maxPP, updateCurrent);
+    MoveWork_UpdateNumber(&mon->moves[index], move, maxPP, updateCurrent);
 }
 
 BOOL MoveIsUsable(BattleMon *mon, u16 move) {
     u32 i;
 
     for (i = 0; i < 4; i++) {
-        if (*(u16 *)((u8 *)mon + 0x10a + i * 14) == move) {
+        if (mon->moves[i].surface.id == move) {
             return TRUE;
         }
     }
@@ -242,34 +238,28 @@ BOOL DoesMonHaveType(BattleMon *mon, u32 type) {
 }
 
 // Function names from swan.
-PartyPkm *GetSrcData(const void *mon) {
-    return *(PartyPkm **)mon;
+PartyPkm *GetSrcData(const BattleMon *mon) {
+    return mon->src;
 }
 
-void SetIllusionDisguise(BattleMon *mon, void *disguise) {
-    u8 *data;
-
-    data = (u8 *)mon;
-    *(void **)(data + 4) = disguise;
-    data[0x1b] |= 0x40;
+void SetIllusionDisguise(BattleMon *mon, PartyPkm *disguise) {
+    mon->illusionDisguise = disguise;
+    mon->illusion = 1;
 }
 
 void func_ov167_021bb054(BattleMon *mon) {
-    u8 flags;
-
-    flags = ((u8 *)mon)[0x1b];
-    *(void **)((u8 *)mon + 4) = NULL;
-    ((u8 *)mon)[0x1b] = flags & ~0x40;
+    mon->illusionDisguise = NULL;
+    mon->illusion = 0;
 }
 
-void *func_ov167_021bb064(BattleMon *mon) {
-    void *disguise;
+PartyPkm *func_ov167_021bb064(BattleMon *mon) {
+    PartyPkm *disguise;
 
-    disguise = *(void **)((u8 *)mon + 4);
-    if (disguise != NULL && ((((u32)((u8 *)mon)[0x1b] << 25) >> 31) != 0)) {
+    disguise = mon->illusionDisguise;
+    if (disguise != NULL && mon->illusion) {
         return disguise;
     }
-    return *(void **)mon;
+    return mon->src;
 }
 
 // Function names from swan.
@@ -294,15 +284,15 @@ u32 RawBattleMonStat(BattleMon *mon, u32 stat) {
     stat = func_ov167_021bb07c(mon, stat);
     switch (stat) {
     case 8:
-        return *(u16 *)((u8 *)mon + 0xee);
+        return mon->attack;
     case 9:
-        return *(u16 *)((u8 *)mon + 0xf0);
+        return mon->defense;
     case 10:
-        return *(u16 *)((u8 *)mon + 0xf2);
+        return mon->spAttack;
     case 11:
-        return *(u16 *)((u8 *)mon + 0xf4);
+        return mon->spDefense;
     case 12:
-        return *(u16 *)((u8 *)mon + 0xf6);
+        return mon->speed;
     case 6:
         return 6;
     case 7:
@@ -315,32 +305,32 @@ u32 RawBattleMonStat(BattleMon *mon, u32 stat) {
 void func_ov167_021bb10c(BattleMon *mon, u16 *stats) {
     u8 wasEncrypted;
 
-    wasEncrypted = PokeParty_DecryptPkm(*(PartyPkm **)mon);
-    stats[1] = PokeParty_GetParam(*(PartyPkm **)mon, (PkmField)0xa1, NULL);
-    stats[2] = PokeParty_GetParam(*(PartyPkm **)mon, (PkmField)0xa2, NULL);
-    stats[3] = PokeParty_GetParam(*(PartyPkm **)mon, (PkmField)0xa3, NULL);
-    stats[4] = PokeParty_GetParam(*(PartyPkm **)mon, (PkmField)0xa5, NULL);
-    stats[5] = PokeParty_GetParam(*(PartyPkm **)mon, (PkmField)0xa6, NULL);
-    stats[6] = PokeParty_GetParam(*(PartyPkm **)mon, (PkmField)0xa4, NULL);
-    PokeParty_EncryptPkm(*(PartyPkm **)mon, wasEncrypted);
+    wasEncrypted = PokeParty_DecryptPkm(mon->src);
+    stats[1] = PokeParty_GetParam(mon->src, PKM_PARAM_MAX_HP, NULL);
+    stats[2] = PokeParty_GetParam(mon->src, PKM_PARAM_ATTACK, NULL);
+    stats[3] = PokeParty_GetParam(mon->src, PKM_PARAM_DEFENSE, NULL);
+    stats[4] = PokeParty_GetParam(mon->src, PKM_PARAM_SP_ATTACK, NULL);
+    stats[5] = PokeParty_GetParam(mon->src, PKM_PARAM_SP_DEFENSE, NULL);
+    stats[6] = PokeParty_GetParam(mon->src, PKM_PARAM_SPEED, NULL);
+    PokeParty_EncryptPkm(mon->src, wasEncrypted);
 }
 
 void SetBaseStatus(BattleMon *mon, u32 stat, u16 value) {
     switch (func_ov167_021bb07c(mon, stat)) {
     case 8:
-        *(u16 *)((u8 *)mon + 0xee) = value;
+        mon->attack = value;
         break;
     case 9:
-        *(u16 *)((u8 *)mon + 0xf0) = value;
+        mon->defense = value;
         break;
     case 10:
-        *(u16 *)((u8 *)mon + 0xf2) = value;
+        mon->spAttack = value;
         break;
     case 11:
-        *(u16 *)((u8 *)mon + 0xf4) = value;
+        mon->spDefense = value;
         break;
     case 12:
-        *(u16 *)((u8 *)mon + 0xf6) = value;
+        mon->speed = value;
         break;
     }
 }
@@ -352,22 +342,22 @@ u32 CritAtkDefLevel(BattleMon *mon, u32 stat) {
     useRaw = FALSE;
     switch (func_ov167_021bb07c(mon, stat)) {
     case 8:
-        if (*(s8 *)((u8 *)mon + 0xfc) < 6) {
+        if (mon->statStages[0] < 6) {
             useRaw = TRUE;
         }
         break;
     case 10:
-        if (*(s8 *)((u8 *)mon + 0xfe) < 6) {
+        if (mon->statStages[2] < 6) {
             useRaw = TRUE;
         }
         break;
     case 9:
-        if (*(s8 *)((u8 *)mon + 0xfd) > 6) {
+        if (mon->statStages[1] > 6) {
             useRaw = TRUE;
         }
         break;
     case 11:
-        if (*(s8 *)((u8 *)mon + 0xff) > 6) {
+        if (mon->statStages[3] > 6) {
             useRaw = TRUE;
         }
         break;
@@ -382,15 +372,13 @@ u32 CritAtkDefLevel(BattleMon *mon, u32 stat) {
 u32 GetTurnFlag(BattleMon *mon, u32 flag) {
     u32 bit;
     u8 mask;
-    u8 *data;
     u32 result;
 
     bit = flag & 7;
     mask = (u8)(1 << bit);
     flag = (flag << 21) >> 24;
-    data = (u8 *)mon + flag;
     result = TRUE;
-    if ((data[0x153] & mask) == 0) {
+    if ((mon->turnFlags[flag] & mask) == 0) {
         result = FALSE;
     }
     return result;
@@ -399,15 +387,13 @@ u32 GetTurnFlag(BattleMon *mon, u32 flag) {
 u32 GetAdditionalConditionFlag(BattleMon *mon, u32 flag) {
     u32 bit;
     u8 mask;
-    u8 *data;
     u32 result;
 
     bit = flag & 7;
     mask = (u8)(1 << bit);
     flag = (flag << 21) >> 24;
-    data = (u8 *)mon + flag;
     result = TRUE;
-    if ((data[0x155] & mask) == 0) {
+    if ((mon->conditionFlags[flag] & mask) == 0) {
         result = FALSE;
     }
     return result;
@@ -469,25 +455,25 @@ s32 func_ov167_021bb550(BattleMon *mon, u32 stat) {
 
 // Function name from swan.
 BOOL AreStatsLowered(BattleMon *mon) {
-    if (*(s8 *)((u8 *)mon + 0xfc) < 6) {
+    if (mon->statStages[0] < 6) {
         return TRUE;
     }
-    if (*(s8 *)((u8 *)mon + 0xfd) < 6) {
+    if (mon->statStages[1] < 6) {
         return TRUE;
     }
-    if (*(s8 *)((u8 *)mon + 0xfe) < 6) {
+    if (mon->statStages[2] < 6) {
         return TRUE;
     }
-    if (*(s8 *)((u8 *)mon + 0xff) < 6) {
+    if (mon->statStages[3] < 6) {
         return TRUE;
     }
-    if (*(s8 *)((u8 *)mon + 0x100) < 6) {
+    if (mon->statStages[4] < 6) {
         return TRUE;
     }
-    if (*(s8 *)((u8 *)mon + 0x101) < 6) {
+    if (mon->statStages[5] < 6) {
         return TRUE;
     }
-    if (*(s8 *)((u8 *)mon + 0x102) < 6) {
+    if (mon->statStages[6] < 6) {
         return TRUE;
     }
     return FALSE;
@@ -495,80 +481,60 @@ BOOL AreStatsLowered(BattleMon *mon) {
 
 // Function names from swan.
 void HPAdd(BattleMon *mon, u16 amount) {
-    u16 *words;
-
-    words = (u16 *)mon;
-    words[8] += amount;
-    if (words[8] > words[7]) {
-        words[8] = words[7];
+    mon->hp += amount;
+    if (mon->hp > mon->maxHP) {
+        mon->hp = mon->maxHP;
     }
 }
 
 void HPZero(BattleMon *mon) {
-    *(u16 *)((u8 *)mon + 0x10) = 0;
+    mon->hp = 0;
 }
 
 // Function name from swan.
 void SetMoveCondition(BattleMon *mon, u32 condition, BattleCondition value) {
-    u8 *data;
-    u8 *count;
-
-    data = (u8 *)mon;
     if (IsBasicStatus(condition)) {
         CureCondition(mon);
     }
-    *(BattleCondition *)(data + 0x1c + condition * 4) = value;
-    count = data + condition;
-    count[0xac] = 0;
+    mon->conditions[condition] = value;
+    mon->conditionCounters[condition] = 0;
 }
 
 // Function names from swan.
 void CureCondition(BattleMon *mon) {
     u32 i;
-    u8 *data;
 
-    data = (u8 *)mon;
     for (i = 1; i < 6; i++) {
-        *(BattleCondition *)(data + 0x1c + i * 4) = ZeroConditionTurns();
-        data[0xac + i] = 0;
+        mon->conditions[i] = ZeroConditionTurns();
+        mon->conditionCounters[i] = 0;
         CureDependentCondition(mon, i);
     }
 }
 
 void CureDependentCondition(BattleMon *mon, u32 condition) {
-    u8 *data;
-
-    data = (u8 *)mon;
     if (condition == 2) {
-        *(BattleCondition *)(data + 0x40) = ZeroConditionTurns();
-        data[0xb5] = 0;
+        mon->conditions[9] = ZeroConditionTurns();
+        mon->conditionCounters[9] = 0;
     }
 }
 
 void CureMoveCondition(BattleMon *mon, u32 condition) {
-    u8 *data;
-    u8 *count;
-
-    data = (u8 *)mon;
     if (IsBasicStatus(condition)) {
         CureCondition(mon);
     } else {
-        *(BattleCondition *)(data + 0x1c + condition * 4) = ZeroConditionTurns();
-        count = data + condition;
-        count[0xac] = 0;
+        mon->conditions[condition] = ZeroConditionTurns();
+        mon->conditionCounters[condition] = 0;
     }
 }
 
 void func_ov167_021bba64(BattleMon *mon, u32 monId) {
     u32 i;
-    u8 *entry;
 
     if (monId != 0x1f) {
         for (i = 0; i < 0x24; i++) {
-            entry = (u8 *)mon + i * 4;
-            if (!func_ov167_021ce168(*(BattleCondition *)(entry + 0x1c))) {
-                if (Condition_GetMonID(*(BattleCondition *)(entry + 0x1c)) == monId) {
-                    *(BattleCondition *)(entry + 0x1c) = ZeroConditionTurns();
+            if (!func_ov167_021ce168(mon->conditions[i])) {
+                if (Condition_GetMonID(mon->conditions[i]) == monId) {
+                    mon->conditions[i] = ZeroConditionTurns();
                     CureDependentCondition(mon, i);
                 }
             }
@@ -589,105 +555,88 @@ u32 GetBattleMonStatus(BattleMon *mon) {
 }
 
 BOOL CheckCondition(BattleMon *mon, u32 index) {
-    BattleCondition *conditions;
-
-    conditions = (BattleCondition *)((u8 *)mon + 0x1c);
-    return conditions[index].common.type != 0;
+    return mon->conditions[index].common.type != 0;
 }
 
 u16 GetDisabledMove(BattleMon *mon, u32 index) {
-    BattleCondition *conditions;
-
-    conditions = (BattleCondition *)((u8 *)mon + 0x1c);
-    switch (conditions[index].common.type) {
+    switch (mon->conditions[index].common.type) {
     case 2:
-        return (conditions[index].raw << 7) >> 16;
+        return (mon->conditions[index].raw << 7) >> 16;
     case 3:
-        return (conditions[index].raw << 23) >> 26;
+        return (mon->conditions[index].raw << 23) >> 26;
     case 4:
-        return (conditions[index].raw << 17) >> 26;
+        return (mon->conditions[index].raw << 17) >> 26;
     default:
         return 0;
     }
 }
 
 BattleConditionCont GetConditionContinuationParam(BattleMon *mon, u32 index) {
-    BattleCondition *conditions;
-
-    conditions = (BattleCondition *)((u8 *)mon + 0x1c);
-    return conditions[index];
+    return mon->conditions[index];
 }
 
 u8 func_ov167_021bbb1c(BattleMon *mon, u32 index) {
-    return ((u8 *)mon + index)[0xac];
+    return mon->conditionCounters[index];
 }
 
 // Function name from swan.
 void ClearMoveStatusWork(BattleMon *mon, u32 flag) {
     u32 i;
-    BattleCondition *conditions;
 
     i = 0;
     if (flag == 0) {
         i = 6;
     }
     for (; i < 0x24; i++) {
-        conditions = (BattleCondition *)((u8 *)mon + 0x1c);
-        ((u32 *)mon)[i + 7] = 0;
-        conditions[i].raw &= ~7;
+        mon->conditions[i].raw = 0;
+        mon->conditions[i].common.type = 0;
     }
-    sys_memset((u8 *)mon + 0xac, 0, 0x24);
+    sys_memset(mon->conditionCounters, 0, 0x24);
 }
 
 // Function names from swan.
 void ChangePokeType(BattleMon *mon, u16 type) {
-    u8 *data;
-
-    data = (u8 *)mon;
-    data[0xf8] = PokeTypePair_GetType1(type);
-    data[0xf9] = PokeTypePair_GetType2(type);
+    mon->type1 = PokeTypePair_GetType1(type);
+    mon->type2 = PokeTypePair_GetType2(type);
 }
 
 void ChangeAbility(BattleMon *mon, u16 ability) {
-    *(u16 *)((u8 *)mon + 0x13c) = ability;
+    mon->ability = ability;
 }
 
 // Function names from swan.
 void ConsumeItem(BattleMon *mon, u16 item) {
-    u16 *words;
-
-    words = (u16 *)mon;
-    words[10] = item;
-    words[9] = 0;
+    mon->consumedItem = item;
+    mon->heldItem = 0;
 }
 
 void ClearConsumedItem(BattleMon *mon) {
-    ((u16 *)mon)[10] = 0;
+    mon->consumedItem = 0;
 }
 
 u16 GetConsumedItem(BattleMon *mon) {
-    return ((u16 *)mon)[10];
+    return mon->consumedItem;
 }
 
 // Function names from swan.
 u16 GetConsecutiveMoveCount(BattleMon *mon) {
-    return *(u16 *)((u8 *)mon + 0x14e);
+    return mon->consecutiveMoveCount;
 }
 
 u16 GetPreviousMoveID(BattleMon *mon) {
-    return *(u16 *)((u8 *)mon + 0x14c);
+    return mon->prevMoveId;
 }
 
 u8 func_ov167_021bbfb0(BattleMon *mon) {
-    return *((u8 *)mon + 0x144);
+    return mon->unk144;
 }
 
 u16 GetPreviousMoveUsed(BattleMon *mon) {
-    return *(u16 *)((u8 *)mon + 0x14a);
+    return mon->prevMoveUsed;
 }
 
 u8 GetPrevTargetPos(BattleMon *mon) {
-    return *((u8 *)mon + 0x152);
+    return mon->prevTargetPos;
 }
 
 // Function names from swan.
@@ -695,55 +644,45 @@ void SetWeight(BattleMon *mon, u16 weight) {
     if (weight < 1) {
         weight = 1;
     }
-    *(u16 *)((u8 *)mon + 0x13e) = weight;
+    mon->weight = weight;
 }
 
 u16 GetBattleMonWeight(BattleMon *mon) {
-    return *(u16 *)((u8 *)mon + 0x13e);
+    return mon->weight;
 }
 
 // Function name from swan.
 u8 GetConditionCount(BattleMon *mon, u32 index) {
-    u8 *data;
-
-    data = (u8 *)mon + index;
-    return data[0x157];
+    return mon->counters[index];
 }
 
 // Function names from swan.
 BOOL IsIllusionEnabled(BattleMon *mon) {
-    return ((u32)((u8 *)mon)[0x1b] << 25) >> 31;
+    return mon->illusion;
 }
 
 void IllusionBreak(BattleMon *mon) {
-    struct {
-        u8 unused : 6;
-        u8 illusion : 1;
-        u8 high : 1;
-    } *flags;
-
-    flags = (void *)((u8 *)mon + 0x1b);
-    flags->illusion = 0;
-    *(u32 *)((u8 *)mon + 4) = 0;
+    mon->illusion = 0;
+    mon->illusionDisguise = NULL;
 }
 
 // Function name from swan.
 BOOL TransformCheck(BattleMon *mon) {
-    return ((u32)((u8 *)mon)[0x1b] << 26) >> 31;
+    return mon->transformed;
 }
 
 // Function names from swan.
 void func_ov167_021bc55c(BattleMon *mon, u16 value) {
-    *(u16 *)((u8 *)mon + 0x1f2) = value;
+    mon->substituteHP = value;
     CureMoveCondition(mon, 8);
 }
 
 void ResetSpActPriority(BattleMon *mon) {
-    *(u16 *)((u8 *)mon + 0x1f2) = 0;
+    mon->substituteHP = 0;
 }
 
 BOOL IsSubstituteActive(BattleMon *mon) {
-    if (*(u16 *)((u8 *)mon + 0x1f2) != 0) {
+    if (mon->substituteHP != 0) {
         return TRUE;
     }
     return FALSE;
@@ -751,11 +690,8 @@ BOOL IsSubstituteActive(BattleMon *mon) {
 
 // Function name from swan.
 void ComboMove_ClearParam(BattleMon *mon) {
-    u8 *data;
-
-    data = (u8 *)mon;
-    if (data[0x1f6] != 0x1f) {
-        data[0x1f6] = 0x1f;
-        *(u16 *)(data + 0x1f4) = 0;
+    if (mon->comboMonId != 0x1f) {
+        mon->comboMonId = 0x1f;
+        mon->comboMove = 0;
     }
 }

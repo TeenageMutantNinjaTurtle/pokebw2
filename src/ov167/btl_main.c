@@ -20,11 +20,6 @@
 #include "save/bag.h"
 #include "save/config.h"
 
-struct FriendshipFieldEffectData {
-    u8 unk00[0xa];
-    u16 zoneId;
-};
-
 // Layout reconstructed from the opponent-position lookup in the game code.
 struct AdjacentOpponentData {
     u16 count1;
@@ -56,11 +51,11 @@ u32 BtlSetup_GetBattleStyle(BtlMainModule *mainModule) {
 }
 
 u32 func_ov167_0219bd88(BtlMainModule *mainModule) {
-    return ((u32)((u8 *)mainModule)[0x473] << 29) >> 31;
+    return mainModule->unk473_2;
 }
 
 u8 func_ov167_0219bd98(BtlMainModule *mainModule) {
-    return ((u8 *)mainModule->setup)[0x98];
+    return mainModule->setup->unk98;
 }
 
 // Function name from swan.
@@ -113,27 +108,27 @@ u32 BtlSetup_GetBattleType(BtlMainModule *mainModule) {
 }
 
 u8 func_ov167_0219bedc(BtlMainModule *mainModule) {
-    return ((u8 *)mainModule->setup)[0x22];
+    return mainModule->setup->fieldSituation.unk1a;
 }
 
 u8 func_ov167_0219bee4(BtlMainModule *mainModule) {
-    return ((u8 *)mainModule->setup)[0x20];
+    return mainModule->setup->fieldSituation.unk18;
 }
 
 BOOL func_ov167_0219beec(BtlMainModule *mainModule) {
-    return ((u8 *)mainModule->setup)[0x22] != 0;
+    return mainModule->setup->fieldSituation.unk1a != 0;
 }
 
 u16 func_ov167_0219bf00(BtlMainModule *mainModule) {
-    return *(u16 *)((u8 *)mainModule->setup + 0x1a);
+    return mainModule->setup->fieldSituation.unk12;
 }
 
 u16 func_ov167_0219bf08(BtlMainModule *mainModule) {
-    return *(u16 *)((u8 *)mainModule->setup + 0x138);
+    return mainModule->setup->unk138;
 }
 
 u16 func_ov167_0219bf14(BtlMainModule *mainModule) {
-    return *(u16 *)((u8 *)mainModule->setup + 0x13a);
+    return mainModule->setup->unk13a;
 }
 
 u32 GetRunMode(BtlMainModule *mainModule) {
@@ -154,8 +149,8 @@ u32 GetRunMode(BtlMainModule *mainModule) {
     }
 }
 
-void *GetFieldEffectData(BtlMainModule *mainModule) {
-    return &mainModule->setup->unk8[0];
+BtlFieldSituation *GetFieldEffectData(BtlMainModule *mainModule) {
+    return &mainModule->setup->fieldSituation;
 }
 
 // Function names from swan.
@@ -281,7 +276,7 @@ void BattleClient_SubItem(BtlMainModule *mainModule, u8 clientId, u16 item) {
     BtlSetup *setup;
 
     setup = mainModule->setup;
-    if (setup->unk23 == 0 && clientId == mainModule->playerClientId) {
+    if (setup->fieldSituation.unk1b == 0 && clientId == mainModule->playerClientId) {
         BagSave_SubItem(setup->bag, item, 1, mainModule->heapId);
     }
 }
@@ -290,30 +285,29 @@ void BattleClient_AddItem(BtlMainModule *mainModule, u8 clientId, u16 item) {
     BtlSetup *setup;
 
     setup = mainModule->setup;
-    if (setup->unk23 == 0 && clientId == mainModule->playerClientId) {
+    if (setup->fieldSituation.unk1b == 0 && clientId == mainModule->playerClientId) {
         BagSave_AddItem(setup->bag, item, 1, mainModule->heapId);
     }
 }
 
 // Function names from swan.
 void ChangeFriendshipWhenFainted(BtlMainModule *mainModule, BattleMon *mon, BOOL reason) {
-    if (mainModule->setup->battleType <= 1 && mainModule->setup->unk23 == 0) {
+    if (mainModule->setup->battleType <= 1 && mainModule->setup->fieldSituation.unk1b == 0) {
         ChangeFriendship(mainModule, mon, reason ? 5 : 4);
     }
 }
 
 void ChangeFriendship(BtlMainModule *mainModule, BattleMon *mon, u32 reason) {
     u8 monId;
-    const void *param1;
-    const void *param2;
+    const BattleMon *param1;
+    const BattleMon *param2;
     PartyPkm *src1;
     PartyPkm *src2;
-    const struct FriendshipFieldEffectData *field;
+    const BtlFieldSituation *field;
 
     monId = GetMonID(mon);
-    // Two per-mon parameter sets live at these offsets in the battle module.
-    param1 = GetPokeParamConst((u8 *)mainModule + 0x1b0, monId);
-    param2 = GetPokeParamConst((u8 *)mainModule + 0xc8, monId);
+    param1 = GetPokeParamConst(&mainModule->pokeCons[1], monId);
+    param2 = GetPokeParamConst(&mainModule->pokeCons[0], monId);
     src1 = GetSrcData(param1);
     src2 = GetSrcData(param2);
     field = GetFieldEffectData(mainModule);
@@ -341,12 +335,12 @@ BattleMon *GetClientMonData(BtlPokeCon *pokeCon, u8 clientId, u8 monId) {
     return GetBattleMonFromParty(&pokeCon->parties[clientId], monId);
 }
 
-void *GetPokeParam(void *params, u8 index) {
-    return *(void **)((u8 *)params + 0x84 + index * 4);
+BattleMon *GetPokeParam(BtlPokeCon *pokeCon, u8 monId) {
+    return pokeCon->mons[monId];
 }
 
-const void *GetPokeParamConst(const void *params, u8 index) {
-    return *(const void *const *)((const u8 *)params + 0x84 + index * 4);
+const BattleMon *GetPokeParamConst(const BtlPokeCon *pokeCon, u8 monId) {
+    return pokeCon->mons[monId];
 }
 
 // Function name from swan.
@@ -515,11 +509,10 @@ void func_ov167_0219d544(BattleParty *party, u32 pos, BattleMon **oldOut, Battle
     }
 }
 
-s32 FindPartyMon(BattleParty *party, BattleMon *mon) {
+s32 FindPartyMon(const BattleParty *party, BattleMon *mon) {
     s32 i;
 
-    // The original reloads the party count after checking each mon.
-    for (i = 0; i < ((volatile BattleParty *)party)->count; i++) {
+    for (i = 0; i < party->count; i++) {
         if (party->mons[i] == mon) {
             return i;
         }
@@ -527,10 +520,10 @@ s32 FindPartyMon(BattleParty *party, BattleMon *mon) {
     return -1;
 }
 
-s32 func_ov167_0219d5b0(BattleParty *party, u32 monId) {
+s32 func_ov167_0219d5b0(const BattleParty *party, u32 monId) {
     s32 i;
 
-    for (i = 0; i < ((volatile BattleParty *)party)->count; i++) {
+    for (i = 0; i < party->count; i++) {
         if (GetMonID(party->mons[i]) == monId) {
             return i;
         }
@@ -538,10 +531,10 @@ s32 func_ov167_0219d5b0(BattleParty *party, u32 monId) {
     return -1;
 }
 
-BattleMon *func_ov167_0219d5dc(BattleParty *party) {
+BattleMon *func_ov167_0219d5dc(const BattleParty *party) {
     s32 i;
 
-    for (i = 0; i < ((volatile BattleParty *)party)->count; i++) {
+    for (i = 0; i < party->count; i++) {
         if (CanPokemonBattle(party->mons[i])) {
             return party->mons[i];
         }

@@ -217,7 +217,7 @@ BOOL BattleHandler_Drain(BtlServerFlow *handler, BattleHandlerDrainParam *param)
     if (param->sourceIndex != 0x1f) {
         source = GetPokeParam(handler->pokeCon, param->sourceIndex);
     }
-    if (func_ov167_021ac988((u8 *)handler + 0x1ab8, param->monIndex)) {
+    if (func_ov167_021ac988(handler->unk1ab8, param->monIndex)) {
         mon = GetPokeParam(handler->pokeCon, param->monIndex);
         if (!IsFainted(mon)) {
             if (ServerControl_DrainCore(handler, mon, source, param->amount)) {
@@ -236,7 +236,7 @@ BOOL BattleHandler_Damage(BtlServerFlow *handler, BattleHandlerDamageParam *para
     BattleMon *mon;
     BattleMon *source;
 
-    if (func_ov167_021aca54((u8 *)handler + 0x1ab8, param->targetIndex)) {
+    if (func_ov167_021aca54(handler->unk1ab8, param->targetIndex)) {
         mon = GetPokeParam(handler->pokeCon, param->targetIndex);
         source = NULL;
         if (param->sourceIndex != 0x1f) {
@@ -271,7 +271,7 @@ BOOL BattleHandler_ChangeHP(BtlServerFlow *handler, BattleHandlerChangeHPParam *
 
     result = FALSE;
     for (i = 0; i < param->count; i++) {
-        if (func_ov167_021acad4((u8 *)handler + 0x1ab8, param->monIds[i])) {
+        if (func_ov167_021acad4(handler->unk1ab8, param->monIds[i])) {
             mon = GetPokeParam(handler->pokeCon, param->monIds[i]);
             if (!IsFainted(mon)) {
                 ServerDisplay_SimpleHP(handler, mon, param->hpChanges[i], param->suppress == 0);
@@ -335,9 +335,9 @@ BOOL BattleHandler_CureCondition(BtlServerFlow *handler, struct BattleHandlerCur
                                                                                                  &resultCondition);
                     if (param->useString == 0) {
                         if (func_ov167_021acca8(code, resultCondition, mon, context,
-                                                (BattleHandlerString *)((u8 *)handler + 0x1ae4))) {
-                            BattleHandler_SetString(handler, (BattleHandlerString *)((u8 *)handler + 0x1ae4));
-                            BattleHandler_StrClear((BattleHandlerString *)((u8 *)handler + 0x1ae4));
+                                                &handler->message)) {
+                            BattleHandler_SetString(handler, &handler->message);
+                            BattleHandler_StrClear(&handler->message);
                         }
                     } else {
                         BattleHandler_SetString(handler, string);
@@ -367,7 +367,7 @@ BOOL BattleHandler_StatChange(BtlServerFlow *handler, struct BattleHandlerStatCh
     valid = FALSE;
     result = FALSE;
     for (i = 0; i < param->count; i++) {
-        if (func_ov167_021aceb4((u8 *)handler + 0x1ab8, param->monIds[i])) {
+        if (func_ov167_021aceb4(handler->unk1ab8, param->monIds[i])) {
             mon = GetPokeParam(handler->pokeCon, param->monIds[i]);
             if (!IsFainted(mon) && IsStatChangeValid(mon, param->stat, param->change)) {
                 valid = TRUE;
@@ -379,7 +379,7 @@ BOOL BattleHandler_StatChange(BtlServerFlow *handler, struct BattleHandlerStatCh
         ServerDisplay_AbilityPopupAdd(handler, popupMon);
     }
     for (i = 0; i < param->count; i++) {
-        if (func_ov167_021acec4((u8 *)handler + 0x1ab8, param->monIds[i])) {
+        if (func_ov167_021acec4(handler->unk1ab8, param->monIds[i])) {
             mon = GetPokeParam(handler->pokeCon, param->monIds[i]);
             if (!IsFainted(mon)) {
                 stat = param->stat;
@@ -430,7 +430,7 @@ BOOL BattleHandler_ResetStatStage(BtlServerFlow *handler, BattleHandlerResetStat
 BOOL BattleHandler_Faint(BtlServerFlow *handler, BattleHandlerFaintParam *param) {
     BattleMon *mon;
 
-    if (func_ov167_021ad15c((u8 *)handler + 0x1ab8, param->monIndex)) {
+    if (func_ov167_021ad15c(handler->unk1ab8, param->monIndex)) {
         mon = GetPokeParam(handler->pokeCon, param->monIndex);
         if (!IsFainted(mon) || param->force) {
             BattleHandler_SetString(handler, &param->string);
@@ -445,7 +445,7 @@ BOOL BattleHandler_Faint(BtlServerFlow *handler, BattleHandlerFaintParam *param)
 BOOL BattleHandler_ChangeType(BtlServerFlow *handler, BattleHandlerChangeTypeParam *param) {
     BattleMon *mon;
 
-    if (func_ov167_021ad1f4((u8 *)handler + 0x1ab8, param->monIndex)) {
+    if (func_ov167_021ad1f4(handler->unk1ab8, param->monIndex)) {
         mon = GetPokeParam(handler->pokeCon, param->monIndex);
         if (!IsFainted(mon) && !func_ov167_021ad204(GetBattleMonSpecies(mon))) {
             func_ov167_021b1434(handler->display, 0x16, param->monIndex, param->type);
@@ -850,7 +850,7 @@ BOOL BattleHandler_BatonPass(BtlServerFlow *handler, BattleHandlerBatonPassParam
     CopyBatonPassParams(target, source);
     func_ov167_021b1434(handler->display, 0x26, param->sourceMonIndex, param->targetMonIndex);
     if (IsSubstituteActive(target)) {
-        substitute = func_ov167_021add78((u8 *)handler + 0x1ab8, param->targetMonIndex);
+        substitute = func_ov167_021add78(handler->unk1ab8, param->targetMonIndex);
         func_ov167_021b1434(handler->display, 0x51, substitute);
     }
     return TRUE;
@@ -990,7 +990,7 @@ BOOL BattleHandler_Transform(BtlServerFlow *handler, BattleHandlerTransformParam
 BOOL BattleHandler_IllusionBreak(BtlServerFlow *handler, BattleHandlerIllusionBreakParam *param) {
     BattleMon *mon;
 
-    if (func_ov167_021ae0fc((u8 *)handler + 0x1ab8, param->monIndex)) {
+    if (func_ov167_021ae0fc(handler->unk1ab8, param->monIndex)) {
         mon = GetPokeParam(handler->pokeCon, param->monIndex);
         if (IsIllusionEnabled(mon)) {
             IllusionBreak(mon);
@@ -1004,7 +1004,7 @@ BOOL BattleHandler_IllusionBreak(BtlServerFlow *handler, BattleHandlerIllusionBr
 
 BOOL BattleHandler_GravityCheck(BtlServerFlow *handler, BattleHandlerGravityCheckParam *param) {
     u8 monIds[6];
-    volatile u32 count;
+    u32 count;
     u8 i;
     BattleMon *mon;
     u32 changed;
@@ -1096,7 +1096,7 @@ BOOL BattleHandler_SetMoveEffectEnable(BtlServerFlow *handler) {
 
 // Function names from swan.
 void PopState(BtlActionState *state, u32 value, u32 command) {
-    *(u32 *)state = value;
+    state->raw = value;
 }
 
 u16 GetUseItemNo(BtlActionState *state) {
@@ -1112,7 +1112,7 @@ void SetResult(BtlActionState *state, BOOL result) {
         state->prevResult = 1;
         state->result = 1;
     } else {
-        *(u32 *)state &= ~(1u << 28);
+        state->prevResult = 0;
     }
     state->used = 1;
 }
