@@ -34,7 +34,7 @@ void func_ov012_021591f4(void);
 u16 EncountSave_GetRoamingPkmZone(EncountSave *save);
 u32 func_ov012_02159218(void);
 void func_ov012_0215921c(void);
-void func_ov012_02159220(void);
+void func_ov012_02159220(GameData *gameData);
 u32 GetDefaultWeatherValue(void);
 u32 func_ov012_0215922c(void);
 void func_ov036_021a203c(EncountSystem *system, u32 value);

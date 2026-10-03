@@ -1,3 +1,4 @@
+#include "field/battle_facility.h"
 #include "field/trial_house.h"
 #include "gfl/random.h"
 

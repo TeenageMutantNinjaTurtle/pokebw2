@@ -132,5 +132,8 @@ void func_ov033_0217c010(BSubwayScrWork *bsw, SaveControl *save, u32 value);
 void func_ov033_0217bda0(BSubwayScrWork *bsw);
 u16 func_ov033_0217bdc0(u16 mode);
 void func_ov033_0217be88(BSubwayScrWork *bsw, u8 a1);
+void *func_ov033_0217c110(BSubwayScrWork *bsw);
+void *func_ov033_0217c264(BSubwayScrWork *bsw, void *param, u16 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+u16 func_ov033_0217c288(u32 value);
 
 #endif // POKEBW2_FIELD_BSUBWAY_SCR_H

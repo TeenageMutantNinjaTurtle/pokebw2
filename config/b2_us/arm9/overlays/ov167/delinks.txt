@@ -403,3 +403,7 @@ src/ov167/battle_mon_cure_condition.c:
 src/ov167/battle_mon_set_move_condition.c:
     complete
     .text       start:0x021bb834 end:0x021bb864
+
+src/ov167/battle_mon_hp_basic.c:
+    complete
+    .text       start:0x021bb7a4 end:0x021bb7c0

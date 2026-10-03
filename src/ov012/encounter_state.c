@@ -66,7 +66,7 @@ u32 func_ov012_02159218(void) {
 void func_ov012_0215921c(void) {
 }
 
-void func_ov012_02159220(void) {
+void func_ov012_02159220(GameData *gameData) {
 }
 
 u32 GetDefaultWeatherValue(void) {

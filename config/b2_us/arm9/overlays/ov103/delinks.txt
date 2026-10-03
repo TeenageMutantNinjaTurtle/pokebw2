@@ -38,3 +38,11 @@ src/ov103/badge_gate_free.c:
 src/ov103/badge_gate_last_sound.c:
     complete
     .text       start:0x021ef5dc end:0x021ef630
+
+src/ov103/badge_gate_init.c:
+    complete
+    .text       start:0x021eec80 end:0x021eecfc
+
+src/ov103/badge_gate_free_scene3.c:
+    complete
+    .text       start:0x021ef788 end:0x021ef794

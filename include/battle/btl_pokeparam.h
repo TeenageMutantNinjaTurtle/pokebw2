@@ -83,6 +83,7 @@ void ChangeAbility(BattleMon *mon, u16 ability);
 BOOL func_ov167_021ad6e8(u16 ability);
 void SetWeight(BattleMon *mon, u16 weight);
 void HPAdd(BattleMon *mon, u16 amount);
+void HPZero(BattleMon *mon);
 BOOL IsMonFullHP(BattleMon *mon);
 BOOL StatStageRecover(BattleMon *mon);
 void StatStageReset(BattleMon *mon);
