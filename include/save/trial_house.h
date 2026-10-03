@@ -9,5 +9,6 @@ BOOL func_0200ee38(void *saveBuffer);
 u32 func_0200ee7c(void *saveBuffer);
 void func_0200eea0(GameData *gameData, void *saveBuffer, u32 heapId);
 void *func_0200f1b8(SaveControl *save);
+void func_0200ef1c(void *extraSave);
 
 #endif // POKEBW2_SAVE_TRIAL_HOUSE_H

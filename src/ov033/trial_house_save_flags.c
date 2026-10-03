@@ -40,3 +40,18 @@ u8 func_ov033_0217b35c(void *savePtr, u32 index) {
     }
     return TRUE;
 }
+
+void func_ov033_0217b384(void *savePtr, u32 index) {
+    TrialHouseSave *save;
+    u8 byteIndex;
+    u8 bit;
+    u8 mask;
+
+    save = savePtr;
+    if (index < 128) {
+        byteIndex = index >> 3;
+        bit = index & 7;
+        mask = 1 << bit;
+        save->bits[byteIndex] |= mask;
+    }
+}

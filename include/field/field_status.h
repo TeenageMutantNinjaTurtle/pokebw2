@@ -15,11 +15,13 @@
 #define FLD_FLASH_ACTIVE 0x2
 
 BOOL FieldStatus_CheckFlashUsed(FieldStatus *status);
+u16 FieldStatus_GetFlashPerms(FieldStatus *status);
 BOOL FieldStatus_CheckContinueFlag(FieldStatus *status);
 void FieldStatus_ReserveScript(FieldStatus *status, u16 scriptId);
 void FieldStatus_SetBusyFlag(FieldStatus *status, u32 flag);
 void FieldStatus_SetContinueFlag(FieldStatus *status, BOOL flag);
 void FieldStatus_SetFlashPerms(FieldStatus *status, u32 flags);
+void FieldStatus_SetFlashUsed(FieldStatus *status, BOOL value);
 void FieldStatus_SetInLinkedWorld(FieldStatus *status, BOOL inLinkedWorld);
 void FieldStatus_SetNewLoadFlag(FieldStatus *status, BOOL flag);
 

@@ -327,3 +327,7 @@ src/ov167/battle_handler_ability_change.c:
 src/ov167/battle_move_work.c:
     complete
     .text       start:0x021ba9dc end:0x021baa44
+
+src/ov167/battle_mon_reset.c:
+    complete
+    .text       start:0x021bab64 end:0x021babb8

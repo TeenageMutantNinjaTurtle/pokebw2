@@ -39,6 +39,13 @@ struct TrialHouseEventData {
     s32 timeout;
 };
 
+struct TrialHouseEffectEvent {
+    GameSystem *gsys;
+    void *buffer;
+    u32 mode;
+    void *effect;
+};
+
 extern const char data_ov033_0217c630[];
 
 struct TrialHouseWork *CreateTrialHouseWk(GameSystem *gsys);
@@ -64,8 +71,9 @@ void func_ov012_02152bfc(void *work);
 u8 func_ov033_0217b35c(void *save, u32 value);
 void func_ov033_0217b384(void *save, u32 value);
 u32 func_ov033_0217b2e4(u32 unused, TrialHouseWork *work);
-GameEvent *func_ov033_0217b2ec(GameSystem *gsys, u32 unused, Field *field);
+GameEvent *func_ov033_0217b2ec(GameSystem *gsys, u32 unused, u32 mode);
 u32 func_ov033_0217b32c(GameSystem *gsys);
 GameEventReturnCode func_ov033_0217b3ac(GameEvent *event, u32 *state, void *data);
+void func_ov033_0217b468(GameSystem *gsys);
 
 #endif // POKEBW2_FIELD_TRIAL_HOUSE_H
