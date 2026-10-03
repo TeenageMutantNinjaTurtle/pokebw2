@@ -603,3 +603,7 @@ src/ov167/battle_ability_intimidate.c:
 src/ov167/battle_ability_steadfast.c:
     complete
     .text       start:0x021bdf04 end:0x021bdf58
+
+src/ov167/battle_ability_regenerator_big_pecks.c:
+    complete
+    .text       start:0x021c1e54 end:0x021c1e8c

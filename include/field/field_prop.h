@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_FIELD_PROP_H
 
 #include "types.h"
+#include "field/field_chunk.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
 
@@ -126,8 +127,6 @@ void FieldPropSystem_LoadResBundle(FieldPropSystem *system, u32 arcId, u32 fileI
 void FieldPropSystem_FreeResBundle(FieldPropSystem *system);
 void FieldPropSystem_BuildResIDLUT(FieldPropSystem *system, u32 defaultResId);
 void FieldPropSystem_FreeTextures(FieldPropSystem *system);
-void FieldChunk_ReleasePropInstance(void *chunk, u16 propIndex);
-void FieldChunk_GetWorldPos(void *chunk, VecFx32 *position);
 void FieldPropResInstance_CallAnmCmd(void *instance, u32 animation, u32 command);
 BOOL FieldPropResInstance_IsAnmIdle(void *instance, u32 animation);
 void FieldPropResInstance_Free(void *instance);

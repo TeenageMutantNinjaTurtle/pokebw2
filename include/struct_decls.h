@@ -156,6 +156,7 @@ typedef struct FieldAppCallWork FieldAppCallWork;
 typedef struct FieldAsyncProc FieldAsyncProc;
 typedef struct FieldAsyncProcManager FieldAsyncProcManager;
 typedef struct FieldCamera FieldCamera;
+typedef struct FieldChunk FieldChunk;
 typedef struct FieldChunkPropHolder FieldChunkPropHolder;
 typedef struct FieldExpObjAnm FieldExpObjAnm;
 typedef struct FieldExpObjGimmickOv104StateInit FieldExpObjGimmickOv104StateInit;

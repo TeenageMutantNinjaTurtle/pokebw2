@@ -319,3 +319,7 @@ src/ov012/rail_warp_out.c:
 src/ov012/field_script_battle.c:
     complete
     .text       start:0x02155fe0 end:0x02156144
+
+src/ov012/field_chunk_accessors.c:
+    complete
+    .text       start:0x021635b8 end:0x0216367c

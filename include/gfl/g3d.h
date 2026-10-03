@@ -19,6 +19,7 @@ typedef struct G3DManager G3DManager;
 typedef struct G3DModel G3DModel;
 
 G3DCurve *GFL_G3DCurveCreateToLoadBuffer(HeapID heapId, u32 arcId, u32 fileId, u32 type, void *buffer, u32 bufferSize);
+void GFL_G3DResBindData(void *resource, u32 kind, void *data);
 BOOL GFL_G3DCurveFrameStepLoop(G3DCurve *curve, fx32 step);
 BOOL GFL_G3DCurveGetNowTranslation(G3DCurve *curve, VecFx32 *translation);
 BOOL GFL_G3DCurveGetNowRotation(G3DCurve *curve, VecFx32 *rotation);

@@ -356,5 +356,11 @@ const BattleEventHandlerEntry *EventAddLightningRod(u32 *priority);
 void HandlerLightningRod(void *context, BtlServerFlow *flow, u32 monId, u32 *result);
 void HandlerLightningRodStart(void *context, BtlServerFlow *flow, u32 monId, u32 *active);
 void HandlerLightningRodCheckNoEffect(void *context, BtlServerFlow *flow, u32 monId);
+extern const BattleEventHandlerEntry data_ov167_021d7784[];
+extern const BattleEventHandlerEntry data_ov167_021d79c4[];
+const BattleEventHandlerEntry *EventAddRegenerator(u32 *priority);
+const BattleEventHandlerEntry *EventAddBigPecks(u32 *priority);
+void HandlerBigPecksCheck(void *context, void *flow, u32 monId, u32 *result);
+void HandlerBigPecksGuard(void *context, void *flow, u32 monId, u32 *result);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H
