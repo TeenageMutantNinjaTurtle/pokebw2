@@ -98,9 +98,7 @@ void FieldDispControl_Update(FieldDispControl *control) {
 }
 
 void FieldDispControl_ReqSetBGEnabled(FieldDispControl *control, u32 bgId, BOOL enabled) {
-    u8 *target = (u8 *)control + bgId;
-
-    ((FieldDispControl *)target)->bgEnabled[0] = enabled;
+    control->bgEnabled[bgId] = enabled;
 }
 
 void FieldDispControl_ReqSetAlphaA(FieldDispControl *control, u32 alpha, u32 beta, u32 planeMask, u32 complement) {

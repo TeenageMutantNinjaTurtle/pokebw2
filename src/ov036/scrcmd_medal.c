@@ -83,7 +83,7 @@ u32 GetMrMedalActorUID(GameData *gameData) {
     }
     for (i = 0; i < count; i++) {
         if (npcs[i].scrId == 0x298e) {
-            return *(u16 *)((u8 *)npcs + i * sizeof(ZoneNPC));
+            return npcs[i].uid;
         }
     }
     return -1;

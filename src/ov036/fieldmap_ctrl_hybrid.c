@@ -11,6 +11,7 @@
 #include "field/field_actor.h"
 #include "field/field_async_proc.h"
 #include "field/field_controller.h"
+#include "field/fieldmap_ctrl_hybrid.h"
 #include "field/field_display_control.h"
 #include "field/field_effects.h"
 #include "field/field_environment.h"
@@ -52,6 +53,6 @@
 #include "system/rtc.h"
 #include "system/vm.h"
 
-u32 FieldmapCtrlHybrid_GetActiveTypeID(void *controller) {
-    return *(u32 *)controller;
+u32 FieldmapCtrlHybrid_GetActiveTypeID(FieldmapCtrlHybrid *controller) {
+    return controller->activeType;
 }

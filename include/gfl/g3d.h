@@ -145,7 +145,7 @@ typedef struct {
 
 typedef struct {
     const G3DSceneResourceSetup *resources;
-    u32 resourceCount;
+    u16 resourceCount;
     const G3DSceneActorSetup *actors;
     u16 actorCount;
 } G3DSceneSetup;

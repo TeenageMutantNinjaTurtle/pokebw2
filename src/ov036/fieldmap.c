@@ -11,6 +11,7 @@
 #include "field/field_actor.h"
 #include "field/field_async_proc.h"
 #include "field/field_controller.h"
+#include "field/fieldmap_ctrl_hybrid.h"
 #include "field/field_display_control.h"
 #include "field/field_effects.h"
 #include "field/field_environment.h"

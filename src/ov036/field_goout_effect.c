@@ -161,7 +161,7 @@ void FieldLensFlare_Load(FieldExpObjSystem *expObjSys, FieldLensFlareData *data,
     actor.animations = animations;
     actor.animationCount = resourceCount - 1;
     scene.resources = resources;
-    *(u16 *)&scene.resourceCount = resourceCount;
+    scene.resourceCount = resourceCount;
     scene.actors = &actor;
     scene.actorCount = 1;
     FieldExpObj_AddScene(expObjSys, &scene, 3);

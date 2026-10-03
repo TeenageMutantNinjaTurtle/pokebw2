@@ -106,6 +106,7 @@ void EventData_Free(EventData *data) {
 
 void EventData_Reset(EventData *data) {
     EventData_Clear(data);
+    // Past the end of the 0xaa8 bytes of EventData, until LoadZoneEntities points it into the entities
     data->initScript = (u8 *)data + 0x2328;
     data->encLoaded = 0;
     data->encDataFlags.high = 0;
