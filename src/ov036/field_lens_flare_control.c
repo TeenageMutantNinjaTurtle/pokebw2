@@ -2,7 +2,7 @@
 #include "field/field_lens_flare.h"
 
 void FieldLensFlare_RequestStart(FieldLensFlare *lensFlare) {
-    if (lensFlare->data != NULL && lensFlare->effectId != 8) {
+    if (lensFlare->available != FALSE && lensFlare->effectId != 8) {
         lensFlare->requested = TRUE;
         lensFlare->active = FALSE;
         lensFlare->state = 0;
@@ -10,7 +10,7 @@ void FieldLensFlare_RequestStart(FieldLensFlare *lensFlare) {
 }
 
 void FieldLensFlare_GreenlightStart(FieldLensFlare *lensFlare) {
-    if (lensFlare->data != NULL) {
+    if (lensFlare->available != FALSE) {
         lensFlare->active = TRUE;
     }
 }

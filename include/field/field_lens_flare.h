@@ -20,7 +20,7 @@ struct FieldLensFlare {
     FieldExpObjSystem *expObjSys;
     u32 requested;
     u32 active;
-    FieldLensFlareData *data;
+    u32 available;
     u32 state;
     FieldLensFlareData *ownedData;
     GameSystem *gameSystem;
@@ -31,6 +31,7 @@ struct FieldLensFlare {
 
 extern const u16 data_ov036_021d4768[][4];
 extern const char data_ov036_021d5728[];
+extern const char data_ov036_021d5710[];
 extern const u16 LENS_FLARE_RESOURCE_IDS[];
 extern const u16 data_ov036_021d47ba[];
 extern const u16 data_ov036_021d47bc[];
@@ -38,8 +39,11 @@ extern const u16 data_ov036_021d47be[];
 extern const u16 data_ov036_021d47c0[];
 
 FieldLensFlareData *FieldLensFlareData_Create(HeapID heapId);
+FieldLensFlare *FieldLensFlare_Create(GameSystem *gameSystem, GameData *gameData, FieldExpObjSystem *expObjSys,
+                                      u32 effectIndex, u32 dayPeriod, HeapID heapId);
 void FieldLensFlareData_Free(FieldLensFlareData *data);
 void FieldLensFlare_Free(FieldLensFlare *lensFlare);
+void FieldLensFlare_Load(FieldExpObjSystem *expObjSys, FieldLensFlareData *data, u16 effectId);
 void FieldLensFlare_RequestStart(FieldLensFlare *lensFlare);
 void FieldLensFlare_GreenlightStart(FieldLensFlare *lensFlare);
 void FieldLensFlare_Cancel(FieldLensFlare *lensFlare);

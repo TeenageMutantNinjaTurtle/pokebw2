@@ -69,7 +69,14 @@ struct FieldScriptEnv {
     ScriptSubwork *subwork;
 };
 
+struct ScriptOverlayWork {
+    void *resource;
+    void *data;
+    void (*cleanup)(ScriptOverlayWork *work);
+};
+
 extern const char data_ov012_0216e1e4[];
+extern const char data_ov012_0216e208[];
 extern const u16 data_ov012_0216ca04[2];
 extern const u8 data_ov012_0216ca06[20];
 extern const u16 data_ov012_0216ca1a[12];
@@ -202,6 +209,12 @@ BOOL s0123_BoxAddEx(VM *vm, FieldScriptEnv *env);
 BOOL s010F_PokePartyAddEgg(VM *vm, FieldScriptEnv *env);
 BOOL s014A_FieldOpen(VM *vm, FieldScriptEnv *env);
 BOOL s014B_FieldClose(VM *vm, FieldScriptEnv *env);
+void CreateScrCmdOverlayProcess(VM *vm, FieldScriptEnv *env, s32 overlayId, const GameProcFunctions *functions,
+                                void *resource, void (*cleanup)(ScriptOverlayWork *), void *data);
+BOOL func_ov012_02157554(VM *vm, FieldScriptEnv *env);
+BOOL s014C_RTFreeUserHeap(VM *vm, FieldScriptEnv *env);
+void func_ov012_021575b8(ScriptOverlayWork *work);
+void func_ov012_0215767c(ScriptOverlayWork *work);
 BOOL s00F9_MoneyAdd(VM *vm, FieldScriptEnv *env);
 BOOL s00FA_MoneySub(VM *vm, FieldScriptEnv *env);
 BOOL s00FB_MoneyCheck(VM *vm, FieldScriptEnv *env);

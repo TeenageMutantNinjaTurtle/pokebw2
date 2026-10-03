@@ -206,3 +206,11 @@ src/ov033/unity_tower_visitor_list_init.c:
 src/ov033/unity_tower_visitor_list_get.c:
     complete
     .text       start:0x0217aac4 end:0x0217aad8
+
+src/ov033/unity_tower_visitor_display.c:
+    complete
+    .text       start:0x0217aad8 end:0x0217ab58
+
+src/ov033/event_game_manual.c:
+    complete
+    .text       start:0x02179dd4 end:0x02179e98

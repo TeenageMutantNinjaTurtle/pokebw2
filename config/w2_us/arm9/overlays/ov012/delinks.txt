@@ -368,6 +368,14 @@ src/ov012/field_script_cmd_field_open_close.c:
     complete
     .text       start:0x021574e4 end:0x02157534
 
+src/ov012/field_script_cmd_overlay_process.c:
+    complete
+    .text       start:0x02157534 end:0x02157624
+
+src/ov012/field_script_cmd_mailbox_cleanup.c:
+    complete
+    .text       start:0x021576bc end:0x021576d8
+
 src/ov012/field_script_cmd_party_add_egg.c:
     complete
     .text       start:0x021571b4 end:0x021572f0
