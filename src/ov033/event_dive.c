@@ -8,7 +8,7 @@
 #include "field/field_map.h"
 #include "field/field_player.h"
 #include "field/field_task.h"
-#include "field/ov131.h"
+#include "field/rail_slipdown.h"
 #include "gfl/overlay.h"
 #include "gfl/sound.h"
 #include "struct_decls.h"

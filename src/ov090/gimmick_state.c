@@ -4,18 +4,19 @@
 #include "system/game_data.h"
 #include "system/game_system.h"
 
-struct GimmickStateA {
+// The saved state of gimmick 10, zone 121 in Opelucid City
+typedef struct {
     u8 mode;
     u8 step;
-    u16 padding;
     u32 values[5];
-};
+} GimmickState10;
 
-struct GimmickStateB {
-    u8 padding[0x14];
+// The saved state of gimmick 48, zone 585 in Nimbasa City
+typedef struct {
+    u8 unk00[0x14];
     u16 first;
     u16 second;
-};
+} GimmickState48;
 
 void func_ov090_021eec80(GameSystem *gsys, u16 value) {
     u16 *state = GimmickState_GetUserData(GameData_GetGimmickState(GSYS_GetGameData(gsys)), 2);
@@ -23,7 +24,7 @@ void func_ov090_021eec80(GameSystem *gsys, u16 value) {
 }
 
 void func_ov090_021eec98(GameSystem *gsys) {
-    GimmickStateA *state = GimmickState_GetUserData(GameData_GetGimmickState(GSYS_GetGameData(gsys)), 10);
+    GimmickState10 *state = GimmickState_GetUserData(GameData_GetGimmickState(GSYS_GetGameData(gsys)), 10);
     int i;
 
     state->step = 0;
@@ -34,7 +35,7 @@ void func_ov090_021eec98(GameSystem *gsys) {
 }
 
 void func_ov090_021eecc0(GameSystem *gsys, BOOL first, BOOL second) {
-    GimmickStateB *state = GimmickState_GetUserData(GameData_GetGimmickState(GSYS_GetGameData(gsys)), 0x30);
+    GimmickState48 *state = GimmickState_GetUserData(GameData_GetGimmickState(GSYS_GetGameData(gsys)), 0x30);
 
     if (first) {
         state->first = 1;

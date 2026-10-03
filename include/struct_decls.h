@@ -208,8 +208,6 @@ typedef struct GimmickGateSave GimmickGateSave;
 typedef struct GimmickGateWork GimmickGateWork;
 typedef struct GimmickGateZoneData GimmickGateZoneData;
 typedef struct GimmickGateZoneList GimmickGateZoneList;
-typedef struct GimmickStateA GimmickStateA;
-typedef struct GimmickStateB GimmickStateB;
 typedef struct GlobalScriptEntry GlobalScriptEntry;
 typedef struct KeyDataSave KeyDataSave;
 typedef struct MedalBox MedalBox;
