@@ -73,6 +73,7 @@ u16 getCurrentMinute(GameData *gameData);
 void GameData_GetSeasons(GameData *gameData, u16 *prevSeason, u16 *season);
 WifiList *GameData_GetWifiList(GameData *gameData);
 void GameData_InitEncountTerrain(GameData *gameData, Field *field);
+EncountState *GameData_GetEncountState(GameData *gameData);
 BOOL GameData_IsForceSeasonSync(GameData *gameData);
 BOOL GameData_IsLensFlareRequested(GameData *gameData);
 void GameData_RestoreCGearPowerRequest(GameData *gameData);

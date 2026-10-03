@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_MYSTERY_GIFT_SCRIPT_H
 
 #include "types.h"
+#include "gfl/str.h"
 #include "struct_decls.h"
 
 extern const u8 data_ov033_0217c410[];
@@ -9,6 +10,7 @@ extern const u8 data_ov033_0217c414[];
 extern const u8 data_ov033_0217c418[];
 extern const u8 data_ov033_0217c41c[];
 extern const u8 data_ov033_0217c420[];
+extern const u8 data_ov033_0217c404[];
 
 u32 func_ov033_02177ed0(u32 index, u32 arg1, u32 arg2, u32 arg3);
 u32 func_ov033_02177ef4(u32 index, u32 arg1, FieldScriptEnv *env);
@@ -32,5 +34,14 @@ u32 func_ov033_02178290(void);
 u32 func_ov033_02178294(WordSet *wordSet, void *gift, FieldScriptEnv *env);
 u32 func_ov033_021782cc(void);
 u32 func_ov033_021782d0(void *gift);
+u32 func_ov033_021782f0(void);
+void func_ov033_021782f4(u32 arg0, GameData *gameData, void *gift);
+u32 func_ov033_02178334(void);
+u32 func_ov033_02178338(WordSet *wordSet, void *gift, FieldScriptEnv *env);
+u32 func_ov033_02178374(WordSet *wordSet, void *gift, FieldScriptEnv *env);
+void *func_ov033_021783a8(void *save, u32 slot, void *gift);
+void *func_ov033_021783f8(void *save, u32 *slot, void *gift);
+void func_ov033_02178420(void *save, u32 slot);
+u32 func_ov033_02178428(void *save);
 
 #endif // POKEBW2_FIELD_MYSTERY_GIFT_SCRIPT_H

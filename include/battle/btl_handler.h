@@ -86,6 +86,8 @@ BOOL BattleHandler_GravityCheck(BattleHandler *handler, BattleHandlerGravityChec
 BOOL BattleHandler_Transform(BattleHandler *handler, BattleHandlerTransformParam *param);
 BOOL BattleHandler_SetItem(BattleHandler *handler, BattleHandlerSetItemParam *param);
 BOOL BattleHandler_SwapItem(BattleHandler *handler, BattleHandlerSwapItemParam *param);
+BOOL BattleHandler_Drain(BattleHandler *handler, BattleHandlerDrainParam *param);
+u8 func_ov167_021ac988(void *state, u8 monIndex);
 u32 HandlerGetAlivePartyCount(BattleHandler *handler, u16 code, u8 *monIds);
 u8 func_ov167_021add78(void *state, u8 monIndex);
 u8 func_ov167_021ae0fc(void *state, u8 monIndex);

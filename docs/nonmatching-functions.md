@@ -45,6 +45,8 @@ These source files lack `complete` in both versions' `delinks.txt`. `compiler_pr
 | 167 | `BattleHandler_UpdateMove` | `0x021ada4c` / `0x021ada8c` | A size-correct DSi 1.1p1 translation differs in 21 instruction bytes from argument loads and stores around two calls with five or more arguments. |
 | 167 | `BattleHandler_RecoverPP` | `0x021acae4` / `0x021acb24` | A size-correct DSi 1.1p1 translation differs in eight instruction bytes: CodeWarrior stores the fifth `ServerDisplay_RecoverPP` argument before loading the register arguments, while the original stores it afterward. The attempt remains in assembly. |
 | 167 | `BattleHandler_RecoverHP` | `0x021ac86c` / `0x021ac8ac` | The closest DSi 1.1p1 translation differs by four instruction bytes in both versions: CodeWarrior loads the target mon ID before materializing the effect constant for the six-argument display call, while the original reverses those two instructions. The attempt remains in assembly. |
+| 167 | `BattleHandler_AddSideEffect` | `0x021ad310` / `0x021ad350` | The size-correct DSi 1.1p1 translation differs by 24 nonrelocated bytes: CodeWarrior recomputes the local value address on the stack, while the original keeps it in `r6` across `ServerEvent_CheckSideEffectParam` and reloads through that pointer. Pointer locals and volatile forms did not match; this function remains in assembly. |
+| 167 | `BattleHandler_RemoveSideEffectCore` | `0x021ad368` / `0x021ad3a8` | The closest DSi 1.1p1 translation is `0x64` bytes versus the original `0x60`: its loop increment omits the original byte truncation before comparing against 14. Conditional forms reproduced the bit-test block, but the loop tail still differs; this function remains in assembly. |
 
 ## Keeping this list current
 

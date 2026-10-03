@@ -48,5 +48,6 @@ void ServerControl_CureCondition(BattleHandler *handler, BattleMon *mon, u32 con
 u32 ServerEvent_CheckItemSet(BattleHandler *handler, BattleMon *mon, u16 item);
 void ServerEvent_ItemSetFailed(BattleHandler *handler, BattleMon *mon);
 void ServerEvent_ChangeAbilityAfter(BattleHandler *handler, u8 monIndex);
+BOOL ServerControl_DrainCore(BattleHandler *handler, BattleMon *mon, BattleMon *source, u16 amount);
 
 #endif // POKEBW2_BATTLE_BTL_SERVER_FLOW_H

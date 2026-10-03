@@ -250,3 +250,11 @@ src/ov033/mystery_gift_item.c:
 src/ov033/mystery_gift_pass_power.c:
     complete
     .text       start:0x02178278 end:0x021782d0
+
+src/ov033/mystery_gift_dream_radar.c:
+    complete
+    .text       start:0x021782f0 end:0x021783a8
+
+src/ov033/mystery_gift_slots.c:
+    complete
+    .text       start:0x021783a8 end:0x02178448

@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_FIELD_DISPLAY_CONTROL_H
 
 #include "types.h"
+#include "gfl/heap.h"
 
 typedef struct FieldDispControl {
     u16 requestA;
@@ -16,9 +17,17 @@ typedef struct FieldDispControl {
     u32 planeMaskB;
     u32 complementB;
     u32 unk28;
-    u8 bgEnabled[4];
+    u8 bgEnabled[8];
+    u8 brightnessRequest[2];
+    s8 brightnessValue[2];
 } FieldDispControl;
 
+extern const char data_ov036_021d56f0[];
+extern void (*const FIELD_DISP_CONTROL_PROCS[])(void *params, u32 screen);
+
+FieldDispControl *FieldDispControl_Create(HeapID heapId);
+void FieldDispControl_Free(FieldDispControl *control);
+void FieldDispControl_Update(FieldDispControl *control);
 void FieldDispControl_ReqAdjustAlphaA(FieldDispControl *control, u32 alpha, u32 complement);
 void FieldDispControl_ReqSetAlphaA(FieldDispControl *control, u32 alpha, u32 beta, u32 planeMask, u32 complement);
 void FieldDispControl_ReqSetAllA(FieldDispControl *control, u32 alpha, u32 beta, u32 planeMask, u32 complement,

@@ -5,6 +5,7 @@
 #include "struct_decls.h"
 
 void setSecondsCurrentTimeInTrainerCard(TrainerCardSave *trainerCard, s64 seconds);
+void setOneShotDRObtained(TrainerCardSave *trainerCard, u32 flag, PlayerInfo *playerInfo);
 TrainerCardSave *getTrainerCardData_wrapper(SaveControl *save);
 u32 func_0200c924(TrainerCardSave *trainerCard);
 

@@ -14,5 +14,6 @@ u32 FieldPlayer_GetExState(FieldPlayer *player);
 void FieldPlayer_SetSpecialState(FieldPlayer *player, u32 state);
 void FieldPlayer_SetSpecialSeq(FieldPlayer *player, u32 seq);
 BOOL func_ov036_0219a580(FieldPlayer *player);
+u32 FieldPlayer_GetTileTypeUnder(FieldPlayer *player);
 
 #endif // POKEBW2_FIELD_FIELD_PLAYER_H

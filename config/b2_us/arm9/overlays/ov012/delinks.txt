@@ -408,6 +408,10 @@ src/ov012/field_script_cmd_musical_props.c:
     complete
     .text       start:0x02158bac end:0x02158bfc
 
+src/ov012/encounter_state.c:
+    complete
+    .text       start:0x02159150 end:0x02159230
+
 src/ov012/field_script_cmd_party_add_egg.c:
     complete
     .text       start:0x02157174 end:0x021572b0

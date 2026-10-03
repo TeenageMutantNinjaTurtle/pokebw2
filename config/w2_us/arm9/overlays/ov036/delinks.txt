@@ -152,3 +152,11 @@ src/ov036/field_display_control_alpha_a.c:
 src/ov036/field_display_control_alpha_b.c:
     complete
     .text       start:0x021c8118 end:0x021c812c
+
+src/ov036/field_display_control_lifecycle.c:
+    complete
+    .text       start:0x021c8010 end:0x021c8040
+
+src/ov036/field_display_control_update.c:
+    complete
+    .text       start:0x021c8040 end:0x021c80d8
