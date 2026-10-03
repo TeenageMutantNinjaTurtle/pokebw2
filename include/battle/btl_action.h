@@ -4,6 +4,15 @@
 #include "types.h"
 #include "struct_decls.h"
 
+struct BtlActionState {
+    u32 useItemNo : 10;
+    u32 unk10 : 18;
+    u32 prevResult : 1;
+    u32 result : 1;
+    u32 used : 1;
+    u32 unk31 : 1;
+};
+
 union BattleAction {
     u32 raw;
     struct {

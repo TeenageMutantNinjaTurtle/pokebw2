@@ -4,6 +4,18 @@
 #include "struct_decls.h"
 #include "types.h"
 
+struct EventItemView {
+    u32 unk00;
+    struct EventItemView *next;
+    u8 unk08[0x10];
+    u32 flags;
+};
+
+struct EventDispatchView {
+    u32 depth;
+    struct EventItemView *first;
+};
+
 typedef void (*BattleEventHandlerFn)(void *context, void *item, u32 monId);
 
 struct BattleEventHandlerEntry {

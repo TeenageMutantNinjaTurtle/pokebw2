@@ -5,6 +5,23 @@
 #include "constants/battle.h"
 #include "struct_decls.h"
 
+struct SwitchModeState {
+    void *actionManager;
+    u8 unk04[7];
+    u8 enabled;
+};
+
+struct BtlServerFlow {
+    u8 unk00[0xc];
+    BtlMainModule *mainModule;
+    BtlPokeCon *pokeCon;
+    u8 unk14[0xc];
+    struct SwitchModeState switchMode;
+    u8 unk2c[0xc88];
+    u8 posList[6];
+    u8 count;
+};
+
 BOOL DoesSwitchModeNeedConfirming(BtlServerFlow *serverFlow);
 u8 GetNextEnemyForSwitchMode(BtlServerFlow *serverFlow);
 BOOL IsSwitchModeEnabled(const void *switchMode);
