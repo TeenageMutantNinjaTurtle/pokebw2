@@ -29,7 +29,7 @@ void BattleEvent_CallHandlers(void *context, u32 event);
 void BattleEventItem_AttachSkipCheckHandler(BattleEventItem *item, void *handler);
 void BattleEventItem_DetachSkipCheckHandler(BattleEventItem *item);
 BattleEventItem *BattleEvent_SeekItem(u32 type, u32 monId);
-void BattleEventItem_Remove(void);
+void BattleEventItem_Remove(BattleEventItem *item);
 void BattleEvent_ItemRotationSleep(u8 monId, u32 priority);
 BOOL BattleEvent_ItemRotationWake(u8 monId, u32 priority);
 u32 BattleEventVar_GetValue(u32 key);

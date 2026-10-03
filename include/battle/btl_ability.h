@@ -12,6 +12,7 @@ BOOL func_ov167_021abdf8(BattleMon *mon, u32 value);
 BOOL AbilityEvent_RollEffectChance(BattleMon *mon, u32 chance);
 void AbilityEvent_ItemRotationSleep(BattleMon *mon);
 void AbilityEvent_ItemRotationWake(BattleMon *mon);
+void AbilityEvent_Swap(BattleMon *first, BattleMon *second);
 extern const BattleEventHandlerEntry data_ov167_021d7794[];
 extern const BattleEventHandlerEntry data_ov167_021d763c[];
 extern const BattleEventHandlerEntry data_ov167_021d784c[];
