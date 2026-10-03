@@ -8,3 +8,24 @@ src/main/vm.c:
     complete
     .text       start:0x0201587c end:0x02015a90
     .data       start:0x0209a2f8 end:0x0209a300
+
+src/main/bg_sys.c:
+    complete
+    .text       start:0x020444a4 end:0x02046be0
+    .data       start:0x0209aeac end:0x0209aeb8
+    .bss        start:0x0214190c end:0x02141910
+
+src/main/gx_layers.c:
+    complete
+    .text       start:0x02046be0 end:0x02046e28
+    .bss        start:0x02141910 end:0x02141918
+
+src/main/bmp.c:
+    .text       start:0x02046e28 end:0x02048080
+    .data       start:0x0209aeb8 end:0x0209aec0
+
+src/main/bmp_win.c:
+    complete
+    .text       start:0x02048080 end:0x0204850c
+    .data       start:0x0209aec0 end:0x0209aecc
+    .bss        start:0x02141918 end:0x0214191c

@@ -13,10 +13,13 @@
 #include "constants/sound.h"
 #include "field/zone.h"
 #include "gfl/arc.h"
+#include "gfl/bg_sys.h"
+#include "gfl/bmp.h"
 #include "gfl/bmp_menu.h"
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"
 #include "gfl/graphics.h"
+#include "gfl/gx_layers.h"
 #include "gfl/heap.h"
 #include "gfl/input.h"
 #include "gfl/msg.h"
@@ -1497,7 +1500,7 @@ static void StartMenu_HideSavedGame(StartMenuWork *wk) {
     s32 i;
 
     for (i = WINDOW_SAVED_GAME; i <= WINDOW_KEYS + 2; i++) {
-        func_020484b4(wk->windows[i].window);
+        BmpWin_ClearScreen(wk->windows[i].window);
     }
     func_0204c124(wk->actors[ACTOR_KEYS], FALSE);
     func_0204c124(wk->actors[ACTOR_KEYS + 1], FALSE);

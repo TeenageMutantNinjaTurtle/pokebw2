@@ -2,6 +2,7 @@
 #include "field/field.h"
 #include "field/field_actor.h"
 #include "gfl/arc.h"
+#include "gfl/bmp.h"
 #include "pml/poke_graphic.h"
 #include "pml/poke_party.h"
 #include "system/game_system.h"

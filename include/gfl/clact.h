@@ -4,6 +4,7 @@
 #include "types.h"
 #include "gfl/arc.h"
 #include "gfl/graphics.h"
+#include "gfl/gx_layers.h"
 #include "gfl/heap.h"
 
 // Cell actors, the OAM sprites of the 2D engines

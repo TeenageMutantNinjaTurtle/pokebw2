@@ -1,5 +1,6 @@
 #include "field/field.h"
 #include "field/field_money_window.h"
+#include "gfl/bg_sys.h"
 #include "gfl/graphics.h"
 #include "gfl/heap.h"
 #include "gfl/msg.h"

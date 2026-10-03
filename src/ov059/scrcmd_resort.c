@@ -4,6 +4,7 @@
 #include "field/field_actor.h"
 #include "field/field_script.h"
 #include "field/resort.h"
+#include "gfl/bg_sys.h"
 #include "gfl/bmpwin.h"
 #include "gfl/graphics.h"
 #include "gfl/heap.h"

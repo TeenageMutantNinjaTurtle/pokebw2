@@ -137,8 +137,9 @@ def download_tools(tools_dir: Path):
         archive.extractall(tools_dir, members)
 
 
-def add_version(n: Writer, version: str, dsd: Path) -> tuple[list[Path], list[str]]:
-    """Adds the build steps of one version. Returns its check targets and dsd config files."""
+def add_version(n: Writer, version: str, dsd: Path, bugfix: bool) -> tuple[list[Path], list[str]]:
+    """Adds the build steps of one version. Returns its check targets and dsd config files. A build with the bugs fixed
+    does not match, so its only targets are the ROM and its archives."""
     baserom = Path("orig") / f"baserom_{version}.nds"
     extract_dir = Path("extract") / version
     config_dir = Path("config") / version
@@ -178,7 +179,9 @@ def add_version(n: Writer, version: str, dsd: Path) -> tuple[list[Path], list[st
 
     # Source files are listed in delinks.txt by their path. Complete files are linked from the compiled object, and
     # incomplete ones are still compiled so objdiff can compare them.
-    defines = " ".join(f"-d {define}" for define in VERSIONS[version]["defines"])
+    version_defines = VERSIONS[version]["defines"] + (["BUGFIX"] if bugfix else [])
+    defines = " ".join(f"-d {define}" for define in version_defines)
+    as_defines = " ".join(f"-D{define}" for define in version_defines)
     objects = []
     compiled = []
     for f in files:
@@ -205,7 +208,7 @@ def add_version(n: Writer, version: str, dsd: Path) -> tuple[list[Path], list[st
         members = []
         for source in sorted(Path(source_dir).glob("*.s")):
             obj = build_dir / source.with_suffix(".o")
-            n.build([obj], "as", [source], variables={"dep": obj.with_suffix(".d")})
+            n.build([obj], "as", [source], variables={"dep": obj.with_suffix(".d"), "defines": as_defines})
             n.build([obj.with_suffix(".bin")], "objcopy_bin", [obj])
             members.append(obj.with_suffix(".bin"))
         archive = files_dir / path
@@ -214,7 +217,9 @@ def add_version(n: Writer, version: str, dsd: Path) -> tuple[list[Path], list[st
         n.build([archive_ok], "check_file", [archive], implicit=[extract_dir / "config.yaml"],
                 variables={"original": str(extract_dir / "files" / path)})
         archives.append(archive)
-        checks.append(archive_ok)
+        checks.append(archive)
+        if not bugfix:
+            checks.append(archive_ok)
 
     rom_config = build_dir / "build" / "rom_config.yaml"
     n.build([rom_config], "rom_config", [arm9_o], variables={"config": str(arm9_config)})
@@ -224,7 +229,7 @@ def add_version(n: Writer, version: str, dsd: Path) -> tuple[list[Path], list[st
     n.build([modules_ok], "check_modules", [rom_config], variables={"config": str(arm9_config)})
     rom_ok = stamp_dir / "rom.ok"
     n.build([rom_ok], "sha1", [sha1_file], implicit=[rom], variables={"rom": str(rom)})
-    n.build([version], "phony", [modules_ok, rom_ok])
+    n.build([version], "phony", [rom] if bugfix else [modules_ok, rom_ok])
 
     # Context files for decomp.me scratches, made by objdiff
     for obj in compiled:
@@ -235,6 +240,8 @@ def add_version(n: Writer, version: str, dsd: Path) -> tuple[list[Path], list[st
     report = build_dir / "report.json"
     n.build([report], "report", [], implicit=["objdiff.json", *compiled, *delink_outputs])
     n.build([f"{version}_progress"], "progress", [report])
+    if bugfix:
+        return [rom, *checks], dsd_configs
     return [modules_ok, rom_ok, *checks], dsd_configs
 
 
@@ -245,6 +252,8 @@ def main():
     parser.add_argument("--dsd", type=Path, default=ROOT / "tools" / "dsd", help="path to the dsd executable")
     parser.add_argument("--wine", default=None, help="run the Metrowerks tools with this instead of wibo")
     parser.add_argument("--no-download", action="store_true", help="do not download missing tools")
+    parser.add_argument("--bugfix", action="store_true",
+                        help="fix the game's bugs that are marked with BUGFIX in the source; the ROMs no longer match")
     args = parser.parse_args()
 
     versions = args.versions or [v for v in VERSIONS if (ROOT / "orig" / f"baserom_{v}.nds").exists()]
@@ -282,8 +291,8 @@ def main():
            depfile="$dep", deps="gcc")
     n.rule("mwld", f"$wine {shlex.quote(str(mwld))} {' '.join(LD_FLAGS)} @$objects $lcf -o $out", "Linking $out")
     # Scripts go through the C preprocessor, so that they can include the constant headers
-    n.rule("as", f"{shlex.quote(clang)} --target=armv5te-none-eabi -x assembler-with-cpp -c -I include -MD -MF $dep "
-           "-o $out $in", "Assembling $in", depfile="$dep", deps="gcc")
+    n.rule("as", f"{shlex.quote(clang)} --target=armv5te-none-eabi -x assembler-with-cpp -c -I include $defines "
+           "-MD -MF $dep -o $out $in", "Assembling $in", depfile="$dep", deps="gcc")
     n.rule("objcopy_bin", f"{shlex.quote(llvm_objcopy)} -O binary $in $out", "Converting $in")
     n.rule("narc", "$python tools/scripts/narc.py pack $out $in", "Packing $out")
     n.rule("check_file", "cmp $in $original && mkdir -p $$(dirname $out) && touch $out", "Checking $in")
@@ -301,13 +310,14 @@ def main():
            f"--compiler {DECOMP_ME_COMPILER} --c-flags '{' '.join(CC_FLAGS)}' -o $out", "Writing $out")
     n.rule("report", f"{tools_dir / 'objdiff-cli'} report generate -p . -o $out", "Generating $out")
     n.rule("progress", "$python tools/scripts/progress.py $in", "Progress")
-    n.rule("configure", f"$python configure.py {' '.join(args.versions)}", "Reconfiguring", generator="1")
+    configure_args = [*args.versions, *(["--bugfix"] if args.bugfix else [])]
+    n.rule("configure", f"$python configure.py {' '.join(configure_args)}", "Reconfiguring", generator="1")
     # Formats the sources and headers in place with clang-format and .clang-format
     n.rule("format", "clang-format -i $in", "Formatting")
 
     checks, configs = [], []
     for version in versions:
-        version_checks, version_configs = add_version(n, version, dsd)
+        version_checks, version_configs = add_version(n, version, dsd, args.bugfix)
         checks += version_checks
         configs += version_configs
 
@@ -325,7 +335,8 @@ def main():
     n.default(["check", "objdiff.json"])
 
     (ROOT / "build.ninja").write_text(n.out.getvalue())
-    print(f"Wrote build.ninja for {', '.join(versions)}, now run ninja")
+    fixes = ", with the bugs fixed" if args.bugfix else ""
+    print(f"Wrote build.ninja for {', '.join(versions)}{fixes}, now run ninja")
 
 
 if __name__ == "__main__":

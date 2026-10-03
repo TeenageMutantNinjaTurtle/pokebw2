@@ -48,6 +48,10 @@ trainer AI, and everything else is still delinked code. The trainer AI scripts a
    `ninja` extracts each base ROM, delinks the code, links it with `mwldarm`, rebuilds the ROM and checks its SHA1.
    `configure.py` builds every version that has a base ROM, or the versions given as arguments.
 
+5. Optionally, `python3 configure.py --bugfix` builds the ROMs with the game's bugs fixed, those marked with `BUGFIX`
+   in the source. These ROMs don't match, so the build skips the checks. Only files marked `complete` are built from
+   source, so fixes in the others don't apply yet. Run `configure.py` without it to go back to the matching build.
+
 ## Layout
 
 | Path | Contents |
@@ -303,8 +307,14 @@ Things that affect whether MWCC output matches:
   `u8` or `u16` promotes to a signed `int`, so `(u8)id % 5u` is the unsigned one, and so is a `u16` divided by a
   `u32`. Compare the built overlay in `build/<version>/build`
   with the original to find it.
+- NitroSDK's inline functions take enums, such as `GXBGColorMode`, and the BG system's `GFL_BGSysCreateBG` only loads
+  every argument of `G2_SetBG0Control` before shifting any with enum parameters. `nitro/gx.h` keeps the SDK's types for
+  this reason.
+- A NULL check written on a field, `if (bgs[bg].screen != NULL) { void *screen = bgs[bg].screen; ... }`, gives
+  different stack slots from the same check on a local loaded before it, as `GFL_BGSysLoadScrCore` shows.
 - When the order of instructions differs and no source change moves it, try `tools/scripts/permuter_setup.py`, which
-  prepares a function for [decomp-permuter](https://github.com/simonlindholm/decomp-permuter).
+  prepares a function for [decomp-permuter](https://github.com/simonlindholm/decomp-permuter). Its result can point to
+  a plain change: `GFL_BGSysAllocChar`'s registers only matched with its tile size, a `u8` from a call, in an `int`.
 
 ## Scripts
 
@@ -510,6 +520,8 @@ every section.
 - Functions only called within their file are `static` where linking permits it and declared at the top of the file,
   since `-requireprotos` requires a prototype for every function.
 - Event callbacks take `void *data`, as `GameEventCallback` does, and cast it to their work.
+- A bug gets a `// BUG:` comment on what goes wrong. Where a fix is clear, it goes in an `#ifdef BUGFIX` block next to
+  the original code, which stays in the `#else` branch, as in `bg_sys.c`'s `GFL_BGSysFlipTile`.
 - Names, layouts and constants from swan are marked as such. swan's headers are generated for hacking tools, so
   they are a reference rather than copied as they are. A type that swan doesn't name gets a name from its owner,
   such as `ResortNPC` in `resort_npc.c`, and structs with the same layout and purpose are one type.

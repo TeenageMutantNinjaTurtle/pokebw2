@@ -3,6 +3,7 @@
 #include "constants/species.h"
 #include "demo/shinka_demo.h"
 #include "demo/shinka_demo_view.h"
+#include "gfl/bmp.h"
 #include "gfl/bmpwin.h"
 #include "gfl/g3d.h"
 #include "gfl/graphics.h"

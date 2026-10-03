@@ -9,6 +9,8 @@
 #include "constants/species.h"
 #include "demo/shinka_demo.h"
 #include "gfl/arc.h"
+#include "gfl/bg_sys.h"
+#include "gfl/bmp.h"
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"
 #include "gfl/fade.h"

@@ -8,6 +8,7 @@
 #include "field/field_player.h"
 #include "field/field_script.h"
 #include "field/field_visuals.h"
+#include "gfl/bg_sys.h"
 #include "gfl/graphics.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"

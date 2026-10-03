@@ -128,22 +128,43 @@ typedef u16 GXRgb;
 #define GX_VRAM_TEXPLTT_01_FG (GX_VRAM_F | GX_VRAM_G)
 #define GX_VRAM_TEXPLTT_0123_E GX_VRAM_E
 
-#define GX_OBJVRAMMODE_CHAR_1D_32K 0x00000010
-#define GX_OBJVRAMMODE_CHAR_1D_64K 0x00100010
-#define GX_OBJVRAMMODE_CHAR_1D_128K 0x00200010
+typedef enum {
+    GX_OBJVRAMMODE_CHAR_2D = 0x00000000,
+    GX_OBJVRAMMODE_CHAR_1D_32K = 0x00000010,
+    GX_OBJVRAMMODE_CHAR_1D_64K = 0x00100010,
+    GX_OBJVRAMMODE_CHAR_1D_128K = 0x00200010,
+    GX_OBJVRAMMODE_CHAR_1D_256K = 0x00300010,
+} GXOBJVRamModeChar;
 
-#define GX_BG_COLORMODE_16 0
-#define GX_BG_COLORMODE_256 1
+// NitroSDK passes the fields of the BG control registers as enums, which MWCC schedules differently from ints
+typedef enum {
+    GX_BG_COLORMODE_16 = 0,
+    GX_BG_COLORMODE_256 = 1,
+} GXBGColorMode;
 
 // The screen base in units of 0x800 bytes, and the character base in units of 0x4000
 #define GX_BG_SCRBASE(offset) ((offset) / 0x800)
 #define GX_BG_CHARBASE(offset) ((offset) / 0x4000)
 
-#define GX_BG_EXTPLTT_01 0
-#define GX_BG_EXTPLTT_23 1
+typedef enum {
+    GX_BG_SCRBASE_0x0000 = 0,
+    GX_BG_SCRBASE_0xf800 = 31,
+} GXBGScrBase;
 
-#define GX_BG_AREAOVER_XLU 0
-#define GX_BG_AREAOVER_REPEAT 1
+typedef enum {
+    GX_BG_CHARBASE_0x00000 = 0,
+    GX_BG_CHARBASE_0x3c000 = 15,
+} GXBGCharBase;
+
+typedef enum {
+    GX_BG_EXTPLTT_01 = 0,
+    GX_BG_EXTPLTT_23 = 1,
+} GXBGExtPltt;
+
+typedef enum {
+    GX_BG_AREAOVER_XLU = 0,
+    GX_BG_AREAOVER_REPEAT = 1,
+} GXBGAreaOver;
 
 #define GX_PACK_VIEWPORT_PARAM(x1, y1, x2, y2) \
     ((u32)(x1) | ((u32)(y1) << 8) | ((u32)(x2) << 16) | ((u32)(y2) << 24))
@@ -166,6 +187,7 @@ typedef u16 GXRgb;
 
 #define GX_TEXFMT_PLTT4 2
 #define GX_TEXFMT_PLTT16 3
+#define GX_TEXFMT_PLTT256 4
 #define GX_TEXGEN_TEXCOORD 1
 #define GX_TEXSIZE_S128 4
 #define GX_TEXSIZE_T128 4
@@ -269,11 +291,6 @@ static inline void G2_BlendNone(void) {
 
 static inline void G2S_BlendNone(void) {
     reg_G2S_DB_BLDCNT = 0;
-}
-
-static inline void G2_SetBG0Priority(int priority) {
-    reg_G2_BG0CNT =
-        (u16)((reg_G2_BG0CNT & ~REG_G2_BG0CNT_PRIORITY_MASK) | (priority << REG_G2_BG0CNT_PRIORITY_SHIFT));
 }
 
 static inline void G3X_SetShading(int shading) {
@@ -394,6 +411,404 @@ static inline void G3_TexCoord(fx32 s, fx32 t) {
 static inline void G3_Vtx(fx16 x, fx16 y, fx16 z) {
     reg_G3_VTX_16 = (u32)(u16)x | ((u32)(u16)y << 16);
     reg_G3_VTX_16 = (u32)(u16)z;
+}
+
+// The BG registers of both engines. The sub engine's are at the main engine's address plus 0x1000
+#define reg_G2_BG1CNT (*(vu16 *)0x0400000a)
+#define reg_G2_BG2CNT (*(vu16 *)0x0400000c)
+#define reg_G2_BG3CNT (*(vu16 *)0x0400000e)
+#define reg_G2_BG0OFS (*(vu32 *)0x04000010)
+#define reg_G2_BG1OFS (*(vu32 *)0x04000014)
+#define reg_G2_BG2OFS (*(vu32 *)0x04000018)
+#define reg_G2_BG3OFS (*(vu32 *)0x0400001c)
+#define reg_G2_BG2PA (*(vu16 *)0x04000020)
+#define reg_G2_BG3PA (*(vu16 *)0x04000030)
+#define reg_G2S_DB_BG0CNT (*(vu16 *)0x04001008)
+#define reg_G2S_DB_BG1CNT (*(vu16 *)0x0400100a)
+#define reg_G2S_DB_BG2CNT (*(vu16 *)0x0400100c)
+#define reg_G2S_DB_BG3CNT (*(vu16 *)0x0400100e)
+#define reg_G2S_DB_BG0OFS (*(vu32 *)0x04001010)
+#define reg_G2S_DB_BG1OFS (*(vu32 *)0x04001014)
+#define reg_G2S_DB_BG2OFS (*(vu32 *)0x04001018)
+#define reg_G2S_DB_BG3OFS (*(vu32 *)0x0400101c)
+#define reg_G2S_DB_BG2PA (*(vu16 *)0x04001020)
+#define reg_G2S_DB_BG3PA (*(vu16 *)0x04001030)
+
+// The fields of a BG control register. Bit 13 is the extended palette slot of BG 0 and 1, and the area overflow
+// mode of BG 2 and 3
+#define REG_G2_BGCNT_CHARBASE_SHIFT 2
+#define REG_G2_BGCNT_MOSAIC_MASK 0x0040
+#define REG_G2_BGCNT_COLORMODE_SHIFT 7
+#define REG_G2_BGCNT_SCREENBASE_SHIFT 8
+#define REG_G2_BGCNT_BGPLTTSLOT_SHIFT 13
+#define REG_G2_BGCNT_AREAOVER_SHIFT 13
+#define REG_G2_BGCNT_SCREENSIZE_SHIFT 14
+
+#define REG_G2_BGOFS_HOFFSET_MASK 0x000001ff
+#define REG_G2_BGOFS_VOFFSET_SHIFT 16
+#define REG_G2_BGOFS_VOFFSET_MASK 0x01ff0000
+
+#define REG_GX_DISPCNT_BGCHAROFFSET_SHIFT 24
+#define REG_GX_DISPCNT_BGCHAROFFSET_MASK 0x07000000
+#define REG_GX_DISPCNT_BGSCREENOFFSET_SHIFT 27
+#define REG_GX_DISPCNT_BGSCREENOFFSET_MASK 0x38000000
+
+#define GX_BGSCROFFSET_0x00000 0
+#define GX_BGCHAROFFSET_0x00000 0
+
+// The screen sizes of each kind of BG, as the control registers take them
+typedef enum {
+    GX_BG_SCRSIZE_TEXT_256x256 = 0,
+    GX_BG_SCRSIZE_TEXT_512x256 = 1,
+    GX_BG_SCRSIZE_TEXT_256x512 = 2,
+    GX_BG_SCRSIZE_TEXT_512x512 = 3,
+} GXBGScrSizeText;
+
+typedef enum {
+    GX_BG_SCRSIZE_AFFINE_128x128 = 0,
+    GX_BG_SCRSIZE_AFFINE_256x256 = 1,
+    GX_BG_SCRSIZE_AFFINE_512x512 = 2,
+    GX_BG_SCRSIZE_AFFINE_1024x1024 = 3,
+} GXBGScrSizeAffine;
+
+typedef enum {
+    GX_BG_SCRSIZE_256x16PLTT_128x128 = 0,
+    GX_BG_SCRSIZE_256x16PLTT_256x256 = 1,
+    GX_BG_SCRSIZE_256x16PLTT_512x512 = 2,
+    GX_BG_SCRSIZE_256x16PLTT_1024x1024 = 3,
+} GXBGScrSize256x16Pltt;
+
+#define GX_BG_EXTMODE_256x16PLTT 0
+
+typedef union {
+    u16 raw;
+    struct {
+        u16 priority : 2;
+        u16 charBase : 4;
+        u16 mosaic : 1;
+        u16 colorMode : 1;
+        u16 screenBase : 5;
+        u16 bgExtPltt : 1;
+        u16 screenSize : 2;
+    };
+} GXBg01Control;
+
+typedef union {
+    u16 raw;
+    struct {
+        u16 priority : 2;
+        u16 charBase : 4;
+        u16 mosaic : 1;
+        u16 colorMode : 1;
+        u16 screenBase : 5;
+        u16 _reserve : 1;
+        u16 screenSize : 2;
+    };
+} GXBg23ControlText;
+
+typedef union {
+    u16 raw;
+    struct {
+        u16 priority : 2;
+        u16 charBase : 4;
+        u16 mosaic : 1;
+        u16 _reserve : 1;
+        u16 screenBase : 5;
+        u16 areaOver : 1;
+        u16 screenSize : 2;
+    };
+} GXBg23ControlAffine;
+
+typedef union {
+    u16 raw;
+    struct {
+        u16 priority : 2;
+        u16 _reserve1 : 1;
+        u16 charBase : 3;
+        u16 mosaic : 1;
+        u16 _reserve2 : 1;
+        u16 screenBase : 5;
+        u16 areaOver : 1;
+        u16 screenSize : 2;
+    };
+} GXBg23Control256x16Pltt;
+
+static inline void GX_SetBGScrOffset(int offset) {
+    reg_GX_DISPCNT =
+        (u32)((reg_GX_DISPCNT & ~REG_GX_DISPCNT_BGSCREENOFFSET_MASK) | (offset << REG_GX_DISPCNT_BGSCREENOFFSET_SHIFT));
+}
+
+static inline void GX_SetBGCharOffset(int offset) {
+    reg_GX_DISPCNT =
+        (u32)((reg_GX_DISPCNT & ~REG_GX_DISPCNT_BGCHAROFFSET_MASK) | (offset << REG_GX_DISPCNT_BGCHAROFFSET_SHIFT));
+}
+
+// NitroSDK has an inline function of each of these for each BG of each engine, such as G2_SetBG0Control and
+// G2S_SetBG0Control. They are generated here from the register
+
+#define GX_DEFINE_BG01_CONTROL(name, reg)                                                                              \
+    static inline void name(GXBGScrSizeText screenSize, GXBGColorMode colorMode, GXBGScrBase screenBase,               \
+                            GXBGCharBase charBase, GXBGExtPltt bgExtPltt) {                                            \
+        reg = (u16)((reg & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BGCNT_MOSAIC_MASK)) |                                 \
+                    (screenSize << REG_G2_BGCNT_SCREENSIZE_SHIFT) | (colorMode << REG_G2_BGCNT_COLORMODE_SHIFT) |      \
+                    (screenBase << REG_G2_BGCNT_SCREENBASE_SHIFT) | (charBase << REG_G2_BGCNT_CHARBASE_SHIFT) |        \
+                    (bgExtPltt << REG_G2_BGCNT_BGPLTTSLOT_SHIFT));                                                     \
+    }
+
+#define GX_DEFINE_BG23_CONTROL_TEXT(name, reg)                                                                         \
+    static inline void name(GXBGScrSizeText screenSize, GXBGColorMode colorMode, GXBGScrBase screenBase,               \
+                            GXBGCharBase charBase) {                                                                   \
+        reg = (u16)((reg & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BGCNT_MOSAIC_MASK)) |                                 \
+                    (screenSize << REG_G2_BGCNT_SCREENSIZE_SHIFT) | (colorMode << REG_G2_BGCNT_COLORMODE_SHIFT) |      \
+                    (screenBase << REG_G2_BGCNT_SCREENBASE_SHIFT) | (charBase << REG_G2_BGCNT_CHARBASE_SHIFT));        \
+    }
+
+#define GX_DEFINE_BG23_CONTROL_AFFINE(name, reg)                                                                       \
+    static inline void name(GXBGScrSizeAffine screenSize, GXBGAreaOver areaOver, GXBGScrBase screenBase,               \
+                            GXBGCharBase charBase) {                                                                   \
+        reg = (u16)((reg & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BGCNT_MOSAIC_MASK)) |                                 \
+                    (screenSize << REG_G2_BGCNT_SCREENSIZE_SHIFT) | (screenBase << REG_G2_BGCNT_SCREENBASE_SHIFT) |    \
+                    (charBase << REG_G2_BGCNT_CHARBASE_SHIFT) | (areaOver << REG_G2_BGCNT_AREAOVER_SHIFT));            \
+    }
+
+#define GX_DEFINE_BG23_CONTROL_256x16PLTT(name, reg)                                                                   \
+    static inline void name(GXBGScrSize256x16Pltt screenSize, GXBGAreaOver areaOver, GXBGScrBase screenBase,           \
+                            GXBGCharBase charBase) {                                                                   \
+        reg = (u16)((reg & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BGCNT_MOSAIC_MASK)) |                                 \
+                    (screenSize << REG_G2_BGCNT_SCREENSIZE_SHIFT) | (charBase << REG_G2_BGCNT_CHARBASE_SHIFT) |        \
+                    GX_BG_EXTMODE_256x16PLTT | (screenBase << REG_G2_BGCNT_SCREENBASE_SHIFT) |                         \
+                    (areaOver << REG_G2_BGCNT_AREAOVER_SHIFT));                                                        \
+    }
+
+#define GX_DEFINE_BG_PRIORITY(name, reg)                                                                               \
+    static inline void name(int priority) {                                                                            \
+        reg = (u16)((reg & ~REG_G2_BG0CNT_PRIORITY_MASK) | (priority << REG_G2_BG0CNT_PRIORITY_SHIFT));                \
+    }
+
+#define GX_DEFINE_BG_MOSAIC(name, reg)                                                                                 \
+    static inline void name(BOOL enable) {                                                                             \
+        if (enable) {                                                                                                  \
+            reg |= REG_G2_BGCNT_MOSAIC_MASK;                                                                           \
+        } else {                                                                                                       \
+            reg &= ~REG_G2_BGCNT_MOSAIC_MASK;                                                                          \
+        }                                                                                                              \
+    }
+
+#define GX_DEFINE_BG_OFFSET(name, reg)                                                                                 \
+    static inline void name(int hOffset, int vOffset) {                                                                \
+        reg = (u32)((hOffset & REG_G2_BGOFS_HOFFSET_MASK) |                                                            \
+                    ((vOffset << REG_G2_BGOFS_VOFFSET_SHIFT) & REG_G2_BGOFS_VOFFSET_MASK));                            \
+    }
+
+#define GX_DEFINE_BG_GET_CONTROL(name, type, reg)                                                                      \
+    static inline type name(void) {                                                                                    \
+        return *(volatile type *)&reg;                                                                                 \
+    }
+
+GX_DEFINE_BG01_CONTROL(G2_SetBG0Control, reg_G2_BG0CNT)
+GX_DEFINE_BG01_CONTROL(G2_SetBG1Control, reg_G2_BG1CNT)
+GX_DEFINE_BG01_CONTROL(G2S_SetBG0Control, reg_G2S_DB_BG0CNT)
+GX_DEFINE_BG01_CONTROL(G2S_SetBG1Control, reg_G2S_DB_BG1CNT)
+GX_DEFINE_BG23_CONTROL_TEXT(G2_SetBG2ControlText, reg_G2_BG2CNT)
+GX_DEFINE_BG23_CONTROL_TEXT(G2_SetBG3ControlText, reg_G2_BG3CNT)
+GX_DEFINE_BG23_CONTROL_TEXT(G2S_SetBG2ControlText, reg_G2S_DB_BG2CNT)
+GX_DEFINE_BG23_CONTROL_TEXT(G2S_SetBG3ControlText, reg_G2S_DB_BG3CNT)
+GX_DEFINE_BG23_CONTROL_AFFINE(G2_SetBG2ControlAffine, reg_G2_BG2CNT)
+GX_DEFINE_BG23_CONTROL_AFFINE(G2_SetBG3ControlAffine, reg_G2_BG3CNT)
+GX_DEFINE_BG23_CONTROL_AFFINE(G2S_SetBG2ControlAffine, reg_G2S_DB_BG2CNT)
+GX_DEFINE_BG23_CONTROL_AFFINE(G2S_SetBG3ControlAffine, reg_G2S_DB_BG3CNT)
+GX_DEFINE_BG23_CONTROL_256x16PLTT(G2_SetBG2Control256x16Pltt, reg_G2_BG2CNT)
+    GX_DEFINE_BG23_CONTROL_256x16PLTT(G2_SetBG3Control256x16Pltt, reg_G2_BG3CNT) GX_DEFINE_BG23_CONTROL_256x16PLTT(
+        G2S_SetBG2Control256x16Pltt, reg_G2S_DB_BG2CNT) GX_DEFINE_BG23_CONTROL_256x16PLTT(G2S_SetBG3Control256x16Pltt,
+                                                                                          reg_G2S_DB_BG3CNT)
+
+        GX_DEFINE_BG_PRIORITY(G2_SetBG0Priority, reg_G2_BG0CNT) GX_DEFINE_BG_PRIORITY(
+            G2_SetBG1Priority,
+            reg_G2_BG1CNT) GX_DEFINE_BG_PRIORITY(G2_SetBG2Priority,
+                                                 reg_G2_BG2CNT) GX_DEFINE_BG_PRIORITY(G2_SetBG3Priority, reg_G2_BG3CNT)
+            GX_DEFINE_BG_PRIORITY(G2S_SetBG0Priority, reg_G2S_DB_BG0CNT) GX_DEFINE_BG_PRIORITY(
+                G2S_SetBG1Priority,
+                reg_G2S_DB_BG1CNT) GX_DEFINE_BG_PRIORITY(G2S_SetBG2Priority,
+                                                         reg_G2S_DB_BG2CNT) GX_DEFINE_BG_PRIORITY(G2S_SetBG3Priority,
+                                                                                                  reg_G2S_DB_BG3CNT)
+
+                GX_DEFINE_BG_MOSAIC(G2_BG0Mosaic, reg_G2_BG0CNT) GX_DEFINE_BG_MOSAIC(
+                    G2_BG1Mosaic, reg_G2_BG1CNT) GX_DEFINE_BG_MOSAIC(G2_BG2Mosaic,
+                                                                     reg_G2_BG2CNT) GX_DEFINE_BG_MOSAIC(G2_BG3Mosaic,
+                                                                                                        reg_G2_BG3CNT)
+                    GX_DEFINE_BG_MOSAIC(G2S_BG0Mosaic, reg_G2S_DB_BG0CNT) GX_DEFINE_BG_MOSAIC(
+                        G2S_BG1Mosaic,
+                        reg_G2S_DB_BG1CNT) GX_DEFINE_BG_MOSAIC(G2S_BG2Mosaic,
+                                                               reg_G2S_DB_BG2CNT) GX_DEFINE_BG_MOSAIC(G2S_BG3Mosaic,
+                                                                                                      reg_G2S_DB_BG3CNT)
+
+                        GX_DEFINE_BG_OFFSET(G2_SetBG0Offset, reg_G2_BG0OFS) GX_DEFINE_BG_OFFSET(
+                            G2_SetBG1Offset, reg_G2_BG1OFS) GX_DEFINE_BG_OFFSET(G2_SetBG2Offset, reg_G2_BG2OFS)
+                            GX_DEFINE_BG_OFFSET(G2_SetBG3Offset, reg_G2_BG3OFS) GX_DEFINE_BG_OFFSET(G2S_SetBG0Offset,
+                                                                                                    reg_G2S_DB_BG0OFS)
+                                GX_DEFINE_BG_OFFSET(G2S_SetBG1Offset, reg_G2S_DB_BG1OFS) GX_DEFINE_BG_OFFSET(
+                                    G2S_SetBG2Offset, reg_G2S_DB_BG2OFS) GX_DEFINE_BG_OFFSET(G2S_SetBG3Offset,
+                                                                                             reg_G2S_DB_BG3OFS)
+
+                                    GX_DEFINE_BG_GET_CONTROL(G2_GetBG0Control, GXBg01Control,
+                                                             reg_G2_BG0CNT) GX_DEFINE_BG_GET_CONTROL(G2_GetBG1Control,
+                                                                                                     GXBg01Control,
+                                                                                                     reg_G2_BG1CNT)
+                                        GX_DEFINE_BG_GET_CONTROL(G2_GetBG2ControlText, GXBg23ControlText, reg_G2_BG2CNT)
+                                            GX_DEFINE_BG_GET_CONTROL(
+                                                G2_GetBG2ControlAffine, GXBg23ControlAffine,
+                                                reg_G2_BG2CNT) GX_DEFINE_BG_GET_CONTROL(G2_GetBG2Control256x16Pltt,
+                                                                                        GXBg23Control256x16Pltt,
+                                                                                        reg_G2_BG2CNT)
+                                                GX_DEFINE_BG_GET_CONTROL(
+                                                    G2_GetBG3ControlText, GXBg23ControlText,
+                                                    reg_G2_BG3CNT) GX_DEFINE_BG_GET_CONTROL(G2_GetBG3ControlAffine,
+                                                                                            GXBg23ControlAffine,
+                                                                                            reg_G2_BG3CNT)
+                                                    GX_DEFINE_BG_GET_CONTROL(G2_GetBG3Control256x16Pltt,
+                                                                             GXBg23Control256x16Pltt, reg_G2_BG3CNT)
+                                                        GX_DEFINE_BG_GET_CONTROL(G2S_GetBG0Control, GXBg01Control,
+                                                                                 reg_G2S_DB_BG0CNT)
+                                                            GX_DEFINE_BG_GET_CONTROL(G2S_GetBG1Control, GXBg01Control,
+                                                                                     reg_G2S_DB_BG1CNT)
+                                                                GX_DEFINE_BG_GET_CONTROL(G2S_GetBG2ControlText,
+                                                                                         GXBg23ControlText,
+                                                                                         reg_G2S_DB_BG2CNT)
+                                                                    GX_DEFINE_BG_GET_CONTROL(G2S_GetBG2ControlAffine,
+                                                                                             GXBg23ControlAffine,
+                                                                                             reg_G2S_DB_BG2CNT)
+                                                                        GX_DEFINE_BG_GET_CONTROL(
+                                                                            G2S_GetBG2Control256x16Pltt,
+                                                                            GXBg23Control256x16Pltt, reg_G2S_DB_BG2CNT)
+                                                                            GX_DEFINE_BG_GET_CONTROL(
+                                                                                G2S_GetBG3ControlText,
+                                                                                GXBg23ControlText, reg_G2S_DB_BG3CNT)
+                                                                                GX_DEFINE_BG_GET_CONTROL(
+                                                                                    G2S_GetBG3ControlAffine,
+                                                                                    GXBg23ControlAffine,
+                                                                                    reg_G2S_DB_BG3CNT)
+                                                                                    GX_DEFINE_BG_GET_CONTROL(
+                                                                                        G2S_GetBG3Control256x16Pltt,
+                                                                                        GXBg23Control256x16Pltt,
+                                                                                        reg_G2S_DB_BG3CNT)
+
+    // Sets a BG's affine matrix, its center and its offset. NitroSDK's G2x_SetBGyAffine_
+    void gfxRegSetBGTransform(u32 addr, const MtxFx22 *mtx, int centerX, int centerY, int x, int y);
+
+static inline void G2_SetBG2Affine(const MtxFx22 *mtx, int centerX, int centerY, int x, int y) {
+    gfxRegSetBGTransform((u32)&reg_G2_BG2PA, mtx, centerX, centerY, x, y);
+}
+
+static inline void G2_SetBG3Affine(const MtxFx22 *mtx, int centerX, int centerY, int x, int y) {
+    gfxRegSetBGTransform((u32)&reg_G2_BG3PA, mtx, centerX, centerY, x, y);
+}
+
+static inline void G2S_SetBG2Affine(const MtxFx22 *mtx, int centerX, int centerY, int x, int y) {
+    gfxRegSetBGTransform((u32)&reg_G2S_DB_BG2PA, mtx, centerX, centerY, x, y);
+}
+
+static inline void G2S_SetBG3Affine(const MtxFx22 *mtx, int centerX, int centerY, int x, int y) {
+    gfxRegSetBGTransform((u32)&reg_G2S_DB_BG3PA, mtx, centerX, centerY, x, y);
+}
+
+// NitroSDK's GX_SetGraphicsMode and GXS_SetGraphicsMode
+void gfxSetEngineModeA(int dispMode, int bgMode, int bg0As3D);
+void gfxSetBGModeB(int bgMode);
+
+// NitroSDK's loads to BG VRAM: GX_LoadBG0Scr to GXS_LoadBG3Scr, GX_LoadBG0Char to GXS_LoadBG3Char, and GX_LoadBGPltt
+// and GXS_LoadBGPltt
+void gfxUploadBGScreen0A(const void *src, u32 offset, u32 size);
+void gfxUploadBGScreen1A(const void *src, u32 offset, u32 size);
+void gfxUploadBGScreen2A(const void *src, u32 offset, u32 size);
+void gfxUploadBGScreen3A(const void *src, u32 offset, u32 size);
+void gfxUploadBGScreen0B(const void *src, u32 offset, u32 size);
+void gfxUploadBGScreen1B(const void *src, u32 offset, u32 size);
+void gfxUploadBGScreen2B(const void *src, u32 offset, u32 size);
+void gfxUploadBGScreen3B(const void *src, u32 offset, u32 size);
+void gfxUploadBGChar0A(const void *src, u32 offset, u32 size);
+void gfxUploadBGChar1A(const void *src, u32 offset, u32 size);
+void gfxUploadBGChar2A(const void *src, u32 offset, u32 size);
+void gfxUploadBGChar3A(const void *src, u32 offset, u32 size);
+void gfxUploadBGChar0B(const void *src, u32 offset, u32 size);
+void gfxUploadBGChar1B(const void *src, u32 offset, u32 size);
+void gfxUploadBGChar2B(const void *src, u32 offset, u32 size);
+void gfxUploadBGChar3B(const void *src, u32 offset, u32 size);
+void gfxUploadStdPaletteBGA(const void *src, u32 offset, u32 size);
+void gfxUploadStdPaletteBGB(const void *src, u32 offset, u32 size);
+
+// NitroSDK's G2_GetBG0CharPtr to G2S_GetBG3CharPtr
+void *gfxGetCharAddrBG0A(void);
+void *gfxGetCharAddrBG1A(void);
+void *gfxGetCharAddrBG2A(void);
+void *gfxGetCharAddrBG3A(void);
+void *gfxGetCharAddrBG0B(void);
+void *gfxGetCharAddrBG1B(void);
+void *gfxGetCharAddrBG2B(void);
+void *gfxGetCharAddrBG3B(void);
+
+// NitroSDK's GX_ResetBankFor* and GX_SetBankFor*, which take VRAM banks as masks
+void gfxAcquireBGBanksA(void);
+void gfxAcquireBGExtPltBanksA(void);
+void gfxAcquireBGBanksB(void);
+void gfxAcquireBGExtPltBanksB(void);
+void gfxAcquireObjBanksA(void);
+void gfxAcquireObjExtPltBanksA(void);
+void gfxAcquireObjBanksB(void);
+void gfxAcquireObjExtPltBanksB(void);
+void gfxAcquireTextureBanks(void);
+void gfxAcquirePaletteBanks(void);
+void gfxSetBGBanksA(u32 banks);
+void gfxSetBGExtPltBanksA(u32 banks);
+void gfxSetBGBanksB(u32 banks);
+void gfxSetBGExtPltBanksB(u32 banks);
+void gfxSetObjBanksA(u32 banks);
+void gfxSetObjExtPltBanksA(u32 banks);
+void gfxSetObjBanksB(u32 banks);
+void gfxSetObjExtPltBanksB(u32 banks);
+void gfxSetTextureBanks(u32 banks);
+void gfxSetPaletteBanks(u32 banks);
+
+// NitroSDK's GX_DispOn
+void gfxEngineEnableA(void);
+
+#define GX_VRAM_LCDC_ALL 0x1ff
+
+// VRAM as the CPU sees it with every bank given to it, and OAM
+#define HW_LCDC_VRAM 0x06800000
+#define HW_LCDC_VRAM_SIZE 0xa4000
+#define HW_OAM 0x07000000
+#define HW_DB_OAM 0x07000400
+#define HW_OAM_SIZE 0x400
+#define HW_PLTT_SIZE 0x400
+
+#define REG_GX_DISPCNT_DISPLAY_SHIFT 8
+#define REG_GX_DISPCNT_DISPLAY_MASK 0x00001f00
+#define REG_GX_DISPCNT_OBJMAP_CH_MASK 0x00000010
+#define REG_GX_DISPCNT_EXOBJ_CH_MASK 0x00300000
+#define REG_GXS_DB_DISPCNT_MODE_MASK 0x00010000
+
+static inline void GX_SetVisiblePlane(int plane) {
+    reg_GX_DISPCNT =
+        (u32)((reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (plane << REG_GX_DISPCNT_DISPLAY_SHIFT));
+}
+
+static inline void GXS_SetVisiblePlane(int plane) {
+    reg_GXS_DB_DISPCNT =
+        (u32)((reg_GXS_DB_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (plane << REG_GX_DISPCNT_DISPLAY_SHIFT));
+}
+
+static inline void GX_SetOBJVRamModeChar(GXOBJVRamModeChar mode) {
+    reg_GX_DISPCNT =
+        (u32)((reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) | mode);
+}
+
+static inline void GXS_SetOBJVRamModeChar(GXOBJVRamModeChar mode) {
+    reg_GXS_DB_DISPCNT =
+        (u32)((reg_GXS_DB_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) | mode);
+}
+
+static inline void GXS_DispOn(void) {
+    reg_GXS_DB_DISPCNT |= REG_GXS_DB_DISPCNT_MODE_MASK;
 }
 
 #endif // POKEBW2_NITRO_GX_H

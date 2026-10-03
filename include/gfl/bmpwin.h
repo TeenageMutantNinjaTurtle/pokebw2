@@ -2,31 +2,52 @@
 #define POKEBW2_GFL_BMPWIN_H
 
 #include "types.h"
+#include "gfl/bg_sys.h"
+#include "gfl/bmp.h"
 #include "gfl/graphics.h"
 #include "gfl/heap.h"
 #include "gfl/str.h"
 #include "struct_decls.h"
 
-// Windows on a BG that are drawn to as bitmaps
+// Windows on a BG that are drawn to as bitmaps (bmp_win.c). A window has a bitmap of its own characters, which
+// BmpWin_FlushChar loads to the BG, and an area of the BG's screen buffer that BmpWin_FlushMap points at them. The area
+// is the size of the bitmap unless BmpWin_SetHeight2 changes it
 
-typedef struct BmpWin BmpWin;
-typedef struct GFLBitmap GFLBitmap;
-
+// The heap that windows are allocated from
 void BmpWin_InitAllocator(HeapID heapId);
 void BmpWin_FreeAllocator(void);
-BmpWin *BmpWin_CreateDynamic(u8 bg, u8 x, u8 y, u8 width, u8 height, u8 palette, u8 a6);
+// A window of width by height tiles at x and y, whose characters are allocated in the BG's characters, from the end
+// if fromEnd, or placed at charPos
+BmpWin *BmpWin_CreateDynamic(u8 bg, u8 x, u8 y, u8 width, u8 height, u8 palette, u8 fromEnd);
+BmpWin *BmpWin_CreateStatic(u8 bg, u8 x, u8 y, u8 width, u8 height, u8 palette, u32 charPos);
 void BmpWin_Free(BmpWin *window);
-GFLBitmap *BmpWin_GetBitmap(BmpWin *window);
-u8 BmpWin_GetBGIndex(BmpWin *window);
 void BmpWin_FlushChar(BmpWin *window);
 void BmpWin_FlushMap(BmpWin *window);
+// Draws a frame around the window on the BG's screen buffer, from the 8 characters from frameChar: the top left
+// corner, top, top right corner, left, right, bottom left corner, bottom and bottom right corner
+void BmpWin_MakeFrameScreen(BmpWin *window, u32 frameChar, u8 palette);
+// Clears the window's area of its BG's screen
+void BmpWin_ClearScreen(BmpWin *window);
+u8 BmpWin_GetBGIndex(BmpWin *window);
+// The size of the bitmap, and of the area of the screen, in tiles
+u8 BmpWin_GetSizeX(BmpWin *window);
+u8 BmpWin_GetSizeY(BmpWin *window);
+u8 BmpWin_GetWidth1(BmpWin *window);
+u8 BmpWin_GetHeight2(BmpWin *window);
+u8 BmpWin_GetPosX(BmpWin *window);
+u8 BmpWin_GetPosY(BmpWin *window);
+u16 BmpWin_GetCharPos(BmpWin *window);
+GFLBitmap *BmpWin_GetBitmap(BmpWin *window);
+u8 BmpWin_GetPalette(BmpWin *window);
+void BmpWin_SetPosX(BmpWin *window, u8 x);
+void BmpWin_SetPosY(BmpWin *window, u8 y);
+void BmpWin_SetHeight2(BmpWin *window, u8 height);
+void BmpWin_SetPalette(BmpWin *window, u8 palette);
 // Loads a window frame's characters at the end of a BG's characters. The result is their position in the low 16 bits
 // and their size in the high 16, as GFL_BGSysFreeCharMemory takes them
 u32 LoadCursorImageEndOfHeap(u32 bg, u32 a1, u32 a2, HeapID heapId);
 #define CHAR_POS(chars) ((chars) & 0xffff)
-#define CHAR_SIZE(chars) ((chars) >> 16)
-// Clears the window's area of its BG's screen
-void func_020484b4(BmpWin *window);
+#define CHAR_SIZE(chars) ((u16)((chars) >> 16))
 
 // Screens made from windows: func_020330c8 creates count of them, func_02033150 sets the size of one, func_020335c4 its
 // window, and func_0203368c returns its screen data
@@ -41,14 +62,6 @@ void func_02024eec(BmpWin *window, u32 a1);
 void LoadSysMsgBox(u8 bg, u16 frameChar, u8 framePalette, u8 type, HeapID heapId);
 u32 GetSysMsgBoxPaletteDatID(u32 index);
 
-// A bitmap of tiles, tileWidth by tileHeight, with bytesPerTile bytes to a tile
-GFLBitmap *GFL_BitmapCreate(u32 tileWidth, u32 tileHeight, u32 bytesPerTile, HeapID heapId);
-void GFL_BitmapFree(GFLBitmap *bitmap);
-u8 *GFL_BitmapGetPixelData(GFLBitmap *bitmap);
-// Rearranges the pixels from tiles into rows
-GFLBitmap *GFL_BitmapMakeLinear(GFLBitmap *bitmap, BOOL keepAsNew, HeapID heapId);
-void GFL_BitmapFill(GFLBitmap *bitmap, u8 fillIndex);
-u32 GFL_BitmapGetWidth(GFLBitmap *bitmap);
 void GFL_TextRendererDrawToBitmap(GFLBitmap *bitmap, u32 x, u32 y, const StrBuf *strbuf, Font *font);
 // Draws in a color that PRINT_COLOR makes
 void GFL_TextRendererDrawToBitmapEx(GFLBitmap *bitmap, s16 x, s16 y, const StrBuf *strbuf, Font *font, u16 color);

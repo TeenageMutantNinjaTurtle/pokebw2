@@ -7,6 +7,8 @@
 #include "field/field_script.h"
 #include "field/resort.h"
 #include "gfl/arc.h"
+#include "gfl/bg_sys.h"
+#include "gfl/bmp.h"
 #include "gfl/bmp_menu.h"
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"

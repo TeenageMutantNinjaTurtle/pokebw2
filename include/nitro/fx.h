@@ -27,6 +27,10 @@ typedef struct {
 } VecFx16;
 
 typedef struct {
+    fx32 m[2][2];
+} MtxFx22;
+
+typedef struct {
     fx32 m[3][3];
 } MtxFx33;
 
@@ -53,6 +57,12 @@ static inline fx16 FX_CosIdx(int idx) {
 }
 
 void MAT3_Identity(MtxFx33 *mtx);
+// A 2D affine matrix that rotates by a 16-bit angle and scales by the inverse of a scale on each axis, as a BG's
+// matrix maps the screen to the BG. MAT2_ROT_* says how the angle is given
+#define MAT2_ROT_IDX 0 // a 16-bit angle, 0x10000 for a full turn
+#define MAT2_ROT_256 1 // 256 for a full turn
+#define MAT2_ROT_DEG 2 // degrees
+void MAT2_SetScaleRot(MtxFx22 *mtx, u16 rotation, fx32 scaleX, fx32 scaleY, u8 rotationMode);
 // A rotation matrix from 16-bit angles about each axis
 void MAT3_RotationEulerZYX(u16 x, u16 y, u16 z, MtxFx33 *mtx);
 

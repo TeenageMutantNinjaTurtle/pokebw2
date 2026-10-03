@@ -1,5 +1,6 @@
 #include "field/field.h"
 #include "field/shortcut_menu.h"
+#include "gfl/bg_sys.h"
 #include "gfl/graphics.h"
 #include "save/shortcut.h"
 #include "system/game_data.h"

@@ -4,6 +4,7 @@
 #include "field/field_script.h"
 #include "field/survey.h"
 #include "gfl/arc.h"
+#include "gfl/bg_sys.h"
 #include "gfl/bmpwin.h"
 #include "gfl/graphics.h"
 #include "gfl/heap.h"

@@ -8,6 +8,10 @@
 u64 clock(void);
 // Restarts the game, which swan names sys_reset
 void sys_reset(u32 parameter);
+// Stops the game after a fatal error, calling the registered handler first
+void sys_exit(void);
+// Writes a range of the data cache back to memory, before DMA reads it. NitroSDK's DC_FlushRange
+void cp15_flushDC(const void *addr, u32 size);
 
 // The start of DTCM, where the linker places the DTCM module
 extern u32 SDK_AUTOLOAD_DTCM_START[];

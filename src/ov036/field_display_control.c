@@ -1,4 +1,5 @@
 #include "field/field_display_control.h"
+#include "gfl/bg_sys.h"
 #include "gfl/graphics.h"
 #include "gfl/std.h"
 #include "nitro/hw.h"
