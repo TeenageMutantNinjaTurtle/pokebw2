@@ -121,6 +121,7 @@ void MoveWork_UpdateNumber(BattleMoveWork *work, u16 move, u8 maxPP, BOOL update
 void MoveCore_UpdateNumber(BattleMoveCore *core, u16 move, u8 maxPP);
 void func_ov167_021ba9cc(void *moveWork);
 void ClearUsedMoveFlag(BattleMon *mon);
+void ClearMoveStatusWork(BattleMon *mon, u32 flag);
 void ClearCounter(BattleMon *mon);
 void setupBySrcData(BattleMon *mon, void *src, u32 value, u32 flag);
 void MoveWork_ClearSurface(BattleMon *mon);
