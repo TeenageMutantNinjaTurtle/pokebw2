@@ -21,7 +21,6 @@ the original code is linked until they match. The differences are the same in bo
 | `src/ov033/trial_house.c` | `func_ov033_0217ad78` | `0x0217ad78` / `0x0217adb8` | `0x42` bytes versus `0x44`: the original builds the offset of `battleType` again instead of adding 8 to that of `capacity`. |
 | `src/ov036/scrcmd_medal.c` | `GetMrMedalActorUID` | `0x021c7f64` / `0x021c7f9c` | Seven bytes, the same `npcs[i].uid` difference as `FindMysteryGiftDeliveryManNPCID`. |
 | `src/ov059/scrcmd_resort.c` | `func_ov059_021e6630` | `0x021e6630` / `0x021e6670` | Four bytes: the original keeps zero in `r5` for the last stack argument and the return value, where MWCC emits `movs r0, #0` twice. |
-| `src/ov059/scrcmd_resort.c` | `func_ov059_021e6fc8` | `0x021e6fc8` / `0x021e7008` | `0x460` bytes versus `0x464`: the message selection switch has a different branch and jump table layout. |
 | `src/ov167/ability_handlers.c` | `HandlerFlameBody` | `0x021bf514` / `0x021bf554` | `0x1e` bytes versus `0x22`: the original reserves twelve bytes of stack, `push {r4, r5, lr}` and `sub sp, #0xc`, where MWCC pushes `r3` for the one stack argument. The same for `HandlerPoisonPoint` and `HandlerStatic`. |
 | `src/ov167/ability_handlers.c` | `HandlerPoisonPoint` | `0x021bf4b4` / `0x021bf4f4` | As `HandlerFlameBody`. |
 | `src/ov167/ability_handlers.c` | `HandlerStatic` | `0x021bf4e4` / `0x021bf524` | As `HandlerFlameBody`. |
