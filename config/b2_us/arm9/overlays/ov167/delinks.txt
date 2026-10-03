@@ -439,3 +439,7 @@ src/ov167/battle_mon_transform_check.c:
 src/ov167/battle_mon_special_priority.c:
     complete
     .text       start:0x021bc570 end:0x021bc590
+
+src/ov167/battle_mon_combo_clear.c:
+    complete
+    .text       start:0x021bc688 end:0x021bc6a0

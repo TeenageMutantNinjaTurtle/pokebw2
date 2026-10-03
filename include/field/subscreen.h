@@ -7,5 +7,6 @@
 void FieldSubscreen_ReqChange(FieldSubscreen *subscreen, u32 mode);
 u32 FieldSubscreen_GetReturnSubscreen(FieldSubscreen *subscreen);
 void func_ov036_021984e4(FieldSubscreen *subscreen);
+void func_ov036_0219886c(FieldSubscreen *subscreen, u32 param);
 
 #endif // POKEBW2_FIELD_SUBSCREEN_H

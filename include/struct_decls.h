@@ -121,6 +121,7 @@ typedef struct FieldExpObjAnm FieldExpObjAnm;
 typedef struct FieldExpObjSystem FieldExpObjSystem;
 typedef struct FieldFog FieldFog;
 typedef struct FieldLensFlare FieldLensFlare;
+typedef struct FieldMenuWork FieldMenuWork;
 typedef struct FieldPlayer FieldPlayer;
 typedef struct FieldPropAreaBounds FieldPropAreaBounds;
 typedef struct FieldPropHandle FieldPropHandle;

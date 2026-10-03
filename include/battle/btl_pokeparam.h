@@ -94,6 +94,7 @@ void func_ov167_021bb808(BattleMon *mon, u32 flag);
 void func_ov167_021bbc40(BattleMon *mon, u32 flag);
 BOOL IsSubstituteActive(BattleMon *mon);
 void ResetSpActPriority(BattleMon *mon);
+void ComboMove_ClearParam(BattleMon *mon);
 BOOL IsIllusionEnabled(BattleMon *mon);
 void IllusionBreak(BattleMon *mon);
 BOOL IsSemiInvulnMove(BattleMon *mon);

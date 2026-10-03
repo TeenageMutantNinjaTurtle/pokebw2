@@ -501,6 +501,14 @@ src/ov012/event_game_clear_medals.c:
     .text       start:0x0215a6c4 end:0x0215a790
     .rodata     start:0x0216cb90 end:0x0216cbb4
 
+src/ov012/event_field_menu_union_room.c:
+    complete
+    .text       start:0x0215a888 end:0x0215a8b4
+
+src/ov012/event_field_menu_helpers.c:
+    complete
+    .text       start:0x0215aab4 end:0x0215aad4
+
 src/ov012/event_game_clear_card.c:
     complete
     .text       start:0x0215a6b0 end:0x0215a6c4
