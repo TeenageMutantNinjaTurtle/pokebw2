@@ -166,8 +166,9 @@ u8 func_ov104_021efcf8(FieldExpObjGimmickOv104State *state);
 void *func_ov104_021efe88(FieldExpObjGimmickOv104State *state, FieldExpObjGimmickOv104MessageArg *arg, u32 index);
 void func_ov104_021f0080(FieldExpObjGimmickOv104Message *message);
 void func_ov104_021f0094(FieldExpObjGimmickOv104Message *message);
-void func_ov104_021f00bc(FieldExpObjGimmickOv104State *state, void *message, u32 amount);
+void func_ov104_021f00bc(FieldExpObjGimmickOv104State *state, FieldExpObjGimmickOv104Message *message, u32 amount);
 void func_ov104_021f0130(FieldExpObjGimmickOv104Message *message);
+BOOL func_ov104_021f0150(void *dest, u32 arcId, u32 fileId);
 void *func_ov104_021efbd8(const FieldExpObjGimmickOv104StateInit *init);
 
 void func_ov104_021eed00(Field *field);

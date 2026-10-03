@@ -152,7 +152,7 @@ BOOL GFL_G3DActorUnbindAnm(G3DActor *actor, u16 anmIdx);
 void GFL_G3DActorResetAnmFrame(G3DActor *actor, u16 anmIdx);
 BOOL GFL_G3DActorSetAnmFrame(G3DActor *actor, u16 anmIdx, fx32 *frame);
 // Returns FALSE once the animation has reached its end
-BOOL GFL_G3DActorStepAnmFrame(G3DActor *actor, u16 anmIdx, fx16 addend);
+BOOL GFL_G3DActorStepAnmFrame(G3DActor *actor, u16 anmIdx, fx32 addend);
 // The same, going back to the start at the end
 BOOL GFL_G3DActorStepAnmFrameLoop(G3DActor *actor, u16 anmIdx, fx16 addend);
 void GFL_G3DSysDrawObj(G3DActor *obj, SRTMatrix *mdlMtx);

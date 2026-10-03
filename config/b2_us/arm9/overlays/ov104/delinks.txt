@@ -95,3 +95,11 @@ src/ov104/field_exp_obj_gimmick_ov104_message_control.c:
 src/ov104/field_exp_obj_gimmick_ov104_message_stop.c:
     complete
     .text       start:0x021f0130 end:0x021f0150
+
+src/ov104/field_exp_obj_gimmick_ov104_message_update.c:
+    complete
+    .text       start:0x021f00bc end:0x021f0130
+
+src/ov104/field_exp_obj_gimmick_ov104_read_message.c:
+    complete
+    .text       start:0x021f0150 end:0x021f0160
