@@ -301,7 +301,20 @@ void HandlerForecastWeather(void *context, BtlServerFlow *flow, u32 monId, u32 *
 void HandlerForecastAirLock(void *context, BtlServerFlow *flow, u32 monId, u32 *active);
 void HandlerForecastChangeAbility(BattleEventItem *item, BtlServerFlow *flow, u32 monId, u32 *active);
 void HandlerDampEnd(BattleEventItem *item, BtlServerFlow *flow, u32 monId);
-BOOL HandlerDampSkipCheck(void *a, void *b, u32 c);
+BOOL HandlerDampSkipCheck(void *a, void *b, u32 c, void *d, u16 move);
 void HandlerDampStart(BattleEventItem *item, BtlServerFlow *flow, u32 monId);
+void HandlerDamp(void *context, BtlServerFlow *flow, u32 monId, u32 *state);
+void HandlerDampEffective(void *context, BtlServerFlow *flow, u32 monId, u32 *state);
+extern const BattleEventHandlerEntry data_ov167_021d7c58[];
+const BattleEventHandlerEntry *EventAddDamp(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d7aac[];
+void HandlerFlashFirePower(void *context, BtlServerFlow *flow, u32 monId);
+void HandlerFlashFireRemove(void *context, BtlServerFlow *flow, u32 monId);
+void HandlerFlashFireCheckNoEffect(void *context, BtlServerFlow *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddFlashFire(u32 *priority);
+BOOL CommonCheckRunMessage(void *context);
+void HandlerRunAwayMessage(void *context, BtlServerFlow *flow, u32 monId);
+extern const BattleEventHandlerEntry data_ov167_021d7934[];
+const BattleEventHandlerEntry *EventAddRunAway(u32 *priority);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

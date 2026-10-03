@@ -136,6 +136,8 @@ u32 ConvDirToTriggerDir(u32 dir);
 BOOL CheckWarpPositionMatch(const ZoneWarp *warp, const VecFx32 *position);
 BOOL CheckWarpPositionMatchRail(const ZoneWarp *warp, const RailPosition *position);
 BOOL CheckBGPositionMatchRail(const ZoneBGEntity *entity, const RailPosition *position);
+BOOL CheckBGPositionMatchGrid(const ZoneBGEntity *entity, const VecFx32 *position);
+void func_ov012_0215d4d0(const ZoneBGEntity *entity, VecFx32 *position);
 void func_ov012_0215d88c(const ZoneBGEntity *entity, VecFx32 *position);
 void func_ov012_0215d8fc(const ZoneBGEntity *entity, RailPosition *position);
 void GetTriggerCenterPos_(const ZoneTrigger *trigger, VecFx32 *position);

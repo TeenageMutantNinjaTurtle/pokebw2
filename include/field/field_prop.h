@@ -143,6 +143,8 @@ void FieldPropAnmController_Static_ExecCommand(void *controller, u32 command);
 void FieldPropAnmController_Ambient_Update(void *controller, void *instance);
 void FieldPropAnmController_RTC_Update(FieldPropSystem *system, FieldPropResInstance *instance);
 void FieldPropResInstance_AnmStopAll(FieldPropResInstance *instance);
+void FieldPropResInstance_AnmSetPlay(FieldPropResInstance *instance, u32 animation);
+void FieldPropResInstance_AnmSetPlayLoop(FieldPropResInstance *instance, u32 animation);
 void FieldPropRTCState_Update(FieldPropRTCState *state);
 BOOL FieldPropRTCState_HasDayPartChanged(FieldPropRTCState *state);
 u8 FieldPropRTCState_GetPlayAnmIndex(FieldPropRTCState *state);

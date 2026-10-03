@@ -22,6 +22,6 @@ FieldMoneyWindow *func_ov033_02177998(Field *field, u32 value, u32 lines) {
     work->first = GFL_StrBufCreate(0x80, heapId);
     work->second = GFL_StrBufCreate(0x80, heapId);
     height = ((14 * (s32)lines + 7) & ~7) / 8;
-    work->window = FieldMsgBG_CreateMoneyWin(Field_GetMsgBGSys(field), work->messages, 1, 1, 0x15, height);
+    work->window = FieldMsgBG_CreateMoneyWin(Field_GetMsgBGSys(field), (u32)work->messages, 1, 1, 0x15, height);
     return work;
 }

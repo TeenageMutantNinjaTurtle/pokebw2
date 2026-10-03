@@ -357,3 +357,15 @@ src/ov036/field_prop_anm_controller_ambient_init.c:
 src/ov036/field_prop_anm_controller_rtc_init.c:
     complete
     .text       start:0x02183998 end:0x021839e4
+
+src/ov036/field_prop_res_instance_free.c:
+    complete
+    .text       start:0x021839e4 end:0x02183a30
+
+src/ov036/field_prop_res_instance_play.c:
+    complete
+    .text       start:0x02183b48 end:0x02183b9c
+
+src/ov036/field_prop_res_instance_play_loop.c:
+    complete
+    .text       start:0x02183b9c end:0x02183bf0

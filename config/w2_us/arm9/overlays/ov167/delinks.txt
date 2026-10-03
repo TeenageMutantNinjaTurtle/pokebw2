@@ -743,3 +743,23 @@ src/ov167/battle_ability_forecast_events.c:
 src/ov167/battle_ability_damp_start.c:
     complete
     .text       start:0x021c06fc end:0x021c070c
+
+src/ov167/battle_ability_damp_work.c:
+    complete
+    .text       start:0x021c066c end:0x021c06fc
+
+src/ov167/battle_ability_damp_skip_check.c:
+    complete
+    .text       start:0x021c072c end:0x021c0740
+
+src/ov167/battle_ability_damp_event.c:
+    complete
+    .text       start:0x021c0740 end:0x021c074c
+
+src/ov167/battle_ability_flash_fire.c:
+    complete
+    .text       start:0x021c074c end:0x021c0874
+
+src/ov167/battle_ability_run_away_message.c:
+    complete
+    .text       start:0x021c094c end:0x021c099c

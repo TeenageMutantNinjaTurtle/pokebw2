@@ -158,6 +158,8 @@ BOOL GFL_G3DActorStepAnmFrameLoop(G3DActor *actor, u16 anmIdx, fx16 addend);
 void GFL_G3DSysDrawObj(G3DActor *obj, SRTMatrix *mdlMtx);
 void GFL_G3DSysDrawObjBBoxCull(G3DActor *obj, SRTMatrix *mdlMtx);
 G3DModel *GFL_G3DActorGetMdl(G3DActor *actor);
+s32 GFL_G3DActorGetAnmCount(G3DActor *actor);
+void *GFL_G3DActorGetAnm(G3DActor *actor, u16 index);
 NNSG3dRenderObj *GFL_G3DMdlGetEngineModel(G3DModel *model);
 
 // NitroSystem's global state of the geometry engine, up to the base matrix that models are drawn with
