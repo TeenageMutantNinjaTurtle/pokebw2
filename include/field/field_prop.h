@@ -68,6 +68,8 @@ void *FieldPropResBundle_GetModelData(FieldPropResBundle *bundle, u32 index);
 void *FieldPropResAnmHeader_GetAnmData(FieldPropResAnmHeader *header, u32 index);
 void *FieldPropSystem_FindResInfo(FieldPropSystem *system, u32 resId);
 void *FieldPropSystem_GetResInfo(FieldPropSystem *system, u32 index);
+void *FieldPropSystem_GetResBank(FieldPropSystem *system);
+void FieldPropSystem_FreeResBundle(FieldPropSystem *system);
 void FieldPropSystem_FreeTextures(FieldPropSystem *system);
 void FieldPropRTCState_Init(FieldPropRTCState *state, u8 season);
 void FieldPropRTCState_Update(FieldPropRTCState *state);

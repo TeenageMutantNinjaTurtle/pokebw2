@@ -565,6 +565,14 @@ src/ov012/event_action_call.c:
     complete
     .text       start:0x0215c71c end:0x0215c884
 
+src/ov012/event_actor_jump_create.c:
+    complete
+    .text       start:0x0215c98c end:0x0215c9e8
+
+src/ov012/field_acmd_walk_one_tile.c:
+    complete
+    .text       start:0x0215cb3c end:0x0215cb88
+
 src/ov012/event_game_clear_card.c:
     complete
     .text       start:0x0215a6b0 end:0x0215a6c4

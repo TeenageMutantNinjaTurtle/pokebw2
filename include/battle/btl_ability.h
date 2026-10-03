@@ -37,5 +37,11 @@ const BattleEventHandlerEntry *EventAddTangledFeet(u32 *priority);
 void HandlerHustleAccuracy(void *context, void *item, u32 monId);
 void HandlerHustlePower(void *context, void *item, u32 monId);
 const BattleEventHandlerEntry *EventAddHustle(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d7624[];
+extern const BattleEventHandlerEntry data_ov167_021d76d4[];
+void HandlerStall(void *context, void *item, u32 monId);
+const BattleEventHandlerEntry *EventAddStall(u32 *priority);
+void HandlerCompoundEyes(void *context, void *item, u32 monId);
+const BattleEventHandlerEntry *EventAddCompoundEyes(u32 *priority);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

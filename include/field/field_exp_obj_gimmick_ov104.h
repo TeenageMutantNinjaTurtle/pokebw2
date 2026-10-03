@@ -39,6 +39,10 @@ struct FieldExpObjGimmickOv104StateInit {
     G3DActor *actor;
 };
 
+struct FieldExpObjGimmickOv104ResEntry {
+    u8 bytes[0x24];
+};
+
 struct FieldExpObjGimmickOv104Work {
     u16 heapId;
     u16 pad02;
@@ -49,7 +53,9 @@ struct FieldExpObjGimmickOv104Work {
     void *state;
     u32 stateValue;
     struct FieldExpObjGimmickOv104Substate *substate;
-    u8 unk20[8];
+    struct FieldExpObjGimmickOv104ResEntry *resList;
+    u8 resCount;
+    u8 unk25[3];
     struct FieldExpObjGimmickOv104Payload payload;
     u16 flag;
 };
@@ -67,6 +73,9 @@ void func_ov104_021eefc0(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021ef02c(FieldExpObjGimmickOv104Work *work, u32 kind, u32 flag);
 u32 func_ov104_021ef04c(FieldExpObjGimmickOv104Work *work);
 u32 func_ov104_021ef068(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021ef114(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021ef168(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021f0324(struct FieldExpObjGimmickOv104ResEntry *entry, u32 arc, u32 index);
 void func_ov104_021ef168(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021efc8c(void *state);
 void func_ov104_021eeea0(FieldExpObjGimmickOv104Work *work);
@@ -82,5 +91,6 @@ void *func_ov104_021eed58(Field *field);
 
 extern u32 data_ov104_021f0620;
 extern const u16 data_ov104_021f066c[];
+extern const char data_ov104_021f078c[];
 
 #endif // POKEBW2_FIELD_FIELD_EXP_OBJ_GIMMICK_OV104_H

@@ -5,6 +5,7 @@
 #include "struct_decls.h"
 
 FieldAcmdTCB *FieldAcmdTCB_Create(FieldActor *actor, const u32 *action);
+FieldAcmdTCB *FieldAcmdTCB_CreateWalkOneTile(FieldActor *actor, u32 direction);
 BOOL FieldAcmdTCB_CheckEnded(FieldAcmdTCB *task);
 void FieldAcmdTCB_Remove(FieldAcmdTCB *task);
 

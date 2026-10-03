@@ -527,3 +527,11 @@ src/ov167/battle_ability_tangled_feet.c:
 src/ov167/battle_ability_hustle.c:
     complete
     .text       start:0x021be0ac end:0x021be120
+
+src/ov167/battle_ability_stall.c:
+    complete
+    .text       start:0x021be120 end:0x021be150
+
+src/ov167/battle_ability_compound_eyes.c:
+    complete
+    .text       start:0x021be2a4 end:0x021be2cc
