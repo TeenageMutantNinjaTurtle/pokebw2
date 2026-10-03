@@ -12,5 +12,10 @@ u32 BattleEventItem_GetWorkValue(BattleEventItem *item, u32 index);
 void BattleEventItem_SetTempItemFlag(BattleEventItem *item);
 void BattleEventItem_SetRecallEnable(BattleEventItem *item);
 void BattleEventItem_SetWorkValue(BattleEventItem *item, u32 index, u32 value);
+void func_ov167_021bc918(void *context, u32 event, u32 mask, u32 flag);
+void BattleEvent_ForceCallHandlers(void *context, u32 event);
+void BattleEvent_CallHandlers(void *context, u32 event);
+void BattleEventItem_AttachSkipCheckHandler(BattleEventItem *item, void *handler);
+void BattleEventItem_DetachSkipCheckHandler(BattleEventItem *item);
 
 #endif // POKEBW2_BATTLE_BTL_EVENT_H

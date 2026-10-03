@@ -30,6 +30,7 @@ GameData *GSYS_GetGameData(GameSystem *gsys);
 u8 GameSystem_GetSeason(GameSystem *gsys);
 LinkFestival *GSYS_GetLinkFestival(GameSystem *gsys);
 BOOL GSYS_GetProcMgrState(GameSystem *gsys);
+BOOL GSYS_GetEventRunningFlag(GameSystem *gsys);
 void GSYS_QueueProc(GameSystem *gsys, s32 overlayId, const GameProcFunctions *functions, void *param);
 void GSYS_QueueProcAsEvent(GameEvent *event, s32 overlayId, const GameProcFunctions *functions, void *param);
 BOOL GSYS_TryBootGameComm(GameSystem *gsys);

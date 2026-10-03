@@ -27,11 +27,14 @@ struct FieldMenuWork {
     u8 unk44[0x1C];
 };
 
+extern const u32 data_ov012_0216cb74[9];
+
 GameEventReturnCode EventFieldMenu_Callback(GameEvent *event, u32 *state, void *data);
 GameEvent *EventFieldMenu_Create(GameSystem *gsys, Field *field, u16 param);
 GameEvent *EventFieldMenu_CreateUnionRoom(GameSystem *gsys, Field *field, u16 param);
 BOOL func_ov012_0215aa74(FieldMenuWork *work, FieldMenuWork *context);
 BOOL func_ov012_0215aa90(void);
 BOOL func_ov012_0215aa94(FieldMenuWork *work, FieldMenuWork *context);
+u32 func_ov012_0215aa68(u32 index);
 
 #endif // POKEBW2_FIELD_FIELD_MENU_H

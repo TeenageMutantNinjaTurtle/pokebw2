@@ -14,3 +14,19 @@ src/ov106/field_exp_obj_gimmick_ov106_step.c:
 src/ov106/field_exp_obj_gimmick_ov106_callbacks.c:
     complete
     .text       start:0x021eee50 end:0x021eee58
+
+src/ov106/field_exp_obj_gimmick_ov106_init_anm.c:
+    complete
+    .text       start:0x021eecd4 end:0x021eed04
+
+src/ov106/field_exp_obj_gimmick_ov106_anm_state.c:
+    complete
+    .text       start:0x021eed04 end:0x021eed78
+
+src/ov106/field_exp_obj_gimmick_ov106_anm_followup.c:
+    complete
+    .text       start:0x021eed78 end:0x021eedfc
+
+src/ov106/field_exp_obj_gimmick_ov106_setup.c:
+    complete
+    .text       start:0x021eedfc end:0x021eee50

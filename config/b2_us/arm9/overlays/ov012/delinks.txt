@@ -513,6 +513,18 @@ src/ov012/event_field_menu_helpers.c:
     complete
     .text       start:0x0215aa74 end:0x0215aa94
 
+src/ov012/event_field_menu_table.c:
+    complete
+    .text       start:0x0215aa68 end:0x0215aa74
+
+src/ov012/event_field_menu_last_subscreen.c:
+    complete
+    .text       start:0x0215aa94 end:0x0215aad8
+
+src/ov012/shortcut_menu_check.c:
+    complete
+    .text       start:0x0215aad8 end:0x0215aaf8
+
 src/ov012/event_game_clear_card.c:
     complete
     .text       start:0x0215a670 end:0x0215a684
