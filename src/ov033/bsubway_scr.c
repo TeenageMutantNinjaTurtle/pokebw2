@@ -1,6 +1,8 @@
 #include "field/battle_facility.h"
 #include "field/bsubway_scr.h"
 #include "gfl/heap.h"
+#include "gfl/std.h"
+#include "pml/poke_party.h"
 #include "save/box.h"
 #include "save/bsubway_save.h"
 #include "system/game_data.h"
@@ -228,4 +230,53 @@ void func_ov033_0217be88(BSubwayScrWork *bsw, u8 variant) {
                                             *(u32 *)&bsw->unk0[4]);
         bsw->unk664[index] = result;
     }
+}
+
+void func_ov033_0217bf04(u8 *dst, PartyPkm *pkm) {
+    u32 value;
+    u8 *ppFlags;
+    u8 packed;
+    s32 i;
+    s32 j;
+
+    ((SubwayPackedSpecies *)dst)->species = PokeParty_GetParam(pkm, (PkmField)5, NULL);
+    ((SubwayPackedSpecies *)dst)->form = PokeParty_GetParam(pkm, (PkmField)0x6f, NULL);
+    *(u16 *)(dst + 2) = PokeParty_GetParam(pkm, (PkmField)6, NULL);
+
+    for (i = 0; i < 4; i++) {
+        value = PokeParty_GetParam(pkm, (PkmField)(0x36 + i), NULL);
+        ((u16 *)dst)[i + 2] = value;
+        value = PokeParty_GetParam(pkm, (PkmField)(0x3e + i), NULL);
+        packed = value << (2 * i);
+        ppFlags = dst + 0x1e;
+        *ppFlags |= packed;
+    }
+    dst[0x1f] = PokeParty_GetParam(pkm, (PkmField)0xc, NULL);
+    *(u32 *)(dst + 0xc) = PokeParty_GetParam(pkm, (PkmField)7, NULL);
+    *(u32 *)(dst + 0x10) = PokeParty_GetParam(pkm, (PkmField)0, NULL);
+    *(u32 *)(dst + 0x14) = PokeParty_GetParam(pkm, (PkmField)0xac, NULL);
+    for (j = 0; j < 6; j++) {
+        dst[0x18 + j] = PokeParty_GetParam(pkm, (PkmField)(0xd + j), NULL);
+    }
+    dst[0x20] = PokeParty_GetParam(pkm, (PkmField)0xa, NULL);
+    dst[0x21] = PokeParty_GetParam(pkm, (PkmField)9, NULL);
+    PokeParty_GetParam(pkm, (PkmField)0x74, dst + 0x22);
+}
+
+void func_ov033_0217c010(BSubwayScrWork *bsw, SaveControl *save, u32 flag) {
+    void *team;
+    PokeParty *party;
+    s32 i;
+    u16 heapId;
+
+    heapId = *(u32 *)((u8 *)bsw + 4);
+    team = GFL_HeapAllocate((heapId & 0x7fff) | 0x8000, 0xb4, FALSE, data_ov033_0217c640, 0x8a1);
+    sys_memset(team, 0, 0xb4);
+    party = func_ov033_0217bd60(bsw);
+    for (i = 0; i < 3; i++) {
+        func_ov033_0217bf04((u8 *)team + 0x3c * i, PokeParty_GetPkm(party, bsw->unk1E[i]));
+    }
+    func_0200e4e8(bsw->unk74, flag, team);
+    sys_memset(team, 0, 0xb4);
+    GFL_HeapFree(team);
 }

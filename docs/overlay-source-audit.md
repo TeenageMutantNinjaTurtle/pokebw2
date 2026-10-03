@@ -88,8 +88,8 @@ on Battle Subway state and begins that process, even though the `bsubway_scr.c`
 filename string is first referenced by the following function.
 The remaining Trial House assembly gaps are `0x0217ad78–0x0217adbc` and
 `0x0217b0b4–0x0217b2e4` in Black 2. The remaining Battle Subway gaps are
-`0x0217b478–0x0217b664`, `0x0217b8ec–0x0217bb20`,
-`0x0217bf04–0x0217c010`, and `0x0217c11c–0x0217c264`. C fragments on
+`0x0217b478–0x0217b664`, `0x0217b8ec–0x0217bb20`, and
+`0x0217c11c–0x0217c264`. C fragments on
 either side stay separate until the intervening assembly matches.
 
 The follow-up review found mixed process code in overlay 12's menu, event
