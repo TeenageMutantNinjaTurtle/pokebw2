@@ -9,18 +9,22 @@
 #define SPECIES_EGG 650
 
 // Fields of a Pokémon, which PokeParty_GetParam and PokeParty_SetParam read and write. Names from swan's PkmField
+#define PKM_PARAM_PID 0x0
 #define PKM_PARAM_SPECIES 0x5
 #define PKM_PARAM_ITEM 0x6
 #define PKM_PARAM_ID 0x7
 #define PKM_PARAM_EXP 0x8
 // A friendship, or an egg's remaining steps
 #define PKM_PARAM_HAPPINESS 0x9
+#define PKM_PARAM_ABILITY 0xa
 #define PKM_PARAM_MARKINGS 0xb
+#define PKM_PARAM_REGION 0xc
 // The effort values, HP to special defense
 #define PKM_PARAM_EV_HP 0xd
 // The first ribbon of each group of ribbons, each followed by the field after the group
 #define PKM_PARAM_RIBBON_CHAMPION_SINNOH 0x19
 #define PKM_PARAM_MOVE1 0x36
+#define PKM_PARAM_MOVE1_PP_UP 0x3e
 #define PKM_PARAM_IS_EGG 0x4c
 #define PKM_PARAM_RIBBON_G3_COOL 0x4d
 #define PKM_PARAM_FATEFUL_ENCOUNTER 0x6d
@@ -28,6 +32,8 @@
 #define PKM_PARAM_FORM 0x6f
 // The nickname, copied to or from a StrBuf
 #define PKM_PARAM_NICKNAME 0x73
+// The nickname, copied to or from a u16 array
+#define PKM_PARAM_NICKNAME_RAW 0x74
 #define PKM_PARAM_RIBBON_G4_COOL 0x78
 #define PKM_PARAM_OT_NAME 0x8d
 #define PKM_PARAM_OT_GENDER 0x9a
@@ -48,6 +54,8 @@
 #define PKM_PARAM_SPECIES_VALID 0xa9
 // The species, or SPECIES_EGG for an egg
 #define PKM_PARAM_LEGAL_SPECIES 0xab
+// The individual values packed in a word
+#define PKM_PARAM_IVS_ALL 0xac
 #define PKM_PARAM_TYPE1 0xae
 #define PKM_PARAM_TYPE2 0xaf
 // Whether it is one of N's Pokémon

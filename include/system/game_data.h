@@ -112,7 +112,7 @@ void func_020175d8(GameData *gameData, u32 a1);
 void func_02017608(GameData *gameData, u32 a1);
 void func_020178c4(GameData *gameData, u32 block);
 u32 func_020178f4(GameData *gameData, u32 block);
-void func_02017954(GameData *gameData, u32 value);
+void func_02017954(GameData *gameData, BSubwayScrWork *bsw);
 // Where Pokéstar Studios keeps its PokewoodSystem while the player makes a movie
 PokewoodSystem **func_02017a04(GameData *gameData);
 // Where the Pokémon World Tournament keeps its WbtSystem while the player is at the tournament

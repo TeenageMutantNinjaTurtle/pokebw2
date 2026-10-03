@@ -585,7 +585,7 @@ BOOL BSubwayCmd_Tool(VM *vm, FieldScriptEnv *env) {
         func_ov033_0217b9dc(bsw);
         break;
     case 317:
-        *retWk = bsw->unk1E[param0];
+        *retWk = bsw->memberSlots[param0];
         break;
     case 319:
         bsw->unk724 = 0;
@@ -660,7 +660,7 @@ BOOL BSubwayCmd_Tool(VM *vm, FieldScriptEnv *env) {
                             getTrainerGender(&GameData_GetPlayerState(gameData)->playerInfo) == GENDER_MALE ? 1 : 0);
         break;
     case 336:
-        *retWk = bsw->unk22[param0];
+        *retWk = bsw->memberSpecies[param0];
         break;
     case 337:
         bsw->unkC_9 = param0;

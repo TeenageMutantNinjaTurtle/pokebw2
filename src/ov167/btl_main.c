@@ -14,6 +14,7 @@
 #include "battle/btl_setup.h"
 #include "battle/btlv.h"
 #include "constants/pokemon.h"
+#include "gfl/heap.h"
 #include "gfl/std.h"
 #include "pml/poke_party.h"
 #include "pml/waza.h"
@@ -292,8 +293,8 @@ void ChangeFriendship(BtlMainModule *mainModule, BattleMon *mon, u32 reason) {
     src1 = GetSrcData(param1);
     src2 = GetSrcData(param2);
     field = GetFieldEffectData(mainModule);
-    FriendshipManagerCalc(src1, reason, field->zoneId, (u16)((mainModule->heapId & 0x7fff) | 0x8000));
-    FriendshipManagerCalc(src2, reason, field->zoneId, (u16)((mainModule->heapId & 0x7fff) | 0x8000));
+    FriendshipManagerCalc(src1, reason, field->zoneId, HEAPID_TAIL(mainModule->heapId));
+    FriendshipManagerCalc(src2, reason, field->zoneId, HEAPID_TAIL(mainModule->heapId));
 }
 
 // Function name from swan.

@@ -3,6 +3,7 @@
 #include "app/name_entry.h"
 #include "battle/btl_setup.h"
 #include "demo/shinka_demo.h"
+#include "constants/pokemon.h"
 #include "field/battle_facility.h"
 #include "field/bsubway_scr.h"
 #include "field/encounter.h"
@@ -97,13 +98,8 @@
 #include "system/version.h"
 #include "system/vm.h"
 
-struct SubwayPackedSpecies {
-    u16 species : 11;
-    u16 form : 5;
-};
-
 void func_ov033_0217b468(GameSystem *gsys) {
-    func_02017954(GSYS_GetGameData(gsys), 0);
+    func_02017954(GSYS_GetGameData(gsys), NULL);
 }
 
 BSubwayScrWork *func_ov033_0217b478(GameSystem *gsys, u16 a1, u16 a2) {
@@ -123,19 +119,19 @@ BSubwayScrWork *func_ov033_0217b478(GameSystem *gsys, u16 a1, u16 a2) {
     playerInfo = GetGameDataPlayerInfo(gameData);
     save = GameData_GetSaveControl(gameData);
     bsw = GFL_HeapAllocate(4, 0x7f0, 1, "bsubway_scr.c", 0x5f);
-    *(u32 *)((u8 *)bsw + 4) = 4;
-    *(u32 *)bsw = 0x12345678;
+    bsw->heapId = 4;
+    bsw->magic = 0x12345678;
     bsw->gameData = gameData;
     bsw->unkA[0] = getTrainerGender(playerInfo);
     bsw->unk70 = SaveControl_GetBlockPtr(save, SAVE_BLOCK_BSUBWAY_PLAY);
     bsw->unk74 = SaveControl_GetBlockPtr(save, SAVE_BLOCK_BSUBWAY_SCORE);
-    *(void **)bsw->unk78 = SaveControl_GetBlockPtr(save, SAVE_BLOCK_BSUBWAY_3A);
+    bsw->unk78 = SaveControl_GetBlockPtr(save, SAVE_BLOCK_BSUBWAY_3A);
     func_0200e100(bsw->unk70, 0);
-    func_02017954(gameData, (u32)bsw);
+    func_02017954(gameData, bsw);
     if (a1 == 0) {
         bsw->playMode = a2;
-        bsw->unk0[8] = func_ov033_0217bdc0(bsw->playMode);
-        for (i = 0; i < 4; i++) bsw->unk1E[i] = 0xff;
+        bsw->memberCount = func_ov033_0217bdc0(bsw->playMode);
+        for (i = 0; i < 4; i++) bsw->memberSlots[i] = 0xff;
         for (i = 0; i < 14; i++) bsw->unk32[i] = 0xffff;
         func_0200e0f4(bsw->unk70);
         func_0200e2ac(bsw->unk70);
@@ -147,23 +143,23 @@ BSubwayScrWork *func_ov033_0217b478(GameSystem *gsys, u16 a1, u16 a2) {
         func_0200e1ac(bsw->unk70, 0, &value);
     } else {
         bsw->playMode = func_0200e11c(bsw->unk70, 0, NULL);
-        bsw->unk0[8] = func_ov033_0217bdc0(bsw->playMode);
+        bsw->memberCount = func_ov033_0217bdc0(bsw->playMode);
         if (func_0200e11c(bsw->unk70, 10, NULL) != 0) {
             func_ov033_0217bd34(bsw);
         }
-        func_0200e11c(bsw->unk70, 5, bsw->unk1E);
+        func_0200e11c(bsw->unk70, 5, bsw->memberSlots);
         func_0200e11c(bsw->unk70, 8, bsw->unk32);
         if (bsw->playMode == 2 || bsw->playMode == 7) {
             bsw->unkC_5 = (u8)func_0200e11c(bsw->unk70, 9, NULL);
-            func_0200e11c(bsw->unk70, 6, bsw->unk628 + 20 * bsw->unkC_5);
+            func_0200e11c(bsw->unk70, 6, &bsw->teamConfigs[bsw->unkC_5]);
             level = 303;
             if (getTrainerGender(&GameData_GetPlayerState(gameData)->playerInfo) != 0) {
                 level -= 3;
             }
             teamIndex = bsw->unkC_5;
             count = func_0200e11c(bsw->unk70, 7, NULL);
-            func_ov033_0217c2c4(bsw, bsw->unk2C8 + 0x120 * teamIndex, (u16)(level + teamIndex),
-                                count, (BSubwayTeamConfig *)(bsw->unk628 + 20 * teamIndex), *(u32 *)((u8 *)bsw + 4));
+            func_ov033_0217c2c4(bsw, &bsw->unk2C8[teamIndex], level + teamIndex, count,
+                                &bsw->teamConfigs[teamIndex], bsw->heapId);
         }
         mode = bsw->playMode;
         if (func_0200e3dc(bsw->unk74, mode) == 1) {
@@ -188,7 +184,7 @@ void func_ov033_0217b664(GameSystem *gsys, BSubwayScrWork *bsw) {
         sys_memset(bsw, 0, sizeof(BSubwayScrWork));
         GFL_HeapFree(bsw);
     }
-    func_02017954(GSYS_GetGameData(gsys), 0);
+    func_02017954(GSYS_GetGameData(gsys), NULL);
 }
 
 void func_ov033_0217b6b4(BSubwayScrWork *bsw) {
@@ -215,13 +211,13 @@ void func_ov033_0217b708(BSubwayScrWork *bsw) {
 
     value = bsw->playMode;
     func_0200e1ac(bsw->unk70, 0, &value);
-    func_0200e1ac(bsw->unk70, 5, bsw->unk1E);
+    func_0200e1ac(bsw->unk70, 5, bsw->memberSlots);
     func_0200e1ac(bsw->unk70, 8, bsw->unk32);
     func_0200e100(bsw->unk70, 1);
     if (bsw->playMode == 2 || bsw->playMode == 7) {
         value = bsw->unkC_5;
         func_0200e1ac(bsw->unk70, 9, &value);
-        func_0200e1ac(bsw->unk70, 6, bsw->unk628 + 20 * bsw->unkC_5);
+        func_0200e1ac(bsw->unk70, 6, &bsw->teamConfigs[bsw->unkC_5]);
         func_0200e1ac(bsw->unk70, 7, bsw->unk664 + bsw->unkC_5);
     }
 }
@@ -231,13 +227,13 @@ void func_ov033_0217b790(BSubwayScrWork *bsw, GameSystem *gsys) {
     PartyPkm *pkm;
     s32 i;
 
-    bsw->unk0[8] = func_ov033_0217bdc0(bsw->playMode);
-    func_0200e11c(bsw->unk70, 5, bsw->unk1E);
+    bsw->memberCount = func_ov033_0217bdc0(bsw->playMode);
+    func_0200e11c(bsw->unk70, 5, bsw->memberSlots);
     party = func_ov033_0217bd60(bsw);
-    for (i = 0; i < bsw->unk0[8]; i++) {
-        pkm = PokeParty_GetPkm(party, bsw->unk1E[i]);
-        bsw->unk22[i] = PokeParty_GetParam(pkm, (PkmField)5, NULL);
-        bsw->unk22[i + 4] = PokeParty_GetParam(pkm, (PkmField)6, NULL);
+    for (i = 0; i < bsw->memberCount; i++) {
+        pkm = PokeParty_GetPkm(party, bsw->memberSlots[i]);
+        bsw->memberSpecies[i] = PokeParty_GetParam(pkm, PKM_PARAM_SPECIES, NULL);
+        bsw->memberItems[i] = PokeParty_GetParam(pkm, PKM_PARAM_ITEM, NULL);
     }
 }
 
@@ -247,12 +243,12 @@ void func_ov033_0217b7e8(BSubwayScrWork *bsw) {
     value = bsw->playMode;
     func_0200e1ac(bsw->unk70, 0, &value);
     func_0200e2ac(bsw->unk70);
-    func_0200e1ac(bsw->unk70, 5, bsw->unk1E);
+    func_0200e1ac(bsw->unk70, 5, bsw->memberSlots);
     func_0200e100(bsw->unk70, 1);
     if (bsw->playMode == 2 || bsw->playMode == 7) {
         value = bsw->unkC_5;
         func_0200e1ac(bsw->unk70, 9, &value);
-        func_0200e1ac(bsw->unk70, 6, bsw->unk628 + 20 * bsw->unkC_5);
+        func_0200e1ac(bsw->unk70, 6, &bsw->teamConfigs[bsw->unkC_5]);
         func_0200e1ac(bsw->unk70, 7, bsw->unk664 + bsw->unkC_5);
     }
 }
@@ -385,8 +381,8 @@ void func_ov033_0217b9dc(BSubwayScrWork *bsw) {
     mode = bsw->playMode;
     level = func_ov033_0217be1c(func_ov033_0217bd84(bsw));
     if (mode == 2 || mode == 3 || mode == 7 || mode == 8) {
-        if (level < *(u16 *)((u8 *)bsw + 0x18)) {
-            level = *(u16 *)((u8 *)bsw + 0x18);
+        if (level < bsw->unk18) {
+            level = bsw->unk18;
         }
         for (i = 0; i < 14; i++) {
             do {
@@ -408,23 +404,19 @@ u16 func_ov033_0217ba94(BSubwayScrWork *bsw, GameSystem *gsys) {
     PokeParty *party;
     PartyPkm *pkm;
     u16 i;
-    u8 *entry;
-    u8 *slot;
 
-    if (*(u16 *)((u8 *)bsw + 0x84) != 0 || (u16)(*(u16 *)((u8 *)bsw + 0x82) + 0xfff9) <= 1) {
+    if (bsw->unk84 != 0 || bsw->unk82 == 7 || bsw->unk82 == 8) {
         return 0;
     }
     party = func_ov033_0217bd60(bsw);
-    for (i = 0; i < bsw->unk0[8]; i++) {
-        entry = (u8 *)bsw + i;
-        if (entry[0x7c] - 1 >= 6) {
-            entry[0x7c] = 1;
+    for (i = 0; i < bsw->memberCount; i++) {
+        if (bsw->memberChoices[i] - 1 >= 6) {
+            bsw->memberChoices[i] = 1;
         }
-        entry[0x1e] = entry[0x7c] - 1;
-        pkm = PokeParty_GetPkm(party, entry[0x1e]);
-        slot = (u8 *)bsw + 2 * i;
-        *(u16 *)(slot + 0x22) = PokeParty_GetParam(pkm, (PkmField)5, NULL);
-        *(u16 *)(slot + 0x2a) = PokeParty_GetParam(pkm, (PkmField)6, NULL);
+        bsw->memberSlots[i] = bsw->memberChoices[i] - 1;
+        pkm = PokeParty_GetPkm(party, bsw->memberSlots[i]);
+        bsw->memberSpecies[i] = PokeParty_GetParam(pkm, PKM_PARAM_SPECIES, NULL);
+        bsw->memberItems[i] = PokeParty_GetParam(pkm, PKM_PARAM_ITEM, NULL);
     }
     return 1;
 }
@@ -453,10 +445,8 @@ void func_ov033_0217bb4c(BSubwayScrWork *bsw, GameSystem *gsys) {
 }
 
 void func_ov033_0217bb98(BSubwayScrWork *bsw, GameSystem *gsys) {
-    volatile BSubwayScrWork *work = bsw;
-
-    work->unkC_0 = 0;
-    work->unkC_1 = 0;
+    bsw->unkC_0 = 0;
+    bsw->unkC_1 = 0;
 }
 
 void func_ov033_0217bbac(BSubwayScrWork *bsw) {
@@ -469,32 +459,31 @@ void func_ov033_0217bbac(BSubwayScrWork *bsw) {
     round = func_0200e2ec(bsw->unk70);
     switch (bsw->playMode) {
     case 4:
-        func_0200e740(*(void **)bsw->unk78, bsw->unk88, round, *(u32 *)&bsw->unk0[4]);
+        func_0200e740(bsw->unk78, bsw->trainers, round, bsw->heapId);
         break;
     case 2:
     case 3:
     case 7:
     case 8:
-        index = 0;
         slot = round * 2;
-        func_ov033_0217c264(bsw, bsw->unk88, bsw->unk32[slot], bsw->unk0[8], index, index, index,
-                            *(u32 *)&bsw->unk0[4]);
-        for (; index < bsw->unk0[8]; index++) {
-            ids[index] = ((SubwayPackedSpecies *)((u8 *)bsw + 0xb8 + index * 0x3c))->species;
-            values[index] = *(u16 *)((u8 *)bsw + 0xba + index * 0x3c);
+        func_ov033_0217c264(bsw, &bsw->trainers[0], bsw->unk32[slot], bsw->memberCount, NULL, NULL, NULL,
+                            bsw->heapId);
+        for (index = 0; index < bsw->memberCount; index++) {
+            ids[index] = bsw->trainers[0].pokemon[index].species;
+            values[index] = bsw->trainers[0].pokemon[index].item;
         }
-        func_ov033_0217c264(bsw, bsw->unk88 + 0x120, bsw->unk32[slot + 1], bsw->unk0[8], (u32)ids,
-                            (u32)values, 0, *(u32 *)&bsw->unk0[4]);
+        func_ov033_0217c264(bsw, &bsw->trainers[1], bsw->unk32[slot + 1], bsw->memberCount, ids, values, NULL,
+                            bsw->heapId);
         break;
     default:
-        func_ov033_0217c264(bsw, bsw->unk88, bsw->unk32[round], bsw->unk0[8], 0, 0, 0,
-                            *(u32 *)&bsw->unk0[4]);
+        func_ov033_0217c264(bsw, &bsw->trainers[0], bsw->unk32[round], bsw->memberCount, NULL, NULL, NULL,
+                            bsw->heapId);
         break;
     }
 }
 
 u32 func_ov033_0217bca0(BSubwayScrWork *bsw, u16 index) {
-    return func_ov012_02162b38(*(u16 *)((u8 *)bsw + 0x8c + 0x120 * index));
+    return func_ov012_02162b38(bsw->trainers[index].trainerId);
 }
 
 u16 func_ov033_0217bcb4(BSubwayScoreData *score, GameSystem *gsys, u32 op) {
@@ -631,70 +620,54 @@ void func_ov033_0217be2c(BSubwayScrWork *bsw, SaveControl *save, u32 a2, u32 a3)
 void func_ov033_0217be88(BSubwayScrWork *bsw, u8 variant) {
     u32 base;
     s32 index;
-    u8 result;
-    u32 second;
-    u32 first;
 
     base = 0x12c;
     if (variant != 0) {
         base += 3;
     }
-    first = (u32)bsw->unk22;
-    second = (u32)&bsw->unk22[4];
     for (index = 0; index < 3; index++) {
-        result = (u32)func_ov033_0217c264(bsw, bsw->unk2C8 + 0x120 * index, base + index, bsw->unk0[8],
-                                            first, second, (u32)(bsw->unk628 + 0x14 * index),
-                                            *(u32 *)&bsw->unk0[4]);
-        bsw->unk664[index] = result;
+        bsw->unk664[index] = func_ov033_0217c264(bsw, &bsw->unk2C8[index], base + index, bsw->memberCount,
+                                                 bsw->memberSpecies, bsw->memberItems, &bsw->teamConfigs[index],
+                                                 bsw->heapId);
     }
 }
 
-void func_ov033_0217bf04(u8 *dst, PartyPkm *pkm) {
-    u32 value;
-    u8 *ppFlags;
-    u8 packed;
+void func_ov033_0217bf04(BSubwayPokemon *dst, PartyPkm *pkm) {
     s32 i;
-    s32 j;
 
-    ((SubwayPackedSpecies *)dst)->species = PokeParty_GetParam(pkm, (PkmField)5, NULL);
-    ((SubwayPackedSpecies *)dst)->form = PokeParty_GetParam(pkm, (PkmField)0x6f, NULL);
-    *(u16 *)(dst + 2) = PokeParty_GetParam(pkm, (PkmField)6, NULL);
-
+    dst->species = PokeParty_GetParam(pkm, PKM_PARAM_SPECIES, NULL);
+    dst->form = PokeParty_GetParam(pkm, PKM_PARAM_FORM, NULL);
+    dst->item = PokeParty_GetParam(pkm, PKM_PARAM_ITEM, NULL);
     for (i = 0; i < 4; i++) {
-        value = PokeParty_GetParam(pkm, (PkmField)(0x36 + i), NULL);
-        ((u16 *)dst)[i + 2] = value;
-        value = PokeParty_GetParam(pkm, (PkmField)(0x3e + i), NULL);
-        packed = value << (2 * i);
-        ppFlags = dst + 0x1e;
-        *ppFlags |= packed;
+        dst->moves[i] = PokeParty_GetParam(pkm, PKM_PARAM_MOVE1 + i, NULL);
+        dst->ppUps |= PokeParty_GetParam(pkm, PKM_PARAM_MOVE1_PP_UP + i, NULL) << (2 * i);
     }
-    dst[0x1f] = PokeParty_GetParam(pkm, (PkmField)0xc, NULL);
-    *(u32 *)(dst + 0xc) = PokeParty_GetParam(pkm, (PkmField)7, NULL);
-    *(u32 *)(dst + 0x10) = PokeParty_GetParam(pkm, (PkmField)0, NULL);
-    *(u32 *)(dst + 0x14) = PokeParty_GetParam(pkm, (PkmField)0xac, NULL);
-    for (j = 0; j < 6; j++) {
-        dst[0x18 + j] = PokeParty_GetParam(pkm, (PkmField)(0xd + j), NULL);
+    dst->region = PokeParty_GetParam(pkm, PKM_PARAM_REGION, NULL);
+    dst->id = PokeParty_GetParam(pkm, PKM_PARAM_ID, NULL);
+    dst->personality = PokeParty_GetParam(pkm, PKM_PARAM_PID, NULL);
+    dst->ivs = PokeParty_GetParam(pkm, PKM_PARAM_IVS_ALL, NULL);
+    for (i = 0; i < 6; i++) {
+        dst->evs[i] = PokeParty_GetParam(pkm, PKM_PARAM_EV_HP + i, NULL);
     }
-    dst[0x20] = PokeParty_GetParam(pkm, (PkmField)0xa, NULL);
-    dst[0x21] = PokeParty_GetParam(pkm, (PkmField)9, NULL);
-    PokeParty_GetParam(pkm, (PkmField)0x74, dst + 0x22);
+    dst->ability = PokeParty_GetParam(pkm, PKM_PARAM_ABILITY, NULL);
+    dst->happiness = PokeParty_GetParam(pkm, PKM_PARAM_HAPPINESS, NULL);
+    PokeParty_GetParam(pkm, PKM_PARAM_NICKNAME_RAW, dst->nickname);
 }
 
 void func_ov033_0217c010(BSubwayScrWork *bsw, SaveControl *save, u32 flag) {
-    void *team;
+    BSubwayPokemon *team;
     PokeParty *party;
     s32 i;
-    u16 heapId;
+    HeapID heapId = bsw->heapId;
 
-    heapId = *(u32 *)((u8 *)bsw + 4);
-    team = GFL_HeapAllocate((heapId & 0x7fff) | 0x8000, 0xb4, FALSE, "bsubway_scr.c", 0x8a1);
-    sys_memset(team, 0, 0xb4);
+    team = GFL_HeapAllocate(HEAPID_TAIL(heapId), sizeof(BSubwayPokemon) * 3, FALSE, "bsubway_scr.c", 0x8a1);
+    sys_memset(team, 0, sizeof(BSubwayPokemon) * 3);
     party = func_ov033_0217bd60(bsw);
     for (i = 0; i < 3; i++) {
-        func_ov033_0217bf04((u8 *)team + 0x3c * i, PokeParty_GetPkm(party, bsw->unk1E[i]));
+        func_ov033_0217bf04(&team[i], PokeParty_GetPkm(party, bsw->memberSlots[i]));
     }
     func_0200e4e8(bsw->unk74, flag, team);
-    sys_memset(team, 0, 0xb4);
+    sys_memset(team, 0, sizeof(BSubwayPokemon) * 3);
     GFL_HeapFree(team);
 }
 
@@ -707,13 +680,13 @@ BtlSetup *func_ov033_0217c094(BSubwayScrWork *bsw, GameSystem *gsys) {
 
     party = PokeParty_Create(0x8004);
     source = func_ov033_0217bd60(bsw);
-    PokeParty_InitCore(party, bsw->unk0[8]);
-    for (i = 0; i < bsw->unk0[8]; i++) {
-        pkm = PokeParty_GetPkm(source, bsw->unk1E[i]);
+    PokeParty_InitCore(party, bsw->memberCount);
+    for (i = 0; i < bsw->memberCount; i++) {
+        pkm = PokeParty_GetPkm(source, bsw->memberSlots[i]);
         PokeParty_AddPkm(party, pkm);
     }
     result =
-        SetupTrialHouseBattle(gsys, party, bsw->playMode, bsw->unk88, bsw->unk2C8 + 0x120 * bsw->unkC_5, bsw->unk0[8]);
+        SetupTrialHouseBattle(gsys, party, bsw->playMode, bsw->trainers, &bsw->unk2C8[bsw->unkC_5], bsw->memberCount);
     GFL_HeapFree(party);
     return result;
 }
@@ -722,8 +695,9 @@ void *func_ov033_0217c110(BSubwayScrWork *bsw) {
     return bsw->unk74C;
 }
 
-void *func_ov033_0217c264(BSubwayScrWork *bsw, void *param, u16 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7) {
-    return func_ov012_02162864(param, a2, a3, a4, a5, a6, a7);
+BOOL func_ov033_0217c264(BSubwayScrWork *bsw, BSubwayTrainer *trainer, u16 trainerId, u32 count, const u16 *species,
+                         const u16 *items, const BSubwayTeamConfig *config, HeapID heapId) {
+    return func_ov012_02162864(trainer, trainerId, count, species, items, config, heapId);
 }
 
 u16 func_ov033_0217c288(u32 value) {
@@ -751,16 +725,17 @@ u16 func_ov033_0217c288(u32 value) {
     return 31;
 }
 
-void func_ov033_0217c2c4(void *unused, u8 *dst, u32 level, u32 arg3, BSubwayTeamConfig *config, HeapID heapId) {
+void func_ov033_0217c2c4(BSubwayScrWork *bsw, BSubwayTrainer *trainer, u16 trainerId, u32 count,
+                         const BSubwayTeamConfig *config, HeapID heapId) {
     u32 adjusted;
     void *temp;
     s32 i;
 
-    temp = func_ov012_021628c0(dst, 0xd4, level, 15, heapId);
-    adjusted = func_ov033_0217c288(level);
+    temp = func_ov012_021628c0(trainer, 0xd4, trainerId, 15, heapId);
+    adjusted = func_ov033_0217c288(trainerId);
     for (i = 0; i < 2; i++) {
-        func_ov012_02162490((BSubwayPokemon *)(dst + 0x30 + 0x3c * i), 0xd3, config->unk4[i], config->unk0,
-                            config->unk8[i], adjusted, i, arg3, heapId);
+        func_ov012_02162490(&trainer->pokemon[i], 0xd3, config->unk4[i], config->unk0, config->unk8[i], adjusted, i,
+                            count, heapId);
     }
     GFL_HeapFree(temp);
 }

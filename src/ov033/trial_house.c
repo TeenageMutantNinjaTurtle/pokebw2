@@ -97,18 +97,6 @@
 #include "system/version.h"
 #include "system/vm.h"
 
-struct TrialHouseCopyBlock {
-    u32 words[0x48];
-};
-
-struct TrialHouseSave {
-    u8 flag0;
-    u8 pad1[0x13];
-    u8 flag14;
-    u8 pad15[0x13];
-    u8 bits[16];
-};
-
 struct TrialHouseWork *CreateTrialHouseWk(GameSystem *gsys) {
     u32 saveSize = func_0200ee20();
     GameData *gameData = GSYS_GetGameData(gsys);
@@ -124,28 +112,26 @@ struct TrialHouseWork *CreateTrialHouseWk(GameSystem *gsys) {
 }
 
 void func_ov033_0217acd4(GameSystem *gsys, TrialHouseWork *work) {
-    u32 size;
+    u32 state;
     SaveControl *save;
     void *buffer;
     void *extraSave;
-    BOOL check;
 
     save = GameData_GetSaveControl(GSYS_GetGameData(gsys));
-    size = 0x800;
-    buffer = GFL_HeapAllocate(0x8004, size, TRUE, "trial_house.c", 0x79);
-    func_02007560(save, 5, 0x8004, buffer, size);
+    buffer = GFL_HeapAllocate(0x8004, 0x800, TRUE, "trial_house.c", 0x79);
+    func_02007560(save, 5, 0x8004, buffer, 0x800);
     extraSave = getAddressOfExtraSaveBlk(save, 5, 0);
-    size = 0;
+    state = 0;
     if (func_0200ee38(extraSave)) {
-        check = func_0200ee64(extraSave);
-        size = 1;
-        if (!check) {
-            size = 2;
+        if (func_0200ee64(extraSave)) {
+            state = 1;
+        } else {
+            state = 2;
         }
     }
     freeIntermediateSaveExtraBlksAfterLoad2(save, 5);
     GFL_HeapFree(buffer);
-    work->initState = size;
+    work->initState = state;
 }
 
 void TrialHouseWorkDelete(void *unused, struct TrialHouseWork **workPtr) {
@@ -171,7 +157,7 @@ void func_ov033_0217ad78(TrialHouseWork *work, u32 mode) {
                 capacity = 4;
             }
             work->capacity = capacity;
-            ((u32 *)work)[0x4b] = battleType;
+            work->battleType = battleType;
         } else {
             work->battleType = 0;
             work->capacity = 3;
@@ -197,8 +183,6 @@ void func_ov033_0217ade8(TrialHouseWork *work, u32 mode) {
     u32 base;
     u32 range;
     u32 value;
-    u16 flag;
-    u32 zero;
 
     switch (mode) {
     case 0:
@@ -227,16 +211,13 @@ void func_ov033_0217ade8(TrialHouseWork *work, u32 mode) {
         break;
     }
     value = base + GFL_RandomLC(range);
-    zero = 0;
-    flag = (work->heapId & 0x7fff) | 0x8000;
-    func_ov012_02162864(work, value, work->capacity, zero, zero, zero, flag);
+    func_ov012_02162864(&work->trainer, value, work->capacity, NULL, NULL, NULL, HEAPID_TAIL(work->heapId));
 }
 
 void func_ov033_0217ae5c(GameSystem *gsys, TrialHouseWork *work, u32 mode) {
     SaveControl *save;
     void *buffer;
     void *extra;
-    TrialHouseCopyBlock *source;
     u32 size;
 
     save = GameData_GetSaveControl(GSYS_GetGameData(gsys));
@@ -244,29 +225,28 @@ void func_ov033_0217ae5c(GameSystem *gsys, TrialHouseWork *work, u32 mode) {
     buffer = GFL_HeapAllocate(0x8004, size, TRUE, "trial_house.c", 0x14c);
     if (func_02007560(save, 5, 0x8004, buffer, size) == 1) {
         extra = getAddressOfExtraSaveBlk(save, 5, 0);
-        source = func_0200ee90(extra, mode);
-        *(TrialHouseCopyBlock *)work = *source;
+        work->trainer = *func_0200ee90(extra, mode);
     }
     freeIntermediateSaveExtraBlksAfterLoad2(save, 5);
     GFL_HeapFree(buffer);
 }
 
 u32 func_ov033_0217aed0(TrialHouseWork *work) {
-    return func_ov012_02162b38(*(u16 *)((u8 *)work + 4));
+    return func_ov012_02162b38(work->trainer.trainerId);
 }
 
 GameEvent *func_ov033_0217aedc(GameSystem *gsys, TrialHouseWork *work, u32 actorId, u32 messageId) {
     return func_ov012_02161e6c(gsys, work, actorId, (u16)messageId);
 }
 
-GameEvent *func_ov033_0217aee8(GameSystem *gsys, TrialHouseWork *work, u32 arg) {
+GameEvent *func_ov033_0217aee8(GameSystem *gsys, TrialHouseWork *work, u16 *result) {
     GameEvent *event;
     struct TrialHouseEventData *data;
 
     event = GameEvent_Create(gsys, NULL, func_ov033_0217af5c, sizeof(struct TrialHouseEventData));
     data = GameEvent_GetData(event);
     data->gsys = gsys;
-    data->result = (u16 *)arg;
+    data->result = result;
     data->work = work;
     data->timeout = 0;
     data->code = 0x2e;
@@ -288,7 +268,7 @@ GameEventReturnCode func_ov033_0217af5c(GameEvent *event, u32 *state, void *arg)
     TrialHouseEventData *data;
     GameSystem *gsys;
     GameData *gameData;
-    void *save;
+    TrialHouseSave *save;
     void *saveBuffer;
     u32 a;
     u32 b;
@@ -409,32 +389,26 @@ u32 func_ov033_0217b32c(GameSystem *gsys) {
     return 0;
 }
 
-u8 func_ov033_0217b35c(void *savePtr, u32 index) {
-    TrialHouseSave *save;
+u8 func_ov033_0217b35c(TrialHouseSave *save, u32 index) {
     u8 byte;
     u8 bit;
 
-    save = savePtr;
     if (index < 128) {
-        byte = save->bits[(u8)(index >> 3)];
-        bit = index & 7;
-        return (byte >> bit) & 1;
+        byte = index / 8;
+        bit = index % 8;
+        return (save->bits[byte] >> bit) & 1;
     }
     return TRUE;
 }
 
-void func_ov033_0217b384(void *savePtr, u32 index) {
-    TrialHouseSave *save;
-    u8 byteIndex;
+void func_ov033_0217b384(TrialHouseSave *save, u32 index) {
+    u8 byte;
     u8 bit;
-    u8 mask;
 
-    save = savePtr;
     if (index < 128) {
-        byteIndex = index >> 3;
-        bit = index & 7;
-        mask = 1 << bit;
-        save->bits[byteIndex] |= mask;
+        byte = index / 8;
+        bit = index % 8;
+        save->bits[byte] |= 1 << bit;
     }
 }
 

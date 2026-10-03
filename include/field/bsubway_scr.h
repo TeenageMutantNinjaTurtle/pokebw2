@@ -29,8 +29,45 @@ typedef struct {
     s32 unk14;
 } BSubwayOv306Param;
 
+// A Pokémon of a Battle Subway Trainer, which genSubwayBtlInstitutePoke makes a party Pokémon of. The fields are
+// the PokeParty fields func_ov033_0217bf04 copies into it
+struct BSubwayPokemon {
+    u16 species : 11;
+    u16 form : 5;
+    u16 item;
+    u16 moves[4];
+    u32 id;
+    u32 personality;
+    u32 ivs;
+    u8 evs[6];
+    // Two bits per move
+    u8 ppUps;
+    u8 region;
+    u8 ability;
+    u8 happiness;
+    u16 nickname[13];
+};
+
+struct BSubwayTeamConfig {
+    u32 unk0;
+    u16 unk4[2];
+    u32 unk8[2];
+    u8 unk10[2];
+};
+
+// A Trainer met in the Battle Subway or the Trial House
+struct BSubwayTrainer {
+    u8 unk00[4];
+    u16 trainerId;
+    u8 unk06[0x2a];
+    BSubwayPokemon pokemon[4];
+};
+
 struct BSubwayScrWork {
-    u8 unk0[9];
+    // 0x12345678
+    u32 magic;
+    u32 heapId;
+    u8 memberCount;
     u8 playMode;
     u8 unkA[2];
     u16 unkC_0 : 1;
@@ -44,17 +81,26 @@ struct BSubwayScrWork {
     u16 unkC_13 : 3;
     u16 unkE;
     u16 unk10;
-    u8 unk12[0xc];
-    u8 unk1E[4];
-    u16 unk22[8];
+    u8 unk12[6];
+    u16 unk18;
+    u8 unk1A[4];
+    // The party slots and species and items of the members entered
+    u8 memberSlots[4];
+    u16 memberSpecies[4];
+    u16 memberItems[4];
     u16 unk32[0x1d];
     GameData *gameData;
     BSubwayPlayData *unk70;
     BSubwayScoreData *unk74;
-    u8 unk78[0x10];
-    u8 unk88[0x240];
-    u8 unk2C8[0x360];
-    u8 unk628[0x3c];
+    void *unk78;
+    // Each member's chosen party slot plus 1
+    u8 memberChoices[6];
+    u16 unk82;
+    u16 unk84;
+    u8 unk86[2];
+    BSubwayTrainer trainers[2];
+    BSubwayTrainer unk2C8[3];
+    BSubwayTeamConfig teamConfigs[3];
     u8 unk664[0x4a];
     u8 unk6AE[0x46];
     u8 unk6F4[0x28];
@@ -75,17 +121,6 @@ struct BSubwayScrWork {
     u16 unk7EE;
 };
 
-// A Pokémon of a Battle Subway Trainer, which genSubwayBtlInstitutePoke makes a party Pokémon of
-typedef struct {
-    u8 unk0[0x3c];
-} BSubwayPokemon;
-
-struct BSubwayTeamConfig {
-    u32 unk0;
-    u16 unk4[2];
-    u32 unk8[2];
-};
-
 // Overlay 12
 void func_ov012_021618ac(BSubwayScrWork *bsw);
 void func_ov012_021618b8(u8 a0);
@@ -100,7 +135,7 @@ BOOL func_ov012_02161a94(BSubwayScrWork *bsw, u16 *var);
 void func_ov012_021621d4(PokeParty *party, const BSubwayPokemon *pkms, u32 level, int count, HeapID heapId);
 // Makes a Pokémon from the file of the Battle Subway's Pokémon arc
 void func_ov012_02162490(BSubwayPokemon *pkm, u32 arcId, u16 file, u32 a3, u32 a4, u32 a5, u8 a6, u32 a7, HeapID heapId);
-void *func_ov012_021628c0(void *dst, u32 file, u32 level, u32 count, HeapID heapId);
+void *func_ov012_021628c0(BSubwayTrainer *trainer, u32 arcId, u32 trainerId, u32 msgFile, HeapID heapId);
 GameEvent *func_ov012_02165f70(BSubwayScrWork *bsw, GameSystem *gsys, u8 a2);
 GameEvent *func_ov012_02166070(BSubwayScrWork *bsw, GameSystem *gsys, Field *field);
 GameEvent *func_ov012_02166118(BSubwayScrWork *bsw, GameSystem *gsys, u16 a2, u16 a3, u32 a4);
@@ -143,13 +178,15 @@ void func_ov033_0217bda8(BSubwayScrWork *bsw, u32 count, u32 extra);
 u16 func_ov033_0217bdc0(u16 mode);
 void func_ov033_0217be88(BSubwayScrWork *bsw, u8 a1);
 void func_ov033_0217b9dc(BSubwayScrWork *bsw);
-void func_ov033_0217bf04(u8 *dest, PartyPkm *pkm);
+void func_ov033_0217bf04(BSubwayPokemon *dest, PartyPkm *pkm);
 void *func_ov033_0217c110(BSubwayScrWork *bsw);
 BtlSetup *func_ov033_0217c094(BSubwayScrWork *bsw, GameSystem *gsys);
-void *func_ov033_0217c264(BSubwayScrWork *bsw, void *param, u16 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+BOOL func_ov033_0217c264(BSubwayScrWork *bsw, BSubwayTrainer *trainer, u16 trainerId, u32 count, const u16 *species,
+                        const u16 *items, const BSubwayTeamConfig *config, HeapID heapId);
 u16 func_ov033_0217c11c(BSubwayScrWork *bsw, u16 level, u8 index, u32 mode, u8 side);
 u16 func_ov033_0217c288(u32 value);
-void func_ov033_0217c2c4(void *unused, u8 *dst, u32 level, u32 arg3, BSubwayTeamConfig *config, HeapID heapId);
+void func_ov033_0217c2c4(BSubwayScrWork *bsw, BSubwayTrainer *trainer, u16 trainerId, u32 count,
+                        const BSubwayTeamConfig *config, HeapID heapId);
 
 extern const char data_ov033_0217c640[];
 extern const u8 data_ov033_0217c570[60];

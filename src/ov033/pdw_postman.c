@@ -136,7 +136,7 @@ void func_ov033_02177a60(FieldMoneyWindow *work) {
     u32 y;
     s32 offset;
 
-    messages = GFL_MsgSysLoadData(FALSE, 2, 0x40, (work->heapId & 0x7fff) | 0x8000);
+    messages = GFL_MsgSysLoadData(FALSE, 2, 0x40, HEAPID_TAIL(work->heapId));
     for (i = 0; i < (s32)work->unk20; i++) {
         offset = i << 2;
         GFL_MsgDataLoadStrbuf(messages, *(u16 *)((u8 *)work->unk24 + offset), work->first);
