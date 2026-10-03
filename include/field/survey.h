@@ -39,6 +39,7 @@ u16 GetSurveyAnswerMsgID(u16 question, int answer);
 void probabilityLoop(SurveyProbabilityState *state);
 void insideProbabilityLoop(SurveyProbabilityState *state, u32 selection);
 void getSurveyText(SurveyTextWork *work);
+void func_ov027_021708d0(SurveyTextWork *work);
 void func_0202d0d8(u8 value);
 BOOL func_ov027_021703a8(VM *vm, FieldScriptEnv *env);
 BOOL func_ov027_021703dc(VM *vm, FieldScriptEnv *env);
