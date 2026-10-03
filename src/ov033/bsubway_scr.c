@@ -1,3 +1,4 @@
+#include "battle/btl_setup.h"
 #include "field/battle_facility.h"
 #include "field/bsubway_scr.h"
 #include "gfl/heap.h"
@@ -5,7 +6,264 @@
 #include "pml/poke_party.h"
 #include "save/box.h"
 #include "save/bsubway_save.h"
+#include "save/records.h"
+#include "save/save_control.h"
 #include "system/game_data.h"
+#include "system/game_system.h"
+
+void func_ov033_0217b664(GameSystem *gsys, BSubwayScrWork *bsw) {
+    if (bsw != NULL) {
+        if (bsw->allocatedBuffer != NULL) {
+            GFL_HeapFree(bsw->allocatedBuffer);
+            bsw->allocatedBuffer = NULL;
+        }
+        if (bsw->btlSetup != NULL) {
+            BtlSetup_Free(bsw->btlSetup);
+            bsw->btlSetup = NULL;
+        }
+        sys_memset(bsw, 0, sizeof(BSubwayScrWork));
+        GFL_HeapFree(bsw);
+    }
+    func_02017954(GSYS_GetGameData(gsys), 0);
+}
+
+void func_ov033_0217b6b4(BSubwayScrWork *bsw) {
+    u8 mode;
+    u32 score;
+
+    if (bsw->playMode == 2) {
+        mode = 3;
+    } else if (bsw->playMode == 7) {
+        mode = 8;
+    }
+    bsw->playMode = mode;
+    func_0200e1ac(bsw->unk70, 0, &mode);
+    if (func_0200e3dc(bsw->unk74, bsw->playMode) == 1) {
+        score = func_0200e35c(bsw->unk74, bsw->playMode);
+        func_ov033_0217bd88(bsw, score);
+    } else {
+        func_ov033_0217bda0(bsw);
+    }
+}
+
+void func_ov033_0217b708(BSubwayScrWork *bsw) {
+    u8 value;
+
+    value = bsw->playMode;
+    func_0200e1ac(bsw->unk70, 0, &value);
+    func_0200e1ac(bsw->unk70, 5, bsw->unk1E);
+    func_0200e1ac(bsw->unk70, 8, bsw->unk32);
+    func_0200e100(bsw->unk70, 1);
+    if (bsw->playMode == 2 || bsw->playMode == 7) {
+        value = bsw->unkC_5;
+        func_0200e1ac(bsw->unk70, 9, &value);
+        func_0200e1ac(bsw->unk70, 6, bsw->unk628 + 20 * bsw->unkC_5);
+        func_0200e1ac(bsw->unk70, 7, bsw->unk664 + bsw->unkC_5);
+    }
+}
+
+void func_ov033_0217b790(BSubwayScrWork *bsw, GameSystem *gsys) {
+    PokeParty *party;
+    PartyPkm *pkm;
+    s32 i;
+
+    bsw->unk0[8] = func_ov033_0217bdc0(bsw->playMode);
+    func_0200e11c(bsw->unk70, 5, bsw->unk1E);
+    party = func_ov033_0217bd60(bsw);
+    for (i = 0; i < bsw->unk0[8]; i++) {
+        pkm = PokeParty_GetPkm(party, bsw->unk1E[i]);
+        bsw->unk22[i] = PokeParty_GetParam(pkm, (PkmField)5, NULL);
+        bsw->unk22[i + 4] = PokeParty_GetParam(pkm, (PkmField)6, NULL);
+    }
+}
+
+void func_ov033_0217b7e8(BSubwayScrWork *bsw) {
+    u8 value;
+
+    value = bsw->playMode;
+    func_0200e1ac(bsw->unk70, 0, &value);
+    func_0200e2ac(bsw->unk70);
+    func_0200e1ac(bsw->unk70, 5, bsw->unk1E);
+    func_0200e100(bsw->unk70, 1);
+    if (bsw->playMode == 2 || bsw->playMode == 7) {
+        value = bsw->unkC_5;
+        func_0200e1ac(bsw->unk70, 9, &value);
+        func_0200e1ac(bsw->unk70, 6, bsw->unk628 + 20 * bsw->unkC_5);
+        func_0200e1ac(bsw->unk70, 7, bsw->unk664 + bsw->unkC_5);
+    }
+}
+
+u16 func_ov033_0217b86c(GameSystem *gsys) {
+    SaveControl *save;
+    BSubwayPlayData *play;
+    BSubwayScoreData *score;
+    u8 mode;
+
+    save = GameData_GetSaveControl(GSYS_GetGameData(gsys));
+    play = SaveControl_GetBlockPtr(save, SAVE_BLOCK_BSUBWAY_PLAY);
+    score = SaveControl_GetBlockPtr(save, SAVE_BLOCK_BSUBWAY_SCORE);
+    mode = func_0200e11c(play, 0, NULL);
+    func_0200e2ac(play);
+    func_0200e3b4(score, mode);
+    return mode;
+}
+
+void func_ov033_0217b8ac(GameSystem *gsys, BSubwayScrWork *bsw) {
+    u16 value;
+    u8 mode;
+    BSubwayScoreData *score;
+
+    value = bsw->unkE;
+    mode = bsw->playMode;
+    score = bsw->unk74;
+    func_0200e3a0(score, mode, value);
+    func_0200e384(score, mode, value);
+    func_ov033_0217be2c(bsw, GameData_GetSaveControl(bsw->gameData), 1, value);
+    func_0200e3b4(bsw->unk74, mode);
+    func_0200e2ac(bsw->unk70);
+}
+
+u16 func_ov033_0217b8ec(BSubwayScrWork *bsw) {
+    u16 count;
+    u16 countIndex;
+    s32 index;
+    u16 category;
+    u16 reward;
+    SaveControl *save;
+    const u8 *row;
+
+    if (bsw->playMode == 4) {
+        reward = 0;
+        if ((u16)func_0200e11c(bsw->unk70, 11, NULL) == 1) {
+            index = (s8)func_0200e4a0(bsw->unk74);
+            if (index < 0) {
+                index = 0;
+            } else if (index >= 10) {
+                index = 9;
+            }
+            reward = data_ov033_0217c5ac[index];
+        } else {
+            reward = 5;
+        }
+    } else {
+        reward = 0;
+        count = func_0200e418(bsw->unk74, bsw->playMode);
+        switch (bsw->playMode) {
+        case 0:
+            category = 0;
+            break;
+        case 5:
+            category = 1;
+            reward = 1;
+            break;
+        case 1:
+            category = 2;
+            break;
+        case 6:
+            category = 3;
+            reward = 1;
+            break;
+        case 2:
+            category = 4;
+            break;
+        case 3:
+            category = 4;
+            break;
+        case 7:
+            category = 5;
+            reward = 1;
+            break;
+        case 8:
+            category = 5;
+            reward = 1;
+            break;
+        case 4:
+            category = 6;
+            break;
+        default:
+            category = 0;
+            break;
+        }
+        countIndex = count - 1;
+        if ((s16)countIndex < 0) {
+            countIndex = 0;
+        } else if (countIndex >= 10) {
+            countIndex = 9;
+        }
+        if (bsw->unkC_1 != 0) {
+            if (reward == 1) {
+                reward = 30;
+            } else {
+                reward = 10;
+            }
+        } else {
+            row = data_ov033_0217c570 + 10 * category;
+            reward = row[countIndex];
+        }
+    }
+    if (reward == 0) {
+        reward = 1;
+    }
+    func_0200e318(bsw->unk74, reward);
+    if (reward != 0) {
+        save = GameData_GetSaveControl(bsw->gameData);
+        RecordAdd(getTrainerCardInfoBlkAddress(save), 0x21, reward);
+    }
+    return reward;
+}
+
+void func_ov033_0217b9dc(BSubwayScrWork *bsw) {
+    u8 mode;
+    u16 level;
+    u16 choice;
+    s32 i;
+
+    mode = bsw->playMode;
+    level = func_ov033_0217be1c(func_ov033_0217bd84(bsw));
+    if (mode == 2 || mode == 3 || mode == 7 || mode == 8) {
+        if (level < *(u16 *)((u8 *)bsw + 0x18)) {
+            level = *(u16 *)((u8 *)bsw + 0x18);
+        }
+        for (i = 0; i < 14; i++) {
+            do {
+                choice = func_ov033_0217c11c(bsw, level, (u8)(i / 2), mode, (u8)(i & 1));
+            } while (func_ov033_0217bdf4(bsw->unk32, choice, i));
+            bsw->unk32[i] = choice;
+        }
+    } else {
+        for (i = 0; i < 7; i++) {
+            do {
+                choice = func_ov033_0217c11c(bsw, level, (u8)i, bsw->playMode, 0);
+            } while (func_ov033_0217bdf4(bsw->unk32, choice, i));
+            bsw->unk32[i] = choice;
+        }
+    }
+}
+
+u16 func_ov033_0217ba94(BSubwayScrWork *bsw, GameSystem *gsys) {
+    PokeParty *party;
+    PartyPkm *pkm;
+    u16 i;
+    u8 *entry;
+    u8 *slot;
+
+    if (*(u16 *)((u8 *)bsw + 0x84) != 0 || (u16)(*(u16 *)((u8 *)bsw + 0x82) + 0xfff9) <= 1) {
+        return 0;
+    }
+    party = func_ov033_0217bd60(bsw);
+    for (i = 0; i < bsw->unk0[8]; i++) {
+        entry = (u8 *)bsw + i;
+        if (entry[0x7c] - 1 >= 6) {
+            entry[0x7c] = 1;
+        }
+        entry[0x1e] = entry[0x7c] - 1;
+        pkm = PokeParty_GetPkm(party, entry[0x1e]);
+        slot = (u8 *)bsw + 2 * i;
+        *(u16 *)(slot + 0x22) = PokeParty_GetParam(pkm, (PkmField)5, NULL);
+        *(u16 *)(slot + 0x2a) = PokeParty_GetParam(pkm, (PkmField)6, NULL);
+    }
+    return 1;
+}
 
 BOOL func_ov033_0217bb20(BSubwayScrWork *bsw) {
     if (!bsw->unkC_0) {

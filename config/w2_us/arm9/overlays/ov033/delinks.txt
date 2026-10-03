@@ -151,13 +151,9 @@ src/ov033/trial_effect.c:
     complete
     .text       start:0x0217b324 end:0x0217b4a8
 
-src/ov033/subway_work.c:
-    complete
-    .text       start:0x0217b6a4 end:0x0217b92c
-
 src/ov033/bsubway_scr.c:
     complete
-    .text       start:0x0217bb60 end:0x0217c0d4
+    .text       start:0x0217b6a4 end:0x0217c0d4
 
 src/ov033/subway_setup.c:
     complete

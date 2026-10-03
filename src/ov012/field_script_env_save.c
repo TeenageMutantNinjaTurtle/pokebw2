@@ -11,7 +11,7 @@ void FieldScriptEnv_Restore(FieldScriptEnv *env) {
     env->ownedHeap = NULL;
 }
 
-void SetScrEnvVMIndex(FieldScriptEnv *env, u8 index) {
+void SetScrEnvVMIndex(FieldScriptEnv *env, u32 index) {
     env->vmIndex = index;
 }
 

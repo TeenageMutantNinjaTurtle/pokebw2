@@ -27,6 +27,11 @@ struct CityState {
     u16 city;
 };
 
+void SetAllowVersionSpecificZone(u32 side, u32 allow);
+void func_ov012_0215cd58(CityState *state);
+void func_ov012_0215cd8c(CityState *state);
+BOOL func_ov012_0215cd98(s32 value);
+
 BOOL GameData_CheckPairFlag(GameData *gameData);
 BagSave *GameData_GetBag(GameData *gameData);
 void *func_0201734c(GameData *gameData);

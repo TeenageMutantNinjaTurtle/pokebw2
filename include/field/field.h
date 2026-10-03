@@ -102,7 +102,6 @@ u32 GetZoneFogIndexAll(Field *field, u16 zoneId);
 void ShutdownFollowWork(GameData *gameData);
 BOOL func_ov011_02154e70(GameData *gameData, u32 a1);
 void func_ov012_02153668(GameCommSys *comm);
-void func_ov012_0215cd58(CityState *state);
 void func_ov012_0215ee40(GameData *gameData, u16 zoneId);
 void func_ov012_0215ee94(GameData *gameData, u16 zoneId);
 void func_ov012_0215eeb8(GameData *gameData, u16 zoneId);

@@ -132,6 +132,10 @@ src/ov012/sequence_event_setup.c:
     complete
     .text       start:0x0215ccd0 end:0x0215cd58
 
+src/ov012/city_state.c:
+    complete
+    .text       start:0x0215cd58 end:0x0215cda4
+
 src/ov012/setup_warp_param_by_warp.c:
     complete
     .text       start:0x0215d0e8 end:0x0215d0fc
@@ -262,7 +266,7 @@ src/ov012/field_script_vm_core.c:
 
 src/ov012/field_script_vm_commands.c:
     complete
-    .text       start:0x02154584 end:0x02154948
+    .text       start:0x021544b0 end:0x02154948
 
 src/ov012/field_script_cmd_zone_map.c:
     complete

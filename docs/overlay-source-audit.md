@@ -88,8 +88,7 @@ on Battle Subway state and begins that process, even though the `bsubway_scr.c`
 filename string is first referenced by the following function.
 The remaining Trial House assembly gaps are `0x0217ad78–0x0217adbc` and
 `0x0217b0b4–0x0217b2e4` in Black 2. The remaining Battle Subway gaps are
-`0x0217b478–0x0217b664`, `0x0217b8ec–0x0217bb20`, and
-`0x0217c11c–0x0217c264`. C fragments on
+`0x0217b478–0x0217b664` and `0x0217c11c–0x0217c264`. C fragments on
 either side stay separate until the intervening assembly matches.
 
 The follow-up review found mixed process code in overlay 12's menu, event
@@ -99,11 +98,12 @@ Overlay 33's final Battle Subway helper and trade debug stub and overlay 36's
 prop-holder release now sit with adjacent helpers from the same feature.
 File-private work layouts in overlays 103, 104, and 146 were moved to their
 owning C files. These changes were checked against both original ROMs.
-Later matches closed gaps in overlay 12's ScriptWork accessors and zone
-positioning; overlay 33's Unity Tower visitors, Trial House setup, and Battle
-Subway score and team-save handling; overlay 36's field accessors, prop handle
-lookup, prop sound check, and lens-flare count; and overlay 167's
-BattleCondition constructors, Damp, Truant, move-history, and Pokémon type-pair
-helpers. Their newly continuous ranges were combined within their owning
-features. Attempted translations for remaining assembly gaps are tracked in
+Later matches closed gaps in overlay 12's ScriptWork accessors, VM global
+scripts, and zone positioning; overlay 33's Unity Tower visitors, Trial House
+setup, and Battle Subway reward, score, and team-save handling; overlay 36's
+field accessors, prop handle lookup, prop sound check, and lens-flare count; and
+overlay 167's BattleCondition constructors, Damp, Truant, move-history, and
+Pokémon type-pair helpers. Their newly continuous ranges were combined within
+their owning features. Attempted translations for remaining assembly gaps are
+tracked in
 [nonmatching-functions.md](nonmatching-functions.md).

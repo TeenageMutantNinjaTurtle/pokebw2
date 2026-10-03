@@ -9,6 +9,56 @@
 #include "system/game_system.h"
 #include "system/vm.h"
 
+BOOL s001B_RTCallGlobalAsync(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work;
+    u16 scriptId;
+    u16 zoneId;
+
+    FieldScriptEnv_GetGameSystem(env);
+    work = FieldScriptEnv_GetScriptWork(env);
+    scriptId = VM_Read16(vm);
+    zoneId = FieldScriptEnv_GetZoneID(env);
+    ScriptWork_AddVM(work, zoneId, scriptId);
+    return TRUE;
+}
+
+BOOL ScriptNative_WaitFinishSubScript(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work;
+    u8 index;
+
+    work = FieldScriptEnv_GetScriptWork(env);
+    index = FieldScriptEnv_GetVMIndex(env);
+    if (!FieldScript_VMExists(work, index)) {
+        FieldScriptEnv_Restore(env);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+BOOL s001C_RTCallGlobal(VM *vm, FieldScriptEnv *env) {
+    GameSystem *gsys;
+    ScriptWork *work;
+    u16 scriptId;
+    u32 level;
+    u32 index;
+
+    gsys = FieldScriptEnv_GetGameSystem(env);
+    work = FieldScriptEnv_GetScriptWork(env);
+    scriptId = VM_Read16(vm);
+    if (!FieldScriptEnv_IsReducedFeatureLevel(env)) {
+        index = ScriptWork_AddVM(work, FieldScriptEnv_GetZoneID(env), scriptId);
+        SetScrEnvVMIndex(env, index);
+        FieldScriptEnv_Save(env);
+        VM_SetNativeCallback(vm, (VMCommand)ScriptNative_WaitFinishSubScript);
+        return TRUE;
+    }
+    FieldScriptEnv_Save(env);
+    level = FieldScriptEnv_GetFeatureLevel(env);
+    FieldScript_Run(gsys, work, scriptId, level);
+    FieldScriptEnv_Restore(env);
+    return FALSE;
+}
+
 BOOL s001D_RTEndGlobal(VM *vm, FieldScriptEnv *env) {
     FieldScriptEnv_GetScriptWork(env);
     VM_Halt(vm);

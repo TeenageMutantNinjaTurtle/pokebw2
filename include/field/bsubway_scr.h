@@ -141,13 +141,17 @@ void func_ov033_0217c010(BSubwayScrWork *bsw, SaveControl *save, u32 value);
 void func_ov033_0217bda0(BSubwayScrWork *bsw);
 u16 func_ov033_0217bdc0(u16 mode);
 void func_ov033_0217be88(BSubwayScrWork *bsw, u8 a1);
+void func_ov033_0217b9dc(BSubwayScrWork *bsw);
 void func_ov033_0217bf04(u8 *dest, PartyPkm *pkm);
 void *func_ov033_0217c110(BSubwayScrWork *bsw);
 BtlSetup *func_ov033_0217c094(BSubwayScrWork *bsw, GameSystem *gsys);
 void *func_ov033_0217c264(BSubwayScrWork *bsw, void *param, u16 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+u16 func_ov033_0217c11c(BSubwayScrWork *bsw, u16 level, u8 index, u32 mode, u8 side);
 u16 func_ov033_0217c288(u32 value);
 void func_ov033_0217c2c4(void *unused, u8 *dst, u32 level, u32 arg3, BSubwayTeamConfig *config, HeapID heapId);
 
 extern const char data_ov033_0217c640[];
+extern const u8 data_ov033_0217c570[60];
+extern const u8 data_ov033_0217c5ac[10];
 
 #endif // POKEBW2_FIELD_BSUBWAY_SCR_H
