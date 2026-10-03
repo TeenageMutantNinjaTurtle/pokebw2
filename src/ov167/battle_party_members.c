@@ -2,6 +2,15 @@
 #include "battle/btl_pokeparam.h"
 
 // Function name from swan.
+void func_ov167_0219d434(BattleParty *party) {
+    s32 i;
+
+    party->count = 0;
+    for (i = 0; i < 6; i++) {
+        party->mons[i] = NULL;
+    }
+}
+
 void AddBattleMonToParty(BattleParty *party, BattleMon *mon) {
     party->mons[party->count++] = mon;
 }
@@ -119,4 +128,26 @@ s32 FindPartyMon(BattleParty *party, BattleMon *mon) {
         }
     }
     return -1;
+}
+
+s32 func_ov167_0219d5b0(BattleParty *party, u32 monId) {
+    s32 i;
+
+    for (i = 0; i < ((volatile BattleParty *)party)->count; i++) {
+        if (GetMonID(party->mons[i]) == monId) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+BattleMon *func_ov167_0219d5dc(BattleParty *party) {
+    s32 i;
+
+    for (i = 0; i < ((volatile BattleParty *)party)->count; i++) {
+        if (CanPokemonBattle(party->mons[i])) {
+            return party->mons[i];
+        }
+    }
+    return NULL;
 }
