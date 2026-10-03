@@ -25,6 +25,10 @@ struct EventPhraseInputData {
 GameEvent *EventPhraseInput_Create(GameSystem *gsys, Field *field, GameEvent *parent, u32 mode, u16 *result);
 GameEventReturnCode EventPhraseInput_Callback(GameEvent *event, u32 *state, void *data);
 void func_ov033_02177734(struct EventPhraseInputData *data, NameEntryParam *nameEntryParams);
+// Script commands
+BOOL func_ov033_021777dc(VM *vm, FieldScriptEnv *env);
+BOOL func_ov033_02177844(VM *vm, FieldScriptEnv *env);
+BOOL func_ov033_02177908(VM *vm, FieldScriptEnv *env);
 void func_0202d138(void);
 StrBuf *func_0202d7c4(void *data);
 

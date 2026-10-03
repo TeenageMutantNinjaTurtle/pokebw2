@@ -6,6 +6,7 @@
 #include "field/field_camera.h"
 #include "field/field_script.h"
 #include "field/resort.h"
+#include "field/scrcmd_resort_shop.h"
 #include "gfl/arc.h"
 #include "gfl/bmp_menu.h"
 #include "gfl/bmpwin.h"
