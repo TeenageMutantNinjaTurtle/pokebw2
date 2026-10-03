@@ -16,6 +16,10 @@ src/ov012/field_script_setup.c:
     complete
     .text       start:0x02153938 end:0x02153d08
 
+src/ov012/field_script_opcode_guard.c:
+    complete
+    .text       start:0x02153d20 end:0x02153de4
+
 src/ov012/script_work_accessors.c:
     complete
     .text       start:0x02153ee0 end:0x021540b0

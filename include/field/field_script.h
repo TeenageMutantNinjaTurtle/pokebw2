@@ -127,9 +127,20 @@ typedef BOOL (*FieldScriptCommand)(VM *vm, FieldScriptEnv *env);
 extern const FieldScriptCommand EVCMD_TABLE[];
 extern const u32 EVCMD_MAX;
 
+struct OpcodePermissions {
+    u8 level0 : 1;
+    u8 level1 : 1;
+    u8 level2 : 1;
+};
+
+extern const struct OpcodePermissions EVCMD_PERM_TABLE[];
+
 u32 FieldScript_IsVMFeatureSetReduced(u32 featureLevel);
+BOOL FieldScript_CheckSCRID(u16 scriptId);
 u32 FieldScript_ResolveSCRID(u32 zoneId, u16 scriptId, u16 *fileId, u16 *msgArcId, u16 *msgFileNo);
 void *FieldScript_LoadData(u16 fileId, HeapID heapId);
+void FieldScript_ThrowOpcodeAccessError(void);
+BOOL FieldScript_OpcodeGuard(VM *vm, void *env, void *gsys, u16 cmd);
 void FieldScript_AttachOpcodeGuard(VM *vm);
 
 BOOL s0000_VMNop(VM *vm, FieldScriptEnv *env);
