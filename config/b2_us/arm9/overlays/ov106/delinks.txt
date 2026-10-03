@@ -2,3 +2,15 @@
     .rodata     start:0x021eee58 end:0x021eeee8 kind:rodata align:4
     .ctor       start:0x021eeee8 end:0x021eeee8 kind:rodata align:4
     .bss        start:0x021eef00 end:0x021eef00 kind:bss align:32
+
+src/ov106/field_exp_obj_gimmick_ov106_lifecycle.c:
+    complete
+    .text       start:0x021eec80 end:0x021eecc8
+
+src/ov106/field_exp_obj_gimmick_ov106_step.c:
+    complete
+    .text       start:0x021eecc8 end:0x021eecd4
+
+src/ov106/field_exp_obj_gimmick_ov106_callbacks.c:
+    complete
+    .text       start:0x021eee50 end:0x021eee58
