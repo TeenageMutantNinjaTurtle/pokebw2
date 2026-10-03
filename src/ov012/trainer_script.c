@@ -123,15 +123,15 @@ u8 getBattleType(u32 trainerId) {
 }
 
 BOOL TrainerFlagGet(EventWork *eventWork, u16 trainerId) {
-    return EventWork_FlagGet(eventWork, (u16)(trainerId + 0x5f0));
+    return EventWork_FlagGet(eventWork, (trainerId + 0x5f0));
 }
 
 void setTrainerBattleFlag(EventWork *eventWork, u16 trainerId) {
-    EventWork_FlagSet(eventWork, (u16)(trainerId + 0x5f0));
+    EventWork_FlagSet(eventWork, (trainerId + 0x5f0));
 }
 
 void clearTrainerBattleFlag(EventWork *eventWork, u16 trainerId) {
-    EventWork_FlagReset(eventWork, (u16)(trainerId + 0x5f0));
+    EventWork_FlagReset(eventWork, (trainerId + 0x5f0));
 }
 
 void resetRebattleTrainers(EventWork *eventWork) {
@@ -139,7 +139,7 @@ void resetRebattleTrainers(EventWork *eventWork) {
 
     clock();
     for (i = 0; i < 12; i++) {
-        EventWork_FlagReset(eventWork, (u16)(data_ov012_0216c9a8[i] + 0x5f0));
+        EventWork_FlagReset(eventWork, (data_ov012_0216c9a8[i] + 0x5f0));
     }
     clock();
 }

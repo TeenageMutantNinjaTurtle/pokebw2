@@ -97,6 +97,7 @@ struct ZoneTrigger {
             u16 sideSpan;
         } rail;
     } pos;
+    u16 unk14;
 };
 
 struct ZoneWarp {

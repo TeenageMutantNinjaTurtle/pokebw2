@@ -4,7 +4,8 @@
 #include "field/field.h"
 #include "field/field_environment.h"
 #include "field/field_exp_obj.h"
-#include "field/field_exp_obj_gimmick_ov104.h"
+#include "field/field_gimmick_gate.h"
+#include "field/gimmick_obj_elboard.h"
 #include "field/field_map.h"
 #include "field/field_script.h"
 #include "field/zone.h"
@@ -22,52 +23,137 @@
 #include "system/rtc.h"
 #include "system/version.h"
 
-struct FieldExpObjGimmickOv104SaveData {
-    u32 value;
-    u32 stateValue;
-    u16 flag;
-    u16 padding;
-    struct FieldExpObjGimmickOv104Payload payload;
+
+
+struct GimmickGateMessageList {
+    u8 count;
+    u8 padding[3];
+    u32 kinds[7];
+    u32 flags[7];
 };
 
-struct FieldExpObjGimmickOv104StateInit {
+struct GimmickGateSave {
+    u32 value;
+    u32 boardTime;
+    u16 flag;
+    u16 padding;
+    GimmickGateMessageList messages;
+};
+
+struct GimmickGateZoneList {
+    u16 zones[4];
+    u8 weather[4];
+};
+
+struct GimmickGateWork {
     u16 heapId;
-    u8 a;
-    u8 b;
-    u8 c;
-    u8 padding[3];
-    G3DActor *actor;
+    u16 pad02;
+    Field *field;
+    GameData *gameData;
+    GameSystem *gameSystem;
+    u32 value;
+    Elboard *board;
+    u32 boardTime;
+    GimmickGateZoneData *zoneData;
+    GimmickGateBoardEntry *boardEntries;
+    u8 boardEntryCount;
+    u8 unk25[3];
+    GimmickGateMessageList messages;
+    u16 flag;
+};
+
+void func_ov104_021eed78(GimmickGateWork *work);
+void func_ov104_021eedb0(GimmickGateWork *work);
+void func_ov104_021eedcc(GimmickGateWork *work);
+void func_ov104_021eede4(GimmickGateWork *work);
+void func_ov104_021eee24(GimmickGateWork *work);
+GimmickGateWork *func_ov104_021eee34(Field *field);
+void func_ov104_021eeebc(GimmickGateWork *work);
+void func_ov104_021eef84(GimmickGateWork *work);
+void func_ov104_021eef98(GimmickGateWork *work);
+void func_ov104_021eefc0(GimmickGateWork *work);
+void func_ov104_021ef02c(GimmickGateWork *work, u32 kind, u32 flag);
+u32 func_ov104_021ef04c(GimmickGateWork *work);
+u32 func_ov104_021ef068(GimmickGateWork *work);
+void func_ov104_021ef084(GimmickGateWork *work, u32 *species, s32 *count);
+void func_ov104_021ef114(GimmickGateWork *work);
+void func_ov104_021ef168(GimmickGateWork *work);
+GimmickGateBoardEntry *func_ov104_021ef180(GimmickGateWork *work);
+GimmickGateBoardEntry *func_ov104_021ef204(GimmickGateWork *work);
+u32 func_ov104_021ef278(GimmickGateWork *work);
+void func_ov104_021ef28c(GimmickGateWork *work, ElboardMessageArg *message, u32 kind, GimmickGateBoardEntry *entry);
+void func_ov104_021ef2cc(GimmickGateWork *work);
+void func_ov104_021ef2fc(GimmickGateWork *work);
+void func_ov104_021ef344(GimmickGateWork *work);
+void func_ov104_021ef380(GimmickGateWork *work);
+void func_ov104_021ef3c0(GimmickGateWork *work);
+void func_ov104_021ef43c(GimmickGateWork *work);
+void func_ov104_021ef5ac(GimmickGateWork *work);
+void func_ov104_021ef658(GimmickGateWork *work);
+void func_ov104_021ef6dc(GimmickGateWork *work);
+void func_ov104_021ef760(GimmickGateWork *work);
+void func_ov104_021ef7e4(GimmickGateWork *work);
+void func_ov104_021ef868(GimmickGateWork *work);
+void func_ov104_021ef924(GimmickGateWork *work);
+void func_ov104_021ef94c(GimmickGateWork *work, GimmickGateBoardEntry *entry, u32 index);
+void func_ov104_021ef994(GimmickGateWork *work);
+s32 func_ov104_021ef9c8(const GimmickGateZoneList *list);
+void func_ov104_021ef9f8(GimmickGateZoneList *list);
+void func_ov104_021efa18(GimmickGateWork *work, GimmickGateZoneList *list);
+void func_ov104_021efad0(GimmickGateWork *work, GimmickGateZoneList *list);
+void func_ov104_021efb30(GimmickGateWork *work, GimmickGateZoneList *list);
+BOOL func_ov104_021efb90(VM *vm, FieldScriptEnv *env);
+void func_ov104_021eeea0(GimmickGateWork *work);
+void func_ov104_021eeee0(GimmickGateWork *work);
+GimmickGateSave *func_ov104_021eed58(Field *field);
+
+static const u32 sEntrySlots[3] = { 3, 4, 5 };
+
+// The board advances by this each frame
+static fx32 sBoardStep = FX32_ONE;
+static u16 sMessageKinds[8] = { 0, 1, 2, 3, 4, 5, 6 };
+static const char *sBoardPlNames[7] = {
+    "gelboard_1_pl", "gelboard_2_pl", "gelboard_3_pl", "gelboard_4_pl",
+    "gelboard_5_pl", "gelboard_6_pl", "gelboard_7_pl",
+};
+static const char *sBoardNames[7] = {
+    "gelboard_1", "gelboard_2", "gelboard_3", "gelboard_4", "gelboard_5", "gelboard_6", "gelboard_7",
+};
+static u16 sBoardAnimations[16] = { 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 };
+// Messages for the weathers, as GimmickGateZoneList gives them
+static u32 sWeatherMessages[15] = {
+    0xb5, 0xb6, 0xb7, 0xb8, 0xba, 0xbb, 0xbe, 0xbf, 0xbd, 0xbc, 0xbc, 0xbc, 0xb9, 0xbc, 0xbc,
 };
 
 void func_ov104_021eed00(Field *field) {
-    FieldExpObjGimmickOv104Work *work;
+    GimmickGateWork *work;
 
     work = Field_GetGimmickWorkBlock(field, 0);
     func_ov104_021eed78(work);
-    if (work->state != 0) {
-        func_ov104_021efc8c(work->state);
+    if (work->board != 0) {
+        func_ov104_021efc8c(work->board);
     }
     func_ov104_021eeea0(work);
 }
 
 void func_ov104_021eed20(Field *field) {
-    FieldExpObjGimmickOv104Work *work;
+    GimmickGateWork *work;
 
     work = Field_GetGimmickWorkBlock(field, 0);
-    func_ov104_021efcc4(work->state, data_ov104_021f0620);
+    func_ov104_021efcc4(work->board, sBoardStep);
     FieldExpObj_StepAllAnimations(Field_GetExpObjSystem(field));
 }
 
 u32 func_ov104_021eed44(Field *field) {
-    FieldExpObjGimmickOv104Work *work;
-    struct FieldExpObjGimmickOv104Substate *substate;
+    GimmickGateWork *work;
+    GimmickGateZoneData *zoneData;
 
     work = Field_GetGimmickWorkBlock(field, 0);
-    substate = work->substate;
-    return (u8)substate->direction;
+    zoneData = work->zoneData;
+    return (u8)zoneData->direction;
 }
 
-void *func_ov104_021eed58(Field *field) {
+GimmickGateSave *func_ov104_021eed58(Field *field) {
     GimmickState *state;
     u32 id;
 
@@ -76,64 +162,62 @@ void *func_ov104_021eed58(Field *field) {
     return GimmickState_GetUserData(state, id);
 }
 
-void func_ov104_021eed78(FieldExpObjGimmickOv104Work *work) {
-    struct FieldExpObjGimmickOv104SaveData *data;
+void func_ov104_021eed78(GimmickGateWork *work) {
+    GimmickGateSave *data;
 
     data = func_ov104_021eed58(work->field);
     data->value = work->value;
-    data->stateValue = func_ov104_021efcf0(work->state) >> 12;
+    data->boardTime = func_ov104_021efcf0(work->board) >> 12;
     data->flag = work->flag;
-    data->payload = work->payload;
+    data->messages = work->messages;
 }
 
-void func_ov104_021eedb0(FieldExpObjGimmickOv104Work *work) {
-    struct FieldExpObjGimmickOv104SaveData *data;
+void func_ov104_021eedb0(GimmickGateWork *work) {
+    GimmickGateSave *data;
 
     data = func_ov104_021eed58(work->field);
     work->value = data->value;
-    work->stateValue = data->stateValue;
+    work->boardTime = data->boardTime;
     work->flag = data->flag;
 }
 
-void func_ov104_021eedcc(FieldExpObjGimmickOv104Work *work) {
+void func_ov104_021eedcc(GimmickGateWork *work) {
     SaveControl *save;
     TrainerCardSave *card;
 
     save = GameData_GetSaveControl(work->gameData);
-    card = (TrainerCardSave *)getTrainerGameInfoAddress(save);
+    card = getTrainerGameInfoAddress(save);
     func_0200cb08(card, work->flag);
 }
 
-void func_ov104_021eede4(FieldExpObjGimmickOv104Work *work) {
+void func_ov104_021eede4(GimmickGateWork *work) {
     EventWork *eventWork;
     s32 i;
-    u8 *data;
-    u32 *entry;
+    GimmickGateMessageList *list;
 
     eventWork = GameData_GetEventWork(work->gameData);
-    data = (u8 *)&((struct FieldExpObjGimmickOv104SaveData *)func_ov104_021eed58(work->field))->payload;
-    for (i = 0; i < data[0]; i++) {
-        entry = (u32 *)(data + 4 * i);
-        if (entry[1] == 8) {
-            EventWork_FlagSet(eventWork, (u16)entry[8]);
+    list = &func_ov104_021eed58(work->field)->messages;
+    for (i = 0; i < list->count; i++) {
+        if (list->kinds[i] == 8) {
+            EventWork_FlagSet(eventWork, list->flags[i]);
         }
     }
 }
 
-void func_ov104_021eee24(FieldExpObjGimmickOv104Work *work) {
-    func_ov104_021efcfc(work->state, work->stateValue << 12);
+void func_ov104_021eee24(GimmickGateWork *work) {
+    func_ov104_021efcfc(work->board, work->boardTime << 12);
 }
 
-FieldExpObjGimmickOv104Work *func_ov104_021eee34(Field *field) {
+GimmickGateWork *func_ov104_021eee34(Field *field) {
     u16 heapId;
     FieldExpObjSystem *system;
-    FieldExpObjGimmickOv104Work *work;
-    FieldExpObjGimmickOv104StateInit init;
+    GimmickGateWork *work;
+    ElboardInit init;
 
     heapId = Field_GetHeapID(field);
     system = Field_GetExpObjSystem(field);
-    work = Field_AllocGimmickWorkBlock(field, 0, heapId, sizeof(FieldExpObjGimmickOv104Work));
-    sys_memset(work, 0, sizeof(FieldExpObjGimmickOv104Work));
+    work = Field_AllocGimmickWorkBlock(field, 0, heapId, sizeof(GimmickGateWork));
+    sys_memset(work, 0, sizeof(GimmickGateWork));
     work->heapId = heapId;
     work->field = field;
     work->gameSystem = Field_GetGameSystem(field);
@@ -144,11 +228,11 @@ FieldExpObjGimmickOv104Work *func_ov104_021eee34(Field *field) {
     init.b = 8;
     init.c = 3;
     init.actor = FieldExpObj_GetActor(system, 1, 0);
-    work->state = func_ov104_021efbd8(&init);
+    work->board = func_ov104_021efbd8(&init);
     return work;
 }
 
-void func_ov104_021eeea0(FieldExpObjGimmickOv104Work *work) {
+void func_ov104_021eeea0(GimmickGateWork *work) {
     if (work != 0) {
         func_ov104_021eef84(work);
         func_ov104_021ef168(work);
@@ -156,7 +240,7 @@ void func_ov104_021eeea0(FieldExpObjGimmickOv104Work *work) {
     }
 }
 
-void func_ov104_021eeebc(FieldExpObjGimmickOv104Work *work) {
+void func_ov104_021eeebc(GimmickGateWork *work) {
     SaveControl *save;
     TrainerCardSave *card;
 
@@ -168,30 +252,26 @@ void func_ov104_021eeebc(FieldExpObjGimmickOv104Work *work) {
     }
 }
 
-void func_ov104_021eeee0(FieldExpObjGimmickOv104Work *work) {
-    struct FieldExpObjGimmickOv104Substate temp;
+void func_ov104_021eeee0(GimmickGateWork *work) {
+    GimmickGateZoneData temp;
     u32 i;
     u32 count;
     u32 zone;
 
-    if (work->substate != 0) {
+    if (work->zoneData != 0) {
         return;
     }
     zone = Field_GetPlayerStateZoneID(work->field);
-    work->substate = GFL_HeapAllocate(work->heapId, sizeof(struct FieldExpObjGimmickOv104Substate), FALSE,
-                                      data_ov104_021f078c, 0x39b);
+    work->zoneData = GFL_HeapAllocate(work->heapId, sizeof(struct GimmickGateZoneData), FALSE,
+                                      "field_gimmick_gate.c", 0x39b);
     count = GFL_ArcSysGetDataMax(0xac);
-    if (count == 0) {
-        return;
-    }
-    i = 0;
-    do {
+    for (i = 0; i < count; i++) {
         func_ov104_021f0150(&temp, 0xac, i);
         if (temp.zoneId != zone) {
-            goto next;
+            continue;
         }
         if (temp.version != 0 && temp.version != getGameVersion()) {
-            goto next;
+            continue;
         }
         if (zone == 0x177 || zone == 0x17b) {
             switch (func_02017220(work->gameData)) {
@@ -202,38 +282,36 @@ void func_ov104_021eeee0(FieldExpObjGimmickOv104Work *work) {
                 break;
             }
         }
-        *work->substate = temp;
+        *work->zoneData = temp;
         return;
-    next:
-        i++;
-    } while (i < count);
-}
-
-void func_ov104_021eef84(FieldExpObjGimmickOv104Work *work) {
-    if (work->substate != 0) {
-        GFL_HeapFree(work->substate);
-        work->substate = 0;
     }
 }
 
-void func_ov104_021eef98(FieldExpObjGimmickOv104Work *work) {
+void func_ov104_021eef84(GimmickGateWork *work) {
+    if (work->zoneData != 0) {
+        GFL_HeapFree(work->zoneData);
+        work->zoneData = 0;
+    }
+}
+
+void func_ov104_021eef98(GimmickGateWork *work) {
     FieldExpObjSystem *system;
     u32 anm;
 
     system = Field_GetExpObjSystem(work->field);
-    anm = work->substate->anmIndex;
-    FieldExpObj_SetAnm(system, 1, 0, data_ov104_021f066c[anm], TRUE);
+    anm = work->zoneData->anmIndex;
+    FieldExpObj_SetAnm(system, 1, 0, sBoardAnimations[anm], TRUE);
 }
 
-void func_ov104_021eefc0(FieldExpObjGimmickOv104Work *work) {
+void func_ov104_021eefc0(GimmickGateWork *work) {
     FieldExpObjSystem *system;
     SRTMatrix *matrix;
-    struct FieldExpObjGimmickOv104Substate *state;
+    GimmickGateZoneData *state;
     u32 angle;
 
     system = Field_GetExpObjSystem(work->field);
     matrix = FieldExpObj_GetActorMatrixPtr(system, 1, 0);
-    state = work->substate;
+    state = work->zoneData;
     matrix->translation.x = state->x << 12;
     matrix->translation.y = state->y << 12;
     matrix->translation.z = state->z << 12;
@@ -257,27 +335,27 @@ void func_ov104_021eefc0(FieldExpObjGimmickOv104Work *work) {
     MAT3_RotationEulerZYX(0, (u16)(angle * 182), 0, &matrix->rotation);
 }
 
-void func_ov104_021ef02c(FieldExpObjGimmickOv104Work *work, u32 kind, u32 flag) {
-    u8 *data;
+void func_ov104_021ef02c(GimmickGateWork *work, u32 kind, u32 flag) {
+    GimmickGateMessageList *list;
     s32 count;
 
-    data = (u8 *)&work->payload;
-    count = data[0];
+    list = &work->messages;
+    count = list->count;
     if (count < 7) {
-        *(u32 *)(data + 4 + count * 4) = kind;
-        *(u32 *)(data + 0x20 + count * 4) = flag;
-        data[0] = count + 1;
+        list->kinds[count] = kind;
+        list->flags[count] = flag;
+        list->count = count + 1;
     }
 }
 
-u32 func_ov104_021ef04c(FieldExpObjGimmickOv104Work *work) {
+u32 func_ov104_021ef04c(GimmickGateWork *work) {
     if (func_ov104_021ef068(work) == 1 && work->flag != 0) {
         return 1;
     }
     return 0;
 }
 
-u32 func_ov104_021ef068(FieldExpObjGimmickOv104Work *work) {
+u32 func_ov104_021ef068(GimmickGateWork *work) {
     EventWork *eventWork;
 
     eventWork = GameData_GetEventWork(work->gameData);
@@ -287,75 +365,71 @@ u32 func_ov104_021ef068(FieldExpObjGimmickOv104Work *work) {
     return 0;
 }
 
-void func_ov104_021ef114(FieldExpObjGimmickOv104Work *work) {
+void func_ov104_021ef114(GimmickGateWork *work) {
     s32 count;
     s32 i;
 
-    if (work->resList == 0) {
+    if (work->boardEntries == 0) {
         count = GFL_ArcSysGetDataMax(0xa4);
-        work->resList = GFL_HeapAllocate(work->heapId, count * sizeof(struct FieldExpObjGimmickOv104ResEntry), FALSE,
-                                         data_ov104_021f078c, 0x4b5);
+        work->boardEntries = GFL_HeapAllocate(work->heapId, count * sizeof(struct GimmickGateBoardEntry), FALSE,
+                                         "field_gimmick_gate.c", 0x4b5);
         for (i = 0; i < count; i++) {
-            func_ov104_021f0324(&work->resList[i], 0xa4, i);
+            func_ov104_021f0324(&work->boardEntries[i], 0xa4, i);
         }
-        work->resCount = count;
+        work->boardEntryCount = count;
     }
 }
 
-void func_ov104_021ef168(FieldExpObjGimmickOv104Work *work) {
-    if (work->resList != 0) {
-        GFL_HeapFree(work->resList);
-        work->resList = 0;
-        work->resCount = 0;
+void func_ov104_021ef168(GimmickGateWork *work) {
+    if (work->boardEntries != 0) {
+        GFL_HeapFree(work->boardEntries);
+        work->boardEntries = 0;
+        work->boardEntryCount = 0;
     }
 }
 
-struct FieldExpObjGimmickOv104ResEntry *func_ov104_021ef180(FieldExpObjGimmickOv104Work *work) {
+GimmickGateBoardEntry *func_ov104_021ef180(GimmickGateWork *work) {
     u16 zone;
     EventWork *eventWork;
     s32 i;
-    s32 offset;
     BOOL flag;
     BOOL zoneMatch;
 
     zone = Field_GetPlayerStateZoneID(work->field);
     eventWork = GameData_GetEventWork(work->gameData);
-    if (work->resList == 0) {
+    if (work->boardEntries == 0) {
         return 0;
     }
-    for (i = 0; i < work->resCount; i++) {
-        offset = i * 0x24;
-        flag = EventWork_FlagGet(eventWork, (u16) * (u32 *)((u8 *)work->resList + offset + 4));
-        zoneMatch = func_ov104_021f0334((struct FieldExpObjGimmickOv104ResEntry *)((u8 *)work->resList + offset), zone);
-        if (func_ov104_021f037c((struct FieldExpObjGimmickOv104ResEntry *)((u8 *)work->resList + offset)) && flag &&
+    for (i = 0; i < work->boardEntryCount; i++) {
+        flag = EventWork_FlagGet(eventWork, work->boardEntries[i].flagId);
+        zoneMatch = func_ov104_021f0334(&work->boardEntries[i], zone);
+        if (func_ov104_021f037c(&work->boardEntries[i]) && flag &&
             zoneMatch) {
-            return (struct FieldExpObjGimmickOv104ResEntry *)((u8 *)work->resList + offset);
+            return &work->boardEntries[i];
         }
     }
     return 0;
 }
 
-struct FieldExpObjGimmickOv104ResEntry *func_ov104_021ef204(FieldExpObjGimmickOv104Work *work) {
+GimmickGateBoardEntry *func_ov104_021ef204(GimmickGateWork *work) {
     u16 zone;
     EventWork *eventWork;
     s32 i;
-    s32 offset;
-    struct FieldExpObjGimmickOv104ResEntry *entry;
+    GimmickGateBoardEntry *entry;
     BOOL flag;
     BOOL zoneMatch;
 
     zone = Field_GetPlayerStateZoneID(work->field);
     eventWork = GameData_GetEventWork(work->gameData);
-    if (work->resList == 0) {
+    if (work->boardEntries == 0) {
         return 0;
     }
-    for (i = 0; i < work->resCount; i++) {
-        offset = i * 0x24;
-        flag = EventWork_FlagGet(eventWork, (u16) * (u32 *)((u8 *)work->resList + offset + 4));
-        zoneMatch = func_ov104_021f0334((struct FieldExpObjGimmickOv104ResEntry *)((u8 *)work->resList + offset), zone);
+    for (i = 0; i < work->boardEntryCount; i++) {
+        flag = EventWork_FlagGet(eventWork, work->boardEntries[i].flagId);
+        zoneMatch = func_ov104_021f0334(&work->boardEntries[i], zone);
         if (flag && zoneMatch) {
-            entry = (struct FieldExpObjGimmickOv104ResEntry *)((u8 *)work->resList + offset);
-            if (*(u32 *)((u8 *)entry + 0x10) == 2) {
+            entry = &work->boardEntries[i];
+            if (entry->type == 2) {
                 return entry;
             }
         }
@@ -363,26 +437,26 @@ struct FieldExpObjGimmickOv104ResEntry *func_ov104_021ef204(FieldExpObjGimmickOv
     return 0;
 }
 
-u32 func_ov104_021ef278(FieldExpObjGimmickOv104Work *work) {
+u32 func_ov104_021ef278(GimmickGateWork *work) {
     if (func_ov104_021ef180(work) != 0) {
         return 1;
     }
     return 0;
 }
 
-void func_ov104_021ef28c(FieldExpObjGimmickOv104Work *work, u32 message, u32 kind, void *arg) {
-    func_ov104_021efc6c(work->state, (FieldExpObjGimmickOv104MessageArg *)message);
+void func_ov104_021ef28c(GimmickGateWork *work, ElboardMessageArg *message, u32 kind, GimmickGateBoardEntry *entry) {
+    func_ov104_021efc6c(work->board, message);
     if (kind == 8) {
-        func_ov104_021ef02c(work, kind, *(u32 *)((u8 *)arg + 4));
+        func_ov104_021ef02c(work, kind, entry->flagId);
     } else {
         func_ov104_021ef02c(work, kind, 0);
     }
-    if (kind == 8 && *(u32 *)((u8 *)arg + 8) == 1) {
-        EventWork_FlagReset(GameData_GetEventWork(work->gameData), (u16) * (u32 *)((u8 *)arg + 4));
+    if (kind == 8 && entry->unk08 == 1) {
+        EventWork_FlagReset(GameData_GetEventWork(work->gameData), entry->flagId);
     }
 }
 
-void func_ov104_021ef2cc(FieldExpObjGimmickOv104Work *work) {
+void func_ov104_021ef2cc(GimmickGateWork *work) {
     if (func_ov104_021ef04c(work) == 1) {
         func_ov104_021ef344(work);
         return;
@@ -394,8 +468,8 @@ void func_ov104_021ef2cc(FieldExpObjGimmickOv104Work *work) {
     func_ov104_021ef2fc(work);
 }
 
-void func_ov104_021ef2fc(FieldExpObjGimmickOv104Work *work) {
-    if (!func_ov104_021efcf8(work->state) && work->substate && work->substate->enabled) {
+void func_ov104_021ef2fc(GimmickGateWork *work) {
+    if (!func_ov104_021efcf8(work->board) && work->zoneData && work->zoneData->enabled) {
         func_ov104_021ef5ac(work);
         func_ov104_021ef3c0(work);
         func_ov104_021ef43c(work);
@@ -406,8 +480,8 @@ void func_ov104_021ef2fc(FieldExpObjGimmickOv104Work *work) {
     }
 }
 
-void func_ov104_021ef344(FieldExpObjGimmickOv104Work *work) {
-    if (!func_ov104_021efcf8(work->state) && work->substate && work->substate->enabled) {
+void func_ov104_021ef344(GimmickGateWork *work) {
+    if (!func_ov104_021efcf8(work->board) && work->zoneData && work->zoneData->enabled) {
         func_ov104_021ef5ac(work);
         func_ov104_021ef3c0(work);
         func_ov104_021ef43c(work);
@@ -416,8 +490,8 @@ void func_ov104_021ef344(FieldExpObjGimmickOv104Work *work) {
     }
 }
 
-void func_ov104_021ef380(FieldExpObjGimmickOv104Work *work) {
-    if (!func_ov104_021efcf8(work->state) && work->resList && work->substate && work->substate->enabled) {
+void func_ov104_021ef380(GimmickGateWork *work) {
+    if (!func_ov104_021efcf8(work->board) && work->boardEntries && work->zoneData && work->zoneData->enabled) {
         func_ov104_021ef924(work);
         func_ov104_021ef5ac(work);
         func_ov104_021ef3c0(work);
@@ -426,9 +500,9 @@ void func_ov104_021ef380(FieldExpObjGimmickOv104Work *work) {
     }
 }
 
-void func_ov104_021ef3c0(FieldExpObjGimmickOv104Work *work) {
+void func_ov104_021ef3c0(GimmickGateWork *work) {
     WordSet *wordSet;
-    FieldExpObjGimmickOv104MessageArg arg;
+    ElboardMessageArg arg;
     RTCDate date;
 
     wordSet = GFL_WordSetSystemCreateDefault(work->heapId);
@@ -436,20 +510,20 @@ void func_ov104_021ef3c0(FieldExpObjGimmickOv104Work *work) {
     WordSetNumber(wordSet, 2, date.year, 2, 2, 1);
     loadMonthToStrbuf(wordSet, 0, date.month);
     WordSetNumber(wordSet, 1, date.day, 2, 0, 1);
-    arg.kind = *(u16 *)((u8 *)&data_ov104_021f0620 + 4);
-    arg.unk04 = *(u32 *)((u8 *)&data_ov104_021f0620 + 0x14);
-    arg.unk08 = *(u32 *)((u8 *)&data_ov104_021f0620 + 0x30);
+    arg.kind = sMessageKinds[0];
+    arg.name = sBoardNames[0];
+    arg.plName = sBoardPlNames[0];
     arg.unk0c = 2;
-    arg.unk10 = 0x2b;
-    arg.unk14 = *(u32 *)&work->substate->unk18[0];
+    arg.messageFile = 0x2b;
+    arg.messageId = work->zoneData->messageIds[0];
     arg.wordSet = wordSet;
-    func_ov104_021ef28c(work, (u32)&arg, 1, 0);
+    func_ov104_021ef28c(work, &arg, 1, 0);
     GFL_WordSetSystemFree(wordSet);
 }
 
-void func_ov104_021ef43c(FieldExpObjGimmickOv104Work *work) {
-    FieldExpObjGimmickOv104MessageArg arg;
-    FieldExpObjGimmickOv104ZoneList list;
+void func_ov104_021ef43c(GimmickGateWork *work) {
+    ElboardMessageArg arg;
+    GimmickGateZoneList list;
     u32 message;
     WordSet *wordSet;
     WordSet *formatSet;
@@ -459,14 +533,11 @@ void func_ov104_021ef43c(FieldExpObjGimmickOv104Work *work) {
     StrBuf *weatherName;
     StrBuf *template;
     StrBuf *formatted;
-    u32 length;
     s32 i;
     u8 weather;
 
     func_ov104_021efa18(work, &list);
-    length = 4;
-    length += 0xfc;
-    wordSet = GFL_WordSetSystemCreate(4, length, work->heapId);
+    wordSet = GFL_WordSetSystemCreate(4, 0x100, work->heapId);
     placeMessages = GFL_MsgSysLoadData(0, 2, 0x6d, work->heapId);
     weatherMessages = GFL_MsgSysLoadData(0, 2, 0x2b, work->heapId);
     for (i = 0; i < 4; i++) {
@@ -475,8 +546,8 @@ void func_ov104_021ef43c(FieldExpObjGimmickOv104Work *work) {
         }
         weather = list.weather[i];
         placeName = GFL_MsgDataLoadStrbufNew(placeMessages, ZoneData_GetPlaceNameID(list.zones[i]));
-        weatherName = GFL_MsgDataLoadStrbufNew(weatherMessages, data_ov104_021f068c[weather]);
-        formatSet = GFL_WordSetSystemCreate(2, length, work->heapId);
+        weatherName = GFL_MsgDataLoadStrbufNew(weatherMessages, sWeatherMessages[weather]);
+        formatSet = GFL_WordSetSystemCreate(2, 0x100, work->heapId);
         template = GFL_MsgDataLoadStrbufNew(weatherMessages, 0xc0);
         formatted = GFL_StrBufCreate(0x40, work->heapId);
         func_0202437c(formatSet, 0, placeName, 0, 1, 0);
@@ -505,23 +576,23 @@ void func_ov104_021ef43c(FieldExpObjGimmickOv104Work *work) {
         message = 0xc4;
         break;
     }
-    arg.kind = *(u16 *)((u8 *)&data_ov104_021f0620 + 6);
-    arg.unk04 = *(u32 *)((u8 *)&data_ov104_021f0620 + 0x18);
-    arg.unk08 = *(u32 *)((u8 *)&data_ov104_021f0620 + 0x34);
+    arg.kind = sMessageKinds[1];
+    arg.name = sBoardNames[1];
+    arg.plName = sBoardPlNames[1];
     arg.unk0c = 2;
-    arg.unk10 = 0x2b;
-    arg.unk14 = message;
+    arg.messageFile = 0x2b;
+    arg.messageId = message;
     arg.wordSet = wordSet;
-    func_ov104_021ef28c(work, (u32)&arg, 2, 0);
+    func_ov104_021ef28c(work, &arg, 2, 0);
     GFL_WordSetSystemFree(wordSet);
 }
 
-void func_ov104_021ef5ac(FieldExpObjGimmickOv104Work *work) {
+void func_ov104_021ef5ac(GimmickGateWork *work) {
     u16 zone;
     WordSet *wordSet;
     MsgData *msgData;
     StrBuf *zoneName;
-    FieldExpObjGimmickOv104MessageArg arg;
+    ElboardMessageArg arg;
 
     zone = getSwarmLevelRangeFromData(work->gameData);
     if (zone == 0xffff || (zone == 0x159 && GameData_GetSeason(work->gameData) == 3)) {
@@ -533,175 +604,174 @@ void func_ov104_021ef5ac(FieldExpObjGimmickOv104Work *work) {
     func_0202437c(wordSet, 0, zoneName, 0, 1, 0);
     GFL_StrBufFree(zoneName);
     GFL_MsgDataFree(msgData);
-    arg.kind = *(u16 *)((u8 *)&data_ov104_021f0620 + 8);
-    arg.unk04 = *(u32 *)((u8 *)&data_ov104_021f0620 + 0x1c);
-    arg.unk08 = *(u32 *)((u8 *)&data_ov104_021f0620 + 0x38);
+    arg.kind = sMessageKinds[2];
+    arg.name = sBoardNames[2];
+    arg.plName = sBoardPlNames[2];
     arg.unk0c = 2;
-    arg.unk10 = 0x2b;
-    arg.unk14 = *(u32 *)&work->substate->unk18[8];
+    arg.messageFile = 0x2b;
+    arg.messageId = work->zoneData->messageIds[2];
     arg.wordSet = wordSet;
-    func_ov104_021ef28c(work, (u32)&arg, 3, 0);
+    func_ov104_021ef28c(work, &arg, 3, 0);
     GFL_WordSetSystemFree(wordSet);
 }
 
-void func_ov104_021ef658(FieldExpObjGimmickOv104Work *work) {
-    FieldExpObjGimmickOv104MessageArg arg;
+void func_ov104_021ef658(GimmickGateWork *work) {
+    ElboardMessageArg arg;
     RTCDate date;
 
     func_0207cc10(&date);
     switch (date.week) {
     case 0:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x24];
+        arg.messageId = work->zoneData->messageIds[9];
         break;
     case 1:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x18];
+        arg.messageId = work->zoneData->messageIds[6];
         break;
     case 2:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0xc];
+        arg.messageId = work->zoneData->messageIds[3];
         break;
     case 3:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x1c];
+        arg.messageId = work->zoneData->messageIds[7];
         break;
     case 4:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x10];
+        arg.messageId = work->zoneData->messageIds[4];
         break;
     case 5:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x20];
+        arg.messageId = work->zoneData->messageIds[8];
         break;
     case 6:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x14];
+        arg.messageId = work->zoneData->messageIds[5];
         break;
     }
-    arg.kind = *(u16 *)((u8 *)&data_ov104_021f0620 + 0xa);
-    arg.unk04 = *(u32 *)((u8 *)&data_ov104_021f0620 + 0x20);
-    arg.unk08 = *(u32 *)((u8 *)&data_ov104_021f0620 + 0x3c);
+    arg.kind = sMessageKinds[3];
+    arg.name = sBoardNames[3];
+    arg.plName = sBoardPlNames[3];
     arg.unk0c = 2;
-    arg.unk10 = 0x2b;
+    arg.messageFile = 0x2b;
     arg.wordSet = 0;
-    func_ov104_021ef28c(work, (u32)&arg, 4, 0);
+    func_ov104_021ef28c(work, &arg, 4, 0);
 }
 
-void func_ov104_021ef6dc(FieldExpObjGimmickOv104Work *work) {
-    FieldExpObjGimmickOv104MessageArg arg;
+void func_ov104_021ef6dc(GimmickGateWork *work) {
+    ElboardMessageArg arg;
     RTCDate date;
 
     func_0207cc10(&date);
     switch (date.week) {
     case 0:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x28];
+        arg.messageId = work->zoneData->messageIds[10];
         break;
     case 1:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x1c];
+        arg.messageId = work->zoneData->messageIds[7];
         break;
     case 2:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x10];
+        arg.messageId = work->zoneData->messageIds[4];
         break;
     case 3:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x20];
+        arg.messageId = work->zoneData->messageIds[8];
         break;
     case 4:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x14];
+        arg.messageId = work->zoneData->messageIds[5];
         break;
     case 5:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x24];
+        arg.messageId = work->zoneData->messageIds[9];
         break;
     case 6:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x18];
+        arg.messageId = work->zoneData->messageIds[6];
         break;
     }
-    arg.kind = *(u16 *)((u8 *)&data_ov104_021f0620 + 0xc);
-    arg.unk04 = *(u32 *)((u8 *)&data_ov104_021f0620 + 0x24);
-    arg.unk08 = *(u32 *)((u8 *)&data_ov104_021f0620 + 0x40);
+    arg.kind = sMessageKinds[4];
+    arg.name = sBoardNames[4];
+    arg.plName = sBoardPlNames[4];
     arg.unk0c = 2;
-    arg.unk10 = 0x2b;
+    arg.messageFile = 0x2b;
     arg.wordSet = 0;
-    func_ov104_021ef28c(work, (u32)&arg, 5, 0);
+    func_ov104_021ef28c(work, &arg, 5, 0);
 }
 
-void func_ov104_021ef760(FieldExpObjGimmickOv104Work *work) {
-    FieldExpObjGimmickOv104MessageArg arg;
+void func_ov104_021ef760(GimmickGateWork *work) {
+    ElboardMessageArg arg;
     RTCDate date;
 
     func_0207cc10(&date);
     switch (date.week) {
     case 0:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x2c];
+        arg.messageId = work->zoneData->messageIds[11];
         break;
     case 1:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x20];
+        arg.messageId = work->zoneData->messageIds[8];
         break;
     case 2:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x14];
+        arg.messageId = work->zoneData->messageIds[5];
         break;
     case 3:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x24];
+        arg.messageId = work->zoneData->messageIds[9];
         break;
     case 4:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x18];
+        arg.messageId = work->zoneData->messageIds[6];
         break;
     case 5:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x28];
+        arg.messageId = work->zoneData->messageIds[10];
         break;
     case 6:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x1c];
+        arg.messageId = work->zoneData->messageIds[7];
         break;
     }
-    arg.kind = *(u16 *)((u8 *)&data_ov104_021f0620 + 0xe);
-    arg.unk04 = *(u32 *)((u8 *)&data_ov104_021f0620 + 0x28);
-    arg.unk08 = *(u32 *)((u8 *)&data_ov104_021f0620 + 0x44);
+    arg.kind = sMessageKinds[5];
+    arg.name = sBoardNames[5];
+    arg.plName = sBoardPlNames[5];
     arg.unk0c = 2;
-    arg.unk10 = 0x2b;
+    arg.messageFile = 0x2b;
     arg.wordSet = 0;
-    func_ov104_021ef28c(work, (u32)&arg, 6, 0);
+    func_ov104_021ef28c(work, &arg, 6, 0);
 }
 
-void func_ov104_021ef7e4(FieldExpObjGimmickOv104Work *work) {
-    FieldExpObjGimmickOv104MessageArg arg;
+void func_ov104_021ef7e4(GimmickGateWork *work) {
+    ElboardMessageArg arg;
     RTCDate date;
 
     func_0207cc10(&date);
     switch (date.week) {
     case 0:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x48];
+        arg.messageId = work->zoneData->messageIds[18];
         break;
     case 1:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x30];
+        arg.messageId = work->zoneData->messageIds[12];
         break;
     case 2:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x34];
+        arg.messageId = work->zoneData->messageIds[13];
         break;
     case 3:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x38];
+        arg.messageId = work->zoneData->messageIds[14];
         break;
     case 4:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x3c];
+        arg.messageId = work->zoneData->messageIds[15];
         break;
     case 5:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x40];
+        arg.messageId = work->zoneData->messageIds[16];
         break;
     case 6:
-        arg.unk14 = *(u32 *)&work->substate->unk18[0x44];
+        arg.messageId = work->zoneData->messageIds[17];
         break;
     }
-    arg.kind = *(u16 *)((u8 *)&data_ov104_021f0620 + 0x10);
-    arg.unk04 = *(u32 *)((u8 *)&data_ov104_021f0620 + 0x2c);
-    arg.unk08 = *(u32 *)((u8 *)&data_ov104_021f0620 + 0x48);
+    arg.kind = sMessageKinds[6];
+    arg.name = sBoardNames[6];
+    arg.plName = sBoardPlNames[6];
     arg.unk0c = 2;
-    arg.unk10 = 0x2b;
+    arg.messageFile = 0x2b;
     arg.wordSet = 0;
-    func_ov104_021ef28c(work, (u32)&arg, 7, 0);
+    func_ov104_021ef28c(work, &arg, 7, 0);
 }
 
-void func_ov104_021ef868(FieldExpObjGimmickOv104Work *work) {
+void func_ov104_021ef868(GimmickGateWork *work) {
     s32 count;
-    FieldExpObjGimmickOv104MessageArg arg;
+    ElboardMessageArg arg;
     u32 species[6];
     WordSet *wordSet;
-    const u32 *data;
     u32 message;
     s32 i;
 
-    wordSet = GFL_WordSetSystemCreateDefault(func_ov104_021efcf4(work->state));
+    wordSet = GFL_WordSetSystemCreateDefault(func_ov104_021efcf4(work->board));
     func_ov104_021ef084(work, species, &count);
     switch (count) {
     case 1:
@@ -727,20 +797,19 @@ void func_ov104_021ef868(FieldExpObjGimmickOv104Work *work) {
         WordSet_LoadSpeciesName(wordSet, i, (u16)species[i]);
     }
     copyVarForText(wordSet, 6, GetGameDataPlayerInfo(work->gameData));
-    data = &data_ov104_021f0620;
-    arg.kind = ((const u16 *)data)[5];
-    arg.unk04 = data[8];
-    arg.unk08 = data[15];
+    arg.kind = sMessageKinds[3];
+    arg.name = sBoardNames[3];
+    arg.plName = sBoardPlNames[3];
     arg.unk0c = 2;
-    arg.unk10 = 0x2b;
-    arg.unk14 = message;
+    arg.messageFile = 0x2b;
+    arg.messageId = message;
     arg.wordSet = wordSet;
-    func_ov104_021ef28c(work, (u32)&arg, 9, 0);
+    func_ov104_021ef28c(work, &arg, 9, 0);
     GFL_WordSetSystemFree(wordSet);
 }
 
-void func_ov104_021ef924(FieldExpObjGimmickOv104Work *work) {
-    struct FieldExpObjGimmickOv104ResEntry *entry;
+void func_ov104_021ef924(GimmickGateWork *work) {
+    GimmickGateBoardEntry *entry;
 
     entry = func_ov104_021ef180(work);
     switch (entry->type) {
@@ -753,19 +822,19 @@ void func_ov104_021ef924(FieldExpObjGimmickOv104Work *work) {
     }
 }
 
-void func_ov104_021ef994(FieldExpObjGimmickOv104Work *work) {
+void func_ov104_021ef994(GimmickGateWork *work) {
     s32 index;
-    struct FieldExpObjGimmickOv104ResEntry *entry;
+    GimmickGateBoardEntry *entry;
 
     index = 0;
     entry = func_ov104_021ef204(work);
     while (entry && index < 3) {
-        func_ov104_021ef94c(work, entry, data_ov104_021f03a4[index++]);
+        func_ov104_021ef94c(work, entry, sEntrySlots[index++]);
         entry = func_ov104_021ef204(work);
     }
 }
 
-s32 func_ov104_021ef9c8(const FieldExpObjGimmickOv104ZoneList *list) {
+s32 func_ov104_021ef9c8(const GimmickGateZoneList *list) {
     s32 index;
     s32 count;
 
@@ -778,7 +847,7 @@ s32 func_ov104_021ef9c8(const FieldExpObjGimmickOv104ZoneList *list) {
     return count;
 }
 
-void func_ov104_021ef9f8(FieldExpObjGimmickOv104ZoneList *list) {
+void func_ov104_021ef9f8(GimmickGateZoneList *list) {
     s32 index;
 
     for (index = 0; index < 4; index++) {
@@ -787,12 +856,12 @@ void func_ov104_021ef9f8(FieldExpObjGimmickOv104ZoneList *list) {
     }
 }
 
-void func_ov104_021efa18(FieldExpObjGimmickOv104Work *work, FieldExpObjGimmickOv104ZoneList *out) {
-    FieldExpObjGimmickOv104ZoneList second;
-    FieldExpObjGimmickOv104ZoneList first;
+void func_ov104_021efa18(GimmickGateWork *work, GimmickGateZoneList *out) {
+    GimmickGateZoneList second;
+    GimmickGateZoneList first;
     s32 count;
     s32 i;
-    struct FieldExpObjGimmickOv104Substate *substate;
+    GimmickGateZoneData *zoneData;
 
     count = 0;
     func_ov104_021ef9f8(out);
@@ -815,18 +884,18 @@ void func_ov104_021efa18(FieldExpObjGimmickOv104Work *work, FieldExpObjGimmickOv
         count++;
     }
     if (count == 0) {
-        substate = work->substate;
-        out->zones[0] = substate->fallbackZones[0];
-        out->zones[1] = substate->fallbackZones[1];
-        out->zones[2] = substate->fallbackZones[2];
-        out->zones[3] = substate->fallbackZones[3];
+        zoneData = work->zoneData;
+        out->zones[0] = zoneData->fallbackZones[0];
+        out->zones[1] = zoneData->fallbackZones[1];
+        out->zones[2] = zoneData->fallbackZones[2];
+        out->zones[3] = zoneData->fallbackZones[3];
     }
     for (i = 0; i < 4; i++) {
         out->weather[i] = Field_GetWeatherForZone(work->field, out->zones[i]);
     }
 }
 
-void func_ov104_021efb30(FieldExpObjGimmickOv104Work *work, FieldExpObjGimmickOv104ZoneList *list) {
+void func_ov104_021efb30(GimmickGateWork *work, GimmickGateZoneList *list) {
     EncountSave *save;
     u32 version;
     u32 slot;
