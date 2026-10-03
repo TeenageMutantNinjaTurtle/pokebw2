@@ -56,13 +56,9 @@ src/ov036/field_prop_find_res_info.c:
     complete
     .text       start:0x02183244 end:0x02183264
 
-src/ov036/field_chunk_prop_holder_release.c:
-    complete
-    .text       start:0x02183d88 end:0x02183d98
-
 src/ov036/field_prop_chunk_holder_ops.c:
     complete
-    .text       start:0x02183d98 end:0x02183e80
+    .text       start:0x02183d88 end:0x02183e80
 
 src/ov036/field_prop_search_area.c:
     complete

@@ -1,6 +1,15 @@
 #include "field/field_prop.h"
 
-FieldChunkPropHolder *FieldPropSystem_LinkPropToChunk(FieldPropSystem *system, void *chunk, u32 resIndex, u32 propIndex) {
+void FieldChunkPropHolder_Release(FieldPropSystem *system, FieldChunkPropHolder *holder) {
+    holder->chunk = NULL;
+    holder->savedResIndex = 0xffffffff;
+    holder->propIndex = 0;
+    holder->visible = 0;
+    holder->instance = NULL;
+}
+
+FieldChunkPropHolder *FieldPropSystem_LinkPropToChunk(FieldPropSystem *system, void *chunk, u32 resIndex,
+                                                      u32 propIndex) {
     FieldChunkPropHolder *holder;
     u32 i;
 

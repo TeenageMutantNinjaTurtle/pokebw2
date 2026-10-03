@@ -67,10 +67,6 @@ src/ov033/event_cgear_shutdown.c:
     complete
     .text       start:0x021775b4 end:0x02177628
 
-src/ov033/random_ffff.c:
-    complete
-    .text       start:0x0217c368 end:0x0217c380
-
 src/ov033/entree_forest_first_warp.c:
     complete
     .text       start:0x02176f04 end:0x02176fd0
@@ -185,7 +181,7 @@ src/ov033/subway_setup.c:
 
 src/ov033/subway_battle.c:
     complete
-    .text       start:0x0217c2a4 end:0x0217c368
+    .text       start:0x0217c2a4 end:0x0217c380
 
 src/ov033/mystery_gift_aux.c:
     complete

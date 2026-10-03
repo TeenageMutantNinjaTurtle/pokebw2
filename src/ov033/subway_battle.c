@@ -1,6 +1,7 @@
 #include "field/battle_facility.h"
 #include "field/bsubway_scr.h"
 #include "gfl/heap.h"
+#include "gfl/random.h"
 
 void *func_ov033_0217c264(BSubwayScrWork *bsw, void *param, u16 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7) {
     return func_ov012_02162864(param, a2, a3, a4, a5, a6, a7);
@@ -43,4 +44,8 @@ void func_ov033_0217c2c4(void *unused, u8 *dst, u32 level, u32 arg3, BSubwayTeam
                             config->unk8[i], adjusted, i, arg3, heapId);
     }
     GFL_HeapFree(temp);
+}
+
+u16 randFFFFFFFFdivFFFF(void) {
+    return GFL_RandomLC(0xffffffff) / 0xffff;
 }
