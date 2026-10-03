@@ -38,5 +38,10 @@ BOOL ServerControl_DecrementPP(BattleHandler *handler, BattleMon *mon, u8 moveIn
 BOOL ServerEvent_DecrementPP(BattleHandler *handler, BattleMon *mon, u8 moveIndex);
 void ServerEvent_EquipTempItem(BattleHandler *handler, BattleMon *mon, u8 monIndex);
 void ServerEvent_GastroAcidConfirmed(BattleHandler *handler, BattleMon *mon);
+void ServerControl_MoveCore(BattleHandler *handler, u8 clientId, u8 firstSlot, u8 secondSlot, u32 flag);
+void ServerControl_AfterMove(BattleHandler *handler, u8 clientId, u8 firstSlot, u8 secondSlot);
+BOOL ServerControl_ChangeWeatherCheck(BattleHandler *handler, u8 weather, u8 duration);
+void ServerControl_ChangeWeatherCore(BattleHandler *handler, u8 weather, u8 duration);
+void ServerEvent_NotifyAirLock(BattleHandler *handler);
 
 #endif // POKEBW2_BATTLE_BTL_SERVER_FLOW_H

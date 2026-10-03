@@ -17,6 +17,7 @@ typedef struct BattleCutinParam BattleCutinParam;
 typedef struct BattleHandler BattleHandler;
 typedef struct BattleHandlerAddFieldEffectParam BattleHandlerAddFieldEffectParam;
 typedef struct BattleHandlerBatonPassParam BattleHandlerBatonPassParam;
+typedef struct BattleHandlerChangeWeatherParam BattleHandlerChangeWeatherParam;
 typedef struct BattleHandlerChangeFormParam BattleHandlerChangeFormParam;
 typedef struct BattleHandlerCheckHeldItemParam BattleHandlerCheckHeldItemParam;
 typedef struct BattleHandlerConsumeItemParam BattleHandlerConsumeItemParam;
@@ -38,6 +39,7 @@ typedef struct BattleHandlerResetStatStageParam BattleHandlerResetStatStageParam
 typedef struct BattleHandlerRemoveFieldEffectParam BattleHandlerRemoveFieldEffectParam;
 typedef struct BattleHandlerSetWeightParam BattleHandlerSetWeightParam;
 typedef struct BattleHandlerSwitchParam BattleHandlerSwitchParam;
+typedef struct BattleHandlerSwapPokeParam BattleHandlerSwapPokeParam;
 typedef struct BattleHandlerSetCounterParam BattleHandlerSetCounterParam;
 typedef struct BattleHandlerString BattleHandlerString;
 typedef struct BattleMon BattleMon;

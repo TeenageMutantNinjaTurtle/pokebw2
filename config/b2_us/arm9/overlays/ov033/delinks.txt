@@ -230,3 +230,7 @@ src/ov033/pc_sound_logoff_create.c:
 src/ov033/funfest_script_misc.c:
     complete
     .text       start:0x021772c8 end:0x02177328
+
+src/ov033/event_entralink_warp_return.c:
+    complete
+    .text       start:0x02177370 end:0x02177408

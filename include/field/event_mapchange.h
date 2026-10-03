@@ -5,6 +5,7 @@
 #include "field/zone.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
+#include "system/game_event.h"
 
 GameEvent *CreateGameEntryPointEvent(GameSystem *gsys, GameSystemProcData *procData);
 GameEvent *EventGameOpening_Create(GameSystem *gsys, GameSystemProcData *procData);
@@ -30,6 +31,8 @@ GameEvent *EventEntralinkWarpIn_Create(GameSystem *gsys, u16 zoneId, VecFx32 *po
 GameEvent *EventEntralinkWarpIn_CreateCore(GameSystem *gsys, Field *field, ZoneSpawnInfo *spawn, u32 a3, u32 a4);
 GameEvent *EventEntralinkWarp_Create(GameSystem *gsys, Field *field, ZoneSpawnInfo *spawn);
 GameEvent *EventEntralinkWarp_CreateOut(GameSystem *gsys);
+GameEventReturnCode func_ov033_02177370(GameEvent *event, u32 *state, void *data);
+extern const VecFx32 data_ov033_0217c3f4;
 void EventEntralinkWarp_CreateReturnLocation(ZoneSpawnInfo *spawn, Field *field);
 GameEvent *EventMapChangeWarp_CreateFromEntity(GameSystem *gsys, Field *field, ZoneWarp *warp, u32 a3);
 GameEvent *EventMapChange_CreateGrid(GameSystem *gsys, Field *field, u8 mode, u16 zoneId, VecFx32 *pos, u16 dir);

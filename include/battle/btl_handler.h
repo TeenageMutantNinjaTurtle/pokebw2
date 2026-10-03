@@ -80,6 +80,8 @@ BOOL BattleHandler_DecrementPP(BattleHandler *handler, BattleHandlerDecrementPPP
 BOOL BattleHandler_ForceUseItem(BattleHandler *handler, BattleHandlerForceUseItemParam *param);
 BOOL BattleHandler_BatonPass(BattleHandler *handler, BattleHandlerBatonPassParam *param);
 BOOL BattleHandler_IllusionBreak(BattleHandler *handler, BattleHandlerIllusionBreakParam *param);
+BOOL BattleHandler_SwapPoke(BattleHandler *handler, BattleHandlerSwapPokeParam *param);
+u8 BattleHandler_ChangeWeather(BattleHandler *handler, BattleHandlerChangeWeatherParam *param);
 u8 func_ov167_021add78(void *state, u8 monIndex);
 u8 func_ov167_021ae0fc(void *state, u8 monIndex);
 

@@ -384,6 +384,14 @@ src/ov012/field_script_cmd_3d_demo.c:
     complete
     .text       start:0x021578f0 end:0x02157940
 
+src/ov012/field_script_cmd_net_connect.c:
+    complete
+    .text       start:0x02157ab8 end:0x02157bbc
+
+src/ov012/field_script_cmd_day_care_basic.c:
+    complete
+    .text       start:0x02157c60 end:0x02157cc8
+
 src/ov012/field_script_cmd_party_add_egg.c:
     complete
     .text       start:0x021571b4 end:0x021572f0
