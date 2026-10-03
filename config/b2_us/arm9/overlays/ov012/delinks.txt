@@ -33,14 +33,20 @@ src/ov012/map_matrix.c:
     .data       start:0x0216e1c4 end:0x0216e1d4
 
 src/ov012/map_replace.c:
+    complete
     .text       start:0x02154c94 end:0x02154ea0
+    .rodata     start:0x0216c300 end:0x0216c33c
     .data       start:0x0216e1d4 end:0x0216e1e4
 
 src/ov012/respawn_zone.c:
+    complete
     .text       start:0x02154ea0 end:0x02154f98
+    .rodata     start:0x0216c33c end:0x0216c9a4
 
 src/ov012/trainer_script.c:
+    complete
     .text       start:0x02154f98 end:0x021550a4
+    .rodata     start:0x0216c9a4 end:0x0216c9c0
 
 src/ov012/scrcmd_work.c:
     .text       start:0x021550a4 end:0x021555f8

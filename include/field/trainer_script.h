@@ -11,8 +11,6 @@ struct TrainerClashSlot {
     u32 result;
 };
 
-extern const u16 data_ov012_0216c9a8[];
-
 void SetupTrainerClashSlot(GameEvent *event, int index, const TrainerClashSlot *slot);
 u16 GetNPCTrainerIDFromSCRID(u32 scriptId);
 u16 GetNormalSCRIDFromTrainerID(u32 trainerId);

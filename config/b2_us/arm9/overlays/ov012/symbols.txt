@@ -1706,7 +1706,7 @@ EVENT_MAP_REPLACE_TABLE kind:data(any) addr:0x0216c300
 RESPAWN_ZONE_INFO kind:data(any) addr:0x0216c33c
 data_ov012_0216c340 kind:data(any) addr:0x0216c340
 data_ov012_0216c344 kind:data(any) addr:0x0216c344
-data_ov012_0216c911 kind:data(any) addr:0x0216c911 ambiguous
+REBATTLE_TRAINER_COUNT kind:data(any) addr:0x0216c9a4
 data_ov012_0216c9a8 kind:data(any) addr:0x0216c9a8
 data_ov012_0216c9c0 kind:data(any) addr:0x0216c9c0
 data_ov012_0216c9e0 kind:data(any) addr:0x0216c9e0

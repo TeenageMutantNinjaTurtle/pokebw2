@@ -7,6 +7,21 @@
 #include "system/game_data.h"
 #include "system/game_system.h"
 
+// The events that change the map, which a MapReplaceEntry's condition picks: an event happened when its work has the
+// value
+const MapReplaceEvent EVENT_MAP_REPLACE_TABLE[10] = {
+    { 3, 0, 0x4031, 0x1220 },
+    { 4, 1, 0x4032, 0x224 },
+    { 5, 2, 0x4033, 0x206 },
+    { 6, 3, 0x4034, 0x1209 },
+    { 7, 4, 0x4035, 0x316 },
+    { 8, 5, 0x4036, 0x1227 },
+    { 9, 6, 0x4037, 0x830 },
+    { 10, 7, 0x4038, 0x408 },
+    { 11, 8, 0x4039, 0x120 },
+    { 12, 9, 0x403a, 0x1028 },
+};
+
 MapReplace *MapReplace_Create(HeapID heapId, GameSystem *gsys) {
     MapReplace *replace = GFL_HeapAllocate(heapId, sizeof(MapReplace), TRUE, "map_replace.c", 0x77);
 

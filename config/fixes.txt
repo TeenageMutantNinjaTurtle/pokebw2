@@ -61,6 +61,8 @@ overlays/ov012 0x0216c274 reloc_module overlay(62)
 overlays/ov012 0x0216c288 reloc_module overlay(63)
 overlays/ov012 0x0216c2c4 reloc_module overlay(66)
 overlays/ov012 0x0216c2d8 reloc_module overlay(67)
+overlays/ov012 0x0216c911 remove_symbol
+overlays/ov012 0x0216c9a4 add_data REBATTLE_TRAINER_COUNT
 overlays/ov013 0x0216e76c reloc_module overlay(308)
 overlays/ov014 0x0216e8a0 reloc_module overlay(328)
 overlays/ov014 0x0216e8a8 reloc_module overlay(156)

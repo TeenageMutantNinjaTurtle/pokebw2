@@ -40,7 +40,11 @@ struct RespawnZoneInfo {
     u16 x : 8;
     u16 z : 8;
     u16 mainZoneId;
-    u8 unk0A[10];
+    u16 unk0A;
+    u16 unk0C;
+    u16 unk0E;
+    u16 unk10;
+    u16 unk12;
 };
 
 struct ZoneWarpGridPosition {
@@ -119,7 +123,7 @@ struct ZoneWarp {
     } pos;
 };
 
-extern const RespawnZoneInfo RESPAWN_ZONE_INFO[];
+extern const RespawnZoneInfo RESPAWN_ZONE_INFO[82];
 extern const s32 DIRECTION_VEC_X[];
 extern const s32 DIRECTION_VEC_Z[];
 extern const u32 INV_DIR_TABLE[];
