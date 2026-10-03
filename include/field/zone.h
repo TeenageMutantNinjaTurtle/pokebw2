@@ -31,6 +31,20 @@ struct ZoneSpawnInfo {
     FieldPosition pos;
 };
 
+struct RespawnZoneInfo {
+    u16 discoveryFlagId;
+    u16 canReturnHere : 1;
+    u16 discoverOnVisit : 1;
+    u16 unkFlags : 14;
+    u16 zoneId;
+    u16 x : 8;
+    u16 z : 8;
+    u16 mainZoneId;
+    u8 unk0A[10];
+};
+
+extern const RespawnZoneInfo RESPAWN_ZONE_INFO[];
+
 // Spawns at a position instead of a warp, warpId is -1
 #define ZONE_SPAWN_CHANGE_TYPE_POSITION 1
 #define ZONE_SPAWN_CHANGE_TYPE_3 3
@@ -60,6 +74,10 @@ u32 GetMapBGMIDByPlayerState2(GameData *gameData, s32 zoneId, u8 season);
 u32 GetOutTransitionTypeBetweenZones(u16 fromZone, u16 toZone);
 u32 GetRespawnLocationIndexForRespawnZone(s32 zoneId);
 u16 GetRespawnZoneMainZone(u16 index);
+u32 GetLeaguePokeCenReturnLocationIdx(void);
+BOOL RangeCheckTeleportZone(s32 index);
+u32 GetActualRespawnZoneIdx(u32 index);
+void CreateRespawnZoneChangeData(ZoneSpawnInfo *spawn, u16 zoneId, u32 unused, u16 x, u16 z);
 u32 GetWarpTransitionType(ZoneWarp *warp);
 BOOL GetZoneFlagsEnableEscapeRope(u16 zoneId);
 u32 GetZoneFlashFlags(u16 zoneId);
@@ -67,6 +85,7 @@ BOOL GetZoneIsMusicalTheater(u16 zoneId);
 BOOL GetZoneIsPWTBattleStage(u16 zoneId);
 BOOL GetZoneIsUnionRoom(u16 zoneId);
 u16 GetZoneMatrixId(u16 zoneId);
+u32 getGameOrigin(GameCommSys *commSys);
 BOOL GetZoneSpawnInfoIsRail(ZoneSpawnInfo *spawn);
 ZoneWarp *GetZoneWarpByID(EventData *eventData, u16 warpId);
 BOOL IsWarpDestId256(ZoneWarp *warp);

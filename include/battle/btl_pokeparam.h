@@ -33,6 +33,8 @@ u8 GetMovePP(BattleMon *mon, u8 index);
 PokeTypePair GetPokeType(BattleMon *mon);
 u16 GetPreviousMoveID(BattleMon *mon);
 BOOL IsFainted(BattleMon *mon);
+void func_ov167_021bb7c0(BattleMon *mon, u32 flag);
+void func_ov167_021bbc40(BattleMon *mon, u32 flag);
 BOOL IsSubstituteActive(BattleMon *mon);
 u16 MoveGetID(BattleMon *mon, u8 index);
 u8 PokeTypePair_GetType1(PokeTypePair pair);

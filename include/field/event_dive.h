@@ -3,6 +3,13 @@
 
 #include "system/game_event.h"
 
+struct DiveEventData {
+    GameSystem *gsys;
+    Field *field;
+    u32 param;
+    s32 timer;
+};
+
 GameEvent *EventDiveIn_Create(GameSystem *gsys, Field *field);
 GameEvent *CreateDiveOutEvent(GameSystem *gsys, Field *field, u32 param);
 GameEventReturnCode EventDiveIn_Callback(GameEvent *event, u32 *state, void *data);

@@ -123,3 +123,15 @@ src/ov167/battle_action_state.c:
 src/ov167/battle_handler_string.c:
     complete
     .text       start:0x021ac390 end:0x021ac424
+
+src/ov167/battle_handler_work.c:
+    complete
+    .text       start:0x021ac424 end:0x021ac490
+
+src/ov167/battle_handler_flags.c:
+    complete
+    .text       start:0x021ad2a8 end:0x021ad350
+
+src/ov167/battle_view_string_param.c:
+    complete
+    .text       start:0x021d0b2c end:0x021d0b8c

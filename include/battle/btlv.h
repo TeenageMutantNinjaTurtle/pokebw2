@@ -2,6 +2,10 @@
 #define POKEBW2_BATTLE_BTLV_H
 
 #include "types.h"
+#include "struct_decls.h"
+
+void Btlv_StringParam_Setup(BtlvStringParam *param, u32 type, u16 message);
+void Btlv_StringParam_AddArg(BtlvStringParam *param, u32 arg);
 
 // The battle view, in overlay 168
 

@@ -11,6 +11,7 @@ BOOL Field_HasPlayer(Field *field);
 BOOL Field_ToggleCycling(Field *field);
 void FieldPlayer_GetWPosInDir(FieldPlayer *player, u32 direction, VecFx32 *position);
 u32 FieldPlayer_GetExState(FieldPlayer *player);
+void FieldPlayer_SetSpecialState(FieldPlayer *player, u32 state);
 void FieldPlayer_SetSpecialSeq(FieldPlayer *player, u32 seq);
 BOOL func_ov036_0219a580(FieldPlayer *player);
 

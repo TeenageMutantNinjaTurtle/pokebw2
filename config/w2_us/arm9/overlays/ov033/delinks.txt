@@ -86,3 +86,35 @@ src/ov033/pc_sound_create.c:
 src/ov033/pc_sound_logoff.c:
     complete
     .text       start:0x02179ac4 end:0x02179b64
+
+src/ov033/event_dive_in_callback.c:
+    complete
+    .text       start:0x02179f44 end:0x0217a024
+
+src/ov033/event_dive_out_callback.c:
+    complete
+    .text       start:0x0217a024 end:0x0217a0e4
+
+src/ov033/event_abyssal_ruins_step.c:
+    complete
+    .text       start:0x02179ed8 end:0x02179f44
+
+src/ov033/event_cgear_shutdown.c:
+    complete
+    .text       start:0x021775b4 end:0x02177628
+
+src/ov033/funfest_script_mission.c:
+    complete
+    .text       start:0x02176fd0 end:0x02177060
+
+src/ov033/funfest_script_actor.c:
+    complete
+    .text       start:0x02177060 end:0x02177110
+
+src/ov033/funfest_script_info.c:
+    complete
+    .text       start:0x02177110 end:0x02177308
+
+src/ov033/funfest_entree_event_calls.c:
+    complete
+    .text       start:0x02177368 end:0x021773b0

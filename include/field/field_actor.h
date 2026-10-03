@@ -164,4 +164,6 @@ void ExpandVecInGridDir(u16 dir, VecFx32 *pos, fx32 distance);
 void ConvGXZToVector(u32 x, u32 z, VecFx32 *pos);
 void SpawnAllZoneNPCs(MMSys *mmSys, ZoneNPC *npcs, s32 zoneId, u32 count, EventWork *eventWork);
 
+BOOL func_ov012_02166ecc(FieldActor *actor);
+
 #endif // POKEBW2_FIELD_FIELD_ACTOR_H

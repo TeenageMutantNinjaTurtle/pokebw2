@@ -3,13 +3,6 @@
 #include "field/ov131.h"
 #include "gfl/overlay.h"
 
-typedef struct DiveEventData {
-    GameSystem *gsys;
-    Field *field;
-    u32 param;
-    u32 unkC;
-} DiveEventData;
-
 GameEvent *EventDiveIn_Create(GameSystem *gsys, Field *field) {
     GameEvent *event;
     DiveEventData *data;

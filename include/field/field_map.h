@@ -19,6 +19,13 @@ struct MapMatrix {
     u32 chunkIds[900];
 };
 
+struct FieldTerrain {
+    u32 unk00;
+    u32 unk04;
+    u32 tileType;
+    fx32 height;
+};
+
 struct MapMatrixFileHeader {
     u16 format;
     u16 unk02;
@@ -36,6 +43,15 @@ struct MapReplace {
     u8 entry[16];
     u8 unk2A[2];
 };
+
+struct MapReplaceEvent {
+    u8 condition;
+    u8 uid;
+    u16 workId;
+    u16 expectedValue;
+};
+
+extern const MapReplaceEvent EVENT_MAP_REPLACE_TABLE[];
 
 extern const char data_ov012_0216e1c4[];
 extern const char data_ov012_0216e1d4[];
@@ -67,10 +83,15 @@ s32 MapReplace_LoadEntry(MapReplace *replace, u32 index);
 void MapReplace_Free(MapReplace *replace);
 void MapReplace_Patch(MapMatrix *matrix, MapReplace *replace, HeapID heapId);
 u32 MapReplace_ResolvePatch(MapReplace *replace, u32 *oldValue, u32 *newValue);
-void MapReplace_LoadVariables(void *variables, GameSystem *gsys);
+int MapReplace_GetEventByCond(u8 condition);
+const MapReplaceEvent *MapReplace_GetEventByUID(GameData *gameData, u8 uid);
+void GameData_SetEventMapReplace(GameData *gameData, u8 uid, BOOL set);
+BOOL GameData_IsMapReplaceEventSet(GameData *gameData, u8 uid);
+void MapReplace_LoadVariables(u8 *variables, GameSystem *gsys);
 void MapMatrix_Patch(MapMatrix *matrix, GameSystem *gsys, HeapID heapId);
 u32 GetTileTypeAtPos(G3DMapper *mapper, const VecFx32 *position);
-BOOL FieldG3DMapper_GetTerrain(G3DMapper *mapper, const VecFx32 *position, void *terrain);
+u16 GetAbyssalRuinsDiveZoneID(Field *field, u16 *zoneId);
+BOOL FieldG3DMapper_GetTerrain(G3DMapper *mapper, const VecFx32 *position, FieldTerrain *terrain);
 u32 GetTileClass(u32 tileType);
 BOOL MapTile_IsSurfEdge(u32 tileClass);
 BOOL IsTileSurfWater(u32 tileClass);

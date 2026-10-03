@@ -119,3 +119,39 @@ src/ov012/map_matrix_lifecycle.c:
 src/ov012/map_matrix_queries.c:
     complete
     .text       start:0x02154ae0 end:0x02154b64
+
+src/ov012/map_matrix_patch.c:
+    complete
+    .text       start:0x02154b64 end:0x02154c00
+
+src/ov012/map_matrix_world_coord.c:
+    complete
+    .text       start:0x02154c78 end:0x02154c94
+
+src/ov012/map_replace_lifecycle.c:
+    complete
+    .text       start:0x02154c94 end:0x02154d10
+
+src/ov012/map_replace_resolve.c:
+    complete
+    .text       start:0x02154d10 end:0x02154d9c
+
+src/ov012/map_replace_variables.c:
+    complete
+    .text       start:0x02154d9c end:0x02154e20
+
+src/ov012/map_replace_events.c:
+    complete
+    .text       start:0x02154e20 end:0x02154e9c
+
+src/ov012/respawn_zone_index.c:
+    complete
+    .text       start:0x02154e9c end:0x02154ec4
+
+src/ov012/respawn_zone_setup.c:
+    complete
+    .text       start:0x02154ec4 end:0x02154f80
+
+src/ov012/respawn_zone_actual_index.c:
+    complete
+    .text       start:0x02154f80 end:0x02154f98

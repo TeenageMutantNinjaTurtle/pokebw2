@@ -4,16 +4,9 @@
 #include "field/field_map.h"
 #include "field/field_player.h"
 
-typedef struct {
-    u32 unk0;
-    u32 unk4;
-    u32 tileType;
-    fx32 height;
-} SurfTerrain;
-
 BOOL CreateSurfPos(void *context, Field *field, VecFx32 *position) {
     VecFx32 targetPosition;
-    SurfTerrain terrain;
+    FieldTerrain terrain;
     VecFx32 actorPosition;
     G3DMapper *mapper;
     FieldPlayer *player;
