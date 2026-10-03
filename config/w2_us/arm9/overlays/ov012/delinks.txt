@@ -665,6 +665,10 @@ src/ov012/check_warp_position_match_rail.c:
     complete
     .text       start:0x0215d884 end:0x0215d8cc
 
+src/ov012/get_rail_warp_out_pos.c:
+    complete
+    .text       start:0x0215d814 end:0x0215d884
+
 src/ov012/event_game_clear_card.c:
     complete
     .text       start:0x0215a6b0 end:0x0215a6c4

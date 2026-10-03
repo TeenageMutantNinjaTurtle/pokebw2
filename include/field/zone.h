@@ -92,6 +92,7 @@ extern const RespawnZoneInfo RESPAWN_ZONE_INFO[];
 #endif
 
 u16 ConvDirToWarpDir(u16 dir);
+u32 ConvDirToRailDir(u32 direction);
 u32 ConvDirToTriggerDir(u32 dir);
 BOOL CheckWarpPositionMatch(const ZoneWarp *warp, const VecFx32 *position);
 BOOL CheckWarpPositionMatchRail(const ZoneWarp *warp, const RailPosition *position);
@@ -100,6 +101,7 @@ BOOL IsWarpZoneOrWarpID0xFFFF(const ZoneWarp *warp);
 void SetZoneWarpLocation(EventData *eventData, u16 warpId, u16 x, u16 y, u16 z);
 u32 ZoneWarp_GetDirection(const ZoneWarp *warp);
 void GetGridWarpOutPos(ZoneWarp *warp, u32 direction, VecFx32 *position);
+void GetRailWarpOutPos(ZoneWarp *warp, u32 direction, RailPosition *position);
 u16 CalcWarpTransferAddend(u32 direction, u32 warpDirection, u32 a2, u32 a3, u16 size);
 void CreateZoneChangeData(ZoneSpawnInfo *spawn, u32 zoneId, s16 warpDir, s32 x, s32 y, s32 z);
 void CreateZoneChangeDataRail(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpDir, u16 componentId, u16 posFront,

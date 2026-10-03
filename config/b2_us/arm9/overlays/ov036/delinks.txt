@@ -309,3 +309,7 @@ src/ov036/field_prop_handle_registry.c:
 src/ov036/field_prop_handle_id.c:
     complete
     .text       start:0x021833c0 end:0x021833f8
+
+src/ov036/field_prop_update_draw.c:
+    complete
+    .text       start:0x02183134 end:0x021831a4

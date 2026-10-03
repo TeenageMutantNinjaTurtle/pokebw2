@@ -227,5 +227,14 @@ const BattleEventHandlerEntry *EventAddHydration(u32 *priority);
 extern const BattleEventHandlerEntry data_ov167_021d78fc[];
 void HandlerShedSkin(void *context, BtlServerFlow *flow, u32 monId);
 const BattleEventHandlerEntry *EventAddShedSkin(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d78f4[];
+void HandlerPoisonHeal(void *context, BtlServerFlow *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddPoisonHeal(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d78ec[];
+void HandlerBattleArmor(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddBattleArmor(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d78e4[];
+void HandlerSuperLuck(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddSuperLuck(u32 *priority);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

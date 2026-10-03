@@ -46,16 +46,27 @@ struct FieldChunkPropHolder {
     u32 *instance;
 };
 
+// Layout inferred from the Swan-named FieldPropRTCState helpers in overlay 36.
+struct FieldPropRTCState {
+    u32 dayPeriod;
+    u32 previousDayPeriod;
+    BOOL dayPartChanged;
+    u8 playAnmIndex;
+    u8 season;
+    u8 padding[2];
+};
+
 struct FieldPropSystem {
     u16 heapId;
-    u8 unk2[0x16];
+    u8 unk2[6];
+    FieldPropRTCState rtcState;
     FieldPropResBundle *resBundle;
     u8 resIdToIndex[0x200];
     u32 resInfoCount;
     u8 unk220[0x1c];
     void *resInfoArray;
     void *textureResource;
-    u8 unk244[4];
+    u32 resInstanceCount;
     void *resInstances;
     FieldPropHandle *handles[7];
     FieldChunkPropHolder chunkPropHolders[0x120];
@@ -71,16 +82,6 @@ struct FieldPropHandle {
         u8 unk8[0x10];
     } instance;
     FieldPropTransform transform;
-};
-
-// Layout inferred from the Swan-named FieldPropRTCState helpers in overlay 36.
-struct FieldPropRTCState {
-    u32 dayPeriod;
-    u32 previousDayPeriod;
-    BOOL dayPartChanged;
-    u8 playAnmIndex;
-    u8 season;
-    u8 padding[2];
 };
 
 extern const u8 FIELD_PROP_ANM_IDX_FOR_DAY_PART[];
@@ -111,6 +112,9 @@ void FieldPropResInstance_Init(FieldPropSystem *system, void *instance, void *re
 void FieldPropSystem_DeleteHandle(FieldPropSystem *system, FieldPropHandle *handle);
 void FieldPropSystem_RegistHandle(FieldPropSystem *system, FieldPropHandle *handle);
 u16 FieldPropSystem_GetHandleID(FieldPropSystem *system, FieldPropHandle *handle);
+void FieldPropSystem_UpdateResInstance(FieldPropSystem *system, void *instance);
+void FieldPropSystem_Update(FieldPropSystem *system);
+void FieldPropSystem_DrawAllHandles(FieldPropSystem *system);
 void FieldChunkPropHolder_Release(FieldPropSystem *system, FieldChunkPropHolder *holder);
 void FieldPropSystem_ReleaseChunkPropHolders(FieldPropSystem *system, void *chunk);
 void FieldPropSystem_ReleaseChunkPropHolder(FieldPropSystem *system, FieldChunkPropHolder *holder);

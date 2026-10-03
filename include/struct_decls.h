@@ -227,6 +227,7 @@ typedef struct PokeDexSave PokeDexSave;
 typedef struct PlayTime PlayTime;
 typedef struct PlayerSave PlayerSave;
 typedef struct PokeParty PokeParty;
+typedef struct PoisonHealWork PoisonHealWork;
 typedef struct PokewoodSave PokewoodSave;
 typedef struct PokewoodSystem PokewoodSystem;
 typedef struct PrepareResidentActorsWork PrepareResidentActorsWork;

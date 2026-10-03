@@ -655,3 +655,15 @@ src/ov167/battle_ability_hydration.c:
 src/ov167/battle_ability_shed_skin.c:
     complete
     .text       start:0x021bf304 end:0x021bf368
+
+src/ov167/battle_ability_poison_heal.c:
+    complete
+    .text       start:0x021bf368 end:0x021bf3cc
+
+src/ov167/battle_ability_battle_armor.c:
+    complete
+    .text       start:0x021bf3cc end:0x021bf3f0
+
+src/ov167/battle_ability_super_luck.c:
+    complete
+    .text       start:0x021bf3f0 end:0x021bf420
