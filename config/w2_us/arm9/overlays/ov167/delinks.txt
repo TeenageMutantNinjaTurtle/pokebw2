@@ -286,7 +286,7 @@ src/ov167/battle_mon_transform_check.c:
 
 src/ov167/battle_mon_special_priority.c:
     complete
-    .text       start:0x021bc5b0 end:0x021bc5d0
+    .text       start:0x021bc59c end:0x021bc5d0
 
 src/ov167/battle_mon_combo_clear.c:
     complete
@@ -334,7 +334,7 @@ src/ov167/battle_ability_event_priority.c:
 
 src/ov167/battle_ability_item_rotation.c:
     complete
-    .text       start:0x021bdda0 end:0x021bddcc
+    .text       start:0x021bdd78 end:0x021bddcc
 
 src/ov167/battle_ability_handlers.c:
     complete
