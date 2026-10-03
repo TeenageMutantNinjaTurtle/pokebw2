@@ -380,93 +380,9 @@ src/ov167/battle_ability_stat_modifiers.c:
     complete
     .text       start:0x021bdf58 end:0x021be150
 
-src/ov167/battle_ability_compound_eyes.c:
+src/ov167/battle_ability_handlers.c:
     complete
-    .text       start:0x021be2a4 end:0x021be2cc
-
-src/ov167/battle_ability_weather_evasion.c:
-    complete
-    .text       start:0x021be2cc end:0x021be384
-
-src/ov167/battle_ability_lens_rock.c:
-    complete
-    .text       start:0x021be384 end:0x021be3ec
-
-src/ov167/battle_ability_sniper.c:
-    complete
-    .text       start:0x021be3ec end:0x021be41c
-
-src/ov167/battle_ability_speed_boost.c:
-    complete
-    .text       start:0x021be41c end:0x021be474
-
-src/ov167/battle_ability_adaptability.c:
-    complete
-    .text       start:0x021be474 end:0x021be4a4
-
-src/ov167/battle_ability_low_hp_boost.c:
-    complete
-    .text       start:0x021be4a4 end:0x021be55c
-
-src/ov167/battle_ability_guts.c:
-    complete
-    .text       start:0x021be55c end:0x021be5a8
-
-src/ov167/battle_ability_plus_minus.c:
-    complete
-    .text       start:0x021be5a8 end:0x021be668
-
-src/ov167/battle_ability_flower_gift.c:
-    complete
-    .text       start:0x021be668 end:0x021be8d8
-
-src/ov167/battle_ability_rivalry.c:
-    complete
-    .text       start:0x021be8d8 end:0x021be950
-
-src/ov167/battle_ability_move_power.c:
-    complete
-    .text       start:0x021be950 end:0x021bea04
-
-src/ov167/battle_ability_scale_link.c:
-    complete
-    .text       start:0x021bea04 end:0x021bea70
-
-src/ov167/battle_ability_stat_drop_guard.c:
-    complete
-    .text       start:0x021bea70 end:0x021beba8
-
-src/ov167/battle_ability_simple.c:
-    complete
-    .text       start:0x021beba8 end:0x021bebd4
-
-src/ov167/battle_ability_status_guards.c:
-    complete
-    .text       start:0x021bebd4 end:0x021befac
-
-src/ov167/battle_ability_weather_effects.c:
-    complete
-    .text       start:0x021befac end:0x021bf1e0
-
-src/ov167/battle_ability_shield_dust.c:
-    complete
-    .text       start:0x021bf1e0 end:0x021bf28c
-
-src/ov167/battle_ability_serene_grace.c:
-    complete
-    .text       start:0x021bf28c end:0x021bf2d0
-
-src/ov167/battle_ability_status_recovery.c:
-    complete
-    .text       start:0x021bf2d0 end:0x021bf40c
-
-src/ov167/battle_ability_critical_hit_guards.c:
-    complete
-    .text       start:0x021bf40c end:0x021bf460
-
-src/ov167/battle_ability_anger_point.c:
-    complete
-    .text       start:0x021bf460 end:0x021bf4f4
+    .text       start:0x021be2a4 end:0x021bf4f4
 
 src/ov167/battle_ability_move_modifiers.c:
     complete
