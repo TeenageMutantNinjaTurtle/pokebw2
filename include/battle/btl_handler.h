@@ -77,6 +77,7 @@ u8 BattleHandler_RecoverStatStage(BattleHandler *handler, BattleHandlerRecoverSt
 BOOL BattleHandler_ResetStatStage(BattleHandler *handler, BattleHandlerResetStatStageParam *param);
 BOOL BattleHandler_Message(BattleHandler *handler, BattleHandlerMessageParam *param);
 BOOL BattleHandler_DecrementPP(BattleHandler *handler, BattleHandlerDecrementPPParam *param);
+BOOL BattleHandler_ForceUseItem(BattleHandler *handler, BattleHandlerForceUseItemParam *param);
 
 BOOL BattleHandler_SetMoveEffectIndex(BattleHandler *handler, BattleHandlerMoveEffectParam *param);
 BOOL BattleHandler_SetMoveEffectEnable(BattleHandler *handler);

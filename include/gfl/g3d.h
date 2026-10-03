@@ -143,6 +143,8 @@ void GFL_G3DCameraFlush(G3DCamera *cam);
 void GFL_G3DCameraSetProjectionZNear(G3DCamera *cam, fx32 *zNear);
 void GFL_G3DCameraSetProjectionZFar(G3DCamera *cam, fx32 *zFar);
 void GFL_G3DCameraGetLookatPos(G3DCamera *cam, VecFx32 *pos);
+void GFL_G3DCameraGetLookatUpVector(G3DCamera *cam, VecFx32 *up);
+void GFL_G3DCameraGetLookatTarget(G3DCamera *cam, VecFx32 *target);
 
 BOOL GFL_G3DActorBindAnm(G3DActor *actor, u16 anmIdx);
 BOOL GFL_G3DActorUnbindAnm(G3DActor *actor, u16 anmIdx);

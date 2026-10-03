@@ -263,3 +263,7 @@ src/ov167/battle_handler_set_string.c:
 src/ov167/battle_handler_decrement_pp.c:
     complete
     .text       start:0x021acb90 end:0x021acbe8
+
+src/ov167/battle_handler_force_use_item.c:
+    complete
+    .text       start:0x021ad9bc end:0x021ada4c

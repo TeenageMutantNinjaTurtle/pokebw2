@@ -63,6 +63,8 @@ void MAT43_MulVec(const VecFx32 *vec, const MtxFx43 *mtx, VecFx32 *dest);
 
 void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
 void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
+void vecfx_normalize(const VecFx32 *src, VecFx32 *dest);
+void vecfx_muladd(fx32 scale, const VecFx32 *a, const VecFx32 *b, VecFx32 *dest);
 fx32 VEC_Mag(const VecFx32 *v);
 
 // An angle in fixed point degrees as a 16-bit angle

@@ -4,7 +4,8 @@
 #include "types.h"
 #include "struct_decls.h"
 
-void PopState(BtlActionState *state, u32 value);
+u32 PushState(BtlActionState *state, u32 command);
+void PopState(BtlActionState *state, u32 value, u32 command);
 u16 GetUseItemNo(BtlActionState *state);
 BOOL IsUsed(BtlActionState *state);
 void SetResult(BtlActionState *state, BOOL result);

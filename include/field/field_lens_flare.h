@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_FIELD_LENS_FLARE_H
 
 #include "types.h"
+#include "gfl/g3d.h"
 #include "gfl/heap.h"
 #include "struct_decls.h"
 
@@ -44,6 +45,7 @@ FieldLensFlare *FieldLensFlare_Create(GameSystem *gameSystem, GameData *gameData
 void FieldLensFlareData_Free(FieldLensFlareData *data);
 void FieldLensFlare_Free(FieldLensFlare *lensFlare);
 void FieldLensFlare_Load(FieldExpObjSystem *expObjSys, FieldLensFlareData *data, u16 effectId);
+void FieldLensFlare_CalcPos(FieldLensFlare *lensFlare, G3DCamera *camera);
 void FieldLensFlare_RequestStart(FieldLensFlare *lensFlare);
 void FieldLensFlare_GreenlightStart(FieldLensFlare *lensFlare);
 void FieldLensFlare_Cancel(FieldLensFlare *lensFlare);

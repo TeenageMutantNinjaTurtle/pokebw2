@@ -10,7 +10,7 @@ struct BtlActionState {
 };
 
 // Function names from swan.
-void PopState(BtlActionState *state, u32 value) {
+void PopState(BtlActionState *state, u32 value, u32 command) {
     *(u32 *)state = value;
 }
 

@@ -16,6 +16,12 @@ struct PCSoundEventData {
 
 GameEventReturnCode pcEntrySound(GameEvent *event, u32 *state, void *data);
 GameEvent *CreatePCSoundCallEvent(GameEvent *parent, GameSystem *gsys, Field *field);
+GameEventReturnCode func_ov033_021799e8(GameEvent *event, u32 *state, void *data);
+GameEvent *func_ov033_02179a58(GameEvent *parent, GameSystem *gsys, Field *field);
 GameEventReturnCode pcLogOffSound(GameEvent *event, u32 *state, void *data);
+GameEvent *func_ov033_02179868(GameSystem *gsys, u16 option, u16 *result);
+GameEventReturnCode func_ov033_021798a0(GameEvent *event, u32 *state, void *data);
+
+extern const GameProcFunctions data_ov182_021bd8e4;
 
 #endif // POKEBW2_FIELD_PC_SOUND_H

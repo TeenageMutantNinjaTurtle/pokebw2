@@ -214,3 +214,7 @@ src/ov033/unity_tower_visitor_display.c:
 src/ov033/event_game_manual.c:
     complete
     .text       start:0x02179e14 end:0x02179ed8
+
+src/ov033/pc_sound_logon.c:
+    complete
+    .text       start:0x02179a28 end:0x02179ac4
