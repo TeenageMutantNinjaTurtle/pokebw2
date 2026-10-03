@@ -18,8 +18,4 @@ src/ov027/survey_text.c:
 
 src/ov027/survey_commands.c:
     complete
-    .text       start:0x021703e8 end:0x02170520
-
-src/ov027/survey_result_commands.c:
-    complete
-    .text       start:0x0217060c end:0x02170828
+    .text       start:0x021703e8 end:0x02170828
