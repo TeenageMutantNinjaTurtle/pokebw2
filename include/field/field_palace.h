@@ -6,19 +6,20 @@
 #include "struct_decls.h"
 
 typedef struct FieldPalaceSys {
-    u32 unk00;
+    GameSystem *gsys;
     u32 unk04;
     void *luminanceTable;
 } FieldPalaceSys;
 
-extern const char data_ov036_021d56fc[];
-extern const u16 ENTRALINK_WORLD_ZONES[];
-extern const u16 data_ov036_021d4706[];
-
-FieldPalaceSys *FieldPalaceSys_Create(HeapID heapId, u32 a1, u32 a2, u32 a3);
-void FieldPalaceSys_InitPostFX(FieldPalaceSys *sys, u32 a1, HeapID heapId);
+FieldPalaceSys *FieldPalaceSys_Create(HeapID heapId, GameSystem *gsys, u32 a2, u16 zoneId);
+void FieldPalaceSys_InitPostFX(FieldPalaceSys *sys, u16 zoneId, HeapID heapId);
+void FieldPalaceSys_LoadLuminanceTable(FieldPalaceSys *sys, u32 fileId, u16 zoneId, u32 season, HeapID heapId);
 void FieldPalaceSys_Free(FieldPalaceSys *sys);
 void *FieldPalaceSys_GetLuminanceTable(FieldPalaceSys *sys);
 BOOL FieldPalaceSys_CheckEventFlag(GameData *gameData, u16 zoneId);
+
+// Overlay 12
+u32 getSeasonFromPlayerData(GameCommSys *commSys);
+u32 func_ov012_0215364c(GameCommSys *commSys, GameData *gameData);
 
 #endif // POKEBW2_FIELD_FIELD_PALACE_H

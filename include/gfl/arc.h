@@ -20,5 +20,6 @@ u32 GFL_ArcSysGetDataMax(u32 arcId);
 void *GFL_ArcSysReadHeapNewRange(u32 arcId, u32 fileId, HeapID heapId, u32 offset, u32 size);
 u32 GFL_ArcToolGetDataLength(ArcTool *handle, u32 fileId);
 void *GFL_ArcToolReadHeapNew(ArcTool *handle, u32 fileId, HeapID heapId);
+void *GFL_ArcToolReadHeapNewLZGetLen(ArcTool *handle, u32 fileId, BOOL a2, HeapID heapId, u32 *size);
 
 #endif // POKEBW2_GFL_ARC_H
