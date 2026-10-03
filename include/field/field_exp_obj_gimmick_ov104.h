@@ -118,6 +118,8 @@ void func_ov104_021ef94c(FieldExpObjGimmickOv104Work *work, struct FieldExpObjGi
 void func_ov104_021ef994(FieldExpObjGimmickOv104Work *work);
 s32 func_ov104_021ef9c8(const FieldExpObjGimmickOv104ZoneList *list);
 void func_ov104_021ef9f8(FieldExpObjGimmickOv104ZoneList *list);
+BOOL func_ov104_021efb90(VM *vm, FieldScriptEnv *env);
+GameEvent *func_ov104_021f02fc(GameSystem *gsys, Field *field, u32 id);
 void func_ov104_021f0324(struct FieldExpObjGimmickOv104ResEntry *entry, u32 arc, u32 index);
 BOOL func_ov104_021f0334(struct FieldExpObjGimmickOv104ResEntry *entry, u16 zone);
 BOOL func_ov104_021f037c(struct FieldExpObjGimmickOv104ResEntry *entry);

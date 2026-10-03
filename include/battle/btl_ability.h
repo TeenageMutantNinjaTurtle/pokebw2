@@ -117,5 +117,22 @@ void HandlerMarvelScale(void *context, BtlServerFlow *flow, u32 monId);
 const BattleEventHandlerEntry *EventAddMarvelScale(u32 *priority);
 void HandlerSkillLink(void *context, void *flow, u32 monId);
 const BattleEventHandlerEntry *EventAddSkillLink(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d7904[];
+extern const BattleEventHandlerEntry data_ov167_021d7914[];
+extern const BattleEventHandlerEntry data_ov167_021d7924[];
+const BattleEventHandlerEntry *EventAddHyperCutter(u32 *priority);
+void HandlerHyperCutterCheck(void *context, void *flow, u32 monId, u32 *result);
+void HandlerHyperCutterGuard(void *context, void *flow, u32 monId, u32 *result);
+const BattleEventHandlerEntry *EventAddKeenEye(u32 *priority);
+void HandlerKeenEyeCheck(void *context, void *flow, u32 monId, u32 *result);
+void HandlerKeenEyeGuard(void *context, void *flow, u32 monId, u32 *result);
+const BattleEventHandlerEntry *EventAddClearBody(u32 *priority);
+void HandlerClearBodyCheck(void *context, void *flow, u32 monId, u32 *result);
+void HandlerClearBodyGuard(void *context, void *flow, u32 monId, u32 *result);
+void CommonStatDropGuardCheck(void *flow, u32 monId, u32 *result, u32 stat);
+void CommonStatDropGuardFixed(void *flow, u32 monId, u32 *result, u16 message);
+extern const BattleEventHandlerEntry data_ov167_021d773c[];
+void HandlerSimple(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddSimple(u32 *priority);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

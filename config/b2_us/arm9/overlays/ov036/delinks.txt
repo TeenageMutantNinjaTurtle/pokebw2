@@ -273,3 +273,7 @@ src/ov036/field_prop_find_prop.c:
 src/ov036/field_prop_holder_queries.c:
     complete
     .text       start:0x02183f28 end:0x02183fa8
+
+src/ov036/field_prop_handle_controls.c:
+    complete
+    .text       start:0x02184110 end:0x021841a0

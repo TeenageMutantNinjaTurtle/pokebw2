@@ -241,6 +241,7 @@ typedef struct ShortcutMenuWork ShortcutMenuWork;
 typedef struct ShortcutSave ShortcutSave;
 typedef struct SpeedBoostWork SpeedBoostWork;
 typedef struct StadiumTrainerEntry StadiumTrainerEntry;
+typedef struct StatDropGuardMessageWork StatDropGuardMessageWork;
 typedef struct SurveyProbabilityEntry SurveyProbabilityEntry;
 typedef struct SurveyProbabilityState SurveyProbabilityState;
 typedef struct SurveyTextWork SurveyTextWork;

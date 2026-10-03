@@ -27,7 +27,7 @@ void BattleEventItem_DetachSkipCheckHandler(BattleEventItem *item);
 void BattleEvent_ItemRotationSleep(u8 monId, u32 priority);
 BOOL BattleEvent_ItemRotationWake(u8 monId, u32 priority);
 u32 BattleEventVar_GetValue(u32 key);
-void BattleEventVar_RewriteValue(u32 key, u32 value);
+BOOL BattleEventVar_RewriteValue(u32 key, u32 value);
 void BattleEventVar_MulValue(u32 key, u32 value);
 
 #endif // POKEBW2_BATTLE_BTL_EVENT_H

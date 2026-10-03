@@ -60,6 +60,18 @@ struct FieldPropSystem {
     FieldChunkPropHolder chunkPropHolders[0x120];
 };
 
+struct FieldPropHandle {
+    FieldPropSystem *system;
+    u32 animation;
+    FieldChunkPropHolder *holder;
+    struct {
+        void *drawObject;
+        FieldPropResInfo **resInfoRef;
+        u8 unk8[0x10];
+    } instance;
+    FieldPropTransform transform;
+};
+
 // Layout inferred from the Swan-named FieldPropRTCState helpers in overlay 36.
 struct FieldPropRTCState {
     u32 dayPeriod;
@@ -89,6 +101,7 @@ void FieldPropSystem_FreeTextures(FieldPropSystem *system);
 void FieldChunk_ReleasePropInstance(void *chunk, u16 propIndex);
 void FieldChunk_GetWorldPos(void *chunk, VecFx32 *position);
 void FieldPropResInstance_CallAnmCmd(void *instance, u32 animation, u32 command);
+BOOL FieldPropResInstance_IsAnmIdle(void *instance, u32 animation);
 void FieldChunkPropHolder_Release(FieldPropSystem *system, FieldChunkPropHolder *holder);
 void FieldPropSystem_ReleaseChunkPropHolders(FieldPropSystem *system, void *chunk);
 void FieldPropSystem_ReleaseChunkPropHolder(FieldPropSystem *system, FieldChunkPropHolder *holder);
@@ -103,8 +116,12 @@ u8 FieldPropRTCState_GetPlayAnmIndex(FieldPropRTCState *state);
 
 FieldPropSystem *FieldG3DMapper_GetBMSystem(G3DMapper *mapper);
 void FieldPropHandle_CallAnmCmd(FieldPropHandle *handle, u32 animation, u32 command);
+void FieldPropHandle_CallAnmCmdSilent(FieldPropHandle *handle, u32 command);
 BOOL FieldPropHandle_IsAnmIdle(FieldPropHandle *handle, u32 animation);
+BOOL FieldPropHandle_IsCurrentAnmIdle(FieldPropHandle *handle);
 BOOL FieldPropHandle_IsAnmFinished(FieldPropHandle *handle);
+u16 FieldPropHandle_GetPropType(FieldPropHandle *handle);
+void FieldPropHandle_Draw(FieldPropHandle *handle);
 void FieldPropHandle_Free(FieldPropHandle *handle);
 void FieldChunkPropHolder_CallAnmCmd(FieldPropSystem *system, FieldChunkPropHolder *prop, u32 animation, u32 command);
 FieldPropHandle *FieldPropSystem_CreateHandleNew(FieldPropSystem *system, u32 propId, FieldPropTransform *transform);

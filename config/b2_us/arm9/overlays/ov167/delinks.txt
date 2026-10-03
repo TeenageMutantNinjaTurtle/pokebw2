@@ -583,3 +583,11 @@ src/ov167/battle_ability_move_power.c:
 src/ov167/battle_ability_scale_link.c:
     complete
     .text       start:0x021be9c4 end:0x021bea30
+
+src/ov167/battle_ability_stat_drop_guard.c:
+    complete
+    .text       start:0x021bea30 end:0x021beb68
+
+src/ov167/battle_ability_simple.c:
+    complete
+    .text       start:0x021beb68 end:0x021beb94
