@@ -298,3 +298,11 @@ src/ov033/bsubway_scr_begin.c:
 src/ov033/bsubway_scr_delete.c:
     complete
     .text       start:0x0217b6a4 end:0x0217b6f4
+
+src/ov033/bsubway_scr_save.c:
+    complete
+    .text       start:0x0217b6f4 end:0x0217b7d0
+
+src/ov033/bsubway_scr_party_store.c:
+    complete
+    .text       start:0x0217b7d0 end:0x0217b8ac

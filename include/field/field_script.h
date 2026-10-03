@@ -183,6 +183,7 @@ BOOL s0104_PokePartyRecoverAll(VM *vm, FieldScriptEnv *env);
 BOOL s0112_PokePartyGetEVTotal(VM *vm, FieldScriptEnv *env);
 BOOL s0101_PokePartyIsFullHP(VM *vm, FieldScriptEnv *env);
 BOOL s024E_PokePartyIsFullPP(VM *vm, FieldScriptEnv *env);
+BOOL s024B_FieldSubscreenDisable(VM *vm, FieldScriptEnv *env);
 BOOL s0102_PokePartyIsEgg(VM *vm, FieldScriptEnv *env);
 BOOL s00FC_PokePartyGetHappiness(VM *vm, FieldScriptEnv *env);
 BOOL s00FD_PokePartyAdjustHappiness(VM *vm, FieldScriptEnv *env);

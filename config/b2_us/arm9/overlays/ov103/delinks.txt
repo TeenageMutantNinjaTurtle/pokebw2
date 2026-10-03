@@ -2,3 +2,15 @@
     .rodata     start:0x021ef794 end:0x021efd30 kind:rodata align:4
     .ctor       start:0x021efd30 end:0x021efd30 kind:rodata align:4
     .bss        start:0x021efd40 end:0x021efd40 kind:bss align:32
+
+src/ov103/badge_gate_check_create.c:
+    complete
+    .text       start:0x021ef020 end:0x021ef068
+
+src/ov103/badge_gate_last_create.c:
+    complete
+    .text       start:0x021ef250 end:0x021ef2b0
+
+src/ov103/badge_gate_step_animations.c:
+    complete
+    .text       start:0x021ef010 end:0x021ef020

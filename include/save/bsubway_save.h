@@ -14,6 +14,7 @@
 u32 func_0200e11c(BSubwayPlayData *data, u32 id, void *buffer);
 void func_0200e1ac(BSubwayPlayData *data, u32 id, const void *value);
 void func_0200e0f4(BSubwayPlayData *data);
+void func_0200e100(BSubwayPlayData *data, u32 value);
 u32 func_0200e114(BSubwayPlayData *data);
 void func_0200e280(BSubwayPlayData *data, u8 a1, u8 a2, u16 a3);
 void func_0200e2ac(BSubwayPlayData *data);

@@ -44,6 +44,7 @@ u32 GameData_GetLastSubscreen(GameData *gameData);
 MMSys *GameData_GetMMSys(GameData *gameData);
 CityState *GameData_GetMyCityState(GameData *gameData);
 u16 func_02017220(GameData *gameData);
+void func_0201740c(GameData *gameData, u8 value);
 // Save block 0x39, the Battle Subway's scores
 BSubwayScoreData *func_0201795c(GameData *gameData);
 BSubwayScrWork *func_0201794c(GameData *gameData);

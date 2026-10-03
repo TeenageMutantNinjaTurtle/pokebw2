@@ -460,6 +460,18 @@ src/ov012/field_script_cmd_network.c:
     complete
     .text       start:0x02159c60 end:0x02159cc0
 
+src/ov012/field_script_cmd_stadium_table.c:
+    complete
+    .text       start:0x02159d94 end:0x02159de0
+
+src/ov012/field_script_cmd_subscreen_disable.c:
+    complete
+    .text       start:0x02159d74 end:0x02159d94
+
+src/ov012/field_script_cmd_stadium_reset.c:
+    complete
+    .text       start:0x02159f98 end:0x02159fd0
+
 src/ov012/field_script_cmd_party_add_egg.c:
     complete
     .text       start:0x021571b4 end:0x021572f0

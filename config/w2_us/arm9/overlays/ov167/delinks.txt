@@ -351,3 +351,11 @@ src/ov167/battle_move_pp.c:
 src/ov167/battle_move_update.c:
     complete
     .text       start:0x021baf74 end:0x021bafb8
+
+src/ov167/battle_mon_base_stat.c:
+    complete
+    .text       start:0x021bb1b0 end:0x021bb1f4
+
+src/ov167/battle_mon_crit_stat.c:
+    complete
+    .text       start:0x021bb318 end:0x021bb380
