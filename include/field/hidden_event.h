@@ -70,5 +70,11 @@ GameEventReturnCode EventTeleportCall_Callback(GameEvent *event, u32 *state, voi
 u32 EventDivingCall_Check(HiddenEventContext *context);
 GameEvent *EventDivingCall_Create(HiddenEventArgs *param, HiddenEventContext *context);
 GameEventReturnCode EventDivingCall_Callback(GameEvent *event, u32 *state, void *data);
+u32 func_ov012_02159984(HiddenEventContext *context);
+GameEvent *func_ov012_02159998(HiddenEventArgs *args, HiddenEventContext *context);
+GameEventReturnCode EventRuinsStrengthCall_Callback(GameEvent *event, u32 *state, void *data);
+GameEvent *EventRuinsStrengthCall_Create(HiddenEventArgs *param, HiddenEventContext *context);
+GameEventReturnCode EventRuinsFlash_Callback(GameEvent *event, u32 *state, void *data);
+GameEvent *EventRuinsFlash_Create(HiddenEventArgs *param, HiddenEventContext *context);
 
 #endif // POKEBW2_FIELD_HIDDEN_EVENT_H

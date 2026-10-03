@@ -428,6 +428,18 @@ src/ov012/hidden_event_fly_flash.c:
     complete
     .text       start:0x02159684 end:0x02159724
 
+src/ov012/hidden_event_dig_teleport_diving.c:
+    complete
+    .text       start:0x021597f4 end:0x021599c4
+
+src/ov012/hidden_event_chatot.c:
+    complete
+    .text       start:0x021599c4 end:0x021599f8
+
+src/ov012/hidden_event_ruins.c:
+    complete
+    .text       start:0x021599f8 end:0x02159b20
+
 src/ov012/field_script_cmd_party_add_egg.c:
     complete
     .text       start:0x021571b4 end:0x021572f0

@@ -21,9 +21,26 @@ struct TrialHouseWork {
     u32 initState;
 };
 
+struct TrialHouseEventData {
+    u32 code;
+    u8 flag4;
+    u8 pad5;
+    u16 id;
+    u32 size;
+    void *saveBuffer;
+    u32 region;
+    u32 mask;
+    u8 pad18[0x60];
+    u32 active;
+    void *subwork;
+    GameSystem *gsys;
+    TrialHouseWork *work;
+    u16 *result;
+    s32 timeout;
+};
+
 extern const char data_ov033_0217c630[];
 
-u32 func_0200ee20(void);
 struct TrialHouseWork *CreateTrialHouseWk(GameSystem *gsys);
 void func_ov033_0217acd4(GameSystem *gsys, struct TrialHouseWork *work);
 void TrialHouseWorkDelete(void *unused, struct TrialHouseWork **work);
@@ -38,5 +55,13 @@ GameEventReturnCode func_ov033_0217af5c(GameEvent *event, u32 *state, void *data
 u32 func_ov012_02162b38(u16 value);
 GameEvent *func_ov012_02161e6c(GameSystem *gsys, TrialHouseWork *work, u32 actorId, u16 messageId);
 void *func_ov012_02162864(TrialHouseWork *work, u16 value, u32 capacity, u32 arg3, u32 arg4, u32 arg5, u16 flag);
+void *func_ov012_02152990(TrialHouseEventData *data);
+BOOL func_ov012_02152b64(void *work);
+void func_ov012_02152bec(void *work);
+BOOL func_ov012_02152bb4(void *work);
+BOOL func_ov012_02152bd4(void *work);
+void func_ov012_02152bfc(void *work);
+BOOL func_ov033_0217b35c(void *save, u32 value);
+void func_ov033_0217b384(void *save, u32 value);
 
 #endif // POKEBW2_FIELD_TRIAL_HOUSE_H

@@ -1,6 +1,7 @@
 #include "field/trial_house.h"
 #include "gfl/heap.h"
 #include "pml/poke_party.h"
+#include "save/trial_house.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
 
