@@ -8,6 +8,7 @@
 #include "field/player_state.h"
 #include "gfl/overlay.h"
 #include "gfl/std.h"
+#include "struct_decls.h"
 #include "system/game_comm.h"
 #include "system/game_data.h"
 #include "system/game_event.h"
@@ -17,15 +18,15 @@ GameEvent *func_ov033_02176d88(GameSystem *gsys) {
     return GameEvent_Create(gsys, NULL, func_ov033_02176d9c, 4);
 }
 
-typedef struct {
+struct FestMissionConfig {
     u32 words[11];
-} FestMissionConfig;
+};
 
-typedef struct {
+struct FestMissionEventArgs {
     FestMissionConfig config;
     u32 unk2C;
     u32 unk30;
-} FestMissionEventArgs;
+};
 
 GameEventReturnCode func_ov033_02176d9c(GameEvent *event, u32 *state, void *data) {
     GameSystem *gsys;

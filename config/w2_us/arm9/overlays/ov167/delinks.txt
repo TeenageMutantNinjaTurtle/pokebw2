@@ -579,3 +579,7 @@ src/ov167/battle_ability_sturdy.c:
 src/ov167/battle_ability_target_redirect.c:
     complete
     .text       start:0x021c0c78 end:0x021c0d50
+
+src/ov167/battle_mon_condition_flags.c:
+    complete
+    .text       start:0x021bb3f0 end:0x021bb448

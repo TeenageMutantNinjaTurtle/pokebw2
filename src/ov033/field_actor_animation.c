@@ -3,15 +3,16 @@
 #include "field/field_actor.h"
 #include "field/field_script.h"
 #include "gfl/overlay.h"
+#include "struct_decls.h"
 
-typedef struct {
+struct ActorAnimationFieldWork {
     u32 unk0;
     Field *field;
-} ActorAnimationFieldWork;
+};
 
-typedef struct {
+struct EventActorAnmProcWaitWork {
     FieldActorAnmProc *proc;
-} EventActorAnmProcWaitWork;
+};
 
 BOOL s0157_ActorAnimationInit(VM *vm, FieldScriptEnv *env) {
     ScriptWork *work = FieldScriptEnv_GetScriptWork(env);

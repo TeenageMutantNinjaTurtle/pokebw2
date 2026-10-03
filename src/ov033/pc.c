@@ -4,6 +4,7 @@
 #include "field/pc_sound.h"
 #include "gfl/overlay.h"
 #include "gfl/sound.h"
+#include "struct_decls.h"
 #include "system/game_system.h"
 
 struct PCSubprocessEventData {
@@ -17,9 +18,9 @@ struct PCSubprocessEventData {
 
 GameEvent *func_ov033_02179868(GameSystem *gsys, u16 option, u16 *result) {
     GameEvent *event;
-    struct PCSubprocessEventData *data;
+    PCSubprocessEventData *data;
 
-    event = GameEvent_Create(gsys, NULL, func_ov033_021798a0, sizeof(struct PCSubprocessEventData));
+    event = GameEvent_Create(gsys, NULL, func_ov033_021798a0, sizeof(PCSubprocessEventData));
     data = GameEvent_GetData(event);
     data->gsys = gsys;
     data->field = GSYS_GetField(gsys);
@@ -30,7 +31,7 @@ GameEvent *func_ov033_02179868(GameSystem *gsys, u16 option, u16 *result) {
 }
 
 GameEventReturnCode func_ov033_021798a0(GameEvent *event, u32 *state, void *eventData) {
-    struct PCSubprocessEventData *data;
+    PCSubprocessEventData *data;
     GameEvent *next;
 
     data = eventData;

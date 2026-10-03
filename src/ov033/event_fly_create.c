@@ -2,17 +2,18 @@
 #include "field/zone.h"
 #include "gfl/std.h"
 #include "save/player_info.h"
+#include "struct_decls.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
 
-typedef struct {
+struct FlyEventWork {
     GameSystem *gsys;
     u32 unk4;
     u32 zoneId;
     ZoneSpawnInfo spawn;
     u32 musicOut;
     u32 musicIn;
-} FlyEventWork;
+};
 
 GameEvent *func_ov033_02178908(GameSystem *gsys, void *unused, u32 zoneId) {
     GameEvent *event;

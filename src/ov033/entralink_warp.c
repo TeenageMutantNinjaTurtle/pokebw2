@@ -5,6 +5,7 @@
 #include "field/field_player.h"
 #include "field/zone.h"
 #include "gfl/net.h"
+#include "struct_decls.h"
 #include "system/game_comm.h"
 #include "system/game_data.h"
 #include "system/game_event.h"
@@ -16,7 +17,7 @@ struct EntralinkWarpReturnWork {
 };
 
 GameEventReturnCode func_ov033_02177370(GameEvent *event, u32 *state, void *data) {
-    struct EntralinkWarpReturnWork *work;
+    EntralinkWarpReturnWork *work;
     GameSystem *gsys;
     GameCommSys *comm;
     GameData *gameData;
@@ -51,26 +52,26 @@ GameEventReturnCode func_ov033_02177370(GameEvent *event, u32 *state, void *data
 
 GameEvent *func_ov033_021773e4(GameSystem *gsys, void *args) {
     GameEvent *event;
-    struct EntralinkWarpReturnWork *work;
+    EntralinkWarpReturnWork *work;
 
-    event = GameEvent_Create(gsys, NULL, func_ov033_02177370, sizeof(struct EntralinkWarpReturnWork));
+    event = GameEvent_Create(gsys, NULL, func_ov033_02177370, sizeof(EntralinkWarpReturnWork));
     work = GameEvent_GetData(event);
     work->gsys = gsys;
     work->field = args;
     return event;
 }
 
-typedef struct {
+struct NPCGridPosition {
     u16 x;
     u16 z;
     s32 y;
-} NPCGridPosition;
+};
 
-typedef struct {
+struct NPCRailPosition {
     u16 railIndex;
     u16 frontPos;
     s16 sidePos;
-} NPCRailPosition;
+};
 
 BOOL EventEntralinkWarpIn_CheckAllowed(GameSystem *gsys) {
     GameData *gameData;

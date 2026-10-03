@@ -52,15 +52,6 @@ src/ov036/field_prop_rtc_state.c:
     complete
     .text       start:0x021835f0 end:0x02183634
 
-src/ov036/field_prop_res_info.c:
-    complete
-    .text       start:0x02183598 end:0x021835f0
-    .rodata     start:0x021ca954 end:0x021ca964
-
-src/ov036/field_prop_free_textures.c:
-    complete
-    .text       start:0x02183578 end:0x02183598
-
 src/ov036/field_prop_find_res_info.c:
     complete
     .text       start:0x02183244 end:0x02183264
@@ -150,3 +141,8 @@ src/ov036/field_prop_handle.c:
 src/ov036/field_medal.c:
     complete
     .text       start:0x021c7f54 end:0x021c8010
+
+src/ov036/field_prop_resource_info.c:
+    complete
+    .text       start:0x02183578 end:0x021835f0
+    .rodata     start:0x021ca954 end:0x021ca964

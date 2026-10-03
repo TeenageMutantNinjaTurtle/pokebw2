@@ -3,11 +3,12 @@
 #include "field/field_actor.h"
 #include "gfl/random.h"
 #include "pml/poke_graphic.h"
+#include "struct_decls.h"
 
-typedef struct {
+struct EntreeForestPokemon {
     u32 species : 11;
     u32 other : 21;
-} EntreeForestPokemon;
+};
 
 void EntreeForest_SpawnAllPokemon(Field *field, u32 actorIdBase, const u32 *pokemon, u32 unused, void *forestState) {
     const u8 *positions;

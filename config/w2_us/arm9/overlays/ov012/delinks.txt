@@ -116,22 +116,6 @@ src/ov012/map_matrix_world_coord.c:
     complete
     .text       start:0x02154cb8 end:0x02154cd4
 
-src/ov012/map_replace_lifecycle.c:
-    complete
-    .text       start:0x02154cd4 end:0x02154d50
-
-src/ov012/map_replace_resolve.c:
-    complete
-    .text       start:0x02154d50 end:0x02154ddc
-
-src/ov012/map_replace_variables.c:
-    complete
-    .text       start:0x02154ddc end:0x02154e60
-
-src/ov012/map_replace_events.c:
-    complete
-    .text       start:0x02154e60 end:0x02154edc
-
 src/ov012/field_script_env_lifecycle.c:
     complete
     .text       start:0x0215512c end:0x0215519c
@@ -336,22 +320,6 @@ src/ov012/field_script_cmd_net_connect.c:
     complete
     .text       start:0x02157ab8 end:0x02157bbc
 
-src/ov012/field_script_cmd_day_care_basic.c:
-    complete
-    .text       start:0x02157c60 end:0x02157cc8
-
-src/ov012/field_script_cmd_day_care_transfer.c:
-    complete
-    .text       start:0x02157cc8 end:0x02157d7c
-
-src/ov012/field_script_cmd_day_care_queries.c:
-    complete
-    .text       start:0x02157d7c end:0x02157f14
-
-src/ov012/field_script_cmd_day_care_name.c:
-    complete
-    .text       start:0x02157f14 end:0x02157fac
-
 src/ov012/field_script_cmd_musical_props.c:
     complete
     .text       start:0x02158bec end:0x02158c3c
@@ -428,27 +396,6 @@ src/ov012/stadium_trainer_index.c:
     complete
     .text       start:0x0215a0ac end:0x0215a0d4
 
-src/ov012/event_game_clear_helpers.c:
-    complete
-    .text       start:0x0215a688 end:0x0215a6b0
-
-src/ov012/event_game_clear_setup.c:
-    complete
-    .text       start:0x0215a52c end:0x0215a57c
-
-src/ov012/event_game_clear_create.c:
-    complete
-    .text       start:0x0215a4c8 end:0x0215a52c
-
-src/ov012/event_game_clear_status.c:
-    complete
-    .text       start:0x0215a57c end:0x0215a688
-
-src/ov012/event_game_clear_medals.c:
-    complete
-    .text       start:0x0215a6c4 end:0x0215a790
-    .rodata     start:0x0216cb90 end:0x0216cbb4
-
 src/ov012/event_field_menu_union_room.c:
     complete
     .text       start:0x0215a888 end:0x0215a8b4
@@ -456,18 +403,6 @@ src/ov012/event_field_menu_union_room.c:
 src/ov012/event_field_menu_create.c:
     complete
     .text       start:0x0215a7e4 end:0x0215a888
-
-src/ov012/event_field_menu_helpers.c:
-    complete
-    .text       start:0x0215aab4 end:0x0215aad4
-
-src/ov012/event_field_menu_table.c:
-    complete
-    .text       start:0x0215aaa8 end:0x0215aab4
-
-src/ov012/event_field_menu_last_subscreen.c:
-    complete
-    .text       start:0x0215aad4 end:0x0215ab18
 
 src/ov012/shortcut_menu_check.c:
     complete
@@ -484,18 +419,6 @@ src/ov012/item_use_block_create.c:
 src/ov012/shortcut_menu_check_ribbon.c:
     complete
     .text       start:0x0215b478 end:0x0215b4c8
-
-src/ov012/field_app_call_result.c:
-    complete
-    .text       start:0x0215b758 end:0x0215b794
-
-src/ov012/field_app_call_params.c:
-    complete
-    .text       start:0x0215b7ac end:0x0215b818
-
-src/ov012/field_app_call_reset_bag_view.c:
-    complete
-    .text       start:0x0215b794 end:0x0215b7ac
 
 src/ov012/field_app_call_create.c:
     complete
@@ -601,10 +524,6 @@ src/ov012/get_rail_warp_out_pos.c:
     complete
     .text       start:0x0215d814 end:0x0215d884
 
-src/ov012/event_game_clear_card.c:
-    complete
-    .text       start:0x0215a6b0 end:0x0215a6c4
-
 src/ov012/event_battle_lose_create.c:
     complete
     .text       start:0x0215a190 end:0x0215a1dc
@@ -666,3 +585,25 @@ src/ov012/script_subwork.c:
 src/ov012/event_data_loading.c:
     complete
     .text       start:0x0215cde4 end:0x0215cec4
+
+
+src/ov012/event_game_clear.c:
+    complete
+    .text       start:0x0215a4c8 end:0x0215a790
+    .rodata     start:0x0216cb90 end:0x0216cbb4
+
+src/ov012/field_app_call.c:
+    complete
+    .text       start:0x0215b758 end:0x0215b818
+
+src/ov012/field_script_day_care.c:
+    complete
+    .text       start:0x02157c60 end:0x02157fac
+
+src/ov012/field_menu_table.c:
+    complete
+    .text       start:0x0215aaa8 end:0x0215ab18
+
+src/ov012/map_replace.c:
+    complete
+    .text       start:0x02154cd4 end:0x02154edc
