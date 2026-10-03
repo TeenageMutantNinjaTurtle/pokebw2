@@ -5,7 +5,41 @@
 #include "gfl/heap.h"
 #include "gfl/msg.h"
 #include "nitro/rtc.h"
+#include "pml/mail.h"
 #include "struct_decls.h"
+
+// A Pokémon's data, encrypted unless decrypted for a series of reads and writes. Names from swan
+typedef struct {
+    u8 rawData[32];
+} PkmBufferChunk;
+
+typedef struct {
+    PkmBufferChunk chunks[4];
+} PkmBuffer;
+
+struct BoxPkm {
+    u32 pid;
+    u16 sanityFlags;
+    u16 checksum;
+    PkmBuffer contentBuffer;
+};
+
+struct PartyPkm {
+    BoxPkm base;
+    u32 statusCond;
+    u8 level;
+    u8 unk8D;
+    u16 nowHP;
+    u16 maxHP;
+    u16 atk;
+    u16 def;
+    u16 spe;
+    u16 spa;
+    u16 spd;
+    MailData mail;
+    u32 unkD4;
+    u32 unkD8;
+};
 
 PokeParty *PokeParty_Create(HeapID heapId);
 u32 PML_GenPID(u32 seed, u16 species, u16 form, u32 sex, u32 ability, u32 a5);

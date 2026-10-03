@@ -104,7 +104,7 @@ FieldTradeInput *FieldTradeInput_Create(u32 heapId, u32 offerIndex) {
     input->heapId = heapId;
     input->offerIndex = offerIndex;
     input->offerData = GFL_ArcSysReadHeapNewRange(0xa3, offerIndex, heapId, 0, sizeof(FieldTradeOfferData));
-    input->tradeData = GFL_HeapAllocate(heapId, 0xdc, FALSE, "fld_trade.c", 0x67);
+    input->tradeData = GFL_HeapAllocate(heapId, sizeof(PartyPkm), FALSE, "fld_trade.c", 0x67);
     input->trainer = func_02008b0c(heapId);
     func_02008b40(input->trainer);
     nameBuf = FieldTradeInput_LoadName(heapId, input->offerData->nameMessageId);

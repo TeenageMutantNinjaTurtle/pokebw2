@@ -4,7 +4,17 @@
 #include "types.h"
 #include "gfl/heap.h"
 
-typedef struct MailData MailData;
+// Names from swan
+typedef struct MailData {
+    u32 trainerId;
+    u8 trainerGender;
+    u8 region;
+    u8 gameVersion;
+    u8 unk07;
+    u16 trainerName[8];
+    u16 unk18[4];
+    u32 unk20[6];
+} MailData;
 
 // Allocates a blank mail
 MailData *CreateMailData(HeapID heapId);

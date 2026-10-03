@@ -155,8 +155,8 @@ void CheckResetKeldeoOrdinaryForme(GameSystem *gsys) {
             }
         }
         if (species > SPECIES_GENESECT) {
-            ((u8 *)pkm)[0x1e] = 0xff;
-            ((u8 *)pkm)[0x1f] = 0xff;
+            pkm->base.contentBuffer.chunks[0].rawData[0x16] = 0xff;
+            pkm->base.contentBuffer.chunks[0].rawData[0x17] = 0xff;
         }
         index++;
     }
