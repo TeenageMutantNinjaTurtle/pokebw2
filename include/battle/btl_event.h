@@ -20,6 +20,8 @@ void BattleEventItem_SetTempItemFlag(BattleEventItem *item);
 void BattleEventItem_SetRecallEnable(BattleEventItem *item);
 void BattleEventItem_SetWorkValue(BattleEventItem *item, u32 index, u32 value);
 void func_ov167_021bc918(void *context, u32 event, u32 mask, u32 flag);
+void func_ov167_021bc90c(void *context, u32 event, u32 mask);
+void func_ov167_021bc94c(void *context, u32 event, u32 mask, u32 flag);
 void BattleEvent_ForceCallHandlers(void *context, u32 event);
 void BattleEvent_CallHandlers(void *context, u32 event);
 void BattleEventItem_AttachSkipCheckHandler(BattleEventItem *item, void *handler);

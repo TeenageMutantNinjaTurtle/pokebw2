@@ -330,7 +330,7 @@ src/ov167/battle_mon_combo_clear.c:
 
 src/ov167/battle_event_core.c:
     complete
-    .text       start:0x021bc8e0 end:0x021bc94c
+    .text       start:0x021bc8e0 end:0x021bc98c
 
 src/ov167/battle_event_item_skip_handler.c:
     complete
