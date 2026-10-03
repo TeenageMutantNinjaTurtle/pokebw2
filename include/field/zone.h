@@ -95,6 +95,7 @@ ZoneWarp *GetZoneWarpByID(EventData *eventData, u16 warpId);
 BOOL IsWarpDestId256(ZoneWarp *warp);
 BOOL IsZone150Or151(u16 zoneId);
 BOOL IsZoneAbyssalRuinsOutside(u16 zoneId);
+BOOL IsZoneAbyssalRuinsInside(u16 zoneId);
 BOOL IsZoneEntralinkHub(u16 zoneId);
 BOOL IsZoneGameCommDisabled(u16 zoneId);
 BOOL IsZoneInVictoryRoad(u16 zoneId);

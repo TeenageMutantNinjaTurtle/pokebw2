@@ -440,6 +440,14 @@ src/ov012/hidden_event_ruins.c:
     complete
     .text       start:0x021599f8 end:0x02159b20
 
+src/ov012/hidden_event_table.c:
+    complete
+    .text       start:0x02159b20 end:0x02159b80
+
+src/ov012/hidden_event_context.c:
+    complete
+    .text       start:0x02159b80 end:0x02159bb0
+
 src/ov012/field_script_cmd_party_add_egg.c:
     complete
     .text       start:0x021571b4 end:0x021572f0

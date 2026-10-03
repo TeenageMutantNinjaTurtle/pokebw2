@@ -106,5 +106,7 @@ u8 CountUsedMoves(BattleMon *mon);
 u8 GetMovePPUsed(BattleMon *mon, u8 index);
 u16 func_ov167_021bb3a4(BattleMon *mon);
 u16 GetConsumedItem(BattleMon *mon);
+void MoveWork_UpdateNumber(BattleMoveWork *work, u16 move, u8 maxPP, BOOL updateCurrent);
+void MoveCore_UpdateNumber(BattleMoveCore *core, u16 move, u8 maxPP);
 
 #endif // POKEBW2_BATTLE_BTL_POKEPARAM_H

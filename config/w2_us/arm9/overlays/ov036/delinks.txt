@@ -180,3 +180,7 @@ src/ov036/hidden_hollow_work.c:
 src/ov036/hidden_hollow_dispatch.c:
     complete
     .text       start:0x021c89c4 end:0x021c8a04
+
+src/ov036/field_medal_actor.c:
+    complete
+    .text       start:0x021c7f54 end:0x021c7f9c

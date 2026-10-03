@@ -323,3 +323,7 @@ src/ov167/battle_handler_change_type.c:
 src/ov167/battle_handler_ability_change.c:
     complete
     .text       start:0x021ad5a0 end:0x021ad6e8
+
+src/ov167/battle_move_work.c:
+    complete
+    .text       start:0x021ba9dc end:0x021baa44

@@ -13,7 +13,7 @@ struct HiddenEventArgs {
 
 struct HiddenEventContext {
     u16 unk00;
-    u8 unk02[2];
+    u16 flags;
     u32 unk04;
     GameSystem *gsys;
     u16 unk0C;
@@ -32,6 +32,14 @@ struct HiddenEventData {
 
 typedef BOOL (*HiddenCheckFunc)(HiddenEventContext *context);
 typedef GameEvent *(*HiddenCtorFunc)(GameSystem *gsys, HiddenEventContext *context);
+
+typedef struct {
+    HiddenCtorFunc create;
+    HiddenCheckFunc check;
+} HiddenEventSpec;
+
+extern const HiddenEventSpec HIDEN_EVENTS_NORMAL[];
+extern const HiddenEventSpec HIDEN_EVENTS_RUINS[];
 
 HiddenCheckFunc GetHidenEventCheckFunc(HiddenEventContext *context, u32 kind);
 HiddenCtorFunc GetHidenEventCtorFunc(HiddenEventContext *context, u32 kind);

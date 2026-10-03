@@ -79,6 +79,7 @@ void ChangeActorDirection(FieldActor *actor, u32 dir);
 void SetActorHidden(FieldActor *actor, BOOL hidden);
 void FldAct_GetGPos(FieldActor *actor, GridPos *pos);
 u16 GetActorUID(FieldActor *actor);
+u16 FldAct_GetSCRID(FieldActor *actor);
 u16 FldAct_GetObjCode(FieldActor *actor);
 u32 GetIndexOfObjID(u16 objCode);
 // An object code's record in ARCID_MMODEL_TBL, from 4 bytes into the file, at the index GetIndexOfObjID returns
