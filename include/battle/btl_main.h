@@ -32,6 +32,8 @@ struct BtlPokeCon {
 
 // Swan's names for these two take the main module, whose first field points to the BtlSetup
 u32 BtlSetup_GetBattleStyle(BtlMainModule *mainModule);
+u32 func_ov167_0219bd88(BtlMainModule *mainModule);
+u8 func_ov167_0219bd98(BtlMainModule *mainModule);
 u32 BtlSetup_GetBattleType(BtlMainModule *mainModule);
 u32 BtlSetup_IsBattleType(BtlMainModule *mainModule, u32 flag);
 u8 func_ov167_0219bee4(BtlMainModule *mainModule);

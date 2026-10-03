@@ -32,10 +32,6 @@ src/ov167/battle_side_queries.c:
     complete
     .text       start:0x0219d36c end:0x0219d3cc
 
-src/ov167/battle_setup_style.c:
-    complete
-    .text       start:0x0219bdc0 end:0x0219bdc8
-
 src/ov167/battle_setup_type.c:
     complete
     .text       start:0x0219bf14 end:0x0219bf1c
@@ -74,7 +70,7 @@ src/ov167/battle_client_items.c:
 
 src/ov167/battle_switch_mode.c:
     complete
-    .text       start:0x0219bde0 end:0x0219be20
+    .text       start:0x0219bdc0 end:0x0219be20
 
 src/ov167/battle_valid_pos_max.c:
     complete
