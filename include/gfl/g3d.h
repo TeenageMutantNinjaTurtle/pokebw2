@@ -82,7 +82,8 @@ typedef struct {
 // A scene that GFL_G3DMgrNewScene loads: its resources, and its actors, each a model with animations
 typedef struct {
     u32 arcId;
-    u32 fileId;
+    u16 fileId;
+    u16 unk6;
     u32 unk8;
 } G3DSceneResourceSetup;
 

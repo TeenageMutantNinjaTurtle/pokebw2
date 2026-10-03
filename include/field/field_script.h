@@ -216,6 +216,7 @@ BOOL s014C_RTFreeUserHeap(VM *vm, FieldScriptEnv *env);
 void func_ov012_021575b8(ScriptOverlayWork *work);
 void func_ov012_0215767c(ScriptOverlayWork *work);
 void func_ov012_02157728(ScriptOverlayWork *work);
+BOOL s0154_Call3DDemo(VM *vm, FieldScriptEnv *env);
 BOOL s00F9_MoneyAdd(VM *vm, FieldScriptEnv *env);
 BOOL s00FA_MoneySub(VM *vm, FieldScriptEnv *env);
 BOOL s00FB_MoneyCheck(VM *vm, FieldScriptEnv *env);

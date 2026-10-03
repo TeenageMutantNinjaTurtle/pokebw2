@@ -380,6 +380,10 @@ src/ov012/field_script_cmd_move_reminder_cleanup.c:
     complete
     .text       start:0x02157728 end:0x02157754
 
+src/ov012/field_script_cmd_3d_demo.c:
+    complete
+    .text       start:0x021578b0 end:0x02157900
+
 src/ov012/field_script_cmd_party_add_egg.c:
     complete
     .text       start:0x02157174 end:0x021572b0

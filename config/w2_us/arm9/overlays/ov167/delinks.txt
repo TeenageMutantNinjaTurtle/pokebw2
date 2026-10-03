@@ -267,3 +267,11 @@ src/ov167/battle_handler_decrement_pp.c:
 src/ov167/battle_handler_force_use_item.c:
     complete
     .text       start:0x021ad9bc end:0x021ada4c
+
+src/ov167/battle_handler_baton_pass.c:
+    complete
+    .text       start:0x021add50 end:0x021addb8
+
+src/ov167/battle_handler_illusion_break.c:
+    complete
+    .text       start:0x021ae0f0 end:0x021ae13c

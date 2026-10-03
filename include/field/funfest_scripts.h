@@ -16,6 +16,8 @@ BOOL s027C_FunfestGetItemSaleInfo(VM *vm, FieldScriptEnv *env);
 BOOL s027D_FunfestGetPokemonQuizInfo(VM *vm, FieldScriptEnv *env);
 BOOL s027E_FunfestGetPokemonQuizSpecies(VM *vm, FieldScriptEnv *env);
 BOOL s027F_FunfestGetPokemonQuizBogusSpecies(VM *vm, FieldScriptEnv *env);
+BOOL func_ov033_021772c8(VM *vm, FieldScriptEnv *env);
+BOOL func_ov033_021772f4(VM *vm, FieldScriptEnv *env);
 
 void func_ov012_0216063c(u8 type, u16 value);
 

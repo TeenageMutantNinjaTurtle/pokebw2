@@ -140,3 +140,7 @@ src/ov036/field_lens_flare_applicable.c:
 src/ov036/field_lens_flare_calc_pos.c:
     complete
     .text       start:0x021c8688 end:0x021c86e8
+
+src/ov036/field_lens_flare_load.c:
+    complete
+    .text       start:0x021c86e8 end:0x021c87d0

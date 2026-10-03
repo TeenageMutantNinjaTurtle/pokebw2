@@ -37,5 +37,6 @@ void ServerControl_FieldEffectEnd(BattleHandler *handler, u32 effect);
 BOOL ServerControl_DecrementPP(BattleHandler *handler, BattleMon *mon, u8 moveIndex, u8 amount);
 BOOL ServerEvent_DecrementPP(BattleHandler *handler, BattleMon *mon, u8 moveIndex);
 void ServerEvent_EquipTempItem(BattleHandler *handler, BattleMon *mon, u8 monIndex);
+void ServerEvent_GastroAcidConfirmed(BattleHandler *handler, BattleMon *mon);
 
 #endif // POKEBW2_BATTLE_BTL_SERVER_FLOW_H

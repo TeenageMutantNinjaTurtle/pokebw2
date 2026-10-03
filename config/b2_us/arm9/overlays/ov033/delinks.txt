@@ -218,3 +218,15 @@ src/ov033/event_game_manual.c:
 src/ov033/pc_sound_logon.c:
     complete
     .text       start:0x021799e8 end:0x02179a84
+
+src/ov033/pc_subprocess.c:
+    complete
+    .text       start:0x02179868 end:0x021798fc
+
+src/ov033/pc_sound_logoff_create.c:
+    complete
+    .text       start:0x02179b24 end:0x02179b54
+
+src/ov033/funfest_script_misc.c:
+    complete
+    .text       start:0x021772c8 end:0x02177328
