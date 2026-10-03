@@ -103,3 +103,11 @@ src/ov104/field_exp_obj_gimmick_ov104_message_update.c:
 src/ov104/field_exp_obj_gimmick_ov104_read_message.c:
     complete
     .text       start:0x021f0150 end:0x021f0160
+
+src/ov104/field_exp_obj_gimmick_ov104_resource_helpers.c:
+    complete
+    .text       start:0x021f0324 end:0x021f039c
+
+src/ov104/field_exp_obj_gimmick_ov104_gate_event.c:
+    complete
+    .text       start:0x021f02fc end:0x021f0324

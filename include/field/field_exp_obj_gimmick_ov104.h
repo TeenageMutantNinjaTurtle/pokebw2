@@ -4,6 +4,7 @@
 #include "types.h"
 #include "gfl/g3d.h"
 #include "struct_decls.h"
+#include "system/game_event.h"
 
 struct FieldExpObjGimmickOv104Substate {
     u8 unk00[8];
@@ -49,6 +50,13 @@ struct FieldExpObjGimmickOv104Message {
     fx32 duration;
 };
 
+struct FieldExpObjGimmickOv104GateEventData {
+    GameSystem *gameSystem;
+    Field *field;
+    u16 id;
+    u8 padding[0x16];
+};
+
 struct FieldExpObjGimmickOv104ZoneList {
     u16 zones[4];
     u8 weather[4];
@@ -90,7 +98,7 @@ struct FieldExpObjGimmickOv104ResEntry {
     u32 unk08;
     u32 unk0c;
     u32 type;
-    u8 unk14[0x10];
+    u32 zones[4];
 };
 
 struct FieldExpObjGimmickOv104Work {
@@ -151,7 +159,8 @@ void func_ov104_021efad0(FieldExpObjGimmickOv104Work *work, FieldExpObjGimmickOv
 void func_ov104_021efb30(FieldExpObjGimmickOv104Work *work, FieldExpObjGimmickOv104ZoneList *list);
 BOOL func_ov104_021efb90(VM *vm, FieldScriptEnv *env);
 GameEvent *func_ov104_021f02fc(GameSystem *gsys, Field *field, u32 id);
-void func_ov104_021f0324(struct FieldExpObjGimmickOv104ResEntry *entry, u32 arc, u32 index);
+GameEventReturnCode func_ov104_021f0160(GameEvent *event, u32 *state, void *data);
+BOOL func_ov104_021f0324(struct FieldExpObjGimmickOv104ResEntry *entry, u32 arc, u32 index);
 BOOL func_ov104_021f0334(struct FieldExpObjGimmickOv104ResEntry *entry, u16 zone);
 BOOL func_ov104_021f037c(struct FieldExpObjGimmickOv104ResEntry *entry);
 void func_ov104_021ef168(FieldExpObjGimmickOv104Work *work);
