@@ -410,229 +410,79 @@ struct BtlvStringParam {
 };
 
 // Function names from swan.
-BattleCondition ZeroConditionTurns(void) {
-    BattleCondition condition;
-
-    condition.raw = 0;
-    condition.common.type = 0;
-    return condition;
+void BattleEventItem_ConvertToIsolated(BattleEventItem *item) {
+    *(u32 *)((u8 *)item + 0x10) = 6;
 }
 
-BOOL func_ov167_021ce168(BattleCondition condition) {
-    if (condition.common.type == 0) {
+BOOL BattleEventItem_IsIsolated(BattleEventItem *item) {
+    if (*(u32 *)((u8 *)item + 0x10) == 6) {
         return TRUE;
     }
     return FALSE;
 }
 
-BattleCondition SetConditionTurns(u32 turns) {
-    BattleCondition condition;
-
-    condition.raw = 0;
-    condition.common.type = 2;
-    condition.common.turns = turns;
-    condition.timed.param = 0;
-    return condition;
+u16 BattleEventItem_GetSubID(BattleEventItem *item) {
+    return *(u16 *)((u8 *)item + 0x38);
 }
 
-BattleCondition AddTurnCondition(u32 turns, u16 param) {
-    BattleCondition condition;
-
-    condition.raw = 0;
-    condition.common.type = 2;
-    condition.common.turns = turns;
-    condition.timed.param = param;
-    return condition;
+u8 HandlerGetMainModule(BattleEventItem *handler) {
+    return ((u8 *)handler)[0x3b];
 }
 
-BattleCondition func_ov167_021ce1dc(u32 turns) {
-    BattleCondition condition;
-
-    condition.raw = 0;
-    condition.common.type = 3;
-    condition.common.turns = turns;
-    return condition;
+u32 BattleEventItem_GetWorkValue(BattleEventItem *item, u32 index) {
+    return *(u32 *)((u8 *)item + 0x1c + index * 4);
 }
 
-BattleCondition MakeConditionPermanent(void) {
-    BattleCondition condition;
-
-    condition.raw = 0;
-    condition.common.type = 1;
-    return condition;
+void BattleEventItem_SetTempItemFlag(BattleEventItem *item) {
+    *(u32 *)((u8 *)item + 0x18) |= 1 << 26;
 }
 
-BattleCondition MakeConditionParamPermanent(u16 param) {
-    BattleCondition condition;
+void BattleEventItem_SetRecallEnable(BattleEventItem *item) {
+    u32 flags;
 
-    condition.raw = 0;
-    condition.common.type = 1;
-    condition.timed.param = param;
-    return condition;
-}
-
-BattleCondition func_ov167_021ce238(u32 turns, u16 param) {
-    BattleCondition condition;
-
-    condition.raw = 0;
-    condition.common.type = 1;
-    condition.common.turns = turns;
-    condition.timed.param = param;
-    return condition;
-}
-
-BattleCondition func_ov167_021ce268(u32 monId, u32 turns) {
-    BattleCondition condition;
-
-    condition.raw = 0;
-    condition.common.type = 4;
-    condition.common.turns = turns;
-    condition.mon.monId = monId;
-    return condition;
-}
-
-BattleCondition func_ov167_021ce298(void) {
-    BattleCondition condition;
-
-    condition.raw = 0;
-    condition.common.type = 1;
-    condition.common.turns = 15;
-    return condition;
-}
-
-BOOL Condition_IsBadlyPoisoned(BattleConditionCont cont) {
-    u32 turns;
-    u32 type;
-
-    turns = cont.common.turns;
-    type = cont.common.type;
-    return type == 1 && turns == 15;
-}
-
-u8 Condition_GetMonID(BattleCondition condition) {
-    u32 type;
-    u32 mon1;
-    u32 mon2;
-
-    type = condition.common.type;
-    mon1 = condition.common.turns;
-    mon2 = condition.mon.monId;
-    if (type == 3) {
-        return mon1;
-    }
-    if (type == 4) {
-        return mon2;
-    }
-    return 31;
-}
-
-void func_ov167_021ce308(BattleCondition *condition, u32 value) {
-    if (condition->common.type == 3) {
-        condition->common.turns = value;
-        return;
-    }
-    if (condition->common.type == 4) {
-        condition->mon.monId = value;
+    flags = *(u32 *)((u8 *)item + 0x18);
+    if ((flags << 7) >> 31) {
+        *(u32 *)((u8 *)item + 0x18) = flags | (1 << 28);
     }
 }
 
-u8 func_ov167_021ce33c(BattleCondition condition) {
-    u32 type;
-    u32 turns;
-
-    type = condition.common.type;
-    turns = condition.common.turns;
-    if (type == 2) {
-        return turns;
-    }
-    if (type == 4) {
-        return turns;
-    }
-    return 0;
+void BattleEventItem_SetWorkValue(BattleEventItem *item, u32 index, u32 value) {
+    *(u32 *)((u8 *)item + 0x1c + index * 4) = value;
 }
 
-void func_ov167_021ce368(BattleCondition *condition, u16 value) {
-    if (condition->common.type == 1) {
-        condition->timed.param = value;
-        return;
-    }
-    if (condition->common.type == 3) {
-        condition->timed.param = value;
-        return;
-    }
-    if (condition->common.type == 4) {
-        condition->raw = (condition->raw & 0x80007fff) | (((u32)value << 16) >> 1);
-        return;
-    }
-    if (condition->common.type == 2) {
-        condition->timed.param = value;
-    }
+void BattleEvent_ForceCallHandlers(void *context, u32 event) {
+    func_ov167_021bc918(context, event, 7, 0);
 }
 
-u16 Condition_GetParam(BattleCondition condition) {
-    if (condition.common.type == 1) {
-        return (u16)((condition.raw << 7) >> 16);
-    }
-    if (condition.common.type == 3) {
-        return (u16)((condition.raw << 7) >> 16);
-    }
-    if (condition.common.type == 4) {
-        return (u16)((condition.raw << 1) >> 16);
-    }
-    if (condition.common.type == 2) {
-        return (u16)((condition.raw << 7) >> 16);
-    }
-    return 0;
+void BattleEvent_CallHandlers(void *context, u32 event) {
+    func_ov167_021bc918(context, event, 7, 1);
 }
 
-void SetConditionFlag(BattleCondition *condition, u32 flag) {
-    if (condition->common.type == 1) {
-        condition->one.flag = flag;
-        return;
-    }
-    if (condition->common.type == 3) {
-        condition->one.flag = flag;
-        return;
-    }
-    if (condition->common.type == 4) {
-        condition->four.flag = flag;
-        return;
-    }
-    if (condition->common.type == 2) {
-        condition->one.flag = flag;
+void func_ov167_021bc90c(void *context, u32 event, u32 mask) {
+    func_ov167_021bc918(context, event, mask, 1);
+}
+
+void func_ov167_021bc918(void *context, u32 event, u32 mask, u32 flag) {
+    struct EventItemView *item;
+
+    data_ov167_021db194.depth++;
+    func_ov167_021bc94c(context, event, mask, flag);
+    if (--data_ov167_021db194.depth == 0) {
+        item = data_ov167_021db194.first;
+        if (item != NULL) {
+            do {
+                item->flags &= 0xffff0000;
+                item = item->next;
+            } while (item != NULL);
+        }
     }
 }
 
-u32 func_ov167_021ce464(BattleCondition condition) {
-    if (condition.common.type == 1) {
-        return condition.one.flag;
-    }
-    if (condition.common.type == 3) {
-        return condition.one.flag;
-    }
-    if (condition.common.type == 4) {
-        return condition.four.flag;
-    }
-    if (condition.common.type == 2) {
-        return condition.one.flag;
-    }
-    return 0;
+// Function names from swan.
+void BattleEventItem_AttachSkipCheckHandler(BattleEventItem *item, void *handler) {
+    *(void **)((u8 *)item + 0xc) = handler;
 }
 
-void IncrementTurn(BattleCondition *condition, u32 amount) {
-    if (condition->common.type == 2 && condition->common.turns < 8) {
-        condition->common.turns += amount;
-    }
-    if (condition->common.type == 4 && condition->common.turns < 8) {
-        condition->common.turns += amount;
-    }
-}
-
-void SetTurns(BattleCondition *condition, u32 turns) {
-    if (condition->common.type == 2 && condition->common.turns < 8) {
-        condition->common.turns = turns;
-    }
-    if (condition->common.type == 4 && condition->common.turns < 8) {
-        condition->common.turns = turns;
-    }
+void BattleEventItem_DetachSkipCheckHandler(BattleEventItem *item) {
+    *(void **)((u8 *)item + 0xc) = NULL;
 }

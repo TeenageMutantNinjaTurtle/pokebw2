@@ -37,6 +37,84 @@ struct BattleCondition {
     };
 };
 
+// A move slot of a BattleMon: the move it has now, which a move like Mimic or Transform can change, and the one it
+// had before
+struct BattleMoveCore {
+    u16 id;
+    union {
+        struct {
+            u8 pp;
+            u8 maxPP;
+        };
+        u16 ppPair;
+    };
+    union {
+        struct {
+            u8 unk04;
+            u8 flagsLow : 4;
+            u8 flagsHigh : 4;
+        };
+        u16 flagsPair;
+    };
+};
+
+struct BattleMoveWork {
+    BattleMoveCore current;
+    BattleMoveCore original;
+    u8 originalActive;
+};
+
+// A Pokémon in battle, 0x1f8 bytes from BattleMon_Create. Offsets are from btl_pokeparam.c's accessors.
+struct BattleMon {
+    PartyPkm *src;
+    PartyPkm *illusionDisguise;
+    u32 unk08;
+    u16 species;
+    u16 maxHP;
+    u16 hp;
+    u16 heldItem;
+    u16 consumedItem;
+    u16 unk16;
+    u8 unk18;
+    u8 monId;
+    u8 unk1a;
+    u8 unk1b_0 : 5;
+    u8 formChange : 1;
+    u8 illusion : 1;
+    u8 unk1b_7 : 1;
+    BattleCondition conditions[36];
+    u8 moveStatus[0x24];
+    u8 unkD0[0x1e];
+    u16 attack;
+    u16 defense;
+    u16 spAttack;
+    u16 spDefense;
+    u16 speed;
+    u8 type1;
+    u8 type2;
+    u8 unkFA[2];
+    s8 statStages[7];
+    u8 unk103;
+    BattleMoveWork moves[4];
+    u16 ability;
+    u16 weight;
+    u8 moveCount;
+    u8 unk141[3];
+    u8 unk144;
+    u8 unk145[5];
+    u16 unk14a;
+    u16 unk14c;
+    u16 unk14e;
+    u8 unk150[2];
+    u8 unk152;
+    u8 turnFlags[2];
+    u8 conditionFlags[2];
+    u8 counters[5];
+    u8 unk15c[0x96];
+    u16 spActPriority;
+    u8 unk1f4[4];
+};
+
 // The condition word returned by GetConditionContinuationParam.
 typedef BattleCondition BattleConditionCont;
 

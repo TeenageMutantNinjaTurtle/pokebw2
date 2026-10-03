@@ -409,230 +409,69 @@ struct BtlvStringParam {
     u32 args[9];
 };
 
-// Function names from swan.
-BattleCondition ZeroConditionTurns(void) {
-    BattleCondition condition;
-
-    condition.raw = 0;
-    condition.common.type = 0;
-    return condition;
-}
-
-BOOL func_ov167_021ce168(BattleCondition condition) {
-    if (condition.common.type == 0) {
+// Function name from swan.
+BOOL RollEffectChance(u32 chance) {
+    if (BattleRandom(100) < chance) {
         return TRUE;
     }
     return FALSE;
 }
 
-BattleCondition SetConditionTurns(u32 turns) {
-    BattleCondition condition;
+// Function names from swan.
+u32 fixed_round(u32 value, u32 ratio) {
+    u32 result;
 
-    condition.raw = 0;
-    condition.common.type = 2;
-    condition.common.turns = turns;
-    condition.timed.param = 0;
-    return condition;
+    ratio *= value;
+    result = ratio >> 12;
+    if ((ratio & 0xfff) > 0x800) {
+        result++;
+    }
+    return result;
 }
 
-BattleCondition AddTurnCondition(u32 turns, u16 param) {
-    BattleCondition condition;
+// Function name from swan.
+u32 GetRatioOverZero(u32 value, u32 ratio) {
+    u32 result;
 
-    condition.raw = 0;
-    condition.common.type = 2;
-    condition.common.turns = turns;
-    condition.timed.param = param;
-    return condition;
+    result = fixed_round(value, ratio);
+    if (result == 0) {
+        result = 1;
+    }
+    return result;
 }
 
-BattleCondition func_ov167_021ce1dc(u32 turns) {
-    BattleCondition condition;
+u32 MultiplyValueByRatio(u32 value, u32 ratio) {
+    u32 remainder;
+    u32 result;
 
-    condition.raw = 0;
-    condition.common.type = 3;
-    condition.common.turns = turns;
-    return condition;
+    value *= ratio;
+    remainder = value % 100;
+    result = value / 100;
+    if (remainder >= 50) {
+        result++;
+    }
+    return result;
 }
 
-BattleCondition MakeConditionPermanent(void) {
-    BattleCondition condition;
-
-    condition.raw = 0;
-    condition.common.type = 1;
-    return condition;
+// Function names from swan.
+u32 DivideMaxHp(BattleMon *mon, u32 divisor) {
+    return GetBattleMonStat(mon, 14) / divisor;
 }
 
-BattleCondition MakeConditionParamPermanent(u16 param) {
-    BattleCondition condition;
+u32 DivideMaxHPZeroCheck(BattleMon *mon, u32 divisor) {
+    u32 result;
 
-    condition.raw = 0;
-    condition.common.type = 1;
-    condition.timed.param = param;
-    return condition;
+    result = GetBattleMonStat(mon, 14) / divisor;
+    if (result == 0) {
+        result = 1;
+    }
+    return result;
 }
 
-BattleCondition func_ov167_021ce238(u32 turns, u16 param) {
-    BattleCondition condition;
-
-    condition.raw = 0;
-    condition.common.type = 1;
-    condition.common.turns = turns;
-    condition.timed.param = param;
-    return condition;
-}
-
-BattleCondition func_ov167_021ce268(u32 monId, u32 turns) {
-    BattleCondition condition;
-
-    condition.raw = 0;
-    condition.common.type = 4;
-    condition.common.turns = turns;
-    condition.mon.monId = monId;
-    return condition;
-}
-
-BattleCondition func_ov167_021ce298(void) {
-    BattleCondition condition;
-
-    condition.raw = 0;
-    condition.common.type = 1;
-    condition.common.turns = 15;
-    return condition;
-}
-
-BOOL Condition_IsBadlyPoisoned(BattleConditionCont cont) {
-    u32 turns;
-    u32 type;
-
-    turns = cont.common.turns;
-    type = cont.common.type;
-    return type == 1 && turns == 15;
-}
-
-u8 Condition_GetMonID(BattleCondition condition) {
-    u32 type;
-    u32 mon1;
-    u32 mon2;
-
-    type = condition.common.type;
-    mon1 = condition.common.turns;
-    mon2 = condition.mon.monId;
-    if (type == 3) {
-        return mon1;
+// Function name from swan.
+u32 GetNumMonsOnField(u32 battleType, u32 count) {
+    if (battleType == 3) {
+        count = 3;
     }
-    if (type == 4) {
-        return mon2;
-    }
-    return 31;
-}
-
-void func_ov167_021ce308(BattleCondition *condition, u32 value) {
-    if (condition->common.type == 3) {
-        condition->common.turns = value;
-        return;
-    }
-    if (condition->common.type == 4) {
-        condition->mon.monId = value;
-    }
-}
-
-u8 func_ov167_021ce33c(BattleCondition condition) {
-    u32 type;
-    u32 turns;
-
-    type = condition.common.type;
-    turns = condition.common.turns;
-    if (type == 2) {
-        return turns;
-    }
-    if (type == 4) {
-        return turns;
-    }
-    return 0;
-}
-
-void func_ov167_021ce368(BattleCondition *condition, u16 value) {
-    if (condition->common.type == 1) {
-        condition->timed.param = value;
-        return;
-    }
-    if (condition->common.type == 3) {
-        condition->timed.param = value;
-        return;
-    }
-    if (condition->common.type == 4) {
-        condition->raw = (condition->raw & 0x80007fff) | (((u32)value << 16) >> 1);
-        return;
-    }
-    if (condition->common.type == 2) {
-        condition->timed.param = value;
-    }
-}
-
-u16 Condition_GetParam(BattleCondition condition) {
-    if (condition.common.type == 1) {
-        return (u16)((condition.raw << 7) >> 16);
-    }
-    if (condition.common.type == 3) {
-        return (u16)((condition.raw << 7) >> 16);
-    }
-    if (condition.common.type == 4) {
-        return (u16)((condition.raw << 1) >> 16);
-    }
-    if (condition.common.type == 2) {
-        return (u16)((condition.raw << 7) >> 16);
-    }
-    return 0;
-}
-
-void SetConditionFlag(BattleCondition *condition, u32 flag) {
-    if (condition->common.type == 1) {
-        condition->one.flag = flag;
-        return;
-    }
-    if (condition->common.type == 3) {
-        condition->one.flag = flag;
-        return;
-    }
-    if (condition->common.type == 4) {
-        condition->four.flag = flag;
-        return;
-    }
-    if (condition->common.type == 2) {
-        condition->one.flag = flag;
-    }
-}
-
-u32 func_ov167_021ce464(BattleCondition condition) {
-    if (condition.common.type == 1) {
-        return condition.one.flag;
-    }
-    if (condition.common.type == 3) {
-        return condition.one.flag;
-    }
-    if (condition.common.type == 4) {
-        return condition.four.flag;
-    }
-    if (condition.common.type == 2) {
-        return condition.one.flag;
-    }
-    return 0;
-}
-
-void IncrementTurn(BattleCondition *condition, u32 amount) {
-    if (condition->common.type == 2 && condition->common.turns < 8) {
-        condition->common.turns += amount;
-    }
-    if (condition->common.type == 4 && condition->common.turns < 8) {
-        condition->common.turns += amount;
-    }
-}
-
-void SetTurns(BattleCondition *condition, u32 turns) {
-    if (condition->common.type == 2 && condition->common.turns < 8) {
-        condition->common.turns = turns;
-    }
-    if (condition->common.type == 4 && condition->common.turns < 8) {
-        condition->common.turns = turns;
-    }
+    return count;
 }
