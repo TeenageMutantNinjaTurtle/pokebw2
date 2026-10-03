@@ -4,30 +4,11 @@
     .data       start:0x021f0620 end:0x021f07c0 kind:data align:32
     .bss        start:0x021f07c0 end:0x021f07c0 kind:bss align:32
 
-src/ov104/field_exp_obj_gimmick_ov104_state_ops.c:
-    complete
-    .text       start:0x021efc6c end:0x021efcfc
+src/ov104/field_gimmick_gate.c:
+    .text       start:0x021eec80 end:0x021efbd8
+    .rodata     start:0x021f039c end:0x021f0614
+    .data       start:0x021f0620 end:0x021f07a4
 
-src/ov104/field_exp_obj_gimmick_ov104_core.c:
-    complete
-    .text       start:0x021eed00 end:0x021ef084
-
-src/ov104/field_exp_obj_gimmick_ov104_events.c:
-    complete
-    .text       start:0x021ef114 end:0x021ef94c
-
-src/ov104/field_exp_obj_gimmick_ov104_lists.c:
-    complete
-    .text       start:0x021ef994 end:0x021efad0
-
-src/ov104/field_exp_obj_gimmick_ov104_roaming.c:
-    complete
-    .text       start:0x021efb30 end:0x021efbd8
-
-src/ov104/field_exp_obj_gimmick_ov104_messages.c:
-    complete
-    .text       start:0x021f0080 end:0x021f0160
-
-src/ov104/field_exp_obj_gimmick_ov104_gate.c:
-    complete
-    .text       start:0x021f02fc end:0x021f039c
+src/ov104/gimmick_obj_elboard.c:
+    .text       start:0x021efbd8 end:0x021f039c
+    .data       start:0x021f07a4 end:0x021f07c0
