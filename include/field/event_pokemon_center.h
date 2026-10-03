@@ -20,7 +20,6 @@ struct EventPokeCenHealData {
     FieldChunkPropHolder *centerProp;
 };
 
-extern const VecFx32 POKECEN_HEAL_MONSBALL_POSITIONS[];
 
 GameEvent *EventPokeCenHeal_Create(GameSystem *gsys, GameEvent *parent, u8 ballCount);
 GameEventReturnCode EventPokeCenHeal_Callback(GameEvent *event, u32 *state, void *data);

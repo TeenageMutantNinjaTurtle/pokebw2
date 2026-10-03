@@ -19,6 +19,13 @@ struct EventActorAnmProcWaitWork {
     FieldActorAnmProc *proc;
 };
 
+// Whether the actor can move again when each animation ends
+static const u32 FIELD_ACTOR_ANM_IS_ALLOW_MOVE_ON_END[6] = { TRUE, FALSE, FALSE, FALSE, FALSE, TRUE };
+
+static const FieldAsyncProcDef FIELD_ACTOR_ANM_ASYNC_PROC_TEMPLATE = {
+    0, 0x1a0, NULL, NULL, FieldActorAnmProc_Update, FieldActorAnmProc_Draw,
+};
+
 BOOL s0157_ActorAnimationInit(VM *vm, FieldScriptEnv *env) {
     ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
     ActorAnimationFieldWork *fieldWork = ScriptWork_GetFieldWork(work);

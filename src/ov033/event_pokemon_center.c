@@ -10,6 +10,16 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 
+// Where the balls go on the healing machine, from its position
+static const VecFx32 POKECEN_HEAL_MONSBALL_POSITIONS[6] = {
+    { FX32_CONST(-4), FX32_CONST(14), FX32_CONST(-3) },
+    { FX32_CONST(4), FX32_CONST(14), FX32_CONST(-3) },
+    { FX32_CONST(9), FX32_CONST(14), FX32_CONST(4) },
+    { FX32_CONST(4), FX32_CONST(14), FX32_CONST(8) },
+    { FX32_CONST(-4), FX32_CONST(14), FX32_CONST(8) },
+    { FX32_CONST(-9), FX32_CONST(14), FX32_CONST(4) },
+};
+
 GameEvent *EventPokeCenHeal_Create(GameSystem *gsys, GameEvent *parent, u8 ballCount) {
     GameEvent *event;
 

@@ -24,8 +24,6 @@ struct FieldActorAnmProc {
     HeapID heapId;
 };
 
-extern const FieldAsyncProcDef FIELD_ACTOR_ANM_ASYNC_PROC_TEMPLATE;
-extern const u32 FIELD_ACTOR_ANM_IS_ALLOW_MOVE_ON_END[6];
 
 FieldActorAnmProc *FieldActorAnmProc_Create(Field *field, u16 actorId, const VecFx32 *pos, HeapID heapId);
 void FieldActorAnmProc_Free(FieldActorAnmProc *proc);

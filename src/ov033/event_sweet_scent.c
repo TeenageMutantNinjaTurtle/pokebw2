@@ -17,6 +17,8 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 
+static const SweetScentPalette sPalette = { 0, 0x5d5f };
+
 GameEvent *EventSweetScent_Create(Field *field, GameSystem *gsys) {
     return func_ov033_021785d4(gsys, field, 0xff);
 }
@@ -175,7 +177,7 @@ GameEventReturnCode func_ov033_02178788(GameEvent *event, u32 *state, void *data
 }
 
 void func_ov033_0217884c(SweetScentScreenWork *work) {
-    SweetScentPalette palette = data_ov033_0217c484;
+    SweetScentPalette palette = sPalette;
     GFL_BGSysSetBGEnabled(work->bgId, FALSE);
     GFL_BGSysUploadStdPalette(work->bgId, &palette, 8, 0x20);
     GFL_BGSysFillChar(work->bgId, 1, 1, 0x100);

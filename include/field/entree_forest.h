@@ -27,6 +27,5 @@ extern const u8 data_ov033_0217c340[];
 extern const u8 data_ov033_0217c398[];
 extern const u8 data_ov033_0217c3c0[];
 
-extern const VecFx32 data_ov033_0217c3e8;
 
 #endif // POKEBW2_FIELD_ENTREE_FOREST_H

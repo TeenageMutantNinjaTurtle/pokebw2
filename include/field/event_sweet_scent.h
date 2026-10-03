@@ -25,7 +25,6 @@ struct SweetScentPalette {
     u16 second;
 };
 
-extern const SweetScentPalette data_ov033_0217c484;
 
 GameEvent *EventSweetScent_Create(Field *field, GameSystem *gsys);
 GameEvent *func_ov033_021785d4(GameSystem *gsys, Field *field, u8 partySlot);

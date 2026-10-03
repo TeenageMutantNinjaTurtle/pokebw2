@@ -12,6 +12,16 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 
+// Where the balls go, from the machine's position
+static const VecFx32 sBallPositions[6] = {
+    { FX32_CONST(-4), FX32_CONST(14), FX32_CONST(-3) },
+    { FX32_CONST(4), FX32_CONST(14), FX32_CONST(-3) },
+    { FX32_CONST(9), FX32_CONST(14), FX32_CONST(4) },
+    { FX32_CONST(4), FX32_CONST(14), FX32_CONST(8) },
+    { FX32_CONST(-4), FX32_CONST(14), FX32_CONST(8) },
+    { FX32_CONST(-9), FX32_CONST(14), FX32_CONST(4) },
+};
+
 GameEvent *EventDendouMachine_Create(GameSystem *gsys, GameEvent *parent) {
     GameEvent *event;
 
@@ -105,7 +115,7 @@ void EventDendouMachine_SpawnMonsBall(EventDendouMachineData *work) {
     if (work->ballCount > index) {
         VEC_Set(&transform.scale, FX32_ONE, FX32_ONE, FX32_ONE);
         MAT3_RotationEulerZYX(0, 0, 0, &transform.rotation);
-        VEC_Add(&work->basePosition, &data_ov033_0217c490[index], &transform.translation);
+        VEC_Add(&work->basePosition, &sBallPositions[index], &transform.translation);
         work->ballHandles[index] = FieldPropSystem_CreateHandleNew(work->propSystem, 0x62, &transform);
         work->spawnedCount++;
         GFL_SndSEPlay(0x568);

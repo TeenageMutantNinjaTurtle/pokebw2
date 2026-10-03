@@ -29,6 +29,8 @@ struct NPCRailPosition {
     s16 sidePos;
 };
 
+static const VecFx32 sWarpInPos = { FX32_CONST(511), FX32_CONST(32), FX32_CONST(584) };
+
 GameEventReturnCode func_ov033_02177370(GameEvent *event, u32 *state, void *data) {
     EntralinkWarpReturnWork *work;
     GameSystem *gsys;
@@ -51,7 +53,7 @@ GameEventReturnCode func_ov033_02177370(GameEvent *event, u32 *state, void *data
             GameCommSys_ExitReq(comm);
             break;
         }
-        next = EventEntralinkWarpIn_Create(gsys, 0x117, (VecFx32 *)&data_ov033_0217c3f4, 0);
+        next = EventEntralinkWarpIn_Create(gsys, 0x117, &sWarpInPos, 0);
         GameEvent_ChainNext(event, next);
         (*state)++;
         break;

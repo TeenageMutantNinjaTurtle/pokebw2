@@ -18,7 +18,6 @@ struct EventDendouMachineData {
     FieldPropHandle *centerHandle;
 };
 
-extern const VecFx32 data_ov033_0217c490[];
 
 GameEvent *EventDendouMachine_Create(GameSystem *gsys, GameEvent *parent);
 GameEventReturnCode EventDendouMachine_Callback(GameEvent *event, u32 *state, void *data);

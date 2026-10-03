@@ -7,6 +7,9 @@
 #include "struct_decls.h"
 #include "system/game_system.h"
 
+// Where the warp leads
+static const VecFx32 sWarpPos = { FX32_CONST(248), 0, FX32_CONST(376) };
+
 GameEvent *CheckEntralinkForestFirstWarpEvent(Field *field, GameSystem *gsys, FieldPlayer *player) {
     u16 zoneId;
     VecFx32 playerPos;
@@ -29,7 +32,7 @@ GameEvent *CheckEntralinkForestFirstWarpEvent(Field *field, GameSystem *gsys, Fi
     startX = (0x7e << 14);
     for (i = 0; i < 3; i++, startX += (1 << 22)) {
         if (playerPos.x >= startX && playerPos.x < startX + (2 << 16) && playerPos.z == (0x56 << 14)) {
-            warpPos = data_ov033_0217c3e8;
+            warpPos = sWarpPos;
             warpPos.x += playerPos.x - startX;
             return EventEntreeForestWarp_Create(gsys, 1, &warpPos, 0, 4);
         }

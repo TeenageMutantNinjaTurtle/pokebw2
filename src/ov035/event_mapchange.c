@@ -1160,7 +1160,7 @@ GameEvent *EventMapChangeUnionRoomExit_Create(GameSystem *gsys) {
     return event;
 }
 
-GameEvent *EventEntralinkWarpIn_Create(GameSystem *gsys, u16 zoneId, VecFx32 *pos, u32 a3) {
+GameEvent *EventEntralinkWarpIn_Create(GameSystem *gsys, u16 zoneId, const VecFx32 *pos, u32 a3) {
     Field *field = GSYS_GetField(gsys);
     GameData *gameData = GSYS_GetGameData(gsys);
     VecFx32 spawnPos = *pos;

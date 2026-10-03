@@ -13,6 +13,7 @@ src/ov033/event_funfest_mission.c:
     .text       start:0x02176dc8 end:0x02176f04
 
 src/ov033/entree_forest_first_warp.c:
+    complete
     .text       start:0x02176f04 end:0x02176fd0
     .rodata     start:0x0217c428 end:0x0217c434
 
@@ -21,6 +22,7 @@ src/ov033/scrcmd_funfest.c:
     .text       start:0x02176fd0 end:0x021773b0
 
 src/ov033/entralink_warp.c:
+    complete
     .text       start:0x021773b0 end:0x021775b4
     .rodata     start:0x0217c434 end:0x0217c440
 
@@ -42,6 +44,7 @@ src/ov033/scrcmd_field_move.c:
     .text       start:0x02178488 end:0x02178604
 
 src/ov033/event_sweet_scent.c:
+    complete
     .text       start:0x02178604 end:0x02178948
     .rodata     start:0x0217c4c4 end:0x0217c4c8
 
@@ -56,6 +59,7 @@ src/ov033/event_fishing.c:
     .text       start:0x02179200 end:0x021796a4
 
 src/ov033/event_dendou_machine.c:
+    complete
     .text       start:0x021796a4 end:0x021798a8
     .rodata     start:0x0217c4d0 end:0x0217c518
 
@@ -64,6 +68,7 @@ src/ov033/event_pc.c:
     .text       start:0x021798a8 end:0x02179b94
 
 src/ov033/event_pokemon_center.c:
+    complete
     .text       start:0x02179b94 end:0x02179e14
     .rodata     start:0x0217c518 end:0x0217c560
 
@@ -73,6 +78,7 @@ src/ov033/event_game_manual.c:
     .data       start:0x0217c650 end:0x0217c664
 
 src/ov033/event_abyssal_ruins.c:
+    complete
     .text       start:0x02179ed8 end:0x02179f44
     .rodata     start:0x0217c560 end:0x0217c574
 
@@ -81,6 +87,7 @@ src/ov033/event_dive.c:
     .text       start:0x02179f44 end:0x0217a1f0
 
 src/ov033/field_actor_animation.c:
+    complete
     .text       start:0x0217a1f0 end:0x0217a4e0
     .rodata     start:0x0217c574 end:0x0217c5a4
 
