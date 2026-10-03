@@ -38,7 +38,7 @@ src/ov036/field_zone_fog_projection.c:
 
 src/ov036/field_zone_two_pass.c:
     complete
-    .text       start:0x02181438 end:0x02181474
+    .text       start:0x021813f8 end:0x02181474
 
 src/ov036/field_zone_map_type.c:
     complete
@@ -95,7 +95,7 @@ src/ov036/field_core.c:
 
 src/ov036/field_system_accessors.c:
     complete
-    .text       start:0x0218056c end:0x021805c0
+    .text       start:0x0218056c end:0x021805dc
     .rodata     start:0x021c9ef8 end:0x021c9efc
 
 src/ov036/field_prop_system.c:

@@ -1,3 +1,4 @@
+#include "field/day_care.h"
 #include "field/festival.h"
 #include "field/field_async_proc.h"
 #include "field/field_controller.h"
@@ -39,4 +40,24 @@ TCBManager *Field_GetTCBMgr(Field *field) {
 
 FieldTaskManager *Field_GetTaskManager(Field *field) {
     return field->taskManager;
+}
+
+void Field_SetPlayerPosPtr(Field *field, VecFx32 *position) {
+    field->playerPosPtr = position;
+}
+
+void *Field_GetMoneyWin(Field *field) {
+    return field->moneyWin;
+}
+
+void Field_SetMoneyWin(Field *field, void *moneyWin) {
+    field->moneyWin = moneyWin;
+}
+
+DayCareSave *Field_GetDayCare(Field *field) {
+    return field->dayCare;
+}
+
+AreaData *Field_GetAreaData(Field *field) {
+    return field->areaData;
 }

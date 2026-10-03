@@ -20,26 +20,6 @@ src/ov012/script_work_accessors.c:
     complete
     .text       start:0x02153ee0 end:0x02153f10
 
-src/ov012/script_work_extra_accessors.c:
-    complete
-    .text       start:0x02154084 end:0x021540b0
-
-src/ov012/field_script_sub_event.c:
-    complete
-    .text       start:0x021540b0 end:0x02154134
-
-src/ov012/map_matrix_world_coord.c:
-    complete
-    .text       start:0x02154cb8 end:0x02154cd4
-
-src/ov012/field_script_env_save.c:
-    complete
-    .text       start:0x0215560c end:0x02155638
-
-src/ov012/field_script_cmd_game_version.c:
-    complete
-    .text       start:0x02155638 end:0x02155648
-
 src/ov012/field_script_cmd_random_text.c:
     complete
     .text       start:0x021556a4 end:0x021556dc
@@ -55,18 +35,6 @@ src/ov012/field_script_cmd_save_setup.c:
 src/ov012/field_script_cmd_party_moves_read.c:
     complete
     .text       start:0x02156b84 end:0x02156c10
-
-src/ov012/field_script_cmd_money.c:
-    complete
-    .text       start:0x02157450 end:0x021574e4
-
-src/ov012/field_script_cmd_field_open_close.c:
-    complete
-    .text       start:0x021574e4 end:0x02157534
-
-src/ov012/field_script_cmd_overlay_process.c:
-    complete
-    .text       start:0x02157534 end:0x02157624
 
 src/ov012/field_script_cmd_mailbox_cleanup.c:
     complete
@@ -92,45 +60,17 @@ src/ov012/encounter_state.c:
     complete
     .text       start:0x02159190 end:0x02159270
 
-src/ov012/field_script_cmd_subscreen_disable.c:
-    complete
-    .text       start:0x02159d74 end:0x02159d94
-
 src/ov012/stadium_trainer_index.c:
     complete
     .text       start:0x0215a0ac end:0x0215a0d4
-
-src/ov012/shortcut_menu_check_ribbon.c:
-    complete
-    .text       start:0x0215b478 end:0x0215b4c8
-
-src/ov012/field_app_call_create.c:
-    complete
-    .text       start:0x0215b4c8 end:0x0215b54c
 
 src/ov012/event_save.c:
     complete
     .text       start:0x0215c538 end:0x0215c5d4
 
-src/ov012/prepare_resident_actors.c:
-    complete
-    .text       start:0x0215c6f0 end:0x0215c71c
-
-src/ov012/event_action_call.c:
-    complete
-    .text       start:0x0215c71c end:0x0215c884
-
 src/ov012/event_actor_jump_create.c:
     complete
     .text       start:0x0215c98c end:0x0215c9e8
-
-src/ov012/field_acmd_walk_one_tile.c:
-    complete
-    .text       start:0x0215cb3c end:0x0215cb88
-
-src/ov012/event_3d_demo_create.c:
-    complete
-    .text       start:0x0215cb88 end:0x0215cbf0
 
 src/ov012/sequence_event_setup.c:
     complete
@@ -140,37 +80,9 @@ src/ov012/setup_warp_param_by_warp.c:
     complete
     .text       start:0x0215d128 end:0x0215d13c
 
-src/ov012/event_data_npc_access.c:
-    complete
-    .text       start:0x0215d1d4 end:0x0215d1dc
-
-src/ov012/event_data_npc_set_ids.c:
-    complete
-    .text       start:0x0215d208 end:0x0215d230
-
-src/ov012/conv_dir_to_trigger_dir.c:
-    complete
-    .text       start:0x0215d230 end:0x0215d25c
-
-src/ov012/trigger_scrid_lookup.c:
-    complete
-    .text       start:0x0215d3c8 end:0x0215d410
-
-src/ov012/event_data_proxies.c:
-    complete
-    .text       start:0x0215d410 end:0x0215d418
-
-src/ov012/proxy_entity_event_wrappers.c:
-    complete
-    .text       start:0x0215d500 end:0x0215d510
-
 src/ov012/event_battle_lose_create.c:
     complete
     .text       start:0x0215a190 end:0x0215a1dc
-
-src/ov012/get_bg_position_center.c:
-    complete
-    .text       start:0x0215d510 end:0x0215d52c
 
 src/ov012/set_bg_entity_location.c:
     complete
@@ -185,30 +97,10 @@ src/ov012/field_position_direction.c:
     complete
     .text       start:0x0215ec8c end:0x0215ed9c
 
-src/ov012/bg_position.c:
-    complete
-    .text       start:0x0215d8cc end:0x0215d9b8
-
-src/ov012/trigger_position.c:
-    complete
-    .text       start:0x0215d9b8 end:0x0215dafc
-
 
 src/ov012/map_matrix.c:
     complete
     .text       start:0x02154aa4 end:0x02154c40
-
-src/ov012/respawn_zone.c:
-    complete
-    .text       start:0x02154edc end:0x02154fd8
-
-src/ov012/trainer_script.c:
-    complete
-    .text       start:0x02154fd8 end:0x021550e4
-
-src/ov012/script_subwork.c:
-    complete
-    .text       start:0x021550e4 end:0x0215512c
 
 src/ov012/event_data_loading.c:
     complete
@@ -228,10 +120,6 @@ src/ov012/field_script_day_care.c:
     complete
     .text       start:0x02157c60 end:0x02157fac
 
-src/ov012/map_replace.c:
-    complete
-    .text       start:0x02154cd4 end:0x02154edc
-
 
 src/ov012/field_script_env.c:
     complete
@@ -241,14 +129,6 @@ src/ov012/field_script_party.c:
     complete
     .text       start:0x0215618c end:0x021568fc
 
-src/ov012/field_script_party_extra.c:
-    complete
-    .text       start:0x02156e14 end:0x021572f0
-
-src/ov012/game_data_pkm.c:
-    complete
-    .text       start:0x021572f0 end:0x02157450
-
 src/ov012/field_script_supervisor.c:
     complete
     .text       start:0x02153748 end:0x02153820
@@ -257,26 +137,10 @@ src/ov012/script_work_helpers.c:
     complete
     .text       start:0x02153f18 end:0x02153f70
 
-src/ov012/zone_warp_queries.c:
-    complete
-    .text       start:0x0215d14c end:0x0215d1d4
-
-src/ov012/field_script_plugin.c:
-    complete
-    .text       start:0x02154988 end:0x02154aa4
-
-src/ov012/item_use_block.c:
-    complete
-    .text       start:0x0215b3e8 end:0x0215b478
-
 
 src/ov012/field_script_vm_core.c:
     complete
     .text       start:0x021541c0 end:0x021544f0
-
-src/ov012/field_script_vm_commands.c:
-    complete
-    .text       start:0x021545c4 end:0x02154988
 
 src/ov012/field_script_cmd_zone_pokedex.c:
     complete
@@ -290,10 +154,6 @@ src/ov012/hidden_event.c:
 src/ov012/field_script_network.c:
     complete
     .text       start:0x02159c00 end:0x02159cc0
-
-src/ov012/field_script_cmd_stadium.c:
-    complete
-    .text       start:0x02159d94 end:0x02159fd0
 
 src/ov012/event_field_menu.c:
     complete
@@ -311,10 +171,6 @@ src/ov012/zone_warp_out.c:
     complete
     .text       start:0x0215d630 end:0x0215d7b0
 
-src/ov012/rail_warp_out.c:
-    complete
-    .text       start:0x0215d814 end:0x0215d8cc
-
 
 src/ov012/field_script_battle.c:
     complete
@@ -323,3 +179,60 @@ src/ov012/field_script_battle.c:
 src/ov012/field_chunk_accessors.c:
     complete
     .text       start:0x021635b8 end:0x0216367c
+
+
+src/ov012/field_script_misc.c:
+    complete
+    .text       start:0x02154084 end:0x02154134
+
+src/ov012/field_script_vm_commands.c:
+    complete
+    .text       start:0x021545c4 end:0x02154aa4
+
+src/ov012/field_map_helpers.c:
+    complete
+    .text       start:0x02154cb8 end:0x0215512c
+
+src/ov012/field_script_env_save.c:
+    complete
+    .text       start:0x0215560c end:0x02155648
+
+src/ov012/field_script_commands.c:
+    complete
+    .text       start:0x02156e14 end:0x02157624
+
+src/ov012/field_script_cmd_stadium.c:
+    complete
+    .text       start:0x02159d74 end:0x02159fd0
+
+src/ov012/field_app_dispatch.c:
+    complete
+    .text       start:0x0215b3e8 end:0x0215b54c
+
+src/ov012/field_event_actor.c:
+    complete
+    .text       start:0x0215c6f0 end:0x0215c884
+
+src/ov012/field_event_demo.c:
+    complete
+    .text       start:0x0215cb3c end:0x0215cbf0
+
+src/ov012/field_event_data_queries.c:
+    complete
+    .text       start:0x0215d14c end:0x0215d1dc
+
+src/ov012/event_data_npc_helpers.c:
+    complete
+    .text       start:0x0215d208 end:0x0215d25c
+
+src/ov012/event_data_proxy_lookup.c:
+    complete
+    .text       start:0x0215d3c8 end:0x0215d418
+
+src/ov012/position_proxy_helpers.c:
+    complete
+    .text       start:0x0215d500 end:0x0215d52c
+
+src/ov012/field_position_helpers.c:
+    complete
+    .text       start:0x0215d814 end:0x0215dafc

@@ -5,6 +5,22 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 
+struct PrepareResidentActorsWork {
+    GameSystem *gameSystem;
+    Field *field;
+    GameData *gameData;
+    u32 unkC;
+};
+
+GameEvent *CallEventPrepareResidentActorsForZoneChange(GameSystem *gsys, Field *field) {
+    GameEvent *event = GameEvent_Create(gsys, NULL, func_ov012_0215c59c, sizeof(PrepareResidentActorsWork));
+    PrepareResidentActorsWork *work = GameEvent_GetData(event);
+    work->gameSystem = gsys;
+    work->field = field;
+    work->gameData = GSYS_GetGameData(gsys);
+    return event;
+}
+
 GameEventReturnCode EventActionCall_Callback(GameEvent *event, u32 *state, void *data) {
     EventActionCallWork *work = data;
     MMSys *mmSys = Field_GetActorSystem(work->field);
@@ -42,10 +58,18 @@ GameEvent *CallMoveOneTileFrontEvent(GameSystem *gsys, Field *field) {
     u32 direction = GetActorFaceDir(FieldPlayer_GetActor(Field_GetPlayer(field)));
     const u32 *queue;
     switch (direction) {
-    case 0: queue = ACMD_QUEUE_WALK_N_8F; break;
-    case 1: queue = ACMD_QUEUE_WALK_S_8F; break;
-    case 2: queue = ACMD_QUEUE_WALK_W_8F; break;
-    case 3: queue = ACMD_QUEUE_WALK_E_8F; break;
+    case 0:
+        queue = ACMD_QUEUE_WALK_N_8F;
+        break;
+    case 1:
+        queue = ACMD_QUEUE_WALK_S_8F;
+        break;
+    case 2:
+        queue = ACMD_QUEUE_WALK_W_8F;
+        break;
+    case 3:
+        queue = ACMD_QUEUE_WALK_E_8F;
+        break;
     }
     return EventActionCall_Create(gsys, field, 0xff, queue);
 }

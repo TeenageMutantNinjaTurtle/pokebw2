@@ -9,7 +9,7 @@ struct Field {
     u16 unk2;
     GameSystem *gameSystem;
     GameData *gameData;
-    u8 unkc[0x4];
+    AreaData *areaData;
     FieldCamera *cameraSystem;
     void *lightSystem;
     FieldFog *fog;
@@ -17,7 +17,7 @@ struct Field {
     void *weatherSystem;
     FieldSubscreen *subscreen;
     void *msgBGSys;
-    u8 unk2c[0x4];
+    void *moneyWin;
     PlaceName *placeName;
     u8 unk34[0x4];
     void *fesGimmick;
@@ -42,7 +42,9 @@ struct Field {
     u32 routineID;
     u8 unkd8[0x10];
     u16 playerStateZoneId;
-    u8 unkea[0x26];
+    u8 unkea[0x16];
+    VecFx32 *playerPosPtr;
+    u8 unk104[0xc];
     fx32 actorYOffset;
     u8 unk114[0x4];
     u32 *controllerTypeID;
@@ -50,7 +52,7 @@ struct Field {
     TCBManager *tcbManager;
     u8 unk124[0x10];
     void *g3dCi;
-    u8 unk138[0x4];
+    DayCareSave *dayCare;
     u32 renderMode;
     void *g3DObjSystem;
     FieldTaskManager *taskManager;
