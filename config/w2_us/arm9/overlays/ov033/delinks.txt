@@ -52,10 +52,6 @@ src/ov033/trial_house_work_delete.c:
     complete
     .text       start:0x0217ad8c end:0x0217adb8
 
-src/ov033/unity_tower_visitor_word_set.c:
-    complete
-    .text       start:0x0217abcc end:0x0217acb0
-
 src/ov033/event_field_trade_pkm.c:
     .text       start:0x0217a5d0 end:0x0217a754
 
@@ -86,10 +82,6 @@ src/ov033/event_fly_fade.c:
 src/ov033/event_chatot_create.c:
     complete
     .text       start:0x02178ce8 end:0x02178d50
-
-src/ov033/unity_tower_visitor_list_init.c:
-    complete
-    .text       start:0x0217aa5c end:0x0217aa90
 
 src/ov033/event_game_manual.c:
     complete
@@ -153,7 +145,7 @@ src/ov033/dive.c:
 
 src/ov033/unity_visitor.c:
     complete
-    .text       start:0x0217ab04 end:0x0217ab98
+    .text       start:0x0217aa5c end:0x0217acb0
 
 src/ov033/trial_event.c:
     complete

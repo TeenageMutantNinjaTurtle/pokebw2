@@ -344,13 +344,9 @@ src/ov167/battle_mon_consumed_item.c:
     complete
     .text       start:0x021bbf70 end:0x021bbf84
 
-src/ov167/battle_mon_move_history_primary.c:
+src/ov167/battle_mon_move_history.c:
     complete
-    .text       start:0x021bbfdc end:0x021bbff0
-
-src/ov167/battle_mon_move_history_target.c:
-    complete
-    .text       start:0x021bbff8 end:0x021bc010
+    .text       start:0x021bbfdc end:0x021bc010
 
 src/ov167/battle_mon_weight.c:
     complete

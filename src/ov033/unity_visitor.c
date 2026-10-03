@@ -1,8 +1,57 @@
 #include "field/unity_tower.h"
 #include "save/player_info.h"
 #include "save/save_control.h"
+#include "system/aeabi.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+
+void func_ov033_0217aa1c(GameSystem *gsys, s32 floor, u32 value) {
+    GameData *gameData;
+    u8 *unityTowerSave;
+    SaveControl *saveControl;
+
+    gameData = GSYS_GetGameData(gsys);
+    unityTowerSave = GameData_GetUnityTowerSave(gameData);
+    if (floor < 0xe9) {
+        saveControl = GameData_GetSaveControl(gameData);
+        func_ov033_0217aa50(getUnityTower_SurveySaveBlkAddrress(saveControl), unityTowerSave, floor, value);
+    } else {
+        UnityTowerSave_Init(unityTowerSave);
+    }
+}
+
+void func_ov033_0217aa50(UnityTowerSurveySave *survey, u8 *output, s32 floor, u32 value) {
+    void *visitor;
+    u32 visitorValue;
+    s32 country;
+    s32 index;
+
+    output[0] = floor;
+    output[2] = value;
+    output[1] = 0;
+    for (index = 0; index < 20; index++) {
+        if ((u8)UnityTower_GetVisitorParam(survey, index, 6) == 0) {
+            continue;
+        }
+        visitor = UnityTower_GetVisitor(survey, index);
+        if (visitor == NULL) {
+            continue;
+        }
+        country = UnityTowerVisitor_GetCountry(visitor);
+        if (country == floor) {
+            visitorValue = func_02008bf4(visitor);
+            if (visitorValue > 15) {
+                visitorValue = getTrainerGender(visitor) != 0 ? 15 : 11;
+            }
+            output[8 + output[1]] = index;
+            output[3 + output[1]] = func_0202b5d4(visitorValue);
+            output[1]++;
+            if (output[1] >= 5) {
+                break;
+            }
+        }
+    }
+}
 
 u32 func_ov033_0217aac4(u8 *output, u32 index) {
     u32 result;
@@ -43,4 +92,57 @@ u32 func_ov033_0217aad8(WordSet *wordSet, GameSystem *gsys, u8 *save, s32 index,
         hasProvince = 1;
     }
     return func_ov033_0217ab58(gender, id, province, param, hasProvince);
+}
+
+u32 func_ov033_0217ab58(u32 gender, u32 id, u32 province, u32 a3, u32 hasProvince) {
+    u32 messageId;
+
+    if (hasProvince != 0) {
+        messageId = 4;
+    } else {
+        messageId = 0x44;
+    }
+    if (province < 5) {
+        messageId += province * 12;
+    }
+    if (gender != 0) {
+        messageId += 6;
+    }
+    if (a3 == 0) {
+        messageId++;
+        messageId += (u32)(__aeabi_uidivmod(id, 5) >> 32);
+    }
+    return messageId;
+}
+
+void LoadUnityTowerVisitorWordSet(WordSet *wordSet, GameData *gameData, u32 index) {
+    SaveControl *save;
+    UnityTowerSurveySave *survey;
+    u8 *towerSave;
+    u8 country;
+    void *visitor;
+    u32 value;
+    u8 hobby;
+
+    save = GameData_GetSaveControl(gameData);
+    survey = getUnityTower_SurveySaveBlkAddrress(save);
+    towerSave = GameData_GetUnityTowerSave(gameData);
+    country = towerSave[0];
+    visitor = UnityTower_GetVisitor(survey, index);
+    loadCountryToStrbuf(wordSet, 0, country);
+    if (CountryHasProvinces(country)) {
+        loadCountryAreaToStrbuf(wordSet, 1, country, UnityTowerVisitor_GetProvince(visitor));
+    }
+    copyVarForText(wordSet, 3, GetGameDataPlayerInfo(gameData));
+    WordSet_LoadSpeciesName(wordSet, 5, (u16)UnityTower_GetVisitorParam(survey, index, 0));
+    loadHobbyNameToStrbuf(wordSet, 6, getPlayerSurveys(survey));
+    copyVarForText(wordSet, 7, visitor);
+    value = UnityTower_GetVisitorParam(survey, index, 3);
+    if (value == 0) {
+        value = 1;
+    }
+    WordSetNumber(wordSet, 8, value, 3, 0, 1);
+    WordSet_LoadSpeciesName(wordSet, 9, (u16)UnityTower_GetVisitorParam(survey, index, 1));
+    hobby = UnityTower_GetVisitorParam(survey, index, 2);
+    loadHobbyNameToStrbuf(wordSet, 10, hobby);
 }
