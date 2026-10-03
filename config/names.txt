@@ -121,6 +121,7 @@
 . 0x02141918 sBmpWinSys
 . 0x0214191c sDefaultLangID
 . 0x02141920 sSystemFont
+. 0x02141930 sArcSys
 . 0x02143a0c NNS_G3dGlb
 dtcm 0x02fe0000 SDK_AUTOLOAD_DTCM_START
 overlays/ov000 0x0214f500 EventGameSync_Callback

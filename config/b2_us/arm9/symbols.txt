@@ -9169,7 +9169,7 @@ sBmpWinSys kind:bss addr:0x02141918
 sDefaultLangID kind:bss addr:0x0214191c
 sSystemFont kind:bss addr:0x02141920
 g_G3DSystem kind:bss addr:0x02141924
-g_ArcSys kind:bss addr:0x02141930
+sArcSys kind:bss addr:0x02141930
 g_ClActSys kind:bss addr:0x0214193c
 g_TextPrint kind:bss addr:0x02141940
 g_FadeMgr kind:bss addr:0x02141944

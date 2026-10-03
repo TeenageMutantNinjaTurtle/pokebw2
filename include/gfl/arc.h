@@ -5,7 +5,17 @@
 #include "gfl/heap.h"
 #include "struct_decls.h"
 
+// Archives (arc_tool.c): NARC files, from the file system by the path of each archive ID, or from memory. An ArcTool
+// keeps an archive open to read its files
+
+// Sets the paths of the archives, by archive ID
+void GFL_ArcSysInit(const char **paths, u32 count);
 ArcTool *GFL_ArcSysCreateFileHandle(u32 arcId, HeapID heapId);
+ArcTool *GFL_ArcSysCreateMemoryHandle(const void *data, u32 size, HeapID heapId);
+// Reads a file of the archive at path into a new allocation
+void *GFL_ArcSysReadHeapNewDirect(const char *path, u32 fileId, HeapID heapId);
+u32 GFL_ArcSysGetDataLength(u32 arcId, u32 fileId);
+void GFL_ArcToolCopyDataOfs(ArcTool *handle, u32 fileId, u32 *offset);
 u32 GFL_ArcToolGetDataMax(ArcTool *handle);
 void GFL_ArcToolFree(ArcTool *handle);
 void GFL_ArcToolRead(ArcTool *handle, u32 fileId, void *dest);
