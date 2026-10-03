@@ -8,9 +8,6 @@
 #include "nitro/mi.h"
 #include "nitro/os.h"
 
-// The format of a palette file of 16 colors per palette
-#define GX_TEXFMT_PLTT16 3
-
 typedef void (*VramLoadFunc)(const void *src, u32 offset, u32 size);
 
 static u32 GFL_BGSysLoadNCGRStaticCore(void *file, u32 bg, u32 offset, u32 size, BOOL compressed);

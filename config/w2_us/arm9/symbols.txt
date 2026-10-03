@@ -8118,7 +8118,7 @@ data_02093ed8 kind:data(any) addr:0x02093f04
 data_02093ef0 kind:data(any) addr:0x02093f1c
 data_02093f08 kind:data(any) addr:0x02093f34
 data_02093f24 kind:data(any) addr:0x02093f50
-SYSTEM_FONT_SPECIAL_CHARS_REMAP kind:data(any) addr:0x02093f6c
+sSpecialChars kind:data(any) addr:0x02093f6c
 data_02093f42 kind:data(any) addr:0x02093f6e
 BLACT_PIXEL_FORMATS kind:data(any) addr:0x02093fac
 MMDL_BB_SIZETBL kind:data(any) addr:0x02093fc0
@@ -9174,9 +9174,9 @@ sSystemFont kind:bss addr:0x02141960
 g_G3DSystem kind:bss addr:0x02141964
 sArcSys kind:bss addr:0x02141970
 g_ClActSys kind:bss addr:0x0214197c
-g_TextPrint kind:bss addr:0x02141980
-g_FadeMgr kind:bss addr:0x02141984
-g_Dual3D kind:bss addr:0x02141988
+sTextPrint kind:bss addr:0x02141980
+sFadeMgr kind:bss addr:0x02141984
+sDual3D kind:bss addr:0x02141988
 data_0214194c kind:bss addr:0x0214198c
 data_02141950 kind:bss addr:0x02141990
 data_02141954 kind:bss addr:0x02141994

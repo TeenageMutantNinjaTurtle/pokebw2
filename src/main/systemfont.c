@@ -88,7 +88,7 @@ u8 GFL_SystemFontGetHeight(void) {
     return ((const SystemFontHeader *)sSystemFont->data)->height;
 }
 
-u32 GFL_SystemFontGetTabSize(void) {
+u16 GFL_SystemFontGetTabSize(void) {
     return 7;
 }
 
