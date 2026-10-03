@@ -479,3 +479,23 @@ src/ov167/battle_action_fight_param.c:
 src/ov167/battle_action_null.c:
     complete
     .text       start:0x021bdc5c end:0x021bdc6c
+
+src/ov167/battle_action_access.c:
+    complete
+    .text       start:0x021bdc6c end:0x021bdc84
+
+src/ov167/battle_ability_handler_priority.c:
+    complete
+    .text       start:0x021bdd18 end:0x021bdd38
+
+src/ov167/battle_ability_subpriority.c:
+    complete
+    .text       start:0x021bddd8 end:0x021bdde8
+
+src/ov167/battle_ability_roll_effect_chance.c:
+    complete
+    .text       start:0x021bdde8 end:0x021bde10
+
+src/ov167/battle_ability_item_rotation.c:
+    complete
+    .text       start:0x021bdd60 end:0x021bdd8c

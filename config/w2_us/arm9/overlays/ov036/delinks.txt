@@ -220,3 +220,16 @@ src/ov036/field_zone_config.c:
 src/ov036/field_prop_rtc_state.c:
     complete
     .text       start:0x021835f0 end:0x02183634
+
+src/ov036/field_prop_res_info.c:
+    complete
+    .text       start:0x02183598 end:0x021835f0
+    .rodata     start:0x021ca954 end:0x021ca964
+
+src/ov036/field_prop_res_index.c:
+    complete
+    .text       start:0x021834fc end:0x02183520
+
+src/ov036/field_prop_resource_bundle.c:
+    complete
+    .text       start:0x02183520 end:0x02183548

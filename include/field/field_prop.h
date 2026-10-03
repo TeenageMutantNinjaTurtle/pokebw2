@@ -18,6 +18,32 @@ struct FieldPropAreaBounds {
     fx32 maxX;
 };
 
+// Partial resource layouts inferred from the Swan-named overlay 36 helpers.
+struct FieldPropResAnmHeader {
+    u32 unk0;
+    u32 animationIds[4];
+};
+
+struct FieldPropResBundle {
+    u8 unk0[2];
+    u8 countFlags;
+    u8 unk3;
+    u32 offsets[1];
+};
+
+struct FieldPropResInfo {
+    u8 unk0[2];
+    u16 type;
+    u8 unk4[0xc];
+    FieldPropResAnmHeader animationHeader;
+};
+
+struct FieldPropSystem {
+    u8 unk0[0x1c];
+    u8 resIdToIndex[0x200];
+    u32 resInfoCount;
+};
+
 // Layout inferred from the Swan-named FieldPropRTCState helpers in overlay 36.
 struct FieldPropRTCState {
     u32 dayPeriod;
@@ -30,6 +56,13 @@ struct FieldPropRTCState {
 
 extern const u8 FIELD_PROP_ANM_IDX_FOR_DAY_PART[];
 
+u32 FieldPropResAnmHeader_GetAnmCount(const FieldPropResAnmHeader *header);
+FieldPropResAnmHeader *FieldPropResInfo_GetAnmHeader(FieldPropResInfo *resInfo);
+u8 FieldPropResInfo_GetTypeConv(const FieldPropResInfo *resInfo);
+u32 FieldPropSystem_ConvResIDToIndex(const FieldPropSystem *system, u32 resId);
+void *FieldPropResBundle_GetResInfo(FieldPropResBundle *bundle, u32 index);
+void *FieldPropResBundle_GetModelData(FieldPropResBundle *bundle, u32 index);
+void *FieldPropResAnmHeader_GetAnmData(FieldPropResAnmHeader *header, u32 index);
 void FieldPropRTCState_Init(FieldPropRTCState *state, u8 season);
 void FieldPropRTCState_Update(FieldPropRTCState *state);
 BOOL FieldPropRTCState_HasDayPartChanged(FieldPropRTCState *state);

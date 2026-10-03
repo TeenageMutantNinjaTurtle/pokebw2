@@ -4,7 +4,7 @@
 #include "system/game_system.h"
 
 void func_ov012_0215b754(FieldAppCallWork *work) {
-    GameSystem *gsys = *work->gameSystemPtr;
+    GameSystem *gsys = work->input->gameSystem;
     GameData *gameData = GSYS_GetGameData(gsys);
     void *data = func_0201734c(gameData);
 

@@ -3,3 +3,11 @@
     .ctor       start:0x021f0614 end:0x021f0614 kind:rodata align:4
     .data       start:0x021f0620 end:0x021f07c0 kind:data align:32
     .bss        start:0x021f07c0 end:0x021f07c0 kind:bss align:32
+
+src/ov104/field_exp_obj_gimmick_ov104_access.c:
+    complete
+    .text       start:0x021eed00 end:0x021eed78
+
+src/ov104/field_exp_obj_gimmick_ov104_save.c:
+    complete
+    .text       start:0x021eed78 end:0x021eede4

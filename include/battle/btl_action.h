@@ -28,6 +28,7 @@ u32 BattleAction_GetAction(const void *action);
 void BattleAction_SetFightParam(BattleAction *action, u16 move, u8 target);
 void BattleAction_ChangeFightTargetPos(BattleAction *action, u8 target);
 void BattleAction_SetNull(BattleAction *action);
+void BattleAction_SetSkip(BattleAction *action);
 void *func_ov167_021d4b50(void *actionManager, void *out);
 
 #endif // POKEBW2_BATTLE_BTL_ACTION_H
