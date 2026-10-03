@@ -21,7 +21,6 @@
 #include "gfl/str.h"
 #include "gfl/tcb.h"
 #include "nitro/fx.h"
-#include "nitro/gx.h"
 #include "pml/item.h"
 #include "save/bag.h"
 #include "save/join_avenue.h"

@@ -22,7 +22,6 @@
 #include "gfl/heap.h"
 #include "gfl/net.h"
 #include "gfl/overlay.h"
-#include "gfl/random.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
 #include "nitro/fx.h"

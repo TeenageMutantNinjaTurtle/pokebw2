@@ -4,7 +4,6 @@
 #include "field/field.h"
 #include "field/field_event.h"
 #include "gfl/overlay.h"
-#include "gfl/proc.h"
 #include "save/bag.h"
 #include "save/high_link.h"
 #include "save/save_control.h"

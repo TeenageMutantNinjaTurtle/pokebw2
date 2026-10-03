@@ -1,23 +1,8 @@
 #include "types.h"
 #include "field/fest_mission_data.h"
-#include "field/field.h"
-#include "field/field_script.h"
-#include "field/survey.h"
 #include "gfl/arc.h"
-#include "gfl/bmpwin.h"
-#include "gfl/graphics.h"
 #include "gfl/heap.h"
-#include "gfl/input.h"
 #include "gfl/msg.h"
-#include "gfl/random.h"
-#include "gfl/std.h"
-#include "gfl/str.h"
-#include "save/save_control.h"
-#include "save/trainer_card.h"
-#include "system/game_data.h"
-#include "system/game_event.h"
-#include "system/game_system.h"
-#include "system/rtc.h"
 
 FestivalText *getTextFileForFestMissions(HeapID heapId) {
     FestivalText *text = GFL_HeapAllocate(heapId, sizeof(FestivalText), TRUE, "fest_mission_data.c", 0x46);

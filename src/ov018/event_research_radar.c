@@ -3,7 +3,6 @@
 #include "field/event_research_radar.h"
 #include "field/field_event.h"
 #include "gfl/heap.h"
-#include "gfl/proc.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
 

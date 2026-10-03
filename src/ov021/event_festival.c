@@ -6,8 +6,6 @@
 #include "field/field_event.h"
 #include "field/iss.h"
 #include "gfl/net.h"
-#include "gfl/overlay.h"
-#include "gfl/proc.h"
 #include "gfl/std.h"
 #include "save/save_control.h"
 #include "system/game_data.h"

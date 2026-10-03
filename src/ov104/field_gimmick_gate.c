@@ -1,5 +1,4 @@
 #include "types.h"
-#include "field/el_scoreboard.h"
 #include "field/encounter.h"
 #include "field/field.h"
 #include "field/field_environment.h"

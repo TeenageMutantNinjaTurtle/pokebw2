@@ -3,7 +3,6 @@
 #include "field/event_comm_tvt.h"
 #include "field/field_event.h"
 #include "gfl/overlay.h"
-#include "gfl/proc.h"
 #include "gfl/sound.h"
 #include "system/game_data.h"
 #include "system/game_event.h"

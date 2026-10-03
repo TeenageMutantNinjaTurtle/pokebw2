@@ -3,8 +3,6 @@
 #include "field/event_demo_187.h"
 #include "field/field.h"
 #include "field/field_event.h"
-#include "gfl/overlay.h"
-#include "gfl/proc.h"
 #include "gfl/std.h"
 #include "system/game_data.h"
 #include "system/game_event.h"

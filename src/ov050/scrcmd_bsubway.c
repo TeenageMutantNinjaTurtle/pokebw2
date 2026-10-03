@@ -1,5 +1,4 @@
 #include "types.h"
-#include "app/wifi_bsubway.h"
 #include "battle/btl_setup.h"
 #include "battle/regulation.h"
 #include "field/bsubway_scr.h"
@@ -15,7 +14,6 @@
 #include "gfl/heap.h"
 #include "gfl/net.h"
 #include "gfl/overlay.h"
-#include "gfl/proc.h"
 #include "gfl/std.h"
 #include "nitro/os.h"
 #include "pml/poke_party.h"
