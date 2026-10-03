@@ -192,14 +192,14 @@ void EventPokeCenHeal_ChangeState(EventPokeCenHealData *work, u32 *state, u32 ne
 }
 
 void EventPokeCenHeal_SpawnMonsBall(EventPokeCenHealData *work) {
-    FieldPropTransform transform;
+    SRTMatrix transform;
     u8 index;
 
     index = work->animationCount;
     if (work->ballCount > index) {
         VEC_Set(&transform.scale, FX32_ONE, FX32_ONE, FX32_ONE);
         MAT3_RotationEulerZYX(0, 0, 0, &transform.rotation);
-        VEC_Add(&work->basePosition, &POKECEN_HEAL_MONSBALL_POSITIONS[index], &transform.position);
+        VEC_Add(&work->basePosition, &POKECEN_HEAL_MONSBALL_POSITIONS[index], &transform.translation);
         work->ballHandles[index] = FieldPropSystem_CreateHandleNew(work->propSystem, 0x62, &transform);
         work->animationCount++;
         GFL_SndSEPlay(0x568);

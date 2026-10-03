@@ -27,6 +27,28 @@ BOOL GFL_G3DCurveGetNowRotation(G3DCurve *curve, VecFx32 *rotation);
 // NitroSystem's model resource, and the start of its render object, which draws a model resource
 typedef struct NNSG3dResMdl NNSG3dResMdl;
 
+// The start of NitroSDK's animation resources
+typedef struct {
+    u8 category0;
+    u8 revision;
+    u8 category1[2];
+    u16 numFrame;
+    u16 dummy_;
+} NNSG3dResAnmCommon;
+
+// NitroSDK's animation object
+typedef struct NNSG3dAnmObj {
+    fx32 frame;
+    fx32 ratio;
+    NNSG3dResAnmCommon *resAnm;
+    void *funcAnm;
+    struct NNSG3dAnmObj *next;
+    const void *resTex;
+    u8 priority;
+    u8 numMapData;
+    u16 mapData[1];
+} NNSG3dAnmObj;
+
 // NitroSDK's render object, 0x54 bytes
 typedef struct {
     u32 flag;
@@ -149,7 +171,7 @@ G3DModel *GFL_G3DMdlCreate(void *resource, u32 modelId, void *texture);
 void GFL_G3DMdlFree(G3DModel *model);
 void *GFL_G3DAnmCreate(G3DModel *model, void *resource, u32 a2);
 void GFL_G3DAnmFree(void *animation);
-void *GFL_G3DAnmGetRenderObj(void *animation);
+NNSG3dAnmObj *GFL_G3DAnmGetRenderObj(void *animation);
 G3DActor *GFL_G3DActorCreate(G3DModel *model, void **animations, u32 count);
 void GFL_G3DActorFree(G3DActor *actor);
 

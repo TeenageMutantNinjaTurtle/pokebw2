@@ -183,14 +183,14 @@ void EventDendouMachine_End(EventDendouMachineData *work) {
 }
 
 void EventDendouMachine_SpawnMonsBall(EventDendouMachineData *work) {
-    FieldPropTransform transform;
+    SRTMatrix transform;
     u8 index;
 
     index = work->spawnedCount;
     if (work->ballCount > index) {
         VEC_Set(&transform.scale, FX32_ONE, FX32_ONE, FX32_ONE);
         MAT3_RotationEulerZYX(0, 0, 0, &transform.rotation);
-        VEC_Add(&work->basePosition, &data_ov033_0217c490[index], &transform.position);
+        VEC_Add(&work->basePosition, &data_ov033_0217c490[index], &transform.translation);
         work->ballHandles[index] = FieldPropSystem_CreateHandleNew(work->propSystem, 0x62, &transform);
         work->spawnedCount++;
         GFL_SndSEPlay(0x568);

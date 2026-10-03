@@ -69,14 +69,6 @@ struct FieldPropSourceInfo {
     u8 lowResId;
 };
 
-struct PropInstanceInfo {
-    u32 resIndex;
-    s32 x;
-    s32 y;
-    s32 z;
-    u16 unk10;
-};
-
 void FieldPropSystem_Free(FieldPropSystem *system) {
     s32 i;
 
@@ -103,7 +95,7 @@ void FieldPropSystem_Update(FieldPropSystem *system) {
         }
     }
     for (j = 0; j < system->resInstanceCount; j++) {
-        FieldPropSystem_UpdateResInstance(system, (u8 *)system->resInstances + 0x18 * j);
+        FieldPropSystem_UpdateResInstance(system, &system->resInstances[j]);
     }
 }
 
@@ -146,9 +138,9 @@ BOOL FieldPropSystem_CheckCreateDoorReq(FieldPropSystem *system, u32 resId, VecF
     return TRUE;
 }
 
-s32 FieldPropSystem_InstantiateProps(FieldPropSystem *system, void *chunk, const FieldPropSourceInfo *infos,
+s32 FieldPropSystem_InstantiateProps(FieldPropSystem *system, FieldChunk *chunk, const FieldPropSourceInfo *infos,
                                      s32 count) {
-    struct PropInstanceInfo instance;
+    FieldPropInstance instance;
     s32 i;
     s32 n;
     u16 resId;
@@ -158,13 +150,13 @@ s32 FieldPropSystem_InstantiateProps(FieldPropSystem *system, void *chunk, const
     while (i < count) {
         FieldPropSystem_InstantiateFromInfo(system, chunk, &infos[i], n);
         resId = infos[i].lowResId + (infos[i].highResId << 8);
-        if (FieldPropSystem_CheckCreateDoorReq(system, resId, (VecFx32 *)&instance.x, &instance.resIndex) == TRUE) {
-            instance.unk10 = infos[i].unkC;
+        if (FieldPropSystem_CheckCreateDoorReq(system, resId, &instance.pos.position, &instance.resIndex) == TRUE) {
+            instance.pos.rotationY = infos[i].unkC;
             n++;
-            instance.x += infos[i].x;
-            instance.y += infos[i].y;
-            instance.z -= infos[i].z;
-            FieldPropSystem_LinkPropToChunk(system, chunk, (u32)&instance, n);
+            instance.pos.position.x += infos[i].x;
+            instance.pos.position.y += infos[i].y;
+            instance.pos.position.z -= infos[i].z;
+            FieldPropSystem_LinkPropToChunk(system, chunk, &instance, n);
         }
         n++;
         i++;
@@ -172,13 +164,13 @@ s32 FieldPropSystem_InstantiateProps(FieldPropSystem *system, void *chunk, const
     return n;
 }
 
-void FieldPropSystem_UnlinkChunk(FieldPropSystem *system, void *chunk) {
+void FieldPropSystem_UnlinkChunk(FieldPropSystem *system, FieldChunk *chunk) {
     FieldPropSystem_ReleaseChunkPropHolders(system, chunk);
 }
 
-void FieldPropSystem_InstantiateFromInfo(FieldPropSystem *system, void *chunk, const struct FieldPropSourceInfo *info,
+void FieldPropSystem_InstantiateFromInfo(FieldPropSystem *system, FieldChunk *chunk, const struct FieldPropSourceInfo *info,
                                          u32 propIndex) {
-    struct PropInstanceInfo instance;
+    FieldPropInstance instance;
     u16 resId;
     s32 x, y, z;
 
@@ -187,11 +179,11 @@ void FieldPropSystem_InstantiateFromInfo(FieldPropSystem *system, void *chunk, c
     x = info->x;
     z = -info->z;
     y = info->y;
-    instance.x = x;
-    instance.y = y;
-    instance.z = z;
-    instance.unk10 = info->unkC;
-    FieldPropSystem_LinkPropToChunk(system, chunk, (u32)&instance, propIndex);
+    instance.pos.position.x = x;
+    instance.pos.position.y = y;
+    instance.pos.position.z = z;
+    instance.pos.rotationY = info->unkC;
+    FieldPropSystem_LinkPropToChunk(system, chunk, &instance, propIndex);
 }
 
 void FieldPropSystem_DeleteHandle(FieldPropSystem *system, FieldPropHandle *handle) {
@@ -390,7 +382,7 @@ void FieldPropAnmController_Ambient_Init(FieldPropSystem *system, FieldPropResIn
     s32 i;
     u32 playing;
 
-    header = FieldPropResInfo_GetAnmHeader(*instance->resInfoRef);
+    header = FieldPropResInfo_GetAnmHeader(instance->resource->info);
     count = header->ambientAnimationCount;
     i = 0;
     playing = 1;
@@ -409,7 +401,7 @@ void FieldPropAnmController_RTC_Init(FieldPropSystem *system, FieldPropResInstan
     s32 i;
     u32 stopped;
 
-    FieldPropResInfo_GetAnmHeader(*instance->resInfoRef);
+    FieldPropResInfo_GetAnmHeader(instance->resource->info);
     animation = FieldPropRTCState_GetPlayAnmIndex(&system->rtcState);
     i = 0;
     stopped = 0;
@@ -443,18 +435,16 @@ void FieldPropResInstance_Free(void *argument) {
         model = GFL_G3DActorGetMdl(instance->actor);
         GFL_G3DActorFree(instance->actor);
         instance->actor = NULL;
-        instance->resInfoRef = NULL;
+        instance->resource = NULL;
         GFL_G3DMdlFree(model);
     }
 }
 
-void FieldPropSystem_UpdateResInstance(FieldPropSystem *system, void *argument) {
-    FieldPropResInstance *instance;
+void FieldPropSystem_UpdateResInstance(FieldPropSystem *system, FieldPropResInstance *instance) {
     FieldPropResAnmHeader *header;
     u32 type;
 
-    instance = argument;
-    header = FieldPropResInfo_GetAnmHeader(*instance->resInfoRef);
+    header = FieldPropResInfo_GetAnmHeader(instance->resource->info);
     type = header->controllerType;
     if (instance->actor != NULL) {
         data_ov036_021ca8b8[type].update(system, instance);
@@ -521,21 +511,19 @@ void FieldPropResInstance_AnmSetPlay(FieldPropResInstance *instance, u32 animati
     s32 i;
     u32 offset;
     u32 index;
-    FieldPropResInstance *stateBase;
 
-    header = FieldPropResInfo_GetAnmHeader(*instance->resInfoRef);
+    header = FieldPropResInfo_GetAnmHeader(instance->resource->info);
     count = header->ambientAnimationCount;
     offset = count * animation;
     i = 0;
     if (count <= 0) {
         return;
     }
-    stateBase = (FieldPropResInstance *)((u8 *)instance + offset * 4);
     do {
         index = offset + i;
         GFL_G3DActorBindAnm(instance->actor, index);
         GFL_G3DActorResetAnmFrame(instance->actor, index);
-        stateBase->animationState[i] = 3;
+        instance->animationState[offset + i] = 3;
         i++;
     } while (i < header->ambientAnimationCount);
 }
@@ -546,21 +534,19 @@ void FieldPropResInstance_AnmSetPlayLoop(FieldPropResInstance *instance, u32 ani
     s32 i;
     u32 offset;
     u32 index;
-    FieldPropResInstance *stateBase;
 
-    header = FieldPropResInfo_GetAnmHeader(*instance->resInfoRef);
+    header = FieldPropResInfo_GetAnmHeader(instance->resource->info);
     count = header->ambientAnimationCount;
     offset = count * animation;
     i = 0;
     if (count <= 0) {
         return;
     }
-    stateBase = (FieldPropResInstance *)((u8 *)instance + offset * 4);
     do {
         index = offset + i;
         GFL_G3DActorBindAnm(instance->actor, index);
         GFL_G3DActorResetAnmFrame(instance->actor, index);
-        stateBase->animationState[i] = 1;
+        instance->animationState[offset + i] = 1;
         i++;
     } while (i < header->ambientAnimationCount);
 }
@@ -571,27 +557,25 @@ void FieldPropResInstance_AnmSetPlayInv(FieldPropResInstance *instance, u32 anim
     s32 i;
     u32 offset;
     u32 index;
-    FieldPropResInstance *stateBase;
     void *animationObj;
-    void *renderObj;
+    NNSG3dAnmObj *renderObj;
     fx32 frame;
 
-    header = FieldPropResInfo_GetAnmHeader(*instance->resInfoRef);
+    header = FieldPropResInfo_GetAnmHeader(instance->resource->info);
     count = header->ambientAnimationCount;
     offset = count * animation;
     i = 0;
     if (count <= 0) {
         return;
     }
-    stateBase = (FieldPropResInstance *)((u8 *)instance + offset * 4);
     do {
         index = offset + i;
         GFL_G3DActorBindAnm(instance->actor, index);
         animationObj = GFL_G3DActorGetAnm(instance->actor, index);
         renderObj = GFL_G3DAnmGetRenderObj(animationObj);
-        frame = *(u16 *)((u8 *)*(void **)((u8 *)renderObj + 8) + 4) << 12;
+        frame = renderObj->resAnm->numFrame << 12;
         GFL_G3DActorSetAnmFrame(instance->actor, index, &frame);
-        stateBase->animationState[i] = 4;
+        instance->animationState[offset + i] = 4;
         i++;
     } while (i < header->ambientAnimationCount);
 }
@@ -601,19 +585,17 @@ void FieldPropResInstance_AnmSetPause(FieldPropResInstance *instance, u32 animat
     s32 count;
     s32 i;
     u32 offset;
-    FieldPropResInstance *stateBase;
 
-    header = FieldPropResInfo_GetAnmHeader(*instance->resInfoRef);
+    header = FieldPropResInfo_GetAnmHeader(instance->resource->info);
     count = header->ambientAnimationCount;
     offset = count * animation;
     i = 0;
     if (count <= 0) {
         return;
     }
-    stateBase = (FieldPropResInstance *)((u8 *)instance + offset * 4);
     do {
-        if (stateBase->animationState[i] != 0) {
-            stateBase->animationState[i] = 2;
+        if (instance->animationState[offset + i] != 0) {
+            instance->animationState[offset + i] = 2;
         }
         i++;
     } while (i < header->ambientAnimationCount);
@@ -621,26 +603,21 @@ void FieldPropResInstance_AnmSetPause(FieldPropResInstance *instance, u32 animat
 
 void FieldPropResInstance_AnmStopAll(FieldPropResInstance *instance) {
     s32 i;
-    u32 stopped;
 
-    i = 0;
-    stopped = 0;
-    for (; i < 4; i++) {
+    for (i = 0; i < 4; i++) {
         if (instance->animationState[i] != 0) {
             GFL_G3DActorUnbindAnm(instance->actor, i);
-            instance->animationState[i] = stopped;
+            instance->animationState[i] = 0;
         }
     }
 }
 
-void FieldPropResInstance_CallAnmCmd(void *argument, u32 animation, u32 command) {
-    FieldPropResInstance *instance;
+void FieldPropResInstance_CallAnmCmd(FieldPropResInstance *instance, u32 animation, u32 command) {
     FieldPropResAnmHeader *header;
     u8 index;
     u32 type;
 
-    instance = argument;
-    header = FieldPropResInfo_GetAnmHeader(*instance->resInfoRef);
+    header = FieldPropResInfo_GetAnmHeader(instance->resource->info);
     type = header->controllerType;
     index = animation;
     if (index >= 4) {
@@ -708,8 +685,8 @@ void FieldChunkPropHolder_Release(FieldPropSystem *system, FieldChunkPropHolder 
     holder->instance = NULL;
 }
 
-FieldChunkPropHolder *FieldPropSystem_LinkPropToChunk(FieldPropSystem *system, void *chunk, u32 resIndex,
-                                                      u32 propIndex) {
+FieldChunkPropHolder *FieldPropSystem_LinkPropToChunk(FieldPropSystem *system, FieldChunk *chunk,
+                                                      FieldPropInstance *instance, u32 propIndex) {
     FieldChunkPropHolder *holder;
     u32 i;
 
@@ -718,7 +695,7 @@ FieldChunkPropHolder *FieldPropSystem_LinkPropToChunk(FieldPropSystem *system, v
         if (holder->chunk != NULL) {
             continue;
         }
-        FieldPropSystem_InstantiateProp(chunk, resIndex, propIndex);
+        FieldPropSystem_InstantiateProp(chunk, instance, propIndex);
         holder->chunk = chunk;
         holder->savedResIndex = -1;
         holder->propIndex = propIndex;
@@ -729,7 +706,7 @@ FieldChunkPropHolder *FieldPropSystem_LinkPropToChunk(FieldPropSystem *system, v
     return NULL;
 }
 
-void FieldPropSystem_ReleaseChunkPropHolders(FieldPropSystem *system, void *chunk) {
+void FieldPropSystem_ReleaseChunkPropHolders(FieldPropSystem *system, FieldChunk *chunk) {
     FieldChunkPropHolder *holders;
     s32 i;
 
@@ -748,26 +725,26 @@ void FieldPropSystem_ReleaseChunkPropHolder(FieldPropSystem *system, FieldChunkP
 }
 
 u8 FieldChunkPropHolder_GetResIndex(FieldChunkPropHolder *holder) {
-    if (holder->instance[0] == 0xffffffff) {
+    if (holder->instance->resIndex == 0xffffffff) {
         return holder->savedResIndex;
     }
-    return holder->instance[0];
+    return holder->instance->resIndex;
 }
 
 void FieldChunkPropHolder_SetVisible(FieldChunkPropHolder *holder, BOOL visible) {
     if (visible) {
-        holder->instance[0] = holder->savedResIndex;
+        holder->instance->resIndex = holder->savedResIndex;
         holder->savedResIndex = 0xffffffff;
         holder->visible = 1;
     } else {
-        holder->savedResIndex = holder->instance[0];
-        holder->instance[0] = 0xffffffff;
+        holder->savedResIndex = holder->instance->resIndex;
+        holder->instance->resIndex = 0xffffffff;
         holder->visible = 0;
     }
 }
 
 void FieldChunkPropHolder_ChangeResID(FieldPropSystem *system, FieldChunkPropHolder *holder, u32 resId) {
-    holder->instance[0] = FieldPropSystem_ConvResIDToIndex(system, resId);
+    holder->instance->resIndex = FieldPropSystem_ConvResIDToIndex(system, resId);
 }
 
 FieldChunkPropHolder *FieldPropSystem_FindProp(FieldPropSystem *system, u32 propId, const FieldPropAreaBounds *bounds) {
@@ -802,13 +779,13 @@ void FieldChunkPropHolder_CallAnmCmd(FieldPropSystem *system, FieldChunkPropHold
     if (index >= 0x80 || index >= system->resInfoCount) {
         index = 0;
     }
-    FieldPropResInstance_CallAnmCmd((u8 *)system->resInstances + 0x18 * index, animation, command);
+    FieldPropResInstance_CallAnmCmd(&system->resInstances[index], animation, command);
 }
 
 void FieldChunkPropHolder_GetPosAbs(FieldChunkPropHolder *holder, VecFx32 *position) {
     VecFx32 chunkPos;
     FieldChunk_GetWorldPos(holder->chunk, &chunkPos);
-    VEC_Add((VecFx32 *)((u8 *)holder->instance + 4), &chunkPos, position);
+    VEC_Add(&holder->instance->pos.position, &chunkPos, position);
 }
 
 FieldPropHandle *FieldPropSystem_CreateHandleAtPos(FieldPropSystem *system, u32 propId, const VecFx32 *position) {
@@ -821,7 +798,7 @@ FieldPropHandle *FieldPropSystem_CreateHandleAtPos(FieldPropSystem *system, u32 
     return FieldPropSystem_CreateHandleFromExisting(system, holder);
 }
 
-FieldPropHandle *FieldPropSystem_CreateHandleNew(FieldPropSystem *system, u32 propId, FieldPropTransform *transform) {
+FieldPropHandle *FieldPropSystem_CreateHandleNew(FieldPropSystem *system, u32 propId, SRTMatrix *transform) {
     FieldPropHandle *handle;
     u32 index;
 
@@ -831,7 +808,7 @@ FieldPropHandle *FieldPropSystem_CreateHandleNew(FieldPropSystem *system, u32 pr
     handle->animation = 0xffff;
     handle->transform = *transform;
     index = FieldPropSystem_ConvResIDToIndex(system, propId);
-    FieldPropResInstance_Init(system, &handle->instance, (u8 *)system->resInfoArray + 0x18 * index);
+    FieldPropResInstance_Init(system, &handle->instance, &system->resources[index]);
     FieldPropSystem_RegistHandle(system, handle);
     return handle;
 }
@@ -889,12 +866,12 @@ u16 FieldPropHandle_GetPropType(FieldPropHandle *handle) {
     if (handle == NULL) {
         return 0;
     }
-    return (*handle->instance.resInfoRef)->type;
+    return handle->instance.resource->info->type;
 }
 
 void FieldPropHandle_Draw(FieldPropHandle *handle) {
     if (handle != NULL) {
-        GFL_G3DSysDrawObjBBoxCull(handle->instance.drawObject, (SRTMatrix *)&handle->transform);
+        GFL_G3DSysDrawObjBBoxCull(handle->instance.actor, &handle->transform);
     }
 }
 

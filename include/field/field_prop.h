@@ -6,12 +6,6 @@
 #include "nitro/fx.h"
 #include "struct_decls.h"
 
-struct FieldPropTransform {
-    VecFx32 position;
-    VecFx32 scale;
-    MtxFx33 rotation;
-};
-
 struct FieldPropAreaBounds {
     fx32 minZ;
     fx32 maxZ;
@@ -47,19 +41,44 @@ struct FieldPropResBundle {
     u32 offsets[1];
 };
 
+// Field names from swan's field_static_prop.h.
 struct FieldPropResInfo {
     u16 resId;
     u16 type;
-    u8 unk4[0xc];
+    u16 doorResId;
+    s16 doorX;
+    s16 doorY;
+    s16 doorZ;
+    u16 unk0c;
+    u16 unk0e;
     FieldPropResAnmHeader animationHeader;
 };
 
+// A prop's loaded resources, 0x18 bytes. Layout from swan.
+struct FieldPropResource {
+    FieldPropResInfo *info;
+    void *model;
+    void *animations[4];
+};
+
+// A prop placed in a chunk's data. Layout from swan's field_static_prop.h.
+struct FieldPropPosition {
+    VecFx32 position;
+    u16 rotationY;
+    u16 pad0e;
+};
+
+struct FieldPropInstance {
+    u32 resIndex;
+    FieldPropPosition pos;
+};
+
 struct FieldChunkPropHolder {
-    void *chunk;
+    FieldChunk *chunk;
     u32 savedResIndex;
     u16 propIndex;
     u16 visible;
-    u32 *instance;
+    FieldPropInstance *instance;
 };
 
 // Layout inferred from the Swan-named FieldPropRTCState helpers in overlay 36.
@@ -80,17 +99,17 @@ struct FieldPropSystem {
     u8 resIdToIndex[0x200];
     u32 resInfoCount;
     u8 unk220[0x1c];
-    void *resInfoArray;
+    FieldPropResource *resources;
     void *textureResource;
     u32 resInstanceCount;
-    void *resInstances;
+    FieldPropResInstance *resInstances;
     FieldPropHandle *handles[7];
     FieldChunkPropHolder chunkPropHolders[0x120];
 };
 
 struct FieldPropResInstance {
     void *actor;
-    FieldPropResInfo **resInfoRef;
+    FieldPropResource *resource;
     u32 animationState[4];
 };
 
@@ -98,12 +117,8 @@ struct FieldPropHandle {
     FieldPropSystem *system;
     u32 animation;
     FieldChunkPropHolder *holder;
-    struct {
-        void *drawObject;
-        FieldPropResInfo **resInfoRef;
-        u8 unk8[0x10];
-    } instance;
-    FieldPropTransform transform;
+    FieldPropResInstance instance;
+    SRTMatrix transform;
 };
 
 extern const u8 FIELD_PROP_ANM_IDX_FOR_DAY_PART[];
@@ -127,30 +142,30 @@ void FieldPropSystem_LoadResBundle(FieldPropSystem *system, u32 arcId, u32 fileI
 void FieldPropSystem_FreeResBundle(FieldPropSystem *system);
 void FieldPropSystem_BuildResIDLUT(FieldPropSystem *system, u32 defaultResId);
 void FieldPropSystem_FreeTextures(FieldPropSystem *system);
-void FieldPropResInstance_CallAnmCmd(void *instance, u32 animation, u32 command);
+void FieldPropResInstance_CallAnmCmd(FieldPropResInstance *instance, u32 animation, u32 command);
 BOOL FieldPropResInstance_IsAnmIdle(void *instance, u32 animation);
 void FieldPropResInstance_Free(void *instance);
-void FieldPropResInstance_Init(FieldPropSystem *system, void *instance, void *resInfo);
+void FieldPropResInstance_Init(FieldPropSystem *system, FieldPropResInstance *instance, FieldPropResource *resource);
 void FieldPropSystem_DeleteHandle(FieldPropSystem *system, FieldPropHandle *handle);
 void FieldPropSystem_RegistHandle(FieldPropSystem *system, FieldPropHandle *handle);
 u16 FieldPropSystem_GetHandleID(FieldPropSystem *system, FieldPropHandle *handle);
 FieldPropHandle *FieldPropSystem_FindHandleByID(FieldPropSystem *system, u32 id);
-void FieldPropSystem_UpdateResInstance(FieldPropSystem *system, void *instance);
+void FieldPropSystem_UpdateResInstance(FieldPropSystem *system, FieldPropResInstance *instance);
 void FieldPropSystem_Update(FieldPropSystem *system);
 void FieldPropSystem_DrawAllHandles(FieldPropSystem *system);
-void FieldPropSystem_UnlinkChunk(FieldPropSystem *system, void *chunk);
-s32 FieldPropSystem_InstantiateProps(FieldPropSystem *system, void *chunk, const FieldPropSourceInfo *infos, s32 count);
+void FieldPropSystem_UnlinkChunk(FieldPropSystem *system, FieldChunk *chunk);
+s32 FieldPropSystem_InstantiateProps(FieldPropSystem *system, FieldChunk *chunk, const FieldPropSourceInfo *infos, s32 count);
 BOOL FieldPropSystem_CheckCreateDoorReq(FieldPropSystem *system, u32 resId, VecFx32 *position, u32 *resIndex);
-void FieldPropSystem_InstantiateFromInfo(FieldPropSystem *system, void *chunk, const FieldPropSourceInfo *info,
+void FieldPropSystem_InstantiateFromInfo(FieldPropSystem *system, FieldChunk *chunk, const FieldPropSourceInfo *info,
                                          u32 propIndex);
 void FieldPropSystem_FreeResInstances(FieldPropSystem *system, void *resourceState);
 void FieldPropSystem_FreeResources(FieldPropSystem *system);
 void FieldPropSystem_Free(FieldPropSystem *system);
-void FieldPropSystem_InstantiateProp(void *chunk, u32 resIndex, u32 propIndex);
-u32 *FieldChunk_GetPropInstance(void *chunk, u32 propIndex);
-FieldChunkPropHolder *FieldPropSystem_LinkPropToChunk(FieldPropSystem *system, void *chunk, u32 resIndex, u32 propIndex);
+void FieldPropSystem_InstantiateProp(FieldChunk *chunk, FieldPropInstance *instance, u32 propIndex);
+FieldPropInstance *FieldChunk_GetPropInstance(FieldChunk *chunk, u32 propIndex);
+FieldChunkPropHolder *FieldPropSystem_LinkPropToChunk(FieldPropSystem *system, FieldChunk *chunk, FieldPropInstance *instance, u32 propIndex);
 void FieldChunkPropHolder_Release(FieldPropSystem *system, FieldChunkPropHolder *holder);
-void FieldPropSystem_ReleaseChunkPropHolders(FieldPropSystem *system, void *chunk);
+void FieldPropSystem_ReleaseChunkPropHolders(FieldPropSystem *system, FieldChunk *chunk);
 void FieldPropSystem_ReleaseChunkPropHolder(FieldPropSystem *system, FieldChunkPropHolder *holder);
 u8 FieldChunkPropHolder_GetResIndex(FieldChunkPropHolder *holder);
 u8 FieldChunkPropHolder_GetPropType(FieldPropSystem *system, FieldChunkPropHolder *holder);
@@ -188,7 +203,7 @@ BOOL FieldPropHandle_GetAnimSoundID(FieldPropHandle *handle, u16 *soundId);
 BOOL FieldPropHandle_IsAnimSoundFinished(FieldPropHandle *handle);
 void FieldPropHandle_Free(FieldPropHandle *handle);
 void FieldChunkPropHolder_CallAnmCmd(FieldPropSystem *system, FieldChunkPropHolder *prop, u32 animation, u32 command);
-FieldPropHandle *FieldPropSystem_CreateHandleNew(FieldPropSystem *system, u32 propId, FieldPropTransform *transform);
+FieldPropHandle *FieldPropSystem_CreateHandleNew(FieldPropSystem *system, u32 propId, SRTMatrix *transform);
 FieldPropHandle *FieldPropSystem_CreateHandleFromExisting(FieldPropSystem *system, FieldChunkPropHolder *prop);
 FieldPropHandle *FieldPropSystem_CreateHandleAtPos(FieldPropSystem *system, u32 propId, const VecFx32 *position);
 FieldChunkPropHolder *FieldPropSystem_FindProp(FieldPropSystem *system, u32 propId, const FieldPropAreaBounds *bounds);
