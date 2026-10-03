@@ -52,6 +52,10 @@
 #include "system/rtc.h"
 #include "system/vm.h"
 
-u32 FieldmapCtrlHybrid_GetActiveTypeID(void *controller) {
-    return *(u32 *)controller;
+void FieldG3DMapper_FreeMapTextures(G3DMapper *mapper) {
+    if (mapper->mapTextureResource != NULL) {
+        GFL_G3DResFreeTexData(mapper->mapTextureResource);
+        GFL_G3DResFree(mapper->mapTextureResource);
+        mapper->mapTextureResource = NULL;
+    }
 }
