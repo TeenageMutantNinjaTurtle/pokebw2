@@ -356,7 +356,7 @@ void func_ov027_021708e0(SurveyTextWork *work) {
         third = 8;
         break;
     }
-    work->window = FieldMsgBG_CreateMoneyWin(work->msgBGSys, (u32)work->message, first, first, second, third);
+    work->window = FieldMsgBG_CreateMoneyWin(work->msgBGSys, work->message, first, first, second, third);
 }
 
 void func_ov027_02170934(SurveyTextWork *work) {

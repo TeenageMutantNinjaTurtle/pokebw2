@@ -3,6 +3,7 @@
 #include "app/name_entry.h"
 #include "battle/btl_setup.h"
 #include "demo/shinka_demo.h"
+#include "constants/pokemon.h"
 #include "field/battle_facility.h"
 #include "field/bsubway_scr.h"
 #include "field/encounter.h"
@@ -36,7 +37,7 @@
 #include "field/field_fog.h"
 #include "field/field_lifecycle.h"
 #include "field/field_map.h"
-#include "field/field_money_window.h"
+#include "field/pdw_postman.h"
 #include "field/field_move_scripts.h"
 #include "field/field_move_tcb.h"
 #include "field/field_party.h"
@@ -49,8 +50,6 @@
 #include "field/field_visuals.h"
 #include "field/fld_trade.h"
 #include "field/funfest_scripts.h"
-#include "field/mystery_gift_delivery.h"
-#include "field/mystery_gift_script.h"
 #include "field/ov131.h"
 #include "field/pc_sound.h"
 #include "field/player_state.h"
@@ -99,27 +98,43 @@
 
 #define MYSTERY_GIFT_DELIVERY_MAN_OBJ_CODE 0x46
 
-FieldMoneyWindow *func_ov033_02177998(Field *field, u32 value, u32 lines) {
+// The values of the gifts of kind 4 and the one-shot DR each gives
+static const u8 sOneShotDRGifts[8] = {
+    0x33, 2,
+    0x34, 3,
+    0x35, 4,
+    0x36, 5,
+};
+
+static const PdwPostmanGiftHandler sGiftHandlers[5] = {
+    { 0, NULL, NULL, NULL, NULL, NULL },
+    { 1, doesPartyHaveSpace, func_ov033_02178110, func_ov033_02178154, func_ov033_02178180, func_ov033_021781e0 },
+    { 2, func_ov033_021781e4, func_ov033_021781e8, func_ov033_02178218, func_ov033_02178230, func_ov033_02178260 },
+    { 3, func_ov033_02178274, func_ov033_02178278, func_ov033_02178290, func_ov033_02178294, func_ov033_021782cc },
+    { 4, func_ov033_021782f0, func_ov033_021782f4, func_ov033_02178334, func_ov033_02178338, func_ov033_02178374 },
+};
+
+PdwPostmanItemWindow *func_ov033_02177998(Field *field, PdwPostmanItem *items, u32 count) {
     u16 heapId;
-    FieldMoneyWindow *work;
+    PdwPostmanItemWindow *work;
     s32 height;
 
     heapId = Field_GetHeapID(field);
-    work = GFL_HeapAllocate(heapId, sizeof(FieldMoneyWindow), TRUE, "pdw_postman.c", 0x73);
+    work = GFL_HeapAllocate(heapId, sizeof(PdwPostmanItemWindow), TRUE, "pdw_postman.c", 0x73);
     work->heapId = heapId;
     work->field = field;
-    work->unk24 = value;
-    work->unk20 = lines;
+    work->items = items;
+    work->count = count;
     work->messages = GFL_MsgSysLoadData(FALSE, 3, 0x1e0, heapId);
     work->wordSet = GFL_WordSetSystemCreateDefault(heapId);
     work->first = GFL_StrBufCreate(0x80, heapId);
     work->second = GFL_StrBufCreate(0x80, heapId);
-    height = ((14 * (s32)lines + 7) & ~7) / 8;
-    work->window = FieldMsgBG_CreateMoneyWin(Field_GetMsgBGSys(field), (u32)work->messages, 1, 1, 0x15, height);
+    height = ((14 * (s32)count + 7) & ~7) / 8;
+    work->window = FieldMsgBG_CreateMoneyWin(Field_GetMsgBGSys(field), work->messages, 1, 1, 0x15, height);
     return work;
 }
 
-void func_ov033_02177a28(FieldMoneyWindow *work) {
+void func_ov033_02177a28(PdwPostmanItemWindow *work) {
     func_ov036_02187c7c(work->window);
     func_ov036_02187c1c(work->window);
     GFL_BGSysLoadScr(1);
@@ -130,29 +145,25 @@ void func_ov033_02177a28(FieldMoneyWindow *work) {
     GFL_HeapFree(work);
 }
 
-void func_ov033_02177a60(FieldMoneyWindow *work) {
+void func_ov033_02177a60(PdwPostmanItemWindow *work) {
     MsgData *messages;
     s32 i;
-    u32 y;
-    s32 offset;
 
     messages = GFL_MsgSysLoadData(FALSE, 2, 0x40, HEAPID_TAIL(work->heapId));
-    for (i = 0; i < (s32)work->unk20; i++) {
-        offset = i << 2;
-        GFL_MsgDataLoadStrbuf(messages, *(u16 *)((u8 *)work->unk24 + offset), work->first);
-        y = 14 * i;
-        func_ov036_02187c4c(work->window, 0, (u16)y, work->first);
+    for (i = 0; i < work->count; i++) {
+        GFL_MsgDataLoadStrbuf(messages, work->items[i].item, work->first);
+        func_ov036_02187c4c(work->window, 0, 14 * i, work->first);
         GFL_MsgDataLoadStrbuf(work->messages, 5, work->first);
-        WordSetNumber(work->wordSet, 0, *(u16 *)((u8 *)work->unk24 + offset + 2), 2, 1, 1);
+        WordSetNumber(work->wordSet, 0, work->items[i].quantity, 2, 1, 1);
         GFL_WordSetFormatStrbuf(work->wordSet, work->second, work->first);
-        func_ov036_02187c4c(work->window, 0x6c, (u16)y, work->second);
+        func_ov036_02187c4c(work->window, 0x6c, 14 * i, work->second);
     }
     GFL_MsgDataFree(messages);
     GFL_BGSysLoadScr(BmpWin_GetBGIndex(func_ov036_02187c9c(work->window)));
 }
 
 GameEventReturnCode func_ov033_02177b08(GameEvent *unused, u32 *state, void *data) {
-    FieldMoneyWindowEvent *event;
+    PdwPostmanItemEvent *event;
     BmpWin *bitmapWindow;
     u16 remaining;
 
@@ -163,7 +174,7 @@ GameEventReturnCode func_ov033_02177b08(GameEvent *unused, u32 *state, void *dat
         if (remaining > 7) {
             remaining = 7;
         }
-        event->window = func_ov033_02177998(event->field, (u32)&event->entries[event->index], remaining);
+        event->window = func_ov033_02177998(event->field, &event->items[event->index], remaining);
         func_ov033_02177a60(event->window);
         event->window->unk10 = func_ov036_02189cb0(Field_GetMsgBGSys(event->field));
         (*state)++;
@@ -191,7 +202,7 @@ GameEventReturnCode func_ov033_02177b08(GameEvent *unused, u32 *state, void *dat
         break;
     case 4:
         if (event->index + 7 >= event->count) {
-            GFL_HeapFree(event->entries);
+            GFL_HeapFree(event->items);
             return TRUE;
         }
         event->index += 7;
@@ -201,8 +212,8 @@ GameEventReturnCode func_ov033_02177b08(GameEvent *unused, u32 *state, void *dat
     return FALSE;
 }
 
-u32 *func_ov033_02177bd4(GameData *gameData, HeapID heapId, void *items, u32 *count) {
-    u32 *result;
+PdwPostmanItem *func_ov033_02177bd4(GameData *gameData, HeapID heapId, DreamWorldSave *dreamWorld, u32 *count) {
+    PdwPostmanItem *result;
     BagSave *bag;
     u32 n;
     s32 i;
@@ -210,15 +221,15 @@ u32 *func_ov033_02177bd4(GameData *gameData, HeapID heapId, void *items, u32 *co
     u16 quantity;
 
     bag = GameData_GetBag(gameData);
-    result = GFL_HeapAllocate(heapId, 0x50, TRUE, "pdw_postman.c", 0x14d);
+    result = GFL_HeapAllocate(heapId, sizeof(PdwPostmanItem) * 20, TRUE, "pdw_postman.c", 0x14d);
     i = 0;
     n = 0;
     for (; i < 20; i++) {
-        item = func_02009a18(items, i);
-        quantity = func_02009a38(items, i);
+        item = func_02009a18(dreamWorld, i);
+        quantity = func_02009a38(dreamWorld, i);
         if (item != 0 && BagSave_CheckAvailItemSpace(bag, item, quantity, heapId) == TRUE) {
-            ((u16 *)result)[n * 2] = item;
-            ((u16 *)result)[n * 2 + 1] = quantity;
+            result[n].item = item;
+            result[n].quantity = quantity;
             n++;
         }
     }
@@ -226,7 +237,7 @@ u32 *func_ov033_02177bd4(GameData *gameData, HeapID heapId, void *items, u32 *co
     return result;
 }
 
-void func_ov033_02177c48(GameData *gameData, HeapID heapId, void *items) {
+void func_ov033_02177c48(GameData *gameData, HeapID heapId, DreamWorldSave *dreamWorld) {
     BagSave *bag;
     u32 i;
     u16 item;
@@ -234,15 +245,15 @@ void func_ov033_02177c48(GameData *gameData, HeapID heapId, void *items) {
 
     bag = GameData_GetBag(gameData);
     for (i = 0; i < 20; i++) {
-        item = func_02009a18(items, i);
-        quantity = func_02009a38(items, i);
+        item = func_02009a18(dreamWorld, i);
+        quantity = func_02009a38(dreamWorld, i);
         if (item != 0 && BagSave_AddItem(bag, item, quantity, heapId) == TRUE) {
-            func_02009a6c(items, i);
+            func_02009a6c(dreamWorld, i);
         }
     }
 }
 
-u32 func_ov033_02177c8c(GameData *gameData, HeapID heapId, void *items) {
+u32 func_ov033_02177c8c(GameData *gameData, HeapID heapId, DreamWorldSave *dreamWorld) {
     BagSave *bag;
     u32 i;
     u32 count;
@@ -253,8 +264,8 @@ u32 func_ov033_02177c8c(GameData *gameData, HeapID heapId, void *items) {
     i = 0;
     count = 0;
     for (; i < 20; i++) {
-        item = func_02009a18(items, i);
-        quantity = func_02009a38(items, i);
+        item = func_02009a18(dreamWorld, i);
+        quantity = func_02009a38(dreamWorld, i);
         if (item != 0 && BagSave_CheckAvailItemSpace(bag, item, quantity, heapId) == FALSE) {
             count++;
         }
@@ -262,7 +273,7 @@ u32 func_ov033_02177c8c(GameData *gameData, HeapID heapId, void *items) {
     return count;
 }
 
-u16 func_ov033_02177cd4(GameData *gameData, HeapID heapId, void *items, u32 position) {
+u16 func_ov033_02177cd4(GameData *gameData, HeapID heapId, DreamWorldSave *dreamWorld, u32 position) {
     BagSave *bag;
     s32 i;
     u32 count;
@@ -273,8 +284,8 @@ u16 func_ov033_02177cd4(GameData *gameData, HeapID heapId, void *items, u32 posi
     i = 0;
     count = 0;
     for (; i < 20; i++) {
-        item = func_02009a18(items, i);
-        quantity = func_02009a38(items, i);
+        item = func_02009a18(dreamWorld, i);
+        quantity = func_02009a38(dreamWorld, i);
         if (item != 0 && BagSave_CheckAvailItemSpace(bag, item, quantity, heapId) == FALSE) {
             if (count == position) {
                 return item;
@@ -285,73 +296,66 @@ u16 func_ov033_02177cd4(GameData *gameData, HeapID heapId, void *items, u32 posi
     return 0;
 }
 
-GameEvent *func_ov033_02177d28(GameSystem *gameSystem) {
+GameEvent *func_ov033_02177d28(GameSystem *gsys) {
     GameData *gameData;
-    DreamWorldSave *items;
+    DreamWorldSave *dreamWorld;
     GameEvent *event;
-    FieldMoneyWindowEvent *work;
+    PdwPostmanItemEvent *work;
 
-    gameData = GSYS_GetGameData(gameSystem);
-    items = getDreamWorldStuffAddress(GameData_GetSaveControl(gameData));
-    event = GameEvent_Create(gameSystem, NULL, func_ov033_02177b08, sizeof(FieldMoneyWindowEvent));
+    gameData = GSYS_GetGameData(gsys);
+    dreamWorld = getDreamWorldStuffAddress(GameData_GetSaveControl(gameData));
+    event = GameEvent_Create(gsys, NULL, func_ov033_02177b08, sizeof(PdwPostmanItemEvent));
     work = GameEvent_GetData(event);
-    work->field = GSYS_GetField(gameSystem);
+    work->field = GSYS_GetField(gsys);
     work->index = 0;
-    work->entries = func_ov033_02177bd4(gameData, Field_GetHeapID(work->field), items, &work->count);
+    work->items = func_ov033_02177bd4(gameData, Field_GetHeapID(work->field), dreamWorld, &work->count);
     return event;
 }
 
-u32 func_ov033_02177ed0(u32 index, u32 arg1, u32 arg2, u32 arg3) {
-    u32 (*handler)(u32, u32, u32);
+BOOL func_ov033_02177ed0(u32 kind, FieldScriptEnv *env, GameData *gameData, MysteryGift *gift) {
+    BOOL (*canReceive)(FieldScriptEnv *, GameData *, MysteryGift *) = sGiftHandlers[kind].canReceive;
 
-    handler = *(u32(**)(u32, u32, u32))(data_ov033_0217c410 + 24 * index);
-    if (arg3 != 0 && handler != NULL) {
-        return handler(arg1, arg2, arg3);
+    if (gift != NULL && canReceive != NULL) {
+        return canReceive(env, gameData, gift);
     }
-    return 0;
+    return FALSE;
 }
 
-u32 func_ov033_02177ef4(u32 index, u32 arg1, FieldScriptEnv *env) {
-    WordSet *words;
-    u32 (*handler)(WordSet *, u32, FieldScriptEnv *);
+u32 func_ov033_02177ef4(u32 kind, MysteryGift *gift, FieldScriptEnv *env) {
+    WordSet *wordSet = ScriptWork_GetWordSet(FieldScriptEnv_GetScriptWork(env));
+    u32 (*getMessage)(WordSet *, MysteryGift *, FieldScriptEnv *) = sGiftHandlers[kind].unk10;
 
-    words = ScriptWork_GetWordSet(FieldScriptEnv_GetScriptWork(env));
-    handler = *(u32(**)(WordSet *, u32, FieldScriptEnv *))(data_ov033_0217c41c + 24 * index);
-    if (arg1 != 0 && handler != NULL) {
-        return handler(words, arg1, env);
+    if (gift != NULL && getMessage != NULL) {
+        return getMessage(wordSet, gift, env);
     }
     return 7;
 }
 
-u32 func_ov033_02177f28(u32 index, u32 arg1, FieldScriptEnv *env) {
-    WordSet *words;
-    u32 (*handler)(WordSet *, u32, FieldScriptEnv *);
+u32 func_ov033_02177f28(u32 kind, MysteryGift *gift, FieldScriptEnv *env) {
+    WordSet *wordSet = ScriptWork_GetWordSet(FieldScriptEnv_GetScriptWork(env));
+    u32 (*getMessage)(WordSet *, MysteryGift *, FieldScriptEnv *) = sGiftHandlers[kind].unk14;
 
-    words = ScriptWork_GetWordSet(FieldScriptEnv_GetScriptWork(env));
-    handler = *(u32(**)(WordSet *, u32, FieldScriptEnv *))(data_ov033_0217c420 + 24 * index);
-    if (arg1 != 0 && handler != NULL) {
-        return handler(words, arg1, env);
+    if (gift != NULL && getMessage != NULL) {
+        return getMessage(wordSet, gift, env);
     }
     return 8;
 }
 
-BOOL func_ov033_02177f5c(u32 index, u32 arg1, u32 arg2, u32 arg3) {
-    void (*handler)(u32, u32, u32);
+BOOL func_ov033_02177f5c(u32 kind, FieldScriptEnv *env, GameData *gameData, MysteryGift *gift) {
+    void (*receive)(FieldScriptEnv *, GameData *, MysteryGift *) = sGiftHandlers[kind].receive;
 
-    handler = *(void (**)(u32, u32, u32))(data_ov033_0217c414 + 24 * index);
-    if (arg3 != 0 && handler != NULL) {
-        handler(arg1, arg2, arg3);
+    if (gift != NULL && receive != NULL) {
+        receive(env, gameData, gift);
         return TRUE;
     }
     return FALSE;
 }
 
-u32 func_ov033_02177f84(u32 index, u32 arg1, u32 arg2, u32 arg3) {
-    u32 (*handler)(u32, u32, u32);
+u32 func_ov033_02177f84(u32 kind, FieldScriptEnv *env, GameData *gameData, MysteryGift *gift) {
+    u32 (*handler)(FieldScriptEnv *, GameData *, MysteryGift *) = sGiftHandlers[kind].unk0C;
 
-    handler = *(u32(**)(u32, u32, u32))(data_ov033_0217c418 + 24 * index);
-    if (arg3 != 0 && handler != NULL) {
-        return handler(arg1, arg2, arg3);
+    if (gift != NULL && handler != NULL) {
+        return handler(env, gameData, gift);
     }
     return 0;
 }
@@ -401,26 +405,26 @@ s32 FindMysteryGiftDeliveryManNPCID(GameData *gameData) {
     }
     for (i = 0; i < count; i++) {
         if (npcs[i].modelId == MYSTERY_GIFT_DELIVERY_MAN_OBJ_CODE) {
-            return *(u16 *)((u8 *)npcs + i * sizeof(ZoneNPC));
+            return npcs[i].uid;
         }
     }
     return -1;
 }
 
-BOOL func_ov033_02178074(void *gift, u32 kind) {
+BOOL func_ov033_02178074(MysteryGift *gift, u32 kind) {
     if (kind != 2) {
         return FALSE;
     }
-    if (*(u16 *)((u8 *)gift + 0xb0) != 0x7fe) {
+    if (gift->id != 0x7fe) {
         return FALSE;
     }
-    if (*(u32 *)gift == 0x23e) {
+    if (gift->value == 0x23e) {
         return TRUE;
     }
     return FALSE;
 }
 
-u32 func_ov033_021780a4(FieldScriptEnv *env, void *gift, u32 kind) {
+u32 func_ov033_021780a4(FieldScriptEnv *env, MysteryGift *gift, u32 kind) {
     PartyPkm *pkm;
     PlayerInfo *playerInfo;
     u32 result;
@@ -437,7 +441,7 @@ u32 func_ov033_021780a4(FieldScriptEnv *env, void *gift, u32 kind) {
     return 0;
 }
 
-PartyPkm *func_ov033_021780d8(FieldScriptEnv *env, void *gift) {
+PartyPkm *func_ov033_021780d8(FieldScriptEnv *env, MysteryGift *gift) {
     HeapID heapId;
     GameData *gameData;
 
@@ -446,11 +450,11 @@ PartyPkm *func_ov033_021780d8(FieldScriptEnv *env, void *gift) {
     return func_ov012_02153160(gift, heapId, gameData);
 }
 
-BOOL doesPartyHaveSpace(void *context, GameData *gameData) {
+BOOL doesPartyHaveSpace(FieldScriptEnv *env, GameData *gameData, MysteryGift *gift) {
     return PokeParty_GetPkmCount(GameData_GetParty(gameData)) < 6;
 }
 
-void func_ov033_02178110(FieldScriptEnv *env, GameData *gameData, void *gift) {
+void func_ov033_02178110(FieldScriptEnv *env, GameData *gameData, MysteryGift *gift) {
     PokeParty *party;
     PartyPkm *pkm;
 
@@ -463,23 +467,23 @@ void func_ov033_02178110(FieldScriptEnv *env, GameData *gameData, void *gift) {
     }
 }
 
-u32 func_ov033_02178154(FieldScriptEnv *env, GameData *gameData, void *gift) {
+u32 func_ov033_02178154(FieldScriptEnv *env, GameData *gameData, MysteryGift *gift) {
     PartyPkm *pkm;
-    u32 value;
+    u32 isEgg;
 
     pkm = func_ov033_021780d8(env, gift);
     if (pkm == NULL) {
         return 1;
     }
-    value = PokeParty_GetParam(pkm, (PkmField)0x4c, NULL);
+    isEgg = PokeParty_GetParam(pkm, PKM_PARAM_IS_EGG, NULL);
     GFL_HeapFree(pkm);
-    if (value == 1) {
+    if (isEgg == TRUE) {
         return 2;
     }
     return 1;
 }
 
-u32 func_ov033_02178180(WordSet *wordSet, void *gift, FieldScriptEnv *env) {
+u32 func_ov033_02178180(WordSet *wordSet, MysteryGift *gift, FieldScriptEnv *env) {
     PlayerInfo *playerInfo;
     PartyPkm *pkm;
     u32 result;
@@ -491,7 +495,7 @@ u32 func_ov033_02178180(WordSet *wordSet, void *gift, FieldScriptEnv *env) {
     if (pkm == NULL) {
         loadPokemonTextNameToStrbuf(wordSet, 1, NULL);
     } else {
-        if (PokeParty_GetParam(pkm, (PkmField)0x4c, NULL) == 1) {
+        if (PokeParty_GetParam(pkm, PKM_PARAM_IS_EGG, NULL) == TRUE) {
             result = 11;
         } else {
             loadPokemonSpeciesTextNameToStrbuf(wordSet, 1, pkm);
@@ -501,71 +505,63 @@ u32 func_ov033_02178180(WordSet *wordSet, void *gift, FieldScriptEnv *env) {
     return result;
 }
 
-u32 func_ov033_021781e0(void) {
+u32 func_ov033_021781e0(WordSet *wordSet, MysteryGift *gift, FieldScriptEnv *env) {
     return 6;
 }
 
-u32 func_ov033_021781e4(void) {
-    return 1;
+BOOL func_ov033_021781e4(FieldScriptEnv *env, GameData *gameData, MysteryGift *gift) {
+    return TRUE;
 }
 
-void func_ov033_021781e8(FieldScriptEnv *env, GameData *gameData, void *gift) {
+void func_ov033_021781e8(FieldScriptEnv *env, GameData *gameData, MysteryGift *gift) {
     HeapID heapId;
     BagSave *bag;
     u16 item;
 
     heapId = FieldScriptEnv_GetHeapID(env);
     bag = GameData_GetBag(gameData);
-    item = *(u32 *)gift;
+    item = gift->value;
     if (item != 0 && item <= 0x27e) {
         BagSave_AddItem(bag, item, 1, heapId);
     }
 }
 
-u32 func_ov033_02178218(u32 arg0, u32 arg1, void *gift) {
-    u8 kind;
-
-    kind = *((u8 *)gift + 0xb3);
-    if (func_ov033_02178074(gift, kind) == 1) {
+u32 func_ov033_02178218(FieldScriptEnv *env, GameData *gameData, MysteryGift *gift) {
+    if (func_ov033_02178074(gift, gift->kind) == TRUE) {
         return 4;
     }
     return 3;
 }
 
-u32 func_ov033_02178230(WordSet *wordSet, void *gift, FieldScriptEnv *env) {
+u32 func_ov033_02178230(WordSet *wordSet, MysteryGift *gift, FieldScriptEnv *env) {
     PlayerInfo *playerInfo;
     u16 item;
 
     playerInfo = GetGameDataPlayerInfo(FieldScriptEnv_GetGameData(env));
-    item = *(u32 *)gift;
+    item = gift->value;
     copyVarForText(wordSet, 0, playerInfo);
     loadItemNameToStrbuf(wordSet, 1, item);
     return 7;
 }
 
-u32 func_ov033_02178260(WordSet *wordSet, void *gift) {
-    loadItemNameToStrbuf(wordSet, 0, (u16) * (u32 *)gift);
+u32 func_ov033_02178260(WordSet *wordSet, MysteryGift *gift, FieldScriptEnv *env) {
+    loadItemNameToStrbuf(wordSet, 0, gift->value);
     return 8;
 }
 
-u32 func_ov033_02178274(void) {
-    return 1;
+BOOL func_ov033_02178274(FieldScriptEnv *env, GameData *gameData, MysteryGift *gift) {
+    return TRUE;
 }
 
-u32 func_ov033_02178278(u32 arg0, GameData *gameData, void *gift) {
-    SaveControl *saveControl;
-    HighLinkSave *save;
-
-    saveControl = GameData_GetSaveControl(gameData);
-    save = getHighLinkBlockAddress(saveControl);
-    return func_0200c6a0(save, *(u32 *)gift);
+void func_ov033_02178278(FieldScriptEnv *env, GameData *gameData, MysteryGift *gift) {
+    func_0200c6a0(getHighLinkBlockAddress(GameData_GetSaveControl(gameData)), gift->value);
 }
 
-u32 func_ov033_02178290(void) {
+u32 func_ov033_02178290(FieldScriptEnv *env, GameData *gameData, MysteryGift *gift) {
     return 5;
 }
 
-u32 func_ov033_02178294(WordSet *wordSet, void *gift, FieldScriptEnv *env) {
+u32 func_ov033_02178294(WordSet *wordSet, MysteryGift *gift, FieldScriptEnv *env) {
     GameData *gameData;
     PlayerInfo *playerInfo;
     u32 passPower;
@@ -573,93 +569,88 @@ u32 func_ov033_02178294(WordSet *wordSet, void *gift, FieldScriptEnv *env) {
     gameData = FieldScriptEnv_GetGameData(env);
     getHighLinkBlockAddress(GameData_GetSaveControl(gameData));
     playerInfo = GetGameDataPlayerInfo(gameData);
-    passPower = *(u32 *)gift;
+    passPower = gift->value;
     copyVarForText(wordSet, 0, playerInfo);
     loadPassPowerToStrbuf(wordSet, 1, passPower);
     return 9;
 }
 
-u32 func_ov033_021782cc(void) {
+u32 func_ov033_021782cc(WordSet *wordSet, MysteryGift *gift, FieldScriptEnv *env) {
     return 10;
 }
 
-u32 func_ov033_021782f0(void) {
-    return 1;
+BOOL func_ov033_021782f0(FieldScriptEnv *env, GameData *gameData, MysteryGift *gift) {
+    return TRUE;
 }
 
-void func_ov033_021782f4(u32 arg0, GameData *gameData, void *gift) {
+void func_ov033_021782f4(FieldScriptEnv *env, GameData *gameData, MysteryGift *gift) {
     PlayerInfo *playerInfo;
     TrainerCardSave *card;
-    u32 kind;
+    u32 value;
     u32 i;
 
     playerInfo = GetGameDataPlayerInfo(gameData);
     card = getTrainerCardDataBlkAddress(gameData);
-    kind = func_ov033_021782d0(gift);
+    value = func_ov033_021782d0(gift);
     for (i = 0; i < 8; i += 2) {
-        if (data_ov033_0217c404[i] == kind) {
-            setOneShotDRObtained(card, data_ov033_0217c404[i + 1], playerInfo);
+        if (sOneShotDRGifts[i] == value) {
+            setOneShotDRObtained(card, sOneShotDRGifts[i + 1], playerInfo);
             return;
         }
     }
 }
 
-u32 func_ov033_02178334(void) {
+u32 func_ov033_02178334(FieldScriptEnv *env, GameData *gameData, MysteryGift *gift) {
     return 6;
 }
 
-u32 func_ov033_02178338(WordSet *wordSet, void *gift, FieldScriptEnv *env) {
+u32 func_ov033_02178338(WordSet *wordSet, MysteryGift *gift, FieldScriptEnv *env) {
     PlayerInfo *playerInfo;
-    u32 kind;
+    u32 value;
 
     playerInfo = GetGameDataPlayerInfo(FieldScriptEnv_GetGameData(env));
     FieldScriptEnv_GetHeapID(env);
-    kind = func_ov033_021782d0(gift);
+    value = func_ov033_021782d0(gift);
     copyVarForText(wordSet, 0, playerInfo);
-    func_02024868(wordSet, 1, kind, 0);
+    func_02024868(wordSet, 1, value, 0);
     return 12;
 }
 
-u32 func_ov033_02178374(WordSet *wordSet, void *gift, FieldScriptEnv *env) {
+u32 func_ov033_02178374(WordSet *wordSet, MysteryGift *gift, FieldScriptEnv *env) {
     PlayerInfo *playerInfo;
-    u32 kind;
+    u32 value;
 
     playerInfo = GetGameDataPlayerInfo(FieldScriptEnv_GetGameData(env));
-    kind = func_ov033_021782d0(gift);
+    value = func_ov033_021782d0(gift);
     copyVarForText(wordSet, 0, playerInfo);
-    loadPassPowerToStrbuf(wordSet, 1, kind);
+    loadPassPowerToStrbuf(wordSet, 1, value);
     return 13;
 }
 
-void *func_ov033_021783a8(void *save, u32 slot, void *gift) {
-    u8 kind;
-
+MysteryGift *func_ov033_021783a8(MysteryGiftSave *save, u32 slot, MysteryGift *gift) {
     if (!func_0200a800(save, slot)) {
         return NULL;
     }
-    if (func_0200a820(save, slot) == 1) {
+    if (func_0200a820(save, slot) == TRUE) {
         return NULL;
     }
     if (!func_0200a71c(save, slot, gift)) {
         return NULL;
     }
-    kind = *((u8 *)gift + 0xb3);
-    if (kind == 0) {
+    if (gift->kind == 0) {
         return NULL;
     }
-    if (kind >= 5) {
+    if (gift->kind >= 5) {
         gift = NULL;
     }
     return gift;
 }
 
-void *func_ov033_021783f8(void *save, u32 *slot, void *gift) {
+MysteryGift *func_ov033_021783f8(MysteryGiftSave *save, u32 *slot, MysteryGift *gift) {
     s32 i;
-    void *result;
 
     for (i = 0; i < 12; i++) {
-        result = func_ov033_021783a8(save, i, gift);
-        if (result != NULL) {
+        if (func_ov033_021783a8(save, i, gift) != NULL) {
             *slot = i;
             return gift;
         }
@@ -667,18 +658,18 @@ void *func_ov033_021783f8(void *save, u32 *slot, void *gift) {
     return NULL;
 }
 
-void func_ov033_02178420(void *save, u32 slot) {
+void func_ov033_02178420(MysteryGiftSave *save, u32 slot) {
     func_0200a858(save, slot);
 }
 
-u32 func_ov033_02178428(void *save) {
+u8 func_ov033_02178428(MysteryGiftSave *save) {
     u32 slot;
-    u8 gift[0xcc];
-    void *result;
+    MysteryGift gift;
+    MysteryGift *result;
 
-    result = func_ov033_021783f8(save, &slot, gift);
+    result = func_ov033_021783f8(save, &slot, &gift);
     if (result == NULL) {
         return 0;
     }
-    return *((u8 *)result + 0xb3);
+    return result->kind;
 }
