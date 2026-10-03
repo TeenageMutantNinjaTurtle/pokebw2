@@ -12,6 +12,7 @@
 #define MOVE_PARAM_EFFECT 28
 
 u16 PML_MoveGetBasePower(u16 move);
+u8 PML_MoveGetCategory(u16 move);
 u8 PML_MoveGetMaxPP(u16 move, u8 bonus);
 s32 PML_MoveGetParam(u16 move, u32 param);
 BOOL PML_MoveIsDataCachePresent(void);

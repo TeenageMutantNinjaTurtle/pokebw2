@@ -4,6 +4,7 @@
 #include "types.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
+#include "system/game_event.h"
 
 // The directions that actors face and move in
 #define DIR_UP 0
@@ -59,6 +60,7 @@ typedef struct {
 } FieldActorMoveCode;
 
 GameEvent *CallEventPrepareResidentActorsForZoneChange(GameSystem *gsys, Field *field);
+GameEventReturnCode func_ov012_0215c59c(GameEvent *event, u32 *state, void *data);
 void DisableAllActorsMovement(MMSys *mmSys);
 void EnableAllActorsMovement(MMSys *mmSys);
 // Whether the actor has finished its movement commands

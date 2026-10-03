@@ -44,5 +44,6 @@ u16 func_ov127_021f0a9c(u8 a0);
 u16 func_ov127_021f0db4(BlackTowerGimmick *gimmick, u8 a1, u8 a2);
 u32 func_ov127_021f0dd8(BlackTowerGimmick *gimmick);
 u16 func_ov127_021f0e70(BlackTowerGimmick *gimmick, u8 a1, u8 a2);
+GameEvent *func_ov127_021f1c80(GameSystem *gsys, Field *field, void *arg2, u16 *code);
 
 #endif // POKEBW2_FIELD_BLACK_TOWER_GIMMICK_H

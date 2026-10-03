@@ -4,6 +4,13 @@
 #include "struct_decls.h"
 #include "types.h"
 
+typedef void (*BattleEventHandlerFn)(void *context, void *item, u32 monId);
+
+struct BattleEventHandlerEntry {
+    u32 event;
+    BattleEventHandlerFn handler;
+};
+
 void BattleEventItem_ConvertToIsolated(BattleEventItem *item);
 BOOL BattleEventItem_IsIsolated(BattleEventItem *item);
 u16 BattleEventItem_GetSubID(BattleEventItem *item);
@@ -19,5 +26,8 @@ void BattleEventItem_AttachSkipCheckHandler(BattleEventItem *item, void *handler
 void BattleEventItem_DetachSkipCheckHandler(BattleEventItem *item);
 void BattleEvent_ItemRotationSleep(u8 monId, u32 priority);
 BOOL BattleEvent_ItemRotationWake(u8 monId, u32 priority);
+u32 BattleEventVar_GetValue(u32 key);
+void BattleEventVar_RewriteValue(u32 key, u32 value);
+void BattleEventVar_MulValue(u32 key, u32 value);
 
 #endif // POKEBW2_BATTLE_BTL_EVENT_H

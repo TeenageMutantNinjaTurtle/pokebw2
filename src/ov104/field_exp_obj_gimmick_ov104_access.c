@@ -30,7 +30,7 @@ u32 func_ov104_021eed44(Field *field) {
 
     work = Field_GetGimmickWorkBlock(field, 0);
     substate = work->substate;
-    return (u8)substate->value;
+    return (u8)substate->direction;
 }
 
 void *func_ov104_021eed58(Field *field) {

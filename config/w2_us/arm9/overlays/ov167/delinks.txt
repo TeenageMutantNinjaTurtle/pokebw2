@@ -499,3 +499,15 @@ src/ov167/battle_ability_roll_effect_chance.c:
 src/ov167/battle_ability_item_rotation.c:
     complete
     .text       start:0x021bdda0 end:0x021bddcc
+
+src/ov167/battle_ability_inner_focus.c:
+    complete
+    .text       start:0x021bdee0 end:0x021bdf04
+
+src/ov167/battle_ability_thick_fat.c:
+    complete
+    .text       start:0x021bdf58 end:0x021bdf90
+
+src/ov167/battle_ability_huge_power.c:
+    complete
+    .text       start:0x021bdf90 end:0x021bdfc8

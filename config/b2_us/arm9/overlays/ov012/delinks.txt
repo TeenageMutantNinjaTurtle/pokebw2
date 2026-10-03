@@ -555,7 +555,11 @@ src/ov012/field_app_call_create.c:
 
 src/ov012/event_save.c:
     complete
-    .text       start:0x0215c4f8 end:0x0215c574
+    .text       start:0x0215c4f8 end:0x0215c594
+
+src/ov012/prepare_resident_actors.c:
+    complete
+    .text       start:0x0215c6b0 end:0x0215c6dc
 
 src/ov012/event_game_clear_card.c:
     complete

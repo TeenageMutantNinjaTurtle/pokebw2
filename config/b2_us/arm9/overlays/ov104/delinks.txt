@@ -11,3 +11,19 @@ src/ov104/field_exp_obj_gimmick_ov104_access.c:
 src/ov104/field_exp_obj_gimmick_ov104_save.c:
     complete
     .text       start:0x021eed78 end:0x021eede4
+
+src/ov104/field_exp_obj_gimmick_ov104_state.c:
+    complete
+    .text       start:0x021eede4 end:0x021eeea0
+
+src/ov104/field_exp_obj_gimmick_ov104_free.c:
+    complete
+    .text       start:0x021eeea0 end:0x021eeebc
+
+src/ov104/field_exp_obj_gimmick_ov104_card.c:
+    complete
+    .text       start:0x021eeebc end:0x021eeee0
+
+src/ov104/field_exp_obj_gimmick_ov104_visual.c:
+    complete
+    .text       start:0x021eef84 end:0x021ef02c
