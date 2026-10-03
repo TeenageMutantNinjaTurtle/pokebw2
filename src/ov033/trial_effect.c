@@ -1,3 +1,4 @@
+#include "field/bsubway_scr.h"
 #include "field/field_effects.h"
 #include "field/trial_house.h"
 #include "gfl/heap.h"
@@ -112,4 +113,8 @@ GameEventReturnCode func_ov033_0217b3ac(GameEvent *event, u32 *state, void *arg)
         break;
     }
     return GAMEEVENT_CONTINUE;
+}
+
+void func_ov033_0217b468(GameSystem *gsys) {
+    func_02017954(GSYS_GetGameData(gsys), 0);
 }

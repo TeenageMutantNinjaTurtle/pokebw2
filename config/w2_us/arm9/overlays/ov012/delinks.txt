@@ -185,14 +185,6 @@ src/ov012/field_position_direction.c:
     complete
     .text       start:0x0215ec8c end:0x0215ed9c
 
-src/ov012/bg_position.c:
-    complete
-    .text       start:0x0215d8cc end:0x0215d9b8
-
-src/ov012/trigger_position.c:
-    complete
-    .text       start:0x0215d9b8 end:0x0215dafc
-
 
 src/ov012/map_matrix.c:
     complete
@@ -323,9 +315,9 @@ src/ov012/zone_warp_out.c:
     complete
     .text       start:0x0215d630 end:0x0215d7b0
 
-src/ov012/rail_warp_out.c:
+src/ov012/zone_position.c:
     complete
-    .text       start:0x0215d814 end:0x0215d8cc
+    .text       start:0x0215d814 end:0x0215dafc
 
 
 src/ov012/field_script_battle.c:

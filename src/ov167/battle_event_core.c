@@ -40,3 +40,11 @@ void BattleEventItem_SetRecallEnable(BattleEventItem *item) {
 void BattleEventItem_SetWorkValue(BattleEventItem *item, u32 index, u32 value) {
     *(u32 *)((u8 *)item + 0x1c + index * 4) = value;
 }
+
+void BattleEvent_ForceCallHandlers(void *context, u32 event) {
+    func_ov167_021bc918(context, event, 7, 0);
+}
+
+void BattleEvent_CallHandlers(void *context, u32 event) {
+    func_ov167_021bc918(context, event, 7, 1);
+}
