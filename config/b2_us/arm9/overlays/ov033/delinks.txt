@@ -118,3 +118,19 @@ src/ov033/funfest_script_info.c:
 src/ov033/funfest_entree_event_calls.c:
     complete
     .text       start:0x02177328 end:0x02177370
+
+src/ov033/event_phrase_input_create.c:
+    complete
+    .text       start:0x021775e8 end:0x021776d8
+
+src/ov033/event_phrase_input_callback.c:
+    complete
+    .text       start:0x021776d8 end:0x02177734
+
+src/ov033/random_ffff.c:
+    complete
+    .text       start:0x0217c328 end:0x0217c340
+
+src/ov033/entree_forest_first_warp.c:
+    complete
+    .text       start:0x02176ec4 end:0x02176f90

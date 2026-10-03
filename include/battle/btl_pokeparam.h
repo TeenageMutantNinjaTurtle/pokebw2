@@ -11,8 +11,41 @@ typedef struct {
     u32 raw;
 } BattleConditionCont;
 
+struct BattleCondition {
+    union {
+        u32 raw;
+        struct {
+            u32 type : 3;
+            u32 turns : 6;
+            u32 unk09 : 23;
+        } common;
+        struct {
+            u32 type : 3;
+            u32 turns : 6;
+            u32 param : 16;
+            u32 unk25 : 7;
+        } timed;
+        struct {
+            u32 unk00 : 25;
+            u32 flag : 1;
+            u32 unk26 : 6;
+        } one;
+        struct {
+            u32 unk00 : 31;
+            u32 flag : 1;
+        } four;
+    };
+};
+
 // Two types, the first in bits 8 to 15 and the second in bits 0 to 7
 typedef s32 PokeTypePair;
+
+void IncrementTurn(BattleCondition *condition, u32 amount);
+void SetTurns(BattleCondition *condition, u32 turns);
+BattleCondition SetConditionTurns(u32 turns);
+BattleCondition AddTurnCondition(u32 turns, u16 param);
+u16 Condition_GetParam(BattleCondition condition);
+void SetConditionFlag(BattleCondition *condition, u32 flag);
 
 BOOL CanPokemonBattle(BattleMon *mon);
 PartyPkm *GetSrcData(const void *param);

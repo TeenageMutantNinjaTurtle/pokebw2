@@ -31,6 +31,65 @@ struct ScriptWork {
     void *subwork;
 };
 
+struct ScriptSubwork {
+    ScriptWork *work;
+    GameSystem *gsys;
+    GameData *gameData;
+    MMSys *mmSys;
+    void *playerGridEventTCB;
+    FieldAcmdTCB *acmdTasks[8];
+    u8 unk34[0xa0];
+    u8 actorWork[0x28];
+    void *mapDisplayInfo;
+    void *specialMessageIcon;
+    u8 actorMsgPosActual;
+    u8 actorMsgPos;
+    u16 waitCounter;
+    void *nowPkmVoice;
+    void *elevatorTable;
+};
+
+struct FieldScriptEnvArgs {
+    u16 zoneId;
+    u16 unk02;
+    u32 featureLevel;
+    u32 reducedFeatureLevel;
+    ScriptWork *work;
+};
+
+struct FieldScriptEnv {
+    HeapID heapId;
+    u16 unk02;
+    FieldScriptEnvArgs args;
+    MsgData *msgData;
+    u16 msgFileNo;
+    u16 unk1A;
+    void *ownedHeap;
+    ScriptSubwork *subwork;
+};
+
+extern const char data_ov012_0216e1e4[];
+
+ScriptSubwork *InitScriptSubwork(ScriptWork *work, HeapID heapId);
+void func_ov012_021550e4(void *subwork);
+FieldScriptEnv *CreateFieldScriptEnv(const FieldScriptEnvArgs *args, HeapID heapId);
+void FreeFieldScriptEnv(FieldScriptEnv *env);
+u32 FieldScriptEnv_IsReducedFeatureLevel(FieldScriptEnv *env);
+u32 FieldScriptEnv_GetFeatureLevel(FieldScriptEnv *env);
+void func_ov012_021552c8(FieldScriptEnv *env);
+void *func_ov012_0215518c(FieldScriptEnv *env);
+MsgData *GetFieldScriptMsgData(FieldScriptEnv *env);
+u16 GetFieldScriptMsgFileNo(FieldScriptEnv *env);
+void setMapDisplayInfoPtr(FieldScriptEnv *env, void *info);
+void *getMapDisplayInfoPtr(FieldScriptEnv *env);
+void SetSpecialMessageIconPtr(FieldScriptEnv *env, void *icon);
+void *func_ov012_021551c0(FieldScriptEnv *env);
+void *GetFieldScriptActorWk(FieldScriptEnv *env);
+u8 ActorMsgWin_GetPosActual(FieldScriptEnv *env);
+void ActorMsgWin_SetPosActual(FieldScriptEnv *env, u8 pos);
+u8 ActorMsgWin_GetPos(FieldScriptEnv *env);
+void ActorMsgWin_SetPos(FieldScriptEnv *env, u8 pos);
+
 // Runs a script from an event, and returns its work
 ScriptWork *EventScriptCall_Start(GameEvent *event, u16 scriptId, void *a2, void *a3, HeapID heapId);
 // Sets the script's parameters, which it reads from its work
@@ -140,6 +199,12 @@ u16 ScriptWork_ResolveHybridValue(ScriptWork *work, GameData *gameData, u16 valu
 // Waits a number of frames: UpdateWaitCounter returns TRUE once they have passed
 void FieldScriptEnv_SetWaitCounter(FieldScriptEnv *env, u16 frames);
 BOOL FieldScriptEnv_UpdateWaitCounter(FieldScriptEnv *env);
+void *GetScrEnvNowPkmVoice(FieldScriptEnv *env);
+void SetScrEnvNowPkmVoice(FieldScriptEnv *env, void *voice);
+void *FieldScriptEnv_GetElevatorTable(FieldScriptEnv *env);
+void FieldScriptEnv_SetElevatorTable(FieldScriptEnv *env, void *table);
+void FieldScriptEnv_AddAcmdTask(FieldScriptEnv *env, FieldAcmdTCB *task);
+BOOL FieldScriptEnv_CheckAcmdQueueRunning(FieldScriptEnv *env);
 GameSystem *ScriptWork_GetGameSystem(ScriptWork *work);
 StrBuf *ScriptWork_GetMainStrBuf(ScriptWork *work);
 StrBuf *ScriptWork_GetAltStrBuf(ScriptWork *work);

@@ -1,0 +1,36 @@
+#include "field/entree_forest.h"
+#include "field/field.h"
+#include "field/field_script_event.h"
+#include "field/player_state.h"
+#include "field/zone.h"
+#include "system/game_system.h"
+
+GameEvent *CheckEntralinkForestFirstWarpEvent(Field *field, GameSystem *gsys, FieldPlayer *player) {
+    u16 zoneId;
+    VecFx32 playerPos;
+    VecFx32 warpPos;
+    s32 i;
+    fx32 startX;
+
+    zoneId = PlayerState_GetZoneID(GSYS_GetPlayerState(gsys));
+    func_ov012_02153608(GSYS_GetGameCommSystem(gsys));
+    if (!IsZoneEntralinkHub(zoneId)) {
+        return NULL;
+    }
+    FieldPlayer_GetWPos(player, &playerPos);
+    for (i = 0; i < 3; i++) {
+        if (playerPos.x >= (0x7e << 14) + (i << 22) && playerPos.x <= (0x7e << 14) + (i << 22) &&
+            playerPos.z >= (0xb2 << 14) && playerPos.z <= (0xb2 << 14)) {
+            return EventScriptCall_Create(gsys, 0xe, NULL, Field_GetHeapID(field));
+        }
+    }
+    startX = (0x7e << 14);
+    for (i = 0; i < 3; i++, startX += (1 << 22)) {
+        if (playerPos.x >= startX && playerPos.x < startX + (2 << 16) && playerPos.z == (0x56 << 14)) {
+            warpPos = data_ov033_0217c3e8;
+            warpPos.x += playerPos.x - startX;
+            return EventEntreeForestWarp_Create(gsys, 1, &warpPos, 0, 4);
+        }
+    }
+    return NULL;
+}

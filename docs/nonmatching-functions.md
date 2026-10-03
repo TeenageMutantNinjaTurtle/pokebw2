@@ -8,9 +8,10 @@ This tracks every function currently implemented in C whose compiled code does n
 | --- | --- | --- | --- | --- |
 | 33 | `EventFieldTrade_CreatePkm` | `src/ov033/event_field_trade_pkm.c` | `0x0217a590` / `0x0217a5d0` | The C translation matches the original size and all instructions after the first two setup calls, but CodeWarrior schedules their argument loads and stores differently (40 nonrelocated bytes). The file is marked incomplete, so the ROM retains the original assembly. |
 | 59 | `func_ov059_021e6630` | `src/ov059/scrcmd_resort.c` | `0x021e6630` / `0x021e6670` | Four nonrelocated bytes with DSi 1.1p1. The original keeps zero in `r5` for the last stack argument and return; the current C emits `movs r0, #0` twice. DSi 1.1–1.3 and many zero-local and expression variants retain the mismatch; DSi 1.6 is worse. |
+| 59 | `func_ov059_021e6fc8` | `src/ov059/scrcmd_resort.c` | `0x021e6fc8` / `0x021e7008` | The current C compiles to `0x460` bytes with DSi 1.1–1.2, while the original is `0x464`. The large message selection switch has a different branch and jump table layout. Inverting or rewriting its final comparison as a ternary does not fix the size. |
 | 284 | `ShinkaDemoPieces_Move` | `src/ov284/shinka_demo_view.c` | `0x021e69c4` / `0x021e6a04` | Eleven nonrelocated bytes with DSi 1.1p1. Differences include stack slot assignment within the large state switch and two Thumb instruction sequences. |
 
-These source files lack `complete` in both versions' `delinks.txt`. All other functions in those files match in the Black 2 build report. `compiler_probe.py` reproduces the differences for both versions. The full ROMs still rebuild byte for byte because the linker retains the original bytes for these functions.
+These source files lack `complete` in both versions' `delinks.txt`. `compiler_probe.py` reproduces the differences for both versions. The full ROMs still rebuild byte for byte because the linker retains the original bytes for these functions.
 
 ## C translations attempted, still in assembly
 

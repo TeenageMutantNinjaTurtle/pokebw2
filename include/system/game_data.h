@@ -44,6 +44,7 @@ GameRecords *GameData_GetRecords(GameData *gameData);
 // Whether a full day has passed since the last check
 BOOL checkForMidnight(GameData *gameData);
 SaveControl *GameData_GetSaveControl(GameData *gameData);
+void *func_020174d4(GameData *gameData);
 u8 GameData_GetSeason(GameData *gameData);
 void GameData_GetSeasons(GameData *gameData, u16 *prevSeason, u16 *season);
 WifiList *GameData_GetWifiList(GameData *gameData);

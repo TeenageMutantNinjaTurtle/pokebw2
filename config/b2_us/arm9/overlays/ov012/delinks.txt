@@ -155,3 +155,51 @@ src/ov012/respawn_zone_setup.c:
 src/ov012/respawn_zone_actual_index.c:
     complete
     .text       start:0x02154f80 end:0x02154f98
+
+src/ov012/trainer_script_clash.c:
+    complete
+    .text       start:0x02154f98 end:0x02154fc0
+
+src/ov012/trainer_script_ids.c:
+    complete
+    .text       start:0x02154fc0 end:0x02155014
+
+src/ov012/trainer_script_battle_type.c:
+    complete
+    .text       start:0x02155014 end:0x02155038
+
+src/ov012/trainer_script_flags.c:
+    complete
+    .text       start:0x02155038 end:0x02155074
+
+src/ov012/trainer_script_rebattle.c:
+    complete
+    .text       start:0x02155074 end:0x021550a4
+
+src/ov012/script_subwork_init.c:
+    complete
+    .text       start:0x021550a4 end:0x021550e4
+
+src/ov012/script_subwork_free.c:
+    complete
+    .text       start:0x021550e4 end:0x021550ec
+
+src/ov012/field_script_env_lifecycle.c:
+    complete
+    .text       start:0x021550ec end:0x0215515c
+
+src/ov012/field_script_env_accessors.c:
+    complete
+    .text       start:0x0215515c end:0x0215518c
+
+src/ov012/field_script_env_misc_accessors.c:
+    complete
+    .text       start:0x0215518c end:0x021551e4
+
+src/ov012/field_script_env_message_pos.c:
+    complete
+    .text       start:0x021551e4 end:0x02155214
+
+src/ov012/field_script_env_wait.c:
+    complete
+    .text       start:0x02155214 end:0x0215523c

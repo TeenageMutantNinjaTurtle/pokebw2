@@ -12,6 +12,10 @@ u32 func_02007464(SaveControl *save);
 void func_0200749c(SaveControl *save);
 void func_02007324(SaveControl *save);
 TrainerGameInfoSave *getTrainerGameInfoAddress(SaveControl *save);
+void *func_020114f0(SaveControl *save);
+const u16 *func_0200c93c(TrainerGameInfoSave *info);
+const u16 *func_0200c954(TrainerGameInfoSave *info);
+const u16 *func_0201150c(void *saveBlock);
 u16 func_0200ca7c(TrainerGameInfoSave *info);
 u16 func_0200ca8c(TrainerGameInfoSave *info, int index);
 // Poké Transfer's high score, 28 bits

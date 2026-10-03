@@ -135,3 +135,27 @@ src/ov167/battle_handler_flags.c:
 src/ov167/battle_view_string_param.c:
     complete
     .text       start:0x021d0aec end:0x021d0b4c
+
+src/ov167/battle_action_order_reserve.c:
+    complete
+    .text       start:0x021a0bf0 end:0x021a0c88
+
+src/ov167/battle_handler_interrupt.c:
+    complete
+    .text       start:0x021adeb0 end:0x021adf10
+
+src/ov167/battle_handler_move_effect.c:
+    complete
+    .text       start:0x021ae2dc end:0x021ae30c
+
+src/ov167/battle_condition_turns.c:
+    complete
+    .text       start:0x021ce490 end:0x021ce520
+
+src/ov167/battle_condition_param.c:
+    complete
+    .text       start:0x021ce3c0 end:0x021ce464
+
+src/ov167/battle_condition_create_turn.c:
+    complete
+    .text       start:0x021ce180 end:0x021ce1dc
