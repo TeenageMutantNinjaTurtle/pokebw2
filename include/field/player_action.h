@@ -8,8 +8,14 @@ struct PlayerActionPerms {
     u8 data[0x20];
 };
 
+// What the player can do where they stand, which the hidden moves check
 struct PlayerActionPossibilities {
-    u8 data[0x14];
+    u16 zoneId;
+    u16 flags;
+    u32 exState;
+    GameSystem *gsys;
+    FieldActor *actorInFront;
+    Field *field;
 };
 
 void PlayerActionPerms_Create(PlayerActionPerms *perms, GameSystem *gsys, Field *field);

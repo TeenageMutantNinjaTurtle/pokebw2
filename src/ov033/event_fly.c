@@ -104,7 +104,7 @@ struct FlyEventWork {
     u32 musicIn;
 };
 
-GameEvent *func_ov033_02178908(GameSystem *gsys, void *unused, u32 zoneId) {
+GameEvent *func_ov033_02178908(GameSystem *gsys, Field *field, u32 zoneId) {
     GameEvent *event;
     FlyEventWork *work;
 
