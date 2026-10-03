@@ -12,8 +12,6 @@ struct EventDispatchView {
     struct EventItemView *first;
 };
 
-extern struct EventDispatchView data_ov167_021db194;
-
 // Function names from swan.
 void BattleEventItem_ConvertToIsolated(BattleEventItem *item) {
     *(u32 *)((u8 *)item + 0x10) = 6;

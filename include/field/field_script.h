@@ -129,6 +129,18 @@ typedef BOOL (*FieldScriptCommand)(VM *vm, FieldScriptEnv *env);
 extern const FieldScriptCommand EVCMD_TABLE[];
 extern const u32 EVCMD_MAX;
 
+struct GlobalScriptEntry {
+    u16 start;
+    u16 end;
+    u16 fileId;
+    u16 msgArcId;
+    u16 msgFileNo;
+};
+
+extern const GlobalScriptEntry GLOBAL_SCRIPT_TABLE[60];
+extern const char data_ov012_0216e1a0[];
+extern const char data_ov012_0216e1a4[];
+
 struct OpcodePermissions {
     u8 level0 : 1;
     u8 level1 : 1;

@@ -392,25 +392,9 @@ src/ov167/battle_ability_natural_cure.c:
     complete
     .text       start:0x021bfb58 end:0x021bfb94
 
-src/ov167/battle_ability_unaware.c:
+src/ov167/battle_ability_damage_handlers.c:
     complete
-    .text       start:0x021c0044 end:0x021c00ac
-
-src/ov167/battle_ability_scrappy.c:
-    complete
-    .text       start:0x021c03b0 end:0x021c03e0
-
-src/ov167/battle_ability_heatproof.c:
-    complete
-    .text       start:0x021c00ac end:0x021c0110
-
-src/ov167/battle_ability_type_absorb.c:
-    complete
-    .text       start:0x021c0110 end:0x021c03b0
-
-src/ov167/battle_ability_immunity_guards.c:
-    complete
-    .text       start:0x021c045c end:0x021c0594
+    .text       start:0x021bff48 end:0x021c0594
 
 src/ov167/battle_ability_truant.c:
     complete
@@ -435,14 +419,6 @@ src/ov167/battle_ability_flash_fire.c:
 src/ov167/battle_ability_run_away_message.c:
     complete
     .text       start:0x021c094c end:0x021c099c
-
-src/ov167/battle_ability_soundproof.c:
-    complete
-    .text       start:0x021c03e0 end:0x021c045c
-
-src/ov167/battle_ability_sturdy.c:
-    complete
-    .text       start:0x021bff48 end:0x021c0044
 
 src/ov167/battle_ability_target_redirect.c:
     complete

@@ -218,6 +218,8 @@ void SetTeleportZoneDiscover(GameData *gameData, s32 zoneId);
 void SetupTeleportZoneChange(u16 returnLocation, ZoneSpawnInfo *spawn);
 BOOL SetupZoneWarpArrival(EventData *eventData, ZoneSpawnInfo *spawn, u16 warpId, u16 posWeightBits);
 u16 ZoneData_GetAreaID(u16 zoneId);
+u16 ZoneData_GetScriptDatID(u16 zoneId);
+u16 ZoneData_GetTextDatID(u16 zoneId);
 // The zone data, which the functions that read it need loaded
 void InitZoneDataSystem(HeapID heapId);
 void FreeZoneDataSystem(void);

@@ -11,6 +11,8 @@ struct BattleEventHandlerEntry {
     BattleEventHandlerFn handler;
 };
 
+extern EventDispatchView data_ov167_021db194;
+
 void BattleEventItem_ConvertToIsolated(BattleEventItem *item);
 BOOL BattleEventItem_IsIsolated(BattleEventItem *item);
 u16 BattleEventItem_GetSubID(BattleEventItem *item);

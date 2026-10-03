@@ -1,7 +1,5 @@
 #include "battle/btl_pokeparam.h"
 
-extern const u32 data_ov167_021d7490[];
-
 // Function names from swan.
 u32 GetTurnFlag(BattleMon *mon, u32 flag) {
     u32 bit;

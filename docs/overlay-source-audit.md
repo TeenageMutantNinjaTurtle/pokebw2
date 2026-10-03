@@ -39,7 +39,7 @@ intervening function matches. Unmatched attempts are tracked in
 | Overlay | Disposition |
 | --- | --- |
 | 010 | Single linked C source; no fragmented C ranges. |
-| 012 | Related matrix, script setup, ScriptWork, script-command, and zone helper ranges are grouped where continuous; the system-option, RTC, and Trainer Card commands have coherent owners. `ProcessMapMatrix` and other intervening assembly still separate some ranges. |
+| 012 | Related matrix, script setup, ScriptWork, script-command, and zone helper ranges are grouped where continuous; the system-option, RTC, Trainer Card, and GameComm commands have coherent owners. `ProcessMapMatrix` and other intervening assembly still separate some ranges. |
 | 013 | Single linked C source; no fragmented C ranges. |
 | 014 | Single linked C source; no fragmented C ranges. |
 | 015 | Single linked C source; no fragmented C ranges. |
@@ -69,7 +69,7 @@ intervening function matches. Unmatched attempts are tracked in
 | 153 | Single linked C source; no fragmented C ranges. |
 | 162 | Six adjacent title, menu, start, boot, delete-save, and interrupt sources preserve process boundaries. |
 | 164 | Single linked C source; no fragmented C ranges. |
-| 167 | Battle handlers, ability handlers, and accessors preserve their owners. A continuous 22-source ability-handler chain and the raw/base stat range are consolidated; many other related C ranges still have intervening assembly. |
+| 167 | Battle handlers, ability handlers, and accessors preserve their owners. Continuous 22-source and seven-source ability-handler chains and the raw/base stat range are consolidated; many other related C ranges still have intervening assembly. |
 | 284 | Adjacent evolution demo sources preserve graphics, view, and effect ownership; `ShinkaDemoPieces_Move` is nonmatching. |
 | 294 | Eight adjacent intro process and graphics sources preserve their separate ownership. |
 

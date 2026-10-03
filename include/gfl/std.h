@@ -15,6 +15,7 @@ s32 GFL_STD_MemCmp(const void *a, const void *b, u32 size);
 
 // A failed assertion. The game's are built without the file and line, and keep the expression
 void GFL_DebugAssertFail(const char *file, u32 line, const char *expression);
+void GFL_DebugAssertFailEx(const char *file, u32 line, const char *function, u32 value, u32 end);
 #define GFL_ASSERT(expression)                              \
     do {                                                    \
         if (!(expression)) {                                \

@@ -3,25 +3,12 @@
 #include "field/field_script_plugin.h"
 #include "field/field_script_event.h"
 #include "field/field_script_supervisor.h"
+#include "field/zone.h"
+#include "gfl/std.h"
 #include "save/event_work.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
 #include "system/vm.h"
-
-struct GlobalScriptEntry {
-    u16 start;
-    u16 end;
-    u16 fileId;
-    u16 msgArcId;
-    u16 msgFileNo;
-};
-
-extern const struct GlobalScriptEntry GLOBAL_SCRIPT_TABLE[60];
-extern const char data_ov012_0216e1a0[];
-extern const char data_ov012_0216e1a4[];
-void GFL_DebugAssertFailEx(const char *file, u32 line, const char *function, u32 value, u32 end);
-u16 ZoneData_GetScriptDatID(u16 zoneId);
-u16 ZoneData_GetTextDatID(u16 zoneId);
 
 void FieldScript_ResetMapLocalEvents(EventWork *eventWork) {
     EventWork_FlagResetRange(eventWork, 0, 0x63);
@@ -228,7 +215,7 @@ u32 FieldScript_ResolveSCRID(u32 zoneId, u16 scriptId, u16 *fileId, u16 *msgArcI
     u32 i;
     u16 zoneScriptFile;
     u16 zoneTextFile;
-    register const struct GlobalScriptEntry *table;
+    register const GlobalScriptEntry *table;
 
     table = GLOBAL_SCRIPT_TABLE;
     for (i = 0; i < 60; i++) {
