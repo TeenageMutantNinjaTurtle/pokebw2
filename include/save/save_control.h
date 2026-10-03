@@ -25,6 +25,7 @@ void TrainerGameInfo_SetPalParkHighScore(TrainerGameInfoSave *info, u32 score);
 u8 TrainerGameInfo_GetPalParkResult(TrainerGameInfoSave *info);
 void TrainerGameInfo_SetPalParkResult(TrainerGameInfoSave *info, u8 result);
 u32 getCash(TrainerGameInfoSave *info);
+void addCashToTotal(TrainerGameInfoSave *info, u32 amount);
 // Stops at 0
 void subCashFromTotal(TrainerGameInfoSave *info, u32 amount);
 

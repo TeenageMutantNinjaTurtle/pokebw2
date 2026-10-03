@@ -5,11 +5,13 @@
 #include "struct_decls.h"
 
 struct BattleHandler {
-    u8 unk00[4];
+    BtlServerFlow *serverFlow;
     BtlMainModule *mainModule;
     BtlPokeCon *pokeCon;
     void *display;
-    u8 unk10[0x498];
+    u8 unk10[4];
+    u32 unk14;
+    u8 unk18[0x490];
     BattleMoveEffectState *moveEffect;
     u8 unk4ac[0x2fd];
     u8 unk7a9[0x15cf];
@@ -53,6 +55,10 @@ BOOL BattleHandler_SetCounter(BattleHandler *handler, BattleHandlerSetCounterPar
 BOOL BattleHandler_CheckHeldItem(BattleHandler *handler, BattleHandlerCheckHeldItemParam *param);
 BOOL BattleHandler_UseHeldItem(BattleHandler *handler, BattleHandlerUseHeldItemParam *param);
 BOOL BattleHandler_ConsumeItem(BattleHandler *handler, BattleHandlerConsumeItemParam *param);
+BOOL BattleHandler_QuitBattle(BattleHandler *handler, BattleHandlerQuitBattleParam *param);
+BOOL BattleHandler_Switch(BattleHandler *handler, BattleHandlerSwitchParam *param);
+BOOL BattleHandler_AddFieldEffect(BattleHandler *handler, BattleHandlerAddFieldEffectParam *param);
+BOOL BattleHandler_RemoveFieldEffect(BattleHandler *handler, BattleHandlerRemoveFieldEffectParam *param);
 
 BOOL BattleHandler_SetMoveEffectIndex(BattleHandler *handler, BattleHandlerMoveEffectParam *param);
 BOOL BattleHandler_SetMoveEffectEnable(BattleHandler *handler);

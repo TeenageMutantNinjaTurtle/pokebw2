@@ -235,3 +235,15 @@ src/ov167/battle_handler_use_held_item.c:
 src/ov167/battle_handler_consume_item.c:
     complete
     .text       start:0x021ada4c end:0x021ada8c
+
+src/ov167/battle_handler_quit_battle.c:
+    complete
+    .text       start:0x021adca8 end:0x021adcd8
+
+src/ov167/battle_handler_switch.c:
+    complete
+    .text       start:0x021adcd8 end:0x021add50
+
+src/ov167/battle_handler_field_effect.c:
+    complete
+    .text       start:0x021ad418 end:0x021ad464

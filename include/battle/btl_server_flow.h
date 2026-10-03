@@ -27,5 +27,12 @@ void ServerControl_SetMonCounter(BattleHandler *handler, BattleMon *mon, u8 coun
 void ServerControl_CheckItemReaction(BattleHandler *handler, BattleMon *mon, u32 reaction);
 void ServerControl_ChangeHeldItem(BattleHandler *handler, BattleMon *mon, u8 item, u8 flag);
 BOOL ServerControl_UseHeldItem(BattleHandler *handler, BattleMon *mon);
+BOOL ServerControl_EscapeSub(BattleHandler *handler, BattleMon *mon, u32 flag);
+BOOL ServerControl_CheckMatchup(BattleHandler *handler);
+BOOL func_ov167_021abeb4(BattleHandler *handler, u8 monIndex);
+BOOL ServerControl_SwitchOut(BattleHandler *handler, BattleMon *mon, u8 flag);
+void RequestChangePokemon(BtlServerFlow *serverFlow, u8 pos);
+BOOL ServerControl_FieldEffectCore(BattleHandler *handler, u32 effect, BattleCondition value, u8 duration);
+void ServerControl_FieldEffectEnd(BattleHandler *handler, u32 effect);
 
 #endif // POKEBW2_BATTLE_BTL_SERVER_FLOW_H

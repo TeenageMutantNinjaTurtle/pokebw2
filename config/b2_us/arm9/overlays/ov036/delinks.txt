@@ -88,3 +88,23 @@ src/ov036/field_palace_lifecycle.c:
 src/ov036/field_palace_create.c:
     complete
     .text       start:0x021c81f4 end:0x021c822c
+
+src/ov036/field_lens_flare_data_entry.c:
+    complete
+    .text       start:0x021c8910 end:0x021c891c
+
+src/ov036/field_lens_flare_data_find.c:
+    complete
+    .text       start:0x021c891c end:0x021c8954
+
+src/ov036/field_lens_flare_data_effect.c:
+    complete
+    .text       start:0x021c886c end:0x021c88a0
+
+src/ov036/field_lens_flare_data_lifecycle.c:
+    complete
+    .text       start:0x021c8808 end:0x021c8848
+
+src/ov036/field_lens_flare_effect_set.c:
+    complete
+    .text       start:0x021c8848 end:0x021c8860

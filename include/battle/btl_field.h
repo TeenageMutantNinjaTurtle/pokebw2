@@ -6,5 +6,6 @@
 // The weather and field effects of the battle in progress
 u32 GetFieldWeather(void);
 u32 IsFieldEffectActive(u32 fieldEffect);
+BOOL FieldStatusRemoveEffect(u32 effect);
 
 #endif // POKEBW2_BATTLE_BTL_FIELD_H

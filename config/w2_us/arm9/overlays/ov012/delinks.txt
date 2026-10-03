@@ -332,6 +332,10 @@ src/ov012/field_script_cmd_party_forme.c:
     complete
     .text       start:0x02156e14 end:0x02156eb8
 
+src/ov012/field_script_cmd_move_reminder.c:
+    complete
+    .text       start:0x02156eb8 end:0x02156f00
+
 src/ov012/field_script_cmd_party_met_date.c:
     complete
     .text       start:0x02156f48 end:0x02156fb4
@@ -343,3 +347,7 @@ src/ov012/field_script_cmd_party_set_iv.c:
 src/ov012/field_script_cmd_party_get_param.c:
     complete
     .text       start:0x0215701c end:0x02157064
+
+src/ov012/field_script_cmd_money.c:
+    complete
+    .text       start:0x02157450 end:0x021574e4
