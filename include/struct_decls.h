@@ -162,7 +162,6 @@ typedef struct FieldCamera FieldCamera;
 typedef struct FieldChunk FieldChunk;
 typedef struct FieldChunkPropHolder FieldChunkPropHolder;
 typedef struct FieldExpObjAnm FieldExpObjAnm;
-typedef struct FieldExpObjGimmickWork FieldExpObjGimmickWork;
 typedef struct FieldExpObjSystem FieldExpObjSystem;
 typedef struct FieldFog FieldFog;
 typedef struct FieldLensFlare FieldLensFlare;

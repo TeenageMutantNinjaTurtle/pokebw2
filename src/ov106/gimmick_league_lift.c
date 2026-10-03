@@ -1,20 +1,40 @@
+#include "types.h"
 #include "field/field.h"
 #include "field/field_exp_obj.h"
-#include "field/field_exp_obj_gimmick.h"
+#include "field/gimmick_league_lift.h"
+#include "gfl/g3d.h"
+#include "nitro/fx.h"
+
+typedef struct {
+    u16 heapId;
+} GimmickWork;
+
+void func_ov106_021eecd4(Field *field);
+void func_ov106_021eed04(Field *field);
+BOOL func_ov106_021eed18(Field *field);
+void func_ov106_021eed48(Field *field);
+void func_ov106_021eed78(Field *field);
+BOOL func_ov106_021eedc8(Field *field);
+void func_ov106_021eedfc(GimmickWork *work, Field *field);
+void func_ov106_021eee50(GimmickWork *work, Field *field);
+void func_ov106_021eee54(GimmickWork *work, Field *field);
+
+extern const G3DSceneSetup data_ov106_021eee64;
+extern const VecFx32 data_ov106_021eee74[2];
 
 void func_ov106_021eec80(Field *field) {
     u16 heapId;
-    FieldExpObjGimmickWork *work;
+    GimmickWork *work;
 
     heapId = Field_GetHeapID(field);
-    work = Field_AllocGimmickWorkBlock(field, 1, heapId, sizeof(FieldExpObjGimmickWork));
+    work = Field_AllocGimmickWorkBlock(field, 1, heapId, sizeof(GimmickWork));
     work->heapId = heapId;
     func_ov106_021eedfc(work, field);
     func_ov106_021eee50(work, field);
 }
 
 void func_ov106_021eecac(Field *field) {
-    FieldExpObjGimmickWork *work;
+    GimmickWork *work;
 
     work = Field_GetGimmickWorkBlock(field, 1);
     func_ov106_021eee54(work, field);
@@ -97,7 +117,7 @@ BOOL func_ov106_021eedc8(Field *field) {
     return TRUE;
 }
 
-void func_ov106_021eedfc(FieldExpObjGimmickWork *work, Field *field) {
+void func_ov106_021eedfc(GimmickWork *work, Field *field) {
     FieldExpObjSystem *system;
     SRTMatrix *matrix;
     s32 i;
@@ -114,8 +134,8 @@ void func_ov106_021eedfc(FieldExpObjGimmickWork *work, Field *field) {
     func_ov106_021eed48(field);
 }
 
-void func_ov106_021eee50(FieldExpObjGimmickWork *work, Field *field) {
+void func_ov106_021eee50(GimmickWork *work, Field *field) {
 }
 
-void func_ov106_021eee54(FieldExpObjGimmickWork *work, Field *field) {
+void func_ov106_021eee54(GimmickWork *work, Field *field) {
 }

@@ -1,23 +1,37 @@
+#include "types.h"
 #include "field/field.h"
 #include "field/field_exp_obj.h"
-#include "field/field_exp_obj_gimmick.h"
+#include "field/gimmick_league_statue.h"
+#include "gfl/g3d.h"
+#include "nitro/fx.h"
 #include "save/event_work.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
 
+typedef struct {
+    u16 heapId;
+} GimmickWork;
+
+void func_ov105_021eecd4(GimmickWork *work, Field *field);
+void func_ov105_021eee24(GimmickWork *work, Field *field);
+void func_ov105_021eee28(GimmickWork *work, Field *field);
+
+extern const G3DSceneSetup data_ov105_021eee54;
+extern const VecFx32 data_ov105_021eee64[6];
+
 void func_ov105_021eec80(Field *field) {
     u16 heapId;
-    FieldExpObjGimmickWork *work;
+    GimmickWork *work;
 
     heapId = Field_GetHeapID(field);
-    work = Field_AllocGimmickWorkBlock(field, 0, heapId, sizeof(FieldExpObjGimmickWork));
+    work = Field_AllocGimmickWorkBlock(field, 0, heapId, sizeof(GimmickWork));
     work->heapId = heapId;
     func_ov105_021eecd4(work, field);
     func_ov105_021eee24(work, field);
 }
 
 void func_ov105_021eecac(Field *field) {
-    FieldExpObjGimmickWork *work;
+    GimmickWork *work;
 
     work = Field_GetGimmickWorkBlock(field, 0);
     func_ov105_021eee28(work, field);
@@ -28,7 +42,7 @@ void func_ov105_021eecc8(Field *field) {
     FieldExpObj_StepAllAnimations(Field_GetExpObjSystem(field));
 }
 
-void func_ov105_021eecd4(FieldExpObjGimmickWork *work, Field *field) {
+void func_ov105_021eecd4(GimmickWork *work, Field *field) {
     EventWork *eventWork;
     FieldExpObjSystem *system;
     SRTMatrix *matrix;
@@ -74,8 +88,8 @@ void func_ov105_021eecd4(FieldExpObjGimmickWork *work, Field *field) {
     }
 }
 
-void func_ov105_021eee24(FieldExpObjGimmickWork *work, Field *field) {
+void func_ov105_021eee24(GimmickWork *work, Field *field) {
 }
 
-void func_ov105_021eee28(FieldExpObjGimmickWork *work, Field *field) {
+void func_ov105_021eee28(GimmickWork *work, Field *field) {
 }
