@@ -500,8 +500,11 @@ Names that swan lacks are ours, and are recorded in `config/names.txt` by module
 
 Keep code for one feature together when its original ranges allow it. Split a feature into more source files when
 other functions or data interrupt those ranges in `delinks.txt`; each file should then cover an explicit original
-range. After moving declarations or layouts, build both versions and check their ROM hashes, since a successful
-compile alone does not establish a byte match.
+range. Original source names embedded in an overlay and the data used by each process help identify boundaries;
+adjacent code addresses alone do not. A delink entry without `complete` still links the original assembly for its
+whole range, so matching C on either side of an unmatched function needs separate complete ranges until the full
+source matches. After moving declarations or layouts, build both versions and check their ROM hashes, since a
+successful compile alone does not establish a byte match.
 
 `ninja format` formats `src/` and `include/` with clang-format, using `.clang-format`. `compile_flags.txt` makes
 clangd check the code as 32-bit ARM.

@@ -504,13 +504,21 @@ src/ov167/battle_ability_status_recovery.c:
     complete
     .text       start:0x021bf2d0 end:0x021bf40c
 
-src/ov167/battle_ability_damage_luck.c:
+src/ov167/battle_ability_critical_hit_guards.c:
     complete
-    .text       start:0x021bf40c end:0x021bf4f4
+    .text       start:0x021bf40c end:0x021bf460
 
-src/ov167/battle_ability_move_guards.c:
+src/ov167/battle_ability_anger_point.c:
     complete
-    .text       start:0x021bf964 end:0x021bf9b8
+    .text       start:0x021bf460 end:0x021bf4f4
+
+src/ov167/battle_ability_move_modifiers.c:
+    complete
+    .text       start:0x021bf964 end:0x021bf9ac
+
+src/ov167/battle_ability_trace_event.c:
+    complete
+    .text       start:0x021bf9ac end:0x021bf9b8
 
 src/ov167/battle_ability_natural_cure.c:
     complete
@@ -604,6 +612,10 @@ src/ov167/battle_ability_steadfast.c:
     complete
     .text       start:0x021bdf04 end:0x021bdf58
 
-src/ov167/battle_ability_regenerator_big_pecks.c:
+src/ov167/battle_ability_regenerator_event.c:
     complete
-    .text       start:0x021c1e54 end:0x021c1e8c
+    .text       start:0x021c1e54 end:0x021c1e60
+
+src/ov167/battle_ability_big_pecks.c:
+    complete
+    .text       start:0x021c1e60 end:0x021c1e8c

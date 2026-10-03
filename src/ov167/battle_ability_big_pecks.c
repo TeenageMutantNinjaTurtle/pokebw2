@@ -1,11 +1,6 @@
 #include "battle/btl_ability.h"
 
 // Function names from swan.
-const BattleEventHandlerEntry *EventAddRegenerator(u32 *priority) {
-    *priority = 1;
-    return data_ov167_021d7784;
-}
-
 const BattleEventHandlerEntry *EventAddBigPecks(u32 *priority) {
     *priority = 2;
     return data_ov167_021d79c4;

@@ -36,3 +36,6 @@ void EventFieldTrade_DebugLogPkm(PartyPkm *pkm) {
     PokeParty_GetParam(pkm, 0x9e, NULL);
     PokeParty_GetParam(pkm, 0x95, NULL);
 }
+
+void func_ov033_0217a864(void *param) {
+}

@@ -34,7 +34,7 @@ src/ov033/event_dendou_machine.c:
 
 src/ov033/event_field_trade_debug.c:
     complete
-    .text       start:0x0217a714 end:0x0217a864
+    .text       start:0x0217a714 end:0x0217a868
 
 src/ov033/field_move_scripts.c:
     complete

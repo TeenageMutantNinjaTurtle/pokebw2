@@ -24,8 +24,3 @@ const BattleEventHandlerEntry *EventAddNormalize(u32 *priority) {
     *priority = 1;
     return data_ov167_021d7884;
 }
-
-const BattleEventHandlerEntry *EventAddTrace(u32 *priority) {
-    *priority = 1;
-    return data_ov167_021d787c;
-}
