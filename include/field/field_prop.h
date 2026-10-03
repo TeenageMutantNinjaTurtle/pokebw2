@@ -139,6 +139,8 @@ void FieldPropSystem_UpdateResInstance(FieldPropSystem *system, void *instance);
 void FieldPropSystem_Update(FieldPropSystem *system);
 void FieldPropSystem_DrawAllHandles(FieldPropSystem *system);
 void FieldPropSystem_UnlinkChunk(FieldPropSystem *system, void *chunk);
+void FieldPropSystem_InstantiateFromInfo(FieldPropSystem *system, void *chunk, const FieldPropSourceInfo *info,
+                                         u32 propIndex);
 void FieldPropSystem_FreeResInstances(FieldPropSystem *system, void *resourceState);
 void FieldPropSystem_FreeResources(FieldPropSystem *system);
 void FieldPropSystem_Free(FieldPropSystem *system);

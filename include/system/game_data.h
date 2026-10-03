@@ -70,6 +70,7 @@ PartyPkm *GameData_MakeBoxPkm(GameData *gameData, BoxPkmCreateParams *params);
 // Whether a full day has passed since the last check
 BOOL checkForMidnight(GameData *gameData);
 SaveControl *GameData_GetSaveControl(GameData *gameData);
+void *func_02017670(GameData *gameData);
 SaveControl *GameData_GetSaveControl_(GameData *gameData);
 void *func_020174d4(GameData *gameData);
 DreamWorldSave *func_020179e4(GameData *gameData);

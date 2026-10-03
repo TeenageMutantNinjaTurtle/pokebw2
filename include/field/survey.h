@@ -23,8 +23,13 @@ struct SurveyProbabilityEntry {
 
 struct SurveyTextWork {
     HeapID heapId;
-    u8 unused[0x16];
+    u8 unused02[6];
+    GameData *gameData;
+    u8 unused0c[4];
+    void *msgBGSys;
+    void *window;
     MsgData *message;
+    WordSet *wordSet;
 };
 
 extern const SurveyProbabilityEntry data_ov027_02170e40[];
@@ -40,6 +45,15 @@ void probabilityLoop(SurveyProbabilityState *state);
 void insideProbabilityLoop(SurveyProbabilityState *state, u32 selection);
 void getSurveyText(SurveyTextWork *work);
 void func_ov027_021708d0(SurveyTextWork *work);
+void func_ov027_021708e0(SurveyTextWork *work);
+void func_ov027_02170934(SurveyTextWork *work);
+void func_ov027_02170944(SurveyTextWork *work);
+void func_ov027_02170954(SurveyTextWork *work);
+void func_ov027_02170964(SurveyTextWork *work);
+void func_ov027_02170a1c(SurveyTextWork *work);
+u32 func_ov027_02170a38(SurveyTextWork *work);
+u32 func_ov027_02170a4c(SurveyTextWork *work);
+u32 func_ov027_02170a60(SurveyTextWork *work);
 void func_0202d0d8(u8 value);
 BOOL func_ov027_021703a8(VM *vm, FieldScriptEnv *env);
 BOOL func_ov027_021703dc(VM *vm, FieldScriptEnv *env);

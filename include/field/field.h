@@ -34,6 +34,8 @@ void CalcMsgWindowDimensions(void *msgBGSys, StrBuf *strbuf, u8 *width, u8 *heig
 // Shows a message as a balloon of an index in the field's message BG, and removes it
 void func_ov036_02188dfc(void *msgBGSys, StrBuf *strbuf, u16 index, u8 x, u8 y, u8 width, u8 a6, u32 a7);
 void func_ov036_02188e90(void *msgBGSys, u16 index);
+// The money window of the field's message BG
+void *FieldMsgBG_CreateMoneyWin(void *msgBGSys, u32 a1, u16 a2, u16 a3, u16 a4, u16 a5);
 // The font of the field's message BG
 Font *func_ov036_0218799c(void *msgBGSys);
 // Turns on or off the alpha blending of the field's message BG
@@ -45,6 +47,8 @@ void *func_ov036_021880d4(void *msgBGSys, u32 a1);
 void func_ov036_02187c1c(void *window);
 BOOL func_ov036_02187c70(void *window);
 void func_ov036_02187c7c(void *window);
+// Prints a string in the window at a position
+void func_ov036_02187c4c(void *window, u16 x, u16 y, StrBuf *strbuf);
 BmpWin *func_ov036_02187c9c(void *window);
 GameEvent *func_ov036_021bfa68(u16 a0, GameSystem *gsys, u32 a2, u16 a3);
 // Check the party and the Battle Box against a regulation. func_ov036_021aebf0 returns the event that lets the player

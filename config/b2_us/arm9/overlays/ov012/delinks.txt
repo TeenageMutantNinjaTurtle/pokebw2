@@ -267,6 +267,10 @@ src/ov012/item_use_block.c:
     complete
     .text       start:0x0215b3a8 end:0x0215b438
 
+src/ov012/shortcut_menu_callbacks.c:
+    complete
+    .text       start:0x0215b010 end:0x0215b3a8
+
 
 src/ov012/field_script_vm_core.c:
     complete

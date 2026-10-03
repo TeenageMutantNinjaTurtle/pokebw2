@@ -28,3 +28,32 @@ FestivalText *getTextFileForFestMissions(HeapID heapId) {
     text->message = GFL_MsgSysLoadData(FALSE, 2, 0x24, heapId);
     return text;
 }
+
+void func_ov027_02170b00(FestivalText *text) {
+    GFL_MsgDataFree(text->message);
+    GFL_ArcToolFree(text->archive);
+    GFL_HeapFree(text);
+}
+
+void *func_ov027_02170b18(ArcTool *arc, HeapID heapId) {
+    return GFL_ArcToolReadHeapNew(arc, 0, heapId);
+}
+
+void func_ov027_02170b24(ArcTool *arc, u8 index, void *dest) {
+    GFL_ArcToolReadRange(arc, 0, index * 4, 4, dest);
+    GFL_ArcToolReadRange(arc, 1, index * 40, 40, (u8 *)dest + 4);
+}
+
+void *func_ov027_02170b50(ArcTool *arc, HeapID heapId) {
+    s32 i;
+    u8 *data;
+    data = GFL_HeapAllocate(heapId, 0x974, TRUE, data_ov027_021711e0, 0x91);
+    for (i = 0; i < 0x37; i++) {
+        func_ov027_02170b24(arc, i, data + 0x2c * i);
+    }
+    return data;
+}
+
+void *func_ov027_02170b8c(FestivalText *text, HeapID heapId) {
+    return func_ov027_02170b50(text->archive, heapId);
+}

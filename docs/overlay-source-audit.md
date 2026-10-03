@@ -47,10 +47,10 @@ intervening function matches. Unmatched attempts are tracked in
 | 017 | Single linked C source; no fragmented C ranges. |
 | 018 | Single linked C source; no fragmented C ranges. |
 | 021 | Single linked C source; no fragmented C ranges. |
-| 027 | Two survey commands now extend their continuous command source back to `0x021703a8`; survey text load/free helpers also share a continuous source. The probability helper ends immediately before the commands but has separate ownership. The command at `0x021704e0` still blocks the matching reset helper at `0x02170580`; other survey and text ranges retain intervening assembly. |
+| 027 | Two survey commands extend their source back to `0x021703a8`; the survey text/UI lifecycle and trainer-card value helpers now form one 11-function source through `0x02170a74`, followed by a seven-function festival text/archive source through `0x02170b98`. The probability helper ends immediately before the commands but has separate ownership. The command at `0x021704e0` still blocks the matching reset helper at `0x02170580`; other survey ranges retain intervening assembly. |
 | 033 | Trade, Trial House, Battle Subway, and field-event ranges preserve process boundaries. The phrase-input process now spans its four formerly missing neighbors; adjacent trade and Trial House lifecycle fragments are consolidated. Several same-process fragments still have intervening assembly. |
 | 035 | Three adjacent event sources retain their separate process and data ownership; merging changes non-text section order. |
-| 036 | Prop and zone C ranges are grouped within continuous owners; the zone load/flag/constructor chain and the lens flare process/data helpers now each share one source. Remaining nearby fragments have intervening assembly, and the other adjacent C pairs cross subsystem boundaries. |
+| 036 | Prop and zone C ranges are grouped within continuous owners; the zone load/flag/constructor chain, prop chunk lifecycle helpers, and lens flare process/data helpers now each share one source. Remaining nearby fragments have intervening assembly, and the other adjacent C pairs cross subsystem boundaries. |
 | 059 | Adjacent Resort and medal script-command sources have separate ownership; two Resort functions still do not match. |
 | 060 | Single linked C source; no fragmented C ranges. |
 | 073 | Single linked C source; no fragmented C ranges. |

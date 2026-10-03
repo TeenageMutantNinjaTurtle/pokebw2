@@ -10,11 +10,11 @@ src/ov027/survey_probability.c:
 
 src/ov027/festival_text.c:
     complete
-    .text       start:0x02170a74 end:0x02170b00
+    .text       start:0x02170a74 end:0x02170b98
 
 src/ov027/survey_text.c:
     complete
-    .text       start:0x021708bc end:0x021708e0
+    .text       start:0x021708bc end:0x02170a74
 
 src/ov027/survey_commands.c:
     complete

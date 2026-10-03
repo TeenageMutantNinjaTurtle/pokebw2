@@ -7,7 +7,6 @@
 
 // Strings, and the word sets that fill the placeholders in messages
 
-typedef struct WordSet WordSet;
 
 StrBuf *GFL_StrBufCreate(u32 size, HeapID heapId);
 void GFL_StrBufFree(StrBuf *strbuf);
@@ -30,6 +29,7 @@ WordSet *GFL_WordSetSystemCreateDefault(HeapID heapId);
 // A word set of count words of up to length characters
 WordSet *GFL_WordSetSystemCreate(u32 count, u32 length, HeapID heapId);
 void GFL_WordSetSystemFree(WordSet *wordSet);
+void GFL_WordSetClearAll(WordSet *wordSet);
 void GFL_WordSetFormatStrbuf(WordSet *wordSet, StrBuf *dest, const StrBuf *src);
 void GFL_WordSetLoadStr(WordSet *wordSet, u32 index, const u16 *str);
 void WordSet_LoadSpeciesName(WordSet *wordSet, u32 index, u32 species);
