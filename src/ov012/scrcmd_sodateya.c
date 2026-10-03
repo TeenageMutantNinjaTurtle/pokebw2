@@ -1,7 +1,7 @@
 #include "types.h"
 #include "constants/pokemon.h"
 #include "constants/species.h"
-#include "field/day_care.h"
+#include "field/field_daycare.h"
 #include "field/field_script.h"
 #include "pml/poke_party.h"
 #include "save/box.h"

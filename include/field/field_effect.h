@@ -1,5 +1,5 @@
-#ifndef POKEBW2_FIELD_FIELD_EFFECTS_H
-#define POKEBW2_FIELD_FIELD_EFFECTS_H
+#ifndef POKEBW2_FIELD_FIELD_EFFECT_H
+#define POKEBW2_FIELD_FIELD_EFFECT_H
 
 // Function names from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
 
@@ -13,4 +13,4 @@ void func_ov036_021c6d14(void *effect);
 void func_ov036_021c6d3c(void *effect);
 void func_ov036_021c6cf8(void *effect);
 
-#endif // POKEBW2_FIELD_FIELD_EFFECTS_H
+#endif // POKEBW2_FIELD_FIELD_EFFECT_H

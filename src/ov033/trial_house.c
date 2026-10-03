@@ -1,7 +1,7 @@
 #include "types.h"
 #include "app/name_entry.h"
 #include "field/battle_facility.h"
-#include "field/field_effects.h"
+#include "field/field_effect.h"
 #include "field/trial_house.h"
 #include "gfl/heap.h"
 #include "gfl/input.h"

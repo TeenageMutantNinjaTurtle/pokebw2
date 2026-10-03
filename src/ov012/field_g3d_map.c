@@ -1,5 +1,5 @@
 #include "types.h"
-#include "field/field_chunk.h"
+#include "field/field_map_chunk.h"
 #include "gfl/g3d.h"
 #include "nitro/fx.h"
 

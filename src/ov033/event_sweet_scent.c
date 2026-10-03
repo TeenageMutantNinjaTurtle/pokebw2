@@ -4,7 +4,7 @@
 #include "field/event_wild_battle.h"
 #include "field/field.h"
 #include "field/field_actor.h"
-#include "field/field_display_control.h"
+#include "field/field_disp_control.h"
 #include "field/field_environment.h"
 #include "field/field_player.h"
 #include "field/field_script.h"

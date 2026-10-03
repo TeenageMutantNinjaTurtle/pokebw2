@@ -2,7 +2,7 @@
 #define POKEBW2_FIELD_FIELD_PROP_H
 
 #include "types.h"
-#include "field/field_chunk.h"
+#include "field/field_map_chunk.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
 

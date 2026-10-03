@@ -1,5 +1,5 @@
-#ifndef POKEBW2_FIELD_FIELD_CHUNK_H
-#define POKEBW2_FIELD_FIELD_CHUNK_H
+#ifndef POKEBW2_FIELD_FIELD_MAP_CHUNK_H
+#define POKEBW2_FIELD_FIELD_MAP_CHUNK_H
 
 #include "types.h"
 #include "gfl/g3d.h"
@@ -71,4 +71,4 @@ void FieldChunk_ResetStreamer(FieldChunk *chunk);
 void *FieldChunk_GetUsedTexRscCore(FieldChunk *chunk);
 void FieldChunk_LinkMdlTex(NNSG3dRenderObj *model, void *resource, void *texture);
 
-#endif // POKEBW2_FIELD_FIELD_CHUNK_H
+#endif // POKEBW2_FIELD_FIELD_MAP_CHUNK_H

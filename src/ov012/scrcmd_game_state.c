@@ -1,5 +1,5 @@
 #include "types.h"
-#include "battle/battle_result.h"
+#include "battle/btl_result.h"
 #include "field/event_battle_lose.h"
 #include "field/field.h"
 #include "field/field_actor.h"

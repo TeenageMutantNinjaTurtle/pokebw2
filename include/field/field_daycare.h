@@ -1,5 +1,5 @@
-#ifndef POKEBW2_FIELD_DAY_CARE_H
-#define POKEBW2_FIELD_DAY_CARE_H
+#ifndef POKEBW2_FIELD_FIELD_DAYCARE_H
+#define POKEBW2_FIELD_FIELD_DAYCARE_H
 
 #include "types.h"
 #include "struct_decls.h"
@@ -19,4 +19,4 @@ u32 DayCare_CalcLevelGain(DayCareSave *dayCare, u32 slot);
 u32 DayCare_CalcWithdrawCost(DayCareSave *dayCare, u32 slot);
 u32 getNameGenderStatus(PartyPkm *pkm);
 
-#endif // POKEBW2_FIELD_DAY_CARE_H
+#endif // POKEBW2_FIELD_FIELD_DAYCARE_H

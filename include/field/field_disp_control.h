@@ -1,5 +1,5 @@
-#ifndef POKEBW2_FIELD_FIELD_DISPLAY_CONTROL_H
-#define POKEBW2_FIELD_FIELD_DISPLAY_CONTROL_H
+#ifndef POKEBW2_FIELD_FIELD_DISP_CONTROL_H
+#define POKEBW2_FIELD_FIELD_DISP_CONTROL_H
 
 #include "types.h"
 #include "gfl/heap.h"
@@ -41,4 +41,4 @@ void FieldDispControl_ReqSetAllA(FieldDispControl *control, u32 alpha, u32 beta,
 void FieldDispControl_ReqSetAlphaB(FieldDispControl *control, u32 alpha, u32 beta, u32 planeMask, u32 complement);
 void FieldDispControl_ReqSetBGEnabled(FieldDispControl *control, u32 bgId, BOOL enabled);
 
-#endif // POKEBW2_FIELD_FIELD_DISPLAY_CONTROL_H
+#endif // POKEBW2_FIELD_FIELD_DISP_CONTROL_H

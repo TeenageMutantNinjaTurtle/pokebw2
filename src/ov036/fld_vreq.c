@@ -1,5 +1,5 @@
 #include "types.h"
-#include "field/field_display_control.h"
+#include "field/field_disp_control.h"
 #include "gfl/graphics.h"
 #include "gfl/heap.h"
 #include "gfl/std.h"
