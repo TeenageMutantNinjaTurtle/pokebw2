@@ -34,3 +34,7 @@ src/ov103/badge_gate_event_value.c:
 src/ov103/badge_gate_free.c:
     complete
     .text       start:0x021ef020 end:0x021ef050
+
+src/ov103/badge_gate_last_sound.c:
+    complete
+    .text       start:0x021ef61c end:0x021ef670

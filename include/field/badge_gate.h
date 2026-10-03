@@ -46,5 +46,6 @@ extern const u16 data_ov103_021ef854[];
 // Plays the last gate, after the eight badge gates, with the camera
 GameEvent *BadgeGate_CreateLastGateEvent(GameSystem *gsys);
 GameEventReturnCode BadgeGate_LastGateEvent(GameEvent *event, u32 *state, void *data);
+void func_ov103_021ef5dc(BadgeGateLastEventData *data);
 
 #endif // POKEBW2_FIELD_BADGE_GATE_H

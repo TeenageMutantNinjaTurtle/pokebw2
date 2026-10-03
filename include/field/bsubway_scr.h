@@ -100,6 +100,8 @@ GameEvent *func_ov012_0216657c(GameSystem *gsys, u16 a1, u16 a2);
 void func_ov012_0216763c(FieldActor *actor, BOOL a1);
 
 // Overlay 33's bsubway_scr.c
+extern const u8 data_ov033_0217c564[12];
+
 void func_ov033_0217b468(GameSystem *gsys);
 void func_ov033_0217b478(GameSystem *gsys, u16 a1, u16 a2);
 void func_ov033_0217b664(GameSystem *gsys, BSubwayScrWork *bsw);

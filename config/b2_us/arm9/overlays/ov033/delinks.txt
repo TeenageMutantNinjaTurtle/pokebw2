@@ -319,6 +319,10 @@ src/ov033/bsubway_scr_rank.c:
     complete
     .text       start:0x0217bca0 end:0x0217bcb4
 
+src/ov033/bsubway_scr_score_policy.c:
+    complete
+    .text       start:0x0217bcb4 end:0x0217bd34
+
 src/ov033/bsubway_scr_score.c:
     complete
     .text       start:0x0217bd34 end:0x0217bda8
