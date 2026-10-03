@@ -727,3 +727,19 @@ src/ov167/battle_ability_truant_state.c:
 src/ov167/battle_ability_truant_end.c:
     complete
     .text       start:0x021c0600 end:0x021c062c
+
+src/ov167/battle_ability_damp_end.c:
+    complete
+    .text       start:0x021c06d4 end:0x021c06ec
+
+src/ov167/battle_ability_mold_breaker_events.c:
+    complete
+    .text       start:0x021c09fc end:0x021c0a7c
+
+src/ov167/battle_ability_forecast_events.c:
+    complete
+    .text       start:0x021c0a7c end:0x021c0b20
+
+src/ov167/battle_ability_damp_start.c:
+    complete
+    .text       start:0x021c06bc end:0x021c06cc

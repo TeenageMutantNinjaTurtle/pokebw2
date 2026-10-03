@@ -358,3 +358,7 @@ src/ov033/bsubway_scr_team_generate.c:
 src/ov033/field_money_window_free.c:
     complete
     .text       start:0x02177a28 end:0x02177a60
+
+src/ov033/field_money_window_create.c:
+    complete
+    .text       start:0x02177998 end:0x02177a28

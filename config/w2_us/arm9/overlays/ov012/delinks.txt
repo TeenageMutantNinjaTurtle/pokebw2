@@ -704,3 +704,11 @@ src/ov012/get_trigger_center_pos.c:
 src/ov012/check_trigger_position_match_rail.c:
     complete
     .text       start:0x0215dab4 end:0x0215dafc
+
+src/ov012/check_trigger_position_match_xyz.c:
+    complete
+    .text       start:0x0215d9f8 end:0x0215da60
+
+src/ov012/check_trigger_position_match_xz.c:
+    complete
+    .text       start:0x0215da60 end:0x0215dab4

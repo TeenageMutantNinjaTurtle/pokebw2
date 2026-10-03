@@ -287,5 +287,21 @@ void HandlerTruant(void *context, BtlServerFlow *flow, u32 monId, u32 *state);
 void HandlerTruantGet(void *context, BtlServerFlow *flow, u32 monId, u32 *result);
 void HandlerTruantEndAction(void *context, BtlServerFlow *flow, u32 monId, u32 *result);
 const BattleEventHandlerEntry *EventAddTruant(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d7ca8[];
+BOOL func_ov167_021c09d0(void *a, void *b, u32 c);
+void HandlerMoldBreakerStart(BattleEventItem *item, BtlServerFlow *flow, u32 monId, u32 *active);
+void HandlerMoldBreakerEnd(BattleEventItem *item, BtlServerFlow *flow, u32 monId, u32 *active);
+void HandlerMoldBreakerConfirm(BattleEventItem *item, BtlServerFlow *flow, u32 monId, u32 *active);
+const BattleEventHandlerEntry *EventAddMoldBreaker(u32 *priority);
+void CommonForecastOff(void *context, BtlServerFlow *flow, u32 monId);
+void CommonForecastFormChange(BtlServerFlow *flow, u32 monId, u32 weather);
+void HandlerForecastMemberOnField(void *context, BtlServerFlow *flow, u32 monId, u32 *active);
+void HandlerForecastGetAbility(void *context, BtlServerFlow *flow, u32 monId, u32 *active);
+void HandlerForecastWeather(void *context, BtlServerFlow *flow, u32 monId, u32 *active);
+void HandlerForecastAirLock(void *context, BtlServerFlow *flow, u32 monId, u32 *active);
+void HandlerForecastChangeAbility(BattleEventItem *item, BtlServerFlow *flow, u32 monId, u32 *active);
+void HandlerDampEnd(BattleEventItem *item, BtlServerFlow *flow, u32 monId);
+BOOL HandlerDampSkipCheck(void *a, void *b, u32 c);
+void HandlerDampStart(BattleEventItem *item, BtlServerFlow *flow, u32 monId);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

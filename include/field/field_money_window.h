@@ -18,6 +18,7 @@ struct FieldMoneyWindow {
     u32 unk24;
 };
 
+FieldMoneyWindow *func_ov033_02177998(Field *field, u32 value, u32 lines);
 void func_ov033_02177a28(FieldMoneyWindow *work);
 
 #endif // POKEBW2_FIELD_FIELD_MONEY_WINDOW_H

@@ -140,6 +140,8 @@ void func_ov012_0215d88c(const ZoneBGEntity *entity, VecFx32 *position);
 void func_ov012_0215d8fc(const ZoneBGEntity *entity, RailPosition *position);
 void GetTriggerCenterPos_(const ZoneTrigger *trigger, VecFx32 *position);
 BOOL CheckTriggerPositionMatchRail(const ZoneTrigger *trigger, const RailPosition *position);
+BOOL CheckTriggerPositionMatchXYZ(const ZoneTrigger *trigger, const VecFx32 *position);
+BOOL CheckTriggerPositionMatchXZ(const ZoneTrigger *trigger, const VecFx32 *position);
 BOOL CheckWarpDirectionMatch(const ZoneWarp *warp, u16 direction);
 BOOL IsWarpZoneOrWarpID0xFFFF(const ZoneWarp *warp);
 void SetZoneWarpLocation(EventData *eventData, u16 warpId, u16 x, u16 y, u16 z);

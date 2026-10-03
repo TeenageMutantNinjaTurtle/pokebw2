@@ -345,3 +345,15 @@ src/ov036/field_prop_res_instance_stop_all.c:
 src/ov036/field_g3d_mapper_free_map_textures.c:
     complete
     .text       start:0x02184800 end:0x0218481c
+
+src/ov036/field_prop_anm_controller_static_init.c:
+    complete
+    .text       start:0x02183938 end:0x0218394c
+
+src/ov036/field_prop_anm_controller_ambient_init.c:
+    complete
+    .text       start:0x0218394c end:0x02183998
+
+src/ov036/field_prop_anm_controller_rtc_init.c:
+    complete
+    .text       start:0x02183998 end:0x021839e4

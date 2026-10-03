@@ -20,7 +20,9 @@ struct FieldPropAreaBounds {
 
 // Partial resource layouts inferred from the Swan-named overlay 36 helpers.
 struct FieldPropResAnmHeader {
-    u32 unk0;
+    u8 unk0[2];
+    u8 ambientAnimationCount;
+    u8 unk3;
     u32 animationIds[4];
 };
 
@@ -134,6 +136,9 @@ void FieldChunkPropHolder_SetVisible(FieldChunkPropHolder *holder, BOOL visible)
 void FieldChunkPropHolder_ChangeResID(FieldPropSystem *system, FieldChunkPropHolder *holder, u32 resId);
 void FieldPropRTCState_Init(FieldPropRTCState *state, u8 season);
 void FieldPropAnmController_Static_Update(void *controller);
+void FieldPropAnmController_Static_Init(FieldPropSystem *system, FieldPropResInstance *instance);
+void FieldPropAnmController_Ambient_Init(FieldPropSystem *system, FieldPropResInstance *instance);
+void FieldPropAnmController_RTC_Init(FieldPropSystem *system, FieldPropResInstance *instance);
 void FieldPropAnmController_Static_ExecCommand(void *controller, u32 command);
 void FieldPropAnmController_Ambient_Update(void *controller, void *instance);
 void FieldPropAnmController_RTC_Update(FieldPropSystem *system, FieldPropResInstance *instance);
