@@ -50,7 +50,7 @@ intervening function matches. Unmatched attempts are tracked in
 | 027 | Survey probability, command, and popularity C ranges have four intervening assembly functions. |
 | 033 | Trade, Trial House, Battle Subway, and field-event ranges preserve process boundaries; several same-process fragments still have intervening assembly. |
 | 035 | Three adjacent event sources retain their separate process and data ownership; merging changes non-text section order. |
-| 036 | Prop, zone, and lens-flare C ranges are grouped within continuous owners; remaining nearby fragments have intervening assembly. Adjacent C pairs cross subsystem boundaries. |
+| 036 | Prop, zone, and lens-flare data C ranges are grouped within continuous owners; remaining nearby fragments have intervening assembly. Adjacent C pairs cross subsystem boundaries. |
 | 059 | Adjacent Resort and medal script-command sources have separate ownership; two Resort functions still do not match. |
 | 060 | Single linked C source; no fragmented C ranges. |
 | 073 | Single linked C source; no fragmented C ranges. |
@@ -86,6 +86,11 @@ combine adjacent fragments within their original process and keep trade,
 Trial House, and Battle Subway separate. The helper at `0x0217b468` operates
 on Battle Subway state and begins that process, even though the `bsubway_scr.c`
 filename string is first referenced by the following function.
+The remaining Trial House assembly gaps are `0x0217ad78–0x0217adbc` and
+`0x0217b0b4–0x0217b2e4` in Black 2. The remaining Battle Subway gaps are
+`0x0217b478–0x0217b664`, `0x0217b8ec–0x0217bb20`,
+`0x0217bf04–0x0217c094`, and `0x0217c11c–0x0217c264`. C fragments on
+either side stay separate until the intervening assembly matches.
 
 The follow-up review found mixed process code in overlay 12's menu, event
 data, and zone/Pokédex sources; overlay 103's badge gate sources; and three
@@ -94,10 +99,10 @@ Overlay 33's final Battle Subway helper and trade debug stub and overlay 36's
 prop-holder release now sit with adjacent helpers from the same feature.
 File-private work layouts in overlays 103, 104, and 146 were moved to their
 owning C files. These changes were checked against both original ROMs.
-Later matches closed gaps in overlay 12's zone positioning, overlay 33's Unity
-Tower visitors, Trial House setup, and Battle Subway score handling, overlay
-36's prop sound check, and overlay 167's Damp, Truant, move-history, and
-Pokémon type-pair helpers. Their newly continuous ranges were combined within
-their owning features. Attempted translations for remaining assembly gaps are
-tracked in
+Later matches closed gaps in overlay 12's ScriptWork accessors and zone
+positioning; overlay 33's Unity Tower visitors, Trial House setup, and Battle
+Subway score handling; overlay 36's prop sound check and lens-flare count; and
+overlay 167's Damp, Truant, move-history, and Pokémon type-pair helpers. Their
+newly continuous ranges were combined within their owning features. Attempted
+translations for remaining assembly gaps are tracked in
 [nonmatching-functions.md](nonmatching-functions.md).

@@ -18,7 +18,7 @@ src/ov012/event_script_call_work.c:
 
 src/ov012/script_work_accessors.c:
     complete
-    .text       start:0x02153ea0 end:0x02153ed0
+    .text       start:0x02153ea0 end:0x02153f30
 
 src/ov012/script_work_extra_accessors.c:
     complete
@@ -245,9 +245,7 @@ src/ov012/field_script_supervisor.c:
     complete
     .text       start:0x02153708 end:0x021537e0
 
-src/ov012/script_work_helpers.c:
-    complete
-    .text       start:0x02153ed8 end:0x02153f30
+
 
 src/ov012/zone_warp_queries.c:
     complete

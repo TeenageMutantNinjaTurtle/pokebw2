@@ -1,4 +1,9 @@
 #include "field/field_lens_flare.h"
+#include "system/aeabi.h"
+
+u32 FieldLensFlareData_BytesToEntryCount(FieldLensFlareData *data) {
+    return __aeabi_uidivmod(data->byteCount, sizeof(FieldLensFlareEntry));
+}
 
 u16 FieldLensFlareData_GetLensFlareID(FieldLensFlareData *data, u32 effectSet, u32 index) {
     return data_ov036_021d4768[effectSet][index];

@@ -208,3 +208,24 @@ void func_ov033_0217be2c(BSubwayScrWork *bsw, SaveControl *save, u32 a2, u32 a3)
         return;
     }
 }
+
+void func_ov033_0217be88(BSubwayScrWork *bsw, u8 variant) {
+    u32 base;
+    s32 index;
+    u8 result;
+    u32 second;
+    u32 first;
+
+    base = 0x12c;
+    if (variant != 0) {
+        base += 3;
+    }
+    first = (u32)bsw->unk22;
+    second = (u32)&bsw->unk22[4];
+    for (index = 0; index < 3; index++) {
+        result = (u32)func_ov033_0217c264(bsw, bsw->unk2C8 + 0x120 * index, base + index, bsw->unk0[8],
+                                            first, second, (u32)(bsw->unk628 + 0x14 * index),
+                                            *(u32 *)&bsw->unk0[4]);
+        bsw->unk664[index] = result;
+    }
+}

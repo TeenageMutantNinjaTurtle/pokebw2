@@ -157,7 +157,7 @@ src/ov033/subway_work.c:
 
 src/ov033/bsubway_scr.c:
     complete
-    .text       start:0x0217bb20 end:0x0217be88
+    .text       start:0x0217bb20 end:0x0217bf04
 
 src/ov033/subway_setup.c:
     complete

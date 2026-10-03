@@ -116,7 +116,7 @@ src/ov036/field_lens_flare.c:
 
 src/ov036/field_lens_flare_data.c:
     complete
-    .text       start:0x021c88a4 end:0x021c898c
+    .text       start:0x021c8898 end:0x021c898c
 
 src/ov036/field_unity_tower_script.c:
     complete

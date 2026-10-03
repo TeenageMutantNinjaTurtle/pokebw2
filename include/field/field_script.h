@@ -329,6 +329,8 @@ BOOL FieldScriptEnv_CheckAcmdQueueRunning(FieldScriptEnv *env);
 GameSystem *ScriptWork_GetGameSystem(ScriptWork *work);
 StrBuf *ScriptWork_GetMainStrBuf(ScriptWork *work);
 StrBuf *ScriptWork_GetAltStrBuf(ScriptWork *work);
+void func_ov012_02153ed0(ScriptWork *work, void *value);
+void *func_ov012_02153ed4(ScriptWork *work);
 FieldActor *ScriptWork_GetParentActor(ScriptWork *work);
 void ScriptWork_SetParentActor(ScriptWork *work, FieldActor *actor);
 // A pointer that a command can keep its own work in while the script waits
