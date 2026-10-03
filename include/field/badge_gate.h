@@ -26,14 +26,6 @@ struct BadgeGateAnimationEntry {
     FieldExpObjSystem *expObj;
 };
 
-struct BadgeGateCheckEventData {
-    BadgeGateWork *gimmickWork;
-    u16 badge;
-    u16 padding;
-    u32 state;
-    u8 unk0c[0x10];
-};
-
 struct BadgeGateLastEventData {
     BadgeGateWork *gimmickWork;
     FieldCamera *camera;

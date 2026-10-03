@@ -6,12 +6,6 @@
 #include "types.h"
 #include "system/game_event.h"
 
-struct EncounterCutinWork {
-    s32 state;
-    u32 selection;
-    u32 param;
-};
-
 GameEvent *EventFieldEffect_CreateBattleCutin(GameSystem *gsys, void *field3d, u32 selection, u32 param);
 
 GameEvent *EventEncountEffectCutin_Create(GameSystem *gsys, u32 unused, u32 selection, u32 param);

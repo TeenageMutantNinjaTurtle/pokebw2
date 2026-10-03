@@ -33,3 +33,19 @@ Review of the 29 overlays changed since `142e443` continues against the
 earlier process and subsystem boundaries, including owning headers, private
 struct layouts, original data placement, and exact B2/W2 ROM hashes. Unmatched
 functions remain tracked in [nonmatching-functions.md](nonmatching-functions.md).
+
+Overlay 33 embeds the original names `fld_trade.c`, `trial_house.c`, and
+`bsubway_scr.c`. Its current trade, Trial House, and Battle Subway source
+fragments are separate complete delink ranges around functions still linked
+from assembly. A range without `complete` links its original assembly as a
+whole, even if some functions in the corresponding C file match. As the gaps
+are translated, combine adjacent fragments within their original process and
+keep trade, Trial House, and Battle Subway separate.
+
+The follow-up review found mixed process code in overlay 12's menu, event
+data, and zone/Pokédex sources; overlay 103's badge gate sources; and three
+battle ability sources in overlay 167. Their process boundaries were restored.
+Overlay 33's final Battle Subway helper and trade debug stub and overlay 36's
+prop-holder release now sit with adjacent helpers from the same feature.
+File-private work layouts in overlays 103, 104, and 146 were moved to their
+owning C files. These changes were checked against both original ROMs.

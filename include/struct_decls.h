@@ -159,6 +159,8 @@ typedef struct FieldCamera FieldCamera;
 typedef struct FieldChunk FieldChunk;
 typedef struct FieldChunkPropHolder FieldChunkPropHolder;
 typedef struct FieldExpObjAnm FieldExpObjAnm;
+typedef struct FieldExpObjGimmickOv104GateEventData FieldExpObjGimmickOv104GateEventData;
+typedef struct FieldExpObjGimmickOv104SaveData FieldExpObjGimmickOv104SaveData;
 typedef struct FieldExpObjGimmickOv104StateInit FieldExpObjGimmickOv104StateInit;
 typedef struct FieldExpObjGimmickOv104State FieldExpObjGimmickOv104State;
 typedef struct FieldExpObjGimmickOv104Work FieldExpObjGimmickOv104Work;

@@ -2,6 +2,13 @@
 #include "gfl/arc.h"
 #include "system/version.h"
 
+struct FieldExpObjGimmickOv104GateEventData {
+    GameSystem *gameSystem;
+    Field *field;
+    u16 id;
+    u8 padding[0x16];
+};
+
 GameEvent *func_ov104_021f02fc(GameSystem *gsys, Field *field, u32 id) {
     GameEvent *event;
     struct FieldExpObjGimmickOv104GateEventData *data;

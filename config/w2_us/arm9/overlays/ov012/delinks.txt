@@ -278,9 +278,13 @@ src/ov012/field_script_vm_commands.c:
     complete
     .text       start:0x021545c4 end:0x02154988
 
-src/ov012/field_script_cmd_zone_pokedex.c:
+src/ov012/field_script_cmd_zone_map.c:
     complete
-    .text       start:0x02155920 end:0x02155c2c
+    .text       start:0x02155920 end:0x02155ad0
+
+src/ov012/field_script_cmd_pokedex.c:
+    complete
+    .text       start:0x02155ad0 end:0x02155c2c
 
 src/ov012/hidden_event.c:
     complete
@@ -299,13 +303,21 @@ src/ov012/event_field_menu.c:
     complete
     .text       start:0x0215a7e4 end:0x0215a8b4
 
-src/ov012/field_menu_shortcut.c:
+src/ov012/field_menu_table.c:
     complete
-    .text       start:0x0215aaa8 end:0x0215ab38
+    .text       start:0x0215aaa8 end:0x0215ab18
+
+src/ov012/shortcut_menu_check.c:
+    complete
+    .text       start:0x0215ab18 end:0x0215ab38
+
+src/ov012/event_data_clear.c:
+    complete
+    .text       start:0x0215cf44 end:0x0215cf74
 
 src/ov012/event_data_warp.c:
     complete
-    .text       start:0x0215cf44 end:0x0215d090
+    .text       start:0x0215cf74 end:0x0215d090
 
 src/ov012/zone_warp_out.c:
     complete

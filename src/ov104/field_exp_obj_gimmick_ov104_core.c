@@ -12,6 +12,23 @@
 #include "system/game_system.h"
 #include "system/version.h"
 
+struct FieldExpObjGimmickOv104SaveData {
+    u32 value;
+    u32 stateValue;
+    u16 flag;
+    u16 padding;
+    struct FieldExpObjGimmickOv104Payload payload;
+};
+
+struct FieldExpObjGimmickOv104StateInit {
+    u16 heapId;
+    u8 a;
+    u8 b;
+    u8 c;
+    u8 padding[3];
+    G3DActor *actor;
+};
+
 void func_ov104_021eed00(Field *field) {
     FieldExpObjGimmickOv104Work *work;
 

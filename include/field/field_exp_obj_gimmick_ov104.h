@@ -51,33 +51,9 @@ struct FieldExpObjGimmickOv104Message {
     fx32 duration;
 };
 
-struct FieldExpObjGimmickOv104GateEventData {
-    GameSystem *gameSystem;
-    Field *field;
-    u16 id;
-    u8 padding[0x16];
-};
-
 struct FieldExpObjGimmickOv104ZoneList {
     u16 zones[4];
     u8 weather[4];
-};
-
-struct FieldExpObjGimmickOv104SaveData {
-    u32 value;
-    u32 stateValue;
-    u16 flag;
-    u16 padding;
-    struct FieldExpObjGimmickOv104Payload payload;
-};
-
-struct FieldExpObjGimmickOv104StateInit {
-    u16 heapId;
-    u8 a;
-    u8 b;
-    u8 c;
-    u8 padding[3];
-    G3DActor *actor;
 };
 
 struct FieldExpObjGimmickOv104State {
@@ -165,7 +141,6 @@ GameEventReturnCode func_ov104_021f0160(GameEvent *event, u32 *state, void *data
 BOOL func_ov104_021f0324(struct FieldExpObjGimmickOv104ResEntry *entry, u32 arc, u32 index);
 BOOL func_ov104_021f0334(struct FieldExpObjGimmickOv104ResEntry *entry, u16 zone);
 BOOL func_ov104_021f037c(struct FieldExpObjGimmickOv104ResEntry *entry);
-void func_ov104_021ef168(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021efc8c(FieldExpObjGimmickOv104State *state);
 void func_ov104_021eeea0(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021eeee0(FieldExpObjGimmickOv104Work *work);

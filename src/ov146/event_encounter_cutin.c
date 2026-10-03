@@ -1,13 +1,21 @@
-#include "field/event_encounter_cutin.h"
 #include "types.h"
 #include "field/encounter_effect.h"
+#include "field/event_encounter_cutin.h"
 #include "field/field.h"
 #include "gfl/fade.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
 
+struct EncounterCutinWork {
+    s32 state;
+    u32 selection;
+    u32 param;
+};
+
 GameEvent *EventEncountEffectCutin_Create(GameSystem *gsys, u32 unused, u32 selection, u32 param) {
-    EncounterCutinWork *work = EncEff_AllocWorkArea(Field_GetEncEff(GSYS_GetField(gsys)), 0xc, 0x50);
+    EncounterCutinWork *work;
+
+    work = EncEff_AllocWorkArea(Field_GetEncEff(GSYS_GetField(gsys)), 0xc, 0x50);
     work->state = 0;
     work->selection = selection;
     work->param = param;
@@ -15,10 +23,14 @@ GameEvent *EventEncountEffectCutin_Create(GameSystem *gsys, u32 unused, u32 sele
 }
 
 GameEventReturnCode EventEncountEffectCutin_Callback(GameEvent *event, u32 *state, void *data) {
-    GameSystem *gsys = GameEvent_GetGameSystem(event);
-    Field *field = GSYS_GetField(gsys);
-    EncounterCutinWork *work = EncEff_GetWorkArea(Field_GetEncEff(field));
+    GameSystem *gsys;
+    Field *field;
+    EncounterCutinWork *work;
     GameEvent *next;
+
+    gsys = GameEvent_GetGameSystem(event);
+    field = GSYS_GetField(gsys);
+    work = EncEff_GetWorkArea(Field_GetEncEff(field));
 
     switch (*state) {
     case 0:

@@ -15,6 +15,10 @@ src/ov103/badge_gate_free_scene3.c:
     complete
     .text       start:0x021ef7c8 end:0x021ef7d4
 
-src/ov103/badge_gate_events.c:
+src/ov103/badge_gate_check_event.c:
     complete
-    .text       start:0x021eeffc end:0x021ef2f0
+    .text       start:0x021eeffc end:0x021ef290
+
+src/ov103/badge_gate_last_event_create.c:
+    complete
+    .text       start:0x021ef290 end:0x021ef2f0
