@@ -6,5 +6,6 @@
 
 // VERSION_BLACK2 or VERSION_WHITE2
 u32 getGameVersion(void);
+extern u8 region;
 
 #endif // POKEBW2_SYSTEM_VERSION_H

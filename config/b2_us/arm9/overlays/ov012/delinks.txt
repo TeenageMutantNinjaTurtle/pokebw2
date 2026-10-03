@@ -424,6 +424,10 @@ src/ov012/hidden_event_strength.c:
     complete
     .text       start:0x021595d4 end:0x02159644
 
+src/ov012/hidden_event_fly_flash.c:
+    complete
+    .text       start:0x02159644 end:0x021596e4
+
 src/ov012/field_script_cmd_party_add_egg.c:
     complete
     .text       start:0x02157174 end:0x021572b0

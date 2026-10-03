@@ -172,3 +172,7 @@ src/ov036/field_script_cmd_medal_initial.c:
 src/ov036/medal_discover_initial.c:
     complete
     .text       start:0x021c9dfc end:0x021c9e04
+
+src/ov036/hidden_hollow_work.c:
+    complete
+    .text       start:0x021c8954 end:0x021c898c

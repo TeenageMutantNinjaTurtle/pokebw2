@@ -266,3 +266,11 @@ src/ov033/mystery_gift_pokemon_helpers.c:
 src/ov033/trial_house_prepare.c:
     complete
     .text       start:0x0217adfc end:0x0217ae9c
+
+src/ov033/trial_house_event_wrappers.c:
+    complete
+    .text       start:0x0217af10 end:0x0217af28
+
+src/ov033/trial_house_event_create.c:
+    complete
+    .text       start:0x0217af28 end:0x0217af9c

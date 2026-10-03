@@ -48,6 +48,8 @@ void ServerControl_CureCondition(BattleHandler *handler, BattleMon *mon, u32 con
 u32 ServerEvent_CheckItemSet(BattleHandler *handler, BattleMon *mon, u16 item);
 void ServerEvent_ItemSetFailed(BattleHandler *handler, BattleMon *mon);
 void ServerEvent_ChangeAbilityAfter(BattleHandler *handler, u8 monIndex);
+void ServerEvent_ChangeAbilityBefore(BattleHandler *handler, u8 monIndex, u16 oldAbility, u16 newAbility);
+void ServerControl_UnnerveAction(BattleHandler *handler, BattleMon *mon);
 BOOL ServerControl_DrainCore(BattleHandler *handler, BattleMon *mon, BattleMon *source, u16 amount);
 BOOL ServerControl_CheckSimpleDamageEnabled(BattleHandler *handler, BattleMon *mon, u16 damage);
 void ServerControl_ViewEffect(BattleHandler *handler, u16 effect, u8 arg1, u8 arg2, u32 flag1, u32 flag2);

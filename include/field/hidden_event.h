@@ -17,6 +17,8 @@ struct HiddenEventContext {
     u32 unk04;
     GameSystem *gsys;
     u16 unk0C;
+    u16 unk0E;
+    Field *field;
 };
 
 struct HiddenEventData {
@@ -39,6 +41,7 @@ GameEvent *CreateHidenEvent(u32 kind, GameSystem *gsys, HiddenEventContext *cont
 BOOL func_ov012_02159440(HiddenEventContext *context);
 u32 func_ov012_02159b5c(HiddenEventContext *context, u32 value);
 void func_ov012_02159b40(HiddenEventData *data, HiddenEventArgs *param, HiddenEventContext *context);
+void func_ov012_0216002c(u32 value);
 BOOL EventCutCall_Check(HiddenEventContext *context);
 GameEvent *EventCutCall_Create(HiddenEventArgs *param, HiddenEventContext *context);
 GameEventReturnCode EventCutCall_Callback(GameEvent *event, u32 *state, void *data);
@@ -51,5 +54,21 @@ GameEventReturnCode EventWaterfallCall_Callback(GameEvent *event, u32 *state, vo
 u32 EventStrengthCall_Check(HiddenEventContext *context);
 GameEvent *EventStrengthCall_Create(HiddenEventArgs *param, HiddenEventContext *context);
 GameEventReturnCode EventStrengthCall_Callback(GameEvent *event, u32 *state, void *data);
+u32 func_ov012_02159644(HiddenEventContext *context);
+GameEvent *func_ov012_02159658(HiddenEventArgs *args, HiddenEventContext *context);
+GameEvent *EventFly_Create(HiddenEventArgs *args, HiddenEventContext *context);
+u32 EventFly_Check(HiddenEventContext *context);
+u32 EventFlash_Check(HiddenEventContext *context);
+GameEvent *EventFlash_Create(HiddenEventArgs *param, HiddenEventContext *context);
+GameEventReturnCode EventFlash_Callback(GameEvent *event, u32 *state, void *data);
+u32 EventDigCall_Check(HiddenEventContext *context);
+GameEvent *EventDigCall_Create(HiddenEventArgs *param, HiddenEventContext *context);
+GameEventReturnCode EventDigCall_Callback(GameEvent *event, u32 *state, void *data);
+u32 EventTeleportCall_Check(HiddenEventContext *context);
+GameEvent *EventTeleportCall_Create(HiddenEventArgs *param, HiddenEventContext *context);
+GameEventReturnCode EventTeleportCall_Callback(GameEvent *event, u32 *state, void *data);
+u32 EventDivingCall_Check(HiddenEventContext *context);
+GameEvent *EventDivingCall_Create(HiddenEventArgs *param, HiddenEventContext *context);
+GameEventReturnCode EventDivingCall_Callback(GameEvent *event, u32 *state, void *data);
 
 #endif // POKEBW2_FIELD_HIDDEN_EVENT_H

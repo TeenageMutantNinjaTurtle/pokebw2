@@ -319,3 +319,7 @@ src/ov167/battle_handler_faint.c:
 src/ov167/battle_handler_change_type.c:
     complete
     .text       start:0x021ad16c end:0x021ad1f4
+
+src/ov167/battle_handler_ability_change.c:
+    complete
+    .text       start:0x021ad5a0 end:0x021ad6e8

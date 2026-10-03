@@ -5,7 +5,7 @@
 #include "system/game_system.h"
 
 struct TrialHouseWork *CreateTrialHouseWk(GameSystem *gsys) {
-    u32 saveSize = func_0200ee20(gsys);
+    u32 saveSize = func_0200ee20();
     GameData *gameData = GSYS_GetGameData(gsys);
     struct TrialHouseWork *work;
 
