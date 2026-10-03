@@ -235,6 +235,7 @@ BOOL s00F4_DayCareCalcNewLevel(VM *vm, FieldScriptEnv *env);
 BOOL s00F5_DayCareCalcLevelGain(VM *vm, FieldScriptEnv *env);
 BOOL s00F6_DayCareCalcWithdrawCost(VM *vm, FieldScriptEnv *env);
 BOOL s023E_DayCareGetSexForNamePrint(VM *vm, FieldScriptEnv *env);
+BOOL s02E1_MedalDiscoverInitial(VM *vm, FieldScriptEnv *env);
 BOOL s02EE_MusicalIsPropOwned(VM *vm, FieldScriptEnv *env);
 BOOL s02EF_MusicalGetOwnedPropCount(VM *vm, FieldScriptEnv *env);
 BOOL s00F9_MoneyAdd(VM *vm, FieldScriptEnv *env);

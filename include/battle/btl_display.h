@@ -7,7 +7,7 @@
 void func_ov167_021b1434(void *display, u32 event, u8 monId, ...);
 u32 SCQUE_RESERVE_Pos(void *display, u32 event);
 void func_ov167_021b14ec(void *display, u32 reserve, u32 event, u8 monIndex);
-void func_ov167_021b15d0(void *display, u32 event, u32 message, u8 monIndex, u32 arg);
+void func_ov167_021b15d0(void *display, u32 event, u32 message, u8 monIndex, ...);
 void ServerDisplay_AbilityPopupAdd(BattleHandler *handler, BattleMon *mon);
 void ServerDisplay_AbilityPopupRemove(BattleHandler *handler, BattleMon *mon);
 void scPut_SetContFlag(BattleHandler *handler, BattleMon *mon, u32 flag);

@@ -13,7 +13,8 @@ struct HiddenEventArgs {
 
 struct HiddenEventContext {
     u16 unk00;
-    u8 unk02[6];
+    u8 unk02[2];
+    u32 unk04;
     GameSystem *gsys;
     u16 unk0C;
 };
@@ -41,5 +42,14 @@ void func_ov012_02159b40(HiddenEventData *data, HiddenEventArgs *param, HiddenEv
 BOOL EventCutCall_Check(HiddenEventContext *context);
 GameEvent *EventCutCall_Create(HiddenEventArgs *param, HiddenEventContext *context);
 GameEventReturnCode EventCutCall_Callback(GameEvent *event, u32 *state, void *data);
+u32 EventSurfCall_Check(HiddenEventContext *context);
+GameEvent *EventSurfCall_Create(HiddenEventArgs *param, HiddenEventContext *context);
+GameEventReturnCode EventSurfCall_Callback(GameEvent *event, u32 *state, void *data);
+u32 EventWaterfallCall_Check(HiddenEventContext *context);
+GameEvent *EventWaterfallCall_Create(HiddenEventArgs *param, HiddenEventContext *context);
+GameEventReturnCode EventWaterfallCall_Callback(GameEvent *event, u32 *state, void *data);
+u32 EventStrengthCall_Check(HiddenEventContext *context);
+GameEvent *EventStrengthCall_Create(HiddenEventArgs *param, HiddenEventContext *context);
+GameEventReturnCode EventStrengthCall_Callback(GameEvent *event, u32 *state, void *data);
 
 #endif // POKEBW2_FIELD_HIDDEN_EVENT_H

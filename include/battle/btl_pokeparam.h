@@ -78,6 +78,7 @@ u16 GetPreviousMoveID(BattleMon *mon);
 BOOL IsFainted(BattleMon *mon);
 BOOL TransformCheck(BattleMon *mon);
 void ChangeForm(BattleMon *mon, u8 form);
+void ChangePokeType(BattleMon *mon, u16 type);
 void SetWeight(BattleMon *mon, u16 weight);
 void HPAdd(BattleMon *mon, u16 amount);
 BOOL IsMonFullHP(BattleMon *mon);

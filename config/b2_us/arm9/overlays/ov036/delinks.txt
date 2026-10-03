@@ -164,3 +164,11 @@ src/ov036/field_display_control_update.c:
 src/ov036/field_display_control_procs.c:
     complete
     .text       start:0x021c80f4 end:0x021c81f4
+
+src/ov036/field_script_cmd_medal_initial.c:
+    complete
+    .text       start:0x021c7fb0 end:0x021c7fd8
+
+src/ov036/medal_discover_initial.c:
+    complete
+    .text       start:0x021c9dfc end:0x021c9e04

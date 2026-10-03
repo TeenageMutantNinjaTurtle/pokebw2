@@ -315,3 +315,7 @@ src/ov167/battle_handler_change_hp.c:
 src/ov167/battle_handler_faint.c:
     complete
     .text       start:0x021ad150 end:0x021ad19c
+
+src/ov167/battle_handler_change_type.c:
+    complete
+    .text       start:0x021ad1ac end:0x021ad234

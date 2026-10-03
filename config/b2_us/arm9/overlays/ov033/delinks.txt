@@ -262,3 +262,7 @@ src/ov033/mystery_gift_slots.c:
 src/ov033/mystery_gift_pokemon_helpers.c:
     complete
     .text       start:0x02178074 end:0x021780f8
+
+src/ov033/trial_house_prepare.c:
+    complete
+    .text       start:0x0217adbc end:0x0217ae5c
