@@ -4,13 +4,14 @@
 #include "battle/btl_pokeparam.h"
 #include "battle/btl_server_flow.h"
 
+// Function names from swan.
+
 struct BattleHandlerGravityCheckParam {
     u32 unk00 : 8;
     u32 monIndex : 5;
     u32 unk13 : 19;
 };
 
-// Function name from swan.
 BOOL BattleHandler_GravityCheck(BattleHandler *handler, BattleHandlerGravityCheckParam *param) {
     u8 monIds[6];
     volatile u32 count;
@@ -46,4 +47,23 @@ BOOL BattleHandler_GravityCheck(BattleHandler *handler, BattleHandlerGravityChec
         }
     }
     return TRUE;
+}
+
+struct BattleHandlerHideTurnParam {
+    u32 unk00;
+    u8 monIndex;
+    u8 unk05[3];
+    u32 flag;
+    u8 string[0x28];
+};
+
+BOOL BattleHandler_HideTurnCancel(BattleHandler *handler, BattleHandlerHideTurnParam *param) {
+    BattleMon *mon;
+
+    mon = GetPokeParam(handler->pokeCon, param->monIndex);
+    if (!IsFainted(mon) && ServerControl_HideTurnCancel(handler, mon, param->flag)) {
+        BattleHandler_SetString(handler, (BattleHandlerString *)param->string);
+        return TRUE;
+    }
+    return FALSE;
 }

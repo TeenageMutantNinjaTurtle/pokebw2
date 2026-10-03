@@ -96,13 +96,9 @@ src/ov167/battle_action_state.c:
     complete
     .text       start:0x021b0910 end:0x021b0958
 
-src/ov167/battle_handler_string.c:
+src/ov167/battle_handler_core.c:
     complete
-    .text       start:0x021ac390 end:0x021ac424
-
-src/ov167/battle_handler_work.c:
-    complete
-    .text       start:0x021ac424 end:0x021ac490
+    .text       start:0x021ac390 end:0x021ac490
 
 src/ov167/battle_view_string_param.c:
     complete
@@ -139,10 +135,6 @@ src/ov167/battle_server_display_popup.c:
 src/ov167/battle_handler_popup_remove.c:
     complete
     .text       start:0x021ac88c end:0x021ac8ac
-
-src/ov167/battle_handler_hide_turn_cancel.c:
-    complete
-    .text       start:0x021ae21c end:0x021ae254
 
 src/ov167/battle_handler_display_effects.c:
     complete
@@ -184,9 +176,9 @@ src/ov167/battle_handler_mon_transition.c:
     complete
     .text       start:0x021adf50 end:0x021ae13c
 
-src/ov167/battle_handler_gravity_check.c:
+src/ov167/battle_handler_turn_cancel.c:
     complete
-    .text       start:0x021ae14c end:0x021ae21c
+    .text       start:0x021ae14c end:0x021ae254
 
 src/ov167/battle_handler_item.c:
     complete

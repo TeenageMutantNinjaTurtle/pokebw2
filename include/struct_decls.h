@@ -342,6 +342,7 @@ typedef struct WonderGuardMessageWork WonderGuardMessageWork;
 typedef struct WorldTradeData WorldTradeData;
 typedef struct ZoneBGEntity ZoneBGEntity;
 typedef struct ZoneGimmick ZoneGimmick;
+typedef struct ZoneMapTypeData ZoneMapTypeData;
 typedef struct ZoneNPC ZoneNPC;
 typedef struct ZoneSpawnInfo ZoneSpawnInfo;
 typedef struct ZoneTrigger ZoneTrigger;
