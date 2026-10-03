@@ -3,21 +3,35 @@
 
 #include "types.h"
 #include "struct_decls.h"
+#include "system/game_event.h"
 
 struct FieldMenuWork {
-    u8 unk00[0x0C];
+    u16 code;
+    u16 pad02;
+    GameEvent *event;
+    GameSystem *gameSystem;
     Field *field;
     u32 unk10;
-    u8 unk14[4];
+    u32 unk14;
     u32 screenId;
-    u8 unk1C[0x0C];
+    GameSystem *gameSystem2;
+    Field *field2;
+    GameEvent *event2;
     u32 prevScreenId;
-    u8 unk2C[0x34];
+    u32 unk2C;
+    s32 unk30;
+    BOOL (*callback34)(FieldMenuWork *work, FieldMenuWork *context);
+    BOOL (*callback38)(void);
+    BOOL (*callback3C)(FieldMenuWork *work, FieldMenuWork *context);
+    FieldMenuWork *self;
+    u8 unk44[0x1C];
 };
 
-GameEvent *EventFieldMenu_Create(GameSystem *gsys, Field *field, u32 param);
-GameEvent *EventFieldMenu_CreateUnionRoom(GameSystem *gsys, Field *field, u32 param);
+GameEventReturnCode EventFieldMenu_Callback(GameEvent *event, u32 *state, void *data);
+GameEvent *EventFieldMenu_Create(GameSystem *gsys, Field *field, u16 param);
+GameEvent *EventFieldMenu_CreateUnionRoom(GameSystem *gsys, Field *field, u16 param);
 BOOL func_ov012_0215aa74(FieldMenuWork *work, FieldMenuWork *context);
 BOOL func_ov012_0215aa90(void);
+BOOL func_ov012_0215aa94(FieldMenuWork *work, FieldMenuWork *context);
 
 #endif // POKEBW2_FIELD_FIELD_MENU_H

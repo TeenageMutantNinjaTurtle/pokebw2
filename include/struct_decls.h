@@ -18,6 +18,7 @@ typedef struct BadgeGateWork BadgeGateWork;
 typedef struct BattleBoxSave BattleBoxSave;
 typedef struct BattleCondition BattleCondition;
 typedef struct BattleCutinParam BattleCutinParam;
+typedef struct BattleEventItem BattleEventItem;
 typedef struct BattleHandler BattleHandler;
 typedef struct BattleHandlerAbilityChangeParam BattleHandlerAbilityChangeParam;
 typedef struct BattleHandlerAddFieldEffectParam BattleHandlerAddFieldEffectParam;

@@ -443,3 +443,7 @@ src/ov167/battle_mon_special_priority.c:
 src/ov167/battle_mon_combo_clear.c:
     complete
     .text       start:0x021bc688 end:0x021bc6a0
+
+src/ov167/battle_event_item_access.c:
+    complete
+    .text       start:0x021bc8a0 end:0x021bc8f4
