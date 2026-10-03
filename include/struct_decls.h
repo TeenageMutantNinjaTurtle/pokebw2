@@ -4,6 +4,7 @@
 // Every struct type is declared here once, and defined in the header of the module that owns it, if its layout is
 // known
 
+typedef struct AbilityCureStatusWork AbilityCureStatusWork;
 typedef struct AdventureSave AdventureSave;
 typedef struct AdventureTime AdventureTime;
 typedef struct ActionOrder ActionOrder;
@@ -210,6 +211,7 @@ typedef struct NetSyncCommand NetSyncCommand;
 typedef struct NetSyncPacket NetSyncPacket;
 typedef struct NetSyncWork NetSyncWork;
 typedef struct NoGridMapper NoGridMapper;
+typedef struct ObliviousMessageWork ObliviousMessageWork;
 typedef struct PartyPkm PartyPkm;
 typedef struct PassPowerEntry PassPowerEntry;
 typedef struct PassPowerParam PassPowerParam;
@@ -243,6 +245,7 @@ typedef struct ShortcutSave ShortcutSave;
 typedef struct SpeedBoostWork SpeedBoostWork;
 typedef struct StadiumTrainerEntry StadiumTrainerEntry;
 typedef struct StatDropGuardMessageWork StatDropGuardMessageWork;
+typedef struct StatusFailedMessageWork StatusFailedMessageWork;
 typedef struct SurveyProbabilityEntry SurveyProbabilityEntry;
 typedef struct SurveyProbabilityState SurveyProbabilityState;
 typedef struct SurveyTextWork SurveyTextWork;
@@ -268,5 +271,6 @@ typedef struct WorldTradeData WorldTradeData;
 typedef struct ZoneNPC ZoneNPC;
 typedef struct ZoneSpawnInfo ZoneSpawnInfo;
 typedef struct ZoneWarp ZoneWarp;
+typedef struct ZoneWarpGridPosition ZoneWarpGridPosition;
 
 #endif // POKEBW2_STRUCT_DECLS_H

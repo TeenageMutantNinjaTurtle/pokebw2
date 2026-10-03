@@ -167,5 +167,19 @@ void HandlerWaterVeil(void *context, void *flow, u32 monId, u32 *result);
 void HandlerWaterVeilCureStatus(void *context, void *flow, u32 monId);
 void HandlerWaterVeilActionEnd(void *context, void *flow, u32 monId);
 const BattleEventHandlerEntry *EventAddWaterVeil(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d7c38[];
+void HandlerOwnTempoStatus(void *context, void *flow, u32 monId, u32 *result);
+void HandlerOwnTempoAddStatusFailed(void *context, void *flow, u32 monId, void *result);
+void HandlerOwnTempoCureStatus(void *context, void *flow, u32 monId);
+void HandlerOwnTempoActionEnd(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddOwnTempo(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d7d48[];
+void HandlerOblivious(void *context, void *flow, u32 monId, u32 *result);
+void HandlerObliviousCureStatus(void *context, void *flow, u32 monId);
+void HandlerObliviousActionEnd(void *context, void *flow, u32 monId);
+void HandlerObliviousNoEffectCheck(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddOblivious(u32 *priority);
+void CommonAddStatusFailed(void *context, void *flow, u32 monId, u32 *result, u16 message);
+void HandlerAddStatusFailedCommon(void *context, void *flow, u32 monId, u32 *result);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

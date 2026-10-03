@@ -611,3 +611,15 @@ src/ov167/battle_ability_magma_armor.c:
 src/ov167/battle_ability_status_immunity.c:
     complete
     .text       start:0x021becec end:0x021bed6c
+
+src/ov167/battle_ability_own_tempo.c:
+    complete
+    .text       start:0x021bed6c end:0x021bedc0
+
+src/ov167/battle_ability_oblivious.c:
+    complete
+    .text       start:0x021bedc0 end:0x021bee70
+
+src/ov167/battle_ability_status_common.c:
+    complete
+    .text       start:0x021bee70 end:0x021bef6c

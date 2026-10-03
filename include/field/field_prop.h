@@ -104,6 +104,8 @@ void FieldChunk_ReleasePropInstance(void *chunk, u16 propIndex);
 void FieldChunk_GetWorldPos(void *chunk, VecFx32 *position);
 void FieldPropResInstance_CallAnmCmd(void *instance, u32 animation, u32 command);
 BOOL FieldPropResInstance_IsAnmIdle(void *instance, u32 animation);
+void FieldPropResInstance_Free(void *instance);
+void FieldPropSystem_DeleteHandle(FieldPropSystem *system, FieldPropHandle *handle);
 void FieldChunkPropHolder_Release(FieldPropSystem *system, FieldChunkPropHolder *holder);
 void FieldPropSystem_ReleaseChunkPropHolders(FieldPropSystem *system, void *chunk);
 void FieldPropSystem_ReleaseChunkPropHolder(FieldPropSystem *system, FieldChunkPropHolder *holder);
@@ -130,6 +132,7 @@ void FieldPropHandle_Free(FieldPropHandle *handle);
 void FieldChunkPropHolder_CallAnmCmd(FieldPropSystem *system, FieldChunkPropHolder *prop, u32 animation, u32 command);
 FieldPropHandle *FieldPropSystem_CreateHandleNew(FieldPropSystem *system, u32 propId, FieldPropTransform *transform);
 FieldPropHandle *FieldPropSystem_CreateHandleFromExisting(FieldPropSystem *system, FieldChunkPropHolder *prop);
+FieldPropHandle *FieldPropSystem_CreateHandleAtPos(FieldPropSystem *system, u32 propId, const VecFx32 *position);
 FieldChunkPropHolder *FieldPropSystem_FindProp(FieldPropSystem *system, u32 propId, const FieldPropAreaBounds *bounds);
 FieldChunkPropHolder *FieldPropSystem_FindPropAtPos(FieldPropSystem *system, u32 propId, const VecFx32 *position);
 FieldChunkPropHolder **FieldPropSystem_FindPropsInArea(FieldPropSystem *system, const FieldPropAreaBounds *bounds,
