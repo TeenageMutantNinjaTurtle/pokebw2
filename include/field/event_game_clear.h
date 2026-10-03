@@ -33,6 +33,7 @@ GameEvent *EventGameClear_Create(GameSystem *gsys, void *param);
 void SetGameClearGameData(GameClearWork *work);
 void func_ov012_0215a50c(GameClearWork *work);
 void SetGameClearStatusSequence(GameClearWork *work);
+void EventGameClear_GiveMonotypeMedals(GameClearWork *work);
 u32 EventGameClear_Get3DDemoID(void);
 void EventGameClear_NextState(GameClearWork *work, u32 *state);
 void func_ov012_0215a670(GameClearWork *work);

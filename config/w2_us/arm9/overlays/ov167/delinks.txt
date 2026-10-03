@@ -423,3 +423,19 @@ src/ov167/battle_mon_move_history_primary.c:
 src/ov167/battle_mon_move_history_target.c:
     complete
     .text       start:0x021bbff8 end:0x021bc010
+
+src/ov167/battle_mon_weight.c:
+    complete
+    .text       start:0x021bc018 end:0x021bc034
+
+src/ov167/battle_mon_illusion_state.c:
+    complete
+    .text       start:0x021bc464 end:0x021bc47c
+
+src/ov167/battle_mon_transform_check.c:
+    complete
+    .text       start:0x021bc594 end:0x021bc59c
+
+src/ov167/battle_mon_special_priority.c:
+    complete
+    .text       start:0x021bc5b0 end:0x021bc5d0

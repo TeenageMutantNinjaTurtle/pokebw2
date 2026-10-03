@@ -80,6 +80,12 @@ typedef struct {
     u8 unk0[0x3c];
 } BSubwayPokemon;
 
+struct BSubwayTeamConfig {
+    u32 unk0;
+    u16 unk4[2];
+    u32 unk8[2];
+};
+
 // Overlay 12
 void func_ov012_021618ac(BSubwayScrWork *bsw);
 void func_ov012_021618b8(u8 a0);
@@ -94,6 +100,7 @@ BOOL func_ov012_02161a94(BSubwayScrWork *bsw, u16 *var);
 void func_ov012_021621d4(PokeParty *party, const BSubwayPokemon *pkms, u32 level, int count, HeapID heapId);
 // Makes a Pokémon from the file of the Battle Subway's Pokémon arc
 void func_ov012_02162490(BSubwayPokemon *pkm, u32 arcId, u16 file, u32 a3, u32 a4, u32 a5, u8 a6, u32 a7, HeapID heapId);
+void *func_ov012_021628c0(void *dst, u32 file, u32 level, u32 count, HeapID heapId);
 GameEvent *func_ov012_02165f70(BSubwayScrWork *bsw, GameSystem *gsys, u8 a2);
 GameEvent *func_ov012_02166070(BSubwayScrWork *bsw, GameSystem *gsys, Field *field);
 GameEvent *func_ov012_02166118(BSubwayScrWork *bsw, GameSystem *gsys, u16 a2, u16 a3, u32 a4);
@@ -138,5 +145,6 @@ void *func_ov033_0217c110(BSubwayScrWork *bsw);
 BtlSetup *func_ov033_0217c094(BSubwayScrWork *bsw, GameSystem *gsys);
 void *func_ov033_0217c264(BSubwayScrWork *bsw, void *param, u16 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 u16 func_ov033_0217c288(u32 value);
+void func_ov033_0217c2c4(void *unused, u8 *dst, u32 level, u32 arg3, BSubwayTeamConfig *config, HeapID heapId);
 
 #endif // POKEBW2_FIELD_BSUBWAY_SCR_H

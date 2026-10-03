@@ -69,6 +69,7 @@ typedef struct BoxSaveAccessor BoxSaveAccessor;
 typedef struct BSubwayPlayData BSubwayPlayData;
 typedef struct BSubwayScoreData BSubwayScoreData;
 typedef struct BSubwayScrWork BSubwayScrWork;
+typedef struct BSubwayTeamConfig BSubwayTeamConfig;
 typedef struct BtlMainModule BtlMainModule;
 typedef struct BtlPokeCon BtlPokeCon;
 typedef struct BtlServerFlow BtlServerFlow;

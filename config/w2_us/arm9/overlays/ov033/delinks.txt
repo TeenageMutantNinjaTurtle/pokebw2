@@ -350,3 +350,7 @@ src/ov033/bsubway_scr_participant.c:
 src/ov033/bsubway_scr_battle_helpers.c:
     complete
     .text       start:0x0217c2a4 end:0x0217c304
+
+src/ov033/bsubway_scr_team_generate.c:
+    complete
+    .text       start:0x0217c304 end:0x0217c368
