@@ -42,14 +42,33 @@ struct MapMatrixFileHeader {
     u8 data[];
 };
 
+// An entry of the map replacements, file 0 of archive 10
+typedef struct {
+    u16 id;
+    u8 kind;
+    // What picks the value: the season, the version, both, or an event of EVENT_MAP_REPLACE_TABLE
+    u8 condition;
+    // The original value, then the replacements
+    u16 values[6];
+} MapReplaceEntry;
+
+// The values that MapReplaceEntry.condition picks from
+typedef struct {
+    u8 season;
+    // 0 in Black and Black 2, 1 in White and White 2
+    u8 version;
+    // 0 in Black and Black 2, the season plus 1 in White and White 2
+    u8 versionSeason;
+    // Whether each event of EVENT_MAP_REPLACE_TABLE happened
+    u8 events[10];
+} MapReplaceVariables;
+
 struct MapReplace {
     u16 heapId;
-    u16 unk02;
     ArcTool *arc;
     u32 entryCount;
-    u8 variables[14];
-    u8 entry[16];
-    u8 unk2A[2];
+    MapReplaceVariables variables;
+    MapReplaceEntry entry;
 };
 
 struct MapReplaceEvent {
@@ -98,7 +117,7 @@ int MapReplace_GetEventByCond(u8 condition);
 const MapReplaceEvent *MapReplace_GetEventByUID(GameData *gameData, u16 uid);
 void GameData_SetEventMapReplace(GameData *gameData, u16 uid, BOOL set);
 BOOL GameData_IsMapReplaceEventSet(GameData *gameData, u16 uid);
-void MapReplace_LoadVariables(u8 *variables, GameSystem *gsys);
+void MapReplace_LoadVariables(MapReplaceVariables *variables, GameSystem *gsys);
 void MapMatrix_Patch(MapMatrix *matrix, GameSystem *gsys, HeapID heapId);
 u32 GetTileTypeAtPos(G3DMapper *mapper, const VecFx32 *position);
 u16 GetAbyssalRuinsDiveZoneID(Field *field, u16 *zoneId);
