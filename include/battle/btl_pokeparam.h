@@ -44,6 +44,7 @@ typedef BattleCondition BattleConditionCont;
 typedef s32 PokeTypePair;
 
 PokeTypePair PokeTypePair_Make(u32 type1, u32 type2);
+PokeTypePair func_ov167_021ce530(u32 type);
 BOOL PokeTypePair_IsMonotype(PokeTypePair pair);
 
 void IncrementTurn(BattleCondition *condition, u32 amount);
@@ -111,6 +112,9 @@ void ConsumeItem(BattleMon *mon, u16 item);
 u16 MoveGetID(BattleMon *mon, u8 index);
 u8 PokeTypePair_GetType1(PokeTypePair pair);
 u8 PokeTypePair_GetType2(PokeTypePair pair);
+void func_ov167_021ce54c(PokeTypePair pair, u8 *type1, u8 *type2);
+BOOL func_ov167_021ce564(PokeTypePair pair, u32 type);
+BOOL func_ov167_021ce588(PokeTypePair first, PokeTypePair second);
 u8 CountUsedMoves(BattleMon *mon);
 u8 GetMovePPUsed(BattleMon *mon, u8 index);
 u16 func_ov167_021bb3a4(BattleMon *mon);

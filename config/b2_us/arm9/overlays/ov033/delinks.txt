@@ -95,10 +95,6 @@ src/ov033/bsubway_scr_begin.c:
     complete
     .text       start:0x0217b468 end:0x0217b478
 
-src/ov033/bsubway_scr_progress.c:
-    complete
-    .text       start:0x0217bb20 end:0x0217bbac
-
 src/ov033/field_money_window_lifecycle.c:
     complete
     .text       start:0x02177998 end:0x02177a60
@@ -159,9 +155,9 @@ src/ov033/subway_work.c:
     complete
     .text       start:0x0217b664 end:0x0217b8ec
 
-src/ov033/subway_score.c:
+src/ov033/bsubway_scr.c:
     complete
-    .text       start:0x0217bca0 end:0x0217be88
+    .text       start:0x0217bb20 end:0x0217be88
 
 src/ov033/subway_setup.c:
     complete

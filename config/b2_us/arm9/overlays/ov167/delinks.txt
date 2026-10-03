@@ -148,17 +148,9 @@ src/ov167/battle_condition_mon.c:
     complete
     .text       start:0x021ce2b8 end:0x021ce308
 
-src/ov167/battle_poke_type_pair_access.c:
+src/ov167/battle_poke_type_pair.c:
     complete
-    .text       start:0x021ce53c end:0x021ce54c
-
-src/ov167/battle_poke_type_pair_make.c:
-    complete
-    .text       start:0x021ce520 end:0x021ce530
-
-src/ov167/battle_poke_type_pair_monotype.c:
-    complete
-    .text       start:0x021ce5e8 end:0x021ce604
+    .text       start:0x021ce520 end:0x021ce604
 
 src/ov167/battle_server_display_flags.c:
     complete

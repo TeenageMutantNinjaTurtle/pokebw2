@@ -29,10 +29,49 @@ The address-only merge of 14 overlay 12 groups in `56da313` was reversed in
 were discarded. Their earlier feature-grouped sources and all independently
 matched functions remain.
 
-Review of the 29 overlays changed since `142e443` continues against the
-earlier process and subsystem boundaries, including owning headers, private
-struct layouts, original data placement, and exact B2/W2 ROM hashes. Unmatched
-functions remain tracked in [nonmatching-functions.md](nonmatching-functions.md).
+The review covers all 34 overlays whose source changed since `142e443`.
+It checks process and subsystem boundaries, owning headers, private structs,
+data placement, and exact B2/W2 ROM hashes. The table records the current
+source organization; an assembly gap prevents joining C ranges until its
+intervening function matches. Unmatched attempts are tracked in
+[nonmatching-functions.md](nonmatching-functions.md).
+
+| Overlay | Disposition |
+| --- | --- |
+| 010 | Single linked C source; no fragmented C ranges. |
+| 012 | Related matrix, script-command, and zone helper ranges are grouped where continuous; `ProcessMapMatrix` and other intervening assembly still separate some ranges. |
+| 013 | Single linked C source; no fragmented C ranges. |
+| 014 | Single linked C source; no fragmented C ranges. |
+| 015 | Single linked C source; no fragmented C ranges. |
+| 016 | Single linked C source; no fragmented C ranges. |
+| 017 | Single linked C source; no fragmented C ranges. |
+| 018 | Single linked C source; no fragmented C ranges. |
+| 021 | Single linked C source; no fragmented C ranges. |
+| 027 | Survey probability, command, and popularity C ranges have four intervening assembly functions. |
+| 033 | Trade, Trial House, Battle Subway, and field-event ranges preserve process boundaries; several same-process fragments still have intervening assembly. |
+| 035 | Three adjacent event sources retain their separate process and data ownership; merging changes non-text section order. |
+| 036 | Prop, zone, and lens-flare C ranges are grouped within continuous owners; remaining nearby fragments have intervening assembly. Adjacent C pairs cross subsystem boundaries. |
+| 059 | Adjacent Resort and medal script-command sources have separate ownership; two Resort functions still do not match. |
+| 060 | Single linked C source; no fragmented C ranges. |
+| 073 | Single linked C source; no fragmented C ranges. |
+| 074 | Single linked C source; no fragmented C ranges. |
+| 090 | Single linked C source; no fragmented C ranges. |
+| 093 | Single linked C source; no fragmented C ranges. |
+| 095 | Single linked C source; no fragmented C ranges. |
+| 103 | Adjacent badge-check and last-gate sources represent separate event processes. |
+| 104 | Gimmick core, event, list, roaming, and state C ranges have intervening assembly functions; private work layouts live with their owners. |
+| 105 | Single linked C source; no fragmented C ranges. |
+| 106 | Single linked C source; no fragmented C ranges. |
+| 126 | Single linked C source; no fragmented C ranges. |
+| 146 | Continuous encounter cut-in code is grouped; its private work layout lives in the source. |
+| 147 | Single linked C source; no fragmented C ranges. |
+| 152 | Single linked C source; no fragmented C ranges. |
+| 153 | Single linked C source; no fragmented C ranges. |
+| 162 | Six adjacent title, menu, start, boot, delete-save, and interrupt sources preserve process boundaries. |
+| 164 | Single linked C source; no fragmented C ranges. |
+| 167 | Battle handlers, ability handlers, and accessors preserve their owners; many related C ranges still have intervening assembly. |
+| 284 | Adjacent evolution demo sources preserve graphics, view, and effect ownership; `ShinkaDemoPieces_Move` is nonmatching. |
+| 294 | Eight adjacent intro process and graphics sources preserve their separate ownership. |
 
 Overlay 33 embeds the original names `fld_trade.c`, `trial_house.c`, and
 `bsubway_scr.c`. Its current trade, Trial House, and Battle Subway source
@@ -55,9 +94,10 @@ Overlay 33's final Battle Subway helper and trade debug stub and overlay 36's
 prop-holder release now sit with adjacent helpers from the same feature.
 File-private work layouts in overlays 103, 104, and 146 were moved to their
 owning C files. These changes were checked against both original ROMs.
-Later matches closed gaps in overlay 12's zone positioning, overlay 33's Trial
-House setup and Battle Subway score handling, overlay 36's prop sound check,
-and overlay 167's Damp and Truant handlers. Their newly continuous ranges
-were combined within their owning features. Attempted translations for
-remaining assembly gaps are tracked in
+Later matches closed gaps in overlay 12's zone positioning, overlay 33's Unity
+Tower visitors, Trial House setup, and Battle Subway score handling, overlay
+36's prop sound check, and overlay 167's Damp, Truant, move-history, and
+Pokémon type-pair helpers. Their newly continuous ranges were combined within
+their owning features. Attempted translations for remaining assembly gaps are
+tracked in
 [nonmatching-functions.md](nonmatching-functions.md).

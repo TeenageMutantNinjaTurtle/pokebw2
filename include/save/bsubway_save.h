@@ -43,6 +43,7 @@ u16 func_0200e438(BSubwayScoreData *score, u32 id, u32 op);
 u16 func_0200e6f4(void *data);
 u16 func_0200e6fc(void *data);
 u16 func_0200e72c(void *data);
+void func_0200e740(void *data, void *party, u8 round, u16 id);
 u16 func_0200e7d8(void *data);
 u16 func_0200e7e4(void *data);
 // Allocates a copy of the block's list of 0x22-byte entries

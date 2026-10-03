@@ -301,6 +301,7 @@ typedef struct StatDropGuardMessageWork StatDropGuardMessageWork;
 typedef struct SteadfastWork SteadfastWork;
 typedef struct StatusFailedMessageWork StatusFailedMessageWork;
 typedef struct SturdyMessageWork SturdyMessageWork;
+typedef struct SubwayPackedSpecies SubwayPackedSpecies;
 typedef struct SurveyProbabilityEntry SurveyProbabilityEntry;
 typedef struct SurveyProbabilityState SurveyProbabilityState;
 typedef struct SurveyTextWork SurveyTextWork;
