@@ -16,8 +16,40 @@ void func_ov105_021eecd4(GimmickWork *work, Field *field);
 void func_ov105_021eee24(GimmickWork *work, Field *field);
 void func_ov105_021eee28(GimmickWork *work, Field *field);
 
-extern const G3DSceneSetup data_ov105_021eee54;
-extern const VecFx32 data_ov105_021eee64[6];
+static const G3DSceneAnimationSetup sAnimations01[] = { { 1, 0 } };
+static const G3DSceneAnimationSetup sAnimations08[] = { { 8, 0 }, { 9, 0 } };
+static const G3DSceneAnimationSetup sAnimations03[] = { { 3, 0 } };
+static const G3DSceneAnimationSetup sAnimations05[] = { { 5, 0 }, { 6, 0 } };
+static const G3DSceneAnimationSetup sAnimations0B[] = { { 11, 0 }, { 12, 0 } };
+static const G3DSceneAnimationSetup sAnimations0E[] = { { 14, 0 }, { 15, 0 } };
+
+static const G3DSceneActorSetup sActors[6] = {
+    { 0, 0, 0, 0, sAnimations01, NELEMS(sAnimations01) },
+    { 2, 0, 2, 0, sAnimations03, NELEMS(sAnimations03) },
+    { 4, 0, 4, 0, sAnimations05, NELEMS(sAnimations05) },
+    { 7, 0, 7, 0, sAnimations08, NELEMS(sAnimations08) },
+    { 10, 0, 10, 0, sAnimations0B, NELEMS(sAnimations0B) },
+    { 13, 0, 13, 0, sAnimations0E, NELEMS(sAnimations0E) },
+};
+
+static const G3DSceneResourceSetup sResources[] = {
+    { 0x9b, 0, 0 },  { 0x9b, 10, 0 }, { 0x9b, 2, 0 },  { 0x9b, 13, 0 },
+    { 0x9b, 4, 0 },  { 0x9b, 19, 0 }, { 0x9b, 15, 0 }, { 0x9b, 5, 0 },
+    { 0x9b, 20, 0 }, { 0x9b, 16, 0 }, { 0x9b, 6, 0 },  { 0x9b, 21, 0 },
+    { 0x9b, 17, 0 }, { 0x9b, 7, 0 },  { 0x9b, 22, 0 }, { 0x9b, 18, 0 },
+};
+
+static const G3DSceneSetup sSceneSetup = { sResources, NELEMS(sResources), sActors, NELEMS(sActors) };
+
+// Where each actor is
+static const VecFx32 sActorPositions[6] = {
+    { FX32_CONST(512), 0, FX32_CONST(672) },
+    { FX32_CONST(512), 0, FX32_CONST(672) },
+    { FX32_CONST(544), 0, FX32_CONST(704) },
+    { FX32_CONST(448), 0, FX32_CONST(624) },
+    { FX32_CONST(448), 0, FX32_CONST(704) },
+    { FX32_CONST(544), 0, FX32_CONST(624) },
+};
 
 void func_ov105_021eec80(Field *field) {
     u16 heapId;
@@ -55,12 +87,12 @@ void func_ov105_021eecd4(GimmickWork *work, Field *field) {
     flags[2] = EventWork_FlagGet(eventWork, 0x967);
     flags[3] = EventWork_FlagGet(eventWork, 0x96a);
     system = Field_GetExpObjSystem(field);
-    LoadFieldExpandObjData(system, &data_ov105_021eee54, 0);
+    LoadFieldExpandObjData(system, &sSceneSetup, 0);
     for (i = 0; i < 6; i++) {
         matrix = FieldExpObj_GetActorMatrixPtr(system, 0, i);
-        matrix->translation.x = data_ov105_021eee64[i].x;
-        matrix->translation.y = data_ov105_021eee64[i].y;
-        matrix->translation.z = data_ov105_021eee64[i].z;
+        matrix->translation.x = sActorPositions[i].x;
+        matrix->translation.y = sActorPositions[i].y;
+        matrix->translation.z = sActorPositions[i].z;
     }
     if (flags[0] && flags[1] && flags[2] && flags[3]) {
         FieldExpObj_SetAnm(system, 0, 0, 0, TRUE);

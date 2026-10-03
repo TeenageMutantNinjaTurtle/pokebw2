@@ -19,8 +19,25 @@ void func_ov106_021eedfc(GimmickWork *work, Field *field);
 void func_ov106_021eee50(GimmickWork *work, Field *field);
 void func_ov106_021eee54(GimmickWork *work, Field *field);
 
-extern const G3DSceneSetup data_ov106_021eee64;
-extern const VecFx32 data_ov106_021eee74[2];
+static const G3DSceneAnimationSetup sAnimations01[] = { { 1, 0 } };
+static const G3DSceneAnimationSetup sAnimations03[] = { { 3, 0 }, { 4, 0 } };
+
+static const G3DSceneActorSetup sActors[2] = {
+    { 0, 0, 0, 0, sAnimations01, NELEMS(sAnimations01) },
+    { 2, 0, 2, 0, sAnimations03, NELEMS(sAnimations03) },
+};
+
+static const G3DSceneResourceSetup sResources[] = {
+    { 0x9b, 1, 0 }, { 0x9b, 8, 0 }, { 0x9b, 3, 0 }, { 0x9b, 14, 0 }, { 0x9b, 23, 0 },
+};
+
+static const G3DSceneSetup sSceneSetup = { sResources, NELEMS(sResources), sActors, NELEMS(sActors) };
+
+// Where each actor is
+static const VecFx32 sActorPositions[2] = {
+    { FX32_CONST(480), FX32_CONST(2), FX32_CONST(1296) },
+    { FX32_CONST(480), FX32_CONST(2), FX32_CONST(1296) },
+};
 
 void func_ov106_021eec80(Field *field) {
     u16 heapId;
@@ -123,12 +140,12 @@ void func_ov106_021eedfc(GimmickWork *work, Field *field) {
     s32 i;
 
     system = Field_GetExpObjSystem(field);
-    LoadFieldExpandObjData(system, &data_ov106_021eee64, 0);
+    LoadFieldExpandObjData(system, &sSceneSetup, 0);
     for (i = 0; i < 2; i++) {
         matrix = FieldExpObj_GetActorMatrixPtr(system, 0, i);
-        matrix->translation.x = data_ov106_021eee74[i].x;
-        matrix->translation.y = data_ov106_021eee74[i].y;
-        matrix->translation.z = data_ov106_021eee74[i].z;
+        matrix->translation.x = sActorPositions[i].x;
+        matrix->translation.y = sActorPositions[i].y;
+        matrix->translation.z = sActorPositions[i].z;
     }
     func_ov106_021eed04(field);
     func_ov106_021eed48(field);
