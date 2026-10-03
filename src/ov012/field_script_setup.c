@@ -1,5 +1,6 @@
 #include "field/event_data.h"
 #include "field/field_script.h"
+#include "field/field_script_plugin.h"
 #include "field/field_script_event.h"
 #include "field/field_script_supervisor.h"
 #include "save/event_work.h"
@@ -151,4 +152,59 @@ u16 FieldScript_GetSceneChangeSCRID(GameData *gameData, const u8 *script, u32 mo
         }
         script += 6;
     }
+}
+
+VM *FieldScript_CreateVM(HeapID heapId, ScriptWork *work, u16 zoneId, u16 scriptId, u32 featureLevel) {
+    FieldScriptEnvArgs args;
+    VMInitParam param;
+    FieldScriptEnv *env;
+    GameSystem *gsys;
+    GameData *gameData;
+    VM *vm;
+    u16 fileId;
+    u16 msgArcId;
+    u16 msgFileNo;
+    u32 scriptOffset;
+    u32 reduced;
+    u32 workSize;
+
+    reduced = FieldScript_IsVMFeatureSetReduced(featureLevel);
+    args.zoneId = zoneId;
+    args.unk02 = scriptId;
+    args.featureLevel = featureLevel;
+    args.reducedFeatureLevel = reduced;
+    args.work = work;
+    env = CreateFieldScriptEnv(&args, heapId);
+    gsys = ScriptWork_GetGameSystem(work);
+    gameData = GSYS_GetGameData(gsys);
+    param.stackSize = 0x100;
+    workSize = 0x40;
+    param.workSize = workSize;
+    param.commands = (const VMCommand *)EVCMD_TABLE;
+    param.commandCount = EVCMD_MAX;
+    param.extraCommands = (const VMCommand *)GetCurrentScrPluginTable(gameData);
+    param.extraCommandCount = GetCurrentScrPluginCmdCount(gameData);
+    param.extraCommandStart = 1000;
+    vm = VM_Create(heapId, &param);
+    VM_ChangeEnv(vm, env);
+    scriptOffset = FieldScript_ResolveSCRID(zoneId, scriptId, &fileId, &msgArcId, &msgFileNo);
+    vm->unk38 = (u32)FieldScript_LoadData(fileId, heapId);
+    workSize -= 0x41;
+    if (!reduced && msgFileNo != workSize) {
+        SetFieldScriptEnvMsgData(env, msgArcId, msgFileNo);
+    }
+    VM_LoadScript(vm, (void *)vm->unk38);
+    vm->pc += scriptOffset * 4;
+    vm->pc += VM_Read32(vm);
+    FieldScript_AttachOpcodeGuard(vm);
+    return vm;
+}
+
+void FieldScript_FreeVM(VM *vm) {
+    FieldScriptEnv *env;
+
+    env = VM_GetEnv(vm);
+    FreeFieldScriptEnv(env);
+    GFL_HeapFree((void *)vm->unk38);
+    VM_Free(vm);
 }

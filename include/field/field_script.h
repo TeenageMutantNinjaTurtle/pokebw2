@@ -124,6 +124,14 @@ void resetRebattleTrainers(EventWork *eventWork);
 // A field script command. env is the running script's environment
 typedef BOOL (*FieldScriptCommand)(VM *vm, FieldScriptEnv *env);
 
+extern const FieldScriptCommand EVCMD_TABLE[];
+extern const u32 EVCMD_MAX;
+
+u32 FieldScript_IsVMFeatureSetReduced(u32 featureLevel);
+u32 FieldScript_ResolveSCRID(u16 zoneId, u16 scriptId, u16 *fileId, u16 *msgArcId, u16 *msgFileNo);
+void *FieldScript_LoadData(u16 fileId, HeapID heapId);
+void FieldScript_AttachOpcodeGuard(VM *vm);
+
 BOOL s0000_VMNop(VM *vm, FieldScriptEnv *env);
 BOOL s0001_VMNop2(VM *vm, FieldScriptEnv *env);
 BOOL s0002_VMHalt(VM *vm, FieldScriptEnv *env);

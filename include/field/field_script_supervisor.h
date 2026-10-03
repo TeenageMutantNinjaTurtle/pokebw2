@@ -22,7 +22,7 @@ FieldScriptSupervisor *FieldScriptSupervisor_Create(HeapID heapId);
 void FieldScriptSupervisor_Free(FieldScriptSupervisor *supervisor);
 BOOL FieldScriptSupervisor_Update(FieldScriptSupervisor *supervisor);
 int FieldScriptSupervisor_AddVM(FieldScriptSupervisor *supervisor, VM *vm);
-VM *FieldScript_CreateVM(HeapID heapId, ScriptWork *work, u16 zoneId, u16 scriptId, u32 mode);
+VM *FieldScript_CreateVM(HeapID heapId, ScriptWork *work, u16 zoneId, u16 scriptId, u32 featureLevel);
 VM *FieldScriptSupervisor_GetVM(FieldScriptSupervisor *supervisor, int index);
 void FieldScript_FreeVM(VM *vm);
 void FieldScriptTerminator_ReplaceEvent(GameEvent *event, void *arg);

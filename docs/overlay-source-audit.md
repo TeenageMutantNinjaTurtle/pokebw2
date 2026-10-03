@@ -100,10 +100,11 @@ File-private work layouts in overlays 103, 104, and 146 were moved to their
 owning C files. Named forward declarations in overlays 33 and 60 now live in
 `struct_decls.h`, while their private layouts stay in the sources. These
 changes were checked against both original ROMs.
-Later matches closed gaps in overlay 12's ScriptWork, VM global scripts, and
-zone positioning; overlay 33's Unity Tower, Trial House, and Battle Subway;
+Later matches closed gaps in overlay 12's ScriptWork, VM setup, global scripts,
+and zone positioning; overlay 33's Unity Tower, Trial House, and Battle Subway;
 overlay 36's field accessors, prop handles, prop sound, and lens flare; and
-overlay 167's BattleCondition, ability, move-history, and type-pair helpers.
+overlay 167's BattleCondition, BattleParty, ability, move-history, and
+type-pair helpers.
 Their newly continuous ranges were combined within their owning features.
 Attempted translations for remaining assembly gaps are tracked in
 [nonmatching-functions.md](nonmatching-functions.md).

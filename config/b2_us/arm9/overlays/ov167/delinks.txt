@@ -16,17 +16,9 @@ src/ov167/battle_client_count.c:
     complete
     .text       start:0x0219d294 end:0x0219d29c
 
-src/ov167/battle_party_add.c:
+src/ov167/battle_party_members.c:
     complete
-    .text       start:0x0219d448 end:0x0219d454
-
-src/ov167/battle_party_count.c:
-    complete
-    .text       start:0x0219d488 end:0x0219d4b8
-
-src/ov167/battle_party_get_mon.c:
-    complete
-    .text       start:0x0219d4f4 end:0x0219d504
+    .text       start:0x0219d448 end:0x0219d504
 
 src/ov167/battle_party_find.c:
     complete
