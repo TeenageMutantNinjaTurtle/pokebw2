@@ -7,7 +7,7 @@ struct MailboxProcessData {
 };
 
 void func_ov012_0215767c(ScriptOverlayWork *work) {
-    struct MailboxProcessData *mailbox = work->resource;
+    MailboxProcessData *mailbox = work->resource;
 
     if (mailbox->result == 1) {
         *(u16 *)work->data = TRUE;

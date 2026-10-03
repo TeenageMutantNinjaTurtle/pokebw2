@@ -216,7 +216,6 @@ void LoadZoneSpawnInfoCheckRail(ZoneSpawnInfo *spawn, u16 zoneId);
 void SetAllowVersionSpecificArea(u32 area, BOOL allow);
 void SetTeleportZoneDiscover(GameData *gameData, s32 zoneId);
 void SetupTeleportZoneChange(u16 returnLocation, ZoneSpawnInfo *spawn);
-void SetupWarpParamByWarp(ZoneWarp *warp, ZoneSpawnInfo *spawn, u32 a2);
 BOOL SetupZoneWarpArrival(EventData *eventData, ZoneSpawnInfo *spawn, u16 warpId, u16 posWeightBits);
 u16 ZoneData_GetAreaID(u16 zoneId);
 // The zone data, which the functions that read it need loaded

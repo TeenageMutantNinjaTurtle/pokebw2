@@ -11,20 +11,20 @@ struct UnderwaterEffectWork {
     G3DActor *actors[3];
 };
 
-static const u32 sModelResourceIds[3] = {0, 1, 2};
-static const u32 sAnimationModelIds[4] = {0, 1, 2, 0};
-static const u32 sAnimationResourceIds[4] = {3, 4, 5, 6};
-static const u32 sArchiveFileIds[7] = {1, 3, 5, 2, 4, 6, 0};
+static const u32 sModelResourceIds[3] = { 0, 1, 2 };
+static const u32 sAnimationModelIds[4] = { 0, 1, 2, 0 };
+static const u32 sAnimationResourceIds[4] = { 3, 4, 5, 6 };
+static const u32 sArchiveFileIds[7] = { 1, 3, 5, 2, 4, 6, 0 };
 static const SRTMatrix sUnderwaterMatrix = {
-    {0x100000, 0, 0x100000},
-    {0x1000, 0x1000, 0x1000},
-    {{{0x1000, 0, 0}, {0, 0x1000, 0}, {0, 0, 0x1000}}},
+    { 0x100000, 0, 0x100000 },
+    { 0x1000, 0x1000, 0x1000 },
+    { { { 0x1000, 0, 0 }, { 0, 0x1000, 0 }, { 0, 0, 0x1000 } } },
 };
 
-void UnderwaterEffect_Init(FieldAsyncProc *proc, Field *field, void *data);
-void UnderwaterEffect_Free(FieldAsyncProc *proc, Field *field, void *data);
-void UnderwaterEffect_Update(FieldAsyncProc *proc, Field *field, void *data);
-void UnderwaterEffect_Draw(FieldAsyncProc *proc, Field *field, void *data);
+static void UnderwaterEffect_Init(FieldAsyncProc *proc, Field *field, void *data);
+static void UnderwaterEffect_Free(FieldAsyncProc *proc, Field *field, void *data);
+static void UnderwaterEffect_Update(FieldAsyncProc *proc, Field *field, void *data);
+static void UnderwaterEffect_Draw(FieldAsyncProc *proc, Field *field, void *data);
 
 const FieldAsyncProcDef UNDERWATER_EFFECT_PROC = {
     0x80,
@@ -35,7 +35,7 @@ const FieldAsyncProcDef UNDERWATER_EFFECT_PROC = {
     UnderwaterEffect_Draw,
 };
 
-void UnderwaterEffect_Init(FieldAsyncProc *proc, Field *field, void *data) {
+static void UnderwaterEffect_Init(FieldAsyncProc *proc, Field *field, void *data) {
     UnderwaterEffectWork *work = data;
     HeapID heapId = Field_GetHeapID(field);
     ArcTool *arc = GFL_ArcSysCreateFileHandle(0xbb, ((heapId & 0x7fff) | 0x8000));
@@ -56,8 +56,8 @@ void UnderwaterEffect_Init(FieldAsyncProc *proc, Field *field, void *data) {
         }
     }
     for (i = 0; i < 4; i++) {
-        work->animations[i] = GFL_G3DAnmCreate(work->models[sAnimationModelIds[i]],
-                                               work->resources[sAnimationResourceIds[i]], 0);
+        work->animations[i] =
+            GFL_G3DAnmCreate(work->models[sAnimationModelIds[i]], work->resources[sAnimationResourceIds[i]], 0);
     }
     for (i = 0; i < 3; i++) {
         work->actors[i] = GFL_G3DActorCreate(work->models[i], work->animations, 4);
@@ -70,7 +70,7 @@ void UnderwaterEffect_Init(FieldAsyncProc *proc, Field *field, void *data) {
     GFL_ArcToolFree(arc);
 }
 
-void UnderwaterEffect_Free(FieldAsyncProc *proc, Field *field, void *data) {
+static void UnderwaterEffect_Free(FieldAsyncProc *proc, Field *field, void *data) {
     UnderwaterEffectWork *work = data;
     int i;
     for (i = 0; i < 3; i++) {
@@ -90,7 +90,7 @@ void UnderwaterEffect_Free(FieldAsyncProc *proc, Field *field, void *data) {
     }
 }
 
-void UnderwaterEffect_Update(FieldAsyncProc *proc, Field *field, void *data) {
+static void UnderwaterEffect_Update(FieldAsyncProc *proc, Field *field, void *data) {
     UnderwaterEffectWork *work = data;
     GFL_G3DActorStepAnmFrameLoop(work->actors[0], 0, 0x1000);
     GFL_G3DActorStepAnmFrameLoop(work->actors[0], 3, 0x1000);
@@ -99,7 +99,7 @@ void UnderwaterEffect_Update(FieldAsyncProc *proc, Field *field, void *data) {
     GFL_G3DSysSetSwapBufferParams(1, 1);
 }
 
-void UnderwaterEffect_Draw(FieldAsyncProc *proc, Field *field, void *data) {
+static void UnderwaterEffect_Draw(FieldAsyncProc *proc, Field *field, void *data) {
     UnderwaterEffectWork *work = data;
     GFL_G3DSysDrawObj(work->actors[0], (SRTMatrix *)&sUnderwaterMatrix);
     GFL_G3DSysDrawObj(work->actors[1], (SRTMatrix *)&sUnderwaterMatrix);

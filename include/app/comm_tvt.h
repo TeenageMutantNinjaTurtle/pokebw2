@@ -10,12 +10,12 @@
 #define OVERLAY_COMM_TVT OVERLAY_ID(257)
 #define OVERLAY_COMM_TVT_FIELD_APP OVERLAY_ID(198)
 
-typedef struct {
+struct CommTvtParam {
     GameData *gameData;
     u32 unk4;
     u32 unk8;
     u32 unkC;
-} CommTvtParam;
+};
 
 extern const GameProcFunctions COMM_TVT_PROC_FUNCTIONS;
 extern const GameProcFunctions data_ov198_021b44a4;

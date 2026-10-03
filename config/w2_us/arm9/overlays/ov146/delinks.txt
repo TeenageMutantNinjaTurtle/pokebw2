@@ -4,12 +4,4 @@
 
 src/ov146/event_encounter_cutin.c:
     complete
-    .text       start:0x021f5b64 end:0x021f5b94
-
-src/ov146/event_encounter_cutin_callback.c:
-    complete
-    .text       start:0x021f5b94 end:0x021f5c54
-
-src/ov146/event_encounter_cutin_fallback.c:
-    complete
-    .text       start:0x021f5c54 end:0x021f5c90
+    .text       start:0x021f5b64 end:0x021f5c90

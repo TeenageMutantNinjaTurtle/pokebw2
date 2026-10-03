@@ -2,6 +2,18 @@
 #include "field/field_actor.h"
 #include "field/zone.h"
 
+s32 GetWarpAtPosition(EventData *data, const VecFx32 *position) {
+    s32 index;
+    ZoneWarp *warp = data->warpPtr;
+
+    for (index = 0; index < data->warpCount; index++, warp++) {
+        if (CheckWarpPositionMatch(warp, position)) {
+            return index;
+        }
+    }
+    return 0xffff;
+}
+
 s32 GetWarpIDByPlayerPos(EventData *data, const VecFx32 *position, u16 direction) {
     VecFx32 front = *position;
     s32 index;

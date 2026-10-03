@@ -52,16 +52,16 @@ BOOL s014C_RTFreeUserHeap(VM *vm, FieldScriptEnv *env) {
     return TRUE;
 }
 
-typedef struct BagScriptResult {
+struct BagScriptResult {
     u16 *hasSelection;
     u16 *item;
-} BagScriptResult;
+};
 
-typedef struct BagProcessData {
+struct BagProcessData {
     u8 padding[0x44];
     void *selection;
     u32 item;
-} BagProcessData;
+};
 
 void func_ov012_021575b8(ScriptOverlayWork *work) {
     BagProcessData *bag = work->resource;

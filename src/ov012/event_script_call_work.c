@@ -9,7 +9,7 @@ struct EventScriptCallData {
 };
 
 ScriptWork *EventScriptCall_GetWork(GameEvent *event) {
-    struct EventScriptCallData *data = GameEvent_GetData(event);
+    EventScriptCallData *data = GameEvent_GetData(event);
 
     return data->work;
 }
@@ -20,5 +20,5 @@ FieldScriptSupervisor *ScriptWork_GetSupervisor(ScriptWork *work) {
     if (event == NULL) {
         return NULL;
     }
-    return ((struct EventScriptCallData *)GameEvent_GetData(event))->supervisor;
+    return ((EventScriptCallData *)GameEvent_GetData(event))->supervisor;
 }
