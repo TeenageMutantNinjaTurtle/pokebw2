@@ -7,7 +7,8 @@
 struct BattleHandler {
     u8 unk00[8];
     BtlPokeCon *pokeCon;
-    u8 unk0c[0x49c];
+    void *display;
+    u8 unk10[0x498];
     BattleMoveEffectState *moveEffect;
     u8 unk4ac[0x18cc];
     u32 actionState;
@@ -29,9 +30,6 @@ BOOL BattleHandler_SetTurnFlag(BattleHandler *handler, BattleHandlerFlagParam *p
 BOOL BattleHandler_ResetTurnFlag(BattleHandler *handler, BattleHandlerFlagParam *param);
 BOOL BattleHandler_SetContinueFlag(BattleHandler *handler, BattleHandlerFlagParam *param);
 BOOL BattleHandler_ResetContinueFlag(BattleHandler *handler, BattleHandlerFlagParam *param);
-void scPut_SetContFlag(BattleHandler *handler, BattleMon *mon, u32 flag);
-void scPut_ResetContFlag(BattleHandler *handler, BattleMon *mon, u32 flag);
-
 BOOL BattleHandler_InterruptAction(BattleHandler *handler, BattleHandlerInterruptParam *param);
 u8 BattleHandler_InterruptMove(BattleHandler *handler, BattleHandlerInterruptParam *param);
 BOOL BattleHandler_SendLast(BattleHandler *handler, BattleHandlerInterruptParam *param);

@@ -35,6 +35,7 @@ BOOL PML_PkmIsRare(BoxPkm *pkm);
 // The size of a Pokémon's data
 u32 PokeParty_GetPkmRawSize(void);
 void copyPartyPkm(const PartyPkm *src, PartyPkm *dest);
+void copyPkmIntoPartyBlk(PokeParty *party, u32 index, const PartyPkm *pkm);
 // Changes a Pokémon into another species, as evolution does
 void setChangedPkmSpecies(PartyPkm *pkm, u32 species);
 // Hatches an egg, recording where and by whom

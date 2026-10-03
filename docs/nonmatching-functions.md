@@ -19,9 +19,12 @@ These source files lack `complete` in both versions' `delinks.txt`. `compiler_pr
 | --- | --- | --- | --- |
 | 12 | `TrimPartyTo3Members` | `0x02150460` / `0x021504a0` | Natural loop forms compile to `0x20` bytes; the original is `0x22` and copies the party argument into `r7` before removal. Tested DSi 1.1 through 1.6 and 2.0 variants, declaration and loop changes, and decomp-permuter variants without a match. |
 | 12 | `ProcessMapMatrix` | `0x02154c00` / `0x02154c40` | The closest C translation is `0x74` bytes, while the original is `0x78`. Const and nonconst input, field reload, and local count variants did not match. The surrounding matrix helpers match; this function remains in assembly. |
+| 33 | `EntreeForest_SpawnPkmActor` | `0x02176b00` / `0x02176b40` | The current unlinked translation is `0xa0` bytes versus the original `0xa4`. CodeWarrior assigns two persistent pointers to different registers and copies the actor position differently. |
 | 33 | `s00C8_CallDiving` | `0x02178570` / `0x021785b0` | The natural C translation has the original `0x54` byte size, but CodeWarrior assigns `vm` and the script work to the opposite callee saved registers. A stack saved environment pointer reduces the mismatch to four nonrelocated bytes. The preceding five field move script functions match in C; this function remains in assembly. |
+| 33 | `EventFieldFishing_Create` | `0x0217928c` / `0x021792cc` | The closest DSi 1.1 C translation is `0x128` bytes versus the original `0x12c`. It swaps the field and game system registers and branches differently around terrain flags. The candidate remains in assembly. |
 | 167 | `GetIllusionDisguise` | `0x0219cc58` / `0x0219cc98` | The natural C translation differs by five nonrelocated bytes because CodeWarrior assigns the loop count and index to opposite registers. The neighboring switch mode functions match; this function remains in assembly. |
 | 167 | `GetSideFromMonID` | `0x0219d31c` / `0x0219d35c` | A direct C translation has the original `0x10` byte size, but its branch layout differs. The adjacent `IsAllyMonID` and `GetSideFromOpposingMonID` now match in C; this function remains in assembly. |
+| 167 | `ActionOrder_SearchByMoveID` | `0x021a0544` / `0x021a0584` | A typed entry array loop compiles to `0x4c` bytes versus the original `0x68` because CodeWarrior stages the stack and loop address differently. The attempt remains in assembly. |
 
 ## Keeping this list current
 

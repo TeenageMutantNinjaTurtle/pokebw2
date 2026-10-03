@@ -1,3 +1,4 @@
+#include "battle/btl_display.h"
 #include "battle/btl_handler.h"
 #include "battle/btl_main.h"
 #include "battle/btl_pokeparam.h"

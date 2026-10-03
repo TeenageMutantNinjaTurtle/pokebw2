@@ -2,7 +2,7 @@
 #include "save/event_work.h"
 #include "system/game_data.h"
 
-const MapReplaceEvent *MapReplace_GetEventByUID(GameData *gameData, u8 uid) {
+const MapReplaceEvent *MapReplace_GetEventByUID(GameData *gameData, u16 uid) {
     u32 i;
 
     for (i = 0; i < 10; i++) {
@@ -15,7 +15,7 @@ const MapReplaceEvent *MapReplace_GetEventByUID(GameData *gameData, u8 uid) {
     return NULL;
 }
 
-void GameData_SetEventMapReplace(GameData *gameData, u8 uid, BOOL set) {
+void GameData_SetEventMapReplace(GameData *gameData, u16 uid, BOOL set) {
     const MapReplaceEvent *event = MapReplace_GetEventByUID(gameData, uid);
     u16 *work;
 
@@ -29,7 +29,7 @@ void GameData_SetEventMapReplace(GameData *gameData, u8 uid, BOOL set) {
     }
 }
 
-BOOL GameData_IsMapReplaceEventSet(GameData *gameData, u8 uid) {
+BOOL GameData_IsMapReplaceEventSet(GameData *gameData, u16 uid) {
     const MapReplaceEvent *event = MapReplace_GetEventByUID(gameData, uid);
 
     if (event != NULL) {

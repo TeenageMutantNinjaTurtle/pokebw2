@@ -203,3 +203,55 @@ src/ov012/field_script_env_message_pos.c:
 src/ov012/field_script_env_wait.c:
     complete
     .text       start:0x02155254 end:0x0215527c
+
+src/ov012/field_script_env_tables.c:
+    complete
+    .text       start:0x0215527c end:0x021552ac
+
+src/ov012/field_script_env_acmd.c:
+    complete
+    .text       start:0x021552ac end:0x02155330
+
+src/ov012/field_script_env_msg_data.c:
+    complete
+    .text       start:0x02155330 end:0x0215534c
+
+src/ov012/field_script_env_save.c:
+    complete
+    .text       start:0x0215560c end:0x02155638
+
+src/ov012/field_script_cmd_game_version.c:
+    complete
+    .text       start:0x02155638 end:0x02155648
+
+src/ov012/field_script_cmd_random_text.c:
+    complete
+    .text       start:0x021556a4 end:0x021556dc
+
+src/ov012/field_script_cmd_rtc.c:
+    complete
+    .text       start:0x02155700 end:0x021557d4
+
+src/ov012/field_script_cmd_zone.c:
+    complete
+    .text       start:0x02155920 end:0x02155a1c
+
+src/ov012/field_script_cmd_map_replace.c:
+    complete
+    .text       start:0x02155a1c end:0x02155ad0
+
+src/ov012/field_script_cmd_pokedex_regist.c:
+    complete
+    .text       start:0x02155ad0 end:0x02155b28
+
+src/ov012/field_script_cmd_pokedex_queries.c:
+    complete
+    .text       start:0x02155b28 end:0x02155bc8
+
+src/ov012/field_script_cmd_pokedex_unlock.c:
+    complete
+    .text       start:0x02155bc8 end:0x02155c2c
+
+src/ov012/field_script_cmd_save_setup.c:
+    complete
+    .text       start:0x02155ce4 end:0x02155d40
