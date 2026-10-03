@@ -11,6 +11,8 @@
 
 #define REG_BLDCNT_ADDR 0x04000050
 #define REG_DB_BLDCNT_ADDR 0x04001050
+#define REG_BLDALPHA_ADDR 0x04000052
+#define REG_DB_BLDALPHA_ADDR 0x04001052
 
 // Palette memory, the first of which is the BG palette of each screen
 #define HW_BG_PLTT 0x05000000

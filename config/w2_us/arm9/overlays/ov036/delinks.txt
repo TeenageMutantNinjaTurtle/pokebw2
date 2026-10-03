@@ -160,3 +160,7 @@ src/ov036/field_display_control_lifecycle.c:
 src/ov036/field_display_control_update.c:
     complete
     .text       start:0x021c8040 end:0x021c80d8
+
+src/ov036/field_display_control_procs.c:
+    complete
+    .text       start:0x021c812c end:0x021c822c

@@ -46,6 +46,7 @@ void PokeParty_Copy(const PokeParty *src, PokeParty *dest);
 void PokeParty_InitCore(PokeParty *party, u32 capacity);
 // Records how and where the Pokémon was met, with the player as its Trainer
 void PokeParty_SetupMetData(PartyPkm *pkm, u32 a1, PlayerInfo *playerInfo, u16 placeName, HeapID heapId);
+u32 func_02035cf8(PartyPkm *pkm, u32 arg1, PlayerInfo *playerInfo);
 void PokeParty_ClearPkm(PartyPkm *pkm);
 // Restores a Pokémon's HP and PP and cures its status
 void PokeParty_Recover(PartyPkm *pkm);

@@ -301,6 +301,7 @@ void ScriptWork_SetPostEvent(ScriptWork *work, GameEvent *event);
 GameEvent *ScriptWork_GetEvent(ScriptWork *work);
 FieldScriptSupervisor *ScriptWork_GetSupervisor(ScriptWork *work);
 ScriptWork *EventScriptCall_GetWork(GameEvent *event);
+ScriptWork *EventScriptCall_Replace(GameEvent *event, u16 scriptId, u32 a2, u32 a3);
 void UpdateScriptFieldWk(void *fieldWork, GameSystem *gsys);
 void *ScriptWork_GetFieldWork(ScriptWork *work);
 void *ScriptWork_GetSubwork(ScriptWork *work);

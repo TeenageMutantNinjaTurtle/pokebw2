@@ -28,6 +28,12 @@ extern void (*const FIELD_DISP_CONTROL_PROCS[])(void *params, u32 screen);
 FieldDispControl *FieldDispControl_Create(HeapID heapId);
 void FieldDispControl_Free(FieldDispControl *control);
 void FieldDispControl_Update(FieldDispControl *control);
+void FieldDispControlProc_ResetBrightness(void *params, u32 screen);
+void FieldDispControlProc_SetAlpha(const u32 *params, u32 screen);
+void FieldDispControlProc_SetBrightness(const u32 *params, u32 screen);
+void FieldDispControlProc_SetAll(const u32 *params, u32 screen);
+void FieldDispControlProc_AdjustAlpha(const u32 *params, u32 screen);
+void FieldDispControlProc_AdjustBrightness(const u32 *params, u32 screen);
 void FieldDispControl_ReqAdjustAlphaA(FieldDispControl *control, u32 alpha, u32 complement);
 void FieldDispControl_ReqSetAlphaA(FieldDispControl *control, u32 alpha, u32 beta, u32 planeMask, u32 complement);
 void FieldDispControl_ReqSetAllA(FieldDispControl *control, u32 alpha, u32 beta, u32 planeMask, u32 complement,

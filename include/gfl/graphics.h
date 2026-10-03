@@ -170,6 +170,8 @@ void gfxClearColor(GXRgb color, u8 alpha, s16 depth, u8 polygonId, BOOL fog);
 void gfxDisableLCDCBanks(void);
 void gfxRegSetAlphaBlend(u32 reg, u32 plane1, u32 plane2, s32 alpha1, s32 alpha2);
 void gfxRegSetBrightnessBlend(u32 reg, u32 plane, s32 brightness);
+void gfxRegSetBlend(u32 reg, u32 plane1, u32 plane2, s32 alpha1, s32 alpha2, u32 all);
+void gfxRegAdjustBrightnessBlend(u32 reg, s32 brightness);
 void gfxSetFog(u8 enabled, u16 alphaMode, u16 depthShift, u16 offset);
 void gfxSetLCDCBanks(u32 banks);
 void gfxUploadAsync(u32 type, u32 dest, const void *src, u32 size);

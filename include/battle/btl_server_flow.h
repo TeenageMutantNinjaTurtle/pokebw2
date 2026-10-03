@@ -49,5 +49,9 @@ u32 ServerEvent_CheckItemSet(BattleHandler *handler, BattleMon *mon, u16 item);
 void ServerEvent_ItemSetFailed(BattleHandler *handler, BattleMon *mon);
 void ServerEvent_ChangeAbilityAfter(BattleHandler *handler, u8 monIndex);
 BOOL ServerControl_DrainCore(BattleHandler *handler, BattleMon *mon, BattleMon *source, u16 amount);
+BOOL ServerControl_CheckSimpleDamageEnabled(BattleHandler *handler, BattleMon *mon, u16 damage);
+void ServerControl_ViewEffect(BattleHandler *handler, u16 effect, u8 arg1, u8 arg2, u32 flag1, u32 flag2);
+void ServerControl_SimpleDamageCore(BattleHandler *handler, BattleMon *mon, u16 damage, BattleHandlerString *string);
+void ServerControl_FaintPokemon(BattleHandler *handler, BattleMon *mon);
 
 #endif // POKEBW2_BATTLE_BTL_SERVER_FLOW_H

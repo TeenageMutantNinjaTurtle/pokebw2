@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_MYSTERY_GIFT_SCRIPT_H
 
 #include "types.h"
+#include "gfl/heap.h"
 #include "gfl/str.h"
 #include "struct_decls.h"
 
@@ -24,6 +25,8 @@ u32 func_ov033_02178180(WordSet *wordSet, void *gift, FieldScriptEnv *env);
 u32 func_ov033_021781e0(void);
 u32 func_ov033_021781e4(void);
 BOOL func_ov033_02178074(void *gift, u32 kind);
+u32 func_ov033_021780a4(FieldScriptEnv *env, void *gift, u32 kind);
+PartyPkm *func_ov012_02153160(void *gift, HeapID heapId, GameData *gameData);
 void func_ov033_021781e8(FieldScriptEnv *env, GameData *gameData, void *gift);
 u32 func_ov033_02178218(u32 arg0, u32 arg1, void *gift);
 u32 func_ov033_02178230(WordSet *wordSet, void *gift, FieldScriptEnv *env);

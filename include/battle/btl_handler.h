@@ -88,6 +88,12 @@ BOOL BattleHandler_SetItem(BattleHandler *handler, BattleHandlerSetItemParam *pa
 BOOL BattleHandler_SwapItem(BattleHandler *handler, BattleHandlerSwapItemParam *param);
 BOOL BattleHandler_Drain(BattleHandler *handler, BattleHandlerDrainParam *param);
 u8 func_ov167_021ac988(void *state, u8 monIndex);
+BOOL BattleHandler_Damage(BattleHandler *handler, BattleHandlerDamageParam *param);
+BOOL BattleHandler_ChangeHP(BattleHandler *handler, BattleHandlerChangeHPParam *param);
+BOOL BattleHandler_Faint(BattleHandler *handler, BattleHandlerFaintParam *param);
+u8 func_ov167_021aca54(void *state, u8 monIndex);
+u8 func_ov167_021acad4(void *state, u8 monIndex);
+u8 func_ov167_021ad15c(void *state, u8 monIndex);
 u32 HandlerGetAlivePartyCount(BattleHandler *handler, u16 code, u8 *monIds);
 u8 func_ov167_021add78(void *state, u8 monIndex);
 u8 func_ov167_021ae0fc(void *state, u8 monIndex);

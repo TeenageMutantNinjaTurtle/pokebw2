@@ -412,6 +412,10 @@ src/ov012/encounter_state.c:
     complete
     .text       start:0x02159190 end:0x02159270
 
+src/ov012/hidden_event_cut.c:
+    complete
+    .text       start:0x0215943c end:0x02159500
+
 src/ov012/field_script_cmd_party_add_egg.c:
     complete
     .text       start:0x021571b4 end:0x021572f0

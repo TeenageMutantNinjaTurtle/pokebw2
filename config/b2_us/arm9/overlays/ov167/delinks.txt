@@ -303,3 +303,15 @@ src/ov167/battle_handler_swap_item.c:
 src/ov167/battle_handler_drain.c:
     complete
     .text       start:0x021ac924 end:0x021ac988
+
+src/ov167/battle_handler_damage.c:
+    complete
+    .text       start:0x021ac998 end:0x021aca54
+
+src/ov167/battle_handler_change_hp.c:
+    complete
+    .text       start:0x021aca64 end:0x021acad4
+
+src/ov167/battle_handler_faint.c:
+    complete
+    .text       start:0x021ad110 end:0x021ad15c
