@@ -255,3 +255,11 @@ src/ov167/battle_handler_stat_stage_recover.c:
 src/ov167/battle_handler_message.c:
     complete
     .text       start:0x021ad254 end:0x021ad2a8
+
+src/ov167/battle_handler_set_string.c:
+    complete
+    .text       start:0x021ad520 end:0x021ad5a4
+
+src/ov167/battle_handler_decrement_pp.c:
+    complete
+    .text       start:0x021acb90 end:0x021acbe8

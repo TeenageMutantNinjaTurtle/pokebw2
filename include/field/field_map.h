@@ -95,7 +95,7 @@ BOOL FieldG3DMapper_GetTerrain(G3DMapper *mapper, const VecFx32 *position, Field
 u32 GetTileClass(u32 tileType);
 BOOL MapTile_IsSurfEdge(u32 tileClass);
 BOOL IsTileSurfWater(u32 tileClass);
-u8 GetWeatherAll(GameSystem *gsys, u16 zoneId);
+u32 GetWeatherAll(GameSystem *gsys, u16 zoneId);
 void ResetWeather(GameSystem *gsys, s32 zoneId);
 void UpdateWeatherToDefault(GameData *gameData, u16 zoneId);
 

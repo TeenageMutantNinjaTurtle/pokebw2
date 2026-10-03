@@ -81,6 +81,8 @@ void CreateRespawnZoneChangeData(ZoneSpawnInfo *spawn, u16 zoneId, u32 unused, u
 u32 GetWarpTransitionType(ZoneWarp *warp);
 BOOL GetZoneFlagsEnableEscapeRope(u16 zoneId);
 BOOL GetZoneFlagsEnableEntralinkWarp(u16 zoneId);
+BOOL GetZoneFlagsEnableFlyFrom(u16 zoneId);
+BOOL GetZoneIsEntralinkAny(u16 zoneId);
 void *FindCollidingZoneTriggerAtLocation(EventData *eventData, EventWork *eventWork, const VecFx32 *position);
 u32 GetZoneFlashFlags(u16 zoneId);
 BOOL GetZoneIsMusicalTheater(u16 zoneId);

@@ -18,6 +18,6 @@ void *Field_GetWeatherSystem(Field *field) {
     return field->weatherSystem;
 }
 
-u8 Field_GetWeatherForZone(Field *field, u16 zoneId) {
+u32 Field_GetWeatherForZone(Field *field, u16 zoneId) {
     return GetWeatherAll(field->gameSystem, zoneId);
 }

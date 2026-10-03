@@ -124,3 +124,15 @@ src/ov036/field_lens_flare_control.c:
 src/ov036/field_lens_flare_free.c:
     complete
     .text       start:0x021c84c8 end:0x021c84e8
+
+src/ov036/field_palace_check_event_flag.c:
+    complete
+    .text       start:0x021c83d8 end:0x021c8420
+
+src/ov036/field_lens_flare_decide.c:
+    complete
+    .text       start:0x021c8654 end:0x021c86c0
+
+src/ov036/field_lens_flare_applicable.c:
+    complete
+    .text       start:0x021c8808 end:0x021c8814

@@ -24,6 +24,20 @@ struct BattleHandlerPopupParam {
     u32 unk13 : 19;
 };
 
+struct BattleHandlerString {
+    u16 message;
+    union {
+        u16 flags;
+        struct {
+            u16 enabled : 8;
+            u16 count : 7;
+            u16 hasSound : 1;
+        };
+    };
+    u32 args[8];
+    u32 soundEffect;
+};
+
 void BattleHandler_StrClear(BattleHandlerString *string);
 BOOL BattleHandler_StrIsEnabled(BattleHandlerString *string);
 void BattleHandler_StrSetup(BattleHandlerString *string, u32 enabled, u16 message);
@@ -43,7 +57,7 @@ BOOL BattleHandler_ResetContinueFlag(BattleHandler *handler, BattleHandlerFlagPa
 BOOL BattleHandler_InterruptAction(BattleHandler *handler, BattleHandlerInterruptParam *param);
 u8 BattleHandler_InterruptMove(BattleHandler *handler, BattleHandlerInterruptParam *param);
 BOOL BattleHandler_SendLast(BattleHandler *handler, BattleHandlerInterruptParam *param);
-void BattleHandler_SetString(BattleHandler *handler, BattleHandlerString *string);
+BOOL BattleHandler_SetString(BattleHandler *handler, BattleHandlerString *string);
 BOOL BattleHandler_AbilityPopupRemove(BattleHandler *handler, BattleHandlerPopupParam *param);
 BOOL BattleHandler_HideTurnCancel(BattleHandler *handler, BattleHandlerHideTurnParam *param);
 BOOL BattleHandler_RemoveMessageWindow(BattleHandler *handler);
@@ -62,6 +76,7 @@ BOOL BattleHandler_RemoveFieldEffect(BattleHandler *handler, BattleHandlerRemove
 u8 BattleHandler_RecoverStatStage(BattleHandler *handler, BattleHandlerRecoverStatStageParam *param);
 BOOL BattleHandler_ResetStatStage(BattleHandler *handler, BattleHandlerResetStatStageParam *param);
 BOOL BattleHandler_Message(BattleHandler *handler, BattleHandlerMessageParam *param);
+BOOL BattleHandler_DecrementPP(BattleHandler *handler, BattleHandlerDecrementPPParam *param);
 
 BOOL BattleHandler_SetMoveEffectIndex(BattleHandler *handler, BattleHandlerMoveEffectParam *param);
 BOOL BattleHandler_SetMoveEffectEnable(BattleHandler *handler);

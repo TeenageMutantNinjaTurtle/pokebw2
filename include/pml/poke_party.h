@@ -80,6 +80,7 @@ u16 func_0201d358(PartyPkm *pkm, u32 *index, HeapID heapId);
 // Allocates a Pokémon that is not in a party. What the 64-bit argument sets is not known yet; 0 is one of the values
 // that PML_CreatePkm treats specially
 PartyPkm *PokeParty_NewTempPkm(u16 species, u16 level, u64 a2, HeapID heapId);
+PartyPkm *PokeParty_NewPkm(u16 species, u16 level, u32 trainerId, u32 a3, s32 a4, u64 pid, HeapID heapId);
 // The species names, which stay loaded
 extern MsgData *g_PMLSpeciesNamesResident;
 

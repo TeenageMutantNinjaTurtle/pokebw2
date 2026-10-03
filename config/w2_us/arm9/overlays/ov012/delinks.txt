@@ -367,3 +367,11 @@ src/ov012/field_script_cmd_money.c:
 src/ov012/field_script_cmd_field_open_close.c:
     complete
     .text       start:0x021574e4 end:0x02157534
+
+src/ov012/field_script_cmd_party_add_egg.c:
+    complete
+    .text       start:0x021571b4 end:0x021572f0
+
+src/ov012/game_data_make_box_pkm.c:
+    complete
+    .text       start:0x021572f0 end:0x021573c0

@@ -199,6 +199,7 @@ BOOL s01D5_MoveReminderCheckPkm(VM *vm, FieldScriptEnv *env);
 BOOL s0119_PokePartyIsFromWhiteForest(VM *vm, FieldScriptEnv *env);
 BOOL s0122_BoxAdd(VM *vm, FieldScriptEnv *env);
 BOOL s0123_BoxAddEx(VM *vm, FieldScriptEnv *env);
+BOOL s010F_PokePartyAddEgg(VM *vm, FieldScriptEnv *env);
 BOOL s014A_FieldOpen(VM *vm, FieldScriptEnv *env);
 BOOL s014B_FieldClose(VM *vm, FieldScriptEnv *env);
 BOOL s00F9_MoneyAdd(VM *vm, FieldScriptEnv *env);

@@ -198,3 +198,11 @@ src/ov033/event_chatot_cleanup.c:
 src/ov033/event_chatot_sprite_create.c:
     complete
     .text       start:0x0217903c end:0x021790e0
+
+src/ov033/unity_tower_visitor_list_init.c:
+    complete
+    .text       start:0x0217aa5c end:0x0217aa90
+
+src/ov033/unity_tower_visitor_list_get.c:
+    complete
+    .text       start:0x0217ab04 end:0x0217ab18

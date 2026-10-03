@@ -34,5 +34,7 @@ BOOL ServerControl_SwitchOut(BattleHandler *handler, BattleMon *mon, u8 flag);
 void RequestChangePokemon(BtlServerFlow *serverFlow, u8 pos);
 BOOL ServerControl_FieldEffectCore(BattleHandler *handler, u32 effect, BattleCondition value, u8 duration);
 void ServerControl_FieldEffectEnd(BattleHandler *handler, u32 effect);
+BOOL ServerControl_DecrementPP(BattleHandler *handler, BattleMon *mon, u8 moveIndex, u8 amount);
+BOOL ServerEvent_DecrementPP(BattleHandler *handler, BattleMon *mon, u8 moveIndex);
 
 #endif // POKEBW2_BATTLE_BTL_SERVER_FLOW_H

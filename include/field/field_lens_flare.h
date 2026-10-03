@@ -23,8 +23,10 @@ struct FieldLensFlare {
     FieldLensFlareData *data;
     u32 state;
     FieldLensFlareData *ownedData;
-    u32 unk18;
+    GameSystem *gameSystem;
     u16 effectId;
+    u16 unk1e;
+    GameData *gameData;
 };
 
 extern const u16 data_ov036_021d4768[][4];
@@ -41,6 +43,8 @@ void FieldLensFlare_Free(FieldLensFlare *lensFlare);
 void FieldLensFlare_RequestStart(FieldLensFlare *lensFlare);
 void FieldLensFlare_GreenlightStart(FieldLensFlare *lensFlare);
 void FieldLensFlare_Cancel(FieldLensFlare *lensFlare);
+void FieldLensFlare_DecideForZoneTransit(FieldLensFlare *lensFlare, u16 zoneId, u16 prevZoneId, u32 fog);
+BOOL FieldLensFlare_IsApplicable(GameData *gameData, u16 zoneId);
 u8 FieldLensFlare_GetSubIndexForDayPeriod(u32 period);
 u16 FieldLensFlare_GetEffectSetID(FieldLensFlareData *data, u32 entryIndex, u32 effectIndex, u32 subIndex);
 u32 FieldLensFlareData_BytesToEntryCount(FieldLensFlareData *data);

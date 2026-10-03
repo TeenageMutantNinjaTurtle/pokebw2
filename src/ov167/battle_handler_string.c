@@ -1,15 +1,6 @@
 #include "battle/btl_handler.h"
 #include "gfl/std.h"
 
-struct BattleHandlerString {
-    u16 message;
-    u16 enabled : 8;
-    u16 count : 7;
-    u16 hasSound : 1;
-    u32 args[8];
-    u32 soundEffect;
-};
-
 // Function names from swan.
 void BattleHandler_StrClear(BattleHandlerString *string) {
     sys_memset(string, 0, 0x28);

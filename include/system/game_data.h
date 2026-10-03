@@ -84,6 +84,8 @@ void GameData_SetLastSubscreen(GameData *gameData, u32 subscreen);
 void GameData_SetLastBtlResult(GameData *gameData, u32 result);
 u32 GameData_GetLastBtlResult(GameData *gameData);
 void GameData_SetLensFlareRequested(GameData *gameData, BOOL requested);
+u32 GameData_GetLensFlareEntryIdx(GameData *gameData);
+void GameData_SetLensFlareEntryIdx(GameData *gameData, u32 index);
 void GameData_SetNextZone(GameData *gameData, ZoneSpawnInfo *spawn);
 ZoneSpawnInfo *GetGameDataNowSpawnZone(GameData *gameData);
 PlayerInfo *GetGameDataPlayerInfo(GameData *gameData);
