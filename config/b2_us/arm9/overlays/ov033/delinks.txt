@@ -43,3 +43,46 @@ src/ov033/event_dendou_machine.c:
 src/ov033/mystery_gift_delivery.c:
     complete
     .text       start:0x02177fa8 end:0x02178074
+
+src/ov033/event_field_trade_debug.c:
+    complete
+    .text       start:0x0217a714 end:0x0217a864
+
+src/ov033/event_field_trade_create.c:
+    complete
+    .text       start:0x0217a9d8 end:0x0217aa1c
+
+src/ov033/field_move_scripts.c:
+    complete
+    .text       start:0x02178448 end:0x02178570
+
+src/ov033/field_surf.c:
+    complete
+    .text       start:0x021791c0 end:0x0217928c
+
+src/ov033/trial_house_work_create.c:
+    complete
+    .text       start:0x0217ac70 end:0x0217acd4
+
+src/ov033/trial_house_work_delete.c:
+    complete
+    .text       start:0x0217ad4c end:0x0217ad78
+
+src/ov033/unity_tower_visitor_word_set.c:
+    complete
+    .text       start:0x0217ab8c end:0x0217ac70
+
+src/ov033/event_field_trade_pkm.c:
+    .text       start:0x0217a590 end:0x0217a714
+
+src/ov033/pc_sound_entry.c:
+    complete
+    .text       start:0x021798fc end:0x021799bc
+
+src/ov033/pc_sound_create.c:
+    complete
+    .text       start:0x021799bc end:0x021799e8
+
+src/ov033/pc_sound_logoff.c:
+    complete
+    .text       start:0x02179a84 end:0x02179b24

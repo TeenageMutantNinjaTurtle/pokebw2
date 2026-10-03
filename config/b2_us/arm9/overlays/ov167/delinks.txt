@@ -107,3 +107,19 @@ src/ov167/battle_valid_pos_max.c:
 src/ov167/battle_run_mode.c:
     complete
     .text       start:0x0219bf20 end:0x0219bf68
+
+src/ov167/battle_friendship.c:
+    complete
+    .text       start:0x0219cb8c end:0x0219cc34
+
+src/ov167/battle_switch_mode_flow.c:
+    complete
+    .text       start:0x0219ea44 end:0x0219eae4
+
+src/ov167/battle_action_state.c:
+    complete
+    .text       start:0x021b08d0 end:0x021b0918
+
+src/ov167/battle_handler_string.c:
+    complete
+    .text       start:0x021ac350 end:0x021ac3e4

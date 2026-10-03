@@ -89,12 +89,25 @@ BOOL s001D_RTEndGlobal(VM *vm, FieldScriptEnv *env);
 BOOL s001E_VMJump(VM *vm, FieldScriptEnv *env);
 BOOL s001F_VMJumpIf(VM *vm, FieldScriptEnv *env);
 BOOL s0020_VMCallIf(VM *vm, FieldScriptEnv *env);
+BOOL testAB(VM *vm, void *env);
+BOOL s0031_ABKeyWait(VM *vm, FieldScriptEnv *env);
+BOOL ScriptNative_LastKeyWait(VM *vm, void *env);
+BOOL s0032_LastKeyWait(VM *vm, FieldScriptEnv *env);
+BOOL PauseEventMModels(VM *vm, FieldScriptEnv *env);
+void EnableAllActorsMovementScr(FieldScriptEnv *env);
+GameEvent *EventFinishScriptSubEvents_Create(FieldScriptEnv *env);
+BOOL s002E_ActorsPauseAll(VM *vm, FieldScriptEnv *env);
+BOOL s002F_ActorsUnpauseAll(VM *vm, FieldScriptEnv *env);
+BOOL s0030_FinishAllEvents(VM *vm, FieldScriptEnv *env);
 
 GameSystem *FieldScriptEnv_GetGameSystem(FieldScriptEnv *env);
 GameData *FieldScriptEnv_GetGameData(FieldScriptEnv *env);
+u16 FieldScriptEnv_GetZoneID(FieldScriptEnv *env);
 HeapID FieldScriptEnv_GetHeapID(FieldScriptEnv *env);
 u16 GetScriptEnvZoneID(FieldScriptEnv *env);
 ScriptWork *FieldScriptEnv_GetScriptWork(FieldScriptEnv *env);
+void FieldScriptEnv_SetPlayerGridEventTCB(FieldScriptEnv *env, void *task);
+void *FieldScriptEnv_GetPlayerGridEventTCB(FieldScriptEnv *env);
 FieldActorAnmProc *ScriptWork_GetActorAnmProc(ScriptWork *work);
 void ScriptWork_SetActorAnmProc(ScriptWork *work, FieldActorAnmProc *proc);
 void ScriptWork_SetStadiumTrainers(ScriptWork *work, void *trainers);
@@ -123,6 +136,7 @@ u32 *ScriptWork_GetSEBitMask(ScriptWork *work);
 u16 ScriptWork_GetSCRID(ScriptWork *work);
 // A variable of the script (IDs from 0x8000) or saved event work (from 0x4000)
 u16 *ScriptWork_GetWkAddr(ScriptWork *work, GameData *gameData, u16 id);
+u16 ScriptWork_ResolveHybridValue(ScriptWork *work, GameData *gameData, u16 value);
 // Waits a number of frames: UpdateWaitCounter returns TRUE once they have passed
 void FieldScriptEnv_SetWaitCounter(FieldScriptEnv *env, u16 frames);
 BOOL FieldScriptEnv_UpdateWaitCounter(FieldScriptEnv *env);

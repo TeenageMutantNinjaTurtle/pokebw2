@@ -87,3 +87,35 @@ src/ov012/field_script_vm_flags.c:
 src/ov012/field_script_vm_work.c:
     complete
     .text       start:0x021546ec end:0x02154824
+
+src/ov012/field_script_actor_events.c:
+    complete
+    .text       start:0x02154824 end:0x021548a0
+
+src/ov012/field_script_key_wait.c:
+    complete
+    .text       start:0x021548a0 end:0x021548e8
+
+src/ov012/field_script_read.c:
+    complete
+    .text       start:0x021548e8 end:0x02154948
+
+src/ov012/field_script_plugin_select.c:
+    complete
+    .text       start:0x02154948 end:0x0215498c
+
+src/ov012/field_script_plugin_overlay.c:
+    complete
+    .text       start:0x0215498c end:0x02154a08
+
+src/ov012/field_script_plugin_table.c:
+    complete
+    .text       start:0x02154a08 end:0x02154a64
+
+src/ov012/map_matrix_lifecycle.c:
+    complete
+    .text       start:0x02154a64 end:0x02154ae0
+
+src/ov012/map_matrix_queries.c:
+    complete
+    .text       start:0x02154ae0 end:0x02154b64

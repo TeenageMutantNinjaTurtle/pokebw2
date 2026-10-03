@@ -5,6 +5,10 @@
 #include "constants/battle.h"
 #include "struct_decls.h"
 
+BOOL DoesSwitchModeNeedConfirming(BtlServerFlow *serverFlow);
+u8 GetNextEnemyForSwitchMode(BtlServerFlow *serverFlow);
+BOOL IsSwitchModeEnabled(const void *switchMode);
+
 // The damage of a move, with the type effectiveness if withEffectiveness is set. damageRoll is USE_MIN_DAMAGE for the
 // lowest random roll, or ROLL_FOR_DAMAGE for a random one
 u32 AICalcDamage(BtlServerFlow *serverFlow, u8 attackerId, u8 defenderId, u16 move, BOOL withEffectiveness,

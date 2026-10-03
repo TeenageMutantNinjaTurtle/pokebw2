@@ -10,9 +10,17 @@
 struct FieldTradeOfferData {
     u32 unk00;
     u32 species;
-    u8 unk08[0x48];
+    u32 unk08;
+    u32 unk0c;
+    u32 unk10[6];
+    u32 unk28;
+    u32 unk2c;
+    u32 unk30;
+    u32 unk34;
+    u32 unk38[6];
     u32 trainerGender;
-    u8 unk54[8];
+    u32 unk54;
+    u32 unk58;
     u32 wantedSpecies;
     u32 wantedSex;
     u32 unk64;

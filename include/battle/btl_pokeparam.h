@@ -15,6 +15,7 @@ typedef struct {
 typedef s32 PokeTypePair;
 
 BOOL CanPokemonBattle(BattleMon *mon);
+PartyPkm *GetSrcData(const void *param);
 BOOL CheckCondition(BattleMon *mon, u32 condition);
 BOOL Condition_IsBadlyPoisoned(BattleConditionCont cont);
 u32 GetAdditionalConditionFlag(BattleMon *mon, u32 flag);

@@ -37,7 +37,7 @@ void WordSet_LoadSpeciesName(WordSet *wordSet, u32 index, u32 species);
 void loadCountryToStrbuf(WordSet *wordSet, u32 index, u32 country);
 void loadCountryAreaToStrbuf(WordSet *wordSet, u32 index, u32 country, u32 area);
 void loadJobAnswerToStrbuf(WordSet *wordSet, u32 index, u8 job);
-void loadHobbyNameToStrbuf(WordSet *wordSet, u32 index, u8 hobby);
+void loadHobbyNameToStrbuf(WordSet *wordSet, u32 index, u32 hobby);
 // Puts a Pokémon's species name in a word set
 void setPartyPokemonSpeciesNameToStrbuf(WordSet *wordSet, u32 index, PartyPkm *pkm);
 void loadPokemonNicknameToStrbuf(WordSet *wordSet, u32 index, PartyPkm *pkm);

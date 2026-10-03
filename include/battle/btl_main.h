@@ -57,6 +57,8 @@ u8 GetPlayerClientID(BtlMainModule *mainModule);
 BOOL IsAllyClientID(u8 clientId1, u8 clientId2);
 void BattleClient_SubItem(BtlMainModule *mainModule, u8 clientId, u16 item);
 void BattleClient_AddItem(BtlMainModule *mainModule, u8 clientId, u16 item);
+void ChangeFriendshipWhenFainted(BtlMainModule *mainModule, BattleMon *mon, BOOL reason);
+void ChangeFriendship(BtlMainModule *mainModule, BattleMon *mon, u32 reason);
 u8 func_ov167_0219c650(BtlMainModule *mainModule, u8 pos);
 BattleMon *func_ov167_0219d188(BtlPokeCon *pokeCon, u8 pos);
 BattleMon *GetClientMonData(BtlPokeCon *pokeCon, u8 clientId, u8 monId);

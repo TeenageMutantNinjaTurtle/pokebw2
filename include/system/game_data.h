@@ -79,6 +79,8 @@ void *func_020179f8(GameData *gameData);
 u32 func_02017a40(GameData *gameData);
 void func_02017b64(GameData *gameData, u8 a1);
 u32 *func_02017b84(GameData *gameData);
+u32 GetScrPluginNo(GameData *gameData);
+void SetScrPluginNo(GameData *gameData, u32 pluginNo);
 u32 func_02039978(u32 *a0, u32 index);
 void func_02039980(u32 *a0, u32 index, u32 value);
 
