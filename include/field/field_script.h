@@ -71,6 +71,12 @@ struct FieldScriptEnv {
     ScriptSubwork *subwork;
 };
 
+// The work a field subprocess's callback gets, which the callback frees
+typedef struct {
+    void *resource;
+    void *data;
+} ScriptProcCallbackWork;
+
 struct ScriptOverlayWork {
     void *resource;
     void *data;
@@ -275,8 +281,10 @@ void CreateScrCmdOverlayProcess(VM *vm, FieldScriptEnv *env, s32 overlayId, cons
 BOOL func_ov012_02157554(VM *vm, FieldScriptEnv *env);
 BOOL s014C_RTFreeUserHeap(VM *vm, FieldScriptEnv *env);
 void func_ov012_021575b8(ScriptOverlayWork *work);
-void func_ov012_0215767c(ScriptOverlayWork *work);
-void func_ov012_02157728(ScriptOverlayWork *work);
+// Called before the Pokédex diplomas
+void func_ov012_0215fdbc(void);
+void func_ov012_0215767c(void *arg);
+void func_ov012_02157728(void *arg);
 BOOL s0154_Call3DDemo(VM *vm, FieldScriptEnv *env);
 BOOL func_ov012_02157a78(VM *vm, FieldScriptEnv *env);
 BOOL s0160_NetConnectWiFiBattle(VM *vm, FieldScriptEnv *env);

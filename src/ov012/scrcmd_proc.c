@@ -1,12 +1,26 @@
 #include "types.h"
+#include "app/bag.h"
+#include "app/mailbox.h"
+#include "app/marine_tube_board.h"
+#include "app/monolith.h"
+#include "app/psel.h"
+#include "app/subway_map.h"
+#include "app/zukan_award.h"
+#include "field/entree_forest.h"
 #include "field/event_3d_demo.h"
 #include "field/event_battle_video.h"
 #include "field/event_wifibattlematch.h"
 #include "field/field_event.h"
 #include "field/field_script.h"
+#include "field/gimmick_state.h"
 #include "gfl/heap.h"
 #include "gfl/overlay.h"
+#include "gfl/std.h"
 #include "pml/move_reminder.h"
+#include "pml/poke_party.h"
+#include "save/high_link.h"
+#include "save/save_control.h"
+#include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
 #include "system/vm.h"
@@ -16,16 +30,6 @@ struct BagScriptResult {
     u16 *item;
 };
 
-struct BagProcessData {
-    u8 padding[0x44];
-    void *selection;
-    u32 item;
-};
-
-struct MailboxProcessData {
-    u32 unk00;
-    u32 result;
-};
 
 BOOL s014A_FieldOpen(VM *vm, FieldScriptEnv *env) {
     ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
@@ -104,7 +108,35 @@ void func_ov012_021575b8(ScriptOverlayWork *work) {
     GFL_HeapFree(work->resource);
 }
 
-void func_ov012_0215767c(ScriptOverlayWork *work) {
+BOOL s014E_CallBag(VM *vm, FieldScriptEnv *env) {
+    u16 mode;
+    u16 *hasSelection;
+    u16 *item;
+    BagProcessData *bag;
+    BagScriptResult *result;
+
+    FieldScriptEnv_GetGameSystem(env);
+    FieldScriptEnv_GetScriptWork(env);
+    mode = ScriptReadAny(vm, env);
+    hasSelection = ScriptReadVar(vm, env);
+    item = ScriptReadVar(vm, env);
+    if (mode == 0) {
+        mode = 4;
+    } else if (mode == 1) {
+        mode = 5;
+    } else {
+        mode = 0;
+    }
+    bag = func_02034ad0(FieldScriptEnv_GetGameData(env), NULL, mode, HEAPID_GAMEEVENT);
+    result = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(BagScriptResult), TRUE, "scrcmd_proc.c", 280);
+    result->hasSelection = hasSelection;
+    result->item = item;
+    CreateScrCmdOverlayProcess(vm, env, OVERLAY_BAG, &data_ov142_021a0910, bag, func_ov012_021575b8, result);
+    return TRUE;
+}
+
+void func_ov012_0215767c(void *arg) {
+    ScriptProcCallbackWork *work = arg;
     MailboxProcessData *mailbox = work->resource;
 
     if (mailbox->result == 1) {
@@ -115,7 +147,31 @@ void func_ov012_0215767c(ScriptOverlayWork *work) {
     GFL_HeapFree(work->resource);
 }
 
-void func_ov012_02157728(ScriptOverlayWork *work) {
+BOOL s0150_CallMailbox(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *scriptWork;
+    GameSystem *gsys;
+    GameData *gameData;
+    Field *field;
+    MailboxProcessData *mailbox;
+    ScriptProcCallbackWork *work;
+
+    scriptWork = FieldScriptEnv_GetScriptWork(env);
+    gsys = FieldScriptEnv_GetGameSystem(env);
+    gameData = GSYS_GetGameData(gsys);
+    field = GSYS_GetField(gsys);
+    mailbox = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(MailboxProcessData), FALSE, "scrcmd_proc.c", 335);
+    work = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(ScriptProcCallbackWork), FALSE, "scrcmd_proc.c", 336);
+    mailbox->gameData = gameData;
+    work->resource = mailbox;
+    work->data = ScriptReadVar(vm, env);
+    ScriptWork_CallEvent(scriptWork, EventFieldSubprocessCall_CreateWithCallback(gsys, field, OVERLAY_MAILBOX,
+                                                                               &data_ov215_021ab158, mailbox,
+                                                                               func_ov012_0215767c, work));
+    return TRUE;
+}
+
+void func_ov012_02157728(void *arg) {
+    ScriptProcCallbackWork *work = arg;
     MoveReminderProcessData *data;
     u16 result;
 
@@ -134,6 +190,69 @@ void func_ov012_02157728(ScriptOverlayWork *work) {
     func_ov012_02169ca4(work->resource);
 }
 
+BOOL s01D6_MoveReminderCallMoveSelect(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *scriptWork;
+    GameSystem *gsys;
+    GameData *gameData;
+    Field *field;
+    u16 *result;
+    u16 slot;
+    PartyPkm *pkm;
+    PlayerInfo *playerInfo;
+    u16 *moves;
+    MoveReminderProcessData *data;
+    ScriptProcCallbackWork *work;
+
+    scriptWork = FieldScriptEnv_GetScriptWork(env);
+    gsys = FieldScriptEnv_GetGameSystem(env);
+    gameData = GSYS_GetGameData(gsys);
+    field = GSYS_GetField(gsys);
+    result = ScriptReadVar(vm, env);
+    slot = ScriptReadAny(vm, env);
+    pkm = PokeParty_GetPkm(GameData_GetParty(gameData), slot);
+    playerInfo = GetGameDataPlayerInfo(gameData);
+    moves = PokeParty_GetRememberableMoves(pkm, HEAPID_GAMEEVENT);
+    data = func_ov012_02169c7c(HEAPID_GAMEEVENT);
+    data->pkm = pkm;
+    data->playerInfo = playerInfo;
+    data->unk08 = NULL;
+    data->gsys = gsys;
+    data->moves = moves;
+    data->unk19 = 1;
+    work = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(ScriptProcCallbackWork), FALSE, "scrcmd_proc.c", 411);
+    work->resource = data;
+    work->data = result;
+    ScriptWork_CallEvent(scriptWork, func_020196d0(gsys, field, OVERLAY_MOVE_REMINDER, &data_ov258_0219b9a8, data,
+                                                   func_ov012_02157728, work));
+    return TRUE;
+}
+
+BOOL func_ov012_02157814(VM *vm, FieldScriptEnv *env) {
+    GameSystem *gsys;
+    GameCommSys *commSys;
+    GameData *gameData;
+    MonolithParam *param;
+    u8 *saveBytes;
+    HighLinkSave *highLink;
+
+    gsys = FieldScriptEnv_GetGameSystem(env);
+    commSys = GSYS_GetGameCommSystem(gsys);
+    gameData = GSYS_GetGameData(gsys);
+    FieldScriptEnv_GetScriptWork(env);
+    func_ov012_02153608(commSys);
+    param = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(MonolithParam), TRUE, "scrcmd_proc.c", 444);
+    saveBytes = param->unk2C;
+    highLink = getHighLinkBlockAddress(GameData_GetSaveControl(gameData));
+    sys_memset(saveBytes, 0, sizeof(param->unk2C));
+    func_0200c6d8(highLink, saveBytes, 2);
+    saveBytes[2] = 1;
+    param->unk31 = 0;
+    param->gsys = gsys;
+    param->unk30 = 0;
+    CreateScrCmdOverlayProcess(vm, env, OVERLAY_MONOLITH, &data_ov143_0219fe70, param, NULL, NULL);
+    return TRUE;
+}
+
 BOOL s0154_Call3DDemo(VM *vm, FieldScriptEnv *env) {
     ScriptWork *work;
     GameSystem *gsys;
@@ -149,6 +268,63 @@ BOOL s0154_Call3DDemo(VM *vm, FieldScriptEnv *env) {
     parent = ScriptWork_GetEvent(work);
     event = Event3DDemo_Create(gsys, parent, demoId, param, 0);
     ScriptWork_CallEvent(work, event);
+    return TRUE;
+}
+
+BOOL s0151_CallPokedexDiploma(VM *vm, FieldScriptEnv *env) {
+    GameSystem *gsys;
+    GameData *gameData;
+    PlayerInfo *playerInfo;
+    u16 mode;
+    u16 value;
+    ZukanAwardParam *award;
+    SubwayMapParam *subwayMap;
+    MarineTubeBoardParam *board;
+
+    gsys = FieldScriptEnv_GetGameSystem(env);
+    gameData = GSYS_GetGameData(gsys);
+    playerInfo = GetGameDataPlayerInfo(gameData);
+    mode = ScriptReadAny(vm, env);
+    value = ScriptReadAny(vm, env);
+    if (mode <= 1) {
+        func_ov012_0215fdbc();
+    }
+    switch (mode) {
+    case 0:
+        award = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(ZukanAwardParam), TRUE, "scrcmd_proc.c", 546);
+        award->gameData = gameData;
+        award->unk04 = value;
+        CreateScrCmdOverlayProcess(vm, env, OVERLAY_CHIHOU_ZUKAN_AWARD, &data_ov314_0219da74, award, NULL, NULL);
+        break;
+    case 1:
+        award = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(ZukanAwardParam), TRUE, "scrcmd_proc.c", 554);
+        award->gameData = gameData;
+        award->unk04 = value;
+        CreateScrCmdOverlayProcess(vm, env, OVERLAY_ZENKOKU_ZUKAN_AWARD, &data_ov315_0219db20, award, NULL, NULL);
+        break;
+    case 2:
+        subwayMap = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(SubwayMapParam), TRUE, "scrcmd_proc.c", 563);
+        subwayMap->playerInfo = playerInfo;
+        CreateScrCmdOverlayProcess(vm, env, OVERLAY_SUBWAY_MAP, &data_ov317_0219d4c8, subwayMap, NULL, NULL);
+        break;
+    case 3:
+        board = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(MarineTubeBoardParam), TRUE, "scrcmd_proc.c", 570);
+        board->gsys = gsys;
+        board->unk04 = value;
+        CreateScrCmdOverlayProcess(vm, env, OVERLAY_MARINE_TUBE_BOARD, &data_ov318_0219d550, board, NULL, NULL);
+        break;
+    }
+    return TRUE;
+}
+
+BOOL s0153_callPoke3Select(VM *vm, FieldScriptEnv *env) {
+    u16 *result;
+    PselParam *param;
+
+    result = ScriptReadVar(vm, env);
+    param = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(PselParam), TRUE, "scrcmd_proc.c", 597);
+    param->result = result;
+    CreateScrCmdOverlayProcess(vm, env, OVERLAY_PSEL, &data_ov316_0219fba4, param, NULL, NULL);
     return TRUE;
 }
 
@@ -226,4 +402,40 @@ BOOL s0161_NetConnectBattleVideo(VM *vm, FieldScriptEnv *env) {
     event = GameEvent_CreateOverlayDelegate(gsys, OVERLAY_ID(3), EventBattleVideo_CreateFromArgs, &args);
     ScriptWork_CallEvent(work, event);
     return TRUE;
+}
+
+BOOL func_ov012_02157b7c(VM *vm, FieldScriptEnv *env) {
+    GameSystem *gsys;
+    u16 value;
+
+    gsys = FieldScriptEnv_GetGameSystem(env);
+    value = ScriptReadAny(vm, env);
+    GFL_OvlLoad(OVERLAY_ID(90));
+    func_ov090_021eec80(gsys, value);
+    GFL_OvlUnload(OVERLAY_ID(90));
+    return FALSE;
+}
+
+BOOL func_ov012_02157bb4(VM *vm, FieldScriptEnv *env) {
+    GameSystem *gsys;
+
+    gsys = FieldScriptEnv_GetGameSystem(env);
+    GFL_OvlLoad(OVERLAY_ID(90));
+    func_ov090_021eec98(gsys);
+    GFL_OvlUnload(OVERLAY_ID(90));
+    return FALSE;
+}
+
+BOOL func_ov012_02157bdc(VM *vm, FieldScriptEnv *env) {
+    GameSystem *gsys;
+    u16 *first;
+    u16 *second;
+
+    gsys = FieldScriptEnv_GetGameSystem(env);
+    first = ScriptReadVar(vm, env);
+    second = ScriptReadVar(vm, env);
+    GFL_OvlLoad(OVERLAY_ID(90));
+    func_ov090_021eecc0(gsys, *first, *second);
+    GFL_OvlUnload(OVERLAY_ID(90));
+    return FALSE;
 }

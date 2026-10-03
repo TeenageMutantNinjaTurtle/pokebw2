@@ -2,7 +2,13 @@
 #define POKEBW2_PML_MOVE_REMINDER_H
 
 #include "types.h"
+#include "gfl/heap.h"
+#include "gfl/overlay.h"
+#include "gfl/proc.h"
 #include "struct_decls.h"
+
+// The move reminder's screen, overlay 258
+#define OVERLAY_MOVE_REMINDER OVERLAY_ID(258)
 
 struct MoveReminderProcessData {
     PartyPkm *pkm;
@@ -18,5 +24,7 @@ struct MoveReminderProcessData {
 
 MoveReminderProcessData *func_ov012_02169c7c(HeapID heapId);
 void func_ov012_02169ca4(MoveReminderProcessData *data);
+
+extern const GameProcFunctions data_ov258_0219b9a8;
 
 #endif // POKEBW2_PML_MOVE_REMINDER_H
