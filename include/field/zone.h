@@ -78,6 +78,27 @@ struct ZoneBGEntity {
     } pos;
 };
 
+struct ZoneTrigger {
+    u8 unk0[8];
+    u16 isRail;
+    union {
+        struct {
+            u16 x;
+            u16 z;
+            u16 width;
+            u16 height;
+            s16 y;
+        } grid;
+        struct {
+            u16 componentId;
+            u16 posFront;
+            s16 posSide;
+            u16 frontSpan;
+            u16 sideSpan;
+        } rail;
+    } pos;
+};
+
 struct ZoneWarp {
     u16 unk0;
     u16 destId;
@@ -117,6 +138,8 @@ BOOL CheckWarpPositionMatchRail(const ZoneWarp *warp, const RailPosition *positi
 BOOL CheckBGPositionMatchRail(const ZoneBGEntity *entity, const RailPosition *position);
 void func_ov012_0215d88c(const ZoneBGEntity *entity, VecFx32 *position);
 void func_ov012_0215d8fc(const ZoneBGEntity *entity, RailPosition *position);
+void GetTriggerCenterPos_(const ZoneTrigger *trigger, VecFx32 *position);
+BOOL CheckTriggerPositionMatchRail(const ZoneTrigger *trigger, const RailPosition *position);
 BOOL CheckWarpDirectionMatch(const ZoneWarp *warp, u16 direction);
 BOOL IsWarpZoneOrWarpID0xFFFF(const ZoneWarp *warp);
 void SetZoneWarpLocation(EventData *eventData, u16 warpId, u16 x, u16 y, u16 z);

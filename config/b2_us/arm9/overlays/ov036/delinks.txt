@@ -341,3 +341,7 @@ src/ov036/field_prop_anm_controller_rtc_update.c:
 src/ov036/field_prop_res_instance_stop_all.c:
     complete
     .text       start:0x02183c54 end:0x02183c7c
+
+src/ov036/field_g3d_mapper_free_map_textures.c:
+    complete
+    .text       start:0x021847c0 end:0x021847dc

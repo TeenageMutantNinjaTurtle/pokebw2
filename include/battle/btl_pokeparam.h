@@ -62,6 +62,7 @@ void CopyBatonPassParams(BattleMon *target, BattleMon *source);
 BOOL Condition_IsBadlyPoisoned(BattleConditionCont cont);
 u8 Condition_GetMonID(BattleCondition condition);
 u32 GetAdditionalConditionFlag(BattleMon *mon, u32 flag);
+u32 GetTurnFlag(BattleMon *mon, u32 flag);
 u32 GetBattleMonHeldItem(BattleMon *mon);
 u8 GetBattleMonMoveCount(BattleMon *mon);
 u16 GetBattleMonSpecies(BattleMon *mon);

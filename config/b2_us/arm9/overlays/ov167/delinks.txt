@@ -703,3 +703,27 @@ src/ov167/battle_ability_heatproof.c:
 src/ov167/battle_ability_damage_recover_check.c:
     complete
     .text       start:0x021c00d0 end:0x021c0104
+
+src/ov167/battle_ability_dry_skin_damage.c:
+    complete
+    .text       start:0x021c0298 end:0x021c02bc
+
+src/ov167/battle_ability_absorb_checks.c:
+    complete
+    .text       start:0x021c02bc end:0x021c0370
+
+src/ov167/battle_ability_levitate_guard.c:
+    complete
+    .text       start:0x021c041c end:0x021c0444
+
+src/ov167/battle_ability_levitate_turn.c:
+    complete
+    .text       start:0x021c0494 end:0x021c04b8
+
+src/ov167/battle_ability_truant_state.c:
+    complete
+    .text       start:0x021c0554 end:0x021c05ac
+
+src/ov167/battle_ability_truant_end.c:
+    complete
+    .text       start:0x021c0600 end:0x021c062c

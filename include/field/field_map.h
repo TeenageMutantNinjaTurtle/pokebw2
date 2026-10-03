@@ -26,6 +26,14 @@ struct FieldTerrain {
     fx32 height;
 };
 
+// Known fields of the field map renderer; the remaining layout is still in assembly.
+struct G3DMapper {
+    u8 unk00[0x34];
+    VecFx32 playerPosition;
+    u8 unk40[0x20];
+    void *mapTextureResource;
+};
+
 struct MapMatrixFileHeader {
     u16 format;
     u16 unk02;
@@ -92,6 +100,7 @@ void MapMatrix_Patch(MapMatrix *matrix, GameSystem *gsys, HeapID heapId);
 u32 GetTileTypeAtPos(G3DMapper *mapper, const VecFx32 *position);
 u16 GetAbyssalRuinsDiveZoneID(Field *field, u16 *zoneId);
 BOOL FieldG3DMapper_GetTerrain(G3DMapper *mapper, const VecFx32 *position, FieldTerrain *terrain);
+void FieldG3DMapper_FreeMapTextures(G3DMapper *mapper);
 u32 GetTileClass(u32 tileType);
 BOOL MapTile_IsSurfEdge(u32 tileClass);
 BOOL IsTileSurfWater(u32 tileClass);

@@ -696,3 +696,11 @@ src/ov012/get_bg_position_grid.c:
 src/ov012/get_bg_position_rail.c:
     complete
     .text       start:0x0215d93c end:0x0215d988
+
+src/ov012/get_trigger_center_pos.c:
+    complete
+    .text       start:0x0215d9b8 end:0x0215d9f8
+
+src/ov012/check_trigger_position_match_rail.c:
+    complete
+    .text       start:0x0215dab4 end:0x0215dafc
