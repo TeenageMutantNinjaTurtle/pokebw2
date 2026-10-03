@@ -242,3 +242,11 @@ src/ov033/mystery_gift_dispatch.c:
 src/ov033/mystery_gift_pokemon.c:
     complete
     .text       start:0x02178110 end:0x021781e8
+
+src/ov033/mystery_gift_item.c:
+    complete
+    .text       start:0x021781e8 end:0x02178278
+
+src/ov033/mystery_gift_pass_power.c:
+    complete
+    .text       start:0x02178278 end:0x021782d0

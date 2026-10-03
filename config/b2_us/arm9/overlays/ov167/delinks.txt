@@ -295,3 +295,7 @@ src/ov167/battle_handler_transform.c:
 src/ov167/battle_handler_set_item.c:
     complete
     .text       start:0x021ad6f8 end:0x021ad800
+
+src/ov167/battle_handler_swap_item.c:
+    complete
+    .text       start:0x021ad800 end:0x021ad90c

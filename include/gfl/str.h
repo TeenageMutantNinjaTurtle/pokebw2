@@ -45,6 +45,7 @@ void loadPokemonTextNameToStrbuf(WordSet *wordSet, u32 index, PartyPkm *pkm);
 void loadPokemonSpeciesTextNameToStrbuf(WordSet *wordSet, u32 index, PartyPkm *pkm);
 void loadMoveNameToStrbuf(WordSet *wordSet, u32 index, u32 move);
 void loadItemNameToStrbuf(WordSet *wordSet, u32 index, u32 item);
+void loadPassPowerToStrbuf(WordSet *wordSet, u32 index, u32 passPower);
 // An item's name: the plural when plural is set, else the one in message file 481 when a4 is set
 void loadItemText(WordSet *wordSet, u32 index, u32 item, BOOL plural, BOOL a4);
 void loadBagPocketNameToStrbuf(WordSet *wordSet, u32 index, u32 pocket);

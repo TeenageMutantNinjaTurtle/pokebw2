@@ -37,6 +37,7 @@ u32 func_0200c1d0(u8 a0);
 void func_0200c1f0(void);
 void func_0200c200(void);
 BOOL func_0200ae58(MusicalSave *musical);
+BOOL func_0200ad60(MusicalSave *musical, u8 prop);
 
 // Save block 0x45, which swan calls the key data. It keeps the Black Tower's and White Treehollow's progress, and the
 // Trainers there that have been defeated (CheckTrainerAlreadyDefeated)
