@@ -31,6 +31,7 @@ BOOL IsWarpZoneOrWarpID0xFFFF(const ZoneWarp *warp) {
 
 void SetZoneWarpLocation(EventData *data, u16 warpId, u16 x, u16 y, u16 z) {
     ZoneWarp *warps;
+    ZoneWarpGridPosition *pos;
 
     if (data->warpCount < warpId) {
         return;
@@ -43,7 +44,7 @@ void SetZoneWarpLocation(EventData *data, u16 warpId, u16 x, u16 y, u16 z) {
     if (warps->isRail != 0) {
         return;
     }
-    ZoneWarpGridPosition *pos = &warps->gridPos;
+    pos = &warps->gridPos;
     pos->x = x * 16 + 8;
     pos->y = y * 16;
     pos->z = z * 16 + 8;

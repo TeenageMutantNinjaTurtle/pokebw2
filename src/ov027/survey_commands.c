@@ -122,6 +122,7 @@ BOOL s0201_SurveyGetPopularOptionMsgID(VM *vm, FieldScriptEnv *env) {
     SaveControl *save;
     void *survey;
     int count;
+    int total;
 
     FieldScriptEnv_GetScriptWork(env);
     save = GameData_GetSaveControl(FieldScriptEnv_GetGameData(env));
@@ -131,7 +132,7 @@ BOOL s0201_SurveyGetPopularOptionMsgID(VM *vm, FieldScriptEnv *env) {
     count = GetSurveyAnswerMsgIDCount(question);
     best = -1;
     for (i = 0; i < count; i++) {
-        int total = func_0200ed90(survey, question, i + 1);
+        total = func_0200ed90(survey, question, i + 1);
         total += func_0200ed48(survey, question, i + 1);
         if (best < total) {
             best = total;
@@ -214,6 +215,7 @@ u16 func_ov027_02170758(SaveControl *save) {
     u8 answers[4];
     s32 i;
     u32 minimum;
+    u32 value;
 
     survey = func_0200ec2c(save);
     index = func_0200ca7c(getTrainerCardData_wrapper(save));
@@ -222,7 +224,7 @@ u16 func_ov027_02170758(SaveControl *save) {
     func_ov012_021652ec(index, answers);
     minimum = 0xf694e;
     for (i = 0; i < count; i++) {
-        u32 value = func_ov012_02165480(survey, answers[i]);
+        value = func_ov012_02165480(survey, answers[i]);
         if (value < minimum) minimum = value;
     }
     return maximum - minimum;

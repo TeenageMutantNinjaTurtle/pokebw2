@@ -41,7 +41,7 @@ intervening function matches. Unmatched attempts are tracked in
 | Overlay | Disposition |
 | --- | --- |
 | 010 | Single linked C source; no fragmented C ranges. |
-| 012 | Related matrix, script setup, ScriptWork, script-command, warp, NPC access/setter, and zone entity position ranges are grouped where continuous; the system-option, RTC, Trainer Card, and GameComm commands have coherent owners. `ProcessMapMatrix` and other intervening assembly still separate some ranges. |
+| 012 | Related matrix, script setup, ScriptWork, script-command, warp, NPC access/setter, zone entity position, and four-function proxy event ranges are grouped where continuous; the system-option, RTC, Trainer Card, and GameComm commands have coherent owners. `ProcessMapMatrix` and other intervening assembly still separate some ranges. |
 | 013 | Single linked C source; no fragmented C ranges. |
 | 014 | Single linked C source; no fragmented C ranges. |
 | 015 | Single linked C source; no fragmented C ranges. |
@@ -71,7 +71,7 @@ intervening function matches. Unmatched attempts are tracked in
 | 153 | Single linked C source; no fragmented C ranges. |
 | 162 | Six adjacent title, menu, start, boot, delete-save, and interrupt sources preserve process boundaries. |
 | 164 | Single linked C source; no fragmented C ranges. |
-| 167 | Battle handlers, ability handlers, and accessors preserve their owners. Continuous 22-source and seven-source ability-handler chains, a 23-function Intimidate/Steadfast/stat-modifier chain, BattleHandler core and turn-cancel helpers, and the setup/options, 12-function BtlSetup query, raw/base stat, stat-stage, illusion/source, status/condition, special-priority, and ability-event item lifecycle ranges are consolidated; many other related C ranges still have intervening assembly. |
+| 167 | Battle handlers, ability handlers, and accessors preserve their owners. Continuous 22-source and seven-source ability-handler chains, a 23-function Intimidate/Steadfast/stat-modifier chain, BattleHandler core and turn-cancel helpers, and the setup/options, 12-function BtlSetup query, six-function client relationship, raw/base stat, stat-stage, illusion/source, status/condition, special-priority, and ability-event item lifecycle ranges are consolidated; many other related C ranges still have intervening assembly. |
 | 284 | Adjacent evolution demo sources preserve graphics, view, and effect ownership; `ShinkaDemoPieces_Move` is nonmatching. |
 | 294 | Eight adjacent intro process and graphics sources preserve their separate ownership. |
 
@@ -113,5 +113,7 @@ share one source, matching their original continuous process range.
 The Battle Subway script work and adjacent battle setup/accessor functions also
 share one continuous source through Black 2 `0x0217c11c`; the next function
 remains an assembly nonmatch.
+Overlay 36's field prop resource lookup, door request, and chunk/resource
+operations now share one source from Black 2 `0x02183204` to `0x02183508`.
 Attempted translations for remaining assembly gaps are tracked in
 [nonmatching-functions.md](nonmatching-functions.md).

@@ -3,6 +3,43 @@
 #include "gfl/heap.h"
 #include "gfl/std.h"
 
+void *FieldPropSystem_FindResInfo(FieldPropSystem *system, u32 resId) {
+    u32 index = FieldPropSystem_ConvResIDToIndex(system, resId);
+    return FieldPropResBundle_GetResInfo(system->resBundle, index);
+}
+
+void *FieldPropSystem_GetResInfo(FieldPropSystem *system, u32 index) {
+    return FieldPropResBundle_GetResInfo(system->resBundle, index);
+}
+
+struct FieldPropDoorResInfo {
+    u8 pad[4];
+    u16 id;
+    s16 x;
+    s16 y;
+    s16 z;
+};
+
+BOOL FieldPropSystem_CheckCreateDoorReq(FieldPropSystem *system, u32 resId, VecFx32 *position, u32 *resIndex) {
+    struct FieldPropDoorResInfo *info;
+    s32 x;
+    s32 y;
+    s32 z;
+
+    info = FieldPropSystem_FindResInfo(system, resId);
+    if (info->id == 0xffff) {
+        return FALSE;
+    }
+    *resIndex = FieldPropSystem_ConvResIDToIndex(system, info->id);
+    x = info->x << 12;
+    z = info->z << 12;
+    y = info->y << 12;
+    position->x = x;
+    position->y = y;
+    position->z = z;
+    return TRUE;
+}
+
 struct FieldPropSourceInfo {
     s32 x;
     s32 y;
@@ -182,7 +219,9 @@ void *FieldPropResBundle_GetResInfo(FieldPropResBundle *bundle, u32 index) {
 }
 
 void *FieldPropResBundle_GetModelData(FieldPropResBundle *bundle, u32 index) {
-    u32 count = (u32)bundle->countFlags >> 1;
+    u32 count;
+
+    count = (u32)bundle->countFlags >> 1;
     return (u8 *)bundle + bundle->offsets[count + index];
 }
 

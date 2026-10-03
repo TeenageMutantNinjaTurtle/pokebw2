@@ -40,17 +40,13 @@ src/ov036/field_prop_rtc_state.c:
     complete
     .text       start:0x021835f0 end:0x02183634
 
-src/ov036/field_prop_find_res_info.c:
-    complete
-    .text       start:0x02183244 end:0x02183264
-
 src/ov036/field_prop_chunk_holder_ops.c:
     complete
     .text       start:0x02183d88 end:0x02183e80
 
-src/ov036/field_prop_chunk_resources.c:
+src/ov036/field_prop_resources.c:
     complete
-    .text       start:0x021832a8 end:0x02183548
+    .text       start:0x02183244 end:0x02183548
 
 src/ov036/field_prop_search_area.c:
     complete
