@@ -1,5 +1,6 @@
 #include "field/event_data.h"
 #include "field/field_script.h"
+#include "field/field_script_event.h"
 #include "field/field_script_supervisor.h"
 #include "save/event_work.h"
 #include "system/game_data.h"
@@ -76,4 +77,78 @@ void FieldScript_CallOnZoneInit(GameSystem *gsys, u32 arg1) {
     eventWork = GameData_GetEventWork(gameData);
     FieldScript_ResetMapLocalEvents(eventWork);
     FieldScript_CallZoneInitCore(gsys, arg1, 2, 2);
+}
+
+GameEvent *FieldScript_CheckSceneChangeEvent(GameSystem *gsys, HeapID heapId) {
+    GameData *gameData;
+    EventData *eventData;
+    u16 scriptId;
+
+    gameData = GSYS_GetGameData(gsys);
+    eventData = GameData_GetEventData(gameData);
+    scriptId = FieldScript_GetSceneChangeSCRID(gameData, GetZoneInitScrPointer(eventData), 1);
+    if (scriptId == 0xffff) {
+        return NULL;
+    }
+    return EventScriptCall_Create(gsys, scriptId, NULL, heapId);
+}
+
+const u8 *FieldScript_GetInitSCRID(const u8 *script, u32 mode, u16 *scriptId) {
+    u16 type;
+    u16 value;
+
+    while (TRUE) {
+        type = script[0] + (script[1] << 8);
+        if (type == 0) {
+            *scriptId = 0xffff;
+            return script;
+        }
+        if (mode == type) {
+            value = script[2] + (script[3] << 8);
+            *scriptId = value;
+            return script + 6;
+        }
+        script += 6;
+    }
+}
+
+u16 FieldScript_GetSceneChangeSCRID(GameData *gameData, const u8 *script, u32 mode) {
+    EventWork *eventWork;
+    u16 type;
+    u16 workId;
+    u16 value;
+    u32 offset;
+
+    while (TRUE) {
+        type = script[0] + (script[1] << 8);
+        if (type == 0) {
+            return 0xffff;
+        }
+        if (mode == type) {
+            offset = script[2] + (script[3] << 8) + (script[4] << 16) + (script[5] << 24);
+            script += 6;
+            break;
+        }
+        script += 6;
+    }
+    if (offset == 0) {
+        return 0xffff;
+    }
+    script += offset;
+    eventWork = GameData_GetEventWork(gameData);
+    while (TRUE) {
+        workId = script[0] + (script[1] << 8);
+        if (workId == 0) {
+            return 0xffff;
+        }
+        // The original parser checks the terminator again before reading the entry.
+        if (workId == 0) {
+            return 0xffff;
+        }
+        value = script[2] + (script[3] << 8);
+        if (*EventWork_GetWkPtr(eventWork, workId) == value) {
+            return script[4] + (script[5] << 8);
+        }
+        script += 6;
+    }
 }

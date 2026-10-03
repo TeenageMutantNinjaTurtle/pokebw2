@@ -7,9 +7,9 @@
 #include "system/game_data.h"
 #include "system/game_system.h"
 
-typedef struct TrialHouseCopyBlock {
+struct TrialHouseCopyBlock {
     u32 words[0x48];
-} TrialHouseCopyBlock;
+};
 
 void func_ov033_0217adbc(TrialHouseWork *work, u32 selectionFlag) {
     work->selectionFlag = selectionFlag;

@@ -111,6 +111,8 @@ void ScriptWork_Free(ScriptWork *work);
 void ScriptWork_SetParams(ScriptWork *work, u16 param0, u32 param1, u16 param2, u16 param3);
 void FieldScript_ResetMapLocalEvents(EventWork *eventWork);
 const u8 *FieldScript_GetInitSCRID(const u8 *script, u32 mode, u16 *scriptId);
+u16 FieldScript_GetSceneChangeSCRID(GameData *gameData, const u8 *script, u32 mode);
+GameEvent *FieldScript_CheckSceneChangeEvent(GameSystem *gsys, HeapID heapId);
 u32 FieldScript_CallZoneInitCore(GameSystem *gsys, u32 arg1, u32 mode, u32 featureLevel);
 void FieldScript_CallOnZoneReload(GameSystem *gsys, u32 arg1);
 void FieldScript_CallOnZoneNewLoad(GameSystem *gsys, u32 arg1);

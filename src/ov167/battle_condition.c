@@ -1,6 +1,21 @@
 #include "battle/btl_pokeparam.h"
 
 // Function names from swan.
+BattleCondition ZeroConditionTurns(void) {
+    BattleCondition condition;
+
+    condition.raw = 0;
+    condition.common.type = 0;
+    return condition;
+}
+
+BOOL func_ov167_021ce168(BattleCondition condition) {
+    if (condition.common.type == 0) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
 BattleCondition SetConditionTurns(u32 turns) {
     BattleCondition condition;
 

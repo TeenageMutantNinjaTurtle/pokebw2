@@ -97,7 +97,9 @@ battle ability sources in overlay 167. Their process boundaries were restored.
 Overlay 33's final Battle Subway helper and trade debug stub and overlay 36's
 prop-holder release now sit with adjacent helpers from the same feature.
 File-private work layouts in overlays 103, 104, and 146 were moved to their
-owning C files. These changes were checked against both original ROMs.
+owning C files. Named forward declarations in overlays 33 and 60 now live in
+`struct_decls.h`, while their private layouts stay in the sources. These
+changes were checked against both original ROMs.
 Later matches closed gaps in overlay 12's ScriptWork, VM global scripts, and
 zone positioning; overlay 33's Unity Tower, Trial House, and Battle Subway;
 overlay 36's field accessors, prop handles, prop sound, and lens flare; and

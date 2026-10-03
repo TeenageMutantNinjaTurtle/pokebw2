@@ -56,9 +56,6 @@ typedef struct {
     u32 cellAnims;
 } ResortShopClActRes;
 
-typedef struct ResortShopWork ResortShopWork;
-typedef struct ResortShop ResortShop;
-
 typedef BOOL (*ResortShopUpdateFunc)(GameSystem *gsys, ResortShopWork *wk, u8 mode, u8 subMode);
 typedef void (*ResortShopFunc)(GameSystem *gsys, ResortShopWork *wk, u8 mode, u8 subMode);
 typedef void (*ResortShopListFunc)(ResortShopWork *wk, u8 mode, u8 subMode);
