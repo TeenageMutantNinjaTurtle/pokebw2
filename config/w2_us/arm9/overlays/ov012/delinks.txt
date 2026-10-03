@@ -24,7 +24,9 @@ src/ov012/scrcmd_vm.c:
     .text       start:0x021541c0 end:0x02154988
 
 src/ov012/script_plugin.c:
+    complete
     .text       start:0x02154988 end:0x02154aa4
+    .rodata     start:0x0216c144 end:0x0216c340
 
 src/ov012/map_matrix.c:
     .text       start:0x02154aa4 end:0x02154cd4
