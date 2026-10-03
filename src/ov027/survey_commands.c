@@ -4,6 +4,32 @@
 #include "save/save_control.h"
 #include "system/game_data.h"
 
+BOOL func_ov027_021703a8(VM *vm, FieldScriptEnv *env) {
+    TrainerGameInfoSave *info;
+    u16 *out;
+
+    FieldScriptEnv_GetScriptWork(env);
+    info = getTrainerGameInfoAddress(GameData_GetSaveControl(FieldScriptEnv_GetGameData(env)));
+    out = ScriptReadVar(vm, env);
+    *out = func_0200c96c(info);
+    return FALSE;
+}
+
+BOOL func_ov027_021703dc(VM *vm, FieldScriptEnv *env) {
+    TrainerGameInfoSave *info;
+    int count;
+
+    FieldScriptEnv_GetScriptWork(env);
+    info = getTrainerGameInfoAddress(GameData_GetSaveControl(FieldScriptEnv_GetGameData(env)));
+    count = func_0200c96c(info);
+    if (count >= 5) {
+        return FALSE;
+    }
+    func_0200c974(info, count + 1);
+    func_0202d0d8((u8)(count + 1));
+    return FALSE;
+}
+
 BOOL s01FF_SurveyGetCurrentQuestionID(VM *vm, FieldScriptEnv *env) {
     TrainerGameInfoSave *info;
     u16 *out;

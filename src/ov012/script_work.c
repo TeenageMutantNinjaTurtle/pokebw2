@@ -1,9 +1,70 @@
 #include "field/field_actor.h"
+#include "field/field.h"
 #include "field/field_script.h"
 #include "gfl/std.h"
 #include "save/event_work.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+
+void UpdateScriptFieldWk(void *fieldWork, GameSystem *gsys) {
+    Field *field;
+    void **ptr;
+
+    field = GSYS_GetField(gsys);
+    sys_memset32(0, fieldWork, 8);
+    ptr = fieldWork;
+    ptr[1] = field;
+    if (field != NULL) {
+        ptr[0] = Field_GetMsgBGSys(field);
+    }
+}
+
+ScriptWork *ScriptWork_Create(HeapID heapId, GameSystem *gsys, GameEvent *event, u16 scriptId, u32 arg4, u32 featureLevel) {
+    ScriptWork *work;
+    u32 reduced;
+
+    work = GFL_HeapAllocate(heapId, sizeof(ScriptWork), TRUE, data_ov012_0216e1b4, 0xaf);
+    work->unk00 = 0x3643f;
+    work->heapId = heapId;
+    work->gsys = gsys;
+    work->event = event;
+    work->scriptId = scriptId;
+    work->parentActor = NULL;
+    work->unk20 = arg4;
+    work->featureLevel = featureLevel;
+    reduced = FieldScript_IsVMFeatureSetReduced(featureLevel);
+    work->reducedFeatureLevel = reduced;
+    if (reduced == 0) {
+        work->wordSet = GFL_WordSetSystemCreate(0x1c, 0x40, heapId);
+        work->mainStrBuf = GFL_StrBufCreate(0x500, heapId);
+        work->altStrBuf = GFL_StrBufCreate(0x500, heapId);
+    } else {
+        work->wordSet = NULL;
+        work->mainStrBuf = NULL;
+        work->altStrBuf = NULL;
+    }
+    work->subwork = InitScriptSubwork(work, heapId);
+    UpdateScriptFieldWk(work->fieldWork, gsys);
+    if (work->reducedFeatureLevel == 0) {
+        FieldScriptSubEvent_ResetAll();
+    }
+    return work;
+}
+
+void ScriptWork_Free(ScriptWork *work) {
+    work->unk00 = 0;
+    if (work->wordSet != NULL) {
+        GFL_WordSetSystemFree(work->wordSet);
+    }
+    if (work->mainStrBuf != NULL) {
+        GFL_StrBufFree(work->mainStrBuf);
+    }
+    if (work->altStrBuf != NULL) {
+        GFL_StrBufFree(work->altStrBuf);
+    }
+    func_ov012_021550e4(work->subwork);
+    GFL_HeapFree(work);
+}
 
 GameEvent *ScriptWork_GetEvent(ScriptWork *work) {
     return work->event;

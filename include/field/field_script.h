@@ -8,7 +8,7 @@
 
 // Fields accessed by the field script work helpers; the remaining storage is not yet identified.
 struct ScriptWork {
-    u8 unk00[4];
+    u32 unk00;
     u16 scriptId;
     u16 unk06;
     FieldActor *parentActor;
@@ -17,7 +17,9 @@ struct ScriptWork {
     GameSystem *gsys;
     GameEvent *event;
     u8 fieldWork[8];
-    u8 unk20[0xc];
+    u32 unk20;
+    u32 reducedFeatureLevel;
+    u32 featureLevel;
     WordSet *wordSet;
     StrBuf *mainStrBuf;
     StrBuf *altStrBuf;
