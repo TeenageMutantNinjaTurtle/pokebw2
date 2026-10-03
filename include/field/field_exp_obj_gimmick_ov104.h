@@ -34,6 +34,11 @@ struct FieldExpObjGimmickOv104MessageArg {
     struct WordSet *wordSet;
 };
 
+struct FieldExpObjGimmickOv104ZoneList {
+    u16 zones[4];
+    u8 weather[4];
+};
+
 struct FieldExpObjGimmickOv104SaveData {
     u32 value;
     u32 stateValue;
@@ -111,6 +116,8 @@ void func_ov104_021ef868(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021ef924(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021ef94c(FieldExpObjGimmickOv104Work *work, struct FieldExpObjGimmickOv104ResEntry *entry, u32 index);
 void func_ov104_021ef994(FieldExpObjGimmickOv104Work *work);
+s32 func_ov104_021ef9c8(const FieldExpObjGimmickOv104ZoneList *list);
+void func_ov104_021ef9f8(FieldExpObjGimmickOv104ZoneList *list);
 void func_ov104_021f0324(struct FieldExpObjGimmickOv104ResEntry *entry, u32 arc, u32 index);
 BOOL func_ov104_021f0334(struct FieldExpObjGimmickOv104ResEntry *entry, u16 zone);
 BOOL func_ov104_021f037c(struct FieldExpObjGimmickOv104ResEntry *entry);

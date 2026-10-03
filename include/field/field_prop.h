@@ -54,7 +54,9 @@ struct FieldPropSystem {
     u32 resInfoCount;
     u8 unk220[0x20];
     void *textureResource;
-    u8 unk244[0x24];
+    u8 unk244[4];
+    void *resInstances;
+    u8 unk24c[0x1c];
     FieldChunkPropHolder chunkPropHolders[0x120];
 };
 
@@ -85,10 +87,13 @@ void FieldPropSystem_FreeResBundle(FieldPropSystem *system);
 void FieldPropSystem_BuildResIDLUT(FieldPropSystem *system, u32 defaultResId);
 void FieldPropSystem_FreeTextures(FieldPropSystem *system);
 void FieldChunk_ReleasePropInstance(void *chunk, u16 propIndex);
+void FieldChunk_GetWorldPos(void *chunk, VecFx32 *position);
+void FieldPropResInstance_CallAnmCmd(void *instance, u32 animation, u32 command);
 void FieldChunkPropHolder_Release(FieldPropSystem *system, FieldChunkPropHolder *holder);
 void FieldPropSystem_ReleaseChunkPropHolders(FieldPropSystem *system, void *chunk);
 void FieldPropSystem_ReleaseChunkPropHolder(FieldPropSystem *system, FieldChunkPropHolder *holder);
 u8 FieldChunkPropHolder_GetResIndex(FieldChunkPropHolder *holder);
+u8 FieldChunkPropHolder_GetPropType(FieldPropSystem *system, FieldChunkPropHolder *holder);
 void FieldChunkPropHolder_SetVisible(FieldChunkPropHolder *holder, BOOL visible);
 void FieldChunkPropHolder_ChangeResID(FieldPropSystem *system, FieldChunkPropHolder *holder, u32 resId);
 void FieldPropRTCState_Init(FieldPropRTCState *state, u8 season);
@@ -105,8 +110,10 @@ void FieldChunkPropHolder_CallAnmCmd(FieldPropSystem *system, FieldChunkPropHold
 FieldPropHandle *FieldPropSystem_CreateHandleNew(FieldPropSystem *system, u32 propId, FieldPropTransform *transform);
 FieldPropHandle *FieldPropSystem_CreateHandleFromExisting(FieldPropSystem *system, FieldChunkPropHolder *prop);
 FieldChunkPropHolder *FieldPropSystem_FindProp(FieldPropSystem *system, u32 propId, const FieldPropAreaBounds *bounds);
+FieldChunkPropHolder *FieldPropSystem_FindPropAtPos(FieldPropSystem *system, u32 propId, const VecFx32 *position);
 FieldChunkPropHolder **FieldPropSystem_FindPropsInArea(FieldPropSystem *system, const FieldPropAreaBounds *bounds,
                                                        u32 filter, u32 *count);
+void FieldPropSearchArea_Set(FieldPropAreaBounds *bounds, const VecFx32 *position);
 void FieldChunkPropHolder_GetPosAbs(FieldChunkPropHolder *prop, VecFx32 *position);
 
 #endif // POKEBW2_FIELD_FIELD_PROP_H

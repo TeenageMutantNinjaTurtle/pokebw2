@@ -605,6 +605,14 @@ src/ov012/get_warp_at_position.c:
     complete
     .text       start:0x0215cf74 end:0x0215cfa8
 
+src/ov012/event_data_warp_lookup.c:
+    complete
+    .text       start:0x0215cfa8 end:0x0215d090
+
+src/ov012/get_warp_transition_type.c:
+    complete
+    .text       start:0x0215d17c end:0x0215d180
+
 src/ov012/event_game_clear_card.c:
     complete
     .text       start:0x0215a6b0 end:0x0215a6c4

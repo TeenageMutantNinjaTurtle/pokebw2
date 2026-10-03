@@ -67,3 +67,7 @@ src/ov104/field_exp_obj_gimmick_ov104_visitor_dispatch.c:
 src/ov104/field_exp_obj_gimmick_ov104_visitor_list.c:
     complete
     .text       start:0x021ef994 end:0x021ef9c8
+
+src/ov104/field_exp_obj_gimmick_ov104_zone_list.c:
+    complete
+    .text       start:0x021ef9c8 end:0x021efa18

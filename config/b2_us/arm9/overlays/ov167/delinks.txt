@@ -571,3 +571,11 @@ src/ov167/battle_ability_plus_minus.c:
 src/ov167/battle_ability_flower_gift.c:
     complete
     .text       start:0x021be628 end:0x021be898
+
+src/ov167/battle_ability_rivalry.c:
+    complete
+    .text       start:0x021be898 end:0x021be910
+
+src/ov167/battle_ability_move_power.c:
+    complete
+    .text       start:0x021be910 end:0x021be9c4

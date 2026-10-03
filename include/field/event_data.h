@@ -56,5 +56,7 @@ void *GetZoneInitScrPointer(EventData *data);
 u32 IsEncountDataLoaded(EventData *data);
 void *GetEncountData(EventData *data);
 s32 GetWarpAtPosition(EventData *data, const VecFx32 *position);
+s32 GetWarpIDByPlayerPos(EventData *data, const VecFx32 *position, u16 direction);
+s32 GetWarpIDByPlayerPosRail(EventData *data, const RailPosition *position);
 
 #endif // POKEBW2_FIELD_EVENT_DATA_H

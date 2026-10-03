@@ -99,5 +99,17 @@ void HandlerFlowerGiftAbilityChange(void *context, BtlServerFlow *flow, u32 monI
 void HandlerFlowerGiftPower(void *context, BtlServerFlow *flow, u8 monId);
 void HandlerFlowerGiftSpecialDefense(void *context, BtlServerFlow *flow, u8 monId);
 const BattleEventHandlerEntry *EventAddFlowerGift(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d7864[];
+void HandlerRivalry(void *context, BtlServerFlow *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddRivalry(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d768c[];
+extern const BattleEventHandlerEntry data_ov167_021d77dc[];
+extern const BattleEventHandlerEntry data_ov167_021d77a4[];
+void HandlerTechnician(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddTechnician(u32 *priority);
+void HandlerIronFist(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddIronFist(u32 *priority);
+void HandlerReckless(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddReckless(u32 *priority);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

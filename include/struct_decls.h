@@ -132,6 +132,7 @@ typedef struct FieldChunkPropHolder FieldChunkPropHolder;
 typedef struct FieldExpObjAnm FieldExpObjAnm;
 typedef struct FieldExpObjGimmickOv104StateInit FieldExpObjGimmickOv104StateInit;
 typedef struct FieldExpObjGimmickOv104Work FieldExpObjGimmickOv104Work;
+typedef struct FieldExpObjGimmickOv104ZoneList FieldExpObjGimmickOv104ZoneList;
 typedef struct FieldExpObjGimmickOv104MessageArg FieldExpObjGimmickOv104MessageArg;
 typedef struct FieldExpObjGimmickWork FieldExpObjGimmickWork;
 typedef struct FieldExpObjSystem FieldExpObjSystem;
