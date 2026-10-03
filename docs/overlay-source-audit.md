@@ -39,7 +39,7 @@ intervening function matches. Unmatched attempts are tracked in
 | Overlay | Disposition |
 | --- | --- |
 | 010 | Single linked C source; no fragmented C ranges. |
-| 012 | Related matrix, script-command, and zone helper ranges are grouped where continuous; `ProcessMapMatrix` and other intervening assembly still separate some ranges. |
+| 012 | Related matrix, script setup, script-command, and zone helper ranges are grouped where continuous; `ProcessMapMatrix` and other intervening assembly still separate some ranges. |
 | 013 | Single linked C source; no fragmented C ranges. |
 | 014 | Single linked C source; no fragmented C ranges. |
 | 015 | Single linked C source; no fragmented C ranges. |
@@ -98,13 +98,10 @@ Overlay 33's final Battle Subway helper and trade debug stub and overlay 36's
 prop-holder release now sit with adjacent helpers from the same feature.
 File-private work layouts in overlays 103, 104, and 146 were moved to their
 owning C files. These changes were checked against both original ROMs.
-Later matches closed gaps in overlay 12's ScriptWork accessors, VM global
-scripts, and zone positioning; overlay 33's Unity Tower visitors, Trial House
-setup, and Battle Subway reward, score, and team-save handling; overlay 36's
-field accessors, prop handle lookup, prop sound check, and lens-flare count; and
-overlay 167's BattleCondition constructors and state, Damp, Truant,
-move-history, and Pokémon type-pair helpers. Their newly continuous ranges were
-combined within their owning features. Attempted translations for remaining
-assembly gaps are
-tracked in
+Later matches closed gaps in overlay 12's ScriptWork, VM global scripts, and
+zone positioning; overlay 33's Unity Tower, Trial House, and Battle Subway;
+overlay 36's field accessors, prop handles, prop sound, and lens flare; and
+overlay 167's BattleCondition, ability, move-history, and type-pair helpers.
+Their newly continuous ranges were combined within their owning features.
+Attempted translations for remaining assembly gaps are tracked in
 [nonmatching-functions.md](nonmatching-functions.md).

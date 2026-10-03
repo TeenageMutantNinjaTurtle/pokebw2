@@ -105,10 +105,18 @@ void ActorMsgWin_SetPos(FieldScriptEnv *env, u8 pos);
 
 // Runs a script from an event, and returns its work
 ScriptWork *EventScriptCall_Start(GameEvent *event, u16 scriptId, void *a2, void *a3, HeapID heapId);
+ScriptWork *ScriptWork_Create(HeapID heapId, GameSystem *gsys, GameEvent *event, u16 scriptId, u32 arg4, u32 featureLevel);
+void ScriptWork_Free(ScriptWork *work);
 // Sets the script's parameters, which it reads from its work
 void ScriptWork_SetParams(ScriptWork *work, u16 param0, u32 param1, u16 param2, u16 param3);
+void FieldScript_ResetMapLocalEvents(EventWork *eventWork);
+const u8 *FieldScript_GetInitSCRID(const u8 *script, u32 mode, u16 *scriptId);
+u32 FieldScript_CallZoneInitCore(GameSystem *gsys, u32 arg1, u32 mode, u32 featureLevel);
+void FieldScript_CallOnZoneReload(GameSystem *gsys, u32 arg1);
+void FieldScript_CallOnZoneNewLoad(GameSystem *gsys, u32 arg1);
 void FieldScript_CallOnZoneInit(GameSystem *gsys, u32 a1);
 void FieldScript_CallPlayerInitSetup(GameSystem *gsys, u32 a1);
+void FieldScript_CallPlayerPostHOFSetup(GameSystem *gsys);
 void resetRebattleTrainers(EventWork *eventWork);
 
 // A field script command. env is the running script's environment

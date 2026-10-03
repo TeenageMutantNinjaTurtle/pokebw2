@@ -10,11 +10,11 @@ src/ov012/event_irc_party.c:
 
 src/ov012/field_script_work_events.c:
     complete
-    .text       start:0x021538c0 end:0x021538e4
+    .text       start:0x021538c0 end:0x02153938
 
-src/ov012/event_script_call_work.c:
+src/ov012/field_script_setup.c:
     complete
-    .text       start:0x02153914 end:0x02153938
+    .text       start:0x02153938 end:0x02153a60
 
 src/ov012/script_work_accessors.c:
     complete

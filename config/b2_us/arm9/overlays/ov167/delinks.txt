@@ -128,17 +128,9 @@ src/ov167/battle_handler_interrupt.c:
     complete
     .text       start:0x021adeb0 end:0x021adf10
 
-src/ov167/battle_condition_state.c:
+src/ov167/battle_condition.c:
     complete
-    .text       start:0x021ce3c0 end:0x021ce520
-
-src/ov167/battle_condition_create.c:
-    complete
-    .text       start:0x021ce180 end:0x021ce238
-
-src/ov167/battle_condition_mon.c:
-    complete
-    .text       start:0x021ce2b8 end:0x021ce308
+    .text       start:0x021ce180 end:0x021ce520
 
 src/ov167/battle_poke_type_pair.c:
     complete
