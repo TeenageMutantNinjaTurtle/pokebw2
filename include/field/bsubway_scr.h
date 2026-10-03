@@ -112,7 +112,7 @@ void func_ov012_0216763c(FieldActor *actor, BOOL a1);
 extern const u8 data_ov033_0217c564[12];
 
 void func_ov033_0217b468(GameSystem *gsys);
-void func_ov033_0217b478(GameSystem *gsys, u16 a1, u16 a2);
+BSubwayScrWork *func_ov033_0217b478(GameSystem *gsys, u16 a1, u16 a2);
 void func_ov033_0217b664(GameSystem *gsys, BSubwayScrWork *bsw);
 void func_ov033_0217b6b4(BSubwayScrWork *bsw);
 void func_ov033_0217b708(BSubwayScrWork *bsw);
@@ -139,6 +139,7 @@ void func_ov033_0217bd88(BSubwayScrWork *bsw, u32 score);
 void func_ov033_0217be2c(BSubwayScrWork *bsw, SaveControl *save, u32 a2, u32 a3);
 void func_ov033_0217c010(BSubwayScrWork *bsw, SaveControl *save, u32 value);
 void func_ov033_0217bda0(BSubwayScrWork *bsw);
+void func_ov033_0217bda8(BSubwayScrWork *bsw, u32 count, u32 extra);
 u16 func_ov033_0217bdc0(u16 mode);
 void func_ov033_0217be88(BSubwayScrWork *bsw, u8 a1);
 void func_ov033_0217b9dc(BSubwayScrWork *bsw);

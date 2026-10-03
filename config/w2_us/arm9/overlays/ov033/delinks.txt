@@ -91,10 +91,6 @@ src/ov033/trial_house_prepare.c:
     complete
     .text       start:0x0217adfc end:0x0217af10
 
-src/ov033/bsubway_scr_begin.c:
-    complete
-    .text       start:0x0217b4a8 end:0x0217b4b8
-
 src/ov033/field_money_window_lifecycle.c:
     complete
     .text       start:0x021779d8 end:0x02177aa0
@@ -153,7 +149,7 @@ src/ov033/trial_effect.c:
 
 src/ov033/bsubway_scr.c:
     complete
-    .text       start:0x0217b6a4 end:0x0217c0d4
+    .text       start:0x0217b4a8 end:0x0217c0d4
 
 src/ov033/subway_setup.c:
     complete

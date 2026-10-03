@@ -1,6 +1,7 @@
 #include "battle/btl_setup.h"
 #include "field/battle_facility.h"
 #include "field/bsubway_scr.h"
+#include "field/player_state.h"
 #include "gfl/heap.h"
 #include "gfl/std.h"
 #include "pml/poke_party.h"
@@ -10,6 +11,79 @@
 #include "save/save_control.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+
+void func_ov033_0217b468(GameSystem *gsys) {
+    func_02017954(GSYS_GetGameData(gsys), 0);
+}
+
+BSubwayScrWork *func_ov033_0217b478(GameSystem *gsys, u16 a1, u16 a2) {
+    GameData *gameData;
+    PlayerInfo *playerInfo;
+    SaveControl *save;
+    BSubwayScrWork *bsw;
+    s32 i;
+    u8 value;
+    u32 count;
+    u32 score;
+    u32 level;
+    u32 teamIndex;
+    u8 mode;
+
+    gameData = GSYS_GetGameData(gsys);
+    playerInfo = GetGameDataPlayerInfo(gameData);
+    save = GameData_GetSaveControl(gameData);
+    bsw = GFL_HeapAllocate(4, 0x7f0, 1, data_ov033_0217c640, 0x5f);
+    *(u32 *)((u8 *)bsw + 4) = 4;
+    *(u32 *)bsw = 0x12345678;
+    bsw->gameData = gameData;
+    bsw->unkA[0] = getTrainerGender(playerInfo);
+    bsw->unk70 = SaveControl_GetBlockPtr(save, SAVE_BLOCK_BSUBWAY_PLAY);
+    bsw->unk74 = SaveControl_GetBlockPtr(save, SAVE_BLOCK_BSUBWAY_SCORE);
+    *(void **)bsw->unk78 = SaveControl_GetBlockPtr(save, SAVE_BLOCK_BSUBWAY_3A);
+    func_0200e100(bsw->unk70, 0);
+    func_02017954(gameData, (u32)bsw);
+    if (a1 == 0) {
+        bsw->playMode = a2;
+        bsw->unk0[8] = func_ov033_0217bdc0(bsw->playMode);
+        for (i = 0; i < 4; i++) bsw->unk1E[i] = 0xff;
+        for (i = 0; i < 14; i++) bsw->unk32[i] = 0xffff;
+        func_0200e0f4(bsw->unk70);
+        func_0200e2ac(bsw->unk70);
+        if (func_0200e3dc(bsw->unk74, bsw->playMode) == 1) {
+            score = func_0200e35c(bsw->unk74, bsw->playMode);
+            func_ov033_0217bd88(bsw, score);
+        }
+        value = bsw->playMode;
+        func_0200e1ac(bsw->unk70, 0, &value);
+    } else {
+        bsw->playMode = func_0200e11c(bsw->unk70, 0, NULL);
+        bsw->unk0[8] = func_ov033_0217bdc0(bsw->playMode);
+        if (func_0200e11c(bsw->unk70, 10, NULL) != 0) {
+            func_ov033_0217bd34(bsw);
+        }
+        func_0200e11c(bsw->unk70, 5, bsw->unk1E);
+        func_0200e11c(bsw->unk70, 8, bsw->unk32);
+        if (bsw->playMode == 2 || bsw->playMode == 7) {
+            bsw->unkC_5 = (u8)func_0200e11c(bsw->unk70, 9, NULL);
+            func_0200e11c(bsw->unk70, 6, bsw->unk628 + 20 * bsw->unkC_5);
+            level = 303;
+            if (getTrainerGender(&GameData_GetPlayerState(gameData)->playerInfo) != 0) {
+                level -= 3;
+            }
+            teamIndex = bsw->unkC_5;
+            count = func_0200e11c(bsw->unk70, 7, NULL);
+            func_ov033_0217c2c4(bsw, bsw->unk2C8 + 0x120 * teamIndex, (u16)(level + teamIndex),
+                                count, (BSubwayTeamConfig *)(bsw->unk628 + 20 * teamIndex), *(u32 *)((u8 *)bsw + 4));
+        }
+        mode = bsw->playMode;
+        if (func_0200e3dc(bsw->unk74, mode) == 1) {
+            count = func_0200e2ec(bsw->unk70);
+            score = func_0200e418(bsw->unk74, mode);
+            func_ov033_0217bda8(bsw, score, count);
+        }
+    }
+    return bsw;
+}
 
 void func_ov033_0217b664(GameSystem *gsys, BSubwayScrWork *bsw) {
     if (bsw != NULL) {
