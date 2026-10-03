@@ -50,9 +50,9 @@ intervening function matches. Unmatched attempts are tracked in
 | 018 | Single linked C source; no fragmented C ranges. |
 | 021 | Single linked C source; no fragmented C ranges. |
 | 027 | Two survey commands extend their source back to `0x021703a8`; seven survey result commands share one continuous source through `0x021707e8`. The survey UI event, text lifecycle, and trainer-card value helpers form a 14-function source through `0x02170a74`, followed by a seven-function festival text/archive source through `0x02170b98`. The probability helper ends immediately before the commands but has separate ownership. The command at `0x021704e0` still blocks the matching reset helper at `0x02170580`; other survey ranges retain intervening assembly. |
-| 033 | Trade, Trial House, Battle Subway, and field-event ranges preserve process boundaries. The phrase-input process now spans its four formerly missing neighbors; adjacent trade and Trial House lifecycle fragments are consolidated. Several same-process fragments still have intervening assembly. |
+| 033 | Trade, Trial House, Battle Subway, and field-event ranges preserve process boundaries. The phrase-input process spans its four formerly missing neighbors; adjacent trade and Trial House lifecycle fragments, the Hall of Fame machine event and party-count helper, and the 34-function Battle Subway script/setup range are consolidated. Several same-process fragments still have intervening assembly. |
 | 035 | Three adjacent event sources retain their separate process and data ownership; merging changes non-text section order. |
-| 036 | Prop and zone C ranges are grouped within continuous owners; the zone load/flag/constructor chain, prop chunk lifecycle helpers, and lens flare process/data helpers now each share one source. Remaining nearby fragments have intervening assembly, and the other adjacent C pairs cross subsystem boundaries. |
+| 036 | Prop and zone C ranges are grouped within continuous owners; the zone load/flag/constructor chain, the 15-function prop chunk/handle/resource range, and lens flare process/data helpers each share one source. Remaining nearby fragments have intervening assembly, and the other adjacent C pairs cross subsystem boundaries. |
 | 059 | Adjacent Resort and medal script-command sources have separate ownership; two Resort functions still do not match. |
 | 060 | Single linked C source; no fragmented C ranges. |
 | 073 | Single linked C source; no fragmented C ranges. |
@@ -71,7 +71,7 @@ intervening function matches. Unmatched attempts are tracked in
 | 153 | Single linked C source; no fragmented C ranges. |
 | 162 | Six adjacent title, menu, start, boot, delete-save, and interrupt sources preserve process boundaries. |
 | 164 | Single linked C source; no fragmented C ranges. |
-| 167 | Battle handlers, ability handlers, and accessors preserve their owners. Continuous 22-source and seven-source ability-handler chains, a flinch ability pair, BattleHandler core and turn-cancel helpers, and the setup/options, raw/base stat, stat-stage, illusion/source, and status/condition ranges are consolidated; many other related C ranges still have intervening assembly. |
+| 167 | Battle handlers, ability handlers, and accessors preserve their owners. Continuous 22-source and seven-source ability-handler chains, a 23-function Intimidate/Steadfast/stat-modifier chain, BattleHandler core and turn-cancel helpers, and the setup/options, 12-function BtlSetup query, raw/base stat, stat-stage, illusion/source, and status/condition ranges are consolidated; many other related C ranges still have intervening assembly. |
 | 284 | Adjacent evolution demo sources preserve graphics, view, and effect ownership; `ShinkaDemoPieces_Move` is nonmatching. |
 | 294 | Eight adjacent intro process and graphics sources preserve their separate ownership. |
 
@@ -108,5 +108,10 @@ overlay 36's field accessors, prop handles, prop sound, and lens flare; and
 overlay 167's BattleCondition, BattleParty, ability, move-history, and
 type-pair helpers.
 Their newly continuous ranges were combined within their owning features.
+Overlay 33's Hall of Fame machine event and its adjacent party-count helper now
+share one source, matching their original continuous process range.
+The Battle Subway script work and adjacent battle setup/accessor functions also
+share one continuous source through Black 2 `0x0217c11c`; the next function
+remains an assembly nonmatch.
 Attempted translations for remaining assembly gaps are tracked in
 [nonmatching-functions.md](nonmatching-functions.md).

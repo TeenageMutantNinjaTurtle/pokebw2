@@ -612,3 +612,27 @@ void func_ov033_0217c010(BSubwayScrWork *bsw, SaveControl *save, u32 flag) {
     sys_memset(team, 0, 0xb4);
     GFL_HeapFree(team);
 }
+
+BtlSetup *func_ov033_0217c094(BSubwayScrWork *bsw, GameSystem *gsys) {
+    PokeParty *party;
+    PokeParty *source;
+    PartyPkm *pkm;
+    BtlSetup *result;
+    s32 i;
+
+    party = PokeParty_Create(0x8004);
+    source = func_ov033_0217bd60(bsw);
+    PokeParty_InitCore(party, bsw->unk0[8]);
+    for (i = 0; i < bsw->unk0[8]; i++) {
+        pkm = PokeParty_GetPkm(source, bsw->unk1E[i]);
+        PokeParty_AddPkm(party, pkm);
+    }
+    result =
+        SetupTrialHouseBattle(gsys, party, bsw->playMode, bsw->unk88, bsw->unk2C8 + 0x120 * bsw->unkC_5, bsw->unk0[8]);
+    GFL_HeapFree(party);
+    return result;
+}
+
+void *func_ov033_0217c110(BSubwayScrWork *bsw) {
+    return bsw->unk74C;
+}

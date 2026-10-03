@@ -32,9 +32,9 @@ src/ov167/battle_side_queries.c:
     complete
     .text       start:0x0219d32c end:0x0219d38c
 
-src/ov167/battle_setup_type.c:
+src/ov167/battle_setup_queries.c:
     complete
-    .text       start:0x0219bed4 end:0x0219bedc
+    .text       start:0x0219be5c end:0x0219bf68
 
 src/ov167/battle_setup_check_type.c:
     complete
@@ -71,14 +71,6 @@ src/ov167/battle_client_items.c:
 src/ov167/battle_switch_mode.c:
     complete
     .text       start:0x0219bd80 end:0x0219bde0
-
-src/ov167/battle_valid_pos_max.c:
-    complete
-    .text       start:0x0219be5c end:0x0219be8c
-
-src/ov167/battle_run_mode.c:
-    complete
-    .text       start:0x0219bf20 end:0x0219bf68
 
 src/ov167/battle_friendship.c:
     complete
@@ -344,14 +336,6 @@ src/ov167/battle_ability_item_rotation.c:
     complete
     .text       start:0x021bdd60 end:0x021bdd8c
 
-src/ov167/battle_ability_flinch_handlers.c:
-    complete
-    .text       start:0x021bdea0 end:0x021bdf18
-
-src/ov167/battle_ability_stat_modifiers.c:
-    complete
-    .text       start:0x021bdf18 end:0x021be110
-
 src/ov167/battle_ability_handlers.c:
     complete
     .text       start:0x021be264 end:0x021bf4b4
@@ -416,9 +400,9 @@ src/ov167/battle_ability_flame_body_event.c:
     complete
     .text       start:0x021bf538 end:0x021bf544
 
-src/ov167/battle_ability_intimidate.c:
+src/ov167/battle_ability_trigger_handlers.c:
     complete
-    .text       start:0x021bde10 end:0x021bdea0
+    .text       start:0x021bde10 end:0x021be110
 
 src/ov167/battle_ability_regenerator_event.c:
     complete

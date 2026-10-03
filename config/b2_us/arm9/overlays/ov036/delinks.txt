@@ -48,17 +48,13 @@ src/ov036/field_prop_chunk_holder_ops.c:
     complete
     .text       start:0x02183d48 end:0x02183e40
 
+src/ov036/field_prop_chunk_resources.c:
+    complete
+    .text       start:0x02183268 end:0x02183508
+
 src/ov036/field_prop_search_area.c:
     complete
     .text       start:0x02184220 end:0x02184244
-
-src/ov036/field_prop_handle_registry.c:
-    complete
-    .text       start:0x0218333c end:0x021833f8
-
-src/ov036/field_prop_chunk_lifecycle.c:
-    complete
-    .text       start:0x02183268 end:0x0218333c
 
 src/ov036/field_g3d_mapper_free_map_textures.c:
     complete
@@ -77,10 +73,6 @@ src/ov036/field_core.c:
 src/ov036/field_prop_system.c:
     complete
     .text       start:0x021830f0 end:0x021831a4
-
-src/ov036/field_prop_resource_bundle_ops.c:
-    complete
-    .text       start:0x021833f8 end:0x02183508
 
 src/ov036/field_prop_holder_lookup.c:
     complete

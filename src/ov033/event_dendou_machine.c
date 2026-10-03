@@ -4,6 +4,8 @@
 #include "field/field_prop.h"
 #include "gfl/heap.h"
 #include "gfl/sound.h"
+#include "pml/poke_party.h"
+#include "system/game_data.h"
 #include "system/game_system.h"
 
 GameEvent *EventDendouMachine_Create(GameSystem *gsys, GameEvent *parent) {
@@ -122,4 +124,8 @@ BOOL EventDendouMachine_IsAnimationDone(EventDendouMachineData *work) {
         return FieldPropHandle_IsAnmFinished(work->centerHandle);
     }
     return TRUE;
+}
+
+int countNonEggsInParty(GameSystem *gsys) {
+    return howManyPartyPokesAreNotEggs(GameData_GetParty(GSYS_GetGameData(gsys)));
 }

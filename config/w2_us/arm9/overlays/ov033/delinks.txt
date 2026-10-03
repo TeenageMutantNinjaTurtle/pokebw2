@@ -12,10 +12,6 @@ src/ov033/entree_forest_actor.c:
     complete
     .text       start:0x02176be4 end:0x02176c10
 
-src/ov033/field_party_count.c:
-    complete
-    .text       start:0x02179898 end:0x021798a8
-
 src/ov033/field_actor_animation.c:
     complete
     .text       start:0x0217a1f0 end:0x0217a4e0
@@ -30,7 +26,7 @@ src/ov033/event_pokemon_center.c:
 
 src/ov033/event_dendou_machine.c:
     complete
-    .text       start:0x021796a4 end:0x02179898
+    .text       start:0x021796a4 end:0x021798a8
 
 src/ov033/field_move_scripts.c:
     complete
@@ -141,11 +137,7 @@ src/ov033/trial_effect.c:
 
 src/ov033/bsubway_scr.c:
     complete
-    .text       start:0x0217b4a8 end:0x0217c0d4
-
-src/ov033/subway_setup.c:
-    complete
-    .text       start:0x0217c0d4 end:0x0217c15c
+    .text       start:0x0217b4a8 end:0x0217c15c
 
 src/ov033/subway_battle.c:
     complete
