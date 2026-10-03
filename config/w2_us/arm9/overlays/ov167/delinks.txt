@@ -535,3 +535,15 @@ src/ov167/battle_ability_stall.c:
 src/ov167/battle_ability_compound_eyes.c:
     complete
     .text       start:0x021be2a4 end:0x021be2cc
+
+src/ov167/battle_ability_weather_evasion.c:
+    complete
+    .text       start:0x021be2cc end:0x021be384
+
+src/ov167/battle_ability_lens_rock.c:
+    complete
+    .text       start:0x021be384 end:0x021be3ec
+
+src/ov167/battle_ability_sniper.c:
+    complete
+    .text       start:0x021be3ec end:0x021be41c

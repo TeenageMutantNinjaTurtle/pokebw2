@@ -35,3 +35,11 @@ src/ov104/field_exp_obj_gimmick_ov104_flags.c:
 src/ov104/field_exp_obj_gimmick_ov104_res_list.c:
     complete
     .text       start:0x021ef114 end:0x021ef180
+
+src/ov104/field_exp_obj_gimmick_ov104_res_lookup.c:
+    complete
+    .text       start:0x021ef180 end:0x021ef28c
+
+src/ov104/field_exp_obj_gimmick_ov104_dispatch.c:
+    complete
+    .text       start:0x021ef28c end:0x021ef344

@@ -43,5 +43,23 @@ void HandlerStall(void *context, void *item, u32 monId);
 const BattleEventHandlerEntry *EventAddStall(u32 *priority);
 void HandlerCompoundEyes(void *context, void *item, u32 monId);
 const BattleEventHandlerEntry *EventAddCompoundEyes(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d7a64[];
+extern const BattleEventHandlerEntry data_ov167_021d7a74[];
+void HandlerSandVeil(void *context, void *flow, u32 monId);
+void HandlerSandVeilWeather(void *context, void *flow, u32 monId, u32 value);
+const BattleEventHandlerEntry *EventAddSandVeil(u32 *priority);
+void HandlerSnowCloak(void *context, void *flow, u32 monId);
+void HandlerSnowCloakWeather(void *context, void *flow, u32 monId, u32 value);
+const BattleEventHandlerEntry *EventAddSnowCloak(u32 *priority);
+void CommonWeatherGuard(void *context, void *flow, u32 monId, u32 value, u8 weather);
+extern const BattleEventHandlerEntry data_ov167_021d77bc[];
+extern const BattleEventHandlerEntry data_ov167_021d7844[];
+void HandlerTintedLens(void *context, void *item, u32 monId);
+const BattleEventHandlerEntry *EventAddTintedLens(u32 *priority);
+void HandlerSolidRock(void *context, void *item, u32 monId);
+const BattleEventHandlerEntry *EventAddSolidRock(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d783c[];
+void HandlerSniper(void *context, void *item, u32 monId);
+const BattleEventHandlerEntry *EventAddSniper(u32 *priority);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

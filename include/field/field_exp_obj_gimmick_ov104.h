@@ -13,6 +13,7 @@ struct FieldExpObjGimmickOv104Substate {
     u32 direction;
     u8 unk18[0x5c];
     u32 anmIndex;
+    u32 enabled;
 };
 
 struct FieldExpObjGimmickOv104Payload {
@@ -40,7 +41,11 @@ struct FieldExpObjGimmickOv104StateInit {
 };
 
 struct FieldExpObjGimmickOv104ResEntry {
-    u8 bytes[0x24];
+    u32 unk00;
+    u32 flagId;
+    u8 unk08[8];
+    u32 type;
+    u8 unk14[0x10];
 };
 
 struct FieldExpObjGimmickOv104Work {
@@ -75,13 +80,32 @@ u32 func_ov104_021ef04c(FieldExpObjGimmickOv104Work *work);
 u32 func_ov104_021ef068(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021ef114(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021ef168(FieldExpObjGimmickOv104Work *work);
+struct FieldExpObjGimmickOv104ResEntry *func_ov104_021ef180(FieldExpObjGimmickOv104Work *work);
+struct FieldExpObjGimmickOv104ResEntry *func_ov104_021ef204(FieldExpObjGimmickOv104Work *work);
+u32 func_ov104_021ef278(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021ef28c(FieldExpObjGimmickOv104Work *work, u32 unused, u32 kind, void *arg);
+void func_ov104_021ef2cc(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021ef2fc(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021ef344(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021ef380(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021ef3c0(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021ef43c(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021ef5ac(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021ef658(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021ef6dc(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021ef760(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021ef7e4(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021f0324(struct FieldExpObjGimmickOv104ResEntry *entry, u32 arc, u32 index);
+BOOL func_ov104_021f0334(struct FieldExpObjGimmickOv104ResEntry *entry, u16 zone);
+BOOL func_ov104_021f037c(struct FieldExpObjGimmickOv104ResEntry *entry);
 void func_ov104_021ef168(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021efc8c(void *state);
 void func_ov104_021eeea0(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021efcc4(void *state, u32 value);
 s32 func_ov104_021efcf0(void *state);
 void func_ov104_021efcfc(void *state, s32 value);
+void func_ov104_021efc6c(void *state);
+BOOL func_ov104_021efcf8(void *state);
 void *func_ov104_021efbd8(const FieldExpObjGimmickOv104StateInit *init);
 
 void func_ov104_021eed00(Field *field);
