@@ -54,7 +54,8 @@ struct FieldExpObjGimmickOv104StateInit {
 struct FieldExpObjGimmickOv104ResEntry {
     u32 unk00;
     u32 flagId;
-    u8 unk08[8];
+    u32 unk08;
+    u32 unk0c;
     u32 type;
     u8 unk14[0x10];
 };
@@ -108,6 +109,8 @@ void func_ov104_021ef760(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021ef7e4(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021ef868(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021ef924(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021ef94c(FieldExpObjGimmickOv104Work *work, struct FieldExpObjGimmickOv104ResEntry *entry, u32 index);
+void func_ov104_021ef994(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021f0324(struct FieldExpObjGimmickOv104ResEntry *entry, u32 arc, u32 index);
 BOOL func_ov104_021f0334(struct FieldExpObjGimmickOv104ResEntry *entry, u16 zone);
 BOOL func_ov104_021f037c(struct FieldExpObjGimmickOv104ResEntry *entry);
@@ -127,6 +130,7 @@ u32 func_ov104_021eed44(Field *field);
 void *func_ov104_021eed58(Field *field);
 
 extern u32 data_ov104_021f0620;
+extern const u32 data_ov104_021f03a4[];
 extern const u16 data_ov104_021f066c[];
 extern const char data_ov104_021f078c[];
 

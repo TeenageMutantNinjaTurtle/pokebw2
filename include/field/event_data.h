@@ -5,6 +5,7 @@
 
 #include "types.h"
 #include "gfl/heap.h"
+#include "nitro/fx.h"
 #include "struct_decls.h"
 
 struct EventDataFlags {
@@ -18,13 +19,27 @@ struct EventData {
     ArcTool *encArc;
     ArcTool *otherArc;
     u16 zoneId;
-    u8 unk12[0x22];
+    u16 entityCount;
+    u16 count14;
+    u16 warpCount;
+    u16 count18;
+    u8 pad1A[2];
+    void *entityPtr;
+    void *ptr20;
+    void *warpPtr;
+    void *ptr28;
+    u16 prevEntityCount;
+    u16 prevCount14;
+    u16 prevWarpCount;
+    u16 prevCount18;
     u32 encLoaded;
     u8 encData[7];
     EventDataFlags encDataFlags;
     u8 encDataTail[0xe0];
     void *initScript;
-    u8 rest[0x984];
+    u8 pad124[4];
+    u8 cache[0x880];
+    u8 rest[0x100];
 };
 
 extern const char data_ov012_0216e298[];
@@ -39,5 +54,7 @@ void LoadZoneEntities(EventData *data, u16 zoneId, u8 season);
 void EventData_LoadEncData(EventData *data, u16 zoneId, u8 season);
 void *GetZoneInitScrPointer(EventData *data);
 u32 IsEncountDataLoaded(EventData *data);
+void *GetEncountData(EventData *data);
+s32 GetWarpAtPosition(EventData *data, const VecFx32 *position);
 
 #endif // POKEBW2_FIELD_EVENT_DATA_H

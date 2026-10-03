@@ -87,5 +87,17 @@ extern const BattleEventHandlerEntry data_ov167_021d7724[];
 void HandlerPlusMinus(void *context, void *flow, u32 monId, void *list);
 const BattleEventHandlerEntry *EventAddPlusMinus(u32 *priority);
 BOOL func_ov167_021be5c4(void *flow, u32 monId, void *list, u32 ability);
+extern const BattleEventHandlerEntry data_ov167_021d7ea0[];
+BOOL CheckFlowerGiftEnablePokemon(BtlServerFlow *flow, u32 monId);
+void HandlerFlowerGiftMemberOnField(void *context, BtlServerFlow *flow, u32 monId, u32 *result);
+void HandlerFlowerGiftGotAbility(void *context, BtlServerFlow *flow, u32 monId, u32 *result);
+void CommonFlowerGiftFormChange(void *context, BtlServerFlow *flow, u32 monId, u8 sunny, u8 cause);
+void HandlerFlowerGiftWeather(void *context, BtlServerFlow *flow, u32 monId, u32 *active);
+void HandlerFlowerGiftAbilityOff(void *context, BtlServerFlow *flow, u32 monId, u32 *active);
+void HandlerFlowerGiftAirLock(void *context, BtlServerFlow *flow, u32 monId, u32 *active);
+void HandlerFlowerGiftAbilityChange(void *context, BtlServerFlow *flow, u32 monId, u32 *active);
+void HandlerFlowerGiftPower(void *context, BtlServerFlow *flow, u8 monId);
+void HandlerFlowerGiftSpecialDefense(void *context, BtlServerFlow *flow, u8 monId);
+const BattleEventHandlerEntry *EventAddFlowerGift(u32 *priority);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

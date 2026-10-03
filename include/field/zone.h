@@ -65,6 +65,7 @@ extern const RespawnZoneInfo RESPAWN_ZONE_INFO[];
 #endif
 
 u16 ConvDirToWarpDir(u16 dir);
+BOOL CheckWarpPositionMatch(const ZoneWarp *warp, const VecFx32 *position);
 void CreateZoneChangeData(ZoneSpawnInfo *spawn, u32 zoneId, s16 warpDir, s32 x, s32 y, s32 z);
 void CreateZoneChangeDataRail(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpDir, u16 componentId, u16 posFront,
                               s16 posSide);

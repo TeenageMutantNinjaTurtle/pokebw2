@@ -59,3 +59,11 @@ src/ov104/field_exp_obj_gimmick_ov104_swarm_event.c:
 src/ov104/field_exp_obj_gimmick_ov104_week_events.c:
     complete
     .text       start:0x021ef658 end:0x021ef868
+
+src/ov104/field_exp_obj_gimmick_ov104_visitor_dispatch.c:
+    complete
+    .text       start:0x021ef924 end:0x021ef94c
+
+src/ov104/field_exp_obj_gimmick_ov104_visitor_list.c:
+    complete
+    .text       start:0x021ef994 end:0x021ef9c8
