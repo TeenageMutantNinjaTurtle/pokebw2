@@ -1,29 +1,35 @@
 # Overlay source organization audit
 
-This audit covers every committed overlay C change after
-`142e443858bae88ec7f81166778cd2969bd34805`. It checks source boundaries
-against the original B2 and W2 `delinks.txt` ranges, plus the declaration rules
-in [README.md](../README.md#code-organization).
+The reference for work after `142e443858bae88ec7f81166778cd2969bd34805`
+is the repository's earlier source layout and its
+[code organization rules](../README.md#code-organization). A source owns a
+process or subsystem and its data. Adjacent `.text` ranges alone do not prove
+that two functions belonged to one source file.
 
-| Overlays | Result |
+## Evidence from earlier commits
+
+| Overlay | Adjacent sources retained separately before `142e443` |
 | --- | --- |
-| 012 | Contiguous field script, event, warp, party, and VM runs have been regrouped by feature. Separate features and ranges interrupted by assembly remain separate. |
-| 033 | Contiguous Funfest, Mystery Gift, Chatot, PC, Dive, Subway, Trial House, money window, and other field feature runs have been regrouped. Unmatched instructions and distinct neighboring features still set source boundaries. |
-| 035 | The three source files represent distinct features. Their private layouts now use named structs with declarations in `struct_decls.h`. |
-| 036 | Contiguous prop, medal, and resource runs have been regrouped; remaining adjacent files serve distinct features or have assembly gaps. |
-| 103–106 | Badge Gate and expansion object code has been grouped by contiguous feature range. Unmatched functions remain in assembly. |
-| 167 | Contiguous battle handlers and ability families have been regrouped. Small exact wrappers separated by unmatched handlers remain separate source ranges. |
-| 010, 013–018, 021, 073–074, 090, 093, 095, 126, 147, 152–153, 164 | Each changed feature already occupies a coherent source range. |
-| 027 | Its five changed ranges are separated by substantial original assembly gaps. |
-| 146 | Three adjacent encounter cut-in functions have been combined into one source range. |
+| 035 | `event_mapchange.c`, `el_scoreboard.c`, `event_season_banner.c` |
+| 055 | `scrcmd_wbt.c`, `wbt_system.c`, `wbt_tool.c`, `wbt_setup.c`, `wbt_party.c` |
+| 137 | `resort_field.c`, `resort_people.c`, `resort_data_manager.c`, `resort_npc.c` |
+| 162 | `title.c`, `startmenu.c`, `game_start.c`, `boot_screens.c`, `delete_save.c`, `save_control_intr.c` |
+| 294 | Eight adjacent intro process and graphics sources |
 
-The audit checked the existing changed C sources for source-local `extern`
-declarations, anonymous struct typedefs, and named struct definitions missing
-from `struct_decls.h`; none remain. The shared declarations changed during this
-audit are in owning headers. A standalone compiler match is followed by a complete B2/W2 build,
-because external relocations, data ranges, padding, and runtime helpers can
-change the ROM even when a function's instructions match.
+Commit `0c453f1` explicitly split overlay 162 by process. Commit `4366e92`
+introduced the five adjacent overlay 55 sources together. Overlay 35 also
+shows why the distinction matters for byte matching: combining its three
+sources changes palette order in `.rodata` and string and pointer order in
+`.data`, despite standalone function probes matching.
 
-Unmatched translations and linker-level obstacles are tracked in
-[nonmatching-functions.md](nonmatching-functions.md). The unrelated local
-working files are outside this audit.
+## Current review
+
+The address-only merge of 14 overlay 12 groups in `56da313` was reversed in
+`02f4f26`. The uncommitted address-only merges in overlays 33, 36, and 167
+were discarded. Their earlier feature-grouped sources and all independently
+matched functions remain.
+
+Review of the 29 overlays changed since `142e443` continues against the
+earlier process and subsystem boundaries, including owning headers, private
+struct layouts, original data placement, and exact B2/W2 ROM hashes. Unmatched
+functions remain tracked in [nonmatching-functions.md](nonmatching-functions.md).
