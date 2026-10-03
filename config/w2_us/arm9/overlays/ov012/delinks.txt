@@ -545,6 +545,10 @@ src/ov012/field_app_call_params.c:
     complete
     .text       start:0x0215b7ac end:0x0215b818
 
+src/ov012/field_app_call_reset_bag_view.c:
+    complete
+    .text       start:0x0215b794 end:0x0215b7ac
+
 src/ov012/event_game_clear_card.c:
     complete
     .text       start:0x0215a6b0 end:0x0215a6c4

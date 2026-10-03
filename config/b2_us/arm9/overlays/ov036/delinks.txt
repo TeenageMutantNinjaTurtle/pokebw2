@@ -216,3 +216,7 @@ src/ov036/field_zone_map_type.c:
 src/ov036/field_zone_config.c:
     complete
     .text       start:0x021814b4 end:0x021814dc
+
+src/ov036/field_prop_rtc_state.c:
+    complete
+    .text       start:0x021835b0 end:0x021835f4

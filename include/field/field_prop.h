@@ -18,6 +18,23 @@ struct FieldPropAreaBounds {
     fx32 maxX;
 };
 
+// Layout inferred from the Swan-named FieldPropRTCState helpers in overlay 36.
+struct FieldPropRTCState {
+    u32 dayPeriod;
+    u32 previousDayPeriod;
+    BOOL dayPartChanged;
+    u8 playAnmIndex;
+    u8 season;
+    u8 padding[2];
+};
+
+extern const u8 FIELD_PROP_ANM_IDX_FOR_DAY_PART[];
+
+void FieldPropRTCState_Init(FieldPropRTCState *state, u8 season);
+void FieldPropRTCState_Update(FieldPropRTCState *state);
+BOOL FieldPropRTCState_HasDayPartChanged(FieldPropRTCState *state);
+u8 FieldPropRTCState_GetPlayAnmIndex(FieldPropRTCState *state);
+
 FieldPropSystem *FieldG3DMapper_GetBMSystem(G3DMapper *mapper);
 void FieldPropHandle_CallAnmCmd(FieldPropHandle *handle, u32 animation, u32 command);
 BOOL FieldPropHandle_IsAnmIdle(FieldPropHandle *handle, u32 animation);

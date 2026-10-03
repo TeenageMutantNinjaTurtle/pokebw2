@@ -14,7 +14,13 @@ struct FieldAppCallParam {
     void *context;
 };
 
+struct FieldAppCallWork {
+    u8 unk00[0x18];
+    GameSystem **gameSystemPtr;
+};
+
 void EventFieldAppCall_ConvAppResultToEventType(u32 result, u32 *eventType);
+void func_ov012_0215b754(FieldAppCallWork *work);
 void func_ov012_0215b76c(FieldAppCallParam *param, void *context, FieldAppCallPredicate canRetry,
                           FieldAppCallPredicate callback1, FieldAppCallPredicate callback2, void *arg);
 BOOL FieldAppCallParam_CanRetry(FieldAppCallParam *param);

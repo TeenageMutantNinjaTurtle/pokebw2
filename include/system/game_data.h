@@ -29,6 +29,7 @@ struct CityState {
 
 BOOL GameData_CheckPairFlag(GameData *gameData);
 BagSave *GameData_GetBag(GameData *gameData);
+void *func_0201734c(GameData *gameData);
 BoxSaveAccessor *GameData_GetBoxSaveAccessor(GameData *gameData);
 ZoneSpawnInfo *GameData_GetEntralinkParentSpawnInfo(GameData *gameData);
 ZoneSpawnInfo *GameData_GetEscapeRopeZone(GameData *gameData);

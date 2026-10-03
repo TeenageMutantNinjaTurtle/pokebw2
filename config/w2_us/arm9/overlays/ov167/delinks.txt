@@ -471,3 +471,11 @@ src/ov167/battle_roll_effect_chance.c:
 src/ov167/battle_num_mons_on_field.c:
     complete
     .text       start:0x021bd794 end:0x021bd7a0
+
+src/ov167/battle_action_fight_param.c:
+    complete
+    .text       start:0x021bdb38 end:0x021bdb80
+
+src/ov167/battle_action_null.c:
+    complete
+    .text       start:0x021bdc9c end:0x021bdcac
