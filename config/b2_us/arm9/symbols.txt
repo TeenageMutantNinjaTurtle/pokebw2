@@ -4966,7 +4966,7 @@ GFL_MsgDataDecryptString kind:function(thumb,size=0x50) addr:0x0204893c
 GFL_MsgDataLoadStrbufNew kind:function(thumb,size=0x5c) addr:0x0204898c
 GFL_MsgDataGetLineCount kind:function(thumb,size=0x6) addr:0x020489e8
 GFL_MsgDataLoadRawStr kind:function(thumb,size=0xbc) addr:0x020489f0
-GFL_MsgDataCreateFileHandle kind:function(thumb,size=0x54) addr:0x02048aac
+GFL_MsgDataLoadHeader kind:function(thumb,size=0x54) addr:0x02048aac
 GFL_MsgDataPreloadFull kind:function(thumb,size=0x44) addr:0x02048b00
 GFL_MsgDataUpdateLanguage kind:function(thumb,size=0x20) addr:0x02048b44
 GFL_MsgDataInitValidLangID kind:function(thumb,size=0x12) addr:0x02048b64
@@ -8096,7 +8096,7 @@ VRAM_BANK_SIZES kind:data(any) addr:0x02093288
 data_020932d0 kind:data(any) addr:0x020932d0
 data_020932f0 kind:data(any) addr:0x020932f0
 data_02093376 kind:data(any) addr:0x02093376
-DEFAULT_SYSTEM_FONT kind:data(any) addr:0x02093390
+sDefaultFont kind:data(any) addr:0x02093390
 DEFAULT_GX_LIGHT kind:data(any) addr:0x02093dc0
 DEFAULT_CAMERA_PROJECTION kind:data(any) addr:0x02093dc8
 DEFAULT_LOOKAT kind:data(any) addr:0x02093de8
@@ -9166,8 +9166,8 @@ data_021418e4 kind:bss addr:0x021418e4
 sBGSys kind:bss addr:0x0214190c
 sEnabledPlanes kind:bss addr:0x02141910
 sBmpWinSys kind:bss addr:0x02141918
-g_MsgDefaultLangID kind:bss addr:0x0214191c
-g_SystemFont kind:bss addr:0x02141920
+sDefaultLangID kind:bss addr:0x0214191c
+sSystemFont kind:bss addr:0x02141920
 g_G3DSystem kind:bss addr:0x02141924
 g_ArcSys kind:bss addr:0x02141930
 g_ClActSys kind:bss addr:0x0214193c

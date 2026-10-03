@@ -6,14 +6,23 @@
 #include "gfl/str.h"
 #include "struct_decls.h"
 
-// Loads a file of a message archive. With preload set, all its text is read at once
+// Message files (msgdata.c): a block of messages for each language, encrypted with a key from each message's ID.
+
+// Loads a file of a message archive. With preload set, all its text is read at once, and otherwise each message is
+// read from the archive when it is loaded
 MsgData *GFL_MsgSysLoadData(BOOL preload, u32 arcId, u32 fileId, HeapID heapId);
+// The same over a whole message file already in memory, which stays the caller's
+MsgData *GFL_MsgDataCreateFromHandle(void *file, HeapID heapId);
 void GFL_MsgDataFree(MsgData *msgData);
-// The language that messages are read in, which is the kana or kanji choice in the Japanese version
-u8 GFL_MsgDataGetDefaultLangID(void);
-void GFL_MsgDataSetDefaultLangID(u8 langId);
+// Loads a message to a buffer, or to a new one, which is cleared if there is no such message
 void GFL_MsgDataLoadStrbuf(MsgData *msgData, u32 messageId, StrBuf *strbuf);
 StrBuf *GFL_MsgDataLoadStrbufNew(MsgData *msgData, u32 messageId);
+u32 GFL_MsgDataGetLineCount(MsgData *msgData);
+// Loads up to size characters of a message, and the terminator after them
+void GFL_MsgDataLoadRawStr(MsgData *msgData, u32 messageId, u16 *dest, u32 size);
+// The language that messages are read in, which is the kana or kanji choice in the Japanese version
+void GFL_MsgDataSetDefaultLangID(u8 langId);
+u8 GFL_MsgDataGetDefaultLangID(void);
 
 Font *GFL_FontCreate(u32 arcId, u32 fileId, u32 a2, u32 a3, HeapID heapId);
 void GFL_FontFree(Font *font);
