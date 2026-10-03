@@ -32,10 +32,6 @@ src/ov033/event_dendou_machine.c:
     complete
     .text       start:0x021796a4 end:0x02179898
 
-src/ov033/event_field_trade_debug.c:
-    complete
-    .text       start:0x0217a754 end:0x0217a8a8
-
 src/ov033/field_move_scripts.c:
     complete
     .text       start:0x02178488 end:0x021785b0
@@ -44,13 +40,9 @@ src/ov033/field_surf.c:
     complete
     .text       start:0x02179200 end:0x021792cc
 
-src/ov033/trial_house_work_create.c:
+src/ov033/trial_house_work.c:
     complete
-    .text       start:0x0217acb0 end:0x0217ad8c
-
-src/ov033/trial_house_work_delete.c:
-    complete
-    .text       start:0x0217ad8c end:0x0217adb8
+    .text       start:0x0217acb0 end:0x0217adb8
 
 src/ov033/event_field_trade_pkm.c:
     .text       start:0x0217a5d0 end:0x0217a754
@@ -165,4 +157,4 @@ src/ov033/mystery_gift_aux.c:
 
 src/ov033/event_field_trade.c:
     complete
-    .text       start:0x0217a8a8 end:0x0217aa5c
+    .text       start:0x0217a754 end:0x0217aa5c

@@ -147,6 +147,7 @@ u16 Move_IncrementPP_Org(BattleMon *mon, u8 index, u8 amount);
 void Move_UpdateID(BattleMon *mon, u8 index, u16 move, u8 maxPP, BOOL updateCurrent);
 BOOL MoveIsUsable(BattleMon *mon, u16 move);
 u32 func_ov167_021bb07c(BattleMon *mon, u32 stat);
+void func_ov167_021bb10c(BattleMon *mon, u16 *stats);
 void func_ov167_021bb054(BattleMon *mon);
 void *func_ov167_021bb064(BattleMon *mon);
 void SetBaseStatus(BattleMon *mon, u32 stat, u16 value);

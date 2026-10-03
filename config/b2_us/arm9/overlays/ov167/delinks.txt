@@ -240,10 +240,6 @@ src/ov167/battle_move_update.c:
     complete
     .text       start:0x021baf34 end:0x021baf78
 
-src/ov167/battle_mon_base_stat.c:
-    complete
-    .text       start:0x021bb170 end:0x021bb1b4
-
 src/ov167/battle_mon_crit_stat.c:
     complete
     .text       start:0x021bb2d8 end:0x021bb340
@@ -258,7 +254,7 @@ src/ov167/battle_mon_illusion_disguise.c:
 
 src/ov167/battle_mon_raw_stat.c:
     complete
-    .text       start:0x021bb07c end:0x021bb10c
+    .text       start:0x021bb07c end:0x021bb1b4
 
 src/ov167/battle_stat_change_valid.c:
     complete

@@ -44,3 +44,12 @@ void func_ov033_0217acd4(GameSystem *gsys, TrialHouseWork *work) {
     GFL_HeapFree(buffer);
     work->initState = size;
 }
+
+void TrialHouseWorkDelete(void *unused, struct TrialHouseWork **workPtr) {
+    if (*workPtr != NULL) {
+        GFL_HeapFree((*workPtr)->saveBuffer);
+        GFL_HeapFree((*workPtr)->party);
+        GFL_HeapFree(*workPtr);
+        *workPtr = NULL;
+    }
+}
