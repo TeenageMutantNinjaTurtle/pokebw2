@@ -70,6 +70,7 @@ struct FieldScriptEnv {
 };
 
 extern const char data_ov012_0216e1e4[];
+extern const u16 data_ov012_0216ca04[2];
 extern const u8 data_ov012_0216ca06[20];
 extern const u16 data_ov012_0216ca1a[12];
 extern const u16 data_ov012_0216ca1c[12];
@@ -195,6 +196,11 @@ BOOL s011A_PokePartyGetMetDate(VM *vm, FieldScriptEnv *env);
 BOOL s0110_PokePartyGetParam(VM *vm, FieldScriptEnv *env);
 BOOL s0111_PokePartySetIV(VM *vm, FieldScriptEnv *env);
 BOOL s01D5_MoveReminderCheckPkm(VM *vm, FieldScriptEnv *env);
+BOOL s0119_PokePartyIsFromWhiteForest(VM *vm, FieldScriptEnv *env);
+BOOL s0122_BoxAdd(VM *vm, FieldScriptEnv *env);
+BOOL s0123_BoxAddEx(VM *vm, FieldScriptEnv *env);
+BOOL s014A_FieldOpen(VM *vm, FieldScriptEnv *env);
+BOOL s014B_FieldClose(VM *vm, FieldScriptEnv *env);
 BOOL s00F9_MoneyAdd(VM *vm, FieldScriptEnv *env);
 BOOL s00FA_MoneySub(VM *vm, FieldScriptEnv *env);
 BOOL s00FB_MoneyCheck(VM *vm, FieldScriptEnv *env);

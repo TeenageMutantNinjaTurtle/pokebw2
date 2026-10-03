@@ -80,6 +80,8 @@ void ChangeForm(BattleMon *mon, u8 form);
 void SetWeight(BattleMon *mon, u16 weight);
 void HPAdd(BattleMon *mon, u16 amount);
 BOOL IsMonFullHP(BattleMon *mon);
+BOOL StatStageRecover(BattleMon *mon);
+void StatStageReset(BattleMon *mon);
 void func_ov167_021bb7c0(BattleMon *mon, u32 flag);
 void func_ov167_021bb7e4(BattleMon *mon, u32 flag);
 void func_ov167_021bb808(BattleMon *mon, u32 flag);

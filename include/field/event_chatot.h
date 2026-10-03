@@ -34,7 +34,10 @@ GameEventReturnCode func_ov033_02178d10(GameEvent *event, u32 *state, void *data
 void func_ov033_02178fcc(void *work, u32 *state);
 void func_ov033_02178fd4(ChatotEventWork *work);
 void func_ov033_02178fe8(ChatotEventWork *work);
+void func_ov033_02178ffc(ChatotEventWork *work);
 void func_ov033_021790a0(ChatotEventWork *work);
+u32 func_ov033_021790c4(ChatotEventWork *work);
+void func_ov033_02179140(ChatotEventWork *work);
 void func_ov033_021791a8(ChatotEventWork *work);
 
 #endif // POKEBW2_FIELD_EVENT_CHATOT_H

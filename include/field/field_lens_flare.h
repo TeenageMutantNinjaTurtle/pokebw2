@@ -17,6 +17,11 @@ typedef struct FieldLensFlareData {
 
 extern const u16 data_ov036_021d4768[][4];
 extern const char data_ov036_021d5728[];
+extern const u16 LENS_FLARE_RESOURCE_IDS[];
+extern const u16 data_ov036_021d47ba[];
+extern const u16 data_ov036_021d47bc[];
+extern const u16 data_ov036_021d47be[];
+extern const u16 data_ov036_021d47c0[];
 
 FieldLensFlareData *FieldLensFlareData_Create(HeapID heapId);
 void FieldLensFlareData_Free(FieldLensFlareData *data);
@@ -24,6 +29,7 @@ u16 FieldLensFlare_GetEffectSetID(FieldLensFlareData *data, u32 entryIndex, u32 
 u32 FieldLensFlareData_BytesToEntryCount(FieldLensFlareData *data);
 u16 FieldLensFlareData_GetLensFlareID(FieldLensFlareData *data, u32 effectSet, u32 index);
 u8 FieldLensFlareData_GetEffectSetSize(FieldLensFlareData *data, u32 effectSet);
+u16 FieldLensFlareData_GetResDatID(FieldLensFlareData *data, u32 effectSet, u32 index);
 FieldLensFlareEntry *FieldLensFlareData_GetEntry(FieldLensFlareData *data, u32 index);
 u32 FieldLensFlareData_GetIdxForZoneTransit(FieldLensFlareData *data, u16 zoneId, u16 transitId);
 

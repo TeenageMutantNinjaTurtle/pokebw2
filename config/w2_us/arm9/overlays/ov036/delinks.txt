@@ -108,3 +108,7 @@ src/ov036/field_lens_flare_data_lifecycle.c:
 src/ov036/field_lens_flare_effect_set.c:
     complete
     .text       start:0x021c8880 end:0x021c8898
+
+src/ov036/field_lens_flare_data_resource.c:
+    complete
+    .text       start:0x021c88d8 end:0x021c8948

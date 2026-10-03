@@ -144,6 +144,7 @@ void GFL_BGSysUpdate(void);
 void GFL_BGSysUploadStdPalette(u32 bg, void *data, u32 size, u32 offset);
 // Loads a palette file of an archive to palette memory
 void GFL_G2DIOLoadArcNCLRDefault(ArcTool *arc, u32 fileId, u32 type, u32 offset, u32 size, HeapID heapId);
+void GFL_G2DIOLoadNCLR(u32 bg, u32 paletteId, u32 a2, u32 a3, u32 a4, u32 size, u32 heapId);
 // Read a character or palette file of an archive, and return the file for GFL_HeapFree
 void *GFL_G2DIOReadOBJNCGR(u32 arcId, u32 fileId, BOOL compressed, NNSG2dCharacterData **character, HeapID heapId);
 void *GFL_G2DIOReadNCLR(u32 arcId, u32 fileId, NNSG2dPaletteData **palette, HeapID heapId);
@@ -154,8 +155,7 @@ void *GFL_G2DIOReadOBJNCGRArc(ArcTool *arc, u32 fileId, BOOL compressed, NNSG2dC
                               HeapID heapId);
 void *GFL_G2DIOReadNCLRArc(ArcTool *arc, u32 fileId, NNSG2dPaletteData **palette, HeapID heapId);
 // Loads a screen file of an archive to a BG's screen
-void GFL_G2DIOLoadNSCRSync(ArcTool *arc, u32 fileId, u8 bg, u32 offset, u32 a4, u32 a5, BOOL compressed,
-                           HeapID heapId);
+void GFL_G2DIOLoadNSCRSync(ArcTool *arc, u32 fileId, u8 bg, u32 offset, u32 a4, u32 a5, BOOL compressed, HeapID heapId);
 void GFXRegSetMasterBrightness(u32 reg, s32 brightness);
 // Loaded with part of a palette file, stepped each frame and reset. Unnamed, as what it does is not known
 void *func_02035024(u32 a0, u32 a1, u32 a2, HeapID heapId);

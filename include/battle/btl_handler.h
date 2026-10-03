@@ -59,6 +59,8 @@ BOOL BattleHandler_QuitBattle(BattleHandler *handler, BattleHandlerQuitBattlePar
 BOOL BattleHandler_Switch(BattleHandler *handler, BattleHandlerSwitchParam *param);
 BOOL BattleHandler_AddFieldEffect(BattleHandler *handler, BattleHandlerAddFieldEffectParam *param);
 BOOL BattleHandler_RemoveFieldEffect(BattleHandler *handler, BattleHandlerRemoveFieldEffectParam *param);
+u8 BattleHandler_RecoverStatStage(BattleHandler *handler, BattleHandlerRecoverStatStageParam *param);
+BOOL BattleHandler_ResetStatStage(BattleHandler *handler, BattleHandlerResetStatStageParam *param);
 
 BOOL BattleHandler_SetMoveEffectIndex(BattleHandler *handler, BattleHandlerMoveEffectParam *param);
 BOOL BattleHandler_SetMoveEffectEnable(BattleHandler *handler);

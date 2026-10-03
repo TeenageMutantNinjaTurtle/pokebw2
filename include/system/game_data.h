@@ -8,6 +8,20 @@
 #define CITY_BLACK_CITY 0
 #define CITY_WHITE_FOREST 1
 
+struct BoxPkmCreateParams {
+    u16 heapId;
+    u16 pad;
+    u32 species;
+    u32 level;
+    u32 paramC;
+    u32 param10;
+    s32 param14;
+    s32 param18;
+    s32 param1C;
+    u32 param20;
+    u32 param24;
+};
+
 struct CityState {
     u16 initialized;
     u16 city;
@@ -42,6 +56,7 @@ PlayerState *GameData_GetPlayerState(GameData *gameData);
 PlayerState *func_020171e8(GameData *gameData, s32 index);
 PokeDexSave *GameData_GetPokedex(GameData *gameData);
 GameRecords *GameData_GetRecords(GameData *gameData);
+BOOL GameData_AddBoxPkm(GameData *gameData, BoxPkmCreateParams *params);
 // Whether a full day has passed since the last check
 BOOL checkForMidnight(GameData *gameData);
 SaveControl *GameData_GetSaveControl(GameData *gameData);

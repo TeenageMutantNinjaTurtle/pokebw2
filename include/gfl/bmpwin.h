@@ -39,6 +39,7 @@ void BmpWin_DrawFrame(BmpWin *window, u8 a1, u16 frameChar, u8 framePalette);
 void func_02024eec(BmpWin *window, u32 a1);
 // Loads a window frame's characters and palette for BmpWin_DrawFrame
 void LoadSysMsgBox(u8 bg, u16 frameChar, u8 framePalette, u8 type, HeapID heapId);
+u32 GetSysMsgBoxPaletteDatID(u32 index);
 
 // A bitmap of tiles, tileWidth by tileHeight, with bytesPerTile bytes to a tile
 GFLBitmap *GFL_BitmapCreate(u32 tileWidth, u32 tileHeight, u32 bytesPerTile, HeapID heapId);

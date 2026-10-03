@@ -178,3 +178,19 @@ src/ov033/event_chatot_create.c:
 src/ov033/event_chatot_actor.c:
     complete
     .text       start:0x02178fcc end:0x02178ffc
+
+src/ov033/event_chatot_sprite_free.c:
+    complete
+    .text       start:0x021790a0 end:0x021790c4
+
+src/ov033/event_chatot_sprite_update.c:
+    complete
+    .text       start:0x021790c4 end:0x02179140
+
+src/ov033/event_chatot_window_create.c:
+    complete
+    .text       start:0x02179140 end:0x021791a8
+
+src/ov033/event_chatot_cleanup.c:
+    complete
+    .text       start:0x021791a8 end:0x021791c0
