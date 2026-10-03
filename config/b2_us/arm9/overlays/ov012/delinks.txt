@@ -52,14 +52,6 @@ src/ov012/field_script_cmd_save_setup.c:
     complete
     .text       start:0x02155ca4 end:0x02155d00
 
-src/ov012/field_script_cmd_trainer_flags.c:
-    complete
-    .text       start:0x02155fa0 end:0x02156024
-
-src/ov012/field_script_cmd_battle_result.c:
-    complete
-    .text       start:0x02156024 end:0x02156104
-
 src/ov012/field_script_cmd_party_moves_read.c:
     complete
     .text       start:0x02156b44 end:0x02156bd0
@@ -322,3 +314,8 @@ src/ov012/zone_warp_out.c:
 src/ov012/rail_warp_out.c:
     complete
     .text       start:0x0215d7d4 end:0x0215d88c
+
+
+src/ov012/field_script_battle.c:
+    complete
+    .text       start:0x02155fa0 end:0x02156104

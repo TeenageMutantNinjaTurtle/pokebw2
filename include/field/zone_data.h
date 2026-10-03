@@ -10,6 +10,7 @@ u32 GetZoneFogIndex(u16 zoneId);
 u32 ZoneData_GetObjectProjectionMatrixType(u16 zoneId);
 u32 GetObjectProjectionMatrixOffset(u16 zoneId);
 BOOL IsZoneTwoPassLoad(u16 zoneId);
+BOOL func_ov036_0218141c(u16 zoneId);
 u32 GetZoneMapType(u16 zoneId);
 u32 GetZoneMapType2(u16 zoneId);
 void *GetZoneFieldmapCtrlVTable(u16 zoneId);

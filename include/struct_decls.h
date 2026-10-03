@@ -294,6 +294,7 @@ typedef struct SoundproofMessageWork SoundproofMessageWork;
 typedef struct SpeedBoostWork SpeedBoostWork;
 typedef struct StadiumTrainerEntry StadiumTrainerEntry;
 typedef struct StatDropGuardMessageWork StatDropGuardMessageWork;
+typedef struct SteadfastWork SteadfastWork;
 typedef struct StatusFailedMessageWork StatusFailedMessageWork;
 typedef struct SturdyMessageWork SturdyMessageWork;
 typedef struct SurveyProbabilityEntry SurveyProbabilityEntry;

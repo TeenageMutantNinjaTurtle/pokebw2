@@ -595,3 +595,11 @@ src/ov167/battle_ability_static_event.c:
 src/ov167/battle_ability_flame_body_event.c:
     complete
     .text       start:0x021bf578 end:0x021bf584
+
+src/ov167/battle_ability_intimidate_event.c:
+    complete
+    .text       start:0x021bde50 end:0x021bde5c
+
+src/ov167/battle_ability_steadfast.c:
+    complete
+    .text       start:0x021bdf04 end:0x021bdf58
