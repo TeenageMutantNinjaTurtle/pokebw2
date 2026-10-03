@@ -38,4 +38,10 @@ u32 EventGameClear_Get3DDemoID(void);
 void EventGameClear_NextState(GameClearWork *work, u32 *state);
 void func_ov012_0215a670(GameClearWork *work);
 
+// Wrappers that load overlay 35 for what it creates
+GameEvent *CallCreateGameEntryPointEvent(GameSystem *gsys, GameSystemProcData *procData);
+GameEvent *EventMapChangeBlackout_CreateExternal(GameSystem *gsys);
+void LoadFieldGlueOverlay(void);
+void UnloadFieldGlueOverlay(void);
+
 #endif // POKEBW2_FIELD_EVENT_GAME_CLEAR_H

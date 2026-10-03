@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "struct_decls.h"
+#include "gfl/proc.h"
 #include "system/game_event.h"
 
 struct BattleLoseData {
@@ -13,5 +14,10 @@ struct BattleLoseData {
 
 GameEvent *EventBattleLose_Create(GameSystem *gsys);
 GameEventReturnCode EventBattleLose_Callback(GameEvent *event, u32 *state, void *data);
+
+// Overlay 12
+void func_ov012_02160618(void);
+// The screen of overlay 295 that a lost battle shows
+extern const GameProcFunctions data_ov295_0219d774;
 
 #endif // POKEBW2_FIELD_EVENT_BATTLE_LOSE_H

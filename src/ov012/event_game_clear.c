@@ -3,6 +3,8 @@
 #include "constants/version.h"
 #include "field/encounter.h"
 #include "field/event_game_clear.h"
+#include "field/event_mapchange.h"
+#include "gfl/overlay.h"
 #include "gfl/std.h"
 #include "pml/poke_party.h"
 #include "save/config.h"
@@ -149,4 +151,22 @@ void EventGameClear_GiveMonotypeMedals(GameClearWork *work) {
             MedalBox_GiveMedal(box, medalIds[i]);
         }
     }
+}
+
+GameEvent *CallCreateGameEntryPointEvent(GameSystem *gsys, GameSystemProcData *procData) {
+    GFL_OvlLoad(OVERLAY_ID(35));
+    return CreateGameEntryPointEvent(gsys, procData);
+}
+
+GameEvent *EventMapChangeBlackout_CreateExternal(GameSystem *gsys) {
+    GFL_OvlLoad(OVERLAY_ID(35));
+    return EventMapChangeBlackout_Create(gsys);
+}
+
+void LoadFieldGlueOverlay(void) {
+    GFL_OvlLoad(OVERLAY_ID(35));
+}
+
+void UnloadFieldGlueOverlay(void) {
+    GFL_OvlUnload(OVERLAY_ID(35));
 }
