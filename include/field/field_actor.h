@@ -67,6 +67,7 @@ typedef struct {
 GameEvent *CallEventPrepareResidentActorsForZoneChange(GameSystem *gsys, Field *field);
 GameEventReturnCode func_ov012_0215c59c(GameEvent *event, u32 *state, void *data);
 void DisableAllActorsMovement(MMSys *mmSys);
+FieldActor *FindPlayerFieldActor(MMSys *mmSys);
 void EnableAllActorsMovement(MMSys *mmSys);
 // Whether the actor has finished its movement commands
 BOOL IsAllActorAcmdFinished(FieldActor *actor);

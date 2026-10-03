@@ -1,6 +1,11 @@
 #include "types.h"
+#include "field/app_call.h"
 #include "field/black_tower_gimmick.h"
+#include "field/event_action_call.h"
 #include "field/event_save.h"
+#include "field/field.h"
+#include "field/field_actor.h"
+#include "gfl/heap.h"
 #include "gfl/std.h"
 #include "system/game_data.h"
 #include "system/game_event.h"
@@ -39,8 +44,73 @@ GameEventReturnCode EventSave_Callback(GameEvent *event, u32 *state, void *data)
     }
 }
 
-void func_ov012_0215c574(EventSaveWork *work) {
-    EventSaveArgs *args = work->args;
-    GameEvent *event = func_ov127_021f1c80(args->gameSystem, args->field, args->unkC, &work->code);
-    GameEvent_ChainNext((GameEvent *)work->result, event);
+void func_ov012_0215c574(FieldAppCallWork *work) {
+    FieldAppCallInput *input = work->input;
+    GameEvent *event = func_ov127_021f1c80(input->gameSystem, input->field, input->unk0C, &work->unk10);
+    GameEvent_ChainNext(work->event, event);
+}
+
+void func_ov012_0215c594(void *param) {
+    GFL_HeapFree(param);
+}
+
+GameEventReturnCode func_ov012_0215c59c(GameEvent *event, u32 *state, void *data) {
+    PrepareResidentActorsWork *work = data;
+    Field *field = work->field;
+    MMSys *actorSystem;
+    FieldActor *player;
+    FieldActor *actor;
+    FieldActor *third;
+
+    switch (*state) {
+    case 0:
+        actorSystem = Field_GetActorSystem(field);
+        player = FindPlayerFieldActor(actorSystem);
+        actor = FindActorByMoveCode(actorSystem, 0x30);
+        work->movingActors = 0;
+        DisableAllActorsMovement(actorSystem);
+        if (!func_ov012_02166ecc(player)) {
+            work->movingActors |= 1;
+            EnableActorMovement(player);
+        }
+        third = NULL;
+        if (third != NULL && IsActorFlag16(third) == TRUE) {
+            work->movingActors |= 4;
+            EnableActorMovement(third);
+        }
+        if (actor != NULL && IsActorFlag16(actor) == TRUE) {
+            work->movingActors |= 2;
+            EnableActorMovement(actor);
+        }
+        (*state)++;
+        break;
+    case 1:
+        actorSystem = Field_GetActorSystem(field);
+        player = FindPlayerFieldActor(actorSystem);
+        if ((work->movingActors & 1) && func_ov012_02166ecc(player) == TRUE) {
+            DisableActorMovement(player);
+            work->movingActors &= ~1;
+        }
+        if (work->movingActors & 4) {
+            third = NULL;
+            if (!IsActorFlag16(third)) {
+                DisableActorMovement(third);
+                work->movingActors &= ~4;
+            }
+        }
+        if (work->movingActors & 2) {
+            actor = FindActorByMoveCode(actorSystem, 0x30);
+            if (!IsActorFlag16(actor)) {
+                DisableActorMovement(actor);
+                work->movingActors &= ~2;
+            }
+        }
+        if (work->movingActors == 0) {
+            (*state)++;
+        }
+        break;
+    case 2:
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
 }

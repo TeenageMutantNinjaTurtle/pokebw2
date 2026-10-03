@@ -26,7 +26,9 @@ struct EventSaveWork {
 
 GameEvent *EventSave_Create(GameSystem *gsys, Field *field, u16 code, u32 arg3, EventSaveArgs *args, u32 *result);
 GameEventReturnCode EventSave_Callback(GameEvent *event, u32 *state, void *data);
-void func_ov012_0215c574(EventSaveWork *work);
+// Callbacks of the save in FIELD_PROC_LINK_LIST
+void func_ov012_0215c574(FieldAppCallWork *work);
+void func_ov012_0215c594(void *param);
 u32 EventSave_Update(EventSaveWork *work);
 
 #endif // POKEBW2_FIELD_EVENT_SAVE_H

@@ -5,6 +5,15 @@
 
 #include "types.h"
 #include "struct_decls.h"
+
+// The work of CallEventPrepareResidentActorsForZoneChange's event, whose callback is func_ov012_0215c59c
+struct PrepareResidentActorsWork {
+    GameSystem *gameSystem;
+    Field *field;
+    GameData *gameData;
+    // Which actors the event let move: 1 the player, 2 the actor with move code 0x30 and 4 a third, always NULL
+    u8 movingActors;
+};
 #include "system/game_event.h"
 
 struct EventActionCallWork {
