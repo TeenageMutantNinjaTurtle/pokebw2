@@ -8,9 +8,9 @@ src/ov012/event_irc_party.c:
     complete
     .text       start:0x02150400 end:0x021504a0
 
-src/ov012/field_script_work_events.c:
+src/ov012/event_script_call.c:
     complete
-    .text       start:0x021538c0 end:0x02153938
+    .text       start:0x02153820 end:0x02153938
 
 src/ov012/field_script_setup.c:
     complete
