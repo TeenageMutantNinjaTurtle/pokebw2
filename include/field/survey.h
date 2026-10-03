@@ -23,9 +23,10 @@ struct SurveyProbabilityEntry {
 
 struct SurveyTextWork {
     HeapID heapId;
-    u8 unused02[6];
+    u8 unused02[2];
+    GameSystem *gameSystem;
     GameData *gameData;
-    u8 unused0c[4];
+    Field *field;
     void *msgBGSys;
     void *window;
     MsgData *message;
@@ -36,6 +37,21 @@ extern const SurveyProbabilityEntry data_ov027_02170e40[];
 
 u16 detectLengthSinceLastSession(SaveControl *save);
 void *func_0200ec2c(SaveControl *save);
+void *func_0200ec38(void *survey);
+void func_0200ec80(void *survey, u8 question, u32 answer);
+void func_0202d0a0(void *survey);
+u16 func_ov012_02165330(SaveControl *save);
+u16 func_ov012_021653d8(SaveControl *save, u8 index);
+u32 func_ov012_02165310(u16 index);
+u32 func_ov012_021652dc(u16 index);
+void func_ov012_021652ec(u16 index, u8 *answers);
+u32 func_ov012_02165480(void *survey, u8 answer);
+u32 func_ov012_02165320(u8 index);
+u32 func_ov012_021652cc(u16 value);
+u16 func_ov027_02170758(SaveControl *save);
+u16 func_ov027_021707b8(SaveControl *save);
+GameEvent *func_ov027_02170860(GameSystem *gsys);
+void func_ov027_02170884(SurveyTextWork *work, GameSystem *gsys);
 u32 func_0200ed90(void *survey, u16 question, int answer);
 u32 func_0200ed48(void *survey, u16 question, int answer);
 int GetSurveyAnswerMsgIDCount(u16 question);
@@ -61,5 +77,9 @@ BOOL s01FF_SurveyGetCurrentQuestionID(VM *vm, FieldScriptEnv *env);
 BOOL s0200_SurveyGetCurrentAnswerIDs(VM *vm, FieldScriptEnv *env);
 BOOL s0204_SurveyGetTime(VM *vm, FieldScriptEnv *env);
 BOOL s0201_SurveyGetPopularOptionMsgID(VM *vm, FieldScriptEnv *env);
+BOOL func_ov027_02170650(VM *vm, FieldScriptEnv *env);
+BOOL func_ov027_02170698(VM *vm, FieldScriptEnv *env);
+BOOL func_ov027_021706bc(VM *vm, FieldScriptEnv *env);
+BOOL func_ov027_0217070c(VM *vm, FieldScriptEnv *env);
 
 #endif // POKEBW2_FIELD_SURVEY_H

@@ -14,12 +14,12 @@ src/ov027/festival_text.c:
 
 src/ov027/survey_text.c:
     complete
-    .text       start:0x021708fc end:0x02170ab4
+    .text       start:0x02170828 end:0x02170ab4
 
 src/ov027/survey_commands.c:
     complete
     .text       start:0x021703e8 end:0x02170520
 
-src/ov027/survey_popularity.c:
+src/ov027/survey_result_commands.c:
     complete
-    .text       start:0x0217060c end:0x02170690
+    .text       start:0x0217060c end:0x02170828

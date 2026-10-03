@@ -139,6 +139,8 @@ void FieldPropSystem_UpdateResInstance(FieldPropSystem *system, void *instance);
 void FieldPropSystem_Update(FieldPropSystem *system);
 void FieldPropSystem_DrawAllHandles(FieldPropSystem *system);
 void FieldPropSystem_UnlinkChunk(FieldPropSystem *system, void *chunk);
+s32 FieldPropSystem_InstantiateProps(FieldPropSystem *system, void *chunk, const FieldPropSourceInfo *infos, s32 count);
+BOOL FieldPropSystem_CheckCreateDoorReq(FieldPropSystem *system, u32 resId, VecFx32 *position, u32 *resIndex);
 void FieldPropSystem_InstantiateFromInfo(FieldPropSystem *system, void *chunk, const FieldPropSourceInfo *info,
                                          u32 propIndex);
 void FieldPropSystem_FreeResInstances(FieldPropSystem *system, void *resourceState);

@@ -1,6 +1,10 @@
 #include "battle/btl_pokeparam.h"
 
-// Function name from swan.
+// Function names from swan.
+PartyPkm *GetSrcData(const void *mon) {
+    return *(PartyPkm **)mon;
+}
+
 void SetIllusionDisguise(BattleMon *mon, void *disguise) {
     u8 *data;
 

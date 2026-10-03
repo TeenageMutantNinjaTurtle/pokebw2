@@ -58,7 +58,7 @@ src/ov036/field_prop_handle_registry.c:
 
 src/ov036/field_prop_chunk_lifecycle.c:
     complete
-    .text       start:0x021832f0 end:0x0218333c
+    .text       start:0x02183268 end:0x0218333c
 
 src/ov036/field_g3d_mapper_free_map_textures.c:
     complete

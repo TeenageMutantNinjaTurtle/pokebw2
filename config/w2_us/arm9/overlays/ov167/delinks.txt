@@ -242,27 +242,19 @@ src/ov167/battle_mon_type_check.c:
 
 src/ov167/battle_mon_illusion_disguise.c:
     complete
-    .text       start:0x021bb088 end:0x021bb0bc
+    .text       start:0x021bb084 end:0x021bb0bc
 
 src/ov167/battle_mon_raw_stat.c:
     complete
     .text       start:0x021bb0bc end:0x021bb1f4
 
-src/ov167/battle_stat_change_valid.c:
+src/ov167/battle_mon_stat_stages.c:
     complete
-    .text       start:0x021bb554 end:0x021bb590
-
-src/ov167/battle_mon_stats_lowered.c:
-    complete
-    .text       start:0x021bb5a8 end:0x021bb600
+    .text       start:0x021bb554 end:0x021bb600
 
 src/ov167/battle_mon_status.c:
     complete
-    .text       start:0x021bbae8 end:0x021bbb18
-
-src/ov167/battle_mon_condition_continuation.c:
-    complete
-    .text       start:0x021bbb54 end:0x021bbb5c
+    .text       start:0x021bba30 end:0x021bbb64
 
 src/ov167/battle_mon_clear_move_status.c:
     complete
@@ -271,10 +263,6 @@ src/ov167/battle_mon_clear_move_status.c:
 src/ov167/battle_mon_condition_count.c:
     complete
     .text       start:0x021bc1ec end:0x021bc1f8
-
-src/ov167/battle_mon_cure_condition.c:
-    complete
-    .text       start:0x021bba30 end:0x021bbaa4
 
 src/ov167/battle_mon_set_move_condition.c:
     complete

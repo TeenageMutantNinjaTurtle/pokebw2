@@ -77,6 +77,8 @@ u8 GetBattleMonMoveCount(BattleMon *mon);
 u16 GetBattleMonSpecies(BattleMon *mon);
 u32 GetBattleMonStat(BattleMon *mon, u32 value);
 u32 GetBattleMonStatus(BattleMon *mon);
+u16 GetDisabledMove(BattleMon *mon, u32 index);
+u8 func_ov167_021bbb1c(BattleMon *mon, u32 index);
 BattleConditionCont GetConditionContinuationParam(BattleMon *mon, u32 condition);
 u8 GetConditionCount(BattleMon *mon, u32 condition);
 u16 GetConsecutiveMoveCount(BattleMon *mon);
@@ -168,5 +170,6 @@ void SetMoveCondition(BattleMon *mon, u32 condition, BattleCondition value);
 void CureCondition(BattleMon *mon);
 void CureDependentCondition(BattleMon *mon, u32 condition);
 void CureMoveCondition(BattleMon *mon, u32 condition);
+void func_ov167_021bba64(BattleMon *mon, u32 monId);
 
 #endif // POKEBW2_BATTLE_BTL_POKEPARAM_H

@@ -29,7 +29,9 @@ The address-only merge of 14 overlay 12 groups in `56da313` was reversed in
 were discarded. Their earlier feature-grouped sources and all independently
 matched functions remain.
 
-The review covers all 34 overlays whose source changed since `142e443`.
+The review covers all 30 overlays whose source changed since `142e443`, plus
+four reference overlays with established process boundaries (`059`, `162`,
+`284`, and `294`).
 It checks process and subsystem boundaries, owning headers, private structs,
 data placement, and exact B2/W2 ROM hashes. The table records the current
 source organization; an assembly gap prevents joining C ranges until its
@@ -39,7 +41,7 @@ intervening function matches. Unmatched attempts are tracked in
 | Overlay | Disposition |
 | --- | --- |
 | 010 | Single linked C source; no fragmented C ranges. |
-| 012 | Related matrix, script setup, ScriptWork, script-command, and zone helper ranges are grouped where continuous; the system-option, RTC, Trainer Card, and GameComm commands have coherent owners. `ProcessMapMatrix` and other intervening assembly still separate some ranges. |
+| 012 | Related matrix, script setup, ScriptWork, script-command, warp, and zone entity position ranges are grouped where continuous; the system-option, RTC, Trainer Card, and GameComm commands have coherent owners. `ProcessMapMatrix` and other intervening assembly still separate some ranges. |
 | 013 | Single linked C source; no fragmented C ranges. |
 | 014 | Single linked C source; no fragmented C ranges. |
 | 015 | Single linked C source; no fragmented C ranges. |
@@ -47,7 +49,7 @@ intervening function matches. Unmatched attempts are tracked in
 | 017 | Single linked C source; no fragmented C ranges. |
 | 018 | Single linked C source; no fragmented C ranges. |
 | 021 | Single linked C source; no fragmented C ranges. |
-| 027 | Two survey commands extend their source back to `0x021703a8`; the survey text/UI lifecycle and trainer-card value helpers now form one 11-function source through `0x02170a74`, followed by a seven-function festival text/archive source through `0x02170b98`. The probability helper ends immediately before the commands but has separate ownership. The command at `0x021704e0` still blocks the matching reset helper at `0x02170580`; other survey ranges retain intervening assembly. |
+| 027 | Two survey commands extend their source back to `0x021703a8`; seven survey result commands share one continuous source through `0x021707e8`. The survey UI event, text lifecycle, and trainer-card value helpers form a 14-function source through `0x02170a74`, followed by a seven-function festival text/archive source through `0x02170b98`. The probability helper ends immediately before the commands but has separate ownership. The command at `0x021704e0` still blocks the matching reset helper at `0x02170580`; other survey ranges retain intervening assembly. |
 | 033 | Trade, Trial House, Battle Subway, and field-event ranges preserve process boundaries. The phrase-input process now spans its four formerly missing neighbors; adjacent trade and Trial House lifecycle fragments are consolidated. Several same-process fragments still have intervening assembly. |
 | 035 | Three adjacent event sources retain their separate process and data ownership; merging changes non-text section order. |
 | 036 | Prop and zone C ranges are grouped within continuous owners; the zone load/flag/constructor chain, prop chunk lifecycle helpers, and lens flare process/data helpers now each share one source. Remaining nearby fragments have intervening assembly, and the other adjacent C pairs cross subsystem boundaries. |
@@ -69,7 +71,7 @@ intervening function matches. Unmatched attempts are tracked in
 | 153 | Single linked C source; no fragmented C ranges. |
 | 162 | Six adjacent title, menu, start, boot, delete-save, and interrupt sources preserve process boundaries. |
 | 164 | Single linked C source; no fragmented C ranges. |
-| 167 | Battle handlers, ability handlers, and accessors preserve their owners. Continuous 22-source and seven-source ability-handler chains, a flinch ability pair, BattleHandler core and turn-cancel helpers, and the raw/base stat range are consolidated; many other related C ranges still have intervening assembly. |
+| 167 | Battle handlers, ability handlers, and accessors preserve their owners. Continuous 22-source and seven-source ability-handler chains, a flinch ability pair, BattleHandler core and turn-cancel helpers, and the raw/base stat, stat-stage, illusion/source, and status/condition ranges are consolidated; many other related C ranges still have intervening assembly. |
 | 284 | Adjacent evolution demo sources preserve graphics, view, and effect ownership; `ShinkaDemoPieces_Move` is nonmatching. |
 | 294 | Eight adjacent intro process and graphics sources preserve their separate ownership. |
 

@@ -144,10 +144,6 @@ src/ov012/city_state.c:
     complete
     .text       start:0x0215cd58 end:0x0215cda4
 
-src/ov012/setup_warp_param_by_warp.c:
-    complete
-    .text       start:0x0215d0e8 end:0x0215d0fc
-
 src/ov012/event_data_npc_access.c:
     complete
     .text       start:0x0215d194 end:0x0215d19c
@@ -176,13 +172,9 @@ src/ov012/event_battle_lose_create.c:
     complete
     .text       start:0x0215a150 end:0x0215a19c
 
-src/ov012/get_bg_position_center.c:
+src/ov012/zone_entity_position.c:
     complete
-    .text       start:0x0215d4d0 end:0x0215d4ec
-
-src/ov012/set_bg_entity_location.c:
-    complete
-    .text       start:0x0215d4fc end:0x0215d52c
+    .text       start:0x0215d4d0 end:0x0215d52c
 
 src/ov012/get_terrain_at_pos_by_actor.c:
     complete
@@ -255,9 +247,9 @@ src/ov012/field_script_supervisor.c:
 
 
 
-src/ov012/zone_warp_queries.c:
+src/ov012/zone_warp.c:
     complete
-    .text       start:0x0215d10c end:0x0215d194
+    .text       start:0x0215d0e8 end:0x0215d194
 
 src/ov012/field_script_plugin.c:
     complete

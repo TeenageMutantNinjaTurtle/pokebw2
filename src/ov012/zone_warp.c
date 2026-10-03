@@ -1,6 +1,18 @@
 #include "field/event_data.h"
 #include "field/zone.h"
 
+void SetupWarpParamByWarp(ZoneWarp *warp, ZoneSpawnInfo *spawn, u32 direction) {
+    SetupZoneSpawnInfoWarp(spawn, warp->unk0, warp->destId, direction);
+}
+
+u16 ZoneWarp_CalcPosWeightBitsGrid(ZoneWarp *warp, const VecFx32 *position) {
+    return ZoneWarp_CalcPosWeightBitsGrid_(warp, position);
+}
+
+u16 func_ov012_0215d104(ZoneWarp *warp, const RailPosition *position) {
+    return func_ov012_0215d654(warp, position);
+}
+
 BOOL CheckWarpDirectionMatch(const ZoneWarp *warp, u16 direction) {
     if ((direction == 0 && warp->unk4 == 2) || (direction == 1 && warp->unk4 == 1) ||
         (direction == 2 && warp->unk4 == 4) || (direction == 3 && warp->unk4 == 3)) {

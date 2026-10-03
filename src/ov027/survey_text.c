@@ -5,11 +5,61 @@
 #include "gfl/bmpwin.h"
 #include "gfl/graphics.h"
 #include "gfl/heap.h"
+#include "gfl/input.h"
 #include "gfl/msg.h"
+#include "gfl/std.h"
 #include "gfl/str.h"
 #include "save/save_control.h"
 #include "save/trainer_card.h"
 #include "system/game_data.h"
+#include "system/game_event.h"
+#include "system/game_system.h"
+
+GameEventReturnCode func_ov027_021707e8(GameEvent *event, u32 *state, void *data) {
+    SurveyTextWork *work = data;
+    switch (*state) {
+    case 0:
+        getSurveyText(work);
+        func_ov027_021708e0(work);
+        func_ov027_02170944(work);
+        func_ov027_02170964(work);
+        (*state)++;
+        break;
+    case 1:
+        if (func_ov036_02187c70(work->window) == 1) (*state)++;
+        break;
+    case 2:
+        if (GCTX_HIDGetPressedKeys() & 0xf3) (*state)++;
+        break;
+    case 3:
+        func_ov027_02170a1c(work);
+        func_ov027_02170954(work);
+        func_ov027_02170934(work);
+        func_ov027_021708d0(work);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+GameEvent *func_ov027_02170860(GameSystem *gsys) {
+    GameEvent *event;
+    SurveyTextWork *work;
+    event = GameEvent_Create(gsys, NULL, func_ov027_021707e8, 0x20);
+    work = GameEvent_GetData(event);
+    func_ov027_02170884(work, gsys);
+    return event;
+}
+
+void func_ov027_02170884(SurveyTextWork *work, GameSystem *gsys) {
+    Field *field;
+    field = GSYS_GetField(gsys);
+    sys_memset(work, 0, 0x20);
+    work->heapId = Field_GetHeapID(field);
+    work->gameSystem = gsys;
+    work->gameData = GSYS_GetGameData(gsys);
+    work->field = field;
+    work->msgBGSys = Field_GetMsgBGSys(field);
+}
 
 void getSurveyText(SurveyTextWork *work) {
     work->message = GFL_MsgSysLoadData(FALSE, 3, 0x33, work->heapId);
