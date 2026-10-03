@@ -56,6 +56,7 @@ BattleCondition MakeConditionPermanent(void);
 BattleCondition MakeConditionParamPermanent(u16 param);
 u16 Condition_GetParam(BattleCondition condition);
 void SetConditionFlag(BattleCondition *condition, u32 flag);
+u32 func_ov167_021ce464(BattleCondition condition);
 
 BOOL CanPokemonBattle(BattleMon *mon);
 PartyPkm *GetSrcData(const void *param);

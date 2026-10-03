@@ -128,13 +128,9 @@ src/ov167/battle_handler_interrupt.c:
     complete
     .text       start:0x021adeb0 end:0x021adf10
 
-src/ov167/battle_condition_turns.c:
+src/ov167/battle_condition_state.c:
     complete
-    .text       start:0x021ce490 end:0x021ce520
-
-src/ov167/battle_condition_param.c:
-    complete
-    .text       start:0x021ce3c0 end:0x021ce464
+    .text       start:0x021ce3c0 end:0x021ce520
 
 src/ov167/battle_condition_create.c:
     complete

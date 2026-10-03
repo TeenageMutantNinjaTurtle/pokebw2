@@ -102,8 +102,9 @@ Later matches closed gaps in overlay 12's ScriptWork accessors, VM global
 scripts, and zone positioning; overlay 33's Unity Tower visitors, Trial House
 setup, and Battle Subway reward, score, and team-save handling; overlay 36's
 field accessors, prop handle lookup, prop sound check, and lens-flare count; and
-overlay 167's BattleCondition constructors, Damp, Truant, move-history, and
-Pokémon type-pair helpers. Their newly continuous ranges were combined within
-their owning features. Attempted translations for remaining assembly gaps are
+overlay 167's BattleCondition constructors and state, Damp, Truant,
+move-history, and Pokémon type-pair helpers. Their newly continuous ranges were
+combined within their owning features. Attempted translations for remaining
+assembly gaps are
 tracked in
 [nonmatching-functions.md](nonmatching-functions.md).
