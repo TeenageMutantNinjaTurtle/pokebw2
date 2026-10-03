@@ -62,10 +62,11 @@ void CreateScrCmdOverlayProcess(VM *vm, FieldScriptEnv *env, s32 overlayId, cons
     work->cleanup = cleanup;
     GSYS_QueueProc(gsys, overlayId, functions, resource);
     *heapPtr = work;
-    VM_SetNativeCallback(vm, (VMCommand)func_ov012_02157554);
+    VM_SetNativeCallback(vm, func_ov012_02157554);
 }
 
-BOOL func_ov012_02157554(VM *vm, FieldScriptEnv *env) {
+BOOL func_ov012_02157554(VM *vm, void *data) {
+    FieldScriptEnv *env = data;
     GameSystem *gsys;
     ScriptWork *scriptWork;
     ScriptOverlayWork *work;

@@ -1602,7 +1602,8 @@ BOOL func_ov059_021e77c4(VM *vm, FieldScriptEnv *env) {
     return FALSE;
 }
 
-static BOOL func_ov059_021e7834(VM *vm, FieldScriptEnv *env) {
+static BOOL func_ov059_021e7834(VM *vm, void *data) {
+    FieldScriptEnv *env = data;
     ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
     GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
     GameData *gameData = FieldScriptEnv_GetGameData(env);
@@ -1683,7 +1684,7 @@ BOOL func_ov059_021e79a4(VM *vm, FieldScriptEnv *env) {
     wk->page = page;
     wk->var = var;
     *ptr = wk;
-    VM_SetNativeCallback(vm, (VMCommand)func_ov059_021e7834);
+    VM_SetNativeCallback(vm, func_ov059_021e7834);
     return TRUE;
 }
 

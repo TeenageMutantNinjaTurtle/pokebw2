@@ -181,7 +181,7 @@ BOOL s0018_VMRegCmpConst8(VM *vm, FieldScriptEnv *env);
 BOOL s0019_WorkCmpConst(VM *vm, FieldScriptEnv *env);
 BOOL s001A_WorkCmpWork(VM *vm, FieldScriptEnv *env);
 BOOL s001B_RTCallGlobalAsync(VM *vm, FieldScriptEnv *env);
-BOOL ScriptNative_WaitFinishSubScript(VM *vm, FieldScriptEnv *env);
+BOOL ScriptNative_WaitFinishSubScript(VM *vm, void *data);
 BOOL s001C_RTCallGlobal(VM *vm, FieldScriptEnv *env);
 BOOL s0008_VMStackPushConst(VM *vm, FieldScriptEnv *env);
 BOOL s0009_VMStackPush(VM *vm, FieldScriptEnv *env);
@@ -278,7 +278,7 @@ BOOL s014A_FieldOpen(VM *vm, FieldScriptEnv *env);
 BOOL s014B_FieldClose(VM *vm, FieldScriptEnv *env);
 void CreateScrCmdOverlayProcess(VM *vm, FieldScriptEnv *env, s32 overlayId, const GameProcFunctions *functions,
                                 void *resource, void (*cleanup)(ScriptOverlayWork *), void *data);
-BOOL func_ov012_02157554(VM *vm, FieldScriptEnv *env);
+BOOL func_ov012_02157554(VM *vm, void *data);
 BOOL s014C_RTFreeUserHeap(VM *vm, FieldScriptEnv *env);
 void func_ov012_021575b8(ScriptOverlayWork *work);
 // Called before the Pokédex diplomas

@@ -237,7 +237,8 @@ BOOL s001B_RTCallGlobalAsync(VM *vm, FieldScriptEnv *env) {
     return TRUE;
 }
 
-BOOL ScriptNative_WaitFinishSubScript(VM *vm, FieldScriptEnv *env) {
+BOOL ScriptNative_WaitFinishSubScript(VM *vm, void *data) {
+    FieldScriptEnv *env = data;
     ScriptWork *work;
     u8 index;
 
@@ -264,7 +265,7 @@ BOOL s001C_RTCallGlobal(VM *vm, FieldScriptEnv *env) {
         index = ScriptWork_AddVM(work, FieldScriptEnv_GetZoneID(env), scriptId);
         SetScrEnvVMIndex(env, index);
         FieldScriptEnv_Save(env);
-        VM_SetNativeCallback(vm, (VMCommand)ScriptNative_WaitFinishSubScript);
+        VM_SetNativeCallback(vm, ScriptNative_WaitFinishSubScript);
         return TRUE;
     }
     FieldScriptEnv_Save(env);
