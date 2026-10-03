@@ -132,6 +132,7 @@ void func_ov104_021eefc0(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021ef02c(FieldExpObjGimmickOv104Work *work, u32 kind, u32 flag);
 u32 func_ov104_021ef04c(FieldExpObjGimmickOv104Work *work);
 u32 func_ov104_021ef068(FieldExpObjGimmickOv104Work *work);
+void func_ov104_021ef084(FieldExpObjGimmickOv104Work *work, u32 *species, s32 *count);
 void func_ov104_021ef114(FieldExpObjGimmickOv104Work *work);
 void func_ov104_021ef168(FieldExpObjGimmickOv104Work *work);
 struct FieldExpObjGimmickOv104ResEntry *func_ov104_021ef180(FieldExpObjGimmickOv104Work *work);
