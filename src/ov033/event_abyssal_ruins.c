@@ -97,50 +97,24 @@
 #include "system/version.h"
 #include "system/vm.h"
 
-GameEvent *func_ov033_02179dd4(GameSystem *gsys, u16 *result) {
+GameEvent *CheckAbyssalRuinsStepEvent(GameSystem *gsys, Field *field) {
     GameData *gameData;
-    Field *field;
-    GameEvent *event;
-    GameManualEventWork *work;
-    GameManualSubwork *subwork;
+    SaveControl *save;
+    PlayerSave *playerSave;
+    u16 stepCount;
+    u32 i;
 
     gameData = GSYS_GetGameData(gsys);
-    field = GSYS_GetField(gsys);
-    event = GameEvent_Create(gsys, NULL, func_ov033_02179e28, sizeof(GameManualEventWork));
-    work = GameEvent_GetData(event);
-    work->gsys = gsys;
-    work->field = field;
-    work->result = result;
-    subwork = GFL_HeapAllocate(4, sizeof(GameManualSubwork), FALSE, "event_game_manual.c", 0x4a);
-    work->subwork = subwork;
-    subwork->gameData = gameData;
-    return event;
-}
-
-GameEventReturnCode func_ov033_02179e28(GameEvent *event, u32 *state, void *data) {
-    GameManualEventWork *work;
-    GameEvent *next;
-
-    work = data;
-    switch (*state) {
-    case 0:
-        next =
-            EventFieldSubprocessTransition_Create(work->gsys, work->field, 0x13f, &data_ov319_0219f6f8, work->subwork);
-        GameEvent_ChainNext(event, next);
-        (*state)++;
-        break;
-    case 1:
-        func_ov033_02179e80(work);
-        GFL_HeapFree(work->subwork);
-        return GAMEEVENT_DONE;
+    save = GameData_GetSaveControl(gameData);
+    playerSave = SaveControl_GetPlayerSave(save);
+    stepCount = PlayerSave_GetAbyssalRuinsStepCounter(playerSave);
+    for (i = 0; i < 5; i++) {
+        if (stepCount == ABYSSAL_RUINS_DULL_SOUND_SCRIPTS[i * 2]) {
+            return EventScriptCall_Create(gsys, data_ov033_0217c522[i * 2], NULL, Field_GetHeapID(field));
+        }
     }
-    return GAMEEVENT_CONTINUE;
-}
-
-void func_ov033_02179e80(GameManualEventWork *work) {
-    if (work->subwork->result == 0) {
-        *work->result = 0;
-    } else {
-        *work->result = 1;
+    if (stepCount > 500) {
+        return EventScriptCall_Create(gsys, 0x28eb, NULL, Field_GetHeapID(field));
     }
+    return NULL;
 }

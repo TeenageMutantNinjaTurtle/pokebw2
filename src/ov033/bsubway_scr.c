@@ -1,16 +1,106 @@
+#include "types.h"
+#include "app/funfest_mission.h"
+#include "app/name_entry.h"
 #include "battle/btl_setup.h"
+#include "demo/shinka_demo.h"
 #include "field/battle_facility.h"
 #include "field/bsubway_scr.h"
+#include "field/encounter.h"
+#include "field/encounter_effect.h"
+#include "field/entree_forest.h"
+#include "field/entree_scripts.h"
+#include "field/event_abyssal_ruins.h"
+#include "field/event_cgear_shutdown.h"
+#include "field/event_chatot.h"
+#include "field/event_dendou_machine.h"
+#include "field/event_dive.h"
+#include "field/event_field_trade.h"
+#include "field/event_fishing.h"
+#include "field/event_fly.h"
+#include "field/event_funfest_mission.h"
+#include "field/event_game_manual.h"
+#include "field/event_mapchange.h"
+#include "field/event_phrase_input.h"
+#include "field/event_pokemon_center.h"
+#include "field/event_sound.h"
+#include "field/event_sweet_scent.h"
+#include "field/event_wild_battle.h"
+#include "field/festival.h"
+#include "field/field.h"
+#include "field/field_actor.h"
+#include "field/field_actor_animation.h"
+#include "field/field_display_control.h"
+#include "field/field_effects.h"
+#include "field/field_environment.h"
+#include "field/field_event.h"
+#include "field/field_fog.h"
+#include "field/field_lifecycle.h"
+#include "field/field_map.h"
+#include "field/field_money_window.h"
+#include "field/field_move_scripts.h"
+#include "field/field_move_tcb.h"
+#include "field/field_party.h"
+#include "field/field_player.h"
+#include "field/field_prop.h"
+#include "field/field_script.h"
+#include "field/field_script_event.h"
+#include "field/field_surf.h"
+#include "field/field_task.h"
+#include "field/field_visuals.h"
+#include "field/fld_trade.h"
+#include "field/funfest_scripts.h"
+#include "field/mystery_gift_delivery.h"
+#include "field/mystery_gift_script.h"
+#include "field/ov131.h"
+#include "field/pc_sound.h"
 #include "field/player_state.h"
+#include "field/subscreen.h"
+#include "field/trial_house.h"
+#include "field/unity_tower.h"
+#include "field/zone.h"
+#include "gfl/arc.h"
+#include "gfl/bmpwin.h"
+#include "gfl/fade.h"
+#include "gfl/graphics.h"
 #include "gfl/heap.h"
+#include "gfl/input.h"
+#include "gfl/msg.h"
+#include "gfl/net.h"
+#include "gfl/overlay.h"
+#include "gfl/random.h"
+#include "gfl/sound.h"
 #include "gfl/std.h"
+#include "gfl/str.h"
+#include "pml/evolution.h"
+#include "pml/poke_graphic.h"
 #include "pml/poke_party.h"
+#include "save/bag.h"
 #include "save/box.h"
 #include "save/bsubway_save.h"
+#include "save/chatter.h"
+#include "save/dream_world.h"
+#include "save/high_link.h"
+#include "save/join_avenue.h"
+#include "save/mystery_gift.h"
+#include "save/player_info.h"
+#include "save/pokedex.h"
 #include "save/records.h"
 #include "save/save_control.h"
+#include "save/trainer_card.h"
+#include "save/trial_house.h"
+#include "struct_decls.h"
+#include "system/aeabi.h"
+#include "system/game_comm.h"
 #include "system/game_data.h"
+#include "system/game_event.h"
 #include "system/game_system.h"
+#include "system/version.h"
+#include "system/vm.h"
+
+struct SubwayPackedSpecies {
+    u16 species : 11;
+    u16 form : 5;
+};
 
 void func_ov033_0217b468(GameSystem *gsys) {
     func_02017954(GSYS_GetGameData(gsys), 0);
@@ -32,7 +122,7 @@ BSubwayScrWork *func_ov033_0217b478(GameSystem *gsys, u16 a1, u16 a2) {
     gameData = GSYS_GetGameData(gsys);
     playerInfo = GetGameDataPlayerInfo(gameData);
     save = GameData_GetSaveControl(gameData);
-    bsw = GFL_HeapAllocate(4, 0x7f0, 1, data_ov033_0217c640, 0x5f);
+    bsw = GFL_HeapAllocate(4, 0x7f0, 1, "bsubway_scr.c", 0x5f);
     *(u32 *)((u8 *)bsw + 4) = 4;
     *(u32 *)bsw = 0x12345678;
     bsw->gameData = gameData;
@@ -369,11 +459,6 @@ void func_ov033_0217bb98(BSubwayScrWork *bsw, GameSystem *gsys) {
     work->unkC_1 = 0;
 }
 
-struct SubwayPackedSpecies {
-    u16 species : 11;
-    u16 form : 5;
-};
-
 void func_ov033_0217bbac(BSubwayScrWork *bsw) {
     u16 ids[2];
     u16 values[2];
@@ -602,7 +687,7 @@ void func_ov033_0217c010(BSubwayScrWork *bsw, SaveControl *save, u32 flag) {
     u16 heapId;
 
     heapId = *(u32 *)((u8 *)bsw + 4);
-    team = GFL_HeapAllocate((heapId & 0x7fff) | 0x8000, 0xb4, FALSE, data_ov033_0217c640, 0x8a1);
+    team = GFL_HeapAllocate((heapId & 0x7fff) | 0x8000, 0xb4, FALSE, "bsubway_scr.c", 0x8a1);
     sys_memset(team, 0, 0xb4);
     party = func_ov033_0217bd60(bsw);
     for (i = 0; i < 3; i++) {
@@ -635,4 +720,51 @@ BtlSetup *func_ov033_0217c094(BSubwayScrWork *bsw, GameSystem *gsys) {
 
 void *func_ov033_0217c110(BSubwayScrWork *bsw) {
     return bsw->unk74C;
+}
+
+void *func_ov033_0217c264(BSubwayScrWork *bsw, void *param, u16 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7) {
+    return func_ov012_02162864(param, a2, a3, a4, a5, a6, a7);
+}
+
+u16 func_ov033_0217c288(u32 value) {
+    if (value < 100) {
+        return 3;
+    }
+    if (value < 120) {
+        return 6;
+    }
+    if (value < 140) {
+        return 9;
+    }
+    if (value < 160) {
+        return 12;
+    }
+    if (value < 180) {
+        return 15;
+    }
+    if (value < 200) {
+        return 18;
+    }
+    if (value < 220) {
+        return 21;
+    }
+    return 31;
+}
+
+void func_ov033_0217c2c4(void *unused, u8 *dst, u32 level, u32 arg3, BSubwayTeamConfig *config, HeapID heapId) {
+    u32 adjusted;
+    void *temp;
+    s32 i;
+
+    temp = func_ov012_021628c0(dst, 0xd4, level, 15, heapId);
+    adjusted = func_ov033_0217c288(level);
+    for (i = 0; i < 2; i++) {
+        func_ov012_02162490((BSubwayPokemon *)(dst + 0x30 + 0x3c * i), 0xd3, config->unk4[i], config->unk0,
+                            config->unk8[i], adjusted, i, arg3, heapId);
+    }
+    GFL_HeapFree(temp);
+}
+
+u16 randFFFFFFFFdivFFFF(void) {
+    return GFL_RandomLC(0xffffffff) / 0xffff;
 }

@@ -4,149 +4,98 @@
     .data       start:0x0217c600 end:0x0217c660 kind:data align:32
     .bss        start:0x0217c660 end:0x0217c660 kind:bss align:32
 
-src/ov033/fld_trade.c:
-    complete
-    .text       start:0x0217a4a0 end:0x0217a590
+src/ov033/entree_forest.c:
+    .text       start:0x02176b00 end:0x02176d88
+    .rodata     start:0x0217c340 end:0x0217c3e8
 
-src/ov033/entree_forest_actor.c:
+src/ov033/event_funfest_mission.c:
     complete
-    .text       start:0x02176ba4 end:0x02176bd0
+    .text       start:0x02176d88 end:0x02176ec4
 
-src/ov033/field_actor_animation.c:
+src/ov033/entree_forest_first_warp.c:
+    .text       start:0x02176ec4 end:0x02176f90
+    .rodata     start:0x0217c3e8 end:0x0217c3f4
+
+src/ov033/scrcmd_funfest.c:
     complete
-    .text       start:0x0217a1b0 end:0x0217a4a0
+    .text       start:0x02176f90 end:0x02177370
 
-src/ov033/event_sweet_scent.c:
-    complete
-    .text       start:0x021785c4 end:0x02178908
-
-src/ov033/event_pokemon_center.c:
-    complete
-    .text       start:0x02179b54 end:0x02179dd4
-
-src/ov033/event_dendou_machine.c:
-    complete
-    .text       start:0x02179664 end:0x02179868
-
-src/ov033/field_move_scripts.c:
-    complete
-    .text       start:0x02178448 end:0x02178570
-
-src/ov033/field_surf.c:
-    complete
-    .text       start:0x021791c0 end:0x0217928c
-
-src/ov033/trial_house_work.c:
-    complete
-    .text       start:0x0217ac70 end:0x0217ad78
-
-src/ov033/event_field_trade_pkm.c:
-    .text       start:0x0217a590 end:0x0217a714
-
-src/ov033/event_abyssal_ruins_step.c:
-    complete
-    .text       start:0x02179e98 end:0x02179f04
+src/ov033/entralink_warp.c:
+    .text       start:0x02177370 end:0x02177574
+    .rodata     start:0x0217c3f4 end:0x0217c400
 
 src/ov033/event_cgear_shutdown.c:
     complete
     .text       start:0x02177574 end:0x021775e8
 
-src/ov033/entree_forest_first_warp.c:
-    complete
-    .text       start:0x02176ec4 end:0x02176f90
+src/ov033/event_phrase_input.c:
+    .text       start:0x021775e8 end:0x02177998
+    .rodata     start:0x0217c400 end:0x0217c404
 
-src/ov033/entree_forest_spawn_all.c:
-    complete
-    .text       start:0x02176cac end:0x02176d88
+src/ov033/pdw_postman.c:
+    .text       start:0x02177998 end:0x02178448
+    .rodata     start:0x0217c404 end:0x0217c484
+    .data       start:0x0217c600 end:0x0217c610
 
-src/ov033/event_fly_create.c:
-    complete
-    .text       start:0x02178908 end:0x02178964
+src/ov033/scrcmd_field_move.c:
+    .text       start:0x02178448 end:0x021785c4
 
-src/ov033/event_fly_fade.c:
-    complete
-    .text       start:0x02178c6c end:0x02178ca8
+src/ov033/event_sweet_scent.c:
+    .text       start:0x021785c4 end:0x02178908
+    .rodata     start:0x0217c484 end:0x0217c488
 
-src/ov033/event_chatot_create.c:
+src/ov033/event_fly.c:
+    .text       start:0x02178908 end:0x02178ca8
+
+src/ov033/event_chatot.c:
+    .text       start:0x02178ca8 end:0x021791c0
+    .rodata     start:0x0217c488 end:0x0217c490
+
+src/ov033/event_fishing.c:
+    .text       start:0x021791c0 end:0x02179664
+
+src/ov033/event_dendou_machine.c:
+    .text       start:0x02179664 end:0x02179868
+    .rodata     start:0x0217c490 end:0x0217c4d8
+
+src/ov033/event_pc.c:
     complete
-    .text       start:0x02178ca8 end:0x02178d10
+    .text       start:0x02179868 end:0x02179b54
+
+src/ov033/event_pokemon_center.c:
+    .text       start:0x02179b54 end:0x02179dd4
+    .rodata     start:0x0217c4d8 end:0x0217c520
 
 src/ov033/event_game_manual.c:
     complete
     .text       start:0x02179dd4 end:0x02179e98
+    .data       start:0x0217c610 end:0x0217c624
 
-src/ov033/trial_house_prepare.c:
-    complete
-    .text       start:0x0217adbc end:0x0217aed0
+src/ov033/event_abyssal_ruins.c:
+    .text       start:0x02179e98 end:0x02179f04
+    .rodata     start:0x0217c520 end:0x0217c534
 
-src/ov033/field_money_window_lifecycle.c:
-    complete
-    .text       start:0x02177998 end:0x02177a60
-
-src/ov033/field_money_window_event.c:
-    complete
-    .text       start:0x02177b08 end:0x02177d78
-
-src/ov033/funfest_events.c:
-    complete
-    .text       start:0x02176d88 end:0x02176ec4
-
-src/ov033/funfest_scripts.c:
-    complete
-    .text       start:0x02176f90 end:0x02177370
-
-src/ov033/entralink_warp.c:
-    complete
-    .text       start:0x02177370 end:0x02177574
-
-src/ov033/phrase_input.c:
-    complete
-    .text       start:0x021775e8 end:0x02177998
-
-src/ov033/mystery_gift.c:
-    complete
-    .text       start:0x02177ed0 end:0x021782d0
-
-src/ov033/chatot_sprite.c:
-    complete
-    .text       start:0x02178fcc end:0x021791c0
-
-src/ov033/fishing.c:
-    complete
-    .text       start:0x021793b8 end:0x02179664
-
-src/ov033/pc.c:
-    complete
-    .text       start:0x02179868 end:0x02179b54
-
-src/ov033/dive.c:
+src/ov033/event_dive.c:
     complete
     .text       start:0x02179f04 end:0x0217a1b0
+
+src/ov033/field_actor_animation.c:
+    .text       start:0x0217a1b0 end:0x0217a4a0
+    .rodata     start:0x0217c534 end:0x0217c564
+
+src/ov033/fld_trade.c:
+    .text       start:0x0217a4a0 end:0x0217aa1c
+    .data       start:0x0217c624 end:0x0217c630
 
 src/ov033/unity_visitor.c:
     complete
     .text       start:0x0217aa1c end:0x0217ac70
 
-src/ov033/trial_event.c:
-    complete
-    .text       start:0x0217aed0 end:0x0217b0b4
-
-src/ov033/trial_effect.c:
-    complete
-    .text       start:0x0217b2e4 end:0x0217b468
+src/ov033/trial_house.c:
+    .text       start:0x0217ac70 end:0x0217b468
+    .data       start:0x0217c630 end:0x0217c640
 
 src/ov033/bsubway_scr.c:
-    complete
-    .text       start:0x0217b468 end:0x0217c11c
-
-src/ov033/subway_battle.c:
-    complete
-    .text       start:0x0217c264 end:0x0217c340
-
-src/ov033/mystery_gift_aux.c:
-    complete
-    .text       start:0x021782f0 end:0x02178448
-
-src/ov033/event_field_trade.c:
-    complete
-    .text       start:0x0217a714 end:0x0217aa1c
+    .text       start:0x0217b468 end:0x0217c340
+    .rodata     start:0x0217c564 end:0x0217c5f0
+    .data       start:0x0217c640 end:0x0217c660

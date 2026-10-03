@@ -1,18 +1,112 @@
+#include "types.h"
+#include "app/funfest_mission.h"
+#include "app/name_entry.h"
+#include "battle/btl_setup.h"
+#include "demo/shinka_demo.h"
+#include "field/battle_facility.h"
+#include "field/bsubway_scr.h"
+#include "field/encounter.h"
+#include "field/encounter_effect.h"
+#include "field/entree_forest.h"
+#include "field/entree_scripts.h"
+#include "field/event_abyssal_ruins.h"
+#include "field/event_cgear_shutdown.h"
+#include "field/event_chatot.h"
+#include "field/event_dendou_machine.h"
+#include "field/event_dive.h"
+#include "field/event_field_trade.h"
+#include "field/event_fishing.h"
+#include "field/event_fly.h"
+#include "field/event_funfest_mission.h"
+#include "field/event_game_manual.h"
+#include "field/event_mapchange.h"
+#include "field/event_phrase_input.h"
+#include "field/event_pokemon_center.h"
+#include "field/event_sound.h"
+#include "field/event_sweet_scent.h"
+#include "field/event_wild_battle.h"
+#include "field/festival.h"
+#include "field/field.h"
+#include "field/field_actor.h"
+#include "field/field_actor_animation.h"
+#include "field/field_display_control.h"
+#include "field/field_effects.h"
+#include "field/field_environment.h"
+#include "field/field_event.h"
+#include "field/field_fog.h"
+#include "field/field_lifecycle.h"
+#include "field/field_map.h"
+#include "field/field_money_window.h"
+#include "field/field_move_scripts.h"
+#include "field/field_move_tcb.h"
+#include "field/field_party.h"
+#include "field/field_player.h"
+#include "field/field_prop.h"
+#include "field/field_script.h"
+#include "field/field_script_event.h"
+#include "field/field_surf.h"
+#include "field/field_task.h"
+#include "field/field_visuals.h"
 #include "field/fld_trade.h"
+#include "field/funfest_scripts.h"
+#include "field/mystery_gift_delivery.h"
+#include "field/mystery_gift_script.h"
+#include "field/ov131.h"
+#include "field/pc_sound.h"
+#include "field/player_state.h"
+#include "field/subscreen.h"
+#include "field/trial_house.h"
+#include "field/unity_tower.h"
+#include "field/zone.h"
 #include "gfl/arc.h"
+#include "gfl/bmpwin.h"
+#include "gfl/fade.h"
+#include "gfl/graphics.h"
+#include "gfl/heap.h"
+#include "gfl/input.h"
 #include "gfl/msg.h"
+#include "gfl/net.h"
+#include "gfl/overlay.h"
+#include "gfl/random.h"
+#include "gfl/sound.h"
+#include "gfl/std.h"
+#include "gfl/str.h"
+#include "pml/evolution.h"
+#include "pml/poke_graphic.h"
+#include "pml/poke_party.h"
+#include "save/bag.h"
+#include "save/box.h"
+#include "save/bsubway_save.h"
+#include "save/chatter.h"
+#include "save/dream_world.h"
+#include "save/high_link.h"
+#include "save/join_avenue.h"
+#include "save/mystery_gift.h"
 #include "save/player_info.h"
+#include "save/pokedex.h"
+#include "save/records.h"
+#include "save/save_control.h"
+#include "save/trainer_card.h"
+#include "save/trial_house.h"
+#include "struct_decls.h"
+#include "system/aeabi.h"
+#include "system/game_comm.h"
+#include "system/game_data.h"
+#include "system/game_event.h"
+#include "system/game_system.h"
+#include "system/version.h"
+#include "system/vm.h"
 
 FieldTradeInput *FieldTradeInput_Create(u32 heapId, u32 offerIndex) {
     u16 name[0x80];
     FieldTradeInput *input;
     StrBuf *nameBuf;
 
-    input = GFL_HeapAllocate(heapId, sizeof(FieldTradeInput), TRUE, data_ov033_0217c624, 0x5f);
+    input = GFL_HeapAllocate(heapId, sizeof(FieldTradeInput), TRUE, "fld_trade.c", 0x5f);
     input->heapId = heapId;
     input->offerIndex = offerIndex;
     input->offerData = GFL_ArcSysReadHeapNewRange(0xa3, offerIndex, heapId, 0, sizeof(FieldTradeOfferData));
-    input->tradeData = GFL_HeapAllocate(heapId, 0xdc, FALSE, data_ov033_0217c624, 0x67);
+    input->tradeData = GFL_HeapAllocate(heapId, 0xdc, FALSE, "fld_trade.c", 0x67);
     input->trainer = func_02008b0c(heapId);
     func_02008b40(input->trainer);
     nameBuf = FieldTradeInput_LoadName(heapId, input->offerData->nameMessageId);
@@ -50,4 +144,194 @@ StrBuf *FieldTradeInput_LoadName(u32 heapId, u32 messageId) {
     name = GFL_MsgDataLoadStrbufNew(msgData, messageId);
     GFL_MsgDataFree(msgData);
     return name;
+}
+
+void EventFieldTrade_CreatePkm(GameData *gameData, HeapID heapId, PartyPkm *pkm, const FieldTradeOfferData *offer,
+                               u32 offerIndex) {
+    u32 sexMode = offer->unk30;
+    u32 pid;
+    u32 zero = 0;
+    StrBuf *name;
+
+    if (sexMode == 0xff) {
+        sexMode = 2;
+    }
+    pid = PML_GenPID(offer->unk34, (u16)offer->species, (u16)offer->unk08, sexMode, offer->unk28, zero);
+    PokeParty_CreatePkm(pkm, (u16)offer->species, (u16)offer->unk0c, offer->unk34, zero, -1, pid, zero);
+    PokeParty_SetParam(pkm, 0x6f, offer->unk08);
+    EventFieldTrade_DebugLogPkm(pkm);
+
+    name = FieldTradeInput_LoadName(heapId, offer->unk64);
+    PokeParty_SetParam(pkm, 0x73, (u32)name);
+    GFL_StrBufFree(name);
+
+    if (offer->unk10[0] != 0xff) {
+        PokeParty_SetParam(pkm, 0x46, offer->unk10[0]);
+    }
+    if (offer->unk10[1] != 0xff) {
+        PokeParty_SetParam(pkm, 0x47, offer->unk10[1]);
+    }
+    if (offer->unk10[2] != 0xff) {
+        PokeParty_SetParam(pkm, 0x48, offer->unk10[2]);
+    }
+    if (offer->unk10[3] != 0xff) {
+        PokeParty_SetParam(pkm, 0x49, offer->unk10[3]);
+    }
+    if (offer->unk10[4] != 0xff) {
+        PokeParty_SetParam(pkm, 0x4a, offer->unk10[4]);
+    }
+    if (offer->unk10[5] != 0xff) {
+        PokeParty_SetParam(pkm, 0x4b, offer->unk10[5]);
+    }
+    if (offer->unk28 == 2) {
+        PokeParty_SetHiddenAbil(pkm, offer->species, offer->unk08);
+    }
+    if (offer->unk2c != 0xff) {
+        PokeParty_SetParam(pkm, 0x70, offer->unk2c);
+    }
+
+    PokeParty_SetParam(pkm, 0x13, offer->unk38[0]);
+    PokeParty_SetParam(pkm, 0x14, offer->unk38[1]);
+    PokeParty_SetParam(pkm, 0x15, offer->unk38[2]);
+    PokeParty_SetParam(pkm, 0x16, offer->unk38[3]);
+    PokeParty_SetParam(pkm, 0x17, offer->unk38[4]);
+    PokeParty_SetParam(pkm, 0x6, offer->unk38[5]);
+
+    name = FieldTradeInput_LoadName(heapId, offer->nameMessageId);
+    PokeParty_SetParam(pkm, 0x8d, (u32)name);
+    GFL_StrBufFree(name);
+    PokeParty_SetParam(pkm, 0x9a, offer->trainerGender);
+    PokeParty_SetParam(pkm, 0xc, offer->unk58);
+    PokeParty_SetupMetData(pkm, 1, GetGameDataPlayerInfo(gameData), 0x7532, heapId);
+    PokeParty_SetParam(pkm, 9, 0x46);
+    EventFieldTrade_DebugLogPkm(pkm);
+    PokeParty_RecalcStats(pkm);
+}
+
+void EventFieldTrade_DebugLogPkm(PartyPkm *pkm) {
+    PokeParty_GetParam(pkm, 0, NULL);
+    PokeParty_GetParam(pkm, 5, NULL);
+    PokeParty_GetParam(pkm, 0x6f, NULL);
+    PokeParty_GetParam(pkm, 6, NULL);
+    PokeParty_GetParam(pkm, 7, NULL);
+    PokeParty_GetParam(pkm, 8, NULL);
+    PokeParty_GetParam(pkm, 9, NULL);
+    PokeParty_GetParam(pkm, 10, NULL);
+    PokeParty_GetParam(pkm, 0x6e, NULL);
+    PokeParty_GetParam(pkm, 0x70, NULL);
+    PokeParty_GetParam(pkm, 11, NULL);
+    PokeParty_GetParam(pkm, 12, NULL);
+    PokeParty_GetParam(pkm, 13, NULL);
+    PokeParty_GetParam(pkm, 14, NULL);
+    PokeParty_GetParam(pkm, 15, NULL);
+    PokeParty_GetParam(pkm, 16, NULL);
+    PokeParty_GetParam(pkm, 17, NULL);
+    PokeParty_GetParam(pkm, 18, NULL);
+    PokeParty_GetParam(pkm, 19, NULL);
+    PokeParty_GetParam(pkm, 20, NULL);
+    PokeParty_GetParam(pkm, 21, NULL);
+    PokeParty_GetParam(pkm, 22, NULL);
+    PokeParty_GetParam(pkm, 23, NULL);
+    PokeParty_GetParam(pkm, 24, NULL);
+    PokeParty_GetParam(pkm, 0x46, NULL);
+    PokeParty_GetParam(pkm, 0x47, NULL);
+    PokeParty_GetParam(pkm, 0x48, NULL);
+    PokeParty_GetParam(pkm, 0x49, NULL);
+    PokeParty_GetParam(pkm, 0x4a, NULL);
+    PokeParty_GetParam(pkm, 0x4b, NULL);
+    PokeParty_GetParam(pkm, 0x9a, NULL);
+    PokeParty_GetParam(pkm, 0x9e, NULL);
+    PokeParty_GetParam(pkm, 0x95, NULL);
+}
+
+void func_ov033_0217a864(void *param) {
+}
+
+GameEventReturnCode EventFieldTrade_Callback(GameEvent *event, u32 *state, void *data) {
+    EventFieldTradeWork *work;
+    GameSystem *gsys;
+    GameData *gameData;
+    PokeParty *party;
+    Field *field;
+    PartyPkm *pkm;
+    PokeDexSave *pokedex;
+    ShinkaDemoParam *evolutionParam;
+    u32 species;
+    u32 method;
+
+    work = data;
+    gsys = work->gameSystem;
+    gameData = work->gameData;
+    party = work->party;
+    field = GSYS_GetField(gsys);
+    pkm = PokeParty_GetPkm(party, work->partyIndex);
+
+    switch (*state) {
+    case 0:
+        work->input = FieldTradeInput_Create(HEAPID_GAMEEVENT, work->offerIndex);
+        EventFieldTrade_CreatePkm(gameData, HEAPID_GAMEEVENT, work->input->tradeData, work->input->offerData,
+                                  work->offerIndex);
+        EventFieldTrade_DebugLogPkm(work->input->tradeData);
+        func_ov033_0217a864(work->input->offerData);
+        *state = 1;
+        break;
+    case 1:
+        field = GSYS_GetField(gsys);
+        work->transitionGameData = gameData;
+        work->playerInfo = GetGameDataPlayerInfo(gameData);
+        work->partyPkm = pkm;
+        work->tradeTrainer = work->input->trainer;
+        work->tradePkm = work->input->tradeData;
+        GameEvent_ChainNext(event, EventFieldSubprocessTransition_Create(gsys, field, OVERLAY_ID(194),
+                                                                         &data_ov194_021c63ac, work->subprocessData));
+        *state = 2;
+        break;
+    case 2:
+        copyPkmIntoPartyBlk(party, work->partyIndex, work->input->tradeData);
+        pokedex = GameData_GetPokedex(gameData);
+        PokeDex_RegistPkm(pokedex, work->input->tradeData);
+        addPkmToDex(pokedex, work->input->tradeData);
+        *state = 4;
+        break;
+    case 3:
+        species = CheckEvolveSpecies(party, pkm, 1, 0, GameData_GetSeason(gameData), &method, HEAPID_GAMEEVENT);
+        if (species != 0) {
+            evolutionParam =
+                GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(ShinkaDemoParam), FALSE, "fld_trade.c", 0x1ff);
+            evolutionParam->gameData = gameData;
+            evolutionParam->party = party;
+            evolutionParam->species = species;
+            evolutionParam->partyIndex = work->partyIndex;
+            evolutionParam->method = method;
+            evolutionParam->unkC = 1;
+            evolutionParam->canCancel = FALSE;
+            work->evolutionParam = evolutionParam;
+            GameEvent_ChainNext(event, EventFieldSubprocessTransition_Create(
+                                           gsys, field, OVERLAY_ID(284), &SHINKA_DEMO_PROC_FUNCTIONS, evolutionParam));
+        }
+        *state = 4;
+        break;
+    case 4:
+        if (work->evolutionParam != NULL) {
+            GFL_HeapFree(work->evolutionParam);
+        }
+        FieldTradeInput_Free(work->input);
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEvent *EventFieldTrade_Create(GameSystem *gsys, u8 offerIndex, u8 partyIndex) {
+    GameData *gameData = GSYS_GetGameData(gsys);
+    PokeParty *party = GameData_GetParty(gameData);
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventFieldTrade_Callback, sizeof(EventFieldTradeWork));
+    EventFieldTradeWork *work = GameEvent_GetData(event);
+
+    work->gameSystem = gsys;
+    work->gameData = gameData;
+    work->party = party;
+    work->offerIndex = offerIndex;
+    work->partyIndex = partyIndex;
+    work->evolutionParam = NULL;
+    return event;
 }

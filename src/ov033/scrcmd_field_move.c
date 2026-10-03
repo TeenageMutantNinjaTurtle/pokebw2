@@ -97,50 +97,74 @@
 #include "system/version.h"
 #include "system/vm.h"
 
-GameEvent *func_ov033_02179dd4(GameSystem *gsys, u16 *result) {
-    GameData *gameData;
+BOOL ScriptNative_SurfTCBWait(VM *vm, void *env) {
+    void *tcb;
+
+    tcb = FieldScriptEnv_GetPlayerGridEventTCB(env);
+    if (FieldSurfTCB_CheckEnd(tcb) == TRUE) {
+        FieldSurfTCB_Free(tcb);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+BOOL s00C5_CallSurf(VM *vm, FieldScriptEnv *env) {
+    VecFx32 position;
     Field *field;
-    GameEvent *event;
-    GameManualEventWork *work;
-    GameManualSubwork *subwork;
+    FieldPlayer *player;
+    G3DMapper *mapper;
+    u32 direction;
+    HeapID heapId;
+    u32 tileType;
+    void *tcb;
 
-    gameData = GSYS_GetGameData(gsys);
-    field = GSYS_GetField(gsys);
-    event = GameEvent_Create(gsys, NULL, func_ov033_02179e28, sizeof(GameManualEventWork));
-    work = GameEvent_GetData(event);
-    work->gsys = gsys;
-    work->field = field;
-    work->result = result;
-    subwork = GFL_HeapAllocate(4, sizeof(GameManualSubwork), FALSE, "event_game_manual.c", 0x4a);
-    work->subwork = subwork;
-    subwork->gameData = gameData;
-    return event;
+    field = GSYS_GetField(FieldScriptEnv_GetGameSystem(env));
+    player = Field_GetPlayer(field);
+    direction = GetActorFaceDir(FieldPlayer_GetActor(player));
+    mapper = Field_GetG3DMapper(field);
+    heapId = FieldScriptEnv_GetHeapID(env);
+    FieldPlayer_GetWPosInDir(player, direction, &position);
+    tileType = GetTileTypeAtPos(mapper, &position);
+    tcb = FieldSurfTCB_Create(player, direction, tileType, heapId);
+    FieldScriptEnv_SetPlayerGridEventTCB(env, tcb);
+    VM_SetNativeCallback(vm, ScriptNative_SurfTCBWait);
+    return TRUE;
 }
 
-GameEventReturnCode func_ov033_02179e28(GameEvent *event, u32 *state, void *data) {
-    GameManualEventWork *work;
-    GameEvent *next;
+BOOL ScriptNative_WaterfallTCBWait(VM *vm, void *env) {
+    void *tcb;
 
-    work = data;
-    switch (*state) {
-    case 0:
-        next =
-            EventFieldSubprocessTransition_Create(work->gsys, work->field, 0x13f, &data_ov319_0219f6f8, work->subwork);
-        GameEvent_ChainNext(event, next);
-        (*state)++;
-        break;
-    case 1:
-        func_ov033_02179e80(work);
-        GFL_HeapFree(work->subwork);
-        return GAMEEVENT_DONE;
+    tcb = FieldScriptEnv_GetPlayerGridEventTCB(env);
+    if (FieldWaterfallTCB_CheckEnd(tcb) == TRUE) {
+        FieldWaterfallTCB_Free(tcb);
+        return TRUE;
     }
-    return GAMEEVENT_CONTINUE;
+    return FALSE;
 }
 
-void func_ov033_02179e80(GameManualEventWork *work) {
-    if (work->subwork->result == 0) {
-        *work->result = 0;
-    } else {
-        *work->result = 1;
-    }
+BOOL s00C6_CallWaterfall(VM *vm, FieldScriptEnv *env) {
+    FieldPlayer *player;
+    HeapID heapId;
+    u32 direction;
+    u32 param;
+    void *tcb;
+
+    heapId = FieldScriptEnv_GetHeapID(env);
+    player = Field_GetPlayer(GSYS_GetField(FieldScriptEnv_GetGameSystem(env)));
+    direction = FieldPlayer_GetFaceDir(player);
+    param = ScriptReadAny(vm, env);
+    tcb = FieldWaterfallTCB_Create(player, direction, param, heapId);
+    FieldScriptEnv_SetPlayerGridEventTCB(env, tcb);
+    VM_SetNativeCallback(vm, ScriptNative_WaterfallTCBWait);
+    return TRUE;
+}
+
+BOOL s00C7_CallCut(VM *vm, FieldScriptEnv *env) {
+    Field *field;
+    FieldActor *actor;
+
+    field = GSYS_GetField(FieldScriptEnv_GetGameSystem(env));
+    actor = FieldPlayer_GetActor(Field_GetPlayer(field));
+    func_ov036_021c2e70(actor, Field_GetFieldEffects(field));
+    return FALSE;
 }

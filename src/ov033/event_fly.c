@@ -97,50 +97,50 @@
 #include "system/version.h"
 #include "system/vm.h"
 
-GameEvent *func_ov033_02179dd4(GameSystem *gsys, u16 *result) {
-    GameData *gameData;
-    Field *field;
-    GameEvent *event;
-    GameManualEventWork *work;
-    GameManualSubwork *subwork;
+struct FlyEventWork {
+    GameSystem *gsys;
+    u32 unk4;
+    u32 zoneId;
+    ZoneSpawnInfo spawn;
+    u32 musicOut;
+    u32 musicIn;
+};
 
-    gameData = GSYS_GetGameData(gsys);
-    field = GSYS_GetField(gsys);
-    event = GameEvent_Create(gsys, NULL, func_ov033_02179e28, sizeof(GameManualEventWork));
+GameEvent *func_ov033_02178908(GameSystem *gsys, void *unused, u32 zoneId) {
+    GameEvent *event;
+    FlyEventWork *work;
+
+    event = GameEvent_Create(gsys, NULL, EventFly_Callback, sizeof(FlyEventWork));
     work = GameEvent_GetData(event);
+    sys_memset(work, 0, sizeof(FlyEventWork));
     work->gsys = gsys;
-    work->field = field;
-    work->result = result;
-    subwork = GFL_HeapAllocate(4, sizeof(GameManualSubwork), FALSE, "event_game_manual.c", 0x4a);
-    work->subwork = subwork;
-    subwork->gameData = gameData;
+    work->zoneId = zoneId;
+    if (getTrainerGender(GetGameDataPlayerInfo(GSYS_GetGameData(gsys))) == 0) {
+        work->musicOut = 11;
+        work->musicIn = 12;
+    } else {
+        work->musicOut = 31;
+        work->musicIn = 32;
+    }
+    LoadZoneSpawnInfoCheckRail(&work->spawn, zoneId);
     return event;
 }
 
-GameEventReturnCode func_ov033_02179e28(GameEvent *event, u32 *state, void *data) {
-    GameManualEventWork *work;
-    GameEvent *next;
+GameEventReturnCode func_ov033_02178c6c(GameEvent *event, u32 *state, void *data) {
+    GameSystem *gsys;
 
-    work = data;
+    gsys = GameEvent_GetGameSystem(event);
+    GSYS_GetField(gsys);
     switch (*state) {
     case 0:
-        next =
-            EventFieldSubprocessTransition_Create(work->gsys, work->field, 0x13f, &data_ov319_0219f6f8, work->subwork);
-        GameEvent_ChainNext(event, next);
-        (*state)++;
+        GFL_FadeSet(3, 16, 0, 0);
+        ++*state;
         break;
     case 1:
-        func_ov033_02179e80(work);
-        GFL_HeapFree(work->subwork);
-        return GAMEEVENT_DONE;
+        if (!GFL_FadeIsRunning()) {
+            return GAMEEVENT_DONE;
+        }
+        break;
     }
     return GAMEEVENT_CONTINUE;
-}
-
-void func_ov033_02179e80(GameManualEventWork *work) {
-    if (work->subwork->result == 0) {
-        *work->result = 0;
-    } else {
-        *work->result = 1;
-    }
 }
