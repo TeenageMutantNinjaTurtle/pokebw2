@@ -25,7 +25,7 @@ BOOL ServerControl_SwitchInFillSlot(BattleHandler *handler, u8 target, u8 slot, 
 void ServerControl_AfterSwitchIn(BattleHandler *handler);
 void ServerControl_SetMonCounter(BattleHandler *handler, BattleMon *mon, u8 counter, u8 value);
 void ServerControl_CheckItemReaction(BattleHandler *handler, BattleMon *mon, u32 reaction);
-void ServerControl_ChangeHeldItem(BattleHandler *handler, BattleMon *mon, u8 item, u8 flag);
+void ServerControl_ChangeHeldItem(BattleHandler *handler, BattleMon *mon, u16 item, u8 flag);
 BOOL ServerControl_UseHeldItem(BattleHandler *handler, BattleMon *mon);
 BOOL ServerControl_EscapeSub(BattleHandler *handler, BattleMon *mon, u32 flag);
 BOOL ServerControl_CheckMatchup(BattleHandler *handler);
@@ -45,5 +45,8 @@ void ServerControl_ChangeWeatherCore(BattleHandler *handler, u8 weather, u8 dura
 void ServerEvent_NotifyAirLock(BattleHandler *handler);
 BOOL ServerEvent_CheckFloating(BattleHandler *handler, BattleMon *mon, u32 flag);
 void ServerControl_CureCondition(BattleHandler *handler, BattleMon *mon, u32 condition, u32 flag);
+u32 ServerEvent_CheckItemSet(BattleHandler *handler, BattleMon *mon, u16 item);
+void ServerEvent_ItemSetFailed(BattleHandler *handler, BattleMon *mon);
+void ServerEvent_ChangeAbilityAfter(BattleHandler *handler, u8 monIndex);
 
 #endif // POKEBW2_BATTLE_BTL_SERVER_FLOW_H

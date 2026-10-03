@@ -287,3 +287,11 @@ src/ov167/battle_handler_change_weather.c:
 src/ov167/battle_handler_gravity_check.c:
     complete
     .text       start:0x021ae14c end:0x021ae21c
+
+src/ov167/battle_handler_transform.c:
+    complete
+    .text       start:0x021adffc end:0x021ae0f0
+
+src/ov167/battle_handler_set_item.c:
+    complete
+    .text       start:0x021ad738 end:0x021ad840

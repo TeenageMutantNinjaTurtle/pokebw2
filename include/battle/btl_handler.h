@@ -83,6 +83,8 @@ BOOL BattleHandler_IllusionBreak(BattleHandler *handler, BattleHandlerIllusionBr
 BOOL BattleHandler_SwapPoke(BattleHandler *handler, BattleHandlerSwapPokeParam *param);
 u8 BattleHandler_ChangeWeather(BattleHandler *handler, BattleHandlerChangeWeatherParam *param);
 BOOL BattleHandler_GravityCheck(BattleHandler *handler, BattleHandlerGravityCheckParam *param);
+BOOL BattleHandler_Transform(BattleHandler *handler, BattleHandlerTransformParam *param);
+BOOL BattleHandler_SetItem(BattleHandler *handler, BattleHandlerSetItemParam *param);
 u32 HandlerGetAlivePartyCount(BattleHandler *handler, u16 code, u8 *monIds);
 u8 func_ov167_021add78(void *state, u8 monIndex);
 u8 func_ov167_021ae0fc(void *state, u8 monIndex);
