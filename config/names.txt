@@ -89,6 +89,8 @@
 . 0x02050678 CalcSphere_Set
 . 0x02050690 CalcCapsule_HitSphere
 . 0x02050760 CalcCapsule_Set
+. 0x020508b8 StrUnicodeToSjis
+. 0x020508f8 CharUnicodeToSjis
 . 0x0206004c NNS_G2dGetUnpackedAnimBank
 . 0x02060054 NNS_G2dGetUnpackedMCAnimBank
 . 0x02060150 NNS_G2dGetUnpackedCellBank

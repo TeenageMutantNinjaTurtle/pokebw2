@@ -86,3 +86,7 @@ src/main/button_man.c:
 src/main/calctool.c:
     complete
     .text       start:0x02050610 end:0x020508b8
+
+src/main/str_sjis.c:
+    complete
+    .text       start:0x020508b8 end:0x02050a40
