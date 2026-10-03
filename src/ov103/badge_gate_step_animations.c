@@ -3,8 +3,8 @@
 #include "field/field_exp_obj.h"
 
 void func_ov103_021ef010(Field *field) {
-    void *work;
+    BadgeGateWork *work;
 
     work = Field_GetGimmickWorkBlock(field, 0);
-    FieldExpObj_StepAllAnimations(*(FieldExpObjSystem **)((u8 *)work + 4));
+    FieldExpObj_StepAllAnimations(work->expObj);
 }

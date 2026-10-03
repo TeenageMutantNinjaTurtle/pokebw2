@@ -59,7 +59,6 @@ u32 func_ov033_0217aed0(TrialHouseWork *work);
 GameEvent *func_ov033_0217aedc(GameSystem *gsys, TrialHouseWork *work, u32 actorId, u32 messageId);
 GameEvent *func_ov033_0217aee8(GameSystem *gsys, TrialHouseWork *work, u32 arg);
 GameEventReturnCode func_ov033_0217af5c(GameEvent *event, u32 *state, void *data);
-u32 func_ov012_02162b38(u16 value);
 GameEvent *func_ov012_02161e6c(GameSystem *gsys, TrialHouseWork *work, u32 actorId, u16 messageId);
 void *func_ov012_02162864(TrialHouseWork *work, u16 value, u32 capacity, u32 arg3, u32 arg4, u32 arg5, u16 flag);
 void *func_ov012_02152990(TrialHouseEventData *data);

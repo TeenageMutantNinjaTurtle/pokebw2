@@ -26,3 +26,11 @@ src/ov103/badge_gate_sound.c:
 src/ov103/badge_gate_animations.c:
     complete
     .text       start:0x021ef21c end:0x021ef290
+
+src/ov103/badge_gate_event_value.c:
+    complete
+    .text       start:0x021eeffc end:0x021ef020
+
+src/ov103/badge_gate_free.c:
+    complete
+    .text       start:0x021ef020 end:0x021ef050

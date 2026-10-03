@@ -1,3 +1,4 @@
+#include "field/battle_facility.h"
 #include "field/trial_house.h"
 
 u32 func_ov033_0217aed0(TrialHouseWork *work) {

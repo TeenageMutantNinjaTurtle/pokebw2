@@ -395,3 +395,7 @@ src/ov167/battle_mon_condition_continuation.c:
 src/ov167/battle_mon_condition_count.c:
     complete
     .text       start:0x021bc1ec end:0x021bc1f8
+
+src/ov167/battle_mon_cure_condition.c:
+    complete
+    .text       start:0x021bba30 end:0x021bbaa4

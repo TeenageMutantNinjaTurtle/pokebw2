@@ -13,6 +13,7 @@ typedef struct AreaData AreaData;
 typedef struct BagSave BagSave;
 typedef struct BadgeGateCheckEventData BadgeGateCheckEventData;
 typedef struct BadgeGateLastEventData BadgeGateLastEventData;
+typedef struct BadgeGateWork BadgeGateWork;
 typedef struct BattleBoxSave BattleBoxSave;
 typedef struct BattleCondition BattleCondition;
 typedef struct BattleCutinParam BattleCutinParam;

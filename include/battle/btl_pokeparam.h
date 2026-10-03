@@ -131,5 +131,10 @@ s8 *func_ov167_021bb4b4(BattleMon *mon, u32 stat, s8 *min, s8 *max);
 BOOL IsStatChangeValid(BattleMon *mon, u32 stat, s32 change);
 BOOL AreStatsLowered(BattleMon *mon);
 u32 func_ov167_021bb408(BattleMon *mon);
+BattleCondition ZeroConditionTurns(void);
+BOOL IsBasicStatus(u32 condition);
+void CureCondition(BattleMon *mon);
+void CureDependentCondition(BattleMon *mon, u32 condition);
+void CureMoveCondition(BattleMon *mon, u32 condition);
 
 #endif // POKEBW2_BATTLE_BTL_POKEPARAM_H

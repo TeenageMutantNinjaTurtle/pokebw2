@@ -116,7 +116,7 @@ BOOL func_ov033_0217bb20(BSubwayScrWork *bsw);
 void func_ov033_0217bb4c(BSubwayScrWork *bsw, GameSystem *gsys);
 void func_ov033_0217bb98(BSubwayScrWork *bsw, GameSystem *gsys);
 void func_ov033_0217bbac(BSubwayScrWork *bsw);
-u16 func_ov033_0217bca0(BSubwayScrWork *bsw, u16 a1);
+u32 func_ov033_0217bca0(BSubwayScrWork *bsw, u16 a1);
 u16 func_ov033_0217bcb4(BSubwayScoreData *score, GameSystem *gsys, u32 a2);
 void func_ov033_0217bd34(BSubwayScrWork *bsw);
 PokeParty *func_ov033_0217bd60(BSubwayScrWork *bsw);

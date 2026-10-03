@@ -8,8 +8,13 @@
 
 // The badge gates on the way to Victory Road, in Victory Road's gimmick (overlay 103)
 
+struct BadgeGateWork {
+    u32 unk00;
+    FieldExpObjSystem *expObj;
+};
+
 struct BadgeGateCheckEventData {
-    void *gimmickWork;
+    BadgeGateWork *gimmickWork;
     u16 badge;
     u16 padding;
     u32 state;
@@ -17,7 +22,7 @@ struct BadgeGateCheckEventData {
 };
 
 struct BadgeGateLastEventData {
-    void *gimmickWork;
+    BadgeGateWork *gimmickWork;
     FieldCamera *camera;
     u8 unk08[0x10];
     u32 state;
@@ -30,11 +35,14 @@ struct BadgeGateLastEventData {
 // Plays the gate of badge (0 to 7) checking its badge
 GameEvent *BadgeGate_CreateCheckEvent(GameSystem *gsys, u8 badge);
 GameEventReturnCode BadgeGate_CheckEvent(GameEvent *event, u32 *state, void *data);
+BOOL func_ov103_021eefbc(u32 badge, EventWork *work);
+void func_ov103_021eefe0(Field *field);
 void func_ov103_021ef010(Field *field);
 void *func_ov103_021ef1ac(void *work, u32 index, u32 group);
 void func_ov103_021ef188(BadgeGateCheckEventData *data);
 void func_ov103_021ef1dc(void *entry, u32 anim, u32 paused);
 u32 func_ov103_021ef200(void *work);
+extern const u16 data_ov103_021ef854[];
 // Plays the last gate, after the eight badge gates, with the camera
 GameEvent *BadgeGate_CreateLastGateEvent(GameSystem *gsys);
 GameEventReturnCode BadgeGate_LastGateEvent(GameEvent *event, u32 *state, void *data);
