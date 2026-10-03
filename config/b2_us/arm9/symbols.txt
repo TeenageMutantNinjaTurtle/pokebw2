@@ -4955,7 +4955,7 @@ GFL_StrBufCopyString kind:function(thumb,size=0x20) addr:0x02048698
 GFL_StrBufStoreString kind:function(thumb,size=0x38) addr:0x020486b8
 GFL_StrBufGetStringPtr kind:function(thumb,size=0x4) addr:0x020486f0
 GFL_StrBufGetTerminator kind:function(thumb,size=0xc) addr:0x020486f4
-GFL_StrBufUncompressNone kind:function(thumb,size=0x32) addr:0x02048700
+GFL_StrBufConcat kind:function(thumb,size=0x32) addr:0x02048700
 GFL_StrBufAppend kind:function(thumb,size=0x28) addr:0x02048734
 GFL_MsgSysLoadData kind:function(thumb,size=0x78) addr:0x0204875c
 GFL_MsgDataFree kind:function(thumb,size=0x28) addr:0x020487d4
@@ -8747,7 +8747,7 @@ data_0209ae9c kind:data(any) addr:0x0209ae9c
 data_0209aeac kind:data(any) addr:0x0209aeac
 data_0209aeb8 kind:data(any) addr:0x0209aeb8
 data_0209aec0 kind:data(any) addr:0x0209aec0
-g_GFLStrTerminator kind:data(any) addr:0x0209aecc
+sTerminator kind:data(any) addr:0x0209aecc
 data_0209aed0 kind:data(any) addr:0x0209aed0
 data_0209aedc kind:data(any) addr:0x0209aedc
 data_0209aee8 kind:data(any) addr:0x0209aee8

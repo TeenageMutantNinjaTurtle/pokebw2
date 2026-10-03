@@ -29,3 +29,8 @@ src/main/bmp_win.c:
     .text       start:0x020480ac end:0x02048538
     .data       start:0x0209af00 end:0x0209af0c
     .bss        start:0x02141958 end:0x0214195c
+
+src/main/strbuf.c:
+    complete
+    .text       start:0x02048538 end:0x02048788
+    .data       start:0x0209af0c end:0x0209af1c

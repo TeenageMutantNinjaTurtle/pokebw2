@@ -76,6 +76,7 @@
 . 0x02048500 BmpWin_SetPosY
 . 0x02048504 BmpWin_SetHeight2
 . 0x02048508 BmpWin_SetPalette
+. 0x02048700 GFL_StrBufConcat
 . 0x02048b78 GFL_MsgDataSetDefaultLangID
 . 0x02060618 NNS_G2dSetAnimCtrlCallBackFunctor
 . 0x020658a4 NNS_G3dGlbSetBaseTrans
@@ -112,6 +113,7 @@
 . 0x0208e3c8 _fdiv
 . 0x0208fe08 GAME_SYNC_SETTINGS_PROC_FUNCTIONS
 . 0x0208fe14 BATTLE_VIDEO_PROC_FUNCTIONS
+. 0x0209aecc sTerminator
 . 0x0214190c sBGSys
 . 0x02141910 sEnabledPlanes
 . 0x02141918 sBmpWinSys

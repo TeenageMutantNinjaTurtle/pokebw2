@@ -218,7 +218,6 @@ static inline BOOL ClipCopyArea(const GFLBitmap *src, GFLBitmap *dest, u32 *srcX
     return TRUE;
 }
 
-
 static void GFL_BitmapCopyArea_IDX4(const GFLBitmap *src, GFLBitmap *dest, u32 srcX, u32 srcY, int destX,
                                     int destY, u32 width, u32 height, u16 colorKey) {
     int srcTilesX;
@@ -636,5 +635,4 @@ GFLBitmap *GFL_BitmapMakeLinear(GFLBitmap *bitmap, BOOL keepAsNew, HeapID heapId
     }
     return linear;
 }
-
 
