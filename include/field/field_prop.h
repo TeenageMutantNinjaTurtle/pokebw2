@@ -20,10 +20,23 @@ struct FieldPropAreaBounds {
 
 // Partial resource layouts inferred from the Swan-named overlay 36 helpers.
 struct FieldPropResAnmHeader {
-    u8 unk0[2];
+    u8 controllerType;
+    u8 unk1;
     u8 ambientAnimationCount;
     u8 unk3;
     u32 animationIds[4];
+};
+
+struct FieldPropControllerTableEntry {
+    void (*update)(FieldPropSystem *, FieldPropResInstance *);
+    void (*command)(FieldPropResInstance *, u32, u32);
+    void (*init)(FieldPropSystem *, FieldPropResInstance *);
+};
+
+struct FieldPropControllerCommandTableEntry {
+    void (*command)(FieldPropResInstance *, u32, u32);
+    void (*init)(FieldPropSystem *, FieldPropResInstance *);
+    void (*update)(FieldPropSystem *, FieldPropResInstance *);
 };
 
 struct FieldPropResBundle {
@@ -93,6 +106,8 @@ struct FieldPropHandle {
 };
 
 extern const u8 FIELD_PROP_ANM_IDX_FOR_DAY_PART[];
+extern const FieldPropControllerTableEntry data_ov036_021ca8b8[];
+extern const FieldPropControllerCommandTableEntry data_ov036_021ca8bc[];
 extern const u16 DOOR_SOUND_ID_LUT[][5];
 extern const u8 data_ov036_021ca8e6[];
 extern const char data_ov036_021d4b2c[];

@@ -152,6 +152,8 @@ typedef struct FieldMoneyWindow FieldMoneyWindow;
 typedef struct FieldMoneyWindowEvent FieldMoneyWindowEvent;
 typedef struct FieldPlayer FieldPlayer;
 typedef struct FieldPropAreaBounds FieldPropAreaBounds;
+typedef struct FieldPropControllerCommandTableEntry FieldPropControllerCommandTableEntry;
+typedef struct FieldPropControllerTableEntry FieldPropControllerTableEntry;
 typedef struct FieldPropHandle FieldPropHandle;
 typedef struct FieldPropResAnmHeader FieldPropResAnmHeader;
 typedef struct FieldPropResBundle FieldPropResBundle;

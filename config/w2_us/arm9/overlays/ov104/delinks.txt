@@ -4,122 +4,30 @@
     .data       start:0x021f0660 end:0x021f0800 kind:data align:32
     .bss        start:0x021f0800 end:0x021f0800 kind:bss align:32
 
-src/ov104/field_exp_obj_gimmick_ov104_access.c:
-    complete
-    .text       start:0x021eed40 end:0x021eedb8
-
-src/ov104/field_exp_obj_gimmick_ov104_save.c:
-    complete
-    .text       start:0x021eedb8 end:0x021eee24
-
-src/ov104/field_exp_obj_gimmick_ov104_state.c:
-    complete
-    .text       start:0x021eee24 end:0x021eeee0
-
-src/ov104/field_exp_obj_gimmick_ov104_free.c:
-    complete
-    .text       start:0x021eeee0 end:0x021eeefc
-
-src/ov104/field_exp_obj_gimmick_ov104_card.c:
-    complete
-    .text       start:0x021eeefc end:0x021eef20
-
-src/ov104/field_exp_obj_gimmick_ov104_visual.c:
-    complete
-    .text       start:0x021eefc4 end:0x021ef06c
-
-src/ov104/field_exp_obj_gimmick_ov104_flags.c:
-    complete
-    .text       start:0x021ef06c end:0x021ef0c4
-
-src/ov104/field_exp_obj_gimmick_ov104_res_list.c:
-    complete
-    .text       start:0x021ef154 end:0x021ef1c0
-
-src/ov104/field_exp_obj_gimmick_ov104_res_lookup.c:
-    complete
-    .text       start:0x021ef1c0 end:0x021ef2cc
-
-src/ov104/field_exp_obj_gimmick_ov104_dispatch.c:
-    complete
-    .text       start:0x021ef2cc end:0x021ef384
-
-src/ov104/field_exp_obj_gimmick_ov104_scene_dispatch.c:
-    complete
-    .text       start:0x021ef384 end:0x021ef400
-
-src/ov104/field_exp_obj_gimmick_ov104_date_event.c:
-    complete
-    .text       start:0x021ef400 end:0x021ef47c
-
-src/ov104/field_exp_obj_gimmick_ov104_swarm_event.c:
-    complete
-    .text       start:0x021ef5ec end:0x021ef698
-
-src/ov104/field_exp_obj_gimmick_ov104_week_events.c:
-    complete
-    .text       start:0x021ef698 end:0x021ef8a8
-
-src/ov104/field_exp_obj_gimmick_ov104_visitor_dispatch.c:
-    complete
-    .text       start:0x021ef964 end:0x021ef98c
-
-src/ov104/field_exp_obj_gimmick_ov104_visitor_list.c:
-    complete
-    .text       start:0x021ef9d4 end:0x021efa08
-
-src/ov104/field_exp_obj_gimmick_ov104_zone_list.c:
-    complete
-    .text       start:0x021efa08 end:0x021efa58
-
-src/ov104/field_exp_obj_gimmick_ov104_script_call.c:
-    complete
-    .text       start:0x021efbd0 end:0x021efc18
-
 src/ov104/field_exp_obj_gimmick_ov104_state_ops.c:
     complete
     .text       start:0x021efcac end:0x021efd3c
 
-src/ov104/field_exp_obj_gimmick_ov104_roaming_zone.c:
+src/ov104/field_exp_obj_gimmick_ov104_core.c:
     complete
-    .text       start:0x021efb70 end:0x021efbd0
+    .text       start:0x021eed40 end:0x021ef0c4
 
-src/ov104/field_exp_obj_gimmick_ov104_zone_collect.c:
+src/ov104/field_exp_obj_gimmick_ov104_events.c:
     complete
-    .text       start:0x021efa58 end:0x021efb10
+    .text       start:0x021ef154 end:0x021ef98c
 
-src/ov104/field_exp_obj_gimmick_ov104_message_control.c:
+src/ov104/field_exp_obj_gimmick_ov104_lists.c:
     complete
-    .text       start:0x021f00c0 end:0x021f00fc
+    .text       start:0x021ef9d4 end:0x021efb10
 
-src/ov104/field_exp_obj_gimmick_ov104_message_stop.c:
+src/ov104/field_exp_obj_gimmick_ov104_roaming.c:
     complete
-    .text       start:0x021f0170 end:0x021f0190
+    .text       start:0x021efb70 end:0x021efc18
 
-src/ov104/field_exp_obj_gimmick_ov104_message_update.c:
+src/ov104/field_exp_obj_gimmick_ov104_messages.c:
     complete
-    .text       start:0x021f00fc end:0x021f0170
+    .text       start:0x021f00c0 end:0x021f01a0
 
-src/ov104/field_exp_obj_gimmick_ov104_read_message.c:
+src/ov104/field_exp_obj_gimmick_ov104_gate.c:
     complete
-    .text       start:0x021f0190 end:0x021f01a0
-
-src/ov104/field_exp_obj_gimmick_ov104_resource_helpers.c:
-    complete
-    .text       start:0x021f0364 end:0x021f03dc
-
-src/ov104/field_exp_obj_gimmick_ov104_gate_event.c:
-    complete
-    .text       start:0x021f033c end:0x021f0364
-
-src/ov104/field_exp_obj_gimmick_ov104_load_substate.c:
-    complete
-    .text       start:0x021eef20 end:0x021eefc4
-
-src/ov104/field_exp_obj_gimmick_ov104_rival_message.c:
-    complete
-    .text       start:0x021ef8a8 end:0x021ef964
-
-src/ov104/field_exp_obj_gimmick_ov104_zone_message.c:
-    complete
-    .text       start:0x021ef47c end:0x021ef5ec
+    .text       start:0x021f033c end:0x021f03dc

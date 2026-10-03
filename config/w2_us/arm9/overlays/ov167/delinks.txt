@@ -40,13 +40,9 @@ src/ov167/battle_is_ally_mon.c:
     complete
     .text       start:0x0219d340 end:0x0219d35c
 
-src/ov167/battle_opposing_side.c:
+src/ov167/battle_side_queries.c:
     complete
-    .text       start:0x0219d36c end:0x0219d388
-
-src/ov167/battle_adjacent_opponent.c:
-    complete
-    .text       start:0x0219d388 end:0x0219d3cc
+    .text       start:0x0219d36c end:0x0219d3cc
 
 src/ov167/battle_setup_style.c:
     complete
@@ -64,17 +60,13 @@ src/ov167/battle_pos_same_side.c:
     complete
     .text       start:0x0219c4e4 end:0x0219c4fc
 
-src/ov167/battle_clients_opposite.c:
+src/ov167/battle_client_mapping.c:
     complete
-    .text       start:0x0219c594 end:0x0219c5a8
+    .text       start:0x0219c594 end:0x0219c5e4
 
 src/ov167/battle_client_lookup.c:
     complete
     .text       start:0x0219c448 end:0x0219c47c
-
-src/ov167/battle_pos_client.c:
-    complete
-    .text       start:0x0219c5a8 end:0x0219c5b4
 
 src/ov167/battle_player_client.c:
     complete
@@ -83,10 +75,6 @@ src/ov167/battle_player_client.c:
 src/ov167/battle_client_allies.c:
     complete
     .text       start:0x0219c8d8 end:0x0219c8f8
-
-src/ov167/battle_mon_id_client.c:
-    complete
-    .text       start:0x0219c5b4 end:0x0219c5e4
 
 src/ov167/battle_mon_id_pos.c:
     complete
@@ -144,10 +132,6 @@ src/ov167/battle_handler_interrupt.c:
     complete
     .text       start:0x021adef0 end:0x021adf50
 
-src/ov167/battle_handler_move_effect.c:
-    complete
-    .text       start:0x021ae31c end:0x021ae34c
-
 src/ov167/battle_condition_turns.c:
     complete
     .text       start:0x021ce4d0 end:0x021ce560
@@ -200,49 +184,21 @@ src/ov167/battle_handler_hide_turn_cancel.c:
     complete
     .text       start:0x021ae21c end:0x021ae254
 
-src/ov167/battle_handler_remove_message_window.c:
+src/ov167/battle_handler_display_effects.c:
     complete
-    .text       start:0x021ae290 end:0x021ae2a0
+    .text       start:0x021ae290 end:0x021ae34c
 
-src/ov167/battle_handler_change_form.c:
+src/ov167/battle_handler_mon_effect.c:
     complete
-    .text       start:0x021ae2a0 end:0x021ae31c
-
-src/ov167/battle_handler_flinch.c:
-    complete
-    .text       start:0x021addc8 end:0x021addf0
-
-src/ov167/battle_handler_set_weight.c:
-    complete
-    .text       start:0x021ade68 end:0x021ade98
-
-src/ov167/battle_handler_revive.c:
-    complete
-    .text       start:0x021addf0 end:0x021ade68
+    .text       start:0x021addc8 end:0x021ade98
 
 src/ov167/battle_handler_set_counter.c:
     complete
     .text       start:0x021adacc end:0x021adaec
 
-src/ov167/battle_handler_check_held_item.c:
+src/ov167/battle_handler_switch_flow.c:
     complete
-    .text       start:0x021ad94c end:0x021ad968
-
-src/ov167/battle_handler_use_held_item.c:
-    complete
-    .text       start:0x021ad968 end:0x021ad9bc
-
-src/ov167/battle_handler_consume_item.c:
-    complete
-    .text       start:0x021ada4c end:0x021ada8c
-
-src/ov167/battle_handler_quit_battle.c:
-    complete
-    .text       start:0x021adca8 end:0x021adcd8
-
-src/ov167/battle_handler_switch.c:
-    complete
-    .text       start:0x021adcd8 end:0x021add50
+    .text       start:0x021adca8 end:0x021addb8
 
 src/ov167/battle_handler_field_effect.c:
     complete
@@ -264,14 +220,6 @@ src/ov167/battle_handler_decrement_pp.c:
     complete
     .text       start:0x021acb90 end:0x021acbe8
 
-src/ov167/battle_handler_force_use_item.c:
-    complete
-    .text       start:0x021ad9bc end:0x021ada4c
-
-src/ov167/battle_handler_baton_pass.c:
-    complete
-    .text       start:0x021add50 end:0x021addb8
-
 src/ov167/battle_handler_illusion_break.c:
     complete
     .text       start:0x021ae0f0 end:0x021ae13c
@@ -292,13 +240,9 @@ src/ov167/battle_handler_transform.c:
     complete
     .text       start:0x021adffc end:0x021ae0f0
 
-src/ov167/battle_handler_set_item.c:
+src/ov167/battle_handler_item.c:
     complete
-    .text       start:0x021ad738 end:0x021ad840
-
-src/ov167/battle_handler_swap_item.c:
-    complete
-    .text       start:0x021ad840 end:0x021ad94c
+    .text       start:0x021ad738 end:0x021ada8c
 
 src/ov167/battle_handler_drain.c:
     complete
@@ -328,13 +272,9 @@ src/ov167/battle_move_work.c:
     complete
     .text       start:0x021baa1c end:0x021baa84
 
-src/ov167/battle_mon_reset.c:
+src/ov167/battle_mon_reset_state.c:
     complete
-    .text       start:0x021baba4 end:0x021babf8
-
-src/ov167/battle_mon_clear_form.c:
-    complete
-    .text       start:0x021bab7c end:0x021baba4
+    .text       start:0x021bab7c end:0x021babf8
 
 src/ov167/battle_stat_stages_reset.c:
     complete
@@ -476,25 +416,17 @@ src/ov167/battle_action_fight_param.c:
     complete
     .text       start:0x021bdb38 end:0x021bdb80
 
-src/ov167/battle_action_null.c:
+src/ov167/battle_action_core.c:
     complete
-    .text       start:0x021bdc9c end:0x021bdcac
-
-src/ov167/battle_action_access.c:
-    complete
-    .text       start:0x021bdcac end:0x021bdcc4
+    .text       start:0x021bdc9c end:0x021bdcc4
 
 src/ov167/battle_ability_handler_priority.c:
     complete
     .text       start:0x021bdd58 end:0x021bdd78
 
-src/ov167/battle_ability_subpriority.c:
+src/ov167/battle_ability_event_priority.c:
     complete
-    .text       start:0x021bde18 end:0x021bde28
-
-src/ov167/battle_ability_roll_effect_chance.c:
-    complete
-    .text       start:0x021bde28 end:0x021bde50
+    .text       start:0x021bde18 end:0x021bde50
 
 src/ov167/battle_ability_item_rotation.c:
     complete
@@ -672,17 +604,9 @@ src/ov167/battle_ability_anger_point.c:
     complete
     .text       start:0x021bf460 end:0x021bf4f4
 
-src/ov167/battle_ability_rock_head.c:
+src/ov167/battle_ability_move_guards.c:
     complete
-    .text       start:0x021bf964 end:0x021bf988
-
-src/ov167/battle_ability_normalize.c:
-    complete
-    .text       start:0x021bf988 end:0x021bf9ac
-
-src/ov167/battle_ability_trace_event.c:
-    complete
-    .text       start:0x021bf9ac end:0x021bf9b8
+    .text       start:0x021bf964 end:0x021bf9b8
 
 src/ov167/battle_ability_natural_cure.c:
     complete
@@ -700,25 +624,13 @@ src/ov167/battle_ability_heatproof.c:
     complete
     .text       start:0x021c00ac end:0x021c0110
 
-src/ov167/battle_ability_damage_recover_check.c:
+src/ov167/battle_ability_type_absorb.c:
     complete
-    .text       start:0x021c0110 end:0x021c0144
+    .text       start:0x021c0110 end:0x021c03b0
 
-src/ov167/battle_ability_dry_skin_damage.c:
+src/ov167/battle_ability_immunity_guards.c:
     complete
-    .text       start:0x021c02d8 end:0x021c02fc
-
-src/ov167/battle_ability_absorb_checks.c:
-    complete
-    .text       start:0x021c02fc end:0x021c03b0
-
-src/ov167/battle_ability_levitate_guard.c:
-    complete
-    .text       start:0x021c045c end:0x021c0484
-
-src/ov167/battle_ability_levitate_turn.c:
-    complete
-    .text       start:0x021c04d4 end:0x021c04f8
+    .text       start:0x021c045c end:0x021c0594
 
 src/ov167/battle_ability_truant_state.c:
     complete
@@ -728,33 +640,21 @@ src/ov167/battle_ability_truant_end.c:
     complete
     .text       start:0x021c0640 end:0x021c066c
 
-src/ov167/battle_ability_damp_end.c:
+src/ov167/battle_ability_damp_cleanup.c:
     complete
-    .text       start:0x021c0714 end:0x021c072c
+    .text       start:0x021c0714 end:0x021c074c
 
 src/ov167/battle_ability_mold_breaker_events.c:
     complete
     .text       start:0x021c0a3c end:0x021c0abc
 
-src/ov167/battle_ability_forecast_events.c:
+src/ov167/battle_ability_forecast.c:
     complete
-    .text       start:0x021c0abc end:0x021c0b60
+    .text       start:0x021c0abc end:0x021c0c78
 
-src/ov167/battle_ability_damp_start.c:
+src/ov167/battle_ability_damp_activation.c:
     complete
-    .text       start:0x021c06fc end:0x021c070c
-
-src/ov167/battle_ability_damp_work.c:
-    complete
-    .text       start:0x021c066c end:0x021c06fc
-
-src/ov167/battle_ability_damp_skip_check.c:
-    complete
-    .text       start:0x021c072c end:0x021c0740
-
-src/ov167/battle_ability_damp_event.c:
-    complete
-    .text       start:0x021c0740 end:0x021c074c
+    .text       start:0x021c066c end:0x021c070c
 
 src/ov167/battle_ability_flash_fire.c:
     complete
@@ -768,29 +668,9 @@ src/ov167/battle_ability_soundproof.c:
     complete
     .text       start:0x021c03e0 end:0x021c045c
 
-src/ov167/battle_ability_levitate_immunity.c:
-    complete
-    .text       start:0x021c0484 end:0x021c04d4
-
-src/ov167/battle_ability_wonder_guard.c:
-    complete
-    .text       start:0x021c04f8 end:0x021c0594
-
 src/ov167/battle_ability_sturdy.c:
     complete
     .text       start:0x021bff48 end:0x021c0044
-
-src/ov167/battle_ability_type_recovery_common.c:
-    complete
-    .text       start:0x021c0144 end:0x021c0248
-
-src/ov167/battle_ability_dry_skin_weather.c:
-    complete
-    .text       start:0x021c0248 end:0x021c02d8
-
-src/ov167/battle_ability_forecast_common.c:
-    complete
-    .text       start:0x021c0b60 end:0x021c0c78
 
 src/ov167/battle_ability_target_redirect.c:
     complete

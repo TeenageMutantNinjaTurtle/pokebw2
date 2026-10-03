@@ -3,30 +3,6 @@
     .ctor       start:0x021eef28 end:0x021eef28 kind:rodata align:4
     .bss        start:0x021eef40 end:0x021eef40 kind:bss align:32
 
-src/ov106/field_exp_obj_gimmick_ov106_lifecycle.c:
+src/ov106/field_exp_obj_gimmick_ov106.c:
     complete
-    .text       start:0x021eecc0 end:0x021eed08
-
-src/ov106/field_exp_obj_gimmick_ov106_step.c:
-    complete
-    .text       start:0x021eed08 end:0x021eed14
-
-src/ov106/field_exp_obj_gimmick_ov106_callbacks.c:
-    complete
-    .text       start:0x021eee90 end:0x021eee98
-
-src/ov106/field_exp_obj_gimmick_ov106_init_anm.c:
-    complete
-    .text       start:0x021eed14 end:0x021eed44
-
-src/ov106/field_exp_obj_gimmick_ov106_anm_state.c:
-    complete
-    .text       start:0x021eed44 end:0x021eedb8
-
-src/ov106/field_exp_obj_gimmick_ov106_anm_followup.c:
-    complete
-    .text       start:0x021eedb8 end:0x021eee3c
-
-src/ov106/field_exp_obj_gimmick_ov106_setup.c:
-    complete
-    .text       start:0x021eee3c end:0x021eee90
+    .text       start:0x021eecc0 end:0x021eee98

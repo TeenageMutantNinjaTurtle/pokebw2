@@ -4,122 +4,9 @@
     .data       start:0x021d4b20 end:0x021d57a0 kind:data align:32
     .bss        start:0x021d57a0 end:0x021e57e0 kind:bss align:32
 
-src/ov036/field_accessors.c:
-    complete
-    .text       start:0x021804b8 end:0x021804c4
-
-src/ov036/field_accessors_early.c:
-    complete
-    .text       start:0x02180490 end:0x0218049c
-
-src/ov036/field_accessors_late.c:
-    complete
-    .text       start:0x021804d4 end:0x021804e0
-
-src/ov036/field_managers.c:
-    complete
-    .text       start:0x0218056c end:0x02180580
-
-src/ov036/field_subsystems.c:
-    complete
-    .text       start:0x0218055c end:0x0218056c
-
-src/ov036/field_environment.c:
-    complete
-    .text       start:0x0218049c end:0x021804b8
-
-src/ov036/field_effect_accessors.c:
-    complete
-    .text       start:0x021804c4 end:0x021804d4
-
-src/ov036/field_control_accessors.c:
-    complete
-    .text       start:0x021804e0 end:0x02180508
-
-src/ov036/field_visual_accessors.c:
-    complete
-    .text       start:0x02180508 end:0x0218051c
-
-src/ov036/field_controller_type.c:
-    complete
-    .text       start:0x0218052c end:0x0218055c
-    .rodata     start:0x021c9ec4 end:0x021c9ec8
-
 src/ov036/fieldmap_ctrl_hybrid.c:
     complete
     .text       start:0x0219e430 end:0x0219e434
-
-src/ov036/field_lifecycle.c:
-    complete
-    .text       start:0x02180414 end:0x02180434
-
-src/ov036/field_cycling.c:
-    complete
-    .text       start:0x02180434 end:0x02180490
-
-src/ov036/field_script_cmd_unity_tower.c:
-    complete
-    .text       start:0x021c9c24 end:0x021c9c94
-
-src/ov036/field_script_cmd_unity_tower_floor.c:
-    complete
-    .text       start:0x021c9c94 end:0x021c9cc8
-
-src/ov036/field_script_cmd_unity_tower_visitor.c:
-    complete
-    .text       start:0x021c9cc8 end:0x021c9d24
-
-src/ov036/field_script_cmd_unity_tower_country.c:
-    complete
-    .text       start:0x021c9d24 end:0x021c9d50
-
-src/ov036/field_display_control_bg_enabled.c:
-    complete
-    .text       start:0x021c80a0 end:0x021c80a8
-
-src/ov036/field_display_control_adjust_alpha.c:
-    complete
-    .text       start:0x021c80d4 end:0x021c80e0
-
-src/ov036/field_palace_lifecycle.c:
-    complete
-    .text       start:0x021c822c end:0x021c8248
-
-src/ov036/field_palace_create.c:
-    complete
-    .text       start:0x021c81f4 end:0x021c822c
-
-src/ov036/field_lens_flare_data_entry.c:
-    complete
-    .text       start:0x021c8910 end:0x021c891c
-
-src/ov036/field_lens_flare_data_find.c:
-    complete
-    .text       start:0x021c891c end:0x021c8954
-
-src/ov036/field_lens_flare_data_effect.c:
-    complete
-    .text       start:0x021c886c end:0x021c88a0
-
-src/ov036/field_lens_flare_data_lifecycle.c:
-    complete
-    .text       start:0x021c8808 end:0x021c8848
-
-src/ov036/field_lens_flare_effect_set.c:
-    complete
-    .text       start:0x021c8848 end:0x021c8860
-
-src/ov036/field_lens_flare_data_resource.c:
-    complete
-    .text       start:0x021c88a0 end:0x021c8910
-
-src/ov036/field_lens_flare_day_period.c:
-    complete
-    .text       start:0x021c87dc end:0x021c8808
-
-src/ov036/field_lens_flare_control.c:
-    complete
-    .text       start:0x021c85d8 end:0x021c861c
 
 src/ov036/field_lens_flare_free.c:
     complete
@@ -129,42 +16,6 @@ src/ov036/field_palace_check_event_flag.c:
     complete
     .text       start:0x021c83a0 end:0x021c83e8
 
-src/ov036/field_lens_flare_decide.c:
-    complete
-    .text       start:0x021c861c end:0x021c8688
-
-src/ov036/field_lens_flare_applicable.c:
-    complete
-    .text       start:0x021c87d0 end:0x021c87dc
-
-src/ov036/field_lens_flare_calc_pos.c:
-    complete
-    .text       start:0x021c8688 end:0x021c86e8
-
-src/ov036/field_lens_flare_load.c:
-    complete
-    .text       start:0x021c86e8 end:0x021c87d0
-
-src/ov036/field_display_control_alpha_a.c:
-    complete
-    .text       start:0x021c80a8 end:0x021c80d4
-
-src/ov036/field_display_control_alpha_b.c:
-    complete
-    .text       start:0x021c80e0 end:0x021c80f4
-
-src/ov036/field_display_control_lifecycle.c:
-    complete
-    .text       start:0x021c7fd8 end:0x021c8008
-
-src/ov036/field_display_control_update.c:
-    complete
-    .text       start:0x021c8008 end:0x021c80a0
-
-src/ov036/field_display_control_procs.c:
-    complete
-    .text       start:0x021c80f4 end:0x021c81f4
-
 src/ov036/field_script_cmd_medal_initial.c:
     complete
     .text       start:0x021c7fb0 end:0x021c7fd8
@@ -172,22 +23,6 @@ src/ov036/field_script_cmd_medal_initial.c:
 src/ov036/medal_discover_initial.c:
     complete
     .text       start:0x021c9dfc end:0x021c9e04
-
-src/ov036/hidden_hollow_work.c:
-    complete
-    .text       start:0x021c8954 end:0x021c898c
-
-src/ov036/hidden_hollow_dispatch.c:
-    complete
-    .text       start:0x021c898c end:0x021c89cc
-
-src/ov036/field_medal_actor.c:
-    complete
-    .text       start:0x021c7f1c end:0x021c7f64
-
-src/ov036/field_medal_actor_uid.c:
-    complete
-    .text       start:0x021c7f64 end:0x021c7fb0
 
 src/ov036/field_pokemon_form.c:
     complete
@@ -226,14 +61,6 @@ src/ov036/field_prop_res_info.c:
     .text       start:0x02183558 end:0x021835b0
     .rodata     start:0x021ca920 end:0x021ca930
 
-src/ov036/field_prop_res_index.c:
-    complete
-    .text       start:0x021834bc end:0x021834e0
-
-src/ov036/field_prop_resource_bundle.c:
-    complete
-    .text       start:0x021834e0 end:0x02183508
-
 src/ov036/field_prop_free_textures.c:
     complete
     .text       start:0x02183538 end:0x02183558
@@ -241,22 +68,6 @@ src/ov036/field_prop_free_textures.c:
 src/ov036/field_prop_find_res_info.c:
     complete
     .text       start:0x02183204 end:0x02183224
-
-src/ov036/field_prop_res_bank.c:
-    complete
-    .text       start:0x021833f8 end:0x02183400
-
-src/ov036/field_prop_free_res_bundle.c:
-    complete
-    .text       start:0x02183454 end:0x02183468
-
-src/ov036/field_prop_load_res_bundle.c:
-    complete
-    .text       start:0x02183400 end:0x02183454
-
-src/ov036/field_prop_build_res_lut.c:
-    complete
-    .text       start:0x02183468 end:0x021834bc
 
 src/ov036/field_chunk_prop_holder_release.c:
     complete
@@ -266,41 +77,13 @@ src/ov036/field_prop_chunk_holder_ops.c:
     complete
     .text       start:0x02183da8 end:0x02183e40
 
-src/ov036/field_prop_find_prop.c:
-    complete
-    .text       start:0x02183eec end:0x02183f28
-
-src/ov036/field_prop_holder_queries.c:
-    complete
-    .text       start:0x02183f28 end:0x02183fa8
-
 src/ov036/field_prop_handle_controls.c:
     complete
     .text       start:0x02184110 end:0x021841a0
 
-src/ov036/field_prop_anim_sound_id.c:
-    complete
-    .text       start:0x021841ec end:0x02184200
-
 src/ov036/field_prop_search_area.c:
     complete
     .text       start:0x02184220 end:0x02184244
-
-src/ov036/field_prop_anim_sound_core.c:
-    complete
-    .text       start:0x021841a0 end:0x021841ec
-
-src/ov036/field_prop_create_handle_at_pos.c:
-    complete
-    .text       start:0x0218405c end:0x02184074
-
-src/ov036/field_prop_handle_free.c:
-    complete
-    .text       start:0x021840e4 end:0x02184110
-
-src/ov036/field_prop_create_handle_new.c:
-    complete
-    .text       start:0x02184074 end:0x021840e4
 
 src/ov036/field_prop_handle_registry.c:
     complete
@@ -310,82 +93,72 @@ src/ov036/field_prop_handle_id.c:
     complete
     .text       start:0x021833c0 end:0x021833f8
 
-src/ov036/field_prop_update_draw.c:
-    complete
-    .text       start:0x02183134 end:0x021831a4
-
-src/ov036/field_prop_system_free.c:
-    complete
-    .text       start:0x021830f0 end:0x02183134
-
-src/ov036/field_prop_anm_controller_static_update.c:
-    complete
-    .text       start:0x02183a1c end:0x02183a20
-
-src/ov036/field_prop_anm_controller_static_exec_command.c:
-    complete
-    .text       start:0x02183d04 end:0x02183d08
-
 src/ov036/field_prop_unlink_chunk.c:
     complete
     .text       start:0x021832f0 end:0x021832f8
-
-src/ov036/field_prop_anm_controller_ambient_update.c:
-    complete
-    .text       start:0x02183a70 end:0x02183a90
-
-src/ov036/field_prop_anm_controller_rtc_update.c:
-    complete
-    .text       start:0x02183a20 end:0x02183a70
-
-src/ov036/field_prop_res_instance_stop_all.c:
-    complete
-    .text       start:0x02183c54 end:0x02183c7c
 
 src/ov036/field_g3d_mapper_free_map_textures.c:
     complete
     .text       start:0x021847c0 end:0x021847dc
 
-src/ov036/field_prop_anm_controller_static_init.c:
-    complete
-    .text       start:0x021838f8 end:0x0218390c
 
-src/ov036/field_prop_anm_controller_ambient_init.c:
+src/ov036/field_prop_animation.c:
     complete
-    .text       start:0x0218390c end:0x02183958
+    .text       start:0x021838f8 end:0x02183d48
 
-src/ov036/field_prop_anm_controller_rtc_init.c:
+src/ov036/field_core.c:
     complete
-    .text       start:0x02183958 end:0x021839a4
+    .text       start:0x02180414 end:0x0218051c
 
-src/ov036/field_prop_res_instance_free.c:
+src/ov036/field_system_accessors.c:
     complete
-    .text       start:0x021839a4 end:0x021839f0
+    .text       start:0x0218052c end:0x02180580
+    .rodata     start:0x021c9ec4 end:0x021c9ec8
 
-src/ov036/field_prop_res_instance_play.c:
+src/ov036/field_prop_system.c:
     complete
-    .text       start:0x02183b08 end:0x02183b5c
+    .text       start:0x021830f0 end:0x021831a4
 
-src/ov036/field_prop_res_instance_play_loop.c:
+src/ov036/field_prop_resource_bundle_ops.c:
     complete
-    .text       start:0x02183b5c end:0x02183bb0
+    .text       start:0x021833f8 end:0x02183508
 
-src/ov036/field_prop_res_instance_play_inv.c:
+src/ov036/field_prop_handle_lifecycle.c:
     complete
-    .text       start:0x02183bb0 end:0x02183c1c
+    .text       start:0x0218405c end:0x02184110
 
-src/ov036/field_prop_res_instance_pause.c:
+src/ov036/field_prop_handle_anim_sound.c:
     complete
-    .text       start:0x02183c1c end:0x02183c54
+    .text       start:0x021841a0 end:0x02184200
 
-src/ov036/field_prop_anm_controller_dynamic_exec_command.c:
+src/ov036/field_prop_holder_lookup.c:
     complete
-    .text       start:0x02183cac end:0x02183d04
+    .text       start:0x02183eec end:0x02183fa8
 
-src/ov036/field_prop_res_instance_is_anm_idle.c:
+src/ov036/field_display_control.c:
     complete
-    .text       start:0x02183d08 end:0x02183d48
+    .text       start:0x021c7fd8 end:0x021c81f4
 
-src/ov036/field_prop_anm_controller_dynamic_update.c:
+src/ov036/field_lens_flare.c:
     complete
-    .text       start:0x02183a90 end:0x02183b08
+    .text       start:0x021c85d8 end:0x021c8860
+
+src/ov036/field_lens_flare_data.c:
+    complete
+    .text       start:0x021c886c end:0x021c8954
+
+src/ov036/field_unity_tower_script.c:
+    complete
+    .text       start:0x021c9c24 end:0x021c9d50
+
+src/ov036/hidden_hollow.c:
+    complete
+    .text       start:0x021c8954 end:0x021c89cc
+
+src/ov036/field_palace.c:
+    complete
+    .text       start:0x021c81f4 end:0x021c8248
+
+src/ov036/field_medal_actor.c:
+    complete
+    .text       start:0x021c7f1c end:0x021c7fb0

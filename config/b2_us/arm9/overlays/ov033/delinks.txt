@@ -355,34 +355,10 @@ src/ov033/bsubway_scr_team_generate.c:
     complete
     .text       start:0x0217c2c4 end:0x0217c328
 
-src/ov033/field_money_window_free.c:
+src/ov033/field_money_window_lifecycle.c:
     complete
-    .text       start:0x02177a28 end:0x02177a60
-
-src/ov033/field_money_window_create.c:
-    complete
-    .text       start:0x02177998 end:0x02177a28
+    .text       start:0x02177998 end:0x02177a60
 
 src/ov033/field_money_window_event.c:
     complete
-    .text       start:0x02177b08 end:0x02177bd4
-
-src/ov033/field_money_window_collect_items.c:
-    complete
-    .text       start:0x02177bd4 end:0x02177c48
-
-src/ov033/field_money_window_add_items.c:
-    complete
-    .text       start:0x02177c48 end:0x02177c8c
-
-src/ov033/field_money_window_count_missing.c:
-    complete
-    .text       start:0x02177c8c end:0x02177cd4
-
-src/ov033/field_money_window_find_missing.c:
-    complete
-    .text       start:0x02177cd4 end:0x02177d28
-
-src/ov033/field_money_window_event_create.c:
-    complete
-    .text       start:0x02177d28 end:0x02177d78
+    .text       start:0x02177b08 end:0x02177d78
