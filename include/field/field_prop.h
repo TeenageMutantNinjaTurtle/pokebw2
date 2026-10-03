@@ -134,6 +134,7 @@ void FieldPropResInstance_Init(FieldPropSystem *system, void *instance, void *re
 void FieldPropSystem_DeleteHandle(FieldPropSystem *system, FieldPropHandle *handle);
 void FieldPropSystem_RegistHandle(FieldPropSystem *system, FieldPropHandle *handle);
 u16 FieldPropSystem_GetHandleID(FieldPropSystem *system, FieldPropHandle *handle);
+FieldPropHandle *FieldPropSystem_FindHandleByID(FieldPropSystem *system, u32 id);
 void FieldPropSystem_UpdateResInstance(FieldPropSystem *system, void *instance);
 void FieldPropSystem_Update(FieldPropSystem *system);
 void FieldPropSystem_DrawAllHandles(FieldPropSystem *system);
