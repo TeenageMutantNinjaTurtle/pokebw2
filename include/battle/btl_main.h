@@ -53,6 +53,8 @@ u8 MonIDToClientID(u8 monId);
 u8 func_ov167_0219c458(BtlMainModule *mainModule, u8 clientId, u8 slot);
 s32 func_ov167_0219d140(BtlPokeCon *pokeCon, u8 clientId, u8 monId);
 u8 MonIDToBattlePos(BtlMainModule *mainModule, BtlPokeCon *pokeCon, u8 monId);
+u8 func_ov167_0219c648(u8 monIndex);
+u8 func_ov167_0219c658(BtlMainModule *mainModule, u8 pos);
 u8 GetPlayerClientID(BtlMainModule *mainModule);
 BOOL IsAllyClientID(u8 clientId1, u8 clientId2);
 void BattleClient_SubItem(BtlMainModule *mainModule, u8 clientId, u16 item);

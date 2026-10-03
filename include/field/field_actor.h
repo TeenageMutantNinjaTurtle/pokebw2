@@ -161,6 +161,8 @@ FieldActor *FindFieldActor(MMSys *mmSys, u16 id);
 // Moves grid coordinates or a position by a distance in a direction
 void AdjusGridXZByDir(u32 dir, s16 *x, s16 *z, s16 distance);
 void ExpandVecInGridDir(u16 dir, VecFx32 *pos, fx32 distance);
+void func_ov012_021670f4(FieldActor *actor, u32 value);
+void func_ov012_02167564(FieldActor *actor, u32 value);
 // Sets x and z to the center of a tile, leaving y
 void ConvGXZToVector(u32 x, u32 z, VecFx32 *pos);
 void SpawnAllZoneNPCs(MMSys *mmSys, ZoneNPC *npcs, s32 zoneId, u32 count, EventWork *eventWork);

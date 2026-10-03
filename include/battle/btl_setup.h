@@ -30,6 +30,7 @@ struct BtlSetup {
 BtlSetup *BtlSetup_Create(HeapID heapId);
 u32 BtlSetup_CheckFlag(BtlSetup *setup, u32 flag);
 void BtlSetup_Free(BtlSetup *setup);
+PokeParty *BtlSetup_GetParty(BtlSetup *setup, u32 index);
 void BtlSetup_SetNet1v1Double(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, HeapID heapId);
 void BtlSetup_SetNet1v1Single(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, HeapID heapId);
 void BtlSetup_SetNetRotation(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, HeapID heapId);

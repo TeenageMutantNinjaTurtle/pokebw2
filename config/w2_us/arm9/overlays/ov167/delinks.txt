@@ -215,3 +215,11 @@ src/ov167/battle_handler_flinch.c:
 src/ov167/battle_handler_set_weight.c:
     complete
     .text       start:0x021ade68 end:0x021ade98
+
+src/ov167/battle_handler_revive.c:
+    complete
+    .text       start:0x021addf0 end:0x021ade68
+
+src/ov167/battle_handler_set_counter.c:
+    complete
+    .text       start:0x021adacc end:0x021adaec

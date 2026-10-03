@@ -5,12 +5,14 @@
 #include "struct_decls.h"
 
 struct BattleHandler {
-    u8 unk00[8];
+    u8 unk00[4];
+    BtlMainModule *mainModule;
     BtlPokeCon *pokeCon;
     void *display;
     u8 unk10[0x498];
     BattleMoveEffectState *moveEffect;
-    u8 unk4ac[0x18cc];
+    u8 unk4ac[0x2fd];
+    u8 unk7a9[0x15cf];
     u32 actionState;
 };
 
@@ -46,6 +48,8 @@ BOOL BattleHandler_RemoveMessageWindow(BattleHandler *handler);
 BOOL BattleHandler_ChangeForm(BattleHandler *handler, BattleHandlerChangeFormParam *param);
 u8 BattleHandler_Flinch(BattleHandler *handler, BattleHandlerFlinchParam *param);
 BOOL BattleHandler_SetWeight(BattleHandler *handler, BattleHandlerSetWeightParam *param);
+BOOL BattleHandler_Revive(BattleHandler *handler, BattleHandlerReviveParam *param);
+BOOL BattleHandler_SetCounter(BattleHandler *handler, BattleHandlerSetCounterParam *param);
 
 BOOL BattleHandler_SetMoveEffectIndex(BattleHandler *handler, BattleHandlerMoveEffectParam *param);
 BOOL BattleHandler_SetMoveEffectEnable(BattleHandler *handler);

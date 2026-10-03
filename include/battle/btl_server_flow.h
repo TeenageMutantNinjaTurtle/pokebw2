@@ -21,5 +21,8 @@ u32 func_ov167_021abe10(BtlServerFlow *serverFlow, u8 pos, u32 sideEffect);
 BOOL func_ov167_021abe34(BtlServerFlow *serverFlow, u8 pos, u32 a2);
 BOOL ServerControl_HideTurnCancel(BattleHandler *handler, BattleMon *mon, u32 flag);
 BOOL ServerControl_FlinchCore(BattleHandler *handler, BattleMon *mon, u8 flag);
+BOOL ServerControl_SwitchInFillSlot(BattleHandler *handler, u8 target, u8 slot, u8 slotAgain, BOOL flag);
+void ServerControl_AfterSwitchIn(BattleHandler *handler);
+void ServerControl_SetMonCounter(BattleHandler *handler, BattleMon *mon, u8 counter, u8 value);
 
 #endif // POKEBW2_BATTLE_BTL_SERVER_FLOW_H

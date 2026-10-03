@@ -67,6 +67,8 @@ int PokeParty_GetCapacity(PokeParty *party);
 BOOL PokeParty_AddPkm(PokeParty *party, PartyPkm *pkm);
 void PokeParty_RemovePkm(PokeParty *party, u32 index);
 void PokeParty_RecoverAll(PokeParty *party);
+void PokeParty_ChangeForme(PartyPkm *pkm, u32 forme);
+void PML_PkmChangeRotomForme(PartyPkm *pkm, u32 moveSlot, u32 forme);
 void PokeParty_SetMove(PartyPkm *pkm, u32 move, u32 slot);
 // The next move that a Pokémon learns at its level, going on from *index: 0 once there are none left, 0xfffe for one
 // it already knows, and the move with 0x8000 set when it has no free slot for it

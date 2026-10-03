@@ -154,3 +154,7 @@ src/ov033/funfest_mission_event_create.c:
 src/ov033/funfest_mission_event_callback.c:
     complete
     .text       start:0x02176d9c end:0x02176ec4
+
+src/ov033/event_field_fishing_callback.c:
+    complete
+    .text       start:0x021793b8 end:0x021795a4

@@ -72,3 +72,11 @@ src/ov036/field_script_cmd_unity_tower_visitor.c:
 src/ov036/field_script_cmd_unity_tower_country.c:
     complete
     .text       start:0x021c9d24 end:0x021c9d50
+
+src/ov036/field_display_control_bg_enabled.c:
+    complete
+    .text       start:0x021c80a0 end:0x021c80a8
+
+src/ov036/field_display_control_adjust_alpha.c:
+    complete
+    .text       start:0x021c80d4 end:0x021c80e0
