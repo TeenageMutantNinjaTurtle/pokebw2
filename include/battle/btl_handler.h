@@ -71,7 +71,7 @@ struct BattleHandlerAddFieldEffectParam {
     BattleCondition value;
     u8 duration;
     u8 unk0d[3];
-    u8 string[0x28];
+    BattleHandlerString string;
 };
 
 struct BattleHandlerBatonPassParam {
@@ -82,12 +82,12 @@ struct BattleHandlerBatonPassParam {
 
 struct BattleHandlerChangeFormParam {
     u32 unk00 : 23;
-    u32 showAbility : 1;
+    u32 popup : 1;
     u32 unk18 : 8;
     u8 monIndex;
     u8 form;
     u8 unk06[2];
-    u8 string[0x28];
+    BattleHandlerString string;
 };
 
 struct BattleHandlerChangeHPParam {
@@ -131,7 +131,7 @@ struct BattleHandlerConsumeItemParam {
     u32 monIndex : 5;
     u32 unk13 : 19;
     u32 skipDisplay;
-    u8 string[0x28];
+    BattleHandlerString string;
 };
 
 struct BattleHandlerCureConditionParam {
@@ -139,12 +139,26 @@ struct BattleHandlerCureConditionParam {
     u32 monIndex : 5;
     u32 unk13 : 10;
     u32 popup : 1;
-    u32 unk24 : 8;
+    u32 unk24 : 1;
+    u32 unk25 : 1;
+    u32 unk26 : 6;
     u32 condition;
     u8 monIds[12];
     u8 count;
     u8 useString;
     u8 unk16[2];
+    BattleHandlerString string;
+};
+
+struct BattleHandlerRecoverHPParam {
+    u32 unk00 : 8;
+    u32 monIndex : 5;
+    u32 unk13 : 10;
+    u32 popup : 1;
+    u32 unk24 : 8;
+    u16 amount;
+    u8 targetIndex;
+    u8 unk07;
     BattleHandlerString string;
 };
 
@@ -173,7 +187,7 @@ struct BattleHandlerDecrementPPParam {
     u8 unk07 : 1;
     u8 allowFainted : 1;
     u8 unk09 : 6;
-    u8 string[0x28];
+    BattleHandlerString string;
 };
 
 struct BattleHandlerDrainParam {
@@ -224,7 +238,7 @@ struct BattleHandlerHideTurnParam {
     u8 monIndex;
     u8 unk05[3];
     u32 flag;
-    u8 string[0x28];
+    BattleHandlerString string;
 };
 
 struct BattleHandlerIllusionBreakParam {
@@ -241,7 +255,7 @@ struct BattleHandlerInterruptParam {
         u16 moveId;
     };
     u16 unk06;
-    u8 string[0x28];
+    BattleHandlerString string;
 };
 
 struct BattleHandlerMessageParam {
@@ -250,7 +264,7 @@ struct BattleHandlerMessageParam {
     u32 unk13 : 10;
     u32 popup : 1;
     u32 unk24 : 8;
-    u8 string[0x28];
+    BattleHandlerString string;
 };
 
 struct BattleHandlerMoveEffectParam {
@@ -285,7 +299,7 @@ struct BattleHandlerReviveParam {
     u8 monIndex;
     u8 unk05;
     u16 amount;
-    u8 string[0x28];
+    BattleHandlerString string;
 };
 
 struct BattleHandlerSetCounterParam {
@@ -315,7 +329,7 @@ struct BattleHandlerSetWeightParam {
     u8 monIndex;
     u8 unk05;
     u16 weight;
-    u8 string[0x28];
+    BattleHandlerString string;
 };
 
 struct BattleHandlerStatChangeParam {
@@ -357,8 +371,8 @@ struct BattleHandlerSwapPokeParam {
 
 struct BattleHandlerSwitchParam {
     u32 unk00;
-    u8 firstString[0x28];
-    u8 secondString[0x28];
+    BattleHandlerString firstString;
+    BattleHandlerString secondString;
     u8 monIndex;
     u8 flag;
 };

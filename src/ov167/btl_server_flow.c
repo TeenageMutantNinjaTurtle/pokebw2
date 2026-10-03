@@ -292,7 +292,7 @@ BOOL BattleHandler_DecrementPP(BtlServerFlow *handler, BattleHandlerDecrementPPP
     mon = GetPokeParam(handler->pokeCon, param->monIndex);
     if (!IsFainted(mon) || param->allowFainted) {
         if (ServerControl_DecrementPP(handler, mon, param->moveIndex, param->amount)) {
-            BattleHandler_SetString(handler, (BattleHandlerString *)param->string);
+            BattleHandler_SetString(handler, &param->string);
             if (ServerEvent_DecrementPP(handler, mon, param->moveIndex)) {
                 ServerControl_UseHeldItem(handler, mon);
             }
@@ -470,7 +470,7 @@ BOOL BattleHandler_Message(BtlServerFlow *handler, BattleHandlerMessageParam *pa
     if (param->popup && mon != NULL) {
         ServerDisplay_AbilityPopupAdd(handler, mon);
     }
-    BattleHandler_SetString(handler, (BattleHandlerString *)param->string);
+    BattleHandler_SetString(handler, &param->string);
     if (param->popup && mon != NULL) {
         ServerDisplay_AbilityPopupRemove(handler, mon);
     }
@@ -523,7 +523,7 @@ BOOL BattleHandler_ResetContinueFlag(BtlServerFlow *handler, BattleHandlerFlagPa
 
 BOOL BattleHandler_AddFieldEffect(BtlServerFlow *handler, BattleHandlerAddFieldEffectParam *param) {
     if (ServerControl_FieldEffectCore(handler, param->effect, param->value, param->duration)) {
-        BattleHandler_SetString(handler, (BattleHandlerString *)param->string);
+        BattleHandler_SetString(handler, &param->string);
         return TRUE;
     }
     return FALSE;
@@ -790,7 +790,7 @@ BOOL BattleHandler_ConsumeItem(BtlServerFlow *handler, BattleHandlerConsumeItemP
     mon = GetPokeParam(handler->pokeCon, param->monIndex);
     if (param->skipDisplay == 0) {
         ServerDisplay_UseHeldItem(handler, mon);
-        BattleHandler_SetString(handler, (BattleHandlerString *)param->string);
+        BattleHandler_SetString(handler, &param->string);
     }
     ServerControl_ChangeHeldItem(handler, mon, 0, 1);
     return TRUE;
@@ -824,11 +824,11 @@ BOOL BattleHandler_Switch(BtlServerFlow *handler, BattleHandlerSwitchParam *para
 
     mon = GetPokeParam(handler->pokeCon, param->monIndex);
     if (!ServerControl_CheckMatchup(handler) && !func_ov167_021abeb4(handler, param->monIndex) && handler->unk14 == 0) {
-        BattleHandler_SetString(handler, (BattleHandlerString *)param->firstString);
+        BattleHandler_SetString(handler, &param->firstString);
         if (ServerControl_SwitchOut(handler, mon, param->flag)) {
             pos = MonIDToBattlePos(handler->mainModule, handler->pokeCon, param->monIndex);
             RequestChangePokemon(handler->server, pos);
-            BattleHandler_SetString(handler, (BattleHandlerString *)param->secondString);
+            BattleHandler_SetString(handler, &param->secondString);
             handler->unk14 = 1;
             return TRUE;
         }
@@ -878,7 +878,7 @@ BOOL BattleHandler_Revive(BtlServerFlow *handler, BattleHandlerReviveParam *para
     HPAdd(mon, param->amount);
     func_ov167_021b1434(handler->display, 2, param->monIndex, param->amount);
     handler->unk7a9[param->monIndex] = 0;
-    BattleHandler_SetString(handler, (BattleHandlerString *)param->string);
+    BattleHandler_SetString(handler, &param->string);
     pos = MonIDToBattlePos(handler->mainModule, handler->pokeCon, param->monIndex);
     if (pos != BTL_POS_MAX) {
         target = func_ov167_0219c648(param->monIndex);
@@ -896,14 +896,14 @@ BOOL BattleHandler_SetWeight(BtlServerFlow *handler, BattleHandlerSetWeightParam
     mon = GetPokeParam(handler->pokeCon, param->monIndex);
     SetWeight(mon, param->weight);
     func_ov167_021b1434(handler->display, 0x14, param->monIndex, param->weight);
-    BattleHandler_SetString(handler, (BattleHandlerString *)param->string);
+    BattleHandler_SetString(handler, &param->string);
     return TRUE;
 }
 
 // Function names from swan.
 BOOL BattleHandler_InterruptAction(BtlServerFlow *handler, BattleHandlerInterruptParam *param) {
     if (ActionOrder_InterruptReserve((ActionOrder *)handler, param->monId)) {
-        BattleHandler_SetString(handler, (BattleHandlerString *)param->string);
+        BattleHandler_SetString(handler, &param->string);
         return TRUE;
     }
     return FALSE;
@@ -915,7 +915,7 @@ u8 BattleHandler_InterruptMove(BtlServerFlow *handler, BattleHandlerInterruptPar
 
 BOOL BattleHandler_SendLast(BtlServerFlow *handler, BattleHandlerInterruptParam *param) {
     if (ActionOrder_SendToLast((ActionOrder *)handler, param->monId)) {
-        BattleHandler_SetString(handler, (BattleHandlerString *)param->string);
+        BattleHandler_SetString(handler, &param->string);
         return TRUE;
     }
     return FALSE;
@@ -1044,7 +1044,7 @@ BOOL BattleHandler_HideTurnCancel(BtlServerFlow *handler, BattleHandlerHideTurnP
 
     mon = GetPokeParam(handler->pokeCon, param->monIndex);
     if (!IsFainted(mon) && ServerControl_HideTurnCancel(handler, mon, param->flag)) {
-        BattleHandler_SetString(handler, (BattleHandlerString *)param->string);
+        BattleHandler_SetString(handler, &param->string);
         return TRUE;
     }
     return FALSE;
@@ -1067,13 +1067,13 @@ BOOL BattleHandler_ChangeForm(BtlServerFlow *handler, BattleHandlerChangeFormPar
     if (!IsFainted(mon) && !TransformCheck(mon)) {
         currentForm = GetBattleMonStat(mon, 0x13);
         if (currentForm != param->form) {
-            if (param->showAbility) {
+            if (param->popup) {
                 ServerDisplay_AbilityPopupAdd(handler, mon);
             }
             ChangeForm(mon, param->form);
             func_ov167_021b1434(handler->display, 0x4f, param->monIndex, param->form);
-            BattleHandler_SetString(handler, (BattleHandlerString *)param->string);
-            if (param->showAbility) {
+            BattleHandler_SetString(handler, &param->string);
+            if (param->popup) {
                 ServerDisplay_AbilityPopupRemove(handler, mon);
             }
             return TRUE;
