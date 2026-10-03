@@ -70,6 +70,9 @@ struct FieldScriptEnv {
 };
 
 extern const char data_ov012_0216e1e4[];
+extern const u8 data_ov012_0216ca06[20];
+extern const u16 data_ov012_0216ca1a[12];
+extern const u16 data_ov012_0216ca1c[12];
 
 ScriptSubwork *InitScriptSubwork(ScriptWork *work, HeapID heapId);
 void func_ov012_021550e4(void *subwork);
@@ -189,6 +192,8 @@ BOOL s010A_PokePartyGetMove(VM *vm, FieldScriptEnv *env);
 BOOL s0117_PokePartySetForme(VM *vm, FieldScriptEnv *env);
 BOOL s011C_PokePartyChangeRotomForme(VM *vm, FieldScriptEnv *env);
 BOOL s011A_PokePartyGetMetDate(VM *vm, FieldScriptEnv *env);
+BOOL s0110_PokePartyGetParam(VM *vm, FieldScriptEnv *env);
+BOOL s0111_PokePartySetIV(VM *vm, FieldScriptEnv *env);
 BOOL s0011_VMStackCmp(VM *vm, FieldScriptEnv *env);
 BOOL s0021_RTReserveScript(VM *vm, FieldScriptEnv *env);
 BOOL s0022_FieldGetContinueFlag(VM *vm, FieldScriptEnv *env);

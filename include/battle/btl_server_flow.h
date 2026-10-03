@@ -24,5 +24,8 @@ BOOL ServerControl_FlinchCore(BattleHandler *handler, BattleMon *mon, u8 flag);
 BOOL ServerControl_SwitchInFillSlot(BattleHandler *handler, u8 target, u8 slot, u8 slotAgain, BOOL flag);
 void ServerControl_AfterSwitchIn(BattleHandler *handler);
 void ServerControl_SetMonCounter(BattleHandler *handler, BattleMon *mon, u8 counter, u8 value);
+void ServerControl_CheckItemReaction(BattleHandler *handler, BattleMon *mon, u32 reaction);
+void ServerControl_ChangeHeldItem(BattleHandler *handler, BattleMon *mon, u8 item, u8 flag);
+BOOL ServerControl_UseHeldItem(BattleHandler *handler, BattleMon *mon);
 
 #endif // POKEBW2_BATTLE_BTL_SERVER_FLOW_H

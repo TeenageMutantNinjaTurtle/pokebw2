@@ -335,3 +335,11 @@ src/ov012/field_script_cmd_party_forme.c:
 src/ov012/field_script_cmd_party_met_date.c:
     complete
     .text       start:0x02156f48 end:0x02156fb4
+
+src/ov012/field_script_cmd_party_set_iv.c:
+    complete
+    .text       start:0x02156fb4 end:0x0215701c
+
+src/ov012/field_script_cmd_party_get_param.c:
+    complete
+    .text       start:0x0215701c end:0x02157064

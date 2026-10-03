@@ -223,3 +223,15 @@ src/ov167/battle_handler_revive.c:
 src/ov167/battle_handler_set_counter.c:
     complete
     .text       start:0x021ada8c end:0x021adaac
+
+src/ov167/battle_handler_check_held_item.c:
+    complete
+    .text       start:0x021ad90c end:0x021ad928
+
+src/ov167/battle_handler_use_held_item.c:
+    complete
+    .text       start:0x021ad928 end:0x021ad97c
+
+src/ov167/battle_handler_consume_item.c:
+    complete
+    .text       start:0x021ada0c end:0x021ada4c

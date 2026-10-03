@@ -50,6 +50,9 @@ u8 BattleHandler_Flinch(BattleHandler *handler, BattleHandlerFlinchParam *param)
 BOOL BattleHandler_SetWeight(BattleHandler *handler, BattleHandlerSetWeightParam *param);
 BOOL BattleHandler_Revive(BattleHandler *handler, BattleHandlerReviveParam *param);
 BOOL BattleHandler_SetCounter(BattleHandler *handler, BattleHandlerSetCounterParam *param);
+BOOL BattleHandler_CheckHeldItem(BattleHandler *handler, BattleHandlerCheckHeldItemParam *param);
+BOOL BattleHandler_UseHeldItem(BattleHandler *handler, BattleHandlerUseHeldItemParam *param);
+BOOL BattleHandler_ConsumeItem(BattleHandler *handler, BattleHandlerConsumeItemParam *param);
 
 BOOL BattleHandler_SetMoveEffectIndex(BattleHandler *handler, BattleHandlerMoveEffectParam *param);
 BOOL BattleHandler_SetMoveEffectEnable(BattleHandler *handler);

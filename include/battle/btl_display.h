@@ -10,5 +10,6 @@ void ServerDisplay_AbilityPopupRemove(BattleHandler *handler, BattleMon *mon);
 void scPut_SetContFlag(BattleHandler *handler, BattleMon *mon, u32 flag);
 void scPut_ResetContFlag(BattleHandler *handler, BattleMon *mon, u32 flag);
 void ServerDisplay_SetTurnFlag(BattleHandler *handler, BattleMon *mon, u32 flag);
+void ServerDisplay_UseHeldItem(BattleHandler *handler, BattleMon *mon);
 
 #endif // POKEBW2_BATTLE_BTL_DISPLAY_H
