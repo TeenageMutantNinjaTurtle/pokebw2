@@ -16,7 +16,6 @@
 #include "field/field_player.h"
 #include "field/field_render.h"
 #include "field/field_skill_map_eff.h"
-#include "field/field_state.h"
 #include "field/field_visuals.h"
 #include "field/fieldmap_ctrl_hybrid.h"
 #include "field/zone.h"

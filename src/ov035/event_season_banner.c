@@ -2,6 +2,7 @@
 #include "constants/arc.h"
 #include "field/event_season_banner.h"
 #include "field/field.h"
+#include "field/field_lens_flare.h"
 #include "gfl/arc.h"
 #include "gfl/graphics.h"
 #include "gfl/heap.h"

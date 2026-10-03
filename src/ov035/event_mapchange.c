@@ -11,6 +11,7 @@
 #include "field/field.h"
 #include "field/field_actor.h"
 #include "field/field_event.h"
+#include "field/field_lens_flare.h"
 #include "field/field_map.h"
 #include "field/field_script.h"
 #include "field/field_status.h"

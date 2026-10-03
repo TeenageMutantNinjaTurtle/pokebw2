@@ -13,9 +13,6 @@ void BeginForcePlaceNameDisp(PlaceName *placeName, s32 zoneId);
 void EncEff_StartEvent(EncEff *encEff, GameEvent *event, u32 effect);
 void FieldG2D_Prepare3DSurface(Field *field);
 void FieldG2D_SetLCDConfig(void);
-void FieldLensFlare_Cancel(FieldLensFlare *lensFlare);
-void FieldLensFlare_DecideForZoneTransit(FieldLensFlare *lensFlare, u16 zoneId, u16 prevZoneId, u32 fog);
-void FieldLensFlare_RequestStart(FieldLensFlare *lensFlare);
 FieldActor *FieldPlayer_GetActor(FieldPlayer *player);
 // GENDER_MALE or GENDER_FEMALE
 u32 FieldPlayer_GetSex(FieldPlayer *player);
@@ -26,6 +23,18 @@ u16 FieldPlayer_GetObjCodeByForme(u32 sex, u32 forme);
 u16 FieldPlayer_GetObjCodeByExState(u32 sex, u32 exState);
 void *Field_GetMsgBGSys(Field *field);
 BOOL Field_IsEventRunning(Field *field);
+u32 Field_GetRenderMode(Field *field);
+void Field_SetRenderMode(Field *field, u32 mode);
+void *Field_GetSceneArea(Field *field);
+void Field_SetFadeFlag(Field *field, BOOL flag);
+u16 Field_GetDayPeriod(Field *field);
+BOOL Field_GetSeasonBannerOverdrawFlag(Field *field);
+void Field_SetEffectRunningFlag(Field *field, BOOL flag);
+void *Field_GetNDemoDataHandle(Field *field);
+void Field_SetCasteliaRush(Field *field, BOOL flag);
+BOOL Field_GetCasteliaRush(Field *field);
+void *Field_GetColorPostFX(Field *field);
+fx32 func_ov036_02181324(Field *field);
 void FieldPlayer_GetGPos(FieldPlayer *player, s16 *x, s16 *y, s16 *z);
 // A number below 6 that overlay 137 reads from the game data
 u32 func_ov012_02169b78(GameData *gameData);
