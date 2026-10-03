@@ -29,6 +29,7 @@ src/ov033/event_cgear_shutdown.c:
     .text       start:0x02177574 end:0x021775e8
 
 src/ov033/event_phrase_input.c:
+    complete
     .text       start:0x021775e8 end:0x02177998
     .rodata     start:0x0217c400 end:0x0217c404
 

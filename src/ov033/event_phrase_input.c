@@ -95,18 +95,20 @@
 #include "system/version.h"
 #include "system/vm.h"
 
-GameEvent *EventPhraseInput_Create(GameSystem *gsys, Field *field, GameEvent *parent, u32 mode, u32 arg4) {
+// The longest name of modes 5 to 7
+static const u8 sMaxLengths[3] = { 8, 8, 8 };
+
+GameEvent *EventPhraseInput_Create(GameSystem *gsys, Field *field, GameEvent *parent, u32 mode, u16 *result) {
     GameEvent *event;
     struct EventPhraseInputData *data;
     SaveControl *save;
-    const u16 *name;
 
     event = GameEvent_Create(gsys, parent, EventPhraseInput_Callback, sizeof(struct EventPhraseInputData));
     data = GameEvent_GetData(event);
     data->gsys = gsys;
     data->gameData = GSYS_GetGameData(gsys);
     data->field = field;
-    data->unk1C = arg4;
+    data->result = result;
     data->mode = mode;
     data->heapId = 4;
     save = GameData_GetSaveControl(data->gameData);
@@ -115,17 +117,17 @@ GameEvent *EventPhraseInput_Create(GameSystem *gsys, Field *field, GameEvent *pa
     data->saveBlock = func_020114f0(save);
     data->playerInfo = GetGameDataPlayerInfo(data->gameData);
     data->unk18 = func_020174d4(data->gameData);
-    data->nameMode = mode;
-    data->nameGender = getTrainerGender(data->playerInfo);
-    data->trainerInfoForName = data->trainerInfo;
-    data->saveBlockForName = data->saveBlock;
+    data->nameEntry.mode = mode;
+    data->nameEntry.gender = getTrainerGender(data->playerInfo);
+    data->nameEntry.gameInfo = data->trainerInfo;
+    data->nameEntry.unk30 = data->saveBlock;
     if (mode == 14 || mode == 15) {
-        data->maxLength = 8;
+        data->nameEntry.maxLength = 8;
     } else {
-        data->maxLength = data_ov033_0217c400[mode - 5];
+        data->nameEntry.maxLength = sMaxLengths[mode - 5];
     }
-    data->input = GFL_StrBufCreate(data->maxLength + 1, data->heapId);
-    data->unk4C = 0;
+    data->nameEntry.name = GFL_StrBufCreate(data->nameEntry.maxLength + 1, data->heapId);
+    data->nameEntry.unk2C = 0;
     switch (mode) {
     case 0:
     case 1:
@@ -140,21 +142,17 @@ GameEvent *EventPhraseInput_Create(GameSystem *gsys, Field *field, GameEvent *pa
     case 12:
     case 13:
     case 14:
-        goto done;
+        break;
     case 5:
-        name = func_0200c93c(data->trainerInfo);
+        GFL_StrBufLoadString(data->nameEntry.name, func_0200c93c(data->trainerInfo));
         break;
     case 6:
-        name = func_0200c954(data->trainerInfo);
+        GFL_StrBufLoadString(data->nameEntry.name, func_0200c954(data->trainerInfo));
         break;
     case 15:
-        name = func_0201150c(data->saveBlock);
+        GFL_StrBufLoadString(data->nameEntry.name, func_0201150c(data->saveBlock));
         break;
-    default:
-        goto done;
     }
-    GFL_StrBufLoadString(data->input, name);
-done:
     return event;
 }
 
@@ -164,22 +162,22 @@ GameEventReturnCode EventPhraseInput_Callback(GameEvent *event, u32 *state, void
     switch (*state) {
     case 0:
         GameEvent_ChainNext(event, EventFieldSubprocessTransition_Create(data->gsys, data->field, OVERLAY_ID(280),
-                                                                         &NAME_ENTRY_PROC_FUNCTIONS, &data->nameMode));
+                                                                         &NAME_ENTRY_PROC_FUNCTIONS, &data->nameEntry));
         (*state)++;
         break;
     case 1:
-        func_ov033_02177734(data, (NameEntryParam *)&data->nameMode);
-        GFL_StrBufFree(data->input);
+        func_ov033_02177734(data, &data->nameEntry);
+        GFL_StrBufFree(data->nameEntry.name);
         return GAMEEVENT_DONE;
     }
     return GAMEEVENT_CONTINUE;
 }
 
 void func_ov033_02177734(struct EventPhraseInputData *data, NameEntryParam *param) {
-    if (data->unk1C != 0) {
-        *(u16 *)data->unk1C = *(u32 *)((u8 *)param + 0x1c) == 0;
+    if (data->result != NULL) {
+        *data->result = param->unk1C == 0;
     }
-    if (*(u32 *)((u8 *)param + 0x1c) == 1) {
+    if (param->unk1C == 1) {
         return;
     }
     switch (data->mode) {
@@ -206,12 +204,12 @@ void func_ov033_02177734(struct EventPhraseInputData *data, NameEntryParam *para
         func_020114fc(data->saveBlock, param->name);
         break;
     case 7:
-        GFL_StrBufCopy(func_0202d7c4(data->unk18), data->input);
-        func_ov012_021603ec(param->name, *(u32 *)((u8 *)param + 0x34));
+        GFL_StrBufCopy(func_0202d7c4(data->unk18), data->nameEntry.name);
+        func_ov012_021603ec(param->name, param->unk34);
         break;
     case 14:
-        GFL_StrBufCopy(func_0202d7c4(data->unk18), data->input);
-        func_ov012_021603ec(param->name, *(u32 *)((u8 *)param + 0x34));
+        GFL_StrBufCopy(func_0202d7c4(data->unk18), data->nameEntry.name);
+        func_ov012_021603ec(param->name, param->unk34);
         break;
     }
 }

@@ -16,11 +16,19 @@
 typedef struct {
     u32 mode;
     u16 gender;
-    u8 unk6[0x1a];
+    u16 unk6;
+    u8 unk8[0x10];
+    u32 maxLength;
+    // 1 when the name is to be left as it was
+    u32 unk1C;
     // The name, which starts as a default
     StrBuf *name;
     // The save data that the new game creates in the background
     SaveControlIntr *saveTask;
+    TrainerGameInfoSave *gameInfo;
+    u32 unk2C;
+    void *unk30;
+    u32 unk34;
 } NameEntryParam;
 
 // In ov012
