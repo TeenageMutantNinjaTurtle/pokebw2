@@ -146,5 +146,26 @@ void HandlerLimberStatus(void *context, void *flow, u32 monId, u32 *result);
 void HandlerLimberCureStatus(void *context, void *flow, u32 monId);
 void HandlerLimberActionEnd(void *context, void *flow, u32 monId);
 const BattleEventHandlerEntry *EventAddLimber(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d7dc0[];
+void HandlerInsomniaStatus(void *context, void *flow, u32 monId, u32 *result);
+void HandlerInsomniaWake(void *context, void *flow, u32 monId);
+void HandlerInsomniaActionEnd(void *context, void *flow, u32 monId);
+void HandlerInsomniaYawnCheck(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddInsomnia(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d7cd0[];
+void HandlerMagmaArmorStatus(void *context, void *flow, u32 monId, u32 *result);
+void HandlerMagmaArmorCureStatus(void *context, void *flow, u32 monId);
+void HandlerMagmaArmorActionEnd(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddMagmaArmor(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d7cf8[];
+extern const BattleEventHandlerEntry data_ov167_021d7d20[];
+void HandlerImmunity(void *context, void *flow, u32 monId, u32 *result);
+void HandlerImmunityCureStatus(void *context, void *flow, u32 monId);
+void HandlerImmunityActionEnd(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddImmunity(u32 *priority);
+void HandlerWaterVeil(void *context, void *flow, u32 monId, u32 *result);
+void HandlerWaterVeilCureStatus(void *context, void *flow, u32 monId);
+void HandlerWaterVeilActionEnd(void *context, void *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddWaterVeil(u32 *priority);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

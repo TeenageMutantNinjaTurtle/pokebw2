@@ -56,6 +56,19 @@ struct FieldExpObjGimmickOv104StateInit {
     G3DActor *actor;
 };
 
+struct FieldExpObjGimmickOv104State {
+    u16 heapId;
+    u8 count;
+    u8 capacity;
+    u8 unk04;
+    u8 unk05[3];
+    void **messages;
+    u32 *flags;
+    G3DActor *actor;
+    Font *font;
+    u32 current;
+};
+
 struct FieldExpObjGimmickOv104ResEntry {
     u32 unk00;
     u32 flagId;
@@ -72,7 +85,7 @@ struct FieldExpObjGimmickOv104Work {
     GameData *gameData;
     GameSystem *gameSystem;
     u32 value;
-    void *state;
+    FieldExpObjGimmickOv104State *state;
     u32 stateValue;
     struct FieldExpObjGimmickOv104Substate *substate;
     struct FieldExpObjGimmickOv104ResEntry *resList;
@@ -124,13 +137,17 @@ void func_ov104_021f0324(struct FieldExpObjGimmickOv104ResEntry *entry, u32 arc,
 BOOL func_ov104_021f0334(struct FieldExpObjGimmickOv104ResEntry *entry, u16 zone);
 BOOL func_ov104_021f037c(struct FieldExpObjGimmickOv104ResEntry *entry);
 void func_ov104_021ef168(FieldExpObjGimmickOv104Work *work);
-void func_ov104_021efc8c(void *state);
+void func_ov104_021efc8c(FieldExpObjGimmickOv104State *state);
 void func_ov104_021eeea0(FieldExpObjGimmickOv104Work *work);
-void func_ov104_021efcc4(void *state, u32 value);
-s32 func_ov104_021efcf0(void *state);
+void func_ov104_021efcc4(FieldExpObjGimmickOv104State *state, u32 value);
+s32 func_ov104_021efcf0(FieldExpObjGimmickOv104State *state);
+u16 func_ov104_021efcf4(FieldExpObjGimmickOv104State *state);
 void func_ov104_021efcfc(void *state, s32 value);
-void func_ov104_021efc6c(void *state);
-BOOL func_ov104_021efcf8(void *state);
+void func_ov104_021efc6c(FieldExpObjGimmickOv104State *state, FieldExpObjGimmickOv104MessageArg *arg);
+u8 func_ov104_021efcf8(FieldExpObjGimmickOv104State *state);
+void *func_ov104_021efe88(FieldExpObjGimmickOv104State *state, FieldExpObjGimmickOv104MessageArg *arg, u32 index);
+void func_ov104_021f0080(void *message);
+void func_ov104_021f00bc(FieldExpObjGimmickOv104State *state, void *message, u32 amount);
 void *func_ov104_021efbd8(const FieldExpObjGimmickOv104StateInit *init);
 
 void func_ov104_021eed00(Field *field);

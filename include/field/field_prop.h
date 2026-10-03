@@ -83,6 +83,8 @@ struct FieldPropRTCState {
 };
 
 extern const u8 FIELD_PROP_ANM_IDX_FOR_DAY_PART[];
+extern const u16 DOOR_SOUND_ID_LUT[][5];
+extern const u8 data_ov036_021ca8e6[];
 
 u32 FieldPropResAnmHeader_GetAnmCount(const FieldPropResAnmHeader *header);
 FieldPropResAnmHeader *FieldPropResInfo_GetAnmHeader(FieldPropResInfo *resInfo);

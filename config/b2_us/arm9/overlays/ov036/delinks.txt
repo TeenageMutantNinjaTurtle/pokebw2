@@ -285,3 +285,7 @@ src/ov036/field_prop_anim_sound_id.c:
 src/ov036/field_prop_search_area.c:
     complete
     .text       start:0x02184220 end:0x02184244
+
+src/ov036/field_prop_anim_sound_core.c:
+    complete
+    .text       start:0x021841a0 end:0x021841ec

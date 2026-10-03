@@ -2,8 +2,8 @@
 #include "save/event_work.h"
 #include "system/game_data.h"
 
-void func_ov104_021ef28c(FieldExpObjGimmickOv104Work *work, u32 unused, u32 kind, void *arg) {
-    func_ov104_021efc6c(work->state);
+void func_ov104_021ef28c(FieldExpObjGimmickOv104Work *work, u32 message, u32 kind, void *arg) {
+    func_ov104_021efc6c(work->state, (FieldExpObjGimmickOv104MessageArg *)message);
     if (kind == 8) {
         func_ov104_021ef02c(work, kind, *(u32 *)((u8 *)arg + 4));
     } else {

@@ -599,3 +599,15 @@ src/ov167/battle_ability_leaf_guard.c:
 src/ov167/battle_ability_limber.c:
     complete
     .text       start:0x021bec40 end:0x021bec80
+
+src/ov167/battle_ability_insomnia.c:
+    complete
+    .text       start:0x021bec80 end:0x021becec
+
+src/ov167/battle_ability_magma_armor.c:
+    complete
+    .text       start:0x021becec end:0x021bed2c
+
+src/ov167/battle_ability_status_immunity.c:
+    complete
+    .text       start:0x021bed2c end:0x021bedac

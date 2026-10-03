@@ -633,6 +633,14 @@ src/ov012/event_data_npc_set_ids.c:
     complete
     .text       start:0x0215d1c8 end:0x0215d1f0
 
+src/ov012/conv_dir_to_trigger_dir.c:
+    complete
+    .text       start:0x0215d1f0 end:0x0215d21c
+
+src/ov012/trigger_scrid_lookup.c:
+    complete
+    .text       start:0x0215d388 end:0x0215d3d0
+
 src/ov012/event_game_clear_card.c:
     complete
     .text       start:0x0215a670 end:0x0215a684

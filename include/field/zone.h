@@ -73,6 +73,7 @@ extern const RespawnZoneInfo RESPAWN_ZONE_INFO[];
 #endif
 
 u16 ConvDirToWarpDir(u16 dir);
+u32 ConvDirToTriggerDir(u32 dir);
 BOOL CheckWarpPositionMatch(const ZoneWarp *warp, const VecFx32 *position);
 BOOL CheckWarpPositionMatchRail(const ZoneWarp *warp, const RailPosition *position);
 BOOL CheckWarpDirectionMatch(const ZoneWarp *warp, u16 direction);
@@ -99,6 +100,11 @@ BOOL GetZoneFlagsEnableEntralinkWarp(u16 zoneId);
 BOOL GetZoneFlagsEnableFlyFrom(u16 zoneId);
 BOOL GetZoneIsEntralinkAny(u16 zoneId);
 void *FindCollidingZoneTriggerAtLocation(EventData *eventData, EventWork *eventWork, const VecFx32 *position);
+u16 *FindTriggerAtPosGrid(EventData *eventData, EventWork *eventWork, const VecFx32 *position, u32 direction);
+u16 *FindTriggerAtPosRail(EventData *eventData, EventWork *eventWork, const RailPosition *position);
+u32 GetTriggerSCRIDAtPosGrid(EventData *eventData, EventWork *eventWork, const VecFx32 *position, u32 direction);
+u32 GetSCRIDOfCollidingTriggerAtLocation(EventData *eventData, EventWork *eventWork, const VecFx32 *position);
+u32 GetTriggerSCRIDAtPosRail(EventData *eventData, EventWork *eventWork, const RailPosition *position);
 u32 GetZoneFlashFlags(u16 zoneId);
 BOOL GetZoneIsMusicalTheater(u16 zoneId);
 BOOL GetZoneIsPWTBattleStage(u16 zoneId);
