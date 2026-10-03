@@ -688,3 +688,11 @@ src/ov012/field_script_cmd_party_add_egg.c:
 src/ov012/game_data_make_box_pkm.c:
     complete
     .text       start:0x021572f0 end:0x021573c0
+
+src/ov012/get_bg_position_grid.c:
+    complete
+    .text       start:0x0215d8cc end:0x0215d8e8
+
+src/ov012/get_bg_position_rail.c:
+    complete
+    .text       start:0x0215d93c end:0x0215d988

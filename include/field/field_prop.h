@@ -72,6 +72,12 @@ struct FieldPropSystem {
     FieldChunkPropHolder chunkPropHolders[0x120];
 };
 
+struct FieldPropResInstance {
+    void *actor;
+    FieldPropResInfo **resInfoRef;
+    u32 animationState[4];
+};
+
 struct FieldPropHandle {
     FieldPropSystem *system;
     u32 animation;
@@ -115,6 +121,7 @@ u16 FieldPropSystem_GetHandleID(FieldPropSystem *system, FieldPropHandle *handle
 void FieldPropSystem_UpdateResInstance(FieldPropSystem *system, void *instance);
 void FieldPropSystem_Update(FieldPropSystem *system);
 void FieldPropSystem_DrawAllHandles(FieldPropSystem *system);
+void FieldPropSystem_UnlinkChunk(FieldPropSystem *system, void *chunk);
 void FieldPropSystem_FreeResInstances(FieldPropSystem *system, void *resourceState);
 void FieldPropSystem_FreeResources(FieldPropSystem *system);
 void FieldPropSystem_Free(FieldPropSystem *system);
@@ -126,6 +133,11 @@ u8 FieldChunkPropHolder_GetPropType(FieldPropSystem *system, FieldChunkPropHolde
 void FieldChunkPropHolder_SetVisible(FieldChunkPropHolder *holder, BOOL visible);
 void FieldChunkPropHolder_ChangeResID(FieldPropSystem *system, FieldChunkPropHolder *holder, u32 resId);
 void FieldPropRTCState_Init(FieldPropRTCState *state, u8 season);
+void FieldPropAnmController_Static_Update(void *controller);
+void FieldPropAnmController_Static_ExecCommand(void *controller, u32 command);
+void FieldPropAnmController_Ambient_Update(void *controller, void *instance);
+void FieldPropAnmController_RTC_Update(FieldPropSystem *system, FieldPropResInstance *instance);
+void FieldPropResInstance_AnmStopAll(FieldPropResInstance *instance);
 void FieldPropRTCState_Update(FieldPropRTCState *state);
 BOOL FieldPropRTCState_HasDayPartChanged(FieldPropRTCState *state);
 u8 FieldPropRTCState_GetPlayAnmIndex(FieldPropRTCState *state);

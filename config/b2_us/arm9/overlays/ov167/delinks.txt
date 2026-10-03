@@ -671,3 +671,35 @@ src/ov167/battle_ability_super_luck.c:
 src/ov167/battle_ability_anger_point.c:
     complete
     .text       start:0x021bf420 end:0x021bf4b4
+
+src/ov167/battle_ability_rock_head.c:
+    complete
+    .text       start:0x021bf924 end:0x021bf948
+
+src/ov167/battle_ability_normalize.c:
+    complete
+    .text       start:0x021bf948 end:0x021bf96c
+
+src/ov167/battle_ability_trace_event.c:
+    complete
+    .text       start:0x021bf96c end:0x021bf978
+
+src/ov167/battle_ability_natural_cure.c:
+    complete
+    .text       start:0x021bfb18 end:0x021bfb54
+
+src/ov167/battle_ability_unaware.c:
+    complete
+    .text       start:0x021c0004 end:0x021c006c
+
+src/ov167/battle_ability_scrappy.c:
+    complete
+    .text       start:0x021c0370 end:0x021c03a0
+
+src/ov167/battle_ability_heatproof.c:
+    complete
+    .text       start:0x021c006c end:0x021c00d0
+
+src/ov167/battle_ability_damage_recover_check.c:
+    complete
+    .text       start:0x021c00d0 end:0x021c0104
