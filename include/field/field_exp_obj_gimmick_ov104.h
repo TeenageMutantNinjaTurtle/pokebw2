@@ -191,6 +191,7 @@ void *func_ov104_021eed58(Field *field);
 extern u32 data_ov104_021f0620;
 extern const u32 data_ov104_021f03a4[];
 extern const u16 data_ov104_021f066c[];
+extern const u32 data_ov104_021f068c[];
 extern const char data_ov104_021f078c[];
 
 #endif // POKEBW2_FIELD_FIELD_EXP_OBJ_GIMMICK_OV104_H

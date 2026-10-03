@@ -119,3 +119,7 @@ src/ov104/field_exp_obj_gimmick_ov104_load_substate.c:
 src/ov104/field_exp_obj_gimmick_ov104_rival_message.c:
     complete
     .text       start:0x021ef868 end:0x021ef924
+
+src/ov104/field_exp_obj_gimmick_ov104_zone_message.c:
+    complete
+    .text       start:0x021ef43c end:0x021ef5ac
