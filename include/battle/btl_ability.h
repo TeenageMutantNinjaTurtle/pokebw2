@@ -316,5 +316,12 @@ BOOL CommonCheckRunMessage(void *context);
 void HandlerRunAwayMessage(void *context, BtlServerFlow *flow, u32 monId);
 extern const BattleEventHandlerEntry data_ov167_021d7934[];
 const BattleEventHandlerEntry *EventAddRunAway(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d780c[];
+void HandlerSoundproof(void *context, BtlServerFlow *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddSoundproof(u32 *priority);
+void HandlerLevitateAddImmunity(void *context, BtlServerFlow *flow, u32 monId, u32 *active);
+extern const BattleEventHandlerEntry data_ov167_021d76e4[];
+void HandlerWonderGuard(void *context, BtlServerFlow *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddWonderGuard(u32 *priority);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

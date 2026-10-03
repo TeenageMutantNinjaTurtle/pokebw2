@@ -138,6 +138,9 @@ BOOL CheckWarpPositionMatchRail(const ZoneWarp *warp, const RailPosition *positi
 BOOL CheckBGPositionMatchRail(const ZoneBGEntity *entity, const RailPosition *position);
 BOOL CheckBGPositionMatchGrid(const ZoneBGEntity *entity, const VecFx32 *position);
 void func_ov012_0215d4d0(const ZoneBGEntity *entity, VecFx32 *position);
+void SetBGEntityLocation(EventData *data, u32 index, s32 x, s32 z, u16 y);
+u16 ZoneWarp_CalcPosWeightBitsGrid_(ZoneWarp *warp, const VecFx32 *position);
+u16 func_ov012_0215d654(ZoneWarp *warp, const RailPosition *position);
 void func_ov012_0215d88c(const ZoneBGEntity *entity, VecFx32 *position);
 void func_ov012_0215d8fc(const ZoneBGEntity *entity, RailPosition *position);
 void GetTriggerCenterPos_(const ZoneTrigger *trigger, VecFx32 *position);

@@ -129,6 +129,7 @@ G3DModel *GFL_G3DMdlCreate(void *resource, u32 modelId, void *texture);
 void GFL_G3DMdlFree(G3DModel *model);
 void *GFL_G3DAnmCreate(G3DModel *model, void *resource, u32 a2);
 void GFL_G3DAnmFree(void *animation);
+void *GFL_G3DAnmGetRenderObj(void *animation);
 G3DActor *GFL_G3DActorCreate(G3DModel *model, void **animations, u32 count);
 void GFL_G3DActorFree(G3DActor *actor);
 

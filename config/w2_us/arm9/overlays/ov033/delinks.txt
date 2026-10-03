@@ -362,3 +362,23 @@ src/ov033/field_money_window_free.c:
 src/ov033/field_money_window_create.c:
     complete
     .text       start:0x021779d8 end:0x02177a68
+
+src/ov033/field_money_window_event.c:
+    complete
+    .text       start:0x02177b48 end:0x02177c14
+
+src/ov033/field_money_window_collect_items.c:
+    complete
+    .text       start:0x02177c14 end:0x02177c88
+
+src/ov033/field_money_window_add_items.c:
+    complete
+    .text       start:0x02177c88 end:0x02177ccc
+
+src/ov033/field_money_window_count_missing.c:
+    complete
+    .text       start:0x02177ccc end:0x02177d14
+
+src/ov033/field_money_window_find_missing.c:
+    complete
+    .text       start:0x02177d14 end:0x02177d68

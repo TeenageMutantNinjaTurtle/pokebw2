@@ -145,6 +145,8 @@ void FieldPropAnmController_RTC_Update(FieldPropSystem *system, FieldPropResInst
 void FieldPropResInstance_AnmStopAll(FieldPropResInstance *instance);
 void FieldPropResInstance_AnmSetPlay(FieldPropResInstance *instance, u32 animation);
 void FieldPropResInstance_AnmSetPlayLoop(FieldPropResInstance *instance, u32 animation);
+void FieldPropResInstance_AnmSetPlayInv(FieldPropResInstance *instance, u32 animation);
+void FieldPropResInstance_AnmSetPause(FieldPropResInstance *instance, u32 animation);
 void FieldPropRTCState_Update(FieldPropRTCState *state);
 BOOL FieldPropRTCState_HasDayPartChanged(FieldPropRTCState *state);
 u8 FieldPropRTCState_GetPlayAnmIndex(FieldPropRTCState *state);

@@ -763,3 +763,15 @@ src/ov167/battle_ability_flash_fire.c:
 src/ov167/battle_ability_run_away_message.c:
     complete
     .text       start:0x021c090c end:0x021c095c
+
+src/ov167/battle_ability_soundproof.c:
+    complete
+    .text       start:0x021c03a0 end:0x021c041c
+
+src/ov167/battle_ability_levitate_immunity.c:
+    complete
+    .text       start:0x021c0444 end:0x021c0494
+
+src/ov167/battle_ability_wonder_guard.c:
+    complete
+    .text       start:0x021c04b8 end:0x021c0554

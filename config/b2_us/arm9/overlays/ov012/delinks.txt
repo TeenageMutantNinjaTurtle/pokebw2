@@ -720,3 +720,15 @@ src/ov012/check_bg_position_match_grid.c:
 src/ov012/get_bg_position_center.c:
     complete
     .text       start:0x0215d4d0 end:0x0215d4ec
+
+src/ov012/set_bg_entity_location.c:
+    complete
+    .text       start:0x0215d4fc end:0x0215d52c
+
+src/ov012/zone_warp_grid_weight_bits.c:
+    complete
+    .text       start:0x0215d5f0 end:0x0215d654
+
+src/ov012/zone_warp_rail_weight_bits.c:
+    complete
+    .text       start:0x0215d654 end:0x0215d6dc

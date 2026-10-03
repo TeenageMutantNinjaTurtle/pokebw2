@@ -4,8 +4,6 @@
 #include "gfl/msg.h"
 #include "gfl/str.h"
 
-extern const char data_ov033_0217c600[];
-
 FieldMoneyWindow *func_ov033_02177998(Field *field, u32 value, u32 lines) {
     u16 heapId;
     FieldMoneyWindow *work;
