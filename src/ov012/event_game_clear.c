@@ -3,6 +3,7 @@
 #include "battle/trainer_data.h"
 #include "constants/pokemon.h"
 #include "constants/species.h"
+#include "constants/version.h"
 #include "field/app_call.h"
 #include "field/black_tower_gimmick.h"
 #include "field/day_care.h"
@@ -166,19 +167,15 @@ void SetGameClearStatusSequence(GameClearWork *work) {
 }
 
 u32 EventGameClear_Get3DDemoID(void) {
-    u32 version = getGameVersion();
-
-    if (version == 0x16) {
-        goto seven;
+    switch (getGameVersion()) {
+    default:
+    case VERSION_WHITE2:
+        return 7;
+    case VERSION_BLACK2:
+        return 6;
     }
-    if (version == 0x17) {
-        goto six;
-    }
-seven:
-    return 7;
-six:
-    return 6;
 }
+
 
 void EventGameClear_NextState(GameClearWork *work, u32 *state) {
     ++*state;

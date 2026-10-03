@@ -383,17 +383,14 @@ BOOL IsZoneTwoPassLoad(u16 zoneId) {
 }
 
 BOOL func_ov036_0218141c(u16 zoneId) {
-    if (zoneId == 0x1de) {
-        goto match;
+    switch (zoneId) {
+    case 0x1de:
+    case 0x1df:
+        return TRUE;
     }
-    if (zoneId != 0x1df) {
-        goto noMatch;
-    }
-match:
-    return TRUE;
-noMatch:
     return FALSE;
 }
+
 
 u32 GetZoneMapType2(u16 zoneId) {
     return GetZoneMapType(zoneId);

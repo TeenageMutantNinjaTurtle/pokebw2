@@ -225,23 +225,25 @@ BOOL func_ov027_0217070c(VM *vm, FieldScriptEnv *env) {
     SaveControl *save;
     TrainerCardSave *card;
     u16 *out;
-    u32 kind;
+    u8 kind;
     u16 result;
 
     save = GameData_GetSaveControl(FieldScriptEnv_GetGameData(env));
     card = getTrainerCardData_wrapper(save);
     out = ScriptReadVar(vm, env);
-    kind = (u8)func_ov012_021652cc(func_0200ca7c(card));
-    if (kind == 0) goto zero;
-    if (kind != 1) goto done;
-    result = func_ov027_021707b8(save);
-    goto done;
-zero:
-    result = func_ov027_02170758(save);
-done:
+    kind = func_ov012_021652cc(func_0200ca7c(card));
+    switch (kind) {
+    case 1:
+        result = func_ov027_021707b8(save);
+        break;
+    case 0:
+        result = func_ov027_02170758(save);
+        break;
+    }
     *out = result;
     return FALSE;
 }
+
 
 u16 func_ov027_02170758(SaveControl *save) {
     void *survey;

@@ -239,16 +239,13 @@ u32 getNameGenderStatus(PartyPkm *pkm) {
         }
     }
     switch (sex) {
-    case 0:
-        goto male;
-    case 1:
-        goto female;
     case 2:
-        break;
+    default:
+        return 0;
+    case 0:
+        return 1;
+    case 1:
+        return 2;
     }
-    return 0;
-male:
-    return 1;
-female:
-    return 2;
 }
+
