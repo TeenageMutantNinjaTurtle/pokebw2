@@ -1,5 +1,4 @@
 #include "field/event_data.h"
-#include "field/field_actor.h"
 #include "field/zone.h"
 
 BOOL CheckWarpDirectionMatch(const ZoneWarp *warp, u16 direction) {
@@ -36,12 +35,4 @@ void SetZoneWarpLocation(EventData *data, u16 warpId, u16 x, u16 y, u16 z) {
     pos->x = x * 16 + 8;
     pos->y = y * 16;
     pos->z = z * 16 + 8;
-}
-
-ZoneNPC *GetZoneNPCs(EventData *data) {
-    return data->ptr20;
-}
-
-u32 GetZoneNPCsCount(EventData *data) {
-    return data->count14;
 }
