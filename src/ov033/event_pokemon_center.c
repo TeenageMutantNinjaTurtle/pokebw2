@@ -2,6 +2,7 @@
 #include "field/event_sound.h"
 #include "field/field.h"
 #include "field/field_prop.h"
+#include "gfl/calctool.h"
 #include "gfl/heap.h"
 #include "gfl/sound.h"
 #include "system/game_system.h"

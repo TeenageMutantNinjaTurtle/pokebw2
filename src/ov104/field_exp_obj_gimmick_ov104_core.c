@@ -3,6 +3,7 @@
 #include "field/field_exp_obj_gimmick_ov104.h"
 #include "field/field_map.h"
 #include "gfl/arc.h"
+#include "gfl/calctool.h"
 #include "gfl/heap.h"
 #include "gfl/std.h"
 #include "save/event_work.h"

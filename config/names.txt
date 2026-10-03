@@ -86,6 +86,9 @@
 . 0x020505b8 ButtonReleased
 . 0x020505d4 ButtonPressed
 . 0x02050608 ButtonSetState
+. 0x02050678 CalcSphere_Set
+. 0x02050690 CalcCapsule_HitSphere
+. 0x02050760 CalcCapsule_Set
 . 0x0206004c NNS_G2dGetUnpackedAnimBank
 . 0x02060054 NNS_G2dGetUnpackedMCAnimBank
 . 0x02060150 NNS_G2dGetUnpackedCellBank

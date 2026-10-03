@@ -1,6 +1,7 @@
 #include "types.h"
 #include "gfl/areaman.h"
 #include "gfl/bg_sys.h"
+#include "gfl/calctool.h"
 #include "gfl/graphics.h"
 #include "gfl/gx_layers.h"
 #include "gfl/heap.h"

@@ -57,18 +57,16 @@ static inline fx16 FX_CosIdx(int idx) {
 }
 
 void MAT3_Identity(MtxFx33 *mtx);
-// A 2D affine matrix that rotates by a 16-bit angle and scales by the inverse of a scale on each axis, as a BG's
-// matrix maps the screen to the BG. MAT2_ROT_* says how the angle is given
-#define MAT2_ROT_IDX 0 // a 16-bit angle, 0x10000 for a full turn
-#define MAT2_ROT_256 1 // 256 for a full turn
-#define MAT2_ROT_DEG 2 // degrees
-void MAT2_SetScaleRot(MtxFx22 *mtx, u16 rotation, fx32 scaleX, fx32 scaleY, u8 rotationMode);
-// A rotation matrix from 16-bit angles about each axis
-void MAT3_RotationEulerZYX(u16 x, u16 y, u16 z, MtxFx33 *mtx);
 
-// A rotation about the Y axis from its sine and cosine
+// Rotations about an axis from its sine and cosine: NitroSDK's MTX_Rot22_, MTX_RotX33_ and the rest
+void MAT2_Rotation(MtxFx22 *mtx, fx32 sin, fx32 cos);
 void MAT43_RotationY(MtxFx43 *mtx, fx32 sin, fx32 cos);
 void MAT3_RotationX(MtxFx33 *mtx, fx32 sin, fx32 cos);
+void MAT3_RotationY(MtxFx33 *mtx, fx32 sin, fx32 cos);
+void MAT3_RotationZ(MtxFx33 *mtx, fx32 sin, fx32 cos);
+// NitroSDK's MTX_ScaleApply22 and MTX_Concat33
+void MAT2_Scale(const MtxFx22 *src, MtxFx22 *dest, fx32 x, fx32 y);
+void MAT3_Mul(const MtxFx33 *a, const MtxFx33 *b, MtxFx33 *ab);
 void MAT43_MulVec(const VecFx32 *vec, const MtxFx43 *mtx, VecFx32 *dest);
 
 void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
@@ -76,12 +74,17 @@ void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
 void vecfx_normalize(const VecFx32 *src, VecFx32 *dest);
 void vecfx_muladd(fx32 scale, const VecFx32 *a, const VecFx32 *b, VecFx32 *dest);
 fx32 VEC_Mag(const VecFx32 *v);
+fx32 vecfx_dot(const VecFx32 *a, const VecFx32 *b);
 
 // An angle in fixed point degrees as a 16-bit angle
 #define FX64C_65536_360 ((s64)0x000000b60b60b60bLL)
 #define FX_DEG_TO_IDX(deg) ((u16)(((deg) * FX64C_65536_360 + 0x80000000000LL) >> 44))
 
 fx32 FX_Div(fx32 numer, fx32 denom);
+fx32 FX_Inv(fx32 x);
+// NitroSDK's FX_Mul as a function, rounding, and FX_Atan2Idx
+fx32 fx_mul_round(fx32 v1, fx32 v2);
+u16 fx_atan2(fx32 y, fx32 x);
 fx32 FX_Sqrt(fx32 x);
 fx32 FX_InvSqrt(fx32 x);
 

@@ -2,6 +2,7 @@
 #include "field/field.h"
 #include "field/field_party.h"
 #include "field/field_prop.h"
+#include "gfl/calctool.h"
 #include "gfl/heap.h"
 #include "gfl/sound.h"
 #include "pml/poke_party.h"
