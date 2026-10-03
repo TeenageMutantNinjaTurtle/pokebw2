@@ -87,3 +87,11 @@ src/ov104/field_exp_obj_gimmick_ov104_roaming_zone.c:
 src/ov104/field_exp_obj_gimmick_ov104_zone_collect.c:
     complete
     .text       start:0x021efa58 end:0x021efb10
+
+src/ov104/field_exp_obj_gimmick_ov104_message_control.c:
+    complete
+    .text       start:0x021f00c0 end:0x021f00fc
+
+src/ov104/field_exp_obj_gimmick_ov104_message_stop.c:
+    complete
+    .text       start:0x021f0170 end:0x021f0190

@@ -125,6 +125,7 @@ void setupBySrcData(BattleMon *mon, void *src, u32 value, u32 flag);
 void MoveWork_ClearSurface(BattleMon *mon);
 void ClearFormChange(BattleMon *mon);
 void ResetStatStages(u8 *stages);
+s32 func_ov167_021bb550(BattleMon *mon, u32 stat);
 BOOL Move_IsPPFull(BattleMon *mon, u8 index, BOOL current);
 u16 Move_IncrementPP(BattleMon *mon, u8 index, u8 amount);
 u16 Move_IncrementPP_Org(BattleMon *mon, u8 index, u8 amount);

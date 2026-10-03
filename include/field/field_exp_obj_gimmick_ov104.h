@@ -35,6 +35,20 @@ struct FieldExpObjGimmickOv104MessageArg {
     struct WordSet *wordSet;
 };
 
+struct FieldExpObjGimmickOv104Message {
+    u8 index;
+    u8 padding[3];
+    u32 active;
+    u32 pending;
+    ElScoreboard *scoreboard;
+    G3DActor *actor;
+    u16 animation;
+    u16 padding16;
+    fx32 elapsed;
+    fx32 triggerTime;
+    fx32 duration;
+};
+
 struct FieldExpObjGimmickOv104ZoneList {
     u16 zones[4];
     u8 weather[4];
@@ -150,8 +164,10 @@ void func_ov104_021efcfc(void *state, s32 value);
 void func_ov104_021efc6c(FieldExpObjGimmickOv104State *state, FieldExpObjGimmickOv104MessageArg *arg);
 u8 func_ov104_021efcf8(FieldExpObjGimmickOv104State *state);
 void *func_ov104_021efe88(FieldExpObjGimmickOv104State *state, FieldExpObjGimmickOv104MessageArg *arg, u32 index);
-void func_ov104_021f0080(void *message);
+void func_ov104_021f0080(FieldExpObjGimmickOv104Message *message);
+void func_ov104_021f0094(FieldExpObjGimmickOv104Message *message);
 void func_ov104_021f00bc(FieldExpObjGimmickOv104State *state, void *message, u32 amount);
+void func_ov104_021f0130(FieldExpObjGimmickOv104Message *message);
 void *func_ov104_021efbd8(const FieldExpObjGimmickOv104StateInit *init);
 
 void func_ov104_021eed00(Field *field);

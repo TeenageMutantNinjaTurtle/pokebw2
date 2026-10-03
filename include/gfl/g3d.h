@@ -149,6 +149,7 @@ void GFL_G3DCameraGetLookatTarget(G3DCamera *cam, VecFx32 *target);
 
 BOOL GFL_G3DActorBindAnm(G3DActor *actor, u16 anmIdx);
 BOOL GFL_G3DActorUnbindAnm(G3DActor *actor, u16 anmIdx);
+void GFL_G3DActorResetAnmFrame(G3DActor *actor, u16 anmIdx);
 BOOL GFL_G3DActorSetAnmFrame(G3DActor *actor, u16 anmIdx, fx32 *frame);
 // Returns FALSE once the animation has reached its end
 BOOL GFL_G3DActorStepAnmFrame(G3DActor *actor, u16 anmIdx, fx16 addend);

@@ -115,6 +115,9 @@ u16 FieldPropSystem_GetHandleID(FieldPropSystem *system, FieldPropHandle *handle
 void FieldPropSystem_UpdateResInstance(FieldPropSystem *system, void *instance);
 void FieldPropSystem_Update(FieldPropSystem *system);
 void FieldPropSystem_DrawAllHandles(FieldPropSystem *system);
+void FieldPropSystem_FreeResInstances(FieldPropSystem *system, void *resourceState);
+void FieldPropSystem_FreeResources(FieldPropSystem *system);
+void FieldPropSystem_Free(FieldPropSystem *system);
 void FieldChunkPropHolder_Release(FieldPropSystem *system, FieldChunkPropHolder *holder);
 void FieldPropSystem_ReleaseChunkPropHolders(FieldPropSystem *system, void *chunk);
 void FieldPropSystem_ReleaseChunkPropHolder(FieldPropSystem *system, FieldChunkPropHolder *holder);

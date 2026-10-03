@@ -236,5 +236,8 @@ const BattleEventHandlerEntry *EventAddBattleArmor(u32 *priority);
 extern const BattleEventHandlerEntry data_ov167_021d78e4[];
 void HandlerSuperLuck(void *context, void *flow, u32 monId);
 const BattleEventHandlerEntry *EventAddSuperLuck(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d78dc[];
+void HandlerAngerPoint(void *context, BtlServerFlow *flow, u32 monId);
+const BattleEventHandlerEntry *EventAddAngerPoint(u32 *priority);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

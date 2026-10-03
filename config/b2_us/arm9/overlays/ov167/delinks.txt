@@ -667,3 +667,7 @@ src/ov167/battle_ability_battle_armor.c:
 src/ov167/battle_ability_super_luck.c:
     complete
     .text       start:0x021bf3f0 end:0x021bf420
+
+src/ov167/battle_ability_anger_point.c:
+    complete
+    .text       start:0x021bf420 end:0x021bf4b4
