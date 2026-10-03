@@ -10,20 +10,17 @@
 // Function name from swan.
 void MoveWork_ClearSurface(BattleMon *mon) {
     u32 i;
-    BattleMoveWork *move;
 
     mon->moveCount = 0;
     for (i = 0; i < 4; i++) {
-        move = &mon->moves[i];
-        move->surface.id = move->truth.id;
-        move->surface.ppPair = move->truth.ppPair;
-        move->surface.flagsPair = move->truth.flagsPair;
-        if (move->surface.id != 0) {
+        mon->moves[i].surface = mon->moves[i].truth;
+        if (mon->moves[i].surface.id != 0) {
             mon->moveCount++;
         }
-        move->linked = 1;
+        mon->moves[i].linked = 1;
     }
 }
+
 
 // Function names from swan.
 void MoveWork_UpdateNumber(BattleMoveWork *work, u16 move, u8 maxPP, BOOL updateCurrent) {
@@ -166,9 +163,10 @@ void splitTypeCore(BattleMon *mon, u8 *type1, u8 *type2) {
     condition = CheckCondition(mon, 0x18);
     type = mon->type1;
     if (type == 2 && condition) {
-        type = 0x11;
+        *type1 = 0x11;
+    } else {
+        *type1 = type;
     }
-    *type1 = type;
     type = mon->type2;
     if (type == 2 && condition) {
         *type2 = 0x11;
@@ -184,6 +182,7 @@ void splitTypeCore(BattleMon *mon, u8 *type1, u8 *type2) {
         *type2 = *type1;
     }
 }
+
 
 // Function name from swan.
 BOOL DoesMonHaveType(BattleMon *mon, u32 type) {

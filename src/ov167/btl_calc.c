@@ -13,15 +13,17 @@ BOOL RollEffectChance(u32 chance) {
 
 // Function names from swan.
 u32 fixed_round(u32 value, u32 ratio) {
-    u32 result;
+    u32 fraction;
 
-    ratio *= value;
-    result = ratio >> 12;
-    if ((ratio & 0xfff) > 0x800) {
-        result++;
+    value *= ratio;
+    fraction = value & 0xfff;
+    value >>= 12;
+    if (fraction > 0x800) {
+        value++;
     }
-    return result;
+    return value;
 }
+
 
 // Function name from swan.
 u32 GetRatioOverZero(u32 value, u32 ratio) {
@@ -40,12 +42,13 @@ u32 MultiplyValueByRatio(u32 value, u32 ratio) {
 
     value *= ratio;
     remainder = value % 100;
-    result = value / 100;
+    value /= 100;
     if (remainder >= 50) {
-        result++;
+        value++;
     }
-    return result;
+    return value;
 }
+
 
 // Function names from swan.
 u32 DivideMaxHp(BattleMon *mon, u32 divisor) {
