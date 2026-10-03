@@ -20,23 +20,6 @@
 #include "save/bag.h"
 #include "save/config.h"
 
-BOOL IsStatChangeValid(BattleMon *mon, u32 stat, s32 change);
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
 // Function names from swan.
 BattleCondition ZeroConditionTurns(void) {
     BattleCondition condition;

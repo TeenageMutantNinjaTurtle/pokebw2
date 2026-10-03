@@ -317,7 +317,6 @@ typedef struct SurveyTextWork SurveyTextWork;
 typedef struct SweetScentEventData SweetScentEventData;
 typedef struct SweetScentPalette SweetScentPalette;
 typedef struct SweetScentScreenWork SweetScentScreenWork;
-typedef struct SwitchBattleAction SwitchBattleAction;
 typedef struct SwitchModeState SwitchModeState;
 // Save block 0x34, which getTrainerGameInfoAddress, getTrainerCardData_wrapper and getTrainerCardDataBlkAddress return
 typedef struct TrainerGameInfoSave TrainerCardSave;

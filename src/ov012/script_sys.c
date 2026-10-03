@@ -55,6 +55,7 @@
 #include "gfl/heap.h"
 #include "gfl/input.h"
 #include "gfl/msg.h"
+#include "gfl/net.h"
 #include "gfl/overlay.h"
 #include "gfl/random.h"
 #include "gfl/sound.h"
@@ -83,6 +84,7 @@
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
+#include "system/main.h"
 #include "system/season.h"
 #include "system/version.h"
 #include "system/vm.h"
@@ -91,20 +93,6 @@ struct EventScriptCallData {
     ScriptWork *work;
     FieldScriptSupervisor *supervisor;
 };
-
-BOOL func_02042788(void);
-
-void func_020428a0(void);
-
-void func_02042860(u32 value);
-
-void func_020429f0(void);
-
-void func_020428e0(void);
-
-BOOL func_020427a4(void);
-
-void func_02005430(void);
 
 FieldScriptSupervisor *FieldScriptSupervisor_Create(HeapID heapId) {
     FieldScriptSupervisor *supervisor;

@@ -29,26 +29,9 @@ BOOL func_ov167_021aceb4(void *state, u8 monId);
 
 BOOL func_ov167_021acec4(void *state, u8 monId);
 
-BOOL IsStatChangeValid(BattleMon *mon, u32 stat, s32 change);
-
 BOOL func_ov167_021a6ab8(BtlServerFlow *handler, u8 monId, BattleMon *mon, u32 stat, s32 change, u32 displayCode,
                           u32 context, u32 value, u8 extra, BOOL flag);
 
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
 // Function name from swan.
 ActionOrderEntry *ActionOrder_SearchByMonID(BtlServerFlow *flow, u8 monId) {
     u32 i;
@@ -137,8 +120,6 @@ void ServerDisplay_SetTurnFlag(BtlServerFlow *handler, BattleMon *mon, u32 flag)
     func_ov167_021bb7c0(mon, flag);
     func_ov167_021b1434(handler->display, 0x1b, GetMonID(mon), flag);
 }
-
-// Function names from swan.
 
 void BattleHandler_StrClear(BattleHandlerString *string) {
     sys_memset(string, 0, 0x28);
@@ -1049,8 +1030,6 @@ BOOL BattleHandler_HideTurnCancel(BtlServerFlow *handler, BattleHandlerHideTurnP
     }
     return FALSE;
 }
-
-// Function names from swan.
 
 // Function name from swan.
 BOOL BattleHandler_RemoveMessageWindow(BtlServerFlow *handler) {

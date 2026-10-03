@@ -20,23 +20,6 @@
 #include "save/bag.h"
 #include "save/config.h"
 
-BOOL IsStatChangeValid(BattleMon *mon, u32 stat, s32 change);
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
 // Function names from swan.
 void Btlv_StringParam_Setup(BtlvStringParam *param, u32 type, u16 message) {
     u32 i;

@@ -21,30 +21,6 @@
 #include "save/bag.h"
 #include "save/config.h"
 
-struct SwitchBattleAction {
-    u32 action : 4;
-    u32 unk4 : 3;
-    u32 slot : 3;
-    u32 unk10 : 22;
-};
-
-BOOL IsStatChangeValid(BattleMon *mon, u32 stat, s32 change);
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
 // Function names from swan.
 BOOL DoesSwitchModeNeedConfirming(BtlServer *server) {
     u32 i;
@@ -67,14 +43,14 @@ BOOL DoesSwitchModeNeedConfirming(BtlServer *server) {
 
 u8 GetNextEnemyForSwitchMode(BtlServer *server) {
     struct SwitchModeState *switchMode;
-    struct SwitchBattleAction *action;
+    BattleAction *action;
     u8 slot;
 
     switchMode = &server->switchMode;
     if (IsSwitchModeEnabled(switchMode)) {
         action = func_ov167_021d4b50(switchMode->actionManager, NULL);
         if (BattleAction_GetAction(action) == 3) {
-            slot = action->slot;
+            slot = action->change.slot;
             return GetMonID(GetClientMonData(server->pokeCon, 1, slot));
         }
     }

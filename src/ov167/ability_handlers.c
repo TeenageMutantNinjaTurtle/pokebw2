@@ -21,24 +21,6 @@
 #include "save/bag.h"
 #include "save/config.h"
 
-BOOL IsStatChangeValid(BattleMon *mon, u32 stat, s32 change);
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
 // Function names from swan.
 extern const BattleEventHandlerEntry data_ov167_021d78d4[];
 
@@ -49,8 +31,6 @@ extern const BattleEventHandlerEntry data_ov167_021d78c4[];
 u32 func_ov167_021bd52c(u32 status);
 
 void CommonContactStatusAbility(BtlServerFlow *flow, u32 monId, u32 status, u32 value, u32 chance);
-
-// Function names from swan.
 
 s32 func_ov167_021bd31c(s32 value, s32 minimum);
 
@@ -114,8 +94,6 @@ void AbilityEvent_Swap(BattleMon *first, BattleMon *second) {
     AbilityEvent_AddItem(first);
     AbilityEvent_AddItem(second);
 }
-
-// Function names from swan.
 
 // Function name from swan.
 u16 calcAbilHandlerSubPriority(BattleMon *mon) {
@@ -338,8 +316,6 @@ const BattleEventHandlerEntry *EventAddStall(u32 *priority) {
     *priority = numHandlersWithHandlerPri(7, 1);
     return data_ov167_021d7624;
 }
-
-// Function names from swan.
 
 void HandlerCompoundEyes(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
     if (BattleEventVar_GetValue(3) == monId) {
@@ -1509,8 +1485,6 @@ const BattleEventHandlerEntry *EventAddFlameBody(u32 *priority) {
     return data_ov167_021d78c4;
 }
 
-// Function names from swan.
-
 void HandlerRockHead(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
     if (BattleEventVar_GetValue(3) == monId) {
         BattleEventVar_RewriteValue(0x41, 1);
@@ -1955,8 +1929,6 @@ const BattleEventHandlerEntry *EventAddTruant(u32 *priority) {
     return data_ov167_021d7c18;
 }
 
-// Function names from swan.
-
 void HandlerDamp(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
     u16 move;
     u32 key;
@@ -2126,8 +2098,6 @@ const BattleEventHandlerEntry *EventAddMoldBreaker(u32 *priority) {
     *priority = 5;
     return data_ov167_021d7ca8;
 }
-
-// Function names from swan.
 
 void HandlerForecastMemberOnField(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
     u32 weather;

@@ -20,25 +20,6 @@
 #include "save/bag.h"
 #include "save/config.h"
 
-BOOL IsStatChangeValid(BattleMon *mon, u32 stat, s32 change);
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
 // Function name from swan.
 void MoveWork_ClearSurface(BattleMon *mon) {
     u32 i;
@@ -197,18 +178,12 @@ void splitTypeCore(BattleMon *mon, u8 *type1, u8 *type2) {
 
     condition = CheckCondition(mon, 0x18);
     type = mon->type1;
-    if (type != 2) {
-        goto first_done;
+    if (type == 2 && condition) {
+        type = 0x11;
     }
-    if (condition == 0) {
-        goto first_done;
-    }
-    type = 0x11;
-    goto first_done;
-first_done:
     *type1 = type;
     type = mon->type2;
-    if (type == 2 && condition != 0) {
+    if (type == 2 && condition) {
         *type2 = 0x11;
     } else {
         *type2 = type;

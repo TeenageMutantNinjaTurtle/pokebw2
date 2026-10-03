@@ -28,23 +28,6 @@ struct AdjacentOpponentData {
     u8 list2[3];
 };
 
-BOOL IsStatChangeValid(BattleMon *mon, u32 stat, s32 change);
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
 // Function names from swan.
 u32 BtlSetup_GetBattleStyle(BtlMainModule *mainModule) {
     return mainModule->setup->battleStyle;
@@ -178,8 +161,6 @@ u8 GetPosOnSameSide(u8 pos, u8 index) {
     }
     return index * 2 + 1;
 }
-
-// Function names from swan.
 
 // Function name from swan.
 BOOL AreClientsOnOppositeSides(BtlMainModule *mainModule, u8 clientId1, u8 clientId2) {
@@ -352,8 +333,6 @@ s32 GetClientBattlerCount(BtlMainModule *mainModule, u8 clientId) {
 BOOL IsAllyMonID(u8 monId1, u8 monId2) {
     return GetSideFromMonID(monId1) == GetSideFromMonID(monId2);
 }
-
-// Function names from swan.
 
 // Public function name from swan.
 u8 GetSideFromOpposingMonID(u8 monId) {

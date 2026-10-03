@@ -20,8 +20,6 @@
 #include "save/bag.h"
 #include "save/config.h"
 
-
-// Function names from swan.
 // The registered items, in priority order; depth counts the nested calls of the handlers
 typedef struct {
     u32 depth;
