@@ -18,11 +18,7 @@ src/ov012/event_script_call_work.c:
 
 src/ov012/script_work_accessors.c:
     complete
-    .text       start:0x02153ee0 end:0x02153f70
-
-src/ov012/script_work_extra_accessors.c:
-    complete
-    .text       start:0x02154084 end:0x021540b0
+    .text       start:0x02153ee0 end:0x021540b0
 
 src/ov012/field_script_sub_event.c:
     complete

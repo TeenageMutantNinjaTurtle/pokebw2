@@ -87,11 +87,7 @@ src/ov036/field_prop_animation.c:
 
 src/ov036/field_core.c:
     complete
-    .text       start:0x02180414 end:0x0218051c
-
-src/ov036/field_system_accessors.c:
-    complete
-    .text       start:0x0218052c end:0x0218059c
+    .text       start:0x02180414 end:0x0218059c
     .rodata     start:0x021c9ec4 end:0x021c9ec8
 
 src/ov036/field_prop_system.c:

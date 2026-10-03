@@ -51,6 +51,7 @@ void IncrementTurn(BattleCondition *condition, u32 amount);
 void SetTurns(BattleCondition *condition, u32 turns);
 BattleCondition SetConditionTurns(u32 turns);
 BattleCondition AddTurnCondition(u32 turns, u16 param);
+BattleCondition func_ov167_021ce1dc(u32 turns);
 BattleCondition MakeConditionPermanent(void);
 BattleCondition MakeConditionParamPermanent(u16 param);
 u16 Condition_GetParam(BattleCondition condition);

@@ -159,6 +159,10 @@ src/ov033/bsubway_scr.c:
     complete
     .text       start:0x0217bb60 end:0x0217bf44
 
+src/ov033/bsubway_scr_save_team.c:
+    complete
+    .text       start:0x0217c050 end:0x0217c0d4
+
 src/ov033/subway_setup.c:
     complete
     .text       start:0x0217c0d4 end:0x0217c15c

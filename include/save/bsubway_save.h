@@ -30,6 +30,7 @@ void func_0200e52c(BSubwayScoreData *score, BSubwayPlayData *play);
 u32 func_0200e4a0(BSubwayScoreData *score);
 u32 func_0200e4a4(BSubwayScoreData *score, u32 id);
 void func_0200e488(BSubwayScoreData *score);
+void func_0200e4e8(BSubwayScoreData *score, u32 flag, const void *team);
 void func_0200e494(BSubwayScoreData *score);
 u16 func_0200e35c(BSubwayScoreData *score, u16 a1);
 u16 func_0200e370(BSubwayScoreData *score, u32 index);

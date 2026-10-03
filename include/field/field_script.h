@@ -77,6 +77,7 @@ struct ScriptOverlayWork {
 
 extern const char data_ov012_0216e1e4[];
 extern const char data_ov012_0216e208[];
+extern const char data_ov012_0216e1b4[];
 extern const u16 data_ov012_0216ca04[2];
 extern const u8 data_ov012_0216ca06[20];
 extern const u16 data_ov012_0216ca1a[12];
@@ -312,6 +313,7 @@ u16 ScriptWork_GetSCRID(ScriptWork *work);
 // A variable of the script (IDs from 0x8000) or saved event work (from 0x4000)
 u16 *ScriptWork_GetWkAddr(ScriptWork *work, GameData *gameData, u16 id);
 u16 ScriptWork_ResolveHybridValue(ScriptWork *work, GameData *gameData, u16 value);
+BOOL ScriptWork_SetWkValue(ScriptWork *work, u16 id, u32 value);
 // Waits a number of frames: UpdateWaitCounter returns TRUE once they have passed
 void FieldScriptEnv_SetWaitCounter(FieldScriptEnv *env, u16 frames);
 BOOL FieldScriptEnv_UpdateWaitCounter(FieldScriptEnv *env);

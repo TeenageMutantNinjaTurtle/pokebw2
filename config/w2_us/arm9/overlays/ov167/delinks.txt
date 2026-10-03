@@ -136,13 +136,9 @@ src/ov167/battle_condition_param.c:
     complete
     .text       start:0x021ce400 end:0x021ce4a4
 
-src/ov167/battle_condition_create_turn.c:
+src/ov167/battle_condition_create.c:
     complete
-    .text       start:0x021ce1c0 end:0x021ce21c
-
-src/ov167/battle_condition_create_permanent.c:
-    complete
-    .text       start:0x021ce240 end:0x021ce278
+    .text       start:0x021ce1c0 end:0x021ce278
 
 src/ov167/battle_condition_mon.c:
     complete

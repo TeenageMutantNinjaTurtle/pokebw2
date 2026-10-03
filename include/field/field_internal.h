@@ -29,9 +29,10 @@ struct Field {
     G3DMapper *g3DMapper;
     u8 unk54[0x40];
     FieldPlayer *player;
-    u8 unk98[0x4];
+    EncountSystem *encountSystem;
     void *fieldEffects;
-    u8 unka0[0x8];
+    void *unkA0;
+    u8 unkA4[0x4];
     u8 colorPostFX[0x8];
     void *skillMapEff;
     u8 unkb4[0x10];
@@ -64,5 +65,7 @@ struct Field {
     BOOL casteliaRush;
     FieldLensFlare *lensFlare;
 };
+
+void *func_ov036_0218051c(Field *field);
 
 #endif // POKEBW2_FIELD_FIELD_INTERNAL_H
