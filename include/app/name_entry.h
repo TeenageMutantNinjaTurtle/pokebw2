@@ -34,6 +34,7 @@ void func_ov012_02165ae8(NameEntryParam *param);
 void func_ov012_02165afc(NameEntryParam *param, StrBuf *dest);
 BOOL func_ov012_02165b0c(NameEntryParam *param);
 BOOL func_ov012_02165b10(NameEntryParam *param, const StrBuf *str);
+void func_ov012_021603ec(StrBuf *name, u8 value);
 
 extern const GameProcFunctions NAME_ENTRY_PROC_FUNCTIONS;
 // The sound sequences that the name entry plays, which the new game loads before it

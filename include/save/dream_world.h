@@ -6,6 +6,12 @@
 
 BOOL DreamWorldSave_IsPokemonAsleep(DreamWorldSave *dreamWorld);
 u8 func_020099f4(DreamWorldSave *dreamWorld);
+u8 func_020099e0(DreamWorldSave *dreamWorld);
+u16 *func_02009a98(DreamWorldSave *dreamWorld, u32 index);
+u32 func_02009ae0(DreamWorldSave *dreamWorld);
+u32 func_02009b20(DreamWorldSave *dreamWorld);
+void func_02009b30(DreamWorldSave *dreamWorld, u32 value);
+void func_02009af8(DreamWorldSave *dreamWorld, u32 value);
 void SetDreamRadarFlag(DreamRadarSave *save, u32 flag, u32 value);
 void func_0200c6f0(HighLinkSave *highLink, u32 a1, u32 a2);
 

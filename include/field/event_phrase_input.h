@@ -5,6 +5,7 @@
 
 #include "gfl/str.h"
 #include "system/game_event.h"
+#include "app/name_entry.h"
 
 struct EventPhraseInputData {
     GameSystem *gsys;
@@ -33,7 +34,9 @@ struct EventPhraseInputData {
 
 GameEvent *EventPhraseInput_Create(GameSystem *gsys, Field *field, GameEvent *parent, u32 mode, u32 arg4);
 GameEventReturnCode EventPhraseInput_Callback(GameEvent *event, u32 *state, void *data);
-void func_ov033_02177734(struct EventPhraseInputData *data, void *nameEntryParams);
+void func_ov033_02177734(struct EventPhraseInputData *data, NameEntryParam *nameEntryParams);
+void func_0202d138(void);
+StrBuf *func_0202d7c4(void *data);
 
 extern const u8 data_ov033_0217c400[];
 

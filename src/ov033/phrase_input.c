@@ -1,12 +1,15 @@
 #include "app/name_entry.h"
 #include "field/event_phrase_input.h"
 #include "field/field_event.h"
+#include "field/field_script.h"
 #include "gfl/overlay.h"
 #include "gfl/str.h"
+#include "save/dream_world.h"
 #include "save/player_info.h"
 #include "save/save_control.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+#include "system/vm.h"
 
 GameEvent *EventPhraseInput_Create(GameSystem *gsys, Field *field, GameEvent *parent, u32 mode, u32 arg4) {
     GameEvent *event;
@@ -81,9 +84,160 @@ GameEventReturnCode EventPhraseInput_Callback(GameEvent *event, u32 *state, void
         (*state)++;
         break;
     case 1:
-        func_ov033_02177734(data, &data->nameMode);
+        func_ov033_02177734(data, (NameEntryParam *)&data->nameMode);
         GFL_StrBufFree(data->input);
         return GAMEEVENT_DONE;
     }
     return GAMEEVENT_CONTINUE;
+}
+void func_ov033_02177734(struct EventPhraseInputData *data, NameEntryParam *param) {
+    if (data->unk1C != 0) {
+        *(u16 *)data->unk1C = *(u32 *)((u8 *)param + 0x1c) == 0;
+    }
+    if (*(u32 *)((u8 *)param + 0x1c) == 1) {
+        return;
+    }
+    switch (data->mode) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+        break;
+    case 5:
+        func_0200c940(data->trainerInfo, param->name);
+        func_0202d138();
+        break;
+    case 6:
+        func_0200c958(data->trainerInfo, param->name);
+        break;
+    case 15:
+        func_020114fc(data->saveBlock, param->name);
+        break;
+    case 7:
+        GFL_StrBufCopy(func_0202d7c4(data->unk18), data->input);
+        func_ov012_021603ec(param->name, *(u32 *)((u8 *)param + 0x34));
+        break;
+    case 14:
+        GFL_StrBufCopy(func_0202d7c4(data->unk18), data->input);
+        func_ov012_021603ec(param->name, *(u32 *)((u8 *)param + 0x34));
+        break;
+    }
+}
+
+BOOL func_ov033_021777dc(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work;
+    GameSystem *gsys;
+    GameData *gameData;
+    u16 input;
+    u16 *result;
+    DreamWorldSave *save;
+
+    work = FieldScriptEnv_GetScriptWork(env);
+    gsys = FieldScriptEnv_GetGameSystem(env);
+    gameData = FieldScriptEnv_GetGameData(env);
+    input = ScriptReadAny(vm, env);
+    ScriptReadAny(vm, env);
+    ScriptReadAny(vm, env);
+    result = ScriptReadVar(vm, env);
+    save = func_020179e4(gameData);
+    if (input == 0) {
+        if (func_020099f4(save) == 1 && func_020099e0(save) == 1) {
+            *result = 1;
+        } else {
+            *result = 0;
+        }
+    }
+    return FALSE;
+}
+
+BOOL func_ov033_02177844(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work;
+    GameSystem *gsys;
+    GameData *gameData;
+    u16 input;
+    u16 input2;
+    u16 *result;
+    DreamWorldSave *save;
+    u8 i;
+    u16 *value;
+
+    work = FieldScriptEnv_GetScriptWork(env);
+    gsys = FieldScriptEnv_GetGameSystem(env);
+    gameData = FieldScriptEnv_GetGameData(env);
+    input = ScriptReadAny(vm, env);
+    input2 = ScriptReadAny(vm, env);
+    ScriptReadAny(vm, env);
+    result = ScriptReadVar(vm, env);
+    save = func_020179e4(gameData);
+    switch (input) {
+    case 0:
+        *result = 1;
+        for (i = 0; i < 5; i++) {
+            value = func_02009a98(save, i);
+            if (value == NULL) {
+                *result = 0;
+            } else if (*value == 0x7e || *value == 0) {
+                *result = 0;
+            }
+        }
+        break;
+    case 1:
+        if (func_02009ae0(save) == 0x7f) {
+            *result = 0;
+        } else {
+            *result = 1;
+        }
+        break;
+    case 2:
+        if (func_02009b20(save) == 1) {
+            *result = 1;
+        } else {
+            *result = 0;
+        }
+        break;
+    case 3:
+        func_02009b30(save, 0);
+        break;
+    case 4:
+        func_02009af8(save, input2);
+        break;
+    }
+    return FALSE;
+}
+
+BOOL func_ov033_02177908(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work;
+    GameSystem *gsys;
+    GameData *gameData;
+    HeapID heapId;
+    WordSet *wordSet;
+    DreamWorldSave *save;
+    u16 input;
+    u16 index;
+    u16 *phrase;
+    StrBuf *strbuf;
+
+    work = FieldScriptEnv_GetScriptWork(env);
+    gsys = FieldScriptEnv_GetGameSystem(env);
+    gameData = FieldScriptEnv_GetGameData(env);
+    heapId = FieldScriptEnv_GetHeapID(env);
+    wordSet = ScriptWork_GetWordSet(work);
+    save = func_020179e4(gameData);
+    input = ScriptReadAny(vm, env);
+    index = ScriptReadAny(vm, env);
+    phrase = func_02009a98(save, index);
+    if (phrase != NULL && *phrase != 0x7e && *phrase != 0) {
+        strbuf = GFL_StrBufCreate(14, heapId);
+        GFL_StrBufLoadFixedString(strbuf, phrase + 1, 13);
+        func_0202437c(wordSet, input, strbuf, 0, 0, 2);
+        GFL_StrBufFree(strbuf);
+    }
+    return FALSE;
 }

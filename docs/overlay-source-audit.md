@@ -39,7 +39,7 @@ intervening function matches. Unmatched attempts are tracked in
 | Overlay | Disposition |
 | --- | --- |
 | 010 | Single linked C source; no fragmented C ranges. |
-| 012 | Related matrix, script setup, script-command, and zone helper ranges are grouped where continuous; `ProcessMapMatrix` and other intervening assembly still separate some ranges. |
+| 012 | Related matrix, script setup, ScriptWork, script-command, and zone helper ranges are grouped where continuous; the system-option, RTC, and Trainer Card commands have coherent owners. `ProcessMapMatrix` and other intervening assembly still separate some ranges. |
 | 013 | Single linked C source; no fragmented C ranges. |
 | 014 | Single linked C source; no fragmented C ranges. |
 | 015 | Single linked C source; no fragmented C ranges. |
@@ -48,7 +48,7 @@ intervening function matches. Unmatched attempts are tracked in
 | 018 | Single linked C source; no fragmented C ranges. |
 | 021 | Single linked C source; no fragmented C ranges. |
 | 027 | Two survey commands now extend their continuous command source back to `0x021703a8`; survey text load/free helpers also share a continuous source. The probability helper ends immediately before the commands but has separate ownership. The command at `0x021704e0` still blocks the matching reset helper at `0x02170580`; other survey and text ranges retain intervening assembly. |
-| 033 | Trade, Trial House, Battle Subway, and field-event ranges preserve process boundaries; several same-process fragments still have intervening assembly. |
+| 033 | Trade, Trial House, Battle Subway, and field-event ranges preserve process boundaries; the phrase-input process now spans its four formerly missing neighbors. Several same-process fragments still have intervening assembly. |
 | 035 | Three adjacent event sources retain their separate process and data ownership; merging changes non-text section order. |
 | 036 | Prop and zone C ranges are grouped within continuous owners; remaining nearby fragments have intervening assembly. The adjacent lens flare process and data helpers now share one source. The other adjacent C pairs cross subsystem boundaries. |
 | 059 | Adjacent Resort and medal script-command sources have separate ownership; two Resort functions still do not match. |
@@ -69,7 +69,7 @@ intervening function matches. Unmatched attempts are tracked in
 | 153 | Single linked C source; no fragmented C ranges. |
 | 162 | Six adjacent title, menu, start, boot, delete-save, and interrupt sources preserve process boundaries. |
 | 164 | Single linked C source; no fragmented C ranges. |
-| 167 | Battle handlers, ability handlers, and accessors preserve their owners; many related C ranges still have intervening assembly. |
+| 167 | Battle handlers, ability handlers, and accessors preserve their owners. A continuous 22-source ability-handler chain is now one subsystem source; many other related C ranges still have intervening assembly. |
 | 284 | Adjacent evolution demo sources preserve graphics, view, and effect ownership; `ShinkaDemoPieces_Move` is nonmatching. |
 | 294 | Eight adjacent intro process and graphics sources preserve their separate ownership. |
 

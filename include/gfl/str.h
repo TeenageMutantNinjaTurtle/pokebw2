@@ -7,7 +7,6 @@
 
 // Strings, and the word sets that fill the placeholders in messages
 
-typedef struct StrBuf StrBuf;
 typedef struct WordSet WordSet;
 
 StrBuf *GFL_StrBufCreate(u32 size, HeapID heapId);

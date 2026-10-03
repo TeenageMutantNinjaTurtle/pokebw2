@@ -48,6 +48,10 @@ src/ov012/field_script_cmd_rtc.c:
     complete
     .text       start:0x021556dc end:0x021557d4
 
+src/ov012/field_script_cmd_trainer_card.c:
+    complete
+    .text       start:0x021557d4 end:0x021558b0
+
 src/ov012/field_script_cmd_save_setup.c:
     complete
     .text       start:0x02155ce4 end:0x02155d40

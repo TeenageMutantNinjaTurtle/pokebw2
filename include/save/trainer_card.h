@@ -10,5 +10,8 @@ TrainerCardSave *getTrainerCardData_wrapper(SaveControl *save);
 u32 func_0200c924(TrainerCardSave *trainerCard);
 u16 func_0200cb00(TrainerCardSave *trainerCard);
 void func_0200cb08(TrainerCardSave *trainerCard, u16 value);
+BOOL isBadgeObtained(TrainerCardSave *trainerCard, u32 badgeId);
+void addBadge(TrainerCardSave *trainerCard, u32 badgeId);
+void setBadgeGetSecondsTime(void *timeSig, u32 badgeId, u32 year, u32 month, u32 day);
 
 #endif // POKEBW2_SAVE_TRAINER_CARD_H

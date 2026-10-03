@@ -113,7 +113,7 @@ src/ov033/entralink_warp.c:
 
 src/ov033/phrase_input.c:
     complete
-    .text       start:0x02177628 end:0x02177774
+    .text       start:0x02177628 end:0x021779d8
 
 src/ov033/mystery_gift.c:
     complete
