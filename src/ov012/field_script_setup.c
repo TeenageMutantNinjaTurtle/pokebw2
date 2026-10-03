@@ -8,6 +8,21 @@
 #include "system/game_system.h"
 #include "system/vm.h"
 
+struct GlobalScriptEntry {
+    u16 start;
+    u16 end;
+    u16 fileId;
+    u16 msgArcId;
+    u16 msgFileNo;
+};
+
+extern const struct GlobalScriptEntry GLOBAL_SCRIPT_TABLE[60];
+extern const char data_ov012_0216e1a0[];
+extern const char data_ov012_0216e1a4[];
+void GFL_DebugAssertFailEx(const char *file, u32 line, const char *function, u32 value, u32 end);
+u16 ZoneData_GetScriptDatID(u16 zoneId);
+u16 ZoneData_GetTextDatID(u16 zoneId);
+
 void FieldScript_ResetMapLocalEvents(EventWork *eventWork) {
     EventWork_FlagResetRange(eventWork, 0, 0x63);
     EventWork_WorkResetRange(eventWork, 0x4000, 0x401f);
@@ -207,4 +222,36 @@ void FieldScript_FreeVM(VM *vm) {
     FreeFieldScriptEnv(env);
     GFL_HeapFree((void *)vm->unk38);
     VM_Free(vm);
+}
+
+u32 FieldScript_ResolveSCRID(u32 zoneId, u16 scriptId, u16 *fileId, u16 *msgArcId, u16 *msgFileNo) {
+    u32 i;
+    u16 zoneScriptFile;
+    u16 zoneTextFile;
+    register const struct GlobalScriptEntry *table;
+
+    table = GLOBAL_SCRIPT_TABLE;
+    for (i = 0; i < 60; i++) {
+        if (scriptId >= table[i].start) {
+            if (scriptId > table[i].end) {
+                GFL_DebugAssertFailEx(data_ov012_0216e1a0, 0, data_ov012_0216e1a4, scriptId, table[i].end);
+            }
+            *fileId = table[i].fileId;
+            *msgArcId = table[i].msgArcId;
+            *msgFileNo = table[i].msgFileNo;
+            return (u16)(scriptId - table[i].start);
+        }
+    }
+    if (scriptId >= 1) {
+        zoneScriptFile = ZoneData_GetScriptDatID(zoneId);
+        zoneTextFile = ZoneData_GetTextDatID(zoneId);
+        *fileId = zoneScriptFile;
+        *msgArcId = 3;
+        *msgFileNo = zoneTextFile;
+        return (u16)(scriptId - 1);
+    }
+    *fileId = 0x4ce;
+    *msgArcId = 3;
+    *msgFileNo = 0xd0;
+    return 0;
 }

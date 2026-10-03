@@ -14,7 +14,7 @@ src/ov012/event_script_call.c:
 
 src/ov012/field_script_setup.c:
     complete
-    .text       start:0x021538f8 end:0x02153c18
+    .text       start:0x021538f8 end:0x02153cc8
 
 src/ov012/script_work_accessors.c:
     complete
