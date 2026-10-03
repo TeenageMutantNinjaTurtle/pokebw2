@@ -2,61 +2,18 @@
 #define POKEBW2_FIELD_BADGE_GATE_H
 
 #include "types.h"
-#include "gfl/g3d.h"
-#include "nitro/fx.h"
 #include "struct_decls.h"
 #include "system/game_event.h"
 
 // The badge gates on the way to Victory Road, in Victory Road's gimmick (overlay 103)
 
-struct BadgeGateWork {
-    u16 unk00;
-    u16 pad02;
-    FieldExpObjSystem *expObj;
-    Field *field;
-    EventWork *eventWork;
-    u8 unk10[0x1a0];
-    u32 last;
-};
-
-struct BadgeGateAnimationEntry {
-    u32 scene;
-    u32 actor;
-    u32 unk08;
-    FieldExpObjSystem *expObj;
-};
-
-struct BadgeGateLastEventData {
-    BadgeGateWork *gimmickWork;
-    FieldCamera *camera;
-    u8 unk08[0x10];
-    u32 state;
-    u8 unk1c[4];
-    VecFx32 eyeOffset;
-    VecFx32 targetOffset;
-    Field *field;
-};
-
-// Plays the gate of badge (0 to 7) checking its badge
+// Victory Road's gimmick callbacks
 void func_ov103_021eec80(Field *field);
-void func_ov103_021eecfc(BadgeGateWork *work);
-GameEvent *BadgeGate_CreateCheckEvent(GameSystem *gsys, u8 badge);
-GameEventReturnCode BadgeGate_CheckEvent(GameEvent *event, u32 *state, void *data);
-BOOL func_ov103_021eefbc(u32 badge, EventWork *work);
 void func_ov103_021eefe0(Field *field);
 void func_ov103_021ef010(Field *field);
-void *func_ov103_021ef1ac(void *work, u32 index, u32 group);
-void func_ov103_021ef188(BadgeGateCheckEventData *data);
-void func_ov103_021ef1dc(void *entry, u32 anim, u32 paused);
-u32 func_ov103_021ef200(void *work);
-extern const u16 data_ov103_021ef854[];
-extern const G3DSceneSetup data_ov103_021ef814;
-extern const G3DSceneSetup data_ov103_021ef824;
-extern const G3DSceneSetup data_ov103_021ef844;
+// Plays the gate of badge (0 to 7) checking its badge
+GameEvent *BadgeGate_CreateCheckEvent(GameSystem *gsys, u8 badge);
 // Plays the last gate, after the eight badge gates, with the camera
 GameEvent *BadgeGate_CreateLastGateEvent(GameSystem *gsys);
-GameEventReturnCode BadgeGate_LastGateEvent(GameEvent *event, u32 *state, void *data);
-void func_ov103_021ef5dc(BadgeGateLastEventData *data);
-void func_ov103_021ef788(FieldExpObjSystem *system);
 
 #endif // POKEBW2_FIELD_BADGE_GATE_H

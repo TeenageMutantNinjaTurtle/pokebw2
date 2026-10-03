@@ -3,6 +3,8 @@
 #include "field/field.h"
 #include "field/field_camera.h"
 #include "field/field_exp_obj.h"
+#include "nitro/fx.h"
+#include "gfl/g3d.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
 #include "save/event_work.h"
@@ -10,15 +12,59 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 
-struct BadgeGateCheckEventData {
+// An actor of one of the gimmick's scenes
+typedef struct {
+    u32 scene;
+    u32 actor;
+    u32 unk08;
+    FieldExpObjSystem *expObj;
+} BadgeGateActor;
+
+typedef struct {
+    u16 unk00;
+    FieldExpObjSystem *expObj;
+    Field *field;
+    EventWork *eventWork;
+    // The actors of scenes 0, 1 and 2
+    BadgeGateActor actors0[8];
+    BadgeGateActor actors1[9];
+    BadgeGateActor actors2[9];
+    u32 last;
+} BadgeGateWork;
+
+typedef struct {
     BadgeGateWork *gimmickWork;
     u16 badge;
-    u16 padding;
     u32 state;
     u8 unk0c[0x10];
-};
+} BadgeGateCheckEventData;
 
-typedef FieldExpObjAnm *(*BadgeGateAnmInfoGetter)(FieldExpObjSystem *, u16, u16, u32);
+typedef struct {
+    BadgeGateWork *gimmickWork;
+    FieldCamera *camera;
+    u8 unk08[0x10];
+    u32 state;
+    u8 unk1c[4];
+    VecFx32 eyeOffset;
+    VecFx32 targetOffset;
+    Field *field;
+} BadgeGateLastEventData;
+
+void func_ov103_021eecfc(BadgeGateWork *work);
+BOOL func_ov103_021eefbc(u32 badge, EventWork *work);
+GameEventReturnCode BadgeGate_CheckEvent(GameEvent *event, u32 *state, void *data);
+void func_ov103_021ef188(BadgeGateCheckEventData *data);
+BadgeGateActor *func_ov103_021ef1ac(BadgeGateWork *work, u32 index, u32 scene);
+void func_ov103_021ef1dc(BadgeGateActor *actor, u16 anm, BOOL paused);
+fx32 func_ov103_021ef200(BadgeGateWork *work);
+GameEventReturnCode BadgeGate_LastGateEvent(GameEvent *event, u32 *state, void *data);
+void func_ov103_021ef5dc(BadgeGateLastEventData *data);
+void func_ov103_021ef788(FieldExpObjSystem *system);
+
+extern const G3DSceneSetup data_ov103_021ef814;
+extern const G3DSceneSetup data_ov103_021ef824;
+extern const G3DSceneSetup data_ov103_021ef844;
+extern const u16 data_ov103_021ef854[];
 
 void func_ov103_021eec80(Field *field) {
     HeapID heapId;
@@ -82,9 +128,9 @@ GameEvent *BadgeGate_CreateCheckEvent(GameSystem *gsys, u8 badge) {
 
 GameEventReturnCode BadgeGate_CheckEvent(GameEvent *event, u32 *state, void *arg) {
     BadgeGateCheckEventData *data;
-    BadgeGateAnimationEntry *entry0;
-    BadgeGateAnimationEntry *entry1;
-    BadgeGateAnimationEntry *entry2;
+    BadgeGateActor *entry0;
+    BadgeGateActor *entry1;
+    BadgeGateActor *entry2;
     FieldExpObjAnm *anm;
     fx32 frame;
 
@@ -131,32 +177,26 @@ void func_ov103_021ef188(BadgeGateCheckEventData *data) {
     }
 }
 
-void *func_ov103_021ef1ac(void *work, u32 index, u32 group) {
-    switch (group) {
+BadgeGateActor *func_ov103_021ef1ac(BadgeGateWork *work, u32 index, u32 scene) {
+    switch (scene) {
     case 0:
-        return (u8 *)work + 0x10 + index * 0x10;
+        return &work->actors0[index];
     case 1:
-        return (u8 *)work + 0x90 + index * 0x10;
+        return &work->actors1[index];
     case 2:
-        return (u8 *)work + 0x120 + index * 0x10;
+        return &work->actors2[index];
     default:
         return NULL;
     }
 }
 
-void func_ov103_021ef1dc(void *data, u32 anim, u32 paused) {
-    BadgeGateAnimationEntry *entry;
-    FieldExpObjAnm *anm;
-
-    entry = data;
-    // This caller passes the full animation index; the shared declaration narrows it for other callers.
-    anm = ((BadgeGateAnmInfoGetter)FieldExpObj_GetAnmInfo)(entry->expObj, entry->scene, entry->actor, anim);
-    FieldExpObjAnm_SetPaused(anm, paused);
+void func_ov103_021ef1dc(BadgeGateActor *actor, u16 anm, BOOL paused) {
+    FieldExpObjAnm_SetPaused(FieldExpObj_GetAnmInfo(actor->expObj, actor->scene, actor->actor, anm), paused);
 }
 
-u32 func_ov103_021ef200(void *work) {
+fx32 func_ov103_021ef200(BadgeGateWork *work) {
     s32 i;
-    BadgeGateAnimationEntry *entry;
+    BadgeGateActor *entry;
     FieldExpObjAnm *anm;
 
     for (i = 0; i < 8; i++) {
