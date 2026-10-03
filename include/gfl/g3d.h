@@ -27,9 +27,28 @@ BOOL GFL_G3DCurveGetNowRotation(G3DCurve *curve, VecFx32 *rotation);
 // NitroSystem's model resource, and the start of its render object, which draws a model resource
 typedef struct NNSG3dResMdl NNSG3dResMdl;
 
+// NitroSDK's render object, 0x54 bytes
 typedef struct {
     u32 flag;
     NNSG3dResMdl *resMdl;
+    void *anmMat;
+    void *funcBlendMat;
+    void *anmJnt;
+    void *funcBlendJnt;
+    void *anmVis;
+    void *funcBlendVis;
+    void *cbFunc;
+    u8 cbCmd;
+    u8 cbTiming;
+    u16 dummy_;
+    void *cbInitFunc;
+    void *ptrUser;
+    u8 *ptrUserSbc;
+    void *recJntAnm;
+    void *recMatAnm;
+    u32 hintMatAnmExist[2];
+    u32 hintJntAnmExist[2];
+    u32 hintVisAnmExist[2];
 } NNSG3dRenderObj;
 
 typedef enum {

@@ -88,51 +88,51 @@
 #include "system/vm.h"
 
 void FieldChunk_SetActive(FieldChunk *chunk, u16 active) {
-    *(u16 *)chunk = active;
+    chunk->active = active;
 }
 
 u16 FieldChunk_IsActive(FieldChunk *chunk) {
-    return *(u16 *)chunk;
+    return chunk->active;
 }
 
 void FieldChunk_SetWorldPos(FieldChunk *chunk, const VecFx32 *position) {
-    *(VecFx32 *)((u8 *)chunk + 4) = *position;
+    chunk->worldPos = *position;
 }
 
 void FieldChunk_GetWorldPos(FieldChunk *chunk, VecFx32 *position) {
-    *position = *(VecFx32 *)((u8 *)chunk + 4);
+    *position = chunk->worldPos;
 }
 
-void FieldChunk_GetLoaderHandle(FieldChunk *chunk, void **handle) {
-    *handle = (u8 *)chunk + 0xb0;
+void FieldChunk_GetLoaderHandle(FieldChunk *chunk, FieldChunkLoader **handle) {
+    *handle = &chunk->loader;
 }
 
 void GetChunkRawDataContainer(FieldChunk *chunk, void **container) {
-    *container = *(void **)((u8 *)chunk + 0xd4);
+    *container = chunk->container;
 }
 
 void FieldChunk_GetDatID(FieldChunk *chunk, u32 *datID) {
-    *datID = *(u32 *)((u8 *)chunk + 0x14);
+    *datID = chunk->reqLoadDatID;
 }
 
 void FieldChunk_GetRawDataLength(FieldChunk *chunk, u32 *length) {
-    *length = *(u32 *)((u8 *)chunk + 0xbc);
+    *length = chunk->loader.totalRawLength;
 }
 
 void FieldChunk_BindModel(FieldChunk *chunk, void *model) {
-    GFL_G3DResBindData(*(void **)((u8 *)chunk + 0x84), 1, model);
+    GFL_G3DResBindData(chunk->modelRsc, 1, model);
 }
 
 void FieldChunk_UnbindModel(FieldChunk *chunk) {
-    GFL_G3DResBindData(*(void **)((u8 *)chunk + 0x84), 1, NULL);
+    GFL_G3DResBindData(chunk->modelRsc, 1, NULL);
 }
 
 void *FieldChunk_GetModelResource(FieldChunk *chunk) {
-    return *(void **)((u8 *)chunk + 0x84);
+    return chunk->modelRsc;
 }
 
 void FieldChunk_FreeTexRsc(FieldChunk *chunk) {
-    GFL_G3DResBindData(*(void **)((u8 *)chunk + 0x88), 2, NULL);
+    GFL_G3DResBindData(chunk->texRsc, 2, NULL);
 }
 
 void *FieldChunk_GetUsedTexRsc(FieldChunk *chunk) {
@@ -141,17 +141,17 @@ void *FieldChunk_GetUsedTexRsc(FieldChunk *chunk) {
 
 void FieldChunk_SetupModel(FieldChunk *chunk) {
     void *texture = FieldChunk_GetUsedTexRscCore(chunk);
-    FieldChunk_LinkMdlTex(*(void **)((u8 *)chunk + 0x2c), *(void **)((u8 *)chunk + 0x84), texture);
+    FieldChunk_LinkMdlTex(chunk->model, chunk->modelRsc, texture);
 }
 
-void *FieldChunk_GetModel(FieldChunk *chunk) {
-    return *(void **)((u8 *)chunk + 0x2c);
+NNSG3dRenderObj *FieldChunk_GetModel(FieldChunk *chunk) {
+    return chunk->model;
 }
 
 void FieldChunk_ResetStreamer(FieldChunk *chunk) {
-    *(u32 *)((u8 *)chunk + 0xb4) = 0;
-    *(u32 *)((u8 *)chunk + 0xc0) = 0;
-    *(u32 *)((u8 *)chunk + 0xc8) = 0;
-    *(u32 *)((u8 *)chunk + 0xcc) = 0;
-    *(u32 *)((u8 *)chunk + 0xd0) = 0;
+    chunk->loader.nowLoadedLength = 0;
+    chunk->loader.unk10 = 0;
+    chunk->loader.unk18 = 0;
+    chunk->loader.unk1c = 0;
+    chunk->loader.terrainLoadDone = 0;
 }
