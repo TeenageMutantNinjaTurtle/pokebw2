@@ -463,3 +463,11 @@ src/ov167/battle_math_ratio_over_zero.c:
 src/ov167/battle_math_divide_hp.c:
     complete
     .text       start:0x021bd3b4 end:0x021bd3e0
+
+src/ov167/battle_roll_effect_chance.c:
+    complete
+    .text       start:0x021bd344 end:0x021bd35c
+
+src/ov167/battle_num_mons_on_field.c:
+    complete
+    .text       start:0x021bd794 end:0x021bd7a0

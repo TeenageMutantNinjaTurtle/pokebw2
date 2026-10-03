@@ -114,6 +114,7 @@ typedef struct Field Field;
 typedef struct FieldAcmdTCB FieldAcmdTCB;
 typedef struct FieldActor FieldActor;
 typedef struct FieldActorAnmProc FieldActorAnmProc;
+typedef struct FieldAppCallParam FieldAppCallParam;
 typedef struct FieldAsyncProc FieldAsyncProc;
 typedef struct FieldAsyncProcManager FieldAsyncProcManager;
 typedef struct FieldCamera FieldCamera;

@@ -40,5 +40,6 @@ void func_02017d30(BtlSetup *setup, Regulation *regulation, HeapID heapId);
 void func_020186b0(BtlSetup *setup, u32 a1);
 void func_0201f63c(Regulation *regulation, PokeParty *party);
 void freeVSPlayerBlkClearPtr(BtlSetup *setup);
+u32 GetNumMonsOnField(u32 battleType, u32 count);
 
 #endif // POKEBW2_BATTLE_BTL_SETUP_H
