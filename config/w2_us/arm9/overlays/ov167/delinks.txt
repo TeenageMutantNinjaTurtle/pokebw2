@@ -251,3 +251,7 @@ src/ov167/battle_handler_field_effect.c:
 src/ov167/battle_handler_stat_stage_recover.c:
     complete
     .text       start:0x021acfc8 end:0x021ad048
+
+src/ov167/battle_handler_message.c:
+    complete
+    .text       start:0x021ad254 end:0x021ad2a8

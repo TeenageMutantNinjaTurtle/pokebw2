@@ -194,3 +194,7 @@ src/ov033/event_chatot_window_create.c:
 src/ov033/event_chatot_cleanup.c:
     complete
     .text       start:0x021791e8 end:0x02179200
+
+src/ov033/event_chatot_sprite_create.c:
+    complete
+    .text       start:0x0217903c end:0x021790e0

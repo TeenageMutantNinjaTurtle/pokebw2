@@ -112,3 +112,15 @@ src/ov036/field_lens_flare_effect_set.c:
 src/ov036/field_lens_flare_data_resource.c:
     complete
     .text       start:0x021c88d8 end:0x021c8948
+
+src/ov036/field_lens_flare_day_period.c:
+    complete
+    .text       start:0x021c8814 end:0x021c8840
+
+src/ov036/field_lens_flare_control.c:
+    complete
+    .text       start:0x021c8610 end:0x021c8654
+
+src/ov036/field_lens_flare_free.c:
+    complete
+    .text       start:0x021c84c8 end:0x021c84e8

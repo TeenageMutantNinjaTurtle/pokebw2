@@ -32,6 +32,7 @@ u32 PML_PkmGetParam(BoxPkm *pkm, u32 param, void *buffer);
 BOOL PML_PkmDecrypt(BoxPkm *pkm);
 void PML_PkmReEncrypt(BoxPkm *pkm, BOOL wasEncrypted);
 BOOL PML_PkmIsRare(BoxPkm *pkm);
+BoxPkm *func_0201d620(PartyPkm *pkm);
 // The size of a Pokémon's data
 u32 PokeParty_GetPkmRawSize(void);
 void copyPartyPkm(const PartyPkm *src, PartyPkm *dest);
@@ -56,6 +57,7 @@ u16 func_02021204(u32 species, u32 form, u32 sex);
 // The level, 0 to 4, of a Pokémon's Pokéstar fame
 int func_0201f010(u8 fame);
 PartyPkm *PokeParty_GetPkm(PokeParty *party, u32 index);
+BoxPkm *func_0201d624(PartyPkm *pkm);
 int PokeParty_GetPkmCount(PokeParty *party);
 u32 PokeParty_GetFirstBattleReady(PokeParty *party);
 u32 isEggInParty(PokeParty *party);

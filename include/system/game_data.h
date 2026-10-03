@@ -57,6 +57,8 @@ PlayerState *func_020171e8(GameData *gameData, s32 index);
 PokeDexSave *GameData_GetPokedex(GameData *gameData);
 GameRecords *GameData_GetRecords(GameData *gameData);
 BOOL GameData_AddBoxPkm(GameData *gameData, BoxPkmCreateParams *params);
+BOOL addPkmToParty(GameData *gameData, BoxPkmCreateParams *params);
+PartyPkm *GameData_MakeBoxPkm(GameData *gameData, BoxPkmCreateParams *params);
 // Whether a full day has passed since the last check
 BOOL checkForMidnight(GameData *gameData);
 SaveControl *GameData_GetSaveControl(GameData *gameData);

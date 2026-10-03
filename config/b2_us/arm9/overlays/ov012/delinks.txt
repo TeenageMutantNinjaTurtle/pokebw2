@@ -356,6 +356,10 @@ src/ov012/field_script_cmd_box_add.c:
     complete
     .text       start:0x02157024 end:0x02157174
 
+src/ov012/game_data_add_pkm.c:
+    complete
+    .text       start:0x02157380 end:0x02157410
+
 src/ov012/field_script_cmd_money.c:
     complete
     .text       start:0x02157410 end:0x021574a4
