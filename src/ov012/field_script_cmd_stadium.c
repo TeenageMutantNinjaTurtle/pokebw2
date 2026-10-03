@@ -2,7 +2,27 @@
 #include "field/field_script.h"
 #include "field/stadium_script.h"
 #include "field/trainer_script.h"
+#include "gfl/arc.h"
+#include "gfl/heap.h"
 #include "system/game_data.h"
+#include "system/game_system.h"
+
+BOOL s01E1_StadiumLoadTrainerTable(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    void *trainers = GFL_ArcSysReadHeapNewLZ(0xce, 0, 0, HEAPID_TAIL(4));
+    ScriptWork_SetStadiumTrainers(work, trainers);
+    return FALSE;
+}
+
+BOOL s01E2_StadiumFreeTrainerTable(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    void *trainers = ScriptWork_GetStadiumTrainers(work);
+    if (trainers != NULL) {
+        GFL_HeapFree(trainers);
+        ScriptWork_SetStadiumTrainers(work, NULL);
+    }
+    return FALSE;
+}
 
 BOOL s01E3_StadiumSetupActorSingle(VM *vm, FieldScriptEnv *env) {
     ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
@@ -49,5 +69,22 @@ BOOL s01E0_StadiumSetupActorsTriple(VM *vm, FieldScriptEnv *env) {
     SetZoneNPCSCRID(eventData, npc1, GetNormalSCRIDFromTrainerID(trainers[idx1].trainerId));
     SetZoneNPCSCRID(eventData, npc2, GetNormalSCRIDFromTrainerID(trainers[idx2].trainerId));
     SetZoneNPCSCRID(eventData, npc3, GetNormalSCRIDFromTrainerID(trainers[idx3].trainerId));
+    return FALSE;
+}
+
+BOOL s01E5_StadiumResetTrainerFlags(VM *vm, FieldScriptEnv *env) {
+    ScriptWork *work;
+    EventWork *eventWork;
+    s32 i;
+    StadiumTrainerEntry *trainers;
+
+    work = FieldScriptEnv_GetScriptWork(env);
+    eventWork = GameData_GetEventWork(GSYS_GetGameData(ScriptWork_GetGameSystem(work)));
+    trainers = ScriptWork_GetStadiumTrainers(work);
+    i = 0;
+    while (i != 0x84) {
+        clearTrainerBattleFlag(eventWork, trainers[i].trainerId);
+        ++i;
+    }
     return FALSE;
 }

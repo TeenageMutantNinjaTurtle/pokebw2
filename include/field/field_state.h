@@ -16,5 +16,6 @@ void *Field_GetNDemoDataHandle(Field *field);
 void Field_SetCasteliaRush(Field *field, BOOL flag);
 BOOL Field_GetCasteliaRush(Field *field);
 void *Field_GetColorPostFX(Field *field);
+fx32 func_ov036_02181324(Field *field);
 
 #endif // POKEBW2_FIELD_FIELD_STATE_H

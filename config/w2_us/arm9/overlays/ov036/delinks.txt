@@ -26,7 +26,7 @@ src/ov036/field_pokemon_form.c:
 
 src/ov036/field_state_accessors.c:
     complete
-    .text       start:0x021812d0 end:0x02181364
+    .text       start:0x021812d0 end:0x0218136c
 
 src/ov036/field_render_phase2_effect.c:
     complete

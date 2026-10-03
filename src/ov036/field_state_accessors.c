@@ -77,3 +77,7 @@ FieldLensFlare *Field_GetLensFlare(Field *field) {
 void *Field_GetColorPostFX(Field *field) {
     return field->colorPostFX;
 }
+
+fx32 func_ov036_02181324(Field *field) {
+    return field->actorYOffset;
+}

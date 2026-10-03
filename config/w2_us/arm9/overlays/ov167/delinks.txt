@@ -583,3 +583,15 @@ src/ov167/battle_ability_target_redirect.c:
 src/ov167/battle_mon_condition_flags.c:
     complete
     .text       start:0x021bb3f0 end:0x021bb448
+
+src/ov167/battle_ability_poison_point_event.c:
+    complete
+    .text       start:0x021bf518 end:0x021bf524
+
+src/ov167/battle_ability_static_event.c:
+    complete
+    .text       start:0x021bf548 end:0x021bf554
+
+src/ov167/battle_ability_flame_body_event.c:
+    complete
+    .text       start:0x021bf578 end:0x021bf584

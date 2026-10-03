@@ -1,0 +1,7 @@
+#include "battle/btl_ability.h"
+
+// Function name from swan.
+const BattleEventHandlerEntry *EventAddStatic(u32 *priority) {
+    *priority = 1;
+    return data_ov167_021d78cc;
+}

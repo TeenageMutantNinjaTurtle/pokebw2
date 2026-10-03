@@ -42,7 +42,9 @@ struct Field {
     u32 routineID;
     u8 unkd8[0x10];
     u16 playerStateZoneId;
-    u8 unkea[0x2e];
+    u8 unkea[0x26];
+    fx32 actorYOffset;
+    u8 unk114[0x4];
     u32 *controllerTypeID;
     void *controller;
     TCBManager *tcbManager;

@@ -1,6 +1,7 @@
 #include "field/field.h"
 #include "field/field_menu.h"
 #include "field/subscreen.h"
+#include "field/zone.h"
 #include "gfl/input.h"
 #include "gfl/std.h"
 #include "system/game_event.h"
@@ -40,5 +41,18 @@ GameEvent *EventFieldMenu_Create(GameSystem *gsys, Field *field, u16 param) {
     }
     work->prevScreenId = work->screenId;
     func_0203d564(TRUE);
+    return event;
+}
+
+GameEvent *EventFieldMenu_CreateUnionRoom(GameSystem *gsys, Field *field, u16 param) {
+    GameEvent *event = EventFieldMenu_Create(gsys, field, param);
+    FieldMenuWork *work = GameEvent_GetData(event);
+    u16 zoneId = Field_GetPlayerStateZoneID(field);
+
+    if (IsZone150Or151(zoneId) == 1) {
+        work->screenId = 5;
+    } else {
+        work->screenId = 2;
+    }
     return event;
 }
