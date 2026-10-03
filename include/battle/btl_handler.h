@@ -14,6 +14,12 @@ struct BattleHandler {
     u32 actionState;
 };
 
+struct BattleHandlerPopupParam {
+    u32 unk00 : 8;
+    u32 monId : 5;
+    u32 unk13 : 19;
+};
+
 void BattleHandler_StrClear(BattleHandlerString *string);
 BOOL BattleHandler_StrIsEnabled(BattleHandlerString *string);
 void BattleHandler_StrSetup(BattleHandlerString *string, u32 enabled, u16 message);
@@ -34,6 +40,7 @@ BOOL BattleHandler_InterruptAction(BattleHandler *handler, BattleHandlerInterrup
 u8 BattleHandler_InterruptMove(BattleHandler *handler, BattleHandlerInterruptParam *param);
 BOOL BattleHandler_SendLast(BattleHandler *handler, BattleHandlerInterruptParam *param);
 void BattleHandler_SetString(BattleHandler *handler, BattleHandlerString *string);
+BOOL BattleHandler_AbilityPopupRemove(BattleHandler *handler, BattleHandlerPopupParam *param);
 
 BOOL BattleHandler_SetMoveEffectIndex(BattleHandler *handler, BattleHandlerMoveEffectParam *param);
 BOOL BattleHandler_SetMoveEffectEnable(BattleHandler *handler);

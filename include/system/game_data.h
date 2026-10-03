@@ -64,6 +64,7 @@ void GameData_SetEscapeRopeZone(GameData *gameData, ZoneSpawnInfo *spawn);
 void GameData_SetForceSeasonSync(GameData *gameData, BOOL force);
 void GameData_SetLastSubscreen(GameData *gameData, u32 subscreen);
 void GameData_SetLastBtlResult(GameData *gameData, u32 result);
+u32 GameData_GetLastBtlResult(GameData *gameData);
 void GameData_SetLensFlareRequested(GameData *gameData, BOOL requested);
 void GameData_SetNextZone(GameData *gameData, ZoneSpawnInfo *spawn);
 ZoneSpawnInfo *GetGameDataNowSpawnZone(GameData *gameData);

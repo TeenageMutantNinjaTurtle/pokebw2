@@ -1,10 +1,5 @@
 #include "battle/btl_action_order.h"
 
-struct ActionOrderEntry {
-    u8 unk00[0xd];
-    u8 done;
-};
-
 // Function names from swan.
 BOOL ActionOrder_InterruptReserve(ActionOrder *order, u8 monId) {
     ActionOrderEntry *entry;

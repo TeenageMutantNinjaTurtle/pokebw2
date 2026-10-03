@@ -18,6 +18,7 @@ typedef struct BattleHandler BattleHandler;
 typedef struct BattleHandlerFlagParam BattleHandlerFlagParam;
 typedef struct BattleHandlerInterruptParam BattleHandlerInterruptParam;
 typedef struct BattleHandlerMoveEffectParam BattleHandlerMoveEffectParam;
+typedef struct BattleHandlerPopupParam BattleHandlerPopupParam;
 typedef struct BattleHandlerString BattleHandlerString;
 typedef struct BattleMon BattleMon;
 typedef struct BattleMoveEffectState BattleMoveEffectState;

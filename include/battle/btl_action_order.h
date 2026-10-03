@@ -4,6 +4,13 @@
 #include "types.h"
 #include "struct_decls.h"
 
+struct ActionOrderEntry {
+    BattleMon *mon;
+    u8 unk04[9];
+    u8 done;
+    u8 unk0e[2];
+};
+
 ActionOrderEntry *ActionOrder_SearchByMonID(ActionOrder *order, u8 monId);
 ActionOrderEntry *ActionOrder_SearchByMoveID(ActionOrder *order, u16 moveId, u8 start);
 s32 ActionOrderTool_Interrupt(ActionOrder *order, ActionOrderEntry *entry, u32 start);

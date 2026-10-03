@@ -32,6 +32,7 @@ GameEvent *CallFieldMapEntranceOutTransitionDefault(GameSystem *gsys, Field *fie
 GameEvent *CreateFieldCloseEvent(GameSystem *gsys, Field *field);
 GameEvent *Event3DDemo_Create(GameSystem *gsys, GameEvent *parent, u32 demoId, u32 unk3, u32 unk4);
 GameEvent *EventBGMChange_Create(GameSystem *gsys, u32 bgm, u32 a2, u32 a3);
+GameEvent *EventBattleLose_Create(GameSystem *gsys);
 GameEvent *EventBGMPlay_Create(GameSystem *gsys, u32 bgm);
 GameEvent *EventBGMFadeWait_Create(GameSystem *gsys);
 GameEvent *EventBGMPop_CreateEx(GameSystem *gsys, u32 a1, u32 a2);
@@ -42,6 +43,7 @@ GameEvent *EventEscapeRope_Create(GameEvent *event, GameSystem *gsys, Field *fie
 GameEvent *EventFieldCloseKeepSound_Create(GameSystem *gsys, Field *field);
 GameEvent *EventFieldOpen_Create(GameSystem *gsys);
 GameEvent *EventFieldOpen_CreateHeadless(GameSystem *gsys);
+GameEvent *EventFieldOpenRestoreLCD_Create(GameSystem *gsys);
 // Runs the proc as a field subprocess, then calls callback with work if there is a callback, and frees work
 GameEvent *EventFieldSubprocessCall_CreateWithCallback(GameSystem *gsys, Field *field, s32 overlayId,
                                                        const GameProcFunctions *functions, void *param,

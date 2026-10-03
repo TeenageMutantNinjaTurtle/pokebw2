@@ -142,3 +142,7 @@ src/ov033/event_field_trade_callback.c:
 src/ov033/entree_forest_spawn_all.c:
     complete
     .text       start:0x02176cac end:0x02176d88
+
+src/ov033/event_entree_warp_allowed.c:
+    complete
+    .text       start:0x02177408 end:0x02177574

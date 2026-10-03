@@ -255,3 +255,31 @@ src/ov012/field_script_cmd_pokedex_unlock.c:
 src/ov012/field_script_cmd_save_setup.c:
     complete
     .text       start:0x02155ce4 end:0x02155d40
+
+src/ov012/field_script_cmd_trainer_flags.c:
+    complete
+    .text       start:0x02155fe0 end:0x02156064
+
+src/ov012/field_script_cmd_battle_result.c:
+    complete
+    .text       start:0x02156064 end:0x02156144
+
+src/ov012/field_script_party_helpers.c:
+    complete
+    .text       start:0x0215618c end:0x02156208
+
+src/ov012/field_script_party_moves.c:
+    complete
+    .text       start:0x02156208 end:0x02156260
+
+src/ov012/field_script_cmd_party_basic.c:
+    complete
+    .text       start:0x02156260 end:0x021562c4
+
+src/ov012/field_script_cmd_party_ev.c:
+    complete
+    .text       start:0x021562c4 end:0x02156368
+
+src/ov012/field_script_cmd_party_full_hp.c:
+    complete
+    .text       start:0x02156368 end:0x021563c8
