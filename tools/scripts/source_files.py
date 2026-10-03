@@ -4,6 +4,7 @@
     source_files.py ov036                     # the embedded file names and where they are referenced
     source_files.py ov036 --profile START END # a boundary profile for every function in a range
     source_files.py ov036 --sections START END  # the data a text range refers to, per section
+    source_files.py --markdown                # the tables of docs/source-files.md, for every overlay
 
 Many functions pass their file's name to GFL_HeapAllocate or an assert, so the overlay embeds strings such as
 "resort_npc.c", in the .data of that file. Between two such anchors, the linker's layout gives the boundaries: every
@@ -168,14 +169,63 @@ def print_sections(overlay: Overlay, start: int, end: int):
                   f" ({len(targets[section])} references)")
 
 
+def print_markdown(version: str):
+    configs = (ROOT / "config" / version / "arm9" / "overlays").glob("ov*/delinks.txt")
+    for delinks in sorted(configs, key=lambda path: int(path.parent.name[2:])):
+        name = delinks.parent.name
+        text = delinks.read_text()
+        if "\nsrc/" not in text:
+            continue
+        try:
+            overlay = Overlay(name, version)
+        except KeyError:
+            continue
+        strings = {}
+        for address, string in sorted(overlay.strings.items()):
+            strings.setdefault(string, address)
+        files = []
+        for entry in text.split("\n\n"):
+            lines = entry.strip().splitlines()
+            match = re.search(r"\.text\s+start:0x([0-9a-f]+) end:0x([0-9a-f]+)", entry)
+            if lines and lines[0].startswith("src/") and match:
+                path = lines[0].rstrip(":")
+                files.append((int(match.group(1), 16), int(match.group(2), 16), path.split("/")[-1],
+                              "complete" in entry))
+        files.sort()
+
+        def count(start, end):
+            return sum(1 for address, _, _ in overlay.functions if start <= address < end)
+
+        inside = sum(count(start, end) for start, end, _, _ in files)
+        unused = sorted(string for string in strings if string not in {file[2] for file in files})
+        print(f"### Overlay {overlay.number}\n")
+        line = f"{inside} of {len(overlay.functions)} functions are in source files."
+        if unused:
+            line += " Embedded names without a file yet: " + ", ".join(f"`{string}`" for string in unused) + "."
+        print(line + "\n")
+        print("| File | `.text` (Black 2) | Functions | Status | Name |")
+        print("| --- | --- | --- | --- | --- |")
+        for start, end, file, complete in files:
+            source = f"string at `{strings[file]:#010x}`" if file in strings else "descriptive"
+            status = "complete" if complete else "partial"
+            print(f"| `{file}` | `{start:#010x}`–`{end:#010x}` | {count(start, end)} | {status} | {source} |")
+        print()
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("overlay", help="for example ov036")
+    parser.add_argument("overlay", nargs="?", help="for example ov036")
     parser.add_argument("--version", default="b2_us")
     parser.add_argument("--profile", nargs=2, metavar=("START", "END"))
     parser.add_argument("--sections", nargs=2, metavar=("START", "END"))
     parser.add_argument("--window", type=int, default=32)
+    parser.add_argument("--markdown", action="store_true")
     args = parser.parse_args()
+    if args.markdown:
+        print_markdown(args.version)
+        return
+    if not args.overlay:
+        parser.error("an overlay is required")
     overlay = Overlay(args.overlay, args.version)
     if args.profile:
         print_profile(overlay, int(args.profile[0], 16), int(args.profile[1], 16), args.window)
