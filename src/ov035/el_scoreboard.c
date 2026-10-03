@@ -3,6 +3,7 @@
 #include "field/field.h"
 #include "gfl/graphics.h"
 #include "gfl/heap.h"
+#include "struct_decls.h"
 
 struct ElScoreboard {
     u32 unk0;
@@ -15,10 +16,10 @@ struct ElScoreboard {
     u32 frame;
 };
 
-typedef struct {
+struct ElScoreboardPaletteTarget {
     u32 palette;
     u32 vramOffset;
-} ElScoreboardPaletteTarget;
+};
 
 // Declared in reverse, as the compiler emits them in reverse order
 static const u16 sScoreboardPalette3[4] = { 0x0000, 0x18c6, 0x0d73, 0x021f };

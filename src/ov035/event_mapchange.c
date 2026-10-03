@@ -35,6 +35,7 @@
 #include "save/player_info.h"
 #include "save/save_control.h"
 #include "save/trainer_card.h"
+#include "struct_decls.h"
 #include "system/game_comm.h"
 #include "system/game_data.h"
 #include "system/game_event.h"
@@ -43,25 +44,25 @@
 #include "system/rtc.h"
 #include "system/season.h"
 
-typedef struct {
+struct EventGameOpening {
     GameSystem *gsys;
     GameSystemProcData *procData;
-} EventGameOpening;
+};
 
-typedef struct {
+struct EventFieldFirst {
     GameSystem *gsys;
     GameData *gameData;
     ZoneSpawnInfo spawn;
-} EventFieldFirst;
+};
 
-typedef struct {
+struct EventFieldContinue {
     GameSystem *gsys;
     GameData *gameData;
     u16 zoneId;
     BOOL continueFromSave;
-} EventFieldContinue;
+};
 
-typedef struct {
+struct EventMapChange {
     GameSystem *gsys;
     GameData *gameData;
     Field *field;
@@ -77,24 +78,24 @@ typedef struct {
     WarpSequence warp;
     u32 unk9C;
     BOOL lensFlareStarted;
-} EventMapChange;
+};
 
-typedef struct {
+struct EventMapChangeCore {
     EventMapChange *mapChange;
-} EventMapChangeCore;
+};
 
-typedef struct {
+struct EventMapChangeBlackout {
     GameSystem *gsys;
     GameData *gameData;
     ZoneSpawnInfo spawn;
-} EventMapChangeBlackout;
+};
 
-typedef struct {
+struct ZoneGimmick {
     u32 zoneId;
     u16 gimmickId;
-} ZoneGimmick;
+};
 
-typedef struct {
+struct EventEntralinkWarp {
     ZoneSpawnInfo spawn;
     GameSystem *gsys;
     GameData *gameData;
@@ -102,7 +103,7 @@ typedef struct {
     u32 unk28;
     u8 unk2C;
     u32 festMissionStatus;
-} EventEntralinkWarp;
+};
 
 GameEventReturnCode EventEntralinkWarp_Callback(GameEvent *event, u32 *state, void *data);
 GameEventReturnCode EventEntralinkWarpIn_Callback(GameEvent *event, u32 *state, void *data);

@@ -28,46 +28,6 @@ src/ov012/field_script_sub_event.c:
     complete
     .text       start:0x021540b0 end:0x02154134
 
-src/ov012/field_script_vm_control.c:
-    complete
-    .text       start:0x021541c0 end:0x02154258
-
-src/ov012/field_script_vm_register.c:
-    complete
-    .text       start:0x02154258 end:0x021542ac
-
-src/ov012/field_script_vm_compare.c:
-    complete
-    .text       start:0x021542ac end:0x0215435c
-
-src/ov012/field_script_vm_stack.c:
-    complete
-    .text       start:0x0215435c end:0x021544f0
-
-src/ov012/field_script_vm_jump.c:
-    complete
-    .text       start:0x021545c4 end:0x02154668
-
-src/ov012/field_script_vm_flags.c:
-    complete
-    .text       start:0x02154668 end:0x0215472c
-
-src/ov012/field_script_vm_work.c:
-    complete
-    .text       start:0x0215472c end:0x02154864
-
-src/ov012/field_script_actor_events.c:
-    complete
-    .text       start:0x02154864 end:0x021548e0
-
-src/ov012/field_script_key_wait.c:
-    complete
-    .text       start:0x021548e0 end:0x02154928
-
-src/ov012/field_script_read.c:
-    complete
-    .text       start:0x02154928 end:0x02154988
-
 src/ov012/map_matrix_world_coord.c:
     complete
     .text       start:0x02154cb8 end:0x02154cd4
@@ -87,26 +47,6 @@ src/ov012/field_script_cmd_random_text.c:
 src/ov012/field_script_cmd_rtc.c:
     complete
     .text       start:0x02155700 end:0x021557d4
-
-src/ov012/field_script_cmd_zone.c:
-    complete
-    .text       start:0x02155920 end:0x02155a1c
-
-src/ov012/field_script_cmd_map_replace.c:
-    complete
-    .text       start:0x02155a1c end:0x02155ad0
-
-src/ov012/field_script_cmd_pokedex_regist.c:
-    complete
-    .text       start:0x02155ad0 end:0x02155b28
-
-src/ov012/field_script_cmd_pokedex_queries.c:
-    complete
-    .text       start:0x02155b28 end:0x02155bc8
-
-src/ov012/field_script_cmd_pokedex_unlock.c:
-    complete
-    .text       start:0x02155bc8 end:0x02155c2c
 
 src/ov012/field_script_cmd_save_setup.c:
     complete
@@ -159,46 +99,6 @@ src/ov012/field_script_cmd_musical_props.c:
 src/ov012/encounter_state.c:
     complete
     .text       start:0x02159190 end:0x02159270
-
-src/ov012/hidden_event_cut.c:
-    complete
-    .text       start:0x0215943c end:0x02159500
-
-src/ov012/hidden_event_surf_waterfall.c:
-    complete
-    .text       start:0x02159500 end:0x02159614
-
-src/ov012/hidden_event_strength.c:
-    complete
-    .text       start:0x02159614 end:0x02159684
-
-src/ov012/hidden_event_fly_flash.c:
-    complete
-    .text       start:0x02159684 end:0x02159724
-
-src/ov012/hidden_event_flash_callback.c:
-    complete
-    .text       start:0x02159724 end:0x021597f4
-
-src/ov012/hidden_event_dig_teleport_diving.c:
-    complete
-    .text       start:0x021597f4 end:0x021599c4
-
-src/ov012/hidden_event_chatot.c:
-    complete
-    .text       start:0x021599c4 end:0x021599f8
-
-src/ov012/hidden_event_ruins.c:
-    complete
-    .text       start:0x021599f8 end:0x02159b20
-
-src/ov012/hidden_event_table.c:
-    complete
-    .text       start:0x02159b20 end:0x02159b80
-
-src/ov012/hidden_event_context.c:
-    complete
-    .text       start:0x02159b80 end:0x02159bb0
 
 src/ov012/field_script_network_callback.c:
     complete
@@ -440,3 +340,20 @@ src/ov012/field_script_plugin.c:
 src/ov012/item_use_block.c:
     complete
     .text       start:0x0215b3e8 end:0x0215b478
+
+
+src/ov012/field_script_vm_core.c:
+    complete
+    .text       start:0x021541c0 end:0x021544f0
+
+src/ov012/field_script_vm_commands.c:
+    complete
+    .text       start:0x021545c4 end:0x02154988
+
+src/ov012/field_script_cmd_zone_pokedex.c:
+    complete
+    .text       start:0x02155920 end:0x02155c2c
+
+src/ov012/hidden_event.c:
+    complete
+    .text       start:0x0215943c end:0x02159bb0

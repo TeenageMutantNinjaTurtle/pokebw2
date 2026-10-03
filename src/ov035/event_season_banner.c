@@ -8,6 +8,7 @@
 #include "gfl/input.h"
 #include "nitro/g2d.h"
 #include "nitro/hw.h"
+#include "struct_decls.h"
 #include "system/game_event.h"
 #include "system/season.h"
 
@@ -25,7 +26,7 @@ typedef enum {
     SEASON_BANNER_STATE_END,
 } EventSeasonBannerState;
 
-typedef struct {
+struct EventSeasonBanner {
     GameSystem *gsys;
     Field *field;
     HeapID heapId;
@@ -37,7 +38,7 @@ typedef struct {
     u32 duration;
     EventSeasonBannerCallback callback;
     void *callbackArg;
-} EventSeasonBanner;
+};
 
 #define SEASON_BANNER_BG 3
 
@@ -68,13 +69,24 @@ void EventSeasonBanner_InvokeCallback(EventSeasonBanner *wk);
 
 // Declared in reverse, as the compiler emits them in reverse order
 static const BGSysVRAMConfig SEASON_BANNER_VRAM_CONFIG = {
-    GX_VRAM_BG_128_D,      GX_VRAM_BGEXTPLTT_NONE,  GX_VRAM_SUB_BG_32_H,        GX_VRAM_SUB_BGEXTPLTT_NONE,
-    GX_VRAM_OBJ_64_E,      GX_VRAM_OBJEXTPLTT_NONE, GX_VRAM_SUB_OBJ_16_I,       GX_VRAM_SUB_OBJEXTPLTT_NONE,
-    GX_VRAM_TEX_012_ABC,   GX_VRAM_TEXPLTT_0_G,     GX_OBJVRAMMODE_CHAR_1D_64K, GX_OBJVRAMMODE_CHAR_1D_32K,
+    GX_VRAM_BG_128_D,    GX_VRAM_BGEXTPLTT_NONE,  GX_VRAM_SUB_BG_32_H,        GX_VRAM_SUB_BGEXTPLTT_NONE,
+    GX_VRAM_OBJ_64_E,    GX_VRAM_OBJEXTPLTT_NONE, GX_VRAM_SUB_OBJ_16_I,       GX_VRAM_SUB_OBJEXTPLTT_NONE,
+    GX_VRAM_TEX_012_ABC, GX_VRAM_TEXPLTT_0_G,     GX_OBJVRAMMODE_CHAR_1D_64K, GX_OBJVRAMMODE_CHAR_1D_32K,
 };
 static const BGSetup SEASON_BANNER_BG3_SETUP = {
-    0, 0, 0x800, 0, BGRES_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE(0x0800), GX_BG_CHARBASE(0x04000), 0x8000,
-    GX_BG_EXTPLTT_01, 0, GX_BG_AREAOVER_XLU, FALSE,
+    0,
+    0,
+    0x800,
+    0,
+    BGRES_256x256,
+    GX_BG_COLORMODE_16,
+    GX_BG_SCRBASE(0x0800),
+    GX_BG_CHARBASE(0x04000),
+    0x8000,
+    GX_BG_EXTPLTT_01,
+    0,
+    GX_BG_AREAOVER_XLU,
+    FALSE,
 };
 static const BGSysLCDConfig SEASON_BANNER_LCD_CONFIG = { GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BGMODE_0, GX_BG0_AS_3D };
 
