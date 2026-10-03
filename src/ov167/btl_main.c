@@ -50,12 +50,6 @@ BOOL IsStatChangeValid(BattleMon *mon, u32 stat, s32 change);
 // Function names from swan.
 
 // Function names from swan.
-extern const BattleEventHandlerEntry data_ov167_021d78d4[];
-
-extern const BattleEventHandlerEntry data_ov167_021d78cc[];
-
-extern const BattleEventHandlerEntry data_ov167_021d78c4[];
-
 // Function names from swan.
 u32 BtlSetup_GetBattleStyle(BtlMainModule *mainModule) {
     return mainModule->setup->battleStyle;

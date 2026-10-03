@@ -5,25 +5,8 @@
 #include "constants/battle.h"
 #include "struct_decls.h"
 
-struct SwitchModeState {
-    void *actionManager;
-    u8 unk04[7];
-    u8 enabled;
-};
 
-struct BtlServerFlow {
-    u8 unk00[0xc];
-    BtlMainModule *mainModule;
-    BtlPokeCon *pokeCon;
-    u8 unk14[0xc];
-    struct SwitchModeState switchMode;
-    u8 unk2c[0xc88];
-    u8 posList[6];
-    u8 count;
-};
 
-BOOL DoesSwitchModeNeedConfirming(BtlServerFlow *serverFlow);
-u8 GetNextEnemyForSwitchMode(BtlServerFlow *serverFlow);
 BOOL IsSwitchModeEnabled(const void *switchMode);
 
 // The damage of a move, with the type effectiveness if withEffectiveness is set. damageRoll is USE_MIN_DAMAGE for the
@@ -38,41 +21,40 @@ u16 func_ov167_021abd08(BtlServerFlow *serverFlow, BattleMon *mon, BOOL a2);
 u32 func_ov167_021abd10(BtlServerFlow *serverFlow, BattleMon *mon, BOOL a2);
 u32 func_ov167_021abe10(BtlServerFlow *serverFlow, u8 pos, u32 sideEffect);
 BOOL func_ov167_021abe34(BtlServerFlow *serverFlow, u8 pos, u32 a2);
-BOOL ServerControl_HideTurnCancel(BattleHandler *handler, BattleMon *mon, u32 flag);
-BOOL ServerControl_FlinchCore(BattleHandler *handler, BattleMon *mon, u8 flag);
-BOOL ServerControl_SwitchInFillSlot(BattleHandler *handler, u8 target, u8 slot, u8 slotAgain, BOOL flag);
-void ServerControl_AfterSwitchIn(BattleHandler *handler);
-void ServerControl_SetMonCounter(BattleHandler *handler, BattleMon *mon, u8 counter, u8 value);
-void ServerControl_CheckItemReaction(BattleHandler *handler, BattleMon *mon, u32 reaction);
-void ServerControl_ChangeHeldItem(BattleHandler *handler, BattleMon *mon, u16 item, u8 flag);
-BOOL ServerControl_UseHeldItem(BattleHandler *handler, BattleMon *mon);
-BOOL ServerControl_EscapeSub(BattleHandler *handler, BattleMon *mon, u32 flag);
-BOOL ServerControl_CheckMatchup(BattleHandler *handler);
-BOOL func_ov167_021abeb4(BattleHandler *handler, u8 monIndex);
-BOOL ServerControl_SwitchOut(BattleHandler *handler, BattleMon *mon, u8 flag);
-void RequestChangePokemon(BtlServerFlow *serverFlow, u8 pos);
-BOOL ServerControl_FieldEffectCore(BattleHandler *handler, u32 effect, BattleCondition value, u8 duration);
-void ServerControl_FieldEffectEnd(BattleHandler *handler, u32 effect);
-BOOL ServerControl_DecrementPP(BattleHandler *handler, BattleMon *mon, u8 moveIndex, u8 amount);
-BOOL ServerEvent_DecrementPP(BattleHandler *handler, BattleMon *mon, u8 moveIndex);
-void ServerEvent_EquipTempItem(BattleHandler *handler, BattleMon *mon, u8 monIndex);
-void ServerEvent_GastroAcidConfirmed(BattleHandler *handler, BattleMon *mon);
-void ServerControl_MoveCore(BattleHandler *handler, u8 clientId, u8 firstSlot, u8 secondSlot, u32 flag);
-void ServerControl_AfterMove(BattleHandler *handler, u8 clientId, u8 firstSlot, u8 secondSlot);
-BOOL ServerControl_ChangeWeatherCheck(BattleHandler *handler, u8 weather, u8 duration);
-void ServerControl_ChangeWeatherCore(BattleHandler *handler, u8 weather, u8 duration);
-void ServerEvent_NotifyAirLock(BattleHandler *handler);
-BOOL ServerEvent_CheckFloating(BattleHandler *handler, BattleMon *mon, u32 flag);
-void ServerControl_CureCondition(BattleHandler *handler, BattleMon *mon, u32 condition, u32 flag);
-u32 ServerEvent_CheckItemSet(BattleHandler *handler, BattleMon *mon, u16 item);
-void ServerEvent_ItemSetFailed(BattleHandler *handler, BattleMon *mon);
-void ServerEvent_ChangeAbilityAfter(BattleHandler *handler, u8 monIndex);
-void ServerEvent_ChangeAbilityBefore(BattleHandler *handler, u8 monIndex, u16 oldAbility, u16 newAbility);
-void ServerControl_UnnerveAction(BattleHandler *handler, BattleMon *mon);
-BOOL ServerControl_DrainCore(BattleHandler *handler, BattleMon *mon, BattleMon *source, u16 amount);
-BOOL ServerControl_CheckSimpleDamageEnabled(BattleHandler *handler, BattleMon *mon, u16 damage);
-void ServerControl_ViewEffect(BattleHandler *handler, u16 effect, u8 arg1, u8 arg2, u32 flag1, u32 flag2);
-void ServerControl_SimpleDamageCore(BattleHandler *handler, BattleMon *mon, u16 damage, BattleHandlerString *string);
-void ServerControl_FaintPokemon(BattleHandler *handler, BattleMon *mon);
+BOOL ServerControl_HideTurnCancel(BtlServerFlow *handler, BattleMon *mon, u32 flag);
+BOOL ServerControl_FlinchCore(BtlServerFlow *handler, BattleMon *mon, u8 flag);
+BOOL ServerControl_SwitchInFillSlot(BtlServerFlow *handler, u8 target, u8 slot, u8 slotAgain, BOOL flag);
+void ServerControl_AfterSwitchIn(BtlServerFlow *handler);
+void ServerControl_SetMonCounter(BtlServerFlow *handler, BattleMon *mon, u8 counter, u8 value);
+void ServerControl_CheckItemReaction(BtlServerFlow *handler, BattleMon *mon, u32 reaction);
+void ServerControl_ChangeHeldItem(BtlServerFlow *handler, BattleMon *mon, u16 item, u8 flag);
+BOOL ServerControl_UseHeldItem(BtlServerFlow *handler, BattleMon *mon);
+BOOL ServerControl_EscapeSub(BtlServerFlow *handler, BattleMon *mon, u32 flag);
+BOOL ServerControl_CheckMatchup(BtlServerFlow *handler);
+BOOL func_ov167_021abeb4(BtlServerFlow *handler, u8 monIndex);
+BOOL ServerControl_SwitchOut(BtlServerFlow *handler, BattleMon *mon, u8 flag);
+BOOL ServerControl_FieldEffectCore(BtlServerFlow *handler, u32 effect, BattleCondition value, u8 duration);
+void ServerControl_FieldEffectEnd(BtlServerFlow *handler, u32 effect);
+BOOL ServerControl_DecrementPP(BtlServerFlow *handler, BattleMon *mon, u8 moveIndex, u8 amount);
+BOOL ServerEvent_DecrementPP(BtlServerFlow *handler, BattleMon *mon, u8 moveIndex);
+void ServerEvent_EquipTempItem(BtlServerFlow *handler, BattleMon *mon, u8 monIndex);
+void ServerEvent_GastroAcidConfirmed(BtlServerFlow *handler, BattleMon *mon);
+void ServerControl_MoveCore(BtlServerFlow *handler, u8 clientId, u8 firstSlot, u8 secondSlot, u32 flag);
+void ServerControl_AfterMove(BtlServerFlow *handler, u8 clientId, u8 firstSlot, u8 secondSlot);
+BOOL ServerControl_ChangeWeatherCheck(BtlServerFlow *handler, u8 weather, u8 duration);
+void ServerControl_ChangeWeatherCore(BtlServerFlow *handler, u8 weather, u8 duration);
+void ServerEvent_NotifyAirLock(BtlServerFlow *handler);
+BOOL ServerEvent_CheckFloating(BtlServerFlow *handler, BattleMon *mon, u32 flag);
+void ServerControl_CureCondition(BtlServerFlow *handler, BattleMon *mon, u32 condition, u32 flag);
+u32 ServerEvent_CheckItemSet(BtlServerFlow *handler, BattleMon *mon, u16 item);
+void ServerEvent_ItemSetFailed(BtlServerFlow *handler, BattleMon *mon);
+void ServerEvent_ChangeAbilityAfter(BtlServerFlow *handler, u8 monIndex);
+void ServerEvent_ChangeAbilityBefore(BtlServerFlow *handler, u8 monIndex, u16 oldAbility, u16 newAbility);
+void ServerControl_UnnerveAction(BtlServerFlow *handler, BattleMon *mon);
+BOOL ServerControl_DrainCore(BtlServerFlow *handler, BattleMon *mon, BattleMon *source, u16 amount);
+BOOL ServerControl_CheckSimpleDamageEnabled(BtlServerFlow *handler, BattleMon *mon, u16 damage);
+void ServerControl_ViewEffect(BtlServerFlow *handler, u16 effect, u8 arg1, u8 arg2, u32 flag1, u32 flag2);
+void ServerControl_SimpleDamageCore(BtlServerFlow *handler, BattleMon *mon, u16 damage, BattleHandlerString *string);
+void ServerControl_FaintPokemon(BtlServerFlow *handler, BattleMon *mon);
 
 #endif // POKEBW2_BATTLE_BTL_SERVER_FLOW_H

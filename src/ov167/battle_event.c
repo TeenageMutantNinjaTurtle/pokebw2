@@ -20,68 +20,56 @@
 #include "save/bag.h"
 #include "save/config.h"
 
-BOOL IsStatChangeValid(BattleMon *mon, u32 stat, s32 change);
 
 // Function names from swan.
+// The registered items, in priority order; depth counts the nested calls of the handlers
+typedef struct {
+    u32 depth;
+    BattleEventItem *first;
+    u32 unk08;
+} BattleEventList;
 
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-
-// Function names from swan.
-extern const BattleEventHandlerEntry data_ov167_021d78d4[];
-
-extern const BattleEventHandlerEntry data_ov167_021d78cc[];
-
-extern const BattleEventHandlerEntry data_ov167_021d78c4[];
+BattleEventList data_ov167_021db194;
 
 // Function names from swan.
 void BattleEventItem_ConvertToIsolated(BattleEventItem *item) {
-    *(u32 *)((u8 *)item + 0x10) = 6;
+    item->factorType = 6;
 }
 
 BOOL BattleEventItem_IsIsolated(BattleEventItem *item) {
-    if (*(u32 *)((u8 *)item + 0x10) == 6) {
+    if (item->factorType == 6) {
         return TRUE;
     }
     return FALSE;
 }
 
 u16 BattleEventItem_GetSubID(BattleEventItem *item) {
-    return *(u16 *)((u8 *)item + 0x38);
+    return item->subId;
 }
 
 u8 HandlerGetMainModule(BattleEventItem *handler) {
-    return ((u8 *)handler)[0x3b];
+    return handler->dependMonId;
 }
 
 u32 BattleEventItem_GetWorkValue(BattleEventItem *item, u32 index) {
-    return *(u32 *)((u8 *)item + 0x1c + index * 4);
+    return item->work[index];
 }
 
 void BattleEventItem_SetTempItemFlag(BattleEventItem *item) {
-    *(u32 *)((u8 *)item + 0x18) |= 1 << 26;
+    item->flags |= 1 << 26;
 }
 
 void BattleEventItem_SetRecallEnable(BattleEventItem *item) {
     u32 flags;
 
-    flags = *(u32 *)((u8 *)item + 0x18);
+    flags = item->flags;
     if ((flags << 7) >> 31) {
-        *(u32 *)((u8 *)item + 0x18) = flags | (1 << 28);
+        item->flags = flags | (1 << 28);
     }
 }
 
 void BattleEventItem_SetWorkValue(BattleEventItem *item, u32 index, u32 value) {
-    *(u32 *)((u8 *)item + 0x1c + index * 4) = value;
+    item->work[index] = value;
 }
 
 void BattleEvent_ForceCallHandlers(void *context, u32 event) {
@@ -97,7 +85,7 @@ void func_ov167_021bc90c(void *context, u32 event, u32 mask) {
 }
 
 void func_ov167_021bc918(void *context, u32 event, u32 mask, u32 flag) {
-    struct EventItemView *item;
+    BattleEventItem *item;
 
     data_ov167_021db194.depth++;
     func_ov167_021bc94c(context, event, mask, flag);
@@ -113,10 +101,10 @@ void func_ov167_021bc918(void *context, u32 event, u32 mask, u32 flag) {
 }
 
 // Function names from swan.
-void BattleEventItem_AttachSkipCheckHandler(BattleEventItem *item, void *handler) {
-    *(void **)((u8 *)item + 0xc) = handler;
+void BattleEventItem_AttachSkipCheckHandler(BattleEventItem *item, BattleEventSkipCheckFn handler) {
+    item->skipCheck = handler;
 }
 
 void BattleEventItem_DetachSkipCheckHandler(BattleEventItem *item) {
-    *(void **)((u8 *)item + 0xc) = NULL;
+    item->skipCheck = NULL;
 }

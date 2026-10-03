@@ -4,26 +4,32 @@
 #include "struct_decls.h"
 #include "types.h"
 
-struct EventItemView {
-    u32 unk00;
-    struct EventItemView *next;
-    u8 unk08[0x10];
-    u32 flags;
-};
-
-struct EventDispatchView {
-    u32 depth;
-    struct EventItemView *first;
-};
-
-typedef void (*BattleEventHandlerFn)(void *context, void *item, u32 monId);
+// Checks whether an item's handlers are skipped for the item being run: the checking item, the server flow, the
+// checked item's factor type, the event, and the checked item's sub ID and mon
+typedef BOOL (*BattleEventSkipCheckFn)(BattleEventItem *item, BtlServerFlow *flow, u32 factorType, u32 event, u16 subId,
+                                       u8 monId);
+// Called with the item, the server flow, the item's mon and its work
+typedef void (*BattleEventHandlerFn)(BattleEventItem *item, BtlServerFlow *flow, u32 monId, u32 *work);
 
 struct BattleEventHandlerEntry {
     u32 event;
     BattleEventHandlerFn handler;
 };
 
-extern EventDispatchView data_ov167_021db194;
+// A registered handler table for an ability, item, move or other effect, 0x3c bytes; 0x84 are pooled
+struct BattleEventItem {
+    BattleEventItem *prev;
+    BattleEventItem *next;
+    const BattleEventHandlerEntry *handlers;
+    BattleEventSkipCheckFn skipCheck;
+    u32 factorType;
+    u32 priority;
+    u32 flags;
+    u32 work[7];
+    u16 subId;
+    u8 monId;
+    u8 dependMonId;
+};
 
 void BattleEventItem_ConvertToIsolated(BattleEventItem *item);
 BOOL BattleEventItem_IsIsolated(BattleEventItem *item);
@@ -38,7 +44,7 @@ void func_ov167_021bc90c(void *context, u32 event, u32 mask);
 void func_ov167_021bc94c(void *context, u32 event, u32 mask, u32 flag);
 void BattleEvent_ForceCallHandlers(void *context, u32 event);
 void BattleEvent_CallHandlers(void *context, u32 event);
-void BattleEventItem_AttachSkipCheckHandler(BattleEventItem *item, void *handler);
+void BattleEventItem_AttachSkipCheckHandler(BattleEventItem *item, BattleEventSkipCheckFn handler);
 void BattleEventItem_DetachSkipCheckHandler(BattleEventItem *item);
 BattleEventItem *BattleEvent_SeekItem(u32 type, u32 monId);
 void BattleEventItem_Remove(BattleEventItem *item);

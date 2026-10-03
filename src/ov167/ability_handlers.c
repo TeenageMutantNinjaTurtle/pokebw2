@@ -10,6 +10,7 @@
 #include "battle/btl_main.h"
 #include "battle/btl_math.h"
 #include "battle/btl_pokeparam.h"
+#include "battle/btl_server.h"
 #include "battle/btl_server_flow.h"
 #include "battle/btl_setup.h"
 #include "battle/btlv.h"
@@ -384,10 +385,10 @@ void HandlerIntimidateMemberIn(void *context, void *flow, u32 monId) {
     if (BattleEventVar_GetValue(2) == monId) {
         side = func_ov167_021ab840(flow, monId);
         mons = func_ov167_021abc60(flow, 6);
-        count = HandlerGetAlivePartyCount((BattleHandler *)flow, (u16)(side | 0x100), mons);
+        count = HandlerGetAlivePartyCount(flow, (u16)(side | 0x100), mons);
         if (count != 0) {
-            BattleHandler_PushRun((BattleHandler *)flow, 2, (void *)monId);
-            work = BattleHandler_PushWork((BattleHandler *)flow, 0xe, (void *)monId);
+            BattleHandler_PushRun(flow, 2, monId);
+            work = BattleHandler_PushWork(flow, 0xe, monId);
             work->command = 1;
             work->target = -1;
             work->active = 1;
@@ -395,8 +396,8 @@ void HandlerIntimidateMemberIn(void *context, void *flow, u32 monId) {
             for (i = 0; i < count; i++) {
                 work->mons[i] = mons[i];
             }
-            BattleHandler_PopWork((BattleHandler *)flow, work);
-            BattleHandler_PushRun((BattleHandler *)flow, 3, (void *)monId);
+            BattleHandler_PopWork(flow, work);
+            BattleHandler_PushRun(flow, 3, monId);
         }
     }
 }
@@ -424,14 +425,14 @@ void HandlerSteadfast(void *context, void *flow, u32 monId) {
     flag = 2;
     if (BattleEventVar_GetValue(0x22) == 6) {
         if (BattleEventVar_GetValue(2) == monId) {
-            work = BattleHandler_PushWork((BattleHandler *)flow, 0xe, (void *)monId);
+            work = BattleHandler_PushWork(flow, 0xe, monId);
             work->flags |= flag << 22;
             work->count = 5;
             work->active = 1;
             work->unk0e = 0;
             work->amount = 1;
             work->monId = monId;
-            BattleHandler_PopWork((BattleHandler *)flow, work);
+            BattleHandler_PopWork(flow, work);
         }
     }
 }
@@ -679,13 +680,13 @@ void HandlerSpeedBoost(void *context, BtlServerFlow *flow, u32 monId) {
     if (BattleEventVar_GetValue(2) == monId) {
         mon = GetBattleMon(flow, monId);
         if (GetAdditionalConditionFlag(mon, 0)) {
-            work = BattleHandler_PushWork((BattleHandler *)flow, 0xe, (void *)monId);
+            work = BattleHandler_PushWork(flow, 0xe, monId);
             work->flags |= flag << 22;
             work->count = 5;
             work->amount = 1;
             work->monId = monId;
             work->active = 1;
-            BattleHandler_PopWork((BattleHandler *)flow, work);
+            BattleHandler_PopWork(flow, work);
         }
     }
 }
@@ -810,7 +811,7 @@ BOOL func_ov167_021be5c4(void *flow, u32 monId, void *list, u32 ability) {
     clientCount = func_ov167_021abb50(flow);
     if (clientCount != 6) {
         packed = (7 << 8) | clientCount;
-        count = HandlerGetAlivePartyCount((BattleHandler *)flow, packed, mons);
+        count = HandlerGetAlivePartyCount(flow, packed, mons);
         for (i = 0; i < count; i++) {
             if (monId != mons[i]) {
                 if (GetBattleMonStat(GetBattleMon(flow, mons[i]), 0x11) == ability) {
@@ -853,13 +854,13 @@ void CommonFlowerGiftFormChange(void *context, BtlServerFlow *flow, u32 monId, u
 
     mon = GetBattleMon(flow, monId);
     if (sunny != GetBattleMonStat(mon, 0x13)) {
-        work = BattleHandler_PushWork((BattleHandler *)flow, 0x39, (void *)monId);
+        work = BattleHandler_PushWork(flow, 0x39, monId);
         work->monId = monId;
         work->form = sunny;
         work->flags = (work->flags & 0xff7fffff) | ((cause & 1) << 23);
         BattleHandler_StrSetup(&work->string, 2, 0xde);
         BattleHandler_AddArg(&work->string, monId);
-        BattleHandler_PopWork((BattleHandler *)flow, work);
+        BattleHandler_PopWork(flow, work);
     }
 }
 
@@ -1112,12 +1113,12 @@ void CommonStatDropGuardFixed(void *flow, u32 monId, u32 *result, u16 message) {
     if (BattleEventVar_GetValue(2) == monId && result[0]) {
         source = BattleEventVar_GetValue(0x19);
         if (source == 0 || result[1] != source) {
-            BattleHandler_PushRun((BattleHandler *)flow, 2, (void *)monId);
-            work = BattleHandler_PushWork((BattleHandler *)flow, 4, (void *)monId);
+            BattleHandler_PushRun(flow, 2, monId);
+            work = BattleHandler_PushWork(flow, 4, monId);
             BattleHandler_StrSetup(&work->string, 2, message);
             BattleHandler_AddArg(&work->string, monId);
-            BattleHandler_PopWork((BattleHandler *)flow, work);
-            BattleHandler_PushRun((BattleHandler *)flow, 3, (void *)monId);
+            BattleHandler_PopWork(flow, work);
+            BattleHandler_PushRun(flow, 3, monId);
             result[1] = source;
         }
         result[0] = 0;
@@ -1296,12 +1297,12 @@ void HandlerObliviousNoEffectCheck(void *context, void *flow, u32 monId) {
     if (BattleEventVar_GetValue(4) == monId) {
         if ((u16)BattleEventVar_GetValue(0x12) == 0x1bd) {
             if (BattleEventVar_RewriteValue(0x40, 1)) {
-                BattleHandler_PushRun((BattleHandler *)flow, 2, (void *)monId);
-                work = BattleHandler_PushWork((BattleHandler *)flow, command, (void *)monId);
+                BattleHandler_PushRun(flow, 2, monId);
+                work = BattleHandler_PushWork(flow, command, monId);
                 BattleHandler_StrSetup(&work->string, 2, 0xd2);
                 BattleHandler_AddArg(&work->string, monId);
-                BattleHandler_PopWork((BattleHandler *)flow, work);
-                BattleHandler_PushRun((BattleHandler *)flow, 3, (void *)monId);
+                BattleHandler_PopWork(flow, work);
+                BattleHandler_PushRun(flow, 3, monId);
             }
         }
     }
@@ -1328,12 +1329,12 @@ void CommonAddStatusFailed(void *context, void *flow, u32 monId, u32 *result, u1
     command = 4;
     if (BattleEventVar_GetValue(4) == monId) {
         if (*result == 1) {
-            BattleHandler_PushRun((BattleHandler *)flow, 2, (void *)monId);
-            work = BattleHandler_PushWork((BattleHandler *)flow, command, (void *)monId);
+            BattleHandler_PushRun(flow, 2, monId);
+            work = BattleHandler_PushWork(flow, command, monId);
             BattleHandler_StrSetup(&work->string, 2, message);
             BattleHandler_AddArg(&work->string, monId);
-            BattleHandler_PopWork((BattleHandler *)flow, work);
-            BattleHandler_PushRun((BattleHandler *)flow, 3, (void *)monId);
+            BattleHandler_PopWork(flow, work);
+            BattleHandler_PushRun(flow, 3, monId);
             *result = 0;
         }
     }
@@ -1355,13 +1356,13 @@ void CommonAbilityCureStatusCore(void *flow, u32 monId, u32 status) {
 
     mon = GetBattleMon(flow, monId);
     if (CheckCondition(mon, status)) {
-        BattleHandler_PushRun((BattleHandler *)flow, 2, (void *)monId);
-        work = BattleHandler_PushWork((BattleHandler *)flow, 0xb, (void *)monId);
+        BattleHandler_PushRun(flow, 2, monId);
+        work = BattleHandler_PushWork(flow, 0xb, monId);
         work->status = status;
         work->active = 1;
         work->monId = monId;
-        BattleHandler_PopWork((BattleHandler *)flow, work);
-        BattleHandler_PushRun((BattleHandler *)flow, 3, (void *)monId);
+        BattleHandler_PopWork(flow, work);
+        BattleHandler_PushRun(flow, 3, monId);
     }
 }
 
@@ -1407,11 +1408,11 @@ void CommonWeatherChangeAbility(void *flow, u32 monId, u32 weather) {
 
     flag = 2;
     if (BattleEventVar_GetValue(2) == monId) {
-        work = BattleHandler_PushWork((BattleHandler *)flow, 0x1d, (void *)monId);
+        work = BattleHandler_PushWork(flow, 0x1d, monId);
         work->flags |= flag << 22;
         work->weather = weather;
         work->duration = 0xff;
-        BattleHandler_PopWork((BattleHandler *)flow, work);
+        BattleHandler_PopWork(flow, work);
     }
 }
 
@@ -1421,12 +1422,12 @@ void HandlerAirLockMemberIn(void *context, void *flow, u32 monId) {
 
     flag = 2;
     if (BattleEventVar_GetValue(2) == monId) {
-        work = BattleHandler_PushWork((BattleHandler *)flow, 0x1d, (void *)monId);
+        work = BattleHandler_PushWork(flow, 0x1d, monId);
         work->flags |= flag << 22;
         work->weather = 0;
         work->active = 1;
         BattleHandler_StrSetup(&work->string, 1, 0x5e);
-        BattleHandler_PopWork((BattleHandler *)flow, work);
+        BattleHandler_PopWork(flow, work);
     }
 }
 
@@ -1464,11 +1465,11 @@ void CommonWeatherRecoveryAbility(BtlServerFlow *flow, u32 monId, u32 weather) {
     if (BattleEventVar_GetValue(0x39) == weather) {
         if (BattleEventVar_GetValue(2) == monId) {
             mon = GetBattleMon(flow, monId);
-            work = BattleHandler_PushWork((BattleHandler *)flow, 5, (void *)monId);
+            work = BattleHandler_PushWork(flow, 5, monId);
             work->flags |= 2 << 22;
             work->monId = monId;
             work->amount = DivideMaxHPZeroCheck(mon, 0x10);
-            BattleHandler_PopWork((BattleHandler *)flow, work);
+            BattleHandler_PopWork(flow, work);
             BattleEventVar_RewriteValue(0x41, 1);
         }
     }
@@ -1485,12 +1486,12 @@ void HandlerSolarPowerWeather(void *context, BtlServerFlow *flow, u32 monId) {
         if (BattleEventVar_GetValue(0x39) == 1) {
             mon = GetBattleMon(flow, monId);
             amount = DivideMaxHPZeroCheck(mon, 8);
-            BattleHandler_PushRun((BattleHandler *)flow, 2, (void *)monId);
-            work = BattleHandler_PushWork((BattleHandler *)flow, 7, (void *)monId);
+            BattleHandler_PushRun(flow, 2, monId);
+            work = BattleHandler_PushWork(flow, 7, monId);
             work->monId = monId;
             work->amount = amount;
-            BattleHandler_PopWork((BattleHandler *)flow, work);
-            BattleHandler_PushRun((BattleHandler *)flow, 3, (void *)monId);
+            BattleHandler_PopWork(flow, work);
+            BattleHandler_PushRun(flow, 3, monId);
         }
     }
 }
@@ -1587,14 +1588,14 @@ void HandlerHydration(void *context, BtlServerFlow *flow, u32 monId) {
         if (GetWeather(flow) == 2) {
             mon = GetBattleMon(flow, monId);
             if (GetBattleMonStatus(mon)) {
-                BattleHandler_PushRun((BattleHandler *)flow, 2, (void *)monId);
-                work = BattleHandler_PushWork((BattleHandler *)flow, 0xb, (void *)monId);
+                BattleHandler_PushRun(flow, 2, monId);
+                work = BattleHandler_PushWork(flow, 0xb, monId);
                 work->status = 0x24;
                 work->monId = monId;
                 work->active = 1;
                 work->flags |= flag << 24;
-                BattleHandler_PopWork((BattleHandler *)flow, work);
-                BattleHandler_PushRun((BattleHandler *)flow, 3, (void *)monId);
+                BattleHandler_PopWork(flow, work);
+                BattleHandler_PushRun(flow, 3, monId);
             }
         }
     }
@@ -1615,13 +1616,13 @@ void HandlerShedSkin(void *context, BtlServerFlow *flow, u32 monId) {
         mon = GetBattleMon(flow, monId);
         if (GetBattleMonStatus(mon)) {
             if (AbilityEvent_RollEffectChance((BattleMon *)flow, 0x21)) {
-                work = BattleHandler_PushWork((BattleHandler *)flow, 0xb, (void *)monId);
+                work = BattleHandler_PushWork(flow, 0xb, monId);
                 work->flags |= flag << 22;
                 work->flags |= flag << 24;
                 work->status = 0x24;
                 work->monId = monId;
                 work->active = 1;
-                BattleHandler_PopWork((BattleHandler *)flow, work);
+                BattleHandler_PopWork(flow, work);
             }
         }
     }
@@ -1641,12 +1642,12 @@ void HandlerPoisonHeal(void *context, BtlServerFlow *flow, u32 monId) {
         if (BattleEventVar_GetValue(0x1d) == 5) {
             mon = GetBattleMon(flow, monId);
             BattleEventVar_RewriteValue(0x32, 0);
-            work = BattleHandler_PushWork((BattleHandler *)flow, 5, (void *)monId);
+            work = BattleHandler_PushWork(flow, 5, monId);
             work->amount = DivideMaxHPZeroCheck(mon, 8);
             work->monId = monId;
             flag = 8;
             work->flags |= flag << 20;
-            BattleHandler_PopWork((BattleHandler *)flow, work);
+            BattleHandler_PopWork(flow, work);
         }
     }
 }
@@ -1692,7 +1693,7 @@ void HandlerAngerPoint(void *context, BtlServerFlow *flow, u32 monId) {
             if (BattleEventVar_GetValue(0x45) != 0) {
                 mon = GetBattleMon(flow, monId);
                 if (func_ov167_021bb550(mon, 1) > 0) {
-                    work = BattleHandler_PushWork((BattleHandler *)flow, 0xe, (void *)monId);
+                    work = BattleHandler_PushWork(flow, 0xe, monId);
                     work->stage = 1;
                     amount = func_ov167_021bb550(mon, 1);
                     work->amount = amount;
@@ -1703,7 +1704,7 @@ void HandlerAngerPoint(void *context, BtlServerFlow *flow, u32 monId) {
                     work->flags |= 1 << 23;
                     BattleHandler_StrSetup(&work->string, 2, 0x1e1);
                     BattleHandler_AddArg(&work->string, monId);
-                    BattleHandler_PopWork((BattleHandler *)flow, work);
+                    BattleHandler_PopWork(flow, work);
                 }
             }
         }
@@ -1788,12 +1789,12 @@ void HandlerNaturalCure(void *context, BtlServerFlow *flow, u32 monId) {
     NaturalCureWork *work;
 
     if (BattleEventVar_GetValue(2) == monId) {
-        work = BattleHandler_PushWork((BattleHandler *)flow, 0xb, (void *)monId);
+        work = BattleHandler_PushWork(flow, 0xb, monId);
         work->status = 0x24;
         work->active = 1;
         work->monId = monId;
         work->showPopup = 1;
-        BattleHandler_PopWork((BattleHandler *)flow, work);
+        BattleHandler_PopWork(flow, work);
     }
 }
 
@@ -1813,12 +1814,12 @@ void HandlerSturdyOneshotCheck(void *context, BtlServerFlow *flow, u32 monId) {
     command = 4;
     if (BattleEventVar_GetValue(4) == monId) {
         if (BattleEventVar_RewriteValue(0x41, 1)) {
-            BattleHandler_PushRun((BattleHandler *)flow, 2, (void *)monId);
-            work = BattleHandler_PushWork((BattleHandler *)flow, command, (void *)monId);
+            BattleHandler_PushRun(flow, 2, monId);
+            work = BattleHandler_PushWork(flow, command, monId);
             BattleHandler_StrSetup(&work->string, 2, 0xd2);
             BattleHandler_AddArg(&work->string, monId);
-            BattleHandler_PopWork((BattleHandler *)flow, work);
-            BattleHandler_PushRun((BattleHandler *)flow, 3, (void *)monId);
+            BattleHandler_PopWork(flow, work);
+            BattleHandler_PushRun(flow, 3, monId);
         }
     }
 }
@@ -1839,12 +1840,12 @@ void HandlerSturdySurvive(void *context, BtlServerFlow *flow, u32 monId, u32 *ac
     SturdyMessageWork *work;
     if (BattleEventVar_GetValue(2) == monId) {
         if (*active) {
-            BattleHandler_PushRun((BattleHandler *)flow, 2, (void *)monId);
-            work = BattleHandler_PushWork((BattleHandler *)flow, 4, (void *)monId);
+            BattleHandler_PushRun(flow, 2, monId);
+            work = BattleHandler_PushWork(flow, 4, monId);
             BattleHandler_StrSetup(&work->string, 2, 0x202);
             BattleHandler_AddArg(&work->string, monId);
-            BattleHandler_PopWork((BattleHandler *)flow, work);
-            BattleHandler_PushRun((BattleHandler *)flow, 3, (void *)monId);
+            BattleHandler_PopWork(flow, work);
+            BattleHandler_PushRun(flow, 3, monId);
             *active = 0;
         }
     }
@@ -1920,19 +1921,19 @@ void CommonTypeRecoverHP(BtlServerFlow *flow, u32 monId, u32 divisor) {
     TypeRecoverMessageWork *message;
     mon = GetBattleMon(flow, monId);
     if (!IsMonFullHP(mon)) {
-        work = BattleHandler_PushWork((BattleHandler *)flow, 5, (void *)monId);
+        work = BattleHandler_PushWork(flow, 5, monId);
         work->monId = monId;
         work->amount = DivideMaxHPZeroCheck(mon, divisor);
         work->flags |= 2 << 22;
         BattleHandler_StrSetup(&work->string, 2, 0x183);
         BattleHandler_AddArg(&work->string, monId);
-        BattleHandler_PopWork((BattleHandler *)flow, work);
+        BattleHandler_PopWork(flow, work);
     } else {
-        message = BattleHandler_PushWork((BattleHandler *)flow, 4, (void *)monId);
+        message = BattleHandler_PushWork(flow, 4, monId);
         BattleHandler_StrSetup(&message->string, 2, 0xd2);
         BattleHandler_AddArg(&message->string, monId);
         message->flags |= 2 << 22;
-        BattleHandler_PopWork((BattleHandler *)flow, message);
+        BattleHandler_PopWork(flow, message);
     }
     BattleEventVar_RewriteValue(0x51, 1);
 }
@@ -1943,20 +1944,20 @@ void CommonTypeNoEffectRankUp(BtlServerFlow *flow, u32 monId, u32 stat, u32 amou
     TypeRankMessageWork *message;
     mon = GetBattleMon(flow, monId);
     if (IsStatChangeValid(mon, stat, amount)) {
-        work = BattleHandler_PushWork((BattleHandler *)flow, 0xe, (void *)monId);
+        work = BattleHandler_PushWork(flow, 0xe, monId);
         work->showPopup = 1;
         work->monId = monId;
         work->active = 1;
         work->stat = stat;
         work->amount = amount;
         work->flags |= 1 << 23;
-        BattleHandler_PopWork((BattleHandler *)flow, work);
+        BattleHandler_PopWork(flow, work);
     } else {
-        message = BattleHandler_PushWork((BattleHandler *)flow, 4, (void *)monId);
+        message = BattleHandler_PushWork(flow, 4, monId);
         BattleHandler_StrSetup(&message->string, 2, 0xd2);
         BattleHandler_AddArg(&message->string, monId);
         message->flags |= 2 << 22;
-        BattleHandler_PopWork((BattleHandler *)flow, message);
+        BattleHandler_PopWork(flow, message);
     }
 }
 
@@ -1968,18 +1969,18 @@ void HandlerDrySkinWeather(void *context, BtlServerFlow *flow, u32 monId) {
         mon = GetBattleMon(flow, monId);
         weather = BattleEventVar_GetValue(0x39);
         if (weather == 1) {
-            BattleHandler_PushRun((BattleHandler *)flow, 2, (void *)monId);
-            work = BattleHandler_PushWork((BattleHandler *)flow, 7, (void *)monId);
+            BattleHandler_PushRun(flow, 2, monId);
+            work = BattleHandler_PushWork(flow, 7, monId);
             work->monId = monId;
             work->amount = DivideMaxHPZeroCheck(mon, 8);
-            BattleHandler_PopWork((BattleHandler *)flow, work);
-            BattleHandler_PushRun((BattleHandler *)flow, 3, (void *)monId);
+            BattleHandler_PopWork(flow, work);
+            BattleHandler_PushRun(flow, 3, monId);
         } else if (weather == 2) {
-            work = BattleHandler_PushWork((BattleHandler *)flow, 5, (void *)monId);
+            work = BattleHandler_PushWork(flow, 5, monId);
             work->flags |= 2 << 22;
             work->monId = monId;
             work->amount = DivideMaxHPZeroCheck(mon, 8);
-            BattleHandler_PopWork((BattleHandler *)flow, work);
+            BattleHandler_PopWork(flow, work);
         }
     }
 }
@@ -2059,12 +2060,12 @@ void HandlerSoundproof(void *context, BtlServerFlow *flow, u32 monId) {
         move = BattleEventVar_GetValue(0x12);
         if (getMoveFlag(move, 8)) {
             if (BattleEventVar_RewriteValue(0x40, 1)) {
-                BattleHandler_PushRun((BattleHandler *)flow, 2, (void *)monId);
-                work = BattleHandler_PushWork((BattleHandler *)flow, command, (void *)monId);
+                BattleHandler_PushRun(flow, 2, monId);
+                work = BattleHandler_PushWork(flow, command, monId);
                 BattleHandler_StrSetup(&work->string, 2, 0xd2);
                 BattleHandler_AddArg(&work->string, monId);
-                BattleHandler_PopWork((BattleHandler *)flow, work);
-                BattleHandler_PushRun((BattleHandler *)flow, 3, (void *)monId);
+                BattleHandler_PopWork(flow, work);
+                BattleHandler_PushRun(flow, 3, monId);
             }
         }
     }
@@ -2091,11 +2092,11 @@ void HandlerLevitateAddImmunity(void *context, BtlServerFlow *flow, u32 monId, u
 
     if (BattleEventVar_GetValue(2) == monId) {
         if (*active) {
-            work = BattleHandler_PushWork((BattleHandler *)flow, 4, (void *)monId);
+            work = BattleHandler_PushWork(flow, 4, monId);
             work->flags |= 4 << 21;
             BattleHandler_StrSetup(&work->string, 2, 0xd2);
             BattleHandler_AddArg(&work->string, monId);
-            BattleHandler_PopWork((BattleHandler *)flow, work);
+            BattleHandler_PopWork(flow, work);
             *active = 0;
         }
     }
@@ -2126,12 +2127,12 @@ void HandlerWonderGuard(void *context, BtlServerFlow *flow, u32 monId) {
                 if (move != 0xa5) {
                     if ((s32)BattleEventVar_GetValue(0x38) <= 3) {
                         if (BattleEventVar_RewriteValue(0x40, 1)) {
-                            BattleHandler_PushRun((BattleHandler *)flow, 2, (void *)monId);
-                            work = BattleHandler_PushWork((BattleHandler *)flow, 4, (void *)monId);
+                            BattleHandler_PushRun(flow, 2, monId);
+                            work = BattleHandler_PushWork(flow, 4, monId);
                             BattleHandler_StrSetup(&work->string, 2, 0xd2);
                             BattleHandler_AddArg(&work->string, monId);
-                            BattleHandler_PopWork((BattleHandler *)flow, work);
-                            BattleHandler_PushRun((BattleHandler *)flow, run, (void *)monId);
+                            BattleHandler_PopWork(flow, work);
+                            BattleHandler_PushRun(flow, run, monId);
                         }
                     }
                 }
@@ -2170,11 +2171,11 @@ void HandlerTruantFailed(void *context, BtlServerFlow *flow, u32 monId, u32 *sta
 
     if (BattleEventVar_GetValue(2) == monId) {
         if (state[1] != 0) {
-            work = BattleHandler_PushWork((BattleHandler *)flow, 4, (void *)monId);
+            work = BattleHandler_PushWork(flow, 4, monId);
             work->flags |= 4 << 21;
             BattleHandler_StrSetup(&work->string, 2, 0x1bd);
             BattleHandler_AddArg(&work->string, monId);
-            BattleHandler_PopWork((BattleHandler *)flow, work);
+            BattleHandler_PopWork(flow, work);
             state[1] = 0;
         }
     }
@@ -2216,18 +2217,18 @@ void HandlerDampEffective(void *context, BtlServerFlow *flow, u32 monId, u32 *st
 
     if (state[0]) {
         target = BattleEventVar_GetValue(2);
-        work = BattleHandler_PushWork((BattleHandler *)flow, 4, (void *)monId);
+        work = BattleHandler_PushWork(flow, 4, monId);
         work->flags |= 4 << 21;
         BattleHandler_StrSetup(&work->string, 2, 0x389);
         BattleHandler_AddArg(&work->string, target);
         BattleHandler_AddArg(&work->string, state[1]);
-        BattleHandler_PopWork((BattleHandler *)flow, work);
+        BattleHandler_PopWork(flow, work);
         state[0] = 0;
     }
 }
 
 void HandlerDampStart(BattleEventItem *item, BtlServerFlow *flow, u32 monId) {
-    BattleEventItem_AttachSkipCheckHandler(item, (void *)HandlerDampSkipCheck);
+    BattleEventItem_AttachSkipCheckHandler(item, HandlerDampSkipCheck);
 }
 
 void func_ov167_021c06cc(BattleEventItem *item) {
@@ -2240,9 +2241,9 @@ void HandlerDampEnd(BattleEventItem *item, BtlServerFlow *flow, u32 monId) {
     }
 }
 
-BOOL HandlerDampSkipCheck(void *a, void *b, u32 c, void *d, u16 move) {
-    if (c == 4) {
-        if (move == 0x6a) {
+BOOL HandlerDampSkipCheck(BattleEventItem *item, BtlServerFlow *flow, u32 factorType, u32 event, u16 subId, u8 monId) {
+    if (factorType == 4) {
+        if (subId == 0x6a) {
             return TRUE;
         }
     }
@@ -2274,10 +2275,10 @@ void HandlerFlashFireRemove(void *context, BtlServerFlow *flow, u32 monId) {
     if (BattleEventVar_GetValue(2) == monId) {
         condition = 0xd;
         if (GetAdditionalConditionFlag(GetBattleMon(flow, monId), condition)) {
-            work = BattleHandler_PushWork((BattleHandler *)flow, 0x18, (void *)monId);
+            work = BattleHandler_PushWork(flow, 0x18, monId);
             work->monId = monId;
             work->condition = condition;
-            BattleHandler_PopWork((BattleHandler *)flow, work);
+            BattleHandler_PopWork(flow, work);
         }
     }
 }
@@ -2288,24 +2289,24 @@ void HandlerFlashFireCheckNoEffect(void *context, BtlServerFlow *flow, u32 monId
     u32 condition;
 
     if (CommonDamageRecoverCheck(flow, monId, 9)) {
-        BattleHandler_PushRun((BattleHandler *)flow, 2, (void *)monId);
+        BattleHandler_PushRun(flow, 2, monId);
         condition = 0xd;
         if (!GetAdditionalConditionFlag(GetBattleMon(flow, monId), condition)) {
-            message = BattleHandler_PushWork((BattleHandler *)flow, 4, (void *)monId);
+            message = BattleHandler_PushWork(flow, 4, monId);
             BattleHandler_StrSetup(&message->string, 2, 0x1ab);
             BattleHandler_AddArg(&message->string, monId);
-            BattleHandler_PopWork((BattleHandler *)flow, message);
-            work = BattleHandler_PushWork((BattleHandler *)flow, 0x17, (void *)monId);
+            BattleHandler_PopWork(flow, message);
+            work = BattleHandler_PushWork(flow, 0x17, monId);
             work->monId = monId;
             work->condition = condition;
-            BattleHandler_PopWork((BattleHandler *)flow, work);
+            BattleHandler_PopWork(flow, work);
         } else {
-            message = BattleHandler_PushWork((BattleHandler *)flow, 4, (void *)monId);
+            message = BattleHandler_PushWork(flow, 4, monId);
             BattleHandler_StrSetup(&message->string, 2, 0xd2);
             BattleHandler_AddArg(&message->string, monId);
-            BattleHandler_PopWork((BattleHandler *)flow, message);
+            BattleHandler_PopWork(flow, message);
         }
-        BattleHandler_PushRun((BattleHandler *)flow, 3, (void *)monId);
+        BattleHandler_PushRun(flow, 3, monId);
     }
 }
 
@@ -2320,11 +2321,11 @@ void HandlerRunAwayMessage(void *context, BtlServerFlow *flow, u32 monId) {
 
     if (CommonCheckRunMessage(context)) {
         flags = 4;
-        work = BattleHandler_PushWork((BattleHandler *)flow, 4, (void *)monId);
+        work = BattleHandler_PushWork(flow, 4, monId);
         work->flags |= flags << 21;
         BattleHandler_StrSetup(&work->string, 1, 0x48);
         BattleHandler_AddSoundEffect(&work->string, 0x56a);
-        BattleHandler_PopWork((BattleHandler *)flow, work);
+        BattleHandler_PopWork(flow, work);
     }
 }
 
@@ -2337,7 +2338,7 @@ const BattleEventHandlerEntry *EventAddRunAway(u32 *priority) {
 void HandlerMoldBreakerStart(BattleEventItem *item, BtlServerFlow *flow, u32 monId, u32 *active) {
     if (BattleEventVar_GetValue(3) == monId) {
         if (*active == 0) {
-            BattleEventItem_AttachSkipCheckHandler(item, (void *)func_ov167_021c09d0);
+            BattleEventItem_AttachSkipCheckHandler(item, func_ov167_021c09d0);
             *active = 1;
         }
     }
@@ -2420,12 +2421,12 @@ void CommonForecastOff(void *context, BtlServerFlow *flow, u32 monId) {
     mon = GetBattleMon(flow, monId);
     if (GetBattleMonSpecies(mon) == 0x15f) {
         if (GetBattleMonStat(mon, 0x13) != 0) {
-            work = BattleHandler_PushWork((BattleHandler *)flow, 0x39, (void *)monId);
+            work = BattleHandler_PushWork(flow, 0x39, monId);
             work->monId = monId;
             work->form = 0;
             BattleHandler_StrSetup(&work->string, 2, 0xde);
             BattleHandler_AddArg(&work->string, monId);
-            BattleHandler_PopWork((BattleHandler *)flow, work);
+            BattleHandler_PopWork(flow, work);
         }
     }
 }
@@ -2456,13 +2457,13 @@ void CommonForecastFormChange(BtlServerFlow *flow, u32 monId, u32 weather) {
             break;
         }
         if (newForm != currentForm) {
-            work = BattleHandler_PushWork((BattleHandler *)flow, 0x39, (void *)monId);
+            work = BattleHandler_PushWork(flow, 0x39, monId);
             work->flags |= 2 << 22;
             work->monId = monId;
             work->form = newForm;
             BattleHandler_StrSetup(&work->string, 2, 0xde);
             BattleHandler_AddArg(&work->string, monId);
-            BattleHandler_PopWork((BattleHandler *)flow, work);
+            BattleHandler_PopWork(flow, work);
         }
     }
 }
@@ -2501,12 +2502,12 @@ void HandlerLightningRodStart(void *context, BtlServerFlow *flow, u32 monId, u32
     u32 flags;
     if (*active) {
         if (func_ov167_021cde38(monId)) {
-            work = BattleHandler_PushWork((BattleHandler *)flow, 4, (void *)monId);
+            work = BattleHandler_PushWork(flow, 4, monId);
             flags = 4;
             work->flags |= flags << 21;
             BattleHandler_StrSetup(&work->string, 2, 7 << 6);
             BattleHandler_AddArg(&work->string, monId);
-            BattleHandler_PopWork((BattleHandler *)flow, work);
+            BattleHandler_PopWork(flow, work);
         }
         *active = 0;
     }

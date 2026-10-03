@@ -302,7 +302,7 @@ void HandlerTruantFailed(void *context, BtlServerFlow *flow, u32 monId, u32 *sta
 void HandlerTruantEndAction(void *context, BtlServerFlow *flow, u32 monId, u32 *result);
 const BattleEventHandlerEntry *EventAddTruant(u32 *priority);
 extern const BattleEventHandlerEntry data_ov167_021d7ca8[];
-BOOL func_ov167_021c09d0(void *a, void *b, u32 c);
+BOOL func_ov167_021c09d0(BattleEventItem *item, BtlServerFlow *flow, u32 factorType, u32 event, u16 subId, u8 monId);
 void HandlerMoldBreakerStart(BattleEventItem *item, BtlServerFlow *flow, u32 monId, u32 *active);
 void HandlerMoldBreakerEnd(BattleEventItem *item, BtlServerFlow *flow, u32 monId, u32 *active);
 void HandlerMoldBreakerConfirm(BattleEventItem *item, BtlServerFlow *flow, u32 monId, u32 *active);
@@ -315,7 +315,7 @@ void HandlerForecastWeather(void *context, BtlServerFlow *flow, u32 monId, u32 *
 void HandlerForecastAirLock(void *context, BtlServerFlow *flow, u32 monId, u32 *active);
 void HandlerForecastChangeAbility(BattleEventItem *item, BtlServerFlow *flow, u32 monId, u32 *active);
 void HandlerDampEnd(BattleEventItem *item, BtlServerFlow *flow, u32 monId);
-BOOL HandlerDampSkipCheck(void *a, void *b, u32 c, void *d, u16 move);
+BOOL HandlerDampSkipCheck(BattleEventItem *item, BtlServerFlow *flow, u32 factorType, u32 event, u16 subId, u8 monId);
 void HandlerDampStart(BattleEventItem *item, BtlServerFlow *flow, u32 monId);
 void func_ov167_021c06cc(BattleEventItem *item);
 void HandlerDamp(void *context, BtlServerFlow *flow, u32 monId, u32 *state);

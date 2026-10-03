@@ -30,7 +30,7 @@ BOOL IsUsed(BtlActionState *state);
 void SetResult(BtlActionState *state, BOOL result);
 BOOL GetPrevResult(BtlActionState *state);
 BOOL func_ov167_021b0918(BtlActionState *state);
-void *func_ov167_021b0920(BtlActionState *state, u32 command, void *data);
+void *func_ov167_021b0920(BtlActionState *state, u32 command, u32 monId);
 void PopWork(BtlActionState *state, void *work);
 
 u32 BattleAction_GetAction(const void *action);
