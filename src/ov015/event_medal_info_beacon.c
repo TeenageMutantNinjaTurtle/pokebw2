@@ -1,6 +1,6 @@
 #include "types.h"
-#include "app/demo_187.h"
-#include "field/event_demo_187.h"
+#include "app/medal_info.h"
+#include "field/event_medal_info_beacon.h"
 #include "field/field.h"
 #include "field/field_event.h"
 #include "gfl/std.h"
@@ -8,11 +8,11 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 
-struct EventDemo187 {
+struct EventMedalInfoBeacon {
     GameSystem *gsys;
     GameData *gameData;
     SaveControl *save;
-    Demo187Param param;
+    MedalInfoBeaconParam param;
     u8 subscreen;
     u8 mode;
 };
@@ -20,7 +20,7 @@ struct EventDemo187 {
 GameEventReturnCode func_ov015_0216e660(GameEvent *event, u32 *state, void *data);
 
 GameEventReturnCode func_ov015_0216e660(GameEvent *event, u32 *state, void *data) {
-    EventDemo187 *work = data;
+    EventMedalInfoBeacon *work = data;
     GameSystem *gsys = work->gsys;
     GameData *gameData = GSYS_GetGameData(gsys);
     Field *field = GSYS_GetField(gsys);
@@ -41,9 +41,9 @@ GameEventReturnCode func_ov015_0216e660(GameEvent *event, u32 *state, void *data
         sys_memset(&work->param, 0, sizeof(work->param));
         work->param.gsys = work->gsys;
         work->param.gameData = work->gameData;
-        work->param.param0 = work->subscreen;
-        work->param.unkA[0] = work->mode;
-        GSYS_QueueProc(gsys, OVERLAY_DEMO_187, &data_ov187_021ea06c, &work->param);
+        work->param.subscreen = work->subscreen;
+        work->param.mode = work->mode;
+        GSYS_QueueProc(gsys, OVERLAY_MEDAL_INFO, &data_ov187_021ea06c, &work->param);
         (*state)++;
         break;
     case 4:
@@ -57,7 +57,7 @@ GameEventReturnCode func_ov015_0216e660(GameEvent *event, u32 *state, void *data
         (*state)++;
         break;
     case 6:
-        if (work->param.param1) {
+        if (work->param.unk09) {
             FieldSubscreen_ChangeImm(Field_GetSubscreen(field), 0);
         }
         GameEvent_ChainNext(event, CallFieldMapEntranceInTransition(gsys, field, 0, 0, 1, 0, 0));
@@ -75,8 +75,8 @@ GameEventReturnCode func_ov015_0216e660(GameEvent *event, u32 *state, void *data
 
 GameEvent *func_ov015_0216e770(GameSystem *gsys, const u32 *args) {
     u32 packed = args[0];
-    GameEvent *event = GameEvent_Create(gsys, NULL, func_ov015_0216e660, sizeof(EventDemo187));
-    EventDemo187 *work = GameEvent_GetData(event);
+    GameEvent *event = GameEvent_Create(gsys, NULL, func_ov015_0216e660, sizeof(EventMedalInfoBeacon));
+    EventMedalInfoBeacon *work = GameEvent_GetData(event);
 
     work->gameData = GSYS_GetGameData(gsys);
     work->save = GameData_GetSaveControl(work->gameData);

@@ -30,4 +30,17 @@ typedef struct {
 
 extern const GameProcFunctions data_ov187_021ea060;
 
+// What the screen of the medals of a beacon's sender (medal_info_beacon.c) gets
+typedef struct {
+    GameSystem *gsys;
+    GameData *gameData;
+    u8 subscreen;
+    // Set when the field is to return to the default subscreen
+    u8 unk09;
+    u8 mode;
+    u8 unk0B;
+} MedalInfoBeaconParam;
+
+extern const GameProcFunctions data_ov187_021ea06c;
+
 #endif // POKEBW2_APP_MEDAL_INFO_H
