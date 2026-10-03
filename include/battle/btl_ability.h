@@ -83,5 +83,9 @@ void CommonLowHPBoostAbility(BtlServerFlow *flow, u32 monId, u32 type);
 extern const BattleEventHandlerEntry data_ov167_021d76bc[];
 void HandlerGuts(void *context, BtlServerFlow *flow, u32 monId);
 const BattleEventHandlerEntry *EventAddGuts(u32 *priority);
+extern const BattleEventHandlerEntry data_ov167_021d7724[];
+void HandlerPlusMinus(void *context, void *flow, u32 monId, void *list);
+const BattleEventHandlerEntry *EventAddPlusMinus(u32 *priority);
+BOOL func_ov167_021be5c4(void *flow, u32 monId, void *list, u32 ability);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

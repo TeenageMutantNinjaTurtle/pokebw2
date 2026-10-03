@@ -5,7 +5,7 @@
 #include "battle/btl_server_flow.h"
 
 // Function names from swan.
-typedef struct SpeedBoostWork {
+struct SpeedBoostWork {
     u32 flags;
     u32 count;
     u8 unk08[4];
@@ -13,7 +13,7 @@ typedef struct SpeedBoostWork {
     u8 unk0d[2];
     u8 amount;
     u8 monId;
-} SpeedBoostWork;
+};
 
 void HandlerSpeedBoost(void *context, BtlServerFlow *flow, u32 monId) {
     BattleMon *mon;

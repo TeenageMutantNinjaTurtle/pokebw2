@@ -563,3 +563,7 @@ src/ov167/battle_ability_low_hp_boost.c:
 src/ov167/battle_ability_guts.c:
     complete
     .text       start:0x021be51c end:0x021be568
+
+src/ov167/battle_ability_plus_minus.c:
+    complete
+    .text       start:0x021be568 end:0x021be628

@@ -15,6 +15,7 @@ u32 AICalcDamage(BtlServerFlow *serverFlow, u8 attackerId, u8 defenderId, u16 mo
                  u32 damageRoll);
 u16 GetTurnCounter(BtlServerFlow *serverFlow);
 BattleMon *GetBattleMon(BtlServerFlow *serverFlow, u32 monId);
+u32 func_ov167_021abb50(BtlServerFlow *serverFlow);
 u32 CalcMoveEffectiveness(BtlServerFlow *serverFlow, u8 attackerId, u8 defenderId, u16 move);
 u16 func_ov167_021abd08(BtlServerFlow *serverFlow, BattleMon *mon, BOOL a2);
 u32 func_ov167_021abd10(BtlServerFlow *serverFlow, BattleMon *mon, BOOL a2);

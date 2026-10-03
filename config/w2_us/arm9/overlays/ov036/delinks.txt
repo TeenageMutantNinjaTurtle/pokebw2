@@ -257,3 +257,11 @@ src/ov036/field_prop_load_res_bundle.c:
 src/ov036/field_prop_build_res_lut.c:
     complete
     .text       start:0x021834a8 end:0x021834fc
+
+src/ov036/field_chunk_prop_holder_release.c:
+    complete
+    .text       start:0x02183d88 end:0x02183d98
+
+src/ov036/field_prop_chunk_holder_ops.c:
+    complete
+    .text       start:0x02183de8 end:0x02183e80

@@ -47,3 +47,15 @@ src/ov104/field_exp_obj_gimmick_ov104_dispatch.c:
 src/ov104/field_exp_obj_gimmick_ov104_scene_dispatch.c:
     complete
     .text       start:0x021ef344 end:0x021ef3c0
+
+src/ov104/field_exp_obj_gimmick_ov104_date_event.c:
+    complete
+    .text       start:0x021ef3c0 end:0x021ef43c
+
+src/ov104/field_exp_obj_gimmick_ov104_swarm_event.c:
+    complete
+    .text       start:0x021ef5ac end:0x021ef658
+
+src/ov104/field_exp_obj_gimmick_ov104_week_events.c:
+    complete
+    .text       start:0x021ef658 end:0x021ef868

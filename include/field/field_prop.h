@@ -38,6 +38,14 @@ struct FieldPropResInfo {
     FieldPropResAnmHeader animationHeader;
 };
 
+struct FieldChunkPropHolder {
+    void *chunk;
+    u32 savedResIndex;
+    u16 propIndex;
+    u16 visible;
+    u32 *instance;
+};
+
 struct FieldPropSystem {
     u16 heapId;
     u8 unk2[0x16];
@@ -46,6 +54,8 @@ struct FieldPropSystem {
     u32 resInfoCount;
     u8 unk220[0x20];
     void *textureResource;
+    u8 unk244[0x24];
+    FieldChunkPropHolder chunkPropHolders[0x120];
 };
 
 // Layout inferred from the Swan-named FieldPropRTCState helpers in overlay 36.
@@ -74,6 +84,13 @@ void FieldPropSystem_LoadResBundle(FieldPropSystem *system, u32 arcId, u32 fileI
 void FieldPropSystem_FreeResBundle(FieldPropSystem *system);
 void FieldPropSystem_BuildResIDLUT(FieldPropSystem *system, u32 defaultResId);
 void FieldPropSystem_FreeTextures(FieldPropSystem *system);
+void FieldChunk_ReleasePropInstance(void *chunk, u16 propIndex);
+void FieldChunkPropHolder_Release(FieldPropSystem *system, FieldChunkPropHolder *holder);
+void FieldPropSystem_ReleaseChunkPropHolders(FieldPropSystem *system, void *chunk);
+void FieldPropSystem_ReleaseChunkPropHolder(FieldPropSystem *system, FieldChunkPropHolder *holder);
+u8 FieldChunkPropHolder_GetResIndex(FieldChunkPropHolder *holder);
+void FieldChunkPropHolder_SetVisible(FieldChunkPropHolder *holder, BOOL visible);
+void FieldChunkPropHolder_ChangeResID(FieldPropSystem *system, FieldChunkPropHolder *holder, u32 resId);
 void FieldPropRTCState_Init(FieldPropRTCState *state, u8 season);
 void FieldPropRTCState_Update(FieldPropRTCState *state);
 BOOL FieldPropRTCState_HasDayPartChanged(FieldPropRTCState *state);

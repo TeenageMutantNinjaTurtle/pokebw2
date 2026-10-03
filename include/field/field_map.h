@@ -59,7 +59,6 @@ extern const char data_ov012_0216e1d4[];
 AreaData *AreaData_Create(HeapID heapId, u16 areaId, u32 a2);
 void AreaData_Free(AreaData *areaData);
 BOOL AreaData_IsExterior(AreaData *areaData);
-void EventData_LoadZone(EventData *eventData, u16 zoneId, u8 season);
 void GimmickState_Reset(GimmickState *gimmick);
 void GimmickState_SetID(GimmickState *gimmick, u16 gimmickId);
 u32 GimmickState_GetID(GimmickState *gimmick);

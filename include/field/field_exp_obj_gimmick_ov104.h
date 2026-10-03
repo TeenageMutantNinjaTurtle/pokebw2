@@ -23,6 +23,17 @@ struct FieldExpObjGimmickOv104Payload {
     u32 flags[7];
 };
 
+struct FieldExpObjGimmickOv104MessageArg {
+    u16 kind;
+    u16 padding;
+    u32 unk04;
+    u32 unk08;
+    u32 unk0c;
+    u32 unk10;
+    u32 unk14;
+    struct WordSet *wordSet;
+};
+
 struct FieldExpObjGimmickOv104SaveData {
     u32 value;
     u32 stateValue;
