@@ -50,64 +50,64 @@ BOOL func_ov167_021a6ab8(BtlServerFlow *handler, u8 monId, BattleMon *mon, u32 s
 
 // Function names from swan.
 // Function name from swan.
-ActionOrderEntry *ActionOrder_SearchByMonID(ActionOrder *order, u8 monId) {
+ActionOrderEntry *ActionOrder_SearchByMonID(BtlServerFlow *flow, u8 monId) {
     u32 i;
 
-    for (i = 0; i < order->count; i++) {
-        if (GetMonID(order->entries[i].mon) == monId) {
-            return &order->entries[i];
+    for (i = 0; i < flow->actionOrderCount; i++) {
+        if (GetMonID(flow->actionOrder[i].mon) == monId) {
+            return &flow->actionOrder[i];
         }
     }
     return NULL;
 }
 
 // Function names from swan.
-BOOL ActionOrder_InterruptReserve(ActionOrder *order, u8 monId) {
+BOOL ActionOrder_InterruptReserve(BtlServerFlow *flow, u8 monId) {
     ActionOrderEntry *entry;
 
-    entry = ActionOrder_SearchByMonID(order, monId);
-    if (entry && !entry->done && ActionOrderTool_Interrupt(order, entry, 0) >= 0) {
+    entry = ActionOrder_SearchByMonID(flow, monId);
+    if (entry && !entry->done && ActionOrderTool_Interrupt(flow, entry, 0) >= 0) {
         return TRUE;
     }
     return FALSE;
 }
 
-BOOL ActionOrder_InterruptReserveByMove(ActionOrder *order, u16 moveId) {
+BOOL ActionOrder_InterruptReserveByMove(BtlServerFlow *flow, u16 moveId) {
     u32 start;
     BOOL didInterrupt;
     ActionOrderEntry *entry;
     s32 index;
 
     start = 0;
-    entry = ActionOrder_SearchByMoveID(order, moveId, 0);
+    entry = ActionOrder_SearchByMoveID(flow, moveId, 0);
     didInterrupt = FALSE;
     while (entry) {
-        index = ActionOrderTool_Interrupt(order, entry, start);
+        index = ActionOrderTool_Interrupt(flow, entry, start);
         if (index < 0) {
             break;
         }
         start = index + 1;
-        entry = ActionOrder_SearchByMoveID(order, moveId, (u8)start);
+        entry = ActionOrder_SearchByMoveID(flow, moveId, (u8)start);
         didInterrupt = TRUE;
     }
     return didInterrupt;
 }
 
-BOOL ActionOrder_SendToLast(ActionOrder *order, u8 monId) {
+BOOL ActionOrder_SendToLast(BtlServerFlow *flow, u8 monId) {
     ActionOrderEntry *entry;
 
-    entry = ActionOrder_SearchByMonID(order, monId);
+    entry = ActionOrder_SearchByMonID(flow, monId);
     if (entry && !entry->done) {
-        ActionOrderTool_SendToLast(order, entry);
+        ActionOrderTool_SendToLast(flow, entry);
         return TRUE;
     }
     return FALSE;
 }
 
-void ActionOrder_ForceDone(ActionOrder *order, u8 monId) {
+void ActionOrder_ForceDone(BtlServerFlow *flow, u8 monId) {
     ActionOrderEntry *entry;
 
-    entry = ActionOrder_SearchByMonID(order, monId);
+    entry = ActionOrder_SearchByMonID(flow, monId);
     if (entry) {
         entry->done = 1;
     }
@@ -902,7 +902,7 @@ BOOL BattleHandler_SetWeight(BtlServerFlow *handler, BattleHandlerSetWeightParam
 
 // Function names from swan.
 BOOL BattleHandler_InterruptAction(BtlServerFlow *handler, BattleHandlerInterruptParam *param) {
-    if (ActionOrder_InterruptReserve((ActionOrder *)handler, param->monId)) {
+    if (ActionOrder_InterruptReserve(handler, param->monId)) {
         BattleHandler_SetString(handler, &param->string);
         return TRUE;
     }
@@ -910,11 +910,11 @@ BOOL BattleHandler_InterruptAction(BtlServerFlow *handler, BattleHandlerInterrup
 }
 
 u8 BattleHandler_InterruptMove(BtlServerFlow *handler, BattleHandlerInterruptParam *param) {
-    return ActionOrder_InterruptReserveByMove((ActionOrder *)handler, param->moveId) != 0;
+    return ActionOrder_InterruptReserveByMove(handler, param->moveId) != 0;
 }
 
 BOOL BattleHandler_SendLast(BtlServerFlow *handler, BattleHandlerInterruptParam *param) {
-    if (ActionOrder_SendToLast((ActionOrder *)handler, param->monId)) {
+    if (ActionOrder_SendToLast(handler, param->monId)) {
         BattleHandler_SetString(handler, &param->string);
         return TRUE;
     }

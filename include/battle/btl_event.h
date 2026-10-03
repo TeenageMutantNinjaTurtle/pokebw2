@@ -9,7 +9,7 @@
 typedef BOOL (*BattleEventSkipCheckFn)(BattleEventItem *item, BtlServerFlow *flow, u32 factorType, u32 event, u16 subId,
                                        u8 monId);
 // Called with the item, the server flow, the item's mon and its work
-typedef void (*BattleEventHandlerFn)(BattleEventItem *item, BtlServerFlow *flow, u32 monId, u32 *work);
+typedef void (*BattleEventHandlerFn)(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work);
 
 struct BattleEventHandlerEntry {
     u32 event;

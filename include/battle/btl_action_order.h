@@ -11,21 +11,14 @@ struct ActionOrderEntry {
     u8 unk0e[2];
 };
 
-struct ActionOrder {
-    u8 unk00[0x782];
-    u8 count;
-    u8 unk783[0x5d];
-    ActionOrderEntry entries[6];
-};
+ActionOrderEntry *ActionOrder_SearchByMonID(BtlServerFlow *flow, u8 monId);
+ActionOrderEntry *ActionOrder_SearchByMoveID(BtlServerFlow *flow, u16 moveId, u8 start);
+s32 ActionOrderTool_Interrupt(BtlServerFlow *flow, ActionOrderEntry *entry, u32 start);
+void ActionOrderTool_SendToLast(BtlServerFlow *flow, ActionOrderEntry *entry);
 
-ActionOrderEntry *ActionOrder_SearchByMonID(ActionOrder *order, u8 monId);
-ActionOrderEntry *ActionOrder_SearchByMoveID(ActionOrder *order, u16 moveId, u8 start);
-s32 ActionOrderTool_Interrupt(ActionOrder *order, ActionOrderEntry *entry, u32 start);
-void ActionOrderTool_SendToLast(ActionOrder *order, ActionOrderEntry *entry);
-
-BOOL ActionOrder_InterruptReserve(ActionOrder *order, u8 monId);
-BOOL ActionOrder_InterruptReserveByMove(ActionOrder *order, u16 moveId);
-BOOL ActionOrder_SendToLast(ActionOrder *order, u8 monId);
-void ActionOrder_ForceDone(ActionOrder *order, u8 monId);
+BOOL ActionOrder_InterruptReserve(BtlServerFlow *flow, u8 monId);
+BOOL ActionOrder_InterruptReserveByMove(BtlServerFlow *flow, u16 moveId);
+BOOL ActionOrder_SendToLast(BtlServerFlow *flow, u8 monId);
+void ActionOrder_ForceDone(BtlServerFlow *flow, u8 monId);
 
 #endif // POKEBW2_BATTLE_BTL_ACTION_ORDER_H

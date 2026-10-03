@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "battle/btl_action.h"
+#include "battle/btl_action_order.h"
 #include "battle/btl_pokeparam.h"
 #include "struct_decls.h"
 
@@ -36,8 +37,14 @@ struct BtlServerFlow {
     u32 unk14;
     u8 unk18[0x490];
     BattleMoveEffectState *moveEffect;
-    u8 unk4ac[0x2fd];
-    u8 unk7a9[0x130f];
+    u8 unk4ac[0x2d6];
+    u8 actionOrderCount;
+    u8 unk783[0x26];
+    // Per mon ID, cleared when the mon is revived
+    u8 unk7a9[24];
+    u8 unk7c1[0x1f];
+    ActionOrderEntry actionOrder[6];
+    u8 unk840[0x1278];
     // Passed to the ov169 function that several BattleHandler commands call through veneers
     u8 unk1ab8[0x2c];
     BattleHandlerString message;

@@ -10,7 +10,6 @@ typedef struct AdjacentOpponentData AdjacentOpponentData;
 typedef struct AirLockWeatherWork AirLockWeatherWork;
 typedef struct AdventureSave AdventureSave;
 typedef struct AdventureTime AdventureTime;
-typedef struct ActionOrder ActionOrder;
 typedef struct ActionOrderEntry ActionOrderEntry;
 typedef struct AngerPointWork AngerPointWork;
 typedef struct ArcTool ArcTool;
