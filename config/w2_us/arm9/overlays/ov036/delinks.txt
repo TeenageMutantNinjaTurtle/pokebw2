@@ -60,3 +60,15 @@ src/ov036/field_cycling.c:
 src/ov036/field_script_cmd_unity_tower.c:
     complete
     .text       start:0x021c9c58 end:0x021c9cc8
+
+src/ov036/field_script_cmd_unity_tower_floor.c:
+    complete
+    .text       start:0x021c9cc8 end:0x021c9cfc
+
+src/ov036/field_script_cmd_unity_tower_visitor.c:
+    complete
+    .text       start:0x021c9cfc end:0x021c9d58
+
+src/ov036/field_script_cmd_unity_tower_country.c:
+    complete
+    .text       start:0x021c9d58 end:0x021c9d84

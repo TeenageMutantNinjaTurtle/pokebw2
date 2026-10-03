@@ -284,6 +284,10 @@ src/ov012/field_script_cmd_party_full_hp.c:
     complete
     .text       start:0x02156328 end:0x02156388
 
+src/ov012/field_script_cmd_party_full_pp.c:
+    complete
+    .text       start:0x02156388 end:0x0215642c
+
 src/ov012/field_script_cmd_party_egg.c:
     complete
     .text       start:0x0215642c end:0x02156470
@@ -299,3 +303,15 @@ src/ov012/field_script_cmd_party_adjust_happiness.c:
 src/ov012/field_script_cmd_party_identity.c:
     complete
     .text       start:0x02156554 end:0x021565f4
+
+src/ov012/field_script_cmd_party_count.c:
+    complete
+    .text       start:0x021565f4 end:0x02156670
+
+src/ov012/field_script_cmd_party_count_species.c:
+    complete
+    .text       start:0x02156670 end:0x02156700
+
+src/ov012/field_script_cmd_party_has_move.c:
+    complete
+    .text       start:0x0215681c end:0x021568bc

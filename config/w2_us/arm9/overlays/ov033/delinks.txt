@@ -150,3 +150,7 @@ src/ov033/event_entree_warp_allowed.c:
 src/ov033/funfest_mission_event_create.c:
     complete
     .text       start:0x02176dc8 end:0x02176ddc
+
+src/ov033/funfest_mission_event_callback.c:
+    complete
+    .text       start:0x02176ddc end:0x02176f04

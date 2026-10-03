@@ -207,3 +207,11 @@ src/ov167/battle_handler_remove_message_window.c:
 src/ov167/battle_handler_change_form.c:
     complete
     .text       start:0x021ae2a0 end:0x021ae31c
+
+src/ov167/battle_handler_flinch.c:
+    complete
+    .text       start:0x021addc8 end:0x021addf0
+
+src/ov167/battle_handler_set_weight.c:
+    complete
+    .text       start:0x021ade68 end:0x021ade98

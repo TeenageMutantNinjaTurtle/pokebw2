@@ -24,6 +24,9 @@ u16 func_ov072_021e8ef4(void *gimmick, u8 index);
 void func_ov036_021b6690(void *gimmick);
 u32 LinkFestival_GetNormalChangeBGMID(LinkFestival *festival);
 void *GetFestMissionCfg(LinkFestival *festival);
+void func_02014774(LinkFestival *festival, u32 arg1);
+void func_ov130_021eed98(GameSystem *gsys);
+void func_ov130_021eedb4(GameSystem *gsys);
 u32 GetTrainerCardTextMSGID(u32 type);
 FestivalText *getTextFileForFestMissions(HeapID heapId);
 

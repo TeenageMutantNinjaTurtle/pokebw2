@@ -18,6 +18,5 @@ BOOL s027E_FunfestGetPokemonQuizSpecies(VM *vm, FieldScriptEnv *env);
 BOOL s027F_FunfestGetPokemonQuizBogusSpecies(VM *vm, FieldScriptEnv *env);
 
 void func_ov012_0216063c(u8 type, u16 value);
-GameEvent *func_ov033_02176d88(GameSystem *gsys);
 
 #endif // POKEBW2_FIELD_FUNFEST_SCRIPTS_H

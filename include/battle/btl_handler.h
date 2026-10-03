@@ -44,6 +44,8 @@ BOOL BattleHandler_AbilityPopupRemove(BattleHandler *handler, BattleHandlerPopup
 BOOL BattleHandler_HideTurnCancel(BattleHandler *handler, BattleHandlerHideTurnParam *param);
 BOOL BattleHandler_RemoveMessageWindow(BattleHandler *handler);
 BOOL BattleHandler_ChangeForm(BattleHandler *handler, BattleHandlerChangeFormParam *param);
+u8 BattleHandler_Flinch(BattleHandler *handler, BattleHandlerFlinchParam *param);
+BOOL BattleHandler_SetWeight(BattleHandler *handler, BattleHandlerSetWeightParam *param);
 
 BOOL BattleHandler_SetMoveEffectIndex(BattleHandler *handler, BattleHandlerMoveEffectParam *param);
 BOOL BattleHandler_SetMoveEffectEnable(BattleHandler *handler);

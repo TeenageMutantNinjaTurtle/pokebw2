@@ -1,4 +1,5 @@
 #include "field/entree_scripts.h"
+#include "field/event_funfest_mission.h"
 #include "field/event_mapchange.h"
 #include "field/field_script.h"
 #include "field/funfest_scripts.h"
