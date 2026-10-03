@@ -115,8 +115,6 @@ typedef struct {
     s32 y;
 } EntreeForestActorGridPosition;
 
-extern u16 GetPokemonFieldOBJCODE(void *pokemonData, u16 species, u16 sex, u16 form);
-
 extern const EntreeForestActorAppearance data_ov033_0217c354[];
 
 extern const ZoneNPC data_ov033_0217c374;

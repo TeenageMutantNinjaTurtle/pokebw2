@@ -91,6 +91,8 @@ void FldAct_GetGPos(FieldActor *actor, GridPos *pos);
 u16 GetActorUID(FieldActor *actor);
 u16 FldAct_GetSCRID(FieldActor *actor);
 u16 FldAct_GetObjCode(FieldActor *actor);
+// The field object code of a Pokémon walking in the field, in the main module
+u16 GetPokemonFieldOBJCODE(void *pokemonData, u16 species, u16 sex, u16 form);
 u32 GetIndexOfObjID(u16 objCode);
 // An object code's record in ARCID_MMODEL_TBL, from 4 bytes into the file, at the index GetIndexOfObjID returns
 typedef struct {

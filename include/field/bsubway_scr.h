@@ -4,6 +4,7 @@
 #include "types.h"
 #include "battle/btl_setup.h"
 #include "gfl/heap.h"
+#include "gfl/proc.h"
 #include "save/player_info.h"
 #include "struct_decls.h"
 
@@ -19,6 +20,9 @@ typedef struct {
     u8 unk20[8];
 } BSubwayOv174Param;
 
+// Overlay 174's screen
+extern const GameProcFunctions data_ov174_0219f0fc;
+
 // What overlay 50 fills in for overlay 306's screen
 typedef struct {
     GameData *gameData;
@@ -28,6 +32,11 @@ typedef struct {
     u32 unk10;
     s32 unk14;
 } BSubwayOv306Param;
+
+// Overlay 306's screen
+extern const GameProcFunctions data_ov306_0219ed40;
+// Overlay 273
+void func_ov273_021e9818(BtlSetup *setup);
 
 // A Pokémon of a Battle Subway Trainer, which genSubwayBtlInstitutePoke makes a party Pokémon of. The fields are
 // the PokeParty fields func_ov033_0217bf04 copies into it

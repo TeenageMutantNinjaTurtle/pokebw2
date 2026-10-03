@@ -95,14 +95,6 @@
 #include "system/version.h"
 #include "system/vm.h"
 
-extern u32 FieldPlayer_DeriveExState(FieldPlayer *player);
-
-extern u32 GetTileFlags(u32 tileType);
-
-extern u32 EncountState_CheckSpecialEncountPos(EncountSystem *encounter, const u16 *gridPos);
-
-extern BtlSetup *BtlSetup_CreateFishing(EncountSystem *encounter);
-
 BOOL CreateSurfPos(void *context, Field *field, VecFx32 *position) {
     VecFx32 targetPosition;
     FieldTerrain terrain;

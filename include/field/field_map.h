@@ -120,6 +120,7 @@ BOOL GameData_IsMapReplaceEventSet(GameData *gameData, u16 uid);
 void MapReplace_LoadVariables(MapReplaceVariables *variables, GameSystem *gsys);
 void MapMatrix_Patch(MapMatrix *matrix, GameSystem *gsys, HeapID heapId);
 u32 GetTileTypeAtPos(G3DMapper *mapper, const VecFx32 *position);
+u32 GetTileFlags(u32 tileType);
 u16 GetAbyssalRuinsDiveZoneID(Field *field, u16 *zoneId);
 BOOL FieldG3DMapper_GetTerrain(G3DMapper *mapper, const VecFx32 *position, FieldTerrain *terrain);
 void FieldG3DMapper_FreeMapTextures(G3DMapper *mapper);

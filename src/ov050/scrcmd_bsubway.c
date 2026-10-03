@@ -38,9 +38,6 @@
 
 #define OVERLAY_EVENT_WIFI_BSUBWAY OVERLAY_ID(9)
 
-extern const GameProcFunctions data_ov174_0219f0fc;
-extern const GameProcFunctions data_ov306_0219ed40;
-void func_ov273_021e9818(BtlSetup *setup);
 
 typedef struct {
     s16 x;
