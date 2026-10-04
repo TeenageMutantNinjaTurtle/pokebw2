@@ -8695,7 +8695,7 @@ data_0209aa14 kind:data(any) addr:0x0209aa14
 data_0209aa20 kind:data(any) addr:0x0209aa20
 data_0209aa2c kind:data(any) addr:0x0209aa2c
 _0_0 kind:data(any) addr:0x0209aa30
-data_0209aa54 kind:data(any) addr:0x0209aa54
+sState kind:data(any) addr:0x0209aa54
 data_0209aa58 kind:data(any) addr:0x0209aa58
 data_0209aa68 kind:data(any) addr:0x0209aa68
 data_0209aa6c kind:data(any) addr:0x0209aa6c
@@ -9153,7 +9153,7 @@ sOvlManager kind:bss addr:0x02141880
 sSystemUI kind:bss addr:0x02141884
 sTouchpad kind:bss addr:0x0214188c
 sWmIcon kind:bss addr:0x02141890
-data_02141898 kind:bss addr:0x02141898
+sNetSys kind:bss addr:0x02141898
 data_0214189c kind:bss addr:0x0214189c
 data_021418a0 kind:bss addr:0x021418a0
 data_021418a4 kind:bss addr:0x021418a4

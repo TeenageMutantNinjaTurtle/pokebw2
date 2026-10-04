@@ -222,6 +222,7 @@
 . 0x0209a858 sTrackHeapId
 . 0x0209a8d8 sWriteDone
 . 0x0209a9a4 GfOverlayC
+. 0x0209aa54 sState
 . 0x0209aecc sTerminator
 . 0x0214181c sHeapMgr
 . 0x0214182c sDTCMHeap
@@ -236,6 +237,7 @@
 . 0x02141884 sSystemUI
 . 0x0214188c sTouchpad
 . 0x02141890 sWmIcon
+. 0x02141898 sNetSys
 . 0x021418c0 sGFLStd
 . 0x0214190c sBGSys
 . 0x02141910 sEnabledPlanes

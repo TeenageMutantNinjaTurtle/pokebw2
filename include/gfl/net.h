@@ -8,6 +8,98 @@
 // The unnamed functions below are from the network library. Some appear to synchronize with the other player or
 // toggle error checks, but that is not confirmed.
 
+// How the game set up the network: what net.c keeps from GFL_NetInit
+typedef struct {
+    u8 unk0[8];
+    // Called when a machine disconnects
+    void (*disconnectCallback)(void *work, int netId);
+    u8 unkC[0x4a];
+    HeapID heapId;
+    u8 unk58[0xc];
+    // Whether the parent relays every machine's data (MP mode)
+    u8 bMPMode;
+    // The kind of connection: 1 and 2 are infrared, 3 and 4 Wi-Fi
+    u8 type;
+    u8 unk66;
+} GFLNetInitData;
+
+// What the network device does, wireless or Wi-Fi; the code calls each through GFLNetSys
+typedef BOOL (*GFLNetRecvFunc)(u16 netId, u8 *data, u16 size);
+typedef BOOL (*GFLNetSendDoneFunc)(BOOL ok);
+
+typedef struct {
+    u8 unk0[4];
+    void (*init)(HeapID heapId, void *sys, int a2, void *work);
+    void (*unk08)(int a0);
+    void (*setConnectBits)(u16 bits);
+    u8 unk10[0x2c];
+    void (*setDisconnectCallback)(void (*callback)(int netId));
+    int (*unk40)(int a0, int a1);
+    BOOL (*unk44)(int a0, int a1);
+    int (*unk48)(BOOL a0, int a1, int a2, int a3, int a4);
+    u8 unk4C[0xc];
+    BOOL (*unk58)(void);
+    BOOL (*unk5C)(u8 *data);
+    u8 *(*getRecvData)(int netId);
+    BOOL (*send)(u8 *data, int size, int a2, GFLNetSendDoneFunc callback);
+    void (*setRecvCallback)(GFLNetRecvFunc callback);
+    BOOL (*unk6C)(void);
+    BOOL (*isConnected)(void);
+    u8 unk74[8];
+    int (*getConnectBits)(void);
+    int (*getNetId)(void);
+    int (*getSignalLevel)(void);
+    BOOL (*isError)(void);
+    u8 unk8C[4];
+    int (*unk90)(int a0);
+    u8 unk94[8];
+    void (*unk9C)(void);
+    BOOL (*unkA0)(void);
+    BOOL (*unkA4)(void);
+    u8 unkA8[4];
+    BOOL (*unkAC)(void);
+    BOOL (*unkB0)(void);
+    u8 unkB4[8];
+    BOOL (*unkBC)(void);
+    void (*unkC0)(int a0);
+} GFLNetDevTable;
+
+typedef struct {
+    u8 unk0[0x64];
+    u8 unk64;
+    u8 unk65[7];
+    u16 unk6C;
+    u8 unk6E[0x2d2];
+    const GFLNetDevTable *devTable;
+    u8 unk344[8];
+    void *devWork;
+} GFLNetSys;
+
+// A network error to report, which func_020424ac records with the line it came from
+typedef struct {
+    u32 unk0;
+    u32 unk4;
+    u32 unk8;
+    BOOL reported;
+} GFLNetErrorInfo;
+
+GFLNetSys *func_02042e78(void);
+GFLNetInitData *func_02042e84(void);
+// The number of machines, and the size of each machine's data in a packet
+int func_02042dc0(void);
+int func_02042de8(void);
+GFLNetErrorInfo *func_02042540(void);
+void func_020424ac(u32 a0, u32 a1, u32 a2, int line);
+BOOL func_02042494(void);
+void func_020410dc(void);
+BOOL func_02042be8(NetHandle *handle, int command, int size, const void *data);
+NetHandle *func_02040414(int netId);
+void func_02040d78(int netId, int sender, int command, int size, void *data, NetHandle *handle);
+BOOL func_02040dc0(int command);
+BOOL func_02040dd4(int command);
+void *func_02040de8(int command, int netId, int size);
+BOOL func_02040c94(int netId);
+
 BOOL GFL_NetErrCheck(void);
 void GFL_NetErrMarkShown(void);
 void GFL_NetErrShow(u32 a0);
@@ -15,9 +107,6 @@ void func_02011de0(void);
 // Calls into the functions that show the wireless strength icons
 void func_02042ba8(u32 a0, HeapID heapId);
 void func_02012154(void);
-u32 func_0203ffc4(void);
-// Sets the network error, as when a ring buffer overflows
-void func_02040158(void);
 u32 func_02042bc4(void);
 int func_02042a78(void);
 NetHandle *func_02040440(void);

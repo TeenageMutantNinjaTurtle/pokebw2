@@ -199,3 +199,8 @@ src/main/wm_icon.c:
     .rodata     start:0x020932fc end:0x0209331c
     .data       start:0x0209aa60 end:0x0209aa94
     .bss        start:0x021418d0 end:0x021418d8
+
+src/main/net_system.c:
+    .text       start:0x0203e8f4 end:0x02040208
+    .data       start:0x0209aa94 end:0x0209aae0
+    .bss        start:0x021418d8 end:0x021418dc

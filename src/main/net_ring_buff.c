@@ -1,5 +1,5 @@
 #include "types.h"
-#include "gfl/net.h"
+#include "gfl/net_system.h"
 #include "gfl/net_ring_buff.h"
 #include "gfl/std.h"
 
@@ -47,10 +47,10 @@ u8 func_0203e054(NetRingBuff *ring) {
     return 0;
 }
 
-u16 func_0203e080(NetRingBuff *ring) {
+int func_0203e080(NetRingBuff *ring) {
     u16 high = func_0203e054(ring) << 8;
 
-    return high | func_0203e054(ring);
+    return (u16)(high | func_0203e054(ring));
 }
 
 static int func_0203e09c(NetRingBuff *ring, u8 *dest, int size, int max) {

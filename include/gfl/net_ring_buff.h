@@ -9,7 +9,8 @@
 typedef struct {
     u8 *pDataArea;
     int size;
-    u32 unk8;
+    // Set by net_system.c when data from a machine arrives
+    BOOL received;
     // Where reading and writing continue
     s16 startPos;
     volatile s16 endPos;
@@ -22,7 +23,7 @@ void func_0203dfd0(NetRingBuff *ring, const u8 *pDataArea, int size);
 int func_0203e038(NetRingBuff *ring, u8 *dest, int size, int max);
 u8 func_0203e054(NetRingBuff *ring);
 // A big-endian u16
-u16 func_0203e080(NetRingBuff *ring);
+int func_0203e080(NetRingBuff *ring);
 int func_0203e0f4(NetRingBuff *ring);
 int func_0203e110(NetRingBuff *ring);
 // Makes what has been written readable, which needs nothing here
