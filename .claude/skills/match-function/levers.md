@@ -1,0 +1,174 @@
+# Levers by symptom
+
+Every way found so far to move MWCC's output (`dsi/1.1p1`, Thumb, `-O4,p`), indexed by what the diff shows. The
+README's "Things that affect whether MWCC output matches" explains each one with its example. (README: "...") marks
+text to `grep -n` there. Three of those passages are only in `worktree-graphics`'s README until it is merged. Entries
+without a key come from later work and still belong in the README (see the `record-lesson` skill). Some levers appear
+under two symptoms.
+
+## Registers swapped
+
+- Locals get registers in declaration order: reorder the declarations. (README: "declaration order of locals")
+- Of two variables that compete for one register, the one used more gets it. The README spells out what counts as a
+  use; on a tie the one assigned first wins. (README: "compete for the same register")
+- A variable gets a register per group of assignments that reach the same uses: a store after two branches keeps
+  one register, a copy of the store in each branch splits it. (README: "group of assignments")
+- `arr[count++] = x` and `arr[count] = x; count++;` allocate differently, as do `count = 1; arr[0] = x;` and the
+  reverse. (README: "arr[count++]")
+- A sum used as an index goes to the register of one of its terms unless it has its own variable.
+  (README: "array index that is a sum")
+- The operands of `*` are loaded in source order. A product assigned to its own variable gets a new register.
+  (README: "operands of `*`"), (README: "A product assigned")
+- Where a flag is first set decides which register builds its zero. The register a shared zero gets follows statement
+  order. (README: "Where a flag is first set")
+- Chained stores of one constant (`a = b = TRUE`) share a register; separate ones may not.
+  (README: "Two stores of the same constant")
+- Variables of an inner block are allocated apart from the function's. (README: "declared in an inner block")
+- A narrow type in a wider local: `GFL_BGSysAllocChar` only matched with a `u8` tile size held in an `int`.
+  (README: "plain change")
+- Diagnose with `tools/scripts/locals.py`, which shows each variable's register.
+
+## Stack slots or frame size
+
+- Stack locals are laid out in reverse declaration order. (README: "reverse declaration order")
+- Spilled variables get slots in the order they are first assigned, in small functions. In big switches,
+  declarations count too. (README: "Spilled variables get their stack slots")
+- A variable reused by several switch cases splits per case, and a spilled piece takes the lowest slot.
+  (README: "reused by several switch cases")
+- Block-scoped locals sit above function-scope ones. A block-scoped `{0, 0, 0}` initializer and a non-`const`
+  parameter fixed `particle.c`.
+- A NULL check written on a field gives different slots from the same check on a local loaded first.
+  (README: "NULL check written on a field")
+- Reusing one `next` variable for two loops gives late spill slots. A counter multiplied later
+  (`count * 0x10000`) is strength-reduced into a slot set in the loop's preheader.
+- MWCC keeps its own copy of a field across the 64-bit multiply helpers; writing that copy as a local moves every
+  slot. (README: "64-bit multiply helpers")
+- The types of spilled values change when they are reloaded (a `u16` after a call's stack argument is stored, a
+  `u32` before). (README: "types of locals")
+- Struct copies to the stack: a struct passed by value goes in registers and on the stack, and a copy whose address
+  is passed is a local copy. (README: "Structs passed by value")
+- Diagnose with `tools/scripts/locals.py`, which shows each variable's `sp+offset`.
+
+## Instructions in another order (scheduling)
+
+- A load through a pointer moves above stores only when the pointee is `const`. A load scheduled early points to a
+  `const` parameter. (README: "unless the pointee is `const`")
+- The same rule orders a call's stack argument stores against the register arguments. (README: "stack argument stores")
+- A load through a `const` pointer is reused across stores but not hoisted out of a loop. (README: "reused across stores")
+- Initializations are scheduled where they are written: `int i = 0;` declared after a call against `for (i = 0; ...)`.
+  (README: "scheduled where they are written")
+- An argument loaded before a call among the arguments was passed to an inlined helper that makes the call.
+  (README: "inlined helper that makes the call")
+- A parameter passed on the stack is loaded at entry, unless it is an `int` or `s32`. (README: "passed on the stack is loaded")
+- NitroSDK's inline functions take enums, which changes when their arguments are loaded and shifted.
+  (README: "NitroSDK's inline functions")
+- `FX_Mul`'s sign extensions move with statement order and with a `static inline` wrapper. (README: "FX_Mul")
+- `x[n++].f = ...` against a separate `n++` changes scheduling.
+- Store order in initialization code is usually source order: try the stores in the asm's order first.
+
+## An instruction too many or too few
+
+- A narrowing (`lsl`/`lsr` or `asr` pair) comes from a `u8`/`u16`/`s16` local, parameter or return type. A caller narrows
+  arguments for narrow parameters, so an argument passed without them is for a wider one. (README: "narrows an argument")
+- Extra `u16` narrowings come from `u32 x = (u16)...` passed through a `u16` inline parameter.
+- A sum truncated to `s16` before a comparison was stored in an `s16` local. (README: "truncates to `s16`")
+- A local reloaded from its stack slot before each use can be a `u8` flag, not `volatile`.
+- Masks written with `~` give `bic`; an `and` with `0xef` is `x &= (u8)~FLAG`. (README: "Masks written with")
+- MWCC doesn't propagate constants into enum-typed variables: a loop that checks its bound before the first pass, or
+  a sum that adds a counter known to be 0, has an enum counter. (README: "enum type")
+- A local holding a constant keeps its own register or slot, while a literal is hoisted.
+  (README: "holds a constant, like")
+- An address computed before calls is reused after them only when the expression is the same, types included. An
+  inline accessor recomputes it. (README: "computed before calls is reused")
+- A value a loop uses and the code after it uses again is reused from the hoisted copy, unless it is a variable
+  declared in the loop body. (README: "reused from the copy hoisted")
+- An address passed to a `const` pointer parameter is converted, and not shared. (README: "`const` pointer parameter is converted")
+- `const` table reads at a constant index are folded into immediates; reads in a loop, even an unrolled one, are not.
+  An `ldm` into argument registers is a loop over a table. (README: "Reads of a `const` table")
+- A value moved into an argument register before a call and used for nothing else is a parameter the prototype is
+  missing. (README: "prototype is missing")
+- A caller that leaves an argument register untouched across a call is passing that argument.
+  (README: "keeps an argument register untouched")
+- A NULL that the original tests (`movs r7, #0` then `beq`) and MWCC folds away is open; see the `event_save.c` and
+  `script_sys.c` rows of `docs/nonmatching-functions.md`.
+
+## Branches and block layout
+
+- Blocks are laid out in source order. A switch whose `default` code comes first had `default:` written first, and
+  `if (!f()) return FALSE; n++;` puts the return before the code that goes on. (README: "Blocks are laid out in source order")
+- Identical statements in different branches are merged, so a jump into the middle of another block means the same
+  code was written there. (README: "Identical statements in different branches")
+- A branch to the next instruction comes from cross-jumping a shared tail. (README: "cross-jumping")
+- Early `return FALSE`s go to one shared tail only when the C has one trailing return (an `if`/`else if` chain, or a
+  `result` variable). A return that branches to the wrong one of two equal `b end` trampolines can be `goto end`.
+- A redundant outer `if` gives a doubled `beq`.
+- `v = f(); if (v == x)` and `if (f() == x)` put `cmp`'s operands in opposite orders. (README: "operands of `cmp`")
+- `a == 4 || a == 5` becomes a range check; separate comparisons to the same code are separate branches. A
+  `BOOL x = FALSE; if (...) x = TRUE;` flag gives the `sub; cmp 1; bhi` range test. (README: "range check")
+- A clamp that ends in one store is a conditional expression; `if`/`else if` stores each limit.
+  (README: "A clamp that ends in one store")
+- `f(x ? a : b)` against two calls in `if`/`else`, which are merged into one call with a `beq; b` layout.
+  (README: "picked by branches")
+- A `return` inside `for (;;)` leaves a dead `bx lr`, which the original counts as padding.
+- Literal pool placement: a pool dumped mid-function is placed after an unconditional branch. See the `event_make.c`
+  row of the nonmatching doc for a case still open.
+
+## Loops
+
+- `while (cond)` is rotated, with a copy of its test before the loop. A loop that tests once, at its top, is
+  `while (TRUE)` with a `break` or `return`. (README: "is rotated")
+- A loop that runs once is unrolled when its counter and bound have the same signedness; `int i < NELEMS(x)` compares
+  unsigned and keeps the loop. (README: "loop that runs once")
+- An address or value an inner loop computes from the outer counter alone is hoisted into the inner preheader.
+  (README: "inner loop computes"), (README: "preheader")
+- Enum counters keep their guard (see above).
+
+## Switches
+
+- Cases are laid out in source order, not by value. (README: "Switch cases are laid out in source order")
+- The comparison tree and jump tables depend on every case value, including empty cases. (README: "comparison tree")
+- A case that ends in the same code as another is merged into it. (README: "ends in the same code as another")
+- An `if`/`else if` chain whose tests come in a switch's order is a `switch` with a case falling into `default`.
+  `case 0: default:` written first sets the case order.
+
+## Floats and runtime helpers
+
+- Float arithmetic calls `_fadd`, `_ffix` and others (swan's `__aeabi_*`). Rename to MWCC's name when a complete file
+  fails to link. (README: "MWCC's runtime helpers")
+- An arithmetic operation on a literal passes the literal first; a constant in a local keeps its source position.
+  (README: "passes the literal first")
+- Float arithmetic on a local holding a constant isn't folded. (README: "doesn't fold float arithmetic")
+- Division and modulo call `_s32_div_f` or `_u32_div_f` by signedness. A `u8`/`u16` promotes to signed `int`.
+  (README: "_s32_div_f")
+
+## Data and sections
+
+- Static data is sorted by size by a heapsort. Objects of 64 bytes or more, local initializers and unreferenced
+  globals get their own sections. Predict with `tools/scripts/rodata_order.py`. (README: "Static data is sorted by size")
+- The full model, checked by fuzzing MWCC: there is one list per file in declaration order, except tentative `.bss`
+  statics, which join at the end in reverse order. Each kind (rodata, data, bss) gets its own shared section.
+  Unreferenced statics are dropped. `rodata_order.py` doesn't model the per-kind sections or the `.bss` rule yet.
+- `.bss` statics are ordered by size, then in an order that isn't the declaration order; try permutations.
+- `static const` goes in `.rodata`, so a table in `.data` isn't `const`. (README: "`static const` data goes in")
+- A `static const` whose address is never taken is folded and not emitted. If the original has it, it isn't static.
+  (README: "whose address is never taken")
+- `GFL_ASSERT` keeps its expression as a string, which preserves the original variable names. (README: "GFL_ASSERT")
+- A file's `.data` ends at its last object.
+
+## Function order and presence
+
+- SPL's `1.2/base` compiler emits a file's functions in reverse source order.
+- The MWCC linker here doesn't dead-strip unreferenced global functions.
+- A static function whose symbol isn't renamed to its C name shows as "unknown" in the probe.
+
+## Diagnostic switches (not for committed code)
+
+These narrow down which optimization causes a difference, after which you look for the C spelling. They come from
+sm64ds-decomp's catalogue for another mwccarm build, so they are untested here:
+- `#pragma opt_common_subs off`
+- `#pragma opt_strength_reduction off`
+- `#pragma optimize_for_size on`
+- `#pragma opt_propagation off`
+
+Try one at a time with `try_variants.py`, which allows definitions before the function. If a pragma is all that
+matches, write that down in the nonmatching row; it's evidence, not a fix.
