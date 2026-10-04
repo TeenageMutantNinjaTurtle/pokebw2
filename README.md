@@ -135,10 +135,13 @@ The current C mismatches and attempted translations still in assembly are tracke
 from the version map. `tools/scripts/compiler_probe.py src/... --compilers 1.1 --show-diff 1.1` compiles a file and
 diffs every function in it against the original. A library that `configure.py` builds with its own compiler, such
 as SPL with `1.2/base`, gets that compiler and its flags by default. `--mismatches` leaves out the functions that
-match, and `--functions` limits the table and diffs to the functions named.
+match, and `--functions` limits the table and diffs to the functions named. `--align` shows only the hunks of the
+diff that differ, aligned so that an instruction more or less does not shift everything after it, which is what makes
+a long function's diff readable.
 
 `tools/scripts/try_variants.py src/... FUNC variants.c` puts each variant of a function, separated by lines of
-`=====`, in place of its definition and probes it with the file's compiler, keeping the first that matches.
+`=====`, in place of its definition and probes it with the file's compiler, keeping the first that matches. `--score`
+adds each variant's count of differing aligned lines, to tell apart variants of the same size.
 `rename_symbol.py --file` renames each `old new` pair, one per line, of a file.
 
 Things that affect whether MWCC output matches:

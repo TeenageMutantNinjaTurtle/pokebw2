@@ -8,6 +8,7 @@ say) to put before the function. A prototype of the function before its definiti
 
     try_variants.py src/main/particle.c func_0204ff54 variants.c
     try_variants.py src/main/particle.c func_0204ff54 --keep 2 variants.c
+    try_variants.py src/main/particle.c func_0204ff54 --score variants.c
 """
 import argparse
 import re
@@ -47,15 +48,22 @@ def with_variant(source: str, name: str, variant: str) -> str:
 
 
 def probe(args) -> str:
-    """Returns the function's status from compiler_probe.py."""
+    """Returns the function's status from compiler_probe.py, with the number of lines of its aligned diff that differ
+    if scoring."""
     command = [sys.executable, str(Path(__file__).parent / "compiler_probe.py"), str(args.source),
                "--compilers", args.compiler, "--functions", args.function, "--version", args.version]
     if args.extra_flags:
         command += ["--extra-flags", args.extra_flags]
+    if args.score:
+        command += ["--show-diff", args.compiler, "--align"]
     output = subprocess.run(command, capture_output=True, text=True, cwd=ROOT).stdout
+    differing = sum(1 for line in output.splitlines() if line.startswith("  "))
     for line in output.splitlines():
         if line.startswith(args.function + " "):
-            return line.split(None, 1)[1].strip()
+            status = line.split(None, 1)[1].strip()
+            if args.score and status != "MATCH":
+                status += f", {differing} differing lines"
+            return status
     return "compile failed"
 
 
@@ -68,6 +76,9 @@ def main():
     parser.add_argument("--version", default="b2_us", help="game version")
     parser.add_argument("--compiler", help="the compiler the file is built with by default")
     parser.add_argument("--extra-flags", default="", help="flags added to the compiler's")
+    parser.add_argument("--score", action="store_true",
+                        help="also count the differing lines of each variant's aligned diff, which tells how close "
+                        "variants of the same size are")
     args = parser.parse_args()
 
     if args.compiler is None:

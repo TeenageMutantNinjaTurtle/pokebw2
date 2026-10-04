@@ -4,6 +4,7 @@
 Relocated bytes (calls and pointers) are ignored, since the probe objects are not linked.
 """
 import argparse
+import difflib
 import re
 import shlex
 import subprocess
@@ -107,6 +108,26 @@ def disassemble(data: bytes, address: int, thumb: bool) -> list[str]:
     return [f"{i.address:08x}: {i.mnemonic} {i.op_str}" for i in md.disasm(data, address)]
 
 
+def aligned_diff(ours: list[str], theirs: list[str]) -> list[str]:
+    """Returns the hunks that differ between two disassemblies, aligned by difflib so that an instruction added or
+    left out shifts nothing after it. Addresses, branch targets and literal pool offsets are ignored."""
+
+    def key(line: str) -> str:
+        ins = line.split(": ", 1)[-1]
+        ins = re.sub(r"#0x[0-9a-f]{7}\b", "#ADDR", ins)
+        return re.sub(r"\[pc, #0x[0-9a-f]+\]", "[pc]", ins)
+
+    a, b = [key(line) for line in ours], [key(line) for line in theirs]
+    lines = []
+    for tag, i1, i2, j1, j2 in difflib.SequenceMatcher(None, a, b, autojunk=False).get_opcodes():
+        if tag == "equal":
+            continue
+        lines.append(f"@@ ours {ours[i1][:8] if i1 < len(ours) else '-'} / original {theirs[j1][:8] if j1 < len(theirs) else '-'}")
+        for k in range(max(i2 - i1, j2 - j1)):
+            lines.append(f"  {a[i1 + k] if i1 + k < i2 else '':40s} | {b[j1 + k] if j1 + k < j2 else ''}")
+    return lines
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("source", type=Path)
@@ -123,6 +144,9 @@ def main():
     parser.add_argument("--show-diff", help="compiler version to show a disassembly diff for")
     parser.add_argument("--functions", help="comma-separated functions to report, and to diff; all by default")
     parser.add_argument("--mismatches", action="store_true", help="leave out the functions every compiler matches")
+    parser.add_argument("--align", action="store_true",
+                        help="show only the differing hunks of the diff, aligned so that one instruction more or less "
+                        "does not shift the rest")
     args = parser.parse_args()
 
     lib = lib_compiler(args.source)
@@ -175,6 +199,9 @@ def main():
                     ours = disassemble(data, addr, thumb)
                     theirs = disassemble(orig_data, addr, thumb)
                     print(f"--- {name} ({compiler}): ours | original")
+                    if args.align:
+                        print("\n".join(aligned_diff(ours, theirs)))
+                        continue
                     for i in range(max(len(ours), len(theirs))):
                         a = ours[i] if i < len(ours) else ""
                         b = theirs[i] if i < len(theirs) else ""
