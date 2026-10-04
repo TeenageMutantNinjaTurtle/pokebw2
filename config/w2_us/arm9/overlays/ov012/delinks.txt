@@ -5,8 +5,24 @@
     .bss        start:0x0216e680 end:0x0216e6a0 kind:bss align:32
 
 src/ov012/event_ircbattle.c:
-    .text       start:0x02150400 end:0x02150d2c
+    .text       start:0x02150400 end:0x02150d38
+    .rodata     start:0x0216ae0c end:0x0216ae24
     .data       start:0x0216dfe0 end:0x0216dff4
+
+src/ov012/musical_event.c:
+    .text       start:0x02150d38 end:0x02151ea8
+    .rodata     start:0x0216ae24 end:0x0216af74
+    .data       start:0x0216dff4 end:0x0216e004
+
+src/ov012/musical_dressup_sys.c:
+    complete
+    .text       start:0x02151ea8 end:0x02151fd0
+    .data       start:0x0216e004 end:0x0216e028
+
+src/ov012/musical_stage_sys.c:
+    complete
+    .text       start:0x02151fd0 end:0x02152318
+    .data       start:0x0216e028 end:0x0216e048
 
 src/ov012/script_sys.c:
     .text       start:0x021536ac end:0x02153de4

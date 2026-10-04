@@ -52,10 +52,39 @@ void func_0200c1f0(void);
 void func_0200c200(void);
 BOOL func_0200ae58(MusicalSave *musical);
 // The musical save's accessors, by what they return
+// A prop a Pokémon wears in a musical shot, by the slot it is worn on
 typedef struct {
-    u32 unk0_0 : 16;
-    u32 unk0_16 : 5;
-    u32 unk0_21 : 11;
+    u16 itemId;
+    s16 unk2;
+    u8 unk4;
+    u8 unk5[3];
+} MusicalShotEquip;
+
+typedef struct {
+    u16 species;
+    u16 form : 2;
+    u16 unk2_2 : 1;
+    u16 unk2_3 : 5;
+    u32 personality;
+    u16 name[8];
+    MusicalShotEquip equips[8];
+} MusicalShotPoke;
+
+// The photo of a musical's finale, which the musical event fills in and the save keeps. A month of 0 means no photo
+typedef struct {
+    u32 unk0_0 : 5;
+    // A bit for each Pokémon that got the most points
+    u32 tops : 4;
+    u32 year : 7;
+    u32 month : 5;
+    u32 day : 6;
+    // The player's Pokémon
+    u32 player : 2;
+    u32 unk0_29 : 3;
+    MusicalShotPoke pokes[4];
+    u16 title[0x25];
+    u8 unk1AE;
+    u8 unk1AF;
 } MusicalShot;
 
 typedef struct {
@@ -78,6 +107,13 @@ u16 func_0200ae9c(MusicalSave *musical);
 u8 func_0200aebc(MusicalSave *musical, u8 index);
 u8 func_0200aed4(MusicalSave *musical);
 u8 func_0200aee4(MusicalSave *musical);
+void func_0200ae84(MusicalSave *musical);
+void func_0200aea4(MusicalSave *musical);
+void func_0200aec8(MusicalSave *musical, u8 index, u8 value);
+void func_0200aedc(MusicalSave *musical, u8 value);
+void func_0200af1c(MusicalSave *musical, u16 value);
+u16 func_0200af38(MusicalSave *musical);
+MusicalSave *getAddressOfMusicalDataInfo(SaveControl *save);
 void func_0200aef0(MusicalSave *musical, u8 value);
 u8 func_0200aefc(MusicalSave *musical);
 // A name of 0x26 characters
