@@ -205,6 +205,79 @@ ClActUnit *ZukanDetailGraphic_GetClActUnit(ZukanDetailGraphic *graphic);
 void ZukanDetailGraphic_Create3D(ZukanDetailGraphic *graphic, HeapID heapId);
 void ZukanDetailGraphic_Free3D(ZukanDetailGraphic *graphic);
 
+// zknd_tbar.c: the Pokédex's copy of the touch bar, a bar of icons at the bottom of a screen that are touched or
+// pressed with a key
+
+typedef struct ZkndTbar ZkndTbar;
+
+// The icons that the bar draws itself. The others are the app's own
+enum {
+    ZKND_TBAR_ICON_CLOSE,
+    ZKND_TBAR_ICON_RETURN,
+    ZKND_TBAR_ICON_CUR_D,
+    ZKND_TBAR_ICON_CUR_U,
+    ZKND_TBAR_ICON_CUR_L,
+    ZKND_TBAR_ICON_CUR_R,
+    ZKND_TBAR_ICON_CHECK,
+    ZKND_TBAR_ICON_CUSTOM,
+};
+
+// What touching an icon does: plays its pushed animation, or flips it on or off
+enum {
+    ZKND_TBAR_TYPE_PUSH,
+    ZKND_TBAR_TYPE_FLIP,
+};
+
+typedef struct {
+    int icon;
+    ClActorPos pos;
+    u16 width;
+    // For a ZKND_TBAR_ICON_CUSTOM icon, its resources and animations, its key and its sound
+    u16 chars;
+    u16 palette;
+    u16 cellAnims;
+    u16 activeAnim;
+    u16 inactiveAnim;
+    u16 pushedAnim;
+    u32 key;
+    u32 se;
+} ZkndTbarIcon;
+
+typedef struct {
+    const ZkndTbarIcon *icons;
+    u32 iconCount;
+    ClActUnit *unit;
+    // The bar's BG, the palettes for the bar and its icons, and the OBJ VRAM mapping mode
+    u32 bg;
+    u32 bgPalette;
+    u32 objPalette;
+    u32 mapping;
+    // Whether the app has loaded the bar's BG itself
+    BOOL noBG;
+} ZkndTbarParam;
+
+ZkndTbar *ZkndTbar_Create(ZkndTbarParam *param, HeapID heapId);
+void ZkndTbar_Free(ZkndTbar *tbar);
+void ZkndTbar_Main(ZkndTbar *tbar);
+// The icon that was touched, once its animation has played, and as it is touched, or -1
+int ZkndTbar_GetTrigger(ZkndTbar *tbar);
+int ZkndTbar_GetTouch(ZkndTbar *tbar);
+void ZkndTbar_SetVisibleAll(ZkndTbar *tbar, BOOL visible);
+void ZkndTbar_SetActiveAll(ZkndTbar *tbar, BOOL active);
+BOOL ZkndTbar_GetActiveAll(ZkndTbar *tbar);
+void ZkndTbar_Unlock(ZkndTbar *tbar);
+void ZkndTbar_SetActive(ZkndTbar *tbar, int icon, BOOL active);
+void ZkndTbar_SetVisible(ZkndTbar *tbar, int icon, BOOL visible);
+BOOL ZkndTbar_GetVisible(ZkndTbar *tbar, int icon);
+void ZkndTbar_SetKey(ZkndTbar *tbar, int icon, u32 key);
+void ZkndTbar_SetFlip(ZkndTbar *tbar, int icon, BOOL flip);
+BOOL ZkndTbar_GetFlip(ZkndTbar *tbar, int icon);
+ClActor *ZkndTbar_GetActor(ZkndTbar *tbar, int icon);
+void ZkndTbar_SetPos(ZkndTbar *tbar, int icon, const ClActorPos *pos);
+// Acts as if the icon were touched
+void ZkndTbar_Push(ZkndTbar *tbar, int icon);
+BOOL ZkndTbar_IsTriggered(ZkndTbar *tbar, int icon);
+
 // zukan_detail_touchbar.c: the bar at the bottom of the touch screen
 
 // The commands of the bar's buttons
