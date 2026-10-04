@@ -205,7 +205,7 @@ def print_markdown(version: str):
 
         inside = sum(count(start, end) for start, end, _, _ in files)
         unused = sorted(string for string in strings if string not in {file[2] for file in files})
-        print(f"### Overlay {overlay.number}\n")
+        print(f"### Overlay {int(overlay.name[2:])}\n")
         line = f"{inside} of {len(overlay.functions)} functions are in source files."
         if unused:
             line += " Embedded names without a file yet: " + ", ".join(f"`{string}`" for string in unused) + "."
