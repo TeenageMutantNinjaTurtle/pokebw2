@@ -47,6 +47,25 @@ typedef struct {
     } flags;
 } BtlFlowMoveParam;
 
+// One target's result from the damage calculation of a move
+typedef struct {
+    u16 damage;
+    u16 monId : 5;
+    u16 effectiveness : 4;
+    u16 unk9 : 4;
+    u16 critical : 1;
+    u16 fixedDamage : 1;
+    u16 substitute : 1;
+} BtlFlowDamageEntry;
+
+typedef struct {
+    u8 count;
+    u8 substituteCount;
+    u8 total;
+    u8 unk03;
+    BtlFlowDamageEntry entries[6];
+} BtlFlowDamageList;
+
 // Mons that react to a move, with their targets
 typedef struct {
     u8 count;
@@ -116,10 +135,14 @@ struct BtlServerFlow {
     // Two mon sets in overlay 169's format: the move's targets, and a copy
     void *unk850;
     void *unk854;
-    u8 unk858[8];
+    void *unk858;
+    void *unk85C;
     void *unk860;
     void *unk864;
-    u8 unk868[0x1200];
+    u8 unk868[4];
+    BtlFlowDamageList *unk86C;
+    BtlFlowDamageList *unk870;
+    u8 unk874[0x11f4];
     // The mons that came in this turn, in overlay 169's format
     u8 unk1A68[0x48];
     BtlFlowMoveParam *unk1AB0;

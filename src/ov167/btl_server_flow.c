@@ -3033,6 +3033,72 @@ u32 func_ov167_021a46d8(BtlServerFlow *flow, BtlFlowDamageList *list, BattleMon 
     return count;
 }
 
+u8 func_ov167_021a4754(BtlServerFlow *flow, BtlFlowDamageList *list, BattleMon **mons) {
+    u32 i;
+    for (i = 0; i < list->total; i++) {
+        mons[i] = GetPokeParam(flow->pokeCon, list->entries[i].monId);
+    }
+    return list->total;
+}
+
+u32 func_ov167_021a4788(BtlServerFlow *flow, BtlFlowDamageList *list, BattleMon **mons, u16 *damages,
+                        u32 *effectiveness, u8 *critical, u8 *unk9) {
+    u32 i;
+    u32 count = 0;
+
+    for (i = 0; i < list->total; i++) {
+        if (!list->entries[i].substitute) {
+            mons[count] = GetPokeParam(flow->pokeCon, list->entries[i].monId);
+            damages[count] = list->entries[i].damage;
+            effectiveness[count] = list->entries[i].effectiveness;
+            critical[count] = list->entries[i].critical;
+            unk9[count] = list->entries[i].unk9;
+            count++;
+        }
+    }
+    return count;
+}
+
+u32 func_ov167_021a4810(BtlFlowDamageList *list) {
+    u32 total = 0;
+    u32 i;
+    for (i = 0; i < list->total; i++) {
+        total += list->entries[i].damage;
+    }
+    return total;
+}
+
+u32 func_ov167_021a4830(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, void *targets, void *data,
+                        u32 *reserved, u32 arg6) {
+    BtlFlowDamageFlags flags;
+    u32 ratio;
+    u32 damage;
+
+    if (func_ov169_0689cec8(targets) == 1) {
+        ratio = 0x1000;
+    } else {
+        ratio = 0xc00;
+    }
+    damage = 0;
+    flags.multipleTargets = func_ov169_0689cec0(targets) > 1;
+    flags.unk1 = arg6;
+    func_ov169_0689cf54(targets, attacker, flow->unk858);
+    func_ov169_0689cfe0(targets, attacker, flow->unk85C);
+    func_ov167_021a44f0(flow, attacker, flow->unk858, param, data, ratio, flow->unk86C);
+    func_ov167_021a44f0(flow, attacker, flow->unk85C, param, data, ratio, flow->unk870);
+    *reserved = SCQUE_RESERVE_Pos(flow->queue, 0x30);
+    if (func_ov169_0689cec0(flow->unk858)) {
+        damage += func_ov167_021a4c44(flow, param, attacker, flow->unk858, flow->unk86C, flow->unk4B4, ratio, flags);
+        if (damage != 0 && func_ov167_021a26b0(flow, attacker)) {
+            func_ov167_0219dad0(flow->mainModule, 0x4d);
+        }
+    }
+    if (func_ov169_0689cec0(flow->unk85C)) {
+        damage += func_ov167_021a4c44(flow, param, attacker, flow->unk85C, flow->unk870, flow->unk4B4, ratio, flags);
+    }
+    return damage;
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
