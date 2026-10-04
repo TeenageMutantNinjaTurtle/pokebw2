@@ -23,6 +23,7 @@ u16 *GetPlayerName(PlayerInfo *info);
 u32 PlayerInfo_GetSize(void);
 u32 getTrainerGender(PlayerInfo *info);
 u8 func_02008bfc(PlayerInfo *info);
+u8 TrainerInfo_GetRegion(PlayerInfo *info);
 u32 func_02008bf4(PlayerInfo *info);
 // A table's entry for func_02008bf4's value, 2 past the end of the table
 u8 func_0202b5e8(u32 index);

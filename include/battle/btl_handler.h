@@ -102,8 +102,15 @@ typedef struct {
 // The experience one party mon gets for a faint
 typedef struct {
     u32 exp;
-    u8 unk4;
-    u8 unk5[6];
+    // Set when a traded mon or a Lucky Egg raised it
+    u8 boosted;
+    // The effort values it gained
+    u8 hp;
+    u8 attack;
+    u8 defense;
+    u8 speed;
+    u8 spAttack;
+    u8 spDefense;
     u8 unk0B;
 } BtlFlowExpEntry;
 

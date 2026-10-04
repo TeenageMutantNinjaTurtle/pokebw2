@@ -117,6 +117,8 @@ struct BtlSetup {
     u32 unk134;
     u16 unk138;
     u16 unk13a;
+    // Added to the defeated mon's level for the experience it gives
+    s8 levelDiff;
 };
 
 BtlSetup *BtlSetup_Create(HeapID heapId);

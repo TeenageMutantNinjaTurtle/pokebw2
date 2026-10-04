@@ -208,7 +208,9 @@ BOOL func_ov167_021a8dec(BtlServerFlow *flow, BattleMon *mon);
 BOOL func_ov167_021a8e68(BtlServerFlow *flow, BattleParty *party, BtlFlowExpEntry *entries);
 void func_ov167_021a9058(BtlServerFlow *flow, BattleMon *mon, u32 damage);
 void func_ov167_021a9268(BtlServerFlow *flow, BattleMon *mon);
-void AddExpAndEVs(BtlServerFlow *flow, BattleParty *party, BattleMon *mon, BtlFlowExpEntry *entries);
+void AddExpAndEVs(BtlServerFlow *flow, BattleParty *party, BattleMon *defeated, BtlFlowExpEntry *entries);
+u32 ScaleExpGainedByLevel(BattleMon *mon, u32 exp, u16 level, u16 defeatedLevel);
+void AddEVs(BattleMon *mon, BattleMon *defeated, BtlFlowExpEntry *entry);
 BOOL func_ov167_0219fda4(BtlServerFlow *flow);
 void func_ov167_021a80c4(BtlServerFlow *flow);
 BOOL func_ov167_021a8cc0(BtlServerFlow *flow);
@@ -252,6 +254,26 @@ void func_ov167_021a2478(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 resul
 void func_ov167_021a9230(BtlServerFlow *flow, BattleMon *mon, u16 move);
 // Moves that combine with each other when allies use them in the same turn
 extern const u16 data_ov167_021d6cec[3];
+// For each stat: its effort value in the personal data, its field in the party data, and its Power item
+typedef struct {
+    u8 personalParam;
+    u16 field;
+    u16 powerItem;
+} BtlFlowEVParam;
+
+extern const BtlFlowEVParam data_ov167_021d6cfc[6];
+
+// An effect of the items a trainer uses from the bag, which applies to the items whose data has the parameter, or to
+// the item itself when exact is set
+typedef struct {
+    u16 param;
+    // 0 for any mon, 1 for one in battle
+    u8 place;
+    u8 exact;
+    BOOL (*func)(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+} BtlFlowItemEffect;
+
+extern const BtlFlowItemEffect data_ov167_021d6d20[23];
 void func_ov167_021a1fd4(BtlFlowReactionList *list, u8 monId, u8 arg2, u8 target);
 void func_ov167_021a2150(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param, u32 event);
 void func_ov167_021a24bc(BtlServerFlow *flow, BattleMon *mon, BattleMon *attacker, u16 move);
@@ -530,7 +552,12 @@ void func_ov167_021a8fd4(BtlServerFlow *flow, BattleMon *mon);
 void ServerDisplay_SkyDropTargetAppear(BtlServerFlow *flow, BattleMon *mon, u16 effect);
 void func_ov167_021ac0dc(BtlServerFlow *flow);
 void func_ov167_021ac0f8(BtlServerFlow *flow);
-u32 func_ov167_021af2ac(BtlServerFlow *flow, BattleMon *mon, u16 item, u8 param, u8 target);
+u8 func_ov167_021af2ac(BtlServerFlow *flow, BattleMon *mon, u16 item, u8 param, u8 slot);
+BOOL func_ov167_021af5bc(BtlServerFlow *flow, BattleMon *mon, u16 item);
+BOOL func_ov167_021af6b0(BtlServerFlow *flow, BattleMon *mon, BattleMon *target, u16 item, u8 *shakes, u8 *critical);
+fx32 func_ov167_021af870(BtlServerFlow *flow);
+fx32 func_ov167_021af8c4(BtlServerFlow *flow, BattleMon *mon, BattleMon *target, u16 item);
+BOOL func_ov167_021afa24(BtlServerFlow *flow, fx32 value);
 
 // A mon that is there and hasn't fainted
 static inline BOOL BtlFlow_IsMonAlive(BattleMon *mon) {

@@ -14,6 +14,7 @@
 #include "battle/btl_server.h"
 #include "battle/btl_server_flow.h"
 #include "constants/abilities.h"
+#include "constants/items.h"
 #include "constants/moves.h"
 #include "constants/tr_ai.h"
 #include "constants/types.h"
@@ -23,6 +24,9 @@
 #include "pml/personal.h"
 #include "pml/poke_party.h"
 #include "pml/waza.h"
+#include "save/high_link.h"
+#include "save/player_info.h"
+#include "system/rtc.h"
 
 s32 ConvertConditionCode(BattleMon *mon, s32 *condition);
 
@@ -5518,15 +5522,15 @@ BOOL func_ov167_021a8e68(BtlServerFlow *flow, BattleParty *party, BtlFlowExpEntr
             BattleMon *mon = func_ov167_0219d4e4(party, i);
             if ((s32)GetBattleMonStat(mon, 0xf) < 100) {
                 u32 exp = entry->exp;
-                if (entry->unk4) {
+                if (entry->boosted) {
                     message = 0x2b;
                 } else {
                     message = 0x2a;
                 }
                 monId = GetMonID(mon);
                 func_ov167_021b15d0(flow->queue, 0x5a, (u16)message, monId, exp, 0xffff0000);
-                func_ov167_021b1434(flow->queue, 0x3e, monId, entry->unk5[0], entry->unk5[1], entry->unk5[2],
-                                    entry->unk5[3], entry->unk5[4], entry->unk5[5]);
+                func_ov167_021b1434(flow->queue, 0x3e, monId, entry->hp, entry->attack, entry->defense,
+                                    entry->speed, entry->spAttack, entry->spDefense);
                 remaining = exp;
                 while (func_ov167_021bc1b8(mon, &remaining, &flow->levelUp)) {
                 }
@@ -9522,6 +9526,549 @@ u8 func_ov167_021aedac(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *pa
         newTarget = 0x1f;
     }
     return newTarget;
+}
+
+// Function name from swan.
+void AddExpAndEVs(BtlServerFlow *flow, BattleParty *party, BattleMon *defeated, BtlFlowExpEntry *entries) {
+    BtlSetup *setup;
+    u32 baseExp;
+    u32 numMons;
+    u16 numExpShare;
+    u16 i;
+    BattleMon *mon;
+    u32 shareExp;
+    u8 numFaced;
+    u8 numStanding;
+    u32 exp;
+    PlayerInfo *player;
+    PartyPkm *pkm;
+    u16 level;
+    u16 defeatedLevel;
+    BtlFlowExpEntry *entry;
+    u16 j;
+    u8 monId;
+    u8 k;
+
+    setup = func_ov167_0219e310(flow->mainModule);
+    baseExp = CalcBaseExpGain(defeated, setup->levelDiff);
+    numMons = GetNumMonsInParty(party);
+    numExpShare = 0;
+    if (BtlSetup_GetBattleType(flow->mainModule) == 1) {
+        baseExp = baseExp * 15 / 10;
+    }
+    for (i = 0; i < 6; i++) {
+        sys_memset(&entries[i], 0, sizeof(BtlFlowExpEntry));
+    }
+    // An Exp. Share takes half the experience, split among the mons that hold one
+    for (i = 0; i < numMons; i++) {
+        mon = GetBattleMonFromParty(party, i);
+        if (!IsFainted(mon) && GetBattleMonHeldItem(mon) == ITEM_EXP_SHARE) {
+            numExpShare++;
+        }
+    }
+    if (numExpShare != 0) {
+        shareExp = baseExp / 2;
+        baseExp -= shareExp;
+        shareExp /= numExpShare;
+        if (shareExp == 0) {
+            shareExp = 1;
+        }
+        for (i = 0; i < numMons; i++) {
+            mon = GetBattleMonFromParty(party, i);
+            if (!IsFainted(mon) && GetBattleMonHeldItem(mon) == ITEM_EXP_SHARE) {
+                entries[i].exp = shareExp;
+            }
+        }
+    }
+    // The rest is split among the mons that faced the defeated one and are still standing
+    numFaced = func_ov167_021bc604(defeated);
+    numStanding = 0;
+    for (i = 0; i < numFaced; i++) {
+        if (!IsFainted(GetPokeParam(flow->pokeCon, func_ov167_021bc60c(defeated, i)))) {
+            numStanding++;
+        }
+    }
+    exp = baseExp / numStanding;
+    if (exp == 0) {
+        exp = 1;
+    }
+    for (j = 0; j < numMons; j++) {
+        mon = GetBattleMonFromParty(party, j);
+        if (!IsFainted(mon)) {
+            monId = GetMonID(mon);
+            for (k = 0; k < numFaced; k++) {
+                if (monId == func_ov167_021bc60c(defeated, k)) {
+                    entries[j].exp += exp;
+                }
+            }
+        }
+    }
+    for (i = 0; i < numMons; i++) {
+        entry = &entries[i];
+        if (entries[i].exp != 0) {
+            player = func_ov167_0219bf68(flow->mainModule);
+            mon = GetBattleMonFromParty(party, i);
+            pkm = GetSrcData(mon);
+            level = GetBattleMonStat(mon, 0xf);
+            defeatedLevel = GetBattleMonStat(defeated, 0xf);
+            if (setup->levelDiff < 0) {
+                defeatedLevel += (u16)MATH_ABS(setup->levelDiff);
+            }
+            entry->exp = ScaleExpGainedByLevel(mon, entry->exp, level, defeatedLevel);
+            // A traded mon gets half again as much, or 1.7 times from a game in another language
+            if (!IsTrainerOT(pkm, player)) {
+                entry->exp = fixed_round(entry->exp,
+                                         PokeParty_GetParam(pkm, 0xc, NULL) != TrainerInfo_GetRegion(player) ? 0x1b33
+                                                                                                            : 0x1800);
+                entry->boosted = TRUE;
+            }
+            if (GetBattleMonHeldItem(mon) == ITEM_LUCKY_EGG) {
+                entry->exp = fixed_round(entry->exp, 0x1800);
+                entry->boosted = TRUE;
+            }
+            entry->exp = PassPower_ApplyEXP(entry->exp);
+            if (entry->exp > 100000) {
+                entry->exp = 100000;
+            }
+        }
+    }
+    for (i = 0; i < numMons; i++) {
+        if (entries[i].exp != 0) {
+            AddEVs(func_ov167_0219d4e4(party, i), defeated, &entries[i]);
+        }
+    }
+}
+
+// Function name from swan.
+u32 ScaleExpGainedByLevel(BattleMon *mon, u32 exp, u16 level, u16 defeatedLevel) {
+    u32 num = defeatedLevel * 2 + 10;
+    u32 den = defeatedLevel + level + 10;
+    fx32 denSqrt;
+    u32 result;
+    u32 max;
+
+    // Scaled by ((2 * defeated level + 10) / (defeated level + level + 10)) to the 2.5th power
+    num = (FX_Sqrt(FX32_CONST(num)) * (num * num)) >> FX32_SHIFT;
+    denSqrt = FX_Sqrt(FX32_CONST(den));
+    den = den * den;
+    result = (u64)exp * num / ((den * denSqrt) >> FX32_SHIFT) + 1;
+    max = GetExpForLv100(mon);
+    if (result > max) {
+        result = max;
+    }
+    return result;
+}
+
+// Function name from swan.
+void AddEVs(BattleMon *mon, BattleMon *defeated, BtlFlowExpEntry *entry) {
+    u16 species;
+    u16 form;
+    u8 evs[6];
+    u8 i;
+    PartyPkm *pkm;
+    BOOL wasEncrypted;
+    u32 field;
+    u32 total;
+
+    species = GetBattleMonSpecies(defeated);
+    form = GetBattleMonStat(defeated, 0x13);
+    for (i = 0; i < 6; i++) {
+        evs[i] = PML_PersonalGetParamSingle(species, form, data_ov167_021d6cfc[i].personalParam);
+    }
+    if (GetBattleMonHeldItem(mon) == ITEM_MACHO_BRACE) {
+        for (i = 0; i < 6; i++) {
+            evs[i] *= 2;
+        }
+    }
+    for (i = 0; i < 6; i++) {
+        u16 item = data_ov167_021d6cfc[i].powerItem;
+
+        if (item == GetBattleMonHeldItem(mon)) {
+            evs[i] += (u8)ItemGetParam(item, 2);
+        }
+    }
+    pkm = GetSrcData(mon);
+    wasEncrypted = PokeParty_DecryptPkm(pkm);
+    if (PokeParty_GetParam(pkm, 0x97, NULL)) {
+        for (i = 0; i < 6; i++) {
+            evs[i] *= 2;
+        }
+    }
+    for (i = 0; i < 6; i++) {
+        if (evs[i] != 0) {
+            field = data_ov167_021d6cfc[i].field;
+            total = evs[i] + PokeParty_GetParam(pkm, field, NULL);
+            if (total > 255) {
+                total = 255;
+            }
+            PokeParty_SetParam(pkm, field, total);
+            switch (i) {
+            case 0:
+                entry->hp = evs[i];
+                break;
+            case 1:
+                entry->attack = evs[i];
+                break;
+            case 2:
+                entry->defense = evs[i];
+                break;
+            case 3:
+                entry->speed = evs[i];
+                break;
+            case 4:
+                entry->spAttack = evs[i];
+                break;
+            case 5:
+                entry->spDefense = evs[i];
+                break;
+            }
+        }
+    }
+    PokeParty_EncryptPkm(pkm, wasEncrypted);
+}
+
+// A trainer uses an item from the bag on a party mon
+u8 func_ov167_021af2ac(BtlServerFlow *flow, BattleMon *mon, u16 item, u8 param, u8 slot) {
+    u8 numOut;
+    BattleParty *party;
+    u8 clientId;
+    u8 targetId;
+    u8 place;
+    BattleMon *target;
+    u32 state;
+    u8 targetPos;
+    BOOL used;
+    u32 reserve;
+    BOOL usable;
+    u32 placed;
+    u32 i;
+    const BtlFlowItemEffect *effect;
+    BOOL result;
+    s32 value;
+    u16 effectId;
+
+    clientId = func_ov167_0219c648(GetMonID(mon));
+    target = NULL;
+    placed = 0;
+    if (slot != 6) {
+        party = GetPartyData(flow->pokeCon, clientId);
+        numOut = GetClientBattlerCount(flow->mainModule, clientId);
+        target = func_ov167_0219d4e4(party, slot);
+        targetId = GetMonID(target);
+        targetPos = GetBattlePos(flow->unk1ab8, targetId);
+        // 0 for a mon in battle, 1 for one in a rotation battle's back slots, 2 for one in the party
+        if (slot >= numOut) {
+            placed = 2;
+        }
+        place = placed;
+        if (BtlSetup_GetBattleStyle(flow->mainModule) == BTL_STYLE_ROTATION && place == 2 && slot < 3) {
+            place = 1;
+        }
+    }
+    if (flow->unk18 != 1) {
+        func_ov167_021b15d0(flow->queue, 0x5a, 0x21, clientId, item, 0xffff0000);
+        if (ItemGetParam(item, 0xf) == 4) {
+            if (func_ov167_021af5bc(flow, mon, item)) {
+                BattleClient_SubItem(flow->mainModule, clientId, item);
+            }
+            return FALSE;
+        }
+        if (ItemGetParam(item, 7) == 3) {
+            BattleClient_SubItem(flow->mainModule, clientId, item);
+            return TRUE;
+        }
+    } else {
+        func_ov167_021b15d0(flow->queue, 0x5a, 0x24, clientId, targetId, item, 0xffff0000);
+        if (clientId == GetPlayerClientID(flow->mainModule)) {
+            func_ov167_0219dad0(flow->mainModule, 0x6f);
+        }
+    }
+    usable = place == 0 && targetPos != 6 ? TRUE : FALSE;
+    if (!usable) {
+        for (i = 0; i < 23; i++) {
+            effect = &data_ov167_021d6d20[i];
+            if ((effect->exact && item == effect->param) || (!effect->exact && ItemGetParam(item, effect->param))) {
+                if (effect->place == 0) {
+                    usable = TRUE;
+                    break;
+                }
+                if (effect->place == 1 && place < 2 && targetPos != 6) {
+                    usable = TRUE;
+                    break;
+                }
+            }
+        }
+    }
+    if (!usable) {
+        func_ov167_021b15d0(flow->queue, 0x5a, 0xc4, 0xffff0000);
+        return FALSE;
+    }
+    if (flow->unk18 == 1) {
+        if (targetPos != 6) {
+            func_ov167_021b1434(flow->queue, 0x4d, targetPos, 0x282);
+        }
+        for (i = 0; i < 23; i++) {
+            if (data_ov167_021d6d20[i].exact && item == data_ov167_021d6d20[i].param) {
+                result = FALSE;
+                if (!func_ov167_021abe78(flow, targetId)) {
+                    u32 reservePos = SCQUE_RESERVE_Pos(flow->queue, 0x4d);
+
+                    result = data_ov167_021d6d20[i].func(flow, target, item, 0, param);
+                    if (result == TRUE) {
+                        func_ov167_021b14ec(flow->queue, reservePos, 0x4d, targetPos, 0x25e);
+                        func_ov167_021b1434(flow->queue, 0x4c, 0x236);
+                        return FALSE;
+                    }
+                }
+                if (result == FALSE) {
+                    func_ov167_021b15d0(flow->queue, 0x5a, 0x44, 0xffff0000);
+                }
+                func_ov167_021b1434(flow->queue, 0x4c, 0x236);
+                return FALSE;
+            }
+        }
+    }
+    used = FALSE;
+    reserve = SCQUE_RESERVE_Pos(flow->queue, 0x4d);
+    state = PushState(&flow->actionState, 0x4d7);
+    for (i = 0; i < 23; i++) {
+        effect = &data_ov167_021d6d20[i];
+        value = ItemGetParam(item, data_ov167_021d6d20[i].param);
+        if (value != 0 && effect->func(flow, target, item, value, param)) {
+            used = TRUE;
+        }
+    }
+    if (used) {
+        effectId = targetPos != 6 ? 0x25e : 0x292;
+        func_ov167_021b14ec(flow->queue, reserve, 0x4d, targetPos, effectId);
+        if (flow->unk18 != 1) {
+            BattleClient_SubItem(flow->mainModule, clientId, item);
+            func_ov167_0219db7c(flow->mainModule, target, item);
+        }
+    } else {
+        func_ov167_021b15d0(flow->queue, 0x5a, 0x44, 0xffff0000);
+    }
+    PopState(&flow->actionState, state, 0x4f4);
+    func_ov167_021b1434(flow->queue, 0x4c, 0x236);
+    return FALSE;
+}
+
+// Throws a ball at the first foe standing; only a wild one can be caught
+BOOL func_ov167_021af5bc(BtlServerFlow *flow, BattleMon *mon, u16 item) {
+    u8 positions[6];
+    u8 shakes;
+    u8 critical;
+    BattleMon *target;
+    u8 targetPos;
+    u8 numPositions;
+    u8 i;
+    u8 caught;
+    u8 isNew;
+
+    target = NULL;
+    targetPos = 6;
+    numPositions = func_ov167_0219bfe4(flow->mainModule,
+                                       0x600 | MonIDToBattlePos(flow->mainModule, flow->pokeCon, GetMonID(mon)),
+                                       positions);
+    for (i = 0; i < numPositions; i++) {
+        target = func_ov167_0219d180(flow->pokeCon, positions[i]);
+        if (!IsFainted(target)) {
+            targetPos = positions[i];
+            break;
+        }
+    }
+    if (BtlSetup_GetBattleType(flow->mainModule) == 0) {
+        if (targetPos != 6) {
+            caught = func_ov167_021af6b0(flow, mon, target, item, &shakes, &critical);
+            if (caught) {
+                flow->unk14 = 6;
+                flow->unk784 = targetPos;
+                isNew = !func_ov167_0219bf70(flow->mainModule, target) ? TRUE : FALSE;
+                func_ov167_021bc624(target, item);
+            } else {
+                isNew = FALSE;
+            }
+            func_ov167_021b1434(flow->queue, 0x46, targetPos, shakes, caught, isNew, critical, item);
+        }
+        return TRUE;
+    }
+    if (targetPos != 6) {
+        func_ov167_021b1434(flow->queue, 0x47, targetPos, item);
+    }
+    return FALSE;
+}
+
+// Whether a ball catches its target, with how many times it shakes and whether it was a critical capture
+BOOL func_ov167_021af6b0(BtlServerFlow *flow, BattleMon *mon, BattleMon *target, u16 item, u8 *shakes, u8 *critical) {
+    u32 maxHP;
+    u32 base;
+    fx32 rate;
+    u16 species;
+    u16 form;
+    fx32 value;
+    u32 numShakes;
+    u32 i;
+
+    *critical = FALSE;
+    if (item == ITEM_MASTER_BALL) {
+        *shakes = 3;
+        return TRUE;
+    }
+    maxHP = GetBattleMonStat(target, 0xe) * 3;
+    base = maxHP - GetBattleMonStat(target, 0xd) * 2;
+    rate = FX32_CONST(base);
+    if (BtlSetup_IsBattleType(flow->mainModule, 0x20)) {
+        rate = FX_MUL(rate, func_ov167_021af870(flow));
+    }
+    species = GetBattleMonSpecies(target);
+    form = GetBattleMonStat(target, 0x13);
+    rate *= (u16)PML_PersonalGetParamSingle(species, form, 8);
+    rate = (u32)FX_MUL(rate, func_ov167_021af8c4(flow, mon, target, item)) / maxHP;
+    switch (GetBattleMonStatus(target)) {
+    case 2:
+    case 3:
+        rate = FX_MUL(rate, FX32_CONST(2.5));
+        break;
+    case 1:
+    case 4:
+    case 5:
+        rate = FX_MUL(rate, FX32_CONST(1.5));
+        break;
+    }
+    value = PassPower_ApplyCapture(rate);
+    *critical = func_ov167_021afa24(flow, value);
+    if (value >= FX32_CONST(255)) {
+        *shakes = *critical ? 1 : 3;
+        return TRUE;
+    }
+    numShakes = *critical ? 1 : 3;
+    value = FX_Div(FX32_CONST(65536), FX_Sqrt(FX_Sqrt(FX_Div(FX32_CONST(255), value)))) >> FX32_SHIFT;
+    *shakes = 0;
+    for (i = 0; i < numShakes; i++) {
+        if (BattleRandom(65536) < value) {
+            (*shakes)++;
+        } else {
+            return FALSE;
+        }
+    }
+    return TRUE;
+}
+
+// In dark grass, catching gets harder the fewer species the player has caught
+fx32 func_ov167_021af870(BtlServerFlow *flow) {
+    u32 count = func_ov167_0219bf88(flow->mainModule);
+
+    if (count > 600) {
+        return FX32_ONE;
+    }
+    if (count > 450) {
+        return FX32_CONST(0.9);
+    }
+    if (count > 300) {
+        return FX32_CONST(0.8);
+    }
+    if (count > 150) {
+        return FX32_CONST(0.7);
+    }
+    if (count > 30) {
+        return FX32_CONST(0.5);
+    }
+    return FX32_CONST(0.3);
+}
+
+// The catch rate multiplier of a ball
+fx32 func_ov167_021af8c4(BtlServerFlow *flow, BattleMon *mon, BattleMon *target, u16 item) {
+    switch (item) {
+    case ITEM_GREAT_BALL:
+        return FX32_CONST(1.5);
+    case ITEM_ULTRA_BALL:
+        return FX32_CONST(2);
+    case ITEM_NET_BALL:
+        if (DoesMonHaveType(target, TYPE_WATER) || DoesMonHaveType(target, TYPE_BUG)) {
+            return FX32_CONST(3);
+        }
+        break;
+    case ITEM_DIVE_BALL:
+        if (BtlSetup_IsBattleType(flow->mainModule, 1)) {
+            return FX32_CONST(3.5);
+        }
+        if (GetFieldEffectData(flow->mainModule)->terrain == 6) {
+            return FX32_CONST(3.5);
+        }
+        break;
+    case ITEM_NEST_BALL: {
+        u16 level = GetBattleMonStat(target, 0xf);
+
+        if (level < 30) {
+            u16 bonus = 41 - level;
+
+            if (bonus > 40) {
+                bonus = 40;
+            }
+            return FX32_CONST(bonus) / 10;
+        }
+        break;
+    }
+    case ITEM_REPEAT_BALL:
+        if (func_ov167_0219bf70(flow->mainModule, target)) {
+            return FX32_CONST(3);
+        }
+        break;
+    case ITEM_TIMER_BALL: {
+        fx32 ratio = flow->unk10 * FX32_CONST(0.3) + FX32_ONE;
+
+        if (ratio > FX32_CONST(4)) {
+            ratio = FX32_CONST(4);
+        }
+        return ratio;
+    }
+    case ITEM_DUSK_BALL: {
+        const BtlFieldSituation *field = GetFieldEffectData(flow->mainModule);
+        u8 period = GetDayPeriod(field->unk09, field->unk0c[0]);
+
+        if (field->unk00 == 4 || field->unk00 == 5) {
+            return FX32_CONST(3.5);
+        }
+        if (func_ov169_0689cb28(field->unk00) && (period == 3 || period == 4)) {
+            return FX32_CONST(3.5);
+        }
+        break;
+    }
+    case ITEM_QUICK_BALL:
+        if (flow->unk10 == 0) {
+            return FX32_CONST(5);
+        }
+        break;
+    }
+    return FX32_ONE;
+}
+
+// A critical capture, likelier the more species the player has caught
+BOOL func_ov167_021afa24(BtlServerFlow *flow, fx32 value) {
+    u32 count = func_ov167_0219bf88(flow->mainModule);
+    fx32 ratio;
+
+    if (count > 600) {
+        ratio = FX32_CONST(2.5);
+    } else if (count > 450) {
+        ratio = FX32_CONST(2);
+    } else if (count > 300) {
+        ratio = FX32_CONST(1.5);
+    } else if (count > 150) {
+        ratio = FX32_CONST(1);
+    } else if (count > 30) {
+        ratio = FX32_CONST(0.5);
+    } else {
+        return FALSE;
+    }
+    if (value > FX32_CONST(255)) {
+        value = FX32_CONST(255);
+    }
+    value = FX_MUL(value, ratio) / 6;
+    if (BattleRandom(256) < (value >> FX32_SHIFT)) {
+        return TRUE;
+    }
+    return FALSE;
 }
 
 // Function names from swan.

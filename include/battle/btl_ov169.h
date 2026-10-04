@@ -63,6 +63,7 @@ BOOL func_ov169_068982ac(u32 a0);
 BOOL func_ov169_06898c10(u8 side, u32 effect, BattleCondition cont);
 BOOL ServerDisplay_RemoveSideEffect(u8 side, u32 effect);
 BOOL PosEventAdd(u32 effect, u8 pos, u8 monId, const u32 *args, u8 argCount);
+BOOL func_ov169_0689cb28(u16 background);
 void func_ov169_0689c6c8(BtlServerFlow *flow, BattleMon *target);
 
 #endif // POKEBW2_BATTLE_BTL_OV169_H
