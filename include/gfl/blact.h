@@ -6,8 +6,8 @@
 #include "gfl/g3d.h"
 #include "gfl/heap.h"
 #include "nitro/fx.h"
-#include "nitro/gfd.h"
 #include "nitro/gx.h"
+#include "nnsys/gfd.h"
 
 // Billboard actors: textured quads drawn facing the camera, each showing one face of its material's texture, which
 // holds the faces in rows

@@ -2,8 +2,8 @@
 #include "gfl/heap.h"
 #include "gfl/heapsys.h"
 #include "gfl/std.h"
-#include "nitro/fnd.h"
 #include "nitro/os.h"
+#include "nnsys/fnd.h"
 
 // The heap API over heapsys.c, which stops the game when the heap system fails. The debug messages the failures printed
 // are compiled out, which leaves the calls that computed their arguments

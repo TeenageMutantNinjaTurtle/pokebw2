@@ -6,8 +6,8 @@
 #include "gfl/heap.h"
 #include "gfl/tcb.h"
 #include "nitro/fx.h"
-#include "nitro/gfd.h"
-#include "nitro/spl.h"
+#include "nnsys/gfd.h"
+#include "spl/spl.h"
 
 // Particle systems: up to 16 SPL managers, each with its own work memory, resource file and camera. None of these
 // functions has a name yet

@@ -1,5 +1,5 @@
-#ifndef POKEBW2_NITRO_GFD_H
-#define POKEBW2_NITRO_GFD_H
+#ifndef POKEBW2_NNSYS_GFD_H
+#define POKEBW2_NNSYS_GFD_H
 
 #include "types.h"
 
@@ -79,4 +79,4 @@ void NNS_GfdInitLnkTexVramManager(u32 szByte, u32 szByteFor4x4, void *pManagemen
 u32 NNS_GfdGetLnkPlttVramManagerWorkSize(u32 numMemBlk);
 void NNS_GfdInitLnkPlttVramManager(u32 szByte, void *pManagementWork, u32 szByteManagementWork, BOOL useAsDefault);
 
-#endif // POKEBW2_NITRO_GFD_H
+#endif // POKEBW2_NNSYS_GFD_H

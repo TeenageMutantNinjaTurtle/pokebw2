@@ -1,9 +1,9 @@
 #include "types.h"
 #include "gfl/std.h"
 #include "nitro/fx.h"
-#include "nitro/gfd.h"
 #include "nitro/gx.h"
-#include "nitro/spl.h"
+#include "nnsys/gfd.h"
+#include "spl/spl.h"
 #include "spl_internal.h"
 
 // The manager: the resource file's emitters and textures, the pools of emitters and particles, and the update and

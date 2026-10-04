@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "gfl/heap.h"
-#include "nitro/g2d.h"
+#include "nnsys/g2d.h"
 #include "struct_decls.h"
 
 // Bitmaps of 16 or 256 color tiles, as BG and OBJ characters are stored: a tile's rows follow each other, and the tiles

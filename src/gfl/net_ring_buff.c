@@ -1,6 +1,6 @@
 #include "types.h"
-#include "gfl/net_system.h"
 #include "gfl/net_ring_buff.h"
+#include "gfl/net_system.h"
 #include "gfl/std.h"
 
 static int func_0203e09c(NetRingBuff *ring, u8 *dest, int size, int max);

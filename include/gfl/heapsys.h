@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "gfl/heap.h"
-#include "nitro/fnd.h"
+#include "nnsys/fnd.h"
 
 // The heap system under the heap API (heapsys.c and heap_dtcm.c, names the ROM does not embed). Heaps are NitroSystem
 // expanded heaps by heap ID; a heap ID with HEAPID_TAIL_BIT allocates from the end. The functions record a

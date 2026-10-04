@@ -24,6 +24,7 @@
 #include "gfl/net_system.h"
 #include "gfl/overlay.h"
 #include "gfl/random.h"
+#include "gfl/rtc_cache.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
 #include "nitro/fx.h"
@@ -42,7 +43,6 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 #include "system/new_game.h"
-#include "system/rtc.h"
 #include "system/season.h"
 
 struct EventGameOpening {

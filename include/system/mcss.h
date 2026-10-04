@@ -4,8 +4,8 @@
 #include "types.h"
 #include "gfl/heap.h"
 #include "nitro/fx.h"
-#include "nitro/g2d.h"
 #include "nitro/gx.h"
+#include "nnsys/g2d.h"
 #include "struct_decls.h"
 
 // MCSS, the system that draws Pokémon and trainer sprites from multi-cell animations. It is mcss.c in the main module

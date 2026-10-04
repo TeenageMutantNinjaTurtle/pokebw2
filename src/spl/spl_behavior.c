@@ -1,6 +1,6 @@
 #include "types.h"
 #include "nitro/fx.h"
-#include "nitro/spl.h"
+#include "spl/spl.h"
 #include "spl_internal.h"
 
 // The behaviors a resource gives its particles, each applied to every particle every frame: forces added to its

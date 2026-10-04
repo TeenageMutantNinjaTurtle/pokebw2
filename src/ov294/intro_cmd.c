@@ -17,9 +17,9 @@
 #include "gfl/str.h"
 #include "gfl/touchpanel.h"
 #include "nitro/fx.h"
-#include "nitro/g2d.h"
 #include "nitro/gx.h"
 #include "nitro/hw.h"
+#include "nnsys/g2d.h"
 #include "save/player_info.h"
 #include "system/mcss.h"
 

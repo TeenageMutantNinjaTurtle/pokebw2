@@ -7,11 +7,11 @@
 #include "gfl/std.h"
 #include "gfl/vman.h"
 #include "nitro/fx.h"
-#include "nitro/g2d.h"
-#include "nitro/gfd.h"
 #include "nitro/gx.h"
 #include "nitro/mi.h"
 #include "nitro/os.h"
+#include "nnsys/g2d.h"
+#include "nnsys/gfd.h"
 
 // The OAM managers, renderer, units of actors and resources of the cell actor system
 

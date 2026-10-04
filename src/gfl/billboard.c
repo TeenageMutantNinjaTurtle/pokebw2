@@ -3,9 +3,9 @@
 #include "gfl/g3d.h"
 #include "gfl/heap.h"
 #include "nitro/fx.h"
-#include "nitro/gfd.h"
 #include "nitro/gx.h"
 #include "nitro/mi.h"
+#include "nnsys/gfd.h"
 
 // A scene of billboard actors and the materials they show, drawn straight to the geometry engine
 

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gfl/heapsys.h"
-#include "nitro/fnd.h"
 #include "nitro/os.h"
+#include "nnsys/fnd.h"
 
 // Heaps past the root heaps, for child heaps
 #define CHILD_HEAP_COUNT 24

@@ -1,5 +1,5 @@
-#ifndef POKEBW2_NITRO_G2D_H
-#define POKEBW2_NITRO_G2D_H
+#ifndef POKEBW2_NNSYS_G2D_H
+#define POKEBW2_NNSYS_G2D_H
 
 #include "types.h"
 #include "nitro/fx.h"
@@ -422,4 +422,4 @@ void NNS_G2dUpdateCellTransferStateManager(void);
 u32 NNS_G2dGetNewCellTransferStateHandle(void);
 void NNS_G2dFreeCellTransferStateHandle(u32 handle);
 
-#endif // POKEBW2_NITRO_G2D_H
+#endif // POKEBW2_NNSYS_G2D_H

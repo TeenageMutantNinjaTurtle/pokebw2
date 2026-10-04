@@ -4,10 +4,10 @@
 #include "gfl/graphics.h"
 #include "gfl/heap.h"
 #include "nitro/fx.h"
-#include "nitro/g3d.h"
-#include "nitro/gfd.h"
 #include "nitro/gx.h"
 #include "nitro/os.h"
+#include "nnsys/g3d.h"
+#include "nnsys/gfd.h"
 
 #define G3D_LIGHT_MAX 4
 // The most of DTCM the geometry command buffer takes

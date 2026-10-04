@@ -1,7 +1,7 @@
 #include "types.h"
 #include "nitro/fx.h"
 #include "nitro/gx.h"
-#include "nitro/spl.h"
+#include "spl/spl.h"
 #include "spl_internal.h"
 
 // The animations of a particle over its life, given as a life rate from 0 to 255

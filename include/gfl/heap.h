@@ -4,7 +4,7 @@
 // Names, layouts and constants from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
 
 #include "types.h"
-#include "nitro/fnd.h"
+#include "nnsys/fnd.h"
 
 typedef u16 HeapID;
 

@@ -3,8 +3,8 @@
 
 #include "types.h"
 #include "gfl/heap.h"
-#include "nitro/g2d.h"
 #include "nitro/gx.h"
+#include "nnsys/g2d.h"
 #include "struct_decls.h"
 
 struct G3DTextDrawResource {

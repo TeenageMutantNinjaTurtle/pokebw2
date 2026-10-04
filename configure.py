@@ -57,7 +57,7 @@ CC_FLAGS = [
 # Nintendo's SPL particle library was built apart from the game, with an older compiler, as ARM code and without
 # interprocedural analysis. Sources under each directory here are compiled with its compiler and flags
 LIB_COMPILERS = {
-    "src/lib/spl/": ("1.2/base", [
+    "src/spl/": ("1.2/base", [
         "-O4,p",
         "-proc arm946e",
         "-nothumb",

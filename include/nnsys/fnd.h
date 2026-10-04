@@ -1,5 +1,5 @@
-#ifndef POKEBW2_NITRO_FND_H
-#define POKEBW2_NITRO_FND_H
+#ifndef POKEBW2_NNSYS_FND_H
+#define POKEBW2_NNSYS_FND_H
 
 #include "types.h"
 
@@ -34,4 +34,4 @@ void HeapBase_DumpMemory(NNSFndHeapHandle heap, NNSFndHeapVisitor visitor, u32 p
 u32 HeapBlock_GetSize(const void *block);
 void CreateExpHeapAllocator(NNSFndAllocator *allocator, NNSFndHeapHandle heap, int alignment);
 
-#endif // POKEBW2_NITRO_FND_H
+#endif // POKEBW2_NNSYS_FND_H

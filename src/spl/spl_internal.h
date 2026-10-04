@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "nitro/fx.h"
-#include "nitro/spl.h"
+#include "spl/spl.h"
 
 // What SPL's files share among themselves
 

@@ -11,6 +11,7 @@
 #include "gfl/key.h"
 #include "gfl/msg.h"
 #include "gfl/random.h"
+#include "gfl/rtc_cache.h"
 #include "gfl/std.h"
 #include "gfl/str.h"
 #include "save/save_control.h"
@@ -18,7 +19,6 @@
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
-#include "system/rtc.h"
 
 void probabilityLoop(SurveyProbabilityState *state) {
     int i;

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "nitro/spl.h"
+#include "spl/spl.h"
 
 // SPL's linked lists, which keep their count. Only the front is pushed and popped
 

@@ -1,11 +1,11 @@
-#ifndef POKEBW2_NITRO_SPL_H
-#define POKEBW2_NITRO_SPL_H
+#ifndef POKEBW2_SPL_SPL_H
+#define POKEBW2_SPL_SPL_H
 
 #include "types.h"
 #include "nitro/fx.h"
 #include "nitro/gx.h"
 
-// Nintendo's SPL particle library (src/lib/spl), decompiled from this game's code: a manager of emitters made from a
+// Nintendo's SPL particle library (src/spl), decompiled from this game's code: a manager of emitters made from a
 // resource file's particle definitions. The public functions keep the names pret's Platinum decompilation gives
 // them. The fields named unk* are ones the library never reads
 
@@ -517,4 +517,4 @@ SPLEmitter *SPLManager_CreateEmitterWithCallback(SPLManager *mgr, int resourceID
 void SPLManager_DeleteEmitter(SPLManager *mgr, SPLEmitter *emitter);
 void SPLManager_DeleteAllEmitters(SPLManager *mgr);
 
-#endif // POKEBW2_NITRO_SPL_H
+#endif // POKEBW2_SPL_SPL_H

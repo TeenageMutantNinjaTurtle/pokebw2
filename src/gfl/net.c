@@ -1,4 +1,5 @@
 #include "types.h"
+#include "gfl/backup_card.h"
 #include "gfl/heap.h"
 #include "gfl/net.h"
 #include "gfl/net_command.h"
@@ -7,7 +8,6 @@
 #include "gfl/net_lower_data.h"
 #include "gfl/net_state.h"
 #include "gfl/net_system.h"
-#include "gfl/backup_card.h"
 #include "gfl/std.h"
 #include "gfl/ui.h"
 #include "gfl/wm_icon.h"

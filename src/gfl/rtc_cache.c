@@ -1,7 +1,7 @@
 #include "types.h"
+#include "gfl/rtc_cache.h"
 #include "gfl/std.h"
 #include "nitro/rtc.h"
-#include "system/rtc.h"
 
 // The date and time, read from the clock every few frames so the game need not wait for it. The file's name is a guess
 

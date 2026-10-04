@@ -1,7 +1,7 @@
 #include "types.h"
 #include "nitro/fx.h"
 #include "nitro/gx.h"
-#include "nitro/spl.h"
+#include "spl/spl.h"
 #include "spl_internal.h"
 
 // An emitter: its particles' life, from emission through animation, behaviors and movement, and their drawing

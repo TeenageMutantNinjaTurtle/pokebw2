@@ -4,329 +4,329 @@
     .data       start:0x02099080 end:0x0209d740 kind:data align:32
     .bss        start:0x0209d740 end:0x0214f500 kind:bss align:32
 
-src/main/vm.c:
+src/system/vm.c:
     complete
     .text       start:0x0201587c end:0x02015a90
     .data       start:0x0209a2f8 end:0x0209a300
 
-src/main/bg_sys.c:
+src/gfl/bg_sys.c:
     complete
     .text       start:0x020444a4 end:0x02046be0
     .data       start:0x0209aeac end:0x0209aeb8
     .bss        start:0x0214190c end:0x02141910
 
-src/main/gx_layers.c:
+src/gfl/gx_layers.c:
     complete
     .text       start:0x02046be0 end:0x02046e28
     .bss        start:0x02141910 end:0x02141918
 
-src/main/bmp.c:
+src/gfl/bmp.c:
     .text       start:0x02046e28 end:0x02048080
     .data       start:0x0209aeb8 end:0x0209aec0
 
-src/main/bmp_win.c:
+src/gfl/bmp_win.c:
     complete
     .text       start:0x02048080 end:0x0204850c
     .data       start:0x0209aec0 end:0x0209aecc
     .bss        start:0x02141918 end:0x0214191c
 
-src/main/strbuf.c:
+src/gfl/strbuf.c:
     complete
     .text       start:0x0204850c end:0x0204875c
     .data       start:0x0209aecc end:0x0209aedc
 
-src/main/msgdata.c:
+src/gfl/msgdata.c:
     .text       start:0x0204875c end:0x02048b90
     .data       start:0x0209aedc end:0x0209aee8
     .bss        start:0x0214191c end:0x02141920
 
-src/main/systemfont.c:
+src/gfl/systemfont.c:
     complete
     .text       start:0x02048b90 end:0x02048d28
     .rodata     start:0x02093390 end:0x02093dc0
     .data       start:0x0209aee8 end:0x0209aef8
     .bss        start:0x02141920 end:0x02141924
 
-src/main/arc_tool.c:
+src/gfl/arc_tool.c:
     .text       start:0x0204a7a4 end:0x0204ad88
     .data       start:0x0209af30 end:0x0209af84
     .bss        start:0x02141930 end:0x0214193c
 
-src/main/arc_util.c:
+src/gfl/arc_util.c:
     complete
     .text       start:0x0204ad88 end:0x0204b6a8
     .rodata     start:0x02093e1c end:0x02093e44
     .data       start:0x0209af84 end:0x0209af90
 
-src/main/textprint.c:
+src/gfl/textprint.c:
     complete
     .text       start:0x0204dca4 end:0x0204dfa4
     .rodata     start:0x02093f40 end:0x02093f80
     .data       start:0x0209afe8 end:0x0209aff4
     .bss        start:0x02141940 end:0x02141944
 
-src/main/fade.c:
+src/gfl/fade.c:
     complete
     .text       start:0x0204dfa4 end:0x0204e15c
     .data       start:0x0209aff4 end:0x0209affc
     .bss        start:0x02141944 end:0x02141948
 
-src/main/double3Ddisp.c:
+src/gfl/double3Ddisp.c:
     complete
     .text       start:0x0204e15c end:0x0204e390
     .data       start:0x0209affc end:0x0209b00c
     .bss        start:0x02141948 end:0x0214194c
 
-src/main/button_man.c:
+src/gfl/button_man.c:
     complete
     .text       start:0x0205044c end:0x02050610
     .rodata     start:0x020940a8 end:0x020940b0
     .data       start:0x0209b034 end:0x0209b044
 
-src/main/calctool.c:
+src/gfl/calctool.c:
     complete
     .text       start:0x02050610 end:0x020508b8
 
-src/main/str_sjis.c:
+src/gfl/str_sjis.c:
     complete
     .text       start:0x020508b8 end:0x02050a40
 
-src/main/areaman.c:
+src/gfl/areaman.c:
     .text       start:0x0203c3e4 end:0x0203ca24
     .rodata     start:0x02092f4c end:0x02093260
     .data       start:0x0209a98c end:0x0209a998
 
-src/main/vman.c:
+src/gfl/vman.c:
     complete
     .text       start:0x0203ca24 end:0x0203cb64
     .rodata     start:0x02093260 end:0x020932d0
     .data       start:0x0209a998 end:0x0209a9a0
 
-src/main/gf_overlay.c:
+src/gfl/gf_overlay.c:
     .text       start:0x0203cd4c end:0x0203d00c
     .data       start:0x0209a9a4 end:0x0209a9bc
     .bss        start:0x02141880 end:0x02141884
 
-src/main/ui.c:
+src/gfl/ui.c:
     complete
     .text       start:0x0203d00c end:0x0203d65c
     .data       start:0x0209a9bc end:0x0209a9c4
     .bss        start:0x02141884 end:0x0214188c
 
-src/main/touchpanel.c:
+src/gfl/touchpanel.c:
     .text       start:0x0203d65c end:0x0203dc44
     .data       start:0x0209a9c4 end:0x0209a9d4
     .bss        start:0x0214188c end:0x02141890
 
-src/main/key.c:
+src/gfl/key.c:
     .text       start:0x0203dc44 end:0x0203dfc0
     .data       start:0x0209a9d4 end:0x0209a9dc
 
-src/main/assert.c:
+src/gfl/assert.c:
     complete
     .text       start:0x0203cb64 end:0x0203cbb0
     .bss        start:0x02141864 end:0x02141874
 
-src/main/debug_print.c:
+src/gfl/debug_print.c:
     complete
     .text       start:0x0203cbb0 end:0x0203cd4c
     .data       start:0x0209a9a0 end:0x0209a9a4
     .bss        start:0x02141874 end:0x02141880
 
-src/main/gf_standard.c:
+src/gfl/gf_standard.c:
     complete
     .text       start:0x02043e40 end:0x02044170
     .data       start:0x0209ae9c end:0x0209aeac
     .bss        start:0x021418c0 end:0x021418c4
 
-src/main/tcb.c:
+src/gfl/tcb.c:
     .text       start:0x0203a4fc end:0x0203a6d4
 
-src/main/tcbl.c:
+src/gfl/tcbl.c:
     .text       start:0x0203a6d4 end:0x0203a918
     .data       start:0x0209a86c end:0x0209a874
 
-src/main/procsys.c:
+src/gfl/procsys.c:
     complete
     .text       start:0x0203a918 end:0x0203abac
     .data       start:0x0209a874 end:0x0209a880
     .bss        start:0x02141858 end:0x0214185c
 
-src/main/heapsys.c:
+src/gfl/heapsys.c:
     complete
     .text       start:0x02039a80 end:0x0203a0a4
     .bss        start:0x0214181c end:0x0214182c
 
-src/main/heap_dtcm.c:
+src/gfl/heap_dtcm.c:
     complete
     .text       start:0x0203a0a4 end:0x0203a130
     .bss        start:0x0214182c end:0x02141838
 
-src/main/heap.c:
+src/gfl/heap.c:
     complete
     .text       start:0x0203a130 end:0x0203a4fc
     .data       start:0x0209a858 end:0x0209a86c
     .bss        start:0x02141838 end:0x02141858
 
-src/main/savedata.c:
+src/gfl/savedata.c:
     complete
     .text       start:0x0203c1f4 end:0x0203c3e4
     .data       start:0x0209a8fc end:0x0209a98c
 
-src/main/backup_card.c:
+src/gfl/backup_card.c:
     complete
     .text       start:0x0203bf7c end:0x0203c1f4
     .data       start:0x0209a8d8 end:0x0209a8fc
     .bss        start:0x02141860 end:0x02141864
 
-src/main/backup_system.c:
+src/gfl/backup_system.c:
     .text       start:0x0203abac end:0x0203bf7c
     .data       start:0x0209a880 end:0x0209a8d8
     .bss        start:0x0214185c end:0x02141860
 
-src/main/net_ring_buff.c:
+src/gfl/net_ring_buff.c:
     complete
     .text       start:0x0203dfc0 end:0x0203e154
     .data       start:0x0209a9dc end:0x0209a9f0
 
-src/main/net_queue.c:
+src/gfl/net_queue.c:
     complete
     .text       start:0x0203e154 end:0x0203e4a0
     .data       start:0x0209a9f0 end:0x0209aa20
 
-src/main/wm_icon.c:
+src/gfl/wm_icon.c:
     .text       start:0x0203e4a0 end:0x0203e8c8
     .rodata     start:0x020932d0 end:0x020932f0
     .data       start:0x0209aa20 end:0x0209aa54
     .bss        start:0x02141890 end:0x02141898
 
-src/main/net_system.c:
+src/gfl/net_system.c:
     .text       start:0x0203e8c8 end:0x020401dc
     .data       start:0x0209aa54 end:0x0209aaa0
     .bss        start:0x02141898 end:0x0214189c
 
-src/main/net_handle.c:
+src/gfl/net_handle.c:
     complete
     .text       start:0x020401dc end:0x02040b94
     .data       start:0x0209aaa0 end:0x0209ab24
     .bss        start:0x0214189c end:0x021418a0
 
-src/main/net_command.c:
+src/gfl/net_command.c:
     .text       start:0x02040b94 end:0x02041154
     .rodata     start:0x020932f0 end:0x02093378
     .data       start:0x0209ab24 end:0x0209abe8
     .bss        start:0x021418a0 end:0x021418a4
 
-src/main/net_state.c:
+src/gfl/net_state.c:
     .text       start:0x02041154 end:0x020425a0
     .data       start:0x0209abe8 end:0x0209ace4
     .bss        start:0x021418a4 end:0x021418a8
 
-src/main/net.c:
+src/gfl/net.c:
     complete
     .text       start:0x020425a0 end:0x02042f74
     .data       start:0x0209ace4 end:0x0209ad7c
     .bss        start:0x021418a8 end:0x021418b8
 
-src/main/net_irc_wireless.c:
+src/gfl/net_irc_wireless.c:
     .text       start:0x02042f74 end:0x02043868
     .data       start:0x0209ad7c end:0x0209adc0
     .bss        start:0x021418b8 end:0x021418bc
 
-src/main/net_lower_data.c:
+src/gfl/net_lower_data.c:
     complete
     .text       start:0x02043868 end:0x02043e40
     .data       start:0x0209adc0 end:0x0209ae9c
     .bss        start:0x021418bc end:0x021418c0
 
-src/main/rtc_cache.c:
+src/gfl/rtc_cache.c:
     complete
     .text       start:0x02044170 end:0x02044304
     .rodata     start:0x02093378 end:0x02093390
     .bss        start:0x021418c4 end:0x0214190c
 
-src/main/math_util.c:
+src/gfl/math_util.c:
     complete
     .text       start:0x02044304 end:0x020444a4
 
-src/main/g3d_camera.c:
+src/gfl/g3d_camera.c:
     complete
     .text       start:0x0204a5c8 end:0x0204a6f0
     .data       start:0x0209af14 end:0x0209af24
 
-src/main/g3d_light.c:
+src/gfl/g3d_light.c:
     complete
     .text       start:0x0204a6f0 end:0x0204a7a4
     .data       start:0x0209af24 end:0x0209af30
 
-src/main/g3d_util.c:
+src/gfl/g3d_util.c:
     complete
     .text       start:0x02049d24 end:0x0204a5c8
     .data       start:0x0209af08 end:0x0209af14
 
-src/main/g3d_system.c:
+src/gfl/g3d_system.c:
     .text       start:0x02048d28 end:0x02049d24
     .rodata     start:0x02093dc0 end:0x02093e0c
     .data       start:0x0209aef8 end:0x0209af08
     .bss        start:0x02141924 end:0x02141930
 
-src/main/clact.c:
+src/gfl/clact.c:
     .text       start:0x0204b6a8 end:0x0204dca4
     .rodata     start:0x02093e44 end:0x02093f40
     .data       start:0x0209af90 end:0x0209afe8
     .bss        start:0x0214193c end:0x02141940
 
-src/main/billboard.c:
+src/gfl/billboard.c:
     .text       start:0x0204e390 end:0x0204f0f8
     .rodata     start:0x02093f80 end:0x0209401c
     .data       start:0x0209b00c end:0x0209b018
 
-src/main/billboard_act.c:
+src/gfl/billboard_act.c:
     .text       start:0x0204f0f8 end:0x0204f864
     .rodata     start:0x0209401c end:0x02094038
     .data       start:0x0209b018 end:0x0209b028
 
-src/main/particle.c:
+src/gfl/particle.c:
     .text       start:0x0204f918 end:0x0205044c
     .rodata     start:0x02094038 end:0x020940a8
     .data       start:0x0209b028 end:0x0209b034
     .bss        start:0x02141950 end:0x02141954
 
-src/main/dma_vblank.c:
+src/gfl/dma_vblank.c:
     complete
     .text       start:0x0204f864 end:0x0204f918
     .bss        start:0x0214194c end:0x02141950
 
-src/lib/spl/spl_list.c:
+src/spl/spl_list.c:
     complete
     .text       start:0x02056878 end:0x02056994
 
-src/lib/spl/spl_random.c:
+src/spl/spl_random.c:
     complete
     .text       start:0x02056994 end:0x02056a58
     .bss        start:0x02141954 end:0x02141958
 
-src/lib/spl/spl_behavior.c:
+src/spl/spl_behavior.c:
     complete
     .text       start:0x02056470 end:0x02056878
 
-src/lib/spl/spl_emit.c:
+src/spl/spl_emit.c:
     complete
     .text       start:0x02054bfc end:0x02056030
     .data       start:0x0209b054 end:0x0209b05c
 
-src/lib/spl/spl_anim.c:
+src/spl/spl_anim.c:
     complete
     .text       start:0x02056030 end:0x02056470
 
-src/lib/spl/spl_emitter.c:
+src/spl/spl_emitter.c:
     complete
     .text       start:0x02051540 end:0x02052394
 
-src/lib/spl/spl_draw.c:
+src/spl/spl_draw.c:
     .text       start:0x02052394 end:0x02054bfc
     .data       start:0x0209b044 end:0x0209b054
 
-src/lib/spl/spl_manager.c:
+src/spl/spl_manager.c:
     complete
     .text       start:0x02050a40 end:0x02051540

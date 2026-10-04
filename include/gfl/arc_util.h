@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "gfl/heap.h"
-#include "nitro/g2d.h"
+#include "nnsys/g2d.h"
 #include "struct_decls.h"
 
 // Graphics files of archives (arc_util.c): loading character, screen and palette files to VRAM and reading them, and

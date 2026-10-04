@@ -3,10 +3,10 @@
 #include "gfl/arc_util.h"
 #include "gfl/bg_sys.h"
 #include "gfl/heap.h"
-#include "nitro/g2d.h"
 #include "nitro/gx.h"
 #include "nitro/mi.h"
 #include "nitro/os.h"
+#include "nnsys/g2d.h"
 
 typedef void (*VramLoadFunc)(const void *src, u32 offset, u32 size);
 

@@ -6,11 +6,11 @@
 #include "gfl/std.h"
 #include "gfl/tcb.h"
 #include "nitro/fx.h"
-#include "nitro/g3d.h"
-#include "nitro/gfd.h"
 #include "nitro/gx.h"
 #include "nitro/mi.h"
-#include "nitro/spl.h"
+#include "nnsys/g3d.h"
+#include "nnsys/gfd.h"
+#include "spl/spl.h"
 
 // Particle systems over SPL managers: each allocates from its own work memory through one of 16 allocators, and gives
 // back the VRAM its resource took when freed

@@ -7,9 +7,9 @@
 #include "types.h"
 #include "gfl/heap.h"
 #include "nitro/fx.h"
-#include "nitro/g3d.h"
 #include "nitro/gx.h"
 #include "nitro/mi.h"
+#include "nnsys/g3d.h"
 #include "struct_decls.h"
 
 typedef struct G3DActor G3DActor;

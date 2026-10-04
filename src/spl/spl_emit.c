@@ -1,7 +1,7 @@
 #include "types.h"
 #include "nitro/fx.h"
 #include "nitro/gx.h"
-#include "nitro/spl.h"
+#include "spl/spl.h"
 #include "spl_internal.h"
 
 // The emission of particles: where they start, and their velocities, scales, colors, rotations and life times

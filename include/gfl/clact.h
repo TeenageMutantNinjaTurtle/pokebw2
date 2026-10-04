@@ -7,7 +7,7 @@
 #include "gfl/gx_layers.h"
 #include "gfl/heap.h"
 #include "nitro/fx.h"
-#include "nitro/g2d.h"
+#include "nnsys/g2d.h"
 
 // Cell actors, the OAM sprites of the 2D engines
 

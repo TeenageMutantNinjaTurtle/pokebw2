@@ -6,9 +6,9 @@ code by compiler_probe.py. The first variant that matches is kept, or the one ch
 is restored. Variants are separated by lines of =====, and one may begin with other definitions (static inlines,
 say) to put before the function. A prototype of the function before its definition takes the variant's signature.
 
-    try_variants.py src/main/particle.c func_0204ff54 variants.c
-    try_variants.py src/main/particle.c func_0204ff54 --keep 2 variants.c
-    try_variants.py src/main/particle.c func_0204ff54 --score variants.c
+    try_variants.py src/gfl/particle.c func_0204ff54 variants.c
+    try_variants.py src/gfl/particle.c func_0204ff54 --keep 2 variants.c
+    try_variants.py src/gfl/particle.c func_0204ff54 --score variants.c
 """
 import argparse
 import re

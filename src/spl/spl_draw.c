@@ -2,7 +2,7 @@
 #include "nitro/fx.h"
 #include "nitro/gx.h"
 #include "nitro/mi.h"
-#include "nitro/spl.h"
+#include "spl/spl.h"
 #include "spl_internal.h"
 
 // The drawing of particles: billboards facing the camera, or polygons in the plane of the emitter's cross axes, both

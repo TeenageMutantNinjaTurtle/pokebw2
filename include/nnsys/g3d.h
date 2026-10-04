@@ -1,12 +1,12 @@
-#ifndef POKEBW2_NITRO_G3D_H
-#define POKEBW2_NITRO_G3D_H
+#ifndef POKEBW2_NNSYS_G3D_H
+#define POKEBW2_NNSYS_G3D_H
 
 #include "types.h"
-#include "nitro/fnd.h"
 #include "nitro/fx.h"
-#include "nitro/gfd.h"
 #include "nitro/gx.h"
 #include "nitro/mi.h"
+#include "nnsys/fnd.h"
+#include "nnsys/gfd.h"
 
 // NitroSystem's 3D graphics (NNS_G3d): its resource files, the render objects that draw a model, the animation
 // objects bound to them, and the global state of the geometry engine. Functions keep swan's names where it has them;
@@ -320,4 +320,4 @@ static inline void NNS_G3dGlbLookAt(const VecFx32 *camPos, const VecFx32 *camUp,
 u32 NNS_G3DResMdlGetMatAlpha(const NNSG3dResMdl *mdl, u32 matId);
 void NNS_G3DResMdlSetMatAlpha(NNSG3dResMdl *mdl, u32 matId, u32 alpha);
 
-#endif // POKEBW2_NITRO_G3D_H
+#endif // POKEBW2_NNSYS_G3D_H

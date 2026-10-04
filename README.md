@@ -58,7 +58,8 @@ trainer AI, and everything else is still delinked code. The trainer AI scripts a
 | --- | --- |
 | `config/<version>/` | dsd configs: sections (`delinks.txt`), symbols and relocations for every module |
 | `config/names.txt`, `config/fixes.txt` | Our own names and fixes to dsd's analysis, applied again after regenerating the configs |
-| `src/<module>/` | Decompiled C, one directory per module, such as `src/ov035/event_mapchange.c` |
+| `src/ovNNN/` | Decompiled C of each overlay, such as `src/ov035/event_mapchange.c` |
+| `src/gfl/`, `src/system/`, `src/spl/` | Decompiled C of the ARM9 main module, by library like the headers, such as `src/gfl/heap.c` |
 | `include/` | Headers shared by the C code, see [Code organization](#code-organization) |
 | `data/` | Scripts assembled into the ROM's files, see [Scripts](#scripts) and [Field scripts](#field-scripts) |
 | `include/asm/` | Macros for the scripts |
@@ -328,7 +329,7 @@ Things that affect whether MWCC output matches:
 
 ## Scripts
 
-The script VM in `src/main/vm.c` runs four sets of commands: field events, the trainer AI, battle move animations and
+The script VM in `src/system/vm.c` runs four sets of commands: field events, the trainer AI, battle move animations and
 musicals. Scripts are files in the ROM's NARC archives. Each command is a 16-bit ID followed by its arguments.
 
 The trainer AI scripts are built from source. Archive `a/1/6/9` holds 14 scripts, one per AI flag, which run in turn
@@ -507,7 +508,11 @@ every section.
   is linked until then, as with `src/ov059/scrcmd_resort.c`. Never split a file into several entries to link the
   matching parts early, and never put two original files in one entry.
 - The C file holds its functions in address order. A function that doesn't match yet stays in the file as the closest
-  C found, so objdiff shows how far off it is.
+  C found, so objdiff shows how far off it is. Library code built with another compiler can differ: SPL's compiler
+  emits a file's functions in reverse source order, so `src/spl/` files hold theirs in reverse address order.
+- An overlay's files go in `src/ovNNN/`. The main module's files go by library, mirroring `include/`: `src/gfl/` (Game
+  Freak's library), `src/system/` (the game's own code), `src/spl/`, and later `src/nitro/` and `src/nnsys/`. A
+  library's private header stays with its sources, as `src/spl/spl_internal.h` does.
 - `tools/scripts/source_files.py OVERLAY` finds the boundaries: it lists the embedded file names, the functions that
   refer to them, and how well each boundary between two functions keeps every section's data references in file
   order and the calls inside one file.
@@ -517,7 +522,8 @@ every section.
   A layout is defined once: two files that need the same struct share it through the owner's header, and a partial
   layout with padding is still the one definition.
 - Headers are grouped like the game's code: `system/` (game system, game data, events), `field/`, `save/`, `gfl/`
-  (Game Freak's library), `pml/` (Pokémon data), `battle/`, `demo/`, `nitro/` (NitroSDK), `dsprot/` and `constants/`.
+  (Game Freak's library), `pml/` (Pokémon data), `battle/`, `demo/`, `dsprot/` and `constants/`, and by library:
+  `nitro/` (NitroSDK), `nnsys/` (NitroSystem: FND, G2D, G3D and GFD) and `spl/` (the SPL particle library).
   A header is named after the original file that owns its declarations, or after swan's header for it, such as
   `field/field_3dci.h`.
 - Put functions, data and callback tables used across source files or overlays in the owning file's header. Declare
