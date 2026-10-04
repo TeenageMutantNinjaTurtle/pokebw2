@@ -839,6 +839,15 @@ overlays/ov162 0x021a1a20 sBootBGSetupSub
 overlays/ov162 0x021a1a40 sBootVRAMConfig
 overlays/ov162 0x021a1a70 DELETE_SAVE_PROC_FUNCTIONS
 overlays/ov162 0x021a1b00 sWaitIcon
+overlays/ov165 0x02199a00 PokeListProc_Init
+overlays/ov165 0x02199a50 PokeListProc_DeleteHeap
+overlays/ov165 0x02199a64 PokeListProc_Exit
+overlays/ov165 0x02199b34 PokeListProc_Main
+overlays/ov165 0x02199b88 PokeList_Init
+overlays/ov165 0x02199da8 PokeList_Exit
+overlays/ov165 0x02199e90 PokeList_Main
+overlays/ov165 0x021a4ce0 POKELIST_PROC_FUNCTIONS
+overlays/ov165 0x021a4d40 sTimerFrames
 overlays/ov167 0x0219c4a4 GetPosOnSameSide
 overlays/ov167 0x0219c554 AreClientsOnOppositeSides
 overlays/ov167 0x0219d294 GetClientBattlerCount

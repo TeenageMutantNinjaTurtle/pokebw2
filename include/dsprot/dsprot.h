@@ -40,8 +40,31 @@ extern DSProtCallback data_ov337_02182444[2];
         }                                                                                                              \
     }
 
+// Calls callback(arg0, arg1) through the DS Protect function func, which returns what the callback returns, after
+// verifying func's code. If the checksum does not match, tamper(NULL, NULL) is called instead
+#define DSPROT_CHECKED_RUN(ret, func, tamper, callback, arg0, arg1)                                                    \
+    {                                                                                                                  \
+        u32 i;                                                                                                         \
+        u32 checksum;                                                                                                  \
+        u32 *code = (u32 *)func;                                                                                       \
+        for (i = 0x25, checksum = 0; i != 0; i--) {                                                                    \
+            checksum ^= (*code >> i) | (*code << (32 - i));                                                            \
+            code++;                                                                                                    \
+        }                                                                                                              \
+        if (checksum == DSPROT_CHECKSUM) {                                                                             \
+            ret = func(callback, arg0, arg1);                                                                          \
+        } else {                                                                                                       \
+            ret = tamper(NULL, NULL);                                                                                  \
+        }                                                                                                              \
+    }
+
 void *func_ov337_02180a84(void *arg0, void *arg1);
 void *func_ov337_02180b30(void *arg0, void *arg1);
 void func_ov337_02180bdc(void);
+
+// Overlay 165's copy of DS Protect. func_ov165_021a3328 calls callback(arg0, arg1) after its check and returns what
+// it returns, and func_ov165_021a3150 is what the party list calls when the check's own code was changed
+void *func_ov165_021a3150(void *arg0, void *arg1);
+void *func_ov165_021a3328(DSProtCallback callback, void *arg0, void *arg1);
 
 #endif // POKEBW2_DSPROT_DSPROT_H

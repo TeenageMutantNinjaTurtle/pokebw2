@@ -1,10 +1,10 @@
-func_ov165_02199a00 kind:function(thumb,size=0x4e) addr:0x02199a00
-func_ov165_02199a50 kind:function(thumb,size=0x12) addr:0x02199a50
-func_ov165_02199a64 kind:function(thumb,size=0xd0) addr:0x02199a64
-func_ov165_02199b34 kind:function(thumb,size=0x54) addr:0x02199b34
-func_ov165_02199b88 kind:function(thumb,size=0x220) addr:0x02199b88
-func_ov165_02199da8 kind:function(thumb,size=0xe8) addr:0x02199da8
-func_ov165_02199e90 kind:function(thumb,size=0x244) addr:0x02199e90
+PokeListProc_Init kind:function(thumb,size=0x4e) addr:0x02199a00
+PokeListProc_DeleteHeap kind:function(thumb,size=0x12) addr:0x02199a50
+PokeListProc_Exit kind:function(thumb,size=0xd0) addr:0x02199a64
+PokeListProc_Main kind:function(thumb,size=0x54) addr:0x02199b34
+PokeList_Init kind:function(thumb,size=0x220) addr:0x02199b88
+PokeList_Exit kind:function(thumb,size=0xe8) addr:0x02199da8
+PokeList_Main kind:function(thumb,size=0x244) addr:0x02199e90
 func_ov165_0219a0d4 kind:function(thumb,size=0x240) addr:0x0219a0d4
 func_ov165_0219a314 kind:function(thumb,size=0x2c) addr:0x0219a314
 func_ov165_0219a340 kind:function(thumb,size=0x17c) addr:0x0219a340
@@ -308,11 +308,11 @@ data_ov165_021a4cb4 kind:data(any) addr:0x021a4cb4
 .p__sinit_ov165_021a3a84 kind:data(word) addr:0x021a4cd0
 .p__sinit_ov165_021a4458 kind:data(word) addr:0x021a4cd4
 .p__sinit_ov165_021a4990 kind:data(word) addr:0x021a4cd8
-data_ov165_021a4ce0 kind:data(any) addr:0x021a4ce0 ambiguous
+POKELIST_PROC_FUNCTIONS kind:data(any) addr:0x021a4ce0 ambiguous
 data_ov165_021a4cec kind:data(any) addr:0x021a4cec
 data_ov165_021a4cfc kind:data(any) addr:0x021a4cfc
 data_ov165_021a4d0c kind:data(any) addr:0x021a4d0c
 data_ov165_021a4d1c kind:data(any) addr:0x021a4d1c
 data_ov165_021a4d2c kind:data(any) addr:0x021a4d2c
-data_ov165_021a4d40 kind:bss addr:0x021a4d40
+sTimerFrames kind:bss addr:0x021a4d40
 DSProt_BSS_ov165 kind:bss addr:0x021a4d44
