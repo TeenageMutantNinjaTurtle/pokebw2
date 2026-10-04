@@ -4,8 +4,10 @@
 #include "field/field_script.h"
 #include "field/stadium_script.h"
 #include "field/trainer_script.h"
+#include "field/zone.h"
 #include "gfl/arc.h"
 #include "gfl/heap.h"
+#include "gfl/random.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
 #include "system/vm.h"
@@ -92,6 +94,53 @@ BOOL s01E5_StadiumResetTrainerFlags(VM *vm, FieldScriptEnv *env) {
     return FALSE;
 }
 
+BOOL func_ov012_02159f90(VM *vm, FieldScriptEnv *env) {
+    u16 range;
+    u16 picked[6];
+    s32 j;
+    s32 value;
+    u16 *results[6];
+    s32 i;
+    s16 n;
+
+    FieldScriptEnv_GetScriptWork(env);
+    results[0] = ScriptReadVar(vm, env);
+    results[1] = ScriptReadVar(vm, env);
+    results[2] = ScriptReadVar(vm, env);
+    results[3] = ScriptReadVar(vm, env);
+    results[4] = ScriptReadVar(vm, env);
+    results[5] = ScriptReadVar(vm, env);
+    picked[0] = 0;
+    picked[1] = 0;
+    picked[2] = 0;
+    picked[3] = 0;
+    picked[4] = 0;
+    picked[5] = 0;
+    range = 52;
+    for (i = 0; i < 6; i++) {
+        n = GFL_RandomLC(range);
+        for (value = 0; value < 52; value++) {
+            for (j = 0; j < i; j++) {
+                if (value == picked[j]) {
+                    break;
+                }
+            }
+            if (j == i && --n < 0) {
+                picked[i] = value;
+                break;
+            }
+        }
+        range--;
+    }
+    *results[0] = picked[0] + 0x50;
+    *results[1] = picked[1] + 0x50;
+    *results[2] = picked[2] + 0x50;
+    *results[3] = picked[3] + 0x50;
+    *results[4] = picked[4] + 0x50;
+    *results[5] = picked[5] + 0x50;
+    return FALSE;
+}
+
 u32 FindStadiumTrainerIndex(StadiumTrainerEntry *trainers, u16 a, u16 b) {
     s32 i;
     for (i = 0; i < 0x84; i++) {
@@ -100,4 +149,11 @@ u32 FindStadiumTrainerIndex(StadiumTrainerEntry *trainers, u16 a, u16 b) {
         }
     }
     return 0;
+}
+
+BOOL IsReturnLocationNonLeaguePokeCen(GameData *gameData) {
+    if (GetLeaguePokeCenReturnLocationIdx() == GetReturnLocationIdx(gameData)) {
+        return FALSE;
+    }
+    return TRUE;
 }

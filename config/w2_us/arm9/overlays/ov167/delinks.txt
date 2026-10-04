@@ -28,6 +28,7 @@ src/ov167/btl_calc.c:
     .data       start:0x021dafd4 end:0x021dafe0
 
 src/ov167/battle_action.c:
+    complete
     .text       start:0x021bdb38 end:0x021bdcec
 
 src/ov167/ability_handlers.c:
