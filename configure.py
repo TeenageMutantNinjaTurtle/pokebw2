@@ -27,6 +27,13 @@ OBJDIFF_VERSION = "v3.8.1"
 # decomp.me name of the dsi/1.1p1 compiler (build 1024), for objdiff's scratch button
 DECOMP_ME_COMPILER = "mwcc_40_1024"
 MWCCARM_URL = "http://decomp.aetias.com/files/mwccarm.zip"
+# dsd with DSi hybrid ROM support, built from these forks until the changes are upstreamed. Bump the commits after
+# pushing new dsd work to the forks; configure.py then rebuilds tools/dsd.
+DSD_BRANCH = "dsi-hybrid"
+DSD_REPOS = {
+    "ds-rom": ("https://github.com/fuddlesworth/ds-rom", "3bdf6c84f02458719374b17ad0f305580fb5cca6"),
+    "ds-decomp": ("https://github.com/fuddlesworth/ds-decomp", "054e4579e4d9cc6b574a6aa2e838698bb5ea62ff"),
+}
 # Compiler for decompiled code. The game code needs dsi/1.1p1 or later: after a store to a field, dsi/1.1 reuses the
 # stored register where the game reloads the field. dsi/1.1p1 to dsi/1.3p1 generate identical code for everything
 # tested so far, while dsi/1.6 does not match the game.
@@ -162,6 +169,38 @@ def download_tools(tools_dir: Path):
         archive.extractall(tools_dir, members)
 
 
+def build_dsd(tools_dir: Path) -> Path:
+    """Builds dsd from the pinned commits of DSD_REPOS, unless tools/dsd is already that build. A tools/dsd without a
+    revision file was built by hand (from a working copy of the forks) and is kept."""
+    dsd = tools_dir / "dsd"
+    stamp = tools_dir / "dsd.rev"
+    revisions = "".join(f"{name} {rev}\n" for name, (_, rev) in DSD_REPOS.items())
+    if dsd.exists() and (not stamp.exists() or stamp.read_text() == revisions):
+        return dsd
+    if not shutil.which("cargo"):
+        sys.exit("dsd is built from source and needs cargo, see README.md")
+
+    src_dir = tools_dir / "src"
+    src_dir.mkdir(exist_ok=True)
+    for name, (url, rev) in DSD_REPOS.items():
+        repo = src_dir / name
+        if not repo.exists():
+            print(f"Cloning {url} ({DSD_BRANCH})")
+            subprocess.run(["git", "clone", "--branch", DSD_BRANCH, url, str(repo)], check=True)
+        elif subprocess.run(["git", "-C", str(repo), "cat-file", "-e", f"{rev}^{{commit}}"],
+                            stderr=subprocess.DEVNULL).returncode != 0:
+            subprocess.run(["git", "-C", str(repo), "fetch", "origin", DSD_BRANCH], check=True)
+        subprocess.run(["git", "-C", str(repo), "checkout", "--quiet", "--detach", rev], check=True)
+
+    # ds-decomp's Cargo.toml patches in ../ds-rom/lib, which the clones in tools/src satisfy
+    print("Building dsd")
+    ds_decomp = src_dir / "ds-decomp"
+    subprocess.run(["cargo", "build", "--release", "--locked"], cwd=ds_decomp, check=True)
+    shutil.copy2(ds_decomp / "target" / "release" / "dsd", dsd)
+    stamp.write_text(revisions)
+    return dsd
+
+
 def add_version(n: Writer, version: str, dsd: Path, bugfix: bool) -> tuple[list[Path], list[str]]:
     """Adds the build steps of one version. Returns its check targets and dsd config files. A build with the bugs fixed
     does not match, so its only targets are the ROM and its archives."""
@@ -275,9 +314,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("versions", nargs="*", choices=[[], *VERSIONS],
                         help="versions to build, defaults to every version with a base ROM in orig/")
-    parser.add_argument("--dsd", type=Path, default=ROOT / "tools" / "dsd", help="path to the dsd executable")
+    parser.add_argument("--dsd", type=Path, default=None,
+                        help="path to the dsd executable, defaults to tools/dsd built from the forks in DSD_REPOS")
     parser.add_argument("--wine", default=None, help="run the Metrowerks tools with this instead of wibo")
-    parser.add_argument("--no-download", action="store_true", help="do not download missing tools")
+    parser.add_argument("--no-download", action="store_true", help="do not download or build missing tools")
     parser.add_argument("--bugfix", action="store_true",
                         help="fix the game's bugs that are marked with BUGFIX in the source; the ROMs no longer match")
     args = parser.parse_args()
@@ -285,13 +325,18 @@ def main():
     versions = args.versions or [v for v in VERSIONS if (ROOT / "orig" / f"baserom_{v}.nds").exists()]
     if not versions:
         sys.exit("no base ROMs found in orig/, see README.md")
-    dsd = args.dsd.resolve()
-    if not dsd.exists():
-        sys.exit(f"dsd not found at {dsd}, see README.md for how to build it")
 
     tools_dir = ROOT / "tools"
     if not args.no_download:
         download_tools(tools_dir)
+    if args.dsd:
+        dsd = args.dsd.resolve()
+    elif args.no_download:
+        dsd = tools_dir / "dsd"
+    else:
+        dsd = build_dsd(tools_dir)
+    if not dsd.exists():
+        sys.exit(f"dsd not found at {dsd}, see README.md")
     wine = args.wine or str(tools_dir / "wibo")
     clang = shutil.which("clang")
     llvm_objcopy = shutil.which("llvm-objcopy")
