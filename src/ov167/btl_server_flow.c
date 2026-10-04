@@ -72,7 +72,7 @@ void func_ov167_0219f400(BtlServerFlow *flow) {
     func_ov167_021ac0c8(flow);
     func_ov167_021bda58(&flow->clientIdList);
     func_ov167_021b083c(&flow->actionState);
-    func_ov167_021a8f8c(flow->unk1B54);
+    func_ov167_021a8f8c(&flow->unk1B54);
     func_ov169_06898bfc();
     flow->unk786 = 0;
     flow->unk787 = 0;
@@ -5541,6 +5541,78 @@ BOOL func_ov167_021a8e68(BtlServerFlow *flow, BattleParty *party, BtlFlowExpEntr
         }
     }
     return result;
+}
+
+BOOL ServerControl_HideTurnCancel(BtlServerFlow *flow, BattleMon *mon, u32 flag) {
+    if (GetAdditionalConditionFlag(mon, flag)) {
+        u8 monId = GetMonID(mon);
+        scPut_ResetContFlag(flow, mon, flag);
+        if (CheckCondition(mon, 0x1a)) {
+            ServerControl_CureCondition(flow, mon, 0x1a, 0);
+        }
+        func_ov167_021b1434(flow->queue, 0x31, monId, 0);
+        ActionOrder_ForceDone(flow, monId);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+void func_ov167_021a8f8c(BtlFlowUnk1B54 *work) {
+    work->unk220 = 0;
+}
+
+void ServerDisplay_AddEffectAtPosition(BtlServerFlow *flow, BattleMon *mon, u32 effect) {
+    u8 pos = GetBattlePos(flow->unk1ab8, GetMonID(mon));
+    if (pos != 6) {
+        func_ov167_021b1434(flow->queue, 0x4d, pos, effect);
+    }
+}
+
+void func_ov167_021a8fd4(BtlServerFlow *flow, BattleMon *mon) {
+    ServerDisplay_SkyDropTargetAppear(flow, mon, 0x350);
+}
+
+void func_ov167_021a8fe0(BtlServerFlow *flow, BattleMon *mon) {
+    ServerDisplay_AddEffectAtPosition(flow, mon, 0x25b);
+    func_ov167_021b15d0(flow->queue, 0x5b, 0x15c, GetMonID(mon), 0xffff0000);
+}
+
+void func_ov167_021a9014(BtlServerFlow *flow, BattleMon *mon) {
+    u8 move = GetDisabledMove(mon, 7);
+    ServerDisplay_AddEffectAtPosition(flow, mon, 0x25c);
+    func_ov167_021b15d0(flow->queue, 0x5b, 0x14d, GetMonID(mon), move, 0xffff0000);
+}
+
+void func_ov167_021a9058(BtlServerFlow *flow, BattleMon *mon, u32 damage) {
+    u8 monId = GetMonID(mon);
+    func_ov167_021b1434(flow->queue, 0x36, monId);
+    ServerDisplay_SimpleHP(flow, mon, -damage, TRUE);
+    func_ov167_021b15d0(flow->queue, 0x5a, 0x50, monId, 0xffff0000);
+}
+
+void func_ov167_021a9094(BtlServerFlow *flow, BattleMon *mon, u32 status, BOOL flag) {
+    u8 monId = GetMonID(mon);
+
+    CureCondition(mon);
+    func_ov167_021b1434(flow->queue, 0x10, monId);
+    func_ov167_021b1434(flow->queue, 0x35, monId, 0);
+    if (flag) {
+        switch (status) {
+        case 2:
+            func_ov167_021b15d0(flow->queue, 0x5b, 0x138, monId, 0xffff0000);
+            break;
+        case 3:
+            func_ov167_021b15d0(flow->queue, 0x5b, 0x126, monId, 0xffff0000);
+            break;
+        default:
+            func_ov167_021b15d0(flow->queue, 0x5b, 0x156, monId, 0xffff0000);
+            break;
+        }
+    }
+}
+
+void func_ov167_021a911c(BtlServerFlow *flow, BattleMon *mon, u16 move) {
+    func_ov167_021b1434(flow->queue, 0x59, GetMonID(mon), move);
 }
 
 // Function names from swan.

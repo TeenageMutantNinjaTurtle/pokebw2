@@ -84,6 +84,11 @@ typedef struct {
     u8 unk0B;
 } BtlFlowExpEntry;
 
+typedef struct {
+    u8 unk000[0x220];
+    u32 unk220;
+} BtlFlowUnk1B54;
+
 // Mons that react to a move, with their targets
 typedef struct {
     u8 count;
@@ -169,7 +174,7 @@ struct BtlServerFlow {
     u8 unk1ab8[0x2c];
     BattleHandlerString message;
     BtlFlowExpEntry expEntries[6];
-    u8 unk1B54[0x224];
+    BtlFlowUnk1B54 unk1B54;
     BtlActionState actionState;
     u8 unk1D7C[0x1fc];
     u16 unk1F78;
