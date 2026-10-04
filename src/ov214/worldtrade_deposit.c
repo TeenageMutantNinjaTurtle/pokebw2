@@ -36,11 +36,6 @@
 #define DEPOSIT_MODE_TO_BOX 5
 #define DEPOSIT_MODE_UPLOAD 7
 
-// The input modes of worldtrade_input.c
-#define INPUT_MODE_POKEMON_NAME 0
-#define INPUT_MODE_SEX 1
-#define INPUT_MODE_LEVEL 2
-
 // Which level table to use
 #define LEVEL_PRINT_TBL_DEPOSIT 0
 #define LEVEL_PRINT_TBL_SEARCH 1
@@ -221,7 +216,7 @@ int WorldTrade_Deposit_Init(WorldTradeWork *wk, int seq) {
     header.zukan = wk->param->pokedex;
     header.sinouTable = wk->dw->sinouTable;
     header.config = wk->param->config;
-    wk->inputWork = func_ov214_021d86a4(&header, 2, 0);
+    wk->inputWork = WorldTrade_Input_Init(&header, 2, 0);
 
     wk->subprocessSeq = DEPOSIT_SEQ_START;
     wk->unk12E4 = 0;
@@ -234,7 +229,7 @@ int WorldTrade_Deposit_Main(WorldTradeWork *wk, int seq) {
 
 int WorldTrade_Deposit_End(WorldTradeWork *wk, int seq) {
     Deposit_DelCellActor(wk);
-    func_ov214_021d87e4(wk->inputWork);
+    WorldTrade_Input_Exit(wk->inputWork);
     Deposit_FreeWork(wk);
     Deposit_BmpWinDelete(wk);
     Deposit_BgExit();
@@ -471,7 +466,7 @@ static int Deposit_SubSeqMain(WorldTradeWork *wk) {
 }
 
 static int Deposit_SubSeqHeadwordSelectList(WorldTradeWork *wk) {
-    func_ov214_021d877c(wk->inputWork, INPUT_MODE_POKEMON_NAME);
+    WorldTrade_Input_Start(wk->inputWork, INPUT_MODE_POKEMON_NAME);
     wk->subprocessSeq = DEPOSIT_SEQ_POKENAME_SELECT_WAIT;
     return WT_SEQ_MAIN;
 }
@@ -534,7 +529,7 @@ BOOL WorldTrade_SexSelectionCheck(Dpw_Tr_PokemonSearchData *dtps, int sexSelecti
 }
 
 static int Deposit_SubSeqPokeNameSelectWait(WorldTradeWork *wk) {
-    u32 ret = func_ov214_021d8804(wk->inputWork);
+    u32 ret = WorldTrade_Input_Main(wk->inputWork);
     int gender;
     void *personal;
     int sexSelection;
@@ -579,13 +574,13 @@ static int Deposit_SubSeqSexSelectMessage(WorldTradeWork *wk) {
 
 static int Deposit_SubSeqSexSelectList(WorldTradeWork *wk) {
     wk->listpos = 0xffff;
-    func_ov214_021d877c(wk->inputWork, INPUT_MODE_SEX);
+    WorldTrade_Input_Start(wk->inputWork, INPUT_MODE_SEX);
     wk->subprocessSeq = DEPOSIT_SEQ_SEX_SELECT_WAIT;
     return WT_SEQ_MAIN;
 }
 
 static int Deposit_SubSeqSexSelectWait(WorldTradeWork *wk) {
-    u32 ret = func_ov214_021d8804(wk->inputWork);
+    u32 ret = WorldTrade_Input_Main(wk->inputWork);
 
     switch (ret) {
     case BMPMENULIST_CANCEL:
@@ -611,14 +606,14 @@ static int Deposit_SubSeqLevelSelectMessage(WorldTradeWork *wk) {
 }
 
 static int Deposit_SubSeqLevelSelectList(WorldTradeWork *wk) {
-    func_ov214_021d877c(wk->inputWork, INPUT_MODE_LEVEL);
+    WorldTrade_Input_Start(wk->inputWork, INPUT_MODE_LEVEL);
     wk->listpos = 0xffff;
     wk->subprocessSeq = DEPOSIT_SEQ_LEVEL_SELECT_WAIT;
     return WT_SEQ_MAIN;
 }
 
 static int Deposit_SubSeqLevelSelectWait(WorldTradeWork *wk) {
-    u32 ret = func_ov214_021d8804(wk->inputWork);
+    u32 ret = WorldTrade_Input_Main(wk->inputWork);
 
     switch (ret) {
     case LEVEL_SELECT_NUM:
@@ -912,7 +907,7 @@ static const u32 ZukanSortHiraTable[27] = {
     386, 392, 435, 438, 463, 557, 590, 595, 615, 636, 637, 640, 649,
 };
 
-void WorldTrade_HeadwordRangeGet(int select, u32 *start, u32 *end) {
+void WorldTrade_HeadwordRangeGet(int select, int *start, int *end) {
     // clang-format off
     GFL_ASSERT(select < NELEMS(ZukanSortHiraTable));
     // clang-format on

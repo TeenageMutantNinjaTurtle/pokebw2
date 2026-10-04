@@ -132,6 +132,27 @@ typedef struct {
 
 typedef struct WorldTradeInputWork WorldTradeInputWork;
 
+// What worldtrade_input.c's input asks for; the modes from INPUT_MODE_HEADWORD_1 on are its own steps
+enum {
+    INPUT_MODE_POKEMON_NAME,
+    INPUT_MODE_SEX,
+    INPUT_MODE_LEVEL,
+    INPUT_MODE_NATION,
+    INPUT_MODE_HEADWORD_1,
+    INPUT_MODE_HEADWORD_2,
+    INPUT_MODE_NATION_HEAD1,
+    INPUT_MODE_NATION_HEAD2,
+};
+
+// The screen that uses the input
+enum {
+    INPUT_SITUATION_DEPOSIT,
+    INPUT_SITUATION_SEARCH,
+};
+
+// worldtrade_adapter.c's numbers, printed with a font of digits
+typedef struct WorldTradeNumFont WorldTradeNumFont;
+
 // What worldtrade_input.c's input draws with
 typedef struct {
     BmpWin **menuWin;
@@ -365,7 +386,7 @@ void WorldTrade_MyPokeWantPrint(MsgData *msgManager, MsgData *monsNameManager, W
 void WorldTrade_PokeInfoPrint(MsgData *msgManager, WordSet *wordSet, BmpWin **win, BoxPkm *pkm,
                               Dpw_Tr_PokemonDataSimple *post, WorldTradePrint *print);
 u16 *WorldTrade_ZukanSortDataGet(int heapId, int idx, int *num);
-void WorldTrade_HeadwordRangeGet(int select, u32 *start, u32 *end);
+void WorldTrade_HeadwordRangeGet(int select, int *start, int *end);
 u8 *WorldTrade_SinouZukanDataGet(int heapId);
 void WorldTrade_PostPokemonBaseDataMake(Dpw_Tr_Data *dtd, WorldTradeWork *wk);
 BmpMenuList *WorldTrade_PokeNameListMake(WorldTradeWork *wk, ListMenuOption **menulist, BmpWin *win,
@@ -396,10 +417,11 @@ void WorldTrade_ExplainPrint(BmpWin *win, MsgData *msgManager, int no, WorldTrad
 void WorldTrade_WifiIconAdd(WorldTradeWork *wk);
 
 // worldtrade_input.c
-WorldTradeInputWork *func_ov214_021d86a4(WorldTradeInputHeader *header, int frame, int situation);
-void func_ov214_021d877c(WorldTradeInputWork *work, int mode);
-void func_ov214_021d87e4(WorldTradeInputWork *work);
-u32 func_ov214_021d8804(WorldTradeInputWork *work);
+WorldTradeInputWork *WorldTrade_Input_Init(WorldTradeInputHeader *header, int frame, int situation);
+void WorldTrade_Input_Start(WorldTradeInputWork *wk, int type);
+void WorldTrade_Input_Exit(WorldTradeInputWork *wk);
+// The value chosen, or -1 while the input runs or -2 when it was cancelled
+u32 WorldTrade_Input_Main(WorldTradeInputWork *wk);
 
 // worldtrade_mypoke.c
 int WorldTrade_MyPoke_Init(WorldTradeWork *wk, int seq);
@@ -462,5 +484,12 @@ void func_ov214_021e1754(BmpWin *win, int x, StrBuf *str, int y, int a4, WorldTr
 void func_ov214_021e1774(BmpWin *win, int a1, StrBuf *str, int x, int y, WorldTradePrint *print);
 void func_ov214_021e17c4(BmpWin *win, int a1, StrBuf *str, int x, int y, int a5, u16 color, WorldTradePrint *print);
 void func_ov214_021e1840(WorldTradePrint *print);
+WorldTradeNumFont *func_ov214_021e1874(u32 a0, u32 a1, u32 a2, HeapID heapId);
+void func_ov214_021e18d8(WorldTradeNumFont *numFont);
+void func_ov214_021e18fc(WorldTradeNumFont *numFont);
+// Prints a number of digits at x and y of a window
+void func_ov214_021e1954(WorldTradeNumFont *numFont, int num, int digits, int dispType, BmpWin *win, int x, int y);
+// Prints the slash between two numbers
+void func_ov214_021e1a28(WorldTradeNumFont *numFont, int a1, BmpWin *win, int x, int y);
 
 #endif // POKEBW2_OV214_WORLDTRADE_LOCAL_H
