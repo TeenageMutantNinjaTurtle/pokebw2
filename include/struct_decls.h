@@ -21,6 +21,7 @@ typedef struct BattleCutinParam BattleCutinParam;
 typedef struct BattleEventHandlerEntry BattleEventHandlerEntry;
 typedef struct BattleEventItem BattleEventItem;
 typedef struct BattleHandlerAbilityChangeParam BattleHandlerAbilityChangeParam;
+typedef struct BattleHandlerAddConditionParam BattleHandlerAddConditionParam;
 typedef struct BattleHandlerAddFieldEffectParam BattleHandlerAddFieldEffectParam;
 typedef struct BattleHandlerBatonPassParam BattleHandlerBatonPassParam;
 typedef struct BattleHandlerChangeWeatherParam BattleHandlerChangeWeatherParam;

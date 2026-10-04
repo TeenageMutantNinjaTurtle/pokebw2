@@ -245,7 +245,7 @@ BOOL IsSemiInvulnMove(BattleMon *mon);
 BOOL TransformSet(BattleMon *mon, BattleMon *target);
 void RemoveForceAll(BattleMon *mon);
 void AbilityEvent_RemoveItem(BattleMon *mon);
-void AbilityEvent_AddItem(BattleMon *mon);
+BattleEventItem *AbilityEvent_AddItem(BattleMon *mon);
 void ClearConsumedItem(BattleMon *mon);
 void ConsumeItem(BattleMon *mon, u16 item);
 u16 MoveGetID(BattleMon *mon, u8 index);
@@ -366,5 +366,8 @@ BOOL func_ov167_021bc6ac(BattleMon *mon);
 // Overlay 169's, which ov167 calls through a linker veneer: whether a condition passes to the Pokémon that Baton Pass
 // brings in
 BOOL func_ov169_0689c9f0(u32 condition);
+BOOL func_ov169_0689cacc(u16 ability);
+BOOL func_ov169_0689ca74(u16 move);
+BOOL func_ov169_0689cb38(u16 ability);
 
 #endif // POKEBW2_BATTLE_BTL_POKEPARAM_H

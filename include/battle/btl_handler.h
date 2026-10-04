@@ -68,10 +68,23 @@ struct BattleHandlerAbilityChangeParam {
     u16 ability;
     u8 targetIndex;
     u8 force;
-    u8 unk08[4];
+    u8 unk08;
+    u8 unk09[3];
     BattleHandlerString string;
 };
 
+struct BattleHandlerAddConditionParam {
+    u32 unk00 : 8;
+    u32 monIndex : 5;
+    u32 unk13 : 10;
+    u32 popup : 1;
+    u32 unk24 : 8;
+    u32 condition;
+    BattleCondition value;
+    u8 unk0c;
+    u8 unk0d[2];
+    u8 targetIndex;
+};
 struct BattleHandlerAddFieldEffectParam {
     u32 unk00;
     u32 effect;
@@ -464,8 +477,8 @@ BOOL BattleHandler_ChangeType(BtlServerFlow *handler, BattleHandlerChangeTypePar
 BOOL BattleHandler_AbilityChange(BtlServerFlow *handler, BattleHandlerAbilityChangeParam *param);
 u8 func_ov167_021ad1f4(void *state, u8 monIndex);
 BOOL func_ov167_021ad204(u16 species);
-u32 HandlerGetAlivePartyCount(BtlServerFlow *handler, u16 code, u8 *monIds);
-u32 func_ov167_021ab840(void *flow, u32 monId);
+u8 HandlerGetAlivePartyCount(BtlServerFlow *handler, u16 code, u8 *monIds);
+u8 func_ov167_021ab840(void *flow, u32 monId);
 u8 *func_ov167_021abc60(void *flow, u32 value);
 u8 func_ov167_021add78(void *state, u8 monIndex);
 u8 func_ov167_021ae0fc(void *state, u8 monIndex);

@@ -969,7 +969,7 @@ BOOL BattleHandler_IllusionBreak(BtlServerFlow *handler, BattleHandlerIllusionBr
 
 BOOL BattleHandler_GravityCheck(BtlServerFlow *handler, BattleHandlerGravityCheckParam *param) {
     u8 monIds[6];
-    u32 count;
+    u8 count;
     u8 i;
     BattleMon *mon;
     u32 changed;

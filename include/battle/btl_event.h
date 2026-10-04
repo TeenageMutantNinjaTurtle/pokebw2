@@ -9,7 +9,7 @@
 typedef BOOL (*BattleEventSkipCheckFn)(BattleEventItem *item, BtlServerFlow *flow, u32 factorType, u32 event, u16 subId,
                                        u8 monId);
 // Called with the item, the server flow, the item's mon and its work
-typedef void (*BattleEventHandlerFn)(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work);
+typedef void (*BattleEventHandlerFn)(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
 
 struct BattleEventHandlerEntry {
     u32 event;
@@ -86,7 +86,7 @@ u32 func_ov167_021bcfd8(BattleEventVarStack *vars, u16 key);
 s32 func_ov167_021bcffc(BattleEventVarStack *vars, u16 key);
 s32 func_ov167_021bd020(BattleEventVarStack *vars, u32 index, s32 value);
 // Whether the item's handlers are skipped for now
-BOOL func_ov167_021c5c10(BattleEventItem *item, u32 *work);
+BOOL func_ov167_021c5c10(BattleEventItem *item, s32 *work);
 
 void BattleEventItem_ConvertToIsolated(BattleEventItem *item);
 BOOL BattleEventItem_IsIsolated(BattleEventItem *item);

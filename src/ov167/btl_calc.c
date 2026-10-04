@@ -131,7 +131,7 @@ u32 GetTypeEffectiveness(u8 attackType, u8 defenseType) {
     return 0;
 }
 
-u32 func_ov167_021bd1b0(u8 attackType, PokeTypePair defenseTypes) {
+s32 func_ov167_021bd1b0(u8 attackType, PokeTypePair defenseTypes) {
     u8 type1;
     u8 type2;
     u32 effectiveness;

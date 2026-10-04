@@ -6,5 +6,6 @@
 
 void *ItemEvent_TempAdd(BattleMon *mon, u16 item);
 void func_ov167_021c27c4(void *temp);
+void CommonRunCalcSkip(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
 
 #endif // POKEBW2_BATTLE_BTL_ITEM_H
