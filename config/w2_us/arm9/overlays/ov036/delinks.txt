@@ -49,5 +49,7 @@ src/ov036/resort_mapcreate.c:
     .data       start:0x021d5784 end:0x021d5798
 
 src/ov036/scrcmd_ochiba.c:
+    complete
     .text       start:0x021c97ec end:0x021c9eec
+    .rodata     start:0x021d4954 end:0x021d4b44
     .data       start:0x021d57a8 end:0x021d57e0

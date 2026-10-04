@@ -121,6 +121,7 @@ PokewoodSystem **func_02017a04(GameData *gameData);
 WbtSystem **func_020179f0(GameData *gameData);
 // The Pokémon World Tournament's save data
 void *func_020179f8(GameData *gameData);
+u16 func_0200fec8(void *block, u32 index);
 u32 func_02017a40(GameData *gameData);
 void func_02017b64(GameData *gameData, u8 a1);
 u32 *func_02017b84(GameData *gameData);

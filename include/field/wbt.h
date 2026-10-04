@@ -134,7 +134,7 @@ typedef struct {
 
 extern const WbtTournamentInfo data_ov036_021d4920[15];
 
-const WbtTournamentInfo *func_ov036_021c98a4(u32 tournament);
+const WbtTournamentInfo *func_ov036_021c98a4(s32 tournament);
 
 void LoadPWTTournamentTypeText(HeapID heapId, u32 tournament, StrBuf *strbuf);
 
