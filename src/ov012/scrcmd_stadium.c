@@ -96,12 +96,12 @@ BOOL s01E5_StadiumResetTrainerFlags(VM *vm, FieldScriptEnv *env) {
 
 BOOL func_ov012_02159f90(VM *vm, FieldScriptEnv *env) {
     s16 n;
-    u16 *results[6];
-    s32 i;
     u16 range;
     s32 value;
-    u16 picked[6];
     s32 j;
+    s32 i;
+    u16 picked[6];
+    u16 *results[6];
 
     FieldScriptEnv_GetScriptWork(env);
     results[0] = ScriptReadVar(vm, env);

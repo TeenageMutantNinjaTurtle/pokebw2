@@ -1,11 +1,17 @@
 #include "types.h"
+#include "app/ov165.h"
+#include "app/ov207.h"
 #include "constants/pokemon.h"
 #include "constants/species.h"
 #include "field/field_daycare.h"
+#include "field/field_event.h"
 #include "field/field_script.h"
+#include "gfl/heap.h"
 #include "pml/poke_party.h"
 #include "save/box.h"
+#include "save/pokedex.h"
 #include "system/game_data.h"
+#include "system/game_event.h"
 #include "system/game_system.h"
 #include "system/vm.h"
 
@@ -171,3 +177,65 @@ u32 getNameGenderStatus(PartyPkm *pkm) {
     }
 }
 
+GameEventReturnCode EventDayCarePokeSelect_Callback(GameEvent *event, u32 *state, void *data) {
+    DayCarePokeSelectWork *work = data;
+    GameSystem *gsys = work->gsys;
+
+    switch (*state) {
+    case 0:
+        GameEvent_ChainNext(event, CallFieldMapEntranceOutTransitionDefault(gsys, work->field, 0, 0));
+        *state = 1;
+        break;
+    case 1:
+        GameEvent_ChainNext(event, CreateFieldCloseEvent(gsys, work->field));
+        work->partyParam->index = work->summaryParam->partyIndex;
+        *state = 2;
+        break;
+    case 2:
+        GameEvent_ChainNext(event, EventPokeList_Create(gsys, work->field, work->partyParam, work->summaryParam));
+        *state = 3;
+        break;
+    case 3:
+        GameEvent_ChainNext(event, EventFieldOpen_CreateHeadless(gsys));
+        *state = 4;
+        break;
+    case 4:
+        GameEvent_ChainNext(event, CallFieldMapEntranceInTransition(gsys, work->field, 0, 0, 1, 0, 0));
+        *state = 5;
+        break;
+    case 5:
+        *work->result = work->partyParam->index;
+        GFL_HeapFree(work->partyParam);
+        GFL_HeapFree(work->summaryParam);
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEvent *EventDayCarePokeSelect_Create(GameSystem *gsys, Field *field, u16 *result) {
+    GameData *gameData = GSYS_GetGameData(gsys);
+    PokeParty *party = GameData_GetParty(gameData);
+    PokeDexSave *pokedex = GameData_GetPokedex(gameData);
+    Ov165Param *partyParam = func_02034c54(gameData, 0x12, party, HEAPID_GAMEEVENT);
+    Ov207Param *summaryParam = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(Ov207Param), FALSE, "scrcmd_sodateya.c", 0x22e);
+    GameEvent *event;
+    DayCarePokeSelectWork *work;
+
+    summaryParam->party = partyParam->party;
+    summaryParam->trainerData = partyParam->trainerData;
+    summaryParam->gameData = gameData;
+    summaryParam->unkC = 1;
+    summaryParam->partyCount = PokeParty_GetPkmCount(party);
+    summaryParam->unkD = 0;
+    summaryParam->unk10 = 0;
+    summaryParam->partyIndex = 0;
+    summaryParam->isNationalDex = PokeDex_IsNationalObtained(pokedex);
+    event = GameEvent_Create(gsys, NULL, EventDayCarePokeSelect_Callback, sizeof(DayCarePokeSelectWork));
+    work = GameEvent_GetData(event);
+    work->gsys = gsys;
+    work->field = field;
+    work->partyParam = partyParam;
+    work->summaryParam = summaryParam;
+    work->result = result;
+    return event;
+}
