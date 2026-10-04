@@ -391,6 +391,8 @@ void func_ov167_021a777c(BtlServerFlow *flow, BattleMon *mon, u16 move);
 void func_ov167_021a78bc(BtlServerFlow *flow, BattleMon *mon, void *targets);
 BOOL func_ov167_021a7ae4(BtlServerFlow *flow, BattleMon *mon);
 BOOL func_ov167_021a7db4(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets, BOOL *showFail);
+void func_ov167_021a7d18(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, BtlFlowMoveParam *param,
+                         u32 effectiveness, u32 damage, u32 critical, BOOL flag);
 BOOL ServerEvent_AddCondition(BtlServerFlow *flow, BattleMon *target, BattleMon *attacker, u32 condition,
                               BattleCondition value, BOOL flag, BOOL defaultMessage);
 u32 ServerEvent_CheckMoveAddCondition(BtlServerFlow *flow, u16 move, BattleMon *attacker, BattleMon *target,
@@ -412,7 +414,7 @@ void ServerControl_DamageDrain(BtlServerFlow *flow, BtlFlowMoveParam *param, Bat
 u16 func_ov167_021a7bb4(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, u16 damage, u32 effectiveness,
                         u8 critical, BtlFlowMoveParam *param);
 void func_ov167_021a7cc8(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, BtlFlowMoveParam *param,
-                         u32 effectiveness, u16 damage, u8 critical, BOOL flag);
+                         u32 effectiveness, u32 damage, u32 critical, BOOL flag);
 void func_ov167_021a92b0(BtlServerFlow *flow, BtlFlowMoveParam *param, u8 count, u32 *effectiveness, BattleMon **mons,
                          u16 *damages, u8 *critical, BOOL multipleTargets);
 void func_ov167_021a9358(BtlServerFlow *flow, u8 count, u32 *effectiveness, BattleMon **mons, BOOL multipleTargets);

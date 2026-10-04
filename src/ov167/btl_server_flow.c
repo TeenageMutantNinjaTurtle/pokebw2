@@ -4875,6 +4875,65 @@ void func_ov167_021a7c70(BtlServerFlow *flow, BattleMon *mon) {
     func_ov167_021b1434(flow->queue, 0x52, pos);
 }
 
+void func_ov167_021a7cc8(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, BtlFlowMoveParam *param,
+                         u32 effectiveness, u32 damage, u32 critical, BOOL flag) {
+    u32 state = PushState(&flow->actionState, 0x246e);
+    func_ov167_021a7d18(flow, attacker, target, param, effectiveness, damage, critical, flag);
+    PopState(&flow->actionState, state, 0x2471);
+}
+
+void func_ov167_021a7d18(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, BtlFlowMoveParam *param,
+                         u32 effectiveness, u32 damage, u32 critical, BOOL flag) {
+    u8 targetId = GetMonID(target);
+
+    BattleEventVar_Push(0x2487);
+    BattleEventVar_SetConstValue(3, GetMonID(attacker));
+    BattleEventVar_SetConstValue(4, targetId);
+    BattleEventVar_SetConstValue(0x14, param->originalMove);
+    BattleEventVar_SetConstValue(0x12, param->move);
+    BattleEventVar_SetConstValue(0x38, effectiveness);
+    BattleEventVar_SetConstValue(0x16, param->type);
+    BattleEventVar_SetConstValue(0x1a, param->category);
+    BattleEventVar_SetConstValue(0x32, damage);
+    BattleEventVar_SetConstValue(0x45, critical);
+    BattleEventVar_SetConstValue(0x46, flag);
+    BattleEventVar_SetRewriteOnceValue(0x47, 0);
+    BattleEvent_CallHandlers(flow, 0x4a);
+    BattleEvent_CallHandlers(flow, 0x4b);
+    BattleEvent_CallHandlers(flow, 0x4c);
+    BattleEventVar_Pop(0x2498);
+}
+
+BOOL func_ov167_021a7db4(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets, BOOL *showFail) {
+    u8 realCount;
+    u8 count;
+    u8 i;
+
+    BattleEventVar_Push(0x24aa);
+    BattleEventVar_SetConstValue(3, GetMonID(mon));
+    realCount = func_ov169_0689cec8(targets);
+    count = func_ov169_0689cec0(targets);
+    BattleEventVar_SetConstValue(5, count);
+    BattleEventVar_SetRewriteOnceValue(0x51, 1);
+    for (i = 0; i < count; i++) {
+        BattleEventVar_SetConstValue(6 + i, GetMonID(func_ov169_0689cdf8(targets, i)));
+    }
+    BattleEventVar_SetConstValue(0x12, param->move);
+    if (realCount) {
+        if (count) {
+            BattleEvent_CallHandlers(flow, 0xa0);
+        }
+    } else {
+        BattleEvent_CallHandlers(flow, 0xa1);
+    }
+    *showFail = BattleEventVar_GetValue(0x51);
+    BattleEventVar_Pop(0x24ca);
+    if (BattleHandler_Result(flow)) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
