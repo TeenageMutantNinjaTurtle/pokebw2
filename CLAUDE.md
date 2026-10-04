@@ -59,6 +59,7 @@ and points to the skills that carry the procedures.
 | Add a file to both versions | `.venv/bin/python tools/scripts/add_source_file.py src/X.c overlays/ov033 .text:A-B ... --incomplete` |
 | Mark complete | `.venv/bin/python tools/scripts/mark_complete.py src/X.c` |
 | Name a symbol | `.venv/bin/python tools/scripts/rename_symbol.py func_ov033_0217acd4 Name` |
+| Update the README's progress image and line | `ninja progress && .venv/bin/python tools/scripts/progress_image.py` |
 | Build and verify | `python3 configure.py && ninja 2>&1 \| tail -20` (configure only when source files were added) |
 
 ## Skills and agents

@@ -11,9 +11,16 @@ It builds the following ROMs:
 
 ## Status
 
-Both ROMs rebuild byte for byte from the same source tree. 14 source files match, including the script VM and the
-trainer AI, and everything else is still delinked code. The trainer AI scripts are built from source, see
-[Scripts](docs/scripts.md).
+Both ROMs rebuild byte for byte from the same source tree, and everything not yet in C is still delinked code.
+<!-- progress -->
+11.85% of the code matches (454,108 of 3,832,636 bytes), with 6,346 of 41,675 functions, and 176 of 471 source files are complete.
+<!-- /progress -->
+
+![Progress](docs/progress.svg)
+
+Each rectangle is a source file, or a stretch of code not yet split into files, sized by its code: green when it
+matches, and from grey to blue as it gets closer, as on [decomp.dev](https://decomp.dev). The trainer AI and field
+scripts are built from source, see [Scripts](docs/scripts.md).
 
 - 41,423 functions found by [dsd](https://github.com/AetiasHax/ds-decomp) in the ARM9, its 344 overlays, ITCM, DTCM, and the two TWL autoloads.
 - 8,152 functions and 573 data symbols have real names, imported from [swan](docs/code-organization.md#names).

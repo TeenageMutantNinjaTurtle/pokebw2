@@ -19,6 +19,8 @@ The current C mismatches and attempted translations still in assembly are tracke
    and a context file preprocessed from the source.
 
 `ninja progress` prints how much of the game matches, from the report at `build/b2_us/report.json`.
+`tools/scripts/progress_image.py` draws that report as decomp.dev's treemap, `docs/progress.svg`, and rewrites the
+progress line of the README. Both are committed, so run it after `ninja progress` when a batch of work is done.
 
 `tools/scripts/add_source_file.py` adds a source file to both versions' `delinks.txt`, with White 2's ranges taken
 from the version map. `tools/scripts/compiler_probe.py src/... --compilers 1.1 --show-diff 1.1` compiles a file and
