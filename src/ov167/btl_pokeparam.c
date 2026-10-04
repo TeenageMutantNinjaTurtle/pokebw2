@@ -904,7 +904,7 @@ BOOL AreStatsLowered(BattleMon *mon) {
     return FALSE;
 }
 
-u8 func_ov167_021bb5c0(BattleMon *mon, u32 stat, u8 amount) {
+u32 func_ov167_021bb5c0(BattleMon *mon, u32 stat, u8 amount) {
     s8 *stage;
 
     switch (stat) {
@@ -942,7 +942,7 @@ u8 func_ov167_021bb5c0(BattleMon *mon, u32 stat, u8 amount) {
     return 0;
 }
 
-u8 func_ov167_021bb638(BattleMon *mon, u32 stat, u8 amount) {
+u32 func_ov167_021bb638(BattleMon *mon, u32 stat, u8 amount) {
     s8 *stage;
 
     switch (stat) {

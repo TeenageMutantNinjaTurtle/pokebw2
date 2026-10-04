@@ -88,7 +88,7 @@ BOOL ServerControl_ChangeWeatherCheck(BtlServerFlow *handler, u8 weather, u8 dur
 void ServerControl_ChangeWeatherCore(BtlServerFlow *handler, u8 weather, u8 duration);
 void ServerEvent_NotifyAirLock(BtlServerFlow *handler);
 BOOL ServerEvent_CheckFloating(BtlServerFlow *handler, BattleMon *mon, u32 flag);
-void ServerControl_CureCondition(BtlServerFlow *handler, BattleMon *mon, u32 condition, u32 flag);
+void ServerControl_CureCondition(BtlServerFlow *handler, BattleMon *mon, s32 condition, BattleCondition *prev);
 u32 ServerEvent_CheckItemSet(BtlServerFlow *handler, BattleMon *mon, u16 item);
 void ServerEvent_ItemSetFailed(BtlServerFlow *handler, BattleMon *mon);
 void ServerEvent_ChangeAbilityAfter(BtlServerFlow *handler, u8 monIndex);
@@ -161,6 +161,7 @@ void ServerEvent_BeforeFaint(BtlServerFlow *flow, BattleMon *mon);
 BOOL func_ov167_021a8dec(BtlServerFlow *flow, BattleMon *mon);
 BOOL func_ov167_021a8e68(BtlServerFlow *flow, BattleParty *party, BtlFlowExpEntry *entries);
 void func_ov167_021a9058(BtlServerFlow *flow, BattleMon *mon, u32 damage);
+void func_ov167_021a9268(BtlServerFlow *flow, BattleMon *mon);
 void AddExpAndEVs(BtlServerFlow *flow, BattleParty *party, BattleMon *mon, BtlFlowExpEntry *entries);
 BOOL func_ov167_0219fda4(BtlServerFlow *flow);
 void func_ov167_021a80c4(BtlServerFlow *flow);
@@ -437,7 +438,7 @@ u16 func_ov167_021a7bb4(BtlServerFlow *flow, BattleMon *attacker, BattleMon *tar
                         u8 critical, BtlFlowMoveParam *param);
 void func_ov167_021a7cc8(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, BtlFlowMoveParam *param,
                          u32 effectiveness, u32 damage, u32 critical, BOOL flag);
-void func_ov167_021a92b0(BtlServerFlow *flow, BtlFlowMoveParam *param, u8 count, u32 *effectiveness, BattleMon **mons,
+void func_ov167_021a92b0(BtlServerFlow *flow, BtlFlowMoveParam *param, u32 count, u32 *effectiveness, BattleMon **mons,
                          u16 *damages, u8 *critical, BOOL multipleTargets);
 void func_ov167_021a9358(BtlServerFlow *flow, u8 count, u32 *effectiveness, BattleMon **mons, BOOL multipleTargets);
 void func_ov167_021a94dc(BtlServerFlow *flow, u8 count, BattleMon **mons, u8 *critical, BOOL multipleTargets);

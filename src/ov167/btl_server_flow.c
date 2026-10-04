@@ -20,9 +20,10 @@
 #include "pml/poke_party.h"
 #include "pml/waza.h"
 
-u32 ConvertConditionCode(BattleMon *mon, u32 *condition);
+s32 ConvertConditionCode(BattleMon *mon, s32 *condition);
 
-BOOL func_ov167_021acca8(u32 condition, u32 value, BattleMon *mon, u32 context, BattleHandlerString *string);
+BOOL func_ov167_021acca8(u32 condition, BattleCondition value, BattleMon *mon, u32 context,
+                         BattleHandlerString *string);
 
 BOOL func_ov167_021aceb4(void *state, u8 monId);
 
@@ -5615,6 +5616,116 @@ void func_ov167_021a911c(BtlServerFlow *flow, BattleMon *mon, u16 move) {
     func_ov167_021b1434(flow->queue, 0x59, GetMonID(mon), move);
 }
 
+void ServerControl_CureCondition(BtlServerFlow *flow, BattleMon *mon, s32 condition, BattleCondition *prev) {
+    if (condition != 0) {
+        u8 monId = GetMonID(mon);
+        if (prev != NULL) {
+            *prev = GetConditionContinuationParam(mon, condition);
+        }
+        if (condition < 6) {
+            CureCondition(mon);
+            func_ov167_021b1434(flow->queue, 0x10, monId);
+            if (GetBattlePos(flow->unk1ab8, monId) != 6) {
+                func_ov167_021b1434(flow->queue, 0x35, monId, 0);
+            }
+        } else {
+            CureMoveCondition(mon, condition);
+            func_ov167_021b1434(flow->queue, 0x11, monId, (u16)condition);
+        }
+    }
+}
+
+s32 ConvertConditionCode(BattleMon *mon, s32 *condition) {
+    s32 result = 0;
+    u32 status = GetBattleMonStatus(mon);
+
+    switch (*condition) {
+    case 0:
+        break;
+    case 0x24:
+        if (status != 0) {
+            result = status;
+        }
+        *condition = 0;
+        break;
+    case 0x25:
+        if (status != 0) {
+            result = status;
+            *condition = 6;
+        } else {
+            if (CheckCondition(mon, 6)) {
+                result = 6;
+            }
+            *condition = 0;
+        }
+        break;
+    case 0x26: {
+        s32 found = func_ov167_021bd624(mon);
+        if (found != 0) {
+            return found;
+        }
+        *condition = result;
+        return found;
+    }
+    default:
+        if (CheckCondition(mon, *condition)) {
+            result = *condition;
+        }
+        *condition = 0;
+        break;
+    }
+    return result;
+}
+
+void func_ov167_021a9230(BtlServerFlow *flow, BattleMon *mon, u16 move) {
+    func_ov167_021b15d0(flow->queue, 0x5a, 0x47, 0xffff0000);
+}
+
+void func_ov167_021a9244(BtlServerFlow *flow, BattleMon *mon, u16 move) {
+    func_ov167_021b15d0(flow->queue, 0x5b, 0xd5, GetMonID(mon), 0xffff0000);
+}
+
+void func_ov167_021a9268(BtlServerFlow *flow, BattleMon *mon) {
+    func_ov167_021b15d0(flow->queue, 0x5b, 0xd2, GetMonID(mon), 0xffff0000);
+}
+
+void func_ov167_021a928c(BtlServerFlow *flow, BattleMon *mon) {
+    func_ov167_021b15d0(flow->queue, 0x5b, 0xd8, GetMonID(mon), 0xffff0000);
+}
+
+void func_ov167_021a92b0(BtlServerFlow *flow, BtlFlowMoveParam *param, u32 count, u32 *effectiveness, BattleMon **mons,
+                         u16 *damages, u8 *critical, BOOL multipleTargets) {
+    u8 superEffective;
+    u8 notVeryEffective;
+    u32 kind;
+    u32 i;
+
+    notVeryEffective = 0;
+    superEffective = 0;
+    for (i = 0; i < count; i++) {
+        s32 value;
+        func_ov167_021a9b64(flow, mons[i], damages[i]);
+        value = effectiveness[i];
+        if (value > 3) {
+            superEffective++;
+        }
+        if (value < 3) {
+            notVeryEffective++;
+        }
+    }
+    if (superEffective) {
+        kind = 2;
+    } else if (notVeryEffective) {
+        kind = 3;
+    } else {
+        kind = 1;
+    }
+    func_ov167_021b1434(flow->queue, 0x33, (u8)count, (u8)kind, param->move);
+    for (i = 0; i < count; i++) {
+        func_ov167_021b15c0(flow->queue, GetMonID(mons[i]));
+    }
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
@@ -5804,14 +5915,14 @@ BOOL BattleHandler_DecrementPP(BtlServerFlow *handler, BattleHandlerDecrementPPP
 
 // Function name from swan.
 BOOL BattleHandler_CureCondition(BtlServerFlow *handler, struct BattleHandlerCureConditionParam *param, u32 context) {
-    BattleMon *mon;
+    BattleHandlerString *string;
     BattleMon *target;
     u32 changed;
     u32 i;
-    u32 condition;
-    u32 code;
-    u32 resultCondition;
-    BattleHandlerString *string;
+    BattleMon *mon;
+    s32 condition;
+    s32 code;
+    BattleCondition prev;
 
     target = GetPokeParam(handler->pokeCon, param->monIndex);
     changed = FALSE;
@@ -5831,10 +5942,9 @@ BOOL BattleHandler_CureCondition(BtlServerFlow *handler, struct BattleHandlerCur
         string = &param->string;
         changed = TRUE;
         do {
-            ((void (*)(BtlServerFlow *, BattleMon *, u32, u32 *))ServerControl_CureCondition)(handler, mon, code,
-                                                                                              &resultCondition);
+            ServerControl_CureCondition(handler, mon, code, &prev);
             if (param->useString == 0) {
-                if (func_ov167_021acca8(code, resultCondition, mon, context, &handler->message)) {
+                if (func_ov167_021acca8(code, prev, mon, context, &handler->message)) {
                     BattleHandler_SetString(handler, &handler->message);
                     BattleHandler_StrClear(&handler->message);
                 }
