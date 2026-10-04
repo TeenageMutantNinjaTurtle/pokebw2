@@ -44,6 +44,15 @@ struct WipeWnd {
 };
 
 // Sets which windows a screen shows
-void func_0202946c(u32 visible, u32 screen);
+void WipeWnd_SetVisible(u32 visible, u32 screen);
+// The planes inside a window and outside the windows, and a window's rectangle, at once
+void WipeWnd_SetInsidePlane(u32 planes, BOOL effect, u32 window, u32 screen);
+void WipeWnd_SetOutsidePlane(u32 planes, BOOL effect, u32 screen);
+void WipeWnd_SetPosition(int x1, int y1, int x2, int y2, u32 window, u32 screen);
+// The same at the next VBlank
+void WipeWnd_SetVisibleAtVBlank(WipeWnd *wnd, u32 visible, u32 screen);
+void WipeWnd_SetInsidePlaneAtVBlank(WipeWnd *wnd, u32 planes, BOOL effect, u32 window, u32 screen);
+void WipeWnd_SetOutsidePlaneAtVBlank(WipeWnd *wnd, u32 planes, BOOL effect, u32 screen);
+void WipeWnd_SetPositionAtVBlank(WipeWnd *wnd, int x1, int y1, int x2, int y2, u32 window, u32 screen);
 
 #endif // POKEBW2_SYSTEM_WIPE_WND_H

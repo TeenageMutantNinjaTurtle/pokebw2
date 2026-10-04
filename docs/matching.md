@@ -88,6 +88,11 @@ Same code, other `sp` offsets or frame size.
   reached through the member path: `paletteBuffer->fade.delayCounter` in `PaletteFade_StepBuffer`, not a
   `FadeControl *` local.
 
+- A field loaded earlier than its first use in the source was read into a local initialized in its declaration, in
+  declaration order (`s16 brightness = data->brightness;` before `target` in `BrightnessData_Step`).
+- A constant store written first reserves its register before the parameters are moved, though the scheduler moves
+  the store itself later: `data->active = TRUE;` first in `BrightnessData_Init` keeps the shared 1 in r0.
+
 ## Instruction order
 
 Same instructions, scheduled in another order.
@@ -200,6 +205,16 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   `if (x) f(FALSE); else f(TRUE);`, are merged into one call after the branches, with `beq` to the else branch and the
   then branch's value first. The evolution demo's touch screen flags and its view and effect creation are two calls.
 
+- An `if`/`else if` chain whose first and last branches make the same call gets the calls merged (`bgt +2; b call`):
+  wipe_sub.c's `WipeCircleWork_Compute` matches with `if (y <= cy) call; else if (y <= cy * 2) mirror; else call;`,
+  where a condition joined with `&&` doesn't.
+- Assigning both of two values in every branch (`start = 16; end = 0;`) lets MWCC build -16 from the register holding
+  0 (`WipeBright_Init`); zero-initialized locals or a ternary don't.
+
+- When the original puts an `if`'s then-block after the else path, write the condition negated with the bodies
+  swapped: brightness.c's `BrightnessData_Step` matches with the long advance body first and `done = TRUE` in the
+  `else`, for both its tests.
+
 ## Loops
 
 - `while (cond)` is rotated, with a copy of its test before the loop. A loop that tests once, at its top, is
@@ -228,6 +243,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   `if`/`else if` chain tests each one before its body (`cmp; bne` to the next test), as bmp_menu.c's
   `BmpMenu_NextCursorPos` does.
 
+- A case that ends in the same code as the next (`seq++; done = TRUE; break;` before `case 3: done = TRUE; break;`)
+  is merged into it, leaving a `b` to the next case. The original's code is that `b`, so write each case out in full
+  with its own `done = TRUE; break;`, as wipe_sub.c's `WipeBright_Main` does, rather than a fall-through.
+
 ## Floats and runtime helpers
 
 - Float arithmetic calls MWCC's runtime helpers, such as `_fadd` and `_ffix`, which swan names `__aeabi_*`. When a
@@ -246,6 +265,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 ## Data and sections
 
+- A function-local static of a function MWCC doesn't emit is dropped, while a global read only by an unemitted
+  static function stays in the shared section. Data that outlived code the original link dead-stripped can't be
+  reproduced under `-nodead`: wipe_sub.c's `.data` and `.rodata` hold the parameters of about 31 handlers the ROM
+  doesn't have, as their own function-local statics, which an unemitted handler takes with it. Making them globals
+  read by unemitted statics was not tried; it would put names on data Game Freak kept local.
 - Static data is sorted by size. MWCC lists each object of a section when it is declared, a local struct initializer
   when its function is, and heapsorts the list by size starting from the last object declared. Equal sizes come out
   in no declared order: palanm.c's three 4-byte weights declared R, G, B lie G, R, B (`rodata_order.py --permute`

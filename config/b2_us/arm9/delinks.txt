@@ -399,3 +399,17 @@ src/system/wipe.c:
     .rodata     start:0x0209174c end:0x0209177c
     .data       start:0x0209a498 end:0x0209a4a0
     .bss        start:0x02141664 end:0x021417bc
+
+src/system/wipe_sub.c:
+    .text       start:0x02028004 end:0x0202946c
+    .rodata     start:0x0209177c end:0x02091930
+    .data       start:0x0209a4a0 end:0x0209a52c
+
+src/system/wipe_wnd.c:
+    complete
+    .text       start:0x0202946c end:0x02029730
+
+src/system/brightness.c:
+    complete
+    .text       start:0x02029730 end:0x02029968
+    .bss        start:0x021417bc end:0x021417fc

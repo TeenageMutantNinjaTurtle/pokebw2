@@ -8,21 +8,21 @@
 // cover the screen and the odd ones uncover it
 
 // Master brightness fades
-BOOL func_02028004(WipeScreen *screen);
-BOOL func_02028020(WipeScreen *screen);
+BOOL WipeFunc_BrightnessOut(WipeScreen *screen);
+BOOL WipeFunc_BrightnessIn(WipeScreen *screen);
 // Scanline wipes
-BOOL func_02028040(WipeScreen *screen);
-BOOL func_0202807c(WipeScreen *screen);
-BOOL func_020280b4(WipeScreen *screen);
-BOOL func_020280f0(WipeScreen *screen);
+BOOL WipeFunc_LinesDownOut(WipeScreen *screen);
+BOOL WipeFunc_LinesDownIn(WipeScreen *screen);
+BOOL WipeFunc_LinesUpOut(WipeScreen *screen);
+BOOL WipeFunc_LinesUpIn(WipeScreen *screen);
 // Window rectangles
-BOOL func_02028128(WipeScreen *screen);
-BOOL func_02028154(WipeScreen *screen);
+BOOL WipeFunc_ShrinkLeftOut(WipeScreen *screen);
+BOOL WipeFunc_GrowRightIn(WipeScreen *screen);
 // H-blank circles
-BOOL func_02028180(WipeScreen *screen);
-BOOL func_020281ac(WipeScreen *screen);
+BOOL WipeFunc_CircleOut(WipeScreen *screen);
+BOOL WipeFunc_CircleIn(WipeScreen *screen);
 // Window rectangles
-BOOL func_020281d8(WipeScreen *screen);
-BOOL func_02028204(WipeScreen *screen);
+BOOL WipeFunc_GrowRightOut(WipeScreen *screen);
+BOOL WipeFunc_ShrinkLeftIn(WipeScreen *screen);
 
 #endif // POKEBW2_SYSTEM_WIPE_SUB_H

@@ -13,6 +13,12 @@ typedef u16 GXRgb;
 
 #define reg_GX_DISPCNT (*(vu32 *)0x04000000)
 #define reg_G2_BG0CNT (*(vu16 *)0x04000008)
+#define reg_G2_WIN0H (*(vu16 *)0x04000040)
+#define reg_G2_WIN1H (*(vu16 *)0x04000042)
+#define reg_G2_WIN0V (*(vu16 *)0x04000044)
+#define reg_G2_WIN1V (*(vu16 *)0x04000046)
+#define reg_G2_WININ (*(vu16 *)0x04000048)
+#define reg_G2_WINOUT (*(vu16 *)0x0400004a)
 #define reg_G2_BLDCNT (*(vu16 *)0x04000050)
 #define reg_G2_BLDALPHA (*(vu16 *)0x04000052)
 #define reg_G3X_DISP3DCNT (*(vu16 *)0x04000060)
@@ -42,6 +48,12 @@ typedef u16 GXRgb;
 // The count of vertices in vertex RAM
 #define reg_G3X_VTXRAM_COUNT (*(vu16 *)0x04000606)
 #define reg_GXS_DB_DISPCNT (*(vu32 *)0x04001000)
+#define reg_G2S_DB_WIN0H (*(vu16 *)0x04001040)
+#define reg_G2S_DB_WIN1H (*(vu16 *)0x04001042)
+#define reg_G2S_DB_WIN0V (*(vu16 *)0x04001044)
+#define reg_G2S_DB_WIN1V (*(vu16 *)0x04001046)
+#define reg_G2S_DB_WININ (*(vu16 *)0x04001048)
+#define reg_G2S_DB_WINOUT (*(vu16 *)0x0400104a)
 #define reg_G2S_DB_BLDCNT (*(vu16 *)0x04001050)
 
 #define REG_GX_DISPCNT_W0_SHIFT 13
@@ -466,6 +478,11 @@ static inline s32 GX_GetVCount(void) {
     return reg_GX_VCOUNT;
 }
 
+// Whether the display is in a line's H-blank
+static inline BOOL GX_IsHBlank(void) {
+    return reg_GX_DISPSTAT & REG_GX_DISPSTAT_HBLK_MASK;
+}
+
 static inline void GX_SetDispSelect(int select) {
     reg_GX_POWCNT = (u16)((reg_GX_POWCNT & ~REG_GX_POWCNT_DSEL_MASK) | (select << REG_GX_POWCNT_DSEL_SHIFT));
 }
@@ -491,6 +508,90 @@ static inline void GXS_SetVisibleWnd(int window) {
     reg_GXS_DB_DISPCNT =
         (reg_GXS_DB_DISPCNT & ~(REG_GX_DISPCNT_W0_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_OW_MASK)) |
         (window << REG_GX_DISPCNT_W0_SHIFT);
+}
+
+// The planes inside a window or outside all of them, and whether color effects apply there. NitroSDK's
+// G2_SetWnd0InsidePlane, G2_SetWnd1InsidePlane and G2_SetWndOutsidePlane, and their G2S_ forms for the sub screen
+#define REG_G2_WININ_WIN0IN_MASK 0x003f
+#define REG_G2_WININ_WIN1IN_SHIFT 8
+#define REG_G2_WININ_WIN1IN_MASK 0x3f00
+#define REG_G2_WINOUT_WINOUT_MASK 0x003f
+#define G2_WND_EFFECT 0x20
+
+static inline void G2_SetWnd0InsidePlane(int wnd, BOOL effect) {
+    u32 tmp = (reg_G2_WININ & ~REG_G2_WININ_WIN0IN_MASK) | wnd;
+
+    if (effect) {
+        tmp |= G2_WND_EFFECT;
+    }
+    reg_G2_WININ = (u16)tmp;
+}
+
+static inline void G2_SetWnd1InsidePlane(int wnd, BOOL effect) {
+    u32 tmp = (reg_G2_WININ & ~REG_G2_WININ_WIN1IN_MASK) | (wnd << REG_G2_WININ_WIN1IN_SHIFT);
+
+    if (effect) {
+        tmp |= G2_WND_EFFECT << REG_G2_WININ_WIN1IN_SHIFT;
+    }
+    reg_G2_WININ = (u16)tmp;
+}
+
+static inline void G2_SetWndOutsidePlane(int wnd, BOOL effect) {
+    u32 tmp = (reg_G2_WINOUT & ~REG_G2_WINOUT_WINOUT_MASK) | wnd;
+
+    if (effect) {
+        tmp |= G2_WND_EFFECT;
+    }
+    reg_G2_WINOUT = (u16)tmp;
+}
+
+static inline void G2S_SetWnd0InsidePlane(int wnd, BOOL effect) {
+    u32 tmp = (reg_G2S_DB_WININ & ~REG_G2_WININ_WIN0IN_MASK) | wnd;
+
+    if (effect) {
+        tmp |= G2_WND_EFFECT;
+    }
+    reg_G2S_DB_WININ = (u16)tmp;
+}
+
+static inline void G2S_SetWnd1InsidePlane(int wnd, BOOL effect) {
+    u32 tmp = (reg_G2S_DB_WININ & ~REG_G2_WININ_WIN1IN_MASK) | (wnd << REG_G2_WININ_WIN1IN_SHIFT);
+
+    if (effect) {
+        tmp |= G2_WND_EFFECT << REG_G2_WININ_WIN1IN_SHIFT;
+    }
+    reg_G2S_DB_WININ = (u16)tmp;
+}
+
+static inline void G2S_SetWndOutsidePlane(int wnd, BOOL effect) {
+    u32 tmp = (reg_G2S_DB_WINOUT & ~REG_G2_WINOUT_WINOUT_MASK) | wnd;
+
+    if (effect) {
+        tmp |= G2_WND_EFFECT;
+    }
+    reg_G2S_DB_WINOUT = (u16)tmp;
+}
+
+// A window's rectangle, from (x1, y1) to before (x2, y2). NitroSDK's G2_SetWnd0Position, G2_SetWnd1Position and their
+// G2S_ forms
+static inline void G2_SetWnd0Position(int x1, int y1, int x2, int y2) {
+    reg_G2_WIN0H = (u16)(((x1 << 8) & 0xff00) | (u8)x2);
+    reg_G2_WIN0V = (u16)(((y1 << 8) & 0xff00) | (u8)y2);
+}
+
+static inline void G2_SetWnd1Position(int x1, int y1, int x2, int y2) {
+    reg_G2_WIN1H = (u16)(((x1 << 8) & 0xff00) | (u8)x2);
+    reg_G2_WIN1V = (u16)(((y1 << 8) & 0xff00) | (u8)y2);
+}
+
+static inline void G2S_SetWnd0Position(int x1, int y1, int x2, int y2) {
+    reg_G2S_DB_WIN0H = (u16)(((x1 << 8) & 0xff00) | (u8)x2);
+    reg_G2S_DB_WIN0V = (u16)(((y1 << 8) & 0xff00) | (u8)y2);
+}
+
+static inline void G2S_SetWnd1Position(int x1, int y1, int x2, int y2) {
+    reg_G2S_DB_WIN1H = (u16)(((x1 << 8) & 0xff00) | (u8)x2);
+    reg_G2S_DB_WIN1V = (u16)(((y1 << 8) & 0xff00) | (u8)y2);
 }
 
 static inline void G2_BlendNone(void) {

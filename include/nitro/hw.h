@@ -5,6 +5,8 @@
 
 #define reg_OS_IME (*(vu16 *)0x04000208)
 
+#define reg_GX_DISPSTAT (*(vu16 *)0x04000004)
+#define REG_GX_DISPSTAT_HBLK_MASK 0x0002
 #define reg_GX_VCOUNT (*(vu16 *)0x04000006)
 #define reg_GX_POWCNT (*(vu16 *)0x04000304)
 // Swaps the screens, so that the main engine drives the top screen

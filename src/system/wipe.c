@@ -80,8 +80,9 @@ static void WipeScreen_Finish(WipeScreen *screen);
 static void Wipe_Clear(WipeSys *sys);
 
 static const WipeFunc WIPE_FUNCTIONS[] = {
-    func_02028004, func_02028020, func_02028040, func_0202807c, func_020280b4, func_020280f0,
-    func_02028128, func_02028154, func_02028180, func_020281ac, func_020281d8, func_02028204,
+    WipeFunc_BrightnessOut, WipeFunc_BrightnessIn, WipeFunc_LinesDownOut,  WipeFunc_LinesDownIn,
+    WipeFunc_LinesUpOut,    WipeFunc_LinesUpIn,    WipeFunc_ShrinkLeftOut, WipeFunc_GrowRightIn,
+    WipeFunc_CircleOut,     WipeFunc_CircleIn,     WipeFunc_GrowRightOut,  WipeFunc_ShrinkLeftIn,
 };
 
 static WipeSys sWipe;
@@ -146,7 +147,7 @@ void GFL_WipeForceEnd(void) {
 }
 
 void Wipe_HideWindows(int screen) {
-    func_0202946c(0, screen);
+    WipeWnd_SetVisible(0, screen);
 }
 
 void killBrightnessEitherEngine(int screen) {
