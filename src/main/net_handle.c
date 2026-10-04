@@ -5,8 +5,6 @@
 #include "gfl/net_system.h"
 #include "gfl/std.h"
 
-#define GFL_NET_MACHINE_MAX 8
-
 // The timing numbers the server relays
 typedef struct {
     u16 timings[GFL_NET_MACHINE_MAX];
@@ -348,7 +346,7 @@ void func_020406e0(void) {
     }
     for (i = 0; i < GFL_NET_HANDLE_MAX; i++) {
         handle = func_02040414(func_020401d4(i));
-        if (func_02042bd8() && handle->timingSendPending && func_020401dc(handle) != GFL_NET_NETID_SERVER) {
+        if (func_02042bd8(handle) && handle->timingSendPending && func_020401dc(handle) != GFL_NET_NETID_SERVER) {
             if (func_02042be8(handle, 7, 4, &handle->timingSend)) {
                 handle->timingSendPending = FALSE;
             }

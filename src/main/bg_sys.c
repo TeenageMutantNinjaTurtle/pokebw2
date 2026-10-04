@@ -5,6 +5,7 @@
 #include "gfl/graphics.h"
 #include "gfl/gx_layers.h"
 #include "gfl/heap.h"
+#include "gfl/net.h"
 #include "gfl/std.h"
 #include "nitro/fx.h"
 #include "nitro/gx.h"

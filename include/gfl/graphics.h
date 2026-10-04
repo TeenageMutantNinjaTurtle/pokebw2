@@ -19,8 +19,6 @@ struct G3DTextDrawResource {
 BOOL G3DTextDraw_CreateResource(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 a5, u16 a6, u32 a7, HeapID heapId,
                                 G3DTextDrawResource *resource);
 void GFXRegSetMasterBrightness(u32 reg, s32 brightness);
-// Called with the offset of BG 1 of the main engine whenever it is set. Unnamed, as what it does is not known
-void func_02042ee0(int x, int y);
 // Loaded with part of a palette file, stepped each frame and reset. Unnamed, as what it does is not known
 void *func_02035024(u32 a0, u32 a1, u32 a2, HeapID heapId);
 void func_02035104(void *a0, ArcTool *arc, u32 fileId, u32 a3, u32 a4);

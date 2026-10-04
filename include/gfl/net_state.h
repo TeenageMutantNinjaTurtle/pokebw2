@@ -16,7 +16,7 @@ void func_02041354(const u8 *mac, BOOL parent);
 void func_020413f0(void);
 // Runs the state, each frame. Returns TRUE when the network is not running
 BOOL func_02041410(void);
-void func_020414c0(void);
+void func_020414c0(HeapID unused);
 void func_02041a30(int a0, void (*callback)(void *work), int a2);
 void func_02041c00(int mode, int a1, const u8 *mac);
 // Command handlers

@@ -261,7 +261,7 @@ static void func_020414a0(HeapID heapId) {
     func_0204115c(_pNetState, func_02041444, 0, 522);
 }
 
-void func_020414c0(void) {
+void func_020414c0(HeapID unused) {
     func_0204115c(_pNetState, func_02041468, 0, 536);
 }
 

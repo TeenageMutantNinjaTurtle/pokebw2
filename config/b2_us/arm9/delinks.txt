@@ -221,3 +221,9 @@ src/main/net_state.c:
     .text       start:0x02041154 end:0x020425a0
     .data       start:0x0209abe8 end:0x0209ace4
     .bss        start:0x021418a4 end:0x021418a8
+
+src/main/net.c:
+    complete
+    .text       start:0x020425a0 end:0x02042f74
+    .data       start:0x0209ace4 end:0x0209ad7c
+    .bss        start:0x021418a8 end:0x021418b8

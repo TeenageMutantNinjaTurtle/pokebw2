@@ -58,6 +58,9 @@ typedef struct {
     u16 unk6E;
 } GFLNetInitData;
 
+// The most machines that can connect
+#define GFL_NET_MACHINE_MAX 8
+
 // The kinds of connection: Wi-Fi through DWC, and the others through the wireless or infrared devices
 #define GFL_NET_TYPE_WIFI 1
 #define GFL_NET_TYPE_WIFI_LOBBY 2
@@ -139,21 +142,9 @@ typedef struct {
     int type;
 } GFLNetErrorInfo;
 
-GFLNetSys *func_02042e78(void);
-GFLNetInitData *func_02042e84(void);
-// The number of machines, and the size of each machine's data in a packet
-int func_02042dc0(void);
-int func_02042de8(void);
 void func_020410dc(void);
-BOOL func_02042be8(NetHandle *handle, int command, u16 size, const void *data);
-BOOL func_02042c9c(NetHandle *handle, int dest, int command, int size, const void *data, int a5, int a6, int a7);
-BOOL func_02042bd8(void);
-void *func_02042d94(void);
-void func_02042e18(void);
-BOOL func_02043068(void);
 // NitroSDK's OS_GetMacAddress
 void func_0207c33c(u8 *mac);
-void func_020430bc(void *data);
 // Command handlers of the other parts of the library
 void func_02043764(int netId, int size, void *data, void *work, NetHandle *handle);
 void func_02043ca0(int netId, int size, void *data, void *work, NetHandle *handle);
@@ -169,23 +160,113 @@ BOOL GFL_NetErrCheck(void);
 void GFL_NetErrMarkShown(void);
 void GFL_NetErrShow(u32 a0);
 void func_02011de0(void);
-// Calls into the functions that show the wireless strength icons
-void func_02042ba8(u32 a0, HeapID heapId);
 void func_02012154(void);
-u32 func_02042bc4(void);
-int func_02042a78(void);
-BOOL func_02042788(void);
 BOOL func_ov036_02180f80(GameCommSys *comm);
 BOOL func_0202bde0(GameCommSys *comm);
+
+// The device table for a GFL_NET_TYPE_*, from outside the library
+const GFLNetDevTable *func_020116c0(int type);
+void func_02011778(int type);
+
+// net.c: starts and ends the network, and passes calls to the device and the other parts of the library
+void func_020425a0(int a0, int a1, HeapID parentHeapId, HeapID heapId);
+void func_020425ec(const GFLNetInitData *pNetInit, void (*callback)(void *work), void *work);
+BOOL func_02042788(void);
+// Whether the network has ended
 BOOL func_020427a4(void);
-void func_02042860(u32 a0);
+// Ends the network, calling back with the game's work once it has
+BOOL func_02042860(void (*callback)(void *work));
+void func_020428a0(void);
+int func_020428a8(int a0);
+int func_020428c8(int a0);
 // Steps the network while the game waits for it, as before a soft reset
-void func_020428e0(void);
-u32 func_02042a6c(NetHandle *handle);
-u32 func_02042c18(NetHandle *handle, u32 destination, u32 command, u32 size, const void *data, u32 count, u32 a6,
-                  u32 a7);
+BOOL func_020428e0(void);
+void func_02042918(void);
+void func_02042950(const u8 *mac);
+void func_0204295c(const u8 *mac);
+void func_02042968(void);
+void func_02042970(void);
+void func_020429a8(void (*callback)(void *work), void (*a1)(void *work), void (*a2)(void *work));
+void func_020429d8(int a0);
+void func_020429e0(const u8 *mac, int index);
+void func_020429e8(void *a0);
+void func_020429f0(void);
+void func_020429f8(void (*callback)(void *work));
+void func_02042a10(void);
+void func_02042a1c(int a0);
+void func_02042a30(int mode, int a1, const u8 *mac);
+BOOL func_02042a38(void);
+void func_02042a40(int a0);
+u8 func_02042a48(void);
+void func_02042a50(int a0);
+u8 func_02042a6c(NetHandle *handle);
+int func_02042a78(void);
+BOOL func_02042a80(int netId);
+void func_02042a9c(int unused, int a1);
 BOOL func_02042ab8(void);
-void func_02042e94(BOOL a0);
+// Whether the network is infrared, or Wi-Fi
+BOOL func_02042b00(void);
+BOOL func_02042b20(void);
+// Calls into the functions that show the wireless strength icons
+void func_02042ba8(BOOL top, HeapID heapId);
+BOOL func_02042bc4(void);
+// Whether a machine's negotiation has been accepted
+BOOL func_02042bd8(NetHandle *handle);
+// Send a command to every machine, or to one; the game's commands wait for the negotiation
+BOOL func_02042be8(NetHandle *handle, int command, u16 size, const void *data);
+BOOL func_02042c18(NetHandle *handle, u32 sendID, u16 command, u32 size, const void *data, u32 a5, BOOL a6,
+                   BOOL noCopy);
+BOOL func_02042c9c(NetHandle *handle, int dest, u16 command, int size, const void *data, u32 a5, BOOL a6,
+                   BOOL noCopy);
+BOOL func_02042cfc(void);
+void func_02042d04(NetHandle *handle, u16 timing);
+BOOL func_02042d0c(NetHandle *handle, u16 timing);
+void func_02042d14(u8 gameCommandBase);
+u8 func_02042d34(void);
+int func_02042d48(void);
+int func_02042d64(void);
+u8 func_02042d80(void);
+void func_02042d8c(BOOL a0);
+// The game's work, which the callbacks get
+void *func_02042d94(void);
+void func_02042dac(void *work);
+// The number of machines, and the size of each machine's data in a packet
+int func_02042dc0(void);
+int func_02042de8(void);
+u16 func_02042df4(void);
+void func_02042e18(void);
+void func_02042e30(int a0);
+void func_02042e54(int a0);
+GFLNetSys *func_02042e78(void);
+GFLNetInitData *func_02042e84(void);
+void func_02042e94(u8 a0);
 void func_02042e9c(BOOL a0);
+void *allocConfigDSSoftwareFeature(HeapID heapId, u32 size, const char *file, u16 line);
+void func_02042ed0(void *ptr);
+// Record and read back the offset of BG 1 of the main engine, which bg_sys.c sets whenever it changes
+void func_02042ee0(int x, int y);
+void func_02042eec(int *x, int *y);
+void func_02042efc(const GFLNetInitData *pNetInit);
+void func_02042f10(void);
+BOOL func_02042f24(void);
+void func_02042f2c(int x, int y);
+void func_02042f40(void);
+void func_02042f50(BOOL a0);
+
+// The file after net.c
+GFLNetInitData *func_02042f74(const GFLNetInitData *pNetInit, void *work);
+void func_02043028(void);
+void func_02043048(void);
+BOOL func_02043068(void);
+void func_0204307c(void *a0);
+void (*func_02043088(void (*a0)(void *work), void (*a1)(void *work), void (*a2)(void *work)))(void *work);
+void func_020430bc(void *data);
+void func_0204313c(const u8 *mac, int index);
+void func_020431cc(void);
+BOOL func_020437a0(void);
+void func_020437dc(int a0);
+u8 func_0204381c(void);
+void func_02043834(int a0);
+void func_02043b44(void);
 
 #endif // POKEBW2_GFL_NET_H
