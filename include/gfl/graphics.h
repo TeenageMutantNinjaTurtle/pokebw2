@@ -80,8 +80,8 @@ typedef struct {
     u32 objMappingSub;
 } BGSysVRAMConfig;
 
-BOOL G3DTextDraw_CreateResource(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 a5, u16 a6, u32 a7, HeapID heapId,
-                                G3DTextDrawResource *resource);
+BOOL G3DTextDraw_CreateResource(void *texture, const char *texName, u32 a2, const char *plName, const StrBuf *text, u16 a5,
+                                u16 a6, u32 a7, HeapID heapId, G3DTextDrawResource *resource);
 void GFL_BGSysClearBG(u8 bg);
 void GFL_BGSysClearScr(u8 bg);
 void GFL_BGSysCreate(HeapID heapId);

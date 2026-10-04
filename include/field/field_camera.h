@@ -38,6 +38,11 @@ G3DCamera *FieldCamera_GetG3DCamera(FieldCamera *camera);
 void FieldCamera_CoordsGetEyeOffset(FieldCamera *camera, VecFx32 *offset);
 void FieldCamera_CoordsGetTarget(FieldCamera *camera, VecFx32 *target);
 void FieldCamera_CoordsGetTargetOffset(FieldCamera *camera, VecFx32 *offset);
+void FieldCamera_CoordsSetEyeOffset(FieldCamera *camera, const VecFx32 *offset);
+void FieldCamera_CoordsSetTargetOffset(FieldCamera *camera, const VecFx32 *offset);
+u16 FieldCamera_CoordsGetPitch(FieldCamera *camera);
+u16 FieldCamera_CoordsGetYaw(FieldCamera *camera);
+fx32 FieldCamera_CoordsGetZoom(FieldCamera *camera);
 void FieldCamera_CoordsSetTarget(FieldCamera *camera, const VecFx32 *target);
 void FieldCamera_CoordsSetYaw(FieldCamera *camera, u16 yaw);
 // Whether the camera keeps inside the zone's boundary

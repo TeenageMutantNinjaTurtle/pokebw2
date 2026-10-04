@@ -252,9 +252,9 @@ GimmickGateWork *func_ov104_021eee34(Field *field) {
     work->gameData = GSYS_GetGameData(work->gameSystem);
     work->value = 0;
     init.heapId = heapId;
-    init.a = 7;
-    init.b = 8;
-    init.c = 3;
+    init.capacity = 7;
+    init.unk03 = 8;
+    init.unk04 = 3;
     init.actor = FieldExpObj_GetActor(system, 1, 0);
     work->board = func_ov104_021efbd8(&init);
     return work;
@@ -569,7 +569,7 @@ void func_ov104_021ef3c0(GimmickGateWork *work) {
     arg.kind = sMessageKinds[0];
     arg.name = sBoardNames[0];
     arg.plName = sBoardPlNames[0];
-    arg.unk0c = 2;
+    arg.messageArc = 2;
     arg.messageFile = 0x2b;
     arg.messageId = work->zoneData->messageIds[0];
     arg.wordSet = wordSet;
@@ -635,7 +635,7 @@ void func_ov104_021ef43c(GimmickGateWork *work) {
     arg.kind = sMessageKinds[1];
     arg.name = sBoardNames[1];
     arg.plName = sBoardPlNames[1];
-    arg.unk0c = 2;
+    arg.messageArc = 2;
     arg.messageFile = 0x2b;
     arg.messageId = message;
     arg.wordSet = wordSet;
@@ -663,7 +663,7 @@ void func_ov104_021ef5ac(GimmickGateWork *work) {
     arg.kind = sMessageKinds[2];
     arg.name = sBoardNames[2];
     arg.plName = sBoardPlNames[2];
-    arg.unk0c = 2;
+    arg.messageArc = 2;
     arg.messageFile = 0x2b;
     arg.messageId = work->zoneData->messageIds[2];
     arg.wordSet = wordSet;
@@ -702,7 +702,7 @@ void func_ov104_021ef658(GimmickGateWork *work) {
     arg.kind = sMessageKinds[3];
     arg.name = sBoardNames[3];
     arg.plName = sBoardPlNames[3];
-    arg.unk0c = 2;
+    arg.messageArc = 2;
     arg.messageFile = 0x2b;
     arg.wordSet = 0;
     func_ov104_021ef28c(work, &arg, 4, 0);
@@ -739,7 +739,7 @@ void func_ov104_021ef6dc(GimmickGateWork *work) {
     arg.kind = sMessageKinds[4];
     arg.name = sBoardNames[4];
     arg.plName = sBoardPlNames[4];
-    arg.unk0c = 2;
+    arg.messageArc = 2;
     arg.messageFile = 0x2b;
     arg.wordSet = 0;
     func_ov104_021ef28c(work, &arg, 5, 0);
@@ -776,7 +776,7 @@ void func_ov104_021ef760(GimmickGateWork *work) {
     arg.kind = sMessageKinds[5];
     arg.name = sBoardNames[5];
     arg.plName = sBoardPlNames[5];
-    arg.unk0c = 2;
+    arg.messageArc = 2;
     arg.messageFile = 0x2b;
     arg.wordSet = 0;
     func_ov104_021ef28c(work, &arg, 6, 0);
@@ -813,7 +813,7 @@ void func_ov104_021ef7e4(GimmickGateWork *work) {
     arg.kind = sMessageKinds[6];
     arg.name = sBoardNames[6];
     arg.plName = sBoardPlNames[6];
-    arg.unk0c = 2;
+    arg.messageArc = 2;
     arg.messageFile = 0x2b;
     arg.wordSet = 0;
     func_ov104_021ef28c(work, &arg, 7, 0);
@@ -856,7 +856,7 @@ void func_ov104_021ef868(GimmickGateWork *work) {
     arg.kind = sMessageKinds[3];
     arg.name = sBoardNames[3];
     arg.plName = sBoardPlNames[3];
-    arg.unk0c = 2;
+    arg.messageArc = 2;
     arg.messageFile = 0x2b;
     arg.messageId = message;
     arg.wordSet = wordSet;
@@ -884,7 +884,7 @@ void func_ov104_021ef94c(GimmickGateWork *work, GimmickGateBoardEntry *entry, u3
     arg.kind = sMessageKinds[index];
     arg.name = sBoardNames[index];
     arg.plName = sBoardPlNames[index];
-    arg.unk0c = 2;
+    arg.messageArc = 2;
     arg.messageFile = 0x2b;
     arg.messageId = entry->unk0c;
     arg.wordSet = NULL;

@@ -20,5 +20,12 @@ void FieldTaskManager_AddTask(FieldTaskManager *mgr, FieldTask *task, u32 a2);
 FieldTask *FieldActorSpinTask_CreatePlayerAccel(Field *field, u32 duration, u32 direction);
 FieldTask *FieldActorSpinTask_CreatePlayer(Field *field, u32 duration, u32 direction);
 FieldTask *FieldActorMoveTask_CreatePlayer(Field *field, u32 duration, const VecFx32 *offset);
+// A task that fades the screen
+FieldTask *FieldFadeTask_Create(Field *field, u32 mode, u32 from, u32 to, u32 speed);
+// Tasks that move the camera to a zoom, angle or target offset over duration frames
+FieldTask *FieldCameraMoveTaskZoom_Create(Field *field, u16 duration, fx32 zoom);
+FieldTask *FieldCameraMoveTaskPitch_Callback(Field *field, u16 duration, u16 pitch);
+FieldTask *FieldCameraMoveTaskYaw_Callback(Field *field, u16 duration, u16 yaw);
+FieldTask *FieldCameraMoveTaskTargetOffs_Create(Field *field, u16 duration, const VecFx32 *offset);
 
 #endif // POKEBW2_FIELD_FIELD_TASK_H

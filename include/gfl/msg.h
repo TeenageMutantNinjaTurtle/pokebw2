@@ -7,7 +7,7 @@
 #include "struct_decls.h"
 
 // Loads a file of a message archive. With preload set, all its text is read at once
-MsgData *GFL_MsgSysLoadData(BOOL preload, u32 arcId, u32 fileId, HeapID heapId);
+MsgData *GFL_MsgSysLoadData(BOOL preload, u16 arcId, u16 fileId, HeapID heapId);
 void GFL_MsgDataFree(MsgData *msgData);
 // The language that messages are read in, which is the kana or kanji choice in the Japanese version
 u8 GFL_MsgDataGetDefaultLangID(void);
