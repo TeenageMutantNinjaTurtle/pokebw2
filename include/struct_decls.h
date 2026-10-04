@@ -112,7 +112,7 @@ typedef struct EventActorAnmProcWaitWork EventActorAnmProcWaitWork;
 typedef struct EventActorJumpWork EventActorJumpWork;
 typedef struct EventCommTvt EventCommTvt;
 typedef struct EventData EventData;
-typedef struct EventDataFlags EventDataFlags;
+typedef struct EncData EncData;
 typedef struct EventDendouMachineData EventDendouMachineData;
 typedef struct EventMedalInfoBeacon EventMedalInfoBeacon;
 typedef struct EventBeaconDetail EventBeaconDetail;

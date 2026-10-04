@@ -4,14 +4,10 @@
 // Names from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
 
 #include "types.h"
+#include "field/encounter.h"
 #include "gfl/heap.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
-
-struct EventDataFlags {
-    u8 low : 7;
-    u8 high : 1;
-};
 
 struct EventData {
     u8 unk0[4];
@@ -33,9 +29,7 @@ struct EventData {
     u16 prevWarpCount;
     u16 prevTriggerCount;
     u32 encLoaded;
-    u8 encData[7];
-    EventDataFlags encDataFlags;
-    u8 encDataTail[0xe0];
+    EncData encData;
     void *initScript;
     // The zone's entity file, read from here: the offset of its init script from the counts, then the counts of the
     // entities, NPCs, warps and triggers and the entities themselves
@@ -56,7 +50,7 @@ void LoadZoneEntities(EventData *data, u16 zoneId, u8 season);
 void EventData_LoadEncData(EventData *data, u16 zoneId, u8 season);
 void *GetZoneInitScrPointer(EventData *data);
 u32 IsEncountDataLoaded(EventData *data);
-void *GetEncountData(EventData *data);
+EncData *GetEncountData(EventData *data);
 void *GetZoneProxiesAndCount(EventData *data, u32 *count);
 u16 GetHiddenItemEventFlagNoBySCRID(u16 scrId);
 s32 CheckProxyEntityEvent(EventData *data, EventWork *eventWork, const void *position, u16 direction);

@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_PLAYER_ACTION_H
 
 #include "types.h"
+#include "nitro/fx.h"
 #include "struct_decls.h"
 
 struct PlayerActionPerms {
@@ -17,6 +18,10 @@ struct PlayerActionPossibilities {
     FieldActor *actorInFront;
     Field *field;
 };
+
+// Overlay 12: whether an actor is a Strength boulder, and whether a boulder at the position stays where it was pushed
+BOOL IsNPCStrengthRock(u16 objCode);
+BOOL func_ov012_0216820c(MMSys *actorSystem, const VecFx32 *position);
 
 void PlayerActionPerms_Create(PlayerActionPerms *perms, GameSystem *gsys, Field *field);
 void CalcPlayerActionPossibilities(Field *field, PlayerActionPossibilities *action);

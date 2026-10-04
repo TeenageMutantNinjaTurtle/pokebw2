@@ -223,6 +223,10 @@ BOOL IsWarpDestId256(ZoneWarp *warp);
 BOOL IsZone150Or151(u16 zoneId);
 BOOL IsZoneAbyssalRuinsOutside(u16 zoneId);
 BOOL IsZoneAbyssalRuinsInside(u16 zoneId);
+BOOL IsZoneAbyssalRuinsFlashRock(u16 zoneId);
+BOOL IsZoneAbyssalRuinsStrengthRock(u16 zoneId);
+// Whether the zone is a normal field zone: not the Union Room, Entralink or the like
+BOOL func_02018c38(u16 zoneId);
 BOOL IsZoneEntralinkHub(u16 zoneId);
 BOOL IsZoneGameCommDisabled(u16 zoneId);
 BOOL IsZoneInVictoryRoad(u16 zoneId);
@@ -237,6 +241,7 @@ void SetupTeleportZoneChange(u16 returnLocation, ZoneSpawnInfo *spawn);
 BOOL SetupZoneWarpArrival(EventData *eventData, ZoneSpawnInfo *spawn, u16 warpId, u16 posWeightBits);
 u16 ZoneData_GetAreaID(u16 zoneId);
 u16 GetZoneEntitiesID(u16 zoneId);
+u16 GetZoneEncID(u16 zoneId);
 void InitZoneSpawnInfo(ZoneSpawnInfo *spawn);
 void SetupZoneWarpArrivalGrid(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpId, s16 warpDir, u16 posWeightBits, s32 x,
                               s32 y, s32 z);

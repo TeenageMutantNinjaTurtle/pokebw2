@@ -32,7 +32,7 @@ void EventData_Reset(EventData *data) {
     // file's init script
     data->initScript = data->cache + 0x2200;
     data->encLoaded = 0;
-    data->encDataFlags.high = 0;
+    data->encData.fishingEnable = 0;
 }
 
 void EventData_LoadZone(EventData *data, u16 zoneId, u8 season) {
@@ -47,7 +47,7 @@ void EventData_LoadEntities(EventData *data, u16 zoneId, u8 season) {
 }
 
 void EventData_LoadEncData(EventData *data, u16 zoneId, u8 season) {
-    EncData_Load(data->encData, data->encArc, zoneId, season);
+    EncData_Load(&data->encData, data->encArc, zoneId, season);
     data->encLoaded = 1;
 }
 
@@ -105,8 +105,8 @@ void EventData_Clear(EventData *data) {
     sys_memset(data->cache, 0, sizeof(data->cache));
 }
 
-void *GetEncountData(EventData *data) {
-    return data->encData;
+EncData *GetEncountData(EventData *data) {
+    return &data->encData;
 }
 
 s32 GetWarpAtPosition(EventData *data, const VecFx32 *position) {

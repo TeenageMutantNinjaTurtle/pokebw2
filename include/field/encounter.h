@@ -22,10 +22,29 @@ struct EncountState {
     u8 unk18[0x10];
 };
 
+// Names and layouts from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
+typedef struct {
+    u16 species : 11;
+    u16 form : 5;
+    u8 minLevel;
+    u8 maxLevel;
+} WildEncSlot;
+
+// A zone's wild encounters for a season, 0xe8 bytes of archive 0x7f
+struct EncData {
+    u8 userData[7];
+    u8 flags : 7;
+    u8 fishingEnable : 1;
+    WildEncSlot slots[56];
+};
+
 extern const char data_ov012_0216e240[];
 extern const u16 ROAMING_POKEMON_ZONES[17];
+// The places in the Abyssal Ruins where Flash and Strength can be used
+extern const HiddenArea ABYSSAL_RUINS_FLASH_ROCK_RADIUS;
+extern const HiddenArea ABYSSAL_RUINS_STRENGTH_ROCK_RADIUS;
 
-void EncData_Load(void *encData, ArcTool *arc, u16 zoneId, u8 season);
+BOOL EncData_Load(EncData *encData, ArcTool *arc, u16 zoneId, u8 season);
 EncountState *EncountState_Create(HeapID heapId);
 void EncountState_Free(EncountState *state);
 void EncountState_SetTerrain(EncountState *state, u32 terrain);

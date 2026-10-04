@@ -1,11 +1,41 @@
 #include "types.h"
 #include "field/encounter.h"
 #include "field/field.h"
+#include "field/field_actor.h"
+#include "field/field_map.h"
 #include "field/field_player.h"
+#include "field/field_status.h"
+#include "field/hidden_event.h"
+#include "field/player_action.h"
+#include "field/zone.h"
+#include "gfl/arc.h"
 #include "gfl/heap.h"
+#include "gfl/std.h"
 #include "nitro/os.h"
 #include "save/encounter.h"
 #include "system/game_data.h"
+#include "system/game_system.h"
+
+BOOL EncData_Load(EncData *encData, ArcTool *arc, u16 zoneId, u8 season) {
+    u32 fileId;
+    u32 count;
+
+    sys_memset(encData, 0, sizeof(EncData));
+    fileId = GetZoneEncID(zoneId);
+    if (fileId == 0x1fff) {
+        return FALSE;
+    }
+    count = GFL_ArcToolGetDataLength(arc, fileId) / sizeof(EncData);
+    if (count != 1 && count != 4) {
+        return FALSE;
+    }
+    if (count == 1) {
+        season = 0;
+    }
+    GFL_ArcToolReadRange(arc, fileId, season * sizeof(EncData), sizeof(EncData), encData);
+    encData->fishingEnable = TRUE;
+    return TRUE;
+}
 
 EncountState *EncountState_Create(HeapID heapId) {
     EncountState *state = GFL_HeapAllocate(heapId, sizeof(EncountState), TRUE, "field_encount_st.c", 0x2d);
@@ -77,4 +107,81 @@ u32 GetDefaultWeatherValue(void) {
 
 u32 func_ov012_0215922c(void) {
     return 0;
+}
+
+void CalcPlayerActionPossibilities(Field *field, PlayerActionPossibilities *action) {
+    FieldPlayer *player;
+    FieldActor *actor;
+    u16 objCode;
+    MMSys *actorSystem;
+    VecFx32 position;
+    u32 direction;
+    u32 tileInFront;
+    u32 tileUnder;
+    u16 diveZone;
+    s16 x;
+    s16 y;
+    s16 z;
+
+    sys_memset(action, 0, sizeof(PlayerActionPossibilities));
+    action->zoneId = Field_GetPlayerStateZoneID(field);
+    action->gsys = Field_GetGameSystem(field);
+    action->field = field;
+    player = Field_GetPlayer(field);
+    action->exState = FieldPlayer_GetExState(player);
+    actor = FieldPlayer_GetActorInFront(player);
+    action->actorInFront = actor;
+    if (actor != NULL) {
+        objCode = FldAct_GetObjCode(actor);
+        actorSystem = Field_GetActorSystem(field);
+        CopyActorWPos(actor, &position);
+        if (IsNPCStrengthRock(objCode) && !func_ov012_0216820c(actorSystem, &position)) {
+            action->flags |= 8;
+        }
+        if (objCode == 0x6c) {
+            action->flags |= 1;
+        }
+    }
+    direction = FieldPlayer_GetFaceDir(player);
+    tileUnder = FieldPlayer_GetTileTypeUnder(player);
+    tileInFront = FieldPlayer_GetTileTypeInDir(player, direction);
+    if (CheckSurfHeightAllow(player, direction) == TRUE) {
+        action->flags |= 2;
+    }
+    if (CheckCanInteractWaterfall(player, tileUnder, tileInFront) == TRUE) {
+        action->flags |= 4;
+    }
+    if (GetZoneFlagsEnableFlyFrom(action->zoneId) == TRUE) {
+        action->flags |= 0x10;
+        action->flags |= 0x40;
+    }
+    if (GetZoneFlagsEnableEscapeRope(action->zoneId) == TRUE) {
+        action->flags |= 0x80;
+    }
+    if (FieldStatus_GetFlashPerms(GameData_GetFieldStatus(GSYS_GetGameData(action->gsys))) & 1) {
+        action->flags |= 0x20;
+    }
+    if (GetAbyssalRuinsDiveZoneID(field, &diveZone) == TRUE) {
+        action->flags |= 0x400;
+    }
+    if (IsZoneAbyssalRuinsInside(action->zoneId)) {
+        FieldPlayer_GetGPos(Field_GetPlayer(action->field), &x, &y, &z);
+        if (IsZoneAbyssalRuinsFlashRock(action->zoneId) &&
+            func_ov012_02159b70(&ABYSSAL_RUINS_FLASH_ROCK_RADIUS, x, z, 0xd7, field)) {
+            action->flags |= 0x20;
+        }
+        if (IsZoneAbyssalRuinsStrengthRock(action->zoneId) &&
+            func_ov012_02159b70(&ABYSSAL_RUINS_STRENGTH_ROCK_RADIUS, x, z, 0xd6, field)) {
+            action->flags |= 8;
+        }
+    }
+    if (!func_02018c38(action->zoneId)) {
+        action->flags = 0;
+    } else {
+        action->flags |= 0x100;
+        action->flags |= 0x200;
+    }
+    if (GameData_IsForceSeasonSync(GSYS_GetGameData(action->gsys)) == TRUE) {
+        action->flags = 0;
+    }
 }
