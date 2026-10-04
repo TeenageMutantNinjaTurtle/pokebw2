@@ -35,11 +35,25 @@ typedef struct {
     u16 originalMove;
     u8 unk04;
     u8 unk05;
-    u8 unk06;
+    u8 type;
     u8 unk07;
     u8 unk08[8];
-    u32 flags;
+    union {
+        u32 raw;
+        struct {
+            u32 unk0 : 1;
+            u32 unk1 : 31;
+        };
+    } flags;
 } BtlFlowMoveParam;
+
+// Mons that react to a move, with their targets
+typedef struct {
+    u8 count;
+    u8 monIds[6];
+    u8 targets[6];
+    u8 unk0D[6];
+} BtlFlowReactionList;
 
 // Client IDs the flow collected, such as those that must switch in
 typedef struct {
@@ -60,8 +74,8 @@ struct BtlServerFlow {
     u8 unk3E0[0xc4];
     ArcTool *unk4A4;
     BattleMoveEffectState *moveEffect;
-    void *unk4AC;
-    void *unk4B0;
+    BtlFlowReactionList *unk4AC;
+    BtlFlowReactionList *unk4B0;
     u8 unk4B4[4];
     BtlClientIDList clientIdList;
     u8 unk4C0[0xe];
@@ -100,7 +114,9 @@ struct BtlServerFlow {
     // Two mon sets in overlay 169's format: the move's targets, and a copy
     void *unk850;
     void *unk854;
-    u8 unk858[0x1210];
+    u8 unk858[0xc];
+    void *unk864;
+    u8 unk868[0x1200];
     // The mons that came in this turn, in overlay 169's format
     u8 unk1A68[0x48];
     BtlFlowMoveParam *unk1AB0;
