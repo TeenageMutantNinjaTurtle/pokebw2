@@ -2,9 +2,11 @@
 #define POKEBW2_BATTLE_BTLV_H
 
 #include "types.h"
+#include "app/ov287.h"
 #include "gfl/clact.h"
 #include "gfl/graphics.h"
 #include "gfl/heap.h"
+#include "gfl/tcb.h"
 #include "struct_decls.h"
 
 struct BtlvStringParam {
@@ -34,6 +36,168 @@ void Btlv_StringParam_AddArg(BtlvStringParam *param, u32 arg);
 void func_ov168_021df138(void);
 u32 func_ov168_021e04ec(u8 pos);
 
+typedef BOOL (*BtlvMainProc)(BtlvCore *core, s32 *seq, void *work);
+
+// The party list command's parameters; only the mode is known
+struct BtlvPokeListCmd {
+    u8 unk00[0xb];
+    u8 mode;
+};
+
+// Where a party selection's result goes, handled by overlay 169
+struct BtlvPokeSelectParam {
+    u8 unk00[8];
+    u8 unk08;
+};
+
+struct BtlvSelectTargetParam {
+    BattleMon *mon;
+};
+
+// The rest of the battle display (0x021d0c24 on, not decompiled)
+void *func_ov167_021d0c24(BtlvCore *core, BtlMainModule *mainModule, BtlPokeCon *pokeCon, TCBExManager *tcbManager, Font *font,
+                          Font *font2, u8 clientId, HeapID heapId);
+void func_ov167_021d0cd4(void *data);
+void func_ov167_021d0f84(void *data);
+void func_ov167_021d1084(void *data, BOOL arg1);
+BOOL func_ov167_021d12a0(void *data);
+void func_ov167_021d2dbc(void *data, const StrBuf *strbuf);
+void func_ov167_021d2e20(void *data, const StrBuf *strbuf, u32 wait, u32 arg3);
+BOOL func_ov167_021d2ec4(void *data);
+BOOL func_ov167_021d2edc(void *data);
+void func_ov167_021d3094(void *data, u8 attackerPos, u8 targetPos, u16 move, s32 arg4, u32 arg5, u8 arg6);
+BOOL func_ov167_021d3130(void *data);
+void func_ov167_021d3188(void *data, u8 pos, u16 arg2, BOOL arg3);
+BOOL func_ov167_021d31d0(void *data);
+void func_ov167_021d31e8(void *data, u8 pos, u16 arg2);
+BOOL func_ov167_021d3200(void *data);
+void func_ov167_021d3214(void *data, u8 pos, BOOL arg2);
+BOOL func_ov167_021d323c(void *data);
+void func_ov167_021d3250(void *data, u8 pos);
+BOOL func_ov167_021d3284(void *data);
+void func_ov167_021d3298(void *data, u8 pos, u32 arg2, BOOL arg3);
+BOOL func_ov167_021d32f4(void *data);
+void func_ov167_021d3354(void *data, u8 pos, u8 arg2, u8 arg3, BOOL arg4);
+BOOL func_ov167_021d33d0(void *data);
+void func_ov167_021d3414(void *data, u8 pos, BOOL arg2);
+BOOL func_ov167_021d3450(void *data);
+void func_ov167_021d3464(void *data, u8 pos1, u8 pos2);
+BOOL func_ov167_021d3490(void *data, u8 pos1, u8 pos2);
+void func_ov167_021d34bc(void *data, u8 pos);
+BOOL func_ov167_021d34d4(void *data, u8 pos);
+void func_ov167_021d34ec(void *data, u8 pos);
+void func_ov167_021d34fc(void *data, u8 pos);
+void func_ov167_021d3510(void *data, u32 arg1, u32 arg2);
+BOOL func_ov167_021d3558(void *data);
+void func_ov167_021d35e0(void *data, u32 arg1, u32 arg2, BOOL arg3);
+void func_ov167_021d363c(void *data, u32 arg1, BOOL arg2);
+BOOL func_ov167_021d3694(void *data);
+void func_ov167_021d3830(void *data);
+BOOL func_ov167_021d385c(void *data);
+void func_ov167_021d39e4(void *data, u32 arg1, u32 arg2);
+void func_ov167_021d3a1c(void *data, u32 arg1);
+void func_ov167_021d3a38(void *data, u32 arg1);
+void func_ov167_021d3a68(void *data, u32 arg1);
+void func_ov167_021d3a88(void *data, u32 arg1);
+BOOL func_ov167_021d3aa8(void *data, u32 arg1);
+void func_ov167_021d4194(void *data);
+BOOL func_ov167_021d41b0(void *data);
+void func_ov167_021d41b8(void *data);
+void func_ov167_021d41bc(void *data);
+void func_ov167_021d41d0(void *data);
+BOOL func_ov167_021d41f0(void *data);
+void func_ov167_021d41f8(void *data, u32 arg1, u32 arg2);
+BOOL func_ov167_021d4234(void *data);
+void func_ov167_021d428c(void *data);
+BOOL func_ov167_021d42ac(void *data);
+void func_ov167_021d4304(void *data);
+BOOL func_ov167_021d4324(void *data);
+void func_ov167_021d4c64(BtlMainModule *mainModule, u8 clientId, BtlPokeCon *pokeCon, HeapID heapId);
+void func_ov167_021d4d50(BtlvCore *core);
+void func_ov167_021d4f1c(StrBuf *strbuf, u16 message, const u32 *args);
+void func_ov167_021d4f90(StrBuf *strbuf, u16 message, const u32 *args);
+void func_ov167_021d5684(StrBuf *strbuf, u8 monId, u16 move);
+void func_ov167_021d5700(StrBuf *strbuf, u16 arg1, u32 arg2);
+void func_ov167_021d575c(StrBuf *strbuf, u16 message);
+void func_ov167_021d5770(StrBuf *strbuf, u16 message, const u32 *args);
+void func_ov167_021d57b0(StrBuf *strbuf, u16 message, const u32 *args);
+void func_ov167_021d5904(StrBuf *strbuf, u16 message);
+void func_ov167_021d5924(StrBuf *strbuf, u16 message);
+
+// More of the battle view, in overlay 168
+void *func_ov168_021ded1c(BtlMainModule *mainModule, void *data, HeapID heapId);
+void func_ov168_021dee04(void *data, Font *font, HeapID heapId);
+void func_ov168_021df214(void);
+void func_ov168_021df35c(u32 arg0, u32 arg1);
+void func_ov168_021df3e0(u32 arg0, u32 arg1, u32 arg2);
+void func_ov168_021df540(void);
+void func_ov168_021df560(u32 arg0, u16 move);
+void func_ov168_021df630(u32 arg0, u32 arg1, u32 arg2, u32 arg3, u32 arg4);
+void func_ov168_021df7a8(u8 pos);
+void func_ov168_021df7b8(u8 pos);
+BOOL func_ov168_021df7e8(void);
+BOOL func_ov168_021df850(u8 pos);
+void func_ov168_021dfac4(u32 arg0, s32 arg1);
+void func_ov168_021dfdec(u8 arg0, u32 arg1, u32 arg2);
+void func_ov168_021dfe8c(u8 arg0, u8 arg1);
+u32 func_ov168_021dff14(u8 pos);
+TCBManager *func_ov168_021e00ac(void);
+void *func_ov168_021e00b8(void);
+void *func_ov168_021e00c8(void);
+void func_ov168_021e0430(u32 arg0);
+void func_ov168_021e0468(void);
+void func_ov168_021e9c24(void *data, u32 arg1, u32 arg2);
+BOOL func_ov168_021e9e88(void *data);
+void func_ov168_021ea1cc(void *data, u32 arg1, Font *font);
+
+// The battle view's touch screen, in overlay 169
+void *func_ov169_06899af0(BtlvCore *core, BtlMainModule *mainModule, BtlPokeCon *pokeCon, TCBExManager *tcbManager, Font *font,
+                          BtlClient *client, u32 arg6, HeapID heapId);
+void func_ov169_06899c7c(void *data);
+void func_ov169_06899d9c(void *data, u32 arg1);
+void func_ov169_06899dd4(void *data);
+BOOL func_ov169_06899dfc(void *data);
+void func_ov169_06899e24(void *data);
+void func_ov169_06899e28(void *data);
+void func_ov169_06899e34(void *data);
+void func_ov169_06899e5c(void *data);
+BOOL func_ov169_06899ea8(void *data);
+void func_ov169_06899ed0(void *data);
+void func_ov169_0689a008(void *data, BattleMon *mon, u8 arg2, u8 arg3, void *arg4);
+void func_ov169_0689a038(void *data, BattleMon *mon, u8 arg2, void *arg3);
+u32 func_ov169_0689a060(void *data);
+void func_ov169_0689a078(void *data, BattleMon *mon, void *arg2);
+void func_ov169_0689a09c(void *data, BtlvSelectTargetParam *param, void *arg2);
+BOOL func_ov169_0689a10c(void *data);
+void func_ov169_0689a114(void *data);
+void func_ov169_0689a120(void *data, BattleMon *mon, void *arg2);
+void func_ov169_0689a140(void *data, BattleMon *mon, void *arg2);
+BOOL func_ov169_0689a158(void *data);
+void func_ov169_0689a160(void *data);
+BOOL func_ov169_0689b228(void *data);
+void func_ov169_0689b670(void *data, void *work);
+BOOL func_ov169_0689b680(void *data, u32 arg1);
+void func_ov169_0689b6b4(void *data);
+void func_ov169_0689b700(void *data, void *work);
+void func_ov169_0689b728(void *data, u32 arg1);
+u8 *func_ov169_0689b7c8(void *data);
+void func_ov169_0689b7cc(void *data);
+BOOL func_ov169_0689b7f8(void *data);
+void func_ov169_0689b8dc(void *data, void *param);
+void func_ov169_0689b8ec(void *data);
+void func_ov169_0689b904(void *data, u32 arg1, u32 arg2, u32 arg3);
+void func_ov169_0689b920(void *data);
+void func_ov169_0689b92c(void *data, u32 arg1);
+BOOL func_ov169_0689ca94(u16 item);
+void func_ov169_0689cc74(BtlvPokeSelectParam *param, u8 index, u8 slot);
+u32 func_ov169_0689cca0(BtlvPokeSelectParam *param);
+u8 func_ov169_0689ccb4(BtlvPokeSelectParam *param, u8 index);
+
+// The battle's bag and selection screens, which share an address range
+void func_ov286_021f5b64(void *param);
+void func_ov288_021f4440(void *param);
+void func_ov289_021f4440(void *param);
+
 BtlvCore *BtlvCore_Create(BtlMainModule *mainModule, BtlClient *client, BtlPokeCon *pokeCon, u32 arg3, HeapID heapId);
 void func_ov167_021ce668(HeapID heapId);
 void func_ov167_021ce870(BtlvCore *viewCore);
@@ -49,5 +213,155 @@ void func_ov167_021d4a1c(u8 arg0);
 void func_ov167_021d4a40(void);
 u32 func_ov167_021d5a84(HeapID heapId);
 void func_ov167_021d5aac(u32 arg0);
+
+void func_ov167_021ce8dc(BtlvCore *core, u32 cmd);
+BOOL func_ov167_021ce90c(BtlvCore *core);
+void *func_ov167_021ce93c(BtlvCore *core, u32 size);
+BOOL func_ov167_021ce940(BtlvCore *core, s32 *seq, void *work);
+BOOL func_ov167_021cea24(BtlvCore *core, s32 *seq, void *work);
+BattleMon *func_ov167_021ceec0(BtlvCore *core, u32 index);
+BOOL func_ov167_021ceed8(BtlvCore *core, s32 *seq, void *work);
+BOOL func_ov167_021cef50(BtlvCore *core, s32 *seq, void *work);
+void func_ov167_021cefb4(BtlvCore *core, BtlvMainProc proc);
+void func_ov167_021cefbc(BtlvCore *core);
+BOOL func_ov167_021cefc4(BtlvCore *core);
+void func_ov167_021cefec(BtlvCore *core, BattleMon *mon, u8 arg2, void *arg3);
+void func_ov167_021cf028(BtlvCore *core);
+u32 func_ov167_021cf030(BtlvCore *core);
+void func_ov167_021cf048(BtlvCore *core, BattleMon *mon, void *arg2);
+void func_ov167_021cf094(BtlvCore *core, BtlvSelectTargetParam *param, void *arg2);
+void func_ov167_021cf0e4(BtlvCore *core);
+BOOL func_ov167_021cf110(BtlvCore *core, s32 *seq, void *work);
+void func_ov167_021cf138(BtlvCore *core);
+BOOL func_ov167_021cf140(BtlvCore *core);
+void func_ov167_021cf148(BtlvCore *core, BattleMon *mon, void *arg2);
+u32 func_ov167_021cf174(BtlvCore *core);
+void func_ov167_021cf1ac(BtlvCore *core);
+void func_ov167_021cf1b4(BtlvCore *core);
+void func_ov167_021cf1e0(BtlvCore *core);
+void func_ov167_021cf1f0(BtlvCore *core);
+BOOL func_ov167_021cf200(BtlvCore *core);
+BOOL func_ov167_021cf210(BtlvCore *core);
+void func_ov167_021cf234(BtlvCore *core, Ov287Param *param, u8 mode, u8 partyIndex, u32 move);
+void BattleClientCmd_StartPokeList(BtlvCore *core, const BtlvPokeListCmd *cmd, s32 partyIndex, u16 move, BtlvPokeSelectParam *select);
+void BattleClientCmd_QuitPokeSelect(BtlvCore *core);
+BOOL BattleClientCmd_WaitPokeSelect(BtlvCore *core);
+void BattleClientCmd_StartMoveInfoView(BtlvCore *core, u8 partyIndex, u8 slot);
+void BattleClientCmd_StartItemSelect(BtlvCore *core, u32 mode, u8 arg2, u8 arg3, u8 canUseItems, u8 arg5);
+void func_ov167_021cf72c(BtlvCore *core);
+BOOL func_ov167_021cf73c(BtlvCore *core);
+u16 func_ov167_021cf8d8(BtlvCore *core);
+u8 func_ov167_021cf8ec(BtlvCore *core);
+u8 func_ov167_021cf900(BtlvCore *core);
+u8 func_ov167_021cf908(BtlvCore *core);
+void func_ov167_021cf914(BtlvCore *core);
+void func_ov167_021cf95c(BtlvCore *core, u32 arg1);
+void func_ov167_021cf9c0(BtlvCore *core);
+BOOL func_ov167_021cf9cc(BtlvCore *core);
+void func_ov167_021cfaec(BtlvCore *core);
+void func_ov167_021cfb28(BtlvCore *core, u32 arg1, u32 arg2);
+void func_ov167_021cfb34(BtlvCore *core, u32 index, u32 value);
+BOOL func_ov167_021cfb40(BtlvCore *core);
+void func_ov167_021cfc60(BtlvCore *core, u8 attackerPos, u8 targetPos, u16 move, s32 arg4, u32 arg5, u8 arg6);
+BOOL func_ov167_021cfca4(BtlvCore *core);
+void func_ov167_021cfcb4(BtlvCore *core, u16 arg1, u8 pos, u32 type);
+BOOL func_ov167_021cfce0(BtlvCore *core);
+BOOL func_ov167_021cfd20(s32 *seq, void *arg);
+void func_ov167_021cfd78(BtlvCore *core, u16 arg1, u8 pos, u32 type);
+BOOL func_ov167_021cfdb0(BtlvCore *core);
+BOOL func_ov167_021cfdf0(s32 *seq, void *arg);
+void func_ov167_021cfe40(BtlvCore *core, u8 count, u32 type, const u8 *monIds, u16 arg4);
+BOOL func_ov167_021cfe7c(BtlvCore *core);
+void func_ov167_021cfeec(BtlvCore *core, u32 type);
+void func_ov167_021cff14(BtlvCore *core, u8 pos, u32 visible);
+void func_ov167_021cff44(BtlvCore *core, u8 pos);
+BOOL func_ov167_021cff60(BtlvCore *core);
+void func_ov167_021cff78(BtlvCore *core, u32 arg1, u32 arg2);
+BOOL func_ov167_021cff94(BtlvCore *core);
+void func_ov167_021cffa8(BtlvCore *core, u32 arg1, u32 arg2, u32 arg3);
+BOOL func_ov167_021cffb8(BtlvCore *core);
+void func_ov167_021cffcc(BtlvCore *core, u8 pos);
+BOOL func_ov167_021cffe8(BtlvCore *core);
+void func_ov167_021cfff8(BtlvCore *core, u8 pos);
+BOOL func_ov167_021d0008(BtlvCore *core);
+void func_ov167_021d0018(BtlvCore *core, u8 pos, u32 arg2);
+BOOL func_ov167_021d0038(BtlvCore *core);
+void func_ov167_021d0048(BtlvCore *core, u8 pos, u8 arg2, u8 arg3);
+BOOL func_ov167_021d0084(BtlvCore *core);
+BOOL func_ov167_021d00c4(s32 *seq, void *arg);
+void func_ov167_021d011c(const BtlvStringParam *param, StrBuf *strbuf);
+void func_ov167_021d01bc(BtlvCore *core, const StrBuf *src);
+void func_ov167_021d01c8(BtlvCore *core, const BtlvStringParam *param);
+void func_ov167_021d01d8(BtlvCore *core);
+void func_ov167_021d01ec(BtlvCore *core, const BtlvStringParam *param);
+void func_ov167_021d0210(BtlvCore *core, const BtlvStringParam *param, u32 arg2);
+void func_ov167_021d0234(BtlvCore *core, const BtlvStringParam *param);
+void func_ov167_021d0250(BtlvCore *core, u16 message, const u32 *args);
+void func_ov167_021d026c(BtlvCore *core, u16 message, const u32 *args);
+BOOL func_ov167_021d0288(BtlvCore *core, u32 trainerId, u32 msgId);
+void func_ov167_021d02cc(BtlvCore *core, u8 monId, u16 move);
+BOOL func_ov167_021d02e8(BtlvCore *core);
+BOOL func_ov167_021d02f8(BtlvCore *core);
+void func_ov167_021d0308(BtlvCore *core, const StrBuf *strbuf, u32 wait, u32 arg3);
+void func_ov167_021d0330(BtlvCore *core, const StrBuf *strbuf);
+void func_ov167_021d0340(BtlvCore *core, u32 arg1, u32 arg2);
+void func_ov167_021d0350(BtlvCore *core, u32 arg1);
+void func_ov167_021d0360(BtlvCore *core, u32 arg1);
+void func_ov167_021d0370(BtlvCore *core, u32 arg1);
+void func_ov167_021d0380(BtlvCore *core, u32 arg1);
+BOOL func_ov167_021d0390(BtlvCore *core, u32 arg1);
+void func_ov167_021d03a0(BtlvCore *core, u32 arg1);
+void func_ov167_021d03b0(BtlvCore *core, u32 arg1);
+BOOL func_ov167_021d03c0(BtlvCore *core, u32 arg1);
+void func_ov167_021d03d4(BtlvCore *core);
+BOOL func_ov167_021d03ec(BtlvCore *core);
+void func_ov167_021d03fc(BtlvCore *core);
+void func_ov167_021d0410(BtlvCore *core, u8 pos);
+void func_ov167_021d0428(BtlvCore *core, u8 pos);
+void func_ov167_021d0440(BtlvCore *core, u32 arg1, u32 arg2);
+BOOL func_ov167_021d0450(BtlvCore *core);
+void func_ov167_021d0460(BtlvCore *core, u32 arg1);
+BOOL func_ov167_021d047c(BtlvCore *core);
+void func_ov167_021d048c(BtlvCore *core, u32 arg1, u32 arg2);
+BOOL func_ov167_021d04ac(BtlvCore *core);
+void func_ov167_021d04bc(BtlvCore *core);
+BOOL func_ov167_021d04cc(BtlvCore *core);
+void func_ov167_021d04dc(BtlvCore *core, u8 clientId, u8 arg2, u8 arg3, u8 slot1, u8 slot2);
+BOOL func_ov167_021d0528(BtlvCore *core);
+BOOL func_ov167_021d0568(s32 *seq, void *arg);
+void func_ov167_021d05d4(BtlvCore *core);
+BOOL func_ov167_021d0608(BtlvCore *core, u32 arg1);
+void func_ov167_021d0630(BtlvCore *core);
+void func_ov167_021d0640(BtlvCore *core, u8 clientId, u8 arg2);
+BOOL func_ov167_021d06ac(BtlvCore *core);
+BOOL func_ov167_021d06ec(s32 *seq, void *arg);
+void func_ov167_021d0798(BtlvCore *core, const BtlvStringParam *param1, const BtlvStringParam *param2, u32 arg3);
+void func_ov167_021d0828(BtlvCore *core, u32 arg1);
+void func_ov167_021d0838(BtlvCore *core, u8 partyIndex, u16 move);
+BOOL func_ov167_021d0854(BtlvCore *core, u8 *slot);
+void func_ov167_021d0978(BtlvCore *core, u32 arg1, u32 arg2);
+BOOL func_ov167_021d0988(BtlvCore *core);
+void func_ov167_021d0998(BtlvCore *core);
+BOOL func_ov167_021d09a8(BtlvCore *core);
+void func_ov167_021d09b8(BtlvCore *core);
+BOOL func_ov167_021d09c8(BtlvCore *core);
+void func_ov167_021d09d8(BtlvCore *core);
+BOOL func_ov167_021d09e8(BtlvCore *core);
+void func_ov167_021d09f8(BtlvCore *core);
+BOOL func_ov167_021d0a08(BtlvCore *core);
+void BattleClientCmd_ForceQuitInputNotify(BtlvCore *core);
+BOOL BattleClientCmd_ForceQuitInputWait(BtlvCore *core);
+void func_ov167_021d0a38(BtlvCore *core);
+void func_ov167_021d0a48(BtlvCore *core, u32 arg1, u32 arg2);
+void func_ov167_021d0a7c(BtlvCore *core, u32 arg1);
+void func_ov167_021d0aa0(BtlvCore *core, u32 arg1, u32 arg2);
+void func_ov167_021d0ad4(BtlvCore *core, u32 se);
+void func_ov167_021d0b4c(BtlvStringParam *param, u8 mode);
+void func_ov167_021d0b50(BtlvCore *core, u32 arg1, u32 arg2);
+void func_ov167_021d0b70(BtlvCore *core, u32 arg1);
+BOOL func_ov167_021d0b90(BtlvCore *core);
+void func_ov167_021d0bac(BtlvCore *core, u32 arg1, u32 arg2, u32 arg3);
+void func_ov167_021d0be4(BtlvCore *core);
+void func_ov167_021d0bf4(BtlvCore *core, u32 arg1);
 
 #endif // POKEBW2_BATTLE_BTLV_H

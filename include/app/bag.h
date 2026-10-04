@@ -31,5 +31,7 @@ extern const GameProcFunctions data_ov142_021a0910;
 BagProcessData *func_02034ad0(GameData *gameData, void *a1, u32 mode, HeapID heapId);
 // Sets the item the bag opens on, in what unk0C points to
 void func_020088a4(void *a0, u16 item);
+void func_020088c4(void *a0, void *a1, void *a2);
+void func_020088e0(void *a0, u16 item, u8 a2);
 
 #endif // POKEBW2_APP_BAG_H

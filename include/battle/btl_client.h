@@ -29,4 +29,11 @@ BtlAdapter *func_ov167_021b1928(BtlClient *client);
 BOOL func_ov167_021b192c(BtlClient *client);
 void func_ov167_021b1d58(BtlClient *client, BtlClientIDList *list);
 
+BOOL func_ov167_021b1978(BtlClient *client);
+u16 func_ov167_021b198c(BtlClient *client);
+BOOL func_ov167_021b1990(BtlClient *client);
+u8 func_ov167_021b9174(BtlClient *client);
+BattleParty *func_ov167_021b9180(BtlClient *client);
+u8 func_ov167_021b91a4(BtlClient *client);
+
 #endif // POKEBW2_BATTLE_BTL_CLIENT_H
