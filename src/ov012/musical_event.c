@@ -468,13 +468,14 @@ static void func_ov012_02151384(MusicalEventWork *work) {
     u32 msgId;
     PlayerInfo *info;
     MusicalPoke *poke;
-    MusicalShotPoke *dst;
     u8 max = 0;
     u8 value;
     u8 i;
     u8 j;
+    u8 pos;
     u8 temp;
-    int count;
+    u8 rank;
+    u8 slot;
 
     work->shot = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(MusicalShotParam), FALSE, "musical_event.c", 798);
     work->shot->shot = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(MusicalShot), TRUE, "musical_event.c", 799);
@@ -504,40 +505,40 @@ static void func_ov012_02151384(MusicalEventWork *work) {
             shot->tops += 1 << i;
         }
     }
-    for (i = 0; i < 4; i++) {
+    for (pos = 0; pos < 4; pos++) {
         info = NULL;
-        poke = work->stage->pokes[i];
-        dst = &shot->pokes[i];
-        dst->species = poke->species;
-        dst->form = poke->form;
-        dst->unk2_2 = poke->unkC;
-        dst->unk2_3 = poke->unkB;
-        dst->personality = poke->personality;
-        if (i == work->playerPos) {
+        poke = work->stage->pokes[pos];
+        shot->pokes[pos].species = poke->species;
+        shot->pokes[pos].form = poke->form;
+        shot->pokes[pos].unk2_2 = poke->unkC;
+        shot->pokes[pos].unk2_3 = poke->unkB;
+        shot->pokes[pos].personality = poke->personality;
+        if (pos == work->playerPos) {
             info = GetGameDataPlayerInfo(work->gameData);
         } else if (work->online == TRUE) {
-            info = func_ov211_021ef9c4(work->comm, func_ov012_02151b88(work, i));
+            info = func_ov211_021ef9c4(work->comm, func_ov012_02151b88(work, pos));
         }
         if (info != NULL) {
-            sys_memcpy(info, dst->name, sizeof(dst->name));
+            sys_memcpy(info, shot->pokes[pos].name, sizeof(shot->pokes[pos].name));
         } else {
-            msgId = func_ov012_02152634(work->program, func_ov012_02151b14(work, func_ov012_02151b88(work, i)));
+            msgId = func_ov012_02152634(work->program, func_ov012_02151b14(work, func_ov012_02151b88(work, pos)));
             msgData = GFL_MsgSysLoadData(FALSE, 2, 0x61, HEAPID_GAMEEVENT);
             str = GFL_MsgDataLoadStrbufNew(msgData, msgId);
-            GFL_StrBufStoreString(str, dst->name, 8);
+            GFL_StrBufStoreString(str, shot->pokes[pos].name, 8);
             GFL_StrBufFree(str);
             GFL_MsgDataFree(msgData);
         }
         for (j = 0; j < 8; j++) {
-            dst->equips[j].itemId = 0xff;
-            dst->equips[j].unk2 = 0;
-            dst->equips[j].unk4 = 10;
+            shot->pokes[pos].equips[j].itemId = 0xff;
+            shot->pokes[pos].equips[j].unk2 = 0;
+            shot->pokes[pos].equips[j].unk4 = 10;
         }
         for (j = 0; j < 9; j++) {
             if (poke->equips[j].itemId != 0xff) {
-                dst->equips[poke->equips[j].slot].itemId = poke->equips[j].itemId;
-                dst->equips[poke->equips[j].slot].unk2 = poke->equips[j].unk2;
-                dst->equips[poke->equips[j].slot].unk4 = j;
+                slot = poke->equips[j].slot;
+                shot->pokes[pos].equips[slot].itemId = poke->equips[j].itemId;
+                shot->pokes[pos].equips[slot].unk2 = poke->equips[j].unk2;
+                shot->pokes[pos].equips[slot].unk4 = j;
             }
         }
     }
@@ -548,15 +549,14 @@ static void func_ov012_02151384(MusicalEventWork *work) {
         work->ranking[i] = i;
     }
     for (i = 0; i < 4; i++) {
-        count = 4 - (i + 1);
-        for (j = 0; j < count; j++) {
-            if (points[j] < points[j + 1]) {
+        for (j = 0; j < 4 - (i + 1); j++) {
+            if (points[j + 1] > points[j]) {
                 temp = points[j + 1];
+                rank = work->ranking[j + 1];
                 points[j + 1] = points[j];
-                points[j] = temp;
-                temp = work->ranking[j + 1];
                 work->ranking[j + 1] = work->ranking[j];
-                work->ranking[j] = temp;
+                points[j] = temp;
+                work->ranking[j] = rank;
             }
         }
     }
@@ -571,6 +571,7 @@ static void func_ov012_0215168c(MusicalEventWork *work) {
     void *items;
     MusicalPoke *poke;
     GameRecords *records;
+    u16 zoneId;
 
     points = func_ov012_02151bd4(work, work->playerPos);
     topPoints = func_ov012_02151bd4(work, work->ranking[0]);
@@ -595,7 +596,8 @@ static void func_ov012_0215168c(MusicalEventWork *work) {
         func_0200aec8(work->musicalSave, i, counts[i]);
     }
     func_ov210_021eef64(items);
-    FriendshipManagerCalc(work->pkm, 6, GameData_GetPlayerState(work->gameData)->zoneId, HEAPID_GAMEEVENT);
+    zoneId = GameData_GetPlayerState(work->gameData)->zoneId;
+    FriendshipManagerCalc(work->pkm, 6, zoneId, HEAPID_GAMEEVENT);
     records = GameData_GetRecords(work->gameData);
     if (work->online == FALSE) {
         RecordAddOne(records, 0x72);
@@ -624,7 +626,6 @@ static void func_ov012_0215179c(MusicalEventWork *work) {
     u8 index;
     u8 temp;
     u8 order[10];
-    const u8 *list;
     u8 j;
     u16 *otherTotal;
     u32 chance;
@@ -658,9 +659,8 @@ static void func_ov012_0215179c(MusicalEventWork *work) {
     program = func_ov012_0215261c(work->program);
     if (program < 7) {
         numProps = 0;
-        list = data_ov012_0216ae1c[program];
         for (i = 0; i < 40; i++) {
-            prop = list[i];
+            prop = data_ov012_0216ae1c[program][i];
             if (func_0200ad60(work->musicalSave, prop) == FALSE) {
                 props[numProps] = prop;
                 numProps++;
@@ -671,11 +671,11 @@ static void func_ov012_0215179c(MusicalEventWork *work) {
     for (i = 0; i < 10; i++) {
         order[i] = i;
     }
-    for (j = 0; j < 10; j++) {
-        for (i = 0; i < 10; i++) {
+    for (i = 0; i < 10; i++) {
+        for (j = 0; j < 10; j++) {
             index = GFL_RandomLCAlt(10);
-            temp = order[i];
-            order[i] = order[index];
+            temp = order[j];
+            order[j] = order[index];
             order[index] = temp;
         }
     }
@@ -878,20 +878,27 @@ u8 func_ov012_02151c3c(MusicalEventWork *work, u8 rank) {
 }
 
 u8 func_ov012_02151c44(MusicalEventWork *work, u8 pos) {
-    MusicalPoke *poke = work->stage->pokes[pos];
-    u8 max = 0;
-    u8 best = 0;
-    BOOL tie = FALSE;
+    u8 best;
     u8 i;
+    u8 max;
+    BOOL tie;
+    MusicalPoke *poke;
 
-    for (i = 0; i < 4; i++) {
+    max = 0;
+    best = 0;
+    tie = FALSE;
+    i = 0;
+    poke = work->stage->pokes[pos];
+
+    while (i < 4) {
         if (max < poke->unk4C[i]) {
-            max = poke->unk4C[i];
             tie = FALSE;
             best = i;
+            max = poke->unk4C[i];
         } else if (max == poke->unk4C[i]) {
             tie = TRUE;
         }
+        i++;
     }
     if (tie == TRUE) {
         best = 4;

@@ -41,6 +41,11 @@ Same instructions, registers swapped.
 - Two stores of the same constant share a register when chained, and not when written as two initializers.
   `second = first = TRUE;` stores `first` first. `nearXZ = FALSE; nearY = FALSE;` in that order loads the zero twice,
   while the other order shares it.
+- A pointer local to an element of a struct, like `dst = &shot->pokes[i]`, takes a callee-saved register of its own
+  and can push the struct's pointer to the stack along with a constant MWCC keeps for it. The musical's photo
+  (`musical_event.c`'s `func_ov012_02151384`) only matches with `shot->pokes[pos].field` written at each use.
+- Two loops that reuse one counter and both spill it share its stack slots in the order MWCC splits the variable,
+  not in declaration order; giving the second loop a counter of its own, as `pos` in the same function, moves it.
 - Variables declared in an inner block are allocated apart from the function's variables of the same name: in
   `ShinkaDemoPieces_Move`, the branch that moves a piece home declares its own `dx` and `dz`, which live on the stack
   while the other branches keep theirs in registers.
