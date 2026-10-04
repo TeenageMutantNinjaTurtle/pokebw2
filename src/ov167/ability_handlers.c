@@ -5,7 +5,7 @@
 #include "battle/btl_field.h"
 #include "battle/btl_handler.h"
 #include "battle/btl_main.h"
-#include "battle/btl_math.h"
+#include "battle/btl_calc.h"
 #include "battle/btl_pokeparam.h"
 #include "battle/btl_server_flow.h"
 #include "pml/waza.h"
@@ -17,11 +17,7 @@ extern const BattleEventHandlerEntry data_ov167_021d78cc[];
 
 extern const BattleEventHandlerEntry data_ov167_021d78c4[];
 
-u32 func_ov167_021bd52c(u32 status);
-
-void CommonContactStatusAbility(BtlServerFlow *flow, u32 monId, u32 status, u32 value, u32 chance);
-
-s32 func_ov167_021bd31c(s32 value, s32 minimum);
+void CommonContactStatusAbility(BtlServerFlow *flow, u32 monId, u32 status, BattleCondition condition, u32 chance);
 
 // Function names from swan.
 u32 numHandlersWithHandlerPri(u32 priority, u32 count) {
@@ -1405,10 +1401,10 @@ const BattleEventHandlerEntry *EventAddAngerPoint(u32 *priority) {
 }
 
 void HandlerPoisonPoint(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
-    u32 value;
+    BattleCondition condition;
 
-    value = func_ov167_021bd52c(5);
-    CommonContactStatusAbility(flow, monId, 5, value, 0x1e);
+    condition = func_ov167_021bd52c(5);
+    CommonContactStatusAbility(flow, monId, 5, condition, 0x1e);
 }
 
 // Function name from swan.
@@ -1418,10 +1414,10 @@ const BattleEventHandlerEntry *EventAddPoisonPoint(u32 *priority) {
 }
 
 void HandlerStatic(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
-    u32 value;
+    BattleCondition condition;
 
-    value = func_ov167_021bd52c(1);
-    CommonContactStatusAbility(flow, monId, 1, value, 0x1e);
+    condition = func_ov167_021bd52c(1);
+    CommonContactStatusAbility(flow, monId, 1, condition, 0x1e);
 }
 
 // Function name from swan.
@@ -1431,10 +1427,10 @@ const BattleEventHandlerEntry *EventAddStatic(u32 *priority) {
 }
 
 void HandlerFlameBody(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u32 *work) {
-    u32 value;
+    BattleCondition condition;
 
-    value = func_ov167_021bd52c(4);
-    CommonContactStatusAbility(flow, monId, 4, value, 0x1e);
+    condition = func_ov167_021bd52c(4);
+    CommonContactStatusAbility(flow, monId, 4, condition, 0x1e);
 }
 
 // Function name from swan.

@@ -1,6 +1,7 @@
 #include "types.h"
 #include "battle/btl_action.h"
 #include "battle/btl_field.h"
+#include "battle/btl_calc.h"
 #include "battle/btl_pokeparam.h"
 #include "constants/pokemon.h"
 #include "gfl/std.h"

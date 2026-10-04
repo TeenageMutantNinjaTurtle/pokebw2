@@ -82,6 +82,7 @@ typedef struct BtlServer BtlServer;
 typedef struct BtlServerFlow BtlServerFlow;
 typedef struct BtlFieldSituation BtlFieldSituation;
 typedef struct BtlSetup BtlSetup;
+typedef struct BtlSetupTrainer BtlSetupTrainer;
 typedef struct BtlvStringParam BtlvStringParam;
 typedef struct CGearShutdownData CGearShutdownData;
 typedef struct ChatotEventWork ChatotEventWork;

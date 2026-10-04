@@ -19,12 +19,21 @@ struct BtlFieldSituation {
     u8 unk1b;
 };
 
+// A trainer the battle is set up with
+struct BtlSetupTrainer {
+    u32 trainerId;
+};
+
 struct BtlSetup {
     u32 battleType;
     u32 battleStyle;
     BtlFieldSituation fieldSituation;
-    PokeParty *party;
-    u8 unk28[0x4c];
+    // The parties of the four clients
+    PokeParty *party[4];
+    u8 unk34[0x14];
+    // The trainers of the four clients
+    BtlSetupTrainer *trainers[4];
+    u8 unk58[0x1c];
     Config *config;
     BagSave *bag;
     u8 unk7c[8];
@@ -65,6 +74,5 @@ void func_020186b0(BtlSetup *setup, u32 a1);
 void func_0201f63c(Regulation *regulation, PokeParty *party);
 void func_0200bb24(HeapID heapId);
 void freeVSPlayerBlkClearPtr(void);
-u32 GetNumMonsOnField(u32 battleType, u32 count);
 
 #endif // POKEBW2_BATTLE_BTL_SETUP_H

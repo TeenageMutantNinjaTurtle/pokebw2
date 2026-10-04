@@ -17,7 +17,7 @@ BOOL func_ov167_021ce168(BattleCondition condition) {
     return FALSE;
 }
 
-BattleCondition SetConditionTurns(u32 turns) {
+BattleCondition SetConditionTurns(u8 turns) {
     BattleCondition condition;
 
     condition.raw = 0;
@@ -63,7 +63,7 @@ BattleCondition MakeConditionParamPermanent(u16 param) {
     return condition;
 }
 
-BattleCondition func_ov167_021ce238(u32 turns, u16 param) {
+BattleCondition func_ov167_021ce238(u8 turns, u16 param) {
     BattleCondition condition;
 
     condition.raw = 0;
@@ -73,7 +73,7 @@ BattleCondition func_ov167_021ce238(u32 turns, u16 param) {
     return condition;
 }
 
-BattleCondition func_ov167_021ce268(u32 monId, u32 turns) {
+BattleCondition func_ov167_021ce268(u32 monId, u8 turns) {
     BattleCondition condition;
 
     condition.raw = 0;

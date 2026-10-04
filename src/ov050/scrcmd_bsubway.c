@@ -783,7 +783,7 @@ BOOL BSubwayCmd_Tool(VM *vm, FieldScriptEnv *env) {
             u8 a = bsw->btlSetup->unkD2;
             u8 b = bsw->btlSetup->unkDB;
             int count;
-            PokeParty *party = bsw->btlSetup->party;
+            PokeParty *party = bsw->btlSetup->party[0];
             int i;
             u32 hp;
             u32 hpSum;
