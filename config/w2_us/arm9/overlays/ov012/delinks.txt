@@ -96,7 +96,9 @@ src/ov012/event_battle_lose.c:
     .text       start:0x0215a0f0 end:0x0215a1dc
 
 src/ov012/event_game_clear.c:
+    complete
     .text       start:0x0215a1dc end:0x0215a7e4
+    .rodata     start:0x0216cb78 end:0x0216cbb4
 
 src/ov012/event_field_menu.c:
     complete

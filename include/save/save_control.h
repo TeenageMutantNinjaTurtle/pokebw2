@@ -155,6 +155,8 @@ DreamWorldSave *getDreamWorldStuffAddress(SaveControl *save);
 HighLinkSave *getHighLinkBlockAddress(SaveControl *save);
 void *func_02010dec(SaveControl *save);
 KeyInfoSave *getKeyInfoSaveBlk(SaveControl *save);
+// Whether a key system key is unlocked
+BOOL func_020104c4(KeyInfoSave *keyInfo, u32 key);
 RecordSave *getRecordBlkAddress(SaveControl *save);
 AdventureSave *getSaveAdventureDataBlk(SaveControl *save);
 AdventureTime *getSaveAdventureTimeBlock(SaveControl *save);

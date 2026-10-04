@@ -156,7 +156,7 @@ void FieldScript_CallOnZoneReload(GameSystem *gsys, u32 arg1);
 void FieldScript_CallOnZoneNewLoad(GameSystem *gsys, u32 arg1);
 void FieldScript_CallOnZoneInit(GameSystem *gsys, u32 a1);
 void FieldScript_CallPlayerInitSetup(GameSystem *gsys, u32 a1);
-void FieldScript_CallPlayerPostHOFSetup(GameSystem *gsys);
+void FieldScript_CallPlayerPostHOFSetup(GameSystem *gsys, u32 unused);
 void resetRebattleTrainers(EventWork *eventWork);
 
 // A field script command. env is the running script's environment

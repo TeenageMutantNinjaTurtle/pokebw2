@@ -17,6 +17,7 @@ BOOL GFL_SndBGMIsPlaying(void);
 #define SND_PLAYER_MASK_ALL 0x3f
 
 void GFL_SndBGMPlay(u32 bgm, u32 channelMask);
+void GFL_SndBGMStop(u32 bgm);
 void GFL_SndBGMPop(void);
 void GFL_SndBGMPush(void);
 void GFL_SndBGMSetPaused(BOOL paused);

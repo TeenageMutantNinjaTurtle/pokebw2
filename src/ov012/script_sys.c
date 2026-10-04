@@ -202,7 +202,7 @@ void FieldScript_CallPlayerInitSetup(GameSystem *gsys, u32 a1) {
     FieldScript_Run(gsys, NULL, 0x2580, 2);
 }
 
-void FieldScript_CallPlayerPostHOFSetup(GameSystem *gsys) {
+void FieldScript_CallPlayerPostHOFSetup(GameSystem *gsys, u32 unused) {
     FieldScript_Run(gsys, NULL, 0x2581, 2);
 }
 

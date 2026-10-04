@@ -3,59 +3,228 @@
 #include "constants/version.h"
 #include "field/encounter.h"
 #include "field/event_game_clear.h"
+#include "field/event_3d_demo.h"
 #include "field/event_mapchange.h"
+#include "field/field.h"
+#include "field/field_event.h"
+#include "field/field_script.h"
+#include "field/field_script_event.h"
+#include "field/subscreen.h"
+#include "gfl/graphics.h"
 #include "gfl/overlay.h"
+#include "gfl/sound.h"
 #include "gfl/std.h"
 #include "pml/poke_party.h"
+#include "app/unova_link.h"
 #include "save/config.h"
+#include "save/event_work.h"
 #include "save/medal_box.h"
 #include "save/save_control.h"
 #include "save/trainer_card.h"
 #include "system/game_data.h"
 #include "system/game_event.h"
+#include "system/game_comm.h"
 #include "system/game_system.h"
 #include "system/version.h"
 
-GameEvent *EventGameClear_Create(GameSystem *gsys, void *param) {
+// Where the player returns to after the credits, in each version
+static const VecFx32 sEndingPositionA = { 31 * 16 * FX32_ONE, 47 * 16 * FX32_ONE, 16 * FX32_ONE };
+static const VecFx32 sEndingPositionB = { 43 * 16 * FX32_ONE, 16 * FX32_ONE, 757 * 16 * FX32_ONE };
+
+GameEventReturnCode EventGameClear_Callback(GameEvent *event, u32 *state, void *data) {
+    GameClearWork *work = data;
+    GameSystem *gsys = work->gameSystem;
+    GameData *gameData = work->gameData;
+    SaveControl *save = GameData_GetSaveControl(gameData);
+    Field *field = GSYS_GetField(work->gameSystem);
+    GameCommSys *comm = GSYS_GetGameCommSystem(work->gameSystem);
+    VecFx32 positionA;
+    VecFx32 positionB;
+    u32 enabled;
+
+    switch (work->current) {
+    case 0:
+        func_ov012_0215a670(work);
+        EventWork_FlagSet(GameData_GetEventWork(gameData), 0x9f8);
+        EventGameClear_GiveMonotypeMedals(work);
+        GFL_SndBGMFadeOut(30);
+        EventGameClear_NextState(work, state);
+        break;
+    case 1:
+        GameEvent_ChainNext(event, CallFieldMapEntranceOutTransitionDefault(gsys, field, 0, 0));
+        EventGameClear_NextState(work, state);
+        break;
+    case 2:
+        if (GameCommSys_BootCheck(comm)) {
+            GameCommSys_ExitReq(comm);
+        }
+        EventGameClear_NextState(work, state);
+        break;
+    case 3:
+        if (!GameCommSys_BootCheck(comm)) {
+            EventGameClear_NextState(work, state);
+        }
+        break;
+    case 4:
+        GameEvent_ChainNext(event, EventFieldCloseKeepSound_Create(gsys, field));
+        EventGameClear_NextState(work, state);
+        break;
+    case 5:
+        GSYS_QueueProc(gsys, OVERLAY_ID(265), &data_ov265_0219b7d0, &work->ov265Param);
+        EventGameClear_NextState(work, state);
+        break;
+    case 6:
+        if (!GSYS_GetProcMgrState(gsys)) {
+            EventGameClear_NextState(work, state);
+        }
+        break;
+    case 7:
+        GSYS_QueueProc(gsys, OVERLAY_ID(266), &data_ov266_0219e518, &work->ov266Param);
+        EventGameClear_NextState(work, state);
+        break;
+    case 8:
+        if (!GSYS_GetProcMgrState(gsys)) {
+            EventGameClear_NextState(work, state);
+        }
+        break;
+    case 9:
+        GameEvent_ChainNext(event, Event3DDemo_Create(gsys, event, EventGameClear_Get3DDemoID(), 0, 0));
+        EventGameClear_NextState(work, state);
+        break;
+    case 10:
+        FieldScript_CallPlayerPostHOFSetup(gsys, 4);
+        EventGameClear_NextState(work, state);
+        break;
+    case 11:
+        if (!func_020104c4(getKeyInfoSaveBlk(save), work->unovaLinkParam.unk08)) {
+            GSYS_QueueProcAsEvent(event, OVERLAY_ID(332), &UNOVA_LINK_PROC_FUNCTIONS, &work->unovaLinkParam);
+        }
+        EventGameClear_NextState(work, state);
+        break;
+    case 12:
+        GSYS_QueueProcAsEvent(event, OVERLAY_ID(295), &data_ov295_0219d708, &work->ov295Param);
+        EventGameClear_NextState(work, state);
+        break;
+    case 13:
+        if (work->counter > 60) {
+            work->counter = 0;
+            EventGameClear_NextState(work, state);
+        }
+        work->counter++;
+        break;
+    case 14:
+        GSYS_QueueProcAsEvent(event, OVERLAY_ID(267), &data_ov267_0219d470, &work->ov267Param);
+        func_02016b40(gsys, 0);
+        EventGameClear_NextState(work, state);
+        break;
+    case 15:
+        positionA = sEndingPositionA;
+        GameEvent_ChainNext(event, EventMapChangeEnding_Create(gsys, field, 0x8b, &positionA, 1));
+        EventGameClear_NextState(work, state);
+        break;
+    case 16:
+        positionB = sEndingPositionB;
+        GameEvent_ChainNext(event, EventMapChangeEnding_Create(gsys, field, 0x1ab, &positionB, 1));
+        EventGameClear_NextState(work, state);
+        break;
+    case 17:
+        enabled = GFL_BGSysGetEnabledBGsA();
+        FieldG2D_SetLCDConfig();
+        GFL_BGSysSetEnabledBGsA(enabled);
+        FieldG2D_Prepare3DSurface(field);
+        FieldSubscreen_ChangeImm(Field_GetSubscreen(field), 5);
+        EventScriptCall_Start(event, 1, NULL, 0, 4);
+        EventGameClear_NextState(work, state);
+        break;
+    case 18:
+        enabled = GFL_BGSysGetEnabledBGsA();
+        FieldG2D_SetLCDConfig();
+        GFL_BGSysSetEnabledBGsA(enabled);
+        FieldG2D_Prepare3DSurface(field);
+        FieldSubscreen_ChangeImm(Field_GetSubscreen(field), 5);
+        EventScriptCall_Start(event, 0x20, NULL, 0, 4);
+        EventGameClear_NextState(work, state);
+        break;
+    case 19:
+        GameEvent_ChainNext(event, EventFieldOpen_Create(gsys));
+        EventGameClear_NextState(work, state);
+        break;
+    case 20:
+        GameEvent_ChainNext(event, CallFieldMapEntranceInTransition(gsys, field, 0, 0, 1, 0, 0));
+        EventGameClear_NextState(work, state);
+        break;
+    case 21:
+        GFL_SndBGMStop(0x3f8);
+        EventGameClear_NextState(work, state);
+        break;
+    case 22:
+        GFL_SndBGMPlay(0x4f4, 0xffff);
+        EventGameClear_NextState(work, state);
+        break;
+    case 23:
+        if (GFL_SndBGMIsPlaying() == TRUE) {
+            GFL_SndBGMFadeOut(64);
+        }
+        EventGameClear_NextState(work, state);
+        break;
+    case 24:
+        if (GFL_SndBGMIsFading() == TRUE) {
+            break;
+        }
+        if (GFL_SndBGMIsPlaying() == TRUE) {
+            func_02005d8c();
+        }
+        EventGameClear_NextState(work, state);
+        break;
+    case 25:
+        EventWork_FlagReset(GameData_GetEventWork(gameData), 0x9f8);
+        return GAMEEVENT_DONE;
+    case 26:
+        return GAMEEVENT_CONTINUE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEvent *EventGameClear_Create(GameSystem *gsys, u32 param) {
     GameData *gameData = GSYS_GetGameData(gsys);
     GameEvent *event = GameEvent_Create(gsys, NULL, EventGameClear_Callback, sizeof(GameClearWork));
     GameClearWork *work = GameEvent_GetData(event);
 
     work->gameSystem = gsys;
     work->gameData = gameData;
-    work->unk08 = (u32)param;
+    work->unk08 = param;
     work->unk10 = GetGameDataPlayerInfo(gameData);
-    work->unkC4 = 0;
-    work->unk14 = gsys;
-    work->unk18 = param;
+    work->counter = 0;
+    work->ov295Param.gsys = gsys;
+    work->ov295Param.param = param;
     func_ov012_02159220(gameData);
     SetGameClearGameData(work);
     func_ov012_0215a50c(work);
-    work->unk3C = gameData;
-    work->unk38 = 0;
+    work->unovaLinkParam.gameData = gameData;
+    work->unovaLinkParam.unk00 = 0;
 #ifdef BLACK2
-    work->unk40 = 1;
+    work->unovaLinkParam.unk08 = 1;
 #else
-    work->unk40 = 0;
+    work->unovaLinkParam.unk08 = 0;
 #endif
     SetGameClearStatusSequence(work);
     return event;
 }
 
 void SetGameClearGameData(GameClearWork *work) {
-    work->party = GameData_GetParty(work->gameData);
-    work->playerInfo = GetGameDataPlayerInfo(work->gameData);
-    work->unk24 = func_02017a40(work->gameData);
+    work->ov265Param.party = GameData_GetParty(work->gameData);
+    work->ov265Param.playerInfo = GetGameDataPlayerInfo(work->gameData);
+    work->ov265Param.unk08 = func_02017a40(work->gameData);
 }
 
 void func_ov012_0215a50c(GameClearWork *work) {
     u32 value;
 
-    work->unk28 = work->unk08 == 1;
-    work->unk30 = GetGameDataPlayerInfo(work->gameData);
+    work->ov266Param.unk00 = work->unk08 == 1;
+    work->ov266Param.playerInfo = GetGameDataPlayerInfo(work->gameData);
     value = func_02008a84(getTrainerDataBlkAddress(GameData_GetSaveControl(work->gameData)));
-    work->unk2C = value;
-    work->unk34 = value;
+    work->ov266Param.unk04 = value;
+    work->ov267Param.unk00 = value;
 }
 
 void SetGameClearStatusSequence(GameClearWork *work) {

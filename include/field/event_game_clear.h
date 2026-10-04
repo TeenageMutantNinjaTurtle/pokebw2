@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_EVENT_GAME_CLEAR_H
 
 #include "types.h"
+#include "gfl/proc.h"
 #include "struct_decls.h"
 #include "system/game_event.h"
 
@@ -11,25 +12,44 @@ struct GameClearWork {
     u32 unk08;
     u8 unk0C[4];
     PlayerInfo *unk10;
-    GameSystem *unk14;
-    void *unk18;
-    PokeParty *party;
-    PlayerInfo *playerInfo;
-    u32 unk24;
-    u32 unk28;
-    u32 unk2C;
-    PlayerInfo *unk30;
-    u32 unk34;
-    u32 unk38;
-    GameData *unk3C;
-    u32 unk40;
+    // The parameters of the procs that the event runs
+    struct {
+        GameSystem *gsys;
+        u32 param;
+    } ov295Param;
+    struct {
+        PokeParty *party;
+        PlayerInfo *playerInfo;
+        u32 unk08;
+    } ov265Param;
+    struct {
+        BOOL unk00;
+        u32 unk04;
+        PlayerInfo *playerInfo;
+    } ov266Param;
+    struct {
+        u32 unk00;
+    } ov267Param;
+    struct {
+        u32 unk00;
+        GameData *gameData;
+        // 1 in Black 2 and 0 in White 2
+        u32 unk08;
+    } unovaLinkParam;
+    // The state that runs, from the sequence that SetGameClearStatusSequence builds
     u32 current;
     u32 states[31];
-    u32 unkC4;
+    s32 counter;
 };
 
+// The procs it runs, in overlays 265, 266, 267 and 295
+extern const GameProcFunctions data_ov265_0219b7d0;
+extern const GameProcFunctions data_ov266_0219e518;
+extern const GameProcFunctions data_ov267_0219d470;
+extern const GameProcFunctions data_ov295_0219d708;
+
 GameEventReturnCode EventGameClear_Callback(GameEvent *event, u32 *state, void *data);
-GameEvent *EventGameClear_Create(GameSystem *gsys, void *param);
+GameEvent *EventGameClear_Create(GameSystem *gsys, u32 param);
 void SetGameClearGameData(GameClearWork *work);
 void func_ov012_0215a50c(GameClearWork *work);
 void SetGameClearStatusSequence(GameClearWork *work);
