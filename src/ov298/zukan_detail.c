@@ -48,6 +48,7 @@ static BOOL ZukanDetail_Init(GameProc *proc, u32 *state, void *param_, void *wor
     wk->heapId = HEAPID_ZUKAN_DETAIL;
     param->result = ZUKAN_DETAIL_RESULT_CLOSE;
 
+    // The graphics are created with the 3D system and freed at once, then created for good without it
     wk->graphic = ZukanDetailGraphic_Create(0, wk->heapId, TRUE);
     ZukanDetailGraphic_Free(wk->graphic);
     wk->graphic = ZukanDetailGraphic_Create(0, wk->heapId, FALSE);
@@ -98,7 +99,7 @@ static BOOL ZukanDetail_Main(GameProc *proc, u32 *state, void *param_, void *wor
     BOOL pageChanged = FALSE;
     int command;
 
-    // The state counts the first frames, as the int that GFL's process functions take
+    // The state counts the first frames, and the original compares it as signed
     if ((int)*state <= 8) {
         (*state)++;
     }

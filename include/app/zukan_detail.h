@@ -145,24 +145,24 @@ void ZukanDetailBlend_InitPlanes(ZukanDetailBlend *blend);
 
 // Fades the palettes of the screens to black and back
 enum {
-    PALFADE_MAIN_BG = 1 << 0,
-    PALFADE_SUB_BG = 1 << 1,
-    PALFADE_MAIN_OBJ = 1 << 2,
-    PALFADE_SUB_OBJ = 1 << 3,
+    ZUKAN_DETAIL_PALFADE_MAIN_BG = 1 << 0,
+    ZUKAN_DETAIL_PALFADE_SUB_BG = 1 << 1,
+    ZUKAN_DETAIL_PALFADE_MAIN_OBJ = 1 << 2,
+    ZUKAN_DETAIL_PALFADE_SUB_OBJ = 1 << 3,
 };
 
 enum {
-    PALFADE_SHOWN,
-    PALFADE_HIDDEN,
-    PALFADE_FADING_IN,
-    PALFADE_FADING_OUT,
+    ZUKAN_DETAIL_PALFADE_SHOWN,
+    ZUKAN_DETAIL_PALFADE_HIDDEN,
+    ZUKAN_DETAIL_PALFADE_FADING_IN,
+    ZUKAN_DETAIL_PALFADE_FADING_OUT,
 };
 
 struct ZukanDetailPalFade {
     TCBManager *tcbMgr;
     void *tcbBuffer;
     void *palette;
-    // The PALFADE_* palettes that it fades
+    // The ZUKAN_DETAIL_PALFADE_* palettes that it fades
     u16 buffers;
     int state;
 };
@@ -371,7 +371,7 @@ ZukanDetailHeadbar *ZukanDetailHeadbar_Create(HeapID heapId, Font *font);
 void ZukanDetailHeadbar_Free(ZukanDetailHeadbar *headbar);
 void ZukanDetailHeadbar_Update(ZukanDetailHeadbar *headbar);
 
-// zukan_detail_info.c: the Pokémon's info
+// zukan_detail_info.c, a guessed name, as the ROM names neither this file nor the map's: the Pokémon's info
 
 typedef struct {
     HeapID heapId;
@@ -381,7 +381,7 @@ extern const ZukanDetailProcFuncs ZUKAN_DETAIL_INFO_PROC_FUNCS;
 
 void ZukanDetailInfo_InitParam(ZukanDetailInfoParam *param, HeapID heapId);
 
-// zukan_detail_map.c: where the Pokémon lives
+// zukan_detail_map.c, a guessed name: where the Pokémon lives
 
 typedef struct {
     HeapID heapId;

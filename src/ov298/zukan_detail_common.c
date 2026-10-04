@@ -8,6 +8,7 @@
 #include "gfl/graphics.h"
 #include "gfl/heap.h"
 #include "gfl/tcb.h"
+#include "nitro/gx.h"
 #include "nitro/hw.h"
 #include "save/pokedex.h"
 #include "system/game_data.h"
@@ -192,8 +193,8 @@ void ZukanDetailBlend_SetOut(u32 screen, ZukanDetailBlend *blend) {
 }
 
 void ZukanDetailBlend_InitPlanes(ZukanDetailBlend *blend) {
-    blend->plane1 = 0x2d;
-    blend->plane2 = 0x2d;
+    blend->plane1 = GX_BLEND_PLANEMASK_BG0 | GX_BLEND_PLANEMASK_BG2 | GX_BLEND_PLANEMASK_BG3 | GX_BLEND_PLANEMASK_BD;
+    blend->plane2 = GX_BLEND_PLANEMASK_BG0 | GX_BLEND_PLANEMASK_BG2 | GX_BLEND_PLANEMASK_BG3 | GX_BLEND_PLANEMASK_BD;
 }
 
 static void ZukanDetailBlend_Apply(u32 screen, ZukanDetailBlend *blend) {
@@ -211,37 +212,38 @@ ZukanDetailPalFade *ZukanDetailPalFade_CreateEx(HeapID heapId, u16 buffers) {
     fade->palette = func_02026dc0(heapId);
     func_0202778c(fade->palette, 1);
     fade->buffers = buffers;
-    if (fade->buffers & PALFADE_MAIN_BG) {
+    if (fade->buffers & ZUKAN_DETAIL_PALFADE_MAIN_BG) {
         func_02026e04(fade->palette, 0, 0x1a0, heapId);
     }
-    if (fade->buffers & PALFADE_MAIN_OBJ) {
+    if (fade->buffers & ZUKAN_DETAIL_PALFADE_MAIN_OBJ) {
         func_02026e04(fade->palette, 2, 0x100, heapId);
     }
-    if (fade->buffers & PALFADE_SUB_BG) {
+    if (fade->buffers & ZUKAN_DETAIL_PALFADE_SUB_BG) {
         func_02026e04(fade->palette, 1, 0x1a0, heapId);
     }
-    if (fade->buffers & PALFADE_SUB_OBJ) {
+    if (fade->buffers & ZUKAN_DETAIL_PALFADE_SUB_OBJ) {
         func_02026e04(fade->palette, 3, 0x1c0, heapId);
     }
-    fade->state = PALFADE_SHOWN;
+    fade->state = ZUKAN_DETAIL_PALFADE_SHOWN;
     return fade;
 }
 
 ZukanDetailPalFade *ZukanDetailPalFade_Create(HeapID heapId) {
-    return ZukanDetailPalFade_CreateEx(heapId, PALFADE_MAIN_BG | PALFADE_SUB_BG | PALFADE_MAIN_OBJ | PALFADE_SUB_OBJ);
+    return ZukanDetailPalFade_CreateEx(heapId, ZUKAN_DETAIL_PALFADE_MAIN_BG | ZUKAN_DETAIL_PALFADE_SUB_BG |
+                                                   ZUKAN_DETAIL_PALFADE_MAIN_OBJ | ZUKAN_DETAIL_PALFADE_SUB_OBJ);
 }
 
 void ZukanDetailPalFade_Free(ZukanDetailPalFade *fade) {
-    if (fade->buffers & PALFADE_SUB_OBJ) {
+    if (fade->buffers & ZUKAN_DETAIL_PALFADE_SUB_OBJ) {
         func_02026e48(fade->palette, 3);
     }
-    if (fade->buffers & PALFADE_SUB_BG) {
+    if (fade->buffers & ZUKAN_DETAIL_PALFADE_SUB_BG) {
         func_02026e48(fade->palette, 1);
     }
-    if (fade->buffers & PALFADE_MAIN_OBJ) {
+    if (fade->buffers & ZUKAN_DETAIL_PALFADE_MAIN_OBJ) {
         func_02026e48(fade->palette, 2);
     }
-    if (fade->buffers & PALFADE_MAIN_BG) {
+    if (fade->buffers & ZUKAN_DETAIL_PALFADE_MAIN_BG) {
         func_02026e48(fade->palette, 0);
     }
     func_02026de8(fade->palette);
@@ -253,17 +255,17 @@ void ZukanDetailPalFade_Free(ZukanDetailPalFade *fade) {
 void ZukanDetailPalFade_Update(ZukanDetailPalFade *fade) {
     GFL_TCBMgrUpdate(fade->tcbMgr);
     switch (fade->state) {
-    case PALFADE_SHOWN:
-    case PALFADE_HIDDEN:
+    case ZUKAN_DETAIL_PALFADE_SHOWN:
+    case ZUKAN_DETAIL_PALFADE_HIDDEN:
         break;
-    case PALFADE_FADING_IN:
+    case ZUKAN_DETAIL_PALFADE_FADING_IN:
         if (!func_02027780(fade->palette)) {
-            fade->state = PALFADE_SHOWN;
+            fade->state = ZUKAN_DETAIL_PALFADE_SHOWN;
         }
         break;
-    case PALFADE_FADING_OUT:
+    case ZUKAN_DETAIL_PALFADE_FADING_OUT:
         if (!func_02027780(fade->palette)) {
-            fade->state = PALFADE_HIDDEN;
+            fade->state = ZUKAN_DETAIL_PALFADE_HIDDEN;
         }
         break;
     }
@@ -274,7 +276,7 @@ void ZukanDetailPalFade_VBlank(ZukanDetailPalFade *fade) {
 }
 
 BOOL ZukanDetailPalFade_IsFading(ZukanDetailPalFade *fade) {
-    if (fade->state == PALFADE_FADING_IN || fade->state == PALFADE_FADING_OUT) {
+    if (fade->state == ZUKAN_DETAIL_PALFADE_FADING_IN || fade->state == ZUKAN_DETAIL_PALFADE_FADING_OUT) {
         return TRUE;
     }
     return FALSE;
@@ -283,21 +285,21 @@ BOOL ZukanDetailPalFade_IsFading(ZukanDetailPalFade *fade) {
 void ZukanDetailPalFade_StartIn(ZukanDetailPalFade *fade) {
     if (!ZukanDetailPalFade_IsFading(fade)) {
         ZukanDetailPalFade_Start(fade, -1, 16, 0);
-        fade->state = PALFADE_FADING_IN;
+        fade->state = ZUKAN_DETAIL_PALFADE_FADING_IN;
     }
 }
 
 void ZukanDetailPalFade_StartOut(ZukanDetailPalFade *fade) {
     if (!ZukanDetailPalFade_IsFading(fade)) {
         ZukanDetailPalFade_Start(fade, -1, 0, 16);
-        fade->state = PALFADE_FADING_OUT;
+        fade->state = ZUKAN_DETAIL_PALFADE_FADING_OUT;
     }
 }
 
 void ZukanDetailPalFade_SetHidden(ZukanDetailPalFade *fade) {
     if (!ZukanDetailPalFade_IsFading(fade)) {
         ZukanDetailPalFade_Start(fade, 0, 16, 16);
-        fade->state = PALFADE_HIDDEN;
+        fade->state = ZUKAN_DETAIL_PALFADE_HIDDEN;
     }
 }
 
@@ -307,32 +309,32 @@ void ZukanDetailPalFade_LoadPalette(ZukanDetailPalFade *fade, u32 arcId, u32 fil
 }
 
 void ZukanDetailPalFade_ReadPalettes(ZukanDetailPalFade *fade) {
-    if (fade->buffers & PALFADE_MAIN_BG) {
+    if (fade->buffers & ZUKAN_DETAIL_PALFADE_MAIN_BG) {
         func_02026f7c(fade->palette, 0, 0, 0x1a0);
     }
-    if (fade->buffers & PALFADE_MAIN_OBJ) {
+    if (fade->buffers & ZUKAN_DETAIL_PALFADE_MAIN_OBJ) {
         func_02026f7c(fade->palette, 2, 0, 0x100);
     }
-    if (fade->buffers & PALFADE_SUB_BG) {
+    if (fade->buffers & ZUKAN_DETAIL_PALFADE_SUB_BG) {
         func_02026f7c(fade->palette, 1, 0, 0x1a0);
     }
-    if (fade->buffers & PALFADE_SUB_OBJ) {
+    if (fade->buffers & ZUKAN_DETAIL_PALFADE_SUB_OBJ) {
         func_02026f7c(fade->palette, 3, 0, 0x1c0);
     }
 }
 
 static void ZukanDetailPalFade_Start(ZukanDetailPalFade *fade, s8 wait, u8 start, u8 end) {
-    if (fade->buffers & PALFADE_MAIN_BG) {
-        func_02026fe4(fade->palette, PALFADE_MAIN_BG, 0x1fff, wait, start, end, 0, fade->tcbMgr);
+    if (fade->buffers & ZUKAN_DETAIL_PALFADE_MAIN_BG) {
+        func_02026fe4(fade->palette, ZUKAN_DETAIL_PALFADE_MAIN_BG, 0x1fff, wait, start, end, 0, fade->tcbMgr);
     }
-    if (fade->buffers & PALFADE_MAIN_OBJ) {
-        func_02026fe4(fade->palette, PALFADE_MAIN_OBJ, 0xff, wait, start, end, 0, fade->tcbMgr);
+    if (fade->buffers & ZUKAN_DETAIL_PALFADE_MAIN_OBJ) {
+        func_02026fe4(fade->palette, ZUKAN_DETAIL_PALFADE_MAIN_OBJ, 0xff, wait, start, end, 0, fade->tcbMgr);
     }
-    if (fade->buffers & PALFADE_SUB_BG) {
-        func_02026fe4(fade->palette, PALFADE_SUB_BG, 0x1fff, wait, start, end, 0, fade->tcbMgr);
+    if (fade->buffers & ZUKAN_DETAIL_PALFADE_SUB_BG) {
+        func_02026fe4(fade->palette, ZUKAN_DETAIL_PALFADE_SUB_BG, 0x1fff, wait, start, end, 0, fade->tcbMgr);
     }
-    if (fade->buffers & PALFADE_SUB_OBJ) {
-        func_02026fe4(fade->palette, PALFADE_SUB_OBJ, 0x3fff, wait, start, end, 0, fade->tcbMgr);
+    if (fade->buffers & ZUKAN_DETAIL_PALFADE_SUB_OBJ) {
+        func_02026fe4(fade->palette, ZUKAN_DETAIL_PALFADE_SUB_OBJ, 0x3fff, wait, start, end, 0, fade->tcbMgr);
     }
 }
 

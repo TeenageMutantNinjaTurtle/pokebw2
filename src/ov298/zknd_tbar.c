@@ -254,7 +254,7 @@ void ZkndTbar_SetPos(ZkndTbar *tbar, int icon, const ClActorPos *pos) {
     if (tbar->resource.bg < 4) {
         surface = CLACT_VRAM_MAIN;
     }
-    // GFL's function takes the surface as a u16
+    // The original truncates the surface to 16 bits
     func_0204c140(item->actor, pos, (u16)surface);
 }
 
@@ -395,7 +395,7 @@ static BOOL ZkndTbarItem_CheckTouch(ZkndTbarItem *item) {
     item->triggered = FALSE;
     if (enabled) {
         if (func_0203dac8(&x, &y)) {
-            if ((u32)(x - item->icon.pos.x) <= item->icon.width && (u32)(y - item->icon.pos.y) <= 24) {
+            if (x - item->icon.pos.x <= item->icon.width && y - item->icon.pos.y <= 24) {
                 func_0203d564(TRUE);
                 touched = TRUE;
             }
