@@ -25,8 +25,10 @@
 #include "constants/pokemon.h"
 #include "pml/item.h"
 #include "pml/poke_party.h"
+#include "save/bag.h"
 #include "save/box.h"
 #include "system/app_taskmenu.h"
+#include "system/bgwinfrm.h"
 #include "system/cursor_move.h"
 #include "system/printsys.h"
 
@@ -177,13 +179,14 @@ static int func_ov255_021cc380(Box2SysWork *syswk);
 
 
 static int func_ov255_021cbe58(Box2SysWork *syswk, int seq);
+static int func_ov255_021cbe98(Box2SysWork *syswk, int nextSeq);
 static int func_ov255_021cbed8(Box2SysWork *syswk, int seq);
 static int func_ov255_021cbee8(Box2SysWork *syswk, int seq);
 static int func_ov255_021cbef0(Box2SysWork *syswk, u32 type);
-static int func_ov255_021cc3b0(Box2SysWork *syswk, u32 a1, int seq);
-static int func_ov255_021cc460(Box2SysWork *syswk, u32 a1, u32 a2, int seq);
-static int func_ov255_021cc3c0(Box2SysWork *syswk, u32 a1, int seq);
-static int func_ov255_021cc4e0(Box2SysWork *syswk, u32 a1);
+static int func_ov255_021cc3b0(Box2SysWork *syswk, u32 frame, int seq);
+static int func_ov255_021cc460(Box2SysWork *syswk, u32 id, u32 pal, int seq);
+static int func_ov255_021cc3c0(Box2SysWork *syswk, u32 button, int seq);
+static int func_ov255_021cc4e0(Box2SysWork *syswk, u32 type);
 static int func_ov255_021cc50c(Box2SysWork *syswk);
 static int func_ov255_021cc608(Box2SysWork *syswk);
 static int func_ov255_021cc768(Box2SysWork *syswk);
@@ -229,6 +232,8 @@ static int func_ov255_021cd52c(Box2SysWork *syswk, u32 pos, int seq);
 static u32 func_ov255_021cdcc8(Box2SysWork *syswk);
 static void func_ov255_021cdb34(Box2SysWork *syswk);
 static void func_ov255_021cdb5c(Box2SysWork *syswk);
+static void func_ov255_021cdb68(Box2SysWork *syswk);
+static void func_ov255_021cdb7c(Box2SysWork *syswk);
 static void func_ov255_021cdd04(Box2SysWork *syswk, u32 mark);
 static int func_ov255_021cdd24(Box2SysWork *syswk, u32 pos);
 static void func_ov255_021cdd80(Box2SysWork *syswk);
@@ -6153,4 +6158,601 @@ static int func_ov255_021cbe28(Box2SysWork *syswk) {
     func_ov255_021cf028(syswk, 24);
     func_ov255_021cdd80(syswk);
     return func_ov255_021cbef0(syswk, 4);
+}
+
+// Goes to another sequence from its first step
+static int func_ov255_021cbe58(Box2SysWork *syswk, int seq) {
+    syswk->app->subSeq = 0;
+    return seq;
+}
+
+// Wipes out, then goes to nextSeq
+int func_ov255_021cbe68(Box2SysWork *syswk, int nextSeq) {
+    GFL_WipeSet(0, 1, 1, 0, 6, 1, HEAPID_BOX2_APP);
+    syswk->app->wipeSeq = nextSeq;
+    return BOX2SEQ_WIPE;
+}
+
+// Wipes in, then goes to nextSeq
+static int func_ov255_021cbe98(Box2SysWork *syswk, int nextSeq) {
+    GFL_WipeSet(0, 0, 0, 0, 6, 1, HEAPID_BOX2_APP);
+    syswk->app->wipeSeq = nextSeq;
+    return BOX2SEQ_WIPE;
+}
+
+// Runs a function each frame until it ends, then goes to nextSeq
+int func_ov255_021cbec8(Box2SysWork *syswk, Box2VFunc func, int nextSeq) {
+    syswk->app->vfuncNextSeq = nextSeq;
+    Box2Main_VFuncSet(syswk->app, func);
+    return BOX2SEQ_VFUNC;
+}
+
+// Runs the requested function each frame until it ends, then goes to nextSeq
+static int func_ov255_021cbed8(Box2SysWork *syswk, int nextSeq) {
+    syswk->app->vfuncNextSeq = nextSeq;
+    Box2Main_VFuncReqSet(syswk->app);
+    return BOX2SEQ_VFUNC;
+}
+
+static int func_ov255_021cbee8(Box2SysWork *syswk, int seq) {
+    syswk->nextSeq = seq;
+    return 13;
+}
+
+// Opens a yes/no question
+static int func_ov255_021cbef0(Box2SysWork *syswk, u32 type) {
+    syswk->app->ynID = type;
+    if (type == 1) {
+        Box2Main_OpenYesNo(syswk, 1);
+    } else {
+        Box2Main_OpenYesNo(syswk, 0);
+    }
+    setKeypressFramecounts(syswk->app->keyRepeatWait, syswk->app->keyRepeatStart);
+    return BOX2SEQ_YESNO;
+}
+
+// Takes the Pokémon's held item into the bag
+static int func_ov255_021cbf18(Box2SysWork *syswk) {
+    u32 item = Box2Main_GetPokeParam(syswk, syswk->pos, syswk->tray, PKM_PARAM_ITEM, NULL);
+
+    if (BagSave_AddItem(syswk->param->bag, item, 1, HEAPID_BOX2_APP) == TRUE) {
+        BoxPkm *pkm = Box2Main_GetBoxPkm(syswk, syswk->tray, syswk->pos);
+
+        func_ov255_021cf080(syswk, item, 24);
+        Box2Main_SetPokeParam(syswk, syswk->pos, syswk->tray, PKM_PARAM_ITEM, 0);
+        if (Box2Main_PokeItemFormChange(syswk, pkm) == TRUE) {
+            Box2Main_RecalcPartyStats(syswk, syswk->pos);
+            func_ov255_021cfc20(syswk, syswk->tray, syswk->pos, syswk->app->pokeIconId[syswk->pos]);
+        }
+        Box2Main_PokeInfoRewrite(syswk, syswk->pos);
+        func_ov255_021d0640(syswk, syswk->tray, syswk->pos);
+    } else {
+        GFL_SndSEPlay(SEQ_SE_BEEP);
+        func_ov255_021cf0a4(syswk, 24);
+    }
+    if (func_0203d554() == TRUE) {
+        func_0202ba74(syswk->app->cursorMove, FALSE);
+    } else {
+        func_0202ba74(syswk->app->cursorMove, TRUE);
+        func_ov255_021d101c(syswk, 0);
+    }
+    syswk->nextSeq = 14;
+    return func_ov255_021cbe58(syswk, BOX2SEQ_TRGWAIT);
+}
+
+// Releasing: starts the release
+static int func_ov255_021cbfe8(Box2SysWork *syswk) {
+    func_ov255_021d11a4(syswk, 0);
+    func_ov255_021cefa4(syswk->app, 24);
+    func_ov255_021bc018(syswk);
+    Box2Main_PokeFreeCreate(syswk);
+    func_ov255_021d013c(syswk->app->subWork);
+    if (func_0203d554() == TRUE) {
+        func_0202ba74(syswk->app->cursorMove, FALSE);
+    } else {
+        func_0202ba74(syswk->app->cursorMove, TRUE);
+        func_ov255_021d101c(syswk, 0);
+    }
+    return 102;
+}
+
+// Releasing: the release was cancelled
+static int func_ov255_021cc040(Box2SysWork *syswk) {
+    func_ov255_021d11a4(syswk, 1);
+    func_ov255_021cefb8(syswk->app, 24);
+    func_ov255_021bc018(syswk);
+    if (syswk->pos < BOX2_PARTY_POS) {
+        func_ov255_021d1348(syswk->app, 1);
+        func_ov255_021d0310(syswk, 1, 0);
+    } else {
+        func_ov255_021d0310(syswk, 2, 0);
+    }
+    if (func_0203d554() == TRUE) {
+        func_0202ba74(syswk->app->cursorMove, FALSE);
+    } else {
+        func_0202ba74(syswk->app->cursorMove, TRUE);
+        func_ov255_021d101c(syswk, 0);
+    }
+    return func_ov255_021cbec8(syswk, Box2Main_VFuncFrameMove, func_ov255_021cbe58(syswk, 14));
+}
+
+// The item arrangement: puts the held item in the bag
+static int func_ov255_021cc0b4(Box2SysWork *syswk) {
+    if (func_0203d554() == TRUE) {
+        func_0202ba74(syswk->app->cursorMove, FALSE);
+    } else {
+        func_0202ba74(syswk->app->cursorMove, TRUE);
+        func_ov255_021d101c(syswk, 0);
+    }
+    if (BagSave_AddItem(syswk->param->bag, syswk->app->getItem, 1, HEAPID_BOX2_APP) == TRUE) {
+        BoxPkm *pkm = Box2Main_GetBoxPkm(syswk, syswk->tray, syswk->pos);
+
+        Box2Main_SetPokeParam(syswk, syswk->pos, syswk->tray, PKM_PARAM_ITEM, 0);
+        if (Box2Main_PokeItemFormChange(syswk, pkm) == TRUE) {
+            Box2Main_RecalcPartyStats(syswk, syswk->pos);
+            func_ov255_021cfc20(syswk, syswk->tray, syswk->pos, syswk->app->pokeIconId[syswk->pos]);
+        }
+        Box2Main_PokeInfoPut(syswk, syswk->pos);
+        func_ov255_021d11a4(syswk, 0);
+        func_ov255_021cefa4(syswk->app, 24);
+        func_ov255_021bc018(syswk);
+        func_ov255_021d3a48(syswk->app);
+        func_ov255_021d0b08(syswk->app, TRUE);
+        func_ov255_021cf5e4(syswk->app, BOX2_ACTOR_ITEM_ICON, 2);
+        return 69;
+    }
+    GFL_SndSEPlay(SEQ_SE_BEEP);
+    func_ov255_021cf208(syswk, 6, 24);
+    syswk->nextSeq = 14;
+    return func_ov255_021cbe58(syswk, BOX2SEQ_TRGWAIT);
+}
+
+// Leaves the box
+static int func_ov255_021cc198(Box2SysWork *syswk) {
+    GFL_SndSEPlay(SEQ_SE_PC_LOGOFF);
+    Box2Main_UpdateChatter(syswk);
+    syswk->nextSeq = BOX2SEQ_END;
+    return func_ov255_021cbe98(syswk, 1);
+}
+
+// Closes a message and goes back to the mode's main state
+static int func_ov255_021cc1bc(Box2SysWork *syswk) {
+    func_ov255_021cefa4(syswk->app, 24);
+    func_ov255_021bc018(syswk);
+    if (func_0203d554() == TRUE) {
+        func_0202ba74(syswk->app->cursorMove, FALSE);
+    } else {
+        func_0202ba74(syswk->app->cursorMove, TRUE);
+    }
+    func_ov255_021d0f88(syswk, 9, 1);
+    switch (syswk->param->mode) {
+    case 0:
+        func_ov255_021d0310(syswk, 2, 0);
+        return 59;
+    case 1:
+        func_ov255_021d1348(syswk->app, 1);
+        func_ov255_021d0310(syswk, 1, 0);
+        return 54;
+    case 2:
+        if (func_ov255_021d3858(syswk->app->bgWinFrame) == TRUE) {
+            func_ov255_021d0310(syswk, 2, 0);
+            func_ov255_021d3a64(syswk->app);
+            return 27;
+        }
+        func_ov255_021d1348(syswk->app, 1);
+        func_ov255_021d0310(syswk, 1, 0);
+        func_ov255_021d3a48(syswk->app);
+        return 17;
+    case 3:
+        if (func_ov255_021d3858(syswk->app->bgWinFrame) == TRUE) {
+            func_ov255_021d0310(syswk, 0x82, 0);
+            func_ov255_021d3a64(syswk->app);
+            return 80;
+        }
+        func_ov255_021d1348(syswk->app, 1);
+        func_ov255_021d0310(syswk, 0x81, 0);
+        func_ov255_021d3a48(syswk->app);
+        return 67;
+    case 4:
+        if (func_ov255_021d3858(syswk->app->bgWinFrame) == TRUE) {
+            func_ov255_021d0310(syswk, 2, 0);
+            func_ov255_021d3a64(syswk->app);
+            return 49;
+        }
+        func_ov255_021d1348(syswk->app, 1);
+        func_ov255_021d0310(syswk, 1, 0);
+        func_ov255_021d3a48(syswk->app);
+        return 45;
+    case 5:
+        func_ov255_021d1348(syswk->app, 1);
+        func_ov255_021d0310(syswk, 0x81, 1);
+        return 85;
+    }
+    return 17;
+}
+
+// Mode 5: picks the Pokémon and leaves the box
+static int func_ov255_021cc308(Box2SysWork *syswk) {
+    Box2Main_UpdateChatter(syswk);
+    syswk->param->tray = syswk->tray;
+    syswk->param->position = syswk->pos;
+    syswk->nextSeq = BOX2SEQ_END;
+    return func_ov255_021cbe98(syswk, 1);
+}
+
+// Mode 5: the Pokémon wasn't picked
+static int func_ov255_021cc330(Box2SysWork *syswk) {
+    func_ov255_021cefa4(syswk->app, 27);
+    func_ov255_021bc018(syswk);
+    func_0202ba64(syswk->app->cursorMove, syswk->pos);
+    func_ov255_021d0310(syswk, 0x81, 1);
+    func_ov255_021d11a4(syswk, 0);
+    if (func_0203d554() == TRUE) {
+        func_0202ba74(syswk->app->cursorMove, FALSE);
+    } else {
+        func_0202ba74(syswk->app->cursorMove, TRUE);
+    }
+    return 85;
+}
+
+static int func_ov255_021cc380(Box2SysWork *syswk) {
+    if (func_0203d554() == TRUE) {
+        func_0202ba74(syswk->app->cursorMove, FALSE);
+    } else {
+        func_0202ba74(syswk->app->cursorMove, TRUE);
+        func_ov255_021d101c(syswk, 0);
+    }
+    return func_ov255_021c2dc0(syswk);
+}
+
+// Animates a frame's button, then goes to seq
+static int func_ov255_021cc3b0(Box2SysWork *syswk, u32 frame, int seq) {
+    Box2Main_SetFrameButtonAnm(syswk, frame);
+    syswk->nextSeq = seq;
+    return BOX2SEQ_BUTTON_ANM;
+}
+
+// Animates one of the markings' buttons, then goes to seq
+static int func_ov255_021cc3c0(Box2SysWork *syswk, u32 button, int seq) {
+    syswk->app->bawk.mode = BOX2_BTN_ANM_MODE_BG;
+    syswk->app->bawk.id = func_02033694(syswk->app->bgWinFrame, 7);
+    syswk->app->bawk.pal1 = 13;
+    syswk->app->bawk.pal2 = 12;
+    syswk->app->bawk.seq = 0;
+    syswk->app->bawk.cnt = 0;
+    if (button == 0) {
+        syswk->app->bawk.py = 14;
+    } else {
+        syswk->app->bawk.py = 17;
+    }
+    syswk->app->bawk.px = 21;
+    syswk->app->bawk.sx = 11;
+    syswk->app->bawk.sy = 3;
+    syswk->nextSeq = seq;
+    return BOX2SEQ_BUTTON_ANM;
+}
+
+// Animates an actor's button, then goes to seq
+static int func_ov255_021cc460(Box2SysWork *syswk, u32 id, u32 pal, int seq) {
+    syswk->app->bawk.mode = BOX2_BTN_ANM_MODE_OBJ;
+    syswk->app->bawk.id = id;
+    syswk->app->bawk.pal1 = pal;
+    syswk->app->bawk.pal2 = 0;
+    syswk->app->bawk.seq = 0;
+    syswk->app->bawk.cnt = 0;
+    syswk->app->bawk.px = 0;
+    syswk->app->bawk.py = 0;
+    syswk->app->bawk.sx = 0;
+    syswk->app->bawk.sy = 0;
+    syswk->nextSeq = seq;
+    return BOX2SEQ_BUTTON_ANM;
+}
+
+// Wipes out to call a sub process
+static int func_ov255_021cc4e0(Box2SysWork *syswk, u32 type) {
+    if (func_0202ba70(syswk->app->cursorMove) == TRUE) {
+        func_0203d564(FALSE);
+    } else {
+        func_0203d564(TRUE);
+    }
+    syswk->nextSeq = BOX2SEQ_SUBPROC_CALL;
+    syswk->subProcType = type;
+    return func_ov255_021cbe98(syswk, 1);
+}
+
+// Back from the bag after giving an item, in the arrangement
+static int func_ov255_021cc50c(Box2SysWork *syswk) {
+    int seq;
+
+    switch (syswk->unk13) {
+    case 0:
+        func_ov255_021d3a48(syswk->app);
+        seq = 17;
+        break;
+    case 1:
+        func_ov255_021cdb68(syswk);
+        func_ov255_021d0310(syswk, 1, 1);
+        func_ov255_021d1348(syswk->app, 0);
+        func_ov255_021d2478(syswk, 5, 11);
+        func_ov255_021d3a64(syswk->app);
+        seq = 27;
+        break;
+    }
+    func_ov255_021d1048(syswk);
+    if (syswk->subRet == 0) {
+        Box2Main_PokeInfoPut(syswk, syswk->pos);
+        func_ov255_021ceed0(syswk, sMenu71f0, 6);
+        func_ov255_021d38bc(syswk->app->bgWinFrame);
+        func_ov255_021cf1ac(syswk, syswk->pos, 1, 24);
+        return seq;
+    }
+    if (PML_ItemIsMail(syswk->subRet) == FALSE) {
+        BoxPkm *pkm = Box2Main_GetBoxPkm(syswk, syswk->tray, syswk->pos);
+
+        Box2Main_SetPokeParam(syswk, syswk->pos, syswk->tray, PKM_PARAM_ITEM, syswk->subRet);
+        func_ov255_021d0640(syswk, syswk->tray, syswk->pos);
+        if (Box2Main_PokeItemFormChange(syswk, pkm) == TRUE) {
+            Box2Main_RecalcPartyStats(syswk, syswk->pos);
+            func_ov255_021cfc20(syswk, syswk->tray, syswk->pos, syswk->app->pokeIconId[syswk->pos]);
+        }
+        BagSave_SubItem(syswk->param->bag, syswk->subRet, 1, HEAPID_TAIL(HEAPID_BOX2_APP));
+    }
+    Box2Main_PokeInfoPut(syswk, syswk->pos);
+    func_ov255_021d101c(syswk, 0);
+    return 96;
+}
+
+// Back from the bag after giving an item, in the item arrangement
+static int func_ov255_021cc608(Box2SysWork *syswk) {
+    int seq;
+
+    switch (syswk->unk13) {
+    case 0:
+        func_ov255_021d0b64(syswk->app, syswk->pos, 0);
+        seq = 67;
+        break;
+    case 1:
+        func_ov255_021cdb68(syswk);
+        func_ov255_021d1348(syswk->app, 0);
+        func_ov255_021d0b64(syswk->app, syswk->pos, 1);
+        func_ov255_021d2478(syswk, 8, 10);
+        seq = 80;
+        break;
+    }
+    func_ov255_021cdc74(syswk, (s16)syswk->subRet);
+    if (syswk->subRet == 0) {
+        Box2Main_PokeInfoPut(syswk, syswk->pos);
+        func_ov255_021d38bc(syswk->app->bgWinFrame);
+        func_ov255_021cf208(syswk, 0, 24);
+        if (syswk->unk13 == 0) {
+            func_ov255_021d0310(syswk, 0x81, 1);
+        } else {
+            func_ov255_021d0310(syswk, 1, 1);
+            func_ov255_021d0310(syswk, 0x82, 1);
+        }
+        return seq;
+    }
+    if (PML_ItemIsMail(syswk->subRet) == FALSE) {
+        BoxPkm *pkm = Box2Main_GetBoxPkm(syswk, syswk->tray, syswk->pos);
+
+        Box2Main_SetPokeParam(syswk, syswk->pos, syswk->tray, PKM_PARAM_ITEM, syswk->subRet);
+        if (Box2Main_PokeItemFormChange(syswk, pkm) == TRUE) {
+            Box2Main_RecalcPartyStats(syswk, syswk->pos);
+            func_ov255_021cfc20(syswk, syswk->tray, syswk->pos, syswk->app->pokeIconId[syswk->pos]);
+        }
+        BagSave_SubItem(syswk->param->bag, syswk->subRet, 1, HEAPID_TAIL(HEAPID_BOX2_APP));
+        syswk->app->getItem = syswk->subRet;
+        func_ov255_021d0a94(syswk->app, syswk->app->getItem);
+        func_ov255_021cf63c(syswk->app, BOX2_ACTOR_ITEM_ICON, TRUE);
+        func_ov255_021d0bc8(syswk->app);
+        func_ov255_021d0cf4(syswk->app);
+    }
+    if (syswk->unk13 == 0) {
+        func_ov255_021d0310(syswk, 0x81, 1);
+        func_ov255_021d3a48(syswk->app);
+    } else {
+        func_ov255_021d0310(syswk, 1, 1);
+        func_ov255_021d0310(syswk, 0x82, 1);
+        func_ov255_021d3a64(syswk->app);
+    }
+    Box2Main_PokeInfoPut(syswk, syswk->pos);
+    func_ov255_021d101c(syswk, 0);
+    return 96;
+}
+
+// Back from the bag after giving an item, in mode 4
+static int func_ov255_021cc768(Box2SysWork *syswk) {
+    int seq;
+
+    switch (syswk->unk13) {
+    case 0:
+        func_ov255_021d3a48(syswk->app);
+        seq = 45;
+        break;
+    case 1:
+        func_ov255_021cdb68(syswk);
+        func_ov255_021d0310(syswk, 1, 1);
+        func_ov255_021d1348(syswk->app, 0);
+        func_ov255_021d2478(syswk, 14, 11);
+        func_ov255_021d3a64(syswk->app);
+        seq = 49;
+        break;
+    }
+    func_ov255_021d1048(syswk);
+    if (syswk->subRet == 0) {
+        Box2Main_PokeInfoPut(syswk, syswk->pos);
+        func_ov255_021ceed0(syswk, sMenu70f8, 4);
+        func_ov255_021d38bc(syswk->app->bgWinFrame);
+        func_ov255_021cf1ac(syswk, syswk->pos, 1, 24);
+        return seq;
+    }
+    if (PML_ItemIsMail(syswk->subRet) == FALSE) {
+        BoxPkm *pkm = Box2Main_GetBoxPkm(syswk, syswk->tray, syswk->pos);
+
+        Box2Main_SetPokeParam(syswk, syswk->pos, syswk->tray, PKM_PARAM_ITEM, syswk->subRet);
+        func_ov255_021d0640(syswk, syswk->tray, syswk->pos);
+        if (Box2Main_PokeItemFormChange(syswk, pkm) == TRUE) {
+            Box2Main_RecalcPartyStats(syswk, syswk->pos);
+            func_ov255_021cfc20(syswk, syswk->tray, syswk->pos, syswk->app->pokeIconId[syswk->pos]);
+        }
+        BagSave_SubItem(syswk->param->bag, syswk->subRet, 1, HEAPID_TAIL(HEAPID_BOX2_APP));
+    }
+    Box2Main_PokeInfoPut(syswk, syswk->pos);
+    func_ov255_021d101c(syswk, 0);
+    return 96;
+}
+
+// Back from the summary in mode 1
+static int func_ov255_021cc864(Box2SysWork *syswk) {
+    func_ov255_021ceed0(syswk, sMenu7194, 5);
+    func_ov255_021d38bc(syswk->app->bgWinFrame);
+    func_ov255_021cf1ac(syswk, syswk->pos, 1, 24);
+    func_ov255_021d1048(syswk);
+    return 54;
+}
+
+// Back from the summary in mode 0
+static int func_ov255_021cc894(Box2SysWork *syswk) {
+    func_ov255_021ceed0(syswk, sMenu7130, 5);
+    func_ov255_021d38bc(syswk->app->bgWinFrame);
+    func_ov255_021cf1ac(syswk, syswk->pos, 1, 24);
+    func_ov255_021d0310(syswk, 1, 1);
+    func_ov255_021d1348(syswk->app, 0);
+    func_ov255_021cdb68(syswk);
+    func_ov255_021d1048(syswk);
+    return 59;
+}
+
+// Back from the summary in the arrangement
+static int func_ov255_021cc8dc(Box2SysWork *syswk) {
+    switch (syswk->unk13) {
+    case 0:
+        func_ov255_021ceed0(syswk, sMenu71f0, 6);
+        func_ov255_021d38bc(syswk->app->bgWinFrame);
+        func_ov255_021cf1ac(syswk, syswk->pos, 1, 24);
+        func_ov255_021d1048(syswk);
+        return 17;
+    case 1:
+        func_ov255_021ceed0(syswk, sMenu71f0, 6);
+        func_ov255_021d38bc(syswk->app->bgWinFrame);
+        func_ov255_021cf1ac(syswk, syswk->pos, 1, 24);
+        func_ov255_021d0310(syswk, 1, 1);
+        func_ov255_021d1348(syswk->app, 0);
+        func_ov255_021d2478(syswk, 5, 10);
+        func_ov255_021cdb68(syswk);
+        func_ov255_021d1048(syswk);
+        return 27;
+    case 2:
+        if (syswk->unk1B == 1) {
+            func_ov255_021cfe0c(syswk);
+        }
+        func_ov255_021d2478(syswk, 4, syswk->pos);
+        func_ov255_021bc0c0(syswk);
+        while (func_ov255_021c05e8(syswk) != FALSE) {
+        }
+        func_ov255_021d1a1c(syswk);
+        func_ov255_021d3a48(syswk->app);
+        syswk->pos = BOX2_GET_NONE;
+        if (syswk->moveMode == 2) {
+            return 36;
+        }
+        return 21;
+    case 3:
+        syswk->app->rangeHeight = 1;
+        syswk->app->rangeWidth = 1;
+        if (syswk->pos >= BOX2_PARTY_POS) {
+            func_ov255_021cfe0c(syswk);
+            func_ov255_021d0374(syswk, syswk->pos, 1, 1);
+        } else if (syswk->tray == syswk->getTray) {
+            func_ov255_021d0374(syswk, syswk->pos, 1, 1);
+        } else {
+            func_ov255_021cfc20(syswk, syswk->getTray, syswk->pos, syswk->app->pokeIconId[BOX2_BOXLIST_POS]);
+        }
+        Box2Main_HandGetPokeSet(syswk);
+        func_ov255_021d121c(syswk, BOX2_BOXLIST_POS);
+        func_ov255_021d2478(syswk, 4, syswk->unk1D);
+        func_ov255_021bc0c0(syswk);
+        while (func_ov255_021c05e8(syswk) != FALSE) {
+        }
+        func_ov255_021d1a1c(syswk);
+        func_ov255_021d3a48(syswk->app);
+        if (syswk->unk1D >= 34 && syswk->unk1D <= 37) {
+            func_ov255_021d1ac8(syswk, syswk->unk1D - 34, 1);
+        }
+        func_ov255_021d1054(syswk, BOX2_BOXLIST_POS);
+        return 21;
+    case 4:
+        func_ov255_021cdb7c(syswk);
+        func_ov255_021d2478(syswk, 6, syswk->pos);
+        func_ov255_021d3a64(syswk->app);
+        syswk->pos = BOX2_GET_NONE;
+        if (syswk->moveMode == 2) {
+            return 42;
+        }
+        return 32;
+    case 5:
+        syswk->app->rangeHeight = 1;
+        syswk->app->rangeWidth = 1;
+        func_ov255_021cdb7c(syswk);
+        if (syswk->pos < BOX2_PARTY_POS && syswk->tray != syswk->getTray) {
+            func_ov255_021cfc20(syswk, syswk->getTray, syswk->pos, syswk->app->pokeIconId[BOX2_BOXLIST_POS]);
+        } else {
+            func_ov255_021d0374(syswk, syswk->pos, 1, 1);
+        }
+        Box2Main_HandGetPokeSet(syswk);
+        func_ov255_021d121c(syswk, BOX2_BOXLIST_POS);
+        func_ov255_021d2478(syswk, 6, syswk->unk1D);
+        func_ov255_021d3a64(syswk->app);
+        func_ov255_021d1054(syswk, BOX2_BOXLIST_POS);
+        return 32;
+    }
+    return 0;
+}
+
+// Back from the summary in mode 4
+static int func_ov255_021ccae4(Box2SysWork *syswk) {
+    switch (syswk->unk13) {
+    case 0:
+        func_ov255_021ceed0(syswk, sMenu70f8, 4);
+        func_ov255_021d38bc(syswk->app->bgWinFrame);
+        func_ov255_021cf1ac(syswk, syswk->pos, 1, 24);
+        func_ov255_021d2478(syswk, 13, 37);
+        func_ov255_021d1048(syswk);
+        return 45;
+    case 1:
+        func_ov255_021ceed0(syswk, sMenu70f8, 4);
+        func_ov255_021d38bc(syswk->app->bgWinFrame);
+        func_ov255_021cf1ac(syswk, syswk->pos, 1, 24);
+        func_ov255_021d0310(syswk, 1, 1);
+        func_ov255_021d1348(syswk->app, 0);
+        func_ov255_021d2478(syswk, 14, 10);
+        func_ov255_021cdb68(syswk);
+        func_ov255_021d1048(syswk);
+        return 49;
+    case 4:
+        func_ov255_021cdb7c(syswk);
+        func_ov255_021d2478(syswk, 6, syswk->pos);
+        func_0202baa4(syswk->app->cursorMove, 39);
+        syswk->pos = BOX2_GET_NONE;
+        if (syswk->moveMode == 2) {
+            return 42;
+        }
+        return 32;
+    case 5:
+        syswk->app->rangeHeight = 1;
+        syswk->app->rangeWidth = 1;
+        func_ov255_021cdb7c(syswk);
+        if (syswk->pos < BOX2_PARTY_POS && syswk->tray != syswk->getTray) {
+            func_ov255_021cfc20(syswk, syswk->getTray, syswk->pos, syswk->app->pokeIconId[BOX2_BOXLIST_POS]);
+        } else {
+            func_ov255_021d0374(syswk, syswk->pos, 1, 1);
+        }
+        Box2Main_HandGetPokeSet(syswk);
+        func_ov255_021d121c(syswk, BOX2_BOXLIST_POS);
+        func_ov255_021d2478(syswk, 6, syswk->unk1D);
+        func_0202baa4(syswk->app->cursorMove, 39);
+        func_ov255_021d1054(syswk, BOX2_BOXLIST_POS);
+        return 32;
+    }
+    return 0;
 }
