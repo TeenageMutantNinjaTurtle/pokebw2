@@ -14,6 +14,7 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 #include "system/vm.h"
+#include "system/wordset.h"
 
 // The script plugin of Pokéstar Studios (plugin 10), commands from 1000
 

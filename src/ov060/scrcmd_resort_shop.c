@@ -37,6 +37,7 @@
 #include "system/printsys.h"
 #include "system/text_speed.h"
 #include "system/vm.h"
+#include "system/wordset.h"
 
 // The Join Avenue's shops (plugin 8's command 1000 while this overlay takes overlay 59's place). The command opens a
 // menu over the field: mode 0 is a shop's items, mode 1 the four records, and mode 2 the order of the records (sub

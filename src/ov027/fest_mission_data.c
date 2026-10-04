@@ -5,6 +5,7 @@
 #include "gfl/msg.h"
 #include "gfl/std.h"
 #include "gfl/str.h"
+#include "system/wordset.h"
 
 // Set in Black 2 and clear in White 2
 #ifdef BLACK2

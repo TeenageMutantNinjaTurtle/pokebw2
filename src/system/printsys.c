@@ -10,6 +10,7 @@
 #include "system/gf_font.h"
 #include "system/printsys.h"
 #include "system/text_speed.h"
+#include "system/wordset.h"
 
 // The game's printing of text: a renderer that draws a string's characters into a bitmap, carrying out the string's
 // commands; a queue that spreads printing over frames while the game is connected; a stream that prints into a window

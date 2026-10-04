@@ -17,6 +17,7 @@
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
+#include "system/wordset.h"
 
 // The options a survey can pick, with the score each needs and its probability in percent
 static const SurveyProbabilityEntry sProbabilities[0xe0] = {

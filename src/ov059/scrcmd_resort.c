@@ -24,6 +24,7 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 #include "system/vm.h"
+#include "system/wordset.h"
 
 // The script plugin of the Join Avenue (plugin 8), commands from 1000. Its command table is in overlay 58, so that
 // the shops' overlay 60 can take this overlay's place

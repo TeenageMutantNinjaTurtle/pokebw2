@@ -49,6 +49,7 @@
 #include "system/gf_font.h"
 #include "system/printsys.h"
 #include "system/text_speed.h"
+#include "system/wordset.h"
 
 // The menu after the title screen. Its items scroll on the main engine's BGs 1 and 2, and the sub engine shows the
 // saved game. Picking an item ends the menu, and its exit starts what the item leads to

@@ -13,6 +13,7 @@
 #include "gfl/str.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+#include "system/wordset.h"
 
 ScriptSubwork *InitScriptSubwork(ScriptWork *work, HeapID heapId) {
     ScriptSubwork *subwork = GFL_HeapAllocate(heapId, sizeof(ScriptSubwork), TRUE, "scrcmd_work.c", 0x7b);

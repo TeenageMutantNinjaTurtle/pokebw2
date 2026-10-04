@@ -21,6 +21,7 @@
 #include "system/printsys.h"
 #include "system/text_speed.h"
 #include "system/time_icon.h"
+#include "system/wordset.h"
 
 // The intro's message window and its yes/no menu
 

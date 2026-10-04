@@ -26,6 +26,7 @@
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
+#include "system/wordset.h"
 
 #define MYSTERY_GIFT_DELIVERY_MAN_OBJ_CODE 0x46
 

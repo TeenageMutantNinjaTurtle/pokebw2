@@ -8,6 +8,7 @@
 #include "save/event_work.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+#include "system/wordset.h"
 
 void UpdateScriptFieldWk(void *fieldWork, GameSystem *gsys) {
     Field *field;

@@ -25,6 +25,7 @@
 #include "system/game_system.h"
 #include "system/rtc.h"
 #include "system/version.h"
+#include "system/wordset.h"
 
 struct GimmickGateMessageList {
     u8 count;

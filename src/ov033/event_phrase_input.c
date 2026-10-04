@@ -15,6 +15,7 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 #include "system/vm.h"
+#include "system/wordset.h"
 
 // The longest name of modes 5 to 7
 static const u8 sMaxLengths[3] = { 8, 8, 8 };

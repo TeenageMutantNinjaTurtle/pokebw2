@@ -43,6 +43,7 @@
 #include "system/gf_font.h"
 #include "system/printsys.h"
 #include "system/text_speed.h"
+#include "system/wordset.h"
 
 // The evolution process: its steps, the music, the messages, learning the new form's moves and making a Shedinja
 

@@ -14,6 +14,7 @@
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
+#include "system/str_tool.h"
 #include "system/vm.h"
 
 // The script plugin of the Plasma Frigate (plugin 12), commands from 1000. The first four drive the gimmick of zones

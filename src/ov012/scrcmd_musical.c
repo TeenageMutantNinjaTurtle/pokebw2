@@ -20,6 +20,7 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 #include "system/vm.h"
+#include "system/wordset.h"
 
 // The event that runs a musical
 typedef struct {

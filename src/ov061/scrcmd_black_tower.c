@@ -9,6 +9,7 @@
 #include "system/game_data.h"
 #include "system/game_system.h"
 #include "system/vm.h"
+#include "system/wordset.h"
 
 // The script plugin of the Black Tower and White Treehollow (plugin 9), commands from 1000. The actors that the
 // commands take are numbered from 0xb0
