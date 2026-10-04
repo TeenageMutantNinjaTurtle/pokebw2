@@ -140,6 +140,7 @@ void func_02029e94(u8 *dest, const u8 *src);
 u32 func_02034ee4(void *data);
 u32 func_02034ee8(void *data);
 void func_02034eec(void *data);
+void func_0202d28c(u16 species, BOOL arg1, BOOL arg2);
 BOOL func_ov338_0217caf8(void);
 
 // Swan's names for these two take the main module, whose first field points to the BtlSetup

@@ -159,6 +159,8 @@ void func_ov167_021a8964(BtlServerFlow *flow, BattleMon *mon, u32 weather, s32 d
 u32 GetEnemyMaxLevel(BtlServerFlow *flow);
 void ServerEvent_BeforeFaint(BtlServerFlow *flow, BattleMon *mon);
 BOOL func_ov167_021a8dec(BtlServerFlow *flow, BattleMon *mon);
+BOOL func_ov167_021a8e68(BtlServerFlow *flow, BattleParty *party, BtlFlowExpEntry *entries);
+void AddExpAndEVs(BtlServerFlow *flow, BattleParty *party, BattleMon *mon, BtlFlowExpEntry *entries);
 BOOL func_ov167_0219fda4(BtlServerFlow *flow);
 void func_ov167_021a80c4(BtlServerFlow *flow);
 BOOL func_ov167_021a8cc0(BtlServerFlow *flow);

@@ -5495,6 +5495,54 @@ BOOL func_ov167_021a8cc0(BtlServerFlow *flow) {
     return result;
 }
 
+BOOL func_ov167_021a8dec(BtlServerFlow *flow, BattleMon *mon) {
+    if (GetSideFromMonID(GetMonID(mon)) == 1) {
+        BattleParty *party = GetPartyData(flow->pokeCon, GetPlayerClientID(flow->mainModule));
+        AddExpAndEVs(flow, party, mon, flow->expEntries);
+        if (BtlSetup_GetBattleType(flow->mainModule) == 0) {
+            u16 species = GetBattleMonSpecies(mon);
+            func_0202d28c(species, BtlSetup_IsBattleType(flow->mainModule, 0x4000),
+                          BtlSetup_IsBattleType(flow->mainModule, 0x8000));
+        }
+        return func_ov167_021a8e68(flow, party, flow->expEntries);
+    }
+    return FALSE;
+}
+
+BOOL func_ov167_021a8e68(BtlServerFlow *flow, BattleParty *party, BtlFlowExpEntry *entries) {
+    u32 remaining;
+    u32 i;
+    u8 monId;
+    u32 message;
+    BOOL result = FALSE;
+
+    for (i = 0; i < 6; i++) {
+        BtlFlowExpEntry *entry = &entries[i];
+        if (entries[i].exp != 0) {
+            BattleMon *mon = func_ov167_0219d4e4(party, i);
+            if ((s32)GetBattleMonStat(mon, 0xf) < 100) {
+                u32 exp = entry->exp;
+                if (entry->unk4) {
+                    message = 0x2b;
+                } else {
+                    message = 0x2a;
+                }
+                monId = GetMonID(mon);
+                func_ov167_021b15d0(flow->queue, 0x5a, (u16)message, monId, exp, 0xffff0000);
+                func_ov167_021b1434(flow->queue, 0x3e, monId, entry->unk5[0], entry->unk5[1], entry->unk5[2],
+                                    entry->unk5[3], entry->unk5[4], entry->unk5[5]);
+                remaining = exp;
+                while (func_ov167_021bc1b8(mon, &remaining, &flow->levelUp)) {
+                }
+                func_ov167_021b1434(flow->queue, 0x45, monId, exp);
+                func_ov167_0219dae8(flow->mainModule, 0x1b, exp);
+                result = TRUE;
+            }
+        }
+    }
+    return result;
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
