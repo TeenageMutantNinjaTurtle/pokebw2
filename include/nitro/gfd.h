@@ -13,6 +13,17 @@
 typedef u32 NNSGfdTexKey;
 typedef u32 NNSGfdPlttKey;
 
+// Where in VRAM a key's allocation is
+#define NNS_GFD_KEY_ADDR_SHIFT 3
+
+static inline u32 NNS_GfdGetTexKeyAddr(NNSGfdTexKey key) {
+    return (u32)((key & 0xffff) << NNS_GFD_KEY_ADDR_SHIFT);
+}
+
+static inline u32 NNS_GfdGetPlttKeyAddr(NNSGfdPlttKey key) {
+    return (u32)((key & 0xffff) << NNS_GFD_KEY_ADDR_SHIFT);
+}
+
 typedef NNSGfdTexKey (*NNSGfdFuncAllocTexVram)(u32 szByte, BOOL is4x4comp, u32 opt);
 typedef int (*NNSGfdFuncFreeTexVram)(NNSGfdTexKey key);
 typedef NNSGfdPlttKey (*NNSGfdFuncAllocPlttVram)(u32 szByte, BOOL is4pltt, u32 opt);
@@ -40,6 +51,25 @@ static inline NNSGfdPlttKey NNS_GfdAllocPlttVram(u32 szByte, BOOL is4pltt, u32 o
 static inline int NNS_GfdFreePlttVram(NNSGfdPlttKey key) {
     return (*g_PltVRAMFreeFunc)(key);
 }
+
+// Where each region of a frame manager is allocated up to, to go back to later
+typedef struct {
+    u32 address[10];
+} NNSGfdFrmTexVramState;
+
+typedef struct {
+    u32 address[2];
+} NNSGfdFrmPlttVramState;
+
+void NNS_GfdGetFrmTexVramState(NNSGfdFrmTexVramState *state);
+void NNS_GfdSetFrmTexVramState(const NNSGfdFrmTexVramState *state);
+void NNS_GfdGetFrmPlttVramState(NNSGfdFrmPlttVramState *state);
+void NNS_GfdSetFrmPlttVramState(const NNSGfdFrmPlttVramState *state);
+NNSGfdTexKey NNS_GfdAllocFrmTexVram(u32 szByte, BOOL is4x4comp, u32 opt);
+// Allocates from the low end of palette VRAM when bAllocFromLo is set
+NNSGfdPlttKey NNS_GfdAllocFrmPlttVram(u32 szByte, BOOL is4pltt, BOOL bAllocFromLo);
+int NNS_GfdFreeLnkTexVram(NNSGfdTexKey key);
+int NNS_GfdFreeLnkPlttVram(NNSGfdPlttKey key);
 
 // The frame managers, which free only from the top, and the linked-list ones, which need work memory
 void NNS_GfdInitFrmTexVramManager(u16 numSlot, BOOL useAsDefault);

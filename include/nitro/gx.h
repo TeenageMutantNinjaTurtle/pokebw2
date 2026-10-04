@@ -23,6 +23,7 @@ typedef u16 GXRgb;
 #define reg_G3_MTX_IDENTITY (*(vu32 *)0x04000454)
 #define reg_G3_MTX_SCALE (*(vu32 *)0x0400046c)
 #define reg_G3_MTX_TRANS (*(vu32 *)0x04000470)
+#define reg_G3_COLOR (*(vu32 *)0x04000480)
 #define reg_G3_NORMAL (*(vu32 *)0x04000484)
 #define reg_G3_TEXCOORD (*(vu32 *)0x04000488)
 #define reg_G3_VTX_16 (*(vu32 *)0x0400048c)
@@ -31,6 +32,8 @@ typedef u16 GXRgb;
 #define reg_G3_TEXPLTT_BASE (*(vu32 *)0x040004ac)
 #define reg_G3_DIF_AMB (*(vu32 *)0x040004c0)
 #define reg_G3_SPE_EMI (*(vu32 *)0x040004c4)
+#define reg_G3_LIGHT_VECTOR (*(vu32 *)0x040004c8)
+#define reg_G3_LIGHT_COLOR (*(vu32 *)0x040004cc)
 #define reg_G3_BEGIN_VTXS (*(vu32 *)0x04000500)
 #define reg_G3_END_VTXS (*(vu32 *)0x04000504)
 #define reg_G3_SWAP_BUFFERS (*(vu32 *)0x04000540)
@@ -267,6 +270,14 @@ typedef enum {
 #define GX_LIGHTMASK_0 1
 #define GX_POLYGON_ATTR_MISC_FAR_CLIPPING 0x1000
 #define GX_POLYGON_ATTR_MISC_DISP_1DOT 0x2000
+#define GX_POLYGON_ATTR_MISC_FOG 0x8000
+
+typedef enum {
+    GX_LIGHTID_0,
+    GX_LIGHTID_1,
+    GX_LIGHTID_2,
+    GX_LIGHTID_3,
+} GXLightId;
 
 // Geometry commands, as NitroSystem buffers them
 #define G3OP_MTX_PUSH 0x11
@@ -282,14 +293,17 @@ typedef enum {
 #define GX_CULL_BACK 2
 #define GX_CULL_NONE 3
 
+#define GX_TEXFMT_A3I5 1
 #define GX_TEXFMT_PLTT4 2
 #define GX_TEXFMT_PLTT16 3
 #define GX_TEXFMT_PLTT256 4
+#define GX_TEXFMT_A5I3 6
 #define GX_TEXGEN_TEXCOORD 1
 #define GX_TEXSIZE_S128 4
 #define GX_TEXSIZE_T128 4
 #define GX_TEXREPEAT_ST 3
 #define GX_TEXFLIP_NONE 0
+#define GX_TEXREPEAT_NONE 0
 #define GX_TEXPLTTCOLOR0_TRNS 1
 
 #define REG_G3_POLYGON_ATTR_LE_SHIFT 0
@@ -335,6 +349,11 @@ typedef enum {
 // A normal's components, 10 bits each, and a texture coordinate's, fixed point with 4 fractional bits
 #define GX_FX16_FX10(x) ((fx16)((x) >> 3))
 #define GX_VECFX10(x, y, z) ((u32)(((x) & 0x3ff) | (((y) & 0x3ff) << 10) | (((z) & 0x3ff) << 20)))
+#define REG_G3_LIGHT_VECTOR_LNUM_SHIFT 30
+#define GX_PACK_LIGHTVECTOR_PARAM(lightID, x, y, z)                                                                \
+    ((u32)(((lightID) << REG_G3_LIGHT_VECTOR_LNUM_SHIFT) |                                                        \
+           GX_VECFX10(GX_FX16_FX10(x), GX_FX16_FX10(y), GX_FX16_FX10(z))))
+#define GX_PACK_LIGHTCOLOR_PARAM(lightID, rgb) ((u32)(((lightID) << REG_G3_LIGHT_VECTOR_LNUM_SHIFT) | (rgb)))
 #define GX_ST(s, t) ((u32)(u16)(fx16)((s) >> 8) | ((u32)(u16)(fx16)((t) >> 8) << 16))
 
 #define REG_GX_POWCNT_DSEL_SHIFT 15
@@ -515,6 +534,18 @@ static inline void G3_Normal(fx16 x, fx16 y, fx16 z) {
 
 static inline void G3_TexCoord(fx32 s, fx32 t) {
     reg_G3_TEXCOORD = GX_ST(s, t);
+}
+
+static inline void G3_Color(GXRgb rgb) {
+    reg_G3_COLOR = rgb;
+}
+
+static inline void G3_LightVector(GXLightId lightID, fx16 x, fx16 y, fx16 z) {
+    reg_G3_LIGHT_VECTOR = GX_PACK_LIGHTVECTOR_PARAM(lightID, x, y, z);
+}
+
+static inline void G3_LightColor(GXLightId lightID, GXRgb rgb) {
+    reg_G3_LIGHT_COLOR = GX_PACK_LIGHTCOLOR_PARAM(lightID, rgb);
 }
 
 static inline void G3_Vtx(fx16 x, fx16 y, fx16 z) {
@@ -965,6 +996,11 @@ static inline void GXS_DispOn(void) {
 // NitroSDK's G3X_Reset, G3X_ResetMtxStack and G3X_GetBoxTestResult, under swan's names. The box test result is 0 when
 // the box is outside the view, and the function returns nonzero while the test is still running
 void gfxReset3D(void);
+// NitroSDK's G3i_LookAt_, which loads the camera matrix into the geometry engine when isLoad is set, G3_RotZ and
+// G3_MultTransMtx33, under swan's names
+void gfxLookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, BOOL isLoad, MtxFx43 *mtx);
+void gfxRotateZ(fx32 sin, fx32 cos);
+void gfxMultTransRot4x3(const MtxFx33 *mtx, const VecFx32 *trans);
 void gfxResetMatrixStack(void);
 int gfxGetBoxTestResult(s32 *in);
 

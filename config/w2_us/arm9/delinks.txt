@@ -275,3 +275,24 @@ src/main/clact.c:
     .rodata     start:0x02093e70 end:0x02093f6c
     .data       start:0x0209afd0 end:0x0209b028
     .bss        start:0x0214197c end:0x02141980
+
+src/main/billboard.c:
+    .text       start:0x0204e3bc end:0x0204f124
+    .rodata     start:0x02093fac end:0x02094048
+    .data       start:0x0209b04c end:0x0209b058
+
+src/main/billboard_act.c:
+    .text       start:0x0204f124 end:0x0204f890
+    .rodata     start:0x02094048 end:0x02094064
+    .data       start:0x0209b058 end:0x0209b068
+
+src/main/particle.c:
+    .text       start:0x0204f944 end:0x02050478
+    .rodata     start:0x02094064 end:0x020940d4
+    .data       start:0x0209b068 end:0x0209b074
+    .bss        start:0x02141990 end:0x02141994
+
+src/main/dma_vblank.c:
+    complete
+    .text       start:0x0204f890 end:0x0204f944
+    .bss        start:0x0214198c end:0x02141990
