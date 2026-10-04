@@ -4225,7 +4225,8 @@ from:0x02160a4a kind:thumb_call to:0x0203a278 module:main
 from:0x02160a5a kind:thumb_call to:0x02016edc module:main
 from:0x02160a72 kind:thumb_call to:0x02016e38 module:main
 from:0x02160a92 kind:thumb_call to:0x02160ab0 module:overlay(12)
-from:0x02160aa4 kind:load to:0x021a3dec module:overlays(293,294)
+from:0x02160aa0 kind:overlay_id to:293
+from:0x02160aa4 kind:load to:0x021a3dec module:overlay(293)
 from:0x02160abc kind:thumb_call_arm to:0x0208d688 module:main
 from:0x02160ada kind:thumb_call to:0x021551c4 module:overlay(12)
 from:0x02160ae0 kind:thumb_call to:0x021551ac module:overlay(12)

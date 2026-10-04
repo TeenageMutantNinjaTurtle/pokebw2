@@ -90,7 +90,7 @@ prints the tables below from the configs and the ROM:
 
 ### Overlay 12
 
-1046 of 1668 functions are in source files. Embedded names without a file yet: `comm_player.c`, `event_battle.c`, `fld_btl_inst_tool.c`, `fldmmdl.c`, `namein_setup.c`, `pair_sys.c`, `report_event.c`, `scrcmd_keysystem.c`, `trcard_sys.c`, `waza_oshie.c`.
+1054 of 1668 functions are in source files. Embedded names without a file yet: `comm_player.c`, `event_battle.c`, `fld_btl_inst_tool.c`, `fldmmdl.c`, `namein_setup.c`, `pair_sys.c`, `report_event.c`, `scrcmd_keysystem.c`, `trcard_sys.c`, `waza_oshie.c`.
 
 | File | `.text` (Black 2) | Functions | Status | Name |
 | --- | --- | --- | --- | --- |
@@ -142,6 +142,7 @@ prints the tables below from the configs and the ROM:
 | `game_beacon_search.c` | `0x0215f55c`–`0x0215f958` | 17 | partial | string at `0x0216e2b8` |
 | `game_beacon_set.c` | `0x0215f958`–`0x02160668` | 86 | complete | descriptive |
 | `symbol_map.c` | `0x02160668`–`0x021609b4` | 12 | complete | string at `0x0216e2d0` |
+| `event_royal_unova.c` | `0x021609b4`–`0x02160b80` | 8 | complete | descriptive |
 | `field_g3d_map.c` | `0x021631c8`–`0x02163b38` | 47 | partial | string at `0x0216e380` |
 
 ### Overlay 13
