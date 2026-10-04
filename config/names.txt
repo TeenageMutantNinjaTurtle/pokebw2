@@ -238,6 +238,7 @@
 . 0x0214188c sTouchpad
 . 0x02141890 sWmIcon
 . 0x02141898 sNetSys
+. 0x0214189c _pBaseWork
 . 0x021418c0 sGFLStd
 . 0x0214190c sBGSys
 . 0x02141910 sEnabledPlanes

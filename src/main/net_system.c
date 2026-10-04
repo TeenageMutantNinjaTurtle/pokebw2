@@ -11,7 +11,6 @@
 // then commands from the send queue. Each machine's received commands go through a ring buffer to their handlers
 
 #define GFL_NET_MACHINE_MAX 8
-#define GFL_NET_NETID_SERVER 0xff
 
 // The packet header
 #define PACKET_HEADER_SIZE 7

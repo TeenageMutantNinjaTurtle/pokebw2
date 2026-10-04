@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "gfl/heap.h"
+#include "gfl/net_handle.h"
 #include "struct_decls.h"
 
 // The unnamed functions below are from the network library. Some appear to synchronize with the other player or
@@ -13,7 +14,12 @@ typedef struct {
     u8 unk0[8];
     // Called when a machine disconnects
     void (*disconnectCallback)(void *work, int netId);
-    u8 unkC[0x4a];
+    // Called when a machine's negotiation is accepted
+    void (*negotiationCallback)(void *work, int netId);
+    // The data this machine shares with the others, and its size
+    void *(*getInfo)(void *work);
+    int (*getInfoSize)(void *work);
+    u8 unk18[0x3e];
     HeapID heapId;
     u8 unk58[0xc];
     // Whether the parent relays every machine's data (MP mode)
@@ -21,6 +27,9 @@ typedef struct {
     // The kind of connection: 1 and 2 are infrared, 3 and 4 Wi-Fi
     u8 type;
     u8 unk66;
+    u8 unk67;
+    u8 unk68[6];
+    u16 unk6E;
 } GFLNetInitData;
 
 // What the network device does, wireless or Wi-Fi; the code calls each through GFLNetSys
@@ -69,10 +78,13 @@ typedef struct {
     u8 unk64;
     u8 unk65[7];
     u16 unk6C;
-    u8 unk6E[0x2d2];
+    u8 unk6E[2];
+    NetHandle handles[GFL_NET_HANDLE_MAX];
     const GFLNetDevTable *devTable;
     u8 unk344[8];
     void *devWork;
+    u8 unk350[2];
+    u8 unk352;
 } GFLNetSys;
 
 // A network error to report, which func_020424ac records with the line it came from
@@ -92,8 +104,13 @@ GFLNetErrorInfo *func_02042540(void);
 void func_020424ac(u32 a0, u32 a1, u32 a2, int line);
 BOOL func_02042494(void);
 void func_020410dc(void);
-BOOL func_02042be8(NetHandle *handle, int command, int size, const void *data);
-NetHandle *func_02040414(int netId);
+BOOL func_02042be8(NetHandle *handle, int command, u16 size, const void *data);
+BOOL func_02042c9c(NetHandle *handle, int dest, int command, int size, const void *data, int a5, int a6, int a7);
+BOOL func_02042bd8(void);
+void *func_02042d94(void);
+// NitroSDK's OS_GetMacAddress
+void func_0207c33c(u8 *mac);
+void func_020430bc(void *data);
 void func_02040d78(int netId, int sender, int command, int size, void *data, NetHandle *handle);
 BOOL func_02040dc0(int command);
 BOOL func_02040dd4(int command);
@@ -109,9 +126,6 @@ void func_02042ba8(u32 a0, HeapID heapId);
 void func_02012154(void);
 u32 func_02042bc4(void);
 int func_02042a78(void);
-NetHandle *func_02040440(void);
-void func_02040624(NetHandle *handle, u32 a1, u32 a2);
-BOOL func_02040664(NetHandle *handle, u32 a1, u32 a2);
 void func_02040c20(u32 a0, const void *commands, u32 count, void *work);
 void func_02040c64(u32 a0);
 void func_020421ac(u32 a0);

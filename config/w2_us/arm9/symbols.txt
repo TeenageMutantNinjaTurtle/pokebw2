@@ -9156,7 +9156,7 @@ sSystemUI kind:bss addr:0x021418c4
 sTouchpad kind:bss addr:0x021418cc
 sWmIcon kind:bss addr:0x021418d0
 sNetSys kind:bss addr:0x021418d8
-data_0214189c kind:bss addr:0x021418dc
+_pBaseWork kind:bss addr:0x021418dc
 data_021418a0 kind:bss addr:0x021418e0
 data_021418a4 kind:bss addr:0x021418e4
 data_021418a8 kind:bss addr:0x021418e8

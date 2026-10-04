@@ -204,3 +204,9 @@ src/main/net_system.c:
     .text       start:0x0203e8c8 end:0x020401dc
     .data       start:0x0209aa54 end:0x0209aaa0
     .bss        start:0x02141898 end:0x0214189c
+
+src/main/net_handle.c:
+    complete
+    .text       start:0x020401dc end:0x02040b94
+    .data       start:0x0209aaa0 end:0x0209ab24
+    .bss        start:0x0214189c end:0x021418a0
