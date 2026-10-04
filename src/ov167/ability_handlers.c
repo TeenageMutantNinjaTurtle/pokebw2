@@ -1596,7 +1596,7 @@ void CommonContactStatusAbility(BtlServerFlow *flow, u32 monId, u32 status, Batt
             param->popup = 1;
             param->condition = status;
             param->value = condition;
-            param->unk0c = 0;
+            param->showFail = 0;
             param->targetIndex = BattleEventVar_GetValue(3);
             BattleHandler_PopWork(flow, param);
         }
@@ -1705,7 +1705,7 @@ void HandlerSynchronize(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s3
                 } else {
                     func_ov167_021bd5d4(status, mon, &param->value);
                 }
-                param->unk0c = 1;
+                param->showFail = 1;
                 BattleHandler_PopWork(flow, param);
                 BattleHandler_PushRun(flow, 3, monId);
             }

@@ -3985,7 +3985,7 @@ u32 AddConditionCheckFailOverwrite(BtlServerFlow *flow, BattleMon *mon, s32 cond
 
 void ServerControl_AddCondition(BtlServerFlow *flow, BattleMon *target, BattleMon *attacker, u32 condition,
                                 BattleCondition value, BOOL showMessage, BOOL skipItemReaction,
-                                BattleHandlerString *string) {
+                                const BattleHandlerString *string) {
     u32 state;
 
     ServerDisplay_AddCondition(flow, target, condition, value);
@@ -4508,7 +4508,7 @@ void ServerControl_ForceSwitch(BtlServerFlow *flow, u16 move, BattleMon *mon, vo
 }
 
 BOOL ServerControl_ForceSwitchCore(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, BOOL forced,
-                                   BOOL *failed, u16 effect, BOOL ignoreLevel, BattleHandlerString *string) {
+                                   BOOL *failed, u16 effect, BOOL ignoreLevel, const BattleHandlerString *string) {
     u8 clientPos[2];
     u8 pos;
     u32 state;
@@ -7114,14 +7114,14 @@ void ServerEvent_ChangeAbilityAfter(BtlServerFlow *flow, u8 monIndex) {
     BattleEventVar_Pop(0x3341);
 }
 
-void ServerEvent_CheckSideEffectParam(BtlServerFlow *flow, u8 monId, u32 effect, u8 side, u32 *cont) {
+void ServerEvent_CheckSideEffectParam(BtlServerFlow *flow, u8 monId, u32 effect, u8 side, BattleCondition *cont) {
     BattleEventVar_Push(0x334f);
     BattleEventVar_SetConstValue(2, monId);
     BattleEventVar_SetConstValue(0x52, side);
     BattleEventVar_SetConstValue(0x53, effect);
-    BattleEventVar_SetValue(0x1e, *cont);
+    BattleEventVar_SetValue(0x1e, cont->raw);
     BattleEvent_CallHandlers(flow, 0x9f);
-    *cont = BattleEventVar_GetValue(0x1e);
+    cont->raw = BattleEventVar_GetValue(0x1e);
     BattleEventVar_Pop(0x3356);
 }
 
@@ -7742,7 +7742,7 @@ void BattleHandler_StrClear(BattleHandlerString *string) {
     string->enabled = 0;
 }
 
-BOOL BattleHandler_StrIsEnabled(BattleHandlerString *string) {
+BOOL BattleHandler_StrIsEnabled(const BattleHandlerString *string) {
     return string->enabled != 0;
 }
 
@@ -8220,6 +8220,33 @@ u8 BattleHandler_CureCondition(BtlServerFlow *handler, struct BattleHandlerCureC
 }
 
 // Function name from swan.
+u8 BattleHandler_AddCondition(BtlServerFlow *handler, const BattleHandlerAddConditionParam *param) {
+    BattleMon *mon;
+    u8 showMessage;
+    BattleMon *target;
+
+    mon = param->monIndex != 0x1f ? GetPokeParam(handler->pokeCon, param->monIndex) : NULL;
+    showMessage = !BattleHandler_StrIsEnabled(&param->string) && !param->noMessage ? TRUE : FALSE;
+    if (DoesBattleMonExist(handler->unk1ab8, param->targetIndex)) {
+        target = GetPokeParam(handler->pokeCon, param->targetIndex);
+        if (!IsFainted(target)
+            && !ServerControl_AddConditionCheckFail(handler, target, mon, param->condition, param->value,
+                                                    param->overwrite, param->showFail)) {
+            if (param->popup) {
+                ServerDisplay_AbilityPopupAdd(handler, mon);
+            }
+            ServerControl_AddCondition(handler, target, mon, param->condition, param->value, showMessage,
+                                       param->skipItemReaction, &param->string);
+            if (param->popup) {
+                ServerDisplay_AbilityPopupRemove(handler, mon);
+            }
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+// Function name from swan.
 u8 BattleHandler_StatChange(BtlServerFlow *handler, struct BattleHandlerStatChangeParam *param, u16 context) {
     BattleMon *popupMon;
     BattleMon *mon;
@@ -8262,6 +8289,28 @@ u8 BattleHandler_StatChange(BtlServerFlow *handler, struct BattleHandlerStatChan
     return result;
 }
 
+// Function name from swan.
+u8 BattleHandler_SetStatStage(BtlServerFlow *handler, const BattleHandlerSetStatStageParam *param) {
+    BattleMon *mon;
+
+    if (DoesBattleMonExist(handler->unk1ab8, param->monIndex)) {
+        mon = GetPokeParam(handler->pokeCon, param->monIndex);
+        if (!IsFainted(mon)) {
+            func_ov167_021bb6a8(mon, 1, param->attack);
+            func_ov167_021bb6a8(mon, 2, param->defense);
+            func_ov167_021bb6a8(mon, 3, param->spAttack);
+            func_ov167_021bb6a8(mon, 4, param->spDefense);
+            func_ov167_021bb6a8(mon, 5, param->speed);
+            func_ov167_021bb6a8(mon, 6, param->accuracy);
+            func_ov167_021bb6a8(mon, 7, param->evasion);
+            func_ov167_021b1434(handler->queue, 0xb, param->monIndex, param->attack, param->defense, param->spAttack,
+                                param->spDefense, param->speed, param->accuracy, param->evasion);
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
 // Function names from swan.
 u8 BattleHandler_RecoverStatStage(BtlServerFlow *handler, BattleHandlerRecoverStatStageParam *param) {
     BattleMon *mon;
@@ -8289,6 +8338,38 @@ u8 BattleHandler_ResetStatStage(BtlServerFlow *handler, BattleHandlerResetStatSt
         }
     }
     return result;
+}
+
+// Function name from swan.
+u8 BattleHandler_SetStatus(BtlServerFlow *handler, const BattleHandlerSetStatusParam *param) {
+    BattleMon *mon;
+
+    if (DoesBattleMonExist(handler->unk1ab8, param->monIndex)) {
+        mon = GetPokeParam(handler->pokeCon, param->monIndex);
+        if (param->setAttack) {
+            SetBaseStatus(mon, 8, param->attack);
+            func_ov167_021b1434(handler->queue, 0x13, param->monIndex, 8, (u8)param->attack);
+        }
+        if (param->setDefense) {
+            SetBaseStatus(mon, 9, param->defense);
+            func_ov167_021b1434(handler->queue, 0x13, param->monIndex, 9, (u8)param->defense);
+        }
+        if (param->setSpAttack) {
+            SetBaseStatus(mon, 10, param->spAttack);
+            func_ov167_021b1434(handler->queue, 0x13, param->monIndex, 10, (u8)param->spAttack);
+        }
+        if (param->setSpDefense) {
+            SetBaseStatus(mon, 11, param->spDefense);
+            func_ov167_021b1434(handler->queue, 0x13, param->monIndex, 11, (u8)param->spDefense);
+        }
+        if (param->setSpeed) {
+            SetBaseStatus(mon, 12, param->speed);
+            func_ov167_021b1434(handler->queue, 0x13, param->monIndex, 12, (u8)param->speed);
+        }
+        BattleHandler_SetString(handler, &param->string);
+        return TRUE;
+    }
+    return FALSE;
 }
 
 // Function name from swan.
@@ -8386,6 +8467,32 @@ u8 BattleHandler_ResetContinueFlag(BtlServerFlow *handler, BattleHandlerFlagPara
     return FALSE;
 }
 
+// Function name from swan.
+u8 BattleHandler_AddSideEffect(BtlServerFlow *handler, const BattleHandlerAddSideEffectParam *param) {
+    BattleCondition cont = param->cont;
+
+    ServerEvent_CheckSideEffectParam(handler, param->header.monId, param->effect, param->side, &cont);
+    if (func_ov169_06898c10(param->side, param->effect, cont)) {
+        BattleHandler_SetString(handler, &param->string);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+// Function name from swan.
+u8 BattleHandler_RemoveSideEffectCore(BtlServerFlow *handler, const BattleHandlerRemoveSideEffectParam *param) {
+    u8 removed = FALSE;
+    u32 i;
+
+    for (i = 0; i < 14; i++) {
+        if (BattleHandler_IsFlagSet(param->effects, i) && ServerDisplay_RemoveSideEffect(param->side, i)) {
+            func_ov167_021a866c(handler, i, param->side);
+            removed = TRUE;
+        }
+    }
+    return removed;
+}
+
 u8 BattleHandler_AddFieldEffect(BtlServerFlow *handler, BattleHandlerAddFieldEffectParam *param) {
     if (ServerControl_FieldEffectCore(handler, param->effect, param->value, param->duration)) {
         BattleHandler_SetString(handler, &param->string);
@@ -8465,6 +8572,11 @@ BOOL BattleHandler_SetString(BtlServerFlow *handler, const BattleHandlerString *
         }
     }
     return FALSE;
+}
+
+// Adds an effect that waits at a position, as Wish and Future Sight do
+u8 func_ov167_021ad564(BtlServerFlow *handler, const BattleHandlerPosEffectParam *param) {
+    return PosEventAdd(param->effect, param->pos, param->header.monId, param->args, param->argCount) ? TRUE : FALSE;
 }
 
 // Function name from swan.
@@ -8656,12 +8768,60 @@ u8 BattleHandler_ConsumeItem(BtlServerFlow *handler, BattleHandlerConsumeItemPar
 }
 
 // Function name from swan.
+u8 BattleHandler_UpdateMove(BtlServerFlow *handler, const BattleHandlerUpdateMoveParam *param) {
+    BattleMon *mon;
+
+    mon = GetPokeParam(handler->pokeCon, param->monIndex);
+    func_ov167_021b1434(handler->queue, 0x1f, param->monIndex, param->slot, param->maxPP, param->updateCurrent,
+                        param->move);
+    Move_UpdateID(mon, param->slot, param->move, param->maxPP, param->updateCurrent);
+    return TRUE;
+}
+
+// Function name from swan.
 u8 BattleHandler_SetCounter(BtlServerFlow *handler, BattleHandlerSetCounterParam *param) {
     BattleMon *mon;
 
     mon = GetPokeParam(handler->pokeCon, param->monIndex);
     ServerControl_SetMonCounter(handler, mon, param->counter, param->value);
     return TRUE;
+}
+
+// Function name from swan.
+u8 BattleHandler_DelayMoveDamage(BtlServerFlow *handler, const BattleHandlerDelayMoveDamageParam *param) {
+    BattleMon *attacker;
+    BattleMon *target;
+    BtlFlowMoveParam moveParam;
+    BattleMoveEffectState savedEffect;
+    BOOL result;
+
+    attacker = GetPokeParam(handler->pokeCon, param->attackerIndex);
+    target = GetPokeParam(handler->pokeCon, param->targetIndex);
+    ServerEvent_GetMoveParam(handler, param->move, attacker, &moveParam);
+    func_ov169_0689ccc4(handler->unk860);
+    func_ov169_0689ccc4(handler->unk868);
+    func_ov169_0689ccd0(handler->unk868, target);
+    func_ov169_0689ced0(handler->unk868, 1);
+    func_ov169_0689d06c(handler->unk868);
+    if (func_ov169_0689ced8(handler->unk868)) {
+        func_ov167_021a9230(handler, attacker, moveParam.move);
+        return FALSE;
+    }
+    func_ov167_021a32e0(handler, &moveParam, attacker, handler->unk868);
+    func_ov167_021a2e80(handler, &moveParam, attacker, handler->unk868, handler->unk1F8C);
+    func_ov167_021a2f54(handler, &moveParam, attacker, handler->unk868, handler->unk1F8C);
+    func_ov167_021a3378(handler, &moveParam, attacker, handler->unk868);
+    if (func_ov169_0689ced8(handler->unk868)) {
+        return FALSE;
+    }
+    savedEffect = *handler->moveEffect;
+    func_ov167_021a0c88(handler->moveEffect);
+    func_ov167_021a0ca8(handler->moveEffect, handler, attacker, handler->unk868);
+    handler->moveEffect->index = 1;
+    func_ov167_021a43c0(handler, &moveParam, attacker, handler->unk868, handler->unk1F8C, TRUE);
+    result = handler->moveEffect->enabled;
+    *handler->moveEffect = savedEffect;
+    return result;
 }
 
 // Function name from swan.
@@ -8757,6 +8917,18 @@ u8 BattleHandler_SetWeight(BtlServerFlow *handler, BattleHandlerSetWeightParam *
     func_ov167_021b1434(handler->queue, 0x14, param->monIndex, param->weight);
     BattleHandler_SetString(handler, &param->string);
     return TRUE;
+}
+
+// Function name from swan.
+u8 BattleHandler_ForceSwitch(BtlServerFlow *handler, const BattleHandlerForceSwitchParam *param) {
+    BattleMon *target;
+    BOOL failed;
+
+    target = GetPokeParam(handler->pokeCon, param->targetIndex);
+    return ServerControl_ForceSwitchCore(handler, GetPokeParam(handler->pokeCon, param->header.monId), target,
+                                         param->forced, &failed, param->effect, param->ignoreLevel, &param->string)
+             ? TRUE
+             : FALSE;
 }
 
 // Function names from swan.
@@ -8907,6 +9079,16 @@ u8 BattleHandler_HideTurnCancel(BtlServerFlow *handler, BattleHandlerHideTurnPar
         return TRUE;
     }
     return FALSE;
+}
+
+// Function name from swan.
+u8 BattleHandler_EffectAtPos(BtlServerFlow *handler, const BattleHandlerEffectAtPosParam *param) {
+    if (param->hideMessageWindow) {
+        func_ov167_021b1434(handler->queue, 0x56, 0);
+    }
+    ServerControl_ViewEffect(handler, param->effect, param->pos1, param->pos2, param->reserved, param->reserve);
+    BattleHandler_SetString(handler, &param->string);
+    return TRUE;
 }
 
 // Function name from swan.

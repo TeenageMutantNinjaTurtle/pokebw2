@@ -328,7 +328,7 @@ void func_ov167_021aa07c(BtlServerFlow *flow, BattleMon *mon, u16 move, u32 caus
 BOOL func_ov167_021a3ea8(BtlServerFlow *flow, BattleMon *mon, u16 move);
 void ServerControl_AddCondition(BtlServerFlow *flow, BattleMon *target, BattleMon *attacker, u32 condition,
                                 BattleCondition value, BOOL showMessage, BOOL skipItemReaction,
-                                BattleHandlerString *string);
+                                const BattleHandlerString *string);
 void func_ov167_021a8fe0(BtlServerFlow *flow, BattleMon *mon);
 void func_ov167_021a9014(BtlServerFlow *flow, BattleMon *mon);
 void func_ov167_021a9094(BtlServerFlow *flow, BattleMon *mon, u32 status, BOOL flag);
@@ -406,7 +406,7 @@ BOOL ServerEvent_CheckHeldItemFail(BtlServerFlow *flow, BattleMon *mon, u16 item
 void ServerEvent_EquipItem(BtlServerFlow *flow, BattleMon *mon);
 void ServerEvent_ItemSetDecide(BtlServerFlow *flow, BattleMon *mon, u16 item);
 void ServerEvent_ItemSetFixed(BtlServerFlow *flow, BattleMon *mon);
-void ServerEvent_CheckSideEffectParam(BtlServerFlow *flow, u8 monId, u32 effect, u8 side, u32 *cont);
+void ServerEvent_CheckSideEffectParam(BtlServerFlow *flow, u8 monId, u32 effect, u8 side, BattleCondition *cont);
 void ServerDisplay_FaintPokemon(BtlServerFlow *flow, BattleMon *mon, u32 flag);
 u32 ServerEvent_DecideSpecialMoveCondition(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target,
                                            BattleHandlerString *string);
@@ -454,7 +454,7 @@ u16 func_ov167_021a71d0(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *p
 void func_ov167_021a9b64(BtlServerFlow *flow, BattleMon *mon, u32 damage);
 void func_ov167_021a7c70(BtlServerFlow *flow, BattleMon *mon);
 BOOL ServerControl_ForceSwitchCore(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, BOOL forced,
-                                   BOOL *failed, u16 effect, BOOL ignoreLevel, BattleHandlerString *string);
+                                   BOOL *failed, u16 effect, BOOL ignoreLevel, const BattleHandlerString *string);
 u32 func_ov167_021a747c(BtlServerFlow *flow);
 s32 func_ov167_021a74a4(BtlServerFlow *flow, BtlServerClient *client);
 BOOL func_ov167_021a74fc(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target);
