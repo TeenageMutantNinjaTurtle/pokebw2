@@ -33,6 +33,7 @@ u8 GetBattlePos(void *data, u8 monId);
 BOOL func_ov169_0689ce3c(void *monSet, BattleMon *mon, u32 *value);
 BOOL func_ov169_0689ce80(void *monSet, BattleMon *mon, u32 *value);
 void func_ov169_0689c4ec(u32 condition, BattleCondition value, BattleMon *mon, BattleHandlerString *string);
+void func_ov169_0689c92c(BtlServerFlow *flow, BattleMon *mon);
 u32 func_ov169_0689cb6c(u32 index);
 u32 func_ov169_0689cec0(void *monSet);
 void func_ov169_0689cf54(void *monSet, BattleMon *mon, void *out);

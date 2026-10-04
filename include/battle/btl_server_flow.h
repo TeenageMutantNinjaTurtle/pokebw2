@@ -379,8 +379,11 @@ void func_ov167_021a7198(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *
 u16 func_ov167_021a71d0(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param, u32 critical);
 void func_ov167_021a9b64(BtlServerFlow *flow, BattleMon *mon, u16 damage);
 void func_ov167_021a7c70(BtlServerFlow *flow, BattleMon *mon);
-BOOL ServerControl_ForceSwitchCore(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, u32 arg3, BOOL *failed,
-                                   u32 arg5, u32 arg6, u32 arg7);
+BOOL ServerControl_ForceSwitchCore(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, BOOL forced,
+                                   BOOL *failed, u16 effect, BOOL ignoreLevel, BattleHandlerString *string);
+u32 func_ov167_021a747c(BtlServerFlow *flow);
+s32 func_ov167_021a74a4(BtlServerFlow *flow, BtlServerClient *client);
+BOOL func_ov167_021a74fc(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target);
 BOOL ServerEvent_AddCondition(BtlServerFlow *flow, BattleMon *target, BattleMon *attacker, u32 condition,
                               BattleCondition value, BOOL flag, BOOL defaultMessage);
 u32 ServerEvent_CheckMoveAddCondition(BtlServerFlow *flow, u16 move, BattleMon *attacker, BattleMon *target,

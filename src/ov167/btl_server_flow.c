@@ -4504,6 +4504,124 @@ void ServerControl_ForceSwitch(BtlServerFlow *flow, u16 move, BattleMon *mon, vo
     }
 }
 
+BOOL ServerControl_ForceSwitchCore(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, BOOL forced,
+                                   BOOL *failed, u16 effect, BOOL ignoreLevel, BattleHandlerString *string) {
+    u8 clientPos[2];
+    u8 pos;
+    u32 state;
+    u8 blocked;
+    u32 mode;
+    u8 skyDropTarget;
+    u8 counter;
+
+    *failed = FALSE;
+    if (forced) {
+        mode = 1;
+    } else {
+        mode = func_ov167_021a747c(flow);
+    }
+    if (mode == 2) {
+        return FALSE;
+    }
+    pos = MonIDToBattlePos(flow->mainModule, flow->pokeCon, GetMonID(target));
+    if (pos == 6) {
+        return FALSE;
+    }
+    if (IsFainted(target)) {
+        return FALSE;
+    }
+    if (CheckCondition(target, 0x21)) {
+        return FALSE;
+    }
+    counter = GetConditionCount(target, 4);
+    if (counter == 0 || (skyDropTarget = counter - 1) >= 0x18) {
+        skyDropTarget = 0x1f;
+    }
+    if (skyDropTarget != 0x1f) {
+        return FALSE;
+    }
+    state = PushState(&flow->actionState, 0x222c);
+    blocked = func_ov167_021a74fc(flow, attacker, target);
+    if (blocked && BattleHandler_Result(flow)) {
+        *failed = TRUE;
+    }
+    PopState(&flow->actionState, state, 0x2234);
+    if (blocked) {
+        return FALSE;
+    }
+    func_ov167_0219c694(flow->mainModule, pos, &clientPos[1], &clientPos[0]);
+    if (mode == 1) {
+        s32 slot = func_ov167_021a74a4(flow, func_ov167_0219f260(flow->server, clientPos[1]));
+        if (slot >= 0) {
+            u8 newMonId = GetMonID(func_ov167_0219d1e8(flow->pokeCon, clientPos[1], slot));
+            ServerControl_SwitchOutCore(flow, target, effect);
+            if (string != NULL) {
+                BattleHandler_SetString(flow, string);
+            }
+            ServerControl_SwitchInFillSlot(flow, clientPos[1], clientPos[0], slot, FALSE);
+            func_ov167_021b15d0(flow->queue, 0x5b, 0x34d, newMonId, 0xffff0000);
+            ServerControl_AfterSwitchIn(flow);
+        } else {
+            return FALSE;
+        }
+    } else {
+        u8 attackerClient = func_ov167_0219c648(GetMonID(attacker));
+        if (!ignoreLevel) {
+            u8 attackerLevel = GetBattleMonStat(attacker, 0xf);
+            if ((u8)GetBattleMonStat(target, 0xf) > attackerLevel) {
+                return FALSE;
+            }
+        }
+        func_ov167_021bda6c(&flow->clientIdList, attackerClient);
+        ServerControl_SwitchOutCore(flow, target, effect);
+        flow->unk14 = 5;
+    }
+    return TRUE;
+}
+
+u32 func_ov167_021a747c(BtlServerFlow *flow) {
+    u32 style = BtlSetup_GetBattleStyle(flow->mainModule);
+    u32 type = BtlSetup_GetBattleType(flow->mainModule);
+    if (style == 0) {
+        switch (type) {
+        case 0:
+            return 0;
+        default:
+            return 1;
+        }
+    }
+    return 1;
+}
+
+s32 func_ov167_021a74a4(BtlServerFlow *flow, BtlServerClient *client) {
+    u8 slots[6];
+    u32 count = GetNumMonsInParty(client->party);
+    u32 i = func_ov167_0219d29c(flow->mainModule, client->clientId);
+    u32 numSlots = 0;
+
+    for (; i < count; i++) {
+        if (CanPokemonBattle(GetBattleMonFromParty(client->party, i))) {
+            slots[numSlots++] = i;
+        }
+    }
+    if (numSlots != 0) {
+        return slots[BattleRandom(numSlots)];
+    }
+    return -1;
+}
+
+BOOL func_ov167_021a74fc(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target) {
+    BOOL blocked;
+    BattleEventVar_Push(0x22bd);
+    BattleEventVar_SetRewriteOnceValue(0x41, 0);
+    BattleEventVar_SetConstValue(4, GetMonID(target));
+    BattleEvent_CallHandlers(flow, 0x8b);
+    func_ov169_0689c92c(flow, target);
+    blocked = BattleEventVar_GetValue(0x41);
+    BattleEventVar_Pop(0x22c3);
+    return blocked;
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
