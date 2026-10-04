@@ -171,18 +171,18 @@ GameEvent *func_ov033_0217aee8(GameSystem *gsys, TrialHouseWork *work, u16 *resu
     data->result = result;
     data->work = work;
     data->timeout = 0;
-    data->code = 0x2e;
-    data->size = func_0200ee20();
-    data->saveBuffer = work->saveBuffer;
-    data->region = region;
+    data->init.code = 0x2e;
+    data->init.data[0].datasize = func_0200ee20();
+    data->init.data[0].pData = work->saveBuffer;
+    data->init.data[0].region = region;
 #ifdef BLACK2
-    data->mask = 0x800000;
+    data->init.data[0].mask = 0x800000;
 #else
-    data->mask = 0x400000;
+    data->init.data[0].mask = 0x400000;
 #endif
-    data->active = 1;
-    data->flag4 = 0;
-    data->id = 0x8015;
+    data->init.dataNum = 1;
+    data->init.flag4 = 0;
+    data->init.heapId = HEAPID_TAIL(HEAPID_FIELDMAP);
     return event;
 }
 
@@ -200,7 +200,7 @@ GameEventReturnCode func_ov033_0217af5c(GameEvent *event, u32 *state, void *arg)
     gsys = data->gsys;
     switch (*state) {
     case 0:
-        data->subwork = func_ov012_02152990(data);
+        data->subwork = func_ov012_02152990(&data->init);
         if (func_ov012_02152b64(data->subwork) == 0) {
             *data->result = 0;
             *state = 4;

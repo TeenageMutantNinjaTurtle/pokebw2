@@ -5,6 +5,7 @@
 
 #include "types.h"
 #include "field/bsubway_scr.h"
+#include "field/delivery_beacon.h"
 #include "gfl/heap.h"
 #include "system/game_event.h"
 #include "struct_decls.h"
@@ -24,16 +25,8 @@ struct TrialHouseWork {
 };
 
 struct TrialHouseEventData {
-    u32 code;
-    u8 flag4;
-    u8 pad5;
-    u16 id;
-    u32 size;
-    void *saveBuffer;
-    u32 region;
-    u32 mask;
-    u8 pad18[0x60];
-    u32 active;
+    // How the Battle Test's data is received
+    DeliveryBeaconInit init;
     void *subwork;
     GameSystem *gsys;
     TrialHouseWork *work;
@@ -62,12 +55,6 @@ GameEvent *func_ov033_0217aedc(GameSystem *gsys, TrialHouseWork *work, u32 actor
 GameEvent *func_ov033_0217aee8(GameSystem *gsys, TrialHouseWork *work, u16 *result);
 GameEventReturnCode func_ov033_0217af5c(GameEvent *event, u32 *state, void *data);
 GameEvent *func_ov012_02161e6c(GameSystem *gsys, TrialHouseWork *work, u32 actorId, u16 messageId);
-void *func_ov012_02152990(TrialHouseEventData *data);
-BOOL func_ov012_02152b64(void *work);
-void func_ov012_02152bec(void *work);
-BOOL func_ov012_02152bb4(void *work);
-BOOL func_ov012_02152bd4(void *work);
-void func_ov012_02152bfc(void *work);
 u8 func_ov033_0217b35c(TrialHouseSave *save, u32 index);
 void func_ov033_0217b384(TrialHouseSave *save, u32 index);
 void TrialHouseCalcPointScore(GameSystem *gsys, TrialHouseWork *work, u16 *rankOut, u16 *pointsOut);

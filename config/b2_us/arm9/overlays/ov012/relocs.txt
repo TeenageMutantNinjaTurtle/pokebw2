@@ -543,7 +543,7 @@ from:0x02152b68 kind:thumb_call to:0x02042788 module:main
 from:0x02152b82 kind:thumb_call to:0x021529c0 module:overlay(12)
 from:0x02152b8c kind:thumb_call to:0x020425ec module:main
 from:0x02152b98 kind:thumb_call to:0x02152984 module:overlay(12)
-from:0x02152ba0 kind:load to:0x0216e094 module:overlay(12)
+from:0x02152ba0 kind:load to:0x0216e034 add:0x60 module:overlay(12)
 from:0x02152ba8 kind:load to:0x0216e034 module:overlay(12)
 from:0x02152bac kind:load to:0x02152b51 module:overlay(12)
 from:0x02152bb0 kind:load to:0x0215298d module:overlay(12)
