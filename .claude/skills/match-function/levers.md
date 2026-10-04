@@ -18,6 +18,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "array index that is a sum")
 - The operands of `*` are loaded in source order. A product assigned to its own variable gets a new register.
   (matching.md: "operands of `*`"), (matching.md: "A product assigned")
+- A three-term `|` chain with its loads swapped: swap its first two terms. (matching.md: "three-term `|` chain")
 - Where a flag is first set decides which register builds its zero. The register a shared zero gets follows statement
   order. (matching.md: "Where a flag is first set")
 - Chained stores of one constant (`a = b = TRUE`) share a register; separate ones may not.

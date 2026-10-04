@@ -10990,6 +10990,317 @@ u32 func_ov167_021b0b6c(BtlServerCmdQueue *que) {
     return value;
 }
 
+// Writes a command and its arguments, packed as its format says
+static inline void PutHalfwords(BtlServerCmdQueue *que, u16 first, u16 second) {
+    func_ov167_021b0a58(que, first);
+    func_ov167_021b0a58(que, second);
+}
+
+// Writes a command and its arguments, packed as its format says
+// Writes a command and its arguments, packed as its format says
+void func_ov167_021b0b90(BtlServerCmdQueue *que, u32 event, s32 format, const u32 *args) {
+    s32 i;
+
+    func_ov167_021b0a58(que, event);
+    switch (format) {
+    case 0x00:
+        break;
+    case 0x01:
+        func_ov167_021b0a1c(que, args[0]);
+        break;
+    case 0x11:
+        func_ov167_021b0a58(que, args[0]);
+        break;
+    case 0x02:
+        func_ov167_021b0a1c(que, args[0]);
+        func_ov167_021b0a1c(que, args[1]);
+        break;
+    case 0x12:
+        func_ov167_021b0a1c(que, args[0]);
+        func_ov167_021b0a58(que, args[1]);
+        break;
+    case 0x22:
+        func_ov167_021b0a1c(que, args[0]);
+        func_ov167_021b0b18(que, args[1]);
+        break;
+    case 0x32:
+        func_ov167_021b0a1c(que, ((args[0] & 0xf) << 4) | (args[1] & 0xf));
+        break;
+    case 0x42:
+        func_ov167_021b0a1c(que, ((args[0] & 0x1f) << 3) | (args[1] & 7));
+        break;
+    case 0x03:
+        func_ov167_021b0a1c(que, ((args[0] & 0x1f) << 3) | (args[1] & 7));
+        func_ov167_021b0a1c(que, args[2]);
+        break;
+    case 0x13:
+        func_ov167_021b0a1c(que, ((args[0] & 0x1f) << 3) | (args[1] & 7));
+        func_ov167_021b0a58(que, args[2]);
+        break;
+    case 0x23:
+        func_ov167_021b0a58(que, ((args[1] & 0x1f) << 5) | ((args[0] & 0x1f) << 10) | (args[2] & 0x1f));
+        break;
+    case 0x33:
+        func_ov167_021b0ab0(que, ((args[1] & 0x1f) << 14) | ((args[0] & 0x1f) << 19) | (args[2] & 0x3fff));
+        break;
+    case 0x43:
+        func_ov167_021b0a1c(que, args[0]);
+        func_ov167_021b0a1c(que, args[1]);
+        func_ov167_021b0a58(que, args[2]);
+        break;
+    case 0x53:
+        func_ov167_021b0a1c(que, args[0]);
+        func_ov167_021b0a1c(que, args[1]);
+        func_ov167_021b0b18(que, args[2]);
+        break;
+    case 0x14:
+        func_ov167_021b0a1c(que, ((args[0] & 0x1f) << 3) | (args[1] & 7));
+        func_ov167_021b0a1c(que, ((args[2] & 0x1f) << 3) | (args[3] & 7));
+        break;
+    case 0x04:
+        func_ov167_021b0a1c(que, ((args[0] & 0x1f) << 3) | (args[1] & 7));
+        func_ov167_021b0a1c(que, args[2]);
+        func_ov167_021b0a58(que, args[3]);
+        break;
+    case 0x24:
+        func_ov167_021b0ab0(que, ((args[1] & 0x1f) << 14) | ((args[0] & 0x1f) << 19) | (args[2] & 0x3fff));
+        func_ov167_021b0a1c(que, args[3]);
+        break;
+    case 0x34:
+        func_ov167_021b0ab0(que, ((args[1] & 0x1f) << 14) | ((args[0] & 0x1f) << 19) | (args[2] & 0x3fff));
+        func_ov167_021b0a58(que, args[3]);
+        break;
+    case 0x44:
+        func_ov167_021b0a58(que, ((args[1] & 0x1f) << 6) | ((args[0] & 0x1f) << 11) | (args[2] & 0x3f));
+        func_ov167_021b0a58(que, args[3]);
+        break;
+    case 0x54:
+        func_ov167_021b0a1c(que, args[0]);
+        func_ov167_021b0a1c(que, args[1]);
+        func_ov167_021b0a58(que, args[2]);
+        func_ov167_021b0a58(que, args[3]);
+        break;
+    case 0x05:
+        func_ov167_021b0a58(que, ((args[1] & 0x1f) << 5) | ((args[0] & 0x1f) << 10) | (args[2] & 0x1f));
+        func_ov167_021b0a58(que, args[3]);
+        func_ov167_021b0a58(que, args[4]);
+        break;
+    case 0x15:
+        PutHalfwords(que, (u8)(((args[0] & 0x1f) << 3) | (args[1] & 7)), (u8)(((args[2] & 0x7f) << 1) | (args[3] & 1)));
+        func_ov167_021b0a58(que, args[4]);
+        break;
+    case 0x25:
+        func_ov167_021b0a1c(que, ((args[0] & 7) << 5) | ((args[1] & 7) << 2) | ((args[2] & 1) << 1) | (args[3] & 1));
+        func_ov167_021b0a58(que, args[4]);
+        break;
+    case 0x06:
+        PutHalfwords(que, ((args[1] & 0x1f) << 5) | ((args[0] & 0x1f) << 10) | (args[2] & 0x1f),
+                     ((args[4] & 0x1f) << 5) | ((args[3] & 0x1f) << 10) | (args[5] & 0x1f));
+        break;
+    case 0x16:
+        func_ov167_021b0a1c(que, ((args[0] & 7) << 5) | ((args[1] & 3) << 3) | ((args[2] & 1) << 2) | ((args[3] & 1) << 1) | (args[4] & 1));
+        func_ov167_021b0a58(que, args[5]);
+        break;
+    case 0x26:
+        func_ov167_021b0ab0(que, ((args[0] & 0x1f) << 15) | ((args[1] & 0x1f) << 10) | ((args[2] & 0x1f) << 5) | (args[3] & 0x1f));
+        func_ov167_021b0a58(que, args[4]);
+        func_ov167_021b0a58(que, args[5]);
+        break;
+    case 0x07:
+        for (i = 0; i < 7; i++) {
+            func_ov167_021b0a1c(que, args[i]);
+        }
+        break;
+    case 0x08:
+        for (i = 0; i < 8; i++) {
+            func_ov167_021b0a1c(que, args[i]);
+        }
+        break;
+    }
+}
+
+// Reads a command's arguments, unpacked as its format says
+// Reads a command's arguments, unpacked as its format says
+// Reads a command's arguments, unpacked as its format says
+void func_ov167_021b1074(BtlServerCmdQueue *que, s32 format, u32 *args) {
+    s32 i;
+    u32 value;
+    u32 value2;
+    u8 byte;
+
+    switch (format) {
+    case 0x00:
+        break;
+    case 0x01:
+        args[0] = func_ov167_021b0a4c(que);
+        break;
+    case 0x11:
+        args[0] = func_ov167_021b0a94(que);
+        break;
+    case 0x02:
+        args[0] = func_ov167_021b0a4c(que);
+        args[1] = func_ov167_021b0a4c(que);
+        break;
+    case 0x12:
+        args[0] = func_ov167_021b0a4c(que);
+        args[1] = func_ov167_021b0a94(que);
+        break;
+    case 0x22:
+        args[0] = func_ov167_021b0a4c(que);
+        args[1] = func_ov167_021b0b6c(que);
+        break;
+    case 0x32:
+        byte = func_ov167_021b0a4c(que);
+        args[0] = (byte >> 4) & 0xf;
+        args[1] = byte & 0xf;
+        break;
+    case 0x42:
+        byte = func_ov167_021b0a4c(que);
+        args[0] = (byte >> 3) & 0x1f;
+        args[1] = byte & 7;
+        break;
+    case 0x03:
+        byte = func_ov167_021b0a4c(que);
+        args[0] = (byte >> 3) & 0x1f;
+        args[1] = byte & 7;
+        args[2] = func_ov167_021b0a4c(que);
+        break;
+    case 0x13:
+        byte = func_ov167_021b0a4c(que);
+        args[0] = (byte >> 3) & 0x1f;
+        args[1] = byte & 7;
+        args[2] = func_ov167_021b0a94(que);
+        break;
+    case 0x23:
+        value = func_ov167_021b0a94(que);
+        args[0] = (value >> 10) & 0x1f;
+        args[1] = (value >> 5) & 0x1f;
+        args[2] = value & 0x1f;
+        break;
+    case 0x33:
+        value = func_ov167_021b0af8(que);
+        args[0] = (value >> 19) & 0x1f;
+        args[1] = (value >> 14) & 0x1f;
+        args[2] = value & 0x3fff;
+        break;
+    case 0x43:
+        args[0] = func_ov167_021b0a4c(que);
+        args[1] = func_ov167_021b0a4c(que);
+        args[2] = func_ov167_021b0a94(que);
+        break;
+    case 0x53:
+        args[0] = func_ov167_021b0a4c(que);
+        args[1] = func_ov167_021b0a4c(que);
+        args[2] = func_ov167_021b0b6c(que);
+        break;
+    case 0x14:
+        byte = func_ov167_021b0a4c(que);
+        args[0] = (byte >> 3) & 0x1f;
+        args[1] = byte & 7;
+        byte = func_ov167_021b0a4c(que);
+        args[2] = (byte >> 3) & 0x1f;
+        args[3] = byte & 7;
+        break;
+    case 0x04:
+        byte = func_ov167_021b0a4c(que);
+        args[0] = (byte >> 3) & 0x1f;
+        args[1] = byte & 7;
+        args[2] = func_ov167_021b0a4c(que);
+        args[3] = func_ov167_021b0a94(que);
+        break;
+    case 0x24:
+        value = func_ov167_021b0af8(que);
+        args[0] = (value >> 19) & 0x1f;
+        args[1] = (value >> 14) & 0x1f;
+        args[2] = value & 0x3fff;
+        args[3] = func_ov167_021b0a4c(que);
+        break;
+    case 0x34:
+        value = func_ov167_021b0af8(que);
+        args[0] = (value >> 19) & 0x1f;
+        args[1] = (value >> 14) & 0x1f;
+        args[2] = value & 0x3fff;
+        args[3] = func_ov167_021b0a94(que);
+        break;
+    case 0x44:
+        value = func_ov167_021b0a94(que);
+        args[0] = (value >> 11) & 0x1f;
+        args[1] = (value >> 6) & 0x1f;
+        args[2] = value & 0x3f;
+        args[3] = func_ov167_021b0a94(que);
+        break;
+    case 0x54:
+        args[0] = func_ov167_021b0a4c(que);
+        args[1] = func_ov167_021b0a4c(que);
+        args[2] = func_ov167_021b0a94(que);
+        args[3] = func_ov167_021b0a94(que);
+        break;
+    case 0x05:
+        value = func_ov167_021b0a94(que);
+        args[0] = (value >> 10) & 0x1f;
+        args[1] = (value >> 5) & 0x1f;
+        args[2] = value & 0x1f;
+        args[3] = func_ov167_021b0a94(que);
+        args[4] = func_ov167_021b0a94(que);
+        break;
+    case 0x15:
+        value = func_ov167_021b0a94(que);
+        value2 = func_ov167_021b0a94(que);
+        args[0] = ((u8)value >> 3) & 0x1f;
+        args[1] = (u8)value & 7;
+        args[2] = ((u8)value2 >> 1) & 0x7f;
+        args[3] = (u8)value2 & 1;
+        args[4] = func_ov167_021b0a94(que);
+        break;
+    case 0x25:
+        value = func_ov167_021b0a4c(que);
+        args[0] = (value >> 5) & 7;
+        args[1] = (value >> 2) & 7;
+        args[2] = (value >> 1) & 1;
+        args[3] = value & 1;
+        args[4] = func_ov167_021b0a94(que);
+        break;
+    case 0x06:
+        value = func_ov167_021b0a94(que);
+        value2 = func_ov167_021b0a94(que);
+        args[0] = (value >> 10) & 0x1f;
+        args[1] = (value >> 5) & 0x1f;
+        args[2] = value & 0x1f;
+        args[3] = (value2 >> 10) & 0x1f;
+        args[4] = (value2 >> 5) & 0x1f;
+        args[5] = value2 & 0x1f;
+        break;
+    case 0x16:
+        value = func_ov167_021b0a4c(que);
+        args[0] = (value >> 5) & 7;
+        args[1] = (value >> 3) & 3;
+        args[2] = (value >> 2) & 1;
+        args[3] = (value >> 1) & 1;
+        args[4] = value & 1;
+        args[5] = func_ov167_021b0a94(que);
+        break;
+    case 0x26:
+        value = func_ov167_021b0af8(que);
+        args[0] = (value >> 15) & 0x1f;
+        args[1] = (value >> 10) & 0x1f;
+        args[2] = (value >> 5) & 0x1f;
+        args[3] = value & 0x1f;
+        args[4] = func_ov167_021b0a94(que);
+        args[5] = func_ov167_021b0a94(que);
+        break;
+    case 0x07:
+        for (i = 0; i < 7; i++) {
+            args[i] = func_ov167_021b0a4c(que);
+        }
+        break;
+    case 0x08:
+        for (i = 0; i < 8; i++) {
+            args[i] = func_ov167_021b0a4c(que);
+        }
+        break;
+    }
+}
+
 // Writes a server command with its arguments, in the widths its format gives them
 void func_ov167_021b1434(BtlServerCmdQueue *que, u32 event, ...) {
     va_list list;
