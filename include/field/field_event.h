@@ -55,6 +55,11 @@ GameEvent *EventTeleportEffect_Create(GameEvent *event, GameSystem *gsys, Field 
 GameEvent *EventWaitFieldSound_Create(GameSystem *gsys);
 void func_ov036_021b50c8(PlaceName *placeName, s32 zoneId);
 void func_ov036_021b5168(PlaceName *placeName);
+void func_ov036_021b50f4(PlaceName *placeName, u32 zoneId);
+// The field effect of an ID, such as flying off and landing, or NULL
+GameEvent *EventFieldEffect_Create(GameSystem *gsys, void *g3dCi, u8 effectId);
+// The fade out of the field before flying
+GameEvent *func_ov036_021b8890(GameSystem *gsys, Field *field, u32 a2, u32 a3);
 GameEvent *func_ov036_021b8850(GameSystem *gsys, Field *field, u32 a2, u32 a3, u32 a4);
 GameEvent *func_ov036_021b95ac(GameEvent *event, GameSystem *gsys, Field *field, BOOL seasonChanged, u16 prevSeason,
                                u16 season);
