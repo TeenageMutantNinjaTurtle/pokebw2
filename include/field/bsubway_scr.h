@@ -5,24 +5,13 @@
 #include "app/ov306.h"
 #include "battle/btl_setup.h"
 #include "gfl/heap.h"
+#include "app/ov174.h"
 #include "gfl/proc.h"
 #include "save/player_info.h"
 #include "struct_decls.h"
 
 // The Battle Subway's work while the player is on the subway, which func_0201794c returns. Overlay 33's
 // bsubway_scr.c and overlay 12 keep it, and script plugin 1 (overlay 50) drives it
-
-// What overlay 50 fills in for overlay 174's screen
-typedef struct {
-    GameData *gameData;
-    u8 unk4[0x18];
-    // 0xb, 0xc or 0xd once the screen is done
-    u32 result;
-    u8 unk20[8];
-} BSubwayOv174Param;
-
-// Overlay 174's screen
-extern const GameProcFunctions data_ov174_0219f0fc;
 
 // Overlay 273
 void func_ov273_021e9818(BtlSetup *setup);
@@ -111,7 +100,7 @@ struct BSubwayScrWork {
     u16 unk72A;
     PlayerInfo partner;
     u8 unk74C[0x58];
-    BSubwayOv174Param ov174Param;
+    Ov174Param ov174Param;
     void *allocatedBuffer;
     BtlSetup *btlSetup;
     Ov306Param ov306Param;

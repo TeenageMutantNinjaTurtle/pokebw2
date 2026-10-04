@@ -256,7 +256,9 @@ BOOL func_ov010_0214ff58(GameProc *proc, u32 *state, void *param, void *work) {
     return FALSE;
 }
 
-GameEvent *eventMakeFunc(GameSystem *gsys, const EventMakeArgs *args) {
+GameEvent *eventMakeFunc(GameSystem *gsys, void *data) {
+    const EventMakeArgs *args = data;
+
     return func_ov010_02150310(gsys, args->setup, args->players, args->unk08);
 }
 

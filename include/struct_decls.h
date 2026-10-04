@@ -214,7 +214,7 @@ typedef struct HiddenEventArgs HiddenEventArgs;
 typedef struct HiddenEventData HiddenEventData;
 typedef struct ResortMapCreateWork ResortMapCreateWork;
 typedef struct HighLinkSave HighLinkSave;
-typedef struct IRCPartyWork IRCPartyWork;
+typedef struct EventIRCWork EventIRCWork;
 typedef struct ISS ISS;
 typedef struct ISSSwitchSys ISSSwitchSys;
 typedef struct JoinAvenueInfo JoinAvenueInfo;

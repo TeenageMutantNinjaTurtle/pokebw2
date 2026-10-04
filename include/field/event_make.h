@@ -25,6 +25,7 @@ typedef struct {
 
 GameEvent *func_ov010_02150310(GameSystem *gsys, BtlSetup *setup, BattlePlayers *players, u32 a3);
 GameEventReturnCode func_ov010_0215033c(GameEvent *event, u32 *state, void *data);
-GameEvent *eventMakeFunc(GameSystem *gsys, const EventMakeArgs *args);
+// A GameEventProvider, for GameEvent_CreateOverlayDelegate
+GameEvent *eventMakeFunc(GameSystem *gsys, void *data);
 
 #endif // POKEBW2_FIELD_EVENT_MAKE_H

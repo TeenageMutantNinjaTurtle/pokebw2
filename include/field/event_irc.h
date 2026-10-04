@@ -2,11 +2,28 @@
 #define POKEBW2_FIELD_EVENT_IRC_H
 
 #include "types.h"
+#include "gfl/proc.h"
 #include "struct_decls.h"
+#include "system/game_event.h"
 
-// Function names from swan.
+// The infrared event of overlay 12's event_ircbattle.c: battles and trades with nearby players. Function names from
+// swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0) where it has them
+
+// The infrared menu, in overlay 36
+extern const GameProcFunctions IRC_MENU_PROC;
+// Overlay 175's screen
+extern const GameProcFunctions data_ov175_0219ac6c;
+
 void setPartyLv50(PokeParty *party);
-void battleBoxToLv50Party(BOOL useBattleBox, IRCPartyWork *work);
+void battleBoxToLv50Party(BOOL useBattleBox, EventIRCWork *work);
 void TrimPartyTo3Members(PokeParty *party);
+void func_ov012_02150484(EventIRCWork *work);
+void func_ov012_021504a4(EventIRCWork *work, GameData *gameData);
+void func_ov012_02150588(EventIRCWork *work, GameSystem *gsys);
+GameEventReturnCode EventIRC_Callback(GameEvent *event, u32 *state, void *data);
+// Starts the event, as a new event or in place of event's callback
+GameEvent *CallIRC(GameSystem *gsys, Field *field, GameEvent *event, BOOL create);
+void func_ov012_02150cac(EventIRCWork *work);
+void func_ov012_02150ccc(EventIRCWork *work);
 
 #endif // POKEBW2_FIELD_EVENT_IRC_H

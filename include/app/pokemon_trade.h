@@ -35,5 +35,7 @@ typedef struct {
 // For GTS Negotiation
 extern const GameProcFunctions POKEMONTRADE_PROC_FUNCTIONS;
 extern const GameProcFunctions POKEMONTRADE_WIFICLUB_PROC_FUNCTIONS;
+// For the infrared event
+extern const GameProcFunctions data_ov194_021c63dc;
 
 #endif // POKEBW2_APP_POKEMON_TRADE_H

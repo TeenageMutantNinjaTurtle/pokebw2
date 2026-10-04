@@ -58,6 +58,7 @@ void BtlSetup_SetNet1v1Double(BtlSetup *setup, GameData *gameData, NetHandle *ha
 void BtlSetup_SetNet1v1Single(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, HeapID heapId);
 void BtlSetup_SetNetRotation(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, HeapID heapId);
 void BtlSetup_SetNetTriple(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, HeapID heapId);
+void BtlSetup_SetNetMultiVsNet(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, u8 a4, HeapID heapId);
 void func_02017cfc(BtlSetup *setup, PokeParty *party, u32 a2);
 void func_02017d30(BtlSetup *setup, Regulation *regulation, HeapID heapId);
 void func_020186b0(BtlSetup *setup, u32 a1);

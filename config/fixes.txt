@@ -51,6 +51,16 @@ overlays/ov008 0x0214fd10 overlay_id 257
 overlays/ov008 0x0214fd14 reloc_module overlay(257)
 overlays/ov009 0x0214f60c overlay_id 191
 overlays/ov009 0x0214f610 reloc_module overlay(191)
+overlays/ov012 0x02150aa0 overlay_id 36
+overlays/ov012 0x02150aa4 reloc_module overlay(36)
+overlays/ov012 0x02150aa8 overlay_id 174
+overlays/ov012 0x02150aac reloc_module overlay(174)
+overlays/ov012 0x02150ab0 overlay_id 167
+overlays/ov012 0x02150ab4 reloc_module overlay(167)
+overlays/ov012 0x02150ac8 overlay_id 10
+overlays/ov012 0x02150ad0 overlay_id 194
+overlays/ov012 0x02150c30 overlay_id 284
+overlays/ov012 0x02150c38 overlay_id 175
 overlays/ov012 0x02150de2 reloc_module overlay(211)
 overlays/ov012 0x02157b20 overlay_id 2
 overlays/ov012 0x02157b74 overlay_id 3

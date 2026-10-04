@@ -14,7 +14,10 @@ void GFL_NetErrShow(u32 a0);
 void func_02011de0(void);
 // Calls into the functions that show the wireless strength icons
 void func_02042ba8(u32 a0, HeapID heapId);
-void func_02012154(void);
+// Whether the error was handled, after shutting the connection down
+BOOL func_02012154(void);
+void func_02012144(void);
+void GFL_NetErrAbort(void);
 u32 func_0203ffc4(void);
 u32 func_02042bc4(void);
 int func_02042a78(void);

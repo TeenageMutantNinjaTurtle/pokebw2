@@ -24,6 +24,8 @@ GameEvent *GameEvent_CreateOverlayDelegate(GameSystem *gsys, u32 overlayId, Game
 GameEvent *func_020196d0(GameSystem *gsys, Field *field, u32 overlayId, const GameProcFunctions *functions, void *param,
                          void (*onEnd)(void *arg), void *arg);
 GameEvent *GameEvent_Create(GameSystem *gsys, GameEvent *parent, GameEventCallback callback, u32 size);
+// Gives the event a new callback and new data of size bytes
+void GameEvent_Transplant(GameEvent *event, GameEventCallback callback, u32 size);
 void *GameEvent_GetData(GameEvent *event);
 GameSystem *GameEvent_GetGameSystem(GameEvent *event);
 u32 *GameEvent_GetStatePtr(GameEvent *event);
