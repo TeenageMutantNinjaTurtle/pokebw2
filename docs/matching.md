@@ -118,6 +118,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   inline accessor does it naturally, since its parameter is a copy of the index in the parameter's type: the Join
   Avenue shop reads `ResortShop_GetEntry(wk, j)->id` with a `u32` index for an `int` `j`, and its later
   `wk->entries[j]` is computed again while `wk->entries[i]` is reused.
+- Stores through a pointer to an array element, `icon = &icons[3]; icon->chars = ...;`, use the element's address as
+  their base register, while `icons[3].chars = ...;` reaches the field from a base of MWCC's choosing, often an
+  earlier element. The Pokédex touch bar's map and forms buttons are filled through a pointer. The other way round,
+  a loop that indexes `wk->buttons[i].rect[0]` keeps `wk + i * size` and adds each field's offset, where a
+  `LanguageButton *button` local gives other registers, as the Pokédex info page's language buttons show.
 - A value that a loop uses and the code after it uses again is reused from the copy hoisted out of the loop. When
   the original computes it again after the loop, the loop assigns it to a variable declared in the loop's body, as
   `int wanted = mode + 1;` in the Join Avenue's records command.
