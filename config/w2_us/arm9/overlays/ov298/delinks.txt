@@ -43,3 +43,8 @@ src/ov298/zukan_detail_headbar.c:
     .text       start:0x021a2230 end:0x021a2520
     .rodata     start:0x021ac400 end:0x021ac414
     .data       start:0x021ace9c end:0x021aceb4
+
+src/ov298/zukan_detail_info.c:
+    complete
+    .text       start:0x021a2520 end:0x021a32cc
+    .rodata     start:0x021ac414 end:0x021ac460
