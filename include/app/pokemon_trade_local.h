@@ -7,11 +7,16 @@
 #include "gfl/clact.h"
 #include "gfl/g3d.h"
 #include "gfl/heap.h"
+#include "gfl/key.h"
 #include "gfl/msg.h"
+#include "gfl/net.h"
+#include "gfl/net_handle.h"
 #include "gfl/nhttp_rap.h"
 #include "gfl/str.h"
-#include "gfl/tcbl.h"
 #include "gfl/tcb.h"
+#include "gfl/tcbl.h"
+#include "gfl/touchpanel.h"
+#include "gfl/ui.h"
 #include "struct_decls.h"
 #include "system/app_taskmenu.h"
 #include "system/mcss.h"
@@ -19,6 +24,26 @@
 
 // The trade's own declarations, shared by the files of overlay 194 and the trade demo overlays 192 and 193. The work
 // is one struct that every file uses
+
+// The network commands, from TRADE_NET_CMD_BASE. The library takes a command as a u16, which func_02042be8's
+// prototype doesn't say, so a computed command is cast
+#define TRADE_NET_CMD_BASE 0xc00
+#define TRADE_NET_CMD_SELECT (TRADE_NET_CMD_BASE + 0)
+#define TRADE_NET_CMD_UNK1 (TRADE_NET_CMD_BASE + 1)
+#define TRADE_NET_CMD_UNK3 (TRADE_NET_CMD_BASE + 3)
+#define TRADE_NET_CMD_UNK6 (TRADE_NET_CMD_BASE + 6)
+#define TRADE_NET_CMD_OFFER (TRADE_NET_CMD_BASE + 7)
+#define TRADE_NET_CMD_UNKA (TRADE_NET_CMD_BASE + 0xa)
+#define TRADE_NET_CMD_WITHDRAW (TRADE_NET_CMD_BASE + 0xb)
+#define TRADE_NET_CMD_UNKC (TRADE_NET_CMD_BASE + 0xc)
+#define TRADE_NET_CMD_UNKD (TRADE_NET_CMD_BASE + 0xd)
+#define TRADE_NET_CMD_UNKE (TRADE_NET_CMD_BASE + 0xe)
+#define TRADE_NET_CMD_UNKF (TRADE_NET_CMD_BASE + 0xf)
+#define TRADE_NET_CMD_UNK10 (TRADE_NET_CMD_BASE + 0x10)
+#define TRADE_NET_CMD_CHECK_RESULT (TRADE_NET_CMD_BASE + 0x11)
+#define TRADE_NET_CMD_UNK13 (TRADE_NET_CMD_BASE + 0x13)
+#define TRADE_NET_CMD_UNK16 (TRADE_NET_CMD_BASE + 0x16)
+#define TRADE_NET_CMD_UNK17 (TRADE_NET_CMD_BASE + 0x17)
 
 typedef struct PokemonTradeWork PokemonTradeWork;
 
@@ -39,7 +64,10 @@ struct PokemonTradeWork {
     PokemonTradeParam *param;
     u8 unkC[0x4];
     u8 unk10[2][0x2d6];
-    u8 unk5BC[0x20];
+    BmpWin *unk5BC[2];
+    u8 unk5C4[0x10];
+    BmpWin *unk5D4;
+    BmpWin *unk5D8;
     // The Pokémon each machine offers, by network ID
     PartyPkm *pkm[2];
     u32 unk5E4[2];
@@ -60,7 +88,10 @@ struct PokemonTradeWork {
     u8 unk650[0xd0];
     MsgData *msgData;
     WordSet *wordSet;
-    u8 unk728[0x10];
+    Font *font;
+    u8 unk72C[0x4];
+    StrBuf *unk730;
+    StrBuf *unk734;
     StrBuf *strbuf;
     StrBuf *strbufTemplate;
     PrintQueue *printQueue;
@@ -82,7 +113,12 @@ struct PokemonTradeWork {
     MCSS *mcss[2];
     u8 unk84C[0x10];
     void *unk85C[4];
-    u8 unk86C[0xe4];
+    u32 unk86C;
+    u8 unk870[0x20];
+    u32 unk890;
+    u8 unk894[0x2c];
+    u32 unk8C0;
+    u8 unk8C4[0x8c];
     u8 unk950[3][0x14];
     u8 unk98C[0x34];
     TouchBar *touchBar;
@@ -123,11 +159,12 @@ struct PokemonTradeWork {
     int unkF98;
     u32 unkF9C;
     u32 unkFA0;
-    int unkFA4[2][3];
-    u8 unkFBC[0x1c];
-    PartyPkm *unkFD8[2][3];
-    u32 unkFF0[3];
-    u32 unkFFC[3];
+    // The Pokémon each player offers in a negotiation: their slots, boxes and copies
+    int negoSlot[2][3];
+    int negoBox[2][3];
+    u8 unkFD4[0x4];
+    PartyPkm *negoPkm[2][3];
+    u32 unkFF0[2][3];
     u8 unk1008[0x40];
     u32 unk1048[2];
     u32 unk1050[2];
@@ -149,9 +186,11 @@ struct PokemonTradeWork {
     int unk108C;
     u8 unk1090[0x4];
     u32 bgmTimer;
-    u8 unk1098[0x4];
+    u8 unk1098[0x2];
+    u16 unk109A;
     u32 unk109C;
-    u32 unk10A0;
+    // The side, or the one of the six Pokémon of a negotiation, that the cursor is on
+    int cursor;
     void *unk10A4;
     void *unk10A8;
     u8 unk10AC[0xe0];
@@ -159,12 +198,17 @@ struct PokemonTradeWork {
     u8 unk1190[0x50];
     // The command each machine sent last
     u8 command[2];
-    u8 unk11E2[0x5];
-    u8 unk11E7;
+    u8 unk11E2[2];
+    u8 unk11E4[2];
+    // The results of the server's check of the Pokémon
+    u8 checkResult;
+    u8 partnerCheckResult;
     u8 unk11E8[2];
     // The other machine's number of boxes
     u8 unk11EA;
-    u8 unk11EB[0x7];
+    u8 unk11EB[0x6];
+    // Frames to wait before going on, after a message
+    u8 waitTimer;
     u8 partnerBoxCount;
     u8 unk11F3;
     u8 unk11F4;
@@ -173,12 +217,41 @@ struct PokemonTradeWork {
     u8 unk11F7;
     u8 bgmCount;
     u8 unk11F9;
-    u8 unk11FA[0x1];
+    // How many times the server checked the Pokémon
+    u8 checkCount;
     u8 unk11FB_0 : 4;
     u8 unk11FB_4 : 4;
     // The icons of the party and of every box
     TradeBoxEntry boxEntries[726];
 };
+
+// The machine's own network ID
+static inline int PokemonTrade_GetMyNetId(void) {
+    return func_02042a6c(func_02040440());
+}
+
+// Sends a command of one byte to the other machine
+static inline BOOL PokemonTrade_SendSelect(u8 command) {
+    return func_02042be8(func_02040440(), TRADE_NET_CMD_SELECT, 1, &command);
+}
+
+// Whether the screen was touched, switching the controls to the touch screen if so
+static inline BOOL PokemonTrade_GetTouched(void) {
+    BOOL touched = func_0203da48();
+    if (touched) {
+        func_0203d564(TRUE);
+    }
+    return touched;
+}
+
+// The pressed keys, switching the controls to the keys when there are any
+static inline u32 PokemonTrade_GetPressedKeys(void) {
+    u32 keys = GCTX_HIDGetPressedKeys();
+    if (keys) {
+        func_0203d564(FALSE);
+    }
+    return keys;
+}
 
 // pokemontrade_proc.c
 void func_ov194_021b76e0(PokemonTradeWork *wk);
@@ -187,7 +260,7 @@ BOOL func_ov194_021b774c(const u8 *data);
 u8 func_ov194_021b7778(PokemonTradeWork *wk);
 // Whether the trade is with another machine
 BOOL PokemonTrade_IsNetwork(PokemonTradeWork *wk);
-BOOL func_ov194_021b7808(PokemonTradeWork *wk);
+BOOL PokemonTrade_IsNegoType(PokemonTradeWork *wk);
 BOOL func_ov194_021b783c(PokemonTradeWork *wk);
 int PokemonTrade_GetColumnBox(int a, PokemonTradeWork *wk);
 int PokemonTrade_GetColumnSlot(int a, int b);
@@ -213,32 +286,35 @@ void func_ov194_021b94c0(PokemonTradeWork *wk);
 void func_ov194_021bb4b4(PokemonTradeWork *wk);
 
 // pokemontrade_nego.c
+// Whether a Pokémon can't be offered in a negotiation
+BOOL func_ov194_021bbe60(PokemonTradeWork *wk, BoxPkm *pkm);
 void func_ov194_021bbf18(PokemonTradeWork *wk);
 void func_ov194_021bbf5c(PokemonTradeWork *wk);
+BOOL func_ov194_021bbff0(PokemonTradeWork *wk);
+void func_ov194_021bc038(PokemonTradeWork *wk, u32 a1, u32 a2);
 BOOL func_ov194_021bc04c(PokemonTradeWork *wk);
 BOOL func_ov194_021bc098(PokemonTradeWork *wk);
-// The index of a Pokémon among the chosen ones, or -1
+// The index of a Pokémon among the ones this player offers, or -1
 int func_ov194_021bc0f0(PokemonTradeWork *wk, int box, int slot);
-BOOL func_ov194_021bbe60(PokemonTradeWork *wk, BoxPkm *pkm);
-void func_ov194_021bbff0(PokemonTradeWork *wk);
-void func_ov194_021bc038(PokemonTradeWork *wk, u32 a1, u32 a2);
 void func_ov194_021bc124(PokemonTradeWork *wk, int index, PartyPkm *pkm);
-int func_ov194_021bc178(PokemonTradeWork *wk, u32 a1, int slot, int box);
-void func_ov194_021bc29c(PokemonTradeWork *wk, int side, u32 a2);
-void func_ov194_021bc2d0(PokemonTradeWork *wk, u32 a1);
+int func_ov194_021bc178(PokemonTradeWork *wk, int side, int slot, int box);
+void func_ov194_021bc29c(PokemonTradeWork *wk, int side, int index);
+void func_ov194_021bc2d0(PokemonTradeWork *wk, u32 vram);
 void func_ov194_021bc330(PokemonTradeWork *wk);
 BOOL func_ov194_021bc35c(PokemonTradeWork *wk, int slot, int box);
 void func_ov194_021bc434(PokemonTradeWork *wk);
-void func_ov194_021bc6b4(PokemonTradeWork *wk, int netId, u32 a2, u32 a3);
+void func_ov194_021bc6b4(PokemonTradeWork *wk, int side, u32 msg, BOOL force);
 void func_ov194_021bc784(PokemonTradeWork *wk);
 void func_ov194_021be380(PokemonTradeWork *wk);
+BOOL func_ov194_021be3bc(PokemonTradeWork *wk, int column, int row);
+BOOL func_ov194_021be45c(PokemonTradeWork *wk, int column, int row);
 void func_ov194_021be4b0(PokemonTradeWork *wk);
 void func_ov194_021be534(PokemonTradeWork *wk);
+void func_ov194_021be554(PokemonTradeWork *wk, BOOL a1);
 void func_ov194_021be578(PokemonTradeWork *wk);
-void func_ov194_021be554(PokemonTradeWork *wk, u32 a1);
 void func_ov194_021be598(PokemonTradeWork *wk);
 void func_ov194_021be610(PokemonTradeWork *wk);
-void func_ov194_021be648(PokemonTradeWork *wk, u32 a1, u32 a2);
+void func_ov194_021be648(PokemonTradeWork *wk, u32 index, int side);
 void func_ov194_021be688(PokemonTradeWork *wk);
 void func_ov194_021be6ac(PokemonTradeWork *wk);
 void func_ov194_021be6c0(PokemonTradeWork *wk, int side, PartyPkm *pkm);
@@ -266,8 +342,14 @@ void func_ov194_021c0c04(PokemonTradeWork *wk, int side, PartyPkm *pkm);
 void func_ov194_021c0fa0(PokemonTradeWork *wk, PartyPkm *pkm, int side, u32 a3);
 void func_ov194_021c123c(PokemonTradeWork *wk, int side);
 void func_ov194_021c1288(PokemonTradeWork *wk, u32 a1);
+void func_ov194_021c12ec(PokemonTradeWork *wk, u32 a1);
 void func_ov194_021c1484(PokemonTradeWork *wk);
+void func_ov194_021c14b0(PokemonTradeWork *wk);
+void func_ov194_021c1530(PokemonTradeWork *wk, int side, PartyPkm *pkm);
 void func_ov194_021c1740(PokemonTradeWork *wk, int side);
+void func_ov194_021c1788(PokemonTradeWork *wk, u32 msg);
+void func_ov194_021c1820(PokemonTradeWork *wk, u32 a1, u32 a2);
+BOOL func_ov194_021c1884(PokemonTradeWork *wk);
 
 // pokemontrade_3d.c
 void func_ov194_021c1ef0(PokemonTradeWork *wk);
@@ -312,20 +394,35 @@ void func_ov194_021c4234(PokemonTradeWork *wk);
 void func_ov194_021c43c0(PokemonTradeWork *wk);
 void func_ov194_021c4484(PokemonTradeWork *wk);
 void func_ov194_021c45a8(PokemonTradeWork *wk);
+void func_ov194_021c45ec(u32 a0);
+void func_ov194_021c4600(PokemonTradeWork *wk);
+void func_ov194_021c466c(PokemonTradeWork *wk);
 void func_ov194_021c46a4(PokemonTradeWork *wk);
 void func_ov194_021c4cfc(void *a0);
 void func_ov194_021c4a68(PokemonTradeWork *wk);
 void func_ov194_021c4b88(PokemonTradeWork *wk);
 void func_ov194_021c4970(PokemonTradeWork *wk, int side, u32 a2);
 void func_ov194_021c50d8(PokemonTradeWork *wk, int side, u32 a2);
+void func_ov194_021c510c(PokemonTradeWork *wk, int side, BOOL a2);
 void func_ov194_021c5138(PokemonTradeWork *wk, int side, int index, PartyPkm *pkm, u32 a4, u32 a5);
+void func_ov194_021c5244(PokemonTradeWork *wk, int side, int slot);
 void func_ov194_021c52bc(PokemonTradeWork *wk);
 void func_ov194_021c52e0(PokemonTradeWork *wk, int a1, int a2, int x, int y, BoxPkm *pkm);
 void func_ov194_021c54ec(PokemonTradeWork *wk);
 void func_ov194_021c5348(PokemonTradeWork *wk);
 BOOL func_ov194_021c5460(PokemonTradeWork *wk);
 void func_ov194_021c5504(PokemonTradeWork *wk);
+void func_ov194_021c551c(PokemonTradeWork *wk, int index);
+void func_ov194_021c5594(PokemonTradeWork *wk, int index, BOOL a2);
+void func_ov194_021c55ac(PokemonTradeWork *wk, int index);
+void func_ov194_021c55c8(PokemonTradeWork *wk, u32 index);
+void func_ov194_021c55e4(PokemonTradeWork *wk, u32 index, int side);
+void func_ov194_021c56b8(PokemonTradeWork *wk, int side);
+void func_ov194_021c56f8(PokemonTradeWork *wk, int index);
 void func_ov194_021c57a8(PokemonTradeWork *wk);
+BOOL func_ov194_021c57c4(PokemonTradeWork *wk);
+void func_ov194_021c5994(PokemonTradeWork *wk);
+void func_ov194_021c5d10(PokemonTradeWork *wk, int side, PartyPkm *pkm);
 void func_ov194_021c5dd8(PokemonTradeWork *wk, u8 x, u8 y);
 void func_ov194_021c5e5c(PokemonTradeWork *wk);
 BOOL func_ov194_021c5e80(PokemonTradeWork *wk);

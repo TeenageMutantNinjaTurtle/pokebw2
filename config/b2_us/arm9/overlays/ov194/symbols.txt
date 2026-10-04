@@ -5,7 +5,7 @@ func_ov194_021b774c kind:function(thumb,size=0x2a) addr:0x021b774c
 func_ov194_021b7778 kind:function(thumb,size=0xc) addr:0x021b7778
 PokemonTrade_IsNetwork kind:function(thumb,size=0x2c) addr:0x021b7784
 PokemonTrade_UpdateBGM kind:function(thumb,size=0x58) addr:0x021b77b0
-func_ov194_021b7808 kind:function(thumb,size=0x34) addr:0x021b7808
+PokemonTrade_IsNegoType kind:function(thumb,size=0x34) addr:0x021b7808
 func_ov194_021b783c kind:function(thumb,size=0x18) addr:0x021b783c
 PokemonTrade_GetColumnBox kind:function(thumb,size=0x18) addr:0x021b7854
 PokemonTrade_GetColumnSlot kind:function(thumb,size=0x2a) addr:0x021b786c
@@ -544,7 +544,7 @@ data_ov194_021c64f8 kind:data(any) addr:0x021c64f8
 data_ov194_021c6500 kind:data(any) addr:0x021c6500
 data_ov194_021c6508 kind:data(any) addr:0x021c6508
 data_ov194_021c6510 kind:data(any) addr:0x021c6510
-data_ov194_021c651c kind:data(any) addr:0x021c651c
+sBlockedFields kind:data(any) addr:0x021c651c
 data_ov194_021c6558 kind:data(any) addr:0x021c6558
 data_ov194_021c6568 kind:data(any) addr:0x021c6568
 data_ov194_021c6598 kind:data(any) addr:0x021c6598
@@ -618,7 +618,7 @@ sBoxStartX kind:data(any) addr:0x021c6de0
 sBoxListRects kind:data(any) addr:0x021c6e44
 data_ov194_021c6e46 kind:data(any) addr:0x021c6e46
 data_ov194_021c6eb0 kind:data(any) addr:0x021c6eb0
-data_ov194_021c6ec4 kind:data(any) addr:0x021c6ec4
+sNegoPkmRects kind:data(any) addr:0x021c6ec4
 data_ov194_021c6ee0 kind:data(any) addr:0x021c6ee0
 data_ov194_021c6ef4 kind:data(any) addr:0x021c6ef4
 data_ov194_021c6f08 kind:data(any) addr:0x021c6f08

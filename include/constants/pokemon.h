@@ -42,6 +42,8 @@
 #define PKM_PARAM_ORIGIN_GAME 0x77
 #define PKM_PARAM_RIBBON_G4_COOL 0x78
 #define PKM_PARAM_OT_NAME 0x8d
+// The original trainer's name, copied to or from a u16 array
+#define PKM_PARAM_OT_NAME_RAW 0x8e
 #define PKM_PARAM_OT_GENDER 0x9a
 #define PKM_PARAM_POKERUS 0x97
 #define PKM_PARAM_POKEBALL 0x98

@@ -149,6 +149,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   branches with the same body.
 - A clamp that ends in one store, with each limit copied into the value's register, is a conditional expression.
   `if`/`else if` stores each limit separately.
+- An `if`/`else` that assigns one field a constant in each branch can still end in one store after the branches, with
+  `b` over the else branch, as the trade's key cursor wraps its row to 2 or 4 in `pokemontrade_proc.c`. The
+  conditional expression gives `mov`, a conditional branch over a second `mov`, and no `b`.
 - A call whose argument is picked by branches comes from one of two sources, told apart by the layout. `f(x ? FALSE :
   TRUE)` tests `x` with `bne` to the second value, and puts the value for `x == 0` first. Two calls in an `if`/`else`,
   `if (x) f(FALSE); else f(TRUE);`, are merged into one call after the branches, with `beq` to the else branch and the
@@ -205,6 +208,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   and moving one object can reorder others. `tools/scripts/rodata_order.py` predicts the layout for a declaration order
   and tries the orders of the objects given with `--permute`; `intro_graphic.c` matches only with its light setups
   declared after the function whose BG setups are local initializers.
+- A `static const` table declared inside the one function that reads it is listed where that function is, among
+  the local initializers, rather than where file-scope data would be. `pokemontrade_nego.c` lays out its menus' item
+  lists in the game's order only with its table of blocking fields declared inside `func_ov194_021bbe60`.
 - `static const` data goes in `.rodata`, so a table that the original has in `.data` is not `const`. The module
   check fails if a table ends up in the wrong section, even when every function matches.
 - A `static const` variable whose address is never taken is folded into the code and not emitted. If the original has

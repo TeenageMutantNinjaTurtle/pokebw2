@@ -106,6 +106,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   `BOOL x = FALSE; if (...) x = TRUE;` flag gives the `sub; cmp 1; bhi` range test. (matching.md: "range check")
 - A clamp that ends in one store is a conditional expression; `if`/`else if` stores each limit.
   (matching.md: "A clamp that ends in one store")
+- One store after an `if`/`else` of two constants, with a `b` over the else, is still an `if`/`else`; the conditional
+  expression has no `b`. (matching.md: "assigns one field a constant in each branch")
 - `f(x ? a : b)` against two calls in `if`/`else`, which are merged into one call with a `beq; b` layout.
   (matching.md: "picked by branches")
 - A `return` inside `for (;;)` leaves a dead `bx lr`, which the original counts as padding.
@@ -148,6 +150,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   statics, which join at the end in reverse order. Each kind (rodata, data, bss) gets its own shared section.
   Unreferenced statics are dropped. `rodata_order.py` doesn't model the per-kind sections or the `.bss` rule yet.
 - `.bss` statics are ordered by size, then in an order that isn't the declaration order; try permutations.
+- A table that only one function reads can be a `static const` inside it, which moves it in the heapsort's list.
+  (matching.md: "declared inside the one function")
 - `static const` goes in `.rodata`, so a table in `.data` isn't `const`. (matching.md: "`static const` data goes in")
 - A `static const` whose address is never taken is folded and not emitted. If the original has it, it isn't static.
   (matching.md: "whose address is never taken")

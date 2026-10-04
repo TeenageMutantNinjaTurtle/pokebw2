@@ -42,6 +42,10 @@ typedef u16 GXRgb;
 // The count of vertices in vertex RAM
 #define reg_G3X_VTXRAM_COUNT (*(vu16 *)0x04000606)
 #define reg_GXS_DB_DISPCNT (*(vu32 *)0x04001000)
+#define reg_G2S_DB_WIN0H (*(vu16 *)0x04001040)
+#define reg_G2S_DB_WIN0V (*(vu16 *)0x04001044)
+#define reg_G2S_DB_WININ (*(vu16 *)0x04001048)
+#define reg_G2S_DB_WINOUT (*(vu16 *)0x0400104a)
 #define reg_G2S_DB_BLDCNT (*(vu16 *)0x04001050)
 
 #define REG_GX_DISPCNT_W0_SHIFT 13
@@ -62,6 +66,14 @@ typedef u16 GXRgb;
 #define REG_G3X_DISP3DCNT_GO_MASK 0x2000
 
 #define GX_WNDMASK_NONE 0x00
+#define GX_WNDMASK_W0 0x01
+
+#define REG_G2S_DB_WININ_WIN0IN_SHIFT 0
+#define REG_G2S_DB_WININ_WIN0IN_MASK 0x003f
+#define REG_G2S_DB_WINOUT_WINOUT_SHIFT 0
+#define REG_G2S_DB_WINOUT_WINOUT_MASK 0x003f
+// A window's effect enable, above its planes
+#define GX_WND_EFFECT_SHIFT 5
 
 #define GX_OAM_MODE_NORMAL 0
 #define GX_OAM_MODE_XLU 1
@@ -491,6 +503,27 @@ static inline void GXS_SetVisibleWnd(int window) {
     reg_GXS_DB_DISPCNT =
         (reg_GXS_DB_DISPCNT & ~(REG_GX_DISPCNT_W0_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_OW_MASK)) |
         (window << REG_GX_DISPCNT_W0_SHIFT);
+}
+
+static inline void G2S_SetWnd0InsidePlane(int wnd, BOOL effect) {
+    u32 tmp = (u32)((reg_G2S_DB_WININ & ~REG_G2S_DB_WININ_WIN0IN_MASK) | (wnd << REG_G2S_DB_WININ_WIN0IN_SHIFT));
+    if (effect) {
+        tmp |= 1 << GX_WND_EFFECT_SHIFT;
+    }
+    reg_G2S_DB_WININ = (u16)tmp;
+}
+
+static inline void G2S_SetWndOutsidePlane(int wnd, BOOL effect) {
+    u32 tmp = (u32)((reg_G2S_DB_WINOUT & ~REG_G2S_DB_WINOUT_WINOUT_MASK) | (wnd << REG_G2S_DB_WINOUT_WINOUT_SHIFT));
+    if (effect) {
+        tmp |= 1 << GX_WND_EFFECT_SHIFT;
+    }
+    reg_G2S_DB_WINOUT = (u16)tmp;
+}
+
+static inline void G2S_SetWnd0Position(int x1, int y1, int x2, int y2) {
+    reg_G2S_DB_WIN0H = (u16)(((x1 & 0xff) << 8) | (x2 & 0xff));
+    reg_G2S_DB_WIN0V = (u16)(((y1 & 0xff) << 8) | (y2 & 0xff));
 }
 
 static inline void G2_BlendNone(void) {

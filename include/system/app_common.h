@@ -7,5 +7,7 @@
 
 BOOL func_0202d7d8(void);
 void func_0202d7dc(void);
+// The archive of the common graphics
+u32 getUINarcIdx(void);
 
 #endif // POKEBW2_SYSTEM_APP_COMMON_H

@@ -914,6 +914,7 @@ overlays/ov190 0x021b52bc WIFILOGOUT_PROC_FUNCTIONS
 overlays/ov191 0x021b7168 WIFI_BSUBWAY_PROC_FUNCTIONS
 overlays/ov194 0x021b7784 PokemonTrade_IsNetwork
 overlays/ov194 0x021b77b0 PokemonTrade_UpdateBGM
+overlays/ov194 0x021b7808 PokemonTrade_IsNegoType
 overlays/ov194 0x021b7854 PokemonTrade_GetColumnBox
 overlays/ov194 0x021b786c PokemonTrade_GetColumnSlot
 overlays/ov194 0x021b7aac PokemonTrade_CopyPartyPkm
@@ -939,8 +940,10 @@ overlays/ov194 0x021c63a0 POKEMONTRADE_PROC_FUNCTIONS
 overlays/ov194 0x021c63c4 POKEMONTRADE_WIFICLUB_PROC_FUNCTIONS
 overlays/ov194 0x021c63f4 sSideButtonRects
 overlays/ov194 0x021c6418 sNetCommands
+overlays/ov194 0x021c651c sBlockedFields
 overlays/ov194 0x021c6de0 sBoxStartX
 overlays/ov194 0x021c6e44 sBoxListRects
+overlays/ov194 0x021c6ec4 sNegoPkmRects
 overlays/ov194 0x021c7360 sHeapMemory
 overlays/ov195 0x021b78bc GTSNEGO_PROC_FUNCTIONS
 overlays/ov197 0x021be328 MYSTERY_GIFT_PROC_FUNCTIONS

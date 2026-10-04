@@ -94,6 +94,10 @@ void PokeParty_RecalcStats(PartyPkm *pkm);
 void setLevel(PartyPkm *pkm, u32 level);
 void setPkmBattleData(PartyPkm *pkm, u32 param, u32 value);
 // A species with its form and sex in one u16
+// The icons' palette and cell files, for the OBJ mapping in use
+u32 func_02021114(void);
+u32 func_02021154(void);
+u32 getOBJTileMapping_MainEng(void);
 u16 func_02021204(u32 species, u32 form, u32 sex);
 // The level, 0 to 4, of a Pokémon's Pokéstar fame
 int func_0201f010(u8 fame);
@@ -126,6 +130,10 @@ u16 func_0201d358(PartyPkm *pkm, u32 *index, HeapID heapId);
 // that PML_CreatePkm treats specially
 PartyPkm *PokeParty_NewTempPkm(u16 species, u16 level, u64 a2, HeapID heapId);
 PartyPkm *boxPkmRegenToPartyPkm(BoxPkm *pkm, HeapID heapId);
+// Whether the species is a legendary Pokémon of the national Pokédex
+BOOL PML_PkmIsLegendNational(u16 species);
+// Sets the nickname to the species name
+void setNicknameToNick(PartyPkm *pkm);
 // Whether the Pokémon is in a form that it changed into, which it would lose in a box
 BOOL hasPokemonChangedForm(BoxPkm *pkm);
 // The number of Pokémon in the party that can battle: not fainted and not eggs

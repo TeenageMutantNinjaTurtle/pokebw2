@@ -9,17 +9,12 @@
 #include "gfl/bg_sys.h"
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"
+#include "gfl/dwc_rap.h"
 #include "gfl/fade.h"
 #include "gfl/g3d.h"
-#include "gfl/heap.h"
-#include "gfl/nhttp_rap.h"
-#include "gfl/overlay.h"
-#include "gfl/proc.h"
-#include "gfl/tcb.h"
-#include "gfl/tcbl.h"
-#include "gfl/dwc_rap.h"
 #include "gfl/graphics.h"
 #include "gfl/gx_layers.h"
+#include "gfl/heap.h"
 #include "gfl/key.h"
 #include "gfl/msg.h"
 #include "gfl/net.h"
@@ -27,8 +22,13 @@
 #include "gfl/net_handle.h"
 #include "gfl/net_state.h"
 #include "gfl/net_system.h"
+#include "gfl/nhttp_rap.h"
+#include "gfl/overlay.h"
+#include "gfl/proc.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
+#include "gfl/tcb.h"
+#include "gfl/tcbl.h"
 #include "gfl/touchpanel.h"
 #include "gfl/ui.h"
 #include "gfl/wipe.h"
@@ -39,33 +39,18 @@
 #include "pml/poke_party.h"
 #include "save/box.h"
 #include "save/player_info.h"
-#include "save/save_control.h"
-#include "system/app_taskmenu.h"
 #include "save/pokedex.h"
+#include "save/save_control.h"
 #include "system/app_common.h"
+#include "system/app_taskmenu.h"
 #include "system/game_data.h"
 #include "system/gf_font.h"
+#include "system/master_brightness.h"
 #include "system/mcss.h"
 #include "system/printsys.h"
-#include "system/master_brightness.h"
 #include "system/wordset.h"
 
 // The trade's procs and the steps of the trade: choosing a Pokémon, the menus, the messages between the machines
-
-// The network commands, from TRADE_NET_CMD_BASE. The library takes a command as a u16, which func_02042be8's
-// prototype doesn't say, so a computed command is cast
-#define TRADE_NET_CMD_BASE 0xc00
-#define TRADE_NET_CMD_SELECT (TRADE_NET_CMD_BASE + 0)
-#define TRADE_NET_CMD_UNK1 (TRADE_NET_CMD_BASE + 1)
-#define TRADE_NET_CMD_UNK3 (TRADE_NET_CMD_BASE + 3)
-#define TRADE_NET_CMD_UNK6 (TRADE_NET_CMD_BASE + 6)
-#define TRADE_NET_CMD_UNKC (TRADE_NET_CMD_BASE + 0xc)
-#define TRADE_NET_CMD_UNKE (TRADE_NET_CMD_BASE + 0xe)
-#define TRADE_NET_CMD_UNKF (TRADE_NET_CMD_BASE + 0xf)
-#define TRADE_NET_CMD_UNK10 (TRADE_NET_CMD_BASE + 0x10)
-#define TRADE_NET_CMD_UNK13 (TRADE_NET_CMD_BASE + 0x13)
-#define TRADE_NET_CMD_UNK16 (TRADE_NET_CMD_BASE + 0x16)
-#define TRADE_NET_CMD_UNK17 (TRADE_NET_CMD_BASE + 0x17)
 
 // The profile a machine sends: its player's info and more
 typedef struct {
@@ -228,104 +213,56 @@ static void func_ov194_021babc4(PokemonTradeWork *wk);
 
 // Where each box starts in the strip
 static int sBoxStartX[] = {
-    48, 208, 368, 528, 688, 848, 1008, 1168, 1328, 1488, 1648, 1808, 1968,
+    48,   208,  368,  528,  688,  848,  1008, 1168, 1328, 1488, 1648, 1808, 1968,
     2128, 2288, 2448, 2608, 2768, 2928, 3088, 3248, 3408, 3568, 3728, 3856,
 };
 
 // The boxes of the box list
 static TouchRect sBoxListRects[] = {
-    {0x44, 0x5c, 0x08, 0x20},
-    {0x44, 0x5c, 0x20, 0x38},
-    {0x44, 0x5c, 0x38, 0x50},
-    {0x44, 0x5c, 0x50, 0x68},
-    {0x44, 0x5c, 0x68, 0x80},
-    {0x44, 0x5c, 0x80, 0x98},
-    {0x44, 0x5c, 0x98, 0xb0},
-    {0x44, 0x5c, 0xb0, 0xc8},
-    {0x44, 0x5c, 0xc8, 0xe0},
-    {0x44, 0x5c, 0xe0, 0xf8},
-    {0x5c, 0x74, 0x08, 0x20},
-    {0x5c, 0x74, 0x20, 0x38},
-    {0x5c, 0x74, 0x38, 0x50},
-    {0x5c, 0x74, 0x50, 0x68},
-    {0x5c, 0x74, 0x68, 0x80},
-    {0x5c, 0x74, 0x80, 0x98},
-    {0x5c, 0x74, 0x98, 0xb0},
-    {0x5c, 0x74, 0xb0, 0xc8},
-    {0x5c, 0x74, 0xc8, 0xe0},
-    {0x5c, 0x74, 0xe0, 0xf8},
-    {0x74, 0x8c, 0x08, 0x20},
-    {0x74, 0x8c, 0x20, 0x38},
-    {0x74, 0x8c, 0x38, 0x50},
-    {0x74, 0x8c, 0x50, 0x68},
-    {0x74, 0x8c, 0x68, 0x80},
-    {0x74, 0x8c, 0x80, 0x98},
-    {TOUCH_RECT_END},
+    { 0x44, 0x5c, 0x08, 0x20 }, { 0x44, 0x5c, 0x20, 0x38 }, { 0x44, 0x5c, 0x38, 0x50 }, { 0x44, 0x5c, 0x50, 0x68 },
+    { 0x44, 0x5c, 0x68, 0x80 }, { 0x44, 0x5c, 0x80, 0x98 }, { 0x44, 0x5c, 0x98, 0xb0 }, { 0x44, 0x5c, 0xb0, 0xc8 },
+    { 0x44, 0x5c, 0xc8, 0xe0 }, { 0x44, 0x5c, 0xe0, 0xf8 }, { 0x5c, 0x74, 0x08, 0x20 }, { 0x5c, 0x74, 0x20, 0x38 },
+    { 0x5c, 0x74, 0x38, 0x50 }, { 0x5c, 0x74, 0x50, 0x68 }, { 0x5c, 0x74, 0x68, 0x80 }, { 0x5c, 0x74, 0x80, 0x98 },
+    { 0x5c, 0x74, 0x98, 0xb0 }, { 0x5c, 0x74, 0xb0, 0xc8 }, { 0x5c, 0x74, 0xc8, 0xe0 }, { 0x5c, 0x74, 0xe0, 0xf8 },
+    { 0x74, 0x8c, 0x08, 0x20 }, { 0x74, 0x8c, 0x20, 0x38 }, { 0x74, 0x8c, 0x38, 0x50 }, { 0x74, 0x8c, 0x50, 0x68 },
+    { 0x74, 0x8c, 0x68, 0x80 }, { 0x74, 0x8c, 0x80, 0x98 }, { TOUCH_RECT_END },
 };
 
 static const TouchRect sSideButtonRects[] = {
-    {4, 28, 88, 112},
-    {4, 28, 152, 176},
-    {TOUCH_RECT_END},
+    { 4, 28, 88, 112 },
+    { 4, 28, 152, 176 },
+    { TOUCH_RECT_END },
 };
 
 static const NetCommand sNetCommands[] = {
-    {func_ov194_021b803c, NULL},
-    {func_ov194_021b7d44, func_ov194_021b7bf0},
-    {func_ov194_021b8170, NULL},
-    {func_ov194_021b8140, NULL},
-    {func_ov194_021b8134, NULL},
-    {func_ov194_021b8164, NULL},
-    {func_ov194_021b80bc, NULL},
-    {func_ov194_021b7e0c, func_ov194_021b7c0c},
-    {func_ov194_021b7e20, func_ov194_021b7c0c},
-    {func_ov194_021b7e34, func_ov194_021b7c0c},
-    {func_ov194_021b805c, NULL},
-    {func_ov194_021b8088, NULL},
-    {func_ov194_021b80e4, NULL},
-    {func_ov194_021b810c, NULL},
-    {func_ov194_021b7f1c, func_ov194_021b7c28},
-    {func_ov194_021b7c4c, NULL},
-    {func_ov194_021b7f38, NULL},
-    {func_ov194_021b7f7c, NULL},
-    {func_ov194_021b7fa8, NULL},
-    {func_ov194_021b7e84, NULL},
-    {func_ov194_021b7e9c, NULL},
-    {func_ov194_021b7eb4, NULL},
-    {func_ov194_021b7ecc, NULL},
-    {func_ov194_021b7ef0, NULL},
+    { func_ov194_021b803c, NULL },
+    { func_ov194_021b7d44, func_ov194_021b7bf0 },
+    { func_ov194_021b8170, NULL },
+    { func_ov194_021b8140, NULL },
+    { func_ov194_021b8134, NULL },
+    { func_ov194_021b8164, NULL },
+    { func_ov194_021b80bc, NULL },
+    { func_ov194_021b7e0c, func_ov194_021b7c0c },
+    { func_ov194_021b7e20, func_ov194_021b7c0c },
+    { func_ov194_021b7e34, func_ov194_021b7c0c },
+    { func_ov194_021b805c, NULL },
+    { func_ov194_021b8088, NULL },
+    { func_ov194_021b80e4, NULL },
+    { func_ov194_021b810c, NULL },
+    { func_ov194_021b7f1c, func_ov194_021b7c28 },
+    { func_ov194_021b7c4c, NULL },
+    { func_ov194_021b7f38, NULL },
+    { func_ov194_021b7f7c, NULL },
+    { func_ov194_021b7fa8, NULL },
+    { func_ov194_021b7e84, NULL },
+    { func_ov194_021b7e9c, NULL },
+    { func_ov194_021b7eb4, NULL },
+    { func_ov194_021b7ecc, NULL },
+    { func_ov194_021b7ef0, NULL },
 };
 
 // The memory of the trade's heap
 static u8 sHeapMemory[0xc000];
-
-// The machine's own network ID
-static inline int GetMyNetId(void) {
-    return func_02042a6c(func_02040440());
-}
-
-// Sends a command of one byte to the other machine
-static inline BOOL SendSelect(u8 command) {
-    return func_02042be8(func_02040440(), TRADE_NET_CMD_SELECT, 1, &command);
-}
-
-// Whether the screen was touched, switching the controls to the touch screen if so
-static inline BOOL GetTouched(void) {
-    BOOL touched = func_0203da48();
-    if (touched) {
-        func_0203d564(TRUE);
-    }
-    return touched;
-}
-
-// The pressed keys, switching the controls to the keys when there are any
-static inline u32 GetPressedKeys(void) {
-    u32 keys = GCTX_HIDGetPressedKeys();
-    if (keys) {
-        func_0203d564(FALSE);
-    }
-    return keys;
-}
 
 void func_ov194_021b76e0(PokemonTradeWork *wk) {
     func_ov139_02199d74(wk->touchBar, 1);
@@ -396,7 +333,7 @@ static void PokemonTrade_UpdateBGM(PokemonTradeWork *wk) {
     }
 }
 
-BOOL func_ov194_021b7808(PokemonTradeWork *wk) {
+BOOL PokemonTrade_IsNegoType(PokemonTradeWork *wk) {
     BOOL ret = FALSE;
     switch (wk->type) {
     case 0:
@@ -592,7 +529,7 @@ static void *func_ov194_021b7c0c(int netId, void *work, int size) {
 
 static void *func_ov194_021b7c28(int netId, void *work, int size) {
     PokemonTradeWork *wk = work;
-    if (netId == GetMyNetId()) {
+    if (netId == PokemonTrade_GetMyNetId()) {
         return wk->unk10[0];
     }
     return wk->unk10[1];
@@ -601,7 +538,7 @@ static void *func_ov194_021b7c28(int netId, void *work, int size) {
 static void func_ov194_021b7c4c(int netId, int size, void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
     if (handle == func_02040440()) {
-        wk->unk11E8[netId != GetMyNetId() ? 1 : 0] = *(const u8 *)data;
+        wk->unk11E8[netId != PokemonTrade_GetMyNetId() ? 1 : 0] = *(const u8 *)data;
     }
 }
 
@@ -609,7 +546,7 @@ u32 func_ov194_021b7c80(PokemonTradeWork *wk, int side) {
     if (!PokemonTrade_IsNetwork(wk)) {
         return wk->unk5E4[side];
     }
-    if (GetMyNetId() == 0) {
+    if (PokemonTrade_GetMyNetId() == 0) {
         return wk->unk5E4[side];
     }
     return wk->unk5E4[1 - side];
@@ -620,7 +557,7 @@ void func_ov194_021b7cc0(PokemonTradeWork *wk, int side, u32 value) {
         wk->unk5E4[side] = value;
         return;
     }
-    if (GetMyNetId() == 0) {
+    if (PokemonTrade_GetMyNetId() == 0) {
         wk->unk5E4[side] = value;
         return;
     }
@@ -631,7 +568,7 @@ PartyPkm *PokemonTrade_GetPkm(PokemonTradeWork *wk, int side) {
     if (!PokemonTrade_IsNetwork(wk)) {
         return wk->pkm[side];
     }
-    if (GetMyNetId() == 0) {
+    if (PokemonTrade_GetMyNetId() == 0) {
         return wk->pkm[side];
     }
     return wk->pkm[1 - side];
@@ -642,7 +579,7 @@ static void func_ov194_021b7d44(int netId, int size, void *data, void *work, Net
     if (handle == func_02040440()) {
         u32 pkmSize = PokeParty_GetPkmRawSize();
         sys_memcpy(wk->recvPkm[netId], wk->pkm[netId], pkmSize);
-        if (netId != GetMyNetId()) {
+        if (netId != PokemonTrade_GetMyNetId()) {
             wk->unkF9C = netId + 1;
             wk->unk11FB_4 = 1;
         }
@@ -651,7 +588,7 @@ static void func_ov194_021b7d44(int netId, int size, void *data, void *work, Net
 
 static void func_ov194_021b7d98(int netId, int size, void *data, void *work, NetHandle *handle, int index) {
     PokemonTradeWork *wk = work;
-    if (handle == func_02040440() && netId != GetMyNetId()) {
+    if (handle == func_02040440() && netId != PokemonTrade_GetMyNetId()) {
         if (PokeParty_GetParam(wk->recvPkm[netId], PKM_PARAM_SPECIES_VALID, NULL)) {
             func_ov194_021bc124(wk, index, wk->recvPkm[netId]);
             func_ov194_021c5138(wk, 1, index, wk->recvPkm[netId], 1, 0);
@@ -675,10 +612,10 @@ static void func_ov194_021b7e34(int netId, int size, void *data, void *work, Net
 
 static void func_ov194_021b7e48(u32 value, int index, int netId, PokemonTradeWork *wk, NetHandle *handle) {
     if (handle == func_02040440()) {
-        if (netId == GetMyNetId()) {
-            wk->unkFF0[index] = value;
+        if (netId == PokemonTrade_GetMyNetId()) {
+            wk->unkFF0[0][index] = value;
         } else {
-            wk->unkFFC[index] = value;
+            wk->unkFF0[1][index] = value;
         }
     }
 }
@@ -704,7 +641,7 @@ static void func_ov194_021b7ecc(int netId, int size, void *data, void *work, Net
 
 static void func_ov194_021b7ef0(int netId, int size, void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
-    if (handle == func_02040440() && netId != GetMyNetId()) {
+    if (handle == func_02040440() && netId != PokemonTrade_GetMyNetId()) {
         wk->unk11FB_0 = 0;
     }
 }
@@ -714,14 +651,14 @@ static void func_ov194_021b7f1c(int netId, int size, void *data, void *work, Net
     if (handle != func_02040440()) {
         return;
     }
-    if (netId == GetMyNetId()) {
+    if (netId == PokemonTrade_GetMyNetId()) {
         return;
     }
 }
 
 static void func_ov194_021b7f38(int netId, int size, void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
-    if (handle == func_02040440() && netId != GetMyNetId()) {
+    if (handle == func_02040440() && netId != PokemonTrade_GetMyNetId()) {
         const u8 *bytes = data;
         wk->partnerBoxCount = bytes[0];
         wk->unk11F4 = bytes[1];
@@ -731,15 +668,15 @@ static void func_ov194_021b7f38(int netId, int size, void *data, void *work, Net
 
 static void func_ov194_021b7f7c(int netId, int size, void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
-    if (handle == func_02040440() && netId != GetMyNetId()) {
-        wk->unk11E7 = *(const u8 *)data;
+    if (handle == func_02040440() && netId != PokemonTrade_GetMyNetId()) {
+        wk->partnerCheckResult = *(const u8 *)data;
     }
 }
 
 static void func_ov194_021b7fa8(int netId, int size, void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
     TradeProfile profile;
-    if (handle == func_02040440() && netId != GetMyNetId()) {
+    if (handle == func_02040440() && netId != PokemonTrade_GetMyNetId()) {
         UnityTowerSurveySave *survey = getUnityTower_SurveySaveBlkAddrress(GameData_GetSaveControl(wk->gameData));
         u32 country, province, validCountry, validProvince;
         sys_memcpy(data, &profile, sizeof(TradeProfile));
@@ -765,14 +702,14 @@ static void func_ov194_021b803c(int netId, int size, void *data, void *work, Net
 
 static void func_ov194_021b805c(int netId, int size, void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
-    if (handle == func_02040440() && netId != GetMyNetId()) {
+    if (handle == func_02040440() && netId != PokemonTrade_GetMyNetId()) {
         wk->unk1060 = *(const u8 *)data;
     }
 }
 
 static void func_ov194_021b8088(int netId, int size, void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
-    if (handle == func_02040440() && netId != GetMyNetId()) {
+    if (handle == func_02040440() && netId != PokemonTrade_GetMyNetId()) {
         func_ov194_021bc29c(wk, 1, *(const u32 *)data);
         func_ov194_021c50d8(wk, 1, *(const u32 *)data);
     }
@@ -780,7 +717,7 @@ static void func_ov194_021b8088(int netId, int size, void *data, void *work, Net
 
 static void func_ov194_021b80bc(int netId, int size, void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
-    if (handle == func_02040440() && netId != GetMyNetId()) {
+    if (handle == func_02040440() && netId != PokemonTrade_GetMyNetId()) {
         func_ov194_021b8200(wk, 1);
     }
 }
@@ -841,14 +778,14 @@ void PokemonTrade_FadeOutToEnd(PokemonTradeWork *wk) {
 void func_ov194_021b81c8(PokemonTradeWork *wk, int side, PartyPkm *pkm) {
     if (pkm != NULL) {
         func_ov194_021c24dc(wk, side);
-        func_ov194_021c24ac(wk, side, 1 - side, pkm, 1, func_ov194_021b7808(wk));
+        func_ov194_021c24ac(wk, side, 1 - side, pkm, 1, PokemonTrade_IsNegoType(wk));
         func_ov194_021c0918(wk, side, pkm);
     }
 }
 
 static void func_ov194_021b8200(PokemonTradeWork *wk, int side) {
     int i;
-    if (!func_ov194_021b7808(wk)) {
+    if (!PokemonTrade_IsNegoType(wk)) {
         func_ov194_021c24dc(wk, side);
         func_ov194_021c123c(wk, side);
     } else {
@@ -861,7 +798,7 @@ static void func_ov194_021b8200(PokemonTradeWork *wk, int side) {
 BOOL func_ov194_021b8234(PokemonTradeWork *wk) {
     u32 value;
     PartyPkm *pkm;
-    if (!func_ov194_021b7808(wk)) {
+    if (!PokemonTrade_IsNegoType(wk)) {
         pkm = PokemonTrade_GetPkm(wk, 0);
         value = func_ov194_021b7c80(wk, 0);
     } else {
@@ -915,7 +852,7 @@ static BOOL PokemonTrade_IsBadPkm(PartyPkm *pkm) {
 
 BOOL func_ov194_021b8330(PokemonTradeWork *wk) {
     int side = 0;
-    if (func_ov194_021b7808(wk)) {
+    if (PokemonTrade_IsNegoType(wk)) {
         side = 1;
     }
     return PokemonTrade_IsBadPkm(PokemonTrade_GetPkm(wk, side));
@@ -923,7 +860,7 @@ BOOL func_ov194_021b8330(PokemonTradeWork *wk) {
 
 BOOL func_ov194_021b8350(PokemonTradeWork *wk) {
     int side = 1;
-    if (func_ov194_021b7808(wk)) {
+    if (PokemonTrade_IsNegoType(wk)) {
         side = 0;
     }
     return PokemonTrade_IsBadPkm(PokemonTrade_GetPkm(wk, side));
@@ -932,7 +869,7 @@ BOOL func_ov194_021b8350(PokemonTradeWork *wk) {
 BOOL func_ov194_021b8370(PokemonTradeWork *wk) {
     PartyPkm *pkm;
     u32 value;
-    if (!func_ov194_021b7808(wk)) {
+    if (!PokemonTrade_IsNegoType(wk)) {
         pkm = PokemonTrade_GetPkm(wk, 0);
         value = func_ov194_021b7c80(wk, 1);
     } else {
@@ -953,15 +890,15 @@ static void func_ov194_021b83d0(PokemonTradeWork *wk) {
     }
     if (network) {
         if (func_ov194_021b8234(wk)) {
-            sent = SendSelect(5);
+            sent = PokemonTrade_SendSelect(5);
         } else if (func_ov194_021b8330(wk)) {
-            sent = SendSelect(7);
+            sent = PokemonTrade_SendSelect(7);
         } else if (func_ov194_021b8350(wk)) {
-            sent = SendSelect(8);
+            sent = PokemonTrade_SendSelect(8);
         } else if (func_ov194_021b8370(wk)) {
-            sent = SendSelect(6);
+            sent = PokemonTrade_SendSelect(6);
         } else {
-            sent = SendSelect(2);
+            sent = PokemonTrade_SendSelect(2);
         }
         if (sent) {
             func_02040624(func_02040440(), 0x1b, 8);
@@ -983,10 +920,10 @@ static void func_ov194_021b84b0(PokemonTradeWork *wk) {
 
 static void func_ov194_021b84e0(PokemonTradeWork *wk, int side, BOOL a2) {
     if (side == 0) {
-        ClActorPos pos = {96, 16};
+        ClActorPos pos = { 96, 16 };
         func_0204c140(wk->actors[4], &pos, 1);
     } else {
-        ClActorPos pos = {160, 16};
+        ClActorPos pos = { 160, 16 };
         func_0204c140(wk->actors[4], &pos, 1);
     }
     if (func_0203d554()) {
@@ -997,8 +934,8 @@ static void func_ov194_021b84e0(PokemonTradeWork *wk, int side, BOOL a2) {
         func_0204c124(wk->actors[4], TRUE);
     }
     if (a2) {
-        PartyPkm *pkm = PokemonTrade_GetPkm(wk, wk->unk10A0);
-        func_ov194_021c0fa0(wk, pkm, wk->unk10A0, 1);
+        PartyPkm *pkm = PokemonTrade_GetPkm(wk, wk->cursor);
+        func_ov194_021c0fa0(wk, pkm, wk->cursor, 1);
     }
 }
 
@@ -1025,39 +962,39 @@ static void func_ov194_021b860c(PokemonTradeWork *wk) {
         return;
     }
     if (func_0203d554()) {
-        if (GetPressedKeys()) {
+        if (PokemonTrade_GetPressedKeys()) {
             func_0203d564(FALSE);
-            func_ov194_021b84e0(wk, wk->unk10A0, FALSE);
+            func_ov194_021b84e0(wk, wk->cursor, FALSE);
             return;
         }
     }
     GFL_BGSysSetBGEnabled(3, TRUE);
     switch (func_0203da0c(sSideButtonRects)) {
     case 0:
-        if (wk->unk10A0 != 0 || !func_0203d554()) {
-            wk->unk10A0 = 0;
+        if (wk->cursor != 0 || !func_0203d554()) {
+            wk->cursor = 0;
             func_0203d564(TRUE);
             GFL_SndSEPlay(SEQ_SE_SELECT1);
-            func_ov194_021b84e0(wk, wk->unk10A0, TRUE);
+            func_ov194_021b84e0(wk, wk->cursor, TRUE);
         }
         break;
     case 1:
-        if (wk->unk10A0 != 1 || !func_0203d554()) {
-            wk->unk10A0 = 1;
+        if (wk->cursor != 1 || !func_0203d554()) {
+            wk->cursor = 1;
             func_0203d564(TRUE);
             GFL_SndSEPlay(SEQ_SE_SELECT1);
-            func_ov194_021b84e0(wk, wk->unk10A0, TRUE);
+            func_ov194_021b84e0(wk, wk->cursor, TRUE);
         }
         break;
     case 2:
         done = TRUE;
         break;
     }
-    if (GetPressedKeys() == PAD_KEY_LEFT || GetPressedKeys() == PAD_KEY_RIGHT) {
-        wk->unk10A0 = 1 - wk->unk10A0;
+    if (PokemonTrade_GetPressedKeys() == PAD_KEY_LEFT || PokemonTrade_GetPressedKeys() == PAD_KEY_RIGHT) {
+        wk->cursor = 1 - wk->cursor;
         GFL_SndSEPlay(SEQ_SE_SELECT1);
         func_0203d564(FALSE);
-        func_ov194_021b84e0(wk, wk->unk10A0, TRUE);
+        func_ov194_021b84e0(wk, wk->cursor, TRUE);
     }
     func_ov139_02199b90(wk->touchBar);
     if (func_ov139_02199c08(wk->touchBar) == 1) {
@@ -1071,7 +1008,7 @@ static void func_ov194_021b860c(PokemonTradeWork *wk) {
 
 static void func_ov194_021b8754(PokemonTradeWork *wk) {
     if (GFL_WipeIsFinished()) {
-        wk->unk10A0 = 0;
+        wk->cursor = 0;
         func_ov194_021c0b6c(wk, PokemonTrade_GetPkm(wk, 0));
         func_ov194_021b7898(wk);
         GFL_WipeSet(3, 1, 1, 0, 6, 1, wk->heapId);
@@ -1113,7 +1050,7 @@ static void func_ov194_021b8838(PokemonTradeWork *wk) {
 
 static void func_ov194_021b8894(PokemonTradeWork *wk) {
     if (func_ov194_021c00b0(wk)) {
-        u32 items[] = {4, 3, 5};
+        u32 items[] = { 4, 3, 5 };
         func_ov194_021c0214(wk, items, NELEMS(items));
         GFL_BGSysSetEnabledBGsA(0x1f);
         func_ov139_02199d18(wk->touchBar, 1, FALSE);
@@ -1144,7 +1081,7 @@ static void func_ov194_021b8924(PokemonTradeWork *wk) {
 
 static void func_ov194_021b8960(PokemonTradeWork *wk) {
     int msg;
-    int myId = GetMyNetId();
+    int myId = PokemonTrade_GetMyNetId();
     int otherId = 1 - myId;
     if (!PokemonTrade_IsNetwork(wk)) {
         myId = 0;
@@ -1187,7 +1124,7 @@ static void func_ov194_021b8a5c(PokemonTradeWork *wk) {
             wk->command[0] = 1;
             wk->command[1] = 1;
             PokemonTrade_SetState(wk, func_ov194_021b8960);
-        } else if (SendSelect(1)) {
+        } else if (PokemonTrade_SendSelect(1)) {
             func_02040624(func_02040440(), 0x1a, 8);
             PokemonTrade_SetState(wk, func_ov194_021b8960);
         }
@@ -1212,7 +1149,7 @@ static void func_ov194_021b8ac0(PokemonTradeWork *wk) {
 
 static void func_ov194_021b8b24(PokemonTradeWork *wk) {
     if (func_ov194_021b9df4(wk)) {
-        u32 items[] = {0, 5};
+        u32 items[] = { 0, 5 };
         func_ov194_021c0214(wk, items, NELEMS(items));
         gfxRegSetBrightnessBlend(REG_DB_BLDCNT_ADDR, 0x1b, -8);
         PokemonTrade_SetState(wk, func_ov194_021b8ac0);
@@ -1270,7 +1207,7 @@ static int func_ov194_021b8c84(PokemonTradeWork *wk, BOOL a1) {
             BoxPkm *pkm = PokemonTrade_GetBoxPkm(wk->boxes, wk->heldBox, wk->heldSlot, wk);
             if (func_ov194_021baac4(wk, wk->heldBox, wk->heldSlot)) {
                 GFL_SndSEPlay(SEQ_SE_MSCL_05);
-                if (!func_ov194_021b7808(wk)) {
+                if (!PokemonTrade_IsNegoType(wk)) {
                     PokemonTrade_SetState(wk, func_ov194_021ba708);
                     return 3;
                 }
@@ -1302,7 +1239,7 @@ static int func_ov194_021b8c84(PokemonTradeWork *wk, BOOL a1) {
 }
 
 static void func_ov194_021b8dc4(PokemonTradeWork *wk) {
-    if (func_ov194_021c00b0(wk) && (GetPressedKeys() || GetTouched())) {
+    if (func_ov194_021c00b0(wk) && (PokemonTrade_GetPressedKeys() || PokemonTrade_GetTouched())) {
         wk->heldBox = -1;
         wk->heldSlot = -1;
         func_ov194_021bfe9c(wk);
@@ -1335,7 +1272,7 @@ static void func_ov194_021b8e8c(PokemonTradeWork *wk) {
 static void func_ov194_021b8e98(PokemonTradeWork *wk) {
     PartyPkm *pkm = PokemonTrade_CopyPartyPkm(wk->boxes, wk->unkF98, wk->unkF94, wk);
     func_ov194_021c1288(wk, 0);
-    func_ov194_021c0c04(wk, wk->unk10A0, pkm);
+    func_ov194_021c0c04(wk, wk->cursor, pkm);
     if (func_0203d554()) {
         func_ov194_021b7898(wk);
     }
@@ -1402,7 +1339,7 @@ static void func_ov194_021b9058(PokemonTradeWork *wk) {
     int choice = -1;
     BOOL decided = FALSE;
     if (!func_0202dc1c(wk->menu)) {
-        if (GetTouched()) {
+        if (PokemonTrade_GetTouched()) {
             func_ov194_021b79e4(wk);
         }
         func_ov139_02199b90(wk->touchBar);
@@ -1411,7 +1348,7 @@ static void func_ov194_021b9058(PokemonTradeWork *wk) {
         }
         if (func_ov139_02199c08(wk->touchBar) == 9) {
             selected = TRUE;
-            wk->unk10A0 = 1 - wk->unk10A0;
+            wk->cursor = 1 - wk->cursor;
         }
         if (func_0203dac8(&x, &y) == TRUE) {
             func_0203d564(TRUE);
@@ -1452,7 +1389,7 @@ static void func_ov194_021b9058(PokemonTradeWork *wk) {
     if (decided) {
         if (choice == 0) {
             BoxPkm *pkm = PokemonTrade_GetBoxPkm(wk->boxes, wk->unkF98, wk->unkF94, wk);
-            if (func_ov194_021baac4(wk, wk->unkF98, wk->unkF94) && func_ov194_021b7808(wk)) {
+            if (func_ov194_021baac4(wk, wk->unkF98, wk->unkF94) && PokemonTrade_IsNegoType(wk)) {
                 wk->selectSlot = wk->unkF94;
                 wk->selectBox = wk->unkF98;
                 PokemonTrade_SetState(wk, func_ov194_021b8f1c);
@@ -1465,7 +1402,7 @@ static void func_ov194_021b9058(PokemonTradeWork *wk) {
             } else if (func_ov194_021bbe60(wk, pkm)) {
                 PokemonTrade_SetState(wk, func_ov194_021b8e8c);
                 func_ov194_021be554(wk, 1);
-            } else if (!func_ov194_021b7808(wk)) {
+            } else if (!PokemonTrade_IsNegoType(wk)) {
                 wk->selectSlot = wk->unkF94;
                 wk->selectBox = wk->unkF98;
                 PokemonTrade_SetState(wk, func_ov194_021b8bb4);
@@ -1515,11 +1452,11 @@ static void func_ov194_021b9394(PokemonTradeWork *wk) {
     func_ov139_02199d18(wk->touchBar, 7, FALSE);
     func_ov139_02199d18(wk->touchBar, 9, TRUE);
     {
-        u32 items[] = {2, 5};
+        u32 items[] = { 2, 5 };
         func_ov194_021c0214(wk, items, NELEMS(items));
     }
     pkm = PokemonTrade_CopyPartyPkm(wk->boxes, wk->unkF98, wk->unkF94, wk);
-    wk->unk10A0 = 0;
+    wk->cursor = 0;
     func_ov194_021c0c04(wk, 0, pkm);
     GFL_HeapFree(pkm);
     func_0204c124(wk->actors[2], FALSE);
@@ -1534,10 +1471,10 @@ static void func_ov194_021b9394(PokemonTradeWork *wk) {
 }
 
 static void func_ov194_021b9454(PokemonTradeWork *wk) {
-    u8 side = wk->unk10A0;
+    u8 side = wk->cursor;
     if (!PokemonTrade_IsNetwork(wk) || func_02042be8(func_02040440(), TRADE_NET_CMD_UNK3, 1, &side)) {
         GXS_SetVisibleWnd(GX_WNDMASK_NONE);
-        if (!func_ov194_021b7808(wk)) {
+        if (!PokemonTrade_IsNegoType(wk)) {
             PokemonTrade_SetState(wk, func_ov192_021b38cc);
         } else {
             PokemonTrade_SetState(wk, func_ov193_021b5c78);
@@ -1553,7 +1490,7 @@ void func_ov194_021b94c0(PokemonTradeWork *wk) {
 
 static void func_ov194_021b94ec(PokemonTradeWork *wk) {
     int msg;
-    int myId = GetMyNetId();
+    int myId = PokemonTrade_GetMyNetId();
     int otherId = 1 - myId;
     int mine, other;
     if (PokemonTrade_IsNetwork(wk) && !func_02040664(func_02040440(), 0x1b, 8)) {
@@ -1603,7 +1540,7 @@ static void func_ov194_021b94ec(PokemonTradeWork *wk) {
 }
 
 static void func_ov194_021b95ec(PokemonTradeWork *wk) {
-    if (func_ov194_021b7808(wk)) {
+    if (PokemonTrade_IsNegoType(wk)) {
         func_ov194_021ba7d4(wk);
         func_ov194_021ba84c(wk);
         PokemonTrade_SetState(wk, func_ov194_021bb104);
@@ -1619,7 +1556,7 @@ static void func_ov194_021b95ec(PokemonTradeWork *wk) {
 static void func_ov194_021b964c(PokemonTradeWork *wk) {
     if (!PokemonTrade_IsNetwork(wk) || func_02040664(func_02040440(), 18, 8)) {
         func_ov194_021bfe9c(wk);
-        if (func_ov194_021b7808(wk)) {
+        if (PokemonTrade_IsNegoType(wk)) {
             func_ov194_021bbf5c(wk);
             func_ov194_021be6ac(wk);
             if (wk->type == 2) {
@@ -1766,7 +1703,7 @@ void func_ov194_021b9a38(PokemonTradeWork *wk) {
     wk->unk1060 = 0;
     func_ov194_021c24dc(wk, 0);
     func_ov194_021c24dc(wk, 1);
-    if (func_ov194_021b7808(wk)) {
+    if (PokemonTrade_IsNegoType(wk)) {
         func_ov194_021bbf5c(wk);
     }
     sys_memset(wk->pkm[0], 0, PokeParty_GetPkmRawSize());
@@ -1817,9 +1754,9 @@ static void func_ov194_021b9b80(PokemonTradeWork *wk) {
     wk->unk11E8[0] = 0;
     wk->unk11E8[1] = 0;
     for (i = 0; i < 6; i++) {
-        wk->unkFA4[i / 3][i % 3] = -1;
-        if (wk->unkFD8[i / 3][i % 3] != NULL) {
-            sys_memset(wk->unkFD8[i / 3][i % 3], 0, PokeParty_GetPkmRawSize());
+        wk->negoSlot[i / 3][i % 3] = -1;
+        if (wk->negoPkm[i / 3][i % 3] != NULL) {
+            sys_memset(wk->negoPkm[i / 3][i % 3], 0, PokeParty_GetPkmRawSize());
         }
     }
     PokemonTrade_SetState(wk, func_ov194_021ba7d4);
@@ -1833,7 +1770,7 @@ static void func_ov194_021b9c1c(PokemonTradeWork *wk) {
 }
 
 void func_ov194_021b9c44(PokemonTradeWork *wk) {
-    if (func_ov194_021c00b0(wk) && (GetPressedKeys() || GetTouched())) {
+    if (func_ov194_021c00b0(wk) && (PokemonTrade_GetPressedKeys() || PokemonTrade_GetTouched())) {
         func_ov194_021bfe9c(wk);
         if (PokemonTrade_IsNetwork(wk)) {
             GFL_MsgDataLoadStrbuf(wk->msgData, 50, wk->strbuf);
@@ -1862,7 +1799,7 @@ static void func_ov194_021b9cbc(PokemonTradeWork *wk) {
 
 static void func_ov194_021b9d0c(PokemonTradeWork *wk) {
     if (PokemonTrade_IsNetwork(wk)) {
-        if (SendSelect(4)) {
+        if (PokemonTrade_SendSelect(4)) {
             GFL_MsgDataLoadStrbuf(wk->msgData, 137, wk->strbuf);
             func_ov194_021bfe28(wk);
             func_ov194_021bfe34(wk);
@@ -1897,8 +1834,8 @@ static void func_ov194_021b9d84(PokemonTradeWork *wk) {
 
 static BOOL func_ov194_021b9df4(PokemonTradeWork *wk) {
     PartyPkm *pkm = PokemonTrade_CopyPartyPkm(wk->boxes, wk->selectBox, wk->selectSlot, wk);
-    if (PokemonTrade_IsNetwork(wk)
-        && !func_02042be8(func_02040440(), TRADE_NET_CMD_UNK1, PokeParty_GetPkmRawSize(), pkm)) {
+    if (PokemonTrade_IsNetwork(wk) &&
+        !func_02042be8(func_02040440(), TRADE_NET_CMD_UNK1, PokeParty_GetPkmRawSize(), pkm)) {
         GFL_HeapFree(pkm);
         return FALSE;
     }
@@ -1909,7 +1846,7 @@ static BOOL func_ov194_021b9df4(PokemonTradeWork *wk) {
 
 static void func_ov194_021b9e60(PokemonTradeWork *wk) {
     if (func_ov194_021c00b0(wk)) {
-        u32 items[] = {24, 25};
+        u32 items[] = { 24, 25 };
         func_ov194_021c0120(wk, items, NELEMS(items), 32, 12);
         wk->unk1080 = -1;
         func_ov194_021c3c68(wk->boxes, wk, 0);
@@ -1941,9 +1878,9 @@ static BOOL func_ov194_021b9f10(PokemonTradeWork *wk, u32 a1) {
         }
         for (slot = 0; slot < 5; slot++) {
             int box = PokemonTrade_GetColumnBox(column, wk);
-            if ((pkm = PokemonTrade_GetBoxPkm(wk->boxes, box, PokemonTrade_GetColumnSlot(column, slot), wk)) != NULL
-                && func_ov194_021c38a8(PML_PkmGetParam(pkm, PKM_PARAM_LEGAL_SPECIES, NULL), a1)
-                && !PML_PkmGetParam(pkm, PKM_PARAM_IS_EGG, NULL)) {
+            if ((pkm = PokemonTrade_GetBoxPkm(wk->boxes, box, PokemonTrade_GetColumnSlot(column, slot), wk)) != NULL &&
+                func_ov194_021c38a8(PML_PkmGetParam(pkm, PKM_PARAM_LEGAL_SPECIES, NULL), a1) &&
+                !PML_PkmGetParam(pkm, PKM_PARAM_IS_EGG, NULL)) {
                 wk->unk1080++;
                 wk->unk107C = PokemonTrade_GetColumnX(column) - 32;
                 wk->unk1084 = 1;
@@ -2190,12 +2127,11 @@ static void PokemonTrade_Scroll(PokemonTradeWork *wk, BOOL playSound, BOOL send)
     if (PokemonTrade_IsNetwork(wk) && send) {
         if (func_02042b20()) {
             if (wk->unk107C % 16 == 0) {
-                func_02042c18(func_02040440(), 0xff, TRADE_NET_CMD_UNKC, sizeof(wk->unk107C), &wk->unk107C, 0,
-                              TRUE, TRUE);
+                func_02042c18(func_02040440(), 0xff, TRADE_NET_CMD_UNKC, sizeof(wk->unk107C), &wk->unk107C, 0, TRUE,
+                              TRUE);
             }
         } else {
-            func_02042c18(func_02040440(), 0xff, TRADE_NET_CMD_UNKC, sizeof(wk->unk107C), &wk->unk107C, 0, TRUE,
-                          TRUE);
+            func_02042c18(func_02040440(), 0xff, TRADE_NET_CMD_UNKC, sizeof(wk->unk107C), &wk->unk107C, 0, TRUE, TRUE);
         }
     } else if (!PokemonTrade_IsNetwork(wk)) {
         wk->unk107E = wk->unk107C;
@@ -2334,7 +2270,7 @@ void func_ov194_021ba924(PokemonTradeWork *wk) {
 }
 
 static void func_ov194_021ba990(PokemonTradeWork *wk) {
-    if (func_ov194_021b7808(wk)) {
+    if (PokemonTrade_IsNegoType(wk)) {
         if (!func_ov194_021bc35c(wk, wk->selectSlot, wk->selectBox)) {
             return;
         }
@@ -2355,7 +2291,7 @@ static void func_ov194_021ba9ec(PokemonTradeWork *wk) {
     if (wk->selectBox == wk->boxCount) {
         inParty = TRUE;
     }
-    if (func_ov194_021b7808(wk)) {
+    if (PokemonTrade_IsNegoType(wk)) {
         index = func_ov194_021bc178(wk, 0, wk->selectSlot, wk->selectBox);
         if (index != -1) {
             if (func_02042be8(func_02040440(), (u16)(TRADE_NET_CMD_UNK13 + index), 1, &inParty)) {
@@ -2380,7 +2316,7 @@ static void func_ov194_021baa90(PokemonTradeWork *wk) {
 }
 
 static BOOL func_ov194_021baac4(PokemonTradeWork *wk, int box, int slot) {
-    if (!func_ov194_021b7808(wk)) {
+    if (!PokemonTrade_IsNegoType(wk)) {
         if (wk->selectSlot == slot && wk->selectBox == box) {
             return TRUE;
         }
@@ -2394,7 +2330,7 @@ static BOOL func_ov194_021bab08(PokemonTradeWork *wk) {
     BoxPkm *pkm = PokemonTrade_GetBoxPkm(wk->boxes, wk->unkF98, wk->unkF94, wk);
     if (func_ov194_021baac4(wk, wk->unkF98, wk->unkF94)) {
         GFL_SndSEPlay(SEQ_SE_MSCL_05);
-        if (!func_ov194_021b7808(wk)) {
+        if (!PokemonTrade_IsNegoType(wk)) {
             PokemonTrade_SetState(wk, func_ov194_021ba708);
             return TRUE;
         }
@@ -2423,7 +2359,7 @@ static void func_ov194_021babc4(PokemonTradeWork *wk) {
             return;
         }
     }
-    if (func_0203d554() && GetPressedKeys()) {
+    if (func_0203d554() && PokemonTrade_GetPressedKeys()) {
         func_0203d564(FALSE);
         if (!func_ov194_021c3c10(wk, &column)) {
             wk->cursorColumn = column;
@@ -2452,10 +2388,10 @@ static void func_ov194_021babc4(PokemonTradeWork *wk) {
         wk->scrollSpeed = 0;
         return;
     }
-    if (GetPressedKeys() || GetTouched()) {
+    if (PokemonTrade_GetPressedKeys() || PokemonTrade_GetTouched()) {
         wk->scrollSpeed = 0;
     }
-    if (GetTouched()) {
+    if (PokemonTrade_GetTouched()) {
         func_ov194_021b79e4(wk);
         wk->unkF98 = -1;
         wk->unkF94 = -1;
@@ -2464,7 +2400,7 @@ static void func_ov194_021babc4(PokemonTradeWork *wk) {
     func_ov194_021b796c(wk);
     func_ov194_021ba280(wk);
     func_ov194_021be598(wk);
-    if (GetPressedKeys() == PAD_BUTTON_A) {
+    if (PokemonTrade_GetPressedKeys() == PAD_BUTTON_A) {
         BoxPkm *pkm;
         int box;
         func_0203d564(FALSE);
@@ -2490,7 +2426,7 @@ static void func_ov194_021babc4(PokemonTradeWork *wk) {
             wk->unkF98 = PokemonTrade_GetColumnBox(wk->cursorColumn, wk);
             wk->unkF94 = PokemonTrade_GetColumnSlot(wk->cursorColumn, wk->cursorRow);
             func_0203d564(FALSE);
-            if (func_ov194_021b7808(wk) && func_ov194_021bc0f0(wk, wk->unkF98, wk->unkF94) != -1) {
+            if (PokemonTrade_IsNegoType(wk) && func_ov194_021bc0f0(wk, wk->unkF98, wk->unkF94) != -1) {
                 GFL_SndSEPlay(SEQ_SE_MSCL_05);
                 PokemonTrade_SetState(wk, func_ov194_021be4b0);
                 return;
@@ -2586,7 +2522,7 @@ static void func_ov194_021bb044(PokemonTradeWork *wk) {
         PokemonTrade_SetState(wk, func_ov194_021ba1b0);
         break;
     case 8:
-        if (func_ov194_021b7808(wk)) {
+        if (PokemonTrade_IsNegoType(wk)) {
             if (func_ov194_021bc098(wk)) {
                 func_ov139_02199d18(wk->touchBar, 7, FALSE);
                 func_ov139_02199d18(wk->touchBar, 8, FALSE);
@@ -2611,11 +2547,11 @@ static void func_ov194_021bb044(PokemonTradeWork *wk) {
 static void func_ov194_021bb104(PokemonTradeWork *wk) {
     BOOL done = FALSE;
     if (func_ov194_021c00b0(wk)) {
-        if (GetPressedKeys()) {
+        if (PokemonTrade_GetPressedKeys()) {
             func_0203d564(FALSE);
             done = TRUE;
         }
-        if (GetTouched()) {
+        if (PokemonTrade_GetTouched()) {
             func_0203d564(TRUE);
             done = TRUE;
         }
@@ -2686,8 +2622,8 @@ static void PokemonTrade_VBlank(TCB *tcb, void *data) {
 static void func_ov194_021bb2cc(PokemonTradeWork *wk, GameData *gameData, u16 friendIndex) {
     u32 i;
     for (i = 0; i < 3; i++) {
-        wk->recvPkm[i] = GFL_HeapAllocate(HEAPID_POKEMON_TRADE, PokeParty_GetPkmRawSize(), TRUE, "pokemontrade_proc.c",
-                                          4078);
+        wk->recvPkm[i] =
+            GFL_HeapAllocate(HEAPID_POKEMON_TRADE, PokeParty_GetPkmRawSize(), TRUE, "pokemontrade_proc.c", 4078);
     }
     if (gameData != NULL) {
         wk->gameData = gameData;
@@ -2935,7 +2871,7 @@ static void func_ov194_021bb938(PokemonTradeDemoParam *demo, PokemonTradeWork *w
     sys_memcpy(demo->pkm[1], wk->pkm[1], PokeParty_GetPkmRawSize());
     func_ov194_021c24cc(wk, 0, 1, demo->pkm[0], 1);
     func_ov194_021c24cc(wk, 1, 1, demo->pkm[1], 1);
-    MCSS_Hide(!func_ov194_021b7808(wk) ? wk->mcss[1] : wk->mcss[0]);
+    MCSS_Hide(!PokemonTrade_IsNegoType(wk) ? wk->mcss[1] : wk->mcss[0]);
     wk->myInfo = demo->myInfo;
     wk->partnerInfo = demo->partnerInfo;
     func_02042ba8(FALSE, wk->heapId);
@@ -3044,7 +2980,7 @@ static BOOL PokemonTrade_ProcMain(GameProc *proc, u32 *state, void *param, void 
             func_ov189_0219d124(wk->unk0);
             func_ov189_0219d1f0(wk->unk0);
             wk->unk0 = NULL;
-            func_ov011_02152040(0, 0);
+            func_ov011_02152040(NULL, NULL);
             func_ov011_02152158();
         }
         if (func_02042b20()) {
