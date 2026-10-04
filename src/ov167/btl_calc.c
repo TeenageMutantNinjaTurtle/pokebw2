@@ -90,7 +90,7 @@ u32 BattleRandom(u32 max) {
     return MATH_Rand32(&data_ov167_021dd844.rand, max);
 }
 
-u16 GetBoostFromStatStage(u16 value, u32 stage) {
+u16 GetBoostFromStatStage(u16 value, u8 stage) {
     u32 result = (u16)(value * data_ov167_021d74cc[stage].numerator);
 
     return result / data_ov167_021d74cc[stage].denominator;

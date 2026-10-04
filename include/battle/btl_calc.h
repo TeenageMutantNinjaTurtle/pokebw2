@@ -20,7 +20,7 @@ void func_ov167_021bd054(const MATHRandContext32 *rand, HeapID heapId);
 void func_ov167_021bd090(const MATHRandContext32 *rand);
 void func_ov167_021bd0a8(void);
 u32 BattleRandom(u32 max);
-u16 GetBoostFromStatStage(u16 value, u32 stage);
+u16 GetBoostFromStatStage(u16 value, u8 stage);
 u8 func_ov167_021bd11c(u32 value, u32 stage);
 BOOL func_ov167_021bd144(u32 critStage);
 u32 GetTypeEffectiveness(u8 attackType, u8 defenseType);

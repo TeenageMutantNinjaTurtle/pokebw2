@@ -56,6 +56,8 @@ typedef enum {
 u32 PokeParty_GetParam(PartyPkm *pkm, PkmField param, void *buffer);
 // A field that is not a number takes a pointer to its value
 void PokeParty_SetParam(PartyPkm *pkm, PkmField param, u32 value);
+u32 GetStatusCond(PartyPkm *pkm);
+void PokeParty_SetStatusCond(PartyPkm *pkm, u32 status);
 u32 PokeParty_GetSex(PartyPkm *pkm);
 BOOL PokeParty_CheckAnyRibbon(PartyPkm *pkm);
 BOOL PokeParty_IsRare(PartyPkm *pkm);
@@ -111,7 +113,7 @@ u16 PokeParty_LearnMove(PartyPkm *pkm, u16 move);
 // Replaces the last move
 void PokeParty_SetLastMove(PartyPkm *pkm, u16 move);
 void PML_PkmChangeRotomForme(PartyPkm *pkm, u32 moveSlot, u32 forme);
-void PokeParty_SetMove(PartyPkm *pkm, u32 move, u32 slot);
+void PokeParty_SetMove(PartyPkm *pkm, u32 move, u8 slot);
 u16 *PokeParty_GetRememberableMoves(PartyPkm *pkm, HeapID heapId);
 BOOL doesPkmHaveLevelMoveToLearn(const u16 *moves);
 // The next move that a Pokémon learns at its level, going on from *index: 0 once there are none left, 0xfffe for one
