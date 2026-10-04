@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_ENTREE_FOREST_H
 
 #include "types.h"
+#include "gfl/heap.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
 
@@ -11,6 +12,19 @@ u16 GetActorUserParam0(FieldActor *actor);
 void func_ov012_02153608(GameCommSys *commSys);
 GameEvent *EventEntreeForestWarp_Create(GameSystem *gsys, u32 mode, const VecFx32 *position, u32 arg3, u32 arg4);
 GameEvent *CheckEntralinkForestFirstWarpEvent(Field *field, GameSystem *gsys, FieldPlayer *player);
+
+// A Pokémon of the Entree Forest, packed in a word that its actor keeps in params 1 and 2
+typedef union {
+    u32 raw;
+    struct {
+        u32 species : 11;
+        u32 move : 10;
+        u32 sex : 2;
+        u32 form : 6;
+        u32 actorType : 3;
+    };
+} EntreeForestPokemon;
+
 typedef struct {
     void *pokemonData;
     Field *field;
@@ -19,13 +33,15 @@ typedef struct {
 
 BOOL func_ov012_02160974(void *forestState);
 BOOL func_ov012_0216099c(void *forestState);
-FieldActor *EntreeForest_SpawnPkmActor(EntreeForestSpawnContext *context, const u32 *pokemon, u16 index, u16 x, u16 z,
-                                       s32 y);
-void EntreeForest_SpawnAllPokemon(Field *field, u32 actorIdBase, const u32 *pokemon, u32 unused, void *forestState);
+FieldActor *EntreeForest_SpawnPkmActor(EntreeForestSpawnContext *context, const EntreeForestPokemon *pokemon, u16 index,
+                                      u16 x, u16 z, s32 y);
+void EntreeForest_SpawnAllPokemon(Field *field, u32 actorIdBase, const EntreeForestPokemon *pokemon, u32 unused,
+                                  void *forestState);
 
 extern const u8 data_ov033_0217c340[];
 extern const u8 data_ov033_0217c398[];
 extern const u8 data_ov033_0217c3c0[];
 
+PartyPkm *func_ov033_02176bd0(HeapID heapId, GameData *gameData, const EntreeForestPokemon *pokemon);
 
 #endif // POKEBW2_FIELD_ENTREE_FOREST_H

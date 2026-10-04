@@ -1,4 +1,9 @@
 #include "types.h"
+#include "system/game_data.h"
+#include "save/player_info.h"
+#include "pml/poke_party.h"
+#include "gfl/heap.h"
+#include "gfl/arc.h"
 #include "field/entree_forest.h"
 #include "field/field.h"
 #include "field/field_actor.h"
@@ -8,45 +13,25 @@
 #include "struct_decls.h"
 
 typedef struct {
-    u32 species : 11;
-    u32 unknown : 10;
-    u32 sex : 2;
-    u32 form : 6;
-    u32 actorType : 3;
-} EntreeForestPokemonActor;
-
-typedef struct {
     u16 moveCode;
     u8 areaW;
     u8 areaH;
 } EntreeForestActorAppearance;
 
-typedef struct {
-    u16 x;
-    u16 z;
-    s32 y;
-} EntreeForestActorGridPosition;
-
 extern const EntreeForestActorAppearance data_ov033_0217c354[];
 
 extern const ZoneNPC data_ov033_0217c374;
 
-struct EntreeForestPokemon {
-    u32 species : 11;
-    u32 other : 21;
-};
-
-FieldActor *EntreeForest_SpawnPkmActor(EntreeForestSpawnContext *context, const u32 *pokemon, u16 index, u16 x, u16 z,
-                                      s32 y) {
-    const EntreeForestPokemonActor *mon;
+FieldActor *EntreeForest_SpawnPkmActor(EntreeForestSpawnContext *context, const EntreeForestPokemon *pokemon, u16 index,
+                                      u16 x, u16 z, s32 y) {
+    const EntreeForestPokemon *mon;
     const EntreeForestActorAppearance *appearance;
     MMSys *actorSystem;
     u16 zoneId;
     ZoneNPC npc;
-    EntreeForestActorGridPosition *position;
     u32 actorIdBase;
 
-    mon = (const EntreeForestPokemonActor *)pokemon;
+    mon = pokemon;
     appearance = &data_ov033_0217c354[mon->actorType];
     actorSystem = Field_GetActorSystem(context->field);
     zoneId = Field_GetPlayerStateZoneID(context->field);
@@ -58,12 +43,11 @@ FieldActor *EntreeForest_SpawnPkmActor(EntreeForestSpawnContext *context, const 
     npc.areaW = appearance->areaW;
     npc.areaH = appearance->areaH;
     npc.param0 = actorIdBase + index;
-    npc.param1 = *pokemon;
-    npc.param2 = *pokemon >> 16;
-    position = (EntreeForestActorGridPosition *)&npc.pos.grid;
-    position->x = x;
-    position->z = z;
-    position->y = y;
+    npc.param1 = pokemon->raw;
+    npc.param2 = pokemon->raw >> 16;
+    npc.pos.grid.x = x;
+    npc.pos.grid.z = z;
+    npc.pos.grid.y = y;
     return CreateNewActorByEntityNoWKOBJCODE(actorSystem, &npc, zoneId);
 }
 
@@ -78,7 +62,31 @@ u16 GetActorUserParam0(FieldActor *actor) {
     return GetActorUserParam(actor, 0);
 }
 
-void EntreeForest_SpawnAllPokemon(Field *field, u32 actorIdBase, const u32 *pokemon, u32 unused, void *forestState) {
+PartyPkm *func_ov033_02176bd0(HeapID heapId, GameData *gameData, const EntreeForestPokemon *pokemon) {
+    u8 *levels;
+    u8 level;
+    u32 id;
+    u32 pid;
+    PartyPkm *pkm;
+
+    levels = GFL_ArcSysReadHeapNewLZ(0xdf, 0, 0, heapId);
+    level = levels[pokemon->species];
+    GFL_HeapFree(levels);
+    id = getIDAsUInt(GetGameDataPlayerInfo(gameData));
+    pid = PML_GenPID(id, pokemon->species, pokemon->form, pokemon->sex, 0, 0);
+    pkm = PokeParty_NewTempPkm(pokemon->species, level, -1, heapId);
+    PokeParty_CreatePkm(pkm, pokemon->species, level, id, 0, -1, pid, 0);
+    PokeParty_SetHiddenAbil(pkm, pokemon->species, pokemon->form);
+    PokeParty_ChangeForme(pkm, pokemon->form);
+    if (pokemon->move != 0) {
+        if (PokeParty_LearnMove(pkm, pokemon->move) == 0xffff) {
+            PokeParty_SetLastMove(pkm, pokemon->move);
+        }
+    }
+    return pkm;
+}
+
+void EntreeForest_SpawnAllPokemon(Field *field, u32 actorIdBase, const EntreeForestPokemon *pokemon, u32 unused, void *forestState) {
     const u8 *positions;
     EntreeForestSpawnContext context;
     FieldActor *playerActor;
@@ -104,7 +112,7 @@ void EntreeForest_SpawnAllPokemon(Field *field, u32 actorIdBase, const u32 *poke
     playerX = GetGPosX(playerActor);
     playerZ = GetGPosZ(playerActor);
     for (i = 0; i < 20; i++) {
-        if (((const EntreeForestPokemon *)pokemon)[i].species != 0) {
+        if (pokemon[i].species != 0) {
             offsetX = GFL_RandomLCAlt(2) - 1;
             offsetZ = GFL_RandomLCAlt(2) - 1;
             x = positions[i * 2] + offsetX;

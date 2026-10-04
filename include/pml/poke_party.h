@@ -106,6 +106,10 @@ BOOL PokeParty_AddPkm(PokeParty *party, PartyPkm *pkm);
 void PokeParty_RemovePkm(PokeParty *party, u32 index);
 void PokeParty_RecoverAll(PokeParty *party);
 void PokeParty_ChangeForme(PartyPkm *pkm, u32 forme);
+// Teaches a move, and returns 0xffff when all four slots are full
+u16 PokeParty_LearnMove(PartyPkm *pkm, u16 move);
+// Replaces the last move
+void PokeParty_SetLastMove(PartyPkm *pkm, u16 move);
 void PML_PkmChangeRotomForme(PartyPkm *pkm, u32 moveSlot, u32 forme);
 void PokeParty_SetMove(PartyPkm *pkm, u32 move, u32 slot);
 u16 *PokeParty_GetRememberableMoves(PartyPkm *pkm, HeapID heapId);
