@@ -24,6 +24,7 @@ BOOL IsNPCStrengthRock(u16 objCode);
 BOOL func_ov012_0216820c(MMSys *actorSystem, const VecFx32 *position);
 
 void PlayerActionPerms_Create(PlayerActionPerms *perms, GameSystem *gsys, Field *field);
+u8 PlayerActionPerms_IsActionBlocked(PlayerActionPerms *perms, u32 action);
 void CalcPlayerActionPossibilities(Field *field, PlayerActionPossibilities *action);
 
 #endif // POKEBW2_FIELD_PLAYER_ACTION_H

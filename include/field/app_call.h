@@ -24,7 +24,8 @@ struct FieldAppCallInput {
     u32 unk0C;
     // The app to open, from the field menu's table, or -1
     s32 appId;
-    u32 unk14;
+    // A parameter for the app, or -1
+    s32 appParam;
     FieldAppCallPredicate canRetry;
     FieldAppCallPredicate callback1;
     FieldAppCallPredicate callback2;
@@ -35,6 +36,7 @@ struct FieldAppCallInput {
     u32 eventId;
     u32 partySlot;
     u32 eventValue;
+    u8 unk38[0xc];
 };
 
 struct FieldAppCallWork {

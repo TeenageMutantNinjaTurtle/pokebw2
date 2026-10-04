@@ -17,7 +17,6 @@ struct FieldMenuWork {
     u32 screenId;
     // The app the menu opens, whose callbacks get the menu as their arg
     FieldAppCallInput appCall;
-    u8 unk54[0xc];
 };
 
 extern const u32 data_ov012_0216cb74[9];

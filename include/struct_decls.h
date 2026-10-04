@@ -273,7 +273,6 @@ typedef struct ScriptOverlayWork ScriptOverlayWork;
 typedef struct ScriptPluginEntry ScriptPluginEntry;
 typedef struct ScriptSubwork ScriptSubwork;
 typedef struct ShortcutMenuWork ShortcutMenuWork;
-typedef struct ShortcutMenuContext ShortcutMenuContext;
 typedef struct ShortcutSave ShortcutSave;
 typedef struct StadiumTrainerEntry StadiumTrainerEntry;
 typedef struct StrBuf StrBuf;

@@ -32,7 +32,7 @@ GameEvent *EventFieldMenu_Create(GameSystem *gsys, Field *field, u16 param) {
     work->appCall.callback1 = func_ov012_0215aa90;
     work->appCall.callback2 = func_ov012_0215aa94;
     work->appCall.arg = work;
-    work->appCall.unk14 = -1;
+    work->appCall.appParam = -1;
     screenId = FieldSubscreen_GetScreenID(subscreen);
     switch (screenId) {
     case 4:

@@ -4,11 +4,17 @@
 #include "field/field_menu.h"
 #include "field/field_script.h"
 #include "field/field_script_event.h"
+#include "field/field_actor.h"
+#include "field/hidden_event.h"
+#include "field/player_action.h"
 #include "field/item_use_block.h"
 #include "field/player_state.h"
 #include "field/shortcut_menu.h"
 #include "field/subscreen.h"
 #include "gfl/graphics.h"
+#include "gfl/heap.h"
+#include "gfl/input.h"
+#include "gfl/std.h"
 #include "pml/poke_party.h"
 #include "save/shortcut.h"
 #include "system/game_data.h"
@@ -64,137 +70,429 @@ BOOL IsExistAnyYShortcut(GameSystem *gsys) {
     return ShortcutSave_GetShortcutCount(shortcutSave) != 0;
 }
 
-u32 ShortcutMenu_SetKeyItemID(ShortcutMenuContext *context, u32 item) {
+GameEvent *CallYButtonShortcutMenu(GameSystem *gsys, Field *field, u16 code) {
+    GameEvent *event;
+    ShortcutMenuWork *work;
+    ShortcutSave *shortcut = SaveControl_GetShortcutSave(GameData_GetSaveControl(GSYS_GetGameData(gsys)));
+
+    if (ShortcutSave_GetShortcutCount(shortcut) == 1) {
+        event = GameEvent_Create(gsys, NULL, EventShortcutCallDirect_Callback, sizeof(ShortcutMenuWork));
+    } else {
+        event = GameEvent_Create(gsys, NULL, EventShortcutChoicePopup_Callback, sizeof(ShortcutMenuWork));
+    }
+    work = GameEvent_GetData(event);
+    sys_memset(work, 0, sizeof(ShortcutMenuWork));
+    work->gameSystem = gsys;
+    work->event = event;
+    work->field = field;
+    work->code = code;
+    work->done = 0;
+    work->input = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(FieldAppCallInput), FALSE, "event_shortcut_menu.c", 0xcb);
+    sys_memset(work->input, 0, sizeof(FieldAppCallInput));
+    work->input->gameSystem = work->gameSystem;
+    work->input->field = work->field;
+    work->input->parent = event;
+    work->input->appParam = -1;
+    if (ShortcutSave_GetShortcutCount(shortcut) != 1) {
+        work->input->canRetry = func_ov012_0215b32c;
+        work->input->callback1 = func_ov012_0215b39c;
+        work->input->arg = work;
+    }
+    DisableAllActorsMovement(Field_GetActorSystem(work->field));
+    func_0203d564(FALSE);
+    return event;
+}
+
+GameEventReturnCode EventShortcutChoicePopup_Callback(GameEvent *event, u32 *state, void *data) {
+    ShortcutMenuWork *work = data;
+    u32 item;
+    u32 action;
+    u32 invalid;
+    u32 result;
+    BOOL checkPerms;
+    u32 mode;
+    BOOL noRibbon;
+    u32 id;
+    PlayerActionPerms perms;
+    PlayerActionPossibilities possibilities;
+    HiddenEventArgs args;
+    GameEvent *next;
+
+    switch (*state) {
+    case 0:
+        *state = 1;
+        break;
+    case 1:
+        func_ov012_0215b284(0, work);
+        *state = 2;
+        break;
+    case 2:
+        func_ov036_021bf1ac(work->app);
+        *state = 3;
+        break;
+    case 3:
+        func_ov036_021bf088(work->app);
+        if (!func_ov036_021bf1e4(work->app)) {
+            *state = 4;
+        }
+        break;
+    case 4:
+        func_ov036_021bf088(work->app);
+        result = func_ov036_021bf1f8(work->app, &item);
+        if (result == 1) {
+            noRibbon = FALSE;
+            work->blocked = 0;
+            checkPerms = ShortcutMenu_GetActionFromKeyItem(item, &action, &invalid);
+            mode = ShortcutMenu_SetKeyItemID(work->input, item);
+            if (invalid == 0 && GameData_IsForceSeasonSync(GSYS_GetGameData(work->gameSystem)) == TRUE) {
+                work->blocked = -1;
+            } else if (checkPerms == TRUE) {
+                PlayerActionPerms_Create(&perms, work->gameSystem, work->field);
+                work->blocked = PlayerActionPerms_IsActionBlocked(&perms, action);
+            }
+            if (item == 11 && !CheckAnyRibbon(work)) {
+                noRibbon = TRUE;
+            }
+            if (work->blocked) {
+                *state = 12;
+            } else if (noRibbon == TRUE) {
+                *state = 14;
+            } else {
+                switch (mode) {
+                case 0:
+                    *state = 9;
+                    break;
+                case 1:
+                    *state = 11;
+                    break;
+                }
+            }
+        } else if (result == 2) {
+            *state = 5;
+        }
+        break;
+    case 5:
+        func_ov036_021bf1d0(work->app);
+        *state = 6;
+        break;
+    case 6:
+        func_ov036_021bf088(work->app);
+        if (!func_ov036_021bf1e4(work->app)) {
+            *state = 7;
+        }
+        break;
+    case 7:
+        if (func_ov012_0215b2d0(work)) {
+            GFL_HeapFree(work->input);
+            EnableAllActorsMovement(Field_GetActorSystem(work->field));
+            return GAMEEVENT_DONE;
+        }
+        break;
+    case 8:
+        func_ov012_0215b284(1, work);
+        *state = 4;
+        break;
+    case 9:
+        GameEvent_ChainNext(event, EventFieldAppCall_Create(work->input, work->code));
+        *state = 10;
+        break;
+    case 10:
+        if (work->input->eventType == 0) {
+            if (work->done) {
+                *state = 7;
+            } else {
+                *state = 8;
+            }
+        } else if (work->input->eventType == 1) {
+            *state = 7;
+        } else if (work->input->eventType == 3) {
+            *state = 11;
+        } else if (work->input->eventType == 2) {
+            *state = 16;
+        }
+        break;
+    case 11:
+        if (func_ov012_0215b2d0(work)) {
+            id = work->input->eventId;
+            GFL_HeapFree(work->input);
+            work->input = NULL;
+            GameEvent_ChainNext(event, CallFieldCommonEventFunc(id, work->gameSystem, work->field));
+            *state = 13;
+        }
+        break;
+    case 12:
+        if (func_ov012_0215b2d0(work)) {
+            EventFieldItemUseBlock_Call(event, work->gameSystem, work->input->eventId, work->blocked);
+            GFL_HeapFree(work->input);
+            work->input = NULL;
+            *state = 13;
+        }
+        break;
+    case 13:
+        EnableAllActorsMovement(Field_GetActorSystem(work->field));
+        return GAMEEVENT_DONE;
+    case 14:
+        if (func_ov012_0215b2d0(work)) {
+            GFL_HeapFree(work->input);
+            work->input = NULL;
+            GameEvent_ChainNext(event, EventFieldItemUseBlock_Create(work->gameSystem, 2, 0));
+            *state = 15;
+        }
+        break;
+    case 15:
+        EnableAllActorsMovement(Field_GetActorSystem(work->field));
+        return GAMEEVENT_DONE;
+    case 16:
+        EnableAllActorsMovement(Field_GetActorSystem(work->field));
+        CalcPlayerActionPossibilities(work->field, &possibilities);
+        func_ov012_02159418(&args, work->input->partySlot, work->input->eventId, work->input->eventValue);
+        next = CreateHidenEvent(work->input->eventId, &args, &possibilities);
+        if (next != NULL) {
+            GameEvent_ChainNext(event, next);
+        }
+        *state = 7;
+        break;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+GameEventReturnCode EventShortcutCallDirect_Callback(GameEvent *event, u32 *state, void *data) {
+    ShortcutMenuWork *work = data;
+    u32 item;
+    u32 action;
+    u32 invalid;
+    BOOL checkPerms;
+    u32 mode;
+    BOOL noRibbon;
+    u32 id;
+    PlayerActionPerms perms;
+    PlayerActionPossibilities possibilities;
+    HiddenEventArgs args;
+    GameEvent *next;
+
+    switch (*state) {
+    case 0:
+        item = ShortcutSave_GetRegistItem(SaveControl_GetShortcutSave(GameData_GetSaveControl(GSYS_GetGameData(work->gameSystem))), 0);
+        noRibbon = FALSE;
+        mode = ShortcutMenu_SetKeyItemID(work->input, item);
+        checkPerms = ShortcutMenu_GetActionFromKeyItem(item, &action, &invalid);
+        work->blocked = 0;
+        if (invalid == 0 && GameData_IsForceSeasonSync(GSYS_GetGameData(work->gameSystem)) == TRUE) {
+            work->blocked = -1;
+        } else if (checkPerms == TRUE) {
+            PlayerActionPerms_Create(&perms, work->gameSystem, work->field);
+            work->blocked = PlayerActionPerms_IsActionBlocked(&perms, action);
+        }
+        if (item == 11 && !CheckAnyRibbon(work)) {
+            noRibbon = TRUE;
+        }
+        if (work->blocked) {
+            *state = 5;
+        } else if (noRibbon == TRUE) {
+            *state = 7;
+        } else {
+            switch (mode) {
+            case 0:
+                *state = 2;
+                break;
+            case 1:
+                *state = 4;
+                break;
+            }
+        }
+        break;
+    case 1:
+        GFL_HeapFree(work->input);
+        EnableAllActorsMovement(Field_GetActorSystem(work->field));
+        return GAMEEVENT_DONE;
+    case 2:
+        if (func_ov012_0215b2d0(work)) {
+            GameEvent_ChainNext(event, EventFieldAppCall_Create(work->input, work->code));
+            *state = 3;
+        }
+        break;
+    case 3:
+        if (work->input->eventType == 0) {
+            *state = 1;
+        } else if (work->input->eventType == 1) {
+            *state = 1;
+        } else if (work->input->eventType == 3) {
+            *state = 4;
+        } else if (work->input->eventType == 2) {
+            *state = 9;
+        }
+        break;
+    case 4:
+        id = work->input->eventId;
+        GFL_HeapFree(work->input);
+        work->input = NULL;
+        GameEvent_ChainNext(event, CallFieldCommonEventFunc(id, work->gameSystem, work->field));
+        *state = 6;
+        break;
+    case 5:
+        EventFieldItemUseBlock_Call(event, work->gameSystem, work->input->eventId, work->blocked);
+        GFL_HeapFree(work->input);
+        work->input = NULL;
+        *state = 6;
+        break;
+    case 6:
+        EnableAllActorsMovement(Field_GetActorSystem(work->field));
+        return GAMEEVENT_DONE;
+    case 7:
+        GFL_HeapFree(work->input);
+        work->input = NULL;
+        GameEvent_ChainNext(event, EventFieldItemUseBlock_Create(work->gameSystem, 2, 0));
+        *state = 8;
+        break;
+    case 8:
+        EnableAllActorsMovement(Field_GetActorSystem(work->field));
+        return GAMEEVENT_DONE;
+    case 9:
+        EnableAllActorsMovement(Field_GetActorSystem(work->field));
+        CalcPlayerActionPossibilities(work->field, &possibilities);
+        func_ov012_02159418(&args, work->input->partySlot, work->input->eventId, work->input->eventValue);
+        next = CreateHidenEvent(work->input->eventId, &args, &possibilities);
+        if (next != NULL) {
+            GameEvent_ChainNext(event, next);
+        }
+        *state = 1;
+        break;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+
+u32 ShortcutMenu_SetKeyItemID(FieldAppCallInput *input, u32 item) {
     switch (item) {
     case 0:
-        context->kind = 0;
+        input->eventId = 0;
         return 1;
     case 1:
-        context->action = 8;
+        input->appId = 8;
         return 0;
     case 2:
-        context->action = 12;
+        input->appId = 12;
         return 0;
     case 3:
-        context->action = 9;
+        input->appId = 9;
         return 0;
     case 4:
-        context->kind = 4;
+        input->eventId = 4;
         return 1;
     case 5:
-        context->kind = 5;
+        input->eventId = 5;
         return 1;
     case 6:
-        context->action = 0;
-        context->param = 466;
+        input->appId = 0;
+        input->appParam = 466;
         return 0;
     case 7:
-        context->action = 0;
-        context->param = 628;
+        input->appId = 0;
+        input->appParam = 628;
         return 0;
     case 8:
-        context->action = 0;
-        context->param = 629;
+        input->appId = 0;
+        input->appParam = 629;
         return 0;
     case 9:
-        context->action = 7;
-        context->param = 0;
+        input->appId = 7;
+        input->appParam = 0;
         return 0;
     case 10:
-        context->action = 7;
-        context->param = 1;
+        input->appId = 7;
+        input->appParam = 1;
         return 0;
     case 11:
-        context->action = 7;
-        context->param = 2;
+        input->appId = 7;
+        input->appParam = 2;
         return 0;
     case 12:
-        context->action = 2;
-        context->param = 0;
+        input->appId = 2;
+        input->appParam = 0;
         return 0;
     case 13:
-        context->action = 2;
-        context->param = 1;
+        input->appId = 2;
+        input->appParam = 1;
         return 0;
     case 14:
-        context->action = 2;
-        context->param = 2;
+        input->appId = 2;
+        input->appParam = 2;
         return 0;
     case 15:
-        context->action = 2;
-        context->param = 3;
+        input->appId = 2;
+        input->appParam = 3;
         return 0;
     case 16:
-        context->action = 2;
-        context->param = 4;
+        input->appId = 2;
+        input->appParam = 4;
         return 0;
     case 17:
-        context->action = 2;
-        context->param = 5;
+        input->appId = 2;
+        input->appParam = 5;
         return 0;
     case 18:
-        context->action = 1;
-        context->param = 1;
+        input->appId = 1;
+        input->appParam = 1;
         return 0;
     case 19:
-        context->action = 1;
-        context->param = 6;
+        input->appId = 1;
+        input->appParam = 6;
         return 0;
     case 20:
-        context->action = 1;
-        context->param = 2;
+        input->appId = 1;
+        input->appParam = 2;
         return 0;
     case 21:
-        context->action = 1;
-        context->param = 3;
+        input->appId = 1;
+        input->appParam = 3;
         return 0;
     case 22:
-        context->action = 1;
-        context->param = 4;
+        input->appId = 1;
+        input->appParam = 4;
         return 0;
     case 23:
-        context->action = 1;
-        context->param = 5;
+        input->appId = 1;
+        input->appParam = 5;
         return 0;
     case 31:
-        context->action = 1;
-        context->param = 7;
+        input->appId = 1;
+        input->appParam = 7;
         return 0;
     case 32:
-        context->action = 1;
-        context->param = 8;
+        input->appId = 1;
+        input->appParam = 8;
         return 0;
     case 24:
-        context->action = 3;
-        context->param = 1;
+        input->appId = 3;
+        input->appParam = 1;
         return 0;
     case 25:
-        context->action = 3;
-        context->param = 2;
+        input->appId = 3;
+        input->appParam = 2;
         return 0;
     case 26:
-        context->action = 3;
-        context->param = 3;
+        input->appId = 3;
+        input->appParam = 3;
         return 0;
     case 27:
-        context->action = 5;
+        input->appId = 5;
         return 0;
     case 28:
-        context->action = 13;
+        input->appId = 13;
         return 0;
     case 29:
-        context->action = 14;
+        input->appId = 14;
         return 0;
     case 30:
-        context->action = 0;
-        context->param = -1;
+        input->appId = 0;
+        input->appParam = -1;
         return 0;
     case 33:
-        context->action = 0;
-        context->param = 638;
+        input->appId = 0;
+        input->appParam = 638;
         return 0;
     default:
-        context->action = 1;
+        input->appId = 1;
         return 0;
     }
 }
@@ -279,7 +577,8 @@ BOOL func_ov012_0215b2d0(ShortcutMenuWork *work) {
     return TRUE;
 }
 
-BOOL func_ov012_0215b32c(ShortcutMenuContext *context, ShortcutMenuWork *work) {
+BOOL func_ov012_0215b32c(FieldAppCallInput *input, void *arg) {
+    ShortcutMenuWork *work = arg;
     GameData *gameData;
     SaveControl *save;
     ShortcutSave *shortcut;
@@ -292,7 +591,7 @@ BOOL func_ov012_0215b32c(ShortcutMenuContext *context, ShortcutMenuWork *work) {
         if (ShortcutSave_GetShortcutCount(shortcut) == 0) {
             work->done = 1;
             work->state = 2;
-        } else if (context->type == 1 || context->type == 3 || context->type == 2 || context->type == 5) {
+        } else if (input->eventType == 1 || input->eventType == 3 || input->eventType == 2 || input->eventType == 5) {
             work->state = 2;
         } else {
             func_ov012_0215b284(1, work);
@@ -311,8 +610,8 @@ BOOL func_ov012_0215b32c(ShortcutMenuContext *context, ShortcutMenuWork *work) {
     return FALSE;
 }
 
-BOOL func_ov012_0215b39c(u32 unused, ShortcutMenuWork *work) {
-    return func_ov012_0215b2d0(work);
+BOOL func_ov012_0215b39c(FieldAppCallInput *input, void *arg) {
+    return func_ov012_0215b2d0(arg);
 }
 
 void EventFieldItemUseBlock_Call(GameEvent *parent, GameSystem *gsys, u32 action, u32 kind) {
