@@ -154,6 +154,8 @@ u32 func_ov167_021a85fc(BtlServerFlow *flow, BattleMon *mon, u32 condition, u32 
 void ServerControl_SideEffectEndMessage(u32 side, u32 effect, BtlServerFlow *flow);
 void func_ov167_021a866c(BtlServerFlow *flow, u32 effect, u32 side);
 void func_ov167_021a8700(u32 effect, BtlServerFlow *flow);
+s32 func_ov167_021a88f8(BtlServerFlow *flow, BattleMon *mon, u32 weather, s32 damage);
+void func_ov167_021a8964(BtlServerFlow *flow, BattleMon *mon, u32 weather, s32 damage);
 void func_ov167_021a80c4(BtlServerFlow *flow);
 BOOL func_ov167_021a8cc0(BtlServerFlow *flow);
 void func_ov167_021a9c70(BtlServerFlow *flow, BtlFlowClientList *list);

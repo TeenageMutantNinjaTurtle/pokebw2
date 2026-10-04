@@ -10,6 +10,7 @@ u32 IsFieldEffectActive(u32 fieldEffect);
 BOOL FieldStatusRemoveEffect(u32 effect);
 u32 GetWeather(BtlServerFlow *serverFlow);
 u32 func_ov167_021d59c0(void);
+u8 func_ov167_021d59e4(void);
 void FieldStatusSetWeather(u8 weather, u8 duration);
 BOOL FieldStatusAddEffect(u32 effect, BattleCondition value);
 void FieldStatusAddDependPoke(u32 effect, u8 monId);

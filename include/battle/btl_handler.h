@@ -149,7 +149,7 @@ struct BtlServerFlow {
     void *unk85C;
     void *unk860;
     void *unk864;
-    u8 unk868[4];
+    void *unk868;
     BtlFlowDamageList *unk86C;
     BtlFlowDamageList *unk870;
     u8 unk874[0x11f4];

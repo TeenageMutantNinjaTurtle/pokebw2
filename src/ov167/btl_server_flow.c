@@ -5257,6 +5257,121 @@ void func_ov167_021a8700(u32 effect, BtlServerFlow *flow) {
     ServerControl_FieldEffectEnd(flow, effect);
 }
 
+void ServerControl_FieldEffectEnd(BtlServerFlow *flow, u32 effect) {
+    s32 message = -1;
+
+    switch (effect) {
+    case 1:
+        message = 0x74;
+        break;
+    case 2:
+        message = 0x76;
+        break;
+    case 6:
+        message = 0xb3;
+        break;
+    case 7:
+        message = 0xb5;
+        break;
+    }
+    if (message >= 0) {
+        func_ov167_021b15d0(flow->queue, 0x5a, message, 0xffff0000);
+    }
+    func_ov167_021b1434(flow->queue, 0x24, (u8)effect);
+    if (effect == 7) {
+        BattleMon *mon;
+
+        StoreBattleMonsSpeedOrder(flow, flow->unk868);
+        func_ov169_0689ce0c(flow->unk868);
+        while ((mon = func_ov169_0689ce14(flow->unk868)) != NULL) {
+            if (CanPokemonBattle(mon)) {
+                ServerControl_CheckItemReaction(flow, mon, 0);
+            }
+        }
+    }
+}
+
+BOOL func_ov167_021a87dc(BtlServerFlow *flow, void *monSet) {
+    u8 ended = func_ov167_021d59e4();
+    u32 weather;
+    BOOL damaged;
+    BattleMon *mon;
+
+    if (ended != 0) {
+        func_ov167_021b1434(flow->queue, 0x40, ended);
+        ServerControl_ChangeWeatherAfter(flow, 0);
+        return FALSE;
+    }
+    damaged = FALSE;
+    weather = ServerEvent_GetWeather(flow);
+    func_ov169_0689ce0c(monSet);
+    while ((mon = func_ov169_0689ce14(monSet)) != NULL) {
+        if (!IsFainted(mon) && !GetAdditionalConditionFlag(mon, 5) && !GetAdditionalConditionFlag(mon, 4)) {
+            s32 damage;
+            u32 state = PushState(&flow->actionState, 0x26cf);
+            damage = func_ov167_021a88f8(flow, mon, weather, func_ov167_021bd3e8(mon, weather));
+            if (damage != 0) {
+                func_ov167_021a8964(flow, mon, weather, damage);
+                damaged = TRUE;
+            }
+            PopState(&flow->actionState, state, 0x26db);
+            ServerControl_CheckFainted(flow, mon);
+        }
+    }
+    if (damaged) {
+        ServerControl_ViewEffect(flow, 0x255, 6, 6, 0, 0);
+    }
+    return func_ov167_021a8cc0(flow);
+}
+
+s32 func_ov167_021a88f8(BtlServerFlow *flow, BattleMon *mon, u32 weather, s32 damage) {
+    u8 cancel;
+    s32 value;
+    s32 result;
+
+    BattleEventVar_Push(0x26f1);
+    BattleEventVar_SetConstValue(2, GetMonID(mon));
+    BattleEventVar_SetConstValue(0x39, weather);
+    result = 0;
+    BattleEventVar_SetRewriteOnceValue(0x41, 0);
+    BattleEventVar_SetValue(0x32, damage);
+    BattleEvent_CallHandlers(flow, 0x7f);
+    value = BattleEventVar_GetValue(0x32);
+    cancel = BattleEventVar_GetValue(0x41);
+    BattleEventVar_Pop(0x26fa);
+    if (!cancel) {
+        result = value;
+    }
+    return result;
+}
+
+void func_ov167_021a8964(BtlServerFlow *flow, BattleMon *mon, u32 weather, s32 damage) {
+    u8 monId = GetMonID(mon);
+
+    switch (weather) {
+    case 4:
+        BattleHandler_StrSetup(&flow->message, 2, 0x18c);
+        BattleHandler_AddArg(&flow->message, monId);
+        break;
+    case 3:
+        BattleHandler_StrSetup(&flow->message, 2, 0x18f);
+        BattleHandler_AddArg(&flow->message, monId);
+        break;
+    default:
+        BattleHandler_StrClear(&flow->message);
+        break;
+    }
+    if (damage > 0 && ServerControl_CheckSimpleDamageEnabled(flow, mon, damage)) {
+        BattleHandler_SetString(flow, &flow->message);
+        BattleHandler_StrClear(&flow->message);
+        ServerControl_ViewEffect(flow, 0x290, func_ov167_021abb50(flow, monId), 6, 0, 0);
+        if ((s32)GetBattleMonStat(mon, 0xd) <= damage) {
+            ServerControl_ViewEffect(flow, 0x255, 6, 6, 0, 0);
+        }
+        ServerControl_SimpleDamageCore(flow, mon, damage, NULL);
+    }
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
