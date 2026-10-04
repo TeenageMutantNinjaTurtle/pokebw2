@@ -64,6 +64,9 @@ PlayerState *GameData_GetPlayerState(GameData *gameData);
 void *getTimeSigSaveBlock(GameData *gameData);
 PlayerState *func_020171e8(GameData *gameData, s32 index);
 PokeDexSave *GameData_GetPokedex(GameData *gameData);
+// Whether the key item is registered to Y, and registers it or not
+BOOL GameData_IsShortcutRegistered(GameData *gameData, u32 item);
+void GameData_SetKeyItemRegistration(GameData *gameData, u32 item, BOOL registered);
 GameRecords *GameData_GetRecords(GameData *gameData);
 BOOL GameData_AddBoxPkm(GameData *gameData, BoxPkmCreateParams *params);
 BOOL addPkmToParty(GameData *gameData, BoxPkmCreateParams *params);

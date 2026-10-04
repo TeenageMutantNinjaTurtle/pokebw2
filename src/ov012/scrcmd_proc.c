@@ -99,7 +99,7 @@ BOOL s014C_RTFreeUserHeap(VM *vm, FieldScriptEnv *env) {
 void func_ov012_021575b8(ScriptOverlayWork *work) {
     BagProcessData *bag = work->resource;
     BagScriptResult *result = work->data;
-    if (bag->selection == NULL) {
+    if (bag->result == 0) {
         *result->hasSelection = FALSE;
     } else {
         *result->hasSelection = TRUE;

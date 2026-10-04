@@ -11,19 +11,19 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 
-GameEvent *EventSave_Create(GameSystem *gsys, Field *field, u16 code, u32 arg3, EventSaveArgs *args, u32 *result) {
+GameEvent *EventSave_Create(GameSystem *gsys, Field *field, u16 code, void *msgBgSys, u32 screenId, u32 *result) {
     GameEvent *event = GameEvent_Create(gsys, NULL, EventSave_Callback, sizeof(EventSaveWork));
     EventSaveWork *work = GameEvent_GetData(event);
     GameData *gameData;
 
     sys_memset(work, 0, sizeof(EventSaveWork));
-    work->arg3 = arg3;
+    work->msgBgSys = msgBgSys;
     work->code = code;
     work->gameSystem = gsys;
     work->field = field;
     gameData = GSYS_GetGameData(gsys);
     work->save = GameData_GetSaveControl(gameData);
-    work->args = args;
+    work->screenId = screenId;
     work->result = result;
     return event;
 }
@@ -44,9 +44,9 @@ GameEventReturnCode EventSave_Callback(GameEvent *event, u32 *state, void *data)
     }
 }
 
-void func_ov012_0215c574(FieldAppCallWork *work) {
+void func_ov012_0215c574(FieldAppCallWork *work, s32 appParam) {
     FieldAppCallInput *input = work->input;
-    GameEvent *event = func_ov127_021f1c80(input->gameSystem, input->field, input->unk0C, &work->unk10);
+    GameEvent *event = func_ov127_021f1c80(input->gameSystem, input->field, input->screenId, &work->result);
     GameEvent_ChainNext(work->event, event);
 }
 

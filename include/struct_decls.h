@@ -128,7 +128,6 @@ typedef struct EventMapChangeCore EventMapChangeCore;
 typedef struct EventPassPower EventPassPower;
 typedef struct EventPokeCenHealData EventPokeCenHealData;
 typedef struct EventResearchRadar EventResearchRadar;
-typedef struct EventSaveArgs EventSaveArgs;
 typedef struct EventSaveWork EventSaveWork;
 typedef struct EventScriptCallData EventScriptCallData;
 typedef struct EventSeasonBanner EventSeasonBanner;

@@ -13,7 +13,7 @@
 
 typedef struct {
     PokeParty *party;
-    void *trainerData;
+    TrainerDataSave *trainerData;
     GameData *gameData;
     u8 unkC;
     u8 unkD;

@@ -45,7 +45,7 @@ GameEvent *EventFieldMenu_Create(GameSystem *gsys, Field *field, u16 param) {
         work->screenId = FieldSubscreen_GetIDForChange(Field_GetSubscreen(work->field), 0);
         break;
     }
-    work->appCall.unk0C = work->screenId;
+    work->appCall.screenId = work->screenId;
     func_0203d564(TRUE);
     return event;
 }
