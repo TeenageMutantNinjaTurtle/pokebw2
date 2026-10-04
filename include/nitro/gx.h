@@ -129,6 +129,7 @@ static inline void G2_SetOBJAttr(GXOamAttr *oam, int x, int y, int priority, int
 #define GX_PLANEMASK_OBJ 0x10
 
 // The planes that blending takes, which include the backdrop
+#define GX_BLEND_PLANEMASK_NONE 0x00
 #define GX_BLEND_PLANEMASK_BG0 0x01
 #define GX_BLEND_PLANEMASK_BG1 0x02
 #define GX_BLEND_PLANEMASK_BG2 0x04

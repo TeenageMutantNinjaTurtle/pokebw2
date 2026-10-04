@@ -8,3 +8,8 @@ src/ov255/box2.c:
     complete
     .text       start:0x021bb700 end:0x021bb7e0
     .rodata     start:0x021d6f6c end:0x021d6f78
+
+src/ov255/box2_main.c:
+    .text       start:0x021bb7e0 end:0x021c28a8
+    .rodata     start:0x021d6f78 end:0x021d70cc
+    .data       start:0x021d9640 end:0x021d964c

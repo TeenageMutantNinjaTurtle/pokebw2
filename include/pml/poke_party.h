@@ -72,7 +72,21 @@ u32 PML_PkmGetParam(BoxPkm *pkm, u32 param, void *buffer);
 BOOL PML_PkmDecrypt(BoxPkm *pkm);
 void PML_PkmReEncrypt(BoxPkm *pkm, BOOL wasEncrypted);
 BOOL PML_PkmIsRare(BoxPkm *pkm);
+u32 PML_PkmGetNature(BoxPkm *pkm);
+u8 PML_PkmGetSex(BoxPkm *pkm);
+// Whether the Pokémon has Pokérus that hasn't run its course
+BOOL doesPokerusHaveDuration(BoxPkm *pkm);
+// Whether the Pokémon has had Pokérus
+BOOL doesPokeHavePokerus(BoxPkm *pkm);
 BoxPkm *func_0201d620(PartyPkm *pkm);
+// Allocates a party Pokémon made from a boxed one
+PartyPkm *boxPkmRegenToPartyPkm(BoxPkm *pkm, HeapID heapId);
+void PML_PkmSetParam(BoxPkm *pkm, u32 param, u32 value);
+void PML_PkmChangeForme(BoxPkm *pkm, u32 forme);
+// Arceus's forme for a held plate
+u16 _getTypeForPlate(u16 item);
+// Genesect's forme for a held drive
+u32 func_0201ef8c(u32 item);
 // The size of a Pokémon's data
 u32 PokeParty_GetPkmRawSize(void);
 void copyPartyPkm(const PartyPkm *src, PartyPkm *dest);
@@ -109,6 +123,9 @@ int countSanityEggsInParty(PokeParty *party);
 int PokeParty_GetCapacity(PokeParty *party);
 BOOL PokeParty_AddPkm(PokeParty *party, PartyPkm *pkm);
 void PokeParty_RemovePkm(PokeParty *party, u32 index);
+void PokeParty_SwapPkms(PokeParty *party, u32 index1, u32 index2, HeapID heapId);
+// Reorders the party: order[i] is the index of the Pokémon that goes to position i
+void func_0201fff8(PokeParty *party, u32 *order, HeapID heapId);
 void PokeParty_RecoverAll(PokeParty *party);
 void PokeParty_ChangeForme(PartyPkm *pkm, u32 forme);
 // Teaches a move, and returns 0xffff when all four slots are full

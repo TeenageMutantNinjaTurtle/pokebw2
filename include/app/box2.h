@@ -20,7 +20,8 @@ typedef struct {
     u32 unk14;
     TrainerDataSave *trainerData;
     u32 unk1C;
-    void *unk20;
+    // Flags by species, which Box2Main_IsSpeciesFlagged reads
+    u8 *unk20;
     u32 mode;
     u16 unk28;
     // Where the chosen Pokemon is, 0xff for both if none was chosen

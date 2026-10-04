@@ -16,6 +16,8 @@ u32 PML_PersonalGetParamSingle(u16 species, u16 form, u32 param);
 void *PML_PersonalLoad(u16 species, u16 form, HeapID heapId);
 u32 PML_PersonalGetParam(void *personal, u32 param);
 void PML_PersonalFree(void *personal);
+// Allocates the regional Pokédex's order of species
+u16 *PML_PersonalLoadRegionalDexTable(HeapID heapId, u32 a1);
 // The experience a Pokémon of the species needs for the level
 u32 PML_UtilGetPkmLvExp(u16 species, u16 form, u16 level);
 
