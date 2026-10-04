@@ -66,6 +66,16 @@ int STD_CompareNString(const char *a, const char *b, int n);
 // NitroSDK's OS_WaitIrq and OS_IsRunOnTwl, under swan's names
 void irq_waitFor(BOOL clear, u32 interrupts);
 BOOL hw_isDSi(void);
+// The DSi's parental controls, of its settings. The fields' meanings are not known
+typedef struct {
+    u32 unk0_0 : 1;
+    u32 unk0_1 : 4;
+    u32 unk0_5 : 1;
+    u32 unk0_6 : 26;
+} TWLParentalControl;
+
+// The DSi's parental controls, NULL on a DS
+TWLParentalControl *func_0207c4b4(void);
 
 // The buttons the ARM7 reads, X, Y and the lid among them, in shared memory. NitroSDK's PAD_DetectFold
 #define HW_BUTTON_XY_BUF 0x02ffffa8

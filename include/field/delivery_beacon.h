@@ -47,5 +47,7 @@ void *func_ov030_02173b24(int index);
 void func_ov030_02173ba4(int index);
 void func_ov030_02173bc4(void);
 void func_ov030_021740d0(int index);
+u8 func_ov030_021740a4(u8 index);
+void func_ov030_02173bec(int index);
 
 #endif // POKEBW2_FIELD_DELIVERY_BEACON_H
