@@ -72,6 +72,8 @@ u32 PML_PkmGetParam(BoxPkm *pkm, u32 param, void *buffer);
 BOOL PML_PkmDecrypt(BoxPkm *pkm);
 void PML_PkmReEncrypt(BoxPkm *pkm, BOOL wasEncrypted);
 BOOL PML_PkmIsRare(BoxPkm *pkm);
+// Whether the species and form are a fused Kyurem
+BOOL isKyuremTransformed(u16 species, u8 form);
 u32 PML_PkmGetNature(BoxPkm *pkm);
 u8 PML_PkmGetSex(BoxPkm *pkm);
 // Whether the Pokémon has Pokérus that hasn't run its course
@@ -107,6 +109,13 @@ void PokeParty_Recover(PartyPkm *pkm);
 void PokeParty_RecalcStats(PartyPkm *pkm);
 void setLevel(PartyPkm *pkm, u32 level);
 void setPkmBattleData(PartyPkm *pkm, u32 param, u32 value);
+// A Pokémon's icon in ARCID_POKEICON: its characters' file and its palette
+u32 func_02020f40(BoxPkm *pkm);
+u32 func_020210c0(BoxPkm *pkm);
+// The files of the icons' palette, cells and animations in ARCID_POKEICON
+u32 func_02021118(void);
+u32 func_0202111c(void);
+u32 getOBJTileMapping_MainEng(void);
 // A species with its form and sex in one u16
 u16 func_02021204(u32 species, u32 form, u32 sex);
 // The level, 0 to 4, of a Pokémon's Pokéstar fame

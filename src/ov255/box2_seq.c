@@ -16,6 +16,7 @@
 #include "gfl/net.h"
 #include "gfl/overlay.h"
 #include "gfl/sound.h"
+#include "gfl/tcb.h"
 #include "gfl/touchpanel.h"
 #include "gfl/ui.h"
 #include "gfl/wipe.h"
@@ -181,6 +182,7 @@ static int func_ov255_021cbee8(Box2SysWork *syswk, int seq);
 static int func_ov255_021cbef0(Box2SysWork *syswk, u32 type);
 static int func_ov255_021cc3b0(Box2SysWork *syswk, u32 a1, int seq);
 static int func_ov255_021cc460(Box2SysWork *syswk, u32 a1, u32 a2, int seq);
+static int func_ov255_021cc3c0(Box2SysWork *syswk, u32 a1, int seq);
 static int func_ov255_021cc4e0(Box2SysWork *syswk, u32 a1);
 static int func_ov255_021cc50c(Box2SysWork *syswk);
 static int func_ov255_021cc608(Box2SysWork *syswk);
@@ -227,12 +229,30 @@ static int func_ov255_021cd52c(Box2SysWork *syswk, u32 pos, int seq);
 static u32 func_ov255_021cdcc8(Box2SysWork *syswk);
 static void func_ov255_021cdb34(Box2SysWork *syswk);
 static void func_ov255_021cdb5c(Box2SysWork *syswk);
+static void func_ov255_021cdd04(Box2SysWork *syswk, u32 mark);
+static int func_ov255_021cdd24(Box2SysWork *syswk, u32 pos);
+static void func_ov255_021cdd80(Box2SysWork *syswk);
 static void func_ov255_021cded4(Box2SysWork *syswk);
 static void func_ov255_021cdef8(Box2SysWork *syswk);
+
+// The menus' items: a message and whether the item closes the menu
 static const Box2MenuItem sMenu70cc[] = { { 83, 0 }, { 80, 1 } };
+static const Box2MenuItem sMenu70d4[] = { { 93, 0 }, { 80, 1 } };
+static const Box2MenuItem sMenu70dc[] = { { 94, 0 }, { 92, 0 }, { 80, 1 } };
+static const Box2MenuItem sMenu70e8[] = { { 31, 0 }, { 32, 0 }, { 33, 0 }, { 34, 1 } };
 static const Box2MenuItem sMenu70f8[] = { { 82, 0 }, { 74, 0 }, { 75, 0 }, { 80, 1 } };
+// The wallpaper themes and their wallpapers
+static const Box2MenuItem sMenu7108[] = { { 58, 0 }, { 59, 0 }, { 60, 0 }, { 61, 0 }, { 66, 1 } };
+static const Box2MenuItem sMenu711c[] = { { 35, 0 }, { 36, 0 }, { 37, 0 }, { 38, 0 }, { 66, 1 } };
 static const Box2MenuItem sMenu7130[] = { { 79, 0 }, { 74, 0 }, { 76, 0 }, { 77, 0 }, { 80, 1 } };
+static const Box2MenuItem sMenu7144[] = { { 41, 0 }, { 42, 0 }, { 43, 0 }, { 44, 0 }, { 66, 1 } };
+static const Box2MenuItem sMenu7158[] = { { 45, 0 }, { 46, 0 }, { 47, 0 }, { 48, 0 }, { 66, 1 } };
+static const Box2MenuItem sMenu716c[] = { { 49, 0 }, { 50, 0 }, { 51, 0 }, { 52, 0 }, { 66, 1 } };
+static const Box2MenuItem sMenu7180[] = { { 53, 0 }, { 54, 0 }, { 55, 0 }, { 56, 0 }, { 66, 1 } };
 static const Box2MenuItem sMenu7194[] = { { 78, 0 }, { 74, 0 }, { 76, 0 }, { 77, 0 }, { 80, 1 } };
+static const Box2MenuItem sMenu71a8[] = { { 57, 0 }, { 35, 0 }, { 36, 0 }, { 37, 0 }, { 38, 0 }, { 66, 1 } };
+static const Box2MenuItem sMenu71c0[] = { { 58, 0 }, { 59, 0 }, { 60, 0 }, { 61, 0 }, { 68, 0 }, { 66, 1 } };
+static const Box2MenuItem sMenu71d8[] = { { 62, 0 }, { 63, 0 }, { 64, 0 }, { 65, 0 }, { 67, 0 }, { 66, 1 } };
 static const Box2MenuItem sMenu71f0[] = { { 81, 0 }, { 74, 0 }, { 75, 0 }, { 76, 0 }, { 77, 0 }, { 80, 1 } };
 
 static const Box2SubProc sSubProcs[] = {
@@ -5408,4 +5428,729 @@ static int func_ov255_021cab94(Box2SysWork *syswk) {
         syswk->nextSeq = 14;
     }
     return func_ov255_021cbe58(syswk, BOX2SEQ_TRGWAIT);
+}
+
+// Opens the markings
+static int func_ov255_021cabbc(Box2SysWork *syswk) {
+    switch (syswk->app->subSeq) {
+    case 0:
+        func_ov255_021cf63c(syswk->app, BOX2_ACTOR_CURSOR, FALSE);
+        func_ov255_021d0f88(syswk, 9, 0);
+        func_ov255_021cefa4(syswk->app, 24);
+        func_ov255_021bc018(syswk);
+        func_ov255_021d3954(syswk->app->bgWinFrame);
+        syswk->app->subSeq++;
+        return func_ov255_021cbec8(syswk, Box2Main_VFuncFrameMove, 97);
+    case 1:
+        syswk->app->unkA554 = Box2Main_GetPokeParam(syswk, syswk->pos, syswk->tray, PKM_PARAM_MARKINGS, NULL);
+        Box2Main_MarkingPutMain(syswk, syswk->app->unkA554);
+        func_ov255_021d3a80(syswk->app->bgWinFrame);
+        GFL_SndSEPlay(SEQ_SE_SYS_42);
+        syswk->app->subSeq++;
+        return func_ov255_021cbec8(syswk, func_ov255_021c05cc, 97);
+    case 2:
+        func_ov255_021d2478(syswk, 9, 0);
+        func_ov255_021d1348(syswk->app, 0);
+        func_ov255_021d0310(syswk, 1, 1);
+        func_ov255_021d0310(syswk, 2, 1);
+        func_ov255_021d0350(syswk->app, syswk->pos, FALSE);
+        func_ov255_021cf108(syswk, 24);
+        return func_ov255_021cbe58(syswk, 98);
+    }
+    return 97;
+}
+
+// The markings: toggles a mark, or sets or cancels them
+static int func_ov255_021cacac(Box2SysWork *syswk) {
+    switch (func_0202b768(syswk->app->cursorMove)) {
+    case 0:
+        GFL_SndSEPlay(SEQ_SE_DECIDE1);
+        func_ov255_021cdd04(syswk, 0);
+        break;
+    case 1:
+        GFL_SndSEPlay(SEQ_SE_DECIDE1);
+        func_ov255_021cdd04(syswk, 1);
+        break;
+    case 2:
+        GFL_SndSEPlay(SEQ_SE_DECIDE1);
+        func_ov255_021cdd04(syswk, 2);
+        break;
+    case 3:
+        GFL_SndSEPlay(SEQ_SE_DECIDE1);
+        func_ov255_021cdd04(syswk, 3);
+        break;
+    case 4:
+        GFL_SndSEPlay(SEQ_SE_DECIDE1);
+        func_ov255_021cdd04(syswk, 4);
+        break;
+    case 5:
+        GFL_SndSEPlay(SEQ_SE_DECIDE1);
+        func_ov255_021cdd04(syswk, 5);
+        break;
+    case 6: {
+        u8 mark = syswk->app->unkA554;
+
+        Box2Main_SetPokeParam(syswk, syswk->pos, syswk->tray, PKM_PARAM_MARKINGS, mark);
+        Box2Main_MarkingPutSub(syswk, mark);
+        func_ov255_021d0640(syswk, syswk->tray, syswk->pos);
+        GFL_SndSEPlay(SEQ_SE_DECIDE1);
+        return func_ov255_021cc3c0(syswk, 0, 99);
+    }
+    case 7:
+        GFL_SndSEPlay(SEQ_SE_CANCEL1);
+        return func_ov255_021cc3c0(syswk, 1, 99);
+    case CURSORMOVE_CANCEL:
+        GFL_SndSEPlay(SEQ_SE_CANCEL1);
+        return func_ov255_021cc3c0(syswk, 1, 99);
+    case CURSORMOVE_CURSOR_MOVE:
+        GFL_SndSEPlay(SEQ_SE_SELECT1);
+        return func_ov255_021cbed8(syswk, 100);
+    case CURSORMOVE_CURSOR_ON:
+        GFL_SndSEPlay(SEQ_SE_SELECT1);
+        break;
+    }
+    return 98;
+}
+
+// Closes the markings
+static int func_ov255_021cadcc(Box2SysWork *syswk) {
+    switch (syswk->param->mode) {
+    case 0:
+        func_ov255_021d2478(syswk, 0, 10);
+        break;
+    case 1:
+        func_ov255_021d1348(syswk->app, 1);
+        func_ov255_021d2478(syswk, 2, 37);
+        break;
+    case 2:
+    default:
+        if (syswk->pos < BOX2_PARTY_POS) {
+            func_ov255_021d1348(syswk->app, 1);
+            func_ov255_021d2478(syswk, 3, 39);
+        } else {
+            func_ov255_021d2478(syswk, 5, 12);
+        }
+        break;
+    }
+    func_ov255_021d101c(syswk, 0);
+    func_ov255_021cefa4(syswk->app, 24);
+    func_ov255_021bc018(syswk);
+    if (syswk->pos < BOX2_PARTY_POS) {
+        func_ov255_021d0310(syswk, 1, 0);
+    }
+    func_ov255_021d0310(syswk, 2, 0);
+    func_ov255_021d3aa4(syswk->app->bgWinFrame);
+    GFL_SndSEPlay(SEQ_SE_SYS_42);
+    return func_ov255_021cbec8(syswk, func_ov255_021c05cc, func_ov255_021cbe58(syswk, 14));
+}
+
+static int func_ov255_021cae74(Box2SysWork *syswk) {
+    GFL_HeapFree(syswk->app->vfunk.work);
+    return 98;
+}
+
+// Releasing: checks the Pokémon can be released
+static int func_ov255_021cae84(Box2SysWork *syswk) {
+    BoxPkm *pkm;
+    u16 species;
+    u8 form;
+    u32 msg;
+
+    switch (syswk->app->subSeq) {
+    case 0:
+        func_ov255_021cf63c(syswk->app, BOX2_ACTOR_CURSOR, FALSE);
+        func_ov255_021d0f88(syswk, 9, 0);
+        func_ov255_021d3954(syswk->app->bgWinFrame);
+        syswk->app->subSeq++;
+        return func_ov255_021cbec8(syswk, Box2Main_VFuncFrameMove, 101);
+    case 1:
+        if (syswk->pos >= BOX2_PARTY_POS) {
+            u32 partyPos;
+
+            func_ov255_021d0310(syswk, 2, 1);
+            func_ov255_021d0350(syswk->app, syswk->pos, FALSE);
+            partyPos = syswk->pos - BOX2_PARTY_POS;
+            if (Box2Main_BattlePokeCheck(syswk, partyPos) == FALSE) {
+                GFL_SndSEPlay(SEQ_SE_BEEP);
+                func_ov255_021cf114(syswk, 6, 24);
+                syswk->app->unkA550 = 1;
+                syswk->nextSeq = 14;
+                return func_ov255_021cbe58(syswk, BOX2SEQ_TRGWAIT);
+            }
+            if (PML_ItemIsMail(PokeParty_GetParam(PokeParty_GetPkm(syswk->param->party, partyPos), PKM_PARAM_ITEM, NULL))
+                == TRUE) {
+                GFL_SndSEPlay(SEQ_SE_BEEP);
+                func_ov255_021cf1ac(syswk, 0, 5, 24);
+                syswk->app->unkA550 = 1;
+                syswk->nextSeq = 14;
+                return func_ov255_021cbe58(syswk, BOX2SEQ_TRGWAIT);
+            }
+        } else {
+            func_ov255_021d1348(syswk->app, 0);
+            func_ov255_021d0310(syswk, 1, 1);
+            func_ov255_021d0350(syswk->app, syswk->pos, FALSE);
+        }
+        pkm = Box2Main_GetBoxPkm(syswk, syswk->tray, syswk->pos);
+        species = PML_PkmGetParam(pkm, PKM_PARAM_SPECIES, NULL);
+        form = PML_PkmGetParam(pkm, PKM_PARAM_FORM, NULL);
+        msg = 0xffff;
+        if (PML_PkmGetParam(pkm, PKM_PARAM_IS_EGG, NULL) != 0) {
+            msg = 3;
+        } else if (isKyuremTransformed(species, form)) {
+            msg = 7;
+        }
+        if (msg != 0xffff) {
+            GFL_SndSEPlay(SEQ_SE_BEEP);
+            func_ov255_021cf114(syswk, msg, 24);
+            syswk->app->unkA550 = 1;
+            syswk->nextSeq = 14;
+            return func_ov255_021cbe58(syswk, BOX2SEQ_TRGWAIT);
+        }
+        func_ov255_021cf114(syswk, 0, 24);
+        return func_ov255_021cbe58(syswk, func_ov255_021cbef0(syswk, 1));
+    }
+    return 101;
+}
+
+// Releasing: checks the moves the Pokémon takes away
+static int func_ov255_021cb020(Box2SysWork *syswk) {
+    Box2Main_PokeFreeWazaCheck(syswk);
+    if (func_ov255_021d0184(syswk->app->subWork) == FALSE) {
+        if (((Box2PokeFreeWork *)syswk->app->subWork)->checkFlag != 0) {
+            return func_ov255_021cbe58(syswk, 104);
+        }
+        func_ov255_021d0214(syswk->app->subWork);
+        Box2Main_PokeFreeExit(syswk);
+        return func_ov255_021cbe58(syswk, 103);
+    }
+    return 102;
+}
+
+// Releasing: says goodbye and removes the Pokémon
+static int func_ov255_021cb068(Box2SysWork *syswk) {
+    switch (syswk->app->subSeq) {
+    case 0:
+        func_ov255_021cf114(syswk, 1, 24);
+        syswk->nextSeq = 103;
+        syswk->app->subSeq++;
+        return BOX2SEQ_TRGWAIT;
+    case 1:
+        func_ov255_021cf114(syswk, 2, 24);
+        syswk->nextSeq = 103;
+        syswk->app->subSeq++;
+        return BOX2SEQ_TRGWAIT;
+    case 2:
+        Box2Main_ClearPokeData(syswk, syswk->tray, syswk->pos);
+        func_ov255_021cefa4(syswk->app, 24);
+        func_ov255_021bc018(syswk);
+        Box2Main_PokeInfoOff(syswk);
+        if (syswk->pos < BOX2_PARTY_POS) {
+            func_ov255_021d1570(syswk, syswk->tray);
+            func_ov255_021d15f4(syswk, syswk->tray);
+            if (syswk->param->mode == 1) {
+                syswk->nextSeq = 54;
+            } else {
+                syswk->nextSeq = 17;
+                func_ov255_021d3a48(syswk->app);
+            }
+            func_0202ba64(syswk->app->cursorMove, syswk->pos);
+            func_ov255_021d24f8(syswk, syswk->pos);
+            func_ov255_021d101c(syswk, 1);
+            func_ov255_021d1348(syswk->app, 1);
+            func_ov255_021d0310(syswk, 1, 0);
+            func_ov255_021d0f88(syswk, 9, 1);
+            syswk->pos = BOX2_GET_NONE;
+            syswk->app->subSeq = 0;
+            return syswk->nextSeq;
+        }
+        func_ov255_021cd5b0(syswk);
+        syswk->unk1A = 1;
+        func_ov255_021d0310(syswk, 2, 0);
+        syswk->app->subSeq++;
+        return func_ov255_021cbec8(syswk, Box2Main_VFuncPartyPokeFreeSort, 103);
+    case 3:
+        syswk->app->subSeq = 0;
+        func_ov255_021cd5d8(syswk);
+        Box2Main_PokeInfoPut(syswk, syswk->pos);
+        func_0202ba64(syswk->app->cursorMove, syswk->pos - BOX2_PARTY_POS);
+        func_ov255_021d24f8(syswk, syswk->pos - BOX2_PARTY_POS);
+        func_ov255_021d101c(syswk, 1);
+        syswk->pos = BOX2_GET_NONE;
+        if (syswk->param->mode == 0) {
+            return 59;
+        }
+        func_ov255_021d0f88(syswk, 9, 1);
+        func_ov255_021d3a64(syswk->app);
+        return 27;
+    }
+    return 103;
+}
+
+// Releasing: says the Pokémon's move can't be lost, and puts it back
+static int func_ov255_021cb1d8(Box2SysWork *syswk) {
+    switch (syswk->app->subSeq) {
+    case 0:
+        if (func_ov255_021d01c8(syswk->app->subWork) == FALSE) {
+            func_ov255_021d0228(syswk->app->subWork);
+            Box2Main_PokeFreeExit(syswk);
+            func_ov255_021d1048(syswk);
+            func_ov255_021cf114(syswk, 4, 24);
+            syswk->nextSeq = 104;
+            syswk->app->subSeq++;
+            return BOX2SEQ_TRGWAIT;
+        }
+        break;
+    case 1:
+        func_ov255_021cf114(syswk, 5, 24);
+        syswk->nextSeq = 104;
+        syswk->app->subSeq++;
+        return BOX2SEQ_TRGWAIT;
+    case 2:
+        syswk->app->subSeq = 0;
+        return func_ov255_021cc040(syswk);
+    }
+    return 104;
+}
+
+// Opens the box menu
+static int func_ov255_021cb258(Box2SysWork *syswk) {
+    switch (syswk->app->subSeq) {
+    case 0:
+        syswk->app->subSeq++;
+        func_ov255_021cf63c(syswk->app, BOX2_ACTOR_CURSOR, FALSE);
+        func_ov255_021d0f88(syswk, 9, 0);
+        func_ov255_021d1348(syswk->app, 0);
+        if (func_ov255_021d39c0(syswk->app->bgWinFrame) == TRUE) {
+            if (func_ov255_021cf658(syswk->app, BOX2_ACTOR_ITEM_ICON) == TRUE) {
+                func_ov255_021cf63c(syswk->app, BOX2_ACTOR_ITEM_ICON, FALSE);
+            }
+            func_ov255_021d11a4(syswk, 0);
+            func_ov255_021cefa4(syswk->app, 24);
+            func_ov255_021bc018(syswk);
+            func_ov255_021d3954(syswk->app->bgWinFrame);
+            return func_ov255_021cbec8(syswk, Box2Main_VFuncFrameMove, 105);
+        }
+        if (func_ov255_021d3b48(syswk->app->bgWinFrame) == TRUE) {
+            func_ov255_021d1ac8(syswk, 0, 0);
+            func_ov255_021d3a58(syswk->app);
+            return func_ov255_021cdc54(syswk, 105);
+        }
+        if (func_ov255_021d3834(syswk->app->bgWinFrame) == TRUE) {
+            func_ov255_021d3a74(syswk->app);
+            func_ov255_021d3778(syswk->app->bgWinFrame);
+            return func_ov255_021cbec8(syswk, Box2Main_VFuncPartyFrameMove, 105);
+        }
+        func_ov255_021d3a58(syswk->app);
+    case 1:
+        func_ov255_021ceed0(syswk, sMenu70e8, 4);
+        func_ov255_021d390c(syswk->app->bgWinFrame);
+        syswk->app->subSeq++;
+        return func_ov255_021cbec8(syswk, Box2Main_VFuncFrameMove, 105);
+    case 2:
+        syswk->app->subSeq = 0;
+        func_ov255_021d0310(syswk, 1, 1);
+        func_ov255_021cf17c(syswk, 0, 24);
+        func_ov255_021d2478(syswk, 10, 0);
+        syswk->moveMode = 0;
+        func_ov255_021d0ff8(syswk, 6);
+        return 106;
+    }
+    return 105;
+}
+
+// The box menu: picks a choice
+static int func_ov255_021cb3a0(Box2SysWork *syswk) {
+    switch (func_0202b768(syswk->app->cursorMove)) {
+    case 0:
+        GFL_SndSEPlay(SEQ_SE_DECIDE1);
+        return func_ov255_021cc3b0(syswk, 2, func_ov255_021cbe58(syswk, 108));
+    case 1:
+        GFL_SndSEPlay(SEQ_SE_DECIDE1);
+        syswk->app->unkA55C = 0;
+        return func_ov255_021cc3b0(syswk, 3, func_ov255_021cbe58(syswk, 112));
+    case 2:
+        GFL_SndSEPlay(SEQ_SE_DECIDE1);
+        return func_ov255_021cc3b0(syswk, 4, 115);
+    case 3:
+        GFL_SndSEPlay(SEQ_SE_CANCEL1);
+        return func_ov255_021cc3b0(syswk, 5, func_ov255_021cbe58(syswk, 107));
+    case CURSORMOVE_CANCEL:
+        GFL_SndSEPlay(SEQ_SE_CANCEL1);
+        return func_ov255_021cc3b0(syswk, 5, func_ov255_021cbe58(syswk, 107));
+    case CURSORMOVE_CURSOR_MOVE:
+        GFL_SndSEPlay(SEQ_SE_SELECT1);
+        return func_ov255_021cbed8(syswk, func_ov255_021cbee8(syswk, 106));
+    }
+    return 106;
+}
+
+// Closes the box menu
+static int func_ov255_021cb488(Box2SysWork *syswk) {
+    switch (syswk->app->subSeq) {
+    case 0:
+        func_ov255_021d101c(syswk, 0);
+        func_ov255_021cefa4(syswk->app, 24);
+        func_ov255_021bc018(syswk);
+        if (syswk->param->mode == 2 || syswk->param->mode == 4) {
+            func_ov255_021d1af8(syswk, 0, 0, 1, 0);
+        } else {
+            func_ov255_021d1af8(syswk, 0, 0, 1, 1);
+        }
+        func_ov255_021d3954(syswk->app->bgWinFrame);
+        syswk->app->subSeq++;
+        return func_ov255_021cbec8(syswk, Box2Main_VFuncFrameMove, 107);
+    case 1:
+        syswk->app->subSeq = 0;
+        func_ov255_021d1348(syswk->app, 1);
+        func_ov255_021d0f88(syswk, 9, 1);
+        if (syswk->param->mode == 2) {
+            func_ov255_021d0310(syswk, 1, 0);
+            func_ov255_021d3a48(syswk->app);
+            func_ov255_021d2478(syswk, 3, BOX2_PARTY_POS);
+            return 17;
+        }
+        if (syswk->param->mode == 1) {
+            func_ov255_021d0310(syswk, 1, 0);
+            func_ov255_021d2478(syswk, 2, BOX2_PARTY_POS);
+            return 54;
+        }
+        if (syswk->param->mode == 3) {
+            func_ov255_021d0310(syswk, 0x81, 1);
+            func_ov255_021d3a48(syswk->app);
+            func_ov255_021d2478(syswk, 7, BOX2_PARTY_POS);
+            return 67;
+        }
+        if (syswk->param->mode == 4) {
+            func_ov255_021d0310(syswk, 1, 0);
+            func_ov255_021d3a48(syswk->app);
+            func_ov255_021d2478(syswk, 13, BOX2_PARTY_POS);
+            return 45;
+        }
+    }
+    return 107;
+}
+
+// Opens the box jump
+static int func_ov255_021cb5b0(Box2SysWork *syswk) {
+    switch (syswk->app->subSeq) {
+    case 0:
+        syswk->app->unkA55A = 1;
+        func_ov255_021d101c(syswk, 0);
+        func_ov255_021cefa4(syswk->app, 24);
+        func_ov255_021bc018(syswk);
+        func_ov255_021d3954(syswk->app->bgWinFrame);
+        syswk->app->subSeq++;
+        return func_ov255_021cbec8(syswk, Box2Main_VFuncFrameMove, 108);
+    case 1:
+        if (func_ov255_021d3b48(syswk->app->bgWinFrame) == FALSE) {
+            syswk->trayScroll = syswk->tray;
+        }
+        syswk->app->subSeq++;
+        GFL_SndSEPlay(SEQ_SE_SYS_42);
+        return func_ov255_021cdc38(syswk, 108);
+    case 2:
+        syswk->app->subSeq = 0;
+        func_ov255_021d1ac8(syswk, 0, 1);
+        func_ov255_021d2478(syswk, 12, 1);
+        syswk->app->oldCurPos = 1;
+        func_ov255_021cf17c(syswk, 1, 25);
+        func_ov255_021d1af8(syswk, 0, 1, 1, 1);
+        return 109;
+    }
+    return 108;
+}
+
+// The box jump: picks a box in the list
+static int func_ov255_021cb67c(Box2SysWork *syswk) {
+    u32 x, y;
+    u32 res;
+
+    if (func_ov255_021d3554(&x, &y) == TRUE) {
+        syswk->app->tpy = y;
+        syswk->nextSeq = 109;
+        func_ov255_021cdc04(syswk);
+        func_0202ba74(syswk->app->cursorMove, FALSE);
+        return 15;
+    }
+
+    res = func_0202b768(syswk->app->cursorMove);
+    switch (res) {
+    case 0:
+        GFL_SndSEPlay(SEQ_SE_SELECT1);
+        func_ov255_021bc09c(syswk, -1);
+        return func_ov255_021cbec8(syswk, Box2Main_VFuncBoxMoveScrollRight, 109);
+    case 5:
+        GFL_SndSEPlay(SEQ_SE_SELECT1);
+        func_ov255_021bc09c(syswk, 1);
+        return func_ov255_021cbec8(syswk, Box2Main_VFuncBoxMoveScrollLeft, 109);
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+        syswk->app->unkA55F = syswk->trayScroll + res - 1;
+        if (syswk->app->unkA55F >= syswk->trayMax) {
+            syswk->app->unkA55F -= syswk->trayMax;
+        }
+        if (syswk->app->unkA55F != syswk->tray) {
+            func_ov255_021d1ac8(syswk, 0, 0);
+            return func_ov255_021cdba4(syswk, 111);
+        }
+        GFL_SndSEPlay(SEQ_SE_SELECT1);
+        func_ov255_021d1ac8(syswk, res - 1, 1);
+        break;
+    case 6:
+    case CURSORMOVE_CANCEL:
+        GFL_SndSEPlay(SEQ_SE_CANCEL1);
+        return func_ov255_021cc460(syswk, 6, 9, func_ov255_021cbe58(syswk, 110));
+    case CURSORMOVE_CURSOR_MOVE:
+        GFL_SndSEPlay(SEQ_SE_SELECT1);
+        return func_ov255_021cbed8(syswk, func_ov255_021cbee8(syswk, 109));
+    case CURSORMOVE_UNK_8:
+        if (func_0202ba60(syswk->app->cursorMove) == 1) {
+            GFL_SndSEPlay(SEQ_SE_SELECT1);
+            func_ov255_021bc09c(syswk, -1);
+            return func_ov255_021cbec8(syswk, Box2Main_VFuncBoxMoveScrollRight, 109);
+        }
+        break;
+    case CURSORMOVE_UNK_7:
+        if (func_0202ba60(syswk->app->cursorMove) == 4) {
+            GFL_SndSEPlay(SEQ_SE_SELECT1);
+            func_ov255_021bc09c(syswk, 1);
+            return func_ov255_021cbec8(syswk, Box2Main_VFuncBoxMoveScrollLeft, 109);
+        }
+        break;
+    }
+    return 109;
+}
+
+// Closes the box jump
+static int func_ov255_021cb82c(Box2SysWork *syswk) {
+    switch (syswk->app->subSeq) {
+    case 0:
+        syswk->app->unkA55A = 0;
+        func_ov255_021d101c(syswk, 0);
+        func_ov255_021cefa4(syswk->app, 25);
+        func_ov255_021bc018(syswk);
+        func_ov255_021d1ac8(syswk, 0, 0);
+        GFL_SndSEPlay(SEQ_SE_SYS_42);
+        syswk->app->subSeq++;
+        return func_ov255_021cdc54(syswk, 110);
+    case 1:
+        syswk->app->subSeq = 0;
+        func_ov255_021d1348(syswk->app, 1);
+        if (syswk->param->mode == 2 || syswk->param->mode == 4) {
+            func_ov255_021d1af8(syswk, 0, 0, 1, 0);
+        } else {
+            func_ov255_021d1af8(syswk, 0, 0, 1, 1);
+        }
+        func_ov255_021d0f88(syswk, 9, 1);
+        if (syswk->param->mode == 2) {
+            func_ov255_021d0310(syswk, 1, 0);
+            func_ov255_021d3a48(syswk->app);
+            func_ov255_021d2478(syswk, 3, BOX2_PARTY_POS);
+            return 17;
+        }
+        if (syswk->param->mode == 1) {
+            func_ov255_021d0310(syswk, 1, 0);
+            func_ov255_021d2478(syswk, 2, BOX2_PARTY_POS);
+            return 54;
+        }
+        if (syswk->param->mode == 3) {
+            func_ov255_021d0310(syswk, 0x81, 1);
+            func_ov255_021d3a48(syswk->app);
+            func_ov255_021d2478(syswk, 7, BOX2_PARTY_POS);
+            return 67;
+        }
+        if (syswk->param->mode == 4) {
+            func_ov255_021d0310(syswk, 1, 0);
+            func_ov255_021d3a48(syswk->app);
+            func_ov255_021d2478(syswk, 13, BOX2_PARTY_POS);
+            return 45;
+        }
+    }
+    return 110;
+}
+
+// The box jump: back from showing a box
+static int func_ov255_021cb960(Box2SysWork *syswk) {
+    func_ov255_021d1ac8(syswk, func_0202ba60(syswk->app->cursorMove) - 1, 1);
+    return 109;
+}
+
+// Opens a wallpaper menu: the themes, or a theme's wallpapers
+static int func_ov255_021cb97c(Box2SysWork *syswk) {
+    u32 all;
+
+    switch (syswk->app->subSeq) {
+    case 0:
+        func_ov255_021d101c(syswk, 0);
+        func_ov255_021cefa4(syswk->app, 24);
+        func_ov255_021bc018(syswk);
+        func_ov255_021d3954(syswk->app->bgWinFrame);
+        syswk->app->subSeq++;
+        return func_ov255_021cbec8(syswk, Box2Main_VFuncFrameMove, 112);
+    case 1:
+        if (syswk->app->unkA55C == 0) {
+            if (func_02007da4(syswk->param->boxes, 1) == TRUE) {
+                func_ov255_021ceed0(syswk, sMenu71a8, 6);
+            } else {
+                func_ov255_021ceed0(syswk, sMenu711c, 5);
+            }
+        } else if (syswk->app->unkA55C == 1) {
+            func_ov255_021ceed0(syswk, sMenu7144, 5);
+        } else if (syswk->app->unkA55C == 2) {
+            func_ov255_021ceed0(syswk, sMenu7158, 5);
+        } else if (syswk->app->unkA55C == 3) {
+            func_ov255_021ceed0(syswk, sMenu716c, 5);
+        } else if (syswk->app->unkA55C == 4) {
+            func_ov255_021ceed0(syswk, sMenu7180, 5);
+        } else if (syswk->app->unkA55C == 5) {
+            if (func_02007da4(syswk->param->boxes, 2) == TRUE) {
+                func_ov255_021ceed0(syswk, sMenu71c0, 6);
+            } else {
+                func_ov255_021ceed0(syswk, sMenu7108, 5);
+            }
+        } else if (syswk->app->unkA55C == 6) {
+            func_ov255_021ceed0(syswk, sMenu71d8, 6);
+        }
+        func_ov255_021d390c(syswk->app->bgWinFrame);
+        syswk->app->subSeq++;
+        return func_ov255_021cbec8(syswk, Box2Main_VFuncFrameMove, 112);
+    case 2:
+        syswk->app->subSeq = 0;
+        if (syswk->app->unkA55C == 0) {
+            func_ov255_021cf17c(syswk, 2, 24);
+        } else {
+            func_ov255_021cf17c(syswk, 3, 24);
+        }
+        all = FALSE;
+        if (syswk->app->unkA55C == 0) {
+            if (func_02007da4(syswk->param->boxes, 1) == FALSE) {
+                all = TRUE;
+            }
+        } else if (syswk->app->unkA55C == 5) {
+            if (func_02007da4(syswk->param->boxes, 2) == FALSE) {
+                all = TRUE;
+            }
+        } else if (syswk->app->unkA55C != 6) {
+            all = TRUE;
+        }
+        if (all == TRUE) {
+            func_ov255_021d2478(syswk, 11, 1);
+            func_0202baa4(syswk->app->cursorMove, 0);
+        } else {
+            func_ov255_021d2478(syswk, 11, 0);
+        }
+        return 113;
+    }
+    return 112;
+}
+
+// The wallpaper menu: picks a theme or a wallpaper
+static int func_ov255_021cbb00(Box2SysWork *syswk) {
+    switch (func_0202b768(syswk->app->cursorMove)) {
+    case 0:
+        GFL_SndSEPlay(SEQ_SE_DECIDE1);
+        if (syswk->app->unkA55C == 0) {
+            syswk->app->unkA55C = 5;
+            return func_ov255_021cc3b0(syswk, 0, func_ov255_021cbe58(syswk, 112));
+        }
+        return func_ov255_021cdd24(syswk, 0);
+    case 1:
+        GFL_SndSEPlay(SEQ_SE_DECIDE1);
+        if (syswk->app->unkA55C == 0) {
+            syswk->app->unkA55C = 1;
+            return func_ov255_021cc3b0(syswk, 1, func_ov255_021cbe58(syswk, 112));
+        }
+        return func_ov255_021cdd24(syswk, 1);
+    case 2:
+        GFL_SndSEPlay(SEQ_SE_DECIDE1);
+        if (syswk->app->unkA55C == 0) {
+            syswk->app->unkA55C = 2;
+            return func_ov255_021cc3b0(syswk, 2, func_ov255_021cbe58(syswk, 112));
+        }
+        return func_ov255_021cdd24(syswk, 2);
+    case 3:
+        GFL_SndSEPlay(SEQ_SE_DECIDE1);
+        if (syswk->app->unkA55C == 0) {
+            syswk->app->unkA55C = 3;
+            return func_ov255_021cc3b0(syswk, 3, func_ov255_021cbe58(syswk, 112));
+        }
+        return func_ov255_021cdd24(syswk, 3);
+    case 4:
+        GFL_SndSEPlay(SEQ_SE_DECIDE1);
+        if (syswk->app->unkA55C == 0) {
+            syswk->app->unkA55C = 4;
+            return func_ov255_021cc3b0(syswk, 4, func_ov255_021cbe58(syswk, 112));
+        }
+        if (syswk->app->unkA55C == 5 && func_02007da4(syswk->param->boxes, 2) == TRUE) {
+            syswk->app->unkA55C = 6;
+            return func_ov255_021cc3b0(syswk, 4, func_ov255_021cbe58(syswk, 112));
+        }
+        if (syswk->app->unkA55C == 6) {
+            syswk->app->unkA55C = 5;
+            return func_ov255_021cc3b0(syswk, 4, func_ov255_021cbe58(syswk, 112));
+        }
+        return func_ov255_021cdd24(syswk, 4);
+    case 5:
+        GFL_SndSEPlay(SEQ_SE_CANCEL1);
+        if (syswk->app->unkA55C == 0) {
+            return func_ov255_021cc3b0(syswk, 5, func_ov255_021cbe58(syswk, 107));
+        }
+        syswk->app->unkA55C = 0;
+        return func_ov255_021cc3b0(syswk, 5, func_ov255_021cbe58(syswk, 112));
+    case CURSORMOVE_CANCEL:
+        GFL_SndSEPlay(SEQ_SE_CANCEL1);
+        if (syswk->app->unkA55C == 0) {
+            return func_ov255_021cc3b0(syswk, 5, func_ov255_021cbe58(syswk, 107));
+        }
+        syswk->app->unkA55C = 0;
+        return func_ov255_021cc3b0(syswk, 5, func_ov255_021cbe58(syswk, 112));
+    case CURSORMOVE_CURSOR_MOVE:
+        GFL_SndSEPlay(SEQ_SE_SELECT1);
+        return func_ov255_021cbed8(syswk, func_ov255_021cbee8(syswk, 113));
+    }
+    return 113;
+}
+
+// Changes the box's wallpaper behind a fade to white
+static int func_ov255_021cbd2c(Box2SysWork *syswk) {
+    switch (syswk->app->subSeq) {
+    case 0:
+        func_ov255_021d101c(syswk, 0);
+        func_02026f7c(syswk->app->palFade, 0, 0, 0x200);
+        func_02026fe4(syswk->app->palFade, 1, 0xc000, 0, 0, 16, 0x7fff, GFL_VBlankGetTCBMgr());
+        syswk->nextSeq = 114;
+        syswk->app->subSeq++;
+        return BOX2SEQ_PALETTE_FADE;
+    case 1:
+        Box2Main_WallPaperChange(syswk, syswk->app->wallpaperPos);
+        func_02007b00(syswk->param->boxes, syswk->tray, syswk->app->wallpaperPos);
+        func_ov255_021d1570(syswk, syswk->tray);
+        syswk->app->subSeq++;
+        break;
+    case 2:
+        func_02026fe4(syswk->app->palFade, 1, 0xc000, 0, 16, 0, 0x7fff, GFL_VBlankGetTCBMgr());
+        syswk->nextSeq = 114;
+        syswk->app->subSeq++;
+        return BOX2SEQ_PALETTE_FADE;
+    case 3:
+        func_ov255_021d101c(syswk, 1);
+        syswk->app->subSeq = 0;
+        return 113;
+    }
+    return 114;
+}
+
+static int func_ov255_021cbe1c(Box2SysWork *syswk) {
+    return func_ov255_021cc4e0(syswk, 2);
+}
+
+// Opens the box's name entry
+static int func_ov255_021cbe28(Box2SysWork *syswk) {
+    func_ov255_021cf63c(syswk->app, BOX2_ACTOR_CURSOR, FALSE);
+    func_ov255_021d0f88(syswk, 9, 0);
+    func_ov255_021cf028(syswk, 24);
+    func_ov255_021cdd80(syswk);
+    return func_ov255_021cbef0(syswk, 4);
 }

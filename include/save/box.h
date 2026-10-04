@@ -19,6 +19,7 @@ u8 BoxSaveAccessor_UnlockMoreBoxes(BoxSaveAccessor *boxes);
 void saveLastOpenedBoxIdx(BoxSaveAccessor *boxes, u32 box);
 // A box's wallpaper
 u32 getBoxNumFromIdx(BoxSaveAccessor *boxes, u32 box);
+void func_02007b00(BoxSaveAccessor *boxes, u32 box, u32 wallpaper);
 // Copies a box's name into a string, and back
 void loadBoxNameToStrbuf(BoxSaveAccessor *boxes, u32 box, StrBuf *name);
 void getBoxNameFromStrbuf(BoxSaveAccessor *boxes, u32 box, StrBuf *name);
@@ -33,6 +34,8 @@ void BoxSaveAccessor_ClearPkm(BoxSaveAccessor *boxes, u32 box, u32 slot);
 // Allocates a copy of a boxed Pokémon, which func_02007d84 frees
 BoxPkm *copyBoxedPkmToBuf(BoxSaveAccessor *boxes, u32 box, u32 slot, HeapID heapId);
 void func_02007d84(BoxPkm *pkm);
+// Whether a set of extra wallpapers (1 or 2) is unlocked
+BOOL func_02007da4(BoxSaveAccessor *boxes, u32 set);
 
 // The battle box, save block 0x31
 BattleBoxSave *getBattleBox(SaveControl *save);
