@@ -76,6 +76,19 @@ typedef struct {
     u8 unk05;
 } BtlFlowHitWork;
 
+// The experience one party mon gets for a faint
+typedef struct {
+    u32 exp;
+    u8 unk4;
+    u8 unk5[6];
+    u8 unk0B;
+} BtlFlowExpEntry;
+
+typedef struct {
+    u8 unk000[0x220];
+    u32 unk220;
+} BtlFlowUnk1B54;
+
 // Mons that react to a move, with their targets
 typedef struct {
     u8 count;
@@ -107,7 +120,7 @@ struct BtlServerFlow {
     BtlFlowReactionList *unk4B0;
     BtlFlowHitWork *unk4B4;
     BtlClientIDList clientIdList;
-    u8 unk4C0[0xe];
+    BattleMonLevelUp levelUp;
     BtlFlowClientList unk4CE;
     u8 unk4D4[0x2a0];
     u32 unk774;
@@ -149,7 +162,7 @@ struct BtlServerFlow {
     void *unk85C;
     void *unk860;
     void *unk864;
-    u8 unk868[4];
+    void *unk868;
     BtlFlowDamageList *unk86C;
     BtlFlowDamageList *unk870;
     u8 unk874[0x11f4];
@@ -160,8 +173,8 @@ struct BtlServerFlow {
     // Passed to the ov169 function that several BattleHandler commands call through veneers
     u8 unk1ab8[0x2c];
     BattleHandlerString message;
-    u8 unk1B0C[0x48];
-    u8 unk1B54[0x224];
+    BtlFlowExpEntry expEntries[6];
+    BtlFlowUnk1B54 unk1B54;
     BtlActionState actionState;
     u8 unk1D7C[0x1fc];
     u16 unk1F78;

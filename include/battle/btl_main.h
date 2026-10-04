@@ -4,8 +4,8 @@
 #include "types.h"
 #include "battle/btl_calc.h"
 #include "battle/btl_setup.h"
-#include "gfl/proc.h"
 #include "constants/battle.h"
+#include "gfl/proc.h"
 #include "struct_decls.h"
 
 // What IsAdjacentOpponent looks up for a position
@@ -138,6 +138,9 @@ struct BtlMainModule {
 void func_02029bb0(u8 *data);
 void func_02029e94(u8 *dest, const u8 *src);
 u32 func_02034ee4(void *data);
+u32 func_02034ee8(void *data);
+void func_02034eec(void *data);
+void func_0202d28c(u16 species, BOOL arg1, BOOL arg2);
 BOOL func_ov338_0217caf8(void);
 
 // Swan's names for these two take the main module, whose first field points to the BtlSetup
@@ -232,7 +235,6 @@ u32 func_ov167_0219d3a4(u32 pos);
 BattleMon *GetBattleMonFromParty(BattleParty *party, u8 index);
 u8 GetNumMonsInParty(BattleParty *party);
 u8 GetAlivePartyCount(BattleParty *party);
-
 
 BOOL func_ov167_0219a004(BtlSetup *setup);
 void func_ov167_0219a034(BtlMainModule *mainModule, BtlSetup *setup);
@@ -348,7 +350,6 @@ void *func_ov167_0219e39c(BtlMainModule *mainModule);
 void *func_ov167_0219e3ac(BtlMainModule *mainModule);
 void *func_ov167_0219e3bc(BtlMainModule *mainModule);
 void func_ov167_0219e3c8(void *data);
-
 
 BOOL func_ov167_021998c0(GameProc *proc, u32 *state, void *param, void *work);
 BOOL func_ov167_02199c08(GameProc *proc, u32 *state, void *param, void *work);
