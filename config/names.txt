@@ -216,6 +216,7 @@
 . 0x02093160 sMaxContinuousZeroBits
 . 0x02093260 sObjTileMappingBoundaries
 . 0x02093288 sVRAMBankSizes
+. 0x020932d0 sEmptyOam
 . 0x02093390 sDefaultFont
 . 0x02093f40 sSpecialChars
 . 0x0209a858 sTrackHeapId
@@ -227,12 +228,14 @@
 . 0x02141838 sHeapDumpState
 . 0x02141844 sHeapDumpFile
 . 0x02141858 sGameProcManager
+. 0x0214185c svsys
 . 0x02141860 sLocked
 . 0x02141864 sAssertHandlers
 . 0x02141874 sDebugPrint
 . 0x02141880 sOvlManager
 . 0x02141884 sSystemUI
 . 0x0214188c sTouchpad
+. 0x02141890 sWmIcon
 . 0x021418c0 sGFLStd
 . 0x0214190c sBGSys
 . 0x02141910 sEnabledPlanes

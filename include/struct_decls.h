@@ -305,6 +305,7 @@ typedef struct RespawnZoneInfo RespawnZoneInfo;
 typedef struct RunAwayMessageWork RunAwayMessageWork;
 typedef struct SaveBlockDef SaveBlockDef;
 typedef struct SaveControl SaveControl;
+typedef struct SaveData SaveData;
 typedef struct SaveDataTable SaveDataTable;
 typedef struct ScriptWork ScriptWork;
 typedef struct ScriptOverlayWork ScriptOverlayWork;

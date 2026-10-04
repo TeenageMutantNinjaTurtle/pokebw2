@@ -1,4 +1,5 @@
 #include "types.h"
+#include "gfl/backup_system.h"
 #include "gfl/heap.h"
 #include "gfl/ui.h"
 #include "save/save_control.h"

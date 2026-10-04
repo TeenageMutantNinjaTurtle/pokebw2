@@ -329,6 +329,10 @@ static inline void GX_SetDispSelect(int select) {
     reg_GX_POWCNT = (u16)((reg_GX_POWCNT & ~REG_GX_POWCNT_DSEL_MASK) | (select << REG_GX_POWCNT_DSEL_SHIFT));
 }
 
+static inline int GX_GetDispSelect(void) {
+    return (reg_GX_POWCNT & REG_GX_POWCNT_DSEL_MASK) >> REG_GX_POWCNT_DSEL_SHIFT;
+}
+
 // The fields go from the highest bit to the lowest, as NitroSDK's register field macros write them
 static inline void GX_SetCapture(int sz, int mode, int a, int b, int dest, int eva, int evb) {
     reg_GX_DISPCAPCNT = REG_GX_DISPCAPCNT_E_MASK | (mode << REG_GX_DISPCAPCNT_MOD_SHIFT) |
@@ -815,6 +819,10 @@ void gfxBeginObjExtPltBUpload(void);
 void gfxUploadExtPaletteObjB(const void *src, u32 offset, u32 size);
 void gfxEndObjExtPltBUpload(void);
 
+// NitroSDK's GX_GetBankForOBJ and GX_GetBankForSubOBJ
+u16 gfxGetObjBanksA(void);
+u16 gfxGetObjBanksB(void);
+
 // NitroSDK's G2_GetBG0ScrPtr
 void *gfxGetScreenAddrBG0A(void);
 
@@ -890,6 +898,14 @@ static inline void GX_SetOBJVRamModeChar(GXOBJVRamModeChar mode) {
 static inline void GXS_SetOBJVRamModeChar(GXOBJVRamModeChar mode) {
     reg_GXS_DB_DISPCNT =
         (u32)((reg_GXS_DB_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) | mode);
+}
+
+static inline GXOBJVRamModeChar GX_GetOBJVRamModeChar(void) {
+    return (GXOBJVRamModeChar)(reg_GX_DISPCNT & (REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK));
+}
+
+static inline GXOBJVRamModeChar GXS_GetOBJVRamModeChar(void) {
+    return (GXOBJVRamModeChar)(reg_GXS_DB_DISPCNT & (REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK));
 }
 
 #define REG_GX_DISPCNT_OBJMAP_BM_MASK 0x00000060

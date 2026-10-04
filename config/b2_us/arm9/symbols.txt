@@ -8093,7 +8093,7 @@ sMaxContinuousZeroBits kind:data(any) addr:0x02093160
 sObjTileMappingBoundaries kind:data(any) addr:0x02093260
 data_02093264 kind:data(any) addr:0x02093264
 sVRAMBankSizes kind:data(any) addr:0x02093288
-data_020932d0 kind:data(any) addr:0x020932d0
+sEmptyOam kind:data(any) addr:0x020932d0
 data_020932f0 kind:data(any) addr:0x020932f0
 data_02093376 kind:data(any) addr:0x02093376
 sDefaultFont kind:data(any) addr:0x02093390
@@ -9145,14 +9145,14 @@ sDTCMHeap kind:bss addr:0x0214182c
 sHeapDumpState kind:bss addr:0x02141838
 sHeapDumpFile kind:bss addr:0x02141844
 sGameProcManager kind:bss addr:0x02141858
-data_0214185c kind:bss addr:0x0214185c
+svsys kind:bss addr:0x0214185c
 sLocked kind:bss addr:0x02141860
 sAssertHandlers kind:bss addr:0x02141864
 sDebugPrint kind:bss addr:0x02141874
 sOvlManager kind:bss addr:0x02141880
 sSystemUI kind:bss addr:0x02141884
 sTouchpad kind:bss addr:0x0214188c
-data_02141890 kind:bss addr:0x02141890
+sWmIcon kind:bss addr:0x02141890
 data_02141898 kind:bss addr:0x02141898
 data_0214189c kind:bss addr:0x0214189c
 data_021418a0 kind:bss addr:0x021418a0

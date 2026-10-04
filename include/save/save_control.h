@@ -131,8 +131,6 @@ void func_ov331_021bed78(void *a0, SaveControl *save);
 void func_ov331_021bee24(HeapID heapId);
 BOOL func_ov331_021bee68(void *a0);
 void func_ov331_021bee88(void *a0, SaveControl *save);
-// Nonzero while the card is being accessed
-u32 getLockIDStatus_inline_stub(void);
 
 DreamRadarSave *GetDreamRadarSaveBlock(SaveControl *save);
 JoinAvenueSave *SaveControl_GetJoinAvenue(SaveControl *save);
