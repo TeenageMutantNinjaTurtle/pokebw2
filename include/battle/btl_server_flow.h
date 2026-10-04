@@ -368,6 +368,9 @@ BOOL func_ov167_021ab2c8(BtlServerFlow *flow, BattleMon *mon, u32 stat, u8 monId
 void func_ov167_021a95a4(BtlServerFlow *flow, BattleMon *mon, u32 stat, s32 change, u16 context, BOOL flag);
 void func_ov167_021ab374(BtlServerFlow *flow, u8 monId, BattleMon *mon, u32 stat, s32 change);
 void func_ov167_021ab338(BtlServerFlow *flow, BattleMon *mon, u32 value);
+u32 ServerEvent_CalcMoveHealAmount(BtlServerFlow *flow, u16 move, BattleMon *mon);
+BOOL ServerControl_RecoverHPCheckFailSpecial(BtlServerFlow *flow, BattleMon *mon, BOOL showMessage);
+void ServerControl_RecoverHPCore(BtlServerFlow *flow, BattleMon *mon, u16 amount);
 BOOL ServerEvent_AddCondition(BtlServerFlow *flow, BattleMon *target, BattleMon *attacker, u32 condition,
                               BattleCondition value, BOOL flag, BOOL defaultMessage);
 u32 ServerEvent_CheckMoveAddCondition(BtlServerFlow *flow, u16 move, BattleMon *attacker, BattleMon *target,

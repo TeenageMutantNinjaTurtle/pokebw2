@@ -4294,6 +4294,91 @@ s32 ServerEvent_CheckSubstituteInteraction(BtlServerFlow *flow, BattleMon *mon, 
     return result;
 }
 
+void func_ov167_021a6c34(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets) {
+    u32 condition;
+    MoveConditionParam conditionParam;
+    BattleCondition value;
+    BattleMon *target;
+
+    condition = PML_MoveGetParam(param->move, 0xb);
+    conditionParam = func_020214b0(param->move);
+    func_ov167_021bd484(conditionParam, mon, &value);
+    func_ov169_0689ce0c(targets);
+    while ((target = func_ov169_0689ce14(targets)) != NULL) {
+        BattleMoveEffectState *effect;
+
+        if (func_ov167_021a6914(flow, param, mon, target, TRUE)) {
+            effect = flow->moveEffect;
+            if (!effect->enabled) {
+                effect->enabled = 1;
+            }
+        }
+        if (ServerControl_MoveConditionCore(flow, mon, target, param->move, condition, value, TRUE)) {
+            effect = flow->moveEffect;
+            if (!effect->enabled) {
+                effect->enabled = 1;
+            }
+        }
+    }
+}
+
+void func_ov167_021a6d24(BtlServerFlow *flow, u16 move, BattleMon *mon, void *targets) {
+    BattleMon *target;
+
+    func_ov169_0689ce0c(targets);
+    while ((target = func_ov169_0689ce14(targets)) != NULL) {
+        u8 targetId = GetMonID(target);
+        if (!ServerControl_RecoverHPCheckFail(flow, target)) {
+            if (ServerControl_RecoverHP(flow, target, ServerEvent_CalcMoveHealAmount(flow, move, target), TRUE)) {
+                BattleMoveEffectState *effect = flow->moveEffect;
+                if (!effect->enabled) {
+                    effect->enabled = 1;
+                }
+                func_ov167_021b15d0(flow->queue, 0x5b, 0x183, targetId, 0xffff0000);
+            }
+        } else if (IsMonFullHP(target)) {
+            func_ov167_021b15d0(flow->queue, 0x5b, 0x37d, targetId, 0xffff0000);
+        }
+    }
+}
+
+BOOL ServerControl_RecoverHP(BtlServerFlow *flow, BattleMon *mon, u16 amount, BOOL flag) {
+    if (!ServerControl_RecoverHPCheckFailSpecial(flow, mon, flag)) {
+        ServerControl_RecoverHPCore(flow, mon, amount);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+BOOL ServerControl_RecoverHPCheckFail(BtlServerFlow *flow, BattleMon *mon) {
+    if (!CanPokemonBattle(mon)) {
+        return TRUE;
+    }
+    if (IsMonFullHP(mon)) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+BOOL ServerControl_RecoverHPCheckFailSpecial(BtlServerFlow *flow, BattleMon *mon, BOOL showMessage) {
+    if (CheckCondition(mon, 0xf)) {
+        if (showMessage) {
+            func_ov167_021b15d0(flow->queue, 0x5b, 0x377, GetMonID(mon), 0xffff0000);
+            flow->unk78A_5 = 1;
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+
+void ServerControl_RecoverHPCore(BtlServerFlow *flow, BattleMon *mon, u16 amount) {
+    u8 pos = GetBattlePos(flow->unk1ab8, GetMonID(mon));
+    if (pos != 6) {
+        func_ov167_021b1434(flow->queue, 0x4d, pos, 0x263);
+    }
+    ServerDisplay_SimpleHP(flow, mon, amount, TRUE);
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
