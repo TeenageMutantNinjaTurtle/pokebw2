@@ -14,6 +14,7 @@
 #include "battle/btl_server.h"
 #include "battle/btl_server_flow.h"
 #include "gfl/arc.h"
+#include "gfl/random.h"
 #include "gfl/std.h"
 #include "pml/personal.h"
 #include "pml/poke_party.h"
@@ -5018,6 +5019,99 @@ BOOL func_ov167_021a7f1c(BtlServerFlow *flow) {
         return FALSE;
     }
     return result;
+}
+
+void func_ov167_021a80c4(BtlServerFlow *flow) {
+    if (BtlSetup_GetBattleStyle(flow->mainModule) == 2) {
+        u8 playerClient = GetPlayerClientID(flow->mainModule);
+        u8 firstClient = playerClient;
+        u8 secondClient = func_ov167_0219c8d0(flow->mainModule, playerClient, 0);
+        BattleParty *firstParty;
+        BattleParty *secondParty;
+
+        if (playerClient > secondClient) {
+            firstClient = secondClient;
+            secondClient = playerClient;
+        }
+        firstParty = GetPartyData(flow->pokeCon, firstClient);
+        secondParty = GetPartyData(flow->pokeCon, secondClient);
+        if (GetAlivePartyCount(firstParty) == 1 && GetAlivePartyCount(secondParty) == 1) {
+            BattleMon *firstMon = func_ov167_0219d5dc(firstParty);
+            BattleMon *secondMon = func_ov167_0219d5dc(secondParty);
+            u8 firstId = GetMonID(firstMon);
+            u8 secondId = GetMonID(secondMon);
+            u8 firstPos = GetBattlePos(flow->unk1ab8, firstId);
+            u8 secondPos = GetBattlePos(flow->unk1ab8, secondId);
+
+            if (firstPos != 6 && secondPos != 6) {
+                u8 firstSlot = func_ov167_0219c658(flow->mainModule, firstPos);
+                u8 secondSlot = func_ov167_0219c658(flow->mainModule, secondPos);
+                if (firstSlot == secondSlot && !func_ov167_0219d2cc(firstPos)) {
+                    func_ov167_021b1434(flow->queue, 0x50, firstClient, firstSlot, secondClient, secondSlot);
+                    ServerControl_MoveCore(flow, firstClient, firstSlot, 1, TRUE);
+                    ServerControl_MoveCore(flow, secondClient, secondSlot, 1, TRUE);
+                    ServerControl_AfterMove(flow, firstClient, firstSlot, 1);
+                    ServerControl_AfterMove(flow, secondClient, secondSlot, 1);
+                }
+            }
+        }
+    }
+}
+
+void func_ov167_021a81f4(BtlServerFlow *flow) {
+    void *passPower = func_ov167_0219be48(flow->mainModule);
+
+    if (passPower != NULL) {
+        u32 type = func_02034ee8(passPower);
+        if (type != 0 && type != 3) {
+            u8 monIds[3];
+            u8 count;
+            u8 i;
+            u8 clientId = GetPlayerClientID(flow->mainModule);
+            BtlServerClient *client = func_ov167_0219f260(flow->server, clientId);
+
+            for (i = 0, count = 0; i < client->numCoverPos; i++) {
+                BattleMon *mon = func_ov167_0219d1e8(flow->pokeCon, clientId, i);
+                if (BtlFlow_IsMonAlive(mon) && !IsMonFullHP(mon)) {
+                    monIds[count++] = GetMonID(mon);
+                }
+            }
+            if (count != 0) {
+                u8 monId = monIds[GFL_RandomMTRange(count)];
+                BattleMon *mon = GetPokeParam(flow->pokeCon, monId);
+                u32 amount = GetBattleMonStat(mon, 0xe);
+                if (type == 1) {
+                    amount >>= 1;
+                }
+                if (amount != 0 && ServerControl_RecoverHP(flow, mon, amount, FALSE)) {
+                    func_ov167_021b15d0(flow->queue, 0x5a, 0x53, 4, monId, 0xffff0000);
+                    func_02034eec(passPower);
+                }
+            }
+        }
+    }
+}
+
+BOOL func_ov167_021a82e8(BtlServerFlow *flow, void *monSet, u32 event) {
+    u32 state;
+    BattleMon *mon;
+
+    func_ov169_0689ce0c(monSet);
+    state = PushState(&flow->actionState, 0x25bc);
+    func_ov167_021a83c0(flow, 0x1f, event);
+    PopState(&flow->actionState, state, 0x25be);
+    if (!ServerControl_CheckMatchup(flow)) {
+        while ((mon = func_ov169_0689ce14(monSet)) != NULL) {
+            state = PushState(&flow->actionState, 0x25c4);
+            func_ov167_021a83c0(flow, GetMonID(mon), event);
+            PopState(&flow->actionState, state, 0x25c6);
+            ServerControl_CheckFainted(flow, mon);
+            if (ServerControl_CheckMatchup(flow)) {
+                break;
+            }
+        }
+    }
+    return func_ov167_021a8cc0(flow);
 }
 
 // Function names from swan.

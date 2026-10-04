@@ -148,6 +148,7 @@ BOOL func_ov167_021a83ec(BtlServerFlow *flow, void *monSet);
 void func_ov167_021a864c(BtlServerFlow *flow);
 void func_ov167_021a86e4(BtlServerFlow *flow);
 BOOL func_ov167_021a87dc(BtlServerFlow *flow, void *monSet);
+void func_ov167_021a83c0(BtlServerFlow *flow, u8 monId, u32 event);
 void func_ov167_021a80c4(BtlServerFlow *flow);
 BOOL func_ov167_021a8cc0(BtlServerFlow *flow);
 void func_ov167_021a9c70(BtlServerFlow *flow, BtlFlowClientList *list);
