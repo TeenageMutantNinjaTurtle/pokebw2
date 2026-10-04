@@ -37,7 +37,9 @@ struct EventData {
     EventDataFlags encDataFlags;
     u8 encDataTail[0xe0];
     void *initScript;
-    u8 pad124[4];
+    // The zone's entity file, read from here: the offset of its init script from the counts, then the counts of the
+    // entities, NPCs, warps and triggers and the entities themselves
+    u32 initScriptOffset;
     u8 cache[0x880];
     u8 rest[0x100];
 };

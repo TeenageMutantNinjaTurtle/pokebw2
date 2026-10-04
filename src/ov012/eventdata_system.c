@@ -58,6 +58,36 @@ u32 IsEncountDataLoaded(EventData *data) {
     return data->encLoaded;
 }
 
+void LoadZoneEntities(EventData *data, u16 zoneId, u8 season) {
+    u32 fileId = GetZoneEntitiesID(zoneId);
+    u32 size = GFL_ArcToolGetDataLength(data->entityArc, fileId);
+    u8 *counts;
+    u8 *entries;
+    u32 offset;
+
+    GFL_ArcToolReadRange(data->entityArc, fileId, 0, size, &data->initScriptOffset);
+    offset = 0;
+    counts = data->cache;
+    entries = counts + 4;
+    data->initScript = counts + data->initScriptOffset;
+    data->entityCount = counts[0];
+    data->entities = (ZoneBGEntity *)(entries + offset);
+    offset += counts[0] * sizeof(ZoneBGEntity);
+    data->npcCount = counts[1];
+    data->npcs = (ZoneNPC *)(entries + offset);
+    offset += counts[1] * sizeof(ZoneNPC);
+    data->warpCount = counts[2];
+    data->warps = (ZoneWarp *)(entries + offset);
+    offset += counts[2] * sizeof(ZoneWarp);
+    data->triggerCount = counts[3];
+    data->triggers = (ZoneTrigger *)(entries + offset);
+    data->prevEntityCount = data->entityCount;
+    data->prevNpcCount = data->npcCount;
+    data->prevWarpCount = data->warpCount;
+    data->prevTriggerCount = data->triggerCount;
+}
+
+
 void EventData_Clear(EventData *data) {
     data->prevEntityCount = 0;
     data->prevNpcCount = 0;
@@ -136,6 +166,32 @@ ZoneWarp *GetZoneWarpByID(EventData *data, u16 warpId) {
 
 BOOL IsWarpDestId256(ZoneWarp *warp) {
     return warp->destId == 0x100;
+}
+
+BOOL SetupZoneWarpArrival(EventData *eventData, ZoneSpawnInfo *spawn, u16 warpId, u16 posWeightBits) {
+    ZoneWarp *warp = GetZoneWarpByID(eventData, warpId);
+    VecFx32 position;
+    RailPosition railPosition;
+
+    if (warp == NULL) {
+        return FALSE;
+    }
+    InitZoneSpawnInfo(spawn);
+    if (warp->destId == 0x100) {
+        spawn->changeType = ZONE_SPAWN_CHANGE_TYPE_3;
+    } else {
+        spawn->changeType = 2;
+    }
+    if (warp->isRail == FALSE) {
+        GetGridWarpOutPos(warp, posWeightBits, &position);
+        SetupZoneWarpArrivalGrid(spawn, eventData->zoneId, warpId, warp->unk4, posWeightBits, position.x, position.y,
+                                 position.z);
+    } else {
+        GetRailWarpOutPos(warp, posWeightBits, &railPosition);
+        SetupZoneWarpArrivalRail(spawn, eventData->zoneId, warpId, warp->unk4, posWeightBits, railPosition.componentId,
+                                 railPosition.posFront, railPosition.posSide);
+    }
+    return TRUE;
 }
 
 void SetupWarpParamByWarp(ZoneWarp *warp, ZoneSpawnInfo *spawn, u32 direction) {
@@ -480,6 +536,69 @@ void SetBGEntityLocation(EventData *data, u32 index, s32 x, s32 z, u16 y) {
             coords[2] = z << 4;
         }
     }
+}
+
+u16 CalcWarpTransferAddend(u32 posWeightBits, u32 warpDirection, BOOL isRail, u32 railParam, u16 span) {
+    u32 width;
+    s32 index;
+    s32 direction;
+    u32 halfWidth;
+    u32 halfSpan;
+    s32 difference;
+
+    if (posWeightBits == 0) {
+        return 0;
+    }
+    index = posWeightBits & 0xf;
+    width = (s32)(posWeightBits & 0xf0) >> 4;
+    direction = (s32)(posWeightBits & 0xf00) >> 8;
+    if ((direction == 0 && warpDirection == 3) || (direction == 1 && warpDirection == 2) ||
+        (direction == 3 && warpDirection == 0) || (direction == 2 && warpDirection == 1)) {
+        index = width - 1 - index;
+    }
+    if (isRail) {
+        switch (railParam) {
+        case 0:
+            if (direction == 2 || direction == 3) {
+                index = width - 1 - index;
+            }
+            break;
+        case 1:
+            if (direction == 0 || direction == 1) {
+                index = width - 1 - index;
+            }
+            break;
+        case 2:
+            index = width - 1 - index;
+            break;
+        }
+    }
+    halfWidth = width / 2;
+    difference = span - width;
+    halfSpan = span / 2;
+    if (difference != 0) {
+        if (difference % 2 != 0) {
+            if (span % 2 != 0) {
+                if (index < halfWidth) {
+                    index = halfSpan + (index - (halfWidth - 1));
+                } else {
+                    index = halfSpan + (index - halfWidth);
+                }
+            } else if (index <= halfWidth) {
+                index = halfSpan - 1 + (index - halfWidth);
+            } else {
+                index = halfSpan + (index - halfWidth);
+            }
+        } else {
+            index = halfSpan + (index - halfWidth);
+        }
+    }
+    if (index < 0) {
+        index = 0;
+    } else if (index >= span) {
+        index = span - 1;
+    }
+    return index;
 }
 
 u16 ZoneWarp_CalcPosWeightBitsGrid_(ZoneWarp *warp, const VecFx32 *position) {

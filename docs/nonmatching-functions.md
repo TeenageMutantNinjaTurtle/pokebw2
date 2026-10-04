@@ -11,9 +11,11 @@ the original code is linked until they match. The differences are the same in bo
 
 | File | Function | Address | Difference |
 | --- | --- | --- | --- |
+| `src/ov012/eventdata_system.c` | `CalcWarpTransferAddend` | `0x0215d52c` / `0x0215d56c` | 2 bytes smaller: the original derives the `0xf00` mask from the `0xf` one where ours derives it from `0xf0`, and reloads the span from the stack for the last comparison. Statement and declaration orders, mask spellings and local types tried. |
 | `src/ov012/eventdata_system.c` | `CheckProxyEntityEvent` | `0x0215d3d8` / `0x0215d418` | `0xe4` bytes versus `0xe8`: the original computes the direction minus 2 (as an add of `0xfffe`) after the empty-list check. |
 | `src/ov012/eventdata_system.c` | `GetRailWarpOutPos` | `0x0215d7d4` / `0x0215d814` | `0x70` bytes versus `0x6e`: the original loads the side position earlier. |
 | `src/ov012/eventdata_system.c` | `SetZoneNPCLocation` | `0x0215d19c` / `0x0215d1dc` | Seven bytes: the original multiplies the index before loading the NPC array, then reads through `[npcs, offset]`. |
+| `src/ov012/eventdata_system.c` | `SetupZoneWarpArrival` | `0x0215d050` / `0x0215d090` | Same size; in the grid branch the original sign-extends the warp ID after loading the other arguments, ours before (8 bytes). Declaration orders and the arrival functions' parameter types tried. |
 | `src/ov012/event_3d_demo.c` | `SetupPlaySequenceEventRealTime` | `0x0215ccd0` / `0x0215cd10` | `0x40` bytes versus `0x3c`: the original passes Season_GetRealTime's result to CreateSeqLoadParam's `u8` season untruncated, as if the function returned `u8`, while EventGameOpening_Callback (complete) truncates the same result for `Season_Set`, as if it returned `u32`. |
 | `src/ov012/event_save.c` | `func_ov012_0215c59c` | `0x0215c59c` / `0x0215c5dc` | `0xf6` bytes versus `0x112`: the original tests and passes a third actor that is always NULL (`movs r7, #0` then `beq`), which MWCC folds away from a NULL local and from an inline function returning NULL. |
 | `src/ov012/map_matrix.c` | `ProcessMapMatrix` | `0x02154c00` / `0x02154c40` | 27 bytes, same size: the matrix fields are stored in a different order before the copy, and the original spills the zone ID where ours keeps it in a register. Width and height locals, store orders and pointer locals tried. |

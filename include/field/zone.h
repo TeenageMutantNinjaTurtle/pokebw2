@@ -183,7 +183,7 @@ void SetZoneWarpLocation(EventData *eventData, u16 warpId, u16 x, u16 y, u16 z);
 u32 ZoneWarp_GetDirection(const ZoneWarp *warp);
 void GetGridWarpOutPos(ZoneWarp *warp, u32 direction, VecFx32 *position);
 void GetRailWarpOutPos(ZoneWarp *warp, u32 direction, RailPosition *position);
-u16 CalcWarpTransferAddend(u32 direction, u32 warpDirection, u32 a2, u32 a3, u16 size);
+u16 CalcWarpTransferAddend(u32 posWeightBits, u32 warpDirection, BOOL isRail, u32 railParam, u16 span);
 void CreateZoneChangeData(ZoneSpawnInfo *spawn, u32 zoneId, s16 warpDir, s32 x, s32 y, s32 z);
 void CreateZoneChangeDataRail(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpDir, u16 componentId, u16 posFront,
                               s16 posSide);
@@ -236,6 +236,12 @@ void SetTeleportZoneDiscover(GameData *gameData, s32 zoneId);
 void SetupTeleportZoneChange(u16 returnLocation, ZoneSpawnInfo *spawn);
 BOOL SetupZoneWarpArrival(EventData *eventData, ZoneSpawnInfo *spawn, u16 warpId, u16 posWeightBits);
 u16 ZoneData_GetAreaID(u16 zoneId);
+u16 GetZoneEntitiesID(u16 zoneId);
+void InitZoneSpawnInfo(ZoneSpawnInfo *spawn);
+void SetupZoneWarpArrivalGrid(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpId, s16 warpDir, u16 posWeightBits, s32 x,
+                              s32 y, s32 z);
+void SetupZoneWarpArrivalRail(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpId, s16 warpDir, u16 posWeightBits,
+                              u16 componentId, u16 posFront, s16 posSide);
 u16 ZoneData_GetScriptDatID(u16 zoneId);
 u16 ZoneData_GetTextDatID(u16 zoneId);
 // The zone data, which the functions that read it need loaded
