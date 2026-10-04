@@ -27,6 +27,7 @@ typedef u16 GXRgb;
 #define reg_G3_NORMAL (*(vu32 *)0x04000484)
 #define reg_G3_TEXCOORD (*(vu32 *)0x04000488)
 #define reg_G3_VTX_16 (*(vu32 *)0x0400048c)
+#define reg_G3_VTX_10 (*(vu32 *)0x04000490)
 #define reg_G3_POLYGON_ATTR (*(vu32 *)0x040004a4)
 #define reg_G3_TEXIMAGE_PARAM (*(vu32 *)0x040004a8)
 #define reg_G3_TEXPLTT_BASE (*(vu32 *)0x040004ac)
@@ -265,9 +266,20 @@ typedef enum {
 #define GX_BEGIN_TRIANGLES 0
 #define GX_BEGIN_QUADS 1
 
-#define GX_POLYGONMODE_MODULATE 0
+typedef enum {
+    GX_POLYGONMODE_MODULATE,
+    GX_POLYGONMODE_DECAL,
+    GX_POLYGONMODE_TOON,
+    GX_POLYGONMODE_SHADOW,
+} GXPolygonMode;
 
-#define GX_LIGHTMASK_0 1
+typedef enum {
+    GX_LIGHTMASK_NONE = 0,
+    GX_LIGHTMASK_0 = 1,
+    GX_LIGHTMASK_1 = 2,
+    GX_LIGHTMASK_2 = 4,
+    GX_LIGHTMASK_3 = 8,
+} GXLightMask;
 #define GX_POLYGON_ATTR_MISC_FAR_CLIPPING 0x1000
 #define GX_POLYGON_ATTR_MISC_DISP_1DOT 0x2000
 #define GX_POLYGON_ATTR_MISC_FOG 0x8000
@@ -288,10 +300,12 @@ typedef enum {
 #define G3OP_END 0x41
 #define G3OP_BOX_TEST 0x70
 
-#define GX_CULL_ALL 0
-#define GX_CULL_FRONT 1
-#define GX_CULL_BACK 2
-#define GX_CULL_NONE 3
+typedef enum {
+    GX_CULL_ALL,
+    GX_CULL_FRONT,
+    GX_CULL_BACK,
+    GX_CULL_NONE,
+} GXCull;
 
 // The texture parameters as the SDK's enums, which G3_TexImageParam takes: SPL's texture setup only matches with them
 typedef enum {
@@ -401,7 +415,7 @@ typedef enum {
     ((u32)(((lightID) << REG_G3_LIGHT_VECTOR_LNUM_SHIFT) |                                                        \
            GX_VECFX10(GX_FX16_FX10(x), GX_FX16_FX10(y), GX_FX16_FX10(z))))
 #define GX_PACK_LIGHTCOLOR_PARAM(lightID, rgb) ((u32)(((lightID) << REG_G3_LIGHT_VECTOR_LNUM_SHIFT) | (rgb)))
-#define GX_ST(s, t) ((u32)(u16)(fx16)((s) >> 8) | ((u32)(u16)(fx16)((t) >> 8) << 16))
+#define GX_ST(s, t) ((u32)(u16)((s) >> 8) | ((u32)(u16)((t) >> 8) << 16))
 
 #define REG_GX_POWCNT_DSEL_SHIFT 15
 
@@ -547,7 +561,8 @@ static inline void G3_Scale(fx32 x, fx32 y, fx32 z) {
     reg_G3_MTX_SCALE = (u32)z;
 }
 
-static inline void G3_PolygonAttr(int light, int polyMode, int cullMode, int polygonID, int alpha, int misc) {
+static inline void G3_PolygonAttr(GXLightMask light, GXPolygonMode polyMode, GXCull cullMode, int polygonID, int alpha,
+                                  int misc) {
     reg_G3_POLYGON_ATTR = GX_PACK_POLYGONATTR_PARAM(light, polyMode, cullMode, polygonID, alpha, misc);
 }
 
@@ -599,6 +614,11 @@ static inline void G3_LightColor(GXLightId lightID, GXRgb rgb) {
 static inline void G3_Vtx(fx16 x, fx16 y, fx16 z) {
     reg_G3_VTX_16 = (u32)(u16)x | ((u32)(u16)y << 16);
     reg_G3_VTX_16 = (u32)(u16)z;
+}
+
+// A vertex with 10-bit coordinates, of 6 fractional bits
+static inline void G3_Vtx10(fx16 x, fx16 y, fx16 z) {
+    reg_G3_VTX_10 = (u32)((x >> 6) & 0x3ff) | ((u32)((y >> 6) & 0x3ff) << 10) | ((u32)((z >> 6) & 0x3ff) << 20);
 }
 
 // The BG registers of both engines. The sub engine's are at the main engine's address plus 0x1000
@@ -892,6 +912,9 @@ static inline void G2S_SetBG3Affine(const MtxFx22 *mtx, int centerX, int centerY
 }
 
 // NitroSDK's GX_SetGraphicsMode and GXS_SetGraphicsMode
+// NitroSDK's G3_LoadMtx43 and G3_MultMtx43
+void gfxLoadMatrix4x3(const MtxFx43 *mtx);
+void gfxMultMatrix4x3(const MtxFx43 *mtx);
 void gfxSetEngineModeA(int dispMode, int bgMode, int bg0As3D);
 void gfxSetBGModeB(int bgMode);
 

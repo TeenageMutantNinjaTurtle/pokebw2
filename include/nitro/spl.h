@@ -85,6 +85,13 @@ enum {
     SPL_DRAW_DIRECTIONAL_POLYGON_CENTER,
 };
 
+// The axes a particle's scale animation scales
+enum {
+    SPL_SCALE_ANIM_DIR_XY,
+    SPL_SCALE_ANIM_DIR_X,
+    SPL_SCALE_ANIM_DIR_Y,
+};
+
 // The axis that the circles and cylinders of emission are around
 enum {
     SPL_AXIS_Z,
@@ -107,12 +114,17 @@ typedef struct {
     // Moves the particles with the emitter after they are emitted
     u32 followEmitter : 1;
     u32 hasChildResource : 1;
-    u32 : 3;
+    // The axis polygons turn about with their rotation: y, or the diagonal (1, 1, 1)
+    u32 polygonRotAxis : 2;
+    // The plane polygons are drawn in: xy, or xz
+    u32 polygonReferencePlane : 1;
     // Starts each particle's looped animations at a random point
     u32 randomLoopOffset : 1;
     u32 drawChildrenFirst : 1;
     u32 hideParent : 1;
-    u32 : 7;
+    // Draws the particles relative to the emitter's base position, translating them to it
+    u32 relativeToBasePos : 1;
+    u32 : 6;
     // Gives the particles, or the children, the manager's fixed polygon ID rather than a new one each
     u32 fixedPolygonID : 1;
     u32 childFixedPolygonID : 1;
@@ -130,7 +142,9 @@ typedef struct {
     fx32 initVelPositionAmplifier;
     fx32 initVelAxisAmplifier;
     fx32 baseScale;
-    u8 unk30[4];
+    // The width of the particles over their height
+    fx16 aspectRatio;
+    u16 unk32;
     // The range of the particles' angular velocities
     s16 minRotation;
     s16 maxRotation;
@@ -150,14 +164,21 @@ typedef struct {
     u8 airResistance;
     u8 texture;
     u32 loopTime : 8;
-    u32 : 16;
+    // How much directional billboards stretch along their velocity as it turns across the view
+    u32 dirStretch : 16;
     // The texture repeats over a particle, as a power of two
     u32 textureRepeatShiftS : 2;
     u32 textureRepeatShiftT : 2;
-    u32 : 4;
+    // Which of the particles' axes the scale animation scales
+    u32 scaleAnimDir : 3;
+    // Points directional polygons back along their position rather than along their velocity
+    u32 dirFromPosition : 1;
     u32 flipTextureS : 1;
     u32 flipTextureT : 1;
     u32 : 30;
+    // Where the polygon is drawn relative to the particle, in its own units
+    fx16 polygonX;
+    fx16 polygonY;
 } SPLResourceHeader;
 
 // The animations of a particle's scale, color, alpha and texture over its life, which runs from 0 to 255. Each fades
@@ -232,7 +253,9 @@ typedef struct {
     // Gives the children their own color, rather than their parent's
     u16 useChildColor : 1;
     u16 drawType : 2;
-    u16 : 7;
+    u16 polygonRotAxis : 2;
+    u16 polygonReferencePlane : 1;
+    u16 : 4;
     // The children's speed, up to which their velocities differ at random from their parent's
     fx16 randomInitVelMag;
     // The scale a child particle shrinks or grows to over its life
@@ -251,7 +274,8 @@ typedef struct {
     u32 textureRepeatShiftT : 2;
     u32 flipTextureS : 1;
     u32 flipTextureT : 1;
-    u32 : 26;
+    u32 dirFromPosition : 1;
+    u32 : 25;
 } SPLChildResource;
 
 // A force on an emitter's particles: the function applying it, and its parameters
@@ -414,10 +438,11 @@ typedef struct SPLManager {
     u32 currentPolygonID : 6;
     u32 fixPolygonID : 6;
     u32 : 8;
-    u32 unk3c;
+    // Ored into the particles' polygon attributes
+    u32 polygonAttr;
     // The emitter being drawn
     SPLEmitter *drawEmitter;
-    u32 unk44;
+    const MtxFx43 *viewMatrix;
     u16 unk48;
     u16 unk4a;
 } SPLManager;

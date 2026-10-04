@@ -83,6 +83,10 @@ void MAT2_Scale(const MtxFx22 *src, MtxFx22 *dest, fx32 x, fx32 y);
 void MAT3_Mul(const MtxFx33 *a, const MtxFx33 *b, MtxFx33 *ab);
 void MAT3_MulVec(const VecFx32 *vec, const MtxFx33 *mtx, VecFx32 *dest);
 void MAT43_MulVec(const VecFx32 *vec, const MtxFx43 *mtx, VecFx32 *dest);
+// NitroSDK's MTX_Identity43, MTX_Scale43 and MTX_Concat43
+void MAT43_Identity(MtxFx43 *mtx);
+void MAT43_Scaling(MtxFx43 *mtx, fx32 x, fx32 y, fx32 z);
+void MAT43_Mul(const MtxFx43 *a, const MtxFx43 *b, MtxFx43 *ab);
 // Projection and camera matrices: NitroSDK's MTX_PerspectiveW, MTX_FrustumW, MTX_OrthoW and MTX_LookAt
 void MAT4_SetPerspective(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 void MAT4_SetFrustum(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
@@ -95,6 +99,8 @@ void vecfx_normalize(const VecFx32 *src, VecFx32 *dest);
 void vecfx_muladd(fx32 scale, const VecFx32 *a, const VecFx32 *b, VecFx32 *dest);
 fx32 VEC_Mag(const VecFx32 *v);
 fx32 vecfx_dot(const VecFx32 *a, const VecFx32 *b);
+// NitroSDK's VEC_CrossProduct
+void vecfx_cross(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
 // NitroSDK's VEC_Fx16 functions
 fx32 vecfx_dot16(const VecFx16 *a, const VecFx16 *b);
 void vecfx_cross16(const VecFx16 *a, const VecFx16 *b, VecFx16 *axb);
@@ -115,6 +121,9 @@ fx32 FX_InvSqrt(fx32 x);
 static inline fx32 FX_Mul(fx32 v1, fx32 v2) {
     return (fx32)(((fx64)v1 * v2 + 0x800LL) >> FX32_SHIFT);
 }
+
+// The SDK's macro form, whose operands keep their types: an fx16 one makes a full 64-bit multiply
+#define FX_MUL(v1, v2) ((fx32)(((fx64)(v1) * (v2) + 0x800LL) >> FX32_SHIFT))
 
 static inline void VEC_Set(VecFx32 *v, fx32 x, fx32 y, fx32 z) {
     v->x = x;

@@ -176,6 +176,10 @@
 . 0x02053a10 SPLDraw_DirBillboard
 . 0x020540f8 SPLDraw_Child_Billboard
 . 0x0205454c SPLDraw_Billboard
+. 0x02054998 SPLDraw_RotateY
+. 0x020549d8 SPLDraw_RotateXYZ
+. 0x02054a84 SPLDraw_XZPlane
+. 0x02054b40 SPLDraw_XYPlane
 . 0x02054bfc SPLEmitter_EmitChildren
 . 0x02054f1c SPLEmitter_EmitParticles
 . 0x02055c48 SPLEmitter_TiltCoordinates
