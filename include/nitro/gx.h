@@ -293,18 +293,65 @@ typedef enum {
 #define GX_CULL_BACK 2
 #define GX_CULL_NONE 3
 
-#define GX_TEXFMT_A3I5 1
-#define GX_TEXFMT_PLTT4 2
-#define GX_TEXFMT_PLTT16 3
-#define GX_TEXFMT_PLTT256 4
-#define GX_TEXFMT_A5I3 6
-#define GX_TEXGEN_TEXCOORD 1
-#define GX_TEXSIZE_S128 4
-#define GX_TEXSIZE_T128 4
-#define GX_TEXREPEAT_ST 3
-#define GX_TEXFLIP_NONE 0
-#define GX_TEXREPEAT_NONE 0
-#define GX_TEXPLTTCOLOR0_TRNS 1
+// The texture parameters as the SDK's enums, which G3_TexImageParam takes: SPL's texture setup only matches with them
+typedef enum {
+    GX_TEXFMT_NONE,
+    GX_TEXFMT_A3I5,
+    GX_TEXFMT_PLTT4,
+    GX_TEXFMT_PLTT16,
+    GX_TEXFMT_PLTT256,
+    GX_TEXFMT_COMP4x4,
+    GX_TEXFMT_A5I3,
+    GX_TEXFMT_DIRECT,
+} GXTexFmt;
+
+typedef enum {
+    GX_TEXGEN_NONE,
+    GX_TEXGEN_TEXCOORD,
+    GX_TEXGEN_NORMAL,
+    GX_TEXGEN_VERTEX,
+} GXTexGen;
+
+typedef enum {
+    GX_TEXSIZE_S8,
+    GX_TEXSIZE_S16,
+    GX_TEXSIZE_S32,
+    GX_TEXSIZE_S64,
+    GX_TEXSIZE_S128,
+    GX_TEXSIZE_S256,
+    GX_TEXSIZE_S512,
+    GX_TEXSIZE_S1024,
+} GXTexSizeS;
+
+typedef enum {
+    GX_TEXSIZE_T8,
+    GX_TEXSIZE_T16,
+    GX_TEXSIZE_T32,
+    GX_TEXSIZE_T64,
+    GX_TEXSIZE_T128,
+    GX_TEXSIZE_T256,
+    GX_TEXSIZE_T512,
+    GX_TEXSIZE_T1024,
+} GXTexSizeT;
+
+typedef enum {
+    GX_TEXREPEAT_NONE,
+    GX_TEXREPEAT_S,
+    GX_TEXREPEAT_T,
+    GX_TEXREPEAT_ST,
+} GXTexRepeat;
+
+typedef enum {
+    GX_TEXFLIP_NONE,
+    GX_TEXFLIP_S,
+    GX_TEXFLIP_T,
+    GX_TEXFLIP_ST,
+} GXTexFlip;
+
+typedef enum {
+    GX_TEXPLTTCOLOR0_USE,
+    GX_TEXPLTTCOLOR0_TRNS,
+} GXTexPlttColor0;
 
 #define REG_G3_POLYGON_ATTR_LE_SHIFT 0
 #define REG_G3_POLYGON_ATTR_PM_SHIFT 4
@@ -504,11 +551,12 @@ static inline void G3_PolygonAttr(int light, int polyMode, int cullMode, int pol
     reg_G3_POLYGON_ATTR = GX_PACK_POLYGONATTR_PARAM(light, polyMode, cullMode, polygonID, alpha, misc);
 }
 
-static inline void G3_TexImageParam(int texFmt, int texGen, int s, int t, int repeat, int flip, int pltt0, u32 addr) {
+static inline void G3_TexImageParam(GXTexFmt texFmt, GXTexGen texGen, GXTexSizeS s, GXTexSizeT t, GXTexRepeat repeat,
+                                    GXTexFlip flip, GXTexPlttColor0 pltt0, u32 addr) {
     reg_G3_TEXIMAGE_PARAM = GX_PACK_TEXIMAGE_PARAM(texFmt, texGen, s, t, repeat, flip, pltt0, addr);
 }
 
-static inline void G3_TexPlttBase(u32 addr, int texFmt) {
+static inline void G3_TexPlttBase(u32 addr, GXTexFmt texFmt) {
     reg_G3_TEXPLTT_BASE = GX_PACK_TEXPLTTBASE_PARAM(addr, texFmt);
 }
 
