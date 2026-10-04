@@ -10,13 +10,17 @@
 #include "gfl/graphics.h"
 #include "gfl/key.h"
 #include "gfl/msg.h"
-#include "gfl/print.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
 #include "gfl/str.h"
 #include "gfl/tcb.h"
 #include "gfl/tcbl.h"
 #include "gfl/touchpanel.h"
+#include "system/app_keycursor.h"
+#include "system/gf_font.h"
+#include "system/printsys.h"
+#include "system/text_speed.h"
+#include "system/time_icon.h"
 
 // The intro's message window and its yes/no menu
 

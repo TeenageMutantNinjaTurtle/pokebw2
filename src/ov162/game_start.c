@@ -31,6 +31,8 @@
 #include "save/save_control.h"
 #include "save/save_control_intr.h"
 #include "system/game_system.h"
+#include "system/gf_font.h"
+#include "system/printsys.h"
 
 // Starting the game: a new game runs the intro and the name entries while it creates the save data, and a continue
 // loads the save. Both then start the game system. A debug screen, whose questions are blank outside Japan, can set

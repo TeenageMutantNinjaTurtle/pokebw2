@@ -11,7 +11,6 @@
 #include "gfl/fade.h"
 #include "gfl/graphics.h"
 #include "gfl/key.h"
-#include "gfl/print.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
 #include "gfl/str.h"
@@ -22,6 +21,7 @@
 #include "nnsys/g2d.h"
 #include "save/player_info.h"
 #include "system/mcss.h"
+#include "system/printsys.h"
 
 // Runs the intro's scripts (intro_script.c)
 

@@ -62,10 +62,6 @@ void func_02024eec(BmpWin *window, u32 a1);
 void LoadSysMsgBox(u8 bg, u16 frameChar, u8 framePalette, u8 type, HeapID heapId);
 u32 GetSysMsgBoxPaletteDatID(u32 index);
 
-void GFL_TextRendererDrawToBitmap(GFLBitmap *bitmap, u32 x, u32 y, const StrBuf *strbuf, Font *font);
-// Draws in a color that PRINT_COLOR makes
-void GFL_TextRendererDrawToBitmapEx(GFLBitmap *bitmap, s16 x, s16 y, const StrBuf *strbuf, Font *font, u16 color);
-
 // Copies the window's characters and screen, the screen at the next VBlank
 static inline void BmpWin_Transfer(BmpWin *window) {
     BmpWin_FlushChar(window);

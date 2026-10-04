@@ -20,7 +20,6 @@
 #include "gfl/msg.h"
 #include "gfl/net.h"
 #include "gfl/overlay.h"
-#include "gfl/print.h"
 #include "gfl/proc.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
@@ -35,6 +34,9 @@
 #include "save/records.h"
 #include "save/save_control.h"
 #include "system/game_data.h"
+#include "system/gf_font.h"
+#include "system/printsys.h"
+#include "system/text_speed.h"
 
 // The egg hatching process: its steps, the music, the message and the question whether to give a nickname
 

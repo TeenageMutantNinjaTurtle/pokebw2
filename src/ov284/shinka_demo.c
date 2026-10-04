@@ -21,7 +21,6 @@
 #include "gfl/msg.h"
 #include "gfl/net.h"
 #include "gfl/overlay.h"
-#include "gfl/print.h"
 #include "gfl/proc.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
@@ -37,8 +36,12 @@
 #include "save/pokedex.h"
 #include "save/records.h"
 #include "save/save_control.h"
+#include "system/app_keycursor.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+#include "system/gf_font.h"
+#include "system/printsys.h"
+#include "system/text_speed.h"
 
 // The evolution process: its steps, the music, the messages, learning the new form's moves and making a Shedinja
 

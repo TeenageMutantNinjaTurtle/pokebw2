@@ -6,8 +6,8 @@
 #include "gfl/heap.h"
 #include "gfl/msg.h"
 #include "gfl/overlay.h"
-#include "gfl/print.h"
 #include "gfl/str.h"
+#include "system/printsys.h"
 
 // Overlay 139's menu of two choices on the lower screen, with which the evolution demo asks about learning a move.
 // None of these functions has a name yet

@@ -1,6 +1,7 @@
 #include "field/field_exp_obj_gimmick_ov104.h"
 #include "gfl/heap.h"
 #include "gfl/msg.h"
+#include "system/gf_font.h"
 
 void func_ov104_021efc6c(FieldExpObjGimmickOv104State *state, FieldExpObjGimmickOv104MessageArg *arg) {
     if (state->capacity > state->count) {

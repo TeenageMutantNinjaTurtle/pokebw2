@@ -14,7 +14,6 @@
 #include "gfl/key.h"
 #include "gfl/msg.h"
 #include "gfl/overlay.h"
-#include "gfl/print.h"
 #include "gfl/proc.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
@@ -25,6 +24,11 @@
 #include "nitro/gx.h"
 #include "nitro/os.h"
 #include "save/save_control.h"
+#include "system/app_keycursor.h"
+#include "system/gf_font.h"
+#include "system/printsys.h"
+#include "system/text_speed.h"
+#include "system/time_icon.h"
 
 // Deleting the save data, from the title screen with Up, Select and B: two questions, then every save block is
 // cleared and the game restarts

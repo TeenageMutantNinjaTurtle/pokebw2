@@ -26,7 +26,6 @@
 #include "gfl/msg.h"
 #include "gfl/net.h"
 #include "gfl/overlay.h"
-#include "gfl/print.h"
 #include "gfl/proc.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
@@ -44,8 +43,12 @@
 #include "save/player_info.h"
 #include "save/pokedex.h"
 #include "save/save_control.h"
+#include "system/app_keycursor.h"
 #include "system/dsi.h"
 #include "system/game_system.h"
+#include "system/gf_font.h"
+#include "system/printsys.h"
+#include "system/text_speed.h"
 
 // The menu after the title screen. Its items scroll on the main engine's BGs 1 and 2, and the sub engine shows the
 // saved game. Picking an item ends the menu, and its exit starts what the item leads to

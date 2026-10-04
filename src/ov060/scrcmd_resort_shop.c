@@ -18,7 +18,6 @@
 #include "gfl/heap.h"
 #include "gfl/key.h"
 #include "gfl/msg.h"
-#include "gfl/print.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
 #include "gfl/str.h"
@@ -31,9 +30,12 @@
 #include "save/join_avenue.h"
 #include "save/records.h"
 #include "save/save_control.h"
+#include "system/app_keycursor.h"
 #include "system/game_comm.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+#include "system/printsys.h"
+#include "system/text_speed.h"
 #include "system/vm.h"
 
 // The Join Avenue's shops (plugin 8's command 1000 while this overlay takes overlay 59's place). The command opens a

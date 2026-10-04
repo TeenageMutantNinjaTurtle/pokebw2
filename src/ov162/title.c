@@ -19,7 +19,6 @@
 #include "gfl/key.h"
 #include "gfl/msg.h"
 #include "gfl/overlay.h"
-#include "gfl/print.h"
 #include "gfl/proc.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
@@ -30,6 +29,8 @@
 #include "nitro/gx.h"
 #include "nitro/hw.h"
 #include "nitro/os.h"
+#include "system/gf_font.h"
+#include "system/printsys.h"
 #include "system/version.h"
 
 // The title screen: a 3D scene under a camera that follows a curve, with 2D layers over it. The main engine draws to

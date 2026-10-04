@@ -4,6 +4,7 @@
 #include "demo/intro.h"
 #include "gfl/msg.h"
 #include "gfl/std.h"
+#include "system/gf_font.h"
 
 // The intro's process. ov294 has no file name for this file, which is named after the others (intro_cmd.c and so on)
 

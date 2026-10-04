@@ -11,6 +11,7 @@
 #include "gfl/tcb.h"
 #include "nitro/fx.h"
 #include "nitro/gx.h"
+#include "system/gf_font.h"
 
 // The egg demo's BGs, cell actors and 3D system
 
