@@ -334,9 +334,17 @@ void ServerEvent_EquipItem(BtlServerFlow *flow, BattleMon *mon);
 void ServerEvent_ItemSetDecide(BtlServerFlow *flow, BattleMon *mon, u16 item);
 void ServerEvent_ItemSetFixed(BtlServerFlow *flow, BattleMon *mon);
 void ServerDisplay_FaintPokemon(BtlServerFlow *flow, BattleMon *mon, u32 flag);
+u32 ServerEvent_DecideSpecialMoveCondition(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target,
+                                           BattleHandlerString *string);
+void ServerEvent_AddMoveConditionString(BtlServerFlow *flow, u32 condition, BattleMon *attacker, BattleMon *target,
+                                        BattleHandlerString *string);
+void ServerEvent_MoveConditionContinue(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, u32 condition,
+                                       BattleCondition *value);
+BOOL ServerEvent_AddCondition(BtlServerFlow *flow, BattleMon *target, BattleMon *attacker, u32 condition,
+                              BattleCondition value, BOOL flag, BOOL defaultMessage);
 u32 ServerEvent_CheckMoveAddCondition(BtlServerFlow *flow, u16 move, BattleMon *attacker, BattleMon *target,
                                       BattleCondition *value);
-void ServerControl_MoveConditionCore(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, u16 move,
+BOOL ServerControl_MoveConditionCore(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, u16 move,
                                      u32 condition, BattleCondition value, BOOL flag);
 void ServerEvent_DamageAddEffect(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, BattleMon *target);
 void ServerControl_DamageAddCondition(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker,

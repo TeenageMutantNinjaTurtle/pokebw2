@@ -3782,6 +3782,104 @@ void ServerControl_DamageAddCondition(BtlServerFlow *flow, BtlFlowMoveParam *par
     }
 }
 
+u32 ServerEvent_CheckMoveAddCondition(BtlServerFlow *flow, u16 move, BattleMon *attacker, BattleMon *target,
+                                      BattleCondition *value) {
+    u32 condition;
+    MoveConditionParam param;
+    BattleCondition result;
+    u8 chance;
+    u8 failed;
+
+    condition = PML_MoveGetParam(move, 0xb);
+    param = func_020214b0(move);
+    chance = PML_MoveGetParam(move, 0xc);
+    func_ov167_021bd484(param, attacker, &result);
+    BattleEventVar_Push(0x1d8c);
+    BattleEventVar_SetConstValue(4, GetMonID(target));
+    BattleEventVar_SetConstValue(3, GetMonID(attacker));
+    BattleEventVar_SetConstValue(0x12, move);
+    BattleEventVar_SetValue(0x1d, condition);
+    BattleEventVar_SetRewriteOnceValue(0x41, 0);
+    BattleEventVar_SetRewriteOnceValue(0x1e, result.raw);
+    BattleEventVar_SetValue(0x26, chance);
+    BattleEvent_CallHandlers(flow, 0x64);
+    condition = BattleEventVar_GetValue(0x1d);
+    chance = BattleEventVar_GetValue(0x26);
+    failed = BattleEventVar_GetValue(0x41);
+    if (condition == 0xffff) {
+        condition = 0;
+    }
+    result.raw = BattleEventVar_GetValue(0x1e);
+    BattleEventVar_Pop(0x1d9f);
+    if (!failed && condition != 0) {
+        BOOL hit = BattleRandom(100) < chance ? TRUE : FALSE;
+        if (hit) {
+            *value = result;
+            return condition;
+        }
+        if (ReturnZero(flow->mainModule, 0)) {
+            *value = result;
+            return condition;
+        }
+    }
+    return 0;
+}
+
+void ServerControl_SimpleCondition(BtlServerFlow *flow, u16 move, BattleMon *mon, void *targets) {
+    u32 condition;
+    MoveConditionParam param;
+    BOOL success;
+    BattleMon *target;
+
+    condition = PML_MoveGetParam(move, 0xb);
+    param = func_020214b0(move);
+    success = FALSE;
+    if (func_ov169_0689cec0(targets)) {
+        func_ov169_0689ce0c(targets);
+        while ((target = func_ov169_0689ce14(targets)) != NULL) {
+            BattleCondition value;
+            func_ov167_021bd484(param, mon, &value);
+            if (ServerControl_MoveConditionCore(flow, mon, target, move, condition, value, TRUE)) {
+                BattleMoveEffectState *effect = flow->moveEffect;
+                if (!effect->enabled) {
+                    effect->enabled = 1;
+                }
+                success = TRUE;
+            }
+        }
+        if (!success && !flow->unk78A_4) {
+            func_ov167_021a9230(flow, mon, move);
+        }
+    } else {
+        func_ov167_021a9230(flow, mon, move);
+    }
+}
+
+BOOL ServerControl_MoveConditionCore(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, u16 move,
+                                     u32 condition, BattleCondition value, BOOL flag) {
+    BOOL defaultMessage;
+
+    BattleHandler_StrClear(&flow->message);
+    if (condition == 0xffff) {
+        condition = ServerEvent_DecideSpecialMoveCondition(flow, attacker, target, &flow->message);
+        if (condition == 0 || condition == 0xffff) {
+            return FALSE;
+        }
+    } else {
+        ServerEvent_AddMoveConditionString(flow, condition, attacker, target, &flow->message);
+    }
+    ServerEvent_MoveConditionContinue(flow, attacker, target, condition, &value);
+    defaultMessage = BattleHandler_StrIsEnabled(&flow->message) ? FALSE : TRUE;
+    if (ServerEvent_AddCondition(flow, target, attacker, condition, value, flag, defaultMessage)) {
+        if (!defaultMessage) {
+            BattleHandler_SetString(flow, &flow->message);
+            BattleHandler_StrClear(&flow->message);
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
