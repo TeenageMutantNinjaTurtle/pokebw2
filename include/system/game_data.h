@@ -8,18 +8,19 @@
 #define CITY_BLACK_CITY 0
 #define CITY_WHITE_FOREST 1
 
+// What GameData_MakeBoxPkm makes a Pokémon from
 struct BoxPkmCreateParams {
     u16 heapId;
     u16 pad;
     u32 species;
+    u32 form;
     u32 level;
-    u32 paramC;
-    u32 param10;
-    s32 param14;
-    s32 param18;
+    u32 item;
+    s32 ability;
+    s32 sex;
     s32 param1C;
-    u32 param20;
-    u32 param24;
+    u32 ball;
+    BOOL hiddenAbility;
 };
 
 struct CityState {

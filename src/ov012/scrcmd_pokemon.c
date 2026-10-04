@@ -1,10 +1,12 @@
 #include "types.h"
 #include "constants/pokemon.h"
+#include "field/field.h"
 #include "field/field_script.h"
 #include "field/player_state.h"
 #include "field/zone.h"
 #include "gfl/heap.h"
 #include "gfl/msg.h"
+#include "gfl/std.h"
 #include "gfl/str.h"
 #include "pml/item.h"
 #include "pml/personal.h"
@@ -15,6 +17,7 @@
 #include "save/save_control.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+#include "system/version.h"
 #include "system/vm.h"
 
 BOOL CheckGetPartyPokemon(FieldScriptEnv *env, u32 index, PartyPkm **pkm) {
@@ -414,6 +417,133 @@ BOOL s0116_PokePartyHasMoveAny(VM *vm, FieldScriptEnv *env) {
     return FALSE;
 }
 
+BOOL s010C_PokePartyAdd(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData;
+    HeapID heapId;
+    u16 *result;
+    u16 species;
+    u16 form;
+    u16 level;
+    BoxPkmCreateParams params;
+
+    FieldScriptEnv_GetGameSystem(env);
+    gameData = FieldScriptEnv_GetGameData(env);
+    heapId = FieldScriptEnv_GetHeapID(env);
+    GameData_GetParty(gameData);
+    GetGameDataPlayerInfo(gameData);
+    result = ScriptReadVar(vm, env);
+    species = ScriptReadAny(vm, env);
+    form = ScriptReadAny(vm, env);
+    level = ScriptReadAny(vm, env);
+    sys_memset(&params, 0, sizeof(BoxPkmCreateParams));
+    params.heapId = heapId;
+    params.species = species;
+    params.form = form;
+    params.level = level;
+    params.item = 0;
+    params.ability = 2;
+    params.sex = 2;
+    params.param1C = 2;
+    params.ball = 4;
+    *result = addPkmToParty(gameData, &params);
+    return FALSE;
+}
+
+BOOL s010E_PokePartyAddEx(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData;
+    HeapID heapId;
+    u16 *result;
+    u16 species;
+    u16 form;
+    u16 level;
+    u16 ability;
+    u16 sex;
+    u16 param1C;
+    u16 item;
+    u16 ball;
+    BoxPkmCreateParams params;
+
+    FieldScriptEnv_GetGameSystem(env);
+    gameData = FieldScriptEnv_GetGameData(env);
+    heapId = FieldScriptEnv_GetHeapID(env);
+    GameData_GetParty(gameData);
+    GetGameDataPlayerInfo(gameData);
+    result = ScriptReadVar(vm, env);
+    species = ScriptReadAny(vm, env);
+    form = ScriptReadAny(vm, env);
+    level = ScriptReadAny(vm, env);
+    ability = ScriptReadAny(vm, env);
+    sex = ScriptReadAny(vm, env);
+    param1C = ScriptReadAny(vm, env);
+    item = ScriptReadAny(vm, env);
+    ball = ScriptReadAny(vm, env);
+    sys_memset(&params, 0, sizeof(BoxPkmCreateParams));
+    params.heapId = heapId;
+    params.species = species;
+    params.form = form;
+    params.level = level;
+    params.item = item;
+    params.ability = ability;
+    params.hiddenAbility = params.ability == 3 ? TRUE : FALSE;
+    if (params.ability >= 3) {
+        params.ability = 2;
+    }
+    params.sex = sex;
+    if (params.sex >= 3) {
+        params.sex = 2;
+    }
+    params.param1C = param1C;
+    if (params.param1C >= 3) {
+        params.param1C = 2;
+    }
+    params.ball = ball;
+    *result = addPkmToParty(gameData, &params);
+    return FALSE;
+}
+
+BOOL s02EA_PokePartyAddNPoke(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData;
+    HeapID heapId;
+    PokeParty *party;
+    PlayerInfo *playerInfo;
+    u16 *result;
+    u16 species;
+    u16 level;
+    u16 unk5;
+    u16 unk7;
+    u16 unk6;
+    PartyPkm *pkm;
+    NPokeSpec spec;
+
+    FieldScriptEnv_GetGameSystem(env);
+    gameData = FieldScriptEnv_GetGameData(env);
+    heapId = FieldScriptEnv_GetHeapID(env);
+    party = GameData_GetParty(gameData);
+    playerInfo = GetGameDataPlayerInfo(gameData);
+    result = ScriptReadVar(vm, env);
+    species = ScriptReadAny(vm, env);
+    level = ScriptReadAny(vm, env);
+    unk5 = ScriptReadAny(vm, env);
+    unk7 = ScriptReadAny(vm, env);
+    unk6 = ScriptReadAny(vm, env);
+    pkm = GFL_HeapAllocate(HEAPID_TAIL(heapId), PokeParty_GetPkmRawSize(), TRUE, "scrcmd_pokemon.c", 0x3bd);
+    sys_memset(&spec, 0, sizeof(NPokeSpec));
+    spec.species = species;
+    spec.level = level;
+    spec.unk5 = unk5;
+    spec.unk6 = unk6;
+    spec.unk7 = unk7;
+    createNPkm(pkm, &spec);
+    PokeParty_SetParam(pkm, PKM_PARAM_POKEBALL, PML_ItemGetMonsBallID(4));
+    PokeParty_SetupMetData(pkm, 7, playerInfo,
+                           ZoneData_GetPlaceNameID(PlayerState_GetZoneID(GameData_GetPlayerState(gameData))), heapId);
+    PokeParty_RecalcStats(pkm);
+    *result = PokeParty_AddPkm(party, pkm);
+    addPkmToDex(GameData_GetPokedex(gameData), pkm);
+    GFL_HeapFree(pkm);
+    return FALSE;
+}
+
 BOOL s0108_PokePartyGetMoveCount(VM *vm, FieldScriptEnv *env) {
     u16 *result = ScriptReadVar(vm, env);
     u16 index = ScriptReadAny(vm, env);
@@ -447,6 +577,95 @@ BOOL s010A_PokePartyGetMove(VM *vm, FieldScriptEnv *env) {
     } else {
         *result = 0;
     }
+    return FALSE;
+}
+
+BOOL s010B_PokePartyLearnMove(VM *vm, FieldScriptEnv *env) {
+    u16 index = ScriptReadAny(vm, env);
+    u16 slot = ScriptReadAny(vm, env);
+    u16 move = ScriptReadAny(vm, env);
+    PartyPkm *pkm;
+    BOOL encrypted;
+    u8 i;
+    u32 moveId;
+    u32 pp;
+    u32 ppUps;
+
+    if (!CheckGetPartyPokemon(env, index, &pkm)) {
+        return FALSE;
+    }
+    encrypted = PokeParty_DecryptPkm(pkm);
+    if (slot > 4) {
+        PokeParty_SetLastMove(pkm, move);
+    } else if (move == 0) {
+        i = slot;
+        if (slot < 3) {
+            for (; i < 3; i++) {
+                moveId = PokeParty_GetParam(pkm, PKM_PARAM_MOVE1 + i + 1, NULL);
+                if (moveId == 0) {
+                    break;
+                }
+                ppUps = PokeParty_GetParam(pkm, PKM_PARAM_MOVE1_PP_UP + i + 1, NULL);
+                pp = PokeParty_GetParam(pkm, PKM_PARAM_MOVE1_PP + i + 1, NULL);
+                PokeParty_SetParam(pkm, PKM_PARAM_MOVE1 + i, moveId);
+                PokeParty_SetParam(pkm, PKM_PARAM_MOVE1_PP_UP + i, ppUps);
+                PokeParty_SetParam(pkm, PKM_PARAM_MOVE1_PP + i, pp);
+            }
+        }
+        PokeParty_SetParam(pkm, PKM_PARAM_MOVE1 + i, 0);
+        PokeParty_SetParam(pkm, PKM_PARAM_MOVE1_PP_UP + i, 0);
+        PokeParty_SetParam(pkm, PKM_PARAM_MOVE1_PP + i, 0);
+    } else {
+        PokeParty_SetMove(pkm, move, (u8)slot);
+    }
+    PokeParty_EncryptPkm(pkm, encrypted);
+    return FALSE;
+}
+
+BOOL s0113_PokePartyIsOriginGame(VM *vm, FieldScriptEnv *env) {
+    u16 *result = ScriptReadVar(vm, env);
+    u16 index = ScriptReadAny(vm, env);
+    PlayerInfo *playerInfo = GetGameDataPlayerInfo(FieldScriptEnv_GetGameData(env));
+    PartyPkm *pkm = NULL;
+    HeapID heapId;
+    StrBuf *otName;
+    StrBuf *playerName;
+
+    if (!CheckGetPartyPokemon(env, index, &pkm)) {
+        *result = FALSE;
+        return FALSE;
+    }
+    if (PokeParty_GetParam(pkm, PKM_PARAM_ID, NULL) != getIDAsUInt(playerInfo)) {
+        *result = FALSE;
+        return FALSE;
+    }
+    heapId = FieldScriptEnv_GetHeapID(env);
+    otName = GFL_StrBufCreate(16, heapId);
+    playerName = GFL_StrBufCreate(16, heapId);
+    if (otName != NULL && playerName != NULL) {
+        PokeParty_GetParam(pkm, PKM_PARAM_OT_NAME, otName);
+        textCopy(playerInfo->name, playerName);
+        if (!GFL_StrBufCmp(otName, playerName)) {
+            GFL_StrBufFree(otName);
+            GFL_StrBufFree(playerName);
+            *result = FALSE;
+            return FALSE;
+        }
+    } else {
+        *result = FALSE;
+        return FALSE;
+    }
+    GFL_StrBufFree(otName);
+    GFL_StrBufFree(playerName);
+    if (PokeParty_GetParam(pkm, PKM_PARAM_OT_GENDER, NULL) != getTrainerGender(playerInfo)) {
+        *result = FALSE;
+        return FALSE;
+    }
+    if (game_version != PokeParty_GetParam(pkm, PKM_PARAM_ORIGIN_GAME, NULL)) {
+        *result = FALSE;
+        return FALSE;
+    }
+    *result = TRUE;
     return FALSE;
 }
 
@@ -560,8 +779,8 @@ BOOL s0122_BoxAdd(VM *vm, FieldScriptEnv *env) {
     HeapID heapId;
     u16 *result;
     u16 species;
+    u16 form;
     u16 level;
-    u16 paramC;
     BoxPkmCreateParams params;
 
     FieldScriptEnv_GetGameSystem(env);
@@ -571,17 +790,17 @@ BOOL s0122_BoxAdd(VM *vm, FieldScriptEnv *env) {
     GetGameDataPlayerInfo(gameData);
     result = ScriptReadVar(vm, env);
     species = ScriptReadAny(vm, env);
+    form = ScriptReadAny(vm, env);
     level = ScriptReadAny(vm, env);
-    paramC = ScriptReadAny(vm, env);
     params.heapId = heapId;
     params.species = species;
+    params.form = form;
     params.level = level;
-    params.paramC = paramC;
-    params.param10 = 0;
-    params.param14 = 2;
-    params.param18 = 2;
+    params.item = 0;
+    params.ability = 2;
+    params.sex = 2;
     params.param1C = 2;
-    params.param20 = 4;
+    params.ball = 4;
     *result = GameData_AddBoxPkm(gameData, &params);
     return FALSE;
 }
@@ -591,13 +810,13 @@ BOOL s0123_BoxAddEx(VM *vm, FieldScriptEnv *env) {
     HeapID heapId;
     u16 *result;
     u16 species;
+    u16 form;
     u16 level;
-    u16 paramC;
-    u16 param14;
-    u16 param18;
+    u16 ability;
+    u16 sex;
     u16 param1C;
-    u16 param10;
-    u16 param20;
+    u16 item;
+    u16 ball;
     BoxPkmCreateParams params;
 
     FieldScriptEnv_GetGameSystem(env);
@@ -607,28 +826,28 @@ BOOL s0123_BoxAddEx(VM *vm, FieldScriptEnv *env) {
     GetGameDataPlayerInfo(gameData);
     result = ScriptReadVar(vm, env);
     species = ScriptReadAny(vm, env);
+    form = ScriptReadAny(vm, env);
     level = ScriptReadAny(vm, env);
-    paramC = ScriptReadAny(vm, env);
-    param14 = ScriptReadAny(vm, env);
-    param18 = ScriptReadAny(vm, env);
+    ability = ScriptReadAny(vm, env);
+    sex = ScriptReadAny(vm, env);
     param1C = ScriptReadAny(vm, env);
-    param10 = ScriptReadAny(vm, env);
-    param20 = ScriptReadAny(vm, env);
+    item = ScriptReadAny(vm, env);
+    ball = ScriptReadAny(vm, env);
     params.heapId = heapId;
     params.species = species;
+    params.form = form;
     params.level = level;
-    params.paramC = paramC;
-    params.param10 = param10;
-    params.param14 = param14;
-    if (params.param14 >= 3)
-        params.param14 = 2;
-    params.param18 = param18;
-    if (params.param18 >= 3)
-        params.param18 = 2;
+    params.item = item;
+    params.ability = ability;
+    if (params.ability >= 3)
+        params.ability = 2;
+    params.sex = sex;
+    if (params.sex >= 3)
+        params.sex = 2;
     params.param1C = param1C;
     if (params.param1C >= 3)
         params.param1C = 2;
-    params.param20 = param20;
+    params.ball = ball;
     *result = GameData_AddBoxPkm(gameData, &params);
     return FALSE;
 }
@@ -690,16 +909,16 @@ PartyPkm *GameData_MakeBoxPkm(GameData *gameData, BoxPkmCreateParams *params) {
 
     playerInfo = GetGameDataPlayerInfo(gameData);
     trainerId = getIDAsUInt(GetGameDataPlayerInfo(gameData));
-    pid = PML_GenPID(trainerId, (u16)params->species, (u16)params->level, params->param18, params->param14,
+    pid = PML_GenPID(trainerId, (u16)params->species, (u16)params->form, params->sex, params->ability,
                      params->param1C);
-    pkm = PokeParty_NewPkm((u16)params->species, (u16)params->paramC, trainerId, 0, -1, pid, params->heapId);
-    PokeParty_ChangeForme(pkm, (u16)params->level);
-    PokeParty_SetParam(pkm, 6, params->param10);
-    if (params->param24 != 0) {
-        PokeParty_SetHiddenAbil(pkm, params->species, params->level);
+    pkm = PokeParty_NewPkm((u16)params->species, (u16)params->level, trainerId, 0, -1, pid, params->heapId);
+    PokeParty_ChangeForme(pkm, (u16)params->form);
+    PokeParty_SetParam(pkm, 6, params->item);
+    if (params->hiddenAbility != 0) {
+        PokeParty_SetHiddenAbil(pkm, params->species, params->form);
     }
-    if (GetItemParam((u16)params->param20, 15, params->heapId) == 4) {
-        PokeParty_SetParam(pkm, 0x98, PML_ItemGetMonsBallID((u16)params->param20));
+    if (GetItemParam((u16)params->ball, 15, params->heapId) == 4) {
+        PokeParty_SetParam(pkm, 0x98, PML_ItemGetMonsBallID((u16)params->ball));
     }
     zoneId = PlayerState_GetZoneID(GameData_GetPlayerState(gameData));
     placeName = ZoneData_GetPlaceNameID(zoneId);

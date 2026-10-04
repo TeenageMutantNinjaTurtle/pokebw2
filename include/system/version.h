@@ -7,5 +7,7 @@
 // VERSION_BLACK2 or VERSION_WHITE2
 u32 getGameVersion(void);
 extern u8 region;
+// The version that made the save's Pokémon, as their origin game
+extern u8 game_version;
 
 #endif // POKEBW2_SYSTEM_VERSION_H

@@ -24,6 +24,7 @@
 // The first ribbon of each group of ribbons, each followed by the field after the group
 #define PKM_PARAM_RIBBON_CHAMPION_SINNOH 0x19
 #define PKM_PARAM_MOVE1 0x36
+#define PKM_PARAM_MOVE1_PP 0x3a
 #define PKM_PARAM_MOVE1_PP_UP 0x3e
 #define PKM_PARAM_IS_EGG 0x4c
 #define PKM_PARAM_RIBBON_G3_COOL 0x4d
@@ -34,6 +35,8 @@
 #define PKM_PARAM_NICKNAME 0x73
 // The nickname, copied to or from a u16 array
 #define PKM_PARAM_NICKNAME_RAW 0x74
+// The game the Pokémon was caught in
+#define PKM_PARAM_ORIGIN_GAME 0x77
 #define PKM_PARAM_RIBBON_G4_COOL 0x78
 #define PKM_PARAM_OT_NAME 0x8d
 #define PKM_PARAM_OT_GENDER 0x9a

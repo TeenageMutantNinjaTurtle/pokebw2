@@ -181,4 +181,16 @@ void func_ov028_02170ec8(GameSystem *gsys);
 void func_ov036_0219ad24(FieldPlayer *player, RailPosition *pos);
 void func_ov036_021a2398(EncountSystem *encount, u32 a1);
 
+// One of N's Pokémon, which createNPkm makes
+typedef struct {
+    u16 unk0;
+    u16 species;
+    u8 level;
+    u8 unk5;
+    u8 unk6;
+    u8 unk7;
+} NPokeSpec;
+
+void createNPkm(PartyPkm *pkm, const NPokeSpec *spec);
+
 #endif // POKEBW2_FIELD_FIELD_H

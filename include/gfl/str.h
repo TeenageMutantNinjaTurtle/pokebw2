@@ -16,6 +16,8 @@ StrBuf *GFL_StrBufClone(const StrBuf *strbuf, HeapID heapId);
 void GFL_StrBufLoadFixedString(StrBuf *strbuf, const u16 *str, u32 length);
 // Returns TRUE if the strings are the same, taking accented letters as their plain ones
 BOOL GFL_StrBufCmpIgnoreAccents(const StrBuf *a, const StrBuf *b);
+// TRUE when the strings differ
+BOOL GFL_StrBufCmp(const StrBuf *a, const StrBuf *b);
 // Copies the string out, at most size characters
 void GFL_StrBufStoreString(const StrBuf *strbuf, u16 *dest, u32 size);
 void GFL_StrBufLoadString(StrBuf *strbuf, const u16 *src);
