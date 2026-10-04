@@ -213,7 +213,7 @@ const AdjacentOpponentData *func_ov167_0219d2bc(u8 pos);
 // Whether pos2 is an opponent next to pos1 in a triple battle
 BOOL IsAdjacentOpponent(u8 pos1, u8 pos2);
 BattleParty *GetClientParty(BtlPokeCon *pokeCon, u8 clientId);
-BattleParty *GetPartyData(BtlPokeCon *pokeCon, u8 clientId);
+BattleParty *GetPartyData(BtlPokeCon *pokeCon, u32 clientId);
 
 s32 FindPartyMon(const BattleParty *party, BattleMon *mon);
 s32 GetPartyPkmnEligibleForBattle(PokeParty *party);
@@ -247,7 +247,7 @@ PlayerInfo *func_ov167_0219bf68(BtlMainModule *mainModule);
 BOOL func_ov167_0219bf70(BtlMainModule *mainModule, BattleMon *mon);
 u32 func_ov167_0219bf88(BtlMainModule *mainModule);
 GameData *func_ov167_0219bf98(BtlMainModule *mainModule);
-void func_ov167_0219bfa0(BtlMainModule *mainModule, BOOL caught, BattleMon *mon);
+void func_ov167_0219bfa0(BtlMainModule *mainModule, u8 clientId, BattleMon *mon);
 u8 func_ov167_0219c054(BtlMainModule *mainModule, u8 type, u8 pos, u8 *out);
 u8 func_ov167_0219c0a0(BtlMainModule *mainModule, u8 type, u8 pos, u8 *out);
 u8 func_ov167_0219c158(BtlMainModule *mainModule, u8 type, u8 pos, u8 *out);

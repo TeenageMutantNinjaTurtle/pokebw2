@@ -5,6 +5,7 @@
 #include "battle/btl_action.h"
 #include "battle/btl_action_order.h"
 #include "battle/btl_pokeparam.h"
+#include "battle/btl_server.h"
 #include "struct_decls.h"
 
 
@@ -28,28 +29,71 @@ struct BattleHandlerString {
     u32 soundEffect;
 };
 
+// Client IDs the flow collected, such as those that must switch in
+typedef struct {
+    u8 count;
+    u8 clientIds[4];
+    u8 unk05;
+} BtlFlowClientList;
+
 struct BtlServerFlow {
     BtlServer *server;
     BtlMainModule *mainModule;
     BtlPokeCon *pokeCon;
-    void *display;
-    u8 unk10[4];
+    BtlServerCmdQueue *queue;
+    u32 unk10;
     u32 unk14;
-    u8 unk18[0x490];
+    u32 unk18;
+    u8 unk1C[0x3c4];
+    u8 unk3E0[0xc4];
+    ArcTool *unk4A4;
     BattleMoveEffectState *moveEffect;
-    u8 unk4ac[0x2d6];
+    u8 unk4AC[0xc];
+    BtlClientIDList clientIdList;
+    u8 unk4C0[0xe];
+    BtlFlowClientList unk4CE;
+    u8 unk4D4[0x2a0];
+    u32 unk774;
+    u32 unk778;
+    u8 unk77C;
+    u8 unk77D;
+    u8 unk77E;
+    u8 unk77F;
+    HeapID heapId;
     u8 actionOrderCount;
-    u8 unk783[0x26];
+    u8 unk783;
+    u8 unk784;
+    u8 unk785;
+    u8 unk786;
+    u8 unk787;
+    u8 unk788;
+    u8 unk789;
+    u8 unk78A_0 : 1;
+    u8 unk78A_1 : 1;
+    u8 unk78A_2 : 1;
+    u8 unk78A_3 : 3;
+    u8 unk78A_6 : 1;
+    u8 unk78A_7 : 1;
+    u8 unk78B[0x1e];
     // Per mon ID, cleared when the mon is revived
-    u8 unk7a9[24];
-    u8 unk7c1[0x1f];
+    u8 unk7A9[24];
+    u8 unk7C1[24];
+    u8 unk7D9[4];
+    u8 unk7DD[3];
     ActionOrderEntry actionOrder[6];
     u8 unk840[0x1278];
     // Passed to the ov169 function that several BattleHandler commands call through veneers
     u8 unk1ab8[0x2c];
     BattleHandlerString message;
-    u8 unk1b0c[0x26c];
+    u8 unk1B0C[0x48];
+    u8 unk1B54[0x224];
     BtlActionState actionState;
+    u8 unk1D7C[0x1fc];
+    u16 unk1F78;
+    u8 unk1F7A[6];
+    u8 unk1F80[0x6c];
+    u8 unk1FEC[4];
+    u8 unk1FF0[0x144];
 };
 
 struct BattleMoveEffectState {

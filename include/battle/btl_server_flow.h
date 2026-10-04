@@ -4,7 +4,17 @@
 #include "types.h"
 #include "constants/battle.h"
 #include "struct_decls.h"
+#include "battle/btl_handler.h"
 #include "battle/btl_server.h"
+
+// Walks the mons in battle of every client
+typedef struct {
+    u8 clientId;
+    u8 index;
+    u8 done;
+    // Set in rotation battles, to walk all three slots
+    u8 rotation;
+} BtlFlowMonIter;
 
 BtlServerFlow *func_ov167_0219f390(BtlServer *server, BtlMainModule *mainModule, BtlPokeCon *pokeCon,
                                    BtlServerCmdQueue *queue, u32 a4, HeapID heapId);
@@ -44,7 +54,7 @@ BOOL func_ov167_021abe34(BtlServerFlow *serverFlow, u8 pos, u32 a2);
 BOOL ServerControl_HideTurnCancel(BtlServerFlow *handler, BattleMon *mon, u32 flag);
 BOOL ServerControl_FlinchCore(BtlServerFlow *handler, BattleMon *mon, u8 flag);
 BOOL ServerControl_SwitchInFillSlot(BtlServerFlow *handler, u8 target, u8 slot, u8 slotAgain, BOOL flag);
-void ServerControl_AfterSwitchIn(BtlServerFlow *handler);
+BOOL ServerControl_AfterSwitchIn(BtlServerFlow *handler);
 void ServerControl_SetMonCounter(BtlServerFlow *handler, BattleMon *mon, u8 counter, u8 value);
 void ServerControl_CheckItemReaction(BtlServerFlow *handler, BattleMon *mon, u32 reaction);
 void ServerControl_ChangeHeldItem(BtlServerFlow *handler, BattleMon *mon, u16 item, u8 flag);
@@ -84,5 +94,44 @@ u8 func_ov167_021ab81c(BtlServerFlow *flow);
 u8 func_ov167_021ab828(BtlServerFlow *flow);
 u8 func_ov167_021abc80(BtlServerFlow *flow, u32 arg1);
 u32 func_ov167_021ae320(BtlServerFlow *flow);
+
+
+// Not decompiled yet
+void func_ov167_021d59a0(u32 arg0);
+void func_ov167_0219f400(BtlServerFlow *flow);
+void func_ov167_0219f6fc(BtlServerFlow *flow);
+u32 func_ov167_0219f9d0(BtlServerFlow *flow, u32 i);
+BOOL func_ov167_0219fc74(BtlServerFlow *flow, BtlClientActions *clientActions);
+u8 func_ov167_021a00a4(BtlServerFlow *flow, BtlClientActions *clientActions, ActionOrderEntry *order, u8 max);
+void func_ov167_021a0d5c(BtlFlowMonIter *iter, BtlServerFlow *flow);
+BOOL func_ov167_021a0df4(BtlFlowMonIter *iter, BtlServerFlow *flow, BattleMon **mon);
+void func_ov167_021a8f8c(void *data);
+void func_ov167_021ab730(void *data);
+void func_ov167_021ac028(BtlServerFlow *flow);
+void func_ov167_021ac0c8(BtlServerFlow *flow);
+void func_ov167_021b083c(BtlActionState *state);
+BOOL ServerControl_ChangeWeather(BtlServerFlow *flow, u8 weather, u8 turns);
+void ServerControl_SwitchInCore(BtlServerFlow *flow, u8 clientId, u8 pos, u8 slot);
+void func_ov167_0219fb3c(BtlServerFlow *flow, ActionOrderEntry *order, u32 count);
+void func_ov167_0219fe44(BtlServerFlow *flow);
+void func_ov167_0219feac(BtlServerFlow *flow, u8 clientId, u8 slot);
+BOOL func_ov167_0219ff70(BtlServerFlow *flow, BtlFlowClientList *list);
+void func_ov167_0219fffc(BtlServerFlow *flow);
+void func_ov167_021a0308(ActionOrderEntry *order, u32 count);
+u8 func_ov167_021a0380(BtlServerFlow *flow, u16 move, BattleMon *mon);
+u32 ServerEvent_CalculateSpeed(BtlServerFlow *flow, BattleMon *mon, BOOL flag);
+u32 func_ov167_021a0778(BtlServerFlow *flow, ActionOrderEntry *entry);
+BOOL ServerControl_Escape(BtlServerFlow *flow, BattleMon *mon);
+void func_ov167_021a16d4(BtlServerFlow *flow);
+void func_ov167_021a1740(BtlServerFlow *flow, BattleMon *mon, u8 slot);
+void ServerControl_ClearMonDependentEffects(BtlServerFlow *flow, BattleMon *mon, BOOL flag);
+BOOL func_ov167_021a7f1c(BtlServerFlow *flow);
+void func_ov167_021a80c4(BtlServerFlow *flow);
+BOOL func_ov167_021a8cc0(BtlServerFlow *flow);
+void func_ov167_021a9c70(BtlServerFlow *flow, BtlFlowClientList *list);
+u8 func_ov167_021a9e68(BtlServerFlow *flow, BattleMon *mon);
+void func_ov167_021a9eac(BtlServerFlow *flow, BattleMon *mon, u16 move);
+BOOL func_ov167_021ac074(BtlServerFlow *flow);
+BOOL func_ov167_021b0318(BtlMainModule *mainModule, BtlPokeCon *pokeCon);
 
 #endif // POKEBW2_BATTLE_BTL_SERVER_FLOW_H

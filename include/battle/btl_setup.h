@@ -9,7 +9,9 @@
 
 // The battle's surroundings, which GetFieldEffectData returns
 struct BtlFieldSituation {
-    u8 unk00[0xa];
+    u8 unk00[8];
+    u8 weather;
+    u8 unk09;
     u16 zoneId;
     u8 unk0c[6];
     u16 unk12;

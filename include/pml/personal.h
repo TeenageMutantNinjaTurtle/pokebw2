@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "gfl/heap.h"
+#include "struct_decls.h"
 
 // Species data
 
@@ -17,5 +18,7 @@ u32 PML_PersonalGetParam(void *personal, u32 param);
 void PML_PersonalFree(void *personal);
 // The experience a Pokémon of the species needs for the level
 u32 PML_UtilGetPkmLvExp(u16 species, u16 form, u16 level);
+
+ArcTool *loadEvolutionFile(HeapID heapId);
 
 #endif // POKEBW2_PML_PERSONAL_H

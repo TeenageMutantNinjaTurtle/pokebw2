@@ -3,12 +3,16 @@
 
 #include "types.h"
 #include "struct_decls.h"
+#include "battle/btl_action.h"
 
 struct ActionOrderEntry {
     BattleMon *mon;
-    u8 unk04[9];
+    BattleAction action;
+    // The speed in bits 0-12, then three fields of 3, 6 and 3 bits
+    u32 key;
+    u8 clientId;
     u8 done;
-    u8 unk0e[2];
+    u8 unk0E[2];
 };
 
 ActionOrderEntry *ActionOrder_SearchByMonID(BtlServerFlow *flow, u8 monId);

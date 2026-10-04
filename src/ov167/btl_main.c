@@ -1655,11 +1655,11 @@ GameData *func_ov167_0219bf98(BtlMainModule *mainModule) {
     return mainModule->setup->gameData;
 }
 
-void func_ov167_0219bfa0(BtlMainModule *mainModule, BOOL caught, BattleMon *mon) {
+void func_ov167_0219bfa0(BtlMainModule *mainModule, u8 clientId, BattleMon *mon) {
     u32 battleType = BtlSetup_GetBattleType(mainModule);
     u32 unk = func_ov167_0219c988(mainModule);
 
-    if (mainModule->setup->unkDE_0 != 1 && battleType <= 1 && unk == 0 && caught) {
+    if (mainModule->setup->unkDE_0 != 1 && battleType <= 1 && unk == 0 && clientId != 0) {
         PokeDex_RegistPkm(mainModule->setup->pokedex, GetSrcData(mon));
     }
 }
@@ -2783,7 +2783,7 @@ u8 func_ov167_0219d3bc(u8 pos) {
     return pos & 1;
 }
 
-BattleParty *GetPartyData(BtlPokeCon *pokeCon, u8 clientId) {
+BattleParty *GetPartyData(BtlPokeCon *pokeCon, u32 clientId) {
     return &pokeCon->parties[clientId];
 }
 

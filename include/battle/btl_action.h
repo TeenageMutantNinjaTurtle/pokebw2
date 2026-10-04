@@ -46,6 +46,14 @@ union BattleAction {
     } change;
 };
 
+// The move of a fight action, 0 for any other action
+static inline u16 BattleAction_GetMove(const BattleAction *action) {
+    if (action->bits.action == 1) {
+        return action->bits.move;
+    }
+    return 0;
+}
+
 u32 PushState(BtlActionState *state, u32 command);
 void PopState(BtlActionState *state, u32 value, u32 command);
 u16 GetUseItemNo(BtlActionState *state);
