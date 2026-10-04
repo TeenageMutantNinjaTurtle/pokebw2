@@ -8,3 +8,9 @@ src/ov298/zukan_detail_procsys.c:
     complete
     .text       start:0x0219fbc0 end:0x0219fcdc
     .data       start:0x021acde0 end:0x021acdf8
+
+src/ov298/zukan_detail_common.c:
+    complete
+    .text       start:0x0219fcdc end:0x021a03e8
+    .rodata     start:0x021abf74 end:0x021abf9c
+    .data       start:0x021acdf8 end:0x021ace10
