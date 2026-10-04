@@ -81,7 +81,9 @@ struct BtlServerFlow {
     u8 unk7D9[4];
     u8 unk7DD[3];
     ActionOrderEntry actionOrder[6];
-    u8 unk840[0x1278];
+    // Where an entry is kept while the order is reshuffled
+    ActionOrderEntry tempEntry;
+    u8 unk850[0x1268];
     // Passed to the ov169 function that several BattleHandler commands call through veneers
     u8 unk1ab8[0x2c];
     BattleHandlerString message;
@@ -90,7 +92,8 @@ struct BtlServerFlow {
     BtlActionState actionState;
     u8 unk1D7C[0x1fc];
     u16 unk1F78;
-    u8 unk1F7A[6];
+    u8 unk1F7A[2];
+    u32 unk1F7C;
     u8 unk1F80[0x6c];
     u8 unk1FEC[4];
     u8 unk1FF0[0x144];

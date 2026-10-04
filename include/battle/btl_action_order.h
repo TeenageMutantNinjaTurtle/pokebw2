@@ -17,7 +17,7 @@ struct ActionOrderEntry {
 
 ActionOrderEntry *ActionOrder_SearchByMonID(BtlServerFlow *flow, u8 monId);
 ActionOrderEntry *ActionOrder_SearchByMoveID(BtlServerFlow *flow, u16 moveId, u8 start);
-s32 ActionOrderTool_Interrupt(BtlServerFlow *flow, ActionOrderEntry *entry, u32 start);
+s32 ActionOrderTool_Interrupt(BtlServerFlow *flow, ActionOrderEntry *entry, s32 start);
 void ActionOrderTool_SendToLast(BtlServerFlow *flow, ActionOrderEntry *entry);
 
 BOOL ActionOrder_InterruptReserve(BtlServerFlow *flow, u8 monId);

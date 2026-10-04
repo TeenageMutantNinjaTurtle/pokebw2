@@ -7,6 +7,17 @@
 #include "battle/btl_handler.h"
 #include "battle/btl_server.h"
 
+// The positions a move targets
+typedef struct {
+    u16 unk00;
+    u8 pos1;
+    u8 pos2;
+    u8 unk04;
+    u8 unk05_0 : 1;
+    u8 unk05_1 : 1;
+    u8 unk05_2 : 6;
+} BtlFlowTargetPos;
+
 // Walks the mons in battle of every client
 typedef struct {
     u8 clientId;
@@ -136,5 +147,34 @@ u8 func_ov167_021a9e68(BtlServerFlow *flow, BattleMon *mon);
 void func_ov167_021a9eac(BtlServerFlow *flow, BattleMon *mon, u16 move);
 BOOL func_ov167_021ac074(BtlServerFlow *flow);
 BOOL func_ov167_021b0318(BtlMainModule *mainModule, BtlPokeCon *pokeCon);
+void func_ov167_021a0994(BtlServerFlow *flow, BattleMon *mon, u32 action);
+void func_ov167_021a09cc(BtlServerFlow *flow, BattleMon *mon, u32 action);
+void func_ov167_021a0a08(BtlServerFlow *flow, BattleMon *mon, u32 action);
+u32 func_ov167_021a0a44(BtlServerFlow *flow, BattleMon *mon);
+BOOL func_ov167_021a0b28(BtlServerFlow *flow, BattleMon *mon);
+BOOL ActionOrder_InterruptProc(BtlServerFlow *flow, u8 monId, u8 targetId);
+void func_ov167_021a0c88(BtlFlowTargetPos *targets);
+void func_ov167_021a0ca8(BtlFlowTargetPos *targets, BtlServerFlow *flow, BattleMon *mon, void *monSet);
+void func_ov167_021a0de0(BtlFlowMonIter *iter, BtlServerFlow *flow);
+void func_ov167_021a0e90(BtlServerFlow *flow, BattleMon *mon);
+BOOL func_ov167_021a11b0(BtlServerFlow *flow, BattleMon *mon, BOOL arg2, BOOL arg3);
+BOOL func_ov167_021a18f0(BattleMon *mon, BattleAction *action);
+void func_ov167_021a1940(BtlServerFlow *flow, BattleMon *mon, BattleAction *action, u32 key);
+void func_ov167_021a8fd4(BtlServerFlow *flow, BattleMon *mon);
+void ServerDisplay_SkyDropTargetAppear(BtlServerFlow *flow, BattleMon *mon, u16 effect);
+void func_ov167_021ac0dc(BtlServerFlow *flow);
+void func_ov167_021ac0f8(BtlServerFlow *flow);
+u32 func_ov167_021af2ac(BtlServerFlow *flow, BattleMon *mon, u16 item, u8 param, u8 target);
+
+// A mon that is there and hasn't fainted
+static inline BOOL BtlFlow_IsMonAlive(BattleMon *mon) {
+    if (mon != NULL) {
+        if (!IsFainted(mon)) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+    return FALSE;
+}
 
 #endif // POKEBW2_BATTLE_BTL_SERVER_FLOW_H

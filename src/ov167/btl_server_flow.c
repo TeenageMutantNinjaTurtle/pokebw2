@@ -1,7 +1,7 @@
 #include "types.h"
+#include "battle/btl_ability.h"
 #include "battle/btl_action.h"
 #include "battle/btl_action_order.h"
-#include "battle/btl_ability.h"
 #include "battle/btl_display.h"
 #include "battle/btl_event.h"
 #include "battle/btl_field.h"
@@ -16,6 +16,7 @@
 #include "gfl/arc.h"
 #include "gfl/std.h"
 #include "pml/personal.h"
+#include "pml/poke_party.h"
 #include "pml/waza.h"
 
 u32 ConvertConditionCode(BattleMon *mon, u32 *condition);
@@ -27,7 +28,7 @@ BOOL func_ov167_021aceb4(void *state, u8 monId);
 BOOL func_ov167_021acec4(void *state, u8 monId);
 
 BOOL func_ov167_021a6ab8(BtlServerFlow *handler, u8 monId, BattleMon *mon, u32 stat, s32 change, u32 displayCode,
-                          u32 context, u32 value, u8 extra, BOOL flag);
+                         u32 context, u32 value, u8 extra, BOOL flag);
 
 BtlServerFlow *func_ov167_0219f390(BtlServer *server, BtlMainModule *mainModule, BtlPokeCon *pokeCon,
                                    BtlServerCmdQueue *queue, u32 a4, HeapID heapId) {
@@ -216,7 +217,8 @@ u32 func_ov167_0219f7b4(BtlServerFlow *flow, BtlClientActions *clientActions) {
         for (i = 0; i < flow->actionOrderCount; i++) {
             if (flow->actionOrder[i].action.change.action == 3 && !flow->actionOrder[i].action.change.unk10 &&
                 IsFainted(flow->actionOrder[i].mon)) {
-                ServerControl_SwitchInFillSlot(flow, flow->actionOrder[i].clientId, flow->actionOrder[i].action.change.unk4,
+                ServerControl_SwitchInFillSlot(flow, flow->actionOrder[i].clientId,
+                                               flow->actionOrder[i].action.change.unk4,
                                                flow->actionOrder[i].action.change.slot, TRUE);
                 flow->actionOrder[i].done = TRUE;
             }
@@ -320,7 +322,8 @@ void func_ov167_0219fb3c(BtlServerFlow *flow, ActionOrderEntry *order, u32 count
             move = BattleAction_GetMove(&order[i].action);
             state = PushState(&flow->actionState, 0x436);
             unk16 = func_ov167_021a0380(flow, move, order[i].mon);
-            order[i].key = ActionOrder_MakeKey(order[i].key & 0x1fff, (order[i].key >> 13) & 7, unk16, (order[i].key >> 22) & 7);
+            order[i].key =
+                ActionOrder_MakeKey(order[i].key & 0x1fff, (order[i].key >> 13) & 7, unk16, (order[i].key >> 22) & 7);
             PopState(&flow->actionState, state, 0x439);
         }
         if (action == 1 || action == 5) {
@@ -390,7 +393,8 @@ BOOL func_ov167_0219fda4(BtlServerFlow *flow) {
 
     for (i = 0; i < 4; i++) {
         if (DoesClientExist(flow->mainModule, i) &&
-            GetClientSide(flow->mainModule, i) == GetClientSide(flow->mainModule, GetPlayerClientID(flow->mainModule)) &&
+            GetClientSide(flow->mainModule, i) ==
+                GetClientSide(flow->mainModule, GetPlayerClientID(flow->mainModule)) &&
             GetAlivePartyCount(GetPartyData(flow->pokeCon, i)) != 0) {
             return TRUE;
         }
@@ -659,7 +663,6 @@ void func_ov167_021a0308(ActionOrderEntry *order, u32 count) {
     }
 }
 
-
 u8 func_ov167_021a0380(BtlServerFlow *flow, u16 move, BattleMon *mon) {
     u8 priority;
 
@@ -764,6 +767,233 @@ u8 func_ov167_021a0600(BtlServerFlow *flow, ActionOrderEntry *entry) {
     return flow->actionOrderCount;
 }
 
+s32 ActionOrderTool_Interrupt(BtlServerFlow *flow, ActionOrderEntry *entry, s32 start) {
+    s32 from;
+    s32 to;
+    s32 i;
+    u8 count;
+
+    from = -1;
+    to = -1;
+    count = flow->actionOrderCount;
+    for (i = start; i < count; i++) {
+        if (&flow->actionOrder[i] == entry) {
+            from = i;
+            break;
+        }
+    }
+    for (; start < count; start++) {
+        if (!flow->actionOrder[start].done) {
+            to = start;
+            break;
+        }
+    }
+    if (from >= 0 && to >= 0 && from > to) {
+        flow->tempEntry = *entry;
+        for (; from > to; from--) {
+            flow->actionOrder[from] = flow->actionOrder[from - 1];
+        }
+        flow->actionOrder[to] = flow->tempEntry;
+        return to;
+    }
+    return -1;
+}
+
+void ActionOrderTool_SendToLast(BtlServerFlow *flow, ActionOrderEntry *entry) {
+    s32 from;
+    s32 i;
+
+    from = -1;
+    for (i = 0; i < flow->actionOrderCount; i++) {
+        if (&flow->actionOrder[i] == entry) {
+            from = i;
+            break;
+        }
+    }
+    if (from >= 0) {
+        flow->tempEntry = *entry;
+        for (; from < flow->actionOrderCount - 1; from++) {
+            flow->actionOrder[from] = flow->actionOrder[from + 1];
+        }
+        flow->actionOrder[from] = flow->tempEntry;
+    }
+}
+
+u32 func_ov167_021a0778(BtlServerFlow *flow, ActionOrderEntry *entry) {
+    BattleMon *mon;
+    BattleAction action;
+    u32 state;
+
+    if (!entry->done) {
+        mon = entry->mon;
+        action = entry->action;
+        func_ov167_021ac0dc(flow);
+        entry->done = TRUE;
+        if ((flow->unk14 != 5 || action.bits.action == 4) && !IsFainted(mon) &&
+            (action.bits.action == 6 || DoesBattleMonExist(flow->unk1ab8, GetMonID(mon)))) {
+            if (CheckCondition(mon, 0x21) && (action.bits.action != 4 || GetRunMode(flow->mainModule) != 2)) {
+                if (GetConditionCount(mon, 3)) {
+                    ServerControl_SetMonCounter(flow, mon, 3, 0);
+                }
+            } else {
+                func_ov167_021a0994(flow, mon, entry->action.bits.action);
+                func_ov167_021bb7c0(mon, 0);
+                switch (action.bits.action) {
+                case 6:
+                    if (BtlSetup_GetBattleStyle(flow->mainModule) == 3) {
+                        func_ov167_0219feac(flow, entry->clientId, action.change.unk4);
+                    }
+                    break;
+                case 1:
+                    if (!flow->unk1FEC[0]) {
+                        func_ov167_0219fffc(flow);
+                        flow->unk1FEC[0] = TRUE;
+                    }
+                    flow->unk1F7C = func_ov167_021a0a44(flow, mon);
+                    func_ov167_021a1940(flow, mon, &action, entry->key & 0x3fffff);
+                    break;
+                case 2:
+                    if (func_ov167_021af2ac(flow, mon, action.item.item, action.item.param, action.item.target) == 1 &&
+                        func_ov167_021a11b0(flow, mon, TRUE, TRUE)) {
+                        flow->unk14 = 5;
+                    }
+                    break;
+                case 3:
+                    func_ov167_021a1740(flow, mon, action.change.slot);
+                    ServerControl_AfterSwitchIn(flow);
+                    break;
+                case 4:
+                    if (ServerControl_Escape(flow, mon)) {
+                        flow->unk14 = 5;
+                    }
+                    break;
+                case 8:
+                    flow->unk14 = 4;
+                    break;
+                case 5:
+                    func_ov167_021a0e90(flow, mon);
+                    break;
+                case 7:
+                    func_ov167_021a8fd4(flow, mon);
+                    break;
+                }
+                if (action.bits.action == 1 || action.bits.action == 2) {
+                    func_ov167_021bb7c0(mon, 1);
+                    scPut_SetContFlag(flow, mon, 0);
+                }
+                state = PushState(&flow->actionState, 0x845);
+                func_ov167_021a0a08(flow, mon, action.bits.action);
+                PopState(&flow->actionState, state, 0x847);
+            }
+        }
+        func_ov167_021ac0f8(flow);
+        return action.bits.action;
+    }
+    return 0;
+}
+
+void func_ov167_021a0994(BtlServerFlow *flow, BattleMon *mon, u32 action) {
+    u32 state;
+
+    state = PushState(&flow->actionState, 0x85e);
+    func_ov167_021a09cc(flow, mon, action);
+    PopState(&flow->actionState, state, 0x861);
+}
+
+void func_ov167_021a09cc(BtlServerFlow *flow, BattleMon *mon, u32 action) {
+    BattleEventVar_Push(0x86e);
+    BattleEventVar_SetConstValue(2, GetMonID(mon));
+    BattleEventVar_SetConstValue(0xc, action);
+    BattleEvent_CallHandlers(flow, 1);
+    BattleEventVar_Pop(0x872);
+}
+
+void func_ov167_021a0a08(BtlServerFlow *flow, BattleMon *mon, u32 action) {
+    BattleEventVar_Push(0x87e);
+    BattleEventVar_SetConstValue(2, GetMonID(mon));
+    BattleEventVar_SetConstValue(0xc, action);
+    BattleEvent_CallHandlers(flow, 2);
+    BattleEventVar_Pop(0x882);
+}
+
+u32 func_ov167_021a0a44(BtlServerFlow *flow, BattleMon *mon) {
+    void *src;
+    PlayerInfo *player;
+    u32 badges;
+    u16 level;
+    u16 maxLevel;
+    u16 rand;
+
+    if (BtlSetup_GetBattleType(flow->mainModule) <= 1 &&
+        func_ov167_0219c648(GetMonID(mon)) == GetPlayerClientID(flow->mainModule)) {
+        src = GetSrcData(mon);
+        player = func_ov167_0219bf68(flow->mainModule);
+        if (func_ov167_0219c988(flow->mainModule) != 0) {
+            return 0;
+        }
+        if (!IsTrainerOT(src, player)) {
+            badges = func_ov167_0219bd98(flow->mainModule);
+            if (badges < 8) {
+                level = GetBattleMonStat(mon, 0xf);
+                maxLevel = (badges + 1) * 10;
+                if (level <= maxLevel) {
+                    return 0;
+                }
+                if ((u16)BattleRandom(level + maxLevel + 1) < maxLevel) {
+                    return 0;
+                }
+                if (CheckCondition(mon, 2)) {
+                    return 4;
+                }
+                rand = BattleRandom(256);
+                if (rand < level - maxLevel && !func_ov167_021a0b28(flow, mon)) {
+                    return 2;
+                }
+                if ((u16)(rand - (u16)(level - maxLevel)) < level - maxLevel) {
+                    return 3;
+                }
+                return 4;
+            }
+        }
+    }
+    return 0;
+}
+
+BOOL func_ov167_021a0b28(BtlServerFlow *flow, BattleMon *mon) {
+    BOOL result;
+
+    BattleEventVar_Push(0x8e0);
+    BattleEventVar_SetConstValue(2, GetMonID(mon));
+    BattleEventVar_SetRewriteOnceValue(0x41, 0);
+    BattleEvent_CallHandlers(flow, 0xe);
+    result = BattleEventVar_GetValue(0x41);
+    BattleEventVar_Pop(0x8e5);
+    return result;
+}
+
+BOOL ActionOrder_InterruptProc(BtlServerFlow *flow, u8 monId, u8 targetId) {
+    ActionOrderEntry *entry;
+
+    entry = ActionOrder_SearchByMonID(flow, monId);
+    if (entry != NULL) {
+        if (entry->done && BattleAction_GetAction(&entry->action) == 6) {
+            entry = func_ov167_021a04e8(flow, entry, monId);
+        }
+        if (!entry->done) {
+            if (func_ov167_021a18f0(entry->mon, &entry->action)) {
+                return FALSE;
+            }
+            if (BattleAction_GetAction(&entry->action) == 6) {
+                return FALSE;
+            }
+            BattleAction_ChangeFightTargetPos(&entry->action, GetBattlePos(flow->unk1ab8, targetId));
+            func_ov167_021a0778(flow, entry);
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
 // Function names from swan.
 BOOL ActionOrder_InterruptReserve(BtlServerFlow *flow, u8 monId) {
     ActionOrderEntry *entry;
@@ -813,6 +1043,98 @@ void ActionOrder_ForceDone(BtlServerFlow *flow, u8 monId) {
     entry = ActionOrder_SearchByMonID(flow, monId);
     if (entry) {
         entry->done = 1;
+    }
+}
+
+void func_ov167_021a0c88(BtlFlowTargetPos *targets) {
+    targets->unk00 = 0;
+    targets->pos1 = 6;
+    targets->pos2 = 6;
+    targets->unk04 = 0;
+    targets->unk05_0 = 0;
+    targets->unk05_1 = 0;
+}
+
+void func_ov167_021a0ca8(BtlFlowTargetPos *targets, BtlServerFlow *flow, BattleMon *mon, void *monSet) {
+    u32 count;
+
+    count = func_ov169_0689cec8(monSet);
+    targets->pos1 = GetBattlePos(flow->unk1ab8, GetMonID(mon));
+    targets->pos2 = 6;
+    targets->unk05_0 = 0;
+    targets->unk05_1 = 0;
+    if (count == 1 && func_ov169_0689cec0(monSet)) {
+        targets->pos2 = GetBattlePos(flow->unk1ab8, GetMonID(func_ov169_0689cdf8(monSet, 0)));
+    }
+}
+
+void func_ov167_021a0d5c(BtlFlowMonIter *iter, BtlServerFlow *flow) {
+    u8 clientId;
+    BtlServerClient *client;
+    u8 i;
+
+    clientId = 0;
+    iter->clientId = 0;
+    iter->index = clientId;
+    iter->done = TRUE;
+    iter->rotation = clientId;
+    for (; clientId < 4; clientId++) {
+        client = func_ov167_0219f27c(flow->server, clientId);
+        if (client != NULL) {
+            for (i = 0; i < client->numCoverPos; i++) {
+                if (BtlFlow_IsMonAlive(GetBattleMonFromParty(client->party, i))) {
+                    iter->clientId = clientId;
+                    iter->done = FALSE;
+                    iter->index = i;
+                    return;
+                }
+            }
+        }
+    }
+}
+
+void func_ov167_021a0de0(BtlFlowMonIter *iter, BtlServerFlow *flow) {
+    if (BtlSetup_GetBattleStyle(flow->mainModule) == 3) {
+        iter->rotation = TRUE;
+    }
+}
+
+BOOL func_ov167_021a0df4(BtlFlowMonIter *iter, BtlServerFlow *flow, BattleMon **mon) {
+    BtlServerClient *client;
+    u8 count;
+
+    if (iter->done) {
+        return FALSE;
+    }
+    *mon = func_ov167_0219d4e4(func_ov167_0219f260(flow->server, iter->clientId)->party, iter->index);
+    iter->index++;
+    while (iter->clientId < 4) {
+        client = func_ov167_0219f27c(flow->server, iter->clientId);
+        if (client != NULL) {
+            count = !iter->rotation ? client->numCoverPos : 3;
+            for (; iter->index < count; iter->index++) {
+                if (BtlFlow_IsMonAlive(func_ov167_0219d4e4(client->party, iter->index))) {
+                    return TRUE;
+                }
+            }
+        }
+        iter->clientId++;
+        iter->index = 0;
+    }
+    iter->done = TRUE;
+    return TRUE;
+}
+
+void func_ov167_021a0e90(BtlServerFlow *flow, BattleMon *mon) {
+    u8 clientId;
+    s32 slot;
+
+    clientId = func_ov167_0219c648(GetMonID(mon));
+    slot = FindPartyMon(GetPartyData(flow->pokeCon, clientId), mon);
+    if (slot == 0 || slot == 2) {
+        ServerControl_MoveCore(flow, clientId, slot, 1, 0);
+        ServerDisplay_SkyDropTargetAppear(flow, mon, 0xe7);
+        ServerControl_AfterMove(flow, clientId, slot, 1);
     }
 }
 
@@ -1032,21 +1354,20 @@ BOOL BattleHandler_CureCondition(BtlServerFlow *handler, struct BattleHandlerCur
         string = &param->string;
         changed = TRUE;
         do {
-                    ((void (*)(BtlServerFlow *, BattleMon *, u32, u32 *))ServerControl_CureCondition)(handler, mon, code,
-                                                                                                 &resultCondition);
-                    if (param->useString == 0) {
-                        if (func_ov167_021acca8(code, resultCondition, mon, context,
-                                                &handler->message)) {
-                            BattleHandler_SetString(handler, &handler->message);
-                            BattleHandler_StrClear(&handler->message);
-                        }
-                    } else {
-                        BattleHandler_SetString(handler, string);
-                    }
-                    if (code == 0x13) {
-                        ServerControl_CheckItemReaction(handler, mon, 0);
-                    }
-                    code = ConvertConditionCode(mon, &condition);
+            ((void (*)(BtlServerFlow *, BattleMon *, u32, u32 *))ServerControl_CureCondition)(handler, mon, code,
+                                                                                              &resultCondition);
+            if (param->useString == 0) {
+                if (func_ov167_021acca8(code, resultCondition, mon, context, &handler->message)) {
+                    BattleHandler_SetString(handler, &handler->message);
+                    BattleHandler_StrClear(&handler->message);
+                }
+            } else {
+                BattleHandler_SetString(handler, string);
+            }
+            if (code == 0x13) {
+                ServerControl_CheckItemReaction(handler, mon, 0);
+            }
+            code = ConvertConditionCode(mon, &condition);
         } while (code);
     }
     if (param->popup) {
@@ -1084,8 +1405,8 @@ BOOL BattleHandler_StatChange(BtlServerFlow *handler, struct BattleHandlerStatCh
             mon = GetPokeParam(handler->pokeCon, param->monIds[i]);
             if (!IsFainted(mon)) {
                 stat = param->stat;
-                if (func_ov167_021a6ab8(handler, param->monIndex, mon, stat, param->change, 0x1f, context,
-                                         param->value, param->unk0e, param->flag == 0)) {
+                if (func_ov167_021a6ab8(handler, param->monIndex, mon, stat, param->change, 0x1f, context, param->value,
+                                        param->unk0e, param->flag == 0)) {
                     BattleHandler_SetString(handler, &param->string);
                     result = TRUE;
                 }

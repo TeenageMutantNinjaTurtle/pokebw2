@@ -15,5 +15,10 @@ void func_ov169_0689d384(void *data, BtlMainModule *mainModule, BtlPokeCon *poke
 u32 func_ov169_0689d2fc(void *data, u32 arg1);
 void func_ov169_0689d4c0(void *data, u8 slot, u8 clientId, BattleMon *mon, BtlPokeCon *pokeCon);
 u8 func_ov169_0689d6e0(void *data, u8 clientId, u8 *positions);
+BOOL DoesBattleMonExist(void *data, u8 monId);
+u8 GetBattlePos(void *data, u8 monId);
+BOOL func_ov169_0689cec0(void *monSet);
+u32 func_ov169_0689cec8(void *monSet);
+BattleMon *func_ov169_0689cdf8(void *monSet, u32 index);
 
 #endif // POKEBW2_BATTLE_BTL_OV169_H

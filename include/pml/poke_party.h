@@ -133,4 +133,6 @@ void TransformVsPokePartyBySeason(GameData *gameData, PokeParty *party, u8 seaso
 BOOL func_ov012_021643f0(GameData *gameData, PokeParty *party, RTCTime *time, u8 season);
 u32 func_ov012_02164428(GameData *gameData, PokeParty *party);
 
+BOOL IsTrainerOT(PartyPkm *pkm, PlayerInfo *player);
+
 #endif // POKEBW2_PML_POKE_PARTY_H
