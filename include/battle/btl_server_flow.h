@@ -62,7 +62,7 @@ BOOL ServerControl_HideTurnCancel(BtlServerFlow *handler, BattleMon *mon, u32 fl
 BOOL ServerControl_FlinchCore(BtlServerFlow *handler, BattleMon *mon, u8 flag);
 void ServerControl_SwitchInFillSlot(BtlServerFlow *handler, u8 target, u8 slot, u8 slotAgain, BOOL flag);
 BOOL ServerControl_AfterSwitchIn(BtlServerFlow *handler);
-void ServerControl_SetMonCounter(BtlServerFlow *handler, BattleMon *mon, u8 counter, u8 value);
+void ServerControl_SetMonCounter(BtlServerFlow *handler, BattleMon *mon, u32 counter, u8 value);
 void ServerControl_CheckItemReaction(BtlServerFlow *handler, BattleMon *mon, u32 reaction);
 void ServerControl_ChangeHeldItem(BtlServerFlow *handler, BattleMon *mon, u16 item, u8 flag);
 BOOL ServerControl_UseHeldItem(BtlServerFlow *handler, BattleMon *mon);
@@ -181,7 +181,7 @@ void func_ov167_021a1fd4(BtlFlowReactionList *list, u8 monId, u8 arg2, u8 target
 void func_ov167_021a2150(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param, u32 event);
 void func_ov167_021a24bc(BtlServerFlow *flow, BattleMon *mon, BattleMon *attacker, u16 move);
 void func_ov167_021a2508(BtlServerFlow *flow, BattleMon *mon, BattleMon *target, u16 move);
-void func_ov167_021a3fc4(BtlServerFlow *flow, BattleMon *mon, u16 move, u32 condition);
+void func_ov167_021a3fc4(BtlServerFlow *flow, BattleMon *mon, u16 move, u32 cause);
 void func_ov167_021a1ff8(BtlServerFlow *flow, BattleMon *mon, u16 move, void *targets);
 void func_ov167_021a20c8(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param);
 void func_ov167_021a2114(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param, u32 event);
@@ -234,7 +234,7 @@ void ServerControl_OHKO(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon 
 void ServerControl_ForceSwitch(BtlServerFlow *flow, u16 move, BattleMon *mon, void *targets);
 void ServerControl_FieldEffect(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon);
 void func_ov167_021a77b8(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets);
-void ServerControl_CheckFainted(BtlServerFlow *flow, BattleMon *mon);
+BOOL ServerControl_CheckFainted(BtlServerFlow *flow, BattleMon *mon);
 u32 func_ov167_021aa0c0(BtlServerFlow *flow, BattleMon *mon, u16 move, void *targets);
 void func_ov167_021b0814(void *data);
 void func_ov167_021a3904(BtlServerFlow *flow, BattleMon *mon);
@@ -244,6 +244,8 @@ u32 func_ov167_021a3d70(BtlServerFlow *flow, BattleMon *mon, u16 move, u32 event
 BOOL func_ov167_021a3dc0(BtlServerFlow *flow, BattleMon *mon);
 BOOL func_ov167_021a3e50(BtlServerFlow *flow, BattleMon *mon);
 void func_ov167_021a3e7c(BtlServerFlow *flow, BattleMon *mon, u16 move);
+void func_ov167_021a9ee8(BtlServerFlow *flow, BattleMon *mon);
+void func_ov167_021aa07c(BtlServerFlow *flow, BattleMon *mon, u16 move, u32 cause);
 BOOL func_ov167_021a3ea8(BtlServerFlow *flow, BattleMon *mon, u16 move);
 void ServerControl_AddCondition(BtlServerFlow *flow, BattleMon *target, BattleMon *attacker, u32 condition,
                                 BattleCondition value, BOOL showMessage, BOOL skipItemReaction,
@@ -264,7 +266,7 @@ BOOL func_ov167_021aa4d0(BtlServerFlow *flow, BattleMon *mon, BattleMon *target,
 u32 func_ov167_021aa51c(BtlServerFlow *flow, BattleMon *mon, BattleMon *target, BtlFlowMoveParam *param);
 BOOL func_ov167_021a3ac0(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 flag);
 BOOL func_ov167_021a3cf0(BtlServerFlow *flow, BattleMon *mon, u16 move);
-void func_ov167_021a3ef4(BtlServerFlow *flow, BattleMon *mon, u16 move, u32 condition);
+void func_ov167_021a3ef4(BtlServerFlow *flow, BattleMon *mon, u16 move, s32 cause);
 void func_ov167_021a4250(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 moveSlot, void *targets);
 void func_ov167_021a911c(BtlServerFlow *flow, BattleMon *mon, u16 move);
 BOOL func_ov167_021a9df0(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 target, u16 *delegateMove);
