@@ -12,6 +12,7 @@ typedef struct ActionOrderEntry ActionOrderEntry;
 typedef struct ArcTool ArcTool;
 typedef struct AreaData AreaData;
 typedef struct AreaMan AreaMan;
+typedef struct AreaNPCSave AreaNPCSave;
 typedef struct BagProcessData BagProcessData;
 typedef struct BGSys BGSys;
 typedef struct BGSysBG BGSysBG;

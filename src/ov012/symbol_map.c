@@ -216,7 +216,7 @@ static u32 func_ov012_021607d0(const u8 *map, u8 area, u8 dir);
 static BOOL func_ov012_02160810(GameSystem *gsys, u32 *a, u32 *b);
 static const u8 *func_ov012_02160840(GameSystem *gsys);
 
-BOOL func_ov012_02160668(EntreeForestPokemon *npcData, u32 index) {
+BOOL func_ov012_02160668(AreaNPCSave *npcData, u32 index) {
     u32 kind;
     u32 slot;
 
@@ -241,7 +241,7 @@ BOOL func_ov012_02160668(EntreeForestPokemon *npcData, u32 index) {
         return FALSE;
     }
     func_0200e904(npcData);
-    npcData[slot] = npcData[index];
+    npcData->pokemon[slot] = npcData->pokemon[index];
     if (kind == 3) {
         func_0200eb14(npcData, slot);
     }
@@ -334,7 +334,7 @@ static u32 func_ov012_021607d0(const u8 *map, u8 area, u8 dir) {
 }
 
 static BOOL func_ov012_02160810(GameSystem *gsys, u32 *a, u32 *b) {
-    void *npcData = getAreaNPCData(GameData_GetSaveControl(GSYS_GetGameData(gsys)));
+    AreaNPCSave *npcData = getAreaNPCData(GameData_GetSaveControl(GSYS_GetGameData(gsys)));
 
     GSYS_GetGameCommSystem(gsys);
     *a = func_ov012_0216127c(npcData);
@@ -354,7 +354,7 @@ static const u8 *func_ov012_02160840(GameSystem *gsys) {
 
 SymbolMapList *func_ov012_02160870(HeapID heapId, GameSystem *gsys, u32 *count) {
     GameData *gameData = GSYS_GetGameData(gsys);
-    void *npcData = getAreaNPCData(GameData_GetSaveControl(gameData));
+    AreaNPCSave *npcData = getAreaNPCData(GameData_GetSaveControl(gameData));
     u8 season;
     SymbolMapList *list;
     u8 found;
@@ -362,7 +362,7 @@ SymbolMapList *func_ov012_02160870(HeapID heapId, GameSystem *gsys, u32 *count) 
     GSYS_GetGameCommSystem(gsys);
     season = func_02017a24(gameData);
     list = GFL_HeapAllocate(heapId, sizeof(SymbolMapList), TRUE, "symbol_map.c", 466);
-    *count = func_ov012_02161354(npcData, list, 20, season, &found);
+    *count = func_ov012_02161354(npcData, list->pokemon, 20, season, &found);
     list->count = found;
     list->unk50_6 = func_ov012_0216127c(npcData);
     list->unk50_10 = func_ov012_02161260(npcData);

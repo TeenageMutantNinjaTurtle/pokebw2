@@ -247,6 +247,10 @@ src/ov012/scrcmd_weather.c:
     complete
     .text       start:0x02161220 end:0x021612a0
 
+src/ov012/symbol_save_field.c:
+    complete
+    .text       start:0x021612a0 end:0x02161410
+
 src/ov012/field_g3d_map.c:
     .text       start:0x02163208 end:0x02163b78
     .data       start:0x0216e3c0 end:0x0216e3d0

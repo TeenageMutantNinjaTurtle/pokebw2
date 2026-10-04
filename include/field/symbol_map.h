@@ -20,7 +20,7 @@ typedef struct {
     u32 unk50_24 : 8;
 } SymbolMapList;
 
-BOOL func_ov012_02160668(EntreeForestPokemon *npcData, u32 index);
+BOOL func_ov012_02160668(AreaNPCSave *npcData, u32 index);
 SymbolMapList *func_ov012_02160870(HeapID heapId, GameSystem *gsys, u32 *count);
 // The zone of an area of the forest
 u16 func_ov012_0216092c(GameSystem *gsys, u8 area);
