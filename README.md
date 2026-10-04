@@ -100,6 +100,7 @@ The ROM was not necessarily built with one compiler. The Pokémon Black decomp b
 built with other versions (`2.0/sp2p2` and `1.2`), so try them on library code that doesn't match. `configure.py`
 extracts only the `dsi` compilers; the others are in `build/mwccarm.zip`. Extracted to `tools/mwccarm`, they can be
 named by directory, as in `compiler_probe.py --compilers 2.0/sp2p2`, and `1.2` needs `--flags` without `-ipa file`.
+`configure.py` downloads a library's compiler when `LIB_COMPILERS` lists it.
 Game code needs the `dsi` builds: the evolution demo's view matches 36 of its 56 functions with every `2.0` build and
 25 with `1.2`.
 
@@ -132,7 +133,13 @@ The current C mismatches and attempted translations still in assembly are tracke
 
 `tools/scripts/add_source_file.py` adds a source file to both versions' `delinks.txt`, with White 2's ranges taken
 from the version map. `tools/scripts/compiler_probe.py src/... --compilers 1.1 --show-diff 1.1` compiles a file and
-diffs every function in it against the original.
+diffs every function in it against the original. A library that `configure.py` builds with its own compiler, such
+as SPL with `1.2/base`, gets that compiler and its flags by default. `--mismatches` leaves out the functions that
+match, and `--functions` limits the table and diffs to the functions named.
+
+`tools/scripts/try_variants.py src/... FUNC variants.c` puts each variant of a function, separated by lines of
+`=====`, in place of its definition and probes it with the file's compiler, keeping the first that matches.
+`rename_symbol.py --file` renames each `old new` pair, one per line, of a file.
 
 Things that affect whether MWCC output matches:
 
