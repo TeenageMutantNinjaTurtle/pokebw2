@@ -112,7 +112,9 @@ src/ov012/event_save.c:
     .text       start:0x0215c538 end:0x0215c6f0
 
 src/ov012/event_action_call.c:
+    complete
     .text       start:0x0215c6f0 end:0x0215cb88
+    .rodata     start:0x0216cd40 end:0x0216cda0
 
 src/ov012/event_3d_demo.c:
     .text       start:0x0215cb88 end:0x0215cd98

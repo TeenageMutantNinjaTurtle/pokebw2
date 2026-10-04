@@ -4,6 +4,11 @@
 #include "types.h"
 #include "struct_decls.h"
 
+// An action command: the command in the low 16 bits and how many times to run it in the high 16. A list of them ends
+// with ACMD_END
+#define ACMD(code, count) (((count) << 16) | (code))
+#define ACMD_END 0xfe
+
 FieldAcmdTCB *FieldAcmdTCB_Create(FieldActor *actor, const u32 *action);
 FieldAcmdTCB *FieldAcmdTCB_CreateWalkOneTile(FieldActor *actor, u32 direction);
 BOOL FieldAcmdTCB_CheckEnded(FieldAcmdTCB *task);
