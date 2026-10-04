@@ -648,9 +648,9 @@ static void TitleObj_Init(TitleObj *obj, HeapID heapId) {
     obj->cellAnims = func_0204bde0(arc, 6, 7, heapId);
     setup.x = 128;
     setup.y = 96;
-    setup.unk4 = 0;
-    setup.unk7 = 0;
-    setup.unk6 = 0;
+    setup.sequence = 0;
+    setup.bgPriority = 0;
+    setup.priority = 0;
     obj->actor = func_0204c040(obj->unit, obj->chars, obj->palette, obj->cellAnims, &setup, 1, heapId);
     func_0204c520(obj->actor, TRUE);
     GFL_BGSysSetBGEnabledB(GX_PLANEMASK_OBJ, TRUE);

@@ -269,3 +269,9 @@ src/main/g3d_system.c:
     .rodata     start:0x02093dc0 end:0x02093e0c
     .data       start:0x0209aef8 end:0x0209af08
     .bss        start:0x02141924 end:0x02141930
+
+src/main/clact.c:
+    .text       start:0x0204b6a8 end:0x0204dca4
+    .rodata     start:0x02093e44 end:0x02093f40
+    .data       start:0x0209af90 end:0x0209afe8
+    .bss        start:0x0214193c end:0x02141940

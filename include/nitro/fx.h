@@ -30,6 +30,16 @@ typedef struct {
     fx32 m[2][2];
 } MtxFx22;
 
+// A 2D affine matrix, its last row the translation
+typedef struct {
+    fx32 _00;
+    fx32 _01;
+    fx32 _10;
+    fx32 _11;
+    fx32 _20;
+    fx32 _21;
+} MtxFx32;
+
 typedef struct {
     fx32 m[3][3];
 } MtxFx33;

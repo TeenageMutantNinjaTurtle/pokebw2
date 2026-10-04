@@ -76,6 +76,21 @@ typedef union {
         u16 attr2;
         u16 affineParam;
     };
+    struct {
+        u32 y : 8;
+        u32 rsMode : 2;
+        u32 objMode : 2;
+        u32 mosaic : 1;
+        u32 colorMode : 1;
+        u32 shape : 2;
+        u32 x : 9;
+        u32 rsParam : 5;
+        u32 size : 2;
+        u32 charNo : 10;
+        u32 priority : 2;
+        u32 cParam : 4;
+        u32 : 16;
+    };
 } GXOamAttr;
 
 #define GX_OAM_ATTR01_Y_SHIFT 0
@@ -84,6 +99,8 @@ typedef union {
 #define GX_OAM_ATTR01_CM_SHIFT 13
 #define GX_OAM_ATTR01_X_SHIFT 16
 #define GX_OAM_ATTR01_RS_SHIFT 25
+// The shape and size bits of the first two attributes, a GXOamShape
+#define GX_OAM_ATTR01_SHAPE_MASK 0xc000c000
 #define GX_OAM_ATTR2_NAME_SHIFT 0
 #define GX_OAM_ATTR2_PRIORITY_SHIFT 10
 #define GX_OAM_ATTR2_CPARAM_SHIFT 12
@@ -877,6 +894,8 @@ void gfxSetBGExtPltBanksA(u32 banks);
 void gfxSetBGBanksB(u32 banks);
 void gfxSetBGExtPltBanksB(u32 banks);
 void gfxSetObjBanksA(u32 banks);
+u32 gfxGetObjExtPltBanksA(void);
+u32 gfxGetObjExtPltBanksB(void);
 void gfxSetObjExtPltBanksA(u32 banks);
 void gfxSetObjBanksB(u32 banks);
 void gfxSetObjExtPltBanksB(u32 banks);
