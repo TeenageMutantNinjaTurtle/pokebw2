@@ -10,5 +10,7 @@ u32 FieldSubscreen_GetScreenID(FieldSubscreen *subscreen);
 u32 FieldSubscreen_GetReturnSubscreen(FieldSubscreen *subscreen);
 void func_ov036_021984e4(FieldSubscreen *subscreen);
 void func_ov036_0219886c(FieldSubscreen *subscreen, u32 param);
+BOOL FieldSubscreen_IsReady(FieldSubscreen *subscreen);
+u32 func_ov036_02198854(FieldSubscreen *subscreen);
 
 #endif // POKEBW2_FIELD_SUBSCREEN_H

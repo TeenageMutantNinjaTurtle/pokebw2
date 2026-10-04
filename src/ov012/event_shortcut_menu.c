@@ -19,23 +19,25 @@ u32 func_ov012_0215aa68(u32 index) {
     return data_ov012_0216cb74[index];
 }
 
-BOOL func_ov012_0215aa74(FieldMenuWork *work, FieldMenuWork *context) {
-    FieldSubscreen *subscreen = Field_GetSubscreen(context->field);
+BOOL func_ov012_0215aa74(FieldAppCallInput *input, void *arg) {
+    FieldMenuWork *menu = arg;
+    FieldSubscreen *subscreen = Field_GetSubscreen(menu->field);
 
-    if (work->prevScreenId == 0) {
-        func_ov036_0219886c(subscreen, context->unk10);
+    if (input->eventType == 0) {
+        func_ov036_0219886c(subscreen, menu->unk10);
     }
     return TRUE;
 }
 
-BOOL func_ov012_0215aa90(void) {
+BOOL func_ov012_0215aa90(FieldAppCallInput *input, void *arg) {
     return TRUE;
 }
 
-BOOL func_ov012_0215aa94(FieldMenuWork *work, FieldMenuWork *context) {
-    GameData *gameData = GSYS_GetGameData(context->gameSystem);
+BOOL func_ov012_0215aa94(FieldAppCallInput *input, void *arg) {
+    FieldMenuWork *menu = arg;
+    GameData *gameData = GSYS_GetGameData(menu->gameSystem);
 
-    switch (work->prevScreenId) {
+    switch (input->eventType) {
     case 4:
         GameData_SetLastSubscreen(gameData, 6);
         break;
@@ -48,12 +50,11 @@ BOOL func_ov012_0215aa94(FieldMenuWork *work, FieldMenuWork *context) {
     case 1:
     case 2:
     case 3:
-        GameData_SetLastSubscreen(gameData, context->screenId);
+        GameData_SetLastSubscreen(gameData, menu->screenId);
         break;
     }
     return TRUE;
 }
-
 
 BOOL IsExistAnyYShortcut(GameSystem *gsys) {
     GameData *gameData = GSYS_GetGameData(gsys);

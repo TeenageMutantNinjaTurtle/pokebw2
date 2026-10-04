@@ -6,14 +6,15 @@
 #include "field/player_action.h"
 #include "system/game_event.h"
 
-typedef BOOL (*FieldAppCallPredicate)(void *context, void *arg);
+// Called with the app call's input and its arg
+typedef BOOL (*FieldAppCallPredicate)(FieldAppCallInput *input, void *arg);
 
 struct FieldAppCallParam {
     FieldAppCallPredicate canRetry;
     FieldAppCallPredicate callback1;
     FieldAppCallPredicate callback2;
     void *arg;
-    void *context;
+    FieldAppCallInput *input;
 };
 
 struct FieldAppCallInput {
@@ -21,20 +22,27 @@ struct FieldAppCallInput {
     Field *field;
     GameEvent *parent;
     u32 unk0C;
-    void *context;
+    // The app to open, from the field menu's table, or -1
+    s32 appId;
     u32 unk14;
     FieldAppCallPredicate canRetry;
     FieldAppCallPredicate callback1;
     FieldAppCallPredicate callback2;
     void *arg;
+    // What the app chose, for the caller to act on: the event type from EventFieldAppCall_ConvAppResultToEventType
+    // and its parameters
+    u32 eventType;
+    u32 eventId;
+    u32 partySlot;
+    u32 eventValue;
 };
 
 struct FieldAppCallWork {
     u16 code;
     u16 pad02;
-    void *callback04;
-    void *callback08;
-    void *callback0C;
+    s32 appId;
+    s32 unk08;
+    s32 unk0C;
     u32 unk10;
     GameEvent *event;
     FieldAppCallInput *input;
@@ -54,7 +62,7 @@ GameEventReturnCode EventFieldAppCall_Callback(GameEvent *event, u32 *state, voi
 GameEvent *EventFieldAppCall_Create(FieldAppCallInput *input, u16 code);
 void EventFieldAppCall_ConvAppResultToEventType(u32 result, u32 *eventType);
 void func_ov012_0215b754(FieldAppCallWork *work);
-void func_ov012_0215b76c(FieldAppCallParam *param, void *context, FieldAppCallPredicate canRetry,
+void func_ov012_0215b76c(FieldAppCallParam *param, FieldAppCallInput *input, FieldAppCallPredicate canRetry,
                           FieldAppCallPredicate callback1, FieldAppCallPredicate callback2, void *arg);
 BOOL FieldAppCallParam_CanRetry(FieldAppCallParam *param);
 BOOL func_ov012_0215b7a8(FieldAppCallParam *param);

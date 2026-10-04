@@ -1,11 +1,17 @@
 #include "types.h"
 #include "field/field.h"
+#include "field/field_actor.h"
 #include "field/field_menu.h"
+#include "field/field_script_event.h"
+#include "field/hidden_event.h"
+#include "field/player_action.h"
 #include "field/subscreen.h"
 #include "field/zone.h"
 #include "gfl/input.h"
 #include "gfl/std.h"
+#include "system/game_data.h"
 #include "system/game_event.h"
+#include "system/game_system.h"
 
 GameEvent *EventFieldMenu_Create(GameSystem *gsys, Field *field, u16 param) {
     FieldSubscreen *subscreen = Field_GetSubscreen(field);
@@ -18,15 +24,15 @@ GameEvent *EventFieldMenu_Create(GameSystem *gsys, Field *field, u16 param) {
     work->event = event;
     work->field = field;
     work->code = param;
-    work->unk14 = 0;
-    work->gameSystem2 = gsys;
-    work->field2 = field;
-    work->event2 = event;
-    work->callback34 = func_ov012_0215aa74;
-    work->callback38 = func_ov012_0215aa90;
-    work->callback3C = func_ov012_0215aa94;
-    work->self = work;
-    work->unk30 = -1;
+    work->state = 0;
+    work->appCall.gameSystem = gsys;
+    work->appCall.field = field;
+    work->appCall.parent = event;
+    work->appCall.canRetry = func_ov012_0215aa74;
+    work->appCall.callback1 = func_ov012_0215aa90;
+    work->appCall.callback2 = func_ov012_0215aa94;
+    work->appCall.arg = work;
+    work->appCall.unk14 = -1;
     screenId = FieldSubscreen_GetScreenID(subscreen);
     switch (screenId) {
     case 4:
@@ -39,7 +45,7 @@ GameEvent *EventFieldMenu_Create(GameSystem *gsys, Field *field, u16 param) {
         work->screenId = FieldSubscreen_GetIDForChange(Field_GetSubscreen(work->field), 0);
         break;
     }
-    work->prevScreenId = work->screenId;
+    work->appCall.unk0C = work->screenId;
     func_0203d564(TRUE);
     return event;
 }
@@ -55,4 +61,98 @@ GameEvent *EventFieldMenu_CreateUnionRoom(GameSystem *gsys, Field *field, u16 pa
         work->screenId = 2;
     }
     return event;
+}
+
+GameEventReturnCode EventFieldMenu_Callback(GameEvent *event, u32 *state, void *data) {
+    FieldMenuWork *work = data;
+    MMSys *actorSystem;
+    GameData *gameData;
+    u32 selection;
+    u32 returnSubscreen;
+    PlayerActionPossibilities action;
+    HiddenEventArgs args;
+    GameEvent *next;
+
+    switch (work->state) {
+    case 0:
+        if (FieldSubscreen_IsReady(Field_GetSubscreen(work->field)) == TRUE) {
+            actorSystem = Field_GetActorSystem(work->field);
+            gameData = GSYS_GetGameData(GameEvent_GetGameSystem(event));
+            DisableAllActorsMovement(actorSystem);
+            func_020173f8(gameData, 1);
+            FieldSubscreen_ReqChange(Field_GetSubscreen(work->field), 1);
+            work->state = 1;
+        }
+        break;
+    case 1:
+        returnSubscreen = FieldSubscreen_GetReturnSubscreen(Field_GetSubscreen(work->field));
+        if (returnSubscreen == 3) {
+            work->state = 2;
+            func_ov036_021984e4(Field_GetSubscreen(work->field));
+        } else if (returnSubscreen == 4) {
+            work->state = 3;
+            func_ov036_021984e4(Field_GetSubscreen(work->field));
+        }
+        break;
+    case 2:
+        gameData = GSYS_GetGameData(GameEvent_GetGameSystem(event));
+        selection = func_ov036_02198854(Field_GetSubscreen(work->field));
+        func_020173f8(gameData, selection);
+        work->unk10 = func_ov036_02198854(Field_GetSubscreen(work->field));
+        work->appCall.appId = func_ov012_0215aa68(selection);
+        work->state = 5;
+        break;
+    case 3:
+        EnableAllActorsMovement(Field_GetActorSystem(work->field));
+        if (work->appCall.eventType != 1 && work->appCall.eventType != 4) {
+            GameEvent_Replace(event,
+                              EventFieldMenuReturn_Create(GameEvent_GetGameSystem(event), work->field, work->screenId));
+            return GAMEEVENT_CONTINUE;
+        }
+        return GAMEEVENT_DONE;
+    case 4:
+        EnableAllActorsMovement(Field_GetActorSystem(work->field));
+        CalcPlayerActionPossibilities(GSYS_GetField(work->gameSystem), &action);
+        func_ov012_02159418(&args, work->appCall.partySlot, work->appCall.eventId, work->appCall.eventValue);
+        next = CreateHidenEvent(work->appCall.eventId, &args, &action);
+        if (next == NULL) {
+            return GAMEEVENT_DONE;
+        }
+        GameEvent_Replace(work->event, next);
+        break;
+    case 5:
+        GameEvent_ChainNext(event, EventFieldAppCall_Create(&work->appCall, work->code));
+        work->state = 6;
+        break;
+    case 6:
+        if (work->appCall.eventType == 0) {
+            work->state = 1;
+        } else if (work->appCall.eventType == 1) {
+            work->state = 3;
+        } else if (work->appCall.eventType == 3) {
+            work->state = 7;
+        } else if (work->appCall.eventType == 2) {
+            work->state = 4;
+        } else if (work->appCall.eventType == 4) {
+            work->state = 3;
+        } else if (work->appCall.eventType == 5) {
+            work->state = 9;
+        }
+        break;
+    case 7:
+        EnableAllActorsMovement(Field_GetActorSystem(work->field));
+        GameEvent_ChainNext(event, CallFieldCommonEventFunc(work->appCall.eventId, work->gameSystem, work->field));
+        work->state = 8;
+        break;
+    case 8:
+        return GAMEEVENT_DONE;
+    case 9:
+        if (FieldSubscreen_IsReady(Field_GetSubscreen(work->field))) {
+            EnableAllActorsMovement(Field_GetActorSystem(work->field));
+            GameEvent_Replace(work->event,
+                              EventScriptCall_Create(work->gameSystem, 0x2a01, NULL, Field_GetHeapID(work->field)));
+        }
+        break;
+    }
+    return GAMEEVENT_CONTINUE;
 }

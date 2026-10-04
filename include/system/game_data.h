@@ -97,6 +97,7 @@ void GameData_SetLastBtlResult(GameData *gameData, u32 result);
 u32 GameData_GetLastBtlResult(GameData *gameData);
 void GameData_SetLensFlareRequested(GameData *gameData, BOOL requested);
 u32 GameData_GetLensFlareEntryIdx(GameData *gameData);
+void func_020173f8(GameData *gameData, u8 value);
 void GameData_SetLensFlareEntryIdx(GameData *gameData, u32 index);
 void GameData_SetNextZone(GameData *gameData, ZoneSpawnInfo *spawn);
 ZoneSpawnInfo *GetGameDataNowSpawnZone(GameData *gameData);

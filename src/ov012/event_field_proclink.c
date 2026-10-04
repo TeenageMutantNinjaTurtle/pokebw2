@@ -16,9 +16,9 @@ GameEvent *EventFieldAppCall_Create(FieldAppCallInput *input, u16 code) {
     work->input = input;
     work->unk10 = 4;
     work->event = event;
-    work->callback04 = input->context;
-    work->callback08 = input->context;
-    work->callback0C = input->context;
+    work->appId = input->appId;
+    work->unk08 = input->appId;
+    work->unk0C = input->appId;
     work->flag68 = 0;
     work->value6A = 0;
     work->unk70 = 0;
@@ -59,33 +59,33 @@ void func_ov012_0215b754(FieldAppCallWork *work) {
     func_020088ec(data, 0);
 }
 
-void func_ov012_0215b76c(FieldAppCallParam *param, void *context, FieldAppCallPredicate canRetry,
+void func_ov012_0215b76c(FieldAppCallParam *param, FieldAppCallInput *input, FieldAppCallPredicate canRetry,
                          FieldAppCallPredicate callback1, FieldAppCallPredicate callback2, void *arg) {
     sys_memset(param, 0, sizeof(FieldAppCallParam));
     param->canRetry = canRetry;
     param->callback1 = callback1;
     param->callback2 = callback2;
     param->arg = arg;
-    param->context = context;
+    param->input = input;
 }
 
 BOOL FieldAppCallParam_CanRetry(FieldAppCallParam *param) {
     if (param->canRetry != NULL) {
-        return param->canRetry(param->context, param->arg);
+        return param->canRetry(param->input, param->arg);
     }
     return TRUE;
 }
 
 BOOL func_ov012_0215b7a8(FieldAppCallParam *param) {
     if (param->callback1 != NULL) {
-        return param->callback1(param->context, param->arg);
+        return param->callback1(param->input, param->arg);
     }
     return TRUE;
 }
 
 BOOL func_ov012_0215b7c0(FieldAppCallParam *param) {
     if (param->callback2 != NULL) {
-        return param->callback2(param->context, param->arg);
+        return param->callback2(param->input, param->arg);
     }
     return TRUE;
 }
