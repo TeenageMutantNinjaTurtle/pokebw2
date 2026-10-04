@@ -2,6 +2,7 @@
 #define POKEBW2_APP_ZUKAN_DETAIL_H
 
 #include "types.h"
+#include "gfl/clact.h"
 #include "gfl/heap.h"
 #include "gfl/overlay.h"
 #include "gfl/proc.h"
@@ -194,11 +195,15 @@ void ZukanDetail_FreeBG(u32 bg, u32 chars);
 
 // zukan_detail_graphic.c: the screens' BGs, OBJs and 3D
 
-ZukanDetailGraphic *ZukanDetailGraphic_Create(u32 unk0, HeapID heapId, BOOL unk2);
+ZukanDetailGraphic *ZukanDetailGraphic_Create(u32 layout, HeapID heapId, BOOL with3D);
 void ZukanDetailGraphic_Free(ZukanDetailGraphic *graphic);
 void ZukanDetailGraphic_Update(ZukanDetailGraphic *graphic);
+// Draw the 3D system's frame, if it has been created
 void ZukanDetailGraphic_Begin3D(ZukanDetailGraphic *graphic);
 void ZukanDetailGraphic_End3D(ZukanDetailGraphic *graphic);
+ClActUnit *ZukanDetailGraphic_GetClActUnit(ZukanDetailGraphic *graphic);
+void ZukanDetailGraphic_Create3D(ZukanDetailGraphic *graphic, HeapID heapId);
+void ZukanDetailGraphic_Free3D(ZukanDetailGraphic *graphic);
 
 // zukan_detail_touchbar.c: the bar at the bottom of the touch screen
 
