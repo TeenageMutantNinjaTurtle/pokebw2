@@ -3537,6 +3537,163 @@ void func_ov167_021a5784(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon
     }
 }
 
+BOOL ServerControl_FlinchCore(BtlServerFlow *flow, BattleMon *mon, u8 chance) {
+    if (GetTurnFlag(mon, 5)) {
+        func_ov167_021bb7c0(mon, 6);
+        return TRUE;
+    }
+    if (ServerEvent_CheckFlinch(flow, mon, chance)) {
+        func_ov167_021bb7c0(mon, 4);
+        return TRUE;
+    }
+    if (chance >= 100) {
+        u32 state = PushState(&flow->actionState, 0x1bbd);
+        ServerEvent_FlinchFail(flow, mon);
+        PopState(&flow->actionState, state, 0x1bbf);
+    }
+    return FALSE;
+}
+
+void ServerControl_DamageDrain(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, BattleMon *target,
+                               u32 damage) {
+    if (PML_MoveGetQuality(param->move) == 8) {
+        if (ServerControl_DrainCore(flow, attacker, target,
+                                    MultiplyValueByRatio(damage, PML_MoveGetParam(param->move, 0x19)))) {
+            ServerDisplay_SkyDropTargetAppear(flow, target, 0x383);
+        }
+    }
+}
+
+BOOL ServerControl_DrainCore(BtlServerFlow *flow, BattleMon *mon, BattleMon *source, u16 amount) {
+    u32 state;
+    BOOL result;
+
+    state = PushState(&flow->actionState, 0x1c02);
+    result = FALSE;
+    amount = ServerEvent_CalcDrainAmount(flow, mon, source, amount);
+    if (amount != 0 && !ServerControl_RecoverHPCheckFail(flow, mon)) {
+        result = ServerControl_RecoverHP(flow, mon, amount, TRUE);
+    }
+    PopState(&flow->actionState, state, 0x1c10);
+    return result;
+}
+
+BOOL ServerEvent_CalcDamage(BtlServerFlow *flow, BattleMon *attacker, BattleMon *defender, BtlFlowMoveParam *param,
+                            u32 effectiveness, u32 ratio, BOOL critical, BOOL fixedRoll, u16 *damage) {
+    u32 attack;
+    u32 power;
+    u32 category;
+    BOOL fixed;
+    u32 result;
+    u32 value;
+    u32 defense;
+
+    category = PML_MoveGetCategory(param->move);
+    fixed = FALSE;
+    BattleEventVar_Push(0x1c31);
+    BattleEventVar_SetConstValue(0x38, effectiveness);
+    BattleEventVar_SetConstValue(3, GetMonID(attacker));
+    BattleEventVar_SetConstValue(4, GetMonID(defender));
+    BattleEventVar_SetConstValue(0x45, critical);
+    BattleEventVar_SetConstValue(0x16, param->type);
+    BattleEventVar_SetConstValue(0x12, param->move);
+    BattleEventVar_SetConstValue(0x1a, category);
+    BattleEventVar_SetValue(0x37, 0);
+    BattleEvent_CallHandlers(flow, 0x46);
+    result = BattleEventVar_GetValue(0x37);
+    if (result != 0) {
+        fixed = TRUE;
+    } else {
+        fx32 mod;
+        u32 level;
+
+        power = ServerEvent_GetMovePower(flow, attacker, defender, param);
+        attack = ServerEvent_GetAttackPower(flow, attacker, defender, param, critical);
+        defense = ServerEvent_GetTargetDefenses(flow, attacker, defender, param, critical);
+        level = (u8)GetBattleMonStat(attacker, 0xf);
+        value = CalcBaseDamage(power, attack, level, defense);
+        if (ratio != 0x1000) {
+            value = fixed_round(value, ratio);
+        }
+        mod = WeatherPowerMod(ServerEvent_GetWeather(flow), param->type);
+        if (mod != 0x1000) {
+            value = fixed_round(value, mod);
+        }
+        if (critical) {
+            value *= 2;
+        }
+        if (!ReturnZero(flow->mainModule, 7) && func_ov167_021ae30c(flow)) {
+            u16 roll;
+            if (fixedRoll) {
+                roll = 0x55;
+            } else {
+                roll = 100 - BattleRandom(16);
+            }
+            value = value * roll / 100;
+        }
+        if (param->type != 0x11) {
+            value = fixed_round(value, ServerEvent_SameTypeAttackBonus(flow, attacker, param->type));
+        }
+        value = TypeEffectivenessPowerMod(value, effectiveness);
+        if (category == 1 && GetBattleMonStatus(attacker) == 4 && GetBattleMonStat(attacker, 0x11) != 0x3e) {
+            value = value * 50 / 100;
+        }
+        if (value == 0) {
+            value = 1;
+        }
+        BattleEventVar_SetMulValue(0x35, 0x1000, 0x29, 0x20000);
+        BattleEventVar_SetValue(0x32, value);
+        BattleEvent_CallHandlers(flow, 0x47);
+        mod = BattleEventVar_GetValue(0x35);
+        result = fixed_round(BattleEventVar_GetValue(0x32), mod);
+    }
+    BattleEvent_CallHandlers(flow, 0x48);
+    BattleEventVar_Pop(0x1c9d);
+    *damage = result;
+    return fixed;
+}
+
+void ServerControl_CalcRecoil(BtlServerFlow *flow, BattleMon *mon, u16 move, u32 damage) {
+    BOOL forced;
+
+    if (!IsFainted(mon)) {
+        u16 recoil = ServerEvent_CalcRecoil(flow, mon, move, damage, &forced);
+        if (recoil != 0) {
+            BattleHandler_StrSetup(&flow->message, 2, 0x17a);
+            BattleHandler_AddArg(&flow->message, GetMonID(mon));
+            if (forced || ServerControl_CheckSimpleDamageEnabled(flow, mon, recoil)) {
+                ServerControl_SimpleDamageCore(flow, mon, recoil, &flow->message);
+            }
+        }
+    }
+}
+
+BOOL ServerControl_CheckSimpleDamageEnabled(BtlServerFlow *flow, BattleMon *mon, u16 damage) {
+    if (ServerEvent_CheckSimpleDamageEnabled(flow, mon, damage)) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+BOOL ServerControl_SimpleDamageCore(BtlServerFlow *flow, BattleMon *mon, u16 damage, BattleHandlerString *string) {
+    s32 change = -damage;
+    if (change != 0) {
+        ServerDisplay_SimpleHP(flow, mon, change, TRUE);
+        func_ov167_021bb7c0(mon, 2);
+        if (string != NULL) {
+            BattleHandler_SetString(flow, string);
+            BattleHandler_StrClear(string);
+        }
+        ServerControl_CheckItemReaction(flow, mon, 1);
+        if (ServerControl_CheckFainted(flow, mon)) {
+            ServerControl_CheckMatchup(flow);
+            return TRUE;
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
