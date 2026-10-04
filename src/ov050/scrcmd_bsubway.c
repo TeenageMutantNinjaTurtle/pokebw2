@@ -731,7 +731,7 @@ BOOL BSubwayCmd_Tool(VM *vm, FieldScriptEnv *env) {
         break;
     case 347:
         if (bsw->btlSetup != NULL) {
-            freeVSPlayerBlkClearPtr(bsw->btlSetup);
+            freeVSPlayerBlkClearPtr();
             BtlSetup_Free(bsw->btlSetup);
             bsw->btlSetup = NULL;
         }

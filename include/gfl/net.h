@@ -23,6 +23,9 @@ void func_02040624(NetHandle *handle, u32 a1, u32 a2);
 BOOL func_02040664(NetHandle *handle, u32 a1, u32 a2);
 void func_02040c20(u32 a0, const void *commands, u32 count, void *work);
 void func_02040c64(u32 a0);
+// Starts a timing sync of an ID with the other players, and whether it is done
+void func_02042d04(NetHandle *handle, u32 syncId);
+BOOL func_02042d0c(NetHandle *handle, u32 syncId);
 void func_020421ac(u32 a0);
 BOOL func_02042788(void);
 BOOL func_ov036_02180f80(GameCommSys *comm);

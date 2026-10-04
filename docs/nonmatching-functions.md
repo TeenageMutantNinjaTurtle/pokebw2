@@ -11,6 +11,8 @@ the original code is linked until they match. The differences are the same in bo
 
 | File | Function | Address | Difference |
 | --- | --- | --- | --- |
+| `src/ov010/event_make.c` | `func_ov010_0214ff58` | `0x0214ff58` / `0x0214ff98` | 4 bytes larger: the original dumps its literal pool at the save check of state 15, branching around it, where ours dumps it after the next unconditional branch. `&&`, nested `if`s, a flag variable and a ternary tried. |
+| `src/ov010/event_make.c` | `func_ov010_0215033c` | `0x0215033c` / `0x0215037c` | Same size; the state and the work swap registers (11 bytes). Declaration orders tried. |
 | `src/ov012/eventdata_system.c` | `CalcWarpTransferAddend` | `0x0215d52c` / `0x0215d56c` | 2 bytes smaller: the original derives the `0xf00` mask from the `0xf` one where ours derives it from `0xf0`, and reloads the span from the stack for the last comparison. Statement and declaration orders, mask spellings and local types tried. |
 | `src/ov012/eventdata_system.c` | `CheckProxyEntityEvent` | `0x0215d3d8` / `0x0215d418` | `0xe4` bytes versus `0xe8`: the original computes the direction minus 2 (as an add of `0xfffe`) after the empty-list check. |
 | `src/ov012/eventdata_system.c` | `GetRailWarpOutPos` | `0x0215d7d4` / `0x0215d814` | `0x70` bytes versus `0x6e`: the original loads the side position earlier. |

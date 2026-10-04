@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_BSUBWAY_SCR_H
 
 #include "types.h"
+#include "app/ov306.h"
 #include "battle/btl_setup.h"
 #include "gfl/heap.h"
 #include "gfl/proc.h"
@@ -23,18 +24,6 @@ typedef struct {
 // Overlay 174's screen
 extern const GameProcFunctions data_ov174_0219f0fc;
 
-// What overlay 50 fills in for overlay 306's screen
-typedef struct {
-    GameData *gameData;
-    u32 unk4;
-    u32 unk8;
-    u32 unkC;
-    u32 unk10;
-    s32 unk14;
-} BSubwayOv306Param;
-
-// Overlay 306's screen
-extern const GameProcFunctions data_ov306_0219ed40;
 // Overlay 273
 void func_ov273_021e9818(BtlSetup *setup);
 
@@ -125,7 +114,7 @@ struct BSubwayScrWork {
     BSubwayOv174Param ov174Param;
     void *allocatedBuffer;
     BtlSetup *btlSetup;
-    BSubwayOv306Param ov306Param;
+    Ov306Param ov306Param;
     u16 unk7EC;
     u16 unk7EE;
 };

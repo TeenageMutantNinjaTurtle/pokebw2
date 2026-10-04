@@ -35,11 +35,17 @@ struct BtlSetup {
     u32 unkA8;
     u8 unkAC;
     u8 unkAD;
-    u8 unkAE[0x24];
+    u8 unkAE;
+    u8 unkAF;
+    u32 unkB0;
+    u8 unkB4[0x1e];
     u8 unkD2;
     u8 unkD3[8];
     u8 unkDB;
-    u8 unkDC[0x5c];
+    u8 unkDC[0xb];
+    // The party slots each client sends out
+    u8 unkE7[4][6];
+    u8 unkFF[0x39];
     u16 unk138;
     u16 unk13a;
 };
@@ -56,7 +62,8 @@ void func_02017cfc(BtlSetup *setup, PokeParty *party, u32 a2);
 void func_02017d30(BtlSetup *setup, Regulation *regulation, HeapID heapId);
 void func_020186b0(BtlSetup *setup, u32 a1);
 void func_0201f63c(Regulation *regulation, PokeParty *party);
-void freeVSPlayerBlkClearPtr(BtlSetup *setup);
+void func_0200bb24(HeapID heapId);
+void freeVSPlayerBlkClearPtr(void);
 u32 GetNumMonsOnField(u32 battleType, u32 count);
 
 #endif // POKEBW2_BATTLE_BTL_SETUP_H

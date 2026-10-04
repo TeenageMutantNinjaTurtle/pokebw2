@@ -47,14 +47,10 @@ typedef struct {
     WifiLoginParam login;
     WifiLogoutParam logout;
     BtlSetup *btlSetup;
-    BattlePlayer players[2];
-    u8 unk100[0x20];
-    u32 battleResult;
-    u32 unk124;
-    u8 unk128[0xc];
+    BattlePlayers players;
+    u8 unk130[4];
     GameRecords *records;
     BattleParam battle;
-    u8 unk150[0x18];
     PokeParty *party;
     u32 unk16C;
     u16 bgm;
@@ -356,23 +352,23 @@ GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, void *d
         int i;
 
         GFL_SndBGMPlay(SEQ_BGM_VS_TRAINER_WIFI, SND_CHANNEL_MASK_ALL);
-        wk->unk124 = 1;
+        wk->players.unk44 = 1;
         if (func_02042a6c(func_02040440()) == 0) {
             for (i = 0; i < 2; i++) {
-                wk->players[i].info = func_02017378(GSYS_GetGameData(gsys), i);
-                wk->players[i].party = wk->club->parties[i];
+                wk->players.players[i].info = func_02017378(GSYS_GetGameData(gsys), i);
+                wk->players.players[i].party = wk->club->parties[i];
             }
         } else {
             u8 order[2] = { 1, 0 };
 
             for (i = 0; i < 2; i++) {
-                wk->players[order[i]].info = func_02017378(GSYS_GetGameData(gsys), i);
-                wk->players[order[i]].party = wk->club->parties[i];
+                wk->players.players[order[i]].info = func_02017378(GSYS_GetGameData(gsys), i);
+                wk->players.players[order[i]].party = wk->club->parties[i];
             }
         }
         wk->battle.gameData = GSYS_GetGameData(wk->gsys);
         wk->battle.setup = wk->btlSetup;
-        wk->battle.players = wk->players;
+        wk->battle.players = &wk->players;
         wk->battle.unk14 = 1;
         wk->records = GameData_GetRecords(GSYS_GetGameData(wk->gsys));
         GFL_OvlUnload(OVERLAY_BATTLE_MAIN);
@@ -385,9 +381,9 @@ GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, void *d
             EventWifiClub_ResetForLogin(wk);
             *state = 9;
         } else {
-            if (wk->battleResult == 0) {
+            if (wk->players.result == 0) {
                 func_0200a2d4(GameData_GetWifiList(GSYS_GetGameData(wk->gsys)), wk->club->friendIndex - 1, 1, 0, 0);
-            } else if (wk->battleResult == 1) {
+            } else if (wk->players.result == 1) {
                 func_0200a2d4(GameData_GetWifiList(GSYS_GetGameData(wk->gsys)), wk->club->friendIndex - 1, 0, 1, 0);
             }
             func_02040c64(0x100);
