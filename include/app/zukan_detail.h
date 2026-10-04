@@ -3,11 +3,49 @@
 
 #include "types.h"
 #include "gfl/heap.h"
+#include "gfl/overlay.h"
+#include "gfl/proc.h"
 #include "struct_decls.h"
 #include "system/printsys.h"
 
 // The Pokédex's detail screens, overlay 298: a Pokémon's info, its habitat map, its cry and its forms, with the bars
-// at the top and bottom of the screens to switch between them
+// at the top and bottom of the screens to switch between them. Overlay 302, the Pokédex's list, runs it
+#define OVERLAY_ZUKAN_DETAIL OVERLAY_ID(298)
+
+// The pages
+enum {
+    ZUKAN_DETAIL_PAGE_NONE,
+    ZUKAN_DETAIL_PAGE_INFO,
+    ZUKAN_DETAIL_PAGE_MAP,
+    ZUKAN_DETAIL_PAGE_VOICE,
+    ZUKAN_DETAIL_PAGE_FORM,
+};
+
+// What the screen returns to the list
+enum {
+    // The player picked a place on the habitat map
+    ZUKAN_DETAIL_RESULT_PLACE,
+    ZUKAN_DETAIL_RESULT_RETURN,
+    ZUKAN_DETAIL_RESULT_CLOSE,
+};
+
+typedef struct {
+    GameData *gameData;
+    // The ZUKAN_DETAIL_PAGE_* to start on
+    int page;
+    // The Pokémon that the screen pages through, and where in the list it is
+    const u16 *list;
+    u16 count;
+    u16 index;
+    // A ZUKAN_DETAIL_RESULT_*
+    int result;
+    u32 mode;
+    u16 unk18;
+    // With ZUKAN_DETAIL_RESULT_PLACE
+    u16 place;
+} ZukanDetailParam;
+
+extern const GameProcFunctions ZUKAN_DETAIL_PROC_FUNCTIONS;
 
 typedef struct ZukanDetailProcSys ZukanDetailProcSys;
 typedef struct ZukanDetailCommon ZukanDetailCommon;
@@ -153,5 +191,81 @@ void ZukanDetailBackground_Update(ZukanDetailBackground *background);
 u32 ZukanDetail_LoadBG(BOOL loaded, HeapID heapId, u8 bg, u32 palettes, u8 palette, u8 srcPalette, u32 arcId, u32 nclr,
                        u32 ncgr, u32 nscr, u32 chars);
 void ZukanDetail_FreeBG(u32 bg, u32 chars);
+
+// zukan_detail_graphic.c: the screens' BGs, OBJs and 3D
+
+ZukanDetailGraphic *ZukanDetailGraphic_Create(u32 unk0, HeapID heapId, BOOL unk2);
+void ZukanDetailGraphic_Free(ZukanDetailGraphic *graphic);
+void ZukanDetailGraphic_Update(ZukanDetailGraphic *graphic);
+void ZukanDetailGraphic_Begin3D(ZukanDetailGraphic *graphic);
+void ZukanDetailGraphic_End3D(ZukanDetailGraphic *graphic);
+
+// zukan_detail_touchbar.c: the bar at the bottom of the touch screen
+
+// The commands of the bar's buttons
+enum {
+    ZUKAN_DETAIL_CMD_NONE,
+    ZUKAN_DETAIL_CMD_RETURN,
+    ZUKAN_DETAIL_CMD_CLOSE,
+    ZUKAN_DETAIL_CMD_INFO = 6,
+    ZUKAN_DETAIL_CMD_MAP,
+    ZUKAN_DETAIL_CMD_VOICE,
+    ZUKAN_DETAIL_CMD_FORM,
+    ZUKAN_DETAIL_CMD_MAP_PLACE = 0x22,
+};
+
+ZukanDetailTouchbar *ZukanDetailTouchbar_Create(HeapID heapId, u32 unk1, u32 mode);
+void ZukanDetailTouchbar_Free(ZukanDetailTouchbar *touchbar);
+void ZukanDetailTouchbar_Update(ZukanDetailTouchbar *touchbar);
+int ZukanDetailTouchbar_GetTrigger(ZukanDetailTouchbar *touchbar);
+int ZukanDetailTouchbar_GetCommand(ZukanDetailTouchbar *touchbar);
+
+// zukan_detail_headbar.c: the bar at the top of the screen
+
+ZukanDetailHeadbar *ZukanDetailHeadbar_Create(HeapID heapId, Font *font);
+void ZukanDetailHeadbar_Free(ZukanDetailHeadbar *headbar);
+void ZukanDetailHeadbar_Update(ZukanDetailHeadbar *headbar);
+
+// zukan_detail_info.c: the Pokémon's info
+
+typedef struct {
+    HeapID heapId;
+} ZukanDetailInfoParam;
+
+extern const ZukanDetailProcFuncs ZUKAN_DETAIL_INFO_PROC_FUNCS;
+
+void ZukanDetailInfo_InitParam(ZukanDetailInfoParam *param, HeapID heapId);
+
+// zukan_detail_map.c: where the Pokémon lives
+
+typedef struct {
+    HeapID heapId;
+    // The place picked on the map
+    u16 place;
+} ZukanDetailMapParam;
+
+extern const ZukanDetailProcFuncs ZUKAN_DETAIL_MAP_PROC_FUNCS;
+
+void ZukanDetailMap_InitParam(ZukanDetailMapParam *param, HeapID heapId);
+
+// zukan_detail_voice.c: the Pokémon's cry
+
+typedef struct {
+    HeapID heapId;
+} ZukanDetailVoiceParam;
+
+extern const ZukanDetailProcFuncs ZUKAN_DETAIL_VOICE_PROC_FUNCS;
+
+void ZukanDetailVoice_InitParam(ZukanDetailVoiceParam *param, HeapID heapId);
+
+// zukan_detail_form.c: the Pokémon's forms
+
+typedef struct {
+    HeapID heapId;
+} ZukanDetailFormParam;
+
+extern const ZukanDetailProcFuncs ZUKAN_DETAIL_FORM_PROC_FUNCS;
+
+void ZukanDetailForm_InitParam(ZukanDetailFormParam *param, HeapID heapId);
 
 #endif // POKEBW2_APP_ZUKAN_DETAIL_H

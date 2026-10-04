@@ -44,17 +44,17 @@ ZukanDetailBackground_Free kind:function(thumb,size=0x1e) addr:0x021a02fc
 ZukanDetailBackground_Update kind:function(thumb,size=0x20) addr:0x021a031c
 ZukanDetail_LoadBG kind:function(thumb,size=0x98) addr:0x021a033c
 ZukanDetail_FreeBG kind:function(thumb,size=0x14) addr:0x021a03d4
-func_ov298_021a03e8 kind:function(thumb,size=0xe8) addr:0x021a03e8
-func_ov298_021a04d0 kind:function(thumb,size=0x66) addr:0x021a04d0
-func_ov298_021a0538 kind:function(thumb,size=0xe0) addr:0x021a0538
-func_ov298_021a0618 kind:function(thumb,size=0x2) addr:0x021a0618
-func_ov298_021a061c kind:function(thumb,size=0xe4) addr:0x021a061c
+ZukanDetail_Init kind:function(thumb,size=0xe8) addr:0x021a03e8
+ZukanDetail_Exit kind:function(thumb,size=0x66) addr:0x021a04d0
+ZukanDetail_Main kind:function(thumb,size=0xe0) addr:0x021a0538
+ZukanDetail_VBlank kind:function(thumb,size=0x2) addr:0x021a0618
+ZukanDetail_StartPage kind:function(thumb,size=0xe4) addr:0x021a061c
 func_ov298_021a0700 kind:function(thumb,size=0xa8) addr:0x021a0700
-func_ov298_021a07a8 kind:function(thumb,size=0xb0) addr:0x021a07a8
-func_ov298_021a0858 kind:function(thumb,size=0x58) addr:0x021a0858
-func_ov298_021a08b0 kind:function(thumb,size=0x12) addr:0x021a08b0
-func_ov298_021a08c4 kind:function(thumb,size=0x10) addr:0x021a08c4
-func_ov298_021a08d4 kind:function(thumb,size=0x10) addr:0x021a08d4
+ZukanDetailGraphic_Create kind:function(thumb,size=0xb0) addr:0x021a07a8
+ZukanDetailGraphic_Free kind:function(thumb,size=0x58) addr:0x021a0858
+ZukanDetailGraphic_Update kind:function(thumb,size=0x12) addr:0x021a08b0
+ZukanDetailGraphic_Begin3D kind:function(thumb,size=0x10) addr:0x021a08c4
+ZukanDetailGraphic_End3D kind:function(thumb,size=0x10) addr:0x021a08d4
 func_ov298_021a08e4 kind:function(thumb,size=0xc) addr:0x021a08e4
 func_ov298_021a08f0 kind:function(thumb,size=0x14) addr:0x021a08f0
 func_ov298_021a0904 kind:function(thumb,size=0x18) addr:0x021a0904
@@ -111,15 +111,15 @@ func_ov298_021a1210 kind:function(thumb,size=0x10) addr:0x021a1210
 func_ov298_021a1220 kind:function(thumb,size=0x6) addr:0x021a1220
 func_ov298_021a1228 kind:function(thumb,size=0x1a) addr:0x021a1228
 func_ov298_021a1244 kind:function(thumb,size=0x22) addr:0x021a1244
-func_ov298_021a1268 kind:function(thumb,size=0x94) addr:0x021a1268
-func_ov298_021a12fc kind:function(thumb,size=0x1e) addr:0x021a12fc
-func_ov298_021a131c kind:function(thumb,size=0x138) addr:0x021a131c
+ZukanDetailTouchbar_Create kind:function(thumb,size=0x94) addr:0x021a1268
+ZukanDetailTouchbar_Free kind:function(thumb,size=0x1e) addr:0x021a12fc
+ZukanDetailTouchbar_Update kind:function(thumb,size=0x138) addr:0x021a131c
 func_ov298_021a1454 kind:function(thumb,size=0x1e) addr:0x021a1454
 func_ov298_021a1474 kind:function(thumb,size=0x4) addr:0x021a1474
 func_ov298_021a1478 kind:function(thumb,size=0x14) addr:0x021a1478
 func_ov298_021a148c kind:function(thumb,size=0x1e) addr:0x021a148c
-func_ov298_021a14ac kind:function(thumb,size=0x4a) addr:0x021a14ac
-func_ov298_021a14f8 kind:function(thumb,size=0x4a) addr:0x021a14f8
+ZukanDetailTouchbar_GetTrigger kind:function(thumb,size=0x4a) addr:0x021a14ac
+ZukanDetailTouchbar_GetCommand kind:function(thumb,size=0x4a) addr:0x021a14f8
 func_ov298_021a1544 kind:function(thumb,size=0xc) addr:0x021a1544
 func_ov298_021a1550 kind:function(thumb,size=0xc) addr:0x021a1550
 func_ov298_021a155c kind:function(thumb,size=0x30) addr:0x021a155c
@@ -155,9 +155,9 @@ func_ov298_021a2178 kind:function(thumb,size=0x10) addr:0x021a2178
 func_ov298_021a2188 kind:function(thumb,size=0x1a) addr:0x021a2188
 func_ov298_021a21a4 kind:function(thumb,size=0x30) addr:0x021a21a4
 func_ov298_021a21d4 kind:function(thumb,size=0x1c) addr:0x021a21d4
-func_ov298_021a21f0 kind:function(thumb,size=0x68) addr:0x021a21f0
-func_ov298_021a2258 kind:function(thumb,size=0x2a) addr:0x021a2258
-func_ov298_021a2284 kind:function(thumb,size=0x88) addr:0x021a2284
+ZukanDetailHeadbar_Create kind:function(thumb,size=0x68) addr:0x021a21f0
+ZukanDetailHeadbar_Free kind:function(thumb,size=0x2a) addr:0x021a2258
+ZukanDetailHeadbar_Update kind:function(thumb,size=0x88) addr:0x021a2284
 func_ov298_021a230c kind:function(thumb,size=0x12) addr:0x021a230c
 func_ov298_021a2320 kind:function(thumb,size=0x4) addr:0x021a2320
 func_ov298_021a2324 kind:function(thumb,size=0x10) addr:0x021a2324
@@ -168,7 +168,7 @@ func_ov298_021a23dc kind:function(thumb,size=0x22) addr:0x021a23dc
 func_ov298_021a2400 kind:function(thumb,size=0xa8) addr:0x021a2400
 func_ov298_021a24a8 kind:function(thumb,size=0x2) addr:0x021a24a8
 func_ov298_021a24ac kind:function(thumb,size=0x34) addr:0x021a24ac
-func_ov298_021a24e0 kind:function(thumb,size=0x4) addr:0x021a24e0
+ZukanDetailInfo_InitParam kind:function(thumb,size=0x4) addr:0x021a24e0
 func_ov298_021a24e4 kind:function(thumb,size=0x8c) addr:0x021a24e4
 func_ov298_021a2570 kind:function(thumb,size=0x88) addr:0x021a2570
 func_ov298_021a25f8 kind:function(thumb,size=0x37e) addr:0x021a25f8
@@ -188,7 +188,7 @@ func_ov298_021a3124 kind:function(thumb,size=0x2) addr:0x021a3124
 func_ov298_021a3128 kind:function(thumb,size=0x1a) addr:0x021a3128
 func_ov298_021a3144 kind:function(thumb,size=0x28) addr:0x021a3144
 func_ov298_021a316c kind:function(thumb,size=0x120) addr:0x021a316c
-func_ov298_021a328c kind:function(thumb,size=0xc) addr:0x021a328c
+ZukanDetailMap_InitParam kind:function(thumb,size=0xc) addr:0x021a328c
 func_ov298_021a3298 kind:function(thumb,size=0x15c) addr:0x021a3298
 func_ov298_021a33f4 kind:function(thumb,size=0xd4) addr:0x021a33f4
 func_ov298_021a34c8 kind:function(thumb,size=0x468) addr:0x021a34c8
@@ -264,7 +264,7 @@ func_ov298_021a627c kind:function(thumb,size=0x30) addr:0x021a627c
 func_ov298_021a62ac kind:function(thumb,size=0x48) addr:0x021a62ac
 func_ov298_021a62f4 kind:function(thumb,size=0x2c) addr:0x021a62f4
 func_ov298_021a6320 kind:function(thumb,size=0xb4) addr:0x021a6320
-func_ov298_021a63d4 kind:function(thumb,size=0x4) addr:0x021a63d4
+ZukanDetailVoice_InitParam kind:function(thumb,size=0x4) addr:0x021a63d4
 func_ov298_021a63d8 kind:function(thumb,size=0xe4) addr:0x021a63d8
 func_ov298_021a64bc kind:function(thumb,size=0xc6) addr:0x021a64bc
 func_ov298_021a6584 kind:function(thumb,size=0x362) addr:0x021a6584
@@ -303,7 +303,7 @@ func_ov298_021a76b8 kind:function(thumb,size=0x1e4) addr:0x021a76b8
 func_ov298_021a789c kind:function(thumb,size=0x82) addr:0x021a789c
 func_ov298_021a7920 kind:function(thumb,size=0x6c) addr:0x021a7920
 func_ov298_021a798c kind:function(thumb,size=0x52) addr:0x021a798c
-func_ov298_021a79e0 kind:function(thumb,size=0x4) addr:0x021a79e0
+ZukanDetailForm_InitParam kind:function(thumb,size=0x4) addr:0x021a79e0
 func_ov298_021a79e4 kind:function(thumb,size=0x104) addr:0x021a79e4
 func_ov298_021a7ae8 kind:function(thumb,size=0xcc) addr:0x021a7ae8
 func_ov298_021a7bb4 kind:function(thumb,size=0x55c) addr:0x021a7bb4
@@ -383,7 +383,7 @@ sBottomPalettes kind:data(any) addr:0x021abf7c
 sBackgroundFiles kind:data(any) addr:0x021abf84
 data_ov298_021abf88 kind:data(any) addr:0x021abf88
 data_ov298_021abf8c kind:data(any) addr:0x021abf8c
-data_ov298_021abf9c kind:data(any) addr:0x021abf9c
+ZUKAN_DETAIL_PROC_FUNCTIONS kind:data(any) addr:0x021abf9c
 data_ov298_021abfa8 kind:data(any) addr:0x021abfa8
 data_ov298_021abfb4 kind:data(any) addr:0x021abfb4
 data_ov298_021abfc0 kind:data(any) addr:0x021abfc0
@@ -409,7 +409,7 @@ data_ov298_021ac351 kind:data(any) addr:0x021ac351 ambiguous
 data_ov298_021ac379 kind:data(any) addr:0x021ac379 ambiguous
 data_ov298_021ac3a1 kind:data(any) addr:0x021ac3a1 ambiguous
 data_ov298_021ac3c0 kind:data(any) addr:0x021ac3c0
-data_ov298_021ac3d4 kind:data(any) addr:0x021ac3d4
+ZUKAN_DETAIL_INFO_PROC_FUNCS kind:data(any) addr:0x021ac3d4
 data_ov298_021ac3e5 kind:data(any) addr:0x021ac3e5 ambiguous
 data_ov298_021ac3e8 kind:data(any) addr:0x021ac3e8
 data_ov298_021ac409 kind:data(any) addr:0x021ac409 ambiguous
@@ -419,14 +419,14 @@ data_ov298_021ac42c kind:data(any) addr:0x021ac42c
 data_ov298_021ac434 kind:data(any) addr:0x021ac434
 data_ov298_021ac43c kind:data(any) addr:0x021ac43c
 data_ov298_021ac44c kind:data(any) addr:0x021ac44c
-data_ov298_021ac45c kind:data(any) addr:0x021ac45c
+ZUKAN_DETAIL_MAP_PROC_FUNCS kind:data(any) addr:0x021ac45c
 data_ov298_021ac470 kind:data(any) addr:0x021ac470
 data_ov298_021ac494 kind:data(any) addr:0x021ac494
 data_ov298_021ac4ec kind:data(any) addr:0x021ac4ec
 data_ov298_021ac544 kind:data(any) addr:0x021ac544
 data_ov298_021ac5f0 kind:data(any) addr:0x021ac5f0
 data_ov298_021ac748 kind:data(any) addr:0x021ac748
-data_ov298_021ac74c kind:data(any) addr:0x021ac74c
+ZUKAN_DETAIL_VOICE_PROC_FUNCS kind:data(any) addr:0x021ac74c
 data_ov298_021ac760 kind:data(any) addr:0x021ac760
 data_ov298_021ac7f0 kind:data(any) addr:0x021ac7f0
 data_ov298_021ac7f4 kind:data(any) addr:0x021ac7f4
@@ -435,7 +435,7 @@ data_ov298_021ac81c kind:data(any) addr:0x021ac81c
 data_ov298_021ac858 kind:data(any) addr:0x021ac858
 data_ov298_021ac860 kind:data(any) addr:0x021ac860
 data_ov298_021ac86c kind:data(any) addr:0x021ac86c
-data_ov298_021ac878 kind:data(any) addr:0x021ac878
+ZUKAN_DETAIL_FORM_PROC_FUNCS kind:data(any) addr:0x021ac878
 data_ov298_021ac88c kind:data(any) addr:0x021ac88c
 data_ov298_021ac8b0 kind:data(any) addr:0x021ac8b0
 data_ov298_021acde0 kind:data(any) addr:0x021acde0

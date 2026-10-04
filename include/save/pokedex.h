@@ -9,6 +9,7 @@ BOOL PokeDex_IsNationalObtained(PokeDexSave *pokedex);
 void PokeDex_SetNationalObtained(PokeDexSave *pokedex);
 void PokeDex_EnableHabitatList(PokeDexSave *pokedex);
 void givePlayerPokedex(PokeDexSave *pokedex);
+u32 func_0200d1dc(PokeDexSave *pokedex);
 BOOL PokeDex_IsCaught(PokeDexSave *pokedex, u16 species);
 BOOL PokeDex_IsSeen(PokeDexSave *pokedex, u16 species);
 u32 PokeDex_GetSeenNoNational(PokeDexSave *pokedex);

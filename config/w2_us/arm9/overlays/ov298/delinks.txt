@@ -14,3 +14,9 @@ src/ov298/zukan_detail_common.c:
     .text       start:0x0219fd1c end:0x021a0428
     .rodata     start:0x021abfb4 end:0x021abfdc
     .data       start:0x021ace38 end:0x021ace50
+
+src/ov298/zukan_detail.c:
+    complete
+    .text       start:0x021a0428 end:0x021a0740
+    .rodata     start:0x021abfdc end:0x021abfe8
+    .data       start:0x021ace50 end:0x021ace60
