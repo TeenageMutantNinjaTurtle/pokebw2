@@ -1412,7 +1412,7 @@ void ChangePokeType(BattleMon *mon, u16 type) {
     mon->type2 = PokeTypePair_GetType2(type);
 }
 
-void ChangeAbility(BattleMon *mon, u16 ability) {
+void ChangeAbility(BattleMon *mon, u32 ability) {
     mon->ability = ability;
 }
 

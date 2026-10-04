@@ -388,6 +388,9 @@ void ServerControl_ChangeWeatherAfter(BtlServerFlow *flow, u8 weather);
 void ServerEvent_AfterWeatherChange(BtlServerFlow *flow, u8 weather);
 u8 ServerEvent_IncreaseMoveWeatherTurns(BtlServerFlow *flow, u8 weather, BattleMon *mon);
 void func_ov167_021a777c(BtlServerFlow *flow, BattleMon *mon, u16 move);
+void func_ov167_021a78bc(BtlServerFlow *flow, BattleMon *mon, void *targets);
+BOOL func_ov167_021a7ae4(BtlServerFlow *flow, BattleMon *mon);
+BOOL func_ov167_021a7db4(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets, BOOL *showFail);
 BOOL ServerEvent_AddCondition(BtlServerFlow *flow, BattleMon *target, BattleMon *attacker, u32 condition,
                               BattleCondition value, BOOL flag, BOOL defaultMessage);
 u32 ServerEvent_CheckMoveAddCondition(BtlServerFlow *flow, u16 move, BattleMon *attacker, BattleMon *target,

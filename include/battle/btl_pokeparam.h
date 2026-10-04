@@ -233,7 +233,7 @@ BOOL IsFainted(BattleMon *mon);
 BOOL TransformCheck(BattleMon *mon);
 void ChangeForm(BattleMon *mon, u8 form);
 void ChangePokeType(BattleMon *mon, u16 type);
-void ChangeAbility(BattleMon *mon, u16 ability);
+void ChangeAbility(BattleMon *mon, u32 ability);
 BOOL func_ov167_021ad6e8(u16 ability);
 void SetWeight(BattleMon *mon, u16 weight);
 u16 GetBattleMonWeight(BattleMon *mon);

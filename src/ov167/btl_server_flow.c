@@ -4717,6 +4717,105 @@ void func_ov167_021a777c(BtlServerFlow *flow, BattleMon *mon, u16 move) {
     BattleEventVar_Pop(0x2374);
 }
 
+void func_ov167_021a77b8(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets) {
+    if (!func_ov169_0689ced8(targets)) {
+        switch (param->move) {
+        case 0x11d:
+            func_ov167_021a78bc(flow, mon, targets);
+            break;
+        case 0xa4:
+            if (func_ov167_021a7ae4(flow, mon)) {
+                BattleMoveEffectState *effect = flow->moveEffect;
+                if (!effect->enabled) {
+                    effect->enabled = 1;
+                    effect->unk05_1 = 1;
+                }
+            }
+            break;
+        default: {
+            BOOL showFail;
+            u32 result;
+            u32 state = PushState(&flow->actionState, 0x238f);
+
+            result = BattleHandler_Result(flow);
+            if (func_ov167_021a7db4(flow, param, mon, targets, &showFail)) {
+                result = BattleHandler_Result(flow);
+                if (result == 2) {
+                    BattleMoveEffectState *effect = flow->moveEffect;
+                    if (!effect->enabled) {
+                        effect->enabled = 1;
+                    }
+                }
+            }
+            if (result <= 1 && showFail && !flow->unk78A_4) {
+                func_ov167_021b15d0(flow->queue, 0x5a, 0x47, 0xffff0000);
+            }
+            PopState(&flow->actionState, state, 0x23a9);
+            break;
+        }
+        }
+    }
+}
+
+void func_ov167_021a78bc(BtlServerFlow *flow, BattleMon *mon, void *targets) {
+    u32 state2;
+    u32 state;
+    BattleMon *target;
+    u8 monId;
+    u8 targetId;
+    u32 ability;
+    u32 targetAbility;
+
+    target = func_ov169_0689cdf8(targets, 0);
+    ability = GetBattleMonStat(mon, 0x10);
+    targetAbility = GetBattleMonStat(target, 0x10);
+    if (ability != targetAbility && !func_ov169_0689cadc(ability) && !func_ov169_0689cadc(targetAbility)) {
+        BattleMoveEffectState *effect;
+
+        monId = GetMonID(mon);
+        targetId = GetMonID(target);
+        effect = flow->moveEffect;
+        if (!effect->enabled) {
+            effect->enabled = 1;
+        }
+        func_ov167_021b1434(flow->queue, 0x4a, monId, targetId, (u16)targetAbility, (u16)ability);
+        func_ov167_021b15d0(flow->queue, 0x5b, 0x1fc, monId, 0xffff0000);
+        state = PushState(&flow->actionState, 0x23c4);
+        ServerEvent_ChangeAbilityBefore(flow, monId, ability, targetAbility);
+        ServerEvent_ChangeAbilityBefore(flow, targetId, targetAbility, ability);
+        PopState(&flow->actionState, state, 0x23c7);
+        ChangeAbility(mon, targetAbility);
+        ChangeAbility(target, ability);
+        AbilityEvent_Swap(mon, target);
+        func_ov167_021b1434(flow->queue, 0x58, monId);
+        func_ov167_021b1434(flow->queue, 0x58, targetId);
+        if (ability != targetAbility) {
+            state2 = PushState(&flow->actionState, 0x23d4);
+            ServerEvent_ChangeAbilityAfter(flow, monId);
+            ServerEvent_ChangeAbilityAfter(flow, targetId);
+            PopState(&flow->actionState, state2, 0x23d7);
+        }
+        if (!CheckCondition(mon, 0x10)) {
+            if (ability == 0x67) {
+                ServerControl_CheckItemReaction(flow, mon, 0);
+            }
+            if (ability == 0x7f) {
+                ServerControl_UnnerveAction(flow, mon);
+            }
+        }
+        if (!CheckCondition(target, 0x10)) {
+            if (targetAbility == 0x67) {
+                ServerControl_CheckItemReaction(flow, target, 0);
+            }
+            if (targetAbility == 0x7f) {
+                ServerControl_UnnerveAction(flow, target);
+            }
+        }
+    } else {
+        func_ov167_021b15d0(flow->queue, 0x5a, 0x47, 0xffff0000);
+    }
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
