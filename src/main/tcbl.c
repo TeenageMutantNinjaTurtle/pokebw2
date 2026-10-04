@@ -129,10 +129,8 @@ void GFL_TCBExMgrUpdate(TCBExManager *manager) {
 
     manager->current = head->next;
     while (manager->current != head) {
-        TCBEx *task = manager->current;
-
         manager->removeRequested = FALSE;
-        task->func(task, GFL_TCBExGetDataCore(task));
+        manager->current->func(manager->current, GFL_TCBExGetDataCore(manager->current));
         if (manager->removeRequested) {
             TCBEx *next = manager->current->next;
 

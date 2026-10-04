@@ -367,7 +367,6 @@ static u32 StartAutoSampling(TouchpadManager *tp) {
     return 1;
 }
 
-
 void GFL_HIDClearTouchState(SystemUI *ui) {
     TouchpadManager *tp = getTouchpadBlock();
 
