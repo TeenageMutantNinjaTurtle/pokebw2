@@ -47,6 +47,21 @@
 
 typedef struct PokemonTradeWork PokemonTradeWork;
 
+// A Pokémon's sprite moving to a place over some frames, straight, bouncing or along a path of offsets
+typedef struct {
+    MCSS *mcss;
+    int duration;
+    int frame;
+    u32 unkC;
+    u8 unk10[4];
+    u16 angle;
+    u16 bounce;
+    u8 unk18[4];
+    VecFx32 start;
+    VecFx32 end;
+    const VecFx32 *path;
+} TradeMcssMove;
+
 typedef void (*PokemonTradeState)(PokemonTradeWork *wk);
 
 // A Pokémon's icon in the strip
@@ -111,7 +126,9 @@ struct PokemonTradeWork {
     u8 unk83C[0x4];
     MCSSSystem *mcssSys;
     MCSS *mcss[2];
-    u8 unk84C[0x10];
+    u8 unk84C[0x8];
+    u32 unk854;
+    u8 unk858[0x4];
     void *unk85C[4];
     u32 unk86C;
     u8 unk870[0x20];
@@ -206,8 +223,12 @@ struct PokemonTradeWork {
     u8 unk11E8[2];
     // The other machine's number of boxes
     u8 unk11EA;
-    u8 unk11EB[0x6];
+    u8 unk11EB[0x2];
     // Frames to wait before going on, after a message
+    u8 unk11ED;
+    u8 unk11EE[0x1];
+    u8 unk11EF;
+    u8 unk11F0[0x1];
     u8 waitTimer;
     u8 partnerBoxCount;
     u8 unk11F3;
@@ -319,6 +340,18 @@ void func_ov194_021be688(PokemonTradeWork *wk);
 void func_ov194_021be6ac(PokemonTradeWork *wk);
 void func_ov194_021be6c0(PokemonTradeWork *wk, int side, PartyPkm *pkm);
 void func_ov194_021be720(PokemonTradeWork *wk);
+
+// pokemontrade_mcss.c
+// The sounds of the animations, at each frame
+void func_ov194_021be808(int frame);
+void func_ov194_021be840(int frame);
+void TradeMcssMove_Start(TradeMcssMove *move, int duration, const VecFx32 *end);
+TradeMcssMove *TradeMcssMove_Create(MCSS *mcss, int duration, const VecFx32 *end, HeapID heapId);
+TradeMcssMove *TradeMcssMove_CreateWithPath(MCSS *mcss, int duration, const VecFx32 *end, const VecFx32 *path,
+                                            HeapID heapId);
+void TradeMcssMove_Update(TradeMcssMove *move, PokemonTradeWork *wk);
+void func_ov194_021beab4(PokemonTradeWork *wk);
+void TradeMcssMove_Free(TradeMcssMove *move);
 
 // pokemontrade_save.c
 void func_ov194_021bf938(PokemonTradeWork *wk);

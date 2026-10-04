@@ -936,6 +936,13 @@ overlays/ov194 0x021bb840 PokemonTrade_ProcInitIrc
 overlays/ov194 0x021bb8c4 PokemonTrade_ProcInitGtsNego
 overlays/ov194 0x021bbacc PokemonTrade_ProcMain
 overlays/ov194 0x021bbcb8 PokemonTrade_ProcExit
+overlays/ov194 0x021be8f4 TradeMcssMove_Start
+overlays/ov194 0x021be92c TradeMcssMove_Create
+overlays/ov194 0x021be95c TradeMcssMove_CreateWithPath
+overlays/ov194 0x021be998 TradeMcssMove_Interpolate
+overlays/ov194 0x021be9d0 TradeMcssMove_FollowPath
+overlays/ov194 0x021bea10 TradeMcssMove_Update
+overlays/ov194 0x021beacc TradeMcssMove_Free
 overlays/ov194 0x021c63a0 POKEMONTRADE_PROC_FUNCTIONS
 overlays/ov194 0x021c63c4 POKEMONTRADE_WIFICLUB_PROC_FUNCTIONS
 overlays/ov194 0x021c63f4 sSideButtonRects
