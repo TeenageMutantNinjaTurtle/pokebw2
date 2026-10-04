@@ -7,7 +7,7 @@
 #include "gfl/std.h"
 #include "gfl/touchpanel.h"
 #include "gfl/ui.h"
-#include "nitro/fs.h"
+#include "nitro/card.h"
 #include "nitro/hw.h"
 #include "nitro/os.h"
 #include "nitro/pm.h"

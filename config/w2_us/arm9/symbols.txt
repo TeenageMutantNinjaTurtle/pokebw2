@@ -8666,7 +8666,7 @@ data_0209a890 kind:data(any) addr:0x0209a8d0
 SvsysNull kind:data(any) addr:0x0209a8d4
 Svwk_sizeSvSavearea_size kind:data(any) addr:0x0209a8e4
 Next_frameTrue kind:data(any) addr:0x0209a904
-data_0209a8d8 kind:data(any) addr:0x0209a918
+sWriteDone kind:data(any) addr:0x0209a918
 data_0209a8dc kind:data(any) addr:0x0209a91c
 Lock_idOs_lock_id_error kind:data(any) addr:0x0209a920
 data_0209a8fc kind:data(any) addr:0x0209a93c
@@ -9148,7 +9148,7 @@ sHeapDumpState kind:bss addr:0x02141878
 sHeapDumpFile kind:bss addr:0x02141884
 sGameProcManager kind:bss addr:0x02141898
 data_0214185c kind:bss addr:0x0214189c
-data_02141860 kind:bss addr:0x021418a0
+sLocked kind:bss addr:0x021418a0
 sAssertHandlers kind:bss addr:0x021418a4
 sDebugPrint kind:bss addr:0x021418b4
 sOvlManager kind:bss addr:0x021418c0

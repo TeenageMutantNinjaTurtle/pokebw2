@@ -47,6 +47,12 @@ int mem_bind_range(int arena, void *start, void *end);
 void *malloc_device(int arena, int heap, u32 size);
 void free_device(int arena, int heap, void *ptr);
 
+// NitroSDK's OS_GetLockID and OS_ReleaseLockID, under swan's names
+#define OS_LOCK_ID_ERROR (-3)
+
+s32 cart_key_create(void);
+void cart_key_release(u16 lockId);
+
 // NitroSDK's OS_DisableInterrupts and OS_RestoreInterrupts, under swan's names
 u32 CPU_IRQDisable(void);
 u32 CPU_SetIRQMask(u32 mask);

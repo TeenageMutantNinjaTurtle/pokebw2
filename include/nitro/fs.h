@@ -37,7 +37,5 @@ BOOL sys_read_overlay_header(FSOverlayInfo *info, int target, u32 id);
 BOOL sys_load_overlay(int target, u32 id);
 BOOL sys_unload_overlay(int target, u32 id);
 u32 fs_set_dma_id(u32 dma);
-// Whether no read of the card is in progress. Unnamed, beside the card read thread
-BOOL func_0206f890(void);
 
 #endif // POKEBW2_NITRO_FS_H
