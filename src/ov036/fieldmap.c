@@ -36,6 +36,7 @@
 #include "field/field_task.h"
 #include "field/field_weather.h"
 #include "field/fieldmap_ctrl_hybrid.h"
+#include "field/intrude_work.h"
 #include "field/iss.h"
 #include "field/medal.h"
 #include "field/player_state.h"

@@ -210,7 +210,6 @@ BOOL GetZoneIsMusicalTheater(u16 zoneId);
 BOOL GetZoneIsPWTBattleStage(u16 zoneId);
 BOOL GetZoneIsUnionRoom(u32 zoneId);
 u16 GetZoneMatrixId(u16 zoneId);
-u32 getGameOrigin(GameCommSys *commSys);
 BOOL GetZoneSpawnInfoIsRail(ZoneSpawnInfo *spawn);
 ZoneWarp *GetZoneWarpByID(EventData *eventData, u16 warpId);
 BOOL IsWarpDestId256(ZoneWarp *warp);

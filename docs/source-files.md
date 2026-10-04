@@ -90,7 +90,7 @@ prints the tables below from the configs and the ROM:
 
 ### Overlay 12
 
-885 of 1668 functions are in source files. Embedded names without a file yet: `calender.c`, `comm_player.c`, `event_battle.c`, `fld_btl_inst_tool.c`, `fldmmdl.c`, `game_beacon_search.c`, `namein_setup.c`, `pair_sys.c`, `report_event.c`, `scrcmd_keysystem.c`, `symbol_map.c`, `trcard_sys.c`, `waza_oshie.c`.
+898 of 1668 functions are in source files. Embedded names without a file yet: `calender.c`, `comm_player.c`, `event_battle.c`, `fld_btl_inst_tool.c`, `fldmmdl.c`, `game_beacon_search.c`, `namein_setup.c`, `pair_sys.c`, `report_event.c`, `scrcmd_keysystem.c`, `symbol_map.c`, `trcard_sys.c`, `waza_oshie.c`.
 
 | File | `.text` (Black 2) | Functions | Status | Name |
 | --- | --- | --- | --- | --- |
@@ -102,6 +102,8 @@ prints the tables below from the configs and the ROM:
 | `event_colosseum_battle.c` | `0x0215264c`–`0x0215291c` | 3 | partial | descriptive |
 | `delivery_beacon.c` | `0x0215291c`–`0x02152c0c` | 22 | partial | string at `0x0216e0a8` |
 | `delivery_irc.c` | `0x02152c0c`–`0x02153160` | 27 | partial | string at `0x0216e180` |
+| `mystery_gift_pokemon.c` | `0x02153160`–`0x021535dc` | 1 | partial | descriptive |
+| `intrude_work.c` | `0x021535dc`–`0x0215366c` | 12 | complete | descriptive |
 | `script_sys.c` | `0x0215366c`–`0x02153da4` | 41 | partial | string at `0x0216e190` |
 | `script_work.c` | `0x02153da4`–`0x02154070` | 31 | complete | string at `0x0216e1b4` |
 | `script_sub_event.c` | `0x02154070`–`0x02154180` | 7 | partial | descriptive |

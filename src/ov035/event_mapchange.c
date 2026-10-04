@@ -15,6 +15,7 @@
 #include "field/field_map.h"
 #include "field/field_script.h"
 #include "field/field_status.h"
+#include "field/intrude_work.h"
 #include "field/iss.h"
 #include "field/player_state.h"
 #include "field/zone.h"

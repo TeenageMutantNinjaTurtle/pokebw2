@@ -13,6 +13,7 @@
 #include "field/field_event.h"
 #include "field/field_script.h"
 #include "field/gimmick_state.h"
+#include "field/intrude_work.h"
 #include "gfl/heap.h"
 #include "gfl/overlay.h"
 #include "gfl/std.h"

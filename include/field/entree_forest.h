@@ -9,7 +9,6 @@
 // Function names from swan.
 void GetEntreeForestActorParamBits(u32 *paramBits, FieldActor *actor);
 u16 GetActorUserParam0(FieldActor *actor);
-void func_ov012_02153608(GameCommSys *commSys);
 GameEvent *EventEntreeForestWarp_Create(GameSystem *gsys, u32 mode, const VecFx32 *position, u32 arg3, u32 arg4);
 GameEvent *CheckEntralinkForestFirstWarpEvent(Field *field, GameSystem *gsys, FieldPlayer *player);
 

@@ -42,6 +42,14 @@ src/ov012/delivery_irc.c:
     .rodata     start:0x0216af7c end:0x0216af9c
     .data       start:0x0216e150 end:0x0216e1d0
 
+src/ov012/mystery_gift_pokemon.c:
+    .text       start:0x021531a0 end:0x0215361c
+    .rodata     start:0x0216af9c end:0x0216afd8
+
+src/ov012/intrude_work.c:
+    complete
+    .text       start:0x0215361c end:0x021536ac
+
 src/ov012/script_sys.c:
     .text       start:0x021536ac end:0x02153de4
     .data       start:0x0216e1d0 end:0x0216e1f4

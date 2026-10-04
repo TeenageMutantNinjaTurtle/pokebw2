@@ -9,8 +9,11 @@ void GameBeacon_BroadcastFerrisWheel(void);
 u8 GameCommSys_BootCheck(GameCommSys *comm);
 // The running communication's work
 void *func_0202bdf4(GameCommSys *comm);
+// The game data the communication was started with
+GameData *getBasePlayerBlk(GameCommSys *comm);
 void GameCommSys_ExitReq(GameCommSys *comm);
 void func_0202be00(GameCommSys *comm);
+BOOL func_0202be08(GameCommSys *comm);
 void func_0203021c(void);
 // Sends a beacon of type 0x39, if func_0202cfe8 allows it
 void func_ov012_02160574(void);
