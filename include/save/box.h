@@ -10,6 +10,13 @@ u32 howManyTotalPokesAreInBoxes(BoxSaveAccessor *boxes);
 BOOL BoxSaveAccessor_InsertPkm(BoxSaveAccessor *boxes, BoxPkm *pkm);
 u32 BoxSaveAccessor_GetPkmParam(BoxSaveAccessor *boxes, u32 box, u32 slot, u32 param, void *buffer);
 BoxPkm *BoxSaveAccessor_GetPkm(BoxSaveAccessor *boxes, u32 box, u32 slot);
+u32 BoxSaveAccessor_GetLastOpenedBox(BoxSaveAccessor *boxes);
+// How many boxes are open: 8, 16 or 24
+u8 BoxSaveAccessor_GetAvailableBoxCount(BoxSaveAccessor *boxes);
+// Opens 8 more boxes, up to 24, and returns how many are open
+u8 BoxSaveAccessor_UnlockMoreBoxes(BoxSaveAccessor *boxes);
+void saveLastOpenedBoxIdx(BoxSaveAccessor *boxes, u32 box);
+u32 howManyPokesInGeneralAreInBox(BoxSaveAccessor *boxes, u32 box);
 
 // The battle box, save block 0x31
 BattleBoxSave *getBattleBox(SaveControl *save);

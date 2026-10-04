@@ -920,6 +920,11 @@ overlays/ov199 0x021b95ec GSYNC_PROC_FUNCTIONS
 overlays/ov199 0x021b97f4 PDWACC_PROC_FUNCTIONS
 overlays/ov214 0x021e1ab8 WORLDTRADE_PROC_FUNCTIONS
 overlays/ov253 0x0217d6e4 MIC_TEST_PROC_FUNCTIONS
+overlays/ov255 0x021bb700 Box2Proc_Init
+overlays/ov255 0x021bb794 Box2Proc_Main
+overlays/ov255 0x021bb7b8 Box2Proc_Exit
+overlays/ov255 0x021bbfec Box2Main_InitSettings
+overlays/ov255 0x021c28a8 Box2Seq_Main
 overlays/ov255 0x021d6f6c BOX2_PROC_FUNCTIONS
 overlays/ov257 0x021b26bc COMM_TVT_PROC_FUNCTIONS
 overlays/ov280 0x021dd93c NAME_ENTRY_SOUND_COUNT

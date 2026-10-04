@@ -75,6 +75,8 @@ typedef struct BattleMoveCore BattleMoveCore;
 typedef struct BattleMoveWork BattleMoveWork;
 typedef struct BattleParty BattleParty;
 typedef struct BtlActionState BtlActionState;
+typedef struct Box2AppWork Box2AppWork;
+typedef struct Box2SysWork Box2SysWork;
 typedef struct BoxPkm BoxPkm;
 typedef struct BoxPkmCreateParams BoxPkmCreateParams;
 typedef struct BoxSaveAccessor BoxSaveAccessor;
