@@ -22,7 +22,7 @@ from pathlib import Path
 import pycparser
 import pycparser.c_generator
 
-from compiler_probe import DEFAULT_FLAGS, VERSION_DEFINES, find_function, load_modules
+from compiler_probe import DEFAULT_FLAGS, VERSION_DEFINES, find_function, lib_compiler, load_modules
 from dsd_config import ROOT
 
 WIBO = ROOT / "tools" / "wibo"
@@ -62,7 +62,7 @@ def main():
     parser.add_argument("source")
     parser.add_argument("function")
     parser.add_argument("--version", default="b2_us")
-    parser.add_argument("--compiler", default="1.1p1")
+    parser.add_argument("--compiler", help="1.1p1, or the library's own compiler for library code")
     args = parser.parse_args()
 
     out = ROOT / "build" / "permuter" / args.function
@@ -91,16 +91,19 @@ def main():
                     "--add-symbol", f"{args.function}=.data:0,function,global",
                     str(out / "target.bin"), str(out / "target.o")], check=True)
 
-    compiler = ROOT / "tools" / "mwccarm" / "dsi" / args.compiler / "mwccarm.exe"
+    lib = lib_compiler(ROOT / args.source)
+    name = args.compiler or (lib[0] if lib else "1.1p1")
+    flags = lib[1] if lib else DEFAULT_FLAGS
+    compiler = ROOT / "tools" / "mwccarm" / (name if "/" in name else f"dsi/{name}") / "mwccarm.exe"
     (out / "compile.sh").write_text(
         "#!/bin/sh\n"
-        f'exec {shlex.quote(str(WIBO))} {shlex.quote(str(compiler))} {DEFAULT_FLAGS} -o "$3" "$1"\n'
+        f'exec {shlex.quote(str(WIBO))} {shlex.quote(str(compiler))} {flags} -o "$3" "$1"\n'
     )
     (out / "compile.sh").chmod(0o755)
     objdump = ROOT / "tools" / "scripts" / "permuter_objdump.py"
     (out / "settings.toml").write_text(
         f'func_name = "{args.function}"\ncompiler_type = "mwcc"\n'
-        f'objdump_command = "{sys.executable} {objdump} -drz"\n'
+        f'objdump_command = "{sys.executable} {objdump} -drz{"" if thumb else " --arm"}"\n'
     )
     print(f"wrote {out.relative_to(ROOT)}")
 
