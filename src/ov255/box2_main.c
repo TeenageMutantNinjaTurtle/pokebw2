@@ -4,6 +4,7 @@
 #include "app/box2_bmp.h"
 #include "app/box2_main.h"
 #include "app/box2_obj.h"
+#include "app/box2_seq.h"
 #include "app/box2_ui.h"
 #include "app/box_search.h"
 #include "app/name_entry.h"
@@ -11,6 +12,7 @@
 #include "constants/arc.h"
 #include "constants/items.h"
 #include "constants/pokemon.h"
+#include "constants/sound.h"
 #include "constants/species.h"
 #include "gfl/arc.h"
 #include "gfl/arc_util.h"
@@ -21,9 +23,11 @@
 #include "gfl/gx_layers.h"
 #include "gfl/heap.h"
 #include "gfl/msg.h"
+#include "gfl/sound.h"
 #include "gfl/std.h"
 #include "gfl/str.h"
 #include "gfl/tcb.h"
+#include "gfl/touchpanel.h"
 #include "gfl/ui.h"
 #include "nitro/gx.h"
 #include "nitro/hw.h"
@@ -62,7 +66,6 @@ static void PokeDataPartyMoveToTray(Box2SysWork *syswk, u32 pos, u32 dstTray);
 static void PokeChangeForme(Box2SysWork *syswk, BoxPkm *pkm, u32 forme);
 static void PokeFormChangeShaymin(Box2SysWork *syswk, u32 putPos, u32 getPos, u32 tray);
 static void PokeIconRangeMove(Box2SysWork *syswk, Box2PokeMoveData *data, u32 cnt, u32 x, u32 y, u32 width);
-static inline u8 PokeIconMoveEnd(Box2SysWork *syswk, u32 iconPos, u32 pos);
 static BOOL Box2Main_VFuncRangePokeMove(Box2SysWork *syswk);
 static BOOL Box2Main_VFuncGetPokeMove(Box2SysWork *syswk);
 static BOOL Box2Main_VFuncPokeMoveParty(Box2SysWork *syswk);
@@ -73,7 +76,7 @@ static inline void PokeIconMoveVector(Box2PokeMoveData *data, s16 *x, s16 *y);
 static void PokeIconMoveParamMake(Box2SysWork *syswk, Box2PokeMoveData *data);
 static void PokeIconChgParamMake(Box2SysWork *syswk, Box2PokeMoveData *data);
 static void PokeIconMoveSubParamMake(Box2SysWork *syswk, Box2PokeMoveData *data);
-static BOOL func_ov255_021c276c(Box2SysWork *syswk, u32 index);
+static BOOL Box2Main_RangeMailCheck(Box2SysWork *syswk, u32 index);
 static void PokeIconChgDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos);
 static BOOL PokeIconMoveDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos);
 static void PokeIconPartyOutDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos);
@@ -84,6 +87,7 @@ static void PokeIconBufPosChange(Box2SysWork *syswk, Box2PokeMoveWork *work);
 static void PokeIconBufPosChangeRange(Box2SysWork *syswk, Box2PokeMoveWork *work);
 static void PokeIconBufPosChangeAll(Box2SysWork *syswk, Box2PokeMoveWork *work);
 static int PokeFreeWazaCheck(u16 move);
+static void Box2Main_ItemIconTouchMove(Box2AppWork *app, u32 x, u32 y);
 static void ItemIconMoveMakeCore(Box2SysWork *syswk, u32 setPos, u32 putPos, u32 mvMode, BOOL hand);
 static void Box2Main_ItemIconMoveMakeScroll(Box2SysWork *syswk, u32 mvMode);
 static void Box2Main_ItemIconMoveMakeHand(Box2SysWork *syswk, u32 setPos, u32 putPos, u32 mvMode);
@@ -106,10 +110,20 @@ static u32 TrayPokePutAreaCheck(s16 x, s16 y);
 static u32 PartyPokePutAreaCheck(s16 x, s16 y, const Box2Area *areas);
 static u32 BoxMovePutAreaCheck(Box2SysWork *syswk, s16 x, s16 y);
 static void PokeIconRangeTouchMove(Box2SysWork *syswk, u32 x, u32 y);
-static void func_ov255_021c265c(Box2SysWork *syswk, u32 getPos, u32 putPos);
+static void PokeDataRangeMoveBox(Box2SysWork *syswk, u32 getPos, u32 putPos);
 
 // Where the tray's Pokémon are on the lower screen
 static const Box2Area sTrayPokeArea = { 8, 159, 40, 159 };
+
+// Where the party's Pokémon are, with the party's frame on the right and on the left
+static const Box2Area sPartyPokeAreaLeft[6] = {
+    { 178, 209, 58, 81 },  { 214, 245, 66, 89 },   { 178, 209, 90, 113 },
+    { 214, 245, 98, 121 }, { 178, 209, 122, 145 }, { 214, 245, 130, 153 },
+};
+static const Box2Area sPartyPokeAreaRight[6] = {
+    { 26, 57, 58, 81 },  { 62, 93, 66, 89 },   { 26, 57, 90, 113 },
+    { 62, 93, 98, 121 }, { 26, 57, 122, 145 }, { 62, 93, 130, 153 },
+};
 
 static const BGSysVRAMConfig sVramBanks = {
     GX_VRAM_BG_128_A,  GX_VRAM_BGEXTPLTT_NONE,  GX_VRAM_SUB_BG_128_C,        GX_VRAM_SUB_BGEXTPLTT_NONE,
@@ -865,7 +879,7 @@ void Box2Main_PokeDataMove(Box2SysWork *syswk) {
                 if (syswk->moveMode != 2) {
                     BoxSaveAccessor_SwapPkms(syswk->param->boxes, syswk->getTray, getPos, syswk->tray, putPos);
                 } else {
-                    func_ov255_021c265c(syswk, getPos, putPos);
+                    PokeDataRangeMoveBox(syswk, getPos, putPos);
                 }
                 func_ov255_021d1570(syswk, syswk->tray);
                 func_ov255_021d15f4(syswk, syswk->tray);
@@ -1082,35 +1096,6 @@ static void PokeIconRangeMove(Box2SysWork *syswk, Box2PokeMoveData *data, u32 cn
     }
 }
 
-// Puts a moved icon at its new position, and returns its actor
-static inline u8 PokeIconMoveEnd(Box2SysWork *syswk, u32 iconPos, u32 pos) {
-    s16 x, y;
-    u8 id;
-
-    func_ov255_021cffa8(syswk->app, iconPos, pos, TRUE);
-    id = syswk->app->pokeIconId[iconPos];
-    if (pos < BOX2_PARTY_POS) {
-        func_ov255_021cfcdc(pos, &x, &y, syswk->unk1A);
-    } else if (pos < BOX2_BOXLIST_POS) {
-        func_ov255_021cfcdc(pos, &x, &y, syswk->unk1A);
-        if (syswk->unk1A == 2 && func_ov255_021d387c(syswk->app->bgWinFrame) == FALSE) {
-            y += 192;
-        }
-    } else {
-        if (iconPos >= BOX2_PARTY_POS) {
-            func_ov255_021cfcdc(65, &x, &y, syswk->unk1A);
-            if (syswk->unk1A == 2 && func_ov255_021d387c(syswk->app->bgWinFrame) == FALSE) {
-                y += 192;
-            }
-        } else {
-            func_ov255_021cfcdc(iconPos, &x, &y, syswk->unk1A);
-        }
-        func_ov255_021cf63c(syswk->app, id, FALSE);
-    }
-    func_ov255_021cf6c8(syswk->app, id, x, y, 0);
-    return id;
-}
-
 static BOOL Box2Main_VFuncRangePokeMove(Box2SysWork *syswk) {
     Box2PokeMoveWork *work = syswk->app->vfunk.work;
     u16 i;
@@ -1118,8 +1103,9 @@ static BOOL Box2Main_VFuncRangePokeMove(Box2SysWork *syswk) {
     u16 width;
     u16 posWidth;
     u8 id;
+    s16 px, py;
 
-    if (work->cnt < 8) {
+    if (work->cnt < BOX2_POKEMOVE_CNT) {
         work->cnt++;
         if (work->mode == 1) {
             for (i = 0; i < 12; i++) {
@@ -1134,77 +1120,134 @@ static BOOL Box2Main_VFuncRangePokeMove(Box2SysWork *syswk) {
                 }
             }
         }
-        return TRUE;
-    }
-    if (work->cnt != 8) {
-        return TRUE;
-    }
+    } else if (work->cnt == BOX2_POKEMOVE_CNT) {
+        if (work->mode == 1) {
+            for (i = 0; i < 12; i++) {
+                Box2PokeMoveData *data = &work->data[i];
+                if (data->flag != 0) {
+                    func_ov255_021cffa8(syswk->app, data->iconPos, data->mvPos, TRUE);
+                    id = syswk->app->pokeIconId[data->iconPos];
+                    if (data->mvPos < BOX2_PARTY_POS) {
+                        func_ov255_021cfcdc(data->mvPos, &px, &py, syswk->unk1A);
+                    } else if (data->mvPos < BOX2_BOXLIST_POS) {
+                        func_ov255_021cfcdc(data->mvPos, &px, &py, syswk->unk1A);
+                        if (syswk->unk1A == 2 && func_ov255_021d387c(syswk->app->bgWinFrame) == FALSE) {
+                            py += 192;
+                        }
+                    } else {
+                        if (data->iconPos >= BOX2_PARTY_POS) {
+                            func_ov255_021cfcdc(65, &px, &py, syswk->unk1A);
+                            if (syswk->unk1A == 2 && func_ov255_021d387c(syswk->app->bgWinFrame) == FALSE) {
+                                py += 192;
+                            }
+                        } else {
+                            func_ov255_021cfcdc(data->iconPos, &px, &py, syswk->unk1A);
+                        }
+                        func_ov255_021cf63c(syswk->app, id, FALSE);
+                    }
+                    func_ov255_021cf6c8(syswk->app, id, px, py, 0);
+                    if (data->flag == 2) {
+                        func_ov255_021cf63c(syswk->app, id, FALSE);
+                    }
+                }
+            }
+        } else {
+            width = syswk->app->rangeWidth;
+            posWidth = Box2Main_GetRowWidth(syswk, work->data[0].mvPos);
+            for (y = 0; y < syswk->app->rangeHeight; y++) {
+                for (x = 0; x < syswk->app->rangeWidth; x++) {
+                    u16 iconPos = work->data[0].iconPos + y * width + x;
+                    u16 pos = work->data[0].mvPos + y * posWidth + x;
 
-    if (work->mode == 1) {
-        for (i = 0; i < 12; i++) {
-            Box2PokeMoveData *data = &work->data[i];
-            if (data->flag != 0) {
-                id = PokeIconMoveEnd(syswk, data->iconPos, data->mvPos);
-                if (data->flag == 2) {
-                    func_ov255_021cf63c(syswk->app, id, FALSE);
+                    func_ov255_021cffa8(syswk->app, iconPos, pos, TRUE);
+                    id = syswk->app->pokeIconId[iconPos];
+                    if (pos < BOX2_PARTY_POS) {
+                        func_ov255_021cfcdc(pos, &px, &py, syswk->unk1A);
+                    } else if (pos < BOX2_BOXLIST_POS) {
+                        func_ov255_021cfcdc(pos, &px, &py, syswk->unk1A);
+                        if (syswk->unk1A == 2 && func_ov255_021d387c(syswk->app->bgWinFrame) == FALSE) {
+                            py += 192;
+                        }
+                    } else {
+                        if (iconPos >= BOX2_PARTY_POS) {
+                            func_ov255_021cfcdc(65, &px, &py, syswk->unk1A);
+                            if (syswk->unk1A == 2 && func_ov255_021d387c(syswk->app->bgWinFrame) == FALSE) {
+                                py += 192;
+                            }
+                        } else {
+                            func_ov255_021cfcdc(iconPos, &px, &py, syswk->unk1A);
+                        }
+                        func_ov255_021cf63c(syswk->app, id, FALSE);
+                    }
+                    func_ov255_021cf6c8(syswk->app, id, px, py, 0);
                 }
             }
         }
-    } else {
-        width = syswk->app->rangeWidth;
-        posWidth = func_ov255_021c27f8(syswk, work->data[0].mvPos);
-        for (y = 0; y < syswk->app->rangeHeight; y++) {
-            for (x = 0; x < syswk->app->rangeWidth; x++) {
-                u16 iconPos = work->data[0].iconPos + width * y + x;
-                u16 pos = work->data[0].mvPos + posWidth * y + x;
-                PokeIconMoveEnd(syswk, iconPos, pos);
-            }
-        }
+        func_ov255_021d22e0(syswk->app, 0);
+        return FALSE;
     }
-    func_ov255_021d22e0(syswk->app, 0);
-    return FALSE;
+    return TRUE;
 }
 
 static BOOL Box2Main_VFuncGetPokeMove(Box2SysWork *syswk) {
     Box2PokeMoveWork *work = syswk->app->vfunk.work;
     u32 i;
-    int x, y;
+    int col, row;
     u8 id;
+    s16 x, y;
 
     if (syswk->moveMode == 2) {
         return Box2Main_VFuncRangePokeMove(syswk);
     }
-    if (work->cnt < 8) {
+    if (work->cnt < BOX2_POKEMOVE_CNT) {
         work->cnt++;
         for (i = 0; i < 12; i++) {
             Box2PokeMoveData *data = &work->data[i];
             if (data->flag != 0) {
-                for (y = 0; y < syswk->app->rangeHeight; y++) {
-                    for (x = 0; x < syswk->app->rangeWidth; x++) {
-                        PokeIconRangeMove(syswk, data, work->cnt, x, y, syswk->app->rangeWidth);
+                for (row = 0; row < syswk->app->rangeHeight; row++) {
+                    for (col = 0; col < syswk->app->rangeWidth; col++) {
+                        PokeIconRangeMove(syswk, data, work->cnt, col, row, syswk->app->rangeWidth);
                     }
                 }
             }
         }
         func_ov255_021d121c(syswk, syswk->pos);
         func_ov255_021d1284(syswk->app, BOX2_BOXLIST_POS);
-        return TRUE;
-    }
-    if (work->cnt != 8) {
-        return TRUE;
-    }
-    for (i = 0; i < 12; i++) {
-        Box2PokeMoveData *data = &work->data[i];
-        if (data->flag != 0) {
-            id = PokeIconMoveEnd(syswk, data->iconPos, data->mvPos);
-            if (data->flag == 2) {
-                func_ov255_021cf63c(syswk->app, id, FALSE);
+    } else if (work->cnt == BOX2_POKEMOVE_CNT) {
+        for (i = 0; i < 12; i++) {
+            Box2PokeMoveData *data = &work->data[i];
+            if (data->flag != 0) {
+                func_ov255_021cffa8(syswk->app, data->iconPos, data->mvPos, TRUE);
+                id = syswk->app->pokeIconId[data->iconPos];
+                if (data->mvPos < BOX2_PARTY_POS) {
+                    func_ov255_021cfcdc(data->mvPos, &x, &y, syswk->unk1A);
+                } else if (data->mvPos < BOX2_BOXLIST_POS) {
+                    func_ov255_021cfcdc(data->mvPos, &x, &y, syswk->unk1A);
+                    if (syswk->unk1A == 2 && func_ov255_021d387c(syswk->app->bgWinFrame) == FALSE) {
+                        y += 192;
+                    }
+                } else {
+                    if (data->iconPos >= BOX2_PARTY_POS) {
+                        func_ov255_021cfcdc(65, &x, &y, syswk->unk1A);
+                        if (syswk->unk1A == 2 && func_ov255_021d387c(syswk->app->bgWinFrame) == FALSE) {
+                            y += 192;
+                        }
+                    } else {
+                        func_ov255_021cfcdc(data->iconPos, &x, &y, syswk->unk1A);
+                    }
+                    func_ov255_021cf63c(syswk->app, id, FALSE);
+                }
+                func_ov255_021cf6c8(syswk->app, id, x, y, 0);
+                if (data->flag == 2) {
+                    func_ov255_021cf63c(syswk->app, id, FALSE);
+                }
             }
         }
+        func_ov255_021d121c(syswk, syswk->pos);
+        func_ov255_021d1284(syswk->app, BOX2_BOXLIST_POS);
+        return FALSE;
     }
-    func_ov255_021d121c(syswk, syswk->pos);
-    func_ov255_021d1284(syswk->app, BOX2_BOXLIST_POS);
-    return FALSE;
+    return TRUE;
 }
 
 static BOOL Box2Main_VFuncPokeMoveParty(Box2SysWork *syswk) {
@@ -1234,7 +1277,7 @@ static BOOL Box2Main_VFuncPokeMoveParty(Box2SysWork *syswk) {
         data = &work->data[i];
         if (data->flag != 0) {
             id = syswk->app->pokeIconId[data->iconPos];
-            x = data->dx + ((data->mx * work->cnt) >> 16) * data->vx;
+            x = data->dx + data->vx * ((data->mx * work->cnt) >> 16);
             y = data->dy + ((data->my * work->cnt) >> 16) * data->vy;
             func_ov255_021cf6c8(syswk->app, id, x, y, 0);
             func_ov255_021cff58(syswk->app, data->iconPos, 0);
@@ -1250,7 +1293,7 @@ static BOOL Box2Main_VFuncPokeMoveParty(Box2SysWork *syswk) {
 static BOOL Box2Main_IsEggFree(Box2SysWork *syswk, u32 pos, u32 tray) {
     u16 x, y;
 
-    if (func_ov255_021c23e4(syswk->app) == FALSE) {
+    if (Box2Main_GetRangeCount(syswk->app) == FALSE) {
         if (Box2Main_GetPokeParam(syswk, pos, tray, PKM_PARAM_IS_EGG, NULL) != 0) {
             return FALSE;
         }
@@ -1276,7 +1319,7 @@ static BOOL Box2Main_PokeMoveCheck(Box2SysWork *syswk, u32 getPos, u32 putPos) {
     if (putPos >= BOX2_BOXLIST_POS) {
         box = Box2Main_GetScrolledTray(syswk, putPos - BOX2_BOXLIST_POS);
         if (syswk->moveMode == 2) {
-            count = howManyPokesInGeneralAreInBox(syswk->param->boxes, box) + func_ov255_021c23e4(syswk->app);
+            count = howManyPokesInGeneralAreInBox(syswk->param->boxes, box) + Box2Main_GetRangeCount(syswk->app);
         } else {
             count = howManyPokesInGeneralAreInBox(syswk->param->boxes, box) + 1;
         }
@@ -1289,7 +1332,7 @@ static BOOL Box2Main_PokeMoveCheck(Box2SysWork *syswk, u32 getPos, u32 putPos) {
                 syswk->app->moveErr = BOX2_MOVE_ERR_LAST_BATTLER;
                 return FALSE;
             }
-            if (func_ov255_021c276c(syswk, getPos - BOX2_PARTY_POS) == TRUE) {
+            if (Box2Main_RangeMailCheck(syswk, getPos - BOX2_PARTY_POS) == TRUE) {
                 syswk->app->moveErr = BOX2_MOVE_ERR_MAIL;
                 return FALSE;
             }
@@ -1329,7 +1372,7 @@ static BOOL Box2Main_PokeMoveCheck(Box2SysWork *syswk, u32 getPos, u32 putPos) {
                 return FALSE;
             }
         }
-        if (putPos < BOX2_PARTY_POS && func_ov255_021c276c(syswk, getPos - BOX2_PARTY_POS) == TRUE) {
+        if (putPos < BOX2_PARTY_POS && Box2Main_RangeMailCheck(syswk, getPos - BOX2_PARTY_POS) == TRUE) {
             syswk->app->moveErr = BOX2_MOVE_ERR_MAIL;
             return FALSE;
         }
@@ -1351,7 +1394,7 @@ static BOOL Box2Main_PokeMoveCheck(Box2SysWork *syswk, u32 getPos, u32 putPos) {
     }
 
     if (syswk->moveMode == 2 && putPos < BOX2_BOXLIST_POS) {
-        if (func_ov255_021c2408(syswk, syswk->tray, putPos) == FALSE) {
+        if (Box2Main_RangePutCheck(syswk, syswk->tray, putPos) == FALSE) {
             syswk->app->moveErr = 7;
             return FALSE;
         }
@@ -1395,24 +1438,20 @@ BOOL Box2Main_PokeItemMoveCheck(Box2SysWork *syswk, u32 getPos, u32 putPos) {
 
 // Sets the steps that move an icon from where it is to (x, y) in BOX2_POKEMOVE_CNT frames
 static inline void PokeIconMoveVector(Box2PokeMoveData *data, s16 *x, s16 *y) {
-    int diff;
-
     if (data->dx <= *x) {
         data->vx = 1;
-        diff = *x - data->dx;
+        data->mx = ((*x - data->dx) << 16) / BOX2_POKEMOVE_CNT;
     } else {
         data->vx = -1;
-        diff = data->dx - *x;
+        data->mx = ((data->dx - *x) << 16) / BOX2_POKEMOVE_CNT;
     }
-    data->mx = (diff << 16) / BOX2_POKEMOVE_CNT;
     if (data->dy <= *y) {
         data->vy = 1;
-        diff = *y - data->dy;
+        data->my = ((*y - data->dy) << 16) / BOX2_POKEMOVE_CNT;
     } else {
         data->vy = -1;
-        diff = data->dy - *y;
+        data->my = ((data->dy - *y) << 16) / BOX2_POKEMOVE_CNT;
     }
-    data->my = (diff << 16) / BOX2_POKEMOVE_CNT;
 }
 
 static void PokeIconMoveParamMake(Box2SysWork *syswk, Box2PokeMoveData *data) {
@@ -1460,8 +1499,9 @@ static void PokeIconChgDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos) {
     work->data[0].dfPos = getPos;
     work->data[0].flag = 1;
     PokeIconMoveParamMake(syswk, &work->data[0]);
-    work->data[1].iconPos = work->data[1].dfPos = putPos;
+    work->data[1].iconPos = putPos;
     work->data[1].mvPos = getPos;
+    work->data[1].dfPos = putPos;
     work->data[1].flag = 1;
     PokeIconMoveParamMake(syswk, &work->data[1]);
 }
@@ -1497,10 +1537,13 @@ static BOOL PokeIconMoveDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos) {
             }
         } else {
             work->data[0].iconPos = BOX2_BOXLIST_POS;
-            work->data[0].mvPos = work->data[0].dfPos = getPos;
+            work->data[0].mvPos = getPos;
+            work->data[0].dfPos = getPos;
             work->data[0].flag = 1;
             if (syswk->tray == syswk->getTray) {
-                work->data[1].iconPos = work->data[1].mvPos = work->data[1].dfPos = getPos;
+                work->data[1].iconPos = getPos;
+                work->data[1].mvPos = getPos;
+                work->data[1].dfPos = getPos;
                 work->data[1].flag = 1;
             }
             PokeIconMoveParamMake(syswk, &work->data[0]);
@@ -1526,9 +1569,12 @@ static BOOL PokeIconMoveDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos) {
             }
         } else {
             work->data[0].iconPos = BOX2_BOXLIST_POS;
-            work->data[0].mvPos = work->data[0].dfPos = getPos;
+            work->data[0].mvPos = getPos;
+            work->data[0].dfPos = getPos;
             work->data[0].flag = 1;
-            work->data[1].iconPos = work->data[1].mvPos = work->data[1].dfPos = getPos;
+            work->data[1].iconPos = getPos;
+            work->data[1].mvPos = getPos;
+            work->data[1].dfPos = getPos;
             work->data[1].flag = 1;
             PokeIconMoveParamMake(syswk, &work->data[0]);
         }
@@ -1583,7 +1629,8 @@ static BOOL PokeIconMoveDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos) {
 
                         mask ^= 1 << i;
                         data = &work->data[n];
-                        data->iconPos = data->dfPos = i + BOX2_PARTY_POS;
+                        data->iconPos = i + BOX2_PARTY_POS;
+                        data->dfPos = i + BOX2_PARTY_POS;
                         for (j = 0; j < i; j++) {
                             if (!(mask & (1 << j))) {
                                 data->mvPos = j + BOX2_PARTY_POS;
@@ -1636,7 +1683,9 @@ static BOOL PokeIconMoveDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos) {
         work->data[0].mvPos = putPos;
         work->data[0].dfPos = getPos;
         work->data[0].flag = 1;
-        work->data[1].iconPos = work->data[1].mvPos = work->data[1].dfPos = putPos;
+        work->data[1].iconPos = putPos;
+        work->data[1].mvPos = putPos;
+        work->data[1].dfPos = putPos;
         work->data[1].flag = 2;
         PokeIconMoveParamMake(syswk, &work->data[0]);
         PokeIconMoveParamMake(syswk, &work->data[1]);
@@ -1734,7 +1783,8 @@ static BOOL PokeIconMoveDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos) {
 
                     mask ^= 1 << i;
                     data = &work->data[n];
-                    data->iconPos = data->dfPos = i + BOX2_PARTY_POS;
+                    data->iconPos = i + BOX2_PARTY_POS;
+                    data->dfPos = i + BOX2_PARTY_POS;
                     for (k = 0; k < i; k++) {
                         if (!(mask & (1 << k))) {
                             data->mvPos = k + BOX2_PARTY_POS;
@@ -1796,7 +1846,8 @@ static BOOL PokeIconMoveDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos) {
 
                 mask ^= 1 << i;
                 data = &work->data[n];
-                data->iconPos = data->dfPos = i + BOX2_PARTY_POS;
+                data->iconPos = i + BOX2_PARTY_POS;
+                data->dfPos = i + BOX2_PARTY_POS;
                 for (j = 0; j < i; j++) {
                     if (!(mask & (1 << j))) {
                         data->mvPos = j + BOX2_PARTY_POS;
@@ -1847,9 +1898,12 @@ static void PokeIconPartyOutDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos)
         work->getPos = BOX2_GET_NONE;
         work->putPos = BOX2_GET_NONE;
         work->data[0].iconPos = BOX2_BOXLIST_POS;
-        work->data[0].mvPos = work->data[0].dfPos = getPos;
+        work->data[0].mvPos = getPos;
+        work->data[0].dfPos = getPos;
         work->data[0].flag = 1;
-        work->data[1].iconPos = work->data[1].mvPos = work->data[1].dfPos = getPos;
+        work->data[1].iconPos = getPos;
+        work->data[1].mvPos = getPos;
+        work->data[1].dfPos = getPos;
         work->data[1].flag = 1;
         PokeIconMoveParamMake(syswk, &work->data[0]);
         return;
@@ -1899,9 +1953,12 @@ static void PokeIconPartyInDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos) 
         work->getPos = BOX2_GET_NONE;
         work->putPos = BOX2_GET_NONE;
         work->data[0].iconPos = BOX2_BOXLIST_POS;
-        work->data[0].mvPos = work->data[0].dfPos = getPos;
+        work->data[0].mvPos = getPos;
+        work->data[0].dfPos = getPos;
         work->data[0].flag = 1;
-        work->data[1].iconPos = work->data[1].mvPos = work->data[1].dfPos = getPos;
+        work->data[1].iconPos = getPos;
+        work->data[1].mvPos = getPos;
+        work->data[1].dfPos = getPos;
         work->data[1].flag = 1;
         PokeIconMoveParamMake(syswk, &work->data[0]);
         return;
@@ -1936,7 +1993,9 @@ static void PokeIconFreeDataMake(Box2SysWork *syswk, u32 pos) {
     work->mode = 0;
     sys_memset(work->data, 0, sizeof(work->data));
     for (i = 0; i < 6; i++) {
-        work->data[i].iconPos = work->data[i].mvPos = work->data[i].dfPos = i + BOX2_PARTY_POS;
+        work->data[i].iconPos = i + BOX2_PARTY_POS;
+        work->data[i].mvPos = i + BOX2_PARTY_POS;
+        work->data[i].dfPos = i + BOX2_PARTY_POS;
         work->data[i].flag = 0;
     }
     work->data[i].flag = 0;
@@ -2002,7 +2061,7 @@ static void PokeIconBufPosChangeRange(Box2SysWork *syswk, Box2PokeMoveWork *work
         }
     } else {
         if (work->data[0].mvPos < BOX2_BOXLIST_POS) {
-            width = (u16)func_ov255_021c27f8(syswk, work->data[0].mvPos);
+            width = (u16)Box2Main_GetRowWidth(syswk, work->data[0].mvPos);
         } else {
             width = syswk->app->rangeWidth;
         }
@@ -2010,8 +2069,8 @@ static void PokeIconBufPosChangeRange(Box2SysWork *syswk, Box2PokeMoveWork *work
             for (y = 0; y < syswk->app->rangeHeight; y++) {
                 for (x = 0; x < syswk->app->rangeWidth; x++) {
                     if (syswk->app->rangeFlags[y * 6 + x] != 0) {
-                        id = syswk->app->pokeIconId[work->data[0].iconPos + x + y * syswk->app->rangeWidth];
-                        syswk->app->pokeIconId[work->data[0].iconPos + x + y * syswk->app->rangeWidth] =
+                        id = syswk->app->pokeIconId[work->data[0].iconPos + x + syswk->app->rangeWidth * y];
+                        syswk->app->pokeIconId[work->data[0].iconPos + x + syswk->app->rangeWidth * y] =
                             syswk->app->pokeIconId[work->data[0].mvPos + (y * width + x)];
                         syswk->app->pokeIconId[work->data[0].mvPos + (y * width + x)] = id;
                     }
@@ -2197,7 +2256,7 @@ static void Box2Main_ItemIconMoveMakeHand(Box2SysWork *syswk, u32 setPos, u32 pu
 }
 
 static void Box2Main_ItemIconMoveMake(Box2SysWork *syswk, u32 putPos, u32 mvMode) {
-    ItemIconMoveMakeCore(syswk, syswk->app->unkA55E, putPos, mvMode, FALSE);
+    ItemIconMoveMakeCore(syswk, syswk->app->pokePutKey, putPos, mvMode, FALSE);
 }
 
 static BOOL ItemIconMoveMain(Box2SysWork *syswk, BOOL hand) {
@@ -2550,18 +2609,16 @@ static BOOL AreaCheck(int x, int y, const Box2Area *area) {
 
 // The tray position at (x, y), or BOX2_GET_NONE
 static u32 TrayPokePutAreaCheck(s16 x, s16 y) {
-    s16 col, row;
-
     if (AreaCheck(x, y, &sTrayPokeArea) == TRUE) {
         if (x < 12) {
-            col = 0;
+            x = 0;
         } else if (x >= 156) {
-            col = 5;
+            x = 5;
         } else {
-            col = (x - 12) / 24;
+            x = (x - 12) / 24;
         }
-        row = (y - 40) / 24;
-        return col + row * 6;
+        y = (y - 40) / 24;
+        return x + y * 6;
     }
     return BOX2_GET_NONE;
 }
@@ -2701,15 +2758,2370 @@ static void PokeIconRangeTouchMove(Box2SysWork *syswk, u32 x, u32 y) {
     s16 row, col;
 
     for (row = 0; row < syswk->app->rangeHeight; row++) {
-        s16 py = (s16)y - 8 + row * 24;
         for (col = 0; col < syswk->app->rangeWidth; col++) {
             func_ov255_021cf6c8(syswk->app,
                                 syswk->app->pokeIconId[BOX2_BOXLIST_POS + row * syswk->app->rangeWidth + col],
-                                (s16)x + col * 24, py, 0);
+                                (s16)x + col * 24, (s16)y - 8 + row * 24, 0);
         }
     }
     func_ov255_021d22fc(syswk->app, x, y);
     func_ov255_021d1284(syswk->app, BOX2_BOXLIST_POS);
     syswk->app->tpx = x;
     syswk->app->tpy = y;
+}
+
+// Moves a Pokémon of the party held by touch, with the party's frame out
+BOOL Box2Main_VFuncPokeMoveTouchParty(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    BOOL frameMove = func_ov255_021d37d8(syswk);
+    BOOL frameMove2 = func_ov255_021d399c(syswk->app->bgWinFrame);
+    u32 x, y;
+    u32 pos;
+    u32 res;
+
+    switch (vf->seq) {
+    case 0:
+        if (func_0203da2c() == TRUE) {
+            func_ov255_021d3954(syswk->app->bgWinFrame);
+        }
+        vf->seq = 1;
+        break;
+    case 1:
+        if (func_0203da84(&x, &y) == FALSE) {
+            syswk->app->unkA551 = 0;
+            vf->cnt = 0;
+            pos = BOX2_GET_NONE;
+            if (func_ov255_021d3b48(syswk->app->bgWinFrame) == TRUE) {
+                func_ov255_021d1ac8(syswk, 0, 0);
+                pos = BoxMovePutAreaCheck(syswk, syswk->app->tpx, syswk->app->tpy);
+                if (pos == BOX2_GET_NONE || PokeIconMoveDataMake(syswk, syswk->pos, pos) == FALSE) {
+                    func_ov255_021d3b34(syswk->app->bgWinFrame);
+                    GFL_SndSEPlay(SEQ_SE_SYS_42);
+                    vf->seq = 14;
+                    break;
+                }
+            }
+            if (func_ov255_021d3834(syswk->app->bgWinFrame) == TRUE) {
+                pos = PartyPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy, sPartyPokeAreaLeft);
+                if (pos == BOX2_GET_NONE) {
+                    pos = TrayPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy);
+                }
+            }
+            if (func_ov255_021d3858(syswk->app->bgWinFrame) == TRUE) {
+                pos = PartyPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy, sPartyPokeAreaRight);
+            }
+            if (syswk->param->mode == 4 && syswk->param->unk14 == 1) {
+                pos = BOX2_GET_NONE;
+                syswk->app->moveErr = 5;
+            }
+            PokeIconMoveDataMake(syswk, syswk->pos, pos);
+            if (func_ov255_021d39e4(syswk->app->bgWinFrame) == FALSE) {
+                func_ov255_021d11a4(syswk, 0);
+            }
+            if (pos != BOX2_GET_NONE) {
+                syswk->pos = Box2Main_GetPokeMoveDest(syswk, BOX2_BOXLIST_POS);
+            }
+            if (func_ov255_021d3834(syswk->app->bgWinFrame) == FALSE &&
+                func_ov255_021d3b48(syswk->app->bgWinFrame) == FALSE && frameMove == FALSE) {
+                func_ov255_021d390c(syswk->app->bgWinFrame);
+            }
+            vf->seq = 2;
+            break;
+        }
+        if (vf->cnt != 0) {
+            vf->cnt--;
+        }
+        if (frameMove == FALSE && frameMove2 == FALSE) {
+            if (func_ov255_021d3834(syswk->app->bgWinFrame) == FALSE &&
+                func_ov255_021d3b48(syswk->app->bgWinFrame) == FALSE && func_ov255_021d35e8() == FALSE) {
+                syswk->getTray = BOX2_GET_NONE;
+                syswk->unk1A = 2;
+                func_ov255_021d37b0(syswk->app->bgWinFrame);
+                GFL_SndSEPlay(SEQ_SE_SYS_42);
+                func_ov255_021d0310(syswk, 1, 0);
+                func_ov255_021d1348(syswk->app, 1);
+                func_ov255_021d2478(syswk, 6, syswk->pos);
+                if (syswk->param->mode == 4) {
+                    func_0202baa4(syswk->app->cursorMove, 39);
+                }
+                func_ov255_021d1af8(syswk, 2, 1, 2, 2);
+                syswk->app->oldCurPos = syswk->pos;
+                syswk->app->vfuncNextSeq = 23;
+            }
+            if (vf->cnt == 0) {
+                res = func_ov255_021d3534();
+                if (res == 0) {
+                    GFL_SndSEPlay(SEQ_SE_SELECT1);
+                    Box2Main_ScrollTray(syswk, FALSE);
+                    vf->seq = 6;
+                } else if (res == 1) {
+                    GFL_SndSEPlay(SEQ_SE_SELECT1);
+                    Box2Main_ScrollTray(syswk, TRUE);
+                    vf->seq = 7;
+                }
+            }
+            if (syswk->param->mode != 4) {
+                if (func_ov255_021d3620() != 0xffffffff) {
+                    if (syswk->app->unkA551 == 0) {
+                        if (func_ov255_021d3b48(syswk->app->bgWinFrame) == TRUE) {
+                            func_ov255_021d3b34(syswk->app->bgWinFrame);
+                            Box2Main_SetFrameButtonAnm(syswk, 10);
+                            GFL_SndSEPlay(SEQ_SE_DECIDE1);
+                            GFL_SndSEPlay(SEQ_SE_SYS_42);
+                            syswk->app->unkA551 = 1;
+                            vf->seq = 11;
+                        }
+                        if (func_ov255_021d3834(syswk->app->bgWinFrame) == TRUE) {
+                            func_ov255_021d3778(syswk->app->bgWinFrame);
+                            Box2Main_SetFrameButtonAnm(syswk, 11);
+                            GFL_SndSEPlay(SEQ_SE_DECIDE1);
+                            GFL_SndSEPlay(SEQ_SE_SYS_42);
+                            syswk->app->unkA551 = 1;
+                            vf->seq = 13;
+                        }
+                    }
+                } else {
+                    syswk->app->unkA551 = 0;
+                }
+            }
+            if (func_ov255_021d3b48(syswk->app->bgWinFrame) == TRUE) {
+                res = func_ov255_021d3544();
+                if (res == 0) {
+                    GFL_SndSEPlay(SEQ_SE_SELECT1);
+                    func_ov255_021bc09c(syswk, -1);
+                    vf->seq = 8;
+                    vf->cnt = 0;
+                } else if (res == 1) {
+                    GFL_SndSEPlay(SEQ_SE_SELECT1);
+                    func_ov255_021bc09c(syswk, 1);
+                    vf->seq = 9;
+                    vf->cnt = 0;
+                }
+            }
+            if (func_ov255_021d3b48(syswk->app->bgWinFrame) == TRUE) {
+                pos = func_ov255_021d35c4(x, y);
+                if (pos != BOX2_GET_NONE) {
+                    func_ov255_021d1ac8(syswk, pos - BOX2_BOXLIST_POS, 1);
+                } else {
+                    func_ov255_021d1ac8(syswk, 0, 0);
+                }
+            }
+        }
+        PokeIconRangeTouchMove(syswk, x, y);
+        break;
+    case 2:
+        if (Box2Main_VFuncGetPokeMove(syswk) == FALSE) {
+            GFL_SndSEPlay(SEQ_SE_SYS_40);
+            vf->seq = 3;
+        }
+        break;
+    case 3:
+        if (frameMove == FALSE && frameMove2 == FALSE) {
+            vf->seq = 16;
+        }
+        break;
+    case 6:
+        if (Box2Main_VFuncTrayScrollLeft(syswk) == FALSE) {
+            vf->cnt = 16;
+            vf->seq = 1;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 7:
+        if (Box2Main_VFuncTrayScrollRight(syswk) == FALSE) {
+            vf->cnt = 16;
+            vf->seq = 1;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 8:
+        if (Box2Main_VFuncBoxListScrollRight(syswk) == FALSE) {
+            vf->seq = 1;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 9:
+        if (Box2Main_VFuncBoxListScrollLeft(syswk) == FALSE) {
+            vf->seq = 1;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 10:
+        if (func_ov255_021c05e8(syswk) == FALSE) {
+            vf->seq = 1;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 11:
+        Box2Main_ButtonAnmMain(syswk);
+        if (func_ov255_021c0604(syswk) == FALSE) {
+            func_ov255_021d3734(syswk->app->bgWinFrame);
+            func_ov255_021d3744(syswk->app->bgWinFrame);
+            func_ov255_021cfd34(syswk, 1);
+            func_ov255_021d3a58(syswk->app);
+            func_ov255_021d3a64(syswk->app);
+            GFL_SndSEPlay(SEQ_SE_SYS_42);
+            vf->seq = 12;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 12:
+        if (frameMove == FALSE) {
+            vf->seq = 1;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 13:
+        Box2Main_ButtonAnmMain(syswk);
+        if (frameMove == FALSE) {
+            func_ov255_021bc0c0(syswk);
+            func_ov255_021d3a74(syswk->app);
+            func_ov255_021d3a48(syswk->app);
+            GFL_SndSEPlay(SEQ_SE_SYS_42);
+            vf->seq = 10;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 16:
+        PokeIconBufPosChangeAll(syswk, vf->work);
+        if (func_ov255_021d3858(syswk->app->bgWinFrame) == TRUE) {
+            func_ov255_021d1284(syswk->app, syswk->pos);
+            func_ov255_021d11a4(syswk, 1);
+        } else {
+            func_ov255_021d11a4(syswk, 0);
+            func_0202ba64(syswk->app->cursorMove, syswk->pos);
+            func_ov255_021d24f8(syswk, syswk->pos);
+            func_ov255_021d101c(syswk, 1);
+        }
+        vf->seq = 0;
+        return FALSE;
+    case 14:
+        if (func_ov255_021c0604(syswk) == FALSE) {
+            func_ov255_021d3734(syswk->app->bgWinFrame);
+            func_ov255_021d3744(syswk->app->bgWinFrame);
+            GFL_SndSEPlay(SEQ_SE_SYS_42);
+            vf->seq = 15;
+        }
+        break;
+    case 15:
+        if (frameMove == FALSE) {
+            syswk->unk1A = 2;
+            PokeIconMoveDataMake(syswk, syswk->pos, TrayPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy));
+            func_ov255_021d11a4(syswk, 0);
+            vf->seq = 2;
+        }
+        break;
+    }
+    return TRUE;
+}
+
+// Moves a Pokémon held by touch
+BOOL Box2Main_VFuncPokeMoveTouch(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    BOOL frameMove = FALSE;
+    BOOL frameMove2;
+    u32 x, y;
+    u32 pos;
+    u32 res;
+    BOOL dir;
+
+    if (vf->seq != 10 && vf->seq != 11 && vf->seq != 14 && func_02033548(syswk->app->bgWinFrame, 9) == TRUE) {
+        frameMove = func_ov255_021c05e8(syswk);
+    }
+    frameMove2 = func_ov255_021d399c(syswk->app->bgWinFrame);
+
+    switch (vf->seq) {
+    case 0:
+        if (func_0203da2c() == TRUE) {
+            func_ov255_021d3954(syswk->app->bgWinFrame);
+        }
+        vf->seq = 1;
+        break;
+    case 1:
+        if (func_0203da84(&x, &y) == FALSE) {
+            syswk->app->unkA551 = 0;
+            pos = BOX2_GET_NONE;
+            if (syswk->moveMode == 2) {
+                if (func_ov255_021d3b48(syswk->app->bgWinFrame) == TRUE) {
+                    pos = BoxMovePutAreaCheck(syswk, syswk->app->tpx, syswk->app->tpy);
+                    if (syswk->pos >= BOX2_PARTY_POS &&
+                        (pos == BOX2_GET_NONE || PokeIconMoveDataMake(syswk, syswk->pos, pos) == FALSE)) {
+                        func_ov255_021d3b34(syswk->app->bgWinFrame);
+                        func_ov255_021d1ac8(syswk, 0, 0);
+                        func_ov255_021d232c(syswk, 0);
+                        func_ov255_021d1e2c(syswk, 0);
+                        GFL_SndSEPlay(SEQ_SE_SYS_42);
+                        vf->seq = 14;
+                        break;
+                    }
+                }
+                if (func_ov255_021d3834(syswk->app->bgWinFrame) == TRUE) {
+                    pos = PartyPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy, sPartyPokeAreaLeft);
+                }
+                if (pos == BOX2_GET_NONE) {
+                    pos = TrayPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy);
+                }
+                if (PokeIconMoveDataMake(syswk, syswk->pos, pos) == FALSE) {
+                    pos = BOX2_GET_NONE;
+                }
+                if (func_ov255_021d39e4(syswk->app->bgWinFrame) == FALSE) {
+                    func_ov255_021d11a4(syswk, 0);
+                }
+                if (pos == BOX2_GET_NONE) {
+                    func_ov255_021d232c(syswk, 0);
+                }
+                func_ov255_021d1e2c(syswk, 0);
+            } else {
+                if (func_ov255_021d3b48(syswk->app->bgWinFrame) == TRUE) {
+                    pos = BoxMovePutAreaCheck(syswk, syswk->app->tpx, syswk->app->tpy);
+                    if (syswk->pos >= BOX2_PARTY_POS &&
+                        (pos == BOX2_GET_NONE || PokeIconMoveDataMake(syswk, syswk->pos, pos) == FALSE)) {
+                        func_ov255_021d3b34(syswk->app->bgWinFrame);
+                        func_ov255_021d1ac8(syswk, 0, 0);
+                        GFL_SndSEPlay(SEQ_SE_SYS_42);
+                        vf->seq = 14;
+                        break;
+                    }
+                }
+                if (func_ov255_021d3834(syswk->app->bgWinFrame) == TRUE) {
+                    pos = PartyPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy, sPartyPokeAreaLeft);
+                }
+                if (pos == BOX2_GET_NONE) {
+                    pos = TrayPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy);
+                }
+                if (PokeIconMoveDataMake(syswk, syswk->pos, pos) == FALSE) {
+                    pos = BOX2_GET_NONE;
+                }
+                if (func_ov255_021d39e4(syswk->app->bgWinFrame) == FALSE) {
+                    func_ov255_021d11a4(syswk, 0);
+                }
+            }
+            if (pos != BOX2_GET_NONE) {
+                if (pos >= BOX2_BOXLIST_POS) {
+                    syswk->pos = pos - 2;
+                } else {
+                    syswk->pos = Box2Main_GetPokeMoveDest(syswk, BOX2_BOXLIST_POS);
+                }
+            } else {
+                func_ov255_021d1ac8(syswk, 0, 0);
+            }
+            if (func_ov255_021d3b48(syswk->app->bgWinFrame) == FALSE &&
+                func_ov255_021d3834(syswk->app->bgWinFrame) == FALSE && frameMove == FALSE) {
+                func_ov255_021d390c(syswk->app->bgWinFrame);
+            }
+            // A Pokémon dropped nowhere goes back to its own box
+            if (pos == BOX2_GET_NONE && syswk->pos < BOX2_PARTY_POS && syswk->tray != syswk->getTray) {
+                dir = Box2Main_IsTrayScrollRight(syswk, syswk->tray, syswk->getTray);
+                syswk->tray = syswk->getTray;
+                func_ov255_021cf9c8(syswk, syswk->tray);
+                Box2Main_WallPaperSet(syswk, Box2Main_GetWallPaperNumber(syswk, syswk->tray), dir);
+                if (dir == FALSE) {
+                    vf->seq = 4;
+                } else {
+                    vf->seq = 5;
+                }
+            } else {
+                vf->seq = 2;
+            }
+            vf->cnt = 0;
+            break;
+        }
+        if (vf->cnt != 0) {
+            vf->cnt--;
+        }
+        if (frameMove == FALSE && frameMove2 == FALSE && func_ov255_021d3b48(syswk->app->bgWinFrame) == FALSE &&
+            func_ov255_021d3834(syswk->app->bgWinFrame) == FALSE && syswk->pos != func_ov255_021d34f0(x, y)) {
+            syswk->trayScroll = syswk->tray;
+            func_ov255_021bc0c0(syswk);
+            GFL_SndSEPlay(SEQ_SE_SYS_42);
+            func_ov255_021d2478(syswk, 4, syswk->pos);
+            func_ov255_021d1af8(syswk, 2, 1, 2, 2);
+            syswk->app->oldCurPos = syswk->pos;
+            syswk->app->vfuncNextSeq = 23;
+        }
+        if (vf->cnt == 0) {
+            res = func_ov255_021d3534();
+            if (res == 0) {
+                GFL_SndSEPlay(SEQ_SE_SELECT1);
+                Box2Main_ScrollTray(syswk, FALSE);
+                vf->seq = 6;
+            } else if (res == 1) {
+                GFL_SndSEPlay(SEQ_SE_SELECT1);
+                Box2Main_ScrollTray(syswk, TRUE);
+                vf->seq = 7;
+            }
+        }
+        if (frameMove == FALSE && frameMove2 == FALSE) {
+            if (func_ov255_021d3620() != 0xffffffff && syswk->param->mode != 4) {
+                if (syswk->app->unkA551 == 0) {
+                    if (func_ov255_021d3b48(syswk->app->bgWinFrame) == TRUE) {
+                        func_ov255_021d3b34(syswk->app->bgWinFrame);
+                        Box2Main_SetFrameButtonAnm(syswk, 10);
+                        GFL_SndSEPlay(SEQ_SE_DECIDE1);
+                        GFL_SndSEPlay(SEQ_SE_SYS_42);
+                        syswk->app->unkA551 = 1;
+                        vf->seq = 11;
+                    }
+                    if (func_ov255_021d3834(syswk->app->bgWinFrame) == TRUE) {
+                        func_ov255_021d3778(syswk->app->bgWinFrame);
+                        Box2Main_SetFrameButtonAnm(syswk, 11);
+                        GFL_SndSEPlay(SEQ_SE_DECIDE1);
+                        GFL_SndSEPlay(SEQ_SE_SYS_42);
+                        syswk->app->unkA551 = 1;
+                        vf->seq = 13;
+                    }
+                }
+            } else {
+                syswk->app->unkA551 = 0;
+            }
+        }
+        if (func_ov255_021d3b48(syswk->app->bgWinFrame) == TRUE) {
+            res = func_ov255_021d3544();
+            if (res == 0) {
+                GFL_SndSEPlay(SEQ_SE_SELECT1);
+                func_ov255_021bc09c(syswk, -1);
+                vf->seq = 8;
+                vf->cnt = 0;
+            } else if (res == 1) {
+                GFL_SndSEPlay(SEQ_SE_SELECT1);
+                func_ov255_021bc09c(syswk, 1);
+                vf->seq = 9;
+                vf->cnt = 0;
+            }
+        }
+        if (func_ov255_021d3b48(syswk->app->bgWinFrame) == TRUE) {
+            pos = func_ov255_021d35c4(x, y);
+            if (pos != BOX2_GET_NONE) {
+                func_ov255_021d1ac8(syswk, pos - BOX2_BOXLIST_POS, 1);
+            } else {
+                func_ov255_021d1ac8(syswk, 0, 0);
+            }
+        }
+        PokeIconRangeTouchMove(syswk, x, y);
+        func_ov255_021c2804(syswk);
+        break;
+    case 4:
+        if (Box2Main_VFuncTrayScrollLeft(syswk) == FALSE) {
+            vf->seq = 2;
+        }
+        break;
+    case 5:
+        if (Box2Main_VFuncTrayScrollRight(syswk) == FALSE) {
+            vf->seq = 2;
+        }
+        break;
+    case 2:
+        if (Box2Main_VFuncGetPokeMove(syswk) == FALSE) {
+            GFL_SndSEPlay(SEQ_SE_SYS_40);
+            vf->seq = 3;
+        }
+        break;
+    case 3:
+        if (frameMove == FALSE && frameMove2 == FALSE) {
+            vf->seq = 16;
+        }
+        break;
+    case 6:
+        if (Box2Main_VFuncTrayScrollLeft(syswk) == FALSE) {
+            vf->cnt = 16;
+            vf->seq = 1;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 7:
+        if (Box2Main_VFuncTrayScrollRight(syswk) == FALSE) {
+            vf->cnt = 16;
+            vf->seq = 1;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 8:
+        if (Box2Main_VFuncBoxListScrollRight(syswk) == FALSE) {
+            vf->seq = 1;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 9:
+        if (Box2Main_VFuncBoxListScrollLeft(syswk) == FALSE) {
+            vf->seq = 1;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 10:
+        if (func_ov255_021c05e8(syswk) == FALSE) {
+            vf->seq = 1;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 11:
+        Box2Main_ButtonAnmMain(syswk);
+        if (func_ov255_021c0604(syswk) == FALSE) {
+            func_ov255_021d3734(syswk->app->bgWinFrame);
+            func_ov255_021d3744(syswk->app->bgWinFrame);
+            func_ov255_021cfd34(syswk, 1);
+            func_ov255_021d3a58(syswk->app);
+            func_ov255_021d3a64(syswk->app);
+            GFL_SndSEPlay(SEQ_SE_SYS_42);
+            vf->seq = 12;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 12:
+        if (func_ov255_021d37d8(syswk) == FALSE) {
+            syswk->unk1A = 2;
+            vf->seq = 1;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 13:
+        Box2Main_ButtonAnmMain(syswk);
+        if (func_ov255_021d37d8(syswk) == FALSE) {
+            func_ov255_021bc0c0(syswk);
+            func_ov255_021d3a74(syswk->app);
+            func_ov255_021d3a48(syswk->app);
+            GFL_SndSEPlay(SEQ_SE_SYS_42);
+            vf->seq = 10;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 14:
+        if (func_ov255_021c0604(syswk) == FALSE) {
+            func_ov255_021d3734(syswk->app->bgWinFrame);
+            func_ov255_021d3744(syswk->app->bgWinFrame);
+            GFL_SndSEPlay(SEQ_SE_SYS_42);
+            vf->seq = 15;
+        }
+        break;
+    case 15:
+        if (func_ov255_021d37d8(syswk) == FALSE) {
+            PokeIconMoveDataMake(syswk, syswk->pos, TrayPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy));
+            func_ov255_021d11a4(syswk, 0);
+            vf->seq = 2;
+        }
+        break;
+    case 16:
+        PokeIconBufPosChangeAll(syswk, vf->work);
+        if (func_ov255_021d3b48(syswk->app->bgWinFrame) == FALSE &&
+            func_ov255_021d3834(syswk->app->bgWinFrame) == FALSE) {
+            func_ov255_021d1284(syswk->app, syswk->pos);
+            func_ov255_021d11a4(syswk, 1);
+        } else {
+            func_ov255_021d11a4(syswk, 0);
+            func_0202ba64(syswk->app->cursorMove, syswk->pos);
+            func_ov255_021d24f8(syswk, syswk->pos);
+            func_ov255_021d101c(syswk, 1);
+        }
+        vf->seq = 0;
+        return FALSE;
+    }
+    return TRUE;
+}
+
+// Moves the party up behind a released Pokémon
+BOOL Box2Main_VFuncPartyPokeFreeSort(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+
+    switch (vf->seq) {
+    case 0:
+        PokeIconFreeDataMake(syswk, syswk->pos);
+        vf->seq++;
+    case 1:
+        if (Box2Main_VFuncGetPokeMove(syswk) == FALSE) {
+            PokeIconBufPosChangeAll(syswk, vf->work);
+            vf->seq = 0;
+            return FALSE;
+        }
+    }
+    return TRUE;
+}
+
+// Moves the held Pokémon to the end of the party
+BOOL Box2Main_VFuncPartyInPokeMove(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+
+    switch (vf->seq) {
+    case 0:
+        PokeIconMoveDataMake(syswk, syswk->pos, PokeParty_GetPkmCount(syswk->param->party) + BOX2_PARTY_POS);
+        func_ov255_021d11a4(syswk, 0);
+        vf->seq++;
+        break;
+    case 1:
+        if (Box2Main_VFuncGetPokeMove(syswk) == FALSE) {
+            PokeIconBufPosChangeAll(syswk, vf->work);
+            GFL_SndSEPlay(SEQ_SE_SYS_40);
+            vf->seq = 0;
+            return FALSE;
+        }
+        break;
+    }
+    return TRUE;
+}
+
+BOOL Box2Main_VFuncTrayScrollLeft(Box2SysWork *syswk) {
+    if (syswk->app->vfunk.cnt == 23) {
+        func_ov255_021d101c(syswk, 1);
+        if (func_ov255_021d3b48(syswk->app->bgWinFrame) == TRUE) {
+            func_ov255_021d1a1c(syswk);
+        }
+        syswk->app->vfunk.cnt = 0;
+        return FALSE;
+    }
+    GFL_BGSysMoveBGReq(3, BG_MOVE_LEFT, 8);
+    func_ov255_021cfff4(syswk, 8);
+    func_ov255_021d1db0(syswk->app, 8);
+    func_ov255_021d399c(syswk->app->bgWinFrame);
+    syswk->app->vfunk.cnt++;
+    return TRUE;
+}
+
+BOOL Box2Main_VFuncTrayScrollRight(Box2SysWork *syswk) {
+    if (syswk->app->vfunk.cnt == 23) {
+        func_ov255_021d101c(syswk, 1);
+        if (func_ov255_021d3b48(syswk->app->bgWinFrame) == TRUE) {
+            func_ov255_021d1a1c(syswk);
+        }
+        syswk->app->vfunk.cnt = 0;
+        return FALSE;
+    }
+    GFL_BGSysMoveBGReq(3, BG_MOVE_RIGHT, 8);
+    func_ov255_021cfff4(syswk, -8);
+    func_ov255_021d1db0(syswk->app, -8);
+    func_ov255_021d399c(syswk->app->bgWinFrame);
+    syswk->app->vfunk.cnt++;
+    return TRUE;
+}
+
+BOOL Box2Main_VFuncFrameMove(Box2SysWork *syswk) {
+    if (func_ov255_021d399c(syswk->app->bgWinFrame) != FALSE) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+BOOL func_ov255_021c05cc(Box2SysWork *syswk) {
+    return func_ov255_021d3ab8(syswk);
+}
+
+BOOL Box2Main_VFuncPartyFrameMove(Box2SysWork *syswk) {
+    if (func_ov255_021d37d8(syswk) != FALSE) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+BOOL func_ov255_021c05e8(Box2SysWork *syswk) {
+    BOOL moving = func_020334dc(syswk->app->bgWinFrame, 9);
+
+    func_ov255_021d13d8(syswk, 8);
+    return moving;
+}
+
+BOOL func_ov255_021c0604(Box2SysWork *syswk) {
+    BOOL moving = func_020334dc(syswk->app->bgWinFrame, 9);
+
+    func_ov255_021d13d8(syswk, -8);
+    return moving;
+}
+
+// Moves a party Pokémon held by touch out to the box
+BOOL Box2Main_VFuncPartyOutTouch(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    BOOL frameMove2 = func_ov255_021d399c(syswk->app->bgWinFrame);
+    BOOL frameMove = func_ov255_021d37d8(syswk);
+    u32 x, y;
+    u32 pos;
+    u32 res;
+
+    switch (vf->seq) {
+    case 0:
+        if (func_0203da2c() == TRUE) {
+            func_ov255_021d3954(syswk->app->bgWinFrame);
+        }
+        vf->seq = 1;
+        break;
+    case 1:
+        if (func_ov255_021d3858(syswk->app->bgWinFrame) == FALSE) {
+            func_ov255_021d1348(syswk->app, 1);
+        }
+        if (func_0203da84(&x, &y) == FALSE) {
+            pos = BOX2_GET_NONE;
+            if (func_ov255_021d3858(syswk->app->bgWinFrame) == FALSE && frameMove == FALSE) {
+                pos = TrayPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy);
+            }
+            PokeIconPartyOutDataMake(syswk, syswk->pos, pos);
+            if (func_ov255_021d39e4(syswk->app->bgWinFrame) == FALSE) {
+                func_ov255_021d11a4(syswk, 0);
+            }
+            syswk->pos = Box2Main_GetPokeMoveDest(syswk, BOX2_BOXLIST_POS);
+            if (syswk->pos < BOX2_PARTY_POS) {
+                vf->seq = 6;
+            } else {
+                if (func_ov255_021d3858(syswk->app->bgWinFrame) == FALSE) {
+                    GFL_SndSEPlay(SEQ_SE_SYS_42);
+                }
+                func_ov255_021d3744(syswk->app->bgWinFrame);
+                func_ov255_021d390c(syswk->app->bgWinFrame);
+                vf->seq = 4;
+            }
+            vf->cnt = 0;
+            break;
+        }
+        if (vf->cnt != 0) {
+            vf->cnt--;
+        }
+        if (frameMove2 == FALSE && frameMove == FALSE) {
+            if (func_ov255_021d3858(syswk->app->bgWinFrame) == TRUE) {
+                if (func_ov255_021d35e8() == FALSE) {
+                    syswk->getTray = BOX2_GET_NONE;
+                    syswk->unk1A = 0;
+                    func_ov255_021d3778(syswk->app->bgWinFrame);
+                    GFL_SndSEPlay(SEQ_SE_SYS_42);
+                }
+            } else if (vf->cnt == 0) {
+                res = func_ov255_021d3534();
+                if (res == 0) {
+                    GFL_SndSEPlay(SEQ_SE_SELECT1);
+                    Box2Main_ScrollTray(syswk, FALSE);
+                    vf->seq = 2;
+                } else if (res == 1) {
+                    GFL_SndSEPlay(SEQ_SE_SELECT1);
+                    Box2Main_ScrollTray(syswk, TRUE);
+                    vf->seq = 3;
+                }
+            }
+        }
+        PokeIconRangeTouchMove(syswk, x, y);
+        break;
+    case 2:
+        if (Box2Main_VFuncTrayScrollLeft(syswk) == FALSE) {
+            vf->cnt = 16;
+            vf->seq = 1;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 3:
+        if (Box2Main_VFuncTrayScrollRight(syswk) == FALSE) {
+            vf->cnt = 16;
+            vf->seq = 1;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 4:
+        if (Box2Main_VFuncGetPokeMove(syswk) == FALSE) {
+            GFL_SndSEPlay(SEQ_SE_SYS_40);
+            vf->seq = 5;
+        }
+        break;
+    case 5:
+        if (frameMove == FALSE && frameMove2 == FALSE) {
+            PokeIconBufPosChangeAll(syswk, vf->work);
+            func_ov255_021d1284(syswk->app, syswk->pos);
+            func_ov255_021d11a4(syswk, 1);
+            vf->seq = 8;
+        }
+        break;
+    case 6:
+        if (Box2Main_VFuncPokeMoveParty(syswk) == FALSE) {
+            PokeIconBufPosChangeAll(syswk, vf->work);
+            Box2Main_PokeInfoOff(syswk);
+            GFL_SndSEPlay(SEQ_SE_SYS_40);
+            GFL_SndSEPlay(SEQ_SE_SYS_42);
+            func_ov255_021d3744(syswk->app->bgWinFrame);
+            syswk->pos = BOX2_GET_NONE;
+            vf->seq = 7;
+        }
+        break;
+    case 7:
+        if (frameMove == FALSE) {
+            vf->seq = 8;
+        }
+        break;
+    case 8:
+        func_ov255_021d1348(syswk->app, 0);
+        func_ov255_021d0310(syswk, 1, 1);
+        func_ov255_021d0310(syswk, 2, 0);
+        vf->seq = 0;
+        return FALSE;
+    }
+    return TRUE;
+}
+
+// Moves a box Pokémon held by touch into the party
+BOOL Box2Main_VFuncPartyInTouch(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    BOOL frameMove2 = func_ov255_021d399c(syswk->app->bgWinFrame);
+    BOOL frameMove = func_ov255_021d37d8(syswk);
+    u32 x, y;
+    u32 pos;
+
+    switch (vf->seq) {
+    case 0:
+        if (func_0203da2c() == TRUE) {
+            func_ov255_021d3954(syswk->app->bgWinFrame);
+        }
+        vf->seq = 1;
+        break;
+    case 1:
+        if (func_0203da84(&x, &y) == FALSE) {
+            pos = BOX2_GET_NONE;
+            if (func_ov255_021d3834(syswk->app->bgWinFrame) == TRUE) {
+                pos = PartyPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy, sPartyPokeAreaLeft);
+            }
+            PokeIconPartyInDataMake(syswk, syswk->pos, pos);
+            if (func_ov255_021d39e4(syswk->app->bgWinFrame) == FALSE) {
+                func_ov255_021d11a4(syswk, 0);
+            }
+            syswk->pos = Box2Main_GetPokeMoveDest(syswk, BOX2_BOXLIST_POS);
+            if (syswk->pos >= BOX2_PARTY_POS) {
+                vf->seq = 5;
+                break;
+            }
+            if (frameMove == TRUE || func_ov255_021d3834(syswk->app->bgWinFrame) == TRUE) {
+                GFL_SndSEPlay(SEQ_SE_SYS_42);
+                func_ov255_021d3778(syswk->app->bgWinFrame);
+            }
+            vf->seq = 2;
+            break;
+        }
+        if (frameMove2 == FALSE && frameMove == FALSE && func_ov255_021d3834(syswk->app->bgWinFrame) == FALSE &&
+            syswk->pos != func_ov255_021d34f0(x, y)) {
+            GFL_SndSEPlay(SEQ_SE_SYS_42);
+            func_ov255_021d3734(syswk->app->bgWinFrame);
+            func_ov255_021d3744(syswk->app->bgWinFrame);
+            func_ov255_021d1af8(syswk, 2, 2, 1, 1);
+            syswk->app->oldCurPos = syswk->pos;
+        }
+        PokeIconRangeTouchMove(syswk, x, y);
+        break;
+    case 2:
+        if (Box2Main_VFuncGetPokeMove(syswk) == FALSE) {
+            GFL_SndSEPlay(SEQ_SE_SYS_40);
+            vf->seq = 3;
+        }
+        if (frameMove == FALSE) {
+            func_ov255_021d390c(syswk->app->bgWinFrame);
+        }
+        break;
+    case 3:
+        if (frameMove == FALSE) {
+            func_ov255_021d390c(syswk->app->bgWinFrame);
+            vf->seq = 4;
+        }
+        break;
+    case 4:
+        if (frameMove2 == FALSE) {
+            PokeIconBufPosChangeAll(syswk, vf->work);
+            func_ov255_021d1284(syswk->app, syswk->pos);
+            func_ov255_021d11a4(syswk, 1);
+            vf->seq = 7;
+        }
+        break;
+    case 5:
+        if (Box2Main_VFuncGetPokeMove(syswk) == FALSE) {
+            PokeIconBufPosChangeAll(syswk, vf->work);
+            GFL_SndSEPlay(SEQ_SE_SYS_40);
+            GFL_SndSEPlay(SEQ_SE_SYS_42);
+            syswk->pos = BOX2_GET_NONE;
+            func_ov255_021d3778(syswk->app->bgWinFrame);
+            vf->seq = 6;
+        }
+        break;
+    case 6:
+        if (frameMove == FALSE) {
+            Box2Main_PokeInfoOff(syswk);
+            vf->seq = 7;
+        }
+        break;
+    case 7:
+        func_ov255_021d0310(syswk, 1, 0);
+        func_ov255_021d0310(syswk, 2, 0);
+        vf->seq = 0;
+        return FALSE;
+    }
+    return TRUE;
+}
+
+BOOL Box2Main_VFuncCursorMove(Box2SysWork *syswk) {
+    Box2CursorMoveWork *work = syswk->app->vfunk.work;
+    s16 x, y;
+
+    if (work->cnt == 0) {
+        func_ov255_021cf6c8(syswk->app, BOX2_ACTOR_CURSOR, work->px, work->py, 0);
+        func_ov255_021d052c(syswk);
+        func_ov255_021c2854(syswk, func_0202ba60(syswk->app->cursorMove));
+        return FALSE;
+    }
+    work->cnt--;
+    func_ov255_021cf6ec(syswk->app, BOX2_ACTOR_CURSOR, &x, &y, 0);
+    if (work->mx == 0) {
+        x += work->vx;
+    } else {
+        x -= work->vx;
+    }
+    if (work->my == 0) {
+        y += work->vy;
+    } else {
+        y -= work->vy;
+    }
+    func_ov255_021cf6c8(syswk->app, BOX2_ACTOR_CURSOR, x, y, 0);
+    func_ov255_021d052c(syswk);
+    return TRUE;
+}
+
+BOOL Box2Main_VFuncCursorMoveFrame(Box2SysWork *syswk) {
+    if (Box2Main_VFuncCursorMove(syswk) == FALSE && func_ov255_021d399c(syswk->app->bgWinFrame) == FALSE) {
+        return FALSE;
+    }
+    return TRUE;
+}
+
+// Puts the held Pokémon's icon in the hand
+void Box2Main_HandGetPokeSet(Box2SysWork *syswk) {
+    s16 x, y;
+
+    func_ov255_021d0ff8(syswk, 8);
+    func_ov255_021cf6ec(syswk->app, BOX2_ACTOR_CURSOR, &x, &y, 0);
+    func_ov255_021cf6c8(syswk->app, syswk->app->pokeIconId[BOX2_BOXLIST_POS], x, y + 4, 0);
+    func_ov255_021cff58(syswk->app, BOX2_BOXLIST_POS, 0);
+}
+
+// The hand takes the Pokémon under the cursor
+BOOL Box2Main_VFuncPokeMoveGetKey(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    s16 x, y;
+    int row, col;
+    u8 id;
+
+    switch (vf->seq) {
+    case 0:
+        func_ov255_021d0ff8(syswk, 7);
+        vf->seq++;
+    case 1:
+        if (vf->cnt == 4) {
+            vf->cnt = 0;
+            vf->seq++;
+        } else {
+            func_ov255_021cf6ec(syswk->app, BOX2_ACTOR_CURSOR, &x, &y, 0);
+            func_ov255_021cf6c8(syswk->app, BOX2_ACTOR_CURSOR, x, y + 2, 0);
+            vf->cnt++;
+        }
+        break;
+    case 2:
+        GFL_SndSEPlay(SEQ_SE_SYS_39);
+        func_ov255_021d0ff8(syswk, 8);
+        vf->seq++;
+    case 3:
+        if (vf->cnt == 4) {
+            func_ov255_021d052c(syswk);
+            if (syswk->moveMode == 2) {
+                func_ov255_021d208c(syswk, syswk->app->rangeSelect.startPos, syswk->app->rangeSelect.endPos, 1);
+            }
+            vf->cnt = 0;
+            vf->seq = 0;
+            return FALSE;
+        }
+        func_ov255_021cf6ec(syswk->app, BOX2_ACTOR_CURSOR, &x, &y, 0);
+        func_ov255_021cf6c8(syswk->app, BOX2_ACTOR_CURSOR, x, y - 2, 0);
+        for (row = 0; row < syswk->app->rangeHeight; row++) {
+            for (col = 0; col < syswk->app->rangeWidth; col++) {
+                id = syswk->app->pokeIconId[BOX2_BOXLIST_POS + row * syswk->app->rangeWidth + col];
+                func_ov255_021cf6ec(syswk->app, id, &x, &y, 0);
+                func_ov255_021cf6c8(syswk->app, id, x, y - 2, 0);
+            }
+        }
+        if (syswk->moveMode != 2) {
+            func_ov255_021d1284(syswk->app, BOX2_BOXLIST_POS);
+        }
+        vf->cnt++;
+        break;
+    }
+    return TRUE;
+}
+
+// The hand puts the held Pokémon at the cursor
+BOOL Box2Main_VFuncPokeMovePutKey(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    BOOL dir;
+
+    switch (vf->seq) {
+    case 0:
+        if (syswk->pos >= BOX2_PARTY_POS && func_ov255_021d3b48(syswk->app->bgWinFrame) == TRUE) {
+            if (syswk->app->pokePutKey < BOX2_PARTY_POS || syswk->app->pokePutKey == BOX2_GET_NONE ||
+                PokeIconMoveDataMake(syswk, syswk->pos, syswk->app->pokePutKey) == FALSE) {
+                func_ov255_021d1ac8(syswk, 0, 0);
+                func_ov255_021d3b34(syswk->app->bgWinFrame);
+                func_ov255_021d232c(syswk, 0);
+                func_ov255_021d1e2c(syswk, 0);
+                GFL_SndSEPlay(SEQ_SE_SYS_42);
+                vf->seq = 5;
+                break;
+            }
+        }
+        if (syswk->pos < BOX2_PARTY_POS && syswk->tray != syswk->getTray &&
+            (syswk->app->pokePutKey == BOX2_GET_NONE ||
+             PokeIconMoveDataMake(syswk, syswk->pos, syswk->app->pokePutKey) == FALSE)) {
+            dir = Box2Main_IsTrayScrollRight(syswk, syswk->tray, syswk->getTray);
+            syswk->tray = syswk->getTray;
+            func_ov255_021cf9c8(syswk, syswk->tray);
+            Box2Main_WallPaperSet(syswk, Box2Main_GetWallPaperNumber(syswk, syswk->tray), dir);
+            func_ov255_021d232c(syswk, 0);
+            func_ov255_021d1e2c(syswk, 0);
+            if (dir == FALSE) {
+                vf->seq = 2;
+            } else {
+                vf->seq = 3;
+            }
+            break;
+        }
+        if (syswk->app->pokePutKey == BOX2_GET_NONE) {
+            func_ov255_021d232c(syswk, 0);
+            func_ov255_021d1e2c(syswk, 0);
+        }
+    case 1:
+        func_ov255_021d0ff8(syswk, 7);
+        PokeIconMoveDataMake(syswk, syswk->pos, syswk->app->pokePutKey);
+        vf->seq = 4;
+        break;
+    case 2:
+        if (Box2Main_VFuncTrayScrollLeft(syswk) == FALSE) {
+            vf->seq = 1;
+        }
+        break;
+    case 3:
+        if (Box2Main_VFuncTrayScrollRight(syswk) == FALSE) {
+            vf->seq = 1;
+        }
+        break;
+    case 4:
+        if (Box2Main_VFuncGetPokeMove(syswk) == FALSE) {
+            PokeIconBufPosChangeAll(syswk, vf->work);
+            func_ov255_021d0ff8(syswk, 6);
+            func_ov255_021d11a4(syswk, 0);
+            GFL_SndSEPlay(SEQ_SE_SYS_40);
+            vf->seq = 0;
+            return FALSE;
+        }
+        break;
+    case 5:
+        if (func_ov255_021c0604(syswk) == FALSE) {
+            func_ov255_021d3734(syswk->app->bgWinFrame);
+            func_ov255_021d3744(syswk->app->bgWinFrame);
+            GFL_SndSEPlay(SEQ_SE_SYS_42);
+            vf->seq = 6;
+        }
+        break;
+    case 6:
+        if (Box2Main_VFuncPartyFrameMove(syswk) == FALSE) {
+            vf->seq = 1;
+        }
+        break;
+    }
+    return TRUE;
+}
+
+// The hand puts the held party Pokémon in the box
+BOOL Box2Main_VFuncPartyOutPutKey(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+
+    switch (vf->seq) {
+    case 0:
+        func_ov255_021d0ff8(syswk, 7);
+        PokeIconPartyOutDataMake(syswk, syswk->pos, syswk->app->pokePutKey);
+        vf->seq = 1;
+        break;
+    case 1:
+        if (Box2Main_VFuncPokeMoveParty(syswk) == FALSE) {
+            PokeIconBufPosChangeAll(syswk, vf->work);
+            func_ov255_021d0ff8(syswk, 6);
+            GFL_SndSEPlay(SEQ_SE_SYS_40);
+            vf->seq = 0;
+            return FALSE;
+        }
+        break;
+    }
+    return TRUE;
+}
+
+BOOL Box2Main_VFuncItemArrangeMenuClose(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    BOOL moving;
+    BOOL frameMove;
+
+    switch (vf->seq) {
+    case 0:
+        if (syswk->app->getItem != 0) {
+            func_ov255_021d0b08(syswk->app, TRUE);
+            func_ov255_021cf5e4(syswk->app, BOX2_ACTOR_ITEM_ICON, 1);
+            func_ov255_021cf63c(syswk->app, BOX2_ACTOR_ITEM_ICON, TRUE);
+        }
+        vf->seq++;
+    case 1:
+        moving = Box2Main_VFuncCursorMove(syswk);
+        frameMove = func_ov255_021d399c(syswk->app->bgWinFrame);
+        if (moving == FALSE && frameMove == FALSE) {
+            if (syswk->app->getItem != 0) {
+                func_ov255_021d0b08(syswk->app, FALSE);
+                func_ov255_021d0cf4(syswk->app);
+            }
+            vf->seq = 0;
+            return FALSE;
+        }
+    }
+    return TRUE;
+}
+
+// Moves an item held by touch
+BOOL Box2Main_VFuncItemArrangeGetTouch(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    BOOL frameMove2 = func_ov255_021d399c(syswk->app->bgWinFrame);
+    BOOL frameMove = func_ov255_021d37d8(syswk);
+    u32 x, y;
+    u32 setPos;
+    BOOL party;
+    u16 pos;
+    BOOL cancel;
+    BOOL dir;
+    u32 res;
+
+    switch (vf->seq) {
+    case 0:
+        func_ov255_021cdc74(syswk, syswk->app->getItem);
+        if (syswk->app->getItem != 0) {
+            func_ov255_021d0b08(syswk->app, TRUE);
+            func_ov255_021cf5e4(syswk->app, BOX2_ACTOR_ITEM_ICON, 1);
+            func_ov255_021cf63c(syswk->app, BOX2_ACTOR_ITEM_ICON, TRUE);
+            vf->seq = 1;
+        } else {
+            func_ov255_021d390c(syswk->app->bgWinFrame);
+            vf->seq = 11;
+        }
+        break;
+    case 1:
+        if (func_ov255_021cf628(syswk->app, BOX2_ACTOR_ITEM_ICON) == TRUE) {
+            break;
+        }
+        func_ov255_021d0b08(syswk->app, FALSE);
+        func_ov255_021d0cf4(syswk->app);
+        vf->seq = 2;
+    case 2:
+        if (func_0203da84(&x, &y) == FALSE) {
+            if (frameMove == TRUE || func_ov255_021d3834(syswk->app->bgWinFrame) == TRUE) {
+                party = TRUE;
+            } else {
+                party = FALSE;
+            }
+            pos = TrayPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy);
+            if (frameMove == FALSE && func_ov255_021d3834(syswk->app->bgWinFrame) == TRUE && pos == BOX2_GET_NONE) {
+                pos = PartyPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy, sPartyPokeAreaLeft);
+            }
+            cancel = FALSE;
+            setPos = pos;
+            if (pos == BOX2_GET_NONE) {
+                pos = syswk->pos;
+                cancel = TRUE;
+            } else if (Box2Main_PokeItemMoveCheck(syswk, syswk->pos, pos) == FALSE) {
+                pos = syswk->pos;
+                cancel = TRUE;
+            }
+            if (party == TRUE) {
+                Box2Main_ItemIconMoveMakeHand(syswk, setPos, pos, 2);
+                if (cancel == TRUE && syswk->getTray != BOX2_GET_NONE && syswk->getTray != syswk->tray) {
+                    dir = Box2Main_IsTrayScrollRight(syswk, syswk->tray, syswk->getTray);
+                    syswk->tray = syswk->getTray;
+                    func_ov255_021cf9c8(syswk, syswk->tray);
+                    Box2Main_WallPaperSet(syswk, Box2Main_GetWallPaperNumber(syswk, syswk->tray), dir);
+                    if (dir == FALSE) {
+                        vf->seq = 5;
+                    } else {
+                        vf->seq = 6;
+                    }
+                } else {
+                    vf->seq = 7;
+                }
+            } else {
+                Box2Main_ItemIconMoveMakeHand(syswk, setPos, pos, 0);
+                func_ov255_021d390c(syswk->app->bgWinFrame);
+                vf->seq = 8;
+            }
+            vf->cnt = 0;
+            break;
+        }
+        if (vf->cnt != 0) {
+            vf->cnt--;
+        }
+        if (frameMove2 == FALSE && frameMove == FALSE && func_ov255_021d3834(syswk->app->bgWinFrame) == FALSE &&
+            syswk->pos != func_ov255_021d34f0(x, y)) {
+            func_ov255_021d3734(syswk->app->bgWinFrame);
+            func_ov255_021d3744(syswk->app->bgWinFrame);
+            func_ov255_021cfd34(syswk, 1);
+            func_ov255_021d0310(syswk, 0x82, 1);
+            GFL_SndSEPlay(SEQ_SE_SYS_42);
+            func_ov255_021d2478(syswk, 6, syswk->pos);
+            func_0202baa4(syswk->app->cursorMove, 39);
+            func_0202baa4(syswk->app->cursorMove, 40);
+            func_ov255_021d1af8(syswk, 2, 1, 1, 1);
+            syswk->unk1E = 0;
+            syswk->app->unkA552 = 0;
+            syswk->app->oldCurPos = syswk->pos;
+            syswk->app->vfuncNextSeq = 76;
+        }
+        if (vf->cnt == 0) {
+            res = func_ov255_021d3534();
+            if (res == 0) {
+                GFL_SndSEPlay(SEQ_SE_SELECT1);
+                Box2Main_ScrollTray(syswk, FALSE);
+                vf->seq = 3;
+            } else if (res == 1) {
+                GFL_SndSEPlay(SEQ_SE_SELECT1);
+                Box2Main_ScrollTray(syswk, TRUE);
+                vf->seq = 4;
+            }
+        }
+        Box2Main_ItemIconTouchMove(syswk->app, x, y);
+        break;
+    case 3:
+        if (Box2Main_VFuncTrayScrollLeft(syswk) == FALSE) {
+            vf->cnt = 16;
+            vf->seq = 2;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            Box2Main_ItemIconTouchMove(syswk->app, x, y);
+        }
+        break;
+    case 4:
+        if (Box2Main_VFuncTrayScrollRight(syswk) == FALSE) {
+            vf->cnt = 16;
+            vf->seq = 2;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            Box2Main_ItemIconTouchMove(syswk->app, x, y);
+        }
+        break;
+    case 5:
+        if (Box2Main_VFuncTrayScrollLeft(syswk) == FALSE) {
+            vf->seq = 7;
+        }
+        break;
+    case 6:
+        if (Box2Main_VFuncTrayScrollRight(syswk) == FALSE) {
+            vf->seq = 7;
+        }
+        break;
+    case 7:
+        if (Box2Main_VFuncItemIconMoveHand(syswk) == FALSE) {
+            GFL_SndSEPlay(SEQ_SE_SYS_40);
+            vf->seq = 9;
+        }
+        break;
+    case 8:
+        if (Box2Main_VFuncItemIconMoveHand(syswk) == FALSE) {
+            GFL_SndSEPlay(SEQ_SE_SYS_40);
+            if (syswk->app->getItem != 0) {
+                func_ov255_021d0b08(syswk->app, FALSE);
+                func_ov255_021d0cf4(syswk->app);
+            }
+            func_ov255_021d1af8(syswk, 0, 0, 1, 1);
+            vf->seq = 11;
+        }
+        break;
+    case 9:
+        func_ov255_021d0b08(syswk->app, TRUE);
+        func_ov255_021cf5e4(syswk->app, BOX2_ACTOR_ITEM_ICON, 2);
+        func_ov255_021d11a4(syswk, 0);
+        vf->seq = 10;
+        break;
+    case 10:
+        if (func_ov255_021cf628(syswk->app, BOX2_ACTOR_ITEM_ICON) == FALSE) {
+            func_ov255_021cf63c(syswk->app, BOX2_ACTOR_ITEM_ICON, FALSE);
+            func_ov255_021d0b08(syswk->app, FALSE);
+            vf->seq = 11;
+        }
+        break;
+    case 11:
+        if (frameMove2 == FALSE && frameMove == FALSE) {
+            vf->seq = 0;
+            return FALSE;
+        }
+        break;
+    }
+    return TRUE;
+}
+
+BOOL Box2Main_VFuncItemArrangeMenuOpen(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    BOOL moving;
+    BOOL frameMove;
+
+    switch (vf->seq) {
+    case 0:
+        if (func_ov255_021cf658(syswk->app, BOX2_ACTOR_ITEM_ICON) == TRUE) {
+            func_ov255_021d0b08(syswk->app, TRUE);
+            func_ov255_021cf5e4(syswk->app, BOX2_ACTOR_ITEM_ICON, 2);
+        }
+        vf->seq++;
+    case 1:
+        moving = Box2Main_VFuncCursorMove(syswk);
+        frameMove = Box2Main_VFuncFrameMove(syswk);
+        if (moving == FALSE && frameMove == FALSE) {
+            vf->seq++;
+        }
+        break;
+    case 2:
+        if (func_ov255_021cf658(syswk->app, BOX2_ACTOR_ITEM_ICON) == TRUE) {
+            func_ov255_021d0b08(syswk->app, FALSE);
+            func_ov255_021cf63c(syswk->app, BOX2_ACTOR_ITEM_ICON, FALSE);
+        }
+        vf->seq = 0;
+        return FALSE;
+    }
+    return TRUE;
+}
+
+BOOL Box2Main_VFuncItemArrangeFrameMove(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+
+    switch (vf->seq) {
+    case 0:
+        if (func_ov255_021cf658(syswk->app, BOX2_ACTOR_ITEM_ICON) == TRUE) {
+            func_ov255_021d0b08(syswk->app, TRUE);
+            func_ov255_021cf5e4(syswk->app, BOX2_ACTOR_ITEM_ICON, 2);
+        }
+        vf->seq++;
+    case 1:
+        if (Box2Main_VFuncFrameMove(syswk) == FALSE) {
+            vf->seq++;
+        }
+        break;
+    case 2:
+        if (func_ov255_021cf658(syswk->app, BOX2_ACTOR_ITEM_ICON) == TRUE) {
+            func_ov255_021d0b08(syswk->app, FALSE);
+            func_ov255_021cf63c(syswk->app, BOX2_ACTOR_ITEM_ICON, FALSE);
+        }
+        vf->seq = 0;
+        return FALSE;
+    }
+    return TRUE;
+}
+
+BOOL Box2Main_VFuncItemIconHide(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+
+    switch (vf->seq) {
+    case 0:
+        if (func_ov255_021cf658(syswk->app, BOX2_ACTOR_ITEM_ICON) == TRUE) {
+            func_ov255_021d0b08(syswk->app, TRUE);
+            func_ov255_021cf5e4(syswk->app, BOX2_ACTOR_ITEM_ICON, 2);
+        }
+        vf->seq++;
+        break;
+    case 1:
+        if (func_ov255_021cf628(syswk->app, BOX2_ACTOR_ITEM_ICON) == FALSE) {
+            func_ov255_021d0b08(syswk->app, FALSE);
+            func_ov255_021cf63c(syswk->app, BOX2_ACTOR_ITEM_ICON, FALSE);
+        }
+        vf->seq = 0;
+        return FALSE;
+    }
+    return TRUE;
+}
+
+// Moves the item icon to follow the touch
+static void Box2Main_ItemIconTouchMove(Box2AppWork *app, u32 x, u32 y) {
+    func_ov255_021d0b4c(app, x, y);
+    func_ov255_021d0d10(app);
+    app->tpx = x;
+    app->tpy = y;
+}
+
+// Moves an item held by touch, with the party's frame out
+BOOL Box2Main_VFuncItemArrangePartyGetTouch(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    u32 x, y;
+    u16 pos;
+    u32 setPos;
+    BOOL cancel;
+    BOOL dir;
+    u32 res;
+
+    switch (vf->seq) {
+    case 0:
+        func_ov255_021d0b08(syswk->app, TRUE);
+        func_ov255_021cf5e4(syswk->app, BOX2_ACTOR_ITEM_ICON, 1);
+        func_ov255_021cf63c(syswk->app, BOX2_ACTOR_ITEM_ICON, TRUE);
+        vf->seq = 1;
+        break;
+    case 1:
+        if (func_ov255_021cf628(syswk->app, BOX2_ACTOR_ITEM_ICON) != FALSE) {
+            break;
+        }
+        func_ov255_021d0b08(syswk->app, FALSE);
+        func_ov255_021d0cf4(syswk->app);
+        vf->seq = 2;
+        break;
+    case 2:
+        if (func_0203da84(&x, &y) == FALSE) {
+            pos = TrayPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy);
+            if (pos == BOX2_GET_NONE) {
+                pos = PartyPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy, sPartyPokeAreaLeft);
+            }
+            cancel = FALSE;
+            setPos = pos;
+            if (pos == BOX2_GET_NONE) {
+                pos = syswk->pos;
+                cancel = TRUE;
+            } else if (Box2Main_PokeItemMoveCheck(syswk, syswk->pos, pos) == FALSE) {
+                pos = syswk->pos;
+                cancel = TRUE;
+            }
+            Box2Main_ItemIconMoveMakeHand(syswk, setPos, pos, 2);
+            if (cancel == TRUE && syswk->getTray != BOX2_GET_NONE && syswk->getTray != syswk->tray) {
+                dir = Box2Main_IsTrayScrollRight(syswk, syswk->tray, syswk->getTray);
+                syswk->tray = syswk->getTray;
+                func_ov255_021cf9c8(syswk, syswk->tray);
+                Box2Main_WallPaperSet(syswk, Box2Main_GetWallPaperNumber(syswk, syswk->tray), dir);
+                if (dir == FALSE) {
+                    vf->seq = 5;
+                } else {
+                    vf->seq = 6;
+                }
+            } else {
+                vf->seq = 7;
+            }
+            vf->cnt = 0;
+            break;
+        }
+        if (vf->cnt != 0) {
+            vf->cnt--;
+        }
+        if (vf->cnt == 0) {
+            res = func_ov255_021d3534();
+            if (res == 0) {
+                GFL_SndSEPlay(SEQ_SE_SELECT1);
+                Box2Main_ScrollTray(syswk, FALSE);
+                vf->seq = 3;
+            } else if (res == 1) {
+                GFL_SndSEPlay(SEQ_SE_SELECT1);
+                Box2Main_ScrollTray(syswk, TRUE);
+                vf->seq = 4;
+            }
+        }
+        Box2Main_ItemIconTouchMove(syswk->app, x, y);
+        break;
+    case 3:
+        if (Box2Main_VFuncTrayScrollLeft(syswk) == FALSE) {
+            vf->cnt = 16;
+            vf->seq = 2;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            Box2Main_ItemIconTouchMove(syswk->app, x, y);
+        }
+        break;
+    case 4:
+        if (Box2Main_VFuncTrayScrollRight(syswk) == FALSE) {
+            vf->cnt = 16;
+            vf->seq = 2;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            Box2Main_ItemIconTouchMove(syswk->app, x, y);
+        }
+        break;
+    case 5:
+    case 6:
+        if (vf->seq == 5 && Box2Main_VFuncTrayScrollLeft(syswk) == FALSE) {
+            vf->seq = 7;
+        }
+        if (vf->seq == 6 && Box2Main_VFuncTrayScrollRight(syswk) == FALSE) {
+            vf->seq = 7;
+        }
+    case 7:
+        if (Box2Main_VFuncItemIconMoveHand(syswk) == FALSE && vf->seq == 7) {
+            GFL_SndSEPlay(SEQ_SE_SYS_40);
+            vf->seq = 8;
+        }
+        break;
+    case 8:
+        func_ov255_021d0b08(syswk->app, TRUE);
+        func_ov255_021cf5e4(syswk->app, BOX2_ACTOR_ITEM_ICON, 2);
+        func_ov255_021d11a4(syswk, 0);
+        vf->seq = 9;
+        break;
+    case 9:
+        if (func_ov255_021cf628(syswk->app, BOX2_ACTOR_ITEM_ICON) == FALSE) {
+            func_ov255_021cf63c(syswk->app, BOX2_ACTOR_ITEM_ICON, FALSE);
+            func_ov255_021d0b08(syswk->app, FALSE);
+            vf->seq = 10;
+        }
+        break;
+    case 10:
+        vf->seq = 0;
+        return FALSE;
+    }
+    return TRUE;
+}
+
+// Puts the held item back on its Pokémon
+BOOL Box2Main_VFuncItemIconPutBack(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    u8 pos;
+
+    switch (vf->seq) {
+    case 0:
+        func_ov255_021d0b08(syswk->app, TRUE);
+        func_ov255_021cf5e4(syswk->app, BOX2_ACTOR_ITEM_ICON, 1);
+        func_ov255_021cf63c(syswk->app, BOX2_ACTOR_ITEM_ICON, TRUE);
+        vf->seq = 1;
+        break;
+    case 1:
+        if (func_ov255_021cf628(syswk->app, BOX2_ACTOR_ITEM_ICON) == FALSE) {
+            func_ov255_021d0b08(syswk->app, FALSE);
+            vf->seq = 2;
+        }
+        break;
+    case 2:
+        pos = syswk->pos;
+        syswk->pos = ((Box2ItemMoveWork *)vf->work)->putPos;
+        if (syswk->getTray != BOX2_GET_NONE && syswk->getTray != syswk->tray) {
+            Box2Main_ItemIconMoveMakeScroll(syswk, 2);
+        } else {
+            Box2Main_ItemIconMoveMakeHand(syswk, pos, pos, 2);
+        }
+        vf->seq = 3;
+        break;
+    case 3:
+        if (Box2Main_VFuncItemIconMoveHand(syswk) != FALSE) {
+            break;
+        }
+        if (syswk->getTray != BOX2_GET_NONE && syswk->getTray != syswk->tray) {
+            vf->seq = 5;
+        } else {
+            GFL_SndSEPlay(SEQ_SE_SYS_40);
+            vf->seq = 4;
+        }
+        break;
+    case 4:
+        func_ov255_021d0b08(syswk->app, TRUE);
+        func_ov255_021cf5e4(syswk->app, BOX2_ACTOR_ITEM_ICON, 2);
+        vf->seq = 5;
+        break;
+    case 5:
+        if (func_ov255_021cf628(syswk->app, BOX2_ACTOR_ITEM_ICON) == FALSE) {
+            func_ov255_021cf63c(syswk->app, BOX2_ACTOR_ITEM_ICON, FALSE);
+            func_ov255_021d0b08(syswk->app, FALSE);
+            vf->seq = 6;
+        }
+        break;
+    case 6:
+        vf->seq = 0;
+        return FALSE;
+    }
+    return TRUE;
+}
+
+// The hand takes the item of the Pokémon under the cursor
+BOOL Box2Main_VFuncItemArrangeGetKey(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    s16 x, y;
+
+    switch (vf->seq) {
+    case 0:
+        func_ov255_021d0b08(syswk->app, TRUE);
+        func_ov255_021cf5e4(syswk->app, BOX2_ACTOR_ITEM_ICON, 1);
+        func_ov255_021cf63c(syswk->app, BOX2_ACTOR_ITEM_ICON, TRUE);
+        vf->seq++;
+        break;
+    case 1:
+        if (func_ov255_021cf628(syswk->app, BOX2_ACTOR_ITEM_ICON) == FALSE) {
+            func_ov255_021d0b08(syswk->app, FALSE);
+            vf->seq++;
+        }
+        break;
+    case 2:
+        func_ov255_021d0ff8(syswk, 7);
+        vf->seq++;
+    case 3:
+        if (vf->cnt == 4) {
+            vf->cnt = 0;
+            vf->seq++;
+        } else {
+            func_ov255_021cf6ec(syswk->app, BOX2_ACTOR_CURSOR, &x, &y, 0);
+            func_ov255_021cf6c8(syswk->app, BOX2_ACTOR_CURSOR, x, y + 2, 0);
+            vf->cnt++;
+        }
+        break;
+    case 4:
+        GFL_SndSEPlay(SEQ_SE_SYS_39);
+        func_ov255_021d0ff8(syswk, 8);
+        vf->seq++;
+    case 5:
+        if (vf->cnt == 4) {
+            func_ov255_021d0bc8(syswk->app);
+            func_ov255_021d0cf4(syswk->app);
+            vf->cnt = 0;
+            vf->seq = 0;
+            return FALSE;
+        }
+        func_ov255_021cf6ec(syswk->app, BOX2_ACTOR_CURSOR, &x, &y, 0);
+        func_ov255_021cf6c8(syswk->app, BOX2_ACTOR_CURSOR, x, y - 2, 0);
+        func_ov255_021cf6ec(syswk->app, BOX2_ACTOR_ITEM_ICON, &x, &y, 0);
+        func_ov255_021cf6c8(syswk->app, BOX2_ACTOR_ITEM_ICON, x, y - 2, 0);
+        vf->cnt++;
+        break;
+    }
+    return TRUE;
+}
+
+// The hand gives the held item to the Pokémon under the cursor
+BOOL Box2Main_VFuncItemArrangePutKey(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    s16 x, y;
+
+    switch (vf->seq) {
+    case 0:
+        func_ov255_021d0ff8(syswk, 7);
+        vf->seq = 1;
+    case 1:
+        if (vf->cnt == 4) {
+            vf->cnt = 0;
+            vf->seq = 2;
+        } else {
+            func_ov255_021cf6ec(syswk->app, BOX2_ACTOR_ITEM_ICON, &x, &y, 0);
+            func_ov255_021cf6c8(syswk->app, BOX2_ACTOR_ITEM_ICON, x, y + 2, 0);
+            vf->cnt++;
+        }
+        break;
+    case 2:
+        GFL_SndSEPlay(SEQ_SE_SYS_40);
+        func_ov255_021d0ff8(syswk, 6);
+        func_ov255_021d0b08(syswk->app, TRUE);
+        func_ov255_021cf5e4(syswk->app, BOX2_ACTOR_ITEM_ICON, 2);
+        vf->seq = 3;
+        break;
+    case 3:
+        if (func_ov255_021cf628(syswk->app, BOX2_ACTOR_ITEM_ICON) == FALSE) {
+            func_ov255_021d0b08(syswk->app, FALSE);
+            func_ov255_021cf63c(syswk->app, BOX2_ACTOR_ITEM_ICON, FALSE);
+            vf->seq = 4;
+        }
+        break;
+    case 4:
+        func_ov255_021d0ff8(syswk, 6);
+        vf->seq = 0;
+        return FALSE;
+    }
+    return TRUE;
+}
+
+// The hand takes the held item back to where it was taken from
+BOOL Box2Main_VFuncItemArrangeKeyCancel(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    BOOL dir;
+
+    switch (vf->seq) {
+    case 0:
+        if (syswk->getTray != BOX2_GET_NONE && syswk->getTray != syswk->tray) {
+            dir = Box2Main_IsTrayScrollRight(syswk, syswk->tray, syswk->getTray);
+            syswk->tray = syswk->getTray;
+            func_ov255_021cf9c8(syswk, syswk->tray);
+            Box2Main_WallPaperSet(syswk, Box2Main_GetWallPaperNumber(syswk, syswk->tray), dir);
+            if (dir == FALSE) {
+                vf->seq = 2;
+            } else {
+                vf->seq = 3;
+            }
+            break;
+        }
+    case 1:
+        func_ov255_021d0ff8(syswk, 7);
+        Box2Main_ItemIconMoveMake(syswk, syswk->app->getItemInitPos, 2);
+        vf->seq = 4;
+        break;
+    case 2:
+        if (Box2Main_VFuncTrayScrollLeft(syswk) == FALSE) {
+            vf->seq = 1;
+        }
+        break;
+    case 3:
+        if (Box2Main_VFuncTrayScrollRight(syswk) == FALSE) {
+            vf->seq = 1;
+        }
+        break;
+    case 4:
+        if (Box2Main_VFuncItemIconMove(syswk) == FALSE) {
+            GFL_SndSEPlay(SEQ_SE_SYS_40);
+            vf->seq = 5;
+        }
+        break;
+    case 5:
+        func_ov255_021d0b08(syswk->app, TRUE);
+        func_ov255_021cf5e4(syswk->app, BOX2_ACTOR_ITEM_ICON, 2);
+        vf->seq = 6;
+        break;
+    case 6:
+        if (func_ov255_021cf628(syswk->app, BOX2_ACTOR_ITEM_ICON) == FALSE) {
+            func_ov255_021d0b08(syswk->app, FALSE);
+            func_ov255_021cf63c(syswk->app, BOX2_ACTOR_ITEM_ICON, FALSE);
+            vf->seq = 7;
+        }
+        break;
+    case 7:
+        func_ov255_021d0ff8(syswk, 6);
+        vf->seq = 0;
+        return FALSE;
+    }
+    return TRUE;
+}
+
+// Moves an item held by touch between the box and the party
+BOOL Box2Main_VFuncItemArrangeBoxPartyGetTouch(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    BOOL frameMove2 = func_ov255_021d399c(syswk->app->bgWinFrame);
+    BOOL frameMove = func_ov255_021d37d8(syswk);
+    u32 x, y;
+    BOOL party;
+    u16 pos;
+    u16 setPos;
+    u32 res;
+
+    switch (vf->seq) {
+    case 0:
+        func_ov255_021cdc74(syswk, syswk->app->getItem);
+        if (syswk->app->getItem != 0) {
+            func_ov255_021d0b08(syswk->app, TRUE);
+            func_ov255_021cf5e4(syswk->app, BOX2_ACTOR_ITEM_ICON, 1);
+            func_ov255_021cf63c(syswk->app, BOX2_ACTOR_ITEM_ICON, TRUE);
+            vf->seq = 1;
+        } else {
+            func_ov255_021d390c(syswk->app->bgWinFrame);
+            vf->seq = 11;
+        }
+        break;
+    case 1:
+        if (func_ov255_021cf628(syswk->app, BOX2_ACTOR_ITEM_ICON) == TRUE) {
+            break;
+        }
+        func_ov255_021d0b08(syswk->app, FALSE);
+        func_ov255_021d0cf4(syswk->app);
+        vf->seq = 2;
+    case 2:
+        if (func_ov255_021d3834(syswk->app->bgWinFrame) == TRUE) {
+            func_ov255_021d1348(syswk->app, 1);
+        }
+        if (func_0203da84(&x, &y) == FALSE) {
+            if (frameMove == TRUE || func_ov255_021d3834(syswk->app->bgWinFrame) == TRUE) {
+                party = TRUE;
+            } else {
+                party = FALSE;
+            }
+            if (frameMove == FALSE && func_ov255_021d3834(syswk->app->bgWinFrame) == TRUE) {
+                pos = TrayPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy);
+                if (pos == BOX2_GET_NONE) {
+                    pos = PartyPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy, sPartyPokeAreaLeft);
+                }
+            } else {
+                pos = PartyPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy, sPartyPokeAreaRight);
+            }
+            setPos = pos;
+            if (pos == BOX2_GET_NONE) {
+                pos = syswk->pos;
+            } else if (Box2Main_PokeItemMoveCheck(syswk, syswk->pos, pos) == FALSE) {
+                pos = syswk->pos;
+            }
+            if (party == TRUE) {
+                Box2Main_ItemIconMoveMakeHand(syswk, setPos, pos, 2);
+                vf->seq = 7;
+            } else {
+                Box2Main_ItemIconMoveMakeHand(syswk, setPos, pos, 1);
+                if (pos == syswk->pos && (PML_ItemIsMail(syswk->app->getItem) == FALSE || setPos == syswk->pos)) {
+                    func_ov255_021d390c(syswk->app->bgWinFrame);
+                }
+                vf->seq = 8;
+            }
+            vf->cnt = 0;
+            break;
+        }
+        if (vf->cnt != 0) {
+            vf->cnt--;
+        }
+        if (frameMove2 == FALSE && frameMove == FALSE && func_ov255_021d3834(syswk->app->bgWinFrame) == FALSE &&
+            func_ov255_021d35e8() == FALSE) {
+            func_ov255_021d37b0(syswk->app->bgWinFrame);
+            func_ov255_021d0310(syswk, 0x81, 1);
+            GFL_SndSEPlay(SEQ_SE_SYS_42);
+            func_ov255_021d2478(syswk, 6, syswk->pos);
+            func_0202baa4(syswk->app->cursorMove, 39);
+            func_0202baa4(syswk->app->cursorMove, 40);
+            func_ov255_021cf63c(syswk->app, BOX2_ACTOR_CURSOR, FALSE);
+            func_ov255_021d1af8(syswk, 2, 1, 1, 1);
+            syswk->unk1E = 1;
+            syswk->app->oldCurPos = syswk->pos;
+            syswk->app->vfuncNextSeq = 76;
+        }
+        if (vf->cnt == 0) {
+            res = func_ov255_021d3534();
+            if (res == 0) {
+                GFL_SndSEPlay(SEQ_SE_SELECT1);
+                Box2Main_ScrollTray(syswk, FALSE);
+                vf->seq = 3;
+            } else if (res == 1) {
+                GFL_SndSEPlay(SEQ_SE_SELECT1);
+                Box2Main_ScrollTray(syswk, TRUE);
+                vf->seq = 4;
+            }
+        }
+        Box2Main_ItemIconTouchMove(syswk->app, x, y);
+        break;
+    case 3:
+        if (Box2Main_VFuncTrayScrollLeft(syswk) == FALSE) {
+            vf->cnt = 16;
+            vf->seq = 2;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            Box2Main_ItemIconTouchMove(syswk->app, x, y);
+        }
+        break;
+    case 4:
+        if (Box2Main_VFuncTrayScrollRight(syswk) == FALSE) {
+            vf->cnt = 16;
+            vf->seq = 2;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            Box2Main_ItemIconTouchMove(syswk->app, x, y);
+        }
+        break;
+    case 7:
+    case 8:
+        if (Box2Main_VFuncItemIconMoveHand(syswk) == FALSE) {
+            GFL_SndSEPlay(SEQ_SE_SYS_40);
+            if (vf->seq == 7) {
+                vf->seq = 9;
+            } else if (vf->seq == 8) {
+                if (syswk->app->getItem != 0) {
+                    func_ov255_021d0b08(syswk->app, FALSE);
+                    func_ov255_021d0cf4(syswk->app);
+                }
+                func_ov255_021d1af8(syswk, 0, 0, 1, 1);
+                vf->seq = 11;
+            }
+        }
+        break;
+    case 9:
+        func_ov255_021d0b08(syswk->app, TRUE);
+        func_ov255_021cf5e4(syswk->app, BOX2_ACTOR_ITEM_ICON, 2);
+        func_ov255_021d11a4(syswk, 0);
+        vf->seq = 10;
+        break;
+    case 10:
+        if (func_ov255_021cf628(syswk->app, BOX2_ACTOR_ITEM_ICON) == FALSE) {
+            func_ov255_021cf63c(syswk->app, BOX2_ACTOR_ITEM_ICON, FALSE);
+            func_ov255_021d0b08(syswk->app, FALSE);
+            vf->seq = 11;
+        }
+        break;
+    case 11:
+        if (frameMove2 == FALSE && frameMove == FALSE) {
+            vf->seq = 0;
+            return FALSE;
+        }
+        break;
+    }
+    return TRUE;
+}
+
+// Moves the held item back to its Pokémon after the menu
+BOOL Box2Main_VFuncItemArrangeMenuCancel(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    u8 pos;
+
+    switch (vf->seq) {
+    case 0:
+        if (func_ov255_021cf628(syswk->app, BOX2_ACTOR_ITEM_ICON) == FALSE) {
+            pos = syswk->pos;
+            syswk->pos = ((Box2ItemMoveWork *)vf->work)->putPos;
+            Box2Main_ItemIconMoveMakeHand(syswk, pos, pos, 1);
+            vf->seq = 1;
+        }
+        break;
+    case 1:
+        if (Box2Main_VFuncItemIconMoveHand(syswk) == FALSE) {
+            vf->seq = 0;
+            return FALSE;
+        }
+        break;
+    }
+    return TRUE;
+}
+
+// Scrolls the box list's tray icons, and puts the cursor on them
+BOOL Box2Main_VFuncBoxListScrollLeft(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    u8 pos;
+
+    if (vf->cnt == 5) {
+        pos = func_0202ba60(syswk->app->cursorMove);
+        if (pos >= 34 && pos <= 37) {
+            func_ov255_021d1ac8(syswk, pos - 34, 1);
+        } else {
+            func_ov255_021d1ac8(syswk, 0, 0);
+        }
+        func_ov255_021d1a1c(syswk);
+        vf->cnt = 0;
+        return FALSE;
+    }
+    vf->cnt++;
+    func_ov255_021d17f8(syswk, -vf->cnt);
+    return TRUE;
+}
+
+BOOL Box2Main_VFuncBoxListScrollRight(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    u8 pos;
+
+    if (vf->cnt == 5) {
+        pos = func_0202ba60(syswk->app->cursorMove);
+        if (pos >= 34 && pos <= 37) {
+            func_ov255_021d1ac8(syswk, pos - 34, 1);
+        } else {
+            func_ov255_021d1ac8(syswk, 0, 0);
+        }
+        func_ov255_021d1a1c(syswk);
+        vf->cnt = 0;
+        return FALSE;
+    }
+    vf->cnt++;
+    func_ov255_021d17f8(syswk, vf->cnt);
+    return TRUE;
+}
+
+BOOL Box2Main_VFuncBoxMoveScrollLeft(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    u8 pos;
+
+    if (vf->cnt == 5) {
+        pos = func_0202ba60(syswk->app->cursorMove);
+        if (pos >= 1 && pos <= 4) {
+            func_ov255_021d1ac8(syswk, pos - 1, 1);
+        } else {
+            func_ov255_021d1ac8(syswk, 0, 0);
+        }
+        func_ov255_021d1a1c(syswk);
+        vf->cnt = 0;
+        return FALSE;
+    }
+    vf->cnt++;
+    func_ov255_021d17f8(syswk, -vf->cnt);
+    return TRUE;
+}
+
+BOOL Box2Main_VFuncBoxMoveScrollRight(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    u8 pos;
+
+    if (vf->cnt == 5) {
+        pos = func_0202ba60(syswk->app->cursorMove);
+        if (pos >= 1 && pos <= 4) {
+            func_ov255_021d1ac8(syswk, pos - 1, 1);
+        } else {
+            func_ov255_021d1ac8(syswk, 0, 0);
+        }
+        func_ov255_021d1a1c(syswk);
+        vf->cnt = 0;
+        return FALSE;
+    }
+    vf->cnt++;
+    func_ov255_021d17f8(syswk, vf->cnt);
+    return TRUE;
+}
+
+// Moves a range of Pokémon held by touch
+BOOL Box2Main_VFuncRangeMoveTouch(Box2SysWork *syswk) {
+    Box2IrqWork *vf = &syswk->app->vfunk;
+    BOOL frameMove;
+    BOOL frameMove2;
+    u32 x, y;
+    u32 pos;
+    u32 res;
+    BOOL dir;
+
+    if (func_02033548(syswk->app->bgWinFrame, 8) == TRUE) {
+        frameMove = Box2Main_VFuncPartyFrameMove(syswk);
+    } else {
+        frameMove = FALSE;
+    }
+    frameMove2 = func_ov255_021d399c(syswk->app->bgWinFrame);
+
+    switch (vf->seq) {
+    case 0:
+        if (func_0203da2c() == TRUE) {
+            func_ov255_021d3954(syswk->app->bgWinFrame);
+        }
+        vf->seq = 1;
+        break;
+    case 1:
+        if (func_0203da84(&x, &y) == FALSE) {
+            pos = BOX2_GET_NONE;
+            if (func_ov255_021d3834(syswk->app->bgWinFrame) == TRUE) {
+                pos = PartyPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy, sPartyPokeAreaLeft);
+            }
+            if (pos == BOX2_GET_NONE) {
+                pos = TrayPokePutAreaCheck(syswk->app->tpx, syswk->app->tpy);
+            }
+            if (syswk->param->mode == 4 && syswk->param->unk14 == 1) {
+                pos = BOX2_GET_NONE;
+                syswk->app->moveErr = 5;
+            }
+            if (PokeIconMoveDataMake(syswk, syswk->pos, pos) == FALSE) {
+                pos = BOX2_GET_NONE;
+            }
+            if (func_ov255_021d39e4(syswk->app->bgWinFrame) == FALSE) {
+                func_ov255_021d11a4(syswk, 0);
+            }
+            if (pos != BOX2_GET_NONE) {
+                syswk->pos = Box2Main_GetPokeMoveDest(syswk, BOX2_BOXLIST_POS);
+            }
+            if (func_ov255_021d3834(syswk->app->bgWinFrame) == FALSE && frameMove == FALSE) {
+                func_ov255_021d390c(syswk->app->bgWinFrame);
+            }
+            if (pos == BOX2_GET_NONE && syswk->tray != syswk->getTray) {
+                dir = Box2Main_IsTrayScrollRight(syswk, syswk->tray, syswk->getTray);
+                syswk->tray = syswk->getTray;
+                func_ov255_021cf9c8(syswk, syswk->tray);
+                Box2Main_WallPaperSet(syswk, Box2Main_GetWallPaperNumber(syswk, syswk->tray), dir);
+                if (dir == FALSE) {
+                    vf->seq = 4;
+                } else {
+                    vf->seq = 5;
+                }
+            } else {
+                vf->seq = 2;
+            }
+            vf->cnt = 0;
+            break;
+        }
+        if (vf->cnt != 0) {
+            vf->cnt--;
+        }
+        if (frameMove == FALSE && frameMove2 == FALSE && func_ov255_021d3834(syswk->app->bgWinFrame) == FALSE &&
+            syswk->pos != func_ov255_021d34f0(x, y)) {
+            syswk->unk1A = 2;
+            func_ov255_021d3734(syswk->app->bgWinFrame);
+            func_ov255_021d3744(syswk->app->bgWinFrame);
+            func_ov255_021cfd34(syswk, 1);
+            GFL_SndSEPlay(SEQ_SE_SYS_42);
+            func_ov255_021d2478(syswk, 6, syswk->pos);
+            func_ov255_021d1af8(syswk, 2, 1, 2, 2);
+            syswk->app->oldCurPos = syswk->pos;
+            syswk->app->vfuncNextSeq = 23;
+        }
+        if (vf->cnt == 0) {
+            res = func_ov255_021d3534();
+            if (res == 0) {
+                GFL_SndSEPlay(SEQ_SE_SELECT1);
+                Box2Main_ScrollTray(syswk, FALSE);
+                vf->seq = 6;
+            } else if (res == 1) {
+                GFL_SndSEPlay(SEQ_SE_SELECT1);
+                Box2Main_ScrollTray(syswk, TRUE);
+                vf->seq = 7;
+            }
+        }
+        PokeIconRangeTouchMove(syswk, x, y);
+        break;
+    case 4:
+        if (Box2Main_VFuncTrayScrollLeft(syswk) == FALSE) {
+            vf->seq = 2;
+        }
+        break;
+    case 5:
+        if (Box2Main_VFuncTrayScrollRight(syswk) == FALSE) {
+            vf->seq = 2;
+        }
+        break;
+    case 2:
+        if (Box2Main_VFuncGetPokeMove(syswk) == FALSE) {
+            GFL_SndSEPlay(SEQ_SE_SYS_40);
+            vf->seq = 3;
+        }
+        break;
+    case 3:
+        if (frameMove == FALSE && frameMove2 == FALSE) {
+            vf->seq = 16;
+        }
+        break;
+    case 6:
+        if (Box2Main_VFuncTrayScrollLeft(syswk) == FALSE) {
+            vf->cnt = 16;
+            vf->seq = 1;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 7:
+        if (Box2Main_VFuncTrayScrollRight(syswk) == FALSE) {
+            vf->cnt = 16;
+            vf->seq = 1;
+        }
+        if (func_0203da84(&x, &y) == TRUE) {
+            PokeIconRangeTouchMove(syswk, x, y);
+        }
+        break;
+    case 16:
+        PokeIconBufPosChangeAll(syswk, vf->work);
+        if (func_ov255_021d3b48(syswk->app->bgWinFrame) == FALSE &&
+            func_ov255_021d3834(syswk->app->bgWinFrame) == FALSE) {
+            func_ov255_021d1284(syswk->app, syswk->pos);
+            func_ov255_021d11a4(syswk, 1);
+        } else {
+            func_ov255_021d11a4(syswk, 0);
+            func_0202ba64(syswk->app->cursorMove, syswk->pos);
+            func_ov255_021d24f8(syswk, syswk->pos);
+        }
+        vf->seq = 0;
+        return FALSE;
+    }
+    return TRUE;
+}
+
+void Box2Main_ClearRangeFlags(Box2SysWork *syswk) {
+    sys_memset(syswk->app->rangeFlags, 0, sizeof(syswk->app->rangeFlags));
+}
+
+// Marks which positions of the picked range hold a Pokémon
+void Box2Main_SetRangeFlags(Box2SysWork *syswk) {
+    int x, y;
+    u32 width;
+
+    Box2Main_ClearRangeFlags(syswk);
+    width = Box2Main_GetRowWidth(syswk, syswk->pos);
+    for (y = 0; y < syswk->app->rangeHeight; y++) {
+        for (x = 0; x < syswk->app->rangeWidth; x++) {
+            syswk->app->rangeFlags[y * width + x] = Box2Main_GetPokeParam(
+                syswk, x + (syswk->pos + y * width), syswk->getTray, PKM_PARAM_SPECIES_VALID, NULL);
+        }
+    }
+}
+
+u32 Box2Main_GetRangeCount(Box2AppWork *app) {
+    int i;
+    u32 count = 0;
+
+    for (i = 0; i < BOX2_TRAY_POKE_MAX; i++) {
+        if (app->rangeFlags[i] != 0) {
+            count++;
+        }
+    }
+    return count;
+}
+
+// Whether the picked range fits at pos of a tray, or of the party, around the Pokémon there
+BOOL Box2Main_RangePutCheck(Box2SysWork *syswk, u32 tray, int pos) {
+    int x, y;
+    u32 posWidth;
+    u32 count;
+    u16 i;
+
+    if (syswk->getTray == tray && syswk->pos == pos) {
+        return TRUE;
+    }
+    posWidth = Box2Main_GetRowWidth(syswk, syswk->pos);
+    if (pos < BOX2_PARTY_POS) {
+        for (y = 0; y < syswk->app->rangeHeight; y++) {
+            for (x = 0; x < syswk->app->rangeWidth; x++) {
+                if (syswk->app->rangeFlags[y * posWidth + x] != 0) {
+                    u32 slot;
+
+                    if (pos / 6 + y >= 5 || pos % 6 + x >= 6) {
+                        return FALSE;
+                    }
+                    slot = x + (pos + y * 6);
+                    if (BoxSaveAccessor_GetPkmParam(syswk->param->boxes, tray, slot, PKM_PARAM_SPECIES_VALID, NULL) ==
+                        1) {
+                        u16 slot16;
+
+                        if (syswk->pos >= BOX2_PARTY_POS) {
+                            return FALSE;
+                        }
+                        if (syswk->tray != syswk->getTray) {
+                            return FALSE;
+                        }
+                        slot16 = slot;
+                        for (i = 0; i < syswk->app->rangeHeight; i++) {
+                            int start = syswk->pos + i * 6;
+                            if (slot16 >= start && slot16 < syswk->app->rangeWidth + start) {
+                                break;
+                            }
+                        }
+                        if (i == syswk->app->rangeHeight) {
+                            return FALSE;
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        u32 n;
+        u32 cur;
+
+        count = PokeParty_GetPkmCount(syswk->param->party);
+        n = Box2Main_GetRangeCount(syswk->app);
+        cur = syswk->pos;
+        if (cur < BOX2_PARTY_POS && (int)n > 6 - (int)count) {
+            return FALSE;
+        }
+        for (y = 0; y < syswk->app->rangeHeight; y++) {
+            for (x = 0; x < syswk->app->rangeWidth; x++) {
+                if (syswk->app->rangeFlags[y * posWidth + x] != 0) {
+                    if ((pos - BOX2_PARTY_POS) / 2 + y >= 3 || (pos - BOX2_PARTY_POS) % 2 + x >= 2) {
+                        return FALSE;
+                    }
+                    if ((pos - BOX2_PARTY_POS) % 2 + x + ((pos - BOX2_PARTY_POS) / 2 + y) * 2 < count) {
+                        u16 slot16;
+                        u16 base;
+                        u32 j;
+
+                        if (cur < BOX2_PARTY_POS) {
+                            return FALSE;
+                        }
+                        slot16 = x + (pos - BOX2_PARTY_POS + y * 2);
+                        base = cur - BOX2_PARTY_POS;
+                        for (j = 0; j < syswk->app->rangeHeight; j++) {
+                            u32 start = base + j * 2;
+                            if (slot16 >= start && slot16 < start + syswk->app->rangeWidth) {
+                                break;
+                            }
+                        }
+                        if (j == syswk->app->rangeHeight) {
+                            return FALSE;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return TRUE;
+}
+
+// Moves the picked range from one box to a position of the shown box
+static void PokeDataRangeMoveBox(Box2SysWork *syswk, u32 getPos, u32 putPos) {
+    BoxPkm *pkms[BOX2_TRAY_POKE_MAX];
+    int x, y;
+    int i;
+
+    sys_memset(pkms, 0, sizeof(pkms));
+    for (y = 0; y < syswk->app->rangeHeight; y++) {
+        for (x = 0; x < syswk->app->rangeWidth; x++) {
+            i = x + y * 6;
+            if (syswk->app->rangeFlags[i] != 0) {
+                pkms[i] =
+                    copyBoxedPkmToBuf(syswk->param->boxes, syswk->getTray, getPos + i, HEAPID_TAIL(HEAPID_BOX2_APP));
+                BoxSaveAccessor_ClearPkm(syswk->param->boxes, syswk->getTray, getPos + i);
+            }
+        }
+    }
+    for (y = 0; y < syswk->app->rangeHeight; y++) {
+        for (x = 0; x < syswk->app->rangeWidth; x++) {
+            i = x + y * 6;
+            if (syswk->app->rangeFlags[i] != 0) {
+                BoxSaveAccessor_SetPkm(syswk->param->boxes, syswk->tray, putPos + i, pkms[i]);
+            }
+        }
+    }
+    for (i = 0; i < BOX2_TRAY_POKE_MAX; i++) {
+        if (pkms[i] != NULL) {
+            func_02007d84(pkms[i]);
+        }
+    }
+}
+
+// Whether a party Pokémon of the range picked from index holds mail
+static BOOL Box2Main_RangeMailCheck(Box2SysWork *syswk, u32 index) {
+    u32 count = PokeParty_GetPkmCount(syswk->param->party);
+    u16 x, y;
+
+    for (y = 0; y < syswk->app->rangeHeight; y++) {
+        for (x = 0; x < syswk->app->rangeWidth; x++) {
+            if (x + (index + y * 2) < count &&
+                PML_ItemIsMail(PokeParty_GetParam(PokeParty_GetPkm(syswk->param->party, x + (index + y * 2)),
+                                                  PKM_PARAM_ITEM, NULL)) == TRUE) {
+                return TRUE;
+            }
+        }
+    }
+    return FALSE;
+}
+
+// The width of the grid of a position: 6 in a tray, 2 in the party
+u32 Box2Main_GetRowWidth(Box2SysWork *syswk, u32 pos) {
+    u32 width = 6;
+
+    if (pos >= BOX2_PARTY_POS) {
+        width = 2;
+    }
+    return width;
+}
+
+void func_ov255_021c2804(Box2SysWork *syswk) {
+    if (syswk->moveMode == 2 && syswk->unk18 == 2) {
+        if (func_ov255_021d3630() == TRUE) {
+            func_ov255_021d232c(syswk, 0);
+            return;
+        }
+        if (func_ov255_021d3834(syswk->app->bgWinFrame) == TRUE && func_ov255_021d3604() == TRUE) {
+            func_ov255_021d232c(syswk, 0);
+            return;
+        }
+        func_ov255_021d232c(syswk, 1);
+    }
+}
+
+void func_ov255_021c2854(Box2SysWork *syswk, u32 pos) {
+    if (syswk->moveMode == 2 && syswk->unk18 == 2) {
+        if (func_ov255_021d3834(syswk->app->bgWinFrame) == TRUE) {
+            if (pos < BOX2_BOXLIST_POS) {
+                func_ov255_021d232c(syswk, 0);
+            } else {
+                func_ov255_021d232c(syswk, 1);
+            }
+        } else if (pos < BOX2_PARTY_POS) {
+            func_ov255_021d232c(syswk, 0);
+        } else {
+            func_ov255_021d232c(syswk, 1);
+        }
+    }
 }

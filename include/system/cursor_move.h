@@ -13,5 +13,8 @@ void func_0202ba64(CursorMove *cursor, u8 pos);
 // Whether the cursor is shown, as when the keys were used last
 BOOL func_0202ba70(CursorMove *cursor);
 void func_0202ba74(CursorMove *cursor, BOOL visible);
+// Turn a position of the table off and on
+void func_0202baa4(CursorMove *cursor, u32 pos);
+void func_0202bacc(CursorMove *cursor, u32 pos);
 
 #endif // POKEBW2_SYSTEM_CURSOR_MOVE_H

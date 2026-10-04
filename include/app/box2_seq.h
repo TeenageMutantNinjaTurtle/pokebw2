@@ -14,5 +14,6 @@ enum {
 
 // Runs the current sequence; FALSE once the box is done
 BOOL Box2Seq_Main(Box2SysWork *syswk, u32 *seq);
+void func_ov255_021cdc74(Box2SysWork *syswk, s16 item);
 
 #endif // POKEBW2_APP_BOX2_SEQ_H

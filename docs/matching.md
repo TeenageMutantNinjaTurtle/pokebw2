@@ -102,6 +102,12 @@ Same instructions, scheduled in another order.
 
 Narrowing shifts, reloads, recomputed addresses and folded constants.
 
+- A compound assignment to a narrow field narrows its right side first: `work->checkFlag &= 0xff ^ (1 << waza);` on a
+  `u8` shifts the mask down to a byte before the `and`, while `work->checkFlag = work->checkFlag & (0xff ^ (1 << waza));`
+  ands the full mask, as the PC box's `Box2Main_PokeFreeWazaCheck` does.
+- A chained assignment to fields, `a->x = a->y = value;`, stores `y`, reloads it and stores `x`. When the original
+  narrows the value once and stores it to both, the stores were separate statements, as in the PC box's
+  `PokeIconChgDataMake`.
 - A caller narrows an argument for a `u8` or `u16` parameter with shifts before the call, so an argument passed without
   them is for a wider parameter.
 - A sum that the original truncates to `s16` before comparing it was stored in an `s16` local, as the edges of the
@@ -143,6 +149,16 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   same store written in several `else` branches.
 - A branch to the very next instruction is left by cross-jumping: two statements that end the same way, such as a
   store in each case of a switch, share their tail, and the first jumps to it even when it follows.
+- An early `return` at the top of a long function jumps to the nearest `b` to the epilogue. When the original skips the
+  body with `bne` over a `b` to the very end, the body was wrapped in `if (cond) { ... }`, as in the PC box's
+  `Box2Main_PokeDataMove`.
+- A function whose last check returns a register that also served as a `NULL` argument, `mov r4, #0` ... `cmp r0, #1;
+  beq; mov r4, #1; mov r0, r4`, ends in `return f(...) == TRUE ? FALSE : TRUE;`; an `if` with two returns, or `!=`,
+  merges that return with an earlier one. The PC box's `Box2Main_PokeItemMoveCheck` shows it.
+- The two halves of an `if`/`else` that end in the same computation are merged by cross-jumping, unless they end the
+  function: a step of the PC box's icon moves sets `vx` and `mx` in each branch of the x test and `vy` and `my` in each
+  branch of the y test, and only the x branches share their tail; a variable for the difference merges the y branches
+  too and doesn't match.
 - When comparing a call's result, `v = f(); if (v == x)` and `if (f() == x)` put the operands of `cmp` in opposite
   orders.
 - `a == 4 || a == 5` becomes a range check. Separate comparisons that jump to the same code come from separate

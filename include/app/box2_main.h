@@ -32,7 +32,8 @@
 #define BOX2_TRAY_SCROLL_R 1
 #define BOX2_TRAY_SCROLL_NONE 2
 
-// The actor of the item icon
+// The actors of the cursor and the item icon
+#define BOX2_ACTOR_CURSOR 4
 #define BOX2_ACTOR_ITEM_ICON 12
 
 // The frames the item icon takes to move
@@ -212,6 +213,17 @@ typedef struct {
     u16 waza[4];
 } Box2PokeInfo;
 
+// The cursor's move to a position
+typedef struct {
+    u8 px;
+    u8 py;
+    u8 vx;
+    u8 vy;
+    u32 mx : 1;
+    u32 my : 1;
+    u32 cnt : 30;
+} Box2CursorMoveWork;
+
 typedef struct {
     s32 left;
     s32 top;
@@ -282,7 +294,8 @@ struct Box2AppWork {
     u8 wallpaperPos;
     u8 unkA55C;
     u8 unkA55D;
-    u8 unkA55E;
+    // Where the hand puts a Pokémon or an item
+    u8 pokePutKey;
     u8 unkA55F;
     u32 tpx;
     u32 tpy;
@@ -375,9 +388,49 @@ int Box2Main_NameInCall(Box2SysWork *syswk);
 int Box2Main_NameInExit(Box2SysWork *syswk);
 int Box2Main_BoxSearchCall(Box2SysWork *syswk);
 int Box2Main_BoxSearchExit(Box2SysWork *syswk);
-// How many Pokémon the range picked holds
-u32 func_ov255_021c23e4(Box2AppWork *app);
-BOOL func_ov255_021c2408(Box2SysWork *syswk, u32 tray, u32 pos);
-u32 func_ov255_021c27f8(Box2SysWork *syswk, u32 pos);
+BOOL Box2Main_VFuncPokeMoveTouchParty(Box2SysWork *syswk);
+BOOL Box2Main_VFuncPokeMoveTouch(Box2SysWork *syswk);
+BOOL Box2Main_VFuncPartyPokeFreeSort(Box2SysWork *syswk);
+BOOL Box2Main_VFuncPartyInPokeMove(Box2SysWork *syswk);
+BOOL Box2Main_VFuncTrayScrollLeft(Box2SysWork *syswk);
+BOOL Box2Main_VFuncTrayScrollRight(Box2SysWork *syswk);
+BOOL Box2Main_VFuncFrameMove(Box2SysWork *syswk);
+BOOL func_ov255_021c05cc(Box2SysWork *syswk);
+BOOL Box2Main_VFuncPartyFrameMove(Box2SysWork *syswk);
+BOOL func_ov255_021c05e8(Box2SysWork *syswk);
+BOOL func_ov255_021c0604(Box2SysWork *syswk);
+BOOL Box2Main_VFuncPartyOutTouch(Box2SysWork *syswk);
+BOOL Box2Main_VFuncPartyInTouch(Box2SysWork *syswk);
+BOOL Box2Main_VFuncCursorMove(Box2SysWork *syswk);
+BOOL Box2Main_VFuncCursorMoveFrame(Box2SysWork *syswk);
+void Box2Main_HandGetPokeSet(Box2SysWork *syswk);
+BOOL Box2Main_VFuncPokeMoveGetKey(Box2SysWork *syswk);
+BOOL Box2Main_VFuncPokeMovePutKey(Box2SysWork *syswk);
+BOOL Box2Main_VFuncPartyOutPutKey(Box2SysWork *syswk);
+BOOL Box2Main_VFuncItemArrangeMenuClose(Box2SysWork *syswk);
+BOOL Box2Main_VFuncItemArrangeGetTouch(Box2SysWork *syswk);
+BOOL Box2Main_VFuncItemArrangeMenuOpen(Box2SysWork *syswk);
+BOOL Box2Main_VFuncItemArrangeFrameMove(Box2SysWork *syswk);
+BOOL Box2Main_VFuncItemIconHide(Box2SysWork *syswk);
+BOOL Box2Main_VFuncItemArrangePartyGetTouch(Box2SysWork *syswk);
+BOOL Box2Main_VFuncItemIconPutBack(Box2SysWork *syswk);
+BOOL Box2Main_VFuncItemArrangeGetKey(Box2SysWork *syswk);
+BOOL Box2Main_VFuncItemArrangePutKey(Box2SysWork *syswk);
+BOOL Box2Main_VFuncItemArrangeKeyCancel(Box2SysWork *syswk);
+BOOL Box2Main_VFuncItemArrangeBoxPartyGetTouch(Box2SysWork *syswk);
+BOOL Box2Main_VFuncItemArrangeMenuCancel(Box2SysWork *syswk);
+BOOL Box2Main_VFuncBoxListScrollLeft(Box2SysWork *syswk);
+BOOL Box2Main_VFuncBoxListScrollRight(Box2SysWork *syswk);
+BOOL Box2Main_VFuncBoxMoveScrollLeft(Box2SysWork *syswk);
+BOOL Box2Main_VFuncBoxMoveScrollRight(Box2SysWork *syswk);
+BOOL Box2Main_VFuncRangeMoveTouch(Box2SysWork *syswk);
+void Box2Main_ClearRangeFlags(Box2SysWork *syswk);
+void Box2Main_SetRangeFlags(Box2SysWork *syswk);
+// How many Pokémon the picked range holds
+u32 Box2Main_GetRangeCount(Box2AppWork *app);
+BOOL Box2Main_RangePutCheck(Box2SysWork *syswk, u32 tray, int pos);
+u32 Box2Main_GetRowWidth(Box2SysWork *syswk, u32 pos);
+void func_ov255_021c2804(Box2SysWork *syswk);
+void func_ov255_021c2854(Box2SysWork *syswk, u32 pos);
 
 #endif // POKEBW2_APP_BOX2_MAIN_H
