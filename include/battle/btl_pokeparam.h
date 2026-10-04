@@ -79,10 +79,12 @@ typedef struct {
 
 // One hit a BattleMon took, which func_ov167_021bc048 records and GetDamageReceived reads
 typedef struct {
-    u16 unk0;
-    u16 unk2;
-    u16 unk4;
-    u16 unk6;
+    u16 move;
+    u16 damage;
+    u8 type;
+    u8 attackerId;
+    u8 attackerPos;
+    u8 unk7;
 } BattleMonDamageRecord;
 
 // The first part of a BattleMon, which TransformSet keeps while it copies the rest from the target

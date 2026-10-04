@@ -30,6 +30,13 @@ BOOL func_ov167_021acec4(void *state, u8 monId);
 BOOL func_ov167_021a6ab8(BtlServerFlow *handler, u8 monId, BattleMon *mon, u32 stat, s32 change, u32 displayCode,
                          u32 context, u32 value, u8 extra, BOOL flag);
 
+// The targets hit by one strike of a damaging move, as func_ov167_021a4c90 works through them
+static u32 sHitEffectiveness[3];
+static BattleMon *sHitMons[3];
+static u16 sHitDamages[3];
+static u8 sHitUnk9[3];
+static u8 sHitCritical[3];
+
 BtlServerFlow *func_ov167_0219f390(BtlServer *server, BtlMainModule *mainModule, BtlPokeCon *pokeCon,
                                    BtlServerCmdQueue *queue, u32 a4, HeapID heapId) {
     BtlServerFlow *flow;
@@ -3033,7 +3040,7 @@ u32 func_ov167_021a46d8(BtlServerFlow *flow, BtlFlowDamageList *list, BattleMon 
     return count;
 }
 
-u8 func_ov167_021a4754(BtlServerFlow *flow, BtlFlowDamageList *list, BattleMon **mons) {
+u32 func_ov167_021a4754(BtlServerFlow *flow, BtlFlowDamageList *list, BattleMon **mons) {
     u32 i;
     for (i = 0; i < list->total; i++) {
         mons[i] = GetPokeParam(flow->pokeCon, list->entries[i].monId);
@@ -3164,7 +3171,7 @@ u8 func_ov167_021a4c34(BtlFlowHitWork *hitWork) {
     return hitWork->unk03;
 }
 
-void func_ov167_021a4c38(BtlFlowHitWork *hitWork, u8 value) {
+void func_ov167_021a4c38(BtlFlowHitWork *hitWork, u32 value) {
     if (hitWork->unk05 == 3) {
         hitWork->unk05 = value;
     }
@@ -3179,6 +3186,98 @@ u32 func_ov167_021a4c44(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon 
         return damage;
     }
     return 0;
+}
+
+u32 func_ov167_021a4c90(BtlServerFlow *flow, BattleMon *attacker, void *monSet, BtlFlowDamageList *list,
+                        BtlFlowMoveParam *param, BtlFlowHitWork *hitWork, u32 ratio, BtlFlowDamageFlags flags) {
+    int i;
+    u8 hitCount;
+    u8 substituteCount;
+    u32 total;
+    u8 attackerPos;
+
+    attackerPos = GetBattlePos(flow->unk1ab8, GetMonID(attacker));
+    total = func_ov167_021a4810(list);
+    substituteCount = func_ov167_021a46d8(flow, list, sHitMons, sHitDamages, sHitEffectiveness, sHitCritical);
+    for (i = 0; i < substituteCount; i++) {
+        if (IsSubstituteActive(sHitMons[i])) {
+            u32 dealt = func_ov167_021a7bb4(flow, attacker, sHitMons[i], sHitDamages[i], sHitEffectiveness[i],
+                                            sHitCritical[i], param);
+            func_ov169_0689cd40(flow->unk860, sHitMons[i], dealt, 1);
+            total -= sHitDamages[i] - dealt;
+        }
+    }
+    if (func_ov167_021a4c24(hitWork)) {
+        u8 count = func_ov167_021a4754(flow, list, sHitMons);
+        for (i = 0; i < count; i++) {
+            func_ov167_021a5088(flow, attacker, sHitMons[i], param);
+        }
+    }
+    hitWork->unk01++;
+    hitCount = func_ov167_021a4788(flow, list, sHitMons, sHitDamages, sHitEffectiveness, sHitCritical, sHitUnk9);
+    if (hitCount == 0) {
+        return total;
+    }
+    func_ov167_021a5228(flow, param, attacker, hitCount, sHitMons);
+    func_ov167_021a92b0(flow, param, hitCount, sHitEffectiveness, sHitMons, sHitDamages, sHitCritical,
+                        flags.multipleTargets);
+    if (!func_ov167_021a4c34(hitWork)) {
+        func_ov167_021a9358(flow, hitCount, sHitEffectiveness, sHitMons, flags.multipleTargets);
+    } else {
+        func_ov167_021a4c38(hitWork, sHitEffectiveness[0]);
+    }
+    func_ov167_021a94dc(flow, hitCount, sHitMons, sHitCritical, flags.multipleTargets);
+    for (i = 0; i < hitCount; i++) {
+        func_ov169_0689cd40(flow->unk860, sHitMons[i], sHitDamages[i], 0);
+        func_ov167_021a52c8(flow, attackerPos, attacker, sHitMons[i], param, sHitDamages[i]);
+        func_ov167_021bb7c0(sHitMons[i], 2);
+    }
+    for (i = 0; i < hitCount; i++) {
+        if (sHitUnk9[i]) {
+            func_ov167_021a5198(flow, sHitMons[i], sHitUnk9[i]);
+        }
+    }
+    for (i = 0; i < hitCount; i++) {
+        func_ov167_021a576c(flow, param, attacker, sHitMons[i]);
+        ServerControl_DamageDrain(flow, param, attacker, sHitMons[i], sHitDamages[i]);
+        func_ov167_021a5320(flow, param, attacker, sHitMons[i], sHitDamages[i], 0);
+        func_ov167_021a7cc8(flow, attacker, sHitMons[i], param, sHitEffectiveness[i], sHitDamages[i], sHitCritical[i],
+                            0);
+    }
+    for (i = 0; i < hitCount; i++) {
+        ServerControl_CheckFainted(flow, sHitMons[i]);
+    }
+    ServerControl_CheckFainted(flow, attacker);
+    return total;
+}
+
+void func_ov167_021a4f80(BtlServerFlow *flow, BattleMon *attacker, BtlFlowMoveParam *param, void *targets) {
+    BattleMon *target;
+
+    func_ov169_0689ce0c(targets);
+    while ((target = func_ov169_0689ce14(targets)) != NULL) {
+        if (func_ov167_021aa674(flow, attacker, target, param)) {
+            BattleMoveEffectState *effect;
+            u32 state;
+
+            effect = flow->moveEffect;
+            if (!effect->enabled) {
+                effect->enabled = 1;
+            }
+            state = PushState(&flow->actionState, 0x198b);
+            func_ov167_021aa6d0(flow, attacker, target);
+            PopState(&flow->actionState, state, 0x198f);
+            func_ov169_0689cd9c(targets, target);
+        }
+    }
+}
+
+void func_ov167_021a504c(BtlServerFlow *flow, s32 effectiveness) {
+    if (effectiveness < 3) {
+        func_ov167_021b15d0(flow->queue, 0x5a, 0x4f, 0xffff0000);
+    } else if (effectiveness > 3) {
+        func_ov167_021b15d0(flow->queue, 0x5a, 0x4e, 0xffff0000);
+    }
 }
 
 // Function names from swan.

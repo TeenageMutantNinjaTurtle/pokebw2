@@ -34,6 +34,7 @@ u32 func_ov169_0689cec0(void *monSet);
 void func_ov169_0689cf54(void *monSet, BattleMon *mon, void *out);
 void func_ov169_0689cfe0(void *monSet, BattleMon *mon, void *out);
 BOOL func_ov169_0689ced8(void *monSet);
+void func_ov169_0689cd40(void *monSet, BattleMon *mon, u32 damage, BOOL flag);
 void func_ov169_0689cd9c(void *monSet, BattleMon *mon);
 BOOL func_ov169_0689d724(void *data, BtlMainModule *mainModule, u8 monId);
 void func_ov169_0689d1d8(void *data);
