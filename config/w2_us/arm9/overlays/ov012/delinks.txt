@@ -28,6 +28,10 @@ src/ov012/musical_program.c:
     .text       start:0x02152318 end:0x0215268c
     .data       start:0x0216e048 end:0x0216e05c
 
+src/ov012/event_colosseum_battle.c:
+    .text       start:0x0215268c end:0x0215295c
+    .data       start:0x0216e05c end:0x0216e074
+
 src/ov012/script_sys.c:
     .text       start:0x021536ac end:0x02153de4
     .data       start:0x0216e1d0 end:0x0216e1f4

@@ -90,7 +90,7 @@ prints the tables below from the configs and the ROM:
 
 ### Overlay 12
 
-833 of 1668 functions are in source files. Embedded names without a file yet: `calender.c`, `comm_player.c`, `delivery_beacon.c`, `delivery_irc.c`, `event_battle.c`, `fld_btl_inst_tool.c`, `fldmmdl.c`, `game_beacon_search.c`, `namein_setup.c`, `pair_sys.c`, `report_event.c`, `scrcmd_keysystem.c`, `symbol_map.c`, `trcard_sys.c`, `waza_oshie.c`.
+836 of 1668 functions are in source files. Embedded names without a file yet: `calender.c`, `comm_player.c`, `delivery_beacon.c`, `delivery_irc.c`, `event_battle.c`, `fld_btl_inst_tool.c`, `fldmmdl.c`, `game_beacon_search.c`, `namein_setup.c`, `pair_sys.c`, `report_event.c`, `scrcmd_keysystem.c`, `symbol_map.c`, `trcard_sys.c`, `waza_oshie.c`.
 
 | File | `.text` (Black 2) | Functions | Status | Name |
 | --- | --- | --- | --- | --- |
@@ -99,6 +99,7 @@ prints the tables below from the configs and the ROM:
 | `musical_dressup_sys.c` | `0x02151e68`–`0x02151f90` | 5 | complete | string at `0x0216dfd0` |
 | `musical_stage_sys.c` | `0x02151f90`–`0x021522d8` | 9 | complete | string at `0x0216dff4` |
 | `musical_program.c` | `0x021522d8`–`0x0215264c` | 15 | partial | string at `0x0216e008` |
+| `event_colosseum_battle.c` | `0x0215264c`–`0x0215291c` | 3 | partial | descriptive |
 | `script_sys.c` | `0x0215366c`–`0x02153da4` | 41 | partial | string at `0x0216e190` |
 | `script_work.c` | `0x02153da4`–`0x02154070` | 31 | complete | string at `0x0216e1b4` |
 | `script_sub_event.c` | `0x02154070`–`0x02154180` | 7 | partial | descriptive |
