@@ -29,9 +29,9 @@ GameEventReturnCode EventBattleLose_Callback(GameEvent *event, u32 *state, void 
         break;
     case 2:
         if (!work->returnNonLeague) {
-            EventScriptCall_Start(event, 2, NULL, NULL, HEAPID_FIELDMAP);
+            EventScriptCall_Start(event, 2, NULL, 0, HEAPID_FIELDMAP);
         } else {
-            EventScriptCall_Start(event, 0x7d1, NULL, NULL, HEAPID_FIELDMAP);
+            EventScriptCall_Start(event, 0x7d1, NULL, 0, HEAPID_FIELDMAP);
         }
         (*state)++;
         break;

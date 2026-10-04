@@ -94,11 +94,11 @@ GameEventReturnCode EventSweetScent_Callback(GameEvent *event, u32 *state, void 
         *state = 9;
         break;
     case 7:
-        EventScriptCall_Start(event, 0x2793, NULL, NULL, 0x15);
+        EventScriptCall_Start(event, 0x2793, NULL, 0, 0x15);
         *state = 9;
         break;
     case 8:
-        EventScriptCall_Start(event, 0x2794, NULL, NULL, 0x15);
+        EventScriptCall_Start(event, 0x2794, NULL, 0, 0x15);
         *state = 9;
         break;
     case 9:

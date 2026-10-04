@@ -269,7 +269,7 @@ GameEventReturnCode EventFlash_Callback(GameEvent *event, u32 *state, void *data
     switch (*state) {
     case 0:
         param = work->args.partySlot;
-        scriptWork = EventScriptCall_Start(event, 0x2718, NULL, NULL, heapId);
+        scriptWork = EventScriptCall_Start(event, 0x2718, NULL, 0, heapId);
         ScriptWork_SetParams(scriptWork, param, 0, 0, 0);
         ++*state;
         break;
@@ -323,7 +323,7 @@ GameEventReturnCode EventDigCall_Callback(GameEvent *event, u32 *state, void *da
     switch (*state) {
     case 0:
         param = work->args.partySlot;
-        scriptWork = EventScriptCall_Start(event, 0x271a, NULL, NULL, 0x15);
+        scriptWork = EventScriptCall_Start(event, 0x271a, NULL, 0, 0x15);
         ScriptWork_SetParams(scriptWork, param, 0, 0, 0);
         ++*state;
         break;
@@ -361,7 +361,7 @@ GameEventReturnCode EventTeleportCall_Callback(GameEvent *event, u32 *state, voi
     switch (*state) {
     case 0:
         param = work->args.partySlot;
-        scriptWork = EventScriptCall_Start(event, 0x2719, NULL, NULL, 0x15);
+        scriptWork = EventScriptCall_Start(event, 0x2719, NULL, 0, 0x15);
         ScriptWork_SetParams(scriptWork, param, 0, 0, 0);
         ++*state;
         break;
@@ -427,7 +427,7 @@ GameEventReturnCode EventRuinsStrengthCall_Callback(GameEvent *event, u32 *state
     switch (*state) {
     case 0:
         param = work->args.partySlot;
-        scriptWork = EventScriptCall_Start(event, 0x271e, NULL, NULL, heapId);
+        scriptWork = EventScriptCall_Start(event, 0x271e, NULL, 0, heapId);
         ScriptWork_SetParams(scriptWork, param, 0, 0, 0);
         ++*state;
         break;
@@ -458,7 +458,7 @@ GameEventReturnCode EventRuinsFlash_Callback(GameEvent *event, u32 *state, void 
     switch (*state) {
     case 0:
         param = work->args.partySlot;
-        scriptWork = EventScriptCall_Start(event, 0x271d, NULL, NULL, heapId);
+        scriptWork = EventScriptCall_Start(event, 0x271d, NULL, 0, heapId);
         ScriptWork_SetParams(scriptWork, param, 0, 0, 0);
         ++*state;
         break;

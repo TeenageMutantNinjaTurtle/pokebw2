@@ -165,7 +165,7 @@ GameEventReturnCode EventFieldFishing_Callback(GameEvent *event, u32 *state, voi
                 pkm = PokeParty_GetPkm(party, 0);
                 species = PokeParty_GetParam(pkm, 5, NULL);
                 func_ov012_0216063c(0x1c, species);
-                EventScriptCall_Start(event, 0x2796, NULL, NULL, HEAPID_FIELDMAP);
+                EventScriptCall_Start(event, 0x2796, NULL, 0, HEAPID_FIELDMAP);
                 *state = 10;
             } else if (result == 2) {
                 RecordAddOne(work->records, 0x50);
@@ -191,7 +191,7 @@ GameEventReturnCode EventFieldFishing_Callback(GameEvent *event, u32 *state, voi
             BtlSetup_Free(work->battleSetup);
         }
         func_ov012_021670f4(work->actor, 1);
-        EventScriptCall_Start(event, 0x2792 + *state, NULL, NULL, 0x15);
+        EventScriptCall_Start(event, 0x2792 + *state, NULL, 0, 0x15);
         *state = 8;
         break;
     case 8:

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "gfl/arc.h"
 #include "field/event_data.h"
 #include "field/field_script.h"
 #include "field/field_script_event.h"
@@ -20,6 +21,38 @@ struct EventScriptCallData {
     ScriptWork *work;
     FieldScriptSupervisor *supervisor;
 };
+
+GameEvent *EventScriptCall_Create(GameSystem *gsys, u16 scriptId, FieldActor *actor, HeapID heapId) {
+    return EventScriptCall_CreateCore(gsys, heapId, scriptId, actor, 0);
+}
+
+ScriptWork *EventScriptCall_Start(GameEvent *event, u16 scriptId, FieldActor *actor, u32 param, HeapID heapId) {
+    GameEvent *next = EventScriptCall_CreateCore(GameEvent_GetGameSystem(event), heapId, scriptId, actor, param);
+    EventScriptCallData *data = GameEvent_GetData(next);
+
+    GameEvent_ChainNext(event, next);
+    return data->work;
+}
+
+ScriptWork *EventScriptCall_Replace(GameEvent *event, u16 scriptId, FieldActor *actor, HeapID heapId) {
+    GameEvent *next = EventScriptCall_CreateCore(GameEvent_GetGameSystem(event), heapId, scriptId, actor, 0);
+    EventScriptCallData *data = GameEvent_GetData(next);
+
+    GameEvent_Replace(event, next);
+    return data->work;
+}
+
+BOOL FieldScript_VMExists(ScriptWork *work, u8 index) {
+    FieldScriptSupervisor *supervisor = ScriptWork_GetSupervisor(work);
+
+    if (supervisor == NULL) {
+        return FALSE;
+    }
+    if (FieldScriptSupervisor_GetVM(supervisor, index) != NULL) {
+        return TRUE;
+    }
+    return FALSE;
+}
 
 FieldScriptSupervisor *FieldScriptSupervisor_Create(HeapID heapId) {
     FieldScriptSupervisor *supervisor;
@@ -391,6 +424,15 @@ u32 FieldScript_ResolveSCRID(u32 zoneId, u16 scriptId, u16 *fileId, u16 *msgArcI
     *msgArcId = 3;
     *msgFileNo = 0xd0;
     return 0;
+}
+
+void *FieldScript_LoadData(u16 fileId, HeapID heapId) {
+    void *data = NULL;
+
+    if (data == NULL) {
+        data = GFL_ArcSysReadHeapNewLZ(0x38, fileId, FALSE, heapId);
+    }
+    return data;
 }
 
 BOOL FieldScript_CheckSCRID(u16 scriptId) {

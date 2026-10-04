@@ -113,7 +113,7 @@ u8 ActorMsgWin_GetPos(FieldScriptEnv *env);
 void ActorMsgWin_SetPos(FieldScriptEnv *env, u8 pos);
 
 // Runs a script from an event, and returns its work
-ScriptWork *EventScriptCall_Start(GameEvent *event, u16 scriptId, void *a2, void *a3, HeapID heapId);
+ScriptWork *EventScriptCall_Start(GameEvent *event, u16 scriptId, FieldActor *actor, u32 param, HeapID heapId);
 ScriptWork *ScriptWork_Create(HeapID heapId, GameSystem *gsys, GameEvent *event, u16 scriptId, u32 arg4, u32 featureLevel);
 void ScriptWork_Free(ScriptWork *work);
 // Sets the script's parameters, which it reads from its work
@@ -388,7 +388,7 @@ void ScriptWork_SetPostEvent(ScriptWork *work, GameEvent *event);
 GameEvent *ScriptWork_GetEvent(ScriptWork *work);
 FieldScriptSupervisor *ScriptWork_GetSupervisor(ScriptWork *work);
 ScriptWork *EventScriptCall_GetWork(GameEvent *event);
-ScriptWork *EventScriptCall_Replace(GameEvent *event, u16 scriptId, u32 a2, u32 a3);
+ScriptWork *EventScriptCall_Replace(GameEvent *event, u16 scriptId, FieldActor *actor, HeapID heapId);
 u32 ScriptWork_AddVM(ScriptWork *work, u16 zoneId, u16 scriptId);
 BOOL FieldScript_VMExists(ScriptWork *work, u8 index);
 void FieldScript_Run(GameSystem *gsys, ScriptWork *work, u16 scriptId, u32 featureLevel);

@@ -227,7 +227,7 @@ GameEventReturnCode EventFieldFirst_Callback(GameEvent *event, u32 *state, void 
         break;
     case 3:
         SetActorFlag(FieldPlayer_GetActor(Field_GetPlayer(GSYS_GetField(gsys))), 4);
-        EventScriptCall_Start(event, 0x1d, NULL, NULL, HEAPID_USER);
+        EventScriptCall_Start(event, 0x1d, NULL, 0, HEAPID_USER);
         (*state)++;
         break;
     case 4:
@@ -235,7 +235,7 @@ GameEventReturnCode EventFieldFirst_Callback(GameEvent *event, u32 *state, void 
         (*state)++;
         break;
     case 5:
-        EventScriptCall_Start(event, 0x1e, NULL, NULL, HEAPID_USER);
+        EventScriptCall_Start(event, 0x1e, NULL, 0, HEAPID_USER);
         (*state)++;
         break;
     case 6:
@@ -327,7 +327,7 @@ GameEventReturnCode EventFieldContinue_Callback(GameEvent *event, u32 *state, vo
         break;
     case 3:
         if (wk->continueFromSave && *EventWork_GetWkPtr(eventWork, EVENT_WORK_CONTINUE_SCRIPT) != 0) {
-            EventScriptCall_Start(event, 0x83b, NULL, NULL, HEAPID_FIELDMAP);
+            EventScriptCall_Start(event, 0x83b, NULL, 0, HEAPID_FIELDMAP);
         } else {
             u8 season = GameData_GetSeason(gameData);
             GameEvent_ChainNext(event,
@@ -944,7 +944,7 @@ GameEventReturnCode EventMapChangeUnionRoomExit_Callback(GameEvent *event, u32 *
         GFL_OvlLoad(OVERLAY_ID(27));
         GameData_RestoreCGearPowerRequest(gameData);
         FieldSubscreen_ChangeImm(Field_GetSubscreen(field), 0);
-        EventScriptCall_Start(event, 0x83a, NULL, NULL, HEAPID_FIELDMAP);
+        EventScriptCall_Start(event, 0x83a, NULL, 0, HEAPID_FIELDMAP);
         (*state)++;
         break;
     case 3:
@@ -1679,7 +1679,7 @@ GameEventReturnCode EventEntralinkWarpIn_Callback(GameEvent *event, u32 *state, 
             GameCommSys_ExitReq(comm);
             *state = 1;
         }
-        EventScriptCall_Start(event, scriptId, NULL, NULL, Field_GetHeapID(wk->field));
+        EventScriptCall_Start(event, scriptId, NULL, 0, Field_GetHeapID(wk->field));
         break;
     }
     case 1:

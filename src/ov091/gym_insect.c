@@ -314,7 +314,7 @@ static GameEventReturnCode GymInsect_RideEvent(GameEvent *event, u32 *state, voi
     case 0:
         if (IsAllActorAcmdFinished(wk->playerActor)) {
             DisableAllActorsMovement(wk->mmSys);
-            EventScriptCall_Start(event, 1, NULL, NULL, wk->tailHeapId);
+            EventScriptCall_Start(event, 1, NULL, 0, wk->tailHeapId);
             (*state)++;
         }
         break;
@@ -341,7 +341,7 @@ static GameEventReturnCode GymInsect_RideEvent(GameEvent *event, u32 *state, voi
         } else {
             (*state)++;
         }
-        script = EventScriptCall_Start(event, ride->entry->script + 2, NULL, NULL, wk->tailHeapId);
+        script = EventScriptCall_Start(event, ride->entry->script + 2, NULL, 0, wk->tailHeapId);
         ScriptWork_SetParams(script, ride->index, ride->entry->scriptParam, 0, 0);
         break;
     case 4:
@@ -369,7 +369,7 @@ static GameEventReturnCode GymInsect_RideEventZone488(GameEvent *event, u32 *sta
     case 0:
         if (IsAllActorAcmdFinished(wk->playerActor)) {
             DisableAllActorsMovement(wk->mmSys);
-            EventScriptCall_Start(event, ride->entry->script + 1, NULL, NULL, wk->tailHeapId);
+            EventScriptCall_Start(event, ride->entry->script + 1, NULL, 0, wk->tailHeapId);
             (*state)++;
         }
         break;
@@ -391,7 +391,7 @@ static GameEventReturnCode GymInsect_RideEventZone488(GameEvent *event, u32 *sta
         break;
     case 3:
         if (Field_GetFadeFlag(wk->field) == FALSE) {
-            EventScriptCall_Start(event, ride->entry->script + 4, NULL, NULL, wk->tailHeapId);
+            EventScriptCall_Start(event, ride->entry->script + 4, NULL, 0, wk->tailHeapId);
             (*state)++;
         }
         break;
