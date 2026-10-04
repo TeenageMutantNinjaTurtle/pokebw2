@@ -55,6 +55,7 @@ static inline u16 BattleAction_GetMove(const BattleAction *action) {
 }
 
 u32 PushState(BtlActionState *state, u32 command);
+u32 PushStateUseItem(BtlActionState *state, u16 item, u32 command);
 void PopState(BtlActionState *state, u32 value, u32 command);
 u16 GetUseItemNo(BtlActionState *state);
 BOOL IsUsed(BtlActionState *state);

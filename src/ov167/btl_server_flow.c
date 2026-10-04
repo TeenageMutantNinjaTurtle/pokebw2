@@ -3694,6 +3694,94 @@ BOOL ServerControl_SimpleDamageCore(BtlServerFlow *flow, BattleMon *mon, u16 dam
     return FALSE;
 }
 
+BOOL ServerControl_UseHeldItem(BtlServerFlow *flow, BattleMon *mon) {
+    u32 item = GetBattleMonHeldItem(mon);
+    BOOL result = FALSE;
+
+    if (DoesBattleMonExist(flow->unk1ab8, GetMonID(mon))) {
+        u32 state = PushState(&flow->actionState, 0x1cfa);
+        if (!ServerEvent_CheckHeldItemFail(flow, mon, item)) {
+            result = TRUE;
+        }
+        if (result) {
+            u32 itemState;
+            u32 reserved;
+
+            reserved = SCQUE_RESERVE_Pos(flow->queue, 0x42);
+            itemState = PushStateUseItem(&flow->actionState, item, 0x1d04);
+            ServerEvent_EquipItem(flow, mon);
+            if (BattleHandler_Result(flow) != 2) {
+                result = FALSE;
+            }
+            PopState(&flow->actionState, itemState, 0x1d09);
+            if (result) {
+                func_ov167_021b14ec(flow->queue, reserved, 0x42, GetMonID(mon));
+                if (ItemGetParam(item, 0x10)) {
+                    ServerControl_ChangeHeldItem(flow, mon, 0, TRUE);
+                }
+            }
+        }
+        PopState(&flow->actionState, state, 0x1d16);
+    }
+    return result;
+}
+
+BOOL ServerEvent_CheckHeldItemFail(BtlServerFlow *flow, BattleMon *mon, u16 item) {
+    BOOL failed;
+    BattleEventVar_Push(0x1d29);
+    BattleEventVar_SetConstValue(2, GetMonID(mon));
+    BattleEventVar_SetConstValue(0x2d, item);
+    BattleEventVar_SetRewriteOnceValue(0x41, 0);
+    BattleEvent_CallHandlers(flow, 0x90);
+    failed = BattleEventVar_GetValue(0x41);
+    BattleEventVar_Pop(0x1d2f);
+    return failed;
+}
+
+void ServerControl_ChangeHeldItem(BtlServerFlow *flow, BattleMon *mon, u16 item, BOOL consume) {
+    u32 state;
+    u16 oldItem;
+    u8 monId;
+
+    monId = GetMonID(mon);
+    oldItem = GetBattleMonHeldItem(mon);
+
+    state = PushState(&flow->actionState, 0x1d3d);
+    ServerEvent_ItemSetDecide(flow, mon, item);
+    PopState(&flow->actionState, state, 0x1d3f);
+    if (item == 0) {
+        scPut_SetContFlag(flow, mon, 0xf);
+    }
+    ItemEvent_RemoveItem(mon);
+    func_ov167_021b1434(flow->queue, 0x1e, monId, item);
+    SetItem(mon, item);
+    if (item != 0) {
+        ItemEvent_AddItem(mon);
+    }
+    state = PushState(&flow->actionState, 0x1d4d);
+    ServerEvent_ItemSetFixed(flow, mon);
+    PopState(&flow->actionState, state, 0x1d4f);
+    if (consume) {
+        ConsumeItem(mon, oldItem);
+        func_ov167_021b1434(flow->queue, 0x17, monId, oldItem);
+        ServerDisplay_SetTurnFlag(flow, mon, 8);
+    }
+}
+
+void ServerControl_FaintPokemon(BtlServerFlow *flow, BattleMon *mon) {
+    ServerDisplay_FaintPokemon(flow, mon, 0);
+    ServerControl_CheckFainted(flow, mon);
+}
+
+void ServerControl_DamageAddCondition(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker,
+                                      BattleMon *target) {
+    BattleCondition value;
+    u32 condition = ServerEvent_CheckMoveAddCondition(flow, param->move, attacker, target, &value);
+    if (condition != 0 && !IsFainted(target)) {
+        ServerControl_MoveConditionCore(flow, attacker, target, param->move, condition, value, FALSE);
+    }
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));

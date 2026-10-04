@@ -70,7 +70,7 @@ void ServerControl_SwitchInFillSlot(BtlServerFlow *handler, u8 target, u8 slot, 
 BOOL ServerControl_AfterSwitchIn(BtlServerFlow *handler);
 void ServerControl_SetMonCounter(BtlServerFlow *handler, BattleMon *mon, u32 counter, u8 value);
 void ServerControl_CheckItemReaction(BtlServerFlow *handler, BattleMon *mon, u32 reaction);
-void ServerControl_ChangeHeldItem(BtlServerFlow *handler, BattleMon *mon, u16 item, u8 flag);
+void ServerControl_ChangeHeldItem(BtlServerFlow *handler, BattleMon *mon, u16 item, BOOL consume);
 BOOL ServerControl_UseHeldItem(BtlServerFlow *handler, BattleMon *mon);
 BOOL ServerControl_EscapeSub(BtlServerFlow *handler, BattleMon *mon, u32 flag);
 BOOL ServerControl_CheckMatchup(BtlServerFlow *handler);
@@ -329,6 +329,15 @@ BOOL func_ov167_021ae30c(BtlServerFlow *flow);
 fx32 ServerEvent_SameTypeAttackBonus(BtlServerFlow *flow, BattleMon *attacker, u8 type);
 u16 ServerEvent_CalcRecoil(BtlServerFlow *flow, BattleMon *mon, u16 move, u32 damage, BOOL *forced);
 BOOL ServerEvent_CheckSimpleDamageEnabled(BtlServerFlow *flow, BattleMon *mon, u16 damage);
+BOOL ServerEvent_CheckHeldItemFail(BtlServerFlow *flow, BattleMon *mon, u16 item);
+void ServerEvent_EquipItem(BtlServerFlow *flow, BattleMon *mon);
+void ServerEvent_ItemSetDecide(BtlServerFlow *flow, BattleMon *mon, u16 item);
+void ServerEvent_ItemSetFixed(BtlServerFlow *flow, BattleMon *mon);
+void ServerDisplay_FaintPokemon(BtlServerFlow *flow, BattleMon *mon, u32 flag);
+u32 ServerEvent_CheckMoveAddCondition(BtlServerFlow *flow, u16 move, BattleMon *attacker, BattleMon *target,
+                                      BattleCondition *value);
+void ServerControl_MoveConditionCore(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, u16 move,
+                                     u32 condition, BattleCondition value, BOOL flag);
 void ServerEvent_DamageAddEffect(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, BattleMon *target);
 void ServerControl_DamageAddCondition(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker,
                                       BattleMon *target);
