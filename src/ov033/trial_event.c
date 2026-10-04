@@ -1,6 +1,6 @@
 #include "field/battle_facility.h"
 #include "field/trial_house.h"
-#include "gfl/input.h"
+#include "gfl/key.h"
 #include "gfl/net.h"
 #include "save/trial_house.h"
 #include "system/game_data.h"

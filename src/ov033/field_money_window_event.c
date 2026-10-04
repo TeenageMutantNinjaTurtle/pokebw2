@@ -2,7 +2,7 @@
 #include "field/field_money_window.h"
 #include "gfl/bmpwin.h"
 #include "gfl/heap.h"
-#include "gfl/input.h"
+#include "gfl/key.h"
 #include "gfl/sound.h"
 #include "save/bag.h"
 #include "save/save_control.h"

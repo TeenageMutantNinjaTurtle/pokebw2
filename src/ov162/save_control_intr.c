@@ -1,6 +1,6 @@
 #include "types.h"
 #include "gfl/heap.h"
-#include "gfl/input.h"
+#include "gfl/ui.h"
 #include "save/save_control.h"
 #include "save/save_control_intr.h"
 

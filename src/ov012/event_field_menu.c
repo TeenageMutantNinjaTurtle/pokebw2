@@ -2,8 +2,8 @@
 #include "field/field_menu.h"
 #include "field/subscreen.h"
 #include "field/zone.h"
-#include "gfl/input.h"
 #include "gfl/std.h"
+#include "gfl/ui.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
 

@@ -20,4 +20,24 @@ BOOL extfs_fopen(FSFile *file, const void *data, u32 size);
 
 #define FS_SEEK_SET 0
 
+// Overlays: NitroSDK's FS_LoadOverlayInfo, FS_LoadOverlay, FS_UnloadOverlay and FS_SetDefaultDMA, under swan's names.
+// The target is the processor, MI_PROCESSOR_ARM9
+#define MI_PROCESSOR_ARM9 0
+#define FS_DMA_NOT_USE 0xffffffff
+
+typedef struct {
+    u32 id;
+    u8 *ramAddress;
+    u32 ramSize;
+    u32 bssSize;
+    u8 rest[0x1c];
+} FSOverlayInfo;
+
+BOOL sys_read_overlay_header(FSOverlayInfo *info, int target, u32 id);
+BOOL sys_load_overlay(int target, u32 id);
+BOOL sys_unload_overlay(int target, u32 id);
+u32 fs_set_dma_id(u32 dma);
+// Whether no read of the card is in progress. Unnamed, beside the card read thread
+BOOL func_0206f890(void);
+
 #endif // POKEBW2_NITRO_FS_H

@@ -2,7 +2,7 @@
 #define POKEBW2_GFL_BUTTON_MAN_H
 
 #include "types.h"
-#include "gfl/input.h"
+#include "gfl/touchpanel.h"
 #include "struct_decls.h"
 
 // Buttons of the touch screen (button_man.c): rectangles that report touches, holds and releases to a callback

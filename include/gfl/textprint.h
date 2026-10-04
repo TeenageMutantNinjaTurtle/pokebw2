@@ -28,6 +28,7 @@ struct TextPrintParam {
     u8 lineSpacing;
     u8 fgColor : 4;
     u8 bgColor : 4;
+    u8 pad;
 };
 
 // Loads the font, from a file or the built-in one when path is NULL

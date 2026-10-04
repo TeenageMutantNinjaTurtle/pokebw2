@@ -8,7 +8,7 @@
 #include "field/field_script.h"
 #include "field/field_visuals.h"
 #include "field/funfest_scripts.h"
-#include "gfl/input.h"
+#include "gfl/key.h"
 #include "gfl/random.h"
 #include "gfl/sound.h"
 #include "pml/poke_party.h"

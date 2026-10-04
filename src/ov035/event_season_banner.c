@@ -7,7 +7,7 @@
 #include "gfl/graphics.h"
 #include "gfl/gx_layers.h"
 #include "gfl/heap.h"
-#include "gfl/input.h"
+#include "gfl/key.h"
 #include "nitro/g2d.h"
 #include "nitro/hw.h"
 #include "struct_decls.h"

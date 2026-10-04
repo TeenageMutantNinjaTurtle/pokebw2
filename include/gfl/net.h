@@ -29,6 +29,8 @@ BOOL func_ov036_02180f80(GameCommSys *comm);
 BOOL func_0202bde0(GameCommSys *comm);
 BOOL func_020427a4(void);
 void func_02042860(u32 a0);
+// Steps the network while the game waits for it, as before a soft reset
+void func_020428e0(void);
 u32 func_02042a6c(NetHandle *handle);
 u32 func_02042c18(NetHandle *handle, u32 destination, u32 command, u32 size, const void *data, u32 count, u32 a6,
                   u32 a7);

@@ -12,6 +12,8 @@
 
 AreaMan *GFL_AreaManCreate(u32 blocks, HeapID heapId);
 void GFL_AreaManFree(AreaMan *man);
+// Finds a free run of size blocks anywhere, searching up from the first block
+u32 GFL_AreaManAllocDefault(AreaMan *man, u32 size);
 // Finds a free run of size blocks within the count blocks from start, searching up from start or down from it
 u32 GFL_AreaManAllocHead(AreaMan *man, u32 start, u32 count, u32 size);
 u32 GFL_AreaManAllocTail(AreaMan *man, u32 start, u32 count, u32 size);

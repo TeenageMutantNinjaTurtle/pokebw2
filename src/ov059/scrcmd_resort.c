@@ -8,7 +8,7 @@
 #include "gfl/bmpwin.h"
 #include "gfl/graphics.h"
 #include "gfl/heap.h"
-#include "gfl/input.h"
+#include "gfl/key.h"
 #include "gfl/msg.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"

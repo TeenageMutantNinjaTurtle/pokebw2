@@ -1,7 +1,7 @@
 #include "types.h"
 #include "gfl/button_man.h"
 #include "gfl/heap.h"
-#include "gfl/input.h"
+#include "gfl/touchpanel.h"
 
 enum {
     BUTTON_RELEASED,

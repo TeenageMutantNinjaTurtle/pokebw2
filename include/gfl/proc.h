@@ -15,6 +15,9 @@ struct GameProcFunctions {
     GameProcFunc exit;
 };
 
+// The game's process manager (procsys.c), and the update of a frame, which returns 0 once no process is left
+void GCTX_ProcMgrInit(HeapID heapId);
+u32 GCTX_ProcMgrUpdate(void);
 GameProcManager *CreateGameProcManager(HeapID heapId);
 void FreeGameProcManager(GameProcManager *manager);
 BOOL GFL_ProcMgrUpdate(GameProcManager *manager);

@@ -7,7 +7,7 @@
 #include "gfl/graphics.h"
 #include "gfl/gx_layers.h"
 #include "gfl/heap.h"
-#include "gfl/input.h"
+#include "gfl/key.h"
 #include "gfl/proc.h"
 #include "gfl/std.h"
 #include "nitro/gx.h"

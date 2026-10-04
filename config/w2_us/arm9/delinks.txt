@@ -90,3 +90,64 @@ src/main/calctool.c:
 src/main/str_sjis.c:
     complete
     .text       start:0x020508e4 end:0x02050a6c
+
+src/main/areaman.c:
+    .text       start:0x0203c410 end:0x0203ca50
+    .rodata     start:0x02092f78 end:0x0209328c
+    .data       start:0x0209a9cc end:0x0209a9d8
+
+src/main/vman.c:
+    complete
+    .text       start:0x0203ca50 end:0x0203cb90
+    .rodata     start:0x0209328c end:0x020932fc
+    .data       start:0x0209a9d8 end:0x0209a9e0
+
+src/main/gf_overlay.c:
+    .text       start:0x0203cd78 end:0x0203d038
+    .data       start:0x0209a9e4 end:0x0209a9fc
+    .bss        start:0x021418c0 end:0x021418c4
+
+src/main/ui.c:
+    complete
+    .text       start:0x0203d038 end:0x0203d688
+    .data       start:0x0209a9fc end:0x0209aa04
+    .bss        start:0x021418c4 end:0x021418cc
+
+src/main/touchpanel.c:
+    .text       start:0x0203d688 end:0x0203dc70
+    .data       start:0x0209aa04 end:0x0209aa14
+    .bss        start:0x021418cc end:0x021418d0
+
+src/main/key.c:
+    .text       start:0x0203dc70 end:0x0203dfec
+    .data       start:0x0209aa14 end:0x0209aa1c
+
+src/main/assert.c:
+    complete
+    .text       start:0x0203cb90 end:0x0203cbdc
+    .bss        start:0x021418a4 end:0x021418b4
+
+src/main/debug_print.c:
+    complete
+    .text       start:0x0203cbdc end:0x0203cd78
+    .data       start:0x0209a9e0 end:0x0209a9e4
+    .bss        start:0x021418b4 end:0x021418c0
+
+src/main/gf_standard.c:
+    complete
+    .text       start:0x02043e6c end:0x0204419c
+    .data       start:0x0209aedc end:0x0209aeec
+    .bss        start:0x02141900 end:0x02141904
+
+src/main/tcb.c:
+    .text       start:0x0203a528 end:0x0203a700
+
+src/main/tcbl.c:
+    .text       start:0x0203a700 end:0x0203a944
+    .data       start:0x0209a8ac end:0x0209a8b4
+
+src/main/procsys.c:
+    complete
+    .text       start:0x0203a944 end:0x0203abd8
+    .data       start:0x0209a8b4 end:0x0209a8c0
+    .bss        start:0x02141898 end:0x0214189c

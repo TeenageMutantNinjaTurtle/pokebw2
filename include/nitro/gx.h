@@ -201,6 +201,7 @@ typedef enum {
 
 typedef enum {
     GX_BG_CHARBASE_0x00000 = 0,
+    GX_BG_CHARBASE_0x10000 = 4,
     GX_BG_CHARBASE_0x3c000 = 15,
 } GXBGCharBase;
 
@@ -813,6 +814,9 @@ void gfxEndBGExtPltBUpload(void);
 void gfxBeginObjExtPltBUpload(void);
 void gfxUploadExtPaletteObjB(const void *src, u32 offset, u32 size);
 void gfxEndObjExtPltBUpload(void);
+
+// NitroSDK's G2_GetBG0ScrPtr
+void *gfxGetScreenAddrBG0A(void);
 
 // NitroSDK's G2_GetBG0CharPtr to G2S_GetBG3CharPtr
 void *gfxGetCharAddrBG0A(void);
