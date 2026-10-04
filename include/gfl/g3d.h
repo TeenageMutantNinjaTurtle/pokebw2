@@ -137,6 +137,10 @@ void GFL_G3DActorFree(G3DActor *actor);
 G3DLight *GFL_G3DLightCreate(const LightSetupList *setup, HeapID heapId);
 void GFL_G3DLightFree(G3DLight *lights);
 void GFL_G3DLightFlush(G3DLight *lights);
+void GFL_G3DLightGetDirVector(G3DLight *lights, u8 lightId, VecFx16 *direction);
+void GFL_G3DLightSetDirVector(G3DLight *lights, u8 lightId, const VecFx16 *direction);
+void GFL_G3DLightGetColor(G3DLight *lights, u8 lightId, GXRgb *color);
+void GFL_G3DLightSetColor(G3DLight *lights, u8 lightId, const GXRgb *color);
 
 G3DCamera *GFL_G3DCameraCreate(G3DCameraProjectionMode proj, fx32 param1, fx32 param2, fx32 param3, fx32 param4,
                                fx32 near, fx32 far, fx32 ndcRangeOverride, const VecFx32 *position,
@@ -145,9 +149,22 @@ void GFL_G3DCameraFree(G3DCamera *cam);
 void GFL_G3DCameraFlush(G3DCamera *cam);
 void GFL_G3DCameraSetProjectionZNear(G3DCamera *cam, fx32 *zNear);
 void GFL_G3DCameraSetProjectionZFar(G3DCamera *cam, fx32 *zFar);
+void GFL_G3DCameraGetProjectionZNear(G3DCamera *cam, fx32 *zNear);
+G3DCameraProjectionMode GFL_G3DCameraGetProjectionType(G3DCamera *cam);
 void GFL_G3DCameraGetLookatPos(G3DCamera *cam, VecFx32 *pos);
+void GFL_G3DCameraSetLookatPos(G3DCamera *cam, const VecFx32 *pos);
 void GFL_G3DCameraGetLookatUpVector(G3DCamera *cam, VecFx32 *up);
+void GFL_G3DCameraSetLookatUpVector(G3DCamera *cam, const VecFx32 *up);
 void GFL_G3DCameraGetLookatTarget(G3DCamera *cam, VecFx32 *target);
+void GFL_G3DCameraSetLookatTarget(G3DCamera *cam, const VecFx32 *target);
+// The projection's parameters as a perspective one's field of view, or an orthographic one's top and bottom
+void GFL_G3DCameraPerspectiveSetFOVSin(G3DCamera *cam, fx32 fovSin);
+void GFL_G3DCameraPerspectiveGetFOVCos(G3DCamera *cam, fx32 *fovCos);
+void GFL_G3DCameraPerspectiveSetFOVCos(G3DCamera *cam, fx32 fovCos);
+void GFL_G3DCameraOrthoGetTop(G3DCamera *cam, fx32 *top);
+void GFL_G3DCameraOrthoSetTop(G3DCamera *cam, fx32 top);
+void GFL_G3DCameraOrthoGetBottom(G3DCamera *cam, fx32 *bottom);
+void GFL_G3DCameraOrthoSetBottom(G3DCamera *cam, fx32 bottom);
 
 BOOL GFL_G3DActorBindAnm(G3DActor *actor, u16 anmIdx);
 BOOL GFL_G3DActorUnbindAnm(G3DActor *actor, u16 anmIdx);
