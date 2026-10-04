@@ -66,6 +66,16 @@ typedef struct {
     BtlFlowDamageEntry entries[6];
 } BtlFlowDamageList;
 
+// How many times a move hits, and how its hits are checked
+typedef struct {
+    u8 count;
+    u8 unk01;
+    u8 unk02;
+    u8 unk03;
+    u8 unk04;
+    u8 unk05;
+} BtlFlowHitWork;
+
 // Mons that react to a move, with their targets
 typedef struct {
     u8 count;
@@ -95,7 +105,7 @@ struct BtlServerFlow {
     BattleMoveEffectState *moveEffect;
     BtlFlowReactionList *unk4AC;
     BtlFlowReactionList *unk4B0;
-    void *unk4B4;
+    BtlFlowHitWork *unk4B4;
     BtlClientIDList clientIdList;
     u8 unk4C0[0xe];
     BtlFlowClientList unk4CE;

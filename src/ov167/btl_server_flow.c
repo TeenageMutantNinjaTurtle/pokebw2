@@ -3012,7 +3012,7 @@ void func_ov167_021a44f0(BtlServerFlow *flow, BattleMon *attacker, void *targets
     list->total = i;
 }
 
-u8 func_ov167_021a46d4(BtlFlowDamageList *list) {
+u32 func_ov167_021a46d4(BtlFlowDamageList *list) {
     return list->total;
 }
 
@@ -3097,6 +3097,88 @@ u32 func_ov167_021a4830(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon 
         damage += func_ov167_021a4c44(flow, param, attacker, flow->unk85C, flow->unk870, flow->unk4B4, ratio, flags);
     }
     return damage;
+}
+
+u32 func_ov167_021a49c4(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, void *targets, void *data) {
+    BtlFlowDamageFlags flags = { 0 };
+    u32 hit;
+    u32 hits;
+    u32 damage = 0;
+    u32 status;
+    u8 targetPos = 6;
+    BattleMon *target = func_ov169_0689cdf8(targets, 0);
+
+    flow->unk789 = GetMonID(target);
+    if (func_ov167_0219bd88(flow->mainModule)) {
+        targetPos = GetBattlePos(flow->unk1ab8, GetMonID(target));
+        if (targetPos != 6) {
+            func_ov167_021b1434(flow->queue, 0x4e, GetBattlePos(flow->unk1ab8, GetMonID(attacker)), targetPos, 0x27e);
+        }
+    }
+    for (hit = 0, hits = 0; hit < flow->unk4B4->count; hit++) {
+        BattleMoveEffectState *effect;
+
+        status = GetBattleMonStatus(attacker);
+        effect = flow->moveEffect;
+        if (!effect->enabled) {
+            effect->enabled = 1;
+            effect->unk05_1 = 1;
+        }
+        func_ov167_021b1434(flow->queue, 0x30, flow->moveEffect->pos1, flow->moveEffect->pos2, param->move, 0);
+        func_ov167_021a44f0(flow, attacker, targets, param, data, 0x1000, flow->unk870);
+        damage += func_ov167_021a4c44(flow, param, attacker, targets, flow->unk870, flow->unk4B4, 0x1000, flags);
+        hits++;
+        if (IsFainted(target) || IsFainted(attacker)) {
+            break;
+        }
+        ServerControl_CheckItemReaction(flow, target, 1);
+        if (GetBattleMonStatus(attacker) == 2 && status != 2) {
+            break;
+        }
+        if (flow->unk4B4->unk02 && !func_ov167_021a3504(flow, attacker, target, param)) {
+            break;
+        }
+    }
+    if (hits != 0) {
+        func_ov167_021a504c(flow, flow->unk4B4->unk05);
+        func_ov167_021b15d0(flow->queue, 0x5a, 0x20, hits, 0xffff0000);
+    }
+    if (IsFainted(target)) {
+        func_ov167_021b15d0(flow->queue, 0x5b, 0, GetMonID(target), 0xffff0000);
+    }
+    if (targetPos != 6) {
+        func_ov167_021b1434(flow->queue, 0x4d, GetBattlePos(flow->unk1ab8, GetMonID(attacker)), 0x291);
+    }
+    flow->unk789 = 0x1f;
+    return damage;
+}
+
+BOOL func_ov167_021a4c24(BtlFlowHitWork *hitWork) {
+    if (hitWork->unk01 == 0) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+u8 func_ov167_021a4c34(BtlFlowHitWork *hitWork) {
+    return hitWork->unk03;
+}
+
+void func_ov167_021a4c38(BtlFlowHitWork *hitWork, u8 value) {
+    if (hitWork->unk05 == 3) {
+        hitWork->unk05 = value;
+    }
+}
+
+u32 func_ov167_021a4c44(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, void *monSet,
+                        BtlFlowDamageList *list, BtlFlowHitWork *hitWork, u32 ratio, BtlFlowDamageFlags flags) {
+    u8 total = func_ov167_021a46d4(list);
+    if (total) {
+        u32 damage = func_ov167_021a4c90(flow, attacker, monSet, list, param, hitWork, ratio, flags);
+        func_ov167_021a5374(flow, attacker, param, damage);
+        return damage;
+    }
+    return 0;
 }
 
 // Function names from swan.

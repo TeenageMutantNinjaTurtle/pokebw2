@@ -277,13 +277,13 @@ void func_ov167_021a4250(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 moveS
 u32 func_ov167_021a4278(BtlServerFlow *flow, BattleMon *mon, u8 moveSlot, u16 move, void *targets);
 void func_ov167_021a44f0(BtlServerFlow *flow, BattleMon *attacker, void *targets, BtlFlowMoveParam *param,
                          void *effectiveness, u32 arg5, BtlFlowDamageList *list);
-u8 func_ov167_021a46d4(BtlFlowDamageList *list);
+u32 func_ov167_021a46d4(BtlFlowDamageList *list);
 u8 func_ov167_021a4754(BtlServerFlow *flow, BtlFlowDamageList *list, BattleMon **mons);
 u32 func_ov167_021a4788(BtlServerFlow *flow, BtlFlowDamageList *list, BattleMon **mons, u16 *damages,
                         u32 *effectiveness, u8 *critical, u8 *unk9);
 u32 func_ov167_021a4810(BtlFlowDamageList *list);
 u32 func_ov167_021a4c44(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, void *monSet,
-                        BtlFlowDamageList *list, void *hitWork, u32 ratio, BtlFlowDamageFlags flags);
+                        BtlFlowDamageList *list, BtlFlowHitWork *hitWork, u32 ratio, BtlFlowDamageFlags flags);
 u32 func_ov167_021a46d8(BtlServerFlow *flow, BtlFlowDamageList *list, BattleMon **mons, u16 *damages,
                         u32 *effectiveness, u8 *critical);
 u16 func_ov167_021a5074(BattleMon *mon, u16 damage);
@@ -296,13 +296,19 @@ void func_ov167_021a4370(BtlServerFlow *flow, BattleMon *mon, u8 moveIndex, u8 a
 u32 func_ov167_021a4830(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets, void *data,
                         u32 *reserved, u32 arg6);
 u32 func_ov167_021a49c4(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets, void *data);
-u8 func_ov167_021a4c34(void *hitWork);
+BOOL func_ov167_021a4c24(BtlFlowHitWork *hitWork);
+u8 func_ov167_021a4c34(BtlFlowHitWork *hitWork);
+void func_ov167_021a4c38(BtlFlowHitWork *hitWork, u8 value);
+u32 func_ov167_021a4c90(BtlServerFlow *flow, BattleMon *attacker, void *monSet, BtlFlowDamageList *list,
+                        BtlFlowMoveParam *param, BtlFlowHitWork *hitWork, u32 ratio, BtlFlowDamageFlags flags);
+void func_ov167_021a504c(BtlServerFlow *flow, u8 value);
+void func_ov167_021a5374(BtlServerFlow *flow, BattleMon *attacker, BtlFlowMoveParam *param, u32 damage);
 void func_ov167_021a4f80(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param, void *targets);
 void func_ov167_021a5478(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param);
 void func_ov167_021a54f4(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *monSet, u32 damage,
                          u32 arg5);
 void ServerControl_CalcRecoil(BtlServerFlow *flow, BattleMon *mon, u16 move, u32 damage);
-void ServerEvent_CheckMultihitHits(BtlServerFlow *flow, BattleMon *mon, u16 move, void *hitWork);
+void ServerEvent_CheckMultihitHits(BtlServerFlow *flow, BattleMon *mon, u16 move, BtlFlowHitWork *hitWork);
 void func_ov167_021a911c(BtlServerFlow *flow, BattleMon *mon, u16 move);
 BOOL func_ov167_021a9df0(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 target, u16 *delegateMove);
 BOOL func_ov167_021a9f70(BtlServerFlow *flow, BattleMon *mon, u16 move, u16 actualMove, BattleHandlerString *string);
