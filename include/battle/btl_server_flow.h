@@ -76,7 +76,7 @@ BOOL ServerControl_EscapeSub(BtlServerFlow *handler, BattleMon *mon, u32 flag);
 BOOL ServerControl_CheckMatchup(BtlServerFlow *handler);
 BOOL func_ov167_021abeb4(BtlServerFlow *handler, u8 monIndex);
 BOOL ServerControl_SwitchOut(BtlServerFlow *handler, BattleMon *mon, u8 flag);
-BOOL ServerControl_FieldEffectCore(BtlServerFlow *handler, u32 effect, BattleCondition value, u8 duration);
+BOOL ServerControl_FieldEffectCore(BtlServerFlow *handler, u32 effect, BattleCondition value, u8 dependPoke);
 void ServerControl_FieldEffectEnd(BtlServerFlow *handler, u32 effect);
 BOOL ServerControl_DecrementPP(BtlServerFlow *handler, BattleMon *mon, u8 moveIndex, u8 amount);
 BOOL ServerEvent_DecrementPP(BtlServerFlow *handler, BattleMon *mon, u8 moveIndex);
@@ -384,6 +384,10 @@ BOOL ServerControl_ForceSwitchCore(BtlServerFlow *flow, BattleMon *attacker, Bat
 u32 func_ov167_021a747c(BtlServerFlow *flow);
 s32 func_ov167_021a74a4(BtlServerFlow *flow, BtlServerClient *client);
 BOOL func_ov167_021a74fc(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target);
+void ServerControl_ChangeWeatherAfter(BtlServerFlow *flow, u8 weather);
+void ServerEvent_AfterWeatherChange(BtlServerFlow *flow, u8 weather);
+u8 ServerEvent_IncreaseMoveWeatherTurns(BtlServerFlow *flow, u8 weather, BattleMon *mon);
+void func_ov167_021a777c(BtlServerFlow *flow, BattleMon *mon, u16 move);
 BOOL ServerEvent_AddCondition(BtlServerFlow *flow, BattleMon *target, BattleMon *attacker, u32 condition,
                               BattleCondition value, BOOL flag, BOOL defaultMessage);
 u32 ServerEvent_CheckMoveAddCondition(BtlServerFlow *flow, u16 move, BattleMon *attacker, BattleMon *target,

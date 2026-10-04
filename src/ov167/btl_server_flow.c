@@ -4622,6 +4622,101 @@ BOOL func_ov167_021a74fc(BtlServerFlow *flow, BattleMon *attacker, BattleMon *ta
     return blocked;
 }
 
+void ServerControl_FieldEffect(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon) {
+    u8 weather = GetMoveWeather(param->move);
+
+    if (weather != 0) {
+        if (ServerControl_ChangeWeather(flow, weather, ServerEvent_IncreaseMoveWeatherTurns(flow, weather, mon) + 5)) {
+            BattleMoveEffectState *effect = flow->moveEffect;
+            if (!effect->enabled) {
+                effect->enabled = 1;
+            }
+        } else {
+            func_ov167_021a9230(flow, mon, param->move);
+        }
+    } else {
+        BOOL success;
+        u32 state = PushState(&flow->actionState, 0x22d8);
+        func_ov167_021a777c(flow, mon, param->move);
+        success = BattleHandler_Result(flow) == 2;
+        PopState(&flow->actionState, state, 0x22dc);
+        if (success) {
+            BattleMoveEffectState *effect = flow->moveEffect;
+            if (!effect->enabled) {
+                effect->enabled = 1;
+            }
+        } else {
+            func_ov167_021a9230(flow, mon, param->move);
+        }
+    }
+}
+
+BOOL ServerControl_ChangeWeather(BtlServerFlow *flow, u8 weather, u8 turns) {
+    if (ServerControl_ChangeWeatherCheck(flow, weather, turns)) {
+        ServerControl_ChangeWeatherCore(flow, weather, turns);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+BOOL ServerControl_ChangeWeatherCheck(BtlServerFlow *flow, u8 weather, u8 duration) {
+    if (weather >= 5) {
+        return FALSE;
+    }
+    if (weather == GetFieldWeather() && (duration != 0xff || func_ov167_021d59c0() == 0xff)) {
+        return FALSE;
+    }
+    return TRUE;
+}
+
+void ServerControl_ChangeWeatherCore(BtlServerFlow *flow, u8 weather, u8 duration) {
+    FieldStatusSetWeather(weather, duration);
+    func_ov167_021b1434(flow->queue, 0x3f, weather, duration);
+    ServerControl_ChangeWeatherAfter(flow, weather);
+}
+
+void ServerControl_ChangeWeatherAfter(BtlServerFlow *flow, u8 weather) {
+    u32 state = PushState(&flow->actionState, 0x2313);
+    ServerEvent_AfterWeatherChange(flow, weather);
+    PopState(&flow->actionState, state, 0x2315);
+}
+
+u8 ServerEvent_IncreaseMoveWeatherTurns(BtlServerFlow *flow, u8 weather, BattleMon *mon) {
+    u8 turns;
+    BattleEventVar_Push(0x2327);
+    BattleEventVar_SetConstValue(0x39, weather);
+    BattleEventVar_SetConstValue(3, GetMonID(mon));
+    BattleEventVar_SetValue(0x24, 0);
+    BattleEvent_CallHandlers(flow, 0x7c);
+    turns = BattleEventVar_GetValue(0x24);
+    BattleEventVar_Pop(0x232d);
+    return turns;
+}
+
+BOOL ServerControl_FieldEffectCore(BtlServerFlow *flow, u32 effect, BattleCondition value, u8 dependPoke) {
+    if (FieldStatusAddEffect(effect, value)) {
+        func_ov167_021b1434(flow->queue, 0x21, (u8)effect, value.raw);
+        return TRUE;
+    }
+    if (dependPoke) {
+        u8 monId = Condition_GetMonID(value);
+        if (monId != 0x1f) {
+            FieldStatusAddDependPoke(effect, monId);
+            func_ov167_021b1434(flow->queue, 0x22, (u8)effect, monId);
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+void func_ov167_021a777c(BtlServerFlow *flow, BattleMon *mon, u16 move) {
+    BattleEventVar_Push(0x2370);
+    BattleEventVar_SetValue(3, GetMonID(mon));
+    BattleEventVar_SetValue(0x12, move);
+    BattleEvent_CallHandlers(flow, 0x9e);
+    BattleEventVar_Pop(0x2374);
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));

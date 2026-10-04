@@ -29,6 +29,7 @@ u32 PML_MoveGetStatChangeStage(u16 move, u32 index, s32 *stage);
 u8 PML_MoveGetMaxPP(u16 move, u8 bonus);
 s32 PML_MoveGetParam(u16 move, u32 param);
 MoveConditionParam func_020214b0(u16 move);
+u32 GetMoveWeather(u16 move);
 BOOL PML_MoveIsDataCachePresent(void);
 void PML_MoveInitDataCache(u32 count, HeapID heapId);
 void PML_MoveFreeDataCache(void);
