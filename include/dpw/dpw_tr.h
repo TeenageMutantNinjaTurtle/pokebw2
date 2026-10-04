@@ -16,6 +16,22 @@ typedef struct {
     s8 unused;
 } Dpw_Tr_PokemonSearchData;
 
+// What a deposited Pokémon is, for searches
+typedef struct {
+    s16 characterNo;
+    s8 gender;
+    s8 level;
+} Dpw_Tr_PokemonDataSimple;
+
+// A deposited Pokémon on the server
+typedef struct {
+    // The Pokémon, a party Pokémon
+    u8 postData[0xec];
+    Dpw_Tr_PokemonDataSimple postSimple;
+    Dpw_Tr_PokemonSearchData wantSimple;
+    u8 unkF6[0x32];
+} Dpw_Tr_Data;
+
 // Runs the library's requests, every frame
 void func_ov189_021a6d00(void);
 

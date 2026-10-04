@@ -410,7 +410,7 @@ void WorldTrade_SelBoxInit(WorldTradeWork *wk, u8 frame, int count, int y) {
         GFL_ASSERT(count <= NELEMS( itemWork ));
         // clang-format on
         for (i = 0; i < count; i++) {
-            itemWork[i].str = wk->menuList[i].str;
+            itemWork[i].str = wk->menuList[i].text;
         }
         init.heapId = HEAPID_WORLDTRADE;
         init.itemCount = count;

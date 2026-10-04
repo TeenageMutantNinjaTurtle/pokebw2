@@ -4,6 +4,7 @@
 #include "types.h"
 #include "app/worldtrade.h"
 #include "dpw/dpw_tr.h"
+#include "gfl/bmp_menu.h"
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"
 #include "gfl/msg.h"
@@ -82,11 +83,18 @@ typedef struct {
     KeyCursor *keyCursor;
 } WorldTradePrint;
 
-// An entry of the list that the select boxes take their texts from
+// A Pokémon icon of the box screen, whose characters and palette worldtrade_box.c uploads at the next VBlank
 typedef struct {
-    StrBuf *str;
-    u32 param;
-} WorldTradeMenuListItem;
+    u32 charOffset;
+    u32 palette;
+    ClActor *icon;
+    u8 chars[0x200];
+} WorldTradePokeBuf;
+
+// The boxes and the party have 30 slots a page
+#define BOX_POKE_NUM 30
+// How many Pokémon a search returns
+#define SEARCH_POKE_MAX 7
 
 typedef struct WorldTradeWork WorldTradeWork;
 
@@ -115,10 +123,21 @@ struct WorldTradeWork {
     u16 titleCursorPos;
     u16 unkC2;
     u16 boxTrayNo;
-    u8 unkC6[0xa];
+    u16 boxCursorPos;
+    // How many boxes the player has
+    u32 boxCount;
+    // The Pokémon chosen to deposit or offer
+    BoxPkm *depositPkm;
     // How many Pokémon a search found
     int searchResult;
-    u8 unkD4[0xa82];
+    // Which of them was chosen
+    int touchTrainerPos;
+    u8 unkD8[0xc];
+    Dpw_Tr_Data uploadPokemonData;
+    Dpw_Tr_Data downloadPokemonData[SEARCH_POKE_MAX];
+    Dpw_Tr_Data exchangePokemonData;
+    Dpw_Tr_PokemonDataSimple post;
+    Dpw_Tr_PokemonSearchData want;
     Dpw_Tr_PokemonSearchData search;
     // The last search, which can't be made again
     Dpw_Tr_PokemonSearchData searchBackup;
@@ -129,13 +148,38 @@ struct WorldTradeWork {
     MsgData *lobbyMsgManager;
     MsgData *systemMsgManager;
     MsgData *countryNameManager;
-    u8 unkB80[0x40];
+    StrBuf *boxTrayNameString;
+    // "Quit"
+    StrBuf *endString;
+    StrBuf *talkString;
+    u8 unkB8C[0x34];
     ClActUnit *clactUnit;
     u32 clactRes[WT_CLACT_RES_SETS][WT_CLACT_RES_KINDS];
-    u8 unkBF4[0x14c];
+    ClActor *cursorAct;
+    ClActor *unkBF8;
+    // The finger that points at the Quit button
+    ClActor *fingerAct;
+    ClActor *pokeIconAct[BOX_POKE_NUM];
+    ClActor *itemIconAct[BOX_POKE_NUM];
+    ClActor *cballAct[6];
+    u8 unkD08[0x24];
+    // The arrows by the box name
+    ClActor *boxArrowAct[2];
+    ClActor *unkD34;
+    // The icon that says to look at the lower screen
+    ClActor *promptDsAct;
+    int unkD3C;
     BmpWin *msgWin;
-    u8 unkD44[0xa4];
-    WorldTradeMenuListItem *menuList;
+    u8 unkD44[0x8];
+    BmpWin *subWin;
+    BmpWin *menuWin[13];
+    u8 unkD84[0x4c];
+    BmpWin *talkWin;
+    u8 unkDD4[0xc];
+    // Explains the screen on the lower screen
+    BmpWin *explainWin;
+    u8 unkDE4[0x4];
+    ListMenuOption *menuList;
     u8 unkDEC[0xc];
     WaitIcon *timeWaitWork;
     u8 unkDFC[0x8];
@@ -147,10 +191,12 @@ struct WorldTradeWork {
     u8 unkE1C[0x8c];
     // The Pokémon of the trade demo
     PartyPkm *demoPokemon;
-    u8 unkEAC[0x4];
+    // The box page's Pokémon, as the server describes them
+    Dpw_Tr_PokemonDataSimple *boxWork;
     u16 boxPokeNum;
     u16 boxSearchFlag;
-    u8 unkEB4[0x8];
+    u32 subOutFlag;
+    WorldTradePokeBuf *boxIcon;
     // Called once at the next VBlank
     WorldTradeVBlankFunc vfunc;
     // Called at every VBlank
@@ -163,7 +209,8 @@ struct WorldTradeWork {
     u8 unkF98[0x4];
     void *tcbBuffer;
     WorldTradePrint print;
-    u8 unk10DC[0x20c];
+    u8 unk10DC[0x208];
+    int unk12E4;
     int unk12E8;
     u8 unk12EC[0x4];
     GameProcManager *procManager;
@@ -198,6 +245,10 @@ void WorldTrade_ShowFatalError(WorldTradeWork *wk);
 int WorldTrade_Box_Init(WorldTradeWork *wk, int seq);
 int WorldTrade_Box_Main(WorldTradeWork *wk, int seq);
 int WorldTrade_Box_End(WorldTradeWork *wk, int seq);
+BOOL WorldTrade_GetPPorPPP(int tray);
+BoxPkm *WorldTrade_GetPokePtr(PokeParty *party, BoxSaveAccessor *box, int tray, int pos);
+int WorldTrade_GetBoxPokeNum(PokeParty *party, BoxSaveAccessor *box, int tray);
+BOOL WorldTrade_PokemonMailCheck(PartyPkm *pkm);
 
 // worldtrade_demo.c
 int WorldTrade_Demo_Init(WorldTradeWork *wk, int seq);
@@ -208,11 +259,14 @@ int WorldTrade_Demo_End(WorldTradeWork *wk, int seq);
 int WorldTrade_Deposit_Init(WorldTradeWork *wk, int seq);
 int WorldTrade_Deposit_Main(WorldTradeWork *wk, int seq);
 int WorldTrade_Deposit_End(WorldTradeWork *wk, int seq);
+void func_ov214_021d7358(Dpw_Tr_Data *dtd, WorldTradeWork *wk);
 
 // worldtrade_enter.c
 int WorldTrade_Enter_Init(WorldTradeWork *wk, int seq);
 int WorldTrade_Enter_Main(WorldTradeWork *wk, int seq);
 int WorldTrade_Enter_End(WorldTradeWork *wk, int seq);
+void func_ov214_021d7fb4(BmpWin *win, StrBuf *str, int x, int y, int flag, u32 color, WorldTradePrint *print);
+void func_ov214_021d8068(WorldTradeWork *wk);
 
 // worldtrade_mypoke.c
 int WorldTrade_MyPoke_Init(WorldTradeWork *wk, int seq);
@@ -238,11 +292,18 @@ int WorldTrade_Status_End(WorldTradeWork *wk, int seq);
 void func_ov214_021de510(WorldTradeWork *wk);
 void func_ov214_021de98c(WorldTradeWork *wk, int count, int a2);
 void func_ov214_021deb40(WorldTradeWork *wk);
+void func_ov214_021debb0(WorldTradeWork *wk);
+void func_ov214_021debe0(WorldTradeWork *wk);
 
 // worldtrade_title.c
 int WorldTrade_Title_Init(WorldTradeWork *wk, int seq);
 int WorldTrade_Title_Main(WorldTradeWork *wk, int seq);
 int WorldTrade_Title_End(WorldTradeWork *wk, int seq);
+void func_ov214_021dee54(WorldTradeWork *wk, int a1, int a2);
+void func_ov214_021def50(WorldTradeWork *wk);
+void func_ov214_021df920(WorldTradeWork *wk);
+void func_ov214_021df9a0(WorldTradeWork *wk);
+void func_ov214_021dfa18(WorldTradeWork *wk, int explain);
 
 // worldtrade_upload.c
 int WorldTrade_Upload_Init(WorldTradeWork *wk, int seq);
@@ -250,9 +311,13 @@ int WorldTrade_Upload_Main(WorldTradeWork *wk, int seq);
 int WorldTrade_Upload_End(WorldTradeWork *wk, int seq);
 
 // worldtrade_adapter.c
+void func_ov214_021e14e0(WordSet *wordSet, u32 index, BoxPkm *pkm);
 PartyPkm *func_ov214_021e1504(HeapID heapId);
 void func_ov214_021e15d4(WorldTradePrint *print, TrainerDataSave *config);
 void func_ov214_021e1640(WorldTradePrint *print);
 void func_ov214_021e166c(WorldTradePrint *print);
+BOOL func_ov214_021e173c(WorldTradePrint *print);
+void func_ov214_021e1754(BmpWin *win, int x, StrBuf *str, int y, int a4, WorldTradePrint *print);
+void func_ov214_021e1840(WorldTradePrint *print);
 
 #endif // POKEBW2_OV214_WORLDTRADE_LOCAL_H

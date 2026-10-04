@@ -70,6 +70,9 @@ BOOL PokeParty_DecryptPkm(PartyPkm *pkm);
 void PokeParty_EncryptPkm(PartyPkm *pkm, BOOL wasEncrypted);
 u32 PML_PkmGetParam(BoxPkm *pkm, u32 param, void *buffer);
 BOOL PML_PkmDecrypt(BoxPkm *pkm);
+u32 PML_PkmGetLevel(BoxPkm *pkm);
+void PML_PkmChangeForme(BoxPkm *pkm, u32 forme);
+BOOL hasPokemonChangedForm(BoxPkm *pkm);
 void PML_PkmReEncrypt(BoxPkm *pkm, BOOL wasEncrypted);
 BOOL PML_PkmIsRare(BoxPkm *pkm);
 BoxPkm *func_0201d620(PartyPkm *pkm);
@@ -95,6 +98,9 @@ void setLevel(PartyPkm *pkm, u32 level);
 void setPkmBattleData(PartyPkm *pkm, u32 param, u32 value);
 // A species with its form and sex in one u16
 u16 func_02021204(u32 species, u32 form, u32 sex);
+// A Pokémon icon's character file in its archive, and its palette
+u32 PokeParty_GetIconIndex(u32 species, u32 form, u32 sex, BOOL egg);
+u32 func_02021034(u32 species, u32 form, u32 sex, BOOL egg);
 // The level, 0 to 4, of a Pokémon's Pokéstar fame
 int func_0201f010(u8 fame);
 PartyPkm *PokeParty_GetPkm(PokeParty *party, u32 index);
