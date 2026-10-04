@@ -227,3 +227,24 @@ src/main/net.c:
     .text       start:0x020425a0 end:0x02042f74
     .data       start:0x0209ace4 end:0x0209ad7c
     .bss        start:0x021418a8 end:0x021418b8
+
+src/main/net_irc_wireless.c:
+    .text       start:0x02042f74 end:0x02043868
+    .data       start:0x0209ad7c end:0x0209adc0
+    .bss        start:0x021418b8 end:0x021418bc
+
+src/main/net_lower_data.c:
+    complete
+    .text       start:0x02043868 end:0x02043e40
+    .data       start:0x0209adc0 end:0x0209ae9c
+    .bss        start:0x021418bc end:0x021418c0
+
+src/main/rtc_cache.c:
+    complete
+    .text       start:0x02044170 end:0x02044304
+    .rodata     start:0x02093378 end:0x02093390
+    .bss        start:0x021418c4 end:0x0214190c
+
+src/main/math_util.c:
+    complete
+    .text       start:0x02044304 end:0x020444a4

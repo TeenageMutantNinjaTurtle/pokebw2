@@ -11376,13 +11376,13 @@ from:0x020441b0 kind:thumb_call to:0x020441f0 module:main
 from:0x020441b8 kind:load to:0x021418c4 module:main
 from:0x02044204 kind:thumb_call to:0x0207cca4 module:main
 from:0x0204420c kind:load to:0x020441bd module:main
-from:0x02044230 kind:load to:0x021418d4 module:main
-from:0x02044234 kind:load to:0x021418e4 module:main
-from:0x02044248 kind:load to:0x021418e4 module:main
-from:0x0204425c kind:load to:0x021418d4 module:main
-from:0x02044280 kind:load to:0x021418e4 module:main
-from:0x0204428c kind:load to:0x021418d4 module:main
-from:0x02044290 kind:load to:0x021418e4 module:main
+from:0x02044230 kind:load to:0x021418c4 add:0x10 module:main
+from:0x02044234 kind:load to:0x021418c4 add:0x20 module:main
+from:0x02044248 kind:load to:0x021418c4 add:0x20 module:main
+from:0x0204425c kind:load to:0x021418c4 add:0x10 module:main
+from:0x02044280 kind:load to:0x021418c4 add:0x20 module:main
+from:0x0204428c kind:load to:0x021418c4 add:0x10 module:main
+from:0x02044290 kind:load to:0x021418c4 add:0x20 module:main
 from:0x02044294 kind:load to:0x0207d12d module:main
 from:0x020442c2 kind:thumb_call_arm to:0x0208d65c module:main
 from:0x020442d0 kind:thumb_call_arm to:0x0208d65c module:main

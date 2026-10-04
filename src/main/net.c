@@ -3,6 +3,8 @@
 #include "gfl/net.h"
 #include "gfl/net_command.h"
 #include "gfl/net_handle.h"
+#include "gfl/net_irc_wireless.h"
+#include "gfl/net_lower_data.h"
 #include "gfl/net_state.h"
 #include "gfl/net_system.h"
 #include "gfl/backup_card.h"
@@ -41,7 +43,7 @@ void func_020425a0(int a0, int a1, HeapID parentHeapId, HeapID heapId) {
     func_0203e7dc();
 }
 
-void func_020425ec(const GFLNetInitData *pNetInit, void (*callback)(void *work), void *work) {
+void func_020425ec(GFLNetInitData *pNetInit, void (*callback)(void *work), void *work) {
     GFLNetSys *pNet;
 
     if (sNet.parentHeapId != 0) {
@@ -175,19 +177,19 @@ void func_020428a0(void) {
     func_02041de4();
 }
 
-int func_020428a8(int a0) {
+void *func_020428a8(int index) {
     GFLNetSys *pNet = func_02042e78();
 
     if (pNet == NULL) {
-        return 0;
+        return NULL;
     }
-    return pNet->pDevTable->unk28(a0);
+    return pNet->pDevTable->unk28(index);
 }
 
-int func_020428c8(int a0) {
+u8 *func_020428c8(int index) {
     GFLNetSys *pNet = func_02042e78();
 
-    return pNet->pDevTable->unk2C(a0);
+    return pNet->pDevTable->unk2C(index);
 }
 
 BOOL func_020428e0(void) {
@@ -246,7 +248,7 @@ void func_02042970(void) {
     }
 }
 
-void func_020429a8(void (*callback)(void *work), void (*a1)(void *work), void (*a2)(void *work)) {
+void func_020429a8(void (*callback)(void *work), void (*a1)(void *work, BOOL a1), void (*a2)(void *work)) {
     GFLNetSys *pNet = func_02042e78();
 
     if (func_02043068() == TRUE) {
@@ -259,7 +261,7 @@ void func_020429d8(int a0) {
     func_02043834(a0);
 }
 
-void func_020429e0(const u8 *mac, int index) {
+void func_020429e0(u8 *mac, int index) {
     func_0204313c(mac, index);
 }
 

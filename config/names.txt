@@ -118,6 +118,8 @@
 . 0x0203db88 StartAutoSampling
 . 0x0203df50 GFL_HIDGetRepeat
 . 0x0203df64 GCTX_HIDGetRepeat
+. 0x020441bc RTCCache_ReadDone
+. 0x020441f0 RTCCache_Read
 . 0x02045ecc GFL_BGSysIsPixelOfColor
 . 0x0204694c GFL_BGSysSetScrTile
 . 0x02046a7c GFL_BGSysFlipTile

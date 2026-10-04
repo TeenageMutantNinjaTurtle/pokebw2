@@ -129,7 +129,7 @@ BOOL func_ov027_021704e0(VM *vm, FieldScriptEnv *env) {
         func_0200caa8(info, i, 0);
     }
     // The original call passes the value already in r0 without setting up a new argument.
-    setSecondsCurrentTimeInTrainerCard(info, ((s64 (*)(void))RTC_ConvertSecondsCached)());
+    setSecondsCurrentTimeInTrainerCard(info, RTC_ConvertSecondsCached());
     return FALSE;
 }
 

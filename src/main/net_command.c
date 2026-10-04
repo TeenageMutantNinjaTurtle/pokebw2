@@ -3,6 +3,8 @@
 #include "gfl/net.h"
 #include "gfl/net_command.h"
 #include "gfl/net_handle.h"
+#include "gfl/net_irc_wireless.h"
+#include "gfl/net_lower_data.h"
 #include "gfl/net_state.h"
 #include "gfl/net_system.h"
 #include "gfl/std.h"

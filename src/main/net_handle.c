@@ -2,6 +2,7 @@
 #include "gfl/heap.h"
 #include "gfl/net.h"
 #include "gfl/net_handle.h"
+#include "gfl/net_irc_wireless.h"
 #include "gfl/net_system.h"
 #include "gfl/std.h"
 
@@ -464,7 +465,7 @@ void func_0204095c(int netId, int size, NetNegotiation *negotiation, void *work,
             ini->negotiationCallback(work, negotiation->netId);
         }
         func_020430bc(negotiation->mac);
-        func_020430bc(negotiation);
+        func_020430bc(negotiation->serverMac);
     }
 }
 

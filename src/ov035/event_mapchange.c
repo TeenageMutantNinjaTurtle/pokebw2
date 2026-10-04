@@ -370,8 +370,8 @@ GameEvent *EventFieldContinue_Create(GameSystem *gsys, GameSystemProcData *procD
     trainerCard = getTrainerCardDataBlkAddress(wk->gameData);
     if (!hasClockNotBeenTampered(adventure)) {
         setNewDayForCountdown(getSaveAdventureTimeBlock(save));
-        setSecondsCurrentTimeInTrainerCard(trainerCard,
-                                           RTC_ConvertSecondsCached(func_ov012_02164428(wk->gameData, party)));
+        func_ov012_02164428(wk->gameData, party);
+        setSecondsCurrentTimeInTrainerCard(trainerCard, RTC_ConvertSecondsCached());
     }
     setAdvTimeBlkRtcOffsetOwnerMacBdayMonthDay(adventure);
     TransformVsPokePartyBySeason(wk->gameData, party, GameData_GetSeason(wk->gameData));

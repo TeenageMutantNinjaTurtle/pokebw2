@@ -4780,8 +4780,8 @@ _decryptData kind:function(thumb,size=0x8) addr:0x02044148
 crypt_SAV_BVideo_MG_misc_data kind:function(thumb,size=0x20) addr:0x02044150
 func_02044170 kind:function(thumb,size=0x28) addr:0x02044170
 func_02044198 kind:function(thumb,size=0x24) addr:0x02044198
-func_020441bc kind:function(thumb,size=0x32) addr:0x020441bc
-func_020441f0 kind:function(thumb,size=0x20) addr:0x020441f0
+RTCCache_ReadDone kind:function(thumb,size=0x32) addr:0x020441bc
+RTCCache_Read kind:function(thumb,size=0x20) addr:0x020441f0
 RTC_GetCachedDateTime kind:function(thumb,size=0x28) addr:0x02044210
 RTC_GetCachedTime kind:function(thumb,size=0x14) addr:0x02044238
 RTC_GetCachedDate kind:function(thumb,size=0x14) addr:0x0204424c
@@ -9161,9 +9161,7 @@ data_021418a8 kind:bss addr:0x021418a8
 data_021418b8 kind:bss addr:0x021418b8
 data_021418bc kind:bss addr:0x021418bc
 sGFLStd kind:bss addr:0x021418c0
-data_021418c4 kind:bss addr:0x021418c4
-data_021418d4 kind:bss addr:0x021418d4
-data_021418e4 kind:bss addr:0x021418e4
+sRTCCache kind:bss addr:0x021418c4
 sBGSys kind:bss addr:0x0214190c
 sEnabledPlanes kind:bss addr:0x02141910
 sBmpWinSys kind:bss addr:0x02141918

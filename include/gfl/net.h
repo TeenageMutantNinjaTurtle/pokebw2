@@ -21,8 +21,8 @@ typedef struct {
     // The data this machine shares with the others, and its size
     void *(*getInfo)(void *work);
     int (*getInfoSize)(void *work);
-    void *unk18;
-    void *unk1C;
+    void *(*unk18)(void *work);
+    int (*unk1C)(void *work);
     void *unk20;
     void (*unk24)(NetHandle *handle, int a1, void *work);
     void (*unk28)(NetHandle *handle, int a1, void *work);
@@ -79,8 +79,9 @@ typedef struct {
     BOOL (*unk10)(int a0, int a1);
     BOOL (*unk14)(int a0);
     u8 unk18[0x10];
-    int (*unk28)(int a0);
-    int (*unk2C)(int a0);
+    // A found beacon's data and MAC address, by index
+    void *(*unk28)(int index);
+    u8 *(*unk2C)(int index);
     u8 unk30[8];
     BOOL (*unk38)(int a0);
     void (*setDisconnectCallback)(void (*callback)(int netId));
@@ -117,6 +118,7 @@ typedef struct {
     BOOL (*unkBC)(void);
     void (*unkC0)(int a0);
     void (*unkC4)(int a0);
+    void (*unkC8)(void *a0);
 } GFLNetDevTable;
 
 // The network library's state, with a copy of the game's init data
@@ -146,10 +148,6 @@ void func_020410dc(void);
 // NitroSDK's OS_GetMacAddress
 void func_0207c33c(u8 *mac);
 // Command handlers of the other parts of the library
-void func_02043764(int netId, int size, void *data, void *work, NetHandle *handle);
-void func_02043ca0(int netId, int size, void *data, void *work, NetHandle *handle);
-void *func_02043c64(int netId, void *work, int size);
-void func_02043d6c(int netId, int size, void *data, void *work, NetHandle *handle);
 void func_02040d78(int netId, int sender, int command, int size, void *data, NetHandle *handle);
 BOOL func_02040dc0(int command);
 BOOL func_02040dd4(int command);
@@ -170,15 +168,15 @@ void func_02011778(int type);
 
 // net.c: starts and ends the network, and passes calls to the device and the other parts of the library
 void func_020425a0(int a0, int a1, HeapID parentHeapId, HeapID heapId);
-void func_020425ec(const GFLNetInitData *pNetInit, void (*callback)(void *work), void *work);
+void func_020425ec(GFLNetInitData *pNetInit, void (*callback)(void *work), void *work);
 BOOL func_02042788(void);
 // Whether the network has ended
 BOOL func_020427a4(void);
 // Ends the network, calling back with the game's work once it has
 BOOL func_02042860(void (*callback)(void *work));
 void func_020428a0(void);
-int func_020428a8(int a0);
-int func_020428c8(int a0);
+void *func_020428a8(int index);
+u8 *func_020428c8(int index);
 // Steps the network while the game waits for it, as before a soft reset
 BOOL func_020428e0(void);
 void func_02042918(void);
@@ -186,9 +184,9 @@ void func_02042950(const u8 *mac);
 void func_0204295c(const u8 *mac);
 void func_02042968(void);
 void func_02042970(void);
-void func_020429a8(void (*callback)(void *work), void (*a1)(void *work), void (*a2)(void *work));
+void func_020429a8(void (*callback)(void *work), void (*a1)(void *work, BOOL a1), void (*a2)(void *work));
 void func_020429d8(int a0);
-void func_020429e0(const u8 *mac, int index);
+void func_020429e0(u8 *mac, int index);
 void func_020429e8(void *a0);
 void func_020429f0(void);
 void func_020429f8(void (*callback)(void *work));
@@ -252,21 +250,5 @@ BOOL func_02042f24(void);
 void func_02042f2c(int x, int y);
 void func_02042f40(void);
 void func_02042f50(BOOL a0);
-
-// The file after net.c
-GFLNetInitData *func_02042f74(const GFLNetInitData *pNetInit, void *work);
-void func_02043028(void);
-void func_02043048(void);
-BOOL func_02043068(void);
-void func_0204307c(void *a0);
-void (*func_02043088(void (*a0)(void *work), void (*a1)(void *work), void (*a2)(void *work)))(void *work);
-void func_020430bc(void *data);
-void func_0204313c(const u8 *mac, int index);
-void func_020431cc(void);
-BOOL func_020437a0(void);
-void func_020437dc(int a0);
-u8 func_0204381c(void);
-void func_02043834(int a0);
-void func_02043b44(void);
 
 #endif // POKEBW2_GFL_NET_H
