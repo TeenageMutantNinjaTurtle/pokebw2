@@ -43,13 +43,13 @@ static void UnderwaterEffect_Init(FieldAsyncProc *proc, Field *field, void *data
 
     for (i = 0; i < 7; i++) {
         work->resources[i] = GFL_G3DSysReadArcToolResource(arc, sArchiveFileIds[i]);
-        if (GFL_G3DResCheckType(work->resources[i], 2)) {
+        if (GFL_G3DResCheckType(work->resources[i], G3D_RES_CHECK_TEX)) {
             GFL_G3DResUploadTexData(work->resources[i]);
         }
     }
     for (i = 0; i < 3; i++) {
         u32 index = sModelResourceIds[i];
-        if (GFL_G3DResCheckType(work->resources[index], 2)) {
+        if (GFL_G3DResCheckType(work->resources[index], G3D_RES_CHECK_TEX)) {
             work->models[i] = GFL_G3DMdlCreate(work->resources[index], 0, work->resources[index]);
         } else {
             work->models[i] = GFL_G3DMdlCreate(work->resources[index], 0, NULL);
@@ -83,7 +83,7 @@ static void UnderwaterEffect_Free(FieldAsyncProc *proc, Field *field, void *data
         GFL_G3DMdlFree(work->models[i]);
     }
     for (i = 0; i < 7; i++) {
-        if (GFL_G3DResCheckType(work->resources[i], 2)) {
+        if (GFL_G3DResCheckType(work->resources[i], G3D_RES_CHECK_TEX)) {
             GFL_G3DResFreeTexData(work->resources[i]);
         }
         GFL_G3DResFree(work->resources[i]);

@@ -80,12 +80,29 @@ typedef struct {
     u8 count;
 } LightSetupList;
 
+// What GFL_G3DResCheckType checks a resource for: nothing, a model, textures or an animation
+enum {
+    G3D_RES_CHECK_NONE,
+    G3D_RES_CHECK_MDL,
+    G3D_RES_CHECK_TEX,
+    G3D_RES_CHECK_ANM,
+};
+
+// How a scene's resource is read: from an archive or a file by path, into the 3D system's heap or the manager's
+enum {
+    G3D_SCENE_RES_ARCSYS,
+    G3D_SCENE_RES_FS,
+    G3D_SCENE_RES_ARCSYS_MGRHEAP,
+    G3D_SCENE_RES_FS_MGRHEAP,
+};
+
 // A scene that GFL_G3DMgrNewScene loads: its resources, and its actors, each a model with animations
 typedef struct {
+    // The archive, or for the G3D_SCENE_RES_FS types its path
     u32 arcId;
     u16 fileId;
     u16 unk6;
-    u32 unk8;
+    u32 type;
 } G3DSceneResourceSetup;
 
 typedef struct {
@@ -93,10 +110,11 @@ typedef struct {
     u16 index;
 } G3DSceneAnimationSetup;
 
+// An actor's resources, as indices into the scene's. An animation whose resource is 0xff is left out
 typedef struct {
     u16 modelResource;
-    u16 unk2;
-    u16 unk4;
+    u16 modelIndex;
+    u16 texResource;
     u16 unk6;
     const G3DSceneAnimationSetup *animations;
     u16 animationCount;
@@ -104,7 +122,7 @@ typedef struct {
 
 typedef struct {
     const G3DSceneResourceSetup *resources;
-    u32 resourceCount;
+    u16 resourceCount;
     const G3DSceneActorSetup *actors;
     u16 actorCount;
 } G3DSceneSetup;
@@ -121,13 +139,22 @@ void GFL_G3DSysMtxViewFlush(void);
 void GFL_G3DSysReqSwapBuffers(void);
 void GFL_G3DSysReset(void);
 void GFL_G3DSysSetSwapBufferParams(u32 sortMode, u32 bufferMode);
+// Resources, each a file of a model, textures or an animation
+void *GFL_G3DSysReadArcSysResource(u32 arcId, u32 fileId);
 void *GFL_G3DSysReadArcToolResource(ArcTool *handle, u32 fileId);
+void *GFL_G3DSysReadFSResource(const char *path, u32 fileId);
+// The size of a resource, for one allocated outside the 3D system, which GFL_G3DResSetup sets up with its file
+u32 GFL_G3DResGetAllocSize(void);
+void GFL_G3DResSetup(void *resource, void *data);
 BOOL GFL_G3DResCheckType(void *resource, u32 type);
+BOOL GFL_G3DResIsTexUploadDone(void *resource);
 void GFL_G3DResUploadTexData(void *resource);
 void GFL_G3DResFreeTexData(void *resource);
 void GFL_G3DResFree(void *resource);
 G3DModel *GFL_G3DMdlCreate(void *resource, u32 modelId, void *texture);
 void GFL_G3DMdlFree(G3DModel *model);
+void *GFL_G3DMdlGetMdlResource(G3DModel *model);
+void *GFL_G3DMdlGetTexResource(G3DModel *model);
 void *GFL_G3DAnmCreate(G3DModel *model, void *resource, u32 a2);
 void GFL_G3DAnmFree(void *animation);
 void *GFL_G3DAnmGetRenderObj(void *animation);
@@ -230,7 +257,13 @@ void NNS_G3DResMdlSetMatAlpha(NNSG3dResMdl *mdl, u32 matId, u32 alpha);
 G3DManager *GFL_G3DMgrCreate(u16 resourceLimit, u16 actorLimit, HeapID heapId);
 void GFL_G3DMgrFree(G3DManager *manager);
 u16 GFL_G3DMgrNewScene(G3DManager *manager, const G3DSceneSetup *setup);
+// The same, with every resource read already, or read from an archive that is open
+u16 GFL_G3DMgrNewSceneFast(G3DManager *manager, const G3DSceneSetup *setup);
+u16 GFL_G3DMgrNewSceneFastEx(G3DManager *manager, const G3DSceneSetup *setup, ArcTool *arc);
 void GFL_G3DMgrDeleteScene(G3DManager *manager, u16 scene);
+u16 GFL_G3DMgrGetSceneResCount(G3DManager *manager, u16 scene);
+u16 GFL_G3DSceneGetNodeActorCount(G3DManager *manager, u16 scene);
+void *GFL_G3DMgrGetResource(G3DManager *manager, u16 resource);
 // The index of an actor, which GFL_G3DMgrGetActor takes. A scene's actors have consecutive indices
 G3DActor *GFL_G3DMgrGetActor(G3DManager *manager, u16 actor);
 u16 GFL_G3DMgrGetSceneFirstActorIdx(G3DManager *manager, u16 scene);
