@@ -4,10 +4,24 @@
 #include "types.h"
 #include "constants/battle.h"
 #include "struct_decls.h"
+#include "battle/btl_server.h"
 
-
-
-BOOL IsSwitchModeEnabled(const void *switchMode);
+BtlServerFlow *func_ov167_0219f390(BtlServer *server, BtlMainModule *mainModule, BtlPokeCon *pokeCon,
+                                   BtlServerCmdQueue *queue, u32 a4, HeapID heapId);
+void func_ov167_0219f3f8(BtlServerFlow *serverFlow);
+void func_ov167_0219f570(BtlServerFlow *serverFlow);
+u8 func_ov167_0219f588(BtlServerFlow *serverFlow);
+void func_ov167_0219f65c(BtlServerFlow *serverFlow);
+u32 func_ov167_0219f66c(BtlServerFlow *serverFlow, BtlClientActions *clientActions);
+void func_ov167_0219f748(BtlServerFlow *serverFlow);
+u32 func_ov167_0219f754(BtlServerFlow *serverFlow, BtlClientActions *clientActions);
+void func_ov167_0219f7a8(BtlServerFlow *serverFlow);
+u32 func_ov167_0219f7b4(BtlServerFlow *serverFlow, BtlClientActions *clientActions);
+u32 func_ov167_0219fdf4(BtlServerFlow *serverFlow);
+BOOL func_ov167_0219fe24(BtlServerFlow *serverFlow);
+BtlClientIDList *func_ov167_0219ffe4(BtlServerFlow *serverFlow);
+u8 func_ov167_0219fff0(BtlServerFlow *serverFlow);
+u32 func_ov167_021ac018(BtlServerFlow *serverFlow);
 
 // The damage of a move, with the type effectiveness if withEffectiveness is set. damageRoll is USE_MIN_DAMAGE for the
 // lowest random roll, or ROLL_FOR_DAMAGE for a random one

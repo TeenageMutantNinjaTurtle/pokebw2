@@ -77,6 +77,7 @@ typedef struct BSubwayPokemon BSubwayPokemon;
 typedef struct BSubwayTeamConfig BSubwayTeamConfig;
 typedef struct BSubwayTrainer BSubwayTrainer;
 typedef struct BtlMainModule BtlMainModule;
+typedef struct BtlAdapter BtlAdapter;
 typedef struct BtlPokeCon BtlPokeCon;
 typedef struct BtlServer BtlServer;
 typedef struct BtlServerFlow BtlServerFlow;
@@ -288,7 +289,6 @@ typedef struct SurveyTextWork SurveyTextWork;
 typedef struct SweetScentEventData SweetScentEventData;
 typedef struct SweetScentPalette SweetScentPalette;
 typedef struct SweetScentScreenWork SweetScentScreenWork;
-typedef struct SwitchModeState SwitchModeState;
 // Save block 0x34, which getTrainerGameInfoAddress, getTrainerCardData_wrapper and getTrainerCardDataBlkAddress return
 typedef struct TrainerGameInfoSave TrainerCardSave;
 typedef struct TrainerClashSlot TrainerClashSlot;

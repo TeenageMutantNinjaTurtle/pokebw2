@@ -9,6 +9,7 @@ src/ov167/btl_main.c:
     .data       start:0x021daec0 end:0x021daecc
 
 src/ov167/btl_server.c:
+    complete
     .text       start:0x0219e40c end:0x0219f3d0
     .data       start:0x021daecc end:0x021daedc
 

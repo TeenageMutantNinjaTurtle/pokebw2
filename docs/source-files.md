@@ -570,7 +570,7 @@ prints the tables below from the configs and the ROM:
 | File | `.text` (Black 2) | Functions | Status | Name |
 | --- | --- | --- | --- | --- |
 | `btl_main.c` | `0x021998c0`–`0x0219e3cc` | 231 | partial | string at `0x021dae80` |
-| `btl_server.c` | `0x0219e3cc`–`0x0219f390` | 55 | partial | string at `0x021dae8c` |
+| `btl_server.c` | `0x0219e3cc`–`0x0219f390` | 55 | complete | string at `0x021dae8c` |
 | `btl_server_flow.c` | `0x0219f390`–`0x021b1674` | 1178 | partial | string at `0x021dae9c` |
 | `btl_pokeparam.c` | `0x021ba584`–`0x021bc6bc` | 154 | partial | string at `0x021daf7c` |
 | `battle_event.c` | `0x021bc6bc`–`0x021bd054` | 47 | partial | descriptive |

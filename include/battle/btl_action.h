@@ -73,6 +73,5 @@ void BattleAction_SetSkip(BattleAction *action);
 u32 BattleAction_GetAction(const BattleAction *action);
 void func_ov167_021bdc84(BattleAction *action);
 void func_ov167_021bdc98(BattleAction *action);
-BattleAction *func_ov167_021d4b50(void *actionManager, void *out);
 
 #endif // POKEBW2_BATTLE_BTL_ACTION_H
