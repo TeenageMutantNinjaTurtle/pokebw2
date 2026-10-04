@@ -4816,6 +4816,65 @@ void func_ov167_021a78bc(BtlServerFlow *flow, BattleMon *mon, void *targets) {
     }
 }
 
+void ServerControl_UnnerveAction(BtlServerFlow *flow, BattleMon *mon) {
+    BtlFlowMonIter iter;
+    BattleMon *target;
+    u8 monId = GetMonID(mon);
+
+    func_ov167_021a0d5c(&iter, flow);
+    while (func_ov167_021a0df4(&iter, flow, &target)) {
+        if (!IsAllyMonID(monId, GetMonID(target))) {
+            ServerControl_CheckItemReaction(flow, target, 0);
+        }
+    }
+}
+
+BOOL func_ov167_021a7ae4(BtlServerFlow *flow, BattleMon *mon) {
+    if (!IsSubstituteActive(mon)) {
+        s32 cost = DivideMaxHPZeroCheck(mon, 4);
+        if ((s32)GetBattleMonStat(mon, 0xd) > cost) {
+            u8 pos = GetBattlePos(flow->unk1ab8, GetMonID(mon));
+            if (pos != 6) {
+                ServerDisplay_SimpleHP(flow, mon, -cost, TRUE);
+                ServerControl_CheckItemReaction(flow, mon, 1);
+                func_ov167_021bc55c(mon, cost);
+                func_ov167_021b1434(flow->queue, 0x27, GetMonID(mon), (u16)cost);
+                func_ov167_021b1434(flow->queue, 0x51, pos);
+                func_ov167_021b15d0(flow->queue, 0x5b, 0x311, GetMonID(mon), 0xffff0000);
+                return TRUE;
+            }
+        }
+        ServerDisplay_StandardMessage(flow, 0x7b, 0, NULL);
+    } else {
+        ServerDisplay_SkyDropTargetAppear(flow, mon, 0x314);
+    }
+    return FALSE;
+}
+
+u16 func_ov167_021a7bb4(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, u16 damage, u32 effectiveness,
+                        u8 critical, BtlFlowMoveParam *param) {
+    BtlServerCmd_Put54(flow->queue, GetMonID(target), effectiveness, param->move);
+    ServerDisplay_SkyDropTargetAppear(flow, target, 0x317);
+    func_ov167_021a9358(flow, 1, &effectiveness, &target, FALSE);
+    func_ov167_021a94dc(flow, 1, &target, &critical, FALSE);
+    if (func_ov167_021bc59c(target, &damage)) {
+        func_ov167_021a7c70(flow, target);
+    }
+    ServerControl_DamageDrain(flow, param, attacker, target, damage);
+    func_ov167_021a5320(flow, param, attacker, target, damage, TRUE);
+    func_ov167_021a7cc8(flow, attacker, target, param, effectiveness, damage, critical, TRUE);
+    return damage;
+}
+
+void func_ov167_021a7c70(BtlServerFlow *flow, BattleMon *mon) {
+    u8 monId = GetMonID(mon);
+    u8 pos = GetBattlePos(flow->unk1ab8, monId);
+    ServerDisplay_SkyDropTargetAppear(flow, mon, 0x31a);
+    ResetSpActPriority(mon);
+    func_ov167_021b1434(flow->queue, 0x28, monId);
+    func_ov167_021b1434(flow->queue, 0x52, pos);
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));

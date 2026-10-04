@@ -25,4 +25,9 @@ static inline void BtlServerCmd_Put18(void *queue, u8 monId, u8 target, u8 resul
     func_ov167_021b1434(queue, 0x18, monId, target, result, arg4, move, arg6);
 }
 
+// Command 0x54, with its arguments' types
+static inline void BtlServerCmd_Put54(void *queue, u8 monId, u8 effectiveness, u16 move) {
+    func_ov167_021b1434(queue, 0x54, monId, effectiveness, move);
+}
+
 #endif // POKEBW2_BATTLE_BTL_DISPLAY_H

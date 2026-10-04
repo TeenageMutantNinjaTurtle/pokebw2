@@ -409,7 +409,7 @@ void func_ov167_021a5320(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon
 void func_ov167_021a576c(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, BattleMon *target);
 void ServerControl_DamageDrain(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, BattleMon *target,
                                u32 damage);
-u32 func_ov167_021a7bb4(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, u16 damage, u32 effectiveness,
+u16 func_ov167_021a7bb4(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, u16 damage, u32 effectiveness,
                         u8 critical, BtlFlowMoveParam *param);
 void func_ov167_021a7cc8(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, BtlFlowMoveParam *param,
                          u32 effectiveness, u16 damage, u8 critical, BOOL flag);
