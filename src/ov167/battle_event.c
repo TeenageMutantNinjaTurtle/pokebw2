@@ -520,7 +520,7 @@ void BattleEventVar_MulValue(u16 key, s32 value) {
     }
 }
 
-u32 BattleEventVar_GetValue(u16 key) {
+u32 BattleEventVar_GetValue(u32 key) {
     BattleEventVarStack *vars = &data_ov167_021db3b0;
     u32 i;
 

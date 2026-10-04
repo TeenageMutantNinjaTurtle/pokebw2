@@ -84,6 +84,8 @@ struct BattleHandlerAddConditionParam {
     u8 unk0c;
     u8 unk0d[2];
     u8 targetIndex;
+    u32 unk10;
+    BattleHandlerString string;
 };
 struct BattleHandlerAddFieldEffectParam {
     u32 unk00;

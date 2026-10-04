@@ -107,7 +107,7 @@ BattleEventItem *BattleEvent_SeekItem(u32 type, u32 monId);
 void BattleEventItem_Remove(BattleEventItem *item);
 void BattleEvent_ItemRotationSleep(u8 monId, u32 factorType);
 BOOL BattleEvent_ItemRotationWake(u8 monId, u32 factorType);
-u32 BattleEventVar_GetValue(u16 key);
+u32 BattleEventVar_GetValue(u32 key);
 BOOL BattleEventVar_RewriteValue(u16 key, s32 value);
 void BattleEventVar_MulValue(u16 key, s32 value);
 

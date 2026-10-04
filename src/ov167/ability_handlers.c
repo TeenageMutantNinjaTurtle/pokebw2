@@ -25,6 +25,13 @@ typedef struct PickupWork {
     u8 numCandidates;
 } PickupWork;
 
+// Moody's scratch buffer: every raise/lower pair, then the stats that can go up and down
+typedef struct MoodyWork {
+    u16 pairs[0x54];
+    u8 up[7];
+    u8 down[7];
+} MoodyWork;
+
 // Function names from swan.
 BattleEventItem *AbilityEvent_AddItem(BattleMon *mon) {
     u16 ability;
@@ -3462,6 +3469,136 @@ const BattleEventHandlerEntry *EventAddTelepathy(u32 *priority) {
     return data_ov167_021d766c;
 }
 
+void HandlerMoody(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    u32 i;
+    u8 numPairs;
+    u8 numUp;
+    u8 upStat;
+    BattleHandlerStatChangeParam *param;
+    u8 downStat;
+    u32 j;
+    BattleMon *mon;
+    u8 numDown;
+    MoodyWork *wk;
+    u16 pair;
+
+    if (BattleEventVar_GetValue(2) == monId) {
+        wk = (MoodyWork *)func_ov167_021abc60(flow, 0xb6);
+        mon = GetBattleMon(flow, monId);
+        numDown = 0;
+        numUp = 0;
+        for (i = 0; i < 7; i++) {
+            if (IsStatChangeValid(mon, i + 1, 1)) {
+                wk->up[numUp++] = i + 1;
+            }
+            if (IsStatChangeValid(mon, i + 1, -1)) {
+                wk->down[numDown++] = i + 1;
+            }
+        }
+        downStat = 0;
+        upStat = 0;
+        if (numUp == 0 && numDown != 0) {
+            downStat = wk->down[BattleRandom(numDown)];
+        } else if (numUp != 0 && numDown == 0) {
+            upStat = wk->up[BattleRandom(numUp)];
+        } else if (numUp != 0 && numDown != 0) {
+            numPairs = 0;
+            for (i = 0; i < numUp; i++) {
+                for (j = 0; j < numDown; j++) {
+                    if (wk->up[i] != wk->down[j]) {
+                        wk->pairs[numPairs++] = (wk->up[i] << 8) | wk->down[j];
+                        if (numPairs >= 0x54) {
+                            break;
+                        }
+                    }
+                }
+            }
+            pair = wk->pairs[BattleRandom(numPairs)];
+            upStat = pair >> 8;
+            downStat = pair;
+        }
+        BattleHandler_PushRun(flow, 2, monId);
+        if (upStat != 0) {
+            param = BattleHandler_PushWork(flow, 0xe, monId);
+            param->count = 1;
+            param->monIds[0] = monId;
+            param->stat = upStat;
+            param->change = 2;
+            BattleHandler_PopWork(flow, param);
+        }
+        if (downStat != 0) {
+            param = BattleHandler_PushWork(flow, 0xe, monId);
+            param->count = 1;
+            param->monIds[0] = monId;
+            param->stat = downStat;
+            param->change = -1;
+            BattleHandler_PopWork(flow, param);
+        }
+        BattleHandler_PushRun(flow, 3, monId);
+    }
+}
+
+const BattleEventHandlerEntry *EventAddMoody(u32 *priority) {
+    *priority = 1;
+    return data_ov167_021d76dc;
+}
+
+void HandlerOvercoat(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    if (BattleEventVar_GetValue(2) == monId && (s32)BattleEventVar_GetValue(0x32) > 0) {
+        BattleEventVar_RewriteValue(0x41, 1);
+    }
+}
+
+const BattleEventHandlerEntry *EventAddOvercoat(u32 *priority) {
+    *priority = 1;
+    return data_ov167_021d767c;
+}
+
+void HandlerPoisonTouch(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    BattleHandlerAddConditionParam *param;
+
+    if (BattleEventVar_GetValue(3) == monId && BattleEventVar_GetValue(0x46) == 0 && BattleEventVar_GetValue(0x47) == 0 &&
+        getMoveFlag(BattleEventVar_GetValue(0x12), 0) && AbilityEvent_RollEffectChance(flow, 30)) {
+        param = BattleHandler_PushWork(flow, 0xc, monId);
+        param->popup = 1;
+        param->targetIndex = BattleEventVar_GetValue(4);
+        param->condition = 5;
+        param->value = func_ov167_021bd52c(5);
+        BattleHandler_StrSetup(&param->string, 2, 0x1d8);
+        BattleHandler_AddArg(&param->string, param->targetIndex);
+        BattleHandler_PopWork(flow, param);
+    }
+}
+
+const BattleEventHandlerEntry *EventAddPoisonTouch(u32 *priority) {
+    *priority = numHandlersWithHandlerPri(4, 1);
+    return data_ov167_021d7684;
+}
+
+void HandlerRegenerator(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    BattleMon *mon;
+    u32 amount;
+    u32 missing;
+    BattleHandlerChangeHPParam *param;
+
+    if (BattleEventVar_GetValue(2) == monId) {
+        mon = GetBattleMon(flow, monId);
+        if (!IsFainted(mon) && !IsMonFullHP(mon)) {
+            amount = DivideMaxHPZeroCheck(mon, 3);
+            missing = GetBattleMonStat(mon, 0xe) - GetBattleMonStat(mon, 0xd);
+            if (amount > missing) {
+                amount = missing;
+            }
+            param = BattleHandler_PushWork(flow, 8, monId);
+            param->monIds[0] = monId;
+            param->hpChanges[0] = amount;
+            param->count = 1;
+            param->suppress = 1;
+            BattleHandler_PopWork(flow, param);
+        }
+    }
+}
+
 // Function name from swan.
 const BattleEventHandlerEntry *EventAddRegenerator(u32 *priority) {
     *priority = 1;
@@ -3479,4 +3616,190 @@ void HandlerBigPecksCheck(BattleEventItem *item, BtlServerFlow *flow, u8 monId, 
 
 void HandlerBigPecksGuard(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
     CommonStatDropGuardFixed(flow, monId, work, 0xcc);
+}
+
+const BattleEventHandlerEntry *EventAddSandRush(u32 *priority) {
+    *priority = 2;
+    return data_ov167_021d79d4;
+}
+
+void HandlerSandRush(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    if (BattleEventVar_GetValue(2) == monId && GetWeather(flow) == 4) {
+        BattleEventVar_MulValue(0x35, 0x2000);
+    }
+}
+
+const BattleEventHandlerEntry *EventAddWonderSkin(u32 *priority) {
+    *priority = 1;
+    return data_ov167_021d7754;
+}
+
+void HandlerWonderSkin(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    if (BattleEventVar_GetValue(4) == monId && BattleEventVar_GetValue(0x1a) == 0 && BattleEventVar_GetValue(0x2b) > 50) {
+        BattleEventVar_RewriteValue(0x2b, 50);
+    }
+}
+
+const BattleEventHandlerEntry *EventAddAnalytic(u32 *priority) {
+    *priority = 1;
+    return data_ov167_021d76ac;
+}
+
+void HandlerAnalytic(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    if (BattleEventVar_GetValue(3) == monId && !func_ov169_0689ca54(BattleEventVar_GetValue(0x12)) && IsMonLastInTurnOrder(flow, monId)) {
+        BattleEventVar_MulValue(0x31, 0x14cd);
+    }
+}
+
+const BattleEventHandlerEntry *EventAddSandForce(u32 *priority) {
+    *priority = 2;
+    return data_ov167_021d7a14;
+}
+
+void HandlerSandForce(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    if (BattleEventVar_GetValue(3) == monId && GetWeather(flow) == 4) {
+        switch ((u8)BattleEventVar_GetValue(0x16)) {
+        case 4:
+        case 5:
+        case 8:
+            BattleEventVar_MulValue(0x31, 0x14cd);
+            break;
+        }
+    }
+}
+
+void HandlerZenMode(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    BattleMon *mon;
+    u8 form;
+    BattleHandlerChangeFormParam *param;
+    u16 message;
+
+    mon = GetBattleMon(flow, monId);
+    if (GetBattleMonSpecies(mon) == 0x22b) {
+        form = GetBattleMonStat(mon, 0xd) <= DivideMaxHp(mon, 2) ? 1 : 0;
+        if (form != GetBattleMonStat(mon, 0x13)) {
+            param = BattleHandler_PushWork(flow, 0x39, monId);
+            param->popup = 1;
+            param->monIndex = monId;
+            param->form = form;
+            message = form == 1 ? 0xb9 : 0xba;
+            BattleHandler_StrSetup(&param->string, 1, message);
+            BattleHandler_PopWork(flow, param);
+        }
+    }
+}
+
+void HandlerZenModeGastroAcid(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    BattleHandlerChangeFormParam *param;
+
+    if (BattleEventVar_GetValue(2) == monId && GetBattleMonSpecies(GetBattleMon(flow, monId)) == 0x22b) {
+        param = BattleHandler_PushWork(flow, 0x39, monId);
+        param->monIndex = monId;
+        param->form = 0;
+        BattleHandler_StrSetup(&param->string, 1, 0xba);
+        BattleHandler_AddArg(&param->string, monId);
+        BattleHandler_PopWork(flow, param);
+    }
+}
+
+const BattleEventHandlerEntry *EventAddZenMode(u32 *priority) {
+    *priority = 3;
+    return data_ov167_021d7bcc;
+}
+
+BOOL HandlerInfiltratorSkipCheck(BattleEventItem *item, BtlServerFlow *flow, u32 factorType, u32 event, u16 subId, u8 monId) {
+    u8 side;
+
+    if (factorType == 2) {
+        side = GetSideFromMonID(HandlerGetMainModule(item));
+        if (side != monId && subId <= 3) {
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+void HandlerInfiltratorStart(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    if (BattleEventVar_GetValue(3) == monId) {
+        BattleEventItem_AttachSkipCheckHandler(item, HandlerInfiltratorSkipCheck);
+    }
+}
+
+void HandlerInfiltratorEnd(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    if (BattleEventVar_GetValue(2) == monId) {
+        BattleEventItem_DetachSkipCheckHandler(item);
+    }
+}
+
+const BattleEventHandlerEntry *EventAddInfiltrator(u32 *priority) {
+    *priority = 2;
+    return data_ov167_021d7a84;
+}
+
+const BattleEventHandlerEntry *EventAddMoxie(u32 *priority) {
+    *priority = 1;
+    return data_ov167_021d77f4;
+}
+
+void HandlerMoxie(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    u32 count;
+    u32 i;
+    BattleHandlerStatChangeParam *param;
+
+    if (BattleEventVar_GetValue(3) == monId) {
+        count = BattleEventVar_GetValue(5);
+        for (i = 0; i < count; i++) {
+            if (IsFainted(GetBattleMon(flow, (u8)BattleEventVar_GetValue(6 + i)))) {
+                param = BattleHandler_PushWork(flow, 0xe, monId);
+                param->popup = 1;
+                param->count = 1;
+                param->monIds[0] = monId;
+                param->stat = 1;
+                param->change = 1;
+                BattleHandler_PopWork(flow, param);
+            }
+        }
+    }
+}
+
+const BattleEventHandlerEntry *EventAddJustified(u32 *priority) {
+    *priority = 1;
+    return data_ov167_021d7654;
+}
+
+void HandlerJustified(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    BattleHandlerStatChangeParam *param;
+
+    if (BattleEventVar_GetValue(4) == monId && BattleEventVar_GetValue(0x46) == 0 && BattleEventVar_GetValue(0x16) == 0x10) {
+        param = BattleHandler_PushWork(flow, 0xe, monId);
+        param->popup = 1;
+        param->count = 1;
+        param->monIds[0] = monId;
+        param->stat = 1;
+        param->change = 1;
+        BattleHandler_PopWork(flow, param);
+    }
+}
+
+const BattleEventHandlerEntry *EventAddRattled(u32 *priority) {
+    *priority = 1;
+    return data_ov167_021d7634;
+}
+
+void HandlerRattled(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    u8 type;
+    BattleHandlerStatChangeParam *param;
+
+    if (BattleEventVar_GetValue(4) == monId && BattleEventVar_GetValue(0x46) == 0) {
+        type = BattleEventVar_GetValue(0x16);
+        if (type == 0x10 || type == 6 || type == 7) {
+            param = BattleHandler_PushWork(flow, 0xe, monId);
+            param->popup = 1;
+            param->count = 1;
+            param->monIds[0] = monId;
+            param->stat = 5;
+            param->change = 1;
+            BattleHandler_PopWork(flow, param);
+        }
+    }
 }
