@@ -72,7 +72,7 @@ scripts are built from source, see [Scripts](docs/scripts.md).
 | `src/gfl/`, `src/system/` | Decompiled C of the ARM9 main module, by library like the headers, such as `src/gfl/heap.c` |
 | `lib/<name>/` | Libraries built apart from the game with their own compiler (`library.toml`), headers and sources, such as `lib/spl/` |
 | `include/` | Headers shared by the C code, see [Code organization](docs/code-organization.md) |
-| `data/` | Scripts assembled into the ROM's files, see [Scripts](docs/scripts.md) and [Field scripts](docs/scripts.md#field-scripts) |
+| `data/` | Scripts and data assembled into the ROM's files, see [Game data](docs/data.md) and [Scripts](docs/scripts.md) |
 | `include/asm/` | Macros for the scripts |
 | `tools/scripts/` | Helper scripts, such as `romdiff.py` to compare two ROMs region by region |
 | `docs/` | The documentation listed below |
@@ -96,6 +96,7 @@ to the original bytes. Matching is checked per function with [objdiff](https://g
 | [Nonmatching functions](docs/nonmatching-functions.md) | Every function in C that doesn't match yet, and why |
 | [Source files](docs/source-files.md) | Each overlay's original files, with the evidence for their names |
 | [Scripts](docs/scripts.md) | The trainer AI and field scripts built from source, and their macros |
+| [Game data](docs/data.md) | The data archives built from source, such as the species data, and their formats |
 | [dsd configs and the ROM](docs/configs.md) | Fixing and regenerating the configs, the DSi's differences, known gaps |
 
 ## Contributing
