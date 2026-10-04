@@ -167,3 +167,8 @@ src/main/heap.c:
     .text       start:0x0203a15c end:0x0203a528
     .data       start:0x0209a898 end:0x0209a8ac
     .bss        start:0x02141878 end:0x02141898
+
+src/main/savedata.c:
+    complete
+    .text       start:0x0203c220 end:0x0203c410
+    .data       start:0x0209a93c end:0x0209a9cc
