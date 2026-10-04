@@ -79,6 +79,7 @@ SaveControl *GameData_GetSaveControl_(GameData *gameData);
 void *func_020174d4(GameData *gameData);
 DreamWorldSave *func_020179e4(GameData *gameData);
 u8 GameData_GetSeason(GameData *gameData);
+u8 func_02017a24(GameData *gameData);
 u16 GameData_GetDayPeriod(GameData *gameData);
 u16 GameData_GetMonth(GameData *gameData);
 u16 GameData_GetDay(GameData *gameData);

@@ -216,6 +216,12 @@ src/ov012/game_beacon_set.c:
     .text       start:0x0215f958 end:0x02160668
     .rodata     start:0x0216d718 end:0x0216d720
 
+src/ov012/symbol_map.c:
+    complete
+    .text       start:0x02160668 end:0x021609b4
+    .rodata     start:0x0216d720 end:0x0216d8fc
+    .data       start:0x0216e2d0 end:0x0216e2e0
+
 src/ov012/field_g3d_map.c:
     .text       start:0x021631c8 end:0x02163b38
     .data       start:0x0216e380 end:0x0216e390

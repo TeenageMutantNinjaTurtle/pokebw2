@@ -43,6 +43,15 @@ void addCashToTotal(TrainerGameInfoSave *info, u32 amount);
 // Stops at 0
 void subCashFromTotal(TrainerGameInfoSave *info, u32 amount);
 
+// The area NPC data, which keeps the symbol encounters of the Entree Forest, encrypted
+void *getAreaNPCData(SaveControl *save);
+void decryptNpcData(void *npcData);
+void func_0200e904(void *npcData);
+u16 func_0200e9fc(void *npcData, u32 kind);
+u32 func_0200ea1c(u32 index);
+void func_0200ea24(void *npcData, u32 index);
+void func_0200eb14(void *npcData, u16 index);
+
 // Returns a pointer to one of the save's blocks
 void *SaveControl_GetBlockPtr(SaveControl *save, u32 block);
 u32 func_0200bcf8(SaveControl *save, u32 a1, void *a2, u32 a3);
