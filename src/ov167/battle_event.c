@@ -418,7 +418,7 @@ void func_ov167_021bccf4(void) {
 }
 
 
-void BattleEventVar_Push(void) {
+void BattleEventVar_Push(u32 line) {
     BattleEventVarStack *vars = &data_ov167_021db3b0;
     for (; vars->sp < BATTLE_EVENT_VAR_MAX; vars->sp++) {
         if (vars->keys[vars->sp] == 0) {
@@ -432,7 +432,7 @@ void BattleEventVar_Push(void) {
     }
 }
 
-void BattleEventVar_Pop(void) {
+void BattleEventVar_Pop(u32 line) {
     BattleEventVarStack *vars = &data_ov167_021db3b0;
     u16 i;
 

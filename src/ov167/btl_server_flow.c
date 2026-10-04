@@ -16,6 +16,7 @@
 #include "gfl/arc.h"
 #include "gfl/std.h"
 #include "pml/personal.h"
+#include "pml/waza.h"
 
 u32 ConvertConditionCode(BattleMon *mon, u32 *condition);
 
@@ -521,6 +522,183 @@ void func_ov167_0219fffc(BtlServerFlow *flow) {
     PopState(&flow->actionState, state, 0x5aa);
 }
 
+u8 func_ov167_021a00a4(BtlServerFlow *flow, BtlClientActions *clientActions, ActionOrderEntry *order, u8 max) {
+    u32 speed;
+    BattleMon *mon;
+    u32 state;
+    u8 clientId;
+    u8 j;
+    u8 numActions;
+    BOOL rotated;
+    u8 i;
+    u8 count;
+    BtlServerClient *client;
+    u8 slot;
+    ActionOrderEntry *entry;
+    u8 kind;
+    u8 priority;
+
+    rotated = FALSE;
+    count = 0;
+    for (clientId = 0; clientId < 4; clientId++) {
+        client = func_ov167_0219f260(flow->server, clientId);
+        if (client == NULL) {
+            continue;
+        }
+        numActions = func_ov167_0219f2ac(clientActions, clientId);
+        slot = 0;
+        for (j = 0; j < numActions; j++) {
+            entry = &order[count];
+            entry->action = func_ov167_0219f2b4(clientActions, clientId, j);
+            if (func_ov167_021bdc08(&entry->action)) {
+                break;
+            }
+            switch ((u8)BattleAction_GetAction(&entry->action)) {
+            case 6:
+                slot = func_ov167_0219d38c((u8)entry->action.change.unk4);
+                entry->mon = func_ov167_0219d4e4(client->party, slot);
+                rotated = TRUE;
+                break;
+            case 3:
+                entry->mon = func_ov167_0219d4e4(client->party, entry->action.change.unk4);
+                slot++;
+                break;
+            default:
+                entry->mon = func_ov167_0219d4e4(client->party, slot);
+                slot++;
+                break;
+            }
+            entry->clientId = clientId;
+            entry->done = FALSE;
+            entry->unk0E[0] = 0;
+            count++;
+        }
+    }
+    for (i = 0; i < count; i++) {
+        state = PushState(&flow->actionState, 0x64a);
+        entry = &order[i];
+        mon = order[i].mon;
+        switch (entry->action.bits.action) {
+        case 4:
+            if (BtlSetup_GetBattleType(flow->mainModule) == 0 && entry->clientId == 1) {
+                kind = 0;
+            } else {
+                kind = 4;
+            }
+            break;
+        case 3:
+            kind = 3;
+            break;
+        case 2:
+            kind = 2;
+            break;
+        case 6:
+            kind = 1;
+            break;
+        case 7:
+            kind = 0;
+            break;
+        case 5:
+            kind = 0;
+            break;
+        case 1:
+            kind = 0;
+            break;
+        case 0:
+            entry->key = ActionOrder_MakeKey(0, 1, 0, 4);
+            continue;
+        default:
+            kind = 0;
+            break;
+        case 8:
+            continue;
+        }
+        if (entry->action.bits.action == 1) {
+            priority = func_ov167_021a0380(flow, BattleAction_GetMove(&order[i].action), mon);
+        } else if (entry->action.bits.action == 5 || entry->action.bits.action == 7) {
+            priority = 7;
+        } else {
+            priority = 0;
+        }
+        speed = ServerEvent_CalculateSpeed(flow, mon, TRUE);
+        PopState(&flow->actionState, state, 0x682);
+        entry->key = ActionOrder_MakeKey(speed, 1, priority, kind);
+    }
+    func_ov167_021a0308(order, count);
+    if (!rotated) {
+        for (i = 0; i < count; i++) {
+            entry = &order[i];
+            if (entry->action.bits.action == 1 || entry->action.bits.action == 5) {
+                state = PushState(&flow->actionState, 0x694);
+                entry->key = (entry->key & 0xffff1fff) | ((func_ov167_021a9e68(flow, entry->mon) & 7) << 13);
+                PopState(&flow->actionState, state, 0x697);
+            }
+        }
+        func_ov167_021a0308(order, count);
+    }
+    return count;
+}
+
+void func_ov167_021a0308(ActionOrderEntry *order, u32 count) {
+    u32 i;
+    u32 j;
+    ActionOrderEntry *a;
+    ActionOrderEntry *b;
+    ActionOrderEntry tmp;
+
+    for (i = 0; i < count; i++) {
+        a = &order[i];
+        for (j = i + 1; j < count; j++) {
+            b = &order[j];
+            if (a->key <= b->key && (a->key != b->key || BattleRandom(2) != 0)) {
+                tmp = *a;
+                *a = *b;
+                *b = tmp;
+            }
+        }
+    }
+}
+
+
+u8 func_ov167_021a0380(BtlServerFlow *flow, u16 move, BattleMon *mon) {
+    u8 priority;
+
+    priority = PML_MoveGetParam(move, 6) + 7;
+    BattleEventVar_Push(0x6d1);
+    BattleEventVar_SetConstValue(3, GetMonID(mon));
+    BattleEventVar_SetConstValue(0x12, move);
+    BattleEventVar_SetValue(0x18, priority);
+    BattleEvent_CallHandlers(flow, 0x11);
+    priority = BattleEventVar_GetValue(0x18);
+    BattleEventVar_Pop(0x6d7);
+    return priority;
+}
+
+u16 ServerEvent_CalculateSpeed(BtlServerFlow *flow, BattleMon *mon, BOOL flag) {
+    u32 speed;
+
+    speed = GetBattleMonStat(mon, 0xc);
+    BattleEventVar_Push(0x6ea);
+    BattleEventVar_SetConstValue(2, GetMonID(mon));
+    BattleEventVar_SetConstValue(0x2f, speed);
+    BattleEventVar_SetValue(0x51, 1);
+    BattleEventVar_SetValue(0x4a, 0);
+    BattleEventVar_SetMulValue(0x35, 0x1000, 0x19a, 0x20000);
+    BattleEvent_CallHandlers(flow, 0x13);
+    speed = fixed_round(BattleEventVar_GetValue(0x2f), BattleEventVar_GetValue(0x35));
+    if (GetBattleMonStatus(mon) == 1 && BattleEventVar_GetValue(0x51)) {
+        speed = speed * 25 / 100;
+    }
+    if (speed > 10000) {
+        speed = 10000;
+    }
+    if (flag && BattleEventVar_GetValue(0x4a)) {
+        speed = 10000 - speed;
+    }
+    BattleEventVar_Pop(0x70a);
+    return speed;
+}
+
 // Function name from swan.
 ActionOrderEntry *ActionOrder_SearchByMonID(BtlServerFlow *flow, u8 monId) {
     u32 i;
@@ -531,6 +709,59 @@ ActionOrderEntry *ActionOrder_SearchByMonID(BtlServerFlow *flow, u8 monId) {
         }
     }
     return NULL;
+}
+
+ActionOrderEntry *func_ov167_021a04e8(BtlServerFlow *flow, ActionOrderEntry *after, u8 monId) {
+    u32 i;
+
+    for (i = 0; i < flow->actionOrderCount; i++) {
+        if (&flow->actionOrder[i] == after) {
+            i++;
+            break;
+        }
+    }
+    for (; i < flow->actionOrderCount; i++) {
+        if (monId == GetMonID(flow->actionOrder[i].mon)) {
+            return &flow->actionOrder[i];
+        }
+    }
+    return NULL;
+}
+
+ActionOrderEntry *ActionOrder_SearchByMoveID(BtlServerFlow *flow, u16 moveId, u8 start) {
+    u32 i;
+
+    for (i = start; i < flow->actionOrderCount; i++) {
+        if (!flow->actionOrder[i].done && BattleAction_GetAction(&flow->actionOrder[i].action) == 1 &&
+            moveId == func_ov167_021bdb68(&flow->actionOrder[i].action)) {
+            return &flow->actionOrder[i];
+        }
+    }
+    return NULL;
+}
+
+ActionOrderEntry *func_ov167_021a05ac(BtlServerFlow *flow, u16 move, u8 monId) {
+    ActionOrderEntry *entry;
+
+    entry = ActionOrder_SearchByMoveID(flow, move, 0);
+    while (entry != NULL) {
+        if (IsAllyMonID(monId, GetMonID(entry->mon)) && !IsFainted(entry->mon)) {
+            return entry;
+        }
+        entry = ActionOrder_SearchByMoveID(flow, move, func_ov167_021a0600(flow, entry) + 1);
+    }
+    return NULL;
+}
+
+u8 func_ov167_021a0600(BtlServerFlow *flow, ActionOrderEntry *entry) {
+    s32 i;
+
+    for (i = 0; i < flow->actionOrderCount; i++) {
+        if (&flow->actionOrder[i] == entry) {
+            return i;
+        }
+    }
+    return flow->actionOrderCount;
 }
 
 // Function names from swan.

@@ -227,7 +227,7 @@ void func_ov167_0219d518(BattleParty *party, u8 index);
 void func_ov167_0219d544(BattleParty *party, u32 pos, BattleMon **oldOut, BattleMon **newOut);
 s32 func_ov167_0219d5b0(const BattleParty *party, u32 monId);
 BattleMon *func_ov167_0219d5dc(const BattleParty *party);
-u32 func_ov167_0219d38c(u32 pos);
+u8 func_ov167_0219d38c(u32 pos);
 u32 func_ov167_0219d3a4(u32 pos);
 BattleMon *GetBattleMonFromParty(BattleParty *party, u8 index);
 u8 GetNumMonsInParty(BattleParty *party);

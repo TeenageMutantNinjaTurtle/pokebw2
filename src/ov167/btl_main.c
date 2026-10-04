@@ -2757,7 +2757,7 @@ BOOL IsAdjacentOpponent(u8 pos1, u8 pos2) {
     return FALSE;
 }
 
-u32 func_ov167_0219d38c(u32 pos) {
+u8 func_ov167_0219d38c(u32 pos) {
     switch (pos) {
     case 2:
         return 1;

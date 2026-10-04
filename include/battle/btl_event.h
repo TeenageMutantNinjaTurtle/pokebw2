@@ -75,8 +75,9 @@ void func_ov167_021bcca4(BattleEventItem *item);
 void func_ov167_021bcccc(BattleEventItem *item);
 void func_ov167_021bccd8(void);
 void func_ov167_021bccf4(void);
-void BattleEventVar_Push(void);
-void BattleEventVar_Pop(void);
+// The line is the caller's source line, which they ignore
+void BattleEventVar_Push(u32 line);
+void BattleEventVar_Pop(u32 line);
 void BattleEventVar_SetValue(u16 key, s32 value);
 void BattleEventVar_SetConstValue(u16 key, s32 value);
 void BattleEventVar_SetRewriteOnceValue(u16 key, s32 value);
