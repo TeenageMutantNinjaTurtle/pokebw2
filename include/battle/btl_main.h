@@ -4,6 +4,7 @@
 #include "types.h"
 #include "battle/btl_calc.h"
 #include "battle/btl_setup.h"
+#include "gfl/proc.h"
 #include "constants/battle.h"
 #include "struct_decls.h"
 
@@ -42,6 +43,27 @@ typedef struct {
     u8 unk09[0xb];
 } BtlMainUnk478;
 
+// A step of the main module's setup or cleanup, run until it returns TRUE
+typedef BOOL (*BtlMainSeqFunc)(u32 *state, BtlMainModule *mainModule);
+
+typedef struct {
+    BtlMainSeqFunc func;
+    BtlMainSeqFunc nextFunc;
+    BtlMainModule *mainModule;
+    u32 state;
+} BtlMainSeq;
+
+// What the clients of a link battle exchange before it starts
+typedef struct {
+    MATHRandContext32 rand;
+    u16 unk18;
+    u16 unk1A;
+    u16 unk1C;
+    u8 unk1E;
+    u8 unk1F_0 : 4;
+    u8 unk1F_4 : 4;
+} BtlMainSyncData;
+
 // A client's trainer, 0x28 bytes
 typedef struct {
     PlayerInfo *playerInfo;
@@ -58,10 +80,10 @@ struct BtlMainModule {
     BtlSetup *setup;
     BtlvCore *viewCore;
     BtlServer *server;
-    u32 unk0C;
+    BtlServer *unk0C;
     BtlClient *clients[4];
     BtlTrainerData trainers[4];
-    u32 unkC0;
+    PlayerInfo *unkC0;
     u8 unkC4[4];
     BtlPokeCon pokeCons[2];
     PokeParty *unk298[4];
@@ -69,10 +91,12 @@ struct BtlMainModule {
     PokeParty *unk2B8;
     u32 unk2BC;
     PartyPkm *unk2C0;
-    u8 unk2C4[0x11c];
+    void *unk2C4;
+    u8 unk2C8[0x118];
     void *unk3E0[4];
     MATHRandContext32 rand;
-    u8 unk408[0x20];
+    // What the clients of a link battle agree on before it starts
+    BtlMainSyncData syncData;
     u8 posClientIds[6];
     u8 unk42e[2];
     // The prize money, which func_ov167_0219ca78 doubles and finalizes
@@ -84,13 +108,19 @@ struct BtlMainModule {
     u16 unk442;
     u32 result;
     BtlClientIDList unk448;
-    u8 unk450[0x18];
+    BtlMainSeq seq;
+    s32 unk460;
+    BOOL (*mainFunc)(BtlMainModule *mainModule);
     u16 heapId;
-    u8 unk46a[2];
+    u8 unk46A;
+    u8 clientCount;
     u8 playerClientId;
     u8 unk46D;
     u8 unk46E;
-    u8 unk46F[4];
+    u8 unk46F;
+    u8 unk470;
+    u8 unk471;
+    u8 unk472;
     u8 unk473_0 : 1;
     u8 unk473_1 : 1;
     u8 unk473_2 : 1;
@@ -145,8 +175,6 @@ BOOL DoesClientExist(BtlMainModule *mainModule, u8 clientId);
 u8 GetClientSide(BtlMainModule *mainModule, u8 clientId);
 BOOL AreClientsOnOppositeSides(BtlMainModule *mainModule, u8 clientId1, u8 clientId2);
 u8 BattlePosToClientID(BtlMainModule *mainModule, u8 pos);
-// First four bytes are the starting mon ID for each client.
-extern const u8 data_ov167_021d6c24[4];
 u8 MonIDToClientID(u8 monId);
 u8 func_ov167_0219c458(BtlMainModule *mainModule, u8 clientId, u8 slot);
 s32 func_ov167_0219d140(BtlPokeCon *pokeCon, u8 clientId, u8 monId);
@@ -215,7 +243,7 @@ void func_ov167_0219bde0(BtlMainModule *mainModule);
 void func_ov167_0219bdf0(BtlMainModule *mainModule);
 BOOL func_ov167_0219bdfc(BtlMainModule *mainModule);
 void *func_ov167_0219be48(BtlMainModule *mainModule);
-u32 func_ov167_0219bf68(BtlMainModule *mainModule);
+PlayerInfo *func_ov167_0219bf68(BtlMainModule *mainModule);
 BOOL func_ov167_0219bf70(BtlMainModule *mainModule, BattleMon *mon);
 u32 func_ov167_0219bf88(BtlMainModule *mainModule);
 GameData *func_ov167_0219bf98(BtlMainModule *mainModule);
@@ -314,15 +342,47 @@ void func_ov167_0219e1b0(BtlMainModule *mainModule);
 void func_ov167_0219e300(BtlMainModule *mainModule);
 BtlSetup *func_ov167_0219e30c(BtlMainModule *mainModule);
 BtlSetup *func_ov167_0219e310(BtlMainModule *mainModule);
-void func_ov167_0219e314(BtlMainModule *mainModule);
+void func_ov167_0219e314(BtlMainModule *mainModule, u8 arg1);
 void func_ov167_0219e378(BtlMainModule *mainModule);
 void *func_ov167_0219e39c(BtlMainModule *mainModule);
 void *func_ov167_0219e3ac(BtlMainModule *mainModule);
 void *func_ov167_0219e3bc(BtlMainModule *mainModule);
 void func_ov167_0219e3c8(void *data);
-// The positions' tables of func_ov167_0219c6dc, and the opponent lookup of func_ov167_0219d2bc
-extern const u8 data_ov167_021d6c28[2][3];
-extern const u8 data_ov167_021d6c2e[2][3];
-extern const AdjacentOpponentData data_ov167_021d6ca4[];
+
+
+BOOL func_ov167_021998c0(GameProc *proc, u32 *state, void *param, void *work);
+BOOL func_ov167_02199c08(GameProc *proc, u32 *state, void *param, void *work);
+BOOL func_ov167_02199ca0(BtlMainModule *mainModule);
+BOOL func_ov167_02199cd4(GameProc *proc, u32 *state, void *param, void *work);
+void func_ov167_02199ec0(BtlMainSeq *seq, BtlMainModule *mainModule, BtlSetup *setup);
+void func_ov167_02199ff0(BtlMainSeq *seq, BtlMainModule *mainModule, BtlSetup *setup);
+void func_ov167_0219a140(BtlMainModule *mainModule, u8 clientId);
+void func_ov167_0219a1e8(BtlMainModule *mainModule, BtlSetup *setup);
+void func_ov167_0219a228(BtlMainModule *mainModule, BtlSetup *setup);
+void func_ov167_0219a25c(BtlMainModule *mainModule, BtlSetup *setup, u32 arg2);
+BOOL func_ov167_0219a298(u32 *state, BtlMainModule *mainModule);
+BOOL func_ov167_0219a3f4(u32 *state, BtlMainModule *mainModule);
+BOOL func_ov167_0219a448(u32 *state, BtlMainModule *mainModule);
+BOOL func_ov167_0219a5bc(u32 *state, BtlMainModule *mainModule);
+BOOL func_ov167_0219a848(u32 *state, BtlMainModule *mainModule);
+BOOL func_ov167_0219a9cc(u32 *state, BtlMainModule *mainModule);
+BOOL func_ov167_0219ab44(u32 *state, BtlMainModule *mainModule);
+BOOL func_ov167_0219abbc(u32 *state, BtlMainModule *mainModule);
+BOOL func_ov167_0219ac80(u32 *state, BtlMainModule *mainModule);
+BOOL func_ov167_0219ad10(u32 *state, BtlMainModule *mainModule);
+BOOL func_ov167_0219ada0(BtlMainModule *mainModule, s32 *state);
+BOOL func_ov167_0219af50(BtlMainModule *mainModule, s32 *state);
+BOOL func_ov167_0219b160(BtlMainModule *mainModule, s32 *state);
+BOOL func_ov167_0219b3a8(BtlMainModule *mainModule, s32 *state);
+BOOL func_ov167_0219b4ac(BtlMainModule *mainModule, s32 *state);
+BOOL func_ov167_0219b610(BtlMainModule *mainModule, s32 *state);
+BOOL func_ov167_0219b868(BtlMainModule *mainModule, s32 *state);
+BOOL func_ov167_0219b9d4(BtlMainModule *mainModule, s32 *state);
+BOOL func_ov167_0219bb54(BtlMainModule *mainModule, s32 *state);
+BOOL func_ov167_0219bbec(BtlMainModule *mainModule);
+BOOL func_ov167_0219bc2c(BtlMainModule *mainModule);
+BOOL func_ov167_0219bcd0(BtlMainModule *mainModule);
+void func_ov167_0219d794(BtlTrainerData *trainer, const BtlSetupTrainer *src);
+void func_ov167_0219d808(BtlTrainerData *trainer, const BtlCommTrainerData *src);
 
 #endif // POKEBW2_BATTLE_BTL_MAIN_H

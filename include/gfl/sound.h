@@ -40,6 +40,8 @@ void func_02005d8c(void);
 BOOL GFL_SndIsPlaying(u32 seq);
 void GFL_SndStop(void);
 void GFL_SndSetVolumeControlCallbacks(void);
+BOOL GFL_SndIsVolumeControlCallbackSet(void);
+void GFL_SndPlayerSetMuteStateEx(u32 player, u32 state);
 // Loads sound sequences ahead of time, and frees them
 u32 func_02005af4(const u32 *seqs, u32 count);
 void func_02005b60(u32 handle);

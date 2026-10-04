@@ -13,7 +13,7 @@ struct BtlFieldSituation {
     u16 zoneId;
     u8 unk0c[6];
     u16 unk12;
-    u8 unk14[4];
+    void *netHandle;
     u8 unk18;
     u8 unk19;
     u8 unk1a;
@@ -23,7 +23,26 @@ struct BtlFieldSituation {
 // A trainer the battle is set up with
 struct BtlSetupTrainer {
     u32 trainerId;
+    u32 trainerClass;
+    u32 aiFlags;
+    u16 items[4];
+    StrBuf *name;
+    u8 unk18[8];
+    u8 unk20[8];
 };
+
+// A trainer as a link battle sends it, with the name as characters
+typedef struct {
+    u32 trainerId;
+    u32 trainerClass;
+    u32 aiFlags;
+    u16 items[4];
+    u8 unk14[4];
+    u8 unk18[8];
+    u8 unk20[8];
+    u16 name[0x20];
+    u32 nameLength;
+} BtlCommTrainerData;
 
 struct BtlSetup {
     u32 battleType;
@@ -43,11 +62,15 @@ struct BtlSetup {
     PokeDexSave *pokedex;
     GameRecords *records;
     void *unk88;
-    u8 unk8C[4];
+    u16 unk8C;
+    u16 unk8E;
     u8 unk90[7];
     u8 unk97;
     u8 unk98;
-    u8 unk99[0xf];
+    u8 unk99[7];
+    u16 unkA0;
+    u16 unkA2;
+    u32 unkA4;
     u32 unkA8;
     u8 unkAC;
     u8 unkAD;
@@ -70,7 +93,8 @@ struct BtlSetup {
     u8 unkDB;
     u8 unkDC;
     u8 unkDD_0 : 1;
-    u8 unkDD_1 : 2;
+    u8 unkDD_1 : 1;
+    u8 unkDD_2 : 1;
     u8 unkDD_3 : 2;
     u8 unkDD_5 : 1;
     u8 unkDD_6 : 1;

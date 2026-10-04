@@ -2,10 +2,13 @@
 #define POKEBW2_GFL_RANDOM_H
 
 #include "types.h"
+#include "nitro/math.h"
 
 u32 GFL_RandomLC(u32 max);
 u32 GFL_RandomLCAlt(u32 max);
 u32 GFL_RandomMT(void);
+// Seeds a random context from the time and the hardware
+void buildSeed(MATHRandContext32 *context);
 
 // A random number below range, or any 32-bit number if range is 0
 static inline u32 GFL_RandomMTRange(u32 range) {

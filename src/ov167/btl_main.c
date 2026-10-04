@@ -1,7 +1,10 @@
+// Function names from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
+
 #include "types.h"
 #include "battle/btl_calc.h"
 #include "battle/btl_client.h"
 #include "battle/btl_main.h"
+#include "battle/btl_net.h"
 #include "battle/btl_pokeparam.h"
 #include "battle/btl_server.h"
 #include "battle/btl_server_flow.h"
@@ -12,11 +15,17 @@
 #include "constants/species.h"
 #include "constants/version.h"
 #include "gfl/arc.h"
+#include "gfl/graphics.h"
 #include "gfl/heap.h"
+#include "gfl/msg.h"
 #include "gfl/overlay.h"
 #include "gfl/print.h"
+#include "gfl/proc.h"
+#include "gfl/random.h"
+#include "gfl/sound.h"
 #include "gfl/std.h"
 #include "gfl/str.h"
+#include "nitro/hw.h"
 #include "pml/poke_party.h"
 #include "save/bag.h"
 #include "save/chatter.h"
@@ -26,7 +35,391 @@
 #include "save/pokedex.h"
 #include "save/records.h"
 #include "save/save_control.h"
+#include "system/game_comm.h"
 #include "system/game_data.h"
+
+// The first mon ID of each client
+static const u8 data_ov167_021d6c24[4] = { 0, 12, 6, 18 };
+
+static const u8 data_ov167_021d6c28[2][3] = {
+    { 3, 5, 0 },
+    { 2, 4, 0 },
+};
+
+static const u8 data_ov167_021d6c2e[2][3] = {
+    { 3, 5, 7 },
+    { 2, 4, 6 },
+};
+
+// The steps of setting up a link battle, after the first, for each battle style
+static BOOL (*const data_ov167_021d6c34[7])(BtlMainModule *mainModule, s32 *state) = {
+    NULL,
+    func_ov167_0219ada0,
+    func_ov167_0219af50,
+    func_ov167_0219b160,
+    func_ov167_0219b3a8,
+    func_ov167_0219b610,
+    func_ov167_0219bb54,
+};
+
+static BOOL (*const data_ov167_021d6c50[7])(BtlMainModule *mainModule, s32 *state) = {
+    NULL,
+    func_ov167_0219ada0,
+    func_ov167_0219af50,
+    func_ov167_0219b160,
+    func_ov167_0219b3a8,
+    func_ov167_0219b4ac,
+    func_ov167_0219bb54,
+};
+
+static BOOL (*const data_ov167_021d6c6c[7])(BtlMainModule *mainModule, s32 *state) = {
+    NULL,
+    func_ov167_0219ada0,
+    func_ov167_0219af50,
+    func_ov167_0219b160,
+    func_ov167_0219b3a8,
+    func_ov167_0219b9d4,
+    func_ov167_0219bb54,
+};
+
+static BOOL (*const data_ov167_021d6c88[7])(BtlMainModule *mainModule, s32 *state) = {
+    NULL,
+    func_ov167_0219ada0,
+    func_ov167_0219af50,
+    func_ov167_0219b160,
+    func_ov167_0219b3a8,
+    func_ov167_0219b868,
+    func_ov167_0219bb54,
+};
+
+static const AdjacentOpponentData data_ov167_021d6ca4[BTL_POS_MAX] = {
+    { 2, 2, { 5, 3, 6 }, { 0, 2, 6 } },
+    { 2, 2, { 4, 2, 6 }, { 1, 3, 6 } },
+    { 3, 3, { 1, 3, 5 }, { 0, 2, 4 } },
+    { 3, 3, { 0, 2, 4 }, { 1, 3, 5 } },
+    { 2, 2, { 1, 3, 6 }, { 4, 2, 6 } },
+    { 2, 2, { 0, 2, 6 }, { 5, 3, 6 } },
+};
+
+// The battle system's proc
+const GameProcFunctions data_ov167_021d6ce0 = { func_ov167_021998c0, func_ov167_02199c08, func_ov167_02199cd4 };
+
+// Starts a step of the module
+static inline void BtlMainSeq_Set(BtlMainSeq *seq, BtlMainSeqFunc func, BtlMainModule *mainModule) {
+    seq->mainModule = mainModule;
+    seq->func = func;
+    seq->nextFunc = NULL;
+    seq->state = 0;
+}
+
+// Runs the module's current step, then its next one, until both are done
+static inline BOOL BtlMainSeq_Run(BtlMainSeq *seq) {
+    if (seq->func != NULL) {
+        if (seq->func(&seq->state, seq->mainModule)) {
+            seq->func = NULL;
+            seq->state = 0;
+        }
+        return FALSE;
+    }
+    if (seq->nextFunc != NULL) {
+        if (!seq->nextFunc(&seq->state, seq->mainModule)) {
+            return FALSE;
+        }
+        seq->nextFunc = NULL;
+    }
+    return TRUE;
+}
+
+BOOL func_ov167_021998c0(GameProc *proc, u32 *state, void *param, void *work) {
+    BtlMainModule *mainModule;
+    BtlSetup *setup = param;
+    BOOL notInitialized;
+    BOOL isSet;
+
+    switch (*state) {
+    case 0:
+        GFL_HeapCreateChild(HEAPID_USER, HEAPID_BATTLE, 0x20000);
+        GFL_HeapCreateChild(HEAPID_USER, 0x14, 0x8000);
+        GFL_HeapCreateChild(HEAPID_USER, 0x13, 0xac500);
+        mainModule = GFL_ProcInitSubsystem(proc, sizeof(BtlMainModule), HEAPID_BATTLE);
+        sys_memset32(0, mainModule, sizeof(BtlMainModule));
+        func_ov167_021ce604(0x13);
+        func_ov167_021ce10c();
+        if (!GFL_SndIsVolumeControlCallbackSet()) {
+            GFL_SndSetVolumeControlCallbacks();
+            mainModule->unk473_7 = 1;
+        }
+        mainModule->heapId = HEAPID_BATTLE;
+        mainModule->setup = setup;
+        setup->unkAC = 6;
+        mainModule->unkC0 = mainModule->setup->unk34[0];
+        mainModule->unk440 = mainModule->setup->unk8C;
+        mainModule->unk442 = mainModule->setup->unk8E;
+        mainModule->unk473_3 = 0;
+        mainModule->unk473_4 = 0;
+        mainModule->unk473_0 = 0;
+        mainModule->unk473_1 = 0;
+        mainModule->unk473_5 = 0;
+        mainModule->unk473_6 = 0;
+        mainModule->unk471 = 0;
+        mainModule->mainFunc = NULL;
+        notInitialized = FALSE;
+        mainModule->viewCore = NULL;
+        mainModule->result = 7;
+        mainModule->unk43C = func_02008a14(mainModule->setup->config);
+        if (!func_02008a4c(setup->config)) {
+            notInitialized = TRUE;
+        }
+        mainModule->unk473_2 = (u8)notInitialized;
+        mainModule->unk2BC = func_ov167_021d5a84(mainModule->heapId);
+        func_ov167_0219ccbc(&mainModule->pokeCons[0], mainModule, FALSE);
+        func_ov167_0219ccbc(&mainModule->pokeCons[1], mainModule, TRUE);
+        func_ov167_0219e164(mainModule->setup);
+        mainModule->unk2C0 = NULL;
+        mainModule->unk2C4 = NULL;
+        if (mainModule->setup->fieldSituation.unk1b == 0) {
+            buildSeed(&mainModule->rand);
+        } else {
+            mainModule->rand = setup->rand;
+        }
+        func_ov167_021bd054(&mainModule->rand, mainModule->heapId);
+        func_ov167_021b1670();
+        mainModule->prizeMoney = func_ov167_021bd7b0(setup);
+        mainModule->money = 0;
+        mainModule->unk438 = 0;
+        if (mainModule->setup->fieldSituation.unk1b == 0) {
+            u32 i;
+
+            for (i = 0; i < 4; i++) {
+                mainModule->setup->unk44[i] = 0;
+            }
+        }
+        func_ov167_021bda58(&mainModule->unk448);
+        isSet = FALSE;
+        if (func_02008a68(setup->config)) {
+            isSet = TRUE;
+        }
+        mainModule->unk46F = isSet;
+        func_ov167_021b9950(setup->fieldSituation.netHandle, setup->unkA0, 0x14);
+        func_ov167_021bd874(HEAPID_BATTLE);
+        if (setup->unkDD_3) {
+            func_ov167_0219e314(mainModule, setup->unkDF);
+        }
+        (*state)++;
+        break;
+    case 1:
+        mainModule = work;
+        if (mainModule->setup->fieldSituation.netHandle != NULL && func_ov167_021b9a70()) {
+            mainModule->unk473_0 = 1;
+            mainModule->unk473_1 = 1;
+            return TRUE;
+        }
+        if (func_ov167_021b9a30()) {
+            func_ov167_021d4a1c(mainModule->setup->fieldSituation.unk18);
+            func_ov167_02199ec0(&mainModule->seq, mainModule, mainModule->setup);
+            mainModule->unk460 = 0;
+            func_ov167_0219d6ac(mainModule);
+            func_ov167_0219d9b0(mainModule);
+            (*state)++;
+        }
+        break;
+    case 2:
+        mainModule = work;
+        if (BtlMainSeq_Run(&mainModule->seq)) {
+            if (mainModule->unk473_0) {
+                mainModule->unk473_1 = 1;
+                return TRUE;
+            }
+            if (mainModule->setup->battleType != 4) {
+                func_ov167_0219dad0(mainModule, 4);
+            }
+            return TRUE;
+        }
+        break;
+    }
+    return FALSE;
+}
+
+BOOL func_ov167_02199c08(GameProc *proc, u32 *state, void *param, void *work) {
+    BtlMainModule *mainModule = work;
+    u32 result;
+
+    if (mainModule->mainFunc == NULL) {
+        return TRUE;
+    }
+    if (mainModule->mainFunc(mainModule)) {
+        if (!func_ov167_0219c980(mainModule)) {
+            result = func_ov167_0219de84(mainModule);
+            func_ov167_0219dff8(mainModule);
+            func_ov167_0219e1b0(mainModule);
+            func_ov167_0219dc10(mainModule);
+            switch (result) {
+            case 1:
+                mainModule->setup->unkA4 = mainModule->prizeMoney + func_ov167_0219caec(mainModule);
+                break;
+            case 0:
+            case 2:
+                mainModule->setup->unkA4 = -mainModule->unk438;
+                break;
+            }
+        } else {
+            mainModule->setup->unkDD_1 = (u8)func_ov167_02199ca0(mainModule);
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+
+BOOL func_ov167_02199ca0(BtlMainModule *mainModule) {
+    u32 i;
+
+    for (i = 0; i < 4; i++) {
+        if (DoesClientExist(mainModule, i) && !func_ov167_021d4880(mainModule->unk2C8, i)) {
+            return FALSE;
+        }
+    }
+    return TRUE;
+}
+
+BOOL func_ov167_02199cd4(GameProc *proc, u32 *state, void *param, void *work) {
+    BtlMainModule *mainModule = work;
+
+    switch (*state) {
+    case 0:
+        if (!mainModule->unk473_5) {
+            GFL_SndBGMFadeOut(30);
+        }
+        mainModule->unk460 = 0;
+        if (func_ov167_0219c988(mainModule)) {
+            func_ov167_0219e378(mainModule);
+        }
+        if (gfxRegGetMasterBrightness(REG_MASTER_BRIGHT_ADDR)) {
+            mainModule->unk460 = -16;
+            GFXRegSetMasterBrightness(REG_MASTER_BRIGHT_ADDR, -16);
+            GFXRegSetMasterBrightness(REG_DB_MASTER_BRIGHT_ADDR, -16);
+            *state += 2;
+            break;
+        }
+        (*state)++;
+        break;
+    case 1:
+        if (mainModule->unk460 > -16) {
+            mainModule->unk460--;
+            if (gfxRegGetMasterBrightness(REG_MASTER_BRIGHT_ADDR) > mainModule->unk460) {
+                GFXRegSetMasterBrightness(REG_MASTER_BRIGHT_ADDR, mainModule->unk460);
+            }
+            if (gfxRegGetMasterBrightness(REG_DB_MASTER_BRIGHT_ADDR) > mainModule->unk460) {
+                GFXRegSetMasterBrightness(REG_DB_MASTER_BRIGHT_ADDR, mainModule->unk460);
+            }
+            break;
+        }
+        (*state)++;
+        break;
+    case 2:
+        if (!mainModule->unk473_5) {
+            if (GFL_SndBGMIsFading()) {
+                break;
+            }
+            func_02005d8c();
+        }
+        (*state)++;
+        break;
+    case 3:
+        if (mainModule->unk2BC != 0) {
+            func_ov167_021d5aac(mainModule->unk2BC);
+            mainModule->unk2BC = 0;
+        }
+        if (mainModule->unk2C0 != NULL) {
+            GFL_HeapFree(mainModule->unk2C0);
+            mainModule->unk2C0 = NULL;
+        }
+        if (mainModule->unk2C4 != NULL) {
+            func_ov167_021ba55c(mainModule->unk2C4);
+            mainModule->unk2C4 = NULL;
+        }
+        func_ov167_021bd0a8();
+        func_ov167_0219d9e8(mainModule);
+        func_ov167_0219d6dc(mainModule);
+        func_ov167_02199ff0(&mainModule->seq, mainModule, mainModule->setup);
+        (*state)++;
+        break;
+    case 4:
+        if (BtlMainSeq_Run(&mainModule->seq)) {
+            func_ov167_021d4a40();
+            func_ov167_021b9a54();
+            func_ov167_021bd880();
+            (*state)++;
+        }
+        break;
+    case 5:
+        func_ov167_021ce638();
+        GFL_SndPlayerSetMuteStateEx(1, 0x3e);
+        PokeVoice_ResetMasterVolume();
+        if (mainModule->unk473_7) {
+            func_0203021c();
+            mainModule->unk473_7 = 0;
+        }
+        GFL_ProcReleaseSubsystem(proc);
+        GFL_HeapDelete(0x13);
+        GFL_HeapDelete(0x14);
+        GFL_HeapDelete(HEAPID_BATTLE);
+        func_ov167_021ce138();
+        return TRUE;
+    }
+    return FALSE;
+}
+
+void func_ov167_02199ec0(BtlMainSeq *seq, BtlMainModule *mainModule, BtlSetup *setup) {
+    u32 i;
+
+    for (i = 0; i < BTL_POS_MAX; i++) {
+        mainModule->posClientIds[i] = 4;
+    }
+    if (setup->fieldSituation.unk18 == 0) {
+        switch (setup->battleStyle) {
+        case 0:
+            BtlMainSeq_Set(seq, func_ov167_0219a298, mainModule);
+            return;
+        case 1:
+            if (setup->fieldSituation.unk1a == 0) {
+                BtlMainSeq_Set(seq, func_ov167_0219a448, mainModule);
+                return;
+            }
+            BtlMainSeq_Set(seq, func_ov167_0219a5bc, mainModule);
+            return;
+        case 2:
+            BtlMainSeq_Set(seq, func_ov167_0219a848, mainModule);
+            return;
+        case 3:
+            BtlMainSeq_Set(seq, func_ov167_0219a9cc, mainModule);
+            return;
+        default:
+            BtlMainSeq_Set(seq, func_ov167_0219a298, mainModule);
+            return;
+        }
+    }
+    switch (setup->battleStyle) {
+    case 0:
+        BtlMainSeq_Set(seq, func_ov167_0219ab44, mainModule);
+        return;
+    case 1:
+        BtlMainSeq_Set(seq, func_ov167_0219abbc, mainModule);
+        return;
+    case 2:
+        BtlMainSeq_Set(seq, func_ov167_0219ad10, mainModule);
+        return;
+    case 3:
+        BtlMainSeq_Set(seq, func_ov167_0219ac80, mainModule);
+        return;
+    default:
+        BtlMainSeq_Set(seq, func_ov167_0219a298, mainModule);
+        return;
+    }
+}
+
+void func_ov167_02199ff0(BtlMainSeq *seq, BtlMainModule *mainModule, BtlSetup *setup) {
+    BtlMainSeq_Set(seq, func_ov167_0219a3f4, mainModule);
+}
 
 BOOL func_ov167_0219a004(BtlSetup *setup) {
     switch (setup->battleType) {
@@ -87,6 +480,19 @@ void func_ov167_0219a0c4(BtlMainModule *mainModule, BtlSetup *setup) {
     }
 }
 
+void func_ov167_0219a140(BtlMainModule *mainModule, u8 clientId) {
+    BtlSetup *setup = mainModule->setup;
+    u8 index = func_ov167_0219e048(mainModule->playerClientId, clientId);
+    BtlTrainerData *trainer = &mainModule->trainers[clientId];
+
+    if (setup->trainers[index]->trainerId != 0) {
+        func_ov167_0219d794(trainer, setup->trainers[index]);
+    } else {
+        func_ov167_0219d72c(trainer, mainModule->heapId, setup->unk34[index]);
+    }
+}
+
+
 u8 func_ov167_0219a180(BtlMainModule *mainModule, u8 clientId) {
     BtlSetup *setup = mainModule->setup;
 
@@ -114,6 +520,966 @@ u8 func_ov167_0219a180(BtlMainModule *mainModule, u8 clientId) {
     }
 }
 
+void func_ov167_0219a1e8(BtlMainModule *mainModule, BtlSetup *setup) {
+    if (setup->fieldSituation.unk1b == 0) {
+        func_ov167_0219d72c(&mainModule->trainers[0], mainModule->heapId, mainModule->unkC0);
+        func_ov167_0219d794(&mainModule->trainers[1], setup->trainers[1]);
+    } else {
+        func_ov167_0219a140(mainModule, 0);
+        func_ov167_0219a140(mainModule, 1);
+    }
+}
+
+void func_ov167_0219a228(BtlMainModule *mainModule, BtlSetup *setup) {
+    if (setup->fieldSituation.unk1b != 0) {
+        func_ov167_021d4630(mainModule->unk2C8, setup->unkB0, setup->unkB4);
+        func_ov167_021b18e8(mainModule->clients[0], mainModule->unk2C8);
+        func_ov167_021b18e8(mainModule->clients[1], mainModule->unk2C8);
+    }
+}
+
+void func_ov167_0219a25c(BtlMainModule *mainModule, BtlSetup *setup, u32 arg2) {
+    BtlClient *client;
+
+    if (setup->fieldSituation.unk1b != 0) {
+        client = mainModule->clients[setup->fieldSituation.unk19];
+    } else {
+        client = mainModule->clients[0];
+    }
+    mainModule->viewCore = BtlvCore_Create(mainModule, client, &mainModule->pokeCons[0], arg2, 0x13);
+    func_ov167_021b190c(client, mainModule->viewCore);
+}
+
+BOOL func_ov167_0219a298(u32 *state, BtlMainModule *mainModule) {
+    BtlSetup *setup = mainModule->setup;
+    u32 unk = func_ov167_0219a004(setup);
+
+    mainModule->clientCount = 2;
+    mainModule->posClientIds[0] = 0;
+    mainModule->posClientIds[1] = 1;
+    func_ov167_0219a034(mainModule, setup);
+    func_ov167_0219ccbc(&mainModule->pokeCons[0], mainModule, FALSE);
+    func_ov167_0219cd3c(&mainModule->pokeCons[0], mainModule, 0);
+    func_ov167_0219cd3c(&mainModule->pokeCons[0], mainModule, 1);
+    func_ov167_0219ccbc(&mainModule->pokeCons[1], mainModule, TRUE);
+    func_ov167_0219cd3c(&mainModule->pokeCons[1], mainModule, 0);
+    func_ov167_0219cd3c(&mainModule->pokeCons[1], mainModule, 1);
+    mainModule->server =
+        func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
+    mainModule->unk46E = 1;
+    func_ov167_0219a1e8(mainModule, setup);
+    mainModule->clients[0] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 0, 1,
+                                                 0, unk, setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
+    mainModule->clients[1] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 1, 1,
+                                                 1, unk, setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
+    func_ov167_0219a228(mainModule, setup);
+    func_ov167_0219a25c(mainModule, setup, unk);
+    func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[0]), 0, 1);
+    func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[1]), 1, 1);
+    func_ov167_0219e544(mainModule->server);
+    mainModule->mainFunc = func_ov167_0219bbec;
+    return TRUE;
+}
+
+BOOL func_ov167_0219a3f4(u32 *state, BtlMainModule *mainModule) {
+    u32 i;
+
+    if (mainModule->viewCore != NULL) {
+        func_ov167_021ce870(mainModule->viewCore);
+        mainModule->viewCore = NULL;
+    }
+    for (i = 0; i < 4; i++) {
+        if (mainModule->clients[i] != NULL) {
+            func_ov167_021b1890(mainModule->clients[i]);
+        }
+    }
+    func_ov167_0219cf50(&mainModule->pokeCons[0]);
+    func_ov167_0219cf50(&mainModule->pokeCons[1]);
+    if (mainModule->server != NULL) {
+        func_ov167_0219e560(mainModule->server);
+    }
+    if (mainModule->unk0C != NULL) {
+        func_ov167_0219e560(mainModule->unk0C);
+    }
+    return TRUE;
+}
+
+BOOL func_ov167_0219a448(u32 *state, BtlMainModule *mainModule) {
+    BtlSetup *setup = mainModule->setup;
+    u32 unk = func_ov167_0219a004(setup);
+
+    mainModule->playerClientId = 0;
+    mainModule->clientCount = 2;
+    mainModule->posClientIds[0] = 0;
+    mainModule->posClientIds[1] = 1;
+    mainModule->posClientIds[2] = 0;
+    mainModule->posClientIds[3] = 1;
+    func_ov167_0219a034(mainModule, setup);
+    func_ov167_0219ccbc(&mainModule->pokeCons[0], mainModule, FALSE);
+    func_ov167_0219cd3c(&mainModule->pokeCons[0], mainModule, 0);
+    func_ov167_0219cd3c(&mainModule->pokeCons[0], mainModule, 1);
+    func_ov167_0219ccbc(&mainModule->pokeCons[1], mainModule, TRUE);
+    func_ov167_0219cd3c(&mainModule->pokeCons[1], mainModule, 0);
+    func_ov167_0219cd3c(&mainModule->pokeCons[1], mainModule, 1);
+    func_ov167_0219a1e8(mainModule, setup);
+    mainModule->server =
+        func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
+    mainModule->unk46E = 1;
+    mainModule->clients[0] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 0, 2,
+                                                 0, unk, setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
+    mainModule->clients[1] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 1, 2,
+                                                 1, unk, setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
+    func_ov167_0219a228(mainModule, setup);
+    func_ov167_0219a25c(mainModule, setup, unk);
+    func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[0]), 0, 2);
+    func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[1]), 1, 2);
+    func_ov167_0219e544(mainModule->server);
+    mainModule->mainFunc = func_ov167_0219bbec;
+    return TRUE;
+}
+
+BOOL func_ov167_0219a5bc(u32 *state, BtlMainModule *mainModule) {
+    BtlSetup *setup = mainModule->setup;
+    u32 unk = func_ov167_0219a004(setup);
+    s32 i;
+
+    mainModule->playerClientId = 0;
+    mainModule->clientCount = 2;
+    mainModule->posClientIds[0] = 0;
+    mainModule->posClientIds[2] = 0;
+    mainModule->posClientIds[1] = 1;
+    mainModule->posClientIds[3] = 1;
+    switch (setup->fieldSituation.unk1a) {
+    case 1:
+    case 2:
+    case 3:
+        mainModule->posClientIds[2] = 2;
+        mainModule->posClientIds[3] = 3;
+        mainModule->clientCount = 4;
+        break;
+    case 4:
+        mainModule->posClientIds[3] = 3;
+        mainModule->clientCount = 3;
+        break;
+    case 5:
+        mainModule->posClientIds[2] = 2;
+        mainModule->clientCount = 3;
+        break;
+    }
+    func_ov167_0219a034(mainModule, setup);
+    func_ov167_0219ccbc(&mainModule->pokeCons[0], mainModule, FALSE);
+    func_ov167_0219ccbc(&mainModule->pokeCons[1], mainModule, TRUE);
+    for (i = 0; i < 4; i++) {
+        if (DoesClientExist(mainModule, i)) {
+            func_ov167_0219cd3c(&mainModule->pokeCons[0], mainModule, i);
+            func_ov167_0219cd3c(&mainModule->pokeCons[1], mainModule, i);
+        }
+    }
+    if (setup->fieldSituation.unk1b == 0) {
+        func_ov167_0219d72c(&mainModule->trainers[0], mainModule->heapId, mainModule->unkC0);
+        func_ov167_0219d794(&mainModule->trainers[1], setup->trainers[1]);
+        if (DoesClientExist(mainModule, 2)) {
+            func_ov167_0219d794(&mainModule->trainers[2], setup->trainers[2]);
+        }
+        if (DoesClientExist(mainModule, 3)) {
+            func_ov167_0219d794(&mainModule->trainers[3], setup->trainers[3]);
+        }
+    } else {
+        for (i = 0; i < 4; i++) {
+            if (DoesClientExist(mainModule, i)) {
+                func_ov167_0219a140(mainModule, i);
+            }
+        }
+    }
+    mainModule->server =
+        func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
+    mainModule->unk46E = 1;
+    for (i = 0; i < 4; i++) {
+        if (DoesClientExist(mainModule, i)) {
+            mainModule->clients[i] =
+                func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, i,
+                                    func_ov167_0219c3e4(mainModule, i), i != 0 ? 1 : 0, unk,
+                                    setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
+        }
+    }
+    if (setup->fieldSituation.unk1b != 0) {
+        func_ov167_021d4630(mainModule->unk2C8, setup->unkB0, setup->unkB4);
+        for (i = 0; i < 4; i++) {
+            if (DoesClientExist(mainModule, i)) {
+                func_ov167_021b18e8(mainModule->clients[i], mainModule->unk2C8);
+            }
+        }
+    }
+    func_ov167_0219a25c(mainModule, setup, unk);
+    for (i = 0; i < 4; i++) {
+        if (DoesClientExist(mainModule, i)) {
+            u8 count = func_ov167_0219c3e4(mainModule, i);
+
+            func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[i]), i, count);
+        }
+    }
+    func_ov167_0219e544(mainModule->server);
+    mainModule->mainFunc = func_ov167_0219bbec;
+    return TRUE;
+}
+
+BOOL func_ov167_0219a848(u32 *state, BtlMainModule *mainModule) {
+    BtlSetup *setup = mainModule->setup;
+    u32 unk = func_ov167_0219a004(setup);
+
+    mainModule->clientCount = 2;
+    mainModule->unk46E = 1;
+    mainModule->posClientIds[0] = 0;
+    mainModule->posClientIds[1] = 1;
+    mainModule->posClientIds[2] = 0;
+    mainModule->posClientIds[3] = 1;
+    mainModule->posClientIds[4] = 0;
+    mainModule->posClientIds[5] = 1;
+    func_ov167_0219a034(mainModule, setup);
+    func_ov167_0219ccbc(&mainModule->pokeCons[0], mainModule, FALSE);
+    func_ov167_0219cd3c(&mainModule->pokeCons[0], mainModule, 0);
+    func_ov167_0219cd3c(&mainModule->pokeCons[0], mainModule, 1);
+    func_ov167_0219ccbc(&mainModule->pokeCons[1], mainModule, TRUE);
+    func_ov167_0219cd3c(&mainModule->pokeCons[1], mainModule, 0);
+    func_ov167_0219cd3c(&mainModule->pokeCons[1], mainModule, 1);
+    func_ov167_0219a1e8(mainModule, setup);
+    mainModule->server =
+        func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
+    mainModule->unk46E = 1;
+    mainModule->clients[0] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 0, 3,
+                                                 0, unk, setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
+    mainModule->clients[1] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 1, 3,
+                                                 1, unk, setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
+    func_ov167_0219a228(mainModule, setup);
+    func_ov167_0219a25c(mainModule, setup, unk);
+    func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[0]), 0, 3);
+    func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[1]), 1, 3);
+    func_ov167_0219e544(mainModule->server);
+    mainModule->mainFunc = func_ov167_0219bbec;
+    return TRUE;
+}
+
+BOOL func_ov167_0219a9cc(u32 *state, BtlMainModule *mainModule) {
+    BtlSetup *setup = mainModule->setup;
+    u32 unk = func_ov167_0219a004(setup);
+
+    mainModule->clientCount = 2;
+    mainModule->posClientIds[0] = 0;
+    mainModule->posClientIds[1] = 1;
+    mainModule->posClientIds[2] = 0;
+    mainModule->posClientIds[3] = 1;
+    mainModule->posClientIds[4] = 0;
+    mainModule->posClientIds[5] = 1;
+    func_ov167_0219a034(mainModule, setup);
+    func_ov167_0219ccbc(&mainModule->pokeCons[0], mainModule, FALSE);
+    func_ov167_0219cd3c(&mainModule->pokeCons[0], mainModule, 0);
+    func_ov167_0219cd3c(&mainModule->pokeCons[0], mainModule, 1);
+    func_ov167_0219ccbc(&mainModule->pokeCons[1], mainModule, TRUE);
+    func_ov167_0219cd3c(&mainModule->pokeCons[1], mainModule, 0);
+    func_ov167_0219cd3c(&mainModule->pokeCons[1], mainModule, 1);
+    mainModule->server =
+        func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
+    mainModule->unk46E = 1;
+    func_ov167_0219a1e8(mainModule, setup);
+    mainModule->clients[0] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 0, 1,
+                                                 0, unk, setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
+    mainModule->clients[1] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 1, 1,
+                                                 1, unk, setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
+    func_ov167_0219a228(mainModule, setup);
+    func_ov167_0219a25c(mainModule, setup, unk);
+    func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[0]), 0, 1);
+    func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[1]), 1, 1);
+    func_ov167_0219e544(mainModule->server);
+    mainModule->mainFunc = func_ov167_0219bbec;
+    return TRUE;
+}
+
+BOOL func_ov167_0219ab44(u32 *state, BtlMainModule *mainModule) {
+    if (*state == 0) {
+        mainModule->clientCount = 2;
+        mainModule->posClientIds[0] = 0;
+        mainModule->posClientIds[1] = 1;
+        mainModule->playerClientId = mainModule->setup->fieldSituation.unk19;
+        mainModule->unk46D = func_ov167_0219c458(mainModule, mainModule->playerClientId, 0);
+        (*state)++;
+        return FALSE;
+    }
+    if (*state < 7) {
+        if (data_ov167_021d6c50[*state](mainModule, &mainModule->unk460)) {
+            mainModule->unk460 = 0;
+            (*state)++;
+        }
+        return FALSE;
+    }
+    return TRUE;
+}
+
+BOOL func_ov167_0219abbc(u32 *state, BtlMainModule *mainModule) {
+    if (*state == 0) {
+        switch (mainModule->setup->fieldSituation.unk1a) {
+        case 0:
+        default:
+            mainModule->clientCount = 2;
+            mainModule->posClientIds[0] = 0;
+            mainModule->posClientIds[1] = 1;
+            mainModule->posClientIds[2] = 0;
+            mainModule->posClientIds[3] = 1;
+            break;
+        case 2:
+            mainModule->unk471 = 2;
+        case 1:
+            mainModule->clientCount = 4;
+            mainModule->posClientIds[0] = 0;
+            mainModule->posClientIds[1] = 1;
+            mainModule->posClientIds[2] = 2;
+            mainModule->posClientIds[3] = 3;
+            break;
+        }
+        mainModule->playerClientId = mainModule->setup->fieldSituation.unk19;
+        mainModule->unk46D = func_ov167_0219c458(mainModule, mainModule->playerClientId, 0);
+        (*state)++;
+        return FALSE;
+    }
+    if (*state < 7) {
+        if (data_ov167_021d6c34[*state](mainModule, &mainModule->unk460)) {
+            mainModule->unk460 = 0;
+            (*state)++;
+        }
+        return FALSE;
+    }
+    return TRUE;
+}
+
+BOOL func_ov167_0219ac80(u32 *state, BtlMainModule *mainModule) {
+    if (*state == 0) {
+        mainModule->clientCount = 2;
+        mainModule->posClientIds[0] = 0;
+        mainModule->posClientIds[1] = 1;
+        mainModule->posClientIds[2] = 0;
+        mainModule->posClientIds[3] = 1;
+        mainModule->posClientIds[4] = 0;
+        mainModule->posClientIds[5] = 1;
+        mainModule->playerClientId = mainModule->setup->fieldSituation.unk19;
+        mainModule->unk46D = func_ov167_0219c458(mainModule, mainModule->playerClientId, 0);
+        (*state)++;
+        return FALSE;
+    }
+    if (*state < 7) {
+        if (data_ov167_021d6c6c[*state](mainModule, &mainModule->unk460)) {
+            mainModule->unk460 = 0;
+            (*state)++;
+        }
+        return FALSE;
+    }
+    return TRUE;
+}
+
+BOOL func_ov167_0219ad10(u32 *state, BtlMainModule *mainModule) {
+    if (*state == 0) {
+        mainModule->clientCount = 2;
+        mainModule->posClientIds[0] = 0;
+        mainModule->posClientIds[1] = 1;
+        mainModule->posClientIds[2] = 0;
+        mainModule->posClientIds[3] = 1;
+        mainModule->posClientIds[4] = 0;
+        mainModule->posClientIds[5] = 1;
+        mainModule->playerClientId = mainModule->setup->fieldSituation.unk19;
+        mainModule->unk46D = func_ov167_0219c458(mainModule, mainModule->playerClientId, 0);
+        (*state)++;
+        return FALSE;
+    }
+    if (*state < 7) {
+        if (data_ov167_021d6c88[*state](mainModule, &mainModule->unk460)) {
+            mainModule->unk460 = 0;
+            (*state)++;
+        }
+        return FALSE;
+    }
+    return TRUE;
+}
+
+BOOL func_ov167_0219ada0(BtlMainModule *mainModule, s32 *state) {
+    if (func_ov167_021b9a70()) {
+        mainModule->unk473_0 = 1;
+        return TRUE;
+    }
+    switch (*state) {
+    case 0:
+        if (func_ov167_021b9a94(mainModule->playerClientId)) {
+            (*state)++;
+        }
+        break;
+    case 1:
+        if (func_ov167_021b9b48()) {
+            mainModule->unk46A = 0;
+            mainModule->unk46E = func_ov167_021b9b60();
+            mainModule->setup->unkAD = func_ov167_021b9b78();
+            if (func_ov167_021b9b60()) {
+                *state = 2;
+            } else {
+                *state = 3;
+            }
+        }
+        break;
+    case 2:
+        mainModule->syncData.rand = mainModule->rand;
+        mainModule->syncData.unk18 = mainModule->setup->unkA2;
+        mainModule->syncData.unk1A = mainModule->setup->unk8C;
+        mainModule->syncData.unk1C = mainModule->setup->unk8E;
+        if (BtlSetup_IsBattleType(mainModule, 0x1000)) {
+            mainModule->syncData.unk1E = mainModule->unk43C;
+            mainModule->syncData.unk1F_0 = mainModule->unk473_2;
+        } else {
+            mainModule->syncData.unk1E = 2;
+            mainModule->syncData.unk1F_0 = 1;
+        }
+        if (func_ov167_021b9bb8(&mainModule->syncData)) {
+            (*state)++;
+        }
+        break;
+    case 3:
+        if (func_ov167_021b9c0c(&mainModule->syncData)) {
+            mainModule->setup->unkA2 = mainModule->syncData.unk18;
+            mainModule->setup->rand = mainModule->syncData.rand;
+            mainModule->rand = mainModule->syncData.rand;
+            mainModule->unk473_2 = mainModule->syncData.unk1F_0;
+            mainModule->unk43C = mainModule->syncData.unk1E;
+            mainModule->unk440 = mainModule->syncData.unk1A;
+            mainModule->unk442 = mainModule->syncData.unk1C;
+            return TRUE;
+        }
+        break;
+    }
+    return FALSE;
+}
+
+BOOL func_ov167_0219af50(BtlMainModule *mainModule, s32 *state) {
+    BtlSetup *setup = mainModule->setup;
+    u32 i;
+    u8 index;
+
+    if (func_ov167_021b9a70()) {
+        mainModule->unk473_0 = 1;
+        return TRUE;
+    }
+    switch (*state) {
+    case 0:
+        func_ov167_021ba2f4(2);
+        (*state)++;
+        break;
+    case 1:
+        if (func_ov167_021ba318(2)) {
+            (*state)++;
+        }
+        break;
+    case 2:
+        if (func_ov167_021b9c38(setup->party[0])) {
+            (*state)++;
+        }
+        break;
+    case 3:
+        if (func_ov167_021b9ccc()) {
+            if (mainModule->unk471 == 0) {
+                *state = 10;
+                break;
+            }
+            if (mainModule->unk46E) {
+                mainModule->unk2C4 =
+                    func_ov167_021ba524(PokeParty_GetSaveDataSize(), HEAPID_TAIL(mainModule->heapId));
+            }
+            mainModule->unk470 = 0;
+            (*state)++;
+        }
+        break;
+    case 4:
+        index = 1;
+        if (mainModule->unk470 != 0) {
+            index = 3;
+        }
+        mainModule->unk472 = index;
+        if (mainModule->unk46E) {
+            func_ov167_021ba564(mainModule->unk2C4, setup->party[mainModule->unk472]);
+        }
+        func_ov167_021ba2f4(mainModule->unk470 + 6);
+        (*state)++;
+        break;
+    case 5:
+        if (func_ov167_021ba318(mainModule->unk470 + 6)) {
+            (*state)++;
+        }
+        break;
+    case 6:
+        if (!mainModule->unk46E || func_ov167_021b9e80(mainModule->unk2C4)) {
+            (*state)++;
+        }
+        break;
+    case 7:
+        if (func_ov167_021b9f84(mainModule->unk472)) {
+            mainModule->unk470++;
+            if (mainModule->unk470 >= mainModule->unk471) {
+                if (mainModule->unk46E) {
+                    func_ov167_021ba55c(mainModule->unk2C4);
+                    mainModule->unk2C4 = NULL;
+                }
+                *state = 10;
+            } else {
+                *state = 4;
+            }
+        }
+        break;
+    case 10:
+        func_ov167_0219ccbc(&mainModule->pokeCons[0], mainModule, FALSE);
+        for (i = 0; i < 4; i++) {
+            if (DoesClientExist(mainModule, i)) {
+                func_ov167_0219da44(mainModule, i, func_ov167_021b9fa4(i));
+                func_ov167_0219df80(mainModule, i, func_ov167_021b9fa4(i));
+                func_ov167_0219cd3c(&mainModule->pokeCons[0], mainModule, i);
+            }
+        }
+        (*state)++;
+        break;
+    case 11:
+        func_ov167_0219ccbc(&mainModule->pokeCons[1], mainModule, TRUE);
+        for (i = 0; i < 4; i++) {
+            if (DoesClientExist(mainModule, i)) {
+                func_ov167_0219cd3c(&mainModule->pokeCons[1], mainModule, i);
+            }
+        }
+        (*state)++;
+        break;
+    case 12:
+        func_ov167_021ba000();
+        (*state)++;
+        break;
+    default:
+        return TRUE;
+    }
+    return FALSE;
+}
+
+BOOL func_ov167_0219b160(BtlMainModule *mainModule, s32 *state) {
+    BtlSetup *setup = mainModule->setup;
+    u32 i;
+    PlayerInfo *info;
+    MsgData *msgData;
+    StrBuf *strBuf;
+    const u16 *str;
+    u32 j;
+    u16 name[16];
+    u8 index;
+
+    if (func_ov167_021b9a70()) {
+        mainModule->unk473_0 = 1;
+        return TRUE;
+    }
+    switch (*state) {
+    case 0:
+        func_ov167_021ba2f4(4);
+        (*state)++;
+        break;
+    case 1:
+        if (func_ov167_021ba318(4)) {
+            (*state)++;
+        }
+        break;
+    case 2:
+        if (func_ov167_021ba008(mainModule->unkC0)) {
+            (*state)++;
+        }
+        break;
+    case 3:
+        if (func_ov167_021ba098()) {
+            for (i = 0; i < mainModule->clientCount; i++) {
+                info = func_ov167_021ba0cc(i);
+                if (info != NULL) {
+                    func_ov167_0219d72c(&mainModule->trainers[i], mainModule->heapId, info);
+                    if (i != mainModule->playerClientId && setup->unkDD_2) {
+                        j = 0;
+                        msgData = GFL_MsgSysLoadData(0, 2, 0x65, mainModule->heapId);
+                        strBuf = GFL_MsgDataLoadStrbufNew(msgData, 0x19);
+                        GFL_MsgDataFree(msgData);
+                        str = GFL_StrBufGetStringPtr(strBuf);
+                        for (; j < 15 && j < GFL_StrBufGetCharCount(strBuf); j++) {
+                            name[j] = str[j];
+                        }
+                        name[j] = GFL_StrBufGetTerminator();
+                        GFL_StrBufFree(strBuf);
+                        copyTrainerName(mainModule->trainers[i].playerInfo, name);
+                        GFL_StrBufFree(mainModule->trainers[i].name);
+                        msgData = GFL_MsgSysLoadData(0, 2, 0x65, mainModule->heapId);
+                        mainModule->trainers[i].name = GFL_MsgDataLoadStrbufNew(msgData, 0x19);
+                        GFL_MsgDataFree(msgData);
+                    }
+                    func_ov167_0219dfa8(mainModule, i, mainModule->trainers[i].playerInfo);
+                }
+            }
+            (*state)++;
+        }
+        break;
+    case 4:
+        if (mainModule->unk471 == 0) {
+            *state = 10;
+            break;
+        }
+        mainModule->unk470 = 0;
+        (*state)++;
+        break;
+    case 5:
+        func_ov167_021ba2f4(mainModule->unk470 + 8);
+        (*state)++;
+        break;
+    case 6:
+        if (func_ov167_021ba318(mainModule->unk470 + 8)) {
+            (*state)++;
+        }
+        break;
+    case 7:
+        index = 1;
+        if (mainModule->unk470 != 0) {
+            index = 3;
+        }
+        mainModule->unk472 = index;
+        if (mainModule->unk46E && !func_ov167_021ba108(setup->trainers[mainModule->unk472])) {
+            break;
+        }
+        (*state)++;
+    case 8:
+        if (func_ov167_021ba1b0()) {
+            func_ov167_0219d808(&mainModule->trainers[mainModule->unk472], func_ov167_021ba1cc());
+            func_ov167_021ba1e0();
+            mainModule->unk470++;
+            if (mainModule->unk470 >= mainModule->unk471) {
+                *state = 10;
+            } else {
+                *state = 5;
+            }
+        }
+        break;
+    case 10:
+        func_ov167_021ba204();
+        (*state)++;
+        break;
+    default:
+        return TRUE;
+    }
+    return FALSE;
+}
+
+BOOL func_ov167_0219b3a8(BtlMainModule *mainModule, s32 *state) {
+    BtlSetup *setup = mainModule->setup;
+    u32 i;
+    void *chatter;
+
+    if (func_ov167_021b9a70()) {
+        mainModule->unk473_0 = 1;
+        return TRUE;
+    }
+    switch (*state) {
+    case 0:
+        func_ov167_021b9d00();
+        func_ov167_021ba2f4(3);
+        (*state)++;
+        break;
+    case 1:
+        if (func_ov167_021ba318(3)) {
+            (*state)++;
+        }
+        break;
+    case 2:
+        if (func_ov167_021b9d0c(getChatterBlockAddress(GameData_GetSaveControl(setup->gameData)))) {
+            (*state)++;
+        }
+        break;
+    case 3:
+        if (func_ov167_021b9dfc()) {
+            for (i = 0; i < 4; i++) {
+                if (DoesClientExist(mainModule, i) && !func_ov167_0219d888(mainModule, i)) {
+                    chatter = func_ov167_021b9e48(i);
+                    if (chatter != NULL) {
+                        mainModule->unk3E0[i] = allocChatotChatterBlk(mainModule->heapId);
+                        sys_memcpy(chatter, mainModule->unk3E0[i], func_02007e20());
+                    }
+                }
+                func_ov167_0219dfd0(mainModule, i);
+            }
+            func_ov167_021b9e74();
+            (*state)++;
+        }
+        break;
+    default:
+        return TRUE;
+    }
+    return FALSE;
+}
+
+BOOL func_ov167_0219b4ac(BtlMainModule *mainModule, s32 *state) {
+    BtlSetup *setup = mainModule->setup;
+    u8 clientId = mainModule->playerClientId;
+    u32 unk = func_ov167_0219a004(setup);
+    u8 opponent;
+    u32 i;
+
+    if (func_ov167_021b9a70()) {
+        mainModule->unk473_0 = 1;
+        return TRUE;
+    }
+    if (mainModule->unk46E) {
+        mainModule->server =
+            func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
+        opponent = 1;
+        mainModule->clients[clientId] =
+            func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
+                                setup->fieldSituation.netHandle, clientId, 1, 0, unk, 0, &mainModule->rand, mainModule->heapId);
+        func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[clientId]), clientId, 1);
+        if (clientId != 0) {
+            opponent = 0;
+        }
+        func_ov167_0219e4d0(mainModule->server, setup->fieldSituation.unk18, setup->fieldSituation.netHandle, opponent, 1);
+    } else {
+        mainModule->clients[clientId] =
+            func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
+                                setup->fieldSituation.netHandle, clientId, 1, 0, unk, 0, &mainModule->rand, mainModule->heapId);
+        mainModule->unk0C =
+            func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
+        for (i = 0; i < 4; i++) {
+            if (DoesClientExist(mainModule, i)) {
+                func_ov167_0219e514(mainModule->unk0C, i, 1);
+            }
+        }
+        func_ov167_021b1910(mainModule->clients[clientId], mainModule->unk0C);
+    }
+    return TRUE;
+}
+
+BOOL func_ov167_0219b610(BtlMainModule *mainModule, s32 *state) {
+    BtlSetup *setup = mainModule->setup;
+    u8 clientId = mainModule->playerClientId;
+    u32 unk = func_ov167_0219a004(setup);
+    u8 posCount = setup->fieldSituation.unk1a == 0 ? 2 : 1;
+    u8 ally;
+    u32 i;
+
+    if (func_ov167_021b9a70()) {
+        mainModule->unk473_0 = 1;
+        return TRUE;
+    }
+    if (mainModule->unk46E) {
+        mainModule->server =
+            func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
+        mainModule->clients[clientId] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0],
+                                                            setup->fieldSituation.unk18, setup->fieldSituation.netHandle,
+                                                            clientId, posCount, 0, unk, 0, &mainModule->rand,
+                                                            mainModule->heapId);
+        func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[clientId]), clientId, posCount);
+        if (setup->fieldSituation.unk1a == 2) {
+            ally = func_ov167_0219c87c(mainModule, clientId);
+            mainModule->clients[1] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0],
+                                                         setup->fieldSituation.unk18, setup->fieldSituation.netHandle, 1,
+                                                         posCount, 1, unk, 0, &mainModule->rand, mainModule->heapId);
+            func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[1]), 1, posCount);
+            mainModule->clients[3] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0],
+                                                         setup->fieldSituation.unk18, setup->fieldSituation.netHandle, 3,
+                                                         posCount, 1, unk, 0, &mainModule->rand, mainModule->heapId);
+            func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[3]), 3, posCount);
+            func_ov167_0219e4d0(mainModule->server, setup->fieldSituation.unk18, setup->fieldSituation.netHandle, ally,
+                                posCount);
+        } else {
+            for (i = 0; i < mainModule->clientCount; i++) {
+                if (i != clientId) {
+                    func_ov167_0219e4d0(mainModule->server, setup->fieldSituation.unk18, setup->fieldSituation.netHandle,
+                                        i, posCount);
+                }
+            }
+        }
+    } else {
+        mainModule->clients[clientId] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0],
+                                                            setup->fieldSituation.unk18, setup->fieldSituation.netHandle,
+                                                            clientId, posCount, 0, unk, 0, &mainModule->rand,
+                                                            mainModule->heapId);
+        mainModule->unk0C =
+            func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
+        for (i = 0; i < 4; i++) {
+            if (DoesClientExist(mainModule, i)) {
+                func_ov167_0219e514(mainModule->unk0C, i, func_ov167_0219a180(mainModule, i));
+            }
+        }
+        func_ov167_021b1910(mainModule->clients[clientId], mainModule->unk0C);
+    }
+    return TRUE;
+}
+
+BOOL func_ov167_0219b868(BtlMainModule *mainModule, s32 *state) {
+    BtlSetup *setup = mainModule->setup;
+    u8 clientId = mainModule->playerClientId;
+    u32 unk = func_ov167_0219a004(setup);
+    u8 opponent;
+    u32 i;
+
+    if (func_ov167_021b9a70()) {
+        mainModule->unk473_0 = 1;
+        return TRUE;
+    }
+    if (mainModule->unk46E) {
+        mainModule->server =
+            func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
+        opponent = 0;
+        mainModule->clients[clientId] =
+            func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
+                                setup->fieldSituation.netHandle, clientId, 3, opponent, unk, opponent, &mainModule->rand,
+                                mainModule->heapId);
+        func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[clientId]), clientId, 3);
+        if (clientId == 0) {
+            opponent = 1;
+        }
+        func_ov167_0219e4d0(mainModule->server, setup->fieldSituation.unk18, setup->fieldSituation.netHandle, opponent, 3);
+    } else {
+        mainModule->clients[clientId] =
+            func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
+                                setup->fieldSituation.netHandle, clientId, 3, 0, unk, 0, &mainModule->rand, mainModule->heapId);
+        mainModule->unk0C =
+            func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
+        for (i = 0; i < 4; i++) {
+            if (DoesClientExist(mainModule, i)) {
+                func_ov167_0219e514(mainModule->unk0C, i, func_ov167_0219a180(mainModule, i));
+            }
+        }
+        func_ov167_021b1910(mainModule->clients[clientId], mainModule->unk0C);
+    }
+    return TRUE;
+}
+
+BOOL func_ov167_0219b9d4(BtlMainModule *mainModule, s32 *state) {
+    BtlSetup *setup = mainModule->setup;
+    u8 clientId = mainModule->playerClientId;
+    u32 unk = func_ov167_0219a004(setup);
+    u32 i;
+
+    if (func_ov167_021b9a70()) {
+        mainModule->unk473_0 = 1;
+        return TRUE;
+    }
+    if (mainModule->unk46E) {
+        mainModule->server =
+            func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
+        i = 0;
+        mainModule->clients[clientId] =
+            func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
+                                setup->fieldSituation.netHandle, clientId, 1, i, unk, i, &mainModule->rand, mainModule->heapId);
+        func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[clientId]), clientId, 1);
+        for (; i < mainModule->clientCount; i++) {
+            if (i != clientId) {
+                func_ov167_0219e4d0(mainModule->server, setup->fieldSituation.unk18, setup->fieldSituation.netHandle, i,
+                                    1);
+            }
+        }
+    } else {
+        i = 0;
+        mainModule->clients[clientId] =
+            func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
+                                setup->fieldSituation.netHandle, clientId, 1, i, unk, i, &mainModule->rand, mainModule->heapId);
+        mainModule->unk0C =
+            func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
+        for (; i < 4; i++) {
+            if (DoesClientExist(mainModule, i)) {
+                func_ov167_0219e514(mainModule->unk0C, i, func_ov167_0219a180(mainModule, i));
+            }
+        }
+        func_ov167_021b1910(mainModule->clients[clientId], mainModule->unk0C);
+    }
+    return TRUE;
+}
+
+BOOL func_ov167_0219bb54(BtlMainModule *mainModule, s32 *state) {
+    if (func_ov167_021b9a70()) {
+        mainModule->unk473_0 = 1;
+        return TRUE;
+    }
+    switch (*state) {
+    case 0:
+        mainModule->viewCore = BtlvCore_Create(mainModule, mainModule->clients[mainModule->playerClientId],
+                                               &mainModule->pokeCons[0], func_ov167_0219a004(mainModule->setup), 0x13);
+        func_ov167_021b190c(mainModule->clients[mainModule->playerClientId], mainModule->viewCore);
+        if (mainModule->unk46E) {
+            mainModule->mainFunc = func_ov167_0219bc2c;
+            func_ov167_0219e544(mainModule->server);
+        } else {
+            mainModule->mainFunc = func_ov167_0219bcd0;
+        }
+        (*state)++;
+        break;
+    default:
+        return TRUE;
+    }
+    return FALSE;
+}
+
+BOOL func_ov167_0219bbec(BtlMainModule *mainModule) {
+    BOOL done = FALSE;
+    s32 i;
+
+    func_ov167_0219e5a0(mainModule->server);
+    for (i = 0; i < 4; i++) {
+        if (mainModule->clients[i] != NULL && func_ov167_021b192c(mainModule->clients[i])) {
+            func_ov167_021b1d58(mainModule->clients[i], &mainModule->unk448);
+            done = TRUE;
+        }
+    }
+    func_ov167_021ce8c8(mainModule->viewCore);
+    return done;
+}
+
+BOOL func_ov167_0219bc2c(BtlMainModule *mainModule) {
+    BOOL done;
+    s32 i;
+
+    if (!mainModule->unk473_0) {
+        if (func_ov167_021b9a70()) {
+            mainModule->unk473_0 = 1;
+            func_ov167_0219bd40(mainModule);
+        }
+    } else if (mainModule->unk473_1) {
+        return TRUE;
+    }
+    done = func_ov167_0219e5a0(mainModule->server);
+    if (done) {
+        func_ov167_0219e5e0(mainModule->server, &mainModule->unk448);
+    }
+    for (i = 0; i < 4; i++) {
+        if (mainModule->clients[i] != NULL && mainModule->unkC4[i] == 0) {
+            mainModule->unkC4[i] = func_ov167_021b192c(mainModule->clients[i]);
+        }
+    }
+    if (func_ov167_0219bd5c(mainModule)) {
+        func_ov167_021b1d58(mainModule->clients[mainModule->playerClientId], &mainModule->unk448);
+        done = TRUE;
+    }
+    func_ov167_021ce8c8(mainModule->viewCore);
+    return done;
+}
+
+BOOL func_ov167_0219bcd0(BtlMainModule *mainModule) {
+    BOOL done;
+    s32 i;
+
+    if (!mainModule->unk473_0) {
+        if (func_ov167_021b9a70()) {
+            mainModule->unk473_0 = 1;
+            func_ov167_0219bd40(mainModule);
+        }
+    } else if (mainModule->unk473_1) {
+        return TRUE;
+    }
+    done = FALSE;
+    for (i = 0; i < 4; i++) {
+        if (mainModule->clients[i] != NULL && func_ov167_021b192c(mainModule->clients[i])) {
+            func_ov167_021b1d58(mainModule->clients[i], &mainModule->unk448);
+            done = TRUE;
+        }
+    }
+    func_ov167_021ce8c8(mainModule->viewCore);
+    return done;
+}
+
 void func_ov167_0219bd40(BtlMainModule *mainModule) {
     u32 i;
 
@@ -136,7 +1502,6 @@ BOOL func_ov167_0219bd5c(BtlMainModule *mainModule) {
 }
 
 // Layout reconstructed from the opponent-position lookup in the game code.
-// Function names from swan.
 u32 BtlSetup_GetBattleStyle(BtlMainModule *mainModule) {
     return mainModule->setup->battleStyle;
 }
@@ -149,7 +1514,6 @@ u8 func_ov167_0219bd98(BtlMainModule *mainModule) {
     return mainModule->setup->unk98;
 }
 
-// Function name from swan.
 BOOL IsSwitchMode(BtlMainModule *mainModule) {
     if (BtlSetup_GetBattleType(mainModule) == 1 && BtlSetup_GetBattleStyle(mainModule) == 0 &&
         func_ov167_0219bee4(mainModule) == 0 && func_ov167_0219c988(mainModule) == 0 &&
@@ -191,7 +1555,6 @@ void *func_ov167_0219be48(BtlMainModule *mainModule) {
     return NULL;
 }
 
-// Function names from swan.
 u32 GetValidPosMax(BtlMainModule *mainModule) {
     switch (mainModule->setup->battleStyle) {
     case 0:
@@ -276,7 +1639,7 @@ BtlFieldSituation *GetFieldEffectData(BtlMainModule *mainModule) {
     return &mainModule->setup->fieldSituation;
 }
 
-u32 func_ov167_0219bf68(BtlMainModule *mainModule) {
+PlayerInfo *func_ov167_0219bf68(BtlMainModule *mainModule) {
     return mainModule->unkC0;
 }
 
@@ -511,7 +1874,6 @@ u32 func_ov167_0219c3e4(BtlMainModule *mainModule, u8 clientId) {
     return count;
 }
 
-// Function names from swan.
 BOOL DoesClientExist(BtlMainModule *mainModule, u8 clientId) {
     u32 i;
 
@@ -557,7 +1919,6 @@ u8 func_ov167_0219c48c(u32 battleStyle, u8 pos, u8 index) {
     return index * 2;
 }
 
-// Function name from swan.
 u8 GetPosOnSameSide(u8 pos, u8 index) {
     if ((pos & 1) == 0) {
         return index * 2;
@@ -606,17 +1967,14 @@ u8 func_ov167_0219c51c(BtlMainModule *mainModule, u8 pos) {
     }
 }
 
-// Function name from swan.
 BOOL AreClientsOnOppositeSides(BtlMainModule *mainModule, u8 clientId1, u8 clientId2) {
     return (clientId1 & 1) != (clientId2 & 1);
 }
 
-// Function name from swan.
 u8 BattlePosToClientID(BtlMainModule *mainModule, u8 pos) {
     return mainModule->posClientIds[pos];
 }
 
-// Function name from swan.
 u8 MonIDToClientID(u8 monId) {
     u8 i;
     u8 first;
@@ -649,7 +2007,6 @@ u8 func_ov167_0219c5a4(BtlMainModule *mainModule, BtlPokeCon *pokeCon, u16 posFl
     return found;
 }
 
-// Function name from swan.
 u8 MonIDToBattlePos(BtlMainModule *mainModule, BtlPokeCon *pokeCon, u8 monId) {
     u8 clientId;
     s32 slot;
@@ -793,7 +2150,6 @@ u8 func_ov167_0219c850(BtlMainModule *mainModule) {
     return func_ov167_0219c82c(mainModule, mainModule->playerClientId);
 }
 
-// Function name from swan.
 u8 GetPlayerClientID(BtlMainModule *mainModule) {
     return mainModule->playerClientId;
 }
@@ -811,7 +2167,6 @@ u8 func_ov167_0219c87c(BtlMainModule *mainModule, u8 clientId) {
     return allyId;
 }
 
-// Function name from swan.
 BOOL IsAllyClientID(u8 clientId1, u8 clientId2) {
     if (clientId1 == clientId2) {
         return TRUE;
@@ -840,7 +2195,6 @@ u32 func_ov167_0219c8d0(BtlMainModule *mainModule, u8 clientId, u8 other) {
     return oppositeSide;
 }
 
-// Function names from swan.
 void BattleClient_SubItem(BtlMainModule *mainModule, u8 clientId, u16 item) {
     BtlSetup *setup;
 
@@ -1002,7 +2356,6 @@ void func_ov167_0219cb7c(BtlMainModule *mainModule) {
     mainModule->unk473_5 = 1;
 }
 
-// Function names from swan.
 void ChangeFriendshipWhenFainted(BtlMainModule *mainModule, BattleMon *mon, BOOL reason) {
     if (mainModule->setup->battleType <= 1 && mainModule->setup->fieldSituation.unk1b == 0) {
         ChangeFriendship(mainModule, mon, reason ? 5 : 4);
@@ -1158,7 +2511,6 @@ void func_ov167_0219cd3c(BtlPokeCon *pokeCon, BtlMainModule *mainModule, u8 clie
     func_ov167_0219d454(&pokeCon->parties[clientId]);
 }
 
-// Function name from swan.
 s32 GetPartyPkmnEligibleForBattle(PokeParty *party) {
     s32 index;
     PartyPkm *pkm;
@@ -1303,7 +2655,6 @@ BattleMon *func_ov167_0219d1e8(BtlPokeCon *pokeCon, u8 clientId, u8 index) {
     return func_ov167_0219d4e4(&pokeCon->parties[clientId], index);
 }
 
-// Function names from swan.
 BattleMon *GetClientMonData(BtlPokeCon *pokeCon, u8 clientId, u8 monId) {
     return GetBattleMonFromParty(&pokeCon->parties[clientId], monId);
 }
@@ -1336,7 +2687,6 @@ u8 func_ov167_0219d258(BtlMainModule *mainModule, u8 clientId) {
     return mainModule->setup->unk44[clientId];
 }
 
-// Function name from swan.
 s32 GetClientBattlerCount(BtlMainModule *mainModule, u8 clientId) {
     return func_ov167_0219a180(mainModule, clientId);
 }
@@ -1372,12 +2722,10 @@ BOOL func_ov167_0219d2dc(u8 pos, u8 *out) {
     return FALSE;
 }
 
-// Function name from swan.
 BOOL IsAllyMonID(u8 monId1, u8 monId2) {
     return GetSideFromMonID(monId1) == GetSideFromMonID(monId2);
 }
 
-// Function name from swan.
 u8 GetSideFromMonID(u8 monId) {
     return monId >= 12 ? 1 : 0;
 }
@@ -1391,7 +2739,6 @@ u8 func_ov167_0219d338(u8 side) {
     return side == 0;
 }
 
-// Function name from swan.
 BOOL IsAdjacentOpponent(u8 pos1, u8 pos2) {
     const AdjacentOpponentData *data;
     u32 i;
@@ -1436,7 +2783,6 @@ u8 func_ov167_0219d3bc(u8 pos) {
     return pos & 1;
 }
 
-// Function names from swan.
 BattleParty *GetPartyData(BtlPokeCon *pokeCon, u8 clientId) {
     return &pokeCon->parties[clientId];
 }
@@ -1462,7 +2808,6 @@ void func_ov167_0219d404(BtlMainModule *mainModule, u8 clientId, u32 value) {
     }
 }
 
-// Function name from swan.
 void func_ov167_0219d434(BattleParty *party) {
     s32 i;
 
@@ -1698,6 +3043,55 @@ void func_ov167_0219d72c(BtlTrainerData *trainer, HeapID heapId, PlayerInfo *src
     func_02029bb0(trainer->unk20);
 }
 
+void func_ov167_0219d794(BtlTrainerData *trainer, const BtlSetupTrainer *src) {
+    u32 i;
+
+    trainer->playerInfo = NULL;
+    if (src != NULL) {
+        trainer->unk0A = src->trainerId;
+        trainer->unk08 = src->trainerClass;
+        trainer->name = GFL_StrBufClone(src->name, HEAPID_BATTLE);
+        trainer->unk0C = src->aiFlags;
+        sys_memcpy(src->items, trainer->unk10, sizeof(trainer->unk10));
+        func_02029e94(trainer->unk18, src->unk18);
+        func_02029e94(trainer->unk20, src->unk20);
+    } else {
+        trainer->unk0A = 0;
+        trainer->unk08 = 0;
+        trainer->name = NULL;
+        for (i = 0; i < 4; i++) {
+            trainer->unk10[i] = 0;
+        }
+        func_02029bb0(trainer->unk18);
+        func_02029bb0(trainer->unk20);
+    }
+}
+
+void func_ov167_0219d808(BtlTrainerData *trainer, const BtlCommTrainerData *src) {
+    u32 i;
+
+    trainer->playerInfo = NULL;
+    if (src != NULL) {
+        trainer->unk0A = src->trainerId;
+        trainer->unk08 = src->trainerClass;
+        trainer->name = GFL_StrBufCreate(0x20, HEAPID_BATTLE);
+        GFL_StrBufCopyString(trainer->name, src->name, src->nameLength + 1);
+        trainer->unk0C = src->aiFlags;
+        sys_memcpy(src->items, trainer->unk10, sizeof(trainer->unk10));
+        func_02029e94(trainer->unk18, src->unk18);
+        func_02029e94(trainer->unk20, src->unk20);
+    } else {
+        trainer->unk0A = 0;
+        trainer->unk08 = 0;
+        trainer->name = NULL;
+        for (i = 0; i < 4; i++) {
+            trainer->unk10[i] = 0;
+        }
+        func_02029bb0(trainer->unk18);
+        func_02029bb0(trainer->unk20);
+    }
+}
+
 BOOL func_ov167_0219d888(BtlMainModule *mainModule, u8 clientId) {
     if (mainModule->trainers[clientId].playerInfo == NULL) {
         return TRUE;
@@ -1822,7 +3216,6 @@ PokeParty *func_ov167_0219da94(BtlMainModule *mainModule, u8 clientId, u32 useSe
     return mainModule->unk298[clientId];
 }
 
-// Function name from swan.
 u32 BtlSetup_IsBattleType(BtlMainModule *mainModule, u32 flag) {
     return BtlSetup_CheckFlag(mainModule->setup, flag);
 }
@@ -2206,7 +3599,7 @@ BtlSetup *func_ov167_0219e310(BtlMainModule *mainModule) {
     return mainModule->setup;
 }
 
-void func_ov167_0219e314(BtlMainModule *mainModule) {
+void func_ov167_0219e314(BtlMainModule *mainModule, u8 arg1) {
     mainModule->unk474 = GFL_ArcSysReadHeapNew(0x10d, 0, HEAPID_BATTLE);
     mainModule->unk478 = GFL_HeapAllocate(HEAPID_BATTLE, 0x14, FALSE, "btl_main.c", 6432);
     func_ov167_0219e3c8(mainModule->unk474);

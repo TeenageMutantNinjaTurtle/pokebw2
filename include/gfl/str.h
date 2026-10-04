@@ -10,6 +10,9 @@
 
 StrBuf *GFL_StrBufCreate(u32 size, HeapID heapId);
 void GFL_StrBufFree(StrBuf *strbuf);
+u32 GFL_StrBufGetCharCount(const StrBuf *strbuf);
+const u16 *GFL_StrBufGetStringPtr(const StrBuf *strbuf);
+u16 GFL_StrBufGetTerminator(void);
 void GFL_StrBufCopy(StrBuf *dest, const StrBuf *src);
 void GFL_StrBufCopyString(StrBuf *dest, const u16 *str, u32 length);
 StrBuf *GFL_StrBufClone(const StrBuf *strbuf, HeapID heapId);

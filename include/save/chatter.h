@@ -10,5 +10,6 @@ void *allocChatotChatterBlk(HeapID heapId);
 void moveChatter(void *dest, const void *src);
 BOOL doesChatotExist(void *chatter);
 u8 func_02007f90(void *chatter);
+u32 func_02007e20(void);
 
 #endif // POKEBW2_SAVE_CHATTER_H

@@ -158,6 +158,7 @@ void *GFL_G2DIOReadNCLRArc(ArcTool *arc, u32 fileId, NNSG2dPaletteData **palette
 // Loads a screen file of an archive to a BG's screen
 void GFL_G2DIOLoadNSCRSync(ArcTool *arc, u32 fileId, u8 bg, u32 offset, u32 a4, u32 a5, BOOL compressed, HeapID heapId);
 void GFXRegSetMasterBrightness(u32 reg, s32 brightness);
+s32 gfxRegGetMasterBrightness(u32 reg);
 // Loaded with part of a palette file, stepped each frame and reset. Unnamed, as what it does is not known
 void *func_02035024(u32 a0, u32 a1, u32 a2, HeapID heapId);
 void func_02035104(void *a0, ArcTool *arc, u32 fileId, u32 a3, u32 a4);
