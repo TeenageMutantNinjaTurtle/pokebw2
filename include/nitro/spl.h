@@ -59,10 +59,159 @@ typedef void (*SPLEmitterCallback)(SPLEmitter *emitter);
 typedef void (*SPLEmitterUpdateCallback)(SPLEmitter *emitter, u32 type);
 typedef void (*SPLBehaviorFunc)(const void *behavior, SPLParticle *particle, VecFx32 *acc, SPLEmitter *emitter);
 
+// Where an emitter's particles start, relative to it. The circles and cylinders lie in the plane of the emitter's
+// cross axes, and the hemispheres on the side of it their normal points to
+enum {
+    SPL_EMISSION_POINT,
+    SPL_EMISSION_SPHERE_SURFACE,
+    SPL_EMISSION_CIRCLE_BORDER,
+    // Spread evenly around the circle
+    SPL_EMISSION_CIRCLE_BORDER_UNIFORM,
+    SPL_EMISSION_SPHERE,
+    SPL_EMISSION_CIRCLE,
+    SPL_EMISSION_CYLINDER_SURFACE,
+    SPL_EMISSION_CYLINDER,
+    SPL_EMISSION_HEMISPHERE_SURFACE,
+    SPL_EMISSION_HEMISPHERE,
+};
+
+// The axis that the circles and cylinders of emission are around
+enum {
+    SPL_AXIS_Z,
+    SPL_AXIS_Y,
+    SPL_AXIS_X,
+    SPL_AXIS_EMITTER,
+};
+
 typedef struct {
-    u32 flags;
+    u32 emissionType : 4;
+    u32 drawType : 2;
+    u32 emissionAxis : 2;
+    u32 hasScaleAnim : 1;
+    u32 hasColorAnim : 1;
+    u32 hasAlphaAnim : 1;
+    u32 hasTextureAnim : 1;
+    u32 hasRotation : 1;
+    u32 randomInitAngle : 1;
+    u32 : 2;
+    u32 hasChildResource : 1;
+    u32 : 3;
+    // Starts each particle's looped animations at a random point
+    u32 randomLoopOffset : 1;
+    u32 : 11;
+} SPLResourceFlags;
+
+typedef struct {
+    SPLResourceFlags flags;
     VecFx32 emitterBasePos;
+    fx32 emissionCount;
+    fx32 radius;
+    fx32 length;
+    VecFx16 axis;
+    // The particles' color, which the color animation fades to and from
+    GXRgb color;
+    fx32 initVelPositionAmplifier;
+    fx32 initVelAxisAmplifier;
+    fx32 baseScale;
+    u8 unk30[4];
+    // The range of the particles' angular velocities
+    s16 minRotation;
+    s16 maxRotation;
+    u16 initAngle;
+    u8 unk3a[4];
+    u16 particleLifeTime;
+    // How much of their scale, life time and initial speed particles may lose at random, out of 255
+    u8 scaleVariance;
+    u8 lifeTimeVariance;
+    u8 velocityVariance;
+    u8 unk43;
+    u8 emissionInterval;
+    u8 baseAlpha;
+    u8 unk46;
+    u8 texture;
+    u32 loopTime : 8;
+    u32 : 24;
 } SPLResourceHeader;
+
+// The animations of a particle's scale, color, alpha and texture over its life, which runs from 0 to 255. Each fades
+// in from a start value until in, holds until out, and fades to its end value from there
+
+typedef struct {
+    fx16 start;
+    fx16 mid;
+    fx16 end;
+    u8 in;
+    u8 out;
+    u16 flags;
+    u16 padding;
+} SPLScaleAnim;
+
+// Fades from start to the resource's color between in and peak, and from that to end between peak and out, or
+// changes at those points if not interpolated
+typedef struct {
+    GXRgb start;
+    GXRgb end;
+    u8 in;
+    u8 peak;
+    u8 out;
+    u8 padding;
+    // Starts each particle at one of the three colors, at random
+    u16 randomStart : 1;
+    u16 : 1;
+    u16 interpolate : 1;
+} SPLColorAnim;
+
+typedef struct {
+    u16 start : 5;
+    u16 mid : 5;
+    u16 end : 5;
+    u16 : 1;
+    // How much of the alpha a particle may lose at random, out of 255
+    u8 randomRange;
+    u8 padding;
+    u8 in;
+    u8 out;
+} SPLAlphaAnim;
+
+// Shows each texture for step of the particle's life
+typedef struct {
+    u8 textures[8];
+    u32 count : 8;
+    u32 step : 8;
+    // Gives each particle one of the textures at random
+    u32 randomStart : 1;
+    u32 : 15;
+} SPLTextureAnim;
+
+// What a child particle takes from its parent's rotation
+enum {
+    SPL_CHILD_ROTATION_NONE,
+    SPL_CHILD_ROTATION_ANGLE,
+    SPL_CHILD_ROTATION_ANGLE_AND_VELOCITY,
+};
+
+// The particles each particle emits
+typedef struct {
+    u16 : 3;
+    u16 rotationType : 2;
+    u16 : 1;
+    // Gives the children their own color, rather than their parent's
+    u16 useChildColor : 1;
+    u16 : 9;
+    // The children's speed, up to which their velocities differ at random from their parent's
+    fx16 randomInitVelMag;
+    // The scale a child particle shrinks or grows to over its life
+    fx16 endScale;
+    u16 lifeTime;
+    // The parts of their parent's velocity and scale that children start with, out of 256 and 64
+    u8 velocityRatio;
+    u8 scaleRatio;
+    GXRgb color;
+    u8 emissionCount;
+    u8 unkD;
+    u8 unkE;
+    u8 texture;
+} SPLChildResource;
 
 // A force on an emitter's particles: the function applying it, and its parameters
 typedef struct {
@@ -72,7 +221,11 @@ typedef struct {
 
 typedef struct {
     SPLResourceHeader *header;
-    u8 unk4[0x14];
+    SPLScaleAnim *scaleAnim;
+    SPLColorAnim *colorAnim;
+    SPLAlphaAnim *alphaAnim;
+    SPLTextureAnim *textureAnim;
+    SPLChildResource *childResource;
     SPLBehavior *behaviors;
     u16 behaviorCount;
 } SPLResource;

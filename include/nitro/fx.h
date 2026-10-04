@@ -11,6 +11,8 @@ typedef s64 fx64;
 #define FX16_ONE (1 << 12)
 #define FX32_SHIFT 12
 #define FX32_ONE (1 << FX32_SHIFT)
+#define FX32_HALF (FX32_ONE / 2)
+#define FX32_DEC_MASK (FX32_ONE - 1)
 #define FX32_MAX ((fx32)0x7fffffff)
 #define FX32_MIN ((fx32)0x80000000)
 #define FX32_CONST(x) ((fx32)(((x) > 0) ? ((x) * FX32_ONE + 0.5f) : ((x) * FX32_ONE - 0.5f)))
@@ -93,6 +95,10 @@ void vecfx_normalize(const VecFx32 *src, VecFx32 *dest);
 void vecfx_muladd(fx32 scale, const VecFx32 *a, const VecFx32 *b, VecFx32 *dest);
 fx32 VEC_Mag(const VecFx32 *v);
 fx32 vecfx_dot(const VecFx32 *a, const VecFx32 *b);
+// NitroSDK's VEC_Fx16 functions
+fx32 vecfx_dot16(const VecFx16 *a, const VecFx16 *b);
+void vecfx_cross16(const VecFx16 *a, const VecFx16 *b, VecFx16 *axb);
+void vecfx_normalize16(const VecFx16 *src, VecFx16 *dest);
 
 // An angle in fixed point degrees as a 16-bit angle
 #define FX64C_65536_360 ((s64)0x000000b60b60b60bLL)

@@ -24,8 +24,16 @@ static inline fx32 SPLRandom_Fx32(u32 bits) {
 // after drawing the number
 #define SPLRandom_Range(range) (((range) * (s32)(SPLRandom_Next() >> 23) - ((range) << 8)) >> 8)
 
+// value, more or less by a random part of up to variance out of 255
+#define SPLRandom_Vary(value, variance)                                                                               \
+    (((value) * (255 + (variance) - (((variance) * (s32)(SPLRandom_Next() >> 24)) >> 7))) >> 8)
+
 // A random unit vector, or one in the xy plane
 void SPLRandom_VecFx32(VecFx32 *vec);
 void SPLRandom_VecFx32_XY(VecFx32 *vec);
+
+// Emit the emitter's particles for this frame, or a particle's children, taking them from the free list
+void SPLEmitter_EmitParticles(SPLEmitter *emitter, SPLList *freeList);
+void SPLEmitter_EmitChildren(SPLParticle *parent, SPLEmitter *emitter, SPLList *freeList);
 
 #endif // POKEBW2_SPL_INTERNAL_H

@@ -161,6 +161,16 @@
 . 0x02050efc SPLManager_UploadTexturesEx
 . 0x02050fc8 SPLManager_LoadResources
 . 0x02051340 SPLManager_New
+. 0x02054bfc SPLEmitter_EmitChildren
+. 0x02054f1c SPLEmitter_EmitParticles
+. 0x02055c48 SPLEmitter_TiltCoordinates
+. 0x02055da8 SPLEmitter_ComputeOrthogonalAxes
+. 0x02056030 SPLAnim_ChildAlpha
+. 0x02056088 SPLAnim_ChildScale
+. 0x020560d4 SPLAnim_Texture
+. 0x02056138 SPLAnim_Alpha
+. 0x02056214 SPLAnim_Color
+. 0x020563e0 SPLAnim_Scale
 . 0x02056470 SPLBehavior_ApplyConvergence
 . 0x02056504 SPLBehavior_ApplyCollisionPlane
 . 0x02056620 SPLBehavior_ApplySpin
