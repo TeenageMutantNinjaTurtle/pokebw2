@@ -5726,6 +5726,83 @@ void func_ov167_021a92b0(BtlServerFlow *flow, BtlFlowMoveParam *param, u32 count
     }
 }
 
+void func_ov167_021a9358(BtlServerFlow *flow, u32 count, u32 *effectiveness, BattleMon **mons, BOOL multipleTargets) {
+    u8 monIds[3];
+    u8 notVeryEffective;
+    u8 superEffective;
+    u32 i;
+
+    notVeryEffective = 0;
+    superEffective = 0;
+    for (i = 0; i < count; i++) {
+        s32 value = effectiveness[i];
+        if (value > 3) {
+            superEffective++;
+        }
+        if (value < 3) {
+            notVeryEffective++;
+        }
+    }
+    if (multipleTargets) {
+        if (superEffective) {
+            u8 n = 0;
+            for (i = 0; i < count; i++) {
+                if ((s32)effectiveness[i] > 3) {
+                    monIds[n++] = GetMonID(mons[i]);
+                }
+            }
+            switch (superEffective) {
+            case 1:
+                func_ov167_021b15d0(flow->queue, 0x5b, 6, monIds[0], 0xffff0000);
+                break;
+            case 2:
+                func_ov167_021b15d0(flow->queue, 0x5b, 9, monIds[0], monIds[1], 0xffff0000);
+                break;
+            case 3:
+                func_ov167_021b15d0(flow->queue, 0x5b, 0xc, monIds[0], monIds[1], monIds[2], 0xffff0000);
+                break;
+            }
+        }
+        if (notVeryEffective) {
+            u8 n;
+            for (i = 0, n = 0; i < count; i++) {
+                if ((s32)effectiveness[i] < 3) {
+                    monIds[n++] = GetMonID(mons[i]);
+                }
+            }
+            switch (notVeryEffective) {
+            case 1:
+                func_ov167_021b15d0(flow->queue, 0x5b, 0xf, monIds[0], 0xffff0000);
+                break;
+            case 2:
+                func_ov167_021b15d0(flow->queue, 0x5b, 0x12, monIds[0], monIds[1], 0xffff0000);
+                break;
+            case 3:
+                func_ov167_021b15d0(flow->queue, 0x5b, 0x15, monIds[0], monIds[1], monIds[2], 0xffff0000);
+                break;
+            }
+        }
+    } else if (superEffective) {
+        func_ov167_021b15d0(flow->queue, 0x5a, 0x4e, 0xffff0000);
+    } else if (notVeryEffective) {
+        func_ov167_021b15d0(flow->queue, 0x5a, 0x4f, 0xffff0000);
+    }
+}
+
+void func_ov167_021a94dc(BtlServerFlow *flow, u32 count, BattleMon **mons, u8 *critical, BOOL multipleTargets) {
+    u32 i;
+
+    for (i = 0; i < count; i++) {
+        if (critical[i]) {
+            if (multipleTargets) {
+                func_ov167_021b15d0(flow->queue, 0x5b, 0x180, GetMonID(mons[i]), 0xffff0000);
+            } else {
+                func_ov167_021b15d0(flow->queue, 0x5a, 0x51, 0xffff0000);
+            }
+        }
+    }
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
@@ -5733,6 +5810,51 @@ void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
 
 void ServerDisplay_AbilityPopupRemove(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x58, GetMonID(mon));
+}
+
+void func_ov167_021a9564(BtlServerFlow *flow, BattleMon *mon, u32 stat, s32 change) {
+    u8 monId = GetMonID(mon);
+    if (change > 0) {
+        func_ov167_021b15d0(flow->queue, 0x5b, 0x99, monId, stat, 0xffff0000);
+    } else {
+        func_ov167_021b15d0(flow->queue, 0x5b, 0xae, monId, stat, 0xffff0000);
+    }
+}
+
+void func_ov167_021a95a4(BtlServerFlow *flow, BattleMon *mon, u32 stat, s32 change, u16 context, BOOL flag) {
+    u8 monId = GetMonID(mon);
+
+    if (change > 0) {
+        u32 actual = func_ov167_021bb5c0(mon, stat, change);
+        func_ov167_021b1434(flow->queue, 9, monId, (u8)stat, (u8)actual);
+        func_ov167_021b1434(flow->queue, 0x37, monId, (u8)stat, (u8)actual);
+        if (flag) {
+            if (context == 0) {
+                func_ov167_021b15d0(flow->queue, 0x5b, 0x1b, monId, stat, actual, 0xffff0000);
+            } else {
+                func_ov167_021b15d0(flow->queue, 0x5b, 0x3aa, monId, context, stat, actual, 0xffff0000);
+            }
+        }
+    } else {
+        u32 actual = func_ov167_021bb638(mon, stat, -change);
+        func_ov167_021b1434(flow->queue, 0xa, monId, (u8)stat, (u8)actual);
+        func_ov167_021b1434(flow->queue, 0x38, monId, (u8)stat, (u8)actual);
+        func_ov167_021b15d0(flow->queue, 0x5b, 0x5a, monId, stat, actual, 0xffff0000);
+    }
+}
+
+void ServerDisplay_SimpleHP(BtlServerFlow *flow, BattleMon *mon, s32 amount, BOOL show) {
+    u8 monId = GetMonID(mon);
+
+    if (amount > 0) {
+        HPAdd(mon, amount);
+        func_ov167_021b1434(flow->queue, 2, monId, (u16)amount);
+    } else if (amount < 0) {
+        func_ov167_021a9b64(flow, mon, -amount);
+    }
+    if (show && GetBattlePos(flow->unk1ab8, monId) != 6) {
+        func_ov167_021b1434(flow->queue, 0x41, monId);
+    }
 }
 
 // Function names from swan.
