@@ -12,8 +12,11 @@ archive has a script that wrote its sources from the original, which documents t
 | Archive | Sources | Contents | Script |
 | --- | --- | --- | --- |
 | `a/0/1/6` | `data/personal/` | Species data | `tools/scripts/personal_data.py` |
+| `a/0/1/8` | `data/levelup_moves/` | Moves learned by leveling up | `tools/scripts/species_tables.py` |
+| `a/0/1/9` | `data/evolutions/` | Evolutions | `tools/scripts/species_tables.py` |
 | `a/0/2/1` | `data/moves/` | Move data | `tools/scripts/move_data.py` |
 | `a/0/5/6` | `data/field_scripts/` | Field scripts, see [Scripts](scripts.md#field-scripts) | `tools/scripts/field_script.py` |
+| `a/0/9/1`, `a/0/9/2` | `data/trainers/` | Trainers and their parties | `tools/scripts/trainer_data.py` |
 | `a/1/6/9` | `data/tr_ai/` | Trainer AI scripts, see [Scripts](scripts.md) | `tools/scripts/tr_ai_script.py` |
 
 ## Species data
@@ -54,6 +57,39 @@ documents the fields. Stats are in the order HP, Attack, Defense, Speed, Sp. Atk
 meaning isn't known yet are named after their bits (`flag12` of the effort values, `flag6` and `flag7` of the color).
 Both versions have the same species data.
 
+## Evolutions and level-up moves
+
+`a/0/1/9` and `a/0/1/8` hold one entry per species record, so their sources in `data/evolutions/` and
+`data/levelup_moves/` are numbered and named as `data/personal/`'s.
+
+```
+#include "asm/evolution.inc"
+
+// SPECIES_EEVEE
+    Evolution EVO_METHOD_LEVEL_MOSS_ROCK, 0, SPECIES_LEAFEON
+    Evolution EVO_METHOD_ITEM, ITEM_THUNDERSTONE, SPECIES_JOLTEON
+    Evolution EVO_METHOD_FRIENDSHIP_DAY, 0, SPECIES_ESPEON
+    ...
+    EvolutionsEnd
+```
+
+An evolution is a method (`EVO_METHOD_*`), its parameter, and the species it evolves into. The parameter depends on
+the method: a level, an item, a move, a species, or another value such as the beauty needed. A species has at most
+seven, and `EvolutionsEnd` fills the rest.
+
+```
+#include "asm/levelup_moves.inc"
+
+// SPECIES_PIKACHU
+    LevelUpMove 1, MOVE_GROWL
+    LevelUpMove 1, MOVE_THUNDER_SHOCK
+    LevelUpMove 5, MOVE_TAIL_WHIP
+    ...
+    LevelUpMovesEnd
+```
+
+The moves are in the order the game checks them, by level.
+
 ## Move data
 
 `a/0/2/1` holds one 0x24-byte record per move, by move ID, which `PML_MoveGetParamCore` reads. Its sources are
@@ -86,3 +122,28 @@ Both versions have the same species data.
 chance and duration. `StatChanges` takes up to three changes as `statN=`, `stagesN=` and `chanceN=`, with the stats
 of `BATTLEMON_*_STAGE`. `Quality`, `Target` and `Flags` are still numbers, until their values are named. Both
 versions have the same move data.
+
+## Trainers
+
+A trainer is an entry of `a/0/9/1` and its party the entry of `a/0/9/2` with the same ID. Both come from one file,
+`data/trainers/NNNN_name.s`, named after the trainer's ID and name: the file's `.trainer` section goes into the first
+archive and its `.party` section into the second (`ARCHIVES` names the section of each).
+
+```
+#include "asm/trainer.inc"
+
+// Elite Four Shauntal
+    Trainer class=78, party=PARTY_MOVES | PARTY_ITEMS, item1=ITEM_FULL_RESTORE, ai=AI_FLAG_BASIC | AI_FLAG_EVAL_ATTACK | AI_FLAG_EXPERT, money=30
+    PartyMon level=56, species=SPECIES_COFAGRIGUS, difficulty=200, ability=1, move1=MOVE_WILL_O_WISP, ...
+    ...
+    PartyMon level=58, species=SPECIES_CHANDELURE, difficulty=250, ability=2, item=ITEM_SITRUS_BERRY, ...
+    PartyEnd
+```
+
+The macros take keyword arguments, and leave out the ones that are 0. `party` says what each party entry holds besides
+the Pokémon: `PARTY_MOVES`, `PARTY_ITEMS`, both, or neither, in which case a Pokémon gets the moves of its level and
+no item. `PartyEnd` counts the party for the trainer record. `style` is the battle style (`BTL_STYLE_*`), `ai` the
+trainer AI scripts to run (`AI_FLAG_*`, see [Scripts](scripts.md)), `money` a multiplier of the prize money and
+`reward` an item given after the battle. A Pokémon's `difficulty` sets its individual values, and `gender` and
+`ability` pick them when not 0. The trainer class is still a number, with its name in the file's comment. Both
+versions have the same trainers.

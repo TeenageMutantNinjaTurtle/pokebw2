@@ -101,11 +101,16 @@ def library_of(source: Path) -> tuple[str, list[str]] | None:
 
 
 # Archives built from source, which replace their extracted counterparts in the ROM. Each maps its path under files/ to
-# the directory of its members, one assembly file each, in archive order.
+# the directory of its members, one assembly file each, in archive order; or to the directory and a section, for two
+# archives whose entries go together, such as a trainer and its party, and come from the same file.
 ARCHIVES = {
     "a/0/1/6": "data/personal",  # Species data, see tools/scripts/personal_data.py
+    "a/0/1/8": "data/levelup_moves",  # Level-up moves, see tools/scripts/species_tables.py
+    "a/0/1/9": "data/evolutions",  # Evolutions, see tools/scripts/species_tables.py
     "a/0/2/1": "data/moves",  # Move data, see tools/scripts/move_data.py
     "a/0/5/6": "data/field_scripts",  # Field scripts, see tools/scripts/field_script.py
+    "a/0/9/1": ("data/trainers", ".trainer"),  # Trainers, see tools/scripts/trainer_data.py
+    "a/0/9/2": ("data/trainers", ".party"),  # Their parties, from the same files
     "a/1/6/9": "data/tr_ai",  # Trainer AI scripts, see tools/scripts/tr_ai_script.py
 }
 
@@ -290,13 +295,19 @@ def add_version(n: Writer, version: str, dsd: Path, bugfix: bool, shift: int) ->
             variables={"source": str(extract_dir / "files"), "output": str(files_dir), "built": " ".join(ARCHIVES)})
     archives = []
     checks = []
-    for path, source_dir in ARCHIVES.items():
+    assembled = set()
+    for path, spec in ARCHIVES.items():
+        # A directory, or a directory and the section of its files that this archive takes
+        source_dir, section = (spec, None) if isinstance(spec, str) else spec
         members = []
         for source in sorted(Path(source_dir).glob("*.s")):
             obj = build_dir / source.with_suffix(".o")
-            n.build([obj], "as", [source], variables={"dep": obj.with_suffix(".d"), "defines": as_defines})
-            n.build([obj.with_suffix(".bin")], "objcopy_bin", [obj])
-            members.append(obj.with_suffix(".bin"))
+            if obj not in assembled:
+                n.build([obj], "as", [source], variables={"dep": obj.with_suffix(".d"), "defines": as_defines})
+                assembled.add(obj)
+            member = obj.with_name(f"{obj.stem}{section or ''}.bin")
+            n.build([member], "objcopy_bin", [obj], variables={"sections": f"-j {section}" if section else ""})
+            members.append(member)
         archive = files_dir / path
         n.build([archive], "narc", members, implicit=["tools/scripts/narc.py"], order_only=[files_ok])
         archive_ok = stamp_dir / "files" / f"{path.replace('/', '_')}.ok"
@@ -398,7 +409,7 @@ def main():
     # Scripts go through the C preprocessor, so that they can include the constant headers
     n.rule("as", f"{shlex.quote(clang)} --target=armv5te-none-eabi -x assembler-with-cpp -c $as_includes $defines "
            "-MD -MF $dep -o $out $in", "Assembling $in", depfile="$dep", deps="gcc")
-    n.rule("objcopy_bin", f"{shlex.quote(llvm_objcopy)} -O binary $in $out", "Converting $in")
+    n.rule("objcopy_bin", f"{shlex.quote(llvm_objcopy)} -O binary $sections $in $out", "Converting $in")
     n.rule("narc", "$python tools/scripts/narc.py pack $out $in", "Packing $out")
     n.rule("check_file", "cmp $in $original && mkdir -p $$(dirname $out) && touch $out", "Checking $in")
     n.rule("files_tree", "$python tools/scripts/files_tree.py $source $output $built --stamp $out",

@@ -1,0 +1,6 @@
+#include "asm/trainer.inc"
+
+// Pkmn Trainer N
+    Trainer class=40, item1=ITEM_FULL_RESTORE, ai=AI_FLAG_BASIC | AI_FLAG_EVAL_ATTACK | AI_FLAG_EXPERT, money=50
+    PartyMon level=70, species=SPECIES_RESHIRAM, difficulty=250
+    PartyEnd
