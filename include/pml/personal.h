@@ -18,6 +18,8 @@ u32 PML_PersonalGetParam(void *personal, u32 param);
 void PML_PersonalFree(void *personal);
 // The experience a Pokémon of the species needs for the level
 u32 PML_UtilGetPkmLvExp(u16 species, u16 form, u16 level);
+// The regional Pokédex numbers, by national number. The caller frees the table
+u16 *PML_PersonalLoadRegionalDexTable(HeapID heapId, u32 a1);
 
 ArcTool *loadEvolutionFile(HeapID heapId);
 

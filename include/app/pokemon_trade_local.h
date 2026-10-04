@@ -4,6 +4,8 @@
 #include "types.h"
 #include "app/ov139.h"
 #include "app/pokemon_trade.h"
+#include "gfl/bmp.h"
+#include "gfl/bmpwin.h"
 #include "gfl/clact.h"
 #include "gfl/g3d.h"
 #include "gfl/heap.h"
@@ -19,10 +21,13 @@
 #include "gfl/ui.h"
 #include "save/player_info.h"
 #include "struct_decls.h"
+#include "system/app_keycursor.h"
 #include "system/app_taskmenu.h"
 #include "system/mcss.h"
 #include "system/net_save.h"
+#include "system/print_wait.h"
 #include "system/printsys.h"
+#include "system/time_icon.h"
 
 // The trade's own declarations, shared by the files of overlay 194 and the trade demo overlays 192 and 193. The work
 // is one struct that every file uses
@@ -93,6 +98,12 @@ typedef struct {
 
 typedef void (*PokemonTradeState)(PokemonTradeWork *wk);
 
+// The bitmaps of a side's panel in a negotiation: the player's name, and the three Pokémon
+typedef struct {
+    GFLBitmap *player;
+    GFLBitmap *pkm[3];
+} TradeNegoBitmaps;
+
 // A Pokémon's icon in the strip
 typedef struct {
     u16 species;
@@ -109,7 +120,8 @@ struct PokemonTradeWork {
     u8 unkC[0x4];
     u8 unk10[2][0x2d6];
     BmpWin *unk5BC[2];
-    u8 unk5C4[0x10];
+    BmpWin *unk5C4[2];
+    BmpWin *unk5CC[2];
     BmpWin *unk5D4;
     BmpWin *unk5D8;
     // The Pokémon each machine offers, by network ID
@@ -117,7 +129,8 @@ struct PokemonTradeWork {
     u32 unk5E4[2];
     // The step that runs each frame
     PokemonTradeState state;
-    u8 unk5F0[0x4];
+    // The icon that shows while the machines wait on each other
+    WaitIcon *waitIcon;
     HeapID heapId;
     u8 unk5F6[0x16];
     TradeBackup backup;
@@ -132,18 +145,27 @@ struct PokemonTradeWork {
     u32 cursorImage;
     AppTaskMenuWin *menuWin;
     AppTaskMenu *menu;
-    u8 unk650[0xd0];
+    // The items of the menu, built for each menu
+    TaskMenuItem menuItems[8];
+    AppTaskMenuRes *taskMenuRes;
+    // The window of a Pokémon's summary
+    BmpWin *summaryWindow;
+    u8 unk6B8[0x64];
+    BmpWin *msgWindow;
     MsgData *msgData;
     WordSet *wordSet;
     Font *font;
-    u8 unk72C[0x4];
-    StrBuf *unk730;
-    StrBuf *unk734;
+    PrintStream *printStream;
+    // The text of the panels, and its message before the words go in
+    StrBuf *drawStr;
+    StrBuf *drawTemplate;
     StrBuf *strbuf;
     StrBuf *strbufTemplate;
     PrintQueue *printQueue;
     TCBExManager *tcbEx;
-    u8 unk748[0xb8];
+    u8 unk748[0x4];
+    KeyCursor *keyCursor;
+    u8 unk750[0xb0];
     u32 unk800;
     u8 unk804[0xc];
     G3DCamera *camera;
@@ -167,8 +189,11 @@ struct PokemonTradeWork {
     u32 unk890;
     u8 unk894[0x2c];
     u32 unk8C0;
-    u8 unk8C4[0x8c];
-    u8 unk950[3][0x14];
+    // The Poké Ball icons of the summary and of the two sides
+    ResSprite ballIcons[3];
+    // The type icons: two pages of two, the page turning in the summary
+    ResSprite typeIcons[4];
+    ResSprite unk950[3];
     u8 unk98C[0x34];
     TouchBar *touchBar;
     ClActUnit *clactUnit;
@@ -187,8 +212,8 @@ struct PokemonTradeWork {
     // Whether the screen was touched last frame
     BOOL touchHeld;
     u8 unkF38[0x1c];
-    u32 touchX;
-    u32 touchY;
+    int touchX;
+    int touchY;
     u32 unkF5C;
     // The Pokémon icon held by the stylus, where it was picked up and the stylus's offset from it
     ClActor *heldIcon;
@@ -215,7 +240,8 @@ struct PokemonTradeWork {
     u8 unkFD4[0x4];
     PartyPkm *negoPkm[2][3];
     u32 unkFF0[2][3];
-    u8 unk1008[0x40];
+    u8 unk1008[0x30];
+    BmpWin *unk1038[4];
     u32 unk1048[2];
     u32 unk1050[2];
     u8 unk1058[0x8];
@@ -236,16 +262,22 @@ struct PokemonTradeWork {
     int unk108C;
     u8 unk1090[0x4];
     u32 bgmTimer;
-    u8 unk1098[0x2];
+    u16 typeIconPage;
     u16 unk109A;
     u32 unk109C;
     // The side, or the one of the six Pokémon of a negotiation, that the cursor is on
     int cursor;
     void *unk10A4;
     void *unk10A8;
-    u8 unk10AC[0xe0];
+    u8 unk10AC[0x48];
+    // The bitmaps of the panels of a negotiation, for each side: the player's name, and the Pokémon
+    TradeNegoBitmaps negoBitmaps[2];
+    u8 unk1114[0x78];
     int type;
-    u8 unk1190[0x50];
+    u8 unk1190[0x44];
+    // The wait on the message being printed
+    PrintWait printWait;
+    u8 unk11DC[0x4];
     // The command each machine sent last
     u8 command[2];
     u8 unk11E2[2];
@@ -391,8 +423,8 @@ void func_ov194_021beb48(PokemonTradeWork *wk);
 void func_ov194_021bf938(PokemonTradeWork *wk);
 
 // pokemontrade_message.c, a descriptive name
-void func_ov194_021bfcf8(PokemonTradeWork *wk, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5);
-void func_ov194_021bfdf8(PokemonTradeWork *wk, BOOL a1, u32 a2);
+void func_ov194_021bfcf8(PokemonTradeWork *wk, BOOL instant, u32 x, u32 y, u32 width, u32 height);
+void func_ov194_021bfdf8(PokemonTradeWork *wk, BOOL instant, BOOL bottom);
 void func_ov194_021bfe28(PokemonTradeWork *wk);
 void func_ov194_021bfe34(PokemonTradeWork *wk);
 void func_ov194_021bfe70(PokemonTradeWork *wk);
@@ -401,22 +433,23 @@ void func_ov194_021bfedc(PokemonTradeWork *wk);
 void func_ov194_021bffac(PokemonTradeWork *wk);
 BOOL func_ov194_021c00b0(PokemonTradeWork *wk);
 void func_ov194_021c00fc(PokemonTradeWork *wk);
-void func_ov194_021c0120(PokemonTradeWork *wk, const u32 *items, int count, u32 a3, u32 a4);
+void func_ov194_021c0120(PokemonTradeWork *wk, const u32 *items, int count, u32 right, u32 bottom);
 void func_ov194_021c0214(PokemonTradeWork *wk, const u32 *items, int count);
 void func_ov194_021c0918(PokemonTradeWork *wk, int side, PartyPkm *pkm);
-void func_ov194_021c0aec(PokemonTradeWork *wk, u32 a1);
+void func_ov194_021c0aac(PokemonTradeWork *wk);
+void func_ov194_021c0aec(PokemonTradeWork *wk, BOOL hideWindows);
 void func_ov194_021c0b6c(PokemonTradeWork *wk, PartyPkm *pkm);
-void func_ov194_021c0c04(PokemonTradeWork *wk, int side, PartyPkm *pkm);
-void func_ov194_021c0fa0(PokemonTradeWork *wk, PartyPkm *pkm, int side, u32 a3);
+void func_ov194_021c0c04(PokemonTradeWork *wk, int page, PartyPkm *pkm);
+void func_ov194_021c0fa0(PokemonTradeWork *wk, PartyPkm *pkm, int side, BOOL reload);
 void func_ov194_021c123c(PokemonTradeWork *wk, int side);
-void func_ov194_021c1288(PokemonTradeWork *wk, u32 a1);
+void func_ov194_021c1288(PokemonTradeWork *wk, BOOL clear);
 void func_ov194_021c12ec(PokemonTradeWork *wk, u32 a1);
 void func_ov194_021c1484(PokemonTradeWork *wk);
 void func_ov194_021c14b0(PokemonTradeWork *wk);
 void func_ov194_021c1530(PokemonTradeWork *wk, int side, PartyPkm *pkm);
 void func_ov194_021c1740(PokemonTradeWork *wk, int side);
-void func_ov194_021c1788(PokemonTradeWork *wk, u32 msg);
-void func_ov194_021c1820(PokemonTradeWork *wk, u32 a1, u32 a2);
+AppTaskMenuWin *func_ov194_021c1788(PokemonTradeWork *wk, u32 msg);
+void func_ov194_021c1820(PokemonTradeWork *wk, BOOL showActor, BOOL showButton);
 BOOL func_ov194_021c1884(PokemonTradeWork *wk);
 
 // pokemontrade_3d.c
@@ -426,6 +459,7 @@ void func_ov194_021c1fc0(PokemonTradeWork *wk);
 void func_ov194_021c2000(PokemonTradeWork *wk);
 void func_ov194_021c200c(PokemonTradeWork *wk, u32 a1);
 void func_ov194_021c2034(PokemonTradeWork *wk);
+void func_ov194_021c23a4(PokemonTradeWork *wk, int side, u32 a2, PartyPkm *pkm, u32 a4);
 void func_ov194_021c24ac(PokemonTradeWork *wk, int side, int other, PartyPkm *pkm, u32 a4, u32 a5);
 void func_ov194_021c24cc(PokemonTradeWork *wk, int side, u32 a2, PartyPkm *pkm, u32 a4);
 void func_ov194_021c24dc(PokemonTradeWork *wk, int side);
@@ -439,6 +473,9 @@ int func_ov194_021c3bc0(PokemonTradeWork *wk);
 // Whether the cursor is outside the strip on screen, and the column it would be in if so
 BOOL func_ov194_021c3c10(PokemonTradeWork *wk, int *column);
 void func_ov194_021c2c64(PokemonTradeWork *wk);
+void func_ov194_021c2d34(PokemonTradeWork *wk);
+void func_ov194_021c2d74(PokemonTradeWork *wk);
+void func_ov194_021c2ef0(PokemonTradeWork *wk, int side, int page);
 void func_ov194_021c2c84(PokemonTradeWork *wk);
 void func_ov194_021c2d0c(PokemonTradeWork *wk);
 void func_ov194_021c2d78(PokemonTradeWork *wk);
@@ -468,7 +505,18 @@ void func_ov194_021c45ec(u32 a0);
 void func_ov194_021c4600(PokemonTradeWork *wk);
 void func_ov194_021c466c(PokemonTradeWork *wk);
 void func_ov194_021c46a4(PokemonTradeWork *wk);
-void func_ov194_021c4cfc(void *a0);
+void func_ov194_021c4cfc(ResSprite *sprite);
+void func_ov194_021c475c(PokemonTradeWork *wk);
+void func_ov194_021c479c(PokemonTradeWork *wk);
+void func_ov194_021c49e8(PokemonTradeWork *wk);
+void func_ov194_021c4c00(PokemonTradeWork *wk, int side, PartyPkm *pkm);
+void func_ov194_021c4d18(PokemonTradeWork *wk, int side, u32 a2, PartyPkm *pkm);
+void func_ov194_021c4ec0(PokemonTradeWork *wk, PartyPkm *pkm, BOOL isEgg);
+void func_ov194_021c5060(PokemonTradeWork *wk);
+void func_ov194_021c5098(PokemonTradeWork *wk, u32 a1, u32 a2);
+void func_ov194_021c5abc(PokemonTradeWork *wk);
+void func_ov194_021c5bf0(PokemonTradeWork *wk);
+void func_ov194_021c5c80(PokemonTradeWork *wk);
 void func_ov194_021c4a68(PokemonTradeWork *wk);
 void func_ov194_021c4b88(PokemonTradeWork *wk);
 void func_ov194_021c4970(PokemonTradeWork *wk, int side, u32 a2);

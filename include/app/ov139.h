@@ -30,6 +30,33 @@ void func_ov139_0219aaa4(TwoChoiceMenu *menu);
 void func_ov139_0219ab40(TwoChoiceMenu *menu);
 u32 func_ov139_0219ae78(TwoChoiceMenu *menu);
 
+// A sprite that loads its own characters, palette and cells from an archive. The names are descriptive
+typedef struct {
+    u32 charRes;
+    u32 plttRes;
+    u32 cellRes;
+    u32 vramType;
+    ClActor *actor;
+} ResSprite;
+
+typedef struct {
+    u32 vramType;
+    u32 flags;
+    u32 arcId;
+    u32 plttFile;
+    u32 charFile;
+    u32 cellFile;
+    u32 animFile;
+    // Where the palette goes, and which and how many of the file's palettes
+    u8 plttOffset;
+    u8 plttSrcOffset;
+    u8 plttCount;
+} ResSpriteParam;
+
+void func_ov139_021999c8(ResSprite *sprite, const ResSpriteParam *param, ClActUnit *unit, HeapID heapId);
+void func_ov139_02199a44(ResSprite *sprite);
+ClActor *func_ov139_02199a5c(ResSprite *sprite, ClActUnit *unit, u8 x, u8 y, u8 a4, HeapID heapId);
+
 // The bar of buttons along the bottom of the lower screen (touchbar.c)
 typedef struct TouchBar TouchBar;
 

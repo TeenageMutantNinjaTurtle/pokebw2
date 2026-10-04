@@ -43,7 +43,9 @@ typedef u16 GXRgb;
 #define reg_G3X_VTXRAM_COUNT (*(vu16 *)0x04000606)
 #define reg_GXS_DB_DISPCNT (*(vu32 *)0x04001000)
 #define reg_G2S_DB_WIN0H (*(vu16 *)0x04001040)
+#define reg_G2S_DB_WIN1H (*(vu16 *)0x04001042)
 #define reg_G2S_DB_WIN0V (*(vu16 *)0x04001044)
+#define reg_G2S_DB_WIN1V (*(vu16 *)0x04001046)
 #define reg_G2S_DB_WININ (*(vu16 *)0x04001048)
 #define reg_G2S_DB_WINOUT (*(vu16 *)0x0400104a)
 #define reg_G2S_DB_BLDCNT (*(vu16 *)0x04001050)
@@ -67,9 +69,12 @@ typedef u16 GXRgb;
 
 #define GX_WNDMASK_NONE 0x00
 #define GX_WNDMASK_W0 0x01
+#define GX_WNDMASK_W1 0x02
 
 #define REG_G2S_DB_WININ_WIN0IN_SHIFT 0
 #define REG_G2S_DB_WININ_WIN0IN_MASK 0x003f
+#define REG_G2S_DB_WININ_WIN1IN_SHIFT 8
+#define REG_G2S_DB_WININ_WIN1IN_MASK 0x3f00
 #define REG_G2S_DB_WINOUT_WINOUT_SHIFT 0
 #define REG_G2S_DB_WINOUT_WINOUT_MASK 0x003f
 // A window's effect enable, above its planes
@@ -139,6 +144,7 @@ static inline void G2_SetOBJAttr(GXOamAttr *oam, int x, int y, int priority, int
 #define GX_PLANEMASK_BG2 0x04
 #define GX_PLANEMASK_BG3 0x08
 #define GX_PLANEMASK_OBJ 0x10
+#define GX_PLANEMASK_ALL 0x1f
 
 // The planes that blending takes, which include the backdrop
 #define GX_BLEND_PLANEMASK_BG0 0x01
@@ -513,6 +519,14 @@ static inline void G2S_SetWnd0InsidePlane(int wnd, BOOL effect) {
     reg_G2S_DB_WININ = (u16)tmp;
 }
 
+static inline void G2S_SetWnd1InsidePlane(int wnd, BOOL effect) {
+    u32 tmp = (u32)((reg_G2S_DB_WININ & ~REG_G2S_DB_WININ_WIN1IN_MASK) | (wnd << REG_G2S_DB_WININ_WIN1IN_SHIFT));
+    if (effect) {
+        tmp |= 1 << (GX_WND_EFFECT_SHIFT + REG_G2S_DB_WININ_WIN1IN_SHIFT);
+    }
+    reg_G2S_DB_WININ = (u16)tmp;
+}
+
 static inline void G2S_SetWndOutsidePlane(int wnd, BOOL effect) {
     u32 tmp = (u32)((reg_G2S_DB_WINOUT & ~REG_G2S_DB_WINOUT_WINOUT_MASK) | (wnd << REG_G2S_DB_WINOUT_WINOUT_SHIFT));
     if (effect) {
@@ -524,6 +538,11 @@ static inline void G2S_SetWndOutsidePlane(int wnd, BOOL effect) {
 static inline void G2S_SetWnd0Position(int x1, int y1, int x2, int y2) {
     reg_G2S_DB_WIN0H = (u16)(((x1 & 0xff) << 8) | (x2 & 0xff));
     reg_G2S_DB_WIN0V = (u16)(((y1 & 0xff) << 8) | (y2 & 0xff));
+}
+
+static inline void G2S_SetWnd1Position(int x1, int y1, int x2, int y2) {
+    reg_G2S_DB_WIN1H = (u16)(((x1 & 0xff) << 8) | (x2 & 0xff));
+    reg_G2S_DB_WIN1V = (u16)(((y1 & 0xff) << 8) | (y2 & 0xff));
 }
 
 static inline void G2_BlendNone(void) {

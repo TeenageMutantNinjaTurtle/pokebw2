@@ -397,10 +397,10 @@ void func_ov194_021bc434(PokemonTradeWork *wk) {
     wk->unk5D4 = window;
     GFL_TextRndUpdateColorIndexLUT(14, 15, 0);
     if (wk->type == 3 && wk->unk1050[0] != -1) {
-        GFL_MsgDataLoadStrbuf(wk->msgData, 134, wk->unk730);
-        GFL_TextRendererDrawToBitmap(BmpWin_GetBitmap(window), 8, 2, wk->unk730, wk->font);
-        GFL_MsgDataLoadStrbuf(wk->msgData, wk->unk1050[0] + 124, wk->unk730);
-        GFL_TextRendererDrawToBitmap(BmpWin_GetBitmap(window), 136, 2, wk->unk730, wk->font);
+        GFL_MsgDataLoadStrbuf(wk->msgData, 134, wk->drawStr);
+        GFL_TextRendererDrawToBitmap(BmpWin_GetBitmap(window), 8, 2, wk->drawStr, wk->font);
+        GFL_MsgDataLoadStrbuf(wk->msgData, wk->unk1050[0] + 124, wk->drawStr);
+        GFL_TextRendererDrawToBitmap(BmpWin_GetBitmap(window), 136, 2, wk->drawStr, wk->font);
     }
     BmpWin_FlushChar(window);
     BmpWin_FlushMap(window);
@@ -416,15 +416,15 @@ void func_ov194_021bc434(PokemonTradeWork *wk) {
                 msg = 129;
             }
             GFL_TextRndUpdateColorIndexLUT(1, 2, 0);
-            GFL_MsgDataLoadStrbuf(wk->msgData, msg, wk->unk734);
+            GFL_MsgDataLoadStrbuf(wk->msgData, msg, wk->drawTemplate);
             copyVarForText(wk->wordSet, 0, infos[i]);
-            GFL_WordSetFormatStrbuf(wk->wordSet, wk->unk730, wk->unk734);
+            GFL_WordSetFormatStrbuf(wk->wordSet, wk->drawStr, wk->drawTemplate);
             x = xs[i] * 8;
-            GFL_TextRendererDrawToBitmap(BmpWin_GetBitmap(window), x, 2, wk->unk730, wk->font);
+            GFL_TextRendererDrawToBitmap(BmpWin_GetBitmap(window), x, 2, wk->drawStr, wk->font);
             if (wk->type == 3 && wk->unk1048[i] != -1) {
                 GFL_TextRndUpdateColorIndexLUT(3, 4, 0);
-                GFL_MsgDataLoadStrbuf(wk->msgData, wk->unk1048[i] + 119, wk->unk730);
-                GFL_TextRendererDrawToBitmap(BmpWin_GetBitmap(window), x + 4, 34, wk->unk730, wk->font);
+                GFL_MsgDataLoadStrbuf(wk->msgData, wk->unk1048[i] + 119, wk->drawStr);
+                GFL_TextRendererDrawToBitmap(BmpWin_GetBitmap(window), x + 4, 34, wk->drawStr, wk->font);
             }
         }
     }
@@ -444,8 +444,8 @@ void func_ov194_021bc6b4(PokemonTradeWork *wk, int side, u32 msg, BOOL force) {
         window = wk->unk5BC[side];
         GFL_TextRndUpdateColorIndexLUT(5, 6, 0);
         msg += 115;
-        GFL_MsgDataLoadStrbuf(wk->msgData, msg, wk->unk730);
-        GFL_TextRendererDrawToBitmap(BmpWin_GetBitmap(window), 0, 0, wk->unk730, wk->font);
+        GFL_MsgDataLoadStrbuf(wk->msgData, msg, wk->drawStr);
+        GFL_TextRendererDrawToBitmap(BmpWin_GetBitmap(window), 0, 0, wk->drawStr, wk->font);
         BmpWin_FlushChar(window);
         BmpWin_FlushMap(window);
         GFL_BGSysQueueScrLoad(3);

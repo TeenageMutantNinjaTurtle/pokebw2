@@ -58,6 +58,13 @@ Same code, other `sp` offsets or frame size.
 - A variable reused by several switch cases is split into one value per case (see Registers), and a split piece that is
   spilled takes the lowest slot whatever the declarations say. When the original has a case's spilled value among the
   declared variables' slots, that case had a variable of its own, as case 9 of the records command does.
+- Named locals take stack slots apart from the compiler's temporaries. When the original's spilled values all sit in
+  the order they are first assigned, they may be common subexpressions: the trade's `func_ov194_021c1530` reads
+  `colors[side * 2]` at each use, and `int color = colors[side * 2];` moved it above the temporaries.
+- One counter for two loops in a row keeps one slot. `func_ov194_021c12ec` has a loop over `i`, then two nested loops.
+  MWCC keeps the `0` that the first loop passes as arguments in the stack slot of the variable it starts the outer
+  nested loop with, and in the original that slot is the lowest: both loops count with `i`, the inner one with `j`.
+  A separate `side` for the outer loop took the highest slot instead.
 - A NULL check written on a field, `if (bgs[bg].screen != NULL) { void *screen = bgs[bg].screen; ... }`, gives
   different stack slots from the same check on a local loaded before it, as `GFL_BGSysLoadScrCore` shows.
 - MWCC reuses a field it has loaded, across the 64-bit multiply helpers, so a value that the original keeps on the
