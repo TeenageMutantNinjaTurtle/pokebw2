@@ -283,18 +283,18 @@ void PokeListMessage_ShowWaitIcon(PokeListWork *wk, PokeListMessage *msg);
 void PokeListMessage_DrawKeyCursor(PokeListWork *wk, PokeListMessage *msg);
 
 // plist_menu.c
-PokeListMenu *func_ov165_0219fae8(PokeListWork *wk);
-void func_ov165_0219fb3c(PokeListWork *wk, PokeListMenu *menu);
-void func_ov165_0219fb54(PokeListWork *wk, PokeListMenu *menu, const u32 *items);
-void func_ov165_0219fb9c(PokeListWork *wk, PokeListMenu *menu);
-void func_ov165_0219fbfc(PokeListWork *wk, PokeListMenu *menu);
-void func_ov165_0219fc34(PokeListWork *wk, PokeListMenu *menu);
-u32 func_ov165_0219fc40(PokeListWork *wk, PokeListMenu *menu);
-void *func_ov165_0219fe68(PokeListWork *wk, PokeListMenu *menu, u32 index, u32 x, u32 y, u32 a5);
-void func_ov165_0219fec0(void *button);
-void func_ov165_0219fecc(void *button);
-void func_ov165_0219fed8(void *button, BOOL active);
-void func_ov165_0219fee4(void *button, u32 a1);
+PokeListMenu *PokeListMenu_Create(PokeListWork *wk);
+void PokeListMenu_Free(PokeListWork *wk, PokeListMenu *menu);
+void PokeListMenu_Open(PokeListWork *wk, PokeListMenu *menu, const u32 *items);
+void PokeListMenu_OpenYesNo(PokeListWork *wk, PokeListMenu *menu);
+void PokeListMenu_Close(PokeListWork *wk, PokeListMenu *menu);
+void PokeListMenu_Update(PokeListWork *wk, PokeListMenu *menu);
+u32 PokeListMenu_GetPicked(PokeListWork *wk, PokeListMenu *menu);
+void *PokeListMenu_CreateButton(PokeListWork *wk, PokeListMenu *menu, u32 msgId, u32 x, u8 y, BOOL isBack);
+void PokeListMenu_FreeButton(void *button);
+void PokeListMenu_UpdateButton(void *button);
+void PokeListMenu_SetButtonActive(void *button, BOOL active);
+void PokeListMenu_SetButtonPressed(void *button, BOOL pressed);
 
 // plist_item.c
 BOOL func_ov165_021a01f8(PokeListWork *wk, u16 item);

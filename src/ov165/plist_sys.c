@@ -205,7 +205,7 @@ BOOL PokeList_Init(PokeListWork *wk) {
     }
     wk->vblankTask = GFL_VBlankTCBAdd(PokeList_VBlank, wk, 8);
     wk->message = PokeListMessage_Create(wk);
-    wk->menu = func_ov165_0219fae8(wk);
+    wk->menu = PokeListMenu_Create(wk);
     PokeList_InitMode(wk);
     GFL_BGSysQueueScrLoad(3);
     GFL_BGSysQueueScrLoad(2);
@@ -219,12 +219,12 @@ BOOL PokeList_Exit(PokeListWork *wk) {
 
     GFL_TCBRemove(wk->vblankTask);
     if (PokeList_IsBattle(wk) == TRUE) {
-        func_ov165_0219fec0(wk->buttons[0]);
-        func_ov165_0219fec0(wk->buttons[1]);
+        PokeListMenu_FreeButton(wk->buttons[0]);
+        PokeListMenu_FreeButton(wk->buttons[1]);
         wk->buttons[0] = NULL;
         wk->buttons[1] = NULL;
     }
-    func_ov165_0219fb3c(wk, wk->menu);
+    PokeListMenu_Free(wk, wk->menu);
     PokeListMessage_Free(wk, wk->message);
     if (wk->statsWindow != NULL) {
         BmpWin_Free(wk->statsWindow);
@@ -310,13 +310,13 @@ BOOL PokeList_Main(PokeListWork *wk) {
     case 12:
         wk->waitTimer++;
         if (wk->waitTimer > 16) {
-            func_ov165_0219fee4(wk->buttons[0], 0);
+            PokeListMenu_SetButtonPressed(wk->buttons[0], 0);
             if (wk->wasMode1A == TRUE) {
                 // Overlay 164's sync takes the parameters as its work
                 if (func_ov164_02199944((NetSyncWork *)wk->param, 0, 0) == TRUE) {
                     wk->state = 17;
-                    func_ov165_0219fec0(wk->buttons[0]);
-                    func_ov165_0219fec0(wk->buttons[1]);
+                    PokeListMenu_FreeButton(wk->buttons[0]);
+                    PokeListMenu_FreeButton(wk->buttons[1]);
                     wk->buttons[0] = NULL;
                     wk->buttons[1] = NULL;
                     PokeListMessage_Open(wk, wk->message, 0);
@@ -372,8 +372,8 @@ BOOL PokeList_Main(PokeListWork *wk) {
     PokeList_UpdateGlow(wk);
     if (PokeList_IsBattle(wk) == TRUE) {
         func_ov165_021a0e54(wk);
-        func_ov165_0219fecc(wk->buttons[0]);
-        func_ov165_0219fecc(wk->buttons[1]);
+        PokeListMenu_UpdateButton(wk->buttons[0]);
+        PokeListMenu_UpdateButton(wk->buttons[1]);
     }
     func_02021a3c(wk->printQueue);
     func_0204b794();
@@ -708,14 +708,14 @@ static void PokeList_FreeResources(PokeListWork *wk) {
 static void PokeList_InitMode(PokeListWork *wk) {
     switch (wk->param->mode) {
     case 1:
-        wk->buttons[0] = func_ov165_0219fe68(wk, wk->menu, 0, 22, 21, 0);
+        wk->buttons[0] = PokeListMenu_CreateButton(wk, wk->menu, 0, 22, 21, 0);
         PokeList_ShowModeMessage(wk);
         wk->nextState = 2;
         break;
     case 22:
     case 23:
-        wk->buttons[0] = func_ov165_0219fe68(wk, wk->menu, 0, 12, 21, 0);
-        wk->buttons[1] = func_ov165_0219fe68(wk, wk->menu, 1, 22, 21, 1);
+        wk->buttons[0] = PokeListMenu_CreateButton(wk, wk->menu, 0, 12, 21, 0);
+        wk->buttons[1] = PokeListMenu_CreateButton(wk, wk->menu, 1, 22, 21, 1);
         PokeList_ShowModeMessage(wk);
         wk->nextState = 2;
         break;
@@ -1252,7 +1252,7 @@ static void PokeList_OpenMenu(PokeListWork *wk) {
         items[2] = 16;
         break;
     }
-    func_ov165_0219fb54(wk, wk->menu, items);
+    PokeListMenu_Open(wk, wk->menu, items);
 }
 
 static void PokeList_UpdateSelect(PokeListWork *wk) {
@@ -1291,15 +1291,15 @@ static void func_ov165_0219bb68(PokeListWork *wk) {
     wk->subState = 0;
     wk->menuItem = 0x19;
     if (PokeList_IsBattle(wk) == TRUE) {
-        func_ov165_0219fed8(wk->buttons[0], FALSE);
-        func_ov165_0219fed8(wk->buttons[1], FALSE);
+        PokeListMenu_SetButtonActive(wk->buttons[0], FALSE);
+        PokeListMenu_SetButtonActive(wk->buttons[1], FALSE);
     }
     if (wk->touch == FALSE) {
         if (wk->cursorPos <= 5) {
             func_ov165_0219cdd8(wk, wk->cursorPos);
             PokeListPlate_SetSelected(wk, wk->plates[wk->cursorPos], TRUE);
         } else {
-            func_ov165_0219fed8(wk->buttons[(u8)(wk->cursorPos - 6)], TRUE);
+            PokeListMenu_SetButtonActive(wk->buttons[(u8)(wk->cursorPos - 6)], TRUE);
         }
     } else {
         func_0204c124(wk->cursor, FALSE);
@@ -1310,7 +1310,7 @@ static void func_ov165_0219bb68(PokeListWork *wk) {
                 PokeListPlate_SetSelected(wk, wk->plates[wk->cursorPos], FALSE);
             }
         } else {
-            func_ov165_0219fed8(wk->buttons[(u8)(wk->cursorPos - 6)], FALSE);
+            PokeListMenu_SetButtonActive(wk->buttons[(u8)(wk->cursorPos - 6)], FALSE);
         }
     }
     func_0204c124(wk->shortcutButton, wk->showShortcutButtons);
@@ -1364,8 +1364,8 @@ static void func_ov165_0219bc7c(PokeListWork *wk) {
             func_0204c124(wk->cursor, FALSE);
         }
         if (PokeList_IsBattle(wk) == TRUE) {
-            func_ov165_0219fed8(wk->buttons[0], FALSE);
-            func_ov165_0219fee4(wk->buttons[1], 1);
+            PokeListMenu_SetButtonActive(wk->buttons[0], FALSE);
+            PokeListMenu_SetButtonPressed(wk->buttons[1], 1);
             wk->state = 12;
             wk->cursorPos = 7;
         } else {
@@ -1570,8 +1570,8 @@ static void func_ov165_0219c20c(PokeListWork *wk) {
             PokeList_ShowMessage(wk, 0xa0, TRUE, PokeList_MessageDoneSelect);
             GFL_SndSEPlay(SEQ_SE_BEEP);
         } else {
-            func_ov165_0219fed8(wk->buttons[1], FALSE);
-            func_ov165_0219fee4(wk->buttons[0], 1);
+            PokeListMenu_SetButtonActive(wk->buttons[1], FALSE);
+            PokeListMenu_SetButtonPressed(wk->buttons[0], 1);
             wk->state = 12;
             wk->param->index = 6;
             wk->param->result = 0;
@@ -1770,7 +1770,7 @@ static void func_ov165_0219c87c(PokeListWork *wk) {
                 func_ov165_0219cdd8(wk, wk->cursorPos);
                 PokeListPlate_SetSelected(wk, wk->plates[wk->cursorPos], TRUE);
             } else {
-                func_ov165_0219fed8(wk->buttons[(u8)(wk->cursorPos - 6)], TRUE);
+                PokeListMenu_SetButtonActive(wk->buttons[(u8)(wk->cursorPos - 6)], TRUE);
                 func_0204c124(wk->cursor, FALSE);
             }
             GFL_SndSEPlay(SEQ_SE_SELECT1);
@@ -1854,13 +1854,13 @@ static void func_ov165_0219c87c(PokeListWork *wk) {
                     func_ov165_0219cdd8(wk, wk->cursorPos);
                     PokeListPlate_SetSelected(wk, wk->plates[wk->cursorPos], TRUE);
                 } else {
-                    func_ov165_0219fed8(wk->buttons[(u8)(wk->cursorPos - 6)], TRUE);
+                    PokeListMenu_SetButtonActive(wk->buttons[(u8)(wk->cursorPos - 6)], TRUE);
                     func_0204c124(wk->cursor, FALSE);
                 }
                 if (prevPos <= 5) {
                     PokeListPlate_SetSelected(wk, wk->plates[prevPos], FALSE);
                 } else {
-                    func_ov165_0219fed8(wk->buttons[(u8)(prevPos - 6)], FALSE);
+                    PokeListMenu_SetButtonActive(wk->buttons[(u8)(prevPos - 6)], FALSE);
                 }
                 wk->flashTimer = 12;
             }
@@ -1922,12 +1922,12 @@ static void func_ov165_0219cb80(PokeListWork *wk) {
             if (prevPos <= 5) {
                 PokeListPlate_SetSelected(wk, wk->plates[prevPos], FALSE);
             } else {
-                func_ov165_0219fed8(wk->buttons[(u8)(prevPos - 6)], FALSE);
+                PokeListMenu_SetButtonActive(wk->buttons[(u8)(prevPos - 6)], FALSE);
             }
             if (wk->cursorPos <= 5) {
                 PokeListPlate_SetSelected(wk, wk->plates[wk->cursorPos], TRUE);
             } else {
-                func_ov165_0219fed8(wk->buttons[(u8)(wk->cursorPos - 6)], TRUE);
+                PokeListMenu_SetButtonActive(wk->buttons[(u8)(wk->cursorPos - 6)], TRUE);
                 func_0204c124(wk->cursor, FALSE);
             }
             wk->flashTimer = 12;
@@ -2039,8 +2039,8 @@ static void PokeList_UpdateMenu(PokeListWork *wk) {
     case 1: {
         u32 item;
 
-        func_ov165_0219fc34(wk, wk->menu);
-        item = func_ov165_0219fc40(wk, wk->menu);
+        PokeListMenu_Update(wk, wk->menu);
+        item = PokeListMenu_GetPicked(wk, wk->menu);
         if (item != 0x19) {
             wk->menuItem = item;
             wk->subState = 2;
@@ -2077,7 +2077,7 @@ static void func_ov165_0219ceec(PokeListWork *wk) {
 }
 
 static void func_ov165_0219cf70(PokeListWork *wk) {
-    func_ov165_0219fbfc(wk, wk->menu);
+    PokeListMenu_Close(wk, wk->menu);
     PokeListMessage_Close(wk, wk->message);
     if (PokeList_IsBattle(wk) == TRUE || func_ov165_0219da88(wk) == FALSE) {
         func_0204c124(wk->exitButton, FALSE);
@@ -2135,9 +2135,9 @@ static void PokeList_DoMenuItem(PokeListWork *wk) {
         PokeListMessage_Open(wk, wk->message, 2);
         PokeListMessage_Print(wk, wk->message, 0x14);
         if (item == ITEM_GRISEOUS_ORB && species == SPECIES_GIRATINA) {
-            func_ov165_0219fb54(wk, wk->menu, itemMenus[1]);
+            PokeListMenu_Open(wk, wk->menu, itemMenus[1]);
         } else {
-            func_ov165_0219fb54(wk, wk->menu, itemMenus[0]);
+            PokeListMenu_Open(wk, wk->menu, itemMenus[0]);
         }
         GFL_BGSysLoadScr(0);
         break;
@@ -2148,7 +2148,7 @@ static void PokeList_DoMenuItem(PokeListWork *wk) {
         func_ov165_0219ceec(wk);
         PokeListMessage_Open(wk, wk->message, 2);
         PokeListMessage_Print(wk, wk->message, 0x14);
-        func_ov165_0219fb54(wk, wk->menu, mailMenu);
+        PokeListMenu_Open(wk, wk->menu, mailMenu);
         GFL_BGSysLoadScr(0);
         break;
     }
@@ -2185,7 +2185,7 @@ static void PokeList_DoMenuItem(PokeListWork *wk) {
             PokeListPlate_SetSelected(wk, wk->plates[wk->cursorPos], FALSE);
             wk->cursorPos = 6;
             if (wk->touch == FALSE) {
-                func_ov165_0219fed8(wk->buttons[(u8)(wk->cursorPos - 6)], TRUE);
+                PokeListMenu_SetButtonActive(wk->buttons[(u8)(wk->cursorPos - 6)], TRUE);
                 func_0204c124(wk->cursor, FALSE);
             }
         } else if (wk->touch == FALSE) {
@@ -2397,18 +2397,18 @@ void PokeList_ShowMessage(PokeListWork *wk, u32 msgId, BOOL waitInput, void (*do
 static void PokeList_UpdateSubMenu(PokeListWork *wk) {
     u32 item;
 
-    func_ov165_0219fc34(wk, wk->menu);
-    item = func_ov165_0219fc40(wk, wk->menu);
+    PokeListMenu_Update(wk, wk->menu);
+    item = PokeListMenu_GetPicked(wk, wk->menu);
     if (item != 0x19) {
         wk->menuFunc(wk, item);
-        func_ov165_0219fbfc(wk, wk->menu);
+        PokeListMenu_Close(wk, wk->menu);
     }
 }
 
 static void PokeList_OpenSubMenu(PokeListWork *wk, void (*func)(PokeListWork *wk, u32 item)) {
     wk->state = 9;
     wk->menuFunc = func;
-    func_ov165_0219fb9c(wk, wk->menu);
+    PokeListMenu_OpenYesNo(wk, wk->menu);
 }
 
 // Slides the plates of the two Pokémon being swapped out, swaps them, and slides them back in
