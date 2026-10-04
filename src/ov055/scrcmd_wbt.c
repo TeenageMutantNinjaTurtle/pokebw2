@@ -12,6 +12,7 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 #include "system/vm.h"
+#include "system/wordset.h"
 
 // The commands of the Pokémon World Tournament's script plugins (plugins 6 and 7), from 1000, that both plugins use
 

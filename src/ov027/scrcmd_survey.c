@@ -19,6 +19,7 @@
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
+#include "system/wordset.h"
 
 void probabilityLoop(SurveyProbabilityState *state) {
     int i;

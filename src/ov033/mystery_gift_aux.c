@@ -6,6 +6,7 @@
 #include "save/save_control.h"
 #include "save/trainer_card.h"
 #include "system/game_data.h"
+#include "system/wordset.h"
 
 u32 func_ov033_021782f0(void) {
     return 1;

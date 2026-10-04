@@ -4,6 +4,7 @@
 #include "system/aeabi.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+#include "system/wordset.h"
 
 void func_ov033_0217aa1c(GameSystem *gsys, s32 floor, u32 value) {
     GameData *gameData;

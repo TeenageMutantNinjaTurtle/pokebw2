@@ -13,6 +13,7 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 #include "system/vm.h"
+#include "system/wordset.h"
 
 // The commands of the Pokémon World Tournament's stadium (plugin 7) that overlay 55 doesn't have
 

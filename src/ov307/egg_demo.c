@@ -37,6 +37,7 @@
 #include "system/gf_font.h"
 #include "system/printsys.h"
 #include "system/text_speed.h"
+#include "system/wordset.h"
 
 // The egg hatching process: its steps, the music, the message and the question whether to give a nickname
 

@@ -352,3 +352,8 @@ src/system/pml_species_names.c:
     complete
     .text       start:0x02024a28 end:0x02024a40
     .data       start:0x0209a474 end:0x0209a478
+
+src/system/str_tool.c:
+    complete
+    .text       start:0x02024a40 end:0x02024cac
+    .rodata     start:0x02090888 end:0x02090a38

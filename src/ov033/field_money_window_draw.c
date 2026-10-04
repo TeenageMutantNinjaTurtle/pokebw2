@@ -5,6 +5,7 @@
 #include "gfl/graphics.h"
 #include "gfl/msg.h"
 #include "gfl/str.h"
+#include "system/wordset.h"
 
 void func_ov033_02177a60(FieldMoneyWindow *work) {
     MsgData *messages;

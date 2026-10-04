@@ -7,6 +7,7 @@
 #include "gfl/str.h"
 #include "gfl/tcb.h"
 #include "struct_decls.h"
+#include "system/wordset.h"
 
 // Printing text (printsys.c): into a bitmap at once, through a queue that spreads it over frames while the game is
 // connected, or into a window a few characters a frame; and the measures of strings in a font, and the commands in

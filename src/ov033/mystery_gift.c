@@ -13,6 +13,7 @@
 #include "save/pokedex.h"
 #include "save/save_control.h"
 #include "system/game_data.h"
+#include "system/wordset.h"
 
 u32 func_ov033_02177ed0(u32 index, u32 arg1, u32 arg2, u32 arg3) {
     u32 (*handler)(u32, u32, u32);

@@ -5,6 +5,7 @@
 #include "gfl/heap.h"
 #include "gfl/msg.h"
 #include "gfl/str.h"
+#include "system/wordset.h"
 
 FieldMoneyWindow *func_ov033_02177998(Field *field, u32 value, u32 lines) {
     u16 heapId;

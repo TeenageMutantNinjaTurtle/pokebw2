@@ -10,6 +10,8 @@
 #include "pml/species_names.h"
 #include "save/player_info.h"
 #include "system/printsys.h"
+#include "system/str_tool.h"
+#include "system/wordset.h"
 
 // Word sets: buffers of words that a message's word set commands are replaced by, such as names of Pokémon, items
 // and moves, and numbers. Each buffer has a few attributes besides its string, one of which adds a layout command
@@ -47,7 +49,6 @@ BOOL PassPower_IsIDValid(u32 id);
 void *allocateForFestMission(HeapID heapId);
 void func_ov027_02170b98(void *data, u32 mission, s32 a2, void *buffer);
 void func_ov027_02170d04(FestivalText *text, StrBuf *strbuf, void *buffer, HeapID heapId);
-void GFL_WordSetFormatNumber(StrBuf *strbuf, s32 number, u32 digits, u32 pad, u32 a4);
 
 static void GFL_WordSetClearBufFlags(WordSetAttr *attr);
 static void GFL_WordSetClearBuf(WordSet *wordSet, u32 index);
@@ -210,8 +211,8 @@ void loadNatureToStrbuf(WordSet *wordSet, u32 index, u32 nature) {
     GFL_WordSetLoadMsg(wordSet, index, 0x1b, nature);
 }
 
-void WordSetNumber(WordSet *wordSet, u32 index, s32 number, u32 digits, u32 pad, u32 a5) {
-    GFL_WordSetFormatNumber(wordSet->tmp, number, digits, pad, a5);
+void WordSetNumber(WordSet *wordSet, u32 index, s32 number, u32 digits, u32 pad, BOOL ascii) {
+    GFL_WordSetFormatNumber(wordSet->tmp, number, digits, pad, ascii);
     GFL_WordSetCopyStrbuf(wordSet, index, wordSet->tmp, NULL);
 }
 

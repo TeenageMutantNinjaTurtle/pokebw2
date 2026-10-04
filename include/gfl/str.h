@@ -5,8 +5,6 @@
 #include "gfl/heap.h"
 #include "struct_decls.h"
 
-// Strings, and the word sets that fill the placeholders in messages
-
 // String buffers (strbuf.c): up to size characters, of which length are used, followed by the terminator. It grew out of
 // Gen 4's Strbuf in pokeplatinum's string_gf.c
 
@@ -39,48 +37,8 @@ u16 GFL_StrBufGetTerminator(void);
 void GFL_StrBufConcat(StrBuf *dest, const StrBuf *src);
 void GFL_StrBufAppend(StrBuf *strbuf, u16 c);
 
-// Returns TRUE if the strings are the same, taking accented letters as their plain ones
-BOOL GFL_StrBufCmpIgnoreAccents(const StrBuf *a, const StrBuf *b);
-// Copies src, expanding it if it is compressed, as Trainer names in message file 409 are
-void GFL_StrBufUncompress(StrBuf *dest, const StrBuf *src);
+// From a game file at 0x02008ba0, which is not decompiled yet
 void textCopy(const u16 *src, StrBuf *dest);
 StrBuf *copyTrainerNameToNewStrbuf(const u16 *name, HeapID heapId);
-
-WordSet *GFL_WordSetSystemCreateDefault(HeapID heapId);
-// A word set of count words of up to length characters
-WordSet *GFL_WordSetSystemCreate(u32 count, u32 length, HeapID heapId);
-void GFL_WordSetSystemFree(WordSet *wordSet);
-void GFL_WordSetClearAll(WordSet *wordSet);
-void GFL_WordSetFormatStrbuf(WordSet *wordSet, StrBuf *dest, const StrBuf *src);
-void GFL_WordSetLoadStr(WordSet *wordSet, u32 index, const u16 *str);
-void WordSet_LoadSpeciesName(WordSet *wordSet, u32 index, u32 species);
-void loadCountryToStrbuf(WordSet *wordSet, u32 index, u32 country);
-void loadCountryAreaToStrbuf(WordSet *wordSet, u32 index, u32 country, u32 area);
-void loadJobAnswerToStrbuf(WordSet *wordSet, u32 index, u8 job);
-void loadHobbyNameToStrbuf(WordSet *wordSet, u32 index, u32 hobby);
-// Puts a Pokémon's species name in a word set
-void setPartyPokemonSpeciesNameToStrbuf(WordSet *wordSet, u32 index, PartyPkm *pkm);
-void loadPokemonNicknameToStrbuf(WordSet *wordSet, u32 index, PartyPkm *pkm);
-void loadPokemonTextNameToStrbuf(WordSet *wordSet, u32 index, u32 species);
-void loadPokemonSpeciesTextNameToStrbuf(WordSet *wordSet, u32 index, PartyPkm *pkm);
-void loadMoveNameToStrbuf(WordSet *wordSet, u32 index, u32 move);
-void loadItemNameToStrbuf(WordSet *wordSet, u32 index, u32 item);
-void loadPassPowerToStrbuf(WordSet *wordSet, u32 index, u32 passPower);
-void func_02024868(WordSet *wordSet, u32 index, u32 value, s32 arg3);
-// An item's name: the plural when plural is set, else the one in message file 481 when a4 is set
-void loadItemText(WordSet *wordSet, u32 index, u32 item, BOOL plural, BOOL a4);
-void loadBagPocketNameToStrbuf(WordSet *wordSet, u32 index, u32 pocket);
-// Puts the player's name in a word set
-void copyVarForText(WordSet *wordSet, u32 index, PlayerInfo *playerInfo);
-// Puts a place name, from the place names' message file, in a word set
-void loadLocationNameToStrbuf(WordSet *wordSet, u32 index, u32 placeNameId);
-void loadMonthToStrbuf(WordSet *wordSet, u32 index, u32 month);
-void func_0202437c(WordSet *wordSet, u32 index, const StrBuf *strbuf, u32 a3, u32 a4, u32 a5);
-
-// How WordSetNumber pads a number to its digits
-#define NUM_PAD_NONE 0
-#define NUM_PAD_ZERO 2
-
-void WordSetNumber(WordSet *wordSet, u32 index, s32 number, u32 digits, u32 pad, u32 a5);
 
 #endif // POKEBW2_GFL_STR_H

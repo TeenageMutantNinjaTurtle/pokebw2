@@ -9,6 +9,7 @@
 #include "save/event_work.h"
 #include "system/game_data.h"
 #include "system/rtc.h"
+#include "system/wordset.h"
 
 void func_ov104_021ef114(FieldExpObjGimmickOv104Work *work) {
     s32 count;

@@ -1,10 +1,11 @@
-#include "field/field_actor.h"
 #include "field/field.h"
+#include "field/field_actor.h"
 #include "field/field_script.h"
 #include "gfl/std.h"
 #include "save/event_work.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+#include "system/wordset.h"
 
 void UpdateScriptFieldWk(void *fieldWork, GameSystem *gsys) {
     Field *field;
