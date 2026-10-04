@@ -39,7 +39,8 @@ struct MapMatrixFileHeader {
     u16 unk02;
     u16 width;
     u16 height;
-    u8 data[];
+    // The chunks, then the zones if the format is 1
+    u32 chunkIds[];
 };
 
 // An entry of the map replacements, file 0 of archive 10
@@ -96,7 +97,7 @@ u32 GimmickState_GetID(GimmickState *gimmick);
 void *GimmickState_GetUserData(GimmickState *gimmick, u32 gimmickId);
 MapMatrix *InitMapMatrix(HeapID heapId);
 void MapMatrix_Load(MapMatrix *matrix, u16 matrixId, u16 zoneId, HeapID heapId);
-void ProcessMapMatrix(MapMatrix *matrix, MapMatrixFileHeader *data, u32 matrixId, u32 zoneId);
+void ProcessMapMatrix(MapMatrix *matrix, MapMatrixFileHeader *data, u32 matrixId, u16 zoneId);
 void FreeMapMatrix(MapMatrix *matrix);
 u16 GetZoneIDAtMatrixXZ(MapMatrix *matrix, s32 x, s32 z);
 u16 GetZoneIDAtMatrixXZWorld(MapMatrix *matrix, s32 x, s32 z);

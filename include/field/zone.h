@@ -243,4 +243,7 @@ void InitZoneDataSystem(HeapID heapId);
 void FreeZoneDataSystem(void);
 u16 ZoneData_GetPlaceNameID(u16 zoneId);
 
+// The zone in the other version for a zone that differs, in the main module
+u16 GetVersionedMapChangeZoneNum2(u16 zoneId);
+
 #endif // POKEBW2_FIELD_ZONE_H

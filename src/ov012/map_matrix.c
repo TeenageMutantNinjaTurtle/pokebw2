@@ -1,5 +1,6 @@
 #include "types.h"
 #include "field/field_map.h"
+#include "field/zone.h"
 #include "gfl/arc.h"
 #include "gfl/heap.h"
 #include "gfl/std.h"
@@ -91,6 +92,36 @@ void MapMatrix_Patch(MapMatrix *matrix, GameSystem *gsys, HeapID heapId) {
         }
     }
     MapReplace_Free(replace);
+}
+
+void ProcessMapMatrix(MapMatrix *matrix, MapMatrixFileHeader *data, u32 matrixId, u16 zoneId) {
+    u16 width;
+    u16 height;
+    u32 *chunkIds;
+    u16 *zoneIds;
+    u32 *zones;
+    u32 i;
+
+    matrix->zoneId = zoneId;
+    width = data->width;
+    height = data->height;
+    matrix->matrixId = matrixId;
+    matrix->width = width;
+    matrix->height = height;
+    matrix->chunkIdCount = width * height;
+    matrix->format = data->format;
+    chunkIds = data->chunkIds;
+    sys_memcpy32(chunkIds, matrix->chunkIds, matrix->chunkIdCount * sizeof(u32));
+    zoneIds = matrix->zoneIds;
+    if (matrix->format == 1) {
+        zones = &chunkIds[matrix->chunkIdCount];
+        for (i = 0; i < matrix->chunkIdCount; i++) {
+            zoneIds[i] = zones[i];
+            zoneIds[i] = GetVersionedMapChangeZoneNum2(zoneIds[i]);
+        }
+    } else {
+        sys_memset16(zoneId, zoneIds, sizeof(matrix->zoneIds));
+    }
 }
 
 u32 GetChunkCoordOfWorld(s32 coordinate) {
