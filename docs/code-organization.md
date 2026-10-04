@@ -54,7 +54,8 @@ every section.
   they are a reference rather than copied as they are. A type that swan doesn't name gets a name from its owner,
   such as `ResortNPC` in `resort_npc.c`, and structs with the same layout and purpose are one type.
 
-`ninja format` formats `src/` and `include/` with clang-format, using `.clang-format`. `compile_flags.txt` makes
+`ninja format` formats `src/`, `include/` and `lib/` with clang-format, using `.clang-format`; prefer running
+`clang-format -i` on the files you changed, since clang-format releases disagree. `compile_flags.txt` makes
 clangd check the code as 32-bit ARM.
 
 ## Names

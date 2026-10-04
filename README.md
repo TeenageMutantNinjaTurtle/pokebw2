@@ -95,6 +95,11 @@ to the original bytes. Matching is checked per function with [objdiff](https://g
 | [Scripts](docs/scripts.md) | The trainer AI and field scripts built from source, and their macros |
 | [dsd configs and the ROM](docs/configs.md) | Fixing and regenerating the configs, the DSi's differences, known gaps |
 
+## Contributing
+
+Contributions are welcome. [CONTRIBUTING.md](CONTRIBUTING.md) has the workflow and the rules. CI compiles every C
+file for both versions; matching is checked locally by `ninja`, since it needs the ROMs.
+
 ## License
 
 This project is licensed under the GNU General Public License v3.0, see [LICENSE](LICENSE). The symbol names imported

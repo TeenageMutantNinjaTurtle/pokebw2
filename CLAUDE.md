@@ -4,7 +4,8 @@ A matching decompilation of Pokémon Black 2 and White 2 (NDS/DSi, MWCC `dsi/1.1
 pokeemerald and then a native PC port. **The README and `docs/` are the source of truth**: setup in the README,
 the workflow and tools in `docs/decompiling.md`, MWCC's behavior in `docs/matching.md`, files, headers and names in
 `docs/code-organization.md`, and the configs in `docs/configs.md`. This file holds the rules that sessions get wrong
-and points to the skills that carry the procedures.
+and points to the skills that carry the procedures. `CONTRIBUTING.md` has the same rules for human contributors: when
+a rule here changes, change it there too.
 
 ## Rules
 
