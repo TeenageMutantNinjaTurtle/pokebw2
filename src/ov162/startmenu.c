@@ -13,21 +13,25 @@
 #include "constants/sound.h"
 #include "field/zone.h"
 #include "gfl/arc.h"
+#include "gfl/arc_util.h"
+#include "gfl/bg_sys.h"
+#include "gfl/bmp.h"
 #include "gfl/bmp_menu.h"
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"
 #include "gfl/graphics.h"
+#include "gfl/gx_layers.h"
 #include "gfl/heap.h"
-#include "gfl/input.h"
+#include "gfl/key.h"
 #include "gfl/msg.h"
 #include "gfl/net.h"
 #include "gfl/overlay.h"
-#include "gfl/print.h"
 #include "gfl/proc.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
 #include "gfl/str.h"
 #include "gfl/tcb.h"
+#include "gfl/tcbl.h"
 #include "gfl/wipe.h"
 #include "nitro/gx.h"
 #include "nitro/hw.h"
@@ -39,8 +43,12 @@
 #include "save/player_info.h"
 #include "save/pokedex.h"
 #include "save/save_control.h"
+#include "system/app_keycursor.h"
 #include "system/dsi.h"
 #include "system/game_system.h"
+#include "system/gf_font.h"
+#include "system/printsys.h"
+#include "system/text_speed.h"
 
 // The menu after the title screen. Its items scroll on the main engine's BGs 1 and 2, and the sub engine shows the
 // saved game. Picking an item ends the menu, and its exit starts what the item leads to
@@ -1497,7 +1505,7 @@ static void StartMenu_HideSavedGame(StartMenuWork *wk) {
     s32 i;
 
     for (i = WINDOW_SAVED_GAME; i <= WINDOW_KEYS + 2; i++) {
-        func_020484b4(wk->windows[i].window);
+        BmpWin_ClearScreen(wk->windows[i].window);
     }
     func_0204c124(wk->actors[ACTOR_KEYS], FALSE);
     func_0204c124(wk->actors[ACTOR_KEYS + 1], FALSE);

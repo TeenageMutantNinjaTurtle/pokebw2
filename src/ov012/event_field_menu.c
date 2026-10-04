@@ -7,9 +7,9 @@
 #include "field/player_action.h"
 #include "field/subscreen.h"
 #include "field/zone.h"
-#include "gfl/input.h"
 #include "gfl/std.h"
 #include "system/game_data.h"
+#include "gfl/ui.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
 

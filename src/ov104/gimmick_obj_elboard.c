@@ -5,12 +5,16 @@
 #include "gfl/arc.h"
 #include "gfl/heap.h"
 #include "gfl/msg.h"
-#include "gfl/input.h"
+#include "gfl/key.h"
+#include "gfl/touchpanel.h"
+#include "gfl/ui.h"
 #include "gfl/str.h"
 #include "field/field.h"
 #include "field/field_camera.h"
 #include "field/field_task.h"
 #include "nitro/fx.h"
+#include "system/gf_font.h"
+#include "system/printsys.h"
 #include "system/version.h"
 
 
@@ -188,7 +192,7 @@ ElboardMessage *func_ov104_021efe88(Elboard *state, ElboardMessageArg *arg, u32 
     message->scoreboard = ElScoreboard_Create(GFL_G3DMdlGetTexResource(GFL_G3DActorGetMdl(state->actor)), arg->name, arg->plName, text, (u16)(state->unk04 * 14), 1, state->heapId);
     GFL_HeapFree(text);
     GFL_MsgDataFree(msgData);
-    frameCount = GFL_G3DAnmGetRenderObj(GFL_G3DActorGetAnm(state->actor, arg->kind))->resAnm->numFrame << FX32_SHIFT;
+    frameCount = NNS_G3dAnmObjGetNumFrame(GFL_G3DAnmGetRenderObj(GFL_G3DActorGetAnm(state->actor, arg->kind)));
     start = state->unk04 * 13;
     end = start + width;
     length = end - start;

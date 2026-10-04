@@ -5,6 +5,7 @@
 #include "field/event_make.h"
 #include "gfl/heap.h"
 #include "gfl/net.h"
+#include "gfl/net_command.h"
 #include "gfl/overlay.h"
 #include "gfl/proc.h"
 #include "save/save_control.h"

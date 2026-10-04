@@ -716,7 +716,7 @@ void FieldPropResInstance_AnmSetPlayInv(FieldPropResInstance *instance, u32 anim
         GFL_G3DActorBindAnm(instance->actor, index);
         animationObj = GFL_G3DActorGetAnm(instance->actor, index);
         renderObj = GFL_G3DAnmGetRenderObj(animationObj);
-        frame = renderObj->resAnm->numFrame << 12;
+        frame = NNS_G3dAnmObjGetNumFrame(renderObj);
         GFL_G3DActorSetAnmFrame(instance->actor, index, &frame);
         instance->animationState[offset + i] = 4;
         i++;

@@ -6,6 +6,7 @@ symbol of every other version through the version maps. `--apply` renames every 
 regenerate_configs.py runs after importing names from swan.
 
     rename_symbol.py func_ov035_0217ed70 ElScoreboard_Create
+    rename_symbol.py --file renames.txt
     rename_symbol.py --apply
 """
 import argparse
@@ -123,11 +124,35 @@ def rename_in_sources(old_names: list[str], new: str):
                 print(f"updated {path.relative_to(ROOT)}")
 
 
+def rename(old: str, new: str, pairs, names: list) -> list:
+    """Renames a symbol in every version and the sources, and returns the updated names."""
+    if not IDENTIFIER_RE.match(new):
+        sys.exit(f"{new!r} is not a valid identifier")
+    found = find_symbol(PRIMARY, old)
+    if found is None:
+        sys.exit(f"{old} is not a symbol in {PRIMARY}")
+    for version in [PRIMARY, *OTHERS]:
+        if name_in_use(version, new):
+            sys.exit(f"{new} is already a symbol in {version}")
+
+    module, addr = found
+    old_names = apply(module, addr, new, pairs)
+    # A default name is not recorded, so renaming a symbol back to it removes its entry
+    names = [n for n in names if (n[0], n[1]) != (module, addr)]
+    if not DEFAULT_NAME_RE.match(new):
+        names.append((module, addr, new))
+    save_names(names)
+    rename_in_sources(old_names, new)
+    print(f"{old} -> {new} ({module} {addr:#010x})")
+    return names
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("old", nargs="?", help="current name in the primary version")
     parser.add_argument("new", nargs="?", help="new name")
     parser.add_argument("--apply", action="store_true", help="apply every rename in config/names.txt")
+    parser.add_argument("--file", type=Path, help="rename each `old new` pair, one to a line, of a file")
     args = parser.parse_args()
 
     pairs = load_pairs()
@@ -138,27 +163,16 @@ def main():
             apply(module, addr, name, pairs)
         print(f"applied {len(names)} names")
         return
+    if args.file:
+        for line in args.file.read_text().splitlines():
+            if line.strip():
+                old, new = line.split()
+                names = rename(old, new, pairs, names)
+        return
 
     if not args.old or not args.new:
-        parser.error("give the old and new names, or --apply")
-    if not IDENTIFIER_RE.match(args.new):
-        sys.exit(f"{args.new!r} is not a valid identifier")
-    found = find_symbol(PRIMARY, args.old)
-    if found is None:
-        sys.exit(f"{args.old} is not a symbol in {PRIMARY}")
-    for version in [PRIMARY, *OTHERS]:
-        if name_in_use(version, args.new):
-            sys.exit(f"{args.new} is already a symbol in {version}")
-
-    module, addr = found
-    old_names = apply(module, addr, args.new, pairs)
-    # A default name is not recorded, so renaming a symbol back to it removes its entry
-    names = [n for n in names if (n[0], n[1]) != (module, addr)]
-    if not DEFAULT_NAME_RE.match(args.new):
-        names.append((module, addr, args.new))
-    save_names(names)
-    rename_in_sources(old_names, args.new)
-    print(f"{args.old} -> {args.new} ({module} {addr:#010x})")
+        parser.error("give the old and new names, a --file of them, or --apply")
+    rename(args.old, args.new, pairs, names)
 
 
 if __name__ == "__main__":

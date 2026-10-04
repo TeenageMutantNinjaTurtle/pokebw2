@@ -1,6 +1,7 @@
 #include "types.h"
 #include "field/field_lens_flare.h"
 #include "gfl/arc.h"
+#include "gfl/arc_util.h"
 #include "gfl/heap.h"
 #include "system/aeabi.h"
 

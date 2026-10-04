@@ -1,14 +1,17 @@
 #include "types.h"
 #include "demo/egg_demo.h"
+#include "gfl/bg_sys.h"
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"
 #include "gfl/g3d.h"
 #include "gfl/graphics.h"
+#include "gfl/gx_layers.h"
 #include "gfl/msg.h"
 #include "gfl/std.h"
 #include "gfl/tcb.h"
 #include "nitro/fx.h"
 #include "nitro/gx.h"
+#include "system/gf_font.h"
 
 // The egg demo's BGs, cell actors and 3D system
 

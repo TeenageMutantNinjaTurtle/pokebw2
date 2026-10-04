@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "app/ov287.h"
+#include "gfl/bg_sys.h"
 #include "gfl/clact.h"
 #include "gfl/graphics.h"
 #include "gfl/heap.h"

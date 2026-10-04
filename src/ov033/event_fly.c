@@ -9,6 +9,7 @@
 #include "field/zone.h"
 #include "gfl/fade.h"
 #include "gfl/graphics.h"
+#include "gfl/gx_layers.h"
 #include "gfl/std.h"
 #include "save/player_info.h"
 #include "struct_decls.h"

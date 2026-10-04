@@ -12,6 +12,7 @@
 #include "field/field_event.h"
 #include "gfl/heap.h"
 #include "gfl/net.h"
+#include "gfl/net_command.h"
 #include "gfl/overlay.h"
 #include "gfl/proc.h"
 #include "gfl/sound.h"

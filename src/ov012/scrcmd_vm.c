@@ -4,7 +4,7 @@
 #include "field/field_sound.h"
 #include "field/field_status.h"
 #include "field/player_state.h"
-#include "gfl/input.h"
+#include "gfl/key.h"
 #include "save/event_work.h"
 #include "system/game_data.h"
 #include "system/game_system.h"

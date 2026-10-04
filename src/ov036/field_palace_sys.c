@@ -2,6 +2,7 @@
 #include "field/field_palace.h"
 #include "field/zone.h"
 #include "gfl/arc.h"
+#include "gfl/arc_util.h"
 #include "gfl/heap.h"
 #include "gfl/std.h"
 #include "save/event_work.h"

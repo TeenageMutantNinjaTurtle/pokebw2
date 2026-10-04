@@ -4,6 +4,7 @@
 Relocated bytes (calls and pointers) are ignored, since the probe objects are not linked.
 """
 import argparse
+import difflib
 import re
 import shlex
 import subprocess
@@ -18,6 +19,9 @@ from elftools.elf.relocation import RelocationSection
 
 ROOT = Path(__file__).resolve().parents[2]
 TOOLS = ROOT / "tools"
+sys.path.insert(0, str(ROOT))
+from configure import LIB_COMPILERS  # noqa: E402
+
 DEFAULT_FLAGS = (
     "-O4,p -proc arm946e -thumb -interworking -enum int -char signed -fp soft -lang=c99 -Cpp_exceptions off -gccext,on -gccinc "
     "-inline on,noauto -ipa file -requireprotos -nolink -msgstyle gcc -w off"
@@ -25,6 +29,18 @@ DEFAULT_FLAGS = (
 # Preprocessor defines of each game version, as in configure.py
 VERSION_DEFINES = {"b2_us": ["BLACK2"], "w2_us": ["WHITE2"]}
 SYMBOL_RE = re.compile(r"^(\S+) kind:function\((\w+),size=(0x[0-9a-f]+)[^)]*\) addr:(0x[0-9a-f]+)")
+
+
+def lib_compiler(source: Path) -> tuple[str, str] | None:
+    """Returns the compiler and flags of a library built with its own, as in configure.py."""
+    try:
+        relative = source.resolve().relative_to(ROOT).as_posix()
+    except ValueError:
+        return None
+    for prefix, (compiler, flags) in LIB_COMPILERS.items():
+        if relative.startswith(prefix):
+            return compiler, " ".join(flags) + " -w off"
+    return None
 
 
 def load_modules(version: str) -> dict[str, tuple[Path, int]]:
@@ -92,21 +108,53 @@ def disassemble(data: bytes, address: int, thumb: bool) -> list[str]:
     return [f"{i.address:08x}: {i.mnemonic} {i.op_str}" for i in md.disasm(data, address)]
 
 
+def aligned_diff(ours: list[str], theirs: list[str]) -> list[str]:
+    """Returns the hunks that differ between two disassemblies, aligned by difflib so that an instruction added or
+    left out shifts nothing after it. Addresses, branch targets and literal pool offsets are ignored."""
+
+    def key(line: str) -> str:
+        ins = line.split(": ", 1)[-1]
+        ins = re.sub(r"#0x[0-9a-f]{7}\b", "#ADDR", ins)
+        return re.sub(r"\[pc, #0x[0-9a-f]+\]", "[pc]", ins)
+
+    a, b = [key(line) for line in ours], [key(line) for line in theirs]
+    lines = []
+    for tag, i1, i2, j1, j2 in difflib.SequenceMatcher(None, a, b, autojunk=False).get_opcodes():
+        if tag == "equal":
+            continue
+        lines.append(f"@@ ours {ours[i1][:8] if i1 < len(ours) else '-'} / original {theirs[j1][:8] if j1 < len(theirs) else '-'}")
+        for k in range(max(i2 - i1, j2 - j1)):
+            lines.append(f"  {a[i1 + k] if i1 + k < i2 else '':40s} | {b[j1 + k] if j1 + k < j2 else ''}")
+    return lines
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("source", type=Path)
     parser.add_argument("--version", default="b2_us", help="game version")
     parser.add_argument(
         "--compilers",
-        default="all",
-        help="comma-separated dsi compiler versions, or 'all'; "
-        "other builds by their directory under tools/mwccarm, as in 2.0/sp2p2",
+        help="comma-separated dsi compiler versions, or 'all' (the default); "
+        "other builds by their directory under tools/mwccarm, as in 2.0/sp2p2. "
+        "A library with its own compiler in configure.py defaults to that one and its flags",
     )
-    parser.add_argument("--flags", default=DEFAULT_FLAGS)
+    parser.add_argument("--flags")
     parser.add_argument("--extra-flags", default="", help="flags appended to --flags")
     parser.add_argument("--opt", help="optimization flags replacing -O4,p, e.g. -O4,s")
     parser.add_argument("--show-diff", help="compiler version to show a disassembly diff for")
+    parser.add_argument("--functions", help="comma-separated functions to report, and to diff; all by default")
+    parser.add_argument("--mismatches", action="store_true", help="leave out the functions every compiler matches")
+    parser.add_argument("--align", action="store_true",
+                        help="show only the differing hunks of the diff, aligned so that one instruction more or less "
+                        "does not shift the rest")
     args = parser.parse_args()
+
+    lib = lib_compiler(args.source)
+    if args.compilers is None:
+        args.compilers = lib[0] if lib else "all"
+    if args.flags is None:
+        args.flags = lib[1] if lib else DEFAULT_FLAGS
+    functions = set(args.functions.split(",")) if args.functions else None
 
     if args.opt:
         args.flags = args.flags.replace("-O4,p", args.opt)
@@ -133,6 +181,8 @@ def main():
                 print(f"{compiler}: compile failed\n{proc.stdout}{proc.stderr}")
                 continue
             for name, (data, masked) in compiled_functions(obj).items():
+                if functions is not None and name not in functions:
+                    continue
                 original = find_function(args.version, name, modules)
                 if original is None:
                     results.setdefault(name, {})[compiler] = "unknown"
@@ -149,6 +199,9 @@ def main():
                     ours = disassemble(data, addr, thumb)
                     theirs = disassemble(orig_data, addr, thumb)
                     print(f"--- {name} ({compiler}): ours | original")
+                    if args.align:
+                        print("\n".join(aligned_diff(ours, theirs)))
+                        continue
                     for i in range(max(len(ours), len(theirs))):
                         a = ours[i] if i < len(ours) else ""
                         b = theirs[i] if i < len(theirs) else ""
@@ -158,6 +211,8 @@ def main():
     width = max((len(n) for n in results), default=8)
     print(f"{'function':{width}s}  " + "  ".join(f"{c:>12s}" for c in compilers))
     for name, row in results.items():
+        if args.mismatches and all(status == "MATCH" for status in row.values()):
+            continue
         print(f"{name:{width}s}  " + "  ".join(f"{row.get(c, '-'):>12s}" for c in compilers))
 
 

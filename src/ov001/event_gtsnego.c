@@ -7,6 +7,7 @@
 #include "field/field_event.h"
 #include "gfl/heap.h"
 #include "gfl/net.h"
+#include "gfl/net_state.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
 #include "pml/poke_party.h"

@@ -337,7 +337,7 @@ from:0x0219e6c2 kind:thumb_call to:0x02048d28 module:main
 from:0x0219e6fe kind:thumb_call to:0x0204a5c8 module:main
 from:0x0219e708 kind:load to:0x0219e39d module:overlay(305)
 from:0x0219e70c kind:load to:0x0219ea38 module:overlay(305)
-from:0x0219e710 kind:load to:0x02094a3c module:main
+from:0x0219e710 kind:load to:0x020946bc add:0x380 module:main
 from:0x0219e714 kind:load to:0x0219ea50 module:overlay(305)
 from:0x0219e718 kind:load to:0x0219ea44 module:overlay(305)
 from:0x0219e724 kind:thumb_call to:0x0204a630 module:main

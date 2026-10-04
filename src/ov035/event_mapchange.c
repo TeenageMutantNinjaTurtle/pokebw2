@@ -23,7 +23,9 @@
 #include "gfl/graphics.h"
 #include "gfl/heap.h"
 #include "gfl/net.h"
+#include "gfl/net_system.h"
 #include "gfl/overlay.h"
+#include "gfl/rtc_cache.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
 #include "nitro/fx.h"
@@ -42,7 +44,6 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 #include "system/new_game.h"
-#include "system/rtc.h"
 #include "system/season.h"
 
 struct EventGameOpening {
@@ -370,8 +371,8 @@ GameEvent *EventFieldContinue_Create(GameSystem *gsys, GameSystemProcData *procD
     trainerCard = getTrainerCardDataBlkAddress(wk->gameData);
     if (!hasClockNotBeenTampered(adventure)) {
         setNewDayForCountdown(getSaveAdventureTimeBlock(save));
-        setSecondsCurrentTimeInTrainerCard(trainerCard,
-                                           RTC_ConvertSecondsCached(func_ov012_02164428(wk->gameData, party)));
+        func_ov012_02164428(wk->gameData, party);
+        setSecondsCurrentTimeInTrainerCard(trainerCard, RTC_ConvertSecondsCached());
     }
     setAdvTimeBlkRtcOffsetOwnerMacBdayMonthDay(adventure);
     TransformVsPokePartyBySeason(wk->gameData, party, GameData_GetSeason(wk->gameData));

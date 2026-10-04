@@ -5,13 +5,13 @@
 #include "gfl/heap.h"
 #include "nitro/fx.h"
 #include "nitro/gx.h"
+#include "nnsys/g2d.h"
 #include "struct_decls.h"
 
 // MCSS, the system that draws Pokémon and trainer sprites from multi-cell animations. It is mcss.c in the main module
 
 typedef struct MCSSSystem MCSSSystem;
 typedef struct MCSS MCSS;
-typedef struct NNSG2dAnimController NNSG2dAnimController;
 
 // The archive and files of a sprite's graphics, as SetupPokemonLoaderFSTool fills it in
 typedef struct {
@@ -73,11 +73,6 @@ void func_020618c0(NNSG2dAnimController *controller);
 void func_0201c290(MCSS *mcss);
 // Adds the sprite of a party Pokémon
 MCSS *func_0201c14c(MCSSSystem *system, PartyPkm *pkm, u32 a2, fx32 x, fx32 y, fx32 z);
-
-// NitroSystem's callbacks of an animation controller, which get a parameter and the current frame
-typedef void (*NNSG2dAnmCallBackPtr)(u32 param, fx32 frame);
-#define NNS_G2D_ANMCALLBACKTYPE_LAST_FRM 1
-void NNS_G2dSetAnimCtrlCallBackFunctor(NNSG2dAnimController *controller, u32 type, u32 param, NNSG2dAnmCallBackPtr func);
 
 // SetupPokemonLoaderByBoxData for a party Pokémon
 void func_0201bfdc(PartyPkm *pkm, MCSSLoadInfo *info, u32 a2);

@@ -7,28 +7,36 @@
 #include "field/player_state.h"
 #include "field/zone.h"
 #include "gfl/arc.h"
+#include "gfl/arc_util.h"
+#include "gfl/bg_sys.h"
+#include "gfl/bmp.h"
 #include "gfl/bmp_menu.h"
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"
 #include "gfl/fade.h"
 #include "gfl/graphics.h"
 #include "gfl/heap.h"
-#include "gfl/input.h"
+#include "gfl/key.h"
 #include "gfl/msg.h"
 #include "gfl/net.h"
 #include "gfl/overlay.h"
-#include "gfl/print.h"
 #include "gfl/proc.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
 #include "gfl/str.h"
 #include "gfl/tcb.h"
+#include "gfl/tcbl.h"
+#include "gfl/touchpanel.h"
+#include "gfl/ui.h"
 #include "nitro/hw.h"
 #include "pml/poke_party.h"
 #include "save/pokedex.h"
 #include "save/records.h"
 #include "save/save_control.h"
 #include "system/game_data.h"
+#include "system/gf_font.h"
+#include "system/printsys.h"
+#include "system/text_speed.h"
 
 // The egg hatching process: its steps, the music, the message and the question whether to give a nickname
 
@@ -680,7 +688,7 @@ static BOOL EggDemo_IsPrintDone(EggDemoParam *param, EggDemoWork *wk) {
 
 // The yes/no dialog goes where some characters are free
 static void EggDemo_InitDialog(EggDemoParam *param, EggDemoWork *wk) {
-    u16 pos = GFL_BGSysAllocChar(1, 0x500, 1);
+    u32 pos = GFL_BGSysAllocChar(1, 0x500, 1);
 
     GFL_BGSysFreeCharMemory(1, pos, 0x500);
     wk->dialogSetup.bg = 1;

@@ -14,12 +14,14 @@
 #include "gfl/msg.h"
 #include "gfl/net.h"
 #include "gfl/overlay.h"
+#include "gfl/tcbl.h"
 #include "nitro/gx.h"
 #include "nitro/hw.h"
 #include "gfl/sound.h"
 #include "gfl/str.h"
 #include "gfl/tcb.h"
 #include "pml/waza.h"
+#include "system/gf_font.h"
 
 typedef BOOL (*BtlvSubProcFn)(s32 *seq, void *arg);
 

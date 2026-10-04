@@ -12,7 +12,7 @@
 #include "field/field_script.h"
 #include "field/field_surf.h"
 #include "field/funfest_scripts.h"
-#include "gfl/input.h"
+#include "gfl/key.h"
 #include "gfl/random.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"

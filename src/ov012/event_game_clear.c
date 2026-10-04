@@ -11,6 +11,7 @@
 #include "field/field_script_event.h"
 #include "field/subscreen.h"
 #include "gfl/graphics.h"
+#include "gfl/gx_layers.h"
 #include "gfl/overlay.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"

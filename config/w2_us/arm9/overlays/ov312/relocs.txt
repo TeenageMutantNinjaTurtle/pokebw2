@@ -370,7 +370,7 @@ from:0x0217e59a kind:thumb_call to:0x0204a664 module:main
 from:0x0217e5a4 kind:load to:0x0217ed2c module:overlay(312)
 from:0x0217e5a8 kind:load to:0x0217ec2c module:overlay(312)
 from:0x0217e5ac kind:load to:0x0217ec20 module:overlay(312)
-from:0x0217e5b0 kind:load to:0x02094a68 module:main
+from:0x0217e5b0 kind:load to:0x020946e8 add:0x380 module:main
 from:0x0217e5d2 kind:thumb_call to:0x0204a688 module:main
 from:0x0217e5da kind:thumb_call to:0x0204a6c8 module:main
 from:0x0217e5e6 kind:thumb_call to:0x0204a6f4 module:main

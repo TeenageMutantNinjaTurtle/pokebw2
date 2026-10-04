@@ -2,6 +2,7 @@
 #define POKEBW2_GFL_OVERLAY_H
 
 #include "types.h"
+#include "gfl/heap.h"
 
 // The linker script defines OVERLAY_<n>_ID for every overlay, so that overlay IDs in the code are relocations
 #define OVERLAY_ID(n) ((u32)OVERLAY_##n##_ID)
@@ -353,6 +354,9 @@ extern u32 OVERLAY_341_ID[];
 extern u32 OVERLAY_342_ID[];
 extern u32 OVERLAY_343_ID[];
 
+// The overlay manager (gf_overlay.c), with room for as many overlays loaded at once to main memory, ITCM and DTCM
+void GFL_OvlManagerInit(HeapID heapId, u32 mainCount, u32 itcmCount, u32 dtcmCount);
+// Loads an overlay, unless it would overwrite one that is loaded. OVERLAY_NONE loads nothing
 BOOL GFL_OvlLoad(u32 overlayId);
 void GFL_OvlUnload(u32 overlayId);
 

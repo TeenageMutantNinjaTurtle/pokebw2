@@ -1,5 +1,6 @@
 #include "types.h"
 #include "field/field_disp_control.h"
+#include "gfl/bg_sys.h"
 #include "gfl/graphics.h"
 #include "gfl/heap.h"
 #include "gfl/std.h"

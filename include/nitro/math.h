@@ -29,4 +29,21 @@ static inline u32 MATH_Rand32(MATHRandContext32 *context, u32 max) {
     }
 }
 
+// CRC-16/CCITT through a table, and SHA-1
+typedef struct {
+    u16 table[256];
+} MATHCRC16Table;
+
+typedef struct {
+    u8 data[0x60];
+} MATHSHA1Context;
+
+#define MATH_SHA1_DIGEST_SIZE 20
+
+void MATH_CRC16CCITTInitTable(MATHCRC16Table *table, u16 poly);
+u16 MATH_CalcCRC16CCITT(const MATHCRC16Table *table, const void *data, u32 size);
+void MATH_SHA1Init(MATHSHA1Context *context);
+void MATH_SHA1Update(MATHSHA1Context *context, const void *data, u32 size);
+void MATH_SHA1GetHash(MATHSHA1Context *context, void *digest);
+
 #endif // POKEBW2_NITRO_MATH_H

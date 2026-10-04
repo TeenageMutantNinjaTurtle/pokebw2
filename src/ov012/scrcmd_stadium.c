@@ -6,6 +6,7 @@
 #include "field/trainer_script.h"
 #include "field/zone.h"
 #include "gfl/arc.h"
+#include "gfl/arc_util.h"
 #include "gfl/heap.h"
 #include "gfl/random.h"
 #include "system/game_data.h"

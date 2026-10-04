@@ -5,11 +5,18 @@
 #include "field/field.h"
 #include "field/field_actor.h"
 #include "gfl/arc.h"
+#include "gfl/arc_util.h"
 #include "gfl/bmpwin.h"
 #include "gfl/graphics.h"
-#include "gfl/input.h"
+#include "gfl/key.h"
+#include "gfl/touchpanel.h"
+#include "gfl/ui.h"
 #include "gfl/msg.h"
-#include "gfl/print.h"
+#include "system/printsys.h"
+#include "system/time_icon.h"
+#include "system/text_speed.h"
+#include "system/app_keycursor.h"
+#include "system/gf_font.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
 #include "gfl/str.h"
@@ -89,7 +96,7 @@ GameEventReturnCode func_ov033_02178d10(GameEvent *event, u32 *state, void *data
         break;
     case 4:
         if (func_ov036_021883e8(work->talkWindow) == TRUE) {
-            func_0203d10c(8);
+            GCTX_HIDBlockSleep(8);
             setupMic(21);
             work->waitIcon = func_02035604(GFL_VBlankGetTCBMgr(), func_ov036_02188494(work->talkWindow), 15, 16, 21);
             *state = 5;
@@ -117,7 +124,7 @@ GameEventReturnCode func_ov033_02178d10(GameEvent *event, u32 *state, void *data
                 func_ov036_02188474(work->talkWindow);
                 func_ov036_021883b0(work->talkWindow, 0, 0, work->strbuf);
                 ampOffFreeBlocks();
-                func_0203d134(8);
+                GCTX_HIDUnblockSleep(8);
                 GameEvent_ChainNext(event, EventPushBGMFinish_Create(work->gsys, 0, 30));
                 *state = 12;
             }
@@ -127,7 +134,7 @@ GameEventReturnCode func_ov033_02178d10(GameEvent *event, u32 *state, void *data
         if (work->recorded == TRUE) {
             func_02006ec0(work->chatter);
             ampOffFreeBlocks();
-            func_0203d134(8);
+            GCTX_HIDUnblockSleep(8);
             GameEvent_ChainNext(event, EventPushBGMFinish_Create(work->gsys, 0, 30));
             *state = 8;
         }

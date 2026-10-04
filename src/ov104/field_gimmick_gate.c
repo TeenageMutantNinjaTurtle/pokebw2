@@ -9,6 +9,7 @@
 #include "field/field_script.h"
 #include "field/zone.h"
 #include "gfl/arc.h"
+#include "gfl/calctool.h"
 #include "gfl/g3d.h"
 #include "gfl/heap.h"
 #include "gfl/msg.h"

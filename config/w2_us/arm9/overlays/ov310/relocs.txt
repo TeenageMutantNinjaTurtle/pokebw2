@@ -2460,12 +2460,12 @@ from:0x021a4f7e kind:thumb_call to:0x020656c4 module:main
 from:0x021a4fae kind:thumb_call_arm to:0x02073354 module:main
 from:0x021a4fd2 kind:thumb_call_arm to:0x02073c08 module:main
 from:0x021a4fde kind:thumb_call to:0x020657b8 module:main
-from:0x021a4ff8 kind:load to:0x02143c8c module:main
-from:0x021a4ffc kind:load to:0x02143c98 module:main
-from:0x021a5000 kind:load to:0x02143ca4 module:main
-from:0x021a5004 kind:load to:0x02143a98 module:main
-from:0x021a5008 kind:load to:0x02143acc module:main
-from:0x021a500c kind:load to:0x02143a54 module:main
+from:0x021a4ff8 kind:load to:0x02143a4c add:0x240 module:main
+from:0x021a4ffc kind:load to:0x02143a4c add:0x24c module:main
+from:0x021a5000 kind:load to:0x02143a4c add:0x258 module:main
+from:0x021a5004 kind:load to:0x02143a4c add:0x4c module:main
+from:0x021a5008 kind:load to:0x02143a4c add:0x80 module:main
+from:0x021a500c kind:load to:0x02143a4c add:0x8 module:main
 from:0x021a5038 kind:thumb_call to:0x021a5068 module:overlay(310)
 from:0x021a503e kind:thumb_call to:0x021a5080 module:overlay(310)
 from:0x021a5044 kind:thumb_call to:0x021a5090 module:overlay(310)

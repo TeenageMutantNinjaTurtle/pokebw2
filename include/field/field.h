@@ -255,7 +255,7 @@ void FieldG3D_RenderPhase1(Field *field);
 void FieldG3D_RenderPhase2(Field *field);
 void FieldG3D_Free(Field *field);
 void FldActSys_AsyncMatLoadTCBFunc(TCB *tcb, void *data);
-void FldActSys_VRAMUploadFunc(u32 type, u32 dest, const void *src, u32 size);
+void FldActSys_VRAMUploadFunc(BOOL type, u32 dest, void *src, u32 size);
 void Field_LoadEdgeColorTable(AreaData *area, u16 zoneId);
 void Field_LoadActorMatColorPreset(Field *field);
 void Field_InitActorSystem(Field *field);

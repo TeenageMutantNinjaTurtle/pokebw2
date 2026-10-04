@@ -3,11 +3,13 @@
 #include "field/field.h"
 #include "field/field_script.h"
 #include "field/survey.h"
+#include "gfl/bg_sys.h"
 #include "gfl/bmpwin.h"
 #include "gfl/graphics.h"
-#include "gfl/input.h"
+#include "gfl/key.h"
 #include "gfl/msg.h"
 #include "gfl/random.h"
+#include "gfl/rtc_cache.h"
 #include "gfl/std.h"
 #include "gfl/str.h"
 #include "save/save_control.h"
@@ -15,7 +17,6 @@
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
-#include "system/rtc.h"
 
 // The options a survey can pick, with the score each needs and its probability in percent
 static const SurveyProbabilityEntry sProbabilities[0xe0] = {
@@ -186,7 +187,7 @@ BOOL func_ov027_021704e0(VM *vm, FieldScriptEnv *env) {
         func_0200caa8(info, i, 0);
     }
     // The original call passes the value already in r0 without setting up a new argument.
-    setSecondsCurrentTimeInTrainerCard(info, ((s64 (*)(void))RTC_ConvertSecondsCached)());
+    setSecondsCurrentTimeInTrainerCard(info, RTC_ConvertSecondsCached());
     return FALSE;
 }
 

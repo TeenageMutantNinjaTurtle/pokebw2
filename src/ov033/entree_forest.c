@@ -1,4 +1,5 @@
 #include "types.h"
+#include "gfl/arc_util.h"
 #include "system/game_data.h"
 #include "save/player_info.h"
 #include "pml/poke_party.h"

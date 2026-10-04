@@ -53,7 +53,9 @@
 #include "gfl/g3d.h"
 #include "gfl/graphics.h"
 #include "gfl/heap.h"
-#include "gfl/input.h"
+#include "gfl/key.h"
+#include "gfl/touchpanel.h"
+#include "gfl/ui.h"
 #include "gfl/msg.h"
 #include "gfl/net.h"
 #include "gfl/overlay.h"
@@ -71,6 +73,7 @@
 #include "system/game_comm.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+#include "system/gf_font.h"
 #include "system/main.h"
 #include "system/rtc.h"
 
@@ -438,7 +441,7 @@ u32 FieldRoutine_Run(GameSystem *gsys, Field *field) {
         func_0204b794();
         return 0;
     }
-    func_0203d5b8();
+    GCTX_HIDResetFrameCount();
     Field_CheckDoRealTimeLoad(field);
     if (!GSYS_GetEventRunningFlag(gsys)) {
         field->ctrlVTable->update(field, &field->playerPos);
@@ -817,7 +820,7 @@ void FieldG2D_Prepare3DSurface(Field *field) {
     MtxFx22 mtx;
 
     MAT2_SetScaleRot(&mtx, 0, FX32_ONE, FX32_ONE, 0);
-    gfxRegSetBGTransform(&reg_G2_BG2PA, &mtx, 0, 0, 0, 0);
+    G2_SetBG2Affine(&mtx, 0, 0, 0, 0);
     GFL_BGSysSet3DBGPriority(3);
     func_ov036_02187760(field->msgBGSys);
 }
@@ -826,7 +829,7 @@ void func_ov036_02180630(Field *field) {
     MtxFx22 mtx;
 
     MAT2_SetScaleRot(&mtx, 0, FX32_ONE, FX32_ONE, 0);
-    gfxRegSetBGTransform(&reg_G2_BG2PA, &mtx, 0, 0, 0, 0);
+    G2_SetBG2Affine(&mtx, 0, 0, 0, 0);
     GFL_BGSysSet3DBGPriority(3);
     func_ov036_0218776c(field->msgBGSys);
 }
@@ -949,7 +952,7 @@ void FldActSys_AsyncMatLoadTCBFunc(TCB *tcb, void *data) {
     }
 }
 
-void FldActSys_VRAMUploadFunc(u32 type, u32 dest, const void *src, u32 size) {
+void FldActSys_VRAMUploadFunc(BOOL type, u32 dest, void *src, u32 size) {
     gfxUploadAsync(type == 0 ? 0 : 1, dest, src, size);
 }
 

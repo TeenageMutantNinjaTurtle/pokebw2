@@ -7,6 +7,7 @@
 #include "field/field_script_supervisor.h"
 #include "field/player_state.h"
 #include "field/zone.h"
+#include "gfl/arc_util.h"
 #include "gfl/heap.h"
 #include "gfl/net.h"
 #include "gfl/std.h"

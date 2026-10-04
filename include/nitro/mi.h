@@ -20,4 +20,12 @@ static inline void MI_SetMainMemoryPriority(MIProcessor proc) {
     reg_MI_EXMEMCNT = (u16)((reg_MI_EXMEMCNT & ~REG_MI_EXMEMCNT_EP_MASK) | (proc << REG_MI_EXMEMCNT_EP_SHIFT));
 }
 
+// Decompresses LZ77 data, which starts with a word holding its decompressed size in its upper 24 bits.
+// NitroSDK's MI_UncompressLZ8
+void sys_uncomp_lz1x(const void *src, void *dest);
+
+static inline u32 MI_GetUncompressedSize(const void *src) {
+    return *(u32 *)src >> 8;
+}
+
 #endif // POKEBW2_NITRO_MI_H

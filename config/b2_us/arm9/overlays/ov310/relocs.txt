@@ -2460,12 +2460,12 @@ from:0x021a4f3e kind:thumb_call to:0x02065698 module:main
 from:0x021a4f6e kind:thumb_call_arm to:0x02073328 module:main
 from:0x021a4f92 kind:thumb_call_arm to:0x02073bdc module:main
 from:0x021a4f9e kind:thumb_call to:0x0206578c module:main
-from:0x021a4fb8 kind:load to:0x02143c4c module:main
-from:0x021a4fbc kind:load to:0x02143c58 module:main
-from:0x021a4fc0 kind:load to:0x02143c64 module:main
-from:0x021a4fc4 kind:load to:0x02143a58 module:main
-from:0x021a4fc8 kind:load to:0x02143a8c module:main
-from:0x021a4fcc kind:load to:0x02143a14 module:main
+from:0x021a4fb8 kind:load to:0x02143a0c add:0x240 module:main
+from:0x021a4fbc kind:load to:0x02143a0c add:0x24c module:main
+from:0x021a4fc0 kind:load to:0x02143a0c add:0x258 module:main
+from:0x021a4fc4 kind:load to:0x02143a0c add:0x4c module:main
+from:0x021a4fc8 kind:load to:0x02143a0c add:0x80 module:main
+from:0x021a4fcc kind:load to:0x02143a0c add:0x8 module:main
 from:0x021a4ff8 kind:thumb_call to:0x021a5028 module:overlay(310)
 from:0x021a4ffe kind:thumb_call to:0x021a5040 module:overlay(310)
 from:0x021a5004 kind:thumb_call to:0x021a5050 module:overlay(310)

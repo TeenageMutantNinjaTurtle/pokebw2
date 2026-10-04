@@ -24,6 +24,12 @@
 // VBlank counter in shared memory, from the DSi mirror of main memory
 #define HW_VBLANK_COUNT_BUF 0x02fffc3c
 
+static inline BOOL OS_DisableIrq(void) {
+    u16 prev = reg_OS_IME;
+    reg_OS_IME = 0;
+    return prev;
+}
+
 static inline BOOL OS_EnableIrq(void) {
     u16 prev = reg_OS_IME;
     reg_OS_IME = 1;

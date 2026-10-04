@@ -5,6 +5,7 @@
 #include "field/field_lens_flare.h"
 #include "field/field_map.h"
 #include "field/zone.h"
+#include "gfl/arc_util.h"
 #include "gfl/g3d.h"
 #include "gfl/heap.h"
 #include "gfl/random.h"
@@ -198,7 +199,7 @@ void FieldLensFlare_Load(FieldExpObjSystem *expObjSys, FieldLensFlareData *data,
         if (resourceId != 0xffff) {
             resources[resourceCount].arcId = 0xe8;
             resources[resourceCount].fileId = resourceId;
-            resources[resourceCount].unk8 = 0;
+            resources[resourceCount].type = G3D_SCENE_RES_ARCSYS;
             resourceIndices[resourceCount] = index;
             resourceCount++;
         }
@@ -208,8 +209,8 @@ void FieldLensFlare_Load(FieldExpObjSystem *expObjSys, FieldLensFlareData *data,
         animations[animationIndex].index = 0;
     }
     actor.modelResource = 0;
-    actor.unk2 = 0;
-    actor.unk4 = 0;
+    actor.modelIndex = 0;
+    actor.texResource = 0;
     actor.animations = animations;
     actor.animationCount = resourceCount - 1;
     scene.resources = resources;

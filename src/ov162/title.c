@@ -6,25 +6,31 @@
 #include "constants/arc.h"
 #include "constants/species.h"
 #include "gfl/arc.h"
+#include "gfl/arc_util.h"
+#include "gfl/bg_sys.h"
+#include "gfl/bmp.h"
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"
 #include "gfl/fade.h"
 #include "gfl/g3d.h"
 #include "gfl/graphics.h"
+#include "gfl/gx_layers.h"
 #include "gfl/heap.h"
-#include "gfl/input.h"
+#include "gfl/key.h"
 #include "gfl/msg.h"
 #include "gfl/overlay.h"
-#include "gfl/print.h"
 #include "gfl/proc.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
 #include "gfl/str.h"
 #include "gfl/tcb.h"
+#include "gfl/tcbl.h"
 #include "nitro/fx.h"
 #include "nitro/gx.h"
 #include "nitro/hw.h"
 #include "nitro/os.h"
+#include "system/gf_font.h"
+#include "system/printsys.h"
 #include "system/version.h"
 
 // The title screen: a 3D scene under a camera that follows a curve, with 2D layers over it. The main engine draws to
@@ -643,9 +649,9 @@ static void TitleObj_Init(TitleObj *obj, HeapID heapId) {
     obj->cellAnims = func_0204bde0(arc, 6, 7, heapId);
     setup.x = 128;
     setup.y = 96;
-    setup.unk4 = 0;
-    setup.unk7 = 0;
-    setup.unk6 = 0;
+    setup.sequence = 0;
+    setup.bgPriority = 0;
+    setup.priority = 0;
     obj->actor = func_0204c040(obj->unit, obj->chars, obj->palette, obj->cellAnims, &setup, 1, heapId);
     func_0204c520(obj->actor, TRUE);
     GFL_BGSysSetBGEnabledB(GX_PLANEMASK_OBJ, TRUE);

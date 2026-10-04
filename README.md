@@ -48,13 +48,18 @@ trainer AI, and everything else is still delinked code. The trainer AI scripts a
    `ninja` extracts each base ROM, delinks the code, links it with `mwldarm`, rebuilds the ROM and checks its SHA1.
    `configure.py` builds every version that has a base ROM, or the versions given as arguments.
 
+5. Optionally, `python3 configure.py --bugfix` builds the ROMs with the game's bugs fixed, those marked with `BUGFIX`
+   in the source. These ROMs don't match, so the build skips the checks. Only files marked `complete` are built from
+   source, so fixes in the others don't apply yet. Run `configure.py` without it to go back to the matching build.
+
 ## Layout
 
 | Path | Contents |
 | --- | --- |
 | `config/<version>/` | dsd configs: sections (`delinks.txt`), symbols and relocations for every module |
 | `config/names.txt`, `config/fixes.txt` | Our own names and fixes to dsd's analysis, applied again after regenerating the configs |
-| `src/<module>/` | Decompiled C, one directory per module, such as `src/ov035/event_mapchange.c` |
+| `src/ovNNN/` | Decompiled C of each overlay, such as `src/ov035/event_mapchange.c` |
+| `src/gfl/`, `src/system/`, `src/spl/` | Decompiled C of the ARM9 main module, by library like the headers, such as `src/gfl/heap.c` |
 | `include/` | Headers shared by the C code, see [Code organization](#code-organization) |
 | `data/` | Scripts assembled into the ROM's files, see [Scripts](#scripts) and [Field scripts](#field-scripts) |
 | `include/asm/` | Macros for the scripts |
@@ -96,6 +101,7 @@ The ROM was not necessarily built with one compiler. The Pokémon Black decomp b
 built with other versions (`2.0/sp2p2` and `1.2`), so try them on library code that doesn't match. `configure.py`
 extracts only the `dsi` compilers; the others are in `build/mwccarm.zip`. Extracted to `tools/mwccarm`, they can be
 named by directory, as in `compiler_probe.py --compilers 2.0/sp2p2`, and `1.2` needs `--flags` without `-ipa file`.
+`configure.py` downloads a library's compiler when `LIB_COMPILERS` lists it.
 Game code needs the `dsi` builds: the evolution demo's view matches 36 of its 56 functions with every `2.0` build and
 25 with `1.2`.
 
@@ -128,7 +134,16 @@ The current C mismatches and attempted translations still in assembly are tracke
 
 `tools/scripts/add_source_file.py` adds a source file to both versions' `delinks.txt`, with White 2's ranges taken
 from the version map. `tools/scripts/compiler_probe.py src/... --compilers 1.1 --show-diff 1.1` compiles a file and
-diffs every function in it against the original.
+diffs every function in it against the original. A library that `configure.py` builds with its own compiler, such
+as SPL with `1.2/base`, gets that compiler and its flags by default. `--mismatches` leaves out the functions that
+match, and `--functions` limits the table and diffs to the functions named. `--align` shows only the hunks of the
+diff that differ, aligned so that an instruction more or less does not shift everything after it, which is what makes
+a long function's diff readable.
+
+`tools/scripts/try_variants.py src/... FUNC variants.c` puts each variant of a function, separated by lines of
+`=====`, in place of its definition and probes it with the file's compiler, keeping the first that matches. `--score`
+adds each variant's count of differing aligned lines, to tell apart variants of the same size.
+`rename_symbol.py --file` renames each `old new` pair, one per line, of a file.
 
 Things that affect whether MWCC output matches:
 
@@ -303,12 +318,18 @@ Things that affect whether MWCC output matches:
   `u8` or `u16` promotes to a signed `int`, so `(u8)id % 5u` is the unsigned one, and so is a `u16` divided by a
   `u32`. Compare the built overlay in `build/<version>/build`
   with the original to find it.
+- NitroSDK's inline functions take enums, such as `GXBGColorMode`, and the BG system's `GFL_BGSysCreateBG` only loads
+  every argument of `G2_SetBG0Control` before shifting any with enum parameters. `nitro/gx.h` keeps the SDK's types for
+  this reason.
+- A NULL check written on a field, `if (bgs[bg].screen != NULL) { void *screen = bgs[bg].screen; ... }`, gives
+  different stack slots from the same check on a local loaded before it, as `GFL_BGSysLoadScrCore` shows.
 - When the order of instructions differs and no source change moves it, try `tools/scripts/permuter_setup.py`, which
-  prepares a function for [decomp-permuter](https://github.com/simonlindholm/decomp-permuter).
+  prepares a function for [decomp-permuter](https://github.com/simonlindholm/decomp-permuter). Its result can point to
+  a plain change: `GFL_BGSysAllocChar`'s registers only matched with its tile size, a `u8` from a call, in an `int`.
 
 ## Scripts
 
-The script VM in `src/main/vm.c` runs four sets of commands: field events, the trainer AI, battle move animations and
+The script VM in `src/system/vm.c` runs four sets of commands: field events, the trainer AI, battle move animations and
 musicals. Scripts are files in the ROM's NARC archives. Each command is a 16-bit ID followed by its arguments.
 
 The trainer AI scripts are built from source. Archive `a/1/6/9` holds 14 scripts, one per AI flag, which run in turn
@@ -487,7 +508,11 @@ every section.
   is linked until then, as with `src/ov059/scrcmd_resort.c`. Never split a file into several entries to link the
   matching parts early, and never put two original files in one entry.
 - The C file holds its functions in address order. A function that doesn't match yet stays in the file as the closest
-  C found, so objdiff shows how far off it is.
+  C found, so objdiff shows how far off it is. Library code built with another compiler can differ: SPL's compiler
+  emits a file's functions in reverse source order, so `src/spl/` files hold theirs in reverse address order.
+- An overlay's files go in `src/ovNNN/`. The main module's files go by library, mirroring `include/`: `src/gfl/` (Game
+  Freak's library), `src/system/` (the game's own code), `src/spl/`, and later `src/nitro/` and `src/nnsys/`. A
+  library's private header stays with its sources, as `src/spl/spl_internal.h` does.
 - `tools/scripts/source_files.py OVERLAY` finds the boundaries: it lists the embedded file names, the functions that
   refer to them, and how well each boundary between two functions keeps every section's data references in file
   order and the calls inside one file.
@@ -498,7 +523,8 @@ every section.
   A layout is defined once: two files that need the same struct share it through the owner's header, and a partial
   layout with padding is still the one definition.
 - Headers are grouped like the game's code: `system/` (game system, game data, events), `field/`, `save/`, `gfl/`
-  (Game Freak's library), `pml/` (Pokémon data), `battle/`, `demo/`, `nitro/` (NitroSDK), `dsprot/` and `constants/`.
+  (Game Freak's library), `pml/` (Pokémon data), `battle/`, `demo/`, `dsprot/` and `constants/`, and by library:
+  `nitro/` (NitroSDK), `nnsys/` (NitroSystem: FND, G2D, G3D and GFD) and `spl/` (the SPL particle library).
   A header is named after the original file that owns its declarations, or after swan's header for it, such as
   `field/field_3dci.h`.
 - Put functions, data and callback tables used across source files or overlays in the owning file's header. Declare
@@ -511,6 +537,8 @@ every section.
 - Functions only called within their file are `static` where linking permits it and declared at the top of the file,
   since `-requireprotos` requires a prototype for every function.
 - Event callbacks take `void *data`, as `GameEventCallback` does, and cast it to their work.
+- A bug gets a `// BUG:` comment on what goes wrong. Where a fix is clear, it goes in an `#ifdef BUGFIX` block next to
+  the original code, which stays in the `#else` branch, as in `bg_sys.c`'s `GFL_BGSysFlipTile`.
 - Names, layouts and constants from swan are marked as such. swan's headers are generated for hacking tools, so
   they are a reference rather than copied as they are. A type that swan doesn't name gets a name from its owner,
   such as `ResortNPC` in `resort_npc.c`, and structs with the same layout and purpose are one type.

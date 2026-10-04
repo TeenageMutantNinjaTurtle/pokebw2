@@ -10,7 +10,9 @@
 #include "field/trainer_script.h"
 #include "field/zone.h"
 #include "gfl/heap.h"
-#include "gfl/input.h"
+#include "gfl/key.h"
+#include "gfl/touchpanel.h"
+#include "gfl/ui.h"
 #include "gfl/random.h"
 #include "nitro/fx.h"
 #include "nitro/rtc.h"
@@ -384,10 +386,10 @@ BOOL func_ov012_02155bec(VM *vm, FieldScriptEnv *env) {
 
     switch (mode) {
     case 0:
-        func_0203d254(sSystemUIFlags[index]);
+        GCTX_HIDBlockSoftReset(sSystemUIFlags[index]);
         break;
     case 1:
-        func_0203d27c(sSystemUIFlags[index]);
+        GCTX_HIDUnblockSoftReset(sSystemUIFlags[index]);
         break;
     }
     return FALSE;

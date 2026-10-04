@@ -5,6 +5,7 @@
     source_files.py ov036 --profile START END # a boundary profile for every function in a range
     source_files.py ov036 --sections START END  # the data a text range refers to, per section
     source_files.py --markdown                # the tables of docs/source-files.md, for every overlay
+    source_files.py main                      # the same for ARM9 main
 
 Many functions pass their file's name to GFL_HeapAllocate or an assert, so the overlay embeds strings such as
 "resort_npc.c", in the .data of that file. Between two such anchors, the linker's layout gives the boundaries: every
@@ -28,8 +29,14 @@ SECTION_NAMES = (".text", ".rodata", ".data", ".bss")
 class Overlay:
     def __init__(self, name: str, version: str):
         self.name = name
-        self.number = int(name[2:])
-        config = ROOT / "config" / version / "arm9" / "overlays" / name
+        if name == "main":
+            self.module = "main"
+            config = ROOT / "config" / version / "arm9"
+            image_path = ROOT / "extract" / version / "arm9" / "arm9.bin"
+        else:
+            self.module = f"overlay({int(name[2:])})"
+            config = ROOT / "config" / version / "arm9" / "overlays" / name
+            image_path = ROOT / "extract" / version / "arm9_overlays" / f"{name}.bin"
         delinks = (config / "delinks.txt").read_text()
         self.sections = {}
         for match in re.finditer(r"^\s+(\.\w+)\s+start:0x([0-9a-f]+) end:0x([0-9a-f]+) kind", delinks, re.M):
@@ -46,7 +53,7 @@ class Overlay:
             match = re.match(r"from:0x([0-9a-f]+) kind:(\S+) to:0x([0-9a-f]+) module:(\S+)", line)
             if match:
                 self.relocs.append((int(match.group(1), 16), match.group(2), int(match.group(3), 16), match.group(4)))
-        image = (ROOT / "extract" / version / "arm9_overlays" / f"{name}.bin").read_bytes()
+        image = image_path.read_bytes()
         base = self.sections[".text"][0]
         self.strings = {base + m.start(): m.group(1).decode() for m in re.finditer(rb"([a-z_0-9]+\.c)\x00", image)}
         self.files = {}
@@ -75,7 +82,7 @@ class Overlay:
 
     def data_refs(self):
         """(function index, section, target) for each reference from code to this overlay's data."""
-        own = f"overlay({self.number})"
+        own = self.module
         refs = []
         for source, _, target, module in self.relocs:
             if module == own and self.in_text(source):
@@ -85,7 +92,7 @@ class Overlay:
         return refs
 
     def calls(self):
-        own = f"overlay({self.number})"
+        own = self.module
         out = []
         for source, kind, target, module in self.relocs:
             if "call" in kind and module == own and self.in_text(source) and self.in_text(target):
@@ -214,7 +221,7 @@ def print_markdown(version: str):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("overlay", nargs="?", help="for example ov036")
+    parser.add_argument("overlay", nargs="?", help="for example ov036, or main")
     parser.add_argument("--version", default="b2_us")
     parser.add_argument("--profile", nargs=2, metavar=("START", "END"))
     parser.add_argument("--sections", nargs=2, metavar=("START", "END"))

@@ -11,6 +11,7 @@
 #include "pml/item.h"
 #include "pml/personal.h"
 #include "pml/poke_party.h"
+#include "pml/species_names.h"
 #include "save/box.h"
 #include "save/player_info.h"
 #include "save/pokedex.h"

@@ -4,7 +4,7 @@
 mwccarm's `-gccdep -MD` writes paths like `Z:\\home\\...\\include\\types.h`. This rewrites the file in place with the
 drive letter removed and forward slashes, keeping the backslashes that continue lines.
 
-    fix_depfile.py build/b2_us/src/main/vm.d
+    fix_depfile.py build/b2_us/src/gfl/vm.d
 """
 import re
 import sys

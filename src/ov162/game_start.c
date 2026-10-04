@@ -5,11 +5,15 @@
 #include "constants/sound.h"
 #include "constants/species.h"
 #include "demo/intro.h"
+#include "gfl/arc_util.h"
+#include "gfl/bg_sys.h"
+#include "gfl/bmp.h"
 #include "gfl/bmpwin.h"
 #include "gfl/fade.h"
 #include "gfl/graphics.h"
+#include "gfl/gx_layers.h"
 #include "gfl/heap.h"
-#include "gfl/input.h"
+#include "gfl/key.h"
 #include "gfl/msg.h"
 #include "gfl/overlay.h"
 #include "gfl/proc.h"
@@ -17,6 +21,7 @@
 #include "gfl/sound.h"
 #include "gfl/std.h"
 #include "gfl/str.h"
+#include "gfl/touchpanel.h"
 #include "gfl/wipe.h"
 #include "nitro/fx.h"
 #include "nitro/gx.h"
@@ -26,6 +31,8 @@
 #include "save/save_control.h"
 #include "save/save_control_intr.h"
 #include "system/game_system.h"
+#include "system/gf_font.h"
+#include "system/printsys.h"
 
 // Starting the game: a new game runs the intro and the name entries while it creates the save data, and a continue
 // loads the save. Both then start the game system. A debug screen, whose questions are blank outside Japan, can set

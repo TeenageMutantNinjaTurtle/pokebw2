@@ -840,7 +840,7 @@ from:0x021ababc kind:thumb_call to:0x0204a5c8 module:main
 from:0x021abacc kind:load to:0x021ad318 module:overlay(186)
 from:0x021abad0 kind:load to:0x021ad27c module:overlay(186)
 from:0x021abad4 kind:load to:0x021ad270 module:overlay(186)
-from:0x021abad8 kind:load to:0x02094a3c module:main
+from:0x021abad8 kind:load to:0x020946bc add:0x380 module:main
 from:0x021abaea kind:thumb_call to:0x0204a630 module:main
 from:0x021abafe kind:thumb_call to:0x02049f4c module:main
 from:0x021abb0e kind:thumb_call to:0x02049ddc module:main

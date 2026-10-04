@@ -1,5 +1,6 @@
 #include "types.h"
 #include "gfl/net.h"
+#include "gfl/net_command.h"
 #include "gfl/net_sync.h"
 
 const NetSyncCommand data_ov164_021999e8 = {func_ov164_02199984, NULL};

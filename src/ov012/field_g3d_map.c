@@ -421,8 +421,8 @@ void FieldChunk_LinkMdlTex(NNSG3dRenderObj *model, void *resource, void *texture
         tex = NNS_G3DResGetTexBlock(texFile);
     }
     if (tex != NULL) {
-        func_020653fc(mdl, tex);
-        func_02065524(mdl, tex);
+        NNS_G3dBindMdlTex(mdl, tex);
+        NNS_G3dBindMdlPltt(mdl, tex);
     }
     NNS_G3DModelAttachResource(model, mdl);
 }

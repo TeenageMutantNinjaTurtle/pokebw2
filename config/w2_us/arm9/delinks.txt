@@ -4,7 +4,351 @@
     .data       start:0x020990c0 end:0x0209d780 kind:data align:32
     .bss        start:0x0209d780 end:0x0214f540 kind:bss align:32
 
-src/main/vm.c:
+src/system/vm.c:
     complete
     .text       start:0x0201587c end:0x02015a90
     .data       start:0x0209a338 end:0x0209a340
+
+src/gfl/bg_sys.c:
+    complete
+    .text       start:0x020444d0 end:0x02046c0c
+    .data       start:0x0209aeec end:0x0209aef8
+    .bss        start:0x0214194c end:0x02141950
+
+src/gfl/gx_layers.c:
+    complete
+    .text       start:0x02046c0c end:0x02046e54
+    .bss        start:0x02141950 end:0x02141958
+
+src/gfl/bmp.c:
+    .text       start:0x02046e54 end:0x020480ac
+    .data       start:0x0209aef8 end:0x0209af00
+
+src/gfl/bmp_win.c:
+    complete
+    .text       start:0x020480ac end:0x02048538
+    .data       start:0x0209af00 end:0x0209af0c
+    .bss        start:0x02141958 end:0x0214195c
+
+src/gfl/strbuf.c:
+    complete
+    .text       start:0x02048538 end:0x02048788
+    .data       start:0x0209af0c end:0x0209af1c
+
+src/gfl/msgdata.c:
+    .text       start:0x02048788 end:0x02048bbc
+    .data       start:0x0209af1c end:0x0209af28
+    .bss        start:0x0214195c end:0x02141960
+
+src/gfl/systemfont.c:
+    complete
+    .text       start:0x02048bbc end:0x02048d54
+    .rodata     start:0x020933bc end:0x02093dec
+    .data       start:0x0209af28 end:0x0209af38
+    .bss        start:0x02141960 end:0x02141964
+
+src/gfl/arc_tool.c:
+    .text       start:0x0204a7d0 end:0x0204adb4
+    .data       start:0x0209af70 end:0x0209afc4
+    .bss        start:0x02141970 end:0x0214197c
+
+src/gfl/arc_util.c:
+    complete
+    .text       start:0x0204adb4 end:0x0204b6d4
+    .rodata     start:0x02093e48 end:0x02093e70
+    .data       start:0x0209afc4 end:0x0209afd0
+
+src/gfl/textprint.c:
+    complete
+    .text       start:0x0204dcd0 end:0x0204dfd0
+    .rodata     start:0x02093f6c end:0x02093fac
+    .data       start:0x0209b028 end:0x0209b034
+    .bss        start:0x02141980 end:0x02141984
+
+src/gfl/fade.c:
+    complete
+    .text       start:0x0204dfd0 end:0x0204e188
+    .data       start:0x0209b034 end:0x0209b03c
+    .bss        start:0x02141984 end:0x02141988
+
+src/gfl/double3Ddisp.c:
+    complete
+    .text       start:0x0204e188 end:0x0204e3bc
+    .data       start:0x0209b03c end:0x0209b04c
+    .bss        start:0x02141988 end:0x0214198c
+
+src/gfl/button_man.c:
+    complete
+    .text       start:0x02050478 end:0x0205063c
+    .rodata     start:0x020940d4 end:0x020940dc
+    .data       start:0x0209b074 end:0x0209b084
+
+src/gfl/calctool.c:
+    complete
+    .text       start:0x0205063c end:0x020508e4
+
+src/gfl/str_sjis.c:
+    complete
+    .text       start:0x020508e4 end:0x02050a6c
+
+src/gfl/areaman.c:
+    .text       start:0x0203c410 end:0x0203ca50
+    .rodata     start:0x02092f78 end:0x0209328c
+    .data       start:0x0209a9cc end:0x0209a9d8
+
+src/gfl/vman.c:
+    complete
+    .text       start:0x0203ca50 end:0x0203cb90
+    .rodata     start:0x0209328c end:0x020932fc
+    .data       start:0x0209a9d8 end:0x0209a9e0
+
+src/gfl/gf_overlay.c:
+    .text       start:0x0203cd78 end:0x0203d038
+    .data       start:0x0209a9e4 end:0x0209a9fc
+    .bss        start:0x021418c0 end:0x021418c4
+
+src/gfl/ui.c:
+    complete
+    .text       start:0x0203d038 end:0x0203d688
+    .data       start:0x0209a9fc end:0x0209aa04
+    .bss        start:0x021418c4 end:0x021418cc
+
+src/gfl/touchpanel.c:
+    .text       start:0x0203d688 end:0x0203dc70
+    .data       start:0x0209aa04 end:0x0209aa14
+    .bss        start:0x021418cc end:0x021418d0
+
+src/gfl/key.c:
+    .text       start:0x0203dc70 end:0x0203dfec
+    .data       start:0x0209aa14 end:0x0209aa1c
+
+src/gfl/assert.c:
+    complete
+    .text       start:0x0203cb90 end:0x0203cbdc
+    .bss        start:0x021418a4 end:0x021418b4
+
+src/gfl/debug_print.c:
+    complete
+    .text       start:0x0203cbdc end:0x0203cd78
+    .data       start:0x0209a9e0 end:0x0209a9e4
+    .bss        start:0x021418b4 end:0x021418c0
+
+src/gfl/gf_standard.c:
+    complete
+    .text       start:0x02043e6c end:0x0204419c
+    .data       start:0x0209aedc end:0x0209aeec
+    .bss        start:0x02141900 end:0x02141904
+
+src/gfl/tcb.c:
+    .text       start:0x0203a528 end:0x0203a700
+
+src/gfl/tcbl.c:
+    .text       start:0x0203a700 end:0x0203a944
+    .data       start:0x0209a8ac end:0x0209a8b4
+
+src/gfl/procsys.c:
+    complete
+    .text       start:0x0203a944 end:0x0203abd8
+    .data       start:0x0209a8b4 end:0x0209a8c0
+    .bss        start:0x02141898 end:0x0214189c
+
+src/gfl/heapsys.c:
+    complete
+    .text       start:0x02039aac end:0x0203a0d0
+    .bss        start:0x0214185c end:0x0214186c
+
+src/gfl/heap_dtcm.c:
+    complete
+    .text       start:0x0203a0d0 end:0x0203a15c
+    .bss        start:0x0214186c end:0x02141878
+
+src/gfl/heap.c:
+    complete
+    .text       start:0x0203a15c end:0x0203a528
+    .data       start:0x0209a898 end:0x0209a8ac
+    .bss        start:0x02141878 end:0x02141898
+
+src/gfl/savedata.c:
+    complete
+    .text       start:0x0203c220 end:0x0203c410
+    .data       start:0x0209a93c end:0x0209a9cc
+
+src/gfl/backup_card.c:
+    complete
+    .text       start:0x0203bfa8 end:0x0203c220
+    .data       start:0x0209a918 end:0x0209a93c
+    .bss        start:0x021418a0 end:0x021418a4
+
+src/gfl/backup_system.c:
+    .text       start:0x0203abd8 end:0x0203bfa8
+    .data       start:0x0209a8c0 end:0x0209a918
+    .bss        start:0x0214189c end:0x021418a0
+
+src/gfl/net_ring_buff.c:
+    complete
+    .text       start:0x0203dfec end:0x0203e180
+    .data       start:0x0209aa1c end:0x0209aa30
+
+src/gfl/net_queue.c:
+    complete
+    .text       start:0x0203e180 end:0x0203e4cc
+    .data       start:0x0209aa30 end:0x0209aa60
+
+src/gfl/wm_icon.c:
+    .text       start:0x0203e4cc end:0x0203e8f4
+    .rodata     start:0x020932fc end:0x0209331c
+    .data       start:0x0209aa60 end:0x0209aa94
+    .bss        start:0x021418d0 end:0x021418d8
+
+src/gfl/net_system.c:
+    .text       start:0x0203e8f4 end:0x02040208
+    .data       start:0x0209aa94 end:0x0209aae0
+    .bss        start:0x021418d8 end:0x021418dc
+
+src/gfl/net_handle.c:
+    complete
+    .text       start:0x02040208 end:0x02040bc0
+    .data       start:0x0209aae0 end:0x0209ab64
+    .bss        start:0x021418dc end:0x021418e0
+
+src/gfl/net_command.c:
+    .text       start:0x02040bc0 end:0x02041180
+    .rodata     start:0x0209331c end:0x020933a4
+    .data       start:0x0209ab64 end:0x0209ac28
+    .bss        start:0x021418e0 end:0x021418e4
+
+src/gfl/net_state.c:
+    .text       start:0x02041180 end:0x020425cc
+    .data       start:0x0209ac28 end:0x0209ad24
+    .bss        start:0x021418e4 end:0x021418e8
+
+src/gfl/net.c:
+    complete
+    .text       start:0x020425cc end:0x02042fa0
+    .data       start:0x0209ad24 end:0x0209adbc
+    .bss        start:0x021418e8 end:0x021418f8
+
+src/gfl/net_irc_wireless.c:
+    .text       start:0x02042fa0 end:0x02043894
+    .data       start:0x0209adbc end:0x0209ae00
+    .bss        start:0x021418f8 end:0x021418fc
+
+src/gfl/net_lower_data.c:
+    complete
+    .text       start:0x02043894 end:0x02043e6c
+    .data       start:0x0209ae00 end:0x0209aedc
+    .bss        start:0x021418fc end:0x02141900
+
+src/gfl/rtc_cache.c:
+    complete
+    .text       start:0x0204419c end:0x02044330
+    .rodata     start:0x020933a4 end:0x020933bc
+    .bss        start:0x02141904 end:0x0214194c
+
+src/gfl/math_util.c:
+    complete
+    .text       start:0x02044330 end:0x020444d0
+
+src/gfl/g3d_camera.c:
+    complete
+    .text       start:0x0204a5f4 end:0x0204a71c
+    .data       start:0x0209af54 end:0x0209af64
+
+src/gfl/g3d_light.c:
+    complete
+    .text       start:0x0204a71c end:0x0204a7d0
+    .data       start:0x0209af64 end:0x0209af70
+
+src/gfl/g3d_util.c:
+    complete
+    .text       start:0x02049d50 end:0x0204a5f4
+    .data       start:0x0209af48 end:0x0209af54
+
+src/gfl/g3d_system.c:
+    .text       start:0x02048d54 end:0x02049d50
+    .rodata     start:0x02093dec end:0x02093e38
+    .data       start:0x0209af38 end:0x0209af48
+    .bss        start:0x02141964 end:0x02141970
+
+src/gfl/clact.c:
+    .text       start:0x0204b6d4 end:0x0204dcd0
+    .rodata     start:0x02093e70 end:0x02093f6c
+    .data       start:0x0209afd0 end:0x0209b028
+    .bss        start:0x0214197c end:0x02141980
+
+src/gfl/billboard.c:
+    .text       start:0x0204e3bc end:0x0204f124
+    .rodata     start:0x02093fac end:0x02094048
+    .data       start:0x0209b04c end:0x0209b058
+
+src/gfl/billboard_act.c:
+    .text       start:0x0204f124 end:0x0204f890
+    .rodata     start:0x02094048 end:0x02094064
+    .data       start:0x0209b058 end:0x0209b068
+
+src/gfl/particle.c:
+    complete
+    .text       start:0x0204f944 end:0x02050478
+    .rodata     start:0x02094064 end:0x020940d4
+    .data       start:0x0209b068 end:0x0209b074
+    .bss        start:0x02141990 end:0x02141994
+
+src/gfl/dma_vblank.c:
+    complete
+    .text       start:0x0204f890 end:0x0204f944
+    .bss        start:0x0214198c end:0x02141990
+
+src/spl/spl_list.c:
+    complete
+    .text       start:0x020568a4 end:0x020569c0
+
+src/spl/spl_random.c:
+    complete
+    .text       start:0x020569c0 end:0x02056a84
+    .bss        start:0x02141994 end:0x02141998
+
+src/spl/spl_behavior.c:
+    complete
+    .text       start:0x0205649c end:0x020568a4
+
+src/spl/spl_emit.c:
+    complete
+    .text       start:0x02054c28 end:0x0205605c
+    .data       start:0x0209b094 end:0x0209b09c
+
+src/spl/spl_anim.c:
+    complete
+    .text       start:0x0205605c end:0x0205649c
+
+src/spl/spl_emitter.c:
+    complete
+    .text       start:0x0205156c end:0x020523c0
+
+src/spl/spl_draw.c:
+    .text       start:0x020523c0 end:0x02054c28
+    .data       start:0x0209b084 end:0x0209b094
+
+src/spl/spl_manager.c:
+    complete
+    .text       start:0x02050a6c end:0x0205156c
+
+src/system/printsys.c:
+    .text       start:0x020219a0 end:0x02022d84
+    .data       start:0x0209a450 end:0x0209a45c
+    .bss        start:0x02141458 end:0x02141478
+
+src/system/gf_font.c:
+    .text       start:0x02022d84 end:0x02024200
+    .rodata     start:0x0209086c end:0x02090888
+    .data       start:0x0209a45c end:0x0209a468
+    .bss        start:0x02141478 end:0x02141688
+
+src/system/wordset.c:
+    complete
+    .text       start:0x02024200 end:0x02024a28
+    .data       start:0x0209a468 end:0x0209a474
+
+src/system/pml_species_names.c:
+    complete
+    .text       start:0x02024a28 end:0x02024a40
+    .data       start:0x0209a474 end:0x0209a478

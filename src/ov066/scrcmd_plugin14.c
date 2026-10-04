@@ -8,6 +8,7 @@
 #include "field/ov116.h"
 #include "field/ov132.h"
 #include "gfl/graphics.h"
+#include "gfl/gx_layers.h"
 #include "gfl/sound.h"
 #include "nitro/hw.h"
 #include "system/game_system.h"
