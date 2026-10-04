@@ -2383,6 +2383,150 @@ BOOL func_ov167_021a3448(BtlServerFlow *flow, BattleMon *mon, BattleMon *target,
     return result;
 }
 
+BOOL func_ov167_021a34a4(BtlServerFlow *flow, BattleMon *mon, BattleMon *target, u16 move) {
+    if (BtlSetup_GetBattleStyle(flow->mainModule) == 2) {
+        u8 pos1, pos2;
+        if (move != 0 && getMoveFlag(move, 0xb)) {
+            return FALSE;
+        }
+        pos1 = MonIDToBattlePos(flow->mainModule, flow->pokeCon, GetMonID(mon));
+        pos2 = MonIDToBattlePos(flow->mainModule, flow->pokeCon, GetMonID(target));
+        if (!IsAdjacentOpponent(pos1, pos2)) {
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+BOOL func_ov167_021a3504(BtlServerFlow *flow, BattleMon *mon, BattleMon *target, BtlFlowMoveParam *param) {
+    u8 ignore;
+    s8 accuracy;
+    u32 base;
+    s8 evasion;
+    u32 ratio;
+    s32 stage;
+    u32 chance;
+
+    if (IsGuaranteedHit(flow, mon, target)) {
+        return TRUE;
+    }
+    if (func_ov167_021aa4d0(flow, mon, target, param->move)) {
+        return TRUE;
+    }
+    if (CheckCondition(target, 0x20)) {
+        return TRUE;
+    }
+    base = func_ov167_021aa51c(flow, mon, target, param);
+
+    BattleEventVar_Push(0x13a6);
+    BattleEventVar_SetConstValue(3, GetMonID(mon));
+    BattleEventVar_SetConstValue(4, GetMonID(target));
+    BattleEventVar_SetRewriteOnceValue(0x4b, 0);
+    BattleEventVar_SetValue(0x27, GetBattleMonStat(mon, 6));
+    BattleEventVar_SetValue(0x28, GetBattleMonStat(target, 7));
+    BattleEventVar_SetMulValue(0x35, 0x1000, 0x29, 0x20000);
+    BattleEvent_CallHandlers(flow, 0x33);
+    accuracy = BattleEventVar_GetValue(0x27);
+    evasion = BattleEventVar_GetValue(0x28);
+    ignore = BattleEventVar_GetValue(0x4b);
+    if ((CheckCondition(target, 0x11) && evasion > 6) || ignore) {
+        evasion = 6;
+    }
+    if (GetTurnFlag(mon, 0xe)) {
+        BattleEventVar_MulValue(0x35, 0x1333);
+    }
+    ratio = BattleEventVar_GetValue(0x35);
+    BattleEventVar_Pop(0x13bf);
+
+    stage = accuracy + 6 - evasion;
+    if (stage < 0) {
+        stage = 0;
+    }
+    if (stage > 12) {
+        stage = 12;
+    }
+    chance = fixed_round(func_ov167_021bd11c((u8)base, (u8)(s8)stage), ratio);
+    if (chance > 100) {
+        chance = 100;
+    }
+    if (ReturnZero(flow->mainModule, 6)) {
+        chance = 100;
+    }
+    return BattleRandom(100) < (u8)chance;
+}
+
+void func_ov167_021a3674(BtlServerFlow *flow, u16 move, BattleMoveEffectState *effect, u32 reserved) {
+    u32 shown = effect->unk00 ? effect->unk00 : move;
+    func_ov167_021b14ec(flow->queue, (u16)reserved, 0x30, effect->pos1, effect->pos2, shown, effect->index);
+    effect->index = 0;
+    effect->unk05_1 = 1;
+}
+
+u32 func_ov167_021a36ac(BtlServerFlow *flow, BattleMon *mon, void *targets, u16 move) {
+    u32 state;
+    u32 result;
+
+    if (!CheckCondition(mon, 0x1a)) {
+        u8 pos = MonIDToBattlePos(flow->mainModule, flow->pokeCon, GetMonID(mon));
+        if (func_ov167_021aa1c4(flow, mon, targets)) {
+            func_ov167_021a9230(flow, mon, move);
+            return 1;
+        }
+        if (!func_ov167_021aa238(flow, mon, move)) {
+            if (func_ov167_021a37c8(flow, mon, pos, targets, move)) {
+                BattleCondition cond = AddTurnCondition(2, move);
+                ServerDisplay_AddCondition(flow, mon, 0x1a, cond);
+            }
+            return 2;
+        }
+        if (!func_ov167_021a37c8(flow, mon, pos, targets, move)) {
+            return 1;
+        }
+        state = PushState(&flow->actionState, 0x1414);
+        func_ov167_021aa390(flow, mon, move);
+        PopState(&flow->actionState, state, 0x1416);
+    }
+    flow->moveEffect->index = 1;
+    state = PushState(&flow->actionState, 0x141e);
+    result = func_ov167_021aa3c0(flow, mon, targets, move);
+    PopState(&flow->actionState, state, 0x1420);
+    func_ov167_021bb7c0(mon, 0xb);
+    func_ov167_021a3904(flow, mon);
+    return result ? 4 : 3;
+}
+
+BOOL func_ov167_021a37c8(BtlServerFlow *flow, BattleMon *mon, u8 pos, void *targets, u16 move) {
+    u32 state;
+    BOOL result;
+    BOOL failed = FALSE;
+    u8 id = 0x1f;
+
+    state = PushState(&flow->actionState, 0x1438);
+    result = func_ov167_021aa284(flow, mon, targets, move, &id, &failed);
+    if (result) {
+        u8 targetPos = flow->unk77F;
+        if (func_ov169_0689cec0(targets)) {
+            targetPos = GetBattlePos(flow->unk1ab8, GetMonID(func_ov169_0689cdf8(targets, 0)));
+        }
+        func_ov167_021b1434(flow->queue, 0x30, pos, targetPos, move, 0);
+    }
+    PopState(&flow->actionState, state, 0x1445);
+    if (result) {
+        state = PushState(&flow->actionState, 0x1449);
+        func_ov167_021aa360(flow, mon);
+        PopState(&flow->actionState, state, 0x144b);
+        if (IsSemiInvulnMove(mon)) {
+            func_ov167_021b1434(flow->queue, 0x31, GetMonID(mon), 1);
+        }
+        if (id != 0x1f) {
+            func_ov167_021b1434(flow->queue, 0x31, id, 1);
+        }
+    } else if (!failed) {
+        func_ov167_021a9230(flow, mon, move);
+    }
+    return result;
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));

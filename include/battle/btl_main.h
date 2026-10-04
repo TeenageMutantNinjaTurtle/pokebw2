@@ -273,7 +273,7 @@ u8 func_ov167_0219c9b0(BtlMainModule *mainModule);
 u32 func_ov167_0219c9c0(BtlMainModule *mainModule);
 void func_ov167_0219c9d4(BtlMainModule *mainModule);
 u32 func_ov167_0219c9e0(BtlMainModule *mainModule);
-u32 ReturnZero(void);
+u32 ReturnZero(BtlMainModule *mainModule, u32 flag);
 void func_ov167_0219ca60(BtlMainModule *mainModule);
 u32 func_ov167_0219ca78(BtlMainModule *mainModule);
 u32 func_ov167_0219caec(BtlMainModule *mainModule);

@@ -2273,7 +2273,7 @@ u32 func_ov167_0219c9e0(BtlMainModule *mainModule) {
     return 0;
 }
 
-u32 ReturnZero(void) {
+u32 ReturnZero(BtlMainModule *mainModule, u32 flag) {
     return 0;
 }
 
