@@ -31,10 +31,14 @@ scripts are built from source, see [Scripts](docs/scripts.md).
 
 1. Build dsd with DSi hybrid ROM support. Until the changes are upstreamed, it comes from these forks, both on the
    `dsi-hybrid` branch:
-   - `ds-rom`: DSi header, digests, modcrypt, TWL autoloads and DSi banners.
-   - `ds-decomp`: TWL entrypoint, DS Protect and Thumb jump table fixes. Its `Cargo.toml` patches in `../ds-rom/lib`.
+   - [`ds-rom`](https://github.com/fuddlesworth/ds-rom/tree/dsi-hybrid): DSi header, digests, modcrypt, TWL autoloads
+     and DSi banners.
+   - [`ds-decomp`](https://github.com/fuddlesworth/ds-decomp/tree/dsi-hybrid): TWL entrypoint, DS Protect and Thumb
+     jump table fixes. Its `Cargo.toml` patches in `../ds-rom/lib`, so clone both beside this repository.
 
    ```sh
+   git clone -b dsi-hybrid https://github.com/fuddlesworth/ds-rom ../ds-rom
+   git clone -b dsi-hybrid https://github.com/fuddlesworth/ds-decomp ../ds-decomp
    cd ../ds-decomp && cargo build --release && cp target/release/dsd ../pokebw2/tools/dsd
    ```
 
