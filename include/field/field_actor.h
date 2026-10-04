@@ -7,6 +7,7 @@
 #include "nitro/fx.h"
 #include "struct_decls.h"
 #include "system/game_event.h"
+#include "field/zone.h"
 
 // The directions that actors face and move in
 #define DIR_UP 0
@@ -22,6 +23,43 @@ typedef struct {
     s16 unk6;
 } GridPos;
 
+// The resources of an object code's model
+typedef struct {
+    u16 res1;
+    u16 res2;
+    u16 animations[3];
+} FieldActorResGroup;
+
+// An object code's record in ARCID_MMODEL_TBL, from 4 bytes into the file, at the index GetIndexOfObjID returns. Names
+// from swan's FieldActorConfig
+typedef struct {
+    u16 uid;
+    u8 entityType;
+    u8 sceneNodeType;
+    u8 enableShadow;
+    u8 footprintType;
+    u8 enableReflections;
+    u8 billboardSize;
+    u8 spriteAtlasSize;
+    u8 spriteControllerType;
+    u8 gender;
+    u8 collWidth;
+    u8 collHeight;
+    s8 wPosOffsetX;
+    s8 wPosOffsetY;
+    s8 wPosOffsetZ;
+    FieldActorResGroup rscIndices;
+    u16 padding;
+} FieldActorConfig;
+
+// An actor's place on a rail, from swan's ActorPositionRail. unk0 is ACTOR_RAIL_POS_SET once the place is set
+typedef struct {
+    u32 unk0;
+    RailPosition position;
+} ActorPositionRail;
+
+#define ACTOR_RAIL_POS_SET 0xefefefef
+
 // An actor of a zone's entities, from which actors are created. Names and layout from swan
 // (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
 // Field names from swan's ZoneNPCPositionGrid and ZoneNPCPositionRail.
@@ -34,7 +72,7 @@ struct ZoneNPCGridPosition {
 struct ZoneNPCRailPosition {
     u16 railIndex;
     u16 frontPos;
-    u16 sidePos;
+    s16 sidePos;
 };
 
 struct ZoneNPC {
@@ -82,7 +120,7 @@ u32 GetZoneNPCsCount(EventData *eventData);
 void SetZoneNPCLocation(EventData *eventData, u32 npcId, u16 direction, u16 x, s32 y, u16 z);
 void SetZoneNPCMdlID(EventData *eventData, u16 npcId, u16 objCode);
 void SetZoneNPCSCRID(EventData *eventData, u16 npcId, u16 scriptId);
-void GetNPCMdlInfoForOBJCODE(MMSys *actorSystem, u16 objCode, void *modelInfo);
+void GetNPCMdlInfoForOBJCODE(MMSys *actorSystem, u16 objCode, FieldActorConfig *config);
 void LoadMModelSystemInfoCache(MMSys *mmSys, s32 index);
 void SetActorFlag(FieldActor *actor, u32 flag);
 void SetActorMovementFlag(FieldActor *actor, u32 flag);
@@ -103,14 +141,6 @@ void func_ov036_021963a4(FieldActor *actor, u16 a1, u16 a2);
 // The field object code of a Pokémon walking in the field, in the main module
 u16 GetPokemonFieldOBJCODE(void *pokemonData, u16 species, u16 sex, u16 form);
 u32 GetIndexOfObjID(u16 objCode);
-// An object code's record in ARCID_MMODEL_TBL, from 4 bytes into the file, at the index GetIndexOfObjID returns
-typedef struct {
-    u8 unk0[9];
-    u8 unk9;
-    u8 unkA[6];
-    u16 unk10;
-    u8 unk12[10];
-} ObjCodeRecord;
 
 // Overlay 36's table that func_ov036_02194650 indexes, by a record's unk9
 typedef struct {
@@ -189,7 +219,7 @@ void ExpandVecInGridDir(u16 dir, VecFx32 *pos, fx32 distance);
 void func_ov012_021670f4(FieldActor *actor, u32 value);
 void func_ov012_02167564(FieldActor *actor, u32 value);
 // Sets x and z to the center of a tile, leaving y
-void ConvGXZToVector(u32 x, u32 z, VecFx32 *pos);
+void ConvGXZToVector(s16 x, s16 z, VecFx32 *pos);
 void SpawnAllZoneNPCs(MMSys *mmSys, ZoneNPC *npcs, s32 zoneId, u32 count, EventWork *eventWork);
 
 BOOL func_ov012_02166ecc(FieldActor *actor);
@@ -213,5 +243,135 @@ void func_ov012_02166764(MMSys *system);
 void func_ov012_021667cc(MMSys *system, u16 *cameraAngle);
 void func_ov012_02166d48(MMSys *system);
 void func_ov012_021673e0(MMSys *system, BOOL flag);
+
+BOOL CheckActorFlag(FieldActor *actor, u32 flag);
+u32 func_ov012_02166fe4(FieldActor *actor);
+BOOL CheckActorMovementFlag(FieldActor *actor, u32 flag);
+u16 GetActorMoveCode(FieldActor *actor);
+s16 GetActorWalkAreaW(FieldActor *actor);
+s16 GetActorWalkAreaH(FieldActor *actor);
+ActorPositionRail *GetNPCRailPosPtrAddr(FieldActor *actor);
+ActorPositionRail *ClearActorPositionBlock(FieldActor *actor, u32 size);
+// Call the move code's unk4 and unk8 functions
+void func_ov012_02167174(FieldActor *actor);
+void func_ov012_02167188(FieldActor *actor);
+void SetCachedTileUnderActor(FieldActor *actor, u32 tileType);
+void SetCachedOrigYTileUnderActor(FieldActor *actor, u32 tileType);
+u32 GetCachedTileUnderActor(FieldActor *actor);
+u32 GetCachedOrigYTileUnderActor(FieldActor *actor);
+s16 GetActorDefaultGPosX(FieldActor *actor);
+s16 GetActorDefaultGPosZ(FieldActor *actor);
+s16 FldAct_GetInitGPosX(FieldActor *actor);
+void SetActorInitialGPosX(FieldActor *actor, s16 x);
+s16 FldAct_GetInitGPosY(FieldActor *actor);
+void SetActorInitialGPosY(FieldActor *actor, s16 y);
+s16 FldAct_GetInitGPosZ(FieldActor *actor);
+void SetActorInitialGPosZ(FieldActor *actor, s16 z);
+void adjustXPos(FieldActor *actor, s16 dx);
+s16 FldAct_GetGPosY(FieldActor *actor);
+void SetActorGPosY(FieldActor *actor, s16 y);
+void adjustYPos(FieldActor *actor, s16 dz);
+fx32 GetActorPosY(FieldActor *actor);
+void func_ov012_0216736c(FieldActor *actor, const VecFx32 *offset);
+u8 GetActorCollWidth(FieldActor *actor);
+u8 GetActorCollHeight(FieldActor *actor);
+BOOL func_ov012_021673f8(MMSys *system);
+u32 func_ov012_0216748c(FieldActor *actor, u32 flag);
+// Sets movement flag 0x20
+void func_ov012_021674dc(FieldActor *actor);
+BOOL func_ov012_02167600(FieldActor *actor);
+BOOL func_ov012_02167614(FieldActor *actor);
+BOOL func_ov012_02167658(FieldActor *actor);
+// Sets or clears movement flag 0x40000, and whether it is set
+void func_ov012_021676bc(FieldActor *actor, BOOL value);
+BOOL func_ov012_021676d8(FieldActor *actor);
+BOOL func_ov012_021676f0(FieldActor *actor);
+void FldAct_SetReflectingFlag(FieldActor *actor, BOOL value);
+BOOL FldAct_CheckReflectingFlag(FieldActor *actor);
+BOOL func_ov012_021677a4(FieldActor *actor);
+BOOL func_ov012_021677f4(FieldActor *actor);
+const FieldActorConfig *GetActorMdlInfo(FieldActor *actor);
+u32 CheckMMSysFlag(MMSys *system, u32 flag);
+// Resets a strength boulder's saved position in a zone
+void func_ov012_02168258(MMSys *system, u16 zoneId, u32 index);
+void func_ov036_0218eff4(FieldActor *actor);
+void func_ov036_021925a4(FieldActor *actor);
+BOOL func_ov036_021925ac(FieldActor *actor);
+void SetActorInitedPositionRail(FieldActor *actor, const RailPosition *position);
+
+// What the terrain effects of an actor look at
+typedef struct {
+    u32 tileTypeOrigY;
+    u32 tileType;
+    u16 tileClassOrigY;
+    u16 tileClass;
+    u16 tileFlagsOrigY;
+    u16 tileFlags;
+    const FieldActorConfig *config;
+    void *effects;
+    u8 season;
+} ActorTerrainEffectParam;
+
+// Overlay 12's field_actor_tool.c
+void func_ov012_0215dabc(FieldActor *actor);
+void func_ov012_0215dad4(FieldActor *actor);
+void ActorTerrainEffect_ApplyAll(FieldActor *actor);
+// The collision flags at a grid position, with the world position's y
+u32 ActorRouteCollCheckCore(FieldActor *actor, const VecFx32 *position, s16 x, s16 y, s16 z, u16 dir);
+u32 ActorRouteCollCheck(FieldActor *actor, s16 x, s16 y, s16 z, u16 dir);
+BOOL CheckActorNewPosOtherActorCollision(FieldActor *actor, s16 x, s16 y, s16 z);
+BOOL CheckActorVolumeOverGPos(FieldActor *actor, s16 x, s16 z, BOOL checkInit);
+BOOL IsGPosOutsideActorWalkArea(FieldActor *actor, s16 x, s16 z);
+BOOL CheckBlockedCollPathToPosition(FieldActor *actor, u16 dir, VecFx32 position);
+BOOL GetTileTypeAtPosByActor(FieldActor *actor, const VecFx32 *position, u32 *tileType);
+BOOL GetHeightFromMap(FieldActor *actor, const VecFx32 *position, fx32 *height);
+void func_ov012_0215e8ec(FieldActor *actor, u16 dir);
+void SetActorInitialGPosToNowGPos(FieldActor *actor);
+u32 func_ov012_0215e9b0(FieldActor *actor, u16 dir);
+void func_ov012_0215e9fc(FieldActor *actor, const VecFx32 *offset);
+void func_ov012_0215ea30(FieldActor *actor, u16 dir, fx32 distance);
+BOOL CheckRecalcActorY(FieldActor *actor);
+BOOL FldAct_CacheTerrainInfo(FieldActor *actor);
+// Whether the player is within 17 tiles of the actor on both axes
+BOOL func_ov012_0215ebd8(FieldActor *actor);
+void SetRailActorFlag(FieldActor *actor);
+void InitRailActor(FieldActor *actor, const ZoneNPC *npc);
+void SetActorInitPositionRail(FieldActor *actor, const RailPosition *position);
+BOOL func_ov012_0215db3c(FieldActor *actor);
+void func_ov012_0215dba0(FieldActor *actor);
+void func_ov012_0215dbb8(FieldActor *actor);
+void func_ov012_0215dbdc(FieldActor *actor);
+void func_ov012_0215dc00(FieldActor *actor);
+void func_ov012_0215dc34(FieldActor *actor);
+void ActorTerrainEffect_InitParam(FieldActor *actor, ActorTerrainEffectParam *param);
+void func_ov012_0215dcdc(FieldActor *actor);
+void func_ov012_0215ddb4(FieldActor *actor);
+void func_ov012_0215de0c(FieldActor *actor);
+void func_ov012_0215de7c(FieldActor *actor);
+void func_ov012_0215def4(FieldActor *actor, ActorTerrainEffectParam *param);
+u32 func_ov012_0215df40(u32 tileClass, u8 season);
+void func_ov012_0215dfb4(FieldActor *actor, ActorTerrainEffectParam *param);
+void ActorTerrainEffect_TallGrass(FieldActor *actor, ActorTerrainEffectParam *param);
+void func_ov012_0215e008(FieldActor *actor, ActorTerrainEffectParam *param);
+void func_ov012_0215e038(FieldActor *actor, ActorTerrainEffectParam *param);
+void func_ov012_0215e05c(FieldActor *actor, ActorTerrainEffectParam *param);
+void func_ov012_0215e0f4(FieldActor *actor, ActorTerrainEffectParam *param);
+void func_ov012_0215e110(FieldActor *actor, ActorTerrainEffectParam *param);
+void func_ov012_0215e148(FieldActor *actor, ActorTerrainEffectParam *param);
+void func_ov012_0215e198(FieldActor *actor, ActorTerrainEffectParam *param);
+BOOL func_ov012_0215e1a4(FieldActor *actor, ActorTerrainEffectParam *param);
+BOOL func_ov012_0215e1c4(ActorTerrainEffectParam *param);
+void func_ov012_0215e1ec(FieldActor *actor, ActorTerrainEffectParam *param);
+void func_ov012_0215e228(FieldActor *actor, ActorTerrainEffectParam *param);
+void func_ov012_0215e258(FieldActor *actor, ActorTerrainEffectParam *param);
+void func_ov012_0215e278(FieldActor *actor, ActorTerrainEffectParam *param);
+void func_ov012_0215e298(FieldActor *actor, ActorTerrainEffectParam *param);
+void func_ov012_0215e2b8(FieldActor *actor, ActorTerrainEffectParam *param);
+void func_ov012_0215e33c(FieldActor *actor, ActorTerrainEffectParam *param);
+void func_ov012_0215e380(FieldActor *actor, ActorTerrainEffectParam *param);
+void func_ov012_0215e39c(FieldActor *actor, ActorTerrainEffectParam *param);
+void ActorTerrainEffect_Shadow(FieldActor *actor, ActorTerrainEffectParam *param);
+void func_ov012_0215ec28(FieldActor *actor);
+BOOL func_ov012_0215ede4(FieldActor *actor, RailPosition *position);
 
 #endif // POKEBW2_FIELD_FIELD_ACTOR_H

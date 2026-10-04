@@ -1745,7 +1745,7 @@ DIRECTION_VEC_X kind:data(any) addr:0x0216cdc8
 TILE_ENTER_BLOCK_CHECKS kind:data(any) addr:0x0216cdd8
 TILE_EXIT_BLOCK_CHECKS kind:data(any) addr:0x0216cde8
 INV_DIR_TABLE kind:data(any) addr:0x0216cdf8
-data_ov012_0216cdc9 kind:data(any) addr:0x0216ce09
+data_ov012_0216cdc8 kind:data(any) addr:0x0216ce08
 data_ov012_0216cdd8 kind:data(any) addr:0x0216ce18
 FIELD_COMMON_EVENTS kind:data(any) addr:0x0216ce24
 FIELD_ACTION_BLOCK_CHECKS kind:data(any) addr:0x0216ce54

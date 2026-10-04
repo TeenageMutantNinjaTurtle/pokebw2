@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+#define MATH_ABS(a) (((a) < 0) ? -(a) : (a))
+
 // NitroSDK's linear congruential random numbers, which are inline in the SDK
 
 typedef struct {

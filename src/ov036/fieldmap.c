@@ -45,6 +45,7 @@
 #include "field/subscreen.h"
 #include "field/wbt.h"
 #include "field/zone.h"
+#include "field/zone_change.h"
 #include "gfl/arc.h"
 #include "gfl/blact.h"
 #include "gfl/bmpwin.h"

@@ -3687,7 +3687,7 @@ from:0x0215eca8 kind:load to:0x0216cdb8 module:overlay(12)
 from:0x0215ed54 kind:load to:0x0216cdf8 module:overlay(12)
 from:0x0215ed90 kind:load to:0x0216cda0 module:overlay(12)
 from:0x0215ed94 kind:load to:0x0216cda8 module:overlay(12)
-from:0x0215ed98 kind:load to:0x0216ce09 module:overlay(12)
+from:0x0215ed98 kind:load to:0x0216ce08 add:0x1 module:overlay(12)
 from:0x0215eda4 kind:load to:0x02167009 module:overlay(12)
 from:0x0215edc0 kind:thumb_call to:0x02019310 module:main
 from:0x0215edd2 kind:thumb_call to:0x0216713c module:overlay(12)

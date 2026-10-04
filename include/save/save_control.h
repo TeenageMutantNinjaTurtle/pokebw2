@@ -175,6 +175,8 @@ JoinAvenueSave *SaveControl_GetJoinAvenue(SaveControl *save);
 PlayerInfo *SaveControl_GetPlayerInfo(SaveControl *save);
 PlayerSave *SaveControl_GetPlayerSave(SaveControl *save);
 u16 PlayerSave_GetAbyssalRuinsStepCounter(PlayerSave *playerSave);
+void PlayerSave_SetAbyssalRuinsStepCounter(PlayerSave *playerSave, u16 count);
+void PlayerSave_EndStepCounter(PlayerSave *playerSave);
 ZoneSpawnInfo *PlayerSave_GetNextSpawnZone(PlayerSave *playerSave);
 EventWork *getConstDataBlock(SaveControl *save);
 PokeDexSave *getPokedexSaveAddress(SaveControl *save);

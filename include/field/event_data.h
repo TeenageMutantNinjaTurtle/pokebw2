@@ -53,6 +53,7 @@ u32 IsEncountDataLoaded(EventData *data);
 EncData *GetEncountData(EventData *data);
 void *GetZoneProxiesAndCount(EventData *data, u32 *count);
 u16 GetHiddenItemEventFlagNoBySCRID(u16 scrId);
+void TryClearRepeatableHiddenItemFlags(EventWork *eventWork);
 s32 CheckProxyEntityEvent(EventData *data, EventWork *eventWork, const void *position, u16 direction);
 s32 CheckProxyEntityEventGrid(EventData *data, EventWork *eventWork, const VecFx32 *position, u16 direction);
 s32 CheckProxyEntityEventRail(EventData *data, EventWork *eventWork, const RailPosition *position, u16 direction);

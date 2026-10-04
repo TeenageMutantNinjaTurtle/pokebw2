@@ -1886,12 +1886,12 @@ static u8 func_ov060_021e8708(u32 index) {
 }
 
 static void func_ov060_021e8720(ArcTool *handle, u16 objCode, u8 *texture, u16 *fileId) {
-    ObjCodeRecord record;
-    u32 offset = GetIndexOfObjID(objCode) * sizeof(ObjCodeRecord) + 4;
+    FieldActorConfig record;
+    u32 offset = GetIndexOfObjID(objCode) * sizeof(FieldActorConfig) + 4;
 
     GFL_ArcToolReadRange(handle, 0, offset, sizeof(record), &record);
-    *texture = func_ov060_021e8708(record.unk9);
-    *fileId = record.unk10;
+    *texture = func_ov060_021e8708(record.spriteControllerType);
+    *fileId = record.rscIndices.res1;
 }
 
 // A price with the avenue's discount, which grows with its rank up to 39 and is 40% from rank 40, 75% more with

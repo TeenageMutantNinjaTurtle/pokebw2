@@ -29,6 +29,18 @@ void FieldEffects_Draw(void *effects);
 void FieldEffects_Load(void *effects, const u32 *ids, u32 count);
 void FieldEffects_TCBManagerInit(void *effects, u32 count);
 void FieldEffects_SetLuminanceTable(void *effects, void *table);
+u32 FieldEffects_GetSeason(void *effects);
+// The effects that actors make on the terrain
+void func_ov036_021a3bf0(FieldActor *actor, void *effects);
+// The dust of an actor landing
+void func_ov036_021a3e74(FieldActor *actor, void *effects);
+void func_ov036_021a40ac(void *effects, FieldActor *actor, BOOL moving, u32 kind);
+void func_ov036_021b47c8(FieldActor *actor, void *effects, u32 kind);
+void func_ov036_021b49ac(MMSys *system, FieldActor *actor, void *effects, u32 kind);
+void func_ov036_021be828(void *effects, FieldActor *actor, u32 arg2, u32 arg3);
+void func_ov036_021bea3c(void *effects, FieldActor *actor);
+void func_ov036_021c289c(FieldActor *actor, void *effects);
+void func_ov036_021c94e0(void *effects, FieldActor *actor);
 // The effects that every map loads, and their count
 extern const u32 STATIC_LOADED_FIELD_EFFECT_IDS[];
 extern const u32 data_ov036_021d0388;

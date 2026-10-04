@@ -36,7 +36,4 @@ GameEventReturnCode EventActorLinearMove_Callback(GameEvent *event, u32 *state, 
 GameEvent *EventActorLinearMove_Create(GameSystem *gsys, FieldActor *actor, const VecFx32 *start, const VecFx32 *end,
                                        s32 duration);
 
-// Overlay 36: the dust of an actor landing
-void func_ov036_021a3e74(FieldActor *actor, void *effects);
-
 #endif // POKEBW2_FIELD_EVENT_ACTOR_MOVE_H

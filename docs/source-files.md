@@ -104,8 +104,8 @@ prints the tables below from the configs and the ROM:
 | `map_replace.c` | `0x02154c94`–`0x02154ea0` | 11 | complete | string at `0x0216e1d4` |
 | `respawn_zone.c` | `0x02154ea0`–`0x02154f98` | 7 | complete | descriptive |
 | `trainer_script.c` | `0x02154f98`–`0x021550a4` | 11 | complete | descriptive |
-| `scrcmd_work.c` | `0x021550a4`–`0x021555f8` | 47 | partial | string at `0x0216e1e4` |
-| `scrcmd_game_state.c` | `0x021555f8`–`0x02156174` | 55 | partial | descriptive |
+| `scrcmd_work.c` | `0x021550a4`–`0x021555f8` | 47 | complete | string at `0x0216e1e4` |
+| `scrcmd_game_state.c` | `0x021555f8`–`0x02156174` | 55 | complete | descriptive |
 | `scrcmd_pokemon.c` | `0x02156174`–`0x021574a4` | 43 | partial | string at `0x0216e1f4` |
 | `scrcmd_proc.c` | `0x021574a4`–`0x02157c20` | 21 | partial | string at `0x0216e208` |
 | `scrcmd_sodateya.c` | `0x02157c20`–`0x021580c4` | 18 | complete | string at `0x0216e218` |
@@ -115,16 +115,17 @@ prints the tables below from the configs and the ROM:
 | `scrcmd_network.c` | `0x02159bc0`–`0x02159d54` | 9 | complete | string at `0x0216e254` |
 | `scrcmd_stadium.c` | `0x02159d54`–`0x0215a0b0` | 9 | partial | descriptive |
 | `event_battle_lose.c` | `0x0215a0b0`–`0x0215a19c` | 2 | complete | descriptive |
-| `event_game_clear.c` | `0x0215a19c`–`0x0215a7a4` | 13 | partial | descriptive |
-| `event_field_menu.c` | `0x0215a7a4`–`0x0215aa68` | 3 | partial | descriptive |
-| `event_shortcut_menu.c` | `0x0215aa68`–`0x0215b488` | 17 | partial | string at `0x0216e268` |
+| `event_game_clear.c` | `0x0215a19c`–`0x0215a7a4` | 13 | complete | descriptive |
+| `event_field_menu.c` | `0x0215a7a4`–`0x0215aa68` | 3 | complete | descriptive |
+| `event_shortcut_menu.c` | `0x0215aa68`–`0x0215b488` | 17 | complete | string at `0x0216e268` |
 | `event_field_proclink.c` | `0x0215b488`–`0x0215c4f8` | 37 | partial | string at `0x0216e280` |
 | `event_save.c` | `0x0215c4f8`–`0x0215c6b0` | 5 | partial | descriptive |
-| `event_action_call.c` | `0x0215c6b0`–`0x0215cb48` | 13 | partial | descriptive |
+| `event_action_call.c` | `0x0215c6b0`–`0x0215cb48` | 13 | complete | descriptive |
 | `event_3d_demo.c` | `0x0215cb48`–`0x0215cd58` | 5 | partial | descriptive |
 | `city_state.c` | `0x0215cd58`–`0x0215cda4` | 3 | complete | descriptive |
 | `eventdata_system.c` | `0x0215cda4`–`0x0215dabc` | 61 | partial | string at `0x0216e298` |
-| `field_actor_tool.c` | `0x0215dabc`–`0x0215ef60` | 78 | partial | descriptive |
+| `field_actor_tool.c` | `0x0215dabc`–`0x0215ee10` | 69 | partial | descriptive |
+| `zone_change.c` | `0x0215ee10`–`0x0215ef60` | 9 | complete | descriptive |
 | `field_g3d_map.c` | `0x021631c8`–`0x02163b38` | 47 | partial | string at `0x0216e380` |
 
 ### Overlay 13
@@ -190,7 +191,7 @@ prints the tables below from the configs and the ROM:
 | File | `.text` (Black 2) | Functions | Status | Name |
 | --- | --- | --- | --- | --- |
 | `scrcmd_survey.c` | `0x02170340`–`0x02170ac4` | 31 | complete | descriptive |
-| `fest_mission_data.c` | `0x02170ac4`–`0x02170e40` | 11 | partial | string at `0x021711e0` |
+| `fest_mission_data.c` | `0x02170ac4`–`0x02170e40` | 11 | complete | string at `0x021711e0` |
 
 ### Overlay 33
 
@@ -242,14 +243,14 @@ prints the tables below from the configs and the ROM:
 | `fieldmap.c` | `0x0217f600`–`0x021814dc` | 128 | partial | string at `0x021d4b20` |
 | `field_buildmodel.c` | `0x0218304c`–`0x02184244` | 85 | partial | string at `0x021d4b2c` |
 | `field_g3d_mapper.c` | `0x02184244`–`0x021856a0` | 57 | partial | string at `0x021d4b4c` |
-| `fieldmap_ctrl_hybrid.c` | `0x0219e430`–`0x0219e9d0` | 13 | partial | string at `0x021d4f44` |
+| `fieldmap_ctrl_hybrid.c` | `0x0219e430`–`0x0219e9d0` | 13 | complete | string at `0x021d4f44` |
 | `scrcmd_medal.c` | `0x021c7b38`–`0x021c7fd8` | 13 | partial | descriptive |
 | `fld_vreq.c` | `0x021c7fd8`–`0x021c81f4` | 14 | complete | string at `0x021d56f0` |
 | `field_palace_sys.c` | `0x021c81f4`–`0x021c83e8` | 6 | complete | string at `0x021d56fc` |
 | `field_goout_effect.c` | `0x021c83e8`–`0x021c8808` | 11 | partial | string at `0x021d5710` |
 | `field_goout_effect_data.c` | `0x021c8808`–`0x021c8954` | 9 | complete | string at `0x021d5728` |
 | `resort_mapcreate.c` | `0x021c8954`–`0x021c8c34` | 6 | partial | string at `0x021d5744` |
-| `scrcmd_ochiba.c` | `0x021c97b8`–`0x021c9eb8` | 22 | partial | string at `0x021d5768` |
+| `scrcmd_ochiba.c` | `0x021c97b8`–`0x021c9eb8` | 22 | complete | string at `0x021d5768` |
 
 ### Overlay 50
 
@@ -565,7 +566,7 @@ prints the tables below from the configs and the ROM:
 
 ### Overlay 167
 
-2505 of 4224 functions are in source files. Embedded names without a file yet: `btl_adapter.c`, `btl_client.c`, `btl_field.c`, `btl_net.c`, `btl_rec.c`, `btlv_scu.c`, `pokewood_cutin.c`.
+2504 of 4223 functions are in source files. Embedded names without a file yet: `btl_adapter.c`, `btl_client.c`, `btl_field.c`, `btl_net.c`, `btl_rec.c`, `btlv_scu.c`, `pokewood_cutin.c`.
 
 | File | `.text` (Black 2) | Functions | Status | Name |
 | --- | --- | --- | --- | --- |
@@ -573,7 +574,7 @@ prints the tables below from the configs and the ROM:
 | `btl_server.c` | `0x0219e3cc`–`0x0219f390` | 55 | complete | string at `0x021dae8c` |
 | `btl_server_flow.c` | `0x0219f390`–`0x021b1674` | 1178 | partial | string at `0x021dae9c` |
 | `btl_pokeparam.c` | `0x021ba584`–`0x021bc6bc` | 154 | partial | string at `0x021daf7c` |
-| `battle_event.c` | `0x021bc6bc`–`0x021bd054` | 47 | partial | descriptive |
+| `battle_event.c` | `0x021bc6bc`–`0x021bd054` | 46 | partial | descriptive |
 | `btl_calc.c` | `0x021bd054`–`0x021bdaf8` | 58 | partial | string at `0x021daf94` |
 | `battle_action.c` | `0x021bdaf8`–`0x021bdcac` | 17 | complete | descriptive |
 | `ability_handlers.c` | `0x021bdcac`–`0x021c26ec` | 442 | partial | descriptive |
@@ -632,4 +633,3 @@ prints the tables below from the configs and the ROM:
 | `egg_demo.c` | `0x021ddbc0`–`0x021de730` | 38 | complete | descriptive |
 | `egg_demo_graphic.c` | `0x021de730`–`0x021dead0` | 21 | complete | string at `0x021df7e0` |
 | `egg_demo_view.c` | `0x021dead0`–`0x021df528` | 38 | complete | string at `0x021df7f4` |
-

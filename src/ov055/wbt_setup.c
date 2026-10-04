@@ -119,12 +119,12 @@ static u8 func_ov055_021e6a14(u32 index) {
 }
 
 static void func_ov055_021e6a2c(ArcTool *handle, u16 objCode, u8 *unk6, u16 *unk4) {
-    ObjCodeRecord record;
-    u32 offset = GetIndexOfObjID(objCode) * sizeof(ObjCodeRecord) + 4;
+    FieldActorConfig record;
+    u32 offset = GetIndexOfObjID(objCode) * sizeof(FieldActorConfig) + 4;
 
     GFL_ArcToolReadRange(handle, 0, offset, sizeof(record), &record);
-    *unk6 = func_ov055_021e6a14(record.unk9);
-    *unk4 = record.unk10;
+    *unk6 = func_ov055_021e6a14(record.spriteControllerType);
+    *unk4 = record.rscIndices.res1;
 }
 
 WbtOv326Param *func_ov055_021e6a64(HeapID heapId, GameSystem *gsys, u16 *var) {

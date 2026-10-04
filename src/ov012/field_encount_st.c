@@ -80,7 +80,7 @@ void EncountState_SetTerrain(EncountState *state, u32 terrain) {
     state->unk07 = 0;
 }
 
-void func_ov012_021591f4(void) {
+void func_ov012_021591f4(GameData *gameData) {
 }
 
 u16 EncountSave_GetRoamingPkmZone(EncountSave *save, u8 slot) {

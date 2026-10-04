@@ -248,8 +248,6 @@ typedef struct NetSyncCommand NetSyncCommand;
 typedef struct NetSyncPacket NetSyncPacket;
 typedef struct NetSyncWork NetSyncWork;
 typedef struct NoGridMapper NoGridMapper;
-typedef struct NPCGridPosition NPCGridPosition;
-typedef struct NPCRailPosition NPCRailPosition;
 typedef struct PartyPkm PartyPkm;
 typedef struct PassPowerEntry PassPowerEntry;
 typedef struct PassPowerParam PassPowerParam;

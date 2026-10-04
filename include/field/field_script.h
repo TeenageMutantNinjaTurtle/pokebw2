@@ -474,7 +474,5 @@ void AddItemToListMenu(FieldScriptEnv *env, u32 a1, u32 message, u32 value, StrB
 // Overlay 36: show a message, and have the script wait for it
 BOOL func_ov036_021a8eb4(VM *vm, FieldScriptEnv *env, StrBuf *message, u32 a3, u16 a4, u32 a5);
 BOOL loadMsgBox(VM *vm, FieldScriptEnv *env, StrBuf *message, u32 a3, u8 a4);
-void func_ov012_0215ee10(GameData *gameData, Field *field);
-void func_ov012_0215ef28(GameData *gameData, u16 zoneId);
 
 #endif // POKEBW2_FIELD_FIELD_SCRIPT_H

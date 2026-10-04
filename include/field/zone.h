@@ -124,12 +124,6 @@ struct ZoneWarp {
 };
 
 extern const RespawnZoneInfo RESPAWN_ZONE_INFO[82];
-extern const s32 DIRECTION_VEC_X[];
-extern const s32 DIRECTION_VEC_Z[];
-extern const u32 INV_DIR_TABLE[];
-extern const u16 data_ov012_0216cd60[];
-extern const u8 data_ov012_0216cd68[];
-extern const u8 data_ov012_0216cdc9[];
 
 // Spawns at a position instead of a warp, warpId is -1
 #define ZONE_SPAWN_CHANGE_TYPE_POSITION 1

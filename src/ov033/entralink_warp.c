@@ -17,18 +17,6 @@ struct EntralinkWarpReturnWork {
     Field *field;
 };
 
-struct NPCGridPosition {
-    u16 x;
-    u16 z;
-    s32 y;
-};
-
-struct NPCRailPosition {
-    u16 railIndex;
-    u16 frontPos;
-    s16 sidePos;
-};
-
 static const VecFx32 sWarpInPos = { FX32_CONST(511), FX32_CONST(32), FX32_CONST(584) };
 
 GameEventReturnCode func_ov033_02177370(GameEvent *event, u32 *state, void *data) {
@@ -82,9 +70,9 @@ BOOL EventEntralinkWarpIn_CheckAllowed(GameSystem *gsys) {
     ZoneNPC *npcs;
     Field *field;
     MMSys *actorSystem;
-    NPCGridPosition *npcPosition;
+    ZoneNPCGridPosition *npcPosition;
     s32 npcCount;
-    NPCRailPosition *npcRail;
+    ZoneNPCRailPosition *npcRail;
     FieldPlayer *player;
     u32 zoneId;
     EventWork *eventWork;
@@ -94,7 +82,7 @@ BOOL EventEntralinkWarpIn_CheckAllowed(GameSystem *gsys) {
     s16 playerY;
     s16 playerZ;
     RailPosition railPosition;
-    u8 modelInfo[28];
+    FieldActorConfig modelInfo;
     s32 i;
     ZoneNPC *npc;
 
@@ -126,15 +114,15 @@ BOOL EventEntralinkWarpIn_CheckAllowed(GameSystem *gsys) {
     for (i = 0; i < npcCount; i++) {
         npc = &npcs[i];
         if (npc->isRail == FALSE) {
-            npcPosition = (NPCGridPosition *)&npc->pos.grid;
-            GetNPCMdlInfoForOBJCODE(actorSystem, npc->modelId, modelInfo);
+            npcPosition = &npc->pos.grid;
+            GetNPCMdlInfoForOBJCODE(actorSystem, npc->modelId, &modelInfo);
             FieldPlayer_GetGPos(player, &playerX, &playerY, &playerZ);
-            if (npcPosition->x <= playerX && playerX < npcPosition->x + modelInfo[11] &&
-                npcPosition->z - modelInfo[12] < playerZ && playerZ <= npcPosition->z) {
+            if (npcPosition->x <= playerX && playerX < npcPosition->x + modelInfo.collWidth &&
+                npcPosition->z - modelInfo.collHeight < playerZ && playerZ <= npcPosition->z) {
                 return FALSE;
             }
         } else if (npc->isRail == TRUE) {
-            npcRail = (NPCRailPosition *)&npc->pos.rail;
+            npcRail = &npc->pos.rail;
             if (Field_GetResolvedControllerTypeID(field) == 1) {
                 func_ov036_0219ad24(player, &railPosition);
                 if (npcRail->railIndex == railPosition.componentId && npcRail->frontPos == railPosition.posFront &&
