@@ -36,13 +36,6 @@ void gfxRegAdjustBrightnessBlend(u32 reg, s32 brightness);
 void gfxSetFog(u8 enabled, u16 alphaMode, u16 depthShift, u16 offset);
 void gfxSetLCDCBanks(u32 banks);
 void gfxUploadAsync(u32 type, u32 dest, const void *src, u32 size);
-// Set up for the move forgetting screen of overlay 287 and updated at every VBlank; what they do is not known yet
-void *func_02026dc0(HeapID heapId);
-void func_02026de8(void *a0);
-void func_02026e04(void *a0, u32 bg, u32 a2, HeapID heapId);
-void func_02026e48(void *a0, u32 bg);
-void func_0202778c(void *a0, u32 a1);
-void func_020275f8(void *a0);
 void gfxSetEdgeColorTable(const GXRgb *table);
 void gfxSetFogTable(const u32 *table);
 

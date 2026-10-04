@@ -269,6 +269,7 @@ typedef struct NetSyncCommand NetSyncCommand;
 typedef struct NetSyncPacket NetSyncPacket;
 typedef struct NetSyncWork NetSyncWork;
 typedef struct NoGridMapper NoGridMapper;
+typedef struct PaletteFade PaletteFade;
 typedef struct PartyPkm PartyPkm;
 typedef struct PassPowerEntry PassPowerEntry;
 typedef struct PassPowerParam PassPowerParam;

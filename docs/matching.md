@@ -70,11 +70,19 @@ Same code, other `sp` offsets or frame size.
   address takes a pointer to a local copy.
 
 - A function that declares every local first and assigns them below gets other registers and stack slots than one
-  that initializes them in their declarations: bmp_menulist.c's `Bitmap_Scroll16` declares `pixels, widthTiles,
+  that initializes them in their declarations (palanm.c's `MaskPalettes` sets `mask = 0` after the count for its
+  register order): bmp_menulist.c's `Bitmap_Scroll16` declares `pixels, widthTiles,
   fill32, end, y, i, j, src, dst` and assigns `pixels`, `fill32`, `widthTiles` and `end` in call order, and swapping
   the declarations of `widthTiles` and `fill32` swaps their slots.
 - A `u16` local and `local + 1` stored back to the same field can share a register and push a parameter out of r0;
   a wider local keeps them apart, as `u32 listTop` does in `BmpMenuList_Scroll`.
+
+- A value that reloads its source for each use, where ours loads it once into a register (or the reverse), was
+  written as an expression that re-reads the source in each part, as a macro writes it: palanm.c's `BlendFadeColors`
+  matches with `BLEND_CHANNEL(src[i] & 0x1f, ...)` for each channel, not with channel locals.
+- A field addressed from the struct's base plus its full offset, where ours goes through a pointer to the member, was
+  reached through the member path: `paletteBuffer->fade.delayCounter` in `PaletteFade_StepBuffer`, not a
+  `FadeControl *` local.
 
 ## Instruction order
 
@@ -121,6 +129,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   them is for a wider parameter. Read the narrowings of every caller together: `GFL_BitmapFillArea` takes `s16 x, s16
   y, u16 width, u16 height`, and `GFL_BitmapGetWidth` returns a `u16`, which is why printsys.c passes its width
   without shifts and bmp_menulist.c's `PrintOptions` narrows its computed width and height.
+- A `u8` function that narrows its result at the return (`lsl #24; lsr #24` after setting a 0/1 flag) keeps the flag
+  in a `BOOL` local, as palanm.c's `IsBitSet` does.
+- A signed compare (`bge`) of a parameter that callers pass as a `u8` without narrowing means the parameter is an
+  `int`: palanm.c's `MaskPalettes(int buffer, ...)`.
 - A `u16` narrowing followed by an `s16` one (`lsl #16; lsr #16; lsl #16; asr #16`) is a value returned by a `u16`
   inline helper and passed to an `s16` parameter, as bmp_menulist.c's `RowY` is in `BmpMenuList_EraseCursor`.
 - A 4-bit color field masked with `& 0x1f` before it is shifted into a print color (`lsl #27; lsr #17` for the text
@@ -231,9 +243,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 ## Data and sections
 
 - Static data is sorted by size. MWCC lists each object of a section when it is declared, a local struct initializer
-  when its function is, and heapsorts the list by size starting from the last object declared. Objects of 64 bytes or
-  more, local initializers and globals that no code refers to get sections of their own, and the sections are created as
-  the sorted list is walked: the section the other objects share sits where its smallest object comes, so a 12-byte
+  when its function is, and heapsorts the list by size starting from the last object declared. Equal sizes come out
+  in no declared order: palanm.c's three 4-byte weights declared R, G, B lie G, R, B (`rodata_order.py --permute`
+  searches the orders). Objects of 64 bytes or more, local initializers and globals that no code refers to get sections
+  of their own, and the sections are created as the sorted list is walked: the section the other objects share sits where its smallest object comes, so a 12-byte
   initializer goes before a file's 19-byte table unless something smaller is shared. A read of a const global whose
   initializer has been seen is folded and doesn't count as a reference. Taking its address counts, and so does reading
   it before its definition, as an unused inline function in a header does, even though that code is never emitted.

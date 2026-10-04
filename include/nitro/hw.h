@@ -15,9 +15,11 @@
 #define REG_BLDALPHA_ADDR 0x04000052
 #define REG_DB_BLDALPHA_ADDR 0x04001052
 
-// Palette memory, the first of which is the BG palette of each screen
+// Palette memory: the BG and OBJ palettes of the main and sub (DB) screens
 #define HW_BG_PLTT 0x05000000
 #define HW_DB_BG_PLTT 0x05000400
+#define HW_OBJ_PLTT 0x05000200
+#define HW_DB_OBJ_PLTT 0x05000600
 #define REG_MASTER_BRIGHT_ADDR 0x0400006c
 #define REG_DB_MASTER_BRIGHT_ADDR 0x0400106c
 

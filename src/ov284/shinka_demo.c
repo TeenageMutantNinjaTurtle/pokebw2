@@ -42,6 +42,7 @@
 #include "system/game_data.h"
 #include "system/game_system.h"
 #include "system/gf_font.h"
+#include "system/palanm.h"
 #include "system/printsys.h"
 #include "system/text_speed.h"
 #include "system/wordset.h"
@@ -176,7 +177,7 @@ typedef struct {
     TwoChoiceMenu *menu;
     TCBManager *tcbManager;
     void *tcbBuffer;
-    void *unkA8;
+    PaletteFade *paletteFade;
     // Whether the player was using the keys rather than the touch screen, for overlay 287's screen
     u8 usingKeys;
     Ov287Param ov287Param;
@@ -263,7 +264,7 @@ static BOOL ShinkaDemo_Init(GameProc *proc, u32 *state, void *param, void *work)
     wk->cancelled = FALSE;
     wk->tcbManager = NULL;
     wk->tcbBuffer = NULL;
-    wk->unkA8 = NULL;
+    wk->paletteFade = NULL;
     wk->usingKeys = FALSE;
     wk->ov207Param = GFL_HeapAllocate(wk->heapId, sizeof(Ov207Param), TRUE, "shinka_demo.c", 578);
     GFL_FadeSet(3, 16, 16, -16);
@@ -604,10 +605,10 @@ static BOOL ShinkaDemo_Main(GameProc *proc, u32 *state, void *param, void *work)
             wk->tcbBuffer = GFL_HeapAllocate(wk->heapId, GFL_TCBMgrCalcAllocSize(8), FALSE, "shinka_demo.c", 1360);
             sys_memset(wk->tcbBuffer, 0, GFL_TCBMgrCalcAllocSize(8));
             wk->tcbManager = GFL_TCBMgrCreate(8, wk->tcbBuffer);
-            wk->unkA8 = func_02026dc0(wk->heapId);
-            func_0202778c(wk->unkA8, 1);
-            func_02026e04(wk->unkA8, 1, 0x1e0, wk->heapId);
-            func_02026e04(wk->unkA8, 3, 0x1e0, wk->heapId);
+            wk->paletteFade = PaletteFade_Create(wk->heapId);
+            PaletteFade_SetTransferAll(wk->paletteFade, TRUE);
+            PaletteFade_AllocBuffer(wk->paletteFade, PALFADE_BUFFER_SUB_BG, 0x1e0, wk->heapId);
+            PaletteFade_AllocBuffer(wk->paletteFade, PALFADE_BUFFER_SUB_OBJ, 0x1e0, wk->heapId);
             wk->ov287Param.gameData = demoParam->gameData;
             wk->ov287Param.party = demoParam->party;
             wk->ov287Param.font = wk->font;
@@ -619,7 +620,7 @@ static BOOL ShinkaDemo_Main(GameProc *proc, u32 *state, void *param, void *work)
             wk->ov287Param.unk14 = 0;
             wk->ov287Param.usingKeys = &wk->usingKeys;
             wk->ov287Param.tcbManager = wk->tcbManager;
-            wk->ov287Param.unk2C = wk->unkA8;
+            wk->ov287Param.unk2C = wk->paletteFade;
             wk->ov287Param.unk40 = 1;
             GFL_OvlLoad(OVERLAY_OV285);
             GFL_OvlLoad(OVERLAY_OV287);
@@ -639,14 +640,14 @@ static BOOL ShinkaDemo_Main(GameProc *proc, u32 *state, void *param, void *work)
             wk->state = SHINKA_DEMO_OV287_END;
             GFL_OvlUnload(OVERLAY_OV285);
             GFL_OvlUnload(OVERLAY_OV287);
-            func_02026e48(wk->unkA8, 1);
-            func_02026e48(wk->unkA8, 3);
-            func_02026de8(wk->unkA8);
+            PaletteFade_FreeBuffer(wk->paletteFade, PALFADE_BUFFER_SUB_BG);
+            PaletteFade_FreeBuffer(wk->paletteFade, PALFADE_BUFFER_SUB_OBJ);
+            PaletteFade_Free(wk->paletteFade);
             func_0203a610(wk->tcbManager);
             GFL_HeapFree(wk->tcbBuffer);
             wk->tcbManager = NULL;
             wk->tcbBuffer = NULL;
-            wk->unkA8 = NULL;
+            wk->paletteFade = NULL;
             ShinkaDemoGraphic_InitSubBG(wk->graphic);
             wk->menu = func_ov139_0219a584(wk->heapId, 5, 0, 1, 0, ShinkaDemoGraphic_GetClActUnit(wk->graphic),
                                            wk->font, wk->printQueue, 0);
@@ -1088,8 +1089,8 @@ static void ShinkaDemo_VBlank(TCB *tcb, void *data) {
         wk->bg1Request = BG1_NONE;
         break;
     }
-    if (wk->unkA8 != NULL) {
-        func_020275f8(wk->unkA8);
+    if (wk->paletteFade != NULL) {
+        PaletteFade_Transfer(wk->paletteFade);
     }
 }
 
