@@ -21,13 +21,19 @@ void func_ov255_021d2478(Box2SysWork *syswk, u32 a1, u32 pos);
 void func_ov255_021d24f8(Box2SysWork *syswk, u32 pos);
 void func_ov255_021d24e0(Box2SysWork *syswk);
 u32 func_ov255_021d2770(Box2SysWork *syswk);
+// The party's version of func_ov255_021d2770
+u32 func_ov255_021d2a64(Box2SysWork *syswk);
 void func_ov255_021d28c4(Box2SysWork *syswk, u32 pos);
 u32 func_ov255_021d29e8(Box2SysWork *syswk);
+u32 func_ov255_021d2b88(Box2SysWork *syswk);
 void func_ov255_021d32d4(Box2AppWork *app, u32 pos, u32 curPos);
 // The position at a touch
 u32 func_ov255_021d34f0(u32 x, u32 y);
 u32 func_ov255_021d34d0(void);
 u32 func_ov255_021d34e0(void);
+u32 func_ov255_021d3504(void);
+u32 func_ov255_021d3514(void);
+u32 func_ov255_021d3524(void);
 u32 func_ov255_021d3534(void);
 u32 func_ov255_021d3544(void);
 BOOL func_ov255_021d3554(u32 *x, u32 *y);

@@ -54,12 +54,13 @@
 // The Pokémon search's criteria, which the boxes' icons are filtered by
 typedef struct {
     u16 species;
-    // 1 when the Pokémon must hold an item, 2 when it must hold none
+    // 1 when the Pokémon must hold no item, 2 when it must hold one
     u8 item;
     u8 marks;
-    u8 unk4;
+    // The nature and the sex, plus 1, or 0 for any
+    u8 nature;
     u8 ability;
-    u8 unk6;
+    u8 sex;
     u8 active;
 } Box2SearchParam;
 

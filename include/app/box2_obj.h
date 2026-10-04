@@ -5,6 +5,9 @@
 #include "app/box2_main.h"
 #include "struct_decls.h"
 
+// The first actor of the Pokémon icons, one per entry of pokeIconId
+#define BOX2_ACTOR_POKEICON 55
+
 // The PC box's actors. The ROM doesn't name this file; box2_obj.c is a guess after box2_main.c. None of these
 // functions has a name yet
 
@@ -13,14 +16,14 @@ void func_ov255_021cf3c0(Box2SysWork *syswk);
 void func_ov255_021cf414(Box2AppWork *app);
 void func_ov255_021cf5b0(Box2AppWork *app);
 // Sets an actor's animation
-void func_ov255_021cf5e4(Box2AppWork *app, u32 id, u16 anim);
-void func_ov255_021cf608(Box2AppWork *app, u32 id, u32 palette);
+void func_ov255_021cf5e4(Box2AppWork *app, u32 id, u32 anim);
+void func_ov255_021cf608(Box2AppWork *app, u32 id, u32 anim);
 BOOL func_ov255_021cf628(Box2AppWork *app, u32 id);
-void func_ov255_021cf63c(Box2AppWork *app, u32 id, BOOL a2);
+void func_ov255_021cf63c(Box2AppWork *app, u32 id, BOOL visible);
 BOOL func_ov255_021cf658(Box2AppWork *app, u32 id);
-void func_ov255_021cf6c8(Box2AppWork *app, u32 id, s16 x, s16 y, u32 a4);
+void func_ov255_021cf6c8(Box2AppWork *app, u32 id, s16 x, s16 y, u16 surface);
 // Where an actor is
-void func_ov255_021cf6ec(Box2AppWork *app, u32 id, s16 *x, s16 *y, u32 a4);
+void func_ov255_021cf6ec(Box2AppWork *app, u32 id, s16 *x, s16 *y, u16 surface);
 void func_ov255_021cf9c8(Box2SysWork *syswk, u32 tray);
 void func_ov255_021cfc74(Box2SysWork *syswk);
 void func_ov255_021cfc90(Box2SysWork *syswk);
@@ -28,6 +31,7 @@ void func_ov255_021cfc20(Box2SysWork *syswk, u32 tray, u32 pos, u32 id);
 // Where an icon at a position is
 void func_ov255_021cfcdc(u32 pos, s16 *x, s16 *y, u32 mode);
 void func_ov255_021cfd34(Box2SysWork *syswk, u32 a1);
+void func_ov255_021cfdb0(Box2SysWork *syswk);
 void func_ov255_021cff58(Box2AppWork *app, u32 iconPos, u32 a2);
 void func_ov255_021cfff4(Box2SysWork *syswk, s32 mv);
 void func_ov255_021cffa8(Box2AppWork *app, u32 iconPos, u32 pos, BOOL a3);
@@ -73,6 +77,8 @@ void func_ov255_021d208c(Box2SysWork *syswk, u32 start, u32 end, u32 a3);
 void func_ov255_021d21a4(u32 start, u32 end, u32 *width, u32 *height);
 // The top left of a range
 u8 func_ov255_021d21ec(u32 start, u32 end);
+// The top left of a range in the party
+u8 func_ov255_021d2210(u32 start, u32 end);
 void func_ov255_021d2238(Box2AppWork *app, u32 pos, u32 width, u32 height, u32 a4);
 void func_ov255_021d22e0(Box2AppWork *app, u32 a1);
 void func_ov255_021d22fc(Box2AppWork *app, s16 x, s16 y);
