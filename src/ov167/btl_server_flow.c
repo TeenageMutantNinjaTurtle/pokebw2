@@ -445,7 +445,7 @@ void func_ov167_0219fe44(BtlServerFlow *flow) {
                 } else {
                     count = func_ov169_0689d6e0(flow->unk1ab8, i, clientIds) + 1;
                 }
-                func_ov167_021b1434(flow->queue, 0x29, i, (u8)count);
+                func_ov167_021b1434(flow->queue, 0x29, (u8)i, (u8)count);
             }
         }
     }
@@ -5372,6 +5372,129 @@ void func_ov167_021a8964(BtlServerFlow *flow, BattleMon *mon, u32 weather, s32 d
     }
 }
 
+BOOL ServerControl_CheckFainted(BtlServerFlow *flow, BattleMon *mon) {
+    u8 monId = GetMonID(mon);
+
+    if (!flow->unk7A9[monId] && IsFainted(mon)) {
+        BOOL bigLevelGap;
+        u8 clientId;
+        u8 playerClient;
+
+        flow->unk7A9[monId] = TRUE;
+        func_ov169_0689d2e4(flow->unk3E0, monId);
+        if (!BtlSetup_IsBattleType(flow->mainModule, 0x200) || func_ov167_0219c648(monId) == 0) {
+            if (flow->unk789 != monId) {
+                func_ov167_021b15d0(flow->queue, 0x5b, 0, monId, 0xffff0000);
+            }
+        }
+        func_ov167_021b1434(flow->queue, 0x39, monId);
+        ServerControl_ClearMonDependentEffects(flow, mon, FALSE);
+        Clear_ForFainted(mon);
+        if (func_ov167_0219c648(monId) == GetPlayerClientID(flow->mainModule)) {
+            bigLevelGap = FALSE;
+            s32 level = GetBattleMonStat(mon, 0xf);
+            if (level + 30 <= (s32)GetEnemyMaxLevel(flow)) {
+                bigLevelGap = TRUE;
+            }
+            ChangeFriendshipWhenFainted(flow->mainModule, mon, bigLevelGap);
+        }
+        func_ov169_0689d480(flow->unk1ab8, monId);
+        clientId = func_ov167_0219c648(monId);
+        playerClient = GetPlayerClientID(flow->mainModule);
+        if (clientId == playerClient) {
+            func_ov167_0219dad0(flow->mainModule, 0x4c);
+        } else if (!IsAllyClientID(clientId, playerClient)) {
+            func_ov167_0219dad0(flow->mainModule, 0x19);
+            func_ov167_0219dad0(flow->mainModule, 0x52);
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
+
+u32 GetEnemyMaxLevel(BtlServerFlow *flow) {
+    u32 maxLevel = 1;
+    u32 posMax = GetValidPosMax(flow->mainModule);
+    u8 playerClient = GetPlayerClientID(flow->mainModule);
+    u32 pos;
+
+    for (pos = 0; pos <= posMax; pos++) {
+        if (!IsAllyClientID(playerClient, func_ov167_0219c650(flow->mainModule, pos))) {
+            u8 monId = GetExistPokeID(flow->unk1ab8, pos);
+            if (monId != 0x1f) {
+                u32 level = GetBattleMonStat(GetPokeParam(flow->pokeCon, monId), 0xf);
+                if (level > maxLevel) {
+                    maxLevel = level;
+                }
+            }
+        }
+    }
+    return maxLevel;
+}
+
+void ServerControl_ClearMonDependentEffects(BtlServerFlow *flow, BattleMon *mon, BOOL rotation) {
+    BtlFlowMonIter iter;
+    BattleMon *other;
+    u8 monId = GetMonID(mon);
+
+    ServerEvent_BeforeFaint(flow, mon);
+    ServerControl_SkyDropCheckRelease(flow, mon, FALSE);
+    if (!rotation) {
+        AbilityEvent_RemoveItem(mon);
+        ItemEvent_RemoveItem(mon);
+    } else {
+        AbilityEvent_ItemRotationSleep(mon);
+        ItemEvent_ItemRotationSleep(mon);
+    }
+    RemoveForceAll(mon);
+    func_ov167_021a0d5c(&iter, flow);
+    func_ov167_021a0de0(&iter, flow);
+    while (func_ov167_021a0df4(&iter, flow, &other)) {
+        func_ov167_021bba64(other, monId);
+        func_ov167_021b1434(flow->queue, 0x2c, GetMonID(other), monId);
+    }
+    func_ov167_021d5a38(monId);
+    func_ov167_021b1434(flow->queue, 0x23, monId);
+    if (!ServerControl_CheckMatchup(flow) && (u16)GetBattleMonStat(mon, 0x11) == 0x7f) {
+        ServerControl_UnnerveAction(flow, mon);
+    }
+}
+
+void ServerEvent_BeforeFaint(BtlServerFlow *flow, BattleMon *mon) {
+    BattleEventVar_Push(0x27e8);
+    BattleEventVar_SetValue(2, GetMonID(mon));
+    BattleEvent_CallHandlers(flow, 0xa3);
+    BattleEventVar_Pop(0x27eb);
+}
+
+BOOL func_ov167_021a8cc0(BtlServerFlow *flow) {
+    BOOL result = FALSE;
+
+    func_ov167_021bc6ac(GetPokeParam(flow->pokeCon, 0));
+    if (func_ov167_0219bdfc(flow->mainModule)) {
+        u32 i;
+        u32 count = func_ov169_0689d2fc(flow->unk3E0, 0);
+
+        func_ov167_021bc6ac(GetPokeParam(flow->pokeCon, 0));
+        for (i = 0; i < count; i++) {
+            if (!func_ov169_0689d328(flow->unk3E0, 0, i)) {
+                BattleMon *mon = GetPokeParam(flow->pokeCon, func_ov169_0689d30c(flow->unk3E0, 0, i));
+                func_ov167_021bc6ac(GetPokeParam(flow->pokeCon, 0));
+                if (BtlSetup_GetBattleType(flow->mainModule) == 0 && !flow->unk78A_1 &&
+                    ServerControl_CheckMatchup(flow) && func_ov167_0219fda4(flow)) {
+                    func_ov167_021b1434(flow->queue, 0x55, func_ov167_0219bf00(flow->mainModule));
+                    flow->unk78A_1 = 1;
+                }
+                if (func_ov167_021a8dec(flow, mon)) {
+                    result = TRUE;
+                }
+                func_ov169_0689d344(flow->unk3E0, 0, i);
+            }
+        }
+    }
+    return result;
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
@@ -5874,25 +5997,25 @@ BOOL BattleHandler_AbilityChange(BtlServerFlow *handler, BattleHandlerAbilityCha
     }
     if (param->force || param->ability != oldAbility) {
         if (param->popup) {
-            func_ov167_021b1434(handler->queue, 0x57, param->monIndex);
+            func_ov167_021b1434(handler->queue, 0x57, (u8)param->monIndex);
         }
-        func_ov167_021b1434(handler->queue, 0x49, param->targetIndex, param->ability);
+        func_ov167_021b1434(handler->queue, 0x49, (u8)param->targetIndex, param->ability);
         BattleHandler_SetString(handler, &param->string);
         state = PushState(&handler->actionState, 0x3cf6);
         ServerEvent_ChangeAbilityBefore(handler, param->targetIndex, oldAbility, param->ability);
         PopState(&handler->actionState, state, 0x3cf8);
         AbilityEvent_RemoveItem(mon);
         ChangeAbility(mon, param->ability);
-        func_ov167_021b1434(handler->queue, 0x1d, param->targetIndex, param->ability);
+        func_ov167_021b1434(handler->queue, 0x1d, (u8)param->targetIndex, param->ability);
         AbilityEvent_AddItem(mon);
-        func_ov167_021b1434(handler->queue, 0x58, param->targetIndex);
+        func_ov167_021b1434(handler->queue, 0x58, (u8)param->targetIndex);
         if (oldAbility != param->ability) {
             state = PushState(&handler->actionState, 0x3d06);
             ServerEvent_ChangeAbilityAfter(handler, param->targetIndex);
             PopState(&handler->actionState, state, 0x3d08);
         }
         if (param->popup) {
-            func_ov167_021b1434(handler->queue, 0x58, param->monIndex);
+            func_ov167_021b1434(handler->queue, 0x58, (u8)param->monIndex);
         }
         if (!CheckCondition(mon, 16)) {
             if (oldAbility == 0x67) {
@@ -5926,20 +6049,20 @@ BOOL BattleHandler_SetItem(BtlServerFlow *handler, BattleHandlerSetItemParam *pa
         }
     }
     if (param->popup) {
-        func_ov167_021b1434(handler->queue, 0x57, param->monIndex);
+        func_ov167_021b1434(handler->queue, 0x57, (u8)param->monIndex);
     }
     BattleHandler_SetString(handler, &param->string);
     ServerControl_ChangeHeldItem(handler, mon, param->item, 0);
     if (param->popup) {
-        func_ov167_021b1434(handler->queue, 0x58, param->monIndex);
+        func_ov167_021b1434(handler->queue, 0x58, (u8)param->monIndex);
     }
     if (param->clearConsumed) {
         ClearConsumedItem(mon);
-        func_ov167_021b1434(handler->queue, 0x2b, param->targetIndex);
+        func_ov167_021b1434(handler->queue, 0x2b, (u8)param->targetIndex);
     }
     if (param->clearOtherConsumed) {
         ClearConsumedItem(GetPokeParam(handler->pokeCon, param->otherIndex));
-        func_ov167_021b1434(handler->queue, 0x2b, param->otherIndex);
+        func_ov167_021b1434(handler->queue, 0x2b, (u8)param->otherIndex);
     }
     ServerControl_CheckItemReaction(handler, mon, 0);
     return TRUE;
