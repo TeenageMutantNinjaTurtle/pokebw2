@@ -218,7 +218,14 @@ void func_ov167_021a9c70(BtlServerFlow *flow, BtlFlowClientList *list);
 u8 func_ov167_021a9e68(BtlServerFlow *flow, BattleMon *mon);
 void func_ov167_021a9eac(BtlServerFlow *flow, BattleMon *mon, u16 move);
 BOOL func_ov167_021ac074(BtlServerFlow *flow);
-BOOL func_ov167_021b0318(BtlMainModule *mainModule, BtlPokeCon *pokeCon);
+s32 func_ov167_021b0318(BtlMainModule *mainModule, BtlPokeCon *pokeCon);
+BOOL func_ov167_021b01e4(BattleParty *party, s16 species);
+BOOL func_ov167_021b0228(BattleParty *party, s16 species);
+s32 func_ov167_021b026c(BattleParty *party);
+BOOL func_ov167_021b02a0(BattleParty *party);
+s16 func_ov167_021b02bc(BtlMainModule *mainModule, const BtlScriptedRules *rules);
+s32 func_ov167_021b02d4(const s32 *outcomes);
+s32 func_ov167_021b02ec(BtlMainModule *mainModule, BOOL won);
 void func_ov167_021a0994(BtlServerFlow *flow, BattleMon *mon, u32 action);
 void func_ov167_021a09cc(BtlServerFlow *flow, BattleMon *mon, u32 action);
 void func_ov167_021a0a08(BtlServerFlow *flow, BattleMon *mon, u32 action);
@@ -558,6 +565,32 @@ BOOL func_ov167_021af6b0(BtlServerFlow *flow, BattleMon *mon, BattleMon *target,
 fx32 func_ov167_021af870(BtlServerFlow *flow);
 fx32 func_ov167_021af8c4(BtlServerFlow *flow, BattleMon *mon, BattleMon *target, u16 item);
 BOOL func_ov167_021afa24(BtlServerFlow *flow, fx32 value);
+BOOL func_ov167_021afaac(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+BOOL func_ov167_021afabc(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+BOOL func_ov167_021afacc(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+BOOL func_ov167_021afadc(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+BOOL func_ov167_021afaec(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+BOOL func_ov167_021afafc(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+BOOL func_ov167_021afb0c(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+BOOL func_ov167_021afc14(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+BOOL func_ov167_021afc24(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+BOOL func_ov167_021afc34(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+BOOL func_ov167_021afc44(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+BOOL func_ov167_021afc54(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+BOOL func_ov167_021afc64(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+BOOL func_ov167_021afb1c(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+BOOL func_ov167_021afb84(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+BOOL func_ov167_021afc74(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+BOOL func_ov167_021afcf4(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 slot);
+BOOL func_ov167_021afd90(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+BOOL func_ov167_021afe3c(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+u8 func_ov167_021b0028(BtlServerFlow *flow, BattleMon *mon);
+BOOL func_ov167_021b0084(BtlServerFlow *flow, BattleMon *mon);
+BOOL func_ov167_021b00d4(BtlServerFlow *flow, BattleMon *mon);
+BOOL func_ov167_021b0170(BtlServerFlow *flow, BattleMon *mon);
+BOOL func_ov167_021afecc(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u32 condition);
+BOOL func_ov167_021aff14(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+BOOL func_ov167_021affb4(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u32 stat);
 
 // A mon that is there and hasn't fainted
 static inline BOOL BtlFlow_IsMonAlive(BattleMon *mon) {

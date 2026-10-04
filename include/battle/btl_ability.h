@@ -218,6 +218,7 @@ void HandlerSolarPowerPower(BattleEventItem *item, BtlServerFlow *flow, u8 monId
 const BattleEventHandlerEntry *EventAddSolarPower(u32 *priority);
 extern const BattleEventHandlerEntry data_ov167_021d7d70[];
 BOOL func_ov167_021cde38(u32 monId);
+BOOL func_ov167_021cdedc(BtlServerFlow *flow, u8 monId);
 BOOL func_ov167_021cdf28(BtlServerFlow *flow, u8 monId, u8 otherId);
 BOOL IsMonLastInTurnOrder(BtlServerFlow *flow, u8 monId);
 void HandlerShieldDustStatus(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);

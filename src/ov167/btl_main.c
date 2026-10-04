@@ -3591,8 +3591,8 @@ void func_ov167_0219e1b0(BtlMainModule *mainModule) {
     }
 }
 
-void func_ov167_0219e300(BtlMainModule *mainModule) {
-    func_ov167_021b19a4(mainModule->clients[0]);
+u32 func_ov167_0219e300(BtlMainModule *mainModule) {
+    return func_ov167_021b19a4(mainModule->clients[0]);
 }
 
 BtlSetup *func_ov167_0219e30c(BtlMainModule *mainModule) {
@@ -3620,7 +3620,7 @@ void func_ov167_0219e378(BtlMainModule *mainModule) {
     GFL_HeapFree(mainModule->unk474);
 }
 
-void *func_ov167_0219e39c(BtlMainModule *mainModule) {
+BtlScriptedRules *func_ov167_0219e39c(BtlMainModule *mainModule) {
     if (mainModule->unk474 == NULL) {
         return NULL;
     }

@@ -76,6 +76,17 @@ typedef struct {
     u8 unk20[8];
 } BtlTrainerData;
 
+// The rules of a scripted battle, which seem to be the Pokestar Studios movies
+typedef struct {
+    u8 unk00[0xa];
+    s16 turnLimit;
+    u8 unk0C[4];
+    s16 rule;
+    s16 species1;
+    s16 species2;
+    s16 unk16;
+} BtlScriptedRules;
+
 struct BtlMainModule {
     BtlSetup *setup;
     BtlvCore *viewCore;
@@ -129,7 +140,7 @@ struct BtlMainModule {
     u8 unk473_5 : 1;
     u8 unk473_6 : 1;
     u8 unk473_7 : 1;
-    void *unk474;
+    BtlScriptedRules *unk474;
     BtlMainUnk478 *unk478;
     void *unk47C;
 };
@@ -341,12 +352,12 @@ void func_ov167_0219e130(BtlMainModule *mainModule);
 BtlServerFlow *func_ov167_0219e158(BtlMainModule *mainModule);
 void func_ov167_0219e164(BtlSetup *setup);
 void func_ov167_0219e1b0(BtlMainModule *mainModule);
-void func_ov167_0219e300(BtlMainModule *mainModule);
+u32 func_ov167_0219e300(BtlMainModule *mainModule);
 BtlSetup *func_ov167_0219e30c(BtlMainModule *mainModule);
 BtlSetup *func_ov167_0219e310(BtlMainModule *mainModule);
 void func_ov167_0219e314(BtlMainModule *mainModule, u8 arg1);
 void func_ov167_0219e378(BtlMainModule *mainModule);
-void *func_ov167_0219e39c(BtlMainModule *mainModule);
+BtlScriptedRules *func_ov167_0219e39c(BtlMainModule *mainModule);
 void *func_ov167_0219e3ac(BtlMainModule *mainModule);
 void *func_ov167_0219e3bc(BtlMainModule *mainModule);
 void func_ov167_0219e3c8(void *data);
