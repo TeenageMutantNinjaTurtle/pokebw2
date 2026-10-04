@@ -167,6 +167,11 @@ BOOL GFL_G3DResCheckType(void *resource, u32 type);
 void GFL_G3DResUploadTexData(void *resource);
 void GFL_G3DResFreeTexData(void *resource);
 void GFL_G3DResFree(void *resource);
+// The size of a resource's header, which GFL_G3DResSetup fills in
+u32 GFL_G3DResGetAllocSize(void);
+void GFL_G3DResSetup(void *resource, void *data);
+void *GFL_G3DSysReadArcSysResource(u32 arcId, u32 fileId);
+BOOL GFL_G3DResUploadAndReleaseTexData(void *resource);
 G3DModel *GFL_G3DMdlCreate(void *resource, u32 modelId, void *texture);
 void GFL_G3DMdlFree(G3DModel *model);
 void *GFL_G3DAnmCreate(G3DModel *model, void *resource, u32 a2);

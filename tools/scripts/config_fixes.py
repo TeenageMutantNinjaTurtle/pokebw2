@@ -10,6 +10,7 @@ after importing names from swan.
     config_fixes.py reloc-module overlays/ov035 'overlay(12)' 0x0217c9e8    # an ambiguous destination module
     config_fixes.py overlay-id overlays/ov035 279 0x0217cbe4                 # a literal that is an overlay ID
     config_fixes.py remove-reloc overlays/ov035 0x0217f540                   # a relocation that is not one
+    config_fixes.py reloc-addend overlays/ov036 2 0x021841e8                 # a relocation to inside an object
     config_fixes.py remove-symbol overlays/ov005 0x0214f5fd                  # a symbol that is not one
     config_fixes.py add-label . _ll_mul 0x0208d60c                           # a second name for a function
     config_fixes.py add-data overlays/ov307 EGG_DEMO_VIEW_UNK_FX32 0x021df70c  # an object that nothing references
@@ -54,6 +55,15 @@ class AddressMapper:
             if (module, function.addr) not in self.pairs[other]:
                 sys.exit(f"{module} {addr:#010x}: function {function.name} is not paired with {other}")
             return self.pairs[other][(module, function.addr)] + addr - function.addr
+        # Between functions, such as in padding: through the functions on either side, if they are the same distance
+        # apart in both versions
+        before = max((f for f in self.functions[module] if f.addr <= addr), key=lambda f: f.addr, default=None)
+        after = min((f for f in self.functions[module] if f.addr > addr), key=lambda f: f.addr, default=None)
+        if before is not None and after is not None:
+            pairs = self.pairs[other]
+            if (module, before.addr) in pairs and (module, after.addr) in pairs:
+                if pairs[(module, after.addr)] - pairs[(module, before.addr)] == after.addr - before.addr:
+                    return pairs[(module, before.addr)] + addr - before.addr
         primary_sections = parse_sections(config_dir(PRIMARY, module) / "delinks.txt")
         other_sections = parse_sections(config_dir(other, module) / "delinks.txt")
         for name, (start, end) in primary_sections.items():
@@ -158,6 +168,16 @@ def apply_fix(version: str, module: str, addr: int, action: str, argument: str):
     elif action == "remove_reloc":
         if index is not None:
             del lines[index]
+    elif action == "reloc_addend":
+        # A relocation to an address inside an object, such as a field of a struct in a table, which dsd gave a symbol
+        # of its own: point it at the object, with the offset as the addend
+        if index is None:
+            sys.exit(f"{version}: no relocation at {module} {addr:#010x}")
+        addend = int(argument, 0)
+        if f" add:{addend:#x} " in lines[index]:
+            return
+        to = int(re.search(r"to:(0x[0-9a-f]+)", lines[index]).group(1), 16)
+        lines[index] = re.sub(r"to:0x[0-9a-f]+", f"to:{to - addend:#010x} add:{addend:#x}", lines[index])
     else:
         sys.exit(f"unknown action {action!r}")
     path.write_text("\n".join(lines) + "\n")
@@ -182,6 +202,10 @@ def main():
     command.add_argument("addresses", nargs="+")
     command = commands.add_parser("remove-reloc", help="remove relocations")
     command.add_argument("module")
+    command.add_argument("addresses", nargs="+")
+    command = commands.add_parser("reloc-addend", help="point relocations at an object with an addend")
+    command.add_argument("module")
+    command.add_argument("addend")
     command.add_argument("addresses", nargs="+")
     command = commands.add_parser("remove-symbol", help="remove symbols")
     command.add_argument("module")
@@ -213,7 +237,7 @@ def main():
 
     action = args.command.replace("-", "_")
     argument = {"reloc_module": getattr(args, "destination", ""), "overlay_id": str(getattr(args, "overlay", "")),
-                "add_label": getattr(args, "name", ""), "add_data": getattr(args, "name", ""),
+                "reloc_addend": getattr(args, "addend", ""), "add_label": getattr(args, "name", ""), "add_data": getattr(args, "name", ""),
                 "add_function": f"{getattr(args, 'name', '')}:{getattr(args, 'mode', '')}:{getattr(args, 'size', '')}"}
     argument = argument.get(action, "")
     for address in args.addresses:

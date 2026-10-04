@@ -34,6 +34,9 @@ struct G3DMapper {
     void *mapTextureResource;
 };
 
+// Copies the vector at offset 0x54 of the mapper
+void func_ov036_021852e0(G3DMapper *mapper, VecFx32 *out);
+
 struct MapMatrixFileHeader {
     u16 format;
     u16 unk02;
@@ -87,6 +90,8 @@ extern const char data_ov012_0216e1d4[];
 AreaData *AreaData_Create(HeapID heapId, u16 areaId, u32 a2);
 void AreaData_Free(AreaData *areaData);
 BOOL AreaData_IsExterior(AreaData *areaData);
+// The area's props, a file of ARCID_AREA_BMDATA_EXT or ARCID_AREA_BMDATA_INT
+u16 AreaData_GetPropBundleID(AreaData *areaData);
 u32 AreaData_GetTexSetID(AreaData *areaData);
 u32 AreaData_GetSRTAnmID(AreaData *areaData);
 u32 AreaData_GetPatAnmID(AreaData *areaData);

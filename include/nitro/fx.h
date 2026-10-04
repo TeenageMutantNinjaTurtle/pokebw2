@@ -58,6 +58,7 @@ void MAT3_RotationEulerZYX(u16 x, u16 y, u16 z, MtxFx33 *mtx);
 
 // A rotation about the Y axis from its sine and cosine
 void MAT43_RotationY(MtxFx43 *mtx, fx32 sin, fx32 cos);
+void MAT3_RotationY(MtxFx33 *mtx, fx32 sin, fx32 cos);
 void MAT3_RotationX(MtxFx33 *mtx, fx32 sin, fx32 cos);
 void MAT43_MulVec(const VecFx32 *vec, const MtxFx43 *mtx, VecFx32 *dest);
 

@@ -35,6 +35,8 @@ void *Field_GetNDemoDataHandle(Field *field);
 void Field_SetCasteliaRush(Field *field, BOOL flag);
 BOOL Field_GetCasteliaRush(Field *field);
 void *Field_GetColorPostFX(Field *field);
+// Recolors a texture resource with the field's color post-FX
+void FieldColorPostFX_Apply(void *postFx, void *texture);
 fx32 func_ov036_02181324(Field *field);
 void FieldPlayer_GetGPos(FieldPlayer *player, s16 *x, s16 *y, s16 *z);
 // A number below 6 that overlay 137 reads from the game data

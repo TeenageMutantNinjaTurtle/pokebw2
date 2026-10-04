@@ -4362,10 +4362,7 @@ SPECIAL_TILE_SCRIPTS kind:data(any) addr:0x021ca878
 data_ov036_021ca84a kind:data(any) addr:0x021ca87e
 FIELD_PROP_ANM_IDX_FOR_DAY_PART kind:data(any) addr:0x021ca8e0
 FIELD_PROP_ANMCNT_VTABLES kind:data(any) addr:0x021ca8e8
-data_ov036_021ca8b8 kind:data(any) addr:0x021ca8ec
-data_ov036_021ca8bc kind:data(any) addr:0x021ca8f0
 DOOR_SOUND_ID_LUT kind:data(any) addr:0x021ca918
-data_ov036_021ca8e6 kind:data(any) addr:0x021ca91a
 BM_TYPE_LUT kind:data(any) addr:0x021ca954
 data_ov036_021ca930 kind:data(any) addr:0x021ca964
 FIELD_CHUNK_VTABLES kind:data(any) addr:0x021ca96c

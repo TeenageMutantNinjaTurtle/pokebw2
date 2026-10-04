@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "field/field_map_chunk.h"
+#include "gfl/heap.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
 
@@ -22,16 +23,12 @@ struct FieldPropResAnmHeader {
     u32 animationIds[4];
 };
 
-struct FieldPropControllerTableEntry {
-    void (*update)(FieldPropSystem *, FieldPropResInstance *);
-    void (*command)(FieldPropResInstance *, u32, u32);
-    void (*init)(FieldPropSystem *, FieldPropResInstance *);
-};
-
-struct FieldPropControllerCommandTableEntry {
-    void (*command)(FieldPropResInstance *, u32, u32);
-    void (*init)(FieldPropSystem *, FieldPropResInstance *);
-    void (*update)(FieldPropSystem *, FieldPropResInstance *);
+// How a prop's animations play, by its animation header's controllerType: static, ambient, dynamic or by the time of
+// day
+struct FieldPropAnmController {
+    void (*init)(FieldPropSystem *system, FieldPropResInstance *instance);
+    void (*update)(FieldPropSystem *system, FieldPropResInstance *instance);
+    void (*command)(FieldPropResInstance *instance, u32 animation, u32 command);
 };
 
 struct FieldPropResBundle {
@@ -91,14 +88,31 @@ struct FieldPropRTCState {
     u8 padding[2];
 };
 
+struct FieldPropResInstanceHandle {
+    G3DActor *actor;
+    u32 unk4;
+};
+
+// The props' actors, which the mapper reads. Swan has the first two fields; the rest is cleared and freed with them
+struct FieldPropResBank {
+    FieldPropResInstanceHandle *handles;
+    u32 count;
+    void *unk08;
+    u32 unk0C;
+    u32 unk10;
+    u32 unk14;
+};
+
+// Layout from swan
 struct FieldPropSystem {
     u16 heapId;
-    u8 unk2[6];
+    G3DMapper *mapper;
     FieldPropRTCState rtcState;
     FieldPropResBundle *resBundle;
     u8 resIdToIndex[0x200];
     u32 resInfoCount;
-    u8 unk220[0x1c];
+    FieldPropResBank resBank;
+    u32 resourceCount;
     FieldPropResource *resources;
     void *textureResource;
     u32 resInstanceCount;
@@ -122,10 +136,14 @@ struct FieldPropHandle {
 };
 
 extern const u8 FIELD_PROP_ANM_IDX_FOR_DAY_PART[];
-extern const FieldPropControllerTableEntry data_ov036_021ca8b8[];
-extern const FieldPropControllerCommandTableEntry data_ov036_021ca8bc[];
-extern const u16 DOOR_SOUND_ID_LUT[][5];
-extern const u8 data_ov036_021ca8e6[];
+extern const FieldPropAnmController FIELD_PROP_ANMCNT_VTABLES[];
+// The sounds of a prop type's animations
+typedef struct {
+    u16 propType;
+    u16 soundIds[4];
+} FieldPropDoorSounds;
+
+extern const FieldPropDoorSounds DOOR_SOUND_ID_LUT[6];
 extern const char data_ov036_021d4b2c[];
 
 u32 FieldPropResAnmHeader_GetAnmCount(const FieldPropResAnmHeader *header);
@@ -137,14 +155,22 @@ void *FieldPropResBundle_GetModelData(FieldPropResBundle *bundle, u32 index);
 void *FieldPropResAnmHeader_GetAnmData(FieldPropResAnmHeader *header, u32 index);
 void *FieldPropSystem_FindResInfo(FieldPropSystem *system, u32 resId);
 void *FieldPropSystem_GetResInfo(FieldPropSystem *system, u32 index);
-void *FieldPropSystem_GetResBank(FieldPropSystem *system);
+FieldPropResBank *FieldPropSystem_GetResBank(FieldPropSystem *system);
+FieldPropSystem *FieldPropSystem_Create(HeapID heapId, G3DMapper *mapper, u16 season);
+// Loads the props of the area, and recolors their textures with the field's color post-FX
+void FieldPropSystem_LoadArea(FieldPropSystem *system, u16 zoneId, AreaData *area, void *postFx);
+void FieldPropSystem_LoadTextures(FieldPropSystem *system, u16 arcId, u32 fileId, void *postFx);
+void FieldPropSystem_InitResources(FieldPropSystem *system, void *postFx);
+void FieldPropSystem_InstantiateResources(FieldPropSystem *system, FieldPropResBank *bank);
+void FieldPropSystem_InitResource(FieldPropSystem *system, FieldPropResource *resource, u32 index, void *postFx);
+void FieldPropResource_Free(FieldPropResource *resource);
 void FieldPropSystem_LoadResBundle(FieldPropSystem *system, u32 arcId, u32 fileId);
 void FieldPropSystem_FreeResBundle(FieldPropSystem *system);
 void FieldPropSystem_BuildResIDLUT(FieldPropSystem *system, u32 defaultResId);
 void FieldPropSystem_FreeTextures(FieldPropSystem *system);
 void FieldPropResInstance_CallAnmCmd(FieldPropResInstance *instance, u32 animation, u32 command);
-BOOL FieldPropResInstance_IsAnmIdle(void *instance, u32 animation);
-void FieldPropResInstance_Free(void *instance);
+BOOL FieldPropResInstance_IsAnmIdle(FieldPropResInstance *instance, u32 animation);
+void FieldPropResInstance_Free(FieldPropResInstance *instance);
 void FieldPropResInstance_Init(FieldPropSystem *system, FieldPropResInstance *instance, FieldPropResource *resource);
 void FieldPropSystem_DeleteHandle(FieldPropSystem *system, FieldPropHandle *handle);
 void FieldPropSystem_RegistHandle(FieldPropSystem *system, FieldPropHandle *handle);
@@ -158,7 +184,7 @@ s32 FieldPropSystem_InstantiateProps(FieldPropSystem *system, FieldChunk *chunk,
 BOOL FieldPropSystem_CheckCreateDoorReq(FieldPropSystem *system, u32 resId, VecFx32 *position, u32 *resIndex);
 void FieldPropSystem_InstantiateFromInfo(FieldPropSystem *system, FieldChunk *chunk, const FieldPropSourceInfo *info,
                                          u32 propIndex);
-void FieldPropSystem_FreeResInstances(FieldPropSystem *system, void *resourceState);
+void FieldPropSystem_FreeResInstances(FieldPropSystem *system, FieldPropResBank *bank);
 void FieldPropSystem_FreeResources(FieldPropSystem *system);
 void FieldPropSystem_Free(FieldPropSystem *system);
 void FieldPropSystem_InstantiateProp(FieldChunk *chunk, FieldPropInstance *instance, u32 propIndex);
@@ -172,12 +198,12 @@ u8 FieldChunkPropHolder_GetPropType(FieldPropSystem *system, FieldChunkPropHolde
 void FieldChunkPropHolder_SetVisible(FieldChunkPropHolder *holder, BOOL visible);
 void FieldChunkPropHolder_ChangeResID(FieldPropSystem *system, FieldChunkPropHolder *holder, u32 resId);
 void FieldPropRTCState_Init(FieldPropRTCState *state, u8 season);
-void FieldPropAnmController_Static_Update(void *controller);
+void FieldPropAnmController_Static_Update(FieldPropSystem *system, FieldPropResInstance *instance);
 void FieldPropAnmController_Static_Init(FieldPropSystem *system, FieldPropResInstance *instance);
 void FieldPropAnmController_Ambient_Init(FieldPropSystem *system, FieldPropResInstance *instance);
 void FieldPropAnmController_RTC_Init(FieldPropSystem *system, FieldPropResInstance *instance);
-void FieldPropAnmController_Static_ExecCommand(void *controller, u32 command);
-void FieldPropAnmController_Ambient_Update(void *controller, void *instance);
+void FieldPropAnmController_Static_ExecCommand(FieldPropResInstance *instance, u32 animation, u32 command);
+void FieldPropAnmController_Ambient_Update(FieldPropSystem *system, FieldPropResInstance *instance);
 void FieldPropAnmController_RTC_Update(FieldPropSystem *system, FieldPropResInstance *instance);
 void FieldPropAnmController_Dynamic_Update(FieldPropSystem *system, FieldPropResInstance *instance);
 void FieldPropAnmController_Dynamic_ExecCommand(FieldPropResInstance *instance, u32 animation, u32 command);
