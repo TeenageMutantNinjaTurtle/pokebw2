@@ -20,5 +20,6 @@ void PML_PersonalFree(void *personal);
 u32 PML_UtilGetPkmLvExp(u16 species, u16 form, u16 level);
 
 ArcTool *loadEvolutionFile(HeapID heapId);
+BOOL func_02020bf0(ArcTool *evoFile, u16 species, u16 form, u16 index);
 
 #endif // POKEBW2_PML_PERSONAL_H

@@ -59,12 +59,27 @@ u16 GetTurnCounter(BtlServerFlow *serverFlow);
 BattleMon *GetBattleMon(BtlServerFlow *serverFlow, u8 monId);
 u8 func_ov167_021abb50(BtlServerFlow *serverFlow, u8 monId);
 BOOL func_ov167_021abb8c(BtlServerFlow *flow, u8 monId, BattleAction *action);
+BOOL func_ov167_021abbec(BtlServerFlow *flow, u8 monId);
+u16 func_ov167_021abc54(BtlServerFlow *flow);
+u8 *func_ov167_021abc6c(BtlServerFlow *flow);
+u8 *func_ov167_021abc70(BtlServerFlow *flow);
+BOOL func_ov167_021abc8c(BtlServerFlow *flow, u8 monId);
+u32 func_ov167_021abca8(BtlServerFlow *flow);
+u32 GetBattleTerrain(BtlServerFlow *flow);
+u32 func_ov167_021abcc0(BtlServerFlow *flow);
+BOOL CheckEvolution(BtlServerFlow *flow, u8 monId);
 BOOL func_ov167_021abf14(BtlServerFlow *flow);
 u8 func_ov167_021ab874(BtlServerFlow *flow, u8 monId);
 u8 func_ov167_021ab884(BtlServerFlow *flow, u8 pos);
 u8 func_ov167_021ab894(BtlServerFlow *flow, u8 monId, u8 *monIds);
 u32 func_ov167_021abc9c(BtlServerFlow *flow);
 BOOL func_ov167_021abd74(BtlServerFlow *flow, u8 monId);
+BOOL func_ov167_021abd8c(BtlServerFlow *flow, u8 monId);
+BOOL func_ov167_021abe04(BtlServerFlow *flow, u8 side, u32 sideEffect);
+u8 func_ov167_021abe40(BtlServerFlow *flow, u8 clientId);
+BOOL IsMonSwitchingOut(BtlServerFlow *flow);
+void AddSwitchOutInterrupt(BtlServerFlow *flow, u8 monId);
+BOOL func_ov167_021abe78(BtlServerFlow *flow, u8 monId);
 u8 func_ov167_021abb60(BtlServerFlow *flow, u8 pos);
 u32 CalcMoveEffectiveness(BtlServerFlow *serverFlow, u8 attackerId, u8 defenderId, u16 move);
 BOOL func_ov167_021aba04(BtlServerFlow *flow);
@@ -90,7 +105,22 @@ void ServerControl_ChangeHeldItem(BtlServerFlow *handler, BattleMon *mon, u16 it
 BOOL ServerControl_UseHeldItem(BtlServerFlow *handler, BattleMon *mon);
 BOOL ServerControl_EscapeSub(BtlServerFlow *handler, BattleMon *mon, u32 flag);
 BOOL ServerControl_CheckMatchup(BtlServerFlow *handler);
+BOOL func_ov167_021abe88(BtlServerFlow *flow, u8 monId);
 BOOL func_ov167_021abeb4(BtlServerFlow *handler, u8 monIndex);
+u32 func_ov167_021abee0(BtlServerFlow *flow, u8 monId);
+u32 func_ov167_021abf0c(BtlServerFlow *flow);
+void SetMoveEffectIndex(BtlServerFlow *flow, u8 index);
+BOOL func_ov167_021abf28(BtlServerFlow *flow, u32 money);
+void func_ov167_021abf48(BtlServerFlow *flow, u8 monId);
+void func_ov167_021abf74(BtlServerFlow *flow, u8 monId, u8 targetId);
+BOOL func_ov167_021abfac(BtlServerFlow *flow, u8 attackerId, u8 targetId, BOOL *failed);
+void func_ov167_021abfd4(BtlServerFlow *flow, u8 monId);
+BOOL func_ov167_021abfec(BtlServerFlow *flow, BattleMon *mon, u8 *flag);
+void func_ov167_021ac010(BtlServerFlow *flow, BattleMon *mon);
+void func_ov167_021ac020(BtlServerFlow *flow, u8 monId);
+void func_ov167_021ac034(BtlServerFlow *flow, u8 monId);
+void func_ov167_021ac114(BtlServerFlow *flow, u32 depth, BOOL clear);
+u32 func_ov167_021b05b4(BtlServerFlow *flow);
 BOOL ServerControl_SwitchOut(BtlServerFlow *handler, BattleMon *mon, u8 flag);
 BOOL ServerControl_FieldEffectCore(BtlServerFlow *handler, u32 effect, BattleCondition value, u8 dependPoke);
 void ServerControl_FieldEffectEnd(BtlServerFlow *handler, u32 effect);
@@ -497,6 +527,17 @@ static inline BOOL BtlFlow_IsMonAlive(BattleMon *mon) {
         return FALSE;
     }
     return FALSE;
+}
+
+// The ID of the mon that a mon carries off with Sky Drop, 0x1f for none
+static inline u8 BtlFlow_GetSkyDropTarget(BattleMon *mon) {
+    u8 targetId;
+    u8 counter = GetConditionCount(mon, 4);
+
+    if (counter == 0 || (targetId = counter - 1) >= 0x18) {
+        targetId = 0x1f;
+    }
+    return targetId;
 }
 
 #endif // POKEBW2_BATTLE_BTL_SERVER_FLOW_H

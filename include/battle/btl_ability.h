@@ -352,7 +352,7 @@ const BattleEventHandlerEntry *EventAddForecast(u32 *priority);
 extern const BattleEventHandlerEntry data_ov167_021d7adc[];
 extern const BattleEventHandlerEntry data_ov167_021d7af4[];
 BOOL CommonMoveTargetChangeToMe(BtlServerFlow *flow, u8 monId, s32 *work, u32 type);
-BOOL func_ov167_021abdd0(BtlServerFlow *flow, u32 attacker, u32 defender, u16 move);
+BOOL func_ov167_021abdd0(BtlServerFlow *flow, u8 attackerId, u8 defenderId, u16 move);
 BOOL func_ov167_021c0d78(u16 move);
 const BattleEventHandlerEntry *EventAddStormDrain(u32 *priority);
 void HandlerStormDrain(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);

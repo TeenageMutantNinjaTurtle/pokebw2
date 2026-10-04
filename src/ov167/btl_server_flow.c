@@ -13,6 +13,7 @@
 #include "battle/btl_pokeparam.h"
 #include "battle/btl_server.h"
 #include "battle/btl_server_flow.h"
+#include "constants/abilities.h"
 #include "constants/moves.h"
 #include "constants/tr_ai.h"
 #include "constants/types.h"
@@ -1496,7 +1497,7 @@ BOOL ServerControl_SwitchOut(BtlServerFlow *handler, BattleMon *mon, u8 flag) {
         if (count != 0) {
             handler->unk78A_0 = TRUE;
             for (i = 0; i < count; i++) {
-                ActionOrder_InterruptProc(handler, handler->unk78B[i], GetMonID(mon));
+                ActionOrder_InterruptProc(handler, handler->interruptMonIds[i], GetMonID(mon));
                 if (IsFainted(mon)) {
                     break;
                 }
@@ -2568,11 +2569,8 @@ BOOL func_ov167_021a3950(BtlServerFlow *flow, BattleMon *attacker, BattleMon *ta
 }
 
 void ServerControl_SkyDropCheckRelease(BtlServerFlow *flow, BattleMon *mon, BOOL flag) {
-    u8 targetId;
-    u8 counter = GetConditionCount(mon, 4);
-    if (counter == 0 || (targetId = counter - 1) >= 0x18) {
-        targetId = 0x1f;
-    }
+    u8 targetId = BtlFlow_GetSkyDropTarget(mon);
+
     if (targetId != 0x1f) {
         BattleMon *target = GetPokeParam(flow->pokeCon, targetId);
         if (CheckCondition(target, 0x21)) {
@@ -4516,8 +4514,6 @@ BOOL ServerControl_ForceSwitchCore(BtlServerFlow *flow, BattleMon *attacker, Bat
     u32 state;
     u8 blocked;
     u32 mode;
-    u8 skyDropTarget;
-    u8 counter;
 
     *failed = FALSE;
     if (forced) {
@@ -4538,11 +4534,7 @@ BOOL ServerControl_ForceSwitchCore(BtlServerFlow *flow, BattleMon *attacker, Bat
     if (CheckCondition(target, 0x21)) {
         return FALSE;
     }
-    counter = GetConditionCount(target, 4);
-    if (counter == 0 || (skyDropTarget = counter - 1) >= 0x18) {
-        skyDropTarget = 0x1f;
-    }
-    if (skyDropTarget != 0x1f) {
+    if (BtlFlow_GetSkyDropTarget(target) != 0x1f) {
         return FALSE;
     }
     state = PushState(&flow->actionState, 0x222c);
@@ -6080,7 +6072,7 @@ u32 ServerEvent_InterruptSwitch(BtlServerFlow *flow, BattleMon *mon) {
             }
         }
     }
-    flow->unk788 = 0;
+    flow->interruptCount = 0;
     BattleEventVar_Push(0x2c37);
     BattleEventVar_SetConstValue(6, GetMonID(mon));
     BattleEvent_CallHandlers(flow, 0x53);
@@ -6095,7 +6087,7 @@ u32 ServerEvent_InterruptSwitch(BtlServerFlow *flow, BattleMon *mon) {
             flow->actionOrder[i].interrupting = FALSE;
         }
     }
-    return flow->unk788;
+    return flow->interruptCount;
 }
 
 BOOL func_ov167_021a9df0(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 target, BtlFlowCalledMove *called) {
@@ -7368,6 +7360,381 @@ u8 func_ov167_021abb60(BtlServerFlow *flow, u8 pos) {
 
 u8 func_ov167_021abb70(BtlServerFlow *flow, u8 monId, u16 move) {
     return func_ov167_021bd8e4(flow->mainModule, flow->pokeCon, GetPokeParam(flow->pokeCon, monId), move);
+}
+
+// The action a mon still has to take this turn
+BOOL func_ov167_021abb8c(BtlServerFlow *flow, u8 monId, BattleAction *action) {
+    u32 i;
+
+    for (i = 0; i < flow->actionOrderCount; i++) {
+        if (monId == GetMonID(flow->actionOrder[i].mon) && flow->actionOrder[i].action.bits.action != 6) {
+            *action = flow->actionOrder[i].action;
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+// Whether every other mon has taken its action this turn
+BOOL func_ov167_021abbec(BtlServerFlow *flow, u8 monId) {
+    u32 i;
+    u32 others;
+    u32 done;
+
+    done = 0;
+    others = 0;
+    for (i = 0; i < flow->actionOrderCount; i++) {
+        if (monId != GetMonID(flow->actionOrder[i].mon)) {
+            others++;
+            if (flow->actionOrder[i].done) {
+                done++;
+            }
+        }
+    }
+    return others == done ? TRUE : FALSE;
+}
+
+u16 func_ov167_021abc54(BtlServerFlow *flow) {
+    return flow->unk1F78;
+}
+
+// A work buffer that the event handlers share, of at least size bytes
+u8 *func_ov167_021abc60(BtlServerFlow *flow, u32 size) {
+    return flow->unk1FF0;
+}
+
+u8 *func_ov167_021abc6c(BtlServerFlow *flow) {
+    return flow->unk1C;
+}
+
+u8 *func_ov167_021abc70(BtlServerFlow *flow) {
+    return flow->unk3E0;
+}
+
+u16 GetTurnCounter(BtlServerFlow *flow) {
+    return flow->unk10;
+}
+
+u8 func_ov167_021abc80(BtlServerFlow *flow, u32 index) {
+    return flow->unk7D9[index];
+}
+
+BOOL func_ov167_021abc8c(BtlServerFlow *flow, u8 monId) {
+    return DoesBattleMonExist(flow->unk1ab8, monId);
+}
+
+u32 func_ov167_021abc9c(BtlServerFlow *flow) {
+    return BtlSetup_GetBattleStyle(flow->mainModule);
+}
+
+u32 func_ov167_021abca8(BtlServerFlow *flow) {
+    return BtlSetup_GetBattleType(flow->mainModule);
+}
+
+u32 GetBattleTerrain(BtlServerFlow *flow) {
+    return GetFieldEffectData(flow->mainModule)->terrain;
+}
+
+u32 func_ov167_021abcc0(BtlServerFlow *flow) {
+    return func_ov167_0219be8c(flow->mainModule);
+}
+
+// Whether a mon's species can evolve
+BOOL CheckEvolution(BtlServerFlow *flow, u8 monId) {
+    u16 species;
+    u16 i;
+
+    species = GetBattleMonSpecies(GetPokeParam(flow->pokeCon, monId));
+    for (i = 0; i < 7; i++) {
+        if (func_02020bf0(flow->unk4A4, species, 0, i)) {
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+u16 func_ov167_021abd08(BtlServerFlow *flow, BattleMon *mon, BOOL flag) {
+    return ServerEvent_CalculateSpeed(flow, mon, flag);
+}
+
+// How many mons in battle are faster than a mon
+u32 func_ov167_021abd10(BtlServerFlow *flow, BattleMon *mon, BOOL flag) {
+    u16 speed;
+    u8 monId;
+    BtlFlowMonIter iter;
+    BattleMon *other;
+    u16 count;
+
+    speed = func_ov167_021abd08(flow, mon, flag);
+    monId = GetMonID(mon);
+    count = 0;
+    func_ov167_021a0d5c(&iter, flow);
+    while (func_ov167_021a0df4(&iter, flow, &other)) {
+        if (monId != GetMonID(other) && func_ov167_021abd08(flow, other, flag) > speed) {
+            count++;
+        }
+    }
+    return count;
+}
+
+BOOL func_ov167_021abd74(BtlServerFlow *flow, u8 monId) {
+    return func_ov167_021aaa24(flow, GetPokeParam(flow->pokeCon, monId), TRUE);
+}
+
+// Whether a mon can use its held item: not with Klutz, under Embargo or in Magic Room
+BOOL func_ov167_021abd8c(BtlServerFlow *flow, u8 monId) {
+    BattleMon *mon;
+
+    mon = GetPokeParam(flow->pokeCon, monId);
+    if (GetBattleMonStat(mon, 0x11) == ABILITY_KLUTZ) {
+        return FALSE;
+    }
+    if (CheckCondition(mon, CONDITION_EMBARGO)) {
+        return FALSE;
+    }
+    if (IsFieldEffectActive(7)) {
+        return FALSE;
+    }
+    return TRUE;
+}
+
+u32 GetWeather(BtlServerFlow *flow) {
+    return ServerEvent_GetWeather(flow);
+}
+
+BOOL func_ov167_021abdd0(BtlServerFlow *flow, u8 attackerId, u8 defenderId, u16 move) {
+    BattleMon *attacker;
+
+    attacker = GetPokeParam(flow->pokeCon, attackerId);
+    return func_ov167_021a34a4(flow, attacker, GetPokeParam(flow->pokeCon, defenderId), move);
+}
+
+BOOL func_ov167_021abdf8(BtlServerFlow *flow, u32 value) {
+    return ReturnZero(flow->mainModule, value);
+}
+
+BOOL func_ov167_021abe04(BtlServerFlow *flow, u8 side, u32 sideEffect) {
+    return func_ov169_06898cf4(side, sideEffect);
+}
+
+u32 func_ov167_021abe10(BtlServerFlow *flow, u8 pos, u32 sideEffect) {
+    return func_ov169_06898ce0(func_ov167_0219d3bc(pos), sideEffect);
+}
+
+BOOL func_ov167_021abe34(BtlServerFlow *flow, u8 pos, u32 a2) {
+    return func_ov169_068982ac(a2);
+}
+
+u8 func_ov167_021abe40(BtlServerFlow *flow, u8 clientId) {
+    return func_ov167_0219c87c(flow->mainModule, clientId);
+}
+
+BOOL IsMonSwitchingOut(BtlServerFlow *flow) {
+    return flow->unk78A_0;
+}
+
+void AddSwitchOutInterrupt(BtlServerFlow *flow, u8 monId) {
+    if (flow->interruptCount < 6) {
+        flow->interruptMonIds[flow->interruptCount++] = monId;
+    }
+}
+
+BOOL func_ov167_021abe78(BtlServerFlow *flow, u8 monId) {
+    return IsSemiInvulnMove(GetPokeParam(flow->pokeCon, monId));
+}
+
+// Whether a mon is carrying another off with Sky Drop
+BOOL func_ov167_021abe88(BtlServerFlow *flow, u8 monId) {
+    if (BtlFlow_GetSkyDropTarget(GetPokeParam(flow->pokeCon, monId)) != 0x1f) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+// Whether a mon is either side of a Sky Drop
+BOOL func_ov167_021abeb4(BtlServerFlow *flow, u8 monId) {
+    if (func_ov167_021abe88(flow, monId)) {
+        return TRUE;
+    }
+    if (CheckCondition(GetPokeParam(flow->pokeCon, monId), 0x21)) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+u32 func_ov167_021abee0(BtlServerFlow *flow, u8 monId) {
+    BattleMon *mon;
+    fx32 ratio;
+    u32 weight;
+
+    mon = GetPokeParam(flow->pokeCon, monId);
+    ratio = ServerEvent_GetWeightRatio(flow, mon);
+    weight = fixed_round(GetBattleMonWeight(mon), ratio);
+    if (weight < 1) {
+        weight = 1;
+    }
+    return weight;
+}
+
+u32 func_ov167_021abf0c(BtlServerFlow *flow) {
+    return func_ov167_021a68fc(flow);
+}
+
+BOOL func_ov167_021abf14(BtlServerFlow *flow) {
+    return ServerControl_CheckMatchup(flow);
+}
+
+void SetMoveEffectIndex(BtlServerFlow *flow, u8 index) {
+    flow->moveEffect->index = index;
+}
+
+// Pay Day's money, in the battles that give it
+BOOL func_ov167_021abf28(BtlServerFlow *flow, u32 money) {
+    if (BtlSetup_GetBattleType(flow->mainModule) <= 1) {
+        func_ov167_0219f330(flow->server, money);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+void func_ov167_021abf48(BtlServerFlow *flow, u8 monId) {
+    u32 type;
+    u8 clientId;
+
+    type = BtlSetup_GetBattleType(flow->mainModule);
+    clientId = func_ov167_0219c648(monId);
+    if (type <= 1 && clientId == GetPlayerClientID(flow->mainModule)) {
+        func_ov167_0219f33c(flow->server);
+    }
+}
+
+void func_ov167_021abf74(BtlServerFlow *flow, u8 monId, u8 targetId) {
+    func_ov167_021a1fd4(flow->unk4B0, monId, targetId, GetBattlePos(flow->unk1ab8, targetId));
+}
+
+BOOL func_ov167_021abfac(BtlServerFlow *flow, u8 attackerId, u8 targetId, BOOL *failed) {
+    BattleMon *attacker;
+
+    attacker = GetPokeParam(flow->pokeCon, attackerId);
+    return func_ov167_021a3950(flow, attacker, GetPokeParam(flow->pokeCon, targetId), failed);
+}
+
+void func_ov167_021abfd4(BtlServerFlow *flow, u8 monId) {
+    ServerControl_SkyDropCheckRelease(flow, GetPokeParam(flow->pokeCon, monId), TRUE);
+}
+
+BOOL func_ov167_021abfec(BtlServerFlow *flow, BattleMon *mon, u8 *flag) {
+    BOOL result;
+
+    flow->unk78A_5 = 0;
+    result = ServerControl_UseHeldItem(flow, mon);
+    *flag = flow->unk78A_5;
+    return result;
+}
+
+void func_ov167_021ac010(BtlServerFlow *flow, BattleMon *mon) {
+    func_ov167_021a1660(flow, mon);
+}
+
+u32 func_ov167_021ac018(BtlServerFlow *flow) {
+    return func_ov167_021b05b4(flow);
+}
+
+void func_ov167_021ac020(BtlServerFlow *flow, u8 monId) {
+    func_ov167_021ac034(flow, monId);
+}
+
+void func_ov167_021ac028(BtlServerFlow *flow) {
+    flow->unk785 = 0;
+}
+
+void func_ov167_021ac034(BtlServerFlow *flow, u8 monId) {
+    u32 i;
+
+    for (i = 0; i < flow->unk785; i++) {
+        if (monId == flow->unk791[i]) {
+            return;
+        }
+    }
+    if (i < 24) {
+        flow->unk791[i] = monId;
+        flow->unk785++;
+    }
+}
+
+BOOL func_ov167_021ac074(BtlServerFlow *flow) {
+    u32 i;
+    u8 positions[3];
+
+    for (i = 0; i < flow->unk785; i++) {
+        if (func_ov169_0689d6e0(flow->unk1ab8, func_ov167_0219c648(flow->unk791[i]), positions)) {
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+void func_ov167_021ac0c8(BtlServerFlow *flow) {
+    flow->frameDepth = 0;
+    func_ov167_021ac114(flow, 0, TRUE);
+}
+
+void func_ov167_021ac0dc(BtlServerFlow *flow) {
+    if (flow->frameDepth < 6) {
+        flow->frameDepth++;
+        func_ov167_021ac114(flow, flow->frameDepth, TRUE);
+    }
+}
+
+void func_ov167_021ac0f8(BtlServerFlow *flow) {
+    if (flow->frameDepth != 0) {
+        flow->frameDepth--;
+        func_ov167_021ac114(flow, flow->frameDepth, FALSE);
+    }
+}
+
+// Points the flow at one level of its work, clearing it when the level is entered
+void func_ov167_021ac114(BtlServerFlow *flow, u32 depth, BOOL clear) {
+    BtlFlowWorkFrame *frame = &flow->frames[depth];
+
+    flow->unk850 = frame->monSets[0];
+    flow->unk854 = frame->monSets[1];
+    flow->unk858 = frame->monSets[2];
+    flow->unk85C = frame->monSets[3];
+    flow->unk860 = frame->monSets[4];
+    flow->unk864 = frame->monSets[5];
+    flow->unk868 = frame->monSets[6];
+    flow->moveEffect = &frame->moveEffect;
+    flow->unk1AB0 = &frame->moveParams[0];
+    flow->unk1AB4 = &frame->moveParams[1];
+    flow->unk4B4 = &frame->hitWork;
+    flow->unk4AC = &frame->reactionLists[0];
+    flow->unk4B0 = &frame->reactionLists[1];
+    flow->unk86C = &frame->damageLists[0];
+    flow->unk870 = &frame->damageLists[1];
+    flow->unk77F = frame->unk28C;
+    flow->unk78A_3 = frame->unk28D;
+    flow->unk78A_4 = frame->unk28E;
+    if (clear) {
+        func_ov169_0689ccc4(flow->unk850);
+        func_ov169_0689ccc4(flow->unk854);
+        func_ov169_0689ccc4(flow->unk858);
+        func_ov169_0689ccc4(flow->unk85C);
+        func_ov169_0689ccc4(flow->unk860);
+        func_ov169_0689ccc4(flow->unk864);
+        func_ov169_0689ccc4(flow->unk868);
+        func_ov167_021a0c88(flow->moveEffect);
+        sys_memset(flow->unk1AB0, 0, sizeof(BtlFlowMoveParam));
+        sys_memset(flow->unk1AB4, 0, sizeof(BtlFlowMoveParam));
+        sys_memset(flow->unk4B4, 0, sizeof(BtlFlowHitWork));
+        sys_memset(flow->unk4AC, 0, sizeof(BtlFlowReactionList));
+        sys_memset(flow->unk4B0, 0, sizeof(BtlFlowReactionList));
+        sys_memset(flow->unk86C, 0, sizeof(BtlFlowDamageList));
+        sys_memset(flow->unk870, 0, sizeof(BtlFlowDamageList));
+        flow->unk77F = 6;
+        flow->unk78A_3 = 0;
+        flow->unk78A_4 = 0;
+    }
 }
 
 void BattleHandler_StrClear(BattleHandlerString *string) {

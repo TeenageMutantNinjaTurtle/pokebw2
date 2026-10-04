@@ -57,6 +57,9 @@ u32 func_ov169_0689cec8(void *monSet);
 BattleMon *func_ov169_0689cdf8(void *monSet, u32 index);
 void Condition_CheckFloating(BtlServerFlow *flow, BattleMon *mon);
 u8 func_ov169_0689d77c(void *data, u8 monId);
+BOOL func_ov169_06898cf4(u8 side, u32 sideEffect);
+u32 func_ov169_06898ce0(u8 side, u32 sideEffect);
+BOOL func_ov169_068982ac(u32 a0);
 void func_ov169_0689c6c8(BtlServerFlow *flow, BattleMon *target);
 
 #endif // POKEBW2_BATTLE_BTL_OV169_H

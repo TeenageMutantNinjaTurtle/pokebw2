@@ -65,6 +65,17 @@ typedef struct {
     BtlFlowDamageEntry entries[6];
 } BtlFlowDamageList;
 
+// Where the move goes, and its effect
+struct BattleMoveEffectState {
+    u16 unk00;
+    u8 pos1;
+    u8 pos2;
+    u8 index;
+    u8 enabled : 1;
+    u8 unk05_1 : 1;
+    u8 unk05_2 : 6;
+};
+
 // How many times a move hits, and how its hits are checked
 typedef struct {
     u8 count;
@@ -103,6 +114,21 @@ typedef struct {
     u8 unk05;
 } BtlFlowClientList;
 
+// One level of the flow's work, kept for each level of nested handler calls; the flow's pointers point into the
+// current one
+typedef struct {
+    // Mon sets in overlay 169's format
+    u8 monSets[7][0x48];
+    BattleMoveEffectState moveEffect;
+    BtlFlowMoveParam moveParams[2];
+    BtlFlowHitWork hitWork;
+    BtlFlowReactionList reactionLists[2];
+    BtlFlowDamageList damageLists[2];
+    u8 unk28C;
+    u8 unk28D;
+    u8 unk28E;
+} BtlFlowWorkFrame;
+
 struct BtlServerFlow {
     BtlServer *server;
     BtlMainModule *mainModule;
@@ -135,7 +161,8 @@ struct BtlServerFlow {
     u8 unk785;
     u8 unk786;
     u8 unk787;
-    u8 unk788;
+    // The mons that strike a mon switching out, such as with Pursuit
+    u8 interruptCount;
     u8 unk789;
     u8 unk78A_0 : 1;
     u8 unk78A_1 : 1;
@@ -145,7 +172,8 @@ struct BtlServerFlow {
     u8 unk78A_5 : 1;
     u8 unk78A_6 : 1;
     u8 unk78A_7 : 1;
-    u8 unk78B[0x1e];
+    u8 interruptMonIds[6];
+    u8 unk791[0x18];
     // Per mon ID, cleared when the mon is revived
     u8 unk7A9[24];
     u8 unk7C1[24];
@@ -164,7 +192,8 @@ struct BtlServerFlow {
     void *unk868;
     BtlFlowDamageList *unk86C;
     BtlFlowDamageList *unk870;
-    u8 unk874[0x11f4];
+    BtlFlowWorkFrame frames[7];
+    u32 frameDepth;
     // The mons that came in this turn, in overlay 169's format
     u8 unk1A68[0x48];
     BtlFlowMoveParam *unk1AB0;
@@ -184,17 +213,6 @@ struct BtlServerFlow {
     u8 unk1F8C[0x60];
     u8 unk1FEC[4];
     u8 unk1FF0[0x144];
-};
-
-// Where the move goes, and its effect
-struct BattleMoveEffectState {
-    u16 unk00;
-    u8 pos1;
-    u8 pos2;
-    u8 index;
-    u8 enabled : 1;
-    u8 unk05_1 : 1;
-    u8 unk05_2 : 6;
 };
 
 struct BattleHandlerAbilityChangeParam {
@@ -619,7 +637,7 @@ u8 func_ov167_021ad1f4(void *state, u8 monIndex);
 BOOL func_ov167_021ad204(u16 species);
 u8 HandlerGetAlivePartyCount(BtlServerFlow *handler, u16 code, u8 *monIds);
 u8 func_ov167_021ab840(BtlServerFlow *flow, u8 monId);
-u8 *func_ov167_021abc60(void *flow, u32 value);
+u8 *func_ov167_021abc60(BtlServerFlow *flow, u32 size);
 u8 func_ov167_021add78(void *state, u8 monIndex);
 u8 func_ov167_021ae0fc(void *state, u8 monIndex);
 
