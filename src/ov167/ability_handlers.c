@@ -4,6 +4,7 @@
 #include "battle/btl_event.h"
 #include "battle/btl_field.h"
 #include "battle/btl_handler.h"
+#include "battle/btl_handler_work.h"
 #include "battle/btl_item.h"
 #include "battle/btl_main.h"
 #include "battle/btl_calc.h"

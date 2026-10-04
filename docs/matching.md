@@ -36,7 +36,7 @@ Same instructions, registers swapped.
 - The operands of `*` are loaded in source order, so a multiply whose registers are swapped has its operands swapped
   in the source.
 - The terms of a three-term `|` chain are not loaded in source order: `a | b | c` loads `c`, then `a`, then `b`.
-  `btl_server_flow.c`'s command encoder loads `args[2]`, `args[1]`, `args[0]` for each packed argument, which
+  `btl_server_cmd.c`'s command encoder loads `args[2]`, `args[1]`, `args[0]` for each packed argument, which
   `((args[1] & 0x1f) << 5) | ((args[0] & 0x1f) << 10) | (args[2] & 0x1f)` gives, while its four- and five-term chains
   match in field order. Try swapping the first two terms when the loads of a packing come out swapped.
 - A product assigned to a variable of its own goes to a new register, with its operand copied there first

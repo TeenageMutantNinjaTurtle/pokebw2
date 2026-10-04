@@ -15,8 +15,20 @@ src/ov167/btl_server.c:
     .data       start:0x021daecc end:0x021daedc
 
 src/ov167/btl_server_flow.c:
-    .text       start:0x0219f3d0 end:0x021b16b4
-    .data       start:0x021daedc end:0x021dafa0
+    .text       start:0x0219f3d0 end:0x021b087c
+    .rodata     start:0x021d6d2c end:0x021d6e18
+    .data       start:0x021daedc end:0x021daef0
+    .bss        start:0x021db040 end:0x021db064
+
+src/ov167/btl_handler_work.c:
+    .text       start:0x021b087c end:0x021b0a5c
+    .rodata     start:0x021d6e18 end:0x021d6e90
+
+src/ov167/btl_server_cmd.c:
+    .text       start:0x021b0a5c end:0x021b16b4
+    .rodata     start:0x021d6e90 end:0x021d6ef0
+    .data       start:0x021daef0 end:0x021dafa0
+    .bss        start:0x021db064 end:0x021db084
 
 src/ov167/btl_pokeparam.c:
     .text       start:0x021ba5c4 end:0x021bc6fc

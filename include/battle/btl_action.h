@@ -4,24 +4,6 @@
 #include "types.h"
 #include "struct_decls.h"
 
-struct BtlActionState {
-    union {
-        u32 raw;
-        struct {
-            u32 useItemNo : 10;
-            // The top of the work stack, and where PushState saved it
-            u32 workPos : 9;
-            u32 savedPos : 9;
-            u32 prevResult : 1;
-            u32 result : 1;
-            u32 used : 1;
-            u32 unk31 : 1;
-        };
-    };
-    // The stack of the handler commands' work
-    u8 work[500];
-};
-
 union BattleAction {
     u32 raw;
     struct {
@@ -57,17 +39,6 @@ static inline u16 BattleAction_GetMove(const BattleAction *action) {
     }
     return 0;
 }
-
-u32 PushState(BtlActionState *state, u32 command);
-u32 PushStateUseItem(BtlActionState *state, u16 item, u32 command);
-void PopState(BtlActionState *state, u32 value, u32 command);
-u16 GetUseItemNo(BtlActionState *state);
-BOOL IsUsed(BtlActionState *state);
-void SetResult(BtlActionState *state, BOOL result);
-BOOL GetPrevResult(BtlActionState *state);
-BOOL func_ov167_021b0918(BtlActionState *state);
-void *func_ov167_021b0920(BtlActionState *state, u32 command, u32 monId);
-void PopWork(BtlActionState *state, void *work);
 
 void BattleAction_SetFightParam(BattleAction *action, u16 move, u8 target);
 void BattleAction_ChangeFightTargetPos(BattleAction *action, u8 target);

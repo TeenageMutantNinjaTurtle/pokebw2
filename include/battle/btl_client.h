@@ -19,7 +19,6 @@ void func_ov167_021b19b0(BtlClient *client, u32 value);
 BOOL func_ov167_021b1d64(BtlClient *client);
 BOOL func_ov167_021b1d90(BtlClient *client);
 
-void func_ov167_021b1670(void);
 BtlClient *func_ov167_021b1674(BtlMainModule *mainModule, BtlPokeCon *pokeCon, u8 commMode, void *netHandle, u16 clientId,
                                u8 numCoverPos, u8 isAI, u32 arg7, u8 recPlay, MATHRandContext32 *rand, HeapID heapId);
 void func_ov167_021b1890(BtlClient *client);

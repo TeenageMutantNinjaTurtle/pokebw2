@@ -7,6 +7,7 @@
 #include "battle/btl_net.h"
 #include "battle/btl_pokeparam.h"
 #include "battle/btl_server.h"
+#include "battle/btl_server_cmd.h"
 #include "battle/btl_server_flow.h"
 #include "battle/btl_setup.h"
 #include "battle/btlv.h"

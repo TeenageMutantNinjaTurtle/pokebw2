@@ -23,6 +23,9 @@ Pipe the output through `head` or `grep`; for a big overlay, use the `boundary-s
   fix the next boundary. `config_fixes.py add-data` adds an object nothing references, so the one before doesn't
   seem to run on.
 - **Statics:** two files' `.bss` statics are addressed from separate bases, which shows a boundary.
+- **Sizes:** MWCC sorts a file's static data by size (`docs/matching.md`, "Static data is sorted by size"), so a run of
+  `.rodata` that gets smaller marks a boundary. `btl_server_flow.c`'s 184-byte item effects followed by a 118-byte
+  and a 96-byte table split off `btl_handler_work.c` and `btl_server_cmd.c`, whose users confirmed it.
 - **SPL and other library code** may be in reverse order (see `docs/decompiling.md`'s compiler section).
 
 ## Naming

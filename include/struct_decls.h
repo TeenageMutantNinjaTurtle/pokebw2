@@ -98,6 +98,7 @@ typedef struct BtlAdapter BtlAdapter;
 typedef struct BtlClient BtlClient;
 typedef struct BtlPokeCon BtlPokeCon;
 typedef struct BtlServer BtlServer;
+typedef struct BtlServerCmdQueue BtlServerCmdQueue;
 typedef struct BtlServerFlow BtlServerFlow;
 typedef struct BtlFieldSituation BtlFieldSituation;
 typedef struct BtlSetup BtlSetup;

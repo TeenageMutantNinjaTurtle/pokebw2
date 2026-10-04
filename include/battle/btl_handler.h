@@ -4,6 +4,7 @@
 #include "types.h"
 #include "battle/btl_action.h"
 #include "battle/btl_action_order.h"
+#include "battle/btl_handler_work.h"
 #include "battle/btl_pokeparam.h"
 #include "battle/btl_server.h"
 #include "struct_decls.h"

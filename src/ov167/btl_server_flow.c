@@ -6,12 +6,14 @@
 #include "battle/btl_event.h"
 #include "battle/btl_field.h"
 #include "battle/btl_handler.h"
+#include "battle/btl_handler_work.h"
 #include "battle/btl_item.h"
 #include "battle/btl_main.h"
 #include "battle/btl_move.h"
 #include "battle/btl_ov169.h"
 #include "battle/btl_pokeparam.h"
 #include "battle/btl_server.h"
+#include "battle/btl_server_cmd.h"
 #include "battle/btl_server_flow.h"
 #include "constants/abilities.h"
 #include "constants/items.h"
@@ -27,7 +29,6 @@
 #include "save/high_link.h"
 #include "save/player_info.h"
 #include "system/rtc.h"
-#include "stdarg.h"
 
 s32 ConvertConditionCode(BattleMon *mon, s32 *condition);
 
@@ -37,9 +38,6 @@ BOOL func_ov167_021acca8(u32 condition, BattleCondition value, BattleMon *mon, u
 BOOL func_ov167_021aceb4(void *state, u8 monId);
 
 BOOL func_ov167_021acec4(void *state, u8 monId);
-
-// The arguments of the server command being written
-static u32 sCmdArgs[16];
 
 // The targets hit by one strike of a damaging move, as func_ov167_021a4c90 works through them
 static u32 sHitEffectiveness[3];
@@ -1800,6 +1798,9 @@ void func_ov167_021a2150(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *
     BattleEvent_CallHandlers(flow, event);
     BattleEventVar_Pop(0xee4);
 }
+
+// Moves that combine with each other when allies use them in the same turn
+static const u16 data_ov167_021d6cec[3] = { MOVE_FIRE_PLEDGE, MOVE_WATER_PLEDGE, MOVE_GRASS_PLEDGE };
 
 BOOL func_ov167_021a2194(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 target) {
     u32 i;
@@ -9663,6 +9664,22 @@ u32 ScaleExpGainedByLevel(BattleMon *mon, u32 exp, u16 level, u16 defeatedLevel)
     return result;
 }
 
+// For each stat: its effort value in the personal data, its field in the party data, and its Power item
+typedef struct {
+    u8 personalParam;
+    u16 field;
+    u16 powerItem;
+} BtlFlowEVParam;
+
+static const BtlFlowEVParam data_ov167_021d6cfc[6] = {
+    { 0x0a, 0x0d, 0x126 },
+    { 0x0b, 0x0e, 0x121 },
+    { 0x0c, 0x0f, 0x122 },
+    { 0x0d, 0x10, 0x125 },
+    { 0x0e, 0x11, 0x123 },
+    { 0x0f, 0x12, 0x124 },
+};
+
 // Function name from swan.
 void AddEVs(BattleMon *mon, BattleMon *defeated, BtlFlowExpEntry *entry) {
     u16 species;
@@ -9730,6 +9747,42 @@ void AddEVs(BattleMon *mon, BattleMon *defeated, BtlFlowExpEntry *entry) {
     }
     PokeParty_EncryptPkm(pkm, wasEncrypted);
 }
+
+// An effect of the items a trainer uses from the bag, which applies to the items whose data has the parameter, or to
+// the item itself when exact is set
+typedef struct {
+    u16 param;
+    // 0 for any mon, 1 for one in battle, 2 only where any item can be used
+    u8 place;
+    u8 exact;
+    BOOL (*func)(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param);
+} BtlFlowItemEffect;
+
+static const BtlFlowItemEffect data_ov167_021d6d20[23] = {
+    { 0x12, 0, FALSE, func_ov167_021afaac },
+    { 0x13, 0, FALSE, func_ov167_021afabc },
+    { 0x14, 0, FALSE, func_ov167_021afacc },
+    { 0x15, 0, FALSE, func_ov167_021afadc },
+    { 0x16, 0, FALSE, func_ov167_021afaec },
+    { 0x17, 0, FALSE, func_ov167_021afafc },
+    { 0x18, 0, FALSE, func_ov167_021afb0c },
+    { 0x19, 1, FALSE, func_ov167_021afb1c },
+    { 0x1a, 0, FALSE, func_ov167_021afb84 },
+    { 0x1e, 1, FALSE, func_ov167_021afc14 },
+    { 0x1f, 1, FALSE, func_ov167_021afc24 },
+    { 0x20, 1, FALSE, func_ov167_021afc34 },
+    { 0x21, 1, FALSE, func_ov167_021afc44 },
+    { 0x22, 1, FALSE, func_ov167_021afc54 },
+    { 0x23, 1, FALSE, func_ov167_021afc64 },
+    { 0x24, 1, FALSE, func_ov167_021afc74 },
+    { 0x27, 0, FALSE, func_ov167_021afcf4 },
+    { 0x28, 0, FALSE, func_ov167_021afd90 },
+    { 0x29, 0, FALSE, func_ov167_021afe3c },
+    { ITEM_ITEM_URGE, 2, TRUE, func_ov167_021b0028 },
+    { ITEM_ABILITY_URGE, 2, TRUE, func_ov167_021b0084 },
+    { ITEM_ITEM_DROP, 2, TRUE, func_ov167_021b00d4 },
+    { ITEM_RESET_URGE, 2, TRUE, func_ov167_021b0170 },
+};
 
 // A trainer uses an item from the bag on a party mon
 u8 func_ov167_021af2ac(BtlServerFlow *flow, BattleMon *mon, u16 item, u8 param, u8 slot) {
@@ -10318,7 +10371,6 @@ BOOL func_ov167_021afecc(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 valu
 }
 
 // Cures every major condition of a mon that isn't in battle
-// Cures every major condition of a mon that isn't in battle
 BOOL func_ov167_021aff14(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param) {
     BOOL cured;
     u32 i;
@@ -10369,23 +10421,24 @@ BOOL func_ov167_021affb4(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 valu
 }
 
 // Uses a mon's held item: 1 when it was used, 2 when it only set the flag, 0 when it can't be used
-u8 func_ov167_021b0028(BtlServerFlow *flow, BattleMon *mon) {
+BOOL func_ov167_021b0028(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param) {
     u8 flag;
     u8 monId;
-    u8 used;
+    u8 result;
 
     if (!func_ov169_0689ca84(GetBattleMonHeldItem(mon))) {
         monId = GetMonID(mon);
-        used = func_ov167_021abfec(flow, mon, &flag);
-        if (!used) {
-            return flag ? 2 : 0;
+        result = func_ov167_021abfec(flow, mon, &flag);
+        if (!result) {
+            result = flag ? 2 : 0;
+            return result;
         }
         return 1;
     }
     return 0;
 }
 
-BOOL func_ov167_021b0084(BtlServerFlow *flow, BattleMon *mon) {
+BOOL func_ov167_021b0084(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param) {
     u32 state;
     u32 result;
 
@@ -10402,13 +10455,13 @@ BOOL func_ov167_021b0084(BtlServerFlow *flow, BattleMon *mon) {
 }
 
 // Takes away a mon's held item
-BOOL func_ov167_021b00d4(BtlServerFlow *flow, BattleMon *mon) {
-    u16 item;
+BOOL func_ov167_021b00d4(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param) {
+    u16 heldItem;
     u32 state;
     u8 monId;
     BattleHandlerSetItemParam *setItem;
 
-    if (!func_ov167_021cdedc(flow, GetMonID(mon)) && (item = GetBattleMonHeldItem(mon)) != 0) {
+    if (!func_ov167_021cdedc(flow, GetMonID(mon)) && (heldItem = GetBattleMonHeldItem(mon)) != 0) {
         state = PushState(&flow->actionState, 0x7ae);
         monId = GetMonID(mon);
         setItem = BattleHandler_PushWork(flow, 0x20, monId);
@@ -10416,7 +10469,7 @@ BOOL func_ov167_021b00d4(BtlServerFlow *flow, BattleMon *mon) {
         setItem->item = 0;
         BattleHandler_StrSetup(&setItem->string, 2, 0xe1);
         BattleHandler_AddArg(&setItem->string, monId);
-        BattleHandler_AddArg(&setItem->string, item);
+        BattleHandler_AddArg(&setItem->string, heldItem);
         BattleHandler_PopWork(flow, setItem);
         PopState(&flow->actionState, state, 0x7bb);
         return TRUE;
@@ -10425,7 +10478,7 @@ BOOL func_ov167_021b00d4(BtlServerFlow *flow, BattleMon *mon) {
 }
 
 // Resets a mon's stat stages
-BOOL func_ov167_021b0170(BtlServerFlow *flow, BattleMon *mon) {
+BOOL func_ov167_021b0170(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param) {
     u32 state;
     u8 monId;
     BattleHandlerResetStatStageParam *reset;
@@ -10826,613 +10879,4 @@ u32 func_ov167_021b082c(u32 *table, u8 monId) {
 
 u32 func_ov167_021b0834(u32 *table, u8 monId) {
     return table[monId];
-}
-
-void func_ov167_021b083c(BtlActionState *state) {
-    state->raw = 0;
-    sys_memset(state->work, 0, sizeof(state->work));
-}
-
-// Function name from swan.
-u32 PushState(BtlActionState *state, u32 command) {
-    u32 prev = state->raw;
-
-    state->useItemNo = 0;
-    state->savedPos = state->workPos;
-    state->result = 0;
-    state->prevResult = 0;
-    state->used = 0;
-    return prev;
-}
-
-// Function name from swan.
-u32 PushStateUseItem(BtlActionState *state, u16 item, u32 command) {
-    u32 prev = state->raw;
-
-    state->useItemNo = item;
-    state->savedPos = state->workPos;
-    state->result = 0;
-    state->prevResult = 0;
-    state->used = 0;
-    return prev;
-}
-
-// Function names from swan.
-void PopState(BtlActionState *state, u32 value, u32 command) {
-    state->raw = value;
-}
-
-u16 GetUseItemNo(BtlActionState *state) {
-    return state->useItemNo;
-}
-
-BOOL IsUsed(BtlActionState *state) {
-    return state->used;
-}
-
-void SetResult(BtlActionState *state, BOOL result) {
-    if (result) {
-        state->prevResult = 1;
-        state->result = 1;
-    } else {
-        state->prevResult = 0;
-    }
-    state->used = 1;
-}
-
-BOOL GetPrevResult(BtlActionState *state) {
-    return state->prevResult;
-}
-
-BOOL func_ov167_021b0918(BtlActionState *state) {
-    return state->result;
-}
-
-// Allocates a handler command's work on the stack, zeroed and with its header set up
-// Allocates a handler command's work on the stack, zeroed and with its header set up
-void *func_ov167_021b0920(BtlActionState *state, u32 command, u32 monId) {
-    u32 i;
-    u32 size = 0;
-    u32 pos;
-    u8 *work;
-    BattleHandlerHeader *header;
-
-    for (i = 0; i < 59; i++) {
-        if (command == data_ov167_021d6dd8[i].command) {
-            size = data_ov167_021d6dd8[i].size;
-            break;
-        }
-    }
-    if (size != 0) {
-        while (size & 3) {
-            size++;
-        }
-        pos = state->workPos;
-        if (pos + size <= sizeof(state->work)) {
-            work = state->work;
-            for (i = 0; i < size; i++) {
-                state->work[state->workPos + i] = 0;
-            }
-            header = (BattleHandlerHeader *)&work[pos];
-            header->command = command;
-            header->size = size;
-            header->monId = monId;
-            header->unk23 = 0;
-            header->unk26 = 1;
-            state->workPos += size;
-            return header;
-        }
-    }
-    return NULL;
-}
-
-// Function name from swan.
-void PopWork(BtlActionState *state, void *work) {
-    BattleHandlerHeader *header = work;
-    u32 pos = state->workPos;
-
-    if (header->size <= pos && (u8 *)work - state->work + header->size == pos) {
-        state->workPos = pos - header->size;
-    }
-}
-
-void func_ov167_021b0a1c(BtlServerCmdQueue *que, u8 value) {
-    GFL_ASSERT(que->writePtr < BTL_SERVER_CMD_QUE_SIZE);
-    que->buffer[que->writePtr++] = value;
-}
-
-u8 func_ov167_021b0a4c(BtlServerCmdQueue *que) {
-    return que->buffer[que->readPtr++];
-}
-
-void func_ov167_021b0a58(BtlServerCmdQueue *que, u16 value) {
-    GFL_ASSERT(que->writePtr < (BTL_SERVER_CMD_QUE_SIZE-1));
-    que->buffer[que->writePtr++] = value >> 8;
-    que->buffer[que->writePtr++] = value;
-}
-
-u16 func_ov167_021b0a94(BtlServerCmdQueue *que) {
-    const u8 *data = &que->buffer[que->readPtr];
-    u16 value = (data[0] << 8) | data[1];
-
-    que->readPtr += 2;
-    return value;
-}
-
-void func_ov167_021b0ab0(BtlServerCmdQueue *que, u32 value) {
-    GFL_ASSERT(que->writePtr < (BTL_SERVER_CMD_QUE_SIZE-2));
-    que->buffer[que->writePtr++] = value >> 16;
-    que->buffer[que->writePtr++] = value >> 8;
-    que->buffer[que->writePtr++] = value;
-}
-
-u32 func_ov167_021b0af8(BtlServerCmdQueue *que) {
-    const u8 *data = &que->buffer[que->readPtr];
-    u32 value = (data[0] << 16) | (data[1] << 8) | data[2];
-
-    que->readPtr += 3;
-    return value;
-}
-
-void func_ov167_021b0b18(BtlServerCmdQueue *que, u32 value) {
-    GFL_ASSERT(que->writePtr < (BTL_SERVER_CMD_QUE_SIZE-3));
-    que->buffer[que->writePtr++] = value >> 24;
-    que->buffer[que->writePtr++] = value >> 16;
-    que->buffer[que->writePtr++] = value >> 8;
-    que->buffer[que->writePtr++] = value;
-}
-
-u32 func_ov167_021b0b6c(BtlServerCmdQueue *que) {
-    const u8 *data = &que->buffer[que->readPtr];
-    u32 value = (data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3];
-
-    que->readPtr += 4;
-    return value;
-}
-
-// Writes a command and its arguments, packed as its format says
-static inline void PutHalfwords(BtlServerCmdQueue *que, u16 first, u16 second) {
-    func_ov167_021b0a58(que, first);
-    func_ov167_021b0a58(que, second);
-}
-
-// Writes a command and its arguments, packed as its format says
-// Writes a command and its arguments, packed as its format says
-void func_ov167_021b0b90(BtlServerCmdQueue *que, u32 event, s32 format, const u32 *args) {
-    s32 i;
-
-    func_ov167_021b0a58(que, event);
-    switch (format) {
-    case 0x00:
-        break;
-    case 0x01:
-        func_ov167_021b0a1c(que, args[0]);
-        break;
-    case 0x11:
-        func_ov167_021b0a58(que, args[0]);
-        break;
-    case 0x02:
-        func_ov167_021b0a1c(que, args[0]);
-        func_ov167_021b0a1c(que, args[1]);
-        break;
-    case 0x12:
-        func_ov167_021b0a1c(que, args[0]);
-        func_ov167_021b0a58(que, args[1]);
-        break;
-    case 0x22:
-        func_ov167_021b0a1c(que, args[0]);
-        func_ov167_021b0b18(que, args[1]);
-        break;
-    case 0x32:
-        func_ov167_021b0a1c(que, ((args[0] & 0xf) << 4) | (args[1] & 0xf));
-        break;
-    case 0x42:
-        func_ov167_021b0a1c(que, ((args[0] & 0x1f) << 3) | (args[1] & 7));
-        break;
-    case 0x03:
-        func_ov167_021b0a1c(que, ((args[0] & 0x1f) << 3) | (args[1] & 7));
-        func_ov167_021b0a1c(que, args[2]);
-        break;
-    case 0x13:
-        func_ov167_021b0a1c(que, ((args[0] & 0x1f) << 3) | (args[1] & 7));
-        func_ov167_021b0a58(que, args[2]);
-        break;
-    case 0x23:
-        func_ov167_021b0a58(que, ((args[1] & 0x1f) << 5) | ((args[0] & 0x1f) << 10) | (args[2] & 0x1f));
-        break;
-    case 0x33:
-        func_ov167_021b0ab0(que, ((args[1] & 0x1f) << 14) | ((args[0] & 0x1f) << 19) | (args[2] & 0x3fff));
-        break;
-    case 0x43:
-        func_ov167_021b0a1c(que, args[0]);
-        func_ov167_021b0a1c(que, args[1]);
-        func_ov167_021b0a58(que, args[2]);
-        break;
-    case 0x53:
-        func_ov167_021b0a1c(que, args[0]);
-        func_ov167_021b0a1c(que, args[1]);
-        func_ov167_021b0b18(que, args[2]);
-        break;
-    case 0x14:
-        func_ov167_021b0a1c(que, ((args[0] & 0x1f) << 3) | (args[1] & 7));
-        func_ov167_021b0a1c(que, ((args[2] & 0x1f) << 3) | (args[3] & 7));
-        break;
-    case 0x04:
-        func_ov167_021b0a1c(que, ((args[0] & 0x1f) << 3) | (args[1] & 7));
-        func_ov167_021b0a1c(que, args[2]);
-        func_ov167_021b0a58(que, args[3]);
-        break;
-    case 0x24:
-        func_ov167_021b0ab0(que, ((args[1] & 0x1f) << 14) | ((args[0] & 0x1f) << 19) | (args[2] & 0x3fff));
-        func_ov167_021b0a1c(que, args[3]);
-        break;
-    case 0x34:
-        func_ov167_021b0ab0(que, ((args[1] & 0x1f) << 14) | ((args[0] & 0x1f) << 19) | (args[2] & 0x3fff));
-        func_ov167_021b0a58(que, args[3]);
-        break;
-    case 0x44:
-        func_ov167_021b0a58(que, ((args[1] & 0x1f) << 6) | ((args[0] & 0x1f) << 11) | (args[2] & 0x3f));
-        func_ov167_021b0a58(que, args[3]);
-        break;
-    case 0x54:
-        func_ov167_021b0a1c(que, args[0]);
-        func_ov167_021b0a1c(que, args[1]);
-        func_ov167_021b0a58(que, args[2]);
-        func_ov167_021b0a58(que, args[3]);
-        break;
-    case 0x05:
-        func_ov167_021b0a58(que, ((args[1] & 0x1f) << 5) | ((args[0] & 0x1f) << 10) | (args[2] & 0x1f));
-        func_ov167_021b0a58(que, args[3]);
-        func_ov167_021b0a58(que, args[4]);
-        break;
-    case 0x15:
-        PutHalfwords(que, (u8)(((args[0] & 0x1f) << 3) | (args[1] & 7)), (u8)(((args[2] & 0x7f) << 1) | (args[3] & 1)));
-        func_ov167_021b0a58(que, args[4]);
-        break;
-    case 0x25:
-        func_ov167_021b0a1c(que, ((args[0] & 7) << 5) | ((args[1] & 7) << 2) | ((args[2] & 1) << 1) | (args[3] & 1));
-        func_ov167_021b0a58(que, args[4]);
-        break;
-    case 0x06:
-        PutHalfwords(que, ((args[1] & 0x1f) << 5) | ((args[0] & 0x1f) << 10) | (args[2] & 0x1f),
-                     ((args[4] & 0x1f) << 5) | ((args[3] & 0x1f) << 10) | (args[5] & 0x1f));
-        break;
-    case 0x16:
-        func_ov167_021b0a1c(que, ((args[0] & 7) << 5) | ((args[1] & 3) << 3) | ((args[2] & 1) << 2) | ((args[3] & 1) << 1) | (args[4] & 1));
-        func_ov167_021b0a58(que, args[5]);
-        break;
-    case 0x26:
-        func_ov167_021b0ab0(que, ((args[0] & 0x1f) << 15) | ((args[1] & 0x1f) << 10) | ((args[2] & 0x1f) << 5) | (args[3] & 0x1f));
-        func_ov167_021b0a58(que, args[4]);
-        func_ov167_021b0a58(que, args[5]);
-        break;
-    case 0x07:
-        for (i = 0; i < 7; i++) {
-            func_ov167_021b0a1c(que, args[i]);
-        }
-        break;
-    case 0x08:
-        for (i = 0; i < 8; i++) {
-            func_ov167_021b0a1c(que, args[i]);
-        }
-        break;
-    }
-}
-
-// Reads a command's arguments, unpacked as its format says
-// Reads a command's arguments, unpacked as its format says
-// Reads a command's arguments, unpacked as its format says
-void func_ov167_021b1074(BtlServerCmdQueue *que, s32 format, u32 *args) {
-    s32 i;
-    u32 value;
-    u32 value2;
-    u8 byte;
-
-    switch (format) {
-    case 0x00:
-        break;
-    case 0x01:
-        args[0] = func_ov167_021b0a4c(que);
-        break;
-    case 0x11:
-        args[0] = func_ov167_021b0a94(que);
-        break;
-    case 0x02:
-        args[0] = func_ov167_021b0a4c(que);
-        args[1] = func_ov167_021b0a4c(que);
-        break;
-    case 0x12:
-        args[0] = func_ov167_021b0a4c(que);
-        args[1] = func_ov167_021b0a94(que);
-        break;
-    case 0x22:
-        args[0] = func_ov167_021b0a4c(que);
-        args[1] = func_ov167_021b0b6c(que);
-        break;
-    case 0x32:
-        byte = func_ov167_021b0a4c(que);
-        args[0] = (byte >> 4) & 0xf;
-        args[1] = byte & 0xf;
-        break;
-    case 0x42:
-        byte = func_ov167_021b0a4c(que);
-        args[0] = (byte >> 3) & 0x1f;
-        args[1] = byte & 7;
-        break;
-    case 0x03:
-        byte = func_ov167_021b0a4c(que);
-        args[0] = (byte >> 3) & 0x1f;
-        args[1] = byte & 7;
-        args[2] = func_ov167_021b0a4c(que);
-        break;
-    case 0x13:
-        byte = func_ov167_021b0a4c(que);
-        args[0] = (byte >> 3) & 0x1f;
-        args[1] = byte & 7;
-        args[2] = func_ov167_021b0a94(que);
-        break;
-    case 0x23:
-        value = func_ov167_021b0a94(que);
-        args[0] = (value >> 10) & 0x1f;
-        args[1] = (value >> 5) & 0x1f;
-        args[2] = value & 0x1f;
-        break;
-    case 0x33:
-        value = func_ov167_021b0af8(que);
-        args[0] = (value >> 19) & 0x1f;
-        args[1] = (value >> 14) & 0x1f;
-        args[2] = value & 0x3fff;
-        break;
-    case 0x43:
-        args[0] = func_ov167_021b0a4c(que);
-        args[1] = func_ov167_021b0a4c(que);
-        args[2] = func_ov167_021b0a94(que);
-        break;
-    case 0x53:
-        args[0] = func_ov167_021b0a4c(que);
-        args[1] = func_ov167_021b0a4c(que);
-        args[2] = func_ov167_021b0b6c(que);
-        break;
-    case 0x14:
-        byte = func_ov167_021b0a4c(que);
-        args[0] = (byte >> 3) & 0x1f;
-        args[1] = byte & 7;
-        byte = func_ov167_021b0a4c(que);
-        args[2] = (byte >> 3) & 0x1f;
-        args[3] = byte & 7;
-        break;
-    case 0x04:
-        byte = func_ov167_021b0a4c(que);
-        args[0] = (byte >> 3) & 0x1f;
-        args[1] = byte & 7;
-        args[2] = func_ov167_021b0a4c(que);
-        args[3] = func_ov167_021b0a94(que);
-        break;
-    case 0x24:
-        value = func_ov167_021b0af8(que);
-        args[0] = (value >> 19) & 0x1f;
-        args[1] = (value >> 14) & 0x1f;
-        args[2] = value & 0x3fff;
-        args[3] = func_ov167_021b0a4c(que);
-        break;
-    case 0x34:
-        value = func_ov167_021b0af8(que);
-        args[0] = (value >> 19) & 0x1f;
-        args[1] = (value >> 14) & 0x1f;
-        args[2] = value & 0x3fff;
-        args[3] = func_ov167_021b0a94(que);
-        break;
-    case 0x44:
-        value = func_ov167_021b0a94(que);
-        args[0] = (value >> 11) & 0x1f;
-        args[1] = (value >> 6) & 0x1f;
-        args[2] = value & 0x3f;
-        args[3] = func_ov167_021b0a94(que);
-        break;
-    case 0x54:
-        args[0] = func_ov167_021b0a4c(que);
-        args[1] = func_ov167_021b0a4c(que);
-        args[2] = func_ov167_021b0a94(que);
-        args[3] = func_ov167_021b0a94(que);
-        break;
-    case 0x05:
-        value = func_ov167_021b0a94(que);
-        args[0] = (value >> 10) & 0x1f;
-        args[1] = (value >> 5) & 0x1f;
-        args[2] = value & 0x1f;
-        args[3] = func_ov167_021b0a94(que);
-        args[4] = func_ov167_021b0a94(que);
-        break;
-    case 0x15:
-        value = func_ov167_021b0a94(que);
-        value2 = func_ov167_021b0a94(que);
-        args[0] = ((u8)value >> 3) & 0x1f;
-        args[1] = (u8)value & 7;
-        args[2] = ((u8)value2 >> 1) & 0x7f;
-        args[3] = (u8)value2 & 1;
-        args[4] = func_ov167_021b0a94(que);
-        break;
-    case 0x25:
-        value = func_ov167_021b0a4c(que);
-        args[0] = (value >> 5) & 7;
-        args[1] = (value >> 2) & 7;
-        args[2] = (value >> 1) & 1;
-        args[3] = value & 1;
-        args[4] = func_ov167_021b0a94(que);
-        break;
-    case 0x06:
-        value = func_ov167_021b0a94(que);
-        value2 = func_ov167_021b0a94(que);
-        args[0] = (value >> 10) & 0x1f;
-        args[1] = (value >> 5) & 0x1f;
-        args[2] = value & 0x1f;
-        args[3] = (value2 >> 10) & 0x1f;
-        args[4] = (value2 >> 5) & 0x1f;
-        args[5] = value2 & 0x1f;
-        break;
-    case 0x16:
-        value = func_ov167_021b0a4c(que);
-        args[0] = (value >> 5) & 7;
-        args[1] = (value >> 3) & 3;
-        args[2] = (value >> 2) & 1;
-        args[3] = (value >> 1) & 1;
-        args[4] = value & 1;
-        args[5] = func_ov167_021b0a94(que);
-        break;
-    case 0x26:
-        value = func_ov167_021b0af8(que);
-        args[0] = (value >> 15) & 0x1f;
-        args[1] = (value >> 10) & 0x1f;
-        args[2] = (value >> 5) & 0x1f;
-        args[3] = value & 0x1f;
-        args[4] = func_ov167_021b0a94(que);
-        args[5] = func_ov167_021b0a94(que);
-        break;
-    case 0x07:
-        for (i = 0; i < 7; i++) {
-            args[i] = func_ov167_021b0a4c(que);
-        }
-        break;
-    case 0x08:
-        for (i = 0; i < 8; i++) {
-            args[i] = func_ov167_021b0a4c(que);
-        }
-        break;
-    }
-}
-
-// Writes a server command with its arguments, in the widths its format gives them
-void func_ov167_021b1434(BtlServerCmdQueue *que, u32 event, ...) {
-    va_list list;
-    u8 format;
-    u32 count;
-    u32 i;
-
-    va_start(list, event);
-    format = data_ov167_021d6e50[event];
-    count = format & 0xf;
-    for (i = 0; i < count; i++) {
-        sCmdArgs[i] = va_arg(list, u32);
-    }
-    va_end(list);
-    func_ov167_021b0b90(que, event, format, sCmdArgs);
-}
-
-// Function name from swan.
-u16 SCQUE_RESERVE_Pos(BtlServerCmdQueue *que, u32 event) {
-    u8 format = data_ov167_021d6e50[event];
-    u8 count = format & 0xf;
-    u8 i;
-    u16 pos;
-    u8 size;
-
-    for (i = 0; i < count; i++) {
-        sCmdArgs[i] = 0;
-    }
-    pos = que->writePtr;
-    func_ov167_021b0b90(que, event, format, sCmdArgs);
-    size = que->writePtr - pos;
-    que->writePtr = pos;
-    func_ov167_021b0a58(que, 0x5f);
-    func_ov167_021b0a1c(que, size - 3);
-    que->writePtr = pos + size;
-    return pos;
-}
-
-// Fills in a command that SCQUE_RESERVE_Pos reserved room for
-void func_ov167_021b14ec(BtlServerCmdQueue *que, u32 reserve, u32 event, ...) {
-    va_list list;
-    u8 format;
-    u32 count;
-    u32 i;
-    u16 pos;
-
-    format = data_ov167_021d6e50[event];
-    count = format & 0xf;
-    va_start(list, event);
-    for (i = 0; i < count; i++) {
-        sCmdArgs[i] = va_arg(list, u32);
-    }
-    va_end(list);
-    pos = que->readPtr;
-    que->readPtr = reserve;
-    func_ov167_021b0a94(que);
-    func_ov167_021b0a4c(que);
-    que->readPtr = pos;
-    if (event != 0x5f) {
-        pos = que->writePtr;
-        que->writePtr = reserve;
-        func_ov167_021b0b90(que, event, format, sCmdArgs);
-        que->writePtr = pos;
-    }
-}
-
-// Reads the next command and its arguments, skipping reserved room left empty
-u16 func_ov167_021b1564(BtlServerCmdQueue *que, u32 *args) {
-    u16 event;
-    u8 format;
-
-    event = func_ov167_021b0a94(que);
-    while (event == 0x5f) {
-        que->readPtr += func_ov167_021b0a4c(que);
-        if (que->readPtr >= que->writePtr) {
-            return 0x5e;
-        }
-        event = func_ov167_021b0a94(que);
-    }
-    format = data_ov167_021d6e50[event];
-    if (format != 0 && format != 0x10) {
-        func_ov167_021b1074(que, format, args);
-    } else {
-        func_ov167_021b1630(que, event, args);
-    }
-    return event;
-}
-
-void func_ov167_021b15c0(BtlServerCmdQueue *que, u8 value) {
-    func_ov167_021b0a1c(que, value);
-}
-
-u8 func_ov167_021b15c8(BtlServerCmdQueue *que) {
-    return func_ov167_021b0a4c(que);
-}
-
-// Writes a message command: the message, then its arguments up to 0xffff0000
-void func_ov167_021b15d0(BtlServerCmdQueue *que, u8 event, ...) {
-    va_list list;
-    u16 message;
-    u32 arg;
-
-    va_start(list, event);
-    message = va_arg(list, u32);
-    func_ov167_021b0a58(que, event);
-    func_ov167_021b0a58(que, message);
-    if (event == 0x5c) {
-        func_ov167_021b0a58(que, va_arg(list, u32));
-    }
-    do {
-        arg = va_arg(list, u32);
-        func_ov167_021b0b18(que, arg);
-    } while (arg != 0xffff0000);
-    va_end(list);
-}
-
-// Reads a message command's arguments
-void func_ov167_021b1630(BtlServerCmdQueue *que, u8 event, u32 *args) {
-    s32 i = 1;
-
-    args[0] = func_ov167_021b0a94(que);
-    if (event == 0x5c) {
-        args[1] = func_ov167_021b0a94(que);
-        i++;
-    }
-    for (; i < 16; i++) {
-        args[i] = func_ov167_021b0b6c(que);
-        if (args[i] == 0xffff0000) {
-            break;
-        }
-    }
-}
-
-void func_ov167_021b1670(void) {
 }
