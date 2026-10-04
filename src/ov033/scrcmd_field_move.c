@@ -1,4 +1,5 @@
 #include "types.h"
+#include "field/event_dive.h"
 #include "field/field.h"
 #include "field/field_actor.h"
 #include "field/field_map.h"
@@ -83,3 +84,20 @@ BOOL s00C7_CallCut(VM *vm, FieldScriptEnv *env) {
     func_ov036_021c2e70(actor, Field_GetFieldEffects(field));
     return FALSE;
 }
+
+BOOL s00C8_CallDiving(VM *vm, FieldScriptEnv *env) {
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+    Field *field = GSYS_GetField(gsys);
+    ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
+    u16 mode = ScriptReadAny(vm, env);
+
+    if (mode == 0) {
+        ScriptWork_CallEvent(work, EventDiveIn_Create(gsys, field));
+    } else if (mode == 1) {
+        ScriptWork_CallEvent(work, CreateDiveOutEvent(gsys, field, FALSE));
+    } else {
+        ScriptWork_CallEvent(work, CreateDiveOutEvent(gsys, field, TRUE));
+    }
+    return TRUE;
+}
+
