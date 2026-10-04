@@ -251,6 +251,10 @@ BOOL s00D8_MapReplaceIsEventSet(VM *vm, FieldScriptEnv *env);
 BOOL s01C6_PokeDexGiveNational(VM *vm, FieldScriptEnv *env);
 BOOL s01C7_PokeDexHaveNational(VM *vm, FieldScriptEnv *env);
 BOOL s01C8_PokeDexEnable(VM *vm, FieldScriptEnv *env);
+// scrcmd_ndemo.c: the scenes with N, which overlay 155 plays
+BOOL s01C9_NDemoStart(VM *vm, FieldScriptEnv *env);
+BOOL s01CA_NDemoEnd(VM *vm, FieldScriptEnv *env);
+BOOL s01CB_NDemoReadyTalkMotion(VM *vm, FieldScriptEnv *env);
 BOOL s02D0_PokeDexEnableHabitatList(VM *vm, FieldScriptEnv *env);
 BOOL s00DF_PokeDexIsRegist(VM *vm, FieldScriptEnv *env);
 BOOL s00DD_PokeDexGetCount(VM *vm, FieldScriptEnv *env);
@@ -389,6 +393,14 @@ typedef struct {
 typedef BOOL (*FieldScriptSubEventFinishFunc)(FinishScriptSubEventsWork *work, u32 *state);
 
 extern const FieldScriptSubEventFinishFunc FIELD_SCRIPT_SUB_EVENT_FINISH_FUNCS[15];
+// scrcmd_ndemo.c
+BOOL FieldScriptSubEventFinish_NDemo(FinishScriptSubEventsWork *work, u32 *state);
+
+// Overlay 155, the scenes with N
+GameEvent *func_ov155_021f59e0(u8 a0, u8 a1, u16 a2, GameSystem *gsys, FieldScriptEnv *env);
+GameEvent *func_ov155_021f5cd0(GameSystem *gsys);
+void func_ov155_021f5cf8(Field *field);
+void func_ov155_021f5d0c(Field *field);
 
 GameEventReturnCode EventFinishScriptSubEvents_Callback(GameEvent *event, u32 *state, void *data);
 GameEvent *EventFinishScriptSubEvents_Create(FieldScriptEnv *env);

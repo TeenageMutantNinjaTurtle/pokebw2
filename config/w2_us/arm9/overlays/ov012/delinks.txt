@@ -202,6 +202,10 @@ src/ov012/calender.c:
     .rodata     start:0x0216d6d8 end:0x0216d6e8
     .data       start:0x0216e2ec end:0x0216e2f8
 
+src/ov012/scrcmd_ndemo.c:
+    complete
+    .text       start:0x0215f480 end:0x0215f59c
+
 src/ov012/field_g3d_map.c:
     .text       start:0x02163208 end:0x02163b78
     .data       start:0x0216e3c0 end:0x0216e3d0
