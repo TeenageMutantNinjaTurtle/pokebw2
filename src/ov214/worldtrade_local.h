@@ -168,7 +168,9 @@ struct WorldTradeWork {
     u16 unk34;
     // Counts down the frames before the server may be checked again
     u16 serverWaitTime;
-    u8 unk38[0x80];
+    // The server's or the library's error, which the error screens show
+    int connectErrorNo;
+    u8 unk3C[0x7c];
     // Set while the status screen or the trade demo runs, which takes the cell actors
     int subprocFlag;
     // The cursor of the list being shown, to play a sound when it moves
@@ -243,7 +245,7 @@ struct WorldTradeWork {
     u8 unkDEC[0x8];
     BmpMenuList *bmpListWork;
     WaitIcon *timeWaitWork;
-    u8 unkDFC[0x4];
+    int wait;
     // The deposit and search screens' work
     WorldTradeDepositWork *dw;
     AppTaskMenuRes *task_res;
@@ -269,9 +271,15 @@ struct WorldTradeWork {
     // The first y of each person on the lower screen
     s16 subActY[10][2];
     WorldTradeSelectListPos selectListPos;
-    u8 unkF18[0x6c];
+    // The player's profile on the server, and the server's answer
+    Dpw_Common_Profile dcProfile;
+    Dpw_Common_ProfileResult dcProfileResult;
     int countryCode;
-    u8 unkF88[0x8];
+    // The steps and frames of a server error's message
+    s16 localSeq;
+    s16 localWait;
+    // Frames spent waiting for the server
+    s32 timeoutCount;
     TCB *vblankTask;
     TCBManager *tcbManager;
     u8 unkF98[0x4];
@@ -279,10 +287,13 @@ struct WorldTradeWork {
     WorldTradePrint print;
     // The parameter of the proc that a screen runs, the trade demo or the evolution demo
     void *subProcParam;
-    u8 unk10E0[0x204];
+    u8 unk10E0[0x8c];
+    // The Wi-Fi login proc's work
+    u8 wifiLoginBuffer[0x178];
     int unk12E4;
     int unk12E8;
-    u8 unk12EC[0x4];
+    // The step of the login, which the Wi-Fi login proc calls back for
+    int loginSeq;
     GameProcManager *procManager;
     BOOL procResult;
     // Set when the traded Pokémon may evolve
@@ -376,8 +387,13 @@ extern const u32 WorldTrade_SexStringTable[];
 int WorldTrade_Enter_Init(WorldTradeWork *wk, int seq);
 int WorldTrade_Enter_Main(WorldTradeWork *wk, int seq);
 int WorldTrade_Enter_End(WorldTradeWork *wk, int seq);
-void func_ov214_021d7fb4(BmpWin *win, StrBuf *str, int x, int y, int flag, u32 color, WorldTradePrint *print);
-void func_ov214_021d8068(WorldTradeWork *wk);
+void Enter_MessagePrint(WorldTradeWork *wk, MsgData *msgManager, int msgNo, int wait, u16 dat);
+void Enter_MessagePrintNoStream(WorldTradeWork *wk, MsgData *msgManager, int msgNo, int wait, u16 dat);
+// Print a string at x, or centered for flag 1 or right-aligned for flag 2
+void WorldTrade_SysPrint(BmpWin *win, StrBuf *str, int x, int y, int flag, u16 color, WorldTradePrint *print);
+void WorldTrade_TouchPrint(BmpWin *win, StrBuf *str, int x, int y, int flag, u16 color, WorldTradePrint *print);
+void WorldTrade_ExplainPrint(BmpWin *win, MsgData *msgManager, int no, WorldTradePrint *print);
+void WorldTrade_WifiIconAdd(WorldTradeWork *wk);
 
 // worldtrade_input.c
 WorldTradeInputWork *func_ov214_021d86a4(WorldTradeInputHeader *header, int frame, int situation);
@@ -434,12 +450,16 @@ void func_ov214_021e1528(PartyPkm *src, PartyPkm *dest);
 // Clears a window from the screen, now or at the next VBlank
 void func_ov214_021e1540(BmpWin *win, int mode);
 StrBuf *func_ov214_021e156c(WordSet *wordSet, MsgData *msgData, u32 msgNo, HeapID heapId);
+// The width of a string in the print's font
+int func_ov214_021e15c0(WorldTradePrint *print, u8 font, StrBuf *str, int spacing);
 void func_ov214_021e159c(BoxPkm *pkm, PartyPkm *dest);
 void func_ov214_021e15d4(WorldTradePrint *print, TrainerDataSave *config);
 void func_ov214_021e1640(WorldTradePrint *print);
 void func_ov214_021e166c(WorldTradePrint *print);
 BOOL func_ov214_021e173c(WorldTradePrint *print);
 void func_ov214_021e1754(BmpWin *win, int x, StrBuf *str, int y, int a4, WorldTradePrint *print);
+// The same through the message stream, at the player's text speed
+void func_ov214_021e1774(BmpWin *win, int a1, StrBuf *str, int x, int y, WorldTradePrint *print);
 void func_ov214_021e17c4(BmpWin *win, int a1, StrBuf *str, int x, int y, int a5, u16 color, WorldTradePrint *print);
 void func_ov214_021e1840(WorldTradePrint *print);
 

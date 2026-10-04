@@ -2,6 +2,7 @@
 #define POKEBW2_DPW_DPW_TR_H
 
 #include "types.h"
+#include "struct_decls.h"
 
 // The Global Trade Station's server library in overlay 189. The ROM names none of it; the header and the type and
 // field names are guesses after the trade library (dpw_tr) of Nintendo's Wi-Fi SDK, which this one appears to be.
@@ -48,7 +49,28 @@ typedef struct {
     u8 unk127;
 } Dpw_Tr_Data;
 
+// The player's profile, which the server keeps with their trades
+typedef struct {
+    u8 data[0x64];
+} Dpw_Common_Profile;
+
+typedef struct {
+    int code;
+    int mailAddrAuthResult;
+} Dpw_Common_ProfileResult;
+
+// Fills a profile from the player's
+void func_ov189_0219d504(Dpw_Common_Profile *profile, PlayerInfo *playerInfo);
+// Starts and ends the library, for the player's ID and friend key
+void func_ov189_021a6c84(s32 pid, u64 friendKey, int a2);
+void func_ov189_021a773c(void);
 // Runs the library's requests, every frame
 void func_ov189_021a6d00(void);
+// Whether the last request has ended, and its result
+BOOL func_ov189_021a7750(void);
+s32 func_ov189_021a778c(void);
+// Requests the server's state, and sends the player's profile
+void func_ov189_021a7e84(void);
+void func_ov189_021a7efc(Dpw_Common_Profile *profile, Dpw_Common_ProfileResult *result);
 
 #endif // POKEBW2_DPW_DPW_TR_H

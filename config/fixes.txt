@@ -740,6 +740,13 @@ overlays/ov214 0x021d4de4 reloc_addend 2
 overlays/ov214 0x021d5dc4 overlay_id 194
 overlays/ov214 0x021d604c overlay_id 139
 overlays/ov214 0x021d6054 overlay_id 284
+overlays/ov214 0x021d7896 reloc_module overlay(11)
+overlays/ov214 0x021d790c reloc_module overlay(189)
+overlays/ov214 0x021d79dc reloc_module overlay(189)
+overlays/ov214 0x021d7bb0 overlay_id 190
+overlays/ov214 0x021d7bb4 reloc_module overlay(190)
+overlays/ov214 0x021d7c60 overlay_id 190
+overlays/ov214 0x021d7c68 reloc_module overlay(190)
 overlays/ov214 0x021dfeac reloc_module overlay(189)
 overlays/ov214 0x021e1bc0 remove_reloc
 overlays/ov214 0x021e1c32 remove_symbol

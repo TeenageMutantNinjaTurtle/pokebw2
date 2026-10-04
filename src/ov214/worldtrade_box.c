@@ -175,7 +175,7 @@ int WorldTrade_Box_Init(WorldTradeWork *wk, int seq) {
     }
 
     Box_NowBoxPageInfoGet(wk, wk->boxTrayNo);
-    func_ov214_021d8068(wk);
+    WorldTrade_WifiIconAdd(wk);
     wk->subprocessSeq = BOX_SEQ_START;
     wk->unk12E4 = 0;
     return WT_SEQ_FADEIN;
@@ -454,7 +454,7 @@ static void Box_BmpWinInit(WorldTradeWork *wk) {
     BmpWin_FlushChar(win);
     BmpWin_FlushMap(win);
     GFL_BGSysLoadScr(BmpWin_GetBGIndex(win));
-    func_ov214_021d7fb4(wk->menuWin[1], wk->endString, 0, 1, 1, 0x3dc4, &wk->print);
+    WorldTrade_SysPrint(wk->menuWin[1], wk->endString, 0, 1, 1, 0x3dc4, &wk->print);
 
     if (wk->subProcessMode == BOX_MODE_DEPOSIT_SELECT) {
         func_ov214_021dfa18(wk, 3);
@@ -1148,7 +1148,7 @@ static void Box_NowBoxPageInfoGet(WorldTradeWork *wk, int now) {
     GFL_ArcToolFree(handle);
 
     GFL_BitmapFill(BmpWin_GetBitmap(wk->subWin), 0);
-    func_ov214_021d7fb4(wk->subWin, wk->boxTrayNameString, 0, 5, 1, 0x440, &wk->print);
+    WorldTrade_SysPrint(wk->subWin, wk->boxTrayNameString, 0, 5, 1, 0x440, &wk->print);
     if (wk->subProcessMode == BOX_MODE_EXCHANGE_SELECT) {
         Box_PokeIconPalSet(wk->boxWork, wk->pokeIconAct, &wk->downloadPokemonData[wk->touchTrainerPos].wantSimple,
                            pbuf);

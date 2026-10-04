@@ -259,5 +259,6 @@ void func_02042f50(BOOL a0);
 // second is a veneer to overlay 11's link level
 BOOL func_0205b5ec(void);
 int func_0205b250(void);
+void func_0205b198(void);
 
 #endif // POKEBW2_GFL_NET_H

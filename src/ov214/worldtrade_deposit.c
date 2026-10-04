@@ -203,7 +203,7 @@ int WorldTrade_Deposit_Init(WorldTradeWork *wk, int seq) {
     Deposit_BmpWinInit(wk);
     Deposit_SetCellActor(wk);
     GFL_WipeSet(3, 1, 1, 0, 6, 1, HEAPID_WORLDTRADE);
-    func_ov214_021d8068(wk);
+    WorldTrade_WifiIconAdd(wk);
 
     WorldTrade_PokeWantPrint(wk->msgManager, wk->monsNameManager, wk->wordSet, &wk->infoWin[0], 0, SEARCH_GENDER_ANY,
                              -1, &wk->print);
@@ -706,7 +706,7 @@ void WorldTrade_PokeNamePrint(BmpWin *win, MsgData *nameManager, int monsno, int
 
     if (monsno != 0) {
         str = GFL_MsgDataLoadStrbufNew(nameManager, monsno);
-        func_ov214_021d7fb4(win, str, 0, y, flag, color, print);
+        WorldTrade_SysPrint(win, str, 0, y, flag, color, print);
         GFL_StrBufFree(str);
     }
 }
@@ -728,11 +728,11 @@ void WorldTrade_CountryPrint(BmpWin *win, MsgData *nameManager, MsgData *msgMana
 
     if (countryCode != 0) {
         str = GFL_MsgDataLoadStrbufNew(nameManager, countryCode);
-        func_ov214_021d7fb4(win, str, 0, y, flag, color, print);
+        WorldTrade_SysPrint(win, str, 0, y, flag, color, print);
         GFL_StrBufFree(str);
     } else {
         str = GFL_MsgDataLoadStrbufNew(msgManager, 0xbb);
-        func_ov214_021d7fb4(win, str, 0, y, flag, color, print);
+        WorldTrade_SysPrint(win, str, 0, y, flag, color, print);
         GFL_StrBufFree(str);
     }
 }
@@ -757,9 +757,9 @@ void WorldTrade_SexPrint(BmpWin *win, MsgData *msgManager, int sex, int flag, in
     str = GFL_MsgDataLoadStrbufNew(msgManager, WorldTrade_SexStringTable[sex]);
     // A print flag past 3 is an x position
     if (printFlag > 3) {
-        func_ov214_021d7fb4(win, str, printFlag, y, 0, Deposit_GetSexColor(sex, color), print);
+        WorldTrade_SysPrint(win, str, printFlag, y, 0, Deposit_GetSexColor(sex, color), print);
     } else {
-        func_ov214_021d7fb4(win, str, 0, y, printFlag, Deposit_GetSexColor(sex, color), print);
+        WorldTrade_SysPrint(win, str, 0, y, printFlag, Deposit_GetSexColor(sex, color), print);
     }
     GFL_StrBufFree(str);
 }
@@ -804,7 +804,7 @@ void WorldTrade_WantLevelPrint_XY(BmpWin *win, MsgData *msgManager, int level, i
         table = sSearchLevelMinMaxTable;
     }
     str = GFL_MsgDataLoadStrbufNew(msgManager, table[level].msg);
-    func_ov214_021d7fb4(win, str, x, y, flag, color, print);
+    WorldTrade_SysPrint(win, str, x, y, flag, color, print);
     GFL_StrBufFree(str);
 }
 
@@ -816,7 +816,7 @@ void WorldTrade_PokeWantPrint(MsgData *msgManager, MsgData *monsNameManager, Wor
 
     str = GFL_MsgDataLoadStrbufNew(msgManager, 0x6b);
 
-    func_ov214_021d7fb4(win[0], str, 1, 0, 0, 0x440, print);
+    WorldTrade_SysPrint(win[0], str, 1, 0, 0, 0x440, print);
     for (i = 1; i < 3; i++) {
         GFL_BitmapFill(BmpWin_GetBitmap(win[i]), 0);
     }
@@ -842,7 +842,7 @@ void WorldTrade_MyPokeWantPrint(MsgData *msgManager, MsgData *monsNameManager, W
 
     str = GFL_MsgDataLoadStrbufNew(msgManager, 0x6b);
 
-    func_ov214_021d7fb4(win[0], str, 0, 0, 0, 0x440, print);
+    WorldTrade_SysPrint(win[0], str, 0, 0, 0, 0x440, print);
     for (i = 1; i < 3; i++) {
         GFL_BitmapFill(BmpWin_GetBitmap(win[i]), 0);
     }
@@ -883,11 +883,11 @@ void WorldTrade_PokeInfoPrint(MsgData *msgManager, WordSet *wordSet, BmpWin **wi
     for (i = 0; i < 3; i++) {
         GFL_BitmapFill(BmpWin_GetBitmap(win[i]), 0);
     }
-    func_ov214_021d7fb4(win[0], title, 1, 0, 0, 0x3c40, print);
-    func_ov214_021d7fb4(win[1], name, 0, 0, 0, 0x3c40, print);
-    func_ov214_021d7fb4(win[2], levelStr, 0, 0, 2, 0x3c40, print);
+    WorldTrade_SysPrint(win[0], title, 1, 0, 0, 0x3c40, print);
+    WorldTrade_SysPrint(win[1], name, 0, 0, 0, 0x3c40, print);
+    WorldTrade_SysPrint(win[2], levelStr, 0, 0, 2, 0x3c40, print);
     if (sex != SEARCH_GENDER_ANY && showSex) {
-        func_ov214_021d7fb4(win[1], sexStr, 70, 0, 0, Deposit_GetSexBaseColor(sex - 1), print);
+        WorldTrade_SysPrint(win[1], sexStr, 70, 0, 0, Deposit_GetSexBaseColor(sex - 1), print);
     }
     post->characterNo = PML_PkmGetParam(pkm, PKM_PARAM_SPECIES, NULL);
     post->gender = sex;
