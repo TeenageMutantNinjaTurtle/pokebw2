@@ -71,4 +71,12 @@ void ServerControl_ViewEffect(BtlServerFlow *handler, u16 effect, u8 arg1, u8 ar
 void ServerControl_SimpleDamageCore(BtlServerFlow *handler, BattleMon *mon, u16 damage, BattleHandlerString *string);
 void ServerControl_FaintPokemon(BtlServerFlow *handler, BattleMon *mon);
 
+u8 func_ov167_021ab7fc(BtlServerFlow *flow);
+u8 func_ov167_021ab804(BtlServerFlow *flow);
+u8 func_ov167_021ab810(BtlServerFlow *flow);
+u8 func_ov167_021ab81c(BtlServerFlow *flow);
+u8 func_ov167_021ab828(BtlServerFlow *flow);
+u8 func_ov167_021abc80(BtlServerFlow *flow, u32 arg1);
+u32 func_ov167_021ae320(BtlServerFlow *flow);
+
 #endif // POKEBW2_BATTLE_BTL_SERVER_FLOW_H

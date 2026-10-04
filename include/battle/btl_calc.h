@@ -54,7 +54,7 @@ u32 func_ov167_021bd728(u32 value);
 u32 GetNumMonsOnField(u32 battleType, u32 count);
 BOOL func_ov167_021bd760(u32 trainerClass);
 BOOL func_ov167_021bd774(u32 trainerClass);
-BOOL func_ov167_021bd788(u32 trainerClass);
+BOOL func_ov167_021bd788(u16 trainerClass);
 u32 func_ov167_021bd7b0(BtlSetup *setup);
 u32 func_ov167_021bd7e4(BtlSetupTrainer *trainer, PokeParty *party);
 u32 func_ov167_021bd820(u32 index, BattleParty *party);
@@ -71,5 +71,6 @@ void func_ov167_021bda58(BtlClientIDList *list);
 void func_ov167_021bda6c(BtlClientIDList *list, u8 clientId);
 u32 func_ov167_021bda94(BtlClientIDList *list);
 u32 func_ov167_021bda98(BtlClientIDList *list, u8 clientId, u32 value);
+
 
 #endif // POKEBW2_BATTLE_BTL_CALC_H

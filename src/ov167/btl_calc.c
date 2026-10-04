@@ -515,7 +515,7 @@ BOOL func_ov167_021bd774(u32 trainerClass) {
     return FALSE;
 }
 
-BOOL func_ov167_021bd788(u32 trainerClass) {
+BOOL func_ov167_021bd788(u16 trainerClass) {
     if (func_ov167_021bd760(trainerClass)) {
         return TRUE;
     }

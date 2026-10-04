@@ -18,6 +18,8 @@ enum {
     HEAPID_DEVICE_ALLOC = 0x9,
     HEAPID_STARTMENU = 0xb,
     HEAPID_DLP = 0xc,
+    // Not from swan: the battle's heap, which overlay 167 allocates its Pokémon and parties from
+    HEAPID_BATTLE = 0x12,
     HEAPID_FIELDMAP = 0x15,
     HEAPID_TITLE = 0x16,
     HEAPID_POKELIST = 0x17,

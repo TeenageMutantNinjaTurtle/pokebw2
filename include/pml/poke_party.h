@@ -46,6 +46,8 @@ u32 PML_GenPID(u32 seed, u16 species, u16 form, u32 sex, u32 ability, u32 a5);
 void PokeParty_CreatePkm(PartyPkm *pkm, u16 species, u16 level, u32 a3, u32 a4, s32 a5, u32 pid, u32 a7);
 void PokeParty_SetHiddenAbil(PartyPkm *pkm, u32 species, u32 form);
 void FriendshipManagerCalc(PartyPkm *pkm, u32 reason, u16 zoneId, u16 heapId);
+void func_02020c8c(PartyPkm *pkm, u32 value, u16 zoneId, HeapID heapId);
+void func_02020cf0(PokeParty *party, u16 zoneId, HeapID heapId);
 // Read and write a field of a Pokémon, PKM_PARAM_*. Fields that are not numbers go through the buffer
 // A field of a Pokémon, PKM_PARAM_*. The functions take it as an enum, swan's PkmField, and MWCC doesn't share a sum
 // that makes one between two calls, as it would an integer

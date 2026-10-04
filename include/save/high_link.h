@@ -10,5 +10,6 @@ u32 func_0200c6a0(HighLinkSave *save, u32 id);
 void func_0200c6d8(HighLinkSave *save, u8 *dest, u32 a2);
 u32 PassPower_GetUsedIDByEffect(int effect);
 u32 PassPower_GetRemainingSeconds(int effect);
+u32 PassPower_ApplyPrizeMoney(u32 money);
 
 #endif // POKEBW2_SAVE_HIGH_LINK_H

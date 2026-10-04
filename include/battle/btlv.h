@@ -34,4 +34,10 @@ void Btlv_StringParam_AddArg(BtlvStringParam *param, u32 arg);
 void func_ov168_021df138(void);
 u32 func_ov168_021e04ec(u8 pos);
 
+BtlvCore *BtlvCore_Create(BtlMainModule *mainModule, BtlClient *client, BtlPokeCon *pokeCon, u32 arg3, HeapID heapId);
+void func_ov167_021ce668(HeapID heapId);
+void func_ov167_021ce870(BtlvCore *viewCore);
+void *func_ov167_021d5e1c(HeapID heapId);
+void func_ov167_021d5e68(void *data);
+
 #endif // POKEBW2_BATTLE_BTLV_H

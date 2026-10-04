@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "gfl/heap.h"
+#include "nitro/math.h"
 #include "save/config.h"
 #include "struct_decls.h"
 
@@ -30,15 +31,21 @@ struct BtlSetup {
     BtlFieldSituation fieldSituation;
     // The parties of the four clients
     PokeParty *party[4];
-    u8 unk34[0x14];
+    void *unk34[4];
+    u8 unk44[4];
     // The trainers of the four clients
     BtlSetupTrainer *trainers[4];
-    u8 unk58[0x1c];
+    u8 unk58[0x18];
+    GameData *gameData;
     Config *config;
     BagSave *bag;
-    u8 unk7c[8];
+    void *unk7C;
+    PokeDexSave *pokedex;
     GameRecords *records;
-    u8 unk88[0x10];
+    void *unk88;
+    u8 unk8C[4];
+    u8 unk90[7];
+    u8 unk97;
     u8 unk98;
     u8 unk99[0xf];
     u32 unkA8;
@@ -46,15 +53,41 @@ struct BtlSetup {
     u8 unkAD;
     u8 unkAE;
     u8 unkAF;
-    u32 unkB0;
-    u8 unkB4[0x1e];
+    void *unkB0;
+    u32 unkB4;
+    // The battle's random state, which the main module copies back
+    MATHRandContext32 rand;
+    u16 unkD0;
     u8 unkD2;
-    u8 unkD3[8];
+    u8 unkD3;
+    u8 unkD4;
+    u8 unkD5;
+    u8 unkD6;
+    u8 unkD7;
+    u8 unkD8;
+    u8 unkD9;
+    u8 unkDA;
     u8 unkDB;
-    u8 unkDC[0xb];
+    u8 unkDC;
+    u8 unkDD_0 : 1;
+    u8 unkDD_1 : 2;
+    u8 unkDD_3 : 2;
+    u8 unkDD_5 : 1;
+    u8 unkDD_6 : 1;
+    u8 unkDD_7 : 1;
+    u8 unkDE_0 : 1;
+    u8 unkDE_1 : 7;
+    u8 unkDF;
+    u8 unkE0;
+    u8 unkE1[4];
+    u8 unkE5[2];
     // The party slots each client sends out
     u8 unkE7[4][6];
-    u8 unkFF[0x39];
+    u8 unkFF;
+    // Each client's remaining HP, in percent of its party's total
+    u32 unk100[4];
+    u8 unk110[0x24];
+    u32 unk134;
     u16 unk138;
     u16 unk13a;
 };

@@ -138,4 +138,6 @@ void func_ov167_0219f348(BtlServer *server);
 void RequestChangePokemon(BtlServer *server, u8 pos);
 BtlServerFlow *func_ov167_0219f38c(BtlServer *server);
 
+void func_ov167_0219e544(BtlServer *server);
+
 #endif // POKEBW2_BATTLE_BTL_SERVER_H
