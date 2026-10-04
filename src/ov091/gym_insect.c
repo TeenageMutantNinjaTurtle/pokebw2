@@ -5,6 +5,7 @@
 #include "field/field_camera.h"
 #include "field/field_exp_obj.h"
 #include "field/field_fog.h"
+#include "field/field_g3d_mapper.h"
 #include "field/field_map.h"
 #include "field/field_script.h"
 #include "gfl/g3d.h"

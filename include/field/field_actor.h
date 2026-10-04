@@ -144,8 +144,8 @@ void SetActorGPos(FieldActor *actor, s16 x, s16 y, s16 z, u16 dir);
 void SetActorMotionDir(FieldActor *actor, u16 dir);
 void ChangeActorMoveCodeSeq(FieldActor *actor, u16 moveCode);
 MMSys *GetActorMModelSystem(FieldActor *actor);
-G3DMapper *GetMMSysG3DMapper(MMSys *system);
-BOOL GetTerrainAtPosByActor(FieldActor *actor, const VecFx32 *position, FieldTerrain *terrain);
+FieldG3DMapper *GetMMSysG3DMapper(MMSys *system);
+BOOL GetTerrainAtPosByActor(FieldActor *actor, const VecFx32 *position, MapTerrainBuf *terrain);
 Field *GetMMSysField(MMSys *mmSys);
 // The movement command of a direction in the row of a table that has the command
 u16 GetAcmdForDir(u32 dir, u32 acmd);

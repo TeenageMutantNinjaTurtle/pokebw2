@@ -135,4 +135,20 @@ void FieldChunk_ResetStreamer(FieldChunk *chunk);
 void *FieldChunk_GetUsedTexRscCore(FieldChunk *chunk);
 void FieldChunk_LinkMdlTex(NNSG3dRenderObj *model, void *resource, void *texture);
 
+// The kinds of chunk, by the magic at the start of their files
+void FieldChunkAccessor_WB_Update(FieldChunk *chunk, FieldChunkContext *context);
+void FieldChunkAccessor_WB_GetTerrain(MapTerrainSamplerOutput *out, void *container, const VecFx32 *pos, fx32 a3,
+                                      fx32 a4);
+void FieldChunkAccessor_GC_Update(FieldChunk *chunk, FieldChunkContext *context);
+void FieldChunkAccessor_GC_GetTerrain(MapTerrainSamplerOutput *out, void *container, const VecFx32 *pos, fx32 a3,
+                                      fx32 a4);
+void FieldChunkAccessor_GC_GetTerrainBaseLayer(MapTerrainSamplerOutput *out, void *container, const VecFx32 *pos,
+                                               fx32 a3, fx32 a4);
+void FieldChunkAccessor_NG_Update(FieldChunk *chunk, FieldChunkContext *context);
+void FieldChunkAccessor_NG_GetTerrain(MapTerrainSamplerOutput *out, void *container, const VecFx32 *pos, fx32 a3,
+                                      fx32 a4);
+void FieldChunkAccessor_RD_Update(FieldChunk *chunk, FieldChunkContext *context);
+void FieldChunkAccessor_RD_GetTerrain(MapTerrainSamplerOutput *out, void *container, const VecFx32 *pos, fx32 a3,
+                                      fx32 a4);
+
 #endif // POKEBW2_FIELD_FIELD_MAP_CHUNK_H

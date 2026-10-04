@@ -2,6 +2,7 @@
 #include "app/funfest_mission.h"
 #include "field/field.h"
 #include "field/field_event.h"
+#include "field/field_g3d_mapper.h"
 #include "field/field_prop.h"
 #include "field/pc_sound.h"
 #include "gfl/overlay.h"

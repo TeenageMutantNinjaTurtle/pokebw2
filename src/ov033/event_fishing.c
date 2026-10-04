@@ -5,6 +5,7 @@
 #include "field/event_wild_battle.h"
 #include "field/field.h"
 #include "field/field_actor.h"
+#include "field/field_g3d_mapper.h"
 #include "field/field_map.h"
 #include "field/field_player.h"
 #include "field/field_script.h"
@@ -25,9 +26,9 @@
 
 BOOL CreateSurfPos(void *context, Field *field, VecFx32 *position) {
     VecFx32 targetPosition;
-    FieldTerrain terrain;
+    MapTerrainBuf terrain;
     VecFx32 actorPosition;
-    G3DMapper *mapper;
+    FieldG3DMapper *mapper;
     FieldPlayer *player;
     FieldActor *actor;
     u8 direction;
@@ -70,7 +71,7 @@ GameEvent *EventFieldFishing_Create(Field *field, GameSystem *gsys) {
     GameEvent *event;
     FishingEventWork *work;
     VecFx32 position;
-    FieldTerrain terrain;
+    MapTerrainBuf terrain;
     u32 flag;
 
     event = GameEvent_Create(gsys, NULL, EventFieldFishing_Callback, sizeof(FishingEventWork));

@@ -2,6 +2,7 @@
 #include "constants/arc.h"
 #include "field/field.h"
 #include "field/field_actor.h"
+#include "field/field_g3d_mapper.h"
 #include "field/field_map.h"
 #include "field/field_prop.h"
 #include "field/zone.h"
@@ -30,7 +31,7 @@ struct FieldPropSourceInfo {
     u8 lowResId;
 };
 
-FieldPropSystem *FieldPropSystem_Create(HeapID heapId, G3DMapper *mapper, u16 season) {
+FieldPropSystem *FieldPropSystem_Create(HeapID heapId, FieldG3DMapper *mapper, u16 season) {
     FieldPropSystem *system = GFL_HeapAllocate(heapId, sizeof(FieldPropSystem), FALSE, "field_buildmodel.c", 404);
     s32 i;
     u32 j;

@@ -1,6 +1,7 @@
 #include "types.h"
 #include "field/event_dendou_machine.h"
 #include "field/field.h"
+#include "field/field_g3d_mapper.h"
 #include "field/field_map.h"
 #include "field/field_party.h"
 #include "field/field_prop.h"
@@ -69,7 +70,7 @@ void EventDendouMachine_Init(EventDendouMachineData *work, GameSystem *gsys) {
     VecFx32 playerPosition;
     FieldPropAreaBounds bounds;
     Field *field;
-    G3DMapper *mapper;
+    FieldG3DMapper *mapper;
     u16 heapId;
     FieldChunkPropHolder **props;
 

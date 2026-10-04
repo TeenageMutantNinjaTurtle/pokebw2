@@ -125,7 +125,7 @@ void *Field_GetWildEffectBlAct(Field *field) {
     return field->wildEffectBlAct;
 }
 
-G3DMapper *Field_GetG3DMapper(Field *field) {
+FieldG3DMapper *Field_GetG3DMapper(Field *field) {
     return field->g3DMapper;
 }
 

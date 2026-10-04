@@ -257,6 +257,11 @@ s32 gfxGetBoxTestResult(s32 *in);
 #define GX_DISP_SELECT_SUB_MAIN 0
 #define GX_DISP_SELECT_MAIN_SUB 1
 
+// The line the display is drawing
+static inline s32 GX_GetVCount(void) {
+    return reg_GX_VCOUNT;
+}
+
 static inline void GX_SetDispSelect(int select) {
     reg_GX_POWCNT = (u16)((reg_GX_POWCNT & ~REG_GX_POWCNT_DSEL_MASK) | (select << REG_GX_POWCNT_DSEL_SHIFT));
 }

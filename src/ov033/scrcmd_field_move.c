@@ -28,7 +28,7 @@ BOOL s00C5_CallSurf(VM *vm, FieldScriptEnv *env) {
     VecFx32 position;
     Field *field;
     FieldPlayer *player;
-    G3DMapper *mapper;
+    FieldG3DMapper *mapper;
     u32 direction;
     HeapID heapId;
     u32 tileType;

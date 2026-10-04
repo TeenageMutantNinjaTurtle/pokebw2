@@ -26,7 +26,7 @@ struct Field {
     NoGridMapper *noGridMapper;
     void *sceneArea;
     u8 unk4c[0x4];
-    G3DMapper *g3DMapper;
+    FieldG3DMapper *g3DMapper;
     u8 unk54[0x40];
     FieldPlayer *player;
     EncountSystem *encountSystem;

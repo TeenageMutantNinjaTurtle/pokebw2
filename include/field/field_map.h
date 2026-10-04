@@ -19,29 +19,20 @@ struct MapMatrix {
     u32 chunkIds[900];
 };
 
-struct FieldTerrain {
-    u32 unk00;
-    u32 unk04;
+// The terrain of a layer at a position. Layout from swan, which names the normal's components SlopeX, HeightDiv and
+// SlopeZ
+struct MapTerrainBuf {
+    VecFx16 normal;
+    u16 pad06;
     u32 tileType;
     fx32 height;
 };
 
-// The terrain at a position, a layer for each height. Layout from swan
+// The terrain at a position in a chunk, a layer for each height. Layout from swan
 struct MapTerrainSamplerOutput {
-    FieldTerrain layers[16];
+    MapTerrainBuf layers[16];
     u32 layerCount;
 };
-
-// Known fields of the field map renderer; the remaining layout is still in assembly.
-struct G3DMapper {
-    u8 unk00[0x34];
-    VecFx32 playerPosition;
-    u8 unk40[0x20];
-    void *mapTextureResource;
-};
-
-// Copies the vector at offset 0x54 of the mapper
-void func_ov036_021852e0(G3DMapper *mapper, VecFx32 *out);
 
 struct MapMatrixFileHeader {
     u16 format;
@@ -131,12 +122,11 @@ void GameData_SetEventMapReplace(GameData *gameData, u16 uid, BOOL set);
 BOOL GameData_IsMapReplaceEventSet(GameData *gameData, u16 uid);
 void MapReplace_LoadVariables(MapReplaceVariables *variables, GameSystem *gsys);
 void MapMatrix_Patch(MapMatrix *matrix, GameSystem *gsys, HeapID heapId);
-u32 GetTileTypeAtPos(G3DMapper *mapper, const VecFx32 *position);
+u32 GetTileTypeAtPos(FieldG3DMapper *mapper, const VecFx32 *position);
 u32 GetTileFlags(u32 tileType);
 u16 GetAbyssalRuinsDiveZoneID(Field *field, u16 *zoneId);
-BOOL FieldG3DMapper_GetTerrain(G3DMapper *mapper, const VecFx32 *position, FieldTerrain *terrain);
-void FieldG3DMapper_FreeMapTextures(G3DMapper *mapper);
 u32 GetTileClass(u32 tileType);
+BOOL MapTile_IsValid(u32 tileType);
 BOOL MapTile_BlocksCollision(u32 tileType);
 BOOL func_ov036_021b3b54(u32 tileClass);
 BOOL MapTile_IsSurfEdge(u32 tileClass);

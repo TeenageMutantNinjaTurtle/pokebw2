@@ -106,7 +106,7 @@ struct FieldPropResBank {
 // Layout from swan
 struct FieldPropSystem {
     u16 heapId;
-    G3DMapper *mapper;
+    FieldG3DMapper *mapper;
     FieldPropRTCState rtcState;
     FieldPropResBundle *resBundle;
     u8 resIdToIndex[0x200];
@@ -156,7 +156,7 @@ void *FieldPropResAnmHeader_GetAnmData(FieldPropResAnmHeader *header, u32 index)
 void *FieldPropSystem_FindResInfo(FieldPropSystem *system, u32 resId);
 void *FieldPropSystem_GetResInfo(FieldPropSystem *system, u32 index);
 FieldPropResBank *FieldPropSystem_GetResBank(FieldPropSystem *system);
-FieldPropSystem *FieldPropSystem_Create(HeapID heapId, G3DMapper *mapper, u16 season);
+FieldPropSystem *FieldPropSystem_Create(HeapID heapId, FieldG3DMapper *mapper, u16 season);
 // Loads the props of the area, and recolors their textures with the field's color post-FX
 void FieldPropSystem_LoadArea(FieldPropSystem *system, u16 zoneId, AreaData *area, void *postFx);
 void FieldPropSystem_LoadTextures(FieldPropSystem *system, u16 arcId, u32 fileId, void *postFx);
@@ -216,7 +216,6 @@ void FieldPropRTCState_Update(FieldPropRTCState *state);
 BOOL FieldPropRTCState_HasDayPartChanged(FieldPropRTCState *state);
 u8 FieldPropRTCState_GetPlayAnmIndex(FieldPropRTCState *state);
 
-FieldPropSystem *FieldG3DMapper_GetBMSystem(G3DMapper *mapper);
 void FieldPropHandle_CallAnmCmd(FieldPropHandle *handle, u32 animation, u32 command);
 void FieldPropHandle_CallAnmCmdSilent(FieldPropHandle *handle, u32 command);
 BOOL FieldPropHandle_IsAnmIdle(FieldPropHandle *handle, u32 animation);

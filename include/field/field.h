@@ -139,8 +139,17 @@ BOOL Field_CheckGimmickWorkPassword(Field *field, u32 password);
 void Field_DeleteGimmickWorkBlock(Field *field, u32 id);
 
 // A list of areas of the map, which the list's entry index sets: a grid rectangle, a value and flags
-void *func_ov036_02184590(G3DMapper *mapper);
+void *func_ov036_021ba5d0(u32 count, u8 heapId);
 void func_ov036_021ba624(u8 index, u32 x, u32 z, u32 width, u32 depth, u32 value, u32 flags, void *list);
+void func_ov036_021ba670(void *list);
+u32 func_ov036_021ba684(void *list);
+BOOL func_ov036_021ba688(s32 x, s32 z, void *list, u8 index);
+u32 func_ov036_021ba6a4(u8 index, void *list);
+u32 func_ov036_021ba6b0(u8 index, void *list);
+// The mapper's WFBC work
+void *func_ov036_0218adac(HeapID heapId);
+void func_ov036_0218add0(void *wfbc);
+void func_ov036_0218ade0(void *wfbc, void *a1, void *a2, HeapID heapId);
 void FieldSnd_FadeInImmediate(FieldSound *fieldSound, GameData *gameData);
 void FieldSnd_PlayAmbience(FieldSound *fieldSound, u32 se);
 void FieldSnd_SetZoneBGM(FieldSound *fieldSound, GameData *gameData, u16 zoneId, u8 season);
@@ -153,7 +162,7 @@ FieldExpObjSystem *Field_GetExpObjSystem(Field *field);
 // Whether a fade that FieldFadeTCB_Start started is still running
 BOOL Field_GetFadeFlag(Field *field);
 FieldFog *Field_GetFog(Field *field);
-G3DMapper *Field_GetG3DMapper(Field *field);
+FieldG3DMapper *Field_GetG3DMapper(Field *field);
 GameSystem *Field_GetGameSystem(Field *field);
 TCBManager *Field_GetTCBMgr(Field *field);
 EncEff *Field_GetEncEff(Field *field);

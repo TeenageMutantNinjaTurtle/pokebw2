@@ -2,6 +2,7 @@
 #include "field/event_pokemon_center.h"
 #include "field/event_sound.h"
 #include "field/field.h"
+#include "field/field_g3d_mapper.h"
 #include "field/field_map.h"
 #include "field/field_prop.h"
 #include "gfl/heap.h"
@@ -72,7 +73,7 @@ void EventPokeCenHeal_Init(EventPokeCenHealData *work, GameSystem *gsys, u8 ball
     FieldPropAreaBounds bounds;
     Field *field;
     u16 heapId;
-    G3DMapper *mapper;
+    FieldG3DMapper *mapper;
     FieldChunkPropHolder **props;
 
     field = GSYS_GetField(gsys);

@@ -207,7 +207,7 @@ void func_ov036_0219e79c(Field *field, FieldmapCtrlHybrid *controller, u16 dir, 
 
 // Whether the grid tile in the direction is free, with the player's position
 BOOL func_ov036_0219e808(Field *field, FieldmapCtrlHybrid *controller, VecFx32 *pos, u16 dir) {
-    G3DMapper *mapper = Field_GetG3DMapper(field);
+    FieldG3DMapper *mapper = Field_GetG3DMapper(field);
     VecFx32 ahead;
 
     FieldPlayer_GetWPos(controller->player, pos);

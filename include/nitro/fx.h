@@ -79,6 +79,7 @@ fx32 VEC_Mag(const VecFx32 *v);
 #define FX_DEG_TO_IDX(deg) ((u16)(((deg) * FX64C_65536_360 + 0x80000000000LL) >> 44))
 
 fx32 FX_Div(fx32 numer, fx32 denom);
+s32 FX_ModS32(s32 numer, s32 denom);
 fx32 FX_Sqrt(fx32 x);
 fx32 FX_InvSqrt(fx32 x);
 
