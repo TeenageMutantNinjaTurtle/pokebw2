@@ -8,6 +8,18 @@
 #include "battle/btl_server.h"
 #include "struct_decls.h"
 
+// The start of every handler command's parameters
+typedef struct {
+    u32 command : 8;
+    u32 monId : 5;
+    u32 unk13 : 11;
+    // Skips the command when the previous one failed
+    u32 checkPrevResult : 1;
+    // Skips the command when the mon has fainted
+    u32 checkFainted : 1;
+    u32 unk26 : 6;
+} BattleHandlerHeader;
+
 struct BattleHandlerPopupParam {
     u32 unk00 : 8;
     u32 monId : 5;
@@ -585,54 +597,71 @@ void *BattleHandler_PushWork(BtlServerFlow *flow, u32 command, u32 monId);
 void BattleHandler_PushRun(BtlServerFlow *flow, u32 command, u32 monId);
 void BattleHandler_PopWork(BtlServerFlow *flow, void *work);
 u32 BattleHandler_Result(BtlServerFlow *handler);
-void BattleHandler_Execute(BtlServerFlow *handler);
+void BattleHandler_Execute(BtlServerFlow *flow, void *work);
+u32 func_ov167_021ac450(BtlServerFlow *flow);
+u8 func_ov167_021ac7ac(BtlServerFlow *handler, void *param);
+u8 BattleHandler_AbilityPopupAdd(BtlServerFlow *handler, void *param);
+u8 BattleHandler_RecoverHP(BtlServerFlow *handler, void *param, u16 itemId);
+u8 BattleHandler_RecoverPP(BtlServerFlow *handler, void *param, u16 itemId);
+u8 BattleHandler_CureCondition(BtlServerFlow *handler, struct BattleHandlerCureConditionParam *param, u32 context);
+u8 BattleHandler_AddCondition(BtlServerFlow *handler, void *param);
+u8 BattleHandler_StatChange(BtlServerFlow *handler, struct BattleHandlerStatChangeParam *param, u16 context);
+u8 BattleHandler_SetStatStage(BtlServerFlow *handler, void *param);
+u8 BattleHandler_SetStatus(BtlServerFlow *handler, void *param);
+u8 BattleHandler_AddSideEffect(BtlServerFlow *handler, void *param);
+u8 BattleHandler_RemoveSideEffectCore(BtlServerFlow *handler, void *param);
+u8 func_ov167_021ad564(BtlServerFlow *handler, void *param);
+u8 BattleHandler_UpdateMove(BtlServerFlow *handler, void *param);
+u8 BattleHandler_DelayMoveDamage(BtlServerFlow *handler, void *param);
+u8 BattleHandler_ForceSwitch(BtlServerFlow *handler, void *param);
+u8 BattleHandler_EffectAtPos(BtlServerFlow *handler, void *param);
 
-BOOL BattleHandler_SetTurnFlag(BtlServerFlow *handler, BattleHandlerFlagParam *param);
-BOOL BattleHandler_ResetTurnFlag(BtlServerFlow *handler, BattleHandlerFlagParam *param);
-BOOL BattleHandler_SetContinueFlag(BtlServerFlow *handler, BattleHandlerFlagParam *param);
-BOOL BattleHandler_ResetContinueFlag(BtlServerFlow *handler, BattleHandlerFlagParam *param);
-BOOL BattleHandler_InterruptAction(BtlServerFlow *handler, BattleHandlerInterruptParam *param);
+u8 BattleHandler_SetTurnFlag(BtlServerFlow *handler, BattleHandlerFlagParam *param);
+u8 BattleHandler_ResetTurnFlag(BtlServerFlow *handler, BattleHandlerFlagParam *param);
+u8 BattleHandler_SetContinueFlag(BtlServerFlow *handler, BattleHandlerFlagParam *param);
+u8 BattleHandler_ResetContinueFlag(BtlServerFlow *handler, BattleHandlerFlagParam *param);
+u8 BattleHandler_InterruptAction(BtlServerFlow *handler, BattleHandlerInterruptParam *param);
 u8 BattleHandler_InterruptMove(BtlServerFlow *handler, BattleHandlerInterruptParam *param);
-BOOL BattleHandler_SendLast(BtlServerFlow *handler, BattleHandlerInterruptParam *param);
+u8 BattleHandler_SendLast(BtlServerFlow *handler, BattleHandlerInterruptParam *param);
 BOOL BattleHandler_SetString(BtlServerFlow *handler, BattleHandlerString *string);
-BOOL BattleHandler_AbilityPopupRemove(BtlServerFlow *handler, BattleHandlerPopupParam *param);
-BOOL BattleHandler_HideTurnCancel(BtlServerFlow *handler, BattleHandlerHideTurnParam *param);
-BOOL BattleHandler_RemoveMessageWindow(BtlServerFlow *handler);
-BOOL BattleHandler_ChangeForm(BtlServerFlow *handler, BattleHandlerChangeFormParam *param);
+u8 BattleHandler_AbilityPopupRemove(BtlServerFlow *handler, BattleHandlerPopupParam *param);
+u8 BattleHandler_HideTurnCancel(BtlServerFlow *handler, BattleHandlerHideTurnParam *param);
+u8 BattleHandler_RemoveMessageWindow(BtlServerFlow *handler, BattleHandlerHeader *header);
+u8 BattleHandler_ChangeForm(BtlServerFlow *handler, BattleHandlerChangeFormParam *param);
 u8 BattleHandler_Flinch(BtlServerFlow *handler, BattleHandlerFlinchParam *param);
-BOOL BattleHandler_SetWeight(BtlServerFlow *handler, BattleHandlerSetWeightParam *param);
-BOOL BattleHandler_Revive(BtlServerFlow *handler, BattleHandlerReviveParam *param);
-BOOL BattleHandler_SetCounter(BtlServerFlow *handler, BattleHandlerSetCounterParam *param);
-BOOL BattleHandler_CheckHeldItem(BtlServerFlow *handler, BattleHandlerCheckHeldItemParam *param);
-BOOL BattleHandler_UseHeldItem(BtlServerFlow *handler, BattleHandlerUseHeldItemParam *param);
-BOOL BattleHandler_ConsumeItem(BtlServerFlow *handler, BattleHandlerConsumeItemParam *param);
-BOOL BattleHandler_QuitBattle(BtlServerFlow *handler, BattleHandlerQuitBattleParam *param);
-BOOL BattleHandler_Switch(BtlServerFlow *handler, BattleHandlerSwitchParam *param);
-BOOL BattleHandler_AddFieldEffect(BtlServerFlow *handler, BattleHandlerAddFieldEffectParam *param);
-BOOL BattleHandler_RemoveFieldEffect(BtlServerFlow *handler, BattleHandlerRemoveFieldEffectParam *param);
+u8 BattleHandler_SetWeight(BtlServerFlow *handler, BattleHandlerSetWeightParam *param);
+u8 BattleHandler_Revive(BtlServerFlow *handler, BattleHandlerReviveParam *param);
+u8 BattleHandler_SetCounter(BtlServerFlow *handler, BattleHandlerSetCounterParam *param);
+u8 BattleHandler_CheckHeldItem(BtlServerFlow *handler, BattleHandlerCheckHeldItemParam *param);
+u8 BattleHandler_UseHeldItem(BtlServerFlow *handler, BattleHandlerUseHeldItemParam *param);
+u8 BattleHandler_ConsumeItem(BtlServerFlow *handler, BattleHandlerConsumeItemParam *param);
+u8 BattleHandler_QuitBattle(BtlServerFlow *handler, BattleHandlerQuitBattleParam *param);
+u8 BattleHandler_Switch(BtlServerFlow *handler, BattleHandlerSwitchParam *param);
+u8 BattleHandler_AddFieldEffect(BtlServerFlow *handler, BattleHandlerAddFieldEffectParam *param);
+u8 BattleHandler_RemoveFieldEffect(BtlServerFlow *handler, BattleHandlerRemoveFieldEffectParam *param);
 u8 BattleHandler_RecoverStatStage(BtlServerFlow *handler, BattleHandlerRecoverStatStageParam *param);
-BOOL BattleHandler_ResetStatStage(BtlServerFlow *handler, BattleHandlerResetStatStageParam *param);
-BOOL BattleHandler_Message(BtlServerFlow *handler, BattleHandlerMessageParam *param);
-BOOL BattleHandler_DecrementPP(BtlServerFlow *handler, BattleHandlerDecrementPPParam *param);
-BOOL BattleHandler_ForceUseItem(BtlServerFlow *handler, BattleHandlerForceUseItemParam *param);
-BOOL BattleHandler_BatonPass(BtlServerFlow *handler, BattleHandlerBatonPassParam *param);
-BOOL BattleHandler_IllusionBreak(BtlServerFlow *handler, BattleHandlerIllusionBreakParam *param);
-BOOL BattleHandler_SwapPoke(BtlServerFlow *handler, BattleHandlerSwapPokeParam *param);
+u8 BattleHandler_ResetStatStage(BtlServerFlow *handler, BattleHandlerResetStatStageParam *param);
+u8 BattleHandler_Message(BtlServerFlow *handler, BattleHandlerMessageParam *param);
+u8 BattleHandler_DecrementPP(BtlServerFlow *handler, BattleHandlerDecrementPPParam *param, u16 itemId);
+u8 BattleHandler_ForceUseItem(BtlServerFlow *handler, BattleHandlerForceUseItemParam *param);
+u8 BattleHandler_BatonPass(BtlServerFlow *handler, BattleHandlerBatonPassParam *param);
+u8 BattleHandler_IllusionBreak(BtlServerFlow *handler, BattleHandlerIllusionBreakParam *param);
+u8 BattleHandler_SwapPoke(BtlServerFlow *handler, BattleHandlerSwapPokeParam *param);
 u8 BattleHandler_ChangeWeather(BtlServerFlow *handler, BattleHandlerChangeWeatherParam *param);
-BOOL BattleHandler_GravityCheck(BtlServerFlow *handler, BattleHandlerGravityCheckParam *param);
-BOOL BattleHandler_Transform(BtlServerFlow *handler, BattleHandlerTransformParam *param);
-BOOL BattleHandler_SetItem(BtlServerFlow *handler, BattleHandlerSetItemParam *param);
-BOOL BattleHandler_SwapItem(BtlServerFlow *handler, BattleHandlerSwapItemParam *param);
-BOOL BattleHandler_Drain(BtlServerFlow *handler, BattleHandlerDrainParam *param);
+u8 BattleHandler_GravityCheck(BtlServerFlow *handler, BattleHandlerGravityCheckParam *param);
+u8 BattleHandler_Transform(BtlServerFlow *handler, BattleHandlerTransformParam *param);
+u8 BattleHandler_SetItem(BtlServerFlow *handler, BattleHandlerSetItemParam *param);
+u8 BattleHandler_SwapItem(BtlServerFlow *handler, BattleHandlerSwapItemParam *param);
+u8 BattleHandler_Drain(BtlServerFlow *handler, BattleHandlerDrainParam *param, u16 itemId);
 u8 func_ov167_021ac988(void *state, u8 monIndex);
-BOOL BattleHandler_Damage(BtlServerFlow *handler, BattleHandlerDamageParam *param);
-BOOL BattleHandler_ChangeHP(BtlServerFlow *handler, BattleHandlerChangeHPParam *param);
-BOOL BattleHandler_Faint(BtlServerFlow *handler, BattleHandlerFaintParam *param);
+u8 BattleHandler_Damage(BtlServerFlow *handler, BattleHandlerDamageParam *param);
+u8 BattleHandler_ChangeHP(BtlServerFlow *handler, BattleHandlerChangeHPParam *param);
+u8 BattleHandler_Faint(BtlServerFlow *handler, BattleHandlerFaintParam *param);
 u8 func_ov167_021aca54(void *state, u8 monIndex);
 u8 func_ov167_021acad4(void *state, u8 monIndex);
 u8 func_ov167_021ad15c(void *state, u8 monIndex);
-BOOL BattleHandler_ChangeType(BtlServerFlow *handler, BattleHandlerChangeTypeParam *param);
-BOOL BattleHandler_AbilityChange(BtlServerFlow *handler, BattleHandlerAbilityChangeParam *param);
+u8 BattleHandler_ChangeType(BtlServerFlow *handler, BattleHandlerChangeTypeParam *param);
+u8 BattleHandler_AbilityChange(BtlServerFlow *handler, BattleHandlerAbilityChangeParam *param);
 u8 func_ov167_021ad1f4(void *state, u8 monIndex);
 BOOL func_ov167_021ad204(u16 species);
 u8 HandlerGetAlivePartyCount(BtlServerFlow *handler, u16 code, u8 *monIds);
@@ -641,7 +670,7 @@ u8 *func_ov167_021abc60(BtlServerFlow *flow, u32 size);
 u8 func_ov167_021add78(void *state, u8 monIndex);
 u8 func_ov167_021ae0fc(void *state, u8 monIndex);
 
-BOOL BattleHandler_SetMoveEffectIndex(BtlServerFlow *handler, BattleHandlerMoveEffectParam *param);
-BOOL BattleHandler_SetMoveEffectEnable(BtlServerFlow *handler);
+u8 BattleHandler_SetMoveEffectIndex(BtlServerFlow *handler, BattleHandlerMoveEffectParam *param);
+u8 BattleHandler_SetMoveEffectEnable(BtlServerFlow *handler, BattleHandlerHeader *header);
 
 #endif // POKEBW2_BATTLE_BTL_HANDLER_H
