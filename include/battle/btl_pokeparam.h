@@ -369,5 +369,7 @@ BOOL func_ov169_0689c9f0(u32 condition);
 BOOL func_ov169_0689cacc(u16 ability);
 BOOL func_ov169_0689ca74(u16 move);
 BOOL func_ov169_0689cb38(u16 ability);
+BOOL func_ov169_0689ca64(u16 move);
+BOOL func_ov169_0689ca54(u16 move);
 
 #endif // POKEBW2_BATTLE_BTL_POKEPARAM_H

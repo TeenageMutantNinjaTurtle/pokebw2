@@ -218,6 +218,7 @@ void HandlerSolarPowerPower(BattleEventItem *item, BtlServerFlow *flow, u8 monId
 const BattleEventHandlerEntry *EventAddSolarPower(u32 *priority);
 extern const BattleEventHandlerEntry data_ov167_021d7d70[];
 BOOL func_ov167_021cde38(u32 monId);
+BOOL func_ov167_021cdf28(BtlServerFlow *flow, u8 monId, u8 otherId);
 void HandlerShieldDustStatus(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
 void HandlerShieldDustRank(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
 void HandlerShieldDustShrink(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
@@ -441,5 +442,38 @@ void HandlerStickyHoldNoEffect(BattleEventItem *item, BtlServerFlow *flow, u8 mo
 void HandlerStickyHold(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
 void HandlerStickyHoldReaction(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
 const BattleEventHandlerEntry *EventAddStickyHold(u32 *priority);
+
+extern const BattleEventHandlerEntry data_ov167_021d7744[];
+extern const BattleEventHandlerEntry data_ov167_021d774c[];
+extern const BattleEventHandlerEntry data_ov167_021d775c[];
+extern const BattleEventHandlerEntry data_ov167_021d7764[];
+extern const BattleEventHandlerEntry data_ov167_021d776c[];
+extern const BattleEventHandlerEntry data_ov167_021d7774[];
+extern const BattleEventHandlerEntry data_ov167_021d777c[];
+extern const BattleEventHandlerEntry data_ov167_021d779c[];
+extern const BattleEventHandlerEntry data_ov167_021d79e4[];
+extern const BattleEventHandlerEntry data_ov167_021d7b3c[];
+const BattleEventHandlerEntry *EventAddPressure(u32 *priority);
+void HandlerPressureMemberIn(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+void HandlerPressure(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddMagicGuard(u32 *priority);
+void HandlerMagicGuard(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddStench(u32 *priority);
+void HandlerStench(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddShadowTag(u32 *priority);
+void HandlerShadowTag(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddArenaTrap(u32 *priority);
+void HandlerArenaTrap(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddMagnetPull(u32 *priority);
+void HandlerMagnetPull(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddUnburden(u32 *priority);
+void HandlerUnburdenBeforeItemSet(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+void HandlerUnburdenSpeed(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddPickup(u32 *priority);
+void HandlerPickup(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddPickpocket(u32 *priority);
+void HandlerPickpocket(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+void HandlerCursedBody(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddCursedBody(u32 *priority);
 
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

@@ -34,6 +34,7 @@ BOOL func_ov167_021abb8c(BtlServerFlow *flow, u8 monId, BattleAction *action);
 BOOL func_ov167_021abf14(BtlServerFlow *flow);
 u8 func_ov167_021ab894(BtlServerFlow *flow, u8 monId, u8 *monIds);
 u32 func_ov167_021abc9c(BtlServerFlow *flow);
+BOOL func_ov167_021abd74(BtlServerFlow *flow, u8 monId);
 u32 CalcMoveEffectiveness(BtlServerFlow *serverFlow, u8 attackerId, u8 defenderId, u16 move);
 u16 func_ov167_021abd08(BtlServerFlow *serverFlow, BattleMon *mon, BOOL a2);
 u32 func_ov167_021abd10(BtlServerFlow *serverFlow, BattleMon *mon, BOOL a2);
