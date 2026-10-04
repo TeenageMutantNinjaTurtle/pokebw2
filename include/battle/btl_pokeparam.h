@@ -87,6 +87,15 @@ typedef struct {
     u8 unk7;
 } BattleMonDamageRecord;
 
+static inline void BattleMonDamageRecord_Init(BattleMonDamageRecord *record, u8 attackerId, u8 attackerPos, u16 move,
+                                              u8 type, u16 damage) {
+    record->move = move;
+    record->damage = damage;
+    record->type = type;
+    record->attackerId = attackerId;
+    record->attackerPos = attackerPos;
+}
+
 // The first part of a BattleMon, which TransformSet keeps while it copies the rest from the target
 typedef struct {
     PartyPkm *src;

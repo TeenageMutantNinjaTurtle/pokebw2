@@ -3280,6 +3280,142 @@ void func_ov167_021a504c(BtlServerFlow *flow, s32 effectiveness) {
     }
 }
 
+u32 func_ov167_021a5074(BattleMon *mon, u32 damage) {
+    u32 hp = GetBattleMonStat(mon, 0xd);
+    if (damage > hp) {
+        damage = hp;
+    }
+    return damage;
+}
+
+void func_ov167_021a5088(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, BtlFlowMoveParam *param) {
+    u32 state = PushState(&flow->actionState, 0x19ba);
+    func_ov167_021a50c4(flow, attacker, target, param);
+    PopState(&flow->actionState, state, 0x19be);
+}
+
+void func_ov167_021a50c4(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, BtlFlowMoveParam *param) {
+    BattleEventVar_Push(0x19cd);
+    BattleEventVar_SetConstValue(3, GetMonID(attacker));
+    BattleEventVar_SetConstValue(4, GetMonID(target));
+    BattleEventVar_SetConstValue(0x12, param->move);
+    BattleEventVar_SetConstValue(0x16, param->type);
+    BattleEvent_CallHandlers(flow, 0x45);
+    BattleEventVar_Pop(0x19d4);
+}
+
+u32 func_ov167_021a5118(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, u32 arg3, u16 *damage) {
+    u32 cause;
+    int hp = GetBattleMonStat(target, 0xd);
+
+    if (hp > *damage) {
+        return 0;
+    }
+    BattleEventVar_Push(0x19ef);
+    BattleEventVar_SetConstValue(3, GetMonID(attacker));
+    BattleEventVar_SetConstValue(4, GetMonID(target));
+    BattleEventVar_SetConstValue(0x51, arg3);
+    BattleEventVar_SetRewriteOnceValue(0x3a, 0);
+    BattleEvent_CallHandlers(flow, 0x74);
+    cause = BattleEventVar_GetValue(0x3a);
+    BattleEventVar_Pop(0x19f6);
+    if (cause != 0) {
+        *damage = GetBattleMonStat(target, 0xd) - 1;
+    }
+    return cause;
+}
+
+void func_ov167_021a5198(BtlServerFlow *flow, BattleMon *mon, u8 cause) {
+    u32 state;
+    u8 monId = GetMonID(mon);
+
+    switch (cause) {
+    case 1:
+        func_ov167_021b15d0(flow->queue, 0x5b, 0x202, monId, 0xffff0000);
+        break;
+    case 3:
+    default:
+        state = PushState(&flow->actionState, 0x1a14);
+        func_ov167_021a51f8(flow, mon, cause);
+        PopState(&flow->actionState, state, 0x1a17);
+        break;
+    }
+}
+
+void func_ov167_021a51f8(BtlServerFlow *flow, BattleMon *mon, u8 cause) {
+    BattleEventVar_Push(0x1a27);
+    BattleEventVar_SetConstValue(2, GetMonID(mon));
+    BattleEvent_CallHandlers(flow, 0x75);
+    BattleEventVar_Pop(0x1a2a);
+}
+
+void func_ov167_021a5228(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, u8 count,
+                         BattleMon **mons) {
+    u32 state = PushState(&flow->actionState, 0x1a39);
+    func_ov167_021a526c(flow, param, attacker, count, mons);
+    PopState(&flow->actionState, state, 0x1a3e);
+}
+
+void func_ov167_021a526c(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, u8 count,
+                         BattleMon **mons) {
+    u32 i;
+
+    BattleEventVar_Push(0x1a4f);
+    BattleEventVar_SetConstValue(3, GetMonID(attacker));
+    BattleEventVar_SetConstValue(5, count);
+    for (i = 0; i < count; i++) {
+        BattleEventVar_SetConstValue(6 + i, GetMonID(mons[i]));
+    }
+    BattleEvent_CallHandlers(flow, 0x44);
+    BattleEventVar_Pop(0x1a57);
+}
+
+void func_ov167_021a52c8(BtlServerFlow *flow, u8 attackerPos, BattleMon *attacker, BattleMon *target,
+                         BtlFlowMoveParam *param, u16 damage) {
+    u8 attackerId = GetMonID(attacker);
+    u8 targetId = GetMonID(target);
+    BattleMonDamageRecord record;
+
+    BattleMonDamageRecord_Init(&record, attackerId, attackerPos, param->move, param->type, damage);
+    func_ov167_021bc048(target, &record);
+    func_ov167_021b1434(flow->queue, 0x2d, targetId, attackerId, attackerPos, param->type, param->move, damage);
+}
+
+void func_ov167_021a5320(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, BattleMon *target,
+                         u16 damage, BOOL flag) {
+    switch (PML_MoveGetQuality(param->move)) {
+    case 7:
+        ServerEvent_DamageAddEffect(flow, param, attacker, attacker);
+        break;
+    case 6:
+        if (!flag) {
+            ServerEvent_DamageAddEffect(flow, param, attacker, target);
+        }
+        break;
+    case 4:
+        if (!flag) {
+            ServerControl_DamageAddCondition(flow, param, attacker, target);
+        }
+        break;
+    }
+}
+
+void func_ov167_021a5374(BtlServerFlow *flow, BattleMon *attacker, BtlFlowMoveParam *param, u32 damage) {
+    u32 state = PushState(&flow->actionState, 0x1aa2);
+    func_ov167_021a53b0(flow, attacker, param, damage);
+    PopState(&flow->actionState, state, 0x1aa5);
+}
+
+void func_ov167_021a53b0(BtlServerFlow *flow, BattleMon *attacker, BtlFlowMoveParam *param, u32 damage) {
+    BattleEventVar_Push(0x1ab7);
+    BattleEventVar_SetConstValue(3, GetMonID(attacker));
+    BattleEventVar_SetConstValue(0x12, param->move);
+    BattleEventVar_SetConstValue(0x16, param->type);
+    BattleEventVar_SetConstValue(0x32, damage);
+    BattleEvent_CallHandlers(flow, 0x4d);
+    BattleEventVar_Pop(0x1abd);
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
