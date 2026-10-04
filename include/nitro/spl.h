@@ -75,6 +75,16 @@ enum {
     SPL_EMISSION_HEMISPHERE,
 };
 
+// How particles are drawn: as billboards facing the camera, or polygons in the plane of the emitter's cross axes,
+// either way stretched along their velocity if directional
+enum {
+    SPL_DRAW_BILLBOARD,
+    SPL_DRAW_DIRECTIONAL_BILLBOARD,
+    SPL_DRAW_POLYGON,
+    SPL_DRAW_DIRECTIONAL_POLYGON,
+    SPL_DRAW_DIRECTIONAL_POLYGON_CENTER,
+};
+
 // The axis that the circles and cylinders of emission are around
 enum {
     SPL_AXIS_Z,
@@ -93,12 +103,19 @@ typedef struct {
     u32 hasTextureAnim : 1;
     u32 hasRotation : 1;
     u32 randomInitAngle : 1;
-    u32 : 2;
+    u32 : 1;
+    // Moves the particles with the emitter after they are emitted
+    u32 followEmitter : 1;
     u32 hasChildResource : 1;
     u32 : 3;
     // Starts each particle's looped animations at a random point
     u32 randomLoopOffset : 1;
-    u32 : 11;
+    u32 drawChildrenFirst : 1;
+    u32 hideParent : 1;
+    u32 : 7;
+    // Gives the particles, or the children, the manager's fixed polygon ID rather than a new one each
+    u32 fixedPolygonID : 1;
+    u32 childFixedPolygonID : 1;
 } SPLResourceFlags;
 
 typedef struct {
@@ -118,7 +135,9 @@ typedef struct {
     s16 minRotation;
     s16 maxRotation;
     u16 initAngle;
-    u8 unk3a[4];
+    u8 unk3a[2];
+    // How long the emitter emits for, or 0 for as long as it lives
+    u16 emitterLifeTime;
     u16 particleLifeTime;
     // How much of their scale, life time and initial speed particles may lose at random, out of 255
     u8 scaleVariance;
@@ -127,10 +146,18 @@ typedef struct {
     u8 unk43;
     u8 emissionInterval;
     u8 baseAlpha;
-    u8 unk46;
+    // The part of their velocity particles keep each frame, as 384 more than this out of 512
+    u8 airResistance;
     u8 texture;
     u32 loopTime : 8;
-    u32 : 24;
+    u32 : 16;
+    // The texture repeats over a particle, as a power of two
+    u32 textureRepeatShiftS : 2;
+    u32 textureRepeatShiftT : 2;
+    u32 : 4;
+    u32 flipTextureS : 1;
+    u32 flipTextureT : 1;
+    u32 : 30;
 } SPLResourceHeader;
 
 // The animations of a particle's scale, color, alpha and texture over its life, which runs from 0 to 255. Each fades
@@ -142,7 +169,9 @@ typedef struct {
     fx16 end;
     u8 in;
     u8 out;
-    u16 flags;
+    // Animates over the loop time rather than the life time
+    u16 loop : 1;
+    u16 : 15;
     u16 padding;
 } SPLScaleAnim;
 
@@ -157,7 +186,7 @@ typedef struct {
     u8 padding;
     // Starts each particle at one of the three colors, at random
     u16 randomStart : 1;
-    u16 : 1;
+    u16 loop : 1;
     u16 interpolate : 1;
 } SPLColorAnim;
 
@@ -167,8 +196,9 @@ typedef struct {
     u16 end : 5;
     u16 : 1;
     // How much of the alpha a particle may lose at random, out of 255
-    u8 randomRange;
-    u8 padding;
+    u16 randomRange : 8;
+    u16 loop : 1;
+    u16 : 7;
     u8 in;
     u8 out;
 } SPLAlphaAnim;
@@ -180,7 +210,8 @@ typedef struct {
     u32 step : 8;
     // Gives each particle one of the textures at random
     u32 randomStart : 1;
-    u32 : 15;
+    u32 loop : 1;
+    u32 : 14;
 } SPLTextureAnim;
 
 // What a child particle takes from its parent's rotation
@@ -192,12 +223,16 @@ enum {
 
 // The particles each particle emits
 typedef struct {
-    u16 : 3;
+    // Applies the resource's behaviors to the children too
+    u16 hasBehaviors : 1;
+    u16 hasScaleAnim : 1;
+    u16 hasAlphaAnim : 1;
     u16 rotationType : 2;
-    u16 : 1;
+    u16 followEmitter : 1;
     // Gives the children their own color, rather than their parent's
     u16 useChildColor : 1;
-    u16 : 9;
+    u16 drawType : 2;
+    u16 : 7;
     // The children's speed, up to which their velocities differ at random from their parent's
     fx16 randomInitVelMag;
     // The scale a child particle shrinks or grows to over its life
@@ -208,9 +243,15 @@ typedef struct {
     u8 scaleRatio;
     GXRgb color;
     u8 emissionCount;
-    u8 unkD;
-    u8 unkE;
+    // Particles emit children every emissionInterval frames from emissionDelay out of 256 of their lives on
+    u8 emissionDelay;
+    u8 emissionInterval;
     u8 texture;
+    u32 textureRepeatShiftS : 2;
+    u32 textureRepeatShiftT : 2;
+    u32 flipTextureS : 1;
+    u32 flipTextureT : 1;
+    u32 : 26;
 } SPLChildResource;
 
 // A force on an emitter's particles: the function applying it, and its parameters
@@ -271,13 +312,32 @@ typedef struct {
     u16 padding;
 } SPLConvergenceBehavior;
 
+typedef union {
+    u32 all;
+    struct {
+        // Asks the manager to delete the emitter once its particles are gone
+        u32 terminate : 1;
+        u32 stopEmission : 1;
+        u32 : 2;
+        // Set once the emitter may emit
+        u32 started : 1;
+        u32 : 27;
+    };
+} SPLEmitterState;
+
+// The kinds of call of an emitter's update callback, before and after the update
+enum {
+    SPL_EMITTER_CALLBACK_FRONT,
+    SPL_EMITTER_CALLBACK_BACK,
+};
+
 struct SPLEmitter {
     SPLEmitter *next;
     SPLEmitter *prev;
     SPLList particles;
     SPLList childParticles;
     SPLResource *resource;
-    u32 state;
+    SPLEmitterState state;
     VecFx32 position;
     VecFx32 velocity;
     VecFx32 particleInitVelocity;
@@ -302,11 +362,12 @@ struct SPLEmitter {
     u32 emissionInterval : 8;
     u32 baseAlpha : 8;
     u32 updateCycle : 3;
-    u32 : 13;
+    u32 reserved : 13;
     VecFx16 crossAxis1;
     VecFx16 crossAxis2;
     SPLEmitterUpdateCallback updateCallback;
     void *userDataPtr;
+    u32 unk98;
 };
 
 typedef struct {
@@ -315,9 +376,50 @@ typedef struct {
     SPLEmitter *last;
 } SPLEmitterList;
 
+// A texture's TEXIMAGE_PARAM fields
 typedef struct {
+    u32 format : 4;
+    u32 s : 4;
+    u32 t : 4;
+    u32 repeat : 2;
+    u32 flip : 2;
+    u32 palColor0 : 1;
+    u32 : 15;
+} SPLTextureParam;
+
+// A texture of the resource file, once uploaded to VRAM
+typedef struct {
+    const void *data;
+    u32 texAddr;
+    u32 palAddr;
+    SPLTextureParam param;
+    u16 width;
+    u16 height;
+} SPLTexture;
+
+typedef struct SPLManager {
     SPLAllocFunc alloc;
     SPLEmitterList activeEmitters;
+    SPLEmitterList inactiveEmitters;
+    SPLList unusedParticles;
+    SPLResource *resources;
+    SPLTexture *textures;
+    u16 textureCount;
+    u16 resourceCount;
+    u16 maxEmitters;
+    u16 maxParticles;
+    // Particles take polygon IDs from min to max in turn, or the fixed one
+    u32 minPolygonID : 6;
+    u32 maxPolygonID : 6;
+    u32 currentPolygonID : 6;
+    u32 fixPolygonID : 6;
+    u32 : 8;
+    u32 unk3c;
+    // The emitter being drawn
+    SPLEmitter *drawEmitter;
+    u32 unk44;
+    u16 unk48;
+    u16 unk4a;
 } SPLManager;
 
 // The behaviors' functions, which tell a behavior's kind

@@ -36,4 +36,31 @@ void SPLRandom_VecFx32_XY(VecFx32 *vec);
 void SPLEmitter_EmitParticles(SPLEmitter *emitter, SPLList *freeList);
 void SPLEmitter_EmitChildren(SPLParticle *parent, SPLEmitter *emitter, SPLList *freeList);
 
+void SPLEmitter_Init(SPLEmitter *emitter, SPLResource *resource, const VecFx32 *pos);
+void SPLEmitter_Update(SPLManager *mgr, SPLEmitter *emitter);
+// Draws the manager's draw emitter
+void SPLEmitter_Draw(SPLManager *mgr);
+
+// The animations, given the particle's life rate from 0 to 255
+typedef void (*SPLAnimFunc)(SPLParticle *particle, SPLResource *resource, int lifeRate);
+
+void SPLAnim_Scale(SPLParticle *particle, SPLResource *resource, int lifeRate);
+void SPLAnim_Color(SPLParticle *particle, SPLResource *resource, int lifeRate);
+void SPLAnim_Alpha(SPLParticle *particle, SPLResource *resource, int lifeRate);
+void SPLAnim_Texture(SPLParticle *particle, SPLResource *resource, int lifeRate);
+void SPLAnim_ChildScale(SPLParticle *particle, SPLResource *resource, int lifeRate);
+void SPLAnim_ChildAlpha(SPLParticle *particle, SPLResource *resource, int lifeRate);
+
+// Draw a particle, or a child, of the manager's draw emitter
+typedef void (*SPLDrawFunc)(SPLManager *mgr, SPLParticle *particle);
+
+void SPLDraw_Billboard(SPLManager *mgr, SPLParticle *particle);
+void SPLDraw_DirBillboard(SPLManager *mgr, SPLParticle *particle);
+void SPLDraw_Polygon(SPLManager *mgr, SPLParticle *particle);
+void SPLDraw_DirPolygon(SPLManager *mgr, SPLParticle *particle);
+void SPLDraw_Child_Billboard(SPLManager *mgr, SPLParticle *particle);
+void SPLDraw_Child_DirBillboard(SPLManager *mgr, SPLParticle *particle);
+void SPLDraw_Child_Polygon(SPLManager *mgr, SPLParticle *particle);
+void SPLDraw_Child_DirPolygon(SPLManager *mgr, SPLParticle *particle);
+
 #endif // POKEBW2_SPL_INTERNAL_H
