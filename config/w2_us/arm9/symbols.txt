@@ -5610,11 +5610,11 @@ SPLBehavior_ApplySpin kind:function(arm,size=0xd8) addr:0x0205664c
 SPLBehavior_ApplyMagnet kind:function(arm,size=0x84) addr:0x02056724
 SPLBehavior_ApplyRandom kind:function(arm,size=0xc8) addr:0x020567a8
 SPLBehavior_ApplyGravity kind:function(arm,size=0x34) addr:0x02056870
-func_02056878 kind:function(arm,size=0x80) addr:0x020568a4
-func_020568f8 kind:function(arm,size=0x4c) addr:0x02056924
-func_02056944 kind:function(arm,size=0x50) addr:0x02056970
-func_02056994 kind:function(arm,size=0x5c) addr:0x020569c0
-func_020569f0 kind:function(arm,size=0x68) addr:0x02056a1c
+SPLList_Erase kind:function(arm,size=0x80) addr:0x020568a4
+SPLList_PopFront kind:function(arm,size=0x4c) addr:0x02056924
+SPLList_PushFront kind:function(arm,size=0x50) addr:0x02056970
+SPLRandom_VecFx32_XY kind:function(arm,size=0x5c) addr:0x020569c0
+SPLRandom_VecFx32 kind:function(arm,size=0x68) addr:0x02056a1c
 func_02056a58 kind:function(arm,size=0x14) addr:0x02056a84
 func_02056a6c kind:function(arm,size=0x24) addr:0x02056a98
 func_02056a90 kind:function(arm,size=0xc4) addr:0x02056abc
@@ -9177,7 +9177,7 @@ sFadeMgr kind:bss addr:0x02141984
 sDual3D kind:bss addr:0x02141988
 sDMAChannels kind:bss addr:0x0214198c
 sParticle kind:bss addr:0x02141990
-data_02141954 kind:bss addr:0x02141994
+gSPLRandomState kind:bss addr:0x02141994
 data_02141958 kind:bss addr:0x02141998
 data_0214195c kind:bss addr:0x0214199c
 data_02141961 kind:bss addr:0x021419a1

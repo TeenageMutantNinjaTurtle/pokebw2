@@ -167,6 +167,11 @@
 . 0x020566f8 SPLBehavior_ApplyMagnet
 . 0x0205677c SPLBehavior_ApplyRandom
 . 0x02056844 SPLBehavior_ApplyGravity
+. 0x02056878 SPLList_Erase
+. 0x020568f8 SPLList_PopFront
+. 0x02056944 SPLList_PushFront
+. 0x02056994 SPLRandom_VecFx32_XY
+. 0x020569f0 SPLRandom_VecFx32
 . 0x0205f458 NNS_GfdInitFrmTexVramManager
 . 0x0205f500 NNS_GfdAllocFrmTexVram
 . 0x0205f5e8 NNS_GfdGetFrmTexVramState
@@ -344,6 +349,7 @@
 . 0x02141948 sDual3D
 . 0x0214194c sDMAChannels
 . 0x02141950 sParticle
+. 0x02141954 gSPLRandomState
 . 0x02143a0c NNS_G3dGlb
 dtcm 0x02fe0000 SDK_AUTOLOAD_DTCM_START
 overlays/ov000 0x0214f500 EventGameSync_Callback

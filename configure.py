@@ -54,6 +54,28 @@ CC_FLAGS = [
     "-msgstyle gcc",
 ]
 
+# Nintendo's SPL particle library was built apart from the game, with an older compiler, as ARM code and without
+# interprocedural analysis. Sources under each directory here are compiled with its compiler and flags
+LIB_COMPILERS = {
+    "src/lib/spl/": ("1.2/base", [
+        "-O4,p",
+        "-proc arm946e",
+        "-nothumb",
+        "-interworking",
+        "-enum int",
+        "-char signed",
+        "-fp soft",
+        "-lang=c99",
+        "-Cpp_exceptions off",
+        "-gccext,on",
+        "-gccinc",
+        "-sym on",
+        "-requireprotos",
+        "-nolink",
+        "-msgstyle gcc",
+    ]),
+}
+
 # Archives built from source, which replace their extracted counterparts in the ROM. Each maps its path under files/ to
 # the directory of its members, one assembly file each, in archive order.
 ARCHIVES = {
@@ -133,7 +155,8 @@ def download_tools(tools_dir: Path):
         print("Downloading mwccarm")
         with urllib.request.urlopen(MWCCARM_URL) as response:
             archive = zipfile.ZipFile(io.BytesIO(response.read()))
-        members = [m for m in archive.namelist() if m.startswith("mwccarm/dsi/")]
+        versions = ("mwccarm/dsi/", *(f"mwccarm/{compiler}/" for compiler, _ in LIB_COMPILERS.values()))
+        members = [m for m in archive.namelist() if m.startswith(versions)]
         archive.extractall(tools_dir, members)
 
 
@@ -188,7 +211,8 @@ def add_version(n: Writer, version: str, dsd: Path, bugfix: bool) -> tuple[list[
         source = Path(f["name"])
         if source.suffix in (".c", ".cpp") and source.exists():
             obj = build_dir / source.with_suffix(".o")
-            n.build([obj], "mwcc", [source], variables={"defines": defines, "dep": obj.with_suffix(".d")})
+            rule = next((f"mwcc_{i}" for i, lib in enumerate(LIB_COMPILERS) if str(source).startswith(lib)), "mwcc")
+            n.build([obj], rule, [source], variables={"defines": defines, "dep": obj.with_suffix(".d")})
             compiled.append(obj)
         objects.append(f["object_to_link"])
 
@@ -289,6 +313,11 @@ def main():
     n.rule("mwcc", f"mkdir -p $$(dirname $out) && $wine {shlex.quote(str(mwcc))} {' '.join(CC_FLAGS)} $defines "
            "-gccdep -MD -i include -o $out $in && $python tools/scripts/fix_depfile.py $dep", "Compiling $in",
            depfile="$dep", deps="gcc")
+    for i, (compiler, flags) in enumerate(LIB_COMPILERS.values()):
+        lib_mwcc = tools_dir / "mwccarm" / compiler / "mwccarm.exe"
+        n.rule(f"mwcc_{i}", f"mkdir -p $$(dirname $out) && $wine {shlex.quote(str(lib_mwcc))} {' '.join(flags)} "
+               "$defines -gccdep -MD -i include -o $out $in && $python tools/scripts/fix_depfile.py $dep",
+               "Compiling $in", depfile="$dep", deps="gcc")
     n.rule("mwld", f"$wine {shlex.quote(str(mwld))} {' '.join(LD_FLAGS)} @$objects $lcf -o $out", "Linking $out")
     # Scripts go through the C preprocessor, so that they can include the constant headers
     n.rule("as", f"{shlex.quote(clang)} --target=armv5te-none-eabi -x assembler-with-cpp -c -I include $defines "

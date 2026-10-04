@@ -8,6 +8,22 @@
 // Nintendo's SPL particle library, under the names pret's Platinum decompilation gives it: a manager of emitters
 // made from a resource file's particle definitions. Only what the game's own code touches is laid out here
 
+// The library's doubly linked lists, of emitters and of particles, which start with these links
+typedef struct SPLNode {
+    struct SPLNode *next;
+    struct SPLNode *prev;
+} SPLNode;
+
+typedef struct {
+    SPLNode *first;
+    int count;
+    SPLNode *last;
+} SPLList;
+
+void SPLList_PushFront(SPLList *list, SPLNode *node);
+SPLNode *SPLList_PopFront(SPLList *list);
+SPLNode *SPLList_Erase(SPLList *list, SPLNode *node);
+
 typedef void *(*SPLAllocFunc)(u32 size);
 typedef u32 (*SPLTexVRAMAllocFunc)(u32 size, BOOL is4x4comp);
 typedef u32 (*SPLPalVRAMAllocFunc)(u32 size, BOOL is4pltt);

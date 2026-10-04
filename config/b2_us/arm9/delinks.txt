@@ -296,3 +296,12 @@ src/main/dma_vblank.c:
     complete
     .text       start:0x0204f864 end:0x0204f918
     .bss        start:0x0214194c end:0x02141950
+
+src/lib/spl/spl_list.c:
+    complete
+    .text       start:0x02056878 end:0x02056994
+
+src/lib/spl/spl_random.c:
+    complete
+    .text       start:0x02056994 end:0x02056a58
+    .bss        start:0x02141954 end:0x02141958
