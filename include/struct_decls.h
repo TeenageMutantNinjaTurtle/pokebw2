@@ -20,6 +20,8 @@ typedef struct BmpWin BmpWin;
 typedef struct BmpWinSys BmpWinSys;
 typedef struct ButtonMan ButtonMan;
 typedef struct Calendar Calendar;
+typedef struct CommPlayerSys CommPlayerSys;
+typedef struct FldCommActSys FldCommActSys;
 typedef struct GFLBitmap GFLBitmap;
 typedef struct BagSave BagSave;
 typedef struct BagScriptResult BagScriptResult;

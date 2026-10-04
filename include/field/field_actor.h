@@ -209,6 +209,8 @@ void SetActorSCRID(FieldActor *actor, u16 scriptId);
 void SetActorWPosAll(FieldActor *actor, const VecFx32 *pos, u32 dir);
 FieldActor *CreateNewActorByParam(MMSys *mmSys, s16 x, s16 z, u16 dir, u16 id, u16 objCode, u16 moveCode, u16 zoneId);
 void CopyActorWPos(FieldActor *actor, VecFx32 *dest);
+// The position with every offset added
+void CopyActorPosAllAdd(FieldActor *actor, VecFx32 *dest);
 void SetActorWPosValue(FieldActor *actor, const VecFx32 *pos);
 // The actor with an ID, or NULL
 FieldActor *FindFieldActor(MMSys *mmSys, u16 id);
