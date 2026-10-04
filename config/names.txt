@@ -1255,6 +1255,13 @@ overlays/ov294 0x021a4bb4 sWordFuncs
 overlays/ov294 0x021a4bbc sCommands
 overlays/ov294 0x021a4c9c sScripts
 overlays/ov294 0x021a4cfc sCameraVectors
+overlays/ov298 0x0219fbc0 ZukanDetailProcSys_Create
+overlays/ov298 0x0219fbec ZukanDetailProcSys_Free
+overlays/ov298 0x0219fbf4 ZukanDetailProcSys_Main
+overlays/ov298 0x0219fc70 ZukanDetailProcSys_Command
+overlays/ov298 0x0219fc90 ZukanDetailProcSys_Draw
+overlays/ov298 0x0219fcac ZukanDetailProcSys_AllocWork
+overlays/ov298 0x0219fccc ZukanDetailProcSys_FreeWork
 overlays/ov307 0x021ddbc0 EggDemo_Init
 overlays/ov307 0x021ddc2c EggDemo_Exit
 overlays/ov307 0x021ddc64 EggDemo_Main

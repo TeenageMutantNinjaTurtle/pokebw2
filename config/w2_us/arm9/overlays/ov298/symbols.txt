@@ -1,10 +1,10 @@
-func_ov298_0219fbc0 kind:function(thumb,size=0x2c) addr:0x0219fc00
-func_ov298_0219fbec kind:function(thumb,size=0x8) addr:0x0219fc2c
-func_ov298_0219fbf4 kind:function(thumb,size=0x7a) addr:0x0219fc34
-func_ov298_0219fc70 kind:function(thumb,size=0x1e) addr:0x0219fcb0
-func_ov298_0219fc90 kind:function(thumb,size=0x1c) addr:0x0219fcd0
-func_ov298_0219fcac kind:function(thumb,size=0x20) addr:0x0219fcec
-func_ov298_0219fccc kind:function(thumb,size=0x10) addr:0x0219fd0c
+ZukanDetailProcSys_Create kind:function(thumb,size=0x2c) addr:0x0219fc00
+ZukanDetailProcSys_Free kind:function(thumb,size=0x8) addr:0x0219fc2c
+ZukanDetailProcSys_Main kind:function(thumb,size=0x7a) addr:0x0219fc34
+ZukanDetailProcSys_Command kind:function(thumb,size=0x1e) addr:0x0219fcb0
+ZukanDetailProcSys_Draw kind:function(thumb,size=0x1c) addr:0x0219fcd0
+ZukanDetailProcSys_AllocWork kind:function(thumb,size=0x20) addr:0x0219fcec
+ZukanDetailProcSys_FreeWork kind:function(thumb,size=0x10) addr:0x0219fd0c
 func_ov298_0219fcdc kind:function(thumb,size=0x40) addr:0x0219fd1c
 func_ov298_0219fd1c kind:function(thumb,size=0x8) addr:0x0219fd5c
 func_ov298_0219fd24 kind:function(thumb,size=0x4) addr:0x0219fd64

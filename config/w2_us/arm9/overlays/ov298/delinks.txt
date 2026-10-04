@@ -3,3 +3,8 @@
     .ctor       start:0x021ace18 end:0x021ace18 kind:rodata align:4
     .data       start:0x021ace20 end:0x021acf20 kind:data align:32
     .bss        start:0x021acf20 end:0x021acf20 kind:bss align:32
+
+src/ov298/zukan_detail_procsys.c:
+    complete
+    .text       start:0x0219fc00 end:0x0219fd1c
+    .data       start:0x021ace20 end:0x021ace38
