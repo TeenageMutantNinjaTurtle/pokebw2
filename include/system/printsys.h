@@ -17,7 +17,8 @@ typedef struct PrintQueue PrintQueue;
 typedef struct PrintStream PrintStream;
 
 // A color of text, shadow and background color indices
-#define PRINT_COLOR(text, shadow, background) (((text) << 10) | ((shadow) << 5) | (background))
+#define PRINT_COLOR(text, shadow, background)                                                                          \
+    ((((text) & 0x1f) << 10) | (((shadow) & 0x1f) << 5) | ((background) & 0x1f))
 
 // Sets the string terminator, and creates the bitmap glyphs are drawn into
 void GFL_TextRndInit(HeapID heapId);

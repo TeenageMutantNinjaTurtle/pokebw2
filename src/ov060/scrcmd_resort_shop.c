@@ -11,7 +11,6 @@
 #include "gfl/arc_util.h"
 #include "gfl/bg_sys.h"
 #include "gfl/bmp.h"
-#include "gfl/bmp_menu.h"
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"
 #include "gfl/fade.h"
@@ -32,6 +31,7 @@
 #include "save/save_control.h"
 #include "system/app_keycursor.h"
 #include "system/bmp_menu.h"
+#include "system/bmp_menulist.h"
 #include "system/bmp_winframe.h"
 #include "system/game_comm.h"
 #include "system/game_data.h"
@@ -623,7 +623,7 @@ static void func_ov060_021e5ee0(ResortShopWork *wk) {
     wk->moveFrom = result;
     wk->moving = TRUE;
     wk->selected = &wk->entries[result];
-    func_02025b04(wk->list, &wk->moveTop, &wk->moveCursor);
+    BmpMenuList_GetPos(wk->list, &wk->moveTop, &wk->moveCursor);
     func_ov060_021e837c(wk);
 }
 
@@ -722,7 +722,7 @@ static BOOL func_ov060_021e6140(GameSystem *gsys, ResortShopWork *wk, u8 mode, u
         BmpWin_FlushMap(wk->windows[5]);
         GFL_BGSysQueueScrLoad(1);
         func_0204c124(wk->actors[3], FALSE);
-        func_02025a38(wk->list);
+        BmpMenuList_Redraw(wk->list);
         wk->state = 0;
         break;
     case 3:
@@ -748,7 +748,7 @@ static BOOL func_ov060_021e6140(GameSystem *gsys, ResortShopWork *wk, u8 mode, u
             if (result == 0) {
                 wk->state = 6;
                 func_ov060_021e7e84(1);
-                func_02025a38(wk->list);
+                BmpMenuList_Redraw(wk->list);
                 BmpWin_FlushMap(wk->windows[2]);
                 GFL_BGSysQueueScrLoad(1);
             } else if (result == BMPMENU_CANCEL) {
@@ -843,7 +843,7 @@ static BOOL func_ov060_021e64b0(GameSystem *gsys, ResortShopWork *wk, u8 mode, u
         BmpWin_FlushMap(wk->windows[5]);
         GFL_BGSysQueueScrLoad(1);
         func_0204c124(wk->actors[3], FALSE);
-        func_02025a38(wk->list);
+        BmpMenuList_Redraw(wk->list);
         wk->state = 0;
         break;
     case 3:
@@ -866,7 +866,7 @@ static BOOL func_ov060_021e64b0(GameSystem *gsys, ResortShopWork *wk, u8 mode, u
             if (result == 0) {
                 wk->state = 6;
                 func_ov060_021e7e84(1);
-                func_02025a38(wk->list);
+                BmpMenuList_Redraw(wk->list);
                 BmpWin_FlushMap(wk->windows[2]);
                 GFL_BGSysQueueScrLoad(1);
             } else if (result == BMPMENU_CANCEL) {
@@ -936,7 +936,7 @@ static BOOL func_ov060_021e66c4(GameSystem *gsys, ResortShopWork *wk, u8 mode, u
         BmpWin_FlushMap(wk->windows[5]);
         GFL_BGSysQueueScrLoad(1);
         func_0204c124(wk->actors[3], FALSE);
-        func_02025a38(wk->list);
+        BmpMenuList_Redraw(wk->list);
         wk->state = 1;
         break;
     case 4:
@@ -1453,27 +1453,27 @@ static void func_ov060_021e7974(ResortShopWork *wk, BmpMenuListCursorCallback cu
     header.cursorCallback = cursorCallback;
     header.printCallback = printCallback;
     header.count = ListMenuCore_GetFirstFreeIndex(wk->options);
-    header.unkE = 7;
-    header.unk10 = 0;
-    header.unk11 = 0;
-    header.unk12 = 0;
-    header.unk13_0 = 8;
-    header.unk13_4 = 12;
-    header.unk14_0 = 0;
-    header.unk14_4 = 13;
-    header.unk16_0 = 0;
-    header.unk16_3 = 0;
-    header.unk16_7 = 1;
-    header.unk16_9 = 0;
-    header.unk16_15 = 1;
+    header.maxShown = 7;
+    header.labelX = 0;
+    header.itemX = 0;
+    header.cursorX = 0;
+    header.y = 8;
+    header.fgColor = 12;
+    header.bgColor = 0;
+    header.shadowColor = 13;
+    header.letterSpacing = 0;
+    header.lineSpacing = 0;
+    header.pageSkip = BMPMENULIST_SKIP_LR_KEY;
+    header.fontId = 0;
+    header.cursorDisplay = BMPMENULIST_CURSOR_HIDE;
     header.work = wk;
-    header.unk1C = 12;
-    header.unk1E = 16;
+    header.fontSizeX = 12;
+    header.fontSizeY = 16;
     header.unk20 = 0;
-    header.unk24 = &wk->printWindow;
-    header.unk28 = wk->printQueue;
+    header.printWindow = &wk->printWindow;
+    header.queue = wk->printQueue;
     header.font = wk->font;
-    header.unk30 = 0;
+    header.wait = 0;
     wk->list = BmpMenuList_Create(&header, 0, 0, wk->heapId);
 }
 
@@ -1489,7 +1489,7 @@ static void func_ov060_021e7a2c(PrintQueue *queue, GFLBitmap *bitmap, int x, int
 
 // Prints an item's price, or that it was bought, at the right of its row
 static void func_ov060_021e7a70(BmpMenuList *list, s32 value, u8 y) {
-    ResortShopWork *wk = func_0202651c(list);
+    ResortShopWork *wk = BmpMenuList_GetWork(list);
     s32 width;
     u32 windowWidth;
 
@@ -1637,12 +1637,12 @@ static void func_ov060_021e7f58(GameSystem *gsys, ResortShopWork *wk, u8 mode, u
 
 // Moves the cursor's arrow, and shows the entry's description and icon
 static void func_ov060_021e7f5c(BmpMenuList *list, s32 value, u8 a2) {
-    ResortShopWork *wk = func_0202651c(list);
+    ResortShopWork *wk = BmpMenuList_GetWork(list);
     u16 top;
     u16 cursor;
     ClActorPos pos;
 
-    func_02025b04(list, &top, &cursor);
+    BmpMenuList_GetPos(list, &top, &cursor);
     pos.x = 172;
     pos.y = cursor * 16 + 22;
     func_0204c140(wk->actors[0], &pos, 0);
@@ -1733,12 +1733,12 @@ static void func_ov060_021e8190(ResortShopWork *wk, ResortPersonData *data, u32 
 
 // Moves the cursor's arrow, and shows the entry's description and model
 static void func_ov060_021e827c(BmpMenuList *list, s32 value, u8 a2) {
-    ResortShopWork *wk = func_0202651c(list);
+    ResortShopWork *wk = BmpMenuList_GetWork(list);
     u16 top;
     u16 cursor;
     ClActorPos pos;
 
-    func_02025b04(list, &top, &cursor);
+    BmpMenuList_GetPos(list, &top, &cursor);
     pos.x = 172;
     pos.y = cursor * 16 + 22;
     func_0204c140(wk->actors[0], &pos, 0);
@@ -1753,12 +1753,12 @@ static void func_ov060_021e827c(BmpMenuList *list, s32 value, u8 a2) {
 
 // The same, and moves the arrow of the entry being moved
 static void func_ov060_021e82f0(BmpMenuList *list, s32 value, u8 a2) {
-    ResortShopWork *wk = func_0202651c(list);
+    ResortShopWork *wk = BmpMenuList_GetWork(list);
     u16 top;
     u16 cursor;
     ClActorPos pos;
 
-    func_02025b04(list, &top, &cursor);
+    BmpMenuList_GetPos(list, &top, &cursor);
     pos.x = 172;
     pos.y = cursor * 16 + 22;
     func_0204c140(wk->actors[0], &pos, 0);
@@ -1785,8 +1785,8 @@ static void func_ov060_021e837c(ResortShopWork *wk) {
     int row;
     int y;
 
-    func_02025b04(wk->list, &top, &cursor);
-    rowHeight = func_02025b58(wk->list, 9);
+    BmpMenuList_GetPos(wk->list, &top, &cursor);
+    rowHeight = BmpMenuList_GetParam(wk->list, BMPMENULIST_PARAM_ROW_HEIGHT);
     row = wk->moveCursor + wk->moveTop - top;
     y = row * rowHeight;
     pos.x = 172;

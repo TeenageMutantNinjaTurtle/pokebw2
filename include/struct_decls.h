@@ -17,6 +17,7 @@ typedef struct BGSys BGSys;
 typedef struct BGSysBG BGSysBG;
 typedef struct BmpCursor BmpCursor;
 typedef struct BmpMenu BmpMenu;
+typedef struct BmpMenuList BmpMenuList;
 typedef struct BmpWin BmpWin;
 typedef struct BmpWinSys BmpWinSys;
 typedef struct ButtonMan ButtonMan;

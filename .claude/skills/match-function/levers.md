@@ -8,6 +8,11 @@ text to `grep -n` there. Entries without a key come from later work and still be
 ## Registers swapped
 
 - Locals get registers in declaration order: reorder the declarations. (matching.md: "declaration order of locals")
+  Declaring every local first and assigning them below moves both registers and slots (matching.md: "declared first")
+- A `u16` local and `local ± 1` sharing a register can push a parameter out of r0: a wider local keeps them apart.
+  (matching.md: "wider local")
+- A ternary store computes the address once, an `if`/`else` store in each branch. (matching.md: "ternary store")
+- `p + (a + 4)` and `p + a + 4` differ. (matching.md: "Parenthesized offsets")
 - Of two variables that compete for one register, the one used more gets it. `docs/matching.md` spells out what counts as a
   use; on a tie the one assigned first wins. (matching.md: "compete for the same register")
 - A variable gets a register per group of assignments that reach the same uses: a store after two branches keeps
@@ -53,6 +58,9 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - A load through a pointer moves above stores only when the pointee is `const`. A load scheduled early points to a
   `const` parameter. (matching.md: "unless the pointee is `const`")
 - The same rule orders a call's stack argument stores against the register arguments. (matching.md: "stack argument stores")
+- Register parameters spilled at entry in another order: try `u8` for flag parameters typed `BOOL`.
+  (matching.md: "`u8` flag parameters")
+- The operand order of a product decides which value is loaded first. (matching.md: "operand order of a product")
 - A load through a `const` pointer is reused across stores but not hoisted out of a loop. (matching.md: "reused across stores")
 - Initializations are scheduled where they are written: `int i = 0;` declared after a call against `for (i = 0; ...)`.
   (matching.md: "scheduled where they are written")

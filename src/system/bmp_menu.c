@@ -49,7 +49,7 @@ static BmpMenu *BmpMenu_AddEx(const BmpMenuHeader *header, u8 x, u8 y, u8 cursor
     menu->heapId = heapId;
     menu->x = x;
     menu->y = y;
-    func_020265d8(menu->cursor, heapId);
+    BmpCursor_LoadBitmap(menu->cursor, heapId);
     menu->fontSizeX = menu->header.fontSizeX;
     menu->fontSizeY = menu->header.fontSizeY;
     BmpMenu_PrintOptions(menu);
@@ -64,7 +64,7 @@ static void BmpMenu_Exit(BmpMenu *menu, u8 *cursorPos) {
     if (cursorPos != NULL) {
         *cursorPos = menu->cursorPos;
     }
-    func_0202654c(menu->cursor);
+    BmpCursor_Free(menu->cursor);
     GFL_HeapFree(menu);
 }
 
@@ -223,7 +223,7 @@ static void BmpMenu_DrawCursor(BmpMenu *menu) {
 
     if (menu->header.cursorDisplay != BMPMENU_CURSOR_HIDE) {
         BmpMenu_GetCursorXY(menu, &x, &y, menu->cursorPos);
-        func_0202656c(menu->cursor, x, y, menu->header.printWindow, menu->header.queue, menu->header.font);
+        BmpCursor_Print(menu->cursor, x, y, menu->header.printWindow, menu->header.queue, menu->header.font);
     }
 }
 

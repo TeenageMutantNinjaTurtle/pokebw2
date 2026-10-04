@@ -69,6 +69,13 @@ Same code, other `sp` offsets or frame size.
 - Structs passed by value go in registers and on the stack. Code that copies a struct to the stack and passes its
   address takes a pointer to a local copy.
 
+- A function that declares every local first and assigns them below gets other registers and stack slots than one
+  that initializes them in their declarations: bmp_menulist.c's `Bitmap_Scroll16` declares `pixels, widthTiles,
+  fill32, end, y, i, j, src, dst` and assigns `pixels`, `fill32`, `widthTiles` and `end` in call order, and swapping
+  the declarations of `widthTiles` and `fill32` swaps their slots.
+- A `u16` local and `local + 1` stored back to the same field can share a register and push a parameter out of r0;
+  a wider local keeps them apart, as `u32 listTop` does in `BmpMenuList_Scroll`.
+
 ## Instruction order
 
 Same instructions, scheduled in another order.
@@ -96,7 +103,7 @@ Same instructions, scheduled in another order.
   `GFL_BGSysFillScrArea` does.
 - A `u16` stack parameter reloaded with `ldrh` at some uses, with one `ldrh` into a register that feeds others, has
   few uses of its own: the shared load is its conversion to a wider type, so the callees there take a `u32`. In
-  bmp_menu.c's `BmpMenu_AddEx`, `BmpCursor_Create` and `func_020265d8` narrow their heap ID with shifts, so they take
+  bmp_menu.c's `BmpMenu_AddEx`, `BmpCursor_Create` and `BmpCursor_LoadBitmap` narrow their heap ID with shifts, so they take
   `u32 heapId`. When reloads look like register allocation, read the callees' asm before reordering statements.
 - NitroSDK's inline functions take enums, such as `GXBGColorMode`, and the BG system's `GFL_BGSysCreateBG` only loads
   every argument of `G2_SetBG0Control` before shifting any with enum parameters. `nitro/gx.h` keeps the SDK's types for
@@ -111,7 +118,13 @@ Same instructions, scheduled in another order.
 Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 - A caller narrows an argument for a `u8` or `u16` parameter with shifts before the call, so an argument passed without
-  them is for a wider parameter.
+  them is for a wider parameter. Read the narrowings of every caller together: `GFL_BitmapFillArea` takes `s16 x, s16
+  y, u16 width, u16 height`, and `GFL_BitmapGetWidth` returns a `u16`, which is why printsys.c passes its width
+  without shifts and bmp_menulist.c's `PrintOptions` narrows its computed width and height.
+- A `u16` narrowing followed by an `s16` one (`lsl #16; lsr #16; lsl #16; asr #16`) is a value returned by a `u16`
+  inline helper and passed to an `s16` parameter, as bmp_menulist.c's `RowY` is in `BmpMenuList_EraseCursor`.
+- A 4-bit color field masked with `& 0x1f` before it is shifted into a print color (`lsl #27; lsr #17` for the text
+  color) went through `PRINT_COLOR`, which masks each component.
 - A sum that the original truncates to `s16` before comparing it was stored in an `s16` local, as the edges of the
   Join Avenue's balloons are; casting it in the comparison gives the same code but is not needed.
 - Masks written with `~` clear bits with `bic`. The game's `and` with a constant such as `0xef` is `x &= (u8)~FLAG`.
@@ -139,6 +152,15 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   is missing. `GFL_SEPlayKeepVol` takes the sound's player as well as the sound.
 - A caller that keeps an argument register untouched across a call to a function that ignores it is passing that
   argument: `ShinkaDemoPieces_IsFadeDone` takes the heap ID like the functions around it.
+
+- A ternary store `*p = c ? a : b` computes the address once and stores after the branches; an `if`/`else` with a
+  store in each branch computes the address in each, as `Bitmap_Scroll16` does.
+- Parenthesized offsets change the code: `pixels + (dst + 4)` adds the offsets and indexes once, `pixels + dst + 4`
+  adds to the pointer twice (`Bitmap_Scroll256`).
+- The operand order of a product decides which value is loaded first: `(row + 1) * rowHeight * 2` and
+  `widthTiles * (y & ~7)` match in bmp_menulist.c where the other orders do not.
+- `u8` flag parameters, not `BOOL`, change the order in which register parameters are spilled at entry
+  (`BmpMenuList_CycleCursor`).
 
 ## Branches and block layout
 

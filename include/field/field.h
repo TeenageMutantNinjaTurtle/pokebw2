@@ -3,12 +3,12 @@
 
 #include "types.h"
 #include "gfl/g3d.h"
-#include "gfl/bmp_menu.h"
 #include "gfl/bmpwin.h"
 #include "gfl/heap.h"
 #include "gfl/tcb.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
+#include "system/bmp_menulist.h"
 
 void BeginContinuePlaceNameDisp(PlaceName *placeName, u16 zoneId);
 void BeginForcePlaceNameDisp(PlaceName *placeName, s32 zoneId);
