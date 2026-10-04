@@ -81,6 +81,13 @@ typedef struct {
 
 #define POKELIST_PLATE_COUNT 6
 
+// The message window's shapes
+#define POKELIST_MESSAGE_WINDOW_SHORT 0
+#define POKELIST_MESSAGE_WINDOW_SHORTER 1
+#define POKELIST_MESSAGE_WINDOW_MENU 2
+#define POKELIST_MESSAGE_WINDOW_WIDE 3
+#define POKELIST_MESSAGE_WINDOW_NONE 4
+
 // A plate's entry in a battle's selection, when it is not one of the order's places from 0
 #define POKELIST_ENTRY_ABLE 6
 #define POKELIST_ENTRY_UNABLE 7
@@ -252,22 +259,28 @@ BOOL PokeListPlate_IsEgg(PokeListWork *wk, PokeListPlate *plate);
 u32 PokeListPlate_CheckEntry(PokeListWork *wk, PokeListPlate *plate);
 
 // plist_message.c
-PokeListMessage *func_ov165_0219f5ec(PokeListWork *wk);
-void func_ov165_0219f654(PokeListWork *wk, PokeListMessage *msg);
-void func_ov165_0219f69c(PokeListWork *wk, PokeListMessage *msg);
-void func_ov165_0219f76c(PokeListWork *wk, PokeListMessage *msg, u32 windowType);
-void func_ov165_0219f7fc(PokeListWork *wk, PokeListMessage *msg);
-void func_ov165_0219f840(PokeListWork *wk, PokeListMessage *msg, u32 msgId);
-void func_ov165_0219f8b8(PokeListWork *wk, PokeListMessage *msg, u32 msgId, BOOL waitInput);
-BOOL func_ov165_0219f958(PokeListWork *wk, PokeListMessage *msg);
-void func_ov165_0219f9d8(PokeListWork *wk, PokeListMessage *msg);
-void func_ov165_0219f9e8(PokeListWork *wk, PokeListMessage *msg);
-void func_ov165_0219f9f8(PokeListWork *wk, PokeListMessage *msg, u32 index, PartyPkm *pkm);
-void func_ov165_0219fa08(PokeListWork *wk, PokeListMessage *msg, u32 index, u16 item);
-void func_ov165_0219fa18(PokeListWork *wk, PokeListMessage *msg, u32 index, u16 item);
-void func_ov165_0219fa28(PokeListWork *wk, PokeListMessage *msg, u32 index, u16 move);
-void func_ov165_0219fa48(PokeListWork *wk, PokeListMessage *msg, u32 index, u16 number, u32 digits);
-void func_ov165_0219fac4(PokeListWork *wk, PokeListMessage *msg);
+PokeListMessage *PokeListMessage_Create(PokeListWork *wk);
+void PokeListMessage_Free(PokeListWork *wk, PokeListMessage *msg);
+void PokeListMessage_Update(PokeListWork *wk, PokeListMessage *msg);
+void PokeListMessage_Open(PokeListWork *wk, PokeListMessage *msg, u32 windowType);
+void PokeListMessage_Close(PokeListWork *wk, PokeListMessage *msg);
+BOOL PokeListMessage_IsOpen(PokeListWork *wk, PokeListMessage *msg);
+void PokeListMessage_Print(PokeListWork *wk, PokeListMessage *msg, u32 msgId);
+void PokeListMessage_PrintStream(PokeListWork *wk, PokeListMessage *msg, u32 msgId, BOOL waitInput);
+BOOL PokeListMessage_IsDone(PokeListWork *wk, PokeListMessage *msg);
+// The word set that the messages printed are expanded with, and its words
+void PokeListMessage_CreateWordSet(PokeListWork *wk, PokeListMessage *msg);
+void PokeListMessage_FreeWordSet(PokeListWork *wk, PokeListMessage *msg);
+void PokeListMessage_SetPkmName(PokeListWork *wk, PokeListMessage *msg, u32 index, PartyPkm *pkm);
+void PokeListMessage_SetItemName(PokeListWork *wk, PokeListMessage *msg, u32 index, u16 item);
+void PokeListMessage_SetItemTextName(PokeListWork *wk, PokeListMessage *msg, u32 index, u16 item);
+void PokeListMessage_SetMoveName(PokeListWork *wk, PokeListMessage *msg, u32 index, u16 move);
+void PokeListMessage_SetStatName(PokeListWork *wk, PokeListMessage *msg, u32 index, u32 stat);
+void PokeListMessage_SetNumber(PokeListWork *wk, PokeListMessage *msg, u32 index, u16 number, u8 digits);
+void PokeListMessage_SetString(PokeListWork *wk, PokeListMessage *msg, u32 index, const StrBuf *str, u32 a4);
+void PokeListMessage_LoadFrame(PokeListWork *wk);
+void PokeListMessage_ShowWaitIcon(PokeListWork *wk, PokeListMessage *msg);
+void PokeListMessage_DrawKeyCursor(PokeListWork *wk, PokeListMessage *msg);
 
 // plist_menu.c
 PokeListMenu *func_ov165_0219fae8(PokeListWork *wk);

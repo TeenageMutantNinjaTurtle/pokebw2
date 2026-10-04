@@ -15,5 +15,7 @@ void func_0203580c(WaitIcon *icon);
 // The same icon, created shown and stepped by its owner
 WaitIcon *func_02035604(TCBManager *tcbManager, BmpWin *window, u32 a2, u32 a3, HeapID heapId);
 void func_02035884(WaitIcon *icon);
+// The icon, shown in a window by tasks of the manager
+WaitIcon *func_02035660(TCBExManager *tcbManager, BmpWin *window, u32 a2, u32 a3, HeapID heapId);
 
 #endif // POKEBW2_SYSTEM_TIME_ICON_H
