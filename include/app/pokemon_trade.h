@@ -27,7 +27,9 @@ typedef struct {
     // Not used by the trade, the events keep the evolution demo's parameter here
     ShinkaDemoParam *evolution;
     void *buffer;
-    u32 unk28;
+    // Where the Pokémon traded away is
+    u16 box;
+    u16 slot;
     u16 friendIndex;
     u16 unk2E;
 } PokemonTradeParam;

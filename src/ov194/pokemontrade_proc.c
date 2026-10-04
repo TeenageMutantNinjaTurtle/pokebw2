@@ -52,12 +52,6 @@
 
 // The trade's procs and the steps of the trade: choosing a Pokémon, the menus, the messages between the machines
 
-// The profile a machine sends: its player's info and more
-typedef struct {
-    PlayerInfo info;
-    u8 unk20[8];
-} TradeProfile;
-
 static BOOL func_ov194_021b7708(PokemonTradeWork *wk);
 static void PokemonTrade_UpdateBGM(PokemonTradeWork *wk);
 static void func_ov194_021b7898(PokemonTradeWork *wk);
@@ -2972,7 +2966,7 @@ static BOOL PokemonTrade_ProcMain(GameProc *proc, u32 *state, void *param, void 
     MCSSSys_Draw(wk->mcssSys);
     func_ov194_021c1fb8(wk);
     GFL_G3DSysReqSwapBuffers();
-    if (PokemonTrade_IsNetwork(wk) && wk->unkEF8 == 0 && GFL_NetErrCheck()) {
+    if (PokemonTrade_IsNetwork(wk) && wk->netSave == NULL && GFL_NetErrCheck()) {
         if (wk->unk11F7) {
             func_02011d04(0x29);
         }

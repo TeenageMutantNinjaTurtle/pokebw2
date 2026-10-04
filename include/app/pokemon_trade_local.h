@@ -17,9 +17,11 @@
 #include "gfl/tcbl.h"
 #include "gfl/touchpanel.h"
 #include "gfl/ui.h"
+#include "save/player_info.h"
 #include "struct_decls.h"
 #include "system/app_taskmenu.h"
 #include "system/mcss.h"
+#include "system/net_save.h"
 #include "system/printsys.h"
 
 // The trade's own declarations, shared by the files of overlay 194 and the trade demo overlays 192 and 193. The work
@@ -41,11 +43,38 @@
 #define TRADE_NET_CMD_UNKF (TRADE_NET_CMD_BASE + 0xf)
 #define TRADE_NET_CMD_UNK10 (TRADE_NET_CMD_BASE + 0x10)
 #define TRADE_NET_CMD_CHECK_RESULT (TRADE_NET_CMD_BASE + 0x11)
+#define TRADE_NET_CMD_UNK12 (TRADE_NET_CMD_BASE + 0x12)
 #define TRADE_NET_CMD_UNK13 (TRADE_NET_CMD_BASE + 0x13)
 #define TRADE_NET_CMD_UNK16 (TRADE_NET_CMD_BASE + 0x16)
 #define TRADE_NET_CMD_UNK17 (TRADE_NET_CMD_BASE + 0x17)
 
 typedef struct PokemonTradeWork PokemonTradeWork;
+
+// What a machine sends of itself after a trade, for the other's records
+typedef struct {
+    PlayerInfo info;
+    u16 sentSpecies;
+    u16 receivedSpecies;
+    u8 survey;
+    u8 unk25;
+    u8 unk26_0 : 3;
+    u8 unk26_3 : 5;
+    u8 unk27;
+} TradeProfile;
+
+// The copies of the save's data that a trade changes, to restore if saving fails
+typedef struct {
+    void *mail;
+    void *records;
+    void *survey;
+    void *pokedex;
+    // The wifi list's block of the players met
+    void *playersMet;
+    PokeParty *party;
+    void *box;
+    u32 unk1C;
+    BOOL chatot;
+} TradeBackup;
 
 // A Pokémon's sprite moving to a place over some frames, straight, bouncing or along a path of offsets
 typedef struct {
@@ -90,14 +119,17 @@ struct PokemonTradeWork {
     PokemonTradeState state;
     u8 unk5F0[0x4];
     HeapID heapId;
-    u8 unk5F6[0x3a];
+    u8 unk5F6[0x16];
+    TradeBackup backup;
     // The number of boxes; the party is the box after the last
     int boxCount;
     // The columns of the scrolling strip of Pokémon: two of the party, then six for each box
     int columnCount;
     int unk638;
     int unk63C;
-    u8 unk640[0x8];
+    u8 unk640[0x4];
+    // The message cursor's place in the BG's characters
+    u32 cursorImage;
     AppTaskMenuWin *menuWin;
     AppTaskMenu *menu;
     u8 unk650[0xd0];
@@ -146,7 +178,8 @@ struct PokemonTradeWork {
     u8 unkD18[0x3c];
     u8 unkD54[0x3c];
     u8 unkD90[0x168];
-    u32 unkEF8;
+    // The save between the two machines
+    NetSave *netSave;
     ClActor *actors[10];
     u8 unkF24[0x8];
     int timer;
@@ -175,7 +208,7 @@ struct PokemonTradeWork {
     int unkF94;
     int unkF98;
     u32 unkF9C;
-    u32 unkFA0;
+    int unkFA0;
     // The Pokémon each player offers in a negotiation: their slots, boxes and copies
     int negoSlot[2][3];
     int negoBox[2][3];
@@ -226,7 +259,7 @@ struct PokemonTradeWork {
     u8 unk11EB[0x2];
     // Frames to wait before going on, after a message
     u8 unk11ED;
-    u8 unk11EE[0x1];
+    u8 unk11EE;
     u8 unk11EF;
     u8 unk11F0[0x1];
     u8 waitTimer;
@@ -354,6 +387,7 @@ void func_ov194_021beab4(PokemonTradeWork *wk);
 void TradeMcssMove_Free(TradeMcssMove *move);
 
 // pokemontrade_save.c
+void func_ov194_021beb48(PokemonTradeWork *wk);
 void func_ov194_021bf938(PokemonTradeWork *wk);
 
 // pokemontrade_message.c, a descriptive name
@@ -361,6 +395,7 @@ void func_ov194_021bfcf8(PokemonTradeWork *wk, u32 a1, u32 a2, u32 a3, u32 a4, u
 void func_ov194_021bfdf8(PokemonTradeWork *wk, BOOL a1, u32 a2);
 void func_ov194_021bfe28(PokemonTradeWork *wk);
 void func_ov194_021bfe34(PokemonTradeWork *wk);
+void func_ov194_021bfe70(PokemonTradeWork *wk);
 void func_ov194_021bfe9c(PokemonTradeWork *wk);
 void func_ov194_021bfedc(PokemonTradeWork *wk);
 void func_ov194_021bffac(PokemonTradeWork *wk);
@@ -403,6 +438,7 @@ void func_ov194_021c3820(PokemonTradeWork *wk);
 int func_ov194_021c3bc0(PokemonTradeWork *wk);
 // Whether the cursor is outside the strip on screen, and the column it would be in if so
 BOOL func_ov194_021c3c10(PokemonTradeWork *wk, int *column);
+void func_ov194_021c2c64(PokemonTradeWork *wk);
 void func_ov194_021c2c84(PokemonTradeWork *wk);
 void func_ov194_021c2d0c(PokemonTradeWork *wk);
 void func_ov194_021c2d78(PokemonTradeWork *wk);
@@ -422,6 +458,7 @@ void func_ov194_021c38bc(PokemonTradeWork *wk, ClActor *icon, u32 a2);
 ClActor *func_ov194_021c3fa8(PokemonTradeWork *wk, u32 x, u32 y, int *box, int *slot, int *a5, int *a6, int *a7);
 void func_ov194_021c3c68(BoxSaveAccessor *boxes, PokemonTradeWork *wk, u32 a2);
 void func_ov194_021c3e9c(PokemonTradeWork *wk, int frame);
+void func_ov194_021c41d0(PokemonTradeWork *wk);
 void func_ov194_021c41fc(PokemonTradeWork *wk);
 void func_ov194_021c4234(PokemonTradeWork *wk);
 void func_ov194_021c43c0(PokemonTradeWork *wk);

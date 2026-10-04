@@ -14,6 +14,13 @@ u32 UnityTowerVisitor_GetCountry(PlayerInfo *playerInfo);
 u32 UnityTower_GetVisitorParam(UnityTowerSurveySave *save, u32 index, u32 param);
 void func_02009db4(UnityTowerSurveySave *save, u32 index, u32 param, u32 value);
 void func_02009d18(UnityTowerSurveySave *save, u8 index);
+// The size of the survey's block
+u32 func_02009b5c(void);
+// Whether the survey has met a country and province, and recording it
+BOOL func_02009ba4(UnityTowerSurveySave *save, u32 country, u32 province);
+void func_02009be0(UnityTowerSurveySave *save, u32 country, u32 province, BOOL met);
+u8 func_02009ca0(UnityTowerSurveySave *save);
+u8 func_02009d28(UnityTowerSurveySave *save);
 u32 func_02009ce4(UnityTowerSurveySave *save);
 u32 func_02009cac(UnityTowerSurveySave *save, PlayerInfo *playerInfo, u32 index);
 u32 func_0202b5d4(u32 value);

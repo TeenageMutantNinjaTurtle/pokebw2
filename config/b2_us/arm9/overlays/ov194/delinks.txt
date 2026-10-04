@@ -21,3 +21,7 @@ src/ov194/pokemontrade_mcss.c:
     .text       start:0x021be808 end:0x021bead8
     .rodata     start:0x021c6558 end:0x021c6710
     .data       start:0x021c6ef4 end:0x021c6f08
+
+src/ov194/pokemontrade_save.c:
+    .text       start:0x021bead8 end:0x021bfba4
+    .data       start:0x021c6f08 end:0x021c6f44

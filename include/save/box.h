@@ -6,6 +6,11 @@
 #include "struct_decls.h"
 
 u32 BoxSaveAccessor_GetAvailableBoxCount(BoxSaveAccessor *boxes);
+void BoxSaveAccessor_SetPkm(BoxSaveAccessor *boxes, u32 box, u32 slot, BoxPkm *pkm);
+// The size of a box, and a box
+u32 getSizeofPokeBox(void);
+u32 getSizeofBox(void);
+void *BoxSaveAccessor_GetBox(BoxSaveAccessor *boxes, u32 box);
 u32 howManyNormalPokesAreInAllBoxes(BoxSaveAccessor *boxes);
 u32 howManyTotalPokesAreInBoxes(BoxSaveAccessor *boxes);
 BOOL BoxSaveAccessor_InsertPkm(BoxSaveAccessor *boxes, BoxPkm *pkm);

@@ -262,6 +262,7 @@ typedef struct MusicalSave MusicalSave;
 typedef struct MysteryGift MysteryGift;
 typedef struct MysteryGiftSave MysteryGiftSave;
 typedef struct NetHandle NetHandle;
+typedef struct NetSave NetSave;
 typedef struct NetSyncCommand NetSyncCommand;
 typedef struct NetSyncPacket NetSyncPacket;
 typedef struct NetSyncWork NetSyncWork;

@@ -18,6 +18,11 @@ typedef struct MailData {
 
 // Allocates a blank mail
 MailData *CreateMailData(HeapID heapId);
+// Empties the mail
+void ResetMailData(MailData *mail);
+// The size of the save block of mail (func_02009790), and putting a mail in a slot of it
+u32 func_020097a0(void);
+void func_020097e0(void *block, u32 a1, int slot, MailData *mail);
 // Sets the name of the mail's writer
 void func_02009738(MailData *mail, const u16 *name);
 
