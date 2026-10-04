@@ -37,3 +37,9 @@ src/ov298/zukan_detail_touchbar.c:
     .text       start:0x021a12a8 end:0x021a2230
     .rodata     start:0x021ac258 end:0x021ac400
     .data       start:0x021ace84 end:0x021ace9c
+
+src/ov298/zukan_detail_headbar.c:
+    complete
+    .text       start:0x021a2230 end:0x021a2520
+    .rodata     start:0x021ac400 end:0x021ac414
+    .data       start:0x021ace9c end:0x021aceb4

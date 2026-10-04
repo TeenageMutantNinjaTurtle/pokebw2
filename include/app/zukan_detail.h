@@ -367,9 +367,18 @@ BOOL ZukanDetailTouchbar_IsFormButtonTriggered(ZukanDetailTouchbar *touchbar);
 
 // zukan_detail_headbar.c: the bar at the top of the screen
 
+// The titles, messages 179 on of system message file 441
+#define ZUKAN_DETAIL_HEADBAR_TITLE_COUNT 5
+
 ZukanDetailHeadbar *ZukanDetailHeadbar_Create(HeapID heapId, Font *font);
 void ZukanDetailHeadbar_Free(ZukanDetailHeadbar *headbar);
 void ZukanDetailHeadbar_Update(ZukanDetailHeadbar *headbar);
+void ZukanDetailHeadbar_SetTitle(ZukanDetailHeadbar *headbar, int title);
+// The same states as the touch bar's
+int ZukanDetailHeadbar_GetState(ZukanDetailHeadbar *headbar);
+// Slides the bar in or out
+void ZukanDetailHeadbar_Appear(ZukanDetailHeadbar *headbar);
+void ZukanDetailHeadbar_Disappear(ZukanDetailHeadbar *headbar);
 
 // zukan_detail_info.c, a guessed name, as the ROM names neither this file nor the map's: the Pokémon's info
 
