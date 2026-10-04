@@ -3,6 +3,7 @@
 #include "constants/pokemon.h"
 #include "field/battle_facility.h"
 #include "field/field_effect.h"
+#include "field/fld_btl_inst_event.h"
 #include "field/trial_house.h"
 #include "gfl/heap.h"
 #include "gfl/key.h"
@@ -157,8 +158,8 @@ u32 func_ov033_0217aed0(TrialHouseWork *work) {
     return func_ov012_02162b38(work->trainer.trainerId);
 }
 
-GameEvent *func_ov033_0217aedc(GameSystem *gsys, TrialHouseWork *work, u32 actorId, u32 messageId) {
-    return func_ov012_02161e6c(gsys, work, actorId, (u16)messageId);
+GameEvent *func_ov033_0217aedc(GameSystem *gsys, TrialHouseWork *work, u32 index, u32 actorId) {
+    return func_ov012_02161e6c(gsys, &work->trainer, index, (u16)actorId);
 }
 
 GameEvent *func_ov033_0217aee8(GameSystem *gsys, TrialHouseWork *work, u16 *result) {

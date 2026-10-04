@@ -56,6 +56,12 @@ Font *func_ov036_0218799c(void *msgBGSys);
 void setAlphaBlend_wrapper(BOOL enable);
 // The grid position in front of the player, facing dir
 void GetPlayerGPosPlusDir(FieldPlayer *player, u16 dir, s16 *x, s16 *y, s16 *z);
+// A message balloon over an actor at the position on the field's message BG: create, whether it has finished
+// printing, close, and whether it has closed
+void *ActorMsgWin_CheckAndCreate(void *msgBGSys, u32 a1, const VecFx32 *pos, StrBuf *strbuf, u32 a4, u32 a5);
+BOOL func_ov036_02188884(void *msgWin);
+void func_ov036_021887d4(void *msgWin);
+BOOL func_ov036_021887f4(void *msgWin);
 // A talk window on the field's message BG, printing messages of a message data or strings: create, free, print,
 // whether printing has ended, clear, and the window
 MsgData *func_ov036_021879a0(void *msgBGSys, u32 fileId);

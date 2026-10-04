@@ -9,6 +9,7 @@
 #include "gfl/proc.h"
 #include "save/player_info.h"
 #include "struct_decls.h"
+#include "system/pms.h"
 
 // The Battle Subway's work while the player is on the subway, which func_0201794c returns. Overlay 33's
 // bsubway_scr.c and overlay 12 keep it, and script plugin 1 (overlay 50) drives it
@@ -46,7 +47,10 @@ struct BSubwayTeamConfig {
 struct BSubwayTrainer {
     u8 unk00[4];
     u16 trainerId;
-    u8 unk06[0x2a];
+    u8 unk06[0x12];
+    // What the Trainer says before the battle, or a sentence type of 0xffff and a message of file 0x178
+    PMSData message;
+    u8 unk20[0x10];
     BSubwayPokemon pokemon[4];
 };
 

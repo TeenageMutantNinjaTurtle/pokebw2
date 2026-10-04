@@ -51,10 +51,10 @@ void func_ov033_0217adc4(GameSystem *gsys, TrialHouseWork *work, u32 mode);
 void func_ov033_0217ade8(TrialHouseWork *work, u32 mode);
 void func_ov033_0217ae5c(GameSystem *gsys, TrialHouseWork *work, u32 mode);
 u32 func_ov033_0217aed0(TrialHouseWork *work);
-GameEvent *func_ov033_0217aedc(GameSystem *gsys, TrialHouseWork *work, u32 actorId, u32 messageId);
+// The Trainer's message in a balloon over the actor
+GameEvent *func_ov033_0217aedc(GameSystem *gsys, TrialHouseWork *work, u32 index, u32 actorId);
 GameEvent *func_ov033_0217aee8(GameSystem *gsys, TrialHouseWork *work, u16 *result);
 GameEventReturnCode func_ov033_0217af5c(GameEvent *event, u32 *state, void *data);
-GameEvent *func_ov012_02161e6c(GameSystem *gsys, TrialHouseWork *work, u32 actorId, u16 messageId);
 u8 func_ov033_0217b35c(TrialHouseSave *save, u32 index);
 void func_ov033_0217b384(TrialHouseSave *save, u32 index);
 void TrialHouseCalcPointScore(GameSystem *gsys, TrialHouseWork *work, u16 *rankOut, u16 *pointsOut);
