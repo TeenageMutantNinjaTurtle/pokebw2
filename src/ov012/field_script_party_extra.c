@@ -5,6 +5,7 @@
 #include "gfl/str.h"
 #include "pml/personal.h"
 #include "pml/poke_party.h"
+#include "pml/species_names.h"
 #include "save/pokedex.h"
 #include "system/game_data.h"
 #include "system/game_system.h"

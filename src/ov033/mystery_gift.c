@@ -204,7 +204,7 @@ u32 func_ov033_02178180(WordSet *wordSet, void *gift, FieldScriptEnv *env) {
     result = 5;
     copyVarForText(wordSet, 0, playerInfo);
     if (pkm == NULL) {
-        loadPokemonTextNameToStrbuf(wordSet, 1, NULL);
+        loadPokemonTextNameToStrbuf(wordSet, 1, 0);
     } else {
         if (PokeParty_GetParam(pkm, (PkmField)0x4c, NULL) == 1) {
             result = 11;

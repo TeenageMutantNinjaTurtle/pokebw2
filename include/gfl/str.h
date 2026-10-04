@@ -61,12 +61,12 @@ void loadHobbyNameToStrbuf(WordSet *wordSet, u32 index, u32 hobby);
 // Puts a Pokémon's species name in a word set
 void setPartyPokemonSpeciesNameToStrbuf(WordSet *wordSet, u32 index, PartyPkm *pkm);
 void loadPokemonNicknameToStrbuf(WordSet *wordSet, u32 index, PartyPkm *pkm);
-void loadPokemonTextNameToStrbuf(WordSet *wordSet, u32 index, PartyPkm *pkm);
+void loadPokemonTextNameToStrbuf(WordSet *wordSet, u32 index, u32 species);
 void loadPokemonSpeciesTextNameToStrbuf(WordSet *wordSet, u32 index, PartyPkm *pkm);
 void loadMoveNameToStrbuf(WordSet *wordSet, u32 index, u32 move);
 void loadItemNameToStrbuf(WordSet *wordSet, u32 index, u32 item);
 void loadPassPowerToStrbuf(WordSet *wordSet, u32 index, u32 passPower);
-void func_02024868(WordSet *wordSet, u32 index, u32 value, u32 arg3);
+void func_02024868(WordSet *wordSet, u32 index, u32 value, s32 arg3);
 // An item's name: the plural when plural is set, else the one in message file 481 when a4 is set
 void loadItemText(WordSet *wordSet, u32 index, u32 item, BOOL plural, BOOL a4);
 void loadBagPocketNameToStrbuf(WordSet *wordSet, u32 index, u32 pocket);

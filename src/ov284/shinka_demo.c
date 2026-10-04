@@ -32,6 +32,7 @@
 #include "nitro/hw.h"
 #include "pml/mail.h"
 #include "pml/poke_party.h"
+#include "pml/species_names.h"
 #include "save/bag.h"
 #include "save/pokedex.h"
 #include "save/records.h"

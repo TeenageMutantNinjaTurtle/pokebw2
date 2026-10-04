@@ -336,3 +336,19 @@ src/system/printsys.c:
     .text       start:0x020219a0 end:0x02022d84
     .data       start:0x0209a450 end:0x0209a45c
     .bss        start:0x02141458 end:0x02141478
+
+src/system/gf_font.c:
+    .text       start:0x02022d84 end:0x02024200
+    .rodata     start:0x0209086c end:0x02090888
+    .data       start:0x0209a45c end:0x0209a468
+    .bss        start:0x02141478 end:0x02141688
+
+src/system/wordset.c:
+    complete
+    .text       start:0x02024200 end:0x02024a28
+    .data       start:0x0209a468 end:0x0209a474
+
+src/system/pml_species_names.c:
+    complete
+    .text       start:0x02024a28 end:0x02024a40
+    .data       start:0x0209a474 end:0x0209a478

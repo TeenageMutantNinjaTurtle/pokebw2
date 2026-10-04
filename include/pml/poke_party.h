@@ -83,9 +83,6 @@ u16 func_0201d358(PartyPkm *pkm, u32 *index, HeapID heapId);
 // that PML_CreatePkm treats specially
 PartyPkm *PokeParty_NewTempPkm(u16 species, u16 level, u64 a2, HeapID heapId);
 PartyPkm *PokeParty_NewPkm(u16 species, u16 level, u32 trainerId, u32 a3, s32 a4, u64 pid, HeapID heapId);
-// The species names, which stay loaded
-extern MsgData *g_PMLSpeciesNamesResident;
-
 void TransformVsPokePartyBySeason(GameData *gameData, PokeParty *party, u8 season);
 BOOL func_ov012_021643f0(GameData *gameData, PokeParty *party, RTCTime *time, u8 season);
 u32 func_ov012_02164428(GameData *gameData, PokeParty *party);

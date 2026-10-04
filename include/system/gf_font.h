@@ -15,7 +15,9 @@ typedef struct {
     u8 height;
 } GlyphInfo;
 
-Font *GFL_FontCreate(u32 arcId, u32 fileId, u32 a2, u32 a3, HeapID heapId);
+// loadType 0 reads each glyph from the file when it is drawn, and 1 loads them all; with fixedWidth every character
+// advances by the default width
+Font *GFL_FontCreate(u32 arcId, u32 fileId, u32 loadType, BOOL fixedWidth, HeapID heapId);
 void GFL_FontFree(Font *font);
 
 // Draws a character's glyph into dest, a 2x2-tile bitmap's pixels

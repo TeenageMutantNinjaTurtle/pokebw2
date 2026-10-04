@@ -49,6 +49,7 @@
 . 0x0201ae98 MCSS_SetAlpha
 . 0x0201af04 MCSS_SetAnimation
 . 0x0201b250 MCSS_RestartAnimation
+. 0x02023a38 GFL_BitReaderInit
 . 0x02029818 BrightnessController_StartTransition
 . 0x02029884 BrightnessController_SetScreenBrightness
 . 0x02029928 BrightnessController_IsTransitionComplete
