@@ -1,13 +1,51 @@
 #include "types.h"
 #include "field/field.h"
+#include "field/field_camera.h"
 #include "field/field_exp_obj.h"
 #include "field/field_lens_flare.h"
 #include "field/field_map.h"
 #include "field/zone.h"
 #include "gfl/g3d.h"
 #include "gfl/heap.h"
+#include "gfl/random.h"
 #include "nitro/fx.h"
 #include "system/game_data.h"
+
+FieldLensFlare *FieldLensFlare_Create(GameSystem *gameSystem, GameData *gameData, FieldExpObjSystem *expObjSys,
+                                      u32 effectIndex, u32 dayPeriod, HeapID heapId) {
+    FieldLensFlare *lensFlare = GFL_HeapAllocate(heapId, sizeof(FieldLensFlare), TRUE, "field_goout_effect.c", 0x6b);
+    u32 entryIdx;
+    u16 effectSet;
+    u8 setSize;
+
+    lensFlare->gameSystem = gameSystem;
+    lensFlare->ownedData = FieldLensFlareData_Create(heapId);
+    lensFlare->expObjSys = expObjSys;
+    lensFlare->gameData = gameData;
+    if (GFL_HeapGetFreeSize(heapId) < 15000) {
+        lensFlare->effectId = 8;
+        lensFlare->available = FALSE;
+    } else {
+        entryIdx = GameData_GetLensFlareEntryIdx(lensFlare->gameData);
+        lensFlare->effectId = 8;
+        if (entryIdx < 0x43) {
+            effectSet = FieldLensFlare_GetEffectSetID(lensFlare->ownedData, entryIdx, effectIndex,
+                                                      FieldLensFlare_GetSubIndexForDayPeriod(dayPeriod));
+            setSize = FieldLensFlareData_GetEffectSetSize(lensFlare->ownedData, effectSet);
+            if (setSize != 0) {
+                lensFlare->effectId =
+                    FieldLensFlareData_GetLensFlareID(lensFlare->ownedData, effectSet, GFL_RandomLC(setSize));
+            }
+        }
+        if (lensFlare->effectId != 8) {
+            FieldLensFlare_Load(lensFlare->expObjSys, lensFlare->ownedData, lensFlare->effectId);
+            lensFlare->available = TRUE;
+        } else {
+            lensFlare->available = FALSE;
+        }
+    }
+    return lensFlare;
+}
 
 void FieldLensFlare_Free(FieldLensFlare *lensFlare) {
     if (lensFlare->effectId != 8) {
@@ -15,6 +53,63 @@ void FieldLensFlare_Free(FieldLensFlare *lensFlare) {
     }
     FieldLensFlareData_Free(lensFlare->ownedData);
     GFL_HeapFree(lensFlare);
+}
+
+void FieldLensFlare_Update(FieldLensFlare *lensFlare, FieldCamera *camera) {
+    s32 i;
+    FieldExpObjAnm *anm;
+    BOOL finished;
+
+    if (lensFlare->effectId == 8) {
+        return;
+    }
+    if (lensFlare->requested) {
+        switch (lensFlare->state) {
+        case 0:
+            for (i = 0; i < 4; i++) {
+                FieldExpObj_SetAnm(lensFlare->expObjSys, 3, 0, i, TRUE);
+                anm = FieldExpObj_GetAnmInfo(lensFlare->expObjSys, 3, 0, i);
+                FieldExpObjAnm_SetPaused(anm, TRUE);
+                FieldExpObj_SetAnmFrame(lensFlare->expObjSys, 3, 0, i, 0);
+                FieldExpObjAnm_SetLooped(anm, FALSE);
+            }
+            FieldExpObj_SetActorHidden(lensFlare->expObjSys, 3, 0, FALSE);
+            lensFlare->state++;
+            break;
+        case 1:
+            if (lensFlare->active) {
+                lensFlare->state++;
+            }
+            break;
+        case 2:
+            for (i = 0; i < 4; i++) {
+                FieldExpObjAnm_SetPaused(FieldExpObj_GetAnmInfo(lensFlare->expObjSys, 3, 0, i), FALSE);
+            }
+            lensFlare->state++;
+            break;
+        case 3:
+            finished = TRUE;
+            for (i = 0; i < 4; i++) {
+                anm = FieldExpObj_GetAnmInfo(lensFlare->expObjSys, 3, 0, i);
+                if (!FieldExpObjAnm_IsPlaybackFinished(anm)) {
+                    finished = FALSE;
+                } else {
+                    FieldExpObjAnm_SetPaused(anm, TRUE);
+                }
+            }
+            if (finished) {
+                lensFlare->state++;
+                FieldExpObj_SetActorHidden(lensFlare->expObjSys, 3, 0, TRUE);
+            }
+            break;
+        case 4:
+            lensFlare->active = FALSE;
+            lensFlare->requested = FALSE;
+            break;
+        }
+        FieldLensFlare_CalcPos(lensFlare, FieldCamera_GetG3DCamera(camera));
+        FieldExpObj_StepAllAnimations(lensFlare->expObjSys);
+    }
 }
 
 void FieldLensFlare_RequestStart(FieldLensFlare *lensFlare) {
