@@ -2527,6 +2527,257 @@ BOOL func_ov167_021a37c8(BtlServerFlow *flow, BattleMon *mon, u8 pos, void *targ
     return result;
 }
 
+void func_ov167_021a3904(BtlServerFlow *flow, BattleMon *mon) {
+    u32 flag;
+    if (CheckCondition(mon, 0x1a)) {
+        ServerControl_CureCondition(flow, mon, 0x1a, 0);
+        func_ov167_021bb7c0(mon, 0xb);
+    }
+    while ((flag = func_ov167_021bb408(mon)) != 0x10) {
+        scPut_ResetContFlag(flow, mon, flag);
+    }
+}
+
+BOOL func_ov167_021a3950(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, BOOL *failed) {
+    *failed = FALSE;
+    if (!IsFainted(target) && !IsSubstituteActive(target) && !IsSemiInvulnMove(target)) {
+        if (!GetTurnFlag(target, 7)) {
+            u8 targetId = GetMonID(target);
+            BattleCondition cond;
+
+            scPut_SetContFlag(flow, attacker, 3);
+            scPut_SetContFlag(flow, target, 3);
+            ServerControl_SetMonCounter(flow, attacker, 4, targetId + 1);
+            cond = func_ov167_021ce1dc(GetMonID(attacker));
+            ServerControl_AddCondition(flow, target, attacker, 0x21, cond, FALSE, FALSE, NULL);
+            return TRUE;
+        }
+        func_ov167_021b15d0(flow->queue, 0x5b, 0x20b, GetMonID(target), 0xffff0000);
+        *failed = TRUE;
+    }
+    return FALSE;
+}
+
+void ServerControl_SkyDropCheckRelease(BtlServerFlow *flow, BattleMon *mon, BOOL flag) {
+    u8 targetId;
+    u8 counter = GetConditionCount(mon, 4);
+    if (counter == 0 || (targetId = counter - 1) >= 0x18) {
+        targetId = 0x1f;
+    }
+    if (targetId != 0x1f) {
+        BattleMon *target = GetPokeParam(flow->pokeCon, targetId);
+        if (CheckCondition(target, 0x21)) {
+            ServerControl_CureCondition(flow, target, 0x21, 0);
+            scPut_ResetContFlag(flow, target, 3);
+            if (DoesBattleMonExist(flow->unk1ab8, targetId)) {
+                func_ov167_021b1434(flow->queue, 0x31, targetId, 0);
+                ServerDisplay_SkyDropTargetAppear(flow, target, 0x465);
+            }
+        }
+        ServerControl_SetMonCounter(flow, mon, 4, 0);
+        if (!flag && !IsFainted(mon)) {
+            func_ov167_021b1434(flow->queue, 0x31, GetMonID(mon), 0);
+        }
+    }
+}
+
+BOOL func_ov167_021a3ac0(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 flag) {
+    u32 status;
+    BOOL thawedByMove = FALSE;
+    u32 cause = 0;
+
+    func_ov167_021a3e7c(flow, mon, move);
+    status = GetBattleMonStatus(mon);
+    do {
+        if (status == 2 && !func_ov167_021a3d18(flow, mon, move, 2)) {
+            cause = 2;
+            break;
+        }
+        thawedByMove = func_ov167_021a3ea8(flow, mon, move);
+        status = GetBattleMonStatus(mon);
+        if (status == 3 && !thawedByMove) {
+            cause = 4;
+            break;
+        }
+        if (flow->unk1F7C == 4) {
+            cause = 0x16;
+            break;
+        }
+        if (flow->unk1F7C == 2) {
+            cause = 0x17;
+            break;
+        }
+        if (!flag) {
+            u8 slot = func_ov167_021baf78(mon, move);
+            if (slot != 4 && GetMovePP(mon, slot) == 0) {
+                cause = 1;
+                break;
+            }
+        }
+        cause = func_ov167_021a3d70(flow, mon, move, 0x1e);
+        if (cause != 0) {
+            break;
+        }
+        if (GetTurnFlag(mon, 6)) {
+            cause = 7;
+            break;
+        }
+        if (GetTurnFlag(mon, 4)) {
+            cause = 6;
+            break;
+        }
+        if (CheckCondition(mon, 0xd) && move != 0xa5) {
+            BattleConditionCont cont = GetConditionContinuationParam(mon, 0xd);
+            if (move == Condition_GetParam(cont)) {
+                cause = 9;
+                break;
+            }
+        }
+        if (CheckCondition(mon, 0xf) && getMoveFlag(move, 0xc)) {
+            cause = 0xd;
+            break;
+        }
+        if (IsFieldEffectActive(2) && getMoveFlag(move, 9)) {
+            cause = 0x14;
+            break;
+        }
+        if (move != 0xa5) {
+            if (CheckCondition(mon, 0x17)) {
+                u16 prev = GetPreviousMoveUsed(mon);
+                if (prev != 0xa5 && prev != move) {
+                    cause = 0x11;
+                    break;
+                }
+            }
+            if (CheckCondition(mon, 0x19) && move != GetPreviousMoveID(mon)) {
+                cause = 0x11;
+                break;
+            }
+            if (CheckCondition(mon, 0xb) && !PML_MoveIsDamaging(move)) {
+                cause = 0xa;
+                break;
+            }
+            if (IsFieldEffectActive(3) && func_ov167_021d5a48(flow->pokeCon, mon, move)) {
+                cause = 0xc;
+                break;
+            }
+        }
+        if (func_ov167_021a3dc0(flow, mon)) {
+            cause = 5;
+            break;
+        }
+        if (status == 1 && RollEffectChance(0x19)) {
+            cause = 3;
+            break;
+        }
+        if (func_ov167_021a3e50(flow, mon)) {
+            cause = 8;
+            break;
+        }
+    } while (0);
+
+    if (cause != 0) {
+        func_ov167_021a3ef4(flow, mon, move, cause);
+        return TRUE;
+    }
+    if (status == 2) {
+        func_ov167_021a3fc4(flow, mon, move, 2);
+        ServerDisplay_AddEffectAtPosition(flow, mon, 0x256);
+    } else if (thawedByMove && status == 3) {
+        func_ov167_021a9094(flow, mon, status, FALSE);
+        func_ov167_021b15d0(flow->queue, 0x5b, 0x12f, GetMonID(mon), move, 0xffff0000);
+    }
+    return FALSE;
+}
+
+BOOL func_ov167_021a3cf0(BtlServerFlow *flow, BattleMon *mon, u16 move) {
+    u32 cause;
+    if (move != 0xa5) {
+        cause = func_ov167_021a3d70(flow, mon, move, 0x1f);
+        if (cause != 0) {
+            func_ov167_021a3ef4(flow, mon, move, cause);
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+BOOL func_ov167_021a3d18(BtlServerFlow *flow, BattleMon *mon, u16 move, u32 status) {
+    BOOL result;
+    BattleEventVar_Push(0x15b1);
+    BattleEventVar_SetConstValue(2, GetMonID(mon));
+    BattleEventVar_SetConstValue(0x22, status);
+    BattleEventVar_SetConstValue(0x12, move);
+    BattleEventVar_SetRewriteOnceValue(0x41, 0);
+    BattleEvent_CallHandlers(flow, 0x1d);
+    result = BattleEventVar_GetValue(0x41);
+    BattleEventVar_Pop(0x15b8);
+    return result;
+}
+
+u32 func_ov167_021a3d70(BtlServerFlow *flow, BattleMon *mon, u16 move, u32 event) {
+    u32 cause;
+    BattleEventVar_Push(0x15cb);
+    BattleEventVar_SetConstValue(0x12, move);
+    BattleEventVar_SetConstValue(2, GetMonID(mon));
+    BattleEventVar_SetRewriteOnceValue(0x22, 0);
+    BattleEvent_CallHandlers(flow, event);
+    cause = BattleEventVar_GetValue(0x22);
+    BattleEventVar_Pop(0x15d1);
+    return cause;
+}
+
+BOOL func_ov167_021a3dc0(BtlServerFlow *flow, BattleMon *mon) {
+    if (flow->unk1F7C == 3) {
+        func_ov167_021b15d0(flow->queue, 0x5a, 0xbc, GetMonID(mon), 0xffff0000);
+        return TRUE;
+    }
+    if (CheckCondition(mon, 6)) {
+        if (func_ov167_021bb9a8(mon)) {
+            ServerControl_CureCondition(flow, mon, 6, 0);
+            func_ov167_021b15d0(flow->queue, 0x5b, 0x15f, GetMonID(mon), 0xffff0000);
+            return FALSE;
+        }
+        func_ov167_021a8fe0(flow, mon);
+        return RollEffectChance(0x32);
+    }
+    return FALSE;
+}
+
+BOOL func_ov167_021a3e50(BtlServerFlow *flow, BattleMon *mon) {
+    if (CheckCondition(mon, 7)) {
+        func_ov167_021a9014(flow, mon);
+        if (RollEffectChance(0x32)) {
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+void func_ov167_021a3e7c(BtlServerFlow *flow, BattleMon *mon, u16 move) {
+    u32 status = GetBattleMonStatus(mon);
+    if (status == 2 && func_ov167_021bb930(mon)) {
+        func_ov167_021a9094(flow, mon, status, TRUE);
+    }
+}
+
+BOOL func_ov167_021a3ea8(BtlServerFlow *flow, BattleMon *mon, u16 move) {
+    u32 status = GetBattleMonStatus(mon);
+    BOOL thawed = FALSE;
+    BOOL thawedByMove = FALSE;
+    if (status == 3) {
+        if (getMoveFlag(move, 0xa)) {
+            thawedByMove = TRUE;
+        } else if (RollEffectChance(0x14)) {
+            thawed = TRUE;
+        }
+    }
+    if (thawed) {
+        func_ov167_021a9094(flow, mon, status, TRUE);
+    }
+    return thawedByMove;
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
