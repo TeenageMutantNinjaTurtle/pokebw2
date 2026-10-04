@@ -10,6 +10,8 @@
 
 // Fields of a Pokémon, which PokeParty_GetParam and PokeParty_SetParam read and write. Names from swan's PkmField
 #define PKM_PARAM_PID 0x0
+// Whether the data of the Pokémon failed its checksum, as a bad egg has
+#define PKM_PARAM_CHECKSUM_FAILED 0x3
 #define PKM_PARAM_SPECIES 0x5
 #define PKM_PARAM_ITEM 0x6
 #define PKM_PARAM_ID 0x7

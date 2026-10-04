@@ -156,6 +156,8 @@ BOOL func_02040c94(int netId);
 
 BOOL GFL_NetErrCheck(void);
 void GFL_NetErrMarkShown(void);
+// Sets the network error and shows it
+void func_02011d04(u32 error);
 void GFL_NetErrShow(u32 a0);
 void func_02011de0(void);
 // Whether the error was handled, after shutting the connection down

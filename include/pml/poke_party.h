@@ -125,6 +125,13 @@ u16 func_0201d358(PartyPkm *pkm, u32 *index, HeapID heapId);
 // Allocates a Pokémon that is not in a party. What the 64-bit argument sets is not known yet; 0 is one of the values
 // that PML_CreatePkm treats specially
 PartyPkm *PokeParty_NewTempPkm(u16 species, u16 level, u64 a2, HeapID heapId);
+PartyPkm *boxPkmRegenToPartyPkm(BoxPkm *pkm, HeapID heapId);
+// Whether the Pokémon is in a form that it changed into, which it would lose in a box
+BOOL hasPokemonChangedForm(BoxPkm *pkm);
+// The number of Pokémon in the party that can battle: not fainted and not eggs
+int countActivePkms(PokeParty *party);
+// Whether the Pokémon knows a hidden machine move
+BOOL doesPkmHaveTmMove(BoxPkm *pkm, u32 a1);
 PartyPkm *PokeParty_NewPkm(u16 species, u16 level, u32 trainerId, u32 a3, s32 a4, u64 pid, HeapID heapId);
 void TransformVsPokePartyBySeason(GameData *gameData, PokeParty *party, u8 season);
 BOOL func_ov012_021643f0(GameData *gameData, PokeParty *party, RTCTime *time, u8 season);

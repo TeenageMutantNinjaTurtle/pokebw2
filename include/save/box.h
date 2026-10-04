@@ -5,6 +5,7 @@
 #include "gfl/heap.h"
 #include "struct_decls.h"
 
+u32 BoxSaveAccessor_GetAvailableBoxCount(BoxSaveAccessor *boxes);
 u32 howManyNormalPokesAreInAllBoxes(BoxSaveAccessor *boxes);
 u32 howManyTotalPokesAreInBoxes(BoxSaveAccessor *boxes);
 BOOL BoxSaveAccessor_InsertPkm(BoxSaveAccessor *boxes, BoxPkm *pkm);

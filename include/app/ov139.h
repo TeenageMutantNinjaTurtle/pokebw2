@@ -30,4 +30,17 @@ void func_ov139_0219aaa4(TwoChoiceMenu *menu);
 void func_ov139_0219ab40(TwoChoiceMenu *menu);
 u32 func_ov139_0219ae78(TwoChoiceMenu *menu);
 
+// The bar of buttons along the bottom of the lower screen (touchbar.c)
+typedef struct TouchBar TouchBar;
+
+void func_ov139_02199b5c(TouchBar *bar);
+void func_ov139_02199b90(TouchBar *bar);
+// The button that was touched
+u32 func_ov139_02199c08(TouchBar *bar);
+// The button held down
+u32 func_ov139_02199c30(TouchBar *bar);
+void func_ov139_02199d08(TouchBar *bar, u32 button, BOOL a2);
+void func_ov139_02199d18(TouchBar *bar, u32 button, BOOL a2);
+void func_ov139_02199d74(TouchBar *bar, u32 a1);
+
 #endif // POKEBW2_APP_OV139_H

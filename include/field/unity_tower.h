@@ -17,6 +17,11 @@ void func_02009d18(UnityTowerSurveySave *save, u8 index);
 u32 func_02009ce4(UnityTowerSurveySave *save);
 u32 func_02009cac(UnityTowerSurveySave *save, PlayerInfo *playerInfo, u32 index);
 u32 func_0202b5d4(u32 value);
+// The country and province if the region has them, else 0
+u32 func_0202b57c(u32 country, u32 province, u32 region);
+u32 func_0202b590(u32 country, u32 province, u32 region);
+// Records a visitor from another country
+void func_02035350(UnityTowerSurveySave *save, PlayerInfo *info);
 u8 getPlayerSurveys(UnityTowerSurveySave *save);
 void setPlayerSurveys(UnityTowerSurveySave *save, u32 hobby);
 void func_ov033_0217aa1c(GameSystem *gsys, s32 floor, u32 value);

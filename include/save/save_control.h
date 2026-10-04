@@ -184,6 +184,9 @@ u16 func_02008cec(PlayTime *time);
 u8 func_02008cf0(PlayTime *time);
 // A byte of this block, at 7, tells the start menu whether to ask about the C-Gear
 void *func_02009918(SaveControl *save);
+// A save block of 0x28, and a lookup in it
+void *func_02009790(GameData *gameData);
+s32 func_020097c4(void *block, u32 a1);
 u8 func_020098c0(void *a0);
 PokeParty *SaveControl_GetPokePartySave(SaveControl *save);
 WorldTradeData *SaveControl_GetWorldTradeData(SaveControl *save);

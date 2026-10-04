@@ -32,10 +32,27 @@ typedef struct {
     u16 unk2E;
 } PokemonTradeParam;
 
+// The parameter of the procs that only show the trade's animation
+typedef struct {
+    PokemonTradeParam trade;
+    GameData *gameData;
+    // The Pokémon of this player and of the other
+    PartyPkm *pkm[2];
+    PlayerInfo *myInfo;
+    PlayerInfo *partnerInfo;
+} PokemonTradeDemoParam;
+
 // For GTS Negotiation
 extern const GameProcFunctions POKEMONTRADE_PROC_FUNCTIONS;
 extern const GameProcFunctions POKEMONTRADE_WIFICLUB_PROC_FUNCTIONS;
 // For the infrared event
 extern const GameProcFunctions data_ov194_021c63dc;
+// The procs that only show the trade's animation
+extern const GameProcFunctions data_ov194_021c63ac;
+extern const GameProcFunctions data_ov194_021c63b8;
+extern const GameProcFunctions data_ov194_021c63d0;
+extern const GameProcFunctions data_ov194_021c6400;
+// A trade that runs the GTS Negotiation's proc table with other values
+extern const GameProcFunctions data_ov194_021c640c;
 
 #endif // POKEBW2_APP_POKEMON_TRADE_H
