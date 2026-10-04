@@ -506,7 +506,21 @@ void func_ov167_021a911c(BtlServerFlow *flow, BattleMon *mon, u16 move);
 BOOL func_ov167_021a9df0(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 target, BtlFlowCalledMove *called);
 BOOL func_ov167_021a9f70(BtlServerFlow *flow, BattleMon *mon, u16 move, u16 actualMove, BattleHandlerString *string);
 void ServerEvent_GetMoveParam(BtlServerFlow *flow, u16 move, BattleMon *mon, BtlFlowMoveParam *param);
-void func_ov167_021ae32c(BtlServerFlow *flow, BattleMon *mon, u8 target, BtlFlowMoveParam *param, void *targets);
+u8 func_ov167_021ae32c(BtlServerFlow *flow, BattleMon *mon, u8 target, BtlFlowMoveParam *param, void *targets);
+u8 func_ov167_021ae430(BtlServerFlow *flow, BattleMon *mon, u8 target, BtlFlowMoveParam *param, u8 redirect,
+                       void *targets);
+u8 func_ov167_021ae55c(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, u8 pos, u8 targetPos);
+u8 func_ov167_021ae590(BtlServerFlow *flow, BattleMon *mon, u8 target, BtlFlowMoveParam *param, u8 redirect,
+                       void *targets);
+u8 func_ov167_021ae82c(BtlServerFlow *flow, BattleMon *mon, u8 target, BtlFlowMoveParam *param, u8 redirect,
+                       void *targets);
+BOOL func_ov167_021aeb10(BtlServerFlow *flow, u32 style, BattleMon *mon, BtlFlowMoveParam *param, u8 target,
+                         void *targets);
+BattleMon *func_ov167_021aecac(BtlServerFlow *flow, u8 pos, u8 index);
+BattleMon *func_ov167_021aecdc(BtlServerFlow *flow, u8 pos);
+u8 func_ov167_021aed0c(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param, u8 targetId);
+u8 func_ov167_021aedac(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param, u8 targetId);
+u8 func_ov167_021aed4c(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param);
 void ServerControl_SkyDropCheckRelease(BtlServerFlow *flow, BattleMon *mon, BOOL flag);
 void func_ov167_021a16b4(BtlServerFlow *flow);
 BOOL func_ov167_021a11b0(BtlServerFlow *flow, BattleMon *mon, BOOL arg2, BOOL arg3);

@@ -2171,7 +2171,7 @@ void func_ov167_021a2b8c(BtlServerFlow *flow, BattleMon *mon, void *targets, Btl
 
     if (func_ov169_0689cec8(targets) == 1) {
         target = func_ov169_0689cdf8(targets, 0);
-        if (target != NULL && GetMonID(target) == GetMonID(mon) && param->unk0C != 7 &&
+        if (target != NULL && GetMonID(target) == GetMonID(mon) && param->targetType != 7 &&
             (GetTurnFlag(mon, 0xc) || flag)) {
             func_ov169_0689cd9c(targets, target);
         }
@@ -6178,7 +6178,7 @@ void ServerEvent_GetMoveParam(BtlServerFlow *flow, u16 move, BattleMon *mon, Btl
     param->type = BattleEventVar_GetValue(0x16);
     param->userType = BattleEventVar_GetValue(0x1c);
     param->category = BattleEventVar_GetValue(0x1a);
-    param->unk0C = BattleEventVar_GetValue(0x1b);
+    param->targetType = BattleEventVar_GetValue(0x1b);
     param->flags.raw = 0;
     if (BattleEventVar_GetValue(0x4b)) {
         param->type = TYPE_NULL;
@@ -9131,6 +9131,397 @@ u8 BattleHandler_SetMoveEffectEnable(BtlServerFlow *handler, BattleHandlerHeader
         handler->moveEffect->enabled = 1;
     }
     return TRUE;
+}
+
+BOOL func_ov167_021ae30c(BtlServerFlow *flow) {
+    return !func_ov167_0219c988(flow->mainModule);
+}
+
+u32 func_ov167_021ae320(BtlServerFlow *flow) {
+    return flow->unk2130;
+}
+
+// Fills targets with the mons a move hits, from its target type and the battle style
+u8 func_ov167_021ae32c(BtlServerFlow *flow, BattleMon *mon, u8 target, BtlFlowMoveParam *param, void *targets) {
+    u32 style;
+    u8 redirect;
+    u8 count;
+    BattleMon *first;
+
+    style = BtlSetup_GetBattleStyle(flow->mainModule);
+    redirect = 0x1f;
+    if (!param->flags.unk0) {
+        redirect = func_ov167_021aed4c(flow, mon, param);
+    }
+    func_ov169_0689ccc4(targets);
+    flow->unk77F = 6;
+    switch (style) {
+    case BTL_STYLE_SINGLE:
+    default:
+        count = func_ov167_021ae430(flow, mon, target, param, redirect, targets);
+        break;
+    case BTL_STYLE_DOUBLE:
+        count = func_ov167_021ae590(flow, mon, target, param, redirect, targets);
+        break;
+    case BTL_STYLE_TRIPLE:
+        count = func_ov167_021ae82c(flow, mon, target, param, redirect, targets);
+        break;
+    case BTL_STYLE_ROTATION:
+        count = func_ov167_021ae430(flow, mon, target, param, redirect, targets);
+        break;
+    }
+    if (count == 1) {
+        first = func_ov169_0689cdf8(targets, 0);
+        if (first != NULL) {
+            flow->unk77F = func_ov169_0689d77c(flow->unk1ab8, GetMonID(first));
+        }
+        if (!func_ov167_021aeb10(flow, style, mon, param, target, targets)) {
+            count = 0;
+        }
+    }
+    return count;
+}
+
+// The targets in a single or rotation battle
+u8 func_ov167_021ae430(BtlServerFlow *flow, BattleMon *mon, u8 target, BtlFlowMoveParam *param, u8 redirect,
+                       void *targets) {
+    u8 pos;
+
+    pos = MonIDToBattlePos(flow->mainModule, flow->pokeCon, GetMonID(mon));
+    switch (param->targetType) {
+    case 0:
+    case 3:
+    case 4:
+    case 5:
+    case 9:
+        func_ov169_0689ccd0(targets, redirect == 0x1f ? func_ov167_021aecac(flow, pos, 0)
+                                                       : GetPokeParam(flow->pokeCon, redirect));
+        return 1;
+    case 1:
+    case 7:
+        if (redirect == 0x1f) {
+            func_ov169_0689ccd0(targets, mon);
+        } else {
+            func_ov169_0689ccd0(targets, GetPokeParam(flow->pokeCon, redirect));
+        }
+        return 1;
+    case 8:
+        func_ov169_0689ccd0(targets, mon);
+        func_ov169_0689ccd0(targets, func_ov167_021aecac(flow, pos, 0));
+        return 2;
+    case 13:
+        if (redirect != 0x1f) {
+            func_ov169_0689ccd0(targets, GetPokeParam(flow->pokeCon, redirect));
+            return 1;
+        }
+        return 0;
+    }
+    return 0;
+}
+
+// Curse picks its own target: the user itself, or a foe for a Ghost type
+u8 func_ov167_021ae55c(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, u8 pos, u8 targetPos) {
+    u16 move = param->move;
+
+    if (move == MOVE_CURSE) {
+        if (param->targetType == 0) {
+            if (pos == targetPos || targetPos == 6) {
+                return func_ov167_021bd8e4(flow->mainModule, flow->pokeCon, mon, MOVE_CURSE);
+            }
+        } else if (param->targetType == 7 && pos != targetPos) {
+            return pos;
+        }
+    }
+    return targetPos;
+}
+
+// The targets in a double battle
+u8 func_ov167_021ae590(BtlServerFlow *flow, BattleMon *mon, u8 target, BtlFlowMoveParam *param, u8 redirect,
+                       void *targets) {
+    u8 pos;
+    u8 targetPos;
+    BattleMon *single;
+    u8 newTarget;
+
+    pos = MonIDToBattlePos(flow->mainModule, flow->pokeCon, GetMonID(mon));
+    targetPos = func_ov167_021ae55c(flow, param, mon, pos, target);
+    switch (param->targetType) {
+    case 0:
+        single = func_ov167_0219d180(flow->pokeCon, targetPos);
+        break;
+    case 3:
+        single = func_ov167_0219d180(flow->pokeCon, targetPos);
+        break;
+    case 9:
+        single = func_ov167_021aecac(flow, pos, BattleRandom(2));
+        break;
+    case 5:
+        func_ov169_0689ccd0(targets, func_ov167_021aecac(flow, pos, 0));
+        func_ov169_0689ccd0(targets, func_ov167_021aecac(flow, pos, 1));
+        return 2;
+    case 4:
+        func_ov169_0689ccd0(targets, func_ov167_021aecdc(flow, pos));
+        func_ov169_0689ccd0(targets, func_ov167_021aecac(flow, pos, 0));
+        func_ov169_0689ccd0(targets, func_ov167_021aecac(flow, pos, 1));
+        return 3;
+    case 8:
+        func_ov169_0689ccd0(targets, mon);
+        func_ov169_0689ccd0(targets, func_ov167_021aecdc(flow, pos));
+        func_ov169_0689ccd0(targets, func_ov167_021aecac(flow, pos, 0));
+        func_ov169_0689ccd0(targets, func_ov167_021aecac(flow, pos, 1));
+        return 3;
+    case 7:
+        if (redirect == 0x1f) {
+            func_ov169_0689ccd0(targets, mon);
+        } else {
+            func_ov169_0689ccd0(targets, GetPokeParam(flow->pokeCon, redirect));
+        }
+        return 1;
+    case 1:
+        func_ov169_0689ccd0(targets, func_ov167_0219d180(flow->pokeCon, targetPos));
+        return 1;
+    case 2:
+        func_ov169_0689ccd0(targets, func_ov167_021aecdc(flow, pos));
+        return 1;
+    case 13:
+        if (redirect != 0x1f) {
+            single = GetPokeParam(flow->pokeCon, redirect);
+            break;
+        }
+        return 0;
+    default:
+        return 0;
+    }
+    if (single != NULL) {
+        newTarget = func_ov167_021aed0c(flow, mon, param, GetMonID(single));
+        if (newTarget != 0x1f) {
+            single = GetPokeParam(flow->pokeCon, newTarget);
+        }
+        func_ov169_0689ccd0(targets, single);
+        return 1;
+    }
+    return 0;
+}
+
+// The targets in a triple battle, where only the mons next to each other reach each other
+u8 func_ov167_021ae82c(BtlServerFlow *flow, BattleMon *mon, u8 target, BtlFlowMoveParam *param, u8 redirect,
+                       void *targets) {
+    u8 pos;
+    const AdjacentOpponentData *adjacent;
+    u8 targetPos;
+    BattleMon *single;
+    u32 i;
+    u32 j;
+    u32 count;
+    u8 newTarget;
+    u8 index;
+
+    pos = MonIDToBattlePos(flow->mainModule, flow->pokeCon, GetMonID(mon));
+    adjacent = func_ov167_0219d2bc(pos);
+    targetPos = func_ov167_021ae55c(flow, param, mon, pos, target);
+    switch (param->targetType) {
+    case 0:
+        single = func_ov167_0219d180(flow->pokeCon, targetPos);
+        break;
+    case 3:
+        single = func_ov167_0219d180(flow->pokeCon, targetPos);
+        break;
+    case 9:
+        index = BattleRandom(adjacent->count1);
+        single = func_ov167_0219d180(flow->pokeCon, adjacent->list1[index]);
+        break;
+    case 5:
+        for (i = 0; i < adjacent->count1; i++) {
+            func_ov169_0689ccd0(targets, func_ov167_0219d180(flow->pokeCon, adjacent->list1[i]));
+        }
+        return adjacent->count1;
+    case 4:
+        count = 0;
+        for (i = 0; i < adjacent->count1; i++) {
+            func_ov169_0689ccd0(targets, func_ov167_0219d180(flow->pokeCon, adjacent->list1[i]));
+            count++;
+        }
+        for (j = 0; j < adjacent->count2; j++) {
+            if (pos != adjacent->list2[j]) {
+                func_ov169_0689ccd0(targets, func_ov167_0219d180(flow->pokeCon, adjacent->list2[j]));
+                count++;
+            }
+        }
+        return count;
+    case 8:
+        func_ov169_0689ccd0(targets, mon);
+        for (i = 0; i < 3; i++) {
+            u8 allyPos = GetPosOnSameSide(pos, i);
+
+            if (allyPos != pos) {
+                func_ov169_0689ccd0(targets, func_ov167_0219d180(flow->pokeCon, allyPos));
+            }
+        }
+        func_ov169_0689ccd0(targets, func_ov167_021aecac(flow, pos, 0));
+        func_ov169_0689ccd0(targets, func_ov167_021aecac(flow, pos, 1));
+        func_ov169_0689ccd0(targets, func_ov167_021aecac(flow, pos, 2));
+        return 6;
+    case 7:
+        if (redirect == 0x1f) {
+            func_ov169_0689ccd0(targets, mon);
+        } else {
+            func_ov169_0689ccd0(targets, GetPokeParam(flow->pokeCon, redirect));
+        }
+        return 1;
+    case 1:
+        func_ov169_0689ccd0(targets, func_ov167_0219d180(flow->pokeCon, targetPos));
+        return 1;
+    case 2:
+        func_ov169_0689ccd0(targets, func_ov167_0219d180(flow->pokeCon, targetPos));
+        return 1;
+    case 13:
+        if (redirect != 0x1f) {
+            single = GetPokeParam(flow->pokeCon, redirect);
+            break;
+        }
+        return 0;
+    default:
+        return 0;
+    }
+    if (single != NULL) {
+        newTarget = func_ov167_021aed0c(flow, mon, param, GetMonID(single));
+        if (newTarget != 0x1f) {
+            single = GetPokeParam(flow->pokeCon, newTarget);
+        }
+        func_ov169_0689ccd0(targets, single);
+        return 1;
+    }
+    return 0;
+}
+
+// When a single target has fainted before the move, the move goes to the nearest foe still standing instead, or the
+// one with more HP, or a random one of two
+BOOL func_ov167_021aeb10(BtlServerFlow *flow, u32 style, BattleMon *mon, BtlFlowMoveParam *param, u8 target,
+                         void *targets) {
+    BattleMon *fainted;
+    u8 pos;
+    u8 numPositions;
+    u8 positions[8];
+    BattleMon *mons[3];
+    u8 i;
+    u8 count;
+    s32 dist0;
+    s32 dist1;
+    u8 index;
+    u16 code;
+
+    if (func_ov167_021bd728(style) > 1 && func_ov169_0689cec0(targets) == 1) {
+        fainted = func_ov169_0689cdf8(targets, 0);
+        if (IsFainted(fainted) && !IsAllyMonID(GetMonID(mon), GetMonID(fainted))) {
+            pos = MonIDToBattlePos(flow->mainModule, flow->pokeCon, GetMonID(mon));
+            func_ov169_0689cd9c(targets, fainted);
+            code = getMoveFlag(param->move, 0xb) ? 0x600 | pos : 0x100 | pos;
+            numPositions = func_ov167_0219bfe4(flow->mainModule, code, positions);
+            for (i = 0; i < 3; i++) {
+                mons[i] = NULL;
+            }
+            for (count = 0, i = 0; i < numPositions; i++) {
+                mons[count] = func_ov167_0219d180(flow->pokeCon, positions[i]);
+                if (!IsFainted(mons[count])) {
+                    positions[count] = positions[i];
+                    count++;
+                }
+            }
+            if (count == 0) {
+                return FALSE;
+            }
+            if (count != 2) {
+                index = 0;
+            } else {
+                dist0 = positions[0] - target;
+                if (dist0 < 0) {
+                    dist0 *= -1;
+                }
+                dist1 = positions[1] - target;
+                if (dist1 < 0) {
+                    dist1 *= -1;
+                }
+                if (dist0 == dist1) {
+                    dist0 = GetBattleMonStat(mons[0], 0xd);
+                    dist1 = GetBattleMonStat(mons[1], 0xd);
+                }
+                if (dist0 < dist1) {
+                    index = 0;
+                } else if (dist1 < dist0) {
+                    index = 1;
+                } else {
+                    index = BattleRandom(2);
+                }
+            }
+            if (mons[index] != NULL) {
+                func_ov169_0689ccd0(targets, mons[index]);
+                return TRUE;
+            }
+        }
+    }
+    return FALSE;
+}
+
+// The mon on the other side at an index from a position
+BattleMon *func_ov167_021aecac(BtlServerFlow *flow, u8 pos, u8 index) {
+    u8 clientId;
+    u8 slot;
+
+    func_ov167_0219c694(flow->mainModule, func_ov167_0219c4bc(flow->mainModule, pos, index), &clientId, &slot);
+    return func_ov167_0219d4e4(func_ov167_0219f260(flow->server, clientId)->party, slot);
+}
+
+// The mon beside a position
+BattleMon *func_ov167_021aecdc(BtlServerFlow *flow, u8 pos) {
+    u8 clientId;
+    u8 slot;
+
+    func_ov167_0219c694(flow->mainModule, func_ov167_0219c51c(flow->mainModule, pos), &clientId, &slot);
+    return func_ov167_0219d4e4(func_ov167_0219f260(flow->server, clientId)->party, slot);
+}
+
+u8 func_ov167_021aed0c(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param, u8 targetId) {
+    u32 state;
+    u8 result;
+
+    state = PushState(&flow->actionState, 0x26b);
+    result = func_ov167_021aedac(flow, mon, param, targetId);
+    PopState(&flow->actionState, state, 0x26d);
+    return result;
+}
+
+// The mon that draws a move to itself, as Follow Me and Lightning Rod do, or 0x1f for none
+u8 func_ov167_021aed4c(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param) {
+    u8 monId;
+
+    BattleEventVar_Push(0x27f);
+    BattleEventVar_SetConstValue(3, GetMonID(mon));
+    BattleEventVar_SetConstValue(0x16, param->type);
+    BattleEventVar_SetConstValue(0x12, param->move);
+    BattleEventVar_SetRewriteOnceValue(4, 0x1f);
+    BattleEventVar_SetRewriteOnceValue(0x50, FALSE);
+    BattleEvent_CallHandlers(flow, 0x29);
+    monId = BattleEventVar_GetValue(4);
+    BattleEventVar_Pop(0x287);
+    return monId;
+}
+
+// The mon that takes a move over from its target, as with Lightning Rod, or 0x1f for none
+u8 func_ov167_021aedac(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param, u8 targetId) {
+    u8 newTarget;
+
+    BattleEventVar_Push(0x298);
+    BattleEventVar_SetConstValue(3, GetMonID(mon));
+    BattleEventVar_SetConstValue(0x16, param->type);
+    BattleEventVar_SetConstValue(0x12, param->move);
+    BattleEventVar_SetRewriteOnceValue(4, targetId);
+    BattleEvent_CallHandlers(flow, 0x2a);
+    newTarget = BattleEventVar_GetValue(4);
+    BattleEventVar_Pop(0x29f);
+    if (newTarget == targetId) {
+        newTarget = 0x1f;
+    }
+    return newTarget;
 }
 
 // Function names from swan.

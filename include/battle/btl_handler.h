@@ -48,7 +48,8 @@ typedef struct {
     u8 type;
     u8 unk07;
     u32 category;
-    u32 unk0C;
+    // How the move picks its targets, the move data's target type
+    u32 targetType;
     union {
         u32 raw;
         struct {
@@ -224,7 +225,8 @@ struct BtlServerFlow {
     u16 unk1F80[6];
     u8 unk1F8C[0x60];
     u8 unk1FEC[4];
-    u8 unk1FF0[0x144];
+    u8 unk1FF0[0x140];
+    u32 unk2130;
 };
 
 struct BattleHandlerAbilityChangeParam {
