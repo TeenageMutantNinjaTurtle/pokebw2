@@ -5,15 +5,21 @@
 // swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
 
 #include "types.h"
+#include "nitro/fx.h"
 #include "struct_decls.h"
 
 typedef struct {
-    // The controller type in use, grid or rail
+    // The controller type in use, 0 for the grid and 1 for a rail, 2 until the first is set
     u32 activeType;
     FieldPlayer *player;
+    // On a rail, what func_ov036_0219ad00 last returned: then the player keeps moving its way
     u32 unk08;
 } FieldmapCtrlHybrid;
 
 u32 FieldmapCtrlHybrid_GetActiveTypeID(FieldmapCtrlHybrid *controller);
+void FieldmapCtrlHybrid_Create(Field *field, VecFx32 *pos, u16 dir);
+void FieldmapCtrlHybrid_Free(Field *field);
+void FieldmapCtrlHybrid_Update(Field *field, VecFx32 *pos);
+VecFx32 *FieldmapCtrlHybrid_GetPos(Field *field);
 
 #endif // POKEBW2_FIELD_FIELDMAP_CTRL_HYBRID_H

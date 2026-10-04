@@ -51,6 +51,7 @@ void FieldCamera_SetUseBoundaryEnable(FieldCamera *camera, BOOL enable);
 // Stop the camera following its target, and follow it again
 void FieldCamera_ClearBind(FieldCamera *camera);
 void FieldCamera_ResetBind(FieldCamera *camera);
+void FieldCamera_ChangeTransformType(FieldCamera *camera, u32 type);
 void FieldCamera_LoadDefaults(FieldCamera *camera);
 void FieldCamera_DisableDelay(FieldCamera *camera);
 void FieldCamera_SetDefaultsIndex(FieldCamera *camera, u32 index);

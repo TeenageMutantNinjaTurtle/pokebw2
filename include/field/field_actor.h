@@ -92,6 +92,12 @@ void FldAct_GetGPos(FieldActor *actor, GridPos *pos);
 u16 GetActorUID(FieldActor *actor);
 u16 FldAct_GetSCRID(FieldActor *actor);
 u16 FldAct_GetObjCode(FieldActor *actor);
+// Makes the actor the one an entry describes
+void FldAct_Transplant(FieldActor *actor, const ZoneNPC *npc);
+u16 GetActorMotionDir(FieldActor *actor);
+BOOL func_ov012_0216773c(FieldActor *actor);
+void func_ov036_0219634c(FieldActor *actor, u16 *a1, u16 *a2);
+void func_ov036_021963a4(FieldActor *actor, u16 a1, u16 a2);
 // The field object code of a Pokémon walking in the field, in the main module
 u16 GetPokemonFieldOBJCODE(void *pokemonData, u16 species, u16 sex, u16 form);
 u32 GetIndexOfObjID(u16 objCode);
@@ -117,7 +123,7 @@ typedef struct {
 
 extern const Ov036Unk021cf1c8 data_ov036_021cf1c8[];
 void FldAct_SetShadowGroup(FieldActor *actor, u32 group);
-u32 GetActorFaceDir(FieldActor *actor);
+u16 GetActorFaceDir(FieldActor *actor);
 void CheckSetActorFaceDir(FieldActor *actor, u16 dir);
 void DisableActorMovement(FieldActor *actor);
 void EnableActorMovement(FieldActor *actor);

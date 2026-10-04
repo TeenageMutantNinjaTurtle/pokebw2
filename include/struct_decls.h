@@ -158,6 +158,7 @@ typedef struct FieldMenuWork FieldMenuWork;
 typedef struct FieldPlayer FieldPlayer;
 typedef struct FieldPropAreaBounds FieldPropAreaBounds;
 typedef struct FieldPropAnmController FieldPropAnmController;
+typedef struct FieldRailSystem FieldRailSystem;
 typedef struct FieldPropHandle FieldPropHandle;
 typedef struct FieldPropInstance FieldPropInstance;
 typedef struct FieldPropPosition FieldPropPosition;

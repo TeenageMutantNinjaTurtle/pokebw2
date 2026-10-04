@@ -131,6 +131,8 @@ u16 GetAbyssalRuinsDiveZoneID(Field *field, u16 *zoneId);
 BOOL FieldG3DMapper_GetTerrain(G3DMapper *mapper, const VecFx32 *position, FieldTerrain *terrain);
 void FieldG3DMapper_FreeMapTextures(G3DMapper *mapper);
 u32 GetTileClass(u32 tileType);
+BOOL MapTile_BlocksCollision(u32 tileType);
+BOOL func_ov036_021b3b54(u32 tileClass);
 BOOL MapTile_IsSurfEdge(u32 tileClass);
 BOOL IsTileSurfWater(u32 tileClass);
 u32 GetWeatherAll(GameSystem *gsys, u16 zoneId);

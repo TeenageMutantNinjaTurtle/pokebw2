@@ -35,6 +35,7 @@ void *Field_GetNDemoDataHandle(Field *field);
 void Field_SetCasteliaRush(Field *field, BOOL flag);
 BOOL Field_GetCasteliaRush(Field *field);
 void *Field_GetColorPostFX(Field *field);
+void Field_SetPlayerPosPtr(Field *field, VecFx32 *position);
 // Recolors a texture resource with the field's color post-FX
 void FieldColorPostFX_Apply(void *postFx, void *texture);
 fx32 func_ov036_02181324(Field *field);

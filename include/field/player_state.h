@@ -16,6 +16,9 @@ struct PlayerState {
 u32 FieldPlayerState_GetExState(PlayerState *playerState);
 u16 PlayerState_CalcDirection(PlayerState *playerState);
 VecFx32 *PlayerState_GetWPos(PlayerState *playerState);
+RailPosition *PlayerState_GetRailPos(PlayerState *playerState);
+// Whether the player is on a rail, which PlayerState_SetIsRail sets
+u8 func_0201753c(PlayerState *playerState);
 u16 PlayerState_GetZoneID(PlayerState *playerState);
 void PlayerState_SetIsRail(PlayerState *playerState, BOOL isRail);
 void PlayerState_SetRailPos(PlayerState *playerState, RailPosition *pos);
