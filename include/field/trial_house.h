@@ -17,7 +17,8 @@ struct TrialHouseWork {
     PokeParty *party;
     u32 battleType;
     u32 selectionFlag;
-    u8 unk134[0x18];
+    // The battle's statistics, which TrialHouseCalcPointScore scores
+    u16 stats[12];
     void *saveBuffer;
     u32 initState;
 };
@@ -69,6 +70,7 @@ BOOL func_ov012_02152bd4(void *work);
 void func_ov012_02152bfc(void *work);
 u8 func_ov033_0217b35c(TrialHouseSave *save, u32 index);
 void func_ov033_0217b384(TrialHouseSave *save, u32 index);
+void TrialHouseCalcPointScore(GameSystem *gsys, TrialHouseWork *work, u16 *rankOut, u16 *pointsOut);
 u32 func_ov033_0217b2e4(u32 unused, TrialHouseWork *work);
 GameEvent *func_ov033_0217b2ec(GameSystem *gsys, u32 unused, u32 mode);
 u32 func_ov033_0217b32c(GameSystem *gsys);
