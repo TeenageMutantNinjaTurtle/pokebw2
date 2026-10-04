@@ -1927,6 +1927,222 @@ void func_ov167_021a24bc(BtlServerFlow *flow, BattleMon *mon, BattleMon *attacke
     BattleEventVar_Pop(0xfe8);
 }
 
+void func_ov167_021a2508(BtlServerFlow *flow, BattleMon *mon, BattleMon *target, u16 move) {
+    BattleEventVar_Push(0xff5);
+    BattleEventVar_SetConstValue(2, GetMonID(mon));
+    BattleEventVar_SetConstValue(3, GetMonID(target));
+    BattleEventVar_SetConstValue(0x12, move);
+    BattleEventVar_SetRewriteOnceValue(0x51, 0);
+    BattleEvent_CallHandlers(flow, 9);
+    BattleEventVar_Pop(0xffb);
+}
+
+BOOL func_ov167_021a255c(BtlServerFlow *flow, BattleMon *mon, u16 move, void *targets, BtlFlowReactionList *list) {
+    u8 monId;
+    u8 target;
+
+    monId = 0x1f;
+    target = 0x1f;
+    func_ov167_021a25bc(flow, mon, move, targets, &monId, &target);
+    if (monId != 0x1f) {
+        list->targets[0] = target != 0x1f ? GetBattlePos(flow->unk1ab8, target) : 6;
+        list->monIds[0] = monId;
+        list->count = 1;
+        return TRUE;
+    }
+    return FALSE;
+}
+
+BOOL func_ov167_021a25bc(BtlServerFlow *flow, BattleMon *mon, u16 move, void *targets, u8 *monId, u8 *target) {
+    u32 count;
+    u32 i;
+
+    count = func_ov169_0689cec0(targets);
+    BattleEventVar_Push(0x1038);
+    BattleEventVar_SetConstValue(0x12, move);
+    BattleEventVar_SetConstValue(3, GetMonID(mon));
+    BattleEventVar_SetConstValue(5, count);
+    for (i = 0; i < count; i++) {
+        BattleEventVar_SetConstValue(i + 6, GetMonID(func_ov169_0689cdf8(targets, i)));
+    }
+    BattleEventVar_SetRewriteOnceValue(2, 0x1f);
+    BattleEventVar_SetValue(4, 0x1f);
+    BattleEvent_CallHandlers(flow, 0x1a);
+    *monId = BattleEventVar_GetValue(2);
+    *target = BattleEventVar_GetValue(4);
+    BattleEventVar_Pop(0x104b);
+    if (*monId != 0x1f) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+void func_ov167_021a2680(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 target) {
+    func_ov167_021b1434(flow->queue, 0x30, MonIDToBattlePos(flow->mainModule, flow->pokeCon, GetMonID(mon)), target,
+                        move, 0);
+}
+
+BOOL func_ov167_021a26b0(BtlServerFlow *flow, BattleMon *mon) {
+    if (func_ov167_0219c648(GetMonID(mon)) == GetPlayerClientID(flow->mainModule)) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+void func_ov167_021a26d4(BtlServerFlow *flow, BattleMon *mon, u16 move) {
+    if (func_ov167_021a26b0(flow, mon)) {
+        if (move == 0x96) {
+            func_ov167_0219dad0(flow->mainModule, 0x49);
+        } else if (move == 0xa5) {
+            func_ov167_0219dad0(flow->mainModule, 0x4a);
+        }
+    }
+}
+
+BOOL func_ov167_021a2700(BtlServerFlow *flow, BattleMon *mon, u16 move, void *targets) {
+    s32 quality;
+    u8 monId;
+    BOOL success;
+    BOOL isDamage;
+    BOOL isDamage2;
+    u32 reserved;
+    u32 state;
+    u32 result;
+
+    quality = PML_MoveGetQuality(move);
+    monId = GetMonID(mon);
+    success = TRUE;
+    isDamage = FALSE;
+    isDamage2 = FALSE;
+    func_ov167_021a26d4(flow, mon, move);
+    if (getMoveFlag(move, 1)) {
+        switch (func_ov167_021a36ac(flow, mon, targets, move)) {
+        case 0:
+            break;
+        case 1:
+            return isDamage;
+        case 2:
+            return success;
+        case 3:
+            return isDamage;
+        case 4:
+            break;
+        }
+    }
+    func_ov169_0689ccc4(flow->unk860);
+    reserved = SCQUE_RESERVE_Pos(flow->queue, 0x30);
+    func_ov167_021a0ca8(flow->moveEffect, flow, mon, targets);
+    state = PushState(&flow->actionState, 0x10b8);
+    result = func_ov167_021aa0c0(flow, mon, move, targets);
+    PopState(&flow->actionState, state, 0x10ba);
+    if (result) {
+        if (!flow->moveEffect->enabled) {
+            flow->moveEffect->enabled = TRUE;
+        }
+        if (result == 2) {
+            func_ov167_021a3674(flow, move, flow->moveEffect, reserved);
+            return TRUE;
+        }
+    }
+    switch (quality) {
+    case 0:
+    case 4:
+    case 6:
+    case 7:
+    case 8:
+        isDamage = TRUE;
+        isDamage2 = TRUE;
+        break;
+    case 9:
+        isDamage2 = TRUE;
+        break;
+    }
+    func_ov169_0689d06c(targets);
+    func_ov167_021a2af4(flow, flow->unk1AB0, mon, targets);
+    func_ov167_021a2b8c(flow, mon, targets, flow->unk1AB0, isDamage);
+    if (func_ov169_0689ced8(targets)) {
+        if (!flow->unk78A_4) {
+            func_ov167_021a9230(flow, mon, move);
+        }
+        success = FALSE;
+    }
+    if (success) {
+        if (quality != 9) {
+            func_ov167_021a32e0(flow, flow->unk1AB0, mon, targets);
+        }
+        func_ov167_021b0814(flow->unk1F8C);
+        if (isDamage2 || func_ov167_021a2c10(flow, flow->unk1AB0, mon)) {
+            func_ov167_021a2e80(flow, flow->unk1AB0, mon, targets, flow->unk1F8C);
+        }
+        func_ov167_021a2f54(flow, flow->unk1AB0, mon, targets, flow->unk1F8C);
+        if (quality != 9) {
+            func_ov167_021a3378(flow, flow->unk1AB0, mon, targets);
+        }
+        if (func_ov169_0689ced8(targets)) {
+            func_ov167_021a2d24(flow, monId, move);
+            success = FALSE;
+        } else {
+            func_ov167_021a2c5c(flow, flow->unk1AB0, mon, targets, isDamage2);
+            if (func_ov169_0689ced8(targets)) {
+                func_ov167_021a9230(flow, mon, move);
+                func_ov167_021a2d24(flow, monId, move);
+                success = FALSE;
+            }
+        }
+    }
+    if (success) {
+        if (isDamage) {
+            func_ov167_021a43c0(flow, flow->unk1AB0, mon, targets, flow->unk1F8C, 0);
+        } else {
+            switch (quality) {
+            case 2:
+                ServerControl_SimpleEffect(flow, flow->unk1AB0, mon, targets);
+                break;
+            case 1:
+                ServerControl_SimpleCondition(flow, move, mon, targets);
+                break;
+            case 5:
+                func_ov167_021a6c34(flow, flow->unk1AB0, mon, targets);
+                break;
+            case 9:
+                ServerControl_OHKO(flow, flow->unk1AB0, mon, targets);
+                break;
+            case 0xc:
+                ServerControl_ForceSwitch(flow, move, mon, targets);
+                break;
+            case 3:
+                func_ov167_021a6d24(flow, move, mon, targets);
+                break;
+            case 0xa:
+                ServerControl_FieldEffect(flow, flow->unk1AB0, mon);
+                break;
+            case 0xb:
+            case 0xd:
+                func_ov167_021a77b8(flow, flow->unk1AB0, mon, targets);
+                break;
+            }
+        }
+        if (flow->moveEffect->enabled) {
+            if (!flow->moveEffect->unk05_1) {
+                func_ov167_021a3674(flow, move, flow->moveEffect, reserved);
+            }
+            func_ov169_0689d1d8(flow->unk1C);
+            if (!IsFainted(mon) && getMoveFlag(move, 2)) {
+                scPut_SetContFlag(flow, mon, 0xc);
+            }
+            func_ov167_021a2cec(flow, monId, move);
+        } else {
+            func_ov167_021a2d24(flow, monId, move);
+            success = FALSE;
+        }
+    } else if (flow->moveEffect->enabled) {
+        func_ov167_021a3674(flow, move, flow->moveEffect, reserved);
+    }
+    func_ov167_021a2d5c(flow, monId, move);
+    ServerControl_CheckFainted(flow, mon);
+    return success;
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));

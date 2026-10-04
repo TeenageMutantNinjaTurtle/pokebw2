@@ -99,7 +99,9 @@ struct BtlServerFlow {
     u8 unk78A_0 : 1;
     u8 unk78A_1 : 1;
     u8 unk78A_2 : 1;
-    u8 unk78A_3 : 3;
+    u8 unk78A_3 : 1;
+    u8 unk78A_4 : 1;
+    u8 unk78A_5 : 1;
     u8 unk78A_6 : 1;
     u8 unk78A_7 : 1;
     u8 unk78B[0x1e];
@@ -114,7 +116,8 @@ struct BtlServerFlow {
     // Two mon sets in overlay 169's format: the move's targets, and a copy
     void *unk850;
     void *unk854;
-    u8 unk858[0xc];
+    u8 unk858[8];
+    void *unk860;
     void *unk864;
     u8 unk868[0x1200];
     // The mons that came in this turn, in overlay 169's format
@@ -131,7 +134,8 @@ struct BtlServerFlow {
     u16 unk1F78;
     u8 unk1F7A[2];
     u32 unk1F7C;
-    u8 unk1F80[0x6c];
+    u8 unk1F80[0xc];
+    u8 unk1F8C[0x60];
     u8 unk1FEC[4];
     u8 unk1FF0[0x144];
 };

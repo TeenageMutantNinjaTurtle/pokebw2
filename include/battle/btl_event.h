@@ -78,12 +78,12 @@ void func_ov167_021bccf4(void);
 // The line is the caller's source line, which they ignore
 void BattleEventVar_Push(u32 line);
 void BattleEventVar_Pop(u32 line);
-void BattleEventVar_SetValue(u16 key, s32 value);
-void BattleEventVar_SetConstValue(u16 key, s32 value);
-void BattleEventVar_SetRewriteOnceValue(u16 key, s32 value);
-void BattleEventVar_SetMulValue(u16 key, s32 value, s32 minValue, s32 maxValue);
+void BattleEventVar_SetValue(u32 key, s32 value);
+void BattleEventVar_SetConstValue(u32 key, s32 value);
+void BattleEventVar_SetRewriteOnceValue(u32 key, s32 value);
+void BattleEventVar_SetMulValue(u32 key, s32 value, s32 minValue, s32 maxValue);
 BOOL func_ov167_021bcfa0(u16 key, s32 *value);
-u32 func_ov167_021bcfd8(BattleEventVarStack *vars, u16 key);
+u32 func_ov167_021bcfd8(BattleEventVarStack *vars, u32 key);
 s32 func_ov167_021bcffc(BattleEventVarStack *vars, u16 key);
 s32 func_ov167_021bd020(BattleEventVarStack *vars, u32 index, s32 value);
 // Whether the item's handlers are skipped for now

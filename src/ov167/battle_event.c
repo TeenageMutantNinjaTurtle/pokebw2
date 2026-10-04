@@ -455,7 +455,7 @@ void BattleEventVar_Pop(u32 line) {
 }
 
 
-void BattleEventVar_SetValue(u16 key, s32 value) {
+void BattleEventVar_SetValue(u32 key, s32 value) {
     u32 index = func_ov167_021bcfd8(&data_ov167_021db3b0, key);
 
     data_ov167_021db3b0.keys[index] = key;
@@ -465,7 +465,7 @@ void BattleEventVar_SetValue(u16 key, s32 value) {
     data_ov167_021db3b0.kinds[index] = 0;
 }
 
-void BattleEventVar_SetConstValue(u16 key, s32 value) {
+void BattleEventVar_SetConstValue(u32 key, s32 value) {
     u32 index = func_ov167_021bcfd8(&data_ov167_021db3b0, key);
 
     data_ov167_021db3b0.keys[index] = key;
@@ -475,7 +475,7 @@ void BattleEventVar_SetConstValue(u16 key, s32 value) {
     data_ov167_021db3b0.kinds[index] = 4;
 }
 
-void BattleEventVar_SetRewriteOnceValue(u16 key, s32 value) {
+void BattleEventVar_SetRewriteOnceValue(u32 key, s32 value) {
     u32 index = func_ov167_021bcfd8(&data_ov167_021db3b0, key);
 
     data_ov167_021db3b0.keys[index] = key;
@@ -485,7 +485,7 @@ void BattleEventVar_SetRewriteOnceValue(u16 key, s32 value) {
     data_ov167_021db3b0.kinds[index] = 1;
 }
 
-void BattleEventVar_SetMulValue(u16 key, s32 value, s32 minValue, s32 maxValue) {
+void BattleEventVar_SetMulValue(u32 key, s32 value, s32 minValue, s32 maxValue) {
     u32 index = func_ov167_021bcfd8(&data_ov167_021db3b0, key);
 
     data_ov167_021db3b0.keys[index] = key;
@@ -552,7 +552,7 @@ BOOL func_ov167_021bcfa0(u16 key, s32 *value) {
 }
 
 // The slot of the frame to set the variable in: its own, or the first free one
-u32 func_ov167_021bcfd8(BattleEventVarStack *vars, u16 key) {
+u32 func_ov167_021bcfd8(BattleEventVarStack *vars, u32 key) {
     u32 i;
 
     for (i = vars->sp; i < BATTLE_EVENT_VAR_MAX; i++) {
