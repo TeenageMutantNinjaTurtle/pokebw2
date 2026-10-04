@@ -2687,7 +2687,7 @@ u8 func_ov167_0219d258(BtlMainModule *mainModule, u8 clientId) {
     return mainModule->setup->unk44[clientId];
 }
 
-s32 GetClientBattlerCount(BtlMainModule *mainModule, u8 clientId) {
+u8 GetClientBattlerCount(BtlMainModule *mainModule, u8 clientId) {
     return func_ov167_0219a180(mainModule, clientId);
 }
 

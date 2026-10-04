@@ -83,7 +83,9 @@ struct BtlServerFlow {
     ActionOrderEntry actionOrder[6];
     // Where an entry is kept while the order is reshuffled
     ActionOrderEntry tempEntry;
-    u8 unk850[0x1268];
+    u8 unk850[0x1218];
+    // The mons that came in this turn, in overlay 169's format
+    u8 unk1A68[0x50];
     // Passed to the ov169 function that several BattleHandler commands call through veneers
     u8 unk1ab8[0x2c];
     BattleHandlerString message;

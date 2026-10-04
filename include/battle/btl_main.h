@@ -203,7 +203,7 @@ const BattleMon *GetPokeParamConst(const BtlPokeCon *pokeCon, u8 monId);
 u8 func_ov167_0219a180(BtlMainModule *mainModule, u8 clientId);
 // How many of the client's Pokemon are in battle at once. They come first in the party, so this is also the index of
 // the first Pokemon waiting to switch in
-s32 GetClientBattlerCount(BtlMainModule *mainModule, u8 clientId);
+u8 GetClientBattlerCount(BtlMainModule *mainModule, u8 clientId);
 BOOL IsAllyMonID(u8 monId1, u8 monId2);
 u8 GetSideFromMonID(u8 monId);
 u8 GetSideFromOpposingMonID(u8 monId);
