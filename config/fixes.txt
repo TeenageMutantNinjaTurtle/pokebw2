@@ -2,6 +2,26 @@
 # module address(b2_us) action [argument]
 . 0x02006de8 remove_symbol
 . 0x02006dec add_function ampOffFreeBlocks:thumb:0x20
+. 0x02027a78 reloc_addend 0x74
+. 0x02027a7c reloc_addend 0x8c
+. 0x02027a80 reloc_addend 0x14
+. 0x02027a84 reloc_addend 0x44
+. 0x02027a88 reloc_addend 0x140
+. 0x02027a8c reloc_addend 0x4
+. 0x02027a90 reloc_addend 0x8
+. 0x02027ac4 reloc_addend 0x140
+. 0x02027adc reloc_addend 0x140
+. 0x02027b30 reloc_addend 0x74
+. 0x02027b38 reloc_addend 0x4
+. 0x02027b3c reloc_addend 0x14
+. 0x02027b40 reloc_addend 0x8
+. 0x02027b44 reloc_addend 0x44
+. 0x02027b48 reloc_addend 0x140
+. 0x02027b84 reloc_addend 0x140
+. 0x02027bc8 reloc_addend 0x140
+. 0x02027c64 reloc_addend 0x140
+. 0x02027dfc reloc_addend 0x100
+. 0x02027e38 reloc_addend 0x100
 . 0x0208d374 add_label _fflt
 . 0x0208d60c add_label _ll_mul
 . 0x0208d868 add_label _u32_div_f
@@ -10,6 +30,14 @@
 . 0x02091e64 reloc_module overlay(28)
 . 0x0210000b remove_symbol
 . 0x0210020f remove_symbol
+. 0x02141668 remove_symbol
+. 0x0214166c remove_symbol
+. 0x02141678 remove_symbol
+. 0x021416a8 remove_symbol
+. 0x021416d8 remove_symbol
+. 0x021416f0 remove_symbol
+. 0x02141764 remove_symbol
+. 0x021417a4 remove_symbol
 overlays/ov000 0x0214f870 overlay_id 199
 overlays/ov000 0x0214f874 reloc_module overlay(199)
 overlays/ov000 0x0214f878 overlay_id 182

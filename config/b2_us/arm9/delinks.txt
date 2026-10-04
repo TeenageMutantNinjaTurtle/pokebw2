@@ -392,3 +392,10 @@ src/system/bmp_menulist.c:
 src/system/palanm.c:
     .text       start:0x02026dc0 end:0x020279b4
     .data       start:0x0209a480 end:0x0209a498
+
+src/system/wipe.c:
+    complete
+    .text       start:0x020279b4 end:0x02028004
+    .rodata     start:0x0209174c end:0x0209177c
+    .data       start:0x0209a498 end:0x0209a4a0
+    .bss        start:0x02141664 end:0x021417bc

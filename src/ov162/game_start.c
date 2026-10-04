@@ -22,7 +22,6 @@
 #include "gfl/std.h"
 #include "gfl/str.h"
 #include "gfl/touchpanel.h"
-#include "gfl/wipe.h"
 #include "nitro/fx.h"
 #include "nitro/gx.h"
 #include "nitro/hw.h"
@@ -34,6 +33,7 @@
 #include "system/game_system.h"
 #include "system/gf_font.h"
 #include "system/printsys.h"
+#include "system/wipe.h"
 
 // Starting the game: a new game runs the intro and the name entries while it creates the save data, and a continue
 // loads the save. Both then start the game system. A debug screen, whose questions are blank outside Japan, can set
@@ -510,7 +510,8 @@ static BOOL DebugGameStart_Main(GameProc *proc, u32 *state, void *param, void *w
         } else {
             func_02008af0(gameStart->config, FALSE);
         }
-        GFL_WipeSet(0, 0, 0, 0, 12, 1, HEAPID_DEBUG_GENDER_SELECT);
+        GFL_WipeSet(WIPE_MODE_BOTH, WIPE_TYPE_FADE_OUT, WIPE_TYPE_FADE_OUT, WIPE_COLOR_BLACK, 12, 1,
+                    HEAPID_DEBUG_GENDER_SELECT);
         wk->question = DEBUG_QUESTION_END;
         break;
     case DEBUG_QUESTION_END:

@@ -31,7 +31,6 @@
 #include "gfl/str.h"
 #include "gfl/tcb.h"
 #include "gfl/tcbl.h"
-#include "gfl/wipe.h"
 #include "nitro/gx.h"
 #include "nitro/hw.h"
 #include "nitro/os.h"
@@ -51,6 +50,7 @@
 #include "system/gf_font.h"
 #include "system/printsys.h"
 #include "system/text_speed.h"
+#include "system/wipe.h"
 #include "system/wordset.h"
 
 // The menu after the title screen. Its items scroll on the main engine's BGs 1 and 2, and the sub engine shows the
@@ -1779,13 +1779,13 @@ static void StartMenu_OpenYesNo(StartMenuWork *wk) {
 }
 
 static u32 StartMenu_WipeIn(StartMenuWork *wk, u32 next) {
-    GFL_WipeSet(0, 1, 1, 0, 6, 1, HEAPID_STARTMENU);
+    GFL_WipeSet(WIPE_MODE_BOTH, WIPE_TYPE_FADE_IN, WIPE_TYPE_FADE_IN, WIPE_COLOR_BLACK, 6, 1, HEAPID_STARTMENU);
     wk->wipeNextState = next;
     return STATE_WAIT_WIPE;
 }
 
 static u32 StartMenu_WipeOut(StartMenuWork *wk, u32 next) {
-    GFL_WipeSet(0, 0, 0, 0, 6, 1, HEAPID_STARTMENU);
+    GFL_WipeSet(WIPE_MODE_BOTH, WIPE_TYPE_FADE_OUT, WIPE_TYPE_FADE_OUT, WIPE_COLOR_BLACK, 6, 1, HEAPID_STARTMENU);
     wk->wipeNextState = next;
     return STATE_WAIT_WIPE;
 }

@@ -74,6 +74,10 @@ Same code, other `sp` offsets or frame size.
   register order): bmp_menulist.c's `Bitmap_Scroll16` declares `pixels, widthTiles,
   fill32, end, y, i, j, src, dst` and assigns `pixels`, `fill32`, `widthTiles` and `end` in call order, and swapping
   the declarations of `widthTiles` and `fill32` swaps their slots.
+- A stack parameter loaded at entry although it is an `int` was reassigned rather than copied: wipe.c's
+  `GFL_WipeSet` does `sync /= GFL_FadeGetUpdateFreq()`, where a new local leaves the load at the division. A pointer
+  local such as `sys = &sWipe` assigned after that statement, not in its declaration, keeps its register free until
+  then.
 - A `u16` local and `local + 1` stored back to the same field can share a register and push a parameter out of r0;
   a wider local keeps them apart, as `u32 listTop` does in `BmpMenuList_Scroll`.
 

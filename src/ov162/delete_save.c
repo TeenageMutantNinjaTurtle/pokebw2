@@ -19,7 +19,6 @@
 #include "gfl/str.h"
 #include "gfl/tcb.h"
 #include "gfl/tcbl.h"
-#include "gfl/wipe.h"
 #include "nitro/gx.h"
 #include "nitro/os.h"
 #include "save/save_control.h"
@@ -31,6 +30,7 @@
 #include "system/printsys.h"
 #include "system/text_speed.h"
 #include "system/time_icon.h"
+#include "system/wipe.h"
 
 // Deleting the save data, from the title screen with Up, Select and B: two questions, then every save block is
 // cleared and the game restarts
@@ -374,9 +374,9 @@ static void DeleteSave_OpenYesNo(DeleteSaveWork *wk) {
 }
 
 static void DeleteSave_WipeIn(void) {
-    GFL_WipeSet(0, 1, 1, 0, 6, 1, HEAPID_SAVEDATA_DELETE);
+    GFL_WipeSet(WIPE_MODE_BOTH, WIPE_TYPE_FADE_IN, WIPE_TYPE_FADE_IN, WIPE_COLOR_BLACK, 6, 1, HEAPID_SAVEDATA_DELETE);
 }
 
 static void DeleteSave_WipeOut(void) {
-    GFL_WipeSet(0, 0, 0, 0, 6, 1, HEAPID_SAVEDATA_DELETE);
+    GFL_WipeSet(WIPE_MODE_BOTH, WIPE_TYPE_FADE_OUT, WIPE_TYPE_FADE_OUT, WIPE_COLOR_BLACK, 6, 1, HEAPID_SAVEDATA_DELETE);
 }
