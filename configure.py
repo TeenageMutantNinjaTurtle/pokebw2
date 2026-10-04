@@ -213,9 +213,10 @@ def get_dsd(tools_dir: Path, from_source: bool) -> Path:
     return dsd
 
 
-def add_version(n: Writer, version: str, dsd: Path, bugfix: bool) -> tuple[list[Path], list[str]]:
+def add_version(n: Writer, version: str, dsd: Path, bugfix: bool, shift: int) -> tuple[list[Path], list[str]]:
     """Adds the build steps of one version. Returns its check targets and dsd config files. A build with the bugs fixed
-    does not match, so its only targets are the ROM and its archives."""
+    or with its code shifted does not match, so its only targets are the ROM and its archives."""
+    matching = not bugfix and not shift
     baserom = Path("orig") / f"baserom_{version}.nds"
     extract_dir = Path("extract") / version
     config_dir = Path("config") / version
@@ -252,6 +253,12 @@ def add_version(n: Writer, version: str, dsd: Path, bugfix: bool) -> tuple[list[
     n.build(delink_outputs, "delink", dsd_configs, implicit=[extract_dir / "config.yaml"],
             variables={"config": str(arm9_config)})
     n.build([lcf_file, objects_file], "lcf", dsd_configs, variables={"config": str(arm9_config)})
+    link_lcf = lcf_file
+    if shift:
+        # Padding in the linker script moves the code and data after it, see tools/scripts/shift_lcf.py
+        link_lcf = build_dir / "arm9_shifted.lcf"
+        n.build([link_lcf], "shift_lcf", [lcf_file], implicit=["tools/scripts/shift_lcf.py"],
+                variables={"amount": hex(shift)})
 
     # Source files are listed in delinks.txt by their path. Complete files are linked from the compiled object, and
     # incomplete ones are still compiled so objdiff can compare them.
@@ -270,8 +277,8 @@ def add_version(n: Writer, version: str, dsd: Path, bugfix: bool) -> tuple[list[
         objects.append(f["object_to_link"])
 
     arm9_o = build_dir / "arm9.o"
-    n.build([arm9_o], "mwld", objects, implicit=[lcf_file, objects_file],
-            variables={"objects": objects_file, "lcf": lcf_file})
+    n.build([arm9_o], "mwld", objects, implicit=[link_lcf, objects_file],
+            variables={"objects": objects_file, "lcf": link_lcf})
 
     # The ROM's file system is the extracted one, with the archives built from source in place of the extracted ones.
     # The tree is made first, so that no archive is written through a link into extract/.
@@ -295,7 +302,7 @@ def add_version(n: Writer, version: str, dsd: Path, bugfix: bool) -> tuple[list[
                 variables={"original": str(extract_dir / "files" / path)})
         archives.append(archive)
         checks.append(archive)
-        if not bugfix:
+        if matching:
             checks.append(archive_ok)
 
     rom_config = build_dir / "build" / "rom_config.yaml"
@@ -306,7 +313,7 @@ def add_version(n: Writer, version: str, dsd: Path, bugfix: bool) -> tuple[list[
     n.build([modules_ok], "check_modules", [rom_config], variables={"config": str(arm9_config)})
     rom_ok = stamp_dir / "rom.ok"
     n.build([rom_ok], "sha1", [sha1_file], implicit=[rom], variables={"rom": str(rom)})
-    n.build([version], "phony", [rom] if bugfix else [modules_ok, rom_ok])
+    n.build([version], "phony", [modules_ok, rom_ok] if matching else [rom])
 
     # Context files for decomp.me scratches, made by objdiff
     for obj in compiled:
@@ -317,7 +324,7 @@ def add_version(n: Writer, version: str, dsd: Path, bugfix: bool) -> tuple[list[
     report = build_dir / "report.json"
     n.build([report], "report", [], implicit=["objdiff.json", *compiled, *delink_outputs])
     n.build([f"{version}_progress"], "progress", [report])
-    if bugfix:
+    if not matching:
         return [rom, *checks], dsd_configs
     return [modules_ok, rom_ok, *checks], dsd_configs
 
@@ -332,6 +339,9 @@ def main():
                         help="build DSD_VERSION of dsd with cargo instead of downloading it")
     parser.add_argument("--wine", default=None, help="run the Metrowerks tools with this instead of wibo")
     parser.add_argument("--no-download", action="store_true", help="do not download or build missing tools")
+    parser.add_argument("--shift", type=lambda s: int(s, 0), default=0, metavar="BYTES",
+                        help="pad the code so that it and everything after it moves, to test that a mod can change "
+                             "code sizes; the ROMs no longer match. A multiple of 32, such as 0x100")
     parser.add_argument("--bugfix", action="store_true",
                         help="fix the game's bugs that are marked with BUGFIX in the source; the ROMs no longer match")
     args = parser.parse_args()
@@ -381,6 +391,7 @@ def main():
         n.rule(f"mwcc_{i}", f"mkdir -p $$(dirname $out) && $wine {shlex.quote(str(lib_mwcc))} {' '.join(flags)} "
                "$defines -gccdep -MD $includes -o $out $in && $python tools/scripts/fix_depfile.py $dep",
                "Compiling $in", depfile="$dep", deps="gcc")
+    n.rule("shift_lcf", "$python tools/scripts/shift_lcf.py $in $out $amount", "Shifting $in")
     n.rule("mwld", f"$wine {shlex.quote(str(mwld))} {' '.join(LD_FLAGS)} @$objects $lcf -o $out", "Linking $out")
     # Scripts go through the C preprocessor, so that they can include the constant headers
     n.rule("as", f"{shlex.quote(clang)} --target=armv5te-none-eabi -x assembler-with-cpp -c $as_includes $defines "
@@ -402,14 +413,15 @@ def main():
            f"--compiler {DECOMP_ME_COMPILER} --c-flags '{' '.join(CC_FLAGS)}' -o $out", "Writing $out")
     n.rule("report", f"{tools_dir / 'objdiff-cli'} report generate -p . -o $out", "Generating $out")
     n.rule("progress", "$python tools/scripts/progress.py $in", "Progress")
-    configure_args = [*args.versions, *(["--bugfix"] if args.bugfix else [])]
+    configure_args = [*args.versions, *(["--bugfix"] if args.bugfix else []),
+                      *([f"--shift {args.shift:#x}"] if args.shift else [])]
     n.rule("configure", f"$python configure.py {' '.join(configure_args)}", "Reconfiguring", generator="1")
     # Formats the sources and headers in place with clang-format and .clang-format
     n.rule("format", "clang-format -i $in", "Formatting")
 
     checks, configs = [], []
     for version in versions:
-        version_checks, version_configs = add_version(n, version, dsd, args.bugfix)
+        version_checks, version_configs = add_version(n, version, dsd, args.bugfix, args.shift)
         checks += version_checks
         configs += version_configs
 
@@ -430,7 +442,8 @@ def main():
 
     (ROOT / "build.ninja").write_text(n.out.getvalue())
     fixes = ", with the bugs fixed" if args.bugfix else ""
-    print(f"Wrote build.ninja for {', '.join(versions)}{fixes}, now run ninja")
+    shifted = f", with the code shifted by {args.shift:#x} bytes" if args.shift else ""
+    print(f"Wrote build.ninja for {', '.join(versions)}{fixes}{shifted}, now run ninja")
 
 
 if __name__ == "__main__":

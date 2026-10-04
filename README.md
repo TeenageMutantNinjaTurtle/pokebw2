@@ -57,8 +57,10 @@ scripts are built from source, see [Scripts](docs/scripts.md).
    fork and copy it to `tools/dsd`, or pass `--dsd`; a `tools/dsd` without `tools/dsd.rev` is never replaced.
 
 4. Optionally, `python3 configure.py --bugfix` builds the ROMs with the game's bugs fixed, those marked with `BUGFIX`
-   in the source. These ROMs don't match, so the build skips the checks. Only files marked `complete` are built from
-   source, so fixes in the others don't apply yet. Run `configure.py` without it to go back to the matching build.
+   in the source. Only files marked `complete` are built from source, so fixes in the others don't apply yet. And
+   `python3 configure.py --shift 0x100` builds them with the code moved, to test that mods can change code sizes; see
+   [Shifting](docs/configs.md#shifting). These ROMs don't match, so the build skips the checks. Run `configure.py`
+   without the option to go back to the matching build.
 
 ## Layout
 

@@ -63,6 +63,24 @@ Black 2 is an NDS/DSi hybrid built with the TWL-SDK, which differs from DS-only 
   calls into it. Extraction splits ARM9i into this module (`dsi/ltd_autoload_0.bin`), and the build links, recompresses
   and reinserts it.
 
+## Shifting
+
+A mod that changes code sizes moves everything after the change, so it only works if every pointer to code or data
+that moves is a relocation; a pointer that dsd left as a plain number keeps the old address. The matching build can't
+show this, since nothing moves. Two tools check it:
+
+- `tools/scripts/unrelocated_pointers.py` lists the words in the main module and the overlays that point into code or
+  data that moves without a relocation. Those that point at a symbol are likely pointers; `--list MODULE` shows them
+  and `--all` the rest, which are mostly byte tables that happen to look like addresses. A real one gets a relocation
+  with `config_fixes.py add-reloc`, such as a pointer into an overlay that dsd couldn't attribute among the overlays
+  at that address.
+- `python3 configure.py --shift 0x100` pads the code by that many bytes (`tools/scripts/shift_lcf.py`): in main
+  before Game Freak's library, which moves the rest of main and every overlay, and at the start of each overlay's
+  code. The ROMs then don't match, and are tested by playing them. Run `configure.py` without it to go back.
+
+The literal pools were checked this way, which found and fixed six missing relocations; the data sections still
+have a few dozen candidates to judge.
+
 ## Known gaps
 
 - dsd only finds 253 functions in the LTD module's 437 KB. Its layout, with code after the static initializers,
