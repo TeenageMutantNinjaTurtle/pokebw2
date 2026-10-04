@@ -3,6 +3,7 @@
 #include "gfl/net.h"
 #include "gfl/net_queue.h"
 #include "gfl/net_ring_buff.h"
+#include "gfl/net_state.h"
 #include "gfl/net_system.h"
 #include "gfl/std.h"
 #include "gfl/wm_icon.h"
@@ -85,8 +86,8 @@ typedef struct {
         GFLNetErrorInfo *err;                                                       \
         func_02040158();                                                            \
         err = func_02042540();                                                      \
-        if (!err->reported) {                                                       \
-            func_020424ac(err->unk0, err->unk4, err->unk8, line);                   \
+        if (!err->type) {                                                       \
+            func_020424ac(err->code, err->unk4, err->unk8, line);                   \
         }                                                                           \
     } while (0)
 
@@ -121,7 +122,6 @@ static void func_0203fbe0(int command, int size, void *data, NetRecvState *state
 static void func_0203fc34(NetRingBuff *ring, int netId, u8 *temp, NetRecvState *state, int size);
 static void func_0203fdbc(void);
 static void func_0203fe00(void);
-static BOOL func_0203ff8c(void);
 
 static NetSystemState sState = { 4, 4 };
 
@@ -143,8 +143,8 @@ static void func_0203e8d4(NetRecvState *state) {
 static int func_0203e8e8(void) {
     GFLNetSys *sys = func_02042e78();
 
-    if (sys->unk64 && sys->unk6C) {
-        return sys->unk6C;
+    if (sys->aNetInit.bMPMode && sys->aNetInit.unk6C) {
+        return sys->aNetInit.unk6C;
     }
     return func_02042de8() * func_02042dc0();
 }
@@ -230,17 +230,17 @@ BOOL func_0203ec44(int size, HeapID heapId) {
     GFLNetInitData *ini = func_02042e84();
     GFLNetSys *sys = func_02042e78();
 
-    func_0203e910(size, heapId, sys->unk64 && sys->unk6C);
-    sys->devTable->init(ini->heapId, sys, 0, sys->devWork);
-    sys->devTable->unk08(0);
-    sys->devTable->setRecvCallback(func_0203f7f0);
+    func_0203e910(size, heapId, sys->aNetInit.bMPMode && sys->aNetInit.unk6C);
+    sys->pDevTable->init(ini->heapId, sys, 0, sys->devWork);
+    sys->pDevTable->unk08(0);
+    sys->pDevTable->setRecvCallback(func_0203f7f0);
     return TRUE;
 }
 
 int func_0203ecac(int a0) {
     GFLNetSys *sys = func_02042e78();
 
-    return sys->devTable->unk90(a0);
+    return sys->pDevTable->unk90(a0);
 }
 
 static BOOL func_0203ecc8(u16 netId, u8 *data, u16 size) {
@@ -252,7 +252,7 @@ BOOL func_0203ecd0(int a0) {
     GFLNetSys *sys = func_02042e78();
 
     ini->unk66 = a0;
-    sys->devTable->setRecvCallback(func_0203ecc8);
+    sys->pDevTable->setRecvCallback(func_0203ecc8);
     func_0203e910(0x80, ini->heapId, FALSE);
     func_0203ebe0(0);
     func_0203ebe0(1);
@@ -280,30 +280,30 @@ static void func_0203ed40(int netId) {
     }
 }
 
-int func_0203ed68(int a0, int size, int a2, int a3) {
+int func_0203ed68(int a0, int size, int a2, BOOL (*callback)(void)) {
     GFLNetInitData *ini = func_02042e84();
     GFLNetSys *sys = func_02042e78();
     BOOL useSysSize;
 
     ini->unk66 = a0;
-    sys->devTable->setDisconnectCallback(func_0203ed18);
-    sys->devTable->setRecvCallback(func_0203f7f0);
-    useSysSize = sys->unk64 && sys->unk6C;
+    sys->pDevTable->setDisconnectCallback(func_0203ed18);
+    sys->pDevTable->setRecvCallback(func_0203f7f0);
+    useSysSize = sys->aNetInit.bMPMode && sys->aNetInit.unk6C;
     func_0203e910(size, func_02042e84()->heapId, useSysSize);
-    return sys->devTable->unk40(a2, a3);
+    return sys->pDevTable->unk40(a2, callback);
 }
 
 BOOL func_0203ede0(int a0, int size) {
     GFLNetSys *sys = func_02042e78();
     BOOL result;
 
-    sys->devTable->setDisconnectCallback(func_0203ed40);
-    result = sys->devTable->unk44(a0, 0);
+    sys->pDevTable->setDisconnectCallback(func_0203ed40);
+    result = sys->pDevTable->unk44(a0, 0);
     if (result == TRUE) {
         BOOL useSysSize;
 
-        sys->devTable->setRecvCallback(func_0203f8f8);
-        useSysSize = sys->unk64 && sys->unk6C;
+        sys->pDevTable->setRecvCallback(func_0203f8f8);
+        useSysSize = sys->aNetInit.bMPMode && sys->aNetInit.unk6C;
         func_0203e910(size, func_02042e84()->heapId, useSysSize);
         sState.recvState = 4;
     }
@@ -314,10 +314,10 @@ BOOL func_0203ee50(int size) {
     GFLNetSys *sys = func_02042e78();
     BOOL result;
 
-    sys->devTable->setDisconnectCallback(func_0203ed40);
-    result = sys->devTable->unkBC();
+    sys->pDevTable->setDisconnectCallback(func_0203ed40);
+    result = sys->pDevTable->unkBC();
     if (result == TRUE) {
-        sys->devTable->setRecvCallback(func_0203f8f8);
+        sys->pDevTable->setRecvCallback(func_0203f8f8);
         func_0203e910(size, func_02042e84()->heapId, FALSE);
         sState.recvState = 4;
     }
@@ -327,23 +327,23 @@ BOOL func_0203ee50(int size) {
 void func_0203eea4(int a0) {
     GFLNetSys *sys = func_02042e78();
 
-    if (sys->devTable != NULL) {
-        sys->devTable->unkC0(a0);
+    if (sys->pDevTable != NULL) {
+        sys->pDevTable->unkC0(a0);
     }
 }
 
-int func_0203eec0(BOOL a0, int a1, int size, int a3) {
+int func_0203eec0(BOOL a0, const u8 *mac, int size, void (*callback)(void)) {
     GFLNetSys *sys = func_02042e78();
     GFLNetInitData *ini = func_02042e84();
 
-    sys->devTable->setRecvCallback(func_0203f8f8);
+    sys->pDevTable->setRecvCallback(func_0203f8f8);
     if (a0) {
-        BOOL useSysSize = sys->unk64 && sys->unk6C;
+        BOOL useSysSize = sys->aNetInit.bMPMode && sys->aNetInit.unk6C;
 
         func_0203e910(size, func_02042e84()->heapId, useSysSize);
         sState.recvState = 4;
     }
-    return sys->devTable->unk48(a0, a1, 0, 0, a3);
+    return sys->pDevTable->unk48(a0, mac, 0, 0, callback);
 }
 
 void func_0203ef38(void) {
@@ -390,21 +390,21 @@ BOOL func_0203efe8(void) {
 
     if (sNetSys == NULL) {
         if (sys != NULL) {
-            sys->devTable->setConnectBits(0);
+            sys->pDevTable->update(0);
         }
         return TRUE;
     }
-    if (sys->devTable->getSignalLevel != NULL) {
-        func_0203e7f8(sys->devTable->getSignalLevel());
+    if (sys->pDevTable->getSignalLevel != NULL) {
+        func_0203e7f8(sys->pDevTable->getSignalLevel());
     }
     if (!sNetSys->unk1EA && !func_0204003c()) {
-        if (!ini->bMPMode && (ini->type == 0 || ini->type == 5)) {
+        if (!ini->bMPMode && (ini->bNetType == 0 || ini->bNetType == 5)) {
             func_0203f234();
             func_0203fe00();
-        } else if (ini->type == 3 || ini->type == 4) {
+        } else if (ini->bNetType == 3 || ini->bNetType == 4) {
             func_0203f2cc();
             func_0203fe00();
-        } else if (ini->type == 1 || ini->type == 2) {
+        } else if (ini->bNetType == 1 || ini->bNetType == 2) {
             func_0203f46c();
             func_0203fe00();
         } else {
@@ -417,13 +417,13 @@ BOOL func_0203efe8(void) {
                 func_0203fe00();
             }
         }
-        if (ini->type != 1 && ini->type != 2) {
-            sys->devTable->setConnectBits(sNetSys->connectBits);
+        if (ini->bNetType != 1 && ini->bNetType != 2) {
+            sys->pDevTable->update(sNetSys->connectBits);
         }
         func_020410dc();
         func_0203efa0();
     } else {
-        sys->devTable->setConnectBits(0);
+        sys->pDevTable->update(0);
     }
     return TRUE;
 }
@@ -468,9 +468,9 @@ static void func_0203f19c(void) {
     GFLNetSys *sys = func_02042e78();
     int dataSize = func_02042de8();
 
-    if (sys->devTable->isConnected() && func_0203fe74(func_0203ffc4()) && sState.recvState == 0) {
+    if (sys->pDevTable->isConnected() && func_0203fe74(func_0203ffc4()) && sState.recvState == 0) {
         if (func_0203ffc4() != 0) {
-            if (sys->devTable->send(sNetSys->sendData, dataSize, 0, func_0203f9c0)) {
+            if (sys->pDevTable->send(sNetSys->sendData, dataSize, 0, func_0203f9c0)) {
                 sState.recvState = 2;
                 sNetSys->serverSends++;
             }
@@ -487,11 +487,11 @@ static void func_0203f234(void) {
     int i;
     GFLNetSys *sys = func_02042e78();
 
-    if (sys->devTable->unk58()) {
+    if (sys->pDevTable->unk58()) {
         if (sNetSys->unk1EB) {
             func_0203f10c(TRUE);
         }
-        if (sys->devTable->unk5C(sNetSys->sendData) == TRUE) {
+        if (sys->pDevTable->unk5C(sNetSys->sendData) == TRUE) {
             int dataSize;
             int machineMax;
 
@@ -500,7 +500,7 @@ static void func_0203f234(void) {
             dataSize = func_02042de8();
             machineMax = func_02042dc0();
             for (i = 0; i < machineMax; i++) {
-                func_0203f7f0(i, sys->devTable->getRecvData(i), dataSize);
+                func_0203f7f0(i, sys->pDevTable->getRecvData(i), dataSize);
             }
         } else {
             sNetSys->unk1EB = FALSE;
@@ -514,13 +514,13 @@ static void func_0203f2cc(void) {
     if (func_0203e174(&sNetSys->sendQueue)) {
         func_02042be8(func_02040440(), 0x10, 0, NULL);
     }
-    if (sys->devTable->unk9C != NULL) {
-        sys->devTable->unk9C();
+    if (sys->pDevTable->unk9C != NULL) {
+        sys->pDevTable->unk9C();
     }
-    if (sys->devTable->unk6C() == TRUE) {
+    if (sys->pDevTable->unk6C() == TRUE) {
         int dataSize = func_02042de8();
 
-        if (sys->devTable->unkA0() == TRUE && func_0203f10c(FALSE)) {
+        if (sys->pDevTable->unkA0() == TRUE && func_0203f10c(FALSE)) {
             func_0203f3f0(sNetSys->sendData, dataSize);
             sState.recvState = 4;
         }
@@ -561,13 +561,13 @@ static void func_0203f3f0(u8 *data, int size) {
 
     func_02042e84();
     sys = func_02042e78();
-    if (!sys->devTable->unkA4() || !sys->devTable->unkAC()) {
+    if (!sys->pDevTable->unkA4() || !sys->pDevTable->unkAC()) {
         GFL_ASSERT(0);
         return;
     }
     if (sState.recvState == 0) {
-        sys->devTable->send(data, size, 0, NULL);
-        func_0203f348(sys->devTable->getNetId(), data, size);
+        sys->pDevTable->send(data, size, 0, NULL);
+        func_0203f348(sys->pDevTable->getNetId(), data, size);
         func_0203e8c8(4, 1036);
     }
 }
@@ -588,7 +588,7 @@ static void func_0203f46c(void) {
             }
         }
         if (sNetSys->unk1ED == TRUE) {
-            if (sys->devTable->send(sNetSys->sendData, dataSize, 0, NULL)) {
+            if (sys->pDevTable->send(sNetSys->sendData, dataSize, 0, NULL)) {
                 sNetSys->unk1ED = FALSE;
             }
         }
@@ -600,7 +600,7 @@ static void func_0203f4f0(void) {
 
     func_02042e84();
     sys = func_02042e78();
-    if (sys->devTable->isConnected() && func_0203fe74(func_0203ffc4())) {
+    if (sys->pDevTable->isConnected() && func_0203fe74(func_0203ffc4())) {
         func_0203f10c(TRUE);
         func_0203f19c();
     }
@@ -612,18 +612,18 @@ static void func_0203f520(void) {
     func_02042dc0();
     if (sState.sendState == 1 && func_0203ff6c() > 1) {
         func_0203e8c8(2, 1130);
-        if (sys->devTable->isConnected()) {
-            if (!sys->devTable->send(sNetSys->mpSendData, func_0203e8e8(), 0, func_0203f9f0)) {
+        if (sys->pDevTable->isConnected()) {
+            if (!sys->pDevTable->send(sNetSys->mpSendData, func_0203e8e8(), 0, func_0203f9f0)) {
                 func_0203e8c8(1, 1134);
             }
-        } else if (func_02042e84()->type == 3 || func_02042e84()->type == 4) {
-            if (!sys->devTable->unkA0()) {
+        } else if (func_02042e84()->bNetType == 3 || func_02042e84()->bNetType == 4) {
+            if (!sys->pDevTable->unkA0()) {
                 func_0203e8c8(1, 1141);
             } else {
                 if (sNetSys->mpSendData[PACKET_SIZE] == 0) {
                     return;
                 }
-                sys->devTable->send(sNetSys->mpSendData, func_02042de8(), 100, NULL);
+                sys->pDevTable->send(sNetSys->mpSendData, func_02042de8(), 100, NULL);
             }
         }
     }
@@ -632,7 +632,7 @@ static void func_0203f520(void) {
         func_0203f8f8(0, sNetSys->mpSendData, func_0203e8e8());
         func_0203e8c8(3, 1165);
     }
-    if (!sys->devTable->isConnected() || func_02042e84()->type == 3 || func_02042e84()->type == 4) {
+    if (!sys->pDevTable->isConnected() || func_02042e84()->bNetType == 3 || func_02042e84()->bNetType == 4) {
         func_0203e8c8(4, 1170);
     }
 }
@@ -664,7 +664,7 @@ static void func_0203f6a8(void) {
     GFLNetSys *sys = func_02042e78();
     GFLNetInitData *pNetIni = func_02042e84();
 
-    if (pNetIni->type == 1 || pNetIni->type == 2) {
+    if (pNetIni->bNetType == 1 || pNetIni->bNetType == 2) {
         if (!func_0203fe74(0)) {
             return;
         }
@@ -673,12 +673,12 @@ static void func_0203f6a8(void) {
             func_0203e8c8(1, 1242);
         }
         if (sState.sendState == 1) {
-            if (sys->devTable->send(sNetSys->mpSendData, func_0203e8e8(), 0, NULL)) {
+            if (sys->pDevTable->send(sNetSys->mpSendData, func_0203e8e8(), 0, NULL)) {
                 func_0203e8c8(4, 1249);
                 func_0203f670();
             }
         }
-    } else if (pNetIni->type == 3 || pNetIni->type == 4) {
+    } else if (pNetIni->bNetType == 3 || pNetIni->bNetType == 4) {
         if (sState.sendState == 4) {
             NetSystem *net = sNetSys;
 
@@ -687,7 +687,7 @@ static void func_0203f6a8(void) {
             func_0203e8c8(1, 1268);
         }
         func_0203f520();
-    } else if (sys->devTable->isConnected() && func_0203f63c()) {
+    } else if (sys->pDevTable->isConnected() && func_0203f63c()) {
         if (sState.sendState == 4) {
             NetSystem *net = sNetSys;
 
@@ -801,8 +801,8 @@ static BOOL func_0203fa28(u8 *packet, NetQueue *queue, int size, int seq) {
     sys_memset(packet, 0, size);
     packet[PACKET_FLAGS] = queue->pending == FALSE ? PACKET_FLAG_FIRST : PACKET_FLAG_CONTINUED;
     queue->pending = FALSE;
-    packet[PACKET_CONNECT_BITS] = sys->devTable->getConnectBits();
-    if (func_0203e174(queue) || ((ini->type == 3 || ini->type == 4) && sys->devTable->unkB0() == TRUE)) {
+    packet[PACKET_CONNECT_BITS] = sys->pDevTable->getConnectBits();
+    if (func_0203e174(queue) || ((ini->bNetType == 3 || ini->bNetType == 4) && sys->pDevTable->unkB0() == TRUE)) {
         packet[PACKET_FLAGS] = PACKET_FLAGS_NONE;
         return FALSE;
     }
@@ -1012,8 +1012,8 @@ BOOL func_0203fe74(u16 netId) {
     if (sNetSys == NULL) {
         return FALSE;
     }
-    if (ini->type == 1 || ini->type == 2) {
-        if (sNetSys->unk1E7 && sys->devTable->getNetId() != -1) {
+    if (ini->bNetType == 1 || ini->bNetType == 2) {
+        if (sNetSys->unk1E7 && sys->pDevTable->getNetId() != -1) {
             if (netId == 0) {
                 return TRUE;
             }
@@ -1023,8 +1023,8 @@ BOOL func_0203fe74(u16 netId) {
         }
         return FALSE;
     }
-    if (ini->type == 3 || ini->type == 4) {
-        if ((netId < 2 || netId == GFL_NET_NETID_SERVER) && sys->devTable->isConnected()) {
+    if (ini->bNetType == 3 || ini->bNetType == 4) {
+        if ((netId < 2 || netId == GFL_NET_NETID_SERVER) && sys->pDevTable->isConnected()) {
             return TRUE;
         }
         return FALSE;
@@ -1032,14 +1032,14 @@ BOOL func_0203fe74(u16 netId) {
     if (!func_0203ff8c()) {
         return FALSE;
     }
-    if (!sys->devTable->isConnected()) {
+    if (!sys->pDevTable->isConnected()) {
         return FALSE;
     }
     if (netId == func_0203ffc4()) {
         return TRUE;
     }
     if (func_0203ffc4() == 0 || !ini->bMPMode) {
-        u16 bits = sys->devTable->getConnectBits();
+        u16 bits = sys->pDevTable->getConnectBits();
 
         if ((1 << netId) & bits) {
             return TRUE;
@@ -1066,14 +1066,14 @@ int func_0203ff6c(void) {
     return count;
 }
 
-static BOOL func_0203ff8c(void) {
+BOOL func_0203ff8c(void) {
     GFLNetSys *sys = func_02042e78();
     GFLNetInitData *ini = func_02042e84();
 
-    if (sNetSys != NULL && (ini->type == 1 || ini->type == 2 || ini->type == 3 || ini->type == 4)) {
+    if (sNetSys != NULL && (ini->bNetType == 1 || ini->bNetType == 2 || ini->bNetType == 3 || ini->bNetType == 4)) {
         return TRUE;
     }
-    return sys->devTable->unk6C();
+    return sys->pDevTable->unk6C();
 }
 
 u16 func_0203ffc4(void) {
@@ -1081,14 +1081,14 @@ u16 func_0203ffc4(void) {
         GFLNetSys *sys = func_02042e78();
         GFLNetInitData *ini = func_02042e84();
 
-        if (ini->type == 1 || ini->type == 2) {
-            int netId = sys->devTable->getNetId();
+        if (ini->bNetType == 1 || ini->bNetType == 2) {
+            int netId = sys->pDevTable->getNetId();
 
             if (netId != -1) {
                 return netId;
             }
         } else {
-            return sys->devTable->getNetId();
+            return sys->pDevTable->getNetId();
         }
     }
     return 0;
@@ -1097,7 +1097,7 @@ u16 func_0203ffc4(void) {
 u32 func_0204001c(void) {
     GFLNetSys *sys = func_02042e78();
 
-    return (u16)sys->devTable->getConnectBits() & 0xfffe;
+    return (u16)sys->pDevTable->getConnectBits() & 0xfffe;
 }
 
 BOOL func_0204003c(void) {
@@ -1106,7 +1106,7 @@ BOOL func_0204003c(void) {
     if (sNetSys != NULL && sNetSys->error) {
         return TRUE;
     }
-    if (sys->devTable->isError()) {
+    if (sys->pDevTable->isError()) {
         return TRUE;
     }
     return FALSE;
@@ -1116,8 +1116,8 @@ BOOL func_02040078(void) {
     GFLNetSys *sys = func_02042e78();
     BOOL error = FALSE;
 
-    if (sys != NULL && sys->devTable != NULL) {
-        error = sys->devTable->isError();
+    if (sys != NULL && sys->pDevTable != NULL) {
+        error = sys->pDevTable->isError();
     }
     if (!error && sNetSys != NULL && sNetSys->error) {
         error = TRUE;
@@ -1143,7 +1143,7 @@ void func_02040104(u8 a0) {
 void func_02040118(BOOL a0) {
     GFLNetInitData *ini = func_02042e84();
 
-    if (ini->type == 1 || ini->type == 2) {
+    if (ini->bNetType == 1 || ini->bNetType == 2) {
         sNetSys->unk1AC = a0;
         if (a0) {
             sNetSys->serverSends = 0;
@@ -1171,7 +1171,7 @@ BOOL func_02040198(void) {
     if (sNetSys != NULL) {
         GFLNetInitData *ini = func_02042e84();
 
-        if (!ini->bMPMode && (ini->type == 0 || ini->type == 5)) {
+        if (!ini->bMPMode && (ini->bNetType == 0 || ini->bNetType == 5)) {
             return sNetSys->unk1EB;
         }
     }

@@ -8094,8 +8094,8 @@ sObjTileMappingBoundaries kind:data(any) addr:0x02093260
 data_02093264 kind:data(any) addr:0x02093264
 sVRAMBankSizes kind:data(any) addr:0x02093288
 sEmptyOam kind:data(any) addr:0x020932d0
-data_020932f0 kind:data(any) addr:0x020932f0
-data_02093376 kind:data(any) addr:0x02093376
+sBaseCommands kind:data(any) addr:0x020932f0
+sDaysBeforeMonth kind:data(any) addr:0x02093378
 sDefaultFont kind:data(any) addr:0x02093390
 DEFAULT_GX_LIGHT kind:data(any) addr:0x02093dc0
 DEFAULT_CAMERA_PROJECTION kind:data(any) addr:0x02093dc8
@@ -8709,7 +8709,7 @@ a_pbasework_0 kind:data(any) addr:0x0209aac4
 a_pbaseworkTimi kind:data(any) addr:0x0209aad0
 data_0209aaec kind:data(any) addr:0x0209aaec
 data_0209ab08 kind:data(any) addr:0x0209ab08
-data_0209ab24 kind:data(any) addr:0x0209ab24
+_BaseTable kind:data(any) addr:0x0209ab24
 data_0209ab34 kind:data(any) addr:0x0209ab34
 data_0209ab44 kind:data(any) addr:0x0209ab44
 a_basetable_lis kind:data(any) addr:0x0209ab48
@@ -9155,8 +9155,8 @@ sTouchpad kind:bss addr:0x0214188c
 sWmIcon kind:bss addr:0x02141890
 sNetSys kind:bss addr:0x02141898
 _pBaseWork kind:bss addr:0x0214189c
-data_021418a0 kind:bss addr:0x021418a0
-data_021418a4 kind:bss addr:0x021418a4
+_pCommandWork kind:bss addr:0x021418a0
+_pNetState kind:bss addr:0x021418a4
 data_021418a8 kind:bss addr:0x021418a8
 data_021418b8 kind:bss addr:0x021418b8
 data_021418bc kind:bss addr:0x021418bc

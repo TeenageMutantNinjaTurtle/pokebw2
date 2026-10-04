@@ -217,12 +217,14 @@
 . 0x02093260 sObjTileMappingBoundaries
 . 0x02093288 sVRAMBankSizes
 . 0x020932d0 sEmptyOam
+. 0x020932f0 sBaseCommands
 . 0x02093390 sDefaultFont
 . 0x02093f40 sSpecialChars
 . 0x0209a858 sTrackHeapId
 . 0x0209a8d8 sWriteDone
 . 0x0209a9a4 GfOverlayC
 . 0x0209aa54 sState
+. 0x0209ab24 _BaseTable
 . 0x0209aecc sTerminator
 . 0x0214181c sHeapMgr
 . 0x0214182c sDTCMHeap
@@ -239,6 +241,8 @@
 . 0x02141890 sWmIcon
 . 0x02141898 sNetSys
 . 0x0214189c _pBaseWork
+. 0x021418a0 _pCommandWork
+. 0x021418a4 _pNetState
 . 0x021418c0 sGFLStd
 . 0x0214190c sBGSys
 . 0x02141910 sEnabledPlanes

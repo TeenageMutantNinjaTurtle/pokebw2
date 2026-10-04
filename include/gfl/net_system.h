@@ -10,11 +10,11 @@
 BOOL func_0203ec44(int size, HeapID heapId);
 int func_0203ecac(int a0);
 BOOL func_0203ecd0(int a0);
-int func_0203ed68(int a0, int size, int a2, int a3);
+int func_0203ed68(int a0, int size, int a2, BOOL (*callback)(void));
 BOOL func_0203ede0(int a0, int size);
 BOOL func_0203ee50(int size);
 void func_0203eea4(int a0);
-int func_0203eec0(BOOL a0, int a1, int size, int a3);
+int func_0203eec0(BOOL a0, const u8 *mac, int size, void (*callback)(void));
 void func_0203ef38(void);
 // Forgets what has arrived from a machine, as when it disconnects
 void func_0203efd0(u32 netId);
@@ -28,6 +28,7 @@ int func_0203fbcc(void);
 BOOL func_0203fe74(u16 netId);
 // The number of machines connected
 int func_0203ff6c(void);
+BOOL func_0203ff8c(void);
 // This machine's network ID
 u16 func_0203ffc4(void);
 // The connected machines but the parent, as bits

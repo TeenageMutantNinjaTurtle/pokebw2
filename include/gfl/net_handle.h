@@ -54,8 +54,9 @@ struct NetHandle {
 
 // The machine with a handle, or GFL_NET_NETID_SERVER
 int func_020401dc(NetHandle *handle);
-void func_0204034c(void);
-void func_020403a4(void);
+// Create and free the handles; the argument is not used
+void func_0204034c(void *sys);
+void func_020403a4(void *sys);
 NetHandle *func_02040414(int netId);
 // This machine's handle
 NetHandle *func_02040440(void);

@@ -11388,7 +11388,7 @@ from:0x020442c2 kind:thumb_call_arm to:0x0208d65c module:main
 from:0x020442d0 kind:thumb_call_arm to:0x0208d65c module:main
 from:0x020442f0 kind:thumb_call to:0x0207d0b4 module:main
 from:0x020442f6 kind:thumb_call to:0x0207d0b4 module:main
-from:0x02044300 kind:load to:0x02093376 module:main
+from:0x02044300 kind:load to:0x02093378 add:-0x2 module:main
 from:0x02044318 kind:thumb_call_arm to:0x0208d65c module:main
 from:0x0204432c kind:load to:0x020946bc module:main
 from:0x02044344 kind:thumb_call_arm to:0x0208d65c module:main

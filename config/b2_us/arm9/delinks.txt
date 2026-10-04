@@ -210,3 +210,14 @@ src/main/net_handle.c:
     .text       start:0x020401dc end:0x02040b94
     .data       start:0x0209aaa0 end:0x0209ab24
     .bss        start:0x0214189c end:0x021418a0
+
+src/main/net_command.c:
+    .text       start:0x02040b94 end:0x02041154
+    .rodata     start:0x020932f0 end:0x02093378
+    .data       start:0x0209ab24 end:0x0209abe8
+    .bss        start:0x021418a0 end:0x021418a4
+
+src/main/net_state.c:
+    .text       start:0x02041154 end:0x020425a0
+    .data       start:0x0209abe8 end:0x0209ace4
+    .bss        start:0x021418a4 end:0x021418a8

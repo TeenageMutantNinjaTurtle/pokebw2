@@ -110,7 +110,7 @@ static NetHandle *func_020402c8(int netId) {
     return handle;
 }
 
-void func_0204034c(void) {
+void func_0204034c(void *sys) {
     GFLNetInitData *ini = func_02042e84();
     int i;
 
@@ -122,7 +122,7 @@ void func_0204034c(void) {
     _pBaseWork = GFL_HeapAllocate(ini->heapId, sizeof(NetHandleBaseWork), TRUE, "net_handle.c", 229);
 }
 
-void func_020403a4(void) {
+void func_020403a4(void *sys) {
     NetHandle *handle;
     int i;
 
@@ -227,7 +227,7 @@ BOOL func_02040504(void) {
 
             func_0207c33c(data);
             data[6] = netId;
-            data[7] = ini->unk67;
+            data[7] = ini->gameCommandBase;
             data[8] = ini->unk6E;
             return func_02042be8(handle, 3, sizeof(data), data);
         } else if (handle->state < NET_HANDLE_STATE_SEND_NEGOTIATION) {
@@ -368,7 +368,7 @@ void func_020406e0(void) {
     {
         GFLNetInitData *ini = func_02042e84();
 
-        if (ini->type != 4) {
+        if (ini->bNetType != 4) {
             handle = func_02040440();
             if (handle->infoPending == TRUE) {
                 if (ini->getInfo != NULL && ini->getInfoSize != NULL) {
@@ -398,12 +398,12 @@ void func_02040880(int netId, int size, u8 *data, void *work, NetHandle *handle)
             negotiation->netId = data[6];
             func_0207c33c(negotiation->serverMac);
             if (data[8] != 0) {
-                if (data[6] != 0 && data[7] != ini->unk67 && ini->unk6E == data[8]) {
+                if (data[6] != 0 && data[7] != ini->gameCommandBase && ini->unk6E == data[8]) {
                     negotiation->unkF = ini->unk6E;
                     negotiation->unkE = ini->unk6E;
                     return;
                 }
-                if (data[6] == 0 && data[7] == ini->unk67 && ini->unk6E == data[8]) {
+                if (data[6] == 0 && data[7] == ini->gameCommandBase && ini->unk6E == data[8]) {
                     negotiation->unkF = ini->unk6E;
                     negotiation->unkE = ini->unk6E;
                     return;
@@ -411,7 +411,7 @@ void func_02040880(int netId, int size, u8 *data, void *work, NetHandle *handle)
                 negotiation->unkF = 0xff;
                 negotiation->unkE = 0;
             } else {
-                negotiation->unkF = ini->unk67;
+                negotiation->unkF = ini->gameCommandBase;
                 negotiation->unkE = data[7];
             }
         }
@@ -449,10 +449,10 @@ void func_0204095c(int netId, int size, NetNegotiation *negotiation, void *work,
             func_0204092c(handle);
         }
     } else {
-        if (ini->unk67 != negotiation->unkF) {
+        if (ini->gameCommandBase != negotiation->unkF) {
             func_0204092c(handle);
         }
-        if (ini->unk67 != negotiation->unkE) {
+        if (ini->gameCommandBase != negotiation->unkE) {
             func_0204092c(handle);
         }
     }
