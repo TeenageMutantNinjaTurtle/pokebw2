@@ -353,8 +353,11 @@ void ServerEvent_MoveStatusConfirmed(BtlServerFlow *flow, BattleMon *target, Bat
 fx32 ServerEvent_GetWeightRatio(BtlServerFlow *flow, BattleMon *mon);
 BOOL ServerEvent_RollStatDropEffectChance(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker,
                                           BattleMon *target);
-void func_ov167_021a6914(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, BattleMon *target,
-                         u32 arg4);
+BOOL func_ov167_021a6914(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, BattleMon *target, u8 arg4);
+u32 func_ov167_021a68fc(BtlServerFlow *flow);
+void ServerEvent_GetMoveStatChangeValue(BtlServerFlow *flow, u16 move, u32 index, BattleMon *attacker,
+                                        BattleMon *target, u32 *stat, s32 *change);
+void func_ov167_021ab3c0(BtlServerFlow *flow, BattleMon *mon, u16 move, u32 stat, s32 change);
 BOOL ServerEvent_AddCondition(BtlServerFlow *flow, BattleMon *target, BattleMon *attacker, u32 condition,
                               BattleCondition value, BOOL flag, BOOL defaultMessage);
 u32 ServerEvent_CheckMoveAddCondition(BtlServerFlow *flow, u16 move, BattleMon *attacker, BattleMon *target,

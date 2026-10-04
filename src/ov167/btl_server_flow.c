@@ -4156,6 +4156,69 @@ BOOL ServerEvent_RollStatDropEffectChance(BtlServerFlow *flow, BtlFlowMoveParam 
     return FALSE;
 }
 
+void ServerControl_SimpleEffect(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets) {
+    BattleMon *target;
+
+    func_ov169_0689ce0c(targets);
+    while ((target = func_ov169_0689ce14(targets)) != NULL) {
+        if (func_ov167_021a6914(flow, param, mon, target, TRUE)) {
+            BattleMoveEffectState *effect = flow->moveEffect;
+            if (!effect->enabled) {
+                effect->enabled = 1;
+            }
+        }
+    }
+}
+
+u32 func_ov167_021a68fc(BtlServerFlow *flow) {
+    flow->unk778++;
+    if (flow->unk778 == 0) {
+        flow->unk778 = 1;
+    }
+    return flow->unk778;
+}
+
+BOOL func_ov167_021a6914(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, BattleMon *target,
+                         u8 arg4) {
+    u32 stat;
+    s32 change;
+    BOOL result;
+    u32 count;
+    u32 i;
+    u32 serial;
+    BOOL changed;
+    u8 attackerId;
+
+    result = FALSE;
+    attackerId = GetMonID(attacker);
+    serial = func_ov167_021a68fc(flow);
+    count = PML_MoveGetStatChangeStat(param->move);
+    for (i = 0; i < count; i++) {
+        changed = FALSE;
+        ServerEvent_GetMoveStatChangeValue(flow, param->move, i, attacker, target, &stat, &change);
+        if (stat != 0) {
+            if (stat != 0xa) {
+                changed = func_ov167_021a6ab8(flow, attackerId, target, stat, change, attackerId, changed, serial, arg4,
+                                              TRUE);
+            } else {
+                u8 s;
+                for (s = 1; s < 6; s++) {
+                    if (func_ov167_021a6ab8(flow, attackerId, target, s, change, attackerId, 0, serial, arg4, TRUE)) {
+                        changed = TRUE;
+                    }
+                }
+            }
+            if (changed) {
+                u32 state = PushState(&flow->actionState, 0x2047);
+                func_ov167_021ab3c0(flow, target, param->move, stat, change);
+                PopState(&flow->actionState, state, 0x2049);
+                result = TRUE;
+            }
+        }
+    }
+    return result;
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
