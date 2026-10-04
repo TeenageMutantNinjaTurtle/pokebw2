@@ -55,7 +55,6 @@ static void *func_0204fd58(u32 size);
 static void *func_0204fd80(u32 size);
 static void *func_0204fda8(u32 size);
 static void *func_0204fdd0(u32 size);
-static void func_0204ff04(ParticleSystem *system);
 static void func_0204ff40(TCB *tcb, void *data);
 static const void *func_02050254(SPLEmitter *emitter, int type);
 static u32 func_0205036c(u32 size, BOOL is4x4comp);
@@ -313,7 +312,7 @@ void func_0204fef8(ParticleSystem *system, void *resource) {
     func_0204fe04(system, resource, FALSE, NULL);
 }
 
-static void func_0204ff04(ParticleSystem *system) {
+void func_0204ff04(ParticleSystem *system) {
     sParticle->uploading = system;
     if (system->texAllocFunc == NULL) {
         SPLManager_UploadTextures(system->manager);
@@ -336,20 +335,23 @@ static void func_0204ff40(TCB *tcb, void *data) {
 void func_0204ff54(ParticleSystem *system) {
     G3DCameraProjection projection;
     FxLookAt lookAt;
-    VecFx32 scale;
-    MtxFx33 rot;
-    VecFx32 trans;
 
     if (system->camera != NULL) {
+        VecFx32 scale;
+        MtxFx33 rot;
+
         // Draw with the system's camera, from the origin
         GFL_G3DSysMtxGetProjection(&projection);
         GFL_G3DSysMtxGetViewLookAt(&lookAt);
         scale = sUnitScale;
-        VEC_Set(&trans, 0, 0, 0);
-        MAT3_Identity(&rot);
-        NNS_G3dGlbSetBaseTrans(&trans);
-        NNS_G3dGlbSetBaseRot(&rot);
-        NNS_G3dGlbSetBaseScale(&scale);
+        {
+            VecFx32 trans = {0, 0, 0};
+
+            MAT3_Identity(&rot);
+            NNS_G3dGlbSetBaseTrans(&trans);
+            NNS_G3dGlbSetBaseRot(&rot);
+            NNS_G3dGlbSetBaseScale(&scale);
+        }
         GFL_G3DCameraFlush(system->camera);
         GFL_G3DSysMtxViewFlush();
         NNS_G3DWaitFIFO();
@@ -441,7 +443,7 @@ void *func_020500c8(ParticleSystem *system) {
     return system->workStart;
 }
 
-void func_020500cc(ParticleSystem *system, const G3DCameraProjection *projection, u16 fov, const VecFx32 *position,
+void func_020500cc(ParticleSystem *system, G3DCameraProjection *projection, u16 fov, const VecFx32 *position,
                    const VecFx32 *upVector, const VecFx32 *target, u32 heapId) {
     system->unk24.x = 0;
     system->unk24.y = 0;

@@ -76,6 +76,7 @@ void func_0204fe04(ParticleSystem *system, void *resource, BOOL immediate, TCBMa
 // The same, with a resource the system does not own
 void func_0204fee0(ParticleSystem *system, void *resource, BOOL immediate, TCBManager *tcbMgr);
 void func_0204fef8(ParticleSystem *system, void *resource);
+void func_0204ff04(ParticleSystem *system);
 void func_0204ff54(ParticleSystem *system);
 void func_0204fff0(ParticleSystem *system);
 int func_0204fffc(void);
@@ -90,7 +91,7 @@ void func_020500b0(ParticleSystem *system);
 void func_020500bc(ParticleSystem *system, SPLEmitter *emitter);
 void *func_020500c8(ParticleSystem *system);
 // Sets the camera that the particles are drawn with; a NULL projection or vector is the default
-void func_020500cc(ParticleSystem *system, const G3DCameraProjection *projection, u16 fov, const VecFx32 *position,
+void func_020500cc(ParticleSystem *system, G3DCameraProjection *projection, u16 fov, const VecFx32 *position,
                    const VecFx32 *upVector, const VecFx32 *target, u32 heapId);
 void func_02050178(ParticleSystem *system);
 void *func_02050188(void);
