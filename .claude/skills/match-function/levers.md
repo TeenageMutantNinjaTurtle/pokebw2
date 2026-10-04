@@ -71,6 +71,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
   arguments for narrow parameters, so an argument passed without them is for a wider one. (matching.md: "narrows an argument")
 - Extra `u16` narrowings come from `u32 x = (u16)...` passed through a `u16` inline parameter.
 - A sum truncated to `s16` before a comparison was stored in an `s16` local. (matching.md: "truncates to `s16`")
+- A narrowing again after a clamp is `MATH_CLAMP`, a conditional expression. (matching.md: "narrowed again after it is clamped")
 - A local reloaded from its stack slot before each use can be a `u8` flag, not `volatile`.
 - Masks written with `~` give `bic`; an `and` with `0xef` is `x &= (u8)~FLAG`. (matching.md: "Masks written with")
 - MWCC doesn't propagate constants into enum-typed variables: a loop that checks its bound before the first pass, or
@@ -145,6 +146,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
   fails to link. (matching.md: "MWCC's runtime helpers")
 - An arithmetic operation on a literal passes the literal first; a constant in a local keeps its source position.
   (matching.md: "passes the literal first")
+- A literal in a compound assignment (`y += 0.01f`) is passed second. (matching.md: "compound assignment keeps")
 - Float arithmetic on a local holding a constant isn't folded. (matching.md: "doesn't fold float arithmetic")
 - Division and modulo call `_s32_div_f` or `_u32_div_f` by signedness. A `u8`/`u16` promotes to signed `int`.
   (matching.md: "_s32_div_f")

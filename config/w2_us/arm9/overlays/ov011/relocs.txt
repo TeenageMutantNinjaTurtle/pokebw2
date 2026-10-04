@@ -7293,7 +7293,6 @@ from:0x02171b24 kind:thumb_call to:0x021723e8 module:overlay(11)
 from:0x02171b2c kind:load to:0x02187794 module:overlay(11)
 from:0x02171b44 kind:thumb_call to:0x021723a8 module:overlay(11)
 from:0x021722ec kind:thumb_call to:0x021723e8 module:overlay(11)
-from:0x02172304 kind:load to:0x021ac7f4 module:overlay(298)
 from:0x021723e4 kind:load to:0x02083990 module:main
 from:0x021723ec kind:load to:0x020839fc module:main
 from:0x02172424 kind:load to:0x021850d4 module:overlay(11)
