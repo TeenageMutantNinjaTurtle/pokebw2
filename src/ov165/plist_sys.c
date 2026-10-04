@@ -332,13 +332,13 @@ BOOL PokeList_Main(PokeListWork *wk) {
         PokeList_UpdateLevelUp(wk);
         break;
     case 14:
-        func_ov165_021a1944(wk);
+        PokeListDemo_Start(wk);
         break;
     case 15:
-        func_ov165_021a1a04(wk);
+        PokeListDemo_Update(wk);
         break;
     case 16:
-        func_ov165_021a1974(wk);
+        PokeListDemo_End(wk);
         break;
     case 17:
         func_ov164_021999a8((u32)wk->param, 2);
@@ -810,8 +810,8 @@ static void PokeList_InitMode(PokeListWork *wk) {
                 PokeListMessage_SetItemName(wk, wk->message, 1, wk->param->item);
                 PokeList_UpdateArceusForm(wk, wk->pkm, wk->param->item);
                 PokeList_UpdateGenesectForm(wk, wk->pkm, wk->param->item);
-                if (func_ov165_021a2018(wk, wk->pkm) == TRUE) {
-                    func_ov165_021a205c(wk, wk->pkm);
+                if (PokeListDemo_CanBecomeOrigin(wk, wk->pkm) == TRUE) {
+                    PokeListDemo_SetOrigin(wk, wk->pkm);
                     PokeList_ShowMessage(wk, 0x5c, TRUE, PokeList_MessageDoneDemo);
                     wk->demo = 1;
                 } else {
@@ -855,8 +855,8 @@ static void PokeList_InitMode(PokeListWork *wk) {
         PokeListPlate_Redraw(wk, wk->plates[wk->cursorPos]);
         PokeList_UpdateArceusForm(wk, wk->pkm, wk->param->item);
         PokeList_UpdateGenesectForm(wk, wk->pkm, wk->param->item);
-        if (func_ov165_021a207c(wk, wk->pkm) == TRUE) {
-            func_ov165_021a20c0(wk, wk->pkm);
+        if (PokeListDemo_CanBecomeAltered(wk, wk->pkm) == TRUE) {
+            PokeListDemo_SetAltered(wk, wk->pkm);
             PokeList_ShowMessage(wk, msg, TRUE, PokeList_MessageDoneDemo);
             wk->demo = 2;
         } else if (wk->param->mode == 11) {
@@ -977,19 +977,19 @@ static void PokeList_SelectPokemon(PokeListWork *wk) {
                 GFL_SndSEPlay(SEQ_SE_RECOVERY);
             }
             PokeList_SubFromBag(wk, wk->param->item);
-        } else if (wk->param->item == ITEM_GRACIDEA && func_ov165_021a20e0(wk, wk->pkm) == TRUE) {
-            func_ov165_021a2178(wk, wk->pkm);
+        } else if (wk->param->item == ITEM_GRACIDEA && PokeListDemo_CanBecomeSky(wk, wk->pkm) == TRUE) {
+            PokeListDemo_SetSky(wk, wk->pkm);
             wk->param->result = 10;
             wk->state = 14;
             wk->demo = 3;
-        } else if (wk->param->item == ITEM_REVEAL_GLASS && func_ov165_021a2384(wk, wk->pkm) == TRUE &&
+        } else if (wk->param->item == ITEM_REVEAL_GLASS && PokeListDemo_CanBecomeTherian(wk, wk->pkm) == TRUE &&
                    isOneShotDRObtained(wk->param->trainerCard, 6, wk->param->playerInfo) == TRUE) {
-            func_ov165_021a23b4(wk, wk->pkm);
+            PokeListDemo_ToggleTherian(wk, wk->pkm);
             wk->param->result = 10;
             wk->state = 14;
             wk->demo = 6;
         } else if (wk->param->item == ITEM_DNA_SPLICERS_FUSE) {
-            u32 result = func_ov165_021a2198(wk, wk->pkm);
+            u32 result = PokeListDemo_CheckFuse(wk, wk->pkm);
 
             if (result == 2 || result == 4) {
                 PokeList_ShowItemUseless(wk);
@@ -1007,7 +1007,7 @@ static void PokeList_SelectPokemon(PokeListWork *wk) {
                 func_ov165_0219bb68(wk);
             }
         } else if (wk->param->item == ITEM_DNA_SPLICERS_SEPARATE) {
-            u32 result = func_ov165_021a21dc(wk, wk->pkm);
+            u32 result = PokeListDemo_CheckSeparate(wk, wk->pkm);
 
             if (result == 5) {
                 PokeList_ShowItemMessageSelect(wk, 2);
@@ -1051,8 +1051,8 @@ static void PokeList_SelectPokemon(PokeListWork *wk) {
                 PokeListMessage_SetItemName(wk, wk->message, 1, wk->param->item);
                 PokeList_UpdateArceusForm(wk, wk->pkm, wk->param->item);
                 PokeList_UpdateGenesectForm(wk, wk->pkm, wk->param->item);
-                if (func_ov165_021a2018(wk, wk->pkm) == TRUE) {
-                    func_ov165_021a205c(wk, wk->pkm);
+                if (PokeListDemo_CanBecomeOrigin(wk, wk->pkm) == TRUE) {
+                    PokeListDemo_SetOrigin(wk, wk->pkm);
                     PokeList_ShowMessage(wk, 0x5c, TRUE, PokeList_MessageDoneDemo);
                     wk->demo = 1;
                 } else {
@@ -2232,8 +2232,8 @@ static void PokeList_DoMenuItem(PokeListWork *wk) {
             PokeListMessage_CreateWordSet(wk, wk->message);
             PokeListMessage_SetPkmName(wk, wk->message, 0, wk->pkm);
             PokeListMessage_SetItemName(wk, wk->message, 1, item);
-            if (func_ov165_021a207c(wk, wk->pkm) == TRUE) {
-                func_ov165_021a20c0(wk, wk->pkm);
+            if (PokeListDemo_CanBecomeAltered(wk, wk->pkm) == TRUE) {
+                PokeListDemo_SetAltered(wk, wk->pkm);
                 PokeList_ShowMessage(wk, 0x3f, TRUE, PokeList_MessageDoneDemo);
                 wk->demo = 2;
             } else {
@@ -2770,19 +2770,19 @@ static void PokeList_AnswerSwapItem(PokeListWork *wk, u32 item) {
             PokeListPlate_Redraw(wk, wk->plates[wk->cursorPos]);
             PokeList_UpdateArceusForm(wk, wk->pkm, wk->param->item);
             PokeList_UpdateGenesectForm(wk, wk->pkm, wk->param->item);
-            griseousForm = func_ov165_021a2018(wk, wk->pkm);
-            plateForm = func_ov165_021a207c(wk, wk->pkm);
+            griseousForm = PokeListDemo_CanBecomeOrigin(wk, wk->pkm);
+            plateForm = PokeListDemo_CanBecomeAltered(wk, wk->pkm);
             PokeListMessage_CreateWordSet(wk, wk->message);
             PokeListMessage_SetItemName(wk, wk->message, 1, heldItem);
             PokeListMessage_SetItemName(wk, wk->message, 2, wk->param->item);
             if (wk->param->mode == 10) {
                 wk->param->mode = 0;
                 if (griseousForm == TRUE) {
-                    func_ov165_021a205c(wk, wk->pkm);
+                    PokeListDemo_SetOrigin(wk, wk->pkm);
                     PokeList_ShowMessage(wk, 0x41, TRUE, PokeList_MessageDoneDemo);
                     wk->demo = 1;
                 } else if (plateForm == TRUE) {
-                    func_ov165_021a20c0(wk, wk->pkm);
+                    PokeListDemo_SetAltered(wk, wk->pkm);
                     PokeList_ShowMessage(wk, 0x41, TRUE, PokeList_MessageDoneDemo);
                     wk->demo = 2;
                 } else {
@@ -2791,11 +2791,11 @@ static void PokeList_AnswerSwapItem(PokeListWork *wk, u32 item) {
             } else {
                 wk->param->result = 10;
                 if (griseousForm == TRUE) {
-                    func_ov165_021a205c(wk, wk->pkm);
+                    PokeListDemo_SetOrigin(wk, wk->pkm);
                     PokeList_ShowMessage(wk, 0x41, TRUE, PokeList_MessageDoneDemo);
                     wk->demo = 1;
                 } else if (plateForm == TRUE) {
-                    func_ov165_021a20c0(wk, wk->pkm);
+                    PokeListDemo_SetAltered(wk, wk->pkm);
                     PokeList_ShowMessage(wk, 0x41, TRUE, PokeList_MessageDoneDemo);
                     wk->demo = 2;
                 } else {

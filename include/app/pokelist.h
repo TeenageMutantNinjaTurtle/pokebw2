@@ -31,11 +31,12 @@ typedef struct {
     BagSave *bag;
     void *unk08;
     TrainerDataSave *trainerData;
-    void *unk10;
+    // The Pokémon fused with Kyurem (getReshZekBlkAddress)
+    void *reshZek;
     Regulation *regulation;
     void *unk18;
     PokeDexSave *pokedex;
-    void *shortcut;
+    ShortcutSave *shortcut;
     TrainerCardSave *trainerCard;
     PlayerInfo *playerInfo;
     PlayerActionPossibilities action;
@@ -278,7 +279,7 @@ void PokeListMessage_SetMoveName(PokeListWork *wk, PokeListMessage *msg, u32 ind
 void PokeListMessage_SetStatName(PokeListWork *wk, PokeListMessage *msg, u32 index, u32 stat);
 void PokeListMessage_SetNumber(PokeListWork *wk, PokeListMessage *msg, u32 index, u16 number, u8 digits);
 void PokeListMessage_SetString(PokeListWork *wk, PokeListMessage *msg, u32 index, const StrBuf *str, u32 a4);
-void PokeListMessage_LoadFrame(PokeListWork *wk);
+void PokeListMessage_LoadFrame(PokeListWork *wk, PokeListMessage *msg);
 void PokeListMessage_ShowWaitIcon(PokeListWork *wk, PokeListMessage *msg);
 void PokeListMessage_DrawKeyCursor(PokeListWork *wk, PokeListMessage *msg);
 
@@ -317,19 +318,24 @@ void PokeListBattle_Update(PokeListWork *wk);
 void PokeListBattle_ShowMessage(PokeListWork *wk);
 
 // plist_demo.c
-void func_ov165_021a1944(PokeListWork *wk);
-void func_ov165_021a1974(PokeListWork *wk);
-void func_ov165_021a1a04(PokeListWork *wk);
-BOOL func_ov165_021a2018(PokeListWork *wk, PartyPkm *pkm);
-void func_ov165_021a205c(PokeListWork *wk, PartyPkm *pkm);
-BOOL func_ov165_021a207c(PokeListWork *wk, PartyPkm *pkm);
-void func_ov165_021a20c0(PokeListWork *wk, PartyPkm *pkm);
-BOOL func_ov165_021a20e0(PokeListWork *wk, PartyPkm *pkm);
-void func_ov165_021a2178(PokeListWork *wk, PartyPkm *pkm);
-u32 func_ov165_021a2198(PokeListWork *wk, PartyPkm *pkm);
-u32 func_ov165_021a21dc(PokeListWork *wk, PartyPkm *pkm);
-BOOL func_ov165_021a2384(PokeListWork *wk, PartyPkm *pkm);
-void func_ov165_021a23b4(PokeListWork *wk, PartyPkm *pkm);
+// The form change shown, wk->demo: 1 Giratina's Origin Forme, 2 its Altered Forme, 3 Shaymin's Sky Forme, 4 Kyurem
+// fusing, 5 Kyurem separating, 6 the Therian or Incarnate Forme of Tornadus, Thundurus or Landorus
+void PokeListDemo_Start(PokeListWork *wk);
+void PokeListDemo_End(PokeListWork *wk);
+void PokeListDemo_Update(PokeListWork *wk);
+BOOL PokeListDemo_CanBecomeOrigin(PokeListWork *wk, PartyPkm *pkm);
+void PokeListDemo_SetOrigin(PokeListWork *wk, PartyPkm *pkm);
+BOOL PokeListDemo_CanBecomeAltered(PokeListWork *wk, PartyPkm *pkm);
+void PokeListDemo_SetAltered(PokeListWork *wk, PartyPkm *pkm);
+BOOL PokeListDemo_CanBecomeSky(PokeListWork *wk, PartyPkm *pkm);
+void PokeListDemo_SetSky(PokeListWork *wk, PartyPkm *pkm);
+// 0 if the DNA Splicers can fuse the Pokémon, 2 if it isn't Kyurem, 3 if it has fainted and 4 if it is fused
+u32 PokeListDemo_CheckFuse(PokeListWork *wk, PartyPkm *pkm);
+// 1 if the DNA Splicers can separate the Pokémon, 2 if it isn't Kyurem, 4 if it isn't fused and 5 if the party is
+// full
+u32 PokeListDemo_CheckSeparate(PokeListWork *wk, PartyPkm *pkm);
+BOOL PokeListDemo_CanBecomeTherian(PokeListWork *wk, PartyPkm *pkm);
+void PokeListDemo_ToggleTherian(PokeListWork *wk, PartyPkm *pkm);
 
 // status_rcv.c
 BOOL func_ov165_021a23e8(PartyPkm *pkm, u16 item, u16 pos, HeapID heapId);

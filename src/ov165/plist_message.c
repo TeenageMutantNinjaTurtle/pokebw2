@@ -259,7 +259,7 @@ static void PokeListMessage_Clear(PokeListWork *wk, PokeListMessage *msg) {
     BmpWin_Transfer(msg->window);
 }
 
-void PokeListMessage_LoadFrame(PokeListWork *wk) {
+void PokeListMessage_LoadFrame(PokeListWork *wk, PokeListMessage *msg) {
     LoadSysMsgBox(0, 1, 12, 0, wk->heapId);
 }
 
