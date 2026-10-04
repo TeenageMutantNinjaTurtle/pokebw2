@@ -1,6 +1,7 @@
 #include "types.h"
 #include "field/field_script.h"
 #include "gfl/std.h"
+#include "system/game_event.h"
 
 void FieldScriptSubEvent_ResetAll(void) {
     sys_memset32(0, &g_ActiveFieldScriptSubEvents, sizeof(g_ActiveFieldScriptSubEvents));
@@ -30,4 +31,37 @@ BOOL FieldScriptSubEvent_IsRegisteredCore(int id) {
         return TRUE;
     }
     return FALSE;
+}
+
+GameEventReturnCode EventFinishScriptSubEvents_Callback(GameEvent *event, u32 *state, void *data) {
+    FinishScriptSubEventsWork *work = data;
+    FieldScriptSubEventFinishFunc finish;
+
+    do {
+        finish = FIELD_SCRIPT_SUB_EVENT_FINISH_FUNCS[work->index];
+        if (finish == NULL) {
+            return GAMEEVENT_DONE;
+        }
+        if (FieldScriptSubEvent_IsRegisteredCore(work->index) && !finish(work, &work->state)) {
+            return GAMEEVENT_CONTINUE;
+        }
+        work->index++;
+        work->state = 0;
+    } while (work->index < work->count);
+    return GAMEEVENT_DONE;
+}
+
+GameEvent *EventFinishScriptSubEvents_Create(FieldScriptEnv *env) {
+    ScriptWork *scriptWork = FieldScriptEnv_GetScriptWork(env);
+    GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
+    GameEvent *event = GameEvent_Create(gsys, NULL, EventFinishScriptSubEvents_Callback, sizeof(FinishScriptSubEventsWork));
+    FinishScriptSubEventsWork *work = GameEvent_GetData(event);
+
+    work->gsys = gsys;
+    work->env = env;
+    work->scriptWork = scriptWork;
+    work->index = 0;
+    work->state = 0;
+    work->count = NELEMS(FIELD_SCRIPT_SUB_EVENT_FINISH_FUNCS);
+    return event;
 }

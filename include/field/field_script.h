@@ -5,6 +5,7 @@
 #include "gfl/heap.h"
 #include "gfl/str.h"
 #include "struct_decls.h"
+#include "system/game_event.h"
 
 // Fields accessed by the field script work helpers; the remaining storage is not yet identified.
 struct ScriptWork {
@@ -337,6 +338,22 @@ BOOL ScriptNative_LastKeyWait(VM *vm, void *env);
 BOOL s0032_LastKeyWait(VM *vm, FieldScriptEnv *env);
 BOOL PauseEventMModels(VM *vm, FieldScriptEnv *env);
 void EnableAllActorsMovementScr(FieldScriptEnv *env);
+// The work of the event that finishes the script's sub events, one by one
+typedef struct {
+    GameSystem *gsys;
+    FieldScriptEnv *env;
+    ScriptWork *scriptWork;
+    u32 state;
+    s32 index;
+    s32 count;
+} FinishScriptSubEventsWork;
+
+// Returns TRUE once the sub event is finished
+typedef BOOL (*FieldScriptSubEventFinishFunc)(FinishScriptSubEventsWork *work, u32 *state);
+
+extern const FieldScriptSubEventFinishFunc FIELD_SCRIPT_SUB_EVENT_FINISH_FUNCS[15];
+
+GameEventReturnCode EventFinishScriptSubEvents_Callback(GameEvent *event, u32 *state, void *data);
 GameEvent *EventFinishScriptSubEvents_Create(FieldScriptEnv *env);
 BOOL s002E_ActorsPauseAll(VM *vm, FieldScriptEnv *env);
 BOOL s002F_ActorsUnpauseAll(VM *vm, FieldScriptEnv *env);
