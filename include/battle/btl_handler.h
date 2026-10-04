@@ -179,7 +179,8 @@ struct BtlServerFlow {
     u16 unk1F78;
     u8 unk1F7A[2];
     u32 unk1F7C;
-    u8 unk1F80[0xc];
+    // How often the player's mons and their opponents hit each other for no effect, super or not very effectively
+    u16 unk1F80[6];
     u8 unk1F8C[0x60];
     u8 unk1FEC[4];
     u8 unk1FF0[0x144];
@@ -617,7 +618,7 @@ BOOL BattleHandler_AbilityChange(BtlServerFlow *handler, BattleHandlerAbilityCha
 u8 func_ov167_021ad1f4(void *state, u8 monIndex);
 BOOL func_ov167_021ad204(u16 species);
 u8 HandlerGetAlivePartyCount(BtlServerFlow *handler, u16 code, u8 *monIds);
-u8 func_ov167_021ab840(void *flow, u32 monId);
+u8 func_ov167_021ab840(BtlServerFlow *flow, u8 monId);
 u8 *func_ov167_021abc60(void *flow, u32 value);
 u8 func_ov167_021add78(void *state, u8 monIndex);
 u8 func_ov167_021ae0fc(void *state, u8 monIndex);
