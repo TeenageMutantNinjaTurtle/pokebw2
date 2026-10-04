@@ -29,16 +29,17 @@ scripts are built from source, see [Scripts](docs/scripts.md).
 
 ## Setup
 
-1. Install [Rust](https://rustup.rs) for `cargo`, and clang and LLVM, whose `clang` and `llvm-objcopy` assemble the
-   scripts and must be on the `PATH`.
+1. Use Linux (or WSL on Windows), with Python 3.11 or later, ninja, and clang and LLVM, whose `clang` and
+   `llvm-objcopy` assemble the scripts and must be on the `PATH`. macOS needs Wine for the Metrowerks tools
+   (`configure.py --wine wine`).
 
 2. Place your own dumps at `orig/baserom_b2_us.nds` and/or `orig/baserom_w2_us.nds`. They must match the SHA1s above.
    They are not included and will not be provided. `tools/scripts/verify_dsi_rom.py` checks a dump against the
    digests in its own header.
 
-3. Configure and build. On first run, `configure.py` downloads [wibo](https://github.com/decompals/wibo), objdiff and
-   the Metrowerks CodeWarrior tools, and builds dsd with DSi hybrid ROM support from pinned commits of these forks'
-   `dsi-hybrid` branches (cloned into `tools/src/`) until the changes are upstreamed:
+3. Configure and build. On first run, `configure.py` downloads [wibo](https://github.com/decompals/wibo), objdiff, the
+   Metrowerks CodeWarrior tools, and dsd with DSi hybrid ROM support. Until those changes are upstreamed, dsd is a
+   release of these forks' `dsi-hybrid` branches:
    - [`ds-rom`](https://github.com/fuddlesworth/ds-rom/tree/dsi-hybrid): DSi header, digests, modcrypt, TWL autoloads
      and DSi banners.
    - [`ds-decomp`](https://github.com/fuddlesworth/ds-decomp/tree/dsi-hybrid): TWL entrypoint, DS Protect and Thumb
@@ -50,10 +51,10 @@ scripts are built from source, see [Scripts](docs/scripts.md).
    ```
 
    `ninja` extracts each base ROM, delinks the code, links it with `mwldarm`, rebuilds the ROM and checks its SHA1.
-   `configure.py` builds every version that has a base ROM, or the versions given as arguments. It rebuilds dsd when
-   the pinned commits (`DSD_REPOS`) change. To work on dsd itself, build it from your own clones of both forks, side
-   by side since `ds-decomp`'s `Cargo.toml` patches in `../ds-rom/lib`, and copy it to `tools/dsd`, or pass `--dsd`;
-   a `tools/dsd` without `tools/dsd.rev` is never replaced.
+   `configure.py` builds every version that has a base ROM, or the versions given as arguments. It downloads dsd
+   again when `DSD_VERSION` changes, and `--dsd-from-source` builds that release with [cargo](https://rustup.rs)
+   instead, as on platforms without a release binary. To work on dsd itself, build it from your own clone of the
+   fork and copy it to `tools/dsd`, or pass `--dsd`; a `tools/dsd` without `tools/dsd.rev` is never replaced.
 
 4. Optionally, `python3 configure.py --bugfix` builds the ROMs with the game's bugs fixed, those marked with `BUGFIX`
    in the source. These ROMs don't match, so the build skips the checks. Only files marked `complete` are built from
