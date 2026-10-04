@@ -3983,6 +3983,179 @@ u32 AddConditionCheckFailOverwrite(BtlServerFlow *flow, BattleMon *mon, s32 cond
     return 0;
 }
 
+void ServerControl_AddCondition(BtlServerFlow *flow, BattleMon *target, BattleMon *attacker, u32 condition,
+                                BattleCondition value, BOOL showMessage, BOOL skipItemReaction,
+                                BattleHandlerString *string) {
+    u32 state;
+
+    ServerDisplay_AddCondition(flow, target, condition, value);
+    switch (condition) {
+    case 5:
+        ServerDisplay_AddEffectAtPosition(flow, target, 0x257);
+        break;
+    case 4:
+        ServerDisplay_AddEffectAtPosition(flow, target, 0x258);
+        break;
+    case 1:
+        ServerDisplay_AddEffectAtPosition(flow, target, 0x25a);
+        break;
+    case 3:
+        ServerDisplay_AddEffectAtPosition(flow, target, 0x259);
+        break;
+    case 2:
+        ServerDisplay_AddEffectAtPosition(flow, target, 0x256);
+        break;
+    case 6:
+        ServerDisplay_AddEffectAtPosition(flow, target, 0x25b);
+        break;
+    case 7:
+        ServerDisplay_AddEffectAtPosition(flow, target, 0x25c);
+        break;
+    }
+    if (showMessage) {
+        func_ov169_0689c4ec(condition, value, target, &flow->message);
+        BattleHandler_SetString(flow, &flow->message);
+        BattleHandler_StrClear(&flow->message);
+    } else if (string != NULL) {
+        BattleHandler_SetString(flow, string);
+    }
+    if (condition == 3 && GetBattleMonSpecies(target) == 0x1ec && GetBattleMonStat(target, 0x13) == 1) {
+        AbilityEvent_RemoveItem(target);
+        ChangeForm(target, 0);
+        func_ov167_021b1434(flow->queue, 0x4f, GetMonID(target), 0);
+        AbilityEvent_AddItem(target);
+        ServerDisplay_SkyDropTargetAppear(flow, target, 0xde);
+    }
+    state = PushState(&flow->actionState, 0x1f10);
+    if (IsBasicStatus(condition)) {
+        ServerEvent_ConditionConfirmed(flow, target, attacker, condition, value);
+    } else if (condition == 0x10) {
+        ServerEvent_GastroAcidConfirmed(flow, target);
+        if (GetBattleMonStat(target, 0x11) == 0x7f) {
+            ServerControl_UnnerveAction(flow, target);
+        }
+    } else {
+        ServerEvent_MoveStatusConfirmed(flow, target, attacker, condition);
+    }
+    PopState(&flow->actionState, state, 0x1f1f);
+    if (!skipItemReaction) {
+        ServerControl_CheckItemReaction(flow, target, 3);
+    }
+}
+
+u32 ServerEvent_GetWeather(BtlServerFlow *flow) {
+    u32 weather;
+    BOOL suppressed;
+
+    BattleEventVar_Push(0x1f33);
+    weather = 0;
+    BattleEventVar_SetRewriteOnceValue(0x41, 0);
+    BattleEvent_CallHandlers(flow, 0x7a);
+    suppressed = BattleEventVar_GetValue(0x41);
+    BattleEventVar_Pop(0x1f37);
+    if (!suppressed) {
+        weather = GetFieldWeather();
+    }
+    return weather;
+}
+
+fx32 ServerEvent_GetWeightRatio(BtlServerFlow *flow, BattleMon *mon) {
+    fx32 ratio;
+    BattleEventVar_Push(0x1f4d);
+    BattleEventVar_SetConstValue(2, GetMonID(mon));
+    BattleEventVar_SetMulValue(0x35, 0x1000, 0x19a, 0x20000);
+    BattleEvent_CallHandlers(flow, 0x7b);
+    ratio = BattleEventVar_GetValue(0x35);
+    BattleEventVar_Pop(0x1f52);
+    return ratio;
+}
+
+BOOL ServerEvent_MoveConditionCheckFail(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, u32 condition) {
+    BOOL failed;
+    BattleEventVar_Push(0x1f65);
+    BattleEventVar_SetConstValue(3, attacker != NULL ? GetMonID(attacker) : 0x1f);
+    BattleEventVar_SetConstValue(4, GetMonID(target));
+    BattleEventVar_SetConstValue(0x1d, condition);
+    BattleEventVar_SetRewriteOnceValue(0x41, 0);
+    BattleEvent_CallHandlers(flow, 0x65);
+    failed = BattleEventVar_GetValue(0x41);
+    BattleEventVar_Pop(0x1f6c);
+    return failed;
+}
+
+void ServerEvent_AddConditionFailed(BtlServerFlow *flow, BattleMon *target, BattleMon *attacker, u32 condition) {
+    BattleEventVar_Push(0x1f7a);
+    BattleEventVar_SetValue(4, GetMonID(target));
+    BattleEventVar_SetValue(3, GetMonID(attacker));
+    BattleEventVar_SetValue(0x1d, condition);
+    BattleEvent_CallHandlers(flow, 0x67);
+    BattleEventVar_Pop(0x1f7f);
+}
+
+void ServerEvent_ConditionConfirmed(BtlServerFlow *flow, BattleMon *target, BattleMon *attacker, u32 condition,
+                                    BattleCondition value) {
+    BattleEventVar_Push(0x1f8e);
+    BattleEventVar_SetConstValue(4, GetMonID(target));
+    BattleEventVar_SetConstValue(3, (u8)(attacker != NULL ? GetMonID(attacker) : 0x1f));
+    BattleEventVar_SetConstValue(0x1d, condition);
+    BattleEventVar_SetConstValue(0x1e, value.raw);
+    BattleEvent_CallHandlers(flow, 0x68);
+    BattleEventVar_Pop(0x1f97);
+}
+
+void ServerEvent_MoveStatusConfirmed(BtlServerFlow *flow, BattleMon *target, BattleMon *attacker, u32 condition) {
+    BattleEventVar_Push(0x1fa5);
+    BattleEventVar_SetConstValue(4, GetMonID(target));
+    BattleEventVar_SetConstValue(3, (u8)(attacker != NULL ? GetMonID(attacker) : 0x1f));
+    BattleEventVar_SetConstValue(0x1d, condition);
+    BattleEvent_CallHandlers(flow, 0x69);
+    BattleEventVar_Pop(0x1fad);
+}
+
+void ServerEvent_GastroAcidConfirmed(BtlServerFlow *flow, BattleMon *mon) {
+    BattleEventVar_Push(0x1fb9);
+    BattleEventVar_SetConstValue(2, GetMonID(mon));
+    BattleEvent_ForceCallHandlers(flow, 0x6a);
+    BattleEventVar_Pop(0x1fbc);
+}
+
+void ServerEvent_DamageAddEffect(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, BattleMon *target) {
+    if (!IsFainted(target) && ServerEvent_RollStatDropEffectChance(flow, param, attacker, target)) {
+        func_ov167_021a6914(flow, param, attacker, target, 0);
+    }
+}
+
+BOOL ServerEvent_RollStatDropEffectChance(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker,
+                                          BattleMon *target) {
+    BOOL hit;
+    u8 failed;
+    u8 chance = PML_MoveGetParam(param->move, 0x12);
+
+    BattleEventVar_Push(0x1fde);
+    BattleEventVar_SetConstValue(3, GetMonID(attacker));
+    BattleEventVar_SetConstValue(4, GetMonID(target));
+    BattleEventVar_SetConstValue(0x12, param->move);
+    BattleEventVar_SetRewriteOnceValue(0x41, 0);
+    hit = FALSE;
+    BattleEventVar_SetValue(0x26, chance);
+    BattleEvent_CallHandlers(flow, 0x51);
+    failed = BattleEventVar_GetValue(0x41);
+    chance = BattleEventVar_GetValue(0x26);
+    BattleEventVar_Pop(0x1fe8);
+    if (!failed) {
+        if (BattleRandom(100) < chance) {
+            hit = TRUE;
+        }
+        if (hit) {
+            return TRUE;
+        }
+        if (ReturnZero(flow->mainModule, 0)) {
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
