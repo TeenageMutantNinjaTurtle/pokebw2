@@ -297,18 +297,18 @@ void PokeListMenu_SetButtonActive(void *button, BOOL active);
 void PokeListMenu_SetButtonPressed(void *button, BOOL pressed);
 
 // plist_item.c
-BOOL func_ov165_021a01f8(PokeListWork *wk, u16 item);
-BOOL func_ov165_021a0230(PokeListWork *wk, u16 item);
-s32 func_ov165_021a024c(PokeListWork *wk);
-u32 func_ov165_021a02a4(PokeListWork *wk, u16 item);
-void func_ov165_021a02c8(PokeListWork *wk, PartyPkm *pkm, u16 item);
-void func_ov165_021a0304(PokeListWork *wk, PartyPkm *pkm, u16 item);
-void func_ov165_021a038c(PokeListWork *wk);
-void func_ov165_021a039c(PokeListWork *wk);
-void func_ov165_021a03ac(PokeListWork *wk, u32 a1);
-u32 func_ov165_021a03bc(PokeListWork *wk, u32 a1);
-void func_ov165_021a0730(PokeListWork *wk);
-void func_ov165_021a073c(PokeListWork *wk);
+BOOL PokeList_IsItemForMove(PokeListWork *wk, u16 item);
+BOOL PokeList_IsItemForParty(PokeListWork *wk, u16 item);
+s32 PokeList_FindItemTarget(PokeListWork *wk);
+u32 PokeList_GetItemMenuMessage(PokeListWork *wk, u16 item);
+void PokeList_UpdateArceusForm(PokeListWork *wk, PartyPkm *pkm, u16 item);
+void PokeList_UpdateGenesectForm(PokeListWork *wk, PartyPkm *pkm, u16 item);
+void PokeList_ShowItemUselessExit(PokeListWork *wk);
+void PokeList_ShowItemUseless(PokeListWork *wk);
+void PokeList_ShowItemMessageSelect(PokeListWork *wk, u32 offset);
+u32 PokeList_ShowItemResult(PokeListWork *wk, u32 move);
+void PokeList_LearnMessageDone(PokeListWork *wk);
+void PokeList_UpdateLevelUp(PokeListWork *wk);
 
 // plist_battle.c
 void func_ov165_021a0d38(PokeListWork *wk);

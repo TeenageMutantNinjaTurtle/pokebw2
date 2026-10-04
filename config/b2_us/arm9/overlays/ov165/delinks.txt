@@ -28,3 +28,8 @@ src/ov165/plist_menu.c:
     .text       start:0x0219fae8 end:0x0219fef0
     .rodata     start:0x021a4bf0 end:0x021a4c5c
     .data       start:0x021a4d0c end:0x021a4d1c
+
+src/ov165/plist_item.c:
+    complete
+    .text       start:0x0219fef0 end:0x021a0d38
+    .rodata     start:0x021a4c5c end:0x021a4c68

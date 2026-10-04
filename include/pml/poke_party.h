@@ -115,6 +115,9 @@ void PokeParty_SwapPkms(PokeParty *party, u32 indexA, u32 indexB, HeapID heapId)
 void PokeParty_RemovePkm(PokeParty *party, u32 index);
 void PokeParty_RecoverAll(PokeParty *party);
 void PokeParty_ChangeForme(PartyPkm *pkm, u32 forme);
+// The form of Arceus for a plate, and of Genesect for a drive
+u16 _getTypeForPlate(u16 item);
+u32 func_0201ef8c(u16 item);
 // Teaches a move, and returns 0xffff when all four slots are full
 u16 PokeParty_LearnMove(PartyPkm *pkm, u16 move);
 // Replaces the last move
@@ -129,6 +132,8 @@ BOOL doesPkmHaveLevelMoveToLearn(const u16 *moves);
 // The next move that a Pokémon learns at its level, going on from *index: 0 once there are none left, 0xfffe for one
 // it already knows, and the move with 0x8000 set when it has no free slot for it
 u16 func_0201d358(PartyPkm *pkm, u32 *index, HeapID heapId);
+#define LEARN_MOVE_KNOWN 0xfffe
+#define LEARN_MOVE_NO_SLOT 0x8000
 // Allocates a Pokémon that is not in a party. What the 64-bit argument sets is not known yet; 0 is one of the values
 // that PML_CreatePkm treats specially
 PartyPkm *PokeParty_NewTempPkm(u16 species, u16 level, u64 a2, HeapID heapId);

@@ -329,7 +329,7 @@ BOOL PokeList_Main(PokeListWork *wk) {
         }
         break;
     case 13:
-        func_ov165_021a073c(wk);
+        PokeList_UpdateLevelUp(wk);
         break;
     case 14:
         func_ov165_021a1944(wk);
@@ -737,13 +737,13 @@ static void PokeList_InitMode(PokeListWork *wk) {
         wk->nextState = 2;
         break;
     case 5:
-        if (func_ov165_021a0230(wk, wk->param->item) == TRUE) {
-            s32 pos = func_ov165_021a024c(wk);
+        if (PokeList_IsItemForParty(wk, wk->param->item) == TRUE) {
+            s32 pos = PokeList_FindItemTarget(wk);
 
             if (pos != -1) {
                 wk->cursorPos = pos;
                 wk->pkm = PokeParty_GetPkm(wk->param->party, pos);
-                func_ov165_021a03bc(wk, 0);
+                PokeList_ShowItemResult(wk, 0);
                 func_ov165_021a2928(wk->pkm, wk->param->item, 0, wk->param->zoneId, wk->heapId);
                 PokeListPlate_Redraw(wk, wk->plates[wk->cursorPos]);
                 wk->playHealSe = TRUE;
@@ -751,7 +751,7 @@ static void PokeList_InitMode(PokeListWork *wk) {
                 wk->state = 0;
                 PokeList_SubFromBag(wk, wk->param->item);
             } else {
-                func_ov165_021a038c(wk);
+                PokeList_ShowItemUselessExit(wk);
                 wk->nextState = wk->state;
                 wk->state = 0;
             }
@@ -808,8 +808,8 @@ static void PokeList_InitMode(PokeListWork *wk) {
                 PokeListMessage_CreateWordSet(wk, wk->message);
                 PokeListMessage_SetPkmName(wk, wk->message, 0, wk->pkm);
                 PokeListMessage_SetItemName(wk, wk->message, 1, wk->param->item);
-                func_ov165_021a02c8(wk, wk->pkm, wk->param->item);
-                func_ov165_021a0304(wk, wk->pkm, wk->param->item);
+                PokeList_UpdateArceusForm(wk, wk->pkm, wk->param->item);
+                PokeList_UpdateGenesectForm(wk, wk->pkm, wk->param->item);
                 if (func_ov165_021a2018(wk, wk->pkm) == TRUE) {
                     func_ov165_021a205c(wk, wk->pkm);
                     PokeList_ShowMessage(wk, 0x5c, TRUE, PokeList_MessageDoneDemo);
@@ -853,8 +853,8 @@ static void PokeList_InitMode(PokeListWork *wk) {
         }
         PokeList_SetHeldItem(wk, wk->pkm, wk->param->item);
         PokeListPlate_Redraw(wk, wk->plates[wk->cursorPos]);
-        func_ov165_021a02c8(wk, wk->pkm, wk->param->item);
-        func_ov165_021a0304(wk, wk->pkm, wk->param->item);
+        PokeList_UpdateArceusForm(wk, wk->pkm, wk->param->item);
+        PokeList_UpdateGenesectForm(wk, wk->pkm, wk->param->item);
         if (func_ov165_021a207c(wk, wk->pkm) == TRUE) {
             func_ov165_021a20c0(wk, wk->pkm);
             PokeList_ShowMessage(wk, msg, TRUE, PokeList_MessageDoneDemo);
@@ -956,11 +956,11 @@ static void PokeList_SelectPokemon(PokeListWork *wk) {
         PokeList_OpenMenu(wk);
         break;
     case 5:
-        if (func_ov165_021a01f8(wk, wk->param->item) == TRUE) {
+        if (PokeList_IsItemForMove(wk, wk->param->item) == TRUE) {
             func_ov165_0219ceec(wk);
             PokeList_OpenMenu(wk);
         } else if (func_ov165_021a23e8(wk->pkm, wk->param->item, 0, wk->heapId) == TRUE) {
-            u32 result = func_ov165_021a03bc(wk, 0);
+            u32 result = PokeList_ShowItemResult(wk, 0);
             BOOL used = func_ov165_021a2928(wk->pkm, wk->param->item, 0, wk->param->zoneId, wk->heapId);
 
             if (result == 2) {
@@ -992,9 +992,9 @@ static void PokeList_SelectPokemon(PokeListWork *wk) {
             u32 result = func_ov165_021a2198(wk, wk->pkm);
 
             if (result == 2 || result == 4) {
-                func_ov165_021a039c(wk);
+                PokeList_ShowItemUseless(wk);
             } else if (result == 3) {
-                func_ov165_021a03ac(wk, 1);
+                PokeList_ShowItemMessageSelect(wk, 1);
             } else if (result == 0) {
                 func_ov165_0219cdd8(wk, wk->cursorPos);
                 func_ov165_0219ce34(wk, wk->cursorPos);
@@ -1010,9 +1010,9 @@ static void PokeList_SelectPokemon(PokeListWork *wk) {
             u32 result = func_ov165_021a21dc(wk, wk->pkm);
 
             if (result == 5) {
-                func_ov165_021a03ac(wk, 2);
+                PokeList_ShowItemMessageSelect(wk, 2);
             } else if (result == 2 || result == 4) {
-                func_ov165_021a039c(wk);
+                PokeList_ShowItemUseless(wk);
             } else {
                 wk->selectPos = wk->cursorPos;
                 wk->param->result = 10;
@@ -1021,7 +1021,7 @@ static void PokeList_SelectPokemon(PokeListWork *wk) {
                 wk->demoForm = 2;
             }
         } else {
-            func_ov165_021a039c(wk);
+            PokeList_ShowItemUseless(wk);
         }
         break;
     case 16:
@@ -1049,8 +1049,8 @@ static void PokeList_SelectPokemon(PokeListWork *wk) {
                 PokeListMessage_CreateWordSet(wk, wk->message);
                 PokeListMessage_SetPkmName(wk, wk->message, 0, wk->pkm);
                 PokeListMessage_SetItemName(wk, wk->message, 1, wk->param->item);
-                func_ov165_021a02c8(wk, wk->pkm, wk->param->item);
-                func_ov165_021a0304(wk, wk->pkm, wk->param->item);
+                PokeList_UpdateArceusForm(wk, wk->pkm, wk->param->item);
+                PokeList_UpdateGenesectForm(wk, wk->pkm, wk->param->item);
                 if (func_ov165_021a2018(wk, wk->pkm) == TRUE) {
                     func_ov165_021a205c(wk, wk->pkm);
                     PokeList_ShowMessage(wk, 0x5c, TRUE, PokeList_MessageDoneDemo);
@@ -1190,7 +1190,7 @@ static void PokeList_OpenMenu(PokeListWork *wk) {
         PokeListMessage_CreateWordSet(wk, wk->message);
         PokeListMessage_SetPkmName(wk, wk->message, 0, wk->pkm);
         PokeListMessage_Open(wk, wk->message, 2);
-        PokeListMessage_Print(wk, wk->message, func_ov165_021a02a4(wk, wk->param->item));
+        PokeListMessage_Print(wk, wk->message, PokeList_GetItemMenuMessage(wk, wk->param->item));
         PokeListMessage_FreeWordSet(wk, wk->message);
         break;
     case 18:
@@ -1651,8 +1651,8 @@ static void func_ov165_0219c51c(PartyPkm *pkmA, PartyPkm *pkmB) {
 #else
         PokeParty_RecalcStats(pkmA);
 #endif
-        func_ov165_021a02c8(NULL, pkms[i], items[i]);
-        func_ov165_021a0304(NULL, pkms[i], items[i]);
+        PokeList_UpdateArceusForm(NULL, pkms[i], items[i]);
+        PokeList_UpdateGenesectForm(NULL, pkms[i], items[i]);
     }
 }
 
@@ -2217,8 +2217,8 @@ static void PokeList_DoMenuItem(PokeListWork *wk) {
     case 10: {
         u32 item = PokeParty_GetParam(wk->pkm, PKM_PARAM_ITEM, NULL);
 
-        func_ov165_021a02c8(wk, wk->pkm, 0);
-        func_ov165_021a0304(wk, wk->pkm, 0);
+        PokeList_UpdateArceusForm(wk, wk->pkm, 0);
+        PokeList_UpdateGenesectForm(wk, wk->pkm, 0);
         if (item == 0) {
             PokeListMessage_CreateWordSet(wk, wk->message);
             PokeListMessage_SetPkmName(wk, wk->message, 0, wk->pkm);
@@ -2247,8 +2247,8 @@ static void PokeList_DoMenuItem(PokeListWork *wk) {
     case 23: {
         u32 item = PokeParty_GetParam(wk->pkm, PKM_PARAM_ITEM, NULL);
 
-        func_ov165_021a02c8(wk, wk->pkm, 0);
-        func_ov165_021a0304(wk, wk->pkm, 0);
+        PokeList_UpdateArceusForm(wk, wk->pkm, 0);
+        PokeList_UpdateGenesectForm(wk, wk->pkm, 0);
         PokeListPlate_Redraw(wk, wk->plates[wk->cursorPos]);
         if (item == 0) {
             PokeListMessage_CreateWordSet(wk, wk->message);
@@ -2303,13 +2303,13 @@ static void PokeList_DoMenuItem(PokeListWork *wk) {
                 u32 move = PokeParty_GetParam(wk->pkm, PKM_PARAM_MOVE1 + wk->menuItem - 16, NULL);
 
                 GFL_BGSysLoadScr(0);
-                func_ov165_021a03bc(wk, move);
+                PokeList_ShowItemResult(wk, move);
                 func_ov165_021a2928(wk->pkm, wk->param->item, wk->menuItem - 16, wk->param->zoneId, wk->heapId);
                 PokeListPlate_Redraw(wk, wk->plates[wk->cursorPos]);
                 PokeList_SubFromBag(wk, wk->param->item);
                 GFL_SndSEPlay(SEQ_SE_RECOVERY);
             } else {
-                func_ov165_021a039c(wk);
+                PokeList_ShowItemUseless(wk);
             }
         } else {
             u32 hiden = PokeList_GetHidenResult(wk->pkm, wk->menuItem - 16);
@@ -2707,7 +2707,7 @@ static void PokeList_AnswerForgetMove(PokeListWork *wk, u32 item) {
         PokeListMessage_SetPkmName(wk, wk->message, 0, wk->pkm);
         PokeListMessage_SetMoveName(wk, wk->message, 1, wk->param->move);
         if (wk->param->mode == 5 || wk->param->mode == 8) {
-            PokeList_ShowMessage(wk, 0x27, TRUE, func_ov165_021a0730);
+            PokeList_ShowMessage(wk, 0x27, TRUE, PokeList_LearnMessageDone);
         } else {
             PokeList_ShowMessage(wk, 0x27, TRUE, PokeList_MessageDoneExit);
         }
@@ -2728,7 +2728,7 @@ static void PokeList_LearnInSlot(PokeListWork *wk) {
     PokeListMessage_SetPkmName(wk, wk->message, 0, wk->pkm);
     PokeListMessage_SetMoveName(wk, wk->message, 1, wk->param->move);
     if (wk->param->mode == 5 || wk->param->mode == 8) {
-        PokeList_ShowMessage(wk, 0x2a, TRUE, func_ov165_021a0730);
+        PokeList_ShowMessage(wk, 0x2a, TRUE, PokeList_LearnMessageDone);
     } else {
         PokeList_ShowMessage(wk, 0x2a, TRUE, PokeList_MessageDoneExit);
         PokeList_RaiseFriendship(wk, wk->pkm);
@@ -2768,8 +2768,8 @@ static void PokeList_AnswerSwapItem(PokeListWork *wk, u32 item) {
             PokeListMessage_Close(wk, wk->message);
             PokeList_SetHeldItem(wk, wk->pkm, wk->param->item);
             PokeListPlate_Redraw(wk, wk->plates[wk->cursorPos]);
-            func_ov165_021a02c8(wk, wk->pkm, wk->param->item);
-            func_ov165_021a0304(wk, wk->pkm, wk->param->item);
+            PokeList_UpdateArceusForm(wk, wk->pkm, wk->param->item);
+            PokeList_UpdateGenesectForm(wk, wk->pkm, wk->param->item);
             griseousForm = func_ov165_021a2018(wk, wk->pkm);
             plateForm = func_ov165_021a207c(wk, wk->pkm);
             PokeListMessage_CreateWordSet(wk, wk->message);
