@@ -241,6 +241,64 @@ GameEvent *func_ov033_02177d28(GameSystem *gsys) {
     return event;
 }
 
+BOOL func_ov033_02177d78(VM *vm, FieldScriptEnv *env) {
+    u16 mode = ScriptReadAny(vm, env);
+    u16 *result = ScriptReadVar(vm, env);
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    HeapID heapId = FieldScriptEnv_GetHeapID(env);
+    MysteryGiftSave *save = mysteryGiftBlock(GameData_GetSaveControl(gameData), 0, heapId);
+    u32 slot;
+    MysteryGift buffer;
+    MysteryGift *gift = func_ov033_021783f8(save, &slot, &buffer);
+    u8 kind = func_ov033_02178428(save);
+
+    if (kind != sGiftHandlers[kind].kind) {
+        func_0200aa54(save);
+        return FALSE;
+    }
+    switch (mode) {
+    case 0:
+        if (kind != 0) {
+            *result = TRUE;
+        } else {
+            *result = FALSE;
+        }
+        break;
+    case 1:
+        *result = func_ov033_02177ed0(kind, env, gameData, gift);
+        break;
+    case 2:
+        *result = func_ov033_02177ef4(kind, gift, env);
+        break;
+    case 3:
+        *result = func_ov033_02177f28(kind, gift, env);
+        break;
+    case 4:
+        if (func_ov033_02177f5c(kind, env, gameData, gift) == TRUE) {
+            func_ov033_02178420(save, slot);
+            if (func_ov033_02178074(gift, kind) == TRUE) {
+                setOneShotDRObtained(getTrainerCardDataBlkAddress(gameData), 1, GetGameDataPlayerInfo(gameData));
+            }
+            if (func_ov033_021780a4(env, gift, kind) == TRUE) {
+                setOneShotDRObtained(getTrainerCardDataBlkAddress(gameData), 7, GetGameDataPlayerInfo(gameData));
+            }
+        }
+        *result = FALSE;
+        break;
+    case 5:
+        *result = GetActorIDOfMysteryGiftDeliveryMan(GSYS_GetField(FieldScriptEnv_GetGameSystem(env)), gameData);
+        break;
+    case 6:
+        *result = IsMysteryGiftDeliveryManActorAvailable(GSYS_GetField(FieldScriptEnv_GetGameSystem(env)));
+        break;
+    case 7:
+        *result = func_ov033_02177f84(kind, env, gameData, gift);
+        break;
+    }
+    func_0200aa54(save);
+    return FALSE;
+}
+
 BOOL func_ov033_02177ed0(u32 kind, FieldScriptEnv *env, GameData *gameData, MysteryGift *gift) {
     BOOL (*canReceive)(FieldScriptEnv *, GameData *, MysteryGift *) = sGiftHandlers[kind].canReceive;
 
@@ -507,6 +565,21 @@ u32 func_ov033_02178294(WordSet *wordSet, MysteryGift *gift, FieldScriptEnv *env
 u32 func_ov033_021782cc(WordSet *wordSet, MysteryGift *gift, FieldScriptEnv *env) {
     return 10;
 }
+
+u8 func_ov033_021782d0(MysteryGift *gift) {
+    s32 value;
+
+    if (gift->kind != 4) {
+        value = 0x7f;
+    } else {
+        value = gift->value;
+        if (value < 0x33 || value > 0x36) {
+            value = 0x7f;
+        }
+    }
+    return value;
+}
+
 
 BOOL func_ov033_021782f0(FieldScriptEnv *env, GameData *gameData, MysteryGift *gift) {
     return TRUE;

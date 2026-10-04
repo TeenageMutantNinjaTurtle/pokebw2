@@ -2,6 +2,7 @@
 #define POKEBW2_SAVE_MYSTERY_GIFT_H
 
 #include "types.h"
+#include "gfl/heap.h"
 #include "struct_decls.h"
 
 // A mystery gift card, 0xcc bytes
@@ -16,6 +17,9 @@ struct MysteryGift {
     u8 unkB4[0x18];
 };
 
+// Loads the mystery gift save into a new buffer, and frees it. Function name from swan
+MysteryGiftSave *mysteryGiftBlock(SaveControl *save, u32 a1, HeapID heapId);
+void func_0200aa54(MysteryGiftSave *save);
 // Copies the card in the slot into gift
 BOOL func_0200a71c(MysteryGiftSave *save, u32 slot, MysteryGift *gift);
 BOOL func_0200a800(MysteryGiftSave *save, u32 slot);

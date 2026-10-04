@@ -61,6 +61,7 @@ void func_ov033_02177c48(GameData *gameData, HeapID heapId, DreamWorldSave *drea
 u32 func_ov033_02177c8c(GameData *gameData, HeapID heapId, DreamWorldSave *dreamWorld);
 u16 func_ov033_02177cd4(GameData *gameData, HeapID heapId, DreamWorldSave *dreamWorld, u32 position);
 GameEvent *func_ov033_02177d28(GameSystem *gsys);
+BOOL func_ov033_02177d78(VM *vm, FieldScriptEnv *env);
 BOOL func_ov033_02177ed0(u32 kind, FieldScriptEnv *env, GameData *gameData, MysteryGift *gift);
 u32 func_ov033_02177ef4(u32 kind, MysteryGift *gift, FieldScriptEnv *env);
 u32 func_ov033_02177f28(u32 kind, MysteryGift *gift, FieldScriptEnv *env);
