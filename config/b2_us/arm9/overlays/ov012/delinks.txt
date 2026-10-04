@@ -256,6 +256,10 @@ src/ov012/comm_player.c:
     .text       start:0x021613d0 end:0x02161844
     .data       start:0x0216e2e4 end:0x0216e36c
 
+src/ov012/bsubway_comm.c:
+    .text       start:0x02161844 end:0x02161c88
+    .rodata     start:0x0216d8fc end:0x0216d9ac
+
 src/ov012/field_g3d_map.c:
     .text       start:0x021631c8 end:0x02163b38
     .data       start:0x0216e380 end:0x0216e390

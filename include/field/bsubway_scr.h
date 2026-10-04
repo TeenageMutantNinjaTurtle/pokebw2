@@ -50,16 +50,43 @@ struct BSubwayTrainer {
     BSubwayPokemon pokemon[4];
 };
 
+// The commands the multi-battle partners send each other, from GFL net command 0x2c00
+enum {
+    BSUBWAY_COMM_MEMBERS = 0x2c00,
+    BSUBWAY_COMM_TRAINERS,
+    BSUBWAY_COMM_RETIRE,
+    BSUBWAY_COMM_PLAYER_INFO,
+    BSUBWAY_COMM_PLAY_MODE,
+    BSUBWAY_COMM_5,
+    BSUBWAY_COMM_6,
+    BSUBWAY_COMM_7,
+    BSUBWAY_COMM_MAX,
+};
+
+// The size of a command's data, in u16s
+#define BSUBWAY_COMM_BUF_LEN 35
+
+// The beacon of a Battle Subway multi battle
+typedef struct {
+    PlayerInfo playerInfo;
+    u8 mac[6];
+    // 0x3a0b
+    u16 gameId;
+} BSubwayBeacon;
+
 struct BSubwayScrWork {
     // 0x12345678
     u32 magic;
     u32 heapId;
     u8 memberCount;
     u8 playMode;
-    u8 unkA[2];
+    u8 gender;
+    u8 partnerGender;
     u16 unkC_0 : 1;
     u16 unkC_1 : 2;
-    u16 unkC_3 : 2;
+    // Whether the partner retired
+    u16 unkC_3 : 1;
+    u16 unkC_4 : 1;
     u16 unkC_5 : 3;
     u16 unkC_8 : 1;
     u16 unkC_9 : 1;
@@ -68,9 +95,11 @@ struct BSubwayScrWork {
     u16 unkC_13 : 3;
     u16 unkE;
     u16 unk10;
-    u8 unk12[6];
+    // The BSUBWAY_COMM_* command to send
+    u16 sendCommand;
+    u8 unk14[4];
     u16 unk18;
-    u8 unk1A[4];
+    u16 partnerSpecies[2];
     // The party slots and species and items of the members entered
     u8 memberSlots[4];
     u16 memberSpecies[4];
@@ -88,15 +117,22 @@ struct BSubwayScrWork {
     BSubwayTrainer trainers[2];
     BSubwayTrainer unk2C8[3];
     BSubwayTeamConfig teamConfigs[3];
-    u8 unk664[0x4a];
-    u8 unk6AE[0x46];
-    u8 unk6F4[0x28];
+    u8 unk664[4];
+    // The data of the command to send, and of the one received. Some commands write a PlayerInfo or a u32 over it,
+    // which the array's 2-byte alignment and odd length rule out as a union member
+    u16 sendBuf[BSUBWAY_COMM_BUF_LEN];
+    u16 recvBuf[BSUBWAY_COMM_BUF_LEN];
+    BSubwayBeacon beacon;
     void *unk71C;
     u16 *resultVar;
-    u8 unk724;
-    u8 unk725[2];
+    // How many of the commands sent have arrived, counting this machine's own
+    u8 recvCount;
+    // 1 when only this machine's command is awaited
+    u8 recvMode;
+    u8 unk726;
     u8 unk727;
-    u8 unk728[2];
+    // What the partner's command answered
+    u16 recvResult;
     u16 unk72A;
     PlayerInfo partner;
     u8 unk74C[0x58];
@@ -108,16 +144,18 @@ struct BSubwayScrWork {
     u16 unk7EE;
 };
 
-// Overlay 12
-void func_ov012_021618ac(BSubwayScrWork *bsw);
-void func_ov012_021618b8(u8 a0);
-BOOL func_ov012_021618c8(u8 a0);
+// Overlay 12's bsubway_comm.c
 void func_ov012_02161844(BSubwayScrWork *bsw);
 void func_ov012_02161894(BSubwayScrWork *bsw);
-void func_ov012_02161990(BSubwayScrWork *bsw, u16 a1, u16 a2);
+void func_ov012_021618ac(BSubwayScrWork *bsw);
+void func_ov012_021618b8(u8 timing);
+BOOL func_ov012_021618c8(u8 timing);
+// Fills the send buffer for a command, mode being the command's number
+void func_ov012_02161990(BSubwayScrWork *bsw, u16 mode, u16 value);
 BOOL func_ov012_02161a48(BSubwayScrWork *bsw);
-void func_ov012_02161a88(BSubwayScrWork *bsw, u8 a1);
+void func_ov012_02161a88(BSubwayScrWork *bsw, u8 mode);
 BOOL func_ov012_02161a94(BSubwayScrWork *bsw, u16 *var);
+// Overlay 12
 // Makes a party of count Pokémon at the level
 void func_ov012_021621d4(PokeParty *party, const BSubwayPokemon *pkms, u32 level, int count, HeapID heapId);
 // Makes a Pokémon from the file of the Battle Subway's Pokémon arc

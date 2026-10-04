@@ -42,7 +42,7 @@ BSubwayScrWork *func_ov033_0217b478(GameSystem *gsys, u16 a1, u16 a2) {
     bsw->heapId = 4;
     bsw->magic = 0x12345678;
     bsw->gameData = gameData;
-    bsw->unkA[0] = getTrainerGender(playerInfo);
+    bsw->gender = getTrainerGender(playerInfo);
     bsw->unk70 = SaveControl_GetBlockPtr(save, SAVE_BLOCK_BSUBWAY_PLAY);
     bsw->unk74 = SaveControl_GetBlockPtr(save, SAVE_BLOCK_BSUBWAY_SCORE);
     bsw->unk78 = SaveControl_GetBlockPtr(save, SAVE_BLOCK_BSUBWAY_3A);

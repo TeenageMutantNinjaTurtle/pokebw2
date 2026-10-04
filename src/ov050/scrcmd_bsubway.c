@@ -584,8 +584,8 @@ BOOL BSubwayCmd_Tool(VM *vm, FieldScriptEnv *env) {
         *retWk = bsw->memberSlots[param0];
         break;
     case 319:
-        bsw->unk724 = 0;
-        sys_memset(bsw->unk6AE, 0, sizeof(bsw->unk6AE));
+        bsw->recvCount = 0;
+        sys_memset(bsw->recvBuf, 0, sizeof(bsw->recvBuf));
         break;
     case 320:
         ScriptWork_CallEvent(work, func_ov012_02166118(bsw, gsys, param0, param1, 5));
