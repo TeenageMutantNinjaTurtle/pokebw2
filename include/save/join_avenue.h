@@ -100,9 +100,14 @@ u16 func_02039624(const u16 *row);
 // Positions on the grid and directions, from two tables of {u16 x, u16 z, u32 dir}
 void func_02039538(u16 index, u16 *x, u16 *z, u16 *dir);
 void func_02039578(u16 index, u16 *x, u16 *z, u16 *dir);
+// The offset of a shop's entity
+void func_02039560(u16 index, u16 *x, u16 *y);
 u32 func_0203941c(u32 value, u32 a1, u32 a2);
 u32 func_020393e4(JoinAvenueInfo *info, u32 a1, u32 a2);
 u32 func_0203968c(void *table, u32 a1);
+// The shops' tables, from files 1 and 2 of archive 244, and their free
+void *func_020396e8(HeapID heapId);
+void func_02039720(void *shops);
 const u16 *func_02039798(void *shops, JoinAvenuePerson *person);
 const u16 *func_020397b4(void *shops, u32 id);
 u16 func_020397cc(const u16 *row, u32 index);

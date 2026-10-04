@@ -132,4 +132,15 @@ u32 GetWeatherAll(GameSystem *gsys, u16 zoneId);
 void ResetWeather(GameSystem *gsys, s32 zoneId);
 void UpdateWeatherToDefault(GameData *gameData, u16 zoneId);
 
+// Overlay 36: patches of map land data from archive 0x9a, of which Join Avenue's shops are built
+typedef struct LandDataPatch LandDataPatch;
+
+LandDataPatch *ReadLandDataPatchA154Data(u16 fileId, HeapID heapId);
+void FreeLandDataPatch(LandDataPatch *patch);
+// Copies height rows of width cells, from srcX and srcY in the patch to destX and destY in the map
+void func_ov036_021c2d04(LandDataPatch *patch, void *map, u32 srcX, u32 srcY, u32 destX, u32 destY, u32 width,
+                         u32 height);
+// Adds the patch's buildings at x and y, after the count already added, and returns the new count
+u32 LoadLandDataPatchBuildings(LandDataPatch *patch, void *a1, void *a2, u32 count, u32 x, u32 y);
+
 #endif // POKEBW2_FIELD_FIELD_MAP_H

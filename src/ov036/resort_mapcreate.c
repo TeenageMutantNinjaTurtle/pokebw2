@@ -1,30 +1,116 @@
 #include "types.h"
-#include "field/hidden_hollow.h"
+#include "field/event_data.h"
+#include "field/field_map.h"
+#include "field/resort_mapcreate.h"
 #include "field/zone.h"
 #include "gfl/heap.h"
+#include "save/join_avenue.h"
 
-HiddenHollowWork *func_ov036_021c8954(HeapID heapId) {
-    HiddenHollowWork *work;
+ResortMapCreateWork *func_ov036_021c8954(HeapID heapId) {
+    ResortMapCreateWork *work;
 
-    work = GFL_HeapAllocate(heapId, sizeof(HiddenHollowWork), TRUE, "resort_mapcreate.c", 73);
+    work = GFL_HeapAllocate(heapId, sizeof(ResortMapCreateWork), TRUE, "resort_mapcreate.c", 73);
     work->heapId = heapId;
-    work->unk04 = 0xffff;
+    work->zoneId = 0xffff;
     return work;
 }
 
-void func_ov036_021c897c(HiddenHollowWork *work) {
+void func_ov036_021c897c(ResortMapCreateWork *work) {
     GFL_HeapFree(work);
 }
 
-void func_ov036_021c8984(HiddenHollowWork *work, u32 a1, u32 a2, u32 a3) {
-    work->unk04 = a1;
-    work->unk08 = a2;
-    work->unk0c = a3;
+void func_ov036_021c8984(ResortMapCreateWork *work, u16 zoneId, JoinAvenueInfo *info, JoinAvenueOccupants *occupants) {
+    work->zoneId = zoneId;
+    work->info = info;
+    work->occupants = occupants;
 }
 
-u32 func_ov036_021c898c(HiddenHollowWork *work, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6) {
-    if (IsZoneJoinAvenue((u16)work->unk04)) {
-        return func_ov036_021c89cc(work, a1, a2, a3, a4, a5, a6);
+u32 func_ov036_021c898c(ResortMapCreateWork *work, void *map, void *a2, void *a3, u32 count, u32 chunk,
+                        HeapID heapId) {
+    if (IsZoneJoinAvenue(work->zoneId)) {
+        return func_ov036_021c89cc(work, map, a2, a3, count, chunk, heapId);
     }
-    return a4;
+    return count;
+}
+
+u32 func_ov036_021c89cc(ResortMapCreateWork *work, void *map, void *a2, void *a3, u32 count, u32 chunk,
+                        HeapID heapId) {
+    void *shops = func_020396e8(HEAPID_TAIL(work->heapId));
+    void *table = func_020395ac(3, 4, HEAPID_TAIL(work->heapId));
+    s32 i;
+    u16 column;
+    u16 row;
+    u16 rows;
+    u32 rowChunk;
+    JoinAvenuePerson *person;
+    const u16 *shop;
+    u32 x;
+    u32 y;
+    u32 srcY;
+    BOOL addBuildings;
+    LandDataPatch *patch;
+
+    for (i = 0; i < 8; i++) {
+        column = func_020395f8(table, i, 1);
+        row = func_020395f8(table, i, 2);
+        rows = 7;
+        rowChunk = row / 32;
+        if (chunk == rowChunk || chunk == (row + 7) / 32) {
+            person = func_02038860(work->occupants, i);
+            if (!JoinAvenuePerson_IsEmpty(person)) {
+                shop = func_02039798(shops, person);
+                x = column % 32;
+                y = row % 32;
+                srcY = 0;
+                addBuildings = TRUE;
+                patch = ReadLandDataPatchA154Data(func_020397cc(shop, i % 2 == 1 ? 6 : 7), HEAPID_TAIL(heapId));
+                if (chunk == rowChunk) {
+                    if (y + 7 >= 32) {
+                        rows = 32 - y;
+                    }
+                } else {
+                    srcY = 32 - y;
+                    rows = 7 - srcY;
+                    y = 0;
+                    addBuildings = FALSE;
+                }
+                func_ov036_021c2d04(patch, map, 0, srcY, x, y, 6, rows);
+                if (addBuildings) {
+                    count = LoadLandDataPatchBuildings(patch, a2, a3, count, x, y);
+                }
+                FreeLandDataPatch(patch);
+            }
+        }
+    }
+    func_020395e4(table);
+    func_02039720(shops);
+    return count;
+}
+
+void func_ov036_021c8b40(ResortMapCreateWork *work, EventData *eventData) {
+    void *shops = func_020396e8(HEAPID_TAIL(work->heapId));
+    void *table = func_020395ac(3, 4, HEAPID_TAIL(work->heapId));
+    s32 i;
+    JoinAvenuePerson *person;
+    u16 entity;
+    u16 shopId;
+    const u16 *shop;
+    u16 position[2];
+
+    for (i = 0; i < 8; i++) {
+        person = func_02038860(work->occupants, i);
+        entity = func_020395f8(table, i, 3);
+        if (JoinAvenuePerson_IsEmpty(person)) {
+            SetBGEntityLocation(eventData, entity, 0, 0, 0);
+        } else {
+            shopId = func_020363e0(func_02038470(person), 0);
+            shop = func_020397b4(shops, shopId);
+            func_02039560(func_020397cc(shop, (i % 2 == 0 ? 1 : 0) + 6), &position[1], &position[0]);
+            position[1] += func_020395f8(table, i, 1);
+            position[0] += func_020395f8(table, i, 2);
+            SetBGEntityLocation(eventData, entity, position[1], 0, position[0]);
+        }
+    }
+    func_020395e4(table);
+    func_02039720(shops);
 }

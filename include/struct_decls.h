@@ -212,7 +212,7 @@ typedef struct GimmickState GimmickState;
 typedef struct HiddenArea HiddenArea;
 typedef struct HiddenEventArgs HiddenEventArgs;
 typedef struct HiddenEventData HiddenEventData;
-typedef struct HiddenHollowWork HiddenHollowWork;
+typedef struct ResortMapCreateWork ResortMapCreateWork;
 typedef struct HighLinkSave HighLinkSave;
 typedef struct IRCPartyWork IRCPartyWork;
 typedef struct ISS ISS;
