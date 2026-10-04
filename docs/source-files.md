@@ -98,7 +98,7 @@ prints the tables below from the configs and the ROM:
 | `script_sys.c` | `0x0215366c`–`0x02153da4` | 41 | partial | string at `0x0216e190` |
 | `script_work.c` | `0x02153da4`–`0x02154070` | 31 | complete | string at `0x0216e1b4` |
 | `script_sub_event.c` | `0x02154070`–`0x02154180` | 7 | partial | descriptive |
-| `scrcmd_vm.c` | `0x02154180`–`0x02154948` | 59 | partial | descriptive |
+| `scrcmd_vm.c` | `0x02154180`–`0x02154948` | 59 | complete | descriptive |
 | `script_plugin.c` | `0x02154948`–`0x02154a64` | 5 | complete | descriptive |
 | `map_matrix.c` | `0x02154a64`–`0x02154c94` | 15 | partial | string at `0x0216e1c4` |
 | `map_replace.c` | `0x02154c94`–`0x02154ea0` | 11 | complete | string at `0x0216e1d4` |
@@ -110,7 +110,7 @@ prints the tables below from the configs and the ROM:
 | `scrcmd_proc.c` | `0x021574a4`–`0x02157c20` | 21 | partial | string at `0x0216e208` |
 | `scrcmd_sodateya.c` | `0x02157c20`–`0x021580c4` | 18 | complete | string at `0x0216e218` |
 | `scrcmd_musical.c` | `0x021580c4`–`0x021590ec` | 27 | partial | string at `0x0216e22c` |
-| `field_encount_st.c` | `0x021590ec`–`0x021593fc` | 15 | partial | string at `0x0216e240` |
+| `field_encount_st.c` | `0x021590ec`–`0x021593fc` | 15 | complete | string at `0x0216e240` |
 | `hiden_event.c` | `0x021593fc`–`0x02159bc0` | 43 | complete | descriptive |
 | `scrcmd_network.c` | `0x02159bc0`–`0x02159d54` | 9 | complete | string at `0x0216e254` |
 | `scrcmd_stadium.c` | `0x02159d54`–`0x0215a0b0` | 9 | partial | descriptive |
