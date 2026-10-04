@@ -5,7 +5,7 @@
 #include "nitro/fx.h"
 #include "nitro/gx.h"
 
-// Nintendo's SPL particle library (src/spl), decompiled from this game's code: a manager of emitters made from a
+// Nintendo's SPL particle library (lib/spl), decompiled from this game's code: a manager of emitters made from a
 // resource file's particle definitions. The public functions keep the names pret's Platinum decompilation gives
 // them. The fields named unk* are ones the library never reads
 

@@ -1,5 +1,6 @@
 --target=armv5te-none-eabi
 -ffreestanding
 -Iinclude
+-Ilib/spl/include
 -std=c99
 -DBLACK2

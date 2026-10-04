@@ -11,6 +11,7 @@ import shutil
 import stat
 import subprocess
 import sys
+import tomllib
 import urllib.request
 import zipfile
 from pathlib import Path
@@ -61,29 +62,38 @@ CC_FLAGS = [
     "-msgstyle gcc",
 ]
 
-# Nintendo's SPL particle library was built apart from the game, with an older compiler, as ARM code and without
-# interprocedural analysis, and against an older NitroSDK, whose headers differ (OLD_NITRO_SDK). Sources under each
-# directory here are compiled with its compiler and flags
-LIB_COMPILERS = {
-    "src/spl/": ("1.2/base", [
-        "-O4,p",
-        "-proc arm946e",
-        "-nothumb",
-        "-interworking",
-        "-enum int",
-        "-char signed",
-        "-fp soft",
-        "-lang=c99",
-        "-Cpp_exceptions off",
-        "-gccext,on",
-        "-gccinc",
-        "-sym on",
-        "-requireprotos",
-        "-nolink",
-        "-msgstyle gcc",
-        "-d OLD_NITRO_SDK",
-    ]),
-}
+# Libraries built apart from the game, each with its own compiler and flags: lib/<name>/ holds a library's public
+# headers in include/, its sources in src/, and its compiler and flags in library.toml. A library without sources, such
+# as one whose headers are all that is decompiled so far, needs no library.toml.
+LIB_DIR = ROOT / "lib"
+
+
+def load_libraries() -> dict[str, tuple[str, list[str]]]:
+    """Returns the compiler and flags of each library with sources, keyed by its source directory ("lib/spl/src/")."""
+    libraries = {}
+    for lib in sorted(p for p in LIB_DIR.iterdir() if p.is_dir()):
+        settings = lib / "library.toml"
+        if not settings.exists():
+            if (lib / "src").exists():
+                sys.exit(f"{lib.relative_to(ROOT)} has sources but no library.toml")
+            continue
+        with settings.open("rb") as f:
+            library = tomllib.load(f)
+        libraries[f"{(lib / 'src').relative_to(ROOT).as_posix()}/"] = (library["compiler"], library["flags"])
+    return libraries
+
+
+LIBRARIES = load_libraries()
+# Header search path of every source file, the game's and the libraries': the game's headers and each library's public
+# headers. A library's private headers sit beside its sources.
+INCLUDE_DIRS = ["include", *(p.relative_to(ROOT).as_posix() for p in sorted(LIB_DIR.glob("*/include")))]
+
+
+def library_of(source: Path) -> tuple[str, list[str]] | None:
+    """Returns the compiler and flags of the library a source file belongs to, or None for the game's own code."""
+    relative = (ROOT / source).resolve().relative_to(ROOT).as_posix()
+    return next((library for prefix, library in LIBRARIES.items() if relative.startswith(prefix)), None)
+
 
 # Archives built from source, which replace their extracted counterparts in the ROM. Each maps its path under files/ to
 # the directory of its members, one assembly file each, in archive order.
@@ -160,11 +170,12 @@ def download_tools(tools_dir: Path):
         objdiff.chmod(objdiff.stat().st_mode | stat.S_IEXEC)
 
     mwccarm = tools_dir / "mwccarm"
-    if not mwccarm.exists():
+    compilers = ["dsi", *(compiler for compiler, _ in LIBRARIES.values())]
+    if not all((mwccarm / compiler).exists() for compiler in compilers):
         print("Downloading mwccarm")
         with urllib.request.urlopen(MWCCARM_URL) as response:
             archive = zipfile.ZipFile(io.BytesIO(response.read()))
-        versions = ("mwccarm/dsi/", *(f"mwccarm/{compiler}/" for compiler, _ in LIB_COMPILERS.values()))
+        versions = tuple(f"mwccarm/{compiler}/" for compiler in compilers)
         members = [m for m in archive.namelist() if m.startswith(versions)]
         archive.extractall(tools_dir, members)
 
@@ -252,7 +263,7 @@ def add_version(n: Writer, version: str, dsd: Path, bugfix: bool) -> tuple[list[
         source = Path(f["name"])
         if source.suffix in (".c", ".cpp") and source.exists():
             obj = build_dir / source.with_suffix(".o")
-            rule = next((f"mwcc_{i}" for i, lib in enumerate(LIB_COMPILERS) if str(source).startswith(lib)), "mwcc")
+            rule = next((f"mwcc_{i}" for i, lib in enumerate(LIBRARIES) if str(source).startswith(lib)), "mwcc")
             n.build([obj], rule, [source], variables={"defines": defines, "dep": obj.with_suffix(".d")})
             compiled.append(obj)
         objects.append(f["object_to_link"])
@@ -350,6 +361,8 @@ def main():
     n.variable("dsd", shlex.quote(str(dsd)))
     n.variable("wine", shlex.quote(wine))
     n.variable("python", shlex.quote(sys.executable))
+    n.variable("includes", " ".join(f"-i {d}" for d in INCLUDE_DIRS))
+    n.variable("as_includes", " ".join(f"-I {d}" for d in INCLUDE_DIRS))
     n.out.write("\n")
 
     n.rule("check_baserom", "echo '$sha1  $in' | sha1sum --quiet -c - && touch $out", "Checking base ROM $in")
@@ -358,16 +371,16 @@ def main():
     n.rule("lcf", "$dsd lcf --config-path $config", "Generating linker script for $config")
     # mwccarm writes the dependency file next to the object, with Windows paths that fix_depfile.py converts
     n.rule("mwcc", f"mkdir -p $$(dirname $out) && $wine {shlex.quote(str(mwcc))} {' '.join(CC_FLAGS)} $defines "
-           "-gccdep -MD -i include -o $out $in && $python tools/scripts/fix_depfile.py $dep", "Compiling $in",
+           "-gccdep -MD $includes -o $out $in && $python tools/scripts/fix_depfile.py $dep", "Compiling $in",
            depfile="$dep", deps="gcc")
-    for i, (compiler, flags) in enumerate(LIB_COMPILERS.values()):
+    for i, (compiler, flags) in enumerate(LIBRARIES.values()):
         lib_mwcc = tools_dir / "mwccarm" / compiler / "mwccarm.exe"
         n.rule(f"mwcc_{i}", f"mkdir -p $$(dirname $out) && $wine {shlex.quote(str(lib_mwcc))} {' '.join(flags)} "
-               "$defines -gccdep -MD -i include -o $out $in && $python tools/scripts/fix_depfile.py $dep",
+               "$defines -gccdep -MD $includes -o $out $in && $python tools/scripts/fix_depfile.py $dep",
                "Compiling $in", depfile="$dep", deps="gcc")
     n.rule("mwld", f"$wine {shlex.quote(str(mwld))} {' '.join(LD_FLAGS)} @$objects $lcf -o $out", "Linking $out")
     # Scripts go through the C preprocessor, so that they can include the constant headers
-    n.rule("as", f"{shlex.quote(clang)} --target=armv5te-none-eabi -x assembler-with-cpp -c -I include $defines "
+    n.rule("as", f"{shlex.quote(clang)} --target=armv5te-none-eabi -x assembler-with-cpp -c $as_includes $defines "
            "-MD -MF $dep -o $out $in", "Assembling $in", depfile="$dep", deps="gcc")
     n.rule("objcopy_bin", f"{shlex.quote(llvm_objcopy)} -O binary $in $out", "Converting $in")
     n.rule("narc", "$python tools/scripts/narc.py pack $out $in", "Packing $out")
@@ -380,7 +393,7 @@ def main():
     n.rule("rom_build", "$dsd rom build --config $in --rom $out", "Building $out")
     n.rule("check_modules", "$dsd check modules --config-path $config --fail && touch $out", "Checking modules")
     n.rule("sha1", "sha1sum --quiet -c $in && touch $out", "Checking $rom")
-    n.rule("ctx", f"$wine {shlex.quote(str(mwcc))} -EP -lang=c99 -gccinc $defines -i include $in "
+    n.rule("ctx", f"$wine {shlex.quote(str(mwcc))} -EP -lang=c99 -gccinc $defines $includes $in "
            "| grep -v -e '^#line' -e 'prepdump' > $out", "Preprocessing $in")
     n.rule("objdiff_config", f"$python tools/scripts/objdiff_config.py $version --dsd $dsd "
            f"--compiler {DECOMP_ME_COMPILER} --c-flags '{' '.join(CC_FLAGS)}' -o $out", "Writing $out")
@@ -404,8 +417,10 @@ def main():
     n.build(["report"], "phony", [Path("build") / objdiff_version / "report.json"])
     n.build(["progress"], "phony", [f"{objdiff_version}_progress"])
 
-    n.build(["build.ninja"], "configure", ["configure.py"], implicit=configs)
-    sources = sorted(str(p.relative_to(ROOT)) for p in [*ROOT.glob("src/**/*.c"), *ROOT.glob("include/**/*.h")])
+    n.build(["build.ninja"], "configure", ["configure.py"],
+            implicit=[*configs, *(str(p.relative_to(ROOT)) for p in sorted(LIB_DIR.glob("*/library.toml")))])
+    sources = sorted(str(p.relative_to(ROOT)) for pattern in ("src/**/*.c", "lib/*/src/**/*.[ch]", "include/**/*.h",
+                                                               "lib/*/include/**/*.h") for p in ROOT.glob(pattern))
     n.build(["format"], "format", sources)
     n.build(["check"], "phony", checks)
     n.default(["check", "objdiff.json"])

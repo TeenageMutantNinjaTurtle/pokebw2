@@ -66,7 +66,8 @@ scripts are built from source, see [Scripts](docs/scripts.md).
 | `config/<version>/` | dsd configs: sections (`delinks.txt`), symbols and relocations for every module |
 | `config/names.txt`, `config/fixes.txt` | Our own names and fixes to dsd's analysis, applied again after regenerating the configs |
 | `src/ovNNN/` | Decompiled C of each overlay, such as `src/ov035/event_mapchange.c` |
-| `src/gfl/`, `src/system/`, `src/spl/` | Decompiled C of the ARM9 main module, by library like the headers, such as `src/gfl/heap.c` |
+| `src/gfl/`, `src/system/` | Decompiled C of the ARM9 main module, by library like the headers, such as `src/gfl/heap.c` |
+| `lib/<name>/` | Libraries built apart from the game with their own compiler (`library.toml`), headers and sources, such as `lib/spl/` |
 | `include/` | Headers shared by the C code, see [Code organization](docs/code-organization.md) |
 | `data/` | Scripts assembled into the ROM's files, see [Scripts](docs/scripts.md) and [Field scripts](docs/scripts.md#field-scripts) |
 | `include/asm/` | Macros for the scripts |

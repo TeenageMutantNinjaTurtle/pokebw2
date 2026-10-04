@@ -36,9 +36,10 @@ Pipe the output through `head` or `grep`; for a big overlay, use the `boundary-s
 
 - Overlays go in `src/ovNNN/`. Main goes by library, by link order: the game's own code in `src/system/` (below
   GFL's block, which starts at `heapsys.c`, 0x02039a80), Game Freak's library in `src/gfl/` (through `str_sjis.c`),
-  then `src/spl/` from 0x02050a40, and later `src/nitro/` and `src/nnsys/`. `grep '^src/' config/b2_us/arm9/delinks.txt`
-  shows the current files. Headers mirror these under `include/`. A library's private header stays with its
-  sources (`src/spl/spl_internal.h`).
+  then the libraries built apart from the game, each in `lib/<name>/` with its compiler in `library.toml`: SPL in
+  `lib/spl/src/` from 0x02050a40, and later NitroSDK and NitroSystem. `grep -E '^(src|lib)/'
+  config/b2_us/arm9/delinks.txt` shows the current files. Headers mirror these under `include/` and
+  `lib/<name>/include/`. A library's private header stays with its sources (`lib/spl/src/spl_internal.h`).
 - A header is named after the original file that owns its declarations, or after swan's header for it.
 - When the evidence for which library a file belongs to is ambiguous (the user once asked "wouldn't that be gfl
   though?" about `printsys.c`), state the evidence, such as its address against GFL's block and the strings, when you
