@@ -400,7 +400,7 @@ void ServerControl_OHKOSuccess(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveP
 void func_ov167_021a7198(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param, u32 critical, u32 cause,
                          u16 damage);
 u16 func_ov167_021a71d0(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param, u32 critical);
-void func_ov167_021a9b64(BtlServerFlow *flow, BattleMon *mon, u16 damage);
+void func_ov167_021a9b64(BtlServerFlow *flow, BattleMon *mon, u32 damage);
 void func_ov167_021a7c70(BtlServerFlow *flow, BattleMon *mon);
 BOOL ServerControl_ForceSwitchCore(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, BOOL forced,
                                    BOOL *failed, u16 effect, BOOL ignoreLevel, BattleHandlerString *string);
@@ -440,8 +440,8 @@ void func_ov167_021a7cc8(BtlServerFlow *flow, BattleMon *attacker, BattleMon *ta
                          u32 effectiveness, u32 damage, u32 critical, BOOL flag);
 void func_ov167_021a92b0(BtlServerFlow *flow, BtlFlowMoveParam *param, u32 count, u32 *effectiveness, BattleMon **mons,
                          u16 *damages, u8 *critical, BOOL multipleTargets);
-void func_ov167_021a9358(BtlServerFlow *flow, u8 count, u32 *effectiveness, BattleMon **mons, BOOL multipleTargets);
-void func_ov167_021a94dc(BtlServerFlow *flow, u8 count, BattleMon **mons, u8 *critical, BOOL multipleTargets);
+void func_ov167_021a9358(BtlServerFlow *flow, u32 count, u32 *effectiveness, BattleMon **mons, BOOL multipleTargets);
+void func_ov167_021a94dc(BtlServerFlow *flow, u32 count, BattleMon **mons, u8 *critical, BOOL multipleTargets);
 BOOL func_ov167_021aa674(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, BtlFlowMoveParam *param);
 void func_ov167_021aa6d0(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target);
 void func_ov167_021a5374(BtlServerFlow *flow, BattleMon *attacker, BtlFlowMoveParam *param, u32 damage);
