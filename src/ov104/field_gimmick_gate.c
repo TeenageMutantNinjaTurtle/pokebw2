@@ -9,20 +9,21 @@
 #include "field/field_script.h"
 #include "field/zone.h"
 #include "gfl/arc.h"
+#include "gfl/g3d.h"
 #include "gfl/heap.h"
 #include "gfl/msg.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
 #include "gfl/str.h"
+#include "save/config.h"
 #include "save/event_work.h"
+#include "save/hall_of_fame.h"
 #include "save/save_control.h"
 #include "save/trainer_card.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
 #include "system/rtc.h"
 #include "system/version.h"
-
-
 
 struct GimmickGateMessageList {
     u8 count;
@@ -108,6 +109,12 @@ GimmickGateSave *func_ov104_021eed58(Field *field);
 
 static const u32 sEntrySlots[3] = { 3, 4, 5 };
 
+// The zones whose weather the boards report, and the weathers they report
+extern const u16 data_ov104_021f039c[1];
+extern const u8 data_ov104_021f039e[3];
+// The board's scenes
+extern const G3DSceneSetup data_ov104_021f03d0[2];
+
 // The board advances by this each frame
 static fx32 sBoardStep = FX32_ONE;
 static u16 sMessageKinds[8] = { 0, 1, 2, 3, 4, 5, 6 };
@@ -123,6 +130,28 @@ static u16 sBoardAnimations[16] = { 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
 static u32 sWeatherMessages[15] = {
     0xb5, 0xb6, 0xb7, 0xb8, 0xba, 0xbb, 0xbe, 0xbf, 0xbd, 0xbc, 0xbc, 0xbc, 0xb9, 0xbc, 0xbc,
 };
+
+void func_ov104_021eec80(Field *field) {
+    FieldExpObjSystem *expObj = Field_GetExpObjSystem(field);
+    GimmickGateWork *work;
+
+    func_02008a84(getTrainerDataBlkAddress(GameData_GetSaveControl(GSYS_GetGameData(Field_GetGameSystem(field)))));
+    LoadFieldExpandObjData(expObj, &data_ov104_021f03d0[1], 1);
+    work = func_ov104_021eee34(field);
+    func_ov104_021eeee0(work);
+    func_ov104_021ef114(work);
+    func_ov104_021eedb0(work);
+    if (work->value == 0) {
+        func_ov104_021eeebc(work);
+    } else {
+        func_ov104_021eedcc(work);
+        func_ov104_021eede4(work);
+    }
+    func_ov104_021ef2cc(work);
+    func_ov104_021eee24(work);
+    func_ov104_021eefc0(work);
+    func_ov104_021eef98(work);
+}
 
 void func_ov104_021eed00(Field *field) {
     GimmickGateWork *work;
@@ -362,6 +391,34 @@ u32 func_ov104_021ef068(GimmickGateWork *work) {
         return 1;
     }
     return 0;
+}
+
+void func_ov104_021ef084(GimmickGateWork *work, u32 *species, s32 *count) {
+    GameData *gameData = work->gameData;
+    SaveControl *save;
+    HallOfFameSave *hallOfFame;
+    HallOfFamePokemon pokemon;
+    s32 i = 0;
+    u32 result;
+
+    *count = 0;
+    save = GameData_GetSaveControl(gameData);
+    result = func_020074ec(save, 8, work->heapId);
+    if (result == 1 || result == 2) {
+        hallOfFame = getAddressOfExtraSaveBlk(save, 8, 0);
+        if (func_0200f660(hallOfFame) != 0) {
+            *count = func_0200f67c(hallOfFame, 0);
+            for (i = 0; i < *count; i++) {
+                pokemon.nickname = GFL_StrBufCreate(0x40, work->heapId);
+                pokemon.trainerName = GFL_StrBufCreate(0x40, work->heapId);
+                func_0200f69c(hallOfFame, 0, i, &pokemon);
+                species[i] = pokemon.species;
+                GFL_StrBufFree(pokemon.nickname);
+                GFL_StrBufFree(pokemon.trainerName);
+            }
+        }
+    }
+    freeIntermediateSaveExtraBlksAfterLoad(save, 8);
 }
 
 void func_ov104_021ef114(GimmickGateWork *work) {
@@ -821,6 +878,19 @@ void func_ov104_021ef924(GimmickGateWork *work) {
     }
 }
 
+void func_ov104_021ef94c(GimmickGateWork *work, GimmickGateBoardEntry *entry, u32 index) {
+    ElboardMessageArg arg;
+
+    arg.kind = sMessageKinds[index];
+    arg.name = sBoardNames[index];
+    arg.plName = sBoardPlNames[index];
+    arg.unk0c = 2;
+    arg.messageFile = 0x2b;
+    arg.messageId = entry->unk0c;
+    arg.wordSet = NULL;
+    func_ov104_021ef28c(work, &arg, 8, entry);
+}
+
 void func_ov104_021ef994(GimmickGateWork *work) {
     s32 index;
     GimmickGateBoardEntry *entry;
@@ -891,6 +961,31 @@ void func_ov104_021efa18(GimmickGateWork *work, GimmickGateZoneList *out) {
     }
     for (i = 0; i < 4; i++) {
         out->weather[i] = Field_GetWeatherForZone(work->field, out->zones[i]);
+    }
+}
+
+void func_ov104_021efad0(GimmickGateWork *work, GimmickGateZoneList *list) {
+    s32 count;
+    u32 i;
+    u32 j;
+    u16 zone;
+    u8 weather;
+
+    func_ov104_021ef9f8(list);
+    count = 0;
+    for (i = 0; i < 1; i++) {
+        zone = data_ov104_021f039c[i];
+        weather = Field_GetWeatherForZone(work->field, zone);
+        for (j = 0; j < 3; j++) {
+            if (weather == data_ov104_021f039e[j]) {
+                if (count >= 4) {
+                    break;
+                }
+                list->zones[count] = zone;
+                list->weather[count] = weather;
+                count++;
+            }
+        }
     }
 }
 
