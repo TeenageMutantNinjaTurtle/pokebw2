@@ -38,8 +38,9 @@ behavior. This file holds the rules that sessions get wrong and points to the sk
   `show_func.py NAME`, `compiler_probe.py --functions F --mismatches --align`, `grep -n` and `| tail`.
 - Long jobs run with `run_in_background` or Monitor, never `sleep`. Run the permuter only under a memory cap: an
   uncapped `-j8` run got the terminal OOM-killed (see `.claude/skills/match-function/permuter.md`).
-- A new worktree needs `orig/`, `tools/dsd`, `tools/objdiff-cli` and `tools/wibo` linked in, and
-  `ninja extract/b2_us/config.yaml` before the first full build.
+- A new worktree needs `orig/`, `.venv`, `tools/dsd`, `tools/objdiff-cli`, `tools/wibo` and `tools/mwccarm` linked
+  in from the main checkout, which the ignore rules cover, and `ninja extract/b2_us/config.yaml` before the first
+  full build.
 
 ## Commands
 
@@ -57,10 +58,6 @@ behavior. This file holds the rules that sessions get wrong and points to the sk
 | Mark complete | `.venv/bin/python tools/scripts/mark_complete.py src/X.c` |
 | Name a symbol | `.venv/bin/python tools/scripts/rename_symbol.py func_ov033_0217acd4 Name` |
 | Build and verify | `python3 configure.py && ninja 2>&1 \| tail -20` (configure only when source files were added) |
-
-`try_variants.py`, `mark_complete.py` and the probe's `--mismatches`, `--functions` and `--align` came with the
-graphics branch (`worktree-graphics`, its `tools:` commits). Until it is merged, a checkout without them uses
-`compiler_probe.py --show-diff 1.1p1` and checks statics by hand (`grep` the address in every `relocs.txt`).
 
 ## Skills and agents
 

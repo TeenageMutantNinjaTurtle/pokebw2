@@ -8,9 +8,9 @@ build/
 tools/dsd
 tools/objdiff-cli
 tools/wibo
-tools/mwccarm/
+tools/mwccarm
 
-.venv/
+.venv
 __pycache__/
 build.ninja
 .ninja_*

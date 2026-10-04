@@ -2,9 +2,8 @@
 
 Every way found so far to move MWCC's output (`dsi/1.1p1`, Thumb, `-O4,p`), indexed by what the diff shows. The
 README's "Things that affect whether MWCC output matches" explains each one with its example. (README: "...") marks
-text to `grep -n` there. Three of those passages are only in `worktree-graphics`'s README until it is merged. Entries
-without a key come from later work and still belong in the README (see the `record-lesson` skill). Some levers appear
-under two symptoms.
+text to `grep -n` there. Entries without a key come from later work and still belong in the README (see the
+`record-lesson` skill). Some levers appear under two symptoms.
 
 ## Registers swapped
 
@@ -152,6 +151,9 @@ under two symptoms.
 - `static const` goes in `.rodata`, so a table in `.data` isn't `const`. (README: "`static const` data goes in")
 - A `static const` whose address is never taken is folded and not emitted. If the original has it, it isn't static.
   (README: "whose address is never taken")
+- Library code was built against an older NitroSDK, whose headers differ: SPL's `GX_ST` doesn't narrow texture
+  coordinates to `fx16` where the game's does. `configure.py` defines `OLD_NITRO_SDK` for SPL, and `nitro/gx.h`
+  picks the macro by it.
 - `GFL_ASSERT` keeps its expression as a string, which preserves the original variable names. (README: "GFL_ASSERT")
 - A file's `.data` ends at its last object.
 

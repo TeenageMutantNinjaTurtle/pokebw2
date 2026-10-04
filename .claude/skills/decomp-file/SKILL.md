@@ -14,7 +14,6 @@ and "Code organization" sections hold the rules; this is the order to apply them
   leave them alone. Check whether you are in a worktree (`git worktree list`).
 - The workstream's memory file says what was done last and what is next. The next file is the one after the last
   committed file in address order, unless the user named one. Don't ask which file to do.
-- On a branch without `try_variants.py` or `mark_complete.py`, tell the user. They come with `worktree-graphics`.
 
 ## 1. Boundaries, name and place
 
