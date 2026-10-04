@@ -8000,11 +8000,60 @@ void BattleHandler_Execute(BtlServerFlow *flow, void *work) {
     SetResult(&flow->actionState, result);
 }
 
+u8 func_ov167_021ac7ac(BtlServerFlow *handler, BattleHandlerHeader *param) {
+    if (DoesBattleMonExist(handler->unk1ab8, param->monId)) {
+        ServerDisplay_UseHeldItem(handler, GetPokeParam(handler->pokeCon, param->monId));
+        return TRUE;
+    }
+    return FALSE;
+}
+
+// Function name from swan.
+u8 BattleHandler_AbilityPopupAdd(BtlServerFlow *handler, BattleHandlerHeader *param) {
+    if (DoesBattleMonExist(handler->unk1ab8, param->monId)) {
+        ServerDisplay_AbilityPopupAdd(handler, GetPokeParam(handler->pokeCon, param->monId));
+        return TRUE;
+    }
+    return FALSE;
+}
+
 // Function name from swan.
 u8 BattleHandler_AbilityPopupRemove(BtlServerFlow *handler, BattleHandlerPopupParam *param) {
     BattleMon *mon = GetPokeParam(handler->pokeCon, param->monId);
     ServerDisplay_AbilityPopupRemove(handler, mon);
     return TRUE;
+}
+
+// Function name from swan.
+u8 BattleHandler_RecoverHP(BtlServerFlow *handler, const BattleHandlerRecoverHPParam *param, u16 itemId) {
+    BattleMon *mon;
+    BattleMon *target;
+    u8 result = FALSE;
+
+    mon = GetPokeParam(handler->pokeCon, param->monIndex);
+    target = GetPokeParam(handler->pokeCon, param->targetIndex);
+    if (!ServerControl_RecoverHPCheckFail(handler, target)) {
+        if (param->popup) {
+            ServerDisplay_AbilityPopupAdd(handler, mon);
+        }
+        if (!param->skipCheck) {
+            result = !ServerControl_RecoverHPCheckFailSpecial(handler, target, TRUE);
+        } else {
+            result = TRUE;
+        }
+        if (result) {
+            ServerControl_RecoverHPCore(handler, target, param->amount);
+            if (param->string.enabled) {
+                BattleHandler_SetString(handler, &param->string);
+            } else if (itemId != 0) {
+                func_ov167_021b15d0(handler->queue, 0x5b, 0x38c, param->targetIndex, itemId, 0xffff0000);
+            }
+        }
+        if (param->popup) {
+            ServerDisplay_AbilityPopupRemove(handler, mon);
+        }
+    }
+    return result;
 }
 
 // Function name from swan.
@@ -8016,7 +8065,7 @@ u8 BattleHandler_Drain(BtlServerFlow *handler, BattleHandlerDrainParam *param, u
     if (param->sourceIndex != 0x1f) {
         source = GetPokeParam(handler->pokeCon, param->sourceIndex);
     }
-    if (func_ov167_021ac988(handler->unk1ab8, param->monIndex)) {
+    if (DoesBattleMonExist(handler->unk1ab8, param->monIndex)) {
         mon = GetPokeParam(handler->pokeCon, param->monIndex);
         if (!IsFainted(mon)) {
             if (ServerControl_DrainCore(handler, mon, source, param->amount)) {
@@ -8035,7 +8084,7 @@ u8 BattleHandler_Damage(BtlServerFlow *handler, BattleHandlerDamageParam *param)
     BattleMon *mon;
     BattleMon *source;
 
-    if (func_ov167_021aca54(handler->unk1ab8, param->targetIndex)) {
+    if (DoesBattleMonExist(handler->unk1ab8, param->targetIndex)) {
         mon = GetPokeParam(handler->pokeCon, param->targetIndex);
         source = NULL;
         if (param->sourceIndex != 0x1f) {
@@ -8070,7 +8119,7 @@ u8 BattleHandler_ChangeHP(BtlServerFlow *handler, BattleHandlerChangeHPParam *pa
 
     result = FALSE;
     for (i = 0; i < param->count; i++) {
-        if (func_ov167_021acad4(handler->unk1ab8, param->monIds[i])) {
+        if (DoesBattleMonExist(handler->unk1ab8, param->monIds[i])) {
             mon = GetPokeParam(handler->pokeCon, param->monIds[i]);
             if (!IsFainted(mon)) {
                 ServerDisplay_SimpleHP(handler, mon, param->hpChanges[i], param->suppress == 0);
@@ -8085,7 +8134,26 @@ u8 BattleHandler_ChangeHP(BtlServerFlow *handler, BattleHandlerChangeHPParam *pa
 }
 
 // Function name from swan.
-u8 BattleHandler_DecrementPP(BtlServerFlow *handler, BattleHandlerDecrementPPParam *param, u16 itemId) {
+u8 BattleHandler_RecoverPP(BtlServerFlow *handler, const BattleHandlerPPParam *param, u16 itemId) {
+    BattleMon *user;
+    BattleMon *mon;
+    BOOL original;
+
+    user = GetPokeParam(handler->pokeCon, param->header.monId);
+    mon = GetPokeParam(handler->pokeCon, param->monIndex);
+    if (CanPokemonBattle(mon) || param->allowFainted) {
+        original = !param->currentMoves;
+        if (!Move_IsPPFull(mon, param->moveIndex, original)) {
+            ServerDisplay_RecoverPP(handler, mon, param->moveIndex, param->amount, original);
+            BattleHandler_SetString(handler, &param->string);
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+// Function name from swan.
+u8 BattleHandler_DecrementPP(BtlServerFlow *handler, BattleHandlerPPParam *param, u16 itemId) {
     BattleMon *mon;
 
     mon = GetPokeParam(handler->pokeCon, param->monIndex);
@@ -8227,7 +8295,7 @@ u8 BattleHandler_ResetStatStage(BtlServerFlow *handler, BattleHandlerResetStatSt
 u8 BattleHandler_Faint(BtlServerFlow *handler, BattleHandlerFaintParam *param) {
     BattleMon *mon;
 
-    if (func_ov167_021ad15c(handler->unk1ab8, param->monIndex)) {
+    if (DoesBattleMonExist(handler->unk1ab8, param->monIndex)) {
         mon = GetPokeParam(handler->pokeCon, param->monIndex);
         if (!IsFainted(mon) || param->force) {
             BattleHandler_SetString(handler, &param->string);
@@ -8242,7 +8310,7 @@ u8 BattleHandler_Faint(BtlServerFlow *handler, BattleHandlerFaintParam *param) {
 u8 BattleHandler_ChangeType(BtlServerFlow *handler, BattleHandlerChangeTypeParam *param) {
     BattleMon *mon;
 
-    if (func_ov167_021ad1f4(handler->unk1ab8, param->monIndex)) {
+    if (DoesBattleMonExist(handler->unk1ab8, param->monIndex)) {
         mon = GetPokeParam(handler->pokeCon, param->monIndex);
         if (!IsFainted(mon) && !func_ov167_021ad204(GetBattleMonSpecies(mon))) {
             func_ov167_021b1434(handler->queue, 0x16, param->monIndex, param->type);
@@ -8370,7 +8438,7 @@ u8 BattleHandler_ChangeWeather(BtlServerFlow *handler, BattleHandlerChangeWeathe
 }
 
 // Function name from swan.
-BOOL BattleHandler_SetString(BtlServerFlow *handler, BattleHandlerString *string) {
+BOOL BattleHandler_SetString(BtlServerFlow *handler, const BattleHandlerString *string) {
     u16 soundEffect;
     u32 flags;
 
@@ -8631,7 +8699,7 @@ u8 BattleHandler_Switch(BtlServerFlow *handler, BattleHandlerSwitchParam *param)
 u8 BattleHandler_BatonPass(BtlServerFlow *handler, BattleHandlerBatonPassParam *param) {
     BattleMon *source;
     BattleMon *target;
-    u8 substitute;
+    u8 pos;
 
     source = GetPokeParam(handler->pokeCon, param->sourceMonIndex);
     target = GetPokeParam(handler->pokeCon, param->targetMonIndex);
@@ -8641,8 +8709,8 @@ u8 BattleHandler_BatonPass(BtlServerFlow *handler, BattleHandlerBatonPassParam *
     CopyBatonPassParams(target, source);
     func_ov167_021b1434(handler->queue, 0x26, param->sourceMonIndex, param->targetMonIndex);
     if (IsSubstituteActive(target)) {
-        substitute = func_ov167_021add78(handler->unk1ab8, param->targetMonIndex);
-        func_ov167_021b1434(handler->queue, 0x51, substitute);
+        pos = GetBattlePos(handler->unk1ab8, param->targetMonIndex);
+        func_ov167_021b1434(handler->queue, 0x51, pos);
     }
     return TRUE;
 }
@@ -8781,7 +8849,7 @@ u8 BattleHandler_Transform(BtlServerFlow *handler, BattleHandlerTransformParam *
 u8 BattleHandler_IllusionBreak(BtlServerFlow *handler, BattleHandlerIllusionBreakParam *param) {
     BattleMon *mon;
 
-    if (func_ov167_021ae0fc(handler->unk1ab8, param->monIndex)) {
+    if (DoesBattleMonExist(handler->unk1ab8, param->monIndex)) {
         mon = GetPokeParam(handler->pokeCon, param->monIndex);
         if (IsIllusionEnabled(mon)) {
             IllusionBreak(mon);

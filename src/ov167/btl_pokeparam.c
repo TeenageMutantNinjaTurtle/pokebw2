@@ -581,7 +581,7 @@ PartyPkm *func_ov167_021bb064(BattleMon *mon) {
     return mon->core.src;
 }
 
-u32 func_ov167_021bb07c(BattleMon *mon, u32 stat) {
+u32 func_ov167_021bb07c(const BattleMon *mon, u32 stat) {
     switch (stat) {
     case 9:
         if (IsFieldEffectActive(6)) {
@@ -597,7 +597,7 @@ u32 func_ov167_021bb07c(BattleMon *mon, u32 stat) {
     return stat;
 }
 
-u32 RawBattleMonStat(BattleMon *mon, u32 stat) {
+u32 RawBattleMonStat(const BattleMon *mon, u32 stat) {
     stat = func_ov167_021bb07c(mon, stat);
     switch (stat) {
     case 8:
@@ -652,7 +652,7 @@ void SetBaseStatus(BattleMon *mon, u32 stat, u16 value) {
     }
 }
 
-u32 GetBattleMonStat(BattleMon *mon, u32 stat) {
+u32 GetBattleMonStat(const BattleMon *mon, u32 stat) {
     stat = func_ov167_021bb07c(mon, stat);
     switch (stat) {
     case 8:
@@ -751,7 +751,7 @@ BOOL IsMonFullHP(BattleMon *mon) {
     return FALSE;
 }
 
-BOOL IsFainted(BattleMon *mon) {
+BOOL IsFainted(const BattleMon *mon) {
     if (GetBattleMonStat(mon, 13) == 0) {
         return TRUE;
     }
@@ -1246,7 +1246,7 @@ u32 GetBattleMonStatus(BattleMon *mon) {
     return 0;
 }
 
-BOOL CheckCondition(BattleMon *mon, u32 index) {
+BOOL CheckCondition(const BattleMon *mon, u32 index) {
     return mon->core.conditions[index].common.type != 0;
 }
 

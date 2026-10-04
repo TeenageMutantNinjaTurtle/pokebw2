@@ -40,7 +40,7 @@ typedef struct BattleHandlerConsumeItemParam BattleHandlerConsumeItemParam;
 typedef struct BattleHandlerCureConditionParam BattleHandlerCureConditionParam;
 typedef struct BattleHandlerDamageParam BattleHandlerDamageParam;
 typedef struct BattleHandlerRecoverHPParam BattleHandlerRecoverHPParam;
-typedef struct BattleHandlerDecrementPPParam BattleHandlerDecrementPPParam;
+typedef struct BattleHandlerPPParam BattleHandlerPPParam;
 typedef struct BattleHandlerDrainParam BattleHandlerDrainParam;
 typedef struct BattleHandlerFaintParam BattleHandlerFaintParam;
 typedef struct BattleHandlerFlagParam BattleHandlerFlagParam;
