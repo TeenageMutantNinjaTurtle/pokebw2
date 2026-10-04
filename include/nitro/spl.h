@@ -30,9 +30,34 @@ typedef u32 (*SPLPalVRAMAllocFunc)(u32 size, BOOL is4pltt);
 
 typedef struct SPLEmitter SPLEmitter;
 
+typedef struct SPLParticle {
+    struct SPLParticle *next;
+    struct SPLParticle *prev;
+    // Relative to the emitter, which was at emitterPos when the particle was emitted
+    VecFx32 position;
+    VecFx32 velocity;
+    u16 rotation;
+    s16 angularVelocity;
+    u16 lifeTime;
+    u16 age;
+    // 0x10000 over the loop and life times, to map ages to [0, 255]
+    u16 loopTimeFactor;
+    u16 lifeTimeFactor;
+    u8 texture;
+    // Added to the life rate of a looping particle, so that particles emitted together do not animate together
+    u8 lifeRateOffset;
+    u16 baseAlpha : 5;
+    u16 animAlpha : 5;
+    u16 polygonId : 6;
+    fx32 baseScale;
+    fx16 animScale;
+    GXRgb color;
+    VecFx32 emitterPos;
+} SPLParticle;
+
 typedef void (*SPLEmitterCallback)(SPLEmitter *emitter);
 typedef void (*SPLEmitterUpdateCallback)(SPLEmitter *emitter, u32 type);
-typedef void (*SPLBehaviorFunc)(const void *behavior, void *particle, VecFx32 *acc, SPLEmitter *emitter);
+typedef void (*SPLBehaviorFunc)(const void *behavior, SPLParticle *particle, VecFx32 *acc, SPLEmitter *emitter);
 
 typedef struct {
     u32 flags;
@@ -57,6 +82,12 @@ typedef struct {
     u16 padding;
 } SPLGravityBehavior;
 
+// Every applyInterval frames, a random force of up to magnitude either way
+typedef struct {
+    VecFx16 magnitude;
+    u16 applyInterval;
+} SPLRandomBehavior;
+
 typedef struct {
     VecFx32 target;
     fx16 force;
@@ -68,6 +99,19 @@ typedef struct {
     u16 axis;
 } SPLSpinBehavior;
 
+// A plane at height y that particles crossing it die at or bounce off
+typedef struct {
+    fx32 y;
+    fx16 elasticity;
+    u16 type : 2;
+} SPLCollisionPlaneBehavior;
+
+enum {
+    SPL_COLLISION_KILL,
+    SPL_COLLISION_BOUNCE,
+};
+
+// Pulls particles' positions straight towards the target
 typedef struct {
     VecFx32 target;
     fx16 force;
@@ -77,8 +121,8 @@ typedef struct {
 struct SPLEmitter {
     SPLEmitter *next;
     SPLEmitter *prev;
-    u8 particles[0xc];
-    u8 childParticles[0xc];
+    SPLList particles;
+    SPLList childParticles;
     SPLResource *resource;
     u32 state;
     VecFx32 position;
@@ -96,7 +140,18 @@ struct SPLEmitter {
     fx32 baseScale;
     u16 particleLifeTime;
     GXRgb color;
-    u8 unk74[0x1c];
+    // Overrides the collision plane behavior's height, unless FX32_MIN
+    fx32 collisionPlaneHeight;
+    fx16 textureS;
+    fx16 textureT;
+    fx16 childTextureS;
+    fx16 childTextureT;
+    u32 emissionInterval : 8;
+    u32 baseAlpha : 8;
+    u32 updateCycle : 3;
+    u32 : 13;
+    VecFx16 crossAxis1;
+    VecFx16 crossAxis2;
     SPLEmitterUpdateCallback updateCallback;
     void *userDataPtr;
 };
@@ -113,12 +168,12 @@ typedef struct {
 } SPLManager;
 
 // The behaviors' functions, which tell a behavior's kind
-void SPLBehavior_ApplyGravity(const void *behavior, void *particle, VecFx32 *acc, SPLEmitter *emitter);
-void SPLBehavior_ApplyRandom(const void *behavior, void *particle, VecFx32 *acc, SPLEmitter *emitter);
-void SPLBehavior_ApplyMagnet(const void *behavior, void *particle, VecFx32 *acc, SPLEmitter *emitter);
-void SPLBehavior_ApplySpin(const void *behavior, void *particle, VecFx32 *acc, SPLEmitter *emitter);
-void SPLBehavior_ApplyCollisionPlane(const void *behavior, void *particle, VecFx32 *acc, SPLEmitter *emitter);
-void SPLBehavior_ApplyConvergence(const void *behavior, void *particle, VecFx32 *acc, SPLEmitter *emitter);
+void SPLBehavior_ApplyGravity(const void *behavior, SPLParticle *particle, VecFx32 *acc, SPLEmitter *emitter);
+void SPLBehavior_ApplyRandom(const void *behavior, SPLParticle *particle, VecFx32 *acc, SPLEmitter *emitter);
+void SPLBehavior_ApplyMagnet(const void *behavior, SPLParticle *particle, VecFx32 *acc, SPLEmitter *emitter);
+void SPLBehavior_ApplySpin(const void *behavior, SPLParticle *particle, VecFx32 *acc, SPLEmitter *emitter);
+void SPLBehavior_ApplyCollisionPlane(const void *behavior, SPLParticle *particle, VecFx32 *acc, SPLEmitter *emitter);
+void SPLBehavior_ApplyConvergence(const void *behavior, SPLParticle *particle, VecFx32 *acc, SPLEmitter *emitter);
 
 SPLManager *SPLManager_New(SPLAllocFunc alloc, u16 maxEmitters, u16 maxParticles, u16 fixPolyID, u16 minPolyID,
                            u16 maxPolyID);

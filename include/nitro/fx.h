@@ -11,6 +11,8 @@ typedef s64 fx64;
 #define FX16_ONE (1 << 12)
 #define FX32_SHIFT 12
 #define FX32_ONE (1 << FX32_SHIFT)
+#define FX32_MAX ((fx32)0x7fffffff)
+#define FX32_MIN ((fx32)0x80000000)
 #define FX32_CONST(x) ((fx32)(((x) > 0) ? ((x) * FX32_ONE + 0.5f) : ((x) * FX32_ONE - 0.5f)))
 #define FX_Whole(a) ((s32)((a) >> FX32_SHIFT))
 
@@ -77,6 +79,7 @@ void MAT3_RotationZ(MtxFx33 *mtx, fx32 sin, fx32 cos);
 // NitroSDK's MTX_ScaleApply22 and MTX_Concat33
 void MAT2_Scale(const MtxFx22 *src, MtxFx22 *dest, fx32 x, fx32 y);
 void MAT3_Mul(const MtxFx33 *a, const MtxFx33 *b, MtxFx33 *ab);
+void MAT3_MulVec(const VecFx32 *vec, const MtxFx33 *mtx, VecFx32 *dest);
 void MAT43_MulVec(const VecFx32 *vec, const MtxFx43 *mtx, VecFx32 *dest);
 // Projection and camera matrices: NitroSDK's MTX_PerspectiveW, MTX_FrustumW, MTX_OrthoW and MTX_LookAt
 void MAT4_SetPerspective(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);

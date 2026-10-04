@@ -305,3 +305,7 @@ src/lib/spl/spl_random.c:
     complete
     .text       start:0x020569c0 end:0x02056a84
     .bss        start:0x02141994 end:0x02141998
+
+src/lib/spl/spl_behavior.c:
+    complete
+    .text       start:0x0205649c end:0x020568a4
