@@ -643,6 +643,8 @@ overlays/ov162 0x021a0ddc overlay_id 162
 overlays/ov162 0x021a0f78 overlay_id 331
 overlays/ov162 0x021a17b4 remove_reloc
 overlays/ov162 0x021a17dc remove_symbol
+overlays/ov167 0x021bcffc add_function func_ov167_021bcffc:thumb:0x22
+overlays/ov167 0x021bd000 remove_symbol
 overlays/ov167 0x021ce62c overlay_id 168
 overlays/ov167 0x021ce630 overlay_id 169
 overlays/ov167 0x021ce634 overlay_id 170
