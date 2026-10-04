@@ -252,6 +252,7 @@ u16 GetVersionedMapChangeZoneNum2(u16 zoneId);
 u16 GetZoneMatrixCamBoundIdx(u16 zoneId);
 u32 GetZoneDefaultCameraIndex(u16 zoneId);
 BOOL GetZoneFlagsEnableCycling(u16 zoneId);
+u8 GetZoneEnvFlagsWeather(u16 zoneId);
 BOOL GetZoneHasRailSystem(u16 zoneId);
 u32 GetRailIDForZone(u16 zoneId);
 BOOL IsZoneEntralinkEdgeColorTable(u16 zoneId);
