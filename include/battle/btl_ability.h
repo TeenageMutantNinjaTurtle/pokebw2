@@ -553,4 +553,49 @@ void HandlerJustified(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 
 const BattleEventHandlerEntry *EventAddRattled(u32 *priority);
 void HandlerRattled(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
 
+extern const BattleEventHandlerEntry data_ov167_021d764c[];
+extern const BattleEventHandlerEntry data_ov167_021d7664[];
+extern const BattleEventHandlerEntry data_ov167_021d76b4[];
+extern const BattleEventHandlerEntry data_ov167_021d7704[];
+extern const BattleEventHandlerEntry data_ov167_021d778c[];
+extern const BattleEventHandlerEntry data_ov167_021d77ac[];
+extern const BattleEventHandlerEntry data_ov167_021d77d4[];
+extern const BattleEventHandlerEntry data_ov167_021d77e4[];
+extern const BattleEventHandlerEntry data_ov167_021d7b54[];
+extern const BattleEventHandlerEntry data_ov167_021d7b6c[];
+extern const BattleEventHandlerEntry data_ov167_021d7be4[];
+void HandlerMummy(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+void HandlerSapSipperCheckNoEffect(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddSapSipper(u32 *priority);
+void HandlerPrankster(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddPrankster(u32 *priority);
+void HandlerMagicBounceCheck(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+void HandlerMagicBounceWait(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+void HandlerMagicBounceReflect(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddMagicBounce(u32 *priority);
+void HandlerHarvest(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddHarvest(u32 *priority);
+const BattleEventHandlerEntry *EventAddHeavyMetal(u32 *priority);
+void HandlerHeavyMetal(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddLightMetal(u32 *priority);
+void HandlerLightMetal(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+void HandlerContrary(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddContrary(u32 *priority);
+void HandlerUnnerveMemberIn(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+void HandlerUnnerveRotationIn(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+BOOL HandlerUnnerveSkipCheck(BattleEventItem *item, BtlServerFlow *flow, u32 factorType, u32 event, u16 subId, u8 monId);
+const BattleEventHandlerEntry *EventAddUnnerve(u32 *priority);
+void HandlerImposter(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddImposter(u32 *priority);
+const BattleEventHandlerEntry *EventAddIllusion(u32 *priority);
+void HandlerIllusionDamage(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+void HandlerIllusionGastroAcid(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+void HandlerIllusionChangeAbility(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+void CommonIllusionBreak(BattleEventItem *item, BtlServerFlow *flow, u8 monId);
+const BattleEventHandlerEntry *EventAddVictoryStar(u32 *priority);
+void HandlerVictoryStar(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+
+extern const BattleEventHandlerEntry data_ov167_021d76fc[];
+const BattleEventHandlerEntry *EventAddMummy(u32 *priority);
+
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

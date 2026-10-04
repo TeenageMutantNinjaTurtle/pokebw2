@@ -12,6 +12,7 @@
 ArcTool *PML_ItemArcHandleCreate(HeapID heapId);
 void *PML_ItemArcHandleReadFile(ArcTool *handle, u16 item, HeapID heapId);
 s32 PML_ItemGetParam(void *data, u32 param);
+BOOL PML_ItemIsBerry(u16 item);
 u32 GetItemParam(u16 item, u32 param, HeapID heapId);
 BOOL PML_ItemIsMail(u16 item);
 // The mail of a mail item
