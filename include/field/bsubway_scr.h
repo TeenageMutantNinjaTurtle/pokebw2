@@ -196,9 +196,22 @@ u16 func_ov033_0217c11c(BSubwayScrWork *bsw, u16 level, u8 index, u32 mode, u8 s
 u16 func_ov033_0217c288(u32 value);
 void func_ov033_0217c2c4(BSubwayScrWork *bsw, BSubwayTrainer *trainer, u16 trainerId, u32 count,
                         const BSubwayTeamConfig *config, HeapID heapId);
+// Function name from swan
+u16 randFFFFFFFFdivFFFF(BSubwayScrWork *bsw);
 
 extern const char data_ov033_0217c640[];
 extern const u8 data_ov033_0217c570[60];
 extern const u8 data_ov033_0217c5ac[10];
+
+// The range of trainer IDs a train's trainers come from, by level
+typedef struct {
+    u16 min;
+    u16 max;
+} BSubwayTrainerRange;
+
+extern const BSubwayTrainerRange data_ov033_0217c5bc[2];
+extern const BSubwayTrainerRange data_ov033_0217c5c4[3];
+extern const BSubwayTrainerRange data_ov033_0217c5d0[4];
+extern const BSubwayTrainerRange data_ov033_0217c5e0[4];
 
 #endif // POKEBW2_FIELD_BSUBWAY_SCR_H

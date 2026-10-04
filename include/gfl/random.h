@@ -4,7 +4,6 @@
 #include "types.h"
 
 u32 GFL_RandomLC(u32 max);
-u16 randFFFFFFFFdivFFFF(void);
 u32 GFL_RandomLCAlt(u32 max);
 u32 GFL_RandomMT(void);
 

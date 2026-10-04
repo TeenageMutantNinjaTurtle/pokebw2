@@ -615,6 +615,93 @@ void *func_ov033_0217c110(BSubwayScrWork *bsw) {
     return bsw->unk74C;
 }
 
+u16 func_ov033_0217c11c(BSubwayScrWork *bsw, u16 level, u8 index, u32 mode, u8 side) {
+    u16 trainerId = 0;
+    BOOL super = FALSE;
+    s32 boss = -1;
+    const BSubwayTrainerRange *ranges;
+    u16 count;
+
+    switch (mode) {
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+        super = TRUE;
+        break;
+    }
+    if (index == 6) {
+        if (!super) {
+            if (level == 2) {
+                boss = 0;
+            }
+        } else if (level == 6) {
+            boss = 1;
+        }
+    }
+    if (boss != -1) {
+        switch (mode) {
+        case 0:
+        case 5:
+            if (boss == 0) {
+                trainerId = 0x132;
+            } else if (boss == 1) {
+                trainerId = 0x133;
+            }
+            break;
+        case 1:
+        case 6:
+            if (boss == 0) {
+                trainerId = 0x134;
+            } else if (boss == 1) {
+                trainerId = 0x135;
+            }
+            break;
+        case 2:
+        case 3:
+        case 7:
+        case 8:
+            if (boss == 0) {
+                if (side == 0) {
+                    trainerId = 0x137;
+                } else {
+                    trainerId = 0x136;
+                }
+            } else if (boss == 1) {
+                if (side == 0) {
+                    trainerId = 0x139;
+                } else {
+                    trainerId = 0x138;
+                }
+            }
+            break;
+        }
+    } else if (!super) {
+        if (level < 3) {
+            if (index < 6) {
+                ranges = data_ov033_0217c5c4;
+            } else if (level < 2) {
+                ranges = data_ov033_0217c5bc;
+            } else {
+                return trainerId;
+            }
+            count = ranges[level].max - ranges[level].min + 1;
+            trainerId = ranges[level].min + randFFFFFFFFdivFFFF(bsw) % count;
+        }
+    } else if (level < 4) {
+        if (index < 6) {
+            ranges = data_ov033_0217c5d0;
+        } else {
+            ranges = data_ov033_0217c5e0;
+        }
+        count = ranges[level].max - ranges[level].min + 1;
+        trainerId = ranges[level].min + randFFFFFFFFdivFFFF(bsw) % count;
+    } else {
+        trainerId = 200 + randFFFFFFFFdivFFFF(bsw) % 100;
+    }
+    return trainerId;
+}
+
 BOOL func_ov033_0217c264(BSubwayScrWork *bsw, BSubwayTrainer *trainer, u16 trainerId, u32 count, const u16 *species,
                          const u16 *items, const BSubwayTeamConfig *config, HeapID heapId) {
     return func_ov012_02162864(trainer, trainerId, count, species, items, config, heapId);
@@ -660,6 +747,6 @@ void func_ov033_0217c2c4(BSubwayScrWork *bsw, BSubwayTrainer *trainer, u16 train
     GFL_HeapFree(temp);
 }
 
-u16 randFFFFFFFFdivFFFF(void) {
+u16 randFFFFFFFFdivFFFF(BSubwayScrWork *bsw) {
     return GFL_RandomLC(0xffffffff) / 0xffff;
 }
