@@ -628,7 +628,7 @@ from:0x021530b8 kind:thumb_call_arm to:0x02078920 module:main
 from:0x021530c8 kind:load to:0x0216e180 module:overlay(12)
 from:0x021530d0 kind:thumb_call to:0x02042788 module:main
 from:0x021530e8 kind:thumb_call to:0x020425ec module:main
-from:0x021530f0 kind:load to:0x0216e170 module:overlay(12)
+from:0x021530f0 kind:load to:0x0216e110 add:0x60 module:overlay(12)
 from:0x021530f4 kind:load to:0x0216e110 module:overlay(12)
 from:0x021530fc kind:thumb_call to:0x021530cc module:overlay(12)
 from:0x0215311a kind:thumb_call to:0x02152c24 module:overlay(12)

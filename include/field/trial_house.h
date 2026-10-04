@@ -26,7 +26,7 @@ struct TrialHouseWork {
 
 struct TrialHouseEventData {
     // How the Battle Test's data is received
-    DeliveryBeaconInit init;
+    DeliveryInit init;
     void *subwork;
     GameSystem *gsys;
     TrialHouseWork *work;

@@ -24,7 +24,7 @@ typedef struct DeliveryBeaconWork DeliveryBeaconWork;
 typedef void (*DeliveryBeaconSeq)(void *work);
 
 struct DeliveryBeaconWork {
-    DeliveryBeaconInit aInit;
+    DeliveryInit aInit;
     DeliveryBeaconData beacons[7][DELIVERY_BEACON_MAX_NUM];
     int sendIndex;
     // The unk5E of the beacons taken, 0xff until the first one
@@ -138,11 +138,11 @@ static void func_ov012_02152984(DeliveryBeaconWork *pWork, DeliveryBeaconSeq seq
 static void func_ov012_0215298c(void *work) {
 }
 
-void *func_ov012_02152990(const DeliveryBeaconInit *init) {
+void *func_ov012_02152990(const DeliveryInit *init) {
     DeliveryBeaconWork *pWork =
         GFL_HeapAllocate(init->heapId, sizeof(DeliveryBeaconWork), TRUE, "delivery_beacon.c", 295);
 
-    sys_memcpy(init, &pWork->aInit, sizeof(DeliveryBeaconInit));
+    sys_memcpy(init, &pWork->aInit, sizeof(DeliveryInit));
     return pWork;
 }
 

@@ -37,6 +37,11 @@ src/ov012/delivery_beacon.c:
     .rodata     start:0x0216af34 end:0x0216af3c
     .data       start:0x0216e034 end:0x0216e110
 
+src/ov012/delivery_irc.c:
+    .text       start:0x02152c0c end:0x02153160
+    .rodata     start:0x0216af3c end:0x0216af5c
+    .data       start:0x0216e110 end:0x0216e190
+
 src/ov012/script_sys.c:
     .text       start:0x0215366c end:0x02153da4
     .data       start:0x0216e190 end:0x0216e1b4

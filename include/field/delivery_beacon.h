@@ -29,10 +29,10 @@ typedef struct {
     HeapID heapId;
     DeliveryData data[7];
     u32 dataNum;
-} DeliveryBeaconInit;
+} DeliveryInit;
 
 // The work is passed as void * by the events that use it
-void *func_ov012_02152990(const DeliveryBeaconInit *init);
+void *func_ov012_02152990(const DeliveryInit *init);
 // Starts receiving, unless the network is busy
 BOOL func_ov012_02152b64(void *work);
 // Whether any beacon came
