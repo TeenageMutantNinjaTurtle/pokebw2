@@ -18,7 +18,7 @@ typedef struct {
     u32 fileId;
 } FieldG3DMapperTextureFile;
 
-typedef struct {
+struct FieldG3DMapperConfig {
     fx32 chunkSpan;
     u32 unk04;
     u16 chunkLoadDiameterX;
@@ -35,7 +35,7 @@ typedef struct {
     FieldTerrainAnmInfo terrainAnmInfo;
     u32 chunkBufferSize;
     u8 renderPhase1MaxChunkCount;
-} FieldG3DMapperConfig;
+};
 
 // The terrain layers at a position, which the mapper gathers from its chunks
 typedef struct {

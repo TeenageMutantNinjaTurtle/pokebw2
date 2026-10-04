@@ -9,17 +9,14 @@
 #include "field/field_daycare.h"
 #include "field/field_effect.h"
 #include "field/field_environment.h"
+#include "field/field_g3d_mapper.h"
 #include "field/field_internal.h"
 #include "field/field_lens_flare.h"
-#include "field/field_lifecycle.h"
 #include "field/field_map.h"
 #include "field/field_player.h"
-#include "field/field_render.h"
 #include "field/field_skill_map_eff.h"
-#include "field/field_visuals.h"
 #include "field/fieldmap_ctrl_hybrid.h"
 #include "field/zone.h"
-#include "field/zone_data.h"
 #include "gfl/graphics.h"
 #include "gfl/sound.h"
 #include "nitro/fx.h"
@@ -30,19 +27,16 @@
 
 static const u8 sResolvedControllerTypes[4] = { 0, 1, 2, 0 };
 
-struct ZoneMapTypeData {
-    u8 bytes[0x14];
-    u16 width;
-    u16 height;
-    u32 count;
-    u32 *chunkIDs;
-    u32 unk20;
-    u32 unk24;
-    u32 texSetId;
-    u32 srtAnmId;
-    u32 patAnmId;
-    u8 tail[8];
-};
+// A kind of map: the setup of its mapper and its controller, whether it takes its chunks from the zone's map matrix,
+// and the size of its heap
+typedef struct {
+    FieldG3DMapperConfig mapperConfig;
+    void *ctrlVTable;
+    BOOL useMapMatrix;
+    u32 heapSize;
+} FieldMapConfig;
+
+extern const FieldMapConfig MAP_CONFIGS[];
 
 void Field_RequestClose(Field *field) {
     field->routineState = 2;
@@ -372,30 +366,27 @@ u32 GetZoneMapType2(u16 zoneId) {
     return GetZoneMapType(zoneId);
 }
 
-void SetupLoadZoneMapTypeData(u16 zoneId, AreaData *area, struct ZoneMapTypeData *out, MapMatrix *matrix) {
-    u32 type;
-    const u8 *src;
+void SetupLoadZoneMapTypeData(u16 zoneId, AreaData *area, FieldG3DMapperConfig *config, MapMatrix *matrix) {
+    u32 type = GetZoneMapType2(zoneId);
 
-    type = GetZoneMapType2(zoneId);
-    src = MAP_CONFIGS + 0x48 * type;
-    *out = *(const struct ZoneMapTypeData *)src;
-    if (*(const u32 *)(data_ov036_021ca05c + 0x48 * type) != 0) {
-        out->width = GetMapMatrixWidth(matrix);
-        out->height = GetMapMatrixHeight(matrix);
-        out->count = GetMapMatrixChunkIDCount(matrix);
-        out->chunkIDs = GetMapMatrixChunkIDs(matrix);
+    *config = MAP_CONFIGS[type].mapperConfig;
+    if (MAP_CONFIGS[type].useMapMatrix) {
+        config->matrixWidth = GetMapMatrixWidth(matrix);
+        config->matrixHeight = GetMapMatrixHeight(matrix);
+        config->chunkIdCount = GetMapMatrixChunkIDCount(matrix);
+        config->chunkDatIds = GetMapMatrixChunkIDs(matrix);
     }
-    out->unk20 = 1;
-    out->unk24 = 14;
-    out->texSetId = AreaData_GetTexSetID(area);
-    out->srtAnmId = AreaData_GetSRTAnmID(area);
-    out->patAnmId = AreaData_GetPatAnmID(area);
+    config->isSharedTexResource = TRUE;
+    config->textures.arcId = 14;
+    config->textures.fileId = AreaData_GetTexSetID(area);
+    config->terrainAnmInfo.srtAnimeId = AreaData_GetSRTAnmID(area);
+    config->terrainAnmInfo.patAnimeId = AreaData_GetPatAnmID(area);
 }
 
 void *GetZoneFieldmapCtrlVTable(u16 zoneId) {
-    return *(void *const *)(data_ov036_021ca058 + 0x48 * GetZoneMapType2(zoneId));
+    return MAP_CONFIGS[GetZoneMapType2(zoneId)].ctrlVTable;
 }
 
 u32 GetFieldmapZoneHeapSize(u16 zoneId) {
-    return *(const u32 *)(data_ov036_021ca060 + 0x48 * GetZoneMapType2(zoneId));
+    return MAP_CONFIGS[GetZoneMapType2(zoneId)].heapSize;
 }

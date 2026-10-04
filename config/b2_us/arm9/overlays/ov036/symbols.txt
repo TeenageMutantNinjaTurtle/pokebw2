@@ -4355,9 +4355,6 @@ FIELDMAP_ROUTINES kind:data(any) addr:0x021c9fd4
 DEFAULT_FIELDCAMERA_UP kind:data(any) addr:0x021ca004
 data_ov036_021ca010 kind:data(any) addr:0x021ca010
 MAP_CONFIGS kind:data(any) addr:0x021ca01c
-data_ov036_021ca058 kind:data(any) addr:0x021ca058
-data_ov036_021ca05c kind:data(any) addr:0x021ca05c
-data_ov036_021ca060 kind:data(any) addr:0x021ca060
 SPECIAL_TILE_SCRIPTS kind:data(any) addr:0x021ca844
 data_ov036_021ca84a kind:data(any) addr:0x021ca84a
 FIELD_PROP_ANM_IDX_FOR_DAY_PART kind:data(any) addr:0x021ca8ac

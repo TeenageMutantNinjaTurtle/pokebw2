@@ -5,7 +5,6 @@
 #include "field/festival.h"
 #include "field/field.h"
 #include "field/field_actor.h"
-#include "field/field_lifecycle.h"
 #include "field/player_state.h"
 #include "gfl/std.h"
 #include "struct_decls.h"

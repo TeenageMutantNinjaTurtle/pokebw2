@@ -4,7 +4,7 @@
 #include "field/field.h"
 #include "field/field_acmd.h"
 #include "field/field_actor.h"
-#include "field/field_visuals.h"
+#include "field/field_effect.h"
 #include "gfl/sound.h"
 #include "nitro/fx.h"
 #include "system/game_event.h"
