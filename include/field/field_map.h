@@ -26,6 +26,12 @@ struct FieldTerrain {
     fx32 height;
 };
 
+// The terrain at a position, a layer for each height. Layout from swan
+struct MapTerrainSamplerOutput {
+    FieldTerrain layers[16];
+    u32 layerCount;
+};
+
 // Known fields of the field map renderer; the remaining layout is still in assembly.
 struct G3DMapper {
     u8 unk00[0x34];

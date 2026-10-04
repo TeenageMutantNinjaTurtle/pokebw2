@@ -27,6 +27,41 @@ BOOL GFL_G3DCurveGetNowRotation(G3DCurve *curve, VecFx32 *rotation);
 // NitroSystem's model resource, and the start of its render object, which draws a model resource
 typedef struct NNSG3dResMdl NNSG3dResMdl;
 
+// The start of NitroSystem's model resource
+typedef struct {
+    u8 sbcType;
+    u8 scalingRule;
+    u8 texMtxMode;
+    u8 numNode;
+    u8 numMat;
+    u8 numShp;
+    u8 firstUnusedMtxStackID;
+    u8 dummy_;
+    fx32 posScale;
+    fx32 invPosScale;
+    u16 numVertex;
+    u16 numPolygon;
+    u16 numTriangle;
+    u16 numQuad;
+    fx16 boxX;
+    fx16 boxY;
+    fx16 boxZ;
+    fx16 boxW;
+    fx16 boxH;
+    fx16 boxD;
+    fx32 boxPosScale;
+    fx32 boxInvPosScale;
+} NNSG3dResMdlInfo;
+
+struct NNSG3dResMdl {
+    u32 size;
+    u32 ofsSbc;
+    u32 ofsMat;
+    u32 ofsShp;
+    u32 ofsEvpMtx;
+    NNSG3dResMdlInfo info;
+};
+
 // The start of NitroSDK's animation resources
 typedef struct {
     u8 category0;
@@ -252,6 +287,137 @@ static inline void NNS_G3dGlbSetBaseRot(const MtxFx33 *rot) {
 
 // Sends the geometry commands that are waiting in a buffer
 void NNS_G3DWaitFIFO(void);
+void NNS_G3DFlushRenderState(void);
+
+// NitroSystem's geometry command buffer (NNS_G3dGeBufferOP_N), and its inline wrappers
+void NNS_G3DExecOp(u32 op, const void *args, u32 count);
+
+#define G3OP_MTX_PUSH 0x11
+#define G3OP_MTX_POP 0x12
+#define G3OP_MTX_IDENTITY 0x15
+#define G3OP_MTX_LOAD_4x3 0x17
+#define G3OP_MTX_MULT_4x3 0x19
+#define G3OP_MTX_SCALE 0x1b
+#define G3OP_MTX_TRANS 0x1c
+#define G3OP_POLYGON_ATTR 0x29
+#define G3OP_BEGIN 0x40
+#define G3OP_END 0x41
+#define G3OP_BOX_TEST 0x70
+
+static inline void NNS_G3dGePushMtx(void) {
+    NNS_G3DExecOp(G3OP_MTX_PUSH, NULL, 0);
+}
+
+static inline void NNS_G3dGePopMtx(int num) {
+    s32 param = num;
+
+    NNS_G3DExecOp(G3OP_MTX_POP, &param, 1);
+}
+
+static inline void NNS_G3dGeIdentity(void) {
+    NNS_G3DExecOp(G3OP_MTX_IDENTITY, NULL, 0);
+}
+
+static inline void NNS_G3dGeLoadMtx43(const MtxFx43 *mtx) {
+    NNS_G3DExecOp(G3OP_MTX_LOAD_4x3, mtx, 12);
+}
+
+static inline void NNS_G3dGeMultMtx43(const MtxFx43 *mtx) {
+    NNS_G3DExecOp(G3OP_MTX_MULT_4x3, mtx, 12);
+}
+
+static inline void NNS_G3dGeScaleVec(const VecFx32 *scale) {
+    NNS_G3DExecOp(G3OP_MTX_SCALE, scale, 3);
+}
+
+static inline void NNS_G3dGeTranslateVec(const VecFx32 *trans) {
+    NNS_G3DExecOp(G3OP_MTX_TRANS, trans, 3);
+}
+
+static inline void NNS_G3dGePolygonAttr(int light, int polyMode, int cullMode, int polygonID, int alpha, int misc) {
+    u32 param = GX_PACK_POLYGONATTR_PARAM(light, polyMode, cullMode, polygonID, alpha, misc);
+
+    NNS_G3DExecOp(G3OP_POLYGON_ATTR, &param, 1);
+}
+
+static inline void NNS_G3dGeBegin(int primitive) {
+    u32 param = primitive;
+
+    NNS_G3DExecOp(G3OP_BEGIN, &param, 1);
+}
+
+static inline void NNS_G3dGeEnd(void) {
+    NNS_G3DExecOp(G3OP_END, NULL, 0);
+}
+
+static inline void NNS_G3dGeBoxTest(const GXBoxTestParam *box) {
+    NNS_G3DExecOp(G3OP_BOX_TEST, box, 3);
+}
+
+// A model resource file's blocks, from NitroSystem's headers
+typedef struct {
+    u32 kind;
+    u32 size;
+} NNSG3dResDataBlockHeader;
+
+typedef struct {
+    u8 revision;
+    u8 numEntry;
+    u16 sizeDictBlk;
+    u16 dummy_;
+    u16 ofsEntry;
+} NNSG3dResDict;
+
+typedef struct {
+    u16 sizeUnit;
+    u16 sizeEntry;
+    u8 data[4];
+} NNSG3dResDictEntryHeader;
+
+typedef struct {
+    NNSG3dResDataBlockHeader header;
+    NNSG3dResDict dict;
+} NNSG3dResMdlSet;
+
+typedef struct {
+    u32 offset;
+} NNSG3dResDictMdlSetData;
+
+typedef struct NNSG3dResTex NNSG3dResTex;
+
+static inline void *NNS_G3dGetResDataByIdx(const NNSG3dResDict *dict, u32 idx) {
+    if (dict != NULL && idx < dict->numEntry) {
+        const NNSG3dResDictEntryHeader *header = (const NNSG3dResDictEntryHeader *)((const u8 *)dict + dict->ofsEntry);
+
+        return (void *)((const u8 *)&header->data[0] + header->sizeUnit * idx);
+    }
+    return NULL;
+}
+
+static inline NNSG3dResMdl *NNS_G3dGetMdlByIdx(const NNSG3dResMdlSet *mdlSet, u32 idx) {
+    const NNSG3dResDictMdlSetData *data = NNS_G3dGetResDataByIdx(&mdlSet->dict, idx);
+
+    if (data != NULL) {
+        return (NNSG3dResMdl *)((u8 *)mdlSet + data->offset);
+    }
+    return NULL;
+}
+
+// NNS_G3dGetMdlSet and NNS_G3dGetTex
+NNSG3dResMdlSet *NNS_G3DResGetMdlBlock(void *file);
+NNSG3dResTex *NNS_G3DResGetTexBlock(void *file);
+// NNS_G3dBindMdlTex and NNS_G3dBindMdlPltt
+BOOL func_020653fc(NNSG3dResMdl *mdl, const NNSG3dResTex *tex);
+BOOL func_02065524(NNSG3dResMdl *mdl, const NNSG3dResTex *tex);
+// NNS_G3dRenderObjInit
+void NNS_G3DModelAttachResource(NNSG3dRenderObj *obj, NNSG3dResMdl *mdl);
+void *GFL_G3DResGetResData(void *resource);
+void GFL_G3DSysDispatchDraw(NNSG3dRenderObj *obj);
+// NitroSystem's VRAM managers, which return a key for the VRAM, or 0
+extern u32 (*g_TexVRAMAllocFunc)(u32 size, BOOL is4x4Comp, u32 opt);
+extern int (*g_TexVRAMFreeFunc)(u32 key);
+extern u32 (*g_PltVRAMAllocFunc)(u32 size, BOOL is4Pltt, u32 opt);
+extern int (*g_PltVRAMFreeFunc)(u32 key);
 
 // The alpha of a material of a model resource, from 0 to 31
 u32 NNS_G3DResMdlGetMatAlpha(const NNSG3dResMdl *mdl, u32 matId);

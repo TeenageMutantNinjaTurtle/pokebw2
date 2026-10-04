@@ -30,8 +30,13 @@ typedef struct {
     fx32 m[3][3];
 } MtxFx33;
 
-typedef struct {
+typedef union {
     fx32 m[4][3];
+    // The rotation and scale, then the translation
+    struct {
+        MtxFx33 rot;
+        VecFx32 trans;
+    } rt;
 } MtxFx43;
 
 typedef struct {

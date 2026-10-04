@@ -164,6 +164,23 @@ typedef u16 GXRgb;
 #define GX_CULL_BACK 2
 #define GX_CULL_NONE 3
 
+#define GX_LIGHTMASK_0 1
+#define GX_POLYGON_ATTR_MISC_FAR_CLIPPING 0x1000
+#define GX_POLYGON_ATTR_MISC_DISP_1DOT 0x2000
+
+// A box for the geometry engine's box test, in model coordinates
+typedef struct {
+    fx16 x;
+    fx16 y;
+    fx16 z;
+    fx16 width;
+    fx16 height;
+    fx16 depth;
+} GXBoxTestParam;
+
+// G3X_GetBoxTestResult: 0 once the test is done, with *in TRUE if the box is in view
+s32 gfxGetBoxTestResult(s32 *in);
+
 #define GX_TEXFMT_PLTT4 2
 #define GX_TEXFMT_PLTT16 3
 #define GX_TEXGEN_TEXCOORD 1

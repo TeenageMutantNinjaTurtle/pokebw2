@@ -9,6 +9,8 @@ ArcTool *GFL_ArcSysCreateFileHandle(u32 arcId, HeapID heapId);
 u32 GFL_ArcToolGetDataMax(ArcTool *handle);
 void GFL_ArcToolFree(ArcTool *handle);
 void GFL_ArcToolRead(ArcTool *handle, u32 fileId, void *dest);
+// Reads on from where the last read stopped
+void GFL_ArcToolReadRaw(ArcTool *handle, u32 size, void *dest);
 void GFL_ArcToolReadRange(ArcTool *handle, u32 fileId, u32 offset, u32 size, void *dest);
 void GFL_ArcSysRead(void *dest, u32 arcId, u32 fileId);
 void GFL_ArcSysReadRange(void *dest, u32 arcId, u32 fileId, u32 offset, u32 size);

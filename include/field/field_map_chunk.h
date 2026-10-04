@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "gfl/g3d.h"
+#include "gfl/heap.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
 
@@ -20,6 +21,39 @@ typedef struct {
     BOOL terrainLoadDone;
 } FieldChunkLoader;
 
+// How to load and sample a kind of chunk, found by the magic at the start of its file. A table of them ends with
+// magic 0xffffffff
+typedef struct {
+    u32 magic;
+    void (*loaderUpdate)(FieldChunk *chunk, FieldChunkContext *context);
+    void (*getTerrain)(MapTerrainSamplerOutput *out, void *container, const VecFx32 *pos, fx32 a3, fx32 a4);
+    void (*getTerrainBaseLayer)(MapTerrainSamplerOutput *out, void *container, const VecFx32 *pos, fx32 a3,
+                                fx32 a4);
+} FieldChunkVTable;
+
+struct FieldChunkContext {
+    void *srtAnimatorState;
+    FieldPropSystem *propSystem;
+    void *wfbc;
+    void *resortMap;
+    u32 chunkIndex;
+    u16 heapId;
+};
+
+// What FieldChunk_Create sets up a chunk with
+typedef struct {
+    u32 bufferSize;
+    u32 textureVRAMSize;
+    const FieldChunkVTable *vtable;
+    FieldChunkContext *context;
+    // 0 for 0x800 bytes
+    u32 streamerBufSize;
+    u16 propCapacity1;
+    u16 propCapacity2;
+    u32 unkA8;
+    u32 unkAC;
+} FieldChunkConfig;
+
 struct FieldChunk {
     u16 active;
     u16 disableStreamer;
@@ -30,7 +64,7 @@ struct FieldChunk {
     u32 bufferSize;
     u32 textureVRAMSize;
     u32 streamerBufSize;
-    void *vtable;
+    const FieldChunkVTable *vtable;
     NNSG3dRenderObj *model;
     NNSG3dRenderObj modelObj;
     void *modelRsc;
@@ -38,9 +72,9 @@ struct FieldChunk {
     u32 textureVRAM;
     u32 paletteVRAM;
     void *mapTextures;
-    void *propResBank;
-    void *propInstances;
-    void *propInstances2;
+    FieldPropResBank *propResBank;
+    FieldPropInstance *propInstances;
+    FieldPropInstance *propInstances2;
     u16 propCapacity1;
     u16 propCapacity2;
     u32 unkA8;
@@ -50,7 +84,37 @@ struct FieldChunk {
     void *context;
 };
 
-void FieldChunk_ReleasePropInstance(FieldChunk *chunk, u16 propIndex);
+FieldChunk *FieldChunk_Create(const FieldChunkConfig *config, HeapID heapId);
+void FieldChunk_Free(FieldChunk *chunk);
+void FieldChunk_CallLoaderUpdate(FieldChunk *chunk);
+void FieldChunk_LoadFullSync(FieldChunk *chunk);
+BOOL FieldChunk_Draw(FieldChunk *chunk, void *camera);
+void FieldChunk_BindArc(FieldChunk *chunk, u32 arcId, HeapID heapId);
+void FieldChunk_UnbindArc(FieldChunk *chunk);
+void FieldChunk_BindMapTextures(FieldChunk *chunk, void *textures);
+void FieldChunk_UnbindMapTextures(FieldChunk *chunk);
+void FieldChunk_BindPropResInstanceBank(FieldChunk *chunk, FieldPropResBank *bank);
+void FieldChunk_UnbindPropResInstanceBank(FieldChunk *chunk);
+void FieldChunk_ReleasePropInstance(FieldChunk *chunk, u32 propIndex);
+void FieldChunk_ChangeDatID(FieldChunk *chunk, u32 datID);
+void FieldChunk_Disable(FieldChunk *chunk);
+void FieldChunk_BeginLoad(FieldChunk *chunk, u32 datID);
+BOOL FieldChunk_UpdateStreamLoad(FieldChunk *chunk);
+BOOL FieldChunk_RenderMap(FieldChunk *chunk);
+void FieldChunk_RenderProps(FieldChunk *chunk, void *camera);
+BOOL FieldChunk_IsTerrainReady(FieldChunk *chunk);
+void FieldChunk_GetTerrain(MapTerrainSamplerOutput *out, FieldChunk *chunk, const VecFx32 *pos, fx32 a3);
+void FieldChunk_GetTerrainBaseLayer(MapTerrainSamplerOutput *out, FieldChunk *chunk, const VecFx32 *pos, fx32 a3);
+void FieldChunk_ResetProps(FieldChunk *chunk);
+void FieldChunk_Reset(FieldChunk *chunk);
+void FieldChunk_DetachModelResource(NNSG3dRenderObj *model);
+BOOL FieldChunk_CheckModelBBox(NNSG3dResMdl *mdl);
+s32 FieldChunk_CheckBBox(const GXBoxTestParam *box);
+void FieldChunk_LoadAtOnce(FieldChunk *chunk, u32 datID);
+
+extern const VecFx32 FIELD_CHUNK_SCALE_IDENTITY;
+extern const VecFx32 FIELD_CHUNK_TRANSLATION_IDENTITY;
+extern const MtxFx33 FIELD_CHUNK_ROTATION_IDENTITY;
 void FieldChunk_SetActive(FieldChunk *chunk, u16 active);
 u16 FieldChunk_IsActive(FieldChunk *chunk);
 void FieldChunk_SetWorldPos(FieldChunk *chunk, const VecFx32 *position);
