@@ -203,6 +203,22 @@ void func_ov167_021a2c5c(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon
 void func_ov167_021a2cec(BtlServerFlow *flow, u8 monId, u16 move);
 void func_ov167_021a2d24(BtlServerFlow *flow, u8 monId, u16 move);
 void func_ov167_021a2d5c(BtlServerFlow *flow, u8 monId, u16 move);
+void func_ov167_021a2d94(BtlServerFlow *flow, u8 monId, u16 move, u32 event);
+BOOL IsGuaranteedHit(BtlServerFlow *flow, BattleMon *attacker, BattleMon *defender);
+BOOL func_ov167_021a34a4(BtlServerFlow *flow, BattleMon *mon, BattleMon *target, u16 move);
+BOOL func_ov167_021a3190(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, BattleMon *target, void *data,
+                         u32 event);
+BOOL func_ov167_021a3230(BtlServerFlow *flow, BtlFlowMoveParam *param, u32 event, BattleMon *mon, BattleMon *target,
+                         void *data, BattleHandlerString *string, BOOL *silent);
+BOOL func_ov167_021a3448(BtlServerFlow *flow, BattleMon *mon, BattleMon *target, BtlFlowMoveParam *param);
+BOOL func_ov167_021a3504(BtlServerFlow *flow, BattleMon *mon, BattleMon *target, BtlFlowMoveParam *param);
+BOOL func_ov167_021aa180(BtlServerFlow *flow, BattleMon *mon, BattleMon *target, u16 move);
+BOOL func_ov167_021aa460(BtlServerFlow *flow, BattleMon *mon, BattleMon *target, u16 move);
+u32 func_ov167_021b0834(void *data, u8 monId);
+void func_ov167_021a9244(BtlServerFlow *flow, BattleMon *mon, u16 move);
+BOOL func_ov167_021aa954(BtlServerFlow *flow, BattleMon *mon, BattleMon *target, BtlFlowMoveParam *param, BOOL flag);
+void func_ov167_021ab73c(void *data, BtlServerFlow *flow, BattleMon *mon, BattleMon *target, u32 arg4);
+void func_ov167_021b0824(void *data, u8 monId, BOOL hit);
 void func_ov167_021a2e80(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets, void *data);
 void func_ov167_021a2f54(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets, void *data);
 void func_ov167_021a32e0(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets);

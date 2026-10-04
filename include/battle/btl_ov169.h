@@ -32,6 +32,8 @@ void SortBySpeed(void *monSet, BtlServerFlow *flow);
 u8 GetBattlePos(void *data, u8 monId);
 u32 func_ov169_0689cec0(void *monSet);
 BOOL func_ov169_0689ced8(void *monSet);
+void func_ov169_0689cd9c(void *monSet, BattleMon *mon);
+BOOL func_ov169_0689d724(void *data, BtlMainModule *mainModule, u8 monId);
 void func_ov169_0689d1d8(void *data);
 u32 func_ov169_0689cec8(void *monSet);
 BattleMon *func_ov169_0689cdf8(void *monSet, u32 index);

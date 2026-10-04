@@ -37,7 +37,8 @@ typedef struct {
     u8 unk05;
     u8 type;
     u8 unk07;
-    u8 unk08[8];
+    u8 unk08[4];
+    u32 unk0C;
     union {
         u32 raw;
         struct {
