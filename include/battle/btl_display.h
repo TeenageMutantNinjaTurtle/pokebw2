@@ -20,4 +20,9 @@ void ServerDisplay_SetMessage(BtlServerFlow *handler, u16 message, u32 count, u3
 void ServerDisplay_StandardMessageEx(BtlServerFlow *handler, u16 message, u16 soundEffect, u32 count, u32 *args);
 void ServerDisplay_SetMessageEx(BtlServerFlow *handler, u16 message, u16 soundEffect, u32 count, u32 *args);
 
+// Command 0x18, with its arguments' types
+static inline void BtlServerCmd_Put18(void *queue, u8 monId, u8 target, u8 result, u8 arg4, u16 move, u16 arg6) {
+    func_ov167_021b1434(queue, 0x18, monId, target, result, arg4, move, arg6);
+}
+
 #endif // POKEBW2_BATTLE_BTL_DISPLAY_H

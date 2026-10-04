@@ -7,16 +7,12 @@
 #include "battle/btl_handler.h"
 #include "battle/btl_server.h"
 
-// The positions a move targets
+// What a move's use reports back
 typedef struct {
-    u16 unk00;
-    u8 pos1;
-    u8 pos2;
-    u8 unk04;
-    u8 unk05_0 : 1;
-    u8 unk05_1 : 1;
-    u8 unk05_2 : 6;
-} BtlFlowTargetPos;
+    u8 result;
+    u16 move;
+    u8 target;
+} BtlFlowFightWork;
 
 // Walks the mons in battle of every client
 typedef struct {
@@ -153,8 +149,8 @@ void func_ov167_021a0a08(BtlServerFlow *flow, BattleMon *mon, u32 action);
 u32 func_ov167_021a0a44(BtlServerFlow *flow, BattleMon *mon);
 BOOL func_ov167_021a0b28(BtlServerFlow *flow, BattleMon *mon);
 BOOL ActionOrder_InterruptProc(BtlServerFlow *flow, u8 monId, u8 targetId);
-void func_ov167_021a0c88(BtlFlowTargetPos *targets);
-void func_ov167_021a0ca8(BtlFlowTargetPos *targets, BtlServerFlow *flow, BattleMon *mon, void *monSet);
+void func_ov167_021a0c88(BattleMoveEffectState *targets);
+void func_ov167_021a0ca8(BattleMoveEffectState *targets, BtlServerFlow *flow, BattleMon *mon, void *monSet);
 void func_ov167_021a0de0(BtlFlowMonIter *iter, BtlServerFlow *flow);
 void func_ov167_021a0e90(BtlServerFlow *flow, BattleMon *mon);
 void ServerControl_AfterMoveCore(BtlServerFlow *flow, BattleMon *mon);
@@ -163,10 +159,40 @@ BOOL func_ov167_021a1160(BtlServerFlow *flow, BattleMon *mon);
 BOOL func_ov167_021a12f8(BtlServerFlow *flow, BattleMon *mon);
 BOOL func_ov167_021a1354(BtlServerFlow *flow, BattleMon *mon);
 void func_ov167_021a1630(BtlServerFlow *flow, BattleMon *mon);
+void func_ov167_021a1660(BtlServerFlow *flow, BattleMon *mon);
 void func_ov167_021a1694(BtlServerFlow *flow);
+void func_ov167_021a1700(BtlServerFlow *flow);
+void func_ov167_021a1720(BtlServerFlow *flow, BattleMon *mon);
+u32 ServerEvent_InterruptSwitch(BtlServerFlow *flow, BattleMon *mon);
+void ServerControl_SwitchOutCore(BtlServerFlow *flow, BattleMon *mon, u32 effect);
+void ServerControl_SwitchOutConfirm(BtlServerFlow *flow, BattleMon *mon);
+BOOL func_ov167_021a1e50(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param);
+void func_ov167_021a1ea8(BtlServerFlow *flow, u16 move);
+void func_ov167_021a1fc0(void *data);
+void func_ov167_021a1ff8(BtlServerFlow *flow, BattleMon *mon, u16 move, void *targets);
+void func_ov167_021a20c8(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param);
+void func_ov167_021a2114(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param, u32 event);
+BOOL func_ov167_021a2194(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 target);
+BOOL func_ov167_021a228c(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 target, BtlFlowFightWork *work);
+void func_ov167_021a23cc(BtlServerFlow *flow, BattleMon *mon, u16 move);
+void func_ov167_021a243c(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 result);
+BOOL func_ov167_021a255c(BtlServerFlow *flow, BattleMon *mon, u16 move, void *targets, void *data);
+void func_ov167_021a2680(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 target);
+u8 func_ov167_021a2700(BtlServerFlow *flow, BattleMon *mon, u16 move, void *targets);
+void func_ov167_021a3904(BtlServerFlow *flow, BattleMon *mon);
+BOOL func_ov167_021a3ac0(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 flag);
+BOOL func_ov167_021a3cf0(BtlServerFlow *flow, BattleMon *mon, u16 move);
+void func_ov167_021a3ef4(BtlServerFlow *flow, BattleMon *mon, u16 move, u32 condition);
+void func_ov167_021a4250(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 moveSlot, void *targets);
+void func_ov167_021a911c(BtlServerFlow *flow, BattleMon *mon, u16 move);
+BOOL func_ov167_021a9df0(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 target, u16 *delegateMove);
+BOOL func_ov167_021a9f70(BtlServerFlow *flow, BattleMon *mon, u16 move, u16 actualMove, BattleHandlerString *string);
+void ServerEvent_GetMoveParam(BtlServerFlow *flow, u16 move, BattleMon *mon, BtlFlowMoveParam *param);
+void func_ov167_021ae32c(BtlServerFlow *flow, BattleMon *mon, u8 target, BtlFlowMoveParam *param, void *targets);
+void ServerControl_SkyDropCheckRelease(BtlServerFlow *flow, BattleMon *mon, BOOL flag);
 void func_ov167_021a16b4(BtlServerFlow *flow);
 BOOL func_ov167_021a11b0(BtlServerFlow *flow, BattleMon *mon, BOOL arg2, BOOL arg3);
-BOOL func_ov167_021a18f0(BattleMon *mon, BattleAction *action);
+u16 func_ov167_021a18f0(BattleMon *mon, BattleAction *action);
 void func_ov167_021a1940(BtlServerFlow *flow, BattleMon *mon, BattleAction *action, u32 key);
 void func_ov167_021a8fd4(BtlServerFlow *flow, BattleMon *mon);
 void ServerDisplay_SkyDropTargetAppear(BtlServerFlow *flow, BattleMon *mon, u16 effect);

@@ -29,6 +29,18 @@ struct BattleHandlerString {
     u32 soundEffect;
 };
 
+// A move's parameters as the events changed them
+typedef struct {
+    u16 move;
+    u16 originalMove;
+    u8 unk04;
+    u8 unk05;
+    u8 unk06;
+    u8 unk07;
+    u8 unk08[8];
+    u32 flags;
+} BtlFlowMoveParam;
+
 // Client IDs the flow collected, such as those that must switch in
 typedef struct {
     u8 count;
@@ -48,7 +60,9 @@ struct BtlServerFlow {
     u8 unk3E0[0xc4];
     ArcTool *unk4A4;
     BattleMoveEffectState *moveEffect;
-    u8 unk4AC[0xc];
+    void *unk4AC;
+    void *unk4B0;
+    u8 unk4B4[4];
     BtlClientIDList clientIdList;
     u8 unk4C0[0xe];
     BtlFlowClientList unk4CE;
@@ -83,9 +97,14 @@ struct BtlServerFlow {
     ActionOrderEntry actionOrder[6];
     // Where an entry is kept while the order is reshuffled
     ActionOrderEntry tempEntry;
-    u8 unk850[0x1218];
+    // Two mon sets in overlay 169's format: the move's targets, and a copy
+    void *unk850;
+    void *unk854;
+    u8 unk858[0x1210];
     // The mons that came in this turn, in overlay 169's format
-    u8 unk1A68[0x50];
+    u8 unk1A68[0x48];
+    BtlFlowMoveParam *unk1AB0;
+    BtlFlowMoveParam *unk1AB4;
     // Passed to the ov169 function that several BattleHandler commands call through veneers
     u8 unk1ab8[0x2c];
     BattleHandlerString message;
@@ -101,12 +120,17 @@ struct BtlServerFlow {
     u8 unk1FF0[0x144];
 };
 
+// Where the move goes, and its effect
 struct BattleMoveEffectState {
-    u8 unk00[4];
+    u16 unk00;
+    u8 pos1;
+    u8 pos2;
     u8 index;
     u8 enabled : 1;
-    u8 unk05 : 7;
+    u8 unk05_1 : 1;
+    u8 unk05_2 : 6;
 };
+
 
 struct BattleHandlerAbilityChangeParam {
     u32 unk00 : 8;

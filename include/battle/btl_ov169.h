@@ -17,6 +17,11 @@ void func_ov169_0689d4c0(void *data, u8 slot, u8 clientId, BattleMon *mon, BtlPo
 u8 func_ov169_0689d6e0(void *data, u8 clientId, u8 *positions);
 BOOL DoesBattleMonExist(void *data, u8 monId);
 void func_ov169_0689d678(void *data, u8 firstPos, u8 secondPos);
+void func_ov169_0689d480(void *data, u8 monId);
+void func_ov169_0689ced0(void *monSet, u8 count);
+void func_ov169_0689cf00(void *monSet, void *copy);
+void func_ov169_0689d06c(void *monSet);
+void func_ov169_0689d1a4(void *data, u16 move, u32 turn, u8 monId);
 void func_ov169_0689d4a8(void *data, u8 pos, u8 monId, BtlPokeCon *pokeCon);
 void func_ov169_0689c814(BtlServerFlow *flow, BattleMon *mon);
 void func_ov169_0689ccc4(void *monSet);

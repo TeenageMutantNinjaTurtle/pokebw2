@@ -1046,22 +1046,22 @@ void ActionOrder_ForceDone(BtlServerFlow *flow, u8 monId) {
     }
 }
 
-void func_ov167_021a0c88(BtlFlowTargetPos *targets) {
+void func_ov167_021a0c88(BattleMoveEffectState *targets) {
     targets->unk00 = 0;
     targets->pos1 = 6;
     targets->pos2 = 6;
-    targets->unk04 = 0;
-    targets->unk05_0 = 0;
+    targets->index = 0;
+    targets->enabled = FALSE;
     targets->unk05_1 = 0;
 }
 
-void func_ov167_021a0ca8(BtlFlowTargetPos *targets, BtlServerFlow *flow, BattleMon *mon, void *monSet) {
+void func_ov167_021a0ca8(BattleMoveEffectState *targets, BtlServerFlow *flow, BattleMon *mon, void *monSet) {
     u32 count;
 
     count = func_ov169_0689cec8(monSet);
     targets->pos1 = GetBattlePos(flow->unk1ab8, GetMonID(mon));
     targets->pos2 = 6;
-    targets->unk05_0 = 0;
+    targets->enabled = FALSE;
     targets->unk05_1 = 0;
     if (count == 1 && func_ov169_0689cec0(monSet)) {
         targets->pos2 = GetBattlePos(flow->unk1ab8, GetMonID(func_ov169_0689cdf8(monSet, 0)));
@@ -1421,6 +1421,257 @@ void func_ov167_021a1630(BtlServerFlow *flow, BattleMon *mon) {
     BattleEventVar_SetConstValue(2, GetMonID(mon));
     BattleEvent_CallHandlers(flow, 0x55);
     BattleEventVar_Pop(0xc56);
+}
+
+void func_ov167_021a1660(BtlServerFlow *flow, BattleMon *mon) {
+    BattleEventVar_Push(0xc65);
+    BattleEventVar_SetConstValue(2, GetMonID(mon));
+    func_ov167_021bc90c(flow, 0x55, 4);
+    BattleEventVar_Pop(0xc68);
+}
+
+void func_ov167_021a1694(BtlServerFlow *flow) {
+    BattleEventVar_Push(0xc75);
+    BattleEvent_CallHandlers(flow, 0x56);
+    BattleEventVar_Pop(0xc77);
+}
+
+void func_ov167_021a16b4(BtlServerFlow *flow) {
+    BattleEventVar_Push(0xc83);
+    BattleEvent_CallHandlers(flow, 0x57);
+    BattleEventVar_Pop(0xc85);
+}
+
+void func_ov167_021a16d4(BtlServerFlow *flow) {
+    u32 state;
+
+    state = PushState(&flow->actionState, 0xc92);
+    func_ov167_021a1700(flow);
+    PopState(&flow->actionState, state, 0xc94);
+}
+
+void func_ov167_021a1700(BtlServerFlow *flow) {
+    BattleEventVar_Push(0xca1);
+    BattleEvent_CallHandlers(flow, 0x58);
+    BattleEventVar_Pop(0xca3);
+}
+
+void func_ov167_021a1720(BtlServerFlow *flow, BattleMon *mon) {
+    u8 monId;
+
+    monId = GetMonID(mon);
+    func_ov167_021b1434(flow->queue, 0x3b, func_ov167_0219c648(monId), monId);
+}
+
+void func_ov167_021a1740(BtlServerFlow *flow, BattleMon *mon, u8 slot) {
+    u8 clientId;
+    u8 index;
+
+    func_ov167_021a1720(flow, mon);
+    if (ServerControl_SwitchOut(flow, mon, FALSE)) {
+        func_ov167_0219c694(flow->mainModule, MonIDToBattlePos(flow->mainModule, flow->pokeCon, GetMonID(mon)),
+                            &clientId, &index);
+        if (flow->unk7D9[clientId] < 0xff) {
+            flow->unk7D9[clientId]++;
+        }
+        ServerControl_SwitchInFillSlot(flow, clientId, index, slot, TRUE);
+    }
+}
+
+BOOL ServerControl_SwitchOut(BtlServerFlow *handler, BattleMon *mon, u8 flag) {
+    u32 count;
+    u32 i;
+
+    if (!flag) {
+        count = ServerEvent_InterruptSwitch(handler, mon);
+        if (count != 0) {
+            handler->unk78A_0 = TRUE;
+            for (i = 0; i < count; i++) {
+                ActionOrder_InterruptProc(handler, handler->unk78B[i], GetMonID(mon));
+                if (IsFainted(mon)) {
+                    break;
+                }
+            }
+            handler->unk78A_0 = FALSE;
+        }
+    }
+    if (!IsFainted(mon)) {
+        ServerControl_SwitchOutCore(handler, mon, 0x26c);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+void ServerControl_SwitchOutCore(BtlServerFlow *flow, BattleMon *mon, u32 effect) {
+    u8 monId;
+    u8 pos;
+    u32 state;
+
+    monId = GetMonID(mon);
+    pos = MonIDToBattlePos(flow->mainModule, flow->pokeCon, monId);
+    if (pos != 6) {
+        func_ov167_021b1434(flow->queue, 0x3c, pos, effect);
+    }
+    ActionOrder_ForceDone(flow, monId);
+    state = PushState(&flow->actionState, 0xd0f);
+    ServerControl_SwitchOutConfirm(flow, mon);
+    PopState(&flow->actionState, state, 0xd11);
+    ServerControl_ClearMonDependentEffects(flow, mon, FALSE);
+    Clear_ForSwitch(mon);
+    func_ov167_021b1434(flow->queue, 0x20, GetMonID(mon));
+    func_ov169_0689d480(flow->unk1ab8, monId);
+}
+
+void ServerControl_SwitchOutConfirm(BtlServerFlow *flow, BattleMon *mon) {
+    BattleEventVar_Push(0xd24);
+    BattleEventVar_SetConstValue(2, GetMonID(mon));
+    BattleEvent_CallHandlers(flow, 0x54);
+    BattleEventVar_Pop(0xd27);
+}
+
+u16 func_ov167_021a18f0(BattleMon *mon, BattleAction *action) {
+    u16 move;
+
+    if (CheckCondition(mon, 0x17) && action->bits.move != 0xa5) {
+        move = Condition_GetParam(GetConditionContinuationParam(mon, 0x17));
+        if (move != action->bits.move && func_ov167_021bada0(mon, move)) {
+            return move;
+        }
+    }
+    return 0;
+}
+
+void func_ov167_021a1940(BtlServerFlow *flow, BattleMon *mon, BattleAction *action, u32 key) {
+    BtlFlowFightWork work;
+    u8 target;
+    u32 prevStatus;
+    u8 cond19;
+    u8 cond1a;
+    u8 hasDelegate;
+    BOOL usedMove;
+    u8 moveSlot;
+    u8 targetCount;
+    u16 move;
+    u16 actualMove;
+    u16 encoreMove;
+
+    prevStatus = func_ov167_021bb408(mon);
+    func_ov167_021a0c88(flow->moveEffect);
+    func_ov167_021a1fc0(flow->unk4B0);
+    work.move = 0;
+    work.target = 6;
+    encoreMove = func_ov167_021a18f0(mon, action);
+    if (encoreMove) {
+        BattleAction_SetFightParam(action, encoreMove,
+                                   func_ov167_021bd8e4(flow->mainModule, flow->pokeCon, mon, encoreMove));
+    }
+    move = action->bits.move;
+    moveSlot = func_ov167_021baf78(mon, move);
+    actualMove = move;
+    target = action->bits.target;
+    usedMove = FALSE;
+    work.result = 0;
+    cond19 = CheckCondition(mon, 0x19);
+    cond1a = CheckCondition(mon, 0x1a);
+    MoveEvent_AddItem(mon, move, key);
+    func_ov167_021a23cc(flow, mon, move);
+    do {
+        if (func_ov167_021a3ac0(flow, mon, move, cond19 || cond1a)) {
+            break;
+        }
+        if (!func_ov167_021a9df0(flow, mon, move, target, &work.move)) {
+            func_ov167_021a911c(flow, mon, move);
+            ServerEvent_GetMoveParam(flow, move, mon, flow->unk1AB4);
+            func_ov167_021ae32c(flow, mon, target, flow->unk1AB4, flow->unk850);
+            func_ov167_021a4250(flow, mon, move, moveSlot, flow->unk850);
+            usedMove = TRUE;
+            func_ov167_021a3ef4(flow, mon, move, 0x1a);
+            break;
+        }
+        hasDelegate = work.move != 0 ? TRUE : FALSE;
+        if (hasDelegate) {
+            func_ov167_021a911c(flow, mon, move);
+            func_ov167_021a2680(flow, mon, move, target);
+            MoveEvent_AddItem(mon, work.move, key);
+            actualMove = work.move;
+            target = work.target;
+        } else {
+            actualMove = move;
+        }
+        ServerEvent_GetMoveParam(flow, move, mon, flow->unk1AB4);
+        if (hasDelegate) {
+            ServerEvent_GetMoveParam(flow, actualMove, mon, flow->unk1AB0);
+            flow->unk1AB0->flags |= 4;
+            flow->unk1AB0->originalMove = move;
+            if (func_ov167_021a1e50(flow, mon, flow->unk1AB0)) {
+                func_ov167_021a4250(flow, mon, move, moveSlot, flow->unk850);
+                usedMove = TRUE;
+                break;
+            }
+        } else {
+            *flow->unk1AB0 = *flow->unk1AB4;
+        }
+        func_ov169_0689ccc4(flow->unk850);
+        func_ov169_0689ccc4(flow->unk854);
+        func_ov167_021ae32c(flow, mon, target, flow->unk1AB0, flow->unk850);
+        targetCount = func_ov169_0689cec8(flow->unk850);
+        func_ov169_0689d06c(flow->unk850);
+        func_ov169_0689cf00(flow->unk850, flow->unk854);
+        func_ov169_0689ced0(flow->unk854, targetCount);
+        if (!cond19 && !cond1a && moveSlot != 4) {
+            func_ov167_021a4250(flow, mon, move, moveSlot, flow->unk850);
+            usedMove = TRUE;
+        }
+        func_ov167_021a2114(flow, mon, flow->unk1AB4, 0x22);
+        func_ov167_021a20c8(flow, mon, flow->unk1AB0);
+        if (func_ov167_021a9f70(flow, mon, move, actualMove, &flow->message)) {
+            BattleHandler_SetString(flow, &flow->message);
+            BattleHandler_StrClear(&flow->message);
+        } else {
+            func_ov167_021a911c(flow, mon, actualMove);
+        }
+        flow->unk1F78 = actualMove;
+        if (CheckCondition(mon, 0x22)) {
+            ServerControl_CureCondition(flow, mon, 0x22, 0);
+            func_ov167_021bb7c0(mon, 0xe);
+        }
+        if (func_ov167_021a3cf0(flow, mon, actualMove)) {
+            break;
+        }
+        if (func_ov167_021a228c(flow, mon, actualMove, target, &work)) {
+            break;
+        }
+        if (func_ov167_021a2194(flow, mon, actualMove, target)) {
+            break;
+        }
+        func_ov169_0689d1a4(flow->unk1C, actualMove, flow->unk10, GetMonID(mon));
+        func_ov167_021a2114(flow, mon, flow->unk1AB0, 0x23);
+        if (func_ov167_021a255c(flow, mon, actualMove, flow->unk854, flow->unk4AC)) {
+            func_ov167_021a1ff8(flow, mon, actualMove, flow->unk854);
+        } else {
+            work.result = func_ov167_021a2700(flow, mon, actualMove, flow->unk854);
+        }
+    } while (0);
+    func_ov167_021bb7c0(mon, 3);
+    if (usedMove || cond19 || actualMove == 0xa5) {
+        func_ov167_021bbf44(mon, target, work.result, flow->unk1AB0->unk06, actualMove, move);
+        BtlServerCmd_Put18(flow->queue, GetMonID(mon), target, work.result, flow->unk1AB0->unk06, actualMove, move);
+    } else if (GetConditionCount(mon, 3)) {
+        ServerControl_SetMonCounter(flow, mon, 3, 0);
+    }
+    if (prevStatus != 0x10 && func_ov167_021bb408(mon) != 0x10) {
+        func_ov167_021a3904(flow, mon);
+    }
+    if (GetTurnFlag(mon, 0xb)) {
+        func_ov167_021b1434(flow->queue, 0x31, GetMonID(mon), 0);
+        ServerControl_SkyDropCheckRelease(flow, mon, FALSE);
+    }
+    func_ov167_021a243c(flow, mon, actualMove, work.result);
+    if (work.move) {
+        func_ov167_021c5bbc(mon, work.move);
+    }
+    func_ov167_021c5bbc(mon, move);
+    func_ov167_021a1ea8(flow, actualMove);
 }
 
 // Function names from swan.
