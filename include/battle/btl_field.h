@@ -14,5 +14,6 @@ void FieldStatusSetWeather(u8 weather, u8 duration);
 BOOL FieldStatusAddEffect(u32 effect, BattleCondition value);
 void FieldStatusAddDependPoke(u32 effect, u8 monId);
 BOOL func_ov167_021d5a48(BtlPokeCon *pokeCon, BattleMon *mon, u16 move);
+void func_ov167_021d5a60(void (*callback)(u32 effect, BtlServerFlow *flow), BtlServerFlow *flow);
 
 #endif // POKEBW2_BATTLE_BTL_FIELD_H

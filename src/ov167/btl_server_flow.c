@@ -3666,14 +3666,14 @@ void ServerControl_CalcRecoil(BtlServerFlow *flow, BattleMon *mon, u16 move, u32
     }
 }
 
-BOOL ServerControl_CheckSimpleDamageEnabled(BtlServerFlow *flow, BattleMon *mon, u16 damage) {
+BOOL ServerControl_CheckSimpleDamageEnabled(BtlServerFlow *flow, BattleMon *mon, u32 damage) {
     if (ServerEvent_CheckSimpleDamageEnabled(flow, mon, damage)) {
         return TRUE;
     }
     return FALSE;
 }
 
-BOOL ServerControl_SimpleDamageCore(BtlServerFlow *flow, BattleMon *mon, u16 damage, BattleHandlerString *string) {
+BOOL ServerControl_SimpleDamageCore(BtlServerFlow *flow, BattleMon *mon, u32 damage, BattleHandlerString *string) {
     s32 change = -damage;
     if (change != 0) {
         ServerDisplay_SimpleHP(flow, mon, change, TRUE);
@@ -5112,6 +5112,149 @@ BOOL func_ov167_021a82e8(BtlServerFlow *flow, void *monSet, u32 event) {
         }
     }
     return func_ov167_021a8cc0(flow);
+}
+
+void func_ov167_021a83c0(BtlServerFlow *flow, u8 monId, u32 event) {
+    BattleEventVar_Push(0x25d3);
+    BattleEventVar_SetConstValue(2, monId);
+    BattleEvent_CallHandlers(flow, event);
+    BattleEventVar_Pop(0x25d6);
+}
+
+BOOL func_ov167_021a83ec(BtlServerFlow *flow, void *monSet) {
+    u8 monIds[6] = { 0, 0, 0, 0, 3, 0 };
+    BattleCondition prev;
+    BOOL cured;
+    u32 state;
+    u32 count;
+    u32 index;
+    u32 i;
+
+    count = func_ov169_0689cec0(monSet);
+    for (i = 0; i < count; i++) {
+        monIds[i] = GetMonID(func_ov169_0689cdf8(monSet, i));
+    }
+    index = 0;
+    while (TRUE) {
+        u32 condition = func_ov169_0689cb80(index++);
+        if (condition == 0) {
+            break;
+        }
+        for (i = 0; i < count; i++) {
+            BattleMon *mon = GetPokeParam(flow->pokeCon, monIds[i]);
+            if (!IsFainted(mon) && func_ov167_021bb864(mon, condition, &prev, &cured)) {
+                state = PushState(&flow->actionState, 0x2600);
+                func_ov169_0689b938(mon, condition, prev, cured, flow);
+                PopState(&flow->actionState, state, 0x2602);
+            }
+        }
+        if (ServerControl_CheckMatchup(flow)) {
+            break;
+        }
+    }
+    func_ov167_021b1434(flow->queue, 0x15, (u8)count, (u8)index, func_ov167_021bd894(monIds));
+    return func_ov167_021a8cc0(flow);
+}
+
+void func_ov167_021a8524(BtlServerFlow *flow, BattleMon *mon, u32 condition, u32 damage) {
+    u32 state = PushState(&flow->actionState, 0x2624);
+    u32 amount = func_ov167_021a85fc(flow, mon, condition, damage);
+
+    if (amount != 0 && ServerControl_CheckSimpleDamageEnabled(flow, mon, amount)) {
+        switch (condition) {
+        case 5:
+            ServerDisplay_AddEffectAtPosition(flow, mon, 0x257);
+            break;
+        case 4:
+            ServerDisplay_AddEffectAtPosition(flow, mon, 0x258);
+            break;
+        case 10:
+            ServerDisplay_AddEffectAtPosition(flow, mon, 0x273);
+            break;
+        case 9:
+            ServerDisplay_AddEffectAtPosition(flow, mon, 0x274);
+            break;
+        }
+        BattleHandler_StrClear(&flow->message);
+        func_ov169_0689ba5c(&flow->message, mon, condition);
+        ServerControl_SimpleDamageCore(flow, mon, amount, &flow->message);
+    }
+    PopState(&flow->actionState, state, 0x2644);
+}
+
+u32 func_ov167_021a85fc(BtlServerFlow *flow, BattleMon *mon, u32 condition, u32 damage) {
+    u32 result;
+    BattleEventVar_Push(0x2652);
+    BattleEventVar_SetConstValue(2, GetMonID(mon));
+    BattleEventVar_SetConstValue(0x1d, condition);
+    BattleEventVar_SetValue(0x32, damage);
+    BattleEvent_CallHandlers(flow, 0x6b);
+    result = BattleEventVar_GetValue(0x32);
+    BattleEventVar_Pop(0x2658);
+    return result;
+}
+
+void func_ov167_021a864c(BtlServerFlow *flow) {
+    func_ov169_06898d54(ServerControl_SideEffectEndMessage, flow);
+}
+
+void ServerControl_SideEffectEndMessage(u32 side, u32 effect, BtlServerFlow *flow) {
+    func_ov167_021a866c(flow, effect, side);
+}
+
+void func_ov167_021a866c(BtlServerFlow *flow, u32 effect, u32 side) {
+    s32 message = -1;
+
+    switch (effect) {
+    case 0:
+        message = 0x7e;
+        break;
+    case 1:
+        message = 0x82;
+        break;
+    case 2:
+        message = 0x86;
+        break;
+    case 3:
+        message = 0x8a;
+        break;
+    case 4:
+        message = 0x8e;
+        break;
+    case 5:
+        message = 0x92;
+        break;
+    case 6:
+        message = 0x96;
+        break;
+    case 7:
+        message = 0x9a;
+        break;
+    case 8:
+        message = 0x9e;
+        break;
+    case 11:
+        message = 0xa6;
+        break;
+    case 12:
+        message = 0xaa;
+        break;
+    case 13:
+        message = 0xae;
+        break;
+    }
+    if (message >= 0) {
+        func_ov167_021b15d0(flow->queue, 0x5a, message, side, 0xffff0000);
+    }
+}
+
+void func_ov167_021a86e4(BtlServerFlow *flow) {
+    func_ov167_021d5a60(func_ov167_021a8700, flow);
+    func_ov167_021b1434(flow->queue, 0x2f, 0);
+}
+
+void func_ov167_021a8700(u32 effect, BtlServerFlow *flow) {
+    ServerControl_FieldEffectEnd(flow, effect);
 }
 
 // Function names from swan.
