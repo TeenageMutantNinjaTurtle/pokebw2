@@ -9,13 +9,17 @@ struct BtlActionState {
         u32 raw;
         struct {
             u32 useItemNo : 10;
-            u32 unk10 : 18;
+            // The top of the work stack, and where PushState saved it
+            u32 workPos : 9;
+            u32 savedPos : 9;
             u32 prevResult : 1;
             u32 result : 1;
             u32 used : 1;
             u32 unk31 : 1;
         };
     };
+    // The stack of the handler commands' work
+    u8 work[500];
 };
 
 union BattleAction {

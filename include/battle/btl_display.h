@@ -2,13 +2,31 @@
 #define POKEBW2_BATTLE_BTL_DISPLAY_H
 
 #include "types.h"
+#include "battle/btl_server.h"
 #include "struct_decls.h"
 
-void func_ov167_021b1434(void *display, u32 event, ...);
-u32 SCQUE_RESERVE_Pos(void *display, u32 event);
-void func_ov167_021b14ec(void *display, u32 reserve, u32 event, ...);
-void func_ov167_021b15d0(void *display, u32 event, u32 message, ...);
-void func_ov167_021b15c0(void *display, u8 monId);
+// Each command's format: the number of its arguments in the low nibble, and their widths in the high one
+extern const u8 data_ov167_021d6e50[0x60];
+
+void func_ov167_021b1434(BtlServerCmdQueue *que, u32 event, ...);
+void func_ov167_021b0a1c(BtlServerCmdQueue *que, u8 value);
+u8 func_ov167_021b0a4c(BtlServerCmdQueue *que);
+void func_ov167_021b0a58(BtlServerCmdQueue *que, u16 value);
+u16 func_ov167_021b0a94(BtlServerCmdQueue *que);
+void func_ov167_021b0ab0(BtlServerCmdQueue *que, u32 value);
+u32 func_ov167_021b0af8(BtlServerCmdQueue *que);
+void func_ov167_021b0b18(BtlServerCmdQueue *que, u32 value);
+u32 func_ov167_021b0b6c(BtlServerCmdQueue *que);
+void func_ov167_021b0b90(BtlServerCmdQueue *que, u32 event, u8 format, const u32 *args);
+void func_ov167_021b1074(BtlServerCmdQueue *que, u8 format, u32 *args);
+u16 SCQUE_RESERVE_Pos(BtlServerCmdQueue *que, u32 event);
+void func_ov167_021b14ec(BtlServerCmdQueue *que, u32 reserve, u32 event, ...);
+u16 func_ov167_021b1564(BtlServerCmdQueue *que, u32 *args);
+void func_ov167_021b15c0(BtlServerCmdQueue *que, u8 value);
+u8 func_ov167_021b15c8(BtlServerCmdQueue *que);
+void func_ov167_021b15d0(BtlServerCmdQueue *que, u8 event, ...);
+void func_ov167_021b1630(BtlServerCmdQueue *que, u8 event, u32 *args);
+void func_ov167_021b1670(void);
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon);
 void ServerDisplay_AbilityPopupRemove(BtlServerFlow *handler, BattleMon *mon);
 void scPut_SetContFlag(BtlServerFlow *handler, BattleMon *mon, u32 flag);

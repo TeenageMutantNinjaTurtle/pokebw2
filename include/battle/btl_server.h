@@ -26,16 +26,18 @@ typedef struct {
     u8 clientId;
 } BtlServerClient;
 
+#define BTL_SERVER_CMD_QUE_SIZE 3000
+
 // The commands that the turn's flow writes, which the server then sends
 typedef struct {
-    u32 writePos;
-    u32 readPos;
-    u8 buffer[0xbb8];
+    u32 writePtr;
+    u32 readPtr;
+    u8 buffer[BTL_SERVER_CMD_QUE_SIZE];
 } BtlServerCmdQueue;
 
 static inline void BtlServerCmdQueue_Init(BtlServerCmdQueue *queue) {
-    queue->writePos = 0;
-    queue->readPos = 0;
+    queue->writePtr = 0;
+    queue->readPtr = 0;
 }
 
 // The actions each client chose

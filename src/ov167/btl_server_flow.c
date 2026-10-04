@@ -27,6 +27,7 @@
 #include "save/high_link.h"
 #include "save/player_info.h"
 #include "system/rtc.h"
+#include "stdarg.h"
 
 s32 ConvertConditionCode(BattleMon *mon, s32 *condition);
 
@@ -36,6 +37,9 @@ BOOL func_ov167_021acca8(u32 condition, BattleCondition value, BattleMon *mon, u
 BOOL func_ov167_021aceb4(void *state, u8 monId);
 
 BOOL func_ov167_021acec4(void *state, u8 monId);
+
+// The arguments of the server command being written
+static u32 sCmdArgs[16];
 
 // The targets hit by one strike of a damaging move, as func_ov167_021a4c90 works through them
 static u32 sHitEffectiveness[3];
@@ -113,9 +117,9 @@ u8 func_ov167_0219f588(BtlServerFlow *flow) {
     BattleMon *mon;
 
     queue = flow->queue;
-    queue->writePos = 0;
+    queue->writePtr = 0;
     result = FALSE;
-    queue->readPos = 0;
+    queue->readPtr = 0;
     weather = GetFieldEffectData(flow->mainModule)->weather;
     if (weather != 0 && ServerControl_ChangeWeather(flow, weather, 0xff)) {
         result = TRUE;
@@ -435,7 +439,7 @@ BOOL func_ov167_0219fe24(BtlServerFlow *flow) {
     result = FALSE;
     BtlServerCmdQueue_Init(flow->queue);
     func_ov167_0219fe44(flow);
-    if (flow->queue->writePos != 0) {
+    if (flow->queue->writePtr != 0) {
         result = TRUE;
     }
     return result;
@@ -10687,6 +10691,172 @@ s32 func_ov167_021b0318(BtlMainModule *mainModule, BtlPokeCon *pokeCon) {
     return 0;
 }
 
+// The battle's result for the player: 0 for a loss, 1 for a win, 2 for a draw
+u32 func_ov167_021b05b4(BtlServerFlow *flow) {
+    u8 alive[2];
+    u8 total[2];
+    u32 i;
+    BattleParty *party;
+    u8 side;
+    u8 otherSide;
+    u8 monId;
+    s32 outcome;
+
+    alive[0] = alive[1] = 0;
+    total[0] = total[1] = 0;
+    for (i = 0; i < 4; i++) {
+        if (DoesClientExist(flow->mainModule, i)) {
+            party = GetPartyData(flow->pokeCon, i);
+            if (GetNumMonsInParty(party)) {
+                side = GetClientSide(flow->mainModule, i);
+                alive[side] += GetAlivePartyCount(party);
+                total[side] += GetNumMonsInParty(party);
+            }
+        }
+    }
+    if (func_ov167_0219c988(flow->mainModule) == 0) {
+        side = GetClientSide(flow->mainModule, GetPlayerClientID(flow->mainModule));
+        otherSide = side ^ 1;
+        if (alive[side] == 0 && alive[otherSide] != 0) {
+            return 0;
+        }
+        if (alive[otherSide] == 0 && alive[side] != 0) {
+            return 1;
+        }
+        if (!func_ov167_0219de6c(flow->mainModule)) {
+            return 2;
+        }
+        if (alive[0] == 0) {
+            monId = func_ov169_0689d35c(flow->unk3E0);
+            if (monId != 0x1f) {
+                if (side == GetSideFromMonID(monId)) {
+                    return 1;
+                }
+                return 0;
+            }
+            return 2;
+        }
+        return func_ov167_021b06dc(flow, alive, total, side);
+    }
+    outcome = func_ov167_021b0318(flow->mainModule, flow->pokeCon);
+    flow->unk2130 = -outcome;
+    if (outcome > 0) {
+        return 1;
+    }
+    return 0;
+}
+
+// When both sides are still standing: the side with more mons left wins, then the one with more HP left
+u32 func_ov167_021b06dc(BtlServerFlow *flow, const u8 *alive, const u8 *total, u8 side) {
+    s32 down0;
+    s32 down1;
+    s32 hp[2];
+    s32 percent[2];
+    u8 winner;
+
+    down0 = total[0] - alive[0];
+    down1 = total[1] - alive[1];
+    if (down0 != down1) {
+        winner = down0 >= down1 ? 1 : 0;
+        if (winner == side) {
+            return 1;
+        }
+        return 0;
+    }
+    func_ov167_021b0774(flow, &hp[0], &percent[0], 0);
+    func_ov167_021b0774(flow, &hp[1], &percent[1], 1);
+    if (percent[0] != percent[1]) {
+        winner = percent[0] > percent[1] ? 0 : 1;
+        if (winner == side) {
+            return 1;
+        }
+        return 0;
+    }
+    if (hp[0] != hp[1]) {
+        winner = hp[0] > hp[1] ? 0 : 1;
+        if (winner == side) {
+            return 1;
+        }
+        return 0;
+    }
+    return 2;
+}
+
+// The HP a side has left, in total and in percent of its max
+void func_ov167_021b0774(BtlServerFlow *flow, s32 *hp, s32 *percent, u8 side) {
+    u32 maxHP;
+    u32 i;
+    BattleParty *party;
+    u8 numMons;
+    u32 j;
+    BattleMon *mon;
+
+    maxHP = 0;
+    *hp = 0;
+    *percent = 0;
+    for (i = 0; i < 4; i++) {
+        if (DoesClientExist(flow->mainModule, i) && side == GetClientSide(flow->mainModule, i)) {
+            party = GetPartyData(flow->pokeCon, i);
+            numMons = GetNumMonsInParty(party);
+            for (j = 0; j < numMons; j++) {
+                mon = GetBattleMonFromParty(party, j);
+                maxHP += GetBattleMonStat(mon, 0xe);
+                *hp += GetBattleMonStat(mon, 0xd);
+            }
+        }
+    }
+    *percent = *hp * 100 / maxHP;
+}
+
+void func_ov167_021b0814(u32 *table) {
+    u32 i;
+
+    for (i = 0; i < 24; i++) {
+        table[i] = 6;
+    }
+}
+
+void func_ov167_021b0824(u32 *table, u8 monId, u32 value) {
+    table[monId] = value;
+}
+
+u32 func_ov167_021b082c(u32 *table, u8 monId) {
+    return table[monId];
+}
+
+u32 func_ov167_021b0834(u32 *table, u8 monId) {
+    return table[monId];
+}
+
+void func_ov167_021b083c(BtlActionState *state) {
+    state->raw = 0;
+    sys_memset(state->work, 0, sizeof(state->work));
+}
+
+// Function name from swan.
+u32 PushState(BtlActionState *state, u32 command) {
+    u32 prev = state->raw;
+
+    state->useItemNo = 0;
+    state->savedPos = state->workPos;
+    state->result = 0;
+    state->prevResult = 0;
+    state->used = 0;
+    return prev;
+}
+
+// Function name from swan.
+u32 PushStateUseItem(BtlActionState *state, u16 item, u32 command) {
+    u32 prev = state->raw;
+
+    state->useItemNo = item;
+    state->savedPos = state->workPos;
+    state->result = 0;
+    state->prevResult = 0;
+    state->used = 0;
+    return prev;
+}
+
 // Function names from swan.
 void PopState(BtlActionState *state, u32 value, u32 command) {
     state->raw = value;
@@ -10712,4 +10882,246 @@ void SetResult(BtlActionState *state, BOOL result) {
 
 BOOL GetPrevResult(BtlActionState *state) {
     return state->prevResult;
+}
+
+BOOL func_ov167_021b0918(BtlActionState *state) {
+    return state->result;
+}
+
+// Allocates a handler command's work on the stack, zeroed and with its header set up
+// Allocates a handler command's work on the stack, zeroed and with its header set up
+void *func_ov167_021b0920(BtlActionState *state, u32 command, u32 monId) {
+    u32 i;
+    u32 size = 0;
+    u32 pos;
+    u8 *work;
+    BattleHandlerHeader *header;
+
+    for (i = 0; i < 59; i++) {
+        if (command == data_ov167_021d6dd8[i].command) {
+            size = data_ov167_021d6dd8[i].size;
+            break;
+        }
+    }
+    if (size != 0) {
+        while (size & 3) {
+            size++;
+        }
+        pos = state->workPos;
+        if (pos + size <= sizeof(state->work)) {
+            work = state->work;
+            for (i = 0; i < size; i++) {
+                state->work[state->workPos + i] = 0;
+            }
+            header = (BattleHandlerHeader *)&work[pos];
+            header->command = command;
+            header->size = size;
+            header->monId = monId;
+            header->unk23 = 0;
+            header->unk26 = 1;
+            state->workPos += size;
+            return header;
+        }
+    }
+    return NULL;
+}
+
+// Function name from swan.
+void PopWork(BtlActionState *state, void *work) {
+    BattleHandlerHeader *header = work;
+    u32 pos = state->workPos;
+
+    if (header->size <= pos && (u8 *)work - state->work + header->size == pos) {
+        state->workPos = pos - header->size;
+    }
+}
+
+void func_ov167_021b0a1c(BtlServerCmdQueue *que, u8 value) {
+    GFL_ASSERT(que->writePtr < BTL_SERVER_CMD_QUE_SIZE);
+    que->buffer[que->writePtr++] = value;
+}
+
+u8 func_ov167_021b0a4c(BtlServerCmdQueue *que) {
+    return que->buffer[que->readPtr++];
+}
+
+void func_ov167_021b0a58(BtlServerCmdQueue *que, u16 value) {
+    GFL_ASSERT(que->writePtr < (BTL_SERVER_CMD_QUE_SIZE-1));
+    que->buffer[que->writePtr++] = value >> 8;
+    que->buffer[que->writePtr++] = value;
+}
+
+u16 func_ov167_021b0a94(BtlServerCmdQueue *que) {
+    const u8 *data = &que->buffer[que->readPtr];
+    u16 value = (data[0] << 8) | data[1];
+
+    que->readPtr += 2;
+    return value;
+}
+
+void func_ov167_021b0ab0(BtlServerCmdQueue *que, u32 value) {
+    GFL_ASSERT(que->writePtr < (BTL_SERVER_CMD_QUE_SIZE-2));
+    que->buffer[que->writePtr++] = value >> 16;
+    que->buffer[que->writePtr++] = value >> 8;
+    que->buffer[que->writePtr++] = value;
+}
+
+u32 func_ov167_021b0af8(BtlServerCmdQueue *que) {
+    const u8 *data = &que->buffer[que->readPtr];
+    u32 value = (data[0] << 16) | (data[1] << 8) | data[2];
+
+    que->readPtr += 3;
+    return value;
+}
+
+void func_ov167_021b0b18(BtlServerCmdQueue *que, u32 value) {
+    GFL_ASSERT(que->writePtr < (BTL_SERVER_CMD_QUE_SIZE-3));
+    que->buffer[que->writePtr++] = value >> 24;
+    que->buffer[que->writePtr++] = value >> 16;
+    que->buffer[que->writePtr++] = value >> 8;
+    que->buffer[que->writePtr++] = value;
+}
+
+u32 func_ov167_021b0b6c(BtlServerCmdQueue *que) {
+    const u8 *data = &que->buffer[que->readPtr];
+    u32 value = (data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3];
+
+    que->readPtr += 4;
+    return value;
+}
+
+// Writes a server command with its arguments, in the widths its format gives them
+void func_ov167_021b1434(BtlServerCmdQueue *que, u32 event, ...) {
+    va_list list;
+    u8 format;
+    u32 count;
+    u32 i;
+
+    va_start(list, event);
+    format = data_ov167_021d6e50[event];
+    count = format & 0xf;
+    for (i = 0; i < count; i++) {
+        sCmdArgs[i] = va_arg(list, u32);
+    }
+    va_end(list);
+    func_ov167_021b0b90(que, event, format, sCmdArgs);
+}
+
+// Function name from swan.
+u16 SCQUE_RESERVE_Pos(BtlServerCmdQueue *que, u32 event) {
+    u8 format = data_ov167_021d6e50[event];
+    u8 count = format & 0xf;
+    u8 i;
+    u16 pos;
+    u8 size;
+
+    for (i = 0; i < count; i++) {
+        sCmdArgs[i] = 0;
+    }
+    pos = que->writePtr;
+    func_ov167_021b0b90(que, event, format, sCmdArgs);
+    size = que->writePtr - pos;
+    que->writePtr = pos;
+    func_ov167_021b0a58(que, 0x5f);
+    func_ov167_021b0a1c(que, size - 3);
+    que->writePtr = pos + size;
+    return pos;
+}
+
+// Fills in a command that SCQUE_RESERVE_Pos reserved room for
+void func_ov167_021b14ec(BtlServerCmdQueue *que, u32 reserve, u32 event, ...) {
+    va_list list;
+    u8 format;
+    u32 count;
+    u32 i;
+    u16 pos;
+
+    format = data_ov167_021d6e50[event];
+    count = format & 0xf;
+    va_start(list, event);
+    for (i = 0; i < count; i++) {
+        sCmdArgs[i] = va_arg(list, u32);
+    }
+    va_end(list);
+    pos = que->readPtr;
+    que->readPtr = reserve;
+    func_ov167_021b0a94(que);
+    func_ov167_021b0a4c(que);
+    que->readPtr = pos;
+    if (event != 0x5f) {
+        pos = que->writePtr;
+        que->writePtr = reserve;
+        func_ov167_021b0b90(que, event, format, sCmdArgs);
+        que->writePtr = pos;
+    }
+}
+
+// Reads the next command and its arguments, skipping reserved room left empty
+u16 func_ov167_021b1564(BtlServerCmdQueue *que, u32 *args) {
+    u16 event;
+    u8 format;
+
+    event = func_ov167_021b0a94(que);
+    while (event == 0x5f) {
+        que->readPtr += func_ov167_021b0a4c(que);
+        if (que->readPtr >= que->writePtr) {
+            return 0x5e;
+        }
+        event = func_ov167_021b0a94(que);
+    }
+    format = data_ov167_021d6e50[event];
+    if (format != 0 && format != 0x10) {
+        func_ov167_021b1074(que, format, args);
+    } else {
+        func_ov167_021b1630(que, event, args);
+    }
+    return event;
+}
+
+void func_ov167_021b15c0(BtlServerCmdQueue *que, u8 value) {
+    func_ov167_021b0a1c(que, value);
+}
+
+u8 func_ov167_021b15c8(BtlServerCmdQueue *que) {
+    return func_ov167_021b0a4c(que);
+}
+
+// Writes a message command: the message, then its arguments up to 0xffff0000
+void func_ov167_021b15d0(BtlServerCmdQueue *que, u8 event, ...) {
+    va_list list;
+    u16 message;
+    u32 arg;
+
+    va_start(list, event);
+    message = va_arg(list, u32);
+    func_ov167_021b0a58(que, event);
+    func_ov167_021b0a58(que, message);
+    if (event == 0x5c) {
+        func_ov167_021b0a58(que, va_arg(list, u32));
+    }
+    do {
+        arg = va_arg(list, u32);
+        func_ov167_021b0b18(que, arg);
+    } while (arg != 0xffff0000);
+    va_end(list);
+}
+
+// Reads a message command's arguments
+void func_ov167_021b1630(BtlServerCmdQueue *que, u8 event, u32 *args) {
+    s32 i = 1;
+
+    args[0] = func_ov167_021b0a94(que);
+    if (event == 0x5c) {
+        args[1] = func_ov167_021b0a94(que);
+        i++;
+    }
+    for (; i < 16; i++) {
+        args[i] = func_ov167_021b0b6c(que);
+        if (args[i] == 0xffff0000) {
+            break;
+        }
+    }
+}
+
+void func_ov167_021b1670(void) {
 }

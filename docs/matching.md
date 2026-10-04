@@ -67,7 +67,10 @@ Same code, other `sp` offsets or frame size.
   comparison only matches with the speed function returning `u16` into `u16` locals: a spilled `u16` is reloaded after
   the call's stack argument is stored, while a spilled `u32` is reloaded before it.
 - Structs passed by value go in registers and on the stack. Code that copies a struct to the stack and passes its
-  address takes a pointer to a local copy.
+  address takes a pointer to a local copy. A struct local keeps its stack slot even when it only passes through, so a
+  frame larger than the locals explain holds one: Guard Spec.'s effect in `btl_server_flow.c` stores
+  `SetConditionTurns`'s `BattleCondition` in a local before passing it on, and `BattleHandler_AddSideEffect` keeps its
+  copy's address in a register to pass the copy by value after passing its address.
 
 ## Instruction order
 
@@ -103,7 +106,9 @@ Same instructions, scheduled in another order.
 Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 - A caller narrows an argument for a `u8` or `u16` parameter with shifts before the call, so an argument passed without
-  them is for a wider parameter.
+  them is for a wider parameter. The other way round, a parameter passed on to a `u8` parameter without shifts is a
+  `u8` itself: `GetBattleMon` hands its ID straight to `GetPokeParam`, so both take a `u8`, and so do the ability
+  helpers that pass their mon's ID to `GetBattleMon`.
 - A sum that the original truncates to `s16` before comparing it was stored in an `s16` local, as the edges of the
   Join Avenue's balloons are; casting it in the comparison gives the same code but is not needed.
 - Masks written with `~` clear bits with `bic`. The game's `and` with a constant such as `0xef` is `x &= (u8)~FLAG`.
@@ -182,6 +187,8 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - Float arithmetic on a literal passes the literal first, as in `_fmul(4096.0f, x)` for `x * FX32_ONE`, whatever the
   source order. A constant kept in a local variable, which is reloaded from the literal pool at each use, keeps its
   place in the source instead, so `col * pixels` with `f32 pixels = 96.0f / 18;` passes `col` first.
+- NitroSDK's `FX32_CONST(x)` names `x` three times, in its test and in both branches, so a call written inside it is
+  made three times. The game passes a local, as the capture rate in `btl_server_flow.c` does.
 - MWCC doesn't fold float arithmetic on a local variable that holds a constant, so `size / 2.0f` stays a call when
   `size` is a variable, while an expression of literals is folded.
 - `compiler_probe.py` skips relocated words, so a wrong addend, such as a table index that the compiler folds into a

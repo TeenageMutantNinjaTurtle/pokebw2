@@ -12,12 +12,15 @@
 typedef struct {
     u32 command : 8;
     u32 monId : 5;
-    u32 unk13 : 11;
+    // Rounded up to 4 bytes
+    u32 size : 10;
+    u32 unk23 : 1;
     // Skips the command when the previous one failed
     u32 checkPrevResult : 1;
     // Skips the command when the mon has fainted
     u32 checkFainted : 1;
-    u32 unk26 : 6;
+    u32 unk26 : 1;
+    u32 unk27 : 5;
 } BattleHandlerHeader;
 
 struct BattleHandlerPopupParam {
@@ -224,13 +227,13 @@ struct BtlServerFlow {
     BtlFlowExpEntry expEntries[6];
     BtlFlowUnk1B54 unk1B54;
     BtlActionState actionState;
-    u8 unk1D7C[0x1fc];
+    u8 unk1F70[8];
     u16 unk1F78;
     u8 unk1F7A[2];
     u32 unk1F7C;
     // How often the player's mons and their opponents hit each other for no effect, super or not very effectively
     u16 unk1F80[6];
-    u8 unk1F8C[0x60];
+    u32 unk1F8C[24];
     u8 unk1FEC[4];
     u8 unk1FF0[0x140];
     u32 unk2130;
