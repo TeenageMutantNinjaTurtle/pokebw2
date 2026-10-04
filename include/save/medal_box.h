@@ -29,6 +29,8 @@ void MedalBox_DiscoverInitialMedal(MedalBox *box, u16 medal, u8 year, u8 month, 
 void MedalBox_AcknowledgeMedal(MedalBox *box, u16 medal, u8 year, u8 month, u8 day);
 u32 MedalBox_GetObtainedCount(MedalBox *box, u32 a1);
 u8 MedalBox_GetRank(MedalBox *box);
+// The number of medals needed for the next rank
+u32 MedalBox_GetNextRankRequirement(MedalBox *box);
 void MedalBox_IncrementRank(MedalBox *box);
 
 #endif // POKEBW2_SAVE_MEDAL_BOX_H

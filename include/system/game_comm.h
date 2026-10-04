@@ -13,4 +13,7 @@ void func_0203021c(void);
 // Sends a beacon of type 0x39, if func_0202cfe8 allows it
 void func_ov012_02160574(void);
 
+// Sets the medal count that the game's beacon sends
+void func_0202d17c(u8 count);
+
 #endif // POKEBW2_SYSTEM_GAME_COMM_H
