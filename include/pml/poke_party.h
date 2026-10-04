@@ -46,6 +46,7 @@ u32 PokeParty_GetSaveDataSize(void);
 u32 PML_GenPID(u32 seed, u16 species, u16 form, u32 sex, u32 ability, u32 a5);
 void PokeParty_CreatePkm(PartyPkm *pkm, u16 species, u16 level, u32 a3, u32 a4, s32 a5, u32 pid, u32 a7);
 void PokeParty_SetHiddenAbil(PartyPkm *pkm, u32 species, u32 form);
+void PokeParty_SetDefaultMoves(PartyPkm *pkm);
 void FriendshipManagerCalc(PartyPkm *pkm, u32 reason, u16 zoneId, u16 heapId);
 void func_02020c8c(PartyPkm *pkm, u32 value, u16 zoneId, HeapID heapId);
 void func_02020cf0(PokeParty *party, u16 zoneId, HeapID heapId);
@@ -73,6 +74,8 @@ BOOL PML_PkmDecrypt(BoxPkm *pkm);
 void PML_PkmReEncrypt(BoxPkm *pkm, BOOL wasEncrypted);
 BOOL PML_PkmIsRare(BoxPkm *pkm);
 BoxPkm *func_0201d620(PartyPkm *pkm);
+// Marks the Pokémon as met in a fateful encounter, at the location and on the date
+void setFatefulEncounterPkmData(BoxPkm *pkm, u16 location, u32 year, u32 month, u32 day);
 // The size of a Pokémon's data
 u32 PokeParty_GetPkmRawSize(void);
 void copyPartyPkm(const PartyPkm *src, PartyPkm *dest);

@@ -100,7 +100,4 @@ MysteryGift *func_ov033_021783f8(MysteryGiftSave *save, u32 *slot, MysteryGift *
 void func_ov033_02178420(MysteryGiftSave *save, u32 slot);
 u8 func_ov033_02178428(MysteryGiftSave *save);
 
-// Overlay 12: makes the Pokémon of a Pokémon gift
-PartyPkm *func_ov012_02153160(MysteryGift *gift, HeapID heapId, GameData *gameData);
-
 #endif // POKEBW2_FIELD_PDW_POSTMAN_H
