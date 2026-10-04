@@ -123,6 +123,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   earlier element. The Pokédex touch bar's map and forms buttons are filled through a pointer. The other way round,
   a loop that indexes `wk->buttons[i].rect[0]` keeps `wk + i * size` and adds each field's offset, where a
   `LanguageButton *button` local gives other registers, as the Pokédex info page's language buttons show.
+- A local array or struct initialized in its declaration is stored through a base register, `add r0, sp, #0x4c;
+  str r4, [r0]; str r4, [r0, #4]`, where assignments to its elements store at `sp` offsets. A `u8` array initialized
+  so, `u8 kinds[3] = { FALSE, FALSE, FALSE };`, also makes MWCC load memory again after each store to the array, where
+  with assignments it keeps the first load: the Pokédex habitat map reads `wk->habitat` again for each of its three
+  tests of a place's habitats.
 - A value that a loop uses and the code after it uses again is reused from the copy hoisted out of the loop. When
   the original computes it again after the loop, the loop assigns it to a variable declared in the loop's body, as
   `int wanted = mode + 1;` in the Join Avenue's records command.
@@ -150,6 +155,8 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   store in each case of a switch, share their tail, and the first jumps to it even when it follows.
 - When comparing a call's result, `v = f(); if (v == x)` and `if (f() == x)` put the operands of `cmp` in opposite
   orders.
+- `x = x == 0 ? 3 : x - 1;` reads `x` once, and `if (x == 0) { x = 3; } else { x--; }` reads it again in the `else`
+  branch before the shared store, as the Pokédex habitat map's season changes do.
 - `a == 4 || a == 5` becomes a range check. Separate comparisons that jump to the same code come from separate
   branches with the same body.
 - A clamp that ends in one store, with each limit copied into the value's register, is a conditional expression.
@@ -179,6 +186,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   Subway's command switch only splits its values as the game does with an empty `case 102:` inside its first jump
   table, and empty cases that sit between others still get a comparison.
 - A switch case that ends in the same code as another case is merged into it, so its end moves.
+- A short chain of tests whose first value does nothing, `cmp r5, #1; beq end; cmp r5, #3; bne next`, with each body
+  after its test, is `if (x == 1) { } else if (x == 3) { ... } else if (x == 4) { ... }`; a switch of the same values
+  branches to its cases instead. The Pokédex habitat map's state changes test the new state so.
 
 ## Floats and runtime helpers
 

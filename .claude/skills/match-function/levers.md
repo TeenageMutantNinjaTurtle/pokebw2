@@ -92,6 +92,9 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "keeps an argument register untouched")
 - A NULL that the original tests (`movs r7, #0` then `beq`) and MWCC folds away is open; see the `event_save.c` and
   `script_sys.c` rows of `docs/nonmatching-functions.md`.
+- Memory loaded again after stores to a local `u8` array, or stores through `add rN, sp, #off` for a local: the
+  local is initialized in its declaration (matching.md: "initialized in its declaration is stored through a base
+  register")
 
 ## Branches and block layout
 
@@ -113,6 +116,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - A `return` inside `for (;;)` leaves a dead `bx lr`, which the original counts as padding.
 - Literal pool placement: a pool dumped mid-function is placed after an unconditional branch. See the `event_make.c`
   row of the nonmatching doc for a case still open.
+- A wrapping decrement that reads the variable again in one branch: `if (x == 0) { x = 3; } else { x--; }`, not a
+  conditional expression (matching.md: "reads it again in the `else`")
 
 ## Loops
 
@@ -131,6 +136,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - A case that ends in the same code as another is merged into it. (matching.md: "ends in the same code as another")
 - An `if`/`else if` chain whose tests come in a switch's order is a `switch` with a case falling into `default`.
   `case 0: default:` written first sets the case order.
+- `cmp; beq end; cmp; bne next` with each body after its test: an `if`/`else if` chain with an empty first body,
+  not a switch (matching.md: "A short chain of tests whose first value does nothing")
 
 ## Floats and runtime helpers
 

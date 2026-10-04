@@ -13,6 +13,12 @@ typedef u16 GXRgb;
 
 #define reg_GX_DISPCNT (*(vu32 *)0x04000000)
 #define reg_G2_BG0CNT (*(vu16 *)0x04000008)
+#define reg_G2_WIN0H (*(vu16 *)0x04000040)
+#define reg_G2_WIN1H (*(vu16 *)0x04000042)
+#define reg_G2_WIN0V (*(vu16 *)0x04000044)
+#define reg_G2_WIN1V (*(vu16 *)0x04000046)
+#define reg_G2_WININ (*(vu16 *)0x04000048)
+#define reg_G2_WINOUT (*(vu16 *)0x0400004a)
 #define reg_G2_BLDCNT (*(vu16 *)0x04000050)
 #define reg_G2_BLDALPHA (*(vu16 *)0x04000052)
 #define reg_G3X_DISP3DCNT (*(vu16 *)0x04000060)
@@ -49,6 +55,13 @@ typedef u16 GXRgb;
 #define REG_GX_DISPCNT_W1_MASK 0x00004000
 #define REG_GX_DISPCNT_OW_MASK 0x00008000
 
+#define REG_G2_WININ_WIN0IN_SHIFT 0
+#define REG_G2_WININ_WIN0IN_MASK 0x003f
+#define REG_G2_WININ_WIN1IN_SHIFT 8
+#define REG_G2_WININ_WIN1IN_MASK 0x3f00
+#define REG_G2_WINOUT_WINOUT_SHIFT 0
+#define REG_G2_WINOUT_WINOUT_MASK 0x003f
+
 #define REG_G2_BG0CNT_PRIORITY_SHIFT 0
 #define REG_G2_BG0CNT_PRIORITY_MASK 0x0003
 
@@ -62,6 +75,9 @@ typedef u16 GXRgb;
 #define REG_G3X_DISP3DCNT_GO_MASK 0x2000
 
 #define GX_WNDMASK_NONE 0x00
+#define GX_WNDMASK_W0 0x01
+#define GX_WNDMASK_W1 0x02
+#define GX_WNDMASK_OW 0x04
 
 #define GX_OAM_MODE_NORMAL 0
 #define GX_OAM_MODE_XLU 1
@@ -493,6 +509,44 @@ static inline void GXS_SetVisibleWnd(int window) {
     reg_GXS_DB_DISPCNT =
         (reg_GXS_DB_DISPCNT & ~(REG_GX_DISPCNT_W0_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_OW_MASK)) |
         (window << REG_GX_DISPCNT_W0_SHIFT);
+}
+
+static inline void G2_SetWnd0Position(int x1, int y1, int x2, int y2) {
+    reg_G2_WIN0H = (u16)((x1 << 8) | x2);
+    reg_G2_WIN0V = (u16)((y1 << 8) | y2);
+}
+
+static inline void G2_SetWnd1Position(int x1, int y1, int x2, int y2) {
+    reg_G2_WIN1H = (u16)((x1 << 8) | x2);
+    reg_G2_WIN1V = (u16)((y1 << 8) | y2);
+}
+
+// The planes shown inside and outside the windows, and whether blending applies there
+static inline void G2_SetWnd0InsidePlane(int planes, BOOL effect) {
+    u32 value = (reg_G2_WININ & ~REG_G2_WININ_WIN0IN_MASK) | (planes << REG_G2_WININ_WIN0IN_SHIFT);
+
+    if (effect) {
+        value |= 1 << (REG_G2_WININ_WIN0IN_SHIFT + 5);
+    }
+    reg_G2_WININ = (u16)value;
+}
+
+static inline void G2_SetWnd1InsidePlane(int planes, BOOL effect) {
+    u32 value = (reg_G2_WININ & ~REG_G2_WININ_WIN1IN_MASK) | (planes << REG_G2_WININ_WIN1IN_SHIFT);
+
+    if (effect) {
+        value |= 1 << (REG_G2_WININ_WIN1IN_SHIFT + 5);
+    }
+    reg_G2_WININ = (u16)value;
+}
+
+static inline void G2_SetWndOutsidePlane(int planes, BOOL effect) {
+    u32 value = (reg_G2_WINOUT & ~REG_G2_WINOUT_WINOUT_MASK) | (planes << REG_G2_WINOUT_WINOUT_SHIFT);
+
+    if (effect) {
+        value |= 1 << (REG_G2_WINOUT_WINOUT_SHIFT + 5);
+    }
+    reg_G2_WINOUT = (u16)value;
 }
 
 static inline void G2_BlendNone(void) {

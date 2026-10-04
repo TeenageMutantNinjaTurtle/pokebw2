@@ -8,6 +8,7 @@
 BOOL PokeDex_IsNationalObtained(PokeDexSave *pokedex);
 void PokeDex_SetNationalObtained(PokeDexSave *pokedex);
 void PokeDex_EnableHabitatList(PokeDexSave *pokedex);
+BOOL PokeDex_IsHabitatListEnabled(PokeDexSave *pokedex);
 void givePlayerPokedex(PokeDexSave *pokedex);
 u32 func_0200d1dc(PokeDexSave *pokedex);
 // Which Pokédex the detail screen counts: 0 the regional one, 1 the national one, 2 the national one once obtained

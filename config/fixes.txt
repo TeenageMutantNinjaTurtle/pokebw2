@@ -764,6 +764,9 @@ overlays/ov298 0x021a2d1c reloc_module overlay(296)
 overlays/ov298 0x021a2d74 reloc_module overlay(296)
 overlays/ov298 0x021a2ddc reloc_module overlay(296)
 overlays/ov298 0x021a2dec reloc_module overlay(296)
+overlays/ov298 0x021a33e8 overlay_id 144
+overlays/ov298 0x021a34c4 overlay_id 144
+overlays/ov298 0x021ac478 remove_reloc
 overlays/ov307 0x021de008 overlay_id 280
 overlays/ov307 0x021de00c reloc_module overlay(280)
 overlays/ov307 0x021df70c add_data EGG_DEMO_VIEW_UNK_FX32
