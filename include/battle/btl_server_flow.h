@@ -23,6 +23,25 @@ typedef struct {
     u8 rotation;
 } BtlFlowMonIter;
 
+// One target's result from the damage calculation of a move
+typedef struct {
+    u16 damage;
+    u16 monId : 5;
+    u16 effectiveness : 4;
+    u16 unk9 : 4;
+    u16 critical : 1;
+    u16 fixedDamage : 1;
+    u16 substitute : 1;
+} BtlFlowDamageEntry;
+
+typedef struct {
+    u8 count;
+    u8 substituteCount;
+    u8 total;
+    u8 unk03;
+    BtlFlowDamageEntry entries[6];
+} BtlFlowDamageList;
+
 BtlServerFlow *func_ov167_0219f390(BtlServer *server, BtlMainModule *mainModule, BtlPokeCon *pokeCon,
                                    BtlServerCmdQueue *queue, u32 a4, HeapID heapId);
 void func_ov167_0219f3f8(BtlServerFlow *serverFlow);
@@ -269,6 +288,17 @@ BOOL func_ov167_021a3cf0(BtlServerFlow *flow, BattleMon *mon, u16 move);
 void func_ov167_021a3ef4(BtlServerFlow *flow, BattleMon *mon, u16 move, s32 cause);
 void func_ov167_021a4250(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 moveSlot, void *targets);
 u32 func_ov167_021a4278(BtlServerFlow *flow, BattleMon *mon, u8 moveSlot, u16 move, void *targets);
+void func_ov167_021a44f0(BtlServerFlow *flow, BattleMon *attacker, void *targets, BtlFlowMoveParam *param,
+                         void *effectiveness, u32 arg5, BtlFlowDamageList *list);
+u8 func_ov167_021a46d4(BtlFlowDamageList *list);
+u32 func_ov167_021a46d8(BtlServerFlow *flow, BtlFlowDamageList *list, BattleMon **mons, u16 *damages,
+                        u32 *effectiveness, u8 *critical);
+u16 func_ov167_021a5074(BattleMon *mon, u16 damage);
+u32 func_ov167_021b082c(void *table, u8 monId);
+u32 func_ov167_021a5118(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, u32 arg3, u16 *damage);
+BOOL func_ov167_021aa710(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, u16 move);
+BOOL ServerEvent_CalcDamage(BtlServerFlow *flow, BattleMon *attacker, BattleMon *defender, BtlFlowMoveParam *param,
+                            u32 effectiveness, u32 arg5, BOOL critical, BOOL arg7, u16 *damage);
 void func_ov167_021a4370(BtlServerFlow *flow, BattleMon *mon, u8 moveIndex, u8 amount);
 u32 func_ov167_021a4830(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets, void *data,
                         u32 *reserved, u32 arg6);

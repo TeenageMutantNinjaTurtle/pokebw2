@@ -2972,6 +2972,67 @@ void func_ov167_021a43c0(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon
     }
 }
 
+void func_ov167_021a44f0(BtlServerFlow *flow, BattleMon *attacker, void *targets, BtlFlowMoveParam *param,
+                         void *effectiveness, u32 arg5, BtlFlowDamageList *list) {
+    u16 damage;
+    u16 adjusted;
+    u32 i;
+    BattleMon *target;
+
+    list->count = 0;
+    i = 0;
+    list->substituteCount = 0;
+    func_ov169_0689ce0c(targets);
+    while ((target = func_ov169_0689ce14(targets)) != NULL) {
+        list->entries[i].monId = GetMonID(target);
+        list->entries[i].critical = func_ov167_021aa710(flow, attacker, target, param->move);
+        list->entries[i].effectiveness = func_ov167_021b082c(effectiveness, list->entries[i].monId);
+        list->entries[i].fixedDamage =
+            ServerEvent_CalcDamage(flow, attacker, target, param, list->entries[i].effectiveness, arg5,
+                                   list->entries[i].critical, FALSE, &damage);
+        list->entries[i].damage = damage;
+        if (list->entries[i].fixedDamage) {
+            list->entries[i].critical = FALSE;
+            list->entries[i].effectiveness = 3;
+        }
+        list->entries[i].substitute = IsSubstituteActive(target);
+        if (!list->entries[i].substitute) {
+            adjusted = func_ov167_021a5074(target, list->entries[i].damage);
+            list->entries[i].unk9 = func_ov167_021a5118(flow, attacker, target, 1, &adjusted);
+            list->entries[i].damage = adjusted;
+            list->count++;
+        } else {
+            list->entries[i].damage = damage;
+            list->entries[i].unk9 = 0;
+            list->substituteCount++;
+        }
+        func_ov167_021ab73c(flow->unk1F80, flow, attacker, target, list->entries[i].effectiveness);
+        i++;
+    }
+    list->total = i;
+}
+
+u8 func_ov167_021a46d4(BtlFlowDamageList *list) {
+    return list->total;
+}
+
+u32 func_ov167_021a46d8(BtlServerFlow *flow, BtlFlowDamageList *list, BattleMon **mons, u16 *damages,
+                        u32 *effectiveness, u8 *critical) {
+    u32 i;
+    u32 count = 0;
+
+    for (i = 0; i < list->total; i++) {
+        if (list->entries[i].substitute) {
+            mons[count] = GetPokeParam(flow->pokeCon, list->entries[i].monId);
+            damages[count] = list->entries[i].damage;
+            effectiveness[count] = list->entries[i].effectiveness;
+            critical[count] = list->entries[i].critical;
+            count++;
+        }
+    }
+    return count;
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
