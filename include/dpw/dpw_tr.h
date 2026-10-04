@@ -31,7 +31,7 @@ typedef struct {
     Dpw_Tr_PokemonSearchData wantSimple;
     // The trainer's
     u8 gender;
-    u8 padding;
+    u8 unkF7;
     u8 postDate[8];
     u8 tradeDate[8];
     s32 id;
@@ -44,7 +44,8 @@ typedef struct {
     s8 isTrade;
     u8 versionCode;
     u8 langCode;
-    u8 unk126[2];
+    u8 unk126;
+    u8 unk127;
 } Dpw_Tr_Data;
 
 // Runs the library's requests, every frame

@@ -1269,7 +1269,7 @@ static void Box_MakeExchangePokemonData(Dpw_Tr_Data *dtd, WorldTradeWork *wk) {
     post.gender = PML_PkmGetParam(wk->depositPkm, PKM_PARAM_SEX, NULL) + 1;
     post.level = PML_PkmGetLevel(wk->depositPkm);
     dtd->postSimple = post;
-    func_ov214_021d7358(dtd, wk);
+    WorldTrade_PostPokemonBaseDataMake(dtd, wk);
 
     pkm = func_0201d624((PartyPkm *)wk->downloadPokemonData[wk->touchTrainerPos].postData);
     want.characterNo = PML_PkmGetParam(pkm, PKM_PARAM_SPECIES, NULL);

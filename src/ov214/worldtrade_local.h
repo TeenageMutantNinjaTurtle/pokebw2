@@ -101,6 +101,53 @@ typedef struct {
     int pos;
 } WorldTradeEvoPokeInfo;
 
+// The deposit and search screens' work
+typedef struct {
+    ListMenuOption *pokename;
+    u16 headwordPos;
+    u16 headwordListPos;
+    u16 namePos;
+    u16 nameListPos;
+    int sexPos;
+    int levelPos;
+    // Whether each species is of the regional Pokédex
+    u8 *sinouTable;
+    // The species in the order of their names
+    u16 *nameSortTable;
+    int nameSortNum;
+    // The gender ratio of the Pokémon chosen
+    int sexSelection;
+    int cursorSide;
+    int leftCursorPos;
+    int rightCursorPos;
+} WorldTradeDepositWork;
+
+// The cursor of each list of the name input, kept between the deposit and search screens
+typedef struct {
+    u16 headList;
+    u16 headPos;
+    u16 nameList[10];
+    u16 namePos[10];
+} WorldTradeSelectListPos;
+
+typedef struct WorldTradeInputWork WorldTradeInputWork;
+
+// What worldtrade_input.c's input draws with
+typedef struct {
+    BmpWin **menuWin;
+    BmpWin **backWin;
+    ClActor *cursorAct;
+    ClActor *arrowAct[2];
+    // Only for the search screen
+    ClActor *searchCursorAct;
+    MsgData *msgManager;
+    MsgData *monsNameManager;
+    MsgData *countryNameManager;
+    PokeDexSave *zukan;
+    u8 *sinouTable;
+    TrainerDataSave *config;
+} WorldTradeInputHeader;
+
 typedef struct WorldTradeWork WorldTradeWork;
 
 typedef void (*WorldTradeVBlankFunc)(WorldTradeWork *wk);
@@ -124,7 +171,9 @@ struct WorldTradeWork {
     u8 unk38[0x80];
     // Set while the status screen or the trade demo runs, which takes the cell actors
     int subprocFlag;
-    u8 unkBC[0x4];
+    // The cursor of the list being shown, to play a sound when it moves
+    u16 listpos;
+    u16 unkBE;
     u16 titleCursorPos;
     u16 unkC2;
     u16 boxTrayNo;
@@ -164,7 +213,7 @@ struct WorldTradeWork {
     ClActUnit *clactUnit;
     u32 clactRes[WT_CLACT_RES_SETS][WT_CLACT_RES_KINDS];
     ClActor *cursorAct;
-    ClActor *unkBF8;
+    ClActor *subCursorAct;
     // The finger that points at the Quit button
     ClActor *fingerAct;
     ClActor *pokeIconAct[BOX_POKE_NUM];
@@ -180,17 +229,23 @@ struct WorldTradeWork {
     BmpWin *msgWin;
     u8 unkD44[0x8];
     BmpWin *subWin;
-    BmpWin *menuWin[13];
-    u8 unkD84[0x4c];
+    BmpWin *menuWin[16];
+    BmpWin *infoWin[16];
     BmpWin *talkWin;
-    u8 unkDD4[0xc];
+    // "Back"
+    BmpWin *backWin;
+    u8 unkDD8[0x8];
     // Explains the screen on the lower screen
     BmpWin *explainWin;
-    u8 unkDE4[0x4];
+    // worldtrade_input.c's input of a search or of the wanted Pokémon
+    WorldTradeInputWork *inputWork;
     ListMenuOption *menuList;
-    u8 unkDEC[0xc];
+    u8 unkDEC[0x8];
+    BmpMenuList *bmpListWork;
     WaitIcon *timeWaitWork;
-    u8 unkDFC[0x8];
+    u8 unkDFC[0x4];
+    // The deposit and search screens' work
+    WorldTradeDepositWork *dw;
     AppTaskMenuRes *task_res;
     AppTaskMenu *task_work;
     u8 unkE0C[0xc];
@@ -211,7 +266,10 @@ struct WorldTradeWork {
     WorldTradeVBlankFunc vfunc;
     // Called at every VBlank
     WorldTradeVBlankFunc vfunc2;
-    u8 unkEC4[0xc0];
+    // The first y of each person on the lower screen
+    s16 subActY[10][2];
+    WorldTradeSelectListPos selectListPos;
+    u8 unkF18[0x6c];
     int countryCode;
     u8 unkF88[0x8];
     TCB *vblankTask;
@@ -274,7 +332,45 @@ PlayerInfo *WorldTrade_MakePartnerStatus(Dpw_Tr_Data *dtd);
 int WorldTrade_Deposit_Init(WorldTradeWork *wk, int seq);
 int WorldTrade_Deposit_Main(WorldTradeWork *wk, int seq);
 int WorldTrade_Deposit_End(WorldTradeWork *wk, int seq);
-void func_ov214_021d7358(Dpw_Tr_Data *dtd, WorldTradeWork *wk);
+BOOL WorldTrade_SexSelectionCheck(Dpw_Tr_PokemonSearchData *dtps, int sexSelection);
+void WorldTrade_PokeNamePrint(BmpWin *win, MsgData *nameManager, int monsno, int flag, int y, u16 color,
+                              WorldTradePrint *print);
+void WorldTrade_PokeNamePrintNoPut(BmpWin *win, MsgData *nameManager, int monsno, int y, u16 color,
+                                   WorldTradePrint *print);
+void WorldTrade_CountryPrint(BmpWin *win, MsgData *nameManager, MsgData *msgManager, int countryCode, int flag, int y,
+                             u16 color, WorldTradePrint *print);
+void WorldTrade_SexPrint(BmpWin *win, MsgData *msgManager, int sex, int flag, int y, int printFlag, u16 color,
+                         WorldTradePrint *print);
+void WorldTrade_SexPrintNoPut(BmpWin *win, MsgData *msgManager, int sex, int flag, int x, int y, u16 color,
+                              WorldTradePrint *print);
+void WorldTrade_WantLevelPrint(BmpWin *win, MsgData *msgManager, int level, int flag, int y, u16 color, int tblSelect,
+                               WorldTradePrint *print);
+void WorldTrade_WantLevelPrint_XY(BmpWin *win, MsgData *msgManager, int level, int flag, int x, int y, u16 color,
+                                  int tblSelect, WorldTradePrint *print);
+void WorldTrade_PokeWantPrint(MsgData *msgManager, MsgData *monsNameManager, WordSet *wordSet, BmpWin **win, int monsno,
+                              int sex, int level, WorldTradePrint *print);
+void WorldTrade_MyPokeWantPrint(MsgData *msgManager, MsgData *monsNameManager, WordSet *wordSet, BmpWin **win,
+                                int monsno, int sex, int level, WorldTradePrint *print);
+void WorldTrade_PokeInfoPrint(MsgData *msgManager, WordSet *wordSet, BmpWin **win, BoxPkm *pkm,
+                              Dpw_Tr_PokemonDataSimple *post, WorldTradePrint *print);
+u16 *WorldTrade_ZukanSortDataGet(int heapId, int idx, int *num);
+void WorldTrade_HeadwordRangeGet(int select, u32 *start, u32 *end);
+u8 *WorldTrade_SinouZukanDataGet(int heapId);
+void WorldTrade_PostPokemonBaseDataMake(Dpw_Tr_Data *dtd, WorldTradeWork *wk);
+BmpMenuList *WorldTrade_PokeNameListMake(WorldTradeWork *wk, ListMenuOption **menulist, BmpWin *win,
+                                         MsgData *msgManager, MsgData *monsNameManager, WorldTradeDepositWork *dw,
+                                         PokeDexSave *zukan);
+int WorldTrade_LevelListAdd(ListMenuOption **menulist, MsgData *msgManager, int tblSelect);
+void WorldTrade_LevelMinMaxSet(Dpw_Tr_PokemonSearchData *dtps, int index, int tblSelect);
+int WorldTrade_LevelTermGet(int min, int max, int tblSelect);
+void WorldTrade_CountryCodeSet(WorldTradeWork *wk, int countryCode);
+int WorldTrade_NationSortListNumGet(int start, int *number);
+int WorldTrade_NationSortListMake(ListMenuOption **menulist, MsgData *countryNameManager, int start);
+void WorldTrade_SelectListPosInit(WorldTradeSelectListPos *slp);
+void WorldTrade_SelectNameListBackup(WorldTradeSelectListPos *slp, int head, int list, int pos);
+// The number of countries in the list
+extern const u32 WorldTrade_CountryListNum;
+extern const u32 WorldTrade_SexStringTable[];
 
 // worldtrade_enter.c
 int WorldTrade_Enter_Init(WorldTradeWork *wk, int seq);
@@ -282,6 +378,12 @@ int WorldTrade_Enter_Main(WorldTradeWork *wk, int seq);
 int WorldTrade_Enter_End(WorldTradeWork *wk, int seq);
 void func_ov214_021d7fb4(BmpWin *win, StrBuf *str, int x, int y, int flag, u32 color, WorldTradePrint *print);
 void func_ov214_021d8068(WorldTradeWork *wk);
+
+// worldtrade_input.c
+WorldTradeInputWork *func_ov214_021d86a4(WorldTradeInputHeader *header, int frame, int situation);
+void func_ov214_021d877c(WorldTradeInputWork *work, int mode);
+void func_ov214_021d87e4(WorldTradeInputWork *work);
+u32 func_ov214_021d8804(WorldTradeInputWork *work);
 
 // worldtrade_mypoke.c
 int WorldTrade_MyPoke_Init(WorldTradeWork *wk, int seq);
@@ -329,11 +431,16 @@ int WorldTrade_Upload_End(WorldTradeWork *wk, int seq);
 void func_ov214_021e14e0(WordSet *wordSet, u32 index, BoxPkm *pkm);
 PartyPkm *func_ov214_021e1504(HeapID heapId);
 void func_ov214_021e1528(PartyPkm *src, PartyPkm *dest);
+// Clears a window from the screen, now or at the next VBlank
+void func_ov214_021e1540(BmpWin *win, int mode);
+StrBuf *func_ov214_021e156c(WordSet *wordSet, MsgData *msgData, u32 msgNo, HeapID heapId);
+void func_ov214_021e159c(BoxPkm *pkm, PartyPkm *dest);
 void func_ov214_021e15d4(WorldTradePrint *print, TrainerDataSave *config);
 void func_ov214_021e1640(WorldTradePrint *print);
 void func_ov214_021e166c(WorldTradePrint *print);
 BOOL func_ov214_021e173c(WorldTradePrint *print);
 void func_ov214_021e1754(BmpWin *win, int x, StrBuf *str, int y, int a4, WorldTradePrint *print);
+void func_ov214_021e17c4(BmpWin *win, int a1, StrBuf *str, int x, int y, int a5, u16 color, WorldTradePrint *print);
 void func_ov214_021e1840(WorldTradePrint *print);
 
 #endif // POKEBW2_OV214_WORLDTRADE_LOCAL_H
