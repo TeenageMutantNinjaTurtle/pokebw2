@@ -12,6 +12,7 @@
 #include "field/event_wifibattlematch.h"
 #include "field/field_event.h"
 #include "field/field_script.h"
+#include "field/game_beacon_set.h"
 #include "field/gimmick_state.h"
 #include "field/intrude_work.h"
 #include "gfl/heap.h"

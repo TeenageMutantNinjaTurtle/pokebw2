@@ -9,6 +9,7 @@ u32 func_0200c6a0(HighLinkSave *save, u32 id);
 // Copies two bytes of the save into dest
 void func_0200c6d8(HighLinkSave *save, u8 *dest, u32 a2);
 u32 PassPower_GetUsedIDByEffect(int effect);
+BOOL PassPower_IsBW1Compatible(u32 passPower);
 u32 PassPower_GetRemainingSeconds(int effect);
 u32 PassPower_ApplyPrizeMoney(u32 money);
 
