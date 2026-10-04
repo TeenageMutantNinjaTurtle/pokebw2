@@ -3880,6 +3880,109 @@ BOOL ServerControl_MoveConditionCore(BtlServerFlow *flow, BattleMon *attacker, B
     return FALSE;
 }
 
+u32 ServerEvent_DecideSpecialMoveCondition(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target,
+                                           BattleHandlerString *string) {
+    u32 condition;
+    BattleEventVar_Push(0x1e11);
+    BattleEventVar_SetConstValue(3, GetMonID(attacker));
+    BattleEventVar_SetConstValue(4, GetMonID(target));
+    BattleEventVar_SetConstValue(0x3f, (s32)string);
+    BattleEventVar_SetValue(0x1d, 0);
+    BattleEvent_CallHandlers(flow, 0x60);
+    condition = BattleEventVar_GetValue(0x1d);
+    BattleEventVar_Pop(0x1e18);
+    return condition;
+}
+
+void ServerEvent_AddMoveConditionString(BtlServerFlow *flow, u32 condition, BattleMon *attacker, BattleMon *target,
+                                        BattleHandlerString *string) {
+    BattleEventVar_Push(0x1e28);
+    BattleEventVar_SetConstValue(3, GetMonID(attacker));
+    BattleEventVar_SetConstValue(4, GetMonID(target));
+    BattleEventVar_SetConstValue(0x3f, (s32)string);
+    BattleEventVar_SetConstValue(0x1d, condition);
+    BattleEvent_CallHandlers(flow, 0x61);
+    BattleEventVar_Pop(0x1e2e);
+}
+
+void ServerEvent_MoveConditionContinue(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, u32 condition,
+                                       BattleCondition *value) {
+    BattleEventVar_Push(0x1e3e);
+    BattleEventVar_SetConstValue(3, GetMonID(attacker));
+    BattleEventVar_SetConstValue(4, GetMonID(target));
+    BattleEventVar_SetConstValue(0x1d, condition);
+    BattleEventVar_SetValue(0x1e, value->raw);
+    BattleEvent_CallHandlers(flow, 0x62);
+    value->raw = BattleEventVar_GetValue(0x1e);
+    BattleEventVar_Pop(0x1e45);
+}
+
+BOOL ServerEvent_AddCondition(BtlServerFlow *flow, BattleMon *target, BattleMon *attacker, u32 condition,
+                              BattleCondition value, BOOL flag, BOOL defaultMessage) {
+    if (!ServerControl_AddConditionCheckFail(flow, target, attacker, condition, value, 0, flag)) {
+        ServerControl_AddCondition(flow, target, attacker, condition, value, defaultMessage, FALSE, NULL);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+BOOL ServerControl_AddConditionCheckFail(BtlServerFlow *flow, BattleMon *target, BattleMon *attacker, u32 condition,
+                                         BattleCondition value, u8 overwrite, BOOL showFail) {
+    u32 state;
+    BOOL failed;
+    u32 cause = AddConditionCheckFailOverwrite(flow, target, condition, value, overwrite);
+
+    if (cause != 0) {
+        if (showFail) {
+            AddConditionCheckFailStandard(flow, target, cause, condition);
+        }
+        return TRUE;
+    }
+    state = PushState(&flow->actionState, 0x1e73);
+    failed = ServerEvent_MoveConditionCheckFail(flow, attacker, target, condition);
+    if (failed && showFail) {
+        ServerEvent_AddConditionFailed(flow, target, attacker, condition);
+        flow->unk78A_4 = 1;
+    }
+    PopState(&flow->actionState, state, 0x1e80);
+    return failed;
+}
+
+u32 AddConditionCheckFailOverwrite(BtlServerFlow *flow, BattleMon *mon, s32 condition, BattleCondition value,
+                                   u8 overwrite) {
+    if (CheckCondition(mon, condition) && overwrite != 2) {
+        return 1;
+    }
+    if (condition < 6 && GetBattleMonStatus(mon) != 0 && overwrite == 0) {
+        return 3;
+    }
+    if (ServerEvent_GetWeather(flow) == 1 && condition == 3) {
+        return 3;
+    }
+    if (condition == 5) {
+        PokeTypePair type = GetPokeType(mon);
+        if (func_ov167_021ce564(type, 8) || func_ov167_021ce564(type, 3)) {
+            return 2;
+        }
+    }
+    if (condition == 4 && func_ov167_021ce564(GetPokeType(mon), 9)) {
+        return 2;
+    }
+    if (condition == 3 && func_ov167_021ce564(GetPokeType(mon), 0xe)) {
+        return 2;
+    }
+    if (condition == 0x12 && func_ov167_021ce564(GetPokeType(mon), 0xb)) {
+        return 2;
+    }
+    if (condition == 0xe && GetBattleMonStatus(mon) != 0) {
+        return 3;
+    }
+    if (condition == 0x10 && GetBattleMonStat(mon, 0x10) == 0x79) {
+        return 3;
+    }
+    return 0;
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
