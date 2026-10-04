@@ -1359,14 +1359,14 @@ static void func_0204c884(ClActRenderer *renderer) {
 }
 
 static void func_0204c890(ClActRenderer *renderer, BOOL cull) {
-    void *callback;
     int i;
+    void *callback;
 
     if (cull) {
         callback = func_0204cb8c;
     } else {
-        renderer->renderer.unk30 = TRUE;
         callback = NULL;
+        renderer->renderer.unk30 = TRUE;
     }
     for (i = 0; i < renderer->surfaceCount; i++) {
         renderer->surfaces[i].unk40 = callback;
