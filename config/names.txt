@@ -161,6 +161,8 @@
 . 0x02050efc SPLManager_UploadTexturesEx
 . 0x02050fc8 SPLManager_LoadResources
 . 0x02051340 SPLManager_New
+. 0x020514d0 SPLManager_AllocPlttVram
+. 0x02051508 SPLManager_AllocTexVram
 . 0x02051540 SPLEmitter_Draw
 . 0x020515bc SPLEmitter_DrawChildren
 . 0x020516a4 SPLEmitter_DrawParticles

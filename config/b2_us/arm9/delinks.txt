@@ -326,3 +326,7 @@ src/lib/spl/spl_emitter.c:
 src/lib/spl/spl_draw.c:
     .text       start:0x02052394 end:0x02054bfc
     .data       start:0x0209b044 end:0x0209b054
+
+src/lib/spl/spl_manager.c:
+    complete
+    .text       start:0x02050a40 end:0x02051540

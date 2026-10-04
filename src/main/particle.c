@@ -37,13 +37,6 @@ typedef struct {
     ParticleSystem *uploading;
 } ParticleGlobal;
 
-// The start of a resource file
-typedef struct {
-    u32 magic;
-    u32 version;
-    u16 resourceCount;
-} SPLFileHeader;
-
 static ParticleGlobal *sParticle;
 
 static void *func_0204fb78(u32 size);

@@ -912,6 +912,13 @@ static inline void G2S_SetBG3Affine(const MtxFx22 *mtx, int centerX, int centerY
 }
 
 // NitroSDK's GX_SetGraphicsMode and GXS_SetGraphicsMode
+// NitroSDK's GX_BeginLoadTex, GX_LoadTex and GX_EndLoadTex, and the same for palettes
+void gfxBeginTextureUpload(void);
+void gfxUploadTexture(const void *src, u32 dest, u32 size);
+void gfxEndTextureUpload(void);
+void gfxBeginPaletteUpload(void);
+void gfxUploadPalette(const void *src, u32 dest, u32 size);
+void gfxEndPaletteUpload(void);
 // NitroSDK's G3_LoadMtx43 and G3_MultMtx43
 void gfxLoadMatrix4x3(const MtxFx43 *mtx);
 void gfxMultMatrix4x3(const MtxFx43 *mtx);

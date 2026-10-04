@@ -5,8 +5,9 @@
 #include "nitro/fx.h"
 #include "nitro/gx.h"
 
-// Nintendo's SPL particle library, under the names pret's Platinum decompilation gives it: a manager of emitters
-// made from a resource file's particle definitions. Only what the game's own code touches is laid out here
+// Nintendo's SPL particle library (src/lib/spl), decompiled from this game's code: a manager of emitters made from a
+// resource file's particle definitions. The public functions keep the names pret's Platinum decompilation gives
+// them. The fields named unk* are ones the library never reads
 
 // The library's doubly linked lists, of emitters and of particles, which start with these links
 typedef struct SPLNode {
@@ -110,7 +111,9 @@ typedef struct {
     u32 hasTextureAnim : 1;
     u32 hasRotation : 1;
     u32 randomInitAngle : 1;
-    u32 : 1;
+    // Deletes the emitter once it has emitted for its life time and its particles are gone. The manager hands out no
+    // pointer to such an emitter
+    u32 autoTerminate : 1;
     // Moves the particles with the emitter after they are emitted
     u32 followEmitter : 1;
     u32 hasChildResource : 1;
@@ -124,7 +127,13 @@ typedef struct {
     u32 hideParent : 1;
     // Draws the particles relative to the emitter's base position, translating them to it
     u32 relativeToBasePos : 1;
-    u32 : 6;
+    // The behaviors the resource has, in this order after its animations and child resource
+    u32 hasGravityBehavior : 1;
+    u32 hasRandomBehavior : 1;
+    u32 hasMagnetBehavior : 1;
+    u32 hasSpinBehavior : 1;
+    u32 hasCollisionPlaneBehavior : 1;
+    u32 hasConvergenceBehavior : 1;
     // Gives the particles, or the children, the manager's fixed polygon ID rather than a new one each
     u32 fixedPolygonID : 1;
     u32 childFixedPolygonID : 1;
@@ -144,7 +153,8 @@ typedef struct {
     fx32 baseScale;
     // The width of the particles over their height
     fx16 aspectRatio;
-    u16 unk32;
+    // The frames before the emitter starts
+    u16 startDelay;
     // The range of the particles' angular velocities
     s16 minRotation;
     s16 maxRotation;
@@ -179,6 +189,7 @@ typedef struct {
     // Where the polygon is drawn relative to the particle, in its own units
     fx16 polygonX;
     fx16 polygonY;
+    u32 unk54;
 } SPLResourceHeader;
 
 // The animations of a particle's scale, color, alpha and texture over its life, which runs from 0 to 255. Each fades
@@ -209,6 +220,8 @@ typedef struct {
     u16 randomStart : 1;
     u16 loop : 1;
     u16 interpolate : 1;
+    u16 : 13;
+    u16 padding2;
 } SPLColorAnim;
 
 typedef struct {
@@ -222,6 +235,7 @@ typedef struct {
     u16 : 7;
     u8 in;
     u8 out;
+    u16 padding2;
 } SPLAlphaAnim;
 
 // Shows each texture for step of the particle's life
@@ -342,7 +356,8 @@ typedef union {
         // Asks the manager to delete the emitter once its particles are gone
         u32 terminate : 1;
         u32 stopEmission : 1;
-        u32 : 2;
+        u32 paused : 1;
+        u32 hidden : 1;
         // Set once the emitter may emit
         u32 started : 1;
         u32 : 27;
@@ -408,12 +423,41 @@ typedef struct {
     u32 repeat : 2;
     u32 flip : 2;
     u32 palColor0 : 1;
-    u32 : 15;
+    // Uses the VRAM of texture sharedTexID rather than uploading its own
+    u32 useSharedTexture : 1;
+    u32 sharedTexID : 8;
+    u32 : 6;
 } SPLTextureParam;
+
+// A texture in the resource file: this header, the texture data, then the palette
+typedef struct {
+    u32 signature;
+    SPLTextureParam param;
+    u32 textureSize;
+    u32 paletteOffset;
+    u32 paletteSize;
+    u32 unk14;
+    u32 unk18;
+    // The size of the header, texture and palette, to the next texture
+    u32 resourceSize;
+} SPLTextureResource;
+
+// The resource file's header, followed by the resources and the textures
+typedef struct {
+    u32 signature;
+    u32 version;
+    u16 resourceCount;
+    u16 textureCount;
+    u32 unkC;
+    u32 resourceSize;
+    u32 textureSize;
+    u32 textureOffset;
+    u32 unk1C;
+} SPLFileHeader;
 
 // A texture of the resource file, once uploaded to VRAM
 typedef struct {
-    const void *data;
+    const SPLTextureResource *data;
     u32 texAddr;
     u32 palAddr;
     SPLTextureParam param;
@@ -428,8 +472,8 @@ typedef struct SPLManager {
     SPLList unusedParticles;
     SPLResource *resources;
     SPLTexture *textures;
-    u16 textureCount;
     u16 resourceCount;
+    u16 textureCount;
     u16 maxEmitters;
     u16 maxParticles;
     // Particles take polygon IDs from min to max in turn, or the fixed one
@@ -437,14 +481,17 @@ typedef struct SPLManager {
     u32 maxPolygonID : 6;
     u32 currentPolygonID : 6;
     u32 fixPolygonID : 6;
-    u32 : 8;
+    // Draws the emitters from the last created
+    u32 reverseDrawOrder : 1;
+    u32 reserved : 7;
     // Ored into the particles' polygon attributes
     u32 polygonAttr;
     // The emitter being drawn
     SPLEmitter *drawEmitter;
     const MtxFx43 *viewMatrix;
-    u16 unk48;
-    u16 unk4a;
+    // Counts 0 and 1, for emitters updated every other frame
+    u16 frame;
+    u16 padding;
 } SPLManager;
 
 // The behaviors' functions, which tell a behavior's kind
