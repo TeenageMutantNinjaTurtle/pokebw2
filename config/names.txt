@@ -1039,6 +1039,13 @@ overlays/ov165 0x021a2294 PokeListDemo_Separate
 overlays/ov165 0x021a22e8 PokeListDemo_ChangeKyuremMoves
 overlays/ov165 0x021a2384 PokeListDemo_CanBecomeTherian
 overlays/ov165 0x021a23b4 PokeListDemo_ToggleTherian
+overlays/ov165 0x021a23e8 StatusRcv_CanUseItem
+overlays/ov165 0x021a2928 StatusRcv_UseItem
+overlays/ov165 0x021a2ef4 StatusRcv_PPUp
+overlays/ov165 0x021a2f94 StatusRcv_RestoreHp
+overlays/ov165 0x021a2fc8 StatusRcv_AddEffort
+overlays/ov165 0x021a303c StatusRcv_CanChangeFriendship
+overlays/ov165 0x021a30c8 StatusRcv_ChangeFriendship
 overlays/ov165 0x021a4bfc sItemNames
 overlays/ov165 0x021a4c5c sStatParams
 overlays/ov165 0x021a4c68 sKyuremMoves

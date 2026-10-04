@@ -744,7 +744,7 @@ static void PokeList_InitMode(PokeListWork *wk) {
                 wk->cursorPos = pos;
                 wk->pkm = PokeParty_GetPkm(wk->param->party, pos);
                 PokeList_ShowItemResult(wk, 0);
-                func_ov165_021a2928(wk->pkm, wk->param->item, 0, wk->param->zoneId, wk->heapId);
+                StatusRcv_UseItem(wk->pkm, wk->param->item, 0, wk->param->zoneId, wk->heapId);
                 PokeListPlate_Redraw(wk, wk->plates[wk->cursorPos]);
                 wk->playHealSe = TRUE;
                 wk->nextState = wk->state;
@@ -959,9 +959,9 @@ static void PokeList_SelectPokemon(PokeListWork *wk) {
         if (PokeList_IsItemForMove(wk, wk->param->item) == TRUE) {
             func_ov165_0219ceec(wk);
             PokeList_OpenMenu(wk);
-        } else if (func_ov165_021a23e8(wk->pkm, wk->param->item, 0, wk->heapId) == TRUE) {
+        } else if (StatusRcv_CanUseItem(wk->pkm, wk->param->item, 0, wk->heapId) == TRUE) {
             u32 result = PokeList_ShowItemResult(wk, 0);
-            BOOL used = func_ov165_021a2928(wk->pkm, wk->param->item, 0, wk->param->zoneId, wk->heapId);
+            BOOL used = StatusRcv_UseItem(wk->pkm, wk->param->item, 0, wk->param->zoneId, wk->heapId);
 
             if (result == 2) {
                 if (used) {
@@ -2299,12 +2299,12 @@ static void PokeList_DoMenuItem(PokeListWork *wk) {
     case 18:
     case 19:
         if (wk->param->mode == 5) {
-            if (func_ov165_021a23e8(wk->pkm, wk->param->item, wk->menuItem - 16, wk->heapId) == TRUE) {
+            if (StatusRcv_CanUseItem(wk->pkm, wk->param->item, wk->menuItem - 16, wk->heapId) == TRUE) {
                 u32 move = PokeParty_GetParam(wk->pkm, PKM_PARAM_MOVE1 + wk->menuItem - 16, NULL);
 
                 GFL_BGSysLoadScr(0);
                 PokeList_ShowItemResult(wk, move);
-                func_ov165_021a2928(wk->pkm, wk->param->item, wk->menuItem - 16, wk->param->zoneId, wk->heapId);
+                StatusRcv_UseItem(wk->pkm, wk->param->item, wk->menuItem - 16, wk->param->zoneId, wk->heapId);
                 PokeListPlate_Redraw(wk, wk->plates[wk->cursorPos]);
                 PokeList_SubFromBag(wk, wk->param->item);
                 GFL_SndSEPlay(SEQ_SE_RECOVERY);

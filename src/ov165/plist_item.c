@@ -212,7 +212,7 @@ s32 PokeList_FindItemTarget(PokeListWork *wk) {
     for (i = 0; i < count; i++) {
         PartyPkm *pkm = PokeParty_GetPkm(wk->param->party, i);
 
-        if (func_ov165_021a23e8(pkm, wk->param->item, 0, wk->heapId) == TRUE) {
+        if (StatusRcv_CanUseItem(pkm, wk->param->item, 0, wk->heapId) == TRUE) {
             return i;
         }
     }
@@ -407,7 +407,7 @@ static void PokeList_ItemReviveNext(PokeListWork *wk) {
     wk->cursorPos = pos;
     wk->pkm = PokeParty_GetPkm(wk->param->party, pos);
     PokeList_ShowItemResult(wk, 0);
-    func_ov165_021a2928(wk->pkm, wk->param->item, 0, wk->param->zoneId, wk->heapId);
+    StatusRcv_UseItem(wk->pkm, wk->param->item, 0, wk->param->zoneId, wk->heapId);
     PokeListPlate_Redraw(wk, wk->plates[wk->cursorPos]);
     GFL_SndSEPlay(SEQ_SE_RECOVERY);
 }

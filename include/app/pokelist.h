@@ -338,7 +338,9 @@ BOOL PokeListDemo_CanBecomeTherian(PokeListWork *wk, PartyPkm *pkm);
 void PokeListDemo_ToggleTherian(PokeListWork *wk, PartyPkm *pkm);
 
 // status_rcv.c
-BOOL func_ov165_021a23e8(PartyPkm *pkm, u16 item, u16 pos, HeapID heapId);
-BOOL func_ov165_021a2928(PartyPkm *pkm, u16 item, u16 pos, u16 zoneId, HeapID heapId);
+// Whether the item would do anything to the Pokémon, pos being the move slot for items that act on one move
+BOOL StatusRcv_CanUseItem(PartyPkm *pkm, u16 item, u16 pos, u32 heapId);
+// Uses the item on the Pokémon, and whether it changed anything
+BOOL StatusRcv_UseItem(PartyPkm *pkm, u16 item, u16 pos, u16 zoneId, u32 heapId);
 
 #endif // POKEBW2_APP_POKELIST_H
