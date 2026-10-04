@@ -522,7 +522,7 @@ void GetTriggerCenterPos(const ZoneTrigger *trigger, VecFx32 *position) {
     GetTriggerCenterPos_(trigger, position);
 }
 
-void SetBGEntityLocation(EventData *data, u32 index, s32 x, s32 z, u16 y) {
+void SetBGEntityLocation(EventData *data, u32 index, u16 x, u16 z, u16 y) {
     ZoneBGEntity *entities;
     ZoneBGEntity *entity;
     s32 *coords;

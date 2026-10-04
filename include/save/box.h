@@ -23,4 +23,7 @@ DayCareSave *getDaycareBlockAddress(SaveControl *save);
 u32 DayCareSave_GetPkmStatus(DayCareSave *dayCare, u32 slot);
 PartyPkm *DayCareSave_GetPkm(DayCareSave *dayCare, u32 slot);
 
+// Sets flags of the box save
+void func_02007d8c(BoxSaveAccessor *accessor, u32 flags);
+
 #endif // POKEBW2_SAVE_BOX_H

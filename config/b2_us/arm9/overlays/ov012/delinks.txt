@@ -55,7 +55,9 @@ src/ov012/scrcmd_work.c:
     .data       start:0x0216e1e4 end:0x0216e1f4
 
 src/ov012/scrcmd_game_state.c:
+    complete
     .text       start:0x021555f8 end:0x02156174
+    .rodata     start:0x0216c9e0 end:0x0216ca04
 
 src/ov012/scrcmd_pokemon.c:
     .text       start:0x02156174 end:0x021574a4

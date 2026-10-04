@@ -6,6 +6,8 @@
 
 void setSecondsCurrentTimeInTrainerCard(TrainerCardSave *trainerCard, s64 seconds);
 void setOneShotDRObtained(TrainerCardSave *trainerCard, u32 flag, PlayerInfo *playerInfo);
+// Overlay 12
+BOOL isOneShotDRObtained(TrainerCardSave *trainerCard, u32 flag, PlayerInfo *playerInfo);
 TrainerCardSave *getTrainerCardData_wrapper(SaveControl *save);
 u32 func_0200c924(TrainerCardSave *trainerCard);
 u32 func_0200c90c(TrainerCardSave *trainerCard);

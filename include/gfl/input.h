@@ -33,6 +33,8 @@ void func_0203d564(BOOL touch);
 // Set and clear flags of the system UI, such as 8 while the microphone records
 void func_0203d10c(u32 flags);
 void func_0203d134(u32 flags);
+void func_0203d254(u8 flags);
+void func_0203d27c(u8 flags);
 BOOL func_0203d554(void);
 BOOL func_0203da48(void);
 

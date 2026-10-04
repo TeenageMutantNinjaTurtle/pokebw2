@@ -24,6 +24,8 @@ u32 PlayerInfo_GetSize(void);
 u32 getTrainerGender(PlayerInfo *info);
 u8 func_02008bfc(PlayerInfo *info);
 u32 func_02008bf4(PlayerInfo *info);
+// A table's entry for func_02008bf4's value, 2 past the end of the table
+u8 func_0202b5e8(u32 index);
 u32 getIDAsUInt(PlayerInfo *info);
 void setTrainerGender(PlayerInfo *info, u32 gender);
 PlayerInfo *func_02008b0c(u32 heapId);

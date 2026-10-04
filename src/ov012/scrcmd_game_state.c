@@ -10,11 +10,14 @@
 #include "field/trainer_script.h"
 #include "field/zone.h"
 #include "gfl/heap.h"
+#include "gfl/input.h"
 #include "gfl/random.h"
 #include "nitro/fx.h"
 #include "nitro/rtc.h"
 #include "pml/poke_party.h"
+#include "save/box.h"
 #include "save/config.h"
+#include "save/hall_of_fame.h"
 #include "save/event_work.h"
 #include "save/player_info.h"
 #include "save/pokedex.h"
@@ -197,6 +200,25 @@ BOOL s00D7_TrainerCardGetBadgeCount(VM *vm, FieldScriptEnv *env) {
     return FALSE;
 }
 
+BOOL s0138_SaveDataGetStatus(VM *vm, FieldScriptEnv *env) {
+    SaveControl *save = GameData_GetSaveControl(FieldScriptEnv_GetGameData(env));
+    u16 *present = ScriptReadVar(vm, env);
+    u16 *status = ScriptReadVar(vm, env);
+    u16 *result = ScriptReadVar(vm, env);
+    u32 a2 = 0;
+    u32 a1 = 0;
+
+    *present = SaveControl_IsDataAlreadyPresent(save);
+    *status = SaveControl_GetStatus(save);
+    func_020074b8(save, &a1, &a2);
+    if (a1 * 3 < a2) {
+        *result = 0;
+    } else {
+        *result = 1;
+    }
+    return FALSE;
+}
+
 BOOL s00D3_RTGetZoneID(VM *vm, FieldScriptEnv *env) {
     u16 *value = ScriptReadVar(vm, env);
     *value = GetScriptEnvZoneID(env);
@@ -353,6 +375,44 @@ BOOL s02D0_PokeDexEnableHabitatList(VM *vm, FieldScriptEnv *env) {
     return FALSE;
 }
 
+// The system UI flags that func_ov012_02155bec sets and clears
+static const u32 sSystemUIFlags[1] = { 0x40 };
+
+BOOL func_ov012_02155bec(VM *vm, FieldScriptEnv *env) {
+    u16 mode = ScriptReadAny(vm, env);
+    u16 index = ScriptReadAny(vm, env);
+
+    switch (mode) {
+    case 0:
+        func_0203d254(sSystemUIFlags[index]);
+        break;
+    case 1:
+        func_0203d27c(sSystemUIFlags[index]);
+        break;
+    }
+    return FALSE;
+}
+
+BOOL func_ov012_02155c30(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    PlayerInfo *playerInfo = GetGameDataPlayerInfo(gameData);
+    TrainerCardSave *card = getTrainerCardDataBlkAddress(gameData);
+
+    setOneShotDRObtained(card, ScriptReadAny(vm, env), playerInfo);
+    return FALSE;
+}
+
+BOOL func_ov012_02155c64(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    PlayerInfo *playerInfo = GetGameDataPlayerInfo(gameData);
+    TrainerCardSave *card = getTrainerCardDataBlkAddress(gameData);
+    u16 flag = ScriptReadAny(vm, env);
+    u16 *result = ScriptReadVar(vm, env);
+
+    *result = isOneShotDRObtained(card, flag, playerInfo);
+    return FALSE;
+}
+
 BOOL s00E2_SaveDataCheckRequired(VM *vm, FieldScriptEnv *env) {
     GameSystem *gsys = FieldScriptEnv_GetGameSystem(env);
     GameData *gameData = GSYS_GetGameData(gsys);
@@ -374,6 +434,119 @@ BOOL s00E2_SaveDataCheckRequired(VM *vm, FieldScriptEnv *env) {
 BOOL s00E3_GiveRunningShoes(VM *vm, FieldScriptEnv *env) {
     GameData *gameData = FieldScriptEnv_GetGameData(env);
     EventWork_FlagSet(GameData_GetEventWork(gameData), 0x963);
+    return FALSE;
+}
+
+BOOL func_ov012_02155d00(VM *vm, FieldScriptEnv *env) {
+    u16 flags = ScriptReadAny(vm, env);
+    BoxSaveAccessor *box = GameData_GetBoxSaveAccessor(FieldScriptEnv_GetGameData(env));
+
+    if (flags == 1 || flags == 2) {
+        func_02007d8c(box, flags);
+    }
+    return FALSE;
+}
+
+BOOL func_ov012_02155d30(VM *vm, FieldScriptEnv *env) {
+    u16 *flag = ScriptReadVar(vm, env);
+    u16 *value = ScriptReadVar(vm, env);
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    PlayerState *playerState = GameData_GetPlayerState(gameData);
+    void *timeSig = getTimeSigBlkAddress(GameData_GetSaveControl(gameData));
+
+    *value = func_0202b5e8(func_02008bf4(&playerState->playerInfo));
+    *flag = func_020091d0(timeSig);
+    func_020091dc(timeSig);
+    return FALSE;
+}
+
+BOOL func_ov012_02155d80(VM *vm, FieldScriptEnv *env) {
+    u16 item = ScriptReadAny(vm, env);
+    u16 *result = ScriptReadVar(vm, env);
+
+    *result = (func_0200ca50(getTrainerCardDataBlkAddress(FieldScriptEnv_GetGameData(env)), item) & 1) ? TRUE : FALSE;
+    return FALSE;
+}
+
+
+BOOL func_ov012_02155db4(VM *vm, FieldScriptEnv *env) {
+    u16 item = ScriptReadAny(vm, env);
+
+    func_0200ca38(getTrainerCardDataBlkAddress(FieldScriptEnv_GetGameData(env)), item, 1);
+    return FALSE;
+}
+
+BOOL func_ov012_02155dd4(VM *vm, FieldScriptEnv *env) {
+    u16 item = ScriptReadAny(vm, env);
+    u16 *result = ScriptReadVar(vm, env);
+
+    if (func_0200ca50(getTrainerCardDataBlkAddress(FieldScriptEnv_GetGameData(env)), item) == 3) {
+        *result = TRUE;
+    } else {
+        *result = FALSE;
+    }
+    return FALSE;
+}
+
+BOOL s00EA_HOFCheckIntegrity(VM *vm, FieldScriptEnv *env) {
+    GameData *gameData = FieldScriptEnv_GetGameData(env);
+    EventWork *eventWork = GameData_GetEventWork(gameData);
+    u16 *result = ScriptReadVar(vm, env);
+    SaveControl *save;
+
+    if (EventWork_FlagGet(eventWork, 0x960)) {
+        save = GameData_GetSaveControl(gameData);
+        switch (func_020074ec(save, 8, HEAPID_GAMEEVENT)) {
+        case 0:
+            *result = 0;
+            break;
+        case 1:
+        case 2:
+            if (func_0200f660(getAddressOfExtraSaveBlk(save, 8, 0)) == 0) {
+                *result = 0;
+            } else {
+                *result = 1;
+            }
+            break;
+        default:
+            *result = 2;
+            break;
+        }
+        freeIntermediateSaveExtraBlksAfterLoad(save, 8);
+    } else {
+        *result = 0;
+    }
+    return FALSE;
+}
+
+BOOL s01D7_ObjInitPointGPos(VM *vm, FieldScriptEnv *env) {
+    u16 index = ScriptReadAny(vm, env);
+    s16 x = ScriptReadAny(vm, env);
+    s16 z = ScriptReadAny(vm, env);
+    s16 y = ScriptReadAny(vm, env);
+
+    SetBGEntityLocation(GameData_GetEventData(FieldScriptEnv_GetGameData(env)), index, x, z, y);
+    return FALSE;
+}
+
+BOOL s01D8_ObjInitWarpGPos(VM *vm, FieldScriptEnv *env) {
+    u16 warpId = ScriptReadAny(vm, env);
+    s16 x = ScriptReadAny(vm, env);
+    s16 y = ScriptReadAny(vm, env);
+    s16 z = ScriptReadAny(vm, env);
+
+    SetZoneWarpLocation(GameData_GetEventData(FieldScriptEnv_GetGameData(env)), warpId, x, y, z);
+    return FALSE;
+}
+
+BOOL s01D9_ObjInitNPCGPos(VM *vm, FieldScriptEnv *env) {
+    u16 npcId = ScriptReadAny(vm, env);
+    u16 direction = ScriptReadAny(vm, env);
+    s16 x = ScriptReadAny(vm, env);
+    s16 y = ScriptReadAny(vm, env);
+    s16 z = ScriptReadAny(vm, env);
+
+    SetZoneNPCLocation(GameData_GetEventData(FieldScriptEnv_GetGameData(env)), npcId, direction, x, y << 16, z);
     return FALSE;
 }
 
@@ -444,6 +617,24 @@ BOOL s0178_WildBattleGetResult(VM *vm, FieldScriptEnv *env) {
     u32 battleResult = GameData_GetLastBtlResult(gameData);
     u16 *result = ScriptReadVar(vm, env);
     *result = GetWildBattleResultByCombined(battleResult);
+    return FALSE;
+}
+
+// The values that func_ov012_02156104 and func_ov012_02156128 give for an index
+static const u16 data_ov012_0216c9e4[8] = { 0xf, 0x37, 0x17, 0x34, 0x35, 0x40, 0x12f, 0x128 };
+static const u16 data_ov012_0216c9f4[8] = { 0x2f, 0x8a, 0x323, 0x325, 0xa, 0x88, 0x324, 0x326 };
+
+BOOL func_ov012_02156104(VM *vm, FieldScriptEnv *env) {
+    u16 index = ScriptReadAny(vm, env);
+
+    *ScriptReadVar(vm, env) = data_ov012_0216c9e4[index];
+    return FALSE;
+}
+
+BOOL func_ov012_02156128(VM *vm, FieldScriptEnv *env) {
+    u16 index = ScriptReadAny(vm, env);
+
+    *ScriptReadVar(vm, env) = data_ov012_0216c9f4[index];
     return FALSE;
 }
 

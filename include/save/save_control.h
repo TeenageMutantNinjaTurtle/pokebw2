@@ -12,6 +12,11 @@ u32 func_02007560(SaveControl *save, u32 block, u32 heapId, void *buffer, u32 si
 void *getAddressOfExtraSaveBlk(SaveControl *save, u32 block, u32 arg2);
 void freeIntermediateSaveExtraBlksAfterLoad2(SaveControl *save, u32 block);
 u32 SaveControl_GetStatus(SaveControl *save);
+void func_020074b8(SaveControl *save, u32 *a1, u32 *a2);
+// Save block 0x21, and its flag at 0x602: get and set
+void *getTimeSigBlkAddress(SaveControl *save);
+u8 func_020091d0(void *timeSig);
+void func_020091dc(void *timeSig);
 u32 func_02007464(SaveControl *save);
 void func_0200749c(SaveControl *save);
 void func_02007324(SaveControl *save);
