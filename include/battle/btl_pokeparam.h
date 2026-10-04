@@ -361,7 +361,7 @@ u32 GetExpForLv100(BattleMon *mon);
 void func_ov167_021bc384(BattleMon *mon, BOOL keepBaseForm);
 void func_ov167_021bc3fc(BattleMon *mon);
 void func_ov167_021bc43c(BattleMon *mon, PartyPkm *src);
-u16 func_ov167_021bc590(BattleMon *mon);
+u32 func_ov167_021bc590(BattleMon *mon);
 BOOL func_ov167_021bc59c(BattleMon *mon, u16 *damage);
 void func_ov167_021bc5c4(BattleMon *mon);
 void func_ov167_021bc5cc(BattleMon *mon, u8 monId);

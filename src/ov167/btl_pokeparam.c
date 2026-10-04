@@ -1737,7 +1737,7 @@ BOOL IsSubstituteActive(BattleMon *mon) {
     return FALSE;
 }
 
-u16 func_ov167_021bc590(BattleMon *mon) {
+u32 func_ov167_021bc590(BattleMon *mon) {
     return mon->substituteHP;
 }
 

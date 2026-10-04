@@ -3322,7 +3322,7 @@ u32 func_ov167_021a5118(BtlServerFlow *flow, BattleMon *attacker, BattleMon *tar
     return cause;
 }
 
-void func_ov167_021a5198(BtlServerFlow *flow, BattleMon *mon, u8 cause) {
+void func_ov167_021a5198(BtlServerFlow *flow, BattleMon *mon, u32 cause) {
     u32 state;
     u8 monId = GetMonID(mon);
 
@@ -3339,7 +3339,7 @@ void func_ov167_021a5198(BtlServerFlow *flow, BattleMon *mon, u8 cause) {
     }
 }
 
-void func_ov167_021a51f8(BtlServerFlow *flow, BattleMon *mon, u8 cause) {
+void func_ov167_021a51f8(BtlServerFlow *flow, BattleMon *mon, u32 cause) {
     BattleEventVar_Push(0x1a27);
     BattleEventVar_SetConstValue(2, GetMonID(mon));
     BattleEvent_CallHandlers(flow, 0x75);
@@ -4377,6 +4377,131 @@ void ServerControl_RecoverHPCore(BtlServerFlow *flow, BattleMon *mon, u16 amount
         func_ov167_021b1434(flow->queue, 0x4d, pos, 0x263);
     }
     ServerDisplay_SimpleHP(flow, mon, amount, TRUE);
+}
+
+void ServerControl_OHKO(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets) {
+    u32 i = 0;
+    u8 attackerLevel = GetBattleMonStat(mon, 0xf);
+    BattleMon *target;
+
+    while (TRUE) {
+        u8 targetId;
+        u32 effectiveness;
+        u32 state;
+
+        target = func_ov169_0689cdf8(targets, i++);
+        if (target == NULL) {
+            break;
+        }
+        if (IsFainted(target)) {
+            continue;
+        }
+        targetId = GetMonID(target);
+        if (!IsGuaranteedHit(flow, mon, target) && func_ov167_021aa460(flow, mon, target, param->move)) {
+            func_ov167_021a9244(flow, target, param->move);
+            continue;
+        }
+        if (func_ov167_021a34a4(flow, mon, target, param->move)) {
+            func_ov167_021a9244(flow, target, param->move);
+            continue;
+        }
+        if (attackerLevel < (u8)GetBattleMonStat(target, 0xf)) {
+            func_ov167_021a928c(flow, target);
+            continue;
+        }
+        effectiveness = func_ov167_021b082c(flow->unk1F8C, targetId);
+        if (effectiveness == 0) {
+            func_ov167_021a928c(flow, target);
+            continue;
+        }
+        state = PushState(&flow->actionState, 0x217b);
+        if (func_ov167_021aa5b4(flow, mon, target, param->move)) {
+            u8 attackerPos = GetBattlePos(flow->unk1ab8, GetMonID(mon));
+            u16 damage = GetBattleMonStat(target, 0xd);
+            u32 critical = func_ov167_021bd2e8(effectiveness);
+            BOOL substitute = FALSE;
+            BOOL endured = FALSE;
+            BattleMoveEffectState *effect = flow->moveEffect;
+
+            if (!effect->enabled) {
+                effect->enabled = 1;
+            }
+            if (IsSubstituteActive(target)) {
+                damage = func_ov167_021a71d0(flow, target, param, critical);
+                func_ov169_0689cd40(targets, target, damage, TRUE);
+                substitute = TRUE;
+            } else {
+                u32 cause = func_ov167_021a5118(flow, mon, target, 1, &damage);
+                if (cause == 0) {
+                    ServerControl_OHKOSuccess(flow, target, param, critical);
+                } else {
+                    func_ov167_021a7198(flow, target, param, critical, cause, damage);
+                    func_ov169_0689cd40(targets, target, damage, FALSE);
+                    endured = TRUE;
+                }
+            }
+            if (!substitute) {
+                func_ov167_021a52c8(flow, attackerPos, mon, target, param, damage);
+            }
+            func_ov167_021a7cc8(flow, mon, target, param, effectiveness, damage, 0, substitute);
+            if (endured || substitute) {
+                func_ov167_021a5728(flow, mon, targets, param, 0);
+            }
+            ServerControl_CheckFainted(flow, target);
+        } else if (!BattleHandler_Result(flow)) {
+            func_ov167_021a9244(flow, target, param->move);
+        }
+        PopState(&flow->actionState, state, 0x21ac);
+    }
+}
+
+void ServerControl_OHKOSuccess(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param, u32 critical) {
+    u8 monId = GetMonID(mon);
+    HPZero(mon);
+    func_ov167_021b1434(flow->queue, 3, monId);
+    func_ov167_021b1434(flow->queue, 0x32, monId, (u8)critical, param->move);
+    func_ov167_021b1434(flow->queue, 0x34, monId);
+}
+
+void func_ov167_021a7198(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param, u32 critical, u32 cause,
+                         u16 damage) {
+    u16 move;
+    u8 monId;
+
+    func_ov167_021a9b64(flow, mon, damage);
+    move = param->move;
+    monId = GetMonID(mon);
+    func_ov167_021b1434(flow->queue, 0x32, monId, (u8)critical, move);
+    func_ov167_021a5198(flow, mon, cause);
+}
+
+u16 func_ov167_021a71d0(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param, u32 critical) {
+    u16 damage;
+    u8 monId;
+
+    monId = GetMonID(mon);
+    damage = func_ov167_021bc590(mon);
+    func_ov167_021b1434(flow->queue, 0x34, monId);
+    func_ov167_021b1434(flow->queue, 0x32, monId, (u8)critical, param->move);
+    func_ov167_021a7c70(flow, mon);
+    return damage;
+}
+
+void ServerControl_ForceSwitch(BtlServerFlow *flow, u16 move, BattleMon *mon, void *targets) {
+    BOOL failed = FALSE;
+    BattleMon *target;
+
+    func_ov169_0689ce0c(targets);
+    while ((target = func_ov169_0689ce14(targets)) != NULL) {
+        if (ServerControl_ForceSwitchCore(flow, mon, target, 0, &failed, 0, 0, 0)) {
+            BattleMoveEffectState *effect = flow->moveEffect;
+            if (!effect->enabled) {
+                effect->enabled = 1;
+            }
+        } else if (!failed) {
+            func_ov167_021a9230(flow, mon, move);
+        }
+    }
 }
 
 // Function names from swan.

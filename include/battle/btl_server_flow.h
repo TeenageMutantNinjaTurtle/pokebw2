@@ -304,7 +304,7 @@ u32 func_ov167_021a4c90(BtlServerFlow *flow, BattleMon *attacker, void *monSet, 
 void func_ov167_021a504c(BtlServerFlow *flow, s32 effectiveness);
 void func_ov167_021a5088(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, BtlFlowMoveParam *param);
 void func_ov167_021a50c4(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, BtlFlowMoveParam *param);
-void func_ov167_021a51f8(BtlServerFlow *flow, BattleMon *mon, u8 cause);
+void func_ov167_021a51f8(BtlServerFlow *flow, BattleMon *mon, u32 cause);
 void func_ov167_021a526c(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, u8 count, BattleMon **mons);
 void func_ov167_021a53b0(BtlServerFlow *flow, BattleMon *attacker, BtlFlowMoveParam *param, u32 damage);
 void ServerEvent_CheckItemReaction(BtlServerFlow *flow, BattleMon *mon, u32 reaction);
@@ -371,6 +371,16 @@ void func_ov167_021ab338(BtlServerFlow *flow, BattleMon *mon, u32 value);
 u32 ServerEvent_CalcMoveHealAmount(BtlServerFlow *flow, u16 move, BattleMon *mon);
 BOOL ServerControl_RecoverHPCheckFailSpecial(BtlServerFlow *flow, BattleMon *mon, BOOL showMessage);
 void ServerControl_RecoverHPCore(BtlServerFlow *flow, BattleMon *mon, u16 amount);
+BOOL func_ov167_021aa5b4(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, u16 move);
+void func_ov167_021a928c(BtlServerFlow *flow, BattleMon *mon);
+void ServerControl_OHKOSuccess(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param, u32 critical);
+void func_ov167_021a7198(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param, u32 critical, u32 cause,
+                         u16 damage);
+u16 func_ov167_021a71d0(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param, u32 critical);
+void func_ov167_021a9b64(BtlServerFlow *flow, BattleMon *mon, u16 damage);
+void func_ov167_021a7c70(BtlServerFlow *flow, BattleMon *mon);
+BOOL ServerControl_ForceSwitchCore(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, u32 arg3, BOOL *failed,
+                                   u32 arg5, u32 arg6, u32 arg7);
 BOOL ServerEvent_AddCondition(BtlServerFlow *flow, BattleMon *target, BattleMon *attacker, u32 condition,
                               BattleCondition value, BOOL flag, BOOL defaultMessage);
 u32 ServerEvent_CheckMoveAddCondition(BtlServerFlow *flow, u16 move, BattleMon *attacker, BattleMon *target,
@@ -380,7 +390,7 @@ BOOL ServerControl_MoveConditionCore(BtlServerFlow *flow, BattleMon *attacker, B
 void ServerEvent_DamageAddEffect(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, BattleMon *target);
 void ServerControl_DamageAddCondition(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker,
                                       BattleMon *target);
-void func_ov167_021a5198(BtlServerFlow *flow, BattleMon *mon, u8 cause);
+void func_ov167_021a5198(BtlServerFlow *flow, BattleMon *mon, u32 cause);
 void func_ov167_021a5228(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, u8 count, BattleMon **mons);
 void func_ov167_021a52c8(BtlServerFlow *flow, u8 attackerPos, BattleMon *attacker, BattleMon *target,
                          BtlFlowMoveParam *param, u16 damage);
