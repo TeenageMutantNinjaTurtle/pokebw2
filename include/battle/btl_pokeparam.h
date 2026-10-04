@@ -122,7 +122,7 @@ struct BattleMon {
 typedef BattleCondition BattleConditionCont;
 
 // Two types, the first in bits 8 to 15 and the second in bits 0 to 7
-typedef s32 PokeTypePair;
+typedef u16 PokeTypePair;
 
 PokeTypePair PokeTypePair_Make(u32 type1, u32 type2);
 PokeTypePair func_ov167_021ce530(u32 type);

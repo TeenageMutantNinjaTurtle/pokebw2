@@ -39,8 +39,9 @@ src/ov167/battle_condition.c:
     .text       start:0x021ce198 end:0x021ce560
 
 src/ov167/poke_type_pair.c:
-    .text       start:0x021ce560 end:0x021ce7a0
+    complete
+    .text       start:0x021ce560 end:0x021ce644
 
 src/ov167/btlv_core.c:
-    .text       start:0x021ce7a0 end:0x021d0c64
+    .text       start:0x021ce644 end:0x021d0c64
     .data       start:0x021dafe0 end:0x021dafec

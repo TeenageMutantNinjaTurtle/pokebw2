@@ -579,6 +579,12 @@ overlays/ov162 0x021a0ddc overlay_id 162
 overlays/ov162 0x021a0f78 overlay_id 331
 overlays/ov162 0x021a17b4 remove_reloc
 overlays/ov162 0x021a17dc remove_symbol
+overlays/ov167 0x021ce62c overlay_id 168
+overlays/ov167 0x021ce630 overlay_id 169
+overlays/ov167 0x021ce634 overlay_id 170
+overlays/ov167 0x021ce65c overlay_id 168
+overlays/ov167 0x021ce660 overlay_id 169
+overlays/ov167 0x021ce664 overlay_id 170
 overlays/ov170 0x0217f660 reloc_module overlay(167)
 overlays/ov170 0x0217f726 reloc_module overlay(167)
 overlays/ov170 0x0217fa20 reloc_module overlay(167)

@@ -99,22 +99,22 @@ prints the tables below from the configs and the ROM:
 | `script_work.c` | `0x02153da4`–`0x02154070` | 31 | complete | string at `0x0216e1b4` |
 | `script_sub_event.c` | `0x02154070`–`0x02154180` | 7 | partial | descriptive |
 | `scrcmd_vm.c` | `0x02154180`–`0x02154948` | 59 | partial | descriptive |
-| `script_plugin.c` | `0x02154948`–`0x02154a64` | 5 | partial | descriptive |
+| `script_plugin.c` | `0x02154948`–`0x02154a64` | 5 | complete | descriptive |
 | `map_matrix.c` | `0x02154a64`–`0x02154c94` | 15 | partial | string at `0x0216e1c4` |
-| `map_replace.c` | `0x02154c94`–`0x02154ea0` | 11 | partial | string at `0x0216e1d4` |
-| `respawn_zone.c` | `0x02154ea0`–`0x02154f98` | 7 | partial | descriptive |
-| `trainer_script.c` | `0x02154f98`–`0x021550a4` | 11 | partial | descriptive |
+| `map_replace.c` | `0x02154c94`–`0x02154ea0` | 11 | complete | string at `0x0216e1d4` |
+| `respawn_zone.c` | `0x02154ea0`–`0x02154f98` | 7 | complete | descriptive |
+| `trainer_script.c` | `0x02154f98`–`0x021550a4` | 11 | complete | descriptive |
 | `scrcmd_work.c` | `0x021550a4`–`0x021555f8` | 47 | partial | string at `0x0216e1e4` |
 | `scrcmd_game_state.c` | `0x021555f8`–`0x02156174` | 55 | partial | descriptive |
 | `scrcmd_pokemon.c` | `0x02156174`–`0x021574a4` | 43 | partial | string at `0x0216e1f4` |
 | `scrcmd_proc.c` | `0x021574a4`–`0x02157c20` | 21 | partial | string at `0x0216e208` |
-| `scrcmd_sodateya.c` | `0x02157c20`–`0x021580c4` | 18 | partial | string at `0x0216e218` |
+| `scrcmd_sodateya.c` | `0x02157c20`–`0x021580c4` | 18 | complete | string at `0x0216e218` |
 | `scrcmd_musical.c` | `0x021580c4`–`0x021590ec` | 27 | partial | string at `0x0216e22c` |
 | `field_encount_st.c` | `0x021590ec`–`0x021593fc` | 15 | partial | string at `0x0216e240` |
-| `hiden_event.c` | `0x021593fc`–`0x02159bc0` | 43 | partial | descriptive |
+| `hiden_event.c` | `0x021593fc`–`0x02159bc0` | 43 | complete | descriptive |
 | `scrcmd_network.c` | `0x02159bc0`–`0x02159d54` | 9 | complete | string at `0x0216e254` |
 | `scrcmd_stadium.c` | `0x02159d54`–`0x0215a0b0` | 9 | partial | descriptive |
-| `event_battle_lose.c` | `0x0215a0b0`–`0x0215a19c` | 2 | partial | descriptive |
+| `event_battle_lose.c` | `0x0215a0b0`–`0x0215a19c` | 2 | complete | descriptive |
 | `event_game_clear.c` | `0x0215a19c`–`0x0215a7a4` | 13 | partial | descriptive |
 | `event_field_menu.c` | `0x0215a7a4`–`0x0215aa68` | 3 | partial | descriptive |
 | `event_shortcut_menu.c` | `0x0215aa68`–`0x0215b488` | 17 | partial | string at `0x0216e268` |
@@ -189,7 +189,7 @@ prints the tables below from the configs and the ROM:
 
 | File | `.text` (Black 2) | Functions | Status | Name |
 | --- | --- | --- | --- | --- |
-| `scrcmd_survey.c` | `0x02170340`–`0x02170ac4` | 31 | partial | descriptive |
+| `scrcmd_survey.c` | `0x02170340`–`0x02170ac4` | 31 | complete | descriptive |
 | `fest_mission_data.c` | `0x02170ac4`–`0x02170e40` | 11 | partial | string at `0x021711e0` |
 
 ### Overlay 33
@@ -200,24 +200,24 @@ prints the tables below from the configs and the ROM:
 | --- | --- | --- | --- | --- |
 | `entree_forest.c` | `0x02176b00`–`0x02176d88` | 5 | partial | descriptive |
 | `event_funfest_mission.c` | `0x02176d88`–`0x02176ec4` | 2 | complete | descriptive |
-| `entree_forest_first_warp.c` | `0x02176ec4`–`0x02176f90` | 1 | partial | descriptive |
+| `entree_forest_first_warp.c` | `0x02176ec4`–`0x02176f90` | 1 | complete | descriptive |
 | `scrcmd_funfest.c` | `0x02176f90`–`0x02177370` | 13 | complete | descriptive |
-| `entralink_warp.c` | `0x02177370`–`0x02177574` | 3 | partial | descriptive |
+| `entralink_warp.c` | `0x02177370`–`0x02177574` | 3 | complete | descriptive |
 | `event_cgear_shutdown.c` | `0x02177574`–`0x021775e8` | 2 | complete | descriptive |
 | `event_phrase_input.c` | `0x021775e8`–`0x02177998` | 6 | complete | descriptive |
 | `pdw_postman.c` | `0x02177998`–`0x02178448` | 47 | partial | string at `0x0217c600` |
-| `scrcmd_field_move.c` | `0x02178448`–`0x021785c4` | 6 | partial | descriptive |
-| `event_sweet_scent.c` | `0x021785c4`–`0x02178908` | 8 | partial | descriptive |
+| `scrcmd_field_move.c` | `0x02178448`–`0x021785c4` | 6 | complete | descriptive |
+| `event_sweet_scent.c` | `0x021785c4`–`0x02178908` | 8 | complete | descriptive |
 | `event_fly.c` | `0x02178908`–`0x02178ca8` | 3 | partial | descriptive |
 | `event_chatot.c` | `0x02178ca8`–`0x021791c0` | 10 | partial | descriptive |
 | `event_fishing.c` | `0x021791c0`–`0x02179664` | 9 | partial | descriptive |
-| `event_dendou_machine.c` | `0x02179664`–`0x02179868` | 8 | partial | descriptive |
+| `event_dendou_machine.c` | `0x02179664`–`0x02179868` | 8 | complete | descriptive |
 | `event_pc.c` | `0x02179868`–`0x02179b54` | 8 | complete | descriptive |
-| `event_pokemon_center.c` | `0x02179b54`–`0x02179dd4` | 9 | partial | descriptive |
+| `event_pokemon_center.c` | `0x02179b54`–`0x02179dd4` | 9 | complete | descriptive |
 | `event_game_manual.c` | `0x02179dd4`–`0x02179e98` | 3 | complete | string at `0x0217c610` |
-| `event_abyssal_ruins.c` | `0x02179e98`–`0x02179f04` | 1 | partial | descriptive |
+| `event_abyssal_ruins.c` | `0x02179e98`–`0x02179f04` | 1 | complete | descriptive |
 | `event_dive.c` | `0x02179f04`–`0x0217a1b0` | 7 | complete | descriptive |
-| `field_actor_animation.c` | `0x0217a1b0`–`0x0217a4a0` | 12 | partial | descriptive |
+| `field_actor_animation.c` | `0x0217a1b0`–`0x0217a4a0` | 12 | complete | descriptive |
 | `fld_trade.c` | `0x0217a4a0`–`0x0217aa1c` | 11 | partial | string at `0x0217c624` |
 | `unity_visitor.c` | `0x0217aa1c`–`0x0217ac70` | 6 | complete | descriptive |
 | `trial_house.c` | `0x0217ac70`–`0x0217b468` | 19 | partial | string at `0x0217c630` |
@@ -244,10 +244,10 @@ prints the tables below from the configs and the ROM:
 | `field_g3d_mapper.c` | `0x02184244`–`0x021856a0` | 57 | partial | string at `0x021d4b4c` |
 | `fieldmap_ctrl_hybrid.c` | `0x0219e430`–`0x0219e9d0` | 13 | partial | string at `0x021d4f44` |
 | `scrcmd_medal.c` | `0x021c7b38`–`0x021c7fd8` | 13 | partial | descriptive |
-| `fld_vreq.c` | `0x021c7fd8`–`0x021c81f4` | 14 | partial | string at `0x021d56f0` |
-| `field_palace_sys.c` | `0x021c81f4`–`0x021c83e8` | 6 | partial | string at `0x021d56fc` |
+| `fld_vreq.c` | `0x021c7fd8`–`0x021c81f4` | 14 | complete | string at `0x021d56f0` |
+| `field_palace_sys.c` | `0x021c81f4`–`0x021c83e8` | 6 | complete | string at `0x021d56fc` |
 | `field_goout_effect.c` | `0x021c83e8`–`0x021c8808` | 11 | partial | string at `0x021d5710` |
-| `field_goout_effect_data.c` | `0x021c8808`–`0x021c8954` | 9 | partial | string at `0x021d5728` |
+| `field_goout_effect_data.c` | `0x021c8808`–`0x021c8954` | 9 | complete | string at `0x021d5728` |
 | `resort_mapcreate.c` | `0x021c8954`–`0x021c8c34` | 6 | partial | string at `0x021d5744` |
 | `scrcmd_ochiba.c` | `0x021c97b8`–`0x021c9eb8` | 22 | partial | string at `0x021d5768` |
 
@@ -481,7 +481,7 @@ prints the tables below from the configs and the ROM:
 
 | File | `.text` (Black 2) | Functions | Status | Name |
 | --- | --- | --- | --- | --- |
-| `gimmick_league_statue.c` | `0x021eec80`–`0x021eee2c` | 6 | partial | descriptive |
+| `gimmick_league_statue.c` | `0x021eec80`–`0x021eee2c` | 6 | complete | descriptive |
 
 ### Overlay 106
 
@@ -489,7 +489,7 @@ prints the tables below from the configs and the ROM:
 
 | File | `.text` (Black 2) | Functions | Status | Name |
 | --- | --- | --- | --- | --- |
-| `gimmick_league_lift.c` | `0x021eec80`–`0x021eee58` | 12 | partial | descriptive |
+| `gimmick_league_lift.c` | `0x021eec80`–`0x021eee58` | 12 | complete | descriptive |
 
 ### Overlay 126
 
@@ -516,7 +516,7 @@ prints the tables below from the configs and the ROM:
 
 | File | `.text` (Black 2) | Functions | Status | Name |
 | --- | --- | --- | --- | --- |
-| `event_encounter_cutin.c` | `0x021f59e0`–`0x021f5c50` | 30 | partial | descriptive |
+| `event_encounter_cutin.c` | `0x021f59e0`–`0x021f5c50` | 30 | complete | descriptive |
 
 ### Overlay 147
 
@@ -575,11 +575,11 @@ prints the tables below from the configs and the ROM:
 | `btl_pokeparam.c` | `0x021ba584`–`0x021bc6bc` | 154 | partial | string at `0x021daf7c` |
 | `battle_event.c` | `0x021bc6bc`–`0x021bd054` | 47 | partial | descriptive |
 | `btl_calc.c` | `0x021bd054`–`0x021bdaf8` | 58 | partial | string at `0x021daf94` |
-| `battle_action.c` | `0x021bdaf8`–`0x021bdcac` | 17 | partial | descriptive |
+| `battle_action.c` | `0x021bdaf8`–`0x021bdcac` | 17 | complete | descriptive |
 | `ability_handlers.c` | `0x021bdcac`–`0x021c26ec` | 442 | partial | descriptive |
 | `battle_condition.c` | `0x021ce158`–`0x021ce520` | 20 | complete | descriptive |
-| `poke_type_pair.c` | `0x021ce520`–`0x021ce760` | 13 | partial | descriptive |
-| `btlv_core.c` | `0x021ce760`–`0x021d0c24` | 290 | partial | string at `0x021dafa0` |
+| `poke_type_pair.c` | `0x021ce520`–`0x021ce604` | 8 | complete | descriptive |
+| `btlv_core.c` | `0x021ce604`–`0x021d0c24` | 295 | partial | string at `0x021dafa0` |
 
 ### Overlay 170
 

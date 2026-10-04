@@ -36,6 +36,7 @@ u32 func_02042a6c(NetHandle *handle);
 u32 func_02042c18(NetHandle *handle, u32 destination, u32 command, u32 size, const void *data, u32 count, u32 a6,
                   u32 a7);
 BOOL func_02042ab8(void);
+BOOL func_02042b20(void);
 void func_02042e94(BOOL a0);
 void func_02042e9c(BOOL a0);
 
