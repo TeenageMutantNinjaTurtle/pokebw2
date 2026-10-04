@@ -7,11 +7,16 @@
 #include "constants/battle.h"
 #include "struct_decls.h"
 
+// The move that a move calls instead of itself, such as Metronome's, and its target
+typedef struct {
+    u16 move;
+    u8 target;
+} BtlFlowCalledMove;
+
 // What a move's use reports back
 typedef struct {
     u8 result;
-    u16 move;
-    u8 target;
+    BtlFlowCalledMove called;
 } BtlFlowFightWork;
 
 // Walks the mons in battle of every client
@@ -87,7 +92,7 @@ void ServerControl_AfterMove(BtlServerFlow *handler, u8 clientId, u8 firstSlot, 
 BOOL ServerControl_ChangeWeatherCheck(BtlServerFlow *handler, u8 weather, u8 duration);
 void ServerControl_ChangeWeatherCore(BtlServerFlow *handler, u8 weather, u8 duration);
 void ServerEvent_NotifyAirLock(BtlServerFlow *handler);
-BOOL ServerEvent_CheckFloating(BtlServerFlow *handler, BattleMon *mon, u32 flag);
+BOOL ServerEvent_CheckFloating(BtlServerFlow *handler, BattleMon *mon, BOOL flag);
 void ServerControl_CureCondition(BtlServerFlow *handler, BattleMon *mon, s32 condition, BattleCondition *prev);
 u32 ServerEvent_CheckItemSet(BtlServerFlow *handler, BattleMon *mon, u16 item);
 void ServerEvent_ItemSetFailed(BtlServerFlow *handler, BattleMon *mon);
@@ -96,7 +101,7 @@ void ServerEvent_ChangeAbilityBefore(BtlServerFlow *handler, u8 monIndex, u16 ol
 void ServerControl_UnnerveAction(BtlServerFlow *handler, BattleMon *mon);
 BOOL ServerControl_DrainCore(BtlServerFlow *handler, BattleMon *mon, BattleMon *source, u16 amount);
 BOOL ServerControl_CheckSimpleDamageEnabled(BtlServerFlow *handler, BattleMon *mon, u32 damage);
-void ServerControl_ViewEffect(BtlServerFlow *handler, u16 effect, u8 arg1, u8 arg2, u32 flag1, u32 flag2);
+void ServerControl_ViewEffect(BtlServerFlow *handler, u16 effect, u8 pos1, u8 pos2, BOOL reserved, u32 reserve);
 BOOL ServerControl_SimpleDamageCore(BtlServerFlow *handler, BattleMon *mon, u32 damage, BattleHandlerString *string);
 void ServerControl_FaintPokemon(BtlServerFlow *handler, BattleMon *mon);
 
@@ -244,7 +249,11 @@ BOOL func_ov167_021aa180(BtlServerFlow *flow, BattleMon *mon, BattleMon *target,
 BOOL func_ov167_021aa460(BtlServerFlow *flow, BattleMon *mon, BattleMon *target, u16 move);
 u32 func_ov167_021b0834(void *data, u8 monId);
 void func_ov167_021a9244(BtlServerFlow *flow, BattleMon *mon, u16 move);
-BOOL func_ov167_021aa954(BtlServerFlow *flow, BattleMon *mon, BattleMon *target, BtlFlowMoveParam *param, BOOL flag);
+u32 func_ov167_021aa954(BtlServerFlow *flow, BattleMon *mon, BattleMon *target, BtlFlowMoveParam *param, BOOL flag);
+BOOL func_ov167_021aaa24(BtlServerFlow *flow, BattleMon *mon, BOOL flag);
+void func_ov167_021aaad8(BtlServerFlow *flow, BattleMon *mon);
+void func_ov167_021aab20(BtlServerFlow *flow, BattleMon *mon);
+u32 func_ov167_021aab50(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, u8 moveType, u8 defenseType);
 void func_ov167_021ab73c(void *data, BtlServerFlow *flow, BattleMon *mon, BattleMon *target, u32 arg4);
 void func_ov167_021b0824(void *data, u8 monId, BOOL hit);
 void func_ov167_021a2e80(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets, void *data);
@@ -273,7 +282,7 @@ u32 func_ov167_021a3d70(BtlServerFlow *flow, BattleMon *mon, u16 move, u32 event
 BOOL func_ov167_021a3dc0(BtlServerFlow *flow, BattleMon *mon);
 BOOL func_ov167_021a3e50(BtlServerFlow *flow, BattleMon *mon);
 void func_ov167_021a3e7c(BtlServerFlow *flow, BattleMon *mon, u16 move);
-void func_ov167_021a9ee8(BtlServerFlow *flow, BattleMon *mon);
+u16 func_ov167_021a9ee8(BtlServerFlow *flow, BattleMon *mon);
 void func_ov167_021aa07c(BtlServerFlow *flow, BattleMon *mon, u16 move, u32 cause);
 BOOL func_ov167_021a3ea8(BtlServerFlow *flow, BattleMon *mon, u16 move);
 void ServerControl_AddCondition(BtlServerFlow *flow, BattleMon *target, BattleMon *attacker, u32 condition,
@@ -284,7 +293,7 @@ void func_ov167_021a9014(BtlServerFlow *flow, BattleMon *mon);
 void func_ov167_021a9094(BtlServerFlow *flow, BattleMon *mon, u32 status, BOOL flag);
 void ServerDisplay_AddEffectAtPosition(BtlServerFlow *flow, BattleMon *mon, u32 effect);
 BOOL func_ov167_021a37c8(BtlServerFlow *flow, BattleMon *mon, u8 pos, void *targets, u16 move);
-void ServerDisplay_AddCondition(BtlServerFlow *flow, BattleMon *mon, u32 condition, BattleCondition value);
+void ServerDisplay_AddCondition(BtlServerFlow *flow, BattleMon *mon, s32 condition, BattleCondition value);
 BOOL func_ov167_021aa1c4(BtlServerFlow *flow, BattleMon *mon, void *targets);
 BOOL func_ov167_021aa238(BtlServerFlow *flow, BattleMon *mon, u16 move);
 BOOL func_ov167_021aa284(BtlServerFlow *flow, BattleMon *mon, void *targets, u16 move, u8 *monId, BOOL *failed);
@@ -342,7 +351,7 @@ void ServerEvent_FlinchFail(BtlServerFlow *flow, BattleMon *mon);
 u16 ServerEvent_CalcDrainAmount(BtlServerFlow *flow, BattleMon *mon, BattleMon *source, u16 amount);
 BOOL ServerControl_RecoverHPCheckFail(BtlServerFlow *flow, BattleMon *mon);
 BOOL ServerControl_RecoverHP(BtlServerFlow *flow, BattleMon *mon, u16 amount, BOOL flag);
-u32 ServerEvent_GetMovePower(BtlServerFlow *flow, BattleMon *attacker, BattleMon *defender, BtlFlowMoveParam *param);
+u16 ServerEvent_GetMovePower(BtlServerFlow *flow, BattleMon *attacker, BattleMon *defender, BtlFlowMoveParam *param);
 u32 ServerEvent_GetAttackPower(BtlServerFlow *flow, BattleMon *attacker, BattleMon *defender, BtlFlowMoveParam *param,
                                BOOL critical);
 u32 ServerEvent_GetTargetDefenses(BtlServerFlow *flow, BattleMon *attacker, BattleMon *defender,
@@ -350,7 +359,7 @@ u32 ServerEvent_GetTargetDefenses(BtlServerFlow *flow, BattleMon *attacker, Batt
 u32 ServerEvent_GetWeather(BtlServerFlow *flow);
 BOOL func_ov167_021ae30c(BtlServerFlow *flow);
 fx32 ServerEvent_SameTypeAttackBonus(BtlServerFlow *flow, BattleMon *attacker, u8 type);
-u16 ServerEvent_CalcRecoil(BtlServerFlow *flow, BattleMon *mon, u16 move, u32 damage, BOOL *forced);
+s32 ServerEvent_CalcRecoil(BtlServerFlow *flow, BattleMon *mon, u16 move, s32 damage, BOOL *forced);
 BOOL ServerEvent_CheckSimpleDamageEnabled(BtlServerFlow *flow, BattleMon *mon, u32 damage);
 BOOL ServerEvent_CheckHeldItemFail(BtlServerFlow *flow, BattleMon *mon, u16 item);
 void ServerEvent_EquipItem(BtlServerFlow *flow, BattleMon *mon);
@@ -450,9 +459,9 @@ void func_ov167_021a5478(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *
 void func_ov167_021a54f4(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *monSet, u32 damage,
                          u32 arg5);
 void ServerControl_CalcRecoil(BtlServerFlow *flow, BattleMon *mon, u16 move, u32 damage);
-void ServerEvent_CheckMultihitHits(BtlServerFlow *flow, BattleMon *mon, u16 move, BtlFlowHitWork *hitWork);
+BOOL ServerEvent_CheckMultihitHits(BtlServerFlow *flow, BattleMon *mon, u16 move, BtlFlowHitWork *hitWork);
 void func_ov167_021a911c(BtlServerFlow *flow, BattleMon *mon, u16 move);
-BOOL func_ov167_021a9df0(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 target, u16 *delegateMove);
+BOOL func_ov167_021a9df0(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 target, BtlFlowCalledMove *called);
 BOOL func_ov167_021a9f70(BtlServerFlow *flow, BattleMon *mon, u16 move, u16 actualMove, BattleHandlerString *string);
 void ServerEvent_GetMoveParam(BtlServerFlow *flow, u16 move, BattleMon *mon, BtlFlowMoveParam *param);
 void func_ov167_021ae32c(BtlServerFlow *flow, BattleMon *mon, u8 target, BtlFlowMoveParam *param, void *targets);

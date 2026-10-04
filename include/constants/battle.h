@@ -62,6 +62,7 @@
 
 // Conditions of a battle Pokemon, which include the major status conditions. Named after the moves that inflict them
 // in the move data, or from how the AI checks for them
+#define CONDITION_NONE 0
 #define CONDITION_PARALYSIS 1
 #define CONDITION_SLEEP 2
 #define CONDITION_FREEZE 3

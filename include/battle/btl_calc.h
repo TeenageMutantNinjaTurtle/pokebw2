@@ -23,7 +23,7 @@ void func_ov167_021bd0a8(void);
 u32 BattleRandom(u32 max);
 u16 GetBoostFromStatStage(u16 value, u8 stage);
 u8 func_ov167_021bd11c(u32 value, u32 stage);
-BOOL func_ov167_021bd144(u32 critStage);
+BOOL func_ov167_021bd144(u8 critStage);
 u32 GetTypeEffectiveness(u8 attackType, u8 defenseType);
 s32 func_ov167_021bd1b0(u8 attackType, PokeTypePair defenseTypes);
 u32 GetTypeEffectivenessMultiplier(u32 effectiveness1, u32 effectiveness2);

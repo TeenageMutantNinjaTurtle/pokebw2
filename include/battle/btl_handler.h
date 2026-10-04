@@ -32,8 +32,7 @@ struct BattleHandlerString {
 typedef struct {
     u16 move;
     u16 originalMove;
-    u8 unk04;
-    u8 unk05;
+    PokeTypePair userType;
     u8 type;
     u8 unk07;
     u32 category;

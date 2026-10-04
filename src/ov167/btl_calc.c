@@ -99,7 +99,7 @@ u8 func_ov167_021bd11c(u32 value, u32 stage) {
     return value;
 }
 
-BOOL func_ov167_021bd144(u32 critStage) {
+BOOL func_ov167_021bd144(u8 critStage) {
     u8 roll = BattleRandom(data_ov167_021d74a0[critStage]);
 
     if (roll == 0) {
