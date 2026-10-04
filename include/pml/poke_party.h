@@ -91,6 +91,9 @@ void PokeParty_ClearPkm(PartyPkm *pkm);
 // Restores a Pokémon's HP and PP and cures its status
 void PokeParty_Recover(PartyPkm *pkm);
 void PokeParty_RecalcStats(PartyPkm *pkm);
+u32 PokeParty_GetLevel(PartyPkm *pkm);
+// Whether a Pokémon can learn the TM or HM of the number PML_ItemGetTMBitMask gives
+BOOL canPkmLearnTM_Wrapper(PartyPkm *pkm, u8 tm);
 void setLevel(PartyPkm *pkm, u32 level);
 void setPkmBattleData(PartyPkm *pkm, u32 param, u32 value);
 // A species with its form and sex in one u16
@@ -108,6 +111,7 @@ int countAllEggsInParty(PokeParty *party);
 int countSanityEggsInParty(PokeParty *party);
 int PokeParty_GetCapacity(PokeParty *party);
 BOOL PokeParty_AddPkm(PokeParty *party, PartyPkm *pkm);
+void PokeParty_SwapPkms(PokeParty *party, u32 indexA, u32 indexB, HeapID heapId);
 void PokeParty_RemovePkm(PokeParty *party, u32 index);
 void PokeParty_RecoverAll(PokeParty *party);
 void PokeParty_ChangeForme(PartyPkm *pkm, u32 forme);
@@ -117,6 +121,9 @@ u16 PokeParty_LearnMove(PartyPkm *pkm, u16 move);
 void PokeParty_SetLastMove(PartyPkm *pkm, u16 move);
 void PML_PkmChangeRotomForme(PartyPkm *pkm, u32 moveSlot, u32 forme);
 void PokeParty_SetMove(PartyPkm *pkm, u32 move, u8 slot);
+// Learn a move, and set a move in a slot, as the move tutors teach them
+u16 func_0201d268(PartyPkm *pkm, u16 move);
+void func_0201d2d0(PartyPkm *pkm, u32 move, u8 slot);
 u16 *PokeParty_GetRememberableMoves(PartyPkm *pkm, HeapID heapId);
 BOOL doesPkmHaveLevelMoveToLearn(const u16 *moves);
 // The next move that a Pokémon learns at its level, going on from *index: 0 once there are none left, 0xfffe for one

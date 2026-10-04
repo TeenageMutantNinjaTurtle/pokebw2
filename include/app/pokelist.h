@@ -9,6 +9,7 @@
 #include "gfl/heap.h"
 #include "gfl/particle.h"
 #include "gfl/proc.h"
+#include "gfl/touchpanel.h"
 #include "struct_decls.h"
 #include "system/printsys.h"
 
@@ -40,7 +41,7 @@ typedef struct {
     PlayerActionPossibilities action;
     u16 zoneId;
     // What the screen is for, func_02034bd8's a2
-    u32 mode;
+    int mode;
     u32 unk48;
     // The Pokémon whose summary to show, when result is 1
     u32 index;
@@ -60,6 +61,8 @@ typedef struct {
     u8 season;
     // Seconds left to pick, counted down while timerEnabled is set
     u16 timeLeft;
+    // The state and error of overlay 164's sync (net_sync.c), which takes the parameters as its NetSyncWork, and
+    // the list ends once unk73 is 1
     u8 unk72;
     u8 unk73;
     u32 partnerCount;
@@ -72,8 +75,26 @@ typedef struct {
     u8 unkA6[2];
 } PokeListParam;
 
+// The moves to teach that stand for a set of moves: the ultimate moves, and the pledges
+#define POKELIST_MOVE_ULTIMATE 0xfffe
+#define POKELIST_MOVE_PLEDGE 0xfffd
+
 #define POKELIST_PLATE_COUNT 6
+
+// A plate's entry in a battle's selection, when it is not one of the order's places from 0
+#define POKELIST_ENTRY_ABLE 6
+#define POKELIST_ENTRY_UNABLE 7
+// Not a battle's selection, or an empty slot
+#define POKELIST_ENTRY_EMPTY 8
 #define POKELIST_CL_RES_COUNT 23
+#define CL_RES_NONE 0xffffffff
+// The palettes, characters and cell animations in PokeListWork's clResources
+#define CL_RES_PLTT(i) (i)
+#define CL_RES_CHAR(i) (8 + (i))
+#define CL_RES_CELL(i) (15 + (i))
+#define CL_RES_PLTT_COUNT 8
+#define CL_RES_CHAR_COUNT 7
+#define CL_RES_CELL_COUNT 8
 
 // The list's work, which every file of the overlay shares
 struct PokeListWork {
@@ -182,5 +203,123 @@ GameEvent *EventPokeList_Create(GameSystem *gsys, Field *field, PokeListParam *p
 BOOL PokeList_Init(PokeListWork *wk);
 BOOL PokeList_Exit(PokeListWork *wk);
 BOOL PokeList_Main(PokeListWork *wk);
+// BG 0 as a text BG, or as the 3D BG with the camera and particles of plist_demo.c's form changes
+void PokeList_CreateBG0(PokeListWork *wk);
+void PokeList_Init3D(PokeListWork *wk);
+void PokeList_ReleaseBG0(PokeListWork *wk);
+void PokeList_Exit3D(PokeListWork *wk);
+void PokeList_ShowMessage(PokeListWork *wk, u32 msgId, BOOL waitInput, void (*doneFunc)(PokeListWork *wk));
+u32 PokeList_GetHidenResult(PartyPkm *pkm, u8 slot);
+BOOL PokeList_IsBattle(PokeListWork *wk);
+u32 PokeList_CheckLearnMove(PokeListWork *wk, PartyPkm *pkm, u8 pos);
+BOOL PokeList_CanEvolveWithItem(PokeListWork *wk, PartyPkm *pkm, u16 item);
+void PokeList_PrintString(PokeListWork *wk, BmpWin *window, u16 msgId, int x, s16 y, u16 color);
+void PokeList_PrintStringSmall(PokeListWork *wk, BmpWin *window, u32 msgId, int x, s16 y, u16 color);
+void PokeList_DrawStringSmall(PokeListWork *wk, BmpWin *window, u32 msgId, int x, s16 y, u16 color);
+void PokeList_PrintWordSetString(PokeListWork *wk, BmpWin *window, WordSet *wordSet, u32 msgId, s16 x, s16 y,
+                                 u16 color);
+void PokeList_PrintWordSetStringSmall(PokeListWork *wk, BmpWin *window, WordSet *wordSet, u32 msgId, s16 x, s16 y,
+                                      u16 color);
+void PokeList_DrawWordSetStringSmall(PokeListWork *wk, BmpWin *window, WordSet *wordSet, u32 msgId, s16 x, s16 y,
+                                     u16 color);
+void PokeList_MessageDoneSelect(PokeListWork *wk);
+void PokeList_MessageDoneExit(PokeListWork *wk);
+void PokeList_MessageDoneItem(PokeListWork *wk);
+void PokeList_AskStopLearning(PokeListWork *wk);
+void PokeList_TimeUp(PokeListWork *wk);
+
+// plist_plate.c
+PokeListPlate *PokeListPlate_Create(PokeListWork *wk, u8 index, PartyPkm *pkm);
+PokeListPlate *PokeListPlate_CreateEmpty(PokeListWork *wk, u8 index);
+void PokeListPlate_Free(PokeListWork *wk, PokeListPlate *plate);
+BOOL PokeListPlate_IsPrinting(PokeListPlate *plate);
+void PokeListPlate_Update(PokeListWork *wk, PokeListPlate *plate);
+void PokeListPlate_SetSelected(PokeListWork *wk, PokeListPlate *plate, BOOL selected);
+void PokeListPlate_SetPalette(PokeListWork *wk, PokeListPlate *plate, u32 palette);
+void PokeListPlate_DrawSlid(PokeListWork *wk, PokeListPlate *plate, int step);
+void PokeListPlate_ClearSlid(PokeListWork *wk, PokeListPlate *plate, int step);
+void PokeListPlate_SetPkm(PokeListWork *wk, PokeListPlate *plate, PartyPkm *pkm, int step);
+void PokeListPlate_Redraw(PokeListWork *wk, PokeListPlate *plate);
+void PokeListPlate_StartHpChange(PokeListWork *wk, PokeListPlate *plate);
+BOOL PokeListPlate_UpdateHpChange(PokeListWork *wk, PokeListPlate *plate);
+BOOL PokeListPlate_IsValid(PokeListWork *wk, PokeListPlate *plate);
+void PokeListPlate_GetCursorPos(PokeListWork *wk, PokeListPlate *plate, ClActorPos *pos);
+void PokeListPlate_GetTouchRect(PokeListWork *wk, PokeListPlate *plate, TouchRect *rect);
+int PokeListPlate_GetEntry(PokeListPlate *plate);
+void PokeListPlate_SetEntry(PokeListWork *wk, PokeListPlate *plate, int entry);
+u16 PokeListPlate_GetHp(PokeListWork *wk, PokeListPlate *plate);
+BOOL PokeListPlate_IsEgg(PokeListWork *wk, PokeListPlate *plate);
+u32 PokeListPlate_CheckEntry(PokeListWork *wk, PokeListPlate *plate);
+
+// plist_message.c
+PokeListMessage *func_ov165_0219f5ec(PokeListWork *wk);
+void func_ov165_0219f654(PokeListWork *wk, PokeListMessage *msg);
+void func_ov165_0219f69c(PokeListWork *wk, PokeListMessage *msg);
+void func_ov165_0219f76c(PokeListWork *wk, PokeListMessage *msg, u32 windowType);
+void func_ov165_0219f7fc(PokeListWork *wk, PokeListMessage *msg);
+void func_ov165_0219f840(PokeListWork *wk, PokeListMessage *msg, u32 msgId);
+void func_ov165_0219f8b8(PokeListWork *wk, PokeListMessage *msg, u32 msgId, BOOL waitInput);
+BOOL func_ov165_0219f958(PokeListWork *wk, PokeListMessage *msg);
+void func_ov165_0219f9d8(PokeListWork *wk, PokeListMessage *msg);
+void func_ov165_0219f9e8(PokeListWork *wk, PokeListMessage *msg);
+void func_ov165_0219f9f8(PokeListWork *wk, PokeListMessage *msg, u32 index, PartyPkm *pkm);
+void func_ov165_0219fa08(PokeListWork *wk, PokeListMessage *msg, u32 index, u16 item);
+void func_ov165_0219fa18(PokeListWork *wk, PokeListMessage *msg, u32 index, u16 item);
+void func_ov165_0219fa28(PokeListWork *wk, PokeListMessage *msg, u32 index, u16 move);
+void func_ov165_0219fa48(PokeListWork *wk, PokeListMessage *msg, u32 index, u16 number, u32 digits);
+void func_ov165_0219fac4(PokeListWork *wk, PokeListMessage *msg);
+
+// plist_menu.c
+PokeListMenu *func_ov165_0219fae8(PokeListWork *wk);
+void func_ov165_0219fb3c(PokeListWork *wk, PokeListMenu *menu);
+void func_ov165_0219fb54(PokeListWork *wk, PokeListMenu *menu, const u32 *items);
+void func_ov165_0219fb9c(PokeListWork *wk, PokeListMenu *menu);
+void func_ov165_0219fbfc(PokeListWork *wk, PokeListMenu *menu);
+void func_ov165_0219fc34(PokeListWork *wk, PokeListMenu *menu);
+u32 func_ov165_0219fc40(PokeListWork *wk, PokeListMenu *menu);
+void *func_ov165_0219fe68(PokeListWork *wk, PokeListMenu *menu, u32 index, u32 x, u32 y, u32 a5);
+void func_ov165_0219fec0(void *button);
+void func_ov165_0219fecc(void *button);
+void func_ov165_0219fed8(void *button, BOOL active);
+void func_ov165_0219fee4(void *button, u32 a1);
+
+// plist_item.c
+BOOL func_ov165_021a01f8(PokeListWork *wk, u16 item);
+BOOL func_ov165_021a0230(PokeListWork *wk, u16 item);
+s32 func_ov165_021a024c(PokeListWork *wk);
+u32 func_ov165_021a02a4(PokeListWork *wk, u16 item);
+void func_ov165_021a02c8(PokeListWork *wk, PartyPkm *pkm, u16 item);
+void func_ov165_021a0304(PokeListWork *wk, PartyPkm *pkm, u16 item);
+void func_ov165_021a038c(PokeListWork *wk);
+void func_ov165_021a039c(PokeListWork *wk);
+void func_ov165_021a03ac(PokeListWork *wk, u32 a1);
+u32 func_ov165_021a03bc(PokeListWork *wk, u32 a1);
+void func_ov165_021a0730(PokeListWork *wk);
+void func_ov165_021a073c(PokeListWork *wk);
+
+// plist_battle.c
+void func_ov165_021a0d38(PokeListWork *wk);
+void func_ov165_021a0dec(PokeListWork *wk);
+void func_ov165_021a0e54(PokeListWork *wk);
+void func_ov165_021a1558(PokeListWork *wk);
+
+// plist_demo.c
+void func_ov165_021a1944(PokeListWork *wk);
+void func_ov165_021a1974(PokeListWork *wk);
+void func_ov165_021a1a04(PokeListWork *wk);
+BOOL func_ov165_021a2018(PokeListWork *wk, PartyPkm *pkm);
+void func_ov165_021a205c(PokeListWork *wk, PartyPkm *pkm);
+BOOL func_ov165_021a207c(PokeListWork *wk, PartyPkm *pkm);
+void func_ov165_021a20c0(PokeListWork *wk, PartyPkm *pkm);
+BOOL func_ov165_021a20e0(PokeListWork *wk, PartyPkm *pkm);
+void func_ov165_021a2178(PokeListWork *wk, PartyPkm *pkm);
+u32 func_ov165_021a2198(PokeListWork *wk, PartyPkm *pkm);
+u32 func_ov165_021a21dc(PokeListWork *wk, PartyPkm *pkm);
+BOOL func_ov165_021a2384(PokeListWork *wk, PartyPkm *pkm);
+void func_ov165_021a23b4(PokeListWork *wk, PartyPkm *pkm);
+
+// status_rcv.c
+BOOL func_ov165_021a23e8(PartyPkm *pkm, u16 item, u16 pos, HeapID heapId);
+BOOL func_ov165_021a2928(PartyPkm *pkm, u16 item, u16 pos, u16 zoneId, HeapID heapId);
 
 #endif // POKEBW2_APP_POKELIST_H

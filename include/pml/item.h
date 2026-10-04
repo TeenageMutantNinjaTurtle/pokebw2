@@ -14,6 +14,10 @@ void *PML_ItemArcHandleReadFile(ArcTool *handle, u16 item, HeapID heapId);
 s32 PML_ItemGetParam(void *data, u32 param);
 BOOL PML_ItemIsBerry(u16 item);
 u32 GetItemParam(u16 item, u32 param, HeapID heapId);
+// The move that a TM or HM teaches
+u16 PML_ItemGetTMWazaID(u16 item);
+// The TM or HM's number from 0, or 0xff for another item
+u8 PML_ItemGetTMBitMask(u16 item);
 BOOL PML_ItemIsMail(u16 item);
 // The mail of a mail item
 u32 PML_ItemGetMailID(u16 item);

@@ -9,3 +9,12 @@ src/ov165/pokelist.c:
     .text       start:0x02199a00 end:0x02199b88
     .data       start:0x021a4ce0 end:0x021a4cec
     .bss        start:0x021a4d40 end:0x021a4d44
+
+src/ov165/plist_sys.c:
+    .text       start:0x02199b88 end:0x0219e678
+    .rodata     start:0x021a49dc end:0x021a4be0
+
+src/ov165/plist_plate.c:
+    .text       start:0x0219e678 end:0x0219f5ec
+    .rodata     start:0x021a4be0 end:0x021a4bf0
+    .data       start:0x021a4cec end:0x021a4cfc
