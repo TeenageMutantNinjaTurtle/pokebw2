@@ -476,4 +476,39 @@ void HandlerPickpocket(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32
 void HandlerCursedBody(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
 const BattleEventHandlerEntry *EventAddCursedBody(u32 *priority);
 
+extern const BattleEventHandlerEntry data_ov167_021d766c[];
+extern const BattleEventHandlerEntry data_ov167_021d76a4[];
+extern const BattleEventHandlerEntry data_ov167_021d770c[];
+extern const BattleEventHandlerEntry data_ov167_021d7714[];
+extern const BattleEventHandlerEntry data_ov167_021d77ec[];
+extern const BattleEventHandlerEntry data_ov167_021d77fc[];
+extern const BattleEventHandlerEntry data_ov167_021d7804[];
+extern const BattleEventHandlerEntry data_ov167_021d782c[];
+extern const BattleEventHandlerEntry data_ov167_021d7854[];
+extern const BattleEventHandlerEntry data_ov167_021d7d98[];
+void HandlerWeakArmor(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddWeakArmor(u32 *priority);
+void HandlerSheerForcePower(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+void HandlerSheerForceCheckFail(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+void HandlerSheerForceShrinkCheck(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+void HandlerSheerForceHitCheck(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddSheerForce(u32 *priority);
+BOOL IsAffectedBySheerForce(u16 move);
+void HandlerDefiant(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddDefiant(u32 *priority);
+void HandlerDefeatist(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddDefeatist(u32 *priority);
+void HandlerMultiscale(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddMultiscale(u32 *priority);
+void HandlerFriendGuard(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddFriendGuard(u32 *priority);
+void HandlerHealer(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddHealer(u32 *priority);
+void HandlerToxicBoost(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddToxicBoost(u32 *priority);
+void HandlerFlareBoost(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddFlareBoost(u32 *priority);
+void HandlerTelepathy(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
+const BattleEventHandlerEntry *EventAddTelepathy(u32 *priority);
+
 #endif // POKEBW2_BATTLE_BTL_ABILITY_H

@@ -25,12 +25,6 @@ typedef struct PickupWork {
     u8 numCandidates;
 } PickupWork;
 
-// The strongest moves Forewarn found, one entry per move
-// Pickup's scratch buffer: the allies, and those whose item was used this turn
-// Function names from swan.
-// The strongest moves Forewarn found, one entry per move
-// Function names from swan.
-// The strongest moves Forewarn found, one entry per move
 // Function names from swan.
 BattleEventItem *AbilityEvent_AddItem(BattleMon *mon) {
     u16 ability;
@@ -54,8 +48,6 @@ BattleEventItem *AbilityEvent_AddItem(BattleMon *mon) {
     return NULL;
 }
 
-// Function names from swan.
-// Function names from swan.
 u32 numHandlersWithHandlerPri(u32 priority, u32 count) {
     return (priority << 16) | count;
 }
@@ -71,7 +63,6 @@ u32 devideNumHandersAndPri(u32 *packed) {
     return priority;
 }
 
-// Function names from swan.
 void AbilityEvent_RemoveItem(BattleMon *mon) {
     BattleEventItem *item;
     u8 monId;
@@ -1741,7 +1732,6 @@ const BattleEventHandlerEntry *EventAddNormalize(u32 *priority) {
     return data_ov167_021d7884;
 }
 
-// Function names from swan.
 const BattleEventHandlerEntry *EventAddTrace(u32 *priority) {
     *priority = 1;
     return data_ov167_021d787c;
@@ -2357,7 +2347,6 @@ const BattleEventHandlerEntry *EventAddWonderGuard(u32 *priority) {
     return data_ov167_021d76e4;
 }
 
-// Function names from swan.
 void HandlerTruant(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
     if (BattleEventVar_GetValue(2) == monId) {
         if (work[0] != 0) {
@@ -2608,7 +2597,6 @@ BOOL func_ov167_021c09d0(BattleEventItem *item, BtlServerFlow *flow, u32 factorT
     return FALSE;
 }
 
-// Function names from swan.
 void HandlerMoldBreakerStart(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
     if (BattleEventVar_GetValue(3) == monId) {
         if (*work == 0) {
@@ -3237,13 +3225,249 @@ const BattleEventHandlerEntry *EventAddCursedBody(u32 *priority) {
     return data_ov167_021d779c;
 }
 
+void HandlerWeakArmor(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    BattleMon *mon;
+    BOOL apply;
+    BattleHandlerStatChangeParam *param;
+
+    if (BattleEventVar_GetValue(4) == monId && BattleEventVar_GetValue(0x1a) == 1 && BattleEventVar_GetValue(0x46) == 0) {
+        mon = GetBattleMon(flow, monId);
+        apply = FALSE;
+        if (IsStatChangeValid(mon, 2, -1) || IsStatChangeValid(mon, 5, 1)) {
+            apply = TRUE;
+        }
+        if (apply && !IsFainted(mon)) {
+            BattleHandler_PushRun(flow, 2, monId);
+            param = BattleHandler_PushWork(flow, 0xe, monId);
+            param->count = 1;
+            param->monIds[0] = monId;
+            param->unk0e = 1;
+            param->stat = 2;
+            param->change = -1;
+            BattleHandler_PopWork(flow, param);
+            param = BattleHandler_PushWork(flow, 0xe, monId);
+            param->count = 1;
+            param->monIds[0] = monId;
+            param->unk0e = 1;
+            param->stat = 5;
+            param->change = 1;
+            BattleHandler_PopWork(flow, param);
+            BattleHandler_PushRun(flow, 3, monId);
+        }
+    }
+}
+
+const BattleEventHandlerEntry *EventAddWeakArmor(u32 *priority) {
+    *priority = 1;
+    return data_ov167_021d7854;
+}
+
+void HandlerSheerForcePower(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    if (BattleEventVar_GetValue(3) == monId && IsAffectedBySheerForce(BattleEventVar_GetValue(0x12))) {
+        BattleEventVar_MulValue(0x31, 0x14cd);
+    }
+}
+
+void HandlerSheerForceCheckFail(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    if (BattleEventVar_GetValue(3) == monId && IsAffectedBySheerForce(BattleEventVar_GetValue(0x12))) {
+        BattleEventVar_RewriteValue(0x41, 1);
+    }
+}
+
+void HandlerSheerForceShrinkCheck(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    if (BattleEventVar_GetValue(3) == monId) {
+        BattleEventVar_RewriteValue(0x41, 1);
+    }
+}
+
+void HandlerSheerForceHitCheck(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    if (BattleEventVar_GetValue(3) == monId && IsAffectedBySheerForce(BattleEventVar_GetValue(0x12))) {
+        BattleEventVar_RewriteValue(0x48, 1);
+    }
+}
+
+const BattleEventHandlerEntry *EventAddSheerForce(u32 *priority) {
+    *priority = 5;
+    return data_ov167_021d7d98;
+}
+
+BOOL IsAffectedBySheerForce(u16 move) {
+    s32 quality;
+    u32 count;
+    u32 i;
+    s32 stage;
+
+    quality = PML_MoveGetQuality(move);
+    if (PML_MoveGetParam(move, 10) != 0) {
+        return TRUE;
+    }
+    switch (quality) {
+    case 4:
+        if (PML_MoveGetParam(move, 0xb) == 8) {
+            return FALSE;
+        }
+    case 6:
+        return TRUE;
+    case 7:
+        count = PML_MoveGetStatChangeStat(move);
+        for (i = 0; i < count; i++) {
+            PML_MoveGetStatChangeStage(move, i, &stage);
+            if (stage < 0) {
+                return FALSE;
+            }
+        }
+        return TRUE;
+    }
+    if (move == 0x122) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+void HandlerDefiant(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    u8 attackerId;
+    BattleHandlerStatChangeParam *param;
+
+    if (BattleEventVar_GetValue(2) == monId) {
+        attackerId = BattleEventVar_GetValue(3);
+        if (!IsAllyMonID(monId, attackerId) && (s32)BattleEventVar_GetValue(0x20) < 0) {
+            param = BattleHandler_PushWork(flow, 0xe, monId);
+            param->popup = 1;
+            param->stat = 1;
+            param->change = 2;
+            param->unk0e = 1;
+            param->count = 1;
+            param->monIds[0] = monId;
+            BattleHandler_PopWork(flow, param);
+        }
+    }
+}
+
+const BattleEventHandlerEntry *EventAddDefiant(u32 *priority) {
+    *priority = 1;
+    return data_ov167_021d770c;
+}
+
+void HandlerDefeatist(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    BattleMon *mon;
+    u32 hp;
+
+    if (BattleEventVar_GetValue(3) == monId) {
+        mon = GetBattleMon(flow, monId);
+        hp = GetBattleMonStat(mon, 0xd);
+        if (hp <= DivideMaxHp(mon, 2)) {
+            BattleEventVar_MulValue(0x35, 0x800);
+        }
+    }
+}
+
+const BattleEventHandlerEntry *EventAddDefeatist(u32 *priority) {
+    *priority = 1;
+    return data_ov167_021d782c;
+}
+
+void HandlerMultiscale(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    if (BattleEventVar_GetValue(4) == monId && IsMonFullHP(GetBattleMon(flow, monId))) {
+        BattleEventVar_MulValue(0x35, 0x800);
+    }
+}
+
+const BattleEventHandlerEntry *EventAddMultiscale(u32 *priority) {
+    *priority = 1;
+    return data_ov167_021d7714;
+}
+
+void HandlerFriendGuard(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    u8 targetId;
+
+    targetId = BattleEventVar_GetValue(4);
+    if (targetId != monId && IsAllyMonID(monId, targetId)) {
+        BattleEventVar_MulValue(0x35, 0xc00);
+    }
+}
+
+const BattleEventHandlerEntry *EventAddFriendGuard(u32 *priority) {
+    *priority = 1;
+    return data_ov167_021d7804;
+}
+
+void HandlerHealer(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    u8 count;
+    u8 i;
+    BattleHandlerCureConditionParam *param;
+    u8 mons[4];
+
+    if (BattleEventVar_GetValue(2) == monId) {
+        count = HandlerGetAlivePartyCount(flow, (2 << 9) | func_ov167_021abb50(flow, monId), mons);
+        for (i = 0; i < count; i++) {
+            if (mons[i] != monId && GetBattleMonStatus(GetBattleMon(flow, mons[i])) != 0 && AbilityEvent_RollEffectChance(flow, 30)) {
+                param = BattleHandler_PushWork(flow, 0xb, monId);
+                param->popup = 1;
+                param->unk25 = 1;
+                param->count = 1;
+                param->monIds[0] = mons[i];
+                param->condition = 0x24;
+                BattleHandler_PopWork(flow, param);
+            }
+        }
+    }
+}
+
+const BattleEventHandlerEntry *EventAddHealer(u32 *priority) {
+    *priority = 1;
+    return data_ov167_021d77fc;
+}
+
+void HandlerToxicBoost(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    if (BattleEventVar_GetValue(3) == monId && CheckCondition(GetBattleMon(flow, monId), 5) && BattleEventVar_GetValue(0x1a) == 1) {
+        BattleEventVar_MulValue(0x31, 0x1800);
+    }
+}
+
+const BattleEventHandlerEntry *EventAddToxicBoost(u32 *priority) {
+    *priority = 1;
+    return data_ov167_021d77ec;
+}
+
+void HandlerFlareBoost(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    if (BattleEventVar_GetValue(3) == monId && CheckCondition(GetBattleMon(flow, monId), 4) && BattleEventVar_GetValue(0x1a) == 2) {
+        BattleEventVar_MulValue(0x31, 0x1800);
+    }
+}
+
+const BattleEventHandlerEntry *EventAddFlareBoost(u32 *priority) {
+    *priority = 1;
+    return data_ov167_021d76a4;
+}
+
+void HandlerTelepathy(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
+    u8 attackerId;
+    BattleHandlerMessageParam *param;
+
+    if (BattleEventVar_GetValue(4) == monId) {
+        attackerId = BattleEventVar_GetValue(3);
+        if (IsAllyMonID(monId, attackerId) && monId != attackerId && PML_MoveIsDamaging(BattleEventVar_GetValue(0x12)) &&
+            BattleEventVar_RewriteValue(0x40, 1)) {
+            param = BattleHandler_PushWork(flow, 4, monId);
+            param->popup = 1;
+            BattleHandler_StrSetup(&param->string, 2, 0x1d5);
+            BattleHandler_AddArg(&param->string, monId);
+            BattleHandler_PopWork(flow, param);
+        }
+    }
+}
+
+const BattleEventHandlerEntry *EventAddTelepathy(u32 *priority) {
+    *priority = 1;
+    return data_ov167_021d766c;
+}
+
 // Function name from swan.
 const BattleEventHandlerEntry *EventAddRegenerator(u32 *priority) {
     *priority = 1;
     return data_ov167_021d7784;
 }
 
-// Function names from swan.
 const BattleEventHandlerEntry *EventAddBigPecks(u32 *priority) {
     *priority = 2;
     return data_ov167_021d79c4;
