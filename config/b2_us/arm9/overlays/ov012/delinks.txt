@@ -239,6 +239,14 @@ src/ov012/townmap_util.c:
     complete
     .text       start:0x02160eb4 end:0x02160ff4
 
+src/ov012/scrcmd_phrase_select.c:
+    complete
+    .text       start:0x02160ff4 end:0x021611e0
+
+src/ov012/scrcmd_weather.c:
+    complete
+    .text       start:0x021611e0 end:0x02161260
+
 src/ov012/field_g3d_map.c:
     .text       start:0x021631c8 end:0x02163b38
     .data       start:0x0216e380 end:0x0216e390

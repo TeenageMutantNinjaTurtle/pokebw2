@@ -251,6 +251,9 @@ BOOL s00D8_MapReplaceIsEventSet(VM *vm, FieldScriptEnv *env);
 BOOL s01C6_PokeDexGiveNational(VM *vm, FieldScriptEnv *env);
 BOOL s01C7_PokeDexHaveNational(VM *vm, FieldScriptEnv *env);
 BOOL s01C8_PokeDexEnable(VM *vm, FieldScriptEnv *env);
+// scrcmd_phrase_select.c and scrcmd_weather.c
+BOOL s01DA_CallPhraseSelect(VM *vm, FieldScriptEnv *env);
+BOOL s0136_FieldSetWeather(VM *vm, FieldScriptEnv *env);
 // scrcmd_ndemo.c: the scenes with N, which overlay 155 plays
 BOOL s01C9_NDemoStart(VM *vm, FieldScriptEnv *env);
 BOOL s01CA_NDemoEnd(VM *vm, FieldScriptEnv *env);
