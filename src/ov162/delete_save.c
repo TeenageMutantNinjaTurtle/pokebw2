@@ -206,7 +206,7 @@ static void DeleteSave_Delete(DeleteSaveWork *wk, u32 *state) {
     u32 i;
 
     if (DeleteSave_UpdatePrint(wk) == FALSE) {
-        sWaitIcon = func_02035604(0, wk->window, 15, 16, HEAPID_SAVEDATA_DELETE);
+        sWaitIcon = func_02035604(NULL, wk->window, 15, 16, HEAPID_SAVEDATA_DELETE);
         GFL_BGSysLoadScr(BmpWin_GetBGIndex(wk->window));
         GFL_VBlankSetCallback(DeleteSave_VBlank, NULL);
         save = SaveControl_GetInstance();

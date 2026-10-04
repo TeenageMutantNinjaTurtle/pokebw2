@@ -3,6 +3,9 @@
 
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"
+#include "gfl/msg.h"
+#include "gfl/print.h"
+#include "gfl/str.h"
 #include "system/game_event.h"
 
 struct ChatotEventWork {
@@ -12,11 +15,14 @@ struct ChatotEventWork {
     Field *field;
     FieldPlayer *player;
     PartyPkm *pkm;
-    u32 unk18;
+    MsgData *msgData;
     void *msgBGSys;
-    u8 unk20[0x10];
+    void *talkWindow;
+    void *yesNo;
+    WordSet *wordSet;
+    StrBuf *strbuf;
     BmpWin *window;
-    u32 unk34;
+    WaitIcon *waitIcon;
     ClActUnit *unit;
     ClActor *sprite;
     u32 chars;
@@ -25,15 +31,17 @@ struct ChatotEventWork {
     u8 animFrame;
     s8 animOffset;
     u8 partyIndex;
-    u8 unk4F[5];
-    u32 unk54;
+    u8 unk4F;
+    u32 voice;
+    // Set by the microphone's callback once the recording is done
+    u32 recorded;
 };
 
 extern const ClActorSetup data_ov033_0217c488;
 
 GameEvent *func_ov033_02178ca8(GameSystem *gsys, Field *field, u8 partyIndex);
 GameEventReturnCode func_ov033_02178d10(GameEvent *event, u32 *state, void *data);
-void func_ov033_02178fcc(void *work, u32 *state);
+void func_ov033_02178fcc(u32 result, u32 *done);
 void func_ov033_02178fd4(ChatotEventWork *work);
 void func_ov033_02178fe8(ChatotEventWork *work);
 void func_ov033_02178ffc(ChatotEventWork *work);

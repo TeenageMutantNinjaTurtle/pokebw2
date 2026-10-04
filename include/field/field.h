@@ -51,6 +51,17 @@ Font *func_ov036_0218799c(void *msgBGSys);
 void setAlphaBlend_wrapper(BOOL enable);
 // The grid position in front of the player, facing dir
 void GetPlayerGPosPlusDir(FieldPlayer *player, u16 dir, s16 *x, s16 *y, s16 *z);
+// A talk window on the field's message BG, printing messages of a message data or strings: create, free, print,
+// whether printing has ended, clear, and the window
+MsgData *func_ov036_021879a0(void *msgBGSys, u32 fileId);
+void func_ov036_021879b8(MsgData *msgData);
+void *func_ov036_0218845c(void *msgBGSys);
+void func_ov036_02188338(void *window);
+void func_ov036_0218836c(void *window, u32 a1, u32 a2, u32 messageId);
+void func_ov036_021883b0(void *window, u32 a1, u32 a2, StrBuf *strbuf);
+BOOL func_ov036_021883e8(void *window);
+void func_ov036_02188474(void *window);
+BmpWin *func_ov036_02188494(void *window);
 // A message window on the field's message BG: create, update (0 for the first answer, 2 while waiting) and free
 void *func_ov036_021880d4(void *msgBGSys, u32 a1);
 void func_ov036_02187c1c(void *window);

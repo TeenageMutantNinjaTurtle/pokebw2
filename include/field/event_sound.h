@@ -6,6 +6,7 @@
 
 GameEvent *EventMEPlay_Create(GameSystem *gsys, u32 meId);
 GameEvent *EventPushBGMFinish_Create(GameSystem *gsys, u32 a1, u32 a2);
+GameEvent *EventBGMPushWait_Create(GameSystem *gsys, u32 a1);
 GameEvent *EventBGMPopAll_Create(GameSystem *gsys, u32 a1);
 GameEvent *CreateBGMFadeOutEvent(GameSystem *gsys, u32 a1);
 

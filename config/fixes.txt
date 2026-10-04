@@ -1,5 +1,7 @@
 # Fixes to dsd's analysis, applied by tools/scripts/config_fixes.py
 # module address(b2_us) action [argument]
+. 0x02006de8 remove_symbol
+. 0x02006dec add_function ampOffFreeBlocks:thumb:0x20
 . 0x0208d374 add_label _fflt
 . 0x0208d60c add_label _ll_mul
 . 0x0208d868 add_label _u32_div_f

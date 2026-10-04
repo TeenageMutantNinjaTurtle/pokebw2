@@ -78,7 +78,7 @@ WaitIcon *func_02035734(HeapID heapId);
 void func_0203576c(WaitIcon *icon, TCBManager *tcbManager, BmpWin *window, u32 a3, u32 a4);
 void func_0203580c(WaitIcon *icon);
 // The same icon, created shown and stepped by its owner
-WaitIcon *func_02035604(u32 a0, BmpWin *window, u32 a2, u32 a3, HeapID heapId);
+WaitIcon *func_02035604(TCBManager *tcbManager, BmpWin *window, u32 a2, u32 a3, HeapID heapId);
 void func_02035884(WaitIcon *icon);
 
 #endif // POKEBW2_GFL_PRINT_H

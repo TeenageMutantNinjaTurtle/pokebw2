@@ -52,13 +52,32 @@ void GFL_SndStreamStop(void);
 BOOL GFL_SndStreamIsPlaying(void);
 void GFL_SndStreamFadeStop(u32 frames);
 
+// The save's Chatot recording, which a cry of Chatot plays in place of its own
+typedef struct {
+    void *chatter;
+} PokeVoiceChatterInfo;
+
+void PokeVoice_CreateChatterInfo(PokeVoiceChatterInfo *info);
+
 // Cries are played through handles
-u32 PokeVoice_Load(u32 species, u32 form, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
-u32 PokeVoice_Play(u32 species, u32 form, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
+u32 PokeVoice_Load(u32 species, u32 form, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6,
+                   const PokeVoiceChatterInfo *chatterInfo);
+u32 PokeVoice_Play(u32 species, u32 form, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6,
+                   const PokeVoiceChatterInfo *chatterInfo);
 BOOL PokeVoice_StartPlayback(u32 handle);
 BOOL PokeVoice_IsPlaying(u32 handle);
 BOOL PokeVoice_IsPlayingAny(void);
 void PokeVoice_ResetMasterVolume(void);
 void PokeVoice_SetMasterVolume(u32 volume);
+
+// The microphone, which records Chatot's cry: set up, free, and record into a buffer, calling back when done
+void setupMic(HeapID heapId);
+void ampOffFreeBlocks(void);
+void func_02006e0c(u32 a0);
+BOOL func_02006e3c(void);
+// 0 once the recording has started
+u32 func_02006e80(void (*callback)(u32 result, u32 *done), u32 *done);
+// Saves the recording as the Chatot's
+void func_02006ec0(void *chatter);
 
 #endif // POKEBW2_GFL_SOUND_H

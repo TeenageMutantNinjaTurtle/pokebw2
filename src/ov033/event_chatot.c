@@ -1,11 +1,19 @@
 #include "types.h"
+#include "constants/species.h"
+#include "field/event_sound.h"
 #include "field/event_chatot.h"
 #include "field/field.h"
 #include "field/field_actor.h"
 #include "gfl/arc.h"
 #include "gfl/bmpwin.h"
 #include "gfl/graphics.h"
+#include "gfl/input.h"
+#include "gfl/msg.h"
+#include "gfl/print.h"
+#include "gfl/sound.h"
 #include "gfl/std.h"
+#include "gfl/str.h"
+#include "gfl/tcb.h"
 #include "pml/poke_graphic.h"
 #include "pml/poke_party.h"
 #include "save/chatter.h"
@@ -31,12 +39,147 @@ GameEvent *func_ov033_02178ca8(GameSystem *gsys, Field *field, u8 partyIndex) {
     work->pkm = PokeParty_GetPkm(party, partyIndex);
     work->msgBGSys = Field_GetMsgBGSys(work->field);
     work->partyIndex = partyIndex;
-    work->unk54 = 0;
+    work->recorded = 0;
     return event;
 }
 
-void func_ov033_02178fcc(void *work, u32 *state) {
-    *state = 1;
+GameEventReturnCode func_ov033_02178d10(GameEvent *event, u32 *state, void *data) {
+    ChatotEventWork *work = data;
+    StrBuf *message;
+    PokeVoiceChatterInfo chatterInfo;
+
+    switch (*state) {
+    case 0:
+        func_ov033_02178fd4(work);
+        *state = 1;
+        break;
+    case 1:
+        work->msgData = func_ov036_021879a0(work->msgBGSys, 0x6c);
+        work->talkWindow = func_ov036_0218845c(work->msgBGSys);
+        work->wordSet = GFL_WordSetSystemCreateDefault(21);
+        work->strbuf = GFL_StrBufCreate(0x400, 21);
+        func_ov033_02179140(work);
+        if (doesChatotExist(work->chatter) == TRUE) {
+            func_ov036_0218836c(work->talkWindow, 0, 0, 0);
+            *state = 2;
+        } else {
+            func_ov036_0218836c(work->talkWindow, 0, 0, 6);
+            *state = 4;
+        }
+        break;
+    case 2:
+        if (func_ov036_021883e8(work->talkWindow) == TRUE) {
+            work->yesNo = func_ov036_021880d4(work->msgBGSys, 0);
+            *state = 3;
+        }
+        break;
+    case 3:
+        switch (func_ov036_0218816c(work->yesNo)) {
+        case 0:
+            func_ov036_02187ea0(work->yesNo);
+            func_ov036_02188474(work->talkWindow);
+            func_ov036_0218836c(work->talkWindow, 0, 0, 6);
+            *state = 4;
+            break;
+        case 1:
+            func_ov036_02187ea0(work->yesNo);
+            *state = 13;
+            break;
+        }
+        break;
+    case 4:
+        if (func_ov036_021883e8(work->talkWindow) == TRUE) {
+            func_0203d10c(8);
+            setupMic(21);
+            work->waitIcon = func_02035604(GFL_VBlankGetTCBMgr(), func_ov036_02188494(work->talkWindow), 15, 16, 21);
+            *state = 5;
+        }
+        break;
+    case 5:
+        func_02006e0c(2);
+        if (func_02006e3c() == TRUE) {
+            func_0203580c(work->waitIcon);
+            func_ov036_02188474(work->talkWindow);
+            func_ov036_0218836c(work->talkWindow, 0, 0, 1);
+            GameEvent_ChainNext(event, EventBGMPushWait_Create(work->gsys, 6));
+            *state = 6;
+        }
+        break;
+    case 6:
+        if (func_ov036_021883e8(work->talkWindow) == TRUE) {
+            if (func_02006e80(func_ov033_02178fcc, &work->recorded) == 0) {
+                *state = 7;
+            } else {
+                message = GFL_MsgDataLoadStrbufNew(work->msgData, 3);
+                loadPokemonNicknameToStrbuf(work->wordSet, 0, work->pkm);
+                GFL_WordSetFormatStrbuf(work->wordSet, work->strbuf, message);
+                GFL_StrBufFree(message);
+                func_ov036_02188474(work->talkWindow);
+                func_ov036_021883b0(work->talkWindow, 0, 0, work->strbuf);
+                ampOffFreeBlocks();
+                func_0203d134(8);
+                GameEvent_ChainNext(event, EventPushBGMFinish_Create(work->gsys, 0, 30));
+                *state = 12;
+            }
+        }
+        break;
+    case 7:
+        if (work->recorded == TRUE) {
+            func_02006ec0(work->chatter);
+            ampOffFreeBlocks();
+            func_0203d134(8);
+            GameEvent_ChainNext(event, EventPushBGMFinish_Create(work->gsys, 0, 30));
+            *state = 8;
+        }
+        break;
+    case 8:
+        if (!func_ov033_021790c4(work)) {
+            message = GFL_MsgDataLoadStrbufNew(work->msgData, 2);
+            loadPokemonNicknameToStrbuf(work->wordSet, 0, work->pkm);
+            GFL_WordSetFormatStrbuf(work->wordSet, work->strbuf, message);
+            GFL_StrBufFree(message);
+            func_ov036_02188474(work->talkWindow);
+            func_ov036_021883b0(work->talkWindow, 0, 0, work->strbuf);
+            *state = 9;
+        }
+        break;
+    case 9:
+        if (func_ov036_021883e8(work->talkWindow) == TRUE) {
+            *state = 10;
+        }
+        break;
+    case 10:
+        PokeVoice_CreateChatterInfo(&chatterInfo);
+        work->voice = PokeVoice_Play(SPECIES_CHATOT, 0, 64, 0, 0, 0, 0, &chatterInfo);
+        *state = 11;
+        break;
+    case 11:
+        if (!PokeVoice_IsPlaying(work->voice)) {
+            *state = 13;
+        }
+        break;
+    case 12:
+        if (func_ov036_021883e8(work->talkWindow) == TRUE) {
+            *state = 13;
+        }
+        break;
+    case 13:
+        func_ov033_021791a8(work);
+        GFL_StrBufFree(work->strbuf);
+        GFL_WordSetSystemFree(work->wordSet);
+        func_ov036_02188338(work->talkWindow);
+        func_ov036_021879b8(work->msgData);
+        *state = 14;
+        break;
+    case 14:
+        func_ov033_02178fe8(work);
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
+void func_ov033_02178fcc(u32 result, u32 *done) {
+    *done = TRUE;
 }
 
 void func_ov033_02178fd4(ChatotEventWork *work) {

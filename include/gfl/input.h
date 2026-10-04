@@ -30,6 +30,9 @@ u32 GCTX_HIDGetTypedKeys(void);
 BOOL func_0203da2c(void);
 // Sets whether the player is using the touch screen rather than the keys, and returns it
 void func_0203d564(BOOL touch);
+// Set and clear flags of the system UI, such as 8 while the microphone records
+void func_0203d10c(u32 flags);
+void func_0203d134(u32 flags);
 BOOL func_0203d554(void);
 BOOL func_0203da48(void);
 

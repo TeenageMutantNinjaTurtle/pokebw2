@@ -189,8 +189,7 @@ getWaveInfoFunc kind:function(thumb,size=0x8c) addr:0x02006cc8
 PokeVoice_CreateChatterInfo kind:function(thumb,size=0x10) addr:0x02006d54
 setupMic kind:function(thumb,size=0x80) addr:0x02006d64
 func_02006de4 kind:function(arm,size=0x4) addr:0x02006de4
-func_02006de8 kind:function(thumb,size=0x24) addr:0x02006de8
-.L_02006dec kind:label(thumb) addr:0x02006dec
+ampOffFreeBlocks kind:function(thumb,size=0x20) addr:0x02006dec
 func_02006e0c kind:function(thumb,size=0x30) addr:0x02006e0c
 func_02006e3c kind:function(thumb,size=0x18) addr:0x02006e3c
 func_02006e54 kind:function(thumb,size=0x2c) addr:0x02006e54

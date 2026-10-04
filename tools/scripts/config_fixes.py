@@ -13,6 +13,7 @@ after importing names from swan.
     config_fixes.py remove-symbol overlays/ov005 0x0214f5fd                  # a symbol that is not one
     config_fixes.py add-label . _ll_mul 0x0208d60c                           # a second name for a function
     config_fixes.py add-data overlays/ov307 EGG_DEMO_VIEW_UNK_FX32 0x021df70c  # an object that nothing references
+    config_fixes.py add-function . ampOffFreeBlocks thumb 0x20 0x02006dec     # a function that dsd took for a label
     config_fixes.py apply
 """
 import argparse
@@ -109,6 +110,21 @@ def apply_fix(version: str, module: str, addr: int, action: str, argument: str):
         lines.insert(data[-1] + 1 if data else len(lines), f"{argument} kind:data(any) addr:{addr:#010x}")
         path.write_text("\n".join(lines) + "\n")
         return
+    if action == "add_function":
+        # A function that dsd's analysis missed, such as one after a literal pool that it took for code. Replaces the
+        # symbols at the address
+        name, mode, size = argument.split(":")
+        path = config_dir(version, module) / "symbols.txt"
+        lines = path.read_text().splitlines()
+        line = f"{name} kind:function({mode},size={size}) addr:{addr:#010x}"
+        if line in lines:
+            return
+        lines = [l for l in lines if not (m := SYMBOL_ADDR_RE.search(l)) or int(m.group(1), 16) != addr]
+        before = [i for i, l in enumerate(lines) if "kind:function" in l and (m := SYMBOL_ADDR_RE.search(l))
+                  and int(m.group(1), 16) < addr]
+        lines.insert(before[-1] + 1 if before else 0, line)
+        path.write_text("\n".join(lines) + "\n")
+        return
     if action == "add_label":
         # A label with the instruction mode of the function at the address, for code that the compiler calls by
         # two names, such as the runtime's _ll_mul and _ull_mul
@@ -178,6 +194,12 @@ def main():
     command.add_argument("module")
     command.add_argument("name")
     command.add_argument("addresses", nargs="+")
+    command = commands.add_parser("add-function", help="add a function that dsd missed")
+    command.add_argument("module")
+    command.add_argument("name")
+    command.add_argument("mode", choices=["arm", "thumb"])
+    command.add_argument("size")
+    command.add_argument("addresses", nargs="+")
     commands.add_parser("apply", help="apply every fix in config/fixes.txt")
     args = parser.parse_args()
 
@@ -191,7 +213,8 @@ def main():
 
     action = args.command.replace("-", "_")
     argument = {"reloc_module": getattr(args, "destination", ""), "overlay_id": str(getattr(args, "overlay", "")),
-                "add_label": getattr(args, "name", ""), "add_data": getattr(args, "name", "")}
+                "add_label": getattr(args, "name", ""), "add_data": getattr(args, "name", ""),
+                "add_function": f"{getattr(args, 'name', '')}:{getattr(args, 'mode', '')}:{getattr(args, 'size', '')}"}
     argument = argument.get(action, "")
     for address in args.addresses:
         addr = int(address, 16)
