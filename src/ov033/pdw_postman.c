@@ -532,7 +532,7 @@ u32 func_ov033_02178230(WordSet *wordSet, MysteryGift *gift, FieldScriptEnv *env
 }
 
 u32 func_ov033_02178260(WordSet *wordSet, MysteryGift *gift, FieldScriptEnv *env) {
-    loadItemNameToStrbuf(wordSet, 0, gift->value);
+    loadItemNameToStrbuf(wordSet, 0, (u16)gift->value);
     return 8;
 }
 

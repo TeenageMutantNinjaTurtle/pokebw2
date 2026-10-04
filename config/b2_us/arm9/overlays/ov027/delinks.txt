@@ -10,6 +10,7 @@ src/ov027/scrcmd_survey.c:
     .rodata     start:0x02170e40 end:0x021711c0
 
 src/ov027/fest_mission_data.c:
+    complete
     .text       start:0x02170ac4 end:0x02170e40
     .rodata     start:0x021711c0 end:0x021711c8
     .data       start:0x021711e0 end:0x02171200
