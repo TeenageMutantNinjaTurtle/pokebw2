@@ -3,8 +3,12 @@
 #include "field/field_actor.h"
 #include "field/field_script.h"
 #include "field/zone.h"
+#include "gfl/bmp_menu.h"
 #include "gfl/heap.h"
+#include "gfl/input.h"
 #include "gfl/msg.h"
+#include "gfl/std.h"
+#include "gfl/str.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
 
@@ -203,6 +207,142 @@ void func_ov012_021552c8(FieldScriptEnv *env) {
 void SetFieldScriptEnvMsgData(FieldScriptEnv *env, u32 arcId, u32 fileNo) {
     env->msgData = GFL_MsgSysLoadData(FALSE, (u16)arcId, (u16)fileNo, env->heapId);
     env->msgFileNo = (u16)fileNo;
+}
+
+// The list menu's window
+static const ListMenuRequest sListMenuRequest = { 1, 6, 0, 0xd, 0x1000, 0x2f, 0, 1, 0, 1, 0xc, 0xd, 0, 0, 0, 0, 0 };
+
+void InitListMenu(FieldScriptEnv *env, u16 x, u16 y, u16 cursor, u16 flags, u32 align, u16 *result, WordSet *wordSet,
+                  MsgData *msgData) {
+    ScriptSubwork *subwork = env->subwork;
+    ScriptListMenu *menu = &subwork->listMenu;
+
+    sys_memset(menu, 0, sizeof(ScriptListMenu));
+    subwork->listMenu.x = x;
+    menu->y = y;
+    menu->cursor = cursor;
+    menu->flags = flags;
+    menu->align = align;
+    menu->result = result;
+    menu->wordSet = wordSet;
+    menu->msgData = msgData;
+    sys_memset32(0, menu->descriptions, sizeof(menu->descriptions));
+    if (menu->msgData == NULL) {
+        menu->ownsMsgData = TRUE;
+        menu->msgData = GFL_MsgSysLoadData(FALSE, 3, 0x19a, env->heapId);
+    }
+    menu->options = InitListMenuOptionHeap(32, env->heapId);
+}
+
+void AddItemToListMenu(FieldScriptEnv *env, u32 messageId, u32 descriptionId, u32 value, StrBuf *expanded,
+                       StrBuf *temp) {
+    ScriptListMenu *menu = &env->subwork->listMenu;
+    u32 index;
+
+    if (descriptionId != 0xffff) {
+        index = ListMenuCore_GetFirstFreeIndex(menu->options);
+        if (index >= 32) {
+            return;
+        }
+        GFL_MsgDataLoadStrbuf(menu->msgData, descriptionId, temp);
+        GFL_WordSetFormatStrbuf(menu->wordSet, expanded, temp);
+        menu->descriptions[index] = GFL_StrBufClone(expanded, env->heapId);
+    }
+    GFL_MsgDataLoadStrbuf(menu->msgData, messageId, temp);
+    GFL_WordSetFormatStrbuf(menu->wordSet, expanded, temp);
+    AppendListMenuOption(menu->options, expanded, value, env->heapId);
+}
+
+void FieldScriptEnv_ShowListMenu(FieldScriptEnv *env) {
+    u32 width;
+    ScriptListMenu *menu = &env->subwork->listMenu;
+    ListMenuRequest request = sListMenuRequest;
+    void *msgBGSys = func_ov012_0215518c(env);
+    u32 count;
+    u32 rows;
+    BOOL scrolls;
+    u32 height;
+
+    if (menu->flags & 0x80) {
+        menu->flags &= 0x7f;
+        request.rowHeight = 14;
+    }
+    width = CalcListMenuWidth(msgBGSys, menu->options, request.unk10, request.unk0A_0);
+    if (menu->align == 1) {
+        menu->x -= (u16)width;
+    }
+    count = ListMenuCore_GetOptionCount(menu->options);
+    rows = count > 6 ? 6 : count;
+    scrolls = count > 6 ? TRUE : FALSE;
+    height = CalcListMenuHeight(rows, request.rowHeight, request.unk0A_3, scrolls);
+    ListMenuRequest_Set(&request, ListMenuCore_GetOptionCount(menu->options), menu->x, menu->y, width, height);
+    menu->ui = ListMenuUI_Create(msgBGSys, &request, menu->options, func_ov012_02155568, env, 0, menu->cursor,
+                                 menu->flags);
+}
+
+
+void FreeListMenuWork(ScriptListMenu *menu) {
+    s32 i;
+
+    func_ov036_02187ea0(menu->ui);
+    if (menu->ownsMsgData == TRUE) {
+        GFL_MsgDataFree(menu->msgData);
+    }
+    for (i = 0; i < 32; i++) {
+        if (menu->descriptions[i] != NULL) {
+            GFL_StrBufFree(menu->descriptions[i]);
+            menu->descriptions[i] = NULL;
+        }
+    }
+}
+
+BOOL FieldScriptEnv_UpdateListMenu(FieldScriptEnv *env) {
+    ScriptListMenu *menu = &env->subwork->listMenu;
+    s32 result = ListMenuUI_Update(menu->ui);
+
+    if (result == BMPMENULIST_NULL) {
+        return FALSE;
+    }
+    FreeListMenuWork(menu);
+    if (result != BMPMENULIST_CANCEL) {
+        *menu->result = result;
+    } else {
+        *menu->result = 0xfffe;
+    }
+    return TRUE;
+}
+
+BOOL FieldScriptEnv_UpdateListMenuEx(FieldScriptEnv *env) {
+    BOOL done;
+    ScriptListMenu *menu = &env->subwork->listMenu;
+
+    done = FieldScriptEnv_UpdateListMenu(env);
+
+    if (!done && (GCTX_HIDGetPressedKeys() & PAD_BUTTON_X)) {
+        FreeListMenuWork(menu);
+        *menu->result = 0xfffd;
+        done = TRUE;
+    }
+    return done;
+}
+
+void func_ov012_02155568(BmpMenuList *list, s32 value, u8 a2) {
+    u16 index = 0;
+    FieldScriptEnv *env = func_0202651c(list);
+    ScriptListMenu *menu = &env->subwork->listMenu;
+    void *window;
+
+    func_02025af4(list, &index);
+    if (menu->descriptions[index] == NULL) {
+        return;
+    }
+    if (FieldScriptSubEvent_IsRegistered(1)) {
+        window = getMapDisplayInfoPtr(env);
+        func_ov036_02188660(window);
+        func_ov036_02188680(window, 0, 0, menu->descriptions[index]);
+    } else if (FieldScriptSubEvent_IsRegistered(2)) {
+    } else if (FieldScriptSubEvent_IsRegistered(3)) {
+    }
 }
 
 void FieldScriptEnv_Save(FieldScriptEnv *env) {

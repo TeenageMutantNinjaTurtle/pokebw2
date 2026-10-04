@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_FIELD_SCRIPT_H
 
 #include "types.h"
+#include "field/field.h"
 #include "gfl/heap.h"
 #include "gfl/str.h"
 #include "struct_decls.h"
@@ -34,6 +35,25 @@ struct ScriptWork {
     void *subwork;
 };
 
+// The list menu of a script, which the script fills with options and then shows
+typedef struct {
+    u16 x;
+    u16 y;
+    u16 cursor;
+    // Bit 7 makes the rows taller
+    u8 flags;
+    // 1 to put the menu's right edge at x
+    u8 align;
+    u16 *result;
+    WordSet *wordSet;
+    BOOL ownsMsgData;
+    MsgData *msgData;
+    ListMenuOption *options;
+    ListMenuUI *ui;
+    // What the description window shows for each option
+    StrBuf *descriptions[32];
+} ScriptListMenu;
+
 struct ScriptSubwork {
     ScriptWork *work;
     GameSystem *gsys;
@@ -41,7 +61,7 @@ struct ScriptSubwork {
     MMSys *mmSys;
     void *playerGridEventTCB;
     FieldAcmdTCB *acmdTasks[8];
-    u8 unk34[0xa0];
+    ScriptListMenu listMenu;
     u8 actorWork[0x28];
     void *mapDisplayInfo;
     void *specialMessageIcon;
@@ -99,6 +119,15 @@ void FreeFieldScriptEnv(FieldScriptEnv *env);
 u32 FieldScriptEnv_IsReducedFeatureLevel(FieldScriptEnv *env);
 u32 FieldScriptEnv_GetFeatureLevel(FieldScriptEnv *env);
 void func_ov012_021552c8(FieldScriptEnv *env);
+void InitListMenu(FieldScriptEnv *env, u16 x, u16 y, u16 cursor, u16 flags, u32 align, u16 *result, WordSet *wordSet,
+                  MsgData *msgData);
+void AddItemToListMenu(FieldScriptEnv *env, u32 messageId, u32 descriptionId, u32 value, StrBuf *expanded,
+                       StrBuf *temp);
+void FieldScriptEnv_ShowListMenu(FieldScriptEnv *env);
+void FreeListMenuWork(ScriptListMenu *menu);
+BOOL FieldScriptEnv_UpdateListMenu(FieldScriptEnv *env);
+BOOL FieldScriptEnv_UpdateListMenuEx(FieldScriptEnv *env);
+void func_ov012_02155568(BmpMenuList *list, s32 value, u8 a2);
 void *func_ov012_0215518c(FieldScriptEnv *env);
 MsgData *GetFieldScriptMsgData(FieldScriptEnv *env);
 u16 GetFieldScriptMsgFileNo(FieldScriptEnv *env);

@@ -72,6 +72,8 @@ void func_02025b04(BmpMenuList *list, u16 *top, u16 *cursor);
 u32 func_02025b58(BmpMenuList *list, u32 param);
 // The header's work
 void *func_0202651c(BmpMenuList *list);
+// The index of the option under the cursor
+void func_02025af4(BmpMenuList *list, u16 *index);
 
 // A yes/no menu in its own window
 

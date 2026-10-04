@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_FIELD_H
 
 #include "types.h"
+#include "gfl/bmp_menu.h"
 #include "gfl/bmpwin.h"
 #include "gfl/heap.h"
 #include "gfl/tcb.h"
@@ -62,6 +63,44 @@ void func_ov036_021883b0(void *window, u32 a1, u32 a2, StrBuf *strbuf);
 BOOL func_ov036_021883e8(void *window);
 void func_ov036_02188474(void *window);
 BmpWin *func_ov036_02188494(void *window);
+// A list menu window on the field's message BG. ListMenuRequest_Set completes the request with the number of
+// options, the position and the size, which CalcListMenuWidth and CalcListMenuHeight give in tiles
+typedef struct {
+    u16 count;
+    u16 unk02;
+    u8 unk04;
+    u8 unk05;
+    u16 unk06;
+    u16 unk08;
+    u16 unk0A_0 : 3;
+    u16 unk0A_3 : 4;
+    u16 unk0A_7 : 9;
+    u32 unk0C;
+    u16 unk10;
+    // The height of a row, in pixels
+    u16 rowHeight;
+    u16 x;
+    u16 y;
+    u16 width;
+    u16 height;
+    u32 unk1C;
+} ListMenuRequest;
+
+typedef struct ListMenuUI ListMenuUI;
+
+ListMenuOption *InitListMenuOptionHeap(u32 count, HeapID heapId);
+void AppendListMenuOption(ListMenuOption *options, StrBuf *text, u32 value, HeapID heapId);
+u32 ListMenuCore_GetOptionCount(ListMenuOption *options);
+u32 CalcListMenuWidth(void *msgBGSys, ListMenuOption *options, u32 a2, u32 a3);
+u32 CalcListMenuHeight(u32 rows, u32 rowHeight, u32 a2, BOOL scrolls);
+void ListMenuRequest_Set(ListMenuRequest *request, u16 count, u16 x, u16 y, u16 width, u16 height);
+ListMenuUI *ListMenuUI_Create(void *msgBGSys, ListMenuRequest *request, ListMenuOption *options,
+                              BmpMenuListCursorCallback callback, void *work, u16 a5, u16 cursor, u32 flags);
+// BMPMENULIST_NULL until an option is chosen or the menu is cancelled
+s32 ListMenuUI_Update(ListMenuUI *menu);
+// A window that describes the list menu's options: clear and print
+void func_ov036_02188660(void *window);
+void func_ov036_02188680(void *window, u32 x, u32 y, StrBuf *strbuf);
 // A message window on the field's message BG: create, update (0 for the first answer, 2 while waiting) and free
 void *func_ov036_021880d4(void *msgBGSys, u32 a1);
 void func_ov036_02187c1c(void *window);
