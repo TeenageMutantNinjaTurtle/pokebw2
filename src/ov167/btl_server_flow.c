@@ -3416,6 +3416,127 @@ void func_ov167_021a53b0(BtlServerFlow *flow, BattleMon *attacker, BtlFlowMovePa
     BattleEventVar_Pop(0x1abd);
 }
 
+void ServerControl_CheckItemReaction(BtlServerFlow *flow, BattleMon *mon, u32 reaction) {
+    if (GetBattleMonHeldItem(mon) != 0) {
+        u32 state = PushState(&flow->actionState, 0x1acc);
+        ServerEvent_CheckItemReaction(flow, mon, reaction);
+        PopState(&flow->actionState, state, 0x1ad2);
+    }
+}
+
+void ServerEvent_CheckItemReaction(BtlServerFlow *flow, BattleMon *mon, u32 reaction) {
+    BattleEventVar_Push(0x1adf);
+    BattleEventVar_SetConstValue(2, GetMonID(mon));
+    BattleEventVar_SetConstValue(0x2e, reaction);
+    BattleEvent_CallHandlers(flow, 0x91);
+    BattleEventVar_Pop(0x1ae3);
+}
+
+void func_ov167_021a5478(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param) {
+    u32 state = PushState(&flow->actionState, 0x1aea);
+    func_ov167_021a54b0(flow, mon, param);
+    PopState(&flow->actionState, state, 0x1aec);
+}
+
+void func_ov167_021a54b0(BtlServerFlow *flow, BattleMon *mon, BtlFlowMoveParam *param) {
+    BattleEventVar_Push(0x1afa);
+    BattleEventVar_SetConstValue(3, GetMonID(mon));
+    BattleEventVar_SetConstValue(0x12, param->move);
+    BattleEventVar_SetConstValue(0x16, param->type);
+    BattleEvent_CallHandlers(flow, 0x81);
+    BattleEventVar_Pop(0x1b01);
+}
+
+void func_ov167_021a54f4(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *monSet, u32 damage,
+                         u32 arg5) {
+    u32 state;
+    BattleMon *target;
+
+    func_ov167_021a5784(flow, param, mon, monSet);
+    state = PushState(&flow->actionState, 0x1b17);
+    func_ov167_021a55fc(flow, mon, monSet, param, arg5, FALSE, 0x84);
+    func_ov167_021a55fc(flow, mon, monSet, param, arg5, TRUE, 0x83);
+    func_ov167_021a55fc(flow, mon, monSet, param, arg5, FALSE, 0x85);
+    func_ov169_0689ce0c(monSet);
+    while ((target = func_ov169_0689ce14(monSet)) != NULL) {
+        ServerControl_CheckItemReaction(flow, target, 1);
+    }
+    func_ov167_021a55fc(flow, mon, monSet, param, arg5, FALSE, 0x86);
+    func_ov167_021a55fc(flow, mon, monSet, param, arg5, TRUE, 0x87);
+    func_ov167_021a5728(flow, mon, monSet, param, arg5);
+    PopState(&flow->actionState, state, 0x1b2b);
+}
+
+void func_ov167_021a55fc(BtlServerFlow *flow, BattleMon *mon, void *monSet, BtlFlowMoveParam *param, u32 arg4,
+                         BOOL flag, u32 event) {
+    u32 value;
+    u32 total;
+    u32 count;
+    u32 i;
+    u32 hits;
+    BattleMon *target;
+
+    count = func_ov169_0689cec0(monSet);
+    total = 0;
+    hits = 0;
+    BattleEventVar_Push(0x1b3b);
+    BattleEventVar_SetConstValue(3, GetMonID(mon));
+    BattleEventVar_SetConstValue(0x4d, arg4);
+    BattleEventVar_SetConstValue(0x12, param->move);
+    BattleEventVar_SetConstValue(0x16, param->type);
+    for (i = 0; i < count; i++) {
+        BOOL found;
+        target = func_ov169_0689cdf8(monSet, i);
+        if (flag) {
+            found = func_ov169_0689ce80(monSet, target, &value);
+        } else {
+            found = func_ov169_0689ce3c(monSet, target, &value);
+        }
+        if (found) {
+            total += value;
+            BattleEventVar_SetConstValue(6 + hits, GetMonID(target));
+            hits++;
+        }
+    }
+    if (hits != 0) {
+        BattleEventVar_SetConstValue(5, hits);
+        BattleEventVar_SetRewriteOnceValue(0x47, 0);
+        BattleEventVar_SetRewriteOnceValue(0x48, 0);
+        BattleEventVar_SetConstValue(0x32, total);
+        BattleEvent_CallHandlers(flow, 0x82);
+        if (!BattleEventVar_GetValue(0x48)) {
+            BattleEvent_CallHandlers(flow, event);
+        }
+    }
+    BattleEventVar_Pop(0x1b62);
+}
+
+void func_ov167_021a5728(BtlServerFlow *flow, BattleMon *mon, void *monSet, BtlFlowMoveParam *param, u32 arg4) {
+    BattleEventVar_Push(0x1b71);
+    BattleEventVar_SetConstValue(3, GetMonID(mon));
+    BattleEventVar_SetConstValue(0x4d, arg4);
+    BattleEventVar_SetConstValue(0x12, param->move);
+    BattleEvent_CallHandlers(flow, 0x88);
+    BattleEventVar_Pop(0x1b76);
+}
+
+void func_ov167_021a576c(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, BattleMon *target) {
+    ServerControl_FlinchCore(flow, target, func_ov167_021ab17c(flow, param->move));
+}
+
+void func_ov167_021a5784(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *monSet) {
+    BattleMon *target;
+
+    if (param->type == 9) {
+        func_ov169_0689ce0c(monSet);
+        while ((target = func_ov169_0689ce14(monSet)) != NULL) {
+            if (GetBattleMonStatus(target) == 3 && !IsSubstituteActive(target)) {
+                func_ov167_021a9094(flow, target, 3, TRUE);
+            }
+        }
+    }
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
