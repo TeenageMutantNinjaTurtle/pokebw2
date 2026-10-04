@@ -95,6 +95,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 ## Branches and block layout
 
+- Returns of `-1` and `0` folded into one computed result (`rsbs`, `mvns`) where the original keeps two returns: the
+  function returns an enum. (matching.md: "returns an enum")
 - Blocks are laid out in source order. A switch whose `default` code comes first had `default:` written first, and
   `if (!f()) return FALSE; n++;` puts the return before the code that goes on. (matching.md: "Blocks are laid out in source order")
 - Identical statements in different branches are merged, so a jump into the middle of another block means the same
@@ -144,6 +146,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 ## Data and sections
 
+- String literals in another order: MWCC lays them out in the order they first appear in the source; a `""` the
+  game has before the file's name needs an earlier use. (matching.md: "String literals")
 - Static data is sorted by size by a heapsort. Objects of 64 bytes or more, local initializers and unreferenced
   globals get their own sections. Predict with `tools/scripts/rodata_order.py`. (matching.md: "Static data is sorted by size")
 - The full model, checked by fuzzing MWCC: there is one list per file in declaration order, except tentative `.bss`

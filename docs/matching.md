@@ -115,6 +115,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - MWCC doesn't propagate constants into a variable of an enum type. A loop that still checks its bound before the
   first pass, as `for (p = 80; p <= 83; p++)` does in the Join Avenue's commands, or a sum that still adds a counter
   known to be 0, as the Battle Subway's loop over its music switches does, has an enum counter.
+- A function that returns `-1` or `0` from two branches, `if (f(x)) { return 0; } return -1;`, is folded into a
+  computed result (`rsbs`) when it returns an `int`, and keeps both returns when it returns an enum. The field action
+  checks of `itemuse_event.c` return such an enum.
 - A local variable that holds a constant, like `fx32 one = FX32_ONE;`, keeps its own stack slot or register, while the
   literal is hoisted out of a loop by the compiler. Extra hoisted constants in our output point to such a variable.
 - An address computed before calls is reused after them only when the expression is the same, types included:
@@ -210,6 +213,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   and moving one object can reorder others. `tools/scripts/rodata_order.py` predicts the layout for a declaration order
   and tries the orders of the objects given with `--permute`; `intro_graphic.c` matches only with its light setups
   declared after the function whose BG setups are local initializers.
+- String literals are laid out in `.data` in the order they first appear in the source, each aligned to 4, and an
+  identical literal is shared from its first use. An assert's text is the expression as written, spacing included, so
+  `GFL_ASSERT(a < (B*C))` needs the game's spacing (`delivery_beacon.c` turns clang-format off for it). In
+  `delivery_beacon.c` the game has the asserts' `""` before the file name of an earlier allocation, which no source
+  order tried reproduces: a folded assert or an unused inline creates no literal.
 - `static const` data goes in `.rodata`, so a table that the original has in `.data` is not `const`. The module
   check fails if a table ends up in the wrong section, even when every function matches.
 - A `static const` variable whose address is never taken is folded into the code and not emitted. If the original has

@@ -4,6 +4,7 @@
 #include "field/field_menu.h"
 #include "field/field_script_event.h"
 #include "field/hidden_event.h"
+#include "field/itemuse_event.h"
 #include "field/player_action.h"
 #include "field/subscreen.h"
 #include "field/zone.h"

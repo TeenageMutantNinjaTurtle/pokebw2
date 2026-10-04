@@ -90,7 +90,7 @@ prints the tables below from the configs and the ROM:
 
 ### Overlay 12
 
-898 of 1668 functions are in source files. Embedded names without a file yet: `calender.c`, `comm_player.c`, `event_battle.c`, `fld_btl_inst_tool.c`, `fldmmdl.c`, `game_beacon_search.c`, `namein_setup.c`, `pair_sys.c`, `report_event.c`, `scrcmd_keysystem.c`, `symbol_map.c`, `trcard_sys.c`, `waza_oshie.c`.
+911 of 1668 functions are in source files. Embedded names without a file yet: `calender.c`, `comm_player.c`, `event_battle.c`, `fld_btl_inst_tool.c`, `fldmmdl.c`, `game_beacon_search.c`, `namein_setup.c`, `pair_sys.c`, `report_event.c`, `scrcmd_keysystem.c`, `symbol_map.c`, `trcard_sys.c`, `waza_oshie.c`.
 
 | File | `.text` (Black 2) | Functions | Status | Name |
 | --- | --- | --- | --- | --- |
@@ -135,6 +135,7 @@ prints the tables below from the configs and the ROM:
 | `eventdata_system.c` | `0x0215cda4`–`0x0215dabc` | 61 | partial | string at `0x0216e298` |
 | `field_actor_tool.c` | `0x0215dabc`–`0x0215ee10` | 69 | partial | descriptive |
 | `zone_change.c` | `0x0215ee10`–`0x0215ef60` | 9 | complete | descriptive |
+| `itemuse_event.c` | `0x0215ef60`–`0x0215f23c` | 13 | complete | descriptive |
 | `field_g3d_map.c` | `0x021631c8`–`0x02163b38` | 47 | partial | string at `0x0216e380` |
 
 ### Overlay 13

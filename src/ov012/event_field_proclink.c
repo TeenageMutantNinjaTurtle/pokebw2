@@ -9,6 +9,7 @@
 #include "field/field.h"
 #include "field/field_event.h"
 #include "field/iss.h"
+#include "field/itemuse_event.h"
 #include "field/player_action.h"
 #include "field/player_state.h"
 #include "field/zone.h"
