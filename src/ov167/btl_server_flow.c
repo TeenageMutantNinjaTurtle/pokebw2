@@ -2892,6 +2892,86 @@ void ServerControl_SetMonCounter(BtlServerFlow *flow, BattleMon *mon, u32 counte
     COUNTER_Set(mon, counter, value);
 }
 
+void func_ov167_021a4250(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 moveSlot, void *targets) {
+    u8 amount = func_ov167_021a4278(flow, mon, moveSlot, move, targets);
+    ServerControl_DecrementPP(flow, mon, moveSlot, amount);
+}
+
+u32 func_ov167_021a4278(BtlServerFlow *flow, BattleMon *mon, u8 moveSlot, u16 move, void *targets) {
+    u32 amount;
+    BattleMon *target;
+    u32 i;
+
+    BattleEventVar_Push(0x16ff);
+    i = 0;
+    BattleEventVar_SetConstValue(5, func_ov169_0689cec0(targets));
+    while ((target = func_ov169_0689cdf8(targets, i)) != NULL) {
+        BattleEventVar_SetConstValue(6 + i, GetMonID(target));
+        i++;
+    }
+    BattleEventVar_SetConstValue(3, GetMonID(mon));
+    BattleEventVar_SetConstValue(0x12, move);
+    BattleEventVar_SetConstValue(0x17, moveSlot);
+    BattleEventVar_SetValue(0x20, 1);
+    BattleEvent_CallHandlers(flow, 0x4e);
+    amount = BattleEventVar_GetValue(0x20);
+    BattleEventVar_Pop(0x1714);
+    return amount;
+}
+
+BOOL ServerControl_DecrementPP(BtlServerFlow *flow, BattleMon *mon, u8 moveIndex, u8 amount) {
+    u8 pp = GetMovePP(mon, moveIndex);
+    if (amount >= pp) {
+        amount = pp;
+    }
+    if (amount != 0) {
+        func_ov167_021a4370(flow, mon, moveIndex, amount);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+void func_ov167_021a4370(BtlServerFlow *flow, BattleMon *mon, u8 moveIndex, u8 amount) {
+    if (!ReturnZero(flow->mainModule, 5)) {
+        u8 monId = GetMonID(mon);
+        func_ov167_021bae08(mon, moveIndex, amount);
+        func_ov167_021b1434(flow->queue, 4, monId, moveIndex, amount);
+        func_ov167_021baecc(mon, moveIndex);
+        func_ov167_021b1434(flow->queue, 6, monId, moveIndex);
+    }
+}
+
+void func_ov167_021a43c0(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets, void *data,
+                         u32 arg5) {
+    u32 reserved;
+    u32 damage = 0;
+    BOOL showEffect = FALSE;
+
+    flow->unk1FEC[1] = damage;
+    func_ov167_021a5478(flow, mon, param);
+    func_ov169_0689ccc4(flow->unk860);
+    ServerEvent_CheckMultihitHits(flow, mon, param->move, flow->unk4B4);
+    func_ov167_021a4f80(flow, mon, param, targets);
+    if (func_ov169_0689cec0(targets)) {
+        if (func_ov167_021a4c34(flow->unk4B4) && func_ov169_0689cec8(targets) == 1) {
+            damage = func_ov167_021a49c4(flow, param, mon, targets, data);
+        } else {
+            damage = func_ov167_021a4830(flow, param, mon, targets, data, &reserved, arg5);
+            showEffect = TRUE;
+        }
+        ServerControl_CalcRecoil(flow, mon, param->move, damage);
+    }
+    func_ov167_021a54f4(flow, param, mon, flow->unk860, damage, arg5);
+    if (showEffect) {
+        BattleMoveEffectState *effect = flow->moveEffect;
+        if (!effect->enabled) {
+            effect->enabled = 1;
+            effect->unk05_1 = 1;
+        }
+        func_ov167_021a3674(flow, param->move, flow->moveEffect, reserved);
+    }
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));

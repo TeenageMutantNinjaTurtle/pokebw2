@@ -2,8 +2,8 @@
 #define POKEBW2_BATTLE_BTL_POKEPARAM_H
 
 #include "types.h"
-#include "gfl/heap.h"
 #include "constants/battle.h"
+#include "gfl/heap.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
 
@@ -214,7 +214,7 @@ u8 GetConditionCount(BattleMon *mon, u32 index);
 u16 GetConsecutiveMoveCount(BattleMon *mon);
 fx32 GetHPRatio(BattleMon *mon);
 u8 GetMonID(BattleMon *mon);
-u8 GetMovePP(BattleMon *mon, u8 index);
+u16 GetMovePP(BattleMon *mon, u8 index);
 PokeTypePair GetPokeType(BattleMon *mon);
 u16 GetPreviousMoveID(BattleMon *mon);
 u8 func_ov167_021bbfb0(BattleMon *mon);

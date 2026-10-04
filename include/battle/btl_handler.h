@@ -8,7 +8,6 @@
 #include "battle/btl_server.h"
 #include "struct_decls.h"
 
-
 struct BattleHandlerPopupParam {
     u32 unk00 : 8;
     u32 monId : 5;
@@ -77,7 +76,7 @@ struct BtlServerFlow {
     BattleMoveEffectState *moveEffect;
     BtlFlowReactionList *unk4AC;
     BtlFlowReactionList *unk4B0;
-    u8 unk4B4[4];
+    void *unk4B4;
     BtlClientIDList clientIdList;
     u8 unk4C0[0xe];
     BtlFlowClientList unk4CE;
@@ -151,7 +150,6 @@ struct BattleMoveEffectState {
     u8 unk05_1 : 1;
     u8 unk05_2 : 6;
 };
-
 
 struct BattleHandlerAbilityChangeParam {
     u32 unk00 : 8;

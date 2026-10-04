@@ -331,7 +331,6 @@ u8 func_ov167_021bac50(BattleMon *mon) {
     return count;
 }
 
-
 u8 CountUsedMoves(const BattleMon *mon) {
     u8 count;
     u8 i;
@@ -343,7 +342,6 @@ u8 CountUsedMoves(const BattleMon *mon) {
     }
     return count;
 }
-
 
 u8 func_ov167_021bacb4(BattleMon *mon) {
     return mon->unk143;
@@ -384,7 +382,7 @@ u8 func_ov167_021bad68(BattleMon *mon, u8 index) {
     return mon->moves[index].truth.maxPP - mon->moves[index].truth.pp;
 }
 
-u8 GetMovePP(BattleMon *mon, u8 index) {
+u16 GetMovePP(BattleMon *mon, u8 index) {
     if (index < mon->moveCount) {
         return mon->moves[index].surface.pp;
     }
@@ -401,7 +399,6 @@ u8 func_ov167_021bada0(const BattleMon *mon, u16 move) {
     }
     return 0;
 }
-
 
 BOOL Move_IsPPFull(BattleMon *mon, u8 index, BOOL truth) {
     BattleMoveCore *move;
@@ -428,7 +425,6 @@ void func_ov167_021bae08(BattleMon *mon, u8 index, u8 amount) {
         PokeParty_SetParam(mon->core.src, PKM_PARAM_MOVE1_PP + index, mon->moves[index].truth.pp);
     }
 }
-
 
 void func_ov167_021bae40(BattleMon *mon, u8 index, u8 amount) {
     s32 pp;
@@ -547,7 +543,6 @@ PokeTypePair GetPokeType(BattleMon *mon) {
     splitTypeCore(mon, &type1, &type2);
     return PokeTypePair_Make(type1, type2);
 }
-
 
 BOOL DoesMonHaveType(BattleMon *mon, u32 type) {
     u8 type1;
@@ -1018,7 +1013,6 @@ void func_ov167_021bb6a8(BattleMon *mon, u32 stat, u8 value) {
     }
 }
 
-
 BOOL StatStageRecover(BattleMon *mon) {
     return func_ov167_021babdc(&mon->statStages);
 }
@@ -1065,7 +1059,6 @@ BOOL func_ov167_021bb738(BattleMon *mon, s32 amount) {
     return FALSE;
 }
 
-
 void func_ov167_021bb790(BattleMon *mon, u16 amount) {
     if (mon->core.hp > amount) {
         mon->core.hp -= amount;
@@ -1100,7 +1093,7 @@ void func_ov167_021bb7e4(BattleMon *mon, u32 flag) {
 void func_ov167_021bb808(BattleMon *mon, u32 flag) {
     u8 *flags = mon->conditionFlags;
 
-    flags[(u8)(flag >> 3)] &= (u8)~(u8)(1 << (flag & 7));
+    flags[(u8)(flag >> 3)] &= (u8) ~(u8)(1 << (flag & 7));
 }
 
 void SetMoveCondition(BattleMon *mon, u32 condition, BattleCondition value) {
@@ -1200,7 +1193,6 @@ BOOL func_ov167_021bb9a8(BattleMon *mon) {
     }
     return FALSE;
 }
-
 
 void CureCondition(BattleMon *mon) {
     u32 i;
@@ -1335,7 +1327,7 @@ void func_ov167_021bbc08(BattleMon *mon) {
 void func_ov167_021bbc40(BattleMon *mon, u32 flag) {
     u8 *flags = mon->turnFlags;
 
-    flags[(u8)(flag >> 3)] &= (u8)~(u8)(1 << (flag & 7));
+    flags[(u8)(flag >> 3)] &= (u8) ~(u8)(1 << (flag & 7));
 }
 
 void Clear_ForFainted(BattleMon *mon) {
@@ -1437,7 +1429,6 @@ void ChangeForm(BattleMon *mon, u8 form) {
     }
     PokeParty_EncryptPkm(mon->core.src, wasEncrypted);
 }
-
 
 void ConsumeItem(BattleMon *mon, u16 item) {
     mon->core.consumedItem = item;
@@ -1645,7 +1636,6 @@ BOOL func_ov167_021bc1b8(BattleMon *mon, u32 *exp, BattleMonLevelUp *levelUp) {
     return FALSE;
 }
 
-
 u32 GetExpForLv100(BattleMon *mon) {
     return PML_UtilGetPkmLvExp(mon->core.species, mon->form, 100);
 }
@@ -1671,7 +1661,6 @@ void func_ov167_021bc384(BattleMon *mon, BOOL keepBaseForm) {
     PokeParty_RecalcStats(src);
     PokeParty_SetParam(src, PKM_PARAM_ITEM, mon->core.heldItem);
 }
-
 
 void func_ov167_021bc3fc(BattleMon *mon) {
     if (!mon->core.transformed) {
