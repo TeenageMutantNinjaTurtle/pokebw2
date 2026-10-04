@@ -18,10 +18,12 @@ every section.
   module's in `src/gfl/` (Game Freak's library) and `src/system/` (the game's own code), mirroring `include/`.
 - `lib/` holds the libraries built apart from the game, as in pret's projects: `lib/<name>/include/` for the public
   headers, `lib/<name>/src/` for the sources and private headers (`lib/spl/src/spl_internal.h`), and
-  `lib/<name>/library.toml` for the library's compiler and flags, which `configure.py` and the probe read. So far
-  that is `lib/spl/` (Nintendo's SPL particle library), and later NitroSDK and NitroSystem. A library's public headers
-  keep its name as their directory, as in `lib/spl/include/spl/spl.h`, so code includes `"spl/spl.h"`. Every file
-  is compiled with `include/` and every `lib/*/include/` on its search path.
+  `lib/<name>/library.toml` for the library's compiler and flags, which `configure.py` and the probe read: `lib/spl/`
+  (Nintendo's SPL particle library), `lib/nitro/` (NitroSDK) and `lib/nnsys/` (NitroSystem: FND, G2D, G3D and GFD).
+  NitroSDK and NitroSystem have only headers so far, so no `library.toml` yet; the first source file of either adds
+  one with the compiler it was built with. A library's public headers keep its name as their directory, as in
+  `lib/nitro/include/nitro/os.h`, so code includes `"nitro/os.h"`. Every file is compiled with `include/` and every
+  `lib/*/include/` on its search path.
 - `tools/scripts/source_files.py OVERLAY` finds the boundaries: it lists the embedded file names, the functions that
   refer to them, and how well each boundary between two functions keeps every section's data references in file
   order and the calls inside one file.
@@ -32,8 +34,8 @@ every section.
   A layout is defined once: two files that need the same struct share it through the owner's header, and a partial
   layout with padding is still the one definition.
 - Headers are grouped like the game's code: `system/` (game system, game data, events), `field/`, `save/`, `gfl/`
-  (Game Freak's library), `pml/` (Pokémon data), `battle/`, `demo/`, `dsprot/` and `constants/`, and by library:
-  `nitro/` (NitroSDK) and `nnsys/` (NitroSystem: FND, G2D, G3D and GFD). SPL's are in `lib/spl/include/spl/`.
+  (Game Freak's library), `pml/` (Pokémon data), `battle/`, `demo/`, `dsprot/` and `constants/`. The libraries'
+  headers are in `lib/`, as `lib/nitro/include/nitro/`, `lib/nnsys/include/nnsys/` and `lib/spl/include/spl/`.
   A header is named after the original file that owns its declarations, or after swan's header for it, such as
   `field/field_3dci.h`.
 - Put functions, data and callback tables used across source files or overlays in the owning file's header. Declare
