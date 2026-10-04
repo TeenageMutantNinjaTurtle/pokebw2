@@ -7,6 +7,8 @@
 // The PC box's sliding frames, over bgwinfrm.c. The ROM doesn't name this file; box2_bgwfrm.c is a guess. None of
 // these functions has a name yet
 
+void func_ov255_021d364c(Box2SysWork *syswk);
+void func_ov255_021d36e8(Box2AppWork *app);
 void func_ov255_021d3734(BGWinFrame *frames);
 void func_ov255_021d3744(BGWinFrame *frames);
 void func_ov255_021d3778(BGWinFrame *frames);
@@ -18,6 +20,7 @@ BOOL func_ov255_021d387c(BGWinFrame *frames);
 void func_ov255_021d390c(BGWinFrame *frames);
 void func_ov255_021d3954(BGWinFrame *frames);
 BOOL func_ov255_021d399c(BGWinFrame *frames);
+BOOL func_ov255_021d39c0(BGWinFrame *frames);
 BOOL func_ov255_021d39e4(BGWinFrame *frames);
 void func_ov255_021d3a38(BGWinFrame *frames);
 void func_ov255_021d3a48(Box2AppWork *app);

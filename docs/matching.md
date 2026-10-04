@@ -58,6 +58,12 @@ Same code, other `sp` offsets or frame size.
 - A variable reused by several switch cases is split into one value per case (see Registers), and a split piece that is
   spilled takes the lowest slot whatever the declarations say. When the original has a case's spilled value among the
   declared variables' slots, that case had a variable of its own, as case 9 of the records command does.
+- A loop counter stored to the slot of a local whose address is passed elsewhere is that local reused: in the PC box's
+  range pick, `func_ov255_021c445c`, the row loop counts with `y`, the touch position's `&y`, so the counter lives in
+  `y`'s slot and the frame has no slot of its own for it. Pairs such as `width, height` that the original keeps in two
+  sets of slots are block locals in two blocks; declaring them once at the top shares the slots and shrinks the frame.
+  In `PokeIconMoveDataMake` the slots only matched once each reused variable was made block local and the loops used the
+  original's counters; reordering the declarations did nothing.
 - A NULL check written on a field, `if (bgs[bg].screen != NULL) { void *screen = bgs[bg].screen; ... }`, gives
   different stack slots from the same check on a local loaded before it, as `GFL_BGSysLoadScrCore` shows.
 - MWCC reuses a field it has loaded, across the 64-bit multiply helpers, so a value that the original keeps on the

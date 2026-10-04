@@ -81,7 +81,8 @@ struct Box2SysWork {
     u8 unk1A;
     u8 unk1B;
     u8 moveMode : 4;
-    u8 unk1C_4 : 4;
+    u8 unk1C_4 : 2;
+    u8 unk1C_6 : 2;
     u8 unk1D;
     u8 unk1E;
     u8 unk1F;
@@ -153,6 +154,12 @@ typedef struct {
     u32 setPos;
 } Box2PokeMoveWork;
 
+// An item of a menu: its message, and 1 for the item that closes the menu
+typedef struct {
+    u16 msgId;
+    u16 type;
+} Box2MenuItem;
+
 // An area of the lower screen, with its right edge in it
 typedef struct {
     u8 left;
@@ -176,6 +183,12 @@ typedef struct {
     u8 scaleCnt;
     f32 scale;
 } Box2PokeFreeWork;
+
+// The scroll of the box list by touch
+typedef struct {
+    s16 cnt;
+    s16 dir;
+} Box2BoxListDrag;
 
 // The item icon's move
 typedef struct {
@@ -296,12 +309,14 @@ struct Box2AppWork {
     u8 unkA55D;
     // Where the hand puts a Pokémon or an item
     u8 pokePutKey;
+    // The box of the box list the cursor is on
     u8 unkA55F;
     u32 tpx;
     u32 tpy;
     int wipeSeq;
     int wait;
-    Box2PokeFreeWork *pokeFree;
+    // The work of the current sequence, such as a Box2PokeFreeWork
+    void *subWork;
     int subSeq;
     int msgNextSeq;
     u8 rangeFlags[30];

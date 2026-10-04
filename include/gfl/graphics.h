@@ -43,6 +43,8 @@ void func_02026e04(void *a0, u32 bg, u32 a2, HeapID heapId);
 void func_02026e48(void *a0, u32 bg);
 // Loads a palette from an archive into the fade's buffers
 void func_02026ee8(void *a0, u32 arcId, u32 fileId, HeapID heapId, u32 type, u32 size, u16 offset);
+// Whether a palette fade is running
+BOOL func_02027780(void *a0);
 void func_0202778c(void *a0, u32 a1);
 void func_020275f8(void *a0);
 void gfxSetEdgeColorTable(const GXRgb *table);

@@ -3,11 +3,13 @@
 
 // Names, layouts and constants from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0), except
 // ARCID_TITLE, ARCID_STARTMENU, ARCID_SEASON_BANNER, ARCID_COPYRIGHT, ARCID_INTRO, ARCID_EGG_DEMO, ARCID_SHINKA_DEMO,
-// ARCID_BOX2 and ARCID_TRAI_SCRIPT
+// ARCID_POKEICON, ARCID_BOX2 and ARCID_TRAI_SCRIPT
 
 #define ARCID_SYSTEM_MESSAGE 2
 #define ARCID_SCRIPT_MESSAGE 3
 #define ARCID_POKEGRA 4
+// The Pokémon icons
+#define ARCID_POKEICON 7
 #define ARCID_MAP_TERRAIN 8
 #define ARCID_MAP_MATRIX 9
 #define ARCID_ZONEDATA 12

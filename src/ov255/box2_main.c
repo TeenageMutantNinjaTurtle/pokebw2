@@ -1512,9 +1512,7 @@ static BOOL PokeIconMoveDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos) {
     u32 count;
     u16 x, y;
     u16 i, j;
-    u8 n;
-    u8 mask;
-    u16 start;
+    u32 start;
 
     work->mode = 0;
     sys_memset(work->data, 0, sizeof(work->data));
@@ -1529,8 +1527,8 @@ static BOOL PokeIconMoveDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos) {
                 for (x = 0; x < syswk->app->rangeWidth; x++) {
                     work->data[x + y * syswk->app->rangeWidth].iconPos =
                         x + (y * syswk->app->rangeWidth + BOX2_BOXLIST_POS);
-                    work->data[x + y * syswk->app->rangeWidth].mvPos =
-                        work->data[x + y * syswk->app->rangeWidth].dfPos = x + (getPos + y * 2);
+                    work->data[x + y * syswk->app->rangeWidth].mvPos = x + (getPos + y * 2);
+                    work->data[x + y * syswk->app->rangeWidth].dfPos = x + (getPos + y * 2);
                     work->data[x + y * syswk->app->rangeWidth].flag = 1;
                     PokeIconMoveParamMake(syswk, &work->data[x + y * syswk->app->rangeWidth]);
                 }
@@ -1561,8 +1559,8 @@ static BOOL PokeIconMoveDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos) {
                 for (x = 0; x < syswk->app->rangeWidth; x++) {
                     work->data[x + y * syswk->app->rangeWidth].iconPos =
                         x + (y * syswk->app->rangeWidth + BOX2_BOXLIST_POS);
-                    work->data[x + y * syswk->app->rangeWidth].mvPos =
-                        work->data[x + y * syswk->app->rangeWidth].dfPos = x + (getPos + y * 2);
+                    work->data[x + y * syswk->app->rangeWidth].mvPos = x + (getPos + y * 2);
+                    work->data[x + y * syswk->app->rangeWidth].dfPos = x + (getPos + y * 2);
                     work->data[x + y * syswk->app->rangeWidth].flag = 1;
                     PokeIconMoveParamMake(syswk, &work->data[x + y * syswk->app->rangeWidth]);
                 }
@@ -1589,6 +1587,9 @@ static BOOL PokeIconMoveDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos) {
     if (putPos >= BOX2_BOXLIST_POS) {
         if (syswk->moveMode == 2) {
             if (getPos >= BOX2_PARTY_POS) {
+                u8 mask;
+                u8 n;
+
                 work->mode = 1;
                 start = getPos - BOX2_PARTY_POS;
                 n = 0;
@@ -1609,37 +1610,34 @@ static BOOL PokeIconMoveDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos) {
                 for (i = 0; i < count; i++) {
                     mask |= 1 << i;
                 }
-                for (i = 0; i < count; i++) {
+                for (j = 0; j < count; j++) {
                     for (y = 0; y < syswk->app->rangeHeight; y++) {
                         u32 row = start + y * 2;
-                        if (i >= row && i < row + syswk->app->rangeWidth) {
-                            mask ^= 1 << i;
+                        if (j >= row && j < syswk->app->rangeWidth + row) {
+                            mask ^= 1 << j;
                         }
                     }
                 }
                 for (i = start + 1; i < count; i++) {
                     for (y = 0; y < syswk->app->rangeHeight; y++) {
                         u32 row = start + y * 2;
-                        if (i >= row && i < row + syswk->app->rangeWidth) {
+                        if (i >= row && i < syswk->app->rangeWidth + row) {
                             break;
                         }
                     }
                     if (y == syswk->app->rangeHeight) {
-                        Box2PokeMoveData *data;
-
                         mask ^= 1 << i;
-                        data = &work->data[n];
-                        data->iconPos = i + BOX2_PARTY_POS;
-                        data->dfPos = i + BOX2_PARTY_POS;
+                        work->data[n].iconPos = i + BOX2_PARTY_POS;
+                        work->data[n].dfPos = i + BOX2_PARTY_POS;
                         for (j = 0; j < i; j++) {
                             if (!(mask & (1 << j))) {
-                                data->mvPos = j + BOX2_PARTY_POS;
+                                work->data[n].mvPos = j + BOX2_PARTY_POS;
                                 mask |= 1 << j;
                                 break;
                             }
                         }
-                        data->flag = 1;
-                        PokeIconMoveSubParamMake(syswk, data);
+                        work->data[n].flag = 1;
+                        PokeIconMoveSubParamMake(syswk, &work->data[n]);
                         n++;
                     }
                 }
@@ -1693,13 +1691,16 @@ static BOOL PokeIconMoveDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos) {
     }
 
     if (getPos < BOX2_PARTY_POS) {
-        if (putPos < BOX2_PARTY_POS || putPos - BOX2_PARTY_POS < count) {
+        if (putPos < BOX2_PARTY_POS) {
+            PokeIconChgDataMake(syswk, getPos, putPos);
+        } else if (putPos - BOX2_PARTY_POS < count) {
             PokeIconChgDataMake(syswk, getPos, putPos);
         } else if (syswk->moveMode != 2) {
             PokeIconChgDataMake(syswk, getPos, count + BOX2_PARTY_POS);
         } else {
             // A range of the box goes to the end of the party
-            n = 0;
+            u8 n = 0;
+
             work->mode = 1;
             for (y = 0; y < syswk->app->rangeHeight; y++) {
                 for (x = 0; x < syswk->app->rangeWidth; x++) {
@@ -1714,27 +1715,26 @@ static BOOL PokeIconMoveDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos) {
                 }
             }
         }
-        return TRUE;
-    }
+    } else if (putPos < BOX2_PARTY_POS) {
+        u8 n = 0;
 
-    if (putPos < BOX2_PARTY_POS) {
-        n = 0;
         if (Box2Main_GetPokeParam(syswk, putPos, syswk->tray, PKM_PARAM_SPECIES_VALID, NULL) != 0) {
             PokeIconChgDataMake(syswk, getPos, putPos);
         } else if (syswk->moveMode != 2) {
             // The party closes up behind the Pokémon that leaves it
-            for (i = getPos - BOX2_PARTY_POS + 1; i < count; i++) {
+            start = getPos - BOX2_PARTY_POS;
+            for (i = start + 1; i < count; i++) {
                 work->data[i].iconPos = i + BOX2_PARTY_POS;
                 work->data[i].mvPos = i + BOX2_PARTY_POS - 1;
                 work->data[i].dfPos = i + BOX2_PARTY_POS;
                 work->data[i].flag = 1;
                 PokeIconMoveParamMake(syswk, &work->data[i]);
             }
-            work->data[getPos - BOX2_PARTY_POS].iconPos = BOX2_BOXLIST_POS;
-            work->data[getPos - BOX2_PARTY_POS].mvPos = putPos;
-            work->data[getPos - BOX2_PARTY_POS].dfPos = getPos;
-            work->data[getPos - BOX2_PARTY_POS].flag = 1;
-            PokeIconMoveParamMake(syswk, &work->data[getPos - BOX2_PARTY_POS]);
+            work->data[start].iconPos = BOX2_BOXLIST_POS;
+            work->data[start].mvPos = putPos;
+            work->data[start].dfPos = getPos;
+            work->data[start].flag = 1;
+            PokeIconMoveParamMake(syswk, &work->data[start]);
             work->data[count].iconPos = putPos;
             work->data[count].mvPos = count + BOX2_PARTY_POS - 1;
             work->data[count].dfPos = putPos;
@@ -1743,10 +1743,11 @@ static BOOL PokeIconMoveDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos) {
         } else {
             // A range of the party goes to the box
             u8 col, row;
+            u8 mask;
 
             work->mode = 1;
             start = getPos - BOX2_PARTY_POS;
-            for (row = n; row < syswk->app->rangeHeight; row++) {
+            for (row = 0; row < syswk->app->rangeHeight; row++) {
                 for (col = 0; col < syswk->app->rangeWidth; col++) {
                     if (col + (start + row * 2) < count) {
                         work->data[n].iconPos = col + (row * syswk->app->rangeWidth + BOX2_BOXLIST_POS);
@@ -1765,7 +1766,7 @@ static BOOL PokeIconMoveDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos) {
             for (i = 0; i < count; i++) {
                 for (row = 0; row < syswk->app->rangeHeight; row++) {
                     u32 first = start + row * 2;
-                    if (i >= first && i < first + syswk->app->rangeWidth) {
+                    if (i >= first && i < syswk->app->rangeWidth + first) {
                         mask ^= 1 << i;
                     }
                 }
@@ -1773,52 +1774,51 @@ static BOOL PokeIconMoveDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos) {
             for (i = start + 1; i < count; i++) {
                 for (row = 0; row < syswk->app->rangeHeight; row++) {
                     u32 first = start + row * 2;
-                    if (i >= first && i < first + syswk->app->rangeWidth) {
+                    if (i >= first && i < syswk->app->rangeWidth + first) {
                         break;
                     }
                 }
                 if (row == syswk->app->rangeHeight) {
-                    Box2PokeMoveData *data;
                     u8 k;
 
                     mask ^= 1 << i;
-                    data = &work->data[n];
-                    data->iconPos = i + BOX2_PARTY_POS;
-                    data->dfPos = i + BOX2_PARTY_POS;
+                    work->data[n].iconPos = i + BOX2_PARTY_POS;
+                    work->data[n].dfPos = i + BOX2_PARTY_POS;
                     for (k = 0; k < i; k++) {
                         if (!(mask & (1 << k))) {
-                            data->mvPos = k + BOX2_PARTY_POS;
+                            work->data[n].mvPos = k + BOX2_PARTY_POS;
                             mask |= 1 << k;
                             break;
                         }
                     }
-                    data->flag = 1;
-                    PokeIconMoveParamMake(syswk, data);
+                    work->data[n].flag = 1;
+                    PokeIconMoveParamMake(syswk, &work->data[n]);
                     n++;
                 }
             }
         }
-        return TRUE;
-    }
-
-    // Within the party
-    if (putPos - BOX2_PARTY_POS < count) {
+    } else if (putPos - BOX2_PARTY_POS < count) {
+        // Within the party
         PokeIconChgDataMake(syswk, getPos, putPos);
     } else if (syswk->moveMode != 2) {
-        for (i = getPos - BOX2_PARTY_POS + 1; i < count; i++) {
+        start = getPos - BOX2_PARTY_POS;
+        for (i = start + 1; i < count; i++) {
             work->data[i].iconPos = i + BOX2_PARTY_POS;
             work->data[i].mvPos = i + BOX2_PARTY_POS - 1;
             work->data[i].dfPos = i + BOX2_PARTY_POS;
             work->data[i].flag = 1;
             PokeIconMoveParamMake(syswk, &work->data[i]);
         }
-        work->data[getPos - BOX2_PARTY_POS].iconPos = BOX2_BOXLIST_POS;
-        work->data[getPos - BOX2_PARTY_POS].mvPos = count + BOX2_PARTY_POS - 1;
-        work->data[getPos - BOX2_PARTY_POS].dfPos = getPos;
-        work->data[getPos - BOX2_PARTY_POS].flag = 1;
-        PokeIconMoveParamMake(syswk, &work->data[getPos - BOX2_PARTY_POS]);
+        work->data[start].iconPos = BOX2_BOXLIST_POS;
+        work->data[start].mvPos = count + BOX2_PARTY_POS - 1;
+        work->data[start].dfPos = getPos;
+        work->data[start].flag = 1;
+        PokeIconMoveParamMake(syswk, &work->data[start]);
     } else {
         // A range of the party goes to its end
+        u8 mask;
+        u8 n;
+
         work->mode = 1;
         start = getPos - BOX2_PARTY_POS;
         mask = 0;
@@ -1829,34 +1829,31 @@ static BOOL PokeIconMoveDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos) {
         for (i = 0; i < count; i++) {
             for (y = 0; y < syswk->app->rangeHeight; y++) {
                 u32 row = start + y * 2;
-                if (i >= row && i < row + syswk->app->rangeWidth) {
+                if (i >= row && i < syswk->app->rangeWidth + row) {
                     mask ^= 1 << i;
                 }
             }
         }
-        for (i = start + 1; i < count; i++) {
-            for (y = 0; y < syswk->app->rangeHeight; y++) {
-                u32 row = start + y * 2;
-                if (i >= row && i < row + syswk->app->rangeWidth) {
+        for (y = start + 1; y < count; y++) {
+            for (i = 0; i < syswk->app->rangeHeight; i++) {
+                u32 row = start + i * 2;
+                if (y >= row && y < syswk->app->rangeWidth + row) {
                     break;
                 }
             }
-            if (y == syswk->app->rangeHeight) {
-                Box2PokeMoveData *data;
-
-                mask ^= 1 << i;
-                data = &work->data[n];
-                data->iconPos = i + BOX2_PARTY_POS;
-                data->dfPos = i + BOX2_PARTY_POS;
-                for (j = 0; j < i; j++) {
+            if (i == syswk->app->rangeHeight) {
+                mask ^= 1 << y;
+                work->data[n].iconPos = y + BOX2_PARTY_POS;
+                work->data[n].dfPos = y + BOX2_PARTY_POS;
+                for (j = 0; j < y; j++) {
                     if (!(mask & (1 << j))) {
-                        data->mvPos = j + BOX2_PARTY_POS;
+                        work->data[n].mvPos = j + BOX2_PARTY_POS;
                         mask |= 1 << j;
                         break;
                     }
                 }
-                data->flag = 1;
-                PokeIconMoveParamMake(syswk, data);
+                work->data[n].flag = 1;
+                PokeIconMoveParamMake(syswk, &work->data[n]);
                 n++;
             }
         }
@@ -2046,7 +2043,7 @@ static void PokeIconBufPosChange(Box2SysWork *syswk, Box2PokeMoveWork *work) {
 
 static void PokeIconBufPosChangeRange(Box2SysWork *syswk, Box2PokeMoveWork *work) {
     s16 i;
-    s16 x, y;
+    s16 x;
     u32 width;
     u8 id;
 
@@ -2066,13 +2063,13 @@ static void PokeIconBufPosChangeRange(Box2SysWork *syswk, Box2PokeMoveWork *work
             width = syswk->app->rangeWidth;
         }
         if (work->data[0].mvPos < BOX2_BOXLIST_POS) {
-            for (y = 0; y < syswk->app->rangeHeight; y++) {
+            for (i = 0; i < syswk->app->rangeHeight; i++) {
                 for (x = 0; x < syswk->app->rangeWidth; x++) {
-                    if (syswk->app->rangeFlags[y * 6 + x] != 0) {
-                        id = syswk->app->pokeIconId[work->data[0].iconPos + x + syswk->app->rangeWidth * y];
-                        syswk->app->pokeIconId[work->data[0].iconPos + x + syswk->app->rangeWidth * y] =
-                            syswk->app->pokeIconId[work->data[0].mvPos + (y * width + x)];
-                        syswk->app->pokeIconId[work->data[0].mvPos + (y * width + x)] = id;
+                    if (syswk->app->rangeFlags[i * 6 + x] != 0) {
+                        id = syswk->app->pokeIconId[work->data[0].iconPos + i * syswk->app->rangeWidth + x];
+                        syswk->app->pokeIconId[work->data[0].iconPos + i * syswk->app->rangeWidth + x] =
+                            syswk->app->pokeIconId[work->data[0].mvPos + i * width + x];
+                        syswk->app->pokeIconId[work->data[0].mvPos + i * width + x] = id;
                     }
                 }
             }
@@ -2101,9 +2098,9 @@ void Box2Main_PokeFreeCreate(Box2SysWork *syswk) {
     BoxPkm *pkm;
     u32 i;
 
-    syswk->app->pokeFree =
+    syswk->app->subWork =
         GFL_HeapAllocate(HEAPID_TAIL(HEAPID_BOX2_APP), sizeof(Box2PokeFreeWork), FALSE, "box2_main.c", 3460);
-    work = syswk->app->pokeFree;
+    work = syswk->app->subWork;
     work->cap = syswk->app->actors[syswk->app->pokeIconId[syswk->pos]];
     work->checkCnt = 0;
     work->checkFlag = 0;
@@ -2118,13 +2115,13 @@ void Box2Main_PokeFreeCreate(Box2SysWork *syswk) {
 }
 
 void Box2Main_PokeFreeExit(Box2SysWork *syswk) {
-    GFL_HeapFree(syswk->app->pokeFree);
+    GFL_HeapFree(syswk->app->subWork);
 }
 
 // Checks some Pokémon of the boxes and the party for the field moves of the one being released; FALSE once all are
 // checked
 BOOL Box2Main_PokeFreeWazaCheck(Box2SysWork *syswk) {
-    Box2PokeFreeWork *work = syswk->app->pokeFree;
+    Box2PokeFreeWork *work = syswk->app->subWork;
     u16 pos = work->checkCnt;
     u32 n;
     u32 i;
