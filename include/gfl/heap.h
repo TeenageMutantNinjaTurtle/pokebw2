@@ -4,6 +4,7 @@
 // Names, layouts and constants from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
 
 #include "types.h"
+#include "nitro/fnd.h"
 
 typedef u16 HeapID;
 
@@ -52,10 +53,28 @@ enum {
 #define HEAPID_TAIL_BIT 0x8000
 #define HEAPID_TAIL(heapId) ((HeapID)(((heapId) & (HEAPID_TAIL_BIT - 1)) | HEAPID_TAIL_BIT))
 
+// A heap that GFL_MemInit creates from the main arena
+typedef struct {
+    u32 size;
+    u32 unk4;
+} HeapDef;
+
+// Creates the root heaps, after reserving reserveSize bytes of the arena, with room for maxHeapIds heap IDs
+void GFL_MemInit(const HeapDef *defs, u32 rootCount, u32 maxHeapIds, u32 reserveSize);
+void GFL_HeapCreateChild(HeapID parentHeapId, HeapID heapId, u32 size);
+// Creates a heap in memory the caller owns
+void GFL_HeapCreateRoot(void *memory, u32 size, HeapID heapId);
+void GFL_HeapDelete(HeapID heapId);
 void *GFL_HeapAllocate(HeapID heapId, u32 size, BOOL clear, const char *file, u16 line);
 void GFL_HeapFree(void *ptr);
-void GFL_HeapCreateChild(HeapID parentHeapId, HeapID heapId, u32 size);
-void GFL_HeapDelete(HeapID heapId);
+void GFL_HeapCreateAllocator(NNSFndAllocator *allocator, HeapID heapId, int alignment);
+// Shrinks or grows a block in place
+void GFL_HeapResize(void *ptr, u32 size);
 u32 GFL_HeapGetFreeSize(HeapID heapId);
+BOOL GFL_HeapStatusValidate(HeapID heapId);
+void GFL_HeapDumpOnFailure(HeapID heapId);
+void GFL_HeapDTCMInit(u32 size);
+void *GFL_HeapDTCMAllocate(u32 size);
+void _freeBlkFromDTCM(void *ptr);
 
 #endif // POKEBW2_GFL_HEAP_H

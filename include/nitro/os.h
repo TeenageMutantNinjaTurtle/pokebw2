@@ -31,6 +31,27 @@ static inline void OS_SetIrqCheckFlag(u32 interrupts) {
     *(vu32 *)HW_INTR_CHECK_BUF |= interrupts;
 }
 
+// Memory arenas and OS heaps, under swan's names: OS_GetArenaLo, OS_GetArenaHi, OS_SetArenaLo, OS_SetArenaHi,
+// OS_AllocFromArenaLo, OS_InitAlloc, OS_CreateHeap, OS_AllocFromHeap and OS_FreeToHeap
+#define OS_ARENA_MAIN 0
+#define OS_ARENA_DTCM 4
+#define OS_HEAP_INVALID (-1)
+
+void *GetUserMemRegionStart(int arena);
+void *GetUserMemRegionEnd(int arena);
+void SetUserMemRegionStart(int arena, void *start);
+void SetUserMemRegionEnd(int arena, void *end);
+void *mem_alloc_direct(int arena, u32 size, u32 alignment);
+void *mem_init_alloc_area(int arena, void *start, void *end, int maxHeaps);
+int mem_bind_range(int arena, void *start, void *end);
+void *malloc_device(int arena, int heap, u32 size);
+void free_device(int arena, int heap, void *ptr);
+
+// NitroSDK's OS_DisableInterrupts and OS_RestoreInterrupts, under swan's names
+u32 CPU_IRQDisable(void);
+u32 CPU_SetIRQMask(u32 mask);
+void exit(int status);
+
 // Fills 32 bytes with values that differ from run to run
 void OS_GetLowEntropyData(u32 buffer[8]);
 // NitroSDK's STD_CompareNString

@@ -218,8 +218,13 @@
 . 0x02093288 sVRAMBankSizes
 . 0x02093390 sDefaultFont
 . 0x02093f40 sSpecialChars
+. 0x0209a858 sTrackHeapId
 . 0x0209a9a4 GfOverlayC
 . 0x0209aecc sTerminator
+. 0x0214181c sHeapMgr
+. 0x0214182c sDTCMHeap
+. 0x02141838 sHeapDumpState
+. 0x02141844 sHeapDumpFile
 . 0x02141858 sGameProcManager
 . 0x02141864 sAssertHandlers
 . 0x02141874 sDebugPrint

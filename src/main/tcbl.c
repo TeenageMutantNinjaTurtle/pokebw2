@@ -4,8 +4,6 @@
 
 // Tasks like tcb.c's, each with data of its own: in the task when it fits, or allocated
 
-typedef struct TCBEx TCBEx;
-
 struct TCBEx {
     TCBExManager *manager;
     TCBEx *prev;

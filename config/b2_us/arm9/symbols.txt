@@ -8657,7 +8657,7 @@ Time_icon_c kind:data(any) addr:0x0209a814
 Resonance_resort_data_c kind:data(any) addr:0x0209a820
 Resort_binary_c kind:data(any) addr:0x0209a838
 Resort_work_c kind:data(any) addr:0x0209a848
-TRACK_HEAP_ID kind:data(any) addr:0x0209a858
+sTrackHeapId kind:data(any) addr:0x0209a858
 SystemAlloc kind:data(any) addr:0x0209a85c
 Tcbl_c kind:data(any) addr:0x0209a86c
 Procsys_c kind:data(any) addr:0x0209a874
@@ -9140,10 +9140,10 @@ data_02141804 kind:bss addr:0x02141804
 data_02141808 kind:bss addr:0x02141808
 data_0214180c kind:bss addr:0x0214180c
 data_02141814 kind:bss addr:0x02141814
-g_HeapMgr kind:bss addr:0x0214181c
-data_0214182c kind:bss addr:0x0214182c
-g_HeapDumpState kind:bss addr:0x02141838
-data_02141844 kind:bss addr:0x02141844
+sHeapMgr kind:bss addr:0x0214181c
+sDTCMHeap kind:bss addr:0x0214182c
+sHeapDumpState kind:bss addr:0x02141838
+sHeapDumpFile kind:bss addr:0x02141844
 sGameProcManager kind:bss addr:0x02141858
 data_0214185c kind:bss addr:0x0214185c
 data_02141860 kind:bss addr:0x02141860

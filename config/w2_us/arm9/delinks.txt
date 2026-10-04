@@ -151,3 +151,19 @@ src/main/procsys.c:
     .text       start:0x0203a944 end:0x0203abd8
     .data       start:0x0209a8b4 end:0x0209a8c0
     .bss        start:0x02141898 end:0x0214189c
+
+src/main/heapsys.c:
+    complete
+    .text       start:0x02039aac end:0x0203a0d0
+    .bss        start:0x0214185c end:0x0214186c
+
+src/main/heap_dtcm.c:
+    complete
+    .text       start:0x0203a0d0 end:0x0203a15c
+    .bss        start:0x0214186c end:0x02141878
+
+src/main/heap.c:
+    complete
+    .text       start:0x0203a15c end:0x0203a528
+    .data       start:0x0209a898 end:0x0209a8ac
+    .bss        start:0x02141878 end:0x02141898
