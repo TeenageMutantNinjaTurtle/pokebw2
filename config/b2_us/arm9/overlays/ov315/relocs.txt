@@ -227,7 +227,7 @@ from:0x0219da74 kind:thumb_call to:0x0204a5c8 module:main
 from:0x0219da80 kind:load to:0x0219d73d module:overlay(315)
 from:0x0219da84 kind:load to:0x0219db38 module:overlay(315)
 from:0x0219da88 kind:load to:0x0219db2c module:overlay(315)
-from:0x0219da8c kind:load to:0x02094a3c module:main
+from:0x0219da8c kind:load to:0x020946bc add:0x380 module:main
 from:0x0219da90 kind:load to:0x0219db44 module:overlay(315)
 from:0x0219da9c kind:thumb_call to:0x0204a630 module:main
 from:0x0219daa0 kind:thumb_call to:0x02048f44 module:main

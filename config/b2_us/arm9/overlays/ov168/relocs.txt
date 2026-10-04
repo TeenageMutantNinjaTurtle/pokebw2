@@ -1721,8 +1721,8 @@ from:0x021e5dd8 kind:thumb_call to:0x021e5e34 module:overlay(168)
 from:0x021e5de0 kind:thumb_call to:0x02073df0 module:main
 from:0x021e5e04 kind:thumb_call to:0x02073df0 module:main
 from:0x021e5e10 kind:thumb_call_arm to:0x0208d60c module:main
-from:0x021e5e2c kind:load to:0x02143a58 module:main
-from:0x021e5e30 kind:load to:0x02143a14 module:main
+from:0x021e5e2c kind:load to:0x02143a0c add:0x4c module:main
+from:0x021e5e30 kind:load to:0x02143a0c add:0x8 module:main
 from:0x021e5e5e kind:thumb_call_arm to:0x0208d60c module:main
 from:0x021e5e6e kind:thumb_call_arm to:0x0208d60c module:main
 from:0x021e5e7e kind:thumb_call_arm to:0x0208d60c module:main

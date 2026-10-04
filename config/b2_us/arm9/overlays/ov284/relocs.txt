@@ -479,7 +479,7 @@ from:0x021e4d80 kind:thumb_call to:0x0204a5c8 module:main
 from:0x021e4d8c kind:load to:0x021e49b1 module:overlay(284)
 from:0x021e4d90 kind:load to:0x021e7de4 module:overlay(284)
 from:0x021e4d94 kind:load to:0x021e7dd8 module:overlay(284)
-from:0x021e4d98 kind:load to:0x02094a3c module:main
+from:0x021e4d98 kind:load to:0x020946bc add:0x380 module:main
 from:0x021e4d9c kind:load to:0x021e7df0 module:overlay(284)
 from:0x021e4da8 kind:thumb_call to:0x0204a630 module:main
 from:0x021e4dac kind:thumb_call to:0x02048f44 module:main
@@ -626,7 +626,7 @@ from:0x021e56f8 kind:thumb_call to:0x0204a5c8 module:main
 from:0x021e5708 kind:load to:0x021e80c8 module:overlay(284)
 from:0x021e5714 kind:load to:0x021e7fd0 module:overlay(284)
 from:0x021e5718 kind:load to:0x021e7fdc module:overlay(284)
-from:0x021e571c kind:load to:0x02094a3c module:main
+from:0x021e571c kind:load to:0x020946bc add:0x380 module:main
 from:0x021e572c kind:thumb_call to:0x0204a630 module:main
 from:0x021e5738 kind:thumb_call to:0x021e7670 module:overlay(284)
 from:0x021e574a kind:thumb_call to:0x021e5b98 module:overlay(284)
@@ -650,8 +650,8 @@ from:0x021e5864 kind:thumb_call to:0x02049188 module:main
 from:0x021e5868 kind:thumb_call to:0x02049af0 module:main
 from:0x021e586c kind:thumb_call to:0x02067b9c module:main
 from:0x021e5874 kind:load to:0x021e7fe8 module:overlay(284)
-from:0x021e5878 kind:load to:0x02143ac8 module:main
-from:0x021e587c kind:load to:0x02143a8c module:main
+from:0x021e5878 kind:load to:0x02143a0c add:0xbc module:main
+from:0x021e587c kind:load to:0x02143a0c add:0x80 module:main
 from:0x021e58e6 kind:thumb_call to:0x021e590c module:overlay(284)
 from:0x021e5902 kind:thumb_call to:0x021e7818 module:overlay(284)
 from:0x021e5944 kind:thumb_call to:0x021e7300 module:overlay(284)
@@ -1038,7 +1038,7 @@ from:0x021e7ab0 kind:thumb_call to:0x020503f0 module:main
 from:0x021e7ac4 kind:thumb_call to:0x0204fe04 module:main
 from:0x021e7ad0 kind:load to:0x021e8080 module:overlay(284)
 from:0x021e7ad4 kind:load to:0x021e808c module:overlay(284)
-from:0x021e7ad8 kind:load to:0x02094a3c module:main
+from:0x021e7ad8 kind:load to:0x020946bc add:0x380 module:main
 from:0x021e7ae4 kind:load to:0x021e80dc module:overlay(284)
 from:0x021e7aec kind:load to:0x021e7ff8 module:overlay(284)
 from:0x021e7af4 kind:thumb_call to:0x0204fb4c module:main

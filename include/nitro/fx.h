@@ -68,6 +68,11 @@ void MAT3_RotationZ(MtxFx33 *mtx, fx32 sin, fx32 cos);
 void MAT2_Scale(const MtxFx22 *src, MtxFx22 *dest, fx32 x, fx32 y);
 void MAT3_Mul(const MtxFx33 *a, const MtxFx33 *b, MtxFx33 *ab);
 void MAT43_MulVec(const VecFx32 *vec, const MtxFx43 *mtx, VecFx32 *dest);
+// Projection and camera matrices: NitroSDK's MTX_PerspectiveW, MTX_FrustumW, MTX_OrthoW and MTX_LookAt
+void MAT4_SetPerspective(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
+void MAT4_SetFrustum(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
+void MAT4_SetOrtho(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
+void MAT43_LookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, MtxFx43 *mtx);
 
 void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
 void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);

@@ -462,7 +462,7 @@ from:0x0219ed30 kind:thumb_call to:0x0204a5f4 module:main
 from:0x0219ed3c kind:load to:0x0219e9e1 module:overlay(306)
 from:0x0219ed40 kind:load to:0x0219ee30 module:overlay(306)
 from:0x0219ed44 kind:load to:0x0219ee24 module:overlay(306)
-from:0x0219ed48 kind:load to:0x02094a68 module:main
+from:0x0219ed48 kind:load to:0x020946e8 add:0x380 module:main
 from:0x0219ed4c kind:load to:0x0219ee3c module:overlay(306)
 from:0x0219ed58 kind:thumb_call to:0x0204a65c module:main
 from:0x0219ed5c kind:thumb_call to:0x02048f70 module:main

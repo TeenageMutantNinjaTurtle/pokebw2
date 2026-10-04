@@ -7,6 +7,7 @@
 #include "types.h"
 #include "gfl/heap.h"
 #include "nitro/fx.h"
+#include "nitro/g3d.h"
 #include "nitro/gx.h"
 #include "nitro/mi.h"
 #include "struct_decls.h"
@@ -23,14 +24,6 @@ void GFL_G3DResBindData(void *resource, u32 kind, void *data);
 BOOL GFL_G3DCurveFrameStepLoop(G3DCurve *curve, fx32 step);
 BOOL GFL_G3DCurveGetNowTranslation(G3DCurve *curve, VecFx32 *translation);
 BOOL GFL_G3DCurveGetNowRotation(G3DCurve *curve, VecFx32 *rotation);
-
-// NitroSystem's model resource, and the start of its render object, which draws a model resource
-typedef struct NNSG3dResMdl NNSG3dResMdl;
-
-typedef struct {
-    u32 flag;
-    NNSG3dResMdl *resMdl;
-} NNSG3dRenderObj;
 
 typedef enum {
     G3DCAM_PROJECTION_PERSPECTIVE,
@@ -127,8 +120,11 @@ typedef struct {
     u16 actorCount;
 } G3DSceneSetup;
 
-void GFL_G3DSysCreate(BOOL useFrmHeapVramMgr, u32 numMgmtBlks, u32 dat3, u32 dat4, u16 dtcmAllocSize, HeapID heapId,
-                      G3DSystemInitCallback initCallback);
+// Sets up the 3D system with frame or linked-list VRAM managers, the VRAM they manage in 128 KB slots of texture VRAM
+// and 16 KB ones of palette VRAM, and how much DTCM the geometry command buffer takes. With no callback it sets up the
+// 3D display itself
+void GFL_G3DSysCreate(BOOL frmTexVramMgr, u32 texVramSize, BOOL frmPltVramMgr, u32 pltVramSize, u16 dtcmAllocSize,
+                      HeapID heapId, G3DSystemInitCallback initCallback);
 void GFL_G3DSysFree(void);
 void GFL_G3DSysLightSet(u8 lightId, const Light *light);
 void GFL_G3DSysMtxGetProjection(G3DCameraProjection *dest);
@@ -137,8 +133,13 @@ void GFL_G3DSysMtxGetViewLookAt(FxLookAt *dest);
 void GFL_G3DSysMtxSetViewLookAt(const FxLookAt *lookAt);
 void GFL_G3DSysMtxViewFlush(void);
 void GFL_G3DSysReqSwapBuffers(void);
+// Swaps the buffers if they were requested, at the vertical blank
+void GFL_G3DSysCheckSwapBuffers(void);
 void GFL_G3DSysReset(void);
 void GFL_G3DSysSetSwapBufferParams(u32 sortMode, u32 bufferMode);
+// Whether the texture and palette VRAM managers are frame ones
+BOOL func_02049228(void);
+BOOL func_02049238(void);
 // Resources, each a file of a model, textures or an animation
 void *GFL_G3DSysReadArcSysResource(u32 arcId, u32 fileId);
 void *GFL_G3DSysReadArcToolResource(ArcTool *handle, u32 fileId);
@@ -148,8 +149,19 @@ u32 GFL_G3DResGetAllocSize(void);
 void GFL_G3DResSetup(void *resource, void *data);
 BOOL GFL_G3DResCheckType(void *resource, u32 type);
 BOOL GFL_G3DResIsTexUploadDone(void *resource);
-void GFL_G3DResUploadTexData(void *resource);
-void GFL_G3DResFreeTexData(void *resource);
+// Puts a resource's textures and palettes in VRAM, and frees them; SetupTexData only allocates the VRAM, and
+// UploadAndRelease also frees the texture images once they are in VRAM
+BOOL GFL_G3DResUploadTexData(void *resource);
+BOOL GFL_G3DResUploadAndReleaseTexData(void *resource);
+BOOL GFL_G3DResSetupTexData(void *resource);
+BOOL GFL_G3DResUploadTexDataCore(void *resource);
+BOOL GFL_G3DResFreeTexData(void *resource);
+NNSG3dResTex *GFL_G3DResGetTexData(void *resource);
+NNSGfdTexKey GFL_G3DResGetTexVRAMHandle(void *resource);
+NNSGfdPlttKey GFL_G3DResGetPltVRAMHandle(void *resource);
+void *GFL_G3DResGetTexImageData(void *resource);
+void *GFL_G3DResGetTexPaletteData(void *resource);
+void *GFL_G3DResGetResData(void *resource);
 void GFL_G3DResFree(void *resource);
 G3DModel *GFL_G3DMdlCreate(void *resource, u32 modelId, void *texture);
 void GFL_G3DMdlFree(G3DModel *model);
@@ -158,7 +170,7 @@ void *GFL_G3DMdlGetTexResource(G3DModel *model);
 void *GFL_G3DAnmCreate(G3DModel *model, void *resource, u32 a2);
 void GFL_G3DAnmFree(void *animation);
 void *GFL_G3DAnmGetRenderObj(void *animation);
-G3DActor *GFL_G3DActorCreate(G3DModel *model, void **animations, u32 count);
+G3DActor *GFL_G3DActorCreate(G3DModel *model, void **animations, int count);
 void GFL_G3DActorFree(G3DActor *actor);
 
 G3DLight *GFL_G3DLightCreate(const LightSetupList *setup, HeapID heapId);
@@ -193,66 +205,26 @@ void GFL_G3DCameraOrthoSetTop(G3DCamera *cam, fx32 top);
 void GFL_G3DCameraOrthoGetBottom(G3DCamera *cam, fx32 *bottom);
 void GFL_G3DCameraOrthoSetBottom(G3DCamera *cam, fx32 bottom);
 
-BOOL GFL_G3DActorBindAnm(G3DActor *actor, u16 anmIdx);
 BOOL GFL_G3DActorUnbindAnm(G3DActor *actor, u16 anmIdx);
-void GFL_G3DActorResetAnmFrame(G3DActor *actor, u16 anmIdx);
+BOOL GFL_G3DActorResetAnmFrame(G3DActor *actor, u16 anmIdx);
+BOOL GFL_G3DActorGetAnmFrame(G3DActor *actor, u16 anmIdx, fx32 *frame);
 BOOL GFL_G3DActorSetAnmFrame(G3DActor *actor, u16 anmIdx, fx32 *frame);
+BOOL GFL_G3DActorGetAnmFrameCount(G3DActor *actor, u16 anmIdx, fx32 *count);
 // Returns FALSE once the animation has reached its end
 BOOL GFL_G3DActorStepAnmFrame(G3DActor *actor, u16 anmIdx, fx32 addend);
 // The same, going back to the start at the end
-BOOL GFL_G3DActorStepAnmFrameLoop(G3DActor *actor, u16 anmIdx, fx16 addend);
+BOOL GFL_G3DActorStepAnmFrameLoop(G3DActor *actor, u16 anmIdx, fx32 addend);
 void GFL_G3DSysDrawObj(G3DActor *obj, SRTMatrix *mdlMtx);
-void GFL_G3DSysDrawObjBBoxCull(G3DActor *obj, SRTMatrix *mdlMtx);
+// Draws the actor if its bounding box is in view, returning whether it was
+BOOL GFL_G3DSysDrawObjBBoxCull(G3DActor *obj, SRTMatrix *mdlMtx);
+void GFL_G3DSysDispatchDraw(NNSG3dRenderObj *renderObj);
+// The polygons and vertices drawn since the counts were reset
+void GFL_G3DSysResetGeometryCounter(void);
 G3DModel *GFL_G3DActorGetMdl(G3DActor *actor);
-s32 GFL_G3DActorGetAnmCount(G3DActor *actor);
+u16 GFL_G3DActorGetAnmCount(G3DActor *actor);
+BOOL GFL_G3DActorBindAnm(G3DActor *actor, u16 anmIdx);
 void *GFL_G3DActorGetAnm(G3DActor *actor, u16 index);
 NNSG3dRenderObj *GFL_G3DMdlGetEngineModel(G3DModel *model);
-
-// NitroSystem's global state of the geometry engine, up to the base matrix that models are drawn with
-typedef struct {
-    u32 cmd0;
-    u32 mtxmode_proj;
-    MtxFx44 projMtx;
-    u32 mtxmode_posvec;
-    MtxFx43 cameraMtx;
-    u32 cmd1;
-    u32 lightVec[4];
-    u32 cmd2;
-    u32 prmMatColor0;
-    u32 prmMatColor1;
-    u32 prmPolygonAttr;
-    u32 prmViewPort;
-    u32 cmd3;
-    u32 lightColor[4];
-    u32 cmd4;
-    MtxFx33 prmBaseRot;
-    VecFx32 prmBaseTrans;
-    VecFx32 prmBaseScale;
-    u32 prmTexImageParam;
-    u32 flag;
-} NNSG3dGlb;
-
-#define NNS_G3D_GLB_FLAG_INVBASE_UPTODATE 0x00000004
-#define NNS_G3D_GLB_FLAG_INVBASECAMERA_UPTODATE 0x00000020
-#define NNS_G3D_GLB_FLAG_BASECAMERA_UPTODATE 0x00000080
-
-extern NNSG3dGlb NNS_G3dGlb;
-
-void NNS_G3dGlbSetBaseTrans(const VecFx32 *trans);
-void NNS_G3dGlbSetBaseScale(const VecFx32 *scale);
-
-static inline void NNS_G3dGlbSetBaseRot(const MtxFx33 *rot) {
-    MI_Copy36B(rot, &NNS_G3dGlb.prmBaseRot);
-    NNS_G3dGlb.flag &= ~(NNS_G3D_GLB_FLAG_BASECAMERA_UPTODATE | NNS_G3D_GLB_FLAG_INVBASE_UPTODATE |
-                         NNS_G3D_GLB_FLAG_INVBASECAMERA_UPTODATE);
-}
-
-// Sends the geometry commands that are waiting in a buffer
-void NNS_G3DWaitFIFO(void);
-
-// The alpha of a material of a model resource, from 0 to 31
-u32 NNS_G3DResMdlGetMatAlpha(const NNSG3dResMdl *mdl, u32 matId);
-void NNS_G3DResMdlSetMatAlpha(NNSG3dResMdl *mdl, u32 matId, u32 alpha);
 
 G3DManager *GFL_G3DMgrCreate(u16 resourceLimit, u16 actorLimit, HeapID heapId);
 void GFL_G3DMgrFree(G3DManager *manager);

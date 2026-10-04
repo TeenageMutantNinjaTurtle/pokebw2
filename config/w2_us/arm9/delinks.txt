@@ -263,3 +263,9 @@ src/main/g3d_util.c:
     complete
     .text       start:0x02049d50 end:0x0204a5f4
     .data       start:0x0209af48 end:0x0209af54
+
+src/main/g3d_system.c:
+    .text       start:0x02048d54 end:0x02049d50
+    .rodata     start:0x02093dec end:0x02093e38
+    .data       start:0x0209af38 end:0x0209af48
+    .bss        start:0x02141964 end:0x02141970

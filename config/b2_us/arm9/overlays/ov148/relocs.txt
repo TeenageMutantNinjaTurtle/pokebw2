@@ -9,7 +9,7 @@ from:0x021f5a54 kind:load to:0x021f5c99 module:overlay(148)
 from:0x021f5a7c kind:thumb_call to:0x02074b14 module:main
 from:0x021f5a80 kind:thumb_call to:0x02074d54 module:main
 from:0x021f5ab4 kind:thumb_call to:0x02074b80 module:main
-from:0x021f5ad4 kind:load to:0x02094a3c module:main
+from:0x021f5ad4 kind:load to:0x020946bc add:0x380 module:main
 from:0x021f5adc kind:load to:0x021f5d78 module:overlay(148)
 from:0x021f5af4 kind:thumb_call to:0x02016ed8 module:main
 from:0x021f5afa kind:thumb_call to:0x02016af0 module:main

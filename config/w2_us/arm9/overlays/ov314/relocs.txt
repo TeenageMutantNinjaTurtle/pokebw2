@@ -212,7 +212,7 @@ from:0x0219da1c kind:thumb_call to:0x0204a5f4 module:main
 from:0x0219da28 kind:load to:0x0219d6e5 module:overlay(314)
 from:0x0219da2c kind:load to:0x0219dacc module:overlay(314)
 from:0x0219da30 kind:load to:0x0219dac0 module:overlay(314)
-from:0x0219da34 kind:load to:0x02094a68 module:main
+from:0x0219da34 kind:load to:0x020946e8 add:0x380 module:main
 from:0x0219da38 kind:load to:0x0219dad8 module:overlay(314)
 from:0x0219da44 kind:thumb_call to:0x0204a65c module:main
 from:0x0219da48 kind:thumb_call to:0x02048f70 module:main

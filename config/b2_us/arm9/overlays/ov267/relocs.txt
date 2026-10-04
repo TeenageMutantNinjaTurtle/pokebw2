@@ -111,7 +111,7 @@ from:0x0219d438 kind:thumb_call to:0x0204a5c8 module:main
 from:0x0219d444 kind:load to:0x0219d111 module:overlay(267)
 from:0x0219d448 kind:load to:0x0219d4b4 module:overlay(267)
 from:0x0219d44c kind:load to:0x0219d4a8 module:overlay(267)
-from:0x0219d450 kind:load to:0x02094a3c module:main
+from:0x0219d450 kind:load to:0x020946bc add:0x380 module:main
 from:0x0219d454 kind:load to:0x0219d4c0 module:overlay(267)
 from:0x0219d460 kind:thumb_call to:0x0204a630 module:main
 from:0x0219d464 kind:thumb_call to:0x02048f44 module:main

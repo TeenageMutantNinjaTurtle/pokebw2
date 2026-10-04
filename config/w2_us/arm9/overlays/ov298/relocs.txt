@@ -214,7 +214,7 @@ from:0x021a0acc kind:thumb_call to:0x0204a5f4 module:main
 from:0x021a0ad8 kind:load to:0x021a0741 module:overlay(298)
 from:0x021a0ae0 kind:load to:0x021abff4 module:overlay(298)
 from:0x021a0ae4 kind:load to:0x021abfe8 module:overlay(298)
-from:0x021a0ae8 kind:load to:0x02094a68 module:main
+from:0x021a0ae8 kind:load to:0x020946e8 add:0x380 module:main
 from:0x021a0aec kind:load to:0x021ac000 module:overlay(298)
 from:0x021a0af8 kind:thumb_call to:0x0204a65c module:main
 from:0x021a0afc kind:thumb_call to:0x02048f70 module:main

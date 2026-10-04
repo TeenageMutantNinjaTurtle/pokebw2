@@ -2754,7 +2754,7 @@ from:0x021a5e8c kind:thumb_call to:0x02074e78 module:main
 from:0x021a5ec8 kind:thumb_call to:0x0204a5c8 module:main
 from:0x021a5ed0 kind:thumb_call to:0x0204a638 module:main
 from:0x021a5ee8 kind:load to:0x021b1e88 module:overlay(257)
-from:0x021a5eec kind:load to:0x02094a3c module:main
+from:0x021a5eec kind:load to:0x020946bc add:0x380 module:main
 from:0x021a5ef0 kind:load to:0x021b1afc module:overlay(257)
 from:0x021a5ef4 kind:load to:0x021b1b08 module:overlay(257)
 from:0x021a5f06 kind:thumb_call to:0x0204a630 module:main

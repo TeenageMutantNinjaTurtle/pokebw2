@@ -33,6 +33,7 @@ typedef u16 GXRgb;
 #define reg_G3_SPE_EMI (*(vu32 *)0x040004c4)
 #define reg_G3_BEGIN_VTXS (*(vu32 *)0x04000500)
 #define reg_G3_END_VTXS (*(vu32 *)0x04000504)
+#define reg_G3_SWAP_BUFFERS (*(vu32 *)0x04000540)
 #define reg_G3_VIEWPORT (*(vu32 *)0x04000580)
 // The count of vertices in vertex RAM
 #define reg_G3X_VTXRAM_COUNT (*(vu16 *)0x04000606)
@@ -125,10 +126,15 @@ static inline void G2_SetOBJAttr(GXOamAttr *oam, int x, int y, int priority, int
 #define GX_SHADING_TOON 0
 #define GX_SHADING_HIGHLIGHT 1
 
-#define GX_SORTMODE_AUTO 0
-#define GX_SORTMODE_MANUAL 1
-#define GX_BUFFERMODE_Z 0
-#define GX_BUFFERMODE_W 1
+typedef enum {
+    GX_SORTMODE_AUTO,
+    GX_SORTMODE_MANUAL,
+} GXSortMode;
+
+typedef enum {
+    GX_BUFFERMODE_Z,
+    GX_BUFFERMODE_W,
+} GXBufferMode;
 
 // VRAM banks, as masks
 #define GX_VRAM_NONE 0x000
@@ -240,6 +246,19 @@ typedef enum {
 #define GX_BEGIN_QUADS 1
 
 #define GX_POLYGONMODE_MODULATE 0
+
+#define GX_LIGHTMASK_0 1
+#define GX_POLYGON_ATTR_MISC_FAR_CLIPPING 0x1000
+#define GX_POLYGON_ATTR_MISC_DISP_1DOT 0x2000
+
+// Geometry commands, as NitroSystem buffers them
+#define G3OP_MTX_PUSH 0x11
+#define G3OP_MTX_POP 0x12
+#define G3OP_MTX_SCALE 0x1b
+#define G3OP_POLYGON_ATTR 0x29
+#define G3OP_BEGIN 0x40
+#define G3OP_END 0x41
+#define G3OP_BOX_TEST 0x70
 
 #define GX_CULL_ALL 0
 #define GX_CULL_FRONT 1
@@ -405,6 +424,12 @@ static inline void G3X_EdgeMarking(BOOL enable) {
     } else {
         reg_G3X_DISP3DCNT &= ~(REG_G3X_DISP3DCNT_EME_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK);
     }
+}
+
+// Swaps the geometry engine's buffers at the next vertical blank, with how it sorts translucent polygons and whether
+// it depth tests with Z or W
+static inline void G3_SwapBuffers(GXSortMode am, GXBufferMode zw) {
+    reg_G3_SWAP_BUFFERS = am | (zw << 1);
 }
 
 static inline void G3_ViewPort(int x1, int y1, int x2, int y2) {
@@ -917,5 +942,11 @@ static inline void GXS_SetOBJVRamModeBmp(GXOBJVRamModeBmp mode) {
 static inline void GXS_DispOn(void) {
     reg_GXS_DB_DISPCNT |= REG_GXS_DB_DISPCNT_MODE_MASK;
 }
+
+// NitroSDK's G3X_Reset, G3X_ResetMtxStack and G3X_GetBoxTestResult, under swan's names. The box test result is 0 when
+// the box is outside the view, and the function returns nonzero while the test is still running
+void gfxReset3D(void);
+void gfxResetMatrixStack(void);
+int gfxGetBoxTestResult(s32 *in);
 
 #endif // POKEBW2_NITRO_GX_H
