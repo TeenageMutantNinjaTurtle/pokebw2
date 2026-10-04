@@ -38,6 +38,7 @@
 #include "save/records.h"
 #include "save/save_control.h"
 #include "system/app_keycursor.h"
+#include "system/bmp_winframe.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
 #include "system/gf_font.h"
@@ -1227,7 +1228,7 @@ static void ShinkaDemo_ShowWindow(ShinkaDemoParam *param, ShinkaDemoWork *wk, BO
     BmpWin *window;
 
     if (show) {
-        BmpWin_DrawFrame(wk->window, 0, CHAR_POS(wk->frameChars), 2);
+        BmpWin_DrawFrame(wk->window, WINFRAME_TRANSFER_NOW, CHAR_POS(wk->frameChars), 2);
         GFL_BitmapFill(BmpWin_GetBitmap(wk->window), 15);
         window = wk->window;
         BmpWin_FlushChar(window);

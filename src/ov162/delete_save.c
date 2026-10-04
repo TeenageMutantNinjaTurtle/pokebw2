@@ -25,6 +25,8 @@
 #include "nitro/os.h"
 #include "save/save_control.h"
 #include "system/app_keycursor.h"
+#include "system/bmp_menu.h"
+#include "system/bmp_winframe.h"
 #include "system/gf_font.h"
 #include "system/printsys.h"
 #include "system/text_speed.h"
@@ -64,7 +66,7 @@ typedef struct {
     PrintStream *printStream;
     TCBExManager *tcbManager;
     BmpWin *window;
-    ConfirmDialog *dialog;
+    BmpMenu *dialog;
     KeyCursor *keyCursor;
     // Whether the message was already told to go on past its pause
     BOOL continued;
@@ -173,12 +175,12 @@ static void DeleteSave_PrintQuestion(DeleteSaveWork *wk, u32 *state) {
 }
 
 static void DeleteSave_Ask(DeleteSaveWork *wk, u32 *state) {
-    switch (func_02025634(wk->dialog)) {
+    switch (ConfirmDialog_Update(wk->dialog)) {
     case 0:
         DeleteSave_Print(wk, MSG_NO_WAY_TO_RECOVER);
         *state = STATE_PRINT_WARNING;
         break;
-    case BMPMENULIST_CANCEL:
+    case BMPMENU_CANCEL:
         DeleteSave_WipeOut();
         *state = STATE_WAIT_WIPE_OUT;
         break;
@@ -193,12 +195,12 @@ static void DeleteSave_PrintWarning(DeleteSaveWork *wk, u32 *state) {
 }
 
 static void DeleteSave_AskAgain(DeleteSaveWork *wk, u32 *state) {
-    switch (func_02025634(wk->dialog)) {
+    switch (ConfirmDialog_Update(wk->dialog)) {
     case 0:
         DeleteSave_Print(wk, MSG_DELETING);
         *state = STATE_DELETE;
         break;
-    case BMPMENULIST_CANCEL:
+    case BMPMENU_CANCEL:
         DeleteSave_WipeOut();
         *state = STATE_WAIT_WIPE_OUT;
         break;
@@ -329,7 +331,7 @@ static void DeleteSave_RemoveVBlankTask(DeleteSaveWork *wk) {
 static void DeleteSave_Print(DeleteSaveWork *wk, u32 messageId) {
     GFL_MsgDataLoadStrbuf(wk->msgData, messageId, wk->strbuf);
     GFL_BitmapFill(BmpWin_GetBitmap(wk->window), 15);
-    BmpWin_DrawFrame(wk->window, 2, 1, 14);
+    BmpWin_DrawFrame(wk->window, WINFRAME_TRANSFER_NONE, 1, 14);
     wk->printStream = func_02022268(wk->window, 0, 0, wk->strbuf, wk->font, func_02017c50(0), wk->tcbManager, 10,
                                     HEAPID_SAVEDATA_DELETE, 15);
     wk->continued = FALSE;

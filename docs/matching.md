@@ -86,10 +86,18 @@ Same instructions, scheduled in another order.
   while `for (i = 0; ...)` sets it at the loop, after any statements before the loop.
 - An argument that is loaded before a call among the arguments, such as a print queue loaded before
   `BmpWin_GetBitmap(...)` in the same call, was passed to an inlined helper that makes the call, like
-  `PrintWindow_Print`.
+  `PrintWindow_Print`. A block-scoped local set from the field before the call does the same: bmp_menu.c's
+  `BmpMenu_PrintOptions` loads the queue first because its loop body declares `PrintQueue *queue` and a `u8 y`.
+- Two stores through a pointer read from a struct, with one load of the pointer where ours loads it again after the
+  first store, were made by an inlined helper that takes the pointer, such as `PrintWindow_Init(header.printWindow,
+  window)` in `ShopUI_CreateConfirmDialog`.
 - A parameter passed on the stack is loaded at the function's entry, along with the register parameters, unless it is
   an `int` or `s32`, which is loaded where it is first used. `StartMenu_DrawFrame` takes its BG as a `u8`, as
   `GFL_BGSysFillScrArea` does.
+- A `u16` stack parameter reloaded with `ldrh` at some uses, with one `ldrh` into a register that feeds others, has
+  few uses of its own: the shared load is its conversion to a wider type, so the callees there take a `u32`. In
+  bmp_menu.c's `BmpMenu_AddEx`, `BmpCursor_Create` and `func_020265d8` narrow their heap ID with shifts, so they take
+  `u32 heapId`. When reloads look like register allocation, read the callees' asm before reordering statements.
 - NitroSDK's inline functions take enums, such as `GXBGColorMode`, and the BG system's `GFL_BGSysCreateBG` only loads
   every argument of `G2_SetBG0Control` before shifting any with enum parameters. `nitro/gx.h` keeps the SDK's types for
   this reason.
@@ -166,6 +174,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A value the inner loop computes from the outer loop's counter alone, like `turn = row / 3`, is hoisted into the
   preheader too, so it can be written inside the inner loop. `row % 3` used in both conditions of an `if`/`else if`
   is computed once, later than a `rowInTurn` variable set with `turn` would be.
+- A loop that walks a pointer parameter (`for (; options->text != END; options++)`) reuses the test's load in the
+  body. When the original loads the field again at the top of the body, the loop walks a local cursor set from the
+  parameter instead (`for (option = options; option->text != END; option++)`), as bmp_menuwork.c's
+  `ListMenuCore_FreeStrBufs` and `ListMenuCore_GetFirstFreeIndex` do.
 
 ## Switches
 
@@ -174,6 +186,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   Subway's command switch only splits its values as the game does with an empty `case 102:` inside its first jump
   table, and empty cases that sit between others still get a comparison.
 - A switch case that ends in the same code as another case is merged into it, so its end moves.
+- A `switch` on a few small values tests them all first (`cmp; beq` for each, then `b` to the default), while an
+  `if`/`else if` chain tests each one before its body (`cmp; bne` to the next test), as bmp_menu.c's
+  `BmpMenu_NextCursorPos` does.
 
 ## Floats and runtime helpers
 

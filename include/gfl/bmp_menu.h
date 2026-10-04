@@ -5,6 +5,7 @@
 #include "gfl/heap.h"
 #include "gfl/str.h"
 #include "struct_decls.h"
+#include "system/bmp_menuwork.h"
 
 // Menus of text options in a window
 
@@ -13,11 +14,6 @@ typedef struct BmpMenuList BmpMenuList;
 // Called as the cursor moves to an option, and to print more of an option at a row of the window
 typedef void (*BmpMenuListCursorCallback)(BmpMenuList *list, s32 value, u8 a2);
 typedef void (*BmpMenuListPrintCallback)(BmpMenuList *list, s32 value, u8 y);
-
-typedef struct {
-    StrBuf *text;
-    s32 value;
-} ListMenuOption;
 
 // BmpMenuList_Update's results when nothing was chosen and when the menu was cancelled
 #define BMPMENULIST_NULL (-1)
@@ -52,13 +48,6 @@ typedef struct {
     u32 unk30;
 } BmpMenuListHeader;
 
-ListMenuOption *ListMenuCore_CreateOptionList(u32 count, u32 heapId);
-void ListMenuCore_AppendStrBufOption(ListMenuOption *options, const StrBuf *text, s32 value, u32 heapId);
-void ListMenuCore_FreeOptionList(ListMenuOption *options);
-void ListMenuCore_AppendMsgOption(ListMenuOption *options, MsgData *msgData, u32 messageId, s32 value, HeapID heapId);
-// The number of options in the list
-u32 ListMenuCore_GetFirstFreeIndex(const ListMenuOption *options);
-
 BmpMenuList *BmpMenuList_Create(const BmpMenuListHeader *header, s16 a1, s16 a2, u32 heapId);
 void BmpMenuList_Free(BmpMenuList *list, u16 *a1, u16 *a2);
 s32 BmpMenuList_Update(BmpMenuList *list);
@@ -74,22 +63,5 @@ u32 func_02025b58(BmpMenuList *list, u32 param);
 void *func_0202651c(BmpMenuList *list);
 // The index of the option under the cursor
 void func_02025af4(BmpMenuList *list, u16 *index);
-
-// A yes/no menu in its own window
-
-typedef struct ConfirmDialog ConfirmDialog;
-
-typedef struct {
-    u8 bg;
-    u8 x;
-    u8 y;
-    u8 palette;
-    u16 unk4;
-} ConfirmDialogSetup;
-
-ConfirmDialog *ShopUI_CreateConfirmDialog(const ConfirmDialogSetup *setup, u32 frameChar, u32 framePalette, u32 cursor,
-                                          HeapID heapId);
-// Returns 0 for yes and BMPMENULIST_CANCEL for no or B, freeing the dialog, and BMPMENULIST_NULL until then
-u32 func_02025634(ConfirmDialog *dialog);
 
 #endif // POKEBW2_GFL_BMP_MENU_H

@@ -51,6 +51,11 @@ typedef struct {
     u8 flushPending;
 } PrintWindow;
 
+static inline void PrintWindow_Init(PrintWindow *printWindow, BmpWin *window) {
+    printWindow->window = window;
+    printWindow->flushPending = FALSE;
+}
+
 static inline void PrintWindow_Print(PrintWindow *printWindow, PrintQueue *queue, s16 x, s16 y, const StrBuf *strbuf,
                                      Font *font, u16 color) {
     func_02021c7c(queue, BmpWin_GetBitmap(printWindow->window), x, y, strbuf, font, color);

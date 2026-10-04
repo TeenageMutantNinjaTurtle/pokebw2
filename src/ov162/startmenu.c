@@ -44,6 +44,8 @@
 #include "save/pokedex.h"
 #include "save/save_control.h"
 #include "system/app_keycursor.h"
+#include "system/bmp_menu.h"
+#include "system/bmp_winframe.h"
 #include "system/dsi.h"
 #include "system/game_system.h"
 #include "system/gf_font.h"
@@ -174,7 +176,7 @@ typedef struct {
     KeyCursor *keyCursor;
     // Whether the message was already told to go on past its pause
     BOOL continued;
-    ConfirmDialog *dialog;
+    BmpMenu *dialog;
     PrintWindow windows[WINDOW_COUNT];
     // A window over the menu, with a warning or a notice
     PrintWindow notice;
@@ -624,7 +626,7 @@ static u32 StartMenu_Continue(StartMenuWork *wk) {
         }
         break;
     case 3:
-        switch (func_02025634(wk->dialog)) {
+        switch (ConfirmDialog_Update(wk->dialog)) {
         case 0:
             if (func_02035318() == FALSE) {
                 StartMenu_Print(wk, 27);
@@ -634,7 +636,7 @@ static u32 StartMenu_Continue(StartMenuWork *wk) {
                 wk->seq = 4;
             }
             break;
-        case BMPMENULIST_CANCEL:
+        case BMPMENU_CANCEL:
             StartMenu_Print(wk, 37);
             wk->seq = 7;
             break;
@@ -663,12 +665,12 @@ static u32 StartMenu_Continue(StartMenuWork *wk) {
         }
         break;
     case 8:
-        switch (func_02025634(wk->dialog)) {
+        switch (ConfirmDialog_Update(wk->dialog)) {
         case 0:
             wk->cgearOff = TRUE;
             wk->seq = 4;
             break;
-        case BMPMENULIST_CANCEL:
+        case BMPMENU_CANCEL:
             StartMenu_Print(wk, 36);
             wk->seq = 2;
             break;
@@ -1724,7 +1726,7 @@ static void StartMenu_Print(StartMenuWork *wk, u32 messageId) {
 
     GFL_MsgDataLoadStrbuf(wk->msgData, messageId, wk->strbuf);
     GFL_BitmapFill(BmpWin_GetBitmap(wk->windows[WINDOW_MESSAGE].window), 15);
-    BmpWin_DrawFrame(wk->windows[WINDOW_MESSAGE].window, 2, 1, 14);
+    BmpWin_DrawFrame(wk->windows[WINDOW_MESSAGE].window, WINFRAME_TRANSFER_NONE, 1, 14);
     wk->printStream = func_02022268(wk->windows[WINDOW_MESSAGE].window, 0, 0, wk->strbuf, wk->font, func_02017bcc(),
                                     wk->tcbManager, 10, HEAPID_STARTMENU, 15);
     wk->continued = FALSE;
@@ -1733,7 +1735,7 @@ static void StartMenu_Print(StartMenuWork *wk, u32 messageId) {
 }
 
 static void StartMenu_ClearMessage(StartMenuWork *wk) {
-    func_02024eec(wk->windows[WINDOW_MESSAGE].window, TRUE);
+    BmpWin_ClearFrame(wk->windows[WINDOW_MESSAGE].window, WINFRAME_TRANSFER_VBLANK);
 }
 
 // Returns FALSE once the message has been printed and read, or when there is none

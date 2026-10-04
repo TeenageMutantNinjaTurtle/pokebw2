@@ -30,6 +30,7 @@
 #include "save/player_info.h"
 #include "save/save_control.h"
 #include "save/save_control_intr.h"
+#include "system/bmp_winframe.h"
 #include "system/game_system.h"
 #include "system/gf_font.h"
 #include "system/printsys.h"
@@ -565,7 +566,7 @@ static void DebugGameStart_CreateWindows(DebugGameStartWork *wk) {
     BmpWin_FlushMap(wk->questionWindow);
     GFL_BitmapFill(BmpWin_GetBitmap(wk->questionWindow), 15);
     strbuf = GFL_MsgDataLoadStrbufNew(msgData, wk->question);
-    BmpWin_DrawFrame(wk->questionWindow, 0, 1, 1);
+    BmpWin_DrawFrame(wk->questionWindow, WINFRAME_TRANSFER_NOW, 1, 1);
     GFL_TextRendererDrawToBitmap(BmpWin_GetBitmap(wk->questionWindow), 2, 2, strbuf, wk->font);
     GFL_StrBufFree(strbuf);
     BmpWin_FlushChar(wk->questionWindow);
@@ -597,9 +598,9 @@ static void DebugGameStart_DrawCursor(DebugGameStartWork *wk) {
 
     for (i = 0; i < 2; i++) {
         if (i == wk->cursor) {
-            BmpWin_DrawFrame(wk->answerWindows[i], 0, 1, 3);
+            BmpWin_DrawFrame(wk->answerWindows[i], WINFRAME_TRANSFER_NOW, 1, 3);
         } else {
-            BmpWin_DrawFrame(wk->answerWindows[i], 0, 31, 4);
+            BmpWin_DrawFrame(wk->answerWindows[i], WINFRAME_TRANSFER_NOW, 31, 4);
         }
     }
 }

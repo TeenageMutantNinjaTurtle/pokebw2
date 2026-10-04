@@ -17,6 +17,7 @@
 #include "gfl/tcbl.h"
 #include "gfl/touchpanel.h"
 #include "system/app_keycursor.h"
+#include "system/bmp_winframe.h"
 #include "system/gf_font.h"
 #include "system/printsys.h"
 #include "system/text_speed.h"
@@ -134,9 +135,9 @@ void IntroMsg_Print(IntroMsg *msg, u32 messageId, BOOL frame) {
     msg->printStream = func_02022268(window, 4, 0, msg->expanded, msg->font, wait, msg->tcbManager, 0xffff,
                                      msg->heapId, 15);
     if (!frame) {
-        BmpWin_DrawFrame(window, 1, FRAME_0_CHAR, FRAME_0_PALETTE);
+        BmpWin_DrawFrame(window, WINFRAME_TRANSFER_VBLANK, FRAME_0_CHAR, FRAME_0_PALETTE);
     } else {
-        BmpWin_DrawFrame(window, 1, FRAME_1_CHAR, FRAME_1_PALETTE);
+        BmpWin_DrawFrame(window, WINFRAME_TRANSFER_VBLANK, FRAME_1_CHAR, FRAME_1_PALETTE);
     }
     BmpWin_FlushChar(window);
     BmpWin_FlushMap(window);
@@ -144,7 +145,7 @@ void IntroMsg_Print(IntroMsg *msg, u32 messageId, BOOL frame) {
 }
 
 void IntroMsg_Clear(IntroMsg *msg) {
-    func_02024eec(msg->window, 0);
+    BmpWin_ClearFrame(msg->window, WINFRAME_TRANSFER_NOW);
 }
 
 u32 IntroMsg_GetPrintState(IntroMsg *msg) {
@@ -190,7 +191,7 @@ void IntroMsg_OpenMenu(IntroMsg *msg, const IntroMenuItem *items, u32 count, BOO
     IntroMenu *menu;
     BmpWin *window;
     const IntroMenuItem *item;
-    u32 heapId;
+    HeapID heapId;
     u32 i;
     BmpMenuListHeader header;
 
@@ -233,7 +234,7 @@ void IntroMsg_OpenMenu(IntroMsg *msg, const IntroMenuItem *items, u32 count, BOO
     BmpWin_FlushChar(window);
     BmpWin_FlushMap(window);
     GFL_BGSysLoadScr(BmpWin_GetBGIndex(window));
-    BmpWin_DrawFrame(window, 1, FRAME_0_CHAR, FRAME_0_PALETTE);
+    BmpWin_DrawFrame(window, WINFRAME_TRANSFER_VBLANK, FRAME_0_CHAR, FRAME_0_PALETTE);
     if (a3) {
         func_02026520(menu->list, 0);
     } else {
@@ -244,7 +245,7 @@ void IntroMsg_OpenMenu(IntroMsg *msg, const IntroMenuItem *items, u32 count, BOO
 void IntroMsg_CloseMenu(IntroMsg *msg) {
     IntroMenu *menu = &msg->menu;
 
-    func_02024eec(msg->menuWindow, 0);
+    BmpWin_ClearFrame(msg->menuWindow, WINFRAME_TRANSFER_NOW);
     GFL_BitmapFill(BmpWin_GetBitmap(msg->menuWindow), 0);
     BmpWin_FlushChar(msg->menuWindow);
     BmpMenuList_Free(msg->menu.list, NULL, NULL);

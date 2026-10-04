@@ -43,11 +43,6 @@ void BmpWin_SetPosX(BmpWin *window, u8 x);
 void BmpWin_SetPosY(BmpWin *window, u8 y);
 void BmpWin_SetHeight2(BmpWin *window, u8 height);
 void BmpWin_SetPalette(BmpWin *window, u8 palette);
-// Loads a window frame's characters at the end of a BG's characters. The result is their position in the low 16 bits
-// and their size in the high 16, as GFL_BGSysFreeCharMemory takes them
-u32 LoadCursorImageEndOfHeap(u32 bg, u32 a1, u32 a2, HeapID heapId);
-#define CHAR_POS(chars) ((chars) & 0xffff)
-#define CHAR_SIZE(chars) ((u16)((chars) >> 16))
 
 // Screens made from windows: func_020330c8 creates count of them, func_02033150 sets the size of one, func_020335c4 its
 // window, and func_0203368c returns its screen data
@@ -56,11 +51,6 @@ void func_02033120(void *a0);
 void func_02033150(void *a0, u32 index, u32 a2, u32 width, u32 height);
 void func_020335c4(void *a0, u32 index, BmpWin *window);
 u16 *func_0203368c(void *a0, u32 index);
-void BmpWin_DrawFrame(BmpWin *window, u8 a1, u16 frameChar, u8 framePalette);
-void func_02024eec(BmpWin *window, u32 a1);
-// Loads a window frame's characters and palette for BmpWin_DrawFrame
-void LoadSysMsgBox(u8 bg, u16 frameChar, u8 framePalette, u8 type, HeapID heapId);
-u32 GetSysMsgBoxPaletteDatID(u32 index);
 
 // Copies the window's characters and screen, the screen at the next VBlank
 static inline void BmpWin_Transfer(BmpWin *window) {

@@ -12,6 +12,7 @@ import sys
 from pathlib import Path
 
 from dsd_config import ROOT, parse_sections
+from mark_complete import externally_used_statics
 
 PRIMARY = "b2_us"
 OTHERS = ["w2_us"]
@@ -98,11 +99,23 @@ def main():
         if f"\n{args.source}:\n" in text:
             sys.exit(f"{args.source} is already in {delinks}")
         lines = [f"{args.source}:"]
-        if not args.incomplete:
-            lines.append("    complete")
         lines += [f"    {name:<11} start:{start:#010x} end:{end:#010x}" for name, start, end in version_ranges]
         delinks.write_text(text.rstrip("\n") + "\n\n" + "\n".join(lines) + "\n")
         print(f"{version}: " + ", ".join(f"{n} {s:#010x}..{e:#010x}" for n, s, e in version_ranges))
+
+    if not args.incomplete:
+        # A static function that another module calls or takes the address of links to address 0, so such a file
+        # stays incomplete, as mark_complete.py would leave it
+        statics = set()
+        for version in entries:
+            statics.update(externally_used_statics(args.source, ROOT / "config" / version / "arm9"))
+        if statics:
+            print(f"left incomplete, static but used by other modules: {', '.join(sorted(statics))}")
+            return
+        for version in entries:
+            delinks = ROOT / "config" / version / "arm9" / args.module / "delinks.txt"
+            text = delinks.read_text()
+            delinks.write_text(text.replace(f"\n{args.source}:\n", f"\n{args.source}:\n    complete\n"))
 
 
 if __name__ == "__main__":

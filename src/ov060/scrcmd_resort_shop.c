@@ -31,6 +31,8 @@
 #include "save/records.h"
 #include "save/save_control.h"
 #include "system/app_keycursor.h"
+#include "system/bmp_menu.h"
+#include "system/bmp_winframe.h"
 #include "system/game_comm.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
@@ -81,7 +83,7 @@ struct ResortShopWork {
     u16 entryCount;
     BmpWin *windows[7];
     ListMenuOption *options;
-    ConfirmDialog *confirmDialog;
+    BmpMenu *confirmDialog;
     MsgData *msgData;
     WordSet *wordSet;
     StrBuf *priceFormat;
@@ -741,15 +743,15 @@ static BOOL func_ov060_021e6140(GameSystem *gsys, ResortShopWork *wk, u8 mode, u
         wk->state = 5;
         break;
     case 5:
-        result = func_02025634(wk->confirmDialog);
-        if (result != BMPMENULIST_NULL) {
+        result = ConfirmDialog_Update(wk->confirmDialog);
+        if (result != BMPMENU_NULL) {
             if (result == 0) {
                 wk->state = 6;
                 func_ov060_021e7e84(1);
                 func_02025a38(wk->list);
                 BmpWin_FlushMap(wk->windows[2]);
                 GFL_BGSysQueueScrLoad(1);
-            } else if (result == BMPMENULIST_CANCEL) {
+            } else if (result == BMPMENU_CANCEL) {
                 wk->state = 2;
             }
         }
@@ -859,15 +861,15 @@ static BOOL func_ov060_021e64b0(GameSystem *gsys, ResortShopWork *wk, u8 mode, u
         wk->state = 5;
         break;
     case 5:
-        result = func_02025634(wk->confirmDialog);
-        if (result != BMPMENULIST_NULL) {
+        result = ConfirmDialog_Update(wk->confirmDialog);
+        if (result != BMPMENU_NULL) {
             if (result == 0) {
                 wk->state = 6;
                 func_ov060_021e7e84(1);
                 func_02025a38(wk->list);
                 BmpWin_FlushMap(wk->windows[2]);
                 GFL_BGSysQueueScrLoad(1);
-            } else if (result == BMPMENULIST_CANCEL) {
+            } else if (result == BMPMENU_CANCEL) {
                 wk->state = 2;
             }
         }
@@ -964,11 +966,11 @@ static BOOL func_ov060_021e66c4(GameSystem *gsys, ResortShopWork *wk, u8 mode, u
         wk->state = 7;
         break;
     case 7:
-        result = func_02025634(wk->confirmDialog);
-        if (result != BMPMENULIST_NULL) {
+        result = ConfirmDialog_Update(wk->confirmDialog);
+        if (result != BMPMENU_NULL) {
             if (result == 0) {
                 wk->state = 4;
-            } else if (result == BMPMENULIST_CANCEL) {
+            } else if (result == BMPMENU_CANCEL) {
                 wk->state = 3;
             }
         }
@@ -1421,7 +1423,7 @@ static void func_ov060_021e786c(ResortShopWork *wk, u16 item) {
     StrBuf *strbuf = GFL_StrBufCreate(20, wk->heapId);
     GFLBitmap *bitmap;
 
-    BmpWin_DrawFrame(wk->windows[3], 2, 228, 9);
+    BmpWin_DrawFrame(wk->windows[3], WINFRAME_TRANSFER_NONE, 228, 9);
     WordSetNumber(wk->wordSet, 0, BagSave_GetItemCountByID(wk->bag, item, wk->heapId), 3, NUM_PAD_NONE, 1);
     GFL_WordSetFormatStrbuf(wk->wordSet, strbuf, format);
     bitmap = BmpWin_GetBitmap(wk->windows[3]);
@@ -1535,7 +1537,7 @@ static void func_ov060_021e7bc8(ResortShopWork *wk, u32 msgId) {
     BmpWin *window;
 
     GFL_BitmapFill(BmpWin_GetBitmap(wk->windows[6]), 15);
-    BmpWin_DrawFrame(wk->windows[6], 0, 228, 9);
+    BmpWin_DrawFrame(wk->windows[6], WINFRAME_TRANSFER_NOW, 228, 9);
     strbuf = GFL_MsgDataLoadStrbufNew(wk->msgData, msgId);
     GFL_WordSetFormatStrbuf(wk->wordSet, wk->message, strbuf);
     GFL_StrBufFree(strbuf);
@@ -1554,7 +1556,7 @@ static void func_ov060_021e7c94(ResortShopWork *wk, u32 msgId) {
     StrBuf *strbuf;
 
     GFL_BitmapFill(BmpWin_GetBitmap(wk->windows[6]), 15);
-    BmpWin_DrawFrame(wk->windows[6], 0, 228, 9);
+    BmpWin_DrawFrame(wk->windows[6], WINFRAME_TRANSFER_NOW, 228, 9);
     strbuf = GFL_MsgDataLoadStrbufNew(wk->msgData, msgId);
     GFL_WordSetFormatStrbuf(wk->wordSet, wk->message, strbuf);
     GFL_StrBufFree(strbuf);
@@ -1565,7 +1567,7 @@ static void func_ov060_021e7c94(ResortShopWork *wk, u32 msgId) {
 
 static void func_ov060_021e7d3c(BmpWin *window) {
     GFL_BitmapFill(BmpWin_GetBitmap(window), 15);
-    BmpWin_DrawFrame(window, 0, 228, 9);
+    BmpWin_DrawFrame(window, WINFRAME_TRANSFER_NOW, 228, 9);
 }
 
 // func_ov060_021e7bc8 in the frame that is there already

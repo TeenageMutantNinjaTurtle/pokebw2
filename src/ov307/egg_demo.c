@@ -33,6 +33,8 @@
 #include "save/pokedex.h"
 #include "save/records.h"
 #include "save/save_control.h"
+#include "system/bmp_menu.h"
+#include "system/bmp_winframe.h"
 #include "system/game_data.h"
 #include "system/gf_font.h"
 #include "system/printsys.h"
@@ -113,7 +115,7 @@ typedef struct {
     // Enables BG 1 at the next VBlank
     BOOL showBG1;
     ConfirmDialogSetup dialogSetup;
-    ConfirmDialog *dialog;
+    BmpMenu *dialog;
     u32 answer;
     EggDemoView *view;
     NameEntryParam *nameEntryParam;
@@ -636,7 +638,7 @@ static void EggDemo_UpdateMsg(EggDemoParam *param, EggDemoWork *wk) {
 static void EggDemo_ShowWindow(EggDemoParam *param, EggDemoWork *wk) {
     BmpWin *window;
 
-    BmpWin_DrawFrame(wk->window, 0, CHAR_POS(wk->frameChars), 2);
+    BmpWin_DrawFrame(wk->window, WINFRAME_TRANSFER_NOW, CHAR_POS(wk->frameChars), 2);
     window = wk->window;
     BmpWin_FlushChar(window);
     BmpWin_FlushMap(window);
@@ -710,8 +712,8 @@ static void EggDemo_UpdateDialog(EggDemoParam *param, EggDemoWork *wk) {
     case 0:
         break;
     case 1:
-        result = func_02025634(wk->dialog);
-        if (result != BMPMENULIST_NULL) {
+        result = ConfirmDialog_Update(wk->dialog);
+        if (result != BMPMENU_NULL) {
             wk->answer = result == 0 ? ANSWER_YES : ANSWER_NO;
             wk->dialogState = 2;
         }
