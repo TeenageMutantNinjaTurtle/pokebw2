@@ -23,13 +23,13 @@ Pipe the output through `head` or `grep`; for a big overlay, use the `boundary-s
   fix the next boundary. `config_fixes.py add-data` adds an object nothing references, so the one before doesn't
   seem to run on.
 - **Statics:** two files' `.bss` statics are addressed from separate bases, which shows a boundary.
-- **SPL and other library code** may be in reverse order (see the README's compiler section).
+- **SPL and other library code** may be in reverse order (see `docs/decompiling.md`'s compiler section).
 
 ## Naming
 
 - From the ROM's string when there is one. Otherwise name it for what it does (`gimmick_nacrene.c`), never with an
   overlay number or a counter. Say a guessed name is guessed in the header comment and in the commit message.
-- Follow the names of the overlay's own files: overlay 12's script plugin table and the files the README lists
+- Follow the names of the overlay's own files: overlay 12's script plugin table and the files `docs/scripts.md` lists
   (`scrcmd_*.c`, `event_*.c`, `wbt_*.c`).
 
 ## Placement

@@ -29,7 +29,7 @@ Fix them in that order. Registers and stack slots move with every structural cha
 
 ## 2. Look up the levers
 
-[levers.md](levers.md) indexes every known lever by these classes, with the README passage that explains it. Read the
+[levers.md](levers.md) indexes every known lever by these classes, with the passage of `docs/matching.md` that explains it. Read the
 section for the class, not the whole file.
 
 For registers and stack slots, see where MWCC put each variable instead of guessing:
@@ -77,7 +77,7 @@ it stands in this checkout. A row gives:
 
 Remove the row when the function matches. Tell the user which rows you added or removed.
 
-If a lever worked that isn't in the README, or a README claim turned out wrong, use the `record-lesson` skill.
+If a lever worked that isn't in `docs/matching.md`, or a claim there turned out wrong, use the `record-lesson` skill.
 
 ## Natural C
 

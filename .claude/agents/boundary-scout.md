@@ -22,7 +22,7 @@ Method:
    two files are addressed from separate bases.
 4. For every function, check whether another module references it (`grep` its address in every module's
    `relocs.txt`). Those must stay global; the rest can be `static`.
-5. Compare with files already in `delinks.txt` and with the names in `docs/` and the README's plugin table, so names
+5. Compare with files already in `delinks.txt` and with the names in `docs/` and the plugin table in `docs/scripts.md`, so names
    and ranges stay consistent.
 
 Report:

@@ -1,6 +1,6 @@
 # Source files
 
-Each source file is one of the game's original files, as the README's "Code organization" describes. This lists the
+Each source file is one of the game's original files, as [Code organization](code-organization.md) describes. This lists the
 files of every overlay that has some, with the evidence for their names. `tools/scripts/source_files.py --markdown`
 prints the tables below from the configs and the ROM:
 

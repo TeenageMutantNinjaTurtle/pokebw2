@@ -8,7 +8,7 @@ You review one file's changes in the pokebw2 decompilation (Pokémon Black 2/Whi
 You change nothing. Your job is to find what is wrong, not to approve. Report only real problems, each with
 `file:line`, and say plainly when there are none.
 
-Read `CLAUDE.md` and the README's "Code organization" section first. Then read the diff (`git diff` or
+Read `CLAUDE.md` and `docs/code-organization.md` first. Then read the diff (`git diff` or
 `git diff --cached`, limited to the file, its header and the configs) and the whole source file.
 
 Check:

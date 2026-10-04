@@ -5,8 +5,8 @@ description: Decompile one of the game's original source files in pokebw2 end to
 
 # Decompile a file
 
-One original file per pass, committed when done, then on to the next in address order. The README's "Decompiling"
-and "Code organization" sections hold the rules; this is the order to apply them in.
+One original file per pass, committed when done, then on to the next in address order. `docs/decompiling.md`,
+`docs/matching.md` and `docs/code-organization.md` hold the rules; this is the order to apply them in.
 
 ## 0. Orient (1 minute, no questions)
 

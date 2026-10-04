@@ -1,8 +1,10 @@
 # pokebw2
 
 A matching decompilation of Pokémon Black 2 and White 2 (NDS/DSi, MWCC `dsi/1.1p1`), aiming at 100% C like
-pokeemerald and then a native PC port. **README.md is the source of truth** for the build, layout, names and MWCC's
-behavior. This file holds the rules that sessions get wrong and points to the skills that carry the procedures.
+pokeemerald and then a native PC port. **The README and `docs/` are the source of truth**: setup in the README,
+the workflow and tools in `docs/decompiling.md`, MWCC's behavior in `docs/matching.md`, files, headers and names in
+`docs/code-organization.md`, and the configs in `docs/configs.md`. This file holds the rules that sessions get wrong
+and points to the skills that carry the procedures.
 
 ## Rules
 
@@ -13,7 +15,7 @@ behavior. This file holds the rules that sessions get wrong and points to the sk
 - **One source file per original file**, named after the ROM's embedded string, or descriptively, with the guess said
   in the header and the commit; never an overlay number. Functions go in address order, and in reverse for SPL,
   whose `1.2/base` compiler emits them reversed. Placement follows `include/`: `src/ovNNN/` for overlays; `src/gfl`, `src/system`,
-  `src/spl` and later `src/nitro`, `src/nnsys` for main, by link order. README "Code organization" has the rest.
+  `src/spl` and later `src/nitro`, `src/nnsys` for main, by link order. `docs/code-organization.md` has the rest.
 - **Names:** swan's first, marked as swan's in the header. Our own go through `rename_symbol.py`, which records them
   in `config/names.txt`. Types swan doesn't name are named after their owner. Rename a static's symbol to its C name.
 - **Write C from the asm.** pret (pokeplatinum, pokeheartgold) and other decomps are references for names and
@@ -25,7 +27,7 @@ behavior. This file holds the rules that sessions get wrong and points to the sk
 - **Keep going.** Continue in file order and commit each file as it is done. Don't end a turn with a menu when the next
   step is obvious. Ask only real decisions, such as placement with no evidence or a change of scope. Answer any message
   the user sends mid-turn.
-- **Learn.** A trick that worked and isn't in the README goes there, with an example. See the `record-lesson` skill.
+- **Learn.** A trick that worked and isn't in `docs/matching.md` goes there, with an example. See the `record-lesson` skill.
 
 ## Environment
 
@@ -34,7 +36,7 @@ behavior. This file holds the rules that sessions get wrong and points to the sk
 - Other sessions work in this checkout and in `.claude/worktrees/*` at the same time. Stage files by name, never touch
   their uncommitted files, and don't use a bare `git stash`, since the stash is shared. `.claude/hooks/guard.py`
   enforces these.
-- **Context is the scarce resource.** Never print a whole `.s` file, the README, a ninja log or a permuter log. Use
+- **Context is the scarce resource.** Never print a whole `.s` file, a whole doc, a ninja log or a permuter log. Use
   `show_func.py NAME`, `compiler_probe.py --functions F --mismatches --align`, `grep -n` and `| tail`.
 - Long jobs run with `run_in_background` or Monitor, never `sleep`. Run the permuter only under a memory cap: an
   uncapped `-j8` run got the terminal OOM-killed (see `.claude/skills/match-function/permuter.md`).

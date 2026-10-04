@@ -39,7 +39,7 @@ If you formatted, it was `clang-format -i` on your files only. Check that `git d
 
 - `docs/nonmatching-functions.md`: add a row for each new mismatch and update or remove rows for functions that now
   match or whose difference changed. Follow the table format as it is in this checkout.
-- A lever that worked, or a README claim that turned out wrong: the `record-lesson` skill.
+- A lever that worked, or a `docs/matching.md` claim that turned out wrong: the `record-lesson` skill.
 - The workstream's memory file: what is done, and what is next.
 
 ## 5. Review (files of more than about 10 functions, or anything that changed shared headers)

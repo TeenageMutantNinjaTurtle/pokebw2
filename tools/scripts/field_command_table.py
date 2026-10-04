@@ -3,7 +3,7 @@
 
     field_command_table.py tools/scripts/field_commands.json
 
-It needs dsd's disassembly in build/asm (see README.md). The field script VM runs the commands in EVCMD_TABLE
+It needs dsd's disassembly in build/asm (see docs/decompiling.md). The field script VM runs the commands in EVCMD_TABLE
 (overlay 12), and from ID 1000 the commands of the script plugin that the zone loads (SCRIPT_PLUGIN_TABLE). A handler
 reads its arguments from the script through VM_Read16, VM_Read32, ScriptReadAny (a value or a variable), ScriptReadVar
 (a variable) and loads through the VM's pc, directly or in the functions it calls with the VM. Reads that only happen
@@ -321,7 +321,7 @@ def main():
     parser.add_argument("output", type=Path)
     args = parser.parse_args()
     if not ASM.exists():
-        sys.exit("build/asm not found, run dsd dis first (see README.md)")
+        sys.exit("build/asm not found, run dsd dis first (see docs/decompiling.md)")
     FUNCTIONS.update(load_functions())
     memory = Memory()
 
