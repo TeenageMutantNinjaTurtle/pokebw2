@@ -29,7 +29,22 @@ typedef struct {
     u8 postData[0xec];
     Dpw_Tr_PokemonDataSimple postSimple;
     Dpw_Tr_PokemonSearchData wantSimple;
-    u8 unkF6[0x32];
+    // The trainer's
+    u8 gender;
+    u8 padding;
+    u8 postDate[8];
+    u8 tradeDate[8];
+    s32 id;
+    u32 trainerID;
+    u16 name[8];
+    u8 countryCode;
+    u8 localCode;
+    u8 trainerType;
+    // Whether the Pokémon was traded
+    s8 isTrade;
+    u8 versionCode;
+    u8 langCode;
+    u8 unk126[2];
 } Dpw_Tr_Data;
 
 // Runs the library's requests, every frame

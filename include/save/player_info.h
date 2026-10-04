@@ -12,7 +12,8 @@
 struct PlayerInfo {
     u16 name[8];
     u32 id;
-    u8 unk14[7];
+    u32 unk14;
+    u8 unk18[3];
     u8 unk1B;
     u8 unk1C;
     u8 gender;
@@ -37,5 +38,8 @@ void copyTrainerNameFromStrbuf(PlayerInfo *info, const StrBuf *name);
 void setIDAsUInt(PlayerInfo *info, u32 id);
 // A new game sets this to a random 0 to 7, plus 8 for a female player
 void func_02008bf8(PlayerInfo *info, u8 value);
+void func_02008c00(PlayerInfo *info, u8 value);
+void func_02008c08(PlayerInfo *info, u8 value);
+void func_02008c14(PlayerInfo *info, u8 a1, u8 a2);
 
 #endif // POKEBW2_SAVE_PLAYER_INFO_H

@@ -1015,6 +1015,9 @@ overlays/ov214 0x021d5bf8 Box_BoxCountCheck
 overlays/ov214 0x021d5c48 WorldTrade_Demo_Init
 overlays/ov214 0x021d5dc8 WorldTrade_Demo_Main
 overlays/ov214 0x021d6064 WorldTrade_Demo_End
+overlays/ov214 0x021d60c0 WorldTrade_MakePartnerStatus
+overlays/ov214 0x021d6134 Demo_GetTradePokemon
+overlays/ov214 0x021d6174 Demo_StoreTradedPokemon
 overlays/ov214 0x021d61dc WorldTrade_Deposit_Init
 overlays/ov214 0x021d62e4 WorldTrade_Deposit_Main
 overlays/ov214 0x021d62f8 WorldTrade_Deposit_End

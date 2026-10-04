@@ -96,6 +96,11 @@ typedef struct {
 // How many Pokémon a search returns
 #define SEARCH_POKE_MAX 7
 
+typedef struct {
+    int boxNo;
+    int pos;
+} WorldTradeEvoPokeInfo;
+
 typedef struct WorldTradeWork WorldTradeWork;
 
 typedef void (*WorldTradeVBlankFunc)(WorldTradeWork *wk);
@@ -132,7 +137,10 @@ struct WorldTradeWork {
     int searchResult;
     // Which of them was chosen
     int touchTrainerPos;
-    u8 unkD8[0xc];
+    // The trade partner, made up for the trade demo
+    PlayerInfo *partnerStatus;
+    // Where the traded Pokémon goes, for its evolution: a box and slot, or 0xff and a party slot
+    WorldTradeEvoPokeInfo evoPokeInfo;
     Dpw_Tr_Data uploadPokemonData;
     Dpw_Tr_Data downloadPokemonData[SEARCH_POKE_MAX];
     Dpw_Tr_Data exchangePokemonData;
@@ -188,7 +196,9 @@ struct WorldTradeWork {
     u8 unkE0C[0xc];
     u16 demoEnd;
     u16 subLcdTouchOK;
-    u8 unkE1C[0x8c];
+    u8 unkE1C[0x88];
+    // A copy of the Pokémon the player trades away, which an evolution by trade checks
+    PartyPkm *sentPokemon;
     // The Pokémon of the trade demo
     PartyPkm *demoPokemon;
     // The box page's Pokémon, as the server describes them
@@ -209,13 +219,17 @@ struct WorldTradeWork {
     u8 unkF98[0x4];
     void *tcbBuffer;
     WorldTradePrint print;
-    u8 unk10DC[0x208];
+    // The parameter of the proc that a screen runs, the trade demo or the evolution demo
+    void *subProcParam;
+    u8 unk10E0[0x204];
     int unk12E4;
     int unk12E8;
     u8 unk12EC[0x4];
     GameProcManager *procManager;
     BOOL procResult;
-    u8 unk12F8[0x34];
+    // Set when the traded Pokémon may evolve
+    int checkEvolution;
+    u8 unk12FC[0x30];
 };
 
 // worldtrade.c
@@ -254,6 +268,7 @@ BOOL WorldTrade_PokemonMailCheck(PartyPkm *pkm);
 int WorldTrade_Demo_Init(WorldTradeWork *wk, int seq);
 int WorldTrade_Demo_Main(WorldTradeWork *wk, int seq);
 int WorldTrade_Demo_End(WorldTradeWork *wk, int seq);
+PlayerInfo *WorldTrade_MakePartnerStatus(Dpw_Tr_Data *dtd);
 
 // worldtrade_deposit.c
 int WorldTrade_Deposit_Init(WorldTradeWork *wk, int seq);
@@ -313,6 +328,7 @@ int WorldTrade_Upload_End(WorldTradeWork *wk, int seq);
 // worldtrade_adapter.c
 void func_ov214_021e14e0(WordSet *wordSet, u32 index, BoxPkm *pkm);
 PartyPkm *func_ov214_021e1504(HeapID heapId);
+void func_ov214_021e1528(PartyPkm *src, PartyPkm *dest);
 void func_ov214_021e15d4(WorldTradePrint *print, TrainerDataSave *config);
 void func_ov214_021e1640(WorldTradePrint *print);
 void func_ov214_021e166c(WorldTradePrint *print);

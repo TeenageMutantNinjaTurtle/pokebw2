@@ -8,6 +8,9 @@
 u32 howManyNormalPokesAreInAllBoxes(BoxSaveAccessor *boxes);
 u32 howManyTotalPokesAreInBoxes(BoxSaveAccessor *boxes);
 BOOL BoxSaveAccessor_InsertPkm(BoxSaveAccessor *boxes, BoxPkm *pkm);
+BOOL BoxSaveAccessor_InsertPkmCore(BoxSaveAccessor *boxes, u32 box, BoxPkm *pkm);
+void BoxSaveAccessor_ClearPkm(BoxSaveAccessor *boxes, u32 box, u32 slot);
+BOOL BoxSaveAccessor_GetNextFreeBoxSlot(BoxSaveAccessor *boxes, int *box, int *slot);
 u32 BoxSaveAccessor_GetPkmParam(BoxSaveAccessor *boxes, u32 box, u32 slot, u32 param, void *buffer);
 BoxPkm *BoxSaveAccessor_GetPkm(BoxSaveAccessor *boxes, u32 box, u32 slot);
 u32 BoxSaveAccessor_GetAvailableBoxCount(BoxSaveAccessor *boxes);
