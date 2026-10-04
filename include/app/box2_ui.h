@@ -31,8 +31,10 @@ void func_ov255_021d28c4(Box2SysWork *syswk, u32 pos);
 u32 func_ov255_021d29e8(Box2SysWork *syswk);
 u32 func_ov255_021d2b88(Box2SysWork *syswk);
 u32 func_ov255_021d2c7c(Box2SysWork *syswk);
+u32 func_ov255_021d2dac(Box2SysWork *syswk);
 u32 func_ov255_021d2f88(Box2SysWork *syswk);
 u32 func_ov255_021d30e0(Box2SysWork *syswk);
+u32 func_ov255_021d3204(Box2SysWork *syswk);
 void func_ov255_021d32d4(Box2AppWork *app, u32 pos, u32 curPos);
 // The position at a touch
 u32 func_ov255_021d34f0(u32 x, u32 y);
