@@ -26,8 +26,9 @@ enum {
 enum {
     // The player picked a place on the habitat map
     ZUKAN_DETAIL_RESULT_PLACE,
-    ZUKAN_DETAIL_RESULT_RETURN,
+    // Close the Pokédex, or return to its list
     ZUKAN_DETAIL_RESULT_CLOSE,
+    ZUKAN_DETAIL_RESULT_RETURN,
 };
 
 typedef struct {
@@ -280,23 +281,89 @@ BOOL ZkndTbar_IsTriggered(ZkndTbar *tbar, int icon);
 
 // zukan_detail_touchbar.c: the bar at the bottom of the touch screen
 
-// The commands of the bar's buttons
+// The commands of the bar's icons: the first once the icon's animation has played, the _TOUCH ones as it is touched
 enum {
     ZUKAN_DETAIL_CMD_NONE,
-    ZUKAN_DETAIL_CMD_RETURN,
     ZUKAN_DETAIL_CMD_CLOSE,
-    ZUKAN_DETAIL_CMD_INFO = 6,
+    ZUKAN_DETAIL_CMD_RETURN,
+    ZUKAN_DETAIL_CMD_CUR_D,
+    ZUKAN_DETAIL_CMD_CUR_U,
+    ZUKAN_DETAIL_CMD_CHECK,
+    ZUKAN_DETAIL_CMD_INFO,
     ZUKAN_DETAIL_CMD_MAP,
     ZUKAN_DETAIL_CMD_VOICE,
     ZUKAN_DETAIL_CMD_FORM,
-    ZUKAN_DETAIL_CMD_MAP_PLACE = 0x22,
+    ZUKAN_DETAIL_CMD_CLOSE_TOUCH,
+    ZUKAN_DETAIL_CMD_RETURN_TOUCH,
+    ZUKAN_DETAIL_CMD_CUR_D_TOUCH,
+    ZUKAN_DETAIL_CMD_CUR_U_TOUCH,
+    ZUKAN_DETAIL_CMD_CHECK_TOUCH,
+    ZUKAN_DETAIL_CMD_INFO_TOUCH,
+    ZUKAN_DETAIL_CMD_MAP_TOUCH,
+    ZUKAN_DETAIL_CMD_VOICE_TOUCH,
+    ZUKAN_DETAIL_CMD_FORM_TOUCH,
+    // The map's and the forms' bars
+    ZUKAN_DETAIL_CMD_MAP_RETURN,
+    ZUKAN_DETAIL_CMD_MAP_RETURN_TOUCH,
+    ZUKAN_DETAIL_CMD_FORM_RETURN,
+    ZUKAN_DETAIL_CMD_FORM_CUR_R,
+    ZUKAN_DETAIL_CMD_FORM_CUR_L,
+    ZUKAN_DETAIL_CMD_FORM_CUR_D,
+    ZUKAN_DETAIL_CMD_FORM_CUR_U,
+    ZUKAN_DETAIL_CMD_FORM_BUTTON,
+    ZUKAN_DETAIL_CMD_MAP_PLACE,
+    ZUKAN_DETAIL_CMD_FORM_RETURN_TOUCH,
+    ZUKAN_DETAIL_CMD_FORM_CUR_R_TOUCH,
+    ZUKAN_DETAIL_CMD_FORM_CUR_L_TOUCH,
+    ZUKAN_DETAIL_CMD_FORM_CUR_D_TOUCH,
+    ZUKAN_DETAIL_CMD_FORM_CUR_U_TOUCH,
+    ZUKAN_DETAIL_CMD_FORM_BUTTON_TOUCH,
+    ZUKAN_DETAIL_CMD_MAP_PLACE_TOUCH,
 };
 
-ZukanDetailTouchbar *ZukanDetailTouchbar_Create(HeapID heapId, u32 unk1, u32 mode);
+// The bar's icons: the pages' tabs, or the map's or the forms' buttons
+enum {
+    ZUKAN_DETAIL_TOUCHBAR_GENERAL,
+    ZUKAN_DETAIL_TOUCHBAR_MAP,
+    ZUKAN_DETAIL_TOUCHBAR_FORM,
+};
+
+// ZukanDetailTouchbar_GetState
+enum {
+    ZUKAN_DETAIL_TOUCHBAR_HIDDEN,
+    ZUKAN_DETAIL_TOUCHBAR_APPEARING,
+    ZUKAN_DETAIL_TOUCHBAR_SHOWN,
+    ZUKAN_DETAIL_TOUCHBAR_DISAPPEARING,
+};
+
+// showFormTab is a setting of the Pokédex's save (func_0200d1dc), and mode the screen's ZukanDetailParam mode, which
+// hides the map's tab and the check box
+ZukanDetailTouchbar *ZukanDetailTouchbar_Create(HeapID heapId, BOOL showFormTab, u32 mode);
 void ZukanDetailTouchbar_Free(ZukanDetailTouchbar *touchbar);
 void ZukanDetailTouchbar_Update(ZukanDetailTouchbar *touchbar);
+// page is a ZUKAN_DETAIL_PAGE_* less 1
+void ZukanDetailTouchbar_SetType(ZukanDetailTouchbar *touchbar, int type, int page, BOOL showArrows);
+int ZukanDetailTouchbar_GetState(ZukanDetailTouchbar *touchbar);
+// Slides the bar in or out
+void ZukanDetailTouchbar_Appear(ZukanDetailTouchbar *touchbar, u32 speed);
+void ZukanDetailTouchbar_Disappear(ZukanDetailTouchbar *touchbar, u32 speed);
 int ZukanDetailTouchbar_GetTrigger(ZukanDetailTouchbar *touchbar);
-int ZukanDetailTouchbar_GetCommand(ZukanDetailTouchbar *touchbar);
+int ZukanDetailTouchbar_GetTouch(ZukanDetailTouchbar *touchbar);
+void ZukanDetailTouchbar_Unlock(ZukanDetailTouchbar *touchbar);
+void ZukanDetailTouchbar_SetVisibleAll(ZukanDetailTouchbar *touchbar, BOOL visible);
+void ZukanDetailTouchbar_SetPage(ZukanDetailTouchbar *touchbar, int page);
+void ZukanDetailTouchbar_SetFormArrowsVisible(ZukanDetailTouchbar *touchbar, BOOL visible);
+void ZukanDetailTouchbar_SetCheck(ZukanDetailTouchbar *touchbar, BOOL check);
+BOOL ZukanDetailTouchbar_GetCheck(ZukanDetailTouchbar *touchbar);
+void ZukanDetailTouchbar_SetActive(ZukanDetailTouchbar *touchbar, BOOL active);
+u32 ZukanDetailTouchbar_GetIconPalette(ZukanDetailTouchbar *touchbar);
+void ZukanDetailTouchbar_SetBGPriority(ZukanDetailTouchbar *touchbar, u8 priority);
+void ZukanDetailTouchbar_SetMapPlaceActive(ZukanDetailTouchbar *touchbar, BOOL active);
+void ZukanDetailTouchbar_SetMapPlaceVisible(ZukanDetailTouchbar *touchbar, BOOL visible);
+void ZukanDetailTouchbar_PushMapPlace(ZukanDetailTouchbar *touchbar);
+BOOL ZukanDetailTouchbar_IsMapPlaceTriggered(ZukanDetailTouchbar *touchbar);
+BOOL ZukanDetailTouchbar_IsArrowTriggered(ZukanDetailTouchbar *touchbar);
+BOOL ZukanDetailTouchbar_IsFormButtonTriggered(ZukanDetailTouchbar *touchbar);
 
 // zukan_detail_headbar.c: the bar at the top of the screen
 

@@ -46,7 +46,7 @@ static BOOL ZukanDetail_Init(GameProc *proc, u32 *state, void *param_, void *wor
     wk = GFL_ProcInitSubsystem(proc, sizeof(ZukanDetailWork), HEAPID_ZUKAN_DETAIL);
     sys_memset(wk, 0, sizeof(ZukanDetailWork));
     wk->heapId = HEAPID_ZUKAN_DETAIL;
-    param->result = ZUKAN_DETAIL_RESULT_RETURN;
+    param->result = ZUKAN_DETAIL_RESULT_CLOSE;
 
     wk->graphic = ZukanDetailGraphic_Create(0, wk->heapId, TRUE);
     ZukanDetailGraphic_Free(wk->graphic);
@@ -117,15 +117,15 @@ static BOOL ZukanDetail_Main(GameProc *proc, u32 *state, void *param_, void *wor
     if (!pageChanged) {
         command = ZukanDetailTouchbar_GetTrigger(wk->touchbar);
         if (command == ZUKAN_DETAIL_CMD_NONE) {
-            command = ZukanDetailTouchbar_GetCommand(wk->touchbar);
+            command = ZukanDetailTouchbar_GetTouch(wk->touchbar);
         }
         ZukanDetailProcSys_Command(wk->procSys, wk->common, command);
         switch (command) {
-        case ZUKAN_DETAIL_CMD_RETURN:
-            param->result = ZUKAN_DETAIL_RESULT_RETURN;
-            break;
         case ZUKAN_DETAIL_CMD_CLOSE:
             param->result = ZUKAN_DETAIL_RESULT_CLOSE;
+            break;
+        case ZUKAN_DETAIL_CMD_RETURN:
+            param->result = ZUKAN_DETAIL_RESULT_RETURN;
             break;
         case ZUKAN_DETAIL_CMD_INFO:
             wk->nextPage = ZUKAN_DETAIL_PAGE_INFO;
@@ -139,7 +139,7 @@ static BOOL ZukanDetail_Main(GameProc *proc, u32 *state, void *param_, void *wor
         case ZUKAN_DETAIL_CMD_FORM:
             wk->nextPage = ZUKAN_DETAIL_PAGE_FORM;
             break;
-        case ZUKAN_DETAIL_CMD_MAP_PLACE:
+        case ZUKAN_DETAIL_CMD_MAP_PLACE_TOUCH:
             param->place = ((ZukanDetailMapParam *)wk->pageParam)->place;
             param->result = ZUKAN_DETAIL_RESULT_PLACE;
             break;

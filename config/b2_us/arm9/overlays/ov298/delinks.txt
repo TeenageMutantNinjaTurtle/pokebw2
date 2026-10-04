@@ -32,3 +32,8 @@ src/ov298/zknd_tbar.c:
     .text       start:0x021a0ae0 end:0x021a1268
     .rodata     start:0x021ac1a8 end:0x021ac218
     .data       start:0x021ace38 end:0x021ace44
+
+src/ov298/zukan_detail_touchbar.c:
+    .text       start:0x021a1268 end:0x021a21f0
+    .rodata     start:0x021ac218 end:0x021ac3c0
+    .data       start:0x021ace44 end:0x021ace5c
