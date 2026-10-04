@@ -10,6 +10,8 @@ u8 func_020099e0(DreamWorldSave *dreamWorld);
 // The items sent from the Dream World, 20 of them
 u16 func_02009a18(DreamWorldSave *dreamWorld, u32 index);
 u16 func_02009a38(DreamWorldSave *dreamWorld, u32 index);
+// How many items the Dream World sent
+s32 func_02009a78(DreamWorldSave *dreamWorld);
 void func_02009a6c(DreamWorldSave *dreamWorld, u32 index);
 u16 *func_02009a98(DreamWorldSave *dreamWorld, u32 index);
 u32 func_02009ae0(DreamWorldSave *dreamWorld);

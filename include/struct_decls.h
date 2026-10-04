@@ -233,6 +233,8 @@ typedef struct MapMatrixFileHeader MapMatrixFileHeader;
 typedef struct MapReplace MapReplace;
 typedef struct MoveReminderProcessData MoveReminderProcessData;
 typedef struct MapReplaceEvent MapReplaceEvent;
+typedef struct MusicalCommWork MusicalCommWork;
+typedef struct MusicalEventWork MusicalEventWork;
 typedef struct MusicalSave MusicalSave;
 typedef struct MysteryGift MysteryGift;
 typedef struct MysteryGiftSave MysteryGiftSave;

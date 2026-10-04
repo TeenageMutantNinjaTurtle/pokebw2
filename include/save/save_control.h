@@ -51,6 +51,37 @@ u32 func_0200c1d0(u8 a0);
 void func_0200c1f0(void);
 void func_0200c200(void);
 BOOL func_0200ae58(MusicalSave *musical);
+// The musical save's accessors, by what they return
+typedef struct {
+    u32 unk0_0 : 16;
+    u32 unk0_16 : 5;
+    u32 unk0_21 : 11;
+} MusicalShot;
+
+typedef struct {
+    u8 unk0;
+    u8 unk1;
+    u16 unk2;
+} MusicalSaveUnk1E0;
+
+typedef struct {
+    u8 unk0;
+    u8 unk1[5];
+} MusicalSaveUnk1B0;
+
+MusicalShot *func_0200ad5c(MusicalSave *musical);
+MusicalSaveUnk1B0 *func_0200ad44(MusicalSave *musical);
+void func_0200add8(MusicalSave *musical, u8 prop);
+MusicalSaveUnk1E0 *func_0200ae6c(MusicalSave *musical, u8 index);
+u16 func_0200ae78(MusicalSave *musical);
+u16 func_0200ae9c(MusicalSave *musical);
+u8 func_0200aebc(MusicalSave *musical, u8 index);
+u8 func_0200aed4(MusicalSave *musical);
+u8 func_0200aee4(MusicalSave *musical);
+void func_0200aef0(MusicalSave *musical, u8 value);
+u8 func_0200aefc(MusicalSave *musical);
+// A name of 0x26 characters
+const u16 *func_0200af14(MusicalSave *musical);
 BOOL func_0200ad60(MusicalSave *musical, u8 prop);
 
 // Save block 0x45, which swan calls the key data. It keeps the Black Tower's and White Treehollow's progress, and the

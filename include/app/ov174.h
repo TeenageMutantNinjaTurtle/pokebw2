@@ -19,7 +19,8 @@ typedef struct {
     u8 order[4];
     // The mode the screen starts in, and what it was left with: 0xb, 0xc or 0xd for the Battle Subway
     u32 result;
-    u8 unk20[8];
+    u32 unk20;
+    u32 unk24;
 } Ov174Param;
 
 extern const GameProcFunctions data_ov174_0219f0fc;
