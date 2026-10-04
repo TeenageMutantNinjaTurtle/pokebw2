@@ -1,6 +1,7 @@
 #include "types.h"
 #include "battle/btl_calc.h"
 #include "battle/btl_main.h"
+#include "battle/btl_ov169.h"
 #include "battle/btl_pokeparam.h"
 #include "battle/btl_setup.h"
 #include "battle/trainer_data.h"
@@ -27,47 +28,41 @@ typedef struct {
 BtlCalcWork data_ov167_021dd844;
 
 // The chance of a critical hit at each critical hit stage is 1 in this
-const u8 data_ov167_021d74a0[5] = {16, 8, 4, 3, 2};
+const u8 data_ov167_021d74a0[5] = { 16, 8, 4, 3, 2 };
 
 // The percentages below which a move that hits 2 to 5 times hits each number of times
-const u8 data_ov167_021d74a5[6] = {0, 0, 35, 70, 85, 100};
+const u8 data_ov167_021d74a5[6] = { 0, 0, 35, 70, 85, 100 };
 
 // The damage multiplier in quarters of each type effectiveness
-const u8 data_ov167_021d74ab[6] = {0, 1, 2, 4, 8, 16};
+const u8 data_ov167_021d74ab[6] = { 0, 1, 2, 4, 8, 16 };
 
-const u8 data_ov167_021d74b1[9] = {2, 4, 6, 9, 12, 16, 20, 25, 30};
+const u8 data_ov167_021d74b1[9] = { 2, 4, 6, 9, 12, 16, 20, 25, 30 };
 
-const u16 data_ov167_021d74ba[9] = {0x73, 0x871, 0x10db, 0x1836, 0x216e, 0x297d, 0x30bf, 0x3986, 0x41be};
+const u16 data_ov167_021d74ba[9] = { 0x73, 0x871, 0x10db, 0x1836, 0x216e, 0x297d, 0x30bf, 0x3986, 0x41be };
 
 // The ratio of each stat stage, -6 to +6
 const BtlCalcRatio data_ov167_021d74cc[13] = {
-    {2, 8}, {2, 7}, {2, 6}, {2, 5}, {2, 4}, {2, 3}, {2, 2}, {3, 2}, {4, 2}, {5, 2}, {6, 2}, {7, 2}, {8, 2},
+    { 2, 8 }, { 2, 7 }, { 2, 6 }, { 2, 5 }, { 2, 4 }, { 2, 3 }, { 2, 2 },
+    { 3, 2 }, { 4, 2 }, { 5, 2 }, { 6, 2 }, { 7, 2 }, { 8, 2 },
 };
 
 // The ratio of each accuracy and evasion stage, -6 to +6
 const BtlCalcRatio data_ov167_021d74e6[13] = {
-    {6, 18}, {6, 16}, {6, 14}, {6, 12}, {6, 10}, {6, 8}, {6, 6}, {8, 6}, {10, 6}, {12, 6}, {14, 6}, {16, 6}, {18, 6},
+    { 6, 18 }, { 6, 16 }, { 6, 14 }, { 6, 12 }, { 6, 10 }, { 6, 8 },  { 6, 6 },
+    { 8, 6 },  { 10, 6 }, { 12, 6 }, { 14, 6 }, { 16, 6 }, { 18, 6 },
 };
 
 // The damage of each attacking type against each defending type in halves: 0, 2 (half), 4 (normal) or 8 (double)
 const u8 data_ov167_021d7500[17][17] = {
-    {4, 4, 4, 4, 4, 2, 4, 0, 2, 4, 4, 4, 4, 4, 4, 4, 4},
-    {8, 4, 2, 2, 4, 8, 2, 0, 8, 4, 4, 4, 4, 2, 8, 4, 8},
-    {4, 8, 4, 4, 4, 2, 8, 4, 2, 4, 4, 8, 2, 4, 4, 4, 4},
-    {4, 4, 4, 2, 2, 2, 4, 2, 0, 4, 4, 8, 4, 4, 4, 4, 4},
-    {4, 4, 0, 8, 4, 8, 2, 4, 8, 8, 4, 2, 8, 4, 4, 4, 4},
-    {4, 2, 8, 4, 2, 4, 8, 4, 2, 8, 4, 4, 4, 4, 8, 4, 4},
-    {4, 2, 2, 2, 4, 4, 4, 2, 2, 2, 4, 8, 4, 8, 4, 4, 8},
-    {0, 4, 4, 4, 4, 4, 4, 8, 2, 4, 4, 4, 4, 8, 4, 4, 2},
-    {4, 4, 4, 4, 4, 8, 4, 4, 2, 2, 2, 4, 2, 4, 8, 4, 4},
-    {4, 4, 4, 4, 4, 2, 8, 4, 8, 2, 2, 8, 4, 4, 8, 2, 4},
-    {4, 4, 4, 4, 8, 8, 4, 4, 4, 8, 2, 2, 4, 4, 4, 2, 4},
-    {4, 4, 2, 2, 8, 8, 2, 4, 2, 2, 8, 2, 4, 4, 4, 2, 4},
-    {4, 4, 8, 4, 0, 4, 4, 4, 4, 4, 8, 2, 2, 4, 4, 2, 4},
-    {4, 8, 4, 8, 4, 4, 4, 4, 2, 4, 4, 4, 4, 2, 4, 4, 0},
-    {4, 4, 8, 4, 8, 4, 4, 4, 2, 2, 2, 8, 4, 4, 2, 8, 4},
-    {4, 4, 4, 4, 4, 4, 4, 4, 2, 4, 4, 4, 4, 4, 4, 8, 4},
-    {4, 2, 4, 4, 4, 4, 4, 8, 2, 4, 4, 4, 4, 8, 4, 4, 2},
+    { 4, 4, 4, 4, 4, 2, 4, 0, 2, 4, 4, 4, 4, 4, 4, 4, 4 }, { 8, 4, 2, 2, 4, 8, 2, 0, 8, 4, 4, 4, 4, 2, 8, 4, 8 },
+    { 4, 8, 4, 4, 4, 2, 8, 4, 2, 4, 4, 8, 2, 4, 4, 4, 4 }, { 4, 4, 4, 2, 2, 2, 4, 2, 0, 4, 4, 8, 4, 4, 4, 4, 4 },
+    { 4, 4, 0, 8, 4, 8, 2, 4, 8, 8, 4, 2, 8, 4, 4, 4, 4 }, { 4, 2, 8, 4, 2, 4, 8, 4, 2, 8, 4, 4, 4, 4, 8, 4, 4 },
+    { 4, 2, 2, 2, 4, 4, 4, 2, 2, 2, 4, 8, 4, 8, 4, 4, 8 }, { 0, 4, 4, 4, 4, 4, 4, 8, 2, 4, 4, 4, 4, 8, 4, 4, 2 },
+    { 4, 4, 4, 4, 4, 8, 4, 4, 2, 2, 2, 4, 2, 4, 8, 4, 4 }, { 4, 4, 4, 4, 4, 2, 8, 4, 8, 2, 2, 8, 4, 4, 8, 2, 4 },
+    { 4, 4, 4, 4, 8, 8, 4, 4, 4, 8, 2, 2, 4, 4, 4, 2, 4 }, { 4, 4, 2, 2, 8, 8, 2, 4, 2, 2, 8, 2, 4, 4, 4, 2, 4 },
+    { 4, 4, 8, 4, 0, 4, 4, 4, 4, 4, 8, 2, 2, 4, 4, 2, 4 }, { 4, 8, 4, 8, 4, 4, 4, 4, 2, 4, 4, 4, 4, 2, 4, 4, 0 },
+    { 4, 4, 8, 4, 8, 4, 4, 4, 2, 2, 2, 8, 4, 4, 2, 8, 4 }, { 4, 4, 4, 4, 4, 4, 4, 4, 2, 4, 4, 4, 4, 4, 4, 8, 4 },
+    { 4, 2, 4, 4, 4, 4, 4, 8, 2, 4, 4, 4, 4, 8, 4, 4, 2 },
 };
 
 void func_ov167_021bd054(const MATHRandContext32 *rand, HeapID heapId) {
@@ -95,7 +90,6 @@ u16 GetBoostFromStatStage(u16 value, u8 stage) {
 
     return result / data_ov167_021d74cc[stage].denominator;
 }
-
 
 u8 func_ov167_021bd11c(u32 value, u32 stage) {
     value = (s32)(value * data_ov167_021d74e6[stage].numerator) / data_ov167_021d74e6[stage].denominator;
@@ -164,7 +158,6 @@ u32 GetTypeEffectivenessMultiplier(u32 effectiveness1, u32 effectiveness2) {
     return 0;
 }
 
-
 u32 CalcBaseDamage(u32 power, u32 attack, u32 level, u32 defense) {
     return power * attack * (level * 2 / 5 + 2) / defense / 50 + 2;
 }
@@ -198,7 +191,6 @@ u8 GetTypeWeaknesses(u8 attackType, u8 *defenseTypes) {
     }
     return count;
 }
-
 
 u32 func_ov167_021bd2e8(s32 value) {
     if (value > 3) {
@@ -337,7 +329,6 @@ u32 func_ov167_021bd3e8(BattleMon *mon, u32 weather) {
     return damage;
 }
 
-
 fx32 WeatherPowerMod(u32 weather, u32 moveType) {
     switch (weather) {
     case 1:
@@ -358,6 +349,26 @@ fx32 WeatherPowerMod(u32 weather, u32 moveType) {
         break;
     }
     return FX32_ONE;
+}
+
+void func_ov167_021bd484(MoveConditionParam param, BattleMon *mon, BattleCondition *out) {
+    switch (param.type) {
+    case 3:
+        *out = func_ov167_021ce1dc(GetMonID(mon));
+        break;
+    case 2:
+        *out = SetConditionTurns(func_ov167_021bd3a0(param.min, param.max));
+        break;
+    case 1:
+        *out = func_ov167_021ce238(param.max, param.min);
+        break;
+    case 4: {
+        u8 monId = GetMonID(mon);
+        u8 turns = func_ov167_021bd3a0(param.min, param.max);
+        *out = func_ov167_021ce268(monId, turns);
+        break;
+    }
+    }
 }
 
 BattleCondition func_ov167_021bd52c(u32 status) {
@@ -426,6 +437,20 @@ void func_ov167_021bd5d4(s32 condition, BattleMon *mon, BattleCondition *out) {
     }
 }
 
+// The first condition of mon in the list of ov169's, or 0 if it has none of them
+u32 func_ov167_021bd624(BattleMon *mon) {
+    u32 i = 0;
+
+    while (TRUE) {
+        u32 condition = func_ov169_0689cb6c(i++);
+        if (condition == 0) {
+            return condition;
+        }
+        if (CheckCondition(mon, condition)) {
+            return condition;
+        }
+    }
+}
 
 // A random move that isn't in excluded
 u16 func_ov167_021bd658(const u16 *excluded, u32 count) {
@@ -441,7 +466,6 @@ u16 func_ov167_021bd658(const u16 *excluded, u32 count) {
     index = BattleRandom(numMoves);
     return data_ov167_021dd844.moves[index];
 }
-
 
 BOOL func_ov167_021bd6a4(const u16 *moves, u32 count, u16 move) {
     u32 i;
@@ -470,14 +494,12 @@ u32 CalcBaseExpGain(BattleMon *mon, s32 levelDiff) {
     return baseExp * level / 5;
 }
 
-
 BOOL func_ov167_021bd718(u32 value) {
     if (value != 0 && value != 3) {
         return TRUE;
     }
     return FALSE;
 }
-
 
 u32 func_ov167_021bd728(u32 value) {
     switch (value) {
@@ -691,7 +713,6 @@ u8 func_ov167_021bd8e4(BtlMainModule *mainModule, BtlPokeCon *pokeCon, BattleMon
         return 6;
     }
 }
-
 
 // Function name from swan.
 u8 DecideMoveTargetAutoForClient(BtlMainModule *mainModule, BtlPokeCon *pokeCon, BattleMon *mon, u16 move,

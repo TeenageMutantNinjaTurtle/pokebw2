@@ -5,9 +5,10 @@
 // selection. Function names from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0) where it has them
 
 #include "types.h"
+#include "battle/btl_pokeparam.h"
 #include "gfl/heap.h"
 #include "nitro/math.h"
-#include "battle/btl_pokeparam.h"
+#include "pml/waza.h"
 #include "struct_decls.h"
 
 // Up to four client IDs without repeats, the unused ones 4
@@ -41,7 +42,9 @@ u32 func_ov167_021bd3a0(u32 min, u32 max);
 u8 func_ov167_021bd3b8(u8 hits);
 u32 func_ov167_021bd3e8(BattleMon *mon, u32 weather);
 fx32 WeatherPowerMod(u32 weather, u32 moveType);
+void func_ov167_021bd484(MoveConditionParam param, BattleMon *mon, BattleCondition *out);
 BattleCondition func_ov167_021bd52c(u32 status);
+u32 func_ov167_021bd624(BattleMon *mon);
 BOOL IsBasicStatus(s32 condition);
 BattleCondition func_ov167_021bd58c(u32 turns);
 BattleCondition func_ov167_021bd5b0(u32 turns);
@@ -71,6 +74,5 @@ void func_ov167_021bda58(BtlClientIDList *list);
 void func_ov167_021bda6c(BtlClientIDList *list, u8 clientId);
 u32 func_ov167_021bda94(BtlClientIDList *list);
 u32 func_ov167_021bda98(BtlClientIDList *list, u8 clientId, u32 value);
-
 
 #endif // POKEBW2_BATTLE_BTL_CALC_H
