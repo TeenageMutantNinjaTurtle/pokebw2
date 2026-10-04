@@ -345,6 +345,10 @@ static inline void G3X_EdgeMarking(BOOL enable) {
     }
 }
 
+static inline void G3X_SetFogColor(GXRgb rgb, int alpha) {
+    *(vu32 *)0x04000358 = (u32)(rgb | (alpha << 16));
+}
+
 static inline void G3_ViewPort(int x1, int y1, int x2, int y2) {
     reg_G3_VIEWPORT = GX_PACK_VIEWPORT_PARAM(x1, y1, x2, y2);
 }
@@ -417,5 +421,6 @@ static inline void G3_Vtx(fx16 x, fx16 y, fx16 z) {
     reg_G3_VTX_16 = (u32)(u16)x | ((u32)(u16)y << 16);
     reg_G3_VTX_16 = (u32)(u16)z;
 }
+#define reg_G2_BG2PA (*(vu16 *)0x04000020)
 
 #endif // POKEBW2_NITRO_GX_H

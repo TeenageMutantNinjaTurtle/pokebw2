@@ -1,4 +1,5 @@
 #include "types.h"
+#include "field/field.h"
 #include "field/field_script.h"
 #include "field/script_network.h"
 #include "gfl/heap.h"

@@ -33,5 +33,8 @@ u32 FieldPlayer_GetTileTypeInDir(FieldPlayer *player, u16 direction);
 FieldActor *FieldPlayer_GetActorInFront(FieldPlayer *player);
 BOOL CheckSurfHeightAllow(FieldPlayer *player, u32 direction);
 BOOL CheckCanInteractWaterfall(FieldPlayer *player, u32 tileUnder, u32 tileInFront);
+FieldPlayer *FieldPlayer_Create(PlayerState *state, Field *field, const VecFx32 *pos, u32 sex, HeapID heapId);
+void FieldPlayer_Free(FieldPlayer *player);
+void FieldPlayer_SyncState(FieldPlayer *player);
 
 #endif // POKEBW2_FIELD_FIELD_PLAYER_H

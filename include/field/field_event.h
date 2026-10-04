@@ -72,5 +72,10 @@ GameEvent *EventWarpSequence_CreateIn(WarpSequence *warp);
 GameEvent *EventWarpSequence_CreateOut(WarpSequence *warp);
 GameEvent *func_ov033_021773e4(GameSystem *gsys, void *args);
 GameEvent *func_ov156_021f59e0(GameSystem *gsys, void *args);
+// What starts the events of the field in each kind of map
+GameEvent *FieldEventProvider_Grid(GameSystem *gsys, void *data);
+GameEvent *FieldEventProvider_UnionRoom(GameSystem *gsys, void *data);
+GameEvent *FieldEventProvider_NoGrid(GameSystem *gsys, void *data);
+GameEvent *FieldEventProvider_Hybrid(GameSystem *gsys, void *data);
 
 #endif // POKEBW2_FIELD_FIELD_EVENT_H

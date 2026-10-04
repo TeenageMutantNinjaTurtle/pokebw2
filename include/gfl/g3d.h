@@ -5,6 +5,7 @@
 // setup, whose layout comes from the intro's data
 
 #include "types.h"
+#include "gfl/std.h"
 #include "gfl/heap.h"
 #include "nitro/fx.h"
 #include "nitro/gx.h"
@@ -271,6 +272,8 @@ typedef struct {
 } NNSG3dGlb;
 
 #define NNS_G3D_GLB_FLAG_INVBASE_UPTODATE 0x00000004
+#define NNS_G3D_GLB_FLAG_INVPROJ_UPTODATE 0x00000010
+#define NNS_G3D_GLB_FLAG_INVVP_UPTODATE 0x00000040
 #define NNS_G3D_GLB_FLAG_INVBASECAMERA_UPTODATE 0x00000020
 #define NNS_G3D_GLB_FLAG_BASECAMERA_UPTODATE 0x00000080
 
@@ -283,6 +286,11 @@ static inline void NNS_G3dGlbSetBaseRot(const MtxFx33 *rot) {
     MI_Copy36B(rot, &NNS_G3dGlb.prmBaseRot);
     NNS_G3dGlb.flag &= ~(NNS_G3D_GLB_FLAG_BASECAMERA_UPTODATE | NNS_G3D_GLB_FLAG_INVBASE_UPTODATE |
                          NNS_G3D_GLB_FLAG_INVBASECAMERA_UPTODATE);
+}
+
+static inline void NNS_G3dGlbSetProjectionMtx(const MtxFx44 *mtx) {
+    sys_memcpy32_fast(mtx, &NNS_G3dGlb.projMtx, sizeof(MtxFx44));
+    NNS_G3dGlb.flag &= ~(NNS_G3D_GLB_FLAG_INVPROJ_UPTODATE | NNS_G3D_GLB_FLAG_INVVP_UPTODATE);
 }
 
 // Sends the geometry commands that are waiting in a buffer
@@ -444,5 +452,6 @@ BOOL GFL_G3DCurveGetNowTranslationLoop(G3DCurve *curve, VecFx32 *translation, u3
 BOOL GFL_G3DCurveGetNowRotationLoop(G3DCurve *curve, VecFx32 *rotation, u32 frame);
 BOOL GFL_G3DCurveGetNowScaleLoop(G3DCurve *curve, VecFx32 *scale, u32 frame);
 void GFL_G3DCurveApplyCamera(G3DCamera *camera, G3DCurve *curve);
+void GFL_G3DSysResetGeometryCounter(void);
 
 #endif // POKEBW2_GFL_G3D_H

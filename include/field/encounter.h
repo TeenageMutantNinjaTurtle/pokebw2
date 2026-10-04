@@ -63,5 +63,7 @@ void func_ov036_021a203c(EncountSystem *system, u32 value);
 void EncountSystem_CancelPhenomenon(EncountSystem *encountSystem);
 u32 EncountState_CheckSpecialEncountPos(EncountSystem *encounter, const u16 *gridPos);
 BtlSetup *BtlSetup_CreateFishing(EncountSystem *encounter);
+EncountSystem *EncSys_Create(Field *field);
+void EncSys_Free(EncountSystem *system);
 
 #endif // POKEBW2_FIELD_ENCOUNTER_H

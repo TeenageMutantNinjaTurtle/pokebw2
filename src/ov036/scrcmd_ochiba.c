@@ -119,8 +119,8 @@ void LoadPWTTournamentTypeText(HeapID heapId, u32 tournament, StrBuf *strbuf) {
     }
 }
 
-u8 func_ov036_021c98f4(const u8 *data) {
-    return data[0x1e];
+u8 func_ov036_021c98f4(const WbtSystem *wbt) {
+    return wbt->unk1E;
 }
 
 BOOL s02CF_PokeDexCheckHabitatList(VM *vm, FieldScriptEnv *env) {

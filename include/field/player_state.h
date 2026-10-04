@@ -8,7 +8,9 @@
 
 struct PlayerState {
     u16 zoneId;
-    u8 unk2[0x1e];
+    u16 unk2;
+    VecFx32 position;
+    u8 unk10[0x10];
     PlayerInfo playerInfo;
     u32 exState;
 };

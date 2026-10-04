@@ -2,6 +2,7 @@
 #define POKEBW2_GFL_GRAPHICS_H
 
 #include "types.h"
+#include "nitro/fx.h"
 #include "gfl/heap.h"
 #include "nitro/g2d.h"
 #include "nitro/gx.h"
@@ -182,5 +183,8 @@ void func_02026e04(void *a0, u32 bg, u32 a2, HeapID heapId);
 void func_02026e48(void *a0, u32 bg);
 void func_0202778c(void *a0, u32 a1);
 void func_020275f8(void *a0);
+void gfxRegSetBGTransform(vu16 *reg, const MtxFx22 *mtx, fx32 centerX, fx32 centerY, fx32 scrollX, fx32 scrollY);
+void gfxSetEdgeColorTable(const GXRgb *table);
+void gfxSetFogTable(const u32 *table);
 
 #endif // POKEBW2_GFL_GRAPHICS_H

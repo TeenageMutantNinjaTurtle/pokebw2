@@ -31,7 +31,6 @@ void func_02042d04(NetHandle *handle, u32 syncId);
 BOOL func_02042d0c(NetHandle *handle, u32 syncId);
 void func_020421ac(u32 a0);
 BOOL func_02042788(void);
-BOOL func_ov036_02180f80(GameCommSys *comm);
 BOOL func_0202bde0(GameCommSys *comm);
 BOOL func_020427a4(void);
 void func_02042860(u32 a0);

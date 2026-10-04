@@ -19,5 +19,8 @@ void func_ov012_02160574(void);
 void func_0202d17c(u8 count);
 void func_0202d1ac(u16 species, BOOL a1, BOOL a2);
 void func_0202d2c8(const StrBuf *name);
+void func_0202bd08(GameCommSys *comm, Field *field);
+void func_0202bd30(GameCommSys *comm, Field *field);
+u8 func_0202bdfc(GameCommSys *comm);
 
 #endif // POKEBW2_SYSTEM_GAME_COMM_H

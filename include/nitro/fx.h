@@ -92,5 +92,12 @@ static inline void VEC_Set(VecFx32 *v, fx32 x, fx32 y, fx32 z) {
     v->y = y;
     v->z = z;
 }
+typedef union {
+    struct {
+        fx32 _00, _01, _10, _11;
+    };
+    fx32 m[2][2];
+} MtxFx22;
+void MAT2_SetScaleRot(MtxFx22 *mtx, u16 rot, fx32 scaleX, fx32 scaleY, u8 mode);
 
 #endif // POKEBW2_NITRO_FX_H

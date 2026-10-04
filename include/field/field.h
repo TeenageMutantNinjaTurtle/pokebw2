@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_FIELD_H
 
 #include "types.h"
+#include "gfl/g3d.h"
 #include "gfl/bmp_menu.h"
 #include "gfl/bmpwin.h"
 #include "gfl/heap.h"
@@ -149,7 +150,7 @@ u32 func_ov036_021ba6b0(u8 index, void *list);
 // The mapper's WFBC work
 void *func_ov036_0218adac(HeapID heapId);
 void func_ov036_0218add0(void *wfbc);
-void func_ov036_0218ade0(void *wfbc, void *a1, void *a2, HeapID heapId);
+void func_ov036_0218ade0(void *wfbc, CityState *city, BOOL isOther, HeapID heapId);
 void FieldSnd_FadeInImmediate(FieldSound *fieldSound, GameData *gameData);
 void FieldSnd_PlayAmbience(FieldSound *fieldSound, u32 se);
 void FieldSnd_SetZoneBGM(FieldSound *fieldSound, GameData *gameData, u16 zoneId, u8 season);
@@ -221,7 +222,72 @@ BOOL func_ov036_0218141c(u16 zoneId);
 u32 GetZoneMapType(u16 zoneId);
 u32 GetZoneMapType2(u16 zoneId);
 void SetupLoadZoneMapTypeData(u16 zoneId, AreaData *area, FieldG3DMapperConfig *config, MapMatrix *matrix);
-void *GetZoneFieldmapCtrlVTable(u16 zoneId);
+const FieldmapCtrlVTable *GetZoneFieldmapCtrlVTable(u16 zoneId);
 u32 GetFieldmapZoneHeapSize(u16 zoneId);
+PlaceName *FieldPlaceName_Create(GameSystem *gsys, HeapID heapId, void *msgBGSys);
+void FieldPlaceName_Free(PlaceName *placeName);
+void func_ov036_021b4ff8(PlaceName *placeName);
+void func_ov036_021b5064(PlaceName *placeName);
+void Field_InitGimmick(Field *field);
+void Field_TerminateGimmick(Field *field);
+void Field_UpdateGimmick(Field *field);
+void *CreateFieldMsgBGSystem(HeapID heapId, G3DCamera *camera);
+void func_ov036_021877ac(void *msgBGSys);
+void func_ov036_021878d0(void *msgBGSys);
+void func_ov036_0218796c(void *msgBGSys);
+void func_ov036_02187760(void *msgBGSys);
+void func_ov036_0218776c(void *msgBGSys);
+// Overlay 34, which the Union Room and the Entralink load
+void *func_ov034_0217b768(HeapID heapId);
+void func_ov034_0217b794(void *work);
+void func_ov034_0217b7bc(void *work);
+void func_ov034_0217b7d0(void *work);
+// Overlay 28
+void func_ov028_02170f28(GameCommSys *comm, Field *field);
+BOOL FieldmapProc_Init(GameProc *proc, int *seq, void *param, void *work);
+BOOL FieldmapProc_Update(GameProc *proc, int *seq, void *param, void *work);
+BOOL FieldmapProc_End(GameProc *proc, int *seq, void *param, void *work);
+Field *Field_Create(GameSystem *gsys, HeapID heapId);
+void Field_Free(Field *field);
+void Field_RenderStart(Field *field);
+BOOL Field_CallRoutines(GameSystem *gsys, Field *field);
+void FieldG2D_Init(Field *field);
+void func_ov036_02180630(Field *field);
+void Field_FreeGraphicsSystems(Field *field);
+void FieldG3D_InitCallback(void);
+void FieldG3D_Init(Field *field);
+void FieldG3D_Update(Field *field);
+void FieldG3D_RenderPhase1(Field *field);
+void FieldG3D_RenderPhase2(Field *field);
+void FieldG3D_Free(Field *field);
+void FldActSys_AsyncMatLoadTCBFunc(TCB *tcb, void *data);
+void FldActSys_VRAMUploadFunc(u32 type, u32 dest, const void *src, u32 size);
+void Field_LoadEdgeColorTable(AreaData *area, u16 zoneId);
+void Field_LoadActorMatColorPreset(Field *field);
+void Field_InitActorSystem(Field *field);
+void Field_SuspendActorSystem(Field *field);
+BOOL Field_CheckDoRealTimeLoad(Field *field);
+BOOL Field_UpdateZoneStatePos(Field *field);
+BOOL Field_ShouldSwapZone(Field *field);
+void Field_SwapZoneByMatrix(Field *field);
+void Field_HotswapSpawnActors(Field *field, GameData *gameData, MMSys *actorSystem, EventData *eventData, u32 zoneId);
+void Field_SwapZoneBGM(Field *field, u32 zoneId);
+void Field_SwapWeather(Field *field, u32 zoneId);
+void Field_CheckGiveDiamondDustMedal(Field *field);
+void Field_SwapFog(Field *field, u32 zoneId);
+void Field_UpdatePlayerStateZoneID(GameData *gameData, u32 zoneId);
+void Field_SwapCameraBoundaries(Field *field, u32 zoneId);
+void Field_ResetController(Field *field);
+void FieldCameraBoundary_ChangeZone(Field *field, u32 zoneId, HeapID heapId);
+void Field_LoadWFBC(GameData *gameData, Field *field, u32 zoneId);
+void Field_LoadJoinAvenue(GameData *gameData, Field *field, u32 zoneId);
+void Field_LoadSceneArea(Field *field, u32 zoneId);
+u32 func_ov036_02180f80(GameCommSys *comm);
+BOOL func_ov036_02180fc0(GameCommSys *comm);
+
+void FieldRenderPhase1_Fieldmap(Field *field);
+void FieldRenderPhase2_Fieldmap(Field *field);
+fx32 func_ov036_0218132c(Field *field);
+void FieldColorPostFX_Set(void *postFx, void *luminanceTable, BOOL flashback);
 
 #endif // POKEBW2_FIELD_FIELD_H

@@ -6,7 +6,6 @@
 
 extern const char data_ov012_0216e254[];
 
-u32 func_ov036_02180fc0(GameCommSys *commSys);
 BOOL func_ov012_02159bc0(VM *vm, void *env);
 BOOL s0139_GameCommDisconnect(VM *vm, FieldScriptEnv *env);
 BOOL s013B_GameCommCheckDSiWiFi(VM *vm, FieldScriptEnv *env);

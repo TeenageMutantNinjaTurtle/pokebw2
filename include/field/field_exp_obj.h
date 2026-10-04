@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_FIELD_EXP_OBJ_H
 
 #include "types.h"
+#include "gfl/heap.h"
 #include "gfl/g3d.h"
 #include "struct_decls.h"
 
@@ -28,5 +29,8 @@ BOOL FieldExpObjAnm_IsPlaybackFinished(FieldExpObjAnm *anm);
 u32 func_ov036_021b8520(FieldExpObjSystem *system, u16 scene, u16 actor, u32 value);
 // The animation's last frame
 fx32 func_ov036_021b8580(FieldExpObjAnm *anm);
+FieldExpObjSystem *FieldExpObj_Create(u32 a0, u32 a1, HeapID heapId);
+void FieldExpObj_Free(FieldExpObjSystem *system);
+void FieldExpObj_Draw(FieldExpObjSystem *system);
 
 #endif // POKEBW2_FIELD_FIELD_EXP_OBJ_H

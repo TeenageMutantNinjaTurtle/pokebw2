@@ -47,5 +47,8 @@ u32 getStatusOfFesMission(LinkFestival *festival);
 void func_0202d6a8(void);
 // Called when a Pokémon evolves, with its new species and its nickname before evolving
 void func_0202d304(u16 species, const StrBuf *nickname);
+void GSYS_SetEventProvider(GameSystem *gsys, void *provider, void *data);
+GameEvent *GSYS_GetNowEvent(GameSystem *gsys);
+void GSYS_SetField(GameSystem *gsys, Field *field);
 
 #endif // POKEBW2_SYSTEM_GAME_SYSTEM_H

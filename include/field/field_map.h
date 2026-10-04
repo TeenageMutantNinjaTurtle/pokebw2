@@ -145,5 +145,12 @@ void func_ov036_021c2d04(LandDataPatch *patch, void *map, u32 srcX, u32 srcY, u3
                          u32 height);
 // Adds the patch's buildings at x and y, after the count already added, and returns the new count
 u32 LoadLandDataPatchBuildings(LandDataPatch *patch, void *a1, void *a2, u32 count, u32 x, u32 y);
+u8 AreaData_GetLightsID(AreaData *areaData);
+u8 AreaData_GetEdgeColorTableID(AreaData *areaData);
+u8 AreaData_GetActorMatColorID(AreaData *areaData);
+BOOL AreaData_HasSeasons(u16 areaId);
+BOOL func_02018f60(u16 areaId);
+BOOL func_02018f78(u16 areaId);
+BOOL func_02018f90(u16 areaId);
 
 #endif // POKEBW2_FIELD_FIELD_MAP_H

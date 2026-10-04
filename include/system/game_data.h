@@ -134,5 +134,11 @@ u32 func_02039978(u32 *a0, u32 index);
 void func_02039980(u32 *a0, u32 index, u32 value);
 
 void SetNowWeather(GameData *gameData, u8 weather);
+u32 GetNowWeather(GameData *gameData);
+BOOL GameData_CheckEventsPaused(GameData *gameData);
+void GameData_ResetSkipFrame(GameData *gameData);
+void GameData_Set30FPSMode(GameData *gameData, BOOL enable);
+u8 func_02017b70(GameData *gameData);
+CityState *func_0201722c(GameData *gameData, u32 index);
 
 #endif // POKEBW2_SYSTEM_GAME_DATA_H

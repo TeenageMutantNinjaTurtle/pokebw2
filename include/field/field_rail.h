@@ -5,6 +5,7 @@
 // (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
 
 #include "types.h"
+#include "gfl/heap.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
 
@@ -16,5 +17,9 @@ void FieldNoGridMapper_ClearCameraParent(NoGridMapper *mapper);
 BOOL CalculateRailCurves(FieldRailSystem *rail, const VecFx32 *start, const VecFx32 *end, RailPosition *railPos,
                          VecFx32 *hit);
 BOOL func_ov036_021b068c(FieldRailSystem *rail, const RailPosition *railPos, u32 railDir, RailPosition *next);
+NoGridMapper *FieldNoGridMapper_Create(HeapID heapId, FieldCamera *camera, void *sceneArea, void *sceneAreaLoader);
+void FieldNoGridMapper_Free(NoGridMapper *mapper);
+void FieldNoGridMapper_LoadByHeader(NoGridMapper *mapper, u32 railId, HeapID heapId);
+void FieldNoGridMapper_UpdateCamera(NoGridMapper *mapper);
 
 #endif // POKEBW2_FIELD_FIELD_RAIL_H

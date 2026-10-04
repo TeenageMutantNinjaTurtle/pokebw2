@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_FIELD_DAYCARE_H
 
 #include "types.h"
+#include "gfl/heap.h"
 #include "app/ov165.h"
 #include "app/ov207.h"
 #include "system/game_event.h"
@@ -31,5 +32,7 @@ u32 DayCare_CalcNewLevel(DayCareSave *dayCare, u32 slot);
 u32 DayCare_CalcLevelGain(DayCareSave *dayCare, u32 slot);
 u32 DayCare_CalcWithdrawCost(DayCareSave *dayCare, u32 slot);
 u32 getNameGenderStatus(PartyPkm *pkm);
+void *DayCare_Create(HeapID heapId, Field *field, DayCareSave *save);
+void DayCare_Free(void *dayCare);
 
 #endif // POKEBW2_FIELD_FIELD_DAYCARE_H

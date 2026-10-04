@@ -27,5 +27,8 @@ FieldTask *FieldCameraMoveTaskZoom_Create(Field *field, u16 duration, fx32 zoom)
 FieldTask *FieldCameraMoveTaskPitch_Callback(Field *field, u16 duration, u16 pitch);
 FieldTask *FieldCameraMoveTaskYaw_Callback(Field *field, u16 duration, u16 yaw);
 FieldTask *FieldCameraMoveTaskTargetOffs_Create(Field *field, u16 duration, const VecFx32 *offset);
+FieldTaskManager *FieldTaskManager_Create(u32 count, HeapID heapId);
+void FieldTaskManager_Free(FieldTaskManager *manager);
+void FieldTaskManager_Update(FieldTaskManager *manager);
 
 #endif // POKEBW2_FIELD_FIELD_TASK_H

@@ -5,6 +5,7 @@
 // (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
 
 #include "types.h"
+#include "gfl/heap.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
 
@@ -31,5 +32,10 @@ void FieldG3DObjResRequest_Clear(FieldG3DObjResRequest *req);
 void FieldG3DObjResRequest_SetModel(FieldG3DObjResRequest *req, ArcTool *arc, u16 datId);
 void FieldG3DObjResRequest_SetAnmArc(FieldG3DObjResRequest *req, ArcTool *arc);
 void FieldG3DObjResRequest_AddAnm(FieldG3DObjResRequest *req, u16 datId);
+void *FieldG3DObjSystem_Create(HeapID heapId, u32 a1, u32 a2);
+void FieldG3DObjSystem_Free(void *system);
+void FieldG3DObjSystem_SetupResources(void *system);
+void FieldG3DObjSystem_Draw(void *system);
+void FieldG3DObjSystem_SetColorPostFX(void *system, void *postFx);
 
 #endif // POKEBW2_FIELD_FIELD_G3DOBJ_H

@@ -256,5 +256,17 @@ u16 ZoneData_GetPlaceNameID(u16 zoneId);
 
 // The zone in the other version for a zone that differs, in the main module
 u16 GetVersionedMapChangeZoneNum2(u16 zoneId);
+u16 GetZoneMatrixCamBoundIdx(u16 zoneId);
+u32 GetZoneDefaultCameraIndex(u16 zoneId);
+BOOL GetZoneFlagsEnableCycling(u16 zoneId);
+BOOL GetZoneHasRailSystem(u16 zoneId);
+u32 GetRailIDForZone(u16 zoneId);
+BOOL IsZoneEntralinkEdgeColorTable(u16 zoneId);
+BOOL IsZoneFlashbackMemoryPostFX(u16 zoneId);
+BOOL IsZoneBlackCityOrWhiteForestLobby(u16 zoneId);
+u32 GetZoneStaticLightDataIndex(u16 zoneId);
+u16 GetCameraIDForZone(u16 zoneId);
+void GetPlayerZoneStateWPos(ZoneSpawnInfo *spawn, VecFx32 *pos);
+void SetPlayerZoneStateWPos(ZoneSpawnInfo *spawn, const VecFx32 *pos);
 
 #endif // POKEBW2_FIELD_ZONE_H

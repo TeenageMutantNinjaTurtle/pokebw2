@@ -2,8 +2,17 @@
 #define POKEBW2_FIELD_FIELD_INTERNAL_H
 
 #include "field/field.h"
+#include "field/field_controller.h"
+#include "field/field_g3d_mapper.h"
+#include "field/zone.h"
 
-// The fields used by the accessors; the rest of Field's layout is not yet known.
+// The gimmick work of Field_AllocGimmickWorkBlock, password 0xffffffff for none
+typedef struct {
+    u32 password;
+    void *work;
+} FieldGimmickWorkBlock;
+
+// Layout from swan
 struct Field {
     u16 heapId;
     u16 unk2;
@@ -19,39 +28,50 @@ struct Field {
     void *msgBGSys;
     void *moneyWin;
     PlaceName *placeName;
-    u8 unk34[0x4];
+    void *unk34;
     void *fesGimmick;
     FieldExpObjSystem *expObjSystem;
     MMSys *actorSystem;
     NoGridMapper *noGridMapper;
     void *sceneArea;
-    u8 unk4c[0x4];
+    void *sceneAreaLoader;
     FieldG3DMapper *g3DMapper;
-    u8 unk54[0x40];
+    u32 unk54;
+    FieldG3DMapperConfig mapperConfig;
     FieldPlayer *player;
     EncountSystem *encountSystem;
     void *fieldEffects;
     void *unkA0;
-    u8 unkA4[0x4];
+    void *palaceSys;
     u8 colorPostFX[0x8];
     void *skillMapEff;
-    u8 unkb4[0x10];
+    void *g3dCamera;
+    void *g3dLights;
+    void *asyncActorMatLoadTCB;
+    void *actorBlAct;
     void *effectBlAct;
     void *wildEffectBlAct;
     FieldAsyncProcManager *asyncProcManager;
+    // 1 when the map is loaded, 2 when closing
     u32 routineState;
     u32 routineID;
-    u8 unkd8[0x10];
-    u16 playerStateZoneId;
-    u8 unkea[0x16];
+    u8 subroutinePhase;
+    u8 routineAlternator;
+    u16 unkDA;
+    u32 framesSinceStart;
+    u16 zoneId;
+    u16 unkE2;
+    ZoneSpawnInfo playerZoneState;
     VecFx32 *playerPosPtr;
-    u8 unk104[0xc];
+    VecFx32 playerPos;
     fx32 actorYOffset;
-    u8 unk114[0x4];
-    u32 *controllerTypeID;
+    fx32 objectProjectionMatrixOffset;
+    const FieldmapCtrlVTable *ctrlVTable;
     void *controller;
     TCBManager *tcbManager;
-    u8 unk124[0x10];
+    void *tcbManagerHeap;
+    FieldGimmickWorkBlock gimmickWork;
+    void *particleSystem;
     void *g3dCi;
     DayCareSave *dayCare;
     u32 renderMode;
@@ -61,11 +81,13 @@ struct Field {
     EncEff *encEff;
     BOOL effectRunningFlag;
     BOOL seasonBannerOverdrawFlag;
-    u8 nDemoDataHandle[0x8];
+    void *nDemoData;
+    void *dispControl;
     BOOL casteliaRush;
     FieldLensFlare *lensFlare;
 };
 
 void *func_ov036_0218051c(Field *field);
+void func_ov036_02180fe4(FieldGimmickWorkBlock *block);
 
 #endif // POKEBW2_FIELD_FIELD_INTERNAL_H

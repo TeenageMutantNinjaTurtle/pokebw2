@@ -57,5 +57,6 @@ void GFL_HeapFree(void *ptr);
 void GFL_HeapCreateChild(HeapID parentHeapId, HeapID heapId, u32 size);
 void GFL_HeapDelete(HeapID heapId);
 u32 GFL_HeapGetFreeSize(HeapID heapId);
+void GFL_HeapCreateRoot(void *memory, u32 size, HeapID heapId);
 
 #endif // POKEBW2_GFL_HEAP_H

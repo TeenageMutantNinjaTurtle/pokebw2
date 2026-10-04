@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_FIELD_CAMERA_H
 
 #include "types.h"
+#include "gfl/heap.h"
 #include "gfl/g3d.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
@@ -33,7 +34,7 @@ typedef struct {
     FieldEvCameraAnimationFlags flags;
 } FieldEvCameraAnimationSetup;
 
-void FieldCamera_CalcTransform(FieldCamera *camera, u32 a1);
+void FieldCamera_CalcTransform(FieldCamera *camera, u16 heldKeys);
 G3DCamera *FieldCamera_GetG3DCamera(FieldCamera *camera);
 void FieldCamera_CoordsGetEyeOffset(FieldCamera *camera, VecFx32 *offset);
 void FieldCamera_CoordsGetTarget(FieldCamera *camera, VecFx32 *target);
@@ -73,5 +74,12 @@ void FieldNoGridMapper_SetCameraAreaEnabled(NoGridMapper *mapper, BOOL enabled);
 // Tasks that move the camera's zoom over frames: this one by a distance from its current zoom
 void FieldCameraZoomTCB_Create(Field *field, u32 frames, fx32 distance);
 void func_ov036_021c05d4(Field *field, u32 frames, fx32 distance);
+FieldCamera *FieldCamera_Create(u32 cameraIndex, u32 a1, G3DCamera *g3dCamera, const VecFx32 *target, HeapID heapId);
+void FieldCamera_Free(FieldCamera *camera);
+// The camera's pitch
+u16 *func_ov036_021863c4(FieldCamera *camera);
+u16 *func_ov036_021863d8(FieldCamera *camera);
+void FieldCameraBoundary_LoadDummy(FieldCamera *camera);
+void FieldCameraBoundary_ChangeID(FieldCamera *camera, u16 boundaryId, HeapID heapId);
 
 #endif // POKEBW2_FIELD_FIELD_CAMERA_H

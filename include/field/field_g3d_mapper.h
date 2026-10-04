@@ -124,7 +124,7 @@ BOOL FieldG3DMapper_IsPosOutOfBounds(FieldG3DMapper *mapper, const VecFx32 *posi
 void func_ov036_021852d0(FieldG3DMapper *mapper, const VecFx32 *position);
 void func_ov036_021852e0(FieldG3DMapper *mapper, VecFx32 *out);
 FieldPropSystem *FieldG3DMapper_GetBMSystem(FieldG3DMapper *mapper);
-void func_ov036_021852f4(FieldG3DMapper *mapper, void *a1, void *a2);
+void func_ov036_021852f4(FieldG3DMapper *mapper, CityState *city, BOOL isOther);
 ResortMapCreateWork *func_ov036_02185304(FieldG3DMapper *mapper);
 FieldTerrainAnimator *FieldG3DMapper_CreateTerrainAnimator(u16 chunkCapacity, void *mapTextures,
                                                            const FieldTerrainAnmInfo *anmInfo, u32 heapId);

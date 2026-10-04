@@ -51,5 +51,7 @@ typedef struct {
 
 // Returns the rectangle that was touched this frame, or TOUCH_RECT_NONE
 s32 func_0203da0c(const TouchRect *rects);
+void func_0203d5b8(void);
+void GCTX_HIDChangeFPS(u32 fps);
 
 #endif // POKEBW2_GFL_INPUT_H

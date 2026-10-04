@@ -27,5 +27,6 @@ u32 PleasureBoat_GetInfo(PleasureBoat *boat, u32 info);
 void PleasureBoat_AdvanceClock(PleasureBoat *boat, u32 steps, BOOL stopBefore);
 void PleasureBoat_SetTrainerDefeated(PleasureBoat *boat, u32 trainer, BOOL defeated);
 void PleasureBoat_StopClock(PleasureBoat *boat);
+void func_ov036_021c20e0(PleasureBoat *boat);
 
 #endif // POKEBW2_FIELD_PLEASURE_BOAT_H

@@ -4,6 +4,7 @@
 #include "types.h"
 
 void sys_memcpy(const void *src, void *dest, u32 size);
+void sys_memcpy32_fast(const void *src, void *dest, u32 size);
 void sys_memcpy16(const void *src, void *dest, u32 size);
 void sys_memset(void *dest, u32 value, u32 size);
 void sys_memset16(u16 value, void *dest, u32 size);

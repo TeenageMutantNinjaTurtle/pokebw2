@@ -24,5 +24,7 @@ void FieldStatus_SetFlashPerms(FieldStatus *status, u32 flags);
 void FieldStatus_SetFlashUsed(FieldStatus *status, BOOL value);
 void FieldStatus_SetInLinkedWorld(FieldStatus *status, BOOL inLinkedWorld);
 void FieldStatus_SetNewLoadFlag(FieldStatus *status, BOOL flag);
+u8 FieldStatus_GetNewLoadFlag(FieldStatus *status);
+BOOL func_02019314(FieldStatus *status);
 
 #endif // POKEBW2_FIELD_FIELD_STATUS_H

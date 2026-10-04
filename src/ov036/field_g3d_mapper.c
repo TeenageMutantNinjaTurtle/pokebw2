@@ -759,8 +759,8 @@ FieldPropSystem *FieldG3DMapper_GetBMSystem(FieldG3DMapper *mapper) {
     return mapper->propSystem;
 }
 
-void func_ov036_021852f4(FieldG3DMapper *mapper, void *a1, void *a2) {
-    func_ov036_0218ade0(mapper->wfbc, a1, a2, mapper->heapId);
+void func_ov036_021852f4(FieldG3DMapper *mapper, CityState *city, BOOL isOther) {
+    func_ov036_0218ade0(mapper->wfbc, city, isOther, mapper->heapId);
 }
 
 ResortMapCreateWork *func_ov036_02185304(FieldG3DMapper *mapper) {

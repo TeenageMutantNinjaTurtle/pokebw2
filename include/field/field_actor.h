@@ -2,6 +2,8 @@
 #define POKEBW2_FIELD_FIELD_ACTOR_H
 
 #include "types.h"
+#include "gfl/heap.h"
+#include "gfl/blact.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
 #include "system/game_event.h"
@@ -191,5 +193,25 @@ void ConvGXZToVector(u32 x, u32 z, VecFx32 *pos);
 void SpawnAllZoneNPCs(MMSys *mmSys, ZoneNPC *npcs, s32 zoneId, u32 count, EventWork *eventWork);
 
 BOOL func_ov012_02166ecc(FieldActor *actor);
+void *FldActMatColorPreset_Create(HeapID heapId);
+void FldActMatColorPreset_Free(void *preset);
+void FldActMatColorPreset_Load(void *preset, u32 presetId);
+void FldActMatColorPreset_Apply(void *preset, BlActScene *scene);
+void FldActSys_AttachField(MMSys *system, HeapID heapId, GameData *gameData, Field *field, FieldG3DMapper *mapper,
+                           NoGridMapper *noGridMapper, void *colorPostFx);
+void FldActSys_InitBlAct(MMSys *system, BlActSys *blAct, u32 count);
+void FldActSys_LoadCachedBlact(MMSys *system);
+void FldActSys_LoadStaticBlact(MMSys *system, u16 objCode);
+void FldActSys_Update(MMSys *system);
+void FldActSys_FinishAsyncMatLoad(MMSys *system);
+void FldActSys_FinishAsyncMatLoadSafe(MMSys *system);
+BOOL FldActSys_IsAsyncLoadPending(MMSys *system);
+void FldActSys_SuspendAllActors(MMSys *system);
+void DeleteAllActors(MMSys *system);
+void FieldActorG3DSystem_Create(MMSys *system, void *g3dObjSystem);
+void func_ov012_02166764(MMSys *system);
+void func_ov012_021667cc(MMSys *system, u16 *cameraAngle);
+void func_ov012_02166d48(MMSys *system);
+void func_ov012_021673e0(MMSys *system, BOOL flag);
 
 #endif // POKEBW2_FIELD_FIELD_ACTOR_H

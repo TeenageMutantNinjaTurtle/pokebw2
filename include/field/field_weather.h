@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_FIELD_WEATHER_H
 
 #include "types.h"
+#include "gfl/heap.h"
 #include "struct_decls.h"
 
 // The field's weathers. Overlay 36 keeps the weather system, which loads an overlay with each weather's data:
@@ -45,5 +46,13 @@ BOOL func_ov074_021e91b8(WeatherTask *task, u32 arg);
 BOOL func_ov074_021e91bc(WeatherTask *task, u32 arg);
 BOOL func_ov074_021e91e0(WeatherTask *task, u32 arg);
 BOOL func_ov074_021e91f4(WeatherTask *task, u32 arg);
+void *func_ov036_02199004(FieldCamera *camera, void *light, FieldFog *fog, void *fogCtrl, FieldSound *sound, u32 season,
+                          HeapID heapId);
+void func_ov036_021990d8(void *weather);
+void FieldWeather_Update(void *weather, HeapID heapId);
+void FieldWeather_Draw(void *weather);
+BOOL func_ov036_0219917c(void *weather);
+void SetWeatherInit(void *weather, u16 weatherId, HeapID heapId);
+void func_ov036_02199208(void *weather, u16 weatherId);
 
 #endif // POKEBW2_FIELD_FIELD_WEATHER_H

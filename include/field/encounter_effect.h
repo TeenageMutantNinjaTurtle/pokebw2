@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_ENCOUNTER_EFFECT_H
 
 #include "types.h"
+#include "gfl/heap.h"
 #include "nitro/fx.h"
 #include "system/game_event.h"
 #include "struct_decls.h"
@@ -68,5 +69,7 @@ GameEvent *func_ov153_021f6200(GameSystem *gsys, Field *field);
 GameEvent *func_ov153_021f623c(GameSystem *gsys);
 void func_ov153_021f6268(EncEffGrid *grid);
 BOOL func_ov153_021f62c4(EncEffCell *cell);
+EncEff *EncEff_Create(HeapID heapId, Field *field);
+void EncEff_Free(EncEff *encEff);
 
 #endif // POKEBW2_FIELD_ENCOUNTER_EFFECT_H

@@ -22,5 +22,15 @@ void func_02014774(LinkFestival *festival, u32 arg1);
 void func_ov130_021eed98(GameSystem *gsys);
 void func_ov130_021eedb4(GameSystem *gsys);
 u32 GetTrainerCardTextMSGID(u32 type);
+void *func_ov036_021b5b7c(GameSystem *gsys, HeapID heapId);
+void func_ov036_021b5bfc(void *work);
+void func_ov036_021b5c28(void *work);
+void func_ov036_021b5c78(void *work);
+void *FesGimmick_Create(GameSystem *gsys, Field *field, HeapID heapId);
+void FesGimmick_Free(void *gimmick);
+void FesGimmick_BindActorSystem(void *gimmick, MMSys *actorSystem);
+void FesGimmick_BindPlayer(void *gimmick, void *effects, FieldPlayer *player);
+void func_ov036_021b65d4(void *gimmick);
+void func_ov036_021b6660(void *gimmick);
 
 #endif // POKEBW2_FIELD_FESTIVAL_H
