@@ -27,9 +27,6 @@ BOOL func_ov167_021aceb4(void *state, u8 monId);
 
 BOOL func_ov167_021acec4(void *state, u8 monId);
 
-BOOL func_ov167_021a6ab8(BtlServerFlow *handler, u8 monId, BattleMon *mon, u32 stat, s32 change, u32 displayCode,
-                         u32 context, u32 value, u8 extra, BOOL flag);
-
 // The targets hit by one strike of a damaging move, as func_ov167_021a4c90 works through them
 static u32 sHitEffectiveness[3];
 static BattleMon *sHitMons[3];
@@ -4179,7 +4176,7 @@ u32 func_ov167_021a68fc(BtlServerFlow *flow) {
 }
 
 BOOL func_ov167_021a6914(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, BattleMon *target,
-                         u8 arg4) {
+                         BOOL showFail) {
     u32 stat;
     s32 change;
     BOOL result;
@@ -4198,12 +4195,13 @@ BOOL func_ov167_021a6914(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon
         ServerEvent_GetMoveStatChangeValue(flow, param->move, i, attacker, target, &stat, &change);
         if (stat != 0) {
             if (stat != 0xa) {
-                changed = func_ov167_021a6ab8(flow, attackerId, target, stat, change, attackerId, changed, serial, arg4,
-                                              TRUE);
+                changed = func_ov167_021a6ab8(flow, attackerId, target, stat, change, attackerId, changed, serial,
+                                              showFail, TRUE);
             } else {
                 u8 s;
                 for (s = 1; s < 6; s++) {
-                    if (func_ov167_021a6ab8(flow, attackerId, target, s, change, attackerId, 0, serial, arg4, TRUE)) {
+                    if (func_ov167_021a6ab8(flow, attackerId, target, s, change, attackerId, 0, serial, showFail,
+                                            TRUE)) {
                         changed = TRUE;
                     }
                 }
@@ -4216,6 +4214,83 @@ BOOL func_ov167_021a6914(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon
             }
         }
     }
+    return result;
+}
+
+void ServerEvent_GetMoveStatChangeValue(BtlServerFlow *flow, u16 move, u32 index, BattleMon *attacker,
+                                        BattleMon *target, u32 *stat, s32 *change) {
+    u8 multiplier;
+
+    *stat = PML_MoveGetStatChangeStage(move, index, change);
+    BattleEventVar_Push(0x2063);
+    BattleEventVar_SetConstValue(3, GetMonID(attacker));
+    BattleEventVar_SetConstValue(4, GetMonID(target));
+    BattleEventVar_SetValue(0x1f, *stat);
+    BattleEventVar_SetValue(0x20, *change);
+    BattleEventVar_SetValue(0x35, 1);
+    BattleEvent_CallHandlers(flow, 0x59);
+    *stat = BattleEventVar_GetValue(0x1f);
+    *change = BattleEventVar_GetValue(0x20);
+    multiplier = BattleEventVar_GetValue(0x35);
+    if (multiplier > 1) {
+        *change *= multiplier;
+    }
+    BattleEventVar_Pop(0x2072);
+    if (*stat == 8) {
+        *stat = 0;
+    }
+}
+
+BOOL func_ov167_021a6ab8(BtlServerFlow *flow, u8 monId, BattleMon *mon, u32 stat, s32 change, u8 attackerId,
+                         u16 context, u32 value, BOOL showFail, BOOL flag) {
+    BOOL result;
+
+    change = ServerEvent_CheckSubstituteInteraction(flow, mon, stat, attackerId, context, change);
+    if (!IsStatChangeValid(mon, stat, change)) {
+        if (showFail) {
+            func_ov167_021a9564(flow, mon, stat, change);
+            flow->unk78A_4 = 1;
+        }
+        return FALSE;
+    }
+    if (IsSubstituteActive(mon)) {
+        u8 targetId = GetMonID(mon);
+        if (monId != targetId) {
+            if (showFail) {
+                func_ov167_021b15d0(flow->queue, 0x5b, 0xd2, targetId, 0xffff0000);
+            }
+            return FALSE;
+        }
+    }
+    result = TRUE;
+    if (func_ov167_021ab2c8(flow, mon, stat, monId, change, value)) {
+        u32 state;
+        func_ov167_021a95a4(flow, mon, stat, change, context, flag);
+        state = PushState(&flow->actionState, 0x20ad);
+        func_ov167_021ab374(flow, monId, mon, stat, change);
+        PopState(&flow->actionState, state, 0x20af);
+    } else {
+        if (showFail) {
+            u32 state = PushState(&flow->actionState, 0x20b6);
+            func_ov167_021ab338(flow, mon, value);
+            PopState(&flow->actionState, state, 0x20b8);
+        }
+        result = FALSE;
+    }
+    return result;
+}
+
+s32 ServerEvent_CheckSubstituteInteraction(BtlServerFlow *flow, BattleMon *mon, u32 stat, u8 attackerId, u16 context,
+                                           s32 change) {
+    s32 result;
+    BattleEventVar_Push(0x20d1);
+    BattleEventVar_SetConstValue(2, GetMonID(mon));
+    BattleEventVar_SetConstValue(3, attackerId);
+    BattleEventVar_SetConstValue(0x1f, stat);
+    BattleEventVar_SetRewriteOnceValue(0x20, change);
+    BattleEvent_CallHandlers(flow, 0x5a);
+    result = BattleEventVar_GetValue(0x20);
+    BattleEventVar_Pop(0x20d8);
     return result;
 }
 
@@ -4458,7 +4533,7 @@ BOOL BattleHandler_CureCondition(BtlServerFlow *handler, struct BattleHandlerCur
 }
 
 // Function name from swan.
-BOOL BattleHandler_StatChange(BtlServerFlow *handler, struct BattleHandlerStatChangeParam *param, u32 context) {
+BOOL BattleHandler_StatChange(BtlServerFlow *handler, struct BattleHandlerStatChangeParam *param, u16 context) {
     BattleMon *popupMon;
     BattleMon *mon;
     BOOL valid;

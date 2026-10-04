@@ -353,11 +353,21 @@ void ServerEvent_MoveStatusConfirmed(BtlServerFlow *flow, BattleMon *target, Bat
 fx32 ServerEvent_GetWeightRatio(BtlServerFlow *flow, BattleMon *mon);
 BOOL ServerEvent_RollStatDropEffectChance(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker,
                                           BattleMon *target);
-BOOL func_ov167_021a6914(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, BattleMon *target, u8 arg4);
+BOOL func_ov167_021a6914(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, BattleMon *target,
+                         BOOL showFail);
 u32 func_ov167_021a68fc(BtlServerFlow *flow);
 void ServerEvent_GetMoveStatChangeValue(BtlServerFlow *flow, u16 move, u32 index, BattleMon *attacker,
                                         BattleMon *target, u32 *stat, s32 *change);
 void func_ov167_021ab3c0(BtlServerFlow *flow, BattleMon *mon, u16 move, u32 stat, s32 change);
+BOOL func_ov167_021a6ab8(BtlServerFlow *flow, u8 monId, BattleMon *mon, u32 stat, s32 change, u8 attackerId,
+                         u16 context, u32 value, BOOL showFail, BOOL flag);
+s32 ServerEvent_CheckSubstituteInteraction(BtlServerFlow *flow, BattleMon *mon, u32 stat, u8 attackerId, u16 context,
+                                           s32 change);
+void func_ov167_021a9564(BtlServerFlow *flow, BattleMon *mon, u32 stat, s32 change);
+BOOL func_ov167_021ab2c8(BtlServerFlow *flow, BattleMon *mon, u32 stat, u8 monId, s32 change, u32 value);
+void func_ov167_021a95a4(BtlServerFlow *flow, BattleMon *mon, u32 stat, s32 change, u16 context, BOOL flag);
+void func_ov167_021ab374(BtlServerFlow *flow, u8 monId, BattleMon *mon, u32 stat, s32 change);
+void func_ov167_021ab338(BtlServerFlow *flow, BattleMon *mon, u32 value);
 BOOL ServerEvent_AddCondition(BtlServerFlow *flow, BattleMon *target, BattleMon *attacker, u32 condition,
                               BattleCondition value, BOOL flag, BOOL defaultMessage);
 u32 ServerEvent_CheckMoveAddCondition(BtlServerFlow *flow, u16 move, BattleMon *attacker, BattleMon *target,
