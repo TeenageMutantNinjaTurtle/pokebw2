@@ -220,7 +220,7 @@ u32 PokeList_GetHidenResult(PartyPkm *pkm, u8 slot);
 BOOL PokeList_IsBattle(PokeListWork *wk);
 u32 PokeList_CheckLearnMove(PokeListWork *wk, PartyPkm *pkm, u8 pos);
 BOOL PokeList_CanEvolveWithItem(PokeListWork *wk, PartyPkm *pkm, u16 item);
-void PokeList_PrintString(PokeListWork *wk, BmpWin *window, u16 msgId, int x, s16 y, u16 color);
+void PokeList_PrintString(PokeListWork *wk, BmpWin *window, u16 msgId, u16 x, s16 y, u16 color);
 void PokeList_PrintStringSmall(PokeListWork *wk, BmpWin *window, u32 msgId, int x, s16 y, u16 color);
 void PokeList_DrawStringSmall(PokeListWork *wk, BmpWin *window, u32 msgId, int x, s16 y, u16 color);
 void PokeList_PrintWordSetString(PokeListWork *wk, BmpWin *window, WordSet *wordSet, u32 msgId, s16 x, s16 y,
@@ -311,10 +311,10 @@ void PokeList_LearnMessageDone(PokeListWork *wk);
 void PokeList_UpdateLevelUp(PokeListWork *wk);
 
 // plist_battle.c
-void func_ov165_021a0d38(PokeListWork *wk);
-void func_ov165_021a0dec(PokeListWork *wk);
-void func_ov165_021a0e54(PokeListWork *wk);
-void func_ov165_021a1558(PokeListWork *wk);
+void PokeListBattle_Init(PokeListWork *wk);
+void PokeListBattle_Exit(PokeListWork *wk);
+void PokeListBattle_Update(PokeListWork *wk);
+void PokeListBattle_ShowMessage(PokeListWork *wk);
 
 // plist_demo.c
 void func_ov165_021a1944(PokeListWork *wk);

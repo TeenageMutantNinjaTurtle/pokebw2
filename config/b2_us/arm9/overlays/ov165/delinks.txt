@@ -33,3 +33,7 @@ src/ov165/plist_item.c:
     complete
     .text       start:0x0219fef0 end:0x021a0d38
     .rodata     start:0x021a4c5c end:0x021a4c68
+
+src/ov165/plist_battle.c:
+    .text       start:0x021a0d38 end:0x021a1944
+    .data       start:0x021a4d1c end:0x021a4d2c

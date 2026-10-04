@@ -201,7 +201,7 @@ BOOL PokeList_Init(PokeListWork *wk) {
     wk->taskMenuRes = func_0202e168(0, 1, wk->font, wk->printQueue, wk->heapId);
     PokeList_CreateActors(wk);
     if (PokeList_IsBattle(wk) == TRUE) {
-        func_ov165_021a0d38(wk);
+        PokeListBattle_Init(wk);
     }
     wk->vblankTask = GFL_VBlankTCBAdd(PokeList_VBlank, wk, 8);
     wk->message = PokeListMessage_Create(wk);
@@ -235,7 +235,7 @@ BOOL PokeList_Exit(PokeListWork *wk) {
     func_0202e1dc(wk->taskMenuRes);
     PokeList_ExitText(wk);
     if (PokeList_IsBattle(wk) == TRUE) {
-        func_ov165_021a0dec(wk);
+        PokeListBattle_Exit(wk);
     }
     PokeList_FreeActors(wk);
     PokeList_FreeResources(wk);
@@ -371,7 +371,7 @@ BOOL PokeList_Main(PokeListWork *wk) {
     PokeListMessage_Update(wk, wk->message);
     PokeList_UpdateGlow(wk);
     if (PokeList_IsBattle(wk) == TRUE) {
-        func_ov165_021a0e54(wk);
+        PokeListBattle_Update(wk);
         PokeListMenu_UpdateButton(wk->buttons[0]);
         PokeListMenu_UpdateButton(wk->buttons[1]);
     }
@@ -887,7 +887,7 @@ static void PokeList_ShowModeMessage(PokeListWork *wk) {
         wk->showShortcutButtons = TRUE;
         break;
     case 1:
-        func_ov165_021a1558(wk);
+        PokeListBattle_ShowMessage(wk);
         func_0204c124(wk->exitButton, FALSE);
         wk->showShortcutButtons = FALSE;
         break;
@@ -2590,7 +2590,7 @@ BOOL PokeList_CanEvolveWithItem(PokeListWork *wk, PartyPkm *pkm, u16 item) {
     return CheckEvolveSpecies(wk->param->party, pkm, 3, item, wk->param->season, NULL, wk->heapId);
 }
 
-void PokeList_PrintString(PokeListWork *wk, BmpWin *window, u16 msgId, int x, s16 y, u16 color) {
+void PokeList_PrintString(PokeListWork *wk, BmpWin *window, u16 msgId, u16 x, s16 y, u16 color) {
     StrBuf *str = GFL_MsgDataLoadStrbufNew(wk->msgData, msgId);
 
     func_02021c7c(wk->printQueue, BmpWin_GetBitmap(window), x, y, str, wk->font, color);

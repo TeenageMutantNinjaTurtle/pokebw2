@@ -13,6 +13,7 @@ u32 func_0202d818(u32 mapping);
 u32 func_0202d81c(u32 mapping);
 u32 func_0202d820(void);
 u32 func_0202d824(void);
+u32 func_0202d828(void);
 u32 func_0202d82c(void);
 u32 func_0202d890(void);
 u32 func_0202d894(void);
