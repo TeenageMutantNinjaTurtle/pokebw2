@@ -13,6 +13,10 @@ typedef u16 GXRgb;
 
 #define reg_GX_DISPCNT (*(vu32 *)0x04000000)
 #define reg_G2_BG0CNT (*(vu16 *)0x04000008)
+#define reg_G2_WIN0H (*(vu16 *)0x04000040)
+#define reg_G2_WIN0V (*(vu16 *)0x04000044)
+#define reg_G2_WININ (*(vu16 *)0x04000048)
+#define reg_G2_WINOUT (*(vu16 *)0x0400004a)
 #define reg_G2_BLDCNT (*(vu16 *)0x04000050)
 #define reg_G2_BLDALPHA (*(vu16 *)0x04000052)
 #define reg_G3X_DISP3DCNT (*(vu16 *)0x04000060)
@@ -62,6 +66,18 @@ typedef u16 GXRgb;
 #define REG_G3X_DISP3DCNT_GO_MASK 0x2000
 
 #define GX_WNDMASK_NONE 0x00
+#define GX_WNDMASK_W0 0x01
+
+#define GX_WND_PLANEMASK_BG0 0x01
+#define GX_WND_PLANEMASK_BG1 0x02
+#define GX_WND_PLANEMASK_BG2 0x04
+#define GX_WND_PLANEMASK_BG3 0x08
+#define GX_WND_PLANEMASK_OBJ 0x10
+
+#define REG_G2_WININ_WIN0IN_SHIFT 0
+#define REG_G2_WININ_WIN0IN_MASK 0x003f
+#define REG_G2_WINOUT_WINOUT_SHIFT 0
+#define REG_G2_WINOUT_WINOUT_MASK 0x003f
 
 #define GX_OAM_MODE_NORMAL 0
 #define GX_OAM_MODE_XLU 1
@@ -182,6 +198,7 @@ typedef enum {
 #define GX_VRAM_OBJ_16_G GX_VRAM_G
 #define GX_VRAM_OBJ_64_E GX_VRAM_E
 #define GX_VRAM_OBJ_128_B GX_VRAM_B
+#define GX_VRAM_OBJ_256_AB (GX_VRAM_A | GX_VRAM_B)
 #define GX_VRAM_OBJEXTPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_SUB_OBJ_16_I GX_VRAM_I
 #define GX_VRAM_SUB_OBJ_128_D GX_VRAM_D
@@ -491,6 +508,27 @@ static inline void GXS_SetVisibleWnd(int window) {
     reg_GXS_DB_DISPCNT =
         (reg_GXS_DB_DISPCNT & ~(REG_GX_DISPCNT_W0_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_OW_MASK)) |
         (window << REG_GX_DISPCNT_W0_SHIFT);
+}
+
+static inline void G2_SetWnd0InsidePlane(int wnd, BOOL effect) {
+    u32 tmp = (reg_G2_WININ & ~REG_G2_WININ_WIN0IN_MASK) | (wnd << REG_G2_WININ_WIN0IN_SHIFT);
+    if (effect) {
+        tmp |= 0x20 << REG_G2_WININ_WIN0IN_SHIFT;
+    }
+    reg_G2_WININ = (u16)tmp;
+}
+
+static inline void G2_SetWndOutsidePlane(int wnd, BOOL effect) {
+    u32 tmp = (reg_G2_WINOUT & ~REG_G2_WINOUT_WINOUT_MASK) | (wnd << REG_G2_WINOUT_WINOUT_SHIFT);
+    if (effect) {
+        tmp |= 0x20 << REG_G2_WINOUT_WINOUT_SHIFT;
+    }
+    reg_G2_WINOUT = (u16)tmp;
+}
+
+static inline void G2_SetWnd0Position(int x1, int y1, int x2, int y2) {
+    reg_G2_WIN0H = (u16)(((x1 & 0xff) << 8) | (x2 & 0xff));
+    reg_G2_WIN0V = (u16)(((y1 & 0xff) << 8) | (y2 & 0xff));
 }
 
 static inline void G2_BlendNone(void) {

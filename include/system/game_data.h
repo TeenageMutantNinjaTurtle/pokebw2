@@ -57,6 +57,7 @@ BSubwayScoreData *func_0201795c(GameData *gameData);
 BSubwayScrWork *func_0201794c(GameData *gameData);
 u8 func_02017b8c(GameData *gameData);
 void func_02017bb4(GameData *gameData);
+void func_02017884(GameData *gameData);
 MusicalSave *getMusicalInfoBlkAddress(GameData *gameData);
 ZoneSpawnInfo *GameData_GetNextZone(GameData *gameData);
 PokeParty *GameData_GetParty(GameData *gameData);
