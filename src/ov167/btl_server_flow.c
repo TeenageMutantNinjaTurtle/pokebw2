@@ -4934,6 +4934,92 @@ BOOL func_ov167_021a7db4(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon
     return FALSE;
 }
 
+void StoreBattleMonsSpeedOrder(BtlServerFlow *flow, void *monSet) {
+    BtlFlowMonIter iter;
+    BattleMon *mon;
+
+    func_ov169_0689ccc4(monSet);
+    func_ov167_021a0d5c(&iter, flow);
+    while (func_ov167_021a0df4(&iter, flow, &mon)) {
+        func_ov169_0689ccd0(monSet, mon);
+    }
+    SortBySpeed(monSet, flow);
+}
+
+BOOL func_ov167_021a7f1c(BtlServerFlow *flow) {
+    void *monSet = flow->unk854;
+    BOOL result = FALSE;
+    BattleMon *mon;
+
+    if (flow->unk77E == 0) {
+        StoreBattleMonsSpeedOrder(flow, monSet);
+        flow->unk77E = 1;
+        func_ov167_021a81f4(flow);
+    }
+    switch (flow->unk77E) {
+    case 1:
+        flow->unk77E++;
+        func_ov167_021b1434(flow->queue, 0x56, 0);
+        result = FALSE;
+        if (func_ov167_021a87dc(flow, monSet)) {
+            result = TRUE;
+            break;
+        }
+        if (ServerControl_CheckMatchup(flow)) {
+            return result;
+        }
+    case 2:
+        flow->unk77E++;
+        if (func_ov167_021a82e8(flow, monSet, 0x76)) {
+            result = TRUE;
+            break;
+        }
+        if (ServerControl_CheckMatchup(flow)) {
+            return FALSE;
+        }
+    case 3:
+        flow->unk77E++;
+        if (func_ov167_021a83ec(flow, monSet)) {
+            result = TRUE;
+            break;
+        }
+        if (ServerControl_CheckMatchup(flow)) {
+            return FALSE;
+        }
+    case 4:
+        flow->unk77E++;
+        func_ov167_021a864c(flow);
+        func_ov167_021a86e4(flow);
+    case 5:
+        flow->unk77E++;
+        if (func_ov167_021a82e8(flow, monSet, 0x77)) {
+            result = TRUE;
+            break;
+        }
+        if (ServerControl_CheckMatchup(flow)) {
+            return FALSE;
+        }
+    case 6:
+        func_ov167_021a82e8(flow, monSet, 0x78);
+        flow->unk77E++;
+        func_ov169_0689ce0c(monSet);
+        while ((mon = func_ov169_0689ce14(monSet)) != NULL) {
+            func_ov167_021bbc08(mon);
+            ComboMove_ClearParam(mon);
+            func_ov167_021b1434(flow->queue, 0x2e, GetMonID(mon));
+        }
+        func_ov167_021a80c4(flow);
+        BattleEvent_RemoveIsolatedItems();
+        if (flow->unk10 < 0x270f) {
+            flow->unk10++;
+        }
+        flow->unk77E = 0;
+        flow->unk774 = 0;
+        return FALSE;
+    }
+    return result;
+}
+
 // Function names from swan.
 void ServerDisplay_AbilityPopupAdd(BtlServerFlow *handler, BattleMon *mon) {
     func_ov167_021b1434(handler->queue, 0x57, GetMonID(mon));
