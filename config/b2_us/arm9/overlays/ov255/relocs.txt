@@ -6852,7 +6852,6 @@ from:0x021d742c kind:load to:0x021cbb01 module:overlay(255)
 from:0x021d7430 kind:load to:0x021cbd2d module:overlay(255)
 from:0x021d7434 kind:load to:0x021cbe1d module:overlay(255)
 from:0x021d7438 kind:load to:0x021cbe29 module:overlay(255)
-from:0x021d7454 kind:load to:0x020a0904 module:main
 from:0x021d78fc kind:load to:0x021d252d module:overlay(255)
 from:0x021d7900 kind:load to:0x021d2541 module:overlay(255)
 from:0x021d7904 kind:load to:0x021d2551 module:overlay(255)

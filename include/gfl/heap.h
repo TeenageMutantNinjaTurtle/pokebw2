@@ -51,6 +51,7 @@ enum {
     HEAPID_FIELD_PLACE_NAME = 0x93,
     HEAPID_SHINKA_DEMO = 0x94,
     HEAPID_FIELD_SCENEAREA = 0x96,
+    HEAPID_BOX_SEARCH = 0x98,
 };
 
 // Allocates from the end of the heap instead of the start

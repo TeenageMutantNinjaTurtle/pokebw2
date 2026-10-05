@@ -7,6 +7,8 @@
 
 // Species data
 
+#define PERSONAL_TYPE_1 6
+#define PERSONAL_TYPE_2 7
 #define PERSONAL_ABILITY_1 26
 #define PERSONAL_ABILITY_2 27
 #define PERSONAL_ABILITY_HIDDEN 28

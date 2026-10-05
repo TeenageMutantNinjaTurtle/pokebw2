@@ -46,5 +46,7 @@ void func_0202ba74(CursorMove *cursor, BOOL visible);
 // Turn a position of the table off and on
 void func_0202baa4(CursorMove *cursor, u32 pos);
 void func_0202bacc(CursorMove *cursor, u32 pos);
+// The table's entry of a position
+const CursorMoveData *func_0202baec(CursorMove *cursor, u32 pos);
 
 #endif // POKEBW2_SYSTEM_CURSOR_MOVE_H
