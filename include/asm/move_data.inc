@@ -11,7 +11,7 @@
     .byte \type
     .endm
 
-    // 0x01: the class of the move's effect, which the battle's move handling branches on
+    // 0x01: the class of the move's effect, MOVE_QUALITY_*
     .macro Quality quality
     .byte \quality
     .endm
@@ -74,7 +74,7 @@
     .byte \drain, \heal
     .endm
 
-    // 0x14: which Pokémon the move targets
+    // 0x14: which Pokémon the move targets, MOVE_TARGET_*
     .macro Target target
     .byte \target
     .endm
@@ -92,7 +92,7 @@
     .ascii "SS"
     .endm
 
-    // 0x20: the move's flags
+    // 0x20: the move's flags, MOVE_FLAG_* OR'ed together
     .macro Flags flags
     .4byte \flags
     .endm

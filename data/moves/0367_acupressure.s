@@ -2,7 +2,7 @@
 
 // MOVE_ACUPRESSURE
     Type TYPE_NORMAL
-    Quality 13
+    Quality MOVE_QUALITY_SPECIAL
     Category MOVE_CATEGORY_STATUS
     Power 0
     Accuracy 101
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_RANDOM_STAT_UP_2
     DrainHeal 0, 0
-    Target 1
+    Target MOVE_TARGET_USER_OR_ALLY
     StatChanges
     Marker
-    Flags 0x0000
+    Flags 0

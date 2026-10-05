@@ -2,7 +2,7 @@
 
 // MOVE_FLY
     Type TYPE_FLYING
-    Quality 0
+    Quality MOVE_QUALITY_DAMAGE
     Category MOVE_CATEGORY_PHYSICAL
     Power 90
     Accuracy 95
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_FLY
     DrainHeal 0, 0
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges
     Marker
-    Flags 0x0a4b
+    Flags MOVE_FLAG_CONTACT | MOVE_FLAG_CHARGE | MOVE_FLAG_PROTECT | MOVE_FLAG_MIRROR_MOVE | MOVE_FLAG_GRAVITY | MOVE_FLAG_DISTANT

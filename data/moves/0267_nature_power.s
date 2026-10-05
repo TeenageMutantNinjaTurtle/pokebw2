@@ -2,7 +2,7 @@
 
 // MOVE_NATURE_POWER
     Type TYPE_NORMAL
-    Quality 13
+    Quality MOVE_QUALITY_SPECIAL
     Category MOVE_CATEGORY_STATUS
     Power 0
     Accuracy 101
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_NATURE_POWER
     DrainHeal 0, 0
-    Target 13
+    Target MOVE_TARGET_DEPENDS
     StatChanges
     Marker
-    Flags 0x0000
+    Flags 0

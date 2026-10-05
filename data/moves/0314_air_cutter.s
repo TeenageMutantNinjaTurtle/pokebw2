@@ -2,7 +2,7 @@
 
 // MOVE_AIR_CUTTER
     Type TYPE_FLYING
-    Quality 0
+    Quality MOVE_QUALITY_DAMAGE
     Category MOVE_CATEGORY_SPECIAL
     Power 55
     Accuracy 95
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_HIGH_CRITICAL
     DrainHeal 0, 0
-    Target 5
+    Target MOVE_TARGET_ADJACENT_FOES
     StatChanges
     Marker
-    Flags 0x0048
+    Flags MOVE_FLAG_PROTECT | MOVE_FLAG_MIRROR_MOVE

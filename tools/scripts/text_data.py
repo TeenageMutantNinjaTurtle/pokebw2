@@ -3,7 +3,8 @@
 editable text files, one per message file, with one message per line. The build packs the text files back into the
 archives and checks that they match.
 
-    text_data.py unpack extract/b2_us/files/a/0/0/2 data/text/system   # writes 0000.txt, 0001.txt, ...
+    text_data.py unpack extract/b2_us/files/a/0/0/2 data/text/system   # writes 0000.txt, 0001.txt, ... or keeps the
+                                                                         # names of the files there, NNNN_name.txt
     text_data.py pack data/text/system build/b2_us/files/a/0/0/2
 
 The text is UTF-8. In it:
@@ -195,11 +196,16 @@ def main():
     if args.command == "unpack":
         args.output.mkdir(parents=True, exist_ok=True)
         files = read_narc(args.archive.read_bytes())
+        # Keep the names of files that are already there, NNNN_name.txt
+        existing = {int(p.name[:4]): p for p in args.output.glob("[0-9][0-9][0-9][0-9]*.txt")}
         for index, data in enumerate(files):
-            (args.output / f"{index:04d}.txt").write_text(unpack_file(data), encoding="utf-8")
+            path = existing.get(index, args.output / f"{index:04d}.txt")
+            path.write_text(unpack_file(data), encoding="utf-8")
         print(f"wrote {len(files)} files to {args.output}")
     else:
-        sources = sorted(args.directory.glob("*.txt"))
+        sources = sorted(args.directory.glob("*.txt"), key=lambda p: int(p.name[:4]))
+        if [int(p.name[:4]) for p in sources] != list(range(len(sources))):
+            raise SystemExit(f"{args.directory}: the files must be numbered 0000 on without gaps, NNNN_name.txt")
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_bytes(write_narc([pack_file(s.read_text(encoding="utf-8")) for s in sources]))
 

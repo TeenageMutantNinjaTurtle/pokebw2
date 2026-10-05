@@ -2,7 +2,7 @@
 
 // MOVE_TEETER_DANCE
     Type TYPE_NORMAL
-    Quality 1
+    Quality MOVE_QUALITY_INFLICT
     Category MOVE_CATEGORY_STATUS
     Power 0
     Accuracy 100
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_CONFUSE_ALL
     DrainHeal 0, 0
-    Target 4
+    Target MOVE_TARGET_ALL_ADJACENT
     StatChanges
     Marker
-    Flags 0x0048
+    Flags MOVE_FLAG_PROTECT | MOVE_FLAG_MIRROR_MOVE

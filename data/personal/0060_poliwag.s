@@ -15,7 +15,7 @@
     Abilities ABILITY_WATER_ABSORB, ABILITY_DAMP, ABILITY_SWIFT_SWIM
     FleeRate 90
     Forms 0, 0, 1
-    Color COLOR_BLUE, flag6=1
+    Color COLOR_BLUE, asymmetric=1
     BaseExp 60
     HeightWeight 6, 124
     Machines TM06, TM07, TM10, TM13, TM14, TM17, TM18, TM21, TM27, TM28, TM29, TM32, TM42, TM44, TM45, TM46, TM48, TM55, TM87, TM90, HM03, HM05, HM06

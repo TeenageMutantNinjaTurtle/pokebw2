@@ -15,7 +15,7 @@
     Abilities ABILITY_PLUS, ABILITY_MINUS, ABILITY_CLEAR_BODY
     FleeRate 0
     Forms 0, 0, 1
-    Color COLOR_GRAY, flag6=1
+    Color COLOR_GRAY, asymmetric=1
     BaseExp 154
     HeightWeight 6, 510
     Machines TM06, TM10, TM15, TM17, TM21, TM24, TM27, TM32, TM37, TM42, TM44, TM48, TM57, TM69, TM72, TM73, TM87, TM90, TM91, TM93, TM94

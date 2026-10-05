@@ -5,7 +5,7 @@
     Types TYPE_GROUND, TYPE_GROUND
     CatchRate 255
     EvolutionStage 1
-    EvYields 0, 0, 0, 1, 0, 0, flag12=1
+    EvYields 0, 0, 0, 1, 0, 0, underground=1
     HeldItems ITEM_NONE, ITEM_SOFT_SAND, ITEM_NONE
     GenderRatio 127
     HatchCycles 20

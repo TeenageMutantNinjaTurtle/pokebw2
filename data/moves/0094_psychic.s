@@ -2,7 +2,7 @@
 
 // MOVE_PSYCHIC
     Type TYPE_PSYCHIC
-    Quality 6
+    Quality MOVE_QUALITY_DAMAGE_LOWER_TARGET_STATS
     Category MOVE_CATEGORY_SPECIAL
     Power 90
     Accuracy 100
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_LOWER_SP_DEF_HIT
     DrainHeal 0, 0
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges stat1=BATTLEMON_SP_DEFENSE_STAGE, stages1=-1, chance1=10
     Marker
-    Flags 0x0048
+    Flags MOVE_FLAG_PROTECT | MOVE_FLAG_MIRROR_MOVE

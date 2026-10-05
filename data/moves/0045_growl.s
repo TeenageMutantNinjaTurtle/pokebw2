@@ -2,7 +2,7 @@
 
 // MOVE_GROWL
     Type TYPE_NORMAL
-    Quality 2
+    Quality MOVE_QUALITY_STAT_CHANGE
     Category MOVE_CATEGORY_STATUS
     Power 0
     Accuracy 100
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_ATK_DOWN
     DrainHeal 0, 0
-    Target 5
+    Target MOVE_TARGET_ADJACENT_FOES
     StatChanges stat1=BATTLEMON_ATTACK_STAGE, stages1=-1, chance1=0
     Marker
-    Flags 0x0158
+    Flags MOVE_FLAG_PROTECT | MOVE_FLAG_REFLECTABLE | MOVE_FLAG_MIRROR_MOVE | MOVE_FLAG_SOUND

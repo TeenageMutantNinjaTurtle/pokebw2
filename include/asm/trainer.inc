@@ -7,6 +7,7 @@
 #include "constants/moves.h"
 #include "constants/species.h"
 #include "constants/tr_ai.h"
+#include "constants/trainer_classes.h"
 
     // What each party entry holds besides the Pokémon itself, OR'ed together
     .set PARTY_MOVES, 1

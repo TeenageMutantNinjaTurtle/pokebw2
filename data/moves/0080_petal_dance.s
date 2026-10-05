@@ -2,7 +2,7 @@
 
 // MOVE_PETAL_DANCE
     Type TYPE_GRASS
-    Quality 0
+    Quality MOVE_QUALITY_DAMAGE
     Category MOVE_CATEGORY_SPECIAL
     Power 120
     Accuracy 100
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_CONTINUE_AND_CONFUSE_SELF
     DrainHeal 0, 0
-    Target 9
+    Target MOVE_TARGET_RANDOM_FOE
     StatChanges
     Marker
-    Flags 0x0049
+    Flags MOVE_FLAG_CONTACT | MOVE_FLAG_PROTECT | MOVE_FLAG_MIRROR_MOVE

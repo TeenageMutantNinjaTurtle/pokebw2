@@ -37,7 +37,7 @@ def write_trainer(trainer: bytes, party: bytes, names: dict, title: str, class_n
     kind, class_, style, count = trainer[0:4]
     items = struct.unpack_from("<4H", trainer, 4)
     ai, heals, money, reward = struct.unpack_from("<IBBH", trainer, 0xC)
-    args = [f"class={class_}"]
+    args = [f"class={name(names['class'], class_)}"]
     if kind:
         args.append(f"party={PARTY_KINDS[kind]}")
     if style:
@@ -108,6 +108,7 @@ def main():
         "species": constant_names("species.h", "SPECIES_"),
         "item": constant_names("items.h", "ITEM_"),
         "move": constant_names("moves.h", "MOVE_"),
+        "class": constant_names("trainer_classes.h", "TRAINER_CLASS_"),
     }
     args.output.mkdir(parents=True, exist_ok=True)
     for index, (trainer, party) in enumerate(zip(trainers, parties, strict=True)):

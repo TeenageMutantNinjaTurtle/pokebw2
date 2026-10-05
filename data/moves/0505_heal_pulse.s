@@ -2,7 +2,7 @@
 
 // MOVE_HEAL_PULSE
     Type TYPE_PSYCHIC
-    Quality 3
+    Quality MOVE_QUALITY_HEAL
     Category MOVE_CATEGORY_STATUS
     Power 0
     Accuracy 101
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_HEAL_PULSE
     DrainHeal 0, 50
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges
     Marker
-    Flags 0x1818
+    Flags MOVE_FLAG_PROTECT | MOVE_FLAG_REFLECTABLE | MOVE_FLAG_DISTANT | MOVE_FLAG_HEAL

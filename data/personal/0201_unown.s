@@ -15,7 +15,7 @@
     Abilities ABILITY_LEVITATE, ABILITY_NONE, ABILITY_NONE
     FleeRate 0
     Forms 0, 0, 28
-    Color COLOR_BLACK, flag6=1
+    Color COLOR_BLACK, asymmetric=1
     BaseExp 118
     HeightWeight 5, 50
     Machines

@@ -15,7 +15,7 @@
     Abilities ABILITY_STATIC, ABILITY_NONE, ABILITY_VITAL_SPIRIT
     FleeRate 0
     Forms 0, 0, 1
-    Color COLOR_YELLOW, flag6=1
+    Color COLOR_YELLOW, asymmetric=1
     BaseExp 72
     HeightWeight 6, 235
     Machines TM06, TM10, TM16, TM17, TM18, TM21, TM24, TM25, TM27, TM29, TM31, TM32, TM42, TM44, TM45, TM46, TM48, TM56, TM57, TM70, TM72, TM73, TM87, TM90, TM93, TM94

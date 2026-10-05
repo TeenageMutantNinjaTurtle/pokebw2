@@ -2,7 +2,7 @@
 
 // MOVE_COUNTER
     Type TYPE_FIGHTING
-    Quality 0
+    Quality MOVE_QUALITY_DAMAGE
     Category MOVE_CATEGORY_PHYSICAL
     Power 1
     Accuracy 100
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_COUNTER
     DrainHeal 0, 0
-    Target 13
+    Target MOVE_TARGET_DEPENDS
     StatChanges
     Marker
-    Flags 0x0009
+    Flags MOVE_FLAG_CONTACT | MOVE_FLAG_PROTECT

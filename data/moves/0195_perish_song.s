@@ -2,7 +2,7 @@
 
 // MOVE_PERISH_SONG
     Type TYPE_NORMAL
-    Quality 1
+    Quality MOVE_QUALITY_INFLICT
     Category MOVE_CATEGORY_STATUS
     Power 0
     Accuracy 101
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_ALL_FAINT_3_TURNS
     DrainHeal 0, 0
-    Target 8
+    Target MOVE_TARGET_ALL
     StatChanges
     Marker
-    Flags 0x2900
+    Flags MOVE_FLAG_SOUND | MOVE_FLAG_DISTANT | MOVE_FLAG_BYPASS_SUBSTITUTE

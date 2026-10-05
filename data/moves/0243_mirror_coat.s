@@ -2,7 +2,7 @@
 
 // MOVE_MIRROR_COAT
     Type TYPE_PSYCHIC
-    Quality 0
+    Quality MOVE_QUALITY_DAMAGE
     Category MOVE_CATEGORY_SPECIAL
     Power 1
     Accuracy 100
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_MIRROR_COAT
     DrainHeal 0, 0
-    Target 13
+    Target MOVE_TARGET_DEPENDS
     StatChanges
     Marker
-    Flags 0x0008
+    Flags MOVE_FLAG_PROTECT

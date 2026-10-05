@@ -2,7 +2,7 @@
 
 // MOVE_FINAL_GAMBIT
     Type TYPE_FIGHTING
-    Quality 0
+    Quality MOVE_QUALITY_DAMAGE
     Category MOVE_CATEGORY_SPECIAL
     Power 1
     Accuracy 100
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_FINAL_GAMBIT
     DrainHeal 0, 0
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges
     Marker
-    Flags 0x0009
+    Flags MOVE_FLAG_CONTACT | MOVE_FLAG_PROTECT

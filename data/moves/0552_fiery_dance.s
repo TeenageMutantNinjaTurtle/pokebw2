@@ -2,7 +2,7 @@
 
 // MOVE_FIERY_DANCE
     Type TYPE_FIRE
-    Quality 7
+    Quality MOVE_QUALITY_DAMAGE_USER_STAT_CHANGE
     Category MOVE_CATEGORY_SPECIAL
     Power 80
     Accuracy 100
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_RAISE_SP_ATK_HIT
     DrainHeal 0, 0
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges stat1=BATTLEMON_SP_ATTACK_STAGE, stages1=1, chance1=50
     Marker
-    Flags 0x0048
+    Flags MOVE_FLAG_PROTECT | MOVE_FLAG_MIRROR_MOVE

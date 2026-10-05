@@ -15,7 +15,7 @@
     Abilities ABILITY_ICE_BODY, ABILITY_NONE, ABILITY_WEAK_ARMOR
     FleeRate 0
     Forms 0, 0, 1
-    Color COLOR_WHITE, flag6=1
+    Color COLOR_WHITE, asymmetric=1
     BaseExp 241
     HeightWeight 13, 575
     Machines TM06, TM07, TM10, TM12, TM13, TM14, TM15, TM16, TM17, TM18, TM21, TM27, TM32, TM42, TM44, TM45, TM48, TM64, TM68, TM79, TM87, TM90, TM91

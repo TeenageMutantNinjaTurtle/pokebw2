@@ -2,7 +2,7 @@
 
 // MOVE_CRUNCH
     Type TYPE_DARK
-    Quality 6
+    Quality MOVE_QUALITY_DAMAGE_LOWER_TARGET_STATS
     Category MOVE_CATEGORY_PHYSICAL
     Power 80
     Accuracy 100
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_LOWER_DEFENSE_HIT
     DrainHeal 0, 0
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges stat1=BATTLEMON_DEFENSE_STAGE, stages1=-1, chance1=20
     Marker
-    Flags 0x0049
+    Flags MOVE_FLAG_CONTACT | MOVE_FLAG_PROTECT | MOVE_FLAG_MIRROR_MOVE

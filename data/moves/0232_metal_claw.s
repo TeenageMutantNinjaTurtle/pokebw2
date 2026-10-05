@@ -2,7 +2,7 @@
 
 // MOVE_METAL_CLAW
     Type TYPE_STEEL
-    Quality 7
+    Quality MOVE_QUALITY_DAMAGE_USER_STAT_CHANGE
     Category MOVE_CATEGORY_PHYSICAL
     Power 50
     Accuracy 95
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_RAISE_ATTACK_HIT
     DrainHeal 0, 0
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges stat1=BATTLEMON_ATTACK_STAGE, stages1=1, chance1=10
     Marker
-    Flags 0x0049
+    Flags MOVE_FLAG_CONTACT | MOVE_FLAG_PROTECT | MOVE_FLAG_MIRROR_MOVE

@@ -1,7 +1,7 @@
 #include "asm/trainer.inc"
 
 // Pkmn Trainer Alder
-    Trainer class=89, party=PARTY_MOVES | PARTY_ITEMS, item1=ITEM_FULL_RESTORE, item2=ITEM_FULL_RESTORE, ai=AI_FLAG_BASIC | AI_FLAG_EVAL_ATTACK | AI_FLAG_EXPERT, money=50
+    Trainer class=TRAINER_CLASS_PKMN_TRAINER_ALDER, party=PARTY_MOVES | PARTY_ITEMS, item1=ITEM_FULL_RESTORE, item2=ITEM_FULL_RESTORE, ai=AI_FLAG_BASIC | AI_FLAG_EVAL_ATTACK | AI_FLAG_EXPERT, money=50
     PartyMon level=60, species=SPECIES_ACCELGOR, difficulty=250, ability=2, move1=MOVE_BUG_BUZZ, move2=MOVE_FOCUS_BLAST, move3=MOVE_GIGA_DRAIN, move4=MOVE_ACID_SPRAY
     PartyMon level=60, species=SPECIES_ESCAVALIER, difficulty=250, ability=2, move1=MOVE_X_SCISSOR, move2=MOVE_IRON_HEAD, move3=MOVE_REVERSAL, move4=MOVE_SWORDS_DANCE
     PartyMon level=60, species=SPECIES_BOUFFALANT, difficulty=250, ability=1, move1=MOVE_HEAD_CHARGE, move2=MOVE_MEGAHORN, move3=MOVE_EARTHQUAKE, move4=MOVE_WILD_CHARGE

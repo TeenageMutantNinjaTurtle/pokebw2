@@ -27,9 +27,11 @@
     .byte \stage
     .endm
 
-    // 0x0a: the effort values a defeated Pokémon of the species gives, 0 to 3 each, and a flag in bit 12
-    .macro EvYields hp, attack, defense, speed, sp_attack, sp_defense, flag12=0
-    .2byte \hp | (\attack << 2) | (\defense << 4) | (\speed << 6) | (\sp_attack << 8) | (\sp_defense << 10) | (\flag12 << 12)
+    // 0x0a: the effort values a defeated Pokémon of the species gives, 0 to 3 each, and a flag in bit 12 that only
+    // Diglett and Dugtrio, which live in the ground, have; the battle animations' script commands test it (overlay 168)
+    .macro EvYields hp, attack, defense, speed, sp_attack, sp_defense, underground=0
+    .set _evs, \hp | (\attack << 2) | (\defense << 4) | (\speed << 6)
+    .2byte _evs | (\sp_attack << 8) | (\sp_defense << 10) | (\underground << 12)
     .endm
 
     // 0x0c: the items wild Pokémon of the species hold, from the most to the least common
@@ -78,9 +80,11 @@
     .byte \count
     .endm
 
-    // 0x21: COLOR_*, and the flags in bits 6 and 7
-    .macro Color color, flag6=0, flag7=0
-    .byte \color | (\flag6 << 6) | (\flag7 << 7)
+    // 0x21: COLOR_*, and two flags. asymmetric marks the species that don't look the same mirrored, such as Kingler,
+    // Zangoose and Absol. palette_forms marks a species whose forms only change its palette (Arceus): its form's
+    // sprite is a palette rather than files of its own (GetPokemonDataIDBase)
+    .macro Color color, asymmetric=0, palette_forms=0
+    .byte \color | (\asymmetric << 6) | (\palette_forms << 7)
     .endm
 
     // 0x22: the base of the experience that defeating a Pokémon of the species gives
@@ -124,7 +128,16 @@
     .irp n, 1, 2, 3, 4, 5, 6, 7, 8, 9
     .set TM0\n, \n - 1
     .endr
-    .irp n, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95
+    .irp n, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33
+    .set TM\n, \n - 1
+    .endr
+    .irp n, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57
+    .set TM\n, \n - 1
+    .endr
+    .irp n, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81
+    .set TM\n, \n - 1
+    .endr
+    .irp n, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95
     .set TM\n, \n - 1
     .endr
     .irp n, 1, 2, 3, 4, 5, 6

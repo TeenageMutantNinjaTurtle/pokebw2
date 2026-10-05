@@ -2,7 +2,7 @@
 
 // MOVE_CALM_MIND
     Type TYPE_PSYCHIC
-    Quality 2
+    Quality MOVE_QUALITY_STAT_CHANGE
     Category MOVE_CATEGORY_STATUS
     Power 0
     Accuracy 101
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_SP_ATK_SP_DEF_UP
     DrainHeal 0, 0
-    Target 7
+    Target MOVE_TARGET_USER
     StatChanges stat1=BATTLEMON_SP_ATTACK_STAGE, stages1=1, chance1=0, stat2=BATTLEMON_SP_DEFENSE_STAGE, stages2=1, chance2=0
     Marker
-    Flags 0x0020
+    Flags MOVE_FLAG_SNATCH

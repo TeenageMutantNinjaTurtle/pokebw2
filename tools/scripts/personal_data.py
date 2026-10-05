@@ -24,9 +24,19 @@ SPECIES_COUNT = 650
 def constant_names(header: str, prefix: str) -> dict[int, str]:
     """Returns the first name of each value of the constants with a prefix in a header of include/constants."""
     names = {}
-    for match in re.finditer(rf"^#define ({prefix}\w+) (\d+)$", (CONSTANTS / header).read_text(), re.MULTILINE):
+    for match in re.finditer(rf"^#define ({prefix}\w+) (\d+)(?:\s*//.*)?$", (CONSTANTS / header).read_text(),
+                             re.MULTILINE):
         names.setdefault(int(match.group(2)), match.group(1))
     return names
+
+
+def flag_names(header: str, prefix: str, flags: int) -> str:
+    """Returns flags as an OR of the constants with a prefix, defined as (1 << N) in a header of include/constants."""
+    names = {}
+    for match in re.finditer(rf"^#define ({prefix}\w+) \(1 << (\d+)\)", (CONSTANTS / header).read_text(), re.M):
+        names[int(match.group(2))] = match.group(1)
+    parts = [names.get(bit, f"(1 << {bit})") for bit in range(32) if flags >> bit & 1]
+    return " | ".join(parts) if parts else "0"
 
 
 def name(names: dict[int, str], value: int) -> str:
@@ -56,8 +66,8 @@ def write_record(record: bytes, names: dict[str, dict[int, str]], title: str) ->
 
     gender_name = {0: "GENDER_RATIO_MALE_ONLY", 254: "GENDER_RATIO_FEMALE_ONLY", 255: "GENDER_RATIO_GENDERLESS"}
     ev_values = [evs >> shift & 3 for shift in range(0, 12, 2)]
-    ev_flag = f", flag12={evs >> 12}" if evs >> 12 else ""
-    color_flags = "".join(f", flag{bit}=1" for bit in (6, 7) if color >> bit & 1)
+    ev_flag = f", underground={evs >> 12}" if evs >> 12 else ""
+    color_flags = "".join(f", {flag}=1" for bit, flag in ((6, "asymmetric"), (7, "palette_forms")) if color >> bit & 1)
     lines = [
         '#include "asm/personal.inc"',
         "",

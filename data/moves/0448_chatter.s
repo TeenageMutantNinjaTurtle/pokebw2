@@ -2,7 +2,7 @@
 
 // MOVE_CHATTER
     Type TYPE_FLYING
-    Quality 4
+    Quality MOVE_QUALITY_DAMAGE_INFLICT
     Category MOVE_CATEGORY_SPECIAL
     Power 60
     Accuracy 100
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_CHATTER
     DrainHeal 0, 0
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges
     Marker
-    Flags 0x0908
+    Flags MOVE_FLAG_PROTECT | MOVE_FLAG_SOUND | MOVE_FLAG_DISTANT

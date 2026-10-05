@@ -1,7 +1,7 @@
 #include "asm/trainer.inc"
 
 // Elite Four Grimsley
-    Trainer class=80, party=PARTY_MOVES | PARTY_ITEMS, item1=ITEM_FULL_RESTORE, item2=ITEM_FULL_RESTORE, item3=ITEM_FULL_RESTORE, ai=AI_FLAG_BASIC | AI_FLAG_EVAL_ATTACK | AI_FLAG_EXPERT, money=30
+    Trainer class=TRAINER_CLASS_ELITE_FOUR_GRIMSLEY, party=PARTY_MOVES | PARTY_ITEMS, item1=ITEM_FULL_RESTORE, item2=ITEM_FULL_RESTORE, item3=ITEM_FULL_RESTORE, ai=AI_FLAG_BASIC | AI_FLAG_EVAL_ATTACK | AI_FLAG_EXPERT, money=30
     PartyMon level=72, species=SPECIES_LIEPARD, difficulty=250, gender=2, ability=2, item=ITEM_NORMAL_GEM, move1=MOVE_SUCKER_PUNCH, move2=MOVE_FAKE_OUT, move3=MOVE_AERIAL_ACE, move4=MOVE_ATTRACT
     PartyMon level=72, species=SPECIES_HONCHKROW, difficulty=250, ability=2, move1=MOVE_NIGHT_SLASH, move2=MOVE_PSYCHIC, move3=MOVE_AERIAL_ACE, move4=MOVE_HAZE
     PartyMon level=72, species=SPECIES_SCRAFTY, difficulty=250, ability=2, move1=MOVE_HEAD_SMASH, move2=MOVE_CRUNCH, move3=MOVE_HI_JUMP_KICK, move4=MOVE_POISON_JAB

@@ -2,7 +2,7 @@
 
 // MOVE_AUTOTOMIZE
     Type TYPE_STEEL
-    Quality 2
+    Quality MOVE_QUALITY_STAT_CHANGE
     Category MOVE_CATEGORY_STATUS
     Power 0
     Accuracy 101
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_AUTOTOMIZE
     DrainHeal 0, 0
-    Target 7
+    Target MOVE_TARGET_USER
     StatChanges stat1=BATTLEMON_SPEED_STAGE, stages1=2, chance1=0
     Marker
-    Flags 0x0020
+    Flags MOVE_FLAG_SNATCH

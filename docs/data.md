@@ -44,8 +44,12 @@ How serious are you willing to get\nin order to get what you want?
 - A last line `\pad{XX}` is not a message but the byte that fills the end of the file to a multiple of 4 bytes, which
   the original files have as leftovers rather than 0.
 
-The game encrypts each message with a key that depends on its ID, which `text_data.py` applies when packing. The
-files aren't named yet; `msgdata.py ARCHIVE FILE` prints one with its message IDs. Both versions have the same text.
+The game encrypts each message with a key that depends on its ID, which `text_data.py` applies when packing. Files
+are numbered by their ID in the archive, `NNNN_name.txt`, and named where something says what they are for: a script
+message file after the place of the zone whose header names it (`0003_black_city.txt`), and a system message file
+after what it holds (`0403_move_names.txt`) or after the source file or function that loads it
+(`0004_delete_save.txt`). The others keep their number until they are known (`0001.txt`). `text_data.py unpack` keeps
+the names of the files it writes over. Both versions have the same text.
 
 ## Species data
 
@@ -81,9 +85,10 @@ sources are `data/personal/NNNN_name.s`, numbered by record:
 
 Each macro writes one field, so a file uses every macro once, in the order of `include/asm/personal.inc`, which
 documents the fields. Stats are in the order HP, Attack, Defense, Speed, Sp. Atk, Sp. Def, as the record keeps them.
-`Machines` lists the TMs and HMs the species can learn. The tutor moves are still bit masks, and a few flags whose
-meaning isn't known yet are named after their bits (`flag12` of the effort values, `flag6` and `flag7` of the color).
-Both versions have the same species data.
+`Machines` lists the TMs and HMs the species can learn; the tutor moves are still bit masks. Three flags are named
+after the species that have them, as `include/asm/personal.inc` explains: `underground` (Diglett and Dugtrio, tested
+by the battle animations), `asymmetric` (species that don't look the same mirrored, such as Kingler and Absol) and
+`palette_forms` (Arceus, whose forms only change its palette). Both versions have the same species data.
 
 ## Evolutions and level-up moves
 
@@ -128,7 +133,7 @@ The moves are in the order the game checks them, by level.
 
 // MOVE_THUNDERBOLT
     Type TYPE_ELECTRIC
-    Quality 4
+    Quality MOVE_QUALITY_DAMAGE_INFLICT
     Category MOVE_CATEGORY_SPECIAL
     Power 95
     Accuracy 100
@@ -140,16 +145,18 @@ The moves are in the order the game checks them, by level.
     FlinchChance 0
     Effect BATTLE_EFFECT_PARALYZE_HIT
     DrainHeal 0, 0
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges
     Marker
-    Flags 0x0048
+    Flags MOVE_FLAG_PROTECT | MOVE_FLAG_MIRROR_MOVE
 ```
 
 `Effect` is the battle effect the move runs (`BATTLE_EFFECT_*`), and `Inflicts` the condition it inflicts with its
 chance and duration. `StatChanges` takes up to three changes as `statN=`, `stagesN=` and `chanceN=`, with the stats
-of `BATTLEMON_*_STAGE`. `Quality`, `Target` and `Flags` are still numbers, until their values are named. Both
-versions have the same move data.
+of `BATTLEMON_*_STAGE`. `Quality` is the class of the move's effect (`MOVE_QUALITY_*`), `Target` which Pokémon it
+targets (`MOVE_TARGET_*`) and `Flags` its properties (`MOVE_FLAG_*`), such as contact, sound or being blocked by
+Protect; `include/constants/battle.h` names each after the moves that have it. Both versions have the same move
+data.
 
 ## Trainers
 
@@ -161,7 +168,7 @@ archive and its `.party` section into the second (`ARCHIVES` names the section o
 #include "asm/trainer.inc"
 
 // Elite Four Shauntal
-    Trainer class=78, party=PARTY_MOVES | PARTY_ITEMS, item1=ITEM_FULL_RESTORE, ai=AI_FLAG_BASIC | AI_FLAG_EVAL_ATTACK | AI_FLAG_EXPERT, money=30
+    Trainer class=TRAINER_CLASS_ELITE_FOUR_SHAUNTAL, party=PARTY_MOVES | PARTY_ITEMS, item1=ITEM_FULL_RESTORE, ai=AI_FLAG_BASIC | AI_FLAG_EVAL_ATTACK | AI_FLAG_EXPERT, money=30
     PartyMon level=56, species=SPECIES_COFAGRIGUS, difficulty=200, ability=1, move1=MOVE_WILL_O_WISP, ...
     ...
     PartyMon level=58, species=SPECIES_CHANDELURE, difficulty=250, ability=2, item=ITEM_SITRUS_BERRY, ...
@@ -173,5 +180,6 @@ the Pokémon: `PARTY_MOVES`, `PARTY_ITEMS`, both, or neither, in which case a Po
 no item. `PartyEnd` counts the party for the trainer record. `style` is the battle style (`BTL_STYLE_*`), `ai` the
 trainer AI scripts to run (`AI_FLAG_*`, see [Scripts](scripts.md)), `money` a multiplier of the prize money and
 `reward` an item given after the battle. A Pokémon's `difficulty` sets its individual values, and `gender` and
-`ability` pick them when not 0. The trainer class is still a number, with its name in the file's comment. Both
-versions have the same trainers.
+`ability` pick them when not 0. `class` is a `TRAINER_CLASS_*` from `include/constants/trainer_classes.h`, named after
+the class's name; where several classes share one, after their only trainer, their sex or their ID, as
+`TRAINER_CLASS_SCHOOL_KID_F` (`make_constants.py --trainer-classes`). Both versions have the same trainers.
