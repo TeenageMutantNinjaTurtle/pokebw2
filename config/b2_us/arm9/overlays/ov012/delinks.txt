@@ -307,3 +307,8 @@ src/ov012/scrcmd_entree_forest.c:
     complete
     .text       start:0x02164ae0 end:0x021652cc
     .rodata     start:0x0216dac4 end:0x0216dad0
+
+src/ov012/survey.c:
+    complete
+    .text       start:0x021652cc end:0x02165598
+    .rodata     start:0x0216dad0 end:0x0216dc1c

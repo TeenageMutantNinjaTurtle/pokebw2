@@ -13,6 +13,8 @@ u32 func_0200c924(TrainerCardSave *trainerCard);
 u32 func_0200c90c(TrainerCardSave *trainerCard);
 u16 func_0200cb00(TrainerCardSave *trainerCard);
 void func_0200cb08(TrainerCardSave *trainerCard, u16 value);
+// When the survey started, in seconds since 2000
+s64 getSecondsFromTrainerCardData(TrainerGameInfoSave *info);
 // Adds to the play time
 void func_0200cb10(TrainerGameInfoSave *info, u16 minutes);
 BOOL isBadgeObtained(TrainerCardSave *trainerCard, u32 badgeId);
