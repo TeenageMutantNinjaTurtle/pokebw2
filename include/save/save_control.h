@@ -183,6 +183,8 @@ u32 getBadgeCount(TrainerGameInfoSave *info);
 void func_0200ca38(TrainerGameInfoSave *info, u32 item, u32 bits);
 u8 func_0200ca50(TrainerGameInfoSave *info, u32 item);
 BOOL SaveControl_IsDataAlreadyPresent(SaveControl *save);
+// Whether the save is of another game, which the report may not overwrite
+BOOL func_0200746c(SaveControl *save);
 
 // Saving a step at a time: func_020073ac starts, func_020073c4 continues and returns the status, and func_02007424
 // cancels

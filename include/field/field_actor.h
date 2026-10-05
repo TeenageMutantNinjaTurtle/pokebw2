@@ -123,6 +123,7 @@ void SetZoneNPCSCRID(EventData *eventData, u16 npcId, u16 scriptId);
 void GetNPCMdlInfoForOBJCODE(MMSys *actorSystem, u16 objCode, FieldActorConfig *config);
 void LoadMModelSystemInfoCache(MMSys *mmSys, s32 index);
 void SetActorFlag(FieldActor *actor, u32 flag);
+void ClearActorFlag(FieldActor *actor, u32 flag);
 void SetActorMovementFlag(FieldActor *actor, u32 flag);
 void ClearActorMovementFlag(FieldActor *actor, u32 flag);
 void FldAct_InvokeUpdateCallback(FieldActor *actor);

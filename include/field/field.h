@@ -52,6 +52,7 @@ void func_ov036_02188e90(void *msgBGSys, u16 index);
 void *FieldMsgBG_CreateMoneyWin(void *msgBGSys, MsgData *msgData, u16 a2, u16 a3, u16 a4, u16 a5);
 // The font of the field's message BG
 Font *func_ov036_0218799c(void *msgBGSys);
+void *func_ov036_02187998(void *msgBGSys);
 // Turns on or off the alpha blending of the field's message BG
 void setAlphaBlend_wrapper(BOOL enable);
 // The grid position in front of the player, facing dir

@@ -16,6 +16,8 @@ u32 FieldPlayer_DeriveExState(FieldPlayer *player);
 void FieldPlayer_SetSpecialState(FieldPlayer *player, u32 state);
 void FieldPlayer_SetSpecialSeq(FieldPlayer *player, u32 seq);
 BOOL func_ov036_0219a580(FieldPlayer *player);
+BOOL func_ov036_0219a834(FieldPlayer *player);
+BOOL func_ov036_0219a870(FieldPlayer *player);
 BOOL func_ov036_0219ab24(FieldPlayer *player);
 u32 FieldPlayer_GetTileTypeUnder(FieldPlayer *player);
 // The player's grid and rail movement

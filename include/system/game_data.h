@@ -137,6 +137,9 @@ void func_02039980(u32 *a0, u32 index, u32 value);
 void SetNowWeather(GameData *gameData, u8 weather);
 u32 GetNowWeather(GameData *gameData);
 BOOL GameData_CheckEventsPaused(GameData *gameData);
+// Starts the save that runs alongside the field, and its state, 2 once done and 3 on an error
+void func_0201782c(GameData *gameData);
+u32 func_02017850(GameData *gameData);
 void GameData_ResetSkipFrame(GameData *gameData);
 void GameData_Set30FPSMode(GameData *gameData, BOOL enable);
 u8 func_02017b70(GameData *gameData);
