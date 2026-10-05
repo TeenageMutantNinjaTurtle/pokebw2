@@ -6116,8 +6116,8 @@ from:0x02168400 kind:thumb_call to:0x02014864 module:main
 from:0x02168406 kind:thumb_call to:0x0207bb0c module:main
 from:0x0216840c kind:thumb_call to:0x02014580 module:main
 from:0x02168416 kind:thumb_call to:0x0201458c module:main
-from:0x02168430 kind:thumb_call to:0x0216f900 module:overlays(24,25,26)
-from:0x0216843e kind:thumb_call to:0x0216f900 module:overlays(24,25,26)
+from:0x02168430 kind:thumb_call to:0x0216f900 module:overlay(24)
+from:0x0216843e kind:thumb_call to:0x0216f900 module:overlay(25)
 from:0x0216846e kind:thumb_call to:0x0200d190 module:main
 from:0x0216847c kind:thumb_call to:0x0201ccf8 module:main
 from:0x0216849e kind:thumb_call to:0x0201c864 module:main
