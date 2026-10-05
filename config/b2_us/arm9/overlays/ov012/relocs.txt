@@ -4723,7 +4723,8 @@ from:0x02162ef4 kind:thumb_call to:0x0200f1b8 module:main
 from:0x02162f04 kind:load to:0x02162f09 module:overlay(12)
 from:0x02162f0e kind:thumb_call to:0x02016edc module:main
 from:0x02162f28 kind:thumb_call to:0x02016e38 module:main
-from:0x02162f40 kind:load to:0x0219dc6c module:overlays(208,313,315)
+from:0x02162f3c kind:overlay_id to:313
+from:0x02162f40 kind:load to:0x0219dc6c module:overlay(313)
 from:0x02162f4a kind:thumb_call to:0x02017934 module:main
 from:0x02162f4e kind:thumb_call to:0x020092f0 module:main
 from:0x02162f62 kind:thumb_call to:0x02044210 module:main

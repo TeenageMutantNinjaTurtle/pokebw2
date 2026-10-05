@@ -90,7 +90,7 @@ prints the tables below from the configs and the ROM:
 
 ### Overlay 12
 
-1145 of 1668 functions are in source files. Embedded names without a file yet: `event_battle.c`, `fldmmdl.c`, `namein_setup.c`, `pair_sys.c`, `report_event.c`, `scrcmd_keysystem.c`, `trcard_sys.c`, `waza_oshie.c`.
+1151 of 1668 functions are in source files. Embedded names without a file yet: `event_battle.c`, `fldmmdl.c`, `namein_setup.c`, `pair_sys.c`, `report_event.c`, `scrcmd_keysystem.c`, `trcard_sys.c`, `waza_oshie.c`.
 
 | File | `.text` (Black 2) | Functions | Status | Name |
 | --- | --- | --- | --- | --- |
@@ -154,6 +154,7 @@ prints the tables below from the configs and the ROM:
 | `fld_btl_inst_event.c` | `0x02161c88`–`0x02161f6c` | 4 | complete | descriptive |
 | `fld_btl_inst_tool.c` | `0x02161f6c`–`0x02162b64` | 22 | partial | string at `0x0216e36c` |
 | `event_cgear_poweron.c` | `0x02162b64`–`0x02162c48` | 3 | complete | descriptive |
+| `event_trial_house.c` | `0x02162c48`–`0x02162f44` | 6 | partial | descriptive |
 | `field_g3d_map.c` | `0x021631c8`–`0x02163b38` | 47 | partial | string at `0x0216e380` |
 
 ### Overlay 13

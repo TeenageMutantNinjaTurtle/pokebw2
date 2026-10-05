@@ -273,6 +273,9 @@ src/ov012/event_cgear_poweron.c:
     complete
     .text       start:0x02162b64 end:0x02162c48
 
+src/ov012/event_trial_house.c:
+    .text       start:0x02162c48 end:0x02162f44
+
 src/ov012/field_g3d_map.c:
     .text       start:0x021631c8 end:0x02163b38
     .data       start:0x0216e380 end:0x0216e390
