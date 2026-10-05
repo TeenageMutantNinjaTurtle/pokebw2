@@ -29,6 +29,7 @@ src/ov255/box2_obj.c:
     .rodata     start:0x021d7524 end:0x021d7900
 
 src/ov255/box2_ui.c:
+    complete
     .text       start:0x021d2418 end:0x021d368c
     .rodata     start:0x021d7900 end:0x021d8df0
     .data       start:0x021d9698 end:0x021d96a4

@@ -244,6 +244,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   and moving one object can reorder others. `tools/scripts/rodata_order.py` predicts the layout for a declaration order
   and tries the orders of the objects given with `--permute`; `intro_graphic.c` matches only with its light setups
   declared after the function whose BG setups are local initializers.
+- Small objects that come after a larger one in the same file, out of size order, may be rows of one array: the PC
+  box's `box2_ui.c` has seven cursor tables after a 540-byte one, and they are `sTrayCursorData[3][47]`, three rows
+  of equal length that each end in a `TOUCH_RECT_END` entry, with other tables pointing into the rows. Once the sizes
+  are right, any order of the objects of one size can be reached; keep the natural order elsewhere and let
+  `rodata_order.py` solve for the same-size groups.
 - `static const` data goes in `.rodata`, so a table that the original has in `.data` is not `const`. The module
   check fails if a table ends up in the wrong section, even when every function matches.
 - A `static const` variable whose address is never taken is folded into the code and not emitted. If the original has
