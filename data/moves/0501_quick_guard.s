@@ -2,7 +2,7 @@
 
 // MOVE_QUICK_GUARD
     Type TYPE_FIGHTING
-    Quality 11
+    Quality MOVE_QUALITY_SIDE
     Category MOVE_CATEGORY_STATUS
     Power 0
     Accuracy 101
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_QUICK_GUARD
     DrainHeal 0, 0
-    Target 12
+    Target MOVE_TARGET_USER_SIDE
     StatChanges
     Marker
-    Flags 0x0020
+    Flags MOVE_FLAG_SNATCH

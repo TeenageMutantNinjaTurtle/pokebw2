@@ -15,7 +15,7 @@
     Abilities ABILITY_CHLOROPHYLL, ABILITY_OWN_TEMPO, ABILITY_LEAF_GUARD
     FleeRate 0
     Forms 0, 0, 1
-    Color COLOR_GREEN, flag6=1
+    Color COLOR_GREEN, asymmetric=1
     BaseExp 168
     HeightWeight 11, 163
     Machines TM06, TM10, TM11, TM15, TM16, TM17, TM20, TM21, TM22, TM27, TM32, TM42, TM44, TM45, TM48, TM53, TM68, TM70, TM75, TM85, TM86, TM87, TM90, HM01

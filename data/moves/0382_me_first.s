@@ -2,7 +2,7 @@
 
 // MOVE_ME_FIRST
     Type TYPE_NORMAL
-    Quality 0
+    Quality MOVE_QUALITY_DAMAGE
     Category MOVE_CATEGORY_STATUS
     Power 1
     Accuracy 101
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_USE_MOVE_FIRST
     DrainHeal 0, 0
-    Target 3
+    Target MOVE_TARGET_FOE
     StatChanges
     Marker
-    Flags 0x2008
+    Flags MOVE_FLAG_PROTECT | MOVE_FLAG_BYPASS_SUBSTITUTE

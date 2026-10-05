@@ -2,7 +2,7 @@
 
 // MOVE_HORN_LEECH
     Type TYPE_GRASS
-    Quality 8
+    Quality MOVE_QUALITY_DAMAGE_DRAIN
     Category MOVE_CATEGORY_PHYSICAL
     Power 75
     Accuracy 100
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_RECOVER_HALF_DAMAGE_DEALT
     DrainHeal 50, 0
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges
     Marker
-    Flags 0x0049
+    Flags MOVE_FLAG_CONTACT | MOVE_FLAG_PROTECT | MOVE_FLAG_MIRROR_MOVE

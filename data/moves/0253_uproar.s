@@ -2,7 +2,7 @@
 
 // MOVE_UPROAR
     Type TYPE_NORMAL
-    Quality 0
+    Quality MOVE_QUALITY_DAMAGE
     Category MOVE_CATEGORY_SPECIAL
     Power 90
     Accuracy 100
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_UPROAR
     DrainHeal 0, 0
-    Target 9
+    Target MOVE_TARGET_RANDOM_FOE
     StatChanges
     Marker
-    Flags 0x0148
+    Flags MOVE_FLAG_PROTECT | MOVE_FLAG_MIRROR_MOVE | MOVE_FLAG_SOUND

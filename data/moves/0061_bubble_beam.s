@@ -2,7 +2,7 @@
 
 // MOVE_BUBBLE_BEAM
     Type TYPE_WATER
-    Quality 6
+    Quality MOVE_QUALITY_DAMAGE_LOWER_TARGET_STATS
     Category MOVE_CATEGORY_SPECIAL
     Power 65
     Accuracy 100
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_LOWER_SPEED_HIT
     DrainHeal 0, 0
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges stat1=BATTLEMON_SPEED_STAGE, stages1=-1, chance1=10
     Marker
-    Flags 0x0048
+    Flags MOVE_FLAG_PROTECT | MOVE_FLAG_MIRROR_MOVE

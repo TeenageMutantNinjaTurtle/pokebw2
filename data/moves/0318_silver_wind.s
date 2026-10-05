@@ -2,7 +2,7 @@
 
 // MOVE_SILVER_WIND
     Type TYPE_BUG
-    Quality 7
+    Quality MOVE_QUALITY_DAMAGE_USER_STAT_CHANGE
     Category MOVE_CATEGORY_SPECIAL
     Power 60
     Accuracy 100
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_RAISE_ALL_STATS_HIT
     DrainHeal 0, 0
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges stat1=8, stages1=1, chance1=10
     Marker
-    Flags 0x0048
+    Flags MOVE_FLAG_PROTECT | MOVE_FLAG_MIRROR_MOVE

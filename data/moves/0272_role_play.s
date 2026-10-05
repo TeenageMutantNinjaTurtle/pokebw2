@@ -2,7 +2,7 @@
 
 // MOVE_ROLE_PLAY
     Type TYPE_PSYCHIC
-    Quality 13
+    Quality MOVE_QUALITY_SPECIAL
     Category MOVE_CATEGORY_STATUS
     Power 0
     Accuracy 101
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_COPY_ABILITY
     DrainHeal 0, 0
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges
     Marker
-    Flags 0x2000
+    Flags MOVE_FLAG_BYPASS_SUBSTITUTE

@@ -2,7 +2,7 @@
 
 // MOVE_RAZOR_WIND
     Type TYPE_NORMAL
-    Quality 0
+    Quality MOVE_QUALITY_DAMAGE
     Category MOVE_CATEGORY_SPECIAL
     Power 80
     Accuracy 100
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_CHARGE_TURN_HIGH_CRIT
     DrainHeal 0, 0
-    Target 5
+    Target MOVE_TARGET_ADJACENT_FOES
     StatChanges
     Marker
-    Flags 0x004a
+    Flags MOVE_FLAG_CHARGE | MOVE_FLAG_PROTECT | MOVE_FLAG_MIRROR_MOVE

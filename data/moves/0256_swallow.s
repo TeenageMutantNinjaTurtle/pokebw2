@@ -2,7 +2,7 @@
 
 // MOVE_SWALLOW
     Type TYPE_NORMAL
-    Quality 3
+    Quality MOVE_QUALITY_HEAL
     Category MOVE_CATEGORY_STATUS
     Power 0
     Accuracy 101
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_SWALLOW
     DrainHeal 0, 25
-    Target 7
+    Target MOVE_TARGET_USER
     StatChanges
     Marker
-    Flags 0x1020
+    Flags MOVE_FLAG_SNATCH | MOVE_FLAG_HEAL

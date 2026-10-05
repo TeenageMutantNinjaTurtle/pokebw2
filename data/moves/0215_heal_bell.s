@@ -2,7 +2,7 @@
 
 // MOVE_HEAL_BELL
     Type TYPE_NORMAL
-    Quality 13
+    Quality MOVE_QUALITY_SPECIAL
     Category MOVE_CATEGORY_STATUS
     Power 0
     Accuracy 101
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_CURE_PARTY_STATUS
     DrainHeal 0, 0
-    Target 6
+    Target MOVE_TARGET_USER_PARTY
     StatChanges
     Marker
-    Flags 0x0120
+    Flags MOVE_FLAG_SNATCH | MOVE_FLAG_SOUND

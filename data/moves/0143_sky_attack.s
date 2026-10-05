@@ -2,7 +2,7 @@
 
 // MOVE_SKY_ATTACK
     Type TYPE_FLYING
-    Quality 0
+    Quality MOVE_QUALITY_DAMAGE
     Category MOVE_CATEGORY_PHYSICAL
     Power 140
     Accuracy 90
@@ -14,7 +14,7 @@
     FlinchChance 30
     Effect BATTLE_EFFECT_CHARGE_TURN_HIGH_CRIT_FLINCH
     DrainHeal 0, 0
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges
     Marker
-    Flags 0x084a
+    Flags MOVE_FLAG_CHARGE | MOVE_FLAG_PROTECT | MOVE_FLAG_MIRROR_MOVE | MOVE_FLAG_DISTANT

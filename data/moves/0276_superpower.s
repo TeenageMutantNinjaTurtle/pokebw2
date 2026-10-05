@@ -2,7 +2,7 @@
 
 // MOVE_SUPERPOWER
     Type TYPE_FIGHTING
-    Quality 7
+    Quality MOVE_QUALITY_DAMAGE_USER_STAT_CHANGE
     Category MOVE_CATEGORY_PHYSICAL
     Power 120
     Accuracy 100
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_LOWER_OWN_ATK_AND_DEF
     DrainHeal 0, 0
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges stat1=BATTLEMON_ATTACK_STAGE, stages1=-1, chance1=100, stat2=BATTLEMON_DEFENSE_STAGE, stages2=-1, chance2=100
     Marker
-    Flags 0x0049
+    Flags MOVE_FLAG_CONTACT | MOVE_FLAG_PROTECT | MOVE_FLAG_MIRROR_MOVE

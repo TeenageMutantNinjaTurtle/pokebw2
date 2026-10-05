@@ -2,7 +2,7 @@
 
 // MOVE_SWAGGER
     Type TYPE_NORMAL
-    Quality 5
+    Quality MOVE_QUALITY_INFLICT_STAT_CHANGE
     Category MOVE_CATEGORY_STATUS
     Power 0
     Accuracy 90
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_ATK_UP_2_STATUS_CONFUSION
     DrainHeal 0, 0
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges stat1=BATTLEMON_ATTACK_STAGE, stages1=2, chance1=0
     Marker
-    Flags 0x0058
+    Flags MOVE_FLAG_PROTECT | MOVE_FLAG_REFLECTABLE | MOVE_FLAG_MIRROR_MOVE

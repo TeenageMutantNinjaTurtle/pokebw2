@@ -2,7 +2,7 @@
 
 // MOVE_INGRAIN
     Type TYPE_GRASS
-    Quality 1
+    Quality MOVE_QUALITY_INFLICT
     Category MOVE_CATEGORY_STATUS
     Power 0
     Accuracy 101
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_GROUND_TRAP_USER_CONTINUOUS_HEAL
     DrainHeal 0, 0
-    Target 7
+    Target MOVE_TARGET_USER
     StatChanges
     Marker
-    Flags 0x0020
+    Flags MOVE_FLAG_SNATCH

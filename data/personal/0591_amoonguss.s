@@ -15,7 +15,7 @@
     Abilities ABILITY_EFFECT_SPORE, ABILITY_NONE, ABILITY_REGENERATOR
     FleeRate 0
     Forms 0, 0, 1
-    Color COLOR_WHITE, flag6=1
+    Color COLOR_WHITE, asymmetric=1
     BaseExp 162
     HeightWeight 6, 105
     Machines TM06, TM09, TM10, TM11, TM15, TM17, TM18, TM21, TM22, TM27, TM32, TM36, TM42, TM44, TM45, TM48, TM53, TM66, TM68, TM70, TM86, TM87, TM90

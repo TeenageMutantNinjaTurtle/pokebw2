@@ -2,7 +2,7 @@
 
 // MOVE_SHADOW_FORCE
     Type TYPE_GHOST
-    Quality 0
+    Quality MOVE_QUALITY_DAMAGE
     Category MOVE_CATEGORY_PHYSICAL
     Power 120
     Accuracy 100
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_SHADOW_FORCE
     DrainHeal 0, 0
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges
     Marker
-    Flags 0x0043
+    Flags MOVE_FLAG_CONTACT | MOVE_FLAG_CHARGE | MOVE_FLAG_MIRROR_MOVE

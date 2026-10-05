@@ -15,7 +15,7 @@
     Abilities ABILITY_CLEAR_BODY, ABILITY_NONE, ABILITY_LIGHT_METAL
     FleeRate 90
     Forms 0, 0, 1
-    Color COLOR_BLUE, flag6=1
+    Color COLOR_BLUE, asymmetric=1
     BaseExp 60
     HeightWeight 6, 952
     Machines

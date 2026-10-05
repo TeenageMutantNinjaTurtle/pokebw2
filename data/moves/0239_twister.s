@@ -2,7 +2,7 @@
 
 // MOVE_TWISTER
     Type TYPE_DRAGON
-    Quality 0
+    Quality MOVE_QUALITY_DAMAGE
     Category MOVE_CATEGORY_SPECIAL
     Power 40
     Accuracy 100
@@ -14,7 +14,7 @@
     FlinchChance 20
     Effect BATTLE_EFFECT_FLINCH_DOUBLE_DAMAGE_FLY_OR_BOUNCE
     DrainHeal 0, 0
-    Target 5
+    Target MOVE_TARGET_ADJACENT_FOES
     StatChanges
     Marker
-    Flags 0x0048
+    Flags MOVE_FLAG_PROTECT | MOVE_FLAG_MIRROR_MOVE

@@ -2,7 +2,7 @@
 
 // MOVE_BIDE
     Type TYPE_NORMAL
-    Quality 0
+    Quality MOVE_QUALITY_DAMAGE
     Category MOVE_CATEGORY_PHYSICAL
     Power 1
     Accuracy 101
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_BIDE
     DrainHeal 0, 0
-    Target 7
+    Target MOVE_TARGET_USER
     StatChanges
     Marker
-    Flags 0x0009
+    Flags MOVE_FLAG_CONTACT | MOVE_FLAG_PROTECT

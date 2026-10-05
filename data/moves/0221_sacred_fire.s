@@ -2,7 +2,7 @@
 
 // MOVE_SACRED_FIRE
     Type TYPE_FIRE
-    Quality 4
+    Quality MOVE_QUALITY_DAMAGE_INFLICT
     Category MOVE_CATEGORY_PHYSICAL
     Power 100
     Accuracy 95
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_THAW_AND_BURN_HIT
     DrainHeal 0, 0
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges
     Marker
-    Flags 0x0448
+    Flags MOVE_FLAG_PROTECT | MOVE_FLAG_MIRROR_MOVE | MOVE_FLAG_DEFROST

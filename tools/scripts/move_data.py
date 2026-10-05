@@ -9,7 +9,7 @@ import struct
 from pathlib import Path
 
 from narc import read_narc
-from personal_data import constant_names, name
+from personal_data import constant_names, flag_names, name
 
 RECORD_SIZE = 0x24
 
@@ -35,7 +35,7 @@ def write_record(record: bytes, names: dict[str, dict[int, str]], title: str) ->
         "",
         f"// {title}",
         f"    Type {name(names['type'], type_)}",
-        f"    Quality {quality}",
+        f"    Quality {name(names['quality'], quality)}",
         f"    Category {name(names['category'], category)}",
         f"    Power {power}",
         f"    Accuracy {accuracy}",
@@ -48,10 +48,10 @@ def write_record(record: bytes, names: dict[str, dict[int, str]], title: str) ->
         f"    FlinchChance {flinch}",
         f"    Effect {name(names['effect'], effect)}",
         f"    DrainHeal {drain}, {heal}",
-        f"    Target {target}",
+        f"    Target {name(names['target'], target)}",
         f"    StatChanges {', '.join(changes)}".rstrip(),
         "    Marker",
-        f"    Flags {flags:#06x}",
+        f"    Flags {flag_names('battle.h', 'MOVE_FLAG_', flags)}",
         "",
     ]
     return "\n".join(lines)
@@ -68,6 +68,8 @@ def main():
         "move": constant_names("moves.h", "MOVE_"),
         "type": constant_names("types.h", "TYPE_"),
         "category": constant_names("battle.h", "MOVE_CATEGORY_"),
+        "target": constant_names("battle.h", "MOVE_TARGET_"),
+        "quality": constant_names("battle.h", "MOVE_QUALITY_"),
         "condition": constant_names("battle.h", "CONDITION_"),
         "effect": constant_names("move_effects.h", "BATTLE_EFFECT_"),
         "stat": {k: v for k, v in constant_names("battle.h", "BATTLEMON_").items() if v.endswith("_STAGE")},

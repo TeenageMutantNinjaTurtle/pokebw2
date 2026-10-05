@@ -2,7 +2,7 @@
 
 // MOVE_WATER_SPORT
     Type TYPE_WATER
-    Quality 10
+    Quality MOVE_QUALITY_FIELD
     Category MOVE_CATEGORY_STATUS
     Power 0
     Accuracy 101
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_HALVE_FIRE_DAMAGE
     DrainHeal 0, 0
-    Target 10
+    Target MOVE_TARGET_FIELD
     StatChanges
     Marker
-    Flags 0x0000
+    Flags 0

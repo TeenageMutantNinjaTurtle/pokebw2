@@ -2,7 +2,7 @@
 
 // MOVE_STRUGGLE
     Type TYPE_NORMAL
-    Quality 0
+    Quality MOVE_QUALITY_DAMAGE
     Category MOVE_CATEGORY_PHYSICAL
     Power 50
     Accuracy 101
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_STRUGGLE
     DrainHeal 0, -25
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges
     Marker
-    Flags 0x0009
+    Flags MOVE_FLAG_CONTACT | MOVE_FLAG_PROTECT

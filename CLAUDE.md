@@ -39,6 +39,10 @@ a rule here changes, change it there too.
 - Other sessions work in this checkout and in `.claude/worktrees/*` at the same time. Stage files by name, never touch
   their uncommitted files, and don't use a bare `git stash`, since the stash is shared. `.claude/hooks/guard.py`
   enforces these.
+- **Publish every commit.** Right after each commit: `git fetch origin && git merge origin/main` (in a worktree too,
+  into its branch), resolve any conflicts, run `python3 configure.py && ninja` and check that both SHA1s match, then
+  `git push origin HEAD:main`. If the push is rejected because someone pushed first, fetch, merge, build and push
+  again. Never force-push, and never push a merge that doesn't build both ROMs. The `finish-file` skill has the steps.
 - **Context is the scarce resource.** Never print a whole `.s` file, a whole doc, a ninja log or a permuter log. Use
   `show_func.py NAME`, `compiler_probe.py --functions F --mismatches --align`, `grep -n` and `| tail`.
 - Long jobs run with `run_in_background` or Monitor, never `sleep`. Run the permuter only under a memory cap: an
@@ -72,7 +76,7 @@ Skills in `.claude/skills/`:
 - `match-function`: the triage-and-levers loop for a function that doesn't match, with its stop rules, the symptom
   index (`levers.md`) and the capped permuter (`permuter.md`).
 - `fix-build`: a link, module-check, SHA1 or White 2-only failure.
-- `finish-file`: verify both versions, mark complete, document mismatches, commit.
+- `finish-file`: verify both versions, mark complete, document mismatches, commit, then merge, rebuild and push.
 - `record-lesson`: where a new lesson goes and how to write it.
 
 Agents in `.claude/agents/`, used to keep large asm and diffs out of the main context:

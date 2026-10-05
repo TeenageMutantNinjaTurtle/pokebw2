@@ -2,7 +2,7 @@
 
 // MOVE_RAGE_POWDER
     Type TYPE_BUG
-    Quality 13
+    Quality MOVE_QUALITY_SPECIAL
     Category MOVE_CATEGORY_STATUS
     Power 0
     Accuracy 101
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_MAKE_GLOBAL_TARGET
     DrainHeal 0, 0
-    Target 7
+    Target MOVE_TARGET_USER
     StatChanges
     Marker
-    Flags 0x0000
+    Flags 0

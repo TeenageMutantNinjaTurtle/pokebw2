@@ -2,7 +2,7 @@
 
 // MOVE_THUNDER_WAVE
     Type TYPE_ELECTRIC
-    Quality 1
+    Quality MOVE_QUALITY_INFLICT
     Category MOVE_CATEGORY_STATUS
     Power 0
     Accuracy 100
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_STATUS_PARALYZE
     DrainHeal 0, 0
-    Target 0
+    Target MOVE_TARGET_SELECTED
     StatChanges
     Marker
-    Flags 0x0058
+    Flags MOVE_FLAG_PROTECT | MOVE_FLAG_REFLECTABLE | MOVE_FLAG_MIRROR_MOVE

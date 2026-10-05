@@ -15,7 +15,7 @@
     Abilities ABILITY_FLAME_BODY, ABILITY_NONE, ABILITY_VITAL_SPIRIT
     FleeRate 0
     Forms 0, 0, 1
-    Color COLOR_RED, flag6=1
+    Color COLOR_RED, asymmetric=1
     BaseExp 73
     HeightWeight 7, 214
     Machines TM06, TM10, TM11, TM17, TM21, TM27, TM29, TM31, TM32, TM35, TM38, TM42, TM43, TM44, TM45, TM46, TM48, TM50, TM56, TM59, TM61, TM87, TM90, TM94

@@ -2,7 +2,7 @@
 
 // MOVE_POISON_GAS
     Type TYPE_POISON
-    Quality 1
+    Quality MOVE_QUALITY_INFLICT
     Category MOVE_CATEGORY_STATUS
     Power 0
     Accuracy 80
@@ -14,7 +14,7 @@
     FlinchChance 0
     Effect BATTLE_EFFECT_STATUS_POISON
     DrainHeal 0, 0
-    Target 5
+    Target MOVE_TARGET_ADJACENT_FOES
     StatChanges
     Marker
-    Flags 0x0058
+    Flags MOVE_FLAG_PROTECT | MOVE_FLAG_REFLECTABLE | MOVE_FLAG_MIRROR_MOVE
