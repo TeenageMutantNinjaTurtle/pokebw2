@@ -99,6 +99,10 @@ Same instructions, scheduled in another order.
   entrant's bit fields from one load, but it is not hoisted out of a loop: `wbt_party.c`'s filter check reads each
   list's count again in every iteration because its filter is `const`, where a plain pointer's count is loaded once
   before the loop.
+- A field load scheduled ahead of a store it doesn't depend on, where MWCC keeps the written order, can come from an
+  inline helper's argument: arguments are evaluated before the body's stores. The PC box's sequences set the picked
+  position with `u8 pos = func_0202ba60(...); Box2Seq_SetGetPos(syswk, pos, syswk->tray);`, which loads `tray` before
+  storing `pos`; the same stores written out load it after.
 - Initializations are scheduled where they are written: `int i = 0;` declared after a call sets `i` after the call,
   while `for (i = 0; ...)` sets it at the loop, after any statements before the loop.
 - An argument that is loaded before a call among the arguments, such as a print queue loaded before
@@ -125,6 +129,8 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A compound assignment to a narrow field narrows its right side first: `work->checkFlag &= 0xff ^ (1 << waza);` on a
   `u8` shifts the mask down to a byte before the `and`, while `work->checkFlag = work->checkFlag & (0xff ^ (1 << waza));`
   ands the full mask, as the PC box's `Box2Main_PokeFreeWazaCheck` does.
+- `res -= 34;` lets MWCC fold a later `res + 36` into `res + 2`; a variable of its own, `u32 slot = res - 34;`, keeps the
+  difference in its register and adds 36 to it, as the PC box's `func_ov255_021c445c` does.
 - A chained assignment to fields, `a->x = a->y = value;`, stores `y`, reloads it and stores `x`. When the original
   narrows the value once and stores it to both, the stores were separate statements, as in the PC box's
   `PokeIconChgDataMake`.

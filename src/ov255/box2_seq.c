@@ -240,20 +240,21 @@ static void func_ov255_021cdd80(Box2SysWork *syswk);
 static void func_ov255_021cded4(Box2SysWork *syswk);
 static void func_ov255_021cdef8(Box2SysWork *syswk);
 
-// The menus' items: a message and whether the item closes the menu
-static const Box2MenuItem sMenu70cc[] = { { 83, 0 }, { 80, 1 } };
+// The menus' items: a message and whether the item closes the menu. MWCC sorts static data by size, unstably, so
+// tables of one size are declared in the order that lays them out as the ROM has them
 static const Box2MenuItem sMenu70d4[] = { { 93, 0 }, { 80, 1 } };
+static const Box2MenuItem sMenu70cc[] = { { 83, 0 }, { 80, 1 } };
 static const Box2MenuItem sMenu70dc[] = { { 94, 0 }, { 92, 0 }, { 80, 1 } };
 static const Box2MenuItem sMenu70e8[] = { { 31, 0 }, { 32, 0 }, { 33, 0 }, { 34, 1 } };
 static const Box2MenuItem sMenu70f8[] = { { 82, 0 }, { 74, 0 }, { 75, 0 }, { 80, 1 } };
 // The wallpaper themes and their wallpapers
-static const Box2MenuItem sMenu7108[] = { { 58, 0 }, { 59, 0 }, { 60, 0 }, { 61, 0 }, { 66, 1 } };
-static const Box2MenuItem sMenu711c[] = { { 35, 0 }, { 36, 0 }, { 37, 0 }, { 38, 0 }, { 66, 1 } };
 static const Box2MenuItem sMenu7130[] = { { 79, 0 }, { 74, 0 }, { 76, 0 }, { 77, 0 }, { 80, 1 } };
+static const Box2MenuItem sMenu7108[] = { { 58, 0 }, { 59, 0 }, { 60, 0 }, { 61, 0 }, { 66, 1 } };
+static const Box2MenuItem sMenu7180[] = { { 53, 0 }, { 54, 0 }, { 55, 0 }, { 56, 0 }, { 66, 1 } };
+static const Box2MenuItem sMenu711c[] = { { 35, 0 }, { 36, 0 }, { 37, 0 }, { 38, 0 }, { 66, 1 } };
 static const Box2MenuItem sMenu7144[] = { { 41, 0 }, { 42, 0 }, { 43, 0 }, { 44, 0 }, { 66, 1 } };
 static const Box2MenuItem sMenu7158[] = { { 45, 0 }, { 46, 0 }, { 47, 0 }, { 48, 0 }, { 66, 1 } };
 static const Box2MenuItem sMenu716c[] = { { 49, 0 }, { 50, 0 }, { 51, 0 }, { 52, 0 }, { 66, 1 } };
-static const Box2MenuItem sMenu7180[] = { { 53, 0 }, { 54, 0 }, { 55, 0 }, { 56, 0 }, { 66, 1 } };
 static const Box2MenuItem sMenu7194[] = { { 78, 0 }, { 74, 0 }, { 76, 0 }, { 77, 0 }, { 80, 1 } };
 static const Box2MenuItem sMenu71a8[] = { { 57, 0 }, { 35, 0 }, { 36, 0 }, { 37, 0 }, { 38, 0 }, { 66, 1 } };
 static const Box2MenuItem sMenu71c0[] = { { 58, 0 }, { 59, 0 }, { 60, 0 }, { 61, 0 }, { 68, 0 }, { 66, 1 } };
@@ -961,6 +962,12 @@ static int func_ov255_021c3700(Box2SysWork *syswk) {
     return 20;
 }
 
+// Sets the held Pokémon's position and tray
+static inline void Box2Seq_SetGetPos(Box2SysWork *syswk, u8 pos, u8 tray) {
+    syswk->pos = pos;
+    syswk->getTray = tray;
+}
+
 // Moving Pokémon: waits for a touch or for the cursor to pick one
 static int func_ov255_021c385c(Box2SysWork *syswk) {
     u32 x, y;
@@ -979,8 +986,9 @@ static int func_ov255_021c385c(Box2SysWork *syswk) {
     }
     if (GCTX_HIDGetPressedKeys() & PAD_BUTTON_START) {
         if (syswk->unk18 == 0) {
-            syswk->pos = func_0202ba60(syswk->app->cursorMove);
-            syswk->getTray = syswk->tray;
+            u8 pos = func_0202ba60(syswk->app->cursorMove);
+
+            Box2Seq_SetGetPos(syswk, pos, syswk->tray);
             syswk->unk13 = 2;
         } else {
             syswk->unk13 = 3;
@@ -1102,8 +1110,9 @@ static int func_ov255_021c385c(Box2SysWork *syswk) {
         return func_ov255_021cbe58(syswk, 22);
     case 45:
         if (syswk->unk18 == 0) {
-            syswk->pos = func_0202ba60(syswk->app->cursorMove);
-            syswk->getTray = syswk->tray;
+            u8 pos = func_0202ba60(syswk->app->cursorMove);
+
+            Box2Seq_SetGetPos(syswk, pos, syswk->tray);
             syswk->unk13 = 2;
         } else {
             syswk->unk13 = 3;
@@ -1200,8 +1209,7 @@ static int func_ov255_021c385c(Box2SysWork *syswk) {
             return func_ov255_021cd4b8(syswk, res, 21);
         }
         if (Box2Main_GetPokeParam(syswk, res, syswk->tray, PKM_PARAM_SPECIES_VALID, NULL) != 0) {
-            syswk->pos = res;
-            syswk->getTray = syswk->tray;
+            Box2Seq_SetGetPos(syswk, res, syswk->tray);
             func_ov255_021d0374(syswk, syswk->pos, 1, 1);
             return func_ov255_021cd458(syswk, syswk->pos);
         }
@@ -1465,8 +1473,9 @@ static int func_ov255_021c445c(Box2SysWork *syswk) {
         return func_ov255_021cbe58(syswk, 37);
     }
     if ((GCTX_HIDGetPressedKeys() & PAD_BUTTON_START) && syswk->unk18 == 0) {
-        syswk->pos = func_0202ba60(syswk->app->cursorMove);
-        syswk->getTray = syswk->tray;
+        u8 pos = func_0202ba60(syswk->app->cursorMove);
+
+        Box2Seq_SetGetPos(syswk, pos, syswk->tray);
         syswk->unk13 = 2;
         GFL_SndSEPlay(SEQ_SE_DECIDE1);
         Box2Main_ShowCursor(syswk);
@@ -1646,8 +1655,9 @@ static int func_ov255_021c445c(Box2SysWork *syswk) {
         if (syswk->unk18 != 0) {
             break;
         }
-        syswk->pos = func_0202ba60(syswk->app->cursorMove);
-        syswk->getTray = syswk->tray;
+        u8 pos = func_0202ba60(syswk->app->cursorMove);
+
+        Box2Seq_SetGetPos(syswk, pos, syswk->tray);
         syswk->unk13 = 2;
         GFL_SndSEPlay(SEQ_SE_DECIDE1);
         return func_ov255_021cc460(syswk, 30, 1, 91);
@@ -1751,18 +1761,20 @@ static int func_ov255_021c445c(Box2SysWork *syswk) {
     case 34:
     case 35:
     case 36:
-    case 37:
-        res -= 34;
-        func_ov255_021d1ac8(syswk, res, 1);
+    case 37: {
+        // The button's slot in the box list
+        u32 slot = res - 34;
+
+        func_ov255_021d1ac8(syswk, slot, 1);
         if (syswk->unk18 == 2) {
-            return func_ov255_021cd52c(syswk, res + 36, 36);
+            return func_ov255_021cd52c(syswk, slot + 36, 36);
         }
         if (syswk->unk18 == 1) {
             func_ov255_021cded4(syswk);
         }
         GFL_SndSEPlay(SEQ_SE_SELECT1);
         Box2Main_PokeInfoOff(syswk);
-        syswk->app->unkA55F = syswk->trayScroll + res;
+        syswk->app->unkA55F = syswk->trayScroll + slot;
         if (syswk->app->unkA55F >= syswk->trayMax) {
             syswk->app->unkA55F -= syswk->trayMax;
         }
@@ -1770,6 +1782,7 @@ static int func_ov255_021c445c(Box2SysWork *syswk) {
             return func_ov255_021cdba4(syswk, 36);
         }
         break;
+    }
     case CURSORMOVE_NONE:
         break;
     default:
@@ -2109,9 +2122,10 @@ static int func_ov255_021c53f4(Box2SysWork *syswk) {
     }
     if (GCTX_HIDGetPressedKeys() & PAD_BUTTON_START) {
         if (syswk->unk18 == 0) {
-            syswk->pos = func_0202ba60(syswk->app->cursorMove);
+            u8 pos = func_0202ba60(syswk->app->cursorMove);
+
+            Box2Seq_SetGetPos(syswk, pos, syswk->tray);
             syswk->unk13 = 4;
-            syswk->getTray = syswk->tray;
             GFL_SndSEPlay(SEQ_SE_DECIDE1);
             Box2Main_ShowCursor(syswk);
             return func_ov255_021cc460(syswk, 30, 1, 91);
@@ -2229,9 +2243,11 @@ static int func_ov255_021c53f4(Box2SysWork *syswk) {
         } else {
             res = func_ov255_021d3514();
             if (res != 0xffffffff) {
+                // The range's first slot in the party
+                u32 top = syswk->pos - BOX2_PARTY_POS;
+
                 for (i = 0; i < syswk->app->rangeHeight; i++) {
-                    if (res >= syswk->pos - BOX2_PARTY_POS + i * 2
-                        && res < syswk->app->rangeWidth + (syswk->pos - BOX2_PARTY_POS + i * 2)) {
+                    if (res >= top + i * 2 && res < syswk->app->rangeWidth + (top + i * 2)) {
                         GFL_SndSEPlay(SEQ_SE_SYS_39);
                         func_ov255_021d208c(syswk, syswk->app->rangeSelect.startPos, syswk->app->rangeSelect.endPos, 1);
                         func_0203dac8(&syswk->app->tpx, &syswk->app->tpy);
@@ -2340,15 +2356,18 @@ static int func_ov255_021c53f4(Box2SysWork *syswk) {
         return func_ov255_021cbe58(syswk, 43);
     case 44:
         break;
-    case 45:
+    case 45: {
+        u8 pos;
+
         if (syswk->unk18 != 0) {
             break;
         }
-        syswk->pos = func_0202ba60(syswk->app->cursorMove);
+        pos = func_0202ba60(syswk->app->cursorMove);
+        Box2Seq_SetGetPos(syswk, pos, syswk->tray);
         syswk->unk13 = 4;
-        syswk->getTray = syswk->tray;
         GFL_SndSEPlay(SEQ_SE_DECIDE1);
         return func_ov255_021cc460(syswk, 30, 1, 91);
+    }
     case CURSORMOVE_CANCEL:
         if (syswk->unk18 == 1) {
             u8 pos = func_0202ba60(syswk->app->cursorMove);
@@ -2901,8 +2920,9 @@ static int func_ov255_021c686c(Box2SysWork *syswk) {
     }
     if (GCTX_HIDGetPressedKeys() & PAD_BUTTON_START) {
         if (syswk->unk18 == 0) {
-            syswk->pos = func_0202ba60(syswk->app->cursorMove);
-            syswk->getTray = syswk->tray;
+            u8 pos = func_0202ba60(syswk->app->cursorMove);
+
+            Box2Seq_SetGetPos(syswk, pos, syswk->tray);
             syswk->unk13 = 4;
         } else {
             syswk->unk13 = 5;
@@ -3028,8 +3048,9 @@ static int func_ov255_021c686c(Box2SysWork *syswk) {
         return func_ov255_021cbe58(syswk, 33);
     case 45:
         if (syswk->unk18 == 0) {
-            syswk->pos = func_0202ba60(syswk->app->cursorMove);
-            syswk->getTray = syswk->tray;
+            u8 pos = func_0202ba60(syswk->app->cursorMove);
+
+            Box2Seq_SetGetPos(syswk, pos, syswk->tray);
             syswk->unk13 = 4;
         } else {
             syswk->unk13 = 5;
@@ -3080,8 +3101,7 @@ static int func_ov255_021c686c(Box2SysWork *syswk) {
             return func_ov255_021cd4b8(syswk, res, 32);
         }
         if (Box2Main_GetPokeParam(syswk, res, syswk->tray, PKM_PARAM_SPECIES_VALID, NULL) != 0) {
-            syswk->pos = res;
-            syswk->getTray = syswk->tray;
+            Box2Seq_SetGetPos(syswk, res, syswk->tray);
             func_ov255_021d0374(syswk, syswk->pos, 1, 1);
             return func_ov255_021cd3f8(syswk, syswk->pos, 32);
         }
