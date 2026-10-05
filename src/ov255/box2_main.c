@@ -4982,8 +4982,7 @@ BOOL Box2Main_RangePutCheck(Box2SysWork *syswk, u32 tray, int pos) {
                         }
                         slot16 = slot;
                         for (i = 0; i < syswk->app->rangeHeight; i++) {
-                            int start = syswk->pos + i * 6;
-                            if (slot16 >= start && slot16 < syswk->app->rangeWidth + start) {
+                            if (slot16 >= syswk->pos + i * 6 && slot16 < syswk->app->rangeWidth + (syswk->pos + i * 6)) {
                                 break;
                             }
                         }
