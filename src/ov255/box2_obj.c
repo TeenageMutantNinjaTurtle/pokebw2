@@ -1982,14 +1982,12 @@ void func_ov255_021d2238(Box2AppWork *app, u32 pos, u32 width, u32 height, BOOL 
 
 static BOOL func_ov255_021d229c(Box2SysWork *syswk, u32 pos) {
     u32 j;
-    u32 start;
 
     if (syswk->pos >= BOX2_TRAY_POKE_MAX) {
         return FALSE;
     }
     for (j = 0; j < syswk->app->rangeHeight; j++) {
-        start = syswk->pos + j * 6;
-        if (pos >= start && pos < syswk->app->rangeWidth + start) {
+        if (pos >= syswk->pos + j * 6 && pos < syswk->app->rangeWidth + (syswk->pos + j * 6)) {
             return TRUE;
         }
     }
