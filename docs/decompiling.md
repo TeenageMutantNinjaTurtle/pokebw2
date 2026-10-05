@@ -28,7 +28,8 @@ diffs every function in it against the original. A library that `configure.py` b
 as SPL with `1.2/base`, gets that compiler and its flags by default. `--mismatches` leaves out the functions that
 match, and `--functions` limits the table and diffs to the functions named. `--align` shows only the hunks of the
 diff that differ, aligned so that an instruction more or less does not shift everything after it, which is what makes
-a long function's diff readable.
+a long function's diff readable. A function the file defines but the object lacks shows as `not emitted`: MWCC drops a
+`static` function nothing references, such as a callback whose table isn't written yet, so it has not been checked.
 
 `tools/scripts/try_variants.py src/... FUNC variants.c` puts each variant of a function, separated by lines of
 `=====`, in place of its definition and probes it with the file's compiler, keeping the first that matches. `--score`
