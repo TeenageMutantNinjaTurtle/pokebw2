@@ -253,10 +253,12 @@ struct WorldTradeWork {
     ClActor *subAct[8];
     // The arrows by the box name
     ClActor *boxArrowAct[2];
-    ClActor *unkD34;
+    // The cursor on the trade partner of the lower screen
+    ClActor *partnerCursorAct;
     // The icon that says to look at the lower screen
     ClActor *promptDsAct;
-    int unkD3C;
+    // How far the screens slide, between the search and partner screens
+    int drawOffset;
     BmpWin *msgWin;
     u8 unkD44[0x8];
     BmpWin *subWin;
@@ -327,7 +329,9 @@ struct WorldTradeWork {
     BOOL procResult;
     // Set when the traded Pokémon may evolve
     int checkEvolution;
-    u8 unk12FC[0x30];
+    // Set when the partner screen comes back for another partner, which keeps the lower screen's windows
+    int partnerChange;
+    u8 unk1300[0x2c];
 };
 
 // worldtrade.c
@@ -462,7 +466,11 @@ int WorldTrade_Status_End(WorldTradeWork *wk, int seq);
 // worldtrade_sublcd.c
 void func_ov214_021de510(WorldTradeWork *wk);
 void func_ov214_021de98c(WorldTradeWork *wk, int count, int a2);
+// The person of the lower screen that is touched, of the first count, or -1
+int func_ov214_021de96c(int count);
 void func_ov214_021deb40(WorldTradeWork *wk);
+// Puts the partner cursor on a person of the lower screen, offset by y
+void func_ov214_021deb88(WorldTradeWork *wk, int index, int offsetY);
 void func_ov214_021debb0(WorldTradeWork *wk);
 void func_ov214_021debe0(WorldTradeWork *wk);
 

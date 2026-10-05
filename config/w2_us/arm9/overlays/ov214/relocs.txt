@@ -2207,7 +2207,7 @@ from:0x021dc308 kind:thumb_call to:0x0203da38 module:main
 from:0x021dc334 kind:thumb_call to:0x020279e0 module:main
 from:0x021dc33e kind:thumb_call to:0x02006254 module:main
 from:0x021dc350 kind:load to:0x021e2554 module:overlay(214)
-from:0x021dc354 kind:load to:0x021e2555 module:overlay(214)
+from:0x021dc354 kind:load to:0x021e2554 add:0x1 module:overlay(214)
 from:0x021dc358 kind:load to:0x021e2548 module:overlay(214)
 from:0x021dc36e kind:thumb_call to:0x0204c150 module:main
 from:0x021dc3a0 kind:thumb_call to:0x020279e0 module:main

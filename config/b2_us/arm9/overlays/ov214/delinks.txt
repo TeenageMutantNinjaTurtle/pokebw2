@@ -42,3 +42,9 @@ src/ov214/worldtrade_mypoke.c:
     .text       start:0x021daeb8 end:0x021dba8c
     .rodata     start:0x021e23b8 end:0x021e2508
     .data       start:0x021e2e10 end:0x021e2e34
+
+src/ov214/worldtrade_partner.c:
+    complete
+    .text       start:0x021dba8c end:0x021dc784
+    .rodata     start:0x021e2508 end:0x021e26b4
+    .data       start:0x021e2e34 end:0x021e2e58
