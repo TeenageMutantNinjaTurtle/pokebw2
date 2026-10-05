@@ -16,6 +16,8 @@ u32 PML_PersonalGetParamSingle(u16 species, u16 form, u32 param);
 void *PML_PersonalLoad(u16 species, u16 form, HeapID heapId);
 u32 PML_PersonalGetParam(void *personal, u32 param);
 void PML_PersonalFree(void *personal);
+// The moves a species learns by level, pairs of move and level that end with two 0xffff
+void PML_LearnsetLvUpLoad(u16 species, u8 form, void *dest);
 // The experience a Pokémon of the species needs for the level
 u32 PML_UtilGetPkmLvExp(u16 species, u16 form, u16 level);
 
