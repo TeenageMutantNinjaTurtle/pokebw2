@@ -42,10 +42,16 @@ void *func_02010054(JoinAvenueSave *joinAvenue);
 void *func_02037f04(void *entries, u32 index);
 // The number of entries
 u32 func_02037ed4(void *entries);
-// Stores a person list in a global structure, if there is one; NULL clears it
-void func_0202d608(JoinAvenuePersonList *list);
 // Called with an entry by overlay 137, which counts a result of 2 and stops at 0
 u32 func_02010078(JoinAvenueSave *joinAvenue, GameData *gameData, void *entry, u32 a3);
+void func_02010098(JoinAvenueSave *joinAvenue);
+BOOL func_020100a4(JoinAvenueSave *joinAvenue, GameData *gameData, void *work, u32 a3, u32 *out);
+// A 0x48-byte work of a Join Avenue visitor from a beacon
+void *func_02037910(HeapID heapId);
+void func_02037930(void *work);
+void func_02037938(void *work, u8 index, GameData *gameData);
+void func_02037970(void *work, GameBeacon *beacon);
+void func_02037998(void *work, const GameBeacon *beacon, u32 a2);
 void *func_02037a40(HeapID heapId);
 void func_02037a68(void *entry);
 void func_02037a70(void *entry);

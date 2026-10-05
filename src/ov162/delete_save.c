@@ -291,11 +291,11 @@ static void DeleteSave_InitMsg(DeleteSaveWork *wk) {
     wk->font = GFL_FontCreate(ARCID_FONT, 0, 0, 0, HEAPID_SAVEDATA_DELETE);
     wk->strbuf = GFL_StrBufCreate(1024, HEAPID_SAVEDATA_DELETE);
     wk->tcbManager = GFL_TCBExMgrCreate(HEAPID_SAVEDATA_DELETE, HEAPID_SAVEDATA_DELETE, 1, 4);
-    wk->keyCursor = func_0202e7a4(15, 1, 0, HEAPID_SAVEDATA_DELETE);
+    wk->keyCursor = KeyCursor_Create(15, TRUE, FALSE, HEAPID_SAVEDATA_DELETE);
 }
 
 static void DeleteSave_FreeMsg(DeleteSaveWork *wk) {
-    func_0202e818(wk->keyCursor);
+    KeyCursor_Free(wk->keyCursor);
     GFL_TCBExMgrFree(wk->tcbManager);
     GFL_StrBufFree(wk->strbuf);
     GFL_FontFree(wk->font);
@@ -341,7 +341,7 @@ static void DeleteSave_Print(DeleteSaveWork *wk, u32 messageId) {
 // Returns FALSE once the message has ended
 static BOOL DeleteSave_UpdatePrint(DeleteSaveWork *wk) {
     GFL_TCBExMgrUpdate(wk->tcbManager);
-    func_0202e8d8(wk->keyCursor, wk->printStream, wk->window);
+    KeyCursor_Update(wk->keyCursor, wk->printStream, wk->window);
     switch (func_020223b4(wk->printStream)) {
     case PRINT_STREAM_RUNNING:
         wk->continued = FALSE;

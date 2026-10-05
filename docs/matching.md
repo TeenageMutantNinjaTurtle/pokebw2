@@ -93,6 +93,9 @@ Same code, other `sp` offsets or frame size.
 - A constant store written first reserves its register before the parameters are moved, though the scheduler moves
   the store itself later: `data->active = TRUE;` first in `BrightnessData_Init` keeps the shared 1 in r0.
 
+- Block-scoped arrays set both the stack order and where their initializers are copied: infowin.c's
+  `InfoWin_VBlankTask` matches only with each table declared in the `if` block that uses it.
+
 ## Instruction order
 
 Same instructions, scheduled in another order.
@@ -186,6 +189,45 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   `table[item / (sizeof(u32) * 8)] & (1 << (item % 32))`; `item >> 5` gives `asr` (pml_item.c).
 - A result computed into the parameter's own callee-saved register comes from a compound assignment to the parameter
   (`item -= ITEM_TM93 - TM_INDEX_TM93;` in `PML_ItemGetTMWazaID`); `item = item - X` or a new local computes into r0.
+
+- A parameter masked in place (`word &= 0x7ff`) with no narrowing after is wider than the callers' `u16`: pms_word.c's
+  `PMSWord_GetMessage` takes a `u32`.
+- A store of a loaded value back into an address-taken out-variable's slot is a reassignment in the source:
+  `fileId = sCategoryMsgFiles[fileId];` after the call that filled it (`loadSayingToString`).
+- `for (j = 0, base = 0; ...)` zeroes `j` first; `base = 0;` before `for (j = 0; ...)` zeroes `base` first
+  (`PMSWord_FromMessage`).
+
+- `x |= c` reloads the field and its pointer, while `x = x | c` reuses the value just tested: infowin.c's
+  `InfoWin_Update` sets a flag with `flags = flags | 4`.
+- Clearing a bit of a `u16` field with a pool literal of 0x0000efff is `& (0xffff ^ bit)`; `& ~bit` gives 0xffffefff,
+  which only shows in the pool bytes (`InfoWin_Update`).
+- An index masked with `lsl #24; lsr #22` at its use is a `BOOL` passed through a `u8` parameter of an inline
+  (`InfoWin_GetSignalColors(u8 on)`).
+- A constant choice passed to a `u16` parameter without narrowing is `u16 v; if (...) v = A; else v = B;`; a ternary
+  keeps the `lsl`/`lsr` (actor_tool.c's `ActorTool_LoadPalettesFade`).
+- A loop that copies its index each pass (`adds r3, r2, #0`) has a `u32` index against an `int` bound
+  (`ActorPalSlots_Free`).
+- A switch whose result moves to r0 once at the end assigns a result variable initialized to the input
+  (`u8 next = pos; switch ...` in cursor_move.c's `CursorMoveData_GetLink`).
+
+- An `int` assigned to a `u8` bitfield is narrowed (`lsl`/`lsr #0x18`) before the bit insert; a `u8` value isn't
+  (game_comm.c, a `BOOL flag` stored in a 1-bit field).
+- Loads still move above stores to other known offsets of the same pointer: in `GameCommSys_Main`,
+  `comm->work = NULL; comm->commNo = 0; cb = comm->exitCallback;` reads the callback first, and only that source order
+  gives the original's registers.
+- A struct is copied by its type's alignment: one of `u8` fields bytewise, a union with a `u16` by `ldrh`/`strh`
+  while its fields stay byte-accessed (game_beacon.c's `GameBeaconTime`).
+- One load of a global serving a store and a following address comes from taking the address into a local before the
+  store (`GameBeacon *beacon = &GameBeaconSys->mine.beacon;` in `GameBeaconSys_SetGameData`).
+- `x == n` compiled as `sub; bne` is `x - n == 0`; `return (*p)++` and an increment followed by `return *p - 1`
+  differ (`GameBeaconSys_GetRecentEntry`, `GameBeaconSys_GetNextNew`).
+- A `u16` parameter is spilled at entry before the other parameters are moved, a `u32` one after them. A caller's
+  `u16` narrowing can come from its own `u16` local rather than the parameter type (`GameCommSys_LogPlayers`).
+
+- A store written before a read through a `const` pointer parameter can move above another store; dropping the
+  `const` keeps the source order (app_taskmenu.c's `AppTaskMenu_Create`).
+- A range test `subs; subs; cmp; bhi` is an unsigned difference in the source, `x - left <= right - left` on `u32`
+  values; MWCC doesn't fold `x >= left && x <= right` into it (`AppTaskMenuWin_IsTouched`).
 
 ## Branches and block layout
 
@@ -300,6 +342,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   a relocation. Mark the literal in the config with `tools/scripts/config_fixes.py overlay-id`.
 - A table one element longer in the ROM than the code needs has a terminator: pml_item.c's `TM_MOVE_LIST` is 101 moves
   and a `MOVE_NONE`. Without it the next object starts 2 bytes early.
+
+- Sections start 4-aligned at link time (`ALIGNALL(4)` in the LCF), whatever their own alignment: pms_data.c's
+  12-entry `u16` initializer after 0x16 bytes of shared `.rodata` sits at +0x18, not +0x16.
 
 ## When nothing moves it
 

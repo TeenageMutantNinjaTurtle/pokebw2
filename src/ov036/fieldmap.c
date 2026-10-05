@@ -70,6 +70,7 @@
 #include "save/medal_box.h"
 #include "save/records.h"
 #include "save/save_control.h"
+#include "system/game_beacon.h"
 #include "system/game_comm.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
@@ -357,7 +358,7 @@ u32 FieldRoutine_MapLoad(GameSystem *gsys, Field *field) {
         break;
     case 6:
         field->encountSystem = EncSys_Create(field);
-        func_0202bd08(GSYS_GetGameCommSystem(gsys), field);
+        GameCommSys_FieldCreate(GSYS_GetGameCommSystem(gsys), field);
         field->asyncProcManager = FieldAsyncProcManager_Create(field, field->heapId, 0x20);
         field->particleSystem = func_ov036_021bb590(0x50);
         field->g3dCi = Fld3DCi_Create(0x50, field->particleSystem);
@@ -530,7 +531,7 @@ u32 FieldRoutine_MapUnload(GameSystem *gsys, Field *field) {
     GSYS_SetEventProvider(gsys, NULL, NULL);
     FieldPlayer_SyncState(field->player);
     FieldAsyncProcManager_Free(field->asyncProcManager);
-    func_0202bd30(GSYS_GetGameCommSystem(gsys), field);
+    GameCommSys_FieldDelete(GSYS_GetGameCommSystem(gsys), field);
     if (field->unk34 != NULL) {
         func_ov036_021b5bfc(field->unk34);
     }
@@ -1218,7 +1219,7 @@ u32 func_ov036_02180f80(GameCommSys *comm) {
     switch (state) {
     case 0:
         if (GFL_NetErrCheck()) {
-            state = func_0202bdfc(comm);
+            state = GameCommSys_GetLastCommNo(comm);
         }
         return state;
     case 1:
@@ -1233,7 +1234,7 @@ BOOL func_ov036_02180fc0(GameCommSys *comm) {
     if (GameCommSys_BootCheck(comm) == 0) {
         return TRUE;
     }
-    if (!func_0202bde0(comm)) {
+    if (!GameCommSys_IsTransitioning(comm)) {
         GameCommSys_ExitReq(comm);
     }
     return FALSE;

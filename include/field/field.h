@@ -238,6 +238,14 @@ void func_ov034_0217b7bc(void *work);
 void func_ov034_0217b7d0(void *work);
 // Overlay 28
 void func_ov028_02170f28(GameCommSys *comm, Field *field);
+// Overlay 28's GameCommSys callbacks for GAME_COMM_NO_UNION (see game_comm.c)
+void *func_ov028_021703d0(int *seq, void *param);
+BOOL func_ov028_021703fc(int *seq, void *param, void *work);
+BOOL func_ov028_02170430(int *seq, void *param, void *work);
+BOOL func_ov028_0217046c(int *seq, void *param, void *work);
+void func_ov028_021705cc(int *seq, void *param, void *work);
+void func_ov028_02170ffc(void *param, void *work, Field *field);
+void func_ov028_0217105c(void *param, void *work, Field *field);
 BOOL FieldmapProc_Init(GameProc *proc, int *seq, void *param, void *work);
 BOOL FieldmapProc_Update(GameProc *proc, int *seq, void *param, void *work);
 BOOL FieldmapProc_End(GameProc *proc, int *seq, void *param, void *work);

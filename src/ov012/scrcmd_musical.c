@@ -919,7 +919,7 @@ BOOL func_ov012_02158f20(VM *vm, void *arg) {
     comm = GSYS_GetGameCommSystem(gsys);
     commWork = func_020179dc(gameData);
     if (GameCommSys_BootCheck(comm) == 4) {
-        commWork->comm = func_0202bdf4(comm);
+        commWork->comm = GameCommSys_GetWork(comm);
         return TRUE;
     }
     return FALSE;

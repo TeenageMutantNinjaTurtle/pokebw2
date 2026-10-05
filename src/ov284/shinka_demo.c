@@ -39,6 +39,7 @@
 #include "save/save_control.h"
 #include "system/app_keycursor.h"
 #include "system/bmp_winframe.h"
+#include "system/game_beacon.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
 #include "system/gf_font.h"
@@ -309,7 +310,7 @@ static BOOL ShinkaDemo_Main(GameProc *proc, u32 *state, void *param, void *work)
         return FALSE;
     }
     if (wk->state != SHINKA_DEMO_OV207 && wk->state != SHINKA_DEMO_OV207_END && wk->printStream != NULL) {
-        func_0202e8d8(wk->keyCursor, wk->printStream, wk->window);
+        KeyCursor_Update(wk->keyCursor, wk->printStream, wk->window);
     }
     switch (wk->state) {
     case SHINKA_DEMO_WAIT:
@@ -430,7 +431,7 @@ static BOOL ShinkaDemo_Main(GameProc *proc, u32 *state, void *param, void *work)
             PokeDex_RegistPkm(pokedex, wk->pkm);
             addPkmToDex(pokedex, wk->pkm);
         }
-        func_0202d304(PokeParty_GetParam(wk->pkm, PKM_PARAM_SPECIES, NULL), wk->nickname);
+        GameBeaconSys_SendEvolution(PokeParty_GetParam(wk->pkm, PKM_PARAM_SPECIES, NULL), wk->nickname);
         ShinkaDemo_PlayFanfare(param, wk);
         if (wk->windowShown) {
             wk->state = SHINKA_DEMO_PRINT_EVOLVED;
@@ -1114,14 +1115,14 @@ static void ShinkaDemo_InitMsg(ShinkaDemoParam *param, ShinkaDemoWork *wk) {
     GFL_TextRndUpdateColorIndexLUT(1, 2, 15);
     wk->message = NULL;
     wk->printStream = NULL;
-    wk->keyCursor = func_0202e7a4(15, 1, 1, wk->graphicHeapId);
+    wk->keyCursor = KeyCursor_Create(15, TRUE, TRUE, wk->graphicHeapId);
     wk->bg1Request = BG1_NONE;
     GFL_BGSysSetBGEnabled(1, FALSE);
     wk->windowShown = FALSE;
 }
 
 static void ShinkaDemo_FreeMsg(ShinkaDemoParam *param, ShinkaDemoWork *wk) {
-    func_0202e818(wk->keyCursor);
+    KeyCursor_Free(wk->keyCursor);
     if (wk->printStream != NULL) {
         func_020223cc(wk->printStream);
     }

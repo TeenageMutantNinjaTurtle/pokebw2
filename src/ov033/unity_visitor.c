@@ -5,8 +5,10 @@
 #include "save/save_control.h"
 #include "struct_decls.h"
 #include "system/aeabi.h"
+#include "system/country_region.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+#include "system/union_view.h"
 #include "system/wordset.h"
 
 void func_ov033_0217aa1c(GameSystem *gsys, s32 floor, u32 value) {
@@ -48,7 +50,7 @@ void func_ov033_0217aa50(UnityTowerSurveySave *survey, u8 *output, s32 floor, u3
                 visitorValue = getTrainerGender(visitor) != 0 ? 15 : 11;
             }
             output[8 + output[1]] = index;
-            output[3 + output[1]] = func_0202b5d4(visitorValue);
+            output[3 + output[1]] = UnionView_GetTrainerType(visitorValue);
             output[1]++;
             if (output[1] >= 5) {
                 break;

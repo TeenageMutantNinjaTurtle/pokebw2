@@ -60,6 +60,11 @@ PlayerInfo *func_ov211_021ef9c4(void *comm, u8 index);
 BOOL func_ov211_021f03e0(void *comm);
 BOOL func_ov211_021f04ac(void *comm);
 u32 func_ov211_021f0608(GameData *gameData);
+// Its GameCommSys callbacks for GAME_COMM_NO_MUSICAL (see game_comm.c)
+void *func_ov211_021ef230(int *seq, void *param);
+BOOL func_ov211_021ef288(int *seq, void *param, void *work);
+BOOL func_ov211_021ef378(int *seq, void *param, void *work);
+void func_ov211_021ef394(int *seq, void *param, void *work);
 
 // Overlay 209's screen
 extern const GameProcFunctions data_ov209_021c3000;

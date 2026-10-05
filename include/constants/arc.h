@@ -3,7 +3,7 @@
 
 // Names, layouts and constants from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0), except
 // ARCID_WINFRAME, ARCID_TITLE, ARCID_STARTMENU, ARCID_SEASON_BANNER, ARCID_COPYRIGHT, ARCID_INTRO, ARCID_EGG_DEMO,
-// ARCID_SHINKA_DEMO and ARCID_TRAI_SCRIPT
+// ARCID_SHINKA_DEMO, ARCID_TRAI_SCRIPT, ARCID_BMP_OAM, ARCID_INFOWIN and ARCID_APP_MENU_COMMON
 
 #define ARCID_SYSTEM_MESSAGE 2
 #define ARCID_SCRIPT_MESSAGE 3
@@ -30,6 +30,9 @@
 #define ARCID_STARTMENU 34
 #define ARCID_MMODEL_TBL 47
 #define ARCID_MMODEL_GRA 48
+#define ARCID_INFOWIN 49
+// The cells and animations of bmp_oam.c's 32x16 actors, for each OBJ character mapping
+#define ARCID_BMP_OAM 50
 #define ARCID_EVENT_SCRIPT 56
 #define ARCID_FIELD_CAMERA_DEFAULT 59
 #define ARCID_LIGHTS_FIELD 60
@@ -39,6 +42,8 @@
 #define ARCID_TRSPRITE_FRONT 71
 #define ARCID_TRSPRITE_BACK 72
 #define ARCID_RAIL_HEADERS 78
+// The graphics that the menus share (app_menu_common.c)
+#define ARCID_APP_MENU_COMMON 82
 #define ARCID_TRDATA 91
 #define ARCID_TRPOKE 92
 #define ARCID_CALENDAR 96

@@ -25,6 +25,17 @@
 . 0x02027c64 reloc_addend 0x140
 . 0x02027dfc reloc_addend 0x100
 . 0x02027e38 reloc_addend 0x100
+. 0x0202b434 reloc_addend 0x4
+. 0x0202b438 reloc_addend 0x8
+. 0x0202b4b4 reloc_addend 9
+. 0x0202b4d8 reloc_addend 2
+. 0x0202b50c reloc_addend 1
+. 0x0202b5cc reloc_addend 4
+. 0x0202b5d0 reloc_addend 8
+. 0x0202b5f8 reloc_addend 3
+. 0x0202b60c reloc_addend 2
+. 0x0202bd2c reloc_addend 0x14
+. 0x0202bd54 reloc_addend 0x18
 . 0x0208d374 add_label _fflt
 . 0x0208d5c4 add_label _ll_udiv
 . 0x0208d60c add_label _ll_mul
@@ -32,8 +43,24 @@
 . 0x02090bce remove_symbol
 . 0x02090d52 remove_symbol
 . 0x02091264 remove_reloc
+. 0x02091a94 remove_symbol
+. 0x02091a98 remove_symbol
+. 0x02091cd1 remove_symbol
+. 0x02091cd2 remove_symbol
+. 0x02091cd4 remove_symbol
+. 0x02091cd8 remove_symbol
+. 0x02091cd9 remove_symbol
+. 0x02091db6 remove_symbol
+. 0x02091db7 remove_symbol
+. 0x02091e0c remove_symbol
+. 0x02091e10 remove_symbol
+. 0x02091e54 reloc_module overlay(28)
 . 0x02091e60 reloc_module overlay(28)
 . 0x02091e64 reloc_module overlay(28)
+. 0x02091e68 reloc_module overlay(211)
+. 0x02091e70 reloc_module overlay(211)
+. 0x02091e74 reloc_module overlay(211)
+. 0x02091e78 reloc_module overlay(211)
 . 0x0210000b remove_symbol
 . 0x0210020f remove_symbol
 . 0x02141668 remove_symbol

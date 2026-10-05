@@ -3043,8 +3043,8 @@ void func_ov167_0219d72c(BtlTrainerData *trainer, HeapID heapId, PlayerInfo *src
         trainer->unk08 = getTrainerGender(trainer->playerInfo) == 0 ? 0xb6 : 0xb7;
     }
     trainer->name = copyTrainerNameToNewStrbuf(trainer->playerInfo->name, HEAPID_BATTLE);
-    func_02029bb0(trainer->unk18);
-    func_02029bb0(trainer->unk20);
+    PMSData_Clear(&trainer->unk18);
+    PMSData_Clear(&trainer->unk20);
 }
 
 void func_ov167_0219d794(BtlTrainerData *trainer, const BtlSetupTrainer *src) {
@@ -3057,8 +3057,8 @@ void func_ov167_0219d794(BtlTrainerData *trainer, const BtlSetupTrainer *src) {
         trainer->name = GFL_StrBufClone(src->name, HEAPID_BATTLE);
         trainer->unk0C = src->aiFlags;
         sys_memcpy(src->items, trainer->unk10, sizeof(trainer->unk10));
-        func_02029e94(trainer->unk18, src->unk18);
-        func_02029e94(trainer->unk20, src->unk20);
+        PMSData_Copy(&trainer->unk18, &src->unk18);
+        PMSData_Copy(&trainer->unk20, &src->unk20);
     } else {
         trainer->unk0A = 0;
         trainer->unk08 = 0;
@@ -3066,8 +3066,8 @@ void func_ov167_0219d794(BtlTrainerData *trainer, const BtlSetupTrainer *src) {
         for (i = 0; i < 4; i++) {
             trainer->unk10[i] = 0;
         }
-        func_02029bb0(trainer->unk18);
-        func_02029bb0(trainer->unk20);
+        PMSData_Clear(&trainer->unk18);
+        PMSData_Clear(&trainer->unk20);
     }
 }
 
@@ -3082,8 +3082,8 @@ void func_ov167_0219d808(BtlTrainerData *trainer, const BtlCommTrainerData *src)
         GFL_StrBufCopyString(trainer->name, src->name, src->nameLength + 1);
         trainer->unk0C = src->aiFlags;
         sys_memcpy(src->items, trainer->unk10, sizeof(trainer->unk10));
-        func_02029e94(trainer->unk18, src->unk18);
-        func_02029e94(trainer->unk20, src->unk20);
+        PMSData_Copy(&trainer->unk18, &src->unk18);
+        PMSData_Copy(&trainer->unk20, &src->unk20);
     } else {
         trainer->unk0A = 0;
         trainer->unk08 = 0;
@@ -3091,8 +3091,8 @@ void func_ov167_0219d808(BtlTrainerData *trainer, const BtlCommTrainerData *src)
         for (i = 0; i < 4; i++) {
             trainer->unk10[i] = 0;
         }
-        func_02029bb0(trainer->unk18);
-        func_02029bb0(trainer->unk20);
+        PMSData_Clear(&trainer->unk18);
+        PMSData_Clear(&trainer->unk20);
     }
 }
 
@@ -3144,12 +3144,12 @@ u32 func_ov167_0219d938(BtlMainModule *mainModule, u8 clientId) {
     return mainModule->trainers[clientId].unk08;
 }
 
-u8 *func_ov167_0219d944(BtlMainModule *mainModule, u8 clientId, u32 which) {
+PMSData *func_ov167_0219d944(BtlMainModule *mainModule, u8 clientId, u32 which) {
     if (BtlSetup_GetBattleType(mainModule) == 2 && func_ov167_0219d888(mainModule, clientId)) {
         if (which == 1) {
-            return mainModule->trainers[clientId].unk20;
+            return &mainModule->trainers[clientId].unk20;
         }
-        return mainModule->trainers[clientId].unk18;
+        return &mainModule->trainers[clientId].unk18;
     }
     return NULL;
 }

@@ -80,14 +80,14 @@ IntroMsg *IntroMsg_Create(HeapID heapId) {
     BmpWin_FlushMap(window);
     GFL_BGSysQueueScrLoad(BmpWin_GetBGIndex(window));
     msg->window = BmpWin_CreateDynamic(1, 1, 19, 30, 4, WINDOW_PALETTE, 1);
-    msg->keyCursor = func_0202e7a4(15, 1, 1, msg->heapId);
+    msg->keyCursor = KeyCursor_Create(15, TRUE, TRUE, msg->heapId);
     msg->waitIcon = func_02035734(msg->heapId);
     return msg;
 }
 
 void IntroMsg_Free(IntroMsg *msg) {
     IntroMsg_HideWaitIcon(msg);
-    func_0202e818(msg->keyCursor);
+    KeyCursor_Free(msg->keyCursor);
     GFL_StrBufFree(msg->strbuf);
     GFL_StrBufFree(msg->expanded);
     GFL_FontFree(msg->font);
@@ -153,7 +153,7 @@ u32 IntroMsg_GetPrintState(IntroMsg *msg) {
 // Prints the message on, with A, B or a touch hurrying it and going past its pauses. Returns TRUE once it has ended
 BOOL IntroMsg_UpdatePrint(IntroMsg *msg) {
     if (msg->printStream != NULL) {
-    func_0202e8d8(msg->keyCursor, msg->printStream, msg->window);
+    KeyCursor_Update(msg->keyCursor, msg->printStream, msg->window);
     switch (func_020223b4(msg->printStream)) {
     case PRINT_STREAM_DONE:
         func_020223cc(msg->printStream);

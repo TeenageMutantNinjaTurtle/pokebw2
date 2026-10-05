@@ -5,6 +5,7 @@
 #include "field/field_actor.h"
 #include "field/field_camera.h"
 #include "field/field_script.h"
+#include "field/game_beacon_search.h"
 #include "field/resort.h"
 #include "field/scrcmd_resort_shop.h"
 #include "gfl/arc.h"
@@ -33,7 +34,6 @@
 #include "system/bmp_menu.h"
 #include "system/bmp_menulist.h"
 #include "system/bmp_winframe.h"
-#include "system/game_comm.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
 #include "system/printsys.h"
@@ -632,7 +632,7 @@ static u8 func_ov060_021e5f88(ResortShopWork *wk) {
     u32 state = func_020223b4(wk->printStream);
 
     if (wk->keyCursor != NULL) {
-        func_0202e8d8(wk->keyCursor, wk->printStream, wk->windows[6]);
+        KeyCursor_Update(wk->keyCursor, wk->printStream, wk->windows[6]);
     }
     if (state == PRINT_STREAM_DONE) {
         func_020223cc(wk->printStream);
@@ -1226,7 +1226,7 @@ static void func_ov060_021e7178(ResortShopWork *wk) {
     GFL_TCBExMgrFree(wk->tcbManager);
     GFL_WordSetSystemFree(wk->wordSet);
     if (wk->keyCursor != NULL) {
-        func_0202e818(wk->keyCursor);
+        KeyCursor_Free(wk->keyCursor);
         wk->keyCursor = NULL;
     }
     GFL_StrBufFree(wk->message);
@@ -1544,10 +1544,10 @@ static void func_ov060_021e7bc8(ResortShopWork *wk, u32 msgId) {
     wk->printStream = func_02022294(wk->windows[6], 0, 0, wk->message, wk->font, func_02017bcc(), wk->tcbManager, 0,
                                     wk->heapId, 0xffff, func_ov060_021e7b7c);
     if (wk->keyCursor != NULL) {
-        func_0202e818(wk->keyCursor);
+        KeyCursor_Free(wk->keyCursor);
         wk->keyCursor = NULL;
     }
-    wk->keyCursor = func_0202e7a4(15, 1, 0, wk->heapId);
+    wk->keyCursor = KeyCursor_Create(15, TRUE, FALSE, wk->heapId);
     BmpWin_TransferNow(wk->windows[6]);
 }
 
@@ -1579,10 +1579,10 @@ static void func_ov060_021e7d58(ResortShopWork *wk, u32 msgId) {
     wk->printStream = func_02022294(wk->windows[6], 0, 0, wk->message, wk->font, func_02017bcc(), wk->tcbManager, 0,
                                     wk->heapId, 0xffff, NULL);
     if (wk->keyCursor != NULL) {
-        func_0202e818(wk->keyCursor);
+        KeyCursor_Free(wk->keyCursor);
         wk->keyCursor = NULL;
     }
-    wk->keyCursor = func_0202e7a4(15, 1, 0, wk->heapId);
+    wk->keyCursor = KeyCursor_Create(15, TRUE, FALSE, wk->heapId);
     BmpWin_TransferNow(wk->windows[6]);
 }
 

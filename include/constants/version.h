@@ -7,4 +7,11 @@
 #define VERSION_WHITE2 22
 #define VERSION_BLACK2 23
 
+// This game's version
+#ifdef BLACK2
+#define GAME_VERSION VERSION_BLACK2
+#else
+#define GAME_VERSION VERSION_WHITE2
+#endif
+
 #endif // POKEBW2_CONSTANTS_VERSION_H

@@ -6,6 +6,7 @@
 #include "nitro/math.h"
 #include "save/config.h"
 #include "struct_decls.h"
+#include "system/pms_data.h"
 
 // The battle's surroundings, which GetFieldEffectData returns
 struct BtlFieldSituation {
@@ -29,8 +30,8 @@ struct BtlSetupTrainer {
     u32 aiFlags;
     u16 items[4];
     StrBuf *name;
-    u8 unk18[8];
-    u8 unk20[8];
+    PMSData unk18;
+    PMSData unk20;
 };
 
 // A trainer as a link battle sends it, with the name as characters
@@ -40,8 +41,8 @@ typedef struct {
     u32 aiFlags;
     u16 items[4];
     u8 unk14[4];
-    u8 unk18[8];
-    u8 unk20[8];
+    PMSData unk18;
+    PMSData unk20;
     u16 name[0x20];
     u32 nameLength;
 } BtlCommTrainerData;

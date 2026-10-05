@@ -31,7 +31,9 @@ void func_0200c958(TrainerGameInfoSave *info, StrBuf *name);
 void func_020114fc(void *saveBlock, StrBuf *name);
 const u16 *func_0201150c(void *saveBlock);
 u16 func_0200ca7c(TrainerGameInfoSave *info);
-u16 func_0200ca8c(TrainerGameInfoSave *info, int index);
+u16 func_0200ca8c(TrainerGameInfoSave *info, u8 index);
+// Adds to a survey question's count, up to 0xffff
+void func_0200cab4(TrainerGameInfoSave *info, u8 index, u16 count);
 // Poké Transfer's high score, 28 bits
 u32 TrainerGameInfo_GetPalParkHighScore(TrainerGameInfoSave *info);
 void TrainerGameInfo_SetPalParkHighScore(TrainerGameInfoSave *info, u32 score);
@@ -122,6 +124,10 @@ RivalDataSave *getHollow_RivalData(SaveControl *save);
 // Save block 0x42, and setting a byte of it
 void *getHollow_RivalBlk(SaveControl *save);
 void func_0200ff50(void *block, u32 index, u8 value);
+// The C-Gear's save block (getCGearDataBlkAddress)
+void *func_0200ef7c(SaveControl *save);
+// Copies the C-Gear's record at index, 4 u16
+void func_0200ef90(void *cgear, u32 index, u16 *record);
 void func_0200f700(RivalDataSave *rivalData, u32 id);
 void copyRivalNameIntoHollowBlock(RivalDataSave *data, const u16 *name);
 const u16 *getPtrToRivalName(RivalDataSave *data);

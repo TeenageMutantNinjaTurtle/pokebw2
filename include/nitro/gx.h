@@ -11,6 +11,13 @@ typedef u16 GXRgb;
 
 #define GX_RGB(r, g, b) ((GXRgb)((r) | ((g) << 5) | ((b) << 10)))
 
+#define GX_RGB_R_SHIFT 0
+#define GX_RGB_R_MASK 0x001f
+#define GX_RGB_G_SHIFT 5
+#define GX_RGB_G_MASK 0x03e0
+#define GX_RGB_B_SHIFT 10
+#define GX_RGB_B_MASK 0x7c00
+
 #define reg_GX_DISPCNT (*(vu32 *)0x04000000)
 #define reg_G2_BG0CNT (*(vu16 *)0x04000008)
 #define reg_G2_WIN0H (*(vu16 *)0x04000040)

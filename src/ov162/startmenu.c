@@ -46,6 +46,7 @@
 #include "system/bmp_menulist.h"
 #include "system/bmp_winframe.h"
 #include "system/dsi.h"
+#include "system/game_beacon.h"
 #include "system/game_system.h"
 #include "system/gf_font.h"
 #include "system/printsys.h"
@@ -1044,11 +1045,11 @@ static void StartMenu_InitMsg(StartMenuWork *wk) {
     wk->printQueue = func_02021998(HEAPID_STARTMENU);
     wk->strbuf = GFL_StrBufCreate(1024, HEAPID_STARTMENU);
     wk->tcbManager = GFL_TCBExMgrCreate(HEAPID_STARTMENU, HEAPID_STARTMENU, 1, 4);
-    wk->keyCursor = func_0202e7a4(15, 1, 0, HEAPID_STARTMENU);
+    wk->keyCursor = KeyCursor_Create(15, TRUE, FALSE, HEAPID_STARTMENU);
 }
 
 static void StartMenu_FreeMsg(StartMenuWork *wk) {
-    func_0202e818(wk->keyCursor);
+    KeyCursor_Free(wk->keyCursor);
     GFL_TCBExMgrFree(wk->tcbManager);
     GFL_StrBufFree(wk->strbuf);
     func_02021a18(wk->printQueue);
@@ -1743,7 +1744,7 @@ static BOOL StartMenu_UpdatePrint(StartMenuWork *wk) {
     if (wk->printStream == NULL) {
         return FALSE;
     }
-    func_0202e8d8(wk->keyCursor, wk->printStream, wk->windows[WINDOW_MESSAGE].window);
+    KeyCursor_Update(wk->keyCursor, wk->printStream, wk->windows[WINDOW_MESSAGE].window);
     switch (func_020223b4(wk->printStream)) {
     case PRINT_STREAM_RUNNING:
         if (GCTX_HIDGetHeldKeys() & (PAD_BUTTON_A | PAD_BUTTON_B)) {
