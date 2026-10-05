@@ -186,11 +186,15 @@ void func_ov012_021621d4(PokeParty *party, const BSubwayPokemon *pkms, u16 level
 u32 func_ov012_02162490(BSubwayPokemon *pkm, u32 arcId, u16 file, u32 id, u32 pid, u8 iv, u8 index, BOOL rentalItem,
                         HeapID heapId);
 void *func_ov012_021628c0(BSubwayTrainer *trainer, u32 arcId, u16 trainerId, u16 msgFile, HeapID heapId);
-GameEvent *func_ov012_02165f70(BSubwayScrWork *bsw, GameSystem *gsys, u8 a2);
+// Overlay 12's event_bsubway.c
+// The party screen for picking the Pokémon to enter, from the rental party when rental is set
+GameEvent *func_ov012_02165f70(BSubwayScrWork *bsw, GameSystem *gsys, u8 rental);
 GameEvent *func_ov012_02166070(BSubwayScrWork *bsw, GameSystem *gsys, Field *field);
-GameEvent *func_ov012_02166118(BSubwayScrWork *bsw, GameSystem *gsys, u16 a2, u16 a3, u32 a4);
+// The message of a trainer of the train in a balloon over the actor
+GameEvent *func_ov012_02166118(BSubwayScrWork *bsw, GameSystem *gsys, u16 index, u16 actorId, u8 winPos);
 GameEvent *func_ov012_02166294(GameSystem *gsys);
-GameEvent *func_ov012_0216657c(GameSystem *gsys, u16 a1, u16 a2);
+// The message of a saved leader in a balloon over the actor
+GameEvent *func_ov012_0216657c(GameSystem *gsys, u16 index, u16 actorId);
 void func_ov012_0216763c(FieldActor *actor, BOOL a1);
 
 // Overlay 33's bsubway_scr.c

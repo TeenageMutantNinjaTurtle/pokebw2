@@ -139,6 +139,8 @@ void func_02039980(u32 *a0, u32 index, u32 value);
 void SetNowWeather(GameData *gameData, u8 weather);
 u32 GetNowWeather(GameData *gameData);
 BOOL GameData_CheckEventsPaused(GameData *gameData);
+// The Battle Subway's save data
+void *func_02017968(GameData *gameData);
 // Where the Trial House work is kept
 TrialHouseWork **GetTrialHouseWkPPtr(GameData *gameData);
 // Starts the save that runs alongside the field, and its state, 2 once done and 3 on an error

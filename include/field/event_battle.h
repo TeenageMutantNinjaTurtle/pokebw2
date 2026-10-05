@@ -8,5 +8,6 @@
 #include "struct_decls.h"
 
 GameEvent *CreateTrialHouseBattleEvent(GameSystem *gsys, Field *field, BtlSetup *setup);
+GameEvent *func_ov012_0216881c(GameSystem *gsys, Field *field, BtlSetup *setup);
 
 #endif // POKEBW2_FIELD_EVENT_BATTLE_H

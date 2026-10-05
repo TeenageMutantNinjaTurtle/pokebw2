@@ -63,6 +63,11 @@ void *ActorMsgWin_CheckAndCreate(void *msgBGSys, u32 a1, const VecFx32 *pos, Str
 BOOL func_ov036_02188884(void *msgWin);
 void func_ov036_021887d4(void *msgWin);
 BOOL func_ov036_021887f4(void *msgWin);
+void func_ov036_021889c8(void *msgWin);
+// Where a balloon over an actor goes, from where the player stands, and the offset and window position of each
+u8 ActorMsgWin_CalcWinPosAuto(FieldActor *player, const VecFx32 *pos);
+void func_ov036_021a8bec(const VecFx32 *pos, VecFx32 *offset, G3DCamera *g3dCamera, FieldCamera *camera, u8 winPos);
+void func_ov036_021a8c00(u8 winPos, u32 *a1, u32 *a2);
 // A talk window on the field's message BG, printing messages of a message data or strings: create, free, print,
 // whether printing has ended, clear, and the window
 MsgData *func_ov036_021879a0(void *msgBGSys, u32 fileId);
