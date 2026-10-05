@@ -24,9 +24,9 @@ SPECIES_COUNT = 650
 def constant_names(header: str, prefix: str) -> dict[int, str]:
     """Returns the first name of each value of the constants with a prefix in a header of include/constants."""
     names = {}
-    for match in re.finditer(rf"^#define ({prefix}\w+) (\d+)(?:\s*//.*)?$", (CONSTANTS / header).read_text(),
-                             re.MULTILINE):
-        names.setdefault(int(match.group(2)), match.group(1))
+    for match in re.finditer(rf"^#define ({prefix}\w+) (0x[0-9a-fA-F]+|\d+)(?:\s*//.*)?$",
+                             (CONSTANTS / header).read_text(), re.MULTILINE):
+        names.setdefault(int(match.group(2), 0), match.group(1))
     return names
 
 

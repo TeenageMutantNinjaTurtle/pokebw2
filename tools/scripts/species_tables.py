@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""Write the evolutions (archive a/0/1/9) and the level-up moves (a/0/1/8) as editable sources, one file per species
-record, with the macros of include/asm/evolution.inc and include/asm/levelup_moves.inc. Files are named as the species
-data's (personal_data.py), which it reads for the forms. The build assembles them back and checks that they match.
+"""Write the tables that go with the species data as editable sources: the evolutions (archive a/0/1/9), the level-up
+moves (a/0/1/8) and the baby species (a/0/2/0), one file per species record, named as the species data's
+(personal_data.py), which it reads for the forms; and the experience tables of the growth rates (a/0/1/7), one file
+per rate. The macros are in include/asm/. The build assembles them back and checks that they match.
 
     species_tables.py evolutions extract/b2_us/files/a/0/1/9 extract/b2_us/files/a/0/1/6 data/evolutions
     species_tables.py levelup extract/b2_us/files/a/0/1/8 extract/b2_us/files/a/0/1/6 data/levelup_moves
+    species_tables.py babies extract/b2_us/files/a/0/2/0 extract/b2_us/files/a/0/1/6 data/baby_species
+    species_tables.py growth extract/b2_us/files/a/0/1/7 extract/b2_us/files/a/0/1/6 data/growth_rates
 """
 import argparse
 import struct
@@ -50,9 +53,23 @@ def write_levelup(data: bytes, names: dict[str, dict[int, str]], title: str) -> 
     return "\n".join(lines)
 
 
+def write_baby(data: bytes, names: dict[str, dict[int, str]], title: str) -> str:
+    species = struct.unpack("<H", data)[0]
+    return "\n".join(['#include "asm/baby_species.inc"', "", f"// {title}",
+                      f"    BabySpecies {name(names['species'], species)}", ""])
+
+
+def write_growth(data: bytes, title: str) -> str:
+    exp = struct.unpack(f"<{len(data) // 4}I", data)
+    lines = ['#include "asm/growth_rates.inc"', "", f"// {title}"]
+    lines += [f"    Level {level}, {value}" for level, value in enumerate(exp)]
+    lines += ["    ExpTableEnd", ""]
+    return "\n".join(lines)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("table", choices=["evolutions", "levelup"])
+    parser.add_argument("table", choices=["evolutions", "levelup", "babies", "growth"])
     parser.add_argument("archive", type=Path)
     parser.add_argument("personal", type=Path, help="the species data archive, a/0/1/6, for the forms")
     parser.add_argument("output", type=Path)
@@ -63,14 +80,25 @@ def main():
         "item": constant_names("items.h", "ITEM_"),
         "move": constant_names("moves.h", "MOVE_"),
         "method": constant_names("pokemon.h", "EVO_METHOD_"),
+        "growth": constant_names("pokemon.h", "GROWTH_"),
     }
     records = [m for m in read_narc(args.personal.read_bytes()) if len(m) == RECORD_SIZE]
     files, titles = record_names(records, names["species"])
     members = read_narc(args.archive.read_bytes())
-    if len(members) != len(records):
-        raise SystemExit(f"{len(members)} entries for {len(records)} species records")
-    write = write_evolutions if args.table == "evolutions" else write_levelup
     args.output.mkdir(parents=True, exist_ok=True)
+    if args.table == "growth":
+        # One table per growth rate; the ones after the rates are copies of the first that nothing names
+        for index, member in enumerate(members):
+            rate = names["growth"].get(index)
+            stem = rate.removeprefix("GROWTH_").lower() if rate else "extra"
+            title = rate or "A copy of GROWTH_MEDIUM_FAST's table, after the growth rates"
+            (args.output / f"{index:04d}_{stem}.s").write_text(write_growth(member, title))
+        print(f"wrote {len(members)} files to {args.output}")
+        return
+    # The baby species stop before the last forms
+    if len(members) > len(records):
+        raise SystemExit(f"{len(members)} entries for {len(records)} species records")
+    write = {"evolutions": write_evolutions, "levelup": write_levelup, "babies": write_baby}[args.table]
     for index, member in enumerate(members):
         (args.output / f"{index:04d}_{files[index]}.s").write_text(write(member, names, titles[index]))
     print(f"wrote {len(members)} files to {args.output}")

@@ -104,13 +104,17 @@ def library_of(source: Path) -> tuple[str, list[str]] | None:
 # the directory of its members, one assembly file each, in archive order; or to the directory and a section, for two
 # archives whose entries go together, such as a trainer and its party, and come from the same file.
 ARCHIVES = {
+    "a/0/1/2": "data/zones",  # Zone headers, see tools/scripts/zone_data.py
     "a/0/1/6": "data/personal",  # Species data, see tools/scripts/personal_data.py
     "a/0/1/8": "data/levelup_moves",  # Level-up moves, see tools/scripts/species_tables.py
+    "a/0/1/7": "data/growth_rates",  # Experience tables, see tools/scripts/species_tables.py
     "a/0/1/9": "data/evolutions",  # Evolutions, see tools/scripts/species_tables.py
+    "a/0/2/0": "data/baby_species",  # Baby species, see tools/scripts/species_tables.py
     "a/0/2/1": "data/moves",  # Move data, see tools/scripts/move_data.py
     "a/0/5/6": "data/field_scripts",  # Field scripts, see tools/scripts/field_script.py
     "a/0/9/1": ("data/trainers", ".trainer"),  # Trainers, see tools/scripts/trainer_data.py
     "a/0/9/2": ("data/trainers", ".party"),  # Their parties, from the same files
+    "a/1/2/7": "data/encounters",  # Wild encounters, see tools/scripts/encounter_data.py
     "a/1/6/9": "data/tr_ai",  # Trainer AI scripts, see tools/scripts/tr_ai_script.py
 }
 
