@@ -194,7 +194,7 @@ enum {
     BUTTON_STATE_DONE,
 };
 
-// The slider spans 65 pixels from x 156, and its knob is moved by touching it between these bounds
+// The slider spans 65 pixels from x 156, with its knob at y 48
 #define SLIDER_X 156
 #define SLIDER_WIDTH 65
 #define SLIDER_KNOB_Y 48
@@ -217,7 +217,7 @@ typedef struct {
     // 3 for any sex
     u32 sex;
     u32 rare;
-    u32 unk10;
+    u32 a6;
     BOOL back;
     u32 personality;
     PosF32 pos[POS_COUNT];
@@ -330,8 +330,7 @@ struct ZukanDetailFormWork {
     Button buttons[BUTTON_COUNT];
     // The BUTTON_* playing its animation, or BUTTON_NONE
     int pushed;
-    // Whether the slider's knob moves to the second entry, whether the slider follows the entries, and whether the
-    // knob is held
+    // Whether the slider's knob jumps to the second entry's place, and whether it is held
     BOOL sliderSnap;
     BOOL dragging;
     TCB *vblankTcb;
@@ -350,6 +349,7 @@ struct ZukanDetailFormWork {
     // Whether the entry in front and the second one have reached their places as the comparison opens or closes
     BOOL curInPlace;
     BOOL nextInPlace;
+    // Whether the slider is checked after the second entry has changed, outside the comparison's own input
     BOOL sliderActive;
     // The touch bar is unlocked once both the form button's animation and the move have ended
     BOOL selectPending;
@@ -387,13 +387,13 @@ static void ZukanDetailForm_ScrollNextBG(ZukanDetailFormParam *param, ZukanDetai
                                          ZukanDetailCommon *common);
 static void ZukanDetailForm_CreateMCSS(ZukanDetailFormParam *param, ZukanDetailFormWork *wk, ZukanDetailCommon *common);
 static void ZukanDetailForm_FreeMCSS(ZukanDetailFormParam *param, ZukanDetailFormWork *wk, ZukanDetailCommon *common);
-static MCSS *ZukanDetailForm_AddMCSS(MCSSSystem *system, u32 species, u32 form, u32 sex, u32 rare, u32 a6, u32 a5,
+static MCSS *ZukanDetailForm_AddMCSS(MCSSSystem *system, u32 species, u32 form, u32 sex, u32 rare, u32 a6, u32 back,
                                      u32 personality);
 static void ZukanDetailForm_RemoveMCSS(MCSSSystem *system, MCSS *mcss);
 static void ZukanDetailForm_SetShadow(MCSS *mcss);
 static void ZukanDetailForm_GetBesidePos(MCSS *mcss, VecFx32 *pos);
 static void ZukanDetailForm_CreateSprite(Sprite *sprite, HeapID heapId, MCSSSystem *system, u32 species, u32 form,
-                                         u32 sex, u32 rare, u32 a6, u32 a5, u32 personality);
+                                         u32 sex, u32 rare, u32 a6, u32 back, u32 personality);
 static void ZukanDetailForm_FreeSprite(Sprite *sprite, MCSSSystem *system);
 static void ZukanDetailForm_InitSpriteAnim(SpriteAnim *anim, int sprite, ZukanDetailFormWork *wk);
 static void ZukanDetailForm_PlaySpriteAnim(Sprite *sprite);
@@ -466,12 +466,16 @@ static void ZukanDetailForm_SetActorsOpaque(ZukanDetailFormParam *param, ZukanDe
                                             ZukanDetailCommon *common);
 static void ZukanDetailForm_SetActorsBlended(ZukanDetailFormParam *param, ZukanDetailFormWork *wk,
                                              ZukanDetailCommon *common);
-static void ZukanDetailForm_InitSpritePositions(PosF32 *pos, u32 species, u32 form, u32 sex, u32 rare, u32 a6, u32 a5,
+static void ZukanDetailForm_InitSpritePositions(PosF32 *pos, u32 species, u32 form, u32 sex, u32 rare, u32 a6, u32 back,
                                                 u32 personality);
 static void ZukanDetailForm_GetSpritePos(Sprite *sprite, int pos, VecFx32 *out);
 static void ZukanDetailForm_GetPlacePos(Sprite *sprite, int place, VecFx32 *out);
 static void ZukanDetailForm_GetSpritePosF32(Sprite *sprite, int pos, PosF32 *out);
 
+// The ROM has these three tables before the local initializers of ZukanDetailForm_AddMCSS and
+// ZukanDetailForm_GatherEntries, which no order of this file's declarations gives: as globals in a file of their own
+// linked before this one, with the initializers of ZukanDetailForm_GatherEntries declared the other way round, the
+// rest of this file's .rodata matches. Kept here until the file is complete
 static const u16 sZukanDetailFormStrbufMessages[STRBUF_COUNT] = { 187, 188, 159, 114, 115, 189 };
 
 static const ActorData sZukanDetailFormActors[ACTOR_COUNT] = {
@@ -674,7 +678,8 @@ static const SpritePositions sZukanDetailFormSpritePositions[] = {
         { 16.0f, -13.92f, 0.0f } } },
 };
 
-// The offset from a sprite of the one beside it in the comparison
+// Sprite positions, of which the code only uses the last: the offset from a sprite of the one beside it in the
+// comparison
 static VecFx32 sZukanDetailFormOffsets[3] = {
     { 0, FX32_CONST(-13.9), 0 },
     { FX32_CONST(-16), FX32_CONST(-13.9), 0 },
@@ -1002,7 +1007,7 @@ static void ZukanDetailForm_Command(ZukanDetailProcSys *sys, int *seq, void *par
         case ZUKAN_DETAIL_CMD_FORM_CUR_D_TOUCH:
         case ZUKAN_DETAIL_CMD_FORM_CUR_U_TOUCH:
         case ZUKAN_DETAIL_CMD_FORM_BUTTON_TOUCH:
-            wk->inputEnabled = unlock;
+            wk->inputEnabled = FALSE;
             break;
         }
         switch (command) {
@@ -1522,7 +1527,7 @@ static void ZukanDetailForm_FreeMCSS(ZukanDetailFormParam *param, ZukanDetailFor
     GFL_HeapFree(wk->tcbBuffer);
 }
 
-static MCSS *ZukanDetailForm_AddMCSS(MCSSSystem *system, u32 species, u32 form, u32 sex, u32 rare, u32 a6, u32 a5,
+static MCSS *ZukanDetailForm_AddMCSS(MCSSSystem *system, u32 species, u32 form, u32 sex, u32 rare, u32 a6, u32 back,
                                      u32 personality) {
     VecFx32 scale = { FX32_ONE * 16, FX32_ONE * 16, FX32_ONE };
     MCSSLoadInfo info;
@@ -1531,7 +1536,7 @@ static MCSS *ZukanDetailForm_AddMCSS(MCSSSystem *system, u32 species, u32 form, 
     if (species == SPECIES_SPINDA) {
         func_0201c188(system, personality);
     }
-    SetupPokemonLoaderFSTool(species, form, sex, rare, a6, &info, a5);
+    SetupPokemonLoaderFSTool(species, form, sex, rare, a6, &info, back);
     mcss = MCSSSys_Add(system, 0, 0, 0, &info);
     func_0201aecc(mcss, 1);
     MCSS_PauseAnimation(mcss);
@@ -1565,12 +1570,12 @@ static void ZukanDetailForm_GetBesidePos(MCSS *mcss, VecFx32 *pos) {
 }
 
 static void ZukanDetailForm_CreateSprite(Sprite *sprite, HeapID heapId, MCSSSystem *system, u32 species, u32 form,
-                                         u32 sex, u32 rare, u32 a6, u32 a5, u32 personality) {
-    sprite->mcss = ZukanDetailForm_AddMCSS(system, species, form, sex, rare, a6, a5, personality);
+                                         u32 sex, u32 rare, u32 a6, u32 back, u32 personality) {
+    sprite->mcss = ZukanDetailForm_AddMCSS(system, species, form, sex, rare, a6, back, personality);
     sprite->anim = GFL_HeapAllocate(heapId, sizeof(SpriteAnim), TRUE, "zukan_detail_form.c", 2737);
     NNS_G2dSetAnimCtrlCallBackFunctor(func_0201adc4(sprite->mcss), NNS_G2D_ANMCALLBACKTYPE_LAST_FRM, (u32)sprite->anim,
                                       ZukanDetailForm_SpriteAnimEnd);
-    ZukanDetailForm_InitSpritePositions(sprite->pos, species, form, sex, rare, a6, a5, personality);
+    ZukanDetailForm_InitSpritePositions(sprite->pos, species, form, sex, rare, a6, back, personality);
 }
 
 static void ZukanDetailForm_FreeSprite(Sprite *sprite, MCSSSystem *system) {
@@ -1716,6 +1721,7 @@ static void ZukanDetailForm_GatherEntries(ZukanDetailFormParam *param, ZukanDeta
     u32 form;
     u16 n = 0;
     void *personal = PML_PersonalLoad(species, 0, param->heapId);
+    // The personal data's count of forms is read, but the Pokédex's own count is used
     u32 formCount = PML_PersonalGetParam(personal, PERSONAL_FORM_COUNT);
 
     sexRatio = PML_PersonalGetParam(personal, PERSONAL_SEX_RATIO);
@@ -2064,6 +2070,7 @@ static void ZukanDetailForm_ChangeIcon(ZukanDetailFormParam *param, ZukanDetailF
         func_0204c124(wk->iconActors[wk->icon], FALSE);
     }
     wk->icon = (wk->icon + 1) % 2;
+    // Frees the other icon as the screen's exit does, testing it again
     if (wk->iconActors[wk->icon] != NULL) {
         if (wk->iconActors[wk->icon] != NULL) {
             ZukanDetailForm_FreeIcon(wk->iconChars[wk->icon], wk->iconActors[wk->icon]);
@@ -2889,35 +2896,35 @@ static void ZukanDetailForm_UpdateSelect(ZukanDetailFormParam *param, ZukanDetai
                 MCSS_SetPosition(wk->sprites[SPRITE_CUR_BACK].mcss, &pos);
             }
             {
-                PosF32 to;
-                PosF32 from;
-                VecFx32 pos;
+                PosF32 nextTo;
+                PosF32 nextFrom;
+                VecFx32 nextPos;
 
                 if (wk->sprites[SPRITE_NEXT_FRONT].mcss != NULL) {
                     f32 x;
                     f32 y;
 
-                    ZukanDetailForm_GetSpritePosF32(&wk->sprites[SPRITE_NEXT_FRONT], POS_LEFT, &to);
-                    ZukanDetailForm_GetSpritePosF32(&wk->sprites[SPRITE_NEXT_FRONT], POS_RIGHT, &from);
-                    x = from.x + (f32)wk->selectTime * (to.x - from.x) / SELECT_TIME;
-                    y = from.y + -16.0f * sin;
-                    pos.x = FX32_CONST(x);
-                    pos.y = FX32_CONST(y);
-                    pos.z = FX32_CONST(from.z);
-                    MCSS_SetPosition(wk->sprites[SPRITE_NEXT_FRONT].mcss, &pos);
+                    ZukanDetailForm_GetSpritePosF32(&wk->sprites[SPRITE_NEXT_FRONT], POS_LEFT, &nextTo);
+                    ZukanDetailForm_GetSpritePosF32(&wk->sprites[SPRITE_NEXT_FRONT], POS_RIGHT, &nextFrom);
+                    x = nextFrom.x + (f32)wk->selectTime * (nextTo.x - nextFrom.x) / SELECT_TIME;
+                    y = nextFrom.y + -16.0f * sin;
+                    nextPos.x = FX32_CONST(x);
+                    nextPos.y = FX32_CONST(y);
+                    nextPos.z = FX32_CONST(nextFrom.z);
+                    MCSS_SetPosition(wk->sprites[SPRITE_NEXT_FRONT].mcss, &nextPos);
                 }
                 if (wk->sprites[SPRITE_NEXT_BACK].mcss != NULL) {
                     f32 x;
                     f32 y;
 
-                    ZukanDetailForm_GetSpritePosF32(&wk->sprites[SPRITE_NEXT_BACK], POS_LEFT, &to);
-                    ZukanDetailForm_GetSpritePosF32(&wk->sprites[SPRITE_NEXT_BACK], POS_RIGHT, &from);
-                    x = from.x + (f32)wk->selectTime * (to.x - from.x) / SELECT_TIME;
-                    y = from.y + -16.0f * sin;
-                    pos.x = FX32_CONST(x);
-                    pos.y = FX32_CONST(y);
-                    pos.z = FX32_CONST(from.z);
-                    MCSS_SetPosition(wk->sprites[SPRITE_NEXT_BACK].mcss, &pos);
+                    ZukanDetailForm_GetSpritePosF32(&wk->sprites[SPRITE_NEXT_BACK], POS_LEFT, &nextTo);
+                    ZukanDetailForm_GetSpritePosF32(&wk->sprites[SPRITE_NEXT_BACK], POS_RIGHT, &nextFrom);
+                    x = nextFrom.x + (f32)wk->selectTime * (nextTo.x - nextFrom.x) / SELECT_TIME;
+                    y = nextFrom.y + -16.0f * sin;
+                    nextPos.x = FX32_CONST(x);
+                    nextPos.y = FX32_CONST(y);
+                    nextPos.z = FX32_CONST(nextFrom.z);
+                    MCSS_SetPosition(wk->sprites[SPRITE_NEXT_BACK].mcss, &nextPos);
                 }
             }
         }
@@ -3359,7 +3366,7 @@ static void ZukanDetailForm_SetActorsBlended(ZukanDetailFormParam *param, ZukanD
     ZukanDetailBlend_InitPlanes(wk->blendSub);
 }
 
-static void ZukanDetailForm_InitSpritePositions(PosF32 *pos, u32 species, u32 form, u32 sex, u32 rare, u32 a6, u32 a5,
+static void ZukanDetailForm_InitSpritePositions(PosF32 *pos, u32 species, u32 form, u32 sex, u32 rare, u32 a6, u32 back,
                                                 u32 personality) {
     u8 i;
     u16 j;
@@ -3370,7 +3377,7 @@ static void ZukanDetailForm_InitSpritePositions(PosF32 *pos, u32 species, u32 fo
     for (j = 0; j < NELEMS(sZukanDetailFormSpritePositions); j++) {
         const SpritePositions *positions = &sZukanDetailFormSpritePositions[j];
 
-        if (species == positions->species && form == positions->form && a5 == positions->back &&
+        if (species == positions->species && form == positions->form && back == positions->back &&
             (positions->sex == 3 || sex == positions->sex)) {
             for (i = 0; i < POS_COUNT; i++) {
                 pos[i] = positions->pos[i];

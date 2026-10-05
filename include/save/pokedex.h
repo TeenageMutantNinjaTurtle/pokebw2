@@ -15,11 +15,11 @@ u32 func_0200d1dc(PokeDexSave *pokedex);
 u32 func_0200d1f8(PokeDexSave *pokedex);
 BOOL PokeDex_IsCaught(PokeDexSave *pokedex, u16 species);
 BOOL PokeDex_IsSeen(PokeDexSave *pokedex, u16 species);
-// The sex, shininess and form that the Pokédex shows of a species
 // Sets the sex, shininess and form that the Pokédex shows of a species
 void addToDex(PokeDexSave *pokedex, u16 species, u32 sex, BOOL rare, u32 form);
 // The forms of a species, 1 for one without any
 u16 getNumberOfForms(u16 species);
+// The sex, shininess and form that the Pokédex shows of a species
 void func_0200d3c8(PokeDexSave *pokedex, u16 species, u32 *sex, u32 *rare, u32 *form, HeapID heapId);
 // Whether the Pokédex has seen the species in that sex, shininess and form
 BOOL func_0200d8d4(PokeDexSave *pokedex, u16 species, u32 sex, BOOL rare, u32 form);

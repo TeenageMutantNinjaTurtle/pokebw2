@@ -64,6 +64,10 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - `FX_Mul`'s sign extensions move with statement order and with a `static inline` wrapper. (matching.md: "FX_Mul")
 - `x[n++].f = ...` against a separate `n++` changes scheduling.
 - Store order in initialization code is usually source order: try the stores in the asm's order first.
+- A field of a local struct loaded before a call that doesn't fill it was read into a local there, as `targetX = target.x;`.
+  (matching.md: "A field of a local struct")
+- Arguments loaded in order around a conditional one: that argument was a local set before the call.
+  (matching.md: "A conditional expression among a call's arguments")
 
 ## An instruction too many or too few
 
@@ -96,6 +100,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - Memory loaded again after stores to a local `u8` array, or stores through `add rN, sp, #off` for a local: the
   local is initialized in its declaration (matching.md: "initialized in its declaration is stored through a base
   register")
+- An array initializer stores at its declaration: open an inner block where the original clears the array.
+  (matching.md: "The initializer's stores happen")
 
 ## Branches and block layout
 
@@ -129,6 +135,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - An address or value an inner loop computes from the outer counter alone is hoisted into the inner preheader.
   (matching.md: "inner loop computes"), (matching.md: "preheader")
 - Enum counters keep their guard (see above).
+- `beq` before and `bne` after the loop is a `!=` bound. (matching.md: "A loop counted with `!=`")
 
 ## Switches
 
@@ -139,6 +146,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   `case 0: default:` written first sets the case order.
 - `cmp; beq end; cmp; bne next` with each body after its test: an `if`/`else if` chain with an empty first body,
   not a switch (matching.md: "A short chain of tests whose first value does nothing")
+- A value tested before the jump table, with its code after the cases, is an `if (x != v)` around the switch.
+  (matching.md: "value outside its jump table")
 
 ## Floats and runtime helpers
 

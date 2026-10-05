@@ -84,6 +84,12 @@ Same instructions, scheduled in another order.
   before the loop.
 - Initializations are scheduled where they are written: `int i = 0;` declared after a call sets `i` after the call,
   while `for (i = 0; ...)` sets it at the loop, after any statements before the loop.
+- A field of a local struct that a call fills is loaded before the next call only when the source reads it there: the
+  Pokédex forms page copies `targetX = target.x;` between `ZukanDetailForm_GetSpritePosF32(..., &target)` and
+  `MCSS_GetPosition`.
+- A conditional expression among a call's arguments is evaluated before the plain ones. When the original loads the
+  arguments in their order, the conditional one was a local set before the call: the forms page passes `addToDex`
+  locals `sex` and `rare` set just before it.
 - An argument that is loaded before a call among the arguments, such as a print queue loaded before
   `BmpWin_GetBitmap(...)` in the same call, was passed to an inlined helper that makes the call, like
   `PrintWindow_Print`.
@@ -131,6 +137,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   so, `u8 kinds[3] = { FALSE, FALSE, FALSE };`, also makes MWCC load memory again after each store to the array, where
   with assignments it keeps the first load: the Pokédex habitat map reads `wk->habitat` again for each of its three
   tests of a place's habitats.
+- The initializer's stores happen at the declaration, so an array cleared by an initializer after some calls is
+  declared in an inner block opened there: the forms page's `BOOL hasSex[3] = { FALSE, FALSE, FALSE };` follows the
+  Pokédex reads in a block around the rest of the gathering, and `BOOL seenRare[2] = { FALSE, FALSE };` sits in the
+  loop over the forms.
 - A value that a loop uses and the code after it uses again is reused from the copy hoisted out of the loop. When
   the original computes it again after the loop, the loop assigns it to a variable declared in the loop's body, as
   `int wanted = mode + 1;` in the Join Avenue's records command.
@@ -171,6 +181,8 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 ## Loops
 
+- A loop counted with `!=` tests with `beq` before the loop and `bne` at its end, where `<` gives `bls` and `blo`:
+  the forms page walks its form-name table with `for (i = 0; i != form; i++)`.
 - `while (cond)` is rotated, with a copy of its test before the loop. A loop that tests once, at its top, is
   `while (TRUE)` with a `break` or `return` inside, as the Join Avenue's walks through its data are.
 - A loop that runs once is unrolled when its counter and bound have the same signedness. `int i; i < NELEMS(x)`
@@ -189,6 +201,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   Subway's command switch only splits its values as the game does with an empty `case 102:` inside its first jump
   table, and empty cases that sit between others still get a comparison.
 - A switch case that ends in the same code as another case is merged into it, so its end moves.
+- A switch whose comparisons start with a value outside its jump table, `cmp r0, #5; beq other; cmp r0, #3; bls table`,
+  with that value's code after the cases, is `if (x != 5) { switch (x) { ... } } else { ... }`; the same test before
+  a compare chain, `cmp r0, #5; beq end`, is the `if` without an `else`. The Pokédex forms page's button input reads
+  so: a `case 5:` in the switch puts 5 in the table.
 - A short chain of tests whose first value does nothing, `cmp r5, #1; beq end; cmp r5, #3; bne next`, with each body
   after its test, is `if (x == 1) { } else if (x == 3) { ... } else if (x == 4) { ... }`; a switch of the same values
   branches to its cases instead. The Pokédex habitat map's state changes test the new state so.
