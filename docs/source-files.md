@@ -90,7 +90,7 @@ prints the tables below from the configs and the ROM:
 
 ### Overlay 12
 
-1256 of 1668 functions are in source files. Embedded names without a file yet: `event_battle.c`, `fldmmdl.c`, `pair_sys.c`, `scrcmd_keysystem.c`, `trcard_sys.c`, `waza_oshie.c`.
+1263 of 1668 functions are in source files. Embedded names without a file yet: `event_battle.c`, `fldmmdl.c`, `pair_sys.c`, `scrcmd_keysystem.c`, `trcard_sys.c`, `waza_oshie.c`.
 
 | File | `.text` (Black 2) | Functions | Status | Name |
 | --- | --- | --- | --- | --- |
@@ -167,6 +167,7 @@ prints the tables below from the configs and the ROM:
 | `scrcmd_sp_poke_gimmick.c` | `0x02165598`–`0x0216598c` | 8 | complete | descriptive |
 | `oneshot_dr.c` | `0x0216598c`–`0x021659ec` | 2 | complete | descriptive |
 | `namein_setup.c` | `0x021659ec`–`0x02165b1c` | 7 | complete | string at `0x0216e3a0` |
+| `event_league_lift.c` | `0x02165b1c`–`0x02165eb8` | 7 | partial | descriptive |
 
 ### Overlay 13
 
