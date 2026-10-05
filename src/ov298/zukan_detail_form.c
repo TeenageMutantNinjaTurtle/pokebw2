@@ -171,7 +171,7 @@ enum {
 
 // The buttons on the touch screen: turn the Pokémon around, play its animation, and the arrows to the previous and
 // next entry. ZukanDetailForm_GetButtonInput also returns BUTTON_NONE, or BUTTON_BUSY while one plays its animation
-enum {
+typedef enum {
     BUTTON_TURN,
     BUTTON_PLAY,
     BUTTON_ARROW_L,
@@ -179,7 +179,13 @@ enum {
     BUTTON_COUNT,
     BUTTON_NONE = 5,
     BUTTON_BUSY,
-};
+} FormButton;
+
+// Whether a color mark is shown, a type of its own, so that MWCC keeps the first one's constant in a register
+typedef enum {
+    MARK_HIDDEN,
+    MARK_SHOWN,
+} MarkState;
 
 enum {
     BUTTON_STATE_NONE,
@@ -424,8 +430,8 @@ static void ZukanDetailForm_SetMode(ZukanDetailFormParam *param, ZukanDetailForm
 static void ZukanDetailForm_CreateActors(ZukanDetailFormParam *param, ZukanDetailFormWork *wk,
                                          ZukanDetailCommon *common);
 static void ZukanDetailForm_FreeActors(ZukanDetailFormParam *param, ZukanDetailFormWork *wk, ZukanDetailCommon *common);
-static int ZukanDetailForm_GetButtonInput(ZukanDetailFormParam *param, ZukanDetailFormWork *wk,
-                                          ZukanDetailCommon *common);
+static FormButton ZukanDetailForm_GetButtonInput(ZukanDetailFormParam *param, ZukanDetailFormWork *wk,
+                                                 ZukanDetailCommon *common);
 static void ZukanDetailForm_UpdateArrows(ZukanDetailFormParam *param, ZukanDetailFormWork *wk,
                                          ZukanDetailCommon *common);
 static void ZukanDetailForm_UpdateButtons(ZukanDetailFormParam *param, ZukanDetailFormWork *wk,
@@ -1050,7 +1056,11 @@ static void ZukanDetailForm_Command(ZukanDetailProcSys *sys, int *seq, void *par
                 }
                 if (species != newSpecies) {
                     ZukanDetailForm_ChangePokemon(param, wk, common);
-                    ZukanDetailTouchbar_SetFormArrowsVisible(touchbar, count >= 3 ? TRUE : FALSE);
+                    if (count >= 3) {
+                        ZukanDetailTouchbar_SetFormArrowsVisible(touchbar, TRUE);
+                    } else {
+                        ZukanDetailTouchbar_SetFormArrowsVisible(touchbar, FALSE);
+                    }
                 }
             }
             break;
@@ -1085,7 +1095,11 @@ static void ZukanDetailForm_Command(ZukanDetailProcSys *sys, int *seq, void *par
                 }
                 if (species != newSpecies) {
                     ZukanDetailForm_ChangePokemon(param, wk, common);
-                    ZukanDetailTouchbar_SetFormArrowsVisible(touchbar, count >= 3 ? TRUE : FALSE);
+                    if (count >= 3) {
+                        ZukanDetailTouchbar_SetFormArrowsVisible(touchbar, TRUE);
+                    } else {
+                        ZukanDetailTouchbar_SetFormArrowsVisible(touchbar, FALSE);
+                    }
                 }
             }
             break;
@@ -1197,10 +1211,10 @@ static void ZukanDetailForm_VBlank(TCB *tcb, void *data) {
 static void ZukanDetailForm_GetEntryText(ZukanDetailFormParam *param, ZukanDetailFormWork *wk,
                                          ZukanDetailCommon *common, StrBuf **name, StrBuf **color, BOOL *freeName,
                                          BOOL *freeColor, u16 index) {
+    StrBuf *nameStr = NULL;
+    StrBuf *colorStr = NULL;
     BOOL nameNew = FALSE;
     BOOL colorNew = FALSE;
-    StrBuf *colorStr = NULL;
-    StrBuf *nameStr = NULL;
     u16 species = ZukanDetailCommon_GetSpecies(common);
 
     switch (wk->entries[index].name) {
@@ -1226,9 +1240,10 @@ static void ZukanDetailForm_GetEntryText(ZukanDetailFormParam *param, ZukanDetai
         }
         break;
     case ENTRY_NAME_FORM: {
+        u16 form = wk->entries[index].value;
         u16 i;
 
-        for (i = 0; i < wk->entries[index].value; i++) {
+        for (i = 0; i != form; i++) {
             species = wk->formNameTable[species];
             if (species == 0) {
                 break;
@@ -1414,7 +1429,7 @@ static void ZukanDetailForm_PrintEntry(ZukanDetailFormParam *param, ZukanDetailF
     StrBuf *color;
     BOOL freeName;
     BOOL freeColor;
-    s16 y;
+    int y;
 
     ZukanDetailForm_GetEntryText(param, wk, common, &name, &color, &freeName, &freeColor, index);
     // The name alone is printed in the middle of the window
@@ -1432,7 +1447,8 @@ static void ZukanDetailForm_PrintEntry(ZukanDetailFormParam *param, ZukanDetailF
         u16 width = GFL_FontGetBlockWidth(color, wk->font, 0);
         u16 x = (windowWidth - width) / 2;
 
-        func_02021c7c(printQueue, bitmap, x, 17, color, wk->font, PRINT_COLOR(15, 2, 0));
+        y += 16;
+        func_02021c7c(printQueue, bitmap, x, y, color, wk->font, PRINT_COLOR(15, 2, 0));
     }
     if (name != NULL && freeName) {
         GFL_StrBufFree(name);
@@ -1507,8 +1523,8 @@ static void ZukanDetailForm_FreeMCSS(ZukanDetailFormParam *param, ZukanDetailFor
 
 static MCSS *ZukanDetailForm_AddMCSS(MCSSSystem *system, u32 species, u32 form, u32 sex, u32 rare, u32 a6, u32 a5,
                                      u32 personality) {
-    MCSSLoadInfo info;
     VecFx32 scale = { FX32_ONE * 16, FX32_ONE * 16, FX32_ONE };
+    MCSSLoadInfo info;
     MCSS *mcss;
 
     if (species == SPECIES_SPINDA) {
@@ -1685,81 +1701,82 @@ static void ZukanDetailForm_GatherEntries(ZukanDetailFormParam *param, ZukanDeta
                                           u16 *count, u16 *nameCount, u16 *rareCount, u16 *cur, u16 *next) {
     u32 sexes[3] = { 0, 1, 2 };
     BOOL rares[2] = { FALSE, TRUE };
-    u16 species = ZukanDetailCommon_GetSpecies(common);
-    PokeDexSave *pokedex = GameData_GetPokedex(ZukanDetailCommon_GetGameData(common));
-    u16 n = 0;
-    void *personal = PML_PersonalLoad(species, 0, param->heapId);
-    u32 formCount = PML_PersonalGetParam(personal, PERSONAL_FORM_COUNT);
-    u32 sexRatio = PML_PersonalGetParam(personal, PERSONAL_SEX_RATIO);
     u32 shownSex;
     u32 shownRare;
     u32 shownForm;
-    int shownEntry;
-    BOOL hasSex[3];
-    u32 form;
-    u16 prevValue;
+    u16 species = ZukanDetailCommon_GetSpecies(common);
+    PokeDexSave *pokedex = GameData_GetPokedex(ZukanDetailCommon_GetGameData(common));
+    u32 sexRatio;
+    u16 shownEntry;
     u8 i;
+    u8 j;
+    BOOL found;
+    u16 prevValue;
+    u32 form;
+    u16 n = 0;
+    void *personal = PML_PersonalLoad(species, 0, param->heapId);
+    u32 formCount = PML_PersonalGetParam(personal, PERSONAL_FORM_COUNT);
 
+    sexRatio = PML_PersonalGetParam(personal, PERSONAL_SEX_RATIO);
     PML_PersonalFree(personal);
     formCount = getNumberOfForms(species);
     func_0200d3c8(pokedex, species, &shownSex, &shownRare, &shownForm, param->heapId);
     shownEntry = 0;
-    hasSex[0] = FALSE;
-    hasSex[1] = FALSE;
-    hasSex[2] = FALSE;
-    switch (sexRatio) {
-    case 0:
-        hasSex[0] = TRUE;
-        break;
-    case 254:
-        hasSex[1] = TRUE;
-        break;
-    case 255:
-        hasSex[2] = TRUE;
-        break;
-    default:
-        hasSex[0] = TRUE;
-        hasSex[1] = TRUE;
-        break;
-    }
+    {
+        BOOL hasSex[3] = { FALSE, FALSE, FALSE };
 
-    for (form = 0; form < formCount; form++) {
-        BOOL seenRare[2];
+        switch (sexRatio) {
+        case 0:
+            hasSex[0] = TRUE;
+            break;
+        case 254:
+            hasSex[1] = TRUE;
+            break;
+        case 255:
+            hasSex[2] = TRUE;
+            break;
+        default:
+            hasSex[0] = TRUE;
+            hasSex[1] = TRUE;
+            break;
+        }
 
-        seenRare[0] = FALSE;
-        seenRare[1] = FALSE;
-        for (i = 0; i < 3; i++) {
-            if (hasSex[i]) {
-                u32 sex = sexes[i];
-                u8 j;
+        for (form = 0; form < formCount; form++) {
+            BOOL seenRare[2] = { FALSE, FALSE };
 
-                for (j = 0; j < 2; j++) {
-                    BOOL found = FALSE;
-                    BOOL rare = rares[j];
+            for (i = 0; i < 3; i++) {
+                if (hasSex[i]) {
+                    u32 sex = sexes[i];
 
-                    if (shownForm == form && shownRare == rare && shownSex == sex) {
-                        shownEntry = n;
-                        found = TRUE;
-                    } else if (formCount >= 2 && shownForm == form && shownRare == rare) {
-                        // Every form is listed once in each color, as the one shown
-                    } else if (func_0200d8d4(pokedex, species, sex, rare, form)) {
-                        found = TRUE;
-                    }
-                    if (found && ((formCount >= 2 && !seenRare[j]) || formCount < 2)) {
-                        seenRare[j] = TRUE;
-                        if (formCount >= 2) {
-                            entries[n].name = ENTRY_NAME_FORM;
-                            entries[n].color = rare ? ENTRY_COLOR_RARE : ENTRY_COLOR_NORMAL;
-                            entries[n].value = form;
-                        } else {
-                            entries[n].name = sexRatio == 255 ? ENTRY_NAME_SPECIES : ENTRY_NAME_SEX;
-                            entries[n].color = rare ? ENTRY_COLOR_RARE : ENTRY_COLOR_NORMAL;
-                            entries[n].value = sex == 1 ? 1 : 0;
+                    for (j = 0; j < 2; j++) {
+                        BOOL rare;
+
+                        found = FALSE;
+                        rare = rares[j];
+                        if (shownForm == form && shownRare == rare && shownSex == sex) {
+                            shownEntry = n;
+                            found = TRUE;
+                        } else if (formCount >= 2 && shownForm == form && shownRare == rare) {
+                            // Every form is listed once in each color, as the one shown
+                        } else if (func_0200d8d4(pokedex, species, sex, rare, form)) {
+                            found = TRUE;
                         }
-                        entries[n].sex = sex;
-                        entries[n].rare = rare;
-                        entries[n].form = form;
-                        n++;
+                        if (found && ((formCount >= 2 && !seenRare[j]) || formCount < 2)) {
+                            seenRare[j] = TRUE;
+                            if (formCount >= 2) {
+                                entries[n].name = ENTRY_NAME_FORM;
+                                entries[n].color = rare ? ENTRY_COLOR_RARE : ENTRY_COLOR_NORMAL;
+                                entries[n].value = form;
+                            } else {
+                                entries[n].name = sexRatio == 255 ? ENTRY_NAME_SPECIES : ENTRY_NAME_SEX;
+                                entries[n].color = rare ? ENTRY_COLOR_RARE : ENTRY_COLOR_NORMAL;
+                                entries[n].value = sex == 1 ? 1 : 0;
+                            }
+                            entries[n].sex = sex;
+                            entries[n].rare = rare;
+                            entries[n].form = form;
+                            n++;
+                        }
                     }
                 }
             }
@@ -1835,6 +1852,16 @@ static void ZukanDetailForm_CreateCurIcon(ZukanDetailFormParam *param, ZukanDeta
                                    param->heapId, species, wk->entries[index].form, wk->entries[index].sex, FALSE);
 }
 
+// Whether the comparison shows the second entry
+static inline BOOL ZukanDetailForm_IsComparing(ZukanDetailFormWork *wk) {
+    BOOL comparing = FALSE;
+
+    if (wk->mode == FORM_MODE_COMPARE && wk->count >= 2) {
+        comparing = TRUE;
+    }
+    return comparing;
+}
+
 static void ZukanDetailForm_ChangePokemon(ZukanDetailFormParam *param, ZukanDetailFormWork *wk,
                                           ZukanDetailCommon *common) {
     u8 i;
@@ -1847,7 +1874,7 @@ static void ZukanDetailForm_ChangePokemon(ZukanDetailFormParam *param, ZukanDeta
     }
     ZukanDetailForm_LoadEntries(param, wk, common);
     place = PLACE_SINGLE;
-    if (wk->mode == FORM_MODE_COMPARE && wk->count >= 2) {
+    if (ZukanDetailForm_IsComparing(wk)) {
         place = PLACE_LEFT;
     }
     frontSprite = wk->front ? SPRITE_CUR_FRONT : SPRITE_NONE;
@@ -1859,7 +1886,7 @@ static void ZukanDetailForm_ChangePokemon(ZukanDetailFormParam *param, ZukanDeta
     if (backSprite != SPRITE_NONE) {
         ZukanDetailForm_InitSpriteAnim(wk->sprites[SPRITE_CUR_BACK].anim, SPRITE_CUR_BACK, wk);
     }
-    if (wk->mode == FORM_MODE_COMPARE && wk->count >= 2) {
+    if (ZukanDetailForm_IsComparing(wk)) {
         frontSprite = wk->front ? SPRITE_NEXT_FRONT : SPRITE_NONE;
         backSprite = wk->front ? SPRITE_NONE : SPRITE_NEXT_BACK;
         ZukanDetailForm_CreateSprites(param, wk, common, frontSprite, backSprite, PLACE_RIGHT, wk->next);
@@ -1903,7 +1930,7 @@ static void ZukanDetailForm_LoadTurnedSprites(ZukanDetailFormParam *param, Zukan
         frontSprite = SPRITE_NONE;
     }
     place = PLACE_SINGLE;
-    if (wk->mode == FORM_MODE_COMPARE && wk->count >= 2) {
+    if (ZukanDetailForm_IsComparing(wk)) {
         place = PLACE_LEFT;
     }
     ZukanDetailForm_CreateSprites(param, wk, common, frontSprite, backSprite, place, wk->cur);
@@ -1919,7 +1946,7 @@ static void ZukanDetailForm_LoadTurnedSprites(ZukanDetailFormParam *param, Zukan
         ZukanDetailForm_GetPlacePos(&wk->sprites[SPRITE_CUR_BACK], place, &pos);
         MCSS_SetPosition(wk->sprites[SPRITE_CUR_BACK].mcss, &pos);
     }
-    if (wk->mode == FORM_MODE_COMPARE && wk->count >= 2) {
+    if (ZukanDetailForm_IsComparing(wk)) {
         frontSprite = SPRITE_NEXT_FRONT;
         if (wk->sprites[SPRITE_NEXT_FRONT].mcss != NULL) {
             frontSprite = SPRITE_NONE;
@@ -1952,13 +1979,12 @@ static void ZukanDetailForm_LoadTurnedSprites(ZukanDetailFormParam *param, Zukan
 // Adds every sprite not loaded yet, to play their animations
 static void ZukanDetailForm_LoadAllSprites(ZukanDetailFormParam *param, ZukanDetailFormWork *wk,
                                            ZukanDetailCommon *common) {
-    int frontSprite;
+    int frontSprite = SPRITE_CUR_FRONT;
     int backSprite;
     int place;
     VecFx32 pos;
 
     func_02019bcc(wk->mcssSys, NULL);
-    frontSprite = SPRITE_CUR_FRONT;
     if (wk->sprites[SPRITE_CUR_FRONT].mcss != NULL) {
         frontSprite = SPRITE_NONE;
     }
@@ -1967,7 +1993,7 @@ static void ZukanDetailForm_LoadAllSprites(ZukanDetailFormParam *param, ZukanDet
         backSprite = SPRITE_NONE;
     }
     place = PLACE_SINGLE;
-    if (wk->mode == FORM_MODE_COMPARE && wk->count >= 2) {
+    if (ZukanDetailForm_IsComparing(wk)) {
         place = PLACE_LEFT;
     }
     ZukanDetailForm_CreateSprites(param, wk, common, frontSprite, backSprite, place, wk->cur);
@@ -2140,19 +2166,22 @@ static void ZukanDetailForm_SetMode(ZukanDetailFormParam *param, ZukanDetailForm
 
     switch (wk->mode) {
     case FORM_MODE_SINGLE:
-        if (mode == FORM_MODE_SLIDE) {
+        switch (mode) {
+        case FORM_MODE_SLIDE:
             if (wk->slide == 0) {
                 ZukanDetailForm_StopSpriteAnim(&wk->sprites[SPRITE_NEXT_FRONT]);
                 ZukanDetailForm_StopSpriteAnim(&wk->sprites[SPRITE_NEXT_BACK]);
                 wk->slide = 1;
             }
-        } else if (mode == FORM_MODE_OPEN) {
+            break;
+        case FORM_MODE_OPEN:
             wk->curInPlace = FALSE;
             wk->nextInPlace = FALSE;
             if (wk->count >= 2) {
                 wk->slideFromRight = TRUE;
                 ZukanDetailForm_PlaceNext(param, wk, common);
             }
+            break;
         }
         break;
     case FORM_MODE_SLIDE:
@@ -2190,19 +2219,26 @@ static void ZukanDetailForm_SetMode(ZukanDetailFormParam *param, ZukanDetailForm
             }
             ZukanDetailTouchbar_SetType(touchbar, ZUKAN_DETAIL_TOUCHBAR_FORM, ZUKAN_DETAIL_PAGE_FORM - 1,
                                         ZukanDetailCommon_GetCount(common) > 1 ? TRUE : FALSE);
-            ZukanDetailTouchbar_SetFormArrowsVisible(touchbar, wk->count >= 3 ? TRUE : FALSE);
+            if (wk->count >= 3) {
+                ZukanDetailTouchbar_SetFormArrowsVisible(touchbar, TRUE);
+            } else {
+                ZukanDetailTouchbar_SetFormArrowsVisible(touchbar, FALSE);
+            }
             ZukanDetailHeadbar_SetTitle(headbar, 4);
         }
         break;
     case FORM_MODE_COMPARE:
-        if (mode == FORM_MODE_SELECT) {
+        switch (mode) {
+        case FORM_MODE_SELECT:
             if (!wk->selectMoving) {
                 wk->selectMoving = TRUE;
                 wk->selectTime = 0;
             }
-        } else if (mode == FORM_MODE_CLOSE) {
+            break;
+        case FORM_MODE_CLOSE:
             wk->curInPlace = FALSE;
             wk->nextInPlace = FALSE;
+            break;
         }
         break;
     case FORM_MODE_SELECT:
@@ -2406,19 +2442,23 @@ static void ZukanDetailForm_FreeActors(ZukanDetailFormParam *param, ZukanDetailF
 }
 
 // The button pushed with its key or touched, which starts its animation
-static int ZukanDetailForm_GetButtonInput(ZukanDetailFormParam *param, ZukanDetailFormWork *wk,
-                                          ZukanDetailCommon *common) {
+static FormButton ZukanDetailForm_GetButtonInput(ZukanDetailFormParam *param, ZukanDetailFormWork *wk,
+                                                 ZukanDetailCommon *common) {
     ZukanDetailTouchbar *touchbar = ZukanDetailCommon_GetTouchbar(common);
+    FormButton button = BUTTON_NONE;
     BOOL touch;
-    int button = BUTTON_NONE;
     u8 i;
 
     if (button == BUTTON_NONE) {
         for (i = 0; i < BUTTON_COUNT; i++) {
             if (func_0204c138(wk->buttons[i].actor)) {
+                if (GCTX_HIDGetPressedKeys() & wk->buttons[i].key) {
+                    touch = FALSE;
+                    button = i;
+                    break;
+                }
                 // The arrows repeat while their keys are held
-                if ((GCTX_HIDGetPressedKeys() & wk->buttons[i].key) ||
-                    ((i == BUTTON_ARROW_L || i == BUTTON_ARROW_R) && (GCTX_HIDGetTypedKeys() & wk->buttons[i].key))) {
+                if ((i == BUTTON_ARROW_L || i == BUTTON_ARROW_R) && (GCTX_HIDGetTypedKeys() & wk->buttons[i].key)) {
                     touch = FALSE;
                     button = i;
                     break;
@@ -2536,8 +2576,8 @@ static void ZukanDetailForm_UpdateButtons(ZukanDetailFormParam *param, ZukanDeta
 // Shows whether the entries shown are in their shiny colors
 static void ZukanDetailForm_UpdateColorMarks(ZukanDetailFormParam *param, ZukanDetailFormWork *wk,
                                              ZukanDetailCommon *common) {
-    BOOL showCur = TRUE;
-    BOOL showNext = FALSE;
+    MarkState showCur = MARK_SHOWN;
+    MarkState showNext = MARK_HIDDEN;
     ClActorPos pos;
 
     switch (wk->mode) {
@@ -2545,7 +2585,7 @@ static void ZukanDetailForm_UpdateColorMarks(ZukanDetailFormParam *param, ZukanD
         break;
     case FORM_MODE_COMPARE:
         if (wk->count >= 2) {
-            showNext = TRUE;
+            showNext = MARK_SHOWN;
         }
         break;
     }
@@ -2749,18 +2789,20 @@ static u16 ZukanDetailForm_GetSliderPos(ZukanDetailFormParam *param, ZukanDetail
 
 static u16 ZukanDetailForm_GetSliderEntry(ZukanDetailFormParam *param, ZukanDetailFormWork *wk,
                                           ZukanDetailCommon *common, u16 cur, u16 pos) {
+    u16 entry = 0;
     u16 n = 0;
     u16 i;
 
     for (i = 0; i < wk->count; i++) {
         if (i != cur) {
             if (n == pos) {
-                return i;
+                entry = i;
+                break;
             }
             n++;
         }
     }
-    return 0;
+    return entry;
 }
 
 // The form button's move: the two entries swap places along half a turn, up and down, and the second one becomes the
@@ -2798,9 +2840,14 @@ static void ZukanDetailForm_UpdateSelect(ZukanDetailFormParam *param, ZukanDetai
                 ZukanDetailForm_PrintCur(param, wk, common);
                 ZukanDetailForm_PrintNext(param, wk, common);
                 ZukanDetailForm_UpdateColorMarks(param, wk, common);
-                addToDex(GameData_GetPokedex(ZukanDetailCommon_GetGameData(common)),
-                         ZukanDetailCommon_GetSpecies(common), wk->entries[wk->cur].sex,
-                         wk->entries[wk->cur].rare ? TRUE : FALSE, wk->entries[wk->cur].form);
+                {
+                    u16 species = ZukanDetailCommon_GetSpecies(common);
+                    PokeDexSave *pokedex = GameData_GetPokedex(ZukanDetailCommon_GetGameData(common));
+                    u8 sex = wk->entries[wk->cur].sex;
+                    BOOL rare = wk->entries[wk->cur].rare ? TRUE : FALSE;
+
+                    addToDex(pokedex, species, sex, rare, wk->entries[wk->cur].form);
+                }
                 if (wk->count >= 3) {
                     wk->sliderSnap = TRUE;
                 }
@@ -2838,8 +2885,8 @@ static void ZukanDetailForm_UpdateSelect(ZukanDetailFormParam *param, ZukanDetai
                 MCSS_SetPosition(wk->sprites[SPRITE_CUR_BACK].mcss, &pos);
             }
             {
-                PosF32 from;
                 PosF32 to;
+                PosF32 from;
                 VecFx32 pos;
 
                 if (wk->sprites[SPRITE_NEXT_FRONT].mcss != NULL) {
@@ -2941,29 +2988,31 @@ static void ZukanDetailForm_PlaceNext(ZukanDetailFormParam *param, ZukanDetailFo
 static void ZukanDetailForm_UpdateSlide(ZukanDetailFormParam *param, ZukanDetailFormWork *wk,
                                         ZukanDetailCommon *common) {
     if (wk->slide == 1) {
+        VecFx32 pos;
+        PosF32 target;
         BOOL done = FALSE;
         int sprite = wk->front ? SPRITE_NEXT_FRONT : SPRITE_NEXT_BACK;
-        PosF32 target;
-        VecFx32 pos;
+        f32 targetX;
         f32 x;
 
         ZukanDetailForm_GetSpritePosF32(&wk->sprites[sprite], POS_CENTER, &target);
+        targetX = target.x;
         MCSS_GetPosition(wk->sprites[sprite].mcss, &pos);
         x = (f32)pos.x / FX32_ONE;
         if (!wk->slideFromRight) {
             x += 2.0f;
-            if (x >= target.x) {
+            if (x >= targetX) {
                 done = TRUE;
             }
         } else {
             x -= 2.0f;
-            if (x <= target.x) {
+            if (x <= targetX) {
                 done = TRUE;
             }
         }
         if (done) {
+            x = targetX;
             wk->slide = 2;
-            x = target.x;
         }
         pos.x = FX32_CONST(x);
         if (wk->sprites[SPRITE_NEXT_FRONT].mcss != NULL) {
@@ -3001,11 +3050,12 @@ static void ZukanDetailForm_UpdateSlide(ZukanDetailFormParam *param, ZukanDetail
         {
             u16 species = ZukanDetailCommon_GetSpecies(common);
             PokeDexSave *pokedex = GameData_GetPokedex(ZukanDetailCommon_GetGameData(common));
+            u8 sex = wk->entries[wk->cur].sex;
 
             if (wk->entries[wk->cur].rare) {
                 rare = TRUE;
             }
-            addToDex(pokedex, species, wk->entries[wk->cur].sex, rare, wk->entries[wk->cur].form);
+            addToDex(pokedex, species, sex, rare, wk->entries[wk->cur].form);
         }
         if (wk->sprites[SPRITE_CUR_FRONT].mcss != NULL) {
             VecFx32 pos;
@@ -3036,18 +3086,21 @@ static void ZukanDetailForm_UpdateOpenClose(ZukanDetailFormParam *param, ZukanDe
             ZukanDetailForm_SetMode(param, wk, common, FORM_MODE_CLOSED);
         }
     } else if (wk->mode == FORM_MODE_OPEN) {
+        VecFx32 pos;
+
         if (!wk->curInPlace) {
             int sprite = wk->front ? SPRITE_CUR_FRONT : SPRITE_CUR_BACK;
             PosF32 target;
-            VecFx32 pos;
+            f32 targetX;
             f32 x;
 
             ZukanDetailForm_GetSpritePosF32(&wk->sprites[sprite], POS_LEFT, &target);
+            targetX = target.x;
             MCSS_GetPosition(wk->sprites[sprite].mcss, &pos);
             x = (f32)pos.x / FX32_ONE - 0.5f;
-            if (x <= target.x) {
+            if (x <= targetX) {
+                x = targetX;
                 wk->curInPlace = TRUE;
-                x = target.x;
             }
             pos.x = FX32_CONST(x);
             if (wk->sprites[SPRITE_CUR_FRONT].mcss != NULL) {
@@ -3072,15 +3125,16 @@ static void ZukanDetailForm_UpdateOpenClose(ZukanDetailFormParam *param, ZukanDe
         if (!wk->nextInPlace) {
             int sprite = wk->front ? SPRITE_NEXT_FRONT : SPRITE_NEXT_BACK;
             PosF32 target;
-            VecFx32 pos;
+            f32 targetX;
             f32 x;
 
             ZukanDetailForm_GetSpritePosF32(&wk->sprites[sprite], POS_RIGHT, &target);
+            targetX = target.x;
             MCSS_GetPosition(wk->sprites[sprite].mcss, &pos);
             x = (f32)pos.x / FX32_ONE - 1.5f;
-            if (x <= target.x) {
+            if (x <= targetX) {
+                x = targetX;
                 wk->nextInPlace = TRUE;
-                x = target.x;
             }
             pos.x = FX32_CONST(x);
             if (wk->sprites[SPRITE_NEXT_FRONT].mcss != NULL) {
@@ -3108,18 +3162,22 @@ static void ZukanDetailForm_UpdateOpenClose(ZukanDetailFormParam *param, ZukanDe
     } else if (wk->mode == FORM_MODE_OPENED) {
         ZukanDetailForm_SetMode(param, wk, common, FORM_MODE_COMPARE);
     } else if (wk->mode == FORM_MODE_CLOSE) {
+        VecFx32 pos;
+
         if (!wk->curInPlace) {
             int sprite = wk->front ? SPRITE_CUR_FRONT : SPRITE_CUR_BACK;
             PosF32 target;
-            VecFx32 pos;
+            f32 targetX;
             f32 x;
 
             ZukanDetailForm_GetSpritePosF32(&wk->sprites[sprite], POS_CENTER, &target);
+            targetX = target.x;
             MCSS_GetPosition(wk->sprites[sprite].mcss, &pos);
-            x = (f32)pos.x / FX32_ONE + 0.5f;
-            if (x >= target.x) {
+            x = (f32)pos.x / FX32_ONE;
+            x += 0.5f;
+            if (x >= targetX) {
+                x = targetX;
                 wk->curInPlace = TRUE;
-                x = target.x;
             }
             pos.x = FX32_CONST(x);
             if (wk->sprites[SPRITE_CUR_FRONT].mcss != NULL) {
@@ -3144,15 +3202,17 @@ static void ZukanDetailForm_UpdateOpenClose(ZukanDetailFormParam *param, ZukanDe
         if (!wk->nextInPlace) {
             int sprite = wk->front ? SPRITE_NEXT_FRONT : SPRITE_NEXT_BACK;
             PosF32 target;
-            VecFx32 pos;
+            f32 targetX;
             f32 x;
 
             ZukanDetailForm_GetSpritePosF32(&wk->sprites[sprite], POS_RIGHT_OUT, &target);
+            targetX = target.x;
             MCSS_GetPosition(wk->sprites[sprite].mcss, &pos);
-            x = (f32)pos.x / FX32_ONE + 1.5f;
-            if (x >= target.x) {
+            x = (f32)pos.x / FX32_ONE;
+            x += 1.5f;
+            if (x >= targetX) {
+                x = targetX;
                 wk->nextInPlace = TRUE;
-                x = target.x;
             }
             pos.x = FX32_CONST(x);
             if (wk->sprites[SPRITE_NEXT_FRONT].mcss != NULL) {
