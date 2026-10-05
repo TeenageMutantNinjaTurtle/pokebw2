@@ -55,6 +55,7 @@ u16 func_ov027_021707b8(SaveControl *save);
 GameEvent *func_ov027_02170860(GameSystem *gsys);
 void func_ov027_02170884(SurveyTextWork *work, GameSystem *gsys);
 u32 func_0200ed90(void *survey, u16 question, int answer);
+void func_0200edb0(void *survey);
 u32 func_0200ed48(void *survey, u16 question, int answer);
 int GetSurveyAnswerMsgIDCount(u16 question);
 u16 GetSurveyAnswerMsgID(u16 question, int answer);

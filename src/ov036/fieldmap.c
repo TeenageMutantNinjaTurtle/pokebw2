@@ -60,6 +60,7 @@
 #include "gfl/msg.h"
 #include "gfl/net.h"
 #include "gfl/overlay.h"
+#include "gfl/rtc_cache.h"
 #include "gfl/proc.h"
 #include "gfl/sound.h"
 #include "gfl/tcb.h"

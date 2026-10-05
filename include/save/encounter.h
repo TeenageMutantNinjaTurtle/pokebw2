@@ -5,5 +5,6 @@
 #include "struct_decls.h"
 
 u32 EncountSave_GetRoamingPkmZoneClock(EncountSave *save);
+void EncountSave_RerollSwarmLocation(SaveControl *save);
 
 #endif // POKEBW2_SAVE_ENCOUNTER_H

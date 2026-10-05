@@ -28,6 +28,7 @@ JoinAvenuePersonList *JoinAvenue_GetPersonList(JoinAvenueSave *joinAvenue);
 void func_02038bc8(u32 a0);
 // Sets a field of the info
 void func_02039064(JoinAvenueInfo *info, u32 param, u32 value);
+void func_020392d4(JoinAvenueInfo *info, BOOL fullDay);
 
 // A person's fields. joinAveTextHandler reads one, into the buffer for a name
 u32 joinAveTextHandler(JoinAvenuePerson *person, JoinAvenuePersonParam param, void *buffer);
@@ -72,6 +73,7 @@ void *func_0203888c(JoinAvenueOccupants *occupants, u32 index);
 u32 func_0203889c(JoinAvenueOccupants *occupants);
 u32 func_020388c0(JoinAvenueOccupants *occupants);
 void func_02038a0c(JoinAvenueOccupants *occupants, u32 value);
+void func_020389a0(JoinAvenueOccupants *occupants, BOOL fullDay);
 JoinAvenuePerson *func_02038a18(JoinAvenueOccupants *occupants);
 // The 0x58-byte records: allocated, freed and cleared as a person is
 void *func_020384a4(HeapID heapId);

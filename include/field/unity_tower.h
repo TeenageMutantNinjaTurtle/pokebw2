@@ -29,6 +29,7 @@ u32 func_02009ce4(UnityTowerSurveySave *save);
 // Whether a visitor from the country has come
 BOOL func_02009eb0(UnityTowerSurveySave *save, u32 country);
 u32 func_02009cac(UnityTowerSurveySave *save, PlayerInfo *playerInfo, u32 index);
+void func_02009c48(UnityTowerSurveySave *save);
 u32 func_0202b5d4(u32 value);
 u8 getPlayerSurveys(UnityTowerSurveySave *save);
 void setPlayerSurveys(UnityTowerSurveySave *save, u32 hobby);

@@ -122,6 +122,8 @@ void func_0200aec8(MusicalSave *musical, u8 index, u8 value);
 void func_0200aedc(MusicalSave *musical, u8 value);
 void func_0200af1c(MusicalSave *musical, u16 value);
 u16 func_0200af38(MusicalSave *musical);
+void *func_0200afbc(SaveControl *save);
+void func_0200b220(void *data);
 MusicalSave *getAddressOfMusicalDataInfo(SaveControl *save);
 void func_0200aef0(MusicalSave *musical, u8 value);
 u8 func_0200aefc(MusicalSave *musical);
@@ -166,6 +168,7 @@ void func_02008fb8(SaveControl *save, SaveLocation *location);
 RivalDataSave *getHollow_RivalData(SaveControl *save);
 // Save block 0x42, and setting a byte of it
 void *getHollow_RivalBlk(SaveControl *save);
+void func_0200ff78(void *rival, u32 value);
 void func_0200ff50(void *block, u32 index, u8 value);
 void func_0200f700(RivalDataSave *rivalData, u32 id);
 void copyRivalNameIntoHollowBlock(RivalDataSave *data, const u16 *name);

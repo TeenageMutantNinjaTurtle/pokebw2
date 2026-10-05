@@ -96,6 +96,8 @@ void PokeParty_Recover(PartyPkm *pkm);
 void PokeParty_RecalcStats(PartyPkm *pkm);
 void setLevel(PartyPkm *pkm, u32 level);
 u32 PokeParty_GetLevel(PartyPkm *pkm);
+// Counts down the Pokérus of the party's Pokémon by days
+void pokerusDecay(PokeParty *party, s32 days);
 void PokeParty_SetNature(PartyPkm *pkm, u32 nature);
 void setPkmBattleData(PartyPkm *pkm, u32 param, u32 value);
 // A species with its form and sex in one u16
