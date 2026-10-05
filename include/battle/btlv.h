@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "app/ov287.h"
+#include "battle/btl_action.h"
 #include "gfl/bg_sys.h"
 #include "gfl/clact.h"
 #include "gfl/graphics.h"
@@ -51,8 +52,14 @@ struct BtlvPokeSelectParam {
     u8 unk08;
 };
 
+// The mons a target is chosen among, which the client fills, and the action the display fills in
 struct BtlvSelectTargetParam {
-    BattleMon *mon;
+    struct {
+        BattleMon *mon;
+        u8 selectable[4];
+    } mons[3];
+    BattleAction rotateAction;
+    BattleAction action;
 };
 
 // The rest of the battle display (0x021d0c24 on, not decompiled)

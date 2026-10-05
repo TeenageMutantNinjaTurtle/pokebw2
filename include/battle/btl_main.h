@@ -54,7 +54,7 @@ typedef struct {
 } BtlMainSeq;
 
 // What the clients of a link battle exchange before it starts
-typedef struct {
+struct BtlMainSyncData {
     MATHRandContext32 rand;
     u16 unk18;
     u16 unk1A;
@@ -62,7 +62,7 @@ typedef struct {
     u8 unk1E;
     u8 unk1F_0 : 4;
     u8 unk1F_4 : 4;
-} BtlMainSyncData;
+};
 
 // A client's trainer, 0x28 bytes
 typedef struct {

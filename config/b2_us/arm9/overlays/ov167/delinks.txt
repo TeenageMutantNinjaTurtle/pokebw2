@@ -64,3 +64,15 @@ src/ov167/poke_type_pair.c:
 src/ov167/btlv_core.c:
     .text       start:0x021ce604 end:0x021d0c24
     .data       start:0x021dafa0 end:0x021dafac
+
+src/ov167/btl_client.c:
+    .text       start:0x021b1674 end:0x021b9950
+    .rodata     start:0x021d6eb0 end:0x021d7448
+    .data       start:0x021daf60 end:0x021daf70
+    .bss        start:0x021db044 end:0x021db06c
+
+src/ov167/btl_net.c:
+    .text       start:0x021b9950 end:0x021ba584
+    .rodata     start:0x021d7448 end:0x021d7490
+    .data       start:0x021daf70 end:0x021daf7c
+    .bss        start:0x021db06c end:0x021db070

@@ -94,6 +94,7 @@ typedef struct BSubwayPokemon BSubwayPokemon;
 typedef struct BSubwayTeamConfig BSubwayTeamConfig;
 typedef struct BSubwayTrainer BSubwayTrainer;
 typedef struct BtlMainModule BtlMainModule;
+typedef struct BtlMainSyncData BtlMainSyncData;
 typedef struct BtlAdapter BtlAdapter;
 typedef struct BtlClient BtlClient;
 typedef struct BtlPokeCon BtlPokeCon;

@@ -4,6 +4,7 @@
 #include "app/wifi_login.h"
 #include "app/wificlub.h"
 #include "battle/battle_proc.h"
+#include "battle/btl_net.h"
 #include "battle/btl_setup.h"
 #include "battle/regulation.h"
 #include "constants/sound.h"

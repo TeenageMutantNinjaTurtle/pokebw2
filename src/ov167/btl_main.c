@@ -1003,7 +1003,7 @@ BOOL func_ov167_0219af50(BtlMainModule *mainModule, s32 *state) {
         }
         mainModule->unk472 = index;
         if (mainModule->unk46E) {
-            func_ov167_021ba564(mainModule->unk2C4, setup->party[mainModule->unk472]);
+            func_ov167_021ba564(mainModule->unk2C4, setup->party[mainModule->unk472], mainModule->unk472);
         }
         func_ov167_021ba2f4(mainModule->unk470 + 6);
         (*state)++;

@@ -625,7 +625,7 @@ void func_ov167_021cf048(BtlvCore *core, BattleMon *mon, void *arg2) {
 void func_ov167_021cf094(BtlvCore *core, BtlvSelectTargetParam *param, void *arg2) {
     BattleMon *mon;
 
-    mon = param->mon;
+    mon = param->mons[0].mon;
     core->mon = mon;
     core->monId = GetMonID(mon);
     core->unk1B0 = param;
