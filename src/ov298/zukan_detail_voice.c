@@ -694,8 +694,7 @@ static void ZukanDetailVoice_CreatePokemon(ZukanDetailVoiceParam *param, ZukanDe
     wk->pokemonPalettes[index] =
         func_02033e34(arc, species, form, sex, rare, 0, 0, CLACT_VRAM_SUB, index * 32, param->heapId);
     wk->pokemonCellAnims[index] = func_02033ef4(species, form, sex, rare, 0, 0, 2, CLACT_VRAM_SUB, param->heapId);
-    // The palette fade passes on the archive's handle, to GFL_G2DIOReadNCLRArc, where its loader declares an ID
-    ZukanDetailPalFade_LoadPalette(wk->palFade, (u32)arc,
+    ZukanDetailPalFade_LoadPalette(wk->palFade, arc,
                                    GetPokemonPaletteDataNo(GetPokemonGraphicsARCID(), species, form, sex, rare, 0, 0),
                                    param->heapId, 3, 32, index * 16, 0);
     GFL_ArcToolFree(arc);

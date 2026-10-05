@@ -303,9 +303,9 @@ void ZukanDetailPalFade_SetHidden(ZukanDetailPalFade *fade) {
     }
 }
 
-void ZukanDetailPalFade_LoadPalette(ZukanDetailPalFade *fade, u32 arcId, u32 fileId, HeapID heapId, u32 buffer,
+void ZukanDetailPalFade_LoadPalette(ZukanDetailPalFade *fade, ArcTool *arc, u32 fileId, HeapID heapId, u32 buffer,
                                     u32 size, u16 offset, u16 srcOffset) {
-    func_02026f08(fade->palette, arcId, fileId, heapId, buffer, size, offset, srcOffset);
+    func_02026f08(fade->palette, arc, fileId, heapId, buffer, size, offset, srcOffset);
 }
 
 void ZukanDetailPalFade_ReadPalettes(ZukanDetailPalFade *fade) {
