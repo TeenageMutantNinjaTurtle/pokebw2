@@ -6,6 +6,8 @@
 #include "struct_decls.h"
 
 void FieldSubscreen_ReqChange(FieldSubscreen *subscreen, u32 mode);
+// Changes the subscreen, calling the callback with work once it has changed
+void FieldSubscreen_ReqChangeEx(FieldSubscreen *subscreen, u32 mode, void (*callback)(void *work), void *work);
 u32 FieldSubscreen_GetIDForChange(FieldSubscreen *subscreen, u32 param);
 u32 FieldSubscreen_GetScreenID(FieldSubscreen *subscreen);
 u32 FieldSubscreen_GetReturnSubscreen(FieldSubscreen *subscreen);
