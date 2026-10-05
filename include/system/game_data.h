@@ -80,6 +80,8 @@ void *func_020174d4(GameData *gameData);
 DreamWorldSave *func_020179e4(GameData *gameData);
 u8 GameData_GetSeason(GameData *gameData);
 u8 func_02017a24(GameData *gameData);
+// Sets the area of the Entree Forest the player is in, which func_02017a24 returns
+void func_02017a18(GameData *gameData, u8 area);
 u16 GameData_GetDayPeriod(GameData *gameData);
 u16 GameData_GetMonth(GameData *gameData);
 u16 GameData_GetDay(GameData *gameData);

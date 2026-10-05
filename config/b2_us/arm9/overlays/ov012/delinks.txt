@@ -302,3 +302,8 @@ src/ov012/scrcmd_actor_move.c:
 
 src/ov012/season_form.c:
     .text       start:0x021649ec end:0x02164ae0
+
+src/ov012/scrcmd_entree_forest.c:
+    complete
+    .text       start:0x02164ae0 end:0x021652cc
+    .rodata     start:0x0216dac4 end:0x0216dad0

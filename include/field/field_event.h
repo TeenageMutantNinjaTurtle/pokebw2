@@ -6,6 +6,16 @@
 #include "gfl/proc.h"
 #include "struct_decls.h"
 
+// What a battle started from the field takes from it, which SaveBtlFieldStatus of overlay 36 fills in
+typedef struct {
+    u32 unk0;
+    u32 unk4;
+    u32 unk8;
+    u32 unkC;
+} BtlFieldStatus;
+
+void SaveBtlFieldStatus(BtlFieldStatus *status, GameData *gameData, Field *field);
+
 // Moves the player to another zone with a transition, such as through a door
 struct WarpSequence {
     GameEvent *parent;

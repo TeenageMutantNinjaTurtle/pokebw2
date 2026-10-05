@@ -50,6 +50,8 @@ void func_0200e904(AreaNPCSave *npcData);
 u16 func_0200e9fc(AreaNPCSave *npcData, u32 kind);
 u32 func_0200ea1c(u32 index);
 void func_0200ea24(AreaNPCSave *npcData, u32 index);
+// Whether the Entree Forest Pokémon, packed as EntreeForestPokemon is, is valid, checking its form when check is set
+BOOL func_0200eb54(SaveControl *save, u32 *pokemon, HeapID heapId, BOOL check);
 void func_0200eb14(AreaNPCSave *npcData, u16 index);
 
 // Returns a pointer to one of the save's blocks
