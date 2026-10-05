@@ -90,7 +90,7 @@ prints the tables below from the configs and the ROM:
 
 ### Overlay 12
 
-1249 of 1668 functions are in source files. Embedded names without a file yet: `event_battle.c`, `fldmmdl.c`, `namein_setup.c`, `pair_sys.c`, `scrcmd_keysystem.c`, `trcard_sys.c`, `waza_oshie.c`.
+1256 of 1668 functions are in source files. Embedded names without a file yet: `event_battle.c`, `fldmmdl.c`, `pair_sys.c`, `scrcmd_keysystem.c`, `trcard_sys.c`, `waza_oshie.c`.
 
 | File | `.text` (Black 2) | Functions | Status | Name |
 | --- | --- | --- | --- | --- |
@@ -166,6 +166,7 @@ prints the tables below from the configs and the ROM:
 | `survey.c` | `0x021652cc`–`0x02165598` | 14 | complete | descriptive |
 | `scrcmd_sp_poke_gimmick.c` | `0x02165598`–`0x0216598c` | 8 | complete | descriptive |
 | `oneshot_dr.c` | `0x0216598c`–`0x021659ec` | 2 | complete | descriptive |
+| `namein_setup.c` | `0x021659ec`–`0x02165b1c` | 7 | complete | string at `0x0216e3a0` |
 
 ### Overlay 13
 
