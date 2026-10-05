@@ -96,6 +96,12 @@ typedef struct {
 // How many Pokémon a search returns
 #define SEARCH_POKE_MAX 7
 
+// A search's gender that takes either
+#define SEARCH_GENDER_ANY 3
+
+// How many levels a search can ask for
+#define SEARCH_LEVEL_SELECT_NUM 11
+
 // Which table of levels a wanted level is from
 #define LEVEL_PRINT_TBL_DEPOSIT 0
 #define LEVEL_PRINT_TBL_SEARCH 1
@@ -225,7 +231,8 @@ struct WorldTradeWork {
     Dpw_Tr_PokemonSearchData search;
     // The last search, which can't be made again
     Dpw_Tr_PokemonSearchData searchBackup;
-    u8 unkB62[0x6];
+    u8 unkB62[0x2];
+    int searchBackupCountryCode;
     WordSet *wordSet;
     MsgData *msgManager;
     MsgData *monsNameManager;
@@ -267,7 +274,8 @@ struct WorldTradeWork {
     BmpWin *talkWin;
     // "Back"
     BmpWin *backWin;
-    u8 unkDD8[0x8];
+    // The search's country, its label and its value
+    BmpWin *countryWin[2];
     // Explains the screen on the lower screen
     BmpWin *explainWin;
     // worldtrade_input.c's input of a search or of the wanted Pokémon
@@ -468,6 +476,8 @@ void func_ov214_021de510(WorldTradeWork *wk);
 void func_ov214_021de98c(WorldTradeWork *wk, int count, int a2);
 // The person of the lower screen that is touched, of the first count, or -1
 int func_ov214_021de96c(int count);
+// Hides the people of the lower screen that a search found
+void func_ov214_021dea34(WorldTradeWork *wk);
 void func_ov214_021deb40(WorldTradeWork *wk);
 // Puts the partner cursor on a person of the lower screen, offset by y
 void func_ov214_021deb88(WorldTradeWork *wk, int index, int offsetY);

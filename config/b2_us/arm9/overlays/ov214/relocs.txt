@@ -2295,7 +2295,7 @@ from:0x021dc9a0 kind:thumb_call to:0x021d3e3c module:overlay(214)
 from:0x021dc9ae kind:thumb_call to:0x021d3ce8 module:overlay(214)
 from:0x021dc9b8 kind:load to:0x021e2ea0 module:overlay(214)
 from:0x021dc9c4 kind:load to:0x021e2e66 module:overlay(214)
-from:0x021dc9cc kind:load to:0x021e2e68 module:overlay(214)
+from:0x021dc9cc kind:load to:0x021e2e66 add:0x2 module:overlay(214)
 from:0x021dc9e4 kind:thumb_call to:0x021d87e4 module:overlay(214)
 from:0x021dc9ea kind:thumb_call to:0x021dcd5c module:overlay(214)
 from:0x021dc9f0 kind:thumb_call to:0x021dcfd8 module:overlay(214)
@@ -2482,7 +2482,7 @@ from:0x021dd40e kind:thumb_call to:0x0203defc module:main
 from:0x021dd428 kind:thumb_call to:0x021dd818 module:overlay(214)
 from:0x021dd436 kind:thumb_call to:0x0204c488 module:main
 from:0x021dd440 kind:thumb_call to:0x02006254 module:main
-from:0x021dd44c kind:load to:0x021e2e6c module:overlay(214)
+from:0x021dd44c kind:load to:0x021e2e66 add:0x6 module:overlay(214)
 from:0x021dd482 kind:thumb_call to:0x021de184 module:overlay(214)
 from:0x021dd48c kind:thumb_call to:0x021d3ce0 module:overlay(214)
 from:0x021dd4a0 kind:thumb_call to:0x021de33c module:overlay(214)
@@ -2539,16 +2539,16 @@ from:0x021dd8f4 kind:thumb_call to:0x0203defc module:main
 from:0x021dd914 kind:thumb_call to:0x021dd818 module:overlay(214)
 from:0x021dd91c kind:thumb_call to:0x021dd818 module:overlay(214)
 from:0x021dd932 kind:thumb_call to:0x021d3e3c module:overlay(214)
-from:0x021dd938 kind:load to:0x021e2e6a module:overlay(214)
+from:0x021dd938 kind:load to:0x021e2e66 add:0x4 module:overlay(214)
 from:0x021dd944 kind:load to:0x021e2e66 module:overlay(214)
-from:0x021dd948 kind:load to:0x021e2e68 module:overlay(214)
+from:0x021dd948 kind:load to:0x021e2e66 add:0x2 module:overlay(214)
 from:0x021dd982 kind:thumb_call to:0x021dd818 module:overlay(214)
 from:0x021dd98a kind:thumb_call to:0x021dd818 module:overlay(214)
 from:0x021dd9a0 kind:thumb_call to:0x021d3e3c module:overlay(214)
 from:0x021dd9a8 kind:load to:0x021e2e58 module:overlay(214)
-from:0x021dd9ac kind:load to:0x021e2e59 module:overlay(214)
+from:0x021dd9ac kind:load to:0x021e2e58 add:0x1 module:overlay(214)
 from:0x021dd9b4 kind:load to:0x021e2e66 module:overlay(214)
-from:0x021dd9b8 kind:load to:0x021e2e68 module:overlay(214)
+from:0x021dd9b8 kind:load to:0x021e2e66 add:0x2 module:overlay(214)
 from:0x021dd9de kind:thumb_call to:0x020279b4 module:main
 from:0x021dd9f6 kind:thumb_call_arm to:0x021a773c module:overlay(189)
 from:0x021dd9fc kind:thumb_call to:0x021d3e0c module:overlay(214)
@@ -2645,7 +2645,7 @@ from:0x021de0a8 kind:thumb_call to:0x0203d554 module:main
 from:0x021de0b8 kind:thumb_call to:0x0204c124 module:main
 from:0x021de0be kind:thumb_call to:0x021dd818 module:overlay(214)
 from:0x021de0c6 kind:thumb_call to:0x021dd0c4 module:overlay(214)
-from:0x021de0d4 kind:load to:0x021e2e6a module:overlay(214)
+from:0x021de0d4 kind:load to:0x021e2e66 add:0x4 module:overlay(214)
 from:0x021de0e0 kind:thumb_call to:0x0204c560 module:main
 from:0x021de0ea kind:thumb_call to:0x021dd818 module:overlay(214)
 from:0x021de0f8 kind:thumb_call to:0x0204c488 module:main
@@ -2653,13 +2653,13 @@ from:0x021de0fc kind:thumb_call to:0x0203d554 module:main
 from:0x021de10c kind:thumb_call to:0x0204c124 module:main
 from:0x021de11c kind:thumb_call to:0x021de184 module:overlay(214)
 from:0x021de126 kind:thumb_call to:0x021d3ce0 module:overlay(214)
-from:0x021de134 kind:load to:0x021e2e6a module:overlay(214)
+from:0x021de134 kind:load to:0x021e2e66 add:0x4 module:overlay(214)
 from:0x021de144 kind:thumb_call to:0x0204c560 module:main
 from:0x021de14e kind:thumb_call to:0x021dd818 module:overlay(214)
 from:0x021de15c kind:thumb_call to:0x0204c488 module:main
 from:0x021de160 kind:thumb_call to:0x0203d554 module:main
 from:0x021de170 kind:thumb_call to:0x0204c124 module:main
-from:0x021de180 kind:load to:0x021e2e6a module:overlay(214)
+from:0x021de180 kind:load to:0x021e2e66 add:0x4 module:overlay(214)
 from:0x021de194 kind:thumb_call to:0x02048838 module:main
 from:0x021de19e kind:thumb_call to:0x020484f4 module:main
 from:0x021de1a4 kind:thumb_call to:0x0204713c module:main

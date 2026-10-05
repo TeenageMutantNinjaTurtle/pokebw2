@@ -17,6 +17,17 @@ typedef struct {
     s8 unused;
 } Dpw_Tr_PokemonSearchData;
 
+// A search with a country, and how many results to return
+typedef struct {
+    s16 characterNo;
+    s8 gender;
+    s8 level_min;
+    s8 level_max;
+    s8 unused;
+    s8 maxNum;
+    u8 countryCode;
+} Dpw_Tr_PokemonSearchDataEx;
+
 // What a deposited Pokémon is, for searches
 typedef struct {
     s16 characterNo;
@@ -72,5 +83,8 @@ s32 func_ov189_021a778c(void);
 // Requests the server's state, and sends the player's profile
 void func_ov189_021a7e84(void);
 void func_ov189_021a7efc(Dpw_Common_Profile *profile, Dpw_Common_ProfileResult *result);
+// Searches the server for up to maxNum Pokémon, without and with a country
+void func_ov189_021a7bfc(const Dpw_Tr_PokemonSearchData *search, s32 maxNum, Dpw_Tr_Data *result);
+void func_ov189_021a7ca8(const Dpw_Tr_PokemonSearchDataEx *search, Dpw_Tr_Data *result);
 
 #endif // POKEBW2_DPW_DPW_TR_H

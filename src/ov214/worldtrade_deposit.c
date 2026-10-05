@@ -36,9 +36,6 @@
 #define DEPOSIT_MODE_TO_BOX 5
 #define DEPOSIT_MODE_UPLOAD 7
 
-// A search's gender that takes either
-#define SEARCH_GENDER_ANY 3
-
 // The number of species and one, the size of the regional Pokédex's table
 #define MONSNO_TABLE_SIZE 650
 
@@ -46,7 +43,6 @@
 #define HEADWORD_NUM 10
 
 #define LEVEL_SELECT_NUM 12
-#define SEARCH_LEVEL_SELECT_NUM 11
 
 enum {
     DEPOSIT_SEQ_START,
