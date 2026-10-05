@@ -182,6 +182,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   `widthTiles * (y & ~7)` match in bmp_menulist.c where the other orders do not.
 - `u8` flag parameters, not `BOOL`, change the order in which register parameters are spilled at entry
   (`BmpMenuList_CycleCursor`).
+- A bit-table lookup with an unsigned `lsr #5` for the index and a signed modulo for the bit is
+  `table[item / (sizeof(u32) * 8)] & (1 << (item % 32))`; `item >> 5` gives `asr` (pml_item.c).
+- A result computed into the parameter's own callee-saved register comes from a compound assignment to the parameter
+  (`item -= ITEM_TM93 - TM_INDEX_TM93;` in `PML_ItemGetTMWazaID`); `item = item - X` or a new local computes into r0.
 
 ## Branches and block layout
 
@@ -294,6 +298,8 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   Medal Rally's `p_sv` does.
 - Overlay IDs are linker symbols, written `OVERLAY_ID(279)` from `gfl/overlay.h`, which gives the literal pool entry
   a relocation. Mark the literal in the config with `tools/scripts/config_fixes.py overlay-id`.
+- A table one element longer in the ROM than the code needs has a terminator: pml_item.c's `TM_MOVE_LIST` is 101 moves
+  and a `MOVE_NONE`. Without it the next object starts 2 bytes early.
 
 ## When nothing moves it
 

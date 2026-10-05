@@ -244,6 +244,7 @@ typedef struct HighLinkSave HighLinkSave;
 typedef struct EventIRCWork EventIRCWork;
 typedef struct ISS ISS;
 typedef struct ISSSwitchSys ISSSwitchSys;
+typedef struct ItemData ItemData;
 typedef struct JoinAvenueInfo JoinAvenueInfo;
 typedef struct JoinAvenueOccupants JoinAvenueOccupants;
 typedef struct JoinAvenuePerson JoinAvenuePerson;

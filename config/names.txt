@@ -89,6 +89,12 @@
 . 0x0202654c BmpCursor_Free
 . 0x0202656c BmpCursor_Print
 . 0x020265d8 BmpCursor_LoadBitmap
+. 0x02026714 PML_ItemGetIconArcID
+. 0x02026718 PML_ItemGetIconCellDatID
+. 0x0202671c PML_ItemGetIconAnimDatID
+. 0x02026c6c PML_ItemIsUnholdable
+. 0x02026c9c PML_ItemIsDummy
+. 0x02026ccc PML_ItemIsB2W2Only
 . 0x02026dc0 PaletteFade_Create
 . 0x02026de8 PaletteFade_Free
 . 0x02026df0 PaletteFade_SetBuffer
@@ -503,6 +509,9 @@
 . 0x0208e3c8 _fdiv
 . 0x0208fe08 GAME_SYNC_SETTINGS_PROC_FUNCTIONS
 . 0x0208fe14 BATTLE_VIDEO_PROC_FUNCTIONS
+. 0x02090a48 DUMMY_ITEMS
+. 0x02090a98 UNHOLDABLE_ITEMS
+. 0x02090bcc LIST_ITEM_GRAPHICS
 . 0x02092f4c sBitCountMasks
 . 0x02092f55 sActiveBits
 . 0x02092f60 sEightMinusLastOneBit

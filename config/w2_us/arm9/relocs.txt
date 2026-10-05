@@ -5657,16 +5657,16 @@ from:0x02026698 kind:load to:0x0209a4b4 module:main
 from:0x02026702 kind:thumb_call to:0x02035970 module:main
 from:0x0202670e kind:thumb_call to:0x02035970 module:main
 from:0x0202672c kind:load to:0x02090d7c module:main
-from:0x02026734 kind:load to:0x02090d7e module:main
+from:0x02026734 kind:load to:0x02090d7c add:0x2 module:main
 from:0x02026738 kind:load to:0x02090bf8 module:main
-from:0x0202673c kind:load to:0x02090bfa module:main
+from:0x0202673c kind:load to:0x02090bf8 add:0x2 module:main
 from:0x02026754 kind:load to:0x0204aa5d module:main
 from:0x02026768 kind:load to:0x0204ab49 module:main
 from:0x0202678a kind:thumb_call to:0x0204a960 module:main
 from:0x02026798 kind:thumb_call to:0x0204a960 module:main
 from:0x020267a6 kind:thumb_call to:0x0204a960 module:main
 from:0x020267b4 kind:load to:0x02090d7c module:main
-from:0x020267b8 kind:load to:0x02090d7e module:main
+from:0x020267b8 kind:load to:0x02090d7c add:0x2 module:main
 from:0x020267d2 kind:thumb_call to:0x02048788 module:main
 from:0x020267dc kind:thumb_call to:0x02048864 module:main
 from:0x020267e2 kind:thumb_call to:0x02048800 module:main

@@ -84,6 +84,8 @@ void hatchEgg(PartyPkm *pkm, PlayerInfo *playerInfo, u16 placeName, HeapID heapI
 void PokeParty_Init(PokeParty *party);
 void PokeParty_Copy(const PokeParty *src, PokeParty *dest);
 void PokeParty_InitCore(PokeParty *party, u32 capacity);
+// An item's place in a list of 46 battle items, 0 if it isn't in it
+u32 func_02035944(u16 item);
 // Records how and where the Pokémon was met, with the player as its Trainer
 void PokeParty_SetupMetData(PartyPkm *pkm, u32 a1, PlayerInfo *playerInfo, u16 placeName, HeapID heapId);
 u32 func_02035cf8(PartyPkm *pkm, u32 arg1, PlayerInfo *playerInfo);
