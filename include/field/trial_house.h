@@ -46,8 +46,9 @@ extern const char data_ov033_0217c630[];
 struct TrialHouseWork *CreateTrialHouseWk(GameSystem *gsys);
 void func_ov033_0217acd4(GameSystem *gsys, struct TrialHouseWork *work);
 void TrialHouseWorkDelete(void *unused, struct TrialHouseWork **work);
+void func_ov033_0217ad78(TrialHouseWork *work, u32 mode);
 void func_ov033_0217adbc(TrialHouseWork *work, u32 selectionFlag);
-void func_ov033_0217adc4(GameSystem *gsys, TrialHouseWork *work, u32 mode);
+u32 func_ov033_0217adc4(GameSystem *gsys, TrialHouseWork *work, u32 mode);
 void func_ov033_0217ade8(TrialHouseWork *work, u32 mode);
 void func_ov033_0217ae5c(GameSystem *gsys, TrialHouseWork *work, u32 mode);
 u32 func_ov033_0217aed0(TrialHouseWork *work);
@@ -58,8 +59,8 @@ GameEventReturnCode func_ov033_0217af5c(GameEvent *event, u32 *state, void *data
 u8 func_ov033_0217b35c(TrialHouseSave *save, u32 index);
 void func_ov033_0217b384(TrialHouseSave *save, u32 index);
 void TrialHouseCalcPointScore(GameSystem *gsys, TrialHouseWork *work, u16 *rankOut, u16 *pointsOut);
-u32 func_ov033_0217b2e4(u32 unused, TrialHouseWork *work);
-GameEvent *func_ov033_0217b2ec(GameSystem *gsys, u32 unused, u32 mode);
+u32 func_ov033_0217b2e4(GameSystem *gsys, TrialHouseWork *work);
+GameEvent *func_ov033_0217b2ec(GameSystem *gsys, TrialHouseWork *work, u32 mode);
 u32 func_ov033_0217b32c(GameSystem *gsys);
 GameEventReturnCode func_ov033_0217b3ac(GameEvent *event, u32 *state, void *data);
 

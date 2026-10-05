@@ -95,13 +95,13 @@ void func_ov033_0217adbc(TrialHouseWork *work, u32 selectionFlag) {
     work->selectionFlag = selectionFlag;
 }
 
-void func_ov033_0217adc4(GameSystem *gsys, TrialHouseWork *work, u32 mode) {
+u32 func_ov033_0217adc4(GameSystem *gsys, TrialHouseWork *work, u32 mode) {
     if (work->selectionFlag != 0) {
         func_ov033_0217ae5c(gsys, work, mode);
     } else {
         func_ov033_0217ade8(work, mode);
     }
-    func_ov033_0217aed0(work);
+    return func_ov033_0217aed0(work);
 }
 
 void func_ov033_0217ade8(TrialHouseWork *work, u32 mode) {
@@ -362,11 +362,11 @@ void TrialHouseCalcPointScore(GameSystem *gsys, TrialHouseWork *work, u16 *rankO
     func_02009618(getTrainerCardInfoBlkAddress(save), rank);
 }
 
-u32 func_ov033_0217b2e4(u32 unused, TrialHouseWork *work) {
+u32 func_ov033_0217b2e4(GameSystem *gsys, TrialHouseWork *work) {
     return work->initState;
 }
 
-GameEvent *func_ov033_0217b2ec(GameSystem *gsys, u32 unused, u32 mode) {
+GameEvent *func_ov033_0217b2ec(GameSystem *gsys, TrialHouseWork *work, u32 mode) {
     GameEvent *event;
     TrialHouseEffectEvent *data;
 
