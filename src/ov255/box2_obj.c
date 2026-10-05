@@ -823,16 +823,20 @@ static void func_ov255_021d0364(Box2SysWork *syswk, u32 pos) {
 }
 
 void func_ov255_021d0374(Box2SysWork *syswk, u32 pos, int width, int height) {
-    Box2AppWork *app = syswk->app;
-    u32 rowWidth = Box2Main_GetRowWidth(syswk, pos);
-    u32 x = pos % rowWidth;
-    u32 y = pos / rowWidth;
-    s16 px;
-    s16 py;
     int i;
     int j;
+    Box2AppWork *app;
+    u32 y;
+    u32 x;
+    u32 rowWidth;
+    s16 px;
+    s16 py;
     u8 tmp;
 
+    app = syswk->app;
+    rowWidth = Box2Main_GetRowWidth(syswk, pos);
+    x = pos % rowWidth;
+    y = pos / rowWidth;
     for (j = 0; j < height; j++) {
         for (i = 0; i < width; i++) {
             func_ov255_021cf6ec(app, app->pokeIconId[x + (y + j) * rowWidth + i], &px, &py, 0);
@@ -1472,6 +1476,8 @@ static void func_ov255_021d16cc(Box2SysWork *syswk, u32 tray, u8 *chr) {
     u32 species;
     void *personal;
     u8 y;
+    u16 color;
+    u16 form;
 
     py = 11;
     for (j = 0; j < 5; j++) {
@@ -1482,18 +1488,19 @@ static void func_ov255_021d16cc(Box2SysWork *syswk, u32 tray, u8 *chr) {
             species = PML_PkmGetParam(pkm, PKM_PARAM_SPECIES, NULL);
             if (PML_PkmGetParam(pkm, PKM_PARAM_SPECIES_VALID, NULL) != 0) {
                 if (PML_PkmGetParam(pkm, PKM_PARAM_IS_EGG, NULL) == 0) {
-                    personal = PML_PersonalLoad(species, PML_PkmGetParam(pkm, PKM_PARAM_FORM, NULL), HEAPID_BOX2_APP);
-                    species = PML_PersonalGetParam(personal, 33);
+                    form = PML_PkmGetParam(pkm, PKM_PARAM_FORM, NULL);
+                    personal = PML_PersonalLoad(species, form, HEAPID_BOX2_APP);
+                    color = PML_PersonalGetParam(personal, 33);
                     PML_PersonalFree(personal);
                 } else if (species == SPECIES_MANAPHY) {
-                    species = 1;
+                    color = 1;
                 } else {
-                    species = 8;
+                    color = 8;
                 }
-                species = (u16)(species + 16);
-                fill = (species << 8) | species;
+                color += 16;
+                fill = (color << 8) | color;
                 for (y = py; y < py + 2; y++) {
-                    sys_memset16(fill, &chr[(px & 7) + ((y & 7) << 3) + (((y >> 3) * 4 + (px >> 3)) << 6)], 2);
+                    sys_memset16(fill, &chr[((y & 7) << 3) + ((((y >> 3) << 2) + (px >> 3)) << 6) + (px & 7)], 2);
                 }
             }
             PML_PkmReEncrypt(pkm, encrypted);
@@ -1649,6 +1656,7 @@ void func_ov255_021d1c00(Box2SysWork *syswk) {
 static void func_ov255_021d1c30(Box2AppWork *app) {
     BmpOamActorSetup setup;
     u32 i;
+    Box2FontOam *font;
 
     app->bmpOam = func_0202ae5c(HEAPID_BOX2_APP, app->clunit);
     app->fontOam[0].bitmap = GFL_BitmapCreate(12, 2, 0x20, HEAPID_BOX2_APP);
@@ -1664,28 +1672,31 @@ static void func_ov255_021d1c30(Box2AppWork *app) {
     app->fontOam[0].oam = func_0202aec4(app->bmpOam, &setup);
     func_0202b098(app->fontOam[0].oam, FALSE);
     for (i = 7; i <= 8; i++) {
-        app->fontOam[i].bitmap = GFL_BitmapCreate(12, 2, 0x20, HEAPID_BOX2_APP);
-        setup.bitmap = app->fontOam[i].bitmap;
+        font = &app->fontOam[i];
+        font->bitmap = GFL_BitmapCreate(12, 2, 0x20, HEAPID_BOX2_APP);
+        setup.bitmap = font->bitmap;
         setup.x = 36;
         setup.y = 20;
         setup.bgPriority = 3;
-        app->fontOam[i].oam = func_0202aec4(app->bmpOam, &setup);
+        font->oam = func_0202aec4(app->bmpOam, &setup);
     }
     for (i = 0; i < 6; i++) {
-        app->fontOam[1 + i].bitmap = GFL_BitmapCreate(2, 1, 0x20, HEAPID_BOX2_APP);
-        setup.bitmap = app->fontOam[1 + i].bitmap;
+        font = &app->fontOam[1 + i];
+        font->bitmap = GFL_BitmapCreate(2, 1, 0x20, HEAPID_BOX2_APP);
+        setup.bitmap = font->bitmap;
         setup.x = 316;
         setup.y = i * 34 + 2;
         setup.bgPriority = 1;
-        app->fontOam[1 + i].oam = func_0202aec4(app->bmpOam, &setup);
+        font->oam = func_0202aec4(app->bmpOam, &setup);
     }
-    app->fontOam[9].bitmap = GFL_BitmapCreate(2, 2, 0x20, HEAPID_BOX2_APP);
-    setup.bitmap = app->fontOam[9].bitmap;
+    font = &app->fontOam[9];
+    font->bitmap = GFL_BitmapCreate(2, 2, 0x20, HEAPID_BOX2_APP);
+    setup.bitmap = font->bitmap;
     setup.x = 0;
     setup.y = 0;
     setup.priority = 45;
     setup.bgPriority = 0;
-    app->fontOam[9].oam = func_0202aec4(app->bmpOam, &setup);
+    font->oam = func_0202aec4(app->bmpOam, &setup);
     func_ov255_021d1d68(app, 9, FALSE);
 }
 

@@ -55,6 +55,11 @@ Same instructions, registers swapped.
 
 Same code, other `sp` offsets or frame size.
 
+- A pointer to an array element written to a local, `font = &app->fontOam[i]; font->bitmap = ...; font->oam = ...`,
+  keeps the array's address in a register and spills the element's offset, where `app->fontOam[i].bitmap` folds the
+  offsets into each access: the PC box's `func_ov255_021d1c30` matched only with the pointer.
+- Declaration order does move spill slots in longer functions: `func_ov255_021d0374` matched with its loop counters
+  declared first and `y` before the row width.
 - Stack locals are laid out in reverse declaration order.
 - Spilled variables get their stack slots in the order they are first assigned, the first at the lowest address,
   whatever their declaration order or use counts, in small functions. A value that sits above values assigned after
