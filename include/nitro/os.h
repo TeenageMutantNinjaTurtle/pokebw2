@@ -56,12 +56,16 @@ void cart_key_release(u16 lockId);
 // NitroSDK's OS_DisableInterrupts and OS_RestoreInterrupts, under swan's names
 u32 CPU_IRQDisable(void);
 u32 CPU_SetIRQMask(u32 mask);
+// Waits for one of the interrupts, clearing their flags first if clear is TRUE
+void CPU_WaitIntrBit(BOOL clear, u32 interrupts);
 void exit(int status);
 
 // Fills 32 bytes with values that differ from run to run
 void OS_GetLowEntropyData(u32 buffer[8]);
 // NitroSDK's STD_CompareNString
 int STD_CompareNString(const char *a, const char *b, int n);
+// NitroSDK's STD_GetStringLength
+int NNS_STD_StrLen(const char *str);
 
 // NitroSDK's OS_WaitIrq and OS_IsRunOnTwl, under swan's names
 void irq_waitFor(BOOL clear, u32 interrupts);

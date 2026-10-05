@@ -201,6 +201,14 @@ typedef struct {
 // The blocks of a file: NNS_G3dGetMdlSet, NNS_G3dGetTex and NNS_G3dGetAnmByIdx
 NNSG3dResMdlSet *NNS_G3DResGetMdlBlock(const NNSG3dResFileHeader *header);
 NNSG3dResTex *NNS_G3DResGetTexBlock(const NNSG3dResFileHeader *header);
+// The name of a dictionary entry, padded to sixteen characters with zeros
+typedef union {
+    char name[16];
+    u32 val[4];
+} NNSG3dResName;
+
+// NitroSDK's NNS_G3dGetResDataByName: the data of the dictionary's entry of the name, or NULL
+void *NNS_G3DFind(const NNSG3dResDict *dict, const NNSG3dResName *name);
 void *NNS_G3DResGetAnm(const NNSG3dResFileHeader *header, u32 idx);
 
 // Textures and palettes in VRAM: NNS_G3dTexGetRequiredSize, NNS_G3dTexSetTexKey, NNS_G3dTexLoad,

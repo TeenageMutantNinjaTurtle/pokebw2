@@ -18,7 +18,7 @@ struct G3DTextDrawResource {
 };
 
 BOOL G3DTextDraw_CreateResource(void *texture, const char *texName, u32 a2, const char *plName, const StrBuf *text, u16 a5,
-                                u16 a6, u32 a7, HeapID heapId, G3DTextDrawResource *resource);
+                                u16 a6, u16 color, HeapID heapId, G3DTextDrawResource *resource);
 void GFXRegSetMasterBrightness(u32 reg, s32 brightness);
 s32 gfxRegGetMasterBrightness(u32 reg);
 // Loaded with part of a palette file, stepped each frame and reset. Unnamed, as what it does is not known
