@@ -11,7 +11,7 @@ import re
 import sys
 from pathlib import Path
 
-from dsd_config import ROOT, parse_sections
+from dsd_config import ROOT, config_lock, parse_sections
 from mark_complete import externally_used_statics
 
 PRIMARY = "b2_us"
@@ -119,4 +119,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    with config_lock():
+        main()

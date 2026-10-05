@@ -12,6 +12,8 @@ import re
 import sys
 from pathlib import Path
 
+from dsd_config import config_lock
+
 ROOT = Path(__file__).resolve().parents[2]
 SYMBOL_RE = re.compile(r"(\S+) kind:\S+ addr:(0x[0-9a-f]+)")
 RELOC_RE = re.compile(r"from:(0x[0-9a-f]+) kind:\S+ to:(0x[0-9a-f]+) module:(\S+)")
@@ -96,4 +98,5 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    with config_lock():
+        sys.exit(main())

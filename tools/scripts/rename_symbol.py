@@ -15,7 +15,7 @@ import re
 import sys
 from pathlib import Path
 
-from dsd_config import ROOT, SYMBOL_RE
+from dsd_config import ROOT, SYMBOL_RE, config_lock
 
 PRIMARY = "b2_us"
 OTHERS = ["w2_us"]
@@ -176,4 +176,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    with config_lock():
+        main()
