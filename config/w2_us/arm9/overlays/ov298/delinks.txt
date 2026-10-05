@@ -59,3 +59,8 @@ src/ov298/zukan_detail_voice.c:
     .text       start:0x021a6414 end:0x021a7a20
     .rodata     start:0x021ac788 end:0x021ac830
     .data       start:0x021acec8 end:0x021acee0
+
+src/ov298/zukan_detail_form.c:
+    .text       start:0x021a7a20 end:0x021abfb4
+    .rodata     start:0x021ac830 end:0x021ace18
+    .data       start:0x021acee0 end:0x021acf20
