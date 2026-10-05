@@ -295,3 +295,7 @@ src/ov012/shaymin_form.c:
 src/ov012/scrcmd_trial_house.c:
     complete
     .text       start:0x02164490 end:0x02164838
+
+src/ov012/scrcmd_actor_move.c:
+    complete
+    .text       start:0x02164838 end:0x021649ec
