@@ -29,6 +29,8 @@ Same instructions, registers swapped.
   records command.
 - `arr[count++] = x` and `arr[count] = x; count++;` allocate registers differently, as do `count = 1; arr[0] = x;` and
   the reverse order.
+- `a[i + c]` adds `c` to `i` first, while `(a + i)[c]` folds `c * 4` into the base offset. When the original folds a
+  constant index offset outside a loop, the array it indexes probably starts at `a + c` in the source.
 - An array index that is a sum, `a[i * 2 + x]`, is split into `(a + x) + i * 2`. When the original adds first and
   then indexes with the sum, the sum was put in a variable, as `seat` in `wbt_system.c`'s bracket code. Written as
   `seat = i * 2 + (won ? 0 : 1);`, the sum goes to the register of `i * 2`; with the `0` or `1` set by an `if` into a
@@ -229,6 +231,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   Subway's command switch only splits its values as the game does with an empty `case 102:` inside its first jump
   table, and empty cases that sit between others still get a comparison.
 - A switch case that ends in the same code as another case is merged into it, so its end moves.
+- The comparison tree depends only on the set of case values, and evenly spaced cases are grouped from the low end:
+  the PC box search's `func_ov255_021d40e8` cases {0, 3, 9, 15, 21, 24, 27, 30} split at 27, and no order, type or
+  `default:` changes that.
 
 ## Floats and runtime helpers
 
