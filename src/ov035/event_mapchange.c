@@ -18,6 +18,7 @@
 #include "field/intrude_work.h"
 #include "field/iss.h"
 #include "field/player_state.h"
+#include "field/shaymin_form.h"
 #include "field/zone.h"
 #include "field/zone_change.h"
 #include "gfl/arc.h"
