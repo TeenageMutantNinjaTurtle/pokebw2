@@ -357,7 +357,8 @@ struct ZukanDetailFormWork {
     BOOL selectButtonDone;
 };
 
-static BOOL ZukanDetailForm_Init(ZukanDetailProcSys *sys, int *seq, void *param, void *work, ZukanDetailCommon *common);
+static BOOL ZukanDetailForm_Init(ZukanDetailProcSys *sys, int *seq, void *param_, void *work,
+                                 ZukanDetailCommon *common);
 static BOOL ZukanDetailForm_Exit(ZukanDetailProcSys *sys, int *seq, void *param, void *work, ZukanDetailCommon *common);
 static BOOL ZukanDetailForm_Main(ZukanDetailProcSys *sys, int *seq, void *param, void *work, ZukanDetailCommon *common);
 static void ZukanDetailForm_Command(ZukanDetailProcSys *sys, int *seq, void *param, void *work,
@@ -688,7 +689,7 @@ static BOOL ZukanDetailForm_Init(ZukanDetailProcSys *sys, int *seq, void *param_
                                  ZukanDetailCommon *common) {
     ZukanDetailFormParam *param = param_;
     ZukanDetailFormWork *wk = ZukanDetailProcSys_AllocWork(sys, sizeof(ZukanDetailFormWork), param->heapId);
-    u8 i = 0;
+    u8 i;
 
     sys_memset(wk, 0, sizeof(ZukanDetailFormWork));
     wk->unit = ZukanDetailGraphic_GetClActUnit(ZukanDetailCommon_GetGraphic(common));
@@ -2079,30 +2080,34 @@ static void ZukanDetailForm_CheckInput(ZukanDetailFormParam *param, ZukanDetailF
     switch (wk->mode) {
     case FORM_MODE_SINGLE:
         if (wk->inputEnabled) {
-            switch (ZukanDetailForm_GetButtonInput(param, wk, common)) {
-            case BUTTON_TURN:
-                ZukanDetailForm_Turn(param, wk, common);
-                break;
-            case BUTTON_PLAY: {
-                u8 i;
+            FormButton input = ZukanDetailForm_GetButtonInput(param, wk, common);
 
-                ZukanDetailForm_LoadAllSprites(param, wk, common);
-                for (i = 0; i < SPRITE_COUNT; i++) {
-                    ZukanDetailForm_PlaySpriteAnim(&wk->sprites[i]);
+            if (input != BUTTON_NONE) {
+                switch (input) {
+                case BUTTON_TURN:
+                    ZukanDetailForm_Turn(param, wk, common);
+                    break;
+                case BUTTON_PLAY: {
+                    u8 i;
+
+                    ZukanDetailForm_LoadAllSprites(param, wk, common);
+                    for (i = 0; i < SPRITE_COUNT; i++) {
+                        ZukanDetailForm_PlaySpriteAnim(&wk->sprites[i]);
+                    }
+                    break;
                 }
-                break;
-            }
-            case BUTTON_ARROW_L:
-                wk->slideFromRight = TRUE;
-                ZukanDetailForm_StepNext(param, wk, common);
-                ZukanDetailForm_SetMode(param, wk, common, FORM_MODE_SLIDE);
-                break;
-            case BUTTON_ARROW_R:
-                wk->slideFromRight = FALSE;
-                ZukanDetailForm_StepNext(param, wk, common);
-                ZukanDetailForm_SetMode(param, wk, common, FORM_MODE_SLIDE);
-                break;
-            case BUTTON_NONE: {
+                case BUTTON_ARROW_L:
+                    wk->slideFromRight = TRUE;
+                    ZukanDetailForm_StepNext(param, wk, common);
+                    ZukanDetailForm_SetMode(param, wk, common, FORM_MODE_SLIDE);
+                    break;
+                case BUTTON_ARROW_R:
+                    wk->slideFromRight = FALSE;
+                    ZukanDetailForm_StepNext(param, wk, common);
+                    ZukanDetailForm_SetMode(param, wk, common, FORM_MODE_SLIDE);
+                    break;
+                }
+            } else {
                 BOOL open = FALSE;
                 BOOL touch;
 
@@ -2130,28 +2135,28 @@ static void ZukanDetailForm_CheckInput(ZukanDetailFormParam *param, ZukanDetailF
                     func_0203d564(touch);
                     ZukanDetailTouchbar_SetActive(touchbar, FALSE);
                 }
-                break;
-            }
             }
         }
         break;
     case FORM_MODE_COMPARE:
         if (!ZukanDetailTouchbar_IsFormButtonTriggered(touchbar) && wk->inputEnabled && !wk->dragging) {
-            switch (ZukanDetailForm_GetButtonInput(param, wk, common)) {
-            case BUTTON_NONE:
-                break;
-            case BUTTON_TURN:
-                ZukanDetailForm_Turn(param, wk, common);
-                break;
-            case BUTTON_PLAY: {
-                u8 i;
+            FormButton input = ZukanDetailForm_GetButtonInput(param, wk, common);
 
-                ZukanDetailForm_LoadAllSprites(param, wk, common);
-                for (i = 0; i < SPRITE_COUNT; i++) {
-                    ZukanDetailForm_PlaySpriteAnim(&wk->sprites[i]);
+            if (input != BUTTON_NONE) {
+                switch (input) {
+                case BUTTON_TURN:
+                    ZukanDetailForm_Turn(param, wk, common);
+                    break;
+                case BUTTON_PLAY: {
+                    u8 i;
+
+                    ZukanDetailForm_LoadAllSprites(param, wk, common);
+                    for (i = 0; i < SPRITE_COUNT; i++) {
+                        ZukanDetailForm_PlaySpriteAnim(&wk->sprites[i]);
+                    }
+                    break;
                 }
-                break;
-            }
+                }
             }
         }
         break;
@@ -2307,16 +2312,15 @@ static void ZukanDetailForm_SetMode(ZukanDetailFormParam *param, ZukanDetailForm
 static void ZukanDetailForm_CreateActors(ZukanDetailFormParam *param, ZukanDetailFormWork *wk,
                                          ZukanDetailCommon *common) {
     ArcTool *arc = GFL_ArcSysCreateFileHandle(ARCID_ZUKAN_GRA, param->heapId);
-    ClActSurface surface = CLACT_SURFACE_MAIN;
-    u8 i = 0;
+    u8 i;
 
     wk->resources[RES_MAIN_PALETTE] = func_0204bbb8(arc, 3, CLACT_VRAM_MAIN, 0, 0, 3, param->heapId);
     wk->resources[RES_MAIN_CHARS] = func_0204b81c(arc, 13, FALSE, CLACT_VRAM_MAIN, param->heapId);
     wk->resources[RES_MAIN_CELL_ANIMS] = func_0204bde0(arc, 28, 45, param->heapId);
-    wk->resources[RES_COLOR_PALETTE] = func_0204bbb8(arc, 0, CLACT_VRAM_MAIN, 0x60, i, 1, param->heapId);
+    wk->resources[RES_COLOR_PALETTE] = func_0204bbb8(arc, 0, CLACT_VRAM_MAIN, 0x60, 0, 1, param->heapId);
     wk->resources[RES_COLOR_CHARS] = func_0204b81c(arc, 10, FALSE, CLACT_VRAM_MAIN, param->heapId);
     wk->resources[RES_COLOR_CELL_ANIMS] = func_0204bde0(arc, 27, 44, param->heapId);
-    wk->resources[RES_ARROW_PALETTE] = func_0204bbb8(arc, 6, CLACT_VRAM_MAIN, 0x80, i, 2, param->heapId);
+    wk->resources[RES_ARROW_PALETTE] = func_0204bbb8(arc, 6, CLACT_VRAM_MAIN, 0x80, 0, 2, param->heapId);
     wk->resources[RES_ARROW_CHARS] = func_0204b81c(arc, 16, FALSE, CLACT_VRAM_MAIN, param->heapId);
     wk->resources[RES_ARROW_CELL_ANIMS] = func_0204bde0(arc, 30, 47, param->heapId);
     GFL_ArcToolFree(arc);
@@ -2332,7 +2336,7 @@ static void ZukanDetailForm_CreateActors(ZukanDetailFormParam *param, ZukanDetai
         setup.bgPriority = sZukanDetailFormActors[i].bgPriority;
         wk->actors[i] = func_0204c040(
             wk->unit, wk->resources[sZukanDetailFormActors[i].chars], wk->resources[sZukanDetailFormActors[i].palette],
-            wk->resources[sZukanDetailFormActors[i].cellAnims], &setup, surface, param->heapId);
+            wk->resources[sZukanDetailFormActors[i].cellAnims], &setup, CLACT_SURFACE_MAIN, param->heapId);
         func_0204c520(wk->actors[i], TRUE);
         func_0204c124(wk->actors[i], FALSE);
         func_0204c318(wk->actors[i], 1);
