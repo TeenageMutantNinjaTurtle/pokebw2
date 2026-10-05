@@ -72,7 +72,7 @@ Same code, other `sp` offsets or frame size.
   the call's stack argument is stored, while a spilled `u32` is reloaded before it.
 - Structs passed by value go in registers and on the stack. Code that copies a struct to the stack and passes its
   address takes a pointer to a local copy. A struct local keeps its stack slot even when it only passes through, so a
-  frame larger than the locals explain holds one: Guard Spec.'s effect in `btl_server_flow.c` stores
+  frame larger than the locals explain holds one: Guard Spec.'s effect in `btl_server_flow_sub.c` stores
   `SetConditionTurns`'s `BattleCondition` in a local before passing it on, and `BattleHandler_AddSideEffect` keeps its
   copy's address in a register to pass the copy by value after passing its address.
 
@@ -192,7 +192,7 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   source order. A constant kept in a local variable, which is reloaded from the literal pool at each use, keeps its
   place in the source instead, so `col * pixels` with `f32 pixels = 96.0f / 18;` passes `col` first.
 - NitroSDK's `FX32_CONST(x)` names `x` three times, in its test and in both branches, so a call written inside it is
-  made three times. The game passes a local, as the capture rate in `btl_server_flow.c` does.
+  made three times. The game passes a local, as the capture rate in `btl_server_flow_sub.c` does.
 - MWCC doesn't fold float arithmetic on a local variable that holds a constant, so `size / 2.0f` stays a call when
   `size` is a variable, while an expression of literals is folded.
 - `compiler_probe.py` skips relocated words, so a wrong addend, such as a table index that the compiler folds into a
@@ -216,6 +216,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   and moving one object can reorder others. `tools/scripts/rodata_order.py` predicts the layout for a declaration order
   and tries the orders of the objects given with `--permute`; `intro_graphic.c` matches only with its light setups
   declared after the function whose BG setups are local initializers.
+- The linker starts each `.rodata` section on a 4-byte boundary, whatever the section's own alignment, so a 6-byte
+  `u16` table followed by a `u8` initializer leaves 2 bytes of padding between them, as at the start of
+  `btl_server_flow.c`'s `.rodata`. `scrcmd_ochiba.c`'s 150-byte and 342-byte tables, both 2-aligned, end where only
+  this layout puts them.
 - `static const` data goes in `.rodata`, so a table that the original has in `.data` is not `const`. The module
   check fails if a table ends up in the wrong section, even when every function matches.
 - A `static const` variable whose address is never taken is folded into the code and not emitted. If the original has
