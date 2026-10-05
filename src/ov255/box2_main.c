@@ -1277,8 +1277,8 @@ static BOOL Box2Main_VFuncPokeMoveParty(Box2SysWork *syswk) {
         data = &work->data[i];
         if (data->flag != 0) {
             id = syswk->app->pokeIconId[data->iconPos];
+            y = data->dy + data->vy * ((data->my * work->cnt) >> 16);
             x = data->dx + data->vx * ((data->mx * work->cnt) >> 16);
-            y = data->dy + ((data->my * work->cnt) >> 16) * data->vy;
             func_ov255_021cf6c8(syswk->app, id, x, y, 0);
             func_ov255_021cff58(syswk->app, data->iconPos, 0);
             break;
