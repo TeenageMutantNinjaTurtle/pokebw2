@@ -33,6 +33,11 @@ Same instructions, registers swapped.
   then indexes with the sum, the sum was put in a variable, as `seat` in `wbt_system.c`'s bracket code. Written as
   `seat = i * 2 + (won ? 0 : 1);`, the sum goes to the register of `i * 2`; with the `0` or `1` set by an `if` into a
   variable, it goes to that variable's register.
+- A field read where nothing between its uses can change it, as in a stretch without calls or stores, is loaded once
+  into a value MWCC allocates after the declared locals. A local copy is allocated with the locals instead and moves
+  every spill slot: the PC box's `Box2Main_RangePutCheck` reads `syswk->pos` directly in its party branch.
+- A spilled copy of a narrow value takes its slot by its type: `Box2Main_VFuncItemArrangeGetTouch` keeps a `u16` drop
+  position in a `u16` local, which a `u32` local moved to the lowest slot.
 - The operands of `*` are loaded in source order, so a multiply whose registers are swapped has its operands swapped
   in the source.
 - A product assigned to a variable of its own goes to a new register, with its operand copied there first

@@ -112,8 +112,13 @@ static u32 BoxMovePutAreaCheck(Box2SysWork *syswk, s16 x, s16 y);
 static void PokeIconRangeTouchMove(Box2SysWork *syswk, u32 x, u32 y);
 static void PokeDataRangeMoveBox(Box2SysWork *syswk, u32 getPos, u32 putPos);
 
-// Where the tray's Pokémon are on the lower screen
-static const Box2Area sTrayPokeArea = { 8, 159, 40, 159 };
+// MWCC sorts static data by size, unstably, so these are declared in the order that lays them out as the ROM has
+// them
+static const BGSysVRAMConfig sVramBanks = {
+    GX_VRAM_BG_128_A,  GX_VRAM_BGEXTPLTT_NONE,  GX_VRAM_SUB_BG_128_C,        GX_VRAM_SUB_BGEXTPLTT_NONE,
+    GX_VRAM_OBJ_128_B, GX_VRAM_OBJEXTPLTT_NONE, GX_VRAM_SUB_OBJ_128_D,       GX_VRAM_SUB_OBJEXTPLTT_NONE,
+    GX_VRAM_TEX_NONE,  GX_VRAM_TEXPLTT_NONE,    GX_OBJVRAMMODE_CHAR_1D_128K, GX_OBJVRAMMODE_CHAR_1D_128K,
+};
 
 // Where the party's Pokémon are, with the party's frame on the right and on the left
 static const Box2Area sPartyPokeAreaLeft[6] = {
@@ -125,11 +130,8 @@ static const Box2Area sPartyPokeAreaRight[6] = {
     { 62, 93, 98, 121 }, { 26, 57, 122, 145 }, { 62, 93, 130, 153 },
 };
 
-static const BGSysVRAMConfig sVramBanks = {
-    GX_VRAM_BG_128_A,  GX_VRAM_BGEXTPLTT_NONE,  GX_VRAM_SUB_BG_128_C,        GX_VRAM_SUB_BGEXTPLTT_NONE,
-    GX_VRAM_OBJ_128_B, GX_VRAM_OBJEXTPLTT_NONE, GX_VRAM_SUB_OBJ_128_D,       GX_VRAM_SUB_OBJEXTPLTT_NONE,
-    GX_VRAM_TEX_NONE,  GX_VRAM_TEXPLTT_NONE,    GX_OBJVRAMMODE_CHAR_1D_128K, GX_OBJVRAMMODE_CHAR_1D_128K,
-};
+// Where the tray's Pokémon are on the lower screen
+static const Box2Area sTrayPokeArea = { 8, 159, 40, 159 };
 
 void Box2Main_InitVBlank(Box2SysWork *syswk) {
     syswk->app->vtask = GFL_VBlankTCBAdd(Box2Main_VBlank, syswk, 0);
@@ -1255,7 +1257,7 @@ static BOOL Box2Main_VFuncPokeMoveParty(Box2SysWork *syswk) {
     Box2PokeMoveData *data;
     u32 i;
     s16 x, y;
-    u8 id;
+    u32 id;
 
     if (work->cnt == 8) {
         for (i = 0; i < 12; i++) {
@@ -1277,8 +1279,8 @@ static BOOL Box2Main_VFuncPokeMoveParty(Box2SysWork *syswk) {
         data = &work->data[i];
         if (data->flag != 0) {
             id = syswk->app->pokeIconId[data->iconPos];
-            y = data->dy + data->vy * ((data->my * work->cnt) >> 16);
-            x = data->dx + data->vx * ((data->mx * work->cnt) >> 16);
+            x = data->dx + data->vx * ((work->cnt * data->mx) >> 16);
+            y = data->dy + data->vy * ((work->cnt * data->my) >> 16);
             func_ov255_021cf6c8(syswk->app, id, x, y, 0);
             func_ov255_021cff58(syswk->app, data->iconPos, 0);
             break;
@@ -3912,7 +3914,7 @@ BOOL Box2Main_VFuncItemArrangeGetTouch(Box2SysWork *syswk) {
     BOOL frameMove2 = func_ov255_021d399c(syswk->app->bgWinFrame);
     BOOL frameMove = func_ov255_021d37d8(syswk);
     u32 x, y;
-    u32 setPos;
+    u16 setPos;
     BOOL party;
     u16 pos;
     BOOL cancel;
@@ -4953,7 +4955,7 @@ u32 Box2Main_GetRangeCount(Box2AppWork *app) {
 BOOL Box2Main_RangePutCheck(Box2SysWork *syswk, u32 tray, int pos) {
     int x, y;
     u32 posWidth;
-    u32 count;
+    int count;
     u16 i;
 
     if (syswk->getTray == tray && syswk->pos == pos) {
@@ -4994,13 +4996,11 @@ BOOL Box2Main_RangePutCheck(Box2SysWork *syswk, u32 tray, int pos) {
             }
         }
     } else {
-        u32 n;
-        u32 cur;
+        int n;
 
         count = PokeParty_GetPkmCount(syswk->param->party);
         n = Box2Main_GetRangeCount(syswk->app);
-        cur = syswk->pos;
-        if (cur < BOX2_PARTY_POS && (int)n > 6 - (int)count) {
+        if (syswk->pos < BOX2_PARTY_POS && n > 6 - count) {
             return FALSE;
         }
         for (y = 0; y < syswk->app->rangeHeight; y++) {
@@ -5014,14 +5014,14 @@ BOOL Box2Main_RangePutCheck(Box2SysWork *syswk, u32 tray, int pos) {
                         u16 base;
                         u32 j;
 
-                        if (cur < BOX2_PARTY_POS) {
+                        if (syswk->pos < BOX2_PARTY_POS) {
                             return FALSE;
                         }
                         slot16 = x + (pos - BOX2_PARTY_POS + y * 2);
-                        base = cur - BOX2_PARTY_POS;
+                        base = syswk->pos - BOX2_PARTY_POS;
                         for (j = 0; j < syswk->app->rangeHeight; j++) {
                             u32 start = base + j * 2;
-                            if (slot16 >= start && slot16 < start + syswk->app->rangeWidth) {
+                            if (slot16 >= start && slot16 < syswk->app->rangeWidth + start) {
                                 break;
                             }
                         }
