@@ -6865,8 +6865,12 @@ from:0x0216aca4 kind:thumb_call to:0x0200fb40 module:main
 from:0x0216acaa kind:thumb_call to:0x0200f98c module:main
 from:0x0216acc8 kind:thumb_call to:0x0203cdc8 module:main
 from:0x0216acce kind:thumb_call to:0x0203ce0c module:main
+from:0x0216acd8 kind:overlay_id to:59
+from:0x0216acdc kind:overlay_id to:60
 from:0x0216ace4 kind:thumb_call to:0x0203cdc8 module:main
 from:0x0216acea kind:thumb_call to:0x0203ce0c module:main
+from:0x0216acf4 kind:overlay_id to:60
+from:0x0216acf8 kind:overlay_id to:59
 from:0x0216ad00 kind:thumb_call to:0x021548e8 module:overlay(12)
 from:0x0216ad08 kind:thumb_call to:0x02155174 module:overlay(12)
 from:0x0216ad0c kind:thumb_call to:0x02011040 module:main

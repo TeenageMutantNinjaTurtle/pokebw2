@@ -90,7 +90,7 @@ prints the tables below from the configs and the ROM:
 
 ### Overlay 12
 
-1312 of 1668 functions are in source files. Embedded names without a file yet: `event_battle.c`, `fldmmdl.c`, `pair_sys.c`, `trcard_sys.c`.
+1324 of 1668 functions are in source files. Embedded names without a file yet: `event_battle.c`, `fldmmdl.c`, `pair_sys.c`, `trcard_sys.c`.
 
 | File | `.text` (Black 2) | Functions | Status | Name |
 | --- | --- | --- | --- | --- |
@@ -175,6 +175,10 @@ prints the tables below from the configs and the ROM:
 | `g3d_text_draw.c` | `0x02169e18`–`0x0216a190` | 7 | partial | descriptive |
 | `scrcmd_hollow_rival.c` | `0x0216a6a4`–`0x0216a82c` | 7 | complete | descriptive |
 | `scrcmd_keysystem.c` | `0x0216a82c`–`0x0216a950` | 5 | complete | string at `0x0216e618` |
+| `scrcmd_pedometer.c` | `0x0216abc0`–`0x0216ac28` | 3 | complete | descriptive |
+| `hidden_hollow.c` | `0x0216ac28`–`0x0216acc4` | 2 | complete | descriptive |
+| `scrcmd_join_avenue_store.c` | `0x0216acc4`–`0x0216ad3c` | 4 | complete | descriptive |
+| `event_field_open_lcd.c` | `0x0216ad3c`–`0x0216adcc` | 3 | complete | descriptive |
 
 ### Overlay 13
 

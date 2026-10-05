@@ -15,6 +15,11 @@ u32 SaveControl_GetStatus(SaveControl *save);
 void func_020074b8(SaveControl *save, u32 *a1, u32 *a2);
 // Save block 0x21, and its flag at 0x602: get and set
 void *getTimeSigBlkAddress(SaveControl *save);
+// The block's first 0x600 bytes, which the trainer card copies
+void *func_020091a8(void *timeSig);
+BOOL func_020091ac(void *timeSig);
+u16 func_020091e8(void *timeSig);
+BOOL func_02009204(void *timeSig);
 u8 func_020091d0(void *timeSig);
 void func_020091dc(void *timeSig);
 u32 func_02007464(SaveControl *save);
@@ -236,6 +241,8 @@ PlayerSave *SaveControl_GetPlayerSave(SaveControl *save);
 u16 PlayerSave_GetAbyssalRuinsStepCounter(PlayerSave *playerSave);
 void PlayerSave_SetAbyssalRuinsStepCounter(PlayerSave *playerSave, u16 count);
 void PlayerSave_EndStepCounter(PlayerSave *playerSave);
+void PlayerSave_BeginStepCounter(PlayerSave *playerSave);
+u16 PlayerSave_GetStepCounter(PlayerSave *playerSave);
 ZoneSpawnInfo *PlayerSave_GetNextSpawnZone(PlayerSave *playerSave);
 EventWork *getConstDataBlock(SaveControl *save);
 PokeDexSave *getPokedexSaveAddress(SaveControl *save);
@@ -245,12 +252,15 @@ u16 func_02008cec(PlayTime *time);
 u8 func_02008cf0(PlayTime *time);
 // A byte of this block, at 7, tells the start menu whether to ask about the C-Gear
 void *func_02009918(SaveControl *save);
+// The same block, from the game data
+void *func_02009924(GameData *gameData);
 u8 func_020098c0(void *a0);
 PokeParty *SaveControl_GetPokePartySave(SaveControl *save);
 WorldTradeData *SaveControl_GetWorldTradeData(SaveControl *save);
 DreamWorldSave *getDreamWorldStuffAddress(SaveControl *save);
 HighLinkSave *getHighLinkBlockAddress(SaveControl *save);
 void *func_02010dec(SaveControl *save);
+u16 func_02010e50(void *a0);
 KeyInfoSave *getKeyInfoSaveBlk(SaveControl *save);
 // Whether a key system key is unlocked
 BOOL func_020104c4(KeyInfoSave *keyInfo, u32 key);

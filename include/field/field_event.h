@@ -54,6 +54,8 @@ GameEvent *EventFieldCloseKeepSound_Create(GameSystem *gsys, Field *field);
 GameEvent *EventFieldOpen_Create(GameSystem *gsys);
 GameEvent *EventFieldOpen_CreateHeadless(GameSystem *gsys);
 GameEvent *EventFieldOpenRestoreLCD_Create(GameSystem *gsys);
+// Restores the field's screens and the BGs that were on
+void FieldG3D_RestoreSurface(Field *field);
 // Runs the proc as a field subprocess, then calls callback with work if there is a callback, and frees work
 GameEvent *EventFieldSubprocessCall_CreateWithCallback(GameSystem *gsys, Field *field, s32 overlayId,
                                                        const GameProcFunctions *functions, void *param,

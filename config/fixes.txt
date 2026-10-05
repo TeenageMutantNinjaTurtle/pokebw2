@@ -143,6 +143,10 @@ overlays/ov012 0x02169c38 reloc_module overlay(133)
 overlays/ov012 0x02169c52 reloc_module overlay(133)
 overlays/ov012 0x0216a948 overlay_id 332
 overlays/ov012 0x0216a94c reloc_module overlay(332)
+overlays/ov012 0x0216acd8 overlay_id 59
+overlays/ov012 0x0216acdc overlay_id 60
+overlays/ov012 0x0216acf4 overlay_id 60
+overlays/ov012 0x0216acf8 overlay_id 59
 overlays/ov012 0x0216c1fc reloc_module overlay(53)
 overlays/ov012 0x0216c210 reloc_module overlay(54)
 overlays/ov012 0x0216c224 reloc_module overlay(55)
