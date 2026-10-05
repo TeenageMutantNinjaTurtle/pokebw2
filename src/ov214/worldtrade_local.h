@@ -96,6 +96,10 @@ typedef struct {
 // How many Pokémon a search returns
 #define SEARCH_POKE_MAX 7
 
+// Which table of levels a wanted level is from
+#define LEVEL_PRINT_TBL_DEPOSIT 0
+#define LEVEL_PRINT_TBL_SEARCH 1
+
 typedef struct {
     int boxNo;
     int pos;
@@ -232,7 +236,9 @@ struct WorldTradeWork {
     // "Quit"
     StrBuf *endString;
     StrBuf *talkString;
-    u8 unkB8C[0x34];
+    StrBuf *titleString;
+    StrBuf *infoString[10];
+    u8 unkBB8[0x8];
     ClActUnit *clactUnit;
     u32 clactRes[WT_CLACT_RES_SETS][WT_CLACT_RES_KINDS];
     ClActor *cursorAct;
@@ -242,7 +248,9 @@ struct WorldTradeWork {
     ClActor *pokeIconAct[BOX_POKE_NUM];
     ClActor *itemIconAct[BOX_POKE_NUM];
     ClActor *cballAct[6];
-    u8 unkD08[0x24];
+    // The Pokémon's picture on the main screen
+    ClActor *pokemonAct;
+    ClActor *subAct[8];
     // The arrows by the box name
     ClActor *boxArrowAct[2];
     ClActor *unkD34;
@@ -427,6 +435,14 @@ u32 WorldTrade_Input_Main(WorldTradeInputWork *wk);
 int WorldTrade_MyPoke_Init(WorldTradeWork *wk, int seq);
 int WorldTrade_MyPoke_Main(WorldTradeWork *wk, int seq);
 int WorldTrade_MyPoke_End(WorldTradeWork *wk, int seq);
+// Prints a Pokémon's nickname, gender, species, level and item into seven windows
+void WorldTrade_MyPokeInfoPrint(MsgData *msgManager, MsgData *monsNameManager, WordSet *wordSet, BmpWin **win,
+                                BoxPkm *pkm, Dpw_Tr_PokemonDataSimple *post, WorldTradePrint *print);
+// Prints the Pokémon's owner and its original trainer
+void WorldTrade_PokeInfoPrint2(MsgData *msgManager, BmpWin **win, u16 *name, PartyPkm *pkm, BmpWin **oyaWin,
+                               WorldTradePrint *print);
+// Uploads the Pokémon's front sprite to the main screen's OBJ characters
+void WorldTrade_TransPokeGraphic(PartyPkm *pkm);
 
 // worldtrade_partner.c
 int WorldTrade_Partner_Init(WorldTradeWork *wk, int seq);

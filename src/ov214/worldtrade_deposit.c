@@ -36,10 +36,6 @@
 #define DEPOSIT_MODE_TO_BOX 5
 #define DEPOSIT_MODE_UPLOAD 7
 
-// Which level table to use
-#define LEVEL_PRINT_TBL_DEPOSIT 0
-#define LEVEL_PRINT_TBL_SEARCH 1
-
 // A search's gender that takes either
 #define SEARCH_GENDER_ANY 3
 

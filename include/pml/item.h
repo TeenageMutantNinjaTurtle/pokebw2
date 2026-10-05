@@ -20,5 +20,7 @@ u32 PML_ItemGetMailID(u16 item);
 u32 PML_ItemGetMonsBallID(u16 item);
 // An item's file in ARCID_ITEMGRA: 1 for its icon's characters and 2 for its palette
 u16 GetItemGraphicsDatID(u16 item, u32 type);
+// Copies an item's name, or that of item 0 for an item past the last
+void setItemNameToStrbuf(StrBuf *dest, u16 item, HeapID heapId);
 
 #endif // POKEBW2_PML_ITEM_H
