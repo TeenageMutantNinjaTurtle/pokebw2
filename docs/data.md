@@ -11,6 +11,8 @@ archive has a script that wrote its sources from the original, which documents t
 
 | Archive | Sources | Contents | Script |
 | --- | --- | --- | --- |
+| `a/0/0/2` | `data/text/system/` | System messages | `tools/scripts/text_data.py` |
+| `a/0/0/3` | `data/text/script/` | Script messages | `tools/scripts/text_data.py` |
 | `a/0/1/6` | `data/personal/` | Species data | `tools/scripts/personal_data.py` |
 | `a/0/1/8` | `data/levelup_moves/` | Moves learned by leveling up | `tools/scripts/species_tables.py` |
 | `a/0/1/9` | `data/evolutions/` | Evolutions | `tools/scripts/species_tables.py` |
@@ -18,6 +20,32 @@ archive has a script that wrote its sources from the original, which documents t
 | `a/0/5/6` | `data/field_scripts/` | Field scripts, see [Scripts](scripts.md#field-scripts) | `tools/scripts/field_script.py` |
 | `a/0/9/1`, `a/0/9/2` | `data/trainers/` | Trainers and their parties | `tools/scripts/trainer_data.py` |
 | `a/1/6/9` | `data/tr_ai/` | Trainer AI scripts, see [Scripts](scripts.md) | `tools/scripts/tr_ai_script.py` |
+
+The text archives are packed by `text_data.py` from text files rather than assembled; `configure.py` lists them in
+`TEXT_ARCHIVES`.
+
+## Text
+
+`a/0/0/2` (system messages) and `a/0/0/3` (script messages) hold the game's text, one message file per entry. Their
+sources are `data/text/system/NNNN.txt` and `data/text/script/NNNN.txt`, UTF-8, with one message per line, so the
+line number (from 0) is the message's ID:
+
+```
+Listen up!\nThere's nothing wrong with making money!{be01}\nBut there are wrong ways to do it...
+How serious are you willing to get\nin order to get what you want?
+```
+
+- `\n` is a line break within a message, and `\\`, `\{` and `\}` are a backslash and braces.
+- `{TTTT}` or `{TTTT:a,b}` is a control code, its type in hex and its arguments: a placeholder for a name or number,
+  a color, or `{be01}`, which waits for a button and scrolls.
+- `\x{HHHH}` is a character that can't be shown as itself. Some messages end with `\x{ffff}`, an extra terminator that
+  the original files have.
+- A message that starts with `\c` is stored compressed, as the game stores trainers' names, among others.
+- A last line `\pad{XX}` is not a message but the byte that fills the end of the file to a multiple of 4 bytes, which
+  the original files have as leftovers rather than 0.
+
+The game encrypts each message with a key that depends on its ID, which `text_data.py` applies when packing. The
+files aren't named yet; `msgdata.py ARCHIVE FILE` prints one with its message IDs. Both versions have the same text.
 
 ## Species data
 

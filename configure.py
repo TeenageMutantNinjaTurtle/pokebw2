@@ -114,6 +114,13 @@ ARCHIVES = {
     "a/1/6/9": "data/tr_ai",  # Trainer AI scripts, see tools/scripts/tr_ai_script.py
 }
 
+# Text archives built from source, by tools/scripts/text_data.py: each maps its path under files/ to the directory of its
+# message files, one text file each, in archive order
+TEXT_ARCHIVES = {
+    "a/0/0/2": "data/text/system",  # System messages
+    "a/0/0/3": "data/text/script",  # Script messages
+}
+
 LD_FLAGS = [
     "-proc arm946e",
     "-nodead",             # Dead-stripping is on by default and would drop unreferenced delinked objects
@@ -292,7 +299,7 @@ def add_version(n: Writer, version: str, dsd: Path, bugfix: bool, shift: int) ->
     files_dir = build_dir / "files"
     files_ok = stamp_dir / "files.ok"
     n.build([files_ok], "files_tree", [], implicit=[extract_dir / "config.yaml", "tools/scripts/files_tree.py"],
-            variables={"source": str(extract_dir / "files"), "output": str(files_dir), "built": " ".join(ARCHIVES)})
+            variables={"source": str(extract_dir / "files"), "output": str(files_dir), "built": " ".join([*ARCHIVES, *TEXT_ARCHIVES])})
     archives = []
     checks = []
     assembled = set()
@@ -310,6 +317,19 @@ def add_version(n: Writer, version: str, dsd: Path, bugfix: bool, shift: int) ->
             members.append(member)
         archive = files_dir / path
         n.build([archive], "narc", members, implicit=["tools/scripts/narc.py"], order_only=[files_ok])
+        archive_ok = stamp_dir / "files" / f"{path.replace('/', '_')}.ok"
+        n.build([archive_ok], "check_file", [archive], implicit=[extract_dir / "config.yaml"],
+                variables={"original": str(extract_dir / "files" / path)})
+        archives.append(archive)
+        checks.append(archive)
+        if matching:
+            checks.append(archive_ok)
+
+    for path, source_dir in TEXT_ARCHIVES.items():
+        archive = files_dir / path
+        n.build([archive], "text_pack", sorted(Path(source_dir).glob("*.txt")),
+                implicit=["tools/scripts/text_data.py", "tools/scripts/msgdata.py", "tools/scripts/narc.py"],
+                order_only=[files_ok], variables={"dir": source_dir})
         archive_ok = stamp_dir / "files" / f"{path.replace('/', '_')}.ok"
         n.build([archive_ok], "check_file", [archive], implicit=[extract_dir / "config.yaml"],
                 variables={"original": str(extract_dir / "files" / path)})
@@ -411,6 +431,7 @@ def main():
            "-MD -MF $dep -o $out $in", "Assembling $in", depfile="$dep", deps="gcc")
     n.rule("objcopy_bin", f"{shlex.quote(llvm_objcopy)} -O binary $sections $in $out", "Converting $in")
     n.rule("narc", "$python tools/scripts/narc.py pack $out $in", "Packing $out")
+    n.rule("text_pack", "$python tools/scripts/text_data.py pack $dir $out", "Packing $out")
     n.rule("check_file", "cmp $in $original && mkdir -p $$(dirname $out) && touch $out", "Checking $in")
     n.rule("files_tree", "$python tools/scripts/files_tree.py $source $output $built --stamp $out",
            "Linking the files of $output")

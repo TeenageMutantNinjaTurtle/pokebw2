@@ -78,8 +78,9 @@ show this, since nothing moves. Two tools check it:
   before Game Freak's library, which moves the rest of main and every overlay, and at the start of each overlay's
   code. The ROMs then don't match, and are tested by playing them. Run `configure.py` without it to go back.
 
-The literal pools were checked this way, which found and fixed six missing relocations; the data sections still
-have a few dozen candidates to judge.
+The words that point at a symbol have all been judged: six in literal pools were real pointers and got relocations,
+and the others, in literal pools and data alike, are constants or byte and halfword tables that happen to look like
+addresses, such as `0x02020100`. The words that point at no symbol (`--all`) are mostly such tables too.
 
 ## Known gaps
 

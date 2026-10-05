@@ -1,0 +1,22 @@
+{bd02}When eyes meet,\n{bd02}a battle begins.\n\n{bd02}This is the rule of Trainers.
+{bd02}When eyes meet,\n{bd02}love begins.\n\n{bd02}This is the rule of love.
+{bd02}This is the love story of how certain\n{bd02}Trainers were brought together\n{bd02}by their Pokémon.
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+{bd02}When eyes meet,\n{bd02}a battle begins.\n\n{bd02}This is the rule of Trainers.
+{bd02}When eyes meet,\n{bd02}love begins.\n\n{bd02}This is the rule of love.
+{bd02}This is the love story of how certain\n{bd02}Trainers were brought together\n{bd02}by their Pokémon.
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+\pad{a8}

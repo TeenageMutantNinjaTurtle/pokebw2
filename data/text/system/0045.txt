@@ -1,0 +1,48 @@
+{bd02}TRADE WITH ANYONE
+{bd02}TRADE RENDEZVOUS
+TRADE WANTED
+LEVEL
+Lv. 1 through 49
+Lv. 50
+Lv. 51 through 100
+Any kind
+COOL
+CUTE
+SCARY
+STRANGE
+ANY KIND
+TRADE SEARCH
+Searching for the right person\nto trade with...
+CANCEL
+Getting information from the other person...
+A trade partner has been found!
+SEARCH
+Please select who you wish\nto trade with.
+Please press “SEARCH" when you've\nchosen the desired trade conditions.
+       \x{ffff}
+                        \x{ffff}
+WANT
+HAVE
+YES
+NO
+YES
+{0100:0} {bd03:1}ID: {0204:1}\n{0124:2}
+You have no one to Rendezvous with...
+SELECT FOR RENDEZVOUS
+Will you Rendezvous with this person?
+Please select how your trade\npartner is chosen.
+CANCEL
+{0124:0}\n{0125:1}
+GREETINGS
+{bd03:1}{0204:0}
+{bd02}{0100:0}
+              \x{ffff}
+The trade will be started.
+{bd03:1}NO. OF TRADES
+LOCATION
+Is it OK to disconnect from\nNintendo Wi-Fi Connection?
+You need at least two Pokémon\nif you want to trade!
+RENDEZVOUS WITH ANY
+Will you trade with someone\nyou have traded with before?
+       \x{ffff}
+        \x{ffff}

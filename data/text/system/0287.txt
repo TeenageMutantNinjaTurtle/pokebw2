@@ -1,0 +1,21 @@
+{bd02}The amusement park...\n\n{bd02}This was a special place...\n\n{bd02}For the two of us...
+{bd02}It was where we had our first date...\n\n{bd02}The first time we were alone together...
+{bd02}I professed my love on the Ferris wheel.
+{bd02}Even now, when we're apart...\n\n{bd02}I find myself in the amusement park.
+{bd02}Then...we saw each other there.
+{bd02}For some reason...\n\n{bd02}She challenged me to battle!
+なし
+なし
+なし
+なし
+{bd02}The amusement park...\n\n{bd02}This was a special place...\n\n{bd02}For the two of us...
+{bd02}It was where we had our first date...\n\n{bd02}The first time we were alone together...
+{bd02}I professed my love on the Ferris wheel.
+{bd02}Even now, when we're apart...\n\n{bd02}I find myself in the amusement park.
+{bd02}Then...we saw each other there.
+{bd02}For some reason...\n\n{bd02}He challenged me to battle!
+なし
+なし
+なし
+なし
+なし

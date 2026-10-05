@@ -1,0 +1,197 @@
+{0102:0}
+⑭
+⑮
+Lv. {0202:0}
+Item
+{0109:0}
+None
+     \x{ffff}
+Dex No.
+{0202:0}
+Name
+{0101:0}
+Type
+OT
+{0100:0}
+ID No.
+{0204:0}
+Exp. Points
+{0206:0}
+To Next Lv.
+
+{0205:0}
+???
+       \x{ffff}
+                    \x{ffff}
+                    \x{ffff}
+                   \x{ffff}
+                    \x{ffff}
+                   \x{ffff}
+                  \x{ffff}
+                  \x{ffff}
+                  \x{ffff}
+                   \x{ffff}
+                    \x{ffff}
+                    \x{ffff}
+                   \x{ffff}
+                  \x{ffff}
+                  \x{ffff}
+                   \x{ffff}
+                   \x{ffff}
+                    \x{ffff}
+                   \x{ffff}
+                  \x{ffff}
+                    \x{ffff}
+                   \x{ffff}
+                   \x{ffff}
+                   \x{ffff}
+                    \x{ffff}
+                   \x{ffff}
+                                                    \x{ffff}
+                                                        \x{ffff}
+                                                     \x{ffff}
+                                                                                           \x{ffff}
+                                                                                             \x{ffff}
+                                                                                           \x{ffff}
+                                                                                             \x{ffff}
+                                                              \x{ffff}
+                                                                  \x{ffff}
+                                                                                                     \x{ffff}
+                                                                                                         \x{ffff}
+                                                                                                      \x{ffff}
+                                                                                                         \x{ffff}
+                                                                                                     \x{ffff}
+                                                                                                         \x{ffff}
+                                                     \x{ffff}
+                  \x{ffff}
+                  \x{ffff}
+                  \x{ffff}
+                  \x{ffff}
+                   \x{ffff}
+           \x{ffff}
+           \x{ffff}
+          \x{ffff}
+          \x{ffff}
+            \x{ffff}
+            \x{ffff}
+         \x{ffff}
+           \x{ffff}
+            \x{ffff}
+             \x{ffff}
+         \x{ffff}
+          \x{ffff}
+        \x{ffff}
+        \x{ffff}
+         \x{ffff}
+        \x{ffff}
+         \x{ffff}
+           \x{ffff}
+         \x{ffff}
+            \x{ffff}
+          \x{ffff}
+           \x{ffff}
+         \x{ffff}
+        \x{ffff}
+            \x{ffff}
+           \x{ffff}
+       \x{ffff}
+            \x{ffff}
+          \x{ffff}
+       \x{ffff}
+            \x{ffff}
+                                                         \x{ffff}
+                                                         \x{ffff}
+                                                                   \x{ffff}
+                                                                    \x{ffff}
+                                       \x{ffff}
+                                            \x{ffff}
+                                                \x{ffff}
+                                        \x{ffff}
+     \x{ffff}
+HP
+Attack
+Defense
+Sp. Atk
+Sp. Def
+Speed
+Ability
+/
+{0202:0}
+{0202:0}
+{0202:0}
+{0202:0}
+{0202:0}
+{0202:0}
+{0202:0}
+{0106:0}
+       \x{ffff}
+    \x{ffff}
+      \x{ffff}
+    \x{ffff}
+    \x{ffff}
+    \x{ffff}
+    \x{ffff}
+    \x{ffff}
+    \x{ffff}
+PP
+{0201:0}
+    \x{ffff}
+    \x{ffff}
+    \x{ffff}
+    \x{ffff}
+{0201:0}
+    \x{ffff}
+    \x{ffff}
+    \x{ffff}
+    \x{ffff}
+      \x{ffff}
+POWER
+ACCURACY
+CATEGORY
+{0202:0}
+{0202:0}
+    \x{ffff}
+--
+--
+    \x{ffff}
+HM moves can't be\nforgotten now.
+       \x{ffff}
+    \x{ffff}
+    \x{ffff}
+        \x{ffff}
+    \x{ffff}
+     \x{ffff}
+    \x{ffff}
+    \x{ffff}
+       \x{ffff}
+               \x{ffff}
+               \x{ffff}
+               \x{ffff}
+               \x{ffff}
+                \x{ffff}
+       \x{ffff}
+                 \x{ffff}
+                 \x{ffff}
+                 \x{ffff}
+                \x{ffff}
+                \x{ffff}
+            \x{ffff}
+                 \x{ffff}
+      \x{ffff}
+    \x{ffff}
+    \x{ffff}
+       \x{ffff}
+     \x{ffff}
+    \x{ffff}
+    \x{ffff}
+    \x{ffff}
+    \x{ffff}
+    \x{ffff}
+     \x{ffff}
+    \x{ffff}
+    \x{ffff}
+       \x{ffff}
+FORGET
+       \x{ffff}
+           \x{ffff}
+\pad{98}
