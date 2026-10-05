@@ -90,7 +90,7 @@ prints the tables below from the configs and the ROM:
 
 ### Overlay 12
 
-1208 of 1668 functions are in source files. Embedded names without a file yet: `event_battle.c`, `fldmmdl.c`, `namein_setup.c`, `pair_sys.c`, `scrcmd_keysystem.c`, `trcard_sys.c`, `waza_oshie.c`.
+1209 of 1668 functions are in source files. Embedded names without a file yet: `event_battle.c`, `fldmmdl.c`, `namein_setup.c`, `pair_sys.c`, `scrcmd_keysystem.c`, `trcard_sys.c`, `waza_oshie.c`.
 
 | File | `.text` (Black 2) | Functions | Status | Name |
 | --- | --- | --- | --- | --- |
@@ -161,6 +161,7 @@ prints the tables below from the configs and the ROM:
 | `shaymin_form.c` | `0x02164330`–`0x02164490` | 4 | complete | descriptive |
 | `scrcmd_trial_house.c` | `0x02164490`–`0x02164838` | 16 | complete | descriptive |
 | `scrcmd_actor_move.c` | `0x02164838`–`0x021649ec` | 4 | complete | descriptive |
+| `season_form.c` | `0x021649ec`–`0x02164ae0` | 1 | partial | descriptive |
 
 ### Overlay 13
 
