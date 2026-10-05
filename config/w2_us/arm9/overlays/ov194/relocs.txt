@@ -3743,13 +3743,3 @@ from:0x021c69c0 kind:load to:0x021c6898 module:overlay(194)
 from:0x021c69c8 kind:load to:0x021c67fc module:overlay(194)
 from:0x021c69d0 kind:load to:0x021c68bc module:overlay(194)
 from:0x021c69d8 kind:load to:0x021c67fc module:overlay(194)
-from:0x021c6cd8 kind:load to:0x021e0001 module:overlay(36)
-from:0x021c6db8 kind:load to:0x021e0003 module:overlay(36)
-from:0x021c7104 kind:load to:0x020d0d0d module:main
-from:0x021c713c kind:load to:0x02120c06 module:main
-from:0x021c717c kind:load to:0x020c0102 module:main
-from:0x021c7180 kind:load to:0x02131310 module:main
-from:0x021c7224 kind:load to:0x020d1616 module:main
-from:0x021c7240 kind:load to:0x020c0500 module:main
-from:0x021c7280 kind:load to:0x020c1601 module:main
-from:0x021c72a8 kind:load to:0x02130203 module:main

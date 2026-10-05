@@ -132,6 +132,36 @@ typedef struct {
     HeapID heapId;
 } PokemonTrade3DWork;
 
+// The OBJ resources of the work's objRes: the palettes, the characters, then the cells with their animations, of the
+// Pokémon icons, the lower screen's sprites (the touch bar's and the icons' cursors), the upper screen's, the common
+// UI's, the trade demo's and the negotiation's icons
+enum {
+    TRADE_OBJRES_PLTT_ICON,
+    TRADE_OBJRES_PLTT_SUB,
+    TRADE_OBJRES_PLTT_MAIN,
+    TRADE_OBJRES_PLTT_COMMON,
+    TRADE_OBJRES_PLTT_DEMO,
+    TRADE_OBJRES_PLTT_NEGO,
+    TRADE_OBJRES_CHAR_SUB,
+    TRADE_OBJRES_CHAR_MAIN,
+    TRADE_OBJRES_CHAR_ICON0,
+    TRADE_OBJRES_CHAR_ICON1,
+    TRADE_OBJRES_CHAR_COMMON,
+    TRADE_OBJRES_CHAR_DEMO,
+    TRADE_OBJRES_CELL_ICON,
+    TRADE_OBJRES_CELL_SUB,
+    TRADE_OBJRES_CELL_MAIN,
+    TRADE_OBJRES_CELL_COMMON,
+    TRADE_OBJRES_CELL_DEMO,
+    TRADE_OBJRES_CELL_NEGO,
+    TRADE_OBJRES_COUNT,
+};
+
+// The first of each kind of resource in objRes
+#define TRADE_OBJRES_PLTT TRADE_OBJRES_PLTT_ICON
+#define TRADE_OBJRES_CHAR TRADE_OBJRES_CHAR_SUB
+#define TRADE_OBJRES_CELL TRADE_OBJRES_CELL_ICON
+
 // A Pokémon's icon in the strip
 typedef struct {
     u16 species;
@@ -168,8 +198,8 @@ struct PokemonTradeWork {
     int boxCount;
     // The columns of the scrolling strip of Pokémon: two of the party, then six for each box
     int columnCount;
-    int unk638;
-    int unk63C;
+    int stripTileWidth;
+    int stripWidth;
     u8 unk640[0x4];
     // The message cursor's place in the BG's characters
     u32 cursorImage;
@@ -180,7 +210,8 @@ struct PokemonTradeWork {
     AppTaskMenuRes *taskMenuRes;
     // The window of a Pokémon's summary
     BmpWin *summaryWindow;
-    u8 unk6B8[0x64];
+    // The windows of the boxes' names over the strip, and the party's
+    BmpWin *boxNameWindows[25];
     BmpWin *msgWindow;
     MsgData *msgData;
     WordSet *wordSet;
@@ -218,11 +249,13 @@ struct PokemonTradeWork {
     u32 unk854;
     u8 unk858[0x4];
     void *unk85C[4];
-    u32 unk86C;
-    u8 unk870[0x20];
-    u32 unk890;
-    u8 unk894[0x2c];
-    u32 unk8C0;
+    // The BG characters of frames 2, 5 and 7, as GFL_BGSysLoadArcNCGRDynamic returns them
+    u32 bg2Chars;
+    u32 bg5Chars;
+    u32 bg7Chars;
+    u8 unk878[0x4];
+    // The OBJ resources, indexed by TRADE_OBJRES_*
+    u32 objRes[18];
     // The Poké Ball icons of the summary and of the two sides
     ResSprite ballIcons[3];
     // The type icons: two pages of two, the page turning in the summary
@@ -232,11 +265,20 @@ struct PokemonTradeWork {
     TouchBar *touchBar;
     ClActUnit *clactUnit;
     TCB *vblankTcb;
-    u8 unk9CC[0x2d4];
-    u8 unkCA0[0x78];
-    u8 unkD18[0x3c];
-    u8 unkD54[0x3c];
-    u8 unkD90[0x168];
+    // The Pokémon icons of the twelve columns of the strip that are set up, five to a column: their characters, their
+    // sprites and the cursors under them
+    u32 iconChars[12][5];
+    u8 unkABC[0x4];
+    ClActor *icons[12][5];
+    ClActor *iconCursors[12][5];
+    // What each icon shows, to redraw it only when that changes, and the column of the strip it is in, or 0xff
+    u16 iconSpecies[12][5];
+    u8 iconForms[12][5];
+    u8 iconSexes[12][5];
+    u8 iconColumns[12][5];
+    // Where each marked icon is, and whether it is marked, matching the box the partner looks at
+    ClActorPos iconPos[12][5];
+    u8 iconMarked[12][5];
     // The save between the two machines
     NetSave *netSave;
     ClActor *actors[10];
@@ -287,14 +329,14 @@ struct PokemonTradeWork {
     // The stylus's x on the scroll bar last frame, and the speed of the scroll
     s16 scrollTouchX;
     s16 scrollSpeed;
-    s16 unk107C;
+    s16 scrollX;
     s16 unk107E;
-    s16 unk1080;
+    s16 firstColumn;
     u8 unk1082[0x2];
     u32 unk1084;
     u32 unk1088;
     int unk108C;
-    u8 unk1090[0x4];
+    int unk1090;
     u32 bgmTimer;
     u16 typeIconPage;
     u16 unk109A;
@@ -311,7 +353,11 @@ struct PokemonTradeWork {
     // The palette of the box slots' colours, and the same a step darker
     GXRgb boxPalette[16];
     GXRgb boxPaletteDim[16];
-    u8 unk1174[0x18];
+    // The strip's screen files, read whole: the box and party backgrounds, plain and marked
+    u16 *stripScreens[4];
+    // The characters of every Pokémon's icon in the boxes, 0x200 bytes each
+    u8 *iconCharData;
+    u8 unk1188[0x4];
     int type;
     u8 unk1190[0x44];
     // The wait on the message being printed
@@ -515,11 +561,16 @@ void func_ov194_021c29b4(PokemonTradeWork *wk);
 
 // pokemontrade_2d.c
 void func_ov194_021c2a24(PokemonTradeWork *wk);
-BOOL func_ov194_021c2c04(PokemonTradeWork *wk, int frame);
-BOOL func_ov194_021c38a8(u32 species, u32 a1);
+// Works out the colours of this machine's box, one a frame, and the party's after the last box; TRUE when that is
+// done
+BOOL func_ov194_021c2c04(PokemonTradeWork *wk, int box);
+// Create the cell actor system for the trade demo, which has few sprites, and for the trade
+void func_ov194_021c2c44(PokemonTradeWork *wk);
+// Whether a species' name starts with an initial, from 0 for A
+BOOL func_ov194_021c38a8(u32 species, u32 initial);
 void func_ov194_021c3820(PokemonTradeWork *wk);
 int func_ov194_021c3bc0(PokemonTradeWork *wk);
-// Whether the cursor is outside the strip on screen, and the column it would be in if so
+// Whether the cursor's column is on screen, and the third column on screen, where the cursor goes if not
 BOOL func_ov194_021c3c10(PokemonTradeWork *wk, int *column);
 void func_ov194_021c2c64(PokemonTradeWork *wk);
 void func_ov194_021c2d34(PokemonTradeWork *wk);
@@ -539,10 +590,12 @@ void func_ov194_021c368c(PokemonTradeWork *wk);
 void func_ov194_021c36e4(PokemonTradeWork *wk);
 void func_ov194_021c3374(PokemonTradeWork *wk);
 void func_ov194_021c339c(PokemonTradeWork *wk);
-void func_ov194_021c38bc(PokemonTradeWork *wk, ClActor *icon, u32 a2);
+// Greys an icon out or not
+void func_ov194_021c38bc(PokemonTradeWork *wk, ClActor *icon, BOOL grey);
 // The Pokémon icon at a point of the screen, and where it is
 ClActor *func_ov194_021c3fa8(PokemonTradeWork *wk, u32 x, u32 y, int *box, int *slot, int *a5, int *a6, int *a7);
-void func_ov194_021c3c68(BoxSaveAccessor *boxes, PokemonTradeWork *wk, u32 a2);
+// Sets up the strip's icons for its scroll, loading their characters in the V-blank if asked
+void func_ov194_021c3c68(BoxSaveAccessor *boxes, PokemonTradeWork *wk, BOOL async);
 void func_ov194_021c3e9c(PokemonTradeWork *wk, int frame);
 void func_ov194_021c41d0(PokemonTradeWork *wk);
 void func_ov194_021c41fc(PokemonTradeWork *wk);

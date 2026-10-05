@@ -190,12 +190,14 @@ typedef enum {
 #define GX_VRAM_BG_NONE GX_VRAM_NONE
 #define GX_VRAM_BG_16_F GX_VRAM_F
 #define GX_VRAM_BG_32_FG (GX_VRAM_F | GX_VRAM_G)
+#define GX_VRAM_BG_64_E GX_VRAM_E
 #define GX_VRAM_BG_128_A GX_VRAM_A
 #define GX_VRAM_BG_128_D GX_VRAM_D
 #define GX_VRAM_BGEXTPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_SUB_BG_32_H GX_VRAM_H
 #define GX_VRAM_SUB_BG_128_C GX_VRAM_C
 #define GX_VRAM_SUB_BGEXTPLTT_NONE GX_VRAM_NONE
+#define GX_VRAM_SUB_BGEXTPLTT_0123_H GX_VRAM_H
 #define GX_VRAM_OBJ_NONE GX_VRAM_NONE
 #define GX_VRAM_OBJ_16_G GX_VRAM_G
 #define GX_VRAM_OBJ_64_E GX_VRAM_E
@@ -211,6 +213,7 @@ typedef enum {
 #define GX_VRAM_TEX_01_CD (GX_VRAM_C | GX_VRAM_D)
 #define GX_VRAM_TEX_012_ABC (GX_VRAM_A | GX_VRAM_B | GX_VRAM_C)
 #define GX_VRAM_TEX_0123_ABCD (GX_VRAM_A | GX_VRAM_B | GX_VRAM_C | GX_VRAM_D)
+#define GX_VRAM_TEXPLTT_0_F GX_VRAM_F
 #define GX_VRAM_TEXPLTT_0_G GX_VRAM_G
 #define GX_VRAM_TEXPLTT_01_FG (GX_VRAM_F | GX_VRAM_G)
 #define GX_VRAM_TEXPLTT_0123_E GX_VRAM_E
@@ -1104,6 +1107,8 @@ void gfxEngineEnableA(void);
 // VRAM as the CPU sees it with every bank given to it, and OAM
 #define HW_LCDC_VRAM 0x06800000
 #define HW_LCDC_VRAM_SIZE 0xa4000
+// The sub engine's OBJ characters
+#define HW_DB_OBJ_VRAM 0x06600000
 #define HW_OAM 0x07000000
 #define HW_DB_OAM 0x07000400
 #define HW_OAM_SIZE 0x400

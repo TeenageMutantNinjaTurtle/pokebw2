@@ -95,6 +95,8 @@ void PokeParty_RecalcStats(PartyPkm *pkm);
 void setLevel(PartyPkm *pkm, u32 level);
 void setPkmBattleData(PartyPkm *pkm, u32 param, u32 value);
 // A species with its form and sex in one u16
+// The palette of a Pokémon's icon
+u32 func_020210c0(BoxPkm *pkm);
 // The icons' palette and cell files, for the OBJ mapping in use
 u32 func_02021114(void);
 u32 func_02021154(void);

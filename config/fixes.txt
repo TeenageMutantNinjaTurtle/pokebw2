@@ -802,6 +802,8 @@ overlays/ov194 0x021c1968 reloc_addend 0x2c0
 overlays/ov194 0x021c2acc reloc_module overlay(139)
 overlays/ov194 0x021c2ad8 reloc_module overlay(139)
 overlays/ov194 0x021c2ae4 reloc_module overlay(139)
+overlays/ov194 0x021c2c04 add_function func_ov194_021c2c04:thumb:0x40
+overlays/ov194 0x021c2c08 remove_symbol
 overlays/ov194 0x021c4cc8 reloc_module overlay(139)
 overlays/ov194 0x021c4ce8 reloc_module overlay(139)
 overlays/ov194 0x021c4d0c reloc_module overlay(139)
@@ -814,7 +816,17 @@ overlays/ov194 0x021c4f72 reloc_module overlay(139)
 overlays/ov194 0x021c501c reloc_module overlay(139)
 overlays/ov194 0x021c5088 reloc_module overlay(139)
 overlays/ov194 0x021c679c add_data data_ov194_021c679c
+overlays/ov194 0x021c6c98 remove_reloc
 overlays/ov194 0x021c6cb8 remove_reloc
+overlays/ov194 0x021c6d78 remove_reloc
+overlays/ov194 0x021c70c4 remove_reloc
+overlays/ov194 0x021c70fc remove_reloc
+overlays/ov194 0x021c713c remove_reloc
+overlays/ov194 0x021c7140 remove_reloc
+overlays/ov194 0x021c71e4 remove_reloc
+overlays/ov194 0x021c7200 remove_reloc
+overlays/ov194 0x021c7240 remove_reloc
+overlays/ov194 0x021c7268 remove_reloc
 overlays/ov199 0x021b805e reloc_module overlay(189)
 overlays/ov199 0x021b943c reloc_module overlay(189)
 overlays/ov201 0x021b59ce reloc_module overlay(189)

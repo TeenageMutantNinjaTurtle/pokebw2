@@ -60,12 +60,43 @@ ClActor *func_ov139_02199a5c(ResSprite *sprite, ClActUnit *unit, u8 x, u8 y, u8 
 // The bar of buttons along the bottom of the lower screen (touchbar.c)
 typedef struct TouchBar TouchBar;
 
+// A button of the bar: one of the bar's own icons, or from TOUCHBAR_ICON_CUSTOM on, one drawn from the caller's
+// resources and animations. Pressing the key does what touching it does
+#define TOUCHBAR_ICON_CUSTOM 7
+
+typedef struct {
+    u32 icon;
+    s16 x;
+    s16 y;
+    u16 charRes;
+    u16 plttRes;
+    u16 cellRes;
+    u16 anims[3];
+    u32 unk14;
+    u32 key;
+    u32 se;
+} TouchBarItem;
+
+typedef struct {
+    TouchBarItem *items;
+    u32 count;
+    ClActUnit *unit;
+    // The BG frame of the bar, a sub screen frame from 4 on, and the palettes it loads into
+    u32 bgFrame;
+    u32 bgPltt;
+    u32 objPltt;
+    u32 mapping;
+    BOOL unk1C;
+} TouchBarSetup;
+
+TouchBar *func_ov139_02199aa0(const TouchBarSetup *setup, HeapID heapId);
 void func_ov139_02199b5c(TouchBar *bar);
 void func_ov139_02199b90(TouchBar *bar);
 // The button that was touched
 u32 func_ov139_02199c08(TouchBar *bar);
 // The button held down
 u32 func_ov139_02199c30(TouchBar *bar);
+void func_ov139_02199ce0(TouchBar *bar, u32 a1);
 void func_ov139_02199d08(TouchBar *bar, u32 button, BOOL a2);
 void func_ov139_02199d18(TouchBar *bar, u32 button, BOOL a2);
 void func_ov139_02199d74(TouchBar *bar, u32 a1);

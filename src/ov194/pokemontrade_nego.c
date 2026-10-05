@@ -335,19 +335,19 @@ void func_ov194_021bc29c(PokemonTradeWork *wk, int side, int index) {
 void func_ov194_021bc2d0(PokemonTradeWork *wk, u32 vram) {
     ArcTool *arc = GFL_ArcSysCreateFileHandle(7, wk->heapId);
     u16 offset = vram == 1 ? 0x60 : 0;
-    wk->unk890 = func_0204bc48(arc, func_02021114(), vram, offset, wk->heapId);
-    wk->unk8C0 = func_0204bde0(arc, func_02021154(), getOBJTileMapping_MainEng(), wk->heapId);
+    wk->objRes[TRADE_OBJRES_PLTT_NEGO] = func_0204bc48(arc, func_02021114(), vram, offset, wk->heapId);
+    wk->objRes[TRADE_OBJRES_CELL_NEGO] = func_0204bde0(arc, func_02021154(), getOBJTileMapping_MainEng(), wk->heapId);
     GFL_ArcToolFree(arc);
 }
 
 void func_ov194_021bc330(PokemonTradeWork *wk) {
-    if (wk->unk890 != 0) {
-        func_0204bcd0(wk->unk890);
-        wk->unk890 = 0;
+    if (wk->objRes[TRADE_OBJRES_PLTT_NEGO] != 0) {
+        func_0204bcd0(wk->objRes[TRADE_OBJRES_PLTT_NEGO]);
+        wk->objRes[TRADE_OBJRES_PLTT_NEGO] = 0;
     }
-    if (wk->unk8C0 != 0) {
-        func_0204be64(wk->unk8C0);
-        wk->unk8C0 = 0;
+    if (wk->objRes[TRADE_OBJRES_CELL_NEGO] != 0) {
+        func_0204be64(wk->objRes[TRADE_OBJRES_CELL_NEGO]);
+        wk->objRes[TRADE_OBJRES_CELL_NEGO] = 0;
     }
 }
 
@@ -811,7 +811,7 @@ static void func_ov194_021bd06c(PokemonTradeWork *wk) {
         func_ov194_021c0aec(wk, 0);
         arc = GFL_ArcSysCreateFileHandle(103, wk->heapId);
         // The library takes the palette offset as a u16, which the prototype doesn't say
-        GFL_G2DIOLoadNSCRSync(arc, 11, 2, 0, (u16)wk->unk86C, 0, FALSE, wk->heapId);
+        GFL_G2DIOLoadNSCRSync(arc, 11, 2, 0, (u16)wk->bg2Chars, 0, FALSE, wk->heapId);
         GFL_ArcToolFree(arc);
         func_ov194_021c200c(wk, 0);
         GFL_BGSysQueueScrLoad(3);

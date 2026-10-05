@@ -16,6 +16,11 @@ u32 func_0202d7e8(u32 type);
 u32 func_0202d7f4(u32 type);
 u32 func_0202d7f8(u32 mapping);
 u32 func_0202d7fc(u32 mapping);
+// The files of the common OBJ sprites: the palette, the characters, and the cells and animations for a mapping mode
+u32 func_0202d810(void);
+u32 func_0202d814(void);
+u32 func_0202d818(u32 mapping);
+u32 func_0202d81c(u32 mapping);
 // The files of a Poké Ball's icon: palette, characters, cells and animations
 u32 func_0202d91c(u32 ball);
 u32 func_0202d928(u32 ball);

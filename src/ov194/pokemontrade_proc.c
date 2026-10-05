@@ -369,7 +369,7 @@ int PokemonTrade_GetColumnSlot(int a, int b) {
 }
 
 static void func_ov194_021b7898(PokemonTradeWork *wk) {
-    wk->unk1080++;
+    wk->firstColumn++;
     wk->unk1084 = 1;
     PokemonTrade_Scroll(wk, 0, 0);
 }
@@ -1238,7 +1238,7 @@ static void func_ov194_021b8dc4(PokemonTradeWork *wk) {
         wk->heldSlot = -1;
         func_ov194_021bfe9c(wk);
         PokemonTrade_SetState(wk, func_ov194_021babc4);
-        wk->unk1080 = -1;
+        wk->firstColumn = -1;
         func_ov194_021c3c68(wk->boxes, wk, 1);
     }
 }
@@ -1246,7 +1246,7 @@ static void func_ov194_021b8dc4(PokemonTradeWork *wk) {
 static void func_ov194_021b8e2c(PokemonTradeWork *wk, u32 msg, BOOL a2) {
     GFL_MsgDataLoadStrbuf(wk->msgData, msg, wk->strbuf);
     func_ov194_021bfdf8(wk, a2, 0);
-    wk->unk1080 = -1;
+    wk->firstColumn = -1;
     func_ov194_021c3c68(wk->boxes, wk, 0);
     PokemonTrade_SetState(wk, func_ov194_021b8dc4);
 }
@@ -1564,9 +1564,9 @@ static void func_ov194_021b964c(PokemonTradeWork *wk) {
             wk->unk11E8[1] = 0;
             func_ov194_021be534(wk);
             func_ov194_021be554(wk, 1);
-            sys_memset(wk->unkCA0, 0, sizeof(wk->unkCA0));
-            sys_memset(wk->unkD18, 0, sizeof(wk->unkD18));
-            sys_memset(wk->unkD54, 0, sizeof(wk->unkD54));
+            sys_memset(wk->iconSpecies, 0, sizeof(wk->iconSpecies));
+            sys_memset(wk->iconForms, 0, sizeof(wk->iconForms));
+            sys_memset(wk->iconSexes, 0, sizeof(wk->iconSexes));
             func_ov194_021b79e4(wk);
             if (wk->menu != NULL) {
                 func_0202da54(wk->menu);
@@ -1818,7 +1818,7 @@ static void func_ov194_021b9d84(PokemonTradeWork *wk) {
         case 1:
             func_ov194_021bfe9c(wk);
             PokemonTrade_SetState(wk, func_ov194_021babc4);
-            wk->unk1080 = -1;
+            wk->firstColumn = -1;
             func_ov194_021c3c68(wk->boxes, wk, 0);
             func_ov194_021c5504(wk);
             break;
@@ -1842,7 +1842,7 @@ static void func_ov194_021b9e60(PokemonTradeWork *wk) {
     if (func_ov194_021c00b0(wk)) {
         u32 items[] = { 24, 25 };
         func_ov194_021c0120(wk, items, NELEMS(items), 32, 12);
-        wk->unk1080 = -1;
+        wk->firstColumn = -1;
         func_ov194_021c3c68(wk->boxes, wk, 0);
         PokemonTrade_SetState(wk, func_ov194_021b9d84);
     }
@@ -1875,8 +1875,8 @@ static BOOL func_ov194_021b9f10(PokemonTradeWork *wk, u32 a1) {
             if ((pkm = PokemonTrade_GetBoxPkm(wk->boxes, box, PokemonTrade_GetColumnSlot(column, slot), wk)) != NULL &&
                 func_ov194_021c38a8(PML_PkmGetParam(pkm, PKM_PARAM_LEGAL_SPECIES, NULL), a1) &&
                 !PML_PkmGetParam(pkm, PKM_PARAM_IS_EGG, NULL)) {
-                wk->unk1080++;
-                wk->unk107C = PokemonTrade_GetColumnX(column) - 32;
+                wk->firstColumn++;
+                wk->scrollX = PokemonTrade_GetColumnX(column) - 32;
                 wk->unk1084 = 1;
                 PokemonTrade_Scroll(wk, 0, 1);
                 return TRUE;
@@ -1979,11 +1979,11 @@ static int PokemonTrade_GetColumnX(int column) {
 
 static BOOL func_ov194_021ba240(PokemonTradeWork *wk, int column) {
     int x = PokemonTrade_GetColumnX(column);
-    s16 scroll = wk->unk107C;
+    s16 scroll = wk->scrollX;
     if (scroll < x && scroll + 224 > x) {
         return TRUE;
     }
-    x += wk->unk63C;
+    x += wk->stripWidth;
     if (scroll < x && scroll + 224 > x) {
         return TRUE;
     }
@@ -2001,29 +2001,29 @@ static void func_ov194_021ba280(PokemonTradeWork *wk) {
     if (keys & PAD_BUTTON_R) {
         func_0203d564(FALSE);
         for (i = 0; i < wk->boxCount + 1; i++) {
-            if (sBoxStartX[i] > wk->unk107C) {
-                wk->unk107C = sBoxStartX[i];
+            if (sBoxStartX[i] > wk->scrollX) {
+                wk->scrollX = sBoxStartX[i];
                 moved = TRUE;
                 break;
             }
         }
         if (!moved) {
             moved = TRUE;
-            wk->unk107C = sBoxStartX[0];
+            wk->scrollX = sBoxStartX[0];
         }
         func_ov194_021bbdac(wk, moved);
     } else if (keys & PAD_BUTTON_L) {
         func_0203d564(FALSE);
         for (i = wk->boxCount; i >= 0; i--) {
-            if (sBoxStartX[i] < wk->unk107C) {
-                wk->unk107C = sBoxStartX[i];
+            if (sBoxStartX[i] < wk->scrollX) {
+                wk->scrollX = sBoxStartX[i];
                 moved = TRUE;
                 break;
             }
         }
         if (!moved) {
             moved = TRUE;
-            wk->unk107C = sBoxStartX[wk->boxCount];
+            wk->scrollX = sBoxStartX[wk->boxCount];
         }
         func_ov194_021bbdac(wk, moved);
     } else if (GCTX_HIDGetTypedKeys() == PAD_KEY_UP) {
@@ -2039,7 +2039,7 @@ static void func_ov194_021ba280(PokemonTradeWork *wk) {
                 wk->cursorRow = 4;
             }
         }
-        wk->unk1080--;
+        wk->firstColumn--;
         moved = TRUE;
     } else if (GCTX_HIDGetTypedKeys() == PAD_KEY_DOWN) {
         func_0203d564(FALSE);
@@ -2054,19 +2054,19 @@ static void func_ov194_021ba280(PokemonTradeWork *wk) {
         } else if (wk->cursorRow >= 5) {
             wk->cursorRow = 0;
         }
-        wk->unk1080--;
+        wk->firstColumn--;
         moved = TRUE;
     } else if (GCTX_HIDGetTypedKeys() == PAD_KEY_RIGHT) {
         func_0203d564(FALSE);
         moved = TRUE;
-        wk->unk1080--;
+        wk->firstColumn--;
         if (!func_ov194_021c3c10(wk, &column)) {
             wk->cursorColumn = column;
         } else {
             wk->cursorColumn++;
             if (!func_ov194_021ba240(wk, wk->cursorColumn)) {
-                wk->unk107C = PokemonTrade_GetColumnX(wk->cursorColumn + 1) - 256;
-                wk->unk1080 = -1;
+                wk->scrollX = PokemonTrade_GetColumnX(wk->cursorColumn + 1) - 256;
+                wk->firstColumn = -1;
             }
         }
         if (wk->cursorColumn >= wk->columnCount) {
@@ -2077,7 +2077,7 @@ static void func_ov194_021ba280(PokemonTradeWork *wk) {
         }
     } else if (GCTX_HIDGetTypedKeys() == PAD_KEY_LEFT) {
         func_0203d564(FALSE);
-        wk->unk1080++;
+        wk->firstColumn++;
         moved = TRUE;
         if (!func_ov194_021c3c10(wk, &column)) {
             wk->cursorColumn = column;
@@ -2087,8 +2087,8 @@ static void func_ov194_021ba280(PokemonTradeWork *wk) {
                 wk->cursorColumn = wk->columnCount - 1;
             }
             if (!func_ov194_021ba240(wk, wk->cursorColumn)) {
-                wk->unk107C = PokemonTrade_GetColumnX(wk->cursorColumn);
-                wk->unk1080 = -1;
+                wk->scrollX = PokemonTrade_GetColumnX(wk->cursorColumn);
+                wk->firstColumn = -1;
             }
         }
         if (wk->cursorColumn < 0) {
@@ -2106,11 +2106,11 @@ static void func_ov194_021ba280(PokemonTradeWork *wk) {
 }
 
 static void PokemonTrade_Scroll(PokemonTradeWork *wk, BOOL playSound, BOOL send) {
-    if (wk->unk107C < 0) {
-        wk->unk107C += wk->unk63C;
+    if (wk->scrollX < 0) {
+        wk->scrollX += wk->stripWidth;
     }
-    if (wk->unk63C <= wk->unk107C) {
-        wk->unk107C -= wk->unk63C;
+    if (wk->stripWidth <= wk->scrollX) {
+        wk->scrollX -= wk->stripWidth;
     }
     func_ov194_021c3c68(wk->boxes, wk, 1);
     func_ov194_021c30b8(wk);
@@ -2120,15 +2120,15 @@ static void PokemonTrade_Scroll(PokemonTradeWork *wk, BOOL playSound, BOOL send)
     }
     if (PokemonTrade_IsNetwork(wk) && send) {
         if (func_02042b20()) {
-            if (wk->unk107C % 16 == 0) {
-                func_02042c18(func_02040440(), 0xff, TRADE_NET_CMD_UNKC, sizeof(wk->unk107C), &wk->unk107C, 0, TRUE,
+            if (wk->scrollX % 16 == 0) {
+                func_02042c18(func_02040440(), 0xff, TRADE_NET_CMD_UNKC, sizeof(wk->scrollX), &wk->scrollX, 0, TRUE,
                               TRUE);
             }
         } else {
-            func_02042c18(func_02040440(), 0xff, TRADE_NET_CMD_UNKC, sizeof(wk->unk107C), &wk->unk107C, 0, TRUE, TRUE);
+            func_02042c18(func_02040440(), 0xff, TRADE_NET_CMD_UNKC, sizeof(wk->scrollX), &wk->scrollX, 0, TRUE, TRUE);
         }
     } else if (!PokemonTrade_IsNetwork(wk)) {
-        wk->unk107E = wk->unk107C;
+        wk->unk107E = wk->scrollX;
     }
 }
 
@@ -2144,7 +2144,7 @@ static void func_ov194_021ba5f0(PokemonTradeWork *wk) {
                 func_0204c520(wk->actors[2], TRUE);
                 wk->scrollSpeed = (x - wk->scrollTouchX) * 2;
                 wk->scrollTouchX = x;
-                wk->unk107C -= wk->scrollSpeed;
+                wk->scrollX -= wk->scrollSpeed;
                 if (wk->scrollSpeed > 12) {
                     PokemonTrade_Scroll(wk, TRUE, TRUE);
                 } else {
@@ -2167,7 +2167,7 @@ static void func_ov194_021ba5f0(PokemonTradeWork *wk) {
                 wk->scrollSpeed--;
             }
         }
-        wk->unk107C -= wk->scrollSpeed;
+        wk->scrollX -= wk->scrollSpeed;
         PokemonTrade_Scroll(wk, TRUE, TRUE);
     }
 }
@@ -2208,9 +2208,9 @@ static void func_ov194_021ba7d4(PokemonTradeWork *wk) {
     wk->unk1088 = 0;
     wk->scrollTouchX = 0;
     wk->scrollSpeed = 0;
-    sys_memset(wk->unkCA0, 0, sizeof(wk->unkCA0));
-    sys_memset(wk->unkD18, 0, sizeof(wk->unkD18));
-    sys_memset(wk->unkD54, 0, sizeof(wk->unkD54));
+    sys_memset(wk->iconSpecies, 0, sizeof(wk->iconSpecies));
+    sys_memset(wk->iconForms, 0, sizeof(wk->iconForms));
+    sys_memset(wk->iconSexes, 0, sizeof(wk->iconSexes));
     func_ov194_021b79e4(wk);
     func_ov194_021be554(wk, 1);
     if (wk->menu != NULL) {
@@ -2249,9 +2249,9 @@ static void func_ov194_021ba8c0(PokemonTradeWork *wk) {
 
 void func_ov194_021ba924(PokemonTradeWork *wk) {
     func_ov194_021be554(wk, 1);
-    sys_memset(wk->unkCA0, 0, sizeof(wk->unkCA0));
-    sys_memset(wk->unkD18, 0, sizeof(wk->unkD18));
-    sys_memset(wk->unkD54, 0, sizeof(wk->unkD54));
+    sys_memset(wk->iconSpecies, 0, sizeof(wk->iconSpecies));
+    sys_memset(wk->iconForms, 0, sizeof(wk->iconForms));
+    sys_memset(wk->iconSexes, 0, sizeof(wk->iconSexes));
     func_ov194_021b79e4(wk);
     if (wk->menu != NULL) {
         func_0202da54(wk->menu);
@@ -2368,11 +2368,11 @@ static void func_ov194_021babc4(PokemonTradeWork *wk) {
                 target += wk->columnCount + 1;
             }
             if (middle < target) {
-                wk->unk107C = PokemonTrade_GetColumnX(wk->cursorColumn + 1) - 256;
+                wk->scrollX = PokemonTrade_GetColumnX(wk->cursorColumn + 1) - 256;
             } else {
-                wk->unk107C = PokemonTrade_GetColumnX(wk->cursorColumn);
+                wk->scrollX = PokemonTrade_GetColumnX(wk->cursorColumn);
             }
-            wk->unk1080 = -1;
+            wk->firstColumn = -1;
             wk->unk1084 = 1;
             PokemonTrade_Scroll(wk, FALSE, TRUE);
             wk->scrollSpeed = 0;
@@ -2553,7 +2553,7 @@ static void func_ov194_021bb104(PokemonTradeWork *wk) {
             func_ov194_021bfe9c(wk);
             func_ov194_021c5504(wk);
             PokemonTrade_SetState(wk, func_ov194_021babc4);
-            wk->unk1080 = -1;
+            wk->firstColumn = -1;
             func_ov194_021c3c68(wk->boxes, wk, 1);
         }
     }
@@ -2645,8 +2645,8 @@ static void func_ov194_021bb384(PokemonTradeWork *wk) {
     int count = BoxSaveAccessor_GetAvailableBoxCount(wk->boxes);
     wk->columnCount = count * 6 + 2;
     wk->boxCount = count;
-    wk->unk638 = count * 20 + 12;
-    wk->unk63C = count * 160 + 96;
+    wk->stripTileWidth = count * 20 + 12;
+    wk->stripWidth = count * 160 + 96;
 }
 
 // Fills the icons of the party (with the first box) or a box
@@ -3037,16 +3037,16 @@ static void func_ov194_021bbdac(PokemonTradeWork *wk, BOOL moved) {
         if (column >= wk->columnCount) {
             column -= wk->columnCount;
         }
-        if (wk->unk107C == sBoxStartX[0]) {
+        if (wk->scrollX == sBoxStartX[0]) {
             column = 2;
-        } else if (wk->unk107C == sBoxStartX[wk->boxCount]) {
+        } else if (wk->scrollX == sBoxStartX[wk->boxCount]) {
             column = 0;
             if (wk->cursorRow >= 3) {
                 wk->cursorRow = 2;
             }
         }
         wk->cursorColumn = column;
-        wk->unk1080 = -1;
+        wk->firstColumn = -1;
     }
 }
 
