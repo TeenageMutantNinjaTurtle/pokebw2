@@ -59,3 +59,9 @@ src/ov214/worldtrade_status.c:
     complete
     .text       start:0x021de3f8 end:0x021de510
     .data       start:0x021e2f58 end:0x021e2f6c
+
+src/ov214/worldtrade_sublcd.c:
+    complete
+    .text       start:0x021de510 end:0x021dec14
+    .rodata     start:0x021e2790 end:0x021e27ec
+    .data       start:0x021e2f6c end:0x021e2f80

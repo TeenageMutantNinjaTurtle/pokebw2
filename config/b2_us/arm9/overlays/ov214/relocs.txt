@@ -2799,7 +2799,7 @@ from:0x021deb3c kind:load to:0x021e279e module:overlay(214)
 from:0x021deb56 kind:thumb_call to:0x0203a24c module:main
 from:0x021deb6e kind:thumb_call to:0x0203a24c module:main
 from:0x021deb9c kind:thumb_call to:0x021de958 module:overlay(214)
-from:0x021deba8 kind:load to:0x021e27b0 module:overlay(214)
+from:0x021deba8 kind:load to:0x021e27ae add:0x2 module:overlay(214)
 from:0x021debac kind:load to:0x021e27ae module:overlay(214)
 from:0x021debcc kind:thumb_call to:0x021d3ce8 module:overlay(214)
 from:0x021debfe kind:thumb_call to:0x021d3ce8 module:overlay(214)

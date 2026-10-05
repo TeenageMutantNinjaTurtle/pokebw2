@@ -166,7 +166,7 @@ int WorldTrade_Box_Init(WorldTradeWork *wk, int seq) {
     Box_BgGraphicSet(wk);
     Box_BmpWinInit(wk);
     Box_SetCellActor(wk);
-    func_ov214_021debb0(wk);
+    WorldTrade_SetPartnerExchangePos(wk);
 
     if (gfxRegGetMasterBrightness(REG_DB_MASTER_BRIGHT_ADDR) == 0) {
         GFL_WipeSet(3, 1, 1, 0, 6, 1, HEAPID_WORLDTRADE);
@@ -187,7 +187,7 @@ int WorldTrade_Box_Main(WorldTradeWork *wk, int seq) {
 
 int WorldTrade_Box_End(WorldTradeWork *wk, int seq) {
     if (gfxRegGetMasterBrightness(REG_DB_MASTER_BRIGHT_ADDR) != 0) {
-        func_ov214_021debe0(wk);
+        WorldTrade_SetPartnerExchangePosIsReturns(wk);
     }
     Box_DelCellActor(wk);
     Box_FreeWork(wk);

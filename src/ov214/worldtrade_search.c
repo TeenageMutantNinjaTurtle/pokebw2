@@ -765,7 +765,7 @@ static int Search_SubSeqSearchCheck(WorldTradeWork *wk) {
         Search_SubSeqMessagePrint(wk, 0xd, 1, 0, 0xf0f);
         WorldTrade_SetNextSeq(wk, SEARCH_SEQ_MES_WAIT, SEARCH_SEQ_SERVER_QUERY);
         if (wk->searchResult > 0) {
-            func_ov214_021dea34(wk);
+            WorldTrade_SubLcdMatchObjHide(wk);
         }
     }
     return WT_SEQ_MAIN;
@@ -843,7 +843,7 @@ static int Search_SubSeqServerResult(WorldTradeWork *wk) {
 static int Search_SubSeqSearchResultMessage(WorldTradeWork *wk) {
     if (wk->unk12E8 == 0) {
         GFL_SndStop();
-        func_ov214_021de98c(wk, wk->searchResult, 1);
+        WorldTrade_SubLcdMatchObjAppear(wk, wk->searchResult, 1);
         if (wk->searchResult == 0) {
             Search_FriendViewButtonPrint(wk->infoWin[8], wk->msgManager, 0, &wk->print);
         } else {
@@ -1167,7 +1167,7 @@ static int Search_SubSeqYesNoSelect(WorldTradeWork *wk) {
         wk->subprocessSeq = SEARCH_SEQ_END;
         WorldTrade_SubProcessChange(wk, WORLDTRADE_TITLE, 0);
         if (wk->searchResult > 0) {
-            func_ov214_021dea34(wk);
+            WorldTrade_SubLcdMatchObjHide(wk);
         }
         wk->searchResult = 0;
     } else if (ret == 2) {
@@ -1244,7 +1244,7 @@ static int Search_SubSeqExchangeMain(WorldTradeWork *wk) {
     if (GCTX_HIDGetPressedKeys() & PAD_BUTTON_A) {
         GFL_WipeSet(0, 0, 0, 0, 16, 1, HEAPID_WORLDTRADE);
     } else {
-        touch = func_ov214_021de96c(wk->searchResult);
+        touch = WorldTrade_SubLcdObjHitCheck(wk->searchResult);
         if (wk->subLcdTouchOK && touch >= 0) {
             func_0204c488(wk->subAct[touch + 1], touch * 4 + 16);
             wk->subprocessSeq = SEARCH_SEQ_END;

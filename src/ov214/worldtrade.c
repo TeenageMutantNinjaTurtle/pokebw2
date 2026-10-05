@@ -134,8 +134,8 @@ static BOOL WorldTradeProc_Main(GameProc *proc, u32 *state, void *param, void *w
         if (GFL_WipeIsFinished()) {
             *state = sSubProcessTable[wk->subProcess][2](wk, *state);
             if (wk->subprocFlag) {
-                func_ov214_021de510(wk);
-                func_ov214_021de98c(wk, wk->searchResult, 0);
+                WorldTrade_SubLcdActorAdd(wk);
+                WorldTrade_SubLcdMatchObjAppear(wk, wk->searchResult, 0);
                 wk->subprocFlag = 0;
             }
         }
@@ -494,7 +494,7 @@ static void WorldTrade_InitCLACT(WorldTradeWork *wk) {
 }
 
 static void WorldTrade_FreeCLACT(WorldTradeWork *wk) {
-    func_ov214_021deb40(wk);
+    WorldTrade_FreeFieldObjData(wk);
     func_0204bcd0(wk->clactRes[WT_CLACT_RES_HERO][WT_CLACT_RES_PLTT]);
     func_0204b98c(wk->clactRes[WT_CLACT_RES_HERO][WT_CLACT_RES_CHAR]);
     func_0204be64(wk->clactRes[WT_CLACT_RES_HERO][WT_CLACT_RES_CELL]);

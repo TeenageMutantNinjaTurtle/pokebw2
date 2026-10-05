@@ -289,10 +289,17 @@ struct WorldTradeWork {
     WorldTradeDepositWork *dw;
     AppTaskMenuRes *task_res;
     AppTaskMenu *task_work;
-    u8 unkE0C[0xc];
+    u8 unkE0C[0x8];
+    // The task that walks the player in or out of the lower screen's trade room
+    TCB *demoTask;
+    // Set once the player's walk ends
     u16 demoEnd;
     u16 subLcdTouchOK;
-    u8 unkE1C[0x88];
+    // The characters and palettes of the people a search found, one per trainer type
+    void *fieldObjCharaBuf[16];
+    NNSG2dCharacterData *fieldObjCharaData[16];
+    void *fieldObjPalBuf;
+    NNSG2dPaletteData *fieldObjPalData;
     // A copy of the Pokémon the player trades away, which an evolution by trade checks
     PartyPkm *sentPokemon;
     // The Pokémon of the trade demo
@@ -321,7 +328,8 @@ struct WorldTradeWork {
     s32 timeoutCount;
     TCB *vblankTask;
     TCBManager *tcbManager;
-    u8 unkF98[0x4];
+    // The player's walk's work
+    void *heroDemoWork;
     void *tcbBuffer;
     WorldTradePrint print;
     // The parameter of the proc that a screen runs, the trade demo or the evolution demo
@@ -472,17 +480,22 @@ int WorldTrade_Status_Main(WorldTradeWork *wk, int seq);
 int WorldTrade_Status_End(WorldTradeWork *wk, int seq);
 
 // worldtrade_sublcd.c
-void func_ov214_021de510(WorldTradeWork *wk);
-void func_ov214_021de98c(WorldTradeWork *wk, int count, int a2);
+void WorldTrade_SubLcdActorAdd(WorldTradeWork *wk);
+// Walks the player into the trade room, or out of it
+void WorldTrade_HeroDemo(WorldTradeWork *wk);
+void WorldTrade_ReturnHeroDemo(WorldTradeWork *wk);
 // The person of the lower screen that is touched, of the first count, or -1
-int func_ov214_021de96c(int count);
+int WorldTrade_SubLcdObjHitCheck(int count);
+// Shows the first count people of the lower screen as the trainers a search found, appearing when appear is set
+void WorldTrade_SubLcdMatchObjAppear(WorldTradeWork *wk, int count, int appear);
 // Hides the people of the lower screen that a search found
-void func_ov214_021dea34(WorldTradeWork *wk);
-void func_ov214_021deb40(WorldTradeWork *wk);
+void WorldTrade_SubLcdMatchObjHide(WorldTradeWork *wk);
+void WorldTrade_FreeFieldObjData(WorldTradeWork *wk);
 // Puts the partner cursor on a person of the lower screen, offset by y
-void func_ov214_021deb88(WorldTradeWork *wk, int index, int offsetY);
-void func_ov214_021debb0(WorldTradeWork *wk);
-void func_ov214_021debe0(WorldTradeWork *wk);
+void WorldTrade_SetPartnerCursorPos(WorldTradeWork *wk, int index, int offsetY);
+// Puts the people back where they stand, or 32 pixels lower
+void WorldTrade_SetPartnerExchangePos(WorldTradeWork *wk);
+void WorldTrade_SetPartnerExchangePosIsReturns(WorldTradeWork *wk);
 
 // worldtrade_title.c
 int WorldTrade_Title_Init(WorldTradeWork *wk, int seq);
