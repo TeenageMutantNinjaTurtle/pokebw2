@@ -312,3 +312,7 @@ src/ov012/survey.c:
     complete
     .text       start:0x021652cc end:0x02165598
     .rodata     start:0x0216dad0 end:0x0216dc1c
+
+src/ov012/scrcmd_sp_poke_gimmick.c:
+    complete
+    .text       start:0x02165598 end:0x0216598c
