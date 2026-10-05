@@ -185,7 +185,7 @@ int WorldTrade_Deposit_Init(WorldTradeWork *wk, int seq) {
 
     Deposit_InitWork(wk);
     Deposit_BgInit();
-    func_ov214_021dee54(wk, 0, 0);
+    WorldTrade_SubLcdBgInit(wk, 0, 0);
     Deposit_BgGraphicSet(wk);
     Deposit_BmpWinInit(wk);
     Deposit_SetCellActor(wk);
@@ -211,7 +211,7 @@ int WorldTrade_Deposit_Init(WorldTradeWork *wk, int seq) {
     wk->inputWork = WorldTrade_Input_Init(&header, 2, 0);
 
     wk->subprocessSeq = DEPOSIT_SEQ_START;
-    wk->unk12E4 = 0;
+    wk->subLcdBgKeep = 0;
     return WT_SEQ_FADEIN;
 }
 
@@ -225,7 +225,7 @@ int WorldTrade_Deposit_End(WorldTradeWork *wk, int seq) {
     Deposit_FreeWork(wk);
     Deposit_BmpWinDelete(wk);
     Deposit_BgExit();
-    func_ov214_021def50(wk);
+    WorldTrade_SubLcdBgExit(wk);
     func_0204c124(wk->promptDsAct, FALSE);
     WorldTrade_SubProcessUpdate(wk);
     return WT_SEQ_INIT;
@@ -348,7 +348,7 @@ static void Deposit_BgGraphicSet(WorldTradeWork *wk) {
     GFL_BGSysLoadNCGRStatic(ARCID_WORLDTRADE, 9, 1, 0, 0, TRUE, HEAPID_WORLDTRADE);
     loadBGScrToVramByNarcNoReserveNegAlign(ARCID_WORLDTRADE, 20, 1, 0, 0x600, TRUE, HEAPID_WORLDTRADE);
     GFL_BGSysLoadArcNCGRStatic(arc, 12, 2, 0, 0, TRUE, HEAPID_WORLDTRADE);
-    func_ov214_021df9a0(wk);
+    WorldTrade_SubLcdWinGraphicSet(wk);
     GFL_ArcToolFree(arc);
 }
 
@@ -371,7 +371,7 @@ static void Deposit_BmpWinInit(WorldTradeWork *wk) {
         BmpWin_FlushMap(win);
         GFL_BGSysLoadScr(BmpWin_GetBGIndex(win));
     }
-    func_ov214_021dfa18(wk, 3);
+    WorldTrade_SubLcdExplainPut(wk, 3);
 }
 
 static void Deposit_BmpWinDelete(WorldTradeWork *wk) {

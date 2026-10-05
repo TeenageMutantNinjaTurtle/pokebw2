@@ -84,7 +84,7 @@ int WorldTrade_Demo_Init(WorldTradeWork *wk, int seq) {
 
     QueueGameProc(wk->procManager, OVERLAY_POKEMONTRADE, procs, wk->subProcParam);
     wk->subprocFlag = 1;
-    wk->unk12E4 = 0;
+    wk->subLcdBgKeep = 0;
     return WT_SEQ_FADEIN;
 }
 

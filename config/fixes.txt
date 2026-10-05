@@ -759,11 +759,15 @@ overlays/ov214 0x021de134 reloc_addend 4
 overlays/ov214 0x021de180 reloc_addend 4
 overlays/ov214 0x021de4c0 overlay_id 207
 overlays/ov214 0x021deba8 reloc_addend 2
+overlays/ov214 0x021df0f8 reloc_addend 2
+overlays/ov214 0x021df5cc reloc_addend 2
 overlays/ov214 0x021dfeac reloc_module overlay(189)
 overlays/ov214 0x021e1bc0 remove_reloc
 overlays/ov214 0x021e1c32 remove_symbol
 overlays/ov214 0x021e2515 remove_symbol
 overlays/ov214 0x021e27b0 remove_symbol
+overlays/ov214 0x021e27ee remove_symbol
+overlays/ov214 0x021e28e0 remove_reloc
 overlays/ov214 0x021e29a4 remove_symbol
 overlays/ov214 0x021e29a8 remove_symbol
 overlays/ov214 0x021e2e59 remove_symbol

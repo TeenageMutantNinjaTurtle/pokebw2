@@ -140,7 +140,7 @@ static int Enter_Start(WorldTradeWork *wk) {
     GFL_SndBGMPlay(SEQ_BGM_GTS, SND_CHANNEL_MASK_ALL);
     wk->subprocessSeq = ENTER_END;
     wk->boxSearchFlag = 1;
-    wk->unk30 = 0;
+    wk->openingFlag = 0;
     WorldTrade_SubProcessChange(wk, WORLDTRADE_TITLE, 0);
     return WT_SEQ_MAIN;
 }

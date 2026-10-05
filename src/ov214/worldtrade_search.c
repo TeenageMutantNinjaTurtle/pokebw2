@@ -210,10 +210,10 @@ int WorldTrade_Search_Init(WorldTradeWork *wk, int seq) {
     Search_BgGraphicSet(wk);
     Search_BmpWinInit(wk);
     Search_SetCellActor(wk);
-    func_ov214_021dee54(wk, 0, 0);
-    func_ov214_021df9a0(wk);
-    func_ov214_021dfa18(wk, 4);
-    wk->unk12E4 = 0;
+    WorldTrade_SubLcdBgInit(wk, 0, 0);
+    WorldTrade_SubLcdWinGraphicSet(wk);
+    WorldTrade_SubLcdExplainPut(wk, 4);
+    wk->subLcdBgKeep = 0;
 
     // The header's config is left unset
     header.menuWin = wk->menuWin;
@@ -270,9 +270,9 @@ int WorldTrade_Search_End(WorldTradeWork *wk, int seq) {
     Search_BmpWinDelete(wk);
     Search_BgExit();
     if (wk->subNextProcess == WORLDTRADE_TITLE) {
-        wk->unk12E4 = 1;
+        wk->subLcdBgKeep = 1;
     }
-    func_ov214_021def50(wk);
+    WorldTrade_SubLcdBgExit(wk);
     func_0204c124(wk->promptDsAct, FALSE);
     WorldTrade_SubProcessUpdate(wk);
     return WT_SEQ_INIT;

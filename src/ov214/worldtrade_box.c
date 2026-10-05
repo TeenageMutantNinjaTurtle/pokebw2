@@ -162,7 +162,7 @@ int WorldTrade_Box_Init(WorldTradeWork *wk, int seq) {
     Box_InitWork(wk);
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     Box_BgInit();
-    func_ov214_021dee54(wk, 0, 0);
+    WorldTrade_SubLcdBgInit(wk, 0, 0);
     Box_BgGraphicSet(wk);
     Box_BmpWinInit(wk);
     Box_SetCellActor(wk);
@@ -177,7 +177,7 @@ int WorldTrade_Box_Init(WorldTradeWork *wk, int seq) {
     Box_NowBoxPageInfoGet(wk, wk->boxTrayNo);
     WorldTrade_WifiIconAdd(wk);
     wk->subprocessSeq = BOX_SEQ_START;
-    wk->unk12E4 = 0;
+    wk->subLcdBgKeep = 0;
     return WT_SEQ_FADEIN;
 }
 
@@ -193,7 +193,7 @@ int WorldTrade_Box_End(WorldTradeWork *wk, int seq) {
     Box_FreeWork(wk);
     Box_BmpWinDelete(wk);
     Box_BgExit();
-    func_ov214_021def50(wk);
+    WorldTrade_SubLcdBgExit(wk);
     func_0204c124(wk->promptDsAct, FALSE);
     WorldTrade_SubProcessUpdate(wk);
     return WT_SEQ_INIT;
@@ -309,8 +309,8 @@ static void Box_BgGraphicSet(WorldTradeWork *wk) {
     loadBGScrToVramByFileNoReserveNegAlign(arc, 31, 2, 0, 0x600, TRUE, HEAPID_WORLDTRADE);
     GFL_ArcToolFree(arc);
 
-    func_ov214_021df920(wk);
-    func_ov214_021df9a0(wk);
+    WorldTrade_SubLcdBgGraphicSet(wk);
+    WorldTrade_SubLcdWinGraphicSet(wk);
 }
 
 // The arrows by the box name
@@ -457,9 +457,9 @@ static void Box_BmpWinInit(WorldTradeWork *wk) {
     WorldTrade_SysPrint(wk->menuWin[1], wk->endString, 0, 1, 1, 0x3dc4, &wk->print);
 
     if (wk->subProcessMode == BOX_MODE_DEPOSIT_SELECT) {
-        func_ov214_021dfa18(wk, 3);
+        WorldTrade_SubLcdExplainPut(wk, 3);
     } else {
-        func_ov214_021dfa18(wk, 1);
+        WorldTrade_SubLcdExplainPut(wk, 1);
     }
 }
 

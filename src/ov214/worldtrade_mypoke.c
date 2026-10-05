@@ -91,7 +91,7 @@ int WorldTrade_MyPoke_Init(WorldTradeWork *wk, int seq) {
 
     MyPoke_InitWork(wk);
     MyPoke_BgInit();
-    func_ov214_021dee54(wk, 0, 0);
+    WorldTrade_SubLcdBgInit(wk, 0, 0);
     MyPoke_BgGraphicSet(wk);
     MyPoke_BmpWinInit(wk);
     MyPoke_SetCellActor(wk);
@@ -110,7 +110,7 @@ int WorldTrade_MyPoke_Init(WorldTradeWork *wk, int seq) {
 
     GFL_WipeSet(3, 1, 1, 0, 6, 1, HEAPID_WORLDTRADE);
     wk->subprocessSeq = MYPOKE_SEQ_START;
-    wk->unk12E4 = 0;
+    wk->subLcdBgKeep = 0;
     return WT_SEQ_FADEIN;
 }
 
@@ -123,7 +123,7 @@ int WorldTrade_MyPoke_End(WorldTradeWork *wk, int seq) {
     MyPoke_FreeWork(wk);
     MyPoke_BmpWinDelete(wk);
     MyPoke_BgExit();
-    func_ov214_021def50(wk);
+    WorldTrade_SubLcdBgExit(wk);
     func_0204c124(wk->promptDsAct, FALSE);
     WorldTrade_SubProcessUpdate(wk);
     return WT_SEQ_INIT;
@@ -218,7 +218,7 @@ static void MyPoke_BgGraphicSet(WorldTradeWork *wk) {
     GFL_BGSysLoadArcNCGRStatic(arc, 16, 1, 0, 0, TRUE, HEAPID_WORLDTRADE);
     loadBGScrToVramByFileNoReserveNegAlign(arc, 22, 1, 0, 0x600, TRUE, HEAPID_WORLDTRADE);
     GFL_BGSysLoadNCLRDefault(ARCID_FONT, 5, 4, 0x20, 0x20, HEAPID_WORLDTRADE);
-    func_ov214_021df9a0(wk);
+    WorldTrade_SubLcdWinGraphicSet(wk);
     GFL_ArcToolFree(arc);
 }
 
@@ -276,7 +276,7 @@ static void MyPoke_BmpWinInit(WorldTradeWork *wk) {
         GFL_BGSysLoadScr(BmpWin_GetBGIndex(win));
     }
 
-    func_ov214_021dfa18(wk, 2);
+    WorldTrade_SubLcdExplainPut(wk, 2);
 }
 
 static void MyPoke_BmpWinDelete(WorldTradeWork *wk) {

@@ -95,9 +95,9 @@ int WorldTrade_Partner_Init(WorldTradeWork *wk, int seq) {
     Partner_InitWork(wk);
     Partner_BgInit(-32 - wk->drawOffset);
     if (gfxRegGetMasterBrightness(REG_DB_MASTER_BRIGHT_ADDR) == 0) {
-        func_ov214_021dee54(wk, -32 - wk->drawOffset, 1);
+        WorldTrade_SubLcdBgInit(wk, -32 - wk->drawOffset, 1);
     } else {
-        func_ov214_021dee54(wk, -32 - wk->drawOffset, 0);
+        WorldTrade_SubLcdBgInit(wk, -32 - wk->drawOffset, 0);
     }
     Partner_BgGraphicSet(wk);
     Partner_BmpWinInit(wk);
@@ -135,7 +135,7 @@ int WorldTrade_Partner_Init(WorldTradeWork *wk, int seq) {
     }
 
     wk->subprocessSeq = PARTNER_SEQ_START;
-    wk->unk12E4 = 0;
+    wk->subLcdBgKeep = 0;
     wk->partnerChange = 0;
     return WT_SEQ_FADEIN;
 }
@@ -158,7 +158,7 @@ int WorldTrade_Partner_End(WorldTradeWork *wk, int seq) {
     Partner_FreeWork(wk);
     Partner_BmpWinDelete(wk);
     Partner_BgExit();
-    func_ov214_021def50(wk);
+    WorldTrade_SubLcdBgExit(wk);
     func_0204c124(wk->promptDsAct, FALSE);
     WorldTrade_SubProcessUpdate(wk);
     if (wk->partnerChange == 0) {
@@ -356,7 +356,7 @@ static void Partner_DecidePartner(WorldTradeWork *wk, int result) {
         wk->touchTrainerPos = result;
         WorldTrade_SetPartnerCursorPos(wk, result, 0);
         GFL_SndSEPlay(0x54c);
-        wk->unk12E4 = 1;
+        wk->subLcdBgKeep = 1;
         wk->partnerChange = 1;
     }
 }

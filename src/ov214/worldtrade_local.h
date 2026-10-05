@@ -188,14 +188,17 @@ struct WorldTradeWork {
     u8 unk4[0xc];
     int subProcess;
     int subNextProcess;
-    int unk18;
+    // The screen that a screen started from the title returns to
+    int subReturnProcess;
     int oldSubProcess;
     int subProcessMode;
     int unk24;
     int subprocessSeq;
     int subprocessNextSeq;
-    u16 unk30;
-    u16 unk32;
+    // Set once the player has seen the title's opening walk
+    u16 openingFlag;
+    // Set while the player has a Pokémon deposited on the server
+    u16 depositFlag;
     u16 unk34;
     // Counts down the frames before the server may be checked again
     u16 serverWaitTime;
@@ -267,7 +270,9 @@ struct WorldTradeWork {
     // How far the screens slide, between the search and partner screens
     int drawOffset;
     BmpWin *msgWin;
-    u8 unkD44[0x8];
+    u8 unkD44[0x4];
+    // The title of the screen, on the main screen's top
+    BmpWin *titleWin;
     BmpWin *subWin;
     BmpWin *menuWin[16];
     BmpWin *infoWin[16];
@@ -336,8 +341,10 @@ struct WorldTradeWork {
     void *subProcParam;
     u8 unk10E0[0x8c];
     // The Wi-Fi login proc's work
-    u8 wifiLoginBuffer[0x178];
-    int unk12E4;
+    u8 wifiLoginBuffer[0x174];
+    // Set once the lower screen's BGs are set up, and while a screen keeps them for the next one
+    int subLcdBgInit;
+    int subLcdBgKeep;
     int unk12E8;
     // The step of the login, which the Wi-Fi login proc calls back for
     int loginSeq;
@@ -501,11 +508,13 @@ void WorldTrade_SetPartnerExchangePosIsReturns(WorldTradeWork *wk);
 int WorldTrade_Title_Init(WorldTradeWork *wk, int seq);
 int WorldTrade_Title_Main(WorldTradeWork *wk, int seq);
 int WorldTrade_Title_End(WorldTradeWork *wk, int seq);
-void func_ov214_021dee54(WorldTradeWork *wk, int a1, int a2);
-void func_ov214_021def50(WorldTradeWork *wk);
-void func_ov214_021df920(WorldTradeWork *wk);
-void func_ov214_021df9a0(WorldTradeWork *wk);
-void func_ov214_021dfa18(WorldTradeWork *wk, int explain);
+// Sets up the lower screen's BGs, the trade room, with the room's BG moved down by bg1YOffset
+void WorldTrade_SubLcdBgInit(WorldTradeWork *wk, int bg1YOffset, BOOL bg2NoClear);
+void WorldTrade_SubLcdBgExit(WorldTradeWork *wk);
+void WorldTrade_SubLcdBgGraphicSet(WorldTradeWork *wk);
+void WorldTrade_SubLcdWinGraphicSet(WorldTradeWork *wk);
+// Shows a text that explains the screen on the lower screen
+void WorldTrade_SubLcdExplainPut(WorldTradeWork *wk, int explain);
 
 // worldtrade_upload.c
 int WorldTrade_Upload_Init(WorldTradeWork *wk, int seq);
@@ -529,7 +538,7 @@ BOOL func_ov214_021e173c(WorldTradePrint *print);
 void func_ov214_021e1754(BmpWin *win, int x, StrBuf *str, int y, int a4, WorldTradePrint *print);
 // The same through the message stream, at the player's text speed
 void func_ov214_021e1774(BmpWin *win, int a1, StrBuf *str, int x, int y, WorldTradePrint *print);
-void func_ov214_021e17c4(BmpWin *win, int a1, StrBuf *str, int x, int y, int a5, u16 color, WorldTradePrint *print);
+void func_ov214_021e17c4(BmpWin *win, u8 font, StrBuf *str, int x, int y, int a5, u16 color, WorldTradePrint *print);
 void func_ov214_021e1840(WorldTradePrint *print);
 WorldTradeNumFont *func_ov214_021e1874(u32 a0, u32 a1, u32 a2, HeapID heapId);
 void func_ov214_021e18d8(WorldTradeNumFont *numFont);
