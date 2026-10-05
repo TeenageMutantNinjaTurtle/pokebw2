@@ -171,7 +171,16 @@ RivalDataSave *getHollow_RivalData(SaveControl *save);
 // Save block 0x42, and setting a byte of it
 void *getHollow_RivalBlk(SaveControl *save);
 void func_0200ff78(void *rival, u32 value);
-void func_0200ff50(void *block, u32 index, u8 value);
+// The rival's hollow data: a value of an index, a flag of an index, and the hollows visited
+void func_0200ff50(void *block, u32 index, u16 value);
+u16 func_0200ff54(void *block, u16 index);
+void func_0200ff58(void *block, u16 index, u32 value);
+void func_0200ff6c(void *block);
+u16 func_0200ff74(void *block);
+void func_0200ff94(void *block, u32 value);
+void func_0200ffb0(void *block, u16 value);
+void func_0200ffb8(void *block, u32 value);
+BOOL func_0200ffd4(void *block, int index);
 void func_0200f700(RivalDataSave *rivalData, u32 id);
 void copyRivalNameIntoHollowBlock(RivalDataSave *data, const u16 *name);
 const u16 *getPtrToRivalName(RivalDataSave *data);
