@@ -44,6 +44,12 @@ Same instructions, registers swapped.
 - Variables declared in an inner block are allocated apart from the function's variables of the same name: in
   `ShinkaDemoPieces_Move`, the branch that moves a piece home declares its own `dx` and `dz`, which live on the stack
   while the other branches keep theirs in registers.
+- Two values that the original keeps in one register, one dead before the other is set, were one variable: the PC
+  box's `func_ov255_021cdcc8` keeps the party position and then its result in the same variable, where two
+  variables get two registers.
+- A loop condition written with a local for its row start, `start = pos + j * 6; if (x >= start && x < w + start)`,
+  allocates registers differently from the same sums written in both comparisons: the PC box's `func_ov255_021d229c`
+  only matched with the sums written out.
 
 ## Stack slots
 
@@ -116,6 +122,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   `PokeIconChgDataMake`.
 - A caller narrows an argument for a `u8` or `u16` parameter with shifts before the call, so an argument passed without
   them is for a wider parameter.
+- A wider parameter stored into a narrow bit field is narrowed to the field's type and then shifted into place, while
+  a `u8` parameter is trusted and shifted at once. The PC box's `func_ov255_021cc460` takes its button's actor and
+  palette as `u32` and narrows them in the stores to its 7- and 4-bit fields.
 - A sum that the original truncates to `s16` before comparing it was stored in an `s16` local, as the edges of the
   Join Avenue's balloons are; casting it in the comparison gives the same code but is not needed.
 - Masks written with `~` clear bits with `bic`. The game's `and` with a constant such as `0xef` is `x &= (u8)~FLAG`.
@@ -167,6 +176,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   too and doesn't match.
 - When comparing a call's result, `v = f(); if (v == x)` and `if (f() == x)` put the operands of `cmp` in opposite
   orders.
+- The operands of `==` between two fields are compared in source order: `syswk->tray == syswk->getTray` gives
+  `cmp tray, getTray`, as the PC box's `func_ov255_021cc8dc` needs.
+- A store picked by a test, `if (pos < 30) syswk->pos = pos; else syswk->pos = 0;`, branches past the second value with
+  `bhs` and `b`, while clamping a local first, `if (pos >= 30) pos = 0; syswk->pos = pos;`, uses one `blo`. The PC box's
+  `func_ov255_021c8b38` is the first.
 - `a == 4 || a == 5` becomes a range check. Separate comparisons that jump to the same code come from separate
   branches with the same body.
 - A clamp that ends in one store, with each limit copied into the value's register, is a conditional expression.
