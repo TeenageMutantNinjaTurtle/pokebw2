@@ -2097,8 +2097,6 @@ static int func_ov255_021c522c(Box2SysWork *syswk) {
 }
 
 // Picking a range with the party out: waits for a touch or for the cursor to pick or drop one
-// Picking a range with the party out: waits for a touch or for the cursor to pick or drop one
-// Picking a range with the party out: waits for a touch or for the cursor to pick or drop one
 static int func_ov255_021c53f4(Box2SysWork *syswk) {
     u32 i;
     u32 res;
@@ -4010,7 +4008,6 @@ static int func_ov255_021c8608(Box2SysWork *syswk) {
 }
 
 // Mode 0: picks the box to deposit the Pokémon in
-// Mode 0: picks the box to deposit the Pokémon in
 static int func_ov255_021c8798(Box2SysWork *syswk) {
     u32 res = func_0202b768(syswk->app->cursorMove);
 
@@ -4161,7 +4158,6 @@ static int func_ov255_021c8ad0(Box2SysWork *syswk) {
     return 59;
 }
 
-// The item arrangement's main state: waits for a touch or for the cursor to pick something
 // The item arrangement's main state: waits for a touch or for the cursor to pick something
 static int func_ov255_021c8b38(Box2SysWork *syswk) {
     u32 res;
@@ -6915,7 +6911,6 @@ static int func_ov255_021ccf68(Box2SysWork *syswk, u32 frameOut, int seq) {
     return func_ov255_021cbec8(syswk, Box2Main_VFuncTrayScrollRight, seq);
 }
 
-// Moving Pokémon: picks up a touched Pokémon
 // Moving Pokémon: picks up a touched Pokémon
 static int func_ov255_021ccfb4(Box2SysWork *syswk, u32 pos) {
     syswk->unk1B = 0;
