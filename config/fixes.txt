@@ -23,6 +23,7 @@
 . 0x02027dfc reloc_addend 0x100
 . 0x02027e38 reloc_addend 0x100
 . 0x0208d374 add_label _fflt
+. 0x0208d5c4 add_label _ll_udiv
 . 0x0208d60c add_label _ll_mul
 . 0x0208d868 add_label _u32_div_f
 . 0x02091264 remove_reloc

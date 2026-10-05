@@ -413,3 +413,8 @@ src/system/brightness.c:
     complete
     .text       start:0x0202975c end:0x02029994
     .bss        start:0x021417fc end:0x0214183c
+
+src/system/playtime_ctrl.c:
+    complete
+    .text       start:0x02026d0c end:0x02026dec
+    .bss        start:0x02141688 end:0x021416a4

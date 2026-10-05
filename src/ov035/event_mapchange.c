@@ -44,6 +44,7 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 #include "system/new_game.h"
+#include "system/playtime_ctrl.h"
 #include "system/season.h"
 
 struct EventGameOpening {

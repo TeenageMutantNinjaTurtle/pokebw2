@@ -50,6 +50,8 @@ JoinAvenuePersonList **GameData_GetJoinAvenuePersonListPtr(GameData *gameData);
 u32 GameData_GetLastSubscreen(GameData *gameData);
 MMSys *GameData_GetMMSys(GameData *gameData);
 CityState *GameData_GetMyCityState(GameData *gameData);
+// Adds seconds to the play time
+void GameData_UpdateTime(GameData *gameData, u32 seconds);
 u16 func_02017220(GameData *gameData);
 void func_0201740c(GameData *gameData, u8 value);
 // Save block 0x39, the Battle Subway's scores
