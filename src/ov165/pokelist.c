@@ -73,7 +73,7 @@ static BOOL PokeListProc_Exit(GameProc *proc, u32 *state, void *param, void *wor
     GFL_ProcReleaseSubsystem(proc);
     heapId = HEAPID_POKELIST;
     result = TRUE;
-    DSPROT_CHECKED_RUN(ret, func_ov165_021a3328, func_ov165_021a3150, PokeListProc_DeleteHeap, &heapId, &result);
+    DSPROT_CHECKED_RUN(ret, DSProt_CallRunChecks, DSProt_CallCrash, PokeListProc_DeleteHeap, &heapId, &result);
     return *ret;
 }
 

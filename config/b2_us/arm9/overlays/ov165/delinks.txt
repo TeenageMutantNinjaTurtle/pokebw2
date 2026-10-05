@@ -47,3 +47,13 @@ src/ov165/plist_demo.c:
 src/ov165/status_rcv.c:
     complete
     .text       start:0x021a23e8 end:0x021a30f8
+
+lib/dsprot/src/dsprot_run.c:
+    .text       start:0x021a30f8 end:0x021a33fc
+    .rodata     start:0x021a4c84 end:0x021a4c9c
+    .ctor       start:0x021a4cc8 end:0x021a4ccc
+
+lib/dsprot/src/dsprot_stub_check.c:
+    complete
+    .text       start:0x021a33fc end:0x021a37b0
+    .ctor       start:0x021a4ccc end:0x021a4cd0

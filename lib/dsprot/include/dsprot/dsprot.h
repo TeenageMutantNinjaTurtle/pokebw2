@@ -62,9 +62,9 @@ void *func_ov337_02180a84(void *arg0, void *arg1);
 void *func_ov337_02180b30(void *arg0, void *arg1);
 void func_ov337_02180bdc(void);
 
-// Overlay 165's copy of DS Protect. func_ov165_021a3328 calls callback(arg0, arg1) after its check and returns what
-// it returns, and func_ov165_021a3150 is what the party list calls when the check's own code was changed
-void *func_ov165_021a3150(void *arg0, void *arg1);
-void *func_ov165_021a3328(DSProtCallback callback, void *arg0, void *arg1);
+// Overlay 165's copy of DS Protect. DSProt_CallRunChecks calls callback(arg0, arg1) after its check and returns what
+// it returns, and DSProt_CallCrash is what the party list calls when the check's own code was changed
+void *DSProt_CallCrash(void *arg0, void *arg1);
+void *DSProt_CallRunChecks(DSProtCallback callback, void *arg0, void *arg1);
 
 #endif // POKEBW2_DSPROT_DSPROT_H
