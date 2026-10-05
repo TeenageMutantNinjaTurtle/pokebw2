@@ -3367,10 +3367,13 @@ BOOL Box2Main_VFuncPartyPokeFreeSort(Box2SysWork *syswk) {
 // Moves the held Pokémon to the end of the party
 BOOL Box2Main_VFuncPartyInPokeMove(Box2SysWork *syswk) {
     Box2IrqWork *vf = &syswk->app->vfunk;
+    u32 putPos;
 
     switch (vf->seq) {
     case 0:
-        PokeIconMoveDataMake(syswk, syswk->pos, PokeParty_GetPkmCount(syswk->param->party) + BOX2_PARTY_POS);
+        // The Pokémon goes to the end of the party
+        putPos = PokeParty_GetPkmCount(syswk->param->party) + BOX2_PARTY_POS;
+        PokeIconMoveDataMake(syswk, syswk->pos, putPos);
         func_ov255_021d11a4(syswk, 0);
         vf->seq++;
         break;

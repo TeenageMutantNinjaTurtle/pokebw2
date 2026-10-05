@@ -99,6 +99,9 @@ Same instructions, scheduled in another order.
 - An argument that is loaded before a call among the arguments, such as a print queue loaded before
   `BmpWin_GetBitmap(...)` in the same call, was passed to an inlined helper that makes the call, like
   `PrintWindow_Print`.
+- A computed argument whose arithmetic comes before the loads of the arguments before it was assigned to a variable
+  first: the PC box's `Box2Main_VFuncPartyInPokeMove` adds 30 to the party's count before loading the cursor
+  position only with `putPos = count + 30; PokeIconMoveDataMake(syswk, syswk->pos, putPos);`.
 - A parameter passed on the stack is loaded at the function's entry, along with the register parameters, unless it is
   an `int` or `s32`, which is loaded where it is first used. `StartMenu_DrawFrame` takes its BG as a `u8`, as
   `GFL_BGSysFillScrArea` does.
