@@ -6542,7 +6542,7 @@ from:0x02169c34 kind:thumb_call to:0x02016af0 module:main
 from:0x02169c38 kind:thumb_call to:0x021eee1c module:overlay(133)
 from:0x02169c46 kind:thumb_call to:0x02155184 module:overlay(12)
 from:0x02169c4e kind:thumb_call to:0x0215516c module:overlay(12)
-from:0x02169c52 kind:thumb_call to:0x021eee7c module:overlays(120,123,133)
+from:0x02169c52 kind:thumb_call to:0x021eee7c module:overlay(133)
 from:0x02169c5a kind:thumb_call to:0x02153880 module:overlay(12)
 from:0x02169c66 kind:thumb_call to:0x02016ad8 module:main
 from:0x02169c6a kind:thumb_call to:0x0201793c module:main
