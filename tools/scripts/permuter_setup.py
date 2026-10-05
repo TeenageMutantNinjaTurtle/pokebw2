@@ -22,7 +22,7 @@ from pathlib import Path
 import pycparser
 import pycparser.c_generator
 
-from compiler_probe import DEFAULT_FLAGS, VERSION_DEFINES, find_function, lib_compiler, load_modules
+from compiler_probe import DEFAULT_FLAGS, INCLUDE_DIRS, VERSION_DEFINES, find_function, lib_compiler, load_modules
 from dsd_config import ROOT
 
 WIBO = ROOT / "tools" / "wibo"
@@ -69,7 +69,7 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
 
     defines = [f"-D{d}" for d in VERSION_DEFINES[args.version]]
-    preprocessed = subprocess.run(["clang", "-E", "-P", "-I", str(ROOT / "include"), *defines, str(ROOT / args.source)],
+    preprocessed = subprocess.run(["clang", "-E", "-P", *(f"-I{ROOT / d}" for d in INCLUDE_DIRS), *defines, str(ROOT / args.source)],
                                   check=True, capture_output=True, text=True).stdout
     (out / "base.c").write_text(single_function(preprocessed, args.function))
 

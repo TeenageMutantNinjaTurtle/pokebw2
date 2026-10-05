@@ -1,0 +1,81 @@
+The “How Do You Play the Game" Survey
+The “Details about People" Survey
+The “Pokémon Favorites" Survey
+The “Ideals and Values" Survey
+The “Likable People" Survey
+The “Future Goals" Survey
+The “Entertainment" Survey
+The “What If..." Survey
+The “Sports and Pastimes" Survey
+The “More about Pokémon" Survey
+This is a survey about how people play Pokémon\nBlack Version 2 and Pokémon White Version 2.
+This is a survey to find out details\nabout people.
+This is a survey to find out people's\npreferences when it comes to Pokémon.
+This is a survey to find out about the ideals\nand values of people.
+This is a survey to find out about what kinds\nof people are most likable.
+This is a survey to find out what\ngoals people have for the future.
+This is a survey to find out what kinds of\nentertainment people enjoy.
+This is a survey to find out everyone's\nopinions about hypothetical situations.
+This is a survey to find out what kind\nof sports and games people like.
+This is a detailed survey to find out\nmore about what people think of Pokémon.
+Which version do you play?
+Are you male or female?
+Which do you prefer, battle or trade?
+Would you live in the city or country?
+What kind of person do you prefer?
+Which do you wish you had more of?
+Which do you value more in a person?
+What kind of Pokémon do you like best?
+What's your starter Pokémon?
+How do you play with your friends?
+Where would you go with a time machine?
+What's most important to you?
+In the future, what do you want to be?
+Are you a dreamer or a realist?
+What kind of people do you like best?
+What do you like about Pokémon?
+What would you do with magic?
+What would you do with lots of money?
+How long have you played Pokémon?
+What do you do in your spare time?
+What kind of music do you like?
+What kind of TV programs do you like?
+What kind of movies do you like?
+What kinds of games do you like?
+What do you plan to work hard at?
+What's your hobby?
+What kind of job do you have?
+Which Gym Leader do you like best?
+What Pokémon type do you like best?
+How long have you been playing?
+The “Pokémon Black Version 2 or\nPokémon White Version 2" Survey
+The “Gender" Survey
+The “Battle vs. Trade" Survey
+The “Where to Live" Survey
+The “Smart vs. Athletic" Survey
+The “Time vs. Money" Survey
+The “Appearance vs. Substance" Survey
+The “Favorite Kind of Pokémon" Survey
+The “Starter Pokémon" Survey
+The “What Do You Play" Survey
+The “What Era Would You Visit\nwith a Time Machine" Survey
+The “Important People" Survey
+The “In the Future, I Want to Be..." Survey
+The “Dreamer or Realist" Survey
+The “Popular People" Survey
+The “Best Thing about Pokémon" Survey
+The “What Would You Do with Magic" Survey
+The “If You Were Rich" Survey
+The “How Long You Have Been\nPlaying Pokémon" Survey
+The “Leisure Time" Survey
+The “Music" Survey
+The “TV" Survey
+The “Movies" Survey
+The “What's Your\nFavorite Game Genre" Survey
+The “What Do You Plan to Work\nHard At" Survey
+The “Hobbies" Survey
+The “Jobs" Survey
+The “Gym Leaders" Survey
+The “Pokémon Types" Survey
+The “Gameplay Time" Survey
+\pad{ec}

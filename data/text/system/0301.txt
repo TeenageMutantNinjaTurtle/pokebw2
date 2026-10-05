@@ -1,0 +1,22 @@
+{bd02}This is a story that starts\n{bd02}with a certain inventor...
+{bd02}His assistant betrayed him and\n{bd02}changed F-00's programming and memory,\n{bd02}which caused it to go wild...
+{bd02}Its life as a robot\n{bd02}appeared to be near an end...
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+{bd02}This is a story that starts\n{bd02}with a certain inventor...
+{bd02}Her assistant betrayed her and\n{bd02}changed F-00's programming and memory,\n{bd02}which caused it to go wild...
+{bd02}Its life as a robot\n{bd02}appeared to be near an end...
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+\pad{88}

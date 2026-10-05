@@ -21,7 +21,7 @@ PRIMARY = "b2_us"
 OTHERS = ["w2_us"]
 NAMES = ROOT / "config" / "names.txt"
 MAPS = [ROOT / "build" / "version_map.tsv", ROOT / "build" / "version_map_symbols.tsv"]
-SOURCE_DIRS = [ROOT / "src", ROOT / "include"]
+SOURCE_DIRS = [ROOT / "src", ROOT / "include", ROOT / "lib"]
 IDENTIFIER_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 # The names dsd generates, such as func_ov035_0217ec9c
 DEFAULT_NAME_RE = re.compile(r"^(func|data|bss)_(ov\d{3}_)?[0-9a-f]{8}$")

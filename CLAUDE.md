@@ -4,7 +4,8 @@ A matching decompilation of Pokémon Black 2 and White 2 (NDS/DSi, MWCC `dsi/1.1
 pokeemerald and then a native PC port. **The README and `docs/` are the source of truth**: setup in the README,
 the workflow and tools in `docs/decompiling.md`, MWCC's behavior in `docs/matching.md`, files, headers and names in
 `docs/code-organization.md`, and the configs in `docs/configs.md`. This file holds the rules that sessions get wrong
-and points to the skills that carry the procedures.
+and points to the skills that carry the procedures. `CONTRIBUTING.md` has the same rules for human contributors: when
+a rule here changes, change it there too.
 
 ## Rules
 
@@ -14,8 +15,10 @@ and points to the skills that carry the procedures.
   `add_source_file.py`, `mark_complete.py`, `rename_symbol.py`, `config_fixes.py`.
 - **One source file per original file**, named after the ROM's embedded string, or descriptively, with the guess said
   in the header and the commit; never an overlay number. Functions go in address order, and in reverse for SPL,
-  whose `1.2/base` compiler emits them reversed. Placement follows `include/`: `src/ovNNN/` for overlays; `src/gfl`, `src/system`,
-  `src/spl` and later `src/nitro`, `src/nnsys` for main, by link order. `docs/code-organization.md` has the rest.
+  whose `1.2/base` compiler emits them reversed. `src/` is code built with the game's compiler: `src/ovNNN/` for overlays,
+  `src/gfl` and `src/system` for main, by link order. Libraries built apart, with their own compiler, go in
+  `lib/<name>/{include,src}` with a `library.toml`: `lib/spl`, and `lib/nitro`, `lib/nnsys` (headers only so far).
+  `docs/code-organization.md` has the rest.
 - **Names:** swan's first, marked as swan's in the header. Our own go through `rename_symbol.py`, which records them
   in `config/names.txt`. Types swan doesn't name are named after their owner. Rename a static's symbol to its C name.
 - **Write C from the asm.** pret (pokeplatinum, pokeheartgold) and other decomps are references for names and

@@ -18,6 +18,8 @@ LINE_END = 0xFFFF
 NEWLINE = 0xFFFE
 # Control codes, such as a placeholder for a name, start at this value and are followed by their arguments
 CONTROL = 0xF000
+# A compressed line starts with this value, see decompress
+COMPRESSED = 0xF100
 
 
 def decrypt(chars: list[int]) -> list[int]:
@@ -29,6 +31,27 @@ def decrypt(chars: list[int]) -> list[int]:
         chars[i] ^= key
         key = ((key >> 3) | (key << 13)) & 0xFFFF
     return chars
+
+
+def decompress(chars: list[int]) -> list[int]:
+    """Unpacks a compressed line: after COMPRESSED, its characters are 9 bits each, packed from the lowest bit of each
+    16-bit word up, and end with 0x1ff. Names of trainers, among others, are stored this way."""
+    if not chars or chars[0] != COMPRESSED:
+        return chars
+    bits = 0
+    count = 0
+    out = []
+    for word in chars[1:]:
+        bits |= word << count
+        count += 16
+        while count >= 9:
+            c = bits & 0x1FF
+            if c == 0x1FF:
+                return out + [LINE_END]
+            out.append(c)
+            bits >>= 9
+            count -= 9
+    return out + [LINE_END]
 
 
 def to_text(chars: list[int]) -> str:
@@ -53,7 +76,7 @@ def read_msgdata(data: bytes) -> list[str]:
     for i in range(num_lines):
         offset, length, _ = struct.unpack_from("<IHH", data, section + 4 + 8 * i)
         chars = struct.unpack_from(f"<{length}H", data, section + offset)
-        lines.append(to_text(decrypt(chars)))
+        lines.append(to_text(decompress(decrypt(chars))))
     return lines
 
 

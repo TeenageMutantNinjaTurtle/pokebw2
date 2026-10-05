@@ -1,0 +1,42 @@
+SCENARIO
+SCENE 01
+SCENE 02
+SCENE 03
+SCENE 04
+SCENE 05
+SCENE 06
+SCENE 07
+SCENE 08
+SCENE 09
+SCENE 10
+SCENE 11
+SCENE 12
+SCENE 13
+SCENE 14
+SCENE 15
+SCENE 16
+SCENE 17
+SCENE 18
+SCENE 19
+SCENE 20
+Switch your opponent's Pokémon!
+Use a move the foe's type is weak to!\nThe line you choose is important!
+Use a move the foe's type is weak to!
+Use a move the foe's type is weak to!
+Deliver a decisive blow!
+Deliver a decisive blow!
+Deliver a decisive blow!
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし
