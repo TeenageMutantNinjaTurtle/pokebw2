@@ -565,7 +565,7 @@ void func_ov033_0217bf04(BSubwayPokemon *dst, PartyPkm *pkm) {
     dst->region = PokeParty_GetParam(pkm, PKM_PARAM_REGION, NULL);
     dst->id = PokeParty_GetParam(pkm, PKM_PARAM_ID, NULL);
     dst->personality = PokeParty_GetParam(pkm, PKM_PARAM_PID, NULL);
-    dst->ivs = PokeParty_GetParam(pkm, PKM_PARAM_IVS_ALL, NULL);
+    dst->ivs.all = PokeParty_GetParam(pkm, PKM_PARAM_IVS_ALL, NULL);
     for (i = 0; i < 6; i++) {
         dst->evs[i] = PokeParty_GetParam(pkm, PKM_PARAM_EV_HP + i, NULL);
     }
@@ -703,11 +703,11 @@ u16 func_ov033_0217c11c(BSubwayScrWork *bsw, u16 level, u8 index, u32 mode, u8 s
 }
 
 BOOL func_ov033_0217c264(BSubwayScrWork *bsw, BSubwayTrainer *trainer, u16 trainerId, u32 count, const u16 *species,
-                         const u16 *items, const BSubwayTeamConfig *config, HeapID heapId) {
+                         const u16 *items, BSubwayTeamConfig *config, HeapID heapId) {
     return func_ov012_02162864(trainer, trainerId, count, species, items, config, heapId);
 }
 
-u16 func_ov033_0217c288(u32 value) {
+u8 func_ov033_0217c288(u32 value) {
     if (value < 100) {
         return 3;
     }
@@ -734,14 +734,14 @@ u16 func_ov033_0217c288(u32 value) {
 
 void func_ov033_0217c2c4(BSubwayScrWork *bsw, BSubwayTrainer *trainer, u16 trainerId, u32 count,
                          const BSubwayTeamConfig *config, HeapID heapId) {
-    u32 adjusted;
+    u8 iv;
     void *temp;
     s32 i;
 
     temp = func_ov012_021628c0(trainer, 0xd4, trainerId, 15, heapId);
-    adjusted = func_ov033_0217c288(trainerId);
+    iv = func_ov033_0217c288(trainerId);
     for (i = 0; i < 2; i++) {
-        func_ov012_02162490(&trainer->pokemon[i], 0xd3, config->unk4[i], config->unk0, config->unk8[i], adjusted, i,
+        func_ov012_02162490(&trainer->pokemon[i], 0xd3, config->files[i], config->id, config->pids[i], iv, i,
                             count, heapId);
     }
     GFL_HeapFree(temp);

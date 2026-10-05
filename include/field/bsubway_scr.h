@@ -26,31 +26,50 @@ struct BSubwayPokemon {
     u16 moves[4];
     u32 id;
     u32 personality;
-    u32 ivs;
+    union {
+        u32 all;
+        struct {
+            u32 hp : 5;
+            u32 attack : 5;
+            u32 defense : 5;
+            u32 speed : 5;
+            u32 spAttack : 5;
+            u32 spDefense : 5;
+            u32 unk30 : 2;
+        } stat;
+    } ivs;
     u8 evs[6];
     // Two bits per move
     u8 ppUps;
     u8 region;
     u8 ability;
     u8 happiness;
-    u16 nickname[13];
+    u16 nickname[11];
+    u8 nature;
+    u8 unk39[3];
 };
 
+// The first two Pokémon picked for a trainer, to make them again: the ID they were made with, their files of the
+// Pokémon arc, personalities and natures
 struct BSubwayTeamConfig {
-    u32 unk0;
-    u16 unk4[2];
-    u32 unk8[2];
-    u8 unk10[2];
+    u32 id;
+    u16 files[2];
+    u32 pids[2];
+    u8 natures[2];
 };
 
 // A Trainer met in the Battle Subway or the Trial House
 struct BSubwayTrainer {
-    u8 unk00[4];
+    // The number of the trainer's file plus 1
+    u32 unk00;
     u16 trainerId;
-    u8 unk06[0x12];
+    u8 unk06[2];
+    u16 name[8];
     // What the Trainer says before the battle, or a sentence type of 0xffff and a message of file 0x178
     PMSData message;
-    u8 unk20[0x10];
+    // What the Trainer says on winning and on losing
+    u16 winWords[4];
+    u16 loseWords[4];
     BSubwayPokemon pokemon[4];
 };
 
@@ -161,10 +180,12 @@ void func_ov012_02161a88(BSubwayScrWork *bsw, u8 mode);
 BOOL func_ov012_02161a94(BSubwayScrWork *bsw, u16 *var);
 // Overlay 12
 // Makes a party of count Pokémon at the level
-void func_ov012_021621d4(PokeParty *party, const BSubwayPokemon *pkms, u32 level, int count, HeapID heapId);
-// Makes a Pokémon from the file of the Battle Subway's Pokémon arc
-void func_ov012_02162490(BSubwayPokemon *pkm, u32 arcId, u16 file, u32 a3, u32 a4, u32 a5, u8 a6, u32 a7, HeapID heapId);
-void *func_ov012_021628c0(BSubwayTrainer *trainer, u32 arcId, u32 trainerId, u32 msgFile, HeapID heapId);
+void func_ov012_021621d4(PokeParty *party, const BSubwayPokemon *pkms, u16 level, int count, HeapID heapId);
+// Makes a Pokémon from the file of the Battle Subway's Pokémon arc, with the personality, or one made from id when it
+// is 0, the IVs and, when rentalItem is set, the rental item of the index. Returns the personality
+u32 func_ov012_02162490(BSubwayPokemon *pkm, u32 arcId, u16 file, u32 id, u32 pid, u8 iv, u8 index, BOOL rentalItem,
+                        HeapID heapId);
+void *func_ov012_021628c0(BSubwayTrainer *trainer, u32 arcId, u16 trainerId, u16 msgFile, HeapID heapId);
 GameEvent *func_ov012_02165f70(BSubwayScrWork *bsw, GameSystem *gsys, u8 a2);
 GameEvent *func_ov012_02166070(BSubwayScrWork *bsw, GameSystem *gsys, Field *field);
 GameEvent *func_ov012_02166118(BSubwayScrWork *bsw, GameSystem *gsys, u16 a2, u16 a3, u32 a4);
@@ -211,9 +232,9 @@ void func_ov033_0217bf04(BSubwayPokemon *dest, PartyPkm *pkm);
 void *func_ov033_0217c110(BSubwayScrWork *bsw);
 BtlSetup *func_ov033_0217c094(BSubwayScrWork *bsw, GameSystem *gsys);
 BOOL func_ov033_0217c264(BSubwayScrWork *bsw, BSubwayTrainer *trainer, u16 trainerId, u32 count, const u16 *species,
-                        const u16 *items, const BSubwayTeamConfig *config, HeapID heapId);
+                        const u16 *items, BSubwayTeamConfig *config, HeapID heapId);
 u16 func_ov033_0217c11c(BSubwayScrWork *bsw, u16 level, u8 index, u32 mode, u8 side);
-u16 func_ov033_0217c288(u32 value);
+u8 func_ov033_0217c288(u32 value);
 void func_ov033_0217c2c4(BSubwayScrWork *bsw, BSubwayTrainer *trainer, u16 trainerId, u32 count,
                         const BSubwayTeamConfig *config, HeapID heapId);
 // Function name from swan
