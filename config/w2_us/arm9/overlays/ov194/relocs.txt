@@ -2829,7 +2829,7 @@ from:0x021c1992 kind:thumb_call to:0x02048fe8 module:main
 from:0x021c199c kind:load to:0x021c67e0 module:overlay(194)
 from:0x021c19a0 kind:load to:0x021d33a0 module:overlay(194)
 from:0x021c19a4 kind:load to:0x021c6960 module:overlay(194)
-from:0x021c19a8 kind:load to:0x020949a8 module:main
+from:0x021c19a8 kind:load to:0x020946e8 add:0x2c0 module:main
 from:0x021c19b4 kind:load to:0x021d33a0 module:overlay(194)
 from:0x021c19b8 kind:load to:0x0204a769 module:main
 from:0x021c19de kind:thumb_call to:0x0204a688 module:main

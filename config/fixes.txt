@@ -798,6 +798,7 @@ overlays/ov194 0x021bfcec reloc_module overlay(139)
 overlays/ov194 0x021c0bf2 reloc_module overlay(139)
 overlays/ov194 0x021c1808 reloc_module overlay(139)
 overlays/ov194 0x021c185e reloc_module overlay(139)
+overlays/ov194 0x021c1968 reloc_addend 0x2c0
 overlays/ov194 0x021c2acc reloc_module overlay(139)
 overlays/ov194 0x021c2ad8 reloc_module overlay(139)
 overlays/ov194 0x021c2ae4 reloc_module overlay(139)

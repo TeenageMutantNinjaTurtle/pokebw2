@@ -524,9 +524,9 @@ static void *func_ov194_021b7c0c(int netId, void *work, int size) {
 static void *func_ov194_021b7c28(int netId, void *work, int size) {
     PokemonTradeWork *wk = work;
     if (netId == PokemonTrade_GetMyNetId()) {
-        return wk->unk10[0];
+        return &wk->boxColors[0];
     }
-    return wk->unk10[1];
+    return &wk->boxColors[1];
 }
 
 static void func_ov194_021b7c4c(int netId, int size, void *data, void *work, NetHandle *handle) {
@@ -1602,8 +1602,8 @@ static void func_ov194_021b97a0(PokemonTradeWork *wk) {
 
 static void func_ov194_021b97d0(PokemonTradeWork *wk) {
     if (PokemonTrade_IsNetwork(wk)) {
-        if (func_02042c18(func_02040440(), 0xff, TRADE_NET_CMD_UNKE, sizeof(wk->unk10[0]), wk->unk10[0], 0, FALSE,
-                          TRUE)) {
+        if (func_02042c18(func_02040440(), 0xff, TRADE_NET_CMD_UNKE, sizeof(wk->boxColors[0]), &wk->boxColors[0], 0,
+                          FALSE, TRUE)) {
             func_02040624(func_02040440(), 18, 8);
             PokemonTrade_SetState(wk, func_ov194_021b97a0);
         }
@@ -2791,7 +2791,7 @@ static BOOL PokemonTrade_Init(GameProc *proc, u32 *state, PokemonTradeParam *par
     wk->vblankTcb = GFL_VBlankTCBAdd(PokemonTrade_VBlank, wk, 0);
     wk->heldIcon = NULL;
     wk->selectSlot = -1;
-    wk->unk109C = -1;
+    wk->sceneId = -1;
     wk->heldSlot = -1;
     wk->heldBox = -1;
     wk->unkF98 = -1;

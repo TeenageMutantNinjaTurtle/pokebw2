@@ -200,6 +200,12 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   `u8` or `u16` promotes to a signed `int`, so `(u8)id % 5u` is the unsigned one, and so is a `u16` divided by a
   `u32`. Compare the built overlay in `build/<version>/build`
   with the original to find it.
+- A 64-bit division calls `_ll_udiv` (swan's `__aeabi_uldivmod`) when either operand is unsigned. A call to it with
+  operands sign-extended by `asr #0x1f` is an `int` cast to `u64`: the trade's box cubes turn by
+  `((u64)((x + 48) % width) << 16) / width` in `func_ov194_021c2844`. A file that calls it needs `_ll_udiv` added as a
+  label on `__aeabi_uldivmod` with `config_fixes.py add-label` before it can go complete.
+- A float one ULP off a round decimal is written with the shortest digits that round to it, and a comment:
+  Kadabra's sprite offset in `pokemontrade_3d.c` is 0x40533334, next to `3.3f`'s 0x40533333, so it is `3.3000002f`.
 
 ## Data and sections
 
@@ -218,6 +224,14 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A `static const` table declared inside the one function that reads it is listed where that function is, among
   the local initializers, rather than where file-scope data would be. `pokemontrade_nego.c` lays out its menus' item
   lists in the game's order only with its table of blocking fields declared inside `func_ov194_021bbe60`.
+- A struct that is copied from `.rodata` and then has a few fields overwritten with computed values is one local
+  initializer with the computed values in its braces. Its template gets a section of its own, while a `static const`
+  template assigned to the local compiles to the same code but joins the shared section, so only the module check
+  tells them apart. When the copy comes after some calls, the local is declared in a block after them, as the
+  projection in `pokemontrade_3d.c`'s `func_ov194_021c1918` is.
+- When `rodata_order.py`'s prediction disagrees with the built object, move one declaration at a time, compile, and
+  compare the sections with the ROM. `pokemontrade_3d.c` lays out its scene tables in order only with its lights
+  declared after the scenes' resource lists, and its cube data only with the vertices declared before the texture coordinates.
 - `static const` data goes in `.rodata`, so a table that the original has in `.data` is not `const`. The module
   check fails if a table ends up in the wrong section, even when every function matches.
 - A `static const` variable whose address is never taken is folded into the code and not emitted. If the original has

@@ -27,6 +27,10 @@ static inline u32 OS_GetVBlankCount(void) {
     return *(vu32 *)HW_VBLANK_COUNT_BUF;
 }
 
+// Waits for one of the interrupts, after clearing their flags if clear is set. NitroSDK's OS_WaitIrq, under swan's
+// name
+void CPU_WaitIntrBit(BOOL clear, u32 interrupts);
+
 static inline void OS_SetIrqCheckFlag(u32 interrupts) {
     *(vu32 *)HW_INTR_CHECK_BUF |= interrupts;
 }

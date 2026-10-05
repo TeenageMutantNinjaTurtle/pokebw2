@@ -14,6 +14,7 @@
 #include "gfl/net.h"
 #include "gfl/net_handle.h"
 #include "gfl/nhttp_rap.h"
+#include "gfl/particle.h"
 #include "gfl/str.h"
 #include "gfl/tcb.h"
 #include "gfl/tcbl.h"
@@ -104,6 +105,33 @@ typedef struct {
     GFLBitmap *pkm[3];
 } TradeNegoBitmaps;
 
+// The colour of each slot of a machine's boxes and party, as indices into the box palette, which
+// pokemontrade_3d.c draws into the textures of the boxes' cubes
+typedef struct {
+    u8 boxes[24][30];
+    u8 party[6];
+} TradeBoxColors;
+
+// The particles and the camera and emitter paths of the trade demo's 3D effects. The demo overlays 192 and 193
+// allocate it and fill the fields left unknown here
+typedef struct {
+    ParticleSystem *systems[9];
+    void *systemWork[9];
+    u8 unk48[0x48];
+    G3DCurve *cameraPosPath;
+    G3DCurve *cameraTargetPath;
+    // The paths that the two emitters follow
+    G3DCurve *emitterPaths[2];
+    SPLEmitter *emitters[2];
+    // Whether the camera's paths have come to their end
+    BOOL cameraPosDone;
+    BOOL cameraTargetDone;
+    u8 unkB0[4];
+    void *resource;
+    u8 unkB8[2];
+    HeapID heapId;
+} PokemonTrade3DWork;
+
 // A Pokémon's icon in the strip
 typedef struct {
     u16 species;
@@ -117,8 +145,10 @@ struct PokemonTradeWork {
     u8 unk4[2];
     u8 unk6[0x2];
     PokemonTradeParam *param;
-    u8 unkC[0x4];
-    u8 unk10[2][0x2d6];
+    // The 3D effects of the trade demo, which overlays 192 and 193 allocate
+    PokemonTrade3DWork *work3D;
+    // The colours of each machine's box slots, by network ID
+    TradeBoxColors boxColors[2];
     BmpWin *unk5BC[2];
     BmpWin *unk5C4[2];
     BmpWin *unk5CC[2];
@@ -171,16 +201,20 @@ struct PokemonTradeWork {
     G3DCamera *camera;
     u8 unk814[0x4];
     void *unk818;
-    u8 unk81C[0xc];
+    u8 unk81C[0x4];
+    // The 3D scene in front of the sprites, and its index in the manager
+    G3DManager *sceneMgr;
+    u16 scene;
+    u8 unk826[0x2];
     BoxSaveAccessor *boxes;
     GameData *gameData;
     PlayerInfo *myInfo;
     PlayerInfo *partnerInfo;
     PokeParty *party;
-    u8 unk83C[0x4];
+    // The scene's camera
+    G3DCamera *sceneCamera;
     MCSSSystem *mcssSys;
-    MCSS *mcss[2];
-    u8 unk84C[0x8];
+    MCSS *mcss[4];
     u32 unk854;
     u8 unk858[0x4];
     void *unk85C[4];
@@ -264,7 +298,8 @@ struct PokemonTradeWork {
     u32 bgmTimer;
     u16 typeIconPage;
     u16 unk109A;
-    u32 unk109C;
+    // The scene of pokemontrade_3d.c's table that is set up, or -1
+    int sceneId;
     // The side, or the one of the six Pokémon of a negotiation, that the cursor is on
     int cursor;
     void *unk10A4;
@@ -272,7 +307,11 @@ struct PokemonTradeWork {
     u8 unk10AC[0x48];
     // The bitmaps of the panels of a negotiation, for each side: the player's name, and the Pokémon
     TradeNegoBitmaps negoBitmaps[2];
-    u8 unk1114[0x78];
+    u8 unk1114[0x20];
+    // The palette of the box slots' colours, and the same a step darker
+    GXRgb boxPalette[16];
+    GXRgb boxPaletteDim[16];
+    u8 unk1174[0x18];
     int type;
     u8 unk1190[0x44];
     // The wait on the message being printed
@@ -453,16 +492,26 @@ void func_ov194_021c1820(PokemonTradeWork *wk, BOOL showActor, BOOL showButton);
 BOOL func_ov194_021c1884(PokemonTradeWork *wk);
 
 // pokemontrade_3d.c
+void func_ov194_021c1b74(PokemonTrade3DWork *work, int path);
+void func_ov194_021c1d00(PokemonTrade3DWork *work);
+void func_ov194_021c1d30(PokemonTrade3DWork *work);
+void func_ov194_021c1d38(PokemonTrade3DWork *work);
+void func_ov194_021c1db4(PokemonTrade3DWork *work);
+void func_ov194_021c1e08(PokemonTrade3DWork *work);
+void func_ov194_021c1e38(PokemonTrade3DWork *work, int count);
+void func_ov194_021c1e74(PokemonTrade3DWork *work);
 void func_ov194_021c1ef0(PokemonTradeWork *wk);
 void func_ov194_021c1fb8(PokemonTradeWork *wk);
 void func_ov194_021c1fc0(PokemonTradeWork *wk);
 void func_ov194_021c2000(PokemonTradeWork *wk);
-void func_ov194_021c200c(PokemonTradeWork *wk, u32 a1);
+void func_ov194_021c200c(PokemonTradeWork *wk, int sceneId);
 void func_ov194_021c2034(PokemonTradeWork *wk);
-void func_ov194_021c23a4(PokemonTradeWork *wk, int side, u32 a2, PartyPkm *pkm, u32 a4);
-void func_ov194_021c24ac(PokemonTradeWork *wk, int side, int other, PartyPkm *pkm, u32 a4, u32 a5);
-void func_ov194_021c24cc(PokemonTradeWork *wk, int side, u32 a2, PartyPkm *pkm, u32 a4);
+// Adds the sprite of a Pokémon on a side, facing front or back, mirrored if asked and the species allows it
+void func_ov194_021c23a4(PokemonTradeWork *wk, int side, BOOL front, PartyPkm *pkm, BOOL mirror);
+void func_ov194_021c24ac(PokemonTradeWork *wk, int side, BOOL front, PartyPkm *pkm, BOOL mirror, BOOL a5);
+void func_ov194_021c24cc(PokemonTradeWork *wk, int side, BOOL front, PartyPkm *pkm, BOOL mirror);
 void func_ov194_021c24dc(PokemonTradeWork *wk, int side);
+void func_ov194_021c29b4(PokemonTradeWork *wk);
 
 // pokemontrade_2d.c
 void func_ov194_021c2a24(PokemonTradeWork *wk);
