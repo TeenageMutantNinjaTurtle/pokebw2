@@ -90,7 +90,7 @@ prints the tables below from the configs and the ROM:
 
 ### Overlay 12
 
-1324 of 1668 functions are in source files. Embedded names without a file yet: `event_battle.c`, `fldmmdl.c`, `pair_sys.c`, `trcard_sys.c`.
+1347 of 1668 functions are in source files. Embedded names without a file yet: `event_battle.c`, `fldmmdl.c`, `pair_sys.c`.
 
 | File | `.text` (Black 2) | Functions | Status | Name |
 | --- | --- | --- | --- | --- |
@@ -170,6 +170,7 @@ prints the tables below from the configs and the ROM:
 | `event_league_lift.c` | `0x02165b1c`–`0x02165eb8` | 7 | partial | descriptive |
 | `event_bsubway.c` | `0x02165eb8`–`0x02166664` | 17 | partial | descriptive |
 | `fest_mission_field.c` | `0x02168320`–`0x02168468` | 5 | complete | descriptive |
+| `trcard_sys.c` | `0x0216919c`–`0x02169c1c` | 23 | complete | string at `0x0216e5ec` |
 | `scrcmd_sp_poke.c` | `0x02169c1c`–`0x02169c7c` | 4 | complete | descriptive |
 | `waza_oshie.c` | `0x02169c7c`–`0x02169e18` | 4 | partial | string at `0x0216e5fc` |
 | `g3d_text_draw.c` | `0x02169e18`–`0x0216a190` | 7 | partial | descriptive |

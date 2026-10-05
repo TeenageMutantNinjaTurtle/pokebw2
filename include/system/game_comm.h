@@ -25,6 +25,8 @@ void func_ov012_02160574(void);
 
 // Sets the medal count that the game's beacon sends
 void func_0202d17c(u8 count);
+// Sets the value of func_02008bf4 that the game's beacon sends
+void func_0202d114(u32 value);
 void func_0202d1ac(u16 species, BOOL a1, BOOL a2);
 void func_0202d2c8(const StrBuf *name);
 void func_0202bd08(GameCommSys *comm, Field *field);

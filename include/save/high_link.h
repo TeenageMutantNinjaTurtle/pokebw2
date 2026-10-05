@@ -2,6 +2,7 @@
 #define POKEBW2_SAVE_HIGH_LINK_H
 
 #include "types.h"
+#include "gfl/heap.h"
 #include "struct_decls.h"
 
 u32 func_0200c678(HighLinkSave *save, int index);
@@ -12,5 +13,13 @@ u32 PassPower_GetUsedIDByEffect(int effect);
 BOOL PassPower_IsBW1Compatible(u32 passPower);
 u32 PassPower_GetRemainingSeconds(int effect);
 u32 PassPower_ApplyPrizeMoney(u32 money);
+// The pass powers' table, read from its archive
+void *PassPowerData_Create(HeapID heapId);
+void PassPowerData_Free(void *data);
+// Two levels of what func_02017208 returns, which the pass powers need
+u16 func_0200c5dc(void *levels);
+u16 func_0200c5e0(void *levels);
+// Overlay 12: the pass powers that the levels and the two bytes of func_0200c6d8 unlock
+u32 GetUnlockedPassPowerCount(void *data, void *levels, u8 *flags);
 
 #endif // POKEBW2_SAVE_HIGH_LINK_H

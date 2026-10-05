@@ -13,7 +13,9 @@ struct AdventureTime {
     RTCTime time;
     // The number of the day it was last checked on
     s32 day;
-    u8 unk24[8];
+    // When the adventure started, in seconds since 2000
+    s64 startSeconds;
+    // When the player first entered the Hall of Fame, or 0
     s64 seconds;
 };
 

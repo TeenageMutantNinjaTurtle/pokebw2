@@ -31,6 +31,10 @@ StrBuf *func_02029c80(const PMSData *sentence, HeapID heapId);
 void *getCGearDataBlkAddress(SaveControl *save);
 void func_0200ef90(void *cgear, u32 index, PMSData *sentence);
 void func_0200efa8(void *cgear, u32 index, const PMSData *sentence);
+// The same block, through the C-Gear's own accessor
+void *func_0200ef7c(SaveControl *save);
+// Sets the greeting that the game's beacon sends
+void func_0202d0fc(const PMSData *greeting);
 
 // Overlay 185, the phrase select
 extern const GameProcFunctions data_ov185_021a7298;

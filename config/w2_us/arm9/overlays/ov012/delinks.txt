@@ -340,6 +340,12 @@ src/ov012/fest_mission_field.c:
     .text       start:0x02168360 end:0x021684a8
     .rodata     start:0x0216dca8 end:0x0216dcd0
 
+src/ov012/trcard_sys.c:
+    complete
+    .text       start:0x021691dc end:0x02169c5c
+    .rodata     start:0x0216dda0 end:0x0216de44
+    .data       start:0x0216e62c end:0x0216e63c
+
 src/ov012/scrcmd_sp_poke.c:
     complete
     .text       start:0x02169c5c end:0x02169cbc

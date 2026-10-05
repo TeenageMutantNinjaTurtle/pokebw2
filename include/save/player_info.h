@@ -20,6 +20,8 @@ struct PlayerInfo {
 };
 
 u16 *GetPlayerName(PlayerInfo *info);
+// Whether the name is empty
+BOOL func_02008b5c(PlayerInfo *info);
 u32 PlayerInfo_GetSize(void);
 u32 getTrainerGender(PlayerInfo *info);
 u8 func_02008bfc(PlayerInfo *info);

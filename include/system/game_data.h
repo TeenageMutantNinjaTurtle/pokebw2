@@ -50,6 +50,8 @@ JoinAvenuePersonList **GameData_GetJoinAvenuePersonListPtr(GameData *gameData);
 u32 GameData_GetLastSubscreen(GameData *gameData);
 MMSys *GameData_GetMMSys(GameData *gameData);
 CityState *GameData_GetMyCityState(GameData *gameData);
+// The levels that unlock the pass powers, which func_0200c5dc and func_0200c5e0 read
+void *func_02017208(GameData *gameData);
 u16 func_02017220(GameData *gameData);
 void func_0201740c(GameData *gameData, u8 value);
 // Save block 0x39, the Battle Subway's scores
