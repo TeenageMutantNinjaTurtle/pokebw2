@@ -47,8 +47,8 @@
 . 0x0207ba60 add_reloc load,main,0x0207b9e8,0x50
 . 0x0207e79c add_reloc load,main,0x0207e979
 . 0x0207e970 add_function func_0207e970:arm:0x8
-. 0x0207e974 remove_symbol
 . 0x0207e974 add_reloc load,ltd_autoload(0),0x02703e90
+. 0x0207e974 remove_symbol
 . 0x0207e978 add_function func_0207e978:thumb:0xa8
 . 0x0208d374 add_label _fflt
 . 0x0208d5c4 add_label _ll_udiv
@@ -892,6 +892,8 @@ overlays/ov170 0x02181a04 reloc_module overlay(167)
 overlays/ov170 0x02181a0c reloc_module overlay(167)
 overlays/ov175 0x0219ac24 reloc_module overlay(184)
 overlays/ov182 0x021b9782 reloc_module overlay(181)
+overlays/ov185 0x0219e83c reloc_module overlay(139)
+overlays/ov185 0x0219ea34 reloc_module overlay(139)
 overlays/ov185 0x021a512c add_data PMSI_FIXED_CATEGORIES
 overlays/ov185 0x021a517c remove_reloc
 overlays/ov185 0x021a51dc remove_reloc

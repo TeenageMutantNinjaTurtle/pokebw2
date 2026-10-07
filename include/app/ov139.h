@@ -146,6 +146,20 @@ void func_ov139_0219ccc8(Ov139List *list, u32 a1);
 void func_ov139_0219ccd0(Ov139List *list, int a1);
 u32 func_ov139_0219cd0c(Ov139List *list);
 
+// A search of message files for the strings that start with a prefix
+typedef struct Ov139Search Ov139Search;
+
+// A string found: its message file and its line
+typedef struct {
+    u32 file;
+    u32 line;
+} Ov139SearchResult;
+
+Ov139Search *func_ov139_0219a438(MsgData **files, u32 count, HeapID heapId);
+void func_ov139_0219a490(Ov139Search *search);
+// Fills results with the strings of a file that start with prefix, up to max, and returns how many it found
+u32 func_ov139_0219a4a4(Ov139Search *search, u32 file, u32 a2, StrBuf *prefix, Ov139SearchResult *results, u32 max);
+
 typedef struct TwoChoiceMenu TwoChoiceMenu;
 
 // What func_ov139_0219ae78 returns
