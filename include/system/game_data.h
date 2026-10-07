@@ -38,6 +38,7 @@ GameData *GameData_Create(HeapID heapId);
 void GameData_Free(GameData *gameData);
 BOOL GameData_CheckPairFlag(GameData *gameData);
 BagSave *GameData_GetBag(GameData *gameData);
+BGMInfo *GameData_GetBGMInfo(GameData *gameData);
 void *func_0201734c(GameData *gameData);
 BoxSaveAccessor *GameData_GetBoxSaveAccessor(GameData *gameData);
 ZoneSpawnInfo *GameData_GetEntralinkParentSpawnInfo(GameData *gameData);

@@ -37,7 +37,6 @@
 #include "field/field_weather.h"
 #include "field/fieldmap_ctrl_hybrid.h"
 #include "field/intrude_work.h"
-#include "field/iss.h"
 #include "field/medal.h"
 #include "field/player_state.h"
 #include "field/pleasure_boat.h"
@@ -77,6 +76,7 @@
 #include "system/game_data.h"
 #include "system/game_system.h"
 #include "system/gf_font.h"
+#include "system/iss_sys.h"
 #include "system/main.h"
 #include "system/rtc.h"
 

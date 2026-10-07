@@ -102,7 +102,7 @@ PMSIInitial_GetUp kind:function(thumb,size=0x10) addr:0x0219eb20
 PMSIInitial_GetDown kind:function(thumb,size=0x10) addr:0x0219eb30
 PMSIInitial_GetLeft kind:function(thumb,size=0x10) addr:0x0219eb40
 PMSIInitial_GetRight kind:function(thumb,size=0x10) addr:0x0219eb50
-PMSIInitial_GetJump kind:function(thumb,size=0x10) addr:0x0219eb60
+PMSIInitial_GetBottom kind:function(thumb,size=0x10) addr:0x0219eb60
 PMSIVCategory_Create kind:function(thumb,size=0x3c) addr:0x0219eb70
 PMSIVCategory_Delete kind:function(thumb,size=0x5a) addr:0x0219ebac
 PMSIVCategory_SetupGraphicDatas kind:function(thumb,size=0xcc) addr:0x0219ec08
@@ -436,34 +436,18 @@ sCategoryWords03 kind:data(any) addr:0x021a657c
 sCategoryWords01 kind:data(any) addr:0x021a69d0
 sPMSIViewLCDConfig kind:data(any) addr:0x021a6ee4
 sPMSIViewBG3Setup kind:data(any) addr:0x021a6ef4
-data_ov185_021a6f09 kind:data(any) addr:0x021a6f09 ambiguous
 sPMSIViewBG7Setup kind:data(any) addr:0x021a6f14
 sPMSIViewBG6Setup kind:data(any) addr:0x021a6f34
-data_ov185_021a6f3d kind:data(any) addr:0x021a6f3d ambiguous
 sPMSIViewBG2Setup kind:data(any) addr:0x021a6f54
 sPMSIViewBG0Setup kind:data(any) addr:0x021a6f74
 sPMSIViewBG1Setup kind:data(any) addr:0x021a6f94
-data_ov185_021a6fa9 kind:data(any) addr:0x021a6fa9 ambiguous
 sPMSIViewBG5Setup kind:data(any) addr:0x021a6fb4
 sPMSIViewBG4Setup kind:data(any) addr:0x021a6fd4
 sPMSIViewVRAMConfig kind:data(any) addr:0x021a6ff4
-data_ov185_021a7021 kind:data(any) addr:0x021a7021 ambiguous
 data_ov185_021a7024 kind:data(any) addr:0x021a7024
 sPMSISearchExcludedWords kind:data(any) addr:0x021a703c
 sPMSISearchInitialMsgFiles kind:data(any) addr:0x021a7050
-data_ov185_021a705d kind:data(any) addr:0x021a705d ambiguous
-data_ov185_021a7088 kind:data(any) addr:0x021a7088
-data_ov185_021a708a kind:data(any) addr:0x021a708a
-data_ov185_021a708b kind:data(any) addr:0x021a708b
-data_ov185_021a708c kind:data(any) addr:0x021a708c
-data_ov185_021a708d kind:data(any) addr:0x021a708d
-data_ov185_021a708e kind:data(any) addr:0x021a708e
-data_ov185_021a708f kind:data(any) addr:0x021a708f
-data_ov185_021a7091 kind:data(any) addr:0x021a7091
-data_ov185_021a7095 kind:data(any) addr:0x021a7095 ambiguous
-data_ov185_021a70d9 kind:data(any) addr:0x021a70d9 ambiguous
-data_ov185_021a7115 kind:data(any) addr:0x021a7115 ambiguous
-data_ov185_021a7135 kind:data(any) addr:0x021a7135 ambiguous
+sPMSIInitials kind:data(any) addr:0x021a7088
 data_ov185_021a71a4 kind:data(any) addr:0x021a71a4
 data_ov185_021a71b0 kind:data(any) addr:0x021a71b0
 data_ov185_021a71b4 kind:data(any) addr:0x021a71b4
@@ -475,14 +459,11 @@ data_ov185_021a71e0 kind:data(any) addr:0x021a71e0
 data_ov185_021a71e8 kind:data(any) addr:0x021a71e8
 data_ov185_021a71f0 kind:data(any) addr:0x021a71f0
 data_ov185_021a71f8 kind:data(any) addr:0x021a71f8
-data_ov185_021a71f9 kind:data(any) addr:0x021a71f9 ambiguous
 data_ov185_021a7200 kind:data(any) addr:0x021a7200
 data_ov185_021a720c kind:data(any) addr:0x021a720c
 data_ov185_021a7218 kind:data(any) addr:0x021a7218
-data_ov185_021a7221 kind:data(any) addr:0x021a7221 ambiguous
 data_ov185_021a7228 kind:data(any) addr:0x021a7228
 data_ov185_021a723c kind:data(any) addr:0x021a723c
-data_ov185_021a7249 kind:data(any) addr:0x021a7249 ambiguous
 data_ov185_021a7258 kind:data(any) addr:0x021a7258
 data_ov185_021a7259 kind:data(any) addr:0x021a7259
 data_ov185_021a725a kind:data(any) addr:0x021a725a
@@ -494,30 +475,20 @@ data_ov185_021a72a4 kind:data(any) addr:0x021a72a4
 data_ov185_021a72b4 kind:data(any) addr:0x021a72b4 ambiguous
 data_ov185_021a72c0 kind:data(any) addr:0x021a72c0
 data_ov185_021a72d8 kind:data(any) addr:0x021a72d8
-data_ov185_021a72d9 kind:data(any) addr:0x021a72d9 ambiguous
-data_ov185_021a72e9 kind:data(any) addr:0x021a72e9 ambiguous
 data_ov185_021a72f8 kind:data(any) addr:0x021a72f8
 data_ov185_021a7308 kind:data(any) addr:0x021a7308
 data_ov185_021a7324 kind:data(any) addr:0x021a7324
-data_ov185_021a7341 kind:data(any) addr:0x021a7341 ambiguous
 data_ov185_021a7354 kind:data(any) addr:0x021a7354
-data_ov185_021a73b1 kind:data(any) addr:0x021a73b1 ambiguous
-data_ov185_021a73c1 kind:data(any) addr:0x021a73c1 ambiguous
-data_ov185_021a73ed kind:data(any) addr:0x021a73ed ambiguous
-data_ov185_021a7419 kind:data(any) addr:0x021a7419 ambiguous
 data_ov185_021a7460 kind:data(any) addr:0x021a7460
 data_ov185_021a7474 kind:data(any) addr:0x021a7474
-data_ov185_021a74ad kind:data(any) addr:0x021a74ad ambiguous
-data_ov185_021a74fd kind:data(any) addr:0x021a74fd ambiguous
 data_ov185_021a7500 kind:data(any) addr:0x021a7500
 data_ov185_021a7514 kind:data(any) addr:0x021a7514
 data_ov185_021a7524 kind:data(any) addr:0x021a7524
 data_ov185_021a7538 kind:data(any) addr:0x021a7538
 data_ov185_021a7548 kind:data(any) addr:0x021a7548
-data_ov185_021a754d kind:data(any) addr:0x021a754d ambiguous
 data_ov185_021a7558 kind:data(any) addr:0x021a7558
 data_ov185_021a7564 kind:data(any) addr:0x021a7564
 data_ov185_021a7574 kind:data(any) addr:0x021a7574
 data_ov185_021a7578 kind:data(any) addr:0x021a7578
-data_ov185_021a759d kind:data(any) addr:0x021a759d ambiguous
 PMSI_FIXED_CATEGORIES kind:data(any) addr:0x021a512c
+PMSIV_CATEGORY_UNK_7198 kind:data(any) addr:0x021a7198
