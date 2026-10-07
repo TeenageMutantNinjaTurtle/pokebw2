@@ -3,3 +3,20 @@
     .ctor       start:0x021a041c end:0x021a041c kind:rodata align:4
     .data       start:0x021a0420 end:0x021a0520 kind:data align:32
     .bss        start:0x021a0520 end:0x021a0520 kind:bss align:32
+
+src/ov143/monolith_main.c:
+    complete
+    .text       start:0x021998c0 end:0x0219a170
+    .rodata     start:0x0219fe70 end:0x0219ff1c
+
+src/ov143/monolith_tool.c:
+    complete
+    .text       start:0x0219a170 end:0x0219aa70
+    .rodata     start:0x0219ff1c end:0x0219ff64
+    .data       start:0x021a0420 end:0x021a044c
+
+src/ov143/monolith_top.c:
+    complete
+    .text       start:0x0219aa70 end:0x0219afac
+    .rodata     start:0x0219ff64 end:0x0219ffe8
+    .data       start:0x021a044c end:0x021a046c

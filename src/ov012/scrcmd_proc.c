@@ -252,7 +252,7 @@ BOOL func_ov012_02157814(VM *vm, FieldScriptEnv *env) {
     param->unk31 = 0;
     param->gsys = gsys;
     param->unk30 = 0;
-    CreateScrCmdOverlayProcess(vm, env, OVERLAY_MONOLITH, &data_ov143_0219fe70, param, NULL, NULL);
+    CreateScrCmdOverlayProcess(vm, env, OVERLAY_MONOLITH, &MONOLITH_PROC_FUNCTIONS, param, NULL, NULL);
     return TRUE;
 }
 
