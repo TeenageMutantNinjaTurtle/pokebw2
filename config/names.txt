@@ -1910,7 +1910,7 @@ overlays/ov185 0x0219eb20 PMSIInitial_GetUp
 overlays/ov185 0x0219eb30 PMSIInitial_GetDown
 overlays/ov185 0x0219eb40 PMSIInitial_GetLeft
 overlays/ov185 0x0219eb50 PMSIInitial_GetRight
-overlays/ov185 0x0219eb60 PMSIInitial_GetJump
+overlays/ov185 0x0219eb60 PMSIInitial_GetBottom
 overlays/ov185 0x0219eb70 PMSIVCategory_Create
 overlays/ov185 0x0219ebac PMSIVCategory_Delete
 overlays/ov185 0x0219ec08 PMSIVCategory_SetupGraphicDatas
@@ -1992,6 +1992,7 @@ overlays/ov185 0x021a6fd4 sPMSIViewBG4Setup
 overlays/ov185 0x021a6ff4 sPMSIViewVRAMConfig
 overlays/ov185 0x021a703c sPMSISearchExcludedWords
 overlays/ov185 0x021a7050 sPMSISearchInitialMsgFiles
+overlays/ov185 0x021a7088 sPMSIInitials
 overlays/ov190 0x021b50a8 WIFILOGIN_PROC_FUNCTIONS
 overlays/ov190 0x021b52bc WIFILOGOUT_PROC_FUNCTIONS
 overlays/ov191 0x021b7168 WIFI_BSUBWAY_PROC_FUNCTIONS
