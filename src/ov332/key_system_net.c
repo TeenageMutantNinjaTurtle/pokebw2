@@ -178,11 +178,12 @@ void KeySystemNet_SetMode(KeySystemNet *net, u32 mode) {
     }
 }
 
-void KeySystemNet_Request(KeySystemNet *net, u32 request, const KeySystemNetRequest *params) {
+void KeySystemNet_Request(KeySystemNet *net, u32 request, const void *params) {
     KeySystemSeqFunc func;
 
     KeySystemNet_CanRequest(net, request);
     if (params != NULL) {
+        // BUG: The parameters are smaller than the union, so this reads past them on the caller's stack
         sys_memcpy(params, &net->request, sizeof(KeySystemNetRequest));
     }
     switch (request) {

@@ -53,6 +53,8 @@ void func_020335c4(void *a0, u32 index, BmpWin *window);
 u16 *func_0203368c(void *a0, u32 index);
 // Loads the screen of one from an archive, places it, shows or hides it, and moves it by steps
 void func_020331f4(void *a0, u32 index, u32 arcId, u32 fileId, BOOL compressed);
+// Loads a frame's screen data from an archive that is open
+void func_02033224(void *a0, u32 index, ArcTool *arc, u32 fileId, BOOL compressed);
 void func_02033254(void *a0, u32 index, s8 x, s8 y);
 void func_02033360(void *a0, u32 index);
 void func_02033378(void *a0, u32 index);

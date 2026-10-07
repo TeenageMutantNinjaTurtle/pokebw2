@@ -12,6 +12,11 @@
 // Where the input is, keys or touch
 int *PMSInput_GetKeyModePtr(const PMSInputWork *wk);
 u32 PMSInput_GetInputMode(const PMSInputWork *wk);
+u16 PMSInput_GetSentenceType(const PMSInputWork *wk);
+// The word at a place of the sentence, or the word being written
+u16 PMSInput_GetEditWord(const PMSInputWork *wk, u32 index);
+// The sentence's text, with its words as commands
+StrBuf *PMSInput_GetEditSourceString(const PMSInputWork *wk, HeapID heapId);
 // Whether the categories are listed by initial instead of by group
 u32 PMSInput_GetCategoryMode(const PMSInputWork *wk);
 u32 PMSInput_GetEditAreaCursorPos(const PMSInputWork *wk);

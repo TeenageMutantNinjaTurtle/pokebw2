@@ -226,6 +226,7 @@ BOOL IsZoneInVictoryRoad(u16 zoneId);
 BOOL IsZoneJoinAvenue(u16 zoneId);
 BOOL IsZoneJoinAvenueSubZone(u16 zoneId);
 BOOL IsZoneRoyalUnova(u16 zoneId);
+BOOL IsZoneBlackTowerOrWhiteTreehollow(u16 zoneId);
 void LoadAspertiaCitySpawnInfo(ZoneSpawnInfo *spawn);
 void LoadZoneSpawnInfoCheckRail(ZoneSpawnInfo *spawn, u16 zoneId);
 void SetAllowVersionSpecificArea(u32 area, BOOL allow);
@@ -235,6 +236,7 @@ BOOL SetupZoneWarpArrival(EventData *eventData, ZoneSpawnInfo *spawn, u16 warpId
 u16 ZoneData_GetAreaID(u16 zoneId);
 u16 GetZoneEntitiesID(u16 zoneId);
 u16 GetZoneEncID(u16 zoneId);
+u32 GetZoneBattleBGID(u16 zoneId);
 void InitZoneSpawnInfo(ZoneSpawnInfo *spawn);
 void SetupZoneWarpArrivalGrid(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpId, s16 warpDir, u16 posWeightBits, s32 x,
                               s32 y, s32 z);
@@ -266,6 +268,7 @@ BOOL IsZoneFlashbackMemoryPostFX(u16 zoneId);
 // Overlay 12: the zone that beacons report for zoneId, by its parent zone
 u16 func_ov012_02160eb4(GameData *gameData, u16 zoneId);
 BOOL IsZoneBlackCityOrWhiteForestLobby(u16 zoneId);
+BOOL IsZoneBlackTowerOrWhiteTreehollow(u16 zoneId);
 u32 GetZoneStaticLightDataIndex(u16 zoneId);
 u16 GetCameraIDForZone(u16 zoneId);
 void GetPlayerZoneStateWPos(ZoneSpawnInfo *spawn, VecFx32 *pos);
