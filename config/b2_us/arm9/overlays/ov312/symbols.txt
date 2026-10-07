@@ -68,7 +68,7 @@ data_ov312_0217ec64 kind:data(any) addr:0x0217ec64
 data_ov312_0217ec84 kind:data(any) addr:0x0217ec84
 data_ov312_0217ecb8 kind:data(any) addr:0x0217ecb8
 data_ov312_0217ecec kind:data(any) addr:0x0217ecec
-data_ov312_0217ecf8 kind:data(any) addr:0x0217ecf8
+GEONET_PROC_FUNCTIONS kind:data(any) addr:0x0217ecf8
 data_ov312_0217ed04 kind:data(any) addr:0x0217ed04
 data_ov312_0217ed14 kind:data(any) addr:0x0217ed14
 data_ov312_0217ed38 kind:data(any) addr:0x0217ed38

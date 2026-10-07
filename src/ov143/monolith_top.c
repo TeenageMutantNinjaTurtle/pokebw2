@@ -41,14 +41,12 @@
 #define MONOLITH_TOP_PANEL 3
 
 // Which items can be picked: all of them, only the Funfest missions before the player's first visit is done
-// (MONOLITH_TOP_FLAG_VISITED), or only the pass powers while the story waits for the first
+// (MONOLITH_FLAG_VISITED, monolith_main.h), or only the pass powers while the story waits for the first
 enum {
     MONOLITH_TOP_MODE_ALL,
     MONOLITH_TOP_MODE_MISSION_ONLY,
     MONOLITH_TOP_MODE_POWER_ONLY,
 };
-
-#define MONOLITH_TOP_FLAG_VISITED 0x986
 
 // The steps of the menu's main proc
 enum {
@@ -384,7 +382,7 @@ static BOOL MonolithTop_Input(MonolithScreenParam *screen, MonolithTopWork *mtw)
 static void MonolithTop_InitCursor(MonolithScreenParam *screen, MonolithTopWork *mtw) {
     EventWork *eventWork = GameData_GetEventWork(GSYS_GetGameData(screen->param->gsys));
 
-    if (EventWork_FlagGet(eventWork, MONOLITH_TOP_FLAG_VISITED) == FALSE) {
+    if (EventWork_FlagGet(eventWork, MONOLITH_FLAG_VISITED) == FALSE) {
         mtw->mode = MONOLITH_TOP_MODE_MISSION_ONLY;
     }
     if (*EventWork_GetWkPtr(eventWork, MONOLITH_SCENE_WORK) == MONOLITH_SCENE_FIRST_POWER) {
@@ -392,5 +390,5 @@ static void MonolithTop_InitCursor(MonolithScreenParam *screen, MonolithTopWork 
     }
     mtw->cursor = screen->state->menuCursor;
     mtw->picked = mtw->cursor;
-    screen->state->menuCursor = 0;
+    screen->state->menuCursor = MONOLITH_MENU_MISSION;
 }

@@ -633,7 +633,7 @@ from:0x021bd7b0 kind:thumb_call to:0x0203a24c module:main
 from:0x021bd7ce kind:thumb_call to:0x02049a64 module:main
 from:0x021bd7ec kind:thumb_call_arm to:0x0207244c module:main
 from:0x021bd7f4 kind:thumb_call to:0x02049b5c module:main
-from:0x021bd7fc kind:load to:0x021c30ac module:overlay(209)
+from:0x021bd7fc kind:load to:0x021c3094 add:0x18 module:overlay(209)
 from:0x021bd800 kind:load to:0x021c3094 module:overlay(209)
 from:0x021bd810 kind:thumb_call to:0x021bd89c module:overlay(209)
 from:0x021bd81a kind:thumb_call to:0x02049344 module:main
