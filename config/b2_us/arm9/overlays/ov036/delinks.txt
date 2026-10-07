@@ -178,3 +178,22 @@ src/ov036/scrcmd_word.c:
 src/ov036/scrcmd_mapchange.c:
     complete
     .text       start:0x021a7eb8 end:0x021a82bc
+
+src/ov036/scrcmd_sound.c:
+    complete
+    .text       start:0x021a6d14 end:0x021a74ac
+
+src/ov036/scrcmd_menu.c:
+    complete
+    .text       start:0x021a82bc end:0x021a861c
+
+src/ov036/scrcmd_gym.c:
+    complete
+    .text       start:0x021aad44 end:0x021ab218
+
+src/ov036/scrcmd_fade.c:
+    .text       start:0x021ab218 end:0x021ab73c
+
+src/ov036/scrcmd_msg.c:
+    .text       start:0x021a861c end:0x021a98c4
+    .rodata     start:0x021d0878 end:0x021d08e4

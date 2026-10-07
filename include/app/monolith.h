@@ -6,7 +6,7 @@
 #include "gfl/proc.h"
 #include "struct_decls.h"
 
-// Overlay 143, whose file is monolith_tool.c
+// Overlay 143, the Entralink monolith (monolith_main.c and the files in app/monolith/)
 #define OVERLAY_MONOLITH OVERLAY_ID(143)
 
 typedef struct {
@@ -18,6 +18,6 @@ typedef struct {
     u8 unk31;
 } MonolithParam;
 
-extern const GameProcFunctions data_ov143_0219fe70;
+extern const GameProcFunctions MONOLITH_PROC_FUNCTIONS;
 
 #endif // POKEBW2_APP_MONOLITH_H

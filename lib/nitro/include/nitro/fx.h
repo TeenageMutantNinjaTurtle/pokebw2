@@ -163,5 +163,7 @@ static inline void VEC_Fx16Set(VecFx16 *v, fx16 x, fx16 y, fx16 z) {
 
 // NitroSDK's MTX_Inverse43, which returns -1 when the matrix has no inverse
 int MAT43_Invert(const MtxFx43 *mtx, MtxFx43 *inv);
+// NitroSDK's MTX_Inverse33
+int MAT3_Invert(const MtxFx33 *mtx, MtxFx33 *inv);
 
 #endif // POKEBW2_NITRO_FX_H

@@ -43,6 +43,9 @@ void Field_SetCasteliaRush(Field *field, BOOL flag);
 BOOL Field_GetCasteliaRush(Field *field);
 void *Field_GetColorPostFX(Field *field);
 void Field_SetPlayerPosPtr(Field *field, VecFx32 *position);
+// The money window that the scripts show on the field's message BG
+void *Field_GetMoneyWin(Field *field);
+void Field_SetMoneyWin(Field *field, void *moneyWin);
 // Recolors a texture resource with the field's color post-FX
 void FieldColorPostFX_Apply(void *postFx, void *texture);
 fx32 func_ov036_02181324(Field *field);
@@ -70,10 +73,46 @@ BOOL func_ov036_02188884(void *msgWin);
 void func_ov036_021887d4(void *msgWin);
 BOOL func_ov036_021887f4(void *msgWin);
 void func_ov036_021889c8(void *msgWin);
+// Frees the balloon at once, and prints another message in it
+void func_ov036_02188818(void *msgWin);
+void func_ov036_02188844(void *msgWin, StrBuf *strbuf);
+// The system message window of the field's message BG: create, close, print, whether printing has ended, skip
+// to the end, and its bitmap window
+void *func_ov036_02188498(void *msgBGSys, MsgData *msgData, u32 a2);
+void func_ov036_02188504(void *window);
+void func_ov036_02188580(void *window, u32 x, u32 y, StrBuf *strbuf);
+BOOL func_ov036_021885bc(void *window);
+void func_ov036_02188630(void *window);
+BmpWin *func_ov036_021886b0(void *window);
+// The info message window: create, close, reopen, print, whether printing has ended, and skip to the end
+void *func_ov036_02188a54(void *msgBGSys, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+void func_ov036_02188ab0(void *window);
+void func_ov036_02188ae8(void *window);
+void func_ov036_02188ba4(void *window, u32 x, u32 y, StrBuf *strbuf);
+BOOL func_ov036_02188bdc(void *window);
+void func_ov036_02188c90(void *window);
+// The numbered message windows: create one, close all, and whether any is open
+void func_ov036_02188ddc(void *msgBGSys, StrBuf *strbuf, u16 index, u8 x, u8 y, u8 width, u8 height);
+void func_ov036_02188e9c(void *msgBGSys);
+BOOL func_ov036_02188ed0(void *msgBGSys);
+// The sign window: create (with the message BG's font, or another), close, and print, which returns TRUE when done
+void *func_ov036_02188f28(void *msgBGSys, u16 type);
+void *func_ov036_02188f34(void *msgBGSys, u16 type, Font *font);
+void func_ov036_0218903c(void *window);
+BOOL func_ov036_02189110(void *window, StrBuf *strbuf);
+// The checker window: create, close, print, whether printing has ended, and the size a message needs
+void *func_ov036_02189a98(void *msgBGSys, u16 type, u16 x, u16 y, u16 width, u16 height);
+void func_ov036_02189b50(void *window);
+void func_ov036_02189bc4(void *window, u32 x, u32 y, StrBuf *strbuf);
+BOOL func_ov036_02189c00(void *window);
+u32 func_ov036_02189c34(void *msgBGSys, StrBuf *strbuf, u32 margin);
+u32 func_ov036_02189c54(void *msgBGSys, StrBuf *strbuf, u32 margin);
+// Whether the messages of the field's message BG scroll on their own
+void func_ov036_021879cc(void *msgBGSys, BOOL enable);
 // Where a balloon over an actor goes, from where the player stands, and the offset and window position of each
 u8 ActorMsgWin_CalcWinPosAuto(FieldActor *player, const VecFx32 *pos);
 void func_ov036_021a8bec(const VecFx32 *pos, VecFx32 *offset, G3DCamera *g3dCamera, FieldCamera *camera, u8 winPos);
-void func_ov036_021a8c00(u8 winPos, u32 *a1, u32 *a2);
+void func_ov036_021a8c00(u32 winPos, u32 *a1, u32 *a2);
 // A talk window on the field's message BG, printing messages of a message data or strings: create, free, print,
 // whether printing has ended, clear, and the window
 MsgData *func_ov036_021879a0(void *msgBGSys, u32 fileId);

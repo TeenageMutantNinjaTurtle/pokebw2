@@ -48,6 +48,8 @@ typedef struct {
 
 // The setup that most apps create the system with, the same as the intro's copy
 extern const ClActSysSetup data_02093f08;
+// Game Sync's screens' setup, with 192 for the sub screen's y
+extern const ClActSysSetup data_02093f24;
 
 // Where a resource is loaded: CLACT_VRAM_MAIN, _SUB or _BOTH
 enum {
