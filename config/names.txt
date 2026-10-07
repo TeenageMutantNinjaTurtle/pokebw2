@@ -3214,6 +3214,7 @@ overlays/ov209 0x021c02f0 StaActing_GetEffectSys
 overlays/ov209 0x021c0304 StaActing_GetLightSys
 overlays/ov209 0x021c030c StaActing_GetLight
 overlays/ov209 0x021c0334 StaActing_GetScrollOffset
+overlays/ov209 0x021c033c StaActing_GetItemData
 overlays/ov209 0x021c0348 StaActing_GetLightUpPoke
 overlays/ov209 0x021c0374 StaActing_GetUpdateCount
 overlays/ov209 0x021c0380 StaActEffect_InitSystem
@@ -3240,6 +3241,12 @@ overlays/ov209 0x021c0a58 StaActAudience_ClearTargets
 overlays/ov209 0x021c0a88 StaActAudience_SetCheerPoke
 overlays/ov209 0x021c0a9c StaActAudience_SetLookLight
 overlays/ov209 0x021c0aac StaActAudience_SetScrollOffset
+overlays/ov209 0x021c0ae0 StaActButton_InitSystem
+overlays/ov209 0x021c0b7c StaActButton_TermSystem
+overlays/ov209 0x021c0bfc StaActButton_UpdateSystem
+overlays/ov209 0x021c0d10 StaActButton_InitGraphic
+overlays/ov209 0x021c0ecc StaActButton_LoadItemTexture
+overlays/ov209 0x021c0fe8 StaActButton_SetShowFlg
 overlays/ov209 0x021c2bec MUSICAL_SHOT_LCD_CONFIG
 overlays/ov209 0x021c2bfc MUSICAL_SHOT_VRAM_CONFIG
 overlays/ov209 0x021c2c30 MUS_SHOT_PHOTO_CAMERA_TARGET
@@ -3267,6 +3274,7 @@ overlays/ov209 0x021c2dac MUSICAL_MCSS_ORTHO_UP
 overlays/ov209 0x021c2db8 STA_ACT_OBJ_SHOW
 overlays/ov209 0x021c2dbc STA_ACT_POKE_ITEM_SE
 overlays/ov209 0x021c2f6e STA_ACT_AUDIENCE_CHARS
+overlays/ov209 0x021c2f78 STA_ACT_BUTTON_TOUCH_RECTS
 overlays/ov209 0x021c3000 MUSICAL_SHOT_PROC_FUNCTIONS
 overlays/ov209 0x021c3094 sStaActBgMatrix
 overlays/ov214 0x021d3380 WorldTradeProc_Init

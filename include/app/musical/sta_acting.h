@@ -21,5 +21,11 @@ StaActLightSys *StaActing_GetLightSys(StaActing *stage);
 StaActLight *StaActing_GetLight(StaActing *stage, u8 index);
 // A state of the stage, during which (when not 0) the audience follows the Pokémon
 u16 func_ov209_021c032c(StaActing *stage);
+// Overlay 210's table of the props, which the item draw system holds
+void *StaActing_GetItemData(StaActing *stage);
+// Asks to use the prop at an equip position of the player's Pokémon
+void func_ov209_021bfc60(StaActing *stage, u32 equipPos);
+// Whether a prop of the player's Pokémon is being used
+BOOL func_ov209_021bfc98(StaActing *stage);
 
 #endif // POKEBW2_APP_MUSICAL_STA_ACTING_H

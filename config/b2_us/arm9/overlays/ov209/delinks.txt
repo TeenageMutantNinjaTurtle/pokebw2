@@ -66,3 +66,8 @@ src/ov209/sta_act_audience.c:
     .text       start:0x021c051c end:0x021c0ae0
     .rodata     start:0x021c2f6c end:0x021c2f78
     .data       start:0x021c3114 end:0x021c3128
+
+src/ov209/sta_act_button.c:
+    .text       start:0x021c0ae0 end:0x021c1024
+    .rodata     start:0x021c2f78 end:0x021c2f84
+    .data       start:0x021c3128 end:0x021c313c

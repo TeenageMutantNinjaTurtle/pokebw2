@@ -241,7 +241,7 @@ func_ov209_021c032c kind:function(thumb,size=0x4) addr:0x021c032c
 func_ov209_021c0330 kind:function(thumb,size=0x4) addr:0x021c0330
 StaActing_GetScrollOffset kind:function(thumb,size=0x4) addr:0x021c0334
 func_ov209_021c0338 kind:function(thumb,size=0x4) addr:0x021c0338
-func_ov209_021c033c kind:function(thumb,size=0xc) addr:0x021c033c
+StaActing_GetItemData kind:function(thumb,size=0xc) addr:0x021c033c
 StaActing_GetLightUpPoke kind:function(thumb,size=0x8) addr:0x021c0348
 func_ov209_021c0350 kind:function(thumb,size=0x12) addr:0x021c0350
 func_ov209_021c0364 kind:function(thumb,size=0x8) addr:0x021c0364
@@ -273,12 +273,12 @@ StaActAudience_ClearTargets kind:function(thumb,size=0x30) addr:0x021c0a58
 StaActAudience_SetCheerPoke kind:function(thumb,size=0x12) addr:0x021c0a88
 StaActAudience_SetLookLight kind:function(thumb,size=0xe) addr:0x021c0a9c
 StaActAudience_SetScrollOffset kind:function(thumb,size=0x32) addr:0x021c0aac
-func_ov209_021c0ae0 kind:function(thumb,size=0x9c) addr:0x021c0ae0
-func_ov209_021c0b7c kind:function(thumb,size=0x80) addr:0x021c0b7c
-func_ov209_021c0bfc kind:function(thumb,size=0x114) addr:0x021c0bfc
-func_ov209_021c0d10 kind:function(thumb,size=0x1ba) addr:0x021c0d10
-func_ov209_021c0ecc kind:function(thumb,size=0x11c) addr:0x021c0ecc
-func_ov209_021c0fe8 kind:function(thumb,size=0x3a) addr:0x021c0fe8
+StaActButton_InitSystem kind:function(thumb,size=0x9c) addr:0x021c0ae0
+StaActButton_TermSystem kind:function(thumb,size=0x80) addr:0x021c0b7c
+StaActButton_UpdateSystem kind:function(thumb,size=0x114) addr:0x021c0bfc
+StaActButton_InitGraphic kind:function(thumb,size=0x1ba) addr:0x021c0d10
+StaActButton_LoadItemTexture kind:function(thumb,size=0x11c) addr:0x021c0ecc
+StaActButton_SetShowFlg kind:function(thumb,size=0x3a) addr:0x021c0fe8
 func_ov209_021c1024 kind:function(thumb,size=0x64) addr:0x021c1024
 func_ov209_021c1088 kind:function(thumb,size=0x80) addr:0x021c1088
 func_ov209_021c1108 kind:function(thumb,size=0x9a) addr:0x021c1108
@@ -409,7 +409,7 @@ data_ov209_021c2f44 kind:data(any) addr:0x021c2f44
 data_ov209_021c2f50 kind:data(any) addr:0x021c2f50
 STA_ACT_AUDIENCE_UNUSED kind:data(any) addr:0x021c2f6c
 STA_ACT_AUDIENCE_CHARS kind:data(any) addr:0x021c2f6e
-data_ov209_021c2f78 kind:data(any) addr:0x021c2f78
+STA_ACT_BUTTON_TOUCH_RECTS kind:data(any) addr:0x021c2f78
 data_ov209_021c2f84 kind:data(any) addr:0x021c2f84
 data_ov209_021c2f9c kind:data(any) addr:0x021c2f9c
 MUSICAL_SHOT_PROC_FUNCTIONS kind:data(any) addr:0x021c3000 ambiguous
