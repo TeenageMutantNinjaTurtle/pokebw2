@@ -5783,5 +5783,5 @@ data_ov036_021e0a01_w2_us kind:bss addr:0x021e0a01
 data_ov036_021e1ab8 kind:bss addr:0x021e1af8 ambiguous
 g_FieldEdgeColorTable kind:bss addr:0x021e57e0
 data_ov036_021e57b0 kind:bss addr:0x021e57f0
-data_ov036_021e57bc kind:bss addr:0x021e57fc
+g_ScrEventActorFlags kind:bss addr:0x021e57fc
 g_ScrBMAnmWaitHandleID kind:bss addr:0x021e5800

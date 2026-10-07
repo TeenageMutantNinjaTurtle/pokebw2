@@ -215,3 +215,13 @@ src/ov036/scrcmd_encount.c:
     .text       start:0x021ae3d4 end:0x021ae714
     .rodata     start:0x021d0f8c end:0x021d0f98
     .data       start:0x021d5230 end:0x021d5244
+
+src/ov036/scrcmd_fldmmdl.c:
+    complete
+    .text       start:0x021a9904 end:0x021aad84
+    .rodata     start:0x021d0918 end:0x021d094c
+    .data       start:0x021d518c end:0x021d51a0
+
+src/ov036/scrcmd_camera.c:
+    complete
+    .text       start:0x021ae714 end:0x021aea80
