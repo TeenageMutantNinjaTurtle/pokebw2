@@ -120,6 +120,8 @@ typedef struct {
 
 MusicalShot *func_0200ad5c(MusicalSave *musical);
 MusicalSaveUnk1B0 *func_0200ad44(MusicalSave *musical);
+// Whether a musical photo is saved
+BOOL func_0200ad4c(MusicalSave *musical);
 void func_0200add8(MusicalSave *musical, u8 prop);
 MusicalSaveUnk1E0 *func_0200ae6c(MusicalSave *musical, u8 index);
 u16 func_0200ae78(MusicalSave *musical);
