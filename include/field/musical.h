@@ -5,6 +5,7 @@
 // commands of scrcmd_musical.c, and overlays 209, 210 and 211, which those load
 
 #include "types.h"
+#include "app/musical/musical_shot_sys.h"
 #include "app/ov174.h"
 #include "gfl/heap.h"
 #include "gfl/proc.h"
@@ -52,19 +53,6 @@ void func_ov012_02151e44(MusicalEventWork *work);
 // Whether the connection was lost
 BOOL func_ov012_02151e64(MusicalEventWork *work);
 
-// Overlay 209's screen, which shows a musical's photo
-typedef struct {
-    u32 unk0;
-    u32 unk4;
-    u32 unk8;
-    MusicalShot *shot;
-    MusicalSave *save;
-    // Overlay 211's communication work
-    void *comm;
-} MusicalShotParam;
-
-extern const GameProcFunctions data_ov209_021c3000;
-
 // Overlay 210, the musical's data
 struct Ov210Work {
     u32 unk0;
@@ -100,7 +88,7 @@ struct MusicalPoke {
 
 BOOL func_ov210_021eec80(PartyPkm *pkm);
 MusicalPoke *func_ov210_021eecac(PartyPkm *pkm, HeapID heapId);
-MusicalPoke *func_ov210_021eed30(u16 species, u8 form, u32 a2, u32 a3, u32 personality, HeapID heapId);
+MusicalPoke *func_ov210_021eed30(u16 species, u8 form, u8 a2, u8 a3, u32 personality, HeapID heapId);
 Ov210Work *func_ov210_021eedac(HeapID heapId);
 void func_ov210_021eedd8(Ov210Work *work);
 void func_ov210_021eee0c(Ov210Work *work, SaveControl *save, GameData *gameData, u8 a3, HeapID heapId);

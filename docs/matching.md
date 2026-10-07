@@ -92,6 +92,10 @@ Same code, other `sp` offsets or frame size.
 - Declaration order does move spill slots in longer functions: `func_ov255_021d0374` matched with its loop counters
   declared first and `y` before the row width.
 - Stack locals are laid out in reverse declaration order.
+- A local initializer inside a loop is copied from `.rodata` once, before the loop, into a compiler temporary at the
+  bottom of the frame, and copied from there into the local on each pass. `mus_shot_photo.c`'s
+  `MusShotPhoto_InitPokes` declares `VecFx32 offset = { 0, FX32_CONST(-35), 0 };` in the branch for the top Pokémon,
+  which gives the original's two copies (`sp+0x14` before the loop, `sp+0x20` in the branch).
 - Spilled variables get their stack slots in the order they are first assigned, the first at the lowest address,
   whatever their declaration order or use counts, in small functions. A value that sits above values assigned after
   it was spilled in a later round of register allocation. In the Join Avenue's records command, a large switch, the
