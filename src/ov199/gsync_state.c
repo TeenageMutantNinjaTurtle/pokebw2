@@ -947,9 +947,9 @@ static void GSync_AddForestPokemon(GSyncWork *wk, DreamWorldSave *dreamWorld, in
     if (species != SPECIES_NONE && species <= SPECIES_GENESECT) {
         TPokeData *data = LoadTPokeData(wk->heapId);
         int size = 3;
-        u16 sanitized = PML_PkmSanitizeForme(species, form);
+        u8 sanitized = PML_PkmSanitizeForme(species, form);
         u32 sexRatio = PML_PersonalGetParamSingle(species, sanitized, PERSONAL_SEX_RATIO);
-        u16 modelForm = func_0201efe4(species, sanitized);
+        u8 modelForm = func_0201efe4(species, sanitized);
 
         switch (sexRatio) {
         case 0:

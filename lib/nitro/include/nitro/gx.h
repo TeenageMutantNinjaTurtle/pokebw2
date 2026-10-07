@@ -41,6 +41,8 @@ typedef u16 GXRgb;
 #define reg_G3_MTX_MODE (*(vu32 *)0x04000440)
 #define reg_G3_MTX_PUSH (*(vu32 *)0x04000444)
 #define reg_G3_MTX_POP (*(vu32 *)0x04000448)
+#define reg_G3_MTX_STORE (*(vu32 *)0x0400044c)
+#define reg_G3_MTX_RESTORE (*(vu32 *)0x04000450)
 #define reg_G3_MTX_IDENTITY (*(vu32 *)0x04000454)
 #define reg_G3_MTX_SCALE (*(vu32 *)0x0400046c)
 #define reg_G3_MTX_TRANS (*(vu32 *)0x04000470)
@@ -235,6 +237,7 @@ typedef enum {
 #define GX_VRAM_OBJ_NONE GX_VRAM_NONE
 #define GX_VRAM_OBJ_16_F GX_VRAM_F
 #define GX_VRAM_OBJ_16_G GX_VRAM_G
+#define GX_VRAM_OBJ_32_FG (GX_VRAM_F | GX_VRAM_G)
 #define GX_VRAM_OBJ_64_E GX_VRAM_E
 #define GX_VRAM_OBJ_128_B GX_VRAM_B
 #define GX_VRAM_OBJ_256_AB (GX_VRAM_A | GX_VRAM_B)
@@ -763,6 +766,14 @@ static inline void G3_PushMtx(void) {
 
 static inline void G3_PopMtx(int num) {
     reg_G3_MTX_POP = num;
+}
+
+static inline void G3_StoreMtx(int num) {
+    reg_G3_MTX_STORE = (u32)num;
+}
+
+static inline void G3_RestoreMtx(int num) {
+    reg_G3_MTX_RESTORE = (u32)num;
 }
 
 static inline void G3_Identity(void) {
@@ -1342,6 +1353,8 @@ void gfxOrtho(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, BOOL 
 void gfxRotateX(fx32 sin, fx32 cos);
 void gfxRotateY(fx32 sin, fx32 cos);
 void gfxRotateZ(fx32 sin, fx32 cos);
+// NitroSDK's G3_MultMtx44
+void gfxMultMatrix4x4(const MtxFx44 *mtx);
 void gfxMultTransRot4x3(const MtxFx33 *mtx, const VecFx32 *trans);
 void gfxResetMatrixStack(void);
 int gfxGetBoxTestResult(s32 *in);

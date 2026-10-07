@@ -112,7 +112,9 @@ typedef struct {
 typedef struct {
     u8 unk00[4];
     s16 unk04;
-    u8 unk06[4];
+    s16 unk06;
+    // Which of the studio's message files the movie uses
+    s16 unk08;
     s16 turnLimit;
     s16 unk0C;
     s16 unk0E;
@@ -288,7 +290,7 @@ void func_ov167_0219a034(BtlMainModule *mainModule, BtlSetup *setup);
 void func_ov167_0219a0c4(BtlMainModule *mainModule, BtlSetup *setup);
 void func_ov167_0219bd40(BtlMainModule *mainModule);
 BOOL func_ov167_0219bd5c(BtlMainModule *mainModule);
-void func_ov167_0219bde0(BtlMainModule *mainModule);
+s32 func_ov167_0219bde0(BtlMainModule *mainModule);
 void func_ov167_0219bdf0(BtlMainModule *mainModule);
 BOOL func_ov167_0219bdfc(BtlMainModule *mainModule);
 void *func_ov167_0219be48(BtlMainModule *mainModule);

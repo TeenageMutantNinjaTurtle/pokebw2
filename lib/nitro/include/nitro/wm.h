@@ -16,4 +16,16 @@ typedef enum {
 
 WMLinkLevel func_020810fc(void); // WM_GetLinkLevel
 
+// What the parent's callback gets when a child connects or disconnects
+typedef struct {
+    u16 apiid;
+    u16 errcode;
+    u16 wlCmdID;
+    u16 wlResult;
+    u16 state;
+    u8 macAddress[6];
+    u16 aid;
+    u16 reason;
+} WMStartParentCallback;
+
 #endif // POKEBW2_NITRO_WM_H

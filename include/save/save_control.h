@@ -94,9 +94,9 @@ typedef struct {
 
 typedef struct {
     u16 species;
-    u16 form : 2;
-    u16 unk2_2 : 1;
-    u16 unk2_3 : 5;
+    u16 sex : 2;
+    u16 rare : 1;
+    u16 form : 5;
     u32 personality;
     u16 name[8];
     MusicalShotEquip equips[8];
@@ -289,6 +289,7 @@ void *func_02009918(SaveControl *save);
 // Mark the downloaded C-Gear skin as there, and keep its CRC
 void func_020098cc(void *block, u8 valid);
 void func_020098d4(void *block, u16 crc);
+void func_020098bc(void *cgear, u8 value);
 // The same block, from the game data
 void *func_02009924(GameData *gameData);
 u8 func_020098c0(void *a0);
@@ -297,7 +298,13 @@ WorldTradeData *SaveControl_GetWorldTradeData(SaveControl *save);
 DreamWorldSave *getDreamWorldStuffAddress(SaveControl *save);
 HighLinkSave *getHighLinkBlockAddress(SaveControl *save);
 void *func_02010dec(SaveControl *save);
+// The Funfest mission records of func_02010dec's block: missions hosted, joined and completed, the most participants
+// and the best score
+u16 func_02010df8(void *a0);
+u16 func_02010e24(void *a0);
 u16 func_02010e50(void *a0);
+u8 func_02010e78(void *a0);
+u16 func_02010e94(void *a0);
 KeyInfoSave *getKeyInfoSaveBlk(SaveControl *save);
 // Whether a key system key is unlocked
 BOOL func_020104c4(KeyInfoSave *keyInfo, u32 key);

@@ -938,6 +938,7 @@ from:0x021a05a6 kind:thumb_call to:0x0203cdc8 module:main
 from:0x021a05b2 kind:thumb_call to:0x020810fc module:main
 from:0x021a05ba kind:thumb_call to:0x0203e7f8 module:main
 from:0x021a05be kind:thumb_call to:0x0203e838 module:main
+from:0x021a05c8 kind:overlay_id to:30
 from:0x021a05cc kind:load to:0x021a47cc module:overlay(181)
 from:0x021a05d0 kind:load to:0x021a08a5 module:overlay(181)
 from:0x021a05d4 kind:load to:0x021a08b1 module:overlay(181)
