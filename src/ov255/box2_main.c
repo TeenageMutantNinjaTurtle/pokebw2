@@ -1909,8 +1909,8 @@ static void PokeIconPartyOutDataMake(Box2SysWork *syswk, u32 getPos, u32 putPos)
     }
     // A Pokémon dropped on another goes to the first free slot
     if (Box2Main_GetPokeParam(syswk, putPos, syswk->tray, PKM_PARAM_SPECIES_VALID, NULL) != 0) {
-        u32 tray = syswk->tray;
-        u32 slot = 0;
+        int tray = syswk->tray;
+        int slot = 0;
 
         BoxSaveAccessor_GetNextFreeBoxSlot(syswk->param->boxes, &tray, &slot);
         putPos = slot;

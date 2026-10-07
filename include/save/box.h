@@ -9,6 +9,9 @@
 u32 howManyNormalPokesAreInAllBoxes(BoxSaveAccessor *boxes);
 u32 howManyTotalPokesAreInBoxes(BoxSaveAccessor *boxes);
 BOOL BoxSaveAccessor_InsertPkm(BoxSaveAccessor *boxes, BoxPkm *pkm);
+BOOL BoxSaveAccessor_InsertPkmCore(BoxSaveAccessor *boxes, u32 box, BoxPkm *pkm);
+void BoxSaveAccessor_ClearPkm(BoxSaveAccessor *boxes, u32 box, u32 slot);
+BOOL BoxSaveAccessor_GetNextFreeBoxSlot(BoxSaveAccessor *boxes, int *box, int *slot);
 u32 BoxSaveAccessor_GetPkmParam(BoxSaveAccessor *boxes, u32 box, u32 slot, u32 param, void *buffer);
 BoxPkm *BoxSaveAccessor_GetPkm(BoxSaveAccessor *boxes, u32 box, u32 slot);
 u32 BoxSaveAccessor_GetLastOpenedBox(BoxSaveAccessor *boxes);
@@ -21,16 +24,12 @@ void saveLastOpenedBoxIdx(BoxSaveAccessor *boxes, u32 box);
 u32 getBoxNumFromIdx(BoxSaveAccessor *boxes, u32 box);
 void func_02007b00(BoxSaveAccessor *boxes, u32 box, u32 wallpaper);
 // Copies a box's name into a string, and back
-void loadBoxNameToStrbuf(BoxSaveAccessor *boxes, u32 box, StrBuf *name);
+void loadBoxNameToStrbuf(BoxSaveAccessor *boxes, u32 box, StrBuf *str);
 void getBoxNameFromStrbuf(BoxSaveAccessor *boxes, u32 box, StrBuf *name);
 u32 howManyPokesInGeneralAreInBox(BoxSaveAccessor *boxes, u32 box);
 u32 countEmptySlotsInBox(BoxSaveAccessor *boxes, u32 box);
-// Finds the first free slot from a box on; FALSE if every box is full
-BOOL BoxSaveAccessor_GetNextFreeBoxSlot(BoxSaveAccessor *boxes, u32 *box, u32 *slot);
-BOOL BoxSaveAccessor_InsertPkmCore(BoxSaveAccessor *boxes, u32 box, BoxPkm *pkm);
 BOOL BoxSaveAccessor_SetPkm(BoxSaveAccessor *boxes, u32 box, u32 slot, BoxPkm *pkm);
 void BoxSaveAccessor_SwapPkms(BoxSaveAccessor *boxes, u32 box1, u32 slot1, u32 box2, u32 slot2);
-void BoxSaveAccessor_ClearPkm(BoxSaveAccessor *boxes, u32 box, u32 slot);
 // Allocates a copy of a boxed Pokémon, which func_02007d84 frees
 BoxPkm *copyBoxedPkmToBuf(BoxSaveAccessor *boxes, u32 box, u32 slot, HeapID heapId);
 void func_02007d84(BoxPkm *pkm);

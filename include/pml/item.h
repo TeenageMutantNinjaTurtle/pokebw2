@@ -28,5 +28,7 @@ u32 PML_ItemGetMonsBallID(u16 item);
 u16 GetItemGraphicsDatID(u16 item, u32 type);
 // The archive of the items' icons
 u32 func_02026714(void);
+// Copies an item's name, or that of item 0 for an item past the last
+void setItemNameToStrbuf(StrBuf *dest, u16 item, HeapID heapId);
 
 #endif // POKEBW2_PML_ITEM_H

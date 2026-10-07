@@ -4051,8 +4051,8 @@ static int func_ov255_021c8798(Box2SysWork *syswk) {
             syswk->nextSeq = 65;
             return BOX2SEQ_TRGWAIT;
         } else {
-            u32 pos;
-            u32 tray;
+            int pos;
+            int tray;
 
             tray = syswk->tray;
             pos = 0;

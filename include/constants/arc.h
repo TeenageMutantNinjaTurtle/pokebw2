@@ -42,6 +42,8 @@
 #define ARCID_RAIL_HEADERS 78
 #define ARCID_TRDATA 91
 #define ARCID_TRPOKE 92
+// The Global Trade Station's 2D graphics (not from swan)
+#define ARCID_WORLDTRADE 95
 #define ARCID_CALENDAR 96
 #define ARCID_GIMMICK_TBL 102
 #define ARCID_FIELD_CAMERA_MAP_BOUNDARY 109

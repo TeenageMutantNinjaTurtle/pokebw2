@@ -283,6 +283,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   of equal length that each end in a `TOUCH_RECT_END` entry, with other tables pointing into the rows. Once the sizes
   are right, any order of the objects of one size can be reached; keep the natural order elsewhere and let
   `rodata_order.py` solve for the same-size groups.
+- The list that is heapsorted holds the file's `.data` tables as well as its `.rodata` objects, so a `.data` table's
+  declaration reorders `.rodata` objects of the same size, and `rodata_order.py` predicts the layout only when it is
+  given them too (string literals don't count). `worldtrade_search.c`'s four BG setups come out in the game's order
+  only with its touch screen's cursor table, in `.data`, declared after the touch rectangles rather than at the top.
 - `static const` data goes in `.rodata`, so a table that the original has in `.data` is not `const`. The module
   check fails if a table ends up in the wrong section, even when every function matches.
 - A `static const` variable whose address is never taken is folded into the code and not emitted. If the original has
