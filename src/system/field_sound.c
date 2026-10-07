@@ -6,11 +6,12 @@
 #include "types.h"
 #include "constants/sound.h"
 #include "field/field_sound.h"
-#include "field/iss.h"
 #include "field/player_state.h"
 #include "field/zone.h"
 #include "save/event_work.h"
 #include "system/game_data.h"
+#include "system/iss_3ds_sys.h"
+#include "system/iss_sys.h"
 
 // What GetZoneBGMOverrideID returns when nothing overrides the zone's BGM
 #define NO_BGM_OVERRIDE 0xFFFFFFFF
