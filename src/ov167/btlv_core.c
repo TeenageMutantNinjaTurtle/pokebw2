@@ -4,9 +4,10 @@
 #include "battle/btl_client.h"
 #include "battle/btl_main.h"
 #include "battle/btl_pokeparam.h"
+#include "battle/btl_string.h"
 #include "battle/btlv.h"
-#include "battle/trainer_data.h"
 #include "battle/tr_ai.h"
+#include "battle/trainer_data.h"
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"
 #include "gfl/g3d.h"
@@ -14,12 +15,12 @@
 #include "gfl/msg.h"
 #include "gfl/net.h"
 #include "gfl/overlay.h"
-#include "gfl/tcbl.h"
-#include "nitro/gx.h"
-#include "nitro/hw.h"
 #include "gfl/sound.h"
 #include "gfl/str.h"
 #include "gfl/tcb.h"
+#include "gfl/tcbl.h"
+#include "nitro/gx.h"
+#include "nitro/hw.h"
 #include "pml/waza.h"
 #include "system/gf_font.h"
 
@@ -289,7 +290,7 @@ BtlvCore *BtlvCore_Create(BtlMainModule *mainModule, BtlClient *client, BtlPokeC
 }
 
 void func_ov167_021ce870(BtlvCore *core) {
-    func_ov167_021d4d50(core);
+    func_ov167_021d4d50();
     func_ov169_06899ed0(core->unk1C4);
     func_ov167_021d0f84(core->unk1C0);
     GFL_TCBExMgrFree(core->tcbManager);

@@ -123,17 +123,6 @@ void func_ov167_021d428c(void *data);
 BOOL func_ov167_021d42ac(void *data);
 void func_ov167_021d4304(void *data);
 BOOL func_ov167_021d4324(void *data);
-void func_ov167_021d4c64(BtlMainModule *mainModule, u8 clientId, BtlPokeCon *pokeCon, HeapID heapId);
-void func_ov167_021d4d50(BtlvCore *core);
-void func_ov167_021d4f1c(StrBuf *strbuf, u16 message, const u32 *args);
-void func_ov167_021d4f90(StrBuf *strbuf, u16 message, const u32 *args);
-void func_ov167_021d5684(StrBuf *strbuf, u8 monId, u16 move);
-void func_ov167_021d5700(StrBuf *strbuf, u16 arg1, u32 arg2);
-void func_ov167_021d575c(StrBuf *strbuf, u16 message);
-void func_ov167_021d5770(StrBuf *strbuf, u16 message, const u32 *args);
-void func_ov167_021d57b0(StrBuf *strbuf, u16 message, const u32 *args);
-void func_ov167_021d5904(StrBuf *strbuf, u32 message);
-void func_ov167_021d5924(StrBuf *strbuf, u16 message);
 
 // More of the battle view, in overlay 168
 void *func_ov168_021ded1c(BtlMainModule *mainModule, void *data, HeapID heapId);
@@ -403,6 +392,5 @@ BOOL func_ov169_0689cc90(BtlvPokeSelectParam *select);
 BOOL func_ov169_0689cc9c(BtlvPokeSelectParam *select);
 u8 func_ov169_0689cca4(BtlvPokeSelectParam *select);
 
-void func_ov167_021d5944(void);
 
 #endif // POKEBW2_BATTLE_BTLV_H

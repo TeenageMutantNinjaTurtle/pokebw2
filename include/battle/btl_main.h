@@ -112,7 +112,9 @@ typedef struct {
 typedef struct {
     u8 unk00[4];
     s16 unk04;
-    u8 unk06[4];
+    s16 unk06;
+    // Which of the studio's message files the movie uses
+    s16 unk08;
     s16 turnLimit;
     s16 unk0C;
     s16 unk0E;
