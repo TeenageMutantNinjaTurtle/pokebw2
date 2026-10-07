@@ -833,8 +833,8 @@ static void PMSIView_CmdCategoryToWordWin(TCB *tcb, void *data) {
         flag2 = PMSIVCategory_WaitFadeOut(vwk->category);
         if (flag1 && flag2) {
             PMSIVMenu_SetupWordWinButtons(vwk->menu);
-            func_ov185_021a32d0(vwk->wordWin);
-            func_ov185_021a3380(vwk->wordWin);
+            PMSIVWordWin_SetupWords(vwk->wordWin);
+            PMSIVWordWin_StartFadeIn(vwk->wordWin);
             if (PMSInput_GetCategoryMode(cwk->mwk) == 0) {
                 PMSIView_PrintMessage(cwk, 3);
             } else {
@@ -844,11 +844,11 @@ static void PMSIView_CmdCategoryToWordWin(TCB *tcb, void *data) {
         }
         break;
     case 4:
-        if (func_ov185_021a3438(vwk->wordWin)) {
+        if (PMSIVWordWin_WaitFadeIn(vwk->wordWin)) {
             PMSIVWordWin_MoveCursor(vwk->wordWin, PMSInput_GetWordWinCursorPos(vwk->mwk));
-            func_ov185_021a3690(vwk->wordWin, PMSInput_GetWordWinUpArrowVisible(vwk->mwk),
+            PMSIVWordWin_SetScrollBar(vwk->wordWin, PMSInput_GetWordWinUpArrowVisible(vwk->mwk),
                                 PMSInput_GetWordWinDownArrowVisible(vwk->mwk));
-            func_ov185_021a3500(vwk->wordWin, TRUE);
+            PMSIVWordWin_VisibleCursor(vwk->wordWin, TRUE);
             PMSIView_DeleteCommand(cwk);
         }
         break;
@@ -876,12 +876,12 @@ static void PMSIView_CmdWordWinToCategory(TCB *tcb, void *data) {
         cwk->seq++;
         break;
     case 3:
-        func_ov185_021a3500(vwk->wordWin, FALSE);
-        func_ov185_021a345c(vwk->wordWin);
+        PMSIVWordWin_VisibleCursor(vwk->wordWin, FALSE);
+        PMSIVWordWin_StartFadeOut(vwk->wordWin);
         cwk->seq++;
         break;
     case 4:
-        if (func_ov185_021a3480(vwk->wordWin)) {
+        if (PMSIVWordWin_WaitFadeOut(vwk->wordWin)) {
             PMSIVCategory_ChangeModeBG(vwk->category);
             cwk->seq++;
         }
@@ -929,16 +929,16 @@ static void PMSIView_CmdWordWinToEditArea(TCB *tcb, void *data) {
         cwk->seq++;
         break;
     case 1:
-        if (func_ov185_021a39dc(vwk->wordWin)) {
+        if (PMSIVWordWin_WaitCursorDecide(vwk->wordWin)) {
             PMSIVMenu_SetupEditButtons(vwk->menu);
-            func_ov185_021a3500(vwk->wordWin, FALSE);
-            func_ov185_021a345c(vwk->wordWin);
+            PMSIVWordWin_VisibleCursor(vwk->wordWin, FALSE);
+            PMSIVWordWin_StartFadeOut(vwk->wordWin);
             PMSIVEdit_ScrollSet(vwk->edit, TRUE);
             cwk->seq++;
         }
         break;
     case 2:
-        flag1 = func_ov185_021a3480(vwk->wordWin);
+        flag1 = PMSIVWordWin_WaitFadeOut(vwk->wordWin);
         flag2 = PMSIVEdit_ScrollWait(vwk->edit);
         if (flag1 && flag2) {
             PMSIVCategory_SetDisableBG(vwk->category);
@@ -977,12 +977,12 @@ static void PMSIView_CmdWordWinToButton(TCB *tcb, void *data) {
 
     switch (cwk->seq) {
     case 0:
-        func_ov185_021a3500(vwk->wordWin, FALSE);
-        func_ov185_021a345c(vwk->wordWin);
+        PMSIVWordWin_VisibleCursor(vwk->wordWin, FALSE);
+        PMSIVWordWin_StartFadeOut(vwk->wordWin);
         cwk->seq++;
         break;
     case 1:
-        if (func_ov185_021a3480(vwk->wordWin)) {
+        if (PMSIVWordWin_WaitFadeOut(vwk->wordWin)) {
             PMSIVCategory_SetDisableBG(vwk->category);
             PMSIView_SetLowerScreen(cwk->vwk, FALSE);
             PMSIVCategory_StartFadeIn(vwk->category);
@@ -1043,11 +1043,11 @@ static void PMSIView_CmdScrollWordWin(TCB *tcb, void *data) {
 
     switch (cwk->seq) {
     case 0:
-        func_ov185_021a3584(vwk->wordWin, PMSInput_GetWordWinScrollVector(vwk->mwk));
+        PMSIVWordWin_StartScroll(vwk->wordWin, PMSInput_GetWordWinScrollVector(vwk->mwk));
         cwk->seq++;
         break;
     case 1:
-        if (func_ov185_021a3640(vwk->wordWin)) {
+        if (PMSIVWordWin_WaitScroll(vwk->wordWin)) {
             PMSIView_DeleteCommand(cwk);
         }
         break;
@@ -1119,7 +1119,7 @@ static void PMSIView_CmdSetWordWinArrows(TCB *tcb, void *data) {
     PMSIVCommandWork *cwk = data;
     PMSInputView *vwk = cwk->vwk;
 
-    func_ov185_021a3320(vwk->wordWin, PMSInput_GetWordWinUpArrowVisible(vwk->mwk));
+    PMSIVWordWin_RedrawWords(vwk->wordWin, PMSInput_GetWordWinUpArrowVisible(vwk->mwk));
     PMSIView_DeleteCommand(cwk);
 }
 
@@ -1169,11 +1169,11 @@ static void PMSIView_CmdMoveWordWin(TCB *tcb, void *data) {
 
     switch (cwk->seq) {
     case 0:
-        func_ov185_021a398c(vwk->wordWin, PMSInput_GetWordWinCursorPos(vwk->mwk));
+        PMSIVWordWin_StartCursorDecide(vwk->wordWin, PMSInput_GetWordWinCursorPos(vwk->mwk));
         cwk->seq++;
         break;
     case 1:
-        if (func_ov185_021a39dc(vwk->wordWin)) {
+        if (PMSIVWordWin_WaitCursorDecide(vwk->wordWin)) {
             PMSIView_DeleteCommand(cwk);
         }
         break;
@@ -1256,7 +1256,7 @@ ClActor *PMSIView_AddActor(PMSInputView *vwk, const PMSIVObjRes *res, u32 x, u32
 int PMSIView_GetWordWinScrollDir(PMSInputView *vwk, u32 unused, u32 pos) {
     ClActorPos barPos;
 
-    if (!func_ov185_021a3674(vwk->wordWin, &barPos)) {
+    if (!PMSIVWordWin_GetScrollBarPos(vwk->wordWin, &barPos)) {
         return 3;
     }
     if (pos < barPos.y) {
@@ -1272,11 +1272,11 @@ int PMSIView_GetWordWinScrollDir(PMSInputView *vwk, u32 unused, u32 pos) {
 }
 
 void PMSIView_SetWordWinScrollBarY(PMSInputView *vwk, u32 y) {
-    func_ov185_021a3704(vwk->wordWin, y);
+    PMSIVWordWin_SetScrollBarY(vwk->wordWin, y);
 }
 
 u32 PMSIView_GetWordWinScrollBarPos(PMSInputView *vwk, u32 count) {
-    return func_ov185_021a3740(vwk->wordWin, count);
+    return PMSIVWordWin_GetScrollBarLine(vwk->wordWin, count);
 }
 
 void PMSIView_SetLowerScreen(PMSInputView *vwk, BOOL categories) {
@@ -1343,5 +1343,5 @@ void PMSIView_ChangeKTCategory(PMSInputView *vwk, const PMSInputWork *mwk, const
 }
 
 void PMSIView_ChangeKTWordWin(PMSInputView *vwk, const PMSInputWork *mwk, const PMSInputData *dwk) {
-    func_ov185_021a3500(vwk->wordWin, TRUE);
+    PMSIVWordWin_VisibleCursor(vwk->wordWin, TRUE);
 }
