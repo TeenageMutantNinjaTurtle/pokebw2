@@ -1,0 +1,13 @@
+You will communicate with your opponent\nvia Infrared Connection.{be01}\nPlease face your Game Card\nat your opponent's Game Card{be00}\nand press the A Button.
+The selected tournaments do not match.
+An opponent has been found!
+The battle will be started.\nPlease press the A Button.
+You won.
+You lost.
+It's a draw.
+Communicating.
+Participate in the Wi-Fi Competition
+Participate in a Live Competition
+Check your Digital Player ID
+EXIT
+\pad{ac}

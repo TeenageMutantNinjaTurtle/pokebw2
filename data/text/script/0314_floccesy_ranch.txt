@@ -1,0 +1,2 @@
+Meet lots of Pokémon!\nFloccesy Ranch, just off Floccesy Town
+\pad{0c}

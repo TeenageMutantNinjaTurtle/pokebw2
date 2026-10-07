@@ -1,0 +1,21 @@
+I win!\n{011c:0}!
+I owe my victory\nto {011c:0}!
+{011c:0} is strong,\nisn't it?
+It's {011c:0}\n{011c:1} after all!
+When it comes to {011c:0},\nmy choice is always {011c:1}!
+Victory in a\n{011c:0} battle!
+Yay, {011c:0}!\n{011c:1}!
+Sorry, it's {011c:0}\n{011c:1}.
+{011c:0}!\nThank you!
+The way I feel now is\n{011c:0}!
+{011c:0} sure is\n{011c:1}!
+It's all thanks to\n{011c:0}.
+{011c:0} is the toughest!
+{011c:0}?\nWow, I'm so glad!
+{011c:0}?\nThat sounds good!
+I have no trouble\ndealing with {011c:0}.
+{011c:0} is so much fun.
+Huh?\n{011c:0}?!
+The power of {011c:0}\nis awesome!
+Everyone!\n{011c:0}!
+\pad{46}

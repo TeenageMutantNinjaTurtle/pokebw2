@@ -10,6 +10,8 @@
 
 // Fields of a Pokémon, which PokeParty_GetParam and PokeParty_SetParam read and write. Names from swan's PkmField
 #define PKM_PARAM_PID 0x0
+// Whether the Pokémon's data is broken, making it a bad egg (our name)
+#define PKM_PARAM_BAD_EGG 0x3
 #define PKM_PARAM_SPECIES 0x5
 #define PKM_PARAM_ITEM 0x6
 #define PKM_PARAM_ID 0x7
@@ -52,6 +54,8 @@
 #define PKM_PARAM_SPEED 0xa4
 #define PKM_PARAM_SP_ATTACK 0xa5
 #define PKM_PARAM_SP_DEFENSE 0xa6
+// Whether the Pokémon's name is followed by its sex, which isn't for Nidoran (our name)
+#define PKM_PARAM_SHOW_SEX 0xad
 // The mail the Pokémon holds, copied from a MailData
 #define PKM_PARAM_MAIL 0xa7
 // Whether there is a Pokémon in the slot
@@ -66,16 +70,84 @@
 #define PKM_PARAM_N_POKEMON 0xb2
 #define PKM_PARAM_POKESTAR_FAME 0xb3
 
-// How a Pokémon evolves, the method of its species' evolution table. These are the methods the evolution demo treats
-// differently: it removes the held item for the held item methods, makes a Shedinja, and doesn't let an evolution by
-// item be stopped. The names are the usual ones for the values of the evolution tables
+// How a Pokémon evolves, the method of its species' evolution table. The evolution demo treats some differently: it
+// removes the held item for the held item methods, makes a Shedinja, and doesn't let an evolution by item be stopped.
+// The names are the usual ones for the values of the evolution tables, which data/evolutions bears out
+#define EVO_METHOD_NONE 0
+#define EVO_METHOD_FRIENDSHIP 1
+#define EVO_METHOD_FRIENDSHIP_DAY 2
+#define EVO_METHOD_FRIENDSHIP_NIGHT 3
+#define EVO_METHOD_LEVEL 4
+#define EVO_METHOD_TRADE 5
 #define EVO_METHOD_TRADE_WITH_ITEM 6
+// Traded for a Pokémon of the species in the parameter, as Karrablast and Shelmet
+#define EVO_METHOD_TRADE_WITH_SPECIES 7
 #define EVO_METHOD_ITEM 8
+#define EVO_METHOD_LEVEL_ATK_GT_DEF 9
+#define EVO_METHOD_LEVEL_ATK_EQ_DEF 10
+#define EVO_METHOD_LEVEL_ATK_LT_DEF 11
+// Wurmple's two evolutions, by its personality value
+#define EVO_METHOD_LEVEL_PERSONALITY_LOW 12
+#define EVO_METHOD_LEVEL_PERSONALITY_HIGH 13
 // Evolving makes a Shedinja as well, with a free party slot and a Poké Ball
 #define EVO_METHOD_SHEDINJA 14
+// The Shedinja that EVO_METHOD_SHEDINJA's evolution makes
+#define EVO_METHOD_SHEDINJA_MADE 15
+#define EVO_METHOD_BEAUTY 16
 #define EVO_METHOD_ITEM_MALE 17
 #define EVO_METHOD_ITEM_FEMALE 18
 #define EVO_METHOD_HELD_ITEM_DAY 19
 #define EVO_METHOD_HELD_ITEM_NIGHT 20
+#define EVO_METHOD_KNOWS_MOVE 21
+#define EVO_METHOD_SPECIES_IN_PARTY 22
+#define EVO_METHOD_LEVEL_MALE 23
+#define EVO_METHOD_LEVEL_FEMALE 24
+#define EVO_METHOD_LEVEL_MAGNETIC_FIELD 25
+#define EVO_METHOD_LEVEL_MOSS_ROCK 26
+#define EVO_METHOD_LEVEL_ICE_ROCK 27
+
+// Growth rates of the species data, which pick an experience table. Names and order as pret's pokeplatinum, whose
+// values this game keeps
+#define GROWTH_MEDIUM_FAST 0
+#define GROWTH_ERRATIC 1
+#define GROWTH_FLUCTUATING 2
+#define GROWTH_MEDIUM_SLOW 3
+#define GROWTH_FAST 4
+#define GROWTH_SLOW 5
+
+// Egg groups of the species data, as pret's pokeplatinum names them
+#define EGG_GROUP_NONE 0
+#define EGG_GROUP_MONSTER 1
+#define EGG_GROUP_WATER_1 2
+#define EGG_GROUP_BUG 3
+#define EGG_GROUP_FLYING 4
+#define EGG_GROUP_FIELD 5
+#define EGG_GROUP_FAIRY 6
+#define EGG_GROUP_GRASS 7
+#define EGG_GROUP_HUMANSHAPE 8
+#define EGG_GROUP_WATER_3 9
+#define EGG_GROUP_MINERAL 10
+#define EGG_GROUP_AMORPHOUS 11
+#define EGG_GROUP_WATER_2 12
+#define EGG_GROUP_DITTO 13
+#define EGG_GROUP_DRAGON 14
+#define EGG_GROUP_UNDISCOVERED 15
+
+// Body colors of the species data, for the Pokédex search
+#define COLOR_RED 0
+#define COLOR_BLUE 1
+#define COLOR_YELLOW 2
+#define COLOR_GREEN 3
+#define COLOR_BLACK 4
+#define COLOR_BROWN 5
+#define COLOR_PURPLE 6
+#define COLOR_GRAY 7
+#define COLOR_WHITE 8
+#define COLOR_PINK 9
+
+// Gender ratios of the species data: the chance of female out of 254, or these
+#define GENDER_RATIO_MALE_ONLY 0
+#define GENDER_RATIO_FEMALE_ONLY 254
+#define GENDER_RATIO_GENDERLESS 255
 
 #endif // POKEBW2_CONSTANTS_POKEMON_H

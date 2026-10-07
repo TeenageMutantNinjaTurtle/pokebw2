@@ -68,7 +68,7 @@ perfect function.
 .venv/bin/python tools/scripts/compiler_probe.py src/ov033/x.c --compilers 1.1p1 --mismatches
 ```
 
-Library code built with another compiler, such as SPL with `1.2/base` (`LIB_COMPILERS` in `configure.py`), gets its
+Library code built with another compiler, such as SPL with `1.2/base` (`lib/spl/library.toml`), gets its
 compiler by default; leave out `--compilers`. The probe ignores relocated bytes, so a wrong call target or addend
 only shows in `ninja`'s module check.
 
