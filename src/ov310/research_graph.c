@@ -209,8 +209,6 @@ enum {
 // The frames between two percentages being shown
 #define PERCENTAGE_INTERVAL 10
 
-// A text color of the text renderer, from each color's index
-
 struct ResearchGraph {
     ResearchCommon *common;
     HeapID heapId;
@@ -1898,6 +1896,7 @@ static void ResearchGraph_ShowArrow(ResearchGraph *wk) {
     int x, y;
 
     Arrow_Hide(wk->arrow);
+    // resultsShown is tested twice, as the original reads it again at the end
     if (wk->updating != TRUE && wk->resultsShown && ResearchGraph_GetQuestionTotal(wk) &&
         CircleGraph_GetPercentById(ResearchGraph_GetGraph(wk), ResearchGraph_GetAnswerID(wk)) && wk->resultsShown) {
         CircleGraph_GetLabelScreenPosById(ResearchGraph_GetGraph(wk), ResearchGraph_GetAnswerID(wk), &x, &y);
@@ -1908,6 +1907,7 @@ static void ResearchGraph_ShowArrow(ResearchGraph *wk) {
 
 // Sets up a percentage on each slice of PERCENTAGE_MIN or more, from the last
 static void ResearchGraph_SetupPercentages(ResearchGraph *wk) {
+    // The count goes in the loop's counter first: a loop that starts from a call's result is longer
     int i = ResearchGraph_GetAnswerCount(wk);
     CircleGraph *graph = ResearchGraph_GetGraph(wk);
     int count = 0;
@@ -1960,6 +1960,7 @@ static void ResearchGraph_UpdateArrowRects(ResearchGraph *wk) {
     rect->right = ResearchGraph_ClampU8(rect->left + 32);
     rect->bottom = ResearchGraph_ClampU8(rect->top + 32);
 
+    // The original looks the entry up again for the right arrow
     entry = &sGraphCursors[wk->cursor];
     rect = &wk->touchRects[TOUCH_RIGHT];
     rect->left = ResearchGraph_ClampU8(entry->x + entry->rightX - 16);
@@ -2664,7 +2665,13 @@ static void ResearchGraph_LoadData(ResearchGraph *wk) {
         if (wk->data.questions[q].totalCount > COUNT_MAX) {
             wk->data.questions[q].totalCount = COUNT_MAX;
         }
+#ifdef BUGFIX
+        for (i = 0; i < answerCounts[q]; i++) {
+#else
+        // BUG: The answers past the question's count were never loaded, so their uninitialized IDs index the color
+        // tables out of bounds. Nothing reads those answers afterwards
         for (i = 0; i < RESEARCH_ANSWER_MAX; i++) {
+#endif
             u16 id = answerIds[q][i];
 
             wk->data.questions[q].answers[i].id = id;
