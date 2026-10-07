@@ -42,6 +42,7 @@ struct PartyPkm {
 };
 
 PokeParty *PokeParty_Create(HeapID heapId);
+void PokeParty_CreateTempPkm(PartyPkm *pkm, u16 species, u16 level, u64 id);
 u32 PokeParty_GetSaveDataSize(void);
 u32 PML_GenPID(u32 seed, u16 species, u16 form, u32 sex, u32 ability, u32 a5);
 void PokeParty_CreatePkm(PartyPkm *pkm, u16 species, u16 level, u32 a3, u32 a4, s32 a5, u32 pid, u32 a7);

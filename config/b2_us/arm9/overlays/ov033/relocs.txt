@@ -813,7 +813,7 @@ from:0x02179544 kind:thumb_call to:0x0219a580 module:overlay(36)
 from:0x02179550 kind:thumb_call to:0x02167564 module:overlay(12)
 from:0x0217955c kind:thumb_call to:0x020095a0 module:main
 from:0x02179562 kind:thumb_call to:0x02038bc8 module:main
-from:0x02179584 kind:thumb_call to:0x021686b8 module:overlays(11,12)
+from:0x02179584 kind:thumb_call to:0x021686b8 module:overlay(12)
 from:0x0217958c kind:thumb_call to:0x02016d50 module:main
 from:0x021795ca kind:thumb_call to:0x0203defc module:main
 from:0x021795ee kind:thumb_call to:0x0218050c module:overlay(36)
