@@ -9951,7 +9951,7 @@ from:0x021a904e kind:thumb_call to:0x02016af0 module:main
 from:0x021a9052 kind:thumb_call to:0x02180560 module:overlay(36)
 from:0x021a9056 kind:thumb_call to:0x021b67bc module:overlay(36)
 from:0x021a905e kind:thumb_call to:0x02155174 module:overlay(12)
-from:0x021a9068 kind:thumb_call to:0x02153f6c module:overlays(11,12)
+from:0x021a9068 kind:thumb_call to:0x02153f6c module:overlay(12)
 from:0x021a9072 kind:thumb_call to:0x02154910 module:overlay(12)
 from:0x021a907c kind:thumb_call to:0x02154910 module:overlay(12)
 from:0x021a9086 kind:thumb_call to:0x02154910 module:overlay(12)
