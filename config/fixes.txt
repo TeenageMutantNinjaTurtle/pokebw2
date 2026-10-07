@@ -43,6 +43,7 @@
 . 0x020307dc reloc_addend 1
 . 0x020307f8 reloc_addend 2
 . 0x02030824 reloc_addend 2
+. 0x02031c6c reloc_addend 4
 . 0x0203637c reloc_module overlay(162)
 . 0x0207ba60 add_reloc load,main,0x0207b9e8,0x50
 . 0x0207e79c add_reloc load,main,0x0207e979
@@ -50,6 +51,7 @@
 . 0x0207e974 add_reloc load,ltd_autoload(0),0x02703e90
 . 0x0207e974 remove_symbol
 . 0x0207e978 add_function func_0207e978:thumb:0xa8
+. 0x0208c224 add_label _dadd
 . 0x0208c908 add_label _dmul
 . 0x0208cc6c add_label _d2f
 . 0x0208cd70 add_label _dflt
@@ -88,6 +90,7 @@
 . 0x02092316 remove_symbol
 . 0x02092395 remove_symbol
 . 0x02092396 remove_symbol
+. 0x02092748 remove_symbol
 . 0x02097bfc remove_symbol
 . 0x0210000b remove_symbol
 . 0x0210020f remove_symbol
