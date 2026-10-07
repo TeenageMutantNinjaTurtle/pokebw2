@@ -433,6 +433,12 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   written in both arms, `if (x >= 20 && x <= 23) { wk->pos = x; } else { wk->pos = 22; }`: the then-arm's store is
   cross-jumped into the shared one and only its `b` is left. The phrase input's `PMSInput_CategoryKeyInitial` writes
   its cursor's fallbacks so; a fallback assigned to the value and stored once after gives a plain branch to the store.
+- Of a store written in several arms, cross-jumping keeps the copy written last and turns the others into `b`, so the
+  order of the arms decides where the store sits. The phrase input's `PMSIVWordWin_SetScrollBar` keeps its top
+  position's store at the end of the function, behind a plain `beq`, only as `else if (scrollMax != 0) { compute }
+  else { y = TOP; }`; `else if (scrollMax == 0) { y = TOP; } else { compute }` kept it early behind `bne; b`. Its
+  `PMSIVWordWin_GetScrollBarLine` has `cmp #0x12; bne next; b zero` from `line = 0` written both as the first arm of
+  the inner chain and as the outer `else`.
 - A branch to the very next instruction is left by cross-jumping: two statements that end the same way, such as a
   store in each case of a switch, share their tail, and the first jumps to it even when it follows.
 - MWCC evaluates the operands of `|` in the order they are grouped, so a color built from three computed parts shows
