@@ -28,8 +28,8 @@ typedef struct {
 
 void func_0207e75c(void);                     // MIC_Init
 void *func_0207e8f8(void);                    // MIC_GetLastSamplingAddress
-MICResult func_0207e934(MICAutoParam *param); // MIC_StartAutoSampling
-MICResult func_0207e958(void);                // MIC_StopAutoSampling
+MICResult MIC_StartAutoSampling(MICAutoParam *param);
+MICResult MIC_StopAutoSampling(void);
 
 #define PM_AMP_OFF 0
 #define PM_AMP_ON 1
