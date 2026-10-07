@@ -8,6 +8,10 @@ tools that show the differences.
 
 ## Registers
 
+- A pointer that follows another (`cr = cb + n`) adds its operands the other way round when written from the base,
+  `cr = y + n + n`, which reuses `y + n` and adds the scaled count first: `ssp_jpegenc.c`'s
+  `JpegEnc_ConvertYUV422`. A product the original computes by doubling one factor in place (`lsls rW, rW, #1`
+  before `muls`) is written with the shift, `(width << 1) * height`, as `camera_system.c`'s `CameraSystem_StartDma`.
 - A variable initialized at its declaration before a local array with an initializer stays live across the
   initializer's `ldm`/`stm` copy, which pushes the copy's pointer to a higher saved register:
   `pokemontrade_message.c`'s `func_ov194_021c0684` copies with `r6`, as the original does, only as
@@ -232,6 +236,9 @@ Same code, other `sp` offsets or frame size.
 
 ## Instruction order
 
+- A constant stored to a field that the original builds one store earlier is stored first in the source: MWCC
+  keeps the stores in their order but builds the constant sooner. `ctvt_draw.c`'s `CtvtDraw_Main` writes
+  `draw->exit = TRUE; draw->state = DRAW_STATE_FADE_OUT;`.
 - MWCC keeps a load and a store through pointers that may alias in source order. A field the original loads before
   a store is read into a local in a statement before it: `g3d_system.c`'s `GFL_G3DAnmCreate` reads
   `resource->data` before storing `resource` in the animation, and `event_field_proclink.c`'s `func_ov012_0215bb70`
@@ -567,6 +574,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 ## Branches and block layout
 
+- `if (x == TRUE) { return 0; } return 1;` and its other spellings build 1 first (`movs r0, #1`, `bne`); the
+  original's `movs r0, #0`, `beq`, `movs r0, #1` is a result variable, `ret = 0; if (x != TRUE) { ret = 1; } return ret;`.
+  `plist_sys.c`'s `PokeList_CheckLearnMove` writes two of its three such returns that way and one plainly, so compare
+  each return of a function on its own.
 - `if (a == b) { return FALSE; } return TRUE;` is folded into `a != b`, which branches with `beq` to the `FALSE`
   return whatever the spelling. The original's `bne` to the `TRUE` return comes from a flag: `scrcmd_stadium.c`'s
   `IsReturnLocationNonLeaguePokeCen` matches with both calls in locals, `isLeague` set in an `if`/`else` from their
