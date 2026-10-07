@@ -25,7 +25,7 @@ void BmpWin_FlushChar(BmpWin *window);
 void BmpWin_FlushMap(BmpWin *window);
 // Draws a frame around the window on the BG's screen buffer, from the 8 characters from frameChar: the top left
 // corner, top, top right corner, left, right, bottom left corner, bottom and bottom right corner
-void BmpWin_MakeFrameScreen(BmpWin *window, u32 frameChar, u8 palette);
+void BmpWin_MakeFrameScreen(BmpWin *window, u16 frameChar, u8 palette);
 // Clears the window's area of its BG's screen
 void BmpWin_ClearScreen(BmpWin *window);
 u8 BmpWin_GetBGIndex(BmpWin *window);

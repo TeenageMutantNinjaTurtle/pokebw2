@@ -509,9 +509,9 @@ static void func_ov012_02151384(MusicalEventWork *work) {
         info = NULL;
         poke = work->stage->pokes[pos];
         shot->pokes[pos].species = poke->species;
+        shot->pokes[pos].sex = poke->sex;
+        shot->pokes[pos].rare = poke->rare;
         shot->pokes[pos].form = poke->form;
-        shot->pokes[pos].unk2_2 = poke->unkC;
-        shot->pokes[pos].unk2_3 = poke->unkB;
         shot->pokes[pos].personality = poke->personality;
         if (pos == work->playerPos) {
             info = GetGameDataPlayerInfo(work->gameData);

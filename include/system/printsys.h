@@ -63,6 +63,18 @@ static inline void PrintWindow_Print(PrintWindow *printWindow, PrintQueue *queue
     printWindow->flushPending = TRUE;
 }
 
+// PrintWindow_Print in the string's own colors
+static inline void PrintWindow_PrintNoColor(PrintWindow *printWindow, PrintQueue *queue, s16 x, s16 y,
+                                            const StrBuf *strbuf, Font *font) {
+    func_02021c54(queue, BmpWin_GetBitmap(printWindow->window), x, y, strbuf, font);
+    printWindow->flushPending = TRUE;
+}
+
+// Whether the window's text has been sent to VRAM
+static inline BOOL PrintWindow_IsPrinted(PrintWindow *printWindow) {
+    return printWindow->flushPending ? FALSE : TRUE;
+}
+
 static inline void PrintWindow_Flush(PrintWindow *printWindow, PrintQueue *queue) {
     if (printWindow->flushPending && !func_02021c1c(queue, BmpWin_GetBitmap(printWindow->window))) {
         BmpWin_FlushChar(printWindow->window);

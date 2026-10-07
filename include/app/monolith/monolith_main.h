@@ -22,6 +22,16 @@ enum {
     MONOLITH_SCREEN_EXIT = MONOLITH_SCREEN_COUNT,
 };
 
+// The menu's items, where MonolithState's menuCursor returns
+enum {
+    MONOLITH_MENU_MISSION,
+    MONOLITH_MENU_PASS_POWER,
+    MONOLITH_MENU_RECORDS,
+};
+
+// The flag set once the player's first visit to the Entralink is done
+#define MONOLITH_FLAG_VISITED 0x986
+
 // The event work that holds the Entralink's part of the story: the scene that waits for the first pass power, and the
 // scene after it
 #define MONOLITH_SCENE_WORK 0x404d
@@ -129,8 +139,6 @@ struct MonolithWork {
 };
 
 // The procs of the screens, in their files
-extern const GameProcFunctions data_ov143_021a0008;
-extern const GameProcFunctions data_ov143_021a0054;
 extern const GameProcFunctions data_ov143_021a00b0;
 extern const GameProcFunctions data_ov143_021a0134;
 extern const GameProcFunctions data_ov143_021a01e4;
