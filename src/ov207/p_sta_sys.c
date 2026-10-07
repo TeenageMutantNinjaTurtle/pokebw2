@@ -20,7 +20,7 @@
 #include "nitro/os.h"
 #include "pml/poke_party.h"
 #include "p_status_local.h"
-#include "system/app_common.h"
+#include "system/app_menu_common.h"
 #include "system/game_data.h"
 #include "system/wipe.h"
 
@@ -116,7 +116,7 @@ BOOL PStatus_Init(PStatusWork *wk) {
     PStatus_InitGraphics(wk);
     wk->sub = PStaSub_Create(wk);
     wk->info = PStaInfo_Create(wk);
-    wk->skill = func_ov207_021b8510(wk);
+    wk->skill = PStaSkill_Create(wk);
     wk->ribbon = PStaRibbon_Create(wk);
     PStatus_LoadResources(wk);
     PStatus_InitText(wk);
@@ -131,7 +131,7 @@ BOOL PStatus_Init(PStatusWork *wk) {
     if (wk->param->mode == PSTATUS_MODE_FORGET_MOVE) {
         wk->page = PSTATUS_PAGE_FORGET;
         PStaSub_Load(wk, wk->sub);
-        func_ov207_021b9510(wk, wk->skill);
+        PStaSkill_LoadForget(wk, wk->skill);
         PStaRibbon_LoadPokemon(wk, wk->ribbon);
     } else {
         wk->page = wk->param->page;
@@ -148,7 +148,7 @@ BOOL PStatus_Init(PStatusWork *wk) {
             PStaInfo_Load(wk, wk->info);
             break;
         case PSTATUS_PAGE_SKILL:
-            func_ov207_021b8a9c(wk, wk->skill);
+            PStaSkill_Load(wk, wk->skill);
             break;
         case PSTATUS_PAGE_RIBBON:
             PStaRibbon_Load(wk, wk->ribbon);
@@ -173,7 +173,7 @@ BOOL PStatus_Exit(PStatusWork *wk) {
     PStatus_FreeResources(wk);
     PStaRibbon_UnloadPokemon(wk, wk->ribbon);
     PStaRibbon_Free(wk, wk->ribbon);
-    func_ov207_021b8594(wk, wk->skill);
+    PStaSkill_Free(wk, wk->skill);
     PStaInfo_Free(wk, wk->info);
     PStaSub_Free(wk, wk->sub);
     PStatus_ExitGraphics(wk);
@@ -243,7 +243,7 @@ int PStatus_Main(PStatusWork *wk) {
                 break;
             case PSTATUS_PAGE_SKILL:
             case PSTATUS_PAGE_FORGET:
-                func_ov207_021b85a0(wk, wk->skill);
+                PStaSkill_Main(wk, wk->skill);
                 break;
             case PSTATUS_PAGE_RIBBON:
                 PStaRibbon_Main(wk, wk->ribbon);
@@ -433,7 +433,7 @@ static void PStatus_LoadResources(PStatusWork *wk) {
 
     PStaSub_LoadResources(wk, wk->sub, arc);
     PStaInfo_LoadResources(wk, wk->info, arc);
-    func_ov207_021b87e0(wk, wk->skill, arc);
+    PStaSkill_LoadResources(wk, wk->skill, arc);
     PStaRibbon_LoadResources(wk, wk->ribbon, arc);
     GFL_ArcToolFree(arc);
 }
@@ -442,7 +442,7 @@ static void PStatus_FreeResources(PStatusWork *wk) {
     u8 i;
 
     PStaRibbon_FreeResources(wk, wk->ribbon);
-    func_ov207_021b8864(wk, wk->skill);
+    PStaSkill_FreeResources(wk, wk->skill);
     PStaInfo_FreeResources(wk, wk->info);
     PStaSub_FreeResources(wk, wk->sub);
     for (i = PSTA_RES_PLTT(0); i <= PSTA_RES_PLTT(11); i++) {
@@ -508,14 +508,14 @@ static void PStatus_CreateActors(PStatusWork *wk) {
     }
     PStaSub_CreateActors(wk, wk->sub);
     PStaRibbon_CreateActors(wk, wk->ribbon);
-    func_ov207_021b88ac(wk, wk->skill);
+    PStaSkill_CreateActors(wk, wk->skill);
 }
 
 static void PStatus_FreeActors(PStatusWork *wk) {
     u8 i;
 
     PStaRibbon_FreeActors(wk, wk->ribbon);
-    func_ov207_021b8a34(wk, wk->skill);
+    PStaSkill_FreeActors(wk, wk->skill);
     PStaSub_FreeActors(wk, wk->sub);
     for (i = 0; i < PSTA_BUTTON_COUNT; i++) {
         func_0204c108(wk->buttons[i]);
@@ -952,13 +952,13 @@ static void PStatus_StartRedraw(PStatusWork *wk) {
         PStaInfo_Unload(wk, wk->info);
         break;
     case PSTATUS_PAGE_SKILL:
-        func_ov207_021b8ba4(wk, wk->skill);
+        PStaSkill_Unload(wk, wk->skill);
         break;
     case PSTATUS_PAGE_RIBBON:
         PStaRibbon_Unload(wk, wk->ribbon);
         break;
     case PSTATUS_PAGE_FORGET:
-        func_ov207_021b96b8(wk, wk->skill);
+        PStaSkill_UnloadForget(wk, wk->skill);
         break;
     }
     switch (wk->page) {
@@ -966,13 +966,13 @@ static void PStatus_StartRedraw(PStatusWork *wk) {
         PStaInfo_Load(wk, wk->info);
         break;
     case PSTATUS_PAGE_SKILL:
-        func_ov207_021b8a9c(wk, wk->skill);
+        PStaSkill_Load(wk, wk->skill);
         break;
     case PSTATUS_PAGE_RIBBON:
         PStaRibbon_Load(wk, wk->ribbon);
         break;
     case PSTATUS_PAGE_FORGET:
-        func_ov207_021b9510(wk, wk->skill);
+        PStaSkill_LoadForget(wk, wk->skill);
         break;
     }
     if (wk->shownPage != wk->page) {
@@ -1026,13 +1026,13 @@ static void PStatus_UpdateRedraw(PStatusWork *wk) {
         PStaInfo_Clear(wk, wk->info);
         break;
     case PSTATUS_PAGE_SKILL:
-        func_ov207_021b8bf4(wk, wk->skill);
+        PStaSkill_Clear(wk, wk->skill);
         break;
     case PSTATUS_PAGE_RIBBON:
         PStaRibbon_Clear(wk, wk->ribbon);
         break;
     case PSTATUS_PAGE_FORGET:
-        func_ov207_021b9728(wk, wk->skill);
+        PStaSkill_ClearForget(wk, wk->skill);
         break;
     }
     switch (wk->page) {
@@ -1040,13 +1040,13 @@ static void PStatus_UpdateRedraw(PStatusWork *wk) {
         PStaInfo_Draw(wk, wk->info);
         break;
     case PSTATUS_PAGE_SKILL:
-        func_ov207_021b8b30(wk, wk->skill);
+        PStaSkill_Draw(wk, wk->skill);
         break;
     case PSTATUS_PAGE_RIBBON:
         PStaRibbon_Draw(wk, wk->ribbon);
         break;
     case PSTATUS_PAGE_FORGET:
-        func_ov207_021b9610(wk, wk->skill);
+        PStaSkill_DrawForget(wk, wk->skill);
         break;
     }
     if (wk->isEgg == FALSE && wk->param->mode != PSTATUS_MODE_FORGET_MOVE) {

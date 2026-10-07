@@ -3,24 +3,56 @@
 
 #include "types.h"
 #include "gfl/heap.h"
+#include "nitro/fx.h"
 #include "struct_decls.h"
 
+// Names and layouts from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
 struct EncountSystem {
-    u8 unk00[0x10];
-    u32 unk10;
+    Field *field;
+    GameSystem *gsys;
+    GameData *gameData;
+    EncData *encData;
+    EffectEncountState *effectEncountState;
 };
 
+// Where a phenomenon (shaking grass, a dust cloud, rippling water or a flying shadow) is
+typedef struct {
+    u16 zoneId;
+    s16 x;
+    s16 y;
+    s16 z;
+    fx32 height;
+    // The kind of tile, as func_ov036_021a2e18 gives it
+    u8 kind;
+    u8 active : 4;
+    u8 suspended : 2;
+    u8 triggered : 2;
+} RareEncountSpot;
+
 struct EncountState {
-    u8 unk00[6];
-    u8 unk06;
-    u8 unk07;
-    u32 unk08;
+    s16 x;
+    s16 y;
+    s16 z;
+    // The encounter rate climbs by its config's increase each time the block counter, which grows by the step
+    // increment, reaches its threshold
+    u8 rateBlockCounter;
+    u8 rateStepIncrement;
+    u32 rateStepCounter;
     u32 terrain;
-    u16 unk10;
+    u16 encountRate;
     u8 unk12[2];
-    u32 unk14;
-    u8 unk18[0x10];
+    // The steps since the last phenomenon
+    u32 phenomenonSteps;
+    RareEncountSpot rareSpot;
 };
+
+// How the encounter rate of a kind of encounter climbs while the player walks
+typedef struct {
+    u8 increase;
+    u8 threshold;
+    u8 max;
+    u8 steps;
+} EncountRateConfig;
 
 // Names and layouts from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
 typedef struct {
@@ -56,21 +88,44 @@ u16 getSwarmLevelRangeFromData(GameData *gameData);
 u32 func_ov012_02159218(EncountSave *save);
 void func_ov012_0215921c(void);
 void func_ov012_02159220(GameData *gameData);
-u32 GetDefaultWeatherValue(void);
-u32 func_ov012_0215922c(void);
-void func_ov036_021a203c(EncountSystem *system, u32 value);
+// A weather that overrides the zone's, which is always WEATHER_NONE
+u32 GetDefaultWeatherValue(GameData *gameData, u16 zoneId);
+// Whether weathers 6 and 7 go back to the zone's own, which is always FALSE
+BOOL func_ov012_0215922c(GameData *gameData);
+// The phenomena (shaking grass, dust clouds, rippling water and flying shadows) of effect_encount.c
+EffectEncountState *EffectEncountState_Create(HeapID heapId);
+void EffectEncountState_Free(EffectEncountState *state);
+void PrepareFieldEncountSystem(EncountSystem *system, EffectEncountState *state);
+void func_ov036_021a202c(EncountSystem *system, EffectEncountState *state);
+void func_ov036_021a203c(EncountSystem *system, EffectEncountState *state);
+void UpdatePhenomenon(EncountSystem *system);
+BOOL EncountSystem_CancelPhenomenonIfActorHit(EncountSystem *system);
+GameEvent *CreateRandomPhenomenonEvent(EncountSystem *system);
+// The distance to the phenomenon, along the axis it is farther on, and whether there is one
+BOOL func_ov036_021a22f4(EncountSystem *system, u16 *distance);
+void func_ov036_021a23c4(EncountSystem *system, u32 a1);
+// The item the phenomenon gave
+u16 func_ov036_021a23f0(EncountSystem *system);
+// The wild encounters of field_encount.c
+EncountSystem *EncSys_Create(Field *field);
+void EncSys_Free(EncountSystem *system);
+BOOL EncSys_IsActive(EncountSystem *system, u32 a1);
+void EncSys_Update(EncountSystem *system, BOOL moved, BOOL turned);
+GameEvent *EventWildBattleCall_CreateStatic(EncountSystem *system, u16 species, u8 level, u8 form, u16 flags);
+u32 ConvFieldWeatherToBtl(Field *field);
 void func_ov036_021a2364(EncountSystem *system);
 // Sets the setup up for a battle against the trainer, here
-void BtlSetup_SetTrainerLocal(EncountSystem *encountSystem, BtlSetup *setup, u32 a2, u32 a3, u32 trainerId, u32 a5,
-                              HeapID heapId);
+// The style is 0 to 3 for single, double, triple and rotation; a double battle is against two trainers with a
+// partner, and a single one with a second trainer
+void BtlSetup_SetTrainerLocal(EncountSystem *encountSystem, BtlSetup *setup, u32 style, u32 partnerId, u32 trainerId,
+                              u32 trainerId2, HeapID heapId);
 // The battle's encounter effect and music, against the wild species or the trainer
 void EventBattleCall_DecideEnvWild(u32 species, u32 form, u32 a2, BOOL a3, Field *field, u32 *encEffect, u16 *bgm);
 void EventBattleCall_DecideEnvTrainer(u32 trainerId, Field *field, u32 *encEffect, u16 *bgm);
 
 void EncountSystem_CancelPhenomenon(EncountSystem *encountSystem);
-u32 EncountState_CheckSpecialEncountPos(EncountSystem *encounter, const u16 *gridPos);
-BtlSetup *BtlSetup_CreateFishing(EncountSystem *encounter);
-EncountSystem *EncSys_Create(Field *field);
-void EncSys_Free(EncountSystem *system);
+BOOL EncountState_CheckSpecialEncountPos(EncountSystem *encounter, const s16 *gridPos);
+// The setup of the wild battle on the fishing rod, or NULL for none; rare is for rippling water
+BtlSetup *BtlSetup_CreateFishing(EncountSystem *encounter, BOOL rare);
 
 #endif // POKEBW2_FIELD_ENCOUNTER_H

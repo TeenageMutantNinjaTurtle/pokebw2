@@ -131,6 +131,12 @@ struct BtlSetup {
 
 BtlSetup *BtlSetup_Create(HeapID heapId);
 u32 BtlSetup_CheckFlag(BtlSetup *setup, u32 flag);
+void BtlSetup_Reset(BtlSetup *setup);
+// Wild battles, against the party, alone or beside the trainer
+void BtlSetup_SetWildNormal(BtlSetup *setup, GameData *gameData, PokeParty *party, BtlFieldStatus *status,
+                            BOOL doubleBattle, HeapID heapId);
+void BtlSetup_SetWildMulti(BtlSetup *setup, GameData *gameData, PokeParty *party, u32 trainerId, BtlFieldStatus *status,
+                           HeapID heapId);
 void BtlSetup_SetFlag(BtlSetup *setup, u32 flag);
 void BtlSetup_Free(BtlSetup *setup);
 PokeParty *BtlSetup_GetParty(BtlSetup *setup, u32 index);
@@ -144,6 +150,8 @@ void BtlSetup_SetTrainer1v1Single(BtlSetup *setup, GameData *gameData, BtlFieldS
 void BtlSetup_SetTrainer1v1Double(BtlSetup *setup, GameData *gameData, BtlFieldStatus *status, u32 a3, HeapID heapId);
 void BtlSetup_SetTrainer2v2(BtlSetup *setup, GameData *gameData, BtlFieldStatus *status, u32 a3, u32 a4, u32 a5,
                             HeapID heapId);
+void BtlSetup_SetTrainer1v2(BtlSetup *setup, GameData *gameData, BtlFieldStatus *status, u32 trainerId, u32 trainerId2,
+                             HeapID heapId);
 void BtlSetup_SetTrainer3v3(BtlSetup *setup, GameData *gameData, BtlFieldStatus *status, u32 a3, HeapID heapId);
 void BtlSetup_SetTrainerRotation(BtlSetup *setup, GameData *gameData, BtlFieldStatus *status, u32 a3, HeapID heapId);
 // A multi battle of two linked players against trainers

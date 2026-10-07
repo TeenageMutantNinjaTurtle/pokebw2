@@ -5,6 +5,8 @@
 #include "struct_decls.h"
 
 ShortcutSave *SaveControl_GetShortcutSave(SaveControl *save);
+// The same block, which SaveControl_GetShortcutSave returns through it
+ShortcutSave *SaveControl_GetShortcutSaveCore(SaveControl *save);
 u32 ShortcutSave_GetShortcutCount(ShortcutSave *shortcutSave);
 u8 ShortcutSave_GetRegistItem(ShortcutSave *shortcutSave, u32 index);
 // Replaces shortcut 7 (DNA Splicers that fuse) with 8 (that separate), or 8 with 7

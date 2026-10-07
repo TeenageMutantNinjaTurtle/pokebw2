@@ -186,10 +186,7 @@ struct BtlMainModule {
     void *unk47C;
 };
 
-// Main-module and overlay 338 functions that btl_main.c calls
-u32 func_02034ee4(void *data);
-u32 func_02034ee8(void *data);
-void func_02034eec(void *data);
+// An overlay 338 function that btl_main.c calls
 BOOL func_ov338_0217caf8(void);
 
 // Swan's names for these two take the main module, whose first field points to the BtlSetup
@@ -362,7 +359,7 @@ u16 func_ov167_0219d91c(BtlMainModule *mainModule, u8 clientId);
 u32 func_ov167_0219d938(BtlMainModule *mainModule, u8 clientId);
 PMSData *func_ov167_0219d944(BtlMainModule *mainModule, u8 clientId, u32 which);
 PlayerInfo *func_ov167_0219d97c(BtlMainModule *mainModule, u8 clientId);
-u32 func_ov167_0219d998(BtlMainModule *mainModule);
+PlayerInfo *func_ov167_0219d998(BtlMainModule *mainModule);
 u32 func_ov167_0219d9a8(BtlMainModule *mainModule);
 void func_ov167_0219d9b0(BtlMainModule *mainModule);
 void func_ov167_0219d9e8(BtlMainModule *mainModule);

@@ -19,7 +19,7 @@
 #include "pml/poke_graphic.h"
 #include "pml/poke_party.h"
 #include "save/box.h"
-#include "system/app_common.h"
+#include "system/app_menu_common.h"
 #include "system/bgwinfrm.h"
 #include "system/bmp_oam.h"
 #include "system/cursor_move.h"
@@ -698,7 +698,7 @@ void func_ov255_021d00d4(Box2SysWork *syswk) {
     s16 py;
     u16 i;
 
-    func_020336a0(syswk->app->bgWinFrame, 8, &x, &y);
+    BGWinFrame_GetPos(syswk->app->bgWinFrame, 8, &x, &y);
     py = y * 8;
     px = x * 8;
     for (i = 0; i < 6; i++) {
@@ -936,7 +936,7 @@ void func_ov255_021d06a4(Box2SysWork *syswk, Box2PokeInfo *info, u32 id) {
     u32 *pal;
     u32 *cell;
     u32 other;
-    u32 palOffset;
+    u16 palOffset;
     ArcTool *arc;
     BOOL encrypted;
 
@@ -962,9 +962,10 @@ void func_ov255_021d06a4(Box2SysWork *syswk, Box2PokeInfo *info, u32 id) {
     }
     arc = MakePokeGraArcHandle(HEAPID_BOX2_APP);
     encrypted = PML_PkmDecrypt(info->pkm);
-    *chr = func_02033f90(arc, info->pkm, CLACT_VRAM_MAIN, 1, HEAPID_BOX2_APP);
-    *pal = func_02033f2c(arc, info->pkm, CLACT_VRAM_MAIN, 1, palOffset, HEAPID_BOX2_APP);
-    *cell = func_02034000(info->pkm, 0, 2, 1, HEAPID_BOX2_APP);
+    *chr = PokeGra_LoadClActCharsByBoxData(arc, info->pkm, POKEGRA_DIR_FRONT, CLACT_VRAM_SUB, HEAPID_BOX2_APP);
+    *pal = PokeGra_LoadClActPaletteByBoxData(arc, info->pkm, POKEGRA_DIR_FRONT, CLACT_VRAM_SUB, palOffset,
+                                             HEAPID_BOX2_APP);
+    *cell = PokeGra_LoadClActCellAnimsByBoxData(info->pkm, POKEGRA_DIR_FRONT, 2, CLACT_VRAM_SUB, HEAPID_BOX2_APP);
     PML_PkmReEncrypt(info->pkm, encrypted);
     GFL_ArcToolFree(arc);
     syswk->app->actors[id] = func_ov255_021cf51c(syswk->app, &sActorData[id]);
@@ -1339,7 +1340,7 @@ void func_ov255_021d1364(Box2SysWork *syswk) {
     s16 py;
     u32 i;
 
-    func_020336a0(syswk->app->bgWinFrame, 7, &x, &y);
+    BGWinFrame_GetPos(syswk->app->bgWinFrame, 7, &x, &y);
     py = y * 8 + 8;
     px = x * 8 + 23;
     for (i = 0; i < 6; i++) {

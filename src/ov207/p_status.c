@@ -67,7 +67,7 @@ static BOOL PStatus_ProcInit(GameProc *proc, u32 *state, void *data, void *work)
                     boxPkm = (BoxPkm *)((u8 *)param->party + PML_GetPkmRawSize() * i);
                     PML_PkmInit(boxPkm);
                     if (GFL_RandomLCAlt(3) != 0) {
-                        PML_CreateTempPkm(boxPkm, i + 1, 50, 0xffffffff, 0xffffffff);
+                        PML_CreateTempPkm(boxPkm, i + 1, 50, PKM_ID_RANDOM);
                         {
                             // "ブラック", Black
                             u16 otName[5] = { 0x30d6, 0x30e9, 0x30c3, 0x30af, 0xffff };

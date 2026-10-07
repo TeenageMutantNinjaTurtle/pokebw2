@@ -42,6 +42,8 @@
 #include "save/pokedex.h"
 #include "save/save_control.h"
 #include "system/app_keycursor.h"
+#include "system/bgwinfrm.h"
+#include "system/blink_palanm.h"
 #include "system/bmp_menu.h"
 #include "system/bmp_menulist.h"
 #include "system/bmp_winframe.h"
@@ -183,7 +185,7 @@ typedef struct {
     PrintWindow notice;
     u16 *itemScreens[ITEM_COUNT];
     // Makes a screen for each item from the window with its name, which BG 1 shows
-    void *textScreens;
+    BGWinFrame *textScreens;
     void *unk16C;
     u8 items[ITEM_COUNT];
     u8 cursor;
@@ -520,7 +522,7 @@ static u32 StartMenu_WaitPrint(StartMenuWork *wk) {
 }
 
 static u32 StartMenu_Select(StartMenuWork *wk) {
-    func_02035198(wk->unk16C);
+    BlinkPalAnm_Main(wk->unk16C);
     if (GCTX_HIDGetPressedKeys() & PAD_BUTTON_A) {
         GFL_SndSEPlay(SEQ_SE_DECIDE1);
         switch (wk->items[wk->cursor]) {
@@ -578,7 +580,7 @@ static u32 StartMenu_Scroll(StartMenuWork *wk) {
     if (wk->scrollFrames == SCROLL_FRAMES) {
         wk->scrollFrames = 0;
         wk->scrollSpeed = 0;
-        func_020352b0(wk->unk16C);
+        BlinkPalAnm_InitAnime(wk->unk16C);
         StartMenu_SetItemPalette(wk, wk->items[wk->cursor], StartMenu_GetScreenRow(wk, wk->cursorRow),
                                  ITEM_PALETTE_SELECTED);
         return STATE_SELECT;
@@ -629,7 +631,7 @@ static u32 StartMenu_Continue(StartMenuWork *wk) {
     case 3:
         switch (ConfirmDialog_Update(wk->dialog)) {
         case 0:
-            if (func_02035318() == FALSE) {
+            if (isWirelessEnabled() == FALSE) {
                 StartMenu_Print(wk, 27);
                 wk->seq = 5;
             } else {
@@ -745,7 +747,7 @@ static u32 StartMenu_KeyNotice(StartMenuWork *wk) {
         StartMenu_DrawItems(wk);
         GFL_BGSysMoveBGReq(1, BG_MOVE_SET_Y, wk->scrollY);
         GFL_BGSysMoveBGReq(2, BG_MOVE_SET_Y, wk->scrollY);
-        func_020352b0(wk->unk16C);
+        BlinkPalAnm_InitAnime(wk->unk16C);
         wk->seq++;
         break;
     case 4:
@@ -759,7 +761,7 @@ static u32 StartMenu_KeyNotice(StartMenuWork *wk) {
 
 // On a DSi, the connection settings are in the System Settings instead
 static u32 StartMenu_WFCSettings(StartMenuWork *wk) {
-    if (func_020352e0() == TRUE) {
+    if (isRunningOnDSi() == TRUE) {
         switch (wk->seq) {
         case 0:
             StartMenu_OpenDSiNotice(wk);
@@ -1029,13 +1031,13 @@ static void StartMenu_LoadBGGraphics(void) {
 static void StartMenu_InitUnk16C(StartMenuWork *wk) {
     ArcTool *arc = GFL_ArcSysCreateFileHandle(ARCID_STARTMENU, HEAPID_TAIL(HEAPID_STARTMENU));
 
-    wk->unk16C = func_02035024(0x20, 0x10, 2, HEAPID_STARTMENU);
-    func_02035104(wk->unk16C, arc, 4, 0x20, 0x30);
+    wk->unk16C = BlinkPalAnm_Create(0x20, 0x10, 2, HEAPID_STARTMENU);
+    BlinkPalAnm_SetPalBufferArcTool(wk->unk16C, arc, 4, 0x20, 0x30);
     GFL_ArcToolFree(arc);
 }
 
 static void StartMenu_FreeUnk16C(StartMenuWork *wk) {
-    func_02035178(wk->unk16C);
+    BlinkPalAnm_Free(wk->unk16C);
 }
 
 static void StartMenu_InitMsg(StartMenuWork *wk) {
@@ -1317,23 +1319,23 @@ static void StartMenu_FreeObj(StartMenuWork *wk) {
 static void StartMenu_InitTextScreens(StartMenuWork *wk) {
     u32 i;
 
-    wk->textScreens = func_020330c8(0, ITEM_COUNT, HEAPID_STARTMENU);
+    wk->textScreens = BGWinFrame_Create(BGWINFRAME_TRANSFER_NONE, ITEM_COUNT, HEAPID_STARTMENU);
     for (i = 0; i < ITEM_COUNT; i++) {
-        func_02033150(wk->textScreens, i, 1, ITEM_WIDTH, sItemLayouts[i].rows);
+        BGWinFrame_InitFrame(wk->textScreens, i, 1, ITEM_WIDTH, sItemLayouts[i].rows);
     }
-    func_020335c4(wk->textScreens, ITEM_CONTINUE, wk->windows[ITEM_CONTINUE].window);
-    func_020335c4(wk->textScreens, ITEM_NEW_GAME, wk->windows[ITEM_NEW_GAME].window);
-    func_020335c4(wk->textScreens, ITEM_MYSTERY_GIFT, wk->windows[ITEM_MYSTERY_GIFT].window);
-    func_020335c4(wk->textScreens, ITEM_BATTLE_COMPETITION, wk->windows[ITEM_BATTLE_COMPETITION].window);
-    func_020335c4(wk->textScreens, ITEM_GAME_SYNC_SETTINGS, wk->windows[ITEM_GAME_SYNC_SETTINGS].window);
-    func_020335c4(wk->textScreens, ITEM_WFC_SETTINGS, wk->windows[ITEM_WFC_SETTINGS].window);
-    func_020335c4(wk->textScreens, ITEM_MIC_TEST, wk->windows[ITEM_MIC_TEST].window);
-    func_020335c4(wk->textScreens, ITEM_MB_PARENT, wk->windows[ITEM_MB_PARENT].window);
-    func_020335c4(wk->textScreens, ITEM_UNOVA_LINK, wk->windows[ITEM_UNOVA_LINK].window);
+    BGWinFrame_WriteBmpWin(wk->textScreens, ITEM_CONTINUE, wk->windows[ITEM_CONTINUE].window);
+    BGWinFrame_WriteBmpWin(wk->textScreens, ITEM_NEW_GAME, wk->windows[ITEM_NEW_GAME].window);
+    BGWinFrame_WriteBmpWin(wk->textScreens, ITEM_MYSTERY_GIFT, wk->windows[ITEM_MYSTERY_GIFT].window);
+    BGWinFrame_WriteBmpWin(wk->textScreens, ITEM_BATTLE_COMPETITION, wk->windows[ITEM_BATTLE_COMPETITION].window);
+    BGWinFrame_WriteBmpWin(wk->textScreens, ITEM_GAME_SYNC_SETTINGS, wk->windows[ITEM_GAME_SYNC_SETTINGS].window);
+    BGWinFrame_WriteBmpWin(wk->textScreens, ITEM_WFC_SETTINGS, wk->windows[ITEM_WFC_SETTINGS].window);
+    BGWinFrame_WriteBmpWin(wk->textScreens, ITEM_MIC_TEST, wk->windows[ITEM_MIC_TEST].window);
+    BGWinFrame_WriteBmpWin(wk->textScreens, ITEM_MB_PARENT, wk->windows[ITEM_MB_PARENT].window);
+    BGWinFrame_WriteBmpWin(wk->textScreens, ITEM_UNOVA_LINK, wk->windows[ITEM_UNOVA_LINK].window);
 }
 
 static void StartMenu_FreeTextScreens(StartMenuWork *wk) {
-    func_02033120(wk->textScreens);
+    BGWinFrame_Delete(wk->textScreens);
 }
 
 static void StartMenu_SetBlend(void) {
@@ -1447,7 +1449,7 @@ static void StartMenu_DrawItem(StartMenuWork *wk, u32 item, u32 row) {
     u8 y = row;
 
     GFL_BGSysLoadScrArea(2, 3, y, ITEM_WIDTH, rows, wk->itemScreens[item], 0, 0, ITEM_WIDTH, rows);
-    GFL_BGSysLoadScrArea(1, 3, y, ITEM_WIDTH, rows, func_0203368c(wk->textScreens, item), 0, 0, ITEM_WIDTH, rows);
+    GFL_BGSysLoadScrArea(1, 3, y, ITEM_WIDTH, rows, BGWinFrame_GetScreen(wk->textScreens, item), 0, 0, ITEM_WIDTH, rows);
     GFL_BGSysQueueScrLoad(1);
     GFL_BGSysQueueScrLoad(2);
 }

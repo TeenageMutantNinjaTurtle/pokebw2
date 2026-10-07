@@ -20,6 +20,6 @@ void func_0200efa8(void *cgear, u32 index, const PMSData *sentence);
 void *func_0200ef7c(SaveControl *save);
 
 // Overlay 185, the phrase select
-extern const GameProcFunctions data_ov185_021a7298;
+extern const GameProcFunctions PMS_INPUT_PROC_FUNCTIONS;
 
 #endif // POKEBW2_SYSTEM_PMS_H

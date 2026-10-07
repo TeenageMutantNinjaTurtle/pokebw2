@@ -6432,7 +6432,7 @@ static int func_ov255_021cc3b0(Box2SysWork *syswk, u32 frame, int seq) {
 // Animates one of the markings' buttons, then goes to seq
 static int func_ov255_021cc3c0(Box2SysWork *syswk, u32 button, int seq) {
     syswk->app->bawk.mode = BOX2_BTN_ANM_MODE_BG;
-    syswk->app->bawk.id = func_02033694(syswk->app->bgWinFrame, 7);
+    syswk->app->bawk.id = BGWinFrame_GetBG(syswk->app->bgWinFrame, 7);
     syswk->app->bawk.pal1 = 13;
     syswk->app->bawk.pal2 = 12;
     syswk->app->bawk.seq = 0;

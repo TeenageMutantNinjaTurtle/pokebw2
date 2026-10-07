@@ -13,7 +13,7 @@ BOOL func_ov012_021535dc(GameSystem *gsys);
 void *func_ov012_02153608(GameCommSys *commSys);
 // The game the other player plays, this one's
 u32 getGameOrigin(GameCommSys *commSys);
-u32 getSeasonFromPlayerData(GameCommSys *commSys);
+u8 getSeasonFromPlayerData(GameCommSys *commSys);
 u32 func_ov012_0215364c(GameCommSys *commSys, GameData *gameData);
 u32 func_ov012_02153650(void);
 void func_ov012_02153654(void);

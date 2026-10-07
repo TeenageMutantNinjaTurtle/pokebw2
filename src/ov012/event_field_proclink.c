@@ -102,7 +102,7 @@ const FieldProcLink FIELD_PROC_LINK_LIST[15] = {
     { OVERLAY_ID(284), &SHINKA_DEMO_PROC_FUNCTIONS, script_evo, func_ov012_0215c3a4, NULL, func_ov012_0215c594 },
     { OVERLAY_ID(272), &data_ov272_021f82b8, func_ov012_0215c3d0, func_ov012_0215c3fc, NULL, func_ov012_0215c594 },
     { OVERLAY_ID(259), &data_ov143_021a039c, func_ov012_0215c438, func_ov012_0215c474, NULL, func_ov012_0215c594 },
-    { OVERLAY_ID(145), &data_ov142_021a0fe0, func_ov012_0215c488, func_ov012_0215c4b4, NULL, func_ov012_0215c594 },
+    { OVERLAY_ID(145), &data_ov145_021a0fe0, func_ov012_0215c488, func_ov012_0215c4b4, NULL, func_ov012_0215c594 },
 };
 
 GameEvent *EventFieldAppCall_Create(FieldAppCallInput *input, u16 code) {
@@ -300,7 +300,7 @@ BOOL func_ov012_0215b7c0(FieldAppCallParam *param) {
 // The party screen
 void *func_ov012_0215b7d8(FieldAppCallWork *work, s32 appParam, s32 prevAppId, void *prevParam) {
     GameData *gameData = GSYS_GetGameData(work->input->gameSystem);
-    PokeListParam *param = func_02034c54(gameData, 0, GameData_GetParty(gameData), HEAPID_GAMEEVENT);
+    PokeListParam *param = PokeListParam_Create(gameData, 0, GameData_GetParty(gameData), HEAPID_GAMEEVENT);
     BagProcessData *bag;
     PStatusParam *status;
     BOOL mailResult;
@@ -629,23 +629,23 @@ void *func_ov012_0215bd48(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
 
     switch (prevAppId) {
     case FIELD_APP_BAG:
-        param = func_02034ad0(gameData, &work->perms, func_ov012_0215bd1c(work->input->gameSystem), HEAPID_GAMEEVENT);
+        param = BagParam_Create(gameData, &work->perms, func_ov012_0215bd1c(work->input->gameSystem), HEAPID_GAMEEVENT);
         if (appParam != -1) {
             func_020088a4(param->cursor, appParam);
         }
         break;
     case FIELD_APP_POKELIST:
         if (partyParam->result == 3) {
-            param = func_02034ad0(gameData, &work->perms, 2, HEAPID_GAMEEVENT);
+            param = BagParam_Create(gameData, &work->perms, 2, HEAPID_GAMEEVENT);
         } else {
-            param = func_02034ad0(gameData, &work->perms, func_ov012_0215bd1c(work->input->gameSystem),
+            param = BagParam_Create(gameData, &work->perms, func_ov012_0215bd1c(work->input->gameSystem),
                                   HEAPID_GAMEEVENT);
         }
         break;
     case 8:
     case 9:
     default:
-        param = func_02034ad0(gameData, &work->perms, func_ov012_0215bd1c(work->input->gameSystem), HEAPID_GAMEEVENT);
+        param = BagParam_Create(gameData, &work->perms, func_ov012_0215bd1c(work->input->gameSystem), HEAPID_GAMEEVENT);
         break;
     }
     return param;

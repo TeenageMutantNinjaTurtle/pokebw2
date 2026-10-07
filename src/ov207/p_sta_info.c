@@ -9,7 +9,7 @@
 #include "pml/personal.h"
 #include "pml/poke_party.h"
 #include "pml/species_names.h"
-#include "system/app_common.h"
+#include "system/app_menu_common.h"
 #include "system/game_data.h"
 
 // The summary screen's info page: the Pokédex number, species, original trainer, ID and experience, and the trainer

@@ -245,6 +245,9 @@ void func_ov331_021bed78(void *a0, SaveControl *save);
 void func_ov331_021bee24(HeapID heapId);
 BOOL func_ov331_021bee68(void *a0);
 void func_ov331_021bee88(void *a0, SaveControl *save);
+// Starts writing the save of ov331's work, and steps it until it returns TRUE
+void func_ov331_021bec24(void *a0);
+BOOL func_ov331_021bec98(void *a0);
 
 DreamRadarSave *GetDreamRadarSaveBlock(SaveControl *save);
 JoinAvenueSave *SaveControl_GetJoinAvenue(SaveControl *save);

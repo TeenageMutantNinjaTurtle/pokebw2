@@ -111,8 +111,8 @@ u32 GFL_FontGetBlockHeight(const StrBuf *strbuf, Font *font);
 
 // The commands in strings
 u16 GFL_StrCmdGetWordSetCommandCount(const StrBuf *strbuf);
-u8 GFL_StrCmdCountLinesUntilWordSetIndex(const StrBuf *strbuf, u32 index);
-u8 GFL_StrCmdGetStrWidthUntilWordSetIndex(const StrBuf *strbuf, u32 index, Font *font, u32 spacing);
+u8 GFL_StrCmdCountLinesUntilWordSetIndex(const StrBuf *strbuf, u8 index);
+u8 GFL_StrCmdGetStrWidthUntilWordSetIndex(const StrBuf *strbuf, u8 index, Font *font, u32 spacing);
 u16 GFL_StrCmdGetIdentChar(void);
 BOOL GFL_StrCmdIsWordSet(const u16 *cmd);
 u8 GFL_StrCmdGetCommandCategory(const u16 *cmd);

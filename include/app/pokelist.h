@@ -25,7 +25,7 @@ typedef struct {
     u8 gender;
 } PokeListPartnerParam;
 
-// 0xa8 bytes, which func_02034bd8 fills in
+// 0xa8 bytes, which PokeListParam_Setup (plist_data_setup.c) fills in
 typedef struct {
     PokeParty *party;
     BagSave *bag;
@@ -41,7 +41,7 @@ typedef struct {
     PlayerInfo *playerInfo;
     PlayerActionPossibilities action;
     u16 zoneId;
-    // What the screen is for, func_02034bd8's a2
+    // What the screen is for
     int mode;
     u32 unk48;
     // The Pokémon whose summary to show, when result is 1
@@ -202,9 +202,9 @@ struct PokeListWork {
 
 extern GameProcFunctions POKELIST_PROC_FUNCTIONS;
 
-void func_02034bd8(PokeListParam *param, GameData *gameData, u32 a2, PokeParty *party);
-// Allocates the parameters and fills them in with func_02034bd8
-PokeListParam *func_02034c54(GameData *gameData, u32 a1, PokeParty *party, HeapID heapId);
+void PokeListParam_Setup(PokeListParam *param, GameData *gameData, u32 mode, PokeParty *party);
+// Allocates the parameters and fills them in with PokeListParam_Setup
+PokeListParam *PokeListParam_Create(GameData *gameData, u32 mode, PokeParty *party, HeapID heapId);
 GameEvent *EventPokeList_Create(GameSystem *gsys, Field *field, PokeListParam *param, void *summaryParam);
 
 // plist_sys.c

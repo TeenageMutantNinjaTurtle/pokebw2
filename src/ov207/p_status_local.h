@@ -204,21 +204,22 @@ void PStaRibbon_LoadPokemon(PStatusWork *wk, PStaRibbonWork *ribbon);
 void PStaRibbon_UnloadPokemon(PStatusWork *wk, PStaRibbonWork *ribbon);
 
 // p_sta_skill.c
-PStaSkillWork *func_ov207_021b8510(PStatusWork *wk);
-void func_ov207_021b8594(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b85a0(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b87e0(PStatusWork *wk, PStaSkillWork *skill, ArcTool *arc);
-void func_ov207_021b8864(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b88ac(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b8a34(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b8a9c(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b8b30(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b8ba4(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b8bf4(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b9510(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b9610(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b96b8(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b9728(PStatusWork *wk, PStaSkillWork *skill);
+PStaSkillWork *PStaSkill_Create(PStatusWork *wk);
+void PStaSkill_Free(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_Main(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_LoadResources(PStatusWork *wk, PStaSkillWork *skill, ArcTool *arc);
+void PStaSkill_FreeResources(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_CreateActors(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_FreeActors(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_Load(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_Draw(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_Unload(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_Clear(PStatusWork *wk, PStaSkillWork *skill);
+// The same for the page that picks a move to forget
+void PStaSkill_LoadForget(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_DrawForget(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_UnloadForget(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_ClearForget(PStatusWork *wk, PStaSkillWork *skill);
 
 // p_sta_oam.c
 PStaOam *PStaOam_Create(HeapID heapId, ClActUnit *unit);
@@ -228,6 +229,7 @@ void PStaOam_FreeActor(PStaOamActor *actor);
 void PStaOam_SetVisible(PStaOamActor *actor, BOOL visible);
 void PStaOam_Upload(PStaOamActor *actor);
 void PStaOam_SetPosition(PStaOamActor *actor, s16 x, s16 y);
+void PStaOam_SwapBitmaps(PStaOamActor *a, PStaOamActor *b);
 
 // ribbon.c: the table of the 80 ribbons
 enum {

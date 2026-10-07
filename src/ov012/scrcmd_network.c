@@ -54,7 +54,7 @@ BOOL s0139_GameCommDisconnect(VM *vm, FieldScriptEnv *env) {
 
 BOOL s013B_GameCommCheckDSiWiFi(VM *vm, FieldScriptEnv *env) {
     u16 *result = ScriptReadVar(vm, env);
-    *result = func_02035318();
+    *result = isWirelessEnabled();
     return FALSE;
 }
 
