@@ -7,7 +7,6 @@
 #include "gfl/arc_util.h"
 #include "gfl/bg_sys.h"
 #include "gfl/bmp.h"
-#include "gfl/bmp_menu.h"
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"
 #include "gfl/graphics.h"
@@ -20,7 +19,6 @@
 #include "gfl/str.h"
 #include "gfl/touchpanel.h"
 #include "gfl/ui.h"
-#include "gfl/wipe.h"
 #include "nitro/gx.h"
 #include "nitro/hw.h"
 #include "nitro/os.h"
@@ -28,6 +26,9 @@
 #include "pml/item.h"
 #include "pml/poke_party.h"
 #include "save/box.h"
+#include "system/bmp_menulist.h"
+#include "system/bmp_winframe.h"
+#include "system/wipe.h"
 #include "system/wordset.h"
 #include "worldtrade_local.h"
 
@@ -771,7 +772,7 @@ static int Box_SubSeqSelectWait(WorldTradeWork *wk) {
     case 1:
         WorldTrade_SelBoxEnd(wk);
         ListMenuCore_FreeOptionList(wk->menuList);
-        func_02024eec(wk->msgWin, 0);
+        BmpWin_ClearFrame(wk->msgWin, 0);
         wk->subprocessSeq = BOX_SEQ_END;
         WorldTrade_SubProcessChange(wk, WORLDTRADE_STATUS, BOX_MODE_DEPOSIT_SELECT);
         break;
@@ -802,7 +803,7 @@ static int Box_SubSeqSelectWait(WorldTradeWork *wk) {
     case BMPMENULIST_CANCEL:
         WorldTrade_SelBoxEnd(wk);
         ListMenuCore_FreeOptionList(wk->menuList);
-        func_02024eec(wk->msgWin, 0);
+        BmpWin_ClearFrame(wk->msgWin, 0);
         wk->subprocessSeq = BOX_SEQ_START;
         break;
     }
@@ -833,7 +834,7 @@ static int Box_SubSeqExchangeSelectWait(WorldTradeWork *wk) {
     case 2:
         WorldTrade_SelBoxEnd(wk);
         ListMenuCore_FreeOptionList(wk->menuList);
-        func_02024eec(wk->msgWin, 0);
+        BmpWin_ClearFrame(wk->msgWin, 0);
         pkm = WorldTrade_GetPokePtr(wk->param->myparty, wk->param->mybox, wk->boxTrayNo, wk->boxCursorPos);
         if (Box_PokeRibbonCheck(pkm)) {
             Box_SubSeqMessagePrint(wk, 0x2b, 1, 0, 0xf0f, 1);
@@ -859,7 +860,7 @@ static int Box_SubSeqExchangeSelectWait(WorldTradeWork *wk) {
     case BMPMENULIST_CANCEL:
         WorldTrade_SelBoxEnd(wk);
         ListMenuCore_FreeOptionList(wk->menuList);
-        func_02024eec(wk->msgWin, 0);
+        BmpWin_ClearFrame(wk->msgWin, 0);
         wk->subprocessSeq = BOX_SEQ_START;
         break;
     }
@@ -919,7 +920,7 @@ static int Box_SubSeqCBallYesNoSelect(WorldTradeWork *wk) {
         Box_ExchangeCheck(wk);
     } else if (ret == 2) {
         WorldTrade_TouchWinYesNoDel(wk);
-        func_02024eec(wk->talkWin, 0);
+        BmpWin_ClearFrame(wk->talkWin, 0);
         wk->subprocessSeq = BOX_SEQ_MAIN;
     }
     return WT_SEQ_MAIN;
@@ -963,7 +964,7 @@ static int Box_SubSeqCBallDepositYesNoSelect(WorldTradeWork *wk) {
         WorldTrade_SubProcessChange(wk, WORLDTRADE_DEPOSIT, 0);
     } else if (ret == 2) {
         WorldTrade_TouchWinYesNoDel(wk);
-        func_02024eec(wk->talkWin, 0);
+        BmpWin_ClearFrame(wk->talkWin, 0);
         wk->subprocessSeq = BOX_SEQ_MAIN;
     }
     return WT_SEQ_MAIN;
@@ -986,7 +987,7 @@ static int Box_SubSeqMessageWait(WorldTradeWork *wk) {
 static int Box_SubSeqMessageClearWait(WorldTradeWork *wk) {
     if (!WorldTrade_PrintIsBusy(&wk->print)) {
         if (GCTX_HIDGetPressedKeys() || func_0203da48()) {
-            func_02024eec(wk->talkWin, 0);
+            BmpWin_ClearFrame(wk->talkWin, 0);
             wk->subprocessSeq = wk->subprocessNextSeq;
         }
     }

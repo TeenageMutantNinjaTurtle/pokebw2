@@ -23,7 +23,6 @@
 #include "gfl/std.h"
 #include "gfl/str.h"
 #include "gfl/touchpanel.h"
-#include "gfl/wipe.h"
 #include "nitro/gx.h"
 #include "nitro/hw.h"
 #include "nitro/rtc.h"
@@ -40,8 +39,11 @@
 #include "save/save_control.h"
 #include "save/wifi_list.h"
 #include "save/worldtrade_data.h"
+#include "system/bmp_winframe.h"
+#include "system/country_region.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+#include "system/wipe.h"
 #include "system/wordset.h"
 #include "worldtrade_local.h"
 
@@ -471,9 +473,9 @@ static int Upload_SubSeqEvilCheckStart(WorldTradeWork *wk) {
 
     // Keep the Pokémon as it was before the check, for the trade demo
     copyPartyPkm(pkm, wk->demoPokemon);
-    wk->uploadPokemonData.countryCode = func_0202b57c(wk->uploadPokemonData.countryCode,
+    wk->uploadPokemonData.countryCode = Country_GetValidCountry(wk->uploadPokemonData.countryCode,
                                                       wk->uploadPokemonData.localCode, wk->uploadPokemonData.langCode);
-    wk->uploadPokemonData.localCode = func_0202b590(wk->uploadPokemonData.countryCode, wk->uploadPokemonData.localCode,
+    wk->uploadPokemonData.localCode = Country_GetValidRegion(wk->uploadPokemonData.countryCode, wk->uploadPokemonData.localCode,
                                                     wk->uploadPokemonData.langCode);
     wk->evilCheck = func_ov189_0219d1b8(HEAPID_WORLDTRADE, func_02008bdc(wk->param->mystatus), wk->wifiLoginBuffer);
     func_ov189_0219d258(wk->evilCheck, HEAPID_WORLDTRADE, PokeParty_GetPkmRawSize(), 1);

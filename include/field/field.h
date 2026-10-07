@@ -3,12 +3,12 @@
 
 #include "types.h"
 #include "gfl/g3d.h"
-#include "gfl/bmp_menu.h"
 #include "gfl/bmpwin.h"
 #include "gfl/heap.h"
 #include "gfl/tcb.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
+#include "system/bmp_menulist.h"
 
 void BeginContinuePlaceNameDisp(PlaceName *placeName, u16 zoneId);
 void BeginForcePlaceNameDisp(PlaceName *placeName, s32 zoneId);
@@ -249,6 +249,14 @@ void func_ov034_0217b7bc(void *work);
 void func_ov034_0217b7d0(void *work);
 // Overlay 28
 void func_ov028_02170f28(GameCommSys *comm, Field *field);
+// Overlay 28's GameCommSys callbacks for GAME_COMM_NO_UNION (see game_comm.c)
+void *func_ov028_021703d0(u32 *seq, void *param);
+BOOL func_ov028_021703fc(u32 *seq, void *param, void *work);
+BOOL func_ov028_02170430(u32 *seq, void *param, void *work);
+BOOL func_ov028_0217046c(u32 *seq, void *param, void *work);
+void func_ov028_021705cc(u32 *seq, void *param, void *work);
+void func_ov028_02170ffc(void *param, void *work, Field *field);
+void func_ov028_0217105c(void *param, void *work, Field *field);
 BOOL FieldmapProc_Init(GameProc *proc, int *seq, void *param, void *work);
 BOOL FieldmapProc_Update(GameProc *proc, int *seq, void *param, void *work);
 BOOL FieldmapProc_End(GameProc *proc, int *seq, void *param, void *work);

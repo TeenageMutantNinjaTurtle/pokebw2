@@ -18,10 +18,11 @@
 #include "gfl/str.h"
 #include "gfl/touchpanel.h"
 #include "gfl/ui.h"
-#include "gfl/wipe.h"
 #include "nitro/gx.h"
 #include "nitro/hw.h"
 #include "pml/poke_party.h"
+#include "system/bmp_winframe.h"
+#include "system/wipe.h"
 #include "system/wordset.h"
 #include "worldtrade_local.h"
 
@@ -445,7 +446,7 @@ static int Partner_SubSeqYesNoSelect(WorldTradeWork *wk) {
         Partner_ChangePage(wk);
     } else if (ret == 2) {
         WorldTrade_TouchWinYesNoDel(wk);
-        func_02024eec(wk->msgWin, 0);
+        BmpWin_ClearFrame(wk->msgWin, 0);
         wk->subprocessSeq = PARTNER_SEQ_MAIN;
         Partner_TouchPrint(wk->msgManager, &wk->menuWin[0], 0x5e, &wk->print);
         Partner_TouchPrint(wk->msgManager, &wk->menuWin[1], 0x73, &wk->print);

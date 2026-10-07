@@ -34,8 +34,8 @@ GFLBitmap *GFL_BitmapWrap(void *pixels, u32 tileWidth, u32 tileHeight, u32 tileS
 GFLBitmap *GFL_BitmapWrapVRAM(void *pixels, u32 tileWidth, u32 tileHeight, u32 tileSize, HeapID heapId);
 void GFL_BitmapFree(GFLBitmap *bitmap);
 u8 *GFL_BitmapGetPixelData(GFLBitmap *bitmap);
-u32 GFL_BitmapGetWidth(GFLBitmap *bitmap);
-u32 GFL_BitmapGetHeight(GFLBitmap *bitmap);
+u16 GFL_BitmapGetWidth(GFLBitmap *bitmap);
+u16 GFL_BitmapGetHeight(GFLBitmap *bitmap);
 u32 GFL_BitmapCalcPixelDataSize(const GFLBitmap *bitmap);
 // Copies as many pixels as both hold
 void GFL_BitmapCopy(const GFLBitmap *src, GFLBitmap *dest);
@@ -47,9 +47,9 @@ u8 GFL_BitmapGetBytesPerTile(GFLBitmap *bitmap);
 void GFL_BitmapCopyArea(GFLBitmap *src, GFLBitmap *dest, u32 srcX, u32 srcY, int destX, int destY, u32 width,
                         u32 height, u16 colorKey);
 // The same from a 16 color bitmap to a 256 color one, adding paletteOffset to each color but 0
-void GFL_BitmapCopyAreaRebased(const GFLBitmap *src, GFLBitmap *dest, u32 srcX, u32 srcY, int destX,
-                               int destY, u32 width, u32 height, u16 colorKey, u16 paletteOffset);
-void GFL_BitmapFillArea(GFLBitmap *bitmap, int x, int y, int width, u16 height, u8 color);
+void GFL_BitmapCopyAreaRebased(const GFLBitmap *src, GFLBitmap *dest, u32 srcX, u32 srcY, int destX, int destY,
+                               u32 width, u32 height, u16 colorKey, u16 paletteOffset);
+void GFL_BitmapFillArea(GFLBitmap *bitmap, s16 x, s16 y, u16 width, u16 height, u8 color);
 void GFL_BitmapFill(GFLBitmap *bitmap, u8 color);
 // Rearranges the pixels from tiles into rows, in a new bitmap, or in place unless keepAsNew
 GFLBitmap *GFL_BitmapMakeLinear(GFLBitmap *bitmap, BOOL keepAsNew, HeapID heapId);

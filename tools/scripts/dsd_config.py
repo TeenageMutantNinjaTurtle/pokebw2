@@ -1,5 +1,7 @@
 """Helpers for reading dsd configs and the extracted modules they describe."""
 import bisect
+import contextlib
+import fcntl
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -7,6 +9,17 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
+
+
+@contextlib.contextmanager
+def config_lock():
+    """Holds the checkout's config lock: the scripts that edit config/ read and rewrite whole files, so two of them
+    running at once, from parallel agents, would lose one's changes."""
+    (ROOT / "build").mkdir(exist_ok=True)
+    with open(ROOT / "build" / ".config.lock", "w") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        yield
+
 # Symbol arguments can contain one level of nested parentheses, e.g. `function(arm,size=0x40,dsprot=(0x38,0x1))`
 SYMBOL_RE = re.compile(r"^(\S+) kind:(\w+)(?:\(((?:[^()]|\([^()]*\))*)\))? addr:(0x[0-9a-f]+)(.*)$")
 RELOC_RE = re.compile(r"^from:(0x[0-9a-f]+) kind:(\S+) to:(0x[0-9a-f]+)(?: add:(\S+))? module:(\S+)")

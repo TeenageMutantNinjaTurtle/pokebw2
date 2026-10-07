@@ -22,6 +22,7 @@
 #include "save/save_control.h"
 #include "system/app_keycursor.h"
 #include "system/app_taskmenu.h"
+#include "system/bmp_winframe.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
 #include "system/printsys.h"
@@ -48,7 +49,7 @@ struct ReportWork {
     KeyCursor *cursor;
     // Set once the player has continued a paused message
     u32 continued;
-    TaskMenuItem items[2];
+    AppTaskMenuItem items[2];
     void *menuRes;
     void *menu;
     WaitIcon *waitIcon;
@@ -92,7 +93,7 @@ u32 EventSave_Update(EventSaveWork *work, u32 *state) {
             work->report->msgData = GFL_MsgSysLoadData(FALSE, 3, 0xd0, work->heapId);
             work->report->strbuf = GFL_StrBufCreate(0x200, work->heapId);
             work->report->tcbManager = GFL_TCBExMgrCreate(work->heapId, work->heapId, 1, 4);
-            work->report->cursor = func_0202e7a4(0xf, 1, 1, work->heapId);
+            work->report->cursor = KeyCursor_Create(0xf, 1, 1, work->heapId);
             work->report->printQueue = func_02021998(work->heapId);
             work->report->timer = 0;
             func_ov012_02163ee0(work);
@@ -117,7 +118,7 @@ u32 EventSave_Update(EventSaveWork *work, u32 *state) {
                 func_ov012_02163f38(work, 8);
                 *state = 14;
             } else {
-                func_02024eec(work->report->window.window, 1);
+                BmpWin_ClearFrame(work->report->window.window, WINFRAME_TRANSFER_VBLANK);
                 *state = 5;
             }
             break;
@@ -254,7 +255,7 @@ static void func_ov012_02163ea0(EventSaveWork *work) {
     func_ov012_021641c0(work);
     func_ov012_02163f2c(work);
     func_02021a18(work->report->printQueue);
-    func_0202e818(work->report->cursor);
+    KeyCursor_Free(work->report->cursor);
     GFL_TCBExMgrFree(work->report->tcbManager);
     GFL_StrBufFree(work->report->strbuf);
     GFL_MsgDataFree(work->report->msgData);
@@ -317,12 +318,12 @@ static BOOL func_ov012_02163fc8(EventSaveWork *work) {
 // Prints at twice the speed
 static BOOL func_ov012_0216404c(EventSaveWork *work) {
     GFL_TCBExMgrUpdate(work->report->tcbManager);
-    func_0202e8d8(work->report->cursor, work->report->stream, work->report->window.window);
+    KeyCursor_Update(work->report->cursor, work->report->stream, work->report->window.window);
     if (func_ov012_02163fc8(work) == FALSE) {
         return FALSE;
     }
     GFL_TCBExMgrUpdate(work->report->tcbManager);
-    func_0202e8d8(work->report->cursor, work->report->stream, work->report->window.window);
+    KeyCursor_Update(work->report->cursor, work->report->stream, work->report->window.window);
     return func_ov012_02163fc8(work);
 }
 
@@ -365,43 +366,43 @@ static void func_ov012_02164150(EventSaveWork *work) {
 
     work->report->items[0].str = GFL_MsgDataLoadStrbufNew(msgData, 8);
     work->report->items[0].color = 0x39e3;
-    work->report->items[0].isBack = FALSE;
+    work->report->items[0].type = 0;
     work->report->items[1].str = GFL_MsgDataLoadStrbufNew(msgData, 9);
     work->report->items[1].color = 0x39e3;
-    work->report->items[1].isBack = FALSE;
+    work->report->items[1].type = 0;
     GFL_MsgDataFree(msgData);
-    work->report->menuRes = func_0202e168(6, 14, func_ov036_0218799c(work->msgBgSys),
+    work->report->menuRes = AppTaskMenuRes_Create(6, 14, func_ov036_0218799c(work->msgBgSys),
                                           func_ov036_02187998(work->msgBgSys), work->heapId);
 }
 
 static void func_ov012_021641c0(EventSaveWork *work) {
-    func_0202e1dc(work->report->menuRes);
+    AppTaskMenuRes_Free(work->report->menuRes);
     GFL_StrBufFree(work->report->items[1].str);
     GFL_StrBufFree(work->report->items[0].str);
 }
 
 static void func_ov012_021641e0(EventSaveWork *work) {
-    TaskMenuSetup init;
+    AppTaskMenuInit init;
 
     init.heapId = work->heapId;
-    init.count = 2;
+    init.itemCount = 2;
     init.items = work->report->items;
-    init.a3 = 1;
-    init.right = 32;
-    init.bottom = 12;
+    init.posType = APP_TASKMENU_POS_BOTTOM_RIGHT;
+    init.x = 32;
+    init.y = 12;
     init.width = 8;
     init.height = 3;
-    work->report->menu = func_0202da48(&init, work->report->menuRes);
+    work->report->menu = AppTaskMenu_CreateFastFlash(&init, work->report->menuRes);
 }
 
 // 0 for yes, 1 for no, and -1 until one is picked
 static int func_ov012_0216421c(EventSaveWork *work) {
     u32 pos;
 
-    func_0202db70(work->report->menu);
-    if (func_0202dbe4(work->report->menu) == TRUE) {
-        pos = func_0202dc00(work->report->menu);
-        func_0202da54(work->report->menu);
+    AppTaskMenu_Update(work->report->menu);
+    if (AppTaskMenu_IsFlashFinished(work->report->menu) == TRUE) {
+        pos = AppTaskMenu_GetCursorPos(work->report->menu);
+        AppTaskMenu_Free(work->report->menu);
         if (pos == 0) {
             return 0;
         }

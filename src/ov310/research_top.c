@@ -24,7 +24,7 @@
 #include "nitro/hw.h"
 #include "nnsys/g2d.h"
 #include "save/event_work.h"
-#include "system/game_comm.h"
+#include "system/game_beacon.h"
 #include "system/game_data.h"
 #include "system/gf_font.h"
 
@@ -658,7 +658,7 @@ static void ResearchTop_SetNext(ResearchTop *wk, u32 next) {
 }
 
 static void ResearchTop_CheckNewResult(ResearchTop *wk) {
-    if (!wk->newIconShown && func_0202d080() == TRUE) {
+    if (!wk->newIconShown && GameBeaconSys_PopSurveyUpdated() == TRUE) {
         wk->newIconShown = TRUE;
         ResearchTop_ShowNewIcon(wk);
     }

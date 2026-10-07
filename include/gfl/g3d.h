@@ -249,6 +249,8 @@ u16 GFL_G3DMgrGetSceneFirstActorIdx(G3DManager *manager, u16 scene);
 
 // Curves, which move a camera along a path loaded from a file, a frame at a time
 G3DCurve *GFL_G3DCurveLoadFileAll(HeapID heapId, u32 arcId, u32 fileId);
+// Loads a curve whose keyframes are read from the file as they are needed, preloadCount at a time
+G3DCurve *GFL_G3DCurveLoadFileStream(HeapID heapId, u32 arcId, u32 fileId, u32 preloadCount);
 void GFL_G3DCurveFree(G3DCurve *curve);
 // Returns TRUE once the curve has reached its last frame, where it stays
 BOOL GFL_G3DCurveFrameStep(G3DCurve *curve, fx32 step);
@@ -260,6 +262,9 @@ BOOL GFL_G3DCurveGetNowTranslationLoop(G3DCurve *curve, VecFx32 *translation, u3
 BOOL GFL_G3DCurveGetNowRotationLoop(G3DCurve *curve, VecFx32 *rotation, u32 frame);
 BOOL GFL_G3DCurveGetNowScaleLoop(G3DCurve *curve, VecFx32 *scale, u32 frame);
 void GFL_G3DCurveApplyCamera(G3DCamera *camera, G3DCurve *curve);
+// Moves the camera, or its target, to the curve's translation at its frame
+void GFL_G3DCurveApplyCameraPosTranslation(G3DCamera *camera, G3DCurve *curve);
+void GFL_G3DCurveApplyCameraTgtTranslation(G3DCamera *camera, G3DCurve *curve);
 void GFL_G3DSysResetGeometryCounter(void);
 
 #endif // POKEBW2_GFL_G3D_H

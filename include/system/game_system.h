@@ -42,14 +42,9 @@ u8 func_02016b2c(GameSystem *gsys);
 u32 func_02016b34(GameSystem *gsys);
 void func_02016b40(GameSystem *gsys, u32 value);
 BOOL func_02016bec(GameSystem *gsys);
-void GameSystemTimer_Start(void);
 ISS *GameSystem_GetISS(GameSystem *gsys);
 u32 getStatusOfFesMission(LinkFestival *festival);
 
-// Run by the start menu before the game starts: loads overlay 338 to run a check, and adds an HBlank task if it fails
-void func_0202d6a8(void);
-// Called when a Pokémon evolves, with its new species and its nickname before evolving
-void func_0202d304(u16 species, const StrBuf *nickname);
 void GSYS_SetEventProvider(GameSystem *gsys, void *provider, void *data);
 GameEvent *GSYS_GetNowEvent(GameSystem *gsys);
 void GSYS_SetField(GameSystem *gsys, Field *field);

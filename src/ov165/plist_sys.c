@@ -29,7 +29,7 @@
 #include "gfl/tcb.h"
 #include "gfl/touchpanel.h"
 #include "gfl/ui.h"
-#include "gfl/wipe.h"
+#include "system/wipe.h"
 #include "nitro/fx.h"
 #include "nitro/gx.h"
 #include "nitro/hw.h"
@@ -198,7 +198,7 @@ BOOL PokeList_Init(PokeListWork *wk) {
             wk->enteredCount++;
         }
     }
-    wk->taskMenuRes = func_0202e168(0, 1, wk->font, wk->printQueue, wk->heapId);
+    wk->taskMenuRes = AppTaskMenuRes_Create(0, 1, wk->font, wk->printQueue, wk->heapId);
     PokeList_CreateActors(wk);
     if (PokeList_IsBattle(wk) == TRUE) {
         PokeListBattle_Init(wk);
@@ -232,7 +232,7 @@ BOOL PokeList_Exit(PokeListWork *wk) {
     for (i = 0; i < POKELIST_PLATE_COUNT; i++) {
         PokeListPlate_Free(wk, wk->plates[i]);
     }
-    func_0202e1dc(wk->taskMenuRes);
+    AppTaskMenuRes_Free(wk->taskMenuRes);
     PokeList_ExitText(wk);
     if (PokeList_IsBattle(wk) == TRUE) {
         PokeListBattle_Exit(wk);
@@ -261,7 +261,7 @@ BOOL PokeList_Main(PokeListWork *wk) {
 
     switch (wk->state) {
     case 0:
-        GFL_WipeSet(2, 1, 1, 0, 6, 1, wk->heapId);
+        GFL_WipeSet(WIPE_MODE_SUB_FIRST, WIPE_TYPE_FADE_IN, WIPE_TYPE_FADE_IN, WIPE_COLOR_BLACK, 6, 1, wk->heapId);
         wk->state = 1;
         break;
     case 1:
@@ -480,10 +480,10 @@ static void PokeList_InitGraphics(PokeListWork *wk) {
     GFL_BGSysDisableAllB();
     GX_SetVisiblePlane(0);
     GXS_SetVisiblePlane(0);
-    func_02027b64(0, 0);
-    func_02027b64(1, 0);
-    func_02027b4c(0);
-    func_02027b4c(1);
+    Wipe_SetScreenCovered(0, 0);
+    Wipe_SetScreenCovered(1, 0);
+    Wipe_HideWindows(0);
+    Wipe_HideWindows(1);
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     GFL_BGSysSetVRAMBanks(&vramConfig);
     GFL_BGSysCreate(wk->heapId);

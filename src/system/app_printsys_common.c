@@ -1,0 +1,108 @@
+#include "types.h"
+#include "constants/sound.h"
+#include "gfl/key.h"
+#include "gfl/sound.h"
+#include "gfl/std.h"
+#include "gfl/touchpanel.h"
+#include "gfl/ui.h"
+#include "system/app_printsys_common.h"
+#include "system/printsys.h"
+
+// The menus' handling of a message printed a character at a time. The file's name is a guess: the ROM has no string
+// for it
+
+static BOOL AppPrintsysCommon_IsHeld(u32 flags);
+static BOOL AppPrintsysCommon_IsReleased(u32 flags);
+
+void AppPrintsysCommon_Init(AppPrintsysCommon *work, u32 flags) {
+    sys_memset(work, 0, sizeof(AppPrintsysCommon));
+    work->flags = flags;
+}
+
+BOOL AppPrintsysCommon_Update(AppPrintsysCommon *work, PrintStream *stream) {
+    if (stream != NULL) {
+        switch (func_020223b4(stream)) {
+        case PRINT_STREAM_DONE:
+            return TRUE;
+        case PRINT_STREAM_PAUSED:
+            if (AppPrintsysCommon_IsPressed(work->flags)) {
+                GFL_SndSEPlay(SEQ_SE_MESSAGE);
+                func_020223bc(stream);
+            }
+            break;
+        case PRINT_STREAM_RUNNING:
+            if ((work->flags & APP_PRINTSYS_COMMON_NO_SKIP) == 0) {
+                // Only a press after everything was released speeds the message up
+                if (work->released == FALSE) {
+                    if (AppPrintsysCommon_IsReleased(work->flags)) {
+                        work->released = TRUE;
+                    }
+                } else if (AppPrintsysCommon_IsHeld(work->flags)) {
+                    func_020223e0(stream, 0);
+                }
+            }
+            break;
+        }
+        return FALSE;
+    }
+    return TRUE;
+}
+
+BOOL AppPrintsysCommon_IsPressed(u32 flags) {
+    BOOL pressed = FALSE;
+
+    if (flags == 0) {
+        pressed = TRUE;
+    }
+    if (flags & APP_PRINTSYS_COMMON_KEYS) {
+        if (GCTX_HIDGetPressedKeys() & (PAD_BUTTON_A | PAD_BUTTON_B)) {
+            func_0203d564(FALSE);
+            pressed = TRUE;
+        }
+    }
+    if (flags & APP_PRINTSYS_COMMON_TOUCH) {
+        if (func_0203da48()) {
+            pressed = TRUE;
+            func_0203d564(TRUE);
+        }
+    }
+    return pressed;
+}
+
+static BOOL AppPrintsysCommon_IsHeld(u32 flags) {
+    BOOL held = FALSE;
+
+    if (flags == 0) {
+        held = TRUE;
+    }
+    if (flags & APP_PRINTSYS_COMMON_KEYS) {
+        if (GCTX_HIDGetHeldKeys() & (PAD_BUTTON_A | PAD_BUTTON_B)) {
+            held = TRUE;
+        }
+    }
+    if (flags & APP_PRINTSYS_COMMON_TOUCH) {
+        if (func_0203da2c()) {
+            held = TRUE;
+        }
+    }
+    return held;
+}
+
+static BOOL AppPrintsysCommon_IsReleased(u32 flags) {
+    BOOL released = FALSE;
+
+    if (flags == 0) {
+        released = TRUE;
+    }
+    if (flags & APP_PRINTSYS_COMMON_KEYS) {
+        if (GCTX_HIDGetHeldKeys() == 0) {
+            released = TRUE;
+        }
+    }
+    if (flags & APP_PRINTSYS_COMMON_TOUCH) {
+        if (func_0203da2c() == FALSE) {
+            released = TRUE;
+        }
+    }
+    return released;
+}
