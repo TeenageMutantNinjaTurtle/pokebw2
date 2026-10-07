@@ -278,6 +278,7 @@ src/ov012/event_trial_house.c:
     .text       start:0x02162c88 end:0x02162f84
 
 src/ov012/ev_time.c:
+    complete
     .text       start:0x02162f84 end:0x02163208
 
 src/ov012/field_g3d_map.c:
