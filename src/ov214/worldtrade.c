@@ -84,11 +84,11 @@ static BOOL WorldTradeProc_Init(GameProc *proc, u32 *state, void *param, void *w
     sys_memset(wk, 0, sizeof(WorldTradeWork));
     sWorldTradeWork = wk;
 
-    wk->demoPokemon = func_ov214_021e1504(HEAPID_WORLDTRADE);
+    wk->demoPokemon = WorldTrade_AllocPartyPkm(HEAPID_WORLDTRADE);
     wk->procManager = CreateGameProcManager(HEAPID_WORLDTRADE);
     wk->tcbBuffer = GFL_HeapAllocate(HEAPID_WORLDTRADE, GFL_TCBMgrCalcAllocSize(8), FALSE, "worldtrade.c", 161);
     wk->tcbManager = GFL_TCBMgrCreate(8, wk->tcbBuffer);
-    func_ov214_021e15d4(&wk->print, wtParam->config);
+    WorldTrade_PrintInit(&wk->print, wtParam->config);
 
     wk->wordSet = GFL_WordSetSystemCreate(11, 64, HEAPID_WORLDTRADE);
     wk->msgManager = GFL_MsgSysLoadData(FALSE, ARCID_SYSTEM_MESSAGE, 0x19f, HEAPID_WORLDTRADE);
@@ -115,7 +115,7 @@ static BOOL WorldTradeProc_Main(GameProc *proc, u32 *state, void *param, void *w
     func_ov189_021a6d00();
     wk->procResult = GFL_ProcMgrUpdate(wk->procManager);
     GFL_TCBMgrUpdate(wk->tcbManager);
-    func_ov214_021e166c(&wk->print);
+    WorldTrade_PrintMain(&wk->print);
 
     switch (*state) {
     case WT_SEQ_INIT:
@@ -175,7 +175,7 @@ static BOOL WorldTradeProc_End(GameProc *proc, u32 *state, void *param, void *wo
     GFL_HeapFree(wk->tcbBuffer);
     FreeGameProcManager(wk->procManager);
     GFL_HeapFree(wk->demoPokemon);
-    func_ov214_021e1640(&wk->print);
+    WorldTrade_PrintExit(&wk->print);
 
     GFL_ProcReleaseSubsystem(proc);
     GFL_HeapDelete(HEAPID_WORLDTRADE);

@@ -34,10 +34,12 @@ u32 func_0202d7fc(u32 mapping);
 u8 func_0202d800(u32 index);
 u32 func_0202d80c(u32 index);
 
+// The touch bar's icons: their palette, characters, and cells and animations for an OBJ VRAM mapping mode
 u32 func_0202d810(void);
 u32 func_0202d814(void);
 u32 func_0202d818(u32 mapping);
 u32 func_0202d81c(u32 mapping);
+// The touch bar's BG: its palette, characters and screen
 u32 func_0202d820(void);
 u32 func_0202d824(void);
 u32 func_0202d828(void);

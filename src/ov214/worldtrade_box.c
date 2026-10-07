@@ -465,7 +465,7 @@ static void Box_BmpWinInit(WorldTradeWork *wk) {
 }
 
 static void Box_BmpWinDelete(WorldTradeWork *wk) {
-    func_ov214_021e1840(&wk->print);
+    WorldTrade_PrintClear(&wk->print);
     BmpWin_Free(wk->explainWin);
     BmpWin_Free(wk->talkWin);
     BmpWin_Free(wk->menuWin[1]);
@@ -523,7 +523,7 @@ static void Box_DepositDecideFunc(WorldTradeWork *wk) {
         case 1:
             GFL_SndSEPlay(0x54c);
             if (Box_CheckPocket(wk->param->myparty, wk->param->mybox, wk->boxTrayNo, wk->boxCursorPos)) {
-                func_ov214_021e14e0(
+                WorldTrade_SetBoxPkmNickname(
                     wk->wordSet, 0,
                     WorldTrade_GetPokePtr(wk->param->myparty, wk->param->mybox, wk->boxTrayNo, wk->boxCursorPos));
                 Box_SubSeqMessagePrint(wk, 0x16, 1, 0, 0xf0f, 0);
@@ -556,7 +556,7 @@ static void Box_ExchangeDecideFunc(WorldTradeWork *wk) {
             pkm = WorldTrade_GetPokePtr(wk->param->myparty, wk->param->mybox, wk->boxTrayNo, wk->boxCursorPos);
             if (Box_WantPokeCheck(pkm, &wk->downloadPokemonData[wk->touchTrainerPos].wantSimple)) {
                 if (Box_CheckPocket(wk->param->myparty, wk->param->mybox, wk->boxTrayNo, wk->boxCursorPos)) {
-                    func_ov214_021e14e0(wk->wordSet, 0, pkm);
+                    WorldTrade_SetBoxPkmNickname(wk->wordSet, 0, pkm);
                     Box_SubSeqMessagePrint(wk, 0x12, 1, 0, 0xf0f, 0);
                     WorldTrade_SetNextSeq(wk, BOX_SEQ_MESSAGE_WAIT, BOX_SEQ_EXCHANGE_SELECT_LIST);
                     GFL_SndSEPlay(0x54c);
@@ -978,14 +978,14 @@ static int Box_SubSeqCancelWait(WorldTradeWork *wk) {
 }
 
 static int Box_SubSeqMessageWait(WorldTradeWork *wk) {
-    if (!func_ov214_021e173c(&wk->print)) {
+    if (!WorldTrade_PrintIsBusy(&wk->print)) {
         wk->subprocessSeq = wk->subprocessNextSeq;
     }
     return WT_SEQ_MAIN;
 }
 
 static int Box_SubSeqMessageClearWait(WorldTradeWork *wk) {
-    if (!func_ov214_021e173c(&wk->print)) {
+    if (!WorldTrade_PrintIsBusy(&wk->print)) {
         if (GCTX_HIDGetPressedKeys() || func_0203da48()) {
             BmpWin_ClearFrame(wk->talkWin, 0);
             wk->subprocessSeq = wk->subprocessNextSeq;
@@ -1009,7 +1009,7 @@ static void Box_SubSeqMessagePrint(WorldTradeWork *wk, int msgNo, int wait, int 
     BmpWin_FlushMap(win);
     GFL_BGSysLoadScr(BmpWin_GetBGIndex(win));
     BmpWin_DrawFrame(win, 0, 1, 14);
-    func_ov214_021e1754(win, 0, wk->talkString, 0, 0, &wk->print);
+    WorldTrade_Print(win, 0, wk->talkString, 0, 0, &wk->print);
     GFL_StrBufFree(str);
 }
 

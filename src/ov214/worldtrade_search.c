@@ -505,7 +505,7 @@ static void Search_BmpWinInit(WorldTradeWork *wk) {
 static void Search_BmpWinDelete(WorldTradeWork *wk) {
     int i;
 
-    func_ov214_021e1840(&wk->print);
+    WorldTrade_PrintClear(&wk->print);
     BmpWin_Free(wk->explainWin);
     BmpWin_Free(wk->msgWin);
     for (i = 0; i < 9; i++) {
@@ -1190,14 +1190,14 @@ static int Search_SubSeqSearchErrorMessage(WorldTradeWork *wk) {
 }
 
 static int Search_SubSeqMessageWait(WorldTradeWork *wk) {
-    if (!func_ov214_021e173c(&wk->print)) {
+    if (!WorldTrade_PrintIsBusy(&wk->print)) {
         wk->subprocessSeq = wk->subprocessNextSeq;
     }
     return WT_SEQ_MAIN;
 }
 
 static int Search_SubSeqMessageWaitKey(WorldTradeWork *wk) {
-    if (!func_ov214_021e173c(&wk->print)) {
+    if (!WorldTrade_PrintIsBusy(&wk->print)) {
         if (GCTX_HIDGetPressedKeys() || func_0203da48()) {
             wk->subprocessSeq = wk->subprocessNextSeq;
         }
@@ -1206,7 +1206,7 @@ static int Search_SubSeqMessageWaitKey(WorldTradeWork *wk) {
 }
 
 static int Search_SubSeqMessageWaitFrames(WorldTradeWork *wk) {
-    if (!func_ov214_021e173c(&wk->print)) {
+    if (!WorldTrade_PrintIsBusy(&wk->print)) {
         if (++wk->wait > 45) {
             wk->wait = 0;
             wk->subprocessSeq = wk->subprocessNextSeq;
@@ -1303,7 +1303,7 @@ static void Search_SubSeqMessagePrint(WorldTradeWork *wk, int msgNo, int wait, i
     GFL_MsgDataLoadStrbuf(wk->msgManager, msgNo, wk->talkString);
     GFL_BitmapFill(BmpWin_GetBitmap(wk->msgWin), 15);
     BmpWin_DrawFrame(wk->msgWin, 0, 1, 14);
-    func_ov214_021e1754(wk->msgWin, 0, wk->talkString, 0, 0, &wk->print);
+    WorldTrade_Print(wk->msgWin, 0, wk->talkString, 0, 0, &wk->print);
     win = wk->msgWin;
     BmpWin_FlushChar(win);
     BmpWin_FlushMap(win);

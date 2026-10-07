@@ -67,9 +67,8 @@ enum {
 
 // A window whose text worldtrade_adapter.c prints through the print queue
 typedef struct {
-    BmpWin *win;
-    u8 pending;
-    u32 active;
+    PrintWindow printWin;
+    BOOL active;
 } WorldTradePrintEntry;
 
 // worldtrade_adapter.c's text printing: the font, the print queue and the message stream
@@ -543,31 +542,36 @@ int WorldTrade_Upload_Main(WorldTradeWork *wk, int seq);
 int WorldTrade_Upload_End(WorldTradeWork *wk, int seq);
 
 // worldtrade_adapter.c
-void func_ov214_021e14e0(WordSet *wordSet, u32 index, BoxPkm *pkm);
-PartyPkm *func_ov214_021e1504(HeapID heapId);
-void func_ov214_021e1528(PartyPkm *src, PartyPkm *dest);
+void WorldTrade_SetBoxPkmNickname(WordSet *wordSet, u32 index, BoxPkm *pkm);
+PartyPkm *WorldTrade_AllocPartyPkm(HeapID heapId);
+void WorldTrade_CopyPartyPkm(PartyPkm *src, PartyPkm *dest);
 // Clears a window from the screen, now or at the next VBlank
-void func_ov214_021e1540(BmpWin *win, int mode);
-StrBuf *func_ov214_021e156c(WordSet *wordSet, MsgData *msgData, u32 msgNo, HeapID heapId);
+void WorldTrade_ClearWindow(BmpWin *win, int mode);
+// A message with the word set's words put in
+StrBuf *WorldTrade_ExpandMessage(WordSet *wordSet, MsgData *msgData, u32 msgNo, HeapID heapId);
+void WorldTrade_BoxPkmToPartyPkm(BoxPkm *pkm, PartyPkm *dest);
+BoxPkm *WorldTrade_GetBoxPkm(PartyPkm *pkm);
 // The width of a string in the print's font
-int func_ov214_021e15c0(WorldTradePrint *print, u8 font, StrBuf *str, int spacing);
-void func_ov214_021e159c(BoxPkm *pkm, PartyPkm *dest);
-BoxPkm *func_ov214_021e15b8(PartyPkm *pkm);
-void func_ov214_021e15d4(WorldTradePrint *print, TrainerDataSave *config);
-void func_ov214_021e1640(WorldTradePrint *print);
-void func_ov214_021e166c(WorldTradePrint *print);
-BOOL func_ov214_021e173c(WorldTradePrint *print);
-void func_ov214_021e1754(BmpWin *win, int x, StrBuf *str, int y, int a4, WorldTradePrint *print);
+int WorldTrade_GetStrWidth(WorldTradePrint *print, u8 font, StrBuf *str, int spacing);
+void WorldTrade_PrintInit(WorldTradePrint *print, TrainerDataSave *config);
+void WorldTrade_PrintExit(WorldTradePrint *print);
+void WorldTrade_PrintMain(WorldTradePrint *print);
+// Whether the message stream still prints
+BOOL WorldTrade_PrintIsBusy(WorldTradePrint *print);
+void WorldTrade_Print(BmpWin *win, u8 font, StrBuf *str, int x, int y, WorldTradePrint *print);
 // The same through the message stream, at the player's text speed
-void func_ov214_021e1774(BmpWin *win, int a1, StrBuf *str, int x, int y, WorldTradePrint *print);
-void func_ov214_021e17c4(BmpWin *win, u8 font, StrBuf *str, int x, int y, int a5, u16 color, WorldTradePrint *print);
-void func_ov214_021e1840(WorldTradePrint *print);
-WorldTradeNumFont *func_ov214_021e1874(u32 a0, u32 a1, u32 a2, HeapID heapId);
-void func_ov214_021e18d8(WorldTradeNumFont *numFont);
-void func_ov214_021e18fc(WorldTradeNumFont *numFont);
+void WorldTrade_StreamPrint(BmpWin *win, u8 font, StrBuf *str, int x, int y, WorldTradePrint *print);
+void WorldTrade_PrintColor(BmpWin *win, u8 font, StrBuf *str, int x, int y, int unused, u16 color,
+                           WorldTradePrint *print);
+// Forgets the windows that still print, and ends the stream
+void WorldTrade_PrintClear(WorldTradePrint *print);
+WorldTradeNumFont *WorldTrade_NumFontCreate(u32 unused0, u32 unused1, u32 unused2, HeapID heapId);
+void WorldTrade_NumFontDelete(WorldTradeNumFont *numFont);
+void WorldTrade_NumFontMain(WorldTradeNumFont *numFont);
 // Prints a number of digits at x and y of a window
-void func_ov214_021e1954(WorldTradeNumFont *numFont, int num, int digits, int dispType, BmpWin *win, int x, int y);
+void WorldTrade_NumFontPrintNumber(WorldTradeNumFont *numFont, int num, int digits, int dispType, BmpWin *win, int x,
+                                   int y);
 // Prints the slash between two numbers
-void func_ov214_021e1a28(WorldTradeNumFont *numFont, int a1, BmpWin *win, int x, int y);
+void WorldTrade_NumFontPrintSlash(WorldTradeNumFont *numFont, int unused, BmpWin *win, int x, int y);
 
 #endif // POKEBW2_OV214_WORLDTRADE_LOCAL_H

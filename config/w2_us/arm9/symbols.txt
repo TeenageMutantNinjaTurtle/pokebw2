@@ -7772,6 +7772,7 @@ _u32_div_f kind:label(arm) addr:0x0208d894
 .L_0208d89c kind:label(arm) addr:0x0208d89c
 _ffix kind:function(arm,size=0x34) addr:0x0208da78
 __aeabi_f2uiz kind:function(arm,size=0x40) addr:0x0208daac
+_ffixu kind:label(arm) addr:0x0208daac
 __aeabi_d2iz kind:function(arm,size=0x4c) addr:0x0208daec
 __aeabi_d2ulz kind:function(arm,size=0x8c) addr:0x0208db38
 sqrt kind:function(arm,size=0x19c) addr:0x0208dbc4
