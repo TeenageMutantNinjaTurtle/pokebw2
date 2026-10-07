@@ -134,3 +134,15 @@ src/ov036/fldeff_namipoke.c:
     .text       start:0x021a4384 end:0x021a50a4
     .rodata     start:0x021d05f4 end:0x021d06cc
     .data       start:0x021d5060 end:0x021d5074
+
+src/ov036/fldeff_iwakudaki.c:
+    complete
+    .text       start:0x021a5604 end:0x021a5828
+    .rodata     start:0x021d0728 end:0x021d0778
+    .data       start:0x021d50dc end:0x021d5100
+
+src/ov036/fldeff_fishing.c:
+    complete
+    .text       start:0x021a5828 end:0x021a5a18
+    .rodata     start:0x021d0778 end:0x021d07d0
+    .data       start:0x021d5100 end:0x021d5118
