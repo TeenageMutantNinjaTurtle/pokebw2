@@ -104,20 +104,20 @@ static BOOL BrCore_ProcInit(GameProc *proc, u32 *state, void *param, void *work)
     wk->param = coreParam;
     coreParam->mainParam->result = 0;
 
-    wk->graphic = func_ov271_021f31b8(wk->param->mainParam->mode == BR_MODE_GLOBAL_MUSICAL, 1, HEAPID_BATTLE_RECORDER);
+    wk->graphic = BrGraphic_Init(wk->param->mainParam->mode == BR_MODE_GLOBAL_MUSICAL, 1, HEAPID_BATTLE_RECORDER);
     color = func_0200cb30(getTrainerCardDataBlkAddress(wk->param->mainParam->gameData));
-    wk->res = func_ov271_021f266c(color, wk->param->mainParam->mode == BR_MODE_BROWSE, HEAPID_BATTLE_RECORDER);
-    func_ov271_021f274c(wk->res, 0, HEAPID_BATTLE_RECORDER);
-    func_ov271_021f274c(wk->res, 1, HEAPID_BATTLE_RECORDER);
+    wk->res = BrRes_Init(color, wk->param->mainParam->mode == BR_MODE_BROWSE, HEAPID_BATTLE_RECORDER);
+    BrRes_LoadBG(wk->res, 0, HEAPID_BATTLE_RECORDER);
+    BrRes_LoadBG(wk->res, 1, HEAPID_BATTLE_RECORDER);
     wk->procSys = BrProcSys_Init(BR_PROCID_START, sBrProcTable, BR_PROCID_MAX, wk,
                                       &wk->param->data->procRecovery, HEAPID_BATTLE_RECORDER);
     wk->fade = func_ov271_021f54d8(HEAPID_BATTLE_RECORDER);
     func_ov271_021f55cc(wk->fade);
-    func_ov271_021f560c(wk->fade, func_ov271_021f3010(wk->res));
+    func_ov271_021f560c(wk->fade, BrRes_GetFadeColor(wk->res));
     if (wk->param->mode == BR_CORE_MODE_INIT) {
         func_ov271_021f5610(wk->fade, BR_FADE_DISPLAY_BOTH);
     }
-    wk->sidebar = func_ov271_021f5b68(func_ov271_021f32d8(wk->graphic), wk->fade, wk->res, HEAPID_BATTLE_RECORDER);
+    wk->sidebar = func_ov271_021f5b68(BrGraphic_GetClunit(wk->graphic), wk->fade, wk->res, HEAPID_BATTLE_RECORDER);
     BrCore_LoadRecordInfo(&wk->param->data->recordInfo, TRUE, wk->param->mainParam->gameData,
                           HEAPID_BATTLE_RECORDER);
 
@@ -172,12 +172,12 @@ static BOOL BrCore_ProcExit(GameProc *proc, u32 *state, void *param, void *work)
     BrProcSys_Exit(wk->procSys);
     if (wk->param->mainParam->mode == BR_MODE_BROWSE) {
         TrainerCardSave *trainerCard = getTrainerCardDataBlkAddress(wk->param->mainParam->gameData);
-        func_0200cb3c(trainerCard, func_ov271_021f3024(wk->res));
+        func_0200cb3c(trainerCard, BrRes_GetColor(wk->res));
     }
-    func_ov271_021f2b8c(wk->res, 0);
-    func_ov271_021f2b8c(wk->res, 1);
-    func_ov271_021f2714(wk->res);
-    func_ov271_021f3270(wk->graphic);
+    BrRes_UnloadBG(wk->res, 0);
+    BrRes_UnloadBG(wk->res, 1);
+    BrRes_Exit(wk->res);
+    BrGraphic_Exit(wk->graphic);
 
     GFL_ProcReleaseSubsystem(proc);
     GFL_HeapDelete(HEAPID_BATTLE_RECORDER);
@@ -204,7 +204,7 @@ static BOOL BrCore_ProcMain(GameProc *proc, u32 *state, void *param, void *work)
         func_ov271_021f5580(wk->fade);
         func_ov271_021f5c18(wk->sidebar);
         BrProcSys_Main(wk->procSys);
-        func_ov271_021f32c4(wk->graphic);
+        BrGraphic_Main(wk->graphic);
         if (wk->net != NULL) {
             func_ov271_021f6348(wk->net);
         }
@@ -234,7 +234,7 @@ static void BrCore_StartBefore(void *param, void *work, const void *preParam, u3
     p->res = wk->res;
     p->fade = wk->fade;
     p->procSys = wk->procSys;
-    p->unit = func_ov271_021f32d8(wk->graphic);
+    p->unit = BrGraphic_GetClunit(wk->graphic);
     p->sidebar = wk->sidebar;
     if (preID == BR_PROCID_MENU) {
         p->mode = 1;
@@ -327,7 +327,7 @@ static void BrCore_MenuBefore(void *param, void *work, const void *preParam, u32
     p->res = wk->res;
     p->fade = wk->fade;
     p->procSys = wk->procSys;
-    p->unit = func_ov271_021f32d8(wk->graphic);
+    p->unit = BrGraphic_GetClunit(wk->graphic);
     p->recordInfo = &wk->param->data->recordInfo;
 }
 
@@ -349,7 +349,7 @@ static void BrCore_RecordBefore(void *param, void *work, const void *preParam, u
     p->res = wk->res;
     p->fade = wk->fade;
     p->procSys = wk->procSys;
-    p->unit = func_ov271_021f32d8(wk->graphic);
+    p->unit = BrGraphic_GetClunit(wk->graphic);
     p->net = wk->net;
     p->gameData = wk->param->mainParam->gameData;
     p->unk2C = wk->param->data->unk_1720;
@@ -426,7 +426,7 @@ static void BrCore_BtlSubwayBefore(void *param, void *work, const void *preParam
     p->res = wk->res;
     p->fade = wk->fade;
     p->procSys = wk->procSys;
-    p->unit = func_ov271_021f32d8(wk->graphic);
+    p->unit = BrGraphic_GetClunit(wk->graphic);
     p->score = SaveControl_GetBlockPtr(save, SAVE_BLOCK_BSUBWAY_SCORE);
     p->gameData = wk->param->mainParam->gameData;
 }
@@ -442,7 +442,7 @@ static void BrCore_RndMatchBefore(void *param, void *work, const void *preParam,
     p->res = wk->res;
     p->fade = wk->fade;
     p->procSys = wk->procSys;
-    p->unit = func_ov271_021f32d8(wk->graphic);
+    p->unit = BrGraphic_GetClunit(wk->graphic);
     p->gameData = wk->param->mainParam->gameData;
     p->record = func_0200f2d4(getRecordBlkAddress(save));
 }
@@ -477,7 +477,7 @@ static void BrCore_BvRankBefore(void *param, void *work, const void *preParam, u
     p->res = wk->res;
     p->fade = wk->fade;
     p->procSys = wk->procSys;
-    p->unit = func_ov271_021f32d8(wk->graphic);
+    p->unit = BrGraphic_GetClunit(wk->graphic);
     p->net = wk->net;
 }
 
@@ -491,7 +491,7 @@ static void BrCore_BvSearchBefore(void *param, void *work, const void *preParam,
     p->res = wk->res;
     p->fade = wk->fade;
     p->procSys = wk->procSys;
-    p->unit = func_ov271_021f32d8(wk->graphic);
+    p->unit = BrGraphic_GetClunit(wk->graphic);
     p->gameData = wk->param->mainParam->gameData;
 }
 
@@ -505,7 +505,7 @@ static void BrCore_CodeInBefore(void *param, void *work, const void *preParam, u
     p->res = wk->res;
     p->fade = wk->fade;
     p->procSys = wk->procSys;
-    p->unit = func_ov271_021f32d8(wk->graphic);
+    p->unit = BrGraphic_GetClunit(wk->graphic);
 }
 
 static void BrCore_CodeInAfter(void *param, void *work) {
@@ -518,7 +518,7 @@ static void BrCore_BvSendBefore(void *param, void *work, const void *preParam, u
     p->res = wk->res;
     p->fade = wk->fade;
     p->procSys = wk->procSys;
-    p->unit = func_ov271_021f32d8(wk->graphic);
+    p->unit = BrGraphic_GetClunit(wk->graphic);
     p->net = wk->net;
     p->gameData = wk->param->mainParam->gameData;
 }
@@ -537,7 +537,7 @@ static void BrCore_BvDeleteBefore(void *param, void *work, const void *preParam,
         p->res = wk->res;
         p->fade = wk->fade;
         p->procSys = wk->procSys;
-        p->unit = func_ov271_021f32d8(wk->graphic);
+        p->unit = BrGraphic_GetClunit(wk->graphic);
         p->gameData = wk->param->mainParam->gameData;
         p->recordInfo = &wk->param->data->recordInfo;
     } else {
@@ -565,7 +565,7 @@ static void BrCore_BvSaveBefore(void *param, void *work, const void *preParam, u
     p->fade = wk->fade;
     p->net = wk->net;
     p->procSys = wk->procSys;
-    p->unit = func_ov271_021f32d8(wk->graphic);
+    p->unit = BrGraphic_GetClunit(wk->graphic);
     p->videoNumber = recordParam->videoNumber;
     p->gameData = wk->param->mainParam->gameData;
     p->recordInfo = &wk->param->data->recordInfo;

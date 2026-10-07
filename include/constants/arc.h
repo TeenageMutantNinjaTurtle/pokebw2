@@ -29,6 +29,8 @@
 #define ARCID_ITEMGRA 25
 // The boot logos and the title screen's 2D graphics
 #define ARCID_TITLE 26
+// The Game Sync menu's graphics (gsync_menu.c). Our name, not swan's
+#define ARCID_GSYNC_MENU 29
 // Mystery Gift's graphics
 #define ARCID_MYSTERY 33
 // The start menu's graphics
@@ -80,6 +82,8 @@
 #define ARCID_ISS_ZONE 136
 // The Memory Link's picture of the two systems (data_convert_flow.c). Our name, not swan's
 #define ARCID_DATA_CONVERT 139
+// Game Sync's graphics (gsync_disp.c). Our name, not swan's
+#define ARCID_GSYNC 143
 // The interactive sound system's dungeon BGM settings (iss_dungeon_sys.c). Our name, not swan's
 #define ARCID_ISS_DUNGEON 146
 // The interactive sound system's BGM switch sets (iss_switch_set.c). Our name, not swan's
