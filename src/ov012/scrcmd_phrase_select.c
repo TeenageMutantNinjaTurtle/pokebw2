@@ -78,11 +78,11 @@ BOOL s01DA_CallPhraseSelect(VM *vm, FieldScriptEnv *env) {
         ScriptWork_CallEvent(work, event);
         return TRUE;
     }
-    data->pms = func_02029968(kind, 0, 0, 0, GameData_GetSaveControl(gameData), HEAPID_USER);
+    data->pms = PMSIParam_Create(kind, 0, 0, 0, GameData_GetSaveControl(gameData), HEAPID_USER);
     if (data->useCGear) {
         func_0200ef90(getCGearDataBlkAddress(GameData_GetSaveControl(GSYS_GetGameData(gsys))), data->cgearIndex,
                       &sentence);
-        func_02029a2c(data->pms, &sentence);
+        PMSIParam_SetSentence(data->pms, &sentence);
     }
     ScriptWork_CallEvent(work, event);
     return TRUE;
@@ -103,19 +103,19 @@ static GameEventReturnCode func_ov012_02161114(GameEvent *event, u32 *state, voi
         (*state)++;
         break;
     case 1:
-        if (func_02029a40(pms)) {
+        if (PMSIParam_IsCanceled(pms)) {
             *data->decided = FALSE;
         } else if (data->mode == 5) {
-            func_02029a4c(pms, words);
+            PMSIParam_GetWords(pms, words);
             *data->result = words[0];
             *data->result2 = words[1];
             *data->decided = TRUE;
         } else if (data->mode == 4) {
-            *data->result = func_02029a48(pms);
+            *data->result = PMSIParam_GetWord(pms);
             *data->result2 = 0;
             *data->decided = TRUE;
         } else {
-            func_02029a58(pms, &sentence);
+            PMSIParam_GetSentence(pms, &sentence);
             if (data->useCGear) {
                 func_0200efa8(
                     getCGearDataBlkAddress(GameData_GetSaveControl(GSYS_GetGameData(GameEvent_GetGameSystem(event)))),
@@ -125,7 +125,7 @@ static GameEventReturnCode func_ov012_02161114(GameEvent *event, u32 *state, voi
             *data->result2 = sentence.words[1];
             *data->decided = TRUE;
         }
-        func_02029a20(data->pms);
+        PMSIParam_Free(data->pms);
         return GAMEEVENT_DONE;
     }
     return GAMEEVENT_CONTINUE;

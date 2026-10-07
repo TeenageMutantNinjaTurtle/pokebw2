@@ -5,39 +5,38 @@
 #include "gfl/bmp.h"
 #include "gfl/clact.h"
 #include "gfl/heap.h"
+#include "struct_decls.h"
 
-// Actors that show a bitmap, such as text, on OAM. The ROM doesn't name this file; bmp_oam.c is a guess after the
-// GFL's bitmap and window files. None of these functions has a name yet
+// Bitmaps shown as OAM sprites (bmp_oam.c): a bitmap is cut into 32x16 cell actors whose characters are uploaded from
+// it. Our names; swan has none for this file
 
-typedef struct BmpOamActor BmpOamActor;
-typedef struct BmpOamSys BmpOamSys;
-
-// An actor to add: its bitmap, where it is, its palette resource and offset, its priorities and its surface
 typedef struct {
     GFLBitmap *bitmap;
     s16 x;
     s16 y;
     u32 palette;
-    u32 palOffset;
+    u32 paletteOffset;
     u8 priority;
     u8 bgPriority;
     u16 surface;
+    // CLACT_VRAM_MAIN or CLACT_VRAM_SUB
     u32 vramType;
 } BmpOamActorSetup;
 
-// The system that adds the actors to a unit
-BmpOamSys *func_0202ae5c(HeapID heapId, ClActUnit *unit);
-void func_0202aeac(BmpOamSys *sys);
-BmpOamActor *func_0202aec4(BmpOamSys *sys, const BmpOamActorSetup *setup);
-void func_0202b030(BmpOamActor *actor);
-// Whether the actor is shown
-void func_0202b098(BmpOamActor *actor, BOOL visible);
-BOOL func_0202b0e8(BmpOamActor *actor);
-
-// Sends the actor's bitmap to its characters in VRAM
-void func_0202b0f4(BmpOamActor *actor);
-// Where the actor is
-void func_0202b20c(BmpOamActor *actor, s16 *x, s16 *y);
-void func_0202b230(BmpOamActor *actor, s16 x, s16 y);
+BmpOamSys *BmpOam_Init(HeapID heapId, ClActUnit *unit);
+void BmpOam_Exit(BmpOamSys *sys);
+BmpOamActor *BmpOam_ActorAdd(BmpOamSys *sys, const BmpOamActorSetup *setup);
+void BmpOam_ActorDel(BmpOamActor *actor);
+void BmpOam_ActorSetDrawEnable(BmpOamActor *actor, BOOL enable);
+BOOL BmpOam_ActorGetDrawEnable(BmpOamActor *actor);
+// Uploads the bitmap's pixels to the actors' characters
+void BmpOam_ActorBmpTrans(BmpOamActor *actor);
+void BmpOam_ActorGetPos(BmpOamActor *actor, s16 *x, s16 *y);
+void BmpOam_ActorSetPos(BmpOamActor *actor, s16 x, s16 y);
+// GX_OAM_MODE_*
+void BmpOam_ActorSetObjMode(BmpOamActor *actor, u32 mode);
+void BmpOam_ActorSetPriority(BmpOamActor *actor, u8 priority);
+void BmpOam_ActorSetBgPriority(BmpOamActor *actor, u32 bgPriority);
+void BmpOam_ActorSetPaletteOffset(BmpOamActor *actor, u32 offset);
 
 #endif // POKEBW2_SYSTEM_BMP_OAM_H

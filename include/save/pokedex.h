@@ -6,6 +6,7 @@
 #include "struct_decls.h"
 
 BOOL PokeDex_IsNationalObtained(PokeDexSave *pokedex);
+u32 getSizeofPokedexData(void);
 void PokeDex_SetNationalObtained(PokeDexSave *pokedex);
 void PokeDex_EnableHabitatList(PokeDexSave *pokedex);
 BOOL PokeDex_IsHabitatListEnabled(PokeDexSave *pokedex);

@@ -136,6 +136,11 @@ u32 func_ov211_021f04f0(void *comm);
 u32 func_ov211_021f04f8(void *comm);
 u8 func_ov211_021f0500(void *comm, u8 index, u8 a2);
 u32 func_ov211_021f0608(GameData *gameData);
+// Its GameCommSys callbacks for GAME_COMM_NO_MUSICAL (see game_comm.c)
+void *func_ov211_021ef230(u32 *seq, void *param);
+BOOL func_ov211_021ef288(u32 *seq, void *param, void *work);
+BOOL func_ov211_021ef378(u32 *seq, void *param, void *work);
+void func_ov211_021ef394(u32 *seq, void *param, void *work);
 
 // Overlay 20
 GameEvent *func_ov020_0216e714(GameSystem *gsys, void *args);

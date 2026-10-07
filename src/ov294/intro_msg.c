@@ -5,7 +5,6 @@
 #include "gfl/arc_util.h"
 #include "gfl/bg_sys.h"
 #include "gfl/bmp.h"
-#include "gfl/bmp_menu.h"
 #include "gfl/bmpwin.h"
 #include "gfl/graphics.h"
 #include "gfl/key.h"
@@ -17,6 +16,8 @@
 #include "gfl/tcbl.h"
 #include "gfl/touchpanel.h"
 #include "system/app_keycursor.h"
+#include "system/bmp_menulist.h"
+#include "system/bmp_winframe.h"
 #include "system/gf_font.h"
 #include "system/printsys.h"
 #include "system/text_speed.h"
@@ -31,11 +32,6 @@ typedef struct {
     s32 result;
 } IntroMenu;
 
-typedef struct {
-    BmpWin *window;
-    u8 unk4;
-} IntroMenuPrint;
-
 struct IntroMsg {
     HeapID heapId;
     PrintQueue *printQueue;
@@ -47,7 +43,7 @@ struct IntroMsg {
     BmpWin *window;
     KeyCursor *keyCursor;
     IntroMenu menu;
-    IntroMenuPrint menuPrint;
+    PrintWindow menuPrint;
     BmpWin *menuWindow;
     StrBuf *strbuf;
     StrBuf *expanded;
@@ -84,14 +80,14 @@ IntroMsg *IntroMsg_Create(HeapID heapId) {
     BmpWin_FlushMap(window);
     GFL_BGSysQueueScrLoad(BmpWin_GetBGIndex(window));
     msg->window = BmpWin_CreateDynamic(1, 1, 19, 30, 4, WINDOW_PALETTE, 1);
-    msg->keyCursor = func_0202e7a4(15, 1, 1, msg->heapId);
+    msg->keyCursor = KeyCursor_Create(15, TRUE, TRUE, msg->heapId);
     msg->waitIcon = func_02035734(msg->heapId);
     return msg;
 }
 
 void IntroMsg_Free(IntroMsg *msg) {
     IntroMsg_HideWaitIcon(msg);
-    func_0202e818(msg->keyCursor);
+    KeyCursor_Free(msg->keyCursor);
     GFL_StrBufFree(msg->strbuf);
     GFL_StrBufFree(msg->expanded);
     GFL_FontFree(msg->font);
@@ -134,9 +130,9 @@ void IntroMsg_Print(IntroMsg *msg, u32 messageId, BOOL frame) {
     msg->printStream = func_02022268(window, 4, 0, msg->expanded, msg->font, wait, msg->tcbManager, 0xffff,
                                      msg->heapId, 15);
     if (!frame) {
-        BmpWin_DrawFrame(window, 1, FRAME_0_CHAR, FRAME_0_PALETTE);
+        BmpWin_DrawFrame(window, WINFRAME_TRANSFER_VBLANK, FRAME_0_CHAR, FRAME_0_PALETTE);
     } else {
-        BmpWin_DrawFrame(window, 1, FRAME_1_CHAR, FRAME_1_PALETTE);
+        BmpWin_DrawFrame(window, WINFRAME_TRANSFER_VBLANK, FRAME_1_CHAR, FRAME_1_PALETTE);
     }
     BmpWin_FlushChar(window);
     BmpWin_FlushMap(window);
@@ -144,7 +140,7 @@ void IntroMsg_Print(IntroMsg *msg, u32 messageId, BOOL frame) {
 }
 
 void IntroMsg_Clear(IntroMsg *msg) {
-    func_02024eec(msg->window, 0);
+    BmpWin_ClearFrame(msg->window, WINFRAME_TRANSFER_NOW);
 }
 
 u32 IntroMsg_GetPrintState(IntroMsg *msg) {
@@ -157,7 +153,7 @@ u32 IntroMsg_GetPrintState(IntroMsg *msg) {
 // Prints the message on, with A, B or a touch hurrying it and going past its pauses. Returns TRUE once it has ended
 BOOL IntroMsg_UpdatePrint(IntroMsg *msg) {
     if (msg->printStream != NULL) {
-    func_0202e8d8(msg->keyCursor, msg->printStream, msg->window);
+    KeyCursor_Update(msg->keyCursor, msg->printStream, msg->window);
     switch (func_020223b4(msg->printStream)) {
     case PRINT_STREAM_DONE:
         func_020223cc(msg->printStream);
@@ -180,9 +176,9 @@ BOOL IntroMsg_UpdatePrint(IntroMsg *msg) {
     return FALSE;
 }
 
-static IntroMenuPrint *IntroMsg_InitMenuPrint(IntroMsg *msg, BmpWin *window) {
+static PrintWindow *IntroMsg_InitMenuPrint(IntroMsg *msg, BmpWin *window) {
     msg->menuPrint.window = window;
-    msg->menuPrint.unk4 = 0;
+    msg->menuPrint.flushPending = FALSE;
     return &msg->menuPrint;
 }
 
@@ -190,7 +186,7 @@ void IntroMsg_OpenMenu(IntroMsg *msg, const IntroMenuItem *items, u32 count, BOO
     IntroMenu *menu;
     BmpWin *window;
     const IntroMenuItem *item;
-    u32 heapId;
+    HeapID heapId;
     u32 i;
     BmpMenuListHeader header;
 
@@ -207,44 +203,44 @@ void IntroMsg_OpenMenu(IntroMsg *msg, const IntroMenuItem *items, u32 count, BOO
     sys_memset(&header, 0, sizeof(BmpMenuListHeader));
     header.options = menu->options;
     header.count = count;
-    header.unkE = 5;
-    header.unk10 = 0;
-    header.unk11 = 16;
-    header.unk12 = 0;
-    header.unk13_0 = 2;
-    header.unk13_4 = 1;
-    header.unk14_0 = 15;
-    header.unk14_4 = 2;
-    header.unk16_0 = 0;
-    header.unk16_3 = 0;
-    header.unk16_7 = 1;
-    header.unk16_9 = 0;
-    header.unk16_15 = 0;
+    header.maxShown = 5;
+    header.labelX = 0;
+    header.itemX = 16;
+    header.cursorX = 0;
+    header.y = 2;
+    header.fgColor = 1;
+    header.bgColor = 15;
+    header.shadowColor = 2;
+    header.letterSpacing = 0;
+    header.lineSpacing = 0;
+    header.pageSkip = BMPMENULIST_SKIP_LR_KEY;
+    header.fontId = 0;
+    header.cursorDisplay = BMPMENULIST_CURSOR_SHOW;
     header.work = NULL;
-    header.unk1C = 16;
-    header.unk1E = 16;
+    header.fontSizeX = 16;
+    header.fontSizeY = 16;
     header.unk20 = 0;
-    header.unk24 = IntroMsg_InitMenuPrint(msg, window);
-    header.unk28 = msg->printQueue;
+    header.printWindow = IntroMsg_InitMenuPrint(msg, window);
+    header.queue = msg->printQueue;
     header.font = msg->font;
-    header.unk30 = 20;
+    header.wait = 20;
     menu->list = BmpMenuList_Create(&header, 0, 0, heapId);
-    func_02026510(menu->list, heapId);
+    BmpMenuList_LoadCursor(menu->list, heapId);
     BmpWin_FlushChar(window);
     BmpWin_FlushMap(window);
     GFL_BGSysLoadScr(BmpWin_GetBGIndex(window));
-    BmpWin_DrawFrame(window, 1, FRAME_0_CHAR, FRAME_0_PALETTE);
+    BmpWin_DrawFrame(window, WINFRAME_TRANSFER_VBLANK, FRAME_0_CHAR, FRAME_0_PALETTE);
     if (a3) {
-        func_02026520(menu->list, 0);
+        BmpMenuList_SetCancelDisabled(menu->list, 0);
     } else {
-        func_02026520(menu->list, 1);
+        BmpMenuList_SetCancelDisabled(menu->list, 1);
     }
 }
 
 void IntroMsg_CloseMenu(IntroMsg *msg) {
     IntroMenu *menu = &msg->menu;
 
-    func_02024eec(msg->menuWindow, 0);
+    BmpWin_ClearFrame(msg->menuWindow, WINFRAME_TRANSFER_NOW);
     GFL_BitmapFill(BmpWin_GetBitmap(msg->menuWindow), 0);
     BmpWin_FlushChar(msg->menuWindow);
     BmpMenuList_Free(msg->menu.list, NULL, NULL);

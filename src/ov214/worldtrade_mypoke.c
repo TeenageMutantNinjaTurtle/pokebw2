@@ -5,7 +5,6 @@
 #include "gfl/arc_util.h"
 #include "gfl/bg_sys.h"
 #include "gfl/bmp.h"
-#include "gfl/bmp_menu.h"
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"
 #include "gfl/gx_layers.h"
@@ -18,7 +17,6 @@
 #include "gfl/str.h"
 #include "gfl/touchpanel.h"
 #include "gfl/ui.h"
-#include "gfl/wipe.h"
 #include "nitro/gx.h"
 #include "nitro/os.h"
 #include "nnsys/g2d.h"
@@ -27,6 +25,9 @@
 #include "pml/poke_party.h"
 #include "save/player_info.h"
 #include "save/worldtrade_data.h"
+#include "system/bmp_menulist.h"
+#include "system/bmp_winframe.h"
+#include "system/wipe.h"
 #include "system/wordset.h"
 #include "worldtrade_local.h"
 
@@ -357,7 +358,7 @@ static int MyPoke_SubSeqYesNoSelect(WorldTradeWork *wk) {
     } else if (ret == 2) {
         WorldTrade_TouchWinYesNoDel(wk);
         wk->subprocessSeq = MYPOKE_SEQ_START;
-        func_02024eec(wk->msgWin, 0);
+        BmpWin_ClearFrame(wk->msgWin, 0);
         MyPoke_WantPokePrintReWrite(wk);
     }
     return WT_SEQ_MAIN;

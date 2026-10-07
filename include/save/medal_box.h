@@ -28,6 +28,7 @@ void MedalBox_DiscoverMedal(MedalBox *box, u16 medal);
 void MedalBox_DiscoverInitialMedal(MedalBox *box, u16 medal, u8 year, u8 month, u8 day);
 void MedalBox_AcknowledgeMedal(MedalBox *box, u16 medal, u8 year, u8 month, u8 day);
 u32 MedalBox_GetObtainedCount(MedalBox *box, u32 a1);
+u8 func_0200fa44(MedalBox *box);
 u8 MedalBox_GetRank(MedalBox *box);
 // The medal obtained last, or 0xff
 u8 func_0200fa44(MedalBox *box);

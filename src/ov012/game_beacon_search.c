@@ -8,6 +8,7 @@
 #include "gfl/ui.h"
 #include "nitro/os.h"
 #include "save/player_info.h"
+#include "system/game_beacon.h"
 #include "system/game_comm.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
@@ -26,7 +27,7 @@ typedef struct {
     u8 lidOpen : 1;
     u8 unk3_3 : 5;
     u32 trainerId;
-    u8 data[0x60];
+    GameBeacon data;
 } BeaconSearchBeacon;
 
 // A beacon that was found
@@ -101,7 +102,8 @@ static const GFLNetInitData data_ov012_0216d6a8 = {
     0,
 };
 
-void *func_ov012_0215f55c(void *param, GameSystem *gsys) {
+void *func_ov012_0215f55c(u32 *seq, void *param) {
+    GameSystem *gsys = param;
     GameData *gameData = GSYS_GetGameData(gsys);
     GameCommSys *commSys = GSYS_GetGameCommSystem(gsys);
     BeaconSearchWork *work =
@@ -110,13 +112,14 @@ void *func_ov012_0215f55c(void *param, GameSystem *gsys) {
     work->gameData = gameData;
     work->commSys = commSys;
     work->unkE = 0x267;
-    if (func_0202bdfc(commSys) == 2 && func_0202be08(commSys) == 5) {
+    if (GameCommSys_GetLastCommNo(commSys) == 2 && func_0202be08(commSys) == 5) {
         func_ov012_0215f94c(work);
     }
     return work;
 }
 
-BOOL func_ov012_0215f5b4(u32 *seq, GameSystem *gsys, void *work) {
+BOOL func_ov012_0215f5b4(u32 *seq, void *param, void *work) {
+    GameSystem *gsys = param;
     BeaconSearchWork *search = work;
 
     switch (*seq) {
@@ -141,7 +144,8 @@ static void func_ov012_0215f5f4(void *work) {
     search->unk88 = func_02012908(HEAPID_GAMEEVENT, HEAPID_TAIL(HEAPID_TRIAL_HOUSE));
 }
 
-BOOL func_ov012_0215f610(u32 *seq, GameSystem *gsys, void *work) {
+BOOL func_ov012_0215f610(u32 *seq, void *param, void *work) {
+    GameSystem *gsys = param;
     BeaconSearchWork *search = work;
 
     func_02012994(search->unk88);
@@ -149,7 +153,8 @@ BOOL func_ov012_0215f610(u32 *seq, GameSystem *gsys, void *work) {
     return TRUE;
 }
 
-BOOL func_ov012_0215f628(u32 *seq, GameSystem *gsys, void *work) {
+BOOL func_ov012_0215f628(u32 *seq, void *param, void *work) {
+    GameSystem *gsys = param;
     BeaconSearchWork *search = work;
 
     if (search->state == 0) {
@@ -168,7 +173,8 @@ static void func_ov012_0215f64c(void *work) {
     search->state = 0;
 }
 
-void func_ov012_0215f654(u32 *seq, GameSystem *gsys, void *work) {
+void func_ov012_0215f654(u32 *seq, void *param, void *work) {
+    GameSystem *gsys = param;
     BeaconSearchWork *search = work;
     GameCommSys *commSys = GSYS_GetGameCommSystem(gsys);
     GameData *gameData = GSYS_GetGameData(gsys);
@@ -189,7 +195,7 @@ void func_ov012_0215f654(u32 *seq, GameSystem *gsys, void *work) {
     if (search->timer != 0) {
         search->timer--;
     }
-    func_0202c1dc();
+    GameBeaconSys_SendIfUpdated();
     found = func_ov012_0215f6c8(search, &index);
     if (found != NULL) {
         found->type = 0;
@@ -226,7 +232,7 @@ static BeaconSearchFound *func_ov012_0215f6c8(BeaconSearchWork *work, int *index
                     found->mac[i] = mac[i];
                 }
             } else if (beacon->unk2_1 == 2) {
-                func_0202c6c4(beacon->data);
+                GameBeaconSys_Receive(&beacon->data);
                 func_ov030_02173bec(*index);
             }
         }
@@ -277,7 +283,7 @@ static void *func_ov012_0215f7e8(void *work) {
     BeaconSearchWork *search = work;
 
     func_ov012_0215f810(&search->beacon, search->gameData, search->commSys);
-    func_0202c190(search->beacon.data);
+    GameBeaconSys_GetSendBeacon(&search->beacon.data);
     search->beacon.unk2_1 = 2;
     return &search->beacon;
 }
