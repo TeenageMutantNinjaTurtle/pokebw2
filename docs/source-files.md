@@ -627,7 +627,10 @@ prints the tables below from the configs and the ROM:
 | --- | --- | --- | --- | --- |
 | `btl_main.c` | `0x021998c0`–`0x0219e3cc` | 231 | partial | string at `0x021dae80` |
 | `btl_server.c` | `0x0219e3cc`–`0x0219f390` | 55 | complete | string at `0x021dae8c` |
-| `btl_server_flow.c` | `0x0219f390`–`0x021b1674` | 1178 | partial | string at `0x021dae9c` |
+| `btl_server_flow.c` | `0x0219f390`–`0x021ae32c` | 997 | partial | string at `0x021dae9c` |
+| `btl_server_flow_sub.c` | `0x021ae32c`–`0x021b083c` | 151 | partial | descriptive |
+| `btl_handler_work.c` | `0x021b083c`–`0x021b0a1c` | 11 | partial | descriptive |
+| `btl_server_cmd.c` | `0x021b0a1c`–`0x021b1674` | 19 | partial | descriptive |
 | `btl_pokeparam.c` | `0x021ba584`–`0x021bc6bc` | 154 | partial | string at `0x021daf7c` |
 | `battle_event.c` | `0x021bc6bc`–`0x021bd054` | 46 | partial | descriptive |
 | `btl_calc.c` | `0x021bd054`–`0x021bdaf8` | 58 | partial | string at `0x021daf94` |

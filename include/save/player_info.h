@@ -26,6 +26,7 @@ BOOL func_02008b5c(PlayerInfo *info);
 u32 PlayerInfo_GetSize(void);
 u32 getTrainerGender(PlayerInfo *info);
 u8 func_02008bfc(PlayerInfo *info);
+u8 TrainerInfo_GetRegion(PlayerInfo *info);
 // The player's GameSpy profile ID
 s32 func_02008bdc(PlayerInfo *info);
 void func_02008be0(PlayerInfo *info, s32 profileId);

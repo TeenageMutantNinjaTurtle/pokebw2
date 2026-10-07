@@ -8,7 +8,7 @@
 void func_0207cc10(RTCDate *date);
 u16 GetRealTimeDayPeriod(u8 season);
 // The period of the day at the hour, in the season
-u16 GetDayPeriod(u8 season, u32 hour);
+u16 GetDayPeriod(u8 season, u8 hour);
 // The hour a season's day period starts at
 u8 GetLightChangeHoursForSeasons(u32 season, u32 period);
 

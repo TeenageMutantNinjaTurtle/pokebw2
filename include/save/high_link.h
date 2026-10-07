@@ -13,6 +13,8 @@ u32 PassPower_GetUsedIDByEffect(int effect);
 BOOL PassPower_IsBW1Compatible(u32 passPower);
 u32 PassPower_GetRemainingSeconds(int effect);
 u32 PassPower_ApplyPrizeMoney(u32 money);
+u32 PassPower_ApplyEXP(u32 exp);
+u32 PassPower_ApplyCapture(u32 rate);
 // The pass powers' table, read from its archive
 void *PassPowerData_Create(HeapID heapId);
 void PassPowerData_Free(void *data);
