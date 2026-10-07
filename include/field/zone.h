@@ -236,6 +236,7 @@ BOOL SetupZoneWarpArrival(EventData *eventData, ZoneSpawnInfo *spawn, u16 warpId
 u16 ZoneData_GetAreaID(u16 zoneId);
 u16 GetZoneEntitiesID(u16 zoneId);
 u16 GetZoneEncID(u16 zoneId);
+u32 GetZoneBattleBGID(u16 zoneId);
 void InitZoneSpawnInfo(ZoneSpawnInfo *spawn);
 void SetupZoneWarpArrivalGrid(ZoneSpawnInfo *spawn, u16 zoneId, s16 warpId, s16 warpDir, u16 posWeightBits, s32 x,
                               s32 y, s32 z);
