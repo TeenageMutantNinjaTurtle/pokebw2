@@ -56,6 +56,16 @@ typedef struct {
     StrBuf *descriptions[32];
 } ScriptListMenu;
 
+// What actorWork holds: the actor that a message balloon is over, and where the balloon goes
+typedef struct {
+    u16 actorId;
+    u16 winX;
+    // The actor's position plus offset
+    VecFx32 pos;
+    VecFx32 actorPos;
+    VecFx32 offset;
+} ScriptActorWork;
+
 struct ScriptSubwork {
     ScriptWork *work;
     GameSystem *gsys;
@@ -494,7 +504,7 @@ MMSys *GetScrEnvMMdlSys(FieldScriptEnv *env);
 void AddItemToListMenu(FieldScriptEnv *env, u32 a1, u32 message, u32 value, StrBuf *a4, StrBuf *a5);
 
 // Overlay 36: show a message, and have the script wait for it
-BOOL func_ov036_021a8eb4(VM *vm, FieldScriptEnv *env, StrBuf *message, u32 a3, u16 a4, u32 a5);
+BOOL func_ov036_021a8eb4(VM *vm, FieldScriptEnv *env, StrBuf *message, u16 actorId, u16 pos, u32 a5);
 BOOL loadMsgBox(VM *vm, FieldScriptEnv *env, StrBuf *message, u32 a3, u8 a4);
 
 #endif // POKEBW2_FIELD_FIELD_SCRIPT_H
