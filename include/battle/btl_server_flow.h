@@ -154,7 +154,6 @@ u8 func_ov167_021abc80(BtlServerFlow *flow, u32 arg1);
 u32 func_ov167_021ae320(BtlServerFlow *flow);
 
 // Not decompiled yet
-void func_ov167_021d59a0(u32 arg0);
 void func_ov167_0219f400(BtlServerFlow *flow);
 void func_ov167_0219f6fc(BtlServerFlow *flow);
 u32 func_ov167_0219f9d0(BtlServerFlow *flow, u32 i);

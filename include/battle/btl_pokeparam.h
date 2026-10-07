@@ -286,7 +286,7 @@ BOOL Move_IsPPFull(BattleMon *mon, u8 index, BOOL truth);
 u16 Move_IncrementPP(BattleMon *mon, u8 index, u8 amount);
 u16 Move_IncrementPP_Org(BattleMon *mon, u8 index, u8 amount);
 void Move_UpdateID(BattleMon *mon, u8 index, u16 move, u8 maxPP, BOOL updateCurrent);
-BOOL MoveIsUsable(BattleMon *mon, u16 move);
+BOOL MoveIsUsable(const BattleMon *mon, u16 move);
 u32 func_ov167_021bb07c(const BattleMon *mon, u32 stat);
 void func_ov167_021bb10c(BattleMon *mon, u16 *stats);
 void func_ov167_021bb054(BattleMon *mon);
