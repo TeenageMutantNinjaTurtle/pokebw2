@@ -23,6 +23,9 @@ void func_0203021c(void);
 // Sends a beacon of type 0x39, if func_0202cfe8 allows it
 void func_ov012_02160574(void);
 
+// Returns the game beacon system's flag at 0xc2f, and clears it. The Research Radar shows its new result icon when it
+// was set
+BOOL func_0202d080(void);
 // Sets the medal count that the game's beacon sends
 void func_0202d17c(u8 count);
 // Sets the value of func_02008bf4 that the game's beacon sends

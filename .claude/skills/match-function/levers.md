@@ -162,6 +162,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - Cases are laid out in source order, not by value. (matching.md: "Switch cases are laid out in source order")
 - The comparison tree and jump tables depend on every case value, including empty cases. (matching.md: "comparison tree")
 - A case that ends in the same code as another is merged into it. (matching.md: "ends in the same code as another")
+- Cases that load some of a call's arguments, then branch to the shared rest and the call: every argument was a
+  variable set in each case. (matching.md: "each set every argument")
 - An `if`/`else if` chain whose tests come in a switch's order is a `switch` with a case falling into `default`.
   `case 0: default:` written first sets the case order.
 - `cmp; beq end; cmp; bne next` with each body after its test: an `if`/`else if` chain with an empty first body,

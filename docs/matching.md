@@ -294,6 +294,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   Subway's command switch only splits its values as the game does with an empty `case 102:` inside its first jump
   table, and empty cases that sit between others still get a comparison.
 - A switch case that ends in the same code as another case is merged into it, so its end moves.
+- A switch whose cases each set every argument of one call after it, as `research_top.c`'s button highlights set the
+  BG, position, size and palette for `GFL_BGSysSetScrPaletteNo`, has each argument in a variable: the cases keep only
+  the values that differ, and the values they share are set once at the merged end, in registers. Writing only the
+  differing value as a variable leaves the others as constants at the call, and a call in each case is merged
+  differently.
 - The comparison tree depends only on the set of case values, and evenly spaced cases are grouped from the low end:
   the PC box search's `func_ov255_021d40e8` cases {0, 3, 9, 15, 21, 24, 27, 30} split at 27, and no order, type or
   `default:` changes that.
