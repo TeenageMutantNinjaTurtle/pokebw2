@@ -290,7 +290,7 @@ void func_ov167_0219a034(BtlMainModule *mainModule, BtlSetup *setup);
 void func_ov167_0219a0c4(BtlMainModule *mainModule, BtlSetup *setup);
 void func_ov167_0219bd40(BtlMainModule *mainModule);
 BOOL func_ov167_0219bd5c(BtlMainModule *mainModule);
-void func_ov167_0219bde0(BtlMainModule *mainModule);
+s32 func_ov167_0219bde0(BtlMainModule *mainModule);
 void func_ov167_0219bdf0(BtlMainModule *mainModule);
 BOOL func_ov167_0219bdfc(BtlMainModule *mainModule);
 void *func_ov167_0219be48(BtlMainModule *mainModule);
