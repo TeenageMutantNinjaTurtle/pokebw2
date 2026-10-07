@@ -79,3 +79,8 @@ src/ov036/field_encount.c:
     .text       start:0x021a1640 end:0x021a1fdc
     .rodata     start:0x021d0294 end:0x021d02c4
     .data       start:0x021d4f84 end:0x021d4f94
+
+src/ov036/map_attr.c:
+    complete
+    .text       start:0x021a29d0 end:0x021a2f08
+    .rodata     start:0x021d0324 end:0x021d0374
