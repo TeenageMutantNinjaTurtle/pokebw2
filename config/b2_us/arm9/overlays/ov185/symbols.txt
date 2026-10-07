@@ -102,7 +102,7 @@ PMSIInitial_GetUp kind:function(thumb,size=0x10) addr:0x0219eb20
 PMSIInitial_GetDown kind:function(thumb,size=0x10) addr:0x0219eb30
 PMSIInitial_GetLeft kind:function(thumb,size=0x10) addr:0x0219eb40
 PMSIInitial_GetRight kind:function(thumb,size=0x10) addr:0x0219eb50
-PMSIInitial_GetJump kind:function(thumb,size=0x10) addr:0x0219eb60
+PMSIInitial_GetBottom kind:function(thumb,size=0x10) addr:0x0219eb60
 PMSIVCategory_Create kind:function(thumb,size=0x3c) addr:0x0219eb70
 PMSIVCategory_Delete kind:function(thumb,size=0x5a) addr:0x0219ebac
 PMSIVCategory_SetupGraphicDatas kind:function(thumb,size=0xcc) addr:0x0219ec08
@@ -452,18 +452,7 @@ data_ov185_021a7024 kind:data(any) addr:0x021a7024
 sPMSISearchExcludedWords kind:data(any) addr:0x021a703c
 sPMSISearchInitialMsgFiles kind:data(any) addr:0x021a7050
 data_ov185_021a705d kind:data(any) addr:0x021a705d ambiguous
-data_ov185_021a7088 kind:data(any) addr:0x021a7088
-data_ov185_021a708a kind:data(any) addr:0x021a708a
-data_ov185_021a708b kind:data(any) addr:0x021a708b
-data_ov185_021a708c kind:data(any) addr:0x021a708c
-data_ov185_021a708d kind:data(any) addr:0x021a708d
-data_ov185_021a708e kind:data(any) addr:0x021a708e
-data_ov185_021a708f kind:data(any) addr:0x021a708f
-data_ov185_021a7091 kind:data(any) addr:0x021a7091
-data_ov185_021a7095 kind:data(any) addr:0x021a7095 ambiguous
-data_ov185_021a70d9 kind:data(any) addr:0x021a70d9 ambiguous
-data_ov185_021a7115 kind:data(any) addr:0x021a7115 ambiguous
-data_ov185_021a7135 kind:data(any) addr:0x021a7135 ambiguous
+sPMSIInitials kind:data(any) addr:0x021a7088
 data_ov185_021a71a4 kind:data(any) addr:0x021a71a4
 data_ov185_021a71b0 kind:data(any) addr:0x021a71b0
 data_ov185_021a71b4 kind:data(any) addr:0x021a71b4
@@ -521,3 +510,4 @@ data_ov185_021a7574 kind:data(any) addr:0x021a7574
 data_ov185_021a7578 kind:data(any) addr:0x021a7578
 data_ov185_021a759d kind:data(any) addr:0x021a759d ambiguous
 PMSI_FIXED_CATEGORIES kind:data(any) addr:0x021a512c
+PMSIV_CATEGORY_UNK_7198 kind:data(any) addr:0x021a7198

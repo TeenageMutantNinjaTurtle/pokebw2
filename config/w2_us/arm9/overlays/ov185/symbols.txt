@@ -102,7 +102,7 @@ PMSIInitial_GetUp kind:function(thumb,size=0x10) addr:0x0219eb60
 PMSIInitial_GetDown kind:function(thumb,size=0x10) addr:0x0219eb70
 PMSIInitial_GetLeft kind:function(thumb,size=0x10) addr:0x0219eb80
 PMSIInitial_GetRight kind:function(thumb,size=0x10) addr:0x0219eb90
-PMSIInitial_GetJump kind:function(thumb,size=0x10) addr:0x0219eba0
+PMSIInitial_GetBottom kind:function(thumb,size=0x10) addr:0x0219eba0
 PMSIVCategory_Create kind:function(thumb,size=0x3c) addr:0x0219ebb0
 PMSIVCategory_Delete kind:function(thumb,size=0x5a) addr:0x0219ebec
 PMSIVCategory_SetupGraphicDatas kind:function(thumb,size=0xcc) addr:0x0219ec48
@@ -452,18 +452,7 @@ data_ov185_021a7024 kind:data(any) addr:0x021a7064
 sPMSISearchExcludedWords kind:data(any) addr:0x021a707c
 sPMSISearchInitialMsgFiles kind:data(any) addr:0x021a7090
 data_ov185_021a705d kind:data(any) addr:0x021a709d ambiguous
-data_ov185_021a7088 kind:data(any) addr:0x021a70c8
-data_ov185_021a708a kind:data(any) addr:0x021a70ca
-data_ov185_021a708b kind:data(any) addr:0x021a70cb
-data_ov185_021a708c kind:data(any) addr:0x021a70cc
-data_ov185_021a708d kind:data(any) addr:0x021a70cd
-data_ov185_021a708e kind:data(any) addr:0x021a70ce
-data_ov185_021a708f kind:data(any) addr:0x021a70cf
-data_ov185_021a7091 kind:data(any) addr:0x021a70d1
-data_ov185_021a7095 kind:data(any) addr:0x021a70d5 ambiguous
-data_ov185_021a70d9 kind:data(any) addr:0x021a7119 ambiguous
-data_ov185_021a7115 kind:data(any) addr:0x021a7155 ambiguous
-data_ov185_021a7135 kind:data(any) addr:0x021a7175 ambiguous
+sPMSIInitials kind:data(any) addr:0x021a70c8
 data_ov185_021a71a4 kind:data(any) addr:0x021a71e4
 data_ov185_021a71b0 kind:data(any) addr:0x021a71f0
 data_ov185_021a71b4 kind:data(any) addr:0x021a71f4
@@ -521,3 +510,4 @@ data_ov185_021a7574 kind:data(any) addr:0x021a75b4
 data_ov185_021a7578 kind:data(any) addr:0x021a75b8
 data_ov185_021a759d kind:data(any) addr:0x021a75dd ambiguous
 PMSI_FIXED_CATEGORIES kind:data(any) addr:0x021a516c
+PMSIV_CATEGORY_UNK_7198 kind:data(any) addr:0x021a71d8
