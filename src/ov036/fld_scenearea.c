@@ -6,9 +6,9 @@
 #include "gfl/heap.h"
 
 static BOOL FieldCameraArea_CallCollCheckFunction(const FieldDynCameraFunctions *funcs, u16 index, FieldSceneArea *area,
-                                                  CameraArea *cameraArea, const VecFx32 *pos);
+                                                  const CameraArea *cameraArea, const VecFx32 *pos);
 static void FieldCameraArea_CallCalcFunction(const FieldDynCameraFunctions *funcs, u16 index, FieldSceneArea *area,
-                                             CameraArea *cameraArea, const VecFx32 *pos);
+                                             const CameraArea *cameraArea, const VecFx32 *pos);
 
 FieldSceneArea *FieldSceneArea_Create(u32 heapId, FieldCamera *camera, Field *field) {
     FieldSceneArea *area = GFL_HeapAllocate(heapId, sizeof(FieldSceneArea), TRUE, "fld_scenearea.c", 81);
@@ -102,7 +102,7 @@ static BOOL IsCamCalcFuncValid(const FieldDynCameraFunctions *funcs, u16 index) 
 }
 
 static BOOL FieldCameraArea_CallCollCheckFunction(const FieldDynCameraFunctions *funcs, u16 index, FieldSceneArea *area,
-                                                  CameraArea *cameraArea, const VecFx32 *pos) {
+                                                  const CameraArea *cameraArea, const VecFx32 *pos) {
     if (IsCamCollCheckFuncValid(funcs, index)) {
         return funcs->collCheckFuncs[index](area, cameraArea, pos);
     }
@@ -110,7 +110,7 @@ static BOOL FieldCameraArea_CallCollCheckFunction(const FieldDynCameraFunctions 
 }
 
 static void FieldCameraArea_CallCalcFunction(const FieldDynCameraFunctions *funcs, u16 index, FieldSceneArea *area,
-                                             CameraArea *cameraArea, const VecFx32 *pos) {
+                                             const CameraArea *cameraArea, const VecFx32 *pos) {
     if (IsCamCalcFuncValid(funcs, index)) {
         funcs->calcFuncs[index](area, cameraArea, pos);
     }
