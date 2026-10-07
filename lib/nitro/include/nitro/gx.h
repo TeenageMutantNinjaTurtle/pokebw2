@@ -70,6 +70,7 @@ typedef u16 GXRgb;
 #define reg_G2S_DB_WININ (*(vu16 *)0x04001048)
 #define reg_G2S_DB_WINOUT (*(vu16 *)0x0400104a)
 #define reg_G2S_DB_BLDCNT (*(vu16 *)0x04001050)
+#define reg_G2S_DB_BLDALPHA (*(vu16 *)0x04001052)
 
 #define REG_GX_DISPCNT_W0_SHIFT 13
 #define REG_GX_DISPCNT_W0_MASK 0x00002000
@@ -691,6 +692,14 @@ static inline void G2_BlendNone(void) {
 
 static inline void G2S_BlendNone(void) {
     reg_G2S_DB_BLDCNT = 0;
+}
+
+static inline void G2_ChangeBlendAlpha(int eva, int evb) {
+    reg_G2_BLDALPHA = (u16)(eva | (evb << 8));
+}
+
+static inline void G2S_ChangeBlendAlpha(int eva, int evb) {
+    reg_G2S_DB_BLDALPHA = (u16)(eva | (evb << 8));
 }
 
 static inline void G3X_SetShading(int shading) {

@@ -111,13 +111,13 @@ static BOOL BrCore_ProcInit(GameProc *proc, u32 *state, void *param, void *work)
     BrRes_LoadBG(wk->res, 1, HEAPID_BATTLE_RECORDER);
     wk->procSys = BrProcSys_Init(BR_PROCID_START, sBrProcTable, BR_PROCID_MAX, wk,
                                       &wk->param->data->procRecovery, HEAPID_BATTLE_RECORDER);
-    wk->fade = func_ov271_021f54d8(HEAPID_BATTLE_RECORDER);
-    func_ov271_021f55cc(wk->fade);
-    func_ov271_021f560c(wk->fade, BrRes_GetFadeColor(wk->res));
+    wk->fade = BrFade_Init(HEAPID_BATTLE_RECORDER);
+    BrFade_LoadPltt(wk->fade);
+    BrFade_SetColor(wk->fade, BrRes_GetFadeColor(wk->res));
     if (wk->param->mode == BR_CORE_MODE_INIT) {
-        func_ov271_021f5610(wk->fade, BR_FADE_DISPLAY_BOTH);
+        BrFade_FillColor(wk->fade, BR_FADE_DISPLAY_BOTH);
     }
-    wk->sidebar = func_ov271_021f5b68(BrGraphic_GetClunit(wk->graphic), wk->fade, wk->res, HEAPID_BATTLE_RECORDER);
+    wk->sidebar = BrSidebar_Init(BrGraphic_GetClunit(wk->graphic), wk->fade, wk->res, HEAPID_BATTLE_RECORDER);
     BrCore_LoadRecordInfo(&wk->param->data->recordInfo, TRUE, wk->param->mainParam->gameData,
                           HEAPID_BATTLE_RECORDER);
 
@@ -140,9 +140,9 @@ static BOOL BrCore_ProcInit(GameProc *proc, u32 *state, void *param, void *work)
     }
 
     if (wk->param->mode == BR_CORE_MODE_RETURN) {
-        func_ov271_021f5cb4(wk->sidebar);
-        func_ov271_021f5c64(wk->sidebar);
-        func_ov271_021f5658(wk->fade, BR_FADE_DISPLAY_BOTH, 0);
+        BrSidebar_SetEndPos(wk->sidebar);
+        BrSidebar_StartBound(wk->sidebar);
+        BrFade_SetAlpha(wk->fade, BR_FADE_DISPLAY_BOTH, 0);
     }
     if (wk->param->mainParam->mode == BR_MODE_GLOBAL_BV && wk->param->mode == BR_CORE_MODE_INIT) {
         func_02038bc8(0x13);
@@ -167,8 +167,8 @@ static BOOL BrCore_ProcExit(GameProc *proc, u32 *state, void *param, void *work)
         GFL_OvlUnload(OVERLAY_ID(201));
     }
 
-    func_ov271_021f5bdc(wk->sidebar, wk->res);
-    func_ov271_021f554c(wk->fade);
+    BrSidebar_Exit(wk->sidebar, wk->res);
+    BrFade_Exit(wk->fade);
     BrProcSys_Exit(wk->procSys);
     if (wk->param->mainParam->mode == BR_MODE_BROWSE) {
         TrainerCardSave *trainerCard = getTrainerCardDataBlkAddress(wk->param->mainParam->gameData);
@@ -201,8 +201,8 @@ static BOOL BrCore_ProcMain(GameProc *proc, u32 *state, void *param, void *work)
         }
         break;
     case 3:
-        func_ov271_021f5580(wk->fade);
-        func_ov271_021f5c18(wk->sidebar);
+        BrFade_Main(wk->fade);
+        BrSidebar_Main(wk->sidebar);
         BrProcSys_Main(wk->procSys);
         BrGraphic_Main(wk->graphic);
         if (wk->net != NULL) {
