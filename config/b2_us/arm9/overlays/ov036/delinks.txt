@@ -152,3 +152,9 @@ src/ov036/fldeff_fes_kira.c:
     .text       start:0x021a5a18 end:0x021a5d2c
     .rodata     start:0x021d07d0 end:0x021d0820
     .data       start:0x021d5118 end:0x021d5138
+
+src/ov036/event_trainer_eye.c:
+    complete
+    .text       start:0x021a5d2c end:0x021a6668
+    .rodata     start:0x021d0820 end:0x021d0878
+    .data       start:0x021d5138 end:0x021d514c
