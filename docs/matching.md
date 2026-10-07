@@ -60,8 +60,7 @@ Same instructions, registers swapped.
   GetBattleMonHeldItem(mon);` in `handler_common.c`.
 - A function whose callers halve or compare its result signed returns a signed type even if what it returns is unsigned:
   `RawBattleMonStat` returns `s32`, so `(RawBattleMonStat(a, 8) + RawBattleMonStat(b, 8)) / 2` divides with `asr` and
-  its sign fix in Power Split, and four `btl_server_flow.c` functions match, while its own code is the same as with
-  `u32`.
+  its sign fix in Power Split and Guard Split, while its own code is the same as with `u32`.
 - The operands of `*` are loaded in source order, so a multiply whose registers are swapped has its operands swapped
   in the source.
 - The terms of a three-term `|` chain are not loaded in source order: `a | b | c` loads `c`, then `a`, then `b`.
