@@ -730,6 +730,7 @@
 . 0x020775c8 MATH_SHA1GetHash
 . 0x020778d8 MATH_CRC16CCITTInitTable
 . 0x02077a10 MATH_CalcCRC16CCITT
+. 0x02077a4c MATH_QSort
 . 0x0207873c MI_Copy36B
 . 0x0207c350 OS_GetOwnerInfo
 . 0x0207c6d0 OS_GetLowEntropyData
@@ -1166,6 +1167,19 @@ overlays/ov126 0x021eed7c UnderwaterEffect_Free
 overlays/ov126 0x021eeddc UnderwaterEffect_Update
 overlays/ov126 0x021eee18 UnderwaterEffect_Draw
 overlays/ov126 0x021eeec0 UNDERWATER_EFFECT_PROC
+overlays/ov142 0x021a03d4 BagItemList_CompareSortKey
+overlays/ov142 0x021a03f0 BagItemList_Init
+overlays/ov142 0x021a046c BagItemList_Exit
+overlays/ov142 0x021a0470 BagItemList_GetItem
+overlays/ov142 0x021a050c BagItemList_Remove
+overlays/ov142 0x021a0578 BagItemList_Add
+overlays/ov142 0x021a05b4 BagItemList_Compact
+overlays/ov142 0x021a0610 BagItemList_CountInPocket
+overlays/ov142 0x021a063c BagItemList_SetFilter
+overlays/ov142 0x021a0698 BagItemList_CountShown
+overlays/ov142 0x021a071c BagItemList_Sort
+overlays/ov142 0x021a0748 BagItemList_SortByName
+overlays/ov142 0x021a07f4 BagItemList_SortByType
 overlays/ov162 0x0219ce80 Title_Init
 overlays/ov162 0x0219ceb4 Title_UpdateTimer
 overlays/ov162 0x0219cf44 Title_HandleInput

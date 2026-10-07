@@ -55,7 +55,7 @@ void loadTrainerTypeText(WordSet *wordSet, u32 index, u32 trainerType);
 void loadTrainerTypeToStrbuf(WordSet *wordSet, u32 index, u32 trainerId);
 void loadTrainerTypeWithArticleToStrbuf(WordSet *wordSet, u32 index, u32 trainerType);
 void loadTrainerNamesToStrbuf(WordSet *wordSet, u32 index, u32 trainerId);
-void loadStatNameToStrbuf(WordSet *wordSet, u32 index, u32 stat);
+void loadStatNameToStrbuf(WordSet *wordSet, u32 index, u8 stat);
 void loadBoxNameForDisplay(WordSet *wordSet, u32 index, void *boxData, u32 box);
 void loadQuestionnaireAnswerToStrbuf(WordSet *wordSet, u32 index, u32 answer);
 void loadBattleInstituteMsgForDisplay(WordSet *wordSet, u32 index, u32 rank);
