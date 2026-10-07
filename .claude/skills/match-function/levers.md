@@ -172,6 +172,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "A clamp that ends in one store")
 - One store after an `if`/`else` of two constants, with a `b` over the else, is still an `if`/`else`; the conditional
   expression has no `b`. (matching.md: "assigns one field a constant in each branch")
+- A `b` to a `b` where the original jumps straight to shared code: write the call after the `if`/`else` in
+  each branch. (matching.md: "A `b` to a `b`")
 - `f(x ? a : b)` against two calls in `if`/`else`, which are merged into one call with a `beq; b` layout.
   (matching.md: "picked by branches")
 - A `return` inside `for (;;)` leaves a dead `bx lr`, which the original counts as padding.
