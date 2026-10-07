@@ -161,16 +161,16 @@ static void func_ov255_021d5c84(BoxSearchWork *wk, u32 win, u32 msgId, int x, in
 static void func_ov255_021d5ce4(void *work, u32 index, PrintWindow *window, s16 y);
 static void func_ov255_021d5d38(void *work, u32 index, PrintWindow *window, s16 y);
 static void func_ov255_021d5d8c(void *work, u32 index);
-static void func_ov255_021d5d90(void *work, int delta);
+static void func_ov255_021d5d90(void *work, s16 delta);
 static void func_ov255_021d5da8(void *work, u32 index, PrintWindow *window, s16 y);
 static void func_ov255_021d5ddc(void *work, u32 index);
-static void func_ov255_021d5df4(void *work, int delta);
+static void func_ov255_021d5df4(void *work, s16 delta);
 static void func_ov255_021d5e24(void *work, u32 index, PrintWindow *window, s16 y);
 static void func_ov255_021d5ec8(void *work, u32 index);
-static void func_ov255_021d5f50(void *work, int delta);
+static void func_ov255_021d5f50(void *work, s16 delta);
 static void func_ov255_021d5f68(void *work, u32 index, PrintWindow *window, s16 y);
 static void func_ov255_021d5fa0(void *work, u32 index);
-static void func_ov255_021d5fb8(void *work, int delta);
+static void func_ov255_021d5fb8(void *work, s16 delta);
 static void func_ov255_021d5fe8(void *work, u32 index, PrintWindow *window, s16 y);
 static void func_ov255_021d5ff4(void *work, u32 index, PrintWindow *window, s16 y);
 static void func_ov255_021d6000(void *work, u32 index, PrintWindow *window, s16 y);
@@ -1879,7 +1879,7 @@ static void func_ov255_021d5d38(void *work, u32 index, PrintWindow *window, s16 
 static void func_ov255_021d5d8c(void *work, u32 index) {
 }
 
-static void func_ov255_021d5d90(void *work, int delta) {
+static void func_ov255_021d5d90(void *work, s16 delta) {
     BoxSearchWork *wk = work;
 
     func_ov255_021d683c(wk, -delta);
@@ -1901,7 +1901,7 @@ static void func_ov255_021d5ddc(void *work, u32 index) {
     func_ov255_021d6308(wk, func_ov139_0219cc1c(wk->list, index));
 }
 
-static void func_ov255_021d5df4(void *work, int delta) {
+static void func_ov255_021d5df4(void *work, s16 delta) {
     BoxSearchWork *wk = work;
 
     if (func_ov255_021d6214(wk, wk->group - 1, wk->subGroup) > 7) {
@@ -1949,7 +1949,7 @@ static void func_ov255_021d5ec8(void *work, u32 index) {
     }
 }
 
-static void func_ov255_021d5f50(void *work, int delta) {
+static void func_ov255_021d5f50(void *work, s16 delta) {
     BoxSearchWork *wk = work;
 
     func_ov255_021d683c(wk, -delta);
@@ -1971,7 +1971,7 @@ static void func_ov255_021d5fa0(void *work, u32 index) {
     func_ov255_021d6250(wk, func_ov139_0219cc1c(wk->list, index));
 }
 
-static void func_ov255_021d5fb8(void *work, int delta) {
+static void func_ov255_021d5fb8(void *work, s16 delta) {
     BoxSearchWork *wk = work;
 
     if (func_ov255_021d622c(wk->group - 1, wk->subGroup) > 7) {
