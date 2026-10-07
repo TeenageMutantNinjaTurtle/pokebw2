@@ -2075,6 +2075,8 @@ overlays/ov167 0x021db00c sHitMons
 overlays/ov167 0x021db018 sHitEffectiveness
 overlays/ov167 0x021db024 sCmdArgs
 overlays/ov167 0x021dd864 sOverlayLoaded
+overlays/ov167 0x021dd868 sCommMode
+overlays/ov167 0x021dd86c sAdapters
 overlays/ov170 0x0217f6b0 TrAI_Think
 overlays/ov170 0x0217f780 TrAI_DeleteVM
 overlays/ov170 0x0217f7bc TrAI_Setup

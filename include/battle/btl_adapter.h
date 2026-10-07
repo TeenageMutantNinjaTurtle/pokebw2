@@ -7,6 +7,9 @@
 #include "gfl/heap.h"
 #include "struct_decls.h"
 
+// Sets up the adapters, sharing one per client unless commMode is set
+void func_ov167_021d4a1c(u8 commMode);
+void func_ov167_021d4a40(void);
 BtlAdapter *func_ov167_021d4a44(void *netHandle, u8 clientId, BOOL flag, HeapID heapId);
 void func_ov167_021d4abc(BtlAdapter *adapter);
 void func_ov167_021d4acc(BtlAdapter *adapter);
@@ -19,7 +22,7 @@ void *func_ov167_021d4b50(BtlAdapter *adapter, u32 *size);
 void func_ov167_021d4b5c(BtlAdapter *adapter);
 
 void func_ov167_021d4bc8(BtlAdapter *adapter);
-u32 func_ov167_021d4bd4(BtlAdapter *adapter);
+u8 func_ov167_021d4bd4(BtlAdapter *adapter);
 // The data the adapter received, and its size
 u16 func_ov167_021d4c0c(BtlAdapter *adapter, const void **data);
 BOOL func_ov167_021d4c38(BtlAdapter *adapter, const void *data, u32 size);

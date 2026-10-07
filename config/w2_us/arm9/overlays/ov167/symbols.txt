@@ -4911,8 +4911,8 @@ data_ov167_021db954 kind:bss addr:0x021db994
 data_ov167_021dd844 kind:bss addr:0x021dd884
 data_ov167_021dd84c kind:bss addr:0x021dd88c
 sOverlayLoaded kind:bss addr:0x021dd8a4
-data_ov167_021dd868 kind:bss addr:0x021dd8a8
-data_ov167_021dd86c kind:bss addr:0x021dd8ac
+sCommMode kind:bss addr:0x021dd8a8
+sAdapters kind:bss addr:0x021dd8ac
 data_ov167_021dd87c kind:bss addr:0x021dd8bc
 data_ov167_021dd8b8 kind:bss addr:0x021dd8f8
 data_ov167_021dd8bc kind:bss addr:0x021dd8fc
