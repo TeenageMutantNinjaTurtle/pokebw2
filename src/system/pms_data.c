@@ -205,7 +205,7 @@ u32 PMSData_GetSentenceCount(u32 type) {
     return 0;
 }
 
-void PMSData_SetSentence(PMSData *data, u16 type, u16 id) {
+void PMSData_SetSentence(PMSData *data, u32 type, u32 id) {
     data->type = type;
     data->id = id;
 }
@@ -256,7 +256,7 @@ BOOL PMSData_IsValid(const PMSData *data, u32 heapId) {
     return FALSE;
 }
 
-BOOL PMSData_Validate(PMSData *data, BOOL allowEmpty, u32 heapId) {
+BOOL PMSData_Validate(PMSData *data, BOOL allowEmpty, HeapID heapId) {
     BOOL valid = TRUE;
     u32 count;
     u32 i;

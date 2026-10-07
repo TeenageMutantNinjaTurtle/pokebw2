@@ -15,6 +15,7 @@
 #include "gfl/ui.h"
 #include "save/pokedex.h"
 #include "worldtrade_local.h"
+#include "system/bgwinfrm.h"
 #include "system/bmp_menulist.h"
 
 // The Global Trade Station's input of a Pokémon's name, gender and level and of a country, in a window that slides
@@ -82,7 +83,7 @@ struct WorldTradeInputWork {
     ClActor *arrowAct[2];
     ClActor *searchCursorAct;
     // The window's screen, which slides in and out
-    void *bgWinFrm;
+    BGWinFrame *bgWinFrm;
     PokeDexSave *zukan;
     MsgData *msgManager;
     MsgData *monsNameManager;
@@ -403,7 +404,7 @@ static void Input_SelectBmpWinDel(WorldTradeInputWork *wk, int mode) {
     s8 x;
     s8 y;
 
-    func_020336a0(wk->bgWinFrm, 0, &x, &y);
+    BGWinFrame_GetPos(wk->bgWinFrm, 0, &x, &y);
     switch (mode) {
     case INPUT_MODE_HEADWORD_1:
         for (i = 0; i < 9; i++) {
@@ -483,8 +484,8 @@ WorldTradeInputWork *WorldTrade_Input_Init(WorldTradeInputHeader *header, int fr
     wk->listposBackupX = 0;
     wk->seq = WI_SEQ_NONE;
 
-    wk->bgWinFrm = func_020330c8(2, 1, HEAPID_WORLDTRADE);
-    func_02033150(wk->bgWinFrm, 0, 2, 32, 20);
+    wk->bgWinFrm = BGWinFrame_Create(BGWINFRAME_TRANSFER_VBLANK, 1, HEAPID_WORLDTRADE);
+    BGWinFrame_InitFrame(wk->bgWinFrm, 0, 2, 32, 20);
     WorldTrade_CLACT_PosChange(wk->cursorAct, 144, 40);
     func_0204c488(wk->cursorAct, 4);
     func_0204c520(wk->cursorAct, TRUE);
@@ -527,14 +528,14 @@ void WorldTrade_Input_Start(WorldTradeInputWork *wk, int type) {
 void WorldTrade_Input_Exit(WorldTradeInputWork *wk) {
     WorldTrade_PrintExit(&wk->print);
     WorldTrade_NumFontDelete(wk->numFont);
-    func_02033120(wk->bgWinFrm);
+    BGWinFrame_Delete(wk->bgWinFrm);
     GFL_HeapFree(wk);
 }
 
 u32 WorldTrade_Input_Main(WorldTradeInputWork *wk) {
     u32 ret = sInputFuncTable[wk->seq](wk);
 
-    func_0203349c(wk->bgWinFrm);
+    BGWinFrame_UpdateMoves(wk->bgWinFrm);
     WorldTrade_PrintMain(&wk->print);
     WorldTrade_NumFontMain(wk->numFont);
     return ret;
@@ -1305,8 +1306,8 @@ static void Input_HeadWord1Init(WorldTradeInputWork *wk, int type, int x) {
     StrBuf *str;
     u16 color;
 
-    func_020331f4(wk->bgWinFrm, 0, ARCID_WORLDTRADE, type == INPUT_MODE_NATION_HEAD1 ? 0x1b : 0x1c, TRUE);
-    func_0203368c(wk->bgWinFrm, 0);
+    BGWinFrame_LoadScreen(wk->bgWinFrm, 0, ARCID_WORLDTRADE, type == INPUT_MODE_NATION_HEAD1 ? 0x1b : 0x1c, TRUE);
+    BGWinFrame_GetScreen(wk->bgWinFrm, 0);
     Input_SelectBmpWinAdd(wk, type);
     Input_TouchPrint(wk->bgWinFrm, wk->msgManager, wk->menuWin[14], 0x4a, &wk->print);
     sys_memset(wk->seeCheck, 1, sizeof(wk->seeCheck));
@@ -1337,16 +1338,16 @@ static void Input_HeadWord1Init(WorldTradeInputWork *wk, int type, int x) {
         Input_SysPrint(wk->bgWinFrm, wk->menuWin[15], str, 2, INPUT_COLOR_NORMAL, &wk->print);
         GFL_StrBufFree(str);
     }
-    func_02033254(wk->bgWinFrm, 0, x, 0);
-    func_02033360(wk->bgWinFrm, 0);
+    BGWinFrame_Put(wk->bgWinFrm, 0, x, 0);
+    BGWinFrame_Show(wk->bgWinFrm, 0);
 }
 
 static void Input_SexSelectInit(WorldTradeInputWork *wk) {
     int i;
     StrBuf *str;
 
-    func_020331f4(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x19, TRUE);
-    func_0203368c(wk->bgWinFrm, 0);
+    BGWinFrame_LoadScreen(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x19, TRUE);
+    BGWinFrame_GetScreen(wk->bgWinFrm, 0);
     Input_SelectBmpWinAdd(wk, INPUT_MODE_SEX);
     for (i = 0; i < 3; i++) {
         str = GFL_MsgDataLoadStrbufNew(wk->msgManager, i + 0x82);
@@ -1354,14 +1355,14 @@ static void Input_SexSelectInit(WorldTradeInputWork *wk) {
         GFL_StrBufFree(str);
     }
     Input_TouchPrint(wk->bgWinFrm, wk->msgManager, wk->menuWin[14], 0x4a, &wk->print);
-    func_02033254(wk->bgWinFrm, 0, 32, 0);
-    func_02033360(wk->bgWinFrm, 0);
-    func_0203346c(wk->bgWinFrm, 0, -4, 0, 4);
+    BGWinFrame_Put(wk->bgWinFrm, 0, 32, 0);
+    BGWinFrame_Show(wk->bgWinFrm, 0);
+    BGWinFrame_StartMove(wk->bgWinFrm, 0, -4, 0, 4);
 }
 
 static void Input_LevelSelectInit(WorldTradeInputWork *wk) {
-    func_020331f4(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x1d, TRUE);
-    func_0203368c(wk->bgWinFrm, 0);
+    BGWinFrame_LoadScreen(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x1d, TRUE);
+    BGWinFrame_GetScreen(wk->bgWinFrm, 0);
     Input_SelectBmpWinAdd(wk, INPUT_MODE_LEVEL);
     if (wk->situation == INPUT_SITUATION_SEARCH) {
         wk->listMax = WorldTrade_LevelListAdd(&wk->nameList, wk->msgManager, 1);
@@ -1372,20 +1373,20 @@ static void Input_LevelSelectInit(WorldTradeInputWork *wk) {
     wk->page = 0;
     Input_PagePrint(wk->bgWinFrm, wk->numFont, wk->menuWin[4], wk->page, Input_ListPageNum(wk->listMax, 4));
     Input_TouchPrint(wk->bgWinFrm, wk->msgManager, wk->menuWin[14], 0x4a, &wk->print);
-    func_02033254(wk->bgWinFrm, 0, 32, 0);
+    BGWinFrame_Put(wk->bgWinFrm, 0, 32, 0);
     func_0204c488(wk->cursorAct, 6);
     wk->listposBackupX = 0;
     wk->listpos = 0;
     WorldTrade_CLACT_PosChange(wk->cursorAct, sNameCursorPos[wk->listpos][0], sNameCursorPos[wk->listpos][1]);
-    func_02033360(wk->bgWinFrm, 0);
-    func_0203346c(wk->bgWinFrm, 0, -4, 0, 4);
+    BGWinFrame_Show(wk->bgWinFrm, 0);
+    BGWinFrame_StartMove(wk->bgWinFrm, 0, -4, 0, 4);
     wk->seq = WI_SEQ_LEVEL_MAIN;
 }
 
 static void Input_SysPrint(void *frm, BmpWin *win, StrBuf *str, int x, u16 color, WorldTradePrint *print) {
     WorldTrade_PrintColor(win, 0, str, x, 0, 0, color, print);
     BmpWin_FlushChar(win);
-    func_020335c4(frm, 0, win);
+    BGWinFrame_WriteBmpWin(frm, 0, win);
 }
 
 static u32 Input_SeqNone(WorldTradeInputWork *wk) {
@@ -1393,7 +1394,7 @@ static u32 Input_SeqNone(WorldTradeInputWork *wk) {
 }
 
 static u32 Input_SeqWinIn(WorldTradeInputWork *wk) {
-    if (func_02033548(wk->bgWinFrm, 0) == FALSE) {
+    if (BGWinFrame_IsMoving(wk->bgWinFrm, 0) == FALSE) {
         if (func_0203d554() == TRUE) {
             func_0204c124(wk->cursorAct, FALSE);
         } else {
@@ -1415,7 +1416,7 @@ static u32 Input_SeqWinIn(WorldTradeInputWork *wk) {
 }
 
 static u32 Input_SeqWinWait(WorldTradeInputWork *wk) {
-    if (func_02033548(wk->bgWinFrm, 0) == FALSE) {
+    if (BGWinFrame_IsMoving(wk->bgWinFrm, 0) == FALSE) {
         wk->seq = wk->next;
     }
     return INPUT_NULL;
@@ -1429,17 +1430,17 @@ static u32 Input_SeqWinOut(WorldTradeInputWork *wk) {
     func_0204c124(wk->arrowAct[0], FALSE);
     func_0204c124(wk->arrowAct[1], FALSE);
     if (wk->type == INPUT_MODE_NATION && wk->next == WI_SEQ_NATION_CANCEL_EXIT) {
-        func_0203346c(wk->bgWinFrm, 0, 6, 0, 6);
+        BGWinFrame_StartMove(wk->bgWinFrm, 0, 6, 0, 6);
     } else {
-        func_0203346c(wk->bgWinFrm, 0, 4, 0, 4);
+        BGWinFrame_StartMove(wk->bgWinFrm, 0, 4, 0, 4);
     }
     wk->seq = WI_SEQ_WINOFF;
     return INPUT_NULL;
 }
 
 static u32 Input_SeqWinOff(WorldTradeInputWork *wk) {
-    if (func_02033548(wk->bgWinFrm, 0) == FALSE) {
-        func_02033378(wk->bgWinFrm, 0);
+    if (BGWinFrame_IsMoving(wk->bgWinFrm, 0) == FALSE) {
+        BGWinFrame_Hide(wk->bgWinFrm, 0);
         wk->seq = wk->next;
     }
     return INPUT_NULL;
@@ -1452,7 +1453,7 @@ static u32 Input_SeqWinOutAll(WorldTradeInputWork *wk) {
     func_0204c124(wk->cursorAct, FALSE);
     func_0204c124(wk->arrowAct[0], FALSE);
     func_0204c124(wk->arrowAct[1], FALSE);
-    func_0203346c(wk->bgWinFrm, 0, 4, 0, 4);
+    BGWinFrame_StartMove(wk->bgWinFrm, 0, 4, 0, 4);
     wk->seq = WI_SEQ_WINWAIT;
     return INPUT_NULL;
 }
@@ -1461,7 +1462,7 @@ static u32 Input_SeqHead1Init(WorldTradeInputWork *wk) {
     Input_HeadWord1Init(wk, INPUT_MODE_HEADWORD_1, 32);
     func_0204c488(wk->cursorAct, 18);
     WorldTrade_CLACT_PosChange(wk->cursorAct, 144, 40);
-    func_0203346c(wk->bgWinFrm, 0, -4, 0, 4);
+    BGWinFrame_StartMove(wk->bgWinFrm, 0, -4, 0, 4);
     wk->seq = WI_SEQ_WININ;
     wk->next = WI_SEQ_HEAD1_MAIN;
     wk->head1 = -1;
@@ -1512,8 +1513,8 @@ static u32 Input_SeqHead1Return(WorldTradeInputWork *wk) {
     StrBuf *str;
     u16 color;
 
-    func_020331f4(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x1c, TRUE);
-    func_0203368c(wk->bgWinFrm, 0);
+    BGWinFrame_LoadScreen(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x1c, TRUE);
+    BGWinFrame_GetScreen(wk->bgWinFrm, 0);
     Input_SelectBmpWinAdd(wk, INPUT_MODE_HEADWORD_1);
     Input_TouchPrint(wk->bgWinFrm, wk->msgManager, wk->menuWin[14], 0x4a, &wk->print);
     sys_memset(wk->seeCheck, 1, sizeof(wk->seeCheck));
@@ -1529,8 +1530,8 @@ static u32 Input_SeqHead1Return(WorldTradeInputWork *wk) {
         Input_SysPrint(wk->bgWinFrm, wk->menuWin[i], str, 2, color, &wk->print);
         GFL_StrBufFree(str);
     }
-    func_02033254(wk->bgWinFrm, 0, 16, 0);
-    func_02033360(wk->bgWinFrm, 0);
+    BGWinFrame_Put(wk->bgWinFrm, 0, 16, 0);
+    BGWinFrame_Show(wk->bgWinFrm, 0);
     func_0204c488(wk->cursorAct, 18);
     WorldTrade_CLACT_PosChange(wk->cursorAct, (sHead1CursorPos[wk->head1][0] + 16) * 8,
                                sHead1CursorPos[wk->head1][1] * 8);
@@ -1549,8 +1550,8 @@ static u32 Input_SeqHead2Init(WorldTradeInputWork *wk) {
     int i;
     u16 color;
 
-    func_020331f4(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x1a, TRUE);
-    func_0203368c(wk->bgWinFrm, 0);
+    BGWinFrame_LoadScreen(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x1a, TRUE);
+    BGWinFrame_GetScreen(wk->bgWinFrm, 0);
     Input_SelectBmpWinAdd(wk, INPUT_MODE_HEADWORD_2);
     sys_memset(wk->seeCheck, 1, sizeof(wk->seeCheck));
     Input_SystemPrint(wk->bgWinFrm, wk->msgManager, wk->menuWin[0], wk->head1 + 0x74, 2, INPUT_COLOR_NORMAL,
@@ -1567,7 +1568,7 @@ static u32 Input_SeqHead2Init(WorldTradeInputWork *wk) {
                           sHeadwordMsg[sHeadwordRange[wk->head1].start + i - 1], 5, color, &wk->print);
     }
     Input_TouchPrint(wk->bgWinFrm, wk->msgManager, wk->menuWin[14], 0x4a, &wk->print);
-    func_02033254(wk->bgWinFrm, 0, 16, 0);
+    BGWinFrame_Put(wk->bgWinFrm, 0, 16, 0);
     func_0204c488(wk->cursorAct, 4);
     if (wk->head2 < 0) {
         wk->listpos = 0;
@@ -1677,7 +1678,7 @@ static void Input_PokeNameListPrint(WorldTradeInputWork *wk, int page, int max) 
                            &wk->print);
         } else {
             BmpWin_FlushChar(wk->menuWin[i]);
-            func_020335c4(wk->bgWinFrm, 0, wk->menuWin[i]);
+            BGWinFrame_WriteBmpWin(wk->bgWinFrm, 0, wk->menuWin[i]);
         }
     }
 }
@@ -1692,7 +1693,7 @@ static void Input_NationListPrint(WorldTradeInputWork *wk, int page, int max) {
                            &wk->print);
         } else {
             BmpWin_FlushChar(wk->menuWin[i]);
-            func_020335c4(wk->bgWinFrm, 0, wk->menuWin[i]);
+            BGWinFrame_WriteBmpWin(wk->bgWinFrm, 0, wk->menuWin[i]);
         }
     }
 }
@@ -1700,8 +1701,8 @@ static void Input_NationListPrint(WorldTradeInputWork *wk, int page, int max) {
 static u32 Input_SeqPokeNameInit(WorldTradeInputWork *wk) {
     u8 pageMax;
 
-    func_020331f4(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x1d, TRUE);
-    func_0203368c(wk->bgWinFrm, 0);
+    BGWinFrame_LoadScreen(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x1d, TRUE);
+    BGWinFrame_GetScreen(wk->bgWinFrm, 0);
     Input_SelectBmpWinAdd(wk, INPUT_MODE_POKEMON_NAME);
     wk->listMax = Input_PokeNameListMake(&wk->nameList, wk->monsNameManager, wk->msgManager, wk->sinouTable,
                                          wk->head2 + sHeadOffset[wk->head1], wk->zukan);
@@ -1710,7 +1711,7 @@ static u32 Input_SeqPokeNameInit(WorldTradeInputWork *wk) {
     pageMax = Input_ListPageNum(wk->listMax, 4);
     Input_PagePrint(wk->bgWinFrm, wk->numFont, wk->menuWin[4], wk->page, pageMax);
     Input_TouchPrint(wk->bgWinFrm, wk->msgManager, wk->menuWin[14], 0x4a, &wk->print);
-    func_02033254(wk->bgWinFrm, 0, 16, 0);
+    BGWinFrame_Put(wk->bgWinFrm, 0, 16, 0);
     func_0204c488(wk->cursorAct, 6);
     wk->listpos = 0;
     WorldTrade_CLACT_PosChange(wk->cursorAct, sNameCursorPos[wk->listpos][0], sNameCursorPos[wk->listpos][1]);
@@ -1790,7 +1791,7 @@ static u32 Input_SeqPokeNameExit(WorldTradeInputWork *wk) {
 static u32 Input_SeqNationHead1Init(WorldTradeInputWork *wk) {
     Input_HeadWord1Init(wk, INPUT_MODE_NATION_HEAD1, 32);
     func_0204c488(wk->cursorAct, 18);
-    func_0203346c(wk->bgWinFrm, 0, -4, 0, 4);
+    BGWinFrame_StartMove(wk->bgWinFrm, 0, -4, 0, 4);
     wk->seq = WI_SEQ_WININ;
     wk->next = WI_SEQ_NATION_HEAD1_MAIN;
     wk->listpos = 10;
@@ -1850,13 +1851,13 @@ static u32 Input_SeqNationHead1Exit(WorldTradeInputWork *wk) {
     } else {
         // Only one initial: straight to the countries
         wk->head2 = 0;
-        func_0203346c(wk->bgWinFrm, 0, -4, 0, 3);
+        BGWinFrame_StartMove(wk->bgWinFrm, 0, -4, 0, 3);
         if (wk->searchCursorAct != NULL) {
             func_0204c124(wk->searchCursorAct, FALSE);
         }
         func_0204c488(wk->cursorAct, 7);
         wk->seq = WI_SEQ_WINWAIT;
-        func_020331f4(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x18, TRUE);
+        BGWinFrame_LoadScreen(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x18, TRUE);
         wk->next = WI_SEQ_NATION_INIT;
     }
     return INPUT_NULL;
@@ -1882,8 +1883,8 @@ static u32 Input_SeqNationHead2Init(WorldTradeInputWork *wk) {
     int i;
     u16 color;
 
-    func_020331f4(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x1a, TRUE);
-    func_0203368c(wk->bgWinFrm, 0);
+    BGWinFrame_LoadScreen(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x1a, TRUE);
+    BGWinFrame_GetScreen(wk->bgWinFrm, 0);
     Input_SelectBmpWinAdd(wk, INPUT_MODE_HEADWORD_2);
     sys_memset(wk->seeCheck, 1, sizeof(wk->seeCheck));
     Input_SystemPrint(wk->bgWinFrm, wk->msgManager, wk->menuWin[0], wk->head1 + 0x74, 2, INPUT_COLOR_NORMAL,
@@ -1900,7 +1901,7 @@ static u32 Input_SeqNationHead2Init(WorldTradeInputWork *wk) {
                           sHeadwordMsg[sHeadwordRange[wk->head1].start + i - 1], 5, color, &wk->print);
     }
     Input_TouchPrint(wk->bgWinFrm, wk->msgManager, wk->menuWin[14], 0x4a, &wk->print);
-    func_02033254(wk->bgWinFrm, 0, 16, 0);
+    BGWinFrame_Put(wk->bgWinFrm, 0, 16, 0);
     func_0204c488(wk->cursorAct, 4);
     if (wk->head2 < 0) {
         wk->listpos = 0;
@@ -1954,13 +1955,13 @@ static u32 Input_SeqNationHead2Exit(WorldTradeInputWork *wk) {
     if (wk->head2 < 0) {
         wk->seq = WI_SEQ_NATION_HEAD1_RETURN;
     } else {
-        func_0203346c(wk->bgWinFrm, 0, -4, 0, 3);
+        BGWinFrame_StartMove(wk->bgWinFrm, 0, -4, 0, 3);
         if (wk->searchCursorAct != NULL) {
             func_0204c124(wk->searchCursorAct, FALSE);
         }
         func_0204c488(wk->cursorAct, 7);
         wk->seq = WI_SEQ_WINWAIT;
-        func_020331f4(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x18, TRUE);
+        BGWinFrame_LoadScreen(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x18, TRUE);
         wk->next = WI_SEQ_NATION_INIT;
     }
     return INPUT_NULL;
@@ -1980,7 +1981,7 @@ static u32 Input_SeqNationHead2Return(WorldTradeInputWork *wk) {
 static u32 Input_SeqNationInit(WorldTradeInputWork *wk) {
     u8 pageMax;
 
-    func_020331f4(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x18, TRUE);
+    BGWinFrame_LoadScreen(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x18, TRUE);
     Input_SelectBmpWinAdd(wk, INPUT_MODE_NATION);
     wk->listMax =
         WorldTrade_NationSortListMake(&wk->nameList, wk->countryNameManager, wk->head2 + sHeadOffset[wk->head1]);
@@ -1989,7 +1990,7 @@ static u32 Input_SeqNationInit(WorldTradeInputWork *wk) {
     pageMax = Input_ListPageNum(wk->listMax, 5);
     Input_PagePrint(wk->bgWinFrm, wk->numFont, wk->menuWin[5], wk->page, pageMax);
     Input_TouchPrint(wk->bgWinFrm, wk->msgManager, wk->menuWin[14], 0x4a, &wk->print);
-    func_02033254(wk->bgWinFrm, 0, 1, 0);
+    BGWinFrame_Put(wk->bgWinFrm, 0, 1, 0);
     wk->listpos = 0;
     WorldTrade_CLACT_PosChange(wk->cursorAct, sNationCursorPos[wk->listpos][0], sNationCursorPos[wk->listpos][1]);
     WorldTrade_CLACT_PosChange(wk->arrowAct[0], 176, 136);
@@ -2021,7 +2022,7 @@ static u32 Input_SeqNationMain(WorldTradeInputWork *wk) {
     case INPUT_CANCEL:
         func_0204c124(wk->cursorAct, TRUE);
         func_0204c488(wk->cursorAct, func_0204c4a0(wk->cursorAct) + 9);
-        func_020331f4(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x18, TRUE);
+        BGWinFrame_LoadScreen(wk->bgWinFrm, 0, ARCID_WORLDTRADE, 0x18, TRUE);
         wk->seq = WI_SEQ_WINOUT_ALL;
         wk->next = WI_SEQ_NATION_CANCEL_EXIT;
         break;
@@ -2167,7 +2168,7 @@ static void Input_TouchPrint(void *frm, MsgData *msgManager, BmpWin *win, int ms
 
     WorldTrade_PrintColor(win, 0, str, 0, 0, 0, INPUT_COLOR_NORMAL, print);
     BmpWin_FlushChar(win);
-    func_020335c4(frm, 0, win);
+    BGWinFrame_WriteBmpWin(frm, 0, win);
     GFL_StrBufFree(str);
 }
 
@@ -2177,7 +2178,7 @@ static void Input_PagePrint(void *frm, WorldTradeNumFont *numFont, BmpWin *win, 
     WorldTrade_NumFontPrintSlash(numFont, 0, win, 16, 0);
     WorldTrade_NumFontPrintNumber(numFont, max, 2, 0, win, 24, 0);
     BmpWin_FlushChar(win);
-    func_020335c4(frm, 0, win);
+    BGWinFrame_WriteBmpWin(frm, 0, win);
 }
 
 static int Input_PokeSeeCountSiin(WorldTradeInputWork *wk, int siin) {

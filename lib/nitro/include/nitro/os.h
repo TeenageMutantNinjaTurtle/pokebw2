@@ -94,6 +94,11 @@ typedef struct {
 
 // The DSi's parental controls, NULL on a DS
 TWLParentalControl *func_0207c4b4(void);
+// TwlSDK's OS_IsAvailableWireless, TRUE on a DS, and OS_IsAgreeEULA, FALSE on a DS
+BOOL func_0207c438(void);
+BOOL func_0207c45c(void);
+// NitroSDK's OS_WaitVBlankIntr
+void OS_WaitVBlankIntr(void);
 
 // The buttons the ARM7 reads, X, Y and the lid among them, in shared memory. NitroSDK's PAD_DetectFold
 #define HW_BUTTON_XY_BUF 0x02ffffa8

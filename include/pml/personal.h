@@ -14,7 +14,11 @@
 #define PERSONAL_ABILITY_HIDDEN 28
 #define PERSONAL_SEX_RATIO 20
 #define PERSONAL_HATCH_CYCLES 21
+// The offset of the forms' sprites (not from swan)
+#define PERSONAL_FORM_SPRITE_OFFSET 31
 #define PERSONAL_FORM_COUNT 32
+// Whether the forms only change the palette, as Arceus's do (not from swan)
+#define PERSONAL_PALETTE_FORMS 35
 
 u32 PML_PersonalGetParamSingle(u16 species, u16 form, u32 param);
 void *PML_PersonalLoad(u16 species, u16 form, HeapID heapId);

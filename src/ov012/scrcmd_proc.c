@@ -130,7 +130,7 @@ BOOL s014E_CallBag(VM *vm, FieldScriptEnv *env) {
     } else {
         mode = 0;
     }
-    bag = func_02034ad0(FieldScriptEnv_GetGameData(env), NULL, mode, HEAPID_GAMEEVENT);
+    bag = BagParam_Create(FieldScriptEnv_GetGameData(env), NULL, mode, HEAPID_GAMEEVENT);
     result = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(BagScriptResult), TRUE, "scrcmd_proc.c", 280);
     result->hasSelection = hasSelection;
     result->item = item;

@@ -4,7 +4,7 @@
 // Names, layouts and constants from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0), except
 // ARCID_WINFRAME, ARCID_TITLE, ARCID_STARTMENU, ARCID_SEASON_BANNER, ARCID_COPYRIGHT, ARCID_ZUKAN_GRA, ARCID_INTRO,
 // ARCID_EGG_DEMO, ARCID_SHINKA_DEMO, ARCID_POKEICON, ARCID_BOX2, ARCID_TRAI_SCRIPT, ARCID_BMP_OAM, ARCID_INFOWIN,
-// ARCID_APP_MENU_COMMON, ARCID_TPOKE, ARCID_P_STATUS and ARCID_PMSI
+// ARCID_APP_MENU_COMMON, ARCID_TPOKE, ARCID_P_STATUS, ARCID_PMSI and ARCID_MYSTERY
 
 #define ARCID_SYSTEM_MESSAGE 2
 #define ARCID_SCRIPT_MESSAGE 3
@@ -29,10 +29,15 @@
 #define ARCID_ITEMGRA 25
 // The boot logos and the title screen's 2D graphics
 #define ARCID_TITLE 26
+// Mystery Gift's graphics
+#define ARCID_MYSTERY 33
 // The start menu's graphics
 #define ARCID_STARTMENU 34
-// The phrase input's graphics
+// The sentence input's graphics, with the icons that sentences show in place of some words
 #define ARCID_PMSI 42
+// The musical's graphics: the photo screen's touch screen, and the stage's (not from swan)
+#define ARCID_MUSICAL_SHOT 45
+#define ARCID_MUSICAL 46
 #define ARCID_MMODEL_TBL 47
 #define ARCID_MMODEL_GRA 48
 #define ARCID_INFOWIN 49

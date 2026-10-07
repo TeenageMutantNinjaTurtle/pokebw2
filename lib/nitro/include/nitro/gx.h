@@ -232,6 +232,7 @@ typedef enum {
 #define GX_VRAM_SUB_BGEXTPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_SUB_BGEXTPLTT_0123_H GX_VRAM_H
 #define GX_VRAM_OBJ_NONE GX_VRAM_NONE
+#define GX_VRAM_OBJ_16_F GX_VRAM_F
 #define GX_VRAM_OBJ_16_G GX_VRAM_G
 #define GX_VRAM_OBJ_64_E GX_VRAM_E
 #define GX_VRAM_OBJ_128_B GX_VRAM_B
@@ -312,6 +313,8 @@ typedef enum {
 
 typedef enum {
     GX_BG_BMPSCRBASE_0x00000 = 0,
+    GX_BG_BMPSCRBASE_0x10000 = 4,
+    GX_BG_BMPSCRBASE_0x28000 = 10,
 } GXBGBmpScrBase;
 
 #define GX_PACK_VIEWPORT_PARAM(x1, y1, x2, y2) \
@@ -514,6 +517,8 @@ typedef enum {
 #define GX_CAPTURE_MODE_AB 2
 #define GX_CAPTURE_SRCA_2D3D 0
 #define GX_CAPTURE_SRCB_VRAM_0x00000 0
+#define GX_CAPTURE_DEST_VRAM_A_0x00000 0
+#define GX_CAPTURE_DEST_VRAM_B_0x00000 1
 #define GX_CAPTURE_DEST_VRAM_C_0x00000 2
 #define GX_CAPTURE_DEST_VRAM_D_0x00000 3
 
@@ -552,6 +557,11 @@ static inline void GX_SetVisibleWnd(int window) {
                      (window << REG_GX_DISPCNT_W0_SHIFT);
 }
 
+static inline int GX_GetVisibleWnd(void) {
+    return (reg_GX_DISPCNT & (REG_GX_DISPCNT_W0_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_OW_MASK)) >>
+           REG_GX_DISPCNT_W0_SHIFT;
+}
+
 static inline void GXS_SetVisibleWnd(int window) {
     reg_GXS_DB_DISPCNT =
         (reg_GXS_DB_DISPCNT & ~(REG_GX_DISPCNT_W0_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_OW_MASK)) |
@@ -559,12 +569,26 @@ static inline void GXS_SetVisibleWnd(int window) {
 }
 
 // The planes inside a window or outside all of them, and whether color effects apply there. NitroSDK's
-// G2_SetWnd0InsidePlane, G2_SetWnd1InsidePlane and G2_SetWndOutsidePlane, and their G2S_ forms for the sub screen
+// G2_SetWnd0InsidePlane, G2_SetWnd1InsidePlane, G2_SetWndOBJInsidePlane and G2_SetWndOutsidePlane, and their G2S_
+// forms for the sub screen
 #define REG_G2_WININ_WIN0IN_MASK 0x003f
 #define REG_G2_WININ_WIN1IN_SHIFT 8
 #define REG_G2_WININ_WIN1IN_MASK 0x3f00
 #define REG_G2_WINOUT_WINOUT_MASK 0x003f
+#define REG_G2_WINOUT_OBJWININ_SHIFT 8
+#define REG_G2_WINOUT_OBJWININ_MASK 0x3f00
 #define G2_WND_EFFECT 0x20
+
+// The planes outside all windows, and whether color effects apply there, as the register's low byte
+typedef struct {
+    u8 planeMask : 5;
+    u8 effect : 1;
+    u8 : 2;
+} GXWndPlane;
+
+static inline GXWndPlane G2_GetWndOutsidePlane(void) {
+    return *(volatile GXWndPlane *)&reg_G2_WINOUT;
+}
 
 static inline void G2_SetWnd0InsidePlane(int wnd, BOOL effect) {
     u32 tmp = (reg_G2_WININ & ~REG_G2_WININ_WIN0IN_MASK) | wnd;
@@ -589,6 +613,15 @@ static inline void G2_SetWndOutsidePlane(int wnd, BOOL effect) {
 
     if (effect) {
         tmp |= G2_WND_EFFECT;
+    }
+    reg_G2_WINOUT = (u16)tmp;
+}
+
+static inline void G2_SetWndOBJInsidePlane(int wnd, BOOL effect) {
+    u32 tmp = (reg_G2_WINOUT & ~REG_G2_WINOUT_OBJWININ_MASK) | (wnd << REG_G2_WINOUT_OBJWININ_SHIFT);
+
+    if (effect) {
+        tmp |= G2_WND_EFFECT << REG_G2_WINOUT_OBJWININ_SHIFT;
     }
     reg_G2_WINOUT = (u16)tmp;
 }
@@ -1190,7 +1223,8 @@ void gfxAcquireObjBanksA(void);
 void gfxAcquireObjExtPltBanksA(void);
 void gfxAcquireObjBanksB(void);
 void gfxAcquireObjExtPltBanksB(void);
-void gfxAcquireTextureBanks(void);
+// Returns the banks the textures had, as GX_ResetBankForTex does
+u32 gfxAcquireTextureBanks(void);
 void gfxAcquirePaletteBanks(void);
 void gfxSetBGBanksA(u32 banks);
 void gfxSetBGExtPltBanksA(u32 banks);
@@ -1203,6 +1237,8 @@ void gfxSetObjExtPltBanksA(u32 banks);
 void gfxSetObjBanksB(u32 banks);
 void gfxSetObjExtPltBanksB(u32 banks);
 void gfxSetTextureBanks(u32 banks);
+// NitroSDK's GX_GetBankForTex
+u32 gfxGetTextureBanks(void);
 void gfxSetPaletteBanks(u32 banks);
 // NitroSDK's GX_DisableBankForSubBG and GX_DisableBankForSubOBJ
 void gfxDisableBGBanksB(void);
@@ -1216,6 +1252,10 @@ void gfxEngineEnableA(void);
 // VRAM as the CPU sees it with every bank given to it, and OAM
 #define HW_LCDC_VRAM 0x06800000
 #define HW_LCDC_VRAM_SIZE 0xa4000
+#define HW_LCDC_VRAM_A 0x06800000
+#define HW_LCDC_VRAM_B 0x06820000
+#define HW_LCDC_VRAM_C 0x06840000
+#define HW_LCDC_VRAM_D 0x06860000
 // The sub engine's OBJ characters
 #define HW_DB_OBJ_VRAM 0x06600000
 #define HW_OAM 0x07000000

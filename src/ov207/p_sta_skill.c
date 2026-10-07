@@ -520,8 +520,8 @@ static void PStaSkill_DrawHpBar(PStatusWork *wk, PStaSkillWork *skill) {
     PartyPkm *pkm = PStatus_GetPartyPkm(wk);
     u16 maxHp = PokeParty_GetParam(pkm, PKM_PARAM_MAX_HP, NULL);
     u16 hp = PokeParty_GetParam(pkm, PKM_PARAM_HP, NULL);
-    u8 color = func_0203373c(hp, maxHp);
-    u8 width = func_02033724(hp, maxHp, 48);
+    u8 color = HPGauge_GetColor(hp, maxHp);
+    u8 width = HPGauge_GetFill(hp, maxHp, 48);
     GFLBitmap *bitmap = BmpWin_GetBitmap(skill->windows[1]);
     u8 top;
     u8 bottom;
@@ -1280,7 +1280,7 @@ static void PStaSkill_LoadPlate(PStatusWork *wk, PStaSkillWork *skill, SkillPlat
 static void PStaSkill_DrawPlate(PStatusWork *wk, PStaSkillWork *skill, SkillPlate *plate) {
     BoxPkm *pkm = PStatus_GetBoxPkm(wk);
     u32 move;
-    u32 type;
+    u8 type;
     NNSG2dImageProxy proxy;
 
     if (plate->slot < 4) {

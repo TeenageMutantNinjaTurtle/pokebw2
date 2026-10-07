@@ -817,9 +817,9 @@ static void CygnusAppear_Load(CygnusAppear *appear, PartyPkm *pkm) {
     ArcTool *arc = MakePokeGraArcHandle(appear->heapId);
     ClActorSetup setup;
 
-    appear->palette = func_02033f2c(arc, func_0201d624(pkm), 0, 0, 0x80, appear->heapId);
-    appear->cellAnims = func_02034000(func_0201d624(pkm), 0, 2, 0, appear->heapId);
-    appear->chars = func_02033f90(arc, func_0201d624(pkm), 0, 0, appear->heapId);
+    appear->palette = PokeGra_LoadClActPaletteByBoxData(arc, func_0201d624(pkm), POKEGRA_DIR_FRONT, 0, 0x80, appear->heapId);
+    appear->cellAnims = PokeGra_LoadClActCellAnimsByBoxData(func_0201d624(pkm), POKEGRA_DIR_FRONT, 2, 0, appear->heapId);
+    appear->chars = PokeGra_LoadClActCharsByBoxData(arc, func_0201d624(pkm), POKEGRA_DIR_FRONT, 0, appear->heapId);
     appear->offset = CygnusAppear_GetSpriteBottom(func_0201d624(pkm), appear->heapId) - 48;
     appear->offset = MATH_CLAMP(appear->offset, 0, 48);
     GFL_ArcToolFree(arc);
@@ -1540,10 +1540,10 @@ static int CygnusAppear_GetSpriteBottom(BoxPkm *pkm, HeapID heapId) {
     NNSG2dCharacterData *charData;
     u32 bottom = 48;
     BOOL found = FALSE;
-    void *buffer = func_02033d50(&charData, pkm, 0, HEAPID_TAIL(heapId));
+    void *buffer = LoadSingleCellSpindaGraphicsByBoxData(&charData, pkm, POKEGRA_DIR_FRONT, HEAPID_TAIL(heapId));
     int tileY;
 
-    func_0203391c(charData, HEAPID_TAIL(heapId));
+    PokeGra_CellCharsToImage(charData, HEAPID_TAIL(heapId));
     for (tileY = 11; tileY >= 0; tileY--) {
         int tileX;
 

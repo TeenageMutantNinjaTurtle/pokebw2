@@ -207,7 +207,7 @@ void KeySystemMsgWin_Free(KeySystemMsgWin *win) {
         win->stream = NULL;
     }
     if (win->waitIcon != NULL) {
-        func_0203580c(win->waitIcon);
+        WaitIcon_Free(win->waitIcon);
         win->waitIcon = NULL;
     }
     if (win->p_keycursor != NULL) {
@@ -301,7 +301,7 @@ static void KeySystemMsgWin_Print(KeySystemMsgWin *p_wk, u32 mode) {
     switch (mode) {
     case KEY_SYSTEM_MSG_PRINT_WAIT_ICON:
         p_wk->waitIcon =
-            func_02035604(GFL_VBlankGetTCBMgr(), p_wk->window, COLOR_BACKGROUND(p_wk->color), 16, p_wk->heapId);
+            WaitIcon_Create(GFL_VBlankGetTCBMgr(), p_wk->window, COLOR_BACKGROUND(p_wk->color), 16, p_wk->heapId);
         PrintWindow_Print(&p_wk->printWindow, p_wk->printQueue, pos.x, pos.y, p_wk->str, p_wk->font, p_wk->color);
         p_wk->mode = KEY_SYSTEM_MSG_PRINT;
         break;
@@ -346,7 +346,7 @@ BOOL KeySystemMsgWin_IsDone(KeySystemMsgWin *win) {
 void KeySystemMsgWin_StopWaitIcon(KeySystemMsgWin *win) {
     win->done = TRUE;
     if (win->waitIcon != NULL) {
-        func_0203580c(win->waitIcon);
+        WaitIcon_Free(win->waitIcon);
         win->waitIcon = NULL;
         BmpWin_FlushMap(win->window);
         GFL_BGSysLoadScr(BmpWin_GetBGIndex(win->window));

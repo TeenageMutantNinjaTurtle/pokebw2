@@ -31,9 +31,6 @@ s32 func_02008bdc(PlayerInfo *info);
 void func_02008be0(PlayerInfo *info, s32 profileId);
 u32 func_02008bf4(PlayerInfo *info);
 u32 getIDAsUInt(PlayerInfo *info);
-// Calls of GetPlayerName and getTrainerID from another file of main
-u16 *func_02035014(PlayerInfo *info);
-u16 func_0203501c(PlayerInfo *info);
 void setTrainerGender(PlayerInfo *info, u32 gender);
 PlayerInfo *func_02008b0c(u32 heapId);
 void func_02008b40(PlayerInfo *info);

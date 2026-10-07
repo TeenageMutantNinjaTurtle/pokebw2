@@ -33,7 +33,6 @@ BOOL GSYS_CheckField(GameSystem *gsys);
 PlayerState *GSYS_GetPlayerState(GameSystem *gsys);
 GameCommSys *GSYS_GetGameCommSystem(GameSystem *gsys);
 GameData *GSYS_GetGameData(GameSystem *gsys);
-u8 GameSystem_GetSeason(GameSystem *gsys);
 LinkFestival *GSYS_GetLinkFestival(GameSystem *gsys);
 BOOL GSYS_GetProcMgrState(GameSystem *gsys);
 BOOL GSYS_GetEventRunningFlag(GameSystem *gsys);

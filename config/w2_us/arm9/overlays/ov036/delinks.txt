@@ -91,5 +91,34 @@ src/ov036/effect_encount.c:
     .data       start:0x021d4fd4 end:0x021d4fe8
 
 src/ov036/fld_scenearea.c:
+    complete
     .text       start:0x021a2f48 end:0x021a3138
     .data       start:0x021d4fe8 end:0x021d4ff8
+
+src/ov036/fld_scenearea_loader.c:
+    .text       start:0x021a3138 end:0x021a36a4
+    .rodata     start:0x021d03a8 end:0x021d03bc
+    .data       start:0x021d4ff8 end:0x021d5038
+
+src/ov036/field_effect.c:
+    complete
+    .text       start:0x021a36a4 end:0x021a3b74
+    .rodata     start:0x021d03bc end:0x021d0558
+    .data       start:0x021d5038 end:0x021d5048
+
+src/ov036/fldeff_shadow.c:
+    complete
+    .text       start:0x021a3b74 end:0x021a3e20
+    .rodata     start:0x021d0558 end:0x021d0578
+    .data       start:0x021d5048 end:0x021d5058
+
+src/ov036/fldeff_kemuri.c:
+    complete
+    .text       start:0x021a3e20 end:0x021a4018
+    .rodata     start:0x021d0578 end:0x021d058c
+    .data       start:0x021d5058 end:0x021d5068
+
+src/ov036/fldeff_grass.c:
+    .text       start:0x021a4018 end:0x021a43c4
+    .rodata     start:0x021d058c end:0x021d0628
+    .data       start:0x021d5068 end:0x021d50a0

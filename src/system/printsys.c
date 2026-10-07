@@ -963,7 +963,7 @@ u16 GFL_StrCmdGetWordSetCommandCount(const StrBuf *strbuf) {
     return count;
 }
 
-u8 GFL_StrCmdCountLinesUntilWordSetIndex(const StrBuf *strbuf, u32 index) {
+u8 GFL_StrCmdCountLinesUntilWordSetIndex(const StrBuf *strbuf, u8 index) {
     const u16 *str;
     u16 lines = 0;
 
@@ -985,7 +985,7 @@ u8 GFL_StrCmdCountLinesUntilWordSetIndex(const StrBuf *strbuf, u32 index) {
     return 0;
 }
 
-u8 GFL_StrCmdGetStrWidthUntilWordSetIndex(const StrBuf *strbuf, u32 index, Font *font, u32 spacing) {
+u8 GFL_StrCmdGetStrWidthUntilWordSetIndex(const StrBuf *strbuf, u8 index, Font *font, u32 spacing) {
     u32 width = 0;
     const u16 *str = GFL_StrBufGetStringPtr(strbuf);
 

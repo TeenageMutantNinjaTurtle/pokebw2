@@ -12,9 +12,10 @@
 
 struct CommTvtParam {
     GameData *gameData;
+    // How it starts: 0 waiting for calls, 1 calling, 2 answering the call of parentMac, 3 over the connection that
+    // exists (the Wi-Fi Club's)
     u32 unk4;
-    u32 unk8;
-    u32 unkC;
+    u8 parentMac[6];
 };
 
 extern const GameProcFunctions COMM_TVT_PROC_FUNCTIONS;

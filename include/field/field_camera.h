@@ -88,6 +88,10 @@ u16 FieldCamera_CoordsGetPitch(FieldCamera *camera);
 u16 FieldCamera_CoordsGetYaw(FieldCamera *camera);
 fx32 FieldCamera_CoordsGetZoom(FieldCamera *camera);
 void FieldCamera_CoordsSetTarget(FieldCamera *camera, const VecFx32 *target);
+void FieldCamera_CoordsSetEye(FieldCamera *camera, const VecFx32 *eye);
+void FieldCamera_CoordsSetPitch(FieldCamera *camera, u16 pitch);
+void FieldCamera_CoordsSetZoom(FieldCamera *camera, fx32 zoom);
+void FieldCamera_SetFOV(FieldCamera *camera, u16 fov);
 void FieldCamera_CoordsSetYaw(FieldCamera *camera, u16 yaw);
 // Whether the camera keeps inside the zone's boundary
 BOOL FieldCamera_IsUseBoundaryEnable(FieldCamera *camera);
@@ -96,6 +100,7 @@ void FieldCamera_SetUseBoundaryEnable(FieldCamera *camera, BOOL enable);
 void FieldCamera_ClearBind(FieldCamera *camera);
 void FieldCamera_ResetBind(FieldCamera *camera);
 void FieldCamera_ChangeTransformType(FieldCamera *camera, u32 type);
+void FieldCamera_SetTransformType(FieldCamera *camera, u32 type);
 void FieldCamera_LoadDefaults(FieldCamera *camera);
 void FieldCamera_DisableDelay(FieldCamera *camera);
 void FieldCamera_SetDefaultsIndex(FieldCamera *camera, u32 index);

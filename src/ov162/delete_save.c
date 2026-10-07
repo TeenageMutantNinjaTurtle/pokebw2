@@ -208,7 +208,7 @@ static void DeleteSave_AskAgain(DeleteSaveWork *wk, u32 *state) {
 }
 
 static void DeleteSave_VBlank(void *data) {
-    func_02035884(sWaitIcon);
+    WaitIcon_Main(sWaitIcon);
 }
 
 // Once the last message is shown, clears the save and restarts the game
@@ -217,7 +217,7 @@ static void DeleteSave_Delete(DeleteSaveWork *wk, u32 *state) {
     u32 i;
 
     if (DeleteSave_UpdatePrint(wk) == FALSE) {
-        sWaitIcon = func_02035604(NULL, wk->window, 15, 16, HEAPID_SAVEDATA_DELETE);
+        sWaitIcon = WaitIcon_Create(NULL, wk->window, 15, 16, HEAPID_SAVEDATA_DELETE);
         GFL_BGSysLoadScr(BmpWin_GetBGIndex(wk->window));
         GFL_VBlankSetCallback(DeleteSave_VBlank, NULL);
         save = SaveControl_GetInstance();
