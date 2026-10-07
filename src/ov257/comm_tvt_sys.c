@@ -374,7 +374,7 @@ static void CommTvt_Suspend(CommTvtWork *sys) {
     }
     GFL_TCBRemove(sys->vblankTask);
     if (sys->waitIcon != NULL) {
-        func_0203580c(sys->waitIcon);
+        WaitIcon_Free(sys->waitIcon);
         sys->waitIcon = NULL;
     }
     AppTaskMenuRes_Free(sys->taskMenuRes);
@@ -633,7 +633,7 @@ static void CommTvt_InitMessages(CommTvtWork *sys) {
 
 static void CommTvt_FreeMessages(CommTvtWork *sys) {
     if (sys->waitIcon != NULL) {
-        func_0203580c(sys->waitIcon);
+        WaitIcon_Free(sys->waitIcon);
         sys->waitIcon = NULL;
     }
     GFL_TCBExMgrFreeTasks(sys->tcbEx);
@@ -952,7 +952,7 @@ void func_ov257_021aab60(CommTvtWork *sys, BOOL value) {
 }
 
 BOOL CommTvt_IsCameraEnabled(void) {
-    if (func_020352e0() == TRUE && canPlayerExchangePhotos() == FALSE) {
+    if (isRunningOnDSi() == TRUE && canPlayerExchangePhotos() == FALSE) {
         return TRUE;
     }
     return FALSE;
@@ -1097,12 +1097,12 @@ void func_ov257_021aae7c(CommTvtWork *sys, BmpWin *window) {
     if (sys->waitIcon != NULL) {
         func_ov257_021aaeb0(sys);
     }
-    sys->waitIcon = func_02035660(sys->tcbEx, window, 15, 16, sys->heapId);
+    sys->waitIcon = WaitIcon_CreateTCBEx(sys->tcbEx, window, 15, 16, sys->heapId);
 }
 
 void func_ov257_021aaeb0(CommTvtWork *sys) {
     if (sys->waitIcon != NULL) {
-        func_0203580c(sys->waitIcon);
+        WaitIcon_Free(sys->waitIcon);
         sys->waitIcon = NULL;
     }
 }
