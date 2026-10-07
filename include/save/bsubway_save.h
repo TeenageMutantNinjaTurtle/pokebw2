@@ -23,6 +23,9 @@ u16 func_0200e2ec(BSubwayPlayData *data);
 
 // Block 0x39, which func_0201795c also returns. func_0200e318 adds Battle Points
 void func_0200e318(BSubwayScoreData *score, u16 amount);
+// Takes Battle Points, down to 0, and returns them
+void func_0200e330(BSubwayScoreData *score, u16 amount);
+u16 func_0200e354(BSubwayScoreData *score);
 void func_0200e384(BSubwayScoreData *score, u32 mode, u32 value);
 void func_0200e3a0(BSubwayScoreData *score, u32 mode, u32 value);
 void func_0200e3f8(BSubwayScoreData *score, u32 mode);

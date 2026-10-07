@@ -165,5 +165,7 @@ void func_ov211_021ef394(u32 *seq, void *param, void *work);
 
 // Overlay 20
 GameEvent *func_ov020_0216e714(GameSystem *gsys, void *args);
+// The move tutors' party list (see scrcmd_shop.c)
+GameEvent *func_ov020_0216e6b4(GameSystem *gsys, void *args);
 
 #endif // POKEBW2_FIELD_MUSICAL_H
