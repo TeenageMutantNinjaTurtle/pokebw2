@@ -4137,7 +4137,7 @@ func_ov167_021d5874 kind:function(thumb,size=0x90) addr:0x021d5874
 func_ov167_021d5904 kind:function(thumb,size=0x20) addr:0x021d5904
 func_ov167_021d5924 kind:function(thumb,size=0x20) addr:0x021d5924
 func_ov167_021d5944 kind:function(thumb,size=0x24) addr:0x021d5944
-func_ov167_021d5968 kind:function(thumb,size=0x38) addr:0x021d5968
+clearEffect kind:function(thumb,size=0x38) addr:0x021d5968
 func_ov167_021d59a0 kind:function(thumb,size=0x10) addr:0x021d59a0
 GetFieldWeather kind:function(thumb,size=0x10) addr:0x021d59b0
 func_ov167_021d59c0 kind:function(thumb,size=0x10) addr:0x021d59c0
@@ -4152,12 +4152,12 @@ func_ov167_021d5a60 kind:function(thumb,size=0x14) addr:0x021d5a60
 IsFieldEffectActive kind:function(thumb,size=0x10) addr:0x021d5a74
 func_ov167_021d5a84 kind:function(thumb,size=0x28) addr:0x021d5a84
 func_ov167_021d5aac kind:function(thumb,size=0x8) addr:0x021d5aac
-func_ov167_021d5ab4 kind:function(thumb,size=0x1e) addr:0x021d5ab4
+initField kind:function(thumb,size=0x1e) addr:0x021d5ab4
 func_ov167_021d5ad4 kind:function(thumb,size=0x8) addr:0x021d5ad4
-func_ov167_021d5adc kind:function(thumb,size=0xe) addr:0x021d5adc
+getWeatherTurns kind:function(thumb,size=0xe) addr:0x021d5adc
 func_ov167_021d5aec kind:function(thumb,size=0x6) addr:0x021d5aec
 func_ov167_021d5af4 kind:function(thumb,size=0x8) addr:0x021d5af4
-func_ov167_021d5afc kind:function(thumb,size=0x22) addr:0x021d5afc
+decWeatherTurns kind:function(thumb,size=0x22) addr:0x021d5afc
 FieldStatusaddEffectCore kind:function(thumb,size=0x90) addr:0x021d5b20
 func_ov167_021d5bb0 kind:function(thumb,size=0x2) addr:0x021d5bb0
 func_ov167_021d5bb4 kind:function(arm,size=0xc) addr:0x021d5bb4
@@ -4916,7 +4916,7 @@ sAdapters kind:bss addr:0x021dd86c
 data_ov167_021dd87c kind:bss addr:0x021dd87c
 data_ov167_021dd8b8 kind:bss addr:0x021dd8b8
 data_ov167_021dd8bc kind:bss addr:0x021dd8bc
-data_ov167_021dd8e8 kind:bss addr:0x021dd8e8
+sField kind:bss addr:0x021dd8e8
 data_ov167_021dd93c kind:bss addr:0x021dd93c ambiguous
 data_ov167_021dd940 kind:bss addr:0x021dd940 ambiguous
 data_ov167_021dd94c kind:bss addr:0x021dd94c ambiguous

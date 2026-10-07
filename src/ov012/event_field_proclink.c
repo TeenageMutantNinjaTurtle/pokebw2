@@ -1,5 +1,6 @@
 #include "types.h"
 #include "app/bag.h"
+#include "app/battle_recorder.h"
 #include "app/p_status.h"
 #include "app/pokelist.h"
 #include "constants/pokemon.h"
@@ -66,13 +67,6 @@ typedef struct {
     GameData *gameData;
     u32 result;
 } Ov204Param;
-
-typedef struct {
-    u32 unk0;
-    GameData *gameData;
-    u32 unk8;
-    u32 result;
-} Ov272Param;
 
 typedef struct {
     u32 unk0;
@@ -998,14 +992,14 @@ u32 func_ov012_0215c3a4(FieldAppCallWork *work, void *param) {
 }
 
 void *func_ov012_0215c3d0(FieldAppCallWork *work, s32 appParam, s32 prevAppId, void *prevParam) {
-    Ov272Param *param = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(Ov272Param), TRUE, "event_field_proclink.c", 2349);
+    BattleRecorderParam *param = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(BattleRecorderParam), TRUE, "event_field_proclink.c", 2349);
 
     param->gameData = GSYS_GetGameData(work->input->gameSystem);
     return param;
 }
 
 u32 func_ov012_0215c3fc(FieldAppCallWork *work, void *data) {
-    Ov272Param *param = data;
+    BattleRecorderParam *param = data;
 
     if (work->input->appId == 12) {
         switch (param->result) {

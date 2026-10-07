@@ -25,7 +25,7 @@ typedef struct DeliveryIrcWork DeliveryIrcWork;
 typedef void (*DeliveryIrcSeq)(void *work);
 
 struct DeliveryIrcWork {
-    DeliveryInit aInit;
+    DeliveryIrcInit aInit;
     u8 buffer[DELIVERY_IRC_BUFFER_SIZE];
     // The data being sent
     DeliveryData *sendData;
@@ -329,10 +329,10 @@ static void func_ov012_0215307c(void *work) {
     }
 }
 
-void *func_ov012_0215309c(const DeliveryInit *init) {
+void *func_ov012_0215309c(const DeliveryIrcInit *init) {
     DeliveryIrcWork *pWork = GFL_HeapAllocate(init->heapId, sizeof(DeliveryIrcWork), TRUE, "delivery_irc.c", 461);
 
-    sys_memcpy(init, &pWork->aInit, sizeof(DeliveryInit));
+    sys_memcpy(init, &pWork->aInit, sizeof(DeliveryIrcInit));
     return pWork;
 }
 
