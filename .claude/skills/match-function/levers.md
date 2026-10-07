@@ -94,6 +94,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - Store order in initialization code is usually source order: try the stores in the asm's order first.
 - A field of a local struct loaded before a call that doesn't fill it was read into a local there, as `targetX = target.x;`.
   (matching.md: "A field of a local struct")
+- A nested call made after the outer call's other arguments, where the original makes it first: its result was a
+  local. (matching.md: "nested in another call's arguments")
 - Arguments loaded in order around a conditional one: that argument was a local set before the call.
   (matching.md: "A conditional expression among a call's arguments")
 

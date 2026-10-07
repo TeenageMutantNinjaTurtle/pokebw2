@@ -378,6 +378,8 @@ typedef struct PokewoodSave PokewoodSave;
 typedef struct PokewoodSystem PokewoodSystem;
 typedef struct PrepareResidentActorsWork PrepareResidentActorsWork;
 typedef struct PStaInfoWork PStaInfoWork;
+typedef struct PStaOam PStaOam;
+typedef struct PStaOamActor PStaOamActor;
 typedef struct PStaRibbonWork PStaRibbonWork;
 typedef struct PStaSkillWork PStaSkillWork;
 typedef struct PStaSubWork PStaSubWork;
