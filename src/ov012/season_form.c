@@ -47,13 +47,13 @@ void TransformVsPokePartyBySeason(GameData *gameData, PokeParty *party, u8 seaso
         species = PokeParty_GetParam(pkm, PKM_PARAM_SPECIES, NULL);
         form = PokeParty_GetParam(pkm, PKM_PARAM_FORM, NULL);
         if (species == SPECIES_DEERLING && form != deerlingForm) {
-            PokeParty_ChangeForme(pkm, (u16)deerlingForm);
+            PokeParty_ChangeForme(pkm, deerlingForm);
             if (!deerlingRegistered) {
                 PokeDex_RegistPkm(pokedex, pkm);
                 deerlingRegistered = TRUE;
             }
         } else if (species == SPECIES_SAWSBUCK && form != sawsbuckForm) {
-            PokeParty_ChangeForme(pkm, (u16)sawsbuckForm);
+            PokeParty_ChangeForme(pkm, sawsbuckForm);
             if (!sawsbuckRegistered) {
                 PokeDex_RegistPkm(pokedex, pkm);
                 sawsbuckRegistered = TRUE;

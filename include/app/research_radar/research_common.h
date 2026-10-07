@@ -57,7 +57,8 @@ typedef struct {
     const u16 *src;
     u8 count;
     u32 mode;
-    u16 speed;
+    // The color the animation blends toward
+    u16 color;
 } ResearchPaletteAnimeSetup;
 
 ResearchCommon *ResearchCommon_Create(HeapID heapId, GameSystem *gsys);
