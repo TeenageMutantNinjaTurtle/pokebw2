@@ -295,7 +295,7 @@ static void Partner_BmpWinDelete(WorldTradeWork *wk) {
     BmpWin *win;
     int i;
 
-    func_ov214_021e1840(&wk->print);
+    WorldTrade_PrintClear(&wk->print);
     BmpWin_Free(wk->msgWin);
     if (wk->partnerChange == 0) {
         win = wk->menuWin[1];
@@ -326,8 +326,8 @@ static void Partner_InitWork(WorldTradeWork *wk) {
     if (dtd->localCode != 0) {
         loadCountryAreaToStrbuf(wk->wordSet, 9, dtd->countryCode, dtd->localCode);
     }
-    wk->infoString[0] = func_ov214_021e156c(wk->wordSet, wk->msgManager, 0x58, HEAPID_WORLDTRADE);
-    wk->infoString[1] = func_ov214_021e156c(wk->wordSet, wk->msgManager, 0x59, HEAPID_WORLDTRADE);
+    wk->infoString[0] = WorldTrade_ExpandMessage(wk->wordSet, wk->msgManager, 0x58, HEAPID_WORLDTRADE);
+    wk->infoString[1] = WorldTrade_ExpandMessage(wk->wordSet, wk->msgManager, 0x59, HEAPID_WORLDTRADE);
 }
 
 static void Partner_FreeWork(WorldTradeWork *wk) {
@@ -490,7 +490,7 @@ static int Partner_SubSeqExchangeScreen2(WorldTradeWork *wk) {
 }
 
 static int Partner_SubSeqMessageWait(WorldTradeWork *wk) {
-    if (!func_ov214_021e173c(&wk->print)) {
+    if (!WorldTrade_PrintIsBusy(&wk->print)) {
         wk->subprocessSeq = wk->subprocessNextSeq;
     }
     return WT_SEQ_MAIN;
@@ -502,7 +502,7 @@ static void Partner_SubSeqMessagePrint(WorldTradeWork *wk, int msgNo, int wait, 
     GFL_MsgDataLoadStrbuf(wk->msgManager, msgNo, wk->talkString);
     GFL_BitmapFill(BmpWin_GetBitmap(wk->msgWin), 15);
     BmpWin_DrawFrame(wk->msgWin, 0, 1, 2);
-    func_ov214_021e1754(wk->msgWin, 0, wk->talkString, 0, 0, &wk->print);
+    WorldTrade_Print(wk->msgWin, 0, wk->talkString, 0, 0, &wk->print);
     win = wk->msgWin;
     BmpWin_FlushChar(win);
     BmpWin_FlushMap(win);

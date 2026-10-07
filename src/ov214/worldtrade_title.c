@@ -397,7 +397,7 @@ static void Title_BmpWinInit(WorldTradeWork *wk) {
     wk->titleWin = BmpWin_CreateDynamic(1, 2, 1, 28, 2, 1, TRUE);
     GFL_BitmapFill(BmpWin_GetBitmap(wk->titleWin), 10);
     BmpWin_TransferNow(wk->titleWin);
-    func_ov214_021e17c4(wk->titleWin, 0, wk->titleString, 0, 2, 0, 0x35ca, &wk->print);
+    WorldTrade_PrintColor(wk->titleWin, 0, wk->titleString, 0, 2, 0, 0x35ca, &wk->print);
 
     for (i = 0; i < 3; i++) {
         wk->menuWin[i] = BmpWin_CreateDynamic(1, 9, i * 5 + 6, 15, 2, 1, TRUE);
@@ -414,7 +414,7 @@ static void Title_BmpWinInit(WorldTradeWork *wk) {
 static void Title_BmpWinDelete(WorldTradeWork *wk) {
     int i;
 
-    func_ov214_021e1840(&wk->print);
+    WorldTrade_PrintClear(&wk->print);
     BmpWin_Free(wk->explainWin);
     BmpWin_Free(wk->talkWin);
     BmpWin_Free(wk->msgWin);
@@ -658,14 +658,14 @@ static int Title_SubSeqCursorAnimWait(WorldTradeWork *wk) {
 }
 
 static int Title_SubSeqMessageWait(WorldTradeWork *wk) {
-    if (!func_ov214_021e173c(&wk->print)) {
+    if (!WorldTrade_PrintIsBusy(&wk->print)) {
         wk->subprocessSeq = wk->subprocessNextSeq;
     }
     return WT_SEQ_MAIN;
 }
 
 static int Title_SubSeqMessage1MinWait(WorldTradeWork *wk) {
-    if (!func_ov214_021e173c(&wk->print)) {
+    if (!WorldTrade_PrintIsBusy(&wk->print)) {
         wk->wait++;
         if (wk->wait > 45) {
             wk->wait = 0;
@@ -696,14 +696,14 @@ static void Title_MessagePrint(WorldTradeWork *wk, int msgNo, int wait, int flag
     GFL_BitmapFill(BmpWin_GetBitmap(wk->msgWin), 15);
     BmpWin_TransferNow(wk->msgWin);
     BmpWin_DrawFrame(wk->msgWin, 0, 1, 14);
-    func_ov214_021e1754(wk->msgWin, 0, wk->talkString, 0, 0, &wk->print);
+    WorldTrade_Print(wk->msgWin, 0, wk->talkString, 0, 0, &wk->print);
 }
 
 static void Title_TalkPrint(WorldTradeWork *wk, int msgNo, int wait, int flag, u16 dat) {
     GFL_MsgDataLoadStrbuf(wk->msgManager, msgNo, wk->talkString);
     GFL_BitmapFill(BmpWin_GetBitmap(wk->talkWin), 15);
     BmpWin_DrawFrame(wk->talkWin, 0, 1, 14);
-    func_ov214_021e1754(wk->talkWin, 0, wk->talkString, 0, 0, &wk->print);
+    WorldTrade_Print(wk->talkWin, 0, wk->talkString, 0, 0, &wk->print);
     BmpWin_TransferNow(wk->talkWin);
 }
 
@@ -711,7 +711,7 @@ static void Title_BmpWinPrint(BmpWin *win, MsgData *msgManager, int font, int ms
                               u16 color) {
     StrBuf *str = GFL_MsgDataLoadStrbufNew(msgManager, msgNo);
 
-    func_ov214_021e17c4(win, font, str, 0, 0, 0, color, print);
+    WorldTrade_PrintColor(win, font, str, 0, 0, 0, color, print);
     GFL_StrBufFree(str);
 }
 

@@ -242,7 +242,7 @@ static void Deposit_SubSeqMessagePrint(WorldTradeWork *wk, int msgNo, int wait, 
     BmpWin_FlushMap(win);
     GFL_BGSysLoadScr(BmpWin_GetBGIndex(win));
     BmpWin_DrawFrame(wk->msgWin, 0, 1, 14);
-    func_ov214_021e1754(wk->msgWin, 0, wk->talkString, 0, 0, &wk->print);
+    WorldTrade_Print(wk->msgWin, 0, wk->talkString, 0, 0, &wk->print);
     GFL_StrBufFree(str);
 }
 
@@ -377,7 +377,7 @@ static void Deposit_BmpWinInit(WorldTradeWork *wk) {
 static void Deposit_BmpWinDelete(WorldTradeWork *wk) {
     int i;
 
-    func_ov214_021e1840(&wk->print);
+    WorldTrade_PrintClear(&wk->print);
     BmpWin_Free(wk->explainWin);
     for (i = 0; i < 6; i++) {
         BmpWin_Free(wk->infoWin[i]);
@@ -485,7 +485,7 @@ static int Deposit_SubSeqHeadwordSelectWait(WorldTradeWork *wk) {
     case BMPMENULIST_CANCEL:
         BmpMenuList_Free(wk->bmpListWork, &wk->dw->headwordListPos, &wk->dw->headwordPos);
         ListMenuCore_FreeOptionList(wk->menuList);
-        func_ov214_021e1540(wk->menuWin[0], 0);
+        WorldTrade_ClearWindow(wk->menuWin[0], 0);
         func_02024eec(wk->msgWin, 0);
         BmpWin_Free(wk->menuWin[0]);
         BmpWin_Free(wk->menuWin[1]);
@@ -671,7 +671,7 @@ static int Deposit_SubSeqEnd(WorldTradeWork *wk) {
 }
 
 static int Deposit_SubSeqMessageWait(WorldTradeWork *wk) {
-    if (!func_ov214_021e173c(&wk->print)) {
+    if (!WorldTrade_PrintIsBusy(&wk->print)) {
         wk->subprocessSeq = wk->subprocessNextSeq;
     }
     return WT_SEQ_MAIN;
@@ -704,7 +704,7 @@ void WorldTrade_PokeNamePrintNoPut(BmpWin *win, MsgData *nameManager, int monsno
 
     if (monsno != 0) {
         str = GFL_MsgDataLoadStrbufNew(nameManager, monsno);
-        func_ov214_021e17c4(win, 0, str, 0, y, 0, color, print);
+        WorldTrade_PrintColor(win, 0, str, 0, y, 0, color, print);
         GFL_StrBufFree(str);
     }
 }
@@ -759,7 +759,7 @@ void WorldTrade_SexPrintNoPut(BmpWin *win, MsgData *msgManager, int sex, int fla
         return;
     }
     str = GFL_MsgDataLoadStrbufNew(msgManager, WorldTrade_SexStringTable[sex]);
-    func_ov214_021e17c4(win, 0, str, x, y, 0, Deposit_GetSexColor(sex, color), print);
+    WorldTrade_PrintColor(win, 0, str, x, y, 0, Deposit_GetSexColor(sex, color), print);
     GFL_StrBufFree(str);
 }
 
@@ -863,7 +863,7 @@ void WorldTrade_PokeInfoPrint(MsgData *msgManager, WordSet *wordSet, BmpWin **wi
     showSex = PML_PkmGetParam(pkm, 0xad, NULL);
     title = GFL_MsgDataLoadStrbufNew(msgManager, 0x6e);
     WordSetNumber(wordSet, 3, level, 3, 0, TRUE);
-    levelStr = func_ov214_021e156c(wordSet, msgManager, 0x72, HEAPID_WORLDTRADE);
+    levelStr = WorldTrade_ExpandMessage(wordSet, msgManager, 0x72, HEAPID_WORLDTRADE);
     if (sex != SEARCH_GENDER_ANY) {
         GFL_MsgDataLoadStrbuf(msgManager, WorldTrade_SexStringTable[sex], sexStr);
     }
@@ -941,7 +941,7 @@ void WorldTrade_PostPokemonBaseDataMake(Dpw_Tr_Data *dtd, WorldTradeWork *wk) {
         if (species == SPECIES_SHAYMIN || species == SPECIES_KYUREM) {
             PML_PkmChangeForme(wk->depositPkm, 0);
         }
-        func_ov214_021e159c(wk->depositPkm, (PartyPkm *)dtd);
+        WorldTrade_BoxPkmToPartyPkm(wk->depositPkm, (PartyPkm *)dtd);
     }
 
     wcharsncpy(GetPlayerName(wk->param->mystatus), dtd->name, 8);
