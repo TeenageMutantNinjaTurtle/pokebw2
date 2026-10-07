@@ -177,6 +177,10 @@ Same instructions, scheduled in another order.
   storing `pos`; the same stores written out load it after.
 - Initializations are scheduled where they are written: `int i = 0;` declared after a call sets `i` after the call,
   while `for (i = 0; ...)` sets it at the loop, after any statements before the loop.
+- A counter's zero stored to its stack slot ahead of a call, in another register than the call's arguments, can be
+  written after that call: overlay 185's `CountupGreetings` stores `n`'s zero before calling
+  `PMSWord_GetWordNumByGmmId` only with `n = 0;` after `first` and `last` are computed. Written before the call, it is
+  stored after the call's result and built in `r0`; the next function, `CountupPokemon`, sets it right after its call.
 - A field of a local struct that a call fills is loaded before the next call only when the source reads it there: the
   Pokédex forms page copies `targetX = target.x;` between `ZukanDetailForm_GetSpritePosF32(..., &target)` and
   `MCSS_GetPosition`.
@@ -221,6 +225,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A chained assignment to fields, `a->x = a->y = value;`, stores `y`, reloads it and stores `x`. When the original
   narrows the value once and stores it to both, the stores were separate statements, as in the PC box's
   `PokeIconChgDataMake`.
+  The same holds with a local on the left: a call's result stored to a field and read back from it before a test,
+  `str r0, [r7, r1]` then `ldr r0, [r7, r0]`, is `icon = wk->markIcons.icons[i] = f(...);`, as the trade summary's
+  marking icons are made in `func_ov194_021c4ec0`.
 - A caller narrows an argument for a `u8` or `u16` parameter with shifts before the call, so an argument passed without
   them is for a wider parameter. Read the narrowings of every caller together: `GFL_BitmapFillArea` takes `s16 x, s16
   y, u16 width, u16 height`, and `GFL_BitmapGetWidth` returns a `u16`, which is why printsys.c passes its width
@@ -261,6 +268,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   inline accessor does it naturally, since its parameter is a copy of the index in the parameter's type: the Join
   Avenue shop reads `ResortShop_GetEntry(wk, j)->id` with a `u32` index for an `int` `j`, and its later
   `wk->entries[j]` is computed again while `wk->entries[i]` is reused.
+- Stores to fixed addresses fold into one literal each, `((u16 *)(HW_DB_BG_PLTT + 0x1c0))[9]` included. A literal kept as
+  a base with offsets, `ldr r1, =0x50005c0; strh r0, [r1, #0x12]`, is a pointer local: the summary screen's
+  `PStatus_InitText` sets two font colors through `GXRgb *pltt = (GXRgb *)(HW_DB_BG_PLTT + 0x1c0);`.
 - Stores through a pointer to an array element, `icon = &icons[3]; icon->chars = ...;`, use the element's address as
   their base register, while `icons[3].chars = ...;` reaches the field from a base of MWCC's choosing, often an
   earlier element. The Pokédex touch bar's map and forms buttons are filled through a pointer. The other way round,
@@ -353,6 +363,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   the same code in the source. For example, `if (a) { x = 3; y = 19; } else { x = 0; y = 19; }` compiles differently
   from `x = a ? 3 : 0; y = 19;`. A run of jumps to one store, as in the start menu's `StartMenu_MoveCursor`, is the
   same store written in several `else` branches.
+  A test that branches past an unconditional jump, `bne next; b hide`, where `||` would give one `beq hide`, is the
+  first copy of a body written twice in an `if`/`else if` chain and replaced by a jump to the second:
+  `func_ov194_021c4ec0` hides a marking icon with `if (anim == -1) { hide } else if (isEgg && i == 6) { hide }`.
 - A branch to the very next instruction is left by cross-jumping: two statements that end the same way, such as a
   store in each case of a switch, share their tail, and the first jumps to it even when it follows.
 - An early `return` at the top of a long function jumps to the nearest `b` to the epilogue. When the original skips the
@@ -435,6 +448,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   comparisons: `ringtone_sys.c`'s `RingtoneSys_UpdateState` matches only with all four states written, two of them
   empty.
 - A switch case that ends in the same code as another case is merged into it, so its end moves.
+- A switch whose cases each set every argument of one call after it, as `research_top.c`'s button highlights set the
+  BG, position, size and palette for `GFL_BGSysSetScrPaletteNo`, has each argument in a variable: the cases keep only
+  the values that differ, and the values they share are set once at the merged end, in registers. Writing only the
+  differing value as a variable leaves the others as constants at the call, and a call in each case is merged
+  differently.
 - A `switch` on a few small values tests them all first (`cmp; beq` for each, then `b` to the default), while an
   `if`/`else if` chain tests each one before its body (`cmp; bne` to the next test), as bmp_menu.c's
   `BmpMenu_NextCursorPos` does.

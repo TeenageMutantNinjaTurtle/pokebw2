@@ -4,7 +4,7 @@
 #include "types.h"
 #include "gfl/heap.h"
 #include "app/pokelist.h"
-#include "app/ov207.h"
+#include "app/p_status.h"
 #include "system/game_event.h"
 #include "struct_decls.h"
 
@@ -13,7 +13,7 @@ typedef struct {
     GameSystem *gsys;
     Field *field;
     PokeListParam *partyParam;
-    Ov207Param *summaryParam;
+    PStatusParam *summaryParam;
     u16 *result;
 } DayCarePokeSelectWork;
 

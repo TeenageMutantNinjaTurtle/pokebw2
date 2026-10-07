@@ -4,7 +4,7 @@
 // Names, layouts and constants from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0), except
 // ARCID_WINFRAME, ARCID_TITLE, ARCID_STARTMENU, ARCID_SEASON_BANNER, ARCID_COPYRIGHT, ARCID_ZUKAN_GRA, ARCID_INTRO,
 // ARCID_EGG_DEMO, ARCID_SHINKA_DEMO, ARCID_POKEICON, ARCID_BOX2, ARCID_TRAI_SCRIPT, ARCID_BMP_OAM, ARCID_INFOWIN,
-// ARCID_APP_MENU_COMMON and ARCID_TPOKE
+// ARCID_APP_MENU_COMMON, ARCID_TPOKE and ARCID_P_STATUS
 
 #define ARCID_SYSTEM_MESSAGE 2
 #define ARCID_SCRIPT_MESSAGE 3
@@ -44,6 +44,8 @@
 #define ARCID_AREA_ANIME_PAT 69
 #define ARCID_TRSPRITE_FRONT 71
 #define ARCID_TRSPRITE_BACK 72
+// The summary screen's graphics
+#define ARCID_P_STATUS 77
 #define ARCID_RAIL_HEADERS 78
 // The graphics that the menus share (app_menu_common.c)
 #define ARCID_APP_MENU_COMMON 82
@@ -85,11 +87,15 @@
 #define ARCID_TPOKE 208
 // The Research Radar's graphics. Our name, not swan's
 #define ARCID_RESEARCH_RADAR 189
+// The graphics that many apps share, such as the touch bar, which getUINarcIdx returns. Our name, not swan's
+#define ARCID_APP_MENU_COMMON 82
 #define ARCID_CDEMO_GFLOGO 220
 #define ARCID_CDEMO_OPENINGWB 221
 #define ARCID_CDEMO_OPENINGSW 222
 #define ARCID_AREA_BMDATA_EXT 225
 #define ARCID_AREA_BMDATA_INT 226
+// Unova Link's graphics (not from swan)
+#define ARCID_KEY_SYSTEM 277
 #define ARCID_GIMMICK_EXPOBJ_MARINETUBE 295
 
 #endif // POKEBW2_CONSTANTS_ARC_H

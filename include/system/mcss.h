@@ -46,6 +46,7 @@ void func_02019bcc(MCSSSystem *system, TCBManager *tcbMgr);
 // slot
 void func_0201aefc(MCSSSystem *system, u32 characterOffset);
 void func_0201af00(MCSSSystem *system, u32 paletteOffset);
+void func_0201af9c(MCSSSystem *system, u32 offset);
 
 void MCSS_GetPosition(MCSS *mcss, VecFx32 *position);
 void MCSS_SetPosition(MCSS *mcss, const VecFx32 *position);

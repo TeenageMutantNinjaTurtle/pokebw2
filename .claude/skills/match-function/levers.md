@@ -82,6 +82,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - NitroSDK's inline functions take enums, which changes when their arguments are loaded and shifted.
   (matching.md: "NitroSDK's inline functions")
 - `FX_Mul`'s sign extensions move with statement order and with a `static inline` wrapper. (matching.md: "FX_Mul")
+- A spilled counter's zero stored before a call, in `r1` rather than `r0`: try `n = 0;` later, after the call's
+  result is used. (matching.md: "A counter's zero stored")
 - `x[n++].f = ...` against a separate `n++` changes scheduling.
 - Store order in initialization code is usually source order: try the stores in the asm's order first.
 - A field of a local struct loaded before a call that doesn't fill it was read into a local there, as `targetX = target.x;`.
@@ -109,6 +111,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "holds a constant, like")
 - An address computed before calls is reused after them only when the expression is the same, types included. An
   inline accessor recomputes it. (matching.md: "computed before calls is reused")
+- A constant base address with offsets where MWCC folds each store into its own literal: a pointer local.
+  (matching.md: "Stores to fixed addresses")
 - Stores whose base register is another element than the one written: index the array, or write through a pointer
   to the element, whichever the original does. (matching.md: "pointer to an array element")
 - A value a loop uses and the code after it uses again is reused from the hoisted copy, unless it is a variable
@@ -140,6 +144,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - Identical statements in different branches are merged, so a jump into the middle of another block means the same
   code was written there. (matching.md: "Identical statements in different branches")
 - A branch to the next instruction comes from cross-jumping a shared tail. (matching.md: "cross-jumping")
+- `bne next; b target` where `||` gives one `beq`: the same body in both arms of an `if`/`else if`. (matching.md:
+  "`bne next; b hide`")
 - Early `return FALSE`s go to one shared tail only when the C has one trailing return (an `if`/`else if` chain, or a
   `result` variable). A return that branches to the wrong one of two equal `b end` trampolines can be `goto end`.
 - A redundant outer `if` gives a doubled `beq`.
@@ -178,6 +184,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - Cases are laid out in source order, not by value. (matching.md: "Switch cases are laid out in source order")
 - The comparison tree and jump tables depend on every case value, including empty cases. (matching.md: "comparison tree")
 - A case that ends in the same code as another is merged into it. (matching.md: "ends in the same code as another")
+- Cases that load some of a call's arguments, then branch to the shared rest and the call: every argument was a
+  variable set in each case. (matching.md: "each set every argument")
 - An `if`/`else if` chain whose tests come in a switch's order is a `switch` with a case falling into `default`.
 - All the tests first (`cmp; beq` each) is a `switch`; a test before each body (`cmp; bne`) is an `if` chain.
   (matching.md: "tests them all first")

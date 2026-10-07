@@ -32,7 +32,7 @@ from:0x0217ca84 kind:thumb_call to:0x0203ab10 module:main
 from:0x0217ca8a kind:thumb_call to:0x0203a1d0 module:main
 from:0x0217ca90 kind:thumb_call to:0x02005e68 module:main
 from:0x0217ca9a kind:thumb_call to:0x0203a954 module:main
-from:0x0217caa8 kind:load to:0x021a1614 module:overlays(142,162,167)
+from:0x0217caa8 kind:load to:0x021a1614 module:overlay(162)
 from:0x0217cab6 kind:thumb_call to:0x0217cb20 module:overlay(253)
 from:0x0217cac4 kind:thumb_call to:0x0217cafc module:overlay(253)
 from:0x0217caca kind:thumb_call to:0x0217cd80 module:overlay(253)

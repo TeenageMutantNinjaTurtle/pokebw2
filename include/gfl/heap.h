@@ -31,6 +31,8 @@ enum {
     HEAPID_MUSICAL_DRESSUP = 0x2d,
     HEAPID_MUSICAL = 0x2e,
     HEAPID_DEBUG_GENDER_SELECT = 0x39,
+    // Not from swan: the summary screen's heap
+    HEAPID_P_STATUS = 0x42,
     // Not from swan: the Global Trade Station's heap
     HEAPID_WORLDTRADE = 0x48,
     HEAPID_MICTEST = 0x49,
@@ -42,6 +44,9 @@ enum {
     // The evolution demo's graphics, which it frees while another screen runs
     HEAPID_SHINKA_DEMO_GRAPHIC = 0x68,
     HEAPID_DEMO3D = 0x6c,
+    // Not from swan: the Xtransceiver's heap, and the heap of its camera
+    HEAPID_COMM_TVT = 0x6d,
+    HEAPID_CTVT_CAMERA = 0x6e,
     HEAPID_INTRO = 0x6f,
     HEAPID_FIELD_MENU = 0x70,
     HEAPID_BATTLE_LOAD = 0x76,
@@ -57,6 +62,8 @@ enum {
     HEAPID_ZUKAN_DETAIL = 0x95,
     HEAPID_FIELD_SCENEAREA = 0x96,
     HEAPID_BOX_SEARCH = 0x98,
+    // Unova Link's (not from swan)
+    HEAPID_KEY_SYSTEM = 0x9b,
 };
 
 // Allocates from the end of the heap instead of the start

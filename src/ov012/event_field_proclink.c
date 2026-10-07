@@ -1,7 +1,7 @@
 #include "types.h"
 #include "app/bag.h"
+#include "app/p_status.h"
 #include "app/pokelist.h"
-#include "app/ov207.h"
 #include "constants/pokemon.h"
 #include "demo/shinka_demo.h"
 #include "field/app_call.h"
@@ -96,7 +96,7 @@ const FieldProcLink FIELD_PROC_LINK_LIST[15] = {
     { 0, NULL, NULL, NULL, func_ov012_0215c0dc, func_ov012_0215c594 },
     { OVERLAY_ID(140), &data_ov140_0219eecc, func_ov012_0215c094, func_ov012_0215c0cc, NULL, func_ov012_0215c594 },
     { 0, NULL, NULL, NULL, func_ov012_0215c574, func_ov012_0215c594 },
-    { OVERLAY_ID(207), &data_ov207_021bb6a0, func_ov012_0215bb70, func_ov012_0215bcf0, NULL, func_ov012_0215c594 },
+    { OVERLAY_PSTATUS, &PSTATUS_PROC_FUNCTIONS, func_ov012_0215bb70, func_ov012_0215bcf0, NULL, func_ov012_0215c594 },
     { OVERLAY_ID(144), &data_ov144_0219f774, func_ov012_0215bf8c, func_ov012_0215bff8, NULL, func_ov012_0215c594 },
     { OVERLAY_ID(204), &data_ov189_021ae03c, func_ov012_0215c10c, func_ov012_0215c138, NULL, func_ov012_0215c594 },
     { OVERLAY_NONE, &data_ov215_021ab01c, func_ov012_0215c160, func_ov012_0215c218, NULL, func_ov012_0215c2c8 },
@@ -303,7 +303,7 @@ void *func_ov012_0215b7d8(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
     GameData *gameData = GSYS_GetGameData(work->input->gameSystem);
     PokeListParam *param = func_02034c54(gameData, 0, GameData_GetParty(gameData), HEAPID_GAMEEVENT);
     BagProcessData *bag;
-    Ov207Param *status;
+    PStatusParam *status;
     BOOL mailResult;
 
     param->action = work->action;
@@ -363,7 +363,7 @@ void *func_ov012_0215b7d8(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
         switch (status->result) {
         case 0:
         case 1:
-            if (status->unkD == 2) {
+            if (status->mode == PSTATUS_MODE_FORGET_MOVE) {
                 if (work->subMode == 6) {
                     param->mode = 8;
                     param->learnIndex = work->unk6C;
@@ -372,7 +372,7 @@ void *func_ov012_0215b7d8(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
                 }
                 param->item = work->item;
                 param->move = status->move;
-                if (status->result == 0) {
+                if (status->result == PSTATUS_RESULT_FORGET) {
                     param->moveSlot = status->slot;
                 } else {
                     param->moveSlot = 0xff;
@@ -514,7 +514,8 @@ u32 func_ov012_0215bb44(FieldAppCallWork *work, void *data) {
 
 // The summary screen
 void *func_ov012_0215bb70(FieldAppCallWork *work, s32 appParam, s32 prevAppId, void *prevParam) {
-    Ov207Param *param = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(Ov207Param), TRUE, "event_field_proclink.c", 1362);
+    PStatusParam *param =
+        GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(PStatusParam), TRUE, "event_field_proclink.c", 1362);
     GameData *gameData = GSYS_GetGameData(work->input->gameSystem);
     SaveControl *save = GameData_GetSaveControl(gameData);
     PokeDexSave *pokedex = GameData_GetPokedex(gameData);
@@ -523,9 +524,9 @@ void *func_ov012_0215bb70(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
     PokeParty *party;
     PartyPkm *pkm;
 
-    param->unkC = 1;
+    param->dataType = PSTATUS_DATA_PARTY;
     param->gameData = gameData;
-    param->unk24 = 0;
+    param->forceExit = FALSE;
     param->isNationalDex = PokeDex_IsNationalObtained(pokedex);
     if (prevAppId == FIELD_APP_POKELIST) {
         partyParam = prevParam;
@@ -536,22 +537,22 @@ void *func_ov012_0215bb70(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
         switch (partyParam->result) {
         case 4:
             param->move = partyParam->move;
-            param->unkD = 2;
-            param->unk10 = 1;
-            param->unk20 = 0;
+            param->mode = PSTATUS_MODE_FORGET_MOVE;
+            param->page = PSTATUS_PAGE_SKILL;
+            param->fromFieldMenu = FALSE;
             work->subMode = 5;
             break;
         case 5:
             param->move = partyParam->move;
-            param->unkD = 2;
-            param->unk10 = 1;
-            param->unk20 = 0;
+            param->mode = PSTATUS_MODE_FORGET_MOVE;
+            param->page = PSTATUS_PAGE_SKILL;
+            param->fromFieldMenu = FALSE;
             work->subMode = 6;
             break;
         default:
-            param->unk10 = 0;
-            param->unkD = 0;
-            param->unk20 = 1;
+            param->page = PSTATUS_PAGE_INFO;
+            param->mode = PSTATUS_MODE_NORMAL;
+            param->fromFieldMenu = TRUE;
             break;
         }
     } else if (prevAppId == FIELD_APP_POKESTATUS) {
@@ -559,11 +560,11 @@ void *func_ov012_0215bb70(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
         param->party = GameData_GetParty(gameData);
         param->partyCount = PokeParty_GetPkmCount(GameData_GetParty(gameData));
         param->partyIndex = 0;
-        param->unkD = 0;
-        param->unk20 = 1;
+        param->mode = PSTATUS_MODE_NORMAL;
+        param->fromFieldMenu = TRUE;
         if (appParam != -1) {
-            param->unk10 = appParam;
-            if (param->unk10 == 2) {
+            param->page = appParam;
+            if (param->page == PSTATUS_PAGE_RIBBON) {
                 party = GameData_GetParty(gameData);
                 for (i = 0; i < PokeParty_GetPkmCount(party); i++) {
                     pkm = PokeParty_GetPkm(party, i);
@@ -573,7 +574,7 @@ void *func_ov012_0215bb70(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
                         break;
                     }
                 }
-            } else if (param->unk10 == 1) {
+            } else if (param->page == PSTATUS_PAGE_SKILL) {
                 party = GameData_GetParty(gameData);
                 for (i = 0; i < PokeParty_GetPkmCount(party); i++) {
                     pkm = PokeParty_GetPkm(party, i);
@@ -585,14 +586,14 @@ void *func_ov012_0215bb70(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
                 }
             }
         } else {
-            param->unk10 = 0;
+            param->page = PSTATUS_PAGE_INFO;
         }
     }
     return param;
 }
 
 u32 func_ov012_0215bcf0(FieldAppCallWork *work, void *data) {
-    Ov207Param *param = data;
+    PStatusParam *param = data;
 
     switch (param->result) {
     case 0:

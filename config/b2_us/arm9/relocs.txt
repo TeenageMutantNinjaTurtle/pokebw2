@@ -8552,7 +8552,7 @@ from:0x02036368 kind:load to:0x0214180c module:main
 from:0x0203636c kind:load to:0x02141808 module:main
 from:0x02036374 kind:load to:0x0219a098 module:overlay(264)
 from:0x02036378 kind:load to:0x02141808 module:main
-from:0x0203637c kind:load to:0x021a1614 module:overlays(142,162,167)
+from:0x0203637c kind:load to:0x021a1614 module:overlay(162)
 from:0x020363ac kind:thumb_call_arm to:0x020787a8 module:main
 from:0x020363d0 kind:thumb_call_arm to:0x020787a8 module:main
 from:0x02036470 kind:thumb_call to:0x02008b94 module:main
