@@ -272,6 +272,9 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - When the prediction is wrong, move one declaration at a time and compare the built sections with the ROM.
   (matching.md: "prediction disagrees")
 - `static const` goes in `.rodata`, so a table in `.data` isn't `const`. (matching.md: "`static const` data goes in")
+- Small unreferenced objects at the start of a file's shared `.rodata` (ahead of its smallest referenced table) are
+  function-local `static const`s, which are emitted even when their reads are folded or absent. (matching.md:
+  "function-local `static const` is emitted")
 - A `static const` whose address is never taken is folded and not emitted. If the original has it, it isn't static.
   An unreferenced word after a file's larger tables is the next file's first object.
   (matching.md: "whose address is never taken")

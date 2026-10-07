@@ -503,6 +503,7 @@ typedef struct TCB TCB;
 typedef struct TCBEx TCBEx;
 typedef struct TCBExManager TCBExManager;
 typedef struct TCBManager TCBManager;
+typedef struct TDownloadWork TDownloadWork;
 typedef struct TextPrintParam TextPrintParam;
 typedef struct TouchpadManager TouchpadManager;
 typedef struct TPokeData TPokeData;

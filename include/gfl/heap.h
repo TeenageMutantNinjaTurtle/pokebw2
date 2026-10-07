@@ -81,6 +81,8 @@ enum {
     HEAPID_BOX_SEARCH = 0x98,
     // Unova Link's (not from swan)
     HEAPID_KEY_SYSTEM = 0x9b,
+    // Not from swan: the heap of the Pokémon World Tournament's win record and downloaded tournaments, overlay 326
+    HEAPID_WBT_RECORD = 0x9e,
 };
 
 // Allocates from the end of the heap instead of the start

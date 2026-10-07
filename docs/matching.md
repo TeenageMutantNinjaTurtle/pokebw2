@@ -784,6 +784,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   only with its touch screen's cursor table, in `.data`, declared after the touch rectangles rather than at the top.
 - `static const` data goes in `.rodata`, so a table that the original has in `.data` is not `const`. The module
   check fails if a table ends up in the wrong section, even when every function matches.
+- A function-local `static const` is emitted in the shared section even when every read of it is folded into
+  immediates, or when nothing reads it, unlike a file-scope one. Small objects that no code refers to at the start of
+  a file's shared `.rodata` are such locals: `win_record.c` has its two columns' x (`{ 0, 144 }`) in
+  `WinRecord_PrintItemAt` and its BG scroll's speed and wrap (`{ 0x40, 0x2000 }`) in `WinRecord_ScrollBG`, read as
+  `add r2, #0x40`, and a 12-byte table that nothing reads, 4-aligned, so it is declared as `u32`s.
 - A `static const` variable whose address is never taken is folded into the code and not emitted. If the original has
   it anyway, it is not `static`: a global that no code refers to gets a section of its own, laid out by size with the
   rest. An object laid out ahead of smaller ones is in a file of its own, linked first, as overlay 65's command table
