@@ -97,7 +97,7 @@ GameEventReturnCode EventGameClear_Callback(GameEvent *event, u32 *state, void *
         EventGameClear_NextState(work, state);
         break;
     case 11:
-        if (!func_020104c4(getKeyInfoSaveBlk(save), work->unovaLinkParam.unk08)) {
+        if (!func_020104c4(getKeyInfoSaveBlk(save), work->unovaLinkParam.key)) {
             GSYS_QueueProcAsEvent(event, OVERLAY_ID(332), &UNOVA_LINK_PROC_FUNCTIONS, &work->unovaLinkParam);
         }
         EventGameClear_NextState(work, state);
@@ -204,9 +204,9 @@ GameEvent *EventGameClear_Create(GameSystem *gsys, u32 param) {
     work->unovaLinkParam.gameData = gameData;
     work->unovaLinkParam.mode = UNOVA_LINK_MODE_GAME_CLEAR;
 #ifdef BLACK2
-    work->unovaLinkParam.unk08 = 1;
+    work->unovaLinkParam.key = KEY_SYSTEM_KEY_CHALLENGE;
 #else
-    work->unovaLinkParam.unk08 = 0;
+    work->unovaLinkParam.key = KEY_SYSTEM_KEY_EASY;
 #endif
     SetGameClearStatusSequence(work);
     return event;

@@ -27,3 +27,8 @@ src/ov332/key_system_net.c:
     .rodata     start:0x021c8e1c end:0x021c8eac
     .data       start:0x021c9364 end:0x021c93f0
     .bss        start:0x021c94e0 end:0x021c9500
+
+src/ov332/key_system_flow.c:
+    .text       start:0x021c2b58 end:0x021c5420
+    .rodata     start:0x021c8eac end:0x021c9038
+    .data       start:0x021c93f0 end:0x021c9488
