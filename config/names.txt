@@ -5215,10 +5215,10 @@ overlays/ov332 0x021c6d74 DataConvert_NeedsGameSave
 overlays/ov332 0x021c6d98 DataConvert_IsMemoryOpen
 overlays/ov332 0x021c6dc0 DataConvert_HasMemories
 overlays/ov332 0x021c6de0 DataConvert_IsMemorySeen
-overlays/ov332 0x021c6e14 WBSaveConvert_GetBlockOffset
-overlays/ov332 0x021c6e44 WBSaveConvert_GetAlignedBlockSize
-overlays/ov332 0x021c6e64 WBSaveConvert_GetBlockSize
-overlays/ov332 0x021c6e70 WBSaveConvert_GetBlock
+overlays/ov332 0x021c6e14 WBSaveBlock_GetOffset
+overlays/ov332 0x021c6e44 WBSaveBlock_GetAlignedSize
+overlays/ov332 0x021c6e64 WBSaveBlock_GetSize
+overlays/ov332 0x021c6e70 WBSaveBlock_Get
 overlays/ov332 0x021c6e80 WBSaveConvert_Create
 overlays/ov332 0x021c6eb4 WBSaveConvert_ReadPlayer
 overlays/ov332 0x021c6ee8 WBSaveConvert_ReadMemories

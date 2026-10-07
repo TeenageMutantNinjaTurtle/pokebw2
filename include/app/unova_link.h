@@ -622,6 +622,9 @@ void KeySystemFlow_SeqMenu(KeySystemSeq *seq, int *state, void *work);
 void DataConvert_Init(KeySystemWork *wk, HeapID heapId);
 void DataConvert_SeqMenu(KeySystemSeq *seq, int *state, void *work);
 
+// wb_save_block.c (a guessed name)
+void *WBSaveBlock_Get(void *save, int block);
+
 // wb_save_convert.c
 WBSaveData *WBSaveConvert_Create(void *save, HeapID heapId);
 
