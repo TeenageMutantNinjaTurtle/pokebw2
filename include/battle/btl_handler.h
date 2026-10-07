@@ -276,6 +276,25 @@ static inline BOOL BattleHandler_IsFlagSet(const u8 *flags, u32 index) {
     return FALSE;
 }
 
+// Clears a set of flags whose first byte is its size in bytes
+static inline void BattleHandler_InitFlags(u8 *flags, u32 size) {
+    u32 i;
+
+    flags[0] = size;
+    for (i = 1; i < size; i++) {
+        flags[i] = 0;
+    }
+}
+
+static inline void BattleHandler_SetFlag(u8 *flags, u32 index) {
+    u8 byte = (index >> 3) + 1;
+    u8 bit = index & 7;
+
+    if (byte < flags[0]) {
+        flags[byte] |= 1 << bit;
+    }
+}
+
 struct BattleHandlerRemoveSideEffectParam {
     BattleHandlerHeader header;
     u8 effects[3];
@@ -398,7 +417,7 @@ struct BattleHandlerChangeFormParam {
 };
 
 struct BattleHandlerChangeHPParam {
-    u32 unk00;
+    BattleHandlerHeader header;
     u8 count;
     u8 suppress;
     u8 skipReaction;
@@ -427,7 +446,7 @@ struct BattleHandlerChangeWeatherParam {
 };
 
 struct BattleHandlerCheckHeldItemParam {
-    u32 unk00;
+    BattleHandlerHeader header;
     u8 monIndex;
     u8 unk05[3];
     u32 reaction;
@@ -446,7 +465,7 @@ struct BattleHandlerCureConditionParam {
     u32 monIndex : 5;
     u32 unk13 : 10;
     u32 popup : 1;
-    u32 unk24 : 1;
+    u32 checkPrevResult : 1;
     u32 unk25 : 1;
     u32 unk26 : 6;
     u32 condition;
@@ -462,7 +481,8 @@ struct BattleHandlerRecoverHPParam {
     u32 monIndex : 5;
     u32 unk13 : 10;
     u32 popup : 1;
-    u32 unk24 : 8;
+    u32 checkPrevResult : 1;
+    u32 unk25 : 7;
     u16 amount;
     u8 targetIndex;
     // Recovers without the checks for Heal Block and the like
@@ -516,7 +536,7 @@ struct BattleHandlerFaintParam {
 };
 
 struct BattleHandlerFlagParam {
-    u32 unk00;
+    BattleHandlerHeader header;
     u32 flag;
     u8 monIndex;
 };
@@ -530,7 +550,9 @@ struct BattleHandlerFlinchParam {
 struct BattleHandlerForceUseItemParam {
     u32 unk00 : 8;
     u32 monIndex2 : 5;
-    u32 unk13 : 19;
+    u32 unk13 : 11;
+    u32 checkPrevResult : 1;
+    u32 unk25 : 7;
     u8 monIndex;
     u8 unk05;
     u16 item;
@@ -572,12 +594,13 @@ struct BattleHandlerMessageParam {
     u32 monIndex : 5;
     u32 unk13 : 10;
     u32 popup : 1;
-    u32 unk24 : 8;
+    u32 checkPrevResult : 1;
+    u32 unk25 : 7;
     BattleHandlerString string;
 };
 
 struct BattleHandlerMoveEffectParam {
-    u8 unk00[4];
+    BattleHandlerHeader header;
     u8 index;
 };
 
@@ -612,7 +635,7 @@ struct BattleHandlerReviveParam {
 };
 
 struct BattleHandlerSetCounterParam {
-    u32 unk00;
+    BattleHandlerHeader header;
     u8 monIndex;
     u8 counter;
     u8 value;
@@ -679,7 +702,7 @@ struct BattleHandlerSwapPokeParam {
 };
 
 struct BattleHandlerSwitchParam {
-    u32 unk00;
+    BattleHandlerHeader header;
     BattleHandlerString firstString;
     BattleHandlerString secondString;
     u8 monIndex;

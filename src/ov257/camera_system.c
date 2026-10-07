@@ -237,7 +237,7 @@ void CameraSystem_InitDsp(CameraSystem *sys) {
     GCTX_HIDSetSoftResetCallback(CameraSystem_OnSoftReset, sys);
 }
 
-void CameraSystem_ExitDsp(void) {
+void CameraSystem_ExitDsp(CameraSystem *sys) {
     GCTX_HIDSetSoftResetCallback(NULL, NULL);
     DSP_StopSound();
     DSP_UnloadG711();

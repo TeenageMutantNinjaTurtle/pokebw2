@@ -57,12 +57,12 @@
 . 0x0207e930 add_reloc load,ltd_autoload(0),0x02703cdc
 . 0x0207e934 add_function MIC_StartAutoSampling:thumb:0x1c
 . 0x0207e950 add_function func_0207e950:arm:0x8
-. 0x0207e954 add_reloc load,ltd_autoload(0),0x02703c60
 . 0x0207e954 remove_symbol
+. 0x0207e954 add_reloc load,ltd_autoload(0),0x02703c60
 . 0x0207e958 add_function MIC_StopAutoSampling:thumb:0x18
 . 0x0207e970 add_function func_0207e970:arm:0x8
-. 0x0207e974 add_reloc load,ltd_autoload(0),0x02703e90
 . 0x0207e974 remove_symbol
+. 0x0207e974 add_reloc load,ltd_autoload(0),0x02703e90
 . 0x0207e978 add_function func_0207e978:thumb:0xa8
 . 0x0208c224 add_label _dadd
 . 0x0208c908 add_label _dmul
@@ -958,6 +958,8 @@ overlays/ov170 0x02181a0c reloc_module overlay(167)
 overlays/ov173 0x021a72cc remove_reloc
 overlays/ov174 0x0219f1f0 remove_reloc
 overlays/ov175 0x0219ac24 reloc_module overlay(184)
+overlays/ov181 0x021a4068 remove_reloc
+overlays/ov181 0x021a40e8 remove_reloc
 overlays/ov182 0x021b9782 reloc_module overlay(181)
 overlays/ov182 0x021bac1c reloc_module overlay(181)
 overlays/ov185 0x0219e83c reloc_module overlay(139)
@@ -1336,6 +1338,8 @@ overlays/ov215 0x021ab0c8 remove_reloc
 overlays/ov253 0x0217caa8 reloc_module overlay(162)
 overlays/ov253 0x0217d79c remove_reloc
 overlays/ov255 0x021d7454 remove_reloc
+overlays/ov257 0x021a7740 reloc_addend 8
+overlays/ov257 0x021a7744 reloc_addend 4
 overlays/ov257 0x021a79d0 reloc_addend 4
 overlays/ov257 0x021a79d4 reloc_addend 8
 overlays/ov257 0x021acc14 add_reloc load,overlay(257),0x021b6238
@@ -1373,6 +1377,9 @@ overlays/ov257 0x021b18c4 add_data data_ov257_021b18c4
 overlays/ov257 0x021b19ac add_data data_ov257_021b19ac
 overlays/ov257 0x021b1a08 add_data data_ov257_021b1a08
 overlays/ov257 0x021b1aa8 add_data data_ov257_021b1aa8
+overlays/ov257 0x021b21f8 remove_symbol
+overlays/ov257 0x021b21fc remove_symbol
+overlays/ov257 0x021b2200 remove_symbol
 overlays/ov257 0x021b221c remove_symbol
 overlays/ov257 0x021b2220 remove_symbol
 overlays/ov257 0x021b223c add_data data_ov257_021b223c
@@ -1419,12 +1426,11 @@ overlays/ov307 0x021de008 overlay_id 280
 overlays/ov307 0x021de00c reloc_module overlay(280)
 overlays/ov307 0x021df70c add_data EGG_DEMO_VIEW_UNK_FX32
 overlays/ov310 0x021a7021 remove_symbol
-overlays/ov310 0x021a7028 add_data data_ov310_021a7028
 overlays/ov310 0x021a7028 section_end src/ov310/research_list.c:.rodata
+overlays/ov310 0x021a7028 add_data data_ov310_021a7028
 overlays/ov310 0x021a773c add_data ResearchCommon_Unused
 overlays/ov310 0x021a773c section_end src/ov310/research_graph.c:.rodata
 overlays/ov310 0x021a773c section_start src/ov310/research_common.c:.rodata
-overlays/ov310 0x021a773c section_end src/ov310/research_graph.c:.rodata
 overlays/ov332 0x021bf940 reloc_module overlay(331)
 overlays/ov332 0x021bfa3c overlay_id 331
 overlays/ov332 0x021bfa40 overlay_id 139

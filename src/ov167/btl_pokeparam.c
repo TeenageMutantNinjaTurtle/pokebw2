@@ -597,7 +597,7 @@ u32 func_ov167_021bb07c(const BattleMon *mon, u32 stat) {
     return stat;
 }
 
-u32 RawBattleMonStat(const BattleMon *mon, u32 stat) {
+s32 RawBattleMonStat(const BattleMon *mon, u32 stat) {
     stat = func_ov167_021bb07c(mon, stat);
     switch (stat) {
     case 8:
@@ -1461,7 +1461,7 @@ void func_ov167_021bbf44(BattleMon *mon, u8 targetPos, BOOL success, u8 unk144, 
     }
 }
 
-u16 GetConsecutiveMoveCount(BattleMon *mon) {
+u32 GetConsecutiveMoveCount(BattleMon *mon) {
     return mon->consecutiveMoveCount;
 }
 
@@ -1530,7 +1530,7 @@ void func_ov167_021bc048(BattleMon *mon, const BattleMonDamageRecord *record) {
     }
 }
 
-u8 func_ov167_021bc120(BattleMon *mon, u32 turnsAgo) {
+u8 func_ov167_021bc120(BattleMon *mon, u8 turnsAgo) {
     s32 turn;
 
     if (turnsAgo < 3) {
@@ -1543,7 +1543,7 @@ u8 func_ov167_021bc120(BattleMon *mon, u32 turnsAgo) {
     return 0;
 }
 
-BOOL GetDamageReceived(BattleMon *mon, u32 turnsAgo, u8 index, BattleMonDamageRecord *record) {
+BOOL GetDamageReceived(BattleMon *mon, u8 turnsAgo, u8 index, BattleMonDamageRecord *record) {
     s32 turn;
     u8 count;
 
