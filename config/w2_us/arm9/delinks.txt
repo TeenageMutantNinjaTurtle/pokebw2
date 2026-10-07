@@ -739,3 +739,70 @@ src/system/resort_layout.c:
 
 lib/nitro/src/crypto/rc4.c:
     .text       start:0x020399b4 end:0x02039aac
+
+lib/nnsys/src/fnd/list.c:
+    complete
+    .text       start:0x0205ea68 end:0x0205eb7c
+
+lib/nnsys/src/fnd/heapcommon.c:
+    complete
+    .text       start:0x0205eb7c end:0x0205ec44
+    .bss        start:0x02141a60 end:0x02141a70
+
+lib/nnsys/src/fnd/expheap.c:
+    complete
+    .text       start:0x0205ec44 end:0x0205f1a8
+
+lib/nnsys/src/fnd/frameheap.c:
+    complete
+    .text       start:0x0205f1a8 end:0x0205f348
+
+lib/nnsys/src/fnd/unitheap.c:
+    complete
+    .text       start:0x0205f348 end:0x0205f390
+
+lib/nnsys/src/fnd/allocator.c:
+    complete
+    .text       start:0x0205f390 end:0x0205f42c
+    .rodata     start:0x020941e4 end:0x02094204
+
+lib/nnsys/src/gfd/gfd_TexVramMan.c:
+    complete
+    .text       start:0x0205f42c end:0x0205f438
+    .data       start:0x0209b1e8 end:0x0209b1f0
+
+lib/nnsys/src/gfd/gfd_PlttVramMan.c:
+    complete
+    .text       start:0x0205f438 end:0x0205f444
+    .data       start:0x0209b1f0 end:0x0209b1f8
+
+lib/nnsys/src/gfd/gfd_FrameTexVramMan.c:
+    complete
+    .text       start:0x0205f444 end:0x0205f664
+    .data       start:0x0209b1f8 end:0x0209b28c
+    .bss        start:0x02141a70 end:0x02141a74
+
+lib/nnsys/src/gfd/gfd_FramePlttVramMan.c:
+    complete
+    .text       start:0x0205f664 end:0x0205f754
+    .bss        start:0x02141a74 end:0x02141a80
+
+lib/nnsys/src/gfd/gfd_VramTransferManager.c:
+    complete
+    .text       start:0x0205f754 end:0x0205fa80
+    .rodata     start:0x02094204 end:0x02094294
+    .bss        start:0x02141a80 end:0x02141a94
+
+lib/nnsys/src/gfd/gfdi_LinkedListVramMan_Common.c:
+    complete
+    .text       start:0x0205fa80 end:0x0205fd00
+
+lib/nnsys/src/gfd/gfd_LinkedListTexVramMan.c:
+    .text       start:0x0205fd00 end:0x0205ff24
+    .rodata     start:0x02094294 end:0x020942c4
+    .bss        start:0x02141a94 end:0x02141ab0
+
+lib/nnsys/src/gfd/gfd_LinkedListPlttVramMan.c:
+    complete
+    .text       start:0x0205ff24 end:0x02060050
+    .bss        start:0x02141ab0 end:0x02141ac4

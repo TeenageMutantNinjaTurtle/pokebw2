@@ -421,9 +421,11 @@ static void PMSSelect_BGLoad(PMSSelectBG *bg, HeapID heapId, Font *font, PrintQu
     GFL_G2DIOLoadArcNCLRDefault(arc, 0, 4, 0, 8 * 0x20, heapId);
     GFL_BGSysLoadNCLRDefault(ARCID_FONT, 5, 0, 9 * 0x20, 0x20, heapId);
     bg->colors[0] = 0x7fff;
-    gfxUploadAsync(NNS_GFD_DST_2D_BG_PLTT_MAIN, 9 * 0x20 + 14 * sizeof(GXRgb), &bg->colors[0], sizeof(GXRgb));
+    NNS_GfdRegisterNewVramTransferTask(NNS_GFD_DST_2D_BG_PLTT_MAIN, 9 * 0x20 + 14 * sizeof(GXRgb), &bg->colors[0],
+                                       sizeof(GXRgb));
     bg->colors[1] = 0x7fff;
-    gfxUploadAsync(NNS_GFD_DST_2D_BG_PLTT_MAIN, 9 * 0x20 + 13 * sizeof(GXRgb), &bg->colors[1], sizeof(GXRgb));
+    NNS_GfdRegisterNewVramTransferTask(NNS_GFD_DST_2D_BG_PLTT_MAIN, 9 * 0x20 + 13 * sizeof(GXRgb), &bg->colors[1],
+                                       sizeof(GXRgb));
     GFL_BGSysLoadArcNCGRStatic(arc, 10, 4, 0, 0, FALSE, heapId);
     loadBGScrToVramByFileNoReserveNegAlign(arc, 21, 4, 0, 0, FALSE, heapId);
     bg->chars = GFL_BGSysLoadArcNCGRDynamic(arc, 10, 3, 0, FALSE, heapId);
@@ -432,9 +434,11 @@ static void PMSSelect_BGLoad(PMSSelectBG *bg, HeapID heapId, Font *font, PrintQu
     bg->screenFile = GFL_G2DIOReadNSCRArc(arc, 23, FALSE, &bg->screen, heapId);
     GFL_G2DIOLoadArcNCLR(arc, 4, 4, 0x80, 8 * 0x20, 0x20, heapId);
     bg->colors[2] = 0x294b;
-    gfxUploadAsync(NNS_GFD_DST_2D_BG_PLTT_SUB, 8 * 0x20 + 14 * sizeof(GXRgb), &bg->colors[2], sizeof(GXRgb));
+    NNS_GfdRegisterNewVramTransferTask(NNS_GFD_DST_2D_BG_PLTT_SUB, 8 * 0x20 + 14 * sizeof(GXRgb), &bg->colors[2],
+                                       sizeof(GXRgb));
     bg->colors[3] = 0x5694;
-    gfxUploadAsync(NNS_GFD_DST_2D_BG_PLTT_SUB, 8 * 0x20 + 15 * sizeof(GXRgb), &bg->colors[3], sizeof(GXRgb));
+    NNS_GfdRegisterNewVramTransferTask(NNS_GFD_DST_2D_BG_PLTT_SUB, 8 * 0x20 + 15 * sizeof(GXRgb), &bg->colors[3],
+                                       sizeof(GXRgb));
     GFL_BGSysLoadArcNCGRStatic(arc, 18, 5, 0, 0, FALSE, heapId);
     loadBGScrToVramByFileNoReserveNegAlign(arc, 24, 5, 0, 0, FALSE, heapId);
     GFL_BGSysSetScrPaletteNo(5, 0, 0, 32, 32, 8);
@@ -495,8 +499,9 @@ static void PMSSelect_FadeColors(u16 *angle, GXRgb *colors, const PMSSelectColor
         g = g1 + ((g2 - g1) * t >> FX32_SHIFT);
         b = b1 + ((b2 - b1) * t >> FX32_SHIFT);
         colors[i] = GX_RGB(r, g, b);
-        gfxUploadAsync(NNS_GFD_DST_2D_BG_PLTT_MAIN, fades[i].palette * 0x20 + fades[i].color * sizeof(GXRgb),
-                       &colors[i], sizeof(GXRgb));
+        NNS_GfdRegisterNewVramTransferTask(NNS_GFD_DST_2D_BG_PLTT_MAIN,
+                                           fades[i].palette * 0x20 + fades[i].color * sizeof(GXRgb), &colors[i],
+                                           sizeof(GXRgb));
     }
 }
 

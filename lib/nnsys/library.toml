@@ -1,0 +1,23 @@
+# Nintendo's NitroSystem (FND, GFD, G2D, G3D and sound), built apart from the game as Thumb code with CodeWarrior for
+# NITRO 2.0: the dsi compilers that build the game miss its GFD pool loops, and every 2.0 build matches what has been
+# tested, so the exact service pack is a guess.
+compiler = "2.0/sp2p2"
+flags = [
+    "-O4,p",               # Optimize for speed
+    "-proc arm946e",       # ARM9 processor
+    "-thumb",              # Thumb code
+    "-interworking",       # ARM/Thumb interworking
+    "-enum int",           # Enums are int-sized
+    "-char signed",        # char is signed
+    "-fp soft",            # Software floating point
+    "-lang=c99",
+    "-Cpp_exceptions off", # No exception tables
+    "-gccext,on",          # GCC extensions
+    "-gccinc",             # #include "..." and <...> search the same paths
+    "-inline on,noauto",   # Inline only what is declared inline
+    "-ipa file",           # Interprocedural analysis within a file
+    "-sym on",             # Debug info for objdiff
+    "-requireprotos",      # Calling an undeclared function is an error
+    "-nolink",
+    "-msgstyle gcc",
+]

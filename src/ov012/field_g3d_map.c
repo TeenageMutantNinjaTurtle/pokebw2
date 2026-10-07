@@ -46,8 +46,8 @@ FieldChunk *FieldChunk_Create(const FieldChunkConfig *config, HeapID heapId) {
     chunk->mapTextures = NULL;
     if (config->textureVRAMSize != 0) {
         chunk->textureVRAMSize = config->textureVRAMSize;
-        chunk->textureVRAM = g_TexVRAMAllocFunc(config->textureVRAMSize, FALSE, 0);
-        chunk->paletteVRAM = g_PltVRAMAllocFunc(0x200, FALSE, 0);
+        chunk->textureVRAM = NNS_GfdDefaultFuncAllocTexVram(config->textureVRAMSize, FALSE, 0);
+        chunk->paletteVRAM = NNS_GfdDefaultFuncAllocPlttVram(0x200, FALSE, 0);
     } else {
         chunk->textureVRAMSize = 0;
         chunk->textureVRAM = 0;
@@ -60,8 +60,8 @@ FieldChunk *FieldChunk_Create(const FieldChunkConfig *config, HeapID heapId) {
 void FieldChunk_Free(FieldChunk *chunk) {
     FieldChunk_UnbindArc(chunk);
     if (chunk->textureVRAMSize != 0) {
-        g_PltVRAMFreeFunc(chunk->paletteVRAM);
-        g_TexVRAMFreeFunc(chunk->textureVRAM);
+        NNS_GfdDefaultFuncFreePlttVram(chunk->paletteVRAM);
+        NNS_GfdDefaultFuncFreeTexVram(chunk->textureVRAM);
     }
     GFL_HeapFree(chunk->texRsc);
     GFL_HeapFree(chunk->modelRsc);

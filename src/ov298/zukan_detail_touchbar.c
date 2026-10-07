@@ -759,7 +759,7 @@ static void ZukanDetailTouchbar_UpdateGlow(ZukanDetailTouchbar *touchbar) {
 
         touchbar->glowPalette[i] = r | (g << 5) | (b << 10);
     }
-    gfxUploadAsync(14, 13 * 32, touchbar->glowPalette, 32);
+    NNS_GfdRegisterNewVramTransferTask(14, 13 * 32, touchbar->glowPalette, 32);
 }
 
 static u8 ZukanDetailTouchbar_GetPageItem(int page) {

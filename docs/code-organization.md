@@ -23,8 +23,11 @@ every section.
   (NitroSDK), `lib/nnsys/` (NitroSystem: FND, G2D, G3D and GFD) and `lib/twl/` (TwlSDK's DSi libraries in the LTD
   autoload: the camera, the DSP and the new DMA and WRAM functions).
   NitroSDK's first source is libcrypto's RC4 (`lib/nitro/src/crypto/rc4.c`, ARM, `dsi/1.1p1`), which the game links
-  last among its own code in ARM9 main. NitroSystem and TwlSDK have only headers so far, so no `library.toml` yet; the
-  first source file of either adds one with the compiler it was built with. A library's public headers keep its name as their directory, as in
+  last among its own code in ARM9 main. NitroSystem's sources (`lib/nnsys/src/fnd`, `gfd`, ...) are Thumb built with
+  CodeWarrior 2.0. TwlSDK has only headers so far, so no `library.toml` yet; its first source file adds one with the
+  compiler it was built with. Library code uses the SDK's own names (see [Names](#names)). `include/stddef.h` and
+  `include/stdlib.h` declare the few C library names the code needs (`size_t`, `offsetof`, `abs`), which the MSL C
+  library linked into main defines. A library's public headers keep its name as their directory, as in
   `lib/nitro/include/nitro/os.h`, so code includes `"nitro/os.h"`. Every file is compiled with `include/` and every
   `lib/*/include/` on its search path.
 - `tools/scripts/source_files.py OVERLAY` finds the boundaries: it lists the embedded file names, the functions that

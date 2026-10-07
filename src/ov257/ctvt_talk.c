@@ -801,11 +801,11 @@ int CtvtTalk_Main(CommTvtWork *sys, CtvtTalk *talk) {
         talk->flashFrame++;
         if (talk->flashFrame > 6) {
             talk->flashing = FALSE;
-            gfxUploadAsync(31, 32, talk->normalPalette, 32);
+            NNS_GfdRegisterNewVramTransferTask(31, 32, talk->normalPalette, 32);
         } else if (talk->flashFrame % 12 < 6) {
-            gfxUploadAsync(31, 32, talk->flashPalette, 32);
+            NNS_GfdRegisterNewVramTransferTask(31, 32, talk->flashPalette, 32);
         } else {
-            gfxUploadAsync(31, 32, talk->normalPalette, 32);
+            NNS_GfdRegisterNewVramTransferTask(31, 32, talk->normalPalette, 32);
         }
     }
     if (talk->waveShown == FALSE && talk->state != TALK_STATE_RECORD && talk->state < TALK_STATE_SEND_EXIT &&

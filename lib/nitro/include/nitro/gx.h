@@ -1151,6 +1151,11 @@ void gfxEndTextureUpload(void);
 void gfxBeginPaletteUpload(void);
 void gfxUploadPalette(const void *src, u32 dest, u32 size);
 void gfxEndPaletteUpload(void);
+// NitroSDK's GX_BeginLoadClearImage, GX_LoadClearImageColor, GX_LoadClearImageDepth and GX_EndLoadClearImage
+void gfxBeginRearPlaneImageUpload(void);
+void gfxUploadRearPlaneImageA(const void *src, u32 size);
+void gfxUploadRearPlaneImageB(const void *src, u32 size);
+void gfxEndRearPlaneImageUpload(void);
 // NitroSDK's G3_LoadMtx43 and G3_MultMtx43
 void gfxLoadMatrix4x3(const MtxFx43 *mtx);
 void gfxMultMatrix4x3(const MtxFx43 *mtx);

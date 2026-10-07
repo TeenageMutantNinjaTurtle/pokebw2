@@ -919,7 +919,7 @@ void MysteryPal_BlendOne(u32 type, u16 *dest, u16 angle, u8 palette, u8 index, u
     u8 g = fromG + ((toG - fromG) * t >> FX32_SHIFT);
 
     *dest = GX_RGB(r, g, b);
-    gfxUploadAsync(type, palette * 32 + index * 2, dest, sizeof(u16));
+    NNS_GfdRegisterNewVramTransferTask(type, palette * 32 + index * 2, dest, sizeof(u16));
 }
 
 void MysteryPal_Blend(u32 type, u16 *dest, u16 angle, u32 palette, const u16 *from, const u16 *to) {
@@ -941,5 +941,5 @@ void MysteryPal_Blend(u32 type, u16 *dest, u16 angle, u32 palette, const u16 *fr
 
         dest[i] = GX_RGB(r, g, b);
     }
-    gfxUploadAsync(type, palette * 32, dest, 32);
+    NNS_GfdRegisterNewVramTransferTask(type, palette * 32, dest, 32);
 }

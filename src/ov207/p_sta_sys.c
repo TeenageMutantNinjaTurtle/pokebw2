@@ -344,7 +344,7 @@ static void PStatus_InitGraphics(PStatusWork *wk) {
 }
 
 static void PStatus_ExitGraphics(PStatusWork *wk) {
-    gfxUploadQueueReset();
+    GfdClearVramTransferQueue();
     MCSSSys_Free(wk->mcssSys);
     GFL_G3DCameraFree(wk->camera);
     GFL_G3DSysFree();
@@ -774,7 +774,7 @@ static void PStatus_AnimatePalettes(PStatusWork *wk) {
             }
             wk->cursorPltt[4 + i] = GX_RGB(r, g, b);
         }
-        gfxUploadAsync(14, 0x6c, &wk->cursorPltt[4], 8);
+        NNS_GfdRegisterNewVramTransferTask(14, 0x6c, &wk->cursorPltt[4], 8);
     }
     for (i = 0; i < 16; i++) {
         r = wk->tabPlttSrc[0][i] & GX_RGB_R_MASK;
@@ -803,7 +803,7 @@ static void PStatus_AnimatePalettes(PStatusWork *wk) {
         }
         wk->tabPltt[i] = GX_RGB(r, g, b);
     }
-    gfxUploadAsync(14, 0x180, wk->tabPltt, sizeof(wk->tabPltt));
+    NNS_GfdRegisterNewVramTransferTask(14, 0x180, wk->tabPltt, sizeof(wk->tabPltt));
 
     for (i = 12; i <= 14; i++) {
         r = wk->buttonPlttSrc[i] & GX_RGB_R_MASK;
@@ -844,7 +844,7 @@ static void PStatus_AnimatePalettes(PStatusWork *wk) {
         }
         wk->buttonPltt[i] = GX_RGB(r, g, b);
     }
-    gfxUploadAsync(14, 0x1a0, wk->buttonPltt, sizeof(wk->buttonPltt));
+    NNS_GfdRegisterNewVramTransferTask(14, 0x1a0, wk->buttonPltt, sizeof(wk->buttonPltt));
 }
 
 void PStatus_EnableInput(PStatusWork *wk, BOOL enable) {
