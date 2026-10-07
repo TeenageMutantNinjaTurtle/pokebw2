@@ -78,15 +78,15 @@ void func_ov062_021e61e8(PokewoodSystem *sys, GameData *gameData, PokeListParam 
     param->unk48 = 0;
 }
 
-void func_ov062_021e6254(PokewoodSystem *sys, GameData *gameData, Ov207Param *param) {
+void func_ov062_021e6254(PokewoodSystem *sys, GameData *gameData, PStatusParam *param) {
     PokeDexSave *pokedex = GameData_GetPokedex(gameData);
 
-    sys_memset32(0, param, sizeof(Ov207Param));
+    sys_memset32(0, param, sizeof(PStatusParam));
     param->party = GameData_GetParty(gameData);
-    param->unkC = 1;
+    param->dataType = PSTATUS_DATA_PARTY;
     param->partyCount = PokeParty_GetPkmCount(param->party);
-    param->unkD = 0;
-    param->unk10 = 0;
+    param->mode = PSTATUS_MODE_NORMAL;
+    param->page = PSTATUS_PAGE_INFO;
     param->gameData = gameData;
     param->isNationalDex = PokeDex_IsNationalObtained(pokedex);
 }

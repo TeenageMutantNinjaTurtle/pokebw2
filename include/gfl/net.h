@@ -269,4 +269,10 @@ BOOL func_0205b5ec(void);
 int func_0205b250(void);
 void func_0205b198(void);
 
+// From the wireless code in overlay 30: the filter that a scan passes each machine it finds to, with the filter's work
+// (the GFL net work), and how long a parent scans for children
+typedef BOOL (*NetScanFilter)(const void *info, void *work);
+void func_ov030_02175334(NetScanFilter filter);
+void func_ov030_02175658(u16 time);
+
 #endif // POKEBW2_GFL_NET_H
