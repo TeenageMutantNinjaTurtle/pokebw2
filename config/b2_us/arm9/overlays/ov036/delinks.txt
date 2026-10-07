@@ -197,3 +197,11 @@ src/ov036/scrcmd_fade.c:
 src/ov036/scrcmd_msg.c:
     .text       start:0x021a861c end:0x021a98c4
     .rodata     start:0x021d0878 end:0x021d08e4
+
+src/ov036/scrcmd_buildmodel.c:
+    complete
+    .text       start:0x021ab73c end:0x021abb48
+
+src/ov036/scrcmd_place_name.c:
+    complete
+    .text       start:0x021abb48 end:0x021abb70

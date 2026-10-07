@@ -5780,4 +5780,4 @@ data_ov036_021e1ab8 kind:bss addr:0x021e1ab8 ambiguous
 g_FieldEdgeColorTable kind:bss addr:0x021e57a0
 data_ov036_021e57b0 kind:bss addr:0x021e57b0
 data_ov036_021e57bc kind:bss addr:0x021e57bc
-data_ov036_021e57c0 kind:bss addr:0x021e57c0
+g_ScrBMAnmWaitHandleID kind:bss addr:0x021e57c0
