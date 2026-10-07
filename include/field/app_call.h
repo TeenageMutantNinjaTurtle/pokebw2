@@ -97,7 +97,7 @@ extern const FieldProcLink FIELD_PROC_LINK_LIST[15];
 extern const GameProcFunctions data_ov189_021ae3dc;
 extern const GameProcFunctions data_ov012_0216dd78;
 extern const GameProcFunctions data_ov140_0219eecc;
-extern const GameProcFunctions data_ov144_0219f774;
+extern const GameProcFunctions TOWNMAP_PROC_FUNCTIONS;
 extern const GameProcFunctions data_ov189_021ae03c;
 extern const GameProcFunctions data_ov215_021ab01c;
 extern const GameProcFunctions data_ov272_021f82b8;

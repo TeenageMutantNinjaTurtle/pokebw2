@@ -440,6 +440,7 @@ typedef struct PStaSubWork PStaSubWork;
 typedef struct PStatusWork PStatusWork;
 typedef struct Queue Queue;
 typedef struct RailPosition RailPosition;
+typedef struct RailUnit RailUnit;
 typedef struct RecordSave RecordSave;
 typedef struct Regulation Regulation;
 typedef struct ResearchCommon ResearchCommon;

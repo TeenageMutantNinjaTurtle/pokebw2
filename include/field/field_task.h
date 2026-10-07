@@ -20,6 +20,12 @@ void FieldTaskManager_AddTask(FieldTaskManager *mgr, FieldTask *task, u32 a2);
 FieldTask *FieldActorSpinTask_CreatePlayerAccel(Field *field, u32 duration, u32 direction);
 FieldTask *FieldActorSpinTask_CreatePlayer(Field *field, u32 duration, u32 direction);
 FieldTask *FieldActorMoveTask_CreatePlayer(Field *field, u32 duration, const VecFx32 *offset);
+FieldTask *FieldActorSpinTask_Create(Field *field, u32 duration, u32 direction, FieldActor *actor);
+// Moves the actor by offset, or to pos, over duration frames
+FieldTask *FieldActorMoveTask_CreateRel(Field *field, s32 duration, const VecFx32 *offset, FieldActor *actor);
+FieldTask *FieldActorMoveTask_CreateAbs(Field *field, s32 duration, const VecFx32 *pos, FieldActor *actor);
+// Drops the actor from height onto the ground over duration frames
+FieldTask *FieldActorFallTask_Create(Field *field, FieldActor *actor, u32 duration, s32 height);
 // A task that fades the screen
 FieldTask *FieldFadeTask_Create(Field *field, u32 mode, u32 from, u32 to, u32 speed);
 // Tasks that move the camera to a zoom, angle or target offset over duration frames
