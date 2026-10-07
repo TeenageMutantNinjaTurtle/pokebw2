@@ -10,6 +10,7 @@
 #include "battle/btl_server_cmd.h"
 #include "battle/btl_server_flow.h"
 #include "battle/btl_server_flow_sub.h"
+#include "battle/handler_common.h"
 #include "constants/abilities.h"
 #include "constants/items.h"
 #include "constants/moves.h"

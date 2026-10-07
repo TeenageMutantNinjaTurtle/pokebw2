@@ -140,3 +140,15 @@ src/ov036/fldeff_iwakudaki.c:
     .text       start:0x021a5644 end:0x021a5868
     .rodata     start:0x021d075c end:0x021d07ac
     .data       start:0x021d511c end:0x021d5140
+
+src/ov036/fldeff_fishing.c:
+    complete
+    .text       start:0x021a5868 end:0x021a5a58
+    .rodata     start:0x021d07ac end:0x021d0804
+    .data       start:0x021d5140 end:0x021d5158
+
+src/ov036/fldeff_fes_kira.c:
+    complete
+    .text       start:0x021a5a58 end:0x021a5d6c
+    .rodata     start:0x021d0804 end:0x021d0854
+    .data       start:0x021d5158 end:0x021d5178
