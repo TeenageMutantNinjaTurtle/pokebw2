@@ -20,6 +20,9 @@ u32 PassPower_ApplyCapture(u32 rate);
 u32 PassPower_ApplyEncounter(u32 rate);
 u32 PassPower_ApplyLuckyShiny(u32 rolls);
 u32 PassPower_ApplyLuckyEncProb(u32 row);
+// The steps between phenomena, and the chance of one, in tenths of a percent
+u16 PassPower_ApplyExploring(u16 steps);
+u32 PassPower_ApplyExploringChance(u32 chance);
 // The pass powers' table, read from its archive
 void *PassPowerData_Create(HeapID heapId);
 void PassPowerData_Free(void *data);

@@ -201,11 +201,11 @@ static void ItemMenu_RedrawList(ItemMenuWork *work) {
 
 static void ItemMenu_UpdateList(ItemMenuWork *work) {
     if (func_0203d554() == FALSE) {
-        func_ov142_0219de0c(work);
+        ItemMenuDisp_DrawItemInfo(work);
     } else {
-        func_ov142_0219e120(work);
+        ItemMenuDisp_HideItemInfo(work);
     }
-    func_ov142_0219e924(work);
+    ItemMenuDisp_DrawList(work);
     ItemMenu_UpdatePocketRegistration(work);
     work->listDirty = TRUE;
 }
@@ -278,10 +278,10 @@ static void ItemMenu_ChangePocket(ItemMenuWork *work, u32 oldPocket, u32 newPock
     func_0200887c(work->cursor, newPocket, &row, &scroll);
     work->cursorRow = row;
     work->scroll = scroll - 1;
-    func_ov142_0219ed3c(work);
-    func_ov142_0219f8ec(work, newPocket);
-    func_ov142_0219f06c(work, newPocket);
-    func_ov142_0219f450(work, newPocket);
+    ItemMenuDisp_UpdateScrollBar(work);
+    ItemMenuDisp_DrawPocketName(work, newPocket);
+    ItemMenuDisp_SetPocketTab(work, newPocket);
+    ItemMenuDisp_LoadPocketFrame(work, newPocket);
 }
 
 static BOOL ItemMenu_CursorDown(ItemMenuWork *work, s32 count, BOOL wrap) {
@@ -361,7 +361,7 @@ static BOOL ItemMenu_TouchScrollBar(ItemMenuWork *work) {
         ItemMenu_SetKeyMode(work, FALSE);
         scroll = work->scroll;
         work->scroll = func_020355b8(count - ITEMMENU_LIST_ROWS, y, 26, 142, 0) - 1;
-        func_ov142_0219ecec(work);
+        ItemMenuDisp_TouchScrollBar(work);
         if (work->scroll != scroll) {
             GFL_SndSEPlay(SEQ_SE_SELECT1);
             return TRUE;
@@ -500,7 +500,7 @@ static BOOL ItemMenu_IsMoveDoneTouched(void) {
 }
 
 static void ItemMenu_EndMoveItem(ItemMenuWork *work) {
-    func_ov142_0219ffe8(work, TRUE);
+    ItemMenuDisp_SetMoveButtons(work, TRUE);
     ItemMenu_ReturnToList(work);
 }
 
@@ -526,7 +526,7 @@ static void ItemMenu_StateMoveItem(ItemMenuWork *work) {
             work->touchMoved = FALSE;
             BagSave_CopyPocket(work->bag, work->items, work->pocket, FALSE);
             func_0204c488(work->listCursor, 1);
-            func_ov142_0219ffe8(work, TRUE);
+            ItemMenuDisp_SetMoveButtons(work, TRUE);
             work->movingItem = FALSE;
             ItemMenu_SetKeyMode(work, FALSE);
             ItemMenu_ReturnToList(work);
@@ -540,7 +540,7 @@ static void ItemMenu_StateMoveItem(ItemMenuWork *work) {
         GFL_SndSEPlay(SEQ_SE_DECIDE1);
         BagSave_CopyPocket(work->bag, work->items, work->pocket, FALSE);
         func_0204c488(work->listCursor, 1);
-        func_ov142_0219ffe8(work, TRUE);
+        ItemMenuDisp_SetMoveButtons(work, TRUE);
         work->movingItem = FALSE;
         ItemMenu_SetKeyMode(work, TRUE);
         ItemMenu_ReturnToList(work);
@@ -568,14 +568,14 @@ static void ItemMenu_StateMoveItem(ItemMenuWork *work) {
     }
     if (ItemMenu_MoveItemByTouch(work)) {
         work->touchMoved = TRUE;
-        func_ov142_0219ed3c(work);
+        ItemMenuDisp_UpdateScrollBar(work);
         GFL_SndSEPlay(SEQ_SE_SELECT1);
         work->drawnScroll = 0xffff;
         ItemMenu_UpdateList(work);
         return;
     }
     if (ItemMenu_MoveItemByKeys(work)) {
-        func_ov142_0219ed3c(work);
+        ItemMenuDisp_UpdateScrollBar(work);
         GFL_SndSEPlay(SEQ_SE_SELECT1);
         work->drawnScroll = 0xffff;
         ItemMenu_UpdateList(work);
@@ -611,12 +611,12 @@ static void ItemMenu_StateUseRepel(ItemMenuWork *work) {
             copyVarForText(work->wordSet, 0, work->playerInfo);
             ItemMenu_SetItemName(work, 1, work->item);
             GFL_WordSetFormatStrbuf(work->wordSet, work->expandBuf, work->strbuf);
-            func_ov142_0219f6a4(work, TRUE);
+            ItemMenuDisp_ShowMessage(work, TRUE);
             GFL_SndSEPlay(SEQ_SE_SYS_92);
         } else {
             GFL_MsgDataLoadStrbuf(work->msgData, 64, work->strbuf);
             GFL_WordSetFormatStrbuf(work->wordSet, work->expandBuf, work->strbuf);
-            func_ov142_0219f6a4(work, TRUE);
+            ItemMenuDisp_ShowMessage(work, TRUE);
         }
         ItemMenu_SetState(work, ItemMenu_StateWaitMessage);
     }
@@ -624,14 +624,14 @@ static void ItemMenu_StateUseRepel(ItemMenuWork *work) {
 
 // Waits for a message to be read
 static void ItemMenu_StateWaitMessage(ItemMenuWork *work) {
-    if (func_ov142_0219f7a4(work) && ((GCTX_HIDGetPressedKeys() & (PAD_BUTTON_A | PAD_BUTTON_B)) || func_0203da48())) {
+    if (ItemMenuDisp_IsMessageDone(work) && ((GCTX_HIDGetPressedKeys() & (PAD_BUTTON_A | PAD_BUTTON_B)) || func_0203da48())) {
         GFL_BGSysClearScr(3);
         work->drawnScroll = 0xffff;
         ItemMenu_UpdateList(work);
         work->listDirty = TRUE;
-        func_ov142_0219ed3c(work);
+        ItemMenuDisp_UpdateScrollBar(work);
         func_0204c520(work->scrollBar, TRUE);
-        func_ov142_0219fda8(work, TRUE);
+        ItemMenuDisp_SetButtonsActive(work, TRUE);
         ItemMenu_ReturnToList(work);
     }
 }
@@ -641,13 +641,13 @@ static void ItemMenu_StateUseLightStone(ItemMenuWork *work) {
         GFL_MsgDataLoadStrbuf(work->msgData, 56, work->strbuf);
         copyVarForText(work->wordSet, 0, work->playerInfo);
         GFL_WordSetFormatStrbuf(work->wordSet, work->expandBuf, work->strbuf);
-        func_ov142_0219f6a4(work, TRUE);
+        ItemMenuDisp_ShowMessage(work, TRUE);
         ItemMenu_SetState(work, ItemMenu_StateWaitMessage);
     }
 }
 
 static void ItemMenu_StateShowMessage(ItemMenuWork *work) {
-    func_ov142_0219f6a4(work, TRUE);
+    ItemMenuDisp_ShowMessage(work, TRUE);
     ItemMenu_SetState(work, ItemMenu_StateWaitMessage);
 }
 
@@ -776,7 +776,7 @@ static void ItemMenu_StateItemMenu(ItemMenuWork *work) {
     u32 pocket;
     u32 fieldUse;
 
-    if (func_ov142_0219f7a4(work) == FALSE) {
+    if (ItemMenuDisp_IsMessageDone(work) == FALSE) {
         return;
     }
     if (AppTaskMenu_IsFlashFinished(work->taskMenu)) {
@@ -784,7 +784,7 @@ static void ItemMenu_StateItemMenu(ItemMenuWork *work) {
         switch (work->menuAction) {
         case 0:
             pocket = BagSave_GetExistingItemPocket(work->bag, work->item);
-            func_ov142_0219ff40(work, FALSE);
+            ItemMenuDisp_SetBackButtonActive(work, FALSE);
             if (pocket != BAG_POCKET_FREE_SPACE) {
                 if (pocket != BAG_POCKET_KEY_ITEMS) {
                     func_0202d384(work->item);
@@ -812,7 +812,7 @@ static void ItemMenu_StateItemMenu(ItemMenuWork *work) {
             }
             break;
         case 1:
-            func_ov142_0219ff40(work, FALSE);
+            ItemMenuDisp_SetBackButtonActive(work, FALSE);
             if (PlayerActionPerms_IsActionBlocked(work->perms, 0) == FALSE) {
                 work->result = 11;
                 ItemMenu_SetState(work, NULL);
@@ -835,13 +835,13 @@ static void ItemMenu_StateItemMenu(ItemMenuWork *work) {
             if (ItemMenu_CanRegister(work) == TRUE) {
                 ItemMenu_ToggleItemRegistration(work, work->cursorRow);
                 ItemMenu_UpdateList(work);
-                func_ov142_0219fda8(work, TRUE);
+                ItemMenuDisp_SetButtonsActive(work, TRUE);
                 func_0204c520(work->scrollBar, TRUE);
                 ItemMenu_ReturnToList(work);
             }
             break;
         case 2:
-            func_ov142_0219ff40(work, FALSE);
+            ItemMenuDisp_SetBackButtonActive(work, FALSE);
             if (work->item >= ITEM_GREET_MAIL && work->item <= ITEM_BRIDGE_MAIL_M) {
                 work->result = 19;
                 ItemMenu_SetState(work, NULL);
@@ -849,12 +849,12 @@ static void ItemMenu_StateItemMenu(ItemMenuWork *work) {
             break;
         case 10:
             if (func_0203d554() == TRUE) {
-                func_ov142_0219e120(work);
+                ItemMenuDisp_HideItemInfo(work);
             } else {
-                func_ov142_0219de0c(work);
+                ItemMenuDisp_DrawItemInfo(work);
             }
             ItemMenu_SetKeyMode(work, func_0203d554() ? FALSE : TRUE);
-            func_ov142_0219fda8(work, TRUE);
+            ItemMenuDisp_SetButtonsActive(work, TRUE);
             func_0204c520(work->scrollBar, TRUE);
             ItemMenu_ReturnToList(work);
             break;
@@ -864,7 +864,7 @@ static void ItemMenu_StateItemMenu(ItemMenuWork *work) {
             break;
         case 6:
             work->result = 2;
-            func_ov142_0219ff40(work, FALSE);
+            ItemMenuDisp_SetBackButtonActive(work, FALSE);
             ItemMenu_SetState(work, NULL);
             break;
         case 7:
@@ -873,7 +873,7 @@ static void ItemMenu_StateItemMenu(ItemMenuWork *work) {
         done = TRUE;
     }
     if (done) {
-        func_ov142_0219f0ac(work);
+        ItemMenuDisp_ClearMsgWindow(work);
         AppTaskMenu_Free(work->taskMenu);
         work->taskMenu = NULL;
     }
@@ -901,9 +901,9 @@ static void ItemMenu_StateSelectItem(ItemMenuWork *work) {
         GFL_MsgDataLoadStrbuf(work->msgData, 47, work->strbuf);
         ItemMenu_SetItemName(work, 0, work->item);
         GFL_WordSetFormatStrbuf(work->wordSet, work->expandBuf, work->strbuf);
-        func_ov142_0219f760(work);
-        func_ov142_0219fda8(work, FALSE);
-        func_ov142_0219ff40(work, FALSE);
+        ItemMenuDisp_ShowMessageNow(work);
+        ItemMenuDisp_SetButtonsActive(work, FALSE);
+        ItemMenuDisp_SetBackButtonActive(work, FALSE);
         ItemMenu_SetState(work, ItemMenu_StateReturnToList);
     } else if (work->mode == 5) {
         work->result = 1;
@@ -912,8 +912,8 @@ static void ItemMenu_StateSelectItem(ItemMenuWork *work) {
         ItemMenu_SetState(work, ItemMenu_StateSell);
     } else {
         ItemMenu_OpenItemMenu(work);
-        func_ov142_0219f76c(work, work->item);
-        func_ov142_0219f760(work);
+        ItemMenuDisp_SetItemMenuMessage(work, work->item);
+        ItemMenuDisp_ShowMessageNow(work);
         func_0204c520(work->scrollBar, FALSE);
         ItemMenu_SetState(work, ItemMenu_StateItemMenu);
     }
@@ -951,7 +951,7 @@ static void ItemMenu_StateList(ItemMenuWork *work) {
         if (ItemMenu_GetItemCount(work) != 0) {
             if (!(keys & (PAD_BUTTON_B | PAD_BUTTON_START | PAD_BUTTON_X | PAD_BUTTON_Y))) {
                 GFL_SndSEPlay(SEQ_SE_SELECT1);
-                func_ov142_0219de0c(work);
+                ItemMenuDisp_DrawItemInfo(work);
                 ItemMenu_SetKeyMode(work, TRUE);
                 return;
             }
@@ -987,7 +987,7 @@ static void ItemMenu_StateList(ItemMenuWork *work) {
                 ItemMenu_TogglePocketRegistration(work);
             }
             if (func_0203d554() == TRUE) {
-                func_ov142_0219de0c(work);
+                ItemMenuDisp_DrawItemInfo(work);
                 ItemMenu_SetKeyMode(work, TRUE);
             }
         }
@@ -998,7 +998,7 @@ static void ItemMenu_StateList(ItemMenuWork *work) {
             if (ItemMenu_GetItemCount(work) > 1) {
                 ItemMenu_PressSortButton(work);
                 ItemMenu_SetKeyMode(work, TRUE);
-                func_ov142_0219ff40(work, FALSE);
+                ItemMenuDisp_SetBackButtonActive(work, FALSE);
                 work->drawnScroll = 0xffff;
                 ItemMenu_UpdateList(work);
                 ItemMenu_SetState(work, ItemMenu_StateOpenSortMenu);
@@ -1007,7 +1007,7 @@ static void ItemMenu_StateList(ItemMenuWork *work) {
         } else if (ItemMenu_CountFilterActions(work) > 2) {
             ItemMenu_PressSortButton(work);
             ItemMenu_SetKeyMode(work, TRUE);
-            func_ov142_0219ff40(work, FALSE);
+            ItemMenuDisp_SetBackButtonActive(work, FALSE);
             work->drawnScroll = 0xffff;
             ItemMenu_UpdateList(work);
             ItemMenu_SetState(work, ItemMenu_StateOpenFilterMenu);
@@ -1029,12 +1029,12 @@ static void ItemMenu_StateList(ItemMenuWork *work) {
         sys_memset(work->items, 0, sizeof(work->items));
         BagSave_CopyPocket(work->bag, work->items, work->pocket, TRUE);
         func_0204c488(work->listCursor, 2);
-        func_ov142_0219ffe8(work, FALSE);
+        ItemMenuDisp_SetMoveButtons(work, FALSE);
         work->movingItem = TRUE;
         ItemMenu_StartMoveItem(work);
         return;
     } else if (ItemMenu_MoveCursorByKeys(work)) {
-        func_ov142_0219ed3c(work);
+        ItemMenuDisp_UpdateScrollBar(work);
         GFL_SndSEPlay(SEQ_SE_SELECT1);
         ItemMenu_UpdateList(work);
         return;
@@ -1060,29 +1060,29 @@ static void ItemMenu_StateList(ItemMenuWork *work) {
 static void ItemMenu_StateTMBootUp(ItemMenuWork *work) {
     if (AppTaskMenu_IsFlashFinished(work->taskMenu)) {
         if (AppTaskMenu_GetCursorPos(work->taskMenu) == 0) {
-            func_ov142_0219f0ac(work);
+            ItemMenuDisp_ClearMsgWindow(work);
             work->result = 6;
             ItemMenu_SetState(work, NULL);
         } else {
-            func_ov142_0219f0ac(work);
+            ItemMenuDisp_ClearMsgWindow(work);
             GFL_BGSysClearScr(3);
             func_0204c520(work->scrollBar, TRUE);
-            func_ov142_0219fda8(work, TRUE);
+            ItemMenuDisp_SetButtonsActive(work, TRUE);
             if (func_0203d554() == TRUE) {
-                func_ov142_0219e120(work);
+                ItemMenuDisp_HideItemInfo(work);
                 ItemMenu_SetKeyMode(work, FALSE);
             } else {
                 ItemMenu_SetKeyMode(work, TRUE);
             }
             ItemMenu_ReturnToList(work);
         }
-        func_ov142_0219fb60(work);
+        ItemMenuDisp_CloseMenu(work);
     }
 }
 
 static void ItemMenu_StateTMAskBootUp(ItemMenuWork *work) {
-    if (func_ov142_0219f7a4(work)) {
-        func_ov142_0219faac(work);
+    if (ItemMenuDisp_IsMessageDone(work)) {
+        ItemMenuDisp_OpenYesNoMenu(work);
         ItemMenu_SetState(work, ItemMenu_StateTMBootUp);
     }
 }
@@ -1094,13 +1094,13 @@ static void ItemMenu_StateTMShowMove(ItemMenuWork *work) {
         GFL_MsgDataLoadStrbuf(work->msgData, 62, work->strbuf);
         loadMoveNameToStrbuf(work->wordSet, 0, PML_ItemGetTMWazaID(work->item));
         GFL_WordSetFormatStrbuf(work->wordSet, work->expandBuf, work->strbuf);
-        func_ov142_0219f6a4(work, TRUE);
+        ItemMenuDisp_ShowMessage(work, TRUE);
         ItemMenu_SetState(work, ItemMenu_StateTMAskBootUp);
     }
 }
 
 static void ItemMenu_StateTMBootUpSound(ItemMenuWork *work) {
-    if (func_ov142_0219f7a4(work)) {
+    if (ItemMenuDisp_IsMessageDone(work)) {
         GFL_SndSEPlay(SEQ_SE_PC_LOGIN);
         ItemMenu_SetState(work, ItemMenu_StateTMShowMove);
     }
@@ -1113,7 +1113,7 @@ static void ItemMenu_StateUseTM(ItemMenuWork *work) {
     } else {
         GFL_MsgDataLoadStrbuf(work->msgData, 61, work->expandBuf);
     }
-    func_ov142_0219f6a4(work, TRUE);
+    ItemMenuDisp_ShowMessage(work, TRUE);
     ItemMenu_SetState(work, ItemMenu_StateTMBootUpSound);
 }
 
@@ -1124,15 +1124,15 @@ static void ItemMenu_StateReturnToList(ItemMenuWork *work) {
         work->drawnScroll = 0xffff;
         ItemMenu_UpdateList(work);
         work->listDirty = TRUE;
-        func_ov142_0219ed3c(work);
+        ItemMenuDisp_UpdateScrollBar(work);
         func_0204c520(work->scrollBar, TRUE);
-        func_ov142_0219fda8(work, TRUE);
+        ItemMenuDisp_SetButtonsActive(work, TRUE);
         ItemMenu_ReturnToList(work);
     }
 }
 
 static void ItemMenu_StateWaitTossMessage(ItemMenuWork *work) {
-    if (func_ov142_0219f7a4(work)) {
+    if (ItemMenuDisp_IsMessageDone(work)) {
         ItemMenu_SetState(work, ItemMenu_StateReturnToList);
     }
 }
@@ -1143,7 +1143,7 @@ static void ItemMenu_StateTossConfirm(ItemMenuWork *work) {
 
     if (AppTaskMenu_IsFlashFinished(work->taskMenu)) {
         pos = AppTaskMenu_GetCursorPos(work->taskMenu);
-        func_ov142_0219fb60(work);
+        ItemMenuDisp_CloseMenu(work);
         GFL_BGSysClearScr(3);
         if (pos == 0) {
             GFL_SndSEPlay(SEQ_SE_SYS_08);
@@ -1152,11 +1152,11 @@ static void ItemMenu_StateTossConfirm(ItemMenuWork *work) {
             ItemMenu_SetItemText(work, 0, work->item, work->quantity > 1, FALSE);
             WordSetNumber(work->wordSet, 1, work->quantity, 3, 0, TRUE);
             GFL_WordSetFormatStrbuf(work->wordSet, work->expandBuf, work->strbuf);
-            func_ov142_0219f760(work);
+            ItemMenuDisp_ShowMessageNow(work);
             ItemMenu_SetState(work, ItemMenu_StateWaitTossMessage);
         } else {
             func_0204c520(work->scrollBar, TRUE);
-            func_ov142_0219fda8(work, TRUE);
+            ItemMenuDisp_SetButtonsActive(work, TRUE);
             ItemMenu_SetKeyMode(work, func_0203d554() ? FALSE : TRUE);
             ItemMenu_ReturnToList(work);
         }
@@ -1164,8 +1164,8 @@ static void ItemMenu_StateTossConfirm(ItemMenuWork *work) {
 }
 
 static void ItemMenu_StateTossAsk(ItemMenuWork *work) {
-    if (func_ov142_0219f7a4(work)) {
-        func_ov142_0219faac(work);
+    if (ItemMenuDisp_IsMessageDone(work)) {
+        ItemMenuDisp_OpenYesNoMenu(work);
         ItemMenu_SetState(work, ItemMenu_StateTossConfirm);
     }
 }
@@ -1177,7 +1177,7 @@ static void ItemMenu_StateToss(ItemMenuWork *work) {
     GFL_MsgDataLoadStrbuf(work->msgData, 53, work->strbuf);
     ItemMenu_SetItemText(work, 0, work->item, TRUE, FALSE);
     GFL_WordSetFormatStrbuf(work->wordSet, work->expandBuf, work->strbuf);
-    func_ov142_0219f760(work);
+    ItemMenuDisp_ShowMessageNow(work);
     ItemMenu_SetState(work, ItemMenu_StateTossQuantity);
 }
 
@@ -1185,7 +1185,7 @@ static void ItemMenu_StateToss(ItemMenuWork *work) {
 static void ItemMenu_StateTossQuantity(ItemMenuWork *work) {
     s32 result;
 
-    if (func_ov142_0219f7a4(work) && ItemMenu_UpdateQuantity(work) != TRUE) {
+    if (ItemMenuDisp_IsMessageDone(work) && ItemMenu_UpdateQuantity(work) != TRUE) {
         result = ItemMenu_GetQuantityButton();
         if (result == -1) {
             if (GCTX_HIDGetPressedKeys() & PAD_BUTTON_A) {
@@ -1203,7 +1203,7 @@ static void ItemMenu_StateTossQuantity(ItemMenuWork *work) {
             ItemMenu_SetItemText(work, 0, work->item, work->quantity > 1, FALSE);
             WordSetNumber(work->wordSet, 1, work->quantity, 3, 0, TRUE);
             GFL_WordSetFormatStrbuf(work->wordSet, work->expandBuf, work->strbuf);
-            func_ov142_0219f760(work);
+            ItemMenuDisp_ShowMessageNow(work);
             ItemMenu_SetState(work, ItemMenu_StateTossAsk);
         } else if (result == 1) {
             GFL_SndSEPlay(SEQ_SE_CANCEL1);
@@ -1221,18 +1221,18 @@ static void ItemMenu_StateSell(ItemMenuWork *work) {
     price = GetItemParam(work->item, ITEM_PARAM_PRICE, work->heapId);
     important = GetItemParam(work->item, ITEM_PARAM_IMPORTANT, work->heapId);
     if (price == 0 || important != 0) {
-        func_ov142_0219fda8(work, FALSE);
+        ItemMenuDisp_SetButtonsActive(work, FALSE);
         GFL_MsgDataLoadStrbuf(work->msgData, 77, work->strbuf);
         ItemMenu_SetItemName(work, 0, work->item);
         GFL_WordSetFormatStrbuf(work->wordSet, work->expandBuf, work->strbuf);
-        func_ov142_0219f760(work);
-        func_ov142_0219ff40(work, FALSE);
+        ItemMenuDisp_ShowMessageNow(work);
+        ItemMenuDisp_SetBackButtonActive(work, FALSE);
         ItemMenu_SetState(work, ItemMenu_StateSellWaitMessage);
         return;
     }
     work->quantity = 1;
-    func_ov142_0219fa3c(work);
-    func_ov142_0219fda8(work, FALSE);
+    ItemMenuDisp_ShowMoney(work);
+    ItemMenuDisp_SetButtonsActive(work, FALSE);
     if (ItemMenu_GetSlot(work, ItemMenu_GetCursorIndex(work))->count == 1) {
         ItemMenu_SetState(work, ItemMenu_StateSellAsk);
         return;
@@ -1241,7 +1241,7 @@ static void ItemMenu_StateSell(ItemMenuWork *work) {
     GFL_MsgDataLoadStrbuf(work->msgData, 78, work->strbuf);
     ItemMenu_SetItemName(work, 0, work->item);
     GFL_WordSetFormatStrbuf(work->wordSet, work->expandBuf, work->strbuf);
-    func_ov142_0219f760(work);
+    ItemMenuDisp_ShowMessageNow(work);
     ItemMenu_SetState(work, ItemMenu_StateSellQuantity);
 }
 
@@ -1249,7 +1249,7 @@ static void ItemMenu_StateSell(ItemMenuWork *work) {
 static void ItemMenu_StateSellQuantity(ItemMenuWork *work) {
     s32 result;
 
-    if (func_ov142_0219f7a4(work) && ItemMenu_UpdateQuantity(work) != TRUE) {
+    if (ItemMenuDisp_IsMessageDone(work) && ItemMenu_UpdateQuantity(work) != TRUE) {
         result = ItemMenu_GetQuantityButton();
         if (result == -1) {
             if (GCTX_HIDGetPressedKeys() & PAD_BUTTON_A) {
@@ -1275,12 +1275,12 @@ static void ItemMenu_StateSellQuantity(ItemMenuWork *work) {
 static void ItemMenu_StateSellAsk(ItemMenuWork *work) {
     s32 price;
 
-    func_ov142_0219faac(work);
+    ItemMenuDisp_OpenYesNoMenu(work);
     price = ItemMenu_GetSellPrice(work->item, work->quantity, work->heapId);
     GFL_MsgDataLoadStrbuf(work->msgData, 79, work->strbuf);
     WordSetNumber(work->wordSet, 0, price, 7, 0, TRUE);
     GFL_WordSetFormatStrbuf(work->wordSet, work->expandBuf, work->strbuf);
-    func_ov142_0219f760(work);
+    ItemMenuDisp_ShowMessageNow(work);
     ItemMenu_SetState(work, ItemMenu_StateSellConfirm);
 }
 
@@ -1289,21 +1289,21 @@ static void ItemMenu_StateSellConfirm(ItemMenuWork *work) {
     u32 pos;
     s32 price;
 
-    if (func_ov142_0219f7a4(work) && AppTaskMenu_IsFlashFinished(work->taskMenu)) {
+    if (ItemMenuDisp_IsMessageDone(work) && AppTaskMenu_IsFlashFinished(work->taskMenu)) {
         pos = AppTaskMenu_GetCursorPos(work->taskMenu);
-        func_ov142_0219fb60(work);
+        ItemMenuDisp_CloseMenu(work);
         switch (pos) {
         case 0:
             price = ItemMenu_GetSellPrice(work->item, work->quantity, work->heapId);
             ItemMenu_SubItem(work, work->quantity);
             addCashToTotal(getTrainerCardDataBlkAddress(work->gameData), price);
             GFL_SndSEPlay(SEQ_SE_SYS_22);
-            func_ov142_0219f978(work);
+            ItemMenuDisp_DrawMoney(work);
             GFL_MsgDataLoadStrbuf(work->msgData, 80, work->strbuf);
             ItemMenu_SetItemText(work, 0, work->item, work->quantity > 1, FALSE);
             WordSetNumber(work->wordSet, 1, price, 7, 0, TRUE);
             GFL_WordSetFormatStrbuf(work->wordSet, work->expandBuf, work->strbuf);
-            func_ov142_0219f760(work);
+            ItemMenuDisp_ShowMessageNow(work);
             ItemMenu_SetState(work, ItemMenu_StateSellWaitMessage);
             break;
         case 1:
@@ -1315,7 +1315,7 @@ static void ItemMenu_StateSellConfirm(ItemMenuWork *work) {
 }
 
 static void ItemMenu_StateSellWaitMessage(ItemMenuWork *work) {
-    if (func_ov142_0219f7a4(work)) {
+    if (ItemMenuDisp_IsMessageDone(work)) {
         if (GCTX_HIDGetPressedKeys() & (PAD_BUTTON_A | PAD_BUTTON_B)) {
             ItemMenu_SetKeyMode(work, TRUE);
             ItemMenu_SetState(work, ItemMenu_StateSellEnd);
@@ -1332,10 +1332,10 @@ static void ItemMenu_StateSellEnd(ItemMenuWork *work) {
     work->drawnScroll = 0xffff;
     ItemMenu_UpdateList(work);
     work->listDirty = TRUE;
-    func_ov142_0219ed3c(work);
-    func_ov142_0219fa6c(work);
+    ItemMenuDisp_UpdateScrollBar(work);
+    ItemMenuDisp_HideMoney(work);
     func_0204c520(work->scrollBar, TRUE);
-    func_ov142_0219fda8(work, TRUE);
+    ItemMenuDisp_SetButtonsActive(work, TRUE);
     ItemMenu_ReturnToList(work);
 }
 
@@ -1399,8 +1399,8 @@ static void ItemMenu_FixCursorAfterRemove(ItemMenuWork *work) {
 // Shows the quantity
 static void ItemMenu_ShowQuantity(ItemMenuWork *work, u32 mode) {
     work->quantityMode = mode;
-    func_ov142_0219fb78(work);
-    func_ov142_0219fc14(work, work->quantity);
+    ItemMenuDisp_DrawQuantityFrame(work);
+    ItemMenuDisp_DrawQuantity(work, work->quantity);
     func_0204c124(work->buttons[5], TRUE);
     func_0204c124(work->buttons[6], TRUE);
 }
@@ -1482,7 +1482,7 @@ static BOOL ItemMenu_UpdateQuantity(ItemMenuWork *work) {
         } else {
             func_0204c488(work->buttons[6], 10);
         }
-        func_ov142_0219fc14(work, work->quantity);
+        ItemMenuDisp_DrawQuantity(work, work->quantity);
     }
     return changed;
 }
@@ -1505,9 +1505,9 @@ static void ItemMenu_StateMoveFreeSpace(ItemMenuWork *work) {
         BagItemList_Remove(&work->itemList, ItemMenu_GetCursorIndex(work), TRUE);
     }
     GFL_WordSetFormatStrbuf(work->wordSet, work->expandBuf, work->strbuf);
-    func_ov142_0219f6a4(work, FALSE);
+    ItemMenuDisp_ShowMessage(work, FALSE);
     GFL_SndSEPlay(SEQ_SE_SYS_36);
-    func_ov142_0219ff40(work, FALSE);
+    ItemMenuDisp_SetBackButtonActive(work, FALSE);
     ItemMenu_FixCursorAfterRemove(work);
     ItemMenu_SetState(work, ItemMenu_StateFreeSpaceWaitMessage);
 }
@@ -1524,11 +1524,11 @@ static void ItemMenu_StateFreeSpaceWaitMessage(ItemMenuWork *work) {
     work->drawnScroll = 0xffff;
     ItemMenu_UpdateList(work);
     work->listDirty = TRUE;
-    func_ov142_0219ed3c(work);
-    func_ov142_0219f0ac(work);
+    ItemMenuDisp_UpdateScrollBar(work);
+    ItemMenuDisp_ClearMsgWindow(work);
     func_0204c520(work->scrollBar, TRUE);
-    func_ov142_0219fda8(work, TRUE);
-    func_ov142_0219ff40(work, TRUE);
+    ItemMenuDisp_SetButtonsActive(work, TRUE);
+    ItemMenuDisp_SetBackButtonActive(work, TRUE);
     ItemMenu_ReturnToList(work);
 }
 
@@ -1759,7 +1759,7 @@ static void ItemMenu_ChangeFreeSpaceFilter(ItemMenuWork *work, u32 filter) {
         work->scroll = -1;
         work->drawnScroll = 0xffff;
         work->listDirty = TRUE;
-        func_ov142_0219ed3c(work);
+        ItemMenuDisp_UpdateScrollBar(work);
     }
 }
 
@@ -1772,7 +1772,7 @@ static void ItemMenu_ResetFreeSpaceFilter(ItemMenuWork *work) {
     if (work->pocket == BAG_POCKET_FREE_SPACE) {
         ItemMenu_SetFreeSpaceFilter(work, BAG_ITEM_FILTER_ALL);
     }
-    func_ov142_0219ff60(work);
+    ItemMenuDisp_UpdateSortButton(work);
 }
 
 // Shows the list's cursor for the keys, or hides it for the touch screen
@@ -1789,12 +1789,12 @@ static void ItemMenu_SetKeyMode(ItemMenuWork *work, BOOL keys) {
         keys = FALSE;
     }
     if (keys == FALSE) {
-        func_ov142_0219fd4c(work, FALSE);
+        ItemMenuDisp_SetListCursorPalette(work, FALSE);
     } else {
-        func_ov142_0219fd4c(work, TRUE);
+        ItemMenuDisp_SetListCursorPalette(work, TRUE);
         func_020352b0(work->paletteAnim);
     }
-    func_ov142_0219dda0(work, keys);
+    ItemMenuDisp_ShowTMIcons(work, keys);
 }
 
 // Whether the bag's mode lets items be registered
@@ -1830,7 +1830,7 @@ static BOOL ItemMenu_ToggleItemRegistration(ItemMenuWork *work, s32 row) {
 }
 
 static u32 ItemMenu_GetPocketShortcut(s32 pocket) {
-    return func_ov142_0219fd18(pocket);
+    return ItemMenuDisp_GetPocketShortcut(pocket);
 }
 
 // Registers the pocket for the Y button, or unregisters it
@@ -1927,7 +1927,7 @@ static void ItemMenu_OpenItemMenu(ItemMenuWork *work) {
             }
         }
     }
-    func_ov142_0219f0bc(work, menuMsgIds, count);
+    ItemMenuDisp_OpenItemMenu(work, menuMsgIds, count);
 }
 
 // Whether the item under the cursor is the Dowsing MCHN while it is on
@@ -1993,7 +1993,7 @@ static void ItemMenu_ButtonCallback(u32 button, u32 event, void *data) {
             if (ItemMenu_GetItemCount(work) > 1) {
                 ItemMenu_PressSortButton(work);
                 ItemMenu_SetKeyMode(work, FALSE);
-                func_ov142_0219ff40(work, FALSE);
+                ItemMenuDisp_SetBackButtonActive(work, FALSE);
                 work->drawnScroll = 0xffff;
                 ItemMenu_UpdateList(work);
                 ItemMenu_SetState(work, ItemMenu_StateOpenSortMenu);
@@ -2002,7 +2002,7 @@ static void ItemMenu_ButtonCallback(u32 button, u32 event, void *data) {
         } else if (ItemMenu_CountFilterActions(work) > 2) {
             ItemMenu_PressSortButton(work);
             ItemMenu_SetKeyMode(work, FALSE);
-            func_ov142_0219ff40(work, FALSE);
+            ItemMenuDisp_SetBackButtonActive(work, FALSE);
             work->drawnScroll = 0xffff;
             ItemMenu_UpdateList(work);
             ItemMenu_SetState(work, ItemMenu_StateOpenFilterMenu);
@@ -2047,7 +2047,7 @@ static void ItemMenu_ButtonCallback(u32 button, u32 event, void *data) {
         ItemMenu_SetKeyMode(work, FALSE);
         work->drawnScroll = 0xffff;
         ItemMenu_UpdateList(work);
-        func_ov142_0219de0c(work);
+        ItemMenuDisp_DrawItemInfo(work);
         ItemMenu_SetState(work, ItemMenu_StateFlashCursor);
         return;
     } else if (button >= 18) {
@@ -2072,10 +2072,10 @@ static void ItemMenu_VBlank(TCB *tcb, void *data) {
     ItemMenuWork *work = data;
 
     if (work->tmInfoRequest == 1) {
-        func_ov142_0219dd84(work, TRUE);
+        ItemMenuDisp_ShowTMInfoBGs(work, TRUE);
         work->tmInfoRequest = 0;
     } else if (work->tmInfoRequest == 2) {
-        func_ov142_0219dd84(work, FALSE);
+        ItemMenuDisp_ShowTMInfoBGs(work, FALSE);
         work->tmInfoRequest = 0;
     }
     PaletteFade_Transfer(work->paletteFade);
@@ -2093,7 +2093,7 @@ static void ItemMenu_StateFadeIn(ItemMenuWork *work) {
 
 static void ItemMenu_StateWaitFadeIn(ItemMenuWork *work) {
     BOOL finished = GFL_WipeIsFinished();
-    BOOL busy = func_ov142_021a00a0(work);
+    BOOL busy = ItemMenuDisp_SlidePocketTabs(work);
 
     if (finished == TRUE && busy == FALSE) {
         func_0204c520(work->scrollBar, TRUE);
@@ -2191,22 +2191,22 @@ static BOOL ItemMenuProc_Init(GameProc *proc, u32 *state, void *param, void *dat
     work->printQueue = func_020219a8(0x1000, work->heapId);
     work->keyCursor = KeyCursor_Create(15, TRUE, TRUE, work->heapId);
     work->font = GFL_FontCreate(23, 0, 0, FALSE, work->heapId);
-    func_ov142_0219d7a8(work);
-    func_ov142_0219e284(work);
-    func_ov142_0219e5c4(work);
-    func_ov142_0219efc0(work);
+    ItemMenuDisp_Init(work);
+    ItemMenuDisp_CreateWindows(work);
+    ItemMenuDisp_LoadListRes(work);
+    ItemMenuDisp_CreatePocketTabs(work);
     ItemMenu_RedrawList(work);
-    func_ov142_0219e6f8(work);
+    ItemMenuDisp_CreateListActors(work);
     work->buttonMan = GFL_BMN_Create(sButtonRects, ItemMenu_ButtonCallback, work, work->heapId);
     ItemMenu_CreatePaletteAnim(work);
     ItemMenu_CreatePaletteFade(work);
     work->vblankTask = GFL_VBlankTCBAdd(ItemMenu_VBlank, work, 0);
     work->tcbManager = GFL_TCBExMgrCreate(work->heapId, work->heapId, 1, 0);
-    func_ov142_0219f84c(work);
+    ItemMenuDisp_CreatePocketWindows(work);
     work->taskMenuRes = AppTaskMenuRes_Create(3, 9, work->font, work->printQueue, work->heapId);
     func_02042ba8(TRUE, work->heapId);
     ItemMenu_SetKeyMode(work, func_0203d554() ? FALSE : TRUE);
-    func_ov142_0219d664();
+    ItemMenuDisp_ShowBGs();
     ItemMenu_SetState(work, ItemMenu_StateFadeIn);
     return TRUE;
 }
@@ -2221,15 +2221,15 @@ static BOOL ItemMenuProc_Main(GameProc *proc, u32 *state, void *param, void *dat
     work->drawnScroll = work->scroll;
     work->state(work);
     if (work->listDirty) {
-        func_ov142_0219eb54(work);
+        ItemMenuDisp_UpdateListCursor(work);
         work->listDirty = FALSE;
     }
     if (work->iconsDirty) {
-        func_ov142_0219ebdc(work);
+        ItemMenuDisp_UpdateListRows(work);
         work->iconsDirty = FALSE;
     }
-    func_ov142_0219e5a8(work);
-    func_ov142_021a014c(work);
+    ItemMenuDisp_Update(work);
+    ItemMenuDisp_FlushWindows(work);
     GFL_TCBExMgrUpdate(work->tcbManager);
     return FALSE;
 }
@@ -2249,15 +2249,15 @@ static BOOL ItemMenuProc_Exit(GameProc *proc, u32 *state, void *param, void *dat
     func_020088a4(work->cursor, work->pocket);
     func_02008894(work->cursor, work->pocket, work->cursorRow, work->scroll + 1);
     AppTaskMenuRes_Free(work->taskMenuRes);
-    func_ov142_0219e168(work);
-    func_ov142_0219dd14(work);
+    ItemMenuDisp_Exit(work);
+    ItemMenuDisp_FreeBGChars(work);
     GFL_TCBExMgrFree(work->tcbManager);
     GFL_MsgDataFree(work->msgData);
     GFL_StrBufFree(work->strbuf);
     GFL_StrBufFree(work->expandBuf);
     GFL_StrBufFree(work->tempBuf);
     GFL_WordSetSystemFree(work->wordSet);
-    func_ov142_0219f8c4(work);
+    ItemMenuDisp_FreePocketWindows(work);
     if (work->msgWindow.window != NULL) {
         GFL_BGSysFreeCharMemory(3, CHAR_POS(work->cursorImageChars), CHAR_SIZE(work->cursorImageChars));
         BmpWin_Free(work->msgWindow.window);
@@ -2311,7 +2311,7 @@ static void ItemMenu_StateFlashCursor(ItemMenuWork *work) {
         GFL_SndSEPlay(SEQ_SE_DECIDE1);
         // fallthrough
     case 3:
-        func_ov142_0219fd4c(work, 0);
+        ItemMenuDisp_SetListCursorPalette(work, 0);
         work->buttonAnim++;
         break;
     case 1:
@@ -2325,12 +2325,12 @@ static void ItemMenu_StateFlashCursor(ItemMenuWork *work) {
         break;
     case 2:
     case 5:
-        func_ov142_0219fd4c(work, 2);
+        ItemMenuDisp_SetListCursorPalette(work, 2);
         work->buttonAnim++;
         break;
     case 7:
         work->buttonAnim = 0;
-        func_ov142_0219fd4c(work, 1);
+        ItemMenuDisp_SetListCursorPalette(work, 1);
         func_020352b0(work->paletteAnim);
         func_02035198(work->paletteAnim);
         ItemMenu_SetState(work, ItemMenu_StateSelectItem);
@@ -2424,7 +2424,7 @@ static s32 ItemMenu_GetQuantityButton(void) {
 static void ItemMenu_StateTossCancel(ItemMenuWork *work) {
     ItemMenu_HideQuantity(work);
     func_0204c520(work->scrollBar, TRUE);
-    func_ov142_0219fda8(work, TRUE);
+    ItemMenuDisp_SetButtonsActive(work, TRUE);
     ItemMenu_SetKeyMode(work, func_0203d554() ? FALSE : TRUE);
     ItemMenu_ReturnToList(work);
 }
@@ -2432,7 +2432,7 @@ static void ItemMenu_StateTossCancel(ItemMenuWork *work) {
 static void ItemMenu_StateSellCancel(ItemMenuWork *work) {
     ItemMenu_HideQuantity(work);
     func_0204c520(work->scrollBar, TRUE);
-    func_ov142_0219fda8(work, TRUE);
+    ItemMenuDisp_SetButtonsActive(work, TRUE);
     ItemMenu_SetKeyMode(work, func_0203d554() ? FALSE : TRUE);
     ItemMenu_SetState(work, ItemMenu_StateSellEnd);
 }
@@ -2456,8 +2456,8 @@ static void ItemMenu_StateOpenSortMenu(ItemMenuWork *work) {
         func_0204c488(work->sortButton, 0);
         func_0204c520(work->scrollBar, FALSE);
         GFL_MsgDataLoadStrbuf(work->msgData, 151, work->expandBuf);
-        func_ov142_0219f6a4(work, FALSE);
-        func_ov142_0219fda8(work, FALSE);
+        ItemMenuDisp_ShowMessage(work, FALSE);
+        ItemMenuDisp_SetButtonsActive(work, FALSE);
         ItemMenu_OpenSortMenu(work);
         ItemMenu_SetState(work, ItemMenu_StateSortMenu);
     }
@@ -2478,7 +2478,7 @@ static void ItemMenu_OpenSortMenu(ItemMenuWork *work) {
             count++;
         }
     }
-    func_ov142_0219f1a0(work, menuMsgIds, count);
+    ItemMenuDisp_OpenSortMenu(work, menuMsgIds, count);
 }
 
 // The sorts a pocket offers
@@ -2501,7 +2501,7 @@ static void ItemMenu_GetSortActions(ItemMenuWork *work, u8 *actions) {
 static void ItemMenu_StateSortMenu(ItemMenuWork *work) {
     BOOL done = FALSE;
 
-    if (func_ov142_0219f7a4(work)) {
+    if (ItemMenuDisp_IsMessageDone(work)) {
         if (AppTaskMenu_IsFlashFinished(work->taskMenu)) {
             work->menuAction = work->sortMenuActions[AppTaskMenu_GetCursorPos(work->taskMenu)];
             switch (work->menuAction) {
@@ -2537,12 +2537,12 @@ static void ItemMenu_StateSortMenu(ItemMenuWork *work) {
                 break;
             case 5:
                 if (func_0203d554() == TRUE) {
-                    func_ov142_0219e120(work);
+                    ItemMenuDisp_HideItemInfo(work);
                 } else {
-                    func_ov142_0219de0c(work);
+                    ItemMenuDisp_DrawItemInfo(work);
                 }
                 ItemMenu_SetKeyMode(work, func_0203d554() ? FALSE : TRUE);
-                func_ov142_0219fda8(work, TRUE);
+                ItemMenuDisp_SetButtonsActive(work, TRUE);
                 done = TRUE;
                 func_0204c520(work->scrollBar, TRUE);
                 ItemMenu_ReturnToList(work);
@@ -2550,7 +2550,7 @@ static void ItemMenu_StateSortMenu(ItemMenuWork *work) {
             }
         }
         if (done) {
-            func_ov142_0219f0ac(work);
+            ItemMenuDisp_ClearMsgWindow(work);
             AppTaskMenu_Free(work->taskMenu);
             work->taskMenu = NULL;
         }
@@ -2579,7 +2579,7 @@ static void ItemMenu_StateSortDone(ItemMenuWork *work) {
         GFL_MsgDataLoadStrbuf(work->msgData, 151, work->expandBuf);
         break;
     }
-    func_ov142_0219f6a4(work, FALSE);
+    ItemMenuDisp_ShowMessage(work, FALSE);
     ItemMenu_SetState(work, ItemMenu_StateSortWaitMessage);
 }
 
@@ -2625,7 +2625,7 @@ static void ItemMenu_StateFilterDone(ItemMenuWork *work) {
         GFL_MsgDataLoadStrbuf(work->msgData, 151, work->expandBuf);
         break;
     }
-    func_ov142_0219f6a4(work, FALSE);
+    ItemMenuDisp_ShowMessage(work, FALSE);
     ItemMenu_SetState(work, ItemMenu_StateSortWaitMessage);
 }
 
@@ -2635,8 +2635,8 @@ static void ItemMenu_StateOpenFilterMenu(ItemMenuWork *work) {
         func_0204c488(work->filterButton, 2);
         func_0204c520(work->scrollBar, FALSE);
         GFL_MsgDataLoadStrbuf(work->msgData, 147, work->expandBuf);
-        func_ov142_0219f6a4(work, FALSE);
-        func_ov142_0219fda8(work, FALSE);
+        ItemMenuDisp_ShowMessage(work, FALSE);
+        ItemMenuDisp_SetButtonsActive(work, FALSE);
         ItemMenu_OpenFilterMenu(work);
         ItemMenu_SetState(work, ItemMenu_StateFilterMenu);
     }
@@ -2658,7 +2658,7 @@ static void ItemMenu_OpenFilterMenu(ItemMenuWork *work) {
     window = work->menuTitleWindow.window;
     BmpWin_ClearScreen(window);
     GFL_BGSysLoadScr(BmpWin_GetBGIndex(window));
-    func_ov142_0219f284(work, count);
+    ItemMenuDisp_OpenFilterMenu(work, count);
 }
 
 // The filters the Free Space offers: those of the pockets it holds items of, but not the current one
@@ -2721,7 +2721,7 @@ s32 ItemMenu_CountFilterActions(ItemMenuWork *work) {
 static void ItemMenu_StateFilterMenu(ItemMenuWork *work) {
     BOOL done = FALSE;
 
-    if (func_ov142_0219f7a4(work)) {
+    if (ItemMenuDisp_IsMessageDone(work)) {
         if (AppTaskMenu_IsFlashFinished(work->taskMenu)) {
             work->menuAction = work->freeSpaceMenuActions[AppTaskMenu_GetCursorPos(work->taskMenu)];
             switch (work->menuAction) {
@@ -2763,12 +2763,12 @@ static void ItemMenu_StateFilterMenu(ItemMenuWork *work) {
                 break;
             case 6:
                 if (func_0203d554() == TRUE) {
-                    func_ov142_0219e120(work);
+                    ItemMenuDisp_HideItemInfo(work);
                 } else {
-                    func_ov142_0219de0c(work);
+                    ItemMenuDisp_DrawItemInfo(work);
                 }
                 ItemMenu_SetKeyMode(work, func_0203d554() ? FALSE : TRUE);
-                func_ov142_0219fda8(work, TRUE);
+                ItemMenuDisp_SetButtonsActive(work, TRUE);
                 done = TRUE;
                 func_0204c520(work->scrollBar, TRUE);
                 ItemMenu_ReturnToList(work);
@@ -2776,7 +2776,7 @@ static void ItemMenu_StateFilterMenu(ItemMenuWork *work) {
             }
         }
         if (done) {
-            func_ov142_0219f0ac(work);
+            ItemMenuDisp_ClearMsgWindow(work);
             AppTaskMenu_Free(work->taskMenu);
             work->taskMenu = NULL;
         }
@@ -2793,11 +2793,11 @@ static void ItemMenu_StateSortWaitMessage(ItemMenuWork *work) {
         return;
     }
     work->drawnScroll = 0xffff;
-    func_ov142_0219ed3c(work);
+    ItemMenuDisp_UpdateScrollBar(work);
     ItemMenu_UpdateList(work);
-    func_ov142_0219f0ac(work);
+    ItemMenuDisp_ClearMsgWindow(work);
     func_0204c520(work->scrollBar, TRUE);
-    func_ov142_0219fda8(work, TRUE);
+    ItemMenuDisp_SetButtonsActive(work, TRUE);
     ItemMenu_ReturnToList(work);
 }
 

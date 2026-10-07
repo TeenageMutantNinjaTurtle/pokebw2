@@ -62,7 +62,7 @@ void func_ov012_0215917c(GameData *gameData, Field *field) {
 
 void func_ov012_021591b4(GameData *gameData) {
     EncountState *state = GameData_GetEncountState(gameData);
-    state->unk14 = 0;
+    state->phenomenonSteps = 0;
 }
 
 void GameData_InitEncountTerrain(GameData *gameData, Field *field) {

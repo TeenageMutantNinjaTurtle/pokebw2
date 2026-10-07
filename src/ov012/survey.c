@@ -181,7 +181,7 @@ u16 detectLengthSinceLastSession(SaveControl *save) {
 }
 
 u32 func_ov012_02165480(void *survey, u8 answer) {
-    u32 count = func_0200ecf0(survey) + func_0200ed14(survey, answer);
+    u32 count = func_0200ecf0(survey, answer) + func_0200ed14(survey, answer);
 
     if (count > SURVEY_COUNT_MAX) {
         count = SURVEY_COUNT_MAX;

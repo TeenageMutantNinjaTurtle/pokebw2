@@ -22,6 +22,12 @@ unsigned ones, while the game has one copy of it, so `_ll_mul` is a label on `_u
 to float) is a label on swan's `__aeabi_i2f`, and `_u32_div_f` (unsigned division) on `__aeabi_uidivmod`. `add-data`
 adds an object that nothing references, such as a global constant that the compiler folds into the code but still emits,
 so that the object before it does not seem to run on over it.
+`section-start` and `section-end` move one end of a registered source file's section, as an object at a boundary
+that turns out to belong to the neighbouring file needs; `add_source_file.py` only adds files:
+
+```sh
+.venv/bin/python tools/scripts/config_fixes.py section-end overlays/ov310 src/ov310/research_list.c .rodata 0x021a7028
+```
 
 A relocation that dsd could not pin to one overlay only links while its symbol is global. When a function becomes
 `static` in a decompiled file, check `relocs.txt` of both versions for relocations to its address with several
