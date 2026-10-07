@@ -5,6 +5,7 @@
 #include "types.h"
 #include "app/monolith.h"
 #include "app/monolith/monolith_main.h"
+#include "app/monolith/monolith_power_select.h"
 #include "app/monolith/monolith_record.h"
 #include "app/monolith/monolith_status.h"
 #include "app/monolith/monolith_top.h"
@@ -95,7 +96,7 @@ static const BGSysVRAMConfig sMonolithVRAMConfig = {
 // The procs of each screen, by MONOLITH_SCREEN_*
 static const MonolithScreenProcs sMonolithScreens[MONOLITH_SCREEN_COUNT] = {
     { &MONOLITH_STATUS_PROC_FUNCTIONS, &MONOLITH_TOP_PROC_FUNCTIONS },
-    { &data_ov143_021a0134, &data_ov143_021a00b0 },
+    { &data_ov143_021a0134, &MONOLITH_POWER_SELECT_PROC_FUNCTIONS },
     { &MONOLITH_STATUS_PROC_FUNCTIONS, &MONOLITH_RECORD_PROC_FUNCTIONS },
     { &data_ov143_021a0388, &data_ov143_021a01e4 },
 };

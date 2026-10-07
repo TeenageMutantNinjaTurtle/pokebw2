@@ -196,7 +196,7 @@ BrBtnSys *BrBtnSys_Init(int menuID, ClActUnit *unit, BrRes *res, BrRecordInfo *r
     p_wk->btn_stack_max = BR_BTN_SYS_STACK_MAX;
     p_wk->btn_stack = GFL_HeapAllocate(heapId, sizeof(BrBtnWork) * BR_BTN_SYS_STACK_MAX, FALSE, "br_btn.c", 368);
     sys_memset(p_wk->btn_stack, 0, sizeof(BrBtnWork) * BR_BTN_SYS_STACK_MAX);
-    p_wk->seq = func_ov271_021f44ec(p_wk, BrBtnSys_Seq_Start, heapId);
+    p_wk->seq = BrSeq_Init(p_wk, BrBtnSys_Seq_Start, heapId);
 
     if (p_wk->recovery->stack_num != 0) {
         MsgData *msg = BrRes_GetMsgData(res);
@@ -215,7 +215,7 @@ BrBtnSys *BrBtnSys_Init(int menuID, ClActUnit *unit, BrRes *res, BrRecordInfo *r
         for (i = 0; i < p_wk->btn_stack_num; i++) {
             BrBtnWork_SetStackPos(&p_wk->btn_stack[p_wk->btn_stack_num - i - 1], i);
         }
-        func_ov271_021f4550(p_wk->seq, BrBtnSys_Seq_Unstack);
+        BrSeq_SetNext(p_wk->seq, BrBtnSys_Seq_Unstack);
         p_wk->btnType = BR_BTN_TYPE_RETURN;
     } else {
         MsgData *msg = BrRes_GetMsgData(res);
@@ -231,7 +231,7 @@ BrBtnSys *BrBtnSys_Init(int menuID, ClActUnit *unit, BrRes *res, BrRecordInfo *r
         for (i = 0; i < p_wk->btn_num; i++) {
             BrBtnWork_SetPosY(&p_wk->btn[i], 224);
         }
-        func_ov271_021f4550(p_wk->seq, BrBtnSys_Seq_Open);
+        BrSeq_SetNext(p_wk->seq, BrBtnSys_Seq_Open);
     }
     return p_wk;
 }
@@ -239,9 +239,9 @@ BrBtnSys *BrBtnSys_Init(int menuID, ClActUnit *unit, BrRes *res, BrRecordInfo *r
 void BrBtnSys_Exit(BrBtnSys *p_wk) {
     int i;
 
-    func_ov271_021f4528(p_wk->seq);
+    BrSeq_Exit(p_wk->seq);
     if (p_wk->text != NULL) {
-        func_ov271_021f3f70(p_wk->text, p_wk->res);
+        BrText_Exit(p_wk->text, p_wk->res);
         p_wk->text = NULL;
     }
     for (i = 0; i < p_wk->btn_stack_num; i++) {
@@ -261,10 +261,10 @@ void BrBtnSys_Exit(BrBtnSys *p_wk) {
 }
 
 void BrBtnSys_Main(BrBtnSys *p_wk) {
-    func_ov271_021f4530(p_wk->seq);
+    BrSeq_Main(p_wk->seq);
     func_02021a3c(p_wk->que);
     if (p_wk->text != NULL) {
-        func_ov271_021f3fd0(p_wk->text);
+        BrText_Main(p_wk->text);
     }
 }
 
@@ -367,7 +367,7 @@ static void BrBtnSys_SetStackPalette(BrBtnSys *p_wk, u32 mode) {
 }
 
 static void BrBtnSys_Seq_Start(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
-    func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_Main);
+    BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_Main);
 }
 
 static void BrBtnSys_Seq_Main(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
@@ -384,7 +384,7 @@ static void BrBtnSys_Seq_Main(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
             if (BrBtnWork_GetTrg(&p_wk->btn[i], x, y)) {
                 if (BrBtnWork_GetParam(&p_wk->btn[i], BR_BTN_PARAM_VALID)) {
                     if (p_wk->text != NULL) {
-                        func_ov271_021f3f70(p_wk->text, p_wk->res);
+                        BrText_Exit(p_wk->text, p_wk->res);
                         p_wk->text = NULL;
                     }
                     GFL_SndSEPlay(0x703);
@@ -392,7 +392,7 @@ static void BrBtnSys_Seq_Main(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
                     isTrg = TRUE;
                     p_wk->trgPos.x = x;
                     p_wk->trgPos.y = y;
-                    func_ov271_021f4678(p_wk->ballEff, 7, &p_wk->trgPos);
+                    BrBallEff_Start(p_wk->ballEff, BR_BALL_EFFECT_TOUCH, &p_wk->trgPos);
                     BrBtnWork_SetFollow(&p_wk->btn[p_wk->trgIdx], &p_wk->trgPos);
                     p_wk->unk54 = 0;
                 } else {
@@ -402,7 +402,7 @@ static void BrBtnSys_Seq_Main(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
                     GFL_SndSEPlay(0x704);
                     if (type == 1) {
                         p_wk->trgIdx = i;
-                        func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_Info);
+                        BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_Info);
                     }
                 }
                 break;
@@ -426,18 +426,18 @@ static void BrBtnSys_Seq_Main(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
 
         switch (p_wk->btnType) {
         case BR_BTN_TYPE_RETURN:
-            func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_Return);
+            BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_Return);
             break;
         case BR_BTN_TYPE_SELECT:
         case BR_BTN_TYPE_MENU:
         case BR_BTN_TYPE_CHANGE_DISPLAY:
-            func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_Hide);
+            BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_Hide);
             break;
         case BR_BTN_TYPE_EXIT:
-            func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_Close);
+            BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_Close);
             break;
         default:
-            func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_End);
+            BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_End);
             break;
         }
     }
@@ -474,10 +474,10 @@ static void BrBtnSys_Seq_Hide(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
     case 2:
         // Both branches start the same sequence
         if (p_wk->btnType == BR_BTN_TYPE_CHANGE_DISPLAY) {
-            func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_Change);
+            BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_Change);
             return;
         } else {
-            func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_Change);
+            BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_Change);
         }
         break;
     }
@@ -498,7 +498,7 @@ static void BrBtnSys_Seq_Change(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
         sys_memset(&p_wk->btn[p_wk->trgIdx], 0, sizeof(BrBtnWork));
         pos.y = -32;
         BrBtnSys_LoadMenu(p_wk, nextMenuID, &pos);
-        func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_Stack);
+        BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_Stack);
     } else if (p_wk->btnType == BR_BTN_TYPE_RETURN) {
         BrBtnWork btn;
 
@@ -520,7 +520,7 @@ static void BrBtnSys_Seq_Change(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
                 }
             }
             BrBtnWork_Exit(&btn);
-            func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_Show);
+            BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_Show);
         }
     } else {
         BrBtnSys_PushStack(p_wk, &p_wk->btn[p_wk->trgIdx], CLACT_SURFACE_SUB);
@@ -530,7 +530,7 @@ static void BrBtnSys_Seq_Change(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
         for (i = 0; i < p_wk->btn_num; i++) {
             BrBtnWork_Exit(&p_wk->btn[i]);
         }
-        func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_Stack);
+        BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_Stack);
     }
 }
 
@@ -560,13 +560,13 @@ static void BrBtnSys_Seq_Show(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
         switch (p_wk->btnType) {
         case BR_BTN_TYPE_SELECT:
         case BR_BTN_TYPE_MENU:
-            func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_End);
+            BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_End);
             break;
         case BR_BTN_TYPE_CHANGE_DISPLAY:
-            func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_Stack);
+            BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_Stack);
             break;
         default:
-            func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_End);
+            BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_End);
             break;
         }
         break;
@@ -600,7 +600,7 @@ static void BrBtnSys_Seq_Return(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
         break;
     }
     case 2:
-        func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_Unstack);
+        BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_Unstack);
         break;
     }
 }
@@ -640,9 +640,9 @@ static void BrBtnSys_Seq_Stack(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
 
         if (type == BR_BTN_TYPE_MENU) {
             if (p_wk->text == NULL) {
-                p_wk->text = func_ov271_021f3f40(p_wk->res, p_wk->que, p_wk->heapId);
+                p_wk->text = BrText_Init(p_wk->res, p_wk->que, p_wk->heapId);
             }
-            func_ov271_021f3f84(p_wk->text, p_wk->res, msgID);
+            BrText_Print(p_wk->text, p_wk->res, msgID);
         }
         *p_seq = 3;
         break;
@@ -651,10 +651,10 @@ static void BrBtnSys_Seq_Stack(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
         switch (p_wk->btnType) {
         case BR_BTN_TYPE_SELECT:
         case BR_BTN_TYPE_MENU:
-            func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_Show);
+            BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_Show);
             break;
         default:
-            func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_End);
+            BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_End);
         }
         break;
     }
@@ -697,7 +697,7 @@ static void BrBtnSys_Seq_Unstack(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
         break;
     }
     case 2:
-        func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_Change);
+        BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_Change);
         break;
     }
 }
@@ -721,7 +721,7 @@ static void BrBtnSys_Seq_End(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
                 break;
             }
         }
-        func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_Main);
+        BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_Main);
         break;
     }
 }
@@ -734,9 +734,9 @@ static void BrBtnSys_Seq_Info(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
         u32 msgID = BrBtnWork_GetParam(&p_wk->btn[p_wk->trgIdx], BR_BTN_PARAM_UNVALID_DATA);
 
         if (p_wk->text == NULL) {
-            p_wk->text = func_ov271_021f3f40(p_wk->res, p_wk->que, p_wk->heapId);
+            p_wk->text = BrText_Init(p_wk->res, p_wk->que, p_wk->heapId);
         }
-        func_ov271_021f3f84(p_wk->text, p_wk->res, msgID);
+        BrText_Print(p_wk->text, p_wk->res, msgID);
         *p_seq = 1;
         break;
     }
@@ -744,7 +744,7 @@ static void BrBtnSys_Seq_Info(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
         *p_seq = 2;
         break;
     case 2:
-        func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_Main);
+        BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_Main);
         break;
     }
 }
@@ -776,7 +776,7 @@ static void BrBtnSys_Seq_Open(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
         break;
     }
     case 2:
-        func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_Start);
+        BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_Start);
         break;
     }
 }
@@ -808,7 +808,7 @@ static void BrBtnSys_Seq_Close(BrSeq *p_seqwk, u32 *p_seq, void *p_wk_adrs) {
         break;
     }
     case 2:
-        func_ov271_021f4550(p_seqwk, BrBtnSys_Seq_End);
+        BrSeq_SetNext(p_seqwk, BrBtnSys_Seq_End);
         break;
     }
 }
