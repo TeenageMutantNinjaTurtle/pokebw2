@@ -647,7 +647,8 @@ static void func_02022464(TCBEx *task, void *data) {
                 // Scrolls the window up a line, 4 pixels a frame
                 if (stream->scrollOffset < 16) {
                     u16 step = 4;
-                    int width, height;
+                    u16 width;
+                    int height;
 
                     if (stream->scrollOffset + 4 > 16) {
                         step = 16 - stream->scrollOffset;
@@ -854,7 +855,7 @@ u32 func_0202284c(const StrBuf *strbuf) {
     return lines;
 }
 
-s32 GFL_FontGetBlockWidth(const StrBuf *strbuf, Font *font, u32 spacing) {
+u32 GFL_FontGetBlockWidth(const StrBuf *strbuf, Font *font, u32 spacing) {
     u32 width = 0;
     const u16 *str = GFL_StrBufGetStringPtr(strbuf);
 

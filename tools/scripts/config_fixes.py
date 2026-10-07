@@ -24,7 +24,7 @@ import re
 import sys
 from pathlib import Path
 
-from dsd_config import ROOT, load_modules, parse_sections, reloc_module_names
+from dsd_config import ROOT, config_lock, load_modules, parse_sections, reloc_module_names
 
 PRIMARY = "b2_us"
 OTHERS = ["w2_us"]
@@ -282,4 +282,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    with config_lock():
+        main()

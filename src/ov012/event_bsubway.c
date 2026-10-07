@@ -1,16 +1,15 @@
 // The Battle Subway's events: picking the Pokémon to enter, the battle, the trainers' and leaders' messages, and its
 // records screen. The name is descriptive
-//
-// Not written yet: func_ov012_02166428, the battle's event, reads the battle's music from a BtlSetup field that
-// battle/btl_setup.h does not have yet, so it is declared here without static until it is written
 #include "types.h"
 #include "app/ov141.h"
 #include "app/p_status.h"
 #include "app/pokelist.h"
 #include "battle/battle_proc.h"
+#include "battle/btl_net.h"
 #include "battle/btl_setup.h"
 #include "battle/regulation.h"
 #include "field/bsubway_scr.h"
+#include "field/encounter.h"
 #include "field/event_battle.h"
 #include "field/field.h"
 #include "field/field_actor.h"
@@ -121,7 +120,6 @@ static const GameProcFunctions data_ov012_0216dc5c = {
     func_ov012_021662e4,
 };
 
-GameEventReturnCode func_ov012_02166428(GameEvent *event, u32 *state, void *work);
 static GameEvent *func_ov012_02166508(BSubwayScrWork *bsw, GameSystem *gsys, Field *field);
 
 static GameEventReturnCode func_ov012_02165eb8(GameEvent *event, u32 *state, void *work) {
@@ -266,17 +264,17 @@ GameEvent *func_ov012_02166118(BSubwayScrWork *bsw, GameSystem *gsys, u16 index,
 
     data->gsys = gsys;
     data->actorId = actorId;
-    if (bsw->trainers[index].message.sentenceType == 0xffff) {
+    if (bsw->trainers[index].message.type == 0xffff) {
         data->strbuf = GFL_StrBufCreate(0x300, HEAPID_GAMEEVENT);
         msgData = GFL_MsgSysLoadData(FALSE, 2, 0x178, HEAPID_GAMEEVENT);
-        messageId = bsw->trainers[index].message.sentenceId;
+        messageId = bsw->trainers[index].message.id;
         if (messageId >= 0x3ae) {
             messageId = 0;
         }
         GFL_MsgDataLoadStrbuf(msgData, messageId, data->strbuf);
         GFL_MsgDataFree(msgData);
     } else {
-        data->strbuf = func_02029c80(&bsw->trainers[index].message, HEAPID_GAMEEVENT);
+        data->strbuf = PMSData_ToString(&bsw->trainers[index].message, HEAPID_GAMEEVENT);
     }
     CopyActorWPos(FindFieldActor(GameData_GetMMSys(gameData), data->actorId), &data->pos);
     camera = Field_GetCameraSystem(field);
@@ -409,6 +407,57 @@ static GameEvent *func_ov012_02166400(GameSystem *gsys, BtlSetup *setup, void *a
     return event;
 }
 
+static GameEventReturnCode func_ov012_02166428(GameEvent *event, u32 *state, void *work) {
+    BSubwayBattleData *data = work;
+    GameSystem *gsys = data->gsys;
+    Field *field = data->field;
+
+    switch (*state) {
+    case 0:
+        GameEvent_ChainNext(event, CallEventPrepareResidentActorsForZoneChange(gsys, field));
+        (*state)++;
+        break;
+    case 1:
+        GameEvent_ChainNext(event, EventBattleBGMPlay_Create(gsys, data->setup->fieldSituation.bgm));
+        (*state)++;
+        break;
+    case 2:
+        func_ov036_021a2364(Field_GetEncountSystem(field));
+        EncEff_StartEvent(Field_GetEncEff(data->field), event, 9);
+        (*state)++;
+        break;
+    case 3:
+        GameEvent_ChainNext(event, CreateFieldCloseEvent(gsys, field));
+        (*state)++;
+        break;
+    case 4:
+        GameEvent_ChainNext(event, func_ov012_02166400(gsys, data->setup, data->unk0C));
+        (*state)++;
+        break;
+    case 5:
+        GameEvent_ChainNext(event, EventBGMFadePop_Create(gsys));
+        (*state)++;
+        break;
+    case 6:
+        GameEvent_ChainNext(event, EventFieldOpen_CreateHeadless(gsys));
+        (*state)++;
+        break;
+    case 7:
+        GameEvent_ChainNext(event, EventBGMFadeWait_Create(gsys));
+        (*state)++;
+        break;
+    case 8:
+        GameEvent_ChainNext(event, CallFieldMapEntranceInTransition(gsys, field, 0, 0, 1, 0, 0));
+        (*state)++;
+        break;
+    case 9:
+        return GAMEEVENT_DONE;
+    default:
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
+}
+
 static GameEvent *func_ov012_021664dc(GameSystem *gsys, Field *field, BtlSetup *setup, void *a3) {
     GameEvent *event = GameEvent_Create(gsys, NULL, func_ov012_02166428, sizeof(BSubwayBattleData));
     BSubwayBattleData *data = GameEvent_GetData(event);
@@ -475,7 +524,7 @@ GameEvent *func_ov012_0216657c(GameSystem *gsys, u16 index, u16 actorId) {
     data->pos.y += offset.y;
     data->pos.z += offset.z;
     leaderData = func_0200e7f0(SaveControl_GetBlockPtr(GameData_GetSaveControl(gameData), 0x3a), HEAPID_GAMEEVENT);
-    data->strbuf = func_02029c80(&leaderData->leaders[index].message, HEAPID_GAMEEVENT);
+    data->strbuf = PMSData_ToString(&leaderData->leaders[index].message, HEAPID_GAMEEVENT);
     GFL_HeapFree(leaderData);
     func_ov036_021a8c00(winPos, &winX, &winY);
     data->msgWin = ActorMsgWin_CheckAndCreate(msgBGSys, winX, &data->pos, data->strbuf, 0, winY);

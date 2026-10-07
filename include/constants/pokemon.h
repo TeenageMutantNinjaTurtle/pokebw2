@@ -79,6 +79,8 @@
 #define PKM_PARAM_LEGAL_SPECIES 0xab
 // The individual values packed in a word
 #define PKM_PARAM_IVS_ALL 0xac
+// FALSE for a Nidoran without a nickname, whose name already shows its sex
+#define PKM_PARAM_NIDORAN_NICKNAME 0xad
 #define PKM_PARAM_TYPE1 0xae
 #define PKM_PARAM_TYPE2 0xaf
 // Whether it is one of N's Pokémon

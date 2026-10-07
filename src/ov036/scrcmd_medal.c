@@ -7,6 +7,7 @@
 #include "gfl/arc.h"
 #include "gfl/heap.h"
 #include "save/medal_box.h"
+#include "system/game_beacon.h"
 #include "system/game_comm.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
@@ -57,7 +58,7 @@ BOOL s0271_MedalAcknowledge(VM *vm, FieldScriptEnv *env) {
     RTC_GetCachedDate(&date);
     if (acknowledge) {
         MedalBox_AcknowledgeMedal(box, medal, date.year, date.month, date.day);
-        func_0202d17c(MedalBox_GetObtainedCount(box, 0));
+        GameBeaconSys_SetMedalCount(MedalBox_GetObtainedCount(box, 0));
     } else {
         MedalBox_DiscoverInitialMedal(box, medal, date.year, date.month, date.day);
     }

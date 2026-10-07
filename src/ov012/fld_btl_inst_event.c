@@ -134,15 +134,15 @@ GameEvent *func_ov012_02161e6c(GameSystem *gsys, BSubwayTrainer *trainers, u32 i
     event = GameEvent_Create(gsys, NULL, func_ov012_02161f18, sizeof(BtlInstTrainerMsgWork));
     work = GameEvent_GetData(event);
     work->gsys = gsys;
-    if (trainers->message.sentenceType == 0xffff) {
+    if (trainers->message.type == 0xffff) {
         MsgData *msgData;
 
         work->strbuf = GFL_StrBufCreate(0x5c, HEAPID_GAMEEVENT);
         msgData = GFL_MsgSysLoadData(FALSE, 2, 0x178, HEAPID_GAMEEVENT);
-        GFL_MsgDataLoadStrbuf(msgData, trainers->message.sentenceId, work->strbuf);
+        GFL_MsgDataLoadStrbuf(msgData, trainers->message.id, work->strbuf);
         GFL_MsgDataFree(msgData);
     } else {
-        work->strbuf = func_02029c80(&trainers[index].message, HEAPID_GAMEEVENT);
+        work->strbuf = PMSData_ToString(&trainers[index].message, HEAPID_GAMEEVENT);
     }
     CopyActorWPos(FindFieldActor(GameData_GetMMSys(gameData), actorId), &work->pos);
     work->msgWin = ActorMsgWin_CheckAndCreate(msgBGSys, 1, &work->pos, work->strbuf, 0, 0);

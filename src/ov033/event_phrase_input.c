@@ -11,6 +11,8 @@
 #include "save/player_info.h"
 #include "save/save_control.h"
 #include "struct_decls.h"
+#include "system/beacon_status.h"
+#include "system/game_beacon.h"
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
@@ -117,7 +119,7 @@ void func_ov033_02177734(struct EventPhraseInputData *data, NameEntryParam *para
         break;
     case 5:
         func_0200c940(data->trainerInfo, param->name);
-        func_0202d138();
+        GameBeaconSys_UpdateGreeting();
         break;
     case 6:
         func_0200c958(data->trainerInfo, param->name);
@@ -126,11 +128,11 @@ void func_ov033_02177734(struct EventPhraseInputData *data, NameEntryParam *para
         func_020114fc(data->saveBlock, param->name);
         break;
     case 7:
-        GFL_StrBufCopy(func_0202d7c4(data->unk18), data->nameEntry.name);
+        GFL_StrBufCopy(BeaconStatus_GetGreeting(data->unk18), data->nameEntry.name);
         func_ov012_021603ec(param->name, param->unk34);
         break;
     case 14:
-        GFL_StrBufCopy(func_0202d7c4(data->unk18), data->nameEntry.name);
+        GFL_StrBufCopy(BeaconStatus_GetGreeting(data->unk18), data->nameEntry.name);
         func_ov012_021603ec(param->name, param->unk34);
         break;
     }

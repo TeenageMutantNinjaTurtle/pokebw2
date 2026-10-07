@@ -16,7 +16,6 @@
 #include "gfl/arc_util.h"
 #include "gfl/bg_sys.h"
 #include "gfl/bmp.h"
-#include "gfl/bmp_menu.h"
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"
 #include "gfl/graphics.h"
@@ -32,7 +31,6 @@
 #include "gfl/str.h"
 #include "gfl/tcb.h"
 #include "gfl/tcbl.h"
-#include "gfl/wipe.h"
 #include "nitro/gx.h"
 #include "nitro/hw.h"
 #include "nitro/os.h"
@@ -44,11 +42,16 @@
 #include "save/pokedex.h"
 #include "save/save_control.h"
 #include "system/app_keycursor.h"
+#include "system/bmp_menu.h"
+#include "system/bmp_menulist.h"
+#include "system/bmp_winframe.h"
 #include "system/dsi.h"
+#include "system/game_beacon.h"
 #include "system/game_system.h"
 #include "system/gf_font.h"
 #include "system/printsys.h"
 #include "system/text_speed.h"
+#include "system/wipe.h"
 #include "system/wordset.h"
 
 // The menu after the title screen. Its items scroll on the main engine's BGs 1 and 2, and the sub engine shows the
@@ -174,7 +177,7 @@ typedef struct {
     KeyCursor *keyCursor;
     // Whether the message was already told to go on past its pause
     BOOL continued;
-    ConfirmDialog *dialog;
+    BmpMenu *dialog;
     PrintWindow windows[WINDOW_COUNT];
     // A window over the menu, with a warning or a notice
     PrintWindow notice;
@@ -624,7 +627,7 @@ static u32 StartMenu_Continue(StartMenuWork *wk) {
         }
         break;
     case 3:
-        switch (func_02025634(wk->dialog)) {
+        switch (ConfirmDialog_Update(wk->dialog)) {
         case 0:
             if (func_02035318() == FALSE) {
                 StartMenu_Print(wk, 27);
@@ -634,7 +637,7 @@ static u32 StartMenu_Continue(StartMenuWork *wk) {
                 wk->seq = 4;
             }
             break;
-        case BMPMENULIST_CANCEL:
+        case BMPMENU_CANCEL:
             StartMenu_Print(wk, 37);
             wk->seq = 7;
             break;
@@ -663,12 +666,12 @@ static u32 StartMenu_Continue(StartMenuWork *wk) {
         }
         break;
     case 8:
-        switch (func_02025634(wk->dialog)) {
+        switch (ConfirmDialog_Update(wk->dialog)) {
         case 0:
             wk->cgearOff = TRUE;
             wk->seq = 4;
             break;
-        case BMPMENULIST_CANCEL:
+        case BMPMENU_CANCEL:
             StartMenu_Print(wk, 36);
             wk->seq = 2;
             break;
@@ -1042,11 +1045,11 @@ static void StartMenu_InitMsg(StartMenuWork *wk) {
     wk->printQueue = func_02021998(HEAPID_STARTMENU);
     wk->strbuf = GFL_StrBufCreate(1024, HEAPID_STARTMENU);
     wk->tcbManager = GFL_TCBExMgrCreate(HEAPID_STARTMENU, HEAPID_STARTMENU, 1, 4);
-    wk->keyCursor = func_0202e7a4(15, 1, 0, HEAPID_STARTMENU);
+    wk->keyCursor = KeyCursor_Create(15, TRUE, FALSE, HEAPID_STARTMENU);
 }
 
 static void StartMenu_FreeMsg(StartMenuWork *wk) {
-    func_0202e818(wk->keyCursor);
+    KeyCursor_Free(wk->keyCursor);
     GFL_TCBExMgrFree(wk->tcbManager);
     GFL_StrBufFree(wk->strbuf);
     func_02021a18(wk->printQueue);
@@ -1724,7 +1727,7 @@ static void StartMenu_Print(StartMenuWork *wk, u32 messageId) {
 
     GFL_MsgDataLoadStrbuf(wk->msgData, messageId, wk->strbuf);
     GFL_BitmapFill(BmpWin_GetBitmap(wk->windows[WINDOW_MESSAGE].window), 15);
-    BmpWin_DrawFrame(wk->windows[WINDOW_MESSAGE].window, 2, 1, 14);
+    BmpWin_DrawFrame(wk->windows[WINDOW_MESSAGE].window, WINFRAME_TRANSFER_NONE, 1, 14);
     wk->printStream = func_02022268(wk->windows[WINDOW_MESSAGE].window, 0, 0, wk->strbuf, wk->font, func_02017bcc(),
                                     wk->tcbManager, 10, HEAPID_STARTMENU, 15);
     wk->continued = FALSE;
@@ -1733,7 +1736,7 @@ static void StartMenu_Print(StartMenuWork *wk, u32 messageId) {
 }
 
 static void StartMenu_ClearMessage(StartMenuWork *wk) {
-    func_02024eec(wk->windows[WINDOW_MESSAGE].window, TRUE);
+    BmpWin_ClearFrame(wk->windows[WINDOW_MESSAGE].window, WINFRAME_TRANSFER_VBLANK);
 }
 
 // Returns FALSE once the message has been printed and read, or when there is none
@@ -1741,7 +1744,7 @@ static BOOL StartMenu_UpdatePrint(StartMenuWork *wk) {
     if (wk->printStream == NULL) {
         return FALSE;
     }
-    func_0202e8d8(wk->keyCursor, wk->printStream, wk->windows[WINDOW_MESSAGE].window);
+    KeyCursor_Update(wk->keyCursor, wk->printStream, wk->windows[WINDOW_MESSAGE].window);
     switch (func_020223b4(wk->printStream)) {
     case PRINT_STREAM_RUNNING:
         if (GCTX_HIDGetHeldKeys() & (PAD_BUTTON_A | PAD_BUTTON_B)) {
@@ -1777,13 +1780,13 @@ static void StartMenu_OpenYesNo(StartMenuWork *wk) {
 }
 
 static u32 StartMenu_WipeIn(StartMenuWork *wk, u32 next) {
-    GFL_WipeSet(0, 1, 1, 0, 6, 1, HEAPID_STARTMENU);
+    GFL_WipeSet(WIPE_MODE_BOTH, WIPE_TYPE_FADE_IN, WIPE_TYPE_FADE_IN, WIPE_COLOR_BLACK, 6, 1, HEAPID_STARTMENU);
     wk->wipeNextState = next;
     return STATE_WAIT_WIPE;
 }
 
 static u32 StartMenu_WipeOut(StartMenuWork *wk, u32 next) {
-    GFL_WipeSet(0, 0, 0, 0, 6, 1, HEAPID_STARTMENU);
+    GFL_WipeSet(WIPE_MODE_BOTH, WIPE_TYPE_FADE_OUT, WIPE_TYPE_FADE_OUT, WIPE_COLOR_BLACK, 6, 1, HEAPID_STARTMENU);
     wk->wipeNextState = next;
     return STATE_WAIT_WIPE;
 }

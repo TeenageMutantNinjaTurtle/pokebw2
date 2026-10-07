@@ -44,9 +44,11 @@
 #include "system/app_common.h"
 #include "system/app_taskmenu.h"
 #include "system/bgwinfrm.h"
+#include "system/bmp_winframe.h"
 #include "system/cursor_move.h"
 #include "system/game_data.h"
 #include "system/gf_font.h"
+#include "system/palanm.h"
 #include "system/printsys.h"
 #include "system/wordset.h"
 
@@ -147,7 +149,7 @@ static void Box2Main_VBlank(TCB *tcb, void *data) {
     func_ov255_021cdf9c(syswk->app);
     GFL_BGSysUpdate();
     func_0204b7c8();
-    func_020275f8(syswk->app->palFade);
+    PaletteFade_Transfer(syswk->app->palFade);
     OS_SetIrqCheckFlag(OS_IE_V_BLANK);
 }
 
@@ -396,13 +398,13 @@ void Box2Main_LoadBgGraphics(Box2SysWork *syswk) {
 }
 
 void Box2Main_InitPaletteFade(Box2SysWork *syswk) {
-    syswk->app->palFade = func_02026dc0(HEAPID_BOX2_APP);
-    func_02026e04(syswk->app->palFade, 0, 0x200, HEAPID_BOX2_APP);
+    syswk->app->palFade = PaletteFade_Create(HEAPID_BOX2_APP);
+    PaletteFade_AllocBuffer(syswk->app->palFade, 0, 0x200, HEAPID_BOX2_APP);
 }
 
 void Box2Main_ExitPaletteFade(Box2SysWork *syswk) {
-    func_02026e48(syswk->app->palFade, 0);
-    func_02026de8(syswk->app->palFade);
+    PaletteFade_FreeBuffer(syswk->app->palFade, 0);
+    PaletteFade_Free(syswk->app->palFade);
 }
 
 void Box2Main_SetBlendAlpha(BOOL enabled) {
@@ -435,37 +437,37 @@ void Box2Main_ExitMsg(Box2SysWork *syswk) {
 void Box2Main_InitYesNo(Box2SysWork *syswk) {
     syswk->app->yesNoItems[0].str = GFL_MsgDataLoadStrbufNew(syswk->app->msgData, 110);
     syswk->app->yesNoItems[0].color = 0x39e3;
-    syswk->app->yesNoItems[0].isBack = FALSE;
+    syswk->app->yesNoItems[0].type = 0;
     syswk->app->yesNoItems[1].str = GFL_MsgDataLoadStrbufNew(syswk->app->msgData, 111);
     syswk->app->yesNoItems[1].color = 0x39e3;
-    syswk->app->yesNoItems[1].isBack = FALSE;
-    syswk->app->yesNoRes = func_0202e168(0, 8, syswk->app->font, syswk->app->printQueue, HEAPID_BOX2_APP);
+    syswk->app->yesNoItems[1].type = 0;
+    syswk->app->yesNoRes = AppTaskMenuRes_Create(0, 8, syswk->app->font, syswk->app->printQueue, HEAPID_BOX2_APP);
 }
 
 void Box2Main_ExitYesNo(Box2SysWork *syswk) {
-    func_0202e1dc(syswk->app->yesNoRes);
+    AppTaskMenuRes_Free(syswk->app->yesNoRes);
     GFL_StrBufFree(syswk->app->yesNoItems[1].str);
     GFL_StrBufFree(syswk->app->yesNoItems[0].str);
 }
 
 void Box2Main_OpenYesNo(Box2SysWork *syswk, u32 pos) {
-    TaskMenuSetup param;
+    AppTaskMenuInit param;
 
     param.heapId = HEAPID_BOX2_APP;
-    param.count = 2;
+    param.itemCount = 2;
     param.items = syswk->app->yesNoItems;
-    param.a3 = 1;
-    param.right = 32;
-    param.bottom = 18;
+    param.posType = APP_TASKMENU_POS_BOTTOM_RIGHT;
+    param.x = 32;
+    param.y = 18;
     param.width = 8;
     param.height = 3;
-    if (func_0202ba70(syswk->app->cursorMove) == TRUE) {
+    if (CursorMove_IsCursorVisible(syswk->app->cursorMove) == TRUE) {
         func_0203d564(FALSE);
     } else {
         func_0203d564(TRUE);
     }
-    syswk->app->yesNoMenu = func_0202d974(&param, syswk->app->yesNoRes);
-    func_0202def8(syswk->app->yesNoMenu, pos);
+    syswk->app->yesNoMenu = AppTaskMenu_Create(&param, syswk->app->yesNoRes);
+    AppTaskMenu_SetCursorPos(syswk->app->yesNoMenu, pos);
 }
 
 BOOL Box2Main_ButtonAnmMain(Box2SysWork *syswk) {
@@ -592,8 +594,8 @@ BOOL Box2Main_IsTrayScrollRight(Box2SysWork *syswk, u32 from, u32 to) {
 
 void Box2Main_ShowCursor(Box2SysWork *syswk) {
     func_0203d564(FALSE);
-    if (func_0202ba70(syswk->app->cursorMove) == FALSE) {
-        func_0202ba74(syswk->app->cursorMove, TRUE);
+    if (CursorMove_IsCursorVisible(syswk->app->cursorMove) == FALSE) {
+        CursorMove_SetCursorVisible(syswk->app->cursorMove, TRUE);
     }
 }
 
@@ -2408,7 +2410,7 @@ void Box2Main_WallPaperChange(Box2SysWork *syswk, u32 wallpaper) {
     }
     syswk->app->wallArea ^= 1;
     WallCharLoad(syswk, wallpaper, charOffset);
-    func_02026ee8(syswk->app->palFade, ARCID_BOX2, wallpaper + 38, HEAPID_BOX2_APP, 0, 0x20, palette << 4);
+    PaletteFade_LoadNCLR(syswk->app->palFade, ARCID_BOX2, wallpaper + 38, HEAPID_BOX2_APP, 0, 0x20, palette << 4);
     WallScreenLoad(syswk, wallpaper, syswk->app->wallPx, charOffset, palette);
     GFL_BGSysQueueScrLoad(3);
 }
@@ -2841,7 +2843,7 @@ BOOL Box2Main_VFuncPokeMoveTouchParty(Box2SysWork *syswk) {
                 func_ov255_021d1348(syswk->app, 1);
                 func_ov255_021d2478(syswk, 6, syswk->pos);
                 if (syswk->param->mode == 4) {
-                    func_0202baa4(syswk->app->cursorMove, 39);
+                    CursorMove_DisablePos(syswk->app->cursorMove, 39);
                 }
                 func_ov255_021d1af8(syswk, 2, 1, 2, 2);
                 syswk->app->oldCurPos = syswk->pos;
@@ -3004,7 +3006,7 @@ BOOL Box2Main_VFuncPokeMoveTouchParty(Box2SysWork *syswk) {
             func_ov255_021d11a4(syswk, 1);
         } else {
             func_ov255_021d11a4(syswk, 0);
-            func_0202ba64(syswk->app->cursorMove, syswk->pos);
+            CursorMove_SetPos(syswk->app->cursorMove, syswk->pos);
             func_ov255_021d24f8(syswk, syswk->pos);
             func_ov255_021d101c(syswk, 1);
         }
@@ -3338,7 +3340,7 @@ BOOL Box2Main_VFuncPokeMoveTouch(Box2SysWork *syswk) {
             func_ov255_021d11a4(syswk, 1);
         } else {
             func_ov255_021d11a4(syswk, 0);
-            func_0202ba64(syswk->app->cursorMove, syswk->pos);
+            CursorMove_SetPos(syswk->app->cursorMove, syswk->pos);
             func_ov255_021d24f8(syswk, syswk->pos);
             func_ov255_021d101c(syswk, 1);
         }
@@ -3686,7 +3688,7 @@ BOOL Box2Main_VFuncCursorMove(Box2SysWork *syswk) {
     if (work->cnt == 0) {
         func_ov255_021cf6c8(syswk->app, BOX2_ACTOR_CURSOR, work->px, work->py, 0);
         func_ov255_021d052c(syswk);
-        func_ov255_021c2854(syswk, func_0202ba60(syswk->app->cursorMove));
+        func_ov255_021c2854(syswk, CursorMove_GetPos(syswk->app->cursorMove));
         return FALSE;
     }
     work->cnt--;
@@ -3995,8 +3997,8 @@ BOOL Box2Main_VFuncItemArrangeGetTouch(Box2SysWork *syswk) {
             func_ov255_021d0310(syswk, 0x82, 1);
             GFL_SndSEPlay(SEQ_SE_SYS_42);
             func_ov255_021d2478(syswk, 6, syswk->pos);
-            func_0202baa4(syswk->app->cursorMove, 39);
-            func_0202baa4(syswk->app->cursorMove, 40);
+            CursorMove_DisablePos(syswk->app->cursorMove, 39);
+            CursorMove_DisablePos(syswk->app->cursorMove, 40);
             func_ov255_021d1af8(syswk, 2, 1, 1, 1);
             syswk->unk1E = 0;
             syswk->app->unkA552 = 0;
@@ -4586,8 +4588,8 @@ BOOL Box2Main_VFuncItemArrangeBoxPartyGetTouch(Box2SysWork *syswk) {
             func_ov255_021d0310(syswk, 0x81, 1);
             GFL_SndSEPlay(SEQ_SE_SYS_42);
             func_ov255_021d2478(syswk, 6, syswk->pos);
-            func_0202baa4(syswk->app->cursorMove, 39);
-            func_0202baa4(syswk->app->cursorMove, 40);
+            CursorMove_DisablePos(syswk->app->cursorMove, 39);
+            CursorMove_DisablePos(syswk->app->cursorMove, 40);
             func_ov255_021cf63c(syswk->app, BOX2_ACTOR_CURSOR, FALSE);
             func_ov255_021d1af8(syswk, 2, 1, 1, 1);
             syswk->unk1E = 1;
@@ -4695,7 +4697,7 @@ BOOL Box2Main_VFuncBoxListScrollLeft(Box2SysWork *syswk) {
     u8 pos;
 
     if (vf->cnt == 5) {
-        pos = func_0202ba60(syswk->app->cursorMove);
+        pos = CursorMove_GetPos(syswk->app->cursorMove);
         if (pos >= 34 && pos <= 37) {
             func_ov255_021d1ac8(syswk, pos - 34, 1);
         } else {
@@ -4715,7 +4717,7 @@ BOOL Box2Main_VFuncBoxListScrollRight(Box2SysWork *syswk) {
     u8 pos;
 
     if (vf->cnt == 5) {
-        pos = func_0202ba60(syswk->app->cursorMove);
+        pos = CursorMove_GetPos(syswk->app->cursorMove);
         if (pos >= 34 && pos <= 37) {
             func_ov255_021d1ac8(syswk, pos - 34, 1);
         } else {
@@ -4735,7 +4737,7 @@ BOOL Box2Main_VFuncBoxMoveScrollLeft(Box2SysWork *syswk) {
     u8 pos;
 
     if (vf->cnt == 5) {
-        pos = func_0202ba60(syswk->app->cursorMove);
+        pos = CursorMove_GetPos(syswk->app->cursorMove);
         if (pos >= 1 && pos <= 4) {
             func_ov255_021d1ac8(syswk, pos - 1, 1);
         } else {
@@ -4755,7 +4757,7 @@ BOOL Box2Main_VFuncBoxMoveScrollRight(Box2SysWork *syswk) {
     u8 pos;
 
     if (vf->cnt == 5) {
-        pos = func_0202ba60(syswk->app->cursorMove);
+        pos = CursorMove_GetPos(syswk->app->cursorMove);
         if (pos >= 1 && pos <= 4) {
             func_ov255_021d1ac8(syswk, pos - 1, 1);
         } else {
@@ -4911,7 +4913,7 @@ BOOL Box2Main_VFuncRangeMoveTouch(Box2SysWork *syswk) {
             func_ov255_021d11a4(syswk, 1);
         } else {
             func_ov255_021d11a4(syswk, 0);
-            func_0202ba64(syswk->app->cursorMove, syswk->pos);
+            CursorMove_SetPos(syswk->app->cursorMove, syswk->pos);
             func_ov255_021d24f8(syswk, syswk->pos);
         }
         vf->seq = 0;

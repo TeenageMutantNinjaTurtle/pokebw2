@@ -21,6 +21,6 @@ u32 func_02009b20(DreamWorldSave *dreamWorld);
 void func_02009b30(DreamWorldSave *dreamWorld, u32 value);
 void func_02009af8(DreamWorldSave *dreamWorld, u32 value);
 void SetDreamRadarFlag(DreamRadarSave *save, u32 flag, u32 value);
-void func_0200c6f0(HighLinkSave *highLink, u32 a1, u32 a2);
+void func_0200c6f0(HighLinkSave *highLink, PlayTime *playTime, u32 a2);
 
 #endif // POKEBW2_SAVE_DREAM_WORLD_H

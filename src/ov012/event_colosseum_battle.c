@@ -35,7 +35,7 @@ static GameEventReturnCode func_ov012_0215264c(GameEvent *event, u32 *state, voi
         break;
     case 3:
         // The battle's music, a u16 at 0x18 of the setup, which battle/btl_setup.h doesn't have yet
-        GameEvent_ChainNext(event, EventBattleBGMPlay_Create(gsys, work->setup.fieldSituation.unk0c[4]));
+        GameEvent_ChainNext(event, EventBattleBGMPlay_Create(gsys, work->setup.fieldSituation.bgm));
         (*state)++;
         break;
     case 4:
@@ -144,7 +144,7 @@ GameEvent *func_ov012_02152704(GameSystem *gsys, Field *field, u32 category, Col
     func_02017cfc(setup, param->party, 0);
     func_02017d30(setup, param->regulation, HEAPID_GAMEEVENT);
     // The battle's music, as above
-    setup->fieldSituation.unk0c[4] = param->bgm;
+    setup->fieldSituation.bgm = param->bgm;
     work->players->rule = rule;
     work->players->unk4C = 0;
     func_020186b0(setup, 1);

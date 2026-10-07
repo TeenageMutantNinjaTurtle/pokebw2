@@ -13,6 +13,7 @@
 #include "gfl/ui.h"
 #include "nnsys/g2d.h"
 #include "system/app_menu_common.h"
+#include "system/bmp_winframe.h"
 
 // The Pokédex's copy of the touch bar: a bar at the bottom of a screen with icons that are touched or pressed with
 // their keys. An icon plays its pushed animation, or flips on or off, and the bar reports it once the animation ends

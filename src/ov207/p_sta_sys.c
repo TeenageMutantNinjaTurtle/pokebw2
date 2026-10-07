@@ -14,15 +14,15 @@
 #include "gfl/str.h"
 #include "gfl/touchpanel.h"
 #include "gfl/ui.h"
-#include "gfl/wipe.h"
 #include "nitro/fx.h"
 #include "nitro/gx.h"
 #include "nitro/hw.h"
 #include "nitro/os.h"
-#include "p_status_local.h"
 #include "pml/poke_party.h"
+#include "p_status_local.h"
 #include "system/app_common.h"
 #include "system/game_data.h"
+#include "system/wipe.h"
 
 // The summary screen's core: setting up and tearing down the screens, the main loop, the buttons of the bottom
 // screen, changing the page or the Pokémon behind a mosaic, and printing for the pages. The file's name is a guess
@@ -300,10 +300,10 @@ static void PStatus_InitGraphics(PStatusWork *wk) {
     GFL_BGSysDisableAllB();
     GX_SetVisiblePlane(0);
     GXS_SetVisiblePlane(0);
-    func_02027b64(0, 0);
-    func_02027b64(1, 0);
-    func_02027b4c(0);
-    func_02027b4c(1);
+    Wipe_SetScreenCovered(0, 0);
+    Wipe_SetScreenCovered(1, 0);
+    Wipe_HideWindows(0);
+    Wipe_HideWindows(1);
     G2_BlendNone();
     G2S_BlendNone();
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);

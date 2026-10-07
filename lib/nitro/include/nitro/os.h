@@ -6,8 +6,9 @@
 
 // The tick count of the system timer, which swan names clock
 u64 clock(void);
-// The timer counts at a 64th of the system clock
+// The system clock, and NitroSDK's OS_TicksToSeconds: the system timer ticks every 64 cycles of it
 #define OS_SYSTEM_CLOCK 33514000
+#define OS_TicksToSeconds(tick) (((tick) * 64) / OS_SYSTEM_CLOCK)
 #define OS_TicksToMilliSeconds(tick) (((tick) * 64) / (OS_SYSTEM_CLOCK / 1000))
 // Restarts the game, which swan names sys_reset
 void sys_reset(u32 parameter);
@@ -25,10 +26,16 @@ extern u32 SDK_AUTOLOAD_DTCM_START[];
 #define HW_INTR_CHECK_BUF (HW_DTCM + 0x3ff8)
 
 #define OS_IE_V_BLANK 0x1
+// The DSi's new DMA channel 1
+#define OS_IE_NDMA1 0x20000000
 
 static inline u32 OS_GetVBlankCount(void) {
     return *(vu32 *)HW_VBLANK_COUNT_BUF;
 }
+
+// Waits for one of the interrupts, after clearing their flags if clear is set. NitroSDK's OS_WaitIrq, under swan's
+// name
+void CPU_WaitIntrBit(BOOL clear, u32 interrupts);
 
 static inline void OS_SetIrqCheckFlag(u32 interrupts) {
     *(vu32 *)HW_INTR_CHECK_BUF |= interrupts;
@@ -59,6 +66,10 @@ void cart_key_release(u16 lockId);
 // NitroSDK's OS_DisableInterrupts and OS_RestoreInterrupts, under swan's names
 u32 CPU_IRQDisable(void);
 u32 CPU_SetIRQMask(u32 mask);
+// NitroSDK's OS_EnableIrqMask, under swan's name
+u32 CPU_EnableInterrupts(u32 mask);
+// NitroSDK's OS_Sleep: waits for some milliseconds, letting other threads run
+void func_0207aa04(u32 msec);
 // Waits for one of the interrupts, clearing their flags first if clear is TRUE
 void CPU_WaitIntrBit(BOOL clear, u32 interrupts);
 void exit(int status);
@@ -92,5 +103,26 @@ TWLParentalControl *func_0207c4b4(void);
 static inline BOOL PAD_DetectFold(void) {
     return (*(vu16 *)HW_BUTTON_XY_BUF & PAD_DETECT_FOLD_MASK) >> PAD_DETECT_FOLD_SHIFT;
 }
+
+// The DS's owner settings
+#define OS_OWNERINFO_NICKNAME_MAX 10
+#define OS_OWNERINFO_COMMENT_MAX 26
+
+typedef struct {
+    u8 month;
+    u8 day;
+} OSBirthday;
+
+typedef struct {
+    u8 language;
+    u8 favoriteColor;
+    OSBirthday birthday;
+    u16 nickName[OS_OWNERINFO_NICKNAME_MAX + 1];
+    u16 nickNameLength;
+    u16 comment[OS_OWNERINFO_COMMENT_MAX + 1];
+    u16 commentLength;
+} OSOwnerInfo;
+
+void OS_GetOwnerInfo(OSOwnerInfo *info);
 
 #endif // POKEBW2_NITRO_OS_H

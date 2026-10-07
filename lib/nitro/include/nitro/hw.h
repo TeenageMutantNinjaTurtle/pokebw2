@@ -5,6 +5,8 @@
 
 #define reg_OS_IME (*(vu16 *)0x04000208)
 
+#define reg_GX_DISPSTAT (*(vu16 *)0x04000004)
+#define REG_GX_DISPSTAT_HBLK_MASK 0x0002
 #define reg_GX_VCOUNT (*(vu16 *)0x04000006)
 #define reg_GX_POWCNT (*(vu16 *)0x04000304)
 // Swaps the screens, so that the main engine drives the top screen
@@ -17,10 +19,12 @@
 #define REG_BLDALPHA_ADDR 0x04000052
 #define REG_DB_BLDALPHA_ADDR 0x04001052
 
-// Palette memory, the first of which is the BG palette of each screen
+// Palette memory: the BG and OBJ palettes of the main and sub (DB) screens
 #define HW_BG_PLTT 0x05000000
 #define HW_OBJ_PLTT 0x05000200
 #define HW_DB_BG_PLTT 0x05000400
+#define HW_OBJ_PLTT 0x05000200
+#define HW_DB_OBJ_PLTT 0x05000600
 #define REG_MASTER_BRIGHT_ADDR 0x0400006c
 #define REG_DB_MASTER_BRIGHT_ADDR 0x0400106c
 

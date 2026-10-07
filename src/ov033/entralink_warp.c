@@ -34,7 +34,7 @@ GameEventReturnCode func_ov033_02177370(GameEvent *event, u32 *state, void *data
     field = GSYS_GetField(gsys);
     switch (*state) {
     case 0:
-        if (func_0202bde0(comm)) {
+        if (GameCommSys_IsTransitioning(comm)) {
             break;
         }
         if (GameCommSys_BootCheck(comm)) {

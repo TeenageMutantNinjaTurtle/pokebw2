@@ -71,6 +71,7 @@ BOOL func_0201aee8(MCSS *mcss);
 void func_0201aecc(MCSS *mcss, u32 a1);
 void func_0201ab54(MCSS *mcss, const VecFx32 *a1);
 u16 func_0201ade8(MCSS *mcss);
+u16 func_0201ade0(MCSS *mcss);
 s16 func_0201adf0(MCSS *mcss);
 s16 func_0201adf8(MCSS *mcss);
 // The sprite's animation controller, which NNS_G2dSetAnimCtrlCallBackFunctor takes

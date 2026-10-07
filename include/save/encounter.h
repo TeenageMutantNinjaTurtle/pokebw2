@@ -7,5 +7,7 @@
 u32 EncountSave_GetRoamingPkmZoneClock(EncountSave *save);
 void EncountSave_RerollSwarmLocation(SaveControl *save);
 u16 func_0200dd38(EncountSave *save, u8 index);
+// Marks the special Pokémon of the index caught
+void SetNPokeCaught(EncountSave *save, u8 index);
 
 #endif // POKEBW2_SAVE_ENCOUNTER_H

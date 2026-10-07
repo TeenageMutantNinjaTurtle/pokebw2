@@ -16,9 +16,9 @@ BOOL func_ov012_021535dc(GameSystem *gsys) {
 }
 
 void *func_ov012_02153608(GameCommSys *commSys) {
-    void *work = func_0202bdf4(commSys);
+    void *work = GameCommSys_GetWork(commSys);
 
-    if (GFL_NetErrCheck() || GameCommSys_BootCheck(commSys) != 2 || func_0202bde0(commSys) == TRUE || work == NULL) {
+    if (GFL_NetErrCheck() || GameCommSys_BootCheck(commSys) != 2 || GameCommSys_IsTransitioning(commSys) == TRUE || work == NULL) {
         return NULL;
     }
     return work;
