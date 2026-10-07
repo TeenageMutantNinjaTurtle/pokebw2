@@ -735,7 +735,7 @@ void KeySystem_Setup(KeySystemWork *wk, HeapID heapId) {
     wk->ov331Work = func_ov331_021bea20(heapId);
     data = func_ov331_021bee80(wk->ov331Work);
     save = GameData_GetSaveControl(wk->param->gameData);
-    wk->unk104 = func_02010470(data);
+    wk->memoryLink = func_02010470(data);
     if (SaveControl_IsDataAlreadyPresent(save)) {
         wk->keyInfo = getKeyInfoSaveBlk(save);
     } else {
@@ -753,7 +753,7 @@ void KeySystem_Setup(KeySystemWork *wk, HeapID heapId) {
     KeySystemClAct_LoadResources(&wk->clact, heapId);
     wk->scene = KeySystemScene_Create(wk, heapId);
     KeySystemFlow_Init(wk, HEAPID_KEY_SYSTEM);
-    func_ov332_021c53dc(wk, HEAPID_KEY_SYSTEM);
+    DataConvert_Init(wk, HEAPID_KEY_SYSTEM);
     func_ov332_021c7028(wk, HEAPID_KEY_SYSTEM);
     KeySystem_CreateDefaultTitleWin(wk, heapId);
     if (wk->preloadedSeqs == 0) {
@@ -979,7 +979,7 @@ static void KeySystem_SeqTopMenu(KeySystemSeq *seq, int *state, void *work) {
             break;
         case TOP_MENU_MEMORY_LINK:
             KeySystemBG_StartFade(wk->bg, KEY_SYSTEM_BG_FADE_2_TO_0, 30);
-            KeySystemSeq_Push(seq, func_ov332_021c53e0);
+            KeySystemSeq_Push(seq, DataConvert_SeqMenu);
             break;
         case TOP_MENU_DREAM_RADAR:
             KeySystemBG_StartFade(wk->bg, KEY_SYSTEM_BG_FADE_3_TO_0, 30);

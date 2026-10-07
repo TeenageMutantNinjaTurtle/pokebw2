@@ -30,7 +30,9 @@
 #include "save/encounter.h"
 #include "save/save_control.h"
 #include "system/app_keycursor.h"
-#include "system/app_scrollbar.h"
+#include "system/blink_palanm.h"
+#include "system/scroll_bar.h"
+#include "system/shortcut_util.h"
 #include "system/app_taskmenu.h"
 #include "system/bmp_winframe.h"
 #include "system/game_beacon.h"
@@ -360,7 +362,7 @@ static BOOL ItemMenu_TouchScrollBar(ItemMenuWork *work) {
         }
         ItemMenu_SetKeyMode(work, FALSE);
         scroll = work->scroll;
-        work->scroll = func_020355b8(count - ITEMMENU_LIST_ROWS, y, 26, 142, 0) - 1;
+        work->scroll = ScrollBar_GetValue(count - ITEMMENU_LIST_ROWS, y, 26, 142, 0) - 1;
         ItemMenuDisp_TouchScrollBar(work);
         if (work->scroll != scroll) {
             GFL_SndSEPlay(SEQ_SE_SELECT1);
@@ -508,7 +510,7 @@ static void ItemMenu_EndMoveItem(ItemMenuWork *work) {
 static void ItemMenu_StateMoveItem(ItemMenuWork *work) {
     s32 from;
 
-    func_02035198(work->paletteAnim);
+    BlinkPalAnm_Main(work->paletteAnim);
     if (func_02021c0c(work->printQueue) == FALSE) {
         return;
     }
@@ -931,7 +933,7 @@ static void ItemMenu_StateList(ItemMenuWork *work) {
         work->touchHeld = FALSE;
     }
     GFL_BMN_Main(work->buttonMan);
-    func_02035198(work->paletteAnim);
+    BlinkPalAnm_Main(work->paletteAnim);
     if (work->state != ItemMenu_StateList) {
         return;
     }
@@ -1563,7 +1565,7 @@ static void ItemMenu_SortByType(ItemMenuWork *work) {
     for (; i < count; i++) {
         item = &items[i];
         data = PML_ItemArcHandleReadFile(arc, item->item, work->heapId);
-        sort[i].key = (PML_ItemGetParam(data, ITEM_PARAM_UNK_D) << 28) + (PML_ItemGetParam(data, ITEM_PARAM_UNK_F) << 16)
+        sort[i].key = (PML_ItemGetParam(data, ITEM_PARAM_KIND) << 28) + (PML_ItemGetParam(data, ITEM_PARAM_SORT_INDEX) << 16)
             + item->item;
         sort[i].item.item = item->item;
         sort[i].item.count = item->count;
@@ -1700,11 +1702,11 @@ static void ItemMenu_SortByUses(ItemMenuWork *work, BOOL mostUsedFirst) {
         data = PML_ItemArcHandleReadFile(arc, item->item, work->heapId);
         uses = func_0200854c(work->bag, item->item);
         if (mostUsedFirst == TRUE) {
-            sort[i].key = ((u64)(999 - uses) << 40) + (PML_ItemGetParam(data, ITEM_PARAM_UNK_D) << 28)
-                + (PML_ItemGetParam(data, ITEM_PARAM_UNK_F) << 16) + item->item;
+            sort[i].key = ((u64)(999 - uses) << 40) + (PML_ItemGetParam(data, ITEM_PARAM_KIND) << 28)
+                + (PML_ItemGetParam(data, ITEM_PARAM_SORT_INDEX) << 16) + item->item;
         } else {
-            sort[i].key = ((u64)uses << 40) + (PML_ItemGetParam(data, ITEM_PARAM_UNK_D) << 28)
-                + (PML_ItemGetParam(data, ITEM_PARAM_UNK_F) << 16) + item->item;
+            sort[i].key = ((u64)uses << 40) + (PML_ItemGetParam(data, ITEM_PARAM_KIND) << 28)
+                + (PML_ItemGetParam(data, ITEM_PARAM_SORT_INDEX) << 16) + item->item;
         }
         sort[i].item = *item;
         GFL_HeapFree(data);
@@ -1792,7 +1794,7 @@ static void ItemMenu_SetKeyMode(ItemMenuWork *work, BOOL keys) {
         ItemMenuDisp_SetListCursorPalette(work, FALSE);
     } else {
         ItemMenuDisp_SetListCursorPalette(work, TRUE);
-        func_020352b0(work->paletteAnim);
+        BlinkPalAnm_InitAnime(work->paletteAnim);
     }
     ItemMenuDisp_ShowTMIcons(work, keys);
 }
@@ -1815,7 +1817,7 @@ static BOOL ItemMenu_ToggleItemRegistration(ItemMenuWork *work, s32 row) {
         return FALSE;
     }
     slot = ItemMenu_GetSlot(work, row);
-    shortcut = func_02034aa4(slot->item);
+    shortcut = ShortcutUtil_GetItemShortcut(slot->item);
     if (shortcut == 0xff) {
         return FALSE;
     }
@@ -1947,7 +1949,7 @@ static BOOL ItemMenu_IsDowsingOn(ItemMenuWork *work) {
 }
 
 BOOL ItemMenu_IsItemRegistered(ItemMenuWork *work, u32 item) {
-    return GameData_IsShortcutRegistered(work->gameData, func_02034aa4(item));
+    return GameData_IsShortcutRegistered(work->gameData, ShortcutUtil_GetItemShortcut(item));
 }
 
 // The buttons of the touch screen
@@ -2294,14 +2296,14 @@ static void ItemMenu_StartMoveItem(ItemMenuWork *work) {
 static void ItemMenu_CreatePaletteAnim(ItemMenuWork *work) {
     ArcTool *arc;
 
-    work->paletteAnim = func_02035024(16, 16, 0xfffe, work->heapId);
+    work->paletteAnim = BlinkPalAnm_Create(16, 16, 0xfffe, work->heapId);
     arc = GFL_ArcSysCreateFileHandle(87, work->heapId);
-    func_02035104(work->paletteAnim, arc, 21, 16, 32);
+    BlinkPalAnm_SetPalBufferArcTool(work->paletteAnim, arc, 21, 16, 32);
     GFL_ArcToolFree(arc);
 }
 
 static void ItemMenu_FreePaletteAnim(ItemMenuWork *work) {
-    func_02035178(work->paletteAnim);
+    BlinkPalAnm_Free(work->paletteAnim);
 }
 
 // Flashes the cursor on the picked item, then opens the item's menu
@@ -2331,8 +2333,8 @@ static void ItemMenu_StateFlashCursor(ItemMenuWork *work) {
     case 7:
         work->buttonAnim = 0;
         ItemMenuDisp_SetListCursorPalette(work, 1);
-        func_020352b0(work->paletteAnim);
-        func_02035198(work->paletteAnim);
+        BlinkPalAnm_InitAnime(work->paletteAnim);
+        BlinkPalAnm_Main(work->paletteAnim);
         ItemMenu_SetState(work, ItemMenu_StateSelectItem);
         break;
     }

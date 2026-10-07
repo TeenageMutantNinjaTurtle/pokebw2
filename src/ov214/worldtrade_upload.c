@@ -141,15 +141,6 @@ enum {
 #define HTTP_STATUS_UNAUTHORIZED 401
 #define HTTP_STATUS_REQUEST_TIMEOUT 408
 
-// What a trade adds to the Unity Tower's records of the trainers met
-typedef struct {
-    PlayerInfo info;
-    u16 sentSpecies;
-    u16 receivedSpecies;
-    u8 country;
-    u8 region;
-    u8 trainerType : 3;
-} UploadVisitor;
 
 static void Upload_BgInit(void);
 static void Upload_BgExit(void);
@@ -1104,7 +1095,7 @@ static void Upload_MakeTradeExchangeInfo(WorldTradeWork *wk, PartyPkm *received,
     PlayerInfo *avenuePartner;
     JoinAvenueSave *joinAvenue;
     void *entry;
-    UploadVisitor visitor;
+    UnityTowerVisitor visitor;
     BOOL otherColor;
 
     RecordAddOne(wk->param->record, 0x10);
@@ -1115,16 +1106,16 @@ static void Upload_MakeTradeExchangeInfo(WorldTradeWork *wk, PartyPkm *received,
     GFL_HeapFree(partner);
 
     visitorInfo = WorldTrade_MakePartnerStatus(trData);
-    sys_memset(&visitor, 0, sizeof(UploadVisitor));
+    sys_memset(&visitor, 0, sizeof(UnityTowerVisitor));
     func_02008b34(visitorInfo, &visitor.info);
     visitor.sentSpecies =
         sent != NULL ? (u16)PokeParty_GetParam(sent, PKM_PARAM_SPECIES, NULL) : (u16)trData->postSimple.characterNo;
     otherColor = FALSE;
     visitor.receivedSpecies = PokeParty_GetParam(received, PKM_PARAM_SPECIES, NULL);
-    visitor.country = trData->unk126;
-    visitor.trainerType = trData->unkF7;
-    visitor.region = trData->unk127;
-    func_02035350(wk->param->wifihistory, &visitor.info);
+    visitor.hobby = trData->unk126;
+    visitor.unk26_0 = trData->unkF7;
+    visitor.unk25 = trData->unk127;
+    UnityTowerSurvey_RegisterTrade(wk->param->wifihistory, &visitor);
     GFL_HeapFree(visitorInfo);
 
     gameData = GSYS_GetGameData(wk->param->gsys);

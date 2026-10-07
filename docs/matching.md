@@ -246,6 +246,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - An argument narrowed by a `u16` parameter is narrowed again at each call, and only hoisted out of a loop, while a
   `(u16)` cast is computed once and reused: `PMSIVEdit_ScrollWait` matched only once `func_0204c1a8` and
   `func_0204c1dc` took their surface as `u16`.
+- `field--` and `field++` load the field again before the subtraction, even right after comparing it, where
+  `field = field - 1` reuses the register: the phrase input's `PMSInput_SentenceKey` moves its edit position the
+  second way.
 - A compound assignment to a narrow field narrows its right side first: `work->checkFlag &= 0xff ^ (1 << waza);` on a
   `u8` shifts the mask down to a byte before the `and`, while `work->checkFlag = work->checkFlag & (0xff ^ (1 << waza));`
   ands the full mask, as the PC box's `Box2Main_PokeFreeWazaCheck` does.
@@ -285,6 +288,17 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A value narrowed again after it is clamped was clamped with a conditional expression, whose `int` result is
   narrowed when it is stored back: the Pokédex cry page writes `sample = MATH_CLAMP(sample, -500, 500);` for an `s16`
   sample, where an `if`/`else if` chain assigning the bounds leaves no narrowing.
+- A comparison right after a `u16` narrowing that isn't done in `u16` arithmetic (`subs r0, r1, #6; cmp #1; bhi`
+  rather than `subs; adds; lsl/lsr #16; cmp`) compares the narrowed value as an `int`: `zone_weather.c`'s
+  `UpdateWeatherToDefault` keeps `int nowWeather = (u16)GetNowWeather(gameData);` for its `== 6 || == 7` test.
+- A callee that narrows its result in its body (`lsl #24; lsr #24`) can still return `u32`, with the value in a `u8`
+  local: the caller narrowing the result again shows it, as `event_mapchange.c` does for `season.c`'s
+  `Season_GetRealTime`.
+- MWCC keeps the grouping written in an address offset: `raw + (i * 0x180 + 0xc00)` and `raw + i * 0x180 + 0xc00`
+  compile differently, and a bracketed `((personality & 0xf) - 8)` is kept as its own term where the bare `- 8` is
+  folded into the constant beside it (`pokegra.c`'s `PokeGra_CellCharsToImage` and `PokeGra_DrawSpindaSpots`).
+- An `if` whose condition is an assignment with `|=`, `if (texBanks |= GX_VRAM_C)`, keeps the `orr` and tests its
+  result, which `|` would fold away: `screentex.c`'s bank switch, where the test is always true.
 - Masks written with `~` clear bits with `bic`. The game's `and` with a constant such as `0xef` is `x &= (u8)~FLAG`.
 - MWCC doesn't propagate constants into a variable of an enum type. A loop that still checks its bound before the
   first pass, as `for (p = 80; p <= 83; p++)` does in the Join Avenue's commands, or a sum that still adds a counter
@@ -426,6 +440,16 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   call:`, is the call written in both branches: overlay 185's `PMSIView_CmdWordWinToCategory` matches only with
   `if (mode == 0) { f(flag); } else { if (search) { flag = TRUE; } f(flag); }`. Writing the call once after the `if`
   also swapped the registers of `flag` and `search`.
+- A range or equality test that ends in `b store` while its other arm is `mov rN, #const; b store` is the store
+  written in both arms, `if (x >= 20 && x <= 23) { wk->pos = x; } else { wk->pos = 22; }`: the then-arm's store is
+  cross-jumped into the shared one and only its `b` is left. The phrase input's `PMSInput_CategoryKeyInitial` writes
+  its cursor's fallbacks so; a fallback assigned to the value and stored once after gives a plain branch to the store.
+- Of a store written in several arms, cross-jumping keeps the copy written last and turns the others into `b`, so the
+  order of the arms decides where the store sits. The phrase input's `PMSIVWordWin_SetScrollBar` keeps its top
+  position's store at the end of the function, behind a plain `beq`, only as `else if (scrollMax != 0) { compute }
+  else { y = TOP; }`; `else if (scrollMax == 0) { y = TOP; } else { compute }` kept it early behind `bne; b`. Its
+  `PMSIVWordWin_GetScrollBarLine` has `cmp #0x12; bne next; b zero` from `line = 0` written both as the first arm of
+  the inner chain and as the outer `else`.
 - A branch to the very next instruction is left by cross-jumping: two statements that end the same way, such as a
   store in each case of a switch, share their tail, and the first jumps to it even when it follows.
 - MWCC evaluates the operands of `|` in the order they are grouped, so a color built from three computed parts shows
