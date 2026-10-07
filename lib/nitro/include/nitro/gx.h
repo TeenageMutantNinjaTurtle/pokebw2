@@ -554,6 +554,11 @@ static inline void GX_SetVisibleWnd(int window) {
                      (window << REG_GX_DISPCNT_W0_SHIFT);
 }
 
+static inline int GX_GetVisibleWnd(void) {
+    return (reg_GX_DISPCNT & (REG_GX_DISPCNT_W0_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_OW_MASK)) >>
+           REG_GX_DISPCNT_W0_SHIFT;
+}
+
 static inline void GXS_SetVisibleWnd(int window) {
     reg_GXS_DB_DISPCNT =
         (reg_GXS_DB_DISPCNT & ~(REG_GX_DISPCNT_W0_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_OW_MASK)) |
@@ -567,6 +572,17 @@ static inline void GXS_SetVisibleWnd(int window) {
 #define REG_G2_WININ_WIN1IN_MASK 0x3f00
 #define REG_G2_WINOUT_WINOUT_MASK 0x003f
 #define G2_WND_EFFECT 0x20
+
+// The planes outside all windows, and whether color effects apply there, as the register's low byte
+typedef struct {
+    u8 planeMask : 5;
+    u8 effect : 1;
+    u8 : 2;
+} GXWndPlane;
+
+static inline GXWndPlane G2_GetWndOutsidePlane(void) {
+    return *(volatile GXWndPlane *)&reg_G2_WINOUT;
+}
 
 static inline void G2_SetWnd0InsidePlane(int wnd, BOOL effect) {
     u32 tmp = (reg_G2_WININ & ~REG_G2_WININ_WIN0IN_MASK) | wnd;

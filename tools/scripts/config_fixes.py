@@ -16,6 +16,8 @@ after importing names from swan.
     config_fixes.py add-data overlays/ov307 EGG_DEMO_VIEW_UNK_FX32 0x021df70c  # an object that nothing references
     config_fixes.py add-function . ampOffFreeBlocks thumb 0x20 0x02006dec     # a function that dsd took for a label
     config_fixes.py add-reloc overlays/ov036 load 'overlay(259)' 0x021a039c 0x021ae188  # a pointer dsd missed
+    config_fixes.py section-end overlays/ov310 src/ov310/research_list.c .rodata 0x021a7028  # move a file's boundary
+    config_fixes.py section-start overlays/ov310 src/ov310/research_common.c .rodata 0x021a773c
     config_fixes.py apply
 """
 import argparse
@@ -151,6 +153,28 @@ def apply_fix(version: str, module: str, addr: int, action: str, argument: str):
         path.write_text("\n".join(lines) + "\n")
         return
 
+    if action in ("section_start", "section_end"):
+        # A registered source file's section range, moved after add_source_file.py, such as when an object at a boundary
+        # turns out to belong to the neighbouring file. The argument is source:section
+        path = config_dir(version, module) / "delinks.txt"
+        lines = path.read_text().splitlines()
+        source, section = argument.rsplit(":", 1)
+        try:
+            start = lines.index(f"{source}:")
+        except ValueError:
+            sys.exit(f"{version} {module}: {source} is not registered")
+        bound = "start" if action == "section_start" else "end"
+        for i in range(start + 1, len(lines)):
+            if not lines[i].startswith(" "):
+                break
+            if lines[i].split()[0] == section:
+                lines[i] = re.sub(rf"{bound}:0x[0-9a-f]+", f"{bound}:{addr:#010x}", lines[i])
+                break
+        else:
+            sys.exit(f"{version} {module}: {source} has no {section}")
+        path.write_text("\n".join(lines) + "\n")
+        return
+
     path = config_dir(version, module) / "relocs.txt"
     lines = path.read_text().splitlines()
     index = next((i for i, line in enumerate(lines) if int(RELOC_RE.match(line).group(1), 16) == addr), None)
@@ -252,6 +276,12 @@ def main():
     command.add_argument("target", help="target address, odd for a Thumb function")
     command.add_argument("--addend", help="offset from the target, for an address inside a function or object")
     command.add_argument("addresses", nargs="+")
+    for bound in ("start", "end"):
+        command = commands.add_parser(f"section-{bound}", help=f"move the {bound} of a registered file's section")
+        command.add_argument("module")
+        command.add_argument("source", help="the source file as delinks.txt names it, e.g. src/ov310/research_list.c")
+        command.add_argument("section", help="e.g. .rodata")
+        command.add_argument("addresses", nargs="+", help=f"the new {bound}")
     commands.add_parser("apply", help="apply every fix in config/fixes.txt")
     args = parser.parse_args()
 
@@ -269,7 +299,9 @@ def main():
                 "add_function": f"{getattr(args, 'name', '')}:{getattr(args, 'mode', '')}:{getattr(args, 'size', '')}",
                 "add_reloc": ",".join([getattr(args, "kind", ""), getattr(args, "destination", ""),
                                        getattr(args, "target", ""), *([args.addend] if getattr(args, "addend", None)
-                                                                      else [])])}
+                                                                      else [])]),
+                "section_start": f"{getattr(args, 'source', '')}:{getattr(args, 'section', '')}",
+                "section_end": f"{getattr(args, 'source', '')}:{getattr(args, 'section', '')}"}
     argument = argument.get(action, "")
     for address in args.addresses:
         addr = int(address, 16)
