@@ -100,6 +100,12 @@ Same instructions, scheduled in another order.
   before the loop.
 - Initializations are scheduled where they are written: `int i = 0;` declared after a call sets `i` after the call,
   while `for (i = 0; ...)` sets it at the loop, after any statements before the loop.
+- A field of a local struct that a call fills is loaded before the next call only when the source reads it there: the
+  Pokédex forms page copies `targetX = target.x;` between `ZukanDetailForm_GetSpritePosF32(..., &target)` and
+  `MCSS_GetPosition`.
+- A conditional expression among a call's arguments is evaluated before the plain ones. When the original loads the
+  arguments in their order, the conditional one was a local set before the call: the forms page passes `addToDex`
+  locals `sex` and `rare` set just before it.
 - An argument that is loaded before a call among the arguments, such as a print queue loaded before
   `BmpWin_GetBitmap(...)` in the same call, was passed to an inlined helper that makes the call, like
   `PrintWindow_Print`.
@@ -124,6 +130,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   helpers that pass their mon's ID to `GetBattleMon`.
 - A sum that the original truncates to `s16` before comparing it was stored in an `s16` local, as the edges of the
   Join Avenue's balloons are; casting it in the comparison gives the same code but is not needed.
+- A value narrowed again after it is clamped was clamped with a conditional expression, whose `int` result is
+  narrowed when it is stored back: the Pokédex cry page writes `sample = MATH_CLAMP(sample, -500, 500);` for an `s16`
+  sample, where an `if`/`else if` chain assigning the bounds leaves no narrowing.
 - Masks written with `~` clear bits with `bic`. The game's `and` with a constant such as `0xef` is `x &= (u8)~FLAG`.
 - MWCC doesn't propagate constants into a variable of an enum type. A loop that still checks its bound before the
   first pass, as `for (p = 80; p <= 83; p++)` does in the Join Avenue's commands, or a sum that still adds a counter
@@ -136,6 +145,20 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   inline accessor does it naturally, since its parameter is a copy of the index in the parameter's type: the Join
   Avenue shop reads `ResortShop_GetEntry(wk, j)->id` with a `u32` index for an `int` `j`, and its later
   `wk->entries[j]` is computed again while `wk->entries[i]` is reused.
+- Stores through a pointer to an array element, `icon = &icons[3]; icon->chars = ...;`, use the element's address as
+  their base register, while `icons[3].chars = ...;` reaches the field from a base of MWCC's choosing, often an
+  earlier element. The Pokédex touch bar's map and forms buttons are filled through a pointer. The other way round,
+  a loop that indexes `wk->buttons[i].rect[0]` keeps `wk + i * size` and adds each field's offset, where a
+  `LanguageButton *button` local gives other registers, as the Pokédex info page's language buttons show.
+- A local array or struct initialized in its declaration is stored through a base register, `add r0, sp, #0x4c;
+  str r4, [r0]; str r4, [r0, #4]`, where assignments to its elements store at `sp` offsets. A `u8` array initialized
+  so, `u8 kinds[3] = { FALSE, FALSE, FALSE };`, also makes MWCC load memory again after each store to the array, where
+  with assignments it keeps the first load: the Pokédex habitat map reads `wk->habitat` again for each of its three
+  tests of a place's habitats.
+- The initializer's stores happen at the declaration, so an array cleared by an initializer after some calls is
+  declared in an inner block opened there: the forms page's `BOOL hasSex[3] = { FALSE, FALSE, FALSE };` follows the
+  Pokédex reads in a block around the rest of the gathering, and `BOOL seenRare[2] = { FALSE, FALSE };` sits in the
+  loop over the forms.
 - A value that a loop uses and the code after it uses again is reused from the copy hoisted out of the loop. When
   the original computes it again after the loop, the loop assigns it to a variable declared in the loop's body, as
   `int wanted = mode + 1;` in the Join Avenue's records command.
@@ -163,6 +186,8 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   store in each case of a switch, share their tail, and the first jumps to it even when it follows.
 - When comparing a call's result, `v = f(); if (v == x)` and `if (f() == x)` put the operands of `cmp` in opposite
   orders.
+- `x = x == 0 ? 3 : x - 1;` reads `x` once, and `if (x == 0) { x = 3; } else { x--; }` reads it again in the `else`
+  branch before the shared store, as the Pokédex habitat map's season changes do.
 - The last test of a condition branches to the code written second. `if (a == x || a == y) { return TRUE; } return
   FALSE;` ends with `bne` to the `FALSE` return, while the original's `beq` to a `TRUE` return placed after the `FALSE`
   one is `if (a != x && a != y) { return FALSE; } return TRUE;`, as `plist_demo.c`'s Reveal Glass and Gracidea checks
@@ -178,6 +203,8 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 ## Loops
 
+- A loop counted with `!=` tests with `beq` before the loop and `bne` at its end, where `<` gives `bls` and `blo`:
+  the forms page walks its form-name table with `for (i = 0; i != form; i++)`.
 - `while (cond)` is rotated, with a copy of its test before the loop. A loop that tests once, at its top, is
   `while (TRUE)` with a `break` or `return` inside, as the Join Avenue's walks through its data are.
 - A loop that runs once is unrolled when its counter and bound have the same signedness. `int i; i < NELEMS(x)`
@@ -196,6 +223,13 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   Subway's command switch only splits its values as the game does with an empty `case 102:` inside its first jump
   table, and empty cases that sit between others still get a comparison.
 - A switch case that ends in the same code as another case is merged into it, so its end moves.
+- A switch whose comparisons start with a value outside its jump table, `cmp r0, #5; beq other; cmp r0, #3; bls table`,
+  with that value's code after the cases, is `if (x != 5) { switch (x) { ... } } else { ... }`; the same test before
+  a compare chain, `cmp r0, #5; beq end`, is the `if` without an `else`. The Pokédex forms page's button input reads
+  so: a `case 5:` in the switch puts 5 in the table.
+- A short chain of tests whose first value does nothing, `cmp r5, #1; beq end; cmp r5, #3; bne next`, with each body
+  after its test, is `if (x == 1) { } else if (x == 3) { ... } else if (x == 4) { ... }`; a switch of the same values
+  branches to its cases instead. The Pokédex habitat map's state changes test the new state so.
 
 ## Floats and runtime helpers
 
@@ -206,6 +240,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   place in the source instead, so `col * pixels` with `f32 pixels = 96.0f / 18;` passes `col` first.
 - NitroSDK's `FX32_CONST(x)` names `x` three times, in its test and in both branches, so a call written inside it is
   made three times. The game passes a local, as the capture rate in `btl_server_flow_sub.c` does.
+- A literal in a compound assignment keeps its place: `y = scale.y / (f32)FX32_ONE; y += 0.01f;` calls
+  `_fadd(y, 0.01f)`, where `y = scale.y / (f32)FX32_ONE + 0.01f;` calls `_fadd(0.01f, y)`, as the Pokédex cry page
+  stretches its Pokémon.
 - MWCC doesn't fold float arithmetic on a local variable that holds a constant, so `size / 2.0f` stays a call when
   `size` is a variable, while an expression of literals is folded.
 - `compiler_probe.py` skips relocated words, so a wrong addend, such as a table index that the compiler folds into a

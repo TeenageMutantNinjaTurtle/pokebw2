@@ -128,6 +128,13 @@ BOOL PokeParty_AddPkm(PokeParty *party, PartyPkm *pkm);
 void PokeParty_SwapPkms(PokeParty *party, u32 indexA, u32 indexB, HeapID heapId);
 void PokeParty_RemovePkm(PokeParty *party, u32 index);
 void PokeParty_RecoverAll(PokeParty *party);
+// A Pokémon's icon in archive 7: its file, and the palette of the file func_02021114 returns that it uses. The cells
+// and animations depend on the sub engine's OBJ VRAM mapping: func_02021154 and getOBJTileMapping_SubEng return them
+u32 PokeParty_GetIconIndex(u32 species, u32 form, u32 sex, BOOL egg);
+u32 func_02021034(u32 species, u32 form, u32 sex, BOOL egg);
+u32 func_02021114(void);
+u32 func_02021154(void);
+u32 getOBJTileMapping_SubEng(void);
 void PokeParty_ChangeForme(PartyPkm *pkm, u32 forme);
 // The form of Arceus for a plate, and of Genesect for a drive
 u16 _getTypeForPlate(u16 item);
