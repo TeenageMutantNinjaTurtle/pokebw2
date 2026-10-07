@@ -9,6 +9,7 @@
 #define MOVE_PARAM_TYPE 0
 #define MOVE_PARAM_CATEGORY 2
 #define MOVE_PARAM_POWER 3
+#define MOVE_PARAM_ACCURACY 4
 #define MOVE_PARAM_EFFECT 28
 
 // How long the condition a move inflicts lasts, by its type
