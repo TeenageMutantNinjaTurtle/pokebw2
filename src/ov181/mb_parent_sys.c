@@ -201,7 +201,7 @@ static void MBParent_Init(MBParentWork *wk) {
     } else {
         wk->msg = func_ov181_0219fc0c(wk->heapId, 1, 1, 0x5c, 0, 1);
     }
-    wk->comm = func_ov181_0219f580(wk->heapId);
+    wk->comm = MBComm_Create(wk->heapId);
     wk->childRomSent = FALSE;
     wk->childRom = NULL;
     MBParent_DrawTopScreen(wk);
@@ -245,13 +245,13 @@ static void MBParent_Exit(MBParentWork *wk) {
     if (wk->childRom != NULL) {
         GFL_HeapFree(wk->childRom);
     }
-    func_ov181_0219f5d8(wk->comm);
+    MBComm_Delete(wk->comm);
     func_ov181_0219fd28(wk->msg);
     MBParent_FreeGraphics(wk);
 }
 
 static BOOL MBParent_Main(MBParentWork *wk) {
-    func_ov181_0219f60c(wk->comm);
+    MBComm_Update(wk->comm);
     if (wk->netError == TRUE && wk->state != MB_PARENT_STATE_WIPE_OUT && wk->state != MB_PARENT_STATE_WAIT_WIPE_OUT) {
         wk->eventsPaused = GameData_CheckEventsPaused(wk->param->gameData);
         if (wk->eventsPaused == TRUE) {
@@ -331,7 +331,7 @@ static BOOL MBParent_Main(MBParentWork *wk) {
         if (wk->distributionDone == TRUE) {
             wk->state = MB_PARENT_STATE_WAIT_NET_START;
             wk->waitConnectFrames = 0;
-            func_ov181_0219f6ac(wk->comm);
+            MBComm_StartNet(wk->comm);
             if (wk->startMenu == FALSE) {
                 func_02042ba8(FALSE, wk->heapId);
             } else {
@@ -342,9 +342,9 @@ static BOOL MBParent_Main(MBParentWork *wk) {
         }
         break;
     case MB_PARENT_STATE_WAIT_NET_START:
-        if (func_ov181_0219f7b8(wk->comm) == TRUE) {
+        if (MBComm_IsNetReady(wk->comm) == TRUE) {
             wk->state = MB_PARENT_STATE_WAIT_CHILD;
-            func_ov181_0219f7c8(wk->comm);
+            MBComm_Connect(wk->comm);
         }
         break;
     case MB_PARENT_STATE_WAIT_CHILD:
@@ -352,13 +352,13 @@ static BOOL MBParent_Main(MBParentWork *wk) {
         if (wk->waitConnectFrames >= 1800) {
             MBParent_SetPalParkResult(wk, 3);
             wk->state = MB_PARENT_STATE_TIMEOUT;
-        } else if (func_ov181_0219f800(wk->comm) == TRUE) {
+        } else if (MBComm_IsConnected(wk->comm) == TRUE) {
             wk->parentInfo.textSpeed = func_02017bcc();
             wk->parentInfo.language = GFL_MsgDataGetDefaultLangID();
             if (wk->startMenu == FALSE) {
                 wk->parentInfo.highScore = TrainerGameInfo_GetPalParkHighScore(wk->trainerGameInfo);
             }
-            if (func_ov181_0219fb38(wk->comm, &wk->parentInfo) == TRUE) {
+            if (MBComm_SendParentInfo(wk->comm, &wk->parentInfo) == TRUE) {
                 if (wk->startMenu == FALSE) {
                     wk->state = MB_PARENT_STATE_LOAD_CHILD_PROGRAM;
                 } else {
@@ -388,44 +388,44 @@ static BOOL MBParent_Main(MBParentWork *wk) {
         wk->state = MB_PARENT_STATE_WAIT_CHILD_REQUEST;
         break;
     case MB_PARENT_STATE_WAIT_CHILD_REQUEST:
-        if (func_ov181_0219f810(wk->comm) == 10) {
+        if (MBComm_GetState(wk->comm) == 10) {
             MBParent_SetPalParkResult(wk, 3);
             func_ov181_0219ff4c(wk->msg, 8, func_02017bcc());
-            func_ov181_0219f7d8(wk->comm);
+            MBComm_StartDisconnect(wk->comm);
             wk->state = MB_PARENT_STATE_WAIT_END;
-        } else if (func_ov181_0219f810(wk->comm) == 2) {
+        } else if (MBComm_GetState(wk->comm) == 2) {
             if (wk->childRomSent == FALSE) {
                 wk->childRomSent = TRUE;
-                func_ov181_0219f928(wk->comm, wk->childRom, wk->childRomSize);
+                MBComm_SendProgram(wk->comm, wk->childRom, wk->childRomSize);
             }
             func_ov181_0219ff4c(wk->msg, 2, func_02017bcc());
             wk->state = MB_PARENT_STATE_SEND_PROGRAM;
         }
         break;
     case MB_PARENT_STATE_SEND_PROGRAM:
-        if (func_ov181_0219f810(wk->comm) == 3) {
+        if (MBComm_GetState(wk->comm) == 3) {
             func_ov181_0219ff4c(wk->msg, 3, func_02017bcc());
             wk->state = MB_PARENT_STATE_WAIT_PROGRAM_SENT;
-        } else if (func_ov181_0219f810(wk->comm) == 13) {
+        } else if (MBComm_GetState(wk->comm) == 13) {
             MBParent_SetPalParkResult(wk, 4);
             func_ov181_0219ff4c(wk->msg, 8, func_02017bcc());
-            func_ov181_0219f7d8(wk->comm);
+            MBComm_StartDisconnect(wk->comm);
             wk->state = MB_PARENT_STATE_WAIT_END;
         }
         // fallthrough
     case MB_PARENT_STATE_WAIT_PROGRAM_SENT:
-        if (func_ov181_0219f810(wk->comm) == 4) {
-            func_ov181_0219f938(wk->comm);
+        if (MBComm_GetState(wk->comm) == 4) {
+            MBComm_ClearPokemon(wk->comm);
             func_ov181_0219ff4c(wk->msg, 4, func_02017bcc());
             wk->state = MB_PARENT_STATE_WAIT_POKEMON;
         }
         break;
     case MB_PARENT_STATE_WAIT_POKEMON:
-        if (func_ov181_0219f810(wk->comm) == 5) {
+        if (MBComm_GetState(wk->comm) == 5) {
             RecordAddOne(GameData_GetRecords(wk->param->gameData), 0x78);
             wk->transferCount++;
             wk->state = MB_PARENT_STATE_ACK_POKEMON;
-        } else if (func_ov181_0219f810(wk->comm) == 8) {
+        } else if (MBComm_GetState(wk->comm) == 8) {
             RecordAddOne(GameData_GetRecords(wk->param->gameData), 0x78);
             wk->transferCount++;
             MBParent_SetPalParkResult(wk, 2);
@@ -433,19 +433,19 @@ static BOOL MBParent_Main(MBParentWork *wk) {
         }
         break;
     case MB_PARENT_STATE_ACK_POKEMON:
-        if (func_ov181_0219f970(wk->comm) == TRUE && func_ov181_0219f9ac(wk->comm, 0, 0) == TRUE) {
+        if (MBComm_IsPokemonReceived(wk->comm) == TRUE && MBComm_SendCommand(wk->comm, MB_COMM_CMD_ACK, 0) == TRUE) {
             wk->state = MB_PARENT_STATE_WAIT_ACK;
         }
         break;
     case MB_PARENT_STATE_WAIT_ACK:
-        if (func_ov181_0219f9a4(wk->comm) == TRUE || wk->startMenu == TRUE) {
-            if (func_ov181_0219f810(wk->comm) == 6) {
+        if (MBComm_IsAcked(wk->comm) == TRUE || wk->startMenu == TRUE) {
+            if (MBComm_GetState(wk->comm) == 6) {
                 wk->state = MB_PARENT_STATE_STORE_POKEMON;
-            } else if (func_ov181_0219f810(wk->comm) == 10) {
+            } else if (MBComm_GetState(wk->comm) == 10) {
                 if (wk->startMenu == FALSE) {
                     MBParent_SetPalParkResult(wk, 3);
                     func_ov181_0219ff4c(wk->msg, 8, func_02017bcc());
-                    func_ov181_0219f7d8(wk->comm);
+                    MBComm_StartDisconnect(wk->comm);
                     wk->state = MB_PARENT_STATE_WAIT_END;
                 } else {
                     func_ov181_0219ff4c(wk->msg, 0x26, func_02017bcc());
@@ -478,18 +478,18 @@ static BOOL MBParent_Main(MBParentWork *wk) {
         if (func_ov181_021a035c(wk->msg) == TRUE) {
             u16 space = func_02007a38(GameData_GetBoxSaveAccessor(wk->param->gameData));
 
-            if (func_ov181_0219f9ac(wk->comm, 5, space) == TRUE) {
+            if (MBComm_SendCommand(wk->comm, MB_COMM_CMD_BOX_SPACE, space) == TRUE) {
                 func_ov181_0219ff4c(wk->msg, 0xb, func_02017bcc());
                 wk->state = MB_PARENT_STATE_WAIT_CHILD_NEXT;
             }
         }
         break;
     case MB_PARENT_STATE_WAIT_CHILD_NEXT:
-        if (func_ov181_0219f810(wk->comm) == 2) {
-            func_ov181_0219f814(wk->comm);
+        if (MBComm_GetState(wk->comm) == 2) {
+            MBComm_ResetCommands(wk->comm);
             wk->state = MB_PARENT_STATE_WAIT_CHILD_REQUEST;
-        } else if (func_ov181_0219f810(wk->comm) == 9 || func_ov181_0219f810(wk->comm) == 10) {
-            if (func_ov181_0219f810(wk->comm) == 10) {
+        } else if (MBComm_GetState(wk->comm) == 9 || MBComm_GetState(wk->comm) == 10) {
+            if (MBComm_GetState(wk->comm) == 10) {
                 MBParent_SetPalParkResult(wk, 3);
             }
             func_ov181_0219ff4c(wk->msg, 8, func_02017bcc());
@@ -497,19 +497,19 @@ static BOOL MBParent_Main(MBParentWork *wk) {
         }
         break;
     case MB_PARENT_STATE_SEND_END:
-        if (func_ov181_0219f9ac(wk->comm, 0x12, 0) == TRUE) {
-            func_ov181_0219f7d8(wk->comm);
+        if (MBComm_SendCommand(wk->comm, MB_COMM_CMD_END, 0) == TRUE) {
+            MBComm_StartDisconnect(wk->comm);
             wk->state = MB_PARENT_STATE_WAIT_END;
         }
         break;
     case MB_PARENT_STATE_WAIT_END:
-        if (func_ov181_021a035c(wk->msg) == TRUE && func_ov181_0219f7f0(wk->comm) == TRUE) {
-            func_ov181_0219f798(wk->comm);
+        if (func_ov181_021a035c(wk->msg) == TRUE && MBComm_IsDisconnected(wk->comm) == TRUE) {
+            MBComm_EndNet(wk->comm);
             wk->state = MB_PARENT_STATE_WAIT_NET_END;
         }
         break;
     case MB_PARENT_STATE_WAIT_NET_END:
-        if (func_ov181_0219f7c0(wk->comm) == TRUE) {
+        if (MBComm_IsNetEnded(wk->comm) == TRUE) {
             if (wk->startMenu == FALSE) {
                 wk->state = MB_PARENT_STATE_WIPE_OUT;
             } else {
@@ -527,7 +527,7 @@ static BOOL MBParent_Main(MBParentWork *wk) {
         }
         break;
     case MB_PARENT_STATE_WAIT_FINISH:
-        if (func_ov181_0219f7c0(wk->comm) == TRUE && func_ov181_021a035c(wk->msg) == TRUE) {
+        if (MBComm_IsNetEnded(wk->comm) == TRUE && func_ov181_021a035c(wk->msg) == TRUE) {
             wk->state = MB_PARENT_STATE_WIPE_OUT;
         }
         break;
@@ -535,7 +535,7 @@ static BOOL MBParent_Main(MBParentWork *wk) {
         func_ov181_0219ff4c(wk->msg, 0xa, func_02017bcc());
         func_ov181_021a036c(wk->msg, 1);
         wk->state = MB_PARENT_STATE_WAIT_TIMEOUT;
-        func_ov181_0219f798(wk->comm);
+        MBComm_EndNet(wk->comm);
         break;
     case MB_PARENT_STATE_WAIT_TIMEOUT:
         if (func_ov181_021a035c(wk->msg) == TRUE) {
@@ -1122,14 +1122,14 @@ static void MBParent_SoftResetCallback(void *work) {
 }
 
 static void MBParent_ReceivePokemon(MBParentWork *wk) {
-    u8 count = func_ov181_0219f980(wk->comm);
+    u8 count = MBComm_GetPokemonCount(wk->comm);
 
     func_ov181_021a0028(wk->msg, 6);
     func_ov181_021a0380(wk->msg, 1);
     MBParent_StorePokemon(wk);
     if (wk->startMenu == FALSE) {
         u16 highScore = TrainerGameInfo_GetPalParkHighScore(wk->trainerGameInfo);
-        u16 score = func_ov181_0219f99c(wk->comm);
+        u16 score = MBComm_GetScore(wk->comm);
 
         if (highScore < score) {
             TrainerGameInfo_SetPalParkHighScore(wk->trainerGameInfo, score);
@@ -1149,7 +1149,7 @@ static void MBParent_ReceivePokemon(MBParentWork *wk) {
 static void MBParent_StorePokemon(MBParentWork *wk) {
     BoxSaveAccessor *boxes = GameData_GetBoxSaveAccessor(wk->param->gameData);
     PokeDexSave *pokedex = GameData_GetPokedex(wk->param->gameData);
-    u8 count = func_ov181_0219f980(wk->comm);
+    u8 count = MBComm_GetPokemonCount(wk->comm);
     u8 i;
 
     if (wk->startMenu == FALSE) {
@@ -1160,7 +1160,7 @@ static void MBParent_StorePokemon(MBParentWork *wk) {
         func_02038bc8(0x1f);
     }
     for (i = 0; i < count; i++) {
-        BoxPkm *pkm = func_ov181_0219f988(wk->comm, i);
+        BoxPkm *pkm = MBComm_GetPokemon(wk->comm, i);
         BOOL result;
         PartyPkm *partyPkm;
 
@@ -1180,12 +1180,12 @@ static void MBParent_UpdateTransfer(MBParentWork *wk) {
     switch (wk->distributionSeq) {
     case 9:
         if (func_ov181_021a0350(wk->msg) == TRUE && func_ov181_021a035c(wk->msg) == TRUE &&
-            func_ov181_0219f894(wk->comm) == TRUE && func_ov181_0219f9ac(wk->comm, 1, GFL_RandomLC(20) + 10) == TRUE) {
+            MBComm_IsSaveReady(wk->comm) == TRUE && MBComm_SendCommand(wk->comm, MB_COMM_CMD_SAVE_SYNC_1, GFL_RandomLC(20) + 10) == TRUE) {
             wk->distributionSeq = 10;
         }
         break;
     case 10:
-        if (func_ov181_0219f8b4(wk->comm) == TRUE) {
+        if (MBComm_IsSaveSync1(wk->comm) == TRUE) {
             wk->distributionSeq = 11;
         }
         break;
@@ -1199,7 +1199,7 @@ static void MBParent_UpdateTransfer(MBParentWork *wk) {
         }
         break;
     case 13:
-        if (func_ov181_0219f89c(wk->comm) == TRUE) {
+        if (MBComm_IsSaveStarted(wk->comm) == TRUE) {
             wk->waitFrames = GFL_RandomLC(20) + 10;
             wk->distributionSeq = 20;
         }
@@ -1216,23 +1216,23 @@ static void MBParent_UpdateTransfer(MBParentWork *wk) {
         }
         break;
     case 22:
-        if (func_ov181_0219f9ac(wk->comm, 2, 0) == TRUE) {
+        if (MBComm_SendCommand(wk->comm, MB_COMM_CMD_SAVE_SYNC_2, 0) == TRUE) {
             wk->distributionSeq = 16;
         }
         // fallthrough
     case 16:
-        if (func_ov181_0219f8a4(wk->comm) == TRUE && func_ov181_0219f9ac(wk->comm, 3, 0) == TRUE) {
+        if (MBComm_IsSaveMidReached(wk->comm) == TRUE && MBComm_SendCommand(wk->comm, MB_COMM_CMD_SAVE_SYNC_3, 0) == TRUE) {
             wk->distributionSeq = 17;
             wk->waitFrames = 0;
         }
         break;
     case 17:
-        if (func_ov181_0219f8ac(wk->comm) == TRUE && func_ov181_0219f9ac(wk->comm, 4, 0) == TRUE) {
+        if (MBComm_IsSaved(wk->comm) == TRUE && MBComm_SendCommand(wk->comm, MB_COMM_CMD_SAVE_SYNC_4, 0) == TRUE) {
             wk->distributionSeq = 19;
         }
         break;
     case 19:
-        if (func_ov181_0219f8bc(wk->comm) == TRUE) {
+        if (MBComm_IsSaveSync4(wk->comm) == TRUE) {
             wk->state = MB_PARENT_STATE_SAVED;
         }
         break;
@@ -1242,21 +1242,21 @@ static void MBParent_UpdateTransfer(MBParentWork *wk) {
 static void MBParent_UpdateResult(MBParentWork *wk) {
     switch (wk->resultSeq) {
     case 0:
-        if (func_ov181_0219f810(wk->comm) == 10 || func_ov181_0219f810(wk->comm) == 12) {
+        if (MBComm_GetState(wk->comm) == 10 || MBComm_GetState(wk->comm) == 12) {
             func_ov181_0219ff4c(wk->msg, 0x29, func_02017bcc());
             func_ov181_021a036c(wk->msg, 1);
-            func_ov181_0219f7d8(wk->comm);
+            MBComm_StartDisconnect(wk->comm);
             wk->state = MB_PARENT_STATE_SEND_END;
         }
-        if (func_ov181_0219f810(wk->comm) == 11) {
+        if (MBComm_GetState(wk->comm) == 11) {
             func_ov181_0219ff4c(wk->msg, 0x2c, func_02017bcc());
             func_ov181_021a036c(wk->msg, 1);
-            func_ov181_0219f7d8(wk->comm);
+            MBComm_StartDisconnect(wk->comm);
             wk->state = MB_PARENT_STATE_SEND_END;
         }
-        if (func_ov181_0219f8c4(wk->comm) == TRUE) {
-            u16 count = func_ov181_0219f8cc(wk->comm);
-            u16 more = func_ov181_0219f8d4(wk->comm);
+        if (MBComm_HasResult(wk->comm) == TRUE) {
+            u16 count = MBComm_GetResultCount(wk->comm);
+            u16 more = MBComm_GetResultMoreCount(wk->comm);
 
             if (count != 0) {
                 func_ov181_021a00e0(wk->msg);
@@ -1285,7 +1285,7 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
     case 2:
         wk->answer = func_ov181_021a0274(wk->msg);
         if (wk->answer == 1) {
-            u16 count = func_ov181_0219f8cc(wk->comm);
+            u16 count = MBComm_GetResultCount(wk->comm);
             u16 space = func_02007a38(GameData_GetBoxSaveAccessor(wk->param->gameData));
 
             func_ov181_021a026c(wk->msg);
@@ -1301,8 +1301,8 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
         }
         break;
     case 3:
-        if (func_ov181_0219f8d4(wk->comm) != 0) {
-            u16 count = func_ov181_0219f8cc(wk->comm);
+        if (MBComm_GetResultMoreCount(wk->comm) != 0) {
+            u16 count = MBComm_GetResultCount(wk->comm);
 
             func_ov181_021a00e0(wk->msg);
             func_ov181_0219fe70(wk->msg, 1);
@@ -1322,7 +1322,7 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
         }
         break;
     case 5:
-        if (func_ov181_0219f8e8(wk->comm) == TRUE) {
+        if (MBComm_GetResultFlag1(wk->comm) == TRUE) {
             func_ov181_021a00e0(wk->msg);
             func_ov181_0219fe70(wk->msg, 5);
             func_ov181_0219ff4c(wk->msg, 0x1a, func_02017bcc());
@@ -1341,7 +1341,7 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
         int answer = func_ov181_021a0274(wk->msg);
 
         if (answer == 1) {
-            if (func_ov181_0219f8fc(wk->comm) == TRUE) {
+            if (MBComm_GetResultFlag2(wk->comm) == TRUE) {
                 func_ov181_0219ff4c(wk->msg, 0x1b, func_02017bcc());
                 wk->resultSeq = 8;
             } else {
@@ -1401,7 +1401,7 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
         } else {
             reply = 1;
         }
-        if (func_ov181_0219f9ac(wk->comm, 0xf, reply) == TRUE) {
+        if (MBComm_SendCommand(wk->comm, MB_COMM_CMD_ANSWER, reply) == TRUE) {
             if (reply == 0) {
                 wk->resultSeq = 14;
                 func_ov181_021a00e0(wk->msg);
@@ -1417,12 +1417,12 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
         break;
     }
     case 14:
-        if (func_ov181_0219f970(wk->comm) == TRUE) {
+        if (MBComm_IsPokemonReceived(wk->comm) == TRUE) {
             MBParent_StorePokemon(wk);
             wk->resultSeq = 15;
         }
-        if (func_ov181_0219f910(wk->comm) == TRUE) {
-            u16 count = func_ov181_0219f8cc(wk->comm);
+        if (MBComm_HasMore(wk->comm) == TRUE) {
+            u16 count = MBComm_GetResultCount(wk->comm);
 
             func_ov181_021a00e0(wk->msg);
             func_ov181_0219fe70(wk->msg, 1);
@@ -1436,8 +1436,8 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
         }
         break;
     case 15:
-        if (func_ov181_0219f9ac(wk->comm, 0, 0) == TRUE) {
-            func_ov181_0219f938(wk->comm);
+        if (MBComm_SendCommand(wk->comm, MB_COMM_CMD_ACK, 0) == TRUE) {
+            MBComm_ClearPokemon(wk->comm);
             wk->resultSeq = 14;
         }
         break;
@@ -1458,8 +1458,8 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
         }
         break;
     case 19:
-        if (func_ov181_0219f918(wk->comm) == TRUE) {
-            if (func_ov181_0219f920(wk->comm) == TRUE) {
+        if (MBComm_HasItemInfo(wk->comm) == TRUE) {
+            if (MBComm_HasItem(wk->comm) == TRUE) {
                 func_ov181_021a00e0(wk->msg);
                 func_ov181_0219fe70(wk->msg, 5);
                 func_ov181_0219ff4c(wk->msg, 0x1f, func_02017bcc());
@@ -1509,7 +1509,7 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
         if (wk->answer != 1) {
             accept = FALSE;
         }
-        if (func_ov181_0219f9ac(wk->comm, 0x10, accept) == TRUE) {
+        if (MBComm_SendCommand(wk->comm, MB_COMM_CMD_ITEM_ANSWER, accept) == TRUE) {
             if (accept == TRUE) {
                 BagSave *bag = GameData_GetBag(wk->param->gameData);
                 PlayerInfo *playerInfo = GetGameDataPlayerInfo(wk->param->gameData);
@@ -1536,11 +1536,11 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
         break;
     case 25:
         if (wk->receivedMore == TRUE || wk->receivedItem == TRUE) {
-            if (func_ov181_0219f9ac(wk->comm, 0x11, 0) == TRUE) {
+            if (MBComm_SendCommand(wk->comm, MB_COMM_CMD_FINISH, 0) == TRUE) {
                 wk->state = MB_PARENT_STATE_WAIT_ACK;
             }
         } else {
-            if (func_ov181_0219f8cc(wk->comm) == 0 && func_ov181_0219f920(wk->comm) == FALSE) {
+            if (MBComm_GetResultCount(wk->comm) == 0 && MBComm_HasItem(wk->comm) == FALSE) {
                 func_ov181_021a00e0(wk->msg);
                 func_ov181_0219fe70(wk->msg, 1);
                 func_ov181_0219ff4c(wk->msg, 0x28, func_02017bcc());

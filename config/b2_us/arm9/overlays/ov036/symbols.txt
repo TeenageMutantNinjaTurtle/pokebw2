@@ -5755,7 +5755,6 @@ data_ov036_021d5778 kind:data(any) addr:0x021d5778
 data_ov036_021d577c kind:data(any) addr:0x021d577c
 data_ov036_021d57a0 kind:bss addr:0x021d57a0
 data_ov036_021d6ce0 kind:bss addr:0x021d6ce0 ambiguous
-data_ov036_021d6f6c kind:bss addr:0x021d6f6c
 data_ov036_021d7448 kind:bss addr:0x021d7448 ambiguous
 data_ov036_021dd93c kind:bss addr:0x021dd93c ambiguous
 data_ov036_021dd940 kind:bss addr:0x021dd940
@@ -5779,5 +5778,5 @@ data_ov036_021e0a01 kind:bss addr:0x021e0a01
 data_ov036_021e1ab8 kind:bss addr:0x021e1ab8 ambiguous
 g_FieldEdgeColorTable kind:bss addr:0x021e57a0
 data_ov036_021e57b0 kind:bss addr:0x021e57b0
-data_ov036_021e57bc kind:bss addr:0x021e57bc
-data_ov036_021e57c0 kind:bss addr:0x021e57c0
+g_ScrEventActorFlags kind:bss addr:0x021e57bc
+g_ScrBMAnmWaitHandleID kind:bss addr:0x021e57c0
