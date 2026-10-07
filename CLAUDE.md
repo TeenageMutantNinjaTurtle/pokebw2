@@ -17,7 +17,7 @@ a rule here changes, change it there too.
   in the header and the commit; never an overlay number. Functions go in address order, and in reverse for SPL,
   whose `1.2/base` compiler emits them reversed. `src/` is code built with the game's compiler: `src/ovNNN/` for overlays,
   `src/gfl` and `src/system` for main, by link order. Libraries built apart, with their own compiler, go in
-  `lib/<name>/{include,src}` with a `library.toml`: `lib/spl`, and `lib/nitro`, `lib/nnsys` (headers only so far).
+  `lib/<name>/{include,src}` with a `library.toml`: `lib/spl`, `lib/dsprot`, `lib/nitro` (RC4 so far), and `lib/nnsys` (headers only so far).
   `docs/code-organization.md` has the rest.
 - **Names:** swan's first, marked as swan's in the header. Our own go through `rename_symbol.py`, which records them
   in `config/names.txt`. Types swan doesn't name are named after their owner. Rename a static's symbol to its C name.
