@@ -181,6 +181,13 @@ Same instructions, scheduled in another order.
 
 - Loads through a pointer are not moved above stores unless the pointee is `const`. A load that the original
   schedules early, such as an argument loaded before the stack arguments are stored, points to a `const` parameter.
+  It has to be the parameter: `fld_scenearea_loader.c`'s camera-area callbacks scheduled their area's loads only
+  once the callback typedefs took `const CameraArea *`, and a `const` local pointer to the member did nothing. The
+  same change fixed the register allocation of the loop in `fld_scenearea.c` that calls them.
+- A local assigned once and used once is moved to its use when nothing between them writes memory, and the 64-bit
+  multiply helper of `FX_Mul` doesn't count as a write. To keep a value computed where the original computes it,
+  build it in steps: `RECT_PitchYawTZ` writes `pitch = rect.pitch2 - rect.pitch1; pitch = pitch * progress /
+  FX32_ONE; pitch += rect.pitch1;`, where the one-expression form sank the pitch into its call.
 - The same rule moves a call's stack argument stores. When loads through a pointer that is not `const` follow the
   call, the stack arguments are stored before the register arguments are set up. If the original stores them last,
   the pointer is `const`.
