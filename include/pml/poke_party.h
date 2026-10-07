@@ -229,9 +229,9 @@ BOOL doesPkmHaveLevelMoveToLearn(const u16 *moves);
 u16 func_0201d358(PartyPkm *pkm, u32 *index, HeapID heapId);
 #define LEARN_MOVE_KNOWN 0xfffe
 #define LEARN_MOVE_NO_SLOT 0x8000
-// Allocates a Pokémon that is not in a party. What the 64-bit argument sets is not known yet; 0 is one of the values
-// that PML_CreatePkm treats specially
-PartyPkm *PokeParty_NewTempPkm(u16 species, u16 level, u64 a2, HeapID heapId);
+// Allocates a Pokémon that is not in a party, with random IVs and PID, through PokeParty_CreateTempPkm. trainerId
+// is a 32-bit ID or one of the PKM_ID_ values
+PartyPkm *PokeParty_NewTempPkm(u16 species, u16 level, u64 trainerId, HeapID heapId);
 PartyPkm *boxPkmRegenToPartyPkm(BoxPkm *pkm, HeapID heapId);
 // Whether the species is a legendary Pokémon of the national Pokédex
 BOOL PML_PkmIsLegendNational(u16 species);
