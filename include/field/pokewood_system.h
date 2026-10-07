@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "app/pokelist.h"
-#include "app/ov207.h"
+#include "app/p_status.h"
 #include "battle/regulation.h"
 #include "gfl/heap.h"
 #include "save/pokewood.h"
@@ -54,7 +54,7 @@ PokewoodSystem *PokewoodSystem_Create(HeapID heapId);
 void PokewoodSystem_Free(PokewoodSystem *sys);
 void func_ov062_021e61a0(PokewoodSystem *sys, const PokeListParam *param);
 void func_ov062_021e61e8(PokewoodSystem *sys, GameData *gameData, PokeListParam *param);
-void func_ov062_021e6254(PokewoodSystem *sys, GameData *gameData, Ov207Param *param);
+void func_ov062_021e6254(PokewoodSystem *sys, GameData *gameData, PStatusParam *param);
 void PokewoodSystem_SetResultVar(PokewoodSystem *sys, u16 *var);
 u16 *PokewoodSystem_GetResultVar(PokewoodSystem *sys);
 void func_ov062_021e62a0(PokewoodSystem *sys, u16 value);

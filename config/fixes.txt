@@ -988,6 +988,10 @@ overlays/ov194 0x021c7268 remove_reloc
 overlays/ov199 0x021b805e reloc_module overlay(189)
 overlays/ov199 0x021b943c reloc_module overlay(189)
 overlays/ov201 0x021b59ce reloc_module overlay(189)
+overlays/ov207 0x021baee4 remove_reloc
+overlays/ov207 0x021baf24 remove_reloc
+overlays/ov207 0x021baf44 remove_reloc
+overlays/ov207 0x021bafc0 add_data data_ov207_021bafc0
 overlays/ov214 0x021d3490 overlay_id 189
 overlays/ov214 0x021d3494 overlay_id 139
 overlays/ov214 0x021d35c0 reloc_addend 4
