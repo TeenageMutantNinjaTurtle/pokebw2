@@ -73,11 +73,12 @@ typedef struct {
 struct MusicalPoke {
     // Who frees it: 0 the event, 1 the communication, 2 the stage
     u32 owner;
-    u32 unk4;
+    // The party Pokémon it was made from, or NULL
+    PartyPkm *pkm;
     u16 species;
+    u8 sex;
     u8 form;
-    u8 unkB;
-    u8 unkC;
+    u8 rare;
     u32 personality;
     MusicalPokeEquip equips[9];
     u16 points;
@@ -88,7 +89,7 @@ struct MusicalPoke {
 
 BOOL func_ov210_021eec80(PartyPkm *pkm);
 MusicalPoke *func_ov210_021eecac(PartyPkm *pkm, HeapID heapId);
-MusicalPoke *func_ov210_021eed30(u16 species, u8 form, u8 a2, u8 a3, u32 personality, HeapID heapId);
+MusicalPoke *func_ov210_021eed30(u16 species, u8 sex, u8 form, u8 rare, u32 personality, HeapID heapId);
 Ov210Work *func_ov210_021eedac(HeapID heapId);
 void func_ov210_021eedd8(Ov210Work *work);
 void func_ov210_021eee0c(Ov210Work *work, SaveControl *save, GameData *gameData, u8 a3, HeapID heapId);

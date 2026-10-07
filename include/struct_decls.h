@@ -305,6 +305,8 @@ typedef struct MusItemDrawSys MusItemDrawSys;
 typedef struct MusPokeDrawSys MusPokeDrawSys;
 typedef struct MusShotInfo MusShotInfo;
 typedef struct MusShotPhoto MusShotPhoto;
+typedef struct MusicalMcss MusicalMcss;
+typedef struct MusicalMcssSys MusicalMcssSys;
 typedef struct ResortMapCreateWork ResortMapCreateWork;
 typedef struct HighLinkSave HighLinkSave;
 typedef struct EventIRCWork EventIRCWork;

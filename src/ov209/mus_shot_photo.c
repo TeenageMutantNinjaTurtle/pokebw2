@@ -117,8 +117,8 @@ MusShotPhoto *MusShotPhoto_Create(MusicalShot *shot, HeapID heapId) {
     photo->heapId = heapId;
     photo->shot = shot;
     for (i = 0; i < 4; i++) {
-        photo->pokes[i] = func_ov210_021eed30(shot->pokes[i].species, shot->pokes[i].form, shot->pokes[i].unk2_3,
-                                              shot->pokes[i].unk2_2, shot->pokes[i].personality, heapId);
+        photo->pokes[i] = func_ov210_021eed30(shot->pokes[i].species, shot->pokes[i].sex, shot->pokes[i].form,
+                                              shot->pokes[i].rare, shot->pokes[i].personality, heapId);
         for (j = 0; j < 8; j++) {
             u8 equip = shot->pokes[i].equips[j].unk4;
 
@@ -145,7 +145,7 @@ void MusShotPhoto_Delete(MusShotPhoto *photo) {
     func_ov209_021bd4d0(photo->lightSys);
     func_ov209_021bd7a0(photo->bg);
     func_ov209_021bd974(photo->staPoke);
-    func_ov209_021bba08(photo->pokeDraw);
+    MusPokeDraw_TermSystem(photo->pokeDraw);
     MusItemDraw_TermSystem(photo->itemDraw);
     BmpWin_Free(photo->titleWin);
     BmpWin_Free(photo->dateWin);
@@ -160,13 +160,13 @@ void MusShotPhoto_Delete(MusShotPhoto *photo) {
 
 void MusShotPhoto_Main(MusShotPhoto *photo) {
     func_ov209_021bd9b4(photo->staPoke);
-    func_ov209_021bba40(photo->pokeDraw);
+    MusPokeDraw_UpdateSystem(photo->pokeDraw);
     func_ov209_021bd504(photo->lightSys);
     GFL_G3DSysReset();
     GFL_G3DSysMtxViewFlush();
     func_ov209_021bd6c8(photo->lightSys);
     func_ov209_021bddf4(photo->staPoke);
-    func_ov209_021bba4c(photo->pokeDraw);
+    MusPokeDraw_DrawSystem(photo->pokeDraw);
     func_ov209_021bd9e0(photo->staPoke);
     func_ov209_021bd7e0(photo->bg);
     BlActScene_Draw(photo->blact, photo->camera, NULL);
@@ -243,8 +243,8 @@ static void MusShotPhoto_InitPokes(MusShotPhoto *photo) {
     u8 i;
     u8 bit;
 
-    photo->pokeDraw = func_ov209_021bb9bc(photo->heapId);
-    func_ov209_021bbc90(photo->pokeDraw, FX32_CONST(32));
+    photo->pokeDraw = MusPokeDraw_InitSystem(photo->heapId);
+    MusPokeDraw_SetTexBase(photo->pokeDraw, FX32_CONST(32));
     photo->itemDraw = MusItemDraw_InitSystem(photo->blact, 36, photo->heapId);
     photo->staPoke = func_ov209_021bd8f0(photo->heapId, NULL, photo->pokeDraw, photo->itemDraw, photo->blact);
     for (i = 0; i < 4; i++) {
