@@ -354,6 +354,7 @@ typedef struct PMSInputData PMSInputData;
 typedef struct PMSInputView PMSInputView;
 typedef struct PMSInputWork PMSInputWork;
 typedef struct PMSIParam PMSIParam;
+typedef struct PMSISearch PMSISearch;
 typedef struct PMSIVCategory PMSIVCategory;
 typedef struct PMSIVEdit PMSIVEdit;
 typedef struct PMSIVMenu PMSIVMenu;
