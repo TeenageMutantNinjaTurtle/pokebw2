@@ -295,6 +295,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - Stores to fixed addresses fold into one literal each, `((u16 *)(HW_DB_BG_PLTT + 0x1c0))[9]` included. A literal kept as
   a base with offsets, `ldr r1, =0x50005c0; strh r0, [r1, #0x12]`, is a pointer local: the summary screen's
   `PStatus_InitText` sets two font colors through `GXRgb *pltt = (GXRgb *)(HW_DB_BG_PLTT + 0x1c0);`.
+- A loop that computes an element's offset (`i * size`) once into a register of its own, using it both for stores
+  through the array and for `&arr[i]` passed to a call, took the element's address into a pointer at the top of the
+  body and used the pointer only for the call: the phrase input's `PMSIVMenu_SetupEditButtons` keeps
+  `wk->items[i].str = ...` for its stores and passes `item`. Indexing at both places multiplies twice, and storing
+  through the pointer moves the stores onto it.
 - Stores through a pointer to an array element, `icon = &icons[3]; icon->chars = ...;`, use the element's address as
   their base register, while `icons[3].chars = ...;` reaches the field from a base of MWCC's choosing, often an
   earlier element. The Pokédex touch bar's map and forms buttons are filled through a pointer. The other way round,
