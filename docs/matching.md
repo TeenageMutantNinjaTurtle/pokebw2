@@ -69,6 +69,12 @@ Same instructions, registers swapped.
 - A loop condition written with a local for its row start, `start = pos + j * 6; if (x >= start && x < w + start)`,
   allocates registers differently from the same sums written in both comparisons: the PC box's `func_ov255_021d229c`
   only matched with the sums written out.
+- A parameter that the callers narrow with shifts before the call is a `u16` or `u8`, and the type also decides how it
+  is spilled: `BagItemList_GetItem` spills `pocket` first and compares the reloaded copy only once `pocket` and `index`
+  are `u16`, as `itemmenu.c`'s caller narrows them; as `u32` it compares a register copy and stores it after.
+- Loops over an array of structs that test two fields through a pointer to the element, then write the fields as
+  `list->entries[i].x` in the body, keep the array's base in a register and the element's address in another, as
+  `bag_item.c`'s `BagItemList_Remove` and `BagItemList_GetItem` do; indexing in the test too folds the field offsets.
 
 ## Stack slots
 
@@ -297,6 +303,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - Reads of a `const` table at a constant index are folded into immediates, but reads in a loop over the table are not,
   even when the loop runs once and is unrolled. An `ldm` from a table straight into argument registers is two fields
   read in such a loop, as the egg and evolution demos' particles load the resource of each of their one unit.
+- A struct assignment, `u->pos = *pos`, copies with `ldm`/`stm`. Separate `ldr`/`str` pairs for each field are the
+  NitroSDK's `VEC_Set(&u->pos, pos->x, pos->y, pos->z)`, as `iss_3ds_sys.c`'s `ISS3DSoundSys_SetListenerCore` writes it.
+- Two locals initialized to 0 in their declarations share one zero register, so a later `offset += 4` compiles as
+  `adds r5, r4, #4` from the counter's zero: `iss_switch_set.c`'s `ISSSwitchSet_LoadArcDataCore` declares `int i = 0;
+  u32 offset = 0;`, where `offset = 4` shares the `movs #4` of another argument instead.
 - A value moved into an argument register just before a call, and used for nothing else, is an argument the prototype
   is missing. `GFL_SEPlayKeepVol` takes the sound's player as well as the sound. The value can be narrowed for it:
   `CtvtComm_RecvPacket` narrows `packet->value` into r1 (`lsls`/`lsrs #24`) but compares the unnarrowed value with
@@ -402,6 +413,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   block first behind `beq`.
 - The operands of `==` between two fields are compared in source order: `syswk->tray == syswk->getTray` gives
   `cmp tray, getTray`, as the PC box's `func_ov255_021cc8dc` needs.
+- The left operand of a comparison is loaded first, even before a store just above it: `sw->nowFrame++; if
+  (sw->endFrame < sw->nowFrame)` loads `endFrame` before the increment's store, as `iss_switch.c`'s
+  `ISSSwitch_AdvanceFade` does, where `sw->nowFrame > sw->endFrame` is 2 bytes off.
 - A store picked by a test, `if (pos < 30) syswk->pos = pos; else syswk->pos = 0;`, branches past the second value with
   `bhs` and `b`, while clamping a local first, `if (pos >= 30) pos = 0; syswk->pos = pos;`, uses one `blo`. The PC box's
   `func_ov255_021c8b38` is the first.
@@ -435,6 +449,12 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - When the original puts an `if`'s then-block after the else path, write the condition negated with the bodies
   swapped: brightness.c's `BrightnessData_Step` matches with the long advance body first and `done = TRUE` in the
   `else`, for both its tests.
+- A test of a value against a few nearby constants returned as `return x == a || x == b || x == c;` compiles to a bit
+  test, `sub; cmp #range; bhi; mov #1; lsl; tst #mask`, while the same test as an `if`, or as a `switch` that returns or
+  sets a flag, compiles to compares. `itemmenu.c`'s `ItemMenu_IsRepel` returns the expression for its three repels.
+- Nested tests that end in the same call can come from a nested `if` whose inner `if` has no `else`: the bag's item menu
+  calls `func_0202d384` with `if (pocket != FREE_SPACE) { if (pocket != KEY_ITEMS) f(); } else if (...) f();`, which
+  puts the Free Space's test after the other two; an `if`/`else if` chain or a `switch` puts it first.
 
 ## Loops
 
@@ -454,6 +474,14 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   body. When the original loads the field again at the top of the body, the loop walks a local cursor set from the
   parameter instead (`for (option = options; option->text != END; option++)`), as bmp_menuwork.c's
   `ListMenuCore_FreeStrBufs` and `ListMenuCore_GetFirstFreeIndex` do.
+- A bound written as `i <= N - 1` is computed once into a register before the loop and tested with `ble`, where
+  `i < N` reloads `N` from the literal pool and tests with `blt`. The bag's Free Space list compacts its entries with
+  `for (i = 0; i <= BAG_ITEM_LIST_SLOTS - 1; i++)` in `bag_item.c`'s `BagItemList_Compact`.
+
+- A test that the original places after its body, entered from the top as well as from an earlier branch, is a loop
+  that stops after its first pass: `while (box < n) { ...; break; }`. The trade does one box a frame this way in
+  `pokemontrade_proc.c`'s `func_ov194_021bb3c0` and `pokemontrade_2d.c`'s `func_ov194_021c2c04` and
+  `func_ov194_021c3e9c`, each 8 bytes or so shorter as an `if`. Comment it, so it isn't "fixed".
 
 ## Switches
 

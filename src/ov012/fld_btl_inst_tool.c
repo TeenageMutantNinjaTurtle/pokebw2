@@ -24,6 +24,14 @@
 
 #define MOVE_FRUSTRATION 218
 
+// The clients of a battle setup: the player, the trainer, the partner and the second trainer
+typedef enum {
+    CLIENT_PLAYER,
+    CLIENT_ENEMY,
+    CLIENT_PARTNER,
+    CLIENT_ENEMY_2,
+} SetupClient;
+
 static void BtlSetup_SetTrialHouseParty(BtlSetup *setup, BSubwayTrainer *trainer, int client, u32 mode, int count,
                                         HeapID heapId);
 static void func_ov012_02162394(u32 mode, u32 trainerId, BSubwayTrainer *trainer, BtlSetupTrainer *dest, u32 aiFlags,
@@ -81,18 +89,19 @@ static void BtlSetup_SetTrialHouseParty(BtlSetup *setup, BSubwayTrainer *trainer
 BtlSetup *SetupTrialHouseBattle(GameSystem *gsys, PokeParty *party, u32 mode, BSubwayTrainer *trainers,
                                 BSubwayTrainer *partner, u32 count) {
     GameData *gameData = GSYS_GetGameData(gsys);
+    u16 type = mode;
     BtlFieldStatus status;
-    BtlSetup *setup = BtlSetup_SetTrainerTrialHouse(gsys, mode, &status, TRUE, 4);
-    int client = 0;
+    BtlSetup *setup = BtlSetup_SetTrainerTrialHouse(gsys, type, &status, TRUE, 4);
+    SetupClient client = CLIENT_PLAYER;
 
     setup->unk34[client] = GetGameDataPlayerInfo(gameData);
     RestrictPlayerParty(party, setup->party[client], count, 50, 4);
-    BtlSetup_SetTrialHouseParty(setup, trainers, 1, (u16)mode, count, 4);
+    BtlSetup_SetTrialHouseParty(setup, trainers, 1, type, count, 4);
     if (setup->fieldSituation.unk1a != 0) {
-        BtlSetup_SetTrialHouseParty(setup, &trainers[1], 3, (u16)mode, count, 4);
+        BtlSetup_SetTrialHouseParty(setup, &trainers[1], 3, type, count, 4);
     }
     if (setup->fieldSituation.unk1a == 3) {
-        BtlSetup_SetTrialHouseParty(setup, partner, 2, (u16)mode, count, 4);
+        BtlSetup_SetTrialHouseParty(setup, partner, 2, type, count, 4);
     }
     BtlSetup_PostProcessTrialHouse(setup);
     return setup;
@@ -105,17 +114,17 @@ BtlSetup *func_ov012_02162068(GameSystem *gsys, PokeParty *party, int partyCount
     GameData *gameData = GSYS_GetGameData(gsys);
     BtlFieldStatus status;
     BtlSetup *setup;
-    int client;
+    SetupClient client;
     u16 level;
 
     // Only mode 0 makes the setup, so the others use it unset
     if (mode <= 0) {
         setup = BtlSetup_SetTrainerTrialHouse(gsys, 0, &status, FALSE, 4);
     }
-    client = 0;
+    client = CLIENT_PLAYER;
     setup->unk34[client] = GetGameDataPlayerInfo(gameData);
     RestrictPlayerParty(party, setup->party[client], partyCount, 0, 4);
-    client = 1;
+    client = CLIENT_ENEMY;
     setup->trainers[client]->trainerId = trainer->unk00 - 1;
     func_ov012_02162394(0, trainerIdBase + setup->trainers[client]->trainerId, trainer, setup->trainers[client], 0x87,
                         TRUE, FALSE);
@@ -137,7 +146,7 @@ BtlSetup *BtlSetup_SetTrainerRental(GameSystem *gsys, PokeParty *party, int mode
     GameData *gameData = GSYS_GetGameData(gsys);
     BtlFieldStatus status;
     BtlSetup *setup;
-    int client;
+    SetupClient client;
 
     SaveBtlFieldStatus(&status, gameData, GSYS_GetField(gsys));
     setup = BtlSetup_Create(4);
@@ -155,7 +164,7 @@ BtlSetup *BtlSetup_SetTrainerRental(GameSystem *gsys, PokeParty *party, int mode
         BtlSetup_SetTrainerRotation(setup, gameData, &status, 0, 4);
         break;
     }
-    client = 0;
+    client = CLIENT_PLAYER;
     setup->unk34[client] = GetGameDataPlayerInfo(gameData);
     PokeParty_Copy(party, setup->party[client]);
     if (setup->battleType == 1) {

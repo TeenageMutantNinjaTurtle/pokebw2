@@ -1,6 +1,7 @@
 #include "types.h"
 #include "app/ov139.h"
 #include "app/pokemon_trade_local.h"
+#include "constants/arc.h"
 #include "constants/pokemon.h"
 #include "constants/species.h"
 #include "gfl/arc_util.h"
@@ -123,7 +124,7 @@ static void func_ov194_021bfc6c(ResSprite *sprite, PartyPkm *pkm, ClActUnit *uni
 void func_ov194_021bfcf8(PokemonTradeWork *wk, BOOL instant, u32 x, u32 y, u32 width, u32 height) {
     BmpWin *window;
     func_ov194_021bfe70(wk);
-    GFL_BGSysLoadNCLRDefault(0x17, 5, 4, 0x1c0, 0x20, wk->heapId);
+    GFL_BGSysLoadNCLRDefault(ARCID_FONT, 5, 4, 0x1c0, 0x20, wk->heapId);
     window = BmpWin_CreateDynamic(6, x, y, width, height, 14, 0);
     wk->msgWindow = window;
     GFL_BitmapFill(BmpWin_GetBitmap(window), 15);
@@ -192,7 +193,7 @@ void func_ov194_021bfe9c(PokemonTradeWork *wk) {
 void func_ov194_021bfedc(PokemonTradeWork *wk) {
     wk->wordSet = GFL_WordSetSystemCreateDefault(wk->heapId);
     wk->msgData = GFL_MsgSysLoadData(FALSE, 2, 177, wk->heapId);
-    wk->font = GFL_FontCreate(0x17, 0, 0, FALSE, wk->heapId);
+    wk->font = GFL_FontCreate(ARCID_FONT, 0, 0, FALSE, wk->heapId);
     wk->drawStr = GFL_StrBufCreate(128, wk->heapId);
     wk->drawTemplate = GFL_StrBufCreate(128, wk->heapId);
     wk->strbuf = GFL_StrBufCreate(128, wk->heapId);
@@ -486,7 +487,7 @@ void func_ov194_021c0918(PokemonTradeWork *wk, int side, PartyPkm *pkm) {
     int ballX[] = { 0, 136 };
     int ballPalette[] = { 12, 5 };
     BOOL isEgg = PokeParty_GetParam(pkm, PKM_PARAM_IS_EGG, NULL);
-    GFL_BGSysLoadNCLRDefault(0x17, 5, 0, 0x1c0, 0x20, wk->heapId);
+    GFL_BGSysLoadNCLRDefault(ARCID_FONT, 5, 0, 0x1c0, 0x20, wk->heapId);
     if (wk->unk5BC[side] != NULL) {
         BmpWin_Free(wk->unk5BC[side]);
     }
@@ -661,7 +662,7 @@ void func_ov194_021c0fa0(PokemonTradeWork *wk, PartyPkm *pkm, int side, BOOL rel
     VecFx32 pos;
     BOOL isEgg = PokeParty_GetParam(pkm, PKM_PARAM_IS_EGG, NULL);
     func_ov194_021c0e58(wk, pkm, side, reload);
-    GFL_BGSysLoadNCLRDefault(0x17, 5, 0, 0x1c0, 0x20, wk->heapId);
+    GFL_BGSysLoadNCLRDefault(ARCID_FONT, 5, 0, 0x1c0, 0x20, wk->heapId);
     if (wk->mcss[side] == NULL) {
         func_ov194_021c23a4(wk, side, 1, pkm, 0);
     } else if (reload) {
@@ -765,7 +766,8 @@ void func_ov194_021c12ec(PokemonTradeWork *wk, u32 a1) {
                 func_ov194_021c5138(wk, i, j, pkm, 0, 1);
                 func_ov194_021c0234(pkm, wk->negoBitmaps[i * 4 + 1 + j], 0, 0, isEgg, func_ov194_021b783c(wk), wk);
                 if (!isEgg) {
-                    func_ov194_021c0474(pkm, wk->negoBitmaps[i * 4 + 1 + j], 56, 16, wk, FALSE, func_ov194_021b783c(wk));
+                    func_ov194_021c0474(pkm, wk->negoBitmaps[i * 4 + 1 + j], 56, 16, wk, FALSE,
+                                        func_ov194_021b783c(wk));
                     func_ov194_021c03fc(pkm, wk->negoBitmaps[i * 4 + 1 + j], 0, 16, wk);
                 }
             }

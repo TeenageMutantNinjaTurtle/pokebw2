@@ -3,10 +3,19 @@
 
 #include "types.h"
 #include "gfl/heap.h"
+#include "nnsys/snd.h"
+#include "struct_decls.h"
 
 void GFL_SndBGMFadeIn(u16 frames);
 void GFL_SndBGMFadeOut(u16 frames);
 u32 GFL_SndBGMGetID(void);
+// Sets the volume of the BGM's tracks in trackMask
+void GFL_SndBGMSetVolume(u16 trackMask, s32 volume);
+// Sets the tempo ratio of the BGM (256 is normal), and the pitch and pan of its tracks in trackMask, each that is
+// not -1
+void GFL_SndBGMSetParams(u16 trackMask, s32 tempoRatio, s32 pitch, s32 pan);
+// The sound handle that plays the BGM
+NNSSndHandle *func_02005c94(void);
 BOOL GFL_SndBGMIsFading(void);
 // The tick count of the BGM's sequence player
 u32 GFL_SndBGMGetTick(void);
@@ -94,5 +103,8 @@ BOOL func_02006e3c(void);
 u32 func_02006e80(void (*callback)(u32 result, u32 *done), u32 *done);
 // Saves the recording as the Chatot's
 void func_02006ec0(void *chatter);
+
+// The BGM info archive: which interactive sound subsystem each BGM uses (ISS_SUBSYSTEM_*), or 0 for none
+u8 BGMInfo_GetISSSubsystem(BGMInfo *info, u16 bgm);
 
 #endif // POKEBW2_GFL_SOUND_H

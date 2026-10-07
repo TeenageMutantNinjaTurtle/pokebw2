@@ -1,6 +1,7 @@
 #include "types.h"
 #include "app/ov139.h"
 #include "app/pokemon_trade_local.h"
+#include "constants/arc.h"
 #include "constants/items.h"
 #include "constants/pokemon.h"
 #include "constants/sound.h"
@@ -77,6 +78,11 @@ static void func_ov194_021c6038(TCB *tcb, void *data);
 static void func_ov194_021c604c(TradeCurve *curve, VecFx32 *start, VecFx32 *control1, VecFx32 *control2, VecFx32 *end,
                                 int frames);
 static BOOL func_ov194_021c60a0(TradeCurve *curve);
+static void func_ov194_021c4324(void);
+static void func_ov194_021c58b4(PokemonTradeWork *wk);
+static void func_ov194_021c5dcc(u32 param, fx32 frame);
+static void func_ov194_021c5e9c(PokemonTradeWork *wk, u16 vram, u32 paletteMask);
+static void func_ov194_021c5f64(PokemonTradeWork *wk, BOOL dim, u16 vram, u32 paletteMask);
 
 // The cell actor systems of the trade, and of the trade demo, which has only a few sprites
 static const ClActSysSetup sClActSetup = { 0, 0, 0, 512, 4, 124, 4, 124, 0, 128, 128, 128, 128, 16, 16 };
@@ -227,9 +233,9 @@ static u8 func_ov194_021c2b08(BoxPkm *pkm, HeapID heapId) {
             color = PML_PersonalGetParam(personal, 33);
             PML_PersonalFree(personal);
         } else {
-            color = 1;
+            color = COLOR_BLUE;
             if (species != SPECIES_MANAPHY) {
-                color = 8;
+                color = COLOR_WHITE;
             }
         }
         color++;
@@ -262,6 +268,7 @@ static void func_ov194_021c2bc0(PokemonTradeWork *wk, PokeParty *party, u8 *colo
 // Works out the colours of this machine's box, one a frame, and the party's after the last box; TRUE when that is
 // done
 BOOL func_ov194_021c2c04(PokemonTradeWork *wk, int box) {
+    // One box a frame: the loop stops after its first pass, as the original's does
     while (box < wk->boxCount + 1) {
         if (box == wk->boxCount) {
             func_ov194_021c2bc0(wk, wk->party, wk->boxColors[0].party);
@@ -473,10 +480,10 @@ static void func_ov194_021c31e0(PokemonTradeWork *wk) {
 void func_ov194_021c3224(PokemonTradeWork *wk) {
     int i;
 
-    GFL_BGSysLoadNCLRDefault(0x17, 5, 4, 0x1c0, 0x20, wk->heapId);
+    GFL_BGSysLoadNCLRDefault(ARCID_FONT, 5, 4, 0x1c0, 0x20, wk->heapId);
     for (i = 0; i < wk->boxCount + 1; i++) {
         if (wk->boxNameWindows[i] == NULL) {
-            wk->boxNameWindows[i] = BmpWin_CreateDynamic(5, 0, 0, 15, 2, 14, 0);
+            wk->boxNameWindows[i] = BmpWin_CreateDynamic(5, 0, 0, 15, 2, 14, FALSE);
         }
         if (i == wk->boxCount) {
             GFL_MsgDataLoadStrbuf(wk->msgData, 16, wk->drawStr);
@@ -547,7 +554,7 @@ void func_ov194_021c339c(PokemonTradeWork *wk) {
 void func_ov194_021c3480(PokemonTradeWork *wk) {
     ClActorSetup setup;
     int i, j;
-    ArcTool *arc = GFL_ArcSysCreateFileHandle(7, wk->heapId);
+    ArcTool *arc = GFL_ArcSysCreateFileHandle(ARCID_POKEICON, wk->heapId);
 
     wk->objRes[TRADE_OBJRES_PLTT_ICON] = func_0204bc48(arc, func_02021114(), CLACT_VRAM_SUB, 0x60, wk->heapId);
     wk->objRes[TRADE_OBJRES_CELL_ICON] = func_0204bde0(arc, func_02021154(), getOBJTileMapping_MainEng(), wk->heapId);
@@ -931,7 +938,8 @@ void func_ov194_021c3e9c(PokemonTradeWork *wk, int box) {
     if (box == 0) {
         wk->iconCharData = GFL_HeapAllocate(wk->heapId, (MAX_BOXES * 30 + 6) * 0x200, FALSE, "pokemontrade_2d.c", 1291);
     }
-    arc = GFL_ArcSysCreateFileHandle(7, wk->heapId);
+    arc = GFL_ArcSysCreateFileHandle(ARCID_POKEICON, wk->heapId);
+    // One box a frame: the loop stops after its first pass, as the original's does
     while (box < MAX_BOXES + 1) {
         slot = box * 30;
         for (i = 0; i < 30; i++) {
@@ -1365,7 +1373,7 @@ void func_ov194_021c479c(PokemonTradeWork *wk) {
         func_0204c124(wk->actors[4], FALSE);
     }
 
-    arc = GFL_ArcSysCreateFileHandle(7, wk->heapId);
+    arc = GFL_ArcSysCreateFileHandle(ARCID_POKEICON, wk->heapId);
     pkm0 = func_0201d624(PokemonTrade_GetPkm(wk, 0));
     pkm1 = func_0201d624(PokemonTrade_GetPkm(wk, 1));
     wk->objRes[TRADE_OBJRES_CHAR_ICON0] = func_0204b81c(arc, func_02020f40(pkm0), FALSE, CLACT_VRAM_SUB, wk->heapId);
@@ -1700,7 +1708,7 @@ void func_ov194_021c5060(PokemonTradeWork *wk) {
 
 // Loads the box palette into a BG palette slot, with the colours of the UI's last four after it
 void func_ov194_021c5098(PokemonTradeWork *wk, u32 palette, u32 type) {
-    GFL_BGSysLoadNCLRDefault(0x17, 5, type, palette * 32, 32, wk->heapId);
+    GFL_BGSysLoadNCLRDefault(ARCID_FONT, 5, type, palette * 32, 32, wk->heapId);
     GFL_G2DIOLoadNCLR(getUINarcIdx(), 31, type, 0x1c, palette * 32 + 0x1c, 4, wk->heapId);
 }
 
@@ -1725,7 +1733,7 @@ void func_ov194_021c510c(PokemonTradeWork *wk, int side, BOOL visible) {
 // Sets up the icon of a Pokémon offered in a negotiation, in the row of the main screen or on the sub screen's panel
 void func_ov194_021c5138(PokemonTradeWork *wk, int side, int index, PartyPkm *pkm, BOOL onMain, BOOL visible) {
     BoxPkm *boxPkm = func_0201d620(pkm);
-    ArcTool *arc = GFL_ArcSysCreateFileHandle(7, wk->heapId);
+    ArcTool *arc = GFL_ArcSysCreateFileHandle(ARCID_POKEICON, wk->heapId);
     ClActorSetup setup;
     u32 vramType;
 
@@ -2237,7 +2245,7 @@ BOOL func_ov194_021c5e80(PokemonTradeWork *wk) {
 }
 
 // Dims the palettes of a standard palette memory (PALFADE_VRAM_*) in paletteMask
-static void func_ov194_021c5e9c(const PokemonTradeWork *wk, u16 vram, u32 paletteMask) {
+static void func_ov194_021c5e9c(PokemonTradeWork *wk, u16 vram, u32 paletteMask) {
     PaletteFade *fade = PaletteFade_Create(wk->heapId);
     u8 *colors;
     int i;

@@ -115,7 +115,7 @@ BOOL PStatus_Init(PStatusWork *wk) {
     }
     PStatus_InitGraphics(wk);
     wk->sub = PStaSub_Create(wk);
-    wk->info = func_ov207_021b6924(wk);
+    wk->info = PStaInfo_Create(wk);
     wk->skill = func_ov207_021b8510(wk);
     wk->ribbon = func_ov207_021b7644(wk);
     PStatus_LoadResources(wk);
@@ -145,7 +145,7 @@ BOOL PStatus_Init(PStatusWork *wk) {
         func_ov207_021b7f7c(wk, wk->ribbon);
         switch (wk->page) {
         case PSTATUS_PAGE_INFO:
-            func_ov207_021b6a60(wk, wk->info);
+            PStaInfo_Load(wk, wk->info);
             break;
         case PSTATUS_PAGE_SKILL:
             func_ov207_021b8a9c(wk, wk->skill);
@@ -155,7 +155,7 @@ BOOL PStatus_Init(PStatusWork *wk) {
             break;
         default:
             wk->page = PSTATUS_PAGE_INFO;
-            func_ov207_021b6a60(wk, wk->info);
+            PStaInfo_Load(wk, wk->info);
             break;
         }
     }
@@ -174,7 +174,7 @@ BOOL PStatus_Exit(PStatusWork *wk) {
     func_ov207_021b804c(wk, wk->ribbon);
     func_ov207_021b767c(wk, wk->ribbon);
     func_ov207_021b8594(wk, wk->skill);
-    func_ov207_021b6958(wk, wk->info);
+    PStaInfo_Free(wk, wk->info);
     PStaSub_Free(wk, wk->sub);
     PStatus_ExitGraphics(wk);
     if (wk->page < PSTATUS_PAGE_FORGET) {
@@ -239,7 +239,7 @@ int PStatus_Main(PStatusWork *wk) {
         if (wk->isRedrawing == FALSE) {
             switch (wk->shownPage) {
             case PSTATUS_PAGE_INFO:
-                func_ov207_021b696c(wk, wk->info);
+                PStaInfo_Main(wk, wk->info);
                 break;
             case PSTATUS_PAGE_SKILL:
             case PSTATUS_PAGE_FORGET:
@@ -432,7 +432,7 @@ static void PStatus_LoadResources(PStatusWork *wk) {
     GFL_ArcToolFree(uiArc);
 
     PStaSub_LoadResources(wk, wk->sub, arc);
-    func_ov207_021b6970(wk, wk->info, arc);
+    PStaInfo_LoadResources(wk, wk->info, arc);
     func_ov207_021b87e0(wk, wk->skill, arc);
     func_ov207_021b76e4(wk, wk->ribbon, arc);
     GFL_ArcToolFree(arc);
@@ -443,7 +443,7 @@ static void PStatus_FreeResources(PStatusWork *wk) {
 
     func_ov207_021b7764(wk, wk->ribbon);
     func_ov207_021b8864(wk, wk->skill);
-    func_ov207_021b6a18(wk, wk->info);
+    PStaInfo_FreeResources(wk, wk->info);
     PStaSub_FreeResources(wk, wk->sub);
     for (i = PSTA_RES_PLTT(0); i <= PSTA_RES_PLTT(11); i++) {
         func_0204bcd0(wk->clResources[i]);
@@ -949,7 +949,7 @@ static void PStatus_StartRedraw(PStatusWork *wk) {
     }
     switch (wk->shownPage) {
     case PSTATUS_PAGE_INFO:
-        func_ov207_021b6cac(wk, wk->info);
+        PStaInfo_Unload(wk, wk->info);
         break;
     case PSTATUS_PAGE_SKILL:
         func_ov207_021b8ba4(wk, wk->skill);
@@ -963,7 +963,7 @@ static void PStatus_StartRedraw(PStatusWork *wk) {
     }
     switch (wk->page) {
     case PSTATUS_PAGE_INFO:
-        func_ov207_021b6a60(wk, wk->info);
+        PStaInfo_Load(wk, wk->info);
         break;
     case PSTATUS_PAGE_SKILL:
         func_ov207_021b8a9c(wk, wk->skill);
@@ -1023,7 +1023,7 @@ static void PStatus_UpdateRedraw(PStatusWork *wk) {
     }
     switch (wk->shownPage) {
     case PSTATUS_PAGE_INFO:
-        func_ov207_021b6cd4(wk, wk->info);
+        PStaInfo_Clear(wk, wk->info);
         break;
     case PSTATUS_PAGE_SKILL:
         func_ov207_021b8bf4(wk, wk->skill);
@@ -1037,7 +1037,7 @@ static void PStatus_UpdateRedraw(PStatusWork *wk) {
     }
     switch (wk->page) {
     case PSTATUS_PAGE_INFO:
-        func_ov207_021b6ad4(wk, wk->info);
+        PStaInfo_Draw(wk, wk->info);
         break;
     case PSTATUS_PAGE_SKILL:
         func_ov207_021b8b30(wk, wk->skill);

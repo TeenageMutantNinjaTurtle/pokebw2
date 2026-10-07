@@ -6,7 +6,6 @@
 #include "field/field.h"
 #include "field/field_actor.h"
 #include "field/field_script.h"
-#include "field/iss.h"
 #include "field/ov108.h"
 #include "field/player_state.h"
 #include "field/scrcmd_bsubway.h"
@@ -26,6 +25,8 @@
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
+#include "system/iss_switch_sys.h"
+#include "system/iss_sys.h"
 #include "system/vm.h"
 
 // The script plugin of the Battle Subway (plugin 1), commands from 1000. Command 1003 does most of the work, with its
