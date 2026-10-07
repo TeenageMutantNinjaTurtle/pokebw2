@@ -550,6 +550,7 @@ src/system/field_sound_system.c:
     .data       start:0x0209a618 end:0x0209a6a8
 
 src/system/tr_tool.c:
+    complete
     .text       start:0x020304e0 end:0x02030ed0
     .rodata     start:0x020922b8 end:0x02092744
     .data       start:0x0209a6c8 end:0x0209a6d4
