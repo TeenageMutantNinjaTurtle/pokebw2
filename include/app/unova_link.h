@@ -463,12 +463,98 @@ void KeySystem_BlendPalette(u32 type, u16 *dest, u16 angle, u32 palette, const u
 StrBuf *KeySystem_LoadFormattedStr(WordSet *wordSet, MsgData *msgData, u32 msgId, HeapID heapId);
 
 // key_system_net.c
-KeySystemNet *func_ov332_021c1dd0(GameData **gameData, HeapID heapId);
-void func_ov332_021c1e14(KeySystemNet *net);
-void func_ov332_021c1e30(KeySystemNet *net);
-void func_ov332_021c1e54(KeySystemNet *net, u32 a1);
-u32 func_ov332_021c2044(KeySystemNet *net);
-void func_ov332_021c2110(KeySystemNet *net);
+// The connection a KeySystemNet runs
+enum {
+    KEY_SYSTEM_NET_MODE_NONE,
+    KEY_SYSTEM_NET_MODE_WIRELESS,
+    KEY_SYSTEM_NET_MODE_OV181,
+    KEY_SYSTEM_NET_MODE_WIFI,
+    KEY_SYSTEM_NET_MODE_COUNT,
+};
+
+// What KeySystemNet_Request starts
+enum {
+    KEY_SYSTEM_NET_REQUEST_CONNECT,
+    KEY_SYSTEM_NET_REQUEST_DISCONNECT,
+    KEY_SYSTEM_NET_REQUEST_CANCEL,
+    KEY_SYSTEM_NET_REQUEST_SEND,
+    KEY_SYSTEM_NET_REQUEST_SYNC,
+    KEY_SYSTEM_NET_REQUEST_OV181_START,
+    KEY_SYSTEM_NET_REQUEST_OV181_END,
+    KEY_SYSTEM_NET_REQUEST_WIFI_POST,
+    KEY_SYSTEM_NET_REQUEST_WIFI_GET,
+    KEY_SYSTEM_NET_REQUEST_COUNT,
+};
+
+// What KeySystemNet_GetState returns: the step that runs
+enum {
+    KEY_SYSTEM_NET_STATE_IDLE,
+    KEY_SYSTEM_NET_STATE_CONNECTING,
+    KEY_SYSTEM_NET_STATE_DISCONNECTING,
+    KEY_SYSTEM_NET_STATE_CONNECTED,
+    KEY_SYSTEM_NET_STATE_SENDING,
+    KEY_SYSTEM_NET_STATE_SYNCING,
+    KEY_SYSTEM_NET_STATE_CANCELING,
+    KEY_SYSTEM_NET_STATE_OV181,
+    KEY_SYSTEM_NET_STATE_OV181_END,
+    KEY_SYSTEM_NET_STATE_WIFI_POST,
+    KEY_SYSTEM_NET_STATE_WIFI_GET,
+    KEY_SYSTEM_NET_STATE_COUNT,
+};
+
+// What KeySystemNet_CheckError returns
+#define KEY_SYSTEM_NET_ERROR_NONE 0
+#define KEY_SYSTEM_NET_ERROR 2
+
+// The parameters and results of a request
+typedef union {
+    struct {
+        const void *data;
+        u32 size;
+    } send;
+    // Called when the wireless connection ends
+    struct {
+        void *arg;
+        void (*func)(void *arg);
+    } callback;
+    struct {
+        u32 a;
+        u32 b;
+        u32 result;
+    } ov181;
+    struct {
+        BOOL done;
+        u32 a;
+        u32 b;
+    } ov181End;
+    struct {
+        const void *data;
+        u32 result;
+        u32 a;
+        u32 b;
+    } wifi;
+    struct {
+        u32 value;
+        u32 result;
+    } wifiGet;
+    u8 raw[0x100];
+} KeySystemNetRequest;
+
+KeySystemNet *KeySystemNet_Create(GameData **gameData, HeapID heapId);
+void KeySystemNet_Free(KeySystemNet *net);
+void KeySystemNet_Update(KeySystemNet *net);
+void KeySystemNet_SetMode(KeySystemNet *net, u32 mode);
+void KeySystemNet_Request(KeySystemNet *net, u32 request, const KeySystemNetRequest *params);
+u32 KeySystemNet_GetState(KeySystemNet *net);
+BOOL KeySystemNet_GetReceived(KeySystemNet *net, void *dest, u32 size);
+u32 KeySystemNet_CheckError(KeySystemNet *net);
+// Ends the connection after an error
+void KeySystemNet_Reset(KeySystemNet *net);
+void KeySystemNet_SetBuffer(KeySystemNet *net, void *buffer);
+void KeySystemNet_SetNoErrorCheck(KeySystemNet *net, BOOL noErrorCheck);
+void KeySystemNet_SetErrorCallback(KeySystemNet *net, void (*callback)(void *work), void *work);
+// The request's parameters and results
+KeySystemNetRequest *KeySystemNet_GetRequest(KeySystemNet *net);
 
 // key_system_flow.c (a guessed name)
 void func_ov332_021c2b18(KeySystemWork *wk, HeapID heapId);
