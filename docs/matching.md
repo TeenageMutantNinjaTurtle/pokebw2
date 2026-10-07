@@ -321,6 +321,9 @@ Same instructions, scheduled in another order.
 
 ## An instruction too many or too few
 
+- `&p[i].field` computes `p + i * size + offset`, and `&p->array[i].field` computes `(p + offset) + i * size` with
+  an extra `mov`, so the order shows where an array starts: `event_bsubway.c`'s `func_ov012_0216657c` reads a
+  leader's message at 0x18 of each 0x22-byte entry of an array at offset 0, not in entries of an array at 0x18.
 Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 - A last call that passes four arguments in registers is a `bl` with a frame, not a tail call: MWCC's tail call
