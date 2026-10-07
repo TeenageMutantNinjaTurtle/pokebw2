@@ -128,6 +128,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - Identical statements in different branches are merged, so a jump into the middle of another block means the same
   code was written there. (matching.md: "Identical statements in different branches")
 - A branch to the next instruction comes from cross-jumping a shared tail. (matching.md: "cross-jumping")
+- `bne next; b target` where `||` gives one `beq`: the same body in both arms of an `if`/`else if`. (matching.md:
+  "`bne next; b hide`")
 - Early `return FALSE`s go to one shared tail only when the C has one trailing return (an `if`/`else if` chain, or a
   `result` variable). A return that branches to the wrong one of two equal `b end` trampolines can be `goto end`.
 - A redundant outer `if` gives a doubled `beq`.

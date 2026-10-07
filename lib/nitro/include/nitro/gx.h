@@ -168,6 +168,7 @@ static inline void G2_SetOBJAttr(GXOamAttr *oam, int x, int y, int priority, int
 // Shows VRAM D, where the display capture can write, instead of the main engine's output
 #define GX_DISPMODE_VRAM_D 0xe
 #define GX_BGMODE_0 0
+#define GX_BGMODE_3 3
 #define GX_BGMODE_5 5
 #define GX_BG0_AS_2D 0
 #define GX_BG0_AS_3D 1

@@ -1427,9 +1427,9 @@ static void func_ov194_021b9058(PokemonTradeWork *wk) {
             func_ov194_021ba8c0(wk);
             func_0204c124(wk->actors[2], TRUE);
         }
-        func_ov194_021c4cfc(&wk->unk950[0]);
-        func_ov194_021c4cfc(&wk->unk950[1]);
-        func_ov194_021c4cfc(&wk->unk950[2]);
+        func_ov194_021c4cfc(&wk->infoIcons[0]);
+        func_ov194_021c4cfc(&wk->infoIcons[1]);
+        func_ov194_021c4cfc(&wk->infoIcons[2]);
         func_ov194_021c1288(wk, 1);
         GFL_BGSysQueueScrLoad(6);
         func_ov194_021c2f78(wk);
@@ -2999,9 +2999,9 @@ static BOOL PokemonTrade_ProcExit(GameProc *proc, u32 *state, void *param, void 
     }
     GFL_HeapFree(wk->unk10A4);
     GFL_HeapFree(wk->unk10A8);
-    func_ov194_021c4cfc(&wk->unk950[0]);
-    func_ov194_021c4cfc(&wk->unk950[1]);
-    func_ov194_021c4cfc(&wk->unk950[2]);
+    func_ov194_021c4cfc(&wk->infoIcons[0]);
+    func_ov194_021c4cfc(&wk->infoIcons[1]);
+    func_ov194_021c4cfc(&wk->infoIcons[2]);
     func_ov194_021c4b88(wk);
     func_ov194_021bb4b4(wk);
     func_0202d7dc();

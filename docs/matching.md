@@ -178,6 +178,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A chained assignment to fields, `a->x = a->y = value;`, stores `y`, reloads it and stores `x`. When the original
   narrows the value once and stores it to both, the stores were separate statements, as in the PC box's
   `PokeIconChgDataMake`.
+  The same holds with a local on the left: a call's result stored to a field and read back from it before a test,
+  `str r0, [r7, r1]` then `ldr r0, [r7, r0]`, is `icon = wk->markIcons.icons[i] = f(...);`, as the trade summary's
+  marking icons are made in `func_ov194_021c4ec0`.
 - A caller narrows an argument for a `u8` or `u16` parameter with shifts before the call, so an argument passed without
   them is for a wider parameter. The other way round, a parameter passed on to a `u8` parameter without shifts is a
   `u8` itself: `GetBattleMon` hands its ID straight to `GetPokeParam`, so both take a `u8`, and so do the ability
@@ -245,6 +248,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   the same code in the source. For example, `if (a) { x = 3; y = 19; } else { x = 0; y = 19; }` compiles differently
   from `x = a ? 3 : 0; y = 19;`. A run of jumps to one store, as in the start menu's `StartMenu_MoveCursor`, is the
   same store written in several `else` branches.
+  A test that branches past an unconditional jump, `bne next; b hide`, where `||` would give one `beq hide`, is the
+  first copy of a body written twice in an `if`/`else if` chain and replaced by a jump to the second:
+  `func_ov194_021c4ec0` hides a marking icon with `if (anim == -1) { hide } else if (isEgg && i == 6) { hide }`.
 - A branch to the very next instruction is left by cross-jumping: two statements that end the same way, such as a
   store in each case of a switch, share their tail, and the first jumps to it even when it follows.
 - An early `return` at the top of a long function jumps to the nearest `b` to the epilogue. When the original skips the

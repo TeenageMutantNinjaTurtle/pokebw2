@@ -105,6 +105,14 @@ typedef struct {
     ClActor *actor;
 } ResSprite;
 
+// The icons of a Pokémon's six markings in the summary, then of its rare and Pokérus flags, all made from one set of
+// overlay 139's resources
+typedef struct {
+    Ov139ObjRes res;
+    BOOL loaded;
+    ClActor *icons[8];
+} TradeMarkIcons;
+
 // The bitmaps of a side's panel in a negotiation: the player's name, and the three Pokémon
 typedef struct {
     GFLBitmap *player;
@@ -232,7 +240,9 @@ struct PokemonTradeWork {
     TCBExManager *tcbEx;
     u8 unk748[0x4];
     KeyCursor *keyCursor;
-    u8 unk750[0xb0];
+    // The windows of the letters to search the boxes by initial
+    BmpWin *initialWindows[26];
+    u8 unk7B8[0x48];
     u32 unk800;
     u8 unk804[0xc];
     G3DCamera *camera;
@@ -266,8 +276,10 @@ struct PokemonTradeWork {
     ResSprite ballIcons[3];
     // The type icons: two pages of two, the page turning in the summary
     ResSprite typeIcons[4];
-    ResSprite unk950[3];
-    u8 unk98C[0x34];
+    // The icons of the held item, of Pokérus and of Pokérus cured, over a side's panel or in the summary
+    ResSprite infoIcons[3];
+    // The icons of the summary's markings and of its rare and Pokérus flags
+    TradeMarkIcons markIcons;
     Ov139TouchBar *touchBar;
     ClActUnit *clactUnit;
     TCB *vblankTcb;
@@ -322,7 +334,9 @@ struct PokemonTradeWork {
     u8 unkFD4[0x4];
     PartyPkm *negoPkm[2][3];
     u32 unkFF0[2][3];
-    u8 unk1008[0x30];
+    // The icons of the Pokémon each player offers in a negotiation, and their characters
+    ClActor *negoIcons[2][3];
+    u32 negoIconChars[2][3];
     BmpWin *unk1038[4];
     u32 unk1048[2];
     u32 unk1050[2];
@@ -379,7 +393,9 @@ struct PokemonTradeWork {
     u8 unk11E8[2];
     // The other machine's number of boxes
     u8 unk11EA;
-    u8 unk11EB[0x2];
+    // Whether the lower screen's BGs, and the trade demo's BGs 6 and 7, are set up
+    u8 subBGsCreated;
+    u8 demoBGsCreated;
     // Frames to wait before going on, after a message
     u8 unk11ED;
     u8 unk11EE;
@@ -598,18 +614,24 @@ void func_ov194_021c3374(PokemonTradeWork *wk);
 void func_ov194_021c339c(PokemonTradeWork *wk);
 // Greys an icon out or not
 void func_ov194_021c38bc(PokemonTradeWork *wk, ClActor *icon, BOOL grey);
-// The Pokémon icon at a point of the screen, and where it is
-ClActor *func_ov194_021c3fa8(PokemonTradeWork *wk, u32 x, u32 y, int *box, int *slot, int *a5, int *a6, int *a7);
+// The Pokémon icon at a point of the screen. If asked, the box and slot of its Pokémon, NULL if the icon shows none,
+// and the column of the strip, the row and the icon column it is in
+ClActor *func_ov194_021c3fa8(PokemonTradeWork *wk, int x, int y, int *box, int *slot, int *column, int *row,
+                             int *index);
 // Sets up the strip's icons for its scroll, loading their characters in the V-blank if asked
 void func_ov194_021c3c68(BoxSaveAccessor *boxes, PokemonTradeWork *wk, BOOL async);
-void func_ov194_021c3e9c(PokemonTradeWork *wk, int frame);
+// Copies the characters of the icons of a box's Pokémon, or of the party's after the last box, one box a call
+void func_ov194_021c3e9c(PokemonTradeWork *wk, int box);
+// Sets up the trade demo's BGs 6 and 7, with the graphics of the trade or of the other demo
+void func_ov194_021c4088(PokemonTradeWork *wk, BOOL other);
 void func_ov194_021c41d0(PokemonTradeWork *wk);
 void func_ov194_021c41fc(PokemonTradeWork *wk);
 void func_ov194_021c4234(PokemonTradeWork *wk);
 void func_ov194_021c43c0(PokemonTradeWork *wk);
 void func_ov194_021c4484(PokemonTradeWork *wk);
 void func_ov194_021c45a8(PokemonTradeWork *wk);
-void func_ov194_021c45ec(u32 a0);
+// Sets the display up for the trade, or for the trade demo
+void func_ov194_021c45ec(int config);
 void func_ov194_021c4600(PokemonTradeWork *wk);
 void func_ov194_021c466c(PokemonTradeWork *wk);
 void func_ov194_021c46a4(PokemonTradeWork *wk);
@@ -618,18 +640,18 @@ void func_ov194_021c475c(PokemonTradeWork *wk);
 void func_ov194_021c479c(PokemonTradeWork *wk);
 void func_ov194_021c49e8(PokemonTradeWork *wk);
 void func_ov194_021c4c00(PokemonTradeWork *wk, int side, PartyPkm *pkm);
-void func_ov194_021c4d18(PokemonTradeWork *wk, int side, u32 a2, PartyPkm *pkm);
+void func_ov194_021c4d18(PokemonTradeWork *wk, int side, BOOL summary, PartyPkm *pkm);
 void func_ov194_021c4ec0(PokemonTradeWork *wk, PartyPkm *pkm, BOOL isEgg);
 void func_ov194_021c5060(PokemonTradeWork *wk);
-void func_ov194_021c5098(PokemonTradeWork *wk, u32 a1, u32 a2);
+void func_ov194_021c5098(PokemonTradeWork *wk, u32 palette, u32 type);
 void func_ov194_021c5abc(PokemonTradeWork *wk);
 void func_ov194_021c5bf0(PokemonTradeWork *wk);
 void func_ov194_021c5c80(PokemonTradeWork *wk);
 void func_ov194_021c4a68(PokemonTradeWork *wk);
 void func_ov194_021c4b88(PokemonTradeWork *wk);
-void func_ov194_021c4970(PokemonTradeWork *wk, int side, u32 a2);
-void func_ov194_021c50d8(PokemonTradeWork *wk, int side, u32 a2);
-void func_ov194_021c510c(PokemonTradeWork *wk, int side, BOOL a2);
+void func_ov194_021c4970(PokemonTradeWork *wk, int side, BOOL level);
+void func_ov194_021c50d8(PokemonTradeWork *wk, int side, int index);
+void func_ov194_021c510c(PokemonTradeWork *wk, int side, BOOL visible);
 void func_ov194_021c5138(PokemonTradeWork *wk, int side, int index, PartyPkm *pkm, u32 a4, u32 a5);
 void func_ov194_021c5244(PokemonTradeWork *wk, int side, int slot);
 void func_ov194_021c52bc(PokemonTradeWork *wk);
