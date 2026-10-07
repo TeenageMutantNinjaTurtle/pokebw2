@@ -165,6 +165,9 @@ void func_02011de0(void);
 // Whether the error was handled, after shutting the connection down
 BOOL func_02012154(void);
 void func_02012144(void);
+void *func_02012908(HeapID heapId, u32 a1);
+void func_02012994(void *work);
+void func_02012a4c(void);
 void GFL_NetErrAbort(void);
 // The state of the wireless connections, as bits: 0x2 a local wireless one, 0x3c the signal, 0x3c0 Wi-Fi
 u32 func_02012be4(WifiList *wifiList);

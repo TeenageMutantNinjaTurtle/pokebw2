@@ -53,6 +53,8 @@ void FieldWeather_Update(void *weather, HeapID heapId);
 void FieldWeather_Draw(void *weather);
 BOOL func_ov036_0219917c(void *weather);
 void SetWeatherInit(void *weather, u16 weatherId, HeapID heapId);
-void func_ov036_02199208(void *weather, u16 weatherId);
+void func_ov036_02199208(void *weather, u32 weatherId);
+// Sets the weather at once, without a transition
+void func_ov036_02199210(void *weather, u32 weatherId);
 
 #endif // POKEBW2_FIELD_FIELD_WEATHER_H

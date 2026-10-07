@@ -210,7 +210,6 @@ BOOL GetZoneIsMusicalTheater(u16 zoneId);
 BOOL GetZoneIsPWTBattleStage(u16 zoneId);
 BOOL GetZoneIsUnionRoom(u32 zoneId);
 u16 GetZoneMatrixId(u16 zoneId);
-u32 getGameOrigin(GameCommSys *commSys);
 BOOL GetZoneSpawnInfoIsRail(ZoneSpawnInfo *spawn);
 ZoneWarp *GetZoneWarpByID(EventData *eventData, u16 warpId);
 BOOL IsWarpDestId256(ZoneWarp *warp);
@@ -253,6 +252,9 @@ u16 GetVersionedMapChangeZoneNum2(u16 zoneId);
 u16 GetZoneMatrixCamBoundIdx(u16 zoneId);
 u32 GetZoneDefaultCameraIndex(u16 zoneId);
 BOOL GetZoneFlagsEnableCycling(u16 zoneId);
+u8 GetZoneEnvFlagsWeather(u16 zoneId);
+// The zone a zone belongs to, such as the town of a building
+u16 GetZoneParentZone(u16 zoneId);
 BOOL GetZoneHasRailSystem(u16 zoneId);
 u32 GetRailIDForZone(u16 zoneId);
 BOOL IsZoneEntralinkEdgeColorTable(u16 zoneId);

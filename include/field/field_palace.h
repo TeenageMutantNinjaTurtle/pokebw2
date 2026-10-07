@@ -19,7 +19,5 @@ void *FieldPalaceSys_GetLuminanceTable(FieldPalaceSys *sys);
 BOOL FieldPalaceSys_CheckEventFlag(GameData *gameData, u16 zoneId);
 
 // Overlay 12
-u32 getSeasonFromPlayerData(GameCommSys *commSys);
-u32 func_ov012_0215364c(GameCommSys *commSys, GameData *gameData);
 
 #endif // POKEBW2_FIELD_FIELD_PALACE_H

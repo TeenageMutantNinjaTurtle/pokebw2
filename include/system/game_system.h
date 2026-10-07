@@ -24,6 +24,8 @@ extern const GameProcFunctions GAMESYSTEM_PROC_FUNCTIONS;
 
 GameSystemProcData *GameSystem_CreateProcData(GameEntryPoint entryPoint, u16 zoneId, const VecFx32 *spawnPos, s16 unk12);
 Field *GSYS_GetField(GameSystem *gsys);
+// Whether the field map is up, which Game Freak's asserts call GAMESYSTEM_CheckFieldMapWork
+BOOL GSYS_CheckField(GameSystem *gsys);
 PlayerState *GSYS_GetPlayerState(GameSystem *gsys);
 GameCommSys *GSYS_GetGameCommSystem(GameSystem *gsys);
 GameData *GSYS_GetGameData(GameSystem *gsys);

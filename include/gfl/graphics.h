@@ -18,7 +18,7 @@ struct G3DTextDrawResource {
 };
 
 BOOL G3DTextDraw_CreateResource(void *texture, const char *texName, u32 a2, const char *plName, const StrBuf *text, u16 a5,
-                                u16 a6, u32 a7, HeapID heapId, G3DTextDrawResource *resource);
+                                u16 a6, u16 color, HeapID heapId, G3DTextDrawResource *resource);
 void GFXRegSetMasterBrightness(u32 reg, s32 brightness);
 s32 gfxRegGetMasterBrightness(u32 reg);
 // Loaded with part of a palette file, stepped each frame and reset. Unnamed, as what it does is not known
@@ -42,6 +42,8 @@ void *func_02026dc0(HeapID heapId);
 void func_02026de8(void *a0);
 void func_02026e04(void *a0, u32 bg, u32 a2, HeapID heapId);
 void func_02026e48(void *a0, u32 bg);
+// Loads a palette from an archive into the fade's buffers
+void func_02026ee8(void *a0, u32 arcId, u32 fileId, HeapID heapId, u32 type, u32 size, u16 offset);
 // Used by the Pokédex's detail screens (overlay 298) too
 void func_02026f08(void *a0, ArcTool *arc, u32 fileId, HeapID heapId, u32 bg, u32 size, u16 offset, u16 srcOffset);
 void func_02026f7c(void *a0, u32 bg, u32 offset, u32 size);
