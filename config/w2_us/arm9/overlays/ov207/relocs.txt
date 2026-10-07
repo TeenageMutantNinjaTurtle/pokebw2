@@ -1754,14 +1754,6 @@ from:0x021bae38 kind:load to:0x021bb1c4 add:0x8 module:overlay(207)
 from:0x021bae3c kind:load to:0x021bb1c4 add:0xa module:overlay(207)
 from:0x021bae40 kind:load to:0x021bb1c4 add:0xc module:overlay(207)
 from:0x021bae4c kind:load to:0x021bb1c4 add:0xa module:overlay(207)
-from:0x021bb144 kind:load to:0x02010005 module:main
-from:0x021bb154 kind:load to:0x02100102 module:main
-from:0x021bb158 kind:load to:0x02100302 module:main
-from:0x021bb160 kind:load to:0x02100702 module:main
-from:0x021bb164 kind:load to:0x02100902 module:main
-from:0x021bb168 kind:load to:0x02110b02 module:main
-from:0x021bb170 kind:load to:0x02100f02 module:main
-from:0x021bb174 kind:load to:0x020c1106 module:main
 from:0x021bb6e0 kind:load to:0x021b50f1 module:overlay(207)
 from:0x021bb6e4 kind:load to:0x021b5389 module:overlay(207)
 from:0x021bb6e8 kind:load to:0x021b5349 module:overlay(207)

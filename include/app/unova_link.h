@@ -45,6 +45,9 @@ typedef struct KeySystemMsgWinGroup KeySystemMsgWinGroup;
 typedef struct KeySystemOamText KeySystemOamText;
 typedef struct KeySystemScrollList KeySystemScrollList;
 typedef struct KeySystemParticle KeySystemParticle;
+typedef struct CygnusData CygnusData;
+typedef struct CygnusAppear CygnusAppear;
+typedef struct CygnusIcons CygnusIcons;
 
 // A step of the sequence, called each frame with its own state
 typedef void (*KeySystemSeqFunc)(KeySystemSeq *seq, int *state, void *work);
@@ -293,10 +296,10 @@ struct KeySystemWork {
     KeySystemSaveInfo partnerSaveInfo;
     KeySystemKeyAnim keyAnim;
     // cygnus_flow.c's
-    void *cygnusActors;
+    CygnusAppear *cygnusAppear;
     KeySystemParticle *particle;
-    void *cygnusWork;
-    void *cygnusGraphic;
+    CygnusData *cygnusData;
+    CygnusIcons *cygnusIcons;
     // The handle of the sounds that Unova Link loads ahead
     u32 preloadedSeqs;
     // The last choice of a list or menu, or the result of an exchange
@@ -629,8 +632,8 @@ void *WBSaveBlock_Get(void *save, int block);
 WBSaveData *WBSaveConvert_Create(void *save, HeapID heapId);
 
 // cygnus_flow.c
-void func_ov332_021c7028(KeySystemWork *wk, HeapID heapId);
-void func_ov332_021c704c(KeySystemWork *wk);
-void func_ov332_021c7064(KeySystemSeq *seq, int *state, void *work);
+void CygnusFlow_Init(KeySystemWork *wk, HeapID heapId);
+void CygnusFlow_Exit(KeySystemWork *wk);
+void CygnusFlow_SeqMenu(KeySystemSeq *seq, int *state, void *work);
 
 #endif // POKEBW2_APP_UNOVA_LINK_H

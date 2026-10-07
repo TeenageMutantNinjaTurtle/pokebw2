@@ -102,11 +102,11 @@ BOOL func_ov012_021580c4(VM *vm, FieldScriptEnv *env) {
     save = getMusicalInfoBlkAddress(gameData);
     holder = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(MusicalShotHolder), TRUE, "scrcmd_musical.c", 171);
     holder->param = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(MusicalShotParam), TRUE, "scrcmd_musical.c", 172);
-    holder->param->unk0 = 0;
+    holder->param->askSave = FALSE;
     holder->param->shot = func_0200ad5c(save);
-    holder->param->unk4 = 1;
-    holder->param->unk8 = 1;
-    ScriptWork_CallEvent(work, func_020196d0(gsys, field, OVERLAY_ID(209), &data_ov209_021c3000, holder->param,
+    holder->param->loadComm = TRUE;
+    holder->param->loadData = TRUE;
+    ScriptWork_CallEvent(work, func_020196d0(gsys, field, OVERLAY_ID(209), &MUSICAL_SHOT_PROC_FUNCTIONS, holder->param,
                                              func_ov012_02158da0, holder));
     return TRUE;
 }

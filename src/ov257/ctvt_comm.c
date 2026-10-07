@@ -945,7 +945,7 @@ static void CtvtComm_RecvPacket(int netId, int size, void *data, void *work, Net
         if (selfNetId != 0) {
             CtvtTalk *talk = CommTvt_GetTalk(comm->sys);
 
-            func_ov257_021a26dc(CommTvt_GetGame(comm->sys), packet->value);
+            CtvtGame_SetType(CommTvt_GetGame(comm->sys), packet->value);
             CtvtTalk_SetGameInvited(talk, TRUE);
         }
         break;
@@ -1102,8 +1102,8 @@ static void CtvtComm_UpdateGame(CommTvtWork *sys, CtvtComm *comm) {
         CommTvt_SetErrorShown(sys);
         return;
     }
-    if (selfNetId == 0 && func_ov257_021a26f0(game) == TRUE) {
-        comm->gamePacket.frame = func_ov257_021a2a00(game);
+    if (selfNetId == 0 && CtvtGame_IsPlaying(game) == TRUE) {
+        comm->gamePacket.frame = CtvtGame_GetHostFrame(game);
     }
     if (comm->memberCount > 1) {
         if (comm->sendGameCommand == TRUE && CtvtComm_SendGameCommand(sys, comm) == TRUE) {
@@ -1117,7 +1117,7 @@ static void CtvtComm_UpdateGame(CommTvtWork *sys, CtvtComm *comm) {
             comm->sendGameData = FALSE;
         }
     }
-    if (selfNetId == 0 && func_ov257_021a26f0(game) == TRUE && packetSent == FALSE) {
+    if (selfNetId == 0 && CtvtGame_IsPlaying(game) == TRUE && packetSent == FALSE) {
         comm->gamePacket.type = 2;
         CtvtComm_SendGamePacket(sys, comm);
     }
@@ -1142,32 +1142,32 @@ static void CtvtComm_RecvGameCommand(int netId, int size, void *data, void *work
     switch (*command) {
     case 0:
         if (selfNetId == 0) {
-            func_ov257_021a2728(game, netId);
+            CtvtGame_SetJoined(game, netId);
         }
         break;
     case 1:
         if (selfNetId == 0) {
-            func_ov257_021a26fc(game, TRUE);
+            CtvtGame_SetChildQuit(game, TRUE);
         }
         break;
     case 2:
         if (selfNetId != 0) {
-            func_ov257_021a2714(game, TRUE);
+            CtvtGame_SetAllJoined(game, TRUE);
         }
         break;
     case 3:
         if (selfNetId != 0) {
-            func_ov257_021a2708(game, TRUE);
+            CtvtGame_SetHostQuit(game, TRUE);
         }
         break;
     case 4:
         if (selfNetId == 0) {
-            func_ov257_021a2744(game, netId);
+            CtvtGame_SetReady(game, netId);
         }
         break;
     case 5:
         if (selfNetId != 0) {
-            func_ov257_021a2720(game, TRUE);
+            CtvtGame_SetReplayStarted(game, TRUE);
         }
         break;
     }
@@ -1211,39 +1211,39 @@ static void CtvtComm_RecvGamePacket(int netId, int size, void *data, void *work,
     if (CommTvt_IsErrorShown(comm->sys) == TRUE) {
         return;
     }
-    if (netId == 0 && func_ov257_021a26f0(game) == TRUE) {
-        func_ov257_021a29e4(game, packet->frame);
+    if (netId == 0 && CtvtGame_IsPlaying(game) == TRUE) {
+        CtvtGame_SetFrame(game, packet->frame);
     }
     switch (packet->type) {
     case 0:
-        func_ov257_021a2898(game, packet->unk7);
+        CtvtGame_SpawnTarget(game, packet->unk7);
         break;
     case 1:
         if (netId == 0) {
-            func_ov257_021a29d8(game, packet->value);
+            CtvtGame_SetSeed(game, packet->value);
         }
         break;
     case 3:
-        if (selfNetId == 0 && func_ov257_021a26f0(game) == TRUE) {
-            func_ov257_021a2a0c(comm, game, packet, netId);
+        if (selfNetId == 0 && CtvtGame_IsPlaying(game) == TRUE) {
+            CtvtGame_CheckTouch(comm, game, packet, netId);
         }
         break;
     case 4:
-        func_ov257_021a2a6c(game, packet, packet->mask);
+        CtvtGame_ApplyHits(game, packet, packet->mask);
         break;
     case 5:
         if (selfNetId == 0) {
-            func_ov257_021a2be0(comm, game, FALSE, netId);
+            CtvtGame_CountPump(comm, game, FALSE, netId);
         }
         break;
     case 6:
         if (selfNetId == 0) {
-            func_ov257_021a2be0(comm, game, TRUE, netId);
+            CtvtGame_CountPump(comm, game, TRUE, netId);
         }
         break;
     case 7:
-        if (netId == 0 && func_ov257_021a26f0(game) == TRUE) {
-            func_ov257_021a2c88(game, packet->mask);
+        if (netId == 0 && CtvtGame_IsPlaying(game) == TRUE) {
+            CtvtGame_PumpBalloons(game, packet->mask);
         }
         break;
     }
@@ -1304,7 +1304,7 @@ static void CtvtComm_RecvGameData(int netId, int size, void *data, void *work, N
 
     func_02042a6c(func_02040440());
     if (netId == 0) {
-        func_ov257_021a2bc0(game, data);
+        CtvtGame_SetScores(game, data);
     }
 }
 

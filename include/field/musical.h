@@ -5,6 +5,7 @@
 // commands of scrcmd_musical.c, and overlays 209, 210 and 211, which those load
 
 #include "types.h"
+#include "app/musical/musical_shot_sys.h"
 #include "app/ov174.h"
 #include "gfl/heap.h"
 #include "gfl/proc.h"
@@ -52,19 +53,6 @@ void func_ov012_02151e44(MusicalEventWork *work);
 // Whether the connection was lost
 BOOL func_ov012_02151e64(MusicalEventWork *work);
 
-// Overlay 209's screen, which shows a musical's photo
-typedef struct {
-    u32 unk0;
-    u32 unk4;
-    u32 unk8;
-    MusicalShot *shot;
-    MusicalSave *save;
-    // Overlay 211's communication work
-    void *comm;
-} MusicalShotParam;
-
-extern const GameProcFunctions data_ov209_021c3000;
-
 // Overlay 210, the musical's data
 struct Ov210Work {
     u32 unk0;
@@ -100,13 +88,28 @@ struct MusicalPoke {
 
 BOOL func_ov210_021eec80(PartyPkm *pkm);
 MusicalPoke *func_ov210_021eecac(PartyPkm *pkm, HeapID heapId);
-MusicalPoke *func_ov210_021eed30(u16 species, u8 form, u32 a2, u32 a3, u32 personality, HeapID heapId);
+MusicalPoke *func_ov210_021eed30(u16 species, u8 form, u8 a2, u8 a3, u32 personality, HeapID heapId);
 Ov210Work *func_ov210_021eedac(HeapID heapId);
 void func_ov210_021eedd8(Ov210Work *work);
 void func_ov210_021eee0c(Ov210Work *work, SaveControl *save, GameData *gameData, u8 a3, HeapID heapId);
 void *func_ov210_021eef38(HeapID heapId);
 void func_ov210_021eef64(void *items);
 u32 func_ov210_021ef164(void *items, u16 itemId);
+// A prop's entry in the table func_ov210_021eef38 loads, 12 bytes
+typedef struct MusicalItemData MusicalItemData;
+MusicalItemData *func_ov210_021eef78(void *items, u16 itemId);
+// The prop's offset from where it is worn, x then y
+void func_ov210_021eef84(MusicalItemData *item, s32 *offset);
+// The BlAct size of its texture
+u32 func_ov210_021eef94(MusicalItemData *item);
+// Whether the prop can be worn at a position, by its flags
+BOOL func_ov210_021eef98(MusicalItemData *item, u8 pos);
+BOOL func_ov210_021ef018(MusicalItemData *item, u8 pos);
+// Whether the prop's category is that of a position
+BOOL func_ov210_021ef088(MusicalItemData *item, u8 pos);
+// Its flags 0x80 and 0x200
+BOOL func_ov210_021ef0f4(MusicalItemData *item);
+BOOL func_ov210_021ef104(MusicalItemData *item);
 
 // Overlay 211, the musical's communication
 void *func_ov211_021ef1e0(HeapID heapId, GameSystem *gsys, GameCommSys *comm, u16 value);

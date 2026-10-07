@@ -1,4 +1,5 @@
 #include "constants/arc.h"
+#include "constants/moves.h"
 #include "constants/pokemon.h"
 #include "constants/sound.h"
 #include "gfl/arc_util.h"
@@ -39,13 +40,6 @@ typedef struct {
     u8 y;
 } PlatePos;
 
-typedef struct {
-    u8 x;
-    u8 y;
-    u8 width;
-    u8 height;
-} SkillWindowSetup;
-
 // A move's plate: its frame and type icon, and the bitmap of its name and PP shown as sprites
 typedef struct {
     u8 slot;
@@ -60,10 +54,12 @@ struct PStaSkillWork {
     BOOL isShown;
     BOOL redrawStats;
     BOOL redrawDetail;
+    // Not cleared when the work is allocated, so it is read before it is first set
     BOOL redrawMessage;
     BOOL isSwapPending;
     BOOL isSwapping;
     BOOL isConfirming;
+    // Not cleared when the work is allocated, so it is read before it is first set
     BOOL isDragging;
     BOOL isExiting;
     BOOL forgetConfirmed;
@@ -75,7 +71,7 @@ struct PStaSkillWork {
     u32 dragStartY;
     PStaScreen screens[5];
     BmpWin *windows[SKILL_WINDOW_COUNT];
-    // The stats' frame, the move category, the cursor, the held move and the touched move
+    // The stats' frame, the move category, a cursor that is never shown, the held move and the touched move
     ClActor *actors[5];
     PStaOam *oam;
     GFLBitmap *forgetBitmap;
@@ -114,7 +110,7 @@ static void PStaSkill_SetPlateAnim(SkillPlate *plate, u32 anim);
 
 static const PlatePos sPlatePos[PLATE_COUNT] = { { 1, 2 }, { 1, 6 }, { 1, 10 }, { 1, 14 }, { 1, 20 } };
 
-static const SkillWindowSetup sSkillWindows[SKILL_WINDOW_COUNT] = {
+static const PStaWindowSetup sSkillWindows[SKILL_WINDOW_COUNT] = {
     { 8, 4, 16, 2 },   { 17, 6, 6, 1 },  { 8, 7, 14, 2 },  { 8, 9, 14, 2 },  { 8, 11, 14, 2 },
     { 8, 13, 14, 2 },  { 8, 15, 14, 2 }, { 6, 18, 20, 6 }, { 10, 6, 14, 2 }, { 10, 8, 14, 2 },
     { 10, 10, 14, 2 }, { 1, 13, 30, 6 }, { 4, 20, 24, 4 },
@@ -133,10 +129,10 @@ PStaSkillWork *PStaSkill_Create(PStatusWork *wk) {
     skill->forgetConfirmed = FALSE;
     skill->swapSrc = SLOT_NONE;
     skill->cursor = CURSOR_NONE;
-    if (wk->param->mode == PSTATUS_MODE_FORGET_MOVE && wk->param->move != 0) {
-        skill->moveCount = 5;
+    if (wk->param->mode == PSTATUS_MODE_FORGET_MOVE && wk->param->move != MOVE_NONE) {
+        skill->moveCount = PLATE_COUNT;
     } else {
-        skill->moveCount = 4;
+        skill->moveCount = PLATE_NEW;
     }
     for (i = 0; i < PLATE_COUNT; i++) {
         skill->plates[i].slot = CURSOR_NONE;
@@ -436,7 +432,7 @@ static void PStaSkill_DrawDetail(PStatusWork *wk, PStaSkillWork *skill) {
     type2 = PML_PkmGetParam(pkm, PKM_PARAM_TYPE2, NULL);
     func_0204bb58(wk->typeIconChars[type1], &proxy1);
     func_0204c3e4(wk->typeIcons[0], &proxy1);
-    func_0204c378(wk->typeIcons[0], func_0202d7e8((u8)type1), 1);
+    func_0204c378(wk->typeIcons[0], func_0202d7e8(type1), 1);
     pos.x = 208;
     pos.y = 120;
     func_0204c140(wk->typeIcons[0], &pos, 0);
@@ -445,7 +441,7 @@ static void PStaSkill_DrawDetail(PStatusWork *wk, PStaSkillWork *skill) {
     if (type1 != type2) {
         func_0204bb58(wk->typeIconChars[type2], &proxy2);
         func_0204c3e4(wk->typeIcons[1], &proxy2);
-        func_0204c378(wk->typeIcons[1], func_0202d7e8((u8)type2), 1);
+        func_0204c378(wk->typeIcons[1], func_0202d7e8(type2), 1);
         pos.x = 240;
         pos.y = 120;
         func_0204c140(wk->typeIcons[1], &pos, 0);
@@ -526,10 +522,10 @@ static void PStaSkill_DrawHpBar(PStatusWork *wk, PStaSkillWork *skill) {
     u8 top;
     u8 bottom;
 
-    if (color == 2 || color == 3) {
+    if (color == HP_GAUGE_COLOR_RED || color == HP_GAUGE_COLOR_NONE) {
         top = 7;
         bottom = 8;
-    } else if (color == 1) {
+    } else if (color == HP_GAUGE_COLOR_YELLOW) {
         top = 9;
         bottom = 10;
     } else {
@@ -555,10 +551,10 @@ static void PStaSkill_PrintMoveDetail(PStatusWork *wk, PStaSkillWork *skill) {
     for (i = 8; i <= 11; i++) {
         GFL_BitmapFill(BmpWin_GetBitmap(skill->windows[i]), 0);
     }
-    if (skill->cursor < 4) {
+    if (skill->cursor < PLATE_NEW) {
         move = PML_PkmGetParam(pkm, PKM_PARAM_MOVE1 + skill->cursor, NULL);
     } else if (skill->cursor == CURSOR_NONE) {
-        if (wk->param->mode == PSTATUS_MODE_FORGET_MOVE && skill->moveCount == 5) {
+        if (wk->param->mode == PSTATUS_MODE_FORGET_MOVE && skill->moveCount == PLATE_COUNT) {
             move = wk->param->move;
         } else {
             move = PML_PkmGetParam(pkm, PKM_PARAM_MOVE1, NULL);
@@ -570,7 +566,7 @@ static void PStaSkill_PrintMoveDetail(PStatusWork *wk, PStaSkillWork *skill) {
     category = PML_MoveGetCategory(move);
     func_0204bb58(wk->clResources[PSTA_RES_CHAR(4) + category], &proxy);
     func_0204c3e4(skill->actors[1], &proxy);
-    func_0204c378(skill->actors[1], func_0202d800((u8)category), 1);
+    func_0204c378(skill->actors[1], func_0202d800(category), 1);
     PStatus_PrintToWindow(wk, skill->windows[9], 0x93, 1, 1, PRINT_COLOR(15, 2, 0));
     power = PML_MoveGetBasePower(move);
     if (power <= 1) {
@@ -613,7 +609,7 @@ void PStaSkill_LoadForget(PStatusWork *wk, PStaSkillWork *skill) {
     for (i = 0; i < skill->moveCount; i++) {
         PStaSkill_LoadPlate(wk, skill, &skill->plates[i]);
     }
-    if (skill->moveCount == 5) {
+    if (skill->moveCount == PLATE_COUNT) {
         skill->forgetBitmap = GFL_BitmapCreate(13, 3, 32, wk->heapId);
         PStatus_PrintCentered(wk, skill->forgetBitmap, 0xc1, 52, 1, PRINT_COLOR(1, 2, 0));
         setup.x = 24;
@@ -644,7 +640,7 @@ void PStaSkill_DrawForget(PStatusWork *wk, PStaSkillWork *skill) {
         PStaSkill_DrawPlate(wk, skill, &skill->plates[i]);
     }
     func_0204c488(wk->buttons[PSTA_BUTTON_SKILL], 4);
-    if (skill->moveCount == 5) {
+    if (skill->moveCount == PLATE_COUNT) {
         skill->cursor = PLATE_NEW;
     } else {
         skill->cursor = 0;
@@ -656,7 +652,7 @@ void PStaSkill_DrawForget(PStatusWork *wk, PStaSkillWork *skill) {
 void PStaSkill_UnloadForget(PStatusWork *wk, PStaSkillWork *skill) {
     u8 i;
 
-    if (skill->moveCount == 5) {
+    if (skill->moveCount == PLATE_COUNT) {
         GFL_BitmapFree(skill->forgetBitmap);
         PStaOam_FreeActor(skill->forgetOam);
     }
@@ -802,7 +798,7 @@ static void PStaSkill_HandleTouch(PStatusWork *wk, PStaSkillWork *skill) {
         if (hit == TOUCH_RECT_NONE) {
             return;
         }
-        if (PML_PkmGetParam(PStatus_GetBoxPkm(wk), PKM_PARAM_MOVE1 + hit, NULL) == 0) {
+        if (PML_PkmGetParam(PStatus_GetBoxPkm(wk), PKM_PARAM_MOVE1 + hit, NULL) == MOVE_NONE) {
             return;
         }
         if (wk->isInputEnabled == TRUE) {
@@ -851,7 +847,7 @@ static void PStaSkill_HandleTouch(PStatusWork *wk, PStaSkillWork *skill) {
         }
         if (skill->isSwapping == TRUE) {
             if (hit != TOUCH_RECT_NONE) {
-                if (PML_PkmGetParam(PStatus_GetBoxPkm(wk), PKM_PARAM_MOVE1 + hit, NULL) == 0) {
+                if (PML_PkmGetParam(PStatus_GetBoxPkm(wk), PKM_PARAM_MOVE1 + hit, NULL) == MOVE_NONE) {
                     return;
                 }
                 PStaSkill_SelectMove(wk, skill, hit, FALSE);
@@ -926,17 +922,19 @@ static BOOL PStaSkill_HandleForgetKeys(PStatusWork *wk, PStaSkillWork *skill) {
         }
     } else if (GCTX_HIDGetPressedKeys() == PAD_BUTTON_A) {
         wk->isTouch = FALSE;
-        if (skill->cursor < 4) {
-            isHm = isPkmMoveHmMove(wk->param->gameData,
-                                   PML_PkmGetParam(PStatus_GetBoxPkm(wk), PKM_PARAM_MOVE1 + skill->cursor, NULL),
+        if (skill->cursor < PLATE_NEW) {
+            BoxPkm *pkm = PStatus_GetBoxPkm(wk);
+
+            isHm = isPkmMoveHmMove(wk->param->gameData, PML_PkmGetParam(pkm, PKM_PARAM_MOVE1 + skill->cursor, NULL),
                                    wk->heapId);
             if (isHm == FALSE || wk->canForgetHm == TRUE) {
-                if (wk->param->move == 0) {
+                if (wk->param->move == MOVE_NONE) {
                     wk->exitResult = PSTATUS_RESULT_BACK;
                     wk->param->result = PSTATUS_RESULT_FORGET;
                     wk->param->slot = skill->cursor;
                     skill->isExiting = TRUE;
                     wk->pressedButton = NULL;
+                    GFL_SndSEPlay(SEQ_SE_DECIDE1);
                 } else {
                     skill->isConfirming = TRUE;
                     skill->swapSrc = skill->cursor;
@@ -948,8 +946,8 @@ static BOOL PStaSkill_HandleForgetKeys(PStatusWork *wk, PStaSkillWork *skill) {
                     func_0204c124(skill->actors[3], TRUE);
                     func_0204c56c(skill->actors[3]);
                     PStaSkill_ShowForgetPrompt(wk, skill, TRUE);
+                    GFL_SndSEPlay(SEQ_SE_DECIDE1);
                 }
-                GFL_SndSEPlay(SEQ_SE_DECIDE1);
             } else {
                 PStaSkill_ShowHmMessage(wk, skill, isHm);
             }
@@ -991,7 +989,7 @@ static void PStaSkill_HandleForgetTouch(PStatusWork *wk, PStaSkillWork *skill) {
         func_0204c124(skill->actors[3], FALSE);
         skill->swapSrc = SLOT_NONE;
         skill->isConfirming = FALSE;
-        if (skill->moveCount == 5) {
+        if (skill->moveCount == PLATE_COUNT) {
             PStaSkill_SelectMove(wk, skill, PLATE_NEW, FALSE);
             PStaSkill_PrintDetail(wk, skill);
         } else {
@@ -1011,14 +1009,14 @@ static void PStaSkill_HandleForgetTouch(PStatusWork *wk, PStaSkillWork *skill) {
         return;
     }
     if (skill->isConfirming == FALSE) {
-        if (hit < 4) {
-            if (PML_PkmGetParam(PStatus_GetBoxPkm(wk), PKM_PARAM_MOVE1 + hit, NULL) == 0) {
+        if (hit < PLATE_NEW) {
+            if (PML_PkmGetParam(PStatus_GetBoxPkm(wk), PKM_PARAM_MOVE1 + hit, NULL) == MOVE_NONE) {
                 return;
             }
             isHm = isPkmMoveHmMove(wk->param->gameData,
                                    PML_PkmGetParam(PStatus_GetBoxPkm(wk), PKM_PARAM_MOVE1 + hit, NULL), wk->heapId);
             if (isHm == FALSE || wk->canForgetHm == TRUE) {
-                if (wk->param->move == 0) {
+                if (wk->param->move == MOVE_NONE) {
                     wk->exitResult = PSTATUS_RESULT_BACK;
                     wk->param->result = PSTATUS_RESULT_FORGET;
                     wk->param->slot = hit;
@@ -1088,12 +1086,12 @@ static void PStaSkill_MoveCursor(PStatusWork *wk, PStaSkillWork *skill) {
         } else if (cursor > skill->moveCount - 1) {
             cursor = 0;
         }
-        if (cursor < 4) {
+        if (cursor < PLATE_NEW) {
             move = PML_PkmGetParam(pkm, PKM_PARAM_MOVE1 + cursor, NULL);
         } else {
             move = wk->param->move;
         }
-    } while (move == 0);
+    } while (move == MOVE_NONE);
     PStaSkill_SelectMove(wk, skill, cursor, FALSE);
 }
 
@@ -1236,7 +1234,7 @@ static void PStaSkill_LoadPlate(PStatusWork *wk, PStaSkillWork *skill, SkillPlat
     WordSet *maxPpWordSet;
     PStaOamSetup setup;
 
-    if (plate->slot < 4) {
+    if (plate->slot < PLATE_NEW) {
         move = PML_PkmGetParam(pkm, PKM_PARAM_MOVE1 + plate->slot, NULL);
         pp = PML_PkmGetParam(pkm, PKM_PARAM_MOVE1_PP + plate->slot, NULL);
         maxPp = PML_PkmGetParam(pkm, PKM_PARAM_MOVE1_MAX_PP + plate->slot, NULL);
@@ -1250,7 +1248,7 @@ static void PStaSkill_LoadPlate(PStatusWork *wk, PStaSkillWork *skill, SkillPlat
     func_02021c7c(wk->printQueue, plate->bitmap, 3, 2, str, wk->font, PRINT_COLOR(1, 2, 0));
     GFL_StrBufFree(str);
     GFL_MsgDataFree(msgData);
-    if (move != 0) {
+    if (move != MOVE_NONE) {
         PStatus_Print(wk, plate->bitmap, 0x87, 13, 17, PRINT_COLOR(1, 2, 0));
         ppWordSet = GFL_WordSetSystemCreateDefault(wk->heapId);
         WordSetNumber(ppWordSet, 0, pp, 3, 1, 1);
@@ -1283,13 +1281,13 @@ static void PStaSkill_DrawPlate(PStatusWork *wk, PStaSkillWork *skill, SkillPlat
     u8 type;
     NNSG2dImageProxy proxy;
 
-    if (plate->slot < 4) {
+    if (plate->slot < PLATE_NEW) {
         move = PML_PkmGetParam(pkm, PKM_PARAM_MOVE1 + plate->slot, NULL);
     } else {
         move = wk->param->move;
     }
     if (plate->isDirty == TRUE) {
-        if (move != 0) {
+        if (move != MOVE_NONE) {
             type = PML_MoveGetType(move);
             func_0204bb58(wk->typeIconChars[type], &proxy);
             func_0204c3e4(plate->typeIcon, &proxy);

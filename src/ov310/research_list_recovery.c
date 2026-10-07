@@ -34,14 +34,14 @@ s32 ResearchListRecovery_GetBGScroll(ResearchListRecovery *recovery) {
     return recovery->bgScroll;
 }
 
-void ResearchListRecovery_SetCursor(ResearchListRecovery *recovery, u8 value) {
-    recovery->cursor = value;
+void ResearchListRecovery_SetCursor(ResearchListRecovery *recovery, u8 cursor) {
+    recovery->cursor = cursor;
 }
 
-void ResearchListRecovery_SetScrollY(ResearchListRecovery *recovery, s32 value) {
-    recovery->scrollY = value;
+void ResearchListRecovery_SetScrollY(ResearchListRecovery *recovery, s32 scrollY) {
+    recovery->scrollY = scrollY;
 }
 
-void ResearchListRecovery_SetBGScroll(ResearchListRecovery *recovery, s32 value) {
-    recovery->bgScroll = value;
+void ResearchListRecovery_SetBGScroll(ResearchListRecovery *recovery, s32 bgScroll) {
+    recovery->bgScroll = bgScroll;
 }
