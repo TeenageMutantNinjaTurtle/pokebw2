@@ -2,6 +2,7 @@
 # module address(b2_us) action [argument]
 . 0x02006de8 remove_symbol
 . 0x02006dec add_function ampOffFreeBlocks:thumb:0x20
+. 0x020131e8 reloc_module overlay(199)
 . 0x02026708 reloc_addend 0x2
 . 0x02026710 reloc_addend 0x2
 . 0x0202678c reloc_addend 0x2
@@ -60,8 +61,8 @@
 . 0x0207e954 add_reloc load,ltd_autoload(0),0x02703c60
 . 0x0207e958 add_function MIC_StopAutoSampling:thumb:0x18
 . 0x0207e970 add_function func_0207e970:arm:0x8
-. 0x0207e974 remove_symbol
 . 0x0207e974 add_reloc load,ltd_autoload(0),0x02703e90
+. 0x0207e974 remove_symbol
 . 0x0207e978 add_function func_0207e978:thumb:0xa8
 . 0x0208c224 add_label _dadd
 . 0x0208c908 add_label _dmul
@@ -1192,7 +1193,10 @@ overlays/ov197 0x021be610 add_data data_ov197_021be610
 overlays/ov198 0x021b4550 remove_reloc
 overlays/ov199 0x021b805e reloc_module overlay(189)
 overlays/ov199 0x021b943c reloc_module overlay(189)
+overlays/ov199 0x021b9658 remove_reloc
 overlays/ov199 0x021b9698 remove_reloc
+overlays/ov199 0x021b9874 remove_reloc
+overlays/ov199 0x021b98f4 remove_reloc
 overlays/ov201 0x021b59ce reloc_module overlay(189)
 overlays/ov207 0x021b683c reloc_addend 0x3540
 overlays/ov207 0x021ba620 reloc_addend 1

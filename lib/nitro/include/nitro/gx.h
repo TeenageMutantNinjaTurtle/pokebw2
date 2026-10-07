@@ -314,6 +314,7 @@ typedef enum {
 typedef enum {
     GX_BG_BMPSCRBASE_0x00000 = 0,
     GX_BG_BMPSCRBASE_0x10000 = 4,
+    GX_BG_BMPSCRBASE_0x14000 = 5,
     GX_BG_BMPSCRBASE_0x28000 = 10,
 } GXBGBmpScrBase;
 
@@ -1208,6 +1209,8 @@ void *gfxGetScreenAddrBG0A(void);
 // NitroSDK's G2_GetBG2ScrPtr and G2_GetBG3ScrPtr
 void *gfxGetScreenAddrBG2A(void);
 void *gfxGetScreenAddrBG3A(void);
+// NitroSDK's G2S_GetBG3ScrPtr
+void *gfxGetScreenAddrBG3B(void);
 
 // NitroSDK's G2_GetBG0CharPtr to G2S_GetBG3CharPtr
 void *gfxGetCharAddrBG0A(void);

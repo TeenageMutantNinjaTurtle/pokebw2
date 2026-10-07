@@ -1,15 +1,16 @@
 #include "types.h"
 #include "battle/btl_ability.h"
 #include "battle/btl_action.h"
+#include "battle/btl_calc.h"
 #include "battle/btl_event.h"
 #include "battle/btl_field.h"
 #include "battle/btl_handler.h"
 #include "battle/btl_handler_work.h"
 #include "battle/btl_item.h"
 #include "battle/btl_main.h"
-#include "battle/btl_calc.h"
 #include "battle/btl_pokeparam.h"
 #include "battle/btl_server_flow.h"
+#include "battle/handler_common.h"
 #include "pml/item.h"
 #include "pml/waza.h"
 
@@ -2560,7 +2561,7 @@ void HandlerRunAway(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *w
 void HandlerRunAwayMessage(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
     BattleHandlerMessageParam *param;
 
-    if (CommonCheckRunMessage(item)) {
+    if (CommonCheckRunMessage(item, flow, monId)) {
         param = BattleHandler_PushWork(flow, 4, monId);
         param->popup = 1;
         BattleHandler_StrSetup(&param->string, 1, 0x48);
