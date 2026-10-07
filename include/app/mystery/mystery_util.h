@@ -37,11 +37,22 @@ typedef struct {
     u32 msgId;
     // Printed instead of the message when not NULL
     StrBuf *str;
-    BOOL centered;
+    u32 align;
     s16 textX;
     s16 textY;
     u16 color;
 } MysteryTextWinEntry;
+
+// A change of a MysteryTextWin's window, which MysteryTextWinCopy_Print makes when update is set
+typedef struct {
+    BOOL update;
+    u32 msgId;
+    StrBuf *str;
+    u32 align;
+    s16 textX;
+    s16 textY;
+    u16 color;
+} MysteryTextWinUpdate;
 
 // The list menu of MysteryList: items are messages, or strings when msgData is NULL
 typedef struct {
@@ -52,12 +63,13 @@ typedef struct {
     u32 items[4];
     u32 count;
     u16 bg;
-    u16 y;
     u16 palette;
-    u16 framePalette;
-    s16 unk2C;
-    s16 unk2E;
-    u16 unk30;
+    u16 unk28;
+    // The BG palette whose colors 10 to 13 gray out disabled items
+    u16 bgPalette;
+    s16 offsetY;
+    s16 offsetX;
+    u16 cursorSequence;
     // Called when the cursor moves, with work
     void (*onMove)(void *work);
     void *work;
@@ -66,6 +78,8 @@ typedef struct {
 } MysteryListSetup;
 
 MysteryMsgWin *MysteryMsgWin_Create(u8 bg, u8 palette, PrintQueue *queue, Font *font, HeapID heapId);
+// A message window of one line, which waits for a key after its stream
+MysteryMsgWin *MysteryMsgWin_CreateSmall(u8 bg, u8 palette, PrintQueue *queue, Font *font, HeapID heapId);
 void MysteryMsgWin_Delete(MysteryMsgWin *win);
 void MysteryMsgWin_Update(MysteryMsgWin *win);
 void MysteryMsgWin_Print(MysteryMsgWin *win, MsgData *msgData, u32 msgId, u32 mode);
@@ -76,11 +90,17 @@ MysteryYesNo *MysteryYesNo_Create(const MysteryYesNoSetup *setup, HeapID heapId)
 void MysteryYesNo_Delete(MysteryYesNo *menu);
 u32 MysteryYesNo_Update(MysteryYesNo *menu);
 
-MysteryTextWin *MysteryTextWin_Create(u8 bg, const MysteryTextWinEntry *entries, u32 count, u8 palette, u8 framePalette,
-                                      PrintQueue *queue, MsgData *msgData, Font *font, HeapID heapId);
+MysteryTextWin *MysteryTextWin_Create(BOOL deferFlush, const MysteryTextWinEntry *entries, u32 count, u16 bg,
+                                      u8 palette, PrintQueue *queue, MsgData *msgData, Font *font, HeapID heapId);
 void MysteryTextWin_Delete(MysteryTextWin *win);
 void MysteryTextWin_Clear(MysteryTextWin *win);
-void MysteryTextWin_Update(MysteryTextWin *win);
+BOOL MysteryTextWin_Update(MysteryTextWin *win);
+void MysteryTextWin_ClearLine(MysteryTextWin *win, u32 index);
+void MysteryTextWin_Flush(MysteryTextWin *win);
+MysteryTextWinCopy *MysteryTextWinCopy_Create(MysteryTextWin *textWin, HeapID heapId);
+void MysteryTextWinCopy_Delete(MysteryTextWinCopy *copy);
+void MysteryTextWinCopy_Print(MysteryTextWinCopy *copy, const MysteryTextWinUpdate *updates, PrintQueue *queue);
+void MysteryTextWinCopy_Apply(MysteryTextWinCopy *copy);
 
 MysteryList *MysteryList_Create(const MysteryListSetup *setup, HeapID heapId);
 void MysteryList_Delete(MysteryList *list);
@@ -104,10 +124,10 @@ void MysteryOamText_Delete(MysteryOamText *oamText);
 void MysteryOamText_Clear(MysteryOamText *oamText);
 void MysteryOamText_Print(MysteryOamText *oamText, MsgData *msgData, u32 msgId, Font *font);
 void MysteryOamText_SetColor(MysteryOamText *oamText, u16 color);
-void MysteryOamText_SetAlign(MysteryOamText *oamText, u32 alignX, u32 alignY, u32 unk14);
+void MysteryOamText_SetAlign(MysteryOamText *oamText, s32 x, s32 y, u32 align);
 BOOL MysteryOamText_Update(MysteryOamText *oamText);
 
-void MysteryPal_Blend(u32 palette, const u16 *src, u16 ratio, u32 offset, const u16 *from, const u16 *to);
-void MysteryPal_BlendOne(u32 palette, u16 *dst, u16 ratio, u32 offset, u8 index, u16 from, u16 to);
+void MysteryPal_Blend(u32 type, u16 *dest, u16 angle, u32 palette, const u16 *from, const u16 *to);
+void MysteryPal_BlendOne(u32 type, u16 *dest, u16 angle, u8 palette, u8 index, u16 from, u16 to);
 
 #endif // POKEBW2_APP_MYSTERY_MYSTERY_UTIL_H

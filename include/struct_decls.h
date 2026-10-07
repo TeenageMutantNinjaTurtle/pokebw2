@@ -339,6 +339,7 @@ typedef struct MysteryNet MysteryNet;
 typedef struct MysteryOamText MysteryOamText;
 typedef struct MysterySeq MysterySeq;
 typedef struct MysteryTextWin MysteryTextWin;
+typedef struct MysteryTextWinCopy MysteryTextWinCopy;
 typedef struct MysteryYesNo MysteryYesNo;
 typedef struct NetHandle NetHandle;
 typedef struct NetSave NetSave;

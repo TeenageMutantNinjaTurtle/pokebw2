@@ -1419,14 +1419,14 @@ static void Mystery_CreateList(MysteryWork *wk, u32 type, HeapID heapId) {
         setup.queue = wk->queue;
         setup.cursor = MysteryActors_GetActor(&wk->actors, ACTOR_CURSOR);
         setup.bg = 1;
-        setup.y = 15;
-        setup.palette = 2;
-        setup.framePalette = 4;
+        setup.palette = 15;
+        setup.unk28 = 2;
+        setup.bgPalette = 4;
         setup.onMove = Mystery_OnListMove;
         setup.work = wk;
-        setup.unk2C = 0;
-        setup.unk2E = 0;
-        setup.unk30 = 0;
+        setup.offsetY = 0;
+        setup.offsetX = 0;
+        setup.cursorSequence = 0;
         setup.cursorPos = &wk->listCursors[type];
         switch (type) {
         case LIST_TOP:
@@ -1450,9 +1450,9 @@ static void Mystery_CreateList(MysteryWork *wk, u32 type, HeapID heapId) {
             setup.items[0] = (u32)GFL_StrBufCreate(37, heapId);
             GFL_StrBufLoadFixedString((StrBuf *)setup.items[0], wk->recv.gift.title, 37);
             setup.count = 1;
-            setup.unk2C = -1;
-            setup.unk2E = -2;
-            setup.unk30 = 10;
+            setup.offsetY = -1;
+            setup.offsetX = -2;
+            setup.cursorSequence = 10;
             break;
         case LIST_ABOUT:
             setup.msgData = wk->msgData;
@@ -1543,17 +1543,18 @@ static void Mystery_DeleteCardWin(MysteryWork *wk) {
     }
 }
 
-// The Pokémon of a Pokémon gift, as overlay 12's func_ov012_02153160 makes it. NULL when the gift's Pokémon is not
-// valid
+// The Pokémon of a Pokémon gift, as overlay 12's func_ov012_02153160 makes it, allocated from the tail of the heap.
+// NULL when the gift's Pokémon is not valid
 static inline PartyPkm *Mystery_CreateGiftPokemon(MysteryGift *gift, HeapID heapId, GameData *gameData) {
     MysteryGiftPokemon *poke = (MysteryGiftPokemon *)gift;
+    HeapID tailHeapId = HEAPID_TAIL(heapId);
     u16 level = poke->level;
     u32 trainerId = poke->trainerId;
     u32 species = poke->species;
+    u64 pid;
     u32 gender = poke->gender;
     u32 abilityType = poke->abilityType;
     u32 ability;
-    u64 pid;
     u32 ivs;
     u8 stats[6];
     u16 moves[4];
@@ -1593,7 +1594,7 @@ static inline PartyPkm *Mystery_CreateGiftPokemon(MysteryGift *gift, HeapID heap
                 stats[i] = GFL_RandomLC(32);
             }
         }
-        pkm = PokeParty_NewTempPkm(species, level, trainerId, heapId);
+        pkm = PokeParty_NewTempPkm(species, level, trainerId, tailHeapId);
         ivs = (stats[0] & 0x1f) | ((stats[1] & 0x1f) << 5) | ((stats[2] & 0x1f) << 10) | ((stats[3] & 0x1f) << 15) |
               ((stats[4] & 0x1f) << 20) | ((stats[5] & 0x1f) << 25);
         if (abilityType == 4) {
@@ -1763,7 +1764,7 @@ static void MysteryEffect_Init(MysteryEffect *effect, ClActUnit *unit, MysteryGi
     case 0:
         break;
     case 1:
-        pkm = Mystery_CreateGiftPokemon(&recv->gift, HEAPID_TAIL(heapId), gameData);
+        pkm = Mystery_CreateGiftPokemon(&recv->gift, heapId, gameData);
         arc = MakePokeGraArcHandle(heapId);
         effect->palette = func_02033f2c(arc, func_0201d624(pkm), 0, 0, 0x1c0, heapId);
         effect->cellAnims = func_02034000(func_0201d624(pkm), 0, 2, 0, heapId);
