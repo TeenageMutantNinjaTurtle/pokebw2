@@ -189,6 +189,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - `beq` before and `bne` after the loop is a `!=` bound. (matching.md: "A loop counted with `!=`")
 - A loop bound computed once and tested with `ble`: `i <= N - 1`; `i < N` reloads it and tests `blt`.
   (matching.md: "i <= N - 1")
+- A test after a body that is entered from the top and from an earlier branch, in a function that does one box a frame:
+  `while (box < n) { ...; break; }`, with a comment. (matching.md: "stops after its first pass")
 
 ## Switches
 

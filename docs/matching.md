@@ -484,6 +484,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   `i < N` reloads `N` from the literal pool and tests with `blt`. The bag's Free Space list compacts its entries with
   `for (i = 0; i <= BAG_ITEM_LIST_SLOTS - 1; i++)` in `bag_item.c`'s `BagItemList_Compact`.
 
+- A test that the original places after its body, entered from the top as well as from an earlier branch, is a loop
+  that stops after its first pass: `while (box < n) { ...; break; }`. The trade does one box a frame this way in
+  `pokemontrade_proc.c`'s `func_ov194_021bb3c0` and `pokemontrade_2d.c`'s `func_ov194_021c2c04` and
+  `func_ov194_021c3e9c`, each 8 bytes or so shorter as an `if`. Comment it, so it isn't "fixed".
+
 ## Switches
 
 - Switch cases are laid out in source order, not by value, so the layout shows the order the cases were written in.
