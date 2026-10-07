@@ -899,7 +899,7 @@ void func_0204c178(ClActor *actor, ClActorPos *pos, u32 surface) {
     pos->y -= offset.y;
 }
 
-void func_0204c1a8(ClActor *actor, s16 value, u32 surface, u32 axis) {
+void func_0204c1a8(ClActor *actor, s16 value, u16 surface, u32 axis) {
     ClActorPos offset;
 
     func_0204d0fc(actor, surface, &offset);
@@ -911,7 +911,7 @@ void func_0204c1a8(ClActor *actor, s16 value, u32 surface, u32 axis) {
     func_0204c228(actor, value, axis);
 }
 
-s16 func_0204c1dc(ClActor *actor, u32 surface, u32 axis) {
+s16 func_0204c1dc(ClActor *actor, u16 surface, u32 axis) {
     ClActorPos offset;
     s16 value;
 
