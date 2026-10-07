@@ -10,28 +10,28 @@
 #include "gfl/heap.h"
 #include "nitro/fx.h"
 
-static BOOL FieldCameraArea_CIRCLE_CheckColl(FieldSceneArea *area, CameraArea *cameraArea, const VecFx32 *pos);
-static void FieldCameraAreaCalc_CIRCLE_AimPlayerCentre(FieldSceneArea *area, CameraArea *cameraArea,
+static BOOL FieldCameraArea_CIRCLE_CheckColl(FieldSceneArea *area, const CameraArea *cameraArea, const VecFx32 *pos);
+static void FieldCameraAreaCalc_CIRCLE_AimPlayerCentre(FieldSceneArea *area, const CameraArea *cameraArea,
                                                        const VecFx32 *pos);
-static void FieldCameraAreaCalc_CIRCLE_FixedLookAt(FieldSceneArea *area, CameraArea *cameraArea, const VecFx32 *pos);
-static BOOL FieldCameraAreaCalc_RECT_CheckColl(FieldSceneArea *area, CameraArea *cameraArea, const VecFx32 *pos);
-static void FieldCameraAreaCalc_RECT_PitchYawTZ(FieldSceneArea *area, CameraArea *cameraArea, const VecFx32 *pos);
-static void FieldCameraAreaCalc_RECT_PitchYawTZ_BeginDisableDelay(FieldSceneArea *area, CameraArea *cameraArea,
+static void FieldCameraAreaCalc_CIRCLE_FixedLookAt(FieldSceneArea *area, const CameraArea *cameraArea, const VecFx32 *pos);
+static BOOL FieldCameraAreaCalc_RECT_CheckColl(FieldSceneArea *area, const CameraArea *cameraArea, const VecFx32 *pos);
+static void FieldCameraAreaCalc_RECT_PitchYawTZ(FieldSceneArea *area, const CameraArea *cameraArea, const VecFx32 *pos);
+static void FieldCameraAreaCalc_RECT_PitchYawTZ_BeginDisableDelay(FieldSceneArea *area, const CameraArea *cameraArea,
                                                                   const VecFx32 *pos);
-static void FieldCameraAreaCalc_RECT_PitchYawTZ_ResetEnableDelay(FieldSceneArea *area, CameraArea *cameraArea,
+static void FieldCameraAreaCalc_RECT_PitchYawTZ_ResetEnableDelay(FieldSceneArea *area, const CameraArea *cameraArea,
                                                                  const VecFx32 *pos);
-static void CalcFieldDynCameraLerpFactors(CameraArea *cameraArea, const VecFx32 *pos, fx32 *length, fx32 *progress);
-static void FieldCameraAreaCalc_RECT_PitchYawTZLookatFOV_STAY(FieldSceneArea *area, CameraArea *cameraArea,
+static void CalcFieldDynCameraLerpFactors(const CameraArea *cameraArea, const VecFx32 *pos, fx32 *length, fx32 *progress);
+static void FieldCameraAreaCalc_RECT_PitchYawTZLookatFOV_STAY(FieldSceneArea *area, const CameraArea *cameraArea,
                                                               const VecFx32 *pos);
 static void FieldCameraAreaCalc_RECT_PitchYawTZLookatFOV_BeginDisableDelay(FieldSceneArea *area,
-                                                                           CameraArea *cameraArea,
+                                                                           const CameraArea *cameraArea,
                                                                            const VecFx32 *pos);
 static void FieldCameraAreaCalc_RECT_PitchYawTZLookatFOV_ResetEnableDelay(FieldSceneArea *area,
-                                                                          CameraArea *cameraArea,
+                                                                          const CameraArea *cameraArea,
                                                                           const VecFx32 *pos);
-static void FieldCameraAreaCalc_RECT_LookatTargetOffs(FieldSceneArea *area, CameraArea *cameraArea,
+static void FieldCameraAreaCalc_RECT_LookatTargetOffs(FieldSceneArea *area, const CameraArea *cameraArea,
                                                       const VecFx32 *pos);
-static void FieldCameraAreaCalc_RECT_FOV(FieldSceneArea *area, CameraArea *cameraArea, const VecFx32 *pos);
+static void FieldCameraAreaCalc_RECT_FOV(FieldSceneArea *area, const CameraArea *cameraArea, const VecFx32 *pos);
 
 // The camera areas of the field maps, and of the other maps
 static const u32 FIELD_CAMERA_ARCIDS[2] = { 79, 156 };
@@ -108,7 +108,7 @@ const FieldDynCameraFunctions *GetFldSceneAreaLoaderCamFuncsStaticOffs(FieldScen
 }
 
 // Whether the position is in the ring, between the two radii and the two angles around the centre
-static BOOL FieldCameraArea_CIRCLE_CheckColl(FieldSceneArea *area, CameraArea *cameraArea, const VecFx32 *pos) {
+static BOOL FieldCameraArea_CIRCLE_CheckColl(FieldSceneArea *area, const CameraArea *cameraArea, const VecFx32 *pos) {
     VecFx32 dir;
     VecFx32 center;
     fx32 dist;
@@ -134,7 +134,7 @@ static BOOL FieldCameraArea_CIRCLE_CheckColl(FieldSceneArea *area, CameraArea *c
 }
 
 // The camera looks at the centre from behind the player
-static void FieldCameraAreaCalc_CIRCLE_AimPlayerCentre(FieldSceneArea *area, CameraArea *cameraArea,
+static void FieldCameraAreaCalc_CIRCLE_AimPlayerCentre(FieldSceneArea *area, const CameraArea *cameraArea,
                                                        const VecFx32 *pos) {
     VecFx32 dir;
     VecFx32 target;
@@ -164,7 +164,7 @@ static void FieldCameraAreaCalc_CIRCLE_AimPlayerCentre(FieldSceneArea *area, Cam
     FieldCamera_CoordsSetEye(camera, &eye);
 }
 
-static void FieldCameraAreaCalc_CIRCLE_FixedLookAt(FieldSceneArea *area, CameraArea *cameraArea, const VecFx32 *pos) {
+static void FieldCameraAreaCalc_CIRCLE_FixedLookAt(FieldSceneArea *area, const CameraArea *cameraArea, const VecFx32 *pos) {
     VecFx32 target;
     VecFx32 eye;
     FieldCamera *camera = GetFieldSceneAreaCamera(area);
@@ -177,7 +177,7 @@ static void FieldCameraAreaCalc_CIRCLE_FixedLookAt(FieldSceneArea *area, CameraA
 }
 
 // Whether the position's tile is in the rectangle; never with the controller type 1
-static BOOL FieldCameraAreaCalc_RECT_CheckColl(FieldSceneArea *area, CameraArea *cameraArea, const VecFx32 *pos) {
+static BOOL FieldCameraAreaCalc_RECT_CheckColl(FieldSceneArea *area, const CameraArea *cameraArea, const VecFx32 *pos) {
     VecFx32 tilePos;
     u16 gridX;
     u16 gridZ;
@@ -207,28 +207,31 @@ static BOOL FieldCameraAreaCalc_RECT_CheckColl(FieldSceneArea *area, CameraArea 
 }
 
 // The pitch, yaw and distance blend from the first setting to the second across the rectangle
-static void FieldCameraAreaCalc_RECT_PitchYawTZ(FieldSceneArea *area, CameraArea *cameraArea, const VecFx32 *pos) {
+static void FieldCameraAreaCalc_RECT_PitchYawTZ(FieldSceneArea *area, const CameraArea *cameraArea, const VecFx32 *pos) {
     fx32 length;
     fx32 progress;
-    int pitch;
-    int yaw;
-    fx32 tz1;
+    fx32 pitch;
+    fx32 yaw;
     fx32 tz;
     FieldCamera *camera = GetFieldSceneAreaCamera(area);
 
     FieldCamera_SetTransformType(camera, 0);
     CalcFieldDynCameraLerpFactors(cameraArea, pos, &length, &progress);
     progress = FX_Div(progress, length);
-    pitch = cameraArea->rect.pitch1 + (cameraArea->rect.pitch2 - cameraArea->rect.pitch1) * progress / FX32_ONE;
-    yaw = cameraArea->rect.yaw1 + (cameraArea->rect.yaw2 - cameraArea->rect.yaw1) * progress / FX32_ONE;
-    tz1 = cameraArea->rect.tz1;
-    tz = FX_Mul(cameraArea->rect.tz2 - tz1, progress);
+    pitch = cameraArea->rect.pitch2 - cameraArea->rect.pitch1;
+    pitch = pitch * progress / FX32_ONE;
+    pitch += cameraArea->rect.pitch1;
+    yaw = cameraArea->rect.yaw2 - cameraArea->rect.yaw1;
+    yaw = yaw * progress / FX32_ONE;
+    yaw += cameraArea->rect.yaw1;
+    tz = FX_Mul(cameraArea->rect.tz2 - cameraArea->rect.tz1, progress);
+    tz += cameraArea->rect.tz1;
     FieldCamera_CoordsSetPitch(camera, pitch);
     FieldCamera_CoordsSetYaw(camera, yaw);
-    FieldCamera_CoordsSetZoom(camera, tz + tz1);
+    FieldCamera_CoordsSetZoom(camera, tz);
 }
 
-static void FieldCameraAreaCalc_RECT_PitchYawTZ_BeginDisableDelay(FieldSceneArea *area, CameraArea *cameraArea,
+static void FieldCameraAreaCalc_RECT_PitchYawTZ_BeginDisableDelay(FieldSceneArea *area, const CameraArea *cameraArea,
                                                                   const VecFx32 *pos) {
     FieldCamera *camera = GetFieldSceneAreaCamera(area);
 
@@ -238,7 +241,7 @@ static void FieldCameraAreaCalc_RECT_PitchYawTZ_BeginDisableDelay(FieldSceneArea
     FieldCameraAreaCalc_RECT_PitchYawTZ(area, cameraArea, pos);
 }
 
-static void FieldCameraAreaCalc_RECT_PitchYawTZ_ResetEnableDelay(FieldSceneArea *area, CameraArea *cameraArea,
+static void FieldCameraAreaCalc_RECT_PitchYawTZ_ResetEnableDelay(FieldSceneArea *area, const CameraArea *cameraArea,
                                                                  const VecFx32 *pos) {
     FieldCamera *camera = GetFieldSceneAreaCamera(area);
 
@@ -249,7 +252,7 @@ static void FieldCameraAreaCalc_RECT_PitchYawTZ_ResetEnableDelay(FieldSceneArea 
 }
 
 // The length of the rectangle along the blend, and how far into it the position is
-static void CalcFieldDynCameraLerpFactors(CameraArea *cameraArea, const VecFx32 *pos, fx32 *length, fx32 *progress) {
+static void CalcFieldDynCameraLerpFactors(const CameraArea *cameraArea, const VecFx32 *pos, fx32 *length, fx32 *progress) {
     VecFx32 tilePos = *pos;
 
     tilePos.x -= FX32_CONST(8);
@@ -262,7 +265,7 @@ static void CalcFieldDynCameraLerpFactors(CameraArea *cameraArea, const VecFx32 
     }
 }
 
-static void FieldCameraAreaCalc_RECT_PitchYawTZLookatFOV_STAY(FieldSceneArea *area, CameraArea *cameraArea,
+static void FieldCameraAreaCalc_RECT_PitchYawTZLookatFOV_STAY(FieldSceneArea *area, const CameraArea *cameraArea,
                                                               const VecFx32 *pos) {
     FieldCameraAreaCalc_RECT_PitchYawTZ(area, cameraArea, pos);
     FieldCameraAreaCalc_RECT_LookatTargetOffs(area, cameraArea, pos);
@@ -270,7 +273,7 @@ static void FieldCameraAreaCalc_RECT_PitchYawTZLookatFOV_STAY(FieldSceneArea *ar
 }
 
 static void FieldCameraAreaCalc_RECT_PitchYawTZLookatFOV_BeginDisableDelay(FieldSceneArea *area,
-                                                                           CameraArea *cameraArea,
+                                                                           const CameraArea *cameraArea,
                                                                            const VecFx32 *pos) {
     FieldCameraAreaCalc_RECT_PitchYawTZ_BeginDisableDelay(area, cameraArea, pos);
     FieldCameraAreaCalc_RECT_LookatTargetOffs(area, cameraArea, pos);
@@ -278,14 +281,14 @@ static void FieldCameraAreaCalc_RECT_PitchYawTZLookatFOV_BeginDisableDelay(Field
 }
 
 static void FieldCameraAreaCalc_RECT_PitchYawTZLookatFOV_ResetEnableDelay(FieldSceneArea *area,
-                                                                          CameraArea *cameraArea,
+                                                                          const CameraArea *cameraArea,
                                                                           const VecFx32 *pos) {
     FieldCameraAreaCalc_RECT_PitchYawTZ_ResetEnableDelay(area, cameraArea, pos);
     FieldCameraAreaCalc_RECT_LookatTargetOffs(area, cameraArea, pos);
     FieldCameraAreaCalc_RECT_FOV(area, cameraArea, pos);
 }
 
-static void FieldCameraAreaCalc_RECT_LookatTargetOffs(FieldSceneArea *area, CameraArea *cameraArea,
+static void FieldCameraAreaCalc_RECT_LookatTargetOffs(FieldSceneArea *area, const CameraArea *cameraArea,
                                                       const VecFx32 *pos) {
     fx32 length;
     fx32 progress;
@@ -304,13 +307,14 @@ static void FieldCameraAreaCalc_RECT_LookatTargetOffs(FieldSceneArea *area, Came
     FieldCamera_CoordsSetTargetOffset(camera, &offset);
 }
 
-static void FieldCameraAreaCalc_RECT_FOV(FieldSceneArea *area, CameraArea *cameraArea, const VecFx32 *pos) {
+static void FieldCameraAreaCalc_RECT_FOV(FieldSceneArea *area, const CameraArea *cameraArea, const VecFx32 *pos) {
     fx32 length;
     fx32 progress;
+    fx32 diff;
     FieldCamera *camera = GetFieldSceneAreaCamera(area);
 
     CalcFieldDynCameraLerpFactors(cameraArea, pos, &length, &progress);
     progress = FX_Div(progress, length);
-    FieldCamera_SetFOV(camera,
-                       cameraArea->rect.fov1 + (cameraArea->rect.fov2 - cameraArea->rect.fov1) * progress / FX32_ONE);
+    diff = cameraArea->rect.fov2 - cameraArea->rect.fov1;
+    FieldCamera_SetFOV(camera, cameraArea->rect.fov1 + diff * progress / FX32_ONE);
 }
