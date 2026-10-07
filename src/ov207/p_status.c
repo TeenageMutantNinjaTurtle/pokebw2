@@ -1,4 +1,5 @@
 #include "app/p_status.h"
+#include "constants/moves.h"
 #include "constants/pokemon.h"
 #include "gfl/heap.h"
 #include "gfl/key.h"
@@ -42,6 +43,7 @@ static BOOL PStatus_ProcInit(GameProc *proc, u32 *state, void *data, void *work)
                 party = PokeParty_Create(HEAPID_USER);
                 PokeParty_InitCore(party, 6);
                 for (i = 0; i < DEBUG_PARTY_COUNT; i++) {
+                    // The trainer ID 0xffffffff, not PKM_ID_RANDOM
                     partyPkm = PokeParty_NewTempPkm(i + 3, 10, 0xffffffff, HEAPID_USER);
                     {
                         // "ブラック", Black
@@ -89,7 +91,7 @@ static BOOL PStatus_ProcInit(GameProc *proc, u32 *state, void *data, void *work)
             if (GCTX_HIDGetHeldKeys() & PAD_BUTTON_X) {
                 param->mode = PSTATUS_MODE_FORGET_MOVE;
                 param->fromFieldMenu = FALSE;
-                param->move = 10;
+                param->move = MOVE_SCRATCH;
             }
             if (GCTX_HIDGetHeldKeys() & PAD_BUTTON_R) {
                 param->mode = PSTATUS_MODE_1;

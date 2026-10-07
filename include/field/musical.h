@@ -95,6 +95,21 @@ void func_ov210_021eee0c(Ov210Work *work, SaveControl *save, GameData *gameData,
 void *func_ov210_021eef38(HeapID heapId);
 void func_ov210_021eef64(void *items);
 u32 func_ov210_021ef164(void *items, u16 itemId);
+// A prop's entry in the table func_ov210_021eef38 loads, 12 bytes
+typedef struct MusicalItemData MusicalItemData;
+MusicalItemData *func_ov210_021eef78(void *items, u16 itemId);
+// The prop's offset from where it is worn, x then y
+void func_ov210_021eef84(MusicalItemData *item, s32 *offset);
+// The BlAct size of its texture
+u32 func_ov210_021eef94(MusicalItemData *item);
+// Whether the prop can be worn at a position, by its flags
+BOOL func_ov210_021eef98(MusicalItemData *item, u8 pos);
+BOOL func_ov210_021ef018(MusicalItemData *item, u8 pos);
+// Whether the prop's category is that of a position
+BOOL func_ov210_021ef088(MusicalItemData *item, u8 pos);
+// Its flags 0x80 and 0x200
+BOOL func_ov210_021ef0f4(MusicalItemData *item);
+BOOL func_ov210_021ef104(MusicalItemData *item);
 
 // Overlay 211, the musical's communication
 void *func_ov211_021ef1e0(HeapID heapId, GameSystem *gsys, GameCommSys *comm, u16 value);

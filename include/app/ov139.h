@@ -81,9 +81,12 @@ void func_ov139_02199b90(Ov139TouchBar *bar);
 u32 func_ov139_02199c08(Ov139TouchBar *bar);
 // Whether the return icon was touched
 BOOL func_ov139_02199c30(Ov139TouchBar *bar);
+// Whether the icons can be touched
+void func_ov139_02199c90(Ov139TouchBar *bar, BOOL active);
 void func_ov139_02199ce0(Ov139TouchBar *bar, u32 a1);
 void func_ov139_02199d08(Ov139TouchBar *bar, u32 icon, BOOL a2);
 void func_ov139_02199d18(Ov139TouchBar *bar, u32 icon, BOOL a2);
+void func_ov139_02199d48(Ov139TouchBar *bar, u32 icon, BOOL a2);
 void func_ov139_02199d74(Ov139TouchBar *bar, u32 a1);
 
 // A list of items that scrolls, with a scroll bar and arrows

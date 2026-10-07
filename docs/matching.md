@@ -12,6 +12,11 @@ Same instructions, registers swapped.
 
 - Register allocation follows the declaration order of locals, so try reordering declarations when registers are
   swapped.
+- The registers follow the declarations, but the order the constants are set follows the statements: when the
+  declaration order that gives the right registers sets them in the wrong order, or derives one constant from the
+  other (`movs r6, #0` ... `subs r4, r6, #1` for `-1`), declare the locals without initializers and assign them in the
+  original's order. The phrase select's `PMSSelect_SeqSelect` needs `BOOL end; int touch;` then `touch = -1;
+  end = FALSE;`.
 - Of two variables that compete for the same register, the one used more gets it: one use of the Battle Subway
   command's result variable too many gave its register to the command ID. A single `*var = cond ? a : b;` counts as
   one use where an `if`/`else` with a store in each counts as two. Measured on small functions, the count is of
@@ -29,7 +34,9 @@ Same instructions, registers swapped.
 - Where a flag is first set changes which register its zero is built in. When the original builds a flag's `FALSE` in
   the register of a call's argument, or copies it from another zero, the flag was set after the call or loop, as
   `value = joinAveTextHandler(...); found = FALSE;` and a loop's total followed by `any = FALSE;` in the Join Avenue's
-  records command.
+  records command. A zero loaded from another variable's stack slot is that variable: the summary screen's
+  `PStaInfo_PrintMemo` sets its highest IV with `ldr r7, [sp, #0x14]`, `best`'s slot, which matches only as
+  `best = 0;` between two calls well before the loop and `u8 maxIV = best;`; `maxIV = 0` makes it 18 bytes longer.
 - `arr[count++] = x` and `arr[count] = x; count++;` allocate registers differently, as do `count = 1; arr[0] = x;` and
   the reverse order.
 - `a[i + c]` adds `c` to `i` first, while `(a + i)[c]` folds `c * 4` into the base offset. When the original folds a
@@ -43,6 +50,9 @@ Same instructions, registers swapped.
   every spill slot: the PC box's `Box2Main_RangePutCheck` reads `syswk->pos` directly in its party branch.
 - A spilled copy of a narrow value takes its slot by its type: `Box2Main_VFuncItemArrangeGetTouch` keeps a `u16` drop
   position in a `u16` local, which a `u32` local moved to the lowest slot.
+- A constant built from another follows the store order: with `bob = FX32_ONE;` written before
+  `bobSpeed = FX32_CONST(0.25);`, MWCC builds 0x1000 and gets 0x400 from it with `lsrs #2`; in the other order it
+  builds 0x400 and shifts it left. `fldeff_namipoke.c`'s surfing Pokémon sets its bobbing so.
 - The operands of `*` are loaded in source order, so a multiply whose registers are swapped has its operands swapped
   in the source.
 - The terms of a three-term `|` chain are not loaded in source order: `a | b | c` loads `c`, then `a`, then `b`.
@@ -134,6 +144,10 @@ Same code, other `sp` offsets or frame size.
 - The types of locals and of the values they hold change how spilled values are scheduled. The trainer AI's speed
   comparison only matches with the speed function returning `u16` into `u16` locals: a spilled `u16` is reloaded after
   the call's stack argument is stored, while a spilled `u32` is reloaded before it.
+- A hardware address that the original builds with shifts and keeps on the stack, where ours loads it from the
+  literal pool, comes from an SDK inline that returns it: the ribbon page's `PStaRibbon_CreateActors` builds
+  `0x19 << 22` and `2 << 16` apart, and matches as `(u8 *)G2_GetOBJCharPtr() + 0x20000` but not as
+  `(u8 *)HW_OBJ_VRAM + 0x20000` in a local.
 - A `u64` argument whose high word is 0 keeps that zero in a stack slot of its own, where a `u32` zero is folded into
   a constant. Two such slots in `mystery_gift_pokemon.c` show that `PokeParty_CreatePkm` takes its trainer ID and PID
   as `u64`s.
@@ -183,6 +197,9 @@ Same code, other `sp` offsets or frame size.
 
 Same instructions, scheduled in another order.
 
+- `x + (p << 12)` and `x + p * 0x1000` put the operands of `adds` in opposite orders: the phrase select's
+  `PMSSelect_BGDrawPlate` sets a screen entry's palette with `(entries[i] & 0xfff) + (palette + 2) * 0x1000`, which
+  gives `adds r5, r5, r2`, where `<< 12` gave `adds r5, r2, r5`.
 - Loads through a pointer are not moved above stores unless the pointee is `const`. A load that the original
   schedules early, such as an argument loaded before the stack arguments are stored, points to a `const` parameter.
   It has to be the parameter: `fld_scenearea_loader.c`'s camera-area callbacks scheduled their area's loads only
@@ -257,6 +274,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - An argument narrowed by a `u16` parameter is narrowed again at each call, and only hoisted out of a loop, while a
   `(u16)` cast is computed once and reused: `PMSIVEdit_ScrollWait` matched only once `func_0204c1a8` and
   `func_0204c1dc` took their surface as `u16`.
+- After `a = b;`, a test of `b` reuses the register just stored and a test of `a` loads `a` again. The phrase
+  select's `PMSSelect_SetupList` writes `wk->lineCount = wk->sentenceCount; if (wk->sentenceCount < 20)`, and its
+  `PMSSelect_SetupScreen` tests `wk->pos` after `wk->prevPos = wk->pos;`.
 - `field--` and `field++` load the field again before the subtraction, even right after comparing it, where
   `field = field - 1` reuses the register: the phrase input's `PMSInput_SentenceKey` moves its edit position the
   second way.
@@ -302,6 +322,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A comparison right after a `u16` narrowing that isn't done in `u16` arithmetic (`subs r0, r1, #6; cmp #1; bhi`
   rather than `subs; adds; lsl/lsr #16; cmp`) compares the narrowed value as an `int`: `zone_weather.c`'s
   `UpdateWeatherToDefault` keeps `int nowWeather = (u16)GetNowWeather(gameData);` for its `== 6 || == 7` test.
+- On a `u16`, `x == A || x == A + 1` compiles to `adds x, #(u16)-A` (the negated constant from the literal pool,
+  `0xff60` for 0xa0), `lsl/lsr #16; cmp #1; bhi`. `(u16)(x - A) <= 1` gives `subs` instead, and `x >= A && x <= A + 1`
+  two compares. `fldeff_namipoke.c` tests the actor's object code so.
 - A callee that narrows its result in its body (`lsl #24; lsr #24`) can still return `u32`, with the value in a `u8`
   local: the caller narrowing the result again shows it, as `event_mapchange.c` does for `season.c`'s
   `Season_GetRealTime`.
@@ -407,6 +430,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   `PMSWord_GetMessage` takes a `u32`.
 - A store of a loaded value back into an address-taken out-variable's slot is a reassignment in the source:
   `fileId = sCategoryMsgFiles[fileId];` after the call that filled it (`loadSayingToString`).
+- An address-taken local read inside a nested loop is copied to a stack slot of its own before the outer loop, and
+  a field read through it is hoisted only out of the loop it sits in: `CygnusAppear_GetSpriteBottom` reads
+  `((u32 *)charData->rawData)[...]` in its middle loop, and the original keeps a second slot holding `charData` with
+  `->rawData` loaded once per outer pass. A `tiles` local set in the outer loop drops that slot.
 - `for (j = 0, base = 0; ...)` zeroes `j` first; `base = 0;` before `for (j = 0; ...)` zeroes `base` first
   (`PMSWord_FromMessage`).
 
@@ -512,6 +539,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   branches with the same body.
 - A clamp that ends in one store, with each limit copied into the value's register, is a conditional expression.
   `if`/`else if` stores each limit separately.
+- A `b` to a `b`, where the original branches straight to the shared code, is a call written after an inner
+  `if`/`else` that the original has in each branch. MWCC merges the copies with the later one but the jump
+  from the first branch then targets the end of the second: the summary screen's `PStaSkill_HandleForgetKeys`
+  matches with `GFL_SndSEPlay(SEQ_SE_DECIDE1);` at the end of both branches of its `move == MOVE_NONE` test.
 - An `if`/`else` that assigns one field a constant in each branch can still end in one store after the branches, with
   `b` over the else branch, as the trade's key cursor wraps its row to 2 or 4 in `pokemontrade_proc.c`. The
   conditional expression gives `mov`, a conditional branch over a second `mov`, and no `b`.

@@ -72,6 +72,14 @@ typedef struct {
     void *file;
 } PStaScreen;
 
+// A text window of a page, in tiles
+typedef struct {
+    u8 x;
+    u8 y;
+    u8 width;
+    u8 height;
+} PStaWindowSetup;
+
 // What PStaOam_CreateActor makes the sprites of a bitmap from: the bitmap is cut into 64x32 actors, which take the
 // palette at its offset and the surface's OBJ mapping
 typedef struct {
@@ -83,6 +91,7 @@ typedef struct {
     u8 priority;
     u8 bgPriority;
     u16 surface;
+    // CLACT_VRAM_MAIN or CLACT_VRAM_SUB
     u32 vramType;
 } PStaOamSetup;
 
@@ -242,6 +251,16 @@ enum {
 };
 
 #define RIBBON_COUNT 80
+
+// The groups that number the ribbons, named after their headings in the ribbon text, which follow the descriptions
+enum {
+    RIBBON_CATEGORY_LEAGUE,
+    RIBBON_CATEGORY_CONTEST,
+    RIBBON_CATEGORY_TOWER,
+    RIBBON_CATEGORY_MEMORIAL,
+    RIBBON_CATEGORY_GIFT,
+    RIBBON_CATEGORY_COUNT,
+};
 
 u32 Ribbon_GetData(u32 ribbon, u32 field);
 u32 Ribbon_GetDescription(u32 ribbon);

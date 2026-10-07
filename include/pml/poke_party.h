@@ -146,6 +146,8 @@ u32 func_02035944(u16 item);
 // Records how and where the Pokémon was met, with the player as its Trainer
 void PokeParty_SetupMetData(PartyPkm *pkm, u32 a1, PlayerInfo *playerInfo, u16 placeName, HeapID heapId);
 u32 func_02035cf8(PartyPkm *pkm, u32 arg1, PlayerInfo *playerInfo);
+// Sets where and when a Pokémon from the Dream Radar was met
+void setDreamRadarPokeMetInfo(BoxPkm *pkm);
 void func_02035efc(PartyPkm *pkm, u32 arg1, PlayerInfo *playerInfo);
 void PokeParty_ClearPkm(PartyPkm *pkm);
 // Restores a Pokémon's HP and PP and cures its status
@@ -229,9 +231,9 @@ BOOL doesPkmHaveLevelMoveToLearn(const u16 *moves);
 u16 func_0201d358(PartyPkm *pkm, u32 *index, HeapID heapId);
 #define LEARN_MOVE_KNOWN 0xfffe
 #define LEARN_MOVE_NO_SLOT 0x8000
-// Allocates a Pokémon that is not in a party. What the 64-bit argument sets is not known yet; 0 is one of the values
-// that PML_CreatePkm treats specially
-PartyPkm *PokeParty_NewTempPkm(u16 species, u16 level, u64 a2, HeapID heapId);
+// Allocates a Pokémon that is not in a party, with random IVs and PID, through PokeParty_CreateTempPkm. trainerId
+// is a 32-bit ID or one of the PKM_ID_ values
+PartyPkm *PokeParty_NewTempPkm(u16 species, u16 level, u64 trainerId, HeapID heapId);
 PartyPkm *boxPkmRegenToPartyPkm(BoxPkm *pkm, HeapID heapId);
 // Whether the species is a legendary Pokémon of the national Pokédex
 BOOL PML_PkmIsLegendNational(u16 species);

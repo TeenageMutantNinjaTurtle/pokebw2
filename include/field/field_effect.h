@@ -10,6 +10,7 @@
 #include "struct_decls.h"
 
 typedef struct FieldEffects FieldEffects;
+typedef struct FieldEffectTask FieldEffectTask;
 
 void *Field_GetEffectBlAct(Field *field);
 void *Field_GetWildEffectBlAct(Field *field);
@@ -19,19 +20,24 @@ void func_ov036_021c6d3c(void *effect);
 void func_ov036_021c6cf8(void *effect);
 
 void *func_ov036_021b3f14(void *effects, FieldActor *actor, u32 arg2, u32 arg3);
-void func_ov036_021a5968(void *effect, u32 arg1);
+// Break the rock in front of an actor with Rock Smash
+void func_ov036_021a56c8(FieldActor *actor, FieldEffects *effects);
+// The ripples of a fishing line cast in dir from pos, and how fast they play
+FieldEffectTask *func_ov036_021a58e0(FieldEffects *effects, const VecFx32 *pos, u32 dir, u32 sameHeight);
+void func_ov036_021a5968(FieldEffectTask *task, u16 speed);
 // The field effect of a phenomenon, which fldeff_encount.c plays
-void *func_ov036_021a53f8(EncountSystem *system, void *fieldEffects, u16 x, u16 z, fx32 height, u32 kind);
-void func_ov036_021a5498(void *effect, u32 a1);
-void func_ov036_021a54a8(void *effect, u32 a1);
-void *func_ov036_021a58e0(void *effects, VecFx32 *position, u32 direction, u32 flag);
+FieldEffectTask *func_ov036_021a53f8(EncountSystem *system, FieldEffects *effects, u16 x, u16 z, fx32 height,
+                                     u32 kind);
+// Pause and hide a phenomenon
+void func_ov036_021a5498(FieldEffectTask *task, BOOL paused);
+void func_ov036_021a54a8(FieldEffectTask *task, BOOL hidden);
 // The effects that actors make on the terrain
 void func_ov036_021a3bf0(FieldActor *actor, FieldEffects *effects);
 // The dust of an actor landing
 void func_ov036_021a3e74(FieldActor *actor, FieldEffects *effects);
 // The dust in front of an actor
 void func_ov036_021a3ec4(FieldActor *actor, FieldEffects *effects);
-void func_ov036_021a40ac(void *effects, FieldActor *actor, BOOL moving, u32 kind);
+void func_ov036_021a40ac(FieldEffects *effects, FieldActor *actor, BOOL animate, int kind);
 void func_ov036_021b47c8(FieldActor *actor, void *effects, u32 kind);
 void func_ov036_021b49ac(MMSys *system, FieldActor *actor, void *effects, u32 kind);
 void func_ov036_021be828(void *effects, FieldActor *actor, u32 arg2, u32 arg3);
@@ -46,7 +52,6 @@ enum {
     FLDEFF_NONE = FLDEFF_MAX,
 };
 
-typedef struct FieldEffectTask FieldEffectTask;
 typedef struct FieldEffectTaskStore FieldEffectTaskStore;
 
 typedef void (*FieldEffectTaskFunc)(FieldEffectTask *task, void *work);
@@ -101,6 +106,17 @@ void func_ov036_021a3ae8(FieldEffectTask *task, const VecFx32 *pos);
 void *func_ov036_021a3afc(FieldEffectTask *task);
 void FieldEffects_SetLuminanceTable(FieldEffects *effects, const u8 *table);
 void FieldEffects_ApplyLuminanceTable(FieldEffects *effects, void *resource);
+
+// fldeff_namipoke.c: the Pokémon an actor surfs on, facing dir at pos, and how it follows the actor (0: it doesn't, 1:
+// it bobs under the actor, 2: the actor's offset is left alone), which can change; and whether its wake shows
+FieldEffectTask *func_ov036_021a4484(FieldEffects *effects, u16 dir, const VecFx32 *pos, FieldActor *actor, u32 mode);
+void func_ov036_021a4504(FieldEffectTask *task, u8 mode);
+void func_ov036_021a4514(FieldEffectTask *task, BOOL showWake);
+// A splash of a kind that follows the surfed Pokémon's task, or one at pos that ends with its animation, and
+// whether a splash's animation has ended
+FieldEffectTask *func_ov036_021a4eb0(FieldEffects *effects, u32 kind, FieldEffectTask *parent);
+FieldEffectTask *func_ov036_021a4ee4(FieldEffects *effects, u32 kind, const VecFx32 *pos);
+BOOL func_ov036_021a4f18(FieldEffectTask *task);
 // The effects that every map loads, and their count
 extern const u32 STATIC_LOADED_FIELD_EFFECT_IDS[21];
 extern const u32 data_ov036_021d0388;
