@@ -45,7 +45,6 @@
 #include "system/country_region.h"
 #include "system/game_data.h"
 #include "system/gf_font.h"
-#include "system/wipe.h"
 #include "system/mcss.h"
 #include "system/printsys.h"
 #include "system/wipe.h"
@@ -2670,7 +2669,8 @@ static void func_ov194_021bb3c0(PokemonTradeWork *wk, int box) {
             }
         }
     }
-    if (box < 24) {
+    // One box a frame: the loop stops after its first pass, as the original's does
+    while (box < 24) {
         for (i = 0; i < 30; i++) {
             int index = box * 30 + 6 + i;
             pkm = PokemonTrade_GetBoxPkm(wk->boxes, box, i, wk);
@@ -2684,6 +2684,7 @@ static void func_ov194_021bb3c0(PokemonTradeWork *wk, int box) {
                 }
             }
         }
+        break;
     }
 }
 

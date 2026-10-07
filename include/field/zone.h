@@ -220,11 +220,13 @@ BOOL IsZoneAbyssalRuinsStrengthRock(u16 zoneId);
 // Whether the zone is a normal field zone: not the Union Room, Entralink or the like
 BOOL func_02018c38(u16 zoneId);
 BOOL IsZoneEntralinkHub(u16 zoneId);
+BOOL GetZoneIsEntreeForest(u16 zoneId);
 BOOL IsZoneGameCommDisabled(u16 zoneId);
 BOOL IsZoneInVictoryRoad(u16 zoneId);
 BOOL IsZoneJoinAvenue(u16 zoneId);
 BOOL IsZoneJoinAvenueSubZone(u16 zoneId);
 BOOL IsZoneRoyalUnova(u16 zoneId);
+BOOL IsZoneBlackTowerOrWhiteTreehollow(u16 zoneId);
 void LoadAspertiaCitySpawnInfo(ZoneSpawnInfo *spawn);
 void LoadZoneSpawnInfoCheckRail(ZoneSpawnInfo *spawn, u16 zoneId);
 void SetAllowVersionSpecificArea(u32 area, BOOL allow);

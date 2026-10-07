@@ -40,11 +40,11 @@ void BagItemList_Exit(BagItemList *list);
 // The slot of the index-th item of a pocket that isn't in the Free Space, or of the Free Space's index-th shown item
 BagItem *BagItemList_GetItem(BagItemList *list, u16 pocket, u16 index);
 // Takes the index-th shown item off the list, and out of the Free Space if release is TRUE
-void BagItemList_Remove(BagItemList *list, u32 index, BOOL release);
+void BagItemList_Remove(BagItemList *list, u16 index, BOOL release);
 // Moves an item to the Free Space and adds it to the list
-void BagItemList_Add(BagItemList *list, u32 item, u32 pocket);
+void BagItemList_Add(BagItemList *list, u32 item, s16 pocket);
 // The number of items on the list that belong in a pocket
-u32 BagItemList_CountInPocket(BagItemList *list, u32 pocket);
+s32 BagItemList_CountInPocket(BagItemList *list, u32 pocket);
 // Shows the items the filter picks and sorts the list for it
 void BagItemList_SetFilter(BagItemList *list, u16 filter);
 // The number of items a pocket shows: those not in the Free Space, or the Free Space's shown items
