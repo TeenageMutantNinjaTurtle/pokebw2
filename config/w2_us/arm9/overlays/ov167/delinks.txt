@@ -15,8 +15,24 @@ src/ov167/btl_server.c:
     .data       start:0x021daecc end:0x021daedc
 
 src/ov167/btl_server_flow.c:
-    .text       start:0x0219f3d0 end:0x021b16b4
-    .data       start:0x021daedc end:0x021dafa0
+    .text       start:0x0219f3d0 end:0x021ae36c
+    .rodata     start:0x021d6d2c end:0x021d6d3c
+    .data       start:0x021daedc end:0x021daef0
+    .bss        start:0x021db040 end:0x021db064
+
+src/ov167/btl_server_flow_sub.c:
+    .text       start:0x021ae36c end:0x021b087c
+    .rodata     start:0x021d6d3c end:0x021d6e18
+
+src/ov167/btl_handler_work.c:
+    .text       start:0x021b087c end:0x021b0a5c
+    .rodata     start:0x021d6e18 end:0x021d6e90
+
+src/ov167/btl_server_cmd.c:
+    .text       start:0x021b0a5c end:0x021b16b4
+    .rodata     start:0x021d6e90 end:0x021d6ef0
+    .data       start:0x021daef0 end:0x021dafa0
+    .bss        start:0x021db064 end:0x021db084
 
 src/ov167/btl_pokeparam.c:
     .text       start:0x021ba5c4 end:0x021bc6fc
@@ -48,3 +64,15 @@ src/ov167/poke_type_pair.c:
 src/ov167/btlv_core.c:
     .text       start:0x021ce644 end:0x021d0c64
     .data       start:0x021dafe0 end:0x021dafec
+
+src/ov167/btl_client.c:
+    .text       start:0x021b16b4 end:0x021b9990
+    .rodata     start:0x021d6ef0 end:0x021d7488
+    .data       start:0x021dafa0 end:0x021dafb0
+    .bss        start:0x021db084 end:0x021db0ac
+
+src/ov167/btl_net.c:
+    .text       start:0x021b9990 end:0x021ba5c4
+    .rodata     start:0x021d7488 end:0x021d74d0
+    .data       start:0x021dafb0 end:0x021dafbc
+    .bss        start:0x021db0ac end:0x021db0b0

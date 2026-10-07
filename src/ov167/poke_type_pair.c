@@ -15,7 +15,7 @@ u8 PokeTypePair_GetType1(PokeTypePair pair) {
     return (u8)(pair >> 8);
 }
 
-u8 PokeTypePair_GetType2(PokeTypePair pair) {
+u32 PokeTypePair_GetType2(PokeTypePair pair) {
     return (u8)pair;
 }
 

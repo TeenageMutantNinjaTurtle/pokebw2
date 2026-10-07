@@ -19,6 +19,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "array index that is a sum")
 - The operands of `*` are loaded in source order. A product assigned to its own variable gets a new register.
   (matching.md: "operands of `*`"), (matching.md: "A product assigned")
+- A three-term `|` chain with its loads swapped: swap its first two terms. (matching.md: "three-term `|` chain")
 - Where a flag is first set decides which register builds its zero. The register a shared zero gets follows statement
   order. (matching.md: "Where a flag is first set")
 - Chained stores of one constant (`a = b = TRUE`) share a register; separate ones may not.
@@ -50,7 +51,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - The types of spilled values change when they are reloaded (a `u16` after a call's stack argument is stored, a
   `u32` before). (matching.md: "types of locals")
 - Struct copies to the stack: a struct passed by value goes in registers and on the stack, and a copy whose address
-  is passed is a local copy. (matching.md: "Structs passed by value")
+  is passed is a local copy, and a struct local keeps a stack slot. (matching.md: "Structs passed by value")
 - Diagnose with `tools/scripts/locals.py`, which shows each variable's `sp+offset`.
 
 ## Instructions in another order (scheduling)
@@ -76,8 +77,13 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 ## An instruction too many or too few
 
+- A narrowing before an `and` into a `u8` field: `x &= mask` narrows the mask, `x = x & mask` doesn't.
+  (matching.md: "compound assignment to a narrow field")
+- A reload between two stores of one value: a chained `a = b = v;`; separate statements store the narrowed value
+  twice. (matching.md: "chained assignment to fields")
 - A narrowing (`lsl`/`lsr` or `asr` pair) comes from a `u8`/`u16`/`s16` local, parameter or return type. A caller narrows
   arguments for narrow parameters, so an argument passed without them is for a wider one. (matching.md: "narrows an argument")
+- A parameter passed on to a `u8` parameter without shifts is a `u8` too. (matching.md: "narrows an argument")
 - Extra `u16` narrowings come from `u32 x = (u16)...` passed through a `u16` inline parameter.
 - A sum truncated to `s16` before a comparison was stored in an `s16` local. (matching.md: "truncates to `s16`")
 - A narrowing again after a clamp is `MATH_CLAMP`, a conditional expression. (matching.md: "narrowed again after it is clamped")
@@ -110,6 +116,9 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 ## Branches and block layout
 
+- `bne` over a `b` to the end at the top: the body is in an `if`, not after an early return. (matching.md: "An early `return`")
+- A final boolean returned from a register shared with a `NULL` argument: `return f() == TRUE ? FALSE : TRUE;`.
+  (matching.md: "ends in `return f(...) == TRUE")
 - Blocks are laid out in source order. A switch whose `default` code comes first had `default:` written first, and
   `if (!f()) return FALSE; n++;` puts the return before the code that goes on. (matching.md: "Blocks are laid out in source order")
 - Identical statements in different branches are merged, so a jump into the middle of another block means the same
@@ -162,6 +171,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
   fails to link. (matching.md: "MWCC's runtime helpers")
 - An arithmetic operation on a literal passes the literal first; a constant in a local keeps its source position.
   (matching.md: "passes the literal first")
+- A call inside `FX32_CONST(...)` is made three times; the game passes a local. (matching.md: "FX32_CONST")
 - A literal in a compound assignment (`y += 0.01f`) is passed second. (matching.md: "compound assignment keeps")
 - Float arithmetic on a local holding a constant isn't folded. (matching.md: "doesn't fold float arithmetic")
 - Division and modulo call `_s32_div_f` or `_u32_div_f` by signedness. A `u8`/`u16` promotes to signed `int`.

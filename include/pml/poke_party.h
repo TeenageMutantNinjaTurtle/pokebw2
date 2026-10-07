@@ -78,7 +78,19 @@ void PML_PkmChangeForme(BoxPkm *pkm, u32 forme);
 BOOL hasPokemonChangedForm(BoxPkm *pkm);
 void PML_PkmReEncrypt(BoxPkm *pkm, BOOL wasEncrypted);
 BOOL PML_PkmIsRare(BoxPkm *pkm);
+// Whether the species and form are a fused Kyurem
+BOOL isKyuremTransformed(u16 species, u8 form);
+u32 PML_PkmGetNature(BoxPkm *pkm);
+u8 PML_PkmGetSex(BoxPkm *pkm);
+// Whether the Pokémon has Pokérus that hasn't run its course
+BOOL doesPokerusHaveDuration(BoxPkm *pkm);
+// Whether the Pokémon has had Pokérus
+BOOL doesPokeHavePokerus(BoxPkm *pkm);
 BoxPkm *func_0201d620(PartyPkm *pkm);
+// Allocates a party Pokémon made from a boxed one
+PartyPkm *boxPkmRegenToPartyPkm(BoxPkm *pkm, HeapID heapId);
+void PML_PkmSetParam(BoxPkm *pkm, u32 param, u32 value);
+void PML_PkmChangeForme(BoxPkm *pkm, u32 forme);
 // The size of a Pokémon's data
 u32 PokeParty_GetPkmRawSize(void);
 void copyPartyPkm(const PartyPkm *src, PartyPkm *dest);
@@ -105,6 +117,13 @@ u32 PokeParty_GetLevel(PartyPkm *pkm);
 BOOL canPkmLearnTM_Wrapper(PartyPkm *pkm, u8 tm);
 void setLevel(PartyPkm *pkm, u32 level);
 void setPkmBattleData(PartyPkm *pkm, u32 param, u32 value);
+// A Pokémon's icon in ARCID_POKEICON: its characters' file and its palette
+u32 func_02020f40(BoxPkm *pkm);
+u32 func_020210c0(BoxPkm *pkm);
+// The files of the icons' palette, cells and animations in ARCID_POKEICON
+u32 func_02021118(void);
+u32 func_0202111c(void);
+u32 getOBJTileMapping_MainEng(void);
 // A species with its form and sex in one u16
 u16 func_02021204(u32 species, u32 form, u32 sex);
 // A Pokémon icon's character file in its archive, and its palette
@@ -127,6 +146,9 @@ int PokeParty_GetCapacity(PokeParty *party);
 BOOL PokeParty_AddPkm(PokeParty *party, PartyPkm *pkm);
 void PokeParty_SwapPkms(PokeParty *party, u32 indexA, u32 indexB, HeapID heapId);
 void PokeParty_RemovePkm(PokeParty *party, u32 index);
+void PokeParty_SwapPkms(PokeParty *party, u32 index1, u32 index2, HeapID heapId);
+// Reorders the party: order[i] is the index of the Pokémon that goes to position i
+void func_0201fff8(PokeParty *party, u32 *order, HeapID heapId);
 void PokeParty_RecoverAll(PokeParty *party);
 // A Pokémon's icon in archive 7: its file, and the palette of the file func_02021114 returns that it uses. The cells
 // and animations depend on the sub engine's OBJ VRAM mapping: func_02021154 and getOBJTileMapping_SubEng return them

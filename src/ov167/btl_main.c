@@ -7,6 +7,7 @@
 #include "battle/btl_net.h"
 #include "battle/btl_pokeparam.h"
 #include "battle/btl_server.h"
+#include "battle/btl_server_cmd.h"
 #include "battle/btl_server_flow.h"
 #include "battle/btl_setup.h"
 #include "battle/btlv.h"
@@ -572,9 +573,9 @@ BOOL func_ov167_0219a298(u32 *state, BtlMainModule *mainModule) {
         func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
     mainModule->unk46E = 1;
     func_ov167_0219a1e8(mainModule, setup);
-    mainModule->clients[0] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 0, 1,
+    mainModule->clients[0] = BattleClient_Create(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 0, 1,
                                                  0, unk, setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
-    mainModule->clients[1] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 1, 1,
+    mainModule->clients[1] = BattleClient_Create(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 1, 1,
                                                  1, unk, setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
     func_ov167_0219a228(mainModule, setup);
     func_ov167_0219a25c(mainModule, setup, unk);
@@ -594,7 +595,7 @@ BOOL func_ov167_0219a3f4(u32 *state, BtlMainModule *mainModule) {
     }
     for (i = 0; i < 4; i++) {
         if (mainModule->clients[i] != NULL) {
-            func_ov167_021b1890(mainModule->clients[i]);
+            BattleClient_Delete(mainModule->clients[i]);
         }
     }
     func_ov167_0219cf50(&mainModule->pokeCons[0]);
@@ -629,9 +630,9 @@ BOOL func_ov167_0219a448(u32 *state, BtlMainModule *mainModule) {
     mainModule->server =
         func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
     mainModule->unk46E = 1;
-    mainModule->clients[0] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 0, 2,
+    mainModule->clients[0] = BattleClient_Create(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 0, 2,
                                                  0, unk, setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
-    mainModule->clients[1] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 1, 2,
+    mainModule->clients[1] = BattleClient_Create(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 1, 2,
                                                  1, unk, setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
     func_ov167_0219a228(mainModule, setup);
     func_ov167_0219a25c(mainModule, setup, unk);
@@ -701,7 +702,7 @@ BOOL func_ov167_0219a5bc(u32 *state, BtlMainModule *mainModule) {
     for (i = 0; i < 4; i++) {
         if (DoesClientExist(mainModule, i)) {
             mainModule->clients[i] =
-                func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, i,
+                BattleClient_Create(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, i,
                                     func_ov167_0219c3e4(mainModule, i), i != 0 ? 1 : 0, unk,
                                     setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
         }
@@ -750,9 +751,9 @@ BOOL func_ov167_0219a848(u32 *state, BtlMainModule *mainModule) {
     mainModule->server =
         func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
     mainModule->unk46E = 1;
-    mainModule->clients[0] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 0, 3,
+    mainModule->clients[0] = BattleClient_Create(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 0, 3,
                                                  0, unk, setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
-    mainModule->clients[1] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 1, 3,
+    mainModule->clients[1] = BattleClient_Create(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 1, 3,
                                                  1, unk, setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
     func_ov167_0219a228(mainModule, setup);
     func_ov167_0219a25c(mainModule, setup, unk);
@@ -785,9 +786,9 @@ BOOL func_ov167_0219a9cc(u32 *state, BtlMainModule *mainModule) {
         func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
     mainModule->unk46E = 1;
     func_ov167_0219a1e8(mainModule, setup);
-    mainModule->clients[0] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 0, 1,
+    mainModule->clients[0] = BattleClient_Create(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 0, 1,
                                                  0, unk, setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
-    mainModule->clients[1] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 1, 1,
+    mainModule->clients[1] = BattleClient_Create(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, 1, 1,
                                                  1, unk, setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
     func_ov167_0219a228(mainModule, setup);
     func_ov167_0219a25c(mainModule, setup, unk);
@@ -1002,7 +1003,7 @@ BOOL func_ov167_0219af50(BtlMainModule *mainModule, s32 *state) {
         }
         mainModule->unk472 = index;
         if (mainModule->unk46E) {
-            func_ov167_021ba564(mainModule->unk2C4, setup->party[mainModule->unk472]);
+            func_ov167_021ba564(mainModule->unk2C4, setup->party[mainModule->unk472], mainModule->unk472);
         }
         func_ov167_021ba2f4(mainModule->unk470 + 6);
         (*state)++;
@@ -1232,7 +1233,7 @@ BOOL func_ov167_0219b4ac(BtlMainModule *mainModule, s32 *state) {
             func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
         opponent = 1;
         mainModule->clients[clientId] =
-            func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
+            BattleClient_Create(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
                                 setup->fieldSituation.netHandle, clientId, 1, 0, unk, 0, &mainModule->rand, mainModule->heapId);
         func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[clientId]), clientId, 1);
         if (clientId != 0) {
@@ -1241,7 +1242,7 @@ BOOL func_ov167_0219b4ac(BtlMainModule *mainModule, s32 *state) {
         func_ov167_0219e4d0(mainModule->server, setup->fieldSituation.unk18, setup->fieldSituation.netHandle, opponent, 1);
     } else {
         mainModule->clients[clientId] =
-            func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
+            BattleClient_Create(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
                                 setup->fieldSituation.netHandle, clientId, 1, 0, unk, 0, &mainModule->rand, mainModule->heapId);
         mainModule->unk0C =
             func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
@@ -1270,18 +1271,18 @@ BOOL func_ov167_0219b610(BtlMainModule *mainModule, s32 *state) {
     if (mainModule->unk46E) {
         mainModule->server =
             func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
-        mainModule->clients[clientId] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0],
+        mainModule->clients[clientId] = BattleClient_Create(mainModule, &mainModule->pokeCons[0],
                                                             setup->fieldSituation.unk18, setup->fieldSituation.netHandle,
                                                             clientId, posCount, 0, unk, 0, &mainModule->rand,
                                                             mainModule->heapId);
         func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[clientId]), clientId, posCount);
         if (setup->fieldSituation.unk1a == 2) {
             ally = func_ov167_0219c87c(mainModule, clientId);
-            mainModule->clients[1] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0],
+            mainModule->clients[1] = BattleClient_Create(mainModule, &mainModule->pokeCons[0],
                                                          setup->fieldSituation.unk18, setup->fieldSituation.netHandle, 1,
                                                          posCount, 1, unk, 0, &mainModule->rand, mainModule->heapId);
             func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[1]), 1, posCount);
-            mainModule->clients[3] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0],
+            mainModule->clients[3] = BattleClient_Create(mainModule, &mainModule->pokeCons[0],
                                                          setup->fieldSituation.unk18, setup->fieldSituation.netHandle, 3,
                                                          posCount, 1, unk, 0, &mainModule->rand, mainModule->heapId);
             func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[3]), 3, posCount);
@@ -1296,7 +1297,7 @@ BOOL func_ov167_0219b610(BtlMainModule *mainModule, s32 *state) {
             }
         }
     } else {
-        mainModule->clients[clientId] = func_ov167_021b1674(mainModule, &mainModule->pokeCons[0],
+        mainModule->clients[clientId] = BattleClient_Create(mainModule, &mainModule->pokeCons[0],
                                                             setup->fieldSituation.unk18, setup->fieldSituation.netHandle,
                                                             clientId, posCount, 0, unk, 0, &mainModule->rand,
                                                             mainModule->heapId);
@@ -1328,7 +1329,7 @@ BOOL func_ov167_0219b868(BtlMainModule *mainModule, s32 *state) {
             func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
         opponent = 0;
         mainModule->clients[clientId] =
-            func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
+            BattleClient_Create(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
                                 setup->fieldSituation.netHandle, clientId, 3, opponent, unk, opponent, &mainModule->rand,
                                 mainModule->heapId);
         func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[clientId]), clientId, 3);
@@ -1338,7 +1339,7 @@ BOOL func_ov167_0219b868(BtlMainModule *mainModule, s32 *state) {
         func_ov167_0219e4d0(mainModule->server, setup->fieldSituation.unk18, setup->fieldSituation.netHandle, opponent, 3);
     } else {
         mainModule->clients[clientId] =
-            func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
+            BattleClient_Create(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
                                 setup->fieldSituation.netHandle, clientId, 3, 0, unk, 0, &mainModule->rand, mainModule->heapId);
         mainModule->unk0C =
             func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
@@ -1367,7 +1368,7 @@ BOOL func_ov167_0219b9d4(BtlMainModule *mainModule, s32 *state) {
             func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
         i = 0;
         mainModule->clients[clientId] =
-            func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
+            BattleClient_Create(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
                                 setup->fieldSituation.netHandle, clientId, 1, i, unk, i, &mainModule->rand, mainModule->heapId);
         func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[clientId]), clientId, 1);
         for (; i < mainModule->clientCount; i++) {
@@ -1379,7 +1380,7 @@ BOOL func_ov167_0219b9d4(BtlMainModule *mainModule, s32 *state) {
     } else {
         i = 0;
         mainModule->clients[clientId] =
-            func_ov167_021b1674(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
+            BattleClient_Create(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
                                 setup->fieldSituation.netHandle, clientId, 1, i, unk, i, &mainModule->rand, mainModule->heapId);
         mainModule->unk0C =
             func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
@@ -2791,7 +2792,7 @@ BattleParty *GetPartyData(BtlPokeCon *pokeCon, u32 clientId) {
     return &pokeCon->parties[clientId];
 }
 
-BattleParty *GetClientParty(BtlPokeCon *pokeCon, u8 clientId) {
+BattleParty *GetClientParty(BtlPokeCon *pokeCon, u32 clientId) {
     return &pokeCon->parties[clientId];
 }
 
@@ -2806,7 +2807,7 @@ u8 func_ov167_0219d3f8(BtlPokeCon *pokeCon, u8 clientId) {
     return GetAlivePartyCount(GetClientParty(pokeCon, clientId));
 }
 
-void func_ov167_0219d404(BtlMainModule *mainModule, u8 clientId, u32 value) {
+void func_ov167_0219d404(BtlMainModule *mainModule, u8 clientId, u8 value) {
     if (mainModule->unk46E != 0 && DoesClientExist(mainModule, clientId) && mainModule->clients[clientId] != NULL) {
         func_ov167_021b19b0(mainModule->clients[clientId], value);
     }
@@ -3103,7 +3104,7 @@ BOOL func_ov167_0219d888(BtlMainModule *mainModule, u8 clientId) {
     return FALSE;
 }
 
-u16 func_ov167_0219d89c(BtlMainModule *mainModule, u8 clientId, u32 index) {
+u16 func_ov167_0219d89c(BtlMainModule *mainModule, u8 clientId, u8 index) {
     if (func_ov167_0219d888(mainModule, clientId)) {
         BtlTrainerData *trainer = &mainModule->trainers[clientId];
 
@@ -3591,8 +3592,8 @@ void func_ov167_0219e1b0(BtlMainModule *mainModule) {
     }
 }
 
-void func_ov167_0219e300(BtlMainModule *mainModule) {
-    func_ov167_021b19a4(mainModule->clients[0]);
+u32 func_ov167_0219e300(BtlMainModule *mainModule) {
+    return func_ov167_021b19a4(mainModule->clients[0]);
 }
 
 BtlSetup *func_ov167_0219e30c(BtlMainModule *mainModule) {
@@ -3620,7 +3621,7 @@ void func_ov167_0219e378(BtlMainModule *mainModule) {
     GFL_HeapFree(mainModule->unk474);
 }
 
-void *func_ov167_0219e39c(BtlMainModule *mainModule) {
+BtlScriptedRules *func_ov167_0219e39c(BtlMainModule *mainModule) {
     if (mainModule->unk474 == NULL) {
         return NULL;
     }
