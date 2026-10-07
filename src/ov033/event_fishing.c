@@ -94,8 +94,8 @@ GameEvent *EventFieldFishing_Create(Field *field, GameSystem *gsys) {
         work->noFishing = 1;
     }
     work->gridX = (work->fishingPos.x >> 4) / 4096;
-    work->gridZ = (work->fishingPos.y >> 4) / 4096;
-    work->gridY = (work->fishingPos.z >> 4) / 4096;
+    work->gridY = (work->fishingPos.y >> 4) / 4096;
+    work->gridZ = (work->fishingPos.z >> 4) / 4096;
     position = work->playerPos;
     ExpandVecInGridDir(1, &position, 0x10000);
     flag = 1;
