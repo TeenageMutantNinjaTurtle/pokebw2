@@ -197,9 +197,9 @@ static void MBParent_Init(MBParentWork *wk) {
     MBParent_InitGraphics(wk);
     MBParent_LoadGraphics(wk);
     if (wk->startMenu == FALSE) {
-        wk->msg = func_ov181_0219fc0c(wk->heapId, 5, 5, 0x5c, 0, 0);
+        wk->msg = MBUtilMsg_Create(wk->heapId, 5, 5, 0x5c, 0, 0);
     } else {
-        wk->msg = func_ov181_0219fc0c(wk->heapId, 1, 1, 0x5c, 0, 1);
+        wk->msg = MBUtilMsg_Create(wk->heapId, 1, 1, 0x5c, 0, 1);
     }
     wk->comm = MBComm_Create(wk->heapId);
     wk->childRomSent = FALSE;
@@ -246,7 +246,7 @@ static void MBParent_Exit(MBParentWork *wk) {
         GFL_HeapFree(wk->childRom);
     }
     MBComm_Delete(wk->comm);
-    func_ov181_0219fd28(wk->msg);
+    MBUtilMsg_Delete(wk->msg);
     MBParent_FreeGraphics(wk);
 }
 
@@ -274,9 +274,9 @@ static BOOL MBParent_Main(MBParentWork *wk) {
                     wk->state = MB_PARENT_STATE_ASK_START;
                 }
             } else {
-                func_ov181_0219fe70(wk->msg, 5);
-                func_ov181_021a02a0(wk->msg, func_02017bcc());
-                func_ov181_021a036c(wk->msg, 1);
+                MBUtilMsg_SetWindow(wk->msg, 5);
+                MBUtilMsg_PrintNoWireless(wk->msg, func_02017bcc());
+                MBUtilMsg_ShowWindow(wk->msg, 1);
                 wk->state = MB_PARENT_STATE_NO_WIRELESS;
             }
         }
@@ -296,22 +296,22 @@ static BOOL MBParent_Main(MBParentWork *wk) {
         }
         break;
     case MB_PARENT_STATE_ASK_START:
-        func_ov181_0219fe70(wk->msg, 5);
-        func_ov181_0219ff4c(wk->msg, 0x2b, func_02017bcc());
+        MBUtilMsg_SetWindow(wk->msg, 5);
+        MBUtilMsg_Print(wk->msg, 0x2b, func_02017bcc());
         wk->state = MB_PARENT_STATE_WAIT_ASK_MSG;
         break;
     case MB_PARENT_STATE_WAIT_ASK_MSG:
-        if (func_ov181_021a035c(wk->msg) == TRUE) {
-            func_ov181_021a022c(wk->msg, 0);
+        if (MBUtilMsg_IsPrintDone(wk->msg) == TRUE) {
+            MBUtilMsg_CreateConfirm(wk->msg, 0);
             wk->state = MB_PARENT_STATE_ASK_ANSWER;
         }
         break;
     case MB_PARENT_STATE_ASK_ANSWER: {
-        int answer = func_ov181_021a0274(wk->msg);
+        int answer = MBUtilMsg_UpdateConfirm(wk->msg);
         if (answer == 1) {
             wk->state = MB_PARENT_STATE_SETUP_DOWNLOAD;
-            func_ov181_021a00e0(wk->msg);
-            func_ov181_021a026c(wk->msg);
+            MBUtilMsg_ClearWindow(wk->msg);
+            MBUtilMsg_ForgetConfirm(wk->msg);
         } else if (answer == 2) {
             wk->state = MB_PARENT_STATE_WIPE_OUT;
         }
@@ -390,7 +390,7 @@ static BOOL MBParent_Main(MBParentWork *wk) {
     case MB_PARENT_STATE_WAIT_CHILD_REQUEST:
         if (MBComm_GetState(wk->comm) == 10) {
             MBParent_SetPalParkResult(wk, 3);
-            func_ov181_0219ff4c(wk->msg, 8, func_02017bcc());
+            MBUtilMsg_Print(wk->msg, 8, func_02017bcc());
             MBComm_StartDisconnect(wk->comm);
             wk->state = MB_PARENT_STATE_WAIT_END;
         } else if (MBComm_GetState(wk->comm) == 2) {
@@ -398,17 +398,17 @@ static BOOL MBParent_Main(MBParentWork *wk) {
                 wk->childRomSent = TRUE;
                 MBComm_SendProgram(wk->comm, wk->childRom, wk->childRomSize);
             }
-            func_ov181_0219ff4c(wk->msg, 2, func_02017bcc());
+            MBUtilMsg_Print(wk->msg, 2, func_02017bcc());
             wk->state = MB_PARENT_STATE_SEND_PROGRAM;
         }
         break;
     case MB_PARENT_STATE_SEND_PROGRAM:
         if (MBComm_GetState(wk->comm) == 3) {
-            func_ov181_0219ff4c(wk->msg, 3, func_02017bcc());
+            MBUtilMsg_Print(wk->msg, 3, func_02017bcc());
             wk->state = MB_PARENT_STATE_WAIT_PROGRAM_SENT;
         } else if (MBComm_GetState(wk->comm) == 13) {
             MBParent_SetPalParkResult(wk, 4);
-            func_ov181_0219ff4c(wk->msg, 8, func_02017bcc());
+            MBUtilMsg_Print(wk->msg, 8, func_02017bcc());
             MBComm_StartDisconnect(wk->comm);
             wk->state = MB_PARENT_STATE_WAIT_END;
         }
@@ -416,7 +416,7 @@ static BOOL MBParent_Main(MBParentWork *wk) {
     case MB_PARENT_STATE_WAIT_PROGRAM_SENT:
         if (MBComm_GetState(wk->comm) == 4) {
             MBComm_ClearPokemon(wk->comm);
-            func_ov181_0219ff4c(wk->msg, 4, func_02017bcc());
+            MBUtilMsg_Print(wk->msg, 4, func_02017bcc());
             wk->state = MB_PARENT_STATE_WAIT_POKEMON;
         }
         break;
@@ -444,12 +444,12 @@ static BOOL MBParent_Main(MBParentWork *wk) {
             } else if (MBComm_GetState(wk->comm) == 10) {
                 if (wk->startMenu == FALSE) {
                     MBParent_SetPalParkResult(wk, 3);
-                    func_ov181_0219ff4c(wk->msg, 8, func_02017bcc());
+                    MBUtilMsg_Print(wk->msg, 8, func_02017bcc());
                     MBComm_StartDisconnect(wk->comm);
                     wk->state = MB_PARENT_STATE_WAIT_END;
                 } else {
-                    func_ov181_0219ff4c(wk->msg, 0x26, func_02017bcc());
-                    func_ov181_021a036c(wk->msg, 1);
+                    MBUtilMsg_Print(wk->msg, 0x26, func_02017bcc());
+                    MBUtilMsg_ShowWindow(wk->msg, 1);
                     wk->state = MB_PARENT_STATE_WAIT_FINISH;
                 }
             }
@@ -466,20 +466,20 @@ static BOOL MBParent_Main(MBParentWork *wk) {
     case MB_PARENT_STATE_SAVED:
         MBParent_Dummy(wk);
         if (wk->startMenu == FALSE) {
-            func_ov181_0219ff4c(wk->msg, 7, func_02017bcc());
+            MBUtilMsg_Print(wk->msg, 7, func_02017bcc());
             wk->state = MB_PARENT_STATE_SEND_BOX_SPACE;
         } else {
-            func_ov181_0219ff4c(wk->msg, 0x27, func_02017bcc());
-            func_ov181_021a036c(wk->msg, 1);
+            MBUtilMsg_Print(wk->msg, 0x27, func_02017bcc());
+            MBUtilMsg_ShowWindow(wk->msg, 1);
             wk->state = MB_PARENT_STATE_SEND_END;
         }
         break;
     case MB_PARENT_STATE_SEND_BOX_SPACE:
-        if (func_ov181_021a035c(wk->msg) == TRUE) {
+        if (MBUtilMsg_IsPrintDone(wk->msg) == TRUE) {
             u16 space = func_02007a38(GameData_GetBoxSaveAccessor(wk->param->gameData));
 
             if (MBComm_SendCommand(wk->comm, MB_COMM_CMD_BOX_SPACE, space) == TRUE) {
-                func_ov181_0219ff4c(wk->msg, 0xb, func_02017bcc());
+                MBUtilMsg_Print(wk->msg, 0xb, func_02017bcc());
                 wk->state = MB_PARENT_STATE_WAIT_CHILD_NEXT;
             }
         }
@@ -492,7 +492,7 @@ static BOOL MBParent_Main(MBParentWork *wk) {
             if (MBComm_GetState(wk->comm) == 10) {
                 MBParent_SetPalParkResult(wk, 3);
             }
-            func_ov181_0219ff4c(wk->msg, 8, func_02017bcc());
+            MBUtilMsg_Print(wk->msg, 8, func_02017bcc());
             wk->state = MB_PARENT_STATE_SEND_END;
         }
         break;
@@ -503,7 +503,7 @@ static BOOL MBParent_Main(MBParentWork *wk) {
         }
         break;
     case MB_PARENT_STATE_WAIT_END:
-        if (func_ov181_021a035c(wk->msg) == TRUE && MBComm_IsDisconnected(wk->comm) == TRUE) {
+        if (MBUtilMsg_IsPrintDone(wk->msg) == TRUE && MBComm_IsDisconnected(wk->comm) == TRUE) {
             MBComm_EndNet(wk->comm);
             wk->state = MB_PARENT_STATE_WAIT_NET_END;
         }
@@ -518,27 +518,27 @@ static BOOL MBParent_Main(MBParentWork *wk) {
         }
         break;
     case MB_PARENT_STATE_FINISH:
-        if (func_ov181_021a035c(wk->msg) == TRUE) {
-            func_ov181_021a00e0(wk->msg);
-            func_ov181_0219fe70(wk->msg, 1);
-            func_ov181_0219ff4c(wk->msg, 0x23, func_02017bcc());
-            func_ov181_021a036c(wk->msg, 1);
+        if (MBUtilMsg_IsPrintDone(wk->msg) == TRUE) {
+            MBUtilMsg_ClearWindow(wk->msg);
+            MBUtilMsg_SetWindow(wk->msg, 1);
+            MBUtilMsg_Print(wk->msg, 0x23, func_02017bcc());
+            MBUtilMsg_ShowWindow(wk->msg, 1);
             wk->state = MB_PARENT_STATE_WAIT_FINISH;
         }
         break;
     case MB_PARENT_STATE_WAIT_FINISH:
-        if (MBComm_IsNetEnded(wk->comm) == TRUE && func_ov181_021a035c(wk->msg) == TRUE) {
+        if (MBComm_IsNetEnded(wk->comm) == TRUE && MBUtilMsg_IsPrintDone(wk->msg) == TRUE) {
             wk->state = MB_PARENT_STATE_WIPE_OUT;
         }
         break;
     case MB_PARENT_STATE_TIMEOUT:
-        func_ov181_0219ff4c(wk->msg, 0xa, func_02017bcc());
-        func_ov181_021a036c(wk->msg, 1);
+        MBUtilMsg_Print(wk->msg, 0xa, func_02017bcc());
+        MBUtilMsg_ShowWindow(wk->msg, 1);
         wk->state = MB_PARENT_STATE_WAIT_TIMEOUT;
         MBComm_EndNet(wk->comm);
         break;
     case MB_PARENT_STATE_WAIT_TIMEOUT:
-        if (func_ov181_021a035c(wk->msg) == TRUE) {
+        if (MBUtilMsg_IsPrintDone(wk->msg) == TRUE) {
             wk->state = MB_PARENT_STATE_WAIT_NET_END;
         }
         // fallthrough: the original has no break here
@@ -546,12 +546,12 @@ static BOOL MBParent_Main(MBParentWork *wk) {
         MBParent_UpdateResult(wk);
         break;
     case MB_PARENT_STATE_NO_WIRELESS:
-        if (func_ov181_021a035c(wk->msg) == TRUE) {
+        if (MBUtilMsg_IsPrintDone(wk->msg) == TRUE) {
             wk->state = MB_PARENT_STATE_WIPE_OUT;
         }
         break;
     }
-    func_ov181_0219fdc0(wk->msg);
+    MBUtilMsg_Update(wk->msg);
     func_0204b794();
     return FALSE;
 }
@@ -748,7 +748,7 @@ static void MBParent_DrawTopScreen(MBParentWork *wk) {
     msgData = GFL_MsgSysLoadData(FALSE, ARCID_SYSTEM_MESSAGE, 0x66, wk->heapId);
     strbuf = GFL_MsgDataLoadStrbufNew(msgData, 1);
     GFL_BitmapFill(BmpWin_GetBitmap(window), 7);
-    GFL_TextRendererDrawToBitmapEx(BmpWin_GetBitmap(window), 0, 0, strbuf, func_ov181_021a034c(wk->msg), 0x1167);
+    GFL_TextRendererDrawToBitmapEx(BmpWin_GetBitmap(window), 0, 0, strbuf, MBUtilMsg_GetFont(wk->msg), 0x1167);
     BmpWin_FlushChar(window);
     BmpWin_FlushMap(window);
     GFL_BGSysLoadScr(BmpWin_GetBGIndex(window));
@@ -772,28 +772,28 @@ static void MBParent_SetupGameInfo(MBParentWork *wk) {
     wk->cancelSeq = 0;
     wk->gameName = GFL_HeapAllocate(wk->heapId, 0x60, TRUE, "mb_parent_sys.c", 1368);
     wk->gameIntro = GFL_HeapAllocate(wk->heapId, 0xc0, TRUE, "mb_parent_sys.c", 1369);
-    func_ov181_0219fe70(wk->msg, 1);
-    func_ov181_021a0120(wk->msg);
-    func_ov181_021a0160(wk->msg, 0, getTrainerID(playerInfo), 5);
+    MBUtilMsg_SetWindow(wk->msg, 1);
+    MBUtilMsg_CreateWordSet(wk->msg);
+    MBUtilMsg_SetNumberZeroPadded(wk->msg, 0, getTrainerID(playerInfo), 5);
     if (wk->startMenu == FALSE) {
-        src = GFL_MsgDataLoadStrbufNew(func_ov181_021a0344(wk->msg), 0xc);
+        src = GFL_MsgDataLoadStrbufNew(MBUtilMsg_GetMsgData(wk->msg), 0xc);
     } else {
-        src = GFL_MsgDataLoadStrbufNew(func_ov181_021a0344(wk->msg), 0xf);
+        src = GFL_MsgDataLoadStrbufNew(MBUtilMsg_GetMsgData(wk->msg), 0xf);
     }
     name = GFL_StrBufCreate(0x100, wk->heapId);
-    GFL_WordSetFormatStrbuf(func_ov181_021a0348(wk->msg), name, src);
+    GFL_WordSetFormatStrbuf(MBUtilMsg_GetWordSet(wk->msg), name, src);
     GFL_StrBufFree(src);
 #ifdef BLACK2
     if (wk->startMenu == FALSE) {
-        intro = GFL_MsgDataLoadStrbufNew(func_ov181_021a0344(wk->msg), 0xd);
+        intro = GFL_MsgDataLoadStrbufNew(MBUtilMsg_GetMsgData(wk->msg), 0xd);
     } else {
-        intro = GFL_MsgDataLoadStrbufNew(func_ov181_021a0344(wk->msg), 0x10);
+        intro = GFL_MsgDataLoadStrbufNew(MBUtilMsg_GetMsgData(wk->msg), 0x10);
     }
 #else
     if (wk->startMenu == FALSE) {
-        intro = GFL_MsgDataLoadStrbufNew(func_ov181_021a0344(wk->msg), 0xe);
+        intro = GFL_MsgDataLoadStrbufNew(MBUtilMsg_GetMsgData(wk->msg), 0xe);
     } else {
-        intro = GFL_MsgDataLoadStrbufNew(func_ov181_021a0344(wk->msg), 0x11);
+        intro = GFL_MsgDataLoadStrbufNew(MBUtilMsg_GetMsgData(wk->msg), 0x11);
     }
 #endif
     nameLength = GFL_StrBufGetCharCount(name);
@@ -882,20 +882,20 @@ static BOOL MBParent_UpdateDistribution(MBParentWork *wk) {
             PlayerInfo *playerInfo = GetGameDataPlayerInfo(wk->param->gameData);
 
             MBParent_StartMBP(wk);
-            func_ov181_021a00e0(wk->msg);
+            MBUtilMsg_ClearWindow(wk->msg);
             if (wk->startMenu == FALSE) {
-                func_ov181_0219fe70(wk->msg, 2);
+                MBUtilMsg_SetWindow(wk->msg, 2);
             } else {
-                func_ov181_0219fe70(wk->msg, 3);
+                MBUtilMsg_SetWindow(wk->msg, 3);
             }
-            func_ov181_021a0120(wk->msg);
-            func_ov181_021a0160(wk->msg, 0, getTrainerID(playerInfo), 5);
+            MBUtilMsg_CreateWordSet(wk->msg);
+            MBUtilMsg_SetNumberZeroPadded(wk->msg, 0, getTrainerID(playerInfo), 5);
             if (wk->startMenu == FALSE) {
-                func_ov181_0219ff4c(wk->msg, 0, func_02017bcc());
+                MBUtilMsg_Print(wk->msg, 0, func_02017bcc());
             } else {
-                func_ov181_0219ff4c(wk->msg, 0x14, func_02017bcc());
+                MBUtilMsg_Print(wk->msg, 0x14, func_02017bcc());
             }
-            func_ov181_021a0134(wk->msg);
+            MBUtilMsg_FreeWordSet(wk->msg);
             wk->distributionSeq = 3;
         }
         break;
@@ -903,14 +903,14 @@ static BOOL MBParent_UpdateDistribution(MBParentWork *wk) {
         MBParent_UpdateEntry(wk);
         break;
     case 4:
-        func_ov181_021a00e0(wk->msg);
-        func_ov181_0219fe70(wk->msg, 1);
+        MBUtilMsg_ClearWindow(wk->msg);
+        MBUtilMsg_SetWindow(wk->msg, 1);
         if (wk->startMenu == FALSE) {
-            func_ov181_021a0028(wk->msg, 1);
+            MBUtilMsg_PrintAtOnce(wk->msg, 1);
         } else {
-            func_ov181_021a0028(wk->msg, 0x15);
+            MBUtilMsg_PrintAtOnce(wk->msg, 0x15);
         }
-        func_ov181_021a0380(wk->msg, 1);
+        MBUtilMsg_SetShowWaitIcon(wk->msg, 1);
         func_0204c488(wk->cancelButton, 15);
         wk->distributionSeq = 5;
         break;
@@ -994,23 +994,23 @@ static void MBParent_UpdateEntry(MBParentWork *wk) {
     }
     switch (wk->cancelSeq) {
     case 1:
-        func_ov181_021a00e0(wk->msg);
+        MBUtilMsg_ClearWindow(wk->msg);
         func_0204c488(wk->cancelButton, 15);
         if (wk->startMenu == FALSE) {
-            func_ov181_0219fe70(wk->msg, 7);
-            func_ov181_0219ff4c(wk->msg, 9, func_02017bcc());
+            MBUtilMsg_SetWindow(wk->msg, 7);
+            MBUtilMsg_Print(wk->msg, 9, func_02017bcc());
         } else {
-            func_ov181_0219fe70(wk->msg, 5);
-            func_ov181_0219ff4c(wk->msg, 0x2a, func_02017bcc());
+            MBUtilMsg_SetWindow(wk->msg, 5);
+            MBUtilMsg_Print(wk->msg, 0x2a, func_02017bcc());
         }
         wk->cancelSeq = 2;
         break;
     case 2:
-        if (func_ov181_021a035c(wk->msg) == TRUE) {
+        if (MBUtilMsg_IsPrintDone(wk->msg) == TRUE) {
             if (wk->startMenu == FALSE) {
-                func_ov181_021a0178(wk->msg, 0);
+                MBUtilMsg_CreateYesNoMenu(wk->msg, 0);
             } else {
-                func_ov181_021a022c(wk->msg, 0);
+                MBUtilMsg_CreateConfirm(wk->msg, 0);
             }
             wk->cancelSeq = 3;
         }
@@ -1019,9 +1019,9 @@ static void MBParent_UpdateEntry(MBParentWork *wk) {
         int answer;
 
         if (wk->startMenu == FALSE) {
-            answer = func_ov181_021a0210(wk->msg);
+            answer = MBUtilMsg_GetMenuResult(wk->msg);
         } else {
-            answer = func_ov181_021a0274(wk->msg);
+            answer = MBUtilMsg_UpdateConfirm(wk->msg);
         }
         if (answer == 1) {
             GFL_ASSERT_MSG(MBP_GetState() == MBP_STATE_ENTRY, "state is not[MBP_STATE_ENTRY][%d]!!!\n", MBP_GetState());
@@ -1032,25 +1032,25 @@ static void MBParent_UpdateEntry(MBParentWork *wk) {
             PlayerInfo *playerInfo = GetGameDataPlayerInfo(wk->param->gameData);
 
             if (wk->startMenu == FALSE) {
-                func_ov181_021a0200(wk->msg);
+                MBUtilMsg_FreeMenu(wk->msg);
             } else {
-                func_ov181_021a026c(wk->msg);
+                MBUtilMsg_ForgetConfirm(wk->msg);
             }
-            func_ov181_021a00e0(wk->msg);
+            MBUtilMsg_ClearWindow(wk->msg);
             if (wk->startMenu == FALSE) {
-                func_ov181_0219fe70(wk->msg, 2);
+                MBUtilMsg_SetWindow(wk->msg, 2);
             } else {
-                func_ov181_0219fe70(wk->msg, 3);
+                MBUtilMsg_SetWindow(wk->msg, 3);
             }
-            func_ov181_021a0120(wk->msg);
-            func_ov181_021a0160(wk->msg, 0, getTrainerID(playerInfo), 5);
+            MBUtilMsg_CreateWordSet(wk->msg);
+            MBUtilMsg_SetNumberZeroPadded(wk->msg, 0, getTrainerID(playerInfo), 5);
             func_0204c488(wk->cancelButton, 1);
             if (wk->startMenu == FALSE) {
-                func_ov181_0219ff4c(wk->msg, 0, func_02017bcc());
+                MBUtilMsg_Print(wk->msg, 0, func_02017bcc());
             } else {
-                func_ov181_0219ff4c(wk->msg, 0x14, func_02017bcc());
+                MBUtilMsg_Print(wk->msg, 0x14, func_02017bcc());
             }
-            func_ov181_021a0134(wk->msg);
+            MBUtilMsg_FreeWordSet(wk->msg);
             wk->cancelSeq = 0;
         }
         break;
@@ -1124,8 +1124,8 @@ static void MBParent_SoftResetCallback(void *work) {
 static void MBParent_ReceivePokemon(MBParentWork *wk) {
     u8 count = MBComm_GetPokemonCount(wk->comm);
 
-    func_ov181_021a0028(wk->msg, 6);
-    func_ov181_021a0380(wk->msg, 1);
+    MBUtilMsg_PrintAtOnce(wk->msg, 6);
+    MBUtilMsg_SetShowWaitIcon(wk->msg, 1);
     MBParent_StorePokemon(wk);
     if (wk->startMenu == FALSE) {
         u16 highScore = TrainerGameInfo_GetPalParkHighScore(wk->trainerGameInfo);
@@ -1179,7 +1179,7 @@ static void MBParent_Dummy(MBParentWork *wk) {
 static void MBParent_UpdateTransfer(MBParentWork *wk) {
     switch (wk->distributionSeq) {
     case 9:
-        if (func_ov181_021a0350(wk->msg) == TRUE && func_ov181_021a035c(wk->msg) == TRUE &&
+        if (MBUtilMsg_IsQueueDone(wk->msg) == TRUE && MBUtilMsg_IsPrintDone(wk->msg) == TRUE &&
             MBComm_IsSaveReady(wk->comm) == TRUE && MBComm_SendCommand(wk->comm, MB_COMM_CMD_SAVE_SYNC_1, GFL_RandomLC(20) + 10) == TRUE) {
             wk->distributionSeq = 10;
         }
@@ -1243,14 +1243,14 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
     switch (wk->resultSeq) {
     case 0:
         if (MBComm_GetState(wk->comm) == 10 || MBComm_GetState(wk->comm) == 12) {
-            func_ov181_0219ff4c(wk->msg, 0x29, func_02017bcc());
-            func_ov181_021a036c(wk->msg, 1);
+            MBUtilMsg_Print(wk->msg, 0x29, func_02017bcc());
+            MBUtilMsg_ShowWindow(wk->msg, 1);
             MBComm_StartDisconnect(wk->comm);
             wk->state = MB_PARENT_STATE_SEND_END;
         }
         if (MBComm_GetState(wk->comm) == 11) {
-            func_ov181_0219ff4c(wk->msg, 0x2c, func_02017bcc());
-            func_ov181_021a036c(wk->msg, 1);
+            MBUtilMsg_Print(wk->msg, 0x2c, func_02017bcc());
+            MBUtilMsg_ShowWindow(wk->msg, 1);
             MBComm_StartDisconnect(wk->comm);
             wk->state = MB_PARENT_STATE_SEND_END;
         }
@@ -1259,17 +1259,17 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
             u16 more = MBComm_GetResultMoreCount(wk->comm);
 
             if (count != 0) {
-                func_ov181_021a00e0(wk->msg);
-                func_ov181_0219fe70(wk->msg, 5);
-                func_ov181_021a0120(wk->msg);
-                func_ov181_021a0148(wk->msg, 0, count + more, 3);
+                MBUtilMsg_ClearWindow(wk->msg);
+                MBUtilMsg_SetWindow(wk->msg, 5);
+                MBUtilMsg_CreateWordSet(wk->msg);
+                MBUtilMsg_SetNumber(wk->msg, 0, count + more, 3);
 #ifdef BLACK2
-                func_ov181_0219ff4c(wk->msg, 0x16, func_02017bcc());
+                MBUtilMsg_Print(wk->msg, 0x16, func_02017bcc());
 #else
-                func_ov181_0219ff4c(wk->msg, 0x17, func_02017bcc());
+                MBUtilMsg_Print(wk->msg, 0x17, func_02017bcc());
 #endif
-                func_ov181_021a036c(wk->msg, 1);
-                func_ov181_021a0134(wk->msg);
+                MBUtilMsg_ShowWindow(wk->msg, 1);
+                MBUtilMsg_FreeWordSet(wk->msg);
                 wk->resultSeq = 1;
             } else {
                 wk->resultSeq = 19;
@@ -1277,18 +1277,18 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
         }
         break;
     case 1:
-        if (func_ov181_021a035c(wk->msg) == TRUE) {
-            func_ov181_021a022c(wk->msg, 1);
+        if (MBUtilMsg_IsPrintDone(wk->msg) == TRUE) {
+            MBUtilMsg_CreateConfirm(wk->msg, 1);
             wk->resultSeq = 2;
         }
         break;
     case 2:
-        wk->answer = func_ov181_021a0274(wk->msg);
+        wk->answer = MBUtilMsg_UpdateConfirm(wk->msg);
         if (wk->answer == 1) {
             u16 count = MBComm_GetResultCount(wk->comm);
             u16 space = func_02007a38(GameData_GetBoxSaveAccessor(wk->param->gameData));
 
-            func_ov181_021a026c(wk->msg);
+            MBUtilMsg_ForgetConfirm(wk->msg);
             if (space < count) {
                 wk->boxFull = TRUE;
                 wk->resultSeq = 13;
@@ -1304,45 +1304,45 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
         if (MBComm_GetResultMoreCount(wk->comm) != 0) {
             u16 count = MBComm_GetResultCount(wk->comm);
 
-            func_ov181_021a00e0(wk->msg);
-            func_ov181_0219fe70(wk->msg, 1);
-            func_ov181_021a0120(wk->msg);
-            func_ov181_021a0148(wk->msg, 0, count, 3);
-            func_ov181_0219ff4c(wk->msg, 0x24, func_02017bcc());
-            func_ov181_021a036c(wk->msg, 1);
-            func_ov181_021a0134(wk->msg);
+            MBUtilMsg_ClearWindow(wk->msg);
+            MBUtilMsg_SetWindow(wk->msg, 1);
+            MBUtilMsg_CreateWordSet(wk->msg);
+            MBUtilMsg_SetNumber(wk->msg, 0, count, 3);
+            MBUtilMsg_Print(wk->msg, 0x24, func_02017bcc());
+            MBUtilMsg_ShowWindow(wk->msg, 1);
+            MBUtilMsg_FreeWordSet(wk->msg);
             wk->resultSeq = 4;
         } else {
             wk->resultSeq = 5;
         }
         break;
     case 4:
-        if (func_ov181_021a035c(wk->msg) == TRUE) {
+        if (MBUtilMsg_IsPrintDone(wk->msg) == TRUE) {
             wk->resultSeq = 5;
         }
         break;
     case 5:
         if (MBComm_GetResultFlag1(wk->comm) == TRUE) {
-            func_ov181_021a00e0(wk->msg);
-            func_ov181_0219fe70(wk->msg, 5);
-            func_ov181_0219ff4c(wk->msg, 0x1a, func_02017bcc());
+            MBUtilMsg_ClearWindow(wk->msg);
+            MBUtilMsg_SetWindow(wk->msg, 5);
+            MBUtilMsg_Print(wk->msg, 0x1a, func_02017bcc());
             wk->resultSeq = 6;
         } else {
             wk->resultSeq = 13;
         }
         break;
     case 6:
-        if (func_ov181_021a035c(wk->msg) == TRUE) {
-            func_ov181_021a022c(wk->msg, 1);
+        if (MBUtilMsg_IsPrintDone(wk->msg) == TRUE) {
+            MBUtilMsg_CreateConfirm(wk->msg, 1);
             wk->resultSeq = 7;
         }
         break;
     case 7: {
-        int answer = func_ov181_021a0274(wk->msg);
+        int answer = MBUtilMsg_UpdateConfirm(wk->msg);
 
         if (answer == 1) {
             if (MBComm_GetResultFlag2(wk->comm) == TRUE) {
-                func_ov181_0219ff4c(wk->msg, 0x1b, func_02017bcc());
+                MBUtilMsg_Print(wk->msg, 0x1b, func_02017bcc());
                 wk->resultSeq = 8;
             } else {
                 wk->resultSeq = 13;
@@ -1353,13 +1353,13 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
         break;
     }
     case 8:
-        if (func_ov181_021a035c(wk->msg) == TRUE) {
-            func_ov181_021a022c(wk->msg, 1);
+        if (MBUtilMsg_IsPrintDone(wk->msg) == TRUE) {
+            MBUtilMsg_CreateConfirm(wk->msg, 1);
             wk->resultSeq = 9;
         }
         break;
     case 9: {
-        int answer = func_ov181_021a0274(wk->msg);
+        int answer = MBUtilMsg_UpdateConfirm(wk->msg);
 
         if (answer == 1) {
             wk->resultSeq = 13;
@@ -1369,17 +1369,17 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
         break;
     }
     case 10:
-        func_ov181_0219ff4c(wk->msg, 0x1c, func_02017bcc());
+        MBUtilMsg_Print(wk->msg, 0x1c, func_02017bcc());
         wk->resultSeq = 11;
         break;
     case 11:
-        if (func_ov181_021a035c(wk->msg) == TRUE) {
-            func_ov181_021a022c(wk->msg, 1);
+        if (MBUtilMsg_IsPrintDone(wk->msg) == TRUE) {
+            MBUtilMsg_CreateConfirm(wk->msg, 1);
             wk->resultSeq = 12;
         }
         break;
     case 12: {
-        int answer = func_ov181_021a0274(wk->msg);
+        int answer = MBUtilMsg_UpdateConfirm(wk->msg);
 
         if (answer == 1) {
             wk->answer = 2;
@@ -1404,10 +1404,10 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
         if (MBComm_SendCommand(wk->comm, MB_COMM_CMD_ANSWER, reply) == TRUE) {
             if (reply == 0) {
                 wk->resultSeq = 14;
-                func_ov181_021a00e0(wk->msg);
-                func_ov181_0219fe70(wk->msg, 1);
-                func_ov181_021a0028(wk->msg, 0x19);
-                func_ov181_021a0380(wk->msg, 1);
+                MBUtilMsg_ClearWindow(wk->msg);
+                MBUtilMsg_SetWindow(wk->msg, 1);
+                MBUtilMsg_PrintAtOnce(wk->msg, 0x19);
+                MBUtilMsg_SetShowWaitIcon(wk->msg, 1);
             } else if (reply == 2) {
                 wk->resultSeq = 17;
             } else {
@@ -1424,13 +1424,13 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
         if (MBComm_HasMore(wk->comm) == TRUE) {
             u16 count = MBComm_GetResultCount(wk->comm);
 
-            func_ov181_021a00e0(wk->msg);
-            func_ov181_0219fe70(wk->msg, 1);
-            func_ov181_021a0120(wk->msg);
-            func_ov181_021a0148(wk->msg, 0, count, 3);
-            func_ov181_0219ff4c(wk->msg, 0x1e, func_02017bcc());
-            func_ov181_021a036c(wk->msg, 1);
-            func_ov181_021a0134(wk->msg);
+            MBUtilMsg_ClearWindow(wk->msg);
+            MBUtilMsg_SetWindow(wk->msg, 1);
+            MBUtilMsg_CreateWordSet(wk->msg);
+            MBUtilMsg_SetNumber(wk->msg, 0, count, 3);
+            MBUtilMsg_Print(wk->msg, 0x1e, func_02017bcc());
+            MBUtilMsg_ShowWindow(wk->msg, 1);
+            MBUtilMsg_FreeWordSet(wk->msg);
             wk->resultSeq = 16;
             wk->receivedMore = TRUE;
         }
@@ -1442,27 +1442,27 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
         }
         break;
     case 16:
-        if (func_ov181_021a035c(wk->msg) == TRUE) {
+        if (MBUtilMsg_IsPrintDone(wk->msg) == TRUE) {
             wk->resultSeq = 19;
         }
         break;
     case 17:
-        func_ov181_021a00e0(wk->msg);
-        func_ov181_0219fe70(wk->msg, 5);
-        func_ov181_0219ff4c(wk->msg, 0x18, func_02017bcc());
+        MBUtilMsg_ClearWindow(wk->msg);
+        MBUtilMsg_SetWindow(wk->msg, 5);
+        MBUtilMsg_Print(wk->msg, 0x18, func_02017bcc());
         wk->resultSeq = 18;
         break;
     case 18:
-        if (func_ov181_021a035c(wk->msg) == TRUE) {
+        if (MBUtilMsg_IsPrintDone(wk->msg) == TRUE) {
             wk->resultSeq = 19;
         }
         break;
     case 19:
         if (MBComm_HasItemInfo(wk->comm) == TRUE) {
             if (MBComm_HasItem(wk->comm) == TRUE) {
-                func_ov181_021a00e0(wk->msg);
-                func_ov181_0219fe70(wk->msg, 5);
-                func_ov181_0219ff4c(wk->msg, 0x1f, func_02017bcc());
+                MBUtilMsg_ClearWindow(wk->msg);
+                MBUtilMsg_SetWindow(wk->msg, 5);
+                MBUtilMsg_Print(wk->msg, 0x1f, func_02017bcc());
                 wk->resultSeq = 20;
             } else {
                 wk->resultSeq = 25;
@@ -1470,13 +1470,13 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
         }
         break;
     case 20:
-        if (func_ov181_021a035c(wk->msg) == TRUE) {
+        if (MBUtilMsg_IsPrintDone(wk->msg) == TRUE) {
             wk->resultSeq = 21;
-            func_ov181_021a022c(wk->msg, 1);
+            MBUtilMsg_CreateConfirm(wk->msg, 1);
         }
         break;
     case 21: {
-        int answer = func_ov181_021a0274(wk->msg);
+        int answer = MBUtilMsg_UpdateConfirm(wk->msg);
 
         if (answer == 1 || answer == 2) {
             // The bag is fetched here as for the gift below, but not used
@@ -1487,10 +1487,10 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
             if (answer == 1 && isOneShotDRObtained(trainerCard, 0, playerInfo) == TRUE) {
                 wk->answer = 2;
                 wk->resultSeq = 22;
-                func_ov181_021a00e0(wk->msg);
-                func_ov181_0219fe70(wk->msg, 1);
-                func_ov181_0219ff4c(wk->msg, 0x25, func_02017bcc());
-                func_ov181_021a036c(wk->msg, 1);
+                MBUtilMsg_ClearWindow(wk->msg);
+                MBUtilMsg_SetWindow(wk->msg, 1);
+                MBUtilMsg_Print(wk->msg, 0x25, func_02017bcc());
+                MBUtilMsg_ShowWindow(wk->msg, 1);
             } else {
                 wk->answer = answer;
                 wk->resultSeq = 23;
@@ -1499,7 +1499,7 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
         break;
     }
     case 22:
-        if (func_ov181_021a035c(wk->msg) == TRUE) {
+        if (MBUtilMsg_IsPrintDone(wk->msg) == TRUE) {
             wk->resultSeq = 23;
         }
         break;
@@ -1515,10 +1515,10 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
                 PlayerInfo *playerInfo = GetGameDataPlayerInfo(wk->param->gameData);
                 TrainerCardSave *trainerCard = getTrainerCardDataBlkAddress(wk->param->gameData);
 
-                func_ov181_021a00e0(wk->msg);
-                func_ov181_0219fe70(wk->msg, 1);
-                func_ov181_0219ff4c(wk->msg, 0x21, func_02017bcc());
-                func_ov181_021a036c(wk->msg, 1);
+                MBUtilMsg_ClearWindow(wk->msg);
+                MBUtilMsg_SetWindow(wk->msg, 1);
+                MBUtilMsg_Print(wk->msg, 0x21, func_02017bcc());
+                MBUtilMsg_ShowWindow(wk->msg, 1);
                 setOneShotDRObtained(trainerCard, 0, playerInfo);
                 BagSave_AddItem(bag, ITEM_LOCK_CAPSULE, 1, wk->heapId);
                 wk->receivedItem = TRUE;
@@ -1530,7 +1530,7 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
         break;
     }
     case 24:
-        if (func_ov181_021a035c(wk->msg) == TRUE) {
+        if (MBUtilMsg_IsPrintDone(wk->msg) == TRUE) {
             wk->resultSeq = 25;
         }
         break;
@@ -1541,10 +1541,10 @@ static void MBParent_UpdateResult(MBParentWork *wk) {
             }
         } else {
             if (MBComm_GetResultCount(wk->comm) == 0 && MBComm_HasItem(wk->comm) == FALSE) {
-                func_ov181_021a00e0(wk->msg);
-                func_ov181_0219fe70(wk->msg, 1);
-                func_ov181_0219ff4c(wk->msg, 0x28, func_02017bcc());
-                func_ov181_021a036c(wk->msg, 1);
+                MBUtilMsg_ClearWindow(wk->msg);
+                MBUtilMsg_SetWindow(wk->msg, 1);
+                MBUtilMsg_Print(wk->msg, 0x28, func_02017bcc());
+                MBUtilMsg_ShowWindow(wk->msg, 1);
             }
             wk->state = MB_PARENT_STATE_SEND_END;
         }

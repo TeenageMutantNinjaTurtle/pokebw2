@@ -5,32 +5,41 @@
 #include "gfl/heap.h"
 #include "struct_decls.h"
 
-// The messages, windows and menus of the DS Download Play parent (mb_util_msg.c)
+// The messages, windows and menus of the DS Download Play parent (mb_util_msg.c). The names are ours
 
-MBUtilMsg *func_ov181_0219fc0c(HeapID heapId, u8 msgBg, u8 menuBg, u16 fileId, u32 a4, u32 a5);
-void func_ov181_0219fd28(MBUtilMsg *msg);
-void func_ov181_0219fdc0(MBUtilMsg *msg);
-void func_ov181_0219fe70(MBUtilMsg *msg, u32 window);
-void func_ov181_0219ff4c(MBUtilMsg *msg, u32 msgId, s32 textSpeed);
-void func_ov181_021a0028(MBUtilMsg *msg, u32 msgId);
-void func_ov181_021a00e0(MBUtilMsg *msg);
-void func_ov181_021a0120(MBUtilMsg *msg);
-void func_ov181_021a0134(MBUtilMsg *msg);
-void func_ov181_021a0148(MBUtilMsg *msg, u32 index, u32 number, u32 digits);
-void func_ov181_021a0160(MBUtilMsg *msg, u32 index, u32 number, u32 digits);
-void func_ov181_021a0178(MBUtilMsg *msg, u32 a1);
-void func_ov181_021a0200(MBUtilMsg *msg);
-int func_ov181_021a0210(MBUtilMsg *msg);
-void func_ov181_021a022c(MBUtilMsg *msg, u32 a1);
-void func_ov181_021a026c(MBUtilMsg *msg);
-int func_ov181_021a0274(MBUtilMsg *msg);
-void func_ov181_021a02a0(MBUtilMsg *msg, s32 textSpeed);
-MsgData *func_ov181_021a0344(MBUtilMsg *msg);
-WordSet *func_ov181_021a0348(MBUtilMsg *msg);
-Font *func_ov181_021a034c(MBUtilMsg *msg);
-BOOL func_ov181_021a0350(MBUtilMsg *msg);
-BOOL func_ov181_021a035c(MBUtilMsg *msg);
-void func_ov181_021a036c(MBUtilMsg *msg, u32 a1);
-void func_ov181_021a0380(MBUtilMsg *msg, u32 a1);
+// msgBg and menuBg are BGs; with useTalkWin, the messages of window MB_UTIL_MSG_WINDOW_TALK get the field's talk
+// window frame, and with useKeys they wait for the keys as well as the touch screen
+MBUtilMsg *MBUtilMsg_Create(HeapID heapId, u8 msgBg, u8 menuBg, u32 fileId, BOOL useTalkWin, BOOL useKeys);
+void MBUtilMsg_Delete(MBUtilMsg *msg);
+void MBUtilMsg_Update(MBUtilMsg *msg);
+// Shows the message window in a shape, MB_UTIL_MSG_WINDOW_* of mb_util_msg.c, and clears it
+void MBUtilMsg_SetWindow(MBUtilMsg *msg, u32 type);
+// Prints a message of the message data, formatted by the word set if there is one
+void MBUtilMsg_Print(MBUtilMsg *msg, u32 msgId, s32 wait);
+void MBUtilMsg_PrintAtOnce(MBUtilMsg *msg, u32 msgId);
+void MBUtilMsg_ClearWindow(MBUtilMsg *msg);
+void MBUtilMsg_CreateWordSet(MBUtilMsg *msg);
+void MBUtilMsg_FreeWordSet(MBUtilMsg *msg);
+void MBUtilMsg_SetNumber(MBUtilMsg *msg, u32 index, s32 number, u32 digits);
+void MBUtilMsg_SetNumberZeroPadded(MBUtilMsg *msg, u32 index, s32 number, u32 digits);
+// A yes/no task menu, at one of three heights
+void MBUtilMsg_CreateYesNoMenu(MBUtilMsg *msg, u32 pos);
+void MBUtilMsg_FreeMenu(MBUtilMsg *msg);
+int MBUtilMsg_GetMenuResult(MBUtilMsg *msg);
+// A yes/no dialog; the argument is not used
+void MBUtilMsg_CreateConfirm(MBUtilMsg *msg, u32 unused);
+// Drops the dialog without freeing it, once it has freed itself
+void MBUtilMsg_ForgetConfirm(MBUtilMsg *msg);
+int MBUtilMsg_UpdateConfirm(MBUtilMsg *msg);
+// Prints the message that the wireless is off, from the script messages
+void MBUtilMsg_PrintNoWireless(MBUtilMsg *msg, s32 wait);
+MsgData *MBUtilMsg_GetMsgData(MBUtilMsg *msg);
+WordSet *MBUtilMsg_GetWordSet(MBUtilMsg *msg);
+Font *MBUtilMsg_GetFont(MBUtilMsg *msg);
+BOOL MBUtilMsg_IsQueueDone(MBUtilMsg *msg);
+BOOL MBUtilMsg_IsPrintDone(MBUtilMsg *msg);
+void MBUtilMsg_ShowWindow(MBUtilMsg *msg, BOOL shown);
+// Shows the wait icon once the message printed at once is done
+void MBUtilMsg_SetShowWaitIcon(MBUtilMsg *msg, BOOL show);
 
 #endif // POKEBW2_APP_MB_PARENT_MB_UTIL_MSG_H
