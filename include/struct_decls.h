@@ -125,6 +125,7 @@ typedef struct BtlMainSyncData BtlMainSyncData;
 typedef struct BtlAdapter BtlAdapter;
 typedef struct BtlClient BtlClient;
 typedef struct BtlPokeCon BtlPokeCon;
+typedef struct BtlRecorder BtlRecorder;
 typedef struct BtlServer BtlServer;
 typedef struct BtlServerCmdQueue BtlServerCmdQueue;
 typedef struct BtlServerFlow BtlServerFlow;
