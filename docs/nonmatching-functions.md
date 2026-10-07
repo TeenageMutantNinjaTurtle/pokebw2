@@ -321,6 +321,10 @@ C is not in the repository; the notes say what differed. Several overlay IDs wer
   `sWeatherStartTable`) come out swapped. Moving the top-level tables doesn't change it, so the size sort also sees the
   function-local statics in an order `rodata_order.py` doesn't model yet. Its `.bss` matches once its seven statics are
   declared in the order the file has them.
+- `src/ov207/p_sta_sub.c`'s `.rodata` can't be completed yet, for two reasons. It starts with an 8-byte object at
+  `0x021bafc0` / `0x021bb000` (`7f 00 00 18 00 90 01 00`, perhaps a touch rectangle) that nothing references and the C
+  doesn't define. And no declaration order found by a `rodata_order.py` hill climb over its 24 objects (the
+  function-local scale, position and rectangle tables and the three top-level tables) gives the original's order.
 
 ## Keeping this list current
 
