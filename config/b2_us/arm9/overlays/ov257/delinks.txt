@@ -14,3 +14,13 @@ src/ov257/ima_adpcm.c:
     .text       start:0x0219a350 end:0x0219a550
     .rodata     start:0x021af740 end:0x021af8b4
     .bss        start:0x021b3d64 end:0x021b3d6c
+
+src/ov257/draw_system.c:
+    .text       start:0x0219a550 end:0x0219a850
+    .rodata     start:0x021af8b4 end:0x021b18c4
+    .data       start:0x021b25b0 end:0x021b25c0
+
+src/ov257/ctvt_mic.c:
+    .text       start:0x0219ef4c end:0x0219f234
+    .data       start:0x021b2610 end:0x021b264c
+    .bss        start:0x021b3d6c end:0x021b3d70

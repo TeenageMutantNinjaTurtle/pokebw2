@@ -249,7 +249,7 @@ func_ov257_0219eba0 kind:function(thumb,size=0x4a) addr:0x0219eba0
 func_ov257_0219ebec kind:function(thumb,size=0xbc) addr:0x0219ebec
 func_ov257_0219eca8 kind:function(thumb,size=0xe0) addr:0x0219eca8
 func_ov257_0219ed88 kind:function(thumb,size=0xac) addr:0x0219ed88
-func_ov257_0219ee34 kind:function(thumb,size=0x4) addr:0x0219ee34
+CtvtTalk_GetMic kind:function(thumb,size=0x4) addr:0x0219ee34
 func_ov257_0219ee38 kind:function(thumb,size=0xc) addr:0x0219ee38
 func_ov257_0219ee44 kind:function(thumb,size=0x6) addr:0x0219ee44
 func_ov257_0219ee4c kind:function(thumb,size=0x6) addr:0x0219ee4c
@@ -265,30 +265,30 @@ func_ov257_0219ef28 kind:function(thumb,size=0x6) addr:0x0219ef28
 func_ov257_0219ef30 kind:function(thumb,size=0x6) addr:0x0219ef30
 func_ov257_0219ef38 kind:function(thumb,size=0xc) addr:0x0219ef38
 func_ov257_0219ef44 kind:function(thumb,size=0x8) addr:0x0219ef44
-func_ov257_0219ef4c kind:function(thumb,size=0x78) addr:0x0219ef4c
+CtvtMic_Create kind:function(thumb,size=0x78) addr:0x0219ef4c
 func_ov257_0219efc4 kind:function(arm,size=0x4) addr:0x0219efc4
-func_ov257_0219efcc kind:function(thumb,size=0x34) addr:0x0219efcc
-func_ov257_0219f000 kind:function(thumb,size=0x44) addr:0x0219f000
-func_ov257_0219f044 kind:function(thumb,size=0x2) addr:0x0219f044
-func_ov257_0219f048 kind:function(thumb,size=0x24) addr:0x0219f048
-func_ov257_0219f06c kind:function(thumb,size=0x58) addr:0x0219f06c
-func_ov257_0219f0c4 kind:function(thumb,size=0xc) addr:0x0219f0c4
-func_ov257_0219f0d0 kind:function(thumb,size=0x38) addr:0x0219f0d0
-func_ov257_0219f108 kind:function(thumb,size=0x4) addr:0x0219f108
-func_ov257_0219f10c kind:function(thumb,size=0x12) addr:0x0219f10c
-func_ov257_0219f120 kind:function(thumb,size=0x4) addr:0x0219f120
-func_ov257_0219f124 kind:function(thumb,size=0x1e) addr:0x0219f124
-func_ov257_0219f144 kind:function(thumb,size=0x1e) addr:0x0219f144
-func_ov257_0219f164 kind:function(thumb,size=0x28) addr:0x0219f164
-func_ov257_0219f18c kind:function(thumb,size=0xc) addr:0x0219f18c
-func_ov257_0219f198 kind:function(thumb,size=0x2) addr:0x0219f198
-func_ov257_0219f19c kind:function(thumb,size=0x4c) addr:0x0219f19c
-func_ov257_0219f1e8 kind:function(thumb,size=0x10) addr:0x0219f1e8
-func_ov257_0219f1f8 kind:function(thumb,size=0x4) addr:0x0219f1f8
-func_ov257_0219f1fc kind:function(thumb,size=0x4) addr:0x0219f1fc
-func_ov257_0219f200 kind:function(thumb,size=0x8) addr:0x0219f200
-func_ov257_0219f208 kind:function(thumb,size=0x1c) addr:0x0219f208
-func_ov257_0219f224 kind:function(thumb,size=0xe) addr:0x0219f224
+CtvtMic_Delete kind:function(thumb,size=0x34) addr:0x0219efcc
+CtvtMic_Update kind:function(thumb,size=0x44) addr:0x0219f000
+CtvtMic_Draw kind:function(thumb,size=0x2) addr:0x0219f044
+CtvtMic_VBlank kind:function(thumb,size=0x24) addr:0x0219f048
+CtvtMic_StartRecording kind:function(thumb,size=0x58) addr:0x0219f06c
+CtvtMic_OnBufferFull kind:function(thumb,size=0xc) addr:0x0219f0c4
+CtvtMic_StopRecording kind:function(thumb,size=0x38) addr:0x0219f0d0
+CtvtMic_IsRecording kind:function(thumb,size=0x4) addr:0x0219f108
+CtvtMic_GetRecordedSize kind:function(thumb,size=0x12) addr:0x0219f10c
+CtvtMic_GetBuffer kind:function(thumb,size=0x4) addr:0x0219f120
+CtvtMic_Encode kind:function(thumb,size=0x1e) addr:0x0219f124
+CtvtMic_Decode kind:function(thumb,size=0x1e) addr:0x0219f144
+CtvtMic_AllocChannel kind:function(thumb,size=0x28) addr:0x0219f164
+CtvtMic_FreeChannel kind:function(thumb,size=0xc) addr:0x0219f18c
+CtvtMic_Debug kind:function(thumb,size=0x2) addr:0x0219f198
+CtvtMic_Play kind:function(thumb,size=0x4c) addr:0x0219f19c
+CtvtMic_StopPlaying kind:function(thumb,size=0x10) addr:0x0219f1e8
+CtvtMic_IsPlaying kind:function(thumb,size=0x4) addr:0x0219f1f8
+CtvtMic_GetPlaySize kind:function(thumb,size=0x4) addr:0x0219f1fc
+CtvtMic_GetPlayFrames kind:function(thumb,size=0x8) addr:0x0219f200
+CtvtMic_GetPlayLength kind:function(thumb,size=0x1c) addr:0x0219f208
+CtvtMic_IsReady kind:function(thumb,size=0xe) addr:0x0219f224
 func_ov257_0219f234 kind:function(thumb,size=0x38) addr:0x0219f234
 func_ov257_0219f26c kind:function(thumb,size=0xc) addr:0x0219f26c
 func_ov257_0219f278 kind:function(thumb,size=0x604) addr:0x0219f278
@@ -527,7 +527,7 @@ func_ov257_021aa920 kind:function(thumb,size=0xec) addr:0x021aa920
 CommTvt_GetCamera kind:function(thumb,size=0x8) addr:0x021aaa0c
 CommTvt_GetComm kind:function(thumb,size=0x8) addr:0x021aaa14
 CommTvt_GetTalk kind:function(thumb,size=0x8) addr:0x021aaa1c
-func_ov257_021aaa24 kind:function(thumb,size=0x10) addr:0x021aaa24
+CommTvt_GetMic kind:function(thumb,size=0x10) addr:0x021aaa24
 CommTvt_GetDrawSystem kind:function(thumb,size=0x8) addr:0x021aaa34
 CommTvt_GetGame kind:function(thumb,size=0x8) addr:0x021aaa3c
 CommTvt_GetCall kind:function(thumb,size=0x8) addr:0x021aaa44
@@ -635,36 +635,7 @@ sStepTable kind:data(any) addr:0x021af750
 data_ov257_021af821 kind:data(any) addr:0x021af821 ambiguous
 data_ov257_021af865 kind:data(any) addr:0x021af865 ambiguous
 sDrawPens kind:data(any) addr:0x021af8b4
-data_ov257_021af8b5 kind:data(any) addr:0x021af8b5 ambiguous
-data_ov257_021af8fd kind:data(any) addr:0x021af8fd ambiguous
-data_ov257_021af94d kind:data(any) addr:0x021af94d ambiguous
-data_ov257_021af9dd kind:data(any) addr:0x021af9dd ambiguous
-data_ov257_021afcd5 kind:data(any) addr:0x021afcd5 ambiguous
-data_ov257_021afcfd kind:data(any) addr:0x021afcfd ambiguous
-data_ov257_021afd9d kind:data(any) addr:0x021afd9d ambiguous
-data_ov257_021afe05 kind:data(any) addr:0x021afe05 ambiguous
-data_ov257_021afe21 kind:data(any) addr:0x021afe21 ambiguous
-data_ov257_021afe91 kind:data(any) addr:0x021afe91 ambiguous
-data_ov257_021aff01 kind:data(any) addr:0x021aff01 ambiguous
-data_ov257_021aff95 kind:data(any) addr:0x021aff95 ambiguous
-data_ov257_021b0000 kind:data(any) addr:0x021b0000 ambiguous
-data_ov257_021b0001 kind:data(any) addr:0x021b0001 ambiguous
-data_ov257_021b001b kind:data(any) addr:0x021b001b ambiguous
-data_ov257_021b001c kind:data(any) addr:0x021b001c ambiguous
-data_ov257_021b0045 kind:data(any) addr:0x021b0045 ambiguous
-data_ov257_021b00f5 kind:data(any) addr:0x021b00f5 ambiguous
-data_ov257_021b018d kind:data(any) addr:0x021b018d ambiguous
-data_ov257_021b01e1 kind:data(any) addr:0x021b01e1 ambiguous
-data_ov257_021b0205 kind:data(any) addr:0x021b0205 ambiguous
-data_ov257_021b0215 kind:data(any) addr:0x021b0215 ambiguous
-data_ov257_021b0219 kind:data(any) addr:0x021b0219 ambiguous
-data_ov257_021b021a kind:data(any) addr:0x021b021a ambiguous
-data_ov257_021b0403 kind:data(any) addr:0x021b0403 ambiguous
-data_ov257_021b0501 kind:data(any) addr:0x021b0501 ambiguous
-data_ov257_021b0681 kind:data(any) addr:0x021b0681 ambiguous
-data_ov257_021b0905 kind:data(any) addr:0x021b0905 ambiguous
-data_ov257_021b0d03 kind:data(any) addr:0x021b0d03 ambiguous
-data_ov257_021b0fdc kind:data(any) addr:0x021b0fdc ambiguous
+data_ov257_021b18c4 kind:data(any) addr:0x021b18c4
 sPictureWidths kind:data(any) addr:0x021b18cc
 sPictureHeights kind:data(any) addr:0x021b18d8
 sPictureSizes kind:data(any) addr:0x021b18e4
@@ -783,7 +754,7 @@ data_ov257_021b25d0 kind:data(any) addr:0x021b25d0
 data_ov257_021b25d4 kind:data(any) addr:0x021b25d4
 data_ov257_021b25f8 kind:data(any) addr:0x021b25f8
 data_ov257_021b2604 kind:data(any) addr:0x021b2604
-data_ov257_021b2610 kind:data(any) addr:0x021b2610
+sFilter kind:data(any) addr:0x021b2610
 data_ov257_021b261c kind:data(any) addr:0x021b261c
 data_ov257_021b2628 kind:data(any) addr:0x021b2628
 data_ov257_021b262c kind:data(any) addr:0x021b262c
@@ -833,7 +804,7 @@ data_ov257_021b3d40 kind:data(any) addr:0x021b3d40
 sCameraSystem kind:bss addr:0x021b3d60
 sAdpcm kind:bss addr:0x021b3d64
 data_ov257_021b3d68 kind:bss addr:0x021b3d68
-data_ov257_021b3d6c kind:bss addr:0x021b3d6c
+sCtvtMic kind:bss addr:0x021b3d6c
 data_ov257_021b3d70 kind:bss addr:0x021b3d70
 data_ov257_021b3d88 kind:bss addr:0x021b3d88
 data_ov257_021b3d8c kind:bss addr:0x021b3d8c

@@ -249,7 +249,7 @@ func_ov257_0219eba0 kind:function(thumb,size=0x4a) addr:0x0219ebe0
 func_ov257_0219ebec kind:function(thumb,size=0xbc) addr:0x0219ec2c
 func_ov257_0219eca8 kind:function(thumb,size=0xe0) addr:0x0219ece8
 func_ov257_0219ed88 kind:function(thumb,size=0xac) addr:0x0219edc8
-func_ov257_0219ee34 kind:function(thumb,size=0x4) addr:0x0219ee74
+CtvtTalk_GetMic kind:function(thumb,size=0x4) addr:0x0219ee74
 func_ov257_0219ee38 kind:function(thumb,size=0xc) addr:0x0219ee78
 func_ov257_0219ee44 kind:function(thumb,size=0x6) addr:0x0219ee84
 func_ov257_0219ee4c kind:function(thumb,size=0x6) addr:0x0219ee8c
@@ -265,30 +265,30 @@ func_ov257_0219ef28 kind:function(thumb,size=0x6) addr:0x0219ef68
 func_ov257_0219ef30 kind:function(thumb,size=0x6) addr:0x0219ef70
 func_ov257_0219ef38 kind:function(thumb,size=0xc) addr:0x0219ef78
 func_ov257_0219ef44 kind:function(thumb,size=0x8) addr:0x0219ef84
-func_ov257_0219ef4c kind:function(thumb,size=0x78) addr:0x0219ef8c
+CtvtMic_Create kind:function(thumb,size=0x78) addr:0x0219ef8c
 func_ov257_0219efc4 kind:function(arm,size=0x4) addr:0x0219f004
-func_ov257_0219efcc kind:function(thumb,size=0x34) addr:0x0219f00c
-func_ov257_0219f000 kind:function(thumb,size=0x44) addr:0x0219f040
-func_ov257_0219f044 kind:function(thumb,size=0x2) addr:0x0219f084
-func_ov257_0219f048 kind:function(thumb,size=0x24) addr:0x0219f088
-func_ov257_0219f06c kind:function(thumb,size=0x58) addr:0x0219f0ac
-func_ov257_0219f0c4 kind:function(thumb,size=0xc) addr:0x0219f104
-func_ov257_0219f0d0 kind:function(thumb,size=0x38) addr:0x0219f110
-func_ov257_0219f108 kind:function(thumb,size=0x4) addr:0x0219f148
-func_ov257_0219f10c kind:function(thumb,size=0x12) addr:0x0219f14c
-func_ov257_0219f120 kind:function(thumb,size=0x4) addr:0x0219f160
-func_ov257_0219f124 kind:function(thumb,size=0x1e) addr:0x0219f164
-func_ov257_0219f144 kind:function(thumb,size=0x1e) addr:0x0219f184
-func_ov257_0219f164 kind:function(thumb,size=0x28) addr:0x0219f1a4
-func_ov257_0219f18c kind:function(thumb,size=0xc) addr:0x0219f1cc
-func_ov257_0219f198 kind:function(thumb,size=0x2) addr:0x0219f1d8
-func_ov257_0219f19c kind:function(thumb,size=0x4c) addr:0x0219f1dc
-func_ov257_0219f1e8 kind:function(thumb,size=0x10) addr:0x0219f228
-func_ov257_0219f1f8 kind:function(thumb,size=0x4) addr:0x0219f238
-func_ov257_0219f1fc kind:function(thumb,size=0x4) addr:0x0219f23c
-func_ov257_0219f200 kind:function(thumb,size=0x8) addr:0x0219f240
-func_ov257_0219f208 kind:function(thumb,size=0x1c) addr:0x0219f248
-func_ov257_0219f224 kind:function(thumb,size=0xe) addr:0x0219f264
+CtvtMic_Delete kind:function(thumb,size=0x34) addr:0x0219f00c
+CtvtMic_Update kind:function(thumb,size=0x44) addr:0x0219f040
+CtvtMic_Draw kind:function(thumb,size=0x2) addr:0x0219f084
+CtvtMic_VBlank kind:function(thumb,size=0x24) addr:0x0219f088
+CtvtMic_StartRecording kind:function(thumb,size=0x58) addr:0x0219f0ac
+CtvtMic_OnBufferFull kind:function(thumb,size=0xc) addr:0x0219f104
+CtvtMic_StopRecording kind:function(thumb,size=0x38) addr:0x0219f110
+CtvtMic_IsRecording kind:function(thumb,size=0x4) addr:0x0219f148
+CtvtMic_GetRecordedSize kind:function(thumb,size=0x12) addr:0x0219f14c
+CtvtMic_GetBuffer kind:function(thumb,size=0x4) addr:0x0219f160
+CtvtMic_Encode kind:function(thumb,size=0x1e) addr:0x0219f164
+CtvtMic_Decode kind:function(thumb,size=0x1e) addr:0x0219f184
+CtvtMic_AllocChannel kind:function(thumb,size=0x28) addr:0x0219f1a4
+CtvtMic_FreeChannel kind:function(thumb,size=0xc) addr:0x0219f1cc
+CtvtMic_Debug kind:function(thumb,size=0x2) addr:0x0219f1d8
+CtvtMic_Play kind:function(thumb,size=0x4c) addr:0x0219f1dc
+CtvtMic_StopPlaying kind:function(thumb,size=0x10) addr:0x0219f228
+CtvtMic_IsPlaying kind:function(thumb,size=0x4) addr:0x0219f238
+CtvtMic_GetPlaySize kind:function(thumb,size=0x4) addr:0x0219f23c
+CtvtMic_GetPlayFrames kind:function(thumb,size=0x8) addr:0x0219f240
+CtvtMic_GetPlayLength kind:function(thumb,size=0x1c) addr:0x0219f248
+CtvtMic_IsReady kind:function(thumb,size=0xe) addr:0x0219f264
 func_ov257_0219f234 kind:function(thumb,size=0x34) addr:0x0219f274
 func_ov257_0219f26c kind:function(thumb,size=0xc) addr:0x0219f2a8
 func_ov257_0219f278 kind:function(thumb,size=0x604) addr:0x0219f2b4
@@ -527,7 +527,7 @@ func_ov257_021aa920 kind:function(thumb,size=0xec) addr:0x021aa95c
 CommTvt_GetCamera kind:function(thumb,size=0x8) addr:0x021aaa48
 CommTvt_GetComm kind:function(thumb,size=0x8) addr:0x021aaa50
 CommTvt_GetTalk kind:function(thumb,size=0x8) addr:0x021aaa58
-func_ov257_021aaa24 kind:function(thumb,size=0x10) addr:0x021aaa60
+CommTvt_GetMic kind:function(thumb,size=0x10) addr:0x021aaa60
 CommTvt_GetDrawSystem kind:function(thumb,size=0x8) addr:0x021aaa70
 CommTvt_GetGame kind:function(thumb,size=0x8) addr:0x021aaa78
 CommTvt_GetCall kind:function(thumb,size=0x8) addr:0x021aaa80
@@ -664,6 +664,7 @@ data_ov257_021b0681_w2_us kind:data(any) addr:0x021b0681 ambiguous
 data_ov257_021b0905_w2_us kind:data(any) addr:0x021b0905 ambiguous
 data_ov257_021b0d03_w2_us kind:data(any) addr:0x021b0d03 ambiguous
 data_ov257_021b0fdc_w2_us kind:data(any) addr:0x021b0fdc ambiguous
+data_ov257_021b18c4 kind:data(any) addr:0x021b1900
 sPictureWidths kind:data(any) addr:0x021b1908
 sPictureHeights kind:data(any) addr:0x021b1914
 sPictureSizes kind:data(any) addr:0x021b1920
@@ -782,7 +783,7 @@ data_ov257_021b25d0 kind:data(any) addr:0x021b2610
 data_ov257_021b25d4 kind:data(any) addr:0x021b2614
 data_ov257_021b25f8 kind:data(any) addr:0x021b2638
 data_ov257_021b2604 kind:data(any) addr:0x021b2644
-data_ov257_021b2610 kind:data(any) addr:0x021b2650
+sFilter kind:data(any) addr:0x021b2650
 data_ov257_021b261c kind:data(any) addr:0x021b265c
 data_ov257_021b2628 kind:data(any) addr:0x021b2668
 data_ov257_021b262c kind:data(any) addr:0x021b266c
@@ -832,7 +833,7 @@ data_ov257_021b3d40 kind:data(any) addr:0x021b3d80
 sCameraSystem kind:bss addr:0x021b3da0
 sAdpcm kind:bss addr:0x021b3da4
 data_ov257_021b3d68 kind:bss addr:0x021b3da8
-data_ov257_021b3d6c kind:bss addr:0x021b3dac
+sCtvtMic kind:bss addr:0x021b3dac
 data_ov257_021b3d70 kind:bss addr:0x021b3db0
 data_ov257_021b3d88 kind:bss addr:0x021b3dc8
 data_ov257_021b3d8c kind:bss addr:0x021b3dcc
