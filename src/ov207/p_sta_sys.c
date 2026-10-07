@@ -117,7 +117,7 @@ BOOL PStatus_Init(PStatusWork *wk) {
     wk->sub = PStaSub_Create(wk);
     wk->info = PStaInfo_Create(wk);
     wk->skill = func_ov207_021b8510(wk);
-    wk->ribbon = func_ov207_021b7644(wk);
+    wk->ribbon = PStaRibbon_Create(wk);
     PStatus_LoadResources(wk);
     PStatus_InitText(wk);
     PStatus_CreateActors(wk);
@@ -132,7 +132,7 @@ BOOL PStatus_Init(PStatusWork *wk) {
         wk->page = PSTATUS_PAGE_FORGET;
         PStaSub_Load(wk, wk->sub);
         func_ov207_021b9510(wk, wk->skill);
-        func_ov207_021b7f7c(wk, wk->ribbon);
+        PStaRibbon_LoadPokemon(wk, wk->ribbon);
     } else {
         wk->page = wk->param->page;
         if (wk->page < PSTATUS_PAGE_FORGET) {
@@ -142,7 +142,7 @@ BOOL PStatus_Init(PStatusWork *wk) {
             }
         }
         PStaSub_Load(wk, wk->sub);
-        func_ov207_021b7f7c(wk, wk->ribbon);
+        PStaRibbon_LoadPokemon(wk, wk->ribbon);
         switch (wk->page) {
         case PSTATUS_PAGE_INFO:
             PStaInfo_Load(wk, wk->info);
@@ -151,7 +151,7 @@ BOOL PStatus_Init(PStatusWork *wk) {
             func_ov207_021b8a9c(wk, wk->skill);
             break;
         case PSTATUS_PAGE_RIBBON:
-            func_ov207_021b7db0(wk, wk->ribbon);
+            PStaRibbon_Load(wk, wk->ribbon);
             break;
         default:
             wk->page = PSTATUS_PAGE_INFO;
@@ -171,8 +171,8 @@ BOOL PStatus_Exit(PStatusWork *wk) {
     PStatus_FreeActors(wk);
     PStatus_ExitText(wk);
     PStatus_FreeResources(wk);
-    func_ov207_021b804c(wk, wk->ribbon);
-    func_ov207_021b767c(wk, wk->ribbon);
+    PStaRibbon_UnloadPokemon(wk, wk->ribbon);
+    PStaRibbon_Free(wk, wk->ribbon);
     func_ov207_021b8594(wk, wk->skill);
     PStaInfo_Free(wk, wk->info);
     PStaSub_Free(wk, wk->sub);
@@ -246,7 +246,7 @@ int PStatus_Main(PStatusWork *wk) {
                 func_ov207_021b85a0(wk, wk->skill);
                 break;
             case PSTATUS_PAGE_RIBBON:
-                func_ov207_021b7690(wk, wk->ribbon);
+                PStaRibbon_Main(wk, wk->ribbon);
                 break;
             }
         }
@@ -434,14 +434,14 @@ static void PStatus_LoadResources(PStatusWork *wk) {
     PStaSub_LoadResources(wk, wk->sub, arc);
     PStaInfo_LoadResources(wk, wk->info, arc);
     func_ov207_021b87e0(wk, wk->skill, arc);
-    func_ov207_021b76e4(wk, wk->ribbon, arc);
+    PStaRibbon_LoadResources(wk, wk->ribbon, arc);
     GFL_ArcToolFree(arc);
 }
 
 static void PStatus_FreeResources(PStatusWork *wk) {
     u8 i;
 
-    func_ov207_021b7764(wk, wk->ribbon);
+    PStaRibbon_FreeResources(wk, wk->ribbon);
     func_ov207_021b8864(wk, wk->skill);
     PStaInfo_FreeResources(wk, wk->info);
     PStaSub_FreeResources(wk, wk->sub);
@@ -507,14 +507,14 @@ static void PStatus_CreateActors(PStatusWork *wk) {
         func_0204c124(wk->buttons[PSTA_BUTTON_SHORTCUT], FALSE);
     }
     PStaSub_CreateActors(wk, wk->sub);
-    func_ov207_021b7798(wk, wk->ribbon);
+    PStaRibbon_CreateActors(wk, wk->ribbon);
     func_ov207_021b88ac(wk, wk->skill);
 }
 
 static void PStatus_FreeActors(PStatusWork *wk) {
     u8 i;
 
-    func_ov207_021b785c(wk, wk->ribbon);
+    PStaRibbon_FreeActors(wk, wk->ribbon);
     func_ov207_021b8a34(wk, wk->skill);
     PStaSub_FreeActors(wk, wk->sub);
     for (i = 0; i < PSTA_BUTTON_COUNT; i++) {
@@ -942,10 +942,10 @@ static void PStatus_StartRedraw(PStatusWork *wk) {
     if (wk->shownPartyIndex != wk->partyIndex) {
         if (wk->shownPartyIndex != 0xff) {
             PStaSub_Unload(wk, wk->sub);
-            func_ov207_021b804c(wk, wk->ribbon);
+            PStaRibbon_UnloadPokemon(wk, wk->ribbon);
         }
         PStaSub_Load(wk, wk->sub);
-        func_ov207_021b7f7c(wk, wk->ribbon);
+        PStaRibbon_LoadPokemon(wk, wk->ribbon);
     }
     switch (wk->shownPage) {
     case PSTATUS_PAGE_INFO:
@@ -955,7 +955,7 @@ static void PStatus_StartRedraw(PStatusWork *wk) {
         func_ov207_021b8ba4(wk, wk->skill);
         break;
     case PSTATUS_PAGE_RIBBON:
-        func_ov207_021b7efc(wk, wk->ribbon);
+        PStaRibbon_Unload(wk, wk->ribbon);
         break;
     case PSTATUS_PAGE_FORGET:
         func_ov207_021b96b8(wk, wk->skill);
@@ -969,7 +969,7 @@ static void PStatus_StartRedraw(PStatusWork *wk) {
         func_ov207_021b8a9c(wk, wk->skill);
         break;
     case PSTATUS_PAGE_RIBBON:
-        func_ov207_021b7db0(wk, wk->ribbon);
+        PStaRibbon_Load(wk, wk->ribbon);
         break;
     case PSTATUS_PAGE_FORGET:
         func_ov207_021b9510(wk, wk->skill);
@@ -1029,7 +1029,7 @@ static void PStatus_UpdateRedraw(PStatusWork *wk) {
         func_ov207_021b8bf4(wk, wk->skill);
         break;
     case PSTATUS_PAGE_RIBBON:
-        func_ov207_021b7f20(wk, wk->ribbon);
+        PStaRibbon_Clear(wk, wk->ribbon);
         break;
     case PSTATUS_PAGE_FORGET:
         func_ov207_021b9728(wk, wk->skill);
@@ -1043,7 +1043,7 @@ static void PStatus_UpdateRedraw(PStatusWork *wk) {
         func_ov207_021b8b30(wk, wk->skill);
         break;
     case PSTATUS_PAGE_RIBBON:
-        func_ov207_021b7e0c(wk, wk->ribbon);
+        PStaRibbon_Draw(wk, wk->ribbon);
         break;
     case PSTATUS_PAGE_FORGET:
         func_ov207_021b9610(wk, wk->skill);
@@ -1222,7 +1222,7 @@ static BOOL PStatus_HasRibbon(PStatusWork *wk, BoxPkm *pkm) {
     u8 i;
 
     for (i = 0; i < 80; i++) {
-        if (PML_PkmGetParam(pkm, func_ov207_021bad9c(i, 0), NULL) == TRUE) {
+        if (PML_PkmGetParam(pkm, Ribbon_GetData(i, 0), NULL) == TRUE) {
             return TRUE;
         }
     }

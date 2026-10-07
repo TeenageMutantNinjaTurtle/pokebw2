@@ -22,3 +22,8 @@ src/ov207/p_sta_info.c:
     .text       start:0x021b6964 end:0x021b7684
     .rodata     start:0x021bb118 end:0x021bb17c
     .data       start:0x021bb704 end:0x021bb714
+
+src/ov207/p_sta_ribbon.c:
+    .text       start:0x021b7684 end:0x021b8550
+    .rodata     start:0x021bb17c end:0x021bb184
+    .data       start:0x021bb714 end:0x021bb724

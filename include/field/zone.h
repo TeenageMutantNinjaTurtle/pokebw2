@@ -220,6 +220,7 @@ BOOL IsZoneAbyssalRuinsStrengthRock(u16 zoneId);
 // Whether the zone is a normal field zone: not the Union Room, Entralink or the like
 BOOL func_02018c38(u16 zoneId);
 BOOL IsZoneEntralinkHub(u16 zoneId);
+BOOL GetZoneIsEntreeForest(u16 zoneId);
 BOOL IsZoneGameCommDisabled(u16 zoneId);
 BOOL IsZoneInVictoryRoad(u16 zoneId);
 BOOL IsZoneJoinAvenue(u16 zoneId);
