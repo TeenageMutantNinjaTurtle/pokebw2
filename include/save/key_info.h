@@ -13,6 +13,8 @@ u32 GetGameDifficulty(KeyInfoSave *keyInfo);
 u32 func_020105a0(KeyInfoSave *keyInfo);
 // Returns its argument, as the key information in data that ov331 reads
 KeyInfoSave *func_0201046c(void *a0);
+// The data at 0x38 in the same data
+void *func_02010470(void *a0);
 
 #define GAME_DIFFICULTY_EASY 0
 #define GAME_DIFFICULTY_NORMAL 1

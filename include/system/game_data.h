@@ -2,6 +2,7 @@
 #define POKEBW2_SYSTEM_GAME_DATA_H
 
 #include "types.h"
+#include "gfl/heap.h"
 #include "struct_decls.h"
 
 // The city of the player's version, which a key from Unova Link can switch
@@ -33,6 +34,8 @@ void func_ov012_0215cd58(CityState *state);
 void func_ov012_0215cd8c(CityState *state);
 BOOL func_ov012_0215cd98(s32 value);
 
+GameData *GameData_Create(HeapID heapId);
+void GameData_Free(GameData *gameData);
 BOOL GameData_CheckPairFlag(GameData *gameData);
 BagSave *GameData_GetBag(GameData *gameData);
 void *func_0201734c(GameData *gameData);
