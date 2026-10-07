@@ -153,7 +153,16 @@ u32 FindStadiumTrainerIndex(StadiumTrainerEntry *trainers, u16 a, u16 b) {
 }
 
 BOOL IsReturnLocationNonLeaguePokeCen(GameData *gameData) {
-    if (GetLeaguePokeCenReturnLocationIdx() == GetReturnLocationIdx(gameData)) {
+    u32 leagueIdx = GetLeaguePokeCenReturnLocationIdx();
+    u16 returnIdx = GetReturnLocationIdx(gameData);
+    BOOL isLeague;
+
+    if (leagueIdx == returnIdx) {
+        isLeague = TRUE;
+    } else {
+        isLeague = FALSE;
+    }
+    if (isLeague) {
         return FALSE;
     }
     return TRUE;

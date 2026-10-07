@@ -555,6 +555,13 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 ## Branches and block layout
 
+- `if (a == b) { return FALSE; } return TRUE;` is folded into `a != b`, which branches with `beq` to the `FALSE`
+  return whatever the spelling. The original's `bne` to the `TRUE` return comes from a flag: `scrcmd_stadium.c`'s
+  `IsReturnLocationNonLeaguePokeCen` matches with both calls in locals, `isLeague` set in an `if`/`else` from their
+  comparison, and `if (isLeague) { return FALSE; } return TRUE;`.
+- A range check that adds the 16-bit negated constant (`adds r0, #0xc004`, narrowing, `cmp r0, #3`, `bhi`) is an
+  `||` chain of `==` tests of consecutive constants; a written `(u16)(x - C) <= n` subtracts instead.
+  `billboard_act.c`'s `func_0204f768` tests the last animation command this way.
 - A 0/1 choice laid out first value first (`bhs`, `movs r0, #0`, `b`, `movs r0, #1`) is held in an enum type: every
   plain 0/1 spelling (ternary, `if`/`else`, `!`, `== FALSE`, an int local) gives `blo`, `movs r0, #1` first.
   `btl_main.c`'s `GetSideFromMonID` matches as `BtlSide side = monId < 12 ? BTL_SIDE_1ST : BTL_SIDE_2ND;`, with the
