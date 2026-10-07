@@ -7,6 +7,7 @@
 #include "gfl/msg.h"
 #include "pml/item.h"
 #include "pml/poke_party.h"
+#include "system/shooter_item.h"
 
 // Item data. The file's name is a guess: the ROM has no string for it. The tables are named by swan except
 // DUMMY_ITEMS, UNHOLDABLE_ITEMS and LIST_ITEM_GRAPHICS, which are ours
@@ -73,7 +74,7 @@ static const u16 BERRY_ITEM_IDS[] = {
     ITEM_MICLE_BERRY,  ITEM_CUSTAP_BERRY, ITEM_JABOCA_BERRY, ITEM_ROWAP_BERRY,
 };
 
-// The icons of the battle items in func_02035944's list: characters and palette
+// The icons of the Wonder Launcher's items, in ShooterItem_GetIndex's order: characters and palette
 static const u16 LIST_ITEM_GRAPHICS[][2] = {
     { 867, 868 }, { 871, 872 }, { 863, 864 },  { 831, 837 }, { 831, 836 }, { 831, 834 }, { 831, 835 }, { 831, 833 },
     { 831, 838 }, { 831, 832 }, { 1000, 839 }, { 875, 876 }, { 877, 878 }, { 879, 880 }, { 881, 882 }, { 883, 884 },
@@ -233,9 +234,9 @@ u16 GetItemGraphicsDatID(u16 item, u32 type) {
         }
         return ITEM_GRAPHICS_CHARS_AND_PALETTES[item][1];
     case ITEM_FILE_LIST_ICON_CHAR:
-        return LIST_ITEM_GRAPHICS[func_02035944(item)][0];
+        return LIST_ITEM_GRAPHICS[ShooterItem_GetIndex(item)][0];
     case ITEM_FILE_LIST_ICON_PLTT:
-        return LIST_ITEM_GRAPHICS[func_02035944(item)][1];
+        return LIST_ITEM_GRAPHICS[ShooterItem_GetIndex(item)][1];
     }
     return 0;
 }

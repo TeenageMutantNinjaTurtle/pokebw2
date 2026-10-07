@@ -7,6 +7,8 @@
 #include "struct_decls.h"
 
 SaveControl *SaveControl_GetInstance(void);
+// Frees the save data and its control
+void SaveControl_Free(void);
 EncountSave *SaveControl_GetEncountSave(SaveControl *save);
 u32 func_02007560(SaveControl *save, u32 block, u32 heapId, void *buffer, u32 size);
 void *getAddressOfExtraSaveBlk(SaveControl *save, u32 block, u32 arg2);

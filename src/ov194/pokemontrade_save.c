@@ -18,6 +18,7 @@
 #include "pml/evolution.h"
 #include "pml/item.h"
 #include "pml/mail.h"
+#include "pml/met_data.h"
 #include "pml/poke_party.h"
 #include "save/box.h"
 #include "save/chatter.h"

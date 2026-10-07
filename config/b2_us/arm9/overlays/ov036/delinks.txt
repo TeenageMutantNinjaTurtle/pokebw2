@@ -158,3 +158,23 @@ src/ov036/event_trainer_eye.c:
     .text       start:0x021a5d2c end:0x021a6668
     .rodata     start:0x021d0820 end:0x021d0878
     .data       start:0x021d5138 end:0x021d514c
+
+src/ov036/scrcmd_trainer.c:
+    complete
+    .text       start:0x021a6668 end:0x021a6b80
+
+src/ov036/scrcmd_save.c:
+    complete
+    .text       start:0x021a6b80 end:0x021a6d14
+
+src/ov036/scrcmd_item.c:
+    complete
+    .text       start:0x021a74ac end:0x021a7724
+
+src/ov036/scrcmd_word.c:
+    complete
+    .text       start:0x021a7724 end:0x021a7eb8
+
+src/ov036/scrcmd_mapchange.c:
+    complete
+    .text       start:0x021a7eb8 end:0x021a82bc

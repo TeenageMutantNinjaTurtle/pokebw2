@@ -17,9 +17,11 @@
 #define LOCATION_SINNOH 30007
 #define LOCATION_FARAWAY 30008
 #define LOCATION_UNKNOWN 30009
-// The four special transfers that special_transfers checks
-#define LOCATION_SPECIAL_TRANSFER_FIRST 30010
-#define LOCATION_SPECIAL_TRANSFER_LAST 30013
+// The event Celebi and legendary beasts, before and after the event they start (special_transfers kinds 0 to 3)
+#define LOCATION_EVENT_CELEBI 30010
+#define LOCATION_EVENT_CELEBI_USED 30011
+#define LOCATION_EVENT_BEASTS 30012
+#define LOCATION_EVENT_BEASTS_USED 30013
 #define LOCATION_ENTRALINK 30014
 #define LOCATION_DREAM_RADAR 30015
 #define LOCATION_EXTERNAL_BASE 60000
