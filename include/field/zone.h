@@ -214,6 +214,7 @@ ZoneWarp *GetZoneWarpByID(EventData *eventData, u16 warpId);
 BOOL IsWarpDestId256(ZoneWarp *warp);
 BOOL IsZone150Or151(u16 zoneId);
 BOOL IsZoneAbyssalRuinsOutside(u16 zoneId);
+BOOL IsZoneNimbasaStadium(u16 zoneId);
 BOOL IsZoneAbyssalRuinsInside(u16 zoneId);
 BOOL IsZoneAbyssalRuinsFlashRock(u16 zoneId);
 BOOL IsZoneAbyssalRuinsStrengthRock(u16 zoneId);

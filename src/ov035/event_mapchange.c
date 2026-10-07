@@ -1151,7 +1151,7 @@ GameEvent *EventMapChangeWarpPad_Create(GameSystem *gsys, Field *field, u16 zone
     return event;
 }
 
-GameEvent *EventUnionRoomWarp_Create(GameSystem *gsys) {
+GameEvent *EventUnionRoomWarp_Create(GameSystem *gsys, Field *field) {
     GameEvent *event = GameEvent_Create(gsys, NULL, EventUnionRoomWarp_Callback, sizeof(EventMapChange));
     EventMapChange *wk = GameEvent_GetData(event);
 
