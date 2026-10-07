@@ -26,6 +26,8 @@ enum {
     HEAPID_FIELDMAP = 0x15,
     HEAPID_TITLE = 0x16,
     HEAPID_POKELIST = 0x17,
+    // Mystery Gift's (not from swan)
+    HEAPID_MYSTERY = 0x1d,
     HEAPID_NAMEIN = 0x1e,
     HEAPID_IRC_BATTLE_MENU = 0x1f,
     HEAPID_TRAINER_CARD = 0x26,

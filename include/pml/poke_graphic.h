@@ -15,6 +15,8 @@ u32 func_02033f90(ArcTool *arc, BoxPkm *pkm, u32 a2, u32 a3, HeapID heapId);
 u32 func_02033f2c(ArcTool *arc, BoxPkm *pkm, u32 a2, u32 a3, u32 a4, HeapID heapId);
 // Loads a Pokémon's front sprite as characters, returning the buffer to free
 void *func_02033d50(NNSG2dCharacterData **charData, BoxPkm *pkm, u32 a2, HeapID heapId);
+// Rearranges the characters of a sprite that func_02033d50 loaded
+void func_0203391c(NNSG2dCharacterData *charData, HeapID heapId);
 u32 func_02034000(BoxPkm *pkm, u32 a1, u32 a2, u32 a3, HeapID heapId);
 // A sprite's character file, with its frames in one cell
 u32 GetPokemonSingleCellCharacterDataNo(u32 arcId, u32 species, u32 form, u32 sex, BOOL rare, u32 a5, u32 a6);
