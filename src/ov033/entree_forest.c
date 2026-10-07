@@ -77,7 +77,7 @@ PartyPkm *func_ov033_02176bd0(HeapID heapId, GameData *gameData, const EntreeFor
     id = getIDAsUInt(GetGameDataPlayerInfo(gameData));
     pid = PML_GenPID(id, pokemon->species, pokemon->form, pokemon->sex, 0, 0);
     pkm = PokeParty_NewTempPkm(pokemon->species, level, -1, heapId);
-    PokeParty_CreatePkm(pkm, pokemon->species, level, id, 0, -1, pid, 0);
+    PokeParty_CreatePkm(pkm, pokemon->species, level, id, PKM_IVS_RANDOM, pid);
     PokeParty_SetHiddenAbil(pkm, pokemon->species, pokemon->form);
     PokeParty_ChangeForme(pkm, pokemon->form);
     if (pokemon->move != 0) {

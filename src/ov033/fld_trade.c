@@ -71,14 +71,13 @@ void EventFieldTrade_CreatePkm(GameData *gameData, HeapID heapId, PartyPkm *pkm,
                                u32 offerIndex) {
     u32 sexMode = offer->unk30;
     u32 pid;
-    u32 zero = 0;
     StrBuf *name;
 
     if (sexMode == 0xff) {
         sexMode = 2;
     }
-    pid = PML_GenPID(offer->unk34, (u16)offer->species, (u16)offer->unk08, sexMode, offer->unk28, zero);
-    PokeParty_CreatePkm(pkm, (u16)offer->species, (u16)offer->unk0c, offer->unk34, zero, -1, pid, zero);
+    pid = PML_GenPID(offer->unk34, (u16)offer->species, (u16)offer->unk08, sexMode, offer->unk28, 0);
+    PokeParty_CreatePkm(pkm, (u16)offer->species, (u16)offer->unk0c, offer->unk34, PKM_IVS_RANDOM, pid);
     PokeParty_SetParam(pkm, 0x6f, offer->unk08);
     EventFieldTrade_DebugLogPkm(pkm);
 

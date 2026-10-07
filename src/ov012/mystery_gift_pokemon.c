@@ -25,10 +25,8 @@ PartyPkm *func_ov012_02153160(MysteryGift *gift, HeapID heapId, GameData *gameDa
     u32 gender = poke->gender;
     u32 abilityType = poke->abilityType;
     u32 ability;
-    u32 pid;
-    u32 pidFlags;
+    u64 pid;
     u32 ivs;
-    u32 unk;
     u16 moves[4];
     u8 stats[6];
     PartyPkm *pkm;
@@ -67,7 +65,6 @@ PartyPkm *func_ov012_02153160(MysteryGift *gift, HeapID heapId, GameData *gameDa
                 stats[i] = GFL_RandomLC(32);
             }
         }
-        unk = 0;
         pkm = PokeParty_NewTempPkm(species, level, trainerId, heapId);
         ivs = (stats[0] & 0x1f) | ((stats[1] & 0x1f) << 5) | ((stats[2] & 0x1f) << 10) | ((stats[3] & 0x1f) << 15) |
               ((stats[4] & 0x1f) << 20) | ((stats[5] & 0x1f) << 25);
@@ -92,18 +89,14 @@ PartyPkm *func_ov012_02153160(MysteryGift *gift, HeapID heapId, GameData *gameDa
         }
         if (poke->personality != 0) {
             pid = poke->personality;
-            pidFlags = 0;
         } else if (poke->shininess == 0) {
-            pidFlags = 0;
             pid = PML_GenPID(trainerId, species, poke->form, gender, ability, 0);
         } else if (poke->shininess == 1) {
             pid = PML_GenPID(trainerId, species, poke->form, gender, ability, 2);
-            pidFlags = 0;
         } else if (poke->shininess == 2) {
             pid = PML_GenPID(trainerId, species, poke->form, gender, ability, 1);
-            pidFlags = 0;
         }
-        PokeParty_CreatePkm(pkm, poke->species, level, trainerId, unk, ivs, pid, pidFlags);
+        PokeParty_CreatePkm(pkm, poke->species, level, trainerId, ivs, pid);
         PokeParty_SetParam(pkm, PKM_PARAM_ITEM, poke->heldItem);
         PokeParty_SetDefaultMoves(pkm);
         for (i = 0; i < 4; i++) {

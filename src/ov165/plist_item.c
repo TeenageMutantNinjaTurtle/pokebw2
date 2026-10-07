@@ -237,7 +237,7 @@ u32 PokeList_GetItemMenuMessage(PokeListWork *wk, u16 item) {
 void PokeList_UpdateArceusForm(PokeListWork *wk, PartyPkm *pkm, u16 item) {
     if (PokeParty_GetParam(pkm, PKM_PARAM_SPECIES, NULL) == SPECIES_ARCEUS) {
         u32 form = PokeParty_GetParam(pkm, PKM_PARAM_FORM, NULL);
-        u32 type = _getTypeForPlate(item);
+        u16 type = _getTypeForPlate(item);
 
         if (form != type) {
             PokeParty_ChangeForme(pkm, type);
@@ -252,7 +252,7 @@ void PokeList_UpdateGenesectForm(PokeListWork *wk, PartyPkm *pkm, u16 item) {
         u32 driveForm = func_0201ef8c(item);
 
         if (form != driveForm) {
-            PokeParty_ChangeForme(pkm, (u16)driveForm);
+            PokeParty_ChangeForme(pkm, driveForm);
         }
     }
 }

@@ -151,17 +151,17 @@ void PStatus_PrintFormattedRightToWindow(PStatusWork *wk, BmpWin *window, WordSe
                                          u16 color);
 
 // p_sta_sub.c
-PStaSubWork *func_ov207_021b5364(PStatusWork *wk);
-void func_ov207_021b5394(PStatusWork *wk, PStaSubWork *sub);
-void func_ov207_021b53a0(PStatusWork *wk, PStaSubWork *sub);
-void func_ov207_021b5580(PStatusWork *wk, PStaSubWork *sub, ArcTool *arc);
-void func_ov207_021b559c(PStatusWork *wk, PStaSubWork *sub);
-void func_ov207_021b55a4(PStatusWork *wk, PStaSubWork *sub);
-void func_ov207_021b56e0(PStatusWork *wk, PStaSubWork *sub);
-void func_ov207_021b5710(PStatusWork *wk, PStaSubWork *sub);
-void func_ov207_021b57cc(PStatusWork *wk, PStaSubWork *sub);
-void func_ov207_021b5a70(PStatusWork *wk, PStaSubWork *sub);
-void func_ov207_021b5a98(PStatusWork *wk, PStaSubWork *sub);
+PStaSubWork *PStaSub_Create(PStatusWork *wk);
+void PStaSub_Free(PStatusWork *wk, PStaSubWork *sub);
+void PStaSub_Main(PStatusWork *wk, PStaSubWork *sub);
+void PStaSub_LoadResources(PStatusWork *wk, PStaSubWork *sub, ArcTool *arc);
+void PStaSub_FreeResources(PStatusWork *wk, PStaSubWork *sub);
+void PStaSub_CreateActors(PStatusWork *wk, PStaSubWork *sub);
+void PStaSub_FreeActors(PStatusWork *wk, PStaSubWork *sub);
+void PStaSub_Load(PStatusWork *wk, PStaSubWork *sub);
+void PStaSub_Draw(PStatusWork *wk, PStaSubWork *sub);
+void PStaSub_Unload(PStatusWork *wk, PStaSubWork *sub);
+void PStaSub_Clear(PStatusWork *wk, PStaSubWork *sub);
 
 // p_sta_info.c
 PStaInfoWork *func_ov207_021b6924(PStatusWork *wk);

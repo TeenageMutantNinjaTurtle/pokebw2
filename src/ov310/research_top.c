@@ -821,7 +821,7 @@ static ClActor *ResearchTop_GetActor(ResearchTop *wk, u32 index) {
 }
 
 static void ResearchTop_StartPaletteAnime(ResearchTop *wk, u32 index) {
-    PaletteAnime_Start(wk->animes[index], sTopPaletteAnimes[index].mode, sTopPaletteAnimes[index].speed);
+    PaletteAnime_Start(wk->animes[index], sTopPaletteAnimes[index].mode, sTopPaletteAnimes[index].color);
 }
 
 static void ResearchTop_StopPaletteAnime(ResearchTop *wk, u32 index) {
