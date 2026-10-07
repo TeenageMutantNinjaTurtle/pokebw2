@@ -4,6 +4,15 @@
 #include "types.h"
 #include "struct_decls.h"
 
+// Unlocks a key, and enables what it unlocks
+void func_020104b0(KeyInfoSave *keyInfo, u32 key);
+void func_020104e0(KeyInfoSave *keyInfo, u32 key);
+// Whether what a key unlocks is enabled
+BOOL keyEnabler(KeyInfoSave *keyInfo, u32 key);
+void SetGameDifficulty(KeyInfoSave *keyInfo, u32 difficulty);
+// Sets the city, and the chamber the mystery door leads to
+void func_02010550(KeyInfoSave *keyInfo, u32 city);
+void func_0201058c(KeyInfoSave *keyInfo, u32 chamber);
 // Returns 1 if the key that switches the city is set
 
 u32 KeyInfo_GetCityKey(KeyInfoSave *keyInfo);

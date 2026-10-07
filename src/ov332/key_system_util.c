@@ -405,7 +405,7 @@ static void KeySystem_CalcTextPos(u32 align, const KeySystemPos *pos, GFLBitmap 
     case KEY_SYSTEM_ALIGN_CENTER:
         x = GFL_BitmapGetWidth(bitmap) / 2;
         y = GFL_BitmapGetHeight(bitmap) / 2;
-        x -= (u32)GFL_FontGetBlockWidth(str, font, 0) / 2;
+        x -= GFL_FontGetBlockWidth(str, font, 0) / 2;
         y -= GFL_FontGetBlockHeight(str, font) / 2;
         out->x = x + pos->x;
         out->y = y + pos->y;
@@ -427,7 +427,7 @@ static void KeySystem_CalcTextPos(u32 align, const KeySystemPos *pos, GFLBitmap 
     }
 }
 
-KeySystemMsgWinGroup *KeySystemMsgWinGroup_Create(const KeySystemMsgWinTemplate *templates, u32 count, u16 bg,
+KeySystemMsgWinGroup *KeySystemMsgWinGroup_Create(const KeySystemMsgWinTemplate *templates, u16 count, u16 bg,
                                                   u16 palette, Font *font, MsgData *msgData, HeapID heapId) {
     KeySystemMsgWinGroup *group =
         GFL_HeapAllocate(heapId, sizeof(KeySystemMsgWin *) * count + sizeof(u32), TRUE, "key_system_util.c", 605);
@@ -484,7 +484,7 @@ KeySystemMenu *KeySystemMenu_Create(const KeySystemMenuSetup *setup, HeapID heap
 }
 
 KeySystemMenu *KeySystemMenu_CreateAt(const KeySystemMenuSetup *setup, u8 x, u8 y, u8 width, u8 height, HeapID heapId) {
-    u32 i = 0;
+    u32 i;
     KeySystemMenu *menu = GFL_HeapAllocate(heapId, sizeof(KeySystemMenu), FALSE, "key_system_util.c", 741);
     BmpMenuListHeader header;
 
@@ -1020,7 +1020,7 @@ KeySystemScrollList *KeySystemScrollList_Create(const KeySystemScrollListSetup *
     listSetup.unk0[10] = setup->palette;
     listSetup.unk0[17] = setup->palette + 1;
     listSetup.count = setup->count;
-    listSetup.cursorPos = setup->unkAA;
+    listSetup.cursorPos = setup->cursor;
     listSetup.unk19 = 4;
     listSetup.scroll = 0;
     listSetup.work = list;
@@ -1064,7 +1064,7 @@ BOOL KeySystemScrollList_Start(KeySystemScrollList *list) {
         return TRUE;
     }
     if (!func_ov139_0219b294(list->list)) {
-        func_ov139_0219cc58(list->list, list->setup.unkAA);
+        func_ov139_0219cc58(list->list, list->setup.cursor);
         if (func_ov139_0219cc44(list->list)) {
             func_ov139_0219ccd0(list->list, list->setup.unkAC);
         }
