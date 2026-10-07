@@ -89,6 +89,8 @@ void func_0201b25c(MCSS *mcss);
 void SetupPokemonLoaderFSTool(u32 species, u32 form, u32 sex, BOOL rare, u32 a6, MCSSLoadInfo *info, u32 a5);
 // Draws a Spinda's spots for its personality on the next sprite added
 void func_0201c188(MCSSSystem *system, u32 personality);
+// Draws a Spinda's spots for its personality on a sprite's characters
+void func_0201c1b4(void *chars, u32 personality);
 // Adds the sprite of a party Pokémon
 MCSS *func_0201c14c(MCSSSystem *system, PartyPkm *pkm, u32 a2, fx32 x, fx32 y, fx32 z);
 

@@ -39,7 +39,8 @@
 #define ARCID_MONOLITH 38
 // The sentence input's graphics, with the icons that sentences show in place of some words
 #define ARCID_PMSI 42
-// The musical's graphics: the photo screen's touch screen, and the stage's (not from swan)
+// The musical's graphics (not from swan): its props' textures, the photo screen's touch screen and the stage's
+#define ARCID_MUSICAL_ITEM 44
 #define ARCID_MUSICAL_SHOT 45
 #define ARCID_MUSICAL 46
 #define ARCID_MMODEL_TBL 47
@@ -47,6 +48,8 @@
 #define ARCID_INFOWIN 49
 // The cells and animations of bmp_oam.c's 32x16 actors, for each OBJ character mapping
 #define ARCID_BMP_OAM 50
+// The musical's Pokémon sprites, in the older layout of ARCID_POKEGRA (not from swan)
+#define ARCID_MUSICAL_POKEGRA 51
 #define ARCID_EVENT_SCRIPT 56
 #define ARCID_FIELD_CAMERA_DEFAULT 59
 #define ARCID_LIGHTS_FIELD 60

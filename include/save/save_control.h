@@ -82,9 +82,9 @@ typedef struct {
 
 typedef struct {
     u16 species;
-    u16 form : 2;
-    u16 unk2_2 : 1;
-    u16 unk2_3 : 5;
+    u16 sex : 2;
+    u16 rare : 1;
+    u16 form : 5;
     u32 personality;
     u16 name[8];
     MusicalShotEquip equips[8];
