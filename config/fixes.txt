@@ -59,6 +59,7 @@
 . 0x0208d374 add_label _fflt
 . 0x0208d5c4 add_label _ll_udiv
 . 0x0208d60c add_label _ll_mul
+. 0x0208d62c add_label _ll_shl
 . 0x0208d868 add_label _u32_div_f
 . 0x0208da80 add_label _ffixu
 . 0x0208dac0 add_label _dfix
@@ -1343,6 +1344,12 @@ overlays/ov332 0x021c2ac0 reloc_module overlay(189)
 overlays/ov332 0x021c2ac6 reloc_module overlay(189)
 overlays/ov332 0x021c2b06 reloc_module overlay(189)
 overlays/ov332 0x021c2b0c reloc_module overlay(189)
+overlays/ov332 0x021c65f4 overlay_id 190
+overlays/ov332 0x021c65f8 reloc_module overlay(190)
+overlays/ov332 0x021c66a4 reloc_module overlay(190)
+overlays/ov332 0x021c66a8 overlay_id 190
+overlays/ov332 0x021c67ac overlay_id 280
+overlays/ov332 0x021c67b0 reloc_module overlay(280)
 overlays/ov332 0x021c8cc5 remove_symbol
 overlays/ov332 0x021c8cd1 remove_symbol
 overlays/ov332 0x021c8d64 add_data data_ov332_021c8d64
