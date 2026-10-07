@@ -35,7 +35,8 @@
 #define ARCID_STARTMENU 34
 // The sentence input's graphics, with the icons that sentences show in place of some words
 #define ARCID_PMSI 42
-// The musical's graphics (not from swan)
+// The musical's graphics: the photo screen's touch screen, and the stage's (not from swan)
+#define ARCID_MUSICAL_SHOT 45
 #define ARCID_MUSICAL 46
 #define ARCID_MMODEL_TBL 47
 #define ARCID_MMODEL_GRA 48
