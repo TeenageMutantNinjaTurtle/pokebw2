@@ -959,7 +959,7 @@ void FldActSys_AsyncMatLoadTCBFunc(TCB *tcb, void *data) {
 }
 
 void FldActSys_VRAMUploadFunc(BOOL type, u32 dest, void *src, u32 size) {
-    NNS_GfdRegisterNewVramTransferTask(type == 0 ? 0 : 1, dest, src, size);
+    NNS_GfdRegisterNewVramTransferTask(!type ? NNS_GFD_DST_3D_TEX_VRAM : NNS_GFD_DST_3D_TEX_PLTT, dest, src, size);
 }
 
 void Field_LoadEdgeColorTable(AreaData *area, u16 zoneId) {

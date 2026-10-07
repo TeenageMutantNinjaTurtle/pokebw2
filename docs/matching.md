@@ -593,6 +593,8 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - `if (!f())` and `if (f() == FALSE)` lay the two blocks out in opposite orders. `field_sound_system.c`'s
   `FieldSnd_GetLastQueuedCommand` puts the `then` block first behind `bne` only with `== FALSE`; `!` put the `else`
   block first behind `beq`.
+  A ternary is the same: `fieldmap.c`'s `FldActSys_VRAMUploadFunc` branches with `bne` and puts the `a` value first
+  only as `!type ? a : b`; `type == 0 ? a : b` branches with `beq` and puts `b` first.
 - The operands of `==` between two fields are compared in source order: `syswk->tray == syswk->getTray` gives
   `cmp tray, getTray`, as the PC box's `func_ov255_021cc8dc` needs.
 - The left operand of a comparison is loaded first, even before a store just above it: `sw->nowFrame++; if
