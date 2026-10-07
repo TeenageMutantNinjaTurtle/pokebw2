@@ -45,61 +45,70 @@ static char sSoftware[32];
 
 // Reads a 16-bit value of the TIFF structure, in its byte order
 static u16 func_ov257_021ac664(u8 *data, u32 pos, BOOL bigEndian) {
-    if (!bigEndian) {
-        return data[pos] | (u16)((data[pos + 1] << 8) & 0xff00);
-    } else {
-        return (u16)((data[pos] << 8) & 0xff00) | data[pos + 1];
+    u16 value;
+    if (bigEndian == FALSE) {
+        value = *(data + pos);
+        value |= (*(data + pos + 1) << 8) & 0xff00;
+        return value;
     }
+    value = (*(data + pos) << 8) & 0xff00;
+    value |= *(data + pos + 1);
+    return value;
 }
 
 // Reads a 32-bit value of the TIFF structure, in its byte order
 static u32 func_ov257_021ac694(u8 *data, u32 pos, BOOL bigEndian) {
-    if (!bigEndian) {
-        return data[pos] | ((data[pos + 1] << 8) & 0xff00) | ((data[pos + 2] << 16) & 0xff0000) |
-               ((data[pos + 3] << 24) & 0xff000000);
-    } else {
-        return ((data[pos] << 24) & 0xff000000) | ((data[pos + 1] << 16) & 0xff0000) | ((data[pos + 2] << 8) & 0xff00) |
-               data[pos + 3];
+    u32 value;
+    if (bigEndian == FALSE) {
+        value = *(data + pos);
+        value |= (*(data + pos + 1) << 8) & 0xff00;
+        value |= (*(data + pos + 2) << 16) & 0xff0000;
+        value |= (*(data + pos + 3) << 24) & 0xff000000;
+        return value;
     }
+    value = (*(data + pos) << 24) & 0xff000000;
+    value |= (*(data + pos + 1) << 16) & 0xff0000;
+    value |= (*(data + pos + 2) << 8) & 0xff00;
+    value |= *(data + pos + 3);
+    return value;
 }
 
 // Reads the APP1 segment at pos: the 0th IFD, the Exif IFD, then the maker note, the Interoperability IFD and the 1st
 // IFD in the order they are stored
 static int func_ov257_021ac6f0(u8 *data, u32 size, u32 pos, s32 *posOut, u32 option) {
+    u16 len;
+    u16 order;
+    u16 count;
+    u32 valueCount;
+    u32 value;
+    BOOL bigEndian;
     u32 makerNote = IFD_NONE;
     u32 exifIfd = IFD_NONE;
     u32 interopIfd = IFD_NONE;
     u32 ifd1;
     s32 thumbnail;
-    BOOL bigEndian;
-    u16 len;
-    u16 order;
-    u16 count;
-    u16 tag;
-    u32 valueCount;
-    u32 value;
 
     if (pos + 0x12 >= size) {
         return EXIF_RESULT_ERROR;
     }
     bigEndian = TRUE;
     len = func_ov257_021ac664(data, pos, TRUE);
-    if (data[pos + 2] != 'E') {
+    if (*(data + pos + 2) != 'E') {
         return EXIF_RESULT_ERROR;
     }
-    if (data[pos + 3] != 'x') {
+    if (*(data + pos + 3) != 'x') {
         return EXIF_RESULT_ERROR;
     }
-    if (data[pos + 4] != 'i') {
+    if (*(data + pos + 4) != 'i') {
         return EXIF_RESULT_ERROR;
     }
-    if (data[pos + 5] != 'f') {
+    if (*(data + pos + 5) != 'f') {
         return EXIF_RESULT_ERROR;
     }
-    if (data[pos + 6] != 0) {
+    if (*(data + pos + 6) != 0) {
         return EXIF_RESULT_ERROR;
     }
-    if (data[pos + 7] != 0) {
+    if (*(data + pos + 7) != 0) {
         return EXIF_RESULT_ERROR;
     }
 
@@ -117,7 +126,7 @@ static int func_ov257_021ac6f0(u8 *data, u32 size, u32 pos, s32 *posOut, u32 opt
         return EXIF_RESULT_ERROR;
     }
     while (count != 0) {
-        tag = func_ov257_021ac664(data, pos, bigEndian);
+        u16 tag = func_ov257_021ac664(data, pos, bigEndian);
         func_ov257_021ac664(data, pos + 2, bigEndian);
         valueCount = func_ov257_021ac694(data, pos + 4, bigEndian);
         value = func_ov257_021ac694(data, pos + 8, bigEndian);
@@ -129,7 +138,7 @@ static int func_ov257_021ac6f0(u8 *data, u32 size, u32 pos, s32 *posOut, u32 opt
             if (value + 0x20 >= size) {
                 return EXIF_RESULT_ERROR;
             }
-            sys_memcpy_fast(data + value + TIFF_HEADER_OFFSET, sDateTime, sizeof(sDateTime));
+            sys_memcpy_fast(&data[value + TIFF_HEADER_OFFSET], sDateTime, sizeof(sDateTime));
         }
         if (tag == EXIF_TAG_SOFTWARE) {
             if (valueCount > EXIF_SOFTWARE_LENGTH_MAX) {
@@ -161,7 +170,7 @@ static int func_ov257_021ac6f0(u8 *data, u32 size, u32 pos, s32 *posOut, u32 opt
         return EXIF_RESULT_ERROR;
     }
     while (count != 0) {
-        tag = func_ov257_021ac664(data, pos, bigEndian);
+        u16 tag = func_ov257_021ac664(data, pos, bigEndian);
         func_ov257_021ac664(data, pos + 2, bigEndian);
         valueCount = func_ov257_021ac694(data, pos + 4, bigEndian);
         value = func_ov257_021ac694(data, pos + 8, bigEndian);
@@ -182,44 +191,49 @@ static int func_ov257_021ac6f0(u8 *data, u32 size, u32 pos, s32 *posOut, u32 opt
             u16 firstType;
             u32 firstCount;
 
-            makerNote += TIFF_HEADER_OFFSET;
-            if (makerNote + 0xe >= size) {
+            pos = makerNote + TIFF_HEADER_OFFSET;
+            if (pos + 0xe >= size) {
                 return EXIF_RESULT_ERROR;
             }
-            entries = func_ov257_021ac664(data, makerNote, bigEndian);
-            firstTag = func_ov257_021ac664(data, makerNote + 2, bigEndian);
-            firstType = func_ov257_021ac664(data, makerNote + 4, bigEndian);
-            firstCount = func_ov257_021ac694(data, makerNote + 6, bigEndian);
-            func_ov257_021ac694(data, makerNote + 10, bigEndian);
-            makerNote += 0xe;
+            entries = func_ov257_021ac664(data, pos, bigEndian);
+            firstTag = func_ov257_021ac664(data, pos + 2, bigEndian);
+            firstType = func_ov257_021ac664(data, pos + 4, bigEndian);
+            firstCount = func_ov257_021ac694(data, pos + 6, bigEndian);
+            func_ov257_021ac694(data, pos + 10, bigEndian);
+            pos += 0xe;
             if (firstTag == MAKER_NOTE_TAG_SIGNATURE && firstType == 7 && firstCount == SSP_SIGNATURE_SIZE) {
                 count = entries - 1;
-                if (makerNote + count * 12 >= size) {
+                if (pos + count * 12 >= size) {
                     return EXIF_RESULT_ERROR;
                 }
                 while (count != 0) {
-                    u16 offset;
-
-                    tag = func_ov257_021ac664(data, makerNote, bigEndian);
-                    func_ov257_021ac664(data, makerNote + 2, bigEndian);
-                    valueCount = func_ov257_021ac694(data, makerNote + 4, bigEndian);
-                    value = func_ov257_021ac694(data, makerNote + 8, bigEndian);
-                    makerNote += 12;
+                    u16 tag = func_ov257_021ac664(data, pos, bigEndian);
+                    func_ov257_021ac664(data, pos + 2, bigEndian);
+                    valueCount = func_ov257_021ac694(data, pos + 4, bigEndian);
+                    value = func_ov257_021ac694(data, pos + 8, bigEndian);
+                    pos += 12;
                     if (tag == MAKER_NOTE_TAG_DATA_1) {
-                        // Up to 4 bytes are stored in the entry itself
-                        offset = valueCount > 4 ? value : makerNote - valueCount;
-                        sMakerNoteData1 = offset;
+                        // Up to 4 bytes are stored in the entry itself. The offsets are kept to 16 bits, the size of
+                        // the APP1 segment
+                        if (valueCount > 4) {
+                            sMakerNoteData1 = (u16)value;
+                        } else {
+                            sMakerNoteData1 = (u16)(pos - valueCount);
+                        }
                         sMakerNoteData1Size = valueCount;
-                        if (offset + sMakerNoteData1Size >= size) {
+                        if (sMakerNoteData1 + sMakerNoteData1Size >= size) {
                             sMakerNoteData1 = 0;
                             sMakerNoteData1Size = 0;
                             return EXIF_RESULT_ERROR;
                         }
                     } else if (tag == MAKER_NOTE_TAG_DATA_2) {
-                        offset = valueCount > 4 ? value : makerNote - valueCount;
-                        sMakerNoteData2 = offset;
+                        if (valueCount > 4) {
+                            sMakerNoteData2 = (u16)value;
+                        } else {
+                            sMakerNoteData2 = (u16)(pos - valueCount);
+                        }
                         sMakerNoteData2Size = valueCount;
-                        if (offset + sMakerNoteData2Size >= size) {
+                        if (sMakerNoteData2 + sMakerNoteData2Size >= size) {
                             sMakerNoteData2 = 0;
                             sMakerNoteData2Size = 0;
                             return EXIF_RESULT_ERROR;
@@ -230,40 +244,40 @@ static int func_ov257_021ac6f0(u8 *data, u32 size, u32 pos, s32 *posOut, u32 opt
             }
             makerNote = IFD_NONE;
         } else if (interopIfd < makerNote && interopIfd < ifd1) {
-            interopIfd += TIFF_HEADER_OFFSET;
-            if (interopIfd + 2 >= size) {
+            pos = interopIfd + TIFF_HEADER_OFFSET;
+            if (pos + 2 >= size) {
                 return EXIF_RESULT_ERROR;
             }
-            count = func_ov257_021ac664(data, interopIfd, bigEndian);
-            interopIfd += 2;
-            if (interopIfd + count * 12 >= size) {
+            count = func_ov257_021ac664(data, pos, bigEndian);
+            pos += 2;
+            if (pos + count * 12 >= size) {
                 return EXIF_RESULT_ERROR;
             }
             while (count != 0) {
-                func_ov257_021ac664(data, interopIfd, bigEndian);
-                func_ov257_021ac664(data, interopIfd + 2, bigEndian);
-                func_ov257_021ac694(data, interopIfd + 4, bigEndian);
-                func_ov257_021ac694(data, interopIfd + 8, bigEndian);
-                interopIfd += 12;
+                func_ov257_021ac664(data, pos, bigEndian);
+                func_ov257_021ac664(data, pos + 2, bigEndian);
+                func_ov257_021ac694(data, pos + 4, bigEndian);
+                func_ov257_021ac694(data, pos + 8, bigEndian);
+                pos += 12;
                 count--;
             }
             interopIfd = IFD_NONE;
         } else if (ifd1 < makerNote && ifd1 < interopIfd) {
-            ifd1 += TIFF_HEADER_OFFSET;
-            if (ifd1 + 2 >= size) {
+            pos = ifd1 + TIFF_HEADER_OFFSET;
+            if (pos + 2 >= size) {
                 return EXIF_RESULT_ERROR;
             }
-            count = func_ov257_021ac664(data, ifd1, bigEndian);
-            ifd1 += 2;
-            if (ifd1 + count * 12 >= size) {
+            count = func_ov257_021ac664(data, pos, bigEndian);
+            pos += 2;
+            if (pos + count * 12 >= size) {
                 return EXIF_RESULT_ERROR;
             }
             while (count != 0) {
-                tag = func_ov257_021ac664(data, ifd1, bigEndian);
-                func_ov257_021ac664(data, ifd1 + 2, bigEndian);
-                func_ov257_021ac694(data, ifd1 + 4, bigEndian);
-                value = func_ov257_021ac694(data, ifd1 + 8, bigEndian);
-                ifd1 += 12;
+                u16 tag = func_ov257_021ac664(data, pos, bigEndian);
+                func_ov257_021ac664(data, pos + 2, bigEndian);
+                func_ov257_021ac694(data, pos + 4, bigEndian);
+                value = func_ov257_021ac694(data, pos + 8, bigEndian);
+                pos += 12;
                 if (tag == EXIF_TAG_JPEG_INTERCHANGE_FORMAT) {
                     thumbnail = value;
                     break;
@@ -291,13 +305,14 @@ static int func_ov257_021ac6f0(u8 *data, u32 size, u32 pos, s32 *posOut, u32 opt
 
 int func_ov257_021acc20(u8 *data, u32 size, s32 *pos, u32 option) {
     int result;
+    u32 start = *pos;
 
     sMakerNoteData1 = 0;
     sMakerNoteData1Size = 0;
     sMakerNoteData2 = 0;
     sMakerNoteData2Size = 0;
     sSoftwareLength = 0;
-    result = func_ov257_021ac6f0(data, size, *pos, pos, option);
+    result = func_ov257_021ac6f0(data, size, start, pos, option);
     if (sMakerNoteData1 != 0) {
         sMakerNoteData1 += (u32)data + TIFF_HEADER_OFFSET;
     }
