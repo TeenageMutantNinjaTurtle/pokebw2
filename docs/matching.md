@@ -372,6 +372,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   `PMSWord_GetMessage` takes a `u32`.
 - A store of a loaded value back into an address-taken out-variable's slot is a reassignment in the source:
   `fileId = sCategoryMsgFiles[fileId];` after the call that filled it (`loadSayingToString`).
+- An address-taken local read inside a nested loop is copied to a stack slot of its own before the outer loop, and
+  a field read through it is hoisted only out of the loop it sits in: `CygnusAppear_GetSpriteBottom` reads
+  `((u32 *)charData->rawData)[...]` in its middle loop, and the original keeps a second slot holding `charData` with
+  `->rawData` loaded once per outer pass. A `tiles` local set in the outer loop drops that slot.
 - `for (j = 0, base = 0; ...)` zeroes `j` first; `base = 0;` before `for (j = 0; ...)` zeroes `base` first
   (`PMSWord_FromMessage`).
 

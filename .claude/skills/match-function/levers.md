@@ -44,6 +44,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 ## Stack slots or frame size
 
+- An extra slot holding a copy of an address-taken local before a nested loop: read its field inside the inner loop,
+  not into a local in the outer one. (matching.md: "hoisted only out of the loop it sits in")
 - Stack locals are laid out in reverse declaration order. (matching.md: "reverse declaration order")
 - Spilled variables get slots in the order they are first assigned, in small functions. In big switches,
   declarations count too. (matching.md: "Spilled variables get their stack slots")

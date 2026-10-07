@@ -1029,9 +1029,13 @@ static BOOL CygnusData_Save(CygnusData *data) {
 }
 
 static BOOL CygnusData_GetEntry(const CygnusData *data, u32 index, u32 *type, u32 *id) {
-    if (data->entries[index].type != CYGNUS_ENTRY_NONE) {
-        *type = data->entries[index].type;
-        *id = data->entries[index].id;
+    u32 entryType = data->entries[index].type;
+
+    if (entryType != CYGNUS_ENTRY_NONE) {
+        u32 entryId = data->entries[index].id;
+
+        *type = entryType;
+        *id = entryId;
         return TRUE;
     }
     return FALSE;
@@ -1164,26 +1168,29 @@ static inline void CygnusData_SwapEntries(CygnusData *data, s16 a, s16 b) {
 }
 
 static void CygnusData_ReadEntries(CygnusData *data, const u32 *words, HeapID heapId) {
+    u16 species;
+    u8 form;
+    u8 sex;
     int i;
-    u32 j;
+    int j;
 
     sys_memset(data->entries, 0, sizeof(data->entries));
     data->count = 0;
-    for (i = 0; i < CYGNUS_WORD_POKEMON_END; i++) {
+    for (i = 0; i <= CYGNUS_WORD_POKEMON_END - 1; i++) {
         if (func_020115fc(words[i])) {
             u32 bit = func_0201167c(words[i]);
 
             if (!(data->received & bit)) {
-                u8 sex;
-                u8 form;
-                u16 species;
+                u8 radarForm;
+                u8 radarSex;
+                u16 radarSpecies;
 
-                func_02011624(words[i], &species, &form, &sex);
+                func_02011624(words[i], &radarSpecies, &radarForm, &radarSex);
                 data->entries[data->count].type = CYGNUS_ENTRY_POKEMON;
-                data->entries[data->count].id = species;
-                data->entries[data->count].form = form;
-                data->entries[data->count].sex = sex;
-                data->entries[data->count].legend = CygnusData_IsLegend(species);
+                data->entries[data->count].id = radarSpecies;
+                data->entries[data->count].form = radarForm;
+                data->entries[data->count].sex = radarSex;
+                data->entries[data->count].legend = CygnusData_IsLegend(radarSpecies);
                 data->count++;
                 data->received |= bit;
             }
@@ -1199,11 +1206,7 @@ static void CygnusData_ReadEntries(CygnusData *data, const u32 *words, HeapID he
             }
         }
     }
-    for (i = CYGNUS_WORD_POKEMON_END; i < CYGNUS_WORD_FREE_POKEMON_END; i++) {
-        u16 species;
-        u8 form;
-        u8 sex;
-
+    for (i = CYGNUS_WORD_POKEMON_END; i <= CYGNUS_WORD_FREE_POKEMON_END - 1; i++) {
         if (data->count >= CYGNUS_FREE_POKEMON_MAX) {
             break;
         }
@@ -1219,7 +1222,7 @@ static void CygnusData_ReadEntries(CygnusData *data, const u32 *words, HeapID he
             data->count++;
         }
     }
-    for (i = CYGNUS_WORD_FREE_POKEMON_END; i < CYGNUS_WORD_ITEM_END; i++) {
+    for (i = CYGNUS_WORD_FREE_POKEMON_END; i <= CYGNUS_WORD_ITEM_END - 1; i++) {
         u16 item;
         u16 quantity;
 
@@ -1367,7 +1370,7 @@ static void CygnusIcon_Load(CygnusIcon *icon, ClActUnit *unit, CygnusData *data,
     u32 type;
     u32 id;
     int x = 0;
-    int y = 0;
+    s16 y = 0;
     u32 iconPalette = 0;
     int rowGap;
     int row;
@@ -1399,13 +1402,13 @@ static void CygnusIcon_Load(CygnusIcon *icon, ClActUnit *unit, CygnusData *data,
         icon->cellAnims = func_0204bde0(arc, 1, x, heapId);
         icon->chars = func_0204b81c(arc, GetItemGraphicsDatID(id, 1), x, x, heapId);
         GFL_ArcToolFree(arc);
-        y = 8;
         x = 4;
+        y = 8;
         break;
     }
     }
-    rowGap = 0;
     sys_memset(&setup, 0, sizeof(ClActorSetup));
+    rowGap = 0;
     icon->pos.x = (index % 6) * 32 + 48 + x;
     row = index / 6;
     if (row != 0) {
@@ -1535,19 +1538,18 @@ static u32 CygnusFlow_GetState(KeySystemWork *wk, u32 *msgId) {
 // The lowest row of the sprite that has a pixel, at least 48
 static int CygnusAppear_GetSpriteBottom(BoxPkm *pkm, HeapID heapId) {
     NNSG2dCharacterData *charData;
-    int bottom = 48;
+    u32 bottom = 48;
     BOOL found = FALSE;
     void *buffer = func_02033d50(&charData, pkm, 0, HEAPID_TAIL(heapId));
     int tileY;
 
     func_0203391c(charData, HEAPID_TAIL(heapId));
     for (tileY = 11; tileY >= 0; tileY--) {
-        u32 *tiles = charData->rawData;
         int tileX;
 
         for (tileX = 0; tileX < 12; tileX++) {
-            u32 *tile = &tiles[(tileX + tileY * 12) * 8];
             int y;
+            u32 *tile = &((u32 *)charData->rawData)[(tileX + tileY * 12) * 8];
 
             for (y = 7; y >= 0; y--) {
                 if (tile[y] != 0) {
