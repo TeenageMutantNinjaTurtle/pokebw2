@@ -3,11 +3,17 @@
 
 #include "types.h"
 #include "gfl/heap.h"
+#include "gfl/proc.h"
 #include "gfl/str.h"
 #include "struct_decls.h"
 
 // The phrase input, overlay 185's pms_input.c: the work that the view and the screens' parts read. The names are
 // ours, guessed
+
+// The proc's functions, which overlay 215's own table also points at
+BOOL PMSInput_Init(GameProc *proc, u32 *state, void *param, void *work);
+BOOL PMSInput_Main(GameProc *proc, u32 *state, void *param, void *work);
+BOOL PMSInput_Exit(GameProc *proc, u32 *state, void *param, void *work);
 
 // Where the input is, keys or touch
 int *PMSInput_GetKeyModePtr(const PMSInputWork *wk);

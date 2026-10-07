@@ -121,10 +121,7 @@ struct PMSInputWork {
     TCBManager *tcbMgr;
 };
 
-static BOOL PMSInput_Init(GameProc *proc, u32 *state, void *param, void *work);
-static BOOL PMSInput_Main(GameProc *proc, u32 *state, void *param, void *work);
 static void PMSInput_ButtonCallback(u32 button, u32 event, void *work);
-static BOOL PMSInput_Exit(GameProc *proc, u32 *state, void *param, void *work);
 static PMSInputWork *PMSInput_ConstructWork(GameProc *proc, PMSIParam *param);
 static void PMSInput_SetupSentenceWork(PMSInputSentenceWork *swk, const PMSData *sentence);
 static void PMSInput_SentenceIncrement(PMSInputSentenceWork *swk, PMSData *sentence);
@@ -198,7 +195,7 @@ const GameProcFunctions PMS_INPUT_PROC_FUNCTIONS = {
     PMSInput_Exit,
 };
 
-static BOOL PMSInput_Init(GameProc *proc, u32 *state, void *param, void *work) {
+BOOL PMSInput_Init(GameProc *proc, u32 *state, void *param, void *work) {
     PMSInputWork *wk;
 
     switch (*state) {
@@ -235,7 +232,7 @@ static BOOL PMSInput_Init(GameProc *proc, u32 *state, void *param, void *work) {
     return FALSE;
 }
 
-static BOOL PMSInput_Main(GameProc *proc, u32 *state, void *param, void *work) {
+BOOL PMSInput_Main(GameProc *proc, u32 *state, void *param, void *work) {
     PMSInputWork *wk = work;
     BOOL ret;
 
@@ -272,7 +269,7 @@ static void PMSInput_ButtonCallback(u32 button, u32 event, void *work) {
     }
 }
 
-static BOOL PMSInput_Exit(GameProc *proc, u32 *state, void *param, void *work) {
+BOOL PMSInput_Exit(GameProc *proc, u32 *state, void *param, void *work) {
     PMSInput_DestructWork(work, proc);
     GFL_HeapDelete(HEAPID_PMS_INPUT_SYS);
     GFL_HeapDelete(HEAPID_PMS_INPUT);
@@ -809,13 +806,13 @@ static BOOL PMSInput_SentenceKey(PMSInputWork *wk, u32 *seq) {
                 PMSIView_SetCommand(wk->vwk, PMSIV_CMD_EDITAREA_TO_BUTTON);
                 *seq = 2;
             } else if (wk->sentenceEditPosMax > 1 && wk->editPos != 0) {
-                wk->editPos = wk->editPos - 1;
+                wk->editPos--;
                 PMSIView_SetCommand(wk->vwk, PMSIV_CMD_MOVE_EDITAREA_CURSOR);
             }
         } else if (wk->keyTrg & PAD_KEY_DOWN) {
             GFL_SndSEPlay(SEQ_SE_SELECT1);
             if (wk->sentenceEditPosMax > 1 && wk->editPos < wk->sentenceEditPosMax - 1) {
-                wk->editPos = wk->editPos + 1;
+                wk->editPos++;
                 PMSIView_SetCommand(wk->vwk, PMSIV_CMD_MOVE_EDITAREA_CURSOR);
             } else {
                 wk->buttonPos = BUTTON_POS_DECIDE;
@@ -1493,58 +1490,58 @@ static BOOL PMSInput_CategoryKeyInitial(PMSInputWork *wk) {
         } else if (wk->keyRepeat & PAD_KEY_LEFT) {
             next = PMSIInitial_GetLeft(pos);
         }
-        if (next == CATEGORY_POS_NONE) {
-            return FALSE;
+        if (next != CATEGORY_POS_NONE) {
+            wk->categoryPosPrev = wk->categoryPos;
+            wk->categoryPos = next;
+            return TRUE;
         }
-        wk->categoryPosPrev = wk->categoryPos;
-        wk->categoryPos = next;
-        return TRUE;
-    }
-    if (wk->keyRepeat & PAD_KEY_UP) {
+    } else if (wk->keyRepeat & PAD_KEY_UP) {
         next = wk->categoryPosPrev <= PMSI_INITIAL_COUNT - 1 ? PMSIInitial_GetBottom(wk->categoryPosPrev)
                                                              : CATEGORY_POS_NONE;
         if (wk->categoryPos == CATEGORY_POS_SEARCH) {
             if (next >= 20 && next <= 23) {
+                wk->categoryPos = next;
             } else {
-                next = 22;
+                wk->categoryPos = 22;
             }
         } else if (wk->categoryPos == CATEGORY_POS_ERASE) {
             if (next == 24 || next == 25 || next == 16) {
+                wk->categoryPos = next;
             } else {
-                next = 25;
+                wk->categoryPos = 25;
             }
         } else {
             if (next == 17 || next == 18 || next == 26) {
+                wk->categoryPos = next;
             } else {
-                next = 26;
+                wk->categoryPos = 26;
             }
         }
-        wk->categoryPos = next;
         return TRUE;
-    }
-    if (wk->keyRepeat & PAD_KEY_DOWN) {
+    } else if (wk->keyRepeat & PAD_KEY_DOWN) {
         next = wk->categoryPosPrev <= PMSI_INITIAL_COUNT - 1 ? PMSIInitial_GetBottom(wk->categoryPosPrev)
                                                              : CATEGORY_POS_NONE;
         if (wk->categoryPos == CATEGORY_POS_SEARCH) {
             if (next >= 0 && next <= 3) {
+                wk->categoryPos = next;
             } else {
-                next = 2;
+                wk->categoryPos = 2;
             }
         } else if (wk->categoryPos == CATEGORY_POS_ERASE) {
             if (next >= 4 && next <= 6) {
+                wk->categoryPos = next;
             } else {
-                next = 5;
+                wk->categoryPos = 5;
             }
         } else {
             if (next >= 7 && next <= 9) {
+                wk->categoryPos = next;
             } else {
-                next = 8;
+                wk->categoryPos = 8;
             }
         }
-        wk->categoryPos = next;
         return TRUE;
-    }
-    if (wk->keyRepeat & PAD_KEY_LEFT) {
+    } else if (wk->keyRepeat & PAD_KEY_LEFT) {
         switch (pos) {
         case CATEGORY_POS_BACK:
             wk->categoryPos = CATEGORY_POS_ERASE;
@@ -1557,8 +1554,7 @@ static BOOL PMSInput_CategoryKeyInitial(PMSInputWork *wk) {
             break;
         }
         return TRUE;
-    }
-    if (wk->keyRepeat & PAD_KEY_RIGHT) {
+    } else if (wk->keyRepeat & PAD_KEY_RIGHT) {
         switch (pos) {
         case CATEGORY_POS_BACK:
             wk->categoryPos = CATEGORY_POS_SEARCH;

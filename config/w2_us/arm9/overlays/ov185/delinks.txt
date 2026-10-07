@@ -50,6 +50,7 @@ src/ov185/pmsiv_menu.c:
     .data       start:0x021a7588 end:0x021a7598
 
 src/ov185/pms_input.c:
+    complete
     .text       start:0x021a0da4 end:0x021a3164
     .rodata     start:0x021a7210 end:0x021a72f4
     .data       start:0x021a7598 end:0x021a75a4
