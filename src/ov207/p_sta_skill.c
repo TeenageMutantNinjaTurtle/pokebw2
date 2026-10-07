@@ -1280,7 +1280,7 @@ static void PStaSkill_LoadPlate(PStatusWork *wk, PStaSkillWork *skill, SkillPlat
 static void PStaSkill_DrawPlate(PStatusWork *wk, PStaSkillWork *skill, SkillPlate *plate) {
     BoxPkm *pkm = PStatus_GetBoxPkm(wk);
     u32 move;
-    u32 type;
+    u8 type;
     NNSG2dImageProxy proxy;
 
     if (plate->slot < 4) {

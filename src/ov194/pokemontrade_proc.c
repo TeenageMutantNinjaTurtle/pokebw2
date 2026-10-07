@@ -40,7 +40,7 @@
 #include "save/player_info.h"
 #include "save/pokedex.h"
 #include "save/save_control.h"
-#include "system/app_common.h"
+#include "system/app_menu_common.h"
 #include "system/app_taskmenu.h"
 #include "system/country_region.h"
 #include "system/game_data.h"

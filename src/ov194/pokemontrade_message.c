@@ -22,7 +22,7 @@
 #include "nitro/hw.h"
 #include "pml/personal.h"
 #include "pml/poke_party.h"
-#include "system/app_common.h"
+#include "system/app_menu_common.h"
 #include "system/app_keycursor.h"
 #include "system/app_printsys_common.h"
 #include "system/app_taskmenu.h"

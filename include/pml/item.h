@@ -83,9 +83,11 @@ struct ItemData {
     u8 fieldFunc;
     u8 battleFunc;
     u8 workType;
-    u8 unkD;
+    // The item's kind, which the bag sorts by first
+    u8 kind;
     u8 unkE;
-    u8 unkF;
+    // The item's place in the bag's sort within its kind
+    u8 sortIndex;
     union {
         u8 value;
         ItemParams params;
@@ -109,9 +111,9 @@ enum {
     ITEM_PARAM_NATURAL_GIFT_TYPE,
     ITEM_PARAM_BATTLE_POCKET,
     ITEM_PARAM_WORK_TYPE,
-    ITEM_PARAM_UNK_D,
+    ITEM_PARAM_KIND,
     ITEM_PARAM_UNK_E,
-    ITEM_PARAM_UNK_F,
+    ITEM_PARAM_SORT_INDEX,
     ITEM_PARAM_SLEEP_HEAL,
     ITEM_PARAM_POISON_HEAL,
     ITEM_PARAM_BURN_HEAL,

@@ -41,7 +41,7 @@
 #include "save/dream_world.h"
 #include "save/pokedex.h"
 #include "save/save_control.h"
-#include "system/app_common.h"
+#include "system/app_menu_common.h"
 #include "system/app_taskmenu.h"
 #include "system/bgwinfrm.h"
 #include "system/bmp_winframe.h"

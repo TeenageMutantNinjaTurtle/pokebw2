@@ -16,7 +16,7 @@
 #include "gfl/str.h"
 #include "pml/item.h"
 #include "save/box.h"
-#include "system/app_common.h"
+#include "system/app_menu_common.h"
 #include "system/bgwinfrm.h"
 #include "system/bmp_oam.h"
 #include "system/bmp_winframe.h"

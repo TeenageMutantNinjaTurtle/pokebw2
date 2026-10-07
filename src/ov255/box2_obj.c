@@ -19,7 +19,7 @@
 #include "pml/poke_graphic.h"
 #include "pml/poke_party.h"
 #include "save/box.h"
-#include "system/app_common.h"
+#include "system/app_menu_common.h"
 #include "system/bgwinfrm.h"
 #include "system/bmp_oam.h"
 #include "system/cursor_move.h"

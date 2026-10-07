@@ -7,7 +7,7 @@
 #include "gfl/str.h"
 #include "gfl/ui.h"
 #include "pml/poke_party.h"
-#include "system/app_common.h"
+#include "system/app_menu_common.h"
 #include "system/app_taskmenu.h"
 
 // The party list's menus: what to do with a Pokémon, yes or no, and the buttons of a battle's selection

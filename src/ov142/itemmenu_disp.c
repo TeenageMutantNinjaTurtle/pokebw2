@@ -690,7 +690,7 @@ void ItemMenuDisp_DrawList(ItemMenuWork *work) {
             continue;
         }
         data = PML_ItemArcHandleReadFile(arc, slot->item, work->heapId);
-        kind = PML_ItemGetParam(data, ITEM_PARAM_UNK_D);
+        kind = PML_ItemGetParam(data, ITEM_PARAM_KIND);
         if (sRowDimmed[i] == FALSE) {
             if (ItemMenuDisp_IsFieldMoveTM(slot->item) == TRUE) {
                 color = PRINT_COLOR(6, 5, 13);

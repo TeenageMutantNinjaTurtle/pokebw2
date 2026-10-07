@@ -16,7 +16,7 @@
 #include "nitro/hw.h"
 #include "pml/item.h"
 #include "pml/poke_party.h"
-#include "system/app_common.h"
+#include "system/app_menu_common.h"
 #include "system/poke_icon.h"
 #include "system/printsys.h"
 #include "system/wordset.h"

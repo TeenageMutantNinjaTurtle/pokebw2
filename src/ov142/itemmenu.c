@@ -1565,7 +1565,7 @@ static void ItemMenu_SortByType(ItemMenuWork *work) {
     for (; i < count; i++) {
         item = &items[i];
         data = PML_ItemArcHandleReadFile(arc, item->item, work->heapId);
-        sort[i].key = (PML_ItemGetParam(data, ITEM_PARAM_UNK_D) << 28) + (PML_ItemGetParam(data, ITEM_PARAM_UNK_F) << 16)
+        sort[i].key = (PML_ItemGetParam(data, ITEM_PARAM_KIND) << 28) + (PML_ItemGetParam(data, ITEM_PARAM_SORT_INDEX) << 16)
             + item->item;
         sort[i].item.item = item->item;
         sort[i].item.count = item->count;
@@ -1702,11 +1702,11 @@ static void ItemMenu_SortByUses(ItemMenuWork *work, BOOL mostUsedFirst) {
         data = PML_ItemArcHandleReadFile(arc, item->item, work->heapId);
         uses = func_0200854c(work->bag, item->item);
         if (mostUsedFirst == TRUE) {
-            sort[i].key = ((u64)(999 - uses) << 40) + (PML_ItemGetParam(data, ITEM_PARAM_UNK_D) << 28)
-                + (PML_ItemGetParam(data, ITEM_PARAM_UNK_F) << 16) + item->item;
+            sort[i].key = ((u64)(999 - uses) << 40) + (PML_ItemGetParam(data, ITEM_PARAM_KIND) << 28)
+                + (PML_ItemGetParam(data, ITEM_PARAM_SORT_INDEX) << 16) + item->item;
         } else {
-            sort[i].key = ((u64)uses << 40) + (PML_ItemGetParam(data, ITEM_PARAM_UNK_D) << 28)
-                + (PML_ItemGetParam(data, ITEM_PARAM_UNK_F) << 16) + item->item;
+            sort[i].key = ((u64)uses << 40) + (PML_ItemGetParam(data, ITEM_PARAM_KIND) << 28)
+                + (PML_ItemGetParam(data, ITEM_PARAM_SORT_INDEX) << 16) + item->item;
         }
         sort[i].item = *item;
         GFL_HeapFree(data);
