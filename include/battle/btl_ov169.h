@@ -69,5 +69,8 @@ u8 func_ov169_0689d35c(void *data);
 void func_ov169_0689c6c8(BtlServerFlow *flow, BattleMon *target);
 
 BOOL func_ov169_0689cb5c(u16 move);
+// Whether an item is an Arceus plate, and a Genesect drive
+BOOL func_ov169_0689cb08(u16 item);
+BOOL func_ov169_0689cb18(u16 item);
 
 #endif // POKEBW2_BATTLE_BTL_OV169_H
