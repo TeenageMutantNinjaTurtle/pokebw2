@@ -158,3 +158,7 @@ src/ov036/event_trainer_eye.c:
     .text       start:0x021a5d6c end:0x021a66a8
     .rodata     start:0x021d0854 end:0x021d08ac
     .data       start:0x021d5178 end:0x021d518c
+
+src/ov036/scrcmd_trainer.c:
+    complete
+    .text       start:0x021a66a8 end:0x021a6bc0

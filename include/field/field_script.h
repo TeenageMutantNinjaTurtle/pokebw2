@@ -443,6 +443,12 @@ ScriptWork *EventScriptCall_Replace(GameEvent *event, u16 scriptId, FieldActor *
 u32 ScriptWork_AddVM(ScriptWork *work, u16 zoneId, u16 scriptId);
 BOOL FieldScript_VMExists(ScriptWork *work, u8 index);
 void FieldScript_Run(GameSystem *gsys, ScriptWork *work, u16 scriptId, u32 featureLevel);
+// What ScriptWork_GetFieldWork returns: the field's message BG system and the field, or NULLs outside the field
+typedef struct {
+    void *msgBGSys;
+    Field *field;
+} ScriptFieldWork;
+
 void UpdateScriptFieldWk(void *fieldWork, GameSystem *gsys);
 void *ScriptWork_GetFieldWork(ScriptWork *work);
 void *ScriptWork_GetSubwork(ScriptWork *work);
