@@ -2,7 +2,8 @@
 #include "types.h"
 #include "gfl/heap.h"
 #include "save/pokedex.h"
-#include "system/pms.h"
+#include "system/pms_word.h"
+#include "system/pmsi_param.h"
 
 // The words that the phrase input offers: for each category and each initial, the words the player has unlocked, in
 // the order the input lists them. The names are ours, guessed
@@ -11,16 +12,17 @@
 #define PMSI_WORD_MAX 1803
 #define PMSI_WORD_FLAG_SIZE ((PMSI_WORD_MAX >> 3) + 1)
 
-// The message bank of the greetings, and how many of them the player learns
+// The message file of the greetings. Its first ones are the greetings in other languages, each offered once the
+// player has learned that language's
 #define PMS_GMM_GREETINGS 164
-#define PMS_HIDDEN_GREETING_COUNT 8
+#define PMS_LANGUAGE_GREETING_COUNT 8
 
-// The words of the hidden category, numbered from here
-#define PMS_HIDDEN_WORD_FIRST 0x801
+// The numbers category's words are the numbers from 1
+#define PMS_WORD_FIRST_NUMBER ((1 << PMS_WORD_NUMBER_SHIFT) | 1)
 
 struct PMSInputData {
-    const void *param;
-    PMSWordMan *wordMan;
+    const PMSIParam *param;
+    PMSWordBank *wordBank;
     u32 categoryWordCount[PMSI_CATEGORY_COUNT];
     u32 categoryWordPos[PMSI_CATEGORY_COUNT];
     u16 categoryWords[PMSI_WORD_MAX];
@@ -36,7 +38,7 @@ static void SetupCategoryWords(PMSInputData *data);
 static u32 CountupPokemon(PMSInputData *data, const u16 *src, u32 count, u16 *dst);
 static u32 CountupMoves(PMSInputData *data, const u16 *src, u32 count, u16 *dst);
 static u32 CountupGreetings(PMSInputData *data, const u16 *src, u32 count, u16 *dst);
-static u32 CountupHidden(PMSInputData *data, const u16 *src, u32 count, u16 *dst);
+static u32 CountupNumbers(PMSInputData *data, const u16 *src, u32 count, u16 *dst);
 static u32 CountupDefault(PMSInputData *data, const u16 *src, u32 count, u16 *dst);
 static void SetupInitialWords(PMSInputData *data);
 static u32 CountupInitialWords(const PMSInputData *data, const u16 *src, u16 *dst, u32 pos);
@@ -247,7 +249,7 @@ static const struct {
     { CountupDefault, sCategoryWords05, 26 },  { CountupGreetings, sCategoryWords06, 46 },
     { CountupDefault, sCategoryWords07, 57 },  { CountupDefault, sCategoryWords08, 33 },
     { CountupDefault, sCategoryWords09, 103 }, { CountupDefault, sCategoryWords10, 47 },
-    { CountupDefault, sCategoryWords11, 32 },  { CountupHidden, sCategoryWords12, 10 },
+    { CountupDefault, sCategoryWords11, 32 },  { CountupNumbers, sCategoryWords12, 10 },
 };
 
 // The words of each initial, A to Z and then the others, which end in PMS_WORD_END
@@ -510,13 +512,13 @@ static const u16 *const sInitialWords[PMSI_INITIAL_COUNT] = {
 
 const u8 PMSI_FIXED_CATEGORIES[PMSI_FIXED_CATEGORY_COUNT] = { 1, 3, 7, 8, 9 };
 
-PMSInputData *PMSIData_Create(u32 heapId, const void *param) {
+PMSInputData *PMSIData_Create(u32 heapId, const PMSIParam *param) {
     PMSInputData *data;
     int i;
 
     data = GFL_HeapAllocate(heapId, sizeof(PMSInputData), FALSE, "pms_input_data.c", 88);
     data->param = param;
-    data->wordMan = PMSWordMan_Create(heapId);
+    data->wordBank = PMSWordBank_Create(heapId);
     for (i = 0; i < PMSI_WORD_FLAG_SIZE; i++) {
         data->wordEnableFlags[i] = 0;
     }
@@ -527,7 +529,7 @@ PMSInputData *PMSIData_Create(u32 heapId, const void *param) {
 
 void PMSIData_Delete(PMSInputData *data) {
     if (data) {
-        PMSWordMan_Delete(data->wordMan);
+        PMSWordBank_Free(data->wordBank);
         GFL_HeapFree(data);
     }
 }
@@ -555,7 +557,7 @@ static u32 CountupPokemon(PMSInputData *data, const u16 *src, u32 count, u16 *ds
     PokeDexSave *dex;
     u32 i, n;
 
-    dex = PMSInputParam_GetPokeDex(data->param);
+    dex = PMSIParam_GetPokeDex(data->param);
     n = 0;
     for (i = 0; i < count; i++) {
         if (PokeDex_IsSeen(dex, src[i])) {
@@ -582,17 +584,17 @@ static u32 CountupMoves(PMSInputData *data, const u16 *src, u32 count, u16 *dst)
 }
 
 static u32 CountupGreetings(PMSInputData *data, const u16 *src, u32 count, u16 *dst) {
-    const PMSWordSave *save;
+    PMSWordSave *save;
     u16 first, last;
     u32 i, n;
 
-    save = PMSInputParam_GetWordSave(data->param);
-    first = PMSWord_GetWordNumByGmmId(PMS_GMM_GREETINGS, 0);
-    last = first + PMS_HIDDEN_GREETING_COUNT - 1;
+    save = PMSIParam_GetWordSave(data->param);
+    first = PMSWord_FromMessage(PMS_GMM_GREETINGS, 0);
+    last = first + PMS_LANGUAGE_GREETING_COUNT - 1;
     n = 0;
     for (i = 0; i < count; i++) {
         if (src[i] >= first && src[i] <= last) {
-            if (PMSWordSave_GetGreetingFlag(save, src[i] - first) == FALSE) {
+            if (PMSWordSave_GetLanguageFlag(save, src[i] - first) == FALSE) {
                 continue;
             }
         }
@@ -603,15 +605,15 @@ static u32 CountupGreetings(PMSInputData *data, const u16 *src, u32 count, u16 *
     return n;
 }
 
-static u32 CountupHidden(PMSInputData *data, const u16 *src, u32 count, u16 *dst) {
+static u32 CountupNumbers(PMSInputData *data, const u16 *src, u32 count, u16 *dst) {
     u32 i, n;
 
-    if (func_02029a84(data->param) == FALSE) {
+    if (PMSIParam_HasNumbers(data->param) == FALSE) {
         return 0;
     }
     for (i = 0, n = 0; i < count; i++) {
         SetWordEnableFlag(data, src[i]);
-        *dst++ = PMS_HIDDEN_WORD_FIRST + i;
+        *dst++ = PMS_WORD_FIRST_NUMBER + i;
         n++;
     }
     return n;
@@ -684,7 +686,7 @@ u32 PMSIData_GetCategoryWordCount(const PMSInputData *data, u32 category) {
 
 void PMSIData_GetCategoryWord(const PMSInputData *data, u32 category, u32 index, StrBuf *buf) {
     u32 pos = data->categoryWordPos[category];
-    PMSWordMan_CopyStr(data->wordMan, data->categoryWords[pos + index], buf);
+    PMSWordBank_LoadWord(data->wordBank, data->categoryWords[pos + index], buf);
 }
 
 u16 PMSIData_GetCategoryWordCode(const PMSInputData *data, u32 category, u32 index) {
@@ -724,7 +726,7 @@ u16 PMSIData_GetInitialWordCode(const PMSInputData *data, u32 initial, u32 index
 }
 
 void PMSIData_GetWordStr(const PMSInputData *data, u16 word, StrBuf *buf) {
-    PMSWordMan_CopyStr(data->wordMan, word, buf);
+    PMSWordBank_LoadWord(data->wordBank, word, buf);
 }
 
 u16 PMSIData_GetEndWord(const PMSInputData *data) {

@@ -17,7 +17,7 @@
 #define PMS_WORD_DUP 0xfffe
 #define PMS_WORD_END 0xffff
 
-PMSInputData *PMSIData_Create(u32 heapId, const void *param);
+PMSInputData *PMSIData_Create(u32 heapId, const PMSIParam *param);
 void PMSIData_Delete(PMSInputData *data);
 u32 PMSIData_GetCategoryWordCount(const PMSInputData *data, u32 category);
 void PMSIData_GetCategoryWord(const PMSInputData *data, u32 category, u32 index, StrBuf *buf);

@@ -291,7 +291,7 @@ void PokeListMenu_OpenYesNo(PokeListWork *wk, PokeListMenu *menu);
 void PokeListMenu_Close(PokeListWork *wk, PokeListMenu *menu);
 void PokeListMenu_Update(PokeListWork *wk, PokeListMenu *menu);
 u32 PokeListMenu_GetPicked(PokeListWork *wk, PokeListMenu *menu);
-void *PokeListMenu_CreateButton(PokeListWork *wk, PokeListMenu *menu, u32 msgId, u32 x, u8 y, BOOL isBack);
+void *PokeListMenu_CreateButton(PokeListWork *wk, PokeListMenu *menu, u32 msgId, u8 x, u8 y, BOOL isBack);
 void PokeListMenu_FreeButton(void *button);
 void PokeListMenu_UpdateButton(void *button);
 void PokeListMenu_SetButtonActive(void *button, BOOL active);

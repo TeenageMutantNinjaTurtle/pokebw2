@@ -8,6 +8,8 @@
 // Archives (arc_tool.c): NARC files, from the file system by the path of each archive ID, or from memory. An ArcTool
 // keeps an archive open to read its files
 
+// The file system path of an archive, which an earlier file than arc_tool.c defines (0x020057b8)
+const char *GFL_ArcSysGetResourcePath(u32 arcId);
 // Sets the paths of the archives, by archive ID
 void GFL_ArcSysInit(const char **paths, u32 count);
 ArcTool *GFL_ArcSysCreateFileHandle(u32 arcId, HeapID heapId);

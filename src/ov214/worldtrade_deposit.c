@@ -10,7 +10,6 @@
 #include "gfl/arc_util.h"
 #include "gfl/bg_sys.h"
 #include "gfl/bmp.h"
-#include "gfl/bmp_menu.h"
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"
 #include "gfl/heap.h"
@@ -19,12 +18,14 @@
 #include "gfl/sound.h"
 #include "gfl/std.h"
 #include "gfl/str.h"
-#include "gfl/wipe.h"
 #include "pml/personal.h"
 #include "pml/poke_party.h"
 #include "save/player_info.h"
 #include "save/pokedex.h"
+#include "system/bmp_menulist.h"
+#include "system/bmp_winframe.h"
 #include "system/str_tool.h"
+#include "system/wipe.h"
 #include "system/wordset.h"
 #include "worldtrade_local.h"
 
@@ -486,7 +487,7 @@ static int Deposit_SubSeqHeadwordSelectWait(WorldTradeWork *wk) {
         BmpMenuList_Free(wk->bmpListWork, &wk->dw->headwordListPos, &wk->dw->headwordPos);
         ListMenuCore_FreeOptionList(wk->menuList);
         WorldTrade_ClearWindow(wk->menuWin[0], 0);
-        func_02024eec(wk->msgWin, 0);
+        BmpWin_ClearFrame(wk->msgWin, 0);
         BmpWin_Free(wk->menuWin[0]);
         BmpWin_Free(wk->menuWin[1]);
         WorldTrade_SubProcessChange(wk, WORLDTRADE_MYBOX, DEPOSIT_MODE_TO_BOX);
@@ -528,7 +529,7 @@ static int Deposit_SubSeqPokeNameSelectWait(WorldTradeWork *wk) {
 
     switch (ret) {
     case BMPMENULIST_CANCEL:
-        func_02024eec(wk->msgWin, 0);
+        BmpWin_ClearFrame(wk->msgWin, 0);
         WorldTrade_SubProcessChange(wk, WORLDTRADE_MYBOX, DEPOSIT_MODE_TO_BOX);
         wk->subprocessSeq = DEPOSIT_SEQ_END;
         WorldTrade_SelectNameListBackup(&wk->selectListPos, wk->dw->headwordListPos + wk->dw->headwordPos,
@@ -576,7 +577,7 @@ static int Deposit_SubSeqSexSelectWait(WorldTradeWork *wk) {
 
     switch (ret) {
     case BMPMENULIST_CANCEL:
-        func_02024eec(wk->msgWin, 0);
+        BmpWin_ClearFrame(wk->msgWin, 0);
         wk->subprocessSeq = DEPOSIT_SEQ_START;
         break;
     case 0:
@@ -610,7 +611,7 @@ static int Deposit_SubSeqLevelSelectWait(WorldTradeWork *wk) {
     switch (ret) {
     case LEVEL_SELECT_NUM:
     case BMPMENULIST_CANCEL:
-        func_02024eec(wk->msgWin, 0);
+        BmpWin_ClearFrame(wk->msgWin, 0);
         if (WorldTrade_SexSelectionCheck(&wk->want, wk->dw->sexSelection)) {
             wk->subprocessSeq = DEPOSIT_SEQ_START;
         } else {
@@ -1101,7 +1102,7 @@ static u32 Deposit_BmpListMain(BmpMenuList *list, u16 *posBackup) {
     u16 pos;
     u32 ret = BmpMenuList_Update(list);
 
-    func_02025af4(list, &pos);
+    BmpMenuList_GetCursorIndex(list, &pos);
     if (*posBackup != pos) {
         if (*posBackup != 0xffff) {
             GFL_SndSEPlay(SEQ_SE_SELECT1);

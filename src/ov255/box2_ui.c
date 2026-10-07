@@ -658,21 +658,21 @@ void func_ov255_021d23d8(Box2SysWork *syswk) {
         break;
     }
     func_ov255_021d24e0(syswk);
-    syswk->app->cursorMove = func_0202b650(sCursorMoveTables[id].data, sCursorMoveTables[id].callbacks, syswk,
+    syswk->app->cursorMove = CursorMove_Create(sCursorMoveTables[id].data, sCursorMoveTables[id].callbacks, syswk,
                                            visible, syswk->curRcvPos, HEAPID_BOX2_APP);
-    func_0202b69c(syswk->app->cursorMove);
+    CursorMove_SetHideOnTouch(syswk->app->cursorMove);
     func_ov255_021d251c(syswk, syswk->curRcvPos);
     func_ov255_021d101c(syswk, visible);
     syswk->app->oldCurPos = syswk->curRcvPos;
 }
 
 void func_ov255_021d2478(Box2SysWork *syswk, u32 id, u32 pos) {
-    BOOL visible = func_0202ba70(syswk->app->cursorMove);
+    BOOL visible = CursorMove_IsCursorVisible(syswk->app->cursorMove);
 
     func_ov255_021d24e0(syswk);
-    syswk->app->cursorMove = func_0202b650(sCursorMoveTables[id].data, sCursorMoveTables[id].callbacks, syswk,
+    syswk->app->cursorMove = CursorMove_Create(sCursorMoveTables[id].data, sCursorMoveTables[id].callbacks, syswk,
                                            visible, pos, HEAPID_BOX2_APP);
-    func_0202b69c(syswk->app->cursorMove);
+    CursorMove_SetHideOnTouch(syswk->app->cursorMove);
     func_ov255_021d251c(syswk, pos);
     func_ov255_021d101c(syswk, visible);
     syswk->app->oldCurPos = pos;
@@ -680,15 +680,15 @@ void func_ov255_021d2478(Box2SysWork *syswk, u32 id, u32 pos) {
 
 void func_ov255_021d24e0(Box2SysWork *syswk) {
     if (syswk->app->cursorMove != NULL) {
-        func_0202b694(syswk->app->cursorMove);
+        CursorMove_Delete(syswk->app->cursorMove);
         syswk->app->cursorMove = NULL;
     }
 }
 
 void func_ov255_021d24f8(Box2SysWork *syswk, u32 pos) {
-    const CursorMoveData *data = func_0202baec(syswk->app->cursorMove, pos);
+    const CursorMoveData *data = CursorMove_GetData(syswk->app->cursorMove, pos);
 
-    func_ov255_021cf6c8(syswk->app, BOX2_ACTOR_CURSOR, data->px, data->py, 0);
+    func_ov255_021cf6c8(syswk->app, BOX2_ACTOR_CURSOR, data->x, data->y, 0);
 }
 
 static void func_ov255_021d251c(Box2SysWork *syswk, u32 pos) {
@@ -719,7 +719,7 @@ static void func_ov255_021d2550(void *work, int pos, int prevPos) {
 static void func_ov255_021d2568(void *work, int pos, int prevPos) {
     Box2SysWork *syswk = work;
 
-    func_0202ba64(syswk->app->cursorMove, pos);
+    CursorMove_SetPos(syswk->app->cursorMove, pos);
     func_ov255_021d251c(syswk, pos);
 }
 
@@ -727,12 +727,12 @@ static void func_ov255_021d2584(void *work, int pos, int prevPos) {
 }
 
 u32 func_ov255_021d2588(Box2SysWork *syswk) {
-    u8 prev = func_0202ba60(syswk->app->cursorMove);
-    u32 res = func_0202b768(syswk->app->cursorMove);
+    u8 prev = CursorMove_GetPos(syswk->app->cursorMove);
+    u32 res = CursorMove_Update(syswk->app->cursorMove);
 
     if (func_ov255_021d39c0(syswk->app->bgWinFrame) == FALSE) {
         if (res >= 8 && res <= 12) {
-            func_0202ba64(syswk->app->cursorMove, prev);
+            CursorMove_SetPos(syswk->app->cursorMove, prev);
             func_ov255_021d251c(syswk, prev);
             return CURSORMOVE_NONE;
         }
@@ -745,11 +745,11 @@ u32 func_ov255_021d2588(Box2SysWork *syswk) {
             return 6;
         }
         if (res == 7) {
-            func_0202ba64(syswk->app->cursorMove, prev);
+            CursorMove_SetPos(syswk->app->cursorMove, prev);
             return 7;
         }
     } else if (res == 6 || res == 7) {
-        func_0202ba64(syswk->app->cursorMove, prev);
+        CursorMove_SetPos(syswk->app->cursorMove, prev);
         func_ov255_021d251c(syswk, prev);
         return CURSORMOVE_NONE;
     }
@@ -763,9 +763,9 @@ static void func_ov255_021d2624(void *work, int pos, int prevPos) {
 }
 
 void func_ov255_021d2634(Box2SysWork *syswk, u32 pos) {
-    const CursorMoveData *data = func_0202baec(syswk->app->cursorMove, pos);
+    const CursorMoveData *data = CursorMove_GetData(syswk->app->cursorMove, pos);
 
-    func_ov255_021d3304(syswk->app, 84, 16, data->px, data->py);
+    func_ov255_021d3304(syswk->app, 84, 16, data->x, data->y);
 }
 
 void func_ov255_021d2658(Box2SysWork *syswk, u32 pos) {
@@ -777,16 +777,16 @@ void func_ov255_021d2658(Box2SysWork *syswk, u32 pos) {
     } else {
         data = &sCursorData0[pos - BOX2_TRAY_POKE_MAX];
     }
-    func_ov255_021d3304(syswk->app, data->px, data->py, to->px, to->py);
+    func_ov255_021d3304(syswk->app, data->x, data->y, to->x, to->y);
 }
 
 u32 func_ov255_021d2690(Box2SysWork *syswk) {
-    u8 prev = func_0202ba60(syswk->app->cursorMove);
-    u32 res = func_0202b768(syswk->app->cursorMove);
+    u8 prev = CursorMove_GetPos(syswk->app->cursorMove);
+    u32 res = CursorMove_Update(syswk->app->cursorMove);
 
     if (func_ov255_021d39c0(syswk->app->bgWinFrame) == FALSE) {
         if (res >= 35 && res <= 39) {
-            func_0202ba64(syswk->app->cursorMove, prev);
+            CursorMove_SetPos(syswk->app->cursorMove, prev);
             func_ov255_021d251c(syswk, prev);
             return CURSORMOVE_NONE;
         }
@@ -799,11 +799,11 @@ u32 func_ov255_021d2690(Box2SysWork *syswk) {
             return 33;
         }
         if (res == 34) {
-            func_0202ba64(syswk->app->cursorMove, prev);
+            CursorMove_SetPos(syswk->app->cursorMove, prev);
             return 34;
         }
     } else if (res == 33 || res == 34) {
-        func_0202ba64(syswk->app->cursorMove, prev);
+        CursorMove_SetPos(syswk->app->cursorMove, prev);
         func_ov255_021d251c(syswk, prev);
         return CURSORMOVE_NONE;
     }
@@ -827,12 +827,12 @@ static void func_ov255_021d2760(void *work, int pos, int prevPos) {
 }
 
 u32 func_ov255_021d2770(Box2SysWork *syswk) {
-    u8 prev = func_0202ba60(syswk->app->cursorMove);
-    u32 res = func_0202b768(syswk->app->cursorMove);
+    u8 prev = CursorMove_GetPos(syswk->app->cursorMove);
+    u32 res = CursorMove_Update(syswk->app->cursorMove);
 
     if (func_ov255_021d39c0(syswk->app->bgWinFrame) == FALSE) {
         if (res >= 36 && res <= 41) {
-            func_0202ba64(syswk->app->cursorMove, prev);
+            CursorMove_SetPos(syswk->app->cursorMove, prev);
             func_ov255_021d251c(syswk, prev);
             return CURSORMOVE_NONE;
         }
@@ -845,11 +845,11 @@ u32 func_ov255_021d2770(Box2SysWork *syswk) {
             return 34;
         }
         if (res == 35) {
-            func_0202ba64(syswk->app->cursorMove, prev);
+            CursorMove_SetPos(syswk->app->cursorMove, prev);
             return 35;
         }
     } else if (res == 33 || res == 34 || res == 35 || res == 45) {
-        func_0202ba64(syswk->app->cursorMove, prev);
+        CursorMove_SetPos(syswk->app->cursorMove, prev);
         func_ov255_021d251c(syswk, prev);
         return CURSORMOVE_NONE;
     }
@@ -878,10 +878,10 @@ static void func_ov255_021d286c(void *work, int pos, int prevPos) {
     Box2SysWork *syswk = work;
 
     if (pos == 34 || pos == 35 || pos == 42 || pos == 43 || pos == 44 || pos == 45) {
-        func_0202ba64(syswk->app->cursorMove, syswk->app->oldCurPos);
+        CursorMove_SetPos(syswk->app->cursorMove, syswk->app->oldCurPos);
         pos = syswk->app->oldCurPos;
     } else if (func_ov255_021d39c0(syswk->app->bgWinFrame) == FALSE && pos >= 36 && pos <= 41) {
-        func_0202ba64(syswk->app->cursorMove, syswk->app->oldCurPos);
+        CursorMove_SetPos(syswk->app->cursorMove, syswk->app->oldCurPos);
         pos = syswk->app->oldCurPos;
     } else {
         func_ov255_021d251c(syswk, pos);
@@ -930,11 +930,11 @@ static void func_ov255_021d2984(void *work, int pos, int prevPos) {
     Box2SysWork *syswk = work;
 
     if (pos == 31 || pos == 32) {
-        func_0202ba64(syswk->app->cursorMove, BOX2_PARTY_POS);
+        CursorMove_SetPos(syswk->app->cursorMove, BOX2_PARTY_POS);
         pos = BOX2_PARTY_POS;
     } else if (pos == 33 || pos == 38 || pos == 40 || pos == 41 || pos == 42 || pos == 43 || pos == 44 ||
                pos == 45) {
-        func_0202ba64(syswk->app->cursorMove, syswk->app->oldCurPos);
+        CursorMove_SetPos(syswk->app->cursorMove, syswk->app->oldCurPos);
         pos = syswk->app->oldCurPos;
     } else {
         func_ov255_021d251c(syswk, pos);
@@ -947,7 +947,7 @@ static void func_ov255_021d2984(void *work, int pos, int prevPos) {
 u32 func_ov255_021d29e8(Box2SysWork *syswk) {
     u32 x;
     u32 y;
-    u32 res = func_0202b768(syswk->app->cursorMove);
+    u32 res = CursorMove_Update(syswk->app->cursorMove);
 
     func_0203da84(&x, &y);
     if (res == CURSORMOVE_NONE) {
@@ -970,12 +970,12 @@ u32 func_ov255_021d29e8(Box2SysWork *syswk) {
 }
 
 u32 func_ov255_021d2a64(Box2SysWork *syswk) {
-    u8 prev = func_0202ba60(syswk->app->cursorMove);
-    u32 res = func_0202b768(syswk->app->cursorMove);
+    u8 prev = CursorMove_GetPos(syswk->app->cursorMove);
+    u32 res = CursorMove_Update(syswk->app->cursorMove);
 
     if (func_ov255_021d39c0(syswk->app->bgWinFrame) == FALSE) {
         if (res >= 9 && res <= 14) {
-            func_0202ba64(syswk->app->cursorMove, prev);
+            CursorMove_SetPos(syswk->app->cursorMove, prev);
             func_ov255_021d251c(syswk, prev);
             return CURSORMOVE_NONE;
         }
@@ -988,11 +988,11 @@ u32 func_ov255_021d2a64(Box2SysWork *syswk) {
             return 7;
         }
         if (res == 8) {
-            func_0202ba64(syswk->app->cursorMove, prev);
+            CursorMove_SetPos(syswk->app->cursorMove, prev);
             return 8;
         }
     } else if (res == 6 || res == 7 || res == 8 || res == 18) {
-        func_0202ba64(syswk->app->cursorMove, prev);
+        CursorMove_SetPos(syswk->app->cursorMove, prev);
         func_ov255_021d251c(syswk, prev);
         return CURSORMOVE_NONE;
     }
@@ -1011,10 +1011,10 @@ static void func_ov255_021d2b30(void *work, int pos, int prevPos) {
     Box2SysWork *syswk = work;
 
     if (pos == 7 || pos == 8 || pos == 15 || pos == 16 || pos == 17 || pos == 18) {
-        func_0202ba64(syswk->app->cursorMove, syswk->app->oldCurPos);
+        CursorMove_SetPos(syswk->app->cursorMove, syswk->app->oldCurPos);
         pos = syswk->app->oldCurPos;
     } else if (func_ov255_021d39c0(syswk->app->bgWinFrame) == FALSE && pos >= 9 && pos <= 14) {
-        func_0202ba64(syswk->app->cursorMove, syswk->app->oldCurPos);
+        CursorMove_SetPos(syswk->app->cursorMove, syswk->app->oldCurPos);
         pos = syswk->app->oldCurPos;
     } else {
         func_ov255_021d251c(syswk, pos);
@@ -1023,7 +1023,7 @@ static void func_ov255_021d2b30(void *work, int pos, int prevPos) {
 }
 
 u32 func_ov255_021d2b88(Box2SysWork *syswk) {
-    u32 res = func_0202b768(syswk->app->cursorMove);
+    u32 res = CursorMove_Update(syswk->app->cursorMove);
 
     if (res == CURSORMOVE_NONE) {
         if (GCTX_HIDGetPressedKeys() & PAD_BUTTON_Y) {
@@ -1057,10 +1057,10 @@ static void func_ov255_021d2c20(void *work, int pos, int prevPos) {
     Box2SysWork *syswk = work;
 
     if (pos == 37 || pos == 38) {
-        func_0202ba64(syswk->app->cursorMove, BOX2_BOXLIST_POS);
+        CursorMove_SetPos(syswk->app->cursorMove, BOX2_BOXLIST_POS);
         pos = BOX2_BOXLIST_POS;
     } else if (pos == 40 || pos == 41 || pos == 42 || pos == 43 || pos == 44 || pos == 45) {
-        func_0202ba64(syswk->app->cursorMove, syswk->app->oldCurPos);
+        CursorMove_SetPos(syswk->app->cursorMove, syswk->app->oldCurPos);
         pos = syswk->app->oldCurPos;
     } else {
         func_ov255_021d251c(syswk, pos);
@@ -1071,12 +1071,12 @@ static void func_ov255_021d2c20(void *work, int pos, int prevPos) {
 }
 
 u32 func_ov255_021d2c7c(Box2SysWork *syswk) {
-    u8 prev = func_0202ba60(syswk->app->cursorMove);
-    u32 res = func_0202b768(syswk->app->cursorMove);
+    u8 prev = CursorMove_GetPos(syswk->app->cursorMove);
+    u32 res = CursorMove_Update(syswk->app->cursorMove);
 
     if (func_ov255_021d39c0(syswk->app->bgWinFrame) == FALSE) {
         if (res == 36 || res == 37 || res == 38) {
-            func_0202ba64(syswk->app->cursorMove, prev);
+            CursorMove_SetPos(syswk->app->cursorMove, prev);
             func_ov255_021d251c(syswk, prev);
             return CURSORMOVE_NONE;
         }
@@ -1089,11 +1089,11 @@ u32 func_ov255_021d2c7c(Box2SysWork *syswk) {
             return 34;
         }
         if (res == 35) {
-            func_0202ba64(syswk->app->cursorMove, prev);
+            CursorMove_SetPos(syswk->app->cursorMove, prev);
             return 35;
         }
     } else if (res == 33 || res == 34 || res == 35) {
-        func_0202ba64(syswk->app->cursorMove, prev);
+        CursorMove_SetPos(syswk->app->cursorMove, prev);
         func_ov255_021d251c(syswk, prev);
         return CURSORMOVE_NONE;
     }
@@ -1122,7 +1122,7 @@ static void func_ov255_021d2d70(void *work, int pos, int prevPos) {
     Box2SysWork *syswk = work;
 
     if (pos == 34 || pos == 35 || pos == 39 || pos == 40) {
-        func_0202ba64(syswk->app->cursorMove, syswk->app->oldCurPos);
+        CursorMove_SetPos(syswk->app->cursorMove, syswk->app->oldCurPos);
         pos = syswk->app->oldCurPos;
     } else {
         func_ov255_021d251c(syswk, pos);
@@ -1131,12 +1131,12 @@ static void func_ov255_021d2d70(void *work, int pos, int prevPos) {
 }
 
 u32 func_ov255_021d2dac(Box2SysWork *syswk) {
-    u8 prev = func_0202ba60(syswk->app->cursorMove);
-    u32 res = func_0202b768(syswk->app->cursorMove);
+    u8 prev = CursorMove_GetPos(syswk->app->cursorMove);
+    u32 res = CursorMove_Update(syswk->app->cursorMove);
 
     if (func_ov255_021d39c0(syswk->app->bgWinFrame) == FALSE) {
         if (res == 9 || res == 10 || res == 11) {
-            func_0202ba64(syswk->app->cursorMove, prev);
+            CursorMove_SetPos(syswk->app->cursorMove, prev);
             func_ov255_021d251c(syswk, prev);
             return CURSORMOVE_NONE;
         }
@@ -1149,11 +1149,11 @@ u32 func_ov255_021d2dac(Box2SysWork *syswk) {
             return 7;
         }
         if (res == 8) {
-            func_0202ba64(syswk->app->cursorMove, prev);
+            CursorMove_SetPos(syswk->app->cursorMove, prev);
             return 8;
         }
     } else if (res == 6 || res == 7 || res == 8) {
-        func_0202ba64(syswk->app->cursorMove, prev);
+        CursorMove_SetPos(syswk->app->cursorMove, prev);
         func_ov255_021d251c(syswk, prev);
         return CURSORMOVE_NONE;
     }
@@ -1172,7 +1172,7 @@ static void func_ov255_021d2e6c(void *work, int pos, int prevPos) {
     Box2SysWork *syswk = work;
 
     if (pos == 7 || pos == 8 || pos == 12 || pos == 13) {
-        func_0202ba64(syswk->app->cursorMove, syswk->app->oldCurPos);
+        CursorMove_SetPos(syswk->app->cursorMove, syswk->app->oldCurPos);
         pos = syswk->app->oldCurPos;
     } else {
         func_ov255_021d251c(syswk, pos);
@@ -1190,7 +1190,7 @@ static void func_ov255_021d2ea8(void *work, int pos, int prevPos) {
 static void func_ov255_021d2ec0(void *work, int pos, int prevPos) {
     Box2SysWork *syswk = work;
 
-    func_0202ba64(syswk->app->cursorMove, pos);
+    CursorMove_SetPos(syswk->app->cursorMove, pos);
     func_ov255_021d251c(syswk, pos);
 }
 
@@ -1204,7 +1204,7 @@ static void func_ov255_021d2edc(void *work, int pos, int prevPos) {
 static void func_ov255_021d2ef4(void *work, int pos, int prevPos) {
     Box2SysWork *syswk = work;
 
-    func_0202ba64(syswk->app->cursorMove, pos);
+    CursorMove_SetPos(syswk->app->cursorMove, pos);
     func_ov255_021d251c(syswk, pos);
 }
 
@@ -1225,7 +1225,7 @@ static void func_ov255_021d2f54(void *work, int pos, int prevPos) {
     Box2SysWork *syswk = work;
 
     if (pos == 0 || pos == 5 || pos == 6) {
-        func_0202ba64(syswk->app->cursorMove, syswk->app->oldCurPos);
+        CursorMove_SetPos(syswk->app->cursorMove, syswk->app->oldCurPos);
         pos = syswk->app->oldCurPos;
     } else {
         func_ov255_021d251c(syswk, pos);
@@ -1234,12 +1234,12 @@ static void func_ov255_021d2f54(void *work, int pos, int prevPos) {
 }
 
 u32 func_ov255_021d2f88(Box2SysWork *syswk) {
-    u8 prev = func_0202ba60(syswk->app->cursorMove);
-    u32 res = func_0202b768(syswk->app->cursorMove);
+    u8 prev = CursorMove_GetPos(syswk->app->cursorMove);
+    u32 res = CursorMove_Update(syswk->app->cursorMove);
 
     if (func_ov255_021d39c0(syswk->app->bgWinFrame) == FALSE) {
         if (res >= 36 && res <= 39) {
-            func_0202ba64(syswk->app->cursorMove, prev);
+            CursorMove_SetPos(syswk->app->cursorMove, prev);
             func_ov255_021d251c(syswk, prev);
             return CURSORMOVE_NONE;
         }
@@ -1252,11 +1252,11 @@ u32 func_ov255_021d2f88(Box2SysWork *syswk) {
             return 34;
         }
         if (res == 35) {
-            func_0202ba64(syswk->app->cursorMove, prev);
+            CursorMove_SetPos(syswk->app->cursorMove, prev);
             return 35;
         }
     } else if (res == 30 || res == 33 || res == 34 || res == 35 || res == 43) {
-        func_0202ba64(syswk->app->cursorMove, prev);
+        CursorMove_SetPos(syswk->app->cursorMove, prev);
         func_ov255_021d251c(syswk, prev);
         return CURSORMOVE_NONE;
     }
@@ -1285,10 +1285,10 @@ static void func_ov255_021d3088(void *work, int pos, int prevPos) {
     Box2SysWork *syswk = work;
 
     if (pos == 34 || pos == 35 || pos == 40 || pos == 41 || pos == 42 || pos == 43) {
-        func_0202ba64(syswk->app->cursorMove, syswk->app->oldCurPos);
+        CursorMove_SetPos(syswk->app->cursorMove, syswk->app->oldCurPos);
         pos = syswk->app->oldCurPos;
     } else if (func_ov255_021d39c0(syswk->app->bgWinFrame) == FALSE && pos >= 36 && pos <= 39) {
-        func_0202ba64(syswk->app->cursorMove, syswk->app->oldCurPos);
+        CursorMove_SetPos(syswk->app->cursorMove, syswk->app->oldCurPos);
         pos = syswk->app->oldCurPos;
     } else {
         func_ov255_021d251c(syswk, pos);
@@ -1297,12 +1297,12 @@ static void func_ov255_021d3088(void *work, int pos, int prevPos) {
 }
 
 u32 func_ov255_021d30e0(Box2SysWork *syswk) {
-    u8 prev = func_0202ba60(syswk->app->cursorMove);
-    u32 res = func_0202b768(syswk->app->cursorMove);
+    u8 prev = CursorMove_GetPos(syswk->app->cursorMove);
+    u32 res = CursorMove_Update(syswk->app->cursorMove);
 
     if (func_ov255_021d39c0(syswk->app->bgWinFrame) == FALSE) {
         if (res >= 9 && res <= 12) {
-            func_0202ba64(syswk->app->cursorMove, prev);
+            CursorMove_SetPos(syswk->app->cursorMove, prev);
             func_ov255_021d251c(syswk, prev);
             return CURSORMOVE_NONE;
         }
@@ -1315,11 +1315,11 @@ u32 func_ov255_021d30e0(Box2SysWork *syswk) {
             return 7;
         }
         if (res == 8) {
-            func_0202ba64(syswk->app->cursorMove, prev);
+            CursorMove_SetPos(syswk->app->cursorMove, prev);
             return 8;
         }
     } else if (res == 6 || res == 7 || res == 8 || res == 16) {
-        func_0202ba64(syswk->app->cursorMove, prev);
+        CursorMove_SetPos(syswk->app->cursorMove, prev);
         func_ov255_021d251c(syswk, prev);
         return CURSORMOVE_NONE;
     }
@@ -1338,10 +1338,10 @@ static void func_ov255_021d31ac(void *work, int pos, int prevPos) {
     Box2SysWork *syswk = work;
 
     if (pos == 7 || pos == 8 || pos == 13 || pos == 14 || pos == 15 || pos == 16) {
-        func_0202ba64(syswk->app->cursorMove, syswk->app->oldCurPos);
+        CursorMove_SetPos(syswk->app->cursorMove, syswk->app->oldCurPos);
         pos = syswk->app->oldCurPos;
     } else if (func_ov255_021d39c0(syswk->app->bgWinFrame) == FALSE && pos >= 9 && pos <= 12) {
-        func_0202ba64(syswk->app->cursorMove, syswk->app->oldCurPos);
+        CursorMove_SetPos(syswk->app->cursorMove, syswk->app->oldCurPos);
         pos = syswk->app->oldCurPos;
     } else {
         func_ov255_021d251c(syswk, pos);
@@ -1350,21 +1350,21 @@ static void func_ov255_021d31ac(void *work, int pos, int prevPos) {
 }
 
 u32 func_ov255_021d3204(Box2SysWork *syswk) {
-    u8 prev = func_0202ba60(syswk->app->cursorMove);
-    u32 res = func_0202b768(syswk->app->cursorMove);
+    u8 prev = CursorMove_GetPos(syswk->app->cursorMove);
+    u32 res = CursorMove_Update(syswk->app->cursorMove);
 
     if (func_ov255_021d39c0(syswk->app->bgWinFrame) == FALSE) {
         if (res >= 34 && res <= 35) {
-            func_0202ba64(syswk->app->cursorMove, prev);
+            CursorMove_SetPos(syswk->app->cursorMove, prev);
             func_ov255_021d251c(syswk, prev);
             return CURSORMOVE_NONE;
         }
         if (res == 33) {
-            func_0202ba64(syswk->app->cursorMove, prev);
+            CursorMove_SetPos(syswk->app->cursorMove, prev);
             return 33;
         }
     } else if (res == 30 || res == 33) {
-        func_0202ba64(syswk->app->cursorMove, prev);
+        CursorMove_SetPos(syswk->app->cursorMove, prev);
         func_ov255_021d251c(syswk, prev);
         return CURSORMOVE_NONE;
     }
@@ -1395,10 +1395,10 @@ static void func_ov255_021d32c8(void *work, int pos, int prevPos) {
 }
 
 void func_ov255_021d32d4(Box2AppWork *app, u32 pos, u32 curPos) {
-    const CursorMoveData *from = func_0202baec(app->cursorMove, pos);
-    const CursorMoveData *to = func_0202baec(app->cursorMove, curPos);
+    const CursorMoveData *from = CursorMove_GetData(app->cursorMove, pos);
+    const CursorMoveData *to = CursorMove_GetData(app->cursorMove, curPos);
 
-    func_ov255_021d3304(app, from->px, from->py, to->px, to->py);
+    func_ov255_021d3304(app, from->x, from->y, to->x, to->y);
 }
 
 static void func_ov255_021d3304(Box2AppWork *app, u8 fromX, u8 fromY, u8 toX, u8 toY) {

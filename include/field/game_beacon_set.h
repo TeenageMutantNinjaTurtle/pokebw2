@@ -7,68 +7,8 @@
 
 #include "types.h"
 #include "struct_decls.h"
-
-// The info of the beacon the game broadcasts, of ARM9 main
-typedef struct {
-    u8 unk0[3];
-    u8 passPower : 7;
-    u8 unk3_7 : 1;
-    u8 unk4[0x2c];
-    // What the message is
-    u16 type;
-    u16 value;
-    union {
-        u16 value16;
-        u32 value32;
-        u8 value8;
-        struct {
-            u8 a;
-            u8 b;
-        } pair;
-        struct {
-            u16 value;
-            u8 extra;
-        } withExtra;
-        u16 name[9];
-        struct {
-            u16 name[9];
-            u16 value;
-        } named;
-        struct {
-            u16 name[9];
-            u8 value;
-        } namedByte;
-    } data;
-} GameBeaconInfo;
-
-typedef struct {
-    u32 unk0;
-    u32 unk4;
-    GameBeaconInfo info;
-} GameBeaconSys;
-
-extern GameBeaconSys *g_GameBeaconSys;
-
-// ARM9 main's beacon functions, which belong with g_GameBeaconSys
-// Whether the player is busy with something else, such as a Pokémon Musical
-BOOL func_0202d014(void);
-// Whether a message of the type may be sent
-BOOL func_0202cfe8(u16 type);
-// Whether a message of the type, about value, is a record to send instead
-BOOL func_0202cfac(u32 type, u16 value);
-void func_0202ce84(GameBeaconInfo *info);
-void func_0202ce90(GameBeaconInfo *info);
-void func_0202ce9c(GameBeaconInfo *info, u16 type, u32 value);
-void func_0202cea8(GameBeaconInfo *info, u16 type, const StrBuf *name, u32 value);
-void func_0202d074(const StrBuf *name, u16 *dest);
-// Send the message, each in its own way
-void func_0202d4c8(GameBeaconInfo *info);
-void func_0202d4e0(GameBeaconInfo *info);
-void func_0202d4fc(GameBeaconInfo *info);
-void func_0202d518(GameBeaconInfo *info);
-void func_0202d534(GameBeaconInfo *info);
-void func_0202d550(GameBeaconInfo *info);
-BOOL func_02026ccc(u16 value);
+#include "system/game_beacon.h"
+#include "pml/item.h"
 
 void func_ov012_0215f958(u16 value);
 void func_ov012_0215f994(u16 value);

@@ -6,7 +6,6 @@
 #include "gfl/arc_util.h"
 #include "gfl/bg_sys.h"
 #include "gfl/bmp.h"
-#include "gfl/bmp_menu.h"
 #include "gfl/bmpwin.h"
 #include "gfl/graphics.h"
 #include "gfl/gx_layers.h"
@@ -20,15 +19,18 @@
 #include "gfl/str.h"
 #include "gfl/tcb.h"
 #include "gfl/tcbl.h"
-#include "gfl/wipe.h"
 #include "nitro/gx.h"
 #include "nitro/os.h"
 #include "save/save_control.h"
 #include "system/app_keycursor.h"
+#include "system/bmp_menu.h"
+#include "system/bmp_menulist.h"
+#include "system/bmp_winframe.h"
 #include "system/gf_font.h"
 #include "system/printsys.h"
 #include "system/text_speed.h"
 #include "system/time_icon.h"
+#include "system/wipe.h"
 
 // Deleting the save data, from the title screen with Up, Select and B: two questions, then every save block is
 // cleared and the game restarts
@@ -64,7 +66,7 @@ typedef struct {
     PrintStream *printStream;
     TCBExManager *tcbManager;
     BmpWin *window;
-    ConfirmDialog *dialog;
+    BmpMenu *dialog;
     KeyCursor *keyCursor;
     // Whether the message was already told to go on past its pause
     BOOL continued;
@@ -173,12 +175,12 @@ static void DeleteSave_PrintQuestion(DeleteSaveWork *wk, u32 *state) {
 }
 
 static void DeleteSave_Ask(DeleteSaveWork *wk, u32 *state) {
-    switch (func_02025634(wk->dialog)) {
+    switch (ConfirmDialog_Update(wk->dialog)) {
     case 0:
         DeleteSave_Print(wk, MSG_NO_WAY_TO_RECOVER);
         *state = STATE_PRINT_WARNING;
         break;
-    case BMPMENULIST_CANCEL:
+    case BMPMENU_CANCEL:
         DeleteSave_WipeOut();
         *state = STATE_WAIT_WIPE_OUT;
         break;
@@ -193,12 +195,12 @@ static void DeleteSave_PrintWarning(DeleteSaveWork *wk, u32 *state) {
 }
 
 static void DeleteSave_AskAgain(DeleteSaveWork *wk, u32 *state) {
-    switch (func_02025634(wk->dialog)) {
+    switch (ConfirmDialog_Update(wk->dialog)) {
     case 0:
         DeleteSave_Print(wk, MSG_DELETING);
         *state = STATE_DELETE;
         break;
-    case BMPMENULIST_CANCEL:
+    case BMPMENU_CANCEL:
         DeleteSave_WipeOut();
         *state = STATE_WAIT_WIPE_OUT;
         break;
@@ -289,11 +291,11 @@ static void DeleteSave_InitMsg(DeleteSaveWork *wk) {
     wk->font = GFL_FontCreate(ARCID_FONT, 0, 0, 0, HEAPID_SAVEDATA_DELETE);
     wk->strbuf = GFL_StrBufCreate(1024, HEAPID_SAVEDATA_DELETE);
     wk->tcbManager = GFL_TCBExMgrCreate(HEAPID_SAVEDATA_DELETE, HEAPID_SAVEDATA_DELETE, 1, 4);
-    wk->keyCursor = func_0202e7a4(15, 1, 0, HEAPID_SAVEDATA_DELETE);
+    wk->keyCursor = KeyCursor_Create(15, TRUE, FALSE, HEAPID_SAVEDATA_DELETE);
 }
 
 static void DeleteSave_FreeMsg(DeleteSaveWork *wk) {
-    func_0202e818(wk->keyCursor);
+    KeyCursor_Free(wk->keyCursor);
     GFL_TCBExMgrFree(wk->tcbManager);
     GFL_StrBufFree(wk->strbuf);
     GFL_FontFree(wk->font);
@@ -329,7 +331,7 @@ static void DeleteSave_RemoveVBlankTask(DeleteSaveWork *wk) {
 static void DeleteSave_Print(DeleteSaveWork *wk, u32 messageId) {
     GFL_MsgDataLoadStrbuf(wk->msgData, messageId, wk->strbuf);
     GFL_BitmapFill(BmpWin_GetBitmap(wk->window), 15);
-    BmpWin_DrawFrame(wk->window, 2, 1, 14);
+    BmpWin_DrawFrame(wk->window, WINFRAME_TRANSFER_NONE, 1, 14);
     wk->printStream = func_02022268(wk->window, 0, 0, wk->strbuf, wk->font, func_02017c50(0), wk->tcbManager, 10,
                                     HEAPID_SAVEDATA_DELETE, 15);
     wk->continued = FALSE;
@@ -339,7 +341,7 @@ static void DeleteSave_Print(DeleteSaveWork *wk, u32 messageId) {
 // Returns FALSE once the message has ended
 static BOOL DeleteSave_UpdatePrint(DeleteSaveWork *wk) {
     GFL_TCBExMgrUpdate(wk->tcbManager);
-    func_0202e8d8(wk->keyCursor, wk->printStream, wk->window);
+    KeyCursor_Update(wk->keyCursor, wk->printStream, wk->window);
     switch (func_020223b4(wk->printStream)) {
     case PRINT_STREAM_RUNNING:
         wk->continued = FALSE;
@@ -372,9 +374,9 @@ static void DeleteSave_OpenYesNo(DeleteSaveWork *wk) {
 }
 
 static void DeleteSave_WipeIn(void) {
-    GFL_WipeSet(0, 1, 1, 0, 6, 1, HEAPID_SAVEDATA_DELETE);
+    GFL_WipeSet(WIPE_MODE_BOTH, WIPE_TYPE_FADE_IN, WIPE_TYPE_FADE_IN, WIPE_COLOR_BLACK, 6, 1, HEAPID_SAVEDATA_DELETE);
 }
 
 static void DeleteSave_WipeOut(void) {
-    GFL_WipeSet(0, 0, 0, 0, 6, 1, HEAPID_SAVEDATA_DELETE);
+    GFL_WipeSet(WIPE_MODE_BOTH, WIPE_TYPE_FADE_OUT, WIPE_TYPE_FADE_OUT, WIPE_COLOR_BLACK, 6, 1, HEAPID_SAVEDATA_DELETE);
 }

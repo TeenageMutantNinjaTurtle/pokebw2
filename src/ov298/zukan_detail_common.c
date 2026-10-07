@@ -11,7 +11,9 @@
 #include "nitro/gx.h"
 #include "nitro/hw.h"
 #include "save/pokedex.h"
+#include "system/bmp_winframe.h"
 #include "system/game_data.h"
+#include "system/palanm.h"
 
 // What the Pokédex detail screen's pages share: the screen's systems and the list of Pokémon it pages through, the
 // blending and palette fades of the pages, and the backgrounds that the pages load
@@ -209,20 +211,20 @@ ZukanDetailPalFade *ZukanDetailPalFade_CreateEx(HeapID heapId, u16 buffers) {
     ZukanDetailPalFade *fade = GFL_HeapAllocate(heapId, sizeof(ZukanDetailPalFade), TRUE, "zukan_detail_common.c", 485);
     fade->tcbBuffer = GFL_HeapAllocate(heapId, GFL_TCBMgrCalcAllocSize(2), TRUE, "zukan_detail_common.c", 488);
     fade->tcbMgr = GFL_TCBMgrCreate(2, fade->tcbBuffer);
-    fade->palette = func_02026dc0(heapId);
-    func_0202778c(fade->palette, 1);
+    fade->palette = PaletteFade_Create(heapId);
+    PaletteFade_SetTransferAll(fade->palette, 1);
     fade->buffers = buffers;
     if (fade->buffers & ZUKAN_DETAIL_PALFADE_MAIN_BG) {
-        func_02026e04(fade->palette, 0, 0x1a0, heapId);
+        PaletteFade_AllocBuffer(fade->palette, 0, 0x1a0, heapId);
     }
     if (fade->buffers & ZUKAN_DETAIL_PALFADE_MAIN_OBJ) {
-        func_02026e04(fade->palette, 2, 0x100, heapId);
+        PaletteFade_AllocBuffer(fade->palette, 2, 0x100, heapId);
     }
     if (fade->buffers & ZUKAN_DETAIL_PALFADE_SUB_BG) {
-        func_02026e04(fade->palette, 1, 0x1a0, heapId);
+        PaletteFade_AllocBuffer(fade->palette, 1, 0x1a0, heapId);
     }
     if (fade->buffers & ZUKAN_DETAIL_PALFADE_SUB_OBJ) {
-        func_02026e04(fade->palette, 3, 0x1c0, heapId);
+        PaletteFade_AllocBuffer(fade->palette, 3, 0x1c0, heapId);
     }
     fade->state = ZUKAN_DETAIL_PALFADE_SHOWN;
     return fade;
@@ -235,18 +237,18 @@ ZukanDetailPalFade *ZukanDetailPalFade_Create(HeapID heapId) {
 
 void ZukanDetailPalFade_Free(ZukanDetailPalFade *fade) {
     if (fade->buffers & ZUKAN_DETAIL_PALFADE_SUB_OBJ) {
-        func_02026e48(fade->palette, 3);
+        PaletteFade_FreeBuffer(fade->palette, 3);
     }
     if (fade->buffers & ZUKAN_DETAIL_PALFADE_SUB_BG) {
-        func_02026e48(fade->palette, 1);
+        PaletteFade_FreeBuffer(fade->palette, 1);
     }
     if (fade->buffers & ZUKAN_DETAIL_PALFADE_MAIN_OBJ) {
-        func_02026e48(fade->palette, 2);
+        PaletteFade_FreeBuffer(fade->palette, 2);
     }
     if (fade->buffers & ZUKAN_DETAIL_PALFADE_MAIN_BG) {
-        func_02026e48(fade->palette, 0);
+        PaletteFade_FreeBuffer(fade->palette, 0);
     }
-    func_02026de8(fade->palette);
+    PaletteFade_Free(fade->palette);
     func_0203a610(fade->tcbMgr);
     GFL_HeapFree(fade->tcbBuffer);
     GFL_HeapFree(fade);
@@ -259,12 +261,12 @@ void ZukanDetailPalFade_Update(ZukanDetailPalFade *fade) {
     case ZUKAN_DETAIL_PALFADE_HIDDEN:
         break;
     case ZUKAN_DETAIL_PALFADE_FADING_IN:
-        if (!func_02027780(fade->palette)) {
+        if (!PaletteFade_GetActiveMask(fade->palette)) {
             fade->state = ZUKAN_DETAIL_PALFADE_SHOWN;
         }
         break;
     case ZUKAN_DETAIL_PALFADE_FADING_OUT:
-        if (!func_02027780(fade->palette)) {
+        if (!PaletteFade_GetActiveMask(fade->palette)) {
             fade->state = ZUKAN_DETAIL_PALFADE_HIDDEN;
         }
         break;
@@ -272,7 +274,7 @@ void ZukanDetailPalFade_Update(ZukanDetailPalFade *fade) {
 }
 
 void ZukanDetailPalFade_VBlank(ZukanDetailPalFade *fade) {
-    func_020275f8(fade->palette);
+    PaletteFade_Transfer(fade->palette);
 }
 
 BOOL ZukanDetailPalFade_IsFading(ZukanDetailPalFade *fade) {
@@ -305,36 +307,36 @@ void ZukanDetailPalFade_SetHidden(ZukanDetailPalFade *fade) {
 
 void ZukanDetailPalFade_LoadPalette(ZukanDetailPalFade *fade, ArcTool *arc, u32 fileId, HeapID heapId, u32 buffer,
                                     u32 size, u16 offset, u16 srcOffset) {
-    func_02026f08(fade->palette, arc, fileId, heapId, buffer, size, offset, srcOffset);
+    PaletteFade_LoadArcNCLREx(fade->palette, arc, fileId, heapId, buffer, size, offset, srcOffset);
 }
 
 void ZukanDetailPalFade_ReadPalettes(ZukanDetailPalFade *fade) {
     if (fade->buffers & ZUKAN_DETAIL_PALFADE_MAIN_BG) {
-        func_02026f7c(fade->palette, 0, 0, 0x1a0);
+        PaletteFade_LoadFromVRAM(fade->palette, 0, 0, 0x1a0);
     }
     if (fade->buffers & ZUKAN_DETAIL_PALFADE_MAIN_OBJ) {
-        func_02026f7c(fade->palette, 2, 0, 0x100);
+        PaletteFade_LoadFromVRAM(fade->palette, 2, 0, 0x100);
     }
     if (fade->buffers & ZUKAN_DETAIL_PALFADE_SUB_BG) {
-        func_02026f7c(fade->palette, 1, 0, 0x1a0);
+        PaletteFade_LoadFromVRAM(fade->palette, 1, 0, 0x1a0);
     }
     if (fade->buffers & ZUKAN_DETAIL_PALFADE_SUB_OBJ) {
-        func_02026f7c(fade->palette, 3, 0, 0x1c0);
+        PaletteFade_LoadFromVRAM(fade->palette, 3, 0, 0x1c0);
     }
 }
 
 static void ZukanDetailPalFade_Start(ZukanDetailPalFade *fade, s8 wait, u8 start, u8 end) {
     if (fade->buffers & ZUKAN_DETAIL_PALFADE_MAIN_BG) {
-        func_02026fe4(fade->palette, ZUKAN_DETAIL_PALFADE_MAIN_BG, 0x1fff, wait, start, end, 0, fade->tcbMgr);
+        PaletteFade_StartFade(fade->palette, ZUKAN_DETAIL_PALFADE_MAIN_BG, 0x1fff, wait, start, end, 0, fade->tcbMgr);
     }
     if (fade->buffers & ZUKAN_DETAIL_PALFADE_MAIN_OBJ) {
-        func_02026fe4(fade->palette, ZUKAN_DETAIL_PALFADE_MAIN_OBJ, 0xff, wait, start, end, 0, fade->tcbMgr);
+        PaletteFade_StartFade(fade->palette, ZUKAN_DETAIL_PALFADE_MAIN_OBJ, 0xff, wait, start, end, 0, fade->tcbMgr);
     }
     if (fade->buffers & ZUKAN_DETAIL_PALFADE_SUB_BG) {
-        func_02026fe4(fade->palette, ZUKAN_DETAIL_PALFADE_SUB_BG, 0x1fff, wait, start, end, 0, fade->tcbMgr);
+        PaletteFade_StartFade(fade->palette, ZUKAN_DETAIL_PALFADE_SUB_BG, 0x1fff, wait, start, end, 0, fade->tcbMgr);
     }
     if (fade->buffers & ZUKAN_DETAIL_PALFADE_SUB_OBJ) {
-        func_02026fe4(fade->palette, ZUKAN_DETAIL_PALFADE_SUB_OBJ, 0x3fff, wait, start, end, 0, fade->tcbMgr);
+        PaletteFade_StartFade(fade->palette, ZUKAN_DETAIL_PALFADE_SUB_OBJ, 0x3fff, wait, start, end, 0, fade->tcbMgr);
     }
 }
 

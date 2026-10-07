@@ -318,8 +318,8 @@ typedef struct {
 } NNSG2dImageAttr;
 
 typedef struct {
-    NNSG2dImageAttr attr;
     NNSG2dVRamLocation vramLocation;
+    NNSG2dImageAttr attr;
 } NNSG2dImageProxy;
 
 typedef struct {

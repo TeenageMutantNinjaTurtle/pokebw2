@@ -8,6 +8,7 @@
 #include "gfl/net.h"
 #include "gfl/std.h"
 #include "save/save_control.h"
+#include "system/game_comm.h"
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
@@ -40,7 +41,7 @@ GameEventReturnCode func_ov021_0216e660(GameEvent *event, u32 *state, void *data
             transition = CallFieldMapEntranceOutTransitionDefault(gsys, field, 1, 0);
         }
         GameEvent_ChainNext(event, transition);
-        if (func_02042788() == 1 && func_ov036_02180f80(work->comm) == 1 && !func_0202bde0(work->comm)) {
+        if (func_02042788() == 1 && func_ov036_02180f80(work->comm) == 1 && !GameCommSys_IsTransitioning(work->comm)) {
             func_ov030_02174108(1);
             work->communicationFlag = 1;
         }

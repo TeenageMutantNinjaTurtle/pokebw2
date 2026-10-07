@@ -72,6 +72,14 @@ Every commit goes to `origin/main` at once, so the sessions working in parallel 
 2. Resolve conflicts by keeping both sides' work: another session's file is theirs, so take their version of it and
    redo only your own change on top. Configs and docs that both sides edited usually need both sets of lines. Files
    that moved (such as `include/nitro/` to `lib/nitro/include/nitro/`) carry your edits to the new place.
+   - When one side named functions the other still calls as `func_XXXXXXXX`, run
+     `.venv/bin/python tools/scripts/apply_names.py`, which rewrites every `func_`/`data_` identifier to the name now
+     in `symbols.txt` (`--dry-run` lists them).
+   - When one side moved declarations to a new owner header, the other side's files fail with "function has no
+     prototype": include the owner header, and point includes of deleted headers at their replacements. If both
+     sides declared the same functions in different headers, keep the header of the side that decompiled the
+     function and convert the other side's callers (types and field names too), then probe those callers: they must
+     show only their documented rows.
 3. `python3 configure.py && ninja`, and check both SHA1s. A merge that breaks the build is fixed before it is pushed
    (the `fix-build` skill).
 4. `git push origin HEAD:main`. If it is rejected because `origin/main` moved, go back to step 1.
