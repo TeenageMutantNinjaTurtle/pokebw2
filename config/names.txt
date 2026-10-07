@@ -3277,6 +3277,14 @@ overlays/ov257 0x021a7e58 CtvtGameShot_Create
 overlays/ov257 0x021a7f18 CtvtGameShot_Delete
 overlays/ov257 0x021a7f38 CtvtGameShot_Update
 overlays/ov257 0x021a7fc8 CtvtGameShot_Draw
+overlays/ov257 0x021a9704 CtvtGameCamGraphic_Create
+overlays/ov257 0x021a9784 CtvtGameCamGraphic_Free
+overlays/ov257 0x021a97d0 CtvtGameCamGraphic_GetClActUnit
+overlays/ov257 0x021a97dc CtvtGameCamBG_Init
+overlays/ov257 0x021a983c CtvtGameCamBG_Free
+overlays/ov257 0x021a9874 CtvtGameCamClAct_Init
+overlays/ov257 0x021a98b4 CtvtGameCamClAct_Free
+overlays/ov257 0x021a98d0 CtvtGameCamClAct_GetUnit
 overlays/ov257 0x021aaa0c CommTvt_GetCamera
 overlays/ov257 0x021aaa14 CommTvt_GetComm
 overlays/ov257 0x021aaa1c CommTvt_GetTalk
@@ -3344,6 +3352,10 @@ overlays/ov257 0x021b1a98 sPenFramePos
 overlays/ov257 0x021b1a9c sStampFramePos
 overlays/ov257 0x021b1aa0 sReturnButton
 overlays/ov257 0x021b2218 sBalloonPositions
+overlays/ov257 0x021b2280 sCtvtGameCamLCDConfig
+overlays/ov257 0x021b2290 sCtvtGameCamClActSetup
+overlays/ov257 0x021b22ac sCtvtGameCamVRAMConfig
+overlays/ov257 0x021b22dc sCtvtGameCamBGSetups
 overlays/ov257 0x021b2610 sFilter
 overlays/ov257 0x021b26bc COMM_TVT_PROC_FUNCTIONS
 overlays/ov257 0x021b3d60 sCameraSystem

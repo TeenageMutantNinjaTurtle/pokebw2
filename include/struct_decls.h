@@ -154,6 +154,7 @@ typedef struct CtvtCommMemberInfo CtvtCommMemberInfo;
 typedef struct CtvtDraw CtvtDraw;
 typedef struct CtvtGame CtvtGame;
 typedef struct CtvtGameBalloon CtvtGameBalloon;
+typedef struct CtvtGameCamGraphic CtvtGameCamGraphic;
 typedef struct CtvtGameShot CtvtGameShot;
 typedef struct CtvtMic CtvtMic;
 typedef struct CtvtTalk CtvtTalk;

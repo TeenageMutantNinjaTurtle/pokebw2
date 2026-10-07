@@ -56,3 +56,9 @@ src/ov257/ctvt_call.c:
     .text       start:0x021a0b00 end:0x021a22f8
     .rodata     start:0x021b1adc end:0x021b1ae4
     .data       start:0x021b2698 end:0x021b26a4
+
+src/ov257/ctvt_game_cam_graphic.c:
+    complete
+    .text       start:0x021a9740 end:0x021a9910
+    .rodata     start:0x021b22bc end:0x021b2478
+    .data       start:0x021b26e4 end:0x021b26fc
