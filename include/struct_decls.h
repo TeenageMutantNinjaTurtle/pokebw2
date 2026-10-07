@@ -162,6 +162,7 @@ typedef struct CtvtGameCam CtvtGameCam;
 typedef struct CtvtGameCamGraphic CtvtGameCamGraphic;
 typedef struct CtvtGameCamTask CtvtGameCamTask;
 typedef struct CtvtGameShot CtvtGameShot;
+typedef struct CtvtGameTarget CtvtGameTarget;
 typedef struct CtvtMic CtvtMic;
 typedef struct CtvtTalk CtvtTalk;
 typedef struct DayCareSave DayCareSave;

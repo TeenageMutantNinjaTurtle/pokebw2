@@ -70,8 +70,8 @@ src/ov257/comm_tvt_sys.c:
     .data       start:0x021b26bc end:0x021b26d8
 
 src/ov257/ctvt_game.c:
-    .text       start:0x021a22bc end:0x021a78d0
-    .rodata     start:0x021b1aa8 end:0x021b2218
+    .text       start:0x021a22bc end:0x021a7620
+    .rodata     start:0x021b1aa8 end:0x021b21f4
     .data       start:0x021b2664 end:0x021b2680
     .bss        start:0x021b3d70 end:0x021b3d88
 
@@ -80,3 +80,7 @@ src/ov257/ctvt_game_cam.c:
     .rodata     start:0x021b223c end:0x021b2280
     .data       start:0x021b2694 end:0x021b26a4
     .bss        start:0x021b3d88 end:0x021b3d8c
+
+src/ov257/ctvt_game_target.c:
+    .text       start:0x021a7620 end:0x021a78d0
+    .rodata     start:0x021b21f4 end:0x021b2218
