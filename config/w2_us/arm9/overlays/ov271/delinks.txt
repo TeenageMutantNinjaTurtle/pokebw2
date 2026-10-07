@@ -36,3 +36,18 @@ src/ov271/br_graphic.c:
     .text       start:0x021f31f8 end:0x021f34e0
     .rodata     start:0x021f7798 end:0x021f7968
     .data       start:0x021f7e50 end:0x021f7e60
+
+src/ov271/br_util.c:
+    .text       start:0x021f34e0 end:0x021f5518
+    .rodata     start:0x021f7968 end:0x021f7a0c
+    .data       start:0x021f7e60 end:0x021f7ef0
+
+src/ov271/br_fade.c:
+    complete
+    .text       start:0x021f5518 end:0x021f5ba8
+    .data       start:0x021f7ef0 end:0x021f7efc
+
+src/ov271/br_sidebar.c:
+    .text       start:0x021f5ba8 end:0x021f6264
+    .rodata     start:0x021f7a0c end:0x021f7b2c
+    .data       start:0x021f7efc end:0x021f7f14

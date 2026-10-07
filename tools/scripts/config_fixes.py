@@ -116,12 +116,13 @@ def apply_fix(version: str, module: str, addr: int, action: str, argument: str):
         # still emits. Without a symbol, the object before it seems to run on over it
         path = config_dir(version, module) / "symbols.txt"
         lines = path.read_text().splitlines()
-        if any(line.split()[0] == argument for line in lines):
-            return
         # An object in .bss has no contents, so dsd gives it the bss kind
         sections = parse_sections(config_dir(version, module) / "delinks.txt")
         in_bss = any(start <= addr < end for name, (start, end) in sections.items() if name.endswith("bss"))
         kind = "kind:bss" if in_bss else "kind:data"
+        # Already there under any name: rename_symbol.py may have renamed it since the fix was recorded
+        if any(kind in line and (m := SYMBOL_ADDR_RE.search(line)) and int(m.group(1), 16) == addr for line in lines):
+            return
         data = [i for i, line in enumerate(lines) if kind in line and (m := SYMBOL_ADDR_RE.search(line))
                 and int(m.group(1), 16) < addr]
         symbol = f"{argument} kind:bss addr:{addr:#010x}" if in_bss else f"{argument} kind:data(any) addr:{addr:#010x}"
@@ -135,7 +136,8 @@ def apply_fix(version: str, module: str, addr: int, action: str, argument: str):
         path = config_dir(version, module) / "symbols.txt"
         lines = path.read_text().splitlines()
         line = f"{name} kind:function({mode},size={size}) addr:{addr:#010x}"
-        if line in lines:
+        # Already there under any name: rename_symbol.py may have renamed it since the fix was recorded
+        if any(l.endswith(f" kind:function({mode},size={size}) addr:{addr:#010x}") for l in lines):
             return
         lines = [l for l in lines if not (m := SYMBOL_ADDR_RE.search(l)) or int(m.group(1), 16) != addr]
         before = [i for i, l in enumerate(lines) if "kind:function" in l and (m := SYMBOL_ADDR_RE.search(l))

@@ -271,14 +271,14 @@ void BrRes_LoadOBJ(BrRes *p_wk, u32 objID, HeapID heapId) {
     // clang-format on
 
     switch (objID) {
-    case 4:
+    case BR_RES_OBJ_SIDEBAR_M:
         handle = GFL_ArcSysCreateFileHandle(137, heapId);
         p_data->plt = p_wk->common_obj_plt[CLACT_VRAM_MAIN];
         p_data->chr = func_0204b81c(handle, 36, FALSE, CLACT_VRAM_MAIN, heapId);
         p_data->cell = func_0204bde0(handle, 21, 20, heapId);
         GFL_ArcToolFree(handle);
         break;
-    case 5:
+    case BR_RES_OBJ_SIDEBAR_S:
         handle = GFL_ArcSysCreateFileHandle(137, heapId);
         p_data->plt = p_wk->common_obj_plt[CLACT_VRAM_SUB];
         p_data->chr = func_0204b81c(handle, 36, FALSE, CLACT_VRAM_SUB, heapId);
@@ -373,7 +373,7 @@ void BrRes_LoadOBJ(BrRes *p_wk, u32 objID, HeapID heapId) {
     p_wk->obj_flag[objID] = TRUE;
 }
 
-// Objects 4 and 5 are only marked unloaded; their graphics stay in VRAM
+// The sidebars' objects are only marked unloaded; their graphics stay in VRAM
 void BrRes_UnloadOBJ(BrRes *p_wk, u32 objID) {
     BrResObjData *p_data = &p_wk->obj[objID];
 
@@ -456,12 +456,12 @@ u32 BrRes_GetColor(const BrRes *p_wk) {
 void BrRes_LoadColorPlttToFade(BrRes *p_wk, BrFade *fade, HeapID heapId) {
     ArcTool *handle = GFL_ArcSysCreateFileHandle(137, heapId);
 
-    func_ov271_021f5700(fade, handle, BrRes_GetCommonObjPltt(p_wk->color), 2, 0, 0x1c0, heapId);
-    func_ov271_021f5700(fade, handle, BrRes_GetCommonObjPltt(p_wk->color), 3, 0, 0x1c0, heapId);
-    func_ov271_021f5700(fade, handle, BrRes_GetCommonBgPltt(p_wk->color), 0, 0, 0, heapId);
-    func_ov271_021f5700(fade, handle, BrRes_GetCommonBgPltt(p_wk->color), 1, 0, 0, heapId);
-    func_ov271_021f5700(fade, handle, BrRes_GetCommonFontPltt(p_wk->color), 0, 0xe0, 0x20, heapId);
-    func_ov271_021f5700(fade, handle, BrRes_GetCommonFontPltt(p_wk->color), 1, 0xe0, 0x20, heapId);
+    BrFade_LoadPlttArc(fade, handle, BrRes_GetCommonObjPltt(p_wk->color), 2, 0, 0x1c0, heapId);
+    BrFade_LoadPlttArc(fade, handle, BrRes_GetCommonObjPltt(p_wk->color), 3, 0, 0x1c0, heapId);
+    BrFade_LoadPlttArc(fade, handle, BrRes_GetCommonBgPltt(p_wk->color), 0, 0, 0, heapId);
+    BrFade_LoadPlttArc(fade, handle, BrRes_GetCommonBgPltt(p_wk->color), 1, 0, 0, heapId);
+    BrFade_LoadPlttArc(fade, handle, BrRes_GetCommonFontPltt(p_wk->color), 0, 0xe0, 0x20, heapId);
+    BrFade_LoadPlttArc(fade, handle, BrRes_GetCommonFontPltt(p_wk->color), 1, 0xe0, 0x20, heapId);
     GFL_ArcToolFree(handle);
 }
 
