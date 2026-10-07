@@ -880,7 +880,9 @@ overlays/ov214 0x021e2e68 remove_symbol
 overlays/ov214 0x021e2e6a remove_symbol
 overlays/ov214 0x021e2e6c remove_symbol
 overlays/ov215 0x021ab0c8 remove_reloc
+overlays/ov255 0x021d7454 remove_reloc
 overlays/ov257 0x021acc14 add_reloc load,overlay(257),0x021b6238
+overlays/ov260 0x021b51fa reloc_module overlay(262)
 overlays/ov260 0x021bb788 reloc_module overlay(189)
 overlays/ov260 0x021bb902 reloc_module overlay(189)
 overlays/ov260 0x021bbba6 reloc_module overlay(189)

@@ -32,10 +32,17 @@ Same instructions, registers swapped.
   records command.
 - `arr[count++] = x` and `arr[count] = x; count++;` allocate registers differently, as do `count = 1; arr[0] = x;` and
   the reverse order.
+- `a[i + c]` adds `c` to `i` first, while `(a + i)[c]` folds `c * 4` into the base offset. When the original folds a
+  constant index offset outside a loop, the array it indexes probably starts at `a + c` in the source.
 - An array index that is a sum, `a[i * 2 + x]`, is split into `(a + x) + i * 2`. When the original adds first and
   then indexes with the sum, the sum was put in a variable, as `seat` in `wbt_system.c`'s bracket code. Written as
   `seat = i * 2 + (won ? 0 : 1);`, the sum goes to the register of `i * 2`; with the `0` or `1` set by an `if` into a
   variable, it goes to that variable's register.
+- A field read where nothing between its uses can change it, as in a stretch without calls or stores, is loaded once
+  into a value MWCC allocates after the declared locals. A local copy is allocated with the locals instead and moves
+  every spill slot: the PC box's `Box2Main_RangePutCheck` reads `syswk->pos` directly in its party branch.
+- A spilled copy of a narrow value takes its slot by its type: `Box2Main_VFuncItemArrangeGetTouch` keeps a `u16` drop
+  position in a `u16` local, which a `u32` local moved to the lowest slot.
 - The operands of `*` are loaded in source order, so a multiply whose registers are swapped has its operands swapped
   in the source.
 - The terms of a three-term `|` chain are not loaded in source order: `a | b | c` loads `c`, then `a`, then `b`.
@@ -56,11 +63,22 @@ Same instructions, registers swapped.
 - Variables declared in an inner block are allocated apart from the function's variables of the same name: in
   `ShinkaDemoPieces_Move`, the branch that moves a piece home declares its own `dx` and `dz`, which live on the stack
   while the other branches keep theirs in registers.
+- Two values that the original keeps in one register, one dead before the other is set, were one variable: the PC
+  box's `func_ov255_021cdcc8` keeps the party position and then its result in the same variable, where two
+  variables get two registers.
+- A loop condition written with a local for its row start, `start = pos + j * 6; if (x >= start && x < w + start)`,
+  allocates registers differently from the same sums written in both comparisons: the PC box's `func_ov255_021d229c`
+  only matched with the sums written out.
 
 ## Stack slots
 
 Same code, other `sp` offsets or frame size.
 
+- A pointer to an array element written to a local, `font = &app->fontOam[i]; font->bitmap = ...; font->oam = ...`,
+  keeps the array's address in a register and spills the element's offset, where `app->fontOam[i].bitmap` folds the
+  offsets into each access: the PC box's `func_ov255_021d1c30` matched only with the pointer.
+- Declaration order does move spill slots in longer functions: `func_ov255_021d0374` matched with its loop counters
+  declared first and `y` before the row width.
 - Stack locals are laid out in reverse declaration order.
 - Spilled variables get their stack slots in the order they are first assigned, the first at the lowest address,
   whatever their declaration order or use counts, in small functions. A value that sits above values assigned after
@@ -70,6 +88,12 @@ Same code, other `sp` offsets or frame size.
 - A variable reused by several switch cases is split into one value per case (see Registers), and a split piece that is
   spilled takes the lowest slot whatever the declarations say. When the original has a case's spilled value among the
   declared variables' slots, that case had a variable of its own, as case 9 of the records command does.
+- A loop counter stored to the slot of a local whose address is passed elsewhere is that local reused: in the PC box's
+  range pick, `func_ov255_021c445c`, the row loop counts with `y`, the touch position's `&y`, so the counter lives in
+  `y`'s slot and the frame has no slot of its own for it. Pairs such as `width, height` that the original keeps in two
+  sets of slots are block locals in two blocks; declaring them once at the top shares the slots and shrinks the frame.
+  In `PokeIconMoveDataMake` the slots only matched once each reused variable was made block local and the loops used the
+  original's counters; reordering the declarations did nothing.
 - The same holds for a variable assigned anew in several `if` blocks: its first piece takes the variable's slot in
   declaration order and the later pieces the lowest slots, in the order they are assigned. `status_rcv.c`'s
   `StatusRcv_UseItem` reuses one function-level `add` in its six effort blocks, which puts the first block's value
@@ -106,6 +130,10 @@ Same instructions, scheduled in another order.
   entrant's bit fields from one load, but it is not hoisted out of a loop: `wbt_party.c`'s filter check reads each
   list's count again in every iteration because its filter is `const`, where a plain pointer's count is loaded once
   before the loop.
+- A field load scheduled ahead of a store it doesn't depend on, where MWCC keeps the written order, can come from an
+  inline helper's argument: arguments are evaluated before the body's stores. The PC box's sequences set the picked
+  position with `u8 pos = func_0202ba60(...); Box2Seq_SetGetPos(syswk, pos, syswk->tray);`, which loads `tray` before
+  storing `pos`; the same stores written out load it after.
 - Initializations are scheduled where they are written: `int i = 0;` declared after a call sets `i` after the call,
   while `for (i = 0; ...)` sets it at the loop, after any statements before the loop.
 - A field of a local struct that a call fills is loaded before the next call only when the source reads it there: the
@@ -117,6 +145,9 @@ Same instructions, scheduled in another order.
 - An argument that is loaded before a call among the arguments, such as a print queue loaded before
   `BmpWin_GetBitmap(...)` in the same call, was passed to an inlined helper that makes the call, like
   `PrintWindow_Print`.
+- A computed argument whose arithmetic comes before the loads of the arguments before it was assigned to a variable
+  first: the PC box's `Box2Main_VFuncPartyInPokeMove` adds 30 to the party's count before loading the cursor
+  position only with `putPos = count + 30; PokeIconMoveDataMake(syswk, syswk->pos, putPos);`.
 - A parameter passed on the stack is loaded at the function's entry, along with the register parameters, unless it is
   an `int` or `s32`, which is loaded where it is first used. `StartMenu_DrawFrame` takes its BG as a `u8`, as
   `GFL_BGSysFillScrArea` does.
@@ -132,10 +163,21 @@ Same instructions, scheduled in another order.
 
 Narrowing shifts, reloads, recomputed addresses and folded constants.
 
+- A compound assignment to a narrow field narrows its right side first: `work->checkFlag &= 0xff ^ (1 << waza);` on a
+  `u8` shifts the mask down to a byte before the `and`, while `work->checkFlag = work->checkFlag & (0xff ^ (1 << waza));`
+  ands the full mask, as the PC box's `Box2Main_PokeFreeWazaCheck` does.
+- `res -= 34;` lets MWCC fold a later `res + 36` into `res + 2`; a variable of its own, `u32 slot = res - 34;`, keeps the
+  difference in its register and adds 36 to it, as the PC box's `func_ov255_021c445c` does.
+- A chained assignment to fields, `a->x = a->y = value;`, stores `y`, reloads it and stores `x`. When the original
+  narrows the value once and stores it to both, the stores were separate statements, as in the PC box's
+  `PokeIconChgDataMake`.
 - A caller narrows an argument for a `u8` or `u16` parameter with shifts before the call, so an argument passed without
   them is for a wider parameter. The other way round, a parameter passed on to a `u8` parameter without shifts is a
   `u8` itself: `GetBattleMon` hands its ID straight to `GetPokeParam`, so both take a `u8`, and so do the ability
   helpers that pass their mon's ID to `GetBattleMon`.
+- A wider parameter stored into a narrow bit field is narrowed to the field's type and then shifted into place, while
+  a `u8` parameter is trusted and shifted at once. The PC box's `func_ov255_021cc460` takes its button's actor and
+  palette as `u32` and narrows them in the stores to its 7- and 4-bit fields.
 - A sum that the original truncates to `s16` before comparing it was stored in an `s16` local, as the edges of the
   Join Avenue's balloons are; casting it in the comparison gives the same code but is not needed.
 - A value narrowed again after it is clamped was clamped with a conditional expression, whose `int` result is
@@ -198,8 +240,23 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   same store written in several `else` branches.
 - A branch to the very next instruction is left by cross-jumping: two statements that end the same way, such as a
   store in each case of a switch, share their tail, and the first jumps to it even when it follows.
+- An early `return` at the top of a long function jumps to the nearest `b` to the epilogue. When the original skips the
+  body with `bne` over a `b` to the very end, the body was wrapped in `if (cond) { ... }`, as in the PC box's
+  `Box2Main_PokeDataMove`.
+- A function whose last check returns a register that also served as a `NULL` argument, `mov r4, #0` ... `cmp r0, #1;
+  beq; mov r4, #1; mov r0, r4`, ends in `return f(...) == TRUE ? FALSE : TRUE;`; an `if` with two returns, or `!=`,
+  merges that return with an earlier one. The PC box's `Box2Main_PokeItemMoveCheck` shows it.
+- The two halves of an `if`/`else` that end in the same computation are merged by cross-jumping, unless they end the
+  function: a step of the PC box's icon moves sets `vx` and `mx` in each branch of the x test and `vy` and `my` in each
+  branch of the y test, and only the x branches share their tail; a variable for the difference merges the y branches
+  too and doesn't match.
 - When comparing a call's result, `v = f(); if (v == x)` and `if (f() == x)` put the operands of `cmp` in opposite
   orders.
+- The operands of `==` between two fields are compared in source order: `syswk->tray == syswk->getTray` gives
+  `cmp tray, getTray`, as the PC box's `func_ov255_021cc8dc` needs.
+- A store picked by a test, `if (pos < 30) syswk->pos = pos; else syswk->pos = 0;`, branches past the second value with
+  `bhs` and `b`, while clamping a local first, `if (pos >= 30) pos = 0; syswk->pos = pos;`, uses one `blo`. The PC box's
+  `func_ov255_021c8b38` is the first.
 - `x = x == 0 ? 3 : x - 1;` reads `x` once, and `if (x == 0) { x = 3; } else { x--; }` reads it again in the `else`
   branch before the shared store, as the Pokédex habitat map's season changes do.
 - The last test of a condition branches to the code written second. `if (a == x || a == y) { return TRUE; } return
@@ -237,6 +294,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   Subway's command switch only splits its values as the game does with an empty `case 102:` inside its first jump
   table, and empty cases that sit between others still get a comparison.
 - A switch case that ends in the same code as another case is merged into it, so its end moves.
+- The comparison tree depends only on the set of case values, and evenly spaced cases are grouped from the low end:
+  the PC box search's `func_ov255_021d40e8` cases {0, 3, 9, 15, 21, 24, 27, 30} split at 27, and no order, type or
+  `default:` changes that.
 - A switch whose comparisons start with a value outside its jump table, `cmp r0, #5; beq other; cmp r0, #3; bls table`,
   with that value's code after the cases, is `if (x != 5) { switch (x) { ... } } else { ... }`; the same test before
   a compare chain, `cmp r0, #5; beq end`, is the `if` without an `else`. The Pokédex forms page's button input reads
@@ -285,6 +345,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   `GFL_ASSERT(a < (B*C))` needs the game's spacing (`delivery_beacon.c` turns clang-format off for it). In
   `delivery_beacon.c` the game has the asserts' `""` before the file name of an earlier allocation, which no source
   order tried reproduces: a folded assert or an unused inline creates no literal.
+- Small objects that come after a larger one in the same file, out of size order, may be rows of one array: the PC
+  box's `box2_ui.c` has seven cursor tables after a 540-byte one, and they are `sTrayCursorData[3][47]`, three rows
+  of equal length that each end in a `TOUCH_RECT_END` entry, with other tables pointing into the rows. Once the sizes
+  are right, any order of the objects of one size can be reached; keep the natural order elsewhere and let
+  `rodata_order.py` solve for the same-size groups.
 - The linker starts each `.rodata` section on a 4-byte boundary, whatever the section's own alignment, so a 6-byte
   `u16` table followed by a `u8` initializer leaves 2 bytes of padding between them, as at the start of
   `btl_server_flow.c`'s `.rodata`. `scrcmd_ochiba.c`'s 150-byte and 342-byte tables, both 2-aligned, end where only

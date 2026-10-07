@@ -79,6 +79,10 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 ## An instruction too many or too few
 
+- A narrowing before an `and` into a `u8` field: `x &= mask` narrows the mask, `x = x & mask` doesn't.
+  (matching.md: "compound assignment to a narrow field")
+- A reload between two stores of one value: a chained `a = b = v;`; separate statements store the narrowed value
+  twice. (matching.md: "chained assignment to fields")
 - A narrowing (`lsl`/`lsr` or `asr` pair) comes from a `u8`/`u16`/`s16` local, parameter or return type. A caller narrows
   arguments for narrow parameters, so an argument passed without them is for a wider one. (matching.md: "narrows an argument")
 - A parameter passed on to a `u8` parameter without shifts is a `u8` too. (matching.md: "narrows an argument")
@@ -116,6 +120,9 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 - Returns of `-1` and `0` folded into one computed result (`rsbs`, `mvns`) where the original keeps two returns: the
   function returns an enum. (matching.md: "returns an enum")
+- `bne` over a `b` to the end at the top: the body is in an `if`, not after an early return. (matching.md: "An early `return`")
+- A final boolean returned from a register shared with a `NULL` argument: `return f() == TRUE ? FALSE : TRUE;`.
+  (matching.md: "ends in `return f(...) == TRUE")
 - Blocks are laid out in source order. A switch whose `default` code comes first had `default:` written first, and
   `if (!f()) return FALSE; n++;` puts the return before the code that goes on. (matching.md: "Blocks are laid out in source order")
 - Identical statements in different branches are merged, so a jump into the middle of another block means the same

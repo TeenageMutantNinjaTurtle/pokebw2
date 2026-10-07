@@ -34,6 +34,8 @@ enum {
     // Not from swan: the Global Trade Station's heap
     HEAPID_WORLDTRADE = 0x48,
     HEAPID_MICTEST = 0x49,
+    HEAPID_BOX2 = 0x4b,
+    HEAPID_BOX2_APP = 0x4c,
     HEAPID_FIELD_PARTICLE = 0x50,
     HEAPID_BATTLE_RETURN = 0x52,
     HEAPID_GAMESYNC = 0x67,
@@ -52,6 +54,7 @@ enum {
     HEAPID_SHINKA_DEMO = 0x94,
     HEAPID_ZUKAN_DETAIL = 0x95,
     HEAPID_FIELD_SCENEAREA = 0x96,
+    HEAPID_BOX_SEARCH = 0x98,
 };
 
 // Allocates from the end of the heap instead of the start

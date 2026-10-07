@@ -7,6 +7,13 @@
 // the archive and its file IDs, some of them by the OBJ mapping mode passed
 
 u32 getUINarcIdx(void);
+// The files of the Pokémon types' icons: their palette, the characters and palette number of a type, and their cells
+// and animations for an OBJ mapping
+u32 func_0202d7e4(void);
+u8 func_0202d7e8(u8 type);
+u32 func_0202d7f4(u8 type);
+u32 func_0202d7f8(u32 mapping);
+u32 func_0202d7fc(u32 mapping);
 u32 func_0202d810(void);
 u32 func_0202d814(void);
 u32 func_0202d818(u32 mapping);
@@ -23,9 +30,17 @@ u32 func_0202d8b0(void);
 u32 func_0202d8b4(void);
 u32 func_0202d8b8(u32 mapping);
 u32 func_0202d8bc(u32 mapping);
+u32 func_0202d944(void);
+u32 func_0202d948(u32 mapping);
+u32 func_0202d94c(u32 mapping);
+u32 func_0202d950(u32 mapping);
 u32 func_0202d954(void);
 u32 func_0202d958(u32 mapping);
 u32 func_0202d95c(u32 mapping);
 u32 func_0202d960(u32 mapping);
+u32 func_0202d964(void);
+u32 func_0202d968(u32 mapping);
+u32 func_0202d96c(u32 mapping);
+u32 func_0202d970(u32 mapping);
 
 #endif // POKEBW2_SYSTEM_APP_COMMON_H

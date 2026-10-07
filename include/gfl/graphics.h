@@ -42,6 +42,8 @@ void *func_02026dc0(HeapID heapId);
 void func_02026de8(void *a0);
 void func_02026e04(void *a0, u32 bg, u32 a2, HeapID heapId);
 void func_02026e48(void *a0, u32 bg);
+// Loads a palette from an archive into the fade's buffers
+void func_02026ee8(void *a0, u32 arcId, u32 fileId, HeapID heapId, u32 type, u32 size, u16 offset);
 // Used by the Pokédex's detail screens (overlay 298) too
 void func_02026f08(void *a0, ArcTool *arc, u32 fileId, HeapID heapId, u32 bg, u32 size, u16 offset, u16 srcOffset);
 void func_02026f7c(void *a0, u32 bg, u32 offset, u32 size);

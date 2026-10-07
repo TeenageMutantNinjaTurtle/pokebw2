@@ -140,6 +140,7 @@ static inline void G2_SetOBJAttr(GXOamAttr *oam, int x, int y, int priority, int
 #define GX_PLANEMASK_OBJ 0x10
 
 // The planes that blending takes, which include the backdrop
+#define GX_BLEND_PLANEMASK_NONE 0x00
 #define GX_BLEND_PLANEMASK_BG0 0x01
 #define GX_BLEND_PLANEMASK_BG1 0x02
 #define GX_BLEND_PLANEMASK_BG2 0x04
@@ -200,6 +201,7 @@ typedef enum {
 #define GX_VRAM_SUB_OBJ_16_I GX_VRAM_I
 #define GX_VRAM_SUB_OBJ_128_D GX_VRAM_D
 #define GX_VRAM_TEX_NONE GX_VRAM_NONE
+#define GX_VRAM_TEX_0_D GX_VRAM_D
 #define GX_VRAM_TEXPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_SUB_OBJEXTPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_TEX_0_D GX_VRAM_D

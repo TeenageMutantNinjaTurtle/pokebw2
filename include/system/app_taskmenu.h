@@ -35,6 +35,8 @@ void func_0202db70(void *menu);
 // Whether an item was picked, and which
 BOOL func_0202dbe4(void *menu);
 u32 func_0202dc00(void *menu);
+// Puts the cursor on an item
+void func_0202def8(void *menu, u32 pos);
 
 // The graphics of the menu's buttons, loaded into a BG of the main (bg < 4) or sub engine
 void *func_0202e168(u32 bg, u32 palette, Font *font, PrintQueue *printQueue, HeapID heapId);
