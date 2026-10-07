@@ -19,7 +19,10 @@ void PassPowerData_Free(void *data);
 // Two levels of what func_02017208 returns, which the pass powers need
 u16 func_0200c5dc(void *levels);
 u16 func_0200c5e0(void *levels);
-// Overlay 12: the pass powers that the levels and the two bytes of func_0200c6d8 unlock
+// The bit of a special pass power in the two bytes of func_0200c6d8, or 0xff
+u32 PassPower_GetSPowerBaseID(int index);
+// Overlay 12's pass_power_check.c: whether a pass power is unlocked (0), nearly (1) or not (2), and how many are
+u32 CheckPassPowerUnlocked(void *data, int index, void *levels, u8 *flags);
 u32 GetUnlockedPassPowerCount(void *data, void *levels, u8 *flags);
 
 #endif // POKEBW2_SAVE_HIGH_LINK_H

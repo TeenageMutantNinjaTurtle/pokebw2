@@ -90,7 +90,7 @@ prints the tables below from the configs and the ROM:
 
 ### Overlay 12
 
-1347 of 1668 functions are in source files. Embedded names without a file yet: `event_battle.c`, `fldmmdl.c`, `pair_sys.c`.
+1349 of 1668 functions are in source files. Embedded names without a file yet: `event_battle.c`, `fldmmdl.c`, `pair_sys.c`.
 
 | File | `.text` (Black 2) | Functions | Status | Name |
 | --- | --- | --- | --- | --- |
@@ -174,6 +174,7 @@ prints the tables below from the configs and the ROM:
 | `scrcmd_sp_poke.c` | `0x02169c1c`–`0x02169c7c` | 4 | complete | descriptive |
 | `waza_oshie.c` | `0x02169c7c`–`0x02169e18` | 4 | partial | string at `0x0216e5fc` |
 | `g3d_text_draw.c` | `0x02169e18`–`0x0216a190` | 7 | partial | descriptive |
+| `pass_power_check.c` | `0x0216a190`–`0x0216a23c` | 2 | partial | descriptive |
 | `scrcmd_hollow_rival.c` | `0x0216a6a4`–`0x0216a82c` | 7 | complete | descriptive |
 | `scrcmd_keysystem.c` | `0x0216a82c`–`0x0216a950` | 5 | complete | string at `0x0216e618` |
 | `scrcmd_pedometer.c` | `0x0216abc0`–`0x0216ac28` | 3 | complete | descriptive |

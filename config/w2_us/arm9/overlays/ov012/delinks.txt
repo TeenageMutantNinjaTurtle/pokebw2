@@ -358,6 +358,9 @@ src/ov012/g3d_text_draw.c:
     .text       start:0x02169e58 end:0x0216a1d0
     .rodata     start:0x0216de44 end:0x0216de98
 
+src/ov012/pass_power_check.c:
+    .text       start:0x0216a1d0 end:0x0216a27c
+
 src/ov012/scrcmd_hollow_rival.c:
     complete
     .text       start:0x0216a6e4 end:0x0216a86c
