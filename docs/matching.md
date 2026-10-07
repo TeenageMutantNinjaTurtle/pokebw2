@@ -359,6 +359,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   `func_ov194_021c4ec0` hides a marking icon with `if (anim == -1) { hide } else if (isEgg && i == 6) { hide }`.
 - A branch to the very next instruction is left by cross-jumping: two statements that end the same way, such as a
   store in each case of a switch, share their tail, and the first jumps to it even when it follows.
+- A block that many cases of a switch branch to, such as the step advance of `event_entrance_effect.c`'s
+  `func_ov036_0219f380` (`*state = next(work); advance(work);`), is each case's own copy merged by cross-jumping. A flag
+  set in the cases and tested after the switch keeps a register for it and doesn't match.
 - An early `return` at the top of a long function jumps to the nearest `b` to the epilogue. When the original skips the
   body with `bne` over a `b` to the very end, the body was wrapped in `if (cond) { ... }`, as in the PC box's
   `Box2Main_PokeDataMove`.
