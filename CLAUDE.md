@@ -9,7 +9,8 @@ a rule here changes, change it there too.
 
 ## Rules
 
-- **Both ROMs stay byte for byte.** Every change ends with `ninja`, which checks each module and both SHA1s. Black 2 is
+- **Both ROMs stay byte for byte.** Every change ends with `ninja`, which compiles every source file, complete or
+  not, and checks each module and both SHA1s. Black 2 is
   primary. White 2 shares the source (`BLACK2`/`WHITE2` defines) and gets its configs through the version map, so
   change configs only with the scripts, which update both versions and record what they did:
   `add_source_file.py`, `mark_complete.py`, `rename_symbol.py`, `config_fixes.py`.
@@ -41,9 +42,9 @@ a rule here changes, change it there too.
   enforces these.
 - **Publish every commit.** Right after each commit: `git fetch origin && git merge origin/main` (in a worktree too,
   into its branch), resolve any conflicts, run `python3 configure.py && ninja` and check that both SHA1s match, then
-  `ninja report`, then `git push origin HEAD:main`. `ninja report` is needed because the default target never compiles
-  incomplete files, so a broken one passes `ninja` and breaks everyone's build. If the push is rejected because
-  someone pushed first, fetch, merge, build and push again. Never force-push, and never push a merge that doesn't build
+  `git push origin HEAD:main`. `ninja` also compiles every incomplete file for both versions, so a file that no longer
+  compiles fails the build even though it isn't linked. If the push is rejected because someone pushed first, fetch,
+  merge, build and push again. Never force-push, and never push a merge that doesn't build
   both ROMs. The `finish-file` skill has the steps.
 - **Context is the scarce resource.** Never print a whole `.s` file, a whole doc, a ninja log or a permuter log. Use
   `show_func.py NAME`, `compiler_probe.py --functions F --mismatches --align`, `grep -n` and `| tail`.

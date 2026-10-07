@@ -27,17 +27,13 @@ typedef struct {
 // The card's BGs and palettes, on the main screen when its BG is below 4
 typedef struct {
     // The card's BG, which also gives its Pokémon's BG priority
-    u32 mainBg;
-    // The BG of the card's text
-    u32 unk4;
-    // The BG palette of the card
-    u32 subBg;
-    // The BG palette of the card's text
-    u32 palette;
-    // The OBJ palette of the gift's icon
-    u32 framePalette;
-    // The OBJ palette of the gift's Pokémon
-    u32 frameChar;
+    u32 bg;
+    u32 textBg;
+    u32 bgPalette;
+    u32 textPalette;
+    // The OBJ palettes of the gift's icon and of the gift's Pokémon
+    u32 iconPalette;
+    u32 pokePalette;
     ClActUnit *unit;
     MysteryGiftSave *giftSave;
     MsgData *msgData;
