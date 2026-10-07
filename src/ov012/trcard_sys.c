@@ -45,14 +45,6 @@ enum {
     TRCARD_SEQ_END,
 };
 
-// The phrase select's parameter for the greeting
-typedef struct {
-    SaveControl *save;
-    u32 unk04;
-    // The phrase chosen, or NULL
-    PMSData *result;
-} TrainerCardGreetingParam;
-
 // The start of overlay 187's MedalInfoParam (app/medal_info.h), as far as its mode 1 reads it
 typedef struct {
     u32 mode;
@@ -72,7 +64,7 @@ typedef struct {
     u32 heapId;
     u32 unk04;
     GameProcManager *procMgr;
-    TrainerCardGreetingParam greeting;
+    PMSSelectParam greeting;
     TrainerCardMedalParam medal;
     TrainerCardParam *param;
     // The card's unk06 when the screen opened
