@@ -90,6 +90,15 @@ MysteryYesNo *MysteryYesNo_Create(const MysteryYesNoSetup *setup, HeapID heapId)
 void MysteryYesNo_Delete(MysteryYesNo *menu);
 u32 MysteryYesNo_Update(MysteryYesNo *menu);
 
+// A window that prints one string, the line of a MysteryTextWin
+MysteryTextLine *MysteryTextLine_Create(BOOL deferFlush, u16 bg, u8 x, u8 y, u8 width, u8 height, u8 palette,
+                                        PrintQueue *queue, HeapID heapId);
+void MysteryTextLine_Delete(MysteryTextLine *line);
+void MysteryTextLine_PrintStr(MysteryTextLine *line, const StrBuf *str, Font *font);
+void MysteryTextLine_SetColor(MysteryTextLine *line, u16 color);
+void MysteryTextLine_SetPos(MysteryTextLine *line, s32 x, s32 y, u32 align);
+BOOL MysteryTextLine_Update(MysteryTextLine *line);
+
 MysteryTextWin *MysteryTextWin_Create(BOOL deferFlush, const MysteryTextWinEntry *entries, u32 count, u16 bg,
                                       u8 palette, PrintQueue *queue, MsgData *msgData, Font *font, HeapID heapId);
 void MysteryTextWin_Delete(MysteryTextWin *win);

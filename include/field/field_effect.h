@@ -20,14 +20,24 @@ void func_ov036_021c6d3c(void *effect);
 void func_ov036_021c6cf8(void *effect);
 
 void *func_ov036_021b3f14(void *effects, FieldActor *actor, u32 arg2, u32 arg3);
-void func_ov036_021a5968(void *effect, u32 arg1);
+// Break the rock in front of an actor with Rock Smash
+void func_ov036_021a56c8(FieldActor *actor, FieldEffects *effects);
+// The ripples of a fishing line cast in dir from pos, and how fast they play
+FieldEffectTask *func_ov036_021a58e0(FieldEffects *effects, const VecFx32 *pos, u32 dir, u32 sameHeight);
+void func_ov036_021a5968(FieldEffectTask *task, u16 speed);
+// The festival's sparkles: start their task, show one at pos, hide one or all, and whether one shows and its value
+FieldEffectTask *func_ov036_021a5bb4(FieldEffects *effects);
+void func_ov036_021a5c04(FieldEffectTask *task, u32 idx, u16 value, const VecFx32 *pos);
+void func_ov036_021a5c2c(FieldEffectTask *task, u32 idx);
+void func_ov036_021a5c44(FieldEffectTask *task);
+u16 func_ov036_021a5c5c(FieldEffectTask *task, u32 idx);
+u16 func_ov036_021a5c74(FieldEffectTask *task, u32 idx);
 // The field effect of a phenomenon, which fldeff_encount.c plays
 FieldEffectTask *func_ov036_021a53f8(EncountSystem *system, FieldEffects *effects, u16 x, u16 z, fx32 height,
                                      u32 kind);
 // Pause and hide a phenomenon
 void func_ov036_021a5498(FieldEffectTask *task, BOOL paused);
 void func_ov036_021a54a8(FieldEffectTask *task, BOOL hidden);
-void *func_ov036_021a58e0(void *effects, VecFx32 *position, u32 direction, u32 flag);
 // The effects that actors make on the terrain
 void func_ov036_021a3bf0(FieldActor *actor, FieldEffects *effects);
 // The dust of an actor landing
