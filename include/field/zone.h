@@ -185,7 +185,6 @@ void SetupZoneSpawnInfoWarp(ZoneSpawnInfo *spawn, u16 zoneId, u16 warpId, u32 di
 void SetupWarpParamByWarp(ZoneWarp *warp, ZoneSpawnInfo *spawn, u32 direction);
 u32 GetInTransitionTypeBetweenZones(u16 fromZone, u16 toZone);
 BOOL GetIsZoneMatrix0(u16 zoneId);
-u32 GetMapBGMIDByPlayerState2(GameData *gameData, s32 zoneId, u8 season);
 u32 GetOutTransitionTypeBetweenZones(u16 fromZone, u16 toZone);
 u32 GetRespawnLocationIndexForRespawnZone(s32 zoneId);
 u16 GetRespawnZoneMainZone(u16 index);
@@ -252,6 +251,10 @@ u16 GetVersionedMapChangeZoneNum2(u16 zoneId);
 u16 GetZoneMatrixCamBoundIdx(u16 zoneId);
 u32 GetZoneDefaultCameraIndex(u16 zoneId);
 BOOL GetZoneFlagsEnableCycling(u16 zoneId);
+// The zone's BGM for the season
+u16 DecideZoneHeaderBGMID(u16 zoneId, u8 season);
+// Whether the cycling and surfing BGM play in the zone
+BOOL GetZoneFlagsEnableCycleSurfBGM(u16 zoneId);
 u8 GetZoneEnvFlagsWeather(u16 zoneId);
 // The zone a zone belongs to, such as the town of a building
 u16 GetZoneParentZone(u16 zoneId);

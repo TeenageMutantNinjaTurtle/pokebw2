@@ -1,6 +1,7 @@
 #include "types.h"
 #include "app/beacon_detail.h"
 #include "field/event_beacon_detail.h"
+#include "field/event_sound.h"
 #include "field/field.h"
 #include "field/field_event.h"
 #include "gfl/std.h"

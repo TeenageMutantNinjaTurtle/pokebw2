@@ -187,6 +187,7 @@ static inline void G2_SetOBJAttr(GXOamAttr *oam, int x, int y, int priority, int
 // Shows VRAM D, where the display capture can write, instead of the main engine's output
 #define GX_DISPMODE_VRAM_D 0xe
 #define GX_BGMODE_0 0
+#define GX_BGMODE_3 3
 #define GX_BGMODE_5 5
 #define GX_BG0_AS_2D 0
 #define GX_BG0_AS_3D 1
@@ -221,6 +222,7 @@ typedef enum {
 #define GX_VRAM_BG_32_FG (GX_VRAM_F | GX_VRAM_G)
 #define GX_VRAM_BG_64_E GX_VRAM_E
 #define GX_VRAM_BG_128_A GX_VRAM_A
+#define GX_VRAM_BG_128_B GX_VRAM_B
 #define GX_VRAM_BG_128_D GX_VRAM_D
 #define GX_VRAM_BGEXTPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_BGEXTPLTT_23_G GX_VRAM_G
@@ -241,6 +243,7 @@ typedef enum {
 #define GX_VRAM_TEX_0_D GX_VRAM_D
 #define GX_VRAM_TEXPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_SUB_OBJEXTPLTT_NONE GX_VRAM_NONE
+#define GX_VRAM_TEX_0_A GX_VRAM_A
 #define GX_VRAM_TEX_0_B GX_VRAM_B
 #define GX_VRAM_TEX_0_D GX_VRAM_D
 #define GX_VRAM_TEX_01_AB (GX_VRAM_A | GX_VRAM_B)

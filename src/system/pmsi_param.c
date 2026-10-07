@@ -96,7 +96,7 @@ u32 PMSIParam_GetMode(const PMSIParam *param) {
     return param->mode;
 }
 
-void *func_02029a6c(const PMSIParam *param) {
+void *PMSIParam_GetPokeDex(const PMSIParam *param) {
     return param->unk8;
 }
 
@@ -112,7 +112,7 @@ BOOL PMSIParam_HasStartSentence(const PMSIParam *param) {
     return param->hasStartSentence;
 }
 
-BOOL func_02029a84(const PMSIParam *param) {
+BOOL PMSIParam_HasNumbers(const PMSIParam *param) {
     return param->flag3;
 }
 

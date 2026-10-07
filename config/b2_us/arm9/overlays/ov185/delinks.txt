@@ -3,3 +3,14 @@
     .ctor       start:0x021a745c end:0x021a745c kind:rodata align:4
     .data       start:0x021a7460 end:0x021a75a0 kind:data align:32
     .bss        start:0x021a75a0 end:0x021a75a0 kind:bss align:32
+
+src/ov185/pms_input_data.c:
+    complete
+    .text       start:0x0219ce80 end:0x0219d330
+    .rodata     start:0x021a512c end:0x021a6ee4
+    .data       start:0x021a7460 end:0x021a7474
+
+src/ov185/pms_input_view.c:
+    .text       start:0x0219d330 end:0x0219e7bc
+    .rodata     start:0x021a6ee4 end:0x021a703c
+    .data       start:0x021a7474 end:0x021a7514
