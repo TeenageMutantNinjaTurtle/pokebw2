@@ -14,7 +14,7 @@ void SetupTrainerClashSlot(GameEvent *event, int index, const TrainerClashData *
     TrainerClashSlot *dst = ScriptWork_GetTrainerState(work, index);
 
     dst->data = *data;
-    dst->result = 0;
+    dst->eye = NULL;
 }
 
 u16 GetNPCTrainerIDFromSCRID(u32 scriptId) {
