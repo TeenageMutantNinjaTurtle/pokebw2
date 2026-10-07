@@ -5,6 +5,8 @@
 #include "gfl/std.h"
 #include "nitro/fx.h"
 #include "save/join_avenue.h"
+#include "system/resort_binary.h"
+#include "system/resort_layout.h"
 
 // The people's actors have the UIDs from RESORT_PERSON_UID_FIRST, by their index
 #define RESORT_PERSON_UID_FIRST 0x50
@@ -95,7 +97,7 @@ static ResortPerson *func_ov137_021f0e98(HeapID heapId, const ResortPersonSetup 
     person->type = func_ov137_021f1984(person->data);
     a = func_ov137_021f1968(person->data, 31, NULL);
     b = func_ov137_021f1968(person->data, 2, NULL);
-    person->row = func_02039628(setup->table, person->type, a, b);
+    person->row = ResortBinary_FindRow(setup->table, person->type, a, b);
     person->funcs = &sTypes[person->type];
     person->actor = FindFieldActor(person->mmSys, person->index + RESORT_PERSON_UID_FIRST);
     if (person->actor == NULL) {
@@ -250,14 +252,14 @@ static void func_ov137_021f113c(ResortPerson *person, u16 *x, u16 *z, u16 *dir) 
     u16 index = func_ov137_021f198c(person->data);
     u16 id = func_020363e0(func_ov137_021f0fa8(person), 0);
     u32 column = 0;
-    const u16 *row = func_020397b4(person->shops, id);
+    const u16 *row = ResortShopData_GetShop(person->shops, id);
 
     if (index % 2 == 0) {
         column = 1;
     }
-    func_02039538(func_020397cc(row, column + 6), x, z, dir);
-    *x += func_020395f8(person->unk2c, index, 1);
-    *z += func_020395f8(person->unk2c, index, 2);
+    func_02039538(ResortShopData_GetShopParam(row, column + 6), x, z, dir);
+    *x += ResortBinary_Get(person->unk2c, index, 1);
+    *z += ResortBinary_Get(person->unk2c, index, 2);
 }
 
 static void func_ov137_021f11b8(ResortPerson *person, const ResortPersonSetup *setup, ZoneNPC *npc) {
@@ -288,7 +290,7 @@ static void func_ov137_021f122c(ResortPerson *person, const ResortPersonSetup *s
     ZoneNPC npc = sNpcTemplate;
 
     npc.modelId = (u8)func_ov137_021f1968(person->data, 3, NULL);
-    npc.scrId = func_02039624(person->row);
+    npc.scrId = ResortBinary_GetFoundValue(person->row);
     npc.uid = setup->index + RESORT_PERSON_UID_FIRST;
     person->funcs->setupNpc(person, setup, &npc);
     person->actor = CreateNewActorByEntityNoWKOBJCODE(setup->mmSys, &npc, func_0203950c(setup->zone));
@@ -302,7 +304,7 @@ ResortPeople *func_ov137_021f12b4(const ResortPeopleSetup *setup, HeapID heapId)
                                             "resort_people.c", 712);
     people->setup = *setup;
     people->heapId = heapId;
-    people->table = func_020395ac(0, 4, heapId);
+    people->table = ResortBinary_Load(0, 4, heapId);
     return people;
 }
 
@@ -318,7 +320,7 @@ void func_ov137_021f1300(ResortPeople *people) {
         }
     }
     func_ov137_021f1504(people);
-    func_020395e4(people->table);
+    ResortBinary_Free(people->table);
     GFL_HeapFree(people);
 }
 

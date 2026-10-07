@@ -50,6 +50,9 @@ enum {
     // Not from swan: the phrase select's heap
     HEAPID_PMS_SELECT = 0x51,
     HEAPID_BATTLE_RETURN = 0x52,
+    // Not from swan: the Battle Recorder's heaps, br_main.c's and the one its screens share
+    HEAPID_BATTLE_RECORDER_SYS = 0x59,
+    HEAPID_BATTLE_RECORDER = 0x5a,
     // Not from swan: the Entralink monolith's heap
     HEAPID_MONOLITH = 0x61,
     HEAPID_GAMESYNC = 0x67,

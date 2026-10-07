@@ -11,6 +11,7 @@
 #include "gfl/str.h"
 #include "nitro/math.h"
 #include "nitro/os.h"
+#include "pml/met_data.h"
 #include "pml/poke_party.h"
 
 // A Pokémon of the Battle Subway's Pokémon arc

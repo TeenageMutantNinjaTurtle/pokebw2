@@ -63,7 +63,7 @@ typedef struct {
     // The index of the avenue's zone, for func_0203950c
     u32 zone;
     JoinAvenueInfo *info;
-    // The NPCs' table, of func_020395ac
+    // The NPCs' table, of ResortBinary_Load
     void *table;
 } ResortNPCSetup;
 
@@ -179,7 +179,7 @@ u16 func_ov137_021f1d60(ResortNPC *npc, u32 row, u32 column);
 u16 func_ov137_021f1f00(ResortNPC *npc, u32 row);
 
 // resort_sys.c
-ResortSys *func_ov137_021f1f1c(const ResortSysSetup *setup, u32 *a1, HeapID heapId);
+ResortSys *func_ov137_021f1f1c(const ResortSysSetup *setup, ResortWork *resortWork, HeapID heapId);
 void func_ov137_021f1fb4(ResortSys *sys);
 void *func_ov137_021f1ff8(ResortSys *sys);
 void *func_ov137_021f2000(ResortSys *sys);
@@ -194,7 +194,7 @@ JoinAvenuePersonList *func_ov137_021f2020(ResortSys *sys);
 JoinAvenuePersonList *func_ov137_021f2024(ResortSys *sys);
 void *func_ov137_021f2028(ResortSys *sys);
 JoinAvenueInfo *func_ov137_021f202c(ResortSys *sys);
-u32 *func_ov137_021f2030(ResortSys *sys);
+ResortWork *func_ov137_021f2030(ResortSys *sys);
 u16 func_ov137_021f2040(u32 a0, ResortSys *sys, ResortPersonData *data, GameData *gameData, WordSet *wordSet,
                         HeapID heapId);
 u16 func_ov137_021f2fd0(ResortPersonData *data, JoinAvenuePerson *person, ResortSys *sys, u16 *a3, u16 *a4,

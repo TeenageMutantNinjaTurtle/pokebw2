@@ -34,6 +34,7 @@
 #include "nitro/gx.h"
 #include "nitro/hw.h"
 #include "nitro/math.h"
+#include "pml/hm_check.h"
 #include "pml/item.h"
 #include "pml/poke_party.h"
 #include "save/box.h"

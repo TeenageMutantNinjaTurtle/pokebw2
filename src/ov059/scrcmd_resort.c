@@ -23,6 +23,9 @@
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
+#include "system/resort_binary.h"
+#include "system/resort_layout.h"
+#include "system/resort_work.h"
 #include "system/vm.h"
 #include "system/wordset.h"
 
@@ -111,10 +114,10 @@ BOOL func_ov059_021e5950(VM *vm, FieldScriptEnv *env) {
         u16 d = func_ov137_021f10e8(person, 18, NULL);
         u16 id1 = func_020394b0(a, b, c, d, info, shops);
         u16 id2 = func_020363e0(func_ov137_021f0fa8(person), 0);
-        const u16 *row1 = func_020397b4(shops, id1);
-        const u16 *row2 = func_020397b4(shops, id2);
-        u16 kind1 = func_020397cc(row1, 0);
-        u16 kind2 = func_020397cc(row2, 0);
+        const u16 *row1 = ResortShopData_GetShop(shops, id1);
+        const u16 *row2 = ResortShopData_GetShop(shops, id2);
+        u16 kind1 = ResortShopData_GetShopParam(row1, 0);
+        u16 kind2 = ResortShopData_GetShopParam(row2, 0);
         u32 unk25 = func_ov137_021f10e8(person, 37, NULL);
         u32 unk13 = JoinAvenue_GetParam(info, 13, 0);
 
@@ -150,7 +153,7 @@ BOOL func_ov059_021e5950(VM *vm, FieldScriptEnv *env) {
     case 11: {
         u16 id = func_020363e0(func_ov137_021f0fa8(person), 0);
 
-        *var = func_020397cc(func_020397b4(shops, id), 0);
+        *var = ResortShopData_GetShopParam(ResortShopData_GetShop(shops, id), 0);
         break;
     }
     case 15: {
@@ -309,7 +312,7 @@ BOOL func_ov059_021e5950(VM *vm, FieldScriptEnv *env) {
 
         which -= 52;
         id = func_020363e0(func_02038470(func_02038860(occupants, which)), 0);
-        *var = func_020397cc(func_020397b4(shops, id), 5);
+        *var = ResortShopData_GetShopParam(ResortShopData_GetShop(shops, id), 5);
         break;
     }
     case 60: {
@@ -320,13 +323,13 @@ BOOL func_ov059_021e5950(VM *vm, FieldScriptEnv *env) {
         break;
     }
     case 61:
-        *var = func_020395f8(table, func_0203968c(table, JoinAvenue_GetParam(info, 2, 0)), 11);
+        *var = ResortBinary_Get(table, ResortBinary_FindRange(table, JoinAvenue_GetParam(info, 2, 0)), 11);
         break;
     case 62:
         *var = JoinAvenue_GetParam(info, 14, 0);
         break;
     case 63:
-        *var = func_020395f8(table, func_0203968c(table, JoinAvenue_GetParam(info, 2, 0)), 6) - 1753;
+        *var = ResortBinary_Get(table, ResortBinary_FindRange(table, JoinAvenue_GetParam(info, 2, 0)), 6) - 1753;
         break;
     case 64:
         *var = func_02038868(occupants);
@@ -506,13 +509,13 @@ BOOL func_ov059_021e61d8(VM *vm, FieldScriptEnv *env) {
     person = func_ov137_021f4690(env, func_ov059_021e7b98(field));
     data = func_ov137_021f1110(person);
     *var2 = 0;
-    row = func_020397d4(shops, func_02039798(shops, func_ov137_021f0f58(person)), 0);
-    id = func_0203981c(row, 6);
-    func_0203981c(row, 5);
-    prize = join_ave_raffle_shop(table, id, func_ov137_021f1990(data, index + 5, func_020395f8(table, id, 0)));
+    row = ResortShopData_GetGoods(shops, ResortShopData_GetPersonShop(shops, func_ov137_021f0f58(person)), 0);
+    id = ResortShopData_GetGoodsParam(row, 6);
+    ResortShopData_GetGoodsParam(row, 5);
+    prize = join_ave_raffle_shop(table, id, func_ov137_021f1990(data, index + 5, ResortBinary_Get(table, id, 0)));
     *var2 = prize + 1;
     if (prize != 10) {
-        *var1 = func_020395f8(table, id, prize * 2 + 3);
+        *var1 = ResortBinary_Get(table, id, prize * 2 + 3);
     }
     return FALSE;
 }
@@ -654,12 +657,12 @@ BOOL func_ov059_021e64a0(VM *vm, FieldScriptEnv *env) {
     rate = 0;
     shops = func_ov137_021f1ff8(sys);
     table = func_ov137_021f2008(sys);
-    row = func_020397d4(shops, func_02039798(shops, func_ov137_021f0f58(person)), index);
-    id = func_0203981c(row, 6);
-    func_0203981c(row, 5);
-    prize = join_ave_raffle_shop(table, id, func_ov137_021f1990(data, index + 5, func_020395f8(table, id, 0)));
+    row = ResortShopData_GetGoods(shops, ResortShopData_GetPersonShop(shops, func_ov137_021f0f58(person)), index);
+    id = ResortShopData_GetGoodsParam(row, 6);
+    ResortShopData_GetGoodsParam(row, 5);
+    prize = join_ave_raffle_shop(table, id, func_ov137_021f1990(data, index + 5, ResortBinary_Get(table, id, 0)));
     if (prize != 10) {
-        rate = func_020395f8(table, id, prize * 2 + 3);
+        rate = ResortBinary_Get(table, id, prize * 2 + 3);
     }
     pkm = PokeParty_GetPkm(GameData_GetParty(GSYS_GetGameData(gsys)), slot);
     species = PokeParty_GetParam(pkm, PKM_PARAM_SPECIES, NULL);
@@ -833,7 +836,7 @@ BOOL func_ov059_021e6934(VM *vm, FieldScriptEnv *env) {
     Field *field;
     ResortSys *sys;
     ResortPersonData *data;
-    u32 *unk38;
+    ResortWork *unk38;
     void *unk28;
     void *unk30;
     u16 a2;
@@ -866,7 +869,7 @@ BOOL func_ov059_021e6934(VM *vm, FieldScriptEnv *env) {
     switch (mode) {
     case 0: {
         ResortPersonData *other = func_ov137_021f1b94(unk30, 0, a2);
-        u16 unk = func_02039978(func_ov137_021f2030(sys), 10);
+        u16 unk = ResortWork_Get(func_ov137_021f2030(sys), 10);
         u32 score;
         u32 value;
         u32 limit;
@@ -905,7 +908,7 @@ BOOL func_ov059_021e6934(VM *vm, FieldScriptEnv *env) {
         return FALSE;
     }
     case 1:
-        *var = (a2 * (((u16)func_02039978(unk38, 10) + 1) * (FX32_ONE / 4) + FX32_ONE)) >> FX32_SHIFT;
+        *var = (a2 * (((u16)ResortWork_Get(unk38, 10) + 1) * (FX32_ONE / 4) + FX32_ONE)) >> FX32_SHIFT;
         break;
     case 2:
         *var = func_ov137_021f1990(data, 26, 100) < 85 ? TRUE : FALSE;
@@ -1384,17 +1387,17 @@ BOOL func_ov059_021e742c(VM *vm, FieldScriptEnv *env) {
     field = GSYS_GetField(gsys);
     shops = func_ov137_021f1ff8(func_ov137_021f4670(field));
     person = func_ov137_021f4690(env, func_ov059_021e7b98(field));
-    row = func_02039798(shops, func_ov137_021f0f58(person));
+    row = ResortShopData_GetPersonShop(shops, func_ov137_021f0f58(person));
     index = ScriptReadAny(vm, env);
     mode = ScriptReadAny(vm, env);
     var = ScriptReadVar(vm, env);
     if (mode == 0) {
-        const u16 *item = func_020397d4(shops, row, index);
+        const u16 *item = ResortShopData_GetGoods(shops, row, index);
 
         if (func_ov137_021f10e8(person, 2, NULL) == 0) {
-            *var = func_0203981c(item, 8);
+            *var = ResortShopData_GetGoodsParam(item, 8);
         } else {
-            *var = func_0203981c(item, 9);
+            *var = ResortShopData_GetGoodsParam(item, 9);
         }
     }
     return FALSE;
@@ -1623,7 +1626,7 @@ static BOOL func_ov059_021e7834(VM *vm, void *data) {
         wk->state++;
         break;
     case 1:
-        func_02039898(func_02017b84(gameData), GameData_GetSaveControl(gameData));
+        ResortWork_UpdateRecords(func_02017b84(gameData), GameData_GetSaveControl(gameData));
         func_ov137_021f3e98(wk->window, func_ov137_021f201c(sys), msgBGSys, wordSet, gameData, wk->page, heapId);
         wk->state++;
         break;
