@@ -167,6 +167,9 @@ Same instructions, scheduled in another order.
 - The same rule moves a call's stack argument stores. When loads through a pointer that is not `const` follow the
   call, the stack arguments are stored before the register arguments are set up. If the original stores them last,
   the pointer is `const`.
+- A struct assignment loads every field before it stores any, through a pointer that is not `const` too. Two
+  fields copied with both loads first, `ldr r2, [r0, #0x10]; ldr r1, [r0, #0x14]; str r2, [r0]`, are one struct
+  copied: `KeySystemTween_Update` ends with `tween->pos = tween->end;` for an `{ s32 x, y; }` position.
 - A load through a `const` pointer is also reused across stores, as the World Tournament's `wbt_setup.c` reads an
   entrant's bit fields from one load, but it is not hoisted out of a loop: `wbt_party.c`'s filter check reads each
   list's count again in every iteration because its filter is `const`, where a plain pointer's count is loaded once
