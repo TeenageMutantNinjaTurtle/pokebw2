@@ -27,7 +27,9 @@ struct ScriptWork {
     StrBuf *altStrBuf;
     void *unk38;
     void *userHeap;
-    u32 seBitMask;
+    // A bit per sound effect player that the script waits on
+    u8 seBitMask;
+    u8 unk41[3];
     u8 trainerState[2][0x1c];
     u16 localWork[0x62];
     FieldActorAnmProc *actorAnmProc;
@@ -68,7 +70,7 @@ struct ScriptSubwork {
     u8 actorMsgPosActual;
     u8 actorMsgPos;
     u16 waitCounter;
-    void *nowPkmVoice;
+    u32 nowPkmVoice;
     void *elevatorTable;
 };
 
@@ -452,7 +454,7 @@ typedef struct {
 void UpdateScriptFieldWk(void *fieldWork, GameSystem *gsys);
 void *ScriptWork_GetFieldWork(ScriptWork *work);
 void *ScriptWork_GetSubwork(ScriptWork *work);
-u32 *ScriptWork_GetSEBitMask(ScriptWork *work);
+u8 *ScriptWork_GetSEBitMask(ScriptWork *work);
 u16 ScriptWork_GetSCRID(ScriptWork *work);
 // A variable of the script (IDs from 0x8000) or saved event work (from 0x4000)
 u16 *ScriptWork_GetWkAddr(ScriptWork *work, GameData *gameData, u16 id);
@@ -461,8 +463,8 @@ BOOL ScriptWork_SetWkValue(ScriptWork *work, u16 id, u32 value);
 // Waits a number of frames: UpdateWaitCounter returns TRUE once they have passed
 void FieldScriptEnv_SetWaitCounter(FieldScriptEnv *env, u16 frames);
 BOOL FieldScriptEnv_UpdateWaitCounter(FieldScriptEnv *env);
-void *GetScrEnvNowPkmVoice(FieldScriptEnv *env);
-void SetScrEnvNowPkmVoice(FieldScriptEnv *env, void *voice);
+u32 GetScrEnvNowPkmVoice(FieldScriptEnv *env);
+void SetScrEnvNowPkmVoice(FieldScriptEnv *env, u32 voice);
 void *FieldScriptEnv_GetElevatorTable(FieldScriptEnv *env);
 void FieldScriptEnv_SetElevatorTable(FieldScriptEnv *env, void *table);
 void SetFieldScriptEnvMsgData(FieldScriptEnv *env, u32 arcId, u32 fileNo);

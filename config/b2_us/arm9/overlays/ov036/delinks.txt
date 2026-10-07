@@ -178,3 +178,7 @@ src/ov036/scrcmd_word.c:
 src/ov036/scrcmd_mapchange.c:
     complete
     .text       start:0x021a7eb8 end:0x021a82bc
+
+src/ov036/scrcmd_sound.c:
+    complete
+    .text       start:0x021a6d14 end:0x021a74ac
