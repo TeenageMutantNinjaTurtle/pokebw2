@@ -70,6 +70,13 @@ u32 PokeVoice_Play(u32 species, u32 form, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6
 BOOL PokeVoice_StartPlayback(u32 handle);
 BOOL PokeVoice_IsPlaying(u32 handle);
 BOOL PokeVoice_IsPlayingAny(void);
+void PokeVoice_ReleaseAll(void);
+// What a handle plays: its volume, speed, samples, count of samples and sample rate
+s8 PokeVoice_GetVolume(u32 handle);
+int PokeVoice_GetSpeed(u32 handle);
+const s8 *PokeVoice_GetSamples(u32 handle);
+u32 PokeVoice_GetSampleCount(u32 handle);
+int PokeVoice_GetSampleRate(u32 handle);
 void PokeVoice_ResetMasterVolume(void);
 void PokeVoice_SetMasterVolume(u32 volume);
 

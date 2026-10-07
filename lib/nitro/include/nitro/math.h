@@ -4,6 +4,7 @@
 #include "types.h"
 
 #define MATH_ABS(a) (((a) < 0) ? -(a) : (a))
+#define MATH_CLAMP(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
 
 // NitroSDK's linear congruential random numbers, which are inline in the SDK
 

@@ -131,6 +131,13 @@ def compiled_functions(obj: Path) -> dict[str, tuple[bytes, set[int]]]:
     return functions
 
 
+def defined_functions(source: Path) -> list[str]:
+    """The functions a C file defines at the top level, other than inline ones, which aren't emitted on their own."""
+    text = source.read_text(errors="replace")
+    pattern = r"^(?![ \t#/])(?!.*\binline\b)[^;{}()=\n]*?\b(\w+)\([^;{}]*\)\s*\{"
+    return [m.group(1) for m in re.finditer(pattern, text, re.M)]
+
+
 def disassemble(data: bytes, address: int, thumb: bool) -> list[str]:
     md = capstone.Cs(capstone.CS_ARCH_ARM, capstone.CS_MODE_THUMB if thumb else capstone.CS_MODE_ARM)
     return [f"{i.address:08x}: {i.mnemonic} {i.op_str}" for i in md.disasm(data, address)]
@@ -208,7 +215,12 @@ def main():
             if proc.returncode != 0:
                 print(f"{compiler}: compile failed\n{proc.stdout}{proc.stderr}")
                 continue
-            for name, (data, masked) in compiled_functions(obj).items():
+            compiled = compiled_functions(obj)
+            # MWCC drops a static function that nothing references, which would otherwise pass unnoticed
+            for name in defined_functions(args.source):
+                if name not in compiled and (functions is None or name in functions):
+                    results.setdefault(name, {})[compiler] = "not emitted"
+            for name, (data, masked) in compiled.items():
                 if functions is not None and name not in functions:
                     continue
                 original = find_function(args.version, name, modules)

@@ -39,7 +39,7 @@ struct BtlPokeCon {
 // A buffer of the main module that func_ov167_0219e314 allocates
 typedef struct {
     u8 unk00[8];
-    u8 unk08;
+    s8 unk08;
     u8 unk09[0xb];
 } BtlMainUnk478;
 
@@ -54,7 +54,7 @@ typedef struct {
 } BtlMainSeq;
 
 // What the clients of a link battle exchange before it starts
-typedef struct {
+struct BtlMainSyncData {
     MATHRandContext32 rand;
     u16 unk18;
     u16 unk1A;
@@ -62,7 +62,7 @@ typedef struct {
     u8 unk1E;
     u8 unk1F_0 : 4;
     u8 unk1F_4 : 4;
-} BtlMainSyncData;
+};
 
 // A client's trainer, 0x28 bytes
 typedef struct {
@@ -75,6 +75,58 @@ typedef struct {
     u8 unk18[8];
     u8 unk20[8];
 } BtlTrainerData;
+
+// A choice the player is offered in a Pokestar Studios scene
+typedef struct {
+    // -1 for none
+    s16 msgId;
+    s16 msgId2;
+    s16 unk04;
+    s16 unk06;
+    s16 points;
+    s16 unk0A;
+} BtlStudioChoice;
+
+// One entry of a Pokestar Studios movie's script
+typedef struct {
+    s16 unk00;
+    s16 unk02;
+    s16 unk04;
+    s16 unk06;
+    s16 unk08;
+    s16 unk0A;
+    s16 unk0C[10];
+    s16 unk20[10];
+    // The script event each step waits for, -1 for none
+    s16 events[10];
+    BtlStudioChoice choices[4];
+} BtlStudioScene;
+
+typedef struct {
+    s16 turn;
+    s16 value;
+} BtlStudioTurnEvent;
+
+// The rules of a scripted battle, which seem to be the Pokestar Studios movies
+typedef struct {
+    u8 unk00[4];
+    s16 unk04;
+    u8 unk06[4];
+    s16 turnLimit;
+    s16 unk0C;
+    s16 unk0E;
+    s16 rule;
+    s16 species1;
+    s16 species2;
+    s16 unk16;
+    u8 unk18[0x18];
+    BtlStudioTurnEvent turnEvents[3];
+    u8 unk3C[0x6c];
+    // Messages by turn
+    s16 unkA8[20];
+    s16 unkD0[20];
+    BtlStudioScene scenes[];
+} BtlScriptedRules;
 
 struct BtlMainModule {
     BtlSetup *setup;
@@ -129,7 +181,7 @@ struct BtlMainModule {
     u8 unk473_5 : 1;
     u8 unk473_6 : 1;
     u8 unk473_7 : 1;
-    void *unk474;
+    BtlScriptedRules *unk474;
     BtlMainUnk478 *unk478;
     void *unk47C;
 };
@@ -137,6 +189,8 @@ struct BtlMainModule {
 // Main-module and overlay 338 functions that btl_main.c calls
 void func_02029bb0(u8 *data);
 void func_02029e94(u8 *dest, const u8 *src);
+StrBuf *func_02029c80(const u8 *sentence, HeapID heapId);
+BOOL func_02029d74(const u8 *sentence);
 u32 func_02034ee4(void *data);
 u32 func_02034ee8(void *data);
 void func_02034eec(void *data);
@@ -215,7 +269,7 @@ u8 func_ov167_0219d338(u8 side);
 const AdjacentOpponentData *func_ov167_0219d2bc(u8 pos);
 // Whether pos2 is an opponent next to pos1 in a triple battle
 BOOL IsAdjacentOpponent(u8 pos1, u8 pos2);
-BattleParty *GetClientParty(BtlPokeCon *pokeCon, u8 clientId);
+BattleParty *GetClientParty(BtlPokeCon *pokeCon, u32 clientId);
 BattleParty *GetPartyData(BtlPokeCon *pokeCon, u32 clientId);
 
 s32 FindPartyMon(const BattleParty *party, BattleMon *mon);
@@ -300,13 +354,13 @@ BOOL func_ov167_0219d2dc(u8 pos, u8 *out);
 u8 func_ov167_0219d3bc(u8 pos);
 u32 func_ov167_0219d3e0(BtlMainModule *mainModule);
 u8 func_ov167_0219d3f8(BtlPokeCon *pokeCon, u8 clientId);
-void func_ov167_0219d404(BtlMainModule *mainModule, u8 clientId, u32 value);
+void func_ov167_0219d404(BtlMainModule *mainModule, u8 clientId, u8 value);
 void func_ov167_0219d604(BtlMainModule *mainModule, BattleParty *party, u8 clientId);
 void func_ov167_0219d6ac(BtlMainModule *mainModule);
 void func_ov167_0219d6dc(BtlMainModule *mainModule);
 void func_ov167_0219d72c(BtlTrainerData *trainer, HeapID heapId, PlayerInfo *src);
 BOOL func_ov167_0219d888(BtlMainModule *mainModule, u8 clientId);
-u16 func_ov167_0219d89c(BtlMainModule *mainModule, u8 clientId, u32 index);
+u16 func_ov167_0219d89c(BtlMainModule *mainModule, u8 clientId, u8 index);
 StrBuf *func_ov167_0219d8c4(BtlMainModule *mainModule, u8 clientId, u32 *trainerClass);
 u32 func_ov167_0219d8d4(BtlMainModule *mainModule, u8 clientId);
 u16 func_ov167_0219d91c(BtlMainModule *mainModule, u8 clientId);
@@ -341,12 +395,12 @@ void func_ov167_0219e130(BtlMainModule *mainModule);
 BtlServerFlow *func_ov167_0219e158(BtlMainModule *mainModule);
 void func_ov167_0219e164(BtlSetup *setup);
 void func_ov167_0219e1b0(BtlMainModule *mainModule);
-void func_ov167_0219e300(BtlMainModule *mainModule);
+u32 func_ov167_0219e300(BtlMainModule *mainModule);
 BtlSetup *func_ov167_0219e30c(BtlMainModule *mainModule);
 BtlSetup *func_ov167_0219e310(BtlMainModule *mainModule);
 void func_ov167_0219e314(BtlMainModule *mainModule, u8 arg1);
 void func_ov167_0219e378(BtlMainModule *mainModule);
-void *func_ov167_0219e39c(BtlMainModule *mainModule);
+BtlScriptedRules *func_ov167_0219e39c(BtlMainModule *mainModule);
 void *func_ov167_0219e3ac(BtlMainModule *mainModule);
 void *func_ov167_0219e3bc(BtlMainModule *mainModule);
 void func_ov167_0219e3c8(void *data);

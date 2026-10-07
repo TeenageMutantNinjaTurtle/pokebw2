@@ -25,4 +25,15 @@ void *func_ov167_021d4990(BtlRecTool *tool, u32 *size);
 void func_ov167_021d49a0(BtlRecTool *tool, const void *data, u32 size);
 BOOL func_ov167_021d49d0(BtlRecTool *tool, u32 *pos, u8 *clientId, u8 *count, void *actions);
 
+// The recorder and the reader of a recorded battle's actions
+void *func_ov167_021d45b0(HeapID heapId, u32 type);
+void func_ov167_021d45e8(void *recorder);
+void func_ov167_021d45f0(void *recorder, const void *data, u32 size);
+u8 func_ov167_021d4624(const void *data);
+void *func_ov167_021d4628(void *recorder, u32 *size);
+void func_ov167_021d4660(void *reader);
+BOOL func_ov167_021d4674(void *reader, u8 clientId);
+BattleAction *func_ov167_021d46a4(void *reader, u8 clientId, u8 *count, u8 *chapter);
+u32 func_ov167_021d481c(void *data);
+
 #endif // POKEBW2_BATTLE_BTL_REC_H
