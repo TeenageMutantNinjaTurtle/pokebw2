@@ -714,10 +714,10 @@ static void GSyncMenu_CreateYesNo(GSyncMenuWork *wk) {
     init.height = 3;
     wk->yesNoItems[0].str = GFL_StrBufCreate(100, wk->heapId);
     GFL_MsgDataLoadStrbuf(wk->msgData, 4, wk->yesNoItems[0].str);
-    wk->yesNoItems[0].color = 0x39e0;
+    wk->yesNoItems[0].color = PRINT_COLOR(14, 15, 0);
     wk->yesNoItems[1].str = GFL_StrBufCreate(100, wk->heapId);
     GFL_MsgDataLoadStrbuf(wk->msgData, 5, wk->yesNoItems[1].str);
-    wk->yesNoItems[1].color = 0x39e0;
+    wk->yesNoItems[1].color = PRINT_COLOR(14, 15, 0);
     wk->yesNoMenu = AppTaskMenu_Create(&init, wk->menuRes);
     AppTaskMenu_SetLocked(wk->yesNoMenu, TRUE);
     GFL_StrBufFree(wk->yesNoItems[0].str);

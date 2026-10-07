@@ -9,3 +9,9 @@ src/ov199/gsync_menu.c:
     .text       start:0x021b2fc0 end:0x021b4264
     .rodata     start:0x021b95ec end:0x021b96e8
     .data       start:0x021b99c0 end:0x021b9a30
+
+src/ov199/gsync_message.c:
+    complete
+    .text       start:0x021b4264 end:0x021b48b0
+    .rodata     start:0x021b96e8 end:0x021b972c
+    .data       start:0x021b9a30 end:0x021b9a40
