@@ -117,6 +117,9 @@
 #define ARCID_RESORT_BINARY 244
 // Unova Link's graphics (not from swan)
 #define ARCID_KEY_SYSTEM 277
+// The graphics of the Pokémon World Tournament's win record and downloaded tournaments, overlay 326 (not from swan)
+#define ARCID_WIN_RECORD 265
+#define ARCID_T_DOWNLOAD 266
 #define ARCID_GIMMICK_EXPOBJ_MARINETUBE 295
 
 #endif // POKEBW2_CONSTANTS_ARC_H
