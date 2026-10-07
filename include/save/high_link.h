@@ -5,6 +5,8 @@
 #include "gfl/heap.h"
 #include "struct_decls.h"
 
+// The pass power in each of the three slots, or HIGH_LINK_POWER_NONE
+#define HIGH_LINK_POWER_NONE 0x30
 u32 func_0200c678(HighLinkSave *save, int index);
 u32 func_0200c6a0(HighLinkSave *save, u32 id);
 // Copies two bytes of the save into dest

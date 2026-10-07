@@ -238,6 +238,7 @@ typedef enum {
 #define GX_VRAM_OBJ_128_B GX_VRAM_B
 #define GX_VRAM_OBJ_256_AB (GX_VRAM_A | GX_VRAM_B)
 #define GX_VRAM_OBJEXTPLTT_NONE GX_VRAM_NONE
+#define GX_VRAM_OBJEXTPLTT_0_F GX_VRAM_F
 #define GX_VRAM_SUB_OBJ_NONE GX_VRAM_NONE
 #define GX_VRAM_SUB_OBJ_16_I GX_VRAM_I
 #define GX_VRAM_SUB_OBJ_128_D GX_VRAM_D
@@ -1261,8 +1262,15 @@ void gfxEngineEnableA(void);
 #define HW_LCDC_VRAM_B 0x06820000
 #define HW_LCDC_VRAM_C 0x06840000
 #define HW_LCDC_VRAM_D 0x06860000
+// The BG and OBJ VRAM of each engine, at their largest
+#define HW_BG_VRAM 0x06000000
+#define HW_BG_VRAM_SIZE 0x80000
+#define HW_DB_BG_VRAM 0x06200000
+#define HW_DB_BG_VRAM_SIZE 0x20000
+#define HW_OBJ_VRAM_SIZE 0x40000
 // The sub engine's OBJ characters
 #define HW_DB_OBJ_VRAM 0x06600000
+#define HW_DB_OBJ_VRAM_SIZE 0x20000
 #define HW_OAM 0x07000000
 #define HW_DB_OAM 0x07000400
 #define HW_OAM_SIZE 0x400
