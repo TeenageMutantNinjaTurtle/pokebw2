@@ -159,6 +159,8 @@ void GFL_NetErrMarkShown(void);
 // Sets the network error and shows it
 void func_02011d04(u32 error);
 void GFL_NetErrShow(u32 a0);
+// GFL_NetErrShow(1)
+void func_02011d20(void);
 // Shows the error with the code given
 void func_02011d04(u32 code);
 // Records the error with the code given, to show it

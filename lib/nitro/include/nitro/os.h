@@ -130,4 +130,6 @@ typedef struct {
 
 void OS_GetOwnerInfo(OSOwnerInfo *info);
 
+int OS_SNPrintf(char *dst, u32 len, const char *format, ...);
+
 #endif // POKEBW2_NITRO_OS_H
