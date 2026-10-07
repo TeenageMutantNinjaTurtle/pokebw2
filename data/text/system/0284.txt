@@ -1,0 +1,21 @@
+{bd02}Professor {0100:1} has\n{bd02}become witness to a world\n{bd02}where Pokémon control people.
+{bd02}He is attacked by a cruel\n{bd02}resident of this world named Ledian.\n{bd02}The capsule of his temporal\n{bd02}transport is taken away.
+{bd02}Ledian plans to exterminate\n{bd02}Professor {0100:1}\n{bd02}in order to silence him.
+{bd02}Can Professor {0100:1}\n{bd02}safely return to his own time?
+なし
+なし
+なし
+なし
+なし
+なし
+{bd02}Professor {0100:1} has\n{bd02}become witness to a world\n{bd02}where Pokémon control people.
+{bd02}She is attacked by a cruel\n{bd02}resident of this world named Ledian.\n{bd02}The capsule of her temporal\n{bd02}transport is taken away.
+{bd02}Ledian plans to exterminate\n{bd02}Professor {0100:1}\n{bd02}in order to silence her.
+{bd02}Can Professor {0100:1}\n{bd02}safely return to her own time?
+なし
+なし
+なし
+なし
+なし
+なし
+なし

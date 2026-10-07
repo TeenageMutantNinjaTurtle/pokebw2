@@ -1,0 +1,37 @@
+    \x{ffff}
+      \x{ffff}
+{0200:0} more needed.
+Up to {0200:0} more allowed.
+Seeking Multi Battle participants!
+Seeking Musical participants!
+Seeking Battle Subway participants!
+{0100:0}{bd05:70}ID: {0204:1}
+Awaiting participating members...\nB Button: Cancel
+When the group is ready:\nA Button: Proceed   B Button: Cancel
+{0100:0} has contacted you.\nAdd to your group?
+Is this group OK?
+Will you cancel Multi Battle?
+Will you cancel the Musical?
+Will you cancel Battle Subway?
+If the leader drops out, the group will\nbe disbanded. Is that OK?
+Multi Battle will be\ncanceled.
+The Musical will be\ncanceled.
+Battle Subway will be\ncanceled.
+                         \x{ffff}
+There are no members.\nMulti Battle will be canceled.
+Please wait.\nB Button: Cancel
+            \x{ffff}
+There appears to be a problem.\nMulti Battle will be canceled.{be02:60}
+There appears to be a problem.\nThe Musical will be canceled.{be02:60}
+There appears to be a problem.\nBattle Subway will be canceled.{be02:60}
+{0201:0}:
+{0201:0}:{0100:1}{bd05:106}ID: {0204:2}
+Choose the Musical you would\nlike to join.
+Choose the Battle Subway you would\nlike to join.
+The members have gathered.\nPlease enter the room.
+{0100:0} refused...{be02:60}
+Awaiting {0100:0}'s response...\nB Button: Cancel
+{0100:0} replied, “OK."
+Please wait.\nB Button: Cancel
+Do you want to leave the group?
+There appears to be a problem...{be02:60}

@@ -15,6 +15,7 @@ after importing names from swan.
     config_fixes.py add-label . _ll_mul 0x0208d60c                           # a second name for a function
     config_fixes.py add-data overlays/ov307 EGG_DEMO_VIEW_UNK_FX32 0x021df70c  # an object that nothing references
     config_fixes.py add-function . ampOffFreeBlocks thumb 0x20 0x02006dec     # a function that dsd took for a label
+    config_fixes.py add-reloc overlays/ov036 load 'overlay(259)' 0x021a039c 0x021ae188  # a pointer dsd missed
     config_fixes.py apply
 """
 import argparse
@@ -23,7 +24,7 @@ import re
 import sys
 from pathlib import Path
 
-from dsd_config import ROOT, load_modules, parse_sections
+from dsd_config import ROOT, load_modules, parse_sections, reloc_module_names
 
 PRIMARY = "b2_us"
 OTHERS = ["w2_us"]
@@ -50,20 +51,20 @@ class AddressMapper:
         self.functions = {name: module.functions() for name, module in load_modules(PRIMARY).items()}
 
     def map(self, module: str, addr: int, other: str) -> int:
+        pairs = self.pairs[other]
         function = next((f for f in self.functions[module] if f.addr <= addr < f.addr + (f.size or 0)), None)
-        if function is not None:
-            if (module, function.addr) not in self.pairs[other]:
-                sys.exit(f"{module} {addr:#010x}: function {function.name} is not paired with {other}")
-            return self.pairs[other][(module, function.addr)] + addr - function.addr
-        # Between functions, such as in padding: through the functions on either side, if they are the same distance
-        # apart in both versions
-        before = max((f for f in self.functions[module] if f.addr <= addr), key=lambda f: f.addr, default=None)
-        after = min((f for f in self.functions[module] if f.addr > addr), key=lambda f: f.addr, default=None)
+        if function is not None and (module, function.addr) in pairs:
+            return pairs[(module, function.addr)] + addr - function.addr
+        # Between functions, such as in padding, or in a function the version map doesn't pair, such as one a fix added:
+        # through the nearest paired functions on either side, if they are the same distance apart in both versions
+        paired = [f.addr for f in self.functions[module] if (module, f.addr) in pairs]
+        before = max((a for a in paired if a <= addr), default=None)
+        after = min((a for a in paired if a > addr), default=None)
         if before is not None and after is not None:
-            pairs = self.pairs[other]
-            if (module, before.addr) in pairs and (module, after.addr) in pairs:
-                if pairs[(module, after.addr)] - pairs[(module, before.addr)] == after.addr - before.addr:
-                    return pairs[(module, before.addr)] + addr - before.addr
+            if pairs[(module, after)] - pairs[(module, before)] == after - before:
+                return pairs[(module, before)] + addr - before
+        if function is not None:
+            sys.exit(f"{module} {addr:#010x}: function {function.name} is not paired with {other}")
         primary_sections = parse_sections(config_dir(PRIMARY, module) / "delinks.txt")
         other_sections = parse_sections(config_dir(other, module) / "delinks.txt")
         for name, (start, end) in primary_sections.items():
@@ -165,6 +166,19 @@ def apply_fix(version: str, module: str, addr: int, action: str, argument: str):
         else:
             position = next((i for i, l in enumerate(lines) if int(RELOC_RE.match(l).group(1), 16) > addr), len(lines))
             lines.insert(position, line)
+    elif action == "add_reloc":
+        # A pointer that dsd left as a plain word, such as one into an overlay that is not loaded with this module, or a
+        # code address with no symbol. Unrelocated, it keeps its address when the code before its target grows
+        kind, destination, target, *addend = argument.split(",")
+        line = f"from:{addr:#010x} kind:{kind} to:{int(target, 16):#010x}"
+        line += f" add:{int(addend[0], 16):#x}" if addend else ""
+        line += f" module:{destination}"
+        if index is not None:
+            if lines[index] != line:
+                sys.exit(f"{version}: {module} {addr:#010x} already has another relocation: {lines[index]}")
+        else:
+            position = next((i for i, l in enumerate(lines) if int(RELOC_RE.match(l).group(1), 16) > addr), len(lines))
+            lines.insert(position, line)
     elif action == "remove_reloc":
         if index is not None:
             del lines[index]
@@ -186,7 +200,14 @@ def apply_fix(version: str, module: str, addr: int, action: str, argument: str):
 def apply_everywhere(mapper: AddressMapper, module: str, addr: int, action: str, argument: str):
     apply_fix(PRIMARY, module, addr, action, argument)
     for other in OTHERS:
-        apply_fix(other, module, mapper.map(module, addr, other), action, argument)
+        other_argument = argument
+        if action == "add_reloc":
+            # The target moves between versions too: map it through its own module
+            kind, destination, target, *addend = argument.split(",")
+            target = int(target, 16)
+            mapped = mapper.map(reloc_module_names(destination)[0], target & ~1, other) | (target & 1)
+            other_argument = ",".join([kind, destination, f"{mapped:#010x}", *addend])
+        apply_fix(other, module, mapper.map(module, addr, other), action, other_argument)
 
 
 def main():
@@ -224,6 +245,13 @@ def main():
     command.add_argument("mode", choices=["arm", "thumb"])
     command.add_argument("size")
     command.add_argument("addresses", nargs="+")
+    command = commands.add_parser("add-reloc", help="add a relocation that dsd missed")
+    command.add_argument("module")
+    command.add_argument("kind", help="relocation kind, e.g. load")
+    command.add_argument("destination", help="destination module, e.g. main or overlay(259)")
+    command.add_argument("target", help="target address, odd for a Thumb function")
+    command.add_argument("--addend", help="offset from the target, for an address inside a function or object")
+    command.add_argument("addresses", nargs="+")
     commands.add_parser("apply", help="apply every fix in config/fixes.txt")
     args = parser.parse_args()
 
@@ -238,12 +266,17 @@ def main():
     action = args.command.replace("-", "_")
     argument = {"reloc_module": getattr(args, "destination", ""), "overlay_id": str(getattr(args, "overlay", "")),
                 "reloc_addend": getattr(args, "addend", ""), "add_label": getattr(args, "name", ""), "add_data": getattr(args, "name", ""),
-                "add_function": f"{getattr(args, 'name', '')}:{getattr(args, 'mode', '')}:{getattr(args, 'size', '')}"}
+                "add_function": f"{getattr(args, 'name', '')}:{getattr(args, 'mode', '')}:{getattr(args, 'size', '')}",
+                "add_reloc": ",".join([getattr(args, "kind", ""), getattr(args, "destination", ""),
+                                       getattr(args, "target", ""), *([args.addend] if getattr(args, "addend", None)
+                                                                      else [])])}
     argument = argument.get(action, "")
     for address in args.addresses:
         addr = int(address, 16)
         apply_everywhere(mapper, args.module, addr, action, argument)
-        fixes = [f for f in fixes if (f[0], f[1]) != (args.module, addr)] + [(args.module, addr, action, argument)]
+        # One fix of each kind per address: a word can need its symbol removed and a relocation added
+        fixes = [f for f in fixes if (f[0], f[1], f[2]) != (args.module, addr, action)] + [
+            (args.module, addr, action, argument)]
         print(f"{action} {args.module} {addr:#010x} {argument}".rstrip())
     save_fixes(fixes)
 

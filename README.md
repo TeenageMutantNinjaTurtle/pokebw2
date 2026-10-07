@@ -29,23 +29,21 @@ scripts are built from source, see [Scripts](docs/scripts.md).
 
 ## Setup
 
-1. Build dsd with DSi hybrid ROM support. Until the changes are upstreamed, it comes from these forks, both on the
-   `dsi-hybrid` branch:
-   - `ds-rom`: DSi header, digests, modcrypt, TWL autoloads and DSi banners.
-   - `ds-decomp`: TWL entrypoint, DS Protect and Thumb jump table fixes. Its `Cargo.toml` patches in `../ds-rom/lib`.
+1. Use Linux (or WSL on Windows), with Python 3.11 or later, ninja, and clang and LLVM, whose `clang` and
+   `llvm-objcopy` assemble the scripts and must be on the `PATH`. macOS needs Wine for the Metrowerks tools
+   (`configure.py --wine wine`).
 
-   ```sh
-   cd ../ds-decomp && cargo build --release && cp target/release/dsd ../pokebw2/tools/dsd
-   ```
-
-2. Install clang and LLVM, whose `clang` and `llvm-objcopy` assemble the scripts and must be on the `PATH`.
-
-3. Place your own dumps at `orig/baserom_b2_us.nds` and/or `orig/baserom_w2_us.nds`. They must match the SHA1s above.
+2. Place your own dumps at `orig/baserom_b2_us.nds` and/or `orig/baserom_w2_us.nds`. They must match the SHA1s above.
    They are not included and will not be provided. `tools/scripts/verify_dsi_rom.py` checks a dump against the
    digests in its own header.
 
-4. Configure and build. `configure.py` downloads [wibo](https://github.com/decompals/wibo) and the Metrowerks
-   CodeWarrior tools on first run.
+3. Configure and build. On first run, `configure.py` downloads [wibo](https://github.com/decompals/wibo), objdiff, the
+   Metrowerks CodeWarrior tools, and dsd with DSi hybrid ROM support. Until those changes are upstreamed, dsd is a
+   release of these forks' `dsi-hybrid` branches:
+   - [`ds-rom`](https://github.com/fuddlesworth/ds-rom/tree/dsi-hybrid): DSi header, digests, modcrypt, TWL autoloads
+     and DSi banners.
+   - [`ds-decomp`](https://github.com/fuddlesworth/ds-decomp/tree/dsi-hybrid): TWL entrypoint, DS Protect and Thumb
+     jump table fixes, and the ARM9i LTD module.
 
    ```sh
    python3 configure.py
@@ -53,11 +51,16 @@ scripts are built from source, see [Scripts](docs/scripts.md).
    ```
 
    `ninja` extracts each base ROM, delinks the code, links it with `mwldarm`, rebuilds the ROM and checks its SHA1.
-   `configure.py` builds every version that has a base ROM, or the versions given as arguments.
+   `configure.py` builds every version that has a base ROM, or the versions given as arguments. It downloads dsd
+   again when `DSD_VERSION` changes, and `--dsd-from-source` builds that release with [cargo](https://rustup.rs)
+   instead, as on platforms without a release binary. To work on dsd itself, build it from your own clone of the
+   fork and copy it to `tools/dsd`, or pass `--dsd`; a `tools/dsd` without `tools/dsd.rev` is never replaced.
 
-5. Optionally, `python3 configure.py --bugfix` builds the ROMs with the game's bugs fixed, those marked with `BUGFIX`
-   in the source. These ROMs don't match, so the build skips the checks. Only files marked `complete` are built from
-   source, so fixes in the others don't apply yet. Run `configure.py` without it to go back to the matching build.
+4. Optionally, `python3 configure.py --bugfix` builds the ROMs with the game's bugs fixed, those marked with `BUGFIX`
+   in the source. Only files marked `complete` are built from source, so fixes in the others don't apply yet. And
+   `python3 configure.py --shift 0x100` builds them with the code moved, to test that mods can change code sizes; see
+   [Shifting](docs/configs.md#shifting). These ROMs don't match, so the build skips the checks. Run `configure.py`
+   without the option to go back to the matching build.
 
 ## Layout
 
@@ -66,9 +69,10 @@ scripts are built from source, see [Scripts](docs/scripts.md).
 | `config/<version>/` | dsd configs: sections (`delinks.txt`), symbols and relocations for every module |
 | `config/names.txt`, `config/fixes.txt` | Our own names and fixes to dsd's analysis, applied again after regenerating the configs |
 | `src/ovNNN/` | Decompiled C of each overlay, such as `src/ov035/event_mapchange.c` |
-| `src/gfl/`, `src/system/`, `src/spl/` | Decompiled C of the ARM9 main module, by library like the headers, such as `src/gfl/heap.c` |
+| `src/gfl/`, `src/system/` | Decompiled C of the ARM9 main module, by library like the headers, such as `src/gfl/heap.c` |
+| `lib/<name>/` | Libraries built apart from the game with their own compiler (`library.toml`), headers and sources, such as `lib/spl/` |
 | `include/` | Headers shared by the C code, see [Code organization](docs/code-organization.md) |
-| `data/` | Scripts assembled into the ROM's files, see [Scripts](docs/scripts.md) and [Field scripts](docs/scripts.md#field-scripts) |
+| `data/` | Scripts and data assembled into the ROM's files, see [Game data](docs/data.md) and [Scripts](docs/scripts.md) |
 | `include/asm/` | Macros for the scripts |
 | `tools/scripts/` | Helper scripts, such as `romdiff.py` to compare two ROMs region by region |
 | `docs/` | The documentation listed below |
@@ -92,7 +96,13 @@ to the original bytes. Matching is checked per function with [objdiff](https://g
 | [Nonmatching functions](docs/nonmatching-functions.md) | Every function in C that doesn't match yet, and why |
 | [Source files](docs/source-files.md) | Each overlay's original files, with the evidence for their names |
 | [Scripts](docs/scripts.md) | The trainer AI and field scripts built from source, and their macros |
+| [Game data](docs/data.md) | The data archives built from source, such as the species data, and their formats |
 | [dsd configs and the ROM](docs/configs.md) | Fixing and regenerating the configs, the DSi's differences, known gaps |
+
+## Contributing
+
+Contributions are welcome. [CONTRIBUTING.md](CONTRIBUTING.md) has the workflow and the rules. CI compiles every C
+file for both versions; matching is checked locally by `ninja`, since it needs the ROMs.
 
 ## License
 

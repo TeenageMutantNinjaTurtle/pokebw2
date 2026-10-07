@@ -13,10 +13,17 @@ every section.
   matching parts early, and never put two original files in one entry.
 - The C file holds its functions in address order. A function that doesn't match yet stays in the file as the closest
   C found, so objdiff shows how far off it is. Library code built with another compiler can differ: SPL's compiler
-  emits a file's functions in reverse source order, so `src/spl/` files hold theirs in reverse address order.
-- An overlay's files go in `src/ovNNN/`. The main module's files go by library, mirroring `include/`: `src/gfl/` (Game
-  Freak's library), `src/system/` (the game's own code), `src/spl/`, and later `src/nitro/` and `src/nnsys/`. A
-  library's private header stays with its sources, as `src/spl/spl_internal.h` does.
+  emits a file's functions in reverse source order, so `lib/spl/src/` files hold theirs in reverse address order.
+- `src/` holds the code built with the game's compiler and flags. An overlay's files go in `src/ovNNN/`, and the main
+  module's in `src/gfl/` (Game Freak's library) and `src/system/` (the game's own code), mirroring `include/`.
+- `lib/` holds the libraries built apart from the game, as in pret's projects: `lib/<name>/include/` for the public
+  headers, `lib/<name>/src/` for the sources and private headers (`lib/spl/src/spl_internal.h`), and
+  `lib/<name>/library.toml` for the library's compiler and flags, which `configure.py` and the probe read: `lib/spl/`
+  (Nintendo's SPL particle library), `lib/nitro/` (NitroSDK) and `lib/nnsys/` (NitroSystem: FND, G2D, G3D and GFD).
+  NitroSDK and NitroSystem have only headers so far, so no `library.toml` yet; the first source file of either adds
+  one with the compiler it was built with. A library's public headers keep its name as their directory, as in
+  `lib/nitro/include/nitro/os.h`, so code includes `"nitro/os.h"`. Every file is compiled with `include/` and every
+  `lib/*/include/` on its search path.
 - `tools/scripts/source_files.py OVERLAY` finds the boundaries: it lists the embedded file names, the functions that
   refer to them, and how well each boundary between two functions keeps every section's data references in file
   order and the calls inside one file.
@@ -27,8 +34,8 @@ every section.
   A layout is defined once: two files that need the same struct share it through the owner's header, and a partial
   layout with padding is still the one definition.
 - Headers are grouped like the game's code: `system/` (game system, game data, events), `field/`, `save/`, `gfl/`
-  (Game Freak's library), `pml/` (Pokémon data), `battle/`, `demo/`, `dsprot/` and `constants/`, and by library:
-  `nitro/` (NitroSDK), `nnsys/` (NitroSystem: FND, G2D, G3D and GFD) and `spl/` (the SPL particle library).
+  (Game Freak's library), `pml/` (Pokémon data), `battle/`, `demo/`, `dsprot/` and `constants/`. The libraries'
+  headers are in `lib/`, as `lib/nitro/include/nitro/`, `lib/nnsys/include/nnsys/` and `lib/spl/include/spl/`.
   A header is named after the original file that owns its declarations, or after swan's header for it, such as
   `field/field_3dci.h`.
 - Put functions, data and callback tables used across source files or overlays in the owning file's header. Declare
@@ -47,7 +54,8 @@ every section.
   they are a reference rather than copied as they are. A type that swan doesn't name gets a name from its owner,
   such as `ResortNPC` in `resort_npc.c`, and structs with the same layout and purpose are one type.
 
-`ninja format` formats `src/` and `include/` with clang-format, using `.clang-format`. `compile_flags.txt` makes
+`ninja format` formats `src/`, `include/` and `lib/` with clang-format, using `.clang-format`; prefer running
+`clang-format -i` on the files you changed, since clang-format releases disagree. `compile_flags.txt` makes
 clangd check the code as 32-bit ARM.
 
 ## Names

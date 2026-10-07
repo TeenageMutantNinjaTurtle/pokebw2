@@ -1,0 +1,20 @@
+Hello!\n{011c:0}!
+I am {011c:0}!\nI'm pleased to meet you.
+I love {011c:0}!\nI love {011c:1}, too!
+My favorite {011c:0} is\n{011c:1}!
+What's your favorite\n{011c:0}?
+I can do anything for\n{011c:0}!
+Is {011c:0}\n{011c:1}?
+What do you think of\n{011c:0}?
+Do you think {011c:0}\ncan {011c:1}?
+{011c:0} is so\n{011c:1}!
+{011c:0} bothers me.
+After all, it's {011c:0},\nisn't it?
+{011c:0} is the real\n{011c:1}!
+Did you know that {011c:0}\nis {011c:1}?
+{011c:0} is the reason\nfor {011c:1}.
+Have you heard of\n{011c:0}?
+{011c:0} is actually\n{011c:1}.
+Recently, {011c:0}\nseems {011c:1}.
+I wonder if\n{011c:0} is yummy...
+I never miss {011c:0}.\nIt's part of what I do every day.

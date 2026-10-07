@@ -1,0 +1,21 @@
+{bd02}Ace Trainer Barbara\n{bd02}was admired and popular.
+{bd02}{0100:1} had summoned up his courage\n{bd02}and professed his love to her.
+{bd02}But Barbara calmly\n{bd02}sent out her Pokémon\n{bd02}and started a battle...
+{bd02}Almost as if she was testing\n{bd02}{0100:1}...
+なし
+なし
+なし
+なし
+なし
+なし
+{bd02}Ace Trainer Camilo\n{bd02}was admired and popular.
+{bd02}{0100:1} had summoned up her courage\n{bd02}and professed her love to him.
+{bd02}But Camilo calmly\n{bd02}sent out his Pokémon\n{bd02}and started a battle...
+{bd02}Almost as if he was testing\n{bd02}{0100:1}...
+なし
+なし
+なし
+なし
+なし
+なし
+なし

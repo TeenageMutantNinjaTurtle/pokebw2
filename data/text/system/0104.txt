@@ -1,0 +1,8 @@
+In Party
+Battle Box
+Cancel
+Please select whether to use your\nparty Pokémon or your Battle Box.
+L{0202:0}
+{ff00:2}⑭{ff00:0}
+{ff00:1}⑮{ff00:0}
+\pad{1a}

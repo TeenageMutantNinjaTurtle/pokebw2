@@ -1,0 +1,22 @@
+{bd02}Ghost Erasers...\n\n\n{bd02}They call each other\n{bd02}by code names...
+{bd02}Dangerous cases and betrayal\n{bd02}are the norm, so real names\n{bd02}are nothing more than a liability...
+{bd02}Ghost Eraser Case Files\n\n{bd02}Case No. 004\n\n{bd02}Code Name: {0102:0}
+{bd02}The Majin of Mayhem\n\n{bd02}was finally resurrected.
+{bd02}The Majin is said to leave\n\n{bd02}nothing but rubble in his wake...
+{bd02}We will make contact\n\n{bd02}with it and defeat it!
+なし
+なし
+なし
+なし
+{bd02}Ghost Erasers...\n\n\n{bd02}They call each other\n{bd02}by code names...
+{bd02}Dangerous cases and betrayal\n{bd02}are the norm, so real names\n{bd02}are nothing more than a liability...
+{bd02}Ghost Eraser Case Files\n\n{bd02}Case No. 004\n\n{bd02}Code Name: {0102:0}
+{bd02}The Majin of Mayhem\n\n{bd02}was finally resurrected.
+{bd02}The Majin is said to leave\n\n{bd02}nothing but rubble in his wake...
+{bd02}We will make contact\n\n{bd02}with it and defeat it!
+なし
+なし
+なし
+なし
+なし
+\pad{2c}

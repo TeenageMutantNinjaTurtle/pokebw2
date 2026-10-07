@@ -6,6 +6,8 @@ build/
 
 # Tools downloaded or built by configure
 tools/dsd
+tools/dsd.rev
+tools/src/
 tools/objdiff-cli
 tools/wibo
 tools/mwccarm
