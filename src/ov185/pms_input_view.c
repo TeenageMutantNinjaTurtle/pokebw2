@@ -892,10 +892,13 @@ static void PMSIView_CmdWordWinToCategory(TCB *tcb, void *data) {
         PMSIView_SetLowerScreen(cwk->vwk, FALSE);
         func_ov185_0219f150(vwk->category);
         if (PMSInput_GetCategoryMode(cwk->mwk) == 0) {
-        } else if (search) {
-            flag = TRUE;
+            func_ov185_0219f2a0(vwk->category, flag);
+        } else {
+            if (search) {
+                flag = TRUE;
+            }
+            func_ov185_0219f2a0(vwk->category, flag);
         }
-        func_ov185_0219f2a0(vwk->category, flag);
         if (PMSInput_GetCategoryMode(cwk->mwk) == 0) {
             PMSIView_PrintMessage(cwk, 2);
         } else {
