@@ -336,6 +336,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   declared in an inner block opened there: the forms page's `BOOL hasSex[3] = { FALSE, FALSE, FALSE };` follows the
   Pokédex reads in a block around the rest of the gathering, and `BOOL seenRare[2] = { FALSE, FALSE };` sits in the
   loop over the forms.
+- A struct member set from a C99 compound literal, `request.pos = (VecFx32){ 0, 0, 0 };`, builds the literal in a
+  stack temporary through a base register just before the copy (`str r6, [r3]; str r6, [r3, #4]; str r6, [r3, #8];
+  ldm r3!, {r0, r1}`), in source order among the other member stores. An initialized local makes the same stores at
+  its declaration, and a local set field by field stores at `sp` offsets. fldeff_shadow.c's shadow task builds its
+  actor request so.
 - A value that a loop uses and the code after it uses again is reused from the copy hoisted out of the loop. When
   the original computes it again after the loop, the loop assigns it to a variable declared in the loop's body, as
   `int wanted = mode + 1;` in the Join Avenue's records command.

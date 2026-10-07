@@ -5,9 +5,11 @@
 
 #include "types.h"
 #include "gfl/heap.h"
+#include "gfl/tcb.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
-#include "gfl/tcb.h"
+
+typedef struct FieldEffects FieldEffects;
 
 void *Field_GetEffectBlAct(Field *field);
 void *Field_GetWildEffectBlAct(Field *field);
@@ -24,7 +26,7 @@ void func_ov036_021a5498(void *effect, u32 a1);
 void func_ov036_021a54a8(void *effect, u32 a1);
 void *func_ov036_021a58e0(void *effects, VecFx32 *position, u32 direction, u32 flag);
 // The effects that actors make on the terrain
-void func_ov036_021a3bf0(FieldActor *actor, void *effects);
+void func_ov036_021a3bf0(FieldActor *actor, FieldEffects *effects);
 // The dust of an actor landing
 void func_ov036_021a3e74(FieldActor *actor, void *effects);
 void func_ov036_021a40ac(void *effects, FieldActor *actor, BOOL moving, u32 kind);
@@ -42,7 +44,6 @@ enum {
     FLDEFF_NONE = FLDEFF_MAX,
 };
 
-typedef struct FieldEffects FieldEffects;
 typedef struct FieldEffectTask FieldEffectTask;
 typedef struct FieldEffectTaskStore FieldEffectTaskStore;
 
@@ -50,7 +51,8 @@ typedef void (*FieldEffectTaskFunc)(FieldEffectTask *task, void *work);
 
 // What a task does when it starts, ends, updates and draws
 typedef struct {
-    u32 unk00;
+    // The size of the task's work
+    u32 workSize;
     FieldEffectTaskFunc init;
     FieldEffectTaskFunc delete;
     FieldEffectTaskFunc update;
@@ -60,7 +62,7 @@ typedef struct {
 struct FieldEffectTask {
     BOOL active;
     u32 param1;
-    u32 param2;
+    const void *param2;
     VecFx32 pos;
     u8 work[0xa0];
     FieldEffectTaskVTable vtable;
@@ -86,12 +88,12 @@ void *FieldEffects_GetHandleData(FieldEffects *effects, u32 id);
 void FieldEffects_TCBManagerInit(FieldEffects *effects, u32 count);
 // Start a task, at pos if it isn't NULL
 FieldEffectTask *FieldEffects_TCBCreate(FieldEffects *effects, const FieldEffectTaskVTable *vtable,
-                                        const VecFx32 *pos, u32 param1, u32 param2, u32 priority);
+                                        const VecFx32 *pos, u32 param1, const void *param2, u32 priority);
 // End a task, update it, and its parameters, position and work
 void func_ov036_021a3a70(FieldEffectTask *task);
 void func_ov036_021a3a94(FieldEffectTask *task);
 u32 func_ov036_021a3abc(FieldEffectTask *task);
-u32 func_ov036_021a3ac8(FieldEffectTask *task);
+const void *func_ov036_021a3ac8(FieldEffectTask *task);
 void func_ov036_021a3ad4(FieldEffectTask *task, VecFx32 *pos);
 void func_ov036_021a3ae8(FieldEffectTask *task, const VecFx32 *pos);
 void *func_ov036_021a3afc(FieldEffectTask *task);
