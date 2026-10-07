@@ -1908,7 +1908,7 @@ static BOOL CheckNPCSpawnFlag(EventWork *eventWork, u16 flag) {
     return EventWork_FlagGet(eventWork, flag);
 }
 
-BOOL func_ov012_02168024(u32 type) {
+u16 func_ov012_02168024(u16 type) {
     switch (type) {
     case 4:
     case 5:
@@ -1918,12 +1918,9 @@ BOOL func_ov012_02168024(u32 type) {
     case 11:
     case 12:
     case 13:
-        return TRUE;
+        return 1;
     }
-    // BUG: Nothing is returned for the other types
-#ifdef BUGFIX
-    return FALSE;
-#endif
+    return type;
 }
 
 void func_ov012_02168054(FieldActor *actor) {
