@@ -356,6 +356,7 @@ typedef struct MailboxProcessData MailboxProcessData;
 typedef struct MapMatrix MapMatrix;
 typedef struct MapMatrixFileHeader MapMatrixFileHeader;
 typedef struct MapReplace MapReplace;
+typedef struct MonolithWork MonolithWork;
 typedef struct MoveReminderProcessData MoveReminderProcessData;
 typedef struct MapReplaceEvent MapReplaceEvent;
 typedef struct MapTerrainSamplerOutput MapTerrainSamplerOutput;

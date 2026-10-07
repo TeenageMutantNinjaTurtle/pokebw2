@@ -33,6 +33,8 @@
 #define ARCID_MYSTERY 33
 // The start menu's graphics
 #define ARCID_STARTMENU 34
+// The Entralink monolith's graphics
+#define ARCID_MONOLITH 38
 // The sentence input's graphics, with the icons that sentences show in place of some words
 #define ARCID_PMSI 42
 // The musical's graphics: the photo screen's touch screen, and the stage's (not from swan)
