@@ -60,6 +60,12 @@ u32 GetDefaultWeatherValue(void);
 u32 func_ov012_0215922c(void);
 void func_ov036_021a203c(EncountSystem *system, u32 value);
 void func_ov036_021a2364(EncountSystem *system);
+// Sets the setup up for a battle against the trainer, here
+void BtlSetup_SetTrainerLocal(EncountSystem *encountSystem, BtlSetup *setup, u32 a2, u32 a3, u32 trainerId, u32 a5,
+                              HeapID heapId);
+// The battle's encounter effect and music, against the wild species or the trainer
+void EventBattleCall_DecideEnvWild(u32 species, u32 form, u32 a2, BOOL a3, Field *field, u32 *encEffect, u16 *bgm);
+void EventBattleCall_DecideEnvTrainer(u32 trainerId, Field *field, u32 *encEffect, u16 *bgm);
 
 void EncountSystem_CancelPhenomenon(EncountSystem *encountSystem);
 u32 EncountState_CheckSpecialEncountPos(EncountSystem *encounter, const u16 *gridPos);
