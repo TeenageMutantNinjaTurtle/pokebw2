@@ -54,7 +54,7 @@ enum {
 };
 
 // The saved battle videos, as the menus list them
-typedef struct {
+struct BrRecordInfo {
     BOOL isValid[BR_RECORD_NUM];
     StrBuf *name[BR_RECORD_NUM];
     u32 sex[BR_RECORD_NUM];
@@ -62,7 +62,7 @@ typedef struct {
     // Whether a musical photo is saved
     BOOL hasMusicalShot;
     BOOL isInit;
-} BrRecordInfo;
+};
 
 // The data that outlives the core proc, while a battle video plays. br_main.c holds it
 typedef struct {

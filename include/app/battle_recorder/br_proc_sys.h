@@ -35,8 +35,8 @@ typedef struct {
     u32 stack_num;
 } BrProcSysRecovery;
 
-BrProcSys *BrProcSys_Init(u16 procID, const BrProcData *tbl, u16 tbl_max, void *work,
-                          BrProcSysRecovery *recovery, HeapID heapId);
+BrProcSys *BrProcSys_Init(u16 procID, const BrProcData *tbl, u16 tbl_max, void *work, BrProcSysRecovery *recovery,
+                          HeapID heapId);
 void BrProcSys_Exit(BrProcSys *p_wk);
 void BrProcSys_Main(BrProcSys *p_wk);
 BOOL BrProcSys_IsEnd(BrProcSys *p_wk);
