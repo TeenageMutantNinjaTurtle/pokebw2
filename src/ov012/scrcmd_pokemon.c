@@ -531,9 +531,9 @@ BOOL s02EA_PokePartyAddNPoke(VM *vm, FieldScriptEnv *env) {
     sys_memset(&spec, 0, sizeof(NPokeSpec));
     spec.species = species;
     spec.level = level;
-    spec.unk5 = unk5;
-    spec.unk6 = unk6;
-    spec.unk7 = unk7;
+    spec.nature = unk5;
+    spec.sex = unk6;
+    spec.ability = unk7;
     createNPkm(pkm, &spec);
     PokeParty_SetParam(pkm, PKM_PARAM_POKEBALL, PML_ItemGetMonsBallID(4));
     PokeParty_SetupMetData(pkm, 7, playerInfo,
