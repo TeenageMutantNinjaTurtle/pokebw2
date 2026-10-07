@@ -18,6 +18,9 @@
 #include "system/game_beacon.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+#include "system/resort_binary.h"
+#include "system/resort_layout.h"
+#include "system/resort_work.h"
 
 // The gimmick of the avenue's main zone, made of the objects below, and of its other zone, which has only its people
 // and NPCs
@@ -323,7 +326,7 @@ static const G3DSceneSetup sScene = {sSceneResources, 6, sSceneActors, 2};
 void func_ov137_021eec80(Field *field) {
     void *block;
     GameData *gameData;
-    u32 *unk;
+    ResortWork *unk;
     ResortFieldWork *work;
     HeapID heapId;
     JoinAvenueSave *joinAvenue;
@@ -359,7 +362,7 @@ void func_ov137_021eec80(Field *field) {
     flag = JoinAvenue_GetParam(func_ov137_021f202c(work->sys), 7, NULL);
     func_ov137_021f0be4(work->sys, gameData, heapId);
     func_ov137_021f0ae0(work->sys, gameData, heapId);
-    unk2 = func_02039978(unk, 8);
+    unk2 = ResortWork_Get(unk, 8);
     mmSys = GameData_GetMMSys(gameData);
     work->people = func_ov137_021f042c(heapId, work->sys, mmSys, Field_GetPlayer(field), flag, unk2);
     func_ov137_021f0508(work->people, flag, unk2);
@@ -978,13 +981,13 @@ static void func_ov137_021ef984(ResortWalker *walker, MMSys *mmSys, FieldPlayer 
 static void func_ov137_021ef9a8(ResortWalker *walker, void *shops, void *unkb1c, JoinAvenueOccupants *occupants) {
     int i;
     u16 id = func_ov137_021f10e8(walker->person, 19, NULL);
-    u16 shop = func_020397cc(func_020397b4(shops, id), 0);
+    u16 shop = ResortShopData_GetShopParam(ResortShopData_GetShop(shops, id), 0);
 
     GetGPosZ(func_ov137_021f110c(walker->person));
     for (i = 0; i < RESORT_WALKER_STOPS; i++) {
         JoinAvenuePerson *occupant = func_02038860(occupants, i);
-        if (!JoinAvenuePerson_IsEmpty(occupant) && shop == func_020397cc(func_02039798(shops, occupant), 0)) {
-            u16 z = func_020395f8(unkb1c, i, 2);
+        if (!JoinAvenuePerson_IsEmpty(occupant) && shop == ResortShopData_GetShopParam(ResortShopData_GetPersonShop(shops, occupant), 0)) {
+            u16 z = ResortBinary_Get(unkb1c, i, 2);
             walker->stopZ[walker->stopCount] = z + GFL_RandomMTRange(7);
             walker->stopAcmd[walker->stopCount] = i % 2 == 0 ? DIR_RIGHT : DIR_LEFT;
             walker->stopCount++;
@@ -1901,7 +1904,7 @@ static void func_ov137_021f0be4(ResortSys *sys, GameData *gameData, HeapID heapI
         func_02039064(info, 24, 1);
     }
     if (add) {
-        u16 chance = func_020395f8(table, func_0203968c(table, JoinAvenue_GetParam(info, 2, NULL)), 10);
+        u16 chance = ResortBinary_Get(table, ResortBinary_FindRange(table, JoinAvenue_GetParam(info, 2, NULL)), 10);
         if (func_020393e4(info, 21, 100) < chance) {
             void *entry = func_02037a40(HEAPID_TAIL(heapId));
             func_ov137_021f4b94(sys, gameData, entry, 5, 0, heapId);
@@ -1917,7 +1920,7 @@ void func_ov137_021f0d10(Field *field) {
     GameData *gameData;
     HeapID heapId;
     ResortFieldWork0 *work;
-    u32 *unk;
+    ResortWork *unk;
     BOOL fill;
     JoinAvenueSave *joinAvenue;
     ResortSysSetup sysSetup;

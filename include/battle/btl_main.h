@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "battle/btl_calc.h"
+#include "battle/btl_rec.h"
 #include "battle/btl_setup.h"
 #include "constants/battle.h"
 #include "gfl/proc.h"
@@ -144,7 +145,7 @@ struct BtlMainModule {
     u32 unk2BC;
     PartyPkm *unk2C0;
     void *unk2C4;
-    u8 unk2C8[0x118];
+    BtlRecReader recReader;
     void *unk3E0[4];
     MATHRandContext32 rand;
     // What the clients of a link battle agree on before it starts
