@@ -253,5 +253,10 @@ PartyPkm *PokeParty_NewPkm(u16 species, u16 level, u32 trainerId, u32 a3, s32 a4
 void TransformVsPokePartyBySeason(GameData *gameData, PokeParty *party, u8 season);
 
 BOOL IsTrainerOT(PartyPkm *pkm, PlayerInfo *player);
+// Whether a Pokémon's nature raises (1) or lowers (-1) a stat
+s8 doesNatureAffectStat(PartyPkm *pkm, u32 stat);
+
+u8 getHiddenPowerType(PartyPkm *pkm);
+u32 getHiddenPowerBasePwr(PartyPkm *pkm);
 
 #endif // POKEBW2_PML_POKE_PARTY_H

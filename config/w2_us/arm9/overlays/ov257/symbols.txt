@@ -753,8 +753,6 @@ sFaceOrders kind:data(any) addr:0x021b2140
 sTargetResources kind:data(any) addr:0x021b21a0
 data_ov257_021b2200_w2_us kind:data(any) addr:0x021b2200 ambiguous
 sTargetBounds kind:data(any) addr:0x021b2230
-data_ov257_021b21f8 kind:data(any) addr:0x021b2234
-data_ov257_021b21fc kind:data(any) addr:0x021b2238
 sBalloonPositions kind:data(any) addr:0x021b2254
 data_ov257_021b223c kind:data(any) addr:0x021b2278
 sCtvtGameCamPromptMessages kind:data(any) addr:0x021b2280
