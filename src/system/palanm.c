@@ -497,7 +497,7 @@ void PaletteFade_SetAllActive(PaletteFade *fade, u32 active) {
     fade->activeMask = 0x3fff;
 }
 
-u16 PaletteFade_GetColor(PaletteFade *fade, u16 buffer, u32 which, u16 pos) {
+u16 PaletteFade_GetColor(PaletteFade *fade, u32 buffer, u32 which, u16 pos) {
     if (which == PALFADE_UNFADED) {
         return fade->buffers[buffer].unfaded[pos];
     }
@@ -525,11 +525,11 @@ void BlendColors(const u16 *src, u16 *dst, u16 count, u8 fraction, u16 color) {
     }
 }
 
-void PaletteFade_BlendBuffer(PaletteFade *fade, u16 buffer, u16 offset, u16 count, u8 fraction, u16 color) {
+void PaletteFade_BlendBuffer(PaletteFade *fade, u32 buffer, u16 offset, u16 count, u8 fraction, u16 color) {
     BlendColors(fade->buffers[buffer].unfaded + offset, fade->buffers[buffer].faded + offset, count, fraction, color);
 }
 
-void PaletteFade_BlendPalettes(PaletteFade *fade, u16 buffer, u16 paletteMask, u8 fraction, u16 color) {
+void PaletteFade_BlendPalettes(PaletteFade *fade, u32 buffer, u16 paletteMask, u8 fraction, u16 color) {
     u32 offset = 0;
 
     while (paletteMask != 0) {

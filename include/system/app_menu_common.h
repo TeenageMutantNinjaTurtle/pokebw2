@@ -47,7 +47,7 @@ u32 func_0202d82c(void);
 
 // Loads the menu bar's screen into the bottom three rows of bg's screen buffer, with its characters starting at
 // charBase and in palette `palette`
-void AppMenuCommon_LoadBarScreen(ArcTool *arc, u8 bg, HeapID heapId, u16 charBase, u32 palette);
+void AppMenuCommon_LoadBarScreen(ArcTool *arc, u8 bg, HeapID heapId, u32 charBase, u32 palette);
 
 u32 func_0202d890(void);
 u32 func_0202d894(void);
