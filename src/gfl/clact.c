@@ -890,7 +890,7 @@ void func_0204c140(ClActor *actor, const ClActorPos *pos, u16 surface) {
     func_0204c210(actor, &actorPos);
 }
 
-void func_0204c178(ClActor *actor, ClActorPos *pos, u32 surface) {
+void func_0204c178(ClActor *actor, ClActorPos *pos, u16 surface) {
     ClActorPos offset;
 
     func_0204d0fc(actor, surface, &offset);

@@ -152,8 +152,8 @@ BOOL func_ov036_021a2d4c(u32 tileClass);
 // Whether a tile class keeps an actor from leaving it in a direction
 BOOL TileExitBlockCheck_Up(u16 tileClass);
 BOOL TileExitBlockCheck_Down(u16 tileClass);
-BOOL TileExitBlockCheck_Left(u32 tileClass);
-BOOL TileExitBlockCheck_Right(u32 tileClass);
+BOOL TileExitBlockCheck_Left(u16 tileClass);
+BOOL TileExitBlockCheck_Right(u16 tileClass);
 BOOL func_ov036_021a2df4(u32 tileClass);
 BOOL func_ov036_021a2e00(u32 tileClass);
 BOOL func_ov036_021b3b54(u32 tileClass);
@@ -191,9 +191,6 @@ BOOL MapTile_IsCatwalkEntryPoint(u32 tileClass);
 BOOL MapTile_IsHiddenGrottoEntranceGrass(u32 tileClass);
 u32 func_ov036_021a2e18(u32 tileType);
 BOOL CheckSurfBeginTiles(u32 tileType, u32 frontTileType);
-u32 GetWeatherAll(GameSystem *gsys, u16 zoneId);
-void ResetWeather(GameSystem *gsys, s32 zoneId);
-void UpdateWeatherToDefault(GameData *gameData, u16 zoneId);
 
 // Overlay 36: patches of map land data from archive 0x9a, of which Join Avenue's shops are built
 typedef struct LandDataPatch LandDataPatch;

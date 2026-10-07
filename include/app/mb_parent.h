@@ -22,8 +22,8 @@ void func_ov181_021a03c8(void *work);
 void func_ov181_021a03f4(void *work);
 void func_ov181_021a0418(void *work, u32 a1);
 BOOL func_ov181_021a0460(void *work);
-void func_ov181_021a0470(void *work, u32 a1, u32 a2);
+void func_ov181_021a0470(void *work, StrBuf *text, StrBuf *title);
 u32 func_ov181_021a0484(void *work);
-u32 func_ov181_021a0488(void *work);
+void *func_ov181_021a0488(void *work);
 
 #endif // POKEBW2_APP_MB_PARENT_H

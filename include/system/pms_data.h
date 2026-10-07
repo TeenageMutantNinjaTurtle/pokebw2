@@ -46,13 +46,13 @@ BOOL PMSData_Equals(const PMSData *data, const PMSData *other);
 void PMSData_Copy(PMSData *dest, const PMSData *src);
 // The number of sentences of a type
 u32 PMSData_GetSentenceCount(u32 type);
-void PMSData_SetSentence(PMSData *data, u16 type, u16 id);
+void PMSData_SetSentence(PMSData *data, u32 type, u32 id);
 void PMSData_SetWord(PMSData *data, u32 index, u16 word);
 // Empties the words the sentence has no command for
 void PMSData_ClearUnusedWords(PMSData *data, HeapID heapId);
 BOOL PMSData_IsValid(const PMSData *data, u32 heapId);
 // Replaces an invalid sentence or word with a default one, and returns whether all of it was valid
-BOOL PMSData_Validate(PMSData *data, BOOL allowEmpty, u32 heapId);
+BOOL PMSData_Validate(PMSData *data, BOOL allowEmpty, HeapID heapId);
 BOOL PMSWord_Validate(u16 *word, BOOL allowEmpty, BOOL allowNumber);
 BOOL PMSNumber_Validate(int *number, BOOL allowZero);
 

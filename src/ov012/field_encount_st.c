@@ -15,6 +15,7 @@
 #include "save/encounter.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+#include "system/zone_weather.h"
 
 BOOL EncData_Load(EncData *encData, ArcTool *arc, u16 zoneId, u8 season) {
     u32 fileId;
@@ -101,12 +102,12 @@ void func_ov012_0215921c(void) {
 void func_ov012_02159220(GameData *gameData) {
 }
 
-u32 GetDefaultWeatherValue(void) {
-    return 0xffff;
+u32 GetDefaultWeatherValue(GameData *gameData, u16 zoneId) {
+    return WEATHER_NONE;
 }
 
-u32 func_ov012_0215922c(void) {
-    return 0;
+BOOL func_ov012_0215922c(GameData *gameData) {
+    return FALSE;
 }
 
 void CalcPlayerActionPossibilities(Field *field, PlayerActionPossibilities *action) {

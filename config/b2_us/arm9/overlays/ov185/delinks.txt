@@ -48,3 +48,13 @@ src/ov185/pmsiv_menu.c:
     .text       start:0x021a0270 end:0x021a0d64
     .rodata     start:0x021a71b4 end:0x021a71d0
     .data       start:0x021a7548 end:0x021a7558
+
+src/ov185/pms_input.c:
+    complete
+    .text       start:0x021a0d64 end:0x021a3124
+    .rodata     start:0x021a71d0 end:0x021a72b4
+    .data       start:0x021a7558 end:0x021a7564
+
+src/ov185/pmsiv_wordwin.c:
+    .text       start:0x021a3124 end:0x021a3a14
+    .data       start:0x021a7564 end:0x021a7574

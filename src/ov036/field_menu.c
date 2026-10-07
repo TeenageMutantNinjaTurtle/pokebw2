@@ -28,7 +28,7 @@
 #include "nnsys/g2d.h"
 #include "save/event_work.h"
 #include "save/player_info.h"
-#include "system/app_common.h"
+#include "system/app_menu_common.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
 #include "system/printsys.h"

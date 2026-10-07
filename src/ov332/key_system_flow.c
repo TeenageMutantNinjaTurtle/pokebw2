@@ -363,7 +363,7 @@ void KeySystemFlow_SeqMenu(KeySystemSeq *seq, int *state, void *work) {
     case 3:
         switch (wk->choice) {
         case KEY_MENU_EXCHANGE:
-            if (func_02035318()) {
+            if (isWirelessEnabled()) {
                 KeySystemSeq_Push(seq, KeySystemFlow_SeqExchange);
             } else {
                 KeySystemSeq_Push(seq, KeySystem_SeqWirelessOff);

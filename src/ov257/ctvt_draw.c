@@ -22,7 +22,7 @@
 #include "gfl/touchpanel.h"
 #include "nitro/fx.h"
 #include "nitro/gx.h"
-#include "system/app_common.h"
+#include "system/app_menu_common.h"
 #include "system/bmp_winframe.h"
 #include "system/printsys.h"
 #include "system/wipe.h"
