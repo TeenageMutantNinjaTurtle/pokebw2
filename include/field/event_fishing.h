@@ -13,9 +13,9 @@ struct FishingEventWork {
     MMSys *actorSystem;
     FieldPlayer *player;
     FieldActor *actor;
-    u16 gridX;
-    u16 gridZ;
-    u16 gridY;
+    s16 gridX;
+    s16 gridY;
+    s16 gridZ;
     u16 unk26;
     u32 playerExState;
     void *effect2C;

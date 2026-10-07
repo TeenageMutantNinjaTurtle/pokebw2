@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "gfl/heap.h"
+#include "nitro/fx.h"
 #include "nitro/math.h"
 #include "struct_decls.h"
 
@@ -35,6 +36,8 @@ BOOL func_ov030_02173c08(void);
 void func_ov030_02173780(void);
 void *Field_GetFesGimmick(Field *field);
 BOOL FesGimmick_IsCurrent(void *gimmick, u32 type);
+// Whether the Funfest mission keeps phenomena off the tile
+BOOL func_ov036_021b6758(void *gimmick, u16 x, u16 z, fx32 height);
 // Changes the party of a Funfest mission's battle, when gimmick 5 is current
 void func_ov036_021b67d8(void *gimmick, PokeParty *party);
 void DeleteFunfestActor(void *gimmick, u16 zoneId, u8 actorIndex);

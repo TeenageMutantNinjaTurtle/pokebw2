@@ -178,6 +178,7 @@ typedef struct EncEffGrid EncEffGrid;
 typedef struct EncEffGridParam EncEffGridParam;
 typedef struct EncountSave EncountSave;
 typedef struct EncountState EncountState;
+typedef struct EffectEncountState EffectEncountState;
 typedef struct EncountSystem EncountSystem;
 typedef struct EncounterCutinWork EncounterCutinWork;
 typedef struct EntralinkWarpReturnWork EntralinkWarpReturnWork;
