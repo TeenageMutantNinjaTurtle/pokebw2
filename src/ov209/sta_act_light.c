@@ -155,9 +155,9 @@ void StaActLight_GetPosition(StaActLightSys *sys, StaActLight *light, VecFx32 *p
     pos->z = light->pos.z;
 }
 
-void func_ov209_021bd768(StaActLightSys *sys, StaActLight *light, u16 a2, u8 a3) {
-    light->unk4 = a2;
-    light->unk6 = a3;
+void StaActLight_SetColor(StaActLightSys *sys, StaActLight *light, GXRgb color, u8 alpha) {
+    light->color = color;
+    light->alpha = alpha;
 }
 
 void func_ov209_021bd770(StaActLightSys *sys, StaActLight *light, u32 a2, u32 a3) {

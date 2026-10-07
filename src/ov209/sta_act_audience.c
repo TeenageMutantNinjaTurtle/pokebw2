@@ -60,7 +60,7 @@ void StaActAudience_TermSystem(StaActAudience *sys) {
 }
 
 void StaActAudience_UpdateSystem(StaActAudience *sys) {
-    if (func_ov209_021c032c(sys->stage) == 0) {
+    if (StaActing_GetCurtainOffset(sys->stage) == 0) {
         if (GFL_RandomLCAlt(10) == 0) {
             u8 i;
 

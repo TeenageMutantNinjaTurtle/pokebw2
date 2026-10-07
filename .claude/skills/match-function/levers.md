@@ -46,7 +46,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 - An extra slot holding a copy of an address-taken local before a nested loop: read its field inside the inner loop,
   not into a local in the outer one. (matching.md: "hoisted only out of the loop it sits in")
-- Stack locals are laid out in reverse declaration order. (matching.md: "reverse declaration order")
+- Stack locals are laid out in reverse declaration order; to read values in one order and slot them in another,
+  declare without initializers and assign later. (matching.md: "reverse declaration order")
 - A struct copied from `.rodata` once before a loop into the lowest slot, then into another slot inside it: a
   local initializer in the loop body. (matching.md: "local initializer inside a loop")
 - Spilled variables get slots in the order they are first assigned, in small functions. In big switches,

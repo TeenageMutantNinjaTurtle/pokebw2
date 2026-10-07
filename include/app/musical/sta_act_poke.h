@@ -91,7 +91,7 @@ void StaActPoke_SetRotate(StaActPokeSys *sys, StaActPoke *poke, u16 rotation);
 void StaActPoke_SetPositionOffset(StaActPokeSys *sys, StaActPoke *poke, VecFx32 *offset);
 void StaActPoke_StartAnime(StaActPokeSys *sys, StaActPoke *poke);
 void StaActPoke_StopAnime(StaActPokeSys *sys, StaActPoke *poke);
-void StaActPoke_ChangeAnime(StaActPokeSys *sys, StaActPoke *poke, u16 anime);
+void StaActPoke_ChangeAnime(StaActPokeSys *sys, StaActPoke *poke, u8 anime);
 void StaActPoke_SetShowFlg(StaActPokeSys *sys, StaActPoke *poke, BOOL show);
 BOOL StaActPoke_GetShowFlg(StaActPokeSys *sys, StaActPoke *poke);
 void StaActPoke_SetFlip(StaActPokeSys *sys, StaActPoke *poke, BOOL flip);

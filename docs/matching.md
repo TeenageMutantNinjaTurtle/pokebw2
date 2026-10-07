@@ -110,6 +110,11 @@ Same code, other `sp` offsets or frame size.
 - Declaration order does move spill slots in longer functions: `func_ov255_021d0374` matched with its loop counters
   declared first and `y` before the row width.
 - Stack locals are laid out in reverse declaration order.
+  When values must be read in one order (a script's arguments, say) but the original's slots follow another, declare
+  the locals without initializers in the slot order and assign them in the read order: `script_command.c`'s
+  `StaScriptCmd_PokeMove` matched with `mask; frames; wait; pokeSys; x; y; z;` declared and the arguments read as
+  `mask, frames, x, y, z, wait`, and `StaScriptCmd_LightFollow` with the three system pointers declared before the
+  offsets they are read after.
 - A local initializer inside a loop is copied from `.rodata` once, before the loop, into a compiler temporary at the
   bottom of the frame, and copied from there into the local on each pass. `mus_shot_photo.c`'s
   `MusShotPhoto_InitPokes` declares `VecFx32 offset = { 0, FX32_CONST(-35), 0 };` in the branch for the top Pokémon,

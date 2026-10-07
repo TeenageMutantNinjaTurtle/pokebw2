@@ -8,13 +8,14 @@
 #include "gfl/clact.h"
 #include "gfl/heap.h"
 #include "nitro/fx.h"
+#include "nitro/gx.h"
 #include "struct_decls.h"
 
 struct StaActLight {
     // The light's kind, 0 for none
     u32 type;
-    u16 unk4;
-    u8 unk6;
+    GXRgb color;
+    u8 alpha;
     VecFx32 pos;
     u32 unk14;
     u32 unk18;
@@ -44,7 +45,7 @@ StaActLight *StaActLight_AddLight(StaActLightSys *sys, u32 type);
 void StaActLight_DelLight(StaActLightSys *sys, StaActLight *light);
 void StaActLight_SetPosition(StaActLightSys *sys, StaActLight *light, VecFx32 *pos);
 void StaActLight_GetPosition(StaActLightSys *sys, StaActLight *light, VecFx32 *pos);
-void func_ov209_021bd768(StaActLightSys *sys, StaActLight *light, u16 a2, u8 a3);
+void StaActLight_SetColor(StaActLightSys *sys, StaActLight *light, GXRgb color, u8 alpha);
 void func_ov209_021bd770(StaActLightSys *sys, StaActLight *light, u32 a2, u32 a3);
 
 #endif // POKEBW2_APP_MUSICAL_STA_ACT_LIGHT_H

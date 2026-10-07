@@ -625,7 +625,7 @@ void StaActPoke_StopAnime(StaActPokeSys *sys, StaActPoke *poke) {
     MusPokeDraw_SetFlip(poke->draw, FALSE);
 }
 
-void StaActPoke_ChangeAnime(StaActPokeSys *sys, StaActPoke *poke, u16 anime) {
+void StaActPoke_ChangeAnime(StaActPokeSys *sys, StaActPoke *poke, u8 anime) {
     MusPokeDraw_ChangeAnime(poke->draw, anime);
 }
 
