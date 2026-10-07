@@ -2,28 +2,50 @@
 #define POKEBW2_APP_MB_PARENT_H
 
 #include "types.h"
+#include "gfl/heap.h"
 #include "gfl/proc.h"
 #include "struct_decls.h"
 
-// The parent of a DS Download Play session (ov181, mb_parent_sys.c), which the start menu's unnamed item starts, and
-// the Poké Transfer Lab for Poké Transfer
+// The parent of a DS Download Play session (ov181, mb_parent_sys.c), which the Poké Transfer Lab starts for Poké
+// Transfer, and the start menu's item for what appears to be the Pokémon Dream Radar's transfer
 typedef struct {
-    // 1 from the start menu, 0 from the Poké Transfer Lab
-    u8 unk0;
+    // TRUE from the start menu, FALSE from the Poké Transfer Lab
+    u8 startMenu;
     // Set by the Poké Transfer Lab
     GameData *gameData;
 } MBParentParam;
 
-extern const GameProcFunctions MB_PARENT_PROC_FUNCTIONS;
+extern GameProcFunctions MB_PARENT_PROC_FUNCTIONS;
 
-// The link that Unova Link runs in overlay 181. None of these has a name yet
-void *func_ov181_021a039c(u32 a0);
-void func_ov181_021a03c8(void *work);
-void func_ov181_021a03f4(void *work);
-void func_ov181_021a0418(void *work, u32 a1);
-BOOL func_ov181_021a0460(void *work);
-void func_ov181_021a0470(void *work, StrBuf *text, StrBuf *title);
-u32 func_ov181_021a0484(void *work);
-void *func_ov181_021a0488(void *work);
+// The DS Download Play parent of Unova Link's Memory Link (mb_parent_dataconv_sys.c). The names are ours
+
+// What MBDataConv_Request starts or changes
+enum {
+    MB_DATACONV_REQUEST_DISTRIBUTE,
+    MB_DATACONV_REQUEST_HOLD_REBOOT,
+    MB_DATACONV_REQUEST_CANCEL,
+    MB_DATACONV_REQUEST_CONNECT,
+};
+
+// MBDataConv_GetResult: 0 when the data arrived, else why not
+enum {
+    MB_DATACONV_RESULT_OK,
+    MB_DATACONV_RESULT_TIMEOUT,
+    MB_DATACONV_RESULT_CHILD_ERROR_1,
+    MB_DATACONV_RESULT_CHILD_ERROR_2,
+    MB_DATACONV_RESULT_CHILD_ERROR_3,
+};
+
+MBDataConv *MBDataConv_Create(HeapID heapId);
+void MBDataConv_Delete(MBDataConv *conv);
+void MBDataConv_Update(MBDataConv *conv);
+BOOL MBDataConv_Request(MBDataConv *conv, u32 request);
+// Whether the last request has finished
+BOOL MBDataConv_IsIdle(MBDataConv *conv);
+// The name and the introduction of the program that the children see
+void MBDataConv_SetGameInfo(MBDataConv *conv, StrBuf *name, StrBuf *intro);
+u32 MBDataConv_GetResult(MBDataConv *conv);
+// The save data that the child sent back
+void *MBDataConv_GetReceivedData(MBDataConv *conv);
 
 #endif // POKEBW2_APP_MB_PARENT_H

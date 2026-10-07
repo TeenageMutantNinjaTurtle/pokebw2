@@ -117,6 +117,7 @@ void FieldCamera_EVCameraInit(FieldCamera *camera);
 void FieldCameraAnm_EnsureInitDone(FieldCamera *camera);
 void FieldCameraAnm_SetAnimation(FieldCamera *camera, const FieldEvCameraAnimationSetup *setup, u16 frames);
 void FieldCameraAnm_SetReturnAnimation(FieldCamera *camera, const FieldEvCameraAnimationFlags *flags, u16 frames);
+void FieldCameraAnm_SetLoadDefaultsAnimation(FieldCamera *camera, u16 frames);
 BOOL FieldCamera_IsAnimating(FieldCamera *camera);
 void FieldCameraAnm_EVCameraEnd(FieldCamera *camera);
 // Whether the no-grid mapper's camera areas move the camera

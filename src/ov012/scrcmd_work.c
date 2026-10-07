@@ -151,11 +151,11 @@ BOOL FieldScriptEnv_UpdateWaitCounter(FieldScriptEnv *env) {
     return FALSE;
 }
 
-void *GetScrEnvNowPkmVoice(FieldScriptEnv *env) {
+u32 GetScrEnvNowPkmVoice(FieldScriptEnv *env) {
     return env->subwork->nowPkmVoice;
 }
 
-void SetScrEnvNowPkmVoice(FieldScriptEnv *env, void *voice) {
+void SetScrEnvNowPkmVoice(FieldScriptEnv *env, u32 voice) {
     env->subwork->nowPkmVoice = voice;
 }
 

@@ -20,6 +20,25 @@ u32 func_02009ae0(DreamWorldSave *dreamWorld);
 u32 func_02009b20(DreamWorldSave *dreamWorld);
 void func_02009b30(DreamWorldSave *dreamWorld, u32 value);
 void func_02009af8(DreamWorldSave *dreamWorld, u32 value);
+// The Pokémon sent to the Dream World, and whether it is there
+PartyPkm *func_02009998(DreamWorldSave *dreamWorld);
+void func_0200999c(DreamWorldSave *dreamWorld, PartyPkm *pkm);
+void func_02009a00(DreamWorldSave *dreamWorld, u8 asleep);
+// The date of the last Game Sync, packed as year, month, day and weekday from the top byte down
+u32 func_02009ad0(DreamWorldSave *dreamWorld);
+void func_02009ad4(DreamWorldSave *dreamWorld, u32 date);
+// The ID of the last result taken from the Dream World
+u32 func_02009ad8(DreamWorldSave *dreamWorld);
+void func_02009adc(DreamWorldSave *dreamWorld, u32 id);
+// The bytes at 0x1a4, from the Dream World's result, and at 0x1a5, set once the Game Sync ID was shown
+void func_020099d8(DreamWorldSave *dreamWorld, u8 value);
+void func_020099e8(DreamWorldSave *dreamWorld, u8 value);
+// Sets one of the 20 items sent from the Dream World, and its count
+void func_02009a50(DreamWorldSave *dreamWorld, int index, u16 item, u8 count);
+// Sets one of the 5 26-byte entries of the Dream World's result
+void func_02009ab0(DreamWorldSave *dreamWorld, int index, const void *entry);
+// The size of the Dream World save
+u32 func_02009930(void);
 // The Dream Radar's values in the save: 0 whether it was read, 1 the seed of the data, 2 the Pokémon received
 u32 GetDreamRadarFlag(DreamRadarSave *save, u32 flag);
 void SetDreamRadarFlag(DreamRadarSave *save, u32 flag, u32 value);

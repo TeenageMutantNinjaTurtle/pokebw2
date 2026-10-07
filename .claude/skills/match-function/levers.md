@@ -46,7 +46,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 - An extra slot holding a copy of an address-taken local before a nested loop: read its field inside the inner loop,
   not into a local in the outer one. (matching.md: "hoisted only out of the loop it sits in")
-- Stack locals are laid out in reverse declaration order. (matching.md: "reverse declaration order")
+- Stack locals are laid out in reverse declaration order; to read values in one order and slot them in another,
+  declare without initializers and assign later. (matching.md: "reverse declaration order")
 - A struct copied from `.rodata` once before a loop into the lowest slot, then into another slot inside it: a
   local initializer in the loop body. (matching.md: "local initializer inside a loop")
 - Spilled variables get slots in the order they are first assigned, in small functions. In big switches,
@@ -87,6 +88,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - A u16 stack parameter left in its slot and reloaded with `ldrh`, one load shared by two calls: those callees take
   `u32`; check their prototypes against their asm. (matching.md: "reloaded with `ldrh`")
 - An argument loaded before a call among the arguments was passed to an inlined helper that makes the call.
+- A field read before a `sys_memset` (or another call) that could change it was the argument of an inlined helper.
+  (matching.md: "a field read before a call that could change it")
   (matching.md: "inlined helper that makes the call")
 - One load of a struct's pointer field for two stores through it, where ours reloads: an inline helper taking the
   pointer. (matching.md: "Two stores through a pointer")
@@ -111,6 +114,9 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - A `const` table read before I/O register stores: it was written before them. (matching.md: "not moved across stores to I/O")
 
 ## An instruction too many or too few
+
+- A saved register, `bl` and return where the C tail-calls (`ldr r3, =f; bx r3`): the call passes a fourth register
+  argument. (matching.md: "four arguments in registers")
 
 - A narrowing before an `and` into a `u8` field: `x &= mask` narrows the mask, `x = x & mask` doesn't.
   (matching.md: "compound assignment to a narrow field")

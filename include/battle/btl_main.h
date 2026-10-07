@@ -96,8 +96,8 @@ typedef struct {
     s16 unk06;
     s16 unk08;
     s16 unk0A;
-    s16 unk0C[10];
-    s16 unk20[10];
+    // The messages of two kinds, by step, which the cut-ins' message command picks between
+    s16 messages[2][10];
     // The script event each step waits for, -1 for none
     s16 events[10];
     BtlStudioChoice choices[4];
@@ -110,9 +110,12 @@ typedef struct {
 
 // The rules of a scripted battle, which seem to be the Pokestar Studios movies
 typedef struct {
-    u8 unk00[4];
+    s16 movie;
+    u8 unk02[2];
     s16 unk04;
-    u8 unk06[4];
+    s16 unk06;
+    // Which of the studio's message files the movie uses
+    s16 unk08;
     s16 turnLimit;
     s16 unk0C;
     s16 unk0E;
@@ -142,7 +145,7 @@ struct BtlMainModule {
     PokeParty *unk298[4];
     PokeParty *unk2A8[4];
     PokeParty *unk2B8;
-    u32 unk2BC;
+    BtlField *field;
     PartyPkm *unk2C0;
     void *unk2C4;
     BtlRecReader recReader;
@@ -184,7 +187,7 @@ struct BtlMainModule {
     u8 unk473_7 : 1;
     BtlScriptedRules *unk474;
     BtlMainUnk478 *unk478;
-    void *unk47C;
+    PokewoodCutin *cutin;
 };
 
 // An overlay 338 function that btl_main.c calls
@@ -288,7 +291,7 @@ void func_ov167_0219a034(BtlMainModule *mainModule, BtlSetup *setup);
 void func_ov167_0219a0c4(BtlMainModule *mainModule, BtlSetup *setup);
 void func_ov167_0219bd40(BtlMainModule *mainModule);
 BOOL func_ov167_0219bd5c(BtlMainModule *mainModule);
-void func_ov167_0219bde0(BtlMainModule *mainModule);
+s32 func_ov167_0219bde0(BtlMainModule *mainModule);
 void func_ov167_0219bdf0(BtlMainModule *mainModule);
 BOOL func_ov167_0219bdfc(BtlMainModule *mainModule);
 void *func_ov167_0219be48(BtlMainModule *mainModule);
@@ -361,7 +364,7 @@ u32 func_ov167_0219d938(BtlMainModule *mainModule, u8 clientId);
 PMSData *func_ov167_0219d944(BtlMainModule *mainModule, u8 clientId, u32 which);
 PlayerInfo *func_ov167_0219d97c(BtlMainModule *mainModule, u8 clientId);
 PlayerInfo *func_ov167_0219d998(BtlMainModule *mainModule);
-u32 func_ov167_0219d9a8(BtlMainModule *mainModule);
+BtlField *func_ov167_0219d9a8(BtlMainModule *mainModule);
 void func_ov167_0219d9b0(BtlMainModule *mainModule);
 void func_ov167_0219d9e8(BtlMainModule *mainModule);
 void func_ov167_0219da44(BtlMainModule *mainModule, u8 clientId, const PokeParty *party);
@@ -395,7 +398,7 @@ void func_ov167_0219e314(BtlMainModule *mainModule, u8 arg1);
 void func_ov167_0219e378(BtlMainModule *mainModule);
 BtlScriptedRules *func_ov167_0219e39c(BtlMainModule *mainModule);
 void *func_ov167_0219e3ac(BtlMainModule *mainModule);
-void *func_ov167_0219e3bc(BtlMainModule *mainModule);
+PokewoodCutin *func_ov167_0219e3bc(BtlMainModule *mainModule);
 void func_ov167_0219e3c8(void *data);
 
 BOOL func_ov167_021998c0(GameProc *proc, u32 *state, void *param, void *work);
