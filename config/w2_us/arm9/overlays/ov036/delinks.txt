@@ -68,3 +68,33 @@ src/ov036/event_entrance_effect.c:
 src/ov036/enc_pokeset.c:
     .text       start:0x021a0a5c end:0x021a1680
     .rodata     start:0x021d014c end:0x021d02c8
+
+src/ov036/field_menu.c:
+    .text       start:0x0219fa50 end:0x021a0a5c
+    .rodata     start:0x021cfe68 end:0x021d014c
+    .data       start:0x021d4fb4 end:0x021d4fc4
+
+src/ov036/field_encount.c:
+    complete
+    .text       start:0x021a1680 end:0x021a201c
+    .rodata     start:0x021d02c8 end:0x021d02f8
+    .data       start:0x021d4fc4 end:0x021d4fd4
+
+src/ov036/map_attr.c:
+    complete
+    .text       start:0x021a2a10 end:0x021a2f48
+    .rodata     start:0x021d0358 end:0x021d03a8
+
+src/ov036/effect_encount.c:
+    .text       start:0x021a201c end:0x021a2a10
+    .rodata     start:0x021d02f8 end:0x021d0358
+    .data       start:0x021d4fd4 end:0x021d4fe8
+
+src/ov036/fld_scenearea.c:
+    .text       start:0x021a2f48 end:0x021a3138
+    .data       start:0x021d4fe8 end:0x021d4ff8
+
+src/ov036/fld_scenearea_loader.c:
+    .text       start:0x021a3138 end:0x021a36a4
+    .rodata     start:0x021d03a8 end:0x021d03bc
+    .data       start:0x021d4ff8 end:0x021d5038

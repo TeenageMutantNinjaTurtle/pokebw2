@@ -81,7 +81,7 @@ const GameProcFunctions UNOVA_LINK_PROC_FUNCTIONS = {
 
 // The first step of the sequence for each UNOVA_LINK_MODE_*
 static const KeySystemSeqFunc sStartSeqs[] = {
-    func_ov332_021c2b80,
+    KeySystemFlow_SeqGameClear,
     KeySystem_SeqTop,
 };
 
@@ -325,7 +325,7 @@ void KeySystem_SeqWirelessOff(KeySystemSeq *seq, int *state, void *work) {
         KeySystem_CreateMsgWin(wk, HEAPID_KEY_SYSTEM);
         msgData = GFL_MsgSysLoadData(FALSE, ARCID_SCRIPT_MESSAGE, 208, HEAPID_KEY_SYSTEM);
         str = GFL_MsgDataLoadStrbufNew(msgData, 22);
-        KeySystemMsgWin_PrintStr(wk->msgWin, str, 1);
+        KeySystemMsgWin_PrintStr(wk->msgWin, str, KEY_SYSTEM_MSG_STREAM);
         GFL_StrBufFree(str);
         GFL_MsgDataFree(msgData);
         GFL_BGSysQueueScrLoad(0);
@@ -735,7 +735,7 @@ void KeySystem_Setup(KeySystemWork *wk, HeapID heapId) {
     wk->ov331Work = func_ov331_021bea20(heapId);
     data = func_ov331_021bee80(wk->ov331Work);
     save = GameData_GetSaveControl(wk->param->gameData);
-    wk->unk104 = func_02010470(data);
+    wk->memoryLink = func_02010470(data);
     if (SaveControl_IsDataAlreadyPresent(save)) {
         wk->keyInfo = getKeyInfoSaveBlk(save);
     } else {
@@ -752,8 +752,8 @@ void KeySystem_Setup(KeySystemWork *wk, HeapID heapId) {
     KeySystemClAct_Init(&wk->clact, wk->graphic, heapId);
     KeySystemClAct_LoadResources(&wk->clact, heapId);
     wk->scene = KeySystemScene_Create(wk, heapId);
-    func_ov332_021c2b18(wk, HEAPID_KEY_SYSTEM);
-    func_ov332_021c53dc(wk, HEAPID_KEY_SYSTEM);
+    KeySystemFlow_Init(wk, HEAPID_KEY_SYSTEM);
+    DataConvert_Init(wk, HEAPID_KEY_SYSTEM);
     func_ov332_021c7028(wk, HEAPID_KEY_SYSTEM);
     KeySystem_CreateDefaultTitleWin(wk, heapId);
     if (wk->preloadedSeqs == 0) {
@@ -769,7 +769,7 @@ void KeySystem_Teardown(KeySystemWork *wk, BOOL keepSounds) {
         wk->preloadedSeqs = 0;
     }
     func_ov332_021c704c(wk);
-    func_ov332_021c2b5c(wk);
+    KeySystemFlow_Exit(wk);
     KeySystemScene_Abort(wk->scene);
     if (wk->titleWin != NULL) {
         KeySystem_FreeTitleWin(wk);
@@ -840,7 +840,7 @@ void KeySystem_FreeTitleWin(KeySystemWork *wk) {
 void KeySystem_CreateTitleWin(KeySystemWork *wk, u8 width, HeapID heapId) {
     wk->titleWin = KeySystemMsgWin_Create(0, 0, 1, width, 2, 14, wk->font, heapId);
     KeySystemMsgWin_SetColor(wk->titleWin, PRINT_COLOR(1, 2, 0));
-    KeySystemMsgWin_SetPos(wk->titleWin, 0, 0, 1);
+    KeySystemMsgWin_SetPos(wk->titleWin, 0, 0, KEY_SYSTEM_ALIGN_CENTER);
 }
 
 void KeySystem_CreateInfoWin(KeySystemWork *wk, HeapID heapId) {
@@ -921,7 +921,7 @@ static void KeySystem_SeqSaveCorrupted(KeySystemSeq *seq, int *state, void *work
         (*state)++;
         break;
     case 2:
-        KeySystemMsgWin_PrintMsg(wk->msgWin, wk->msgData, 161, 1);
+        KeySystemMsgWin_PrintMsg(wk->msgWin, wk->msgData, 161, KEY_SYSTEM_MSG_STREAM);
         (*state)++;
         break;
     case 3:
@@ -954,7 +954,8 @@ static void KeySystem_SeqTopMenu(KeySystemSeq *seq, int *state, void *work) {
     case 1:
         KeySystemList_Update(wk->list);
         if (KeySystemList_IsChanged(wk->list) && KeySystemMsgWin_IsDone(wk->infoWin)) {
-            KeySystemMsgWin_PrintMsg(wk->infoWin, wk->msgData, KeySystemList_GetCursor(wk->list) + 72, 0);
+            KeySystemMsgWin_PrintMsg(wk->infoWin, wk->msgData, KeySystemList_GetCursor(wk->list) + 72,
+                                     KEY_SYSTEM_MSG_PRINT);
         }
         if (KeySystemList_IsDecided(wk->list)) {
             wk->choice = KeySystemList_GetCursor(wk->list);
@@ -974,11 +975,11 @@ static void KeySystem_SeqTopMenu(KeySystemSeq *seq, int *state, void *work) {
         switch (wk->choice) {
         case TOP_MENU_KEY_SYSTEM:
             KeySystemBG_StartFade(wk->bg, KEY_SYSTEM_BG_FADE_1_TO_0, 30);
-            KeySystemSeq_Push(seq, func_ov332_021c2cd4);
+            KeySystemSeq_Push(seq, KeySystemFlow_SeqMenu);
             break;
         case TOP_MENU_MEMORY_LINK:
             KeySystemBG_StartFade(wk->bg, KEY_SYSTEM_BG_FADE_2_TO_0, 30);
-            KeySystemSeq_Push(seq, func_ov332_021c53e0);
+            KeySystemSeq_Push(seq, DataConvert_SeqMenu);
             break;
         case TOP_MENU_DREAM_RADAR:
             KeySystemBG_StartFade(wk->bg, KEY_SYSTEM_BG_FADE_3_TO_0, 30);
@@ -1064,9 +1065,9 @@ static void KeySystemTopScene_Init(void *work, HeapID heapId) {
     setup.items[2].msgId = 162;
     setup.items[3].msgId = 71;
     wk->list = KeySystemList_Create(&setup, heapId);
-    KeySystemMsgWin_PrintMsg(wk->titleWin, wk->msgData, 84, 0);
+    KeySystemMsgWin_PrintMsg(wk->titleWin, wk->msgData, 84, KEY_SYSTEM_MSG_PRINT);
     KeySystem_CreateInfoWin(wk, heapId);
-    KeySystemMsgWin_PrintMsg(wk->infoWin, wk->msgData, KeySystemList_GetCursor(wk->list) + 72, 0);
+    KeySystemMsgWin_PrintMsg(wk->infoWin, wk->msgData, KeySystemList_GetCursor(wk->list) + 72, KEY_SYSTEM_MSG_PRINT);
     KeySystemBG_LoadScreen(wk->bg, 2, 0);
 }
 
@@ -1100,8 +1101,8 @@ static void KeySystemMsgScene_Init(void *work, HeapID heapId) {
     KeySystemWork *wk = work;
 
     KeySystem_CreateMsgWin(wk, heapId);
-    KeySystemMsgWin_PrintMsg(wk->msgWin, wk->msgData, 0, 0);
-    KeySystemMsgWin_PrintMsg(wk->titleWin, wk->msgData, 84, 0);
+    KeySystemMsgWin_PrintMsg(wk->msgWin, wk->msgData, 0, KEY_SYSTEM_MSG_PRINT);
+    KeySystemMsgWin_PrintMsg(wk->titleWin, wk->msgData, 84, KEY_SYSTEM_MSG_PRINT);
     KeySystemBG_LoadScreen(wk->bg, 2, 0);
 }
 

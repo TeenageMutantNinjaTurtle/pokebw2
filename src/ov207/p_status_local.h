@@ -72,6 +72,20 @@ typedef struct {
     void *file;
 } PStaScreen;
 
+// What PStaOam_CreateActor makes the sprites of a bitmap from: the bitmap is cut into 64x32 actors, which take the
+// palette at its offset and the surface's OBJ mapping
+typedef struct {
+    GFLBitmap *bitmap;
+    s16 x;
+    s16 y;
+    u32 palette;
+    u32 paletteOffset;
+    u8 priority;
+    u8 bgPriority;
+    u16 surface;
+    u32 vramType;
+} PStaOamSetup;
+
 struct PStatusWork {
     HeapID heapId;
     TCB *vblankTcb;
@@ -175,38 +189,61 @@ void PStaInfo_Unload(PStatusWork *wk, PStaInfoWork *info);
 void PStaInfo_Clear(PStatusWork *wk, PStaInfoWork *info);
 
 // p_sta_ribbon.c
-PStaRibbonWork *func_ov207_021b7644(PStatusWork *wk);
-void func_ov207_021b767c(PStatusWork *wk, PStaRibbonWork *ribbon);
-void func_ov207_021b7690(PStatusWork *wk, PStaRibbonWork *ribbon);
-void func_ov207_021b76e4(PStatusWork *wk, PStaRibbonWork *ribbon, ArcTool *arc);
-void func_ov207_021b7764(PStatusWork *wk, PStaRibbonWork *ribbon);
-void func_ov207_021b7798(PStatusWork *wk, PStaRibbonWork *ribbon);
-void func_ov207_021b785c(PStatusWork *wk, PStaRibbonWork *ribbon);
-void func_ov207_021b7db0(PStatusWork *wk, PStaRibbonWork *ribbon);
-void func_ov207_021b7e0c(PStatusWork *wk, PStaRibbonWork *ribbon);
-void func_ov207_021b7efc(PStatusWork *wk, PStaRibbonWork *ribbon);
-void func_ov207_021b7f20(PStatusWork *wk, PStaRibbonWork *ribbon);
-void func_ov207_021b7f7c(PStatusWork *wk, PStaRibbonWork *ribbon);
-void func_ov207_021b804c(PStatusWork *wk, PStaRibbonWork *ribbon);
+PStaRibbonWork *PStaRibbon_Create(PStatusWork *wk);
+void PStaRibbon_Free(PStatusWork *wk, PStaRibbonWork *ribbon);
+void PStaRibbon_Main(PStatusWork *wk, PStaRibbonWork *ribbon);
+void PStaRibbon_LoadResources(PStatusWork *wk, PStaRibbonWork *ribbon, ArcTool *arc);
+void PStaRibbon_FreeResources(PStatusWork *wk, PStaRibbonWork *ribbon);
+void PStaRibbon_CreateActors(PStatusWork *wk, PStaRibbonWork *ribbon);
+void PStaRibbon_FreeActors(PStatusWork *wk, PStaRibbonWork *ribbon);
+void PStaRibbon_Load(PStatusWork *wk, PStaRibbonWork *ribbon);
+void PStaRibbon_Draw(PStatusWork *wk, PStaRibbonWork *ribbon);
+void PStaRibbon_Unload(PStatusWork *wk, PStaRibbonWork *ribbon);
+void PStaRibbon_Clear(PStatusWork *wk, PStaRibbonWork *ribbon);
+void PStaRibbon_LoadPokemon(PStatusWork *wk, PStaRibbonWork *ribbon);
+void PStaRibbon_UnloadPokemon(PStatusWork *wk, PStaRibbonWork *ribbon);
 
 // p_sta_skill.c
-PStaSkillWork *func_ov207_021b8510(PStatusWork *wk);
-void func_ov207_021b8594(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b85a0(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b87e0(PStatusWork *wk, PStaSkillWork *skill, ArcTool *arc);
-void func_ov207_021b8864(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b88ac(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b8a34(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b8a9c(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b8b30(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b8ba4(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b8bf4(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b9510(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b9610(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b96b8(PStatusWork *wk, PStaSkillWork *skill);
-void func_ov207_021b9728(PStatusWork *wk, PStaSkillWork *skill);
+PStaSkillWork *PStaSkill_Create(PStatusWork *wk);
+void PStaSkill_Free(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_Main(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_LoadResources(PStatusWork *wk, PStaSkillWork *skill, ArcTool *arc);
+void PStaSkill_FreeResources(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_CreateActors(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_FreeActors(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_Load(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_Draw(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_Unload(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_Clear(PStatusWork *wk, PStaSkillWork *skill);
+// The same for the page that picks a move to forget
+void PStaSkill_LoadForget(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_DrawForget(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_UnloadForget(PStatusWork *wk, PStaSkillWork *skill);
+void PStaSkill_ClearForget(PStatusWork *wk, PStaSkillWork *skill);
 
-// ribbon.c
-u32 func_ov207_021bad9c(u32 ribbon, u32 field);
+// p_sta_oam.c
+PStaOam *PStaOam_Create(HeapID heapId, ClActUnit *unit);
+void PStaOam_Free(PStaOam *oam);
+PStaOamActor *PStaOam_CreateActor(PStaOam *oam, const PStaOamSetup *setup);
+void PStaOam_FreeActor(PStaOamActor *actor);
+void PStaOam_SetVisible(PStaOamActor *actor, BOOL visible);
+void PStaOam_Upload(PStaOamActor *actor);
+void PStaOam_SetPosition(PStaOamActor *actor, s16 x, s16 y);
+void PStaOam_SwapBitmaps(PStaOamActor *a, PStaOamActor *b);
+
+// ribbon.c: the table of the 80 ribbons
+enum {
+    RIBBON_DATA_PARAM,
+    RIBBON_DATA_ICON,
+    RIBBON_DATA_PALETTE,
+    RIBBON_DATA_NAME,
+    RIBBON_DATA_DESCRIPTION,
+    RIBBON_DATA_CATEGORY,
+};
+
+#define RIBBON_COUNT 80
+
+u32 Ribbon_GetData(u32 ribbon, u32 field);
+u32 Ribbon_GetDescription(u32 ribbon);
 
 #endif // POKEBW2_OV207_P_STATUS_LOCAL_H

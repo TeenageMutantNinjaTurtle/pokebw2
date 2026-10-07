@@ -178,11 +178,12 @@ void KeySystemNet_SetMode(KeySystemNet *net, u32 mode) {
     }
 }
 
-void KeySystemNet_Request(KeySystemNet *net, u32 request, const KeySystemNetRequest *params) {
+void KeySystemNet_Request(KeySystemNet *net, u32 request, const void *params) {
     KeySystemSeqFunc func;
 
     KeySystemNet_CanRequest(net, request);
     if (params != NULL) {
+        // BUG: The parameters are smaller than the union, so this reads past them on the caller's stack
         sys_memcpy(params, &net->request, sizeof(KeySystemNetRequest));
     }
     switch (request) {
@@ -548,7 +549,7 @@ static void KeySystemNet_SeqOv181Start(KeySystemSeq *seq, int *state, void *work
     switch (*state) {
     case 0:
         request->ov181.result = 0;
-        func_ov181_021a0470(net->ov181Work, request->ov181.a, request->ov181.b);
+        func_ov181_021a0470(net->ov181Work, request->ov181.text, request->ov181.title);
         (*state)++;
         break;
     case 1:
@@ -593,8 +594,8 @@ static void KeySystemNet_SeqOv181End(KeySystemSeq *seq, int *state, void *work) 
         break;
     case 2:
         request->ov181End.done = TRUE;
-        request->ov181End.a = func_ov181_021a0484(net->ov181Work);
-        request->ov181End.b = func_ov181_021a0488(net->ov181Work);
+        request->ov181End.result = func_ov181_021a0484(net->ov181Work);
+        request->ov181End.data = func_ov181_021a0488(net->ov181Work);
         KeySystemSeq_Set(seq, KeySystemNet_SeqIdle);
         break;
     }
@@ -611,8 +612,8 @@ static void KeySystemNet_SeqWifiPost(KeySystemSeq *seq, int *state, void *work) 
         net->hasReceived = FALSE;
         request->wifi.result = 0;
         net->http = func_ov189_0219d1b8(net->heapId, func_02008bdc(GetGameDataPlayerInfo(net->gameData)), net->buffer);
-        func_ov189_0219d3bc(net->http, request->wifi.a, request->wifi.b);
-        if (func_ov189_0219d05c(10, request->wifi.data, net->http)) {
+        func_ov189_0219d3bc(net->http, request->wifi.buffer, request->wifi.size);
+        if (func_ov189_0219d05c(10, request->wifi.id, net->http)) {
             *state = 1;
         }
         net->timer = 0;

@@ -16,7 +16,7 @@
 #include "gfl/str.h"
 #include "pml/item.h"
 #include "save/box.h"
-#include "system/app_common.h"
+#include "system/app_menu_common.h"
 #include "system/bgwinfrm.h"
 #include "system/bmp_oam.h"
 #include "system/bmp_winframe.h"
@@ -425,8 +425,8 @@ static void func_ov255_021cebec(Box2SysWork *syswk, u32 index, u32 msgId) {
 
 // Makes a frame of a window's size on its BG, which shows the window
 static void func_ov255_021cec04(BGWinFrame *frames, u32 index, BmpWin *window) {
-    func_02033150(frames, index, BmpWin_GetBGIndex(window), BmpWin_GetSizeX(window), BmpWin_GetSizeY(window));
-    func_020335c4(frames, index, window);
+    BGWinFrame_InitFrame(frames, index, BmpWin_GetBGIndex(window), BmpWin_GetSizeX(window), BmpWin_GetSizeY(window));
+    BGWinFrame_WriteBmpWin(frames, index, window);
 }
 
 void func_ov255_021cec40(Box2AppWork *app) {
@@ -509,13 +509,13 @@ void func_ov255_021cedb4(Box2SysWork *syswk, u32 tray, u32 index) {
 static void func_ov255_021cee54(Box2SysWork *syswk) {
     func_ov255_021cebd4(syswk, 20, 84, FALSE);
     func_ov255_021cebd4(syswk, 21, 85, TRUE);
-    func_02033558(syswk->app->bgWinFrame, 7, 0, 9, 11, 3, 12);
-    func_02033558(syswk->app->bgWinFrame, 7, 0, 12, 11, 3, 12);
+    BGWinFrame_SetPalette(syswk->app->bgWinFrame, 7, 0, 9, 11, 3, 12);
+    BGWinFrame_SetPalette(syswk->app->bgWinFrame, 7, 0, 12, 11, 3, 12);
 }
 
 void func_ov255_021ceea4(Box2SysWork *syswk) {
-    func_020335c4(syswk->app->bgWinFrame, 7, syswk->app->windows[20].window);
-    func_020335c4(syswk->app->bgWinFrame, 7, syswk->app->windows[21].window);
+    BGWinFrame_WriteBmpWin(syswk->app->bgWinFrame, 7, syswk->app->windows[20].window);
+    BGWinFrame_WriteBmpWin(syswk->app->bgWinFrame, 7, syswk->app->windows[21].window);
     func_ov255_021cee54(syswk);
 }
 
@@ -523,7 +523,7 @@ void func_ov255_021ceed0(Box2SysWork *syswk, const Box2MenuItem *items, u32 coun
     u16 width, height;
     u32 i = 0;
 
-    func_020336c8(syswk->app->bgWinFrame, 0, &width, &height);
+    BGWinFrame_GetSize(syswk->app->bgWinFrame, 0, &width, &height);
     for (; i < count; i++) {
         const Box2MenuItem *item = &items[count - 1 - i];
 
@@ -532,7 +532,7 @@ void func_ov255_021ceed0(Box2SysWork *syswk, const Box2MenuItem *items, u32 coun
         } else {
             func_ov255_021cebd4(syswk, 19 - i, item->msgId, TRUE);
         }
-        func_02033558(syswk->app->bgWinFrame, 5 - i, 0, 0, width, height, 12);
+        BGWinFrame_SetPalette(syswk->app->bgWinFrame, 5 - i, 0, 0, width, height, 12);
     }
     for (; count < 6; count++) {
         u32 index = 19 - count;

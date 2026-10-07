@@ -21,14 +21,14 @@ static const s32 DIRECTION_VEC_Z[4] = { -1, 1, 0, 0 };
 
 static const s32 DIRECTION_VEC_X[4] = { 0, 0, -1, 1 };
 
-static BOOL (*const TILE_ENTER_BLOCK_CHECKS[4])(u32 tileClass) = {
+static BOOL (*const TILE_ENTER_BLOCK_CHECKS[4])(u16 tileClass) = {
     TileExitBlockCheck_Down,
     TileExitBlockCheck_Up,
     TileExitBlockCheck_Right,
     TileExitBlockCheck_Left,
 };
 
-static BOOL (*const TILE_EXIT_BLOCK_CHECKS[4])(u32 tileClass) = {
+static BOOL (*const TILE_EXIT_BLOCK_CHECKS[4])(u16 tileClass) = {
     TileExitBlockCheck_Up,
     TileExitBlockCheck_Down,
     TileExitBlockCheck_Left,
@@ -635,7 +635,7 @@ BOOL CheckBlockedCollPathToPosition(FieldActor *actor, u16 dir, VecFx32 position
     u8 i;
     u32 tileType;
     u8 height;
-    u32 tileClass;
+    u16 tileClass;
     VecFx32 rowPosition;
     VecFx32 tilePosition;
 

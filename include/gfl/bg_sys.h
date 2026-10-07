@@ -112,7 +112,7 @@ void GFL_BGSysSet3DBGPriority(u16 priority);
 void GFL_BGSysSetBGPriority(u32 bg, u32 priority);
 void GFL_BGSysSetBGEnabled(u8 bg, u8 enabled);
 // Moves a BG now, with a BG_MOVE_* change, or at the next update
-void GFL_BGSysMoveBG(u8 bg, u32 op, int value);
+void GFL_BGSysMoveBG(u8 bg, u8 op, int value);
 void GFL_BGSysMoveBGReq(u8 bg, u32 op, int value);
 int GFL_BGSysGetBGOffsetX(u8 bg);
 int GFL_BGSysGetBGOffsetY(u8 bg);

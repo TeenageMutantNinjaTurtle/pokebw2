@@ -224,6 +224,7 @@ typedef enum {
 #define GX_VRAM_BG_128_A GX_VRAM_A
 #define GX_VRAM_BG_128_B GX_VRAM_B
 #define GX_VRAM_BG_128_D GX_VRAM_D
+#define GX_VRAM_BG_256_AB (GX_VRAM_A | GX_VRAM_B)
 #define GX_VRAM_BGEXTPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_BGEXTPLTT_23_G GX_VRAM_G
 #define GX_VRAM_SUB_BG_32_H GX_VRAM_H
@@ -513,6 +514,8 @@ typedef enum {
 #define GX_CAPTURE_MODE_AB 2
 #define GX_CAPTURE_SRCA_2D3D 0
 #define GX_CAPTURE_SRCB_VRAM_0x00000 0
+#define GX_CAPTURE_DEST_VRAM_A_0x00000 0
+#define GX_CAPTURE_DEST_VRAM_B_0x00000 1
 #define GX_CAPTURE_DEST_VRAM_C_0x00000 2
 #define GX_CAPTURE_DEST_VRAM_D_0x00000 3
 
@@ -551,6 +554,11 @@ static inline void GX_SetVisibleWnd(int window) {
                      (window << REG_GX_DISPCNT_W0_SHIFT);
 }
 
+static inline int GX_GetVisibleWnd(void) {
+    return (reg_GX_DISPCNT & (REG_GX_DISPCNT_W0_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_OW_MASK)) >>
+           REG_GX_DISPCNT_W0_SHIFT;
+}
+
 static inline void GXS_SetVisibleWnd(int window) {
     reg_GXS_DB_DISPCNT =
         (reg_GXS_DB_DISPCNT & ~(REG_GX_DISPCNT_W0_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_OW_MASK)) |
@@ -564,6 +572,17 @@ static inline void GXS_SetVisibleWnd(int window) {
 #define REG_G2_WININ_WIN1IN_MASK 0x3f00
 #define REG_G2_WINOUT_WINOUT_MASK 0x003f
 #define G2_WND_EFFECT 0x20
+
+// The planes outside all windows, and whether color effects apply there, as the register's low byte
+typedef struct {
+    u8 planeMask : 5;
+    u8 effect : 1;
+    u8 : 2;
+} GXWndPlane;
+
+static inline GXWndPlane G2_GetWndOutsidePlane(void) {
+    return *(volatile GXWndPlane *)&reg_G2_WINOUT;
+}
 
 static inline void G2_SetWnd0InsidePlane(int wnd, BOOL effect) {
     u32 tmp = (reg_G2_WININ & ~REG_G2_WININ_WIN0IN_MASK) | wnd;
@@ -1189,7 +1208,8 @@ void gfxAcquireObjBanksA(void);
 void gfxAcquireObjExtPltBanksA(void);
 void gfxAcquireObjBanksB(void);
 void gfxAcquireObjExtPltBanksB(void);
-void gfxAcquireTextureBanks(void);
+// Returns the banks the textures had, as GX_ResetBankForTex does
+u32 gfxAcquireTextureBanks(void);
 void gfxAcquirePaletteBanks(void);
 void gfxSetBGBanksA(u32 banks);
 void gfxSetBGExtPltBanksA(u32 banks);
@@ -1202,6 +1222,8 @@ void gfxSetObjExtPltBanksA(u32 banks);
 void gfxSetObjBanksB(u32 banks);
 void gfxSetObjExtPltBanksB(u32 banks);
 void gfxSetTextureBanks(u32 banks);
+// NitroSDK's GX_GetBankForTex
+u32 gfxGetTextureBanks(void);
 void gfxSetPaletteBanks(u32 banks);
 // NitroSDK's GX_DisableBankForSubBG and GX_DisableBankForSubOBJ
 void gfxDisableBGBanksB(void);
@@ -1215,6 +1237,10 @@ void gfxEngineEnableA(void);
 // VRAM as the CPU sees it with every bank given to it, and OAM
 #define HW_LCDC_VRAM 0x06800000
 #define HW_LCDC_VRAM_SIZE 0xa4000
+#define HW_LCDC_VRAM_A 0x06800000
+#define HW_LCDC_VRAM_B 0x06820000
+#define HW_LCDC_VRAM_C 0x06840000
+#define HW_LCDC_VRAM_D 0x06860000
 // The sub engine's OBJ characters
 #define HW_DB_OBJ_VRAM 0x06600000
 #define HW_OAM 0x07000000
@@ -1269,6 +1295,8 @@ static inline void GXS_DispOn(void) {
 // NitroSDK's G3X_Reset, G3X_ResetMtxStack and G3X_GetBoxTestResult, under swan's names. The box test result is 0 when
 // the box is outside the view, and the function returns nonzero while the test is still running
 void gfxReset3D(void);
+// NitroSDK's G3X_Init, under swan's name
+void gfxInit3D(void);
 // NitroSDK's G3i_LookAt_, which loads the camera matrix into the geometry engine when isLoad is set, G3_RotX, G3_RotY,
 // G3_RotZ and G3_MultTransMtx33, under swan's names
 void gfxLookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, BOOL isLoad, MtxFx43 *mtx);

@@ -354,7 +354,7 @@ void MysteryMsgWin_Delete(MysteryMsgWin *win) {
         win->stream = NULL;
     }
     if (win->waitIcon != NULL) {
-        func_0203580c(win->waitIcon);
+        WaitIcon_Free(win->waitIcon);
         win->waitIcon = NULL;
     }
     if (win->keyCursor != NULL) {
@@ -410,7 +410,7 @@ static void MysteryMsgWin_PrintStr(MysteryMsgWin *win, u32 mode) {
     MysteryMsgWin_EndWait(win);
     switch (mode) {
     case PRINT_MODE_WAIT_ICON:
-        win->waitIcon = func_02035604(GFL_VBlankGetTCBMgr(), win->window, (u8)win->bgColor, 16, win->heapId);
+        win->waitIcon = WaitIcon_Create(GFL_VBlankGetTCBMgr(), win->window, (u8)win->bgColor, 16, win->heapId);
         MysteryMsgWin_PrintQueue(&win->printWindow, win->queue, win->str, win->font);
         win->mode = PRINT_MODE_QUEUE;
         break;
@@ -442,7 +442,7 @@ void MysteryMsgWin_DrawFrame(MysteryMsgWin *win, u16 frameChar, u8 framePalette)
 static void MysteryMsgWin_EndWait(MysteryMsgWin *win) {
     win->done = TRUE;
     if (win->waitIcon != NULL) {
-        func_0203580c(win->waitIcon);
+        WaitIcon_Free(win->waitIcon);
         win->waitIcon = NULL;
         BmpWin_FlushMap(win->window);
         GFL_BGSysLoadScr(BmpWin_GetBGIndex(win->window));

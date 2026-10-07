@@ -340,12 +340,12 @@ s32 PML_ItemGetParam(ItemData *data, u32 param) {
         return data->battlePocket;
     case ITEM_PARAM_WORK_TYPE:
         return data->workType;
-    case ITEM_PARAM_UNK_D:
-        return data->unkD;
+    case ITEM_PARAM_KIND:
+        return data->kind;
     case ITEM_PARAM_UNK_E:
         return data->unkE;
-    case ITEM_PARAM_UNK_F:
-        return data->unkF;
+    case ITEM_PARAM_SORT_INDEX:
+        return data->sortIndex;
     default:
         switch (data->workType) {
         case ITEM_WORK_VALUE:

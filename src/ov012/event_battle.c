@@ -42,9 +42,11 @@
 #include "save/save_control.h"
 #include "save/traded_pokemon.h"
 #include "system/aeabi.h"
+#include "system/comm_player_support.h"
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
+#include "system/zone_weather.h"
 
 // The work of EventBattleCall_Callback, the battle itself
 typedef struct {
@@ -188,11 +190,11 @@ static GameEventReturnCode EventWildBattleCall_Callback(GameEvent *event, u32 *s
             PokeParty_RecoverAll(GameData_GetParty(gameData));
         }
         if (wk->unk08 == 1) {
-            func_02034ebc(func_0201798c(gameData));
+            CommPlayerSupport_Init(GameData_GetCommPlayerSupport(gameData));
             return GAMEEVENT_DONE;
         }
         if (defeat) {
-            func_02034ebc(func_0201798c(gameData));
+            CommPlayerSupport_Init(GameData_GetCommPlayerSupport(gameData));
             GameEvent_Replace(event, EventBattleLose_Create(gsys));
         } else {
             GameEvent_ChainNext(event, CallFieldMapEntranceInTransition(gsys, GSYS_GetField(gsys), 0, 0, 1, 0, 0));
@@ -204,7 +206,7 @@ static GameEventReturnCode EventWildBattleCall_Callback(GameEvent *event, u32 *s
         (*state)++;
         break;
     case 3:
-        func_02034ebc(func_0201798c(gameData));
+        CommPlayerSupport_Init(GameData_GetCommPlayerSupport(gameData));
         return GAMEEVENT_DONE;
     }
     return GAMEEVENT_CONTINUE;
@@ -361,8 +363,8 @@ GameEvent *EventCaptureDemo_Create(GameSystem *gsys, Field *field, HeapID heapId
     PokeParty_SetMove(pkm, 0, 3);
     PokeParty_AddPkm(enemyParty, pkm);
     SaveBtlFieldStatus(&status, gameData, field);
-    status.unk4 = 5;
-    status.unk0 = 1;
+    status.terrain = 5;
+    status.bgId = 1;
     BtlSetup_SetCaptureDemo(setup, gameData, party, enemyParty, &status, heapId);
     GFL_HeapFree(pkm);
     GFL_HeapFree(enemyParty);
@@ -423,7 +425,7 @@ static GameEventReturnCode EventBattleCall_Callback(GameEvent *event, u32 *state
         break;
     case 3:
         FieldStatus_SetBusyFlag(GameData_GetFieldStatus(gameData), TRUE);
-        func_02034ebc(func_0201798c(gameData));
+        CommPlayerSupport_Init(GameData_GetCommPlayerSupport(gameData));
         GSYS_QueueProcAsEvent(event, OVERLAY_ID(167), &data_ov167_021d6ce0, wk->setup);
         (*state)++;
         break;
@@ -441,7 +443,7 @@ static GameEventReturnCode EventBattleCall_Callback(GameEvent *event, u32 *state
         GFL_OvlLoad(OVERLAY_ID(337));
         func_ov337_02180bdc();
         FieldStatus_SetBusyFlag(GameData_GetFieldStatus(gameData), FALSE);
-        func_02034f14(func_0201798c(gameData));
+        CommPlayerSupport_EndBattle(GameData_GetCommPlayerSupport(gameData));
         index = OS_GetVBlankCount() & 1;
         data_ov337_02182440 = index;
         data_ov337_02182444[index] = func_ov012_02169170;

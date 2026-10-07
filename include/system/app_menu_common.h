@@ -21,18 +21,18 @@
 #define APP_STATUS_ICON_FAINTED 6
 #define APP_STATUS_ICON_NONE 8
 
-u32 func_0202d7d8(void);
+BOOL func_0202d7d8(void);
 void func_0202d7dc(void);
 u32 getUINarcIdx(void);
 
 // The type and contest category icons: the palette, each icon's palette within it, the icons, cells and animations
 u32 func_0202d7e4(void);
-u8 func_0202d7e8(u32 type);
-u32 func_0202d7f4(u32 type);
+u8 func_0202d7e8(u8 type);
+u32 func_0202d7f4(u8 type);
 u32 func_0202d7f8(u32 mapping);
 u32 func_0202d7fc(u32 mapping);
-u8 func_0202d800(u32 index);
-u32 func_0202d80c(u32 index);
+u8 func_0202d800(u8 index);
+u32 func_0202d80c(u8 index);
 
 // The touch bar's icons: their palette, characters, and cells and animations for an OBJ VRAM mapping mode
 u32 func_0202d810(void);
@@ -69,11 +69,12 @@ u32 func_0202d90c(u32 mapping);
 u32 func_0202d910(u32 mapping);
 u32 func_0202d914(u32 mapping);
 u32 func_0202d918(u32 mapping);
-// Mapping 0 counts as 4
-u32 func_0202d91c(u32 mapping);
-u32 func_0202d928(u32 mapping);
-u32 func_0202d934(u32 unused, u32 mapping);
-u32 func_0202d93c(u32 unused, u32 mapping);
+// The files of a Poké Ball's icon: its palette and characters, where ball 0 counts as 4, then its cells and
+// animations, the same for every ball
+u32 func_0202d91c(u32 ball);
+u32 func_0202d928(u32 ball);
+u32 func_0202d934(u32 ball, u32 mapping);
+u32 func_0202d93c(u32 ball, u32 mapping);
 u32 func_0202d944(void);
 u32 func_0202d948(u32 mapping);
 u32 func_0202d94c(u32 mapping);

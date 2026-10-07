@@ -26,3 +26,36 @@ src/ov185/pmsi_initial_data.c:
     complete
     .text       start:0x0219ead4 end:0x0219eb70
     .rodata     start:0x021a7088 end:0x021a7198
+
+src/ov185/pmsiv_category.c:
+    complete
+    .text       start:0x0219eb70 end:0x0219f53c
+    .rodata     start:0x021a7198 end:0x021a71b0
+    .data       start:0x021a7524 end:0x021a7538
+
+src/ov185/pmsiv_tool.c:
+    complete
+    .text       start:0x021a006c end:0x021a0270
+    .rodata     start:0x021a71b0 end:0x021a71b4
+
+src/ov185/pmsiv_edit.c:
+    complete
+    .text       start:0x0219f53c end:0x021a006c
+    .data       start:0x021a7538 end:0x021a7548
+
+src/ov185/pmsiv_menu.c:
+    complete
+    .text       start:0x021a0270 end:0x021a0d64
+    .rodata     start:0x021a71b4 end:0x021a71d0
+    .data       start:0x021a7548 end:0x021a7558
+
+src/ov185/pms_input.c:
+    complete
+    .text       start:0x021a0d64 end:0x021a3124
+    .rodata     start:0x021a71d0 end:0x021a72b4
+    .data       start:0x021a7558 end:0x021a7564
+
+src/ov185/pmsiv_wordwin.c:
+    complete
+    .text       start:0x021a3124 end:0x021a3a14
+    .data       start:0x021a7564 end:0x021a7574

@@ -32,7 +32,7 @@ u32 getGameOrigin(GameCommSys *commSys) {
 #endif
 }
 
-u32 getSeasonFromPlayerData(GameCommSys *commSys) {
+u8 getSeasonFromPlayerData(GameCommSys *commSys) {
     return GameData_GetSeason(getBasePlayerBlk(commSys));
 }
 

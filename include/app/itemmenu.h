@@ -22,6 +22,8 @@
 
 // The number of rows the item list shows
 #define ITEMMENU_LIST_ROWS 6
+// The rows of OBJ the list draws its items with, one more above and below the rows it shows
+#define ITEMMENU_ROW_OBJS 8
 
 typedef void (*ItemMenuState)(ItemMenuWork *work);
 
@@ -42,7 +44,8 @@ struct ItemMenuWork {
     PrintWindow pocketNameWindow;
     PrintQueue *printQueue;
     PrintStream *printStream;
-    u32 unk518;
+    // Whether the message was resumed after a pause
+    BOOL streamResumed;
     KeyCursor *keyCursor;
     MsgData *msgData;
     WordSet *wordSet;
@@ -79,11 +82,11 @@ struct ItemMenuWork {
     u32 typeIconPlt;
     u32 typeIconCel;
     u32 categoryIconChr[3];
-    u32 rowNameChr[8];
-    GFLBitmap *rowNameBitmaps[8];
-    ClActor *rowNames[8];
-    u32 rowMarkTypes[8];
-    ClActor *rowMarks[8];
+    u32 rowNameChr[ITEMMENU_ROW_OBJS];
+    GFLBitmap *rowNameBitmaps[ITEMMENU_ROW_OBJS];
+    ClActor *rowNames[ITEMMENU_ROW_OBJS];
+    u32 rowMarkTypes[ITEMMENU_ROW_OBJS];
+    ClActor *rowMarks[ITEMMENU_ROW_OBJS];
     ButtonMan *buttonMan;
     TCB *vblankTask;
     ClActUnit *actorUnit;
@@ -138,7 +141,7 @@ struct ItemMenuWork {
     u32 result;
     u32 menuAction;
     s32 item;
-    void *paletteAnim;
+    BlinkPalAnm *paletteAnim;
     PaletteFade *paletteFade;
     BOOL buttonsActive;
     BOOL touchHeld;

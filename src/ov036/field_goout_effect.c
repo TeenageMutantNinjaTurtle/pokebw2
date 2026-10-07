@@ -11,6 +11,7 @@
 #include "gfl/random.h"
 #include "nitro/fx.h"
 #include "system/game_data.h"
+#include "system/zone_weather.h"
 
 FieldLensFlare *FieldLensFlare_Create(GameSystem *gameSystem, GameData *gameData, FieldExpObjSystem *expObjSys,
                                       u32 effectIndex, u32 dayPeriod, HeapID heapId) {

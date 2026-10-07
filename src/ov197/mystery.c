@@ -594,7 +594,7 @@ static void MysterySeq_Top(MysterySeq *seq, u32 *state, void *work) {
                 } else {
                     *state = 16;
                 }
-            } else if (!func_02035318()) {
+            } else if (!isWirelessEnabled()) {
                 MysterySeq_SetNext(seq, MysterySeq_WirelessOff);
             } else {
                 *state = 2;
@@ -1766,9 +1766,9 @@ static void MysteryEffect_Init(MysteryEffect *effect, ClActUnit *unit, MysteryGi
     case 1:
         pkm = Mystery_CreateGiftPokemon(&recv->gift, heapId, gameData);
         arc = MakePokeGraArcHandle(heapId);
-        effect->palette = func_02033f2c(arc, func_0201d624(pkm), 0, 0, 0x1c0, heapId);
-        effect->cellAnims = func_02034000(func_0201d624(pkm), 0, 2, 0, heapId);
-        effect->chars = func_02033f90(arc, func_0201d624(pkm), 0, 0, heapId);
+        effect->palette = PokeGra_LoadClActPaletteByBoxData(arc, func_0201d624(pkm), 0, 0, 0x1c0, heapId);
+        effect->cellAnims = PokeGra_LoadClActCellAnimsByBoxData(func_0201d624(pkm), 0, 2, 0, heapId);
+        effect->chars = PokeGra_LoadClActCharsByBoxData(arc, func_0201d624(pkm), 0, 0, heapId);
         effect->height = Mystery_GetSpriteBottom(func_0201d624(pkm), heapId) - 48;
         effect->height = MATH_CLAMP(effect->height, 0, 48);
         GFL_ArcToolFree(arc);
@@ -2190,8 +2190,8 @@ static u32 Mystery_GetSpriteBottom(BoxPkm *pkm, HeapID heapId) {
     int y;
     u32 *tile;
 
-    buffer = func_02033d50(&charData, pkm, 0, HEAPID_TAIL(heapId));
-    func_0203391c(charData, HEAPID_TAIL(heapId));
+    buffer = LoadSingleCellSpindaGraphicsByBoxData(&charData, pkm, 0, HEAPID_TAIL(heapId));
+    PokeGra_CellCharsToImage(charData, HEAPID_TAIL(heapId));
     for (row = 11; row >= 0; row--) {
         for (col = 0; col < 12; col++) {
             tile = (u32 *)charData->rawData + (row * 12 + col) * 8;

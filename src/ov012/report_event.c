@@ -151,7 +151,7 @@ u32 EventSave_Update(EventSaveWork *work, u32 *state) {
     case 8:
         if (func_ov012_021642dc(work)) {
             work->report->waitIcon =
-                func_02035604(GFL_VBlankGetTCBMgr(), work->report->window.window, 0xf, 0x10, work->heapId);
+                WaitIcon_Create(GFL_VBlankGetTCBMgr(), work->report->window.window, 0xf, 0x10, work->heapId);
             func_ov036_02198b1c(Field_GetSubscreen(work->field));
             func_ov012_021642fc(work);
             func_0201782c(GSYS_GetGameData(work->gameSystem));
@@ -171,7 +171,7 @@ u32 EventSave_Update(EventSaveWork *work, u32 *state) {
             func_ov012_02164318(work);
             func_ov012_02164290(work);
             func_ov012_02163f38(work, 7);
-            func_0203580c(work->report->waitIcon);
+            WaitIcon_Free(work->report->waitIcon);
             *state = 13;
             break;
         }
@@ -188,7 +188,7 @@ u32 EventSave_Update(EventSaveWork *work, u32 *state) {
             GFL_StrBufFree(str);
             GFL_WordSetSystemFree(wordSet);
             func_ov012_02163f50(work);
-            func_0203580c(work->report->waitIcon);
+            WaitIcon_Free(work->report->waitIcon);
             *state = 11;
         }
         break;
