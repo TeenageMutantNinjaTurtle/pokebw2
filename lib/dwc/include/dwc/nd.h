@@ -17,6 +17,20 @@ typedef struct {
     u32 size;
 } DWCNdFileInfo;
 
+// NitroDWC's DWCNdError, the errors of the download library. The game's handling of 6 and 8, a cancel and a fatal
+// error, fits these names
+enum {
+    DWC_ND_ERROR_NONE,
+    DWC_ND_ERROR_ALLOC,
+    DWC_ND_ERROR_BUSY,
+    DWC_ND_ERROR_HTTP,
+    DWC_ND_ERROR_BUFFULL,
+    DWC_ND_ERROR_PARAM,
+    DWC_ND_ERROR_CANCELED,
+    DWC_ND_ERROR_DLSERVER,
+    DWC_ND_ERROR_FATAL,
+};
+
 // The callback of every asynchronous call, with its result
 typedef void (*DWCNdCallback)(u32 reason, u32 error);
 
