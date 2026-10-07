@@ -226,6 +226,7 @@ BOOL IsZoneInVictoryRoad(u16 zoneId);
 BOOL IsZoneJoinAvenue(u16 zoneId);
 BOOL IsZoneJoinAvenueSubZone(u16 zoneId);
 BOOL IsZoneRoyalUnova(u16 zoneId);
+BOOL IsZoneBlackTowerOrWhiteTreehollow(u16 zoneId);
 void LoadAspertiaCitySpawnInfo(ZoneSpawnInfo *spawn);
 void LoadZoneSpawnInfoCheckRail(ZoneSpawnInfo *spawn, u16 zoneId);
 void SetAllowVersionSpecificArea(u32 area, BOOL allow);
