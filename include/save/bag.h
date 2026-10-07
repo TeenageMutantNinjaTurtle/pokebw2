@@ -15,6 +15,8 @@ u16 BagSave_GetItemCountByID(BagSave *bag, u16 item, HeapID heapId);
 BOOL BagSave_CheckAmount(BagSave *bag, u32 item, u32 count, u32 heapId);
 BOOL BagSave_SubItem(BagSave *bag, u32 item, u32 count, u32 heapId);
 void BagSave_Init(BagSave *bag);
+// Replaces the DNA Splicers that fuse (0) with those that separate, or those that separate (1) with those that fuse
+void BagSave_SwitchOwnedDNASplicers(BagSave *bag, u32 from);
 void func_020088ec(void *data, u32 value);
 
 #endif // POKEBW2_SAVE_BAG_H

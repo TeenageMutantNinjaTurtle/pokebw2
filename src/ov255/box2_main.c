@@ -435,10 +435,10 @@ void Box2Main_ExitMsg(Box2SysWork *syswk) {
 void Box2Main_InitYesNo(Box2SysWork *syswk) {
     syswk->app->yesNoItems[0].str = GFL_MsgDataLoadStrbufNew(syswk->app->msgData, 110);
     syswk->app->yesNoItems[0].color = 0x39e3;
-    syswk->app->yesNoItems[0].type = 0;
+    syswk->app->yesNoItems[0].isBack = FALSE;
     syswk->app->yesNoItems[1].str = GFL_MsgDataLoadStrbufNew(syswk->app->msgData, 111);
     syswk->app->yesNoItems[1].color = 0x39e3;
-    syswk->app->yesNoItems[1].type = 0;
+    syswk->app->yesNoItems[1].isBack = FALSE;
     syswk->app->yesNoRes = func_0202e168(0, 8, syswk->app->font, syswk->app->printQueue, HEAPID_BOX2_APP);
 }
 
@@ -449,14 +449,14 @@ void Box2Main_ExitYesNo(Box2SysWork *syswk) {
 }
 
 void Box2Main_OpenYesNo(Box2SysWork *syswk, u32 pos) {
-    AppTaskMenuParam param;
+    TaskMenuSetup param;
 
     param.heapId = HEAPID_BOX2_APP;
-    param.itemCount = 2;
+    param.count = 2;
     param.items = syswk->app->yesNoItems;
-    param.posType = 1;
-    param.x = 32;
-    param.y = 18;
+    param.a3 = 1;
+    param.right = 32;
+    param.bottom = 18;
     param.width = 8;
     param.height = 3;
     if (func_0202ba70(syswk->app->cursorMove) == TRUE) {

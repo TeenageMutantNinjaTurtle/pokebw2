@@ -19,7 +19,10 @@ Same instructions, registers swapped.
   its argument register, and the shifts that narrow a `u8` or `u16` assigned from a wider value all count, while a
   use the optimizer deletes does not. A use inside an `if` or a switch case counts like any other. A variable a
   switch tests counts about 2 for each comparison and 4 for a jump table. On a tie the variable assigned first wins,
-  whatever the declaration order, and a variable assigned later needs about one use more.
+  whatever the declaration order, and a variable assigned later needs about one use more. That held in small
+  functions; in `status_rcv.c`'s `StatusRcv_CanUseItem`, six effort values with the same uses, assigned one after
+  another, went to `r5` and `r7` by declaration order instead: the last declared got `r5` and the one before it `r7`,
+  and the rest took stack slots, the first declared highest.
 - A variable gets a register or stack slot for each group of assignments that reach the same uses, so a variable
   that is assigned in two branches and stored once after them stays in one register, while a copy of the store in
   each branch lets the two assignments go to different places.
@@ -82,6 +85,12 @@ Same code, other `sp` offsets or frame size.
   sets of slots are block locals in two blocks; declaring them once at the top shares the slots and shrinks the frame.
   In `PokeIconMoveDataMake` the slots only matched once each reused variable was made block local and the loops used the
   original's counters; reordering the declarations did nothing.
+- The same holds for a variable assigned anew in several `if` blocks: its first piece takes the variable's slot in
+  declaration order and the later pieces the lowest slots, in the order they are assigned. `status_rcv.c`'s
+  `StatusRcv_UseItem` reuses one function-level `add` in its six effort blocks, which puts the first block's value
+  among the declared slots and the other five at the bottom of the frame; a block-scoped `add` in each block does not.
+- In a chained assignment, `a = b = f();`, MWCC treats `a` as its own copy of `b`, and a spilled `a` takes the lowest
+  slot instead of its declared one. `StatusRcv_UseItem` needs `status = f(); newStatus = status;`.
 - A NULL check written on a field, `if (bgs[bg].screen != NULL) { void *screen = bgs[bg].screen; ... }`, gives
   different stack slots from the same check on a local loaded before it, as `GFL_BGSysLoadScrCore` shows.
 - MWCC reuses a field it has loaded, across the 64-bit multiply helpers, so a value that the original keeps on the
@@ -202,6 +211,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A store picked by a test, `if (pos < 30) syswk->pos = pos; else syswk->pos = 0;`, branches past the second value with
   `bhs` and `b`, while clamping a local first, `if (pos >= 30) pos = 0; syswk->pos = pos;`, uses one `blo`. The PC box's
   `func_ov255_021c8b38` is the first.
+- The last test of a condition branches to the code written second. `if (a == x || a == y) { return TRUE; } return
+  FALSE;` ends with `bne` to the `FALSE` return, while the original's `beq` to a `TRUE` return placed after the `FALSE`
+  one is `if (a != x && a != y) { return FALSE; } return TRUE;`, as `plist_demo.c`'s Reveal Glass and Gracidea checks
+  are written.
 - `a == 4 || a == 5` becomes a range check. Separate comparisons that jump to the same code come from separate
   branches with the same body.
 - A clamp that ends in one store, with each limit copied into the value's register, is a conditional expression.

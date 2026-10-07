@@ -274,7 +274,7 @@ struct Box2AppWork {
     u32 cursorChars;
     BOOL nationalDex;
     u16 *regionalDex;
-    AppTaskMenuItem yesNoItems[2];
+    TaskMenuItem yesNoItems[2];
     AppTaskMenuRes *yesNoRes;
     AppTaskMenu *yesNoMenu;
     u16 ynID;
