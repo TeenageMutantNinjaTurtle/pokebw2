@@ -202,7 +202,7 @@ GameEvent *EventGameClear_Create(GameSystem *gsys, u32 param) {
     SetGameClearGameData(work);
     func_ov012_0215a50c(work);
     work->unovaLinkParam.gameData = gameData;
-    work->unovaLinkParam.unk00 = 0;
+    work->unovaLinkParam.mode = UNOVA_LINK_MODE_GAME_CLEAR;
 #ifdef BLACK2
     work->unovaLinkParam.unk08 = 1;
 #else

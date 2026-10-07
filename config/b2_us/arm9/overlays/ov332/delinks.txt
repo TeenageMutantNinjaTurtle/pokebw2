@@ -3,3 +3,9 @@
     .ctor       start:0x021c92b8 end:0x021c92b8 kind:rodata align:4
     .data       start:0x021c92c0 end:0x021c94a0 kind:data align:32
     .bss        start:0x021c94a0 end:0x021c94c0 kind:bss align:32
+
+src/ov332/key_system_main.c:
+    complete
+    .text       start:0x021beee0 end:0x021c0120
+    .rodata     start:0x021c8b34 end:0x021c8b70
+    .data       start:0x021c92c0 end:0x021c92d8

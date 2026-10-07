@@ -63,8 +63,8 @@ void exit(int status);
 
 // Fills 32 bytes with values that differ from run to run
 void OS_GetLowEntropyData(u32 buffer[8]);
-// NitroSDK's STD_CompareNString
-int STD_CompareNString(const char *a, const char *b, int n);
+// NitroSDK's STD_CompareString
+int STD_CompareString(const char *a, const char *b);
 
 // NitroSDK's OS_WaitIrq and OS_IsRunOnTwl, under swan's names
 void irq_waitFor(BOOL clear, u32 interrupts);

@@ -52,6 +52,8 @@ enum {
     HEAPID_SHINKA_DEMO = 0x94,
     HEAPID_ZUKAN_DETAIL = 0x95,
     HEAPID_FIELD_SCENEAREA = 0x96,
+    // Unova Link's (not from swan)
+    HEAPID_KEY_SYSTEM = 0x9b,
 };
 
 // Allocates from the end of the heap instead of the start

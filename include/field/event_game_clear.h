@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_EVENT_GAME_CLEAR_H
 
 #include "types.h"
+#include "app/unova_link.h"
 #include "gfl/proc.h"
 #include "struct_decls.h"
 #include "system/game_event.h"
@@ -30,12 +31,7 @@ struct GameClearWork {
     struct {
         u32 unk00;
     } ov267Param;
-    struct {
-        u32 unk00;
-        GameData *gameData;
-        // 1 in Black 2 and 0 in White 2
-        u32 unk08;
-    } unovaLinkParam;
+    UnovaLinkParam unovaLinkParam;
     // The state that runs, from the sequence that SetGameClearStatusSequence builds
     u32 current;
     u32 states[31];
