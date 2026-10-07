@@ -1,6 +1,6 @@
 #include "types.h"
+#include "app/p_status.h"
 #include "app/pokelist.h"
-#include "app/ov207.h"
 #include "constants/pokemon.h"
 #include "constants/species.h"
 #include "field/field_daycare.h"
@@ -217,17 +217,18 @@ GameEvent *EventDayCarePokeSelect_Create(GameSystem *gsys, Field *field, u16 *re
     PokeParty *party = GameData_GetParty(gameData);
     PokeDexSave *pokedex = GameData_GetPokedex(gameData);
     PokeListParam *partyParam = func_02034c54(gameData, 0x12, party, HEAPID_GAMEEVENT);
-    Ov207Param *summaryParam = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(Ov207Param), FALSE, "scrcmd_sodateya.c", 0x22e);
+    PStatusParam *summaryParam =
+        GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(PStatusParam), FALSE, "scrcmd_sodateya.c", 0x22e);
     GameEvent *event;
     DayCarePokeSelectWork *work;
 
     summaryParam->party = partyParam->party;
     summaryParam->trainerData = partyParam->trainerData;
     summaryParam->gameData = gameData;
-    summaryParam->unkC = 1;
+    summaryParam->dataType = PSTATUS_DATA_PARTY;
     summaryParam->partyCount = PokeParty_GetPkmCount(party);
-    summaryParam->unkD = 0;
-    summaryParam->unk10 = 0;
+    summaryParam->mode = PSTATUS_MODE_NORMAL;
+    summaryParam->page = PSTATUS_PAGE_INFO;
     summaryParam->partyIndex = 0;
     summaryParam->isNationalDex = PokeDex_IsNationalObtained(pokedex);
     event = GameEvent_Create(gsys, NULL, EventDayCarePokeSelect_Callback, sizeof(DayCarePokeSelectWork));

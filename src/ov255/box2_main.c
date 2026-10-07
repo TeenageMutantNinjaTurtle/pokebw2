@@ -8,7 +8,7 @@
 #include "app/box2_ui.h"
 #include "app/box_search.h"
 #include "app/name_entry.h"
-#include "app/ov207.h"
+#include "app/p_status.h"
 #include "constants/arc.h"
 #include "constants/items.h"
 #include "constants/pokemon.h"
@@ -2652,35 +2652,35 @@ static u32 BoxMovePutAreaCheck(Box2SysWork *syswk, s16 x, s16 y) {
 }
 
 int Box2Main_PokeStatusCall(Box2SysWork *syswk) {
-    Ov207Param *param = GFL_HeapAllocate(HEAPID_BOX2, sizeof(Ov207Param), FALSE, "box2_main.c", 4544);
+    PStatusParam *param = GFL_HeapAllocate(HEAPID_BOX2, sizeof(PStatusParam), FALSE, "box2_main.c", 4544);
 
     if (syswk->pos < BOX2_PARTY_POS) {
         param->party = (PokeParty *)Box2Main_GetBoxPkm(syswk, syswk->getTray, 0);
-        param->unkC = 2;
+        param->dataType = PSTATUS_DATA_BOX;
         param->partyCount = BOX2_TRAY_POKE_MAX;
         param->partyIndex = syswk->pos;
     } else {
         param->party = syswk->param->party;
-        param->unkC = 1;
+        param->dataType = PSTATUS_DATA_PARTY;
         param->partyCount = PokeParty_GetPkmCount(syswk->param->party);
         param->partyIndex = syswk->pos - BOX2_PARTY_POS;
     }
-    param->unk10 = 0;
+    param->page = PSTATUS_PAGE_INFO;
     param->gameData = syswk->param->gameData;
     param->trainerData = syswk->param->trainerData;
     param->isNationalDex = syswk->param->unk1C;
     if (syswk->param->unk14 == 1) {
-        param->unkD = 6;
+        param->mode = PSTATUS_MODE_LOCK_MARKINGS;
     } else {
-        param->unkD = 0;
+        param->mode = PSTATUS_MODE_NORMAL;
     }
-    QueueGameProc(syswk->procManager, OVERLAY_ID(207), &data_ov207_021bb6a0, param);
+    QueueGameProc(syswk->procManager, OVERLAY_PSTATUS, &PSTATUS_PROC_FUNCTIONS, param);
     syswk->subProcWork = param;
     return 0;
 }
 
 int Box2Main_PokeStatusExit(Box2SysWork *syswk) {
-    Ov207Param *param = syswk->subProcWork;
+    PStatusParam *param = syswk->subProcWork;
 
     if (syswk->unk18 == 0) {
         if (syswk->pos < BOX2_PARTY_POS) {

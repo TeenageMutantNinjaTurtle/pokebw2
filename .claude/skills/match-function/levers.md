@@ -97,6 +97,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "holds a constant, like")
 - An address computed before calls is reused after them only when the expression is the same, types included. An
   inline accessor recomputes it. (matching.md: "computed before calls is reused")
+- A constant base address with offsets where MWCC folds each store into its own literal: a pointer local.
+  (matching.md: "Stores to fixed addresses")
 - Stores whose base register is another element than the one written: index the array, or write through a pointer
   to the element, whichever the original does. (matching.md: "pointer to an array element")
 - A value a loop uses and the code after it uses again is reused from the hoisted copy, unless it is a variable

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "app/ov207.h"
+#include "app/p_status.h"
 #include "gfl/heap.h"
 #include "gfl/overlay.h"
 #include "gfl/proc.h"
@@ -11,11 +11,11 @@
 // are ours, guessed
 
 int WorldTrade_Status_Init(WorldTradeWork *wk, int seq) {
-    Ov207Param *status;
+    PStatusParam *status;
 
     WorldTrade_ExitGraphics(wk);
-    wk->subProcParam = GFL_HeapAllocate(HEAPID_WORLDTRADE, sizeof(Ov207Param), FALSE, "worldtrade_status.c", 76);
-    sys_memset(wk->subProcParam, 0, sizeof(Ov207Param));
+    wk->subProcParam = GFL_HeapAllocate(HEAPID_WORLDTRADE, sizeof(PStatusParam), FALSE, "worldtrade_status.c", 76);
+    sys_memset(wk->subProcParam, 0, sizeof(PStatusParam));
     status = wk->subProcParam;
     status->trainerData = wk->param->config;
     status->gameData = GSYS_GetGameData(wk->param->gsys);
@@ -25,19 +25,19 @@ int WorldTrade_Status_Init(WorldTradeWork *wk, int seq) {
         status->partyCount = 30;
     }
     status->partyIndex = wk->boxCursorPos;
-    status->unkD = 1;
+    status->mode = PSTATUS_MODE_1;
     status->move = 0;
-    status->unk10 = 0;
+    status->page = PSTATUS_PAGE_INFO;
     status->isNationalDex = wk->param->isNationalDex;
-    status->unk20 = 0;
+    status->fromFieldMenu = FALSE;
     if (WorldTrade_GetPPorPPP(wk->boxTrayNo)) {
         status->party = wk->param->myparty;
-        status->unkC = 1;
+        status->dataType = PSTATUS_DATA_PARTY;
     } else {
         status->party = (PokeParty *)WorldTrade_GetPokePtr(wk->param->myparty, wk->param->mybox, wk->boxTrayNo, 0);
-        status->unkC = 2;
+        status->dataType = PSTATUS_DATA_BOX;
     }
-    QueueGameProc(wk->procManager, OVERLAY_ID(207), &data_ov207_021bb6a0, status);
+    QueueGameProc(wk->procManager, OVERLAY_PSTATUS, &PSTATUS_PROC_FUNCTIONS, status);
     wk->subprocFlag = 1;
     return WT_SEQ_FADEIN;
 }
@@ -53,7 +53,7 @@ int WorldTrade_Status_Main(WorldTradeWork *wk, int seq) {
 }
 
 int WorldTrade_Status_End(WorldTradeWork *wk, int seq) {
-    wk->boxCursorPos = ((Ov207Param *)wk->subProcParam)->partyIndex;
+    wk->boxCursorPos = ((PStatusParam *)wk->subProcParam)->partyIndex;
     GFL_HeapFree(wk->subProcParam);
     WorldTrade_InitGraphics(wk);
     WorldTrade_SubProcessUpdate(wk);

@@ -5,8 +5,8 @@
 // battle/btl_setup.h does not have yet, so it is declared here without static until it is written
 #include "types.h"
 #include "app/ov141.h"
+#include "app/p_status.h"
 #include "app/pokelist.h"
-#include "app/ov207.h"
 #include "battle/battle_proc.h"
 #include "battle/btl_setup.h"
 #include "battle/regulation.h"
@@ -43,7 +43,7 @@
 typedef struct {
     GameSystem *gsys;
     Field *field;
-    Ov207Param summaryParam;
+    PStatusParam summaryParam;
     PokeListParam partyParam;
     u16 *result;
     u16 *choice;
@@ -168,7 +168,7 @@ GameEvent *func_ov012_02165f70(BSubwayScrWork *bsw, GameSystem *gsys, u8 rental)
     u32 regulationId;
     PokeListParam *partyParam;
     u32 mode;
-    Ov207Param *summaryParam;
+    PStatusParam *summaryParam;
     PokeDexSave *pokedex;
 
     data->gsys = gsys;
@@ -203,12 +203,12 @@ GameEvent *func_ov012_02165f70(BSubwayScrWork *bsw, GameSystem *gsys, u8 rental)
     summaryParam = &data->summaryParam;
     partyParam->unk48 = mode;
     pokedex = GameData_GetPokedex(gameData);
-    sys_memset(summaryParam, 0, sizeof(Ov207Param));
+    sys_memset(summaryParam, 0, sizeof(PStatusParam));
     data->summaryParam.party = party;
-    summaryParam->unkC = 1;
+    summaryParam->dataType = PSTATUS_DATA_PARTY;
     summaryParam->partyCount = PokeParty_GetPkmCount(party);
-    summaryParam->unkD = 0;
-    summaryParam->unk10 = 0;
+    summaryParam->mode = PSTATUS_MODE_NORMAL;
+    summaryParam->page = PSTATUS_PAGE_INFO;
     summaryParam->gameData = gameData;
     summaryParam->isNationalDex = PokeDex_IsNationalObtained(pokedex);
     return event;

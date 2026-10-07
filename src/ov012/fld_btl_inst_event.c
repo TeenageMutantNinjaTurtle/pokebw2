@@ -1,8 +1,8 @@
 // The battle facilities' events: picking the Pokémon to enter, and a Trainer's message in a balloon. The name is a
 // guess after fld_btl_inst_tool.c, which follows it
 #include "types.h"
+#include "app/p_status.h"
 #include "app/pokelist.h"
-#include "app/ov207.h"
 #include "battle/regulation.h"
 #include "field/field.h"
 #include "field/field_actor.h"
@@ -22,7 +22,7 @@
 typedef struct {
     GameSystem *gsys;
     Field *field;
-    Ov207Param summaryParam;
+    PStatusParam summaryParam;
     PokeListParam partyParam;
     Regulation regulation;
     u32 *result;
@@ -49,7 +49,7 @@ GameEvent *func_ov012_02161c88(GameSystem *gsys, u32 a1, u32 mode, u32 regulatio
     GameEvent *event = GameEvent_Create(gsys, NULL, func_ov012_02161d54, sizeof(BtlInstPokeSelectWork));
     BtlInstPokeSelectWork *work = GameEvent_GetData(event);
     PokeListParam *partyParam;
-    Ov207Param *summaryParam;
+    PStatusParam *summaryParam;
     GameData *gameData;
     PokeDexSave *pokedex;
 
@@ -68,12 +68,12 @@ GameEvent *func_ov012_02161c88(GameSystem *gsys, u32 a1, u32 mode, u32 regulatio
     summaryParam = &work->summaryParam;
     gameData = GSYS_GetGameData(gsys);
     pokedex = GameData_GetPokedex(gameData);
-    sys_memset(summaryParam, 0, sizeof(Ov207Param));
+    sys_memset(summaryParam, 0, sizeof(PStatusParam));
     summaryParam->party = party;
-    summaryParam->unkC = 1;
+    summaryParam->dataType = PSTATUS_DATA_PARTY;
     summaryParam->partyCount = PokeParty_GetPkmCount(party);
-    summaryParam->unkD = 0;
-    summaryParam->unk10 = 0;
+    summaryParam->mode = PSTATUS_MODE_NORMAL;
+    summaryParam->page = PSTATUS_PAGE_INFO;
     summaryParam->gameData = gameData;
     summaryParam->isNationalDex = PokeDex_IsNationalObtained(pokedex);
     return event;
