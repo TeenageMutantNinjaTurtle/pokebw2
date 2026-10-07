@@ -19,6 +19,7 @@
 
 // Palette memory: the BG and OBJ palettes of the main and sub (DB) screens
 #define HW_BG_PLTT 0x05000000
+#define HW_OBJ_PLTT 0x05000200
 #define HW_DB_BG_PLTT 0x05000400
 #define HW_OBJ_PLTT 0x05000200
 #define HW_DB_OBJ_PLTT 0x05000600

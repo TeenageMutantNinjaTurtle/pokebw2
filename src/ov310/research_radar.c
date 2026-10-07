@@ -21,22 +21,7 @@
 // after the app. It runs one of three screens at a time, the top screen, the list of surveys and a survey's graph,
 // which share the work in research_common.c, and draws the BGs that stay behind all of them
 
-// The screens, in the order of the proc's sequence
-enum {
-    SEQ_INIT,
-    SEQ_TOP,
-    SEQ_LIST,
-    SEQ_GRAPH,
-    SEQ_END,
-};
-
-// The BGs that stay behind every screen: the main engine's frame, and the sub engine's background and its pattern,
-// whose palette cycles
-#define BG_MAIN_FRAME 1
-#define BG_SUB_BACK 4
-#define BG_SUB_PATTERN 5
-
-// The pattern's palette changes every this many frames, through this many palettes
+// The pattern's palette cycles: it changes every this many frames, through this many palettes
 #define PATTERN_FRAMES 10
 #define PATTERN_PALETTES 6
 
@@ -166,23 +151,23 @@ static BOOL ResearchRadar_Main(GameProc *proc, u32 *state, void *param, void *wo
 
     ResearchRadar_UpdateComm(wk);
     if (func_02016bec(wk->gsys)) {
-        func_ov310_021a4414(wk->common);
+        ResearchCommon_SetForceExit(wk->common);
     }
 
     switch (*state) {
-    case SEQ_INIT:
+    case RESEARCH_SEQ_INIT:
         next = ResearchRadar_SeqInit(wk);
         break;
-    case SEQ_TOP:
+    case RESEARCH_SEQ_TOP:
         next = ResearchRadar_SeqTop(wk);
         break;
-    case SEQ_LIST:
+    case RESEARCH_SEQ_LIST:
         next = ResearchRadar_SeqList(wk);
         break;
-    case SEQ_GRAPH:
+    case RESEARCH_SEQ_GRAPH:
         next = ResearchRadar_SeqGraph(wk);
         break;
-    case SEQ_END:
+    case RESEARCH_SEQ_END:
         return TRUE;
     }
 
@@ -206,73 +191,73 @@ static void ResearchRadar_ChangeSeq(ResearchRadarWork *wk, u32 *state, u32 next)
     ResearchRadar_StartSeq(wk, state, next);
 
     switch (*state) {
-    case SEQ_TOP:
-        ResearchCommon_SetSeq(wk->common, SEQ_TOP);
+    case RESEARCH_SEQ_TOP:
+        ResearchCommon_SetSeq(wk->common, RESEARCH_SEQ_TOP);
         break;
-    case SEQ_LIST:
-        ResearchCommon_SetSeq(wk->common, SEQ_LIST);
+    case RESEARCH_SEQ_LIST:
+        ResearchCommon_SetSeq(wk->common, RESEARCH_SEQ_LIST);
         break;
-    case SEQ_GRAPH:
-        ResearchCommon_SetSeq(wk->common, SEQ_GRAPH);
+    case RESEARCH_SEQ_GRAPH:
+        ResearchCommon_SetSeq(wk->common, RESEARCH_SEQ_GRAPH);
         break;
     }
 }
 
 static void ResearchRadar_EndSeq(ResearchRadarWork *wk, u32 *state) {
     switch (*state) {
-    case SEQ_INIT:
+    case RESEARCH_SEQ_INIT:
         break;
-    case SEQ_TOP:
+    case RESEARCH_SEQ_TOP:
         ResearchTop_Delete(wk->top);
         break;
-    case SEQ_LIST:
+    case RESEARCH_SEQ_LIST:
         ResearchList_Delete(wk->list);
         break;
-    case SEQ_GRAPH:
+    case RESEARCH_SEQ_GRAPH:
         ResearchGraph_Delete(wk->graph);
         break;
-    case SEQ_END:
+    case RESEARCH_SEQ_END:
         break;
     }
 
     switch (*state) {
-    case SEQ_INIT:
+    case RESEARCH_SEQ_INIT:
         break;
-    case SEQ_TOP:
+    case RESEARCH_SEQ_TOP:
         wk->top = NULL;
         break;
-    case SEQ_LIST:
+    case RESEARCH_SEQ_LIST:
         wk->list = NULL;
         break;
-    case SEQ_GRAPH:
+    case RESEARCH_SEQ_GRAPH:
         wk->graph = NULL;
         break;
-    case SEQ_END:
+    case RESEARCH_SEQ_END:
         break;
     }
 }
 
 static void ResearchRadar_StartSeq(ResearchRadarWork *wk, u32 *state, u32 next) {
     switch (next) {
-    case SEQ_INIT:
+    case RESEARCH_SEQ_INIT:
         break;
-    case SEQ_TOP:
+    case RESEARCH_SEQ_TOP:
         wk->top = ResearchTop_Create(wk->common);
         break;
-    case SEQ_LIST:
+    case RESEARCH_SEQ_LIST:
         wk->list = ResearchList_Create(wk->common, wk->recovery);
         break;
-    case SEQ_GRAPH:
+    case RESEARCH_SEQ_GRAPH:
         wk->graph = ResearchGraph_Create(wk->common);
         break;
-    case SEQ_END:
+    case RESEARCH_SEQ_END:
         break;
     }
     *state = next;
 }
 
 static u32 ResearchRadar_SeqInit(ResearchRadarWork *wk) {
-    return SEQ_TOP;
+    return RESEARCH_SEQ_TOP;
 }
 
 static u32 ResearchRadar_SeqTop(ResearchRadarWork *wk) {
@@ -280,37 +265,37 @@ static u32 ResearchRadar_SeqTop(ResearchRadarWork *wk) {
     if (ResearchTop_IsEnd(wk->top)) {
         switch (ResearchTop_GetNext(wk->top)) {
         case RESEARCH_TOP_NEXT_LIST:
-            return SEQ_LIST;
+            return RESEARCH_SEQ_LIST;
         case RESEARCH_TOP_NEXT_GRAPH:
-            return SEQ_GRAPH;
+            return RESEARCH_SEQ_GRAPH;
         case RESEARCH_TOP_NEXT_EXIT:
-            return SEQ_END;
+            return RESEARCH_SEQ_END;
         }
-        return SEQ_END;
+        return RESEARCH_SEQ_END;
     }
-    return SEQ_TOP;
+    return RESEARCH_SEQ_TOP;
 }
 
 static u32 ResearchRadar_SeqList(ResearchRadarWork *wk) {
     ResearchList_Main(wk->list);
     if (ResearchList_IsEnd(wk->list)) {
         if (ResearchList_GetNext(wk->list) == RESEARCH_LIST_NEXT_TOP) {
-            return SEQ_TOP;
+            return RESEARCH_SEQ_TOP;
         }
-        return SEQ_END;
+        return RESEARCH_SEQ_END;
     }
-    return SEQ_LIST;
+    return RESEARCH_SEQ_LIST;
 }
 
 static u32 ResearchRadar_SeqGraph(ResearchRadarWork *wk) {
     ResearchGraph_Main(wk->graph);
     if (ResearchGraph_IsEnd(wk->graph)) {
         if (ResearchGraph_GetNext(wk->graph) == RESEARCH_GRAPH_NEXT_TOP) {
-            return SEQ_TOP;
+            return RESEARCH_SEQ_TOP;
         }
-        return SEQ_END;
+        return RESEARCH_SEQ_END;
     }
-    return SEQ_GRAPH;
+    return RESEARCH_SEQ_GRAPH;
 }
 
 static u32 ResearchRadar_GetFrames(ResearchRadarWork *wk) {
@@ -354,19 +339,19 @@ static void ResearchRadar_DeleteRecovery(ResearchRadarWork *wk) {
 static void ResearchRadar_InitBG(HeapID heapId) {
     GFL_BGSysCreate(heapId);
     GFL_BGSysSetLCDConfig(&sRadarLCDConfig);
-    GFL_BGSysCreateBG(BG_SUB_BACK, &sRadarBGSubBack, BGMODE_TEXT);
-    GFL_BGSysCreateBG(BG_SUB_PATTERN, &sRadarBGSubPattern, BGMODE_TEXT);
-    GFL_BGSysSetBGEnabled(BG_SUB_BACK, TRUE);
-    GFL_BGSysSetBGEnabled(BG_SUB_PATTERN, TRUE);
-    GFL_BGSysCreateBG(BG_MAIN_FRAME, &sRadarBGMainFrame, BGMODE_TEXT);
-    GFL_BGSysSetBGEnabled(BG_MAIN_FRAME, TRUE);
+    GFL_BGSysCreateBG(RESEARCH_BG_SUB_BACK, &sRadarBGSubBack, BGMODE_TEXT);
+    GFL_BGSysCreateBG(RESEARCH_BG_SUB_PATTERN, &sRadarBGSubPattern, BGMODE_TEXT);
+    GFL_BGSysSetBGEnabled(RESEARCH_BG_SUB_BACK, TRUE);
+    GFL_BGSysSetBGEnabled(RESEARCH_BG_SUB_PATTERN, TRUE);
+    GFL_BGSysCreateBG(RESEARCH_BG_MAIN_FRAME, &sRadarBGMainFrame, BGMODE_TEXT);
+    GFL_BGSysSetBGEnabled(RESEARCH_BG_MAIN_FRAME, TRUE);
     GFL_BGSysSetBGEnabledA(GX_PLANEMASK_OBJ, TRUE);
     GFL_BGSysSetBGEnabledB(GX_PLANEMASK_OBJ, TRUE);
 }
 
 static void ResearchRadar_ExitBG(void) {
-    GFL_BGSysReleaseBG(BG_MAIN_FRAME);
-    GFL_BGSysReleaseBG(BG_SUB_BACK);
+    GFL_BGSysReleaseBG(RESEARCH_BG_MAIN_FRAME);
+    GFL_BGSysReleaseBG(RESEARCH_BG_SUB_BACK);
     GFL_BGSysFree();
 }
 
@@ -380,33 +365,33 @@ static void ResearchRadar_LoadSubBG(HeapID heapId) {
 
     file = GFL_ArcToolReadHeapNew(handle, 9, heapId);
     RelocatePaletteResGetDataPtr(file, &palette);
-    GFL_BGSysUploadStdPalette(BG_SUB_BACK, palette->rawData, 0x200, 0);
+    GFL_BGSysUploadStdPalette(RESEARCH_BG_SUB_BACK, palette->rawData, 0x200, 0);
     GFL_HeapFree(file);
 
     file = GFL_ArcToolReadHeapNew(handle, 10, heapId);
     NNS_G2DPrepareBGChar(file, &character);
-    GFL_BGSysLoadChar(BG_SUB_BACK, character->rawData, character->size, 0);
+    GFL_BGSysLoadChar(RESEARCH_BG_SUB_BACK, character->rawData, character->size, 0);
     GFL_HeapFree(file);
 
     file = GFL_ArcToolReadHeapNew(handle, 11, heapId);
     NNS_G2DPrepareScreen(file, &screen);
-    GFL_BGSysLoadScrAreaAll(BG_SUB_BACK, screen->rawData, 0, 0, 32, 24);
-    GFL_BGSysLoadScr(BG_SUB_BACK);
+    GFL_BGSysLoadScrAreaAll(RESEARCH_BG_SUB_BACK, screen->rawData, 0, 0, 32, 24);
+    GFL_BGSysLoadScr(RESEARCH_BG_SUB_BACK);
     GFL_HeapFree(file);
 
     file = GFL_ArcToolReadHeapNew(handle, 12, heapId);
     NNS_G2DPrepareScreen(file, &patternScreen);
-    GFL_BGSysLoadScrAreaAll(BG_SUB_PATTERN, patternScreen->rawData, 0, 0, 32, 24);
-    GFL_BGSysLoadScr(BG_SUB_PATTERN);
+    GFL_BGSysLoadScrAreaAll(RESEARCH_BG_SUB_PATTERN, patternScreen->rawData, 0, 0, 32, 24);
+    GFL_BGSysLoadScr(RESEARCH_BG_SUB_PATTERN);
     GFL_HeapFree(file);
 
     GFL_ArcToolFree(handle);
 }
 
 static void ResearchRadar_AnimateSubBG(ResearchRadarWork *wk) {
-    GFL_BGSysSetScrPaletteNo(BG_SUB_PATTERN, 0, 0, 32, 24,
+    GFL_BGSysSetScrPaletteNo(RESEARCH_BG_SUB_PATTERN, 0, 0, 32, 24,
                              ResearchRadar_GetFrames(wk) / PATTERN_FRAMES % PATTERN_PALETTES);
-    GFL_BGSysLoadScr(BG_SUB_PATTERN);
+    GFL_BGSysLoadScr(RESEARCH_BG_SUB_PATTERN);
 }
 
 static void ResearchRadar_LoadMainBG(HeapID heapId) {
@@ -418,18 +403,18 @@ static void ResearchRadar_LoadMainBG(HeapID heapId) {
 
     file = GFL_ArcToolReadHeapNew(handle, 0, heapId);
     RelocatePaletteResGetDataPtr(file, &palette);
-    GFL_BGSysUploadStdPalette(BG_MAIN_FRAME, palette->rawData, 0x200, 0);
+    GFL_BGSysUploadStdPalette(RESEARCH_BG_MAIN_FRAME, palette->rawData, 0x200, 0);
     GFL_HeapFree(file);
 
     file = GFL_ArcToolReadHeapNew(handle, 1, heapId);
     NNS_G2DPrepareBGChar(file, &character);
-    GFL_BGSysLoadChar(BG_MAIN_FRAME, character->rawData, character->size, 0);
+    GFL_BGSysLoadChar(RESEARCH_BG_MAIN_FRAME, character->rawData, character->size, 0);
     GFL_HeapFree(file);
 
     file = GFL_ArcToolReadHeapNew(handle, 2, heapId);
     NNS_G2DPrepareScreen(file, &screen);
-    GFL_BGSysLoadScrAreaAll(BG_MAIN_FRAME, screen->rawData, 0, 0, 32, 24);
-    GFL_BGSysLoadScr(BG_MAIN_FRAME);
+    GFL_BGSysLoadScrAreaAll(RESEARCH_BG_MAIN_FRAME, screen->rawData, 0, 0, 32, 24);
+    GFL_BGSysLoadScr(RESEARCH_BG_MAIN_FRAME);
     GFL_HeapFree(file);
 
     GFL_ArcToolFree(handle);

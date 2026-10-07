@@ -81,11 +81,15 @@
 #define ARCID_TPOKE 208
 // The Research Radar's graphics. Our name, not swan's
 #define ARCID_RESEARCH_RADAR 189
+// The graphics that many apps share, such as the touch bar, which getUINarcIdx returns. Our name, not swan's
+#define ARCID_APP_MENU_COMMON 82
 #define ARCID_CDEMO_GFLOGO 220
 #define ARCID_CDEMO_OPENINGWB 221
 #define ARCID_CDEMO_OPENINGSW 222
 #define ARCID_AREA_BMDATA_EXT 225
 #define ARCID_AREA_BMDATA_INT 226
+// Unova Link's graphics (not from swan)
+#define ARCID_KEY_SYSTEM 277
 #define ARCID_GIMMICK_EXPOBJ_MARINETUBE 295
 
 #endif // POKEBW2_CONSTANTS_ARC_H
