@@ -8,6 +8,7 @@
 #include "gfl/heap.h"
 #include "gfl/str.h"
 #include "p_status_local.h"
+#include "pml/met_data.h"
 #include "pml/personal.h"
 #include "pml/poke_party.h"
 #include "pml/species_names.h"
@@ -35,11 +36,12 @@ enum {
     INFO_MSG_COUNT,
 };
 
-// The place name files, as func_02035f5c returns them
-#define PLACE_FILE_UNOVA 0x6d
-#define PLACE_FILE_EVENT 0x6e
-#define PLACE_FILE_EXTERNAL 0x6f
-#define PLACE_FILE_SPECIAL 0x70
+typedef struct {
+    u8 x;
+    u8 y;
+    u8 width;
+    u8 height;
+} InfoWindowSetup;
 
 struct PStaInfoWork {
     BOOL isPrinted;
@@ -390,8 +392,9 @@ static void PStaInfo_PrintMemo(PStatusWork *wk, PStaInfoWork *info, BoxPkm *pkm)
             }
         } else if (metLocation == LOCATION_DREAM_RADAR) {
             msg = 0x29;
-        } else if (metLocation >= LOCATION_SPECIAL_TRANSFER_FIRST && metLocation <= LOCATION_SPECIAL_TRANSFER_LAST && transferred == TRUE) {
-            switch (metLocation - LOCATION_SPECIAL_TRANSFER_FIRST) {
+        } else if (metLocation >= LOCATION_EVENT_CELEBI && metLocation <= LOCATION_EVENT_BEASTS_USED &&
+                   transferred == TRUE) {
+            switch (metLocation - LOCATION_EVENT_CELEBI) {
             case 0:
                 msg = 0x31;
                 break;
@@ -425,7 +428,8 @@ static void PStaInfo_PrintMemo(PStatusWork *wk, PStaInfoWork *info, BoxPkm *pkm)
                 msg = 0x23;
             }
         }
-        if (foreignOT == FALSE && isN == FALSE && (metLocation < LOCATION_SPECIAL_TRANSFER_FIRST || metLocation > LOCATION_SPECIAL_TRANSFER_LAST)) {
+        if (foreignOT == FALSE && isN == FALSE &&
+            (metLocation < LOCATION_EVENT_CELEBI || metLocation > LOCATION_EVENT_BEASTS_USED)) {
             msg++;
         }
     } else if (fateful == FALSE) {
@@ -513,8 +517,8 @@ static void PStaInfo_PrintMemo(PStatusWork *wk, PStaInfoWork *info, BoxPkm *pkm)
 }
 
 static StrBuf *PStaInfo_GetPlaceName(PStatusWork *wk, PStaInfoWork *info, u32 location) {
-    u32 file = func_02035f5c(location);
-    u32 index = func_02035fac(location);
+    u32 file = MetLocation_GetNameFile(location);
+    u32 index = MetLocation_GetNameIndex(location);
 
     switch (file) {
     case PLACE_FILE_UNOVA:

@@ -117,6 +117,8 @@
 #define ARCID_CDEMO_OPENINGSW 222
 #define ARCID_AREA_BMDATA_EXT 225
 #define ARCID_AREA_BMDATA_INT 226
+// The Join Avenue's tables, which resort_binary.c loads. Our name, not swan's
+#define ARCID_RESORT_BINARY 244
 // Unova Link's graphics (not from swan)
 #define ARCID_KEY_SYSTEM 277
 #define ARCID_GIMMICK_EXPOBJ_MARINETUBE 295

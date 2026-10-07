@@ -106,7 +106,7 @@ struct BtlClient {
     BtlClientRecPlayer recPlayer;
     BOOL (*mainProc)(BtlClient *client);
     BtlClientIDList clientIdList;
-    u32 fieldStatus;
+    BtlField *field;
     MATHRandContext32 targetRand;
     BtlAdapter *adapter;
     BtlvCore *viewCore;
@@ -592,7 +592,7 @@ BtlClient *BattleClient_Create(BtlMainModule *mainModule, BtlPokeCon *pokeCon, u
     client->forceQuit = 0;
     client->unk1BA_4 = 0;
     client->unk1BA_5 = 0;
-    client->fieldStatus = func_ov167_0219d9a8(mainModule);
+    client->field = func_ov167_0219d9a8(mainModule);
     client->turnCount = 0;
     client->bagMode = arg7;
     func_ov167_021bda58(&client->clientIdList);
@@ -2980,7 +2980,7 @@ static BOOL IsUnselectableMove(BtlClient *client, BattleMon *mon, u16 move, Btlv
         }
         return TRUE;
     }
-    if (CheckFieldEffect(client->fieldStatus, 3) && CheckImprison(client->fieldStatus, client->pokeCon, mon, move)) {
+    if (CheckFieldEffect(client->field, 3) && CheckImprison(client->field, client->pokeCon, mon, move)) {
         if (param != NULL) {
             Btlv_StringParam_Setup(param, 2, 0x24d);
             Btlv_StringParam_AddArg(param, GetMonID(mon));
@@ -2988,7 +2988,7 @@ static BOOL IsUnselectableMove(BtlClient *client, BattleMon *mon, u16 move, Btlv
         }
         return TRUE;
     }
-    if (CheckFieldEffect(client->fieldStatus, FIELD_CONDITION_GRAVITY) && getMoveFlag(move, 9)) {
+    if (CheckFieldEffect(client->field, FIELD_CONDITION_GRAVITY) && getMoveFlag(move, 9)) {
         if (param != NULL) {
             Btlv_StringParam_Setup(param, 2, 0x43e);
             Btlv_StringParam_AddArg(param, GetMonID(mon));
@@ -3020,7 +3020,7 @@ static u8 StoreSelectableMoveFlag(BtlClient *client, BattleMon *mon, u8 *selecta
 }
 
 static BOOL CanMonUseHeldItem(BtlClient *client, BattleMon *mon) {
-    if (CheckFieldEffect(client->fieldStatus, 7)) {
+    if (CheckFieldEffect(client->field, 7)) {
         return FALSE;
     }
     if (CheckCondition(mon, CONDITION_EMBARGO)) {
@@ -3113,7 +3113,7 @@ static BOOL DoesMonHaveShadowTag(BtlClient *client, BattleMon *mon) {
 
 static BOOL IsMonTrappedByArenaTrap(BtlClient *client, BattleMon *mon) {
     BOOL canUseItem = CanMonUseHeldItem(client, mon);
-    if (CheckFieldEffect(client->fieldStatus, FIELD_CONDITION_GRAVITY)) {
+    if (CheckFieldEffect(client->field, FIELD_CONDITION_GRAVITY)) {
         return TRUE;
     }
     if (CheckCondition(mon, 31)) {
@@ -5145,7 +5145,7 @@ static BOOL BattleClient_ScWeatherStart(BtlClient *client, s32 *seq, const u32 *
 
     switch (*seq) {
     case 0:
-        func_ov167_021d5aec(client->fieldStatus, weather, args[1]);
+        func_ov167_021d5aec(client->field, weather, args[1]);
         if (func_ov167_021b1990(client)) {
             return TRUE;
         }
@@ -5196,7 +5196,7 @@ static BOOL BattleClient_ScWeatherEnd(BtlClient *client, s32 *seq, const u32 *ar
     }
     case 1:
         if (func_ov167_021d02e8(client->viewCore)) {
-            func_ov167_021d5af4(client->fieldStatus);
+            func_ov167_021d5af4(client->field);
             return TRUE;
         }
         break;
@@ -6312,22 +6312,22 @@ static BOOL func_ov167_021b8f78(BtlClient *client, s32 *seq, const u32 *args) {
     BattleCondition value;
 
     value.raw = args[1];
-    FieldStatusaddEffectCore(client->fieldStatus, args[0], value, 0);
+    FieldStatusaddEffectCore(client->field, args[0], value, 0);
     return TRUE;
 }
 
 static BOOL func_ov167_021b8f8c(BtlClient *client, s32 *seq, const u32 *args) {
-    func_ov167_021d5c04(client->fieldStatus, args[0], args[1]);
+    func_ov167_021d5c04(client->field, args[0], args[1]);
     return TRUE;
 }
 
 static BOOL func_ov167_021b8fa0(BtlClient *client, s32 *seq, const u32 *args) {
-    func_ov167_021d5c60(client->fieldStatus, args[0]);
+    func_ov167_021d5c60(client->field, args[0]);
     return TRUE;
 }
 
 static BOOL func_ov167_021b8fb4(BtlClient *client, s32 *seq, const u32 *args) {
-    func_ov167_021d5bc0(client->fieldStatus, args[0]);
+    func_ov167_021d5bc0(client->field, args[0]);
     return TRUE;
 }
 
@@ -6400,7 +6400,7 @@ static BOOL func_ov167_021b9100(BtlClient *client, s32 *seq, const u32 *args) {
 }
 
 static BOOL func_ov167_021b9120(BtlClient *client, s32 *seq, const u32 *args) {
-    func_ov167_021d5da4(client->fieldStatus, 0, 0);
+    func_ov167_021d5da4(client->field, NULL, NULL);
     return TRUE;
 }
 
@@ -6426,7 +6426,7 @@ BattleParty *BattleClient_GetParty(BtlClient *client) {
 }
 
 u8 func_ov167_021b9188(BtlClient *client) {
-    return func_ov167_021d5ad4(client->fieldStatus);
+    return func_ov167_021d5ad4(client->field);
 }
 
 u16 func_ov167_021b9194(BtlClient *client) {

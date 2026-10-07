@@ -107,7 +107,7 @@ void *func_ov012_02153ed4(ScriptWork *work) {
     return work->unk38;
 }
 
-u32 *ScriptWork_GetSEBitMask(ScriptWork *work) {
+u8 *ScriptWork_GetSEBitMask(ScriptWork *work) {
     return &work->seBitMask;
 }
 

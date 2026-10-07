@@ -485,7 +485,7 @@ void Move_UpdateID(BattleMon *mon, u8 index, u16 move, u8 maxPP, BOOL updateCurr
     MoveWork_UpdateNumber(&mon->moves[index], move, maxPP, updateCurrent);
 }
 
-BOOL MoveIsUsable(BattleMon *mon, u16 move) {
+BOOL MoveIsUsable(const BattleMon *mon, u16 move) {
     u32 i;
 
     for (i = 0; i < 4; i++) {

@@ -162,8 +162,8 @@ enum {
 };
 
 // The files of an item that GetItemGraphicsDatID and PML_ItemReadDataFile give: its data in ARCID_ITEMINFO, its icon's
-// characters and palette in ARCID_ITEMGRA, and the characters and palette of the icon of the battle items in
-// func_02035944's list
+// characters and palette in ARCID_ITEMGRA, and the characters and palette of the icon of the Wonder Launcher's
+// items, in ShooterItem_GetIndex's order
 #define ITEM_FILE_DATA 0
 #define ITEM_FILE_ICON_CHAR 1
 #define ITEM_FILE_ICON_PLTT 2

@@ -2,8 +2,10 @@
 
 #include "types.h"
 #include "battle/battle_overlay.h"
+#include "battle/btl_adapter.h"
 #include "battle/btl_calc.h"
 #include "battle/btl_client.h"
+#include "battle/btl_field.h"
 #include "battle/btl_main.h"
 #include "battle/btl_net.h"
 #include "battle/btl_pokeparam.h"
@@ -178,7 +180,7 @@ BOOL func_ov167_021998c0(GameProc *proc, u32 *state, void *param, void *work) {
             notInitialized = TRUE;
         }
         mainModule->unk473_2 = (u8)notInitialized;
-        mainModule->unk2BC = func_ov167_021d5a84(mainModule->heapId);
+        mainModule->field = func_ov167_021d5a84(mainModule->heapId);
         func_ov167_0219ccbc(&mainModule->pokeCons[0], mainModule, FALSE);
         func_ov167_0219ccbc(&mainModule->pokeCons[1], mainModule, TRUE);
         func_ov167_0219e164(mainModule->setup);
@@ -281,7 +283,7 @@ BOOL func_ov167_02199ca0(BtlMainModule *mainModule) {
     u32 i;
 
     for (i = 0; i < 4; i++) {
-        if (DoesClientExist(mainModule, i) && !func_ov167_021d4880(mainModule->unk2C8, i)) {
+        if (DoesClientExist(mainModule, i) && !func_ov167_021d4880(&mainModule->recReader, i)) {
             return FALSE;
         }
     }
@@ -332,9 +334,9 @@ BOOL func_ov167_02199cd4(GameProc *proc, u32 *state, void *param, void *work) {
         (*state)++;
         break;
     case 3:
-        if (mainModule->unk2BC != 0) {
-            func_ov167_021d5aac(mainModule->unk2BC);
-            mainModule->unk2BC = 0;
+        if (mainModule->field != NULL) {
+            func_ov167_021d5aac(mainModule->field);
+            mainModule->field = NULL;
         }
         if (mainModule->unk2C0 != NULL) {
             GFL_HeapFree(mainModule->unk2C0);
@@ -539,9 +541,9 @@ void func_ov167_0219a1e8(BtlMainModule *mainModule, BtlSetup *setup) {
 
 void func_ov167_0219a228(BtlMainModule *mainModule, BtlSetup *setup) {
     if (setup->fieldSituation.unk1b != 0) {
-        func_ov167_021d4630(mainModule->unk2C8, setup->unkB0, setup->unkB4);
-        func_ov167_021b18e8(mainModule->clients[0], mainModule->unk2C8);
-        func_ov167_021b18e8(mainModule->clients[1], mainModule->unk2C8);
+        func_ov167_021d4630(&mainModule->recReader, setup->unkB0, setup->unkB4);
+        func_ov167_021b18e8(mainModule->clients[0], &mainModule->recReader);
+        func_ov167_021b18e8(mainModule->clients[1], &mainModule->recReader);
     }
 }
 
@@ -710,10 +712,10 @@ BOOL func_ov167_0219a5bc(u32 *state, BtlMainModule *mainModule) {
         }
     }
     if (setup->fieldSituation.unk1b != 0) {
-        func_ov167_021d4630(mainModule->unk2C8, setup->unkB0, setup->unkB4);
+        func_ov167_021d4630(&mainModule->recReader, setup->unkB0, setup->unkB4);
         for (i = 0; i < 4; i++) {
             if (DoesClientExist(mainModule, i)) {
-                func_ov167_021b18e8(mainModule->clients[i], mainModule->unk2C8);
+                func_ov167_021b18e8(mainModule->clients[i], &mainModule->recReader);
             }
         }
     }
@@ -3168,8 +3170,8 @@ PlayerInfo *func_ov167_0219d998(BtlMainModule *mainModule) {
     return CommPlayerSupport_GetSupporter(mainModule->setup->unk88);
 }
 
-u32 func_ov167_0219d9a8(BtlMainModule *mainModule) {
-    return mainModule->unk2BC;
+BtlField *func_ov167_0219d9a8(BtlMainModule *mainModule) {
+    return mainModule->field;
 }
 
 void func_ov167_0219d9b0(BtlMainModule *mainModule) {

@@ -26,6 +26,8 @@ u32 func_02009650(GameRecords *records);
 void func_020095e0(GameRecords *records);
 void func_02009638(GameRecords *records, u32 points);
 RecordSave *func_0200f2bc(SaveControl *save);
+// The results of the random matches
+void *func_0200f2d4(RecordSave *record);
 void func_0200f2dc(RecordSave *record);
 u8 func_0200f300(RecordSave *record);
 u32 func_0200f308(RecordSave *record);

@@ -692,3 +692,50 @@ src/system/time_icon.c:
 
 src/system/unity_tower_register.c:
     .text       start:0x0203537c end:0x020355e4
+
+src/system/shooter_item.c:
+    complete
+    .text       start:0x02035914 end:0x02035990
+    .rodata     start:0x02092b68 end:0x02092c20
+
+src/system/pml_met_data.c:
+    complete
+    .text       start:0x02035990 end:0x0203602c
+
+src/system/pml_hm_check.c:
+    complete
+    .text       start:0x0203602c end:0x02036068
+
+src/system/save_error.c:
+    complete
+    .text       start:0x02036068 end:0x02036314
+
+src/system/resort_binary.c:
+    complete
+    .text       start:0x020395d8 end:0x02039898
+    .data       start:0x0209a878 end:0x0209a888
+
+src/system/resort_work.c:
+    complete
+    .text       start:0x02039898 end:0x020399b4
+    .data       start:0x0209a888 end:0x0209a898
+
+src/system/boot_proc.c:
+    complete
+    .text       start:0x02036314 end:0x020363b0
+    .rodata     start:0x02092c20 end:0x02092c2c
+    .bss        start:0x02141848 end:0x02141850
+
+src/system/resonance_resort_data.c:
+    .text       start:0x020363b0 end:0x02039538
+    .rodata     start:0x02092c2c end:0x02092d00
+    .data       start:0x0209a860 end:0x0209a878
+    .bss        start:0x02141850 end:0x0214185c
+
+src/system/resort_layout.c:
+    complete
+    .text       start:0x02039538 end:0x020395d8
+    .rodata     start:0x02092d00 end:0x02092f78
+
+lib/nitro/src/crypto/rc4.c:
+    .text       start:0x020399b4 end:0x02039aac

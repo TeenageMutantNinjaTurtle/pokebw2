@@ -19,13 +19,13 @@
 #include "system/vm.h"
 #include "system/wordset.h"
 
-// The medal, survey answer, empty file and trainer class loaders take a u8, which the (u8) casts below stand for:
-// system/wordset.h declares them with u32
 typedef void (*WordSetLoadFunc)(WordSet *wordSet, u32 index, u32 value);
+// The trainer class loaders take the class as a u8
+typedef void (*WordSetLoadByteFunc)(WordSet *wordSet, u32 index, u8 value);
 
 static BOOL loadAllItemText(VM *vm, FieldScriptEnv *env, WordSetLoadFunc load);
 static BOOL loadAllPkmNameText(VM *vm, FieldScriptEnv *env, WordSetLoadFunc load);
-static BOOL func_ov036_021a7c18(VM *vm, FieldScriptEnv *env, WordSetLoadFunc load);
+static BOOL func_ov036_021a7c18(VM *vm, FieldScriptEnv *env, WordSetLoadByteFunc load);
 
 BOOL s004C_WordSetPlayerName(VM *vm, FieldScriptEnv *env) {
     ScriptWork *work = FieldScriptEnv_GetScriptWork(env);
@@ -223,7 +223,7 @@ BOOL s0063_WordSetSurveyAnswer(VM *vm, FieldScriptEnv *env) {
     u8 index = VM_Read8(vm);
     u16 answer = ScriptReadAny(vm, env);
 
-    loadQuestionnaireAnswerToStrbuf(wordSet, index, (u8)answer);
+    loadQuestionnaireAnswerToStrbuf(wordSet, index, answer);
     return FALSE;
 }
 
@@ -235,11 +235,11 @@ BOOL s0060_WordSetPassPowerName(VM *vm, FieldScriptEnv *env) {
     return FALSE;
 }
 
-static BOOL func_ov036_021a7c18(VM *vm, FieldScriptEnv *env, WordSetLoadFunc load) {
+static BOOL func_ov036_021a7c18(VM *vm, FieldScriptEnv *env, WordSetLoadByteFunc load) {
     u8 index = VM_Read8(vm);
     u16 value = ScriptReadAny(vm, env);
 
-    load(ScriptWork_GetWordSet(FieldScriptEnv_GetScriptWork(env)), index, (u8)value);
+    load(ScriptWork_GetWordSet(FieldScriptEnv_GetScriptWork(env)), index, value);
     return FALSE;
 }
 
@@ -276,7 +276,7 @@ BOOL s026C_WordSetMedalName(VM *vm, FieldScriptEnv *env) {
     u8 index = VM_Read8(vm);
     u16 medal = ScriptReadAny(vm, env);
 
-    loadMedalNameToStrbuf(wordSet, index, (u8)medal);
+    loadMedalNameToStrbuf(wordSet, index, medal);
     return FALSE;
 }
 
@@ -297,7 +297,7 @@ BOOL func_ov036_021a7d70(VM *vm, FieldScriptEnv *env) {
     u8 index = VM_Read8(vm);
     u16 messageId = ScriptReadAny(vm, env);
 
-    loadFromEmptyFile(wordSet, index, (u8)messageId);
+    loadFromEmptyFile(wordSet, index, messageId);
     return FALSE;
 }
 
@@ -323,7 +323,7 @@ BOOL func_ov036_021a7e04(VM *vm, FieldScriptEnv *env) {
     u16 value = ScriptReadAny(vm, env);
     u16 arg = ScriptReadAny(vm, env);
 
-    func_02024868(wordSet, index, (u8)value, arg);
+    func_02024868(wordSet, index, value, arg);
     return FALSE;
 }
 
