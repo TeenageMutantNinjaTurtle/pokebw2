@@ -91,6 +91,7 @@ typedef struct {
     u8 priority;
     u8 bgPriority;
     u16 surface;
+    // CLACT_VRAM_MAIN or CLACT_VRAM_SUB
     u32 vramType;
 } PStaOamSetup;
 
