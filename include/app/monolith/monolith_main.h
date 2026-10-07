@@ -139,7 +139,6 @@ struct MonolithWork {
 };
 
 // The procs of the screens, in their files
-extern const GameProcFunctions data_ov143_021a00b0;
 extern const GameProcFunctions data_ov143_021a0134;
 extern const GameProcFunctions data_ov143_021a01e4;
 extern const GameProcFunctions data_ov143_021a0388;
