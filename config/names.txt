@@ -2950,6 +2950,13 @@ overlays/ov209 0x021bad2c MusShotInfo_Create
 overlays/ov209 0x021bada8 MusShotInfo_Delete
 overlays/ov209 0x021badf8 MusShotInfo_Main
 overlays/ov209 0x021baf90 MusShotInfo_IsFinished
+overlays/ov209 0x021bafa0 MusShotInfo_InitGraphics
+overlays/ov209 0x021bb12c MusShotInfo_InitBG
+overlays/ov209 0x021bb150 MusShotInfo_InitMessage
+overlays/ov209 0x021bb1f0 MusShotInfo_ExitMessage
+overlays/ov209 0x021bb23c MusShotInfo_PrintMessage
+overlays/ov209 0x021bb2ac MusShotInfo_PrintMessageNow
+overlays/ov209 0x021bb304 MusShotInfo_CreateMenu
 overlays/ov209 0x021c2bec MUSICAL_SHOT_LCD_CONFIG
 overlays/ov209 0x021c2bfc MUSICAL_SHOT_VRAM_CONFIG
 overlays/ov209 0x021c2c30 MUS_SHOT_PHOTO_CAMERA_TARGET
@@ -2965,6 +2972,10 @@ overlays/ov209 0x021c2cdc MUS_SHOT_PHOTO_TOP_OFFSET
 overlays/ov209 0x021c2ce8 MUS_SHOT_PHOTO_BLACT_SCALE
 overlays/ov209 0x021c2cf4 MUS_SHOT_PHOTO_POKE_X
 overlays/ov209 0x021c2d04 MUS_SHOT_PHOTO_BLACT_SETUP
+overlays/ov209 0x021c2d20 MUS_SHOT_INFO_RETURN_RECT
+overlays/ov209 0x021c2d28 MUS_SHOT_INFO_BG4_SETUP
+overlays/ov209 0x021c2d48 MUS_SHOT_INFO_BG6_SETUP
+overlays/ov209 0x021c2d68 MUS_SHOT_INFO_BG7_SETUP
 overlays/ov209 0x021c3000 MUSICAL_SHOT_PROC_FUNCTIONS
 overlays/ov214 0x021d3380 WorldTradeProc_Init
 overlays/ov214 0x021d34b4 WorldTradeProc_Main
