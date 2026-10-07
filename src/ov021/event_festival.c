@@ -6,7 +6,6 @@
 #include "field/field.h"
 #include "field/field_event.h"
 #include "field/field_sound.h"
-#include "field/iss.h"
 #include "gfl/net.h"
 #include "gfl/std.h"
 #include "save/save_control.h"

@@ -554,3 +554,54 @@ src/system/tr_tool.c:
     .text       start:0x020304e0 end:0x02030ed0
     .rodata     start:0x020922b8 end:0x02092744
     .data       start:0x0209a6c8 end:0x0209a6d4
+
+src/system/iss_city_sys.c:
+    complete
+    .text       start:0x02030ed0 end:0x020312c8
+    .data       start:0x0209a6d4 end:0x0209a6e4
+
+src/system/iss_dungeon_sys.c:
+    complete
+    .text       start:0x020316a8 end:0x02031898
+    .data       start:0x0209a704 end:0x0209a718
+
+src/system/iss_city_unit.c:
+    complete
+    .text       start:0x020312c8 end:0x02031588
+    .data       start:0x0209a6e4 end:0x0209a6f4
+
+src/system/iss_road_sys.c:
+    complete
+    .text       start:0x02031588 end:0x020316a8
+    .data       start:0x0209a6f4 end:0x0209a704
+
+src/system/iss_3ds_sys.c:
+    complete
+    .text       start:0x02031c70 end:0x02032244
+    .data       start:0x0209a724 end:0x0209a734
+
+src/system/iss_zone_sys.c:
+    complete
+    .text       start:0x02032244 end:0x0203244c
+    .data       start:0x0209a734 end:0x0209a744
+
+src/system/iss_switch_sys.c:
+    complete
+    .text       start:0x0203244c end:0x020328a4
+    .data       start:0x0209a744 end:0x0209a758
+
+src/system/iss_switch_set.c:
+    complete
+    .text       start:0x020328a4 end:0x02032c38
+    .data       start:0x0209a758 end:0x0209a76c
+
+src/system/iss_switch.c:
+    complete
+    .text       start:0x02032c38 end:0x02032e94
+    .data       start:0x0209a76c end:0x0209a77c
+
+src/system/iss_sys.c:
+    complete
+    .text       start:0x02031898 end:0x02031c70
+    .rodata     start:0x02092744 end:0x020927b0
+    .data       start:0x0209a718 end:0x0209a724

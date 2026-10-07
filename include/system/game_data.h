@@ -38,6 +38,7 @@ GameData *GameData_Create(HeapID heapId);
 void GameData_Free(GameData *gameData);
 BOOL GameData_CheckPairFlag(GameData *gameData);
 BagSave *GameData_GetBag(GameData *gameData);
+BGMInfo *GameData_GetBGMInfo(GameData *gameData);
 void *func_0201734c(GameData *gameData);
 BoxSaveAccessor *GameData_GetBoxSaveAccessor(GameData *gameData);
 ZoneSpawnInfo *GameData_GetEntralinkParentSpawnInfo(GameData *gameData);
@@ -59,6 +60,8 @@ void GameData_UpdateTime(GameData *gameData, u32 seconds);
 void *func_02017208(GameData *gameData);
 u16 func_02017220(GameData *gameData);
 void func_0201740c(GameData *gameData, u8 value);
+// The item the field menu last had selected, which func_0201740c sets
+u8 func_020173ec(GameData *gameData);
 // Save block 0x39, the Battle Subway's scores
 BSubwayScoreData *func_0201795c(GameData *gameData);
 BSubwayScrWork *func_0201794c(GameData *gameData);

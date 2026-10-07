@@ -97,6 +97,8 @@ void CtvtComm_SetNextConnectType(CommTvtWork *sys, CtvtComm *comm, int type);
 int CtvtComm_GetConnectType(CommTvtWork *sys, CtvtComm *comm);
 void CtvtComm_SetParentMac(CommTvtWork *sys, CtvtComm *comm, const u8 *mac);
 BOOL CtvtComm_IsConnected(CommTvtWork *sys, CtvtComm *comm);
+// Whether mac is one of the machines the beacon invites
+BOOL CtvtComm_IsInvited(const CtvtCommBeacon *beacon, const u8 *mac);
 void CtvtComm_SendZoom(CommTvtWork *sys, CtvtComm *comm, BOOL zoomed);
 BOOL CtvtComm_SendPacket(CommTvtWork *sys, CtvtComm *comm, u8 type, u32 value);
 BOOL CtvtComm_SendPacketAll(CommTvtWork *sys, CtvtComm *comm, u8 type, u32 value);

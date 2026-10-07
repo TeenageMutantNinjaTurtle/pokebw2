@@ -35,6 +35,10 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - A narrow type in a wider local: `GFL_BGSysAllocChar` only matched with a `u8` tile size held in an `int`.
   (matching.md: "plain change")
 - Diagnose with `tools/scripts/locals.py`, which shows each variable's register.
+- A parameter spilled after a register copy, where the original spills it first: the callers narrow it, so it is a
+  `u16` or `u8`. (matching.md: "callers narrow with shifts")
+- An element's address and the array base in two registers: test the fields through an element pointer and index in
+  the body. (matching.md: "pointer to the element")
 
 ## Stack slots or frame size
 
@@ -90,6 +94,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - Store order in initialization code is usually source order: try the stores in the asm's order first.
 - A field of a local struct loaded before a call that doesn't fill it was read into a local there, as `targetX = target.x;`.
   (matching.md: "A field of a local struct")
+- A nested call made after the outer call's other arguments, where the original makes it first: its result was a
+  local. (matching.md: "nested in another call's arguments")
 - Arguments loaded in order around a conditional one: that argument was a local set before the call.
   (matching.md: "A conditional expression among a call's arguments")
 
@@ -167,6 +173,9 @@ text to `grep -n` there. Entries without a key come from later work and still be
   row of the nonmatching doc for a case still open.
 - A wrapping decrement that reads the variable again in one branch: `if (x == 0) { x = 3; } else { x--; }`, not a
   conditional expression (matching.md: "reads it again in the `else`")
+- A bit test (`lsl; tst #mask`) for a value among a few constants: `return x == a || x == b || x == c;`.
+  (matching.md: "bit test")
+- A test after the others that it guards against: a nested `if` without an `else`. (matching.md: "Nested tests")
 
 ## Loops
 
@@ -180,6 +189,10 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - A field loaded again at the top of a loop's body, after the test loaded it: walk a local cursor, not the pointer
   parameter. (matching.md: "local cursor")
 - `beq` before and `bne` after the loop is a `!=` bound. (matching.md: "A loop counted with `!=`")
+- A loop bound computed once and tested with `ble`: `i <= N - 1`; `i < N` reloads it and tests `blt`.
+  (matching.md: "i <= N - 1")
+- A test after a body that is entered from the top and from an earlier branch, in a function that does one box a frame:
+  `while (box < n) { ...; break; }`, with a comment. (matching.md: "stops after its first pass")
 
 ## Switches
 

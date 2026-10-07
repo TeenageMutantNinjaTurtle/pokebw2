@@ -8,10 +8,13 @@
 
 // What a battle started from the field takes from it, which SaveBtlFieldStatus of overlay 36 fills in
 struct BtlFieldStatus {
-    u32 unk0;
-    u32 unk4;
-    u32 unk8;
-    u32 unkC;
+    u32 bgId;
+    u32 terrain;
+    u8 weather;
+    u8 season;
+    u16 zoneId;
+    u8 hour;
+    u8 minute;
 };
 
 void SaveBtlFieldStatus(BtlFieldStatus *status, GameData *gameData, Field *field);

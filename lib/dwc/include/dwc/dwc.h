@@ -9,6 +9,8 @@
 
 // The friend key of the player's user data
 u64 func_02057ec4(const void *userData);
+// Clears the error, unless it is 9
+void func_02058490(void);
 
 // Starts connecting to the access point; one of the calls that end the connection after a server error; and the
 // connection's state
