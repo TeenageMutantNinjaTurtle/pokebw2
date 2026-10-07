@@ -253,26 +253,26 @@ void PMSIVCategory_MoveCursor(PMSIVCategory *wk, u32 pos) {
         anim = CURSOR_ANIM_BUTTON;
         if (pos == PMSIV_CATEGORY_POS_BUTTON_0) {
             if (*wk->keyMode == 0) {
-                func_ov185_021a085c(menu, 0, TRUE);
+                PMSIVMenu_SetCursor(menu, 0, TRUE);
             } else {
-                func_ov185_021a085c(menu, 0, FALSE);
+                PMSIVMenu_SetCursor(menu, 0, FALSE);
             }
         } else if (pos == PMSIV_CATEGORY_POS_BUTTON_1) {
             if (*wk->keyMode == 0) {
-                func_ov185_021a085c(menu, 1, TRUE);
+                PMSIVMenu_SetCursor(menu, 1, TRUE);
             } else {
-                func_ov185_021a085c(menu, 0, FALSE);
+                PMSIVMenu_SetCursor(menu, 0, FALSE);
             }
         } else if (pos == PMSIV_CATEGORY_POS_BACK) {
             if (*wk->keyMode == 0) {
-                func_ov185_021a085c(menu, 2, TRUE);
+                PMSIVMenu_SetCursor(menu, 2, TRUE);
             } else {
-                func_ov185_021a085c(menu, 0, FALSE);
+                PMSIVMenu_SetCursor(menu, 0, FALSE);
             }
         } else {
             u32 x, y;
 
-            func_ov185_021a085c(menu, 0, FALSE);
+            PMSIVMenu_SetCursor(menu, 0, FALSE);
             PMSIInitial_GetPos(pos, &x, &y);
             actPos.x = x + 18;
             actPos.y = y + 56;
