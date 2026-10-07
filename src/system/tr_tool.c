@@ -655,7 +655,7 @@ void TrainerUtil_LoadParty(int trainerId, PokeParty *party, HeapID heapId) {
             }
             rnd = (rnd << 8) + pidBase;
             iv = poke[i].difficulty * 31 / 255;
-            PokeParty_CreatePkm(pkm, poke[i].species, poke[i].level, 0, -1, PACK_IVS(iv, iv, iv, iv, iv, iv), rnd, 0);
+            PokeParty_CreatePkm(pkm, poke[i].species, poke[i].level, PKM_ID_NOT_SHINY, PACK_IVS(iv, iv, iv, iv, iv, iv), rnd);
             TrainerUtil_SetupPkm(trainerId, pkm, poke[i].form, poke[i].genderAbility);
             PokeParty_AddPkm(party, pkm);
         }
@@ -677,8 +677,7 @@ void TrainerUtil_LoadParty(int trainerId, PokeParty *party, HeapID heapId) {
             }
             rnd = (rnd << 8) + pidBase;
             iv = poke[i].base.difficulty * 31 / 255;
-            PokeParty_CreatePkm(pkm, poke[i].base.species, poke[i].base.level, 0, -1, PACK_IVS(iv, iv, iv, iv, iv, iv),
-                                rnd, 0);
+            PokeParty_CreatePkm(pkm, poke[i].base.species, poke[i].base.level, PKM_ID_NOT_SHINY, PACK_IVS(iv, iv, iv, iv, iv, iv), rnd);
             for (j = 0; j < 4; j++) {
                 PokeParty_SetMove(pkm, poke[i].moves[j], j);
             }
@@ -703,8 +702,7 @@ void TrainerUtil_LoadParty(int trainerId, PokeParty *party, HeapID heapId) {
             }
             rnd = (rnd << 8) + pidBase;
             iv = poke[i].base.difficulty * 31 / 255;
-            PokeParty_CreatePkm(pkm, poke[i].base.species, poke[i].base.level, 0, -1, PACK_IVS(iv, iv, iv, iv, iv, iv),
-                                rnd, 0);
+            PokeParty_CreatePkm(pkm, poke[i].base.species, poke[i].base.level, PKM_ID_NOT_SHINY, PACK_IVS(iv, iv, iv, iv, iv, iv), rnd);
             PokeParty_SetParam(pkm, PKM_PARAM_ITEM, poke[i].item);
             TrainerUtil_SetupPkm(trainerId, pkm, poke[i].base.form, poke[i].base.genderAbility);
             PokeParty_AddPkm(party, pkm);
@@ -727,8 +725,7 @@ void TrainerUtil_LoadParty(int trainerId, PokeParty *party, HeapID heapId) {
             }
             rnd = (rnd << 8) + pidBase;
             iv = poke[i].base.difficulty * 31 / 255;
-            PokeParty_CreatePkm(pkm, poke[i].base.species, poke[i].base.level, 0, -1, PACK_IVS(iv, iv, iv, iv, iv, iv),
-                                rnd, 0);
+            PokeParty_CreatePkm(pkm, poke[i].base.species, poke[i].base.level, PKM_ID_NOT_SHINY, PACK_IVS(iv, iv, iv, iv, iv, iv), rnd);
             PokeParty_SetParam(pkm, PKM_PARAM_ITEM, poke[i].item);
             for (j = 0; j < 4; j++) {
                 PokeParty_SetMove(pkm, poke[i].moves[j], j);

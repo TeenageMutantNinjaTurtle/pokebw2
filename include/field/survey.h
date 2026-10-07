@@ -36,6 +36,8 @@ struct SurveyTextWork {
 // The hours since the survey started, up to 24
 u16 detectLengthSinceLastSession(SaveControl *save);
 void *func_0200ec2c(SaveControl *save);
+// Sets the survey's question at index
+void func_0200ecd8(void *survey, u8 question, u32 index);
 void func_0200ca84(TrainerGameInfoSave *info, u8 value);
 void func_0200ca94(TrainerGameInfoSave *info, u8 index, u8 value);
 void func_0200caa8(TrainerGameInfoSave *info, u8 index, u16 value);

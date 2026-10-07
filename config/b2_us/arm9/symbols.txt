@@ -7741,8 +7741,11 @@ strcmpi kind:function(arm,size=0xc) addr:0x0208c218
 __aeabi_dadd kind:function(arm,size=0x318) addr:0x0208c224
 doubleSub kind:function(arm,size=0x3b4) addr:0x0208c554
 __aeabi_dmul kind:function(arm,size=0x364) addr:0x0208c908
+_dmul kind:label(arm) addr:0x0208c908
 __aeabi_d2f kind:function(arm,size=0x104) addr:0x0208cc6c
+_d2f kind:label(arm) addr:0x0208cc6c
 __aeabi_i2d kind:function(arm,size=0x40) addr:0x0208cd70
+_dflt kind:label(arm) addr:0x0208cd70
 __aeabi_ui2d kind:function(arm,size=0x3c) addr:0x0208cdb0
 __aeabi_dcmpge kind:function(arm,size=0x98) addr:0x0208cdec
 __aeabi_dcmpgt kind:function(arm,size=0x98) addr:0x0208ce84
@@ -7755,6 +7758,7 @@ _fgr kind:function(arm,size=0x5c) addr:0x0208d1d0
 _fleq kind:function(arm,size=0x68) addr:0x0208d22c
 _fls kind:function(arm,size=0x5c) addr:0x0208d294
 __aeabi_f2d kind:function(arm,size=0x84) addr:0x0208d2f0
+_f2d kind:label(arm) addr:0x0208d2f0
 __aeabi_i2f kind:function(arm,size=0x48) addr:0x0208d374
 _fflt kind:label(arm) addr:0x0208d374
 _ffltu kind:function(arm,size=0x48) addr:0x0208d3bc
@@ -7774,6 +7778,7 @@ _ffix kind:function(arm,size=0x34) addr:0x0208da4c
 __aeabi_f2uiz kind:function(arm,size=0x40) addr:0x0208da80
 _ffixu kind:label(arm) addr:0x0208da80
 __aeabi_d2iz kind:function(arm,size=0x4c) addr:0x0208dac0
+_dfix kind:label(arm) addr:0x0208dac0
 __aeabi_d2ulz kind:function(arm,size=0x8c) addr:0x0208db0c
 sqrt kind:function(arm,size=0x19c) addr:0x0208db98
 _fmul kind:function(arm,size=0x1e0) addr:0x0208dd34
@@ -8162,7 +8167,6 @@ data_020955bc kind:data(any) addr:0x020955bc
 data_020955fc kind:data(any) addr:0x020955fc
 data_020956bc kind:data(any) addr:0x020956bc
 data_020976bc kind:data(any) addr:0x020976bc
-data_02097bfc kind:data(any) addr:0x02097bfc
 data_02097dfc kind:data(any) addr:0x02097dfc
 FX_ARCTG_TABLE kind:data(any) addr:0x020986bc
 data_020987c0 kind:data(any) addr:0x020987c0

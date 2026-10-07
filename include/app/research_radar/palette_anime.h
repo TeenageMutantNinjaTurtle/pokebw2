@@ -13,7 +13,8 @@ void PaletteAnime_Delete(PaletteAnime *anime);
 // Animates count colors at dst, from the colors at src, which it copies
 void PaletteAnime_Setup(PaletteAnime *anime, u16 *dst, const u16 *src, u8 count);
 void PaletteAnime_Update(PaletteAnime *anime);
-void PaletteAnime_Start(PaletteAnime *anime, u32 mode, u16 speed);
+// Starts an animation of the colors toward color; the modes pulse, flash or fade in different ways
+void PaletteAnime_Start(PaletteAnime *anime, u32 mode, u16 color);
 void PaletteAnime_Stop(PaletteAnime *anime);
 // Puts back the colors that were copied
 void PaletteAnime_Restore(PaletteAnime *anime);
