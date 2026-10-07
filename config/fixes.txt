@@ -784,6 +784,7 @@ overlays/ov135 0x021efbaa reloc_module overlay(55)
 overlays/ov137 0x021f52ac add_data RESORT_FIELD_SCENE_ANGLE
 overlays/ov137 0x021f5308 remove_reloc
 overlays/ov137 0x021f5688 add_data data_ov137_021f5688
+overlays/ov141 0x0219e10c remove_reloc
 overlays/ov142 0x021a094d remove_symbol
 overlays/ov142 0x021a0a3c remove_reloc
 overlays/ov142 0x021a0d58 remove_reloc
@@ -802,7 +803,6 @@ overlays/ov142 0x021a0df0 remove_reloc
 overlays/ov142 0x021a0e15 remove_symbol
 overlays/ov142 0x021a0e18 remove_reloc
 overlays/ov142 0x021a0e81 remove_symbol
-overlays/ov141 0x0219e10c remove_reloc
 overlays/ov142 0x021a10b0 remove_reloc
 overlays/ov142 0x021a13a0 remove_reloc
 overlays/ov142 0x021a13dc remove_reloc
@@ -1138,6 +1138,7 @@ overlays/ov194 0x021c71e4 remove_reloc
 overlays/ov194 0x021c7200 remove_reloc
 overlays/ov194 0x021c7240 remove_reloc
 overlays/ov194 0x021c7268 remove_reloc
+overlays/ov197 0x021be558 add_data data_ov197_021be558
 overlays/ov198 0x021b4550 remove_reloc
 overlays/ov199 0x021b805e reloc_module overlay(189)
 overlays/ov199 0x021b943c reloc_module overlay(189)
