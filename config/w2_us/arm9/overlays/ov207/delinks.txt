@@ -35,6 +35,7 @@ src/ov207/p_sta_skill.c:
     .data       start:0x021bb724 end:0x021bb734
 
 src/ov207/p_sta_oam.c:
+    complete
     .text       start:0x021ba940 end:0x021baddc
     .data       start:0x021bb734 end:0x021bb740
 
