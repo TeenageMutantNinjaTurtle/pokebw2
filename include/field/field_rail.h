@@ -9,6 +9,24 @@
 #include "nitro/fx.h"
 #include "struct_decls.h"
 
+// rail_attr.c: the tile attributes of the rail lines
+typedef struct RailAttr RailAttr;
+
+RailAttr *AllocateRailAttrBlock(u32 heapId);
+void func_ov036_021b3a58(RailAttr *attr);
+void FieldRailTilemap_Load(RailAttr *attr, u32 fileId, u32 heapId);
+void func_ov036_021b3ad0(RailAttr *attr);
+u32 FieldRailTilemap_GetTileAtPos(RailAttr *attr, const RailPosition *pos);
+// Whether a tile class is one of the rails' special tiles
+BOOL func_ov036_021b3b3c(u16 tileClass);
+BOOL func_ov036_021b3b54(u32 tileClass);
+BOOL func_ov036_021b3b64(u32 tileClass);
+BOOL func_ov036_021b3b70(u32 tileClass);
+BOOL func_ov036_021b3b7c(u32 tileClass);
+BOOL func_ov036_021b3b88(u32 tileClass);
+BOOL func_ov036_021b3b94(u32 tileClass);
+BOOL func_ov036_021b3ba0(u32 tileClass);
+
 FieldRailSystem *FieldNoGridMapper_GetRailSystem(NoGridMapper *mapper);
 // Makes the camera follow the rail system's camera, or not
 void FieldNoGridMapper_SetCameraParent(NoGridMapper *mapper, void *parent);
