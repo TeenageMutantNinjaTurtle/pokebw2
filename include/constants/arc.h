@@ -29,6 +29,8 @@
 #define ARCID_ITEMGRA 25
 // The boot logos and the title screen's 2D graphics
 #define ARCID_TITLE 26
+// The Game Sync menu's graphics
+#define ARCID_GSYNC_MENU 29
 // Mystery Gift's graphics
 #define ARCID_MYSTERY 33
 // The start menu's graphics
