@@ -448,6 +448,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   parameter instead (`for (option = options; option->text != END; option++)`), as bmp_menuwork.c's
   `ListMenuCore_FreeStrBufs` and `ListMenuCore_GetFirstFreeIndex` do.
 
+- A test that the original places after its body, entered from the top as well as from an earlier branch, is a loop
+  that stops after its first pass: `while (box < n) { ...; break; }`. The trade does one box a frame this way in
+  `pokemontrade_proc.c`'s `func_ov194_021bb3c0` and `pokemontrade_2d.c`'s `func_ov194_021c2c04` and
+  `func_ov194_021c3e9c`, each 8 bytes or so shorter as an `if`. Comment it, so it isn't "fixed".
+
 ## Switches
 
 - Switch cases are laid out in source order, not by value, so the layout shows the order the cases were written in.

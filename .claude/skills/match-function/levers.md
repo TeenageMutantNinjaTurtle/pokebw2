@@ -180,6 +180,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - A field loaded again at the top of a loop's body, after the test loaded it: walk a local cursor, not the pointer
   parameter. (matching.md: "local cursor")
 - `beq` before and `bne` after the loop is a `!=` bound. (matching.md: "A loop counted with `!=`")
+- A test after a body that is entered from the top and from an earlier branch, in a function that does one box a frame:
+  `while (box < n) { ...; break; }`, with a comment. (matching.md: "stops after its first pass")
 
 ## Switches
 
