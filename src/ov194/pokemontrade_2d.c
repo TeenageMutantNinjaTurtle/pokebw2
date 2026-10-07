@@ -1464,7 +1464,7 @@ void func_ov194_021c4b88(PokemonTradeWork *wk) {
     for (i = 0; i < NELEMS(wk->initialWindows); i++) {
         if (wk->initialWindows[i] != NULL) {
             BmpWin_ClearScreen(wk->initialWindows[i]);
-            func_02024eec(wk->initialWindows[i], 2);
+            BmpWin_ClearFrame(wk->initialWindows[i], 2);
             BmpWin_Free(wk->initialWindows[i]);
             wk->initialWindows[i] = NULL;
         }
