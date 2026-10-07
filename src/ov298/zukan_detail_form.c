@@ -146,20 +146,6 @@ enum {
     STRBUF_COUNT,
 };
 
-// The resources of the actors and buttons
-enum {
-    RES_MAIN_CHARS,
-    RES_MAIN_PALETTE,
-    RES_MAIN_CELL_ANIMS,
-    RES_COLOR_CHARS,
-    RES_COLOR_PALETTE,
-    RES_COLOR_CELL_ANIMS,
-    RES_ARROW_CHARS,
-    RES_ARROW_PALETTE,
-    RES_ARROW_CELL_ANIMS,
-    RES_COUNT,
-};
-
 // The slider's bar and knob, and the color marks of the two entries shown
 enum {
     ACTOR_SLIDER_BAR,
@@ -206,12 +192,6 @@ enum {
 typedef struct ZukanDetailFormWork ZukanDetailFormWork;
 
 typedef struct {
-    f32 x;
-    f32 y;
-    f32 z;
-} PosF32;
-
-typedef struct {
     u32 species;
     u32 form;
     // 3 for any sex
@@ -220,7 +200,7 @@ typedef struct {
     u32 a6;
     BOOL back;
     u32 personality;
-    PosF32 pos[POS_COUNT];
+    ZukanDetailFormPos pos[POS_COUNT];
 } SpritePositions;
 
 // The data of a sprite's animation callback, which stops it after ANIM_LOOPS loops
@@ -234,7 +214,7 @@ typedef struct {
 typedef struct {
     MCSS *mcss;
     SpriteAnim *anim;
-    PosF32 pos[POS_COUNT];
+    ZukanDetailFormPos pos[POS_COUNT];
 } Sprite;
 
 typedef struct {
@@ -250,21 +230,9 @@ typedef struct {
 } FormEntry;
 
 typedef struct {
-    u8 x;
-    u8 y;
-    u8 sequence;
-    u8 priority;
-    u8 bgPriority;
-    // RES_*
-    u8 chars;
-    u8 palette;
-    u8 cellAnims;
-} ActorData;
-
-typedef struct {
     s16 x;
     s16 y;
-    // RES_*
+    // ZUKAN_DETAIL_FORM_RES_*
     u32 chars;
     u32 palette;
     u32 cellAnims;
@@ -315,7 +283,7 @@ struct ZukanDetailFormWork {
     u32 bgChars;
     ZukanDetailBackground *backgroundMain;
     ZukanDetailBackground *backgroundSub;
-    u32 resources[RES_COUNT];
+    u32 resources[ZUKAN_DETAIL_FORM_RES_COUNT];
     ClActor *actors[ACTOR_COUNT];
     Button buttons[BUTTON_COUNT];
     // The BUTTON_* playing its animation, or BUTTON_NONE
@@ -456,32 +424,18 @@ static void ZukanDetailForm_SetActorsOpaque(ZukanDetailFormParam *param, ZukanDe
                                             ZukanDetailCommon *common);
 static void ZukanDetailForm_SetActorsBlended(ZukanDetailFormParam *param, ZukanDetailFormWork *wk,
                                              ZukanDetailCommon *common);
-static void ZukanDetailForm_InitSpritePositions(PosF32 *pos, u32 species, u32 form, u32 sex, u32 rare, u32 a6, u32 back,
-                                                u32 personality);
+static void ZukanDetailForm_InitSpritePositions(ZukanDetailFormPos *pos, u32 species, u32 form, u32 sex, u32 rare,
+                                                u32 a6, u32 back, u32 personality);
 static void ZukanDetailForm_GetSpritePos(Sprite *sprite, int pos, VecFx32 *out);
 static void ZukanDetailForm_GetPlacePos(Sprite *sprite, int place, VecFx32 *out);
-static void ZukanDetailForm_GetSpritePosF32(Sprite *sprite, int pos, PosF32 *out);
+static void ZukanDetailForm_GetSpritePosF32(Sprite *sprite, int pos, ZukanDetailFormPos *out);
 
-// The ROM has these three tables before the local initializers of ZukanDetailForm_AddMCSS and
-// ZukanDetailForm_GatherEntries, which no order of this file's declarations gives: as globals in a file of their own
-// linked before this one, with the initializers of ZukanDetailForm_GatherEntries declared the other way round, the
-// rest of this file's .rodata matches. Kept here until the file is complete
-static const u16 sZukanDetailFormStrbufMessages[STRBUF_COUNT] = { 187, 188, 159, 114, 115, 189 };
-
-static const ActorData sZukanDetailFormActors[ACTOR_COUNT] = {
-    { 144, 48, 21, 1, 3, RES_MAIN_CHARS, RES_MAIN_PALETTE, RES_MAIN_CELL_ANIMS },
-    { 156, 48, 22, 0, 3, RES_MAIN_CHARS, RES_MAIN_PALETTE, RES_MAIN_CELL_ANIMS },
-    { 0, 0, 0, 0, 3, RES_COLOR_CHARS, RES_COLOR_PALETTE, RES_COLOR_CELL_ANIMS },
-    { 128, 0, 0, 0, 3, RES_COLOR_CHARS, RES_COLOR_PALETTE, RES_COLOR_CELL_ANIMS },
-};
-
-static const PosF32 sZukanDetailFormDefaultPositions[POS_COUNT] = {
-    { 0.0f, -13.9f, 0.0f },   { -64.0f, -13.9f, 0.0f }, { 64.0f, -13.9f, 0.0f },
-    { -16.0f, -13.9f, 0.0f }, { 16.0f, -13.9f, 0.0f },
-};
-
-const ZukanDetailProcFuncs ZUKAN_DETAIL_FORM_PROC_FUNCS = {
-    ZukanDetailForm_Init, ZukanDetailForm_Main, ZukanDetailForm_Exit, ZukanDetailForm_Command, ZukanDetailForm_Draw,
+// Sprite positions, of which the code only uses the last: the offset from a sprite of the one beside it in the
+// comparison
+static VecFx32 sZukanDetailFormOffsets[3] = {
+    { 0, FX32_CONST(-13.9), 0 },
+    { FX32_CONST(-16), FX32_CONST(-13.9), 0 },
+    { FX32_CONST(32), 0, 0 },
 };
 
 // The sprites whose drawing is off center
@@ -668,12 +622,8 @@ static const SpritePositions sZukanDetailFormSpritePositions[] = {
         { 16.0f, -13.92f, 0.0f } } },
 };
 
-// Sprite positions, of which the code only uses the last: the offset from a sprite of the one beside it in the
-// comparison
-static VecFx32 sZukanDetailFormOffsets[3] = {
-    { 0, FX32_CONST(-13.9), 0 },
-    { FX32_CONST(-16), FX32_CONST(-13.9), 0 },
-    { FX32_CONST(32), 0, 0 },
+const ZukanDetailProcFuncs ZUKAN_DETAIL_FORM_PROC_FUNCS = {
+    ZukanDetailForm_Init, ZukanDetailForm_Main, ZukanDetailForm_Exit, ZukanDetailForm_Command, ZukanDetailForm_Draw,
 };
 
 void ZukanDetailForm_InitParam(ZukanDetailFormParam *param, HeapID heapId) {
@@ -1302,7 +1252,7 @@ static void ZukanDetailForm_CreateText(ZukanDetailFormParam *param, ZukanDetailF
     ZukanDetailForm_FlushWindow(param, wk, common, WINDOW_LABELS);
 
     for (i = 0; i < STRBUF_COUNT; i++) {
-        wk->strbufs[i] = GFL_MsgDataLoadStrbufNew(wk->msgData, sZukanDetailFormStrbufMessages[i]);
+        wk->strbufs[i] = GFL_MsgDataLoadStrbufNew(wk->msgData, ZUKAN_DETAIL_FORM_STRBUF_MESSAGES[i]);
     }
 }
 
@@ -2311,29 +2261,32 @@ static void ZukanDetailForm_CreateActors(ZukanDetailFormParam *param, ZukanDetai
     ArcTool *arc = GFL_ArcSysCreateFileHandle(ARCID_ZUKAN_GRA, param->heapId);
     u8 i;
 
-    wk->resources[RES_MAIN_PALETTE] = func_0204bbb8(arc, 3, CLACT_VRAM_MAIN, 0, 0, 3, param->heapId);
-    wk->resources[RES_MAIN_CHARS] = func_0204b81c(arc, 13, FALSE, CLACT_VRAM_MAIN, param->heapId);
-    wk->resources[RES_MAIN_CELL_ANIMS] = func_0204bde0(arc, 28, 45, param->heapId);
-    wk->resources[RES_COLOR_PALETTE] = func_0204bbb8(arc, 0, CLACT_VRAM_MAIN, 0x60, 0, 1, param->heapId);
-    wk->resources[RES_COLOR_CHARS] = func_0204b81c(arc, 10, FALSE, CLACT_VRAM_MAIN, param->heapId);
-    wk->resources[RES_COLOR_CELL_ANIMS] = func_0204bde0(arc, 27, 44, param->heapId);
-    wk->resources[RES_ARROW_PALETTE] = func_0204bbb8(arc, 6, CLACT_VRAM_MAIN, 0x80, 0, 2, param->heapId);
-    wk->resources[RES_ARROW_CHARS] = func_0204b81c(arc, 16, FALSE, CLACT_VRAM_MAIN, param->heapId);
-    wk->resources[RES_ARROW_CELL_ANIMS] = func_0204bde0(arc, 30, 47, param->heapId);
+    wk->resources[ZUKAN_DETAIL_FORM_RES_MAIN_PALETTE] = func_0204bbb8(arc, 3, CLACT_VRAM_MAIN, 0, 0, 3, param->heapId);
+    wk->resources[ZUKAN_DETAIL_FORM_RES_MAIN_CHARS] = func_0204b81c(arc, 13, FALSE, CLACT_VRAM_MAIN, param->heapId);
+    wk->resources[ZUKAN_DETAIL_FORM_RES_MAIN_CELL_ANIMS] = func_0204bde0(arc, 28, 45, param->heapId);
+    wk->resources[ZUKAN_DETAIL_FORM_RES_COLOR_PALETTE] =
+        func_0204bbb8(arc, 0, CLACT_VRAM_MAIN, 0x60, 0, 1, param->heapId);
+    wk->resources[ZUKAN_DETAIL_FORM_RES_COLOR_CHARS] = func_0204b81c(arc, 10, FALSE, CLACT_VRAM_MAIN, param->heapId);
+    wk->resources[ZUKAN_DETAIL_FORM_RES_COLOR_CELL_ANIMS] = func_0204bde0(arc, 27, 44, param->heapId);
+    wk->resources[ZUKAN_DETAIL_FORM_RES_ARROW_PALETTE] =
+        func_0204bbb8(arc, 6, CLACT_VRAM_MAIN, 0x80, 0, 2, param->heapId);
+    wk->resources[ZUKAN_DETAIL_FORM_RES_ARROW_CHARS] = func_0204b81c(arc, 16, FALSE, CLACT_VRAM_MAIN, param->heapId);
+    wk->resources[ZUKAN_DETAIL_FORM_RES_ARROW_CELL_ANIMS] = func_0204bde0(arc, 30, 47, param->heapId);
     GFL_ArcToolFree(arc);
 
     for (i = 0; i < ACTOR_COUNT; i++) {
         ClActorSetup setup;
 
         sys_memset(&setup, 0, sizeof(ClActorSetup));
-        setup.x = sZukanDetailFormActors[i].x;
-        setup.y = sZukanDetailFormActors[i].y;
-        setup.sequence = sZukanDetailFormActors[i].sequence;
-        setup.priority = sZukanDetailFormActors[i].priority;
-        setup.bgPriority = sZukanDetailFormActors[i].bgPriority;
-        wk->actors[i] = func_0204c040(
-            wk->unit, wk->resources[sZukanDetailFormActors[i].chars], wk->resources[sZukanDetailFormActors[i].palette],
-            wk->resources[sZukanDetailFormActors[i].cellAnims], &setup, CLACT_SURFACE_MAIN, param->heapId);
+        setup.x = ZUKAN_DETAIL_FORM_ACTORS[i].x;
+        setup.y = ZUKAN_DETAIL_FORM_ACTORS[i].y;
+        setup.sequence = ZUKAN_DETAIL_FORM_ACTORS[i].sequence;
+        setup.priority = ZUKAN_DETAIL_FORM_ACTORS[i].priority;
+        setup.bgPriority = ZUKAN_DETAIL_FORM_ACTORS[i].bgPriority;
+        wk->actors[i] = func_0204c040(wk->unit, wk->resources[ZUKAN_DETAIL_FORM_ACTORS[i].chars],
+                                      wk->resources[ZUKAN_DETAIL_FORM_ACTORS[i].palette],
+                                      wk->resources[ZUKAN_DETAIL_FORM_ACTORS[i].cellAnims], &setup, CLACT_SURFACE_MAIN,
+                                      param->heapId);
         func_0204c520(wk->actors[i], TRUE);
         func_0204c124(wk->actors[i], FALSE);
         func_0204c318(wk->actors[i], 1);
@@ -2341,9 +2294,9 @@ static void ZukanDetailForm_CreateActors(ZukanDetailFormParam *param, ZukanDetai
 
     wk->buttons[BUTTON_TURN].x = 64;
     wk->buttons[BUTTON_TURN].y = 152;
-    wk->buttons[BUTTON_TURN].chars = RES_MAIN_CHARS;
-    wk->buttons[BUTTON_TURN].palette = RES_MAIN_PALETTE;
-    wk->buttons[BUTTON_TURN].cellAnims = RES_MAIN_CELL_ANIMS;
+    wk->buttons[BUTTON_TURN].chars = ZUKAN_DETAIL_FORM_RES_MAIN_CHARS;
+    wk->buttons[BUTTON_TURN].palette = ZUKAN_DETAIL_FORM_RES_MAIN_PALETTE;
+    wk->buttons[BUTTON_TURN].cellAnims = ZUKAN_DETAIL_FORM_RES_MAIN_CELL_ANIMS;
     wk->buttons[BUTTON_TURN].rectX = 64;
     wk->buttons[BUTTON_TURN].rectY = 152;
     wk->buttons[BUTTON_TURN].rectWidth = 64;
@@ -2357,9 +2310,9 @@ static void ZukanDetailForm_CreateActors(ZukanDetailFormParam *param, ZukanDetai
 
     wk->buttons[BUTTON_PLAY].x = 128;
     wk->buttons[BUTTON_PLAY].y = 152;
-    wk->buttons[BUTTON_PLAY].chars = RES_MAIN_CHARS;
-    wk->buttons[BUTTON_PLAY].palette = RES_MAIN_PALETTE;
-    wk->buttons[BUTTON_PLAY].cellAnims = RES_MAIN_CELL_ANIMS;
+    wk->buttons[BUTTON_PLAY].chars = ZUKAN_DETAIL_FORM_RES_MAIN_CHARS;
+    wk->buttons[BUTTON_PLAY].palette = ZUKAN_DETAIL_FORM_RES_MAIN_PALETTE;
+    wk->buttons[BUTTON_PLAY].cellAnims = ZUKAN_DETAIL_FORM_RES_MAIN_CELL_ANIMS;
     wk->buttons[BUTTON_PLAY].rectX = 128;
     wk->buttons[BUTTON_PLAY].rectY = 152;
     wk->buttons[BUTTON_PLAY].rectWidth = 64;
@@ -2373,9 +2326,9 @@ static void ZukanDetailForm_CreateActors(ZukanDetailFormParam *param, ZukanDetai
 
     wk->buttons[BUTTON_ARROW_L].x = 128;
     wk->buttons[BUTTON_ARROW_L].y = 96;
-    wk->buttons[BUTTON_ARROW_L].chars = RES_ARROW_CHARS;
-    wk->buttons[BUTTON_ARROW_L].palette = RES_ARROW_PALETTE;
-    wk->buttons[BUTTON_ARROW_L].cellAnims = RES_ARROW_CELL_ANIMS;
+    wk->buttons[BUTTON_ARROW_L].chars = ZUKAN_DETAIL_FORM_RES_ARROW_CHARS;
+    wk->buttons[BUTTON_ARROW_L].palette = ZUKAN_DETAIL_FORM_RES_ARROW_PALETTE;
+    wk->buttons[BUTTON_ARROW_L].cellAnims = ZUKAN_DETAIL_FORM_RES_ARROW_CELL_ANIMS;
     wk->buttons[BUTTON_ARROW_L].rectX = 0;
     wk->buttons[BUTTON_ARROW_L].rectY = 0;
     wk->buttons[BUTTON_ARROW_L].rectWidth = 24;
@@ -2389,9 +2342,9 @@ static void ZukanDetailForm_CreateActors(ZukanDetailFormParam *param, ZukanDetai
 
     wk->buttons[BUTTON_ARROW_R].x = 228;
     wk->buttons[BUTTON_ARROW_R].y = 96;
-    wk->buttons[BUTTON_ARROW_R].chars = RES_ARROW_CHARS;
-    wk->buttons[BUTTON_ARROW_R].palette = RES_ARROW_PALETTE;
-    wk->buttons[BUTTON_ARROW_R].cellAnims = RES_ARROW_CELL_ANIMS;
+    wk->buttons[BUTTON_ARROW_R].chars = ZUKAN_DETAIL_FORM_RES_ARROW_CHARS;
+    wk->buttons[BUTTON_ARROW_R].palette = ZUKAN_DETAIL_FORM_RES_ARROW_PALETTE;
+    wk->buttons[BUTTON_ARROW_R].cellAnims = ZUKAN_DETAIL_FORM_RES_ARROW_CELL_ANIMS;
     wk->buttons[BUTTON_ARROW_R].rectX = 232;
     wk->buttons[BUTTON_ARROW_R].rectY = 0;
     wk->buttons[BUTTON_ARROW_R].rectWidth = 24;
@@ -2431,15 +2384,15 @@ static void ZukanDetailForm_FreeActors(ZukanDetailFormParam *param, ZukanDetailF
     for (i = 0; i < ACTOR_COUNT; i++) {
         func_0204c108(wk->actors[i]);
     }
-    func_0204bcd0(wk->resources[RES_MAIN_PALETTE]);
-    func_0204b98c(wk->resources[RES_MAIN_CHARS]);
-    func_0204be64(wk->resources[RES_MAIN_CELL_ANIMS]);
-    func_0204bcd0(wk->resources[RES_COLOR_PALETTE]);
-    func_0204b98c(wk->resources[RES_COLOR_CHARS]);
-    func_0204be64(wk->resources[RES_COLOR_CELL_ANIMS]);
-    func_0204bcd0(wk->resources[RES_ARROW_PALETTE]);
-    func_0204b98c(wk->resources[RES_ARROW_CHARS]);
-    func_0204be64(wk->resources[RES_ARROW_CELL_ANIMS]);
+    func_0204bcd0(wk->resources[ZUKAN_DETAIL_FORM_RES_MAIN_PALETTE]);
+    func_0204b98c(wk->resources[ZUKAN_DETAIL_FORM_RES_MAIN_CHARS]);
+    func_0204be64(wk->resources[ZUKAN_DETAIL_FORM_RES_MAIN_CELL_ANIMS]);
+    func_0204bcd0(wk->resources[ZUKAN_DETAIL_FORM_RES_COLOR_PALETTE]);
+    func_0204b98c(wk->resources[ZUKAN_DETAIL_FORM_RES_COLOR_CHARS]);
+    func_0204be64(wk->resources[ZUKAN_DETAIL_FORM_RES_COLOR_CELL_ANIMS]);
+    func_0204bcd0(wk->resources[ZUKAN_DETAIL_FORM_RES_ARROW_PALETTE]);
+    func_0204b98c(wk->resources[ZUKAN_DETAIL_FORM_RES_ARROW_CHARS]);
+    func_0204be64(wk->resources[ZUKAN_DETAIL_FORM_RES_ARROW_CELL_ANIMS]);
 }
 
 // The button pushed with its key or touched, which starts its animation
@@ -2855,8 +2808,8 @@ static void ZukanDetailForm_UpdateSelect(ZukanDetailFormParam *param, ZukanDetai
             }
         } else {
             f32 sin = (f32)FX_SinIdx(wk->selectTime) / FX32_ONE;
-            PosF32 from;
-            PosF32 to;
+            ZukanDetailFormPos from;
+            ZukanDetailFormPos to;
             VecFx32 pos;
 
             if (wk->sprites[SPRITE_CUR_FRONT].mcss != NULL) {
@@ -2886,8 +2839,8 @@ static void ZukanDetailForm_UpdateSelect(ZukanDetailFormParam *param, ZukanDetai
                 MCSS_SetPosition(wk->sprites[SPRITE_CUR_BACK].mcss, &pos);
             }
             {
-                PosF32 nextTo;
-                PosF32 nextFrom;
+                ZukanDetailFormPos nextTo;
+                ZukanDetailFormPos nextFrom;
                 VecFx32 nextPos;
 
                 if (wk->sprites[SPRITE_NEXT_FRONT].mcss != NULL) {
@@ -2990,7 +2943,7 @@ static void ZukanDetailForm_UpdateSlide(ZukanDetailFormParam *param, ZukanDetail
                                         ZukanDetailCommon *common) {
     if (wk->slide == 1) {
         VecFx32 pos;
-        PosF32 target;
+        ZukanDetailFormPos target;
         BOOL done = FALSE;
         int sprite = wk->front ? SPRITE_NEXT_FRONT : SPRITE_NEXT_BACK;
         f32 targetX;
@@ -3091,7 +3044,7 @@ static void ZukanDetailForm_UpdateOpenClose(ZukanDetailFormParam *param, ZukanDe
 
         if (!wk->curInPlace) {
             int sprite = wk->front ? SPRITE_CUR_FRONT : SPRITE_CUR_BACK;
-            PosF32 target;
+            ZukanDetailFormPos target;
             f32 targetX;
             f32 x;
 
@@ -3125,7 +3078,7 @@ static void ZukanDetailForm_UpdateOpenClose(ZukanDetailFormParam *param, ZukanDe
         }
         if (!wk->nextInPlace) {
             int sprite = wk->front ? SPRITE_NEXT_FRONT : SPRITE_NEXT_BACK;
-            PosF32 target;
+            ZukanDetailFormPos target;
             f32 targetX;
             f32 x;
 
@@ -3167,7 +3120,7 @@ static void ZukanDetailForm_UpdateOpenClose(ZukanDetailFormParam *param, ZukanDe
 
         if (!wk->curInPlace) {
             int sprite = wk->front ? SPRITE_CUR_FRONT : SPRITE_CUR_BACK;
-            PosF32 target;
+            ZukanDetailFormPos target;
             f32 targetX;
             f32 x;
 
@@ -3202,7 +3155,7 @@ static void ZukanDetailForm_UpdateOpenClose(ZukanDetailFormParam *param, ZukanDe
         }
         if (!wk->nextInPlace) {
             int sprite = wk->front ? SPRITE_NEXT_FRONT : SPRITE_NEXT_BACK;
-            PosF32 target;
+            ZukanDetailFormPos target;
             f32 targetX;
             f32 x;
 
@@ -3303,8 +3256,8 @@ static void ZukanDetailForm_SwapCurNext(ZukanDetailFormParam *param, ZukanDetail
         }
     }
     for (i = 0; i < POS_COUNT; i++) {
-        PosF32 front = wk->sprites[SPRITE_CUR_FRONT].pos[i];
-        PosF32 back;
+        ZukanDetailFormPos front = wk->sprites[SPRITE_CUR_FRONT].pos[i];
+        ZukanDetailFormPos back;
 
         wk->sprites[SPRITE_CUR_FRONT].pos[i] = wk->sprites[SPRITE_NEXT_FRONT].pos[i];
         wk->sprites[SPRITE_NEXT_FRONT].pos[i] = front;
@@ -3356,13 +3309,13 @@ static void ZukanDetailForm_SetActorsBlended(ZukanDetailFormParam *param, ZukanD
     ZukanDetailBlend_InitPlanes(wk->blendSub);
 }
 
-static void ZukanDetailForm_InitSpritePositions(PosF32 *pos, u32 species, u32 form, u32 sex, u32 rare, u32 a6, u32 back,
-                                                u32 personality) {
+static void ZukanDetailForm_InitSpritePositions(ZukanDetailFormPos *pos, u32 species, u32 form, u32 sex, u32 rare,
+                                                u32 a6, u32 back, u32 personality) {
     u8 i;
     u16 j;
 
     for (i = 0; i < POS_COUNT; i++) {
-        pos[i] = sZukanDetailFormDefaultPositions[i];
+        pos[i] = ZUKAN_DETAIL_FORM_DEFAULT_POSITIONS[i];
     }
     for (j = 0; j < NELEMS(sZukanDetailFormSpritePositions); j++) {
         const SpritePositions *positions = &sZukanDetailFormSpritePositions[j];
@@ -3399,6 +3352,6 @@ static void ZukanDetailForm_GetPlacePos(Sprite *sprite, int place, VecFx32 *out)
     ZukanDetailForm_GetSpritePos(sprite, pos, out);
 }
 
-static void ZukanDetailForm_GetSpritePosF32(Sprite *sprite, int pos, PosF32 *out) {
+static void ZukanDetailForm_GetSpritePosF32(Sprite *sprite, int pos, ZukanDetailFormPos *out) {
     *out = sprite->pos[pos];
 }

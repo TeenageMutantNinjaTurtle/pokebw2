@@ -1,5 +1,6 @@
 #include "types.h"
 #include "field/field_palace.h"
+#include "field/intrude_work.h"
 #include "field/zone.h"
 #include "gfl/arc.h"
 #include "gfl/arc_util.h"

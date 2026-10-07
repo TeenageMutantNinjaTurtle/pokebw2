@@ -6,6 +6,16 @@
 #include "gfl/proc.h"
 #include "struct_decls.h"
 
+// What a battle started from the field takes from it, which SaveBtlFieldStatus of overlay 36 fills in
+typedef struct {
+    u32 unk0;
+    u32 unk4;
+    u32 unk8;
+    u32 unkC;
+} BtlFieldStatus;
+
+void SaveBtlFieldStatus(BtlFieldStatus *status, GameData *gameData, Field *field);
+
 // Moves the player to another zone with a transition, such as through a door
 struct WarpSequence {
     GameEvent *parent;
@@ -33,6 +43,8 @@ GameEvent *CreateFieldCloseEvent(GameSystem *gsys, Field *field);
 GameEvent *EventBGMChange_Create(GameSystem *gsys, u32 bgm, u32 a2, u32 a3);
 GameEvent *EventBGMPlay_Create(GameSystem *gsys, u32 bgm);
 GameEvent *EventBGMFadeWait_Create(GameSystem *gsys);
+GameEvent *EventBattleBGMPlay_Create(GameSystem *gsys, u32 bgm);
+GameEvent *EventBGMFadePop_Create(GameSystem *gsys);
 GameEvent *EventBGMPop_CreateEx(GameSystem *gsys, u32 a1, u32 a2);
 GameEvent *EventBGMPlayPushEx_Create(GameSystem *gsys, u32 bgm, u32 a2, u32 a3);
 GameEvent *EventDig_Create(GameEvent *event, GameSystem *gsys, Field *field, BOOL seasonChanged);
@@ -42,6 +54,8 @@ GameEvent *EventFieldCloseKeepSound_Create(GameSystem *gsys, Field *field);
 GameEvent *EventFieldOpen_Create(GameSystem *gsys);
 GameEvent *EventFieldOpen_CreateHeadless(GameSystem *gsys);
 GameEvent *EventFieldOpenRestoreLCD_Create(GameSystem *gsys);
+// Restores the field's screens and the BGs that were on
+void FieldG3D_RestoreSurface(Field *field);
 // Runs the proc as a field subprocess, then calls callback with work if there is a callback, and frees work
 GameEvent *EventFieldSubprocessCall_CreateWithCallback(GameSystem *gsys, Field *field, s32 overlayId,
                                                        const GameProcFunctions *functions, void *param,

@@ -50,7 +50,6 @@ BOOL func_ov012_02159440(PlayerActionPossibilities *context);
 u32 func_ov012_02159b5c(PlayerActionPossibilities *context, u32 value);
 BOOL func_ov012_02159b70(const HiddenArea *area, u16 x, u16 z, u16 flag, Field *field);
 void func_ov012_02159b40(HiddenEventData *data, HiddenEventArgs *param, PlayerActionPossibilities *context);
-void func_ov012_0216002c(u32 value);
 u32 EventCutCall_Check(PlayerActionPossibilities *context);
 GameEvent *EventCutCall_Create(HiddenEventArgs *param, PlayerActionPossibilities *context);
 GameEventReturnCode EventCutCall_Callback(GameEvent *event, u32 *state, void *data);

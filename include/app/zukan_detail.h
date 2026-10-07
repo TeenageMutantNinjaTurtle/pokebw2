@@ -448,6 +448,44 @@ typedef struct {
 
 extern const ZukanDetailProcFuncs ZUKAN_DETAIL_FORM_PROC_FUNCS;
 
+// zukan_detail_form_data.c: the forms page's tables that the linker placed ahead of its file
+
+// The resources of the forms page's actors and buttons
+enum {
+    ZUKAN_DETAIL_FORM_RES_MAIN_CHARS,
+    ZUKAN_DETAIL_FORM_RES_MAIN_PALETTE,
+    ZUKAN_DETAIL_FORM_RES_MAIN_CELL_ANIMS,
+    ZUKAN_DETAIL_FORM_RES_COLOR_CHARS,
+    ZUKAN_DETAIL_FORM_RES_COLOR_PALETTE,
+    ZUKAN_DETAIL_FORM_RES_COLOR_CELL_ANIMS,
+    ZUKAN_DETAIL_FORM_RES_ARROW_CHARS,
+    ZUKAN_DETAIL_FORM_RES_ARROW_PALETTE,
+    ZUKAN_DETAIL_FORM_RES_ARROW_CELL_ANIMS,
+    ZUKAN_DETAIL_FORM_RES_COUNT,
+};
+
+typedef struct {
+    f32 x;
+    f32 y;
+    f32 z;
+} ZukanDetailFormPos;
+
+typedef struct {
+    u8 x;
+    u8 y;
+    u8 sequence;
+    u8 priority;
+    u8 bgPriority;
+    // ZUKAN_DETAIL_FORM_RES_*
+    u8 chars;
+    u8 palette;
+    u8 cellAnims;
+} ZukanDetailFormActorData;
+
+extern const u16 ZUKAN_DETAIL_FORM_STRBUF_MESSAGES[];
+extern const ZukanDetailFormActorData ZUKAN_DETAIL_FORM_ACTORS[];
+extern const ZukanDetailFormPos ZUKAN_DETAIL_FORM_DEFAULT_POSITIONS[];
+
 void ZukanDetailForm_InitParam(ZukanDetailFormParam *param, HeapID heapId);
 
 #endif // POKEBW2_APP_ZUKAN_DETAIL_H

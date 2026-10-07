@@ -232,7 +232,7 @@ BOOL s02DD_UnityTowerGetVisitorCount(VM *vm, FieldScriptEnv *env) {
 
 BOOL func_ov036_021c9b38(VM *vm, FieldScriptEnv *env) {
     GameData *gameData;
-    u8 *unityTower;
+    UnityTowerFloor *unityTower;
     u8 visitor;
     u32 index;
 
@@ -249,7 +249,7 @@ BOOL func_ov036_021c9b38(VM *vm, FieldScriptEnv *env) {
 
 BOOL func_ov036_021c9b88(VM *vm, FieldScriptEnv *env) {
     GameData *gameData;
-    u8 *unityTower;
+    UnityTowerFloor *unityTower;
     u16 visitor;
     u16 *result;
     u32 index;
@@ -321,7 +321,7 @@ BOOL s02DB_UnityTowerSetFloor(VM *vm, FieldScriptEnv *env) {
 BOOL s02DC_UnityTowerInitVisitorMessage(VM *vm, FieldScriptEnv *env) {
     ScriptWork *work;
     GameSystem *gsys;
-    u8 *save;
+    UnityTowerFloor *save;
     WordSet *wordSet;
     u16 index;
     u16 param;

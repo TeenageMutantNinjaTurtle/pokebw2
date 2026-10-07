@@ -65,16 +65,30 @@ u32 CPU_SetIRQMask(u32 mask);
 u32 CPU_EnableInterrupts(u32 mask);
 // NitroSDK's OS_Sleep: waits for some milliseconds, letting other threads run
 void func_0207aa04(u32 msec);
+// Waits for one of the interrupts, clearing their flags first if clear is TRUE
+void CPU_WaitIntrBit(BOOL clear, u32 interrupts);
 void exit(int status);
 
 // Fills 32 bytes with values that differ from run to run
 void OS_GetLowEntropyData(u32 buffer[8]);
 // NitroSDK's STD_CompareNString
 int STD_CompareNString(const char *a, const char *b, int n);
+// NitroSDK's STD_GetStringLength
+int NNS_STD_StrLen(const char *str);
 
 // NitroSDK's OS_WaitIrq and OS_IsRunOnTwl, under swan's names
 void irq_waitFor(BOOL clear, u32 interrupts);
 BOOL hw_isDSi(void);
+// The DSi's parental controls, of its settings. The fields' meanings are not known
+typedef struct {
+    u32 unk0_0 : 1;
+    u32 unk0_1 : 4;
+    u32 unk0_5 : 1;
+    u32 unk0_6 : 26;
+} TWLParentalControl;
+
+// The DSi's parental controls, NULL on a DS
+TWLParentalControl *func_0207c4b4(void);
 
 // The buttons the ARM7 reads, X, Y and the lid among them, in shared memory. NitroSDK's PAD_DetectFold
 #define HW_BUTTON_XY_BUF 0x02ffffa8

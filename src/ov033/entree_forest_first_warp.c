@@ -2,6 +2,7 @@
 #include "field/entree_forest.h"
 #include "field/field.h"
 #include "field/field_script_event.h"
+#include "field/intrude_work.h"
 #include "field/player_state.h"
 #include "field/zone.h"
 #include "struct_decls.h"

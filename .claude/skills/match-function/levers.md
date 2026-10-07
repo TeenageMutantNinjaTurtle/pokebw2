@@ -13,6 +13,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "compete for the same register")
 - A variable gets a register per group of assignments that reach the same uses: a store after two branches keeps
   one register, a copy of the store in each branch splits it. (matching.md: "group of assignments")
+- A pointer local to a struct's element costs a callee-saved register; index the element at each use instead.
+  (matching.md: "A pointer local to an element")
 - `arr[count++] = x` and `arr[count] = x; count++;` allocate differently, as do `count = 1; arr[0] = x;` and the
   reverse. (matching.md: "arr[count++]")
 - A sum used as an index goes to the register of one of its terms unless it has its own variable.
@@ -116,6 +118,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 ## Branches and block layout
 
+- Returns of `-1` and `0` folded into one computed result (`rsbs`, `mvns`) where the original keeps two returns: the
+  function returns an enum. (matching.md: "returns an enum")
 - `bne` over a `b` to the end at the top: the body is in an `if`, not after an early return. (matching.md: "An early `return`")
 - A final boolean returned from a register shared with a `NULL` argument: `return f() == TRUE ? FALSE : TRUE;`.
   (matching.md: "ends in `return f(...) == TRUE")
@@ -179,6 +183,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 ## Data and sections
 
+- String literals in another order: MWCC lays them out in the order they first appear in the source; a `""` the
+  game has before the file's name needs an earlier use. (matching.md: "String literals")
 - Static data is sorted by size by a heapsort. Objects of 64 bytes or more, local initializers and unreferenced
   globals get their own sections. Predict with `tools/scripts/rodata_order.py`. (matching.md: "Static data is sorted by size")
 - The full model, checked by fuzzing MWCC: there is one list per file in declaration order, except tentative `.bss`

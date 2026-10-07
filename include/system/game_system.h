@@ -24,6 +24,8 @@ extern const GameProcFunctions GAMESYSTEM_PROC_FUNCTIONS;
 
 GameSystemProcData *GameSystem_CreateProcData(GameEntryPoint entryPoint, u16 zoneId, const VecFx32 *spawnPos, s16 unk12);
 Field *GSYS_GetField(GameSystem *gsys);
+// Whether the field map is up, which Game Freak's asserts call GAMESYSTEM_CheckFieldMapWork
+BOOL GSYS_CheckField(GameSystem *gsys);
 PlayerState *GSYS_GetPlayerState(GameSystem *gsys);
 GameCommSys *GSYS_GetGameCommSystem(GameSystem *gsys);
 GameData *GSYS_GetGameData(GameSystem *gsys);
@@ -39,6 +41,7 @@ void func_02016b24(GameSystem *gsys, u32 value);
 u8 func_02016b2c(GameSystem *gsys);
 u32 func_02016b34(GameSystem *gsys);
 void func_02016b40(GameSystem *gsys, u32 value);
+BOOL func_02016bec(GameSystem *gsys);
 void GameSystemTimer_Start(void);
 ISS *GameSystem_GetISS(GameSystem *gsys);
 u32 getStatusOfFesMission(LinkFestival *festival);

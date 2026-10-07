@@ -5,6 +5,7 @@
 
 #include "types.h"
 #include "field/bsubway_scr.h"
+#include "field/delivery_beacon.h"
 #include "gfl/heap.h"
 #include "system/game_event.h"
 #include "struct_decls.h"
@@ -24,16 +25,8 @@ struct TrialHouseWork {
 };
 
 struct TrialHouseEventData {
-    u32 code;
-    u8 flag4;
-    u8 pad5;
-    u16 id;
-    u32 size;
-    void *saveBuffer;
-    u32 region;
-    u32 mask;
-    u8 pad18[0x60];
-    u32 active;
+    // How the Battle Test's data is received
+    DeliveryInit init;
     void *subwork;
     GameSystem *gsys;
     TrialHouseWork *work;
@@ -53,27 +46,31 @@ extern const char data_ov033_0217c630[];
 struct TrialHouseWork *CreateTrialHouseWk(GameSystem *gsys);
 void func_ov033_0217acd4(GameSystem *gsys, struct TrialHouseWork *work);
 void TrialHouseWorkDelete(void *unused, struct TrialHouseWork **work);
+void func_ov033_0217ad78(TrialHouseWork *work, u32 mode);
 void func_ov033_0217adbc(TrialHouseWork *work, u32 selectionFlag);
-void func_ov033_0217adc4(GameSystem *gsys, TrialHouseWork *work, u32 mode);
+u32 func_ov033_0217adc4(GameSystem *gsys, TrialHouseWork *work, u32 mode);
 void func_ov033_0217ade8(TrialHouseWork *work, u32 mode);
 void func_ov033_0217ae5c(GameSystem *gsys, TrialHouseWork *work, u32 mode);
 u32 func_ov033_0217aed0(TrialHouseWork *work);
-GameEvent *func_ov033_0217aedc(GameSystem *gsys, TrialHouseWork *work, u32 actorId, u32 messageId);
+// The Trainer's message in a balloon over the actor
+GameEvent *func_ov033_0217aedc(GameSystem *gsys, TrialHouseWork *work, u32 index, u32 actorId);
 GameEvent *func_ov033_0217aee8(GameSystem *gsys, TrialHouseWork *work, u16 *result);
 GameEventReturnCode func_ov033_0217af5c(GameEvent *event, u32 *state, void *data);
-GameEvent *func_ov012_02161e6c(GameSystem *gsys, TrialHouseWork *work, u32 actorId, u16 messageId);
-void *func_ov012_02152990(TrialHouseEventData *data);
-BOOL func_ov012_02152b64(void *work);
-void func_ov012_02152bec(void *work);
-BOOL func_ov012_02152bb4(void *work);
-BOOL func_ov012_02152bd4(void *work);
-void func_ov012_02152bfc(void *work);
 u8 func_ov033_0217b35c(TrialHouseSave *save, u32 index);
 void func_ov033_0217b384(TrialHouseSave *save, u32 index);
 void TrialHouseCalcPointScore(GameSystem *gsys, TrialHouseWork *work, u16 *rankOut, u16 *pointsOut);
-u32 func_ov033_0217b2e4(u32 unused, TrialHouseWork *work);
-GameEvent *func_ov033_0217b2ec(GameSystem *gsys, u32 unused, u32 mode);
+u32 func_ov033_0217b2e4(GameSystem *gsys, TrialHouseWork *work);
+GameEvent *func_ov033_0217b2ec(GameSystem *gsys, TrialHouseWork *work, u32 mode);
 u32 func_ov033_0217b32c(GameSystem *gsys);
 GameEventReturnCode func_ov033_0217b3ac(GameEvent *event, u32 *state, void *data);
+
+// Overlay 12's event_trial_house.c
+// The party screen for picking the Pokémon to enter, from the party or the Battle Box; result is set to whether
+// Pokémon were picked
+GameEvent *func_ov012_02162c48(GameSystem *gsys, TrialHouseWork *work, u32 mode, BOOL battleBox, u16 *result);
+GameEvent *CallTrialHouseBattle(GameSystem *gsys, TrialHouseWork *work);
+void SyncTrialHouseWkStatsFromBattle(TrialHouseWork *work, BtlSetup *setup);
+// Overlay 313's results screen
+GameEvent *func_ov012_02162eb4(GameSystem *gsys, u32 a1, u32 a2);
 
 #endif // POKEBW2_FIELD_TRIAL_HOUSE_H
