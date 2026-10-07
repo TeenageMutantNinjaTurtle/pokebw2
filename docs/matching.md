@@ -235,6 +235,12 @@ Same instructions, scheduled in another order.
 
 Narrowing shifts, reloads, recomputed addresses and folded constants.
 
+- `field += value` on an `s16` field with an `int` value narrows the value first and shares the narrowed copy between
+  such adds, where `field = field + value` adds the `int` as it is. The phrase input's `PMSIVEdit_ScrollWait` adds its
+  step to two scroll fields the second way.
+- An argument narrowed by a `u16` parameter is narrowed again at each call, and only hoisted out of a loop, while a
+  `(u16)` cast is computed once and reused: `PMSIVEdit_ScrollWait` matched only once `func_0204c1a8` and
+  `func_0204c1dc` took their surface as `u16`.
 - A compound assignment to a narrow field narrows its right side first: `work->checkFlag &= 0xff ^ (1 << waza);` on a
   `u8` shifts the mask down to a byte before the `and`, while `work->checkFlag = work->checkFlag & (0xff ^ (1 << waza));`
   ands the full mask, as the PC box's `Box2Main_PokeFreeWazaCheck` does.
