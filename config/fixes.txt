@@ -51,6 +51,14 @@
 . 0x0203637c reloc_module overlay(162)
 . 0x0207ba60 add_reloc load,main,0x0207b9e8,0x50
 . 0x0207e79c add_reloc load,main,0x0207e979
+. 0x0207e92c add_function func_0207e92c:arm:0x8
+. 0x0207e930 remove_symbol
+. 0x0207e930 add_reloc load,ltd_autoload(0),0x02703cdc
+. 0x0207e934 add_function MIC_StartAutoSampling:thumb:0x1c
+. 0x0207e950 add_function func_0207e950:arm:0x8
+. 0x0207e954 add_reloc load,ltd_autoload(0),0x02703c60
+. 0x0207e954 remove_symbol
+. 0x0207e958 add_function MIC_StopAutoSampling:thumb:0x18
 . 0x0207e970 add_function func_0207e970:arm:0x8
 . 0x0207e974 remove_symbol
 . 0x0207e974 add_reloc load,ltd_autoload(0),0x02703e90
@@ -965,6 +973,18 @@ overlays/ov185 0x021a0ea0 overlay_id 139
 overlays/ov185 0x021a24f4 reloc_addend 1
 overlays/ov185 0x021a24f8 reloc_addend 2
 overlays/ov185 0x021a24fc reloc_addend 3
+overlays/ov185 0x021a3ab8 overlay_id 139
+overlays/ov185 0x021a3b08 overlay_id 139
+overlays/ov185 0x021a3d6c overlay_id 139
+overlays/ov185 0x021a3e10 reloc_module overlay(139)
+overlays/ov185 0x021a3e24 reloc_module overlay(139)
+overlays/ov185 0x021a3eb4 reloc_module overlay(139)
+overlays/ov185 0x021a437a reloc_module overlay(139)
+overlays/ov185 0x021a43a4 reloc_module overlay(139)
+overlays/ov185 0x021a4c12 reloc_module overlay(139)
+overlays/ov185 0x021a4c5e reloc_module overlay(139)
+overlays/ov185 0x021a4c74 reloc_module overlay(139)
+overlays/ov185 0x021a4d26 reloc_module overlay(139)
 overlays/ov185 0x021a512c add_data PMSI_FIXED_CATEGORIES
 overlays/ov185 0x021a517c remove_reloc
 overlays/ov185 0x021a51dc remove_reloc
@@ -1389,8 +1409,8 @@ overlays/ov307 0x021df70c add_data EGG_DEMO_VIEW_UNK_FX32
 overlays/ov310 0x021a7021 remove_symbol
 overlays/ov310 0x021a7028 add_data data_ov310_021a7028
 overlays/ov310 0x021a7028 section_end src/ov310/research_list.c:.rodata
-overlays/ov310 0x021a773c section_start src/ov310/research_common.c:.rodata
 overlays/ov310 0x021a773c add_data ResearchCommon_Unused
+overlays/ov310 0x021a773c section_start src/ov310/research_common.c:.rodata
 overlays/ov310 0x021a773c section_end src/ov310/research_graph.c:.rodata
 overlays/ov332 0x021bf940 reloc_module overlay(331)
 overlays/ov332 0x021bfa3c overlay_id 331

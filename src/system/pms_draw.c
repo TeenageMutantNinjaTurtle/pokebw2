@@ -136,13 +136,13 @@ void PMSDraw_Delete(PMSDraw *draw) {
     GFL_HeapFree(draw);
 }
 
-void PMSDraw_Print(PMSDraw *draw, BmpWin *window, const PMSData *sentence, u32 slot) {
+void PMSDraw_Print(PMSDraw *draw, BmpWin *window, const PMSData *sentence, u8 slot) {
     PMSDrawPos offset = { 0, 0 };
 
     PMSDraw_PrintEx(draw, window, sentence, slot, &offset);
 }
 
-void PMSDraw_PrintEx(PMSDraw *draw, BmpWin *window, const PMSData *sentence, u32 slot, const PMSDrawPos *pos) {
+void PMSDraw_PrintEx(PMSDraw *draw, BmpWin *window, const PMSData *sentence, u8 slot, const PMSDrawPos *pos) {
     PMSDrawSlot_Print(&draw->slots[slot], draw->queue, draw->font, window, sentence, pos, draw->color, draw->backColor,
                       draw->heapId);
     draw->printEnd = FALSE;
@@ -152,25 +152,25 @@ BOOL PMSDraw_IsPrintEnd(PMSDraw *draw) {
     return draw->printEnd;
 }
 
-void PMSDraw_Clear(PMSDraw *draw, u32 slot, BOOL clearScreen) {
+void PMSDraw_Clear(PMSDraw *draw, u8 slot, BOOL clearScreen) {
     PMSDrawSlot_Clear(&draw->slots[slot], clearScreen);
 }
 
-void PMSDraw_SetVisible(PMSDraw *draw, u32 slot, BOOL visible) {
+void PMSDraw_SetVisible(PMSDraw *draw, u8 slot, BOOL visible) {
     PMSDrawSlot_SetVisible(&draw->slots[slot], visible);
 }
 
-BOOL PMSDraw_IsDrawn(PMSDraw *draw, u32 slot) {
+BOOL PMSDraw_IsDrawn(PMSDraw *draw, u8 slot) {
     return draw->slots[slot].drawn;
 }
 
-void PMSDraw_SetIconVisible(PMSDraw *draw, u32 slot, BOOL visible) {
+void PMSDraw_SetIconVisible(PMSDraw *draw, u8 slot, BOOL visible) {
     if (PMSDraw_IsDrawn(draw, slot)) {
         draw->slots[slot].showIcons = visible;
     }
 }
 
-void PMSDraw_SetObjMode(PMSDraw *draw, u32 slot, u32 mode) {
+void PMSDraw_SetObjMode(PMSDraw *draw, u8 slot, u32 mode) {
     int i;
 
     for (i = 0; i < PMS_SENTENCE_WORD_MAX; i++) {
@@ -178,7 +178,7 @@ void PMSDraw_SetObjMode(PMSDraw *draw, u32 slot, u32 mode) {
     }
 }
 
-void PMSDraw_Copy(PMSDraw *draw, u32 src, u32 dest) {
+void PMSDraw_Copy(PMSDraw *draw, u8 src, u8 dest) {
     int i;
     ClActorPos pos;
     PMSDrawSlot *srcSlot = &draw->slots[src];

@@ -252,6 +252,7 @@ static void CircleGraph_DrawSlices(CircleGraph *graph) {
         break;
     }
 
+    // start isn't set in STATE_NONE, where num is 0 and nothing is drawn
     vtx = start * 3;
     for (i = 0; i < num; i++) {
         G3_PolygonAttr(GX_LIGHTMASK_NONE, GX_POLYGONMODE_MODULATE, GX_CULL_NONE, graph->vertices[vtx].polygonId, 31, 0);

@@ -12,6 +12,11 @@ Same instructions, registers swapped.
 
 - Register allocation follows the declaration order of locals, so try reordering declarations when registers are
   swapped.
+- The registers follow the declarations, but the order the constants are set follows the statements: when the
+  declaration order that gives the right registers sets them in the wrong order, or derives one constant from the
+  other (`movs r6, #0` ... `subs r4, r6, #1` for `-1`), declare the locals without initializers and assign them in the
+  original's order. The phrase select's `PMSSelect_SeqSelect` needs `BOOL end; int touch;` then `touch = -1;
+  end = FALSE;`.
 - Of two variables that compete for the same register, the one used more gets it: one use of the Battle Subway
   command's result variable too many gave its register to the command ID. A single `*var = cond ? a : b;` counts as
   one use where an `if`/`else` with a store in each counts as two. Measured on small functions, the count is of
@@ -183,6 +188,9 @@ Same code, other `sp` offsets or frame size.
 
 Same instructions, scheduled in another order.
 
+- `x + (p << 12)` and `x + p * 0x1000` put the operands of `adds` in opposite orders: the phrase select's
+  `PMSSelect_BGDrawPlate` sets a screen entry's palette with `(entries[i] & 0xfff) + (palette + 2) * 0x1000`, which
+  gives `adds r5, r5, r2`, where `<< 12` gave `adds r5, r2, r5`.
 - Loads through a pointer are not moved above stores unless the pointee is `const`. A load that the original
   schedules early, such as an argument loaded before the stack arguments are stored, points to a `const` parameter.
   It has to be the parameter: `fld_scenearea_loader.c`'s camera-area callbacks scheduled their area's loads only
@@ -257,6 +265,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - An argument narrowed by a `u16` parameter is narrowed again at each call, and only hoisted out of a loop, while a
   `(u16)` cast is computed once and reused: `PMSIVEdit_ScrollWait` matched only once `func_0204c1a8` and
   `func_0204c1dc` took their surface as `u16`.
+- After `a = b;`, a test of `b` reuses the register just stored and a test of `a` loads `a` again. The phrase
+  select's `PMSSelect_SetupList` writes `wk->lineCount = wk->sentenceCount; if (wk->sentenceCount < 20)`, and its
+  `PMSSelect_SetupScreen` tests `wk->pos` after `wk->prevPos = wk->pos;`.
 - `field--` and `field++` load the field again before the subtraction, even right after comparing it, where
   `field = field - 1` reuses the register: the phrase input's `PMSInput_SentenceKey` moves its edit position the
   second way.
@@ -382,6 +393,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A caller that keeps an argument register untouched across a call to a function that ignores it is passing that
   argument: `ShinkaDemoPieces_IsFadeDone` takes the heap ID like the functions around it.
 
+- `if (!f()) { ... } else { return x; }` puts the `else` out of line, after the function's other code, where
+  `if (f()) { return x; }` keeps it in place (`ctvt_game.c`'s `CtvtGame_Main` and `CtvtGame_UpdatePlay`).
+- A `u16` local that holds a call's result changes the operand order of a later add with it, and
+  `index = first; index += kind;` truncates a `u32` field before the add, where `first + kind` does not
+  (`ctvt_game.c`'s `CtvtGameTarget_UpdateHit` and `CtvtGameTarget_Draw`).
 - A ternary argument `f(c ? 1 : 0)` compiles to the select form (`movs r0, #1; cmp; beq; movs r0, #0`). A branchy
   original (`bne`; `movs #1`; `b`; `movs #0`) is an `if`/`else` with a call in each branch, as `CtvtTalk_UpdateMain`
   calls `func_0203d564(TRUE)` or `func_0203d564(FALSE)`.
