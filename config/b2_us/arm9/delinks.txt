@@ -692,3 +692,47 @@ src/system/time_icon.c:
 
 src/system/unity_tower_register.c:
     .text       start:0x02035350 end:0x020355b8
+
+src/system/shooter_item.c:
+    complete
+    .text       start:0x020358e8 end:0x02035964
+    .rodata     start:0x02092b3c end:0x02092bf4
+
+src/system/pml_met_data.c:
+    complete
+    .text       start:0x02035964 end:0x02036000
+
+src/system/pml_hm_check.c:
+    complete
+    .text       start:0x02036000 end:0x0203603c
+
+src/system/save_error.c:
+    complete
+    .text       start:0x0203603c end:0x020362e8
+
+src/system/resort_binary.c:
+    complete
+    .text       start:0x020395ac end:0x0203986c
+    .data       start:0x0209a838 end:0x0209a848
+
+src/system/resort_work.c:
+    complete
+    .text       start:0x0203986c end:0x02039988
+    .data       start:0x0209a848 end:0x0209a858
+
+src/system/boot_proc.c:
+    complete
+    .text       start:0x020362e8 end:0x02036384
+    .rodata     start:0x02092bf4 end:0x02092c00
+    .bss        start:0x02141808 end:0x02141810
+
+src/system/resonance_resort_data.c:
+    .text       start:0x02036384 end:0x0203950c
+    .rodata     start:0x02092c00 end:0x02092cd4
+    .data       start:0x0209a820 end:0x0209a838
+    .bss        start:0x02141810 end:0x0214181c
+
+src/system/resort_layout.c:
+    complete
+    .text       start:0x0203950c end:0x020395ac
+    .rodata     start:0x02092cd4 end:0x02092f4c

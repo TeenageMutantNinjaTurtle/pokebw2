@@ -1,6 +1,8 @@
 // Function names from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
 
 #include "types.h"
+#include "battle/battle_overlay.h"
+#include "battle/btl_adapter.h"
 #include "battle/btl_calc.h"
 #include "battle/btl_client.h"
 #include "battle/btl_main.h"
@@ -280,7 +282,7 @@ BOOL func_ov167_02199ca0(BtlMainModule *mainModule) {
     u32 i;
 
     for (i = 0; i < 4; i++) {
-        if (DoesClientExist(mainModule, i) && !func_ov167_021d4880(mainModule->unk2C8, i)) {
+        if (DoesClientExist(mainModule, i) && !func_ov167_021d4880(&mainModule->recReader, i)) {
             return FALSE;
         }
     }
@@ -538,9 +540,9 @@ void func_ov167_0219a1e8(BtlMainModule *mainModule, BtlSetup *setup) {
 
 void func_ov167_0219a228(BtlMainModule *mainModule, BtlSetup *setup) {
     if (setup->fieldSituation.unk1b != 0) {
-        func_ov167_021d4630(mainModule->unk2C8, setup->unkB0, setup->unkB4);
-        func_ov167_021b18e8(mainModule->clients[0], mainModule->unk2C8);
-        func_ov167_021b18e8(mainModule->clients[1], mainModule->unk2C8);
+        func_ov167_021d4630(&mainModule->recReader, setup->unkB0, setup->unkB4);
+        func_ov167_021b18e8(mainModule->clients[0], &mainModule->recReader);
+        func_ov167_021b18e8(mainModule->clients[1], &mainModule->recReader);
     }
 }
 
@@ -709,10 +711,10 @@ BOOL func_ov167_0219a5bc(u32 *state, BtlMainModule *mainModule) {
         }
     }
     if (setup->fieldSituation.unk1b != 0) {
-        func_ov167_021d4630(mainModule->unk2C8, setup->unkB0, setup->unkB4);
+        func_ov167_021d4630(&mainModule->recReader, setup->unkB0, setup->unkB4);
         for (i = 0; i < 4; i++) {
             if (DoesClientExist(mainModule, i)) {
-                func_ov167_021b18e8(mainModule->clients[i], mainModule->unk2C8);
+                func_ov167_021b18e8(mainModule->clients[i], &mainModule->recReader);
             }
         }
     }

@@ -9,12 +9,12 @@
 const int REBATTLE_TRAINER_COUNT = 12;
 static const u16 sRebattleTrainers[REBATTLE_TRAINER_COUNT] = { 0x5f, 0x60, 0xb7, 0xb8, 0xb9, 0xba, 0x128, 0x12b, 0x12e, 0x12f, 0x14d, 0x2f0 };
 
-void SetupTrainerClashSlot(GameEvent *event, int index, const TrainerClashSlot *slot) {
+void SetupTrainerClashSlot(GameEvent *event, int index, const TrainerClashData *data) {
     ScriptWork *work = EventScriptCall_GetWork(event);
     TrainerClashSlot *dst = ScriptWork_GetTrainerState(work, index);
 
-    dst->payload = slot->payload;
-    dst->result = 0;
+    dst->data = *data;
+    dst->eye = NULL;
 }
 
 u16 GetNPCTrainerIDFromSCRID(u32 scriptId) {
@@ -40,7 +40,7 @@ BOOL isDoubleBattle(u32 trainerId) {
     return TrainerData_GetParam(trainerId, 2) == 1;
 }
 
-u8 getBattleType(u32 trainerId) {
+u8 getBattleType(u16 trainerId) {
     return TrainerData_GetParam(trainerId, 2);
 }
 

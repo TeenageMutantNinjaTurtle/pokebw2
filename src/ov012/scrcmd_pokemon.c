@@ -9,6 +9,7 @@
 #include "gfl/std.h"
 #include "gfl/str.h"
 #include "pml/item.h"
+#include "pml/met_data.h"
 #include "pml/personal.h"
 #include "pml/poke_party.h"
 #include "pml/species_names.h"

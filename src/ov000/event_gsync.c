@@ -18,26 +18,6 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 
-// The Game Sync procs also take this as their parameter
-typedef struct {
-    GameSystem *gsys;
-    GameData *gameData;
-    SaveControl *save;
-    u8 unkC[0x44];
-    u32 unk50;
-    u8 loginBuffer[0x174];
-    u32 gsyncResult;
-    BOOL bgmPushed;
-    u16 boxTray;
-    u16 boxPosition;
-    u32 bgm;
-    u8 unk1D8[0x80];
-    WifiLoginParam login;
-    WifiLogoutParam logout;
-    Box2Param box;
-    BOOL unk2C8;
-} EventGameSync;
-
 GameEventReturnCode EventGameSync_Callback(GameEvent *event, u32 *state, void *data);
 
 GameEventReturnCode EventGameSync_Callback(GameEvent *event, u32 *state, void *data) {
@@ -52,13 +32,13 @@ GameEventReturnCode EventGameSync_Callback(GameEvent *event, u32 *state, void *d
         break;
     case 1:
         GameEvent_ChainNext(event, CreateFieldCloseEvent(gsys, field));
-        wk->unk2C8 = FALSE;
+        wk->fromWifiSettings = FALSE;
         *state = 2;
         break;
     case 2:
         sys_memset(wk->unkC, 0, sizeof(wk->unkC));
         wk->unk50 = 0;
-        GSYS_QueueProc(gsys, OVERLAY_GSYNC, &GSYNC_PROC_FUNCTIONS, wk);
+        GSYS_QueueProc(gsys, OVERLAY_GSYNC, &GSYNC_MENU_PROC_FUNCTIONS, wk);
         (*state)++;
         break;
     case 3:
@@ -96,7 +76,7 @@ GameEventReturnCode EventGameSync_Callback(GameEvent *event, u32 *state, void *d
         *state = 15;
         break;
     case 15:
-        wk->unk2C8 = TRUE;
+        wk->fromWifiSettings = TRUE;
         *state = 2;
         break;
     case 10:
@@ -153,13 +133,13 @@ GameEventReturnCode EventGameSync_Callback(GameEvent *event, u32 *state, void *d
         }
         break;
     case 19:
-        GSYS_QueueProc(gsys, OVERLAY_GSYNC, &PDWACC_PROC_FUNCTIONS, wk);
+        GSYS_QueueProc(gsys, OVERLAY_GSYNC, &GSYNC_PROC_FUNCTIONS, wk);
         (*state)++;
         break;
     case 20:
         if (!GSYS_GetProcMgrState(gsys)) {
             if (wk->gsyncResult == GSYNC_RESULT_ACCOUNT) {
-                wk->unk2C8 = FALSE;
+                wk->fromWifiSettings = FALSE;
                 *state = 2;
             } else if (wk->gsyncResult == GSYNC_RESULT_SELECT_POKEMON) {
                 *state = 21;
@@ -219,7 +199,7 @@ GameEventReturnCode EventGameSync_Callback(GameEvent *event, u32 *state, void *d
         if (!GSYS_GetProcMgrState(gsys)) {
             GSYS_TryBootGameComm(gsys);
             reg_GX_POWCNT |= REG_GX_POWCNT_DSEL_MASK;
-            wk->unk2C8 = FALSE;
+            wk->fromWifiSettings = FALSE;
             *state = 2;
             if (wk->bgmPushed) {
                 GFL_SndBGMPop();
