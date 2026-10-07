@@ -1132,7 +1132,7 @@ typedef struct {
 // stage the player has reached
 static void func_ov050_021e6cb0(BSubwayScrWork *bsw, GameData *gameData, MMSys *mmSys, Field *field) {
     int i = 0;
-    u16 zoneId = Field_GetPlayerStateZoneID(field);
+    u32 zoneId = Field_GetPlayerStateZoneID(field);
     u16 id = 0x80;
     u8 mode = bsw->playMode;
 
