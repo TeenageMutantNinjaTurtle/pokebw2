@@ -187,6 +187,9 @@ Same instructions, scheduled in another order.
 - A field of a local struct that a call fills is loaded before the next call only when the source reads it there: the
   Pokédex forms page copies `targetX = target.x;` between `ZukanDetailForm_GetSpritePosF32(..., &target)` and
   `MCSS_GetPosition`.
+- A call nested in another call's arguments is made after the other arguments' addresses are computed. When the
+  original makes the inner call first, its result was put in a local: the summary screen's ribbon list writes
+  `y = PStaRibbon_GetRowY(ribbon, i); PStaOam_SetPosition(ribbon->rows[i].oam, ROW_X, y);`.
 - A conditional expression among a call's arguments is evaluated before the plain ones. When the original loads the
   arguments in their order, the conditional one was a local set before the call: the forms page passes `addToDex`
   locals `sex` and `rare` set just before it.
