@@ -12,6 +12,9 @@ Same instructions, registers swapped.
 
 - Register allocation follows the declaration order of locals, so try reordering declarations when registers are
   swapped.
+- How a store is written can move the parameters' registers too: `*result = *partyResult != 0 ? 3 : 0;` swapped two
+  pointer parameters' registers in `scrcmd_fld_battle.c`'s `func_ov036_021aec28`, where the same store as an
+  `if`/`else` matched.
 - The registers follow the declarations, but the order the constants are set follows the statements: when the
   declaration order that gives the right registers sets them in the wrong order, or derives one constant from the
   other (`movs r6, #0` ... `subs r4, r6, #1` for `-1`), declare the locals without initializers and assign them in the
