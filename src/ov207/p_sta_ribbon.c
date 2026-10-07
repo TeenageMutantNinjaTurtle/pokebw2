@@ -10,8 +10,7 @@
 #include "gfl/std.h"
 #include "gfl/str.h"
 #include "gfl/touchpanel.h"
-#include "nitro/hw.h"
-#include "nitro/math.h"
+#include "nitro/gx.h"
 #include "p_status_local.h"
 #include "pml/poke_party.h"
 
@@ -24,6 +23,16 @@
 #define ROW_HEIGHT 24
 #define ROW_X 8
 #define ROW_NONE 0xff
+// No entry has the cursor
+#define CURSOR_NONE 0xff
+// The list's area: the first row's y, the right edge and the bottom
+#define LIST_TOP 8
+#define LIST_RIGHT 144
+#define LIST_BOTTOM 168
+// The lowest y the cursor's row is scrolled to
+#define CURSOR_Y_MAX 128
+// The message of the first category's heading, followed by the others in RIBBON_CATEGORY_ order
+#define MSG_CATEGORY_FIRST 0xa0
 #define ENTRY_NONE 0xffff
 // The size of a row's characters, 17x3 tiles
 #define ROW_CHAR_SIZE (17 * 3 * 32)
@@ -32,6 +41,7 @@
 typedef struct {
     u16 entry;
     u32 unk4;
+    // Never set, and the work isn't cleared when it is allocated, so the check of it reads what the heap held
     BOOL isPrinting;
     GFLBitmap *bitmap;
     PStaOamActor *oam;
@@ -163,7 +173,7 @@ void PStaRibbon_CreateActors(PStatusWork *wk, PStaRibbonWork *ribbon) {
     oamSetup.bgPriority = 2;
     oamSetup.surface = 0;
     oamSetup.vramType = 0;
-    vram = (u8 *)HW_OBJ_VRAM + 0x20000;
+    vram = (u8 *)G2_GetOBJCharPtr() + 0x20000;
     for (i = 0; i < ROW_COUNT; i++) {
         oamSetup.y = PStaRibbon_GetRowY(ribbon, i);
         ribbon->rows[i].bitmap = GFL_BitmapWrapVRAM(vram - (i + 1) * ROW_CHAR_SIZE, 17, 3, 32, wk->heapId);
@@ -224,7 +234,7 @@ static BOOL PStaRibbon_HandleDetailKeys(PStatusWork *wk, PStaRibbonWork *ribbon)
         func_0204c488(wk->buttons[PSTA_BUTTON_BACK], 9);
         func_0204c124(ribbon->cursor, FALSE);
         ribbon->cursorRow = ROW_NONE;
-        ribbon->cursorEntry = ROW_NONE;
+        ribbon->cursorEntry = CURSOR_NONE;
         ribbon->cursorMoved = TRUE;
         PStaRibbon_FreeDetailWindows(wk, ribbon);
         PStaRibbon_HideDetail(wk, ribbon);
@@ -243,7 +253,7 @@ static BOOL PStaRibbon_HandleDetailKeys(PStatusWork *wk, PStaRibbonWork *ribbon)
                     y = PStaRibbon_GetRowY(ribbon, i);
                 }
             }
-            if (y < -4 || y > 144) {
+            if (y < -4 || y > LIST_BOTTOM - ROW_HEIGHT) {
                 PStaRibbon_SelectVisibleRow(wk, ribbon);
             }
             PStaRibbon_FreeDetailWindows(wk, ribbon);
@@ -260,8 +270,9 @@ static BOOL PStaRibbon_HandleDetailKeys(PStatusWork *wk, PStaRibbonWork *ribbon)
         if (ribbon->rows[row].entry != ENTRY_NONE) {
             ribbon->cursorRow = row;
             ribbon->cursorMoved = TRUE;
-            if (PStaRibbon_GetRowY(ribbon, ribbon->cursorRow) > 128) {
-                PStaRibbon_Scroll(wk, ribbon, (u8)(PStaRibbon_GetRowY(ribbon, ribbon->cursorRow) - 128));
+            if (PStaRibbon_GetRowY(ribbon, ribbon->cursorRow) > CURSOR_Y_MAX) {
+                // The distance is narrowed to a u8 going down, but not going up
+                PStaRibbon_Scroll(wk, ribbon, (u8)(PStaRibbon_GetRowY(ribbon, ribbon->cursorRow) - CURSOR_Y_MAX));
             }
             PStaRibbon_MoveCursor(wk, ribbon, ribbon->cursorRow);
             PStaRibbon_FreeDetailWindows(wk, ribbon);
@@ -278,8 +289,8 @@ static BOOL PStaRibbon_HandleDetailKeys(PStatusWork *wk, PStaRibbonWork *ribbon)
         if (ribbon->rows[row].entry != ENTRY_NONE) {
             ribbon->cursorRow = row;
             ribbon->cursorMoved = TRUE;
-            if (PStaRibbon_GetRowY(ribbon, ribbon->cursorRow) < ROW_X) {
-                PStaRibbon_Scroll(wk, ribbon, PStaRibbon_GetRowY(ribbon, ribbon->cursorRow) - ROW_X);
+            if (PStaRibbon_GetRowY(ribbon, ribbon->cursorRow) < LIST_TOP) {
+                PStaRibbon_Scroll(wk, ribbon, PStaRibbon_GetRowY(ribbon, ribbon->cursorRow) - LIST_TOP);
             }
             PStaRibbon_MoveCursor(wk, ribbon, ribbon->cursorRow);
             PStaRibbon_FreeDetailWindows(wk, ribbon);
@@ -301,7 +312,7 @@ static void PStaRibbon_HandleDetailTouch(PStatusWork *wk, PStaRibbonWork *ribbon
         func_0204c488(wk->buttons[PSTA_BUTTON_BACK], 9);
         func_0204c124(ribbon->cursor, FALSE);
         ribbon->cursorRow = ROW_NONE;
-        ribbon->cursorEntry = ROW_NONE;
+        ribbon->cursorEntry = CURSOR_NONE;
         ribbon->cursorMoved = TRUE;
         wk->isTouch = TRUE;
         PStaRibbon_FreeDetailWindows(wk, ribbon);
@@ -309,7 +320,7 @@ static void PStaRibbon_HandleDetailTouch(PStatusWork *wk, PStaRibbonWork *ribbon
         GFL_SndSEPlay(SEQ_SE_CANCEL1);
         return;
     }
-    if (func_0203da48() == TRUE && wk->touchX > 8 && wk->touchX < 144) {
+    if (func_0203da48() == TRUE && wk->touchX > ROW_X && wk->touchX < LIST_RIGHT) {
         hit = PStaRibbon_GetTouchedRow(wk, ribbon);
         if (hit != TOUCH_RECT_NONE) {
             ribbon->cursorRow = hit;
@@ -322,7 +333,7 @@ static void PStaRibbon_HandleDetailTouch(PStatusWork *wk, PStaRibbonWork *ribbon
             PStaRibbon_PrintDetail(wk, ribbon);
         }
         wk->isTouch = TRUE;
-    } else if (func_0203da2c() == TRUE && ribbon->isDragging == TRUE && wk->touchX > 8 && wk->touchX < 144) {
+    } else if (func_0203da2c() == TRUE && ribbon->isDragging == TRUE && wk->touchX > ROW_X && wk->touchX < LIST_RIGHT) {
         dy = wk->prevTouchY - wk->touchY;
         speed = dy * 2;
         PStaRibbon_Scroll(wk, ribbon, dy);
@@ -356,27 +367,27 @@ static s32 PStaRibbon_GetTouchedRow(PStatusWork *wk, PStaRibbonWork *ribbon) {
         y = PStaRibbon_GetRowY(ribbon, i);
         rect = &rects[i];
         rect->left = ROW_X;
-        rect->right = 144;
+        rect->right = LIST_RIGHT;
         if (y < 0) {
             rect->top = 0;
-        } else if (y > 168) {
-            rect->top = 168;
+        } else if (y > LIST_BOTTOM) {
+            rect->top = LIST_BOTTOM;
         } else {
             rect->top = y;
         }
         y += ROW_HEIGHT;
         if (y < 0) {
             rect->bottom = 0;
-        } else if (y > 168) {
-            rect->bottom = 168;
+        } else if (y > LIST_BOTTOM) {
+            rect->bottom = LIST_BOTTOM;
         } else {
             rect->bottom = y;
         }
         if (rect->top == 0 && rect->bottom == 0) {
-            rect->top = 0xfd;
+            rect->top = TOUCH_RECT_SKIP;
         }
         if (PStaRibbon_GetRowEntry(ribbon, i) == ENTRY_NONE) {
-            rect->top = 0xfd;
+            rect->top = TOUCH_RECT_SKIP;
         }
     }
     rects[ROW_COUNT].top = TOUCH_RECT_END;
@@ -426,7 +437,7 @@ void PStaRibbon_Load(PStatusWork *wk, PStaRibbonWork *ribbon) {
     u8 i;
 
     ribbon->cursorRow = ROW_NONE;
-    ribbon->cursorEntry = ROW_NONE;
+    ribbon->cursorEntry = CURSOR_NONE;
     ribbon->prevCursorRow = ROW_NONE;
     ribbon->scrollY = 0;
     ribbon->isShown = TRUE;
@@ -463,7 +474,7 @@ void PStaRibbon_Draw(PStatusWork *wk, PStaRibbonWork *ribbon) {
     }
     ribbon->scrollY = 0;
     ribbon->cursorRow = ROW_NONE;
-    ribbon->cursorEntry = ROW_NONE;
+    ribbon->cursorEntry = CURSOR_NONE;
     ribbon->prevCursorRow = ROW_NONE;
     ribbon->isShown = TRUE;
     ribbon->needsRedraw = TRUE;
@@ -540,7 +551,7 @@ static void PStaRibbon_DrawRow(PStatusWork *wk, PStaRibbonWork *ribbon, RibbonRo
             src += ROW_CHAR_SIZE;
         }
         sys_memcpy(src, dst, ROW_CHAR_SIZE);
-        format = GFL_MsgDataLoadStrbufNew(ribbon->msgData, 0xa0 + entry->category);
+        format = GFL_MsgDataLoadStrbufNew(ribbon->msgData, MSG_CATEGORY_FIRST + entry->category);
         str = GFL_StrBufCreate(32, wk->heapId);
         wordSet = GFL_WordSetSystemCreateDefault(wk->heapId);
         WordSetNumber(wordSet, 0, entry->number, 2, 2, 1);
@@ -631,7 +642,7 @@ static s16 PStaRibbon_GetRowY(PStaRibbonWork *ribbon, u8 row) {
     if (offset > 8 && top > ROWS_SHOWN) {
         offset -= ROW_COUNT;
     }
-    return offset * ROW_HEIGHT + 8 - scroll;
+    return offset * ROW_HEIGHT + LIST_TOP - scroll;
 }
 
 static void PStaRibbon_PrintDetail(PStatusWork *wk, PStaRibbonWork *ribbon) {
