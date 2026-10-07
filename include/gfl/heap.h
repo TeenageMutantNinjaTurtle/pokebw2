@@ -31,6 +31,8 @@ enum {
     HEAPID_MUSICAL_DRESSUP = 0x2d,
     HEAPID_MUSICAL = 0x2e,
     HEAPID_DEBUG_GENDER_SELECT = 0x39,
+    // Not from swan: the summary screen's heap
+    HEAPID_P_STATUS = 0x42,
     // Not from swan: the Global Trade Station's heap
     HEAPID_WORLDTRADE = 0x48,
     HEAPID_MICTEST = 0x49,
