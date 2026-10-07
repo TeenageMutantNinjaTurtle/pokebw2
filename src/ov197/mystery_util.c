@@ -69,14 +69,6 @@ struct MysteryTextWinCopy {
     GFLBitmap *bitmaps[0];
 };
 
-// How a message window prints
-enum {
-    PRINT_MODE_QUEUE,
-    PRINT_MODE_STREAM,
-    PRINT_MODE_WAIT_ICON,
-    PRINT_MODE_NONE,
-};
-
 struct MysteryMsgWin {
     u32 unk0;
     Font *font;
@@ -85,7 +77,8 @@ struct MysteryMsgWin {
     BmpWin *window;
     StrBuf *str;
     u16 bgColor;
-    // Never set, so the key cursor and the stream use heap 0
+    // BUG: Never set, so the key cursor, the wait icon and the stream allocate from heap 0 (the system heap); with
+    // BUGFIX the create functions set it
     HeapID heapId;
     PrintWindow printWindow;
     PrintQueue *queue;
@@ -305,8 +298,11 @@ MysteryMsgWin *MysteryMsgWin_Create(u16 bg, u8 palette, PrintQueue *queue, Font 
     sys_memset(win, 0, sizeof(MysteryMsgWin));
     win->bgColor = 15;
     win->font = font;
+#ifdef BUGFIX
+    win->heapId = heapId;
+#endif
     win->queue = queue;
-    win->mode = PRINT_MODE_NONE;
+    win->mode = MYSTERY_PRINT_NONE;
     win->str = GFL_StrBufCreate(768, heapId);
     win->window = BmpWin_CreateDynamic(bg, 1, 19, 30, 4, palette, TRUE);
     PrintWindow_Init(&win->printWindow, win->window);
@@ -326,8 +322,11 @@ MysteryMsgWin *MysteryMsgWin_CreateSmall(u16 bg, u8 palette, PrintQueue *queue, 
     sys_memset(win, 0, sizeof(MysteryMsgWin));
     win->bgColor = 15;
     win->font = font;
+#ifdef BUGFIX
+    win->heapId = heapId;
+#endif
     win->queue = queue;
-    win->mode = PRINT_MODE_NONE;
+    win->mode = MYSTERY_PRINT_NONE;
     AppPrintsysCommon_Init(&win->printCommon, 2);
     win->str = GFL_StrBufCreate(512, heapId);
     win->window = BmpWin_CreateDynamic(bg, 1, 21, 30, 2, palette, TRUE);
@@ -362,14 +361,14 @@ void MysteryMsgWin_Delete(MysteryMsgWin *win) {
 
 void MysteryMsgWin_Update(MysteryMsgWin *win) {
     switch (win->mode) {
-    case PRINT_MODE_WAIT_ICON:
+    case MYSTERY_PRINT_WAIT_ICON:
         PrintWindow_Flush(&win->printWindow, win->queue);
         break;
-    case PRINT_MODE_QUEUE:
+    case MYSTERY_PRINT_QUEUE:
         PrintWindow_Flush(&win->printWindow, win->queue);
         win->done = !win->printWindow.flushPending ? TRUE : FALSE;
         break;
-    case PRINT_MODE_STREAM:
+    case MYSTERY_PRINT_STREAM:
         if (win->stream != NULL) {
             if (win->keyCursor != NULL) {
                 KeyCursor_Update(win->keyCursor, win->stream, win->window);
@@ -379,7 +378,7 @@ void MysteryMsgWin_Update(MysteryMsgWin *win) {
             }
         }
         break;
-    case PRINT_MODE_NONE:
+    case MYSTERY_PRINT_NONE:
         break;
     }
     GFL_TCBExMgrUpdate(win->tcbManager);
@@ -402,21 +401,21 @@ static void MysteryMsgWin_PrintStr(MysteryMsgWin *win, u32 mode) {
     }
     MysteryMsgWin_EndWait(win);
     switch (mode) {
-    case PRINT_MODE_WAIT_ICON:
+    case MYSTERY_PRINT_WAIT_ICON:
         win->waitIcon = WaitIcon_Create(GFL_VBlankGetTCBMgr(), win->window, (u8)win->bgColor, 16, win->heapId);
         MysteryMsgWin_PrintQueue(&win->printWindow, win->queue, win->str, win->font);
-        win->mode = PRINT_MODE_QUEUE;
+        win->mode = MYSTERY_PRINT_QUEUE;
         break;
-    case PRINT_MODE_QUEUE:
+    case MYSTERY_PRINT_QUEUE:
         MysteryMsgWin_PrintQueue(&win->printWindow, win->queue, win->str, win->font);
-        win->mode = PRINT_MODE_QUEUE;
+        win->mode = MYSTERY_PRINT_QUEUE;
         break;
-    case PRINT_MODE_STREAM:
+    case MYSTERY_PRINT_STREAM:
         AppPrintsysCommon_Init(&win->printCommon, 2);
         win->keyCursor = KeyCursor_Create(win->bgColor, TRUE, TRUE, win->heapId);
         win->stream = func_02022268(win->window, 0, 0, win->str, win->font, func_02017bcc(), win->tcbManager, 0,
                                     win->heapId, win->bgColor);
-        win->mode = PRINT_MODE_STREAM;
+        win->mode = MYSTERY_PRINT_STREAM;
         break;
     default:
         break;

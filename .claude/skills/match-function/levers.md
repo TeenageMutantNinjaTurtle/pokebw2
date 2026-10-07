@@ -108,6 +108,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "plain argument loaded before")
 - An inline's argument computed and spilled at the inline's entry: the caller passed a local.
   (matching.md: "copies into its one use")
+- A `const` table read before I/O register stores: it was written before them. (matching.md: "not moved across stores to I/O")
 
 ## An instruction too many or too few
 

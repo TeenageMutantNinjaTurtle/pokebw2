@@ -216,8 +216,6 @@ void *func_ov167_021d5e1c(HeapID heapId);
 void func_ov167_021d5e68(void *data);
 
 void func_ov167_021ce8c8(BtlvCore *viewCore);
-u32 func_ov167_021d5a84(HeapID heapId);
-void func_ov167_021d5aac(u32 arg0);
 
 void func_ov167_021ce8dc(BtlvCore *core, u32 cmd);
 BOOL func_ov167_021ce90c(BtlvCore *core);

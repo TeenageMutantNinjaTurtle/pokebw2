@@ -281,10 +281,18 @@ Same instructions, scheduled in another order.
   inline's entry and spills it, was a local of the caller: `mystery.c`'s `MysteryEffect_Init` sets
   `tailHeapId = HEAPID_TAIL(heapId);` before calling the inlined gift-Pokémon routine, which reaches the original's size,
   where `HEAPID_TAIL(heapId)` written as the argument is 4 bytes short.
+- Reads of a `const` table are not moved across stores to I/O registers, so a table read the original does before the
+  stores of a NitroSDK register inline was written before it: `mystery_album.c`'s `MysteryCardView_SeqThrowAway`
+  reads a card position's x and y into `int` locals before `G2_SetWnd0InsidePlane`.
 
 ## An instruction too many or too few
 
 Narrowing shifts, reloads, recomputed addresses and folded constants.
+
+- `p->stack[p->num - 1]` with the array a direct member of `*p` subtracts 1 and loads from the array's offset
+  (`subs; lsls; ldr [r0, #0x4c]`), while the same index into an array inside a nested struct folds the `- 1` into the
+  offset (`lsls; ldr [r0, #0x48]`). The Battle Recorder's `BrProcSys_Pop` has the folded load, but its asserts name
+  `p_wk->stack_num` as a member of the work itself, so it stays unmatched.
 
 - `field += value` on an `s16` field with an `int` value narrows the value first and shares the narrowed copy between
   such adds, where `field = field + value` adds the `int` as it is. The phrase input's `PMSIVEdit_ScrollWait` adds its
