@@ -42,6 +42,9 @@ enum {
     // The evolution demo's graphics, which it frees while another screen runs
     HEAPID_SHINKA_DEMO_GRAPHIC = 0x68,
     HEAPID_DEMO3D = 0x6c,
+    // Not from swan: the Xtransceiver's heap, and the heap of its camera
+    HEAPID_COMM_TVT = 0x6d,
+    HEAPID_CTVT_CAMERA = 0x6e,
     HEAPID_INTRO = 0x6f,
     HEAPID_FIELD_MENU = 0x70,
     HEAPID_BATTLE_LOAD = 0x76,
