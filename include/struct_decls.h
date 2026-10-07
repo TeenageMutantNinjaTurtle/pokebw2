@@ -111,6 +111,7 @@ typedef struct BtlServer BtlServer;
 typedef struct BtlServerCmdQueue BtlServerCmdQueue;
 typedef struct BtlServerFlow BtlServerFlow;
 typedef struct BtlFieldSituation BtlFieldSituation;
+typedef struct BtlFieldStatus BtlFieldStatus;
 typedef struct BtlSetup BtlSetup;
 typedef struct BtlSetupTrainer BtlSetupTrainer;
 typedef struct BtlvCore BtlvCore;

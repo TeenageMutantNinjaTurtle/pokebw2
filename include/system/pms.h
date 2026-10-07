@@ -26,6 +26,8 @@ void func_02029a4c(void *param, u16 *words);
 void func_02029a58(void *param, PMSData *sentence);
 // The phrase as a string
 StrBuf *func_02029c80(const PMSData *sentence, HeapID heapId);
+// Clears the phrase
+void func_02029bb0(PMSData *sentence);
 
 // The C-Gear's phrases, which the save keeps
 void *getCGearDataBlkAddress(SaveControl *save);

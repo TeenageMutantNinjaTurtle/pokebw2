@@ -59,6 +59,7 @@ void func_ov012_02159220(GameData *gameData);
 u32 GetDefaultWeatherValue(void);
 u32 func_ov012_0215922c(void);
 void func_ov036_021a203c(EncountSystem *system, u32 value);
+void func_ov036_021a2364(EncountSystem *system);
 
 void EncountSystem_CancelPhenomenon(EncountSystem *encountSystem);
 u32 EncountState_CheckSpecialEncountPos(EncountSystem *encounter, const u16 *gridPos);
