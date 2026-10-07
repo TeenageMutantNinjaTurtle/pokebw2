@@ -3070,8 +3070,8 @@ from:0x021a76f2 kind:thumb_call to:0x021a7670 module:overlay(257)
 from:0x021a7700 kind:thumb_call to:0x02073fb4 module:main
 from:0x021a7734 kind:thumb_call to:0x021a7670 module:overlay(257)
 from:0x021a773c kind:load to:0x021b21f4 module:overlay(257)
-from:0x021a7740 kind:load to:0x021b21fc module:overlay(257)
-from:0x021a7744 kind:load to:0x021b21f8 module:overlay(257)
+from:0x021a7740 kind:load to:0x021b21f4 add:0x8 module:overlay(257)
+from:0x021a7744 kind:load to:0x021b21f4 add:0x4 module:overlay(257)
 from:0x021a7762 kind:thumb_call to:0x0204a5a8 module:main
 from:0x021a7774 kind:thumb_call to:0x0204a5c0 module:main
 from:0x021a7782 kind:thumb_call to:0x020499e4 module:main
