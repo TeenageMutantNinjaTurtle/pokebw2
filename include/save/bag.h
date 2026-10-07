@@ -42,6 +42,8 @@ void func_02008894(void *cursor, u16 pocket, s16 row, s16 scroll);
 void func_020088a4(void *cursor, u16 pocket);
 void func_020088c4(void *a0, void *a1, void *a2);
 void func_020088e0(void *a0, u16 item, u8 a2);
+// The Free Space's filter
+u8 func_020088e8(void *cursor);
 void func_020088ec(void *data, u32 value);
 // The bag's Free Space and item slots. Function names from swan, except func_0200891c and func_0200896c
 // Whether an item's Free Space bit is set

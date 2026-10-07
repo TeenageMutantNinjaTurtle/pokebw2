@@ -322,7 +322,7 @@ static void BagItemList_SortByType(BagItemList *list) {
         entry = &list->entries[i];
         data = PML_ItemArcHandleReadFile(arc, entry->item, list->heapId);
         // By the item's kind, then its place among them
-        sort[i].key = (PML_ItemGetParam(data, ITEM_PARAM_UNK_D) << 28) + (PML_ItemGetParam(data, ITEM_PARAM_UNK_F) << 16)
+        sort[i].key = (PML_ItemGetParam(data, ITEM_PARAM_KIND) << 28) + (PML_ItemGetParam(data, ITEM_PARAM_SORT_INDEX) << 16)
             + entry->item;
         sort[i].entry = *entry;
         GFL_HeapFree(data);

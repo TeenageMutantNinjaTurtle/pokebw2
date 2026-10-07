@@ -62,7 +62,7 @@ void PokeListMessage_Free(PokeListWork *wk, PokeListMessage *msg) {
         PokeListMessage_Close(wk, msg);
     }
     if (msg->waitIcon != NULL) {
-        func_0203580c(msg->waitIcon);
+        WaitIcon_Free(msg->waitIcon);
     }
     if (msg->stream != NULL) {
         func_020223cc(msg->stream);
@@ -99,7 +99,7 @@ void PokeListMessage_Update(PokeListWork *wk, PokeListMessage *msg) {
         BmpWin_Transfer(msg->window);
         if (msg->wantWaitIcon == TRUE) {
             msg->wantWaitIcon = FALSE;
-            msg->waitIcon = func_02035660(msg->tcbMgr, msg->window, 15, 16, wk->heapId);
+            msg->waitIcon = WaitIcon_CreateTCBEx(msg->tcbMgr, msg->window, 15, 16, wk->heapId);
         }
     }
     func_02021a3c(msg->printQueue);
@@ -128,7 +128,7 @@ void PokeListMessage_Open(PokeListWork *wk, PokeListMessage *msg, u32 windowType
 void PokeListMessage_Close(PokeListWork *wk, PokeListMessage *msg) {
     if (msg->windowType != POKELIST_MESSAGE_WINDOW_NONE) {
         if (msg->waitIcon != NULL) {
-            func_0203580c(msg->waitIcon);
+            WaitIcon_Free(msg->waitIcon);
             msg->waitIcon = NULL;
         }
         BmpWin_ClearFrame(msg->window, WINFRAME_TRANSFER_VBLANK);

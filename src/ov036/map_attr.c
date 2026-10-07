@@ -440,14 +440,14 @@ BOOL TileExitBlockCheck_Down(u16 tileClass) {
     return FALSE;
 }
 
-BOOL TileExitBlockCheck_Left(u32 tileClass) {
+BOOL TileExitBlockCheck_Left(u16 tileClass) {
     if (tileClass == 0x52 || tileClass == 0x56 || tileClass == 0x58) {
         return TRUE;
     }
     return FALSE;
 }
 
-BOOL TileExitBlockCheck_Right(u32 tileClass) {
+BOOL TileExitBlockCheck_Right(u16 tileClass) {
     if (tileClass == 0x51 || tileClass == 0x55 || tileClass == 0x57) {
         return TRUE;
     }

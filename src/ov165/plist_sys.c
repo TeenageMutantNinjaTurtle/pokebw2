@@ -40,7 +40,7 @@
 #include "save/bag.h"
 #include "save/join_avenue.h"
 #include "save/trainer_card.h"
-#include "system/app_common.h"
+#include "system/app_menu_common.h"
 #include "system/app_taskmenu.h"
 #include "system/gf_font.h"
 #include "system/poke_icon.h"

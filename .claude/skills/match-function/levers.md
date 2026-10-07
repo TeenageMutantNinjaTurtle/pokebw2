@@ -131,9 +131,11 @@ text to `grep -n` there. Entries without a key come from later work and still be
   declared in the loop body. (matching.md: "reused from the copy hoisted")
 - An address passed to a `const` pointer parameter is converted, and not shared. (matching.md: "`const` pointer parameter is converted")
 - `const` table reads at a constant index are folded into immediates; reads in a loop, even an unrolled one, are not.
-  An `ldm` into argument registers is a loop over a table. (matching.md: "Reads of a `const` table")
+  An `ldm` into argument registers is a loop over a table. Reads through a pointer to the entry aren't folded either.
+  (matching.md: "Reads of a `const` table")
 - A value moved into an argument register before a call and used for nothing else is a parameter the prototype is
   missing. (matching.md: "prototype is missing")
+- A constant built once for `r3` and the first stack slot is one `u64` argument. (matching.md: "is a `u64` argument")
 - A caller that leaves an argument register untouched across a call is passing that argument.
   (matching.md: "keeps an argument register untouched")
 - A NULL that the original tests (`movs r7, #0` then `beq`) and MWCC folds away is open; see the `event_save.c` and
@@ -218,7 +220,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 - Float arithmetic calls `_fadd`, `_ffix` and others (swan's `__aeabi_*`). Rename to MWCC's name when a complete file
   fails to link. (matching.md: "MWCC's runtime helpers")
-- An arithmetic operation on a literal passes the literal first; a constant in a local keeps its source position.
+- An arithmetic operation on a literal passes the literal first; a constant in a local keeps its source position, and
+  a compound assignment (`x *= 1.5`) passes its target first.
   (matching.md: "passes the literal first")
 - A call inside `FX32_CONST(...)` is made three times; the game passes a local. (matching.md: "FX32_CONST")
 - A literal in a compound assignment (`y += 0.01f`) is passed second. (matching.md: "compound assignment keeps")
@@ -251,6 +254,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "prediction disagrees")
 - `static const` goes in `.rodata`, so a table in `.data` isn't `const`. (matching.md: "`static const` data goes in")
 - A `static const` whose address is never taken is folded and not emitted. If the original has it, it isn't static.
+  An unreferenced word after a file's larger tables is the next file's first object.
   (matching.md: "whose address is never taken")
 - Library code was built against an older NitroSDK, whose headers differ: SPL's `GX_ST` doesn't narrow texture
   coordinates to `fx16` where the game's does. `configure.py` defines `OLD_NITRO_SDK` for SPL, and `nitro/gx.h`

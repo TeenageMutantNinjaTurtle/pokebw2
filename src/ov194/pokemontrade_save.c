@@ -196,7 +196,7 @@ static void func_ov194_021bedd8(PokemonTradeWork *wk) {
 
 // Sends this player's profile, with the Pokémon traded, for the other machine's records
 static void func_ov194_021bedfc(PokemonTradeWork *wk) {
-    TradeProfile profile;
+    UnityTowerVisitor profile;
     UnityTowerSurveySave *survey = getUnityTower_SurveySaveBlkAddrress(GameData_GetSaveControl(wk->gameData));
     PartyPkm *sent;
     PartyPkm *received;
@@ -218,7 +218,7 @@ static void func_ov194_021bedfc(PokemonTradeWork *wk) {
     } else {
         profile.receivedSpecies = PokeParty_GetParam(received, PKM_PARAM_SPECIES, NULL);
     }
-    profile.survey = getPlayerSurveys(survey);
+    profile.hobby = getPlayerSurveys(survey);
     profile.unk25 = func_02009ca0(survey);
     profile.unk26_0 = func_02009d28(survey);
     if (PokemonTrade_IsNetwork(wk)) {

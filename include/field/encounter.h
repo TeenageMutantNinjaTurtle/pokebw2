@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "gfl/heap.h"
+#include "nitro/fx.h"
 #include "struct_decls.h"
 
 // Names and layouts from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
@@ -11,8 +12,22 @@ struct EncountSystem {
     GameSystem *gsys;
     GameData *gameData;
     EncData *encData;
-    void *effectEncountState;
+    EffectEncountState *effectEncountState;
 };
+
+// Where a phenomenon (shaking grass, a dust cloud, rippling water or a flying shadow) is
+typedef struct {
+    u16 zoneId;
+    s16 x;
+    s16 y;
+    s16 z;
+    fx32 height;
+    // The kind of tile, as func_ov036_021a2e18 gives it
+    u8 kind;
+    u8 active : 4;
+    u8 suspended : 2;
+    u8 triggered : 2;
+} RareEncountSpot;
 
 struct EncountState {
     s16 x;
@@ -26,8 +41,9 @@ struct EncountState {
     u32 terrain;
     u16 encountRate;
     u8 unk12[2];
-    u32 unk14;
-    u8 unk18[0x10];
+    // The steps since the last phenomenon
+    u32 phenomenonSteps;
+    RareEncountSpot rareSpot;
 };
 
 // How the encounter rate of a kind of encounter climbs while the player walks
@@ -72,14 +88,24 @@ u16 getSwarmLevelRangeFromData(GameData *gameData);
 u32 func_ov012_02159218(EncountSave *save);
 void func_ov012_0215921c(void);
 void func_ov012_02159220(GameData *gameData);
-u32 GetDefaultWeatherValue(void);
-u32 func_ov012_0215922c(void);
-void func_ov036_021a203c(EncountSystem *system, void *effectEncountState);
-// The phenomena (shaking grass, dust clouds and rippling water) of effect_encount.c
-void *EffectEncountState_Create(HeapID heapId);
-void EffectEncountState_Free(void *state);
-void PrepareFieldEncountSystem(EncountSystem *system, void *effectEncountState);
-void func_ov036_021a202c(EncountSystem *system, void *effectEncountState);
+// A weather that overrides the zone's, which is always WEATHER_NONE
+u32 GetDefaultWeatherValue(GameData *gameData, u16 zoneId);
+// Whether weathers 6 and 7 go back to the zone's own, which is always FALSE
+BOOL func_ov012_0215922c(GameData *gameData);
+// The phenomena (shaking grass, dust clouds, rippling water and flying shadows) of effect_encount.c
+EffectEncountState *EffectEncountState_Create(HeapID heapId);
+void EffectEncountState_Free(EffectEncountState *state);
+void PrepareFieldEncountSystem(EncountSystem *system, EffectEncountState *state);
+void func_ov036_021a202c(EncountSystem *system, EffectEncountState *state);
+void func_ov036_021a203c(EncountSystem *system, EffectEncountState *state);
+void UpdatePhenomenon(EncountSystem *system);
+BOOL EncountSystem_CancelPhenomenonIfActorHit(EncountSystem *system);
+GameEvent *CreateRandomPhenomenonEvent(EncountSystem *system);
+// The distance to the phenomenon, along the axis it is farther on, and whether there is one
+BOOL func_ov036_021a22f4(EncountSystem *system, u16 *distance);
+void func_ov036_021a23c4(EncountSystem *system, u32 a1);
+// The item the phenomenon gave
+u16 func_ov036_021a23f0(EncountSystem *system);
 // The wild encounters of field_encount.c
 EncountSystem *EncSys_Create(Field *field);
 void EncSys_Free(EncountSystem *system);
@@ -98,7 +124,7 @@ void EventBattleCall_DecideEnvWild(u32 species, u32 form, u32 a2, BOOL a3, Field
 void EventBattleCall_DecideEnvTrainer(u32 trainerId, Field *field, u32 *encEffect, u16 *bgm);
 
 void EncountSystem_CancelPhenomenon(EncountSystem *encountSystem);
-u32 EncountState_CheckSpecialEncountPos(EncountSystem *encounter, const u16 *gridPos);
+BOOL EncountState_CheckSpecialEncountPos(EncountSystem *encounter, const s16 *gridPos);
 // The setup of the wild battle on the fishing rod, or NULL for none; rare is for rippling water
 BtlSetup *BtlSetup_CreateFishing(EncountSystem *encounter, BOOL rare);
 

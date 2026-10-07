@@ -197,7 +197,7 @@ GameEvent *func_ov012_02165f70(BSubwayScrWork *bsw, GameSystem *gsys, u8 rental)
         mode = 2;
         break;
     }
-    func_02034bd8(partyParam, gameData, 0x16, party);
+    PokeListParam_Setup(partyParam, gameData, 0x16, party);
     partyParam->regulation = func_0201f734(regulationId, HEAPID_GAMEEVENT);
     summaryParam = &data->summaryParam;
     partyParam->unk48 = mode;

@@ -9,14 +9,17 @@
 
 typedef struct WaitIcon WaitIcon;
 
-// An icon (time_icon.c) that shows in a window while the game is busy
-WaitIcon *func_02035734(HeapID heapId);
-void func_0203576c(WaitIcon *icon, TCBManager *tcbManager, BmpWin *window, u32 a3, u32 a4);
-void func_0203580c(WaitIcon *icon);
-// The same icon, created shown and stepped by its owner
-WaitIcon *func_02035604(TCBManager *tcbManager, BmpWin *window, u32 a2, u32 a3, HeapID heapId);
-void func_02035884(WaitIcon *icon);
-// The icon, shown in a window by tasks of the manager
-WaitIcon *func_02035660(TCBExManager *tcbManager, BmpWin *window, u32 a2, u32 a3, HeapID heapId);
+// The hourglass (time_icon.c) that turns in the bottom right corner of a window while the game is busy. It clears its
+// corner with clearColor when it goes, and shows each of its frames for interval frames. Our names
+
+// Created with its bitmap only, and shown and stepped by a task of the manager once started
+WaitIcon *WaitIcon_Alloc(HeapID heapId);
+void WaitIcon_Start(WaitIcon *icon, TCBManager *tcbManager, BmpWin *window, u8 clearColor, u8 interval);
+void WaitIcon_Free(WaitIcon *icon);
+// Created shown, stepped by a task of the manager, or by its owner through WaitIcon_Main if the manager is NULL
+WaitIcon *WaitIcon_Create(TCBManager *tcbManager, BmpWin *window, u8 clearColor, u8 interval, HeapID heapId);
+void WaitIcon_Main(WaitIcon *icon);
+// Created shown, as the data of a task of the manager
+WaitIcon *WaitIcon_CreateTCBEx(TCBExManager *tcbManager, BmpWin *window, u8 clearColor, u8 interval, HeapID heapId);
 
 #endif // POKEBW2_SYSTEM_TIME_ICON_H

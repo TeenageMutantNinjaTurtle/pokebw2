@@ -523,12 +523,12 @@ void WorldTrade_BoxPokeNumGetStart(WorldTradeWork *wk) {
 }
 
 void WorldTrade_TimeIconAdd(WorldTradeWork *wk) {
-    wk->timeWaitWork = func_02035604(GFL_VBlankGetTCBMgr(), wk->msgWin, 15, 16, HEAPID_WORLDTRADE);
+    wk->timeWaitWork = WaitIcon_Create(GFL_VBlankGetTCBMgr(), wk->msgWin, 15, 16, HEAPID_WORLDTRADE);
 }
 
 void WorldTrade_TimeIconDel(WorldTradeWork *wk) {
     if (wk->timeWaitWork != NULL) {
-        func_0203580c(wk->timeWaitWork);
+        WaitIcon_Free(wk->timeWaitWork);
         wk->timeWaitWork = NULL;
         BmpWin_FlushMap(wk->msgWin);
         GFL_BGSysLoadScr(BmpWin_GetBGIndex(wk->msgWin));

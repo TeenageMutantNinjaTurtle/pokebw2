@@ -26,6 +26,7 @@
 #include "pml/personal.h"
 #include "pml/poke_party.h"
 #include "pml/waza.h"
+#include "system/comm_player_support.h"
 #include "system/game_beacon.h"
 
 s32 ConvertConditionCode(BattleMon *mon, s32 *condition);
@@ -5065,7 +5066,7 @@ void func_ov167_021a81f4(BtlServerFlow *flow) {
     void *passPower = func_ov167_0219be48(flow->mainModule);
 
     if (passPower != NULL) {
-        u32 type = func_02034ee8(passPower);
+        u32 type = CommPlayerSupport_GetType(passPower);
         if (type != 0 && type != 3) {
             u8 monIds[3];
             u8 count;
@@ -5088,7 +5089,7 @@ void func_ov167_021a81f4(BtlServerFlow *flow) {
                 }
                 if (amount != 0 && ServerControl_RecoverHP(flow, mon, amount, FALSE)) {
                     func_ov167_021b15d0(flow->queue, 0x5a, 0x53, 4, monId, 0xffff0000);
-                    func_02034eec(passPower);
+                    CommPlayerSupport_SetUsed(passPower);
                 }
             }
         }

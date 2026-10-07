@@ -79,6 +79,8 @@
 #include "system/iss_sys.h"
 #include "system/main.h"
 #include "system/rtc.h"
+#include "system/season.h"
+#include "system/zone_weather.h"
 
 static const u8 sResolvedControllerTypes[4] = { 0, 1, 2, 0 };
 
@@ -1198,7 +1200,7 @@ void Field_LoadSceneArea(Field *field, u32 zoneId) {
     u16 cameraId = GetCameraIDForZone(zoneId);
 
     if (cameraId != 0xffff) {
-        void *cameraData;
+        CameraArea *cameraData;
         u32 count;
 
         ResetSceneArea(field->sceneArea);

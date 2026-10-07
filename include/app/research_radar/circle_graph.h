@@ -32,11 +32,11 @@ void CircleGraph_SetVisible(CircleGraph *graph, BOOL visible);
 void CircleGraph_SetWait(CircleGraph *graph, u32 frames);
 void CircleGraph_SetDepth(CircleGraph *graph, fx16 z);
 u8 CircleGraph_GetItemIndex(CircleGraph *graph, u8 id);
-u8 CircleGraph_GetItemId(CircleGraph *graph, int index);
+u8 CircleGraph_GetItemId(CircleGraph *graph, u8 index);
 u8 CircleGraph_GetPercentById(CircleGraph *graph, u8 id);
-u8 CircleGraph_GetPercent(CircleGraph *graph, int index);
+u8 CircleGraph_GetPercent(CircleGraph *graph, u8 index);
 BOOL CircleGraph_IsMoving(CircleGraph *graph);
 void CircleGraph_GetLabelScreenPosById(CircleGraph *graph, u8 id, int *x, int *y);
-void CircleGraph_GetLabelScreenPos(CircleGraph *graph, int index, int *x, int *y);
+void CircleGraph_GetLabelScreenPos(CircleGraph *graph, u8 index, int *x, int *y);
 
 #endif // POKEBW2_APP_RESEARCH_RADAR_CIRCLE_GRAPH_H

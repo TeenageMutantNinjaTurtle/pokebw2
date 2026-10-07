@@ -100,14 +100,14 @@ GameEventReturnCode func_ov033_02178d10(GameEvent *event, u32 *state, void *data
         if (func_ov036_021883e8(work->talkWindow) == TRUE) {
             GCTX_HIDBlockSleep(8);
             setupMic(21);
-            work->waitIcon = func_02035604(GFL_VBlankGetTCBMgr(), func_ov036_02188494(work->talkWindow), 15, 16, 21);
+            work->waitIcon = WaitIcon_Create(GFL_VBlankGetTCBMgr(), func_ov036_02188494(work->talkWindow), 15, 16, 21);
             *state = 5;
         }
         break;
     case 5:
         func_02006e0c(2);
         if (func_02006e3c() == TRUE) {
-            func_0203580c(work->waitIcon);
+            WaitIcon_Free(work->waitIcon);
             func_ov036_02188474(work->talkWindow);
             func_ov036_0218836c(work->talkWindow, 0, 0, 1);
             GameEvent_ChainNext(event, EventBGMPushWait_Create(work->gsys, 6));
@@ -209,9 +209,9 @@ void func_ov033_02178ffc(ChatotEventWork *work) {
     pkm = func_0201d620(work->pkm);
     arc = MakePokeGraArcHandle(21);
     encrypted = PML_PkmDecrypt(pkm);
-    work->chars = func_02033f90(arc, pkm, 0, 0, 21);
-    work->palette = func_02033f2c(arc, pkm, 0, 0, 0xc0, 21);
-    work->cellAnims = func_02034000(pkm, 0, 1, 0, 21);
+    work->chars = PokeGra_LoadClActCharsByBoxData(arc, pkm, 0, 0, 21);
+    work->palette = PokeGra_LoadClActPaletteByBoxData(arc, pkm, 0, 0, 0xc0, 21);
+    work->cellAnims = PokeGra_LoadClActCellAnimsByBoxData(pkm, 0, 1, 0, 21);
     PML_PkmReEncrypt(pkm, encrypted);
     GFL_ArcToolFree(arc);
     setup = data_ov033_0217c488;
