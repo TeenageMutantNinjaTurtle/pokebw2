@@ -25,7 +25,6 @@
 #define ROW_X 8
 #define ROW_NONE 0xff
 #define ENTRY_NONE 0xffff
-#define RIBBON_CATEGORY_COUNT 5
 // The size of a row's characters, 17x3 tiles
 #define ROW_CHAR_SIZE (17 * 3 * 32)
 

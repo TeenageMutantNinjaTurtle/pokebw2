@@ -243,6 +243,16 @@ enum {
 
 #define RIBBON_COUNT 80
 
+// The groups that number the ribbons, named after their headings in the ribbon text, which follow the descriptions
+enum {
+    RIBBON_CATEGORY_LEAGUE,
+    RIBBON_CATEGORY_CONTEST,
+    RIBBON_CATEGORY_TOWER,
+    RIBBON_CATEGORY_MEMORIAL,
+    RIBBON_CATEGORY_GIFT,
+    RIBBON_CATEGORY_COUNT,
+};
+
 u32 Ribbon_GetData(u32 ribbon, u32 field);
 u32 Ribbon_GetDescription(u32 ribbon);
 

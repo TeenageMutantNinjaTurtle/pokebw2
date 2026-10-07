@@ -1221,8 +1221,8 @@ static BOOL PStatus_IsFromFieldMenu(PStatusWork *wk) {
 static BOOL PStatus_HasRibbon(PStatusWork *wk, BoxPkm *pkm) {
     u8 i;
 
-    for (i = 0; i < 80; i++) {
-        if (PML_PkmGetParam(pkm, Ribbon_GetData(i, 0), NULL) == TRUE) {
+    for (i = 0; i < RIBBON_COUNT; i++) {
+        if (PML_PkmGetParam(pkm, Ribbon_GetData(i, RIBBON_DATA_PARAM), NULL) == TRUE) {
             return TRUE;
         }
     }
