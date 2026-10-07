@@ -16,7 +16,14 @@ void func_02009db4(UnityTowerSurveySave *save, u32 index, u32 param, u32 value);
 void func_02009d18(UnityTowerSurveySave *save, u8 index);
 u32 func_02009ce4(UnityTowerSurveySave *save);
 u32 func_02009cac(UnityTowerSurveySave *save, PlayerInfo *playerInfo, u32 index);
+// Whether a country and region were met, and records them
+BOOL func_02009ba4(UnityTowerSurveySave *save, u8 country, u8 region);
+void func_02009be0(UnityTowerSurveySave *save, u8 country, u8 region, u32 a3);
+// Records a visitor, a trainer followed by what they traded
+BOOL func_02035350(UnityTowerSurveySave *save, PlayerInfo *visitor);
 u8 getPlayerSurveys(UnityTowerSurveySave *save);
+u8 func_02009ca0(UnityTowerSurveySave *save);
+u8 func_02009d28(UnityTowerSurveySave *save);
 void setPlayerSurveys(UnityTowerSurveySave *save, u32 hobby);
 void func_ov033_0217aa1c(GameSystem *gsys, s32 floor, u32 value);
 void func_ov033_0217aa50(UnityTowerSurveySave *save, u8 *output, s32 floor, u32 value);

@@ -157,6 +157,10 @@ BOOL func_02040c94(int netId);
 BOOL GFL_NetErrCheck(void);
 void GFL_NetErrMarkShown(void);
 void GFL_NetErrShow(u32 a0);
+// Shows the error with the code given
+void func_02011d04(u32 code);
+// Records the error with the code given, to show it
+void func_020120f0(u32 code);
 void func_02011de0(void);
 // Whether the error was handled, after shutting the connection down
 BOOL func_02012154(void);
@@ -253,5 +257,11 @@ BOOL func_02042f24(void);
 void func_02042f2c(int x, int y);
 void func_02042f40(void);
 void func_02042f50(BOOL a0);
+
+// ARM functions past SPL that no source file owns yet, from the network code: the first updates the connection, the
+// second is a veneer to overlay 11's link level
+BOOL func_0205b5ec(void);
+int func_0205b250(void);
+void func_0205b198(void);
 
 #endif // POKEBW2_GFL_NET_H

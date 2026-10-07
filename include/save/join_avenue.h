@@ -54,6 +54,7 @@ void func_02037970(void *work, GameBeacon *beacon);
 void func_02037998(void *work, const GameBeacon *beacon, u32 a2);
 void *func_02037a40(HeapID heapId);
 void func_02037a68(void *entry);
+void func_02037ab4(void *entry, PlayerInfo *info, u16 species, u32 a3);
 void func_02037a70(void *entry);
 BOOL func_02037a90(void *entry);
 u32 func_02037b38(void *entry, u32 param, void *buffer);
