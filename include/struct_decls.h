@@ -315,6 +315,7 @@ typedef struct KeyDataSave KeyDataSave;
 typedef struct MapTerrainBuf MapTerrainBuf;
 typedef struct KeypadManager KeypadManager;
 typedef struct MBCommSys MBCommSys;
+typedef struct MBDataConv MBDataConv;
 typedef struct MBUtilMsg MBUtilMsg;
 typedef struct MedalBox MedalBox;
 typedef struct MsgData MsgData;
