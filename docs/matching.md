@@ -393,6 +393,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   also swapped the registers of `flag` and `search`.
 - A branch to the very next instruction is left by cross-jumping: two statements that end the same way, such as a
   store in each case of a switch, share their tail, and the first jumps to it even when it follows.
+- MWCC evaluates the operands of `|` in the order they are grouped, so a color built from three computed parts shows
+  its grouping: `field_menu.c`'s cursor fade (`func_ov036_021a040c`) computes red, then blue, then green, and only
+  matches as `r | ((b << 10) | (g << 5))`, not as `GX_RGB(r, g, b)`.
 - A block that many cases of a switch branch to, such as the step advance of `event_entrance_effect.c`'s
   `func_ov036_0219f380` (`*state = next(work); advance(work);`), is each case's own copy merged by cross-jumping. A flag
   set in the cases and tested after the switch keeps a register for it and doesn't match.

@@ -983,6 +983,14 @@ overlays/ov035 0x0217ee00 ElScoreboard_Free
 overlays/ov035 0x0217ee08 ElScoreboard_Update
 overlays/ov035 0x0217ee2c ElScoreboard_UploadPalette
 overlays/ov036 0x0219a6dc FieldPlayer_GetSex
+overlays/ov036 0x0219fa10 FieldMenu_Create
+overlays/ov036 0x0219fb68 FieldMenu_Free
+overlays/ov036 0x0219fc60 FieldMenu_Update
+overlays/ov036 0x0219feec FieldMenu_UpdateScroll
+overlays/ov036 0x021a01a8 FieldMenu_LoadBar
+overlays/ov036 0x021a01c4 FieldMenu_GetMenuType
+overlays/ov036 0x021a04dc FieldMenu_GetSelectedItem
+overlays/ov036 0x021a04ec FieldMenu_SetCursorItem
 overlays/ov036 0x021c2080 PleasureBoat_Create
 overlays/ov036 0x021c2168 PleasureBoat_AdvanceClock
 overlays/ov036 0x021c21b8 PleasureBoat_GetInfo

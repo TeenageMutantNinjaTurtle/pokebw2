@@ -16,6 +16,9 @@ void func_ov036_0219886c(FieldSubscreen *subscreen, u32 param);
 BOOL FieldSubscreen_IsReady(FieldSubscreen *subscreen);
 // The report's subscreen
 void func_ov036_021984f0(FieldSubscreen *subscreen, HeapID heapId);
+// Sets the subscreen to change to once the field menu closes
+void FieldSubscreen_SaveReturnSubscreen(FieldSubscreen *subscreen, u32 screenId);
+void func_ov036_02198884(FieldSubscreen *subscreen, HeapID heapId);
 BOOL func_ov036_02198b04(FieldSubscreen *subscreen);
 void func_ov036_02198b10(FieldSubscreen *subscreen);
 void func_ov036_02198b1c(FieldSubscreen *subscreen);
