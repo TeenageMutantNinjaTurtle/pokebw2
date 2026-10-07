@@ -310,7 +310,7 @@ u8 GetMonID(BattleMon *mon) {
     return mon->core.monId;
 }
 
-u16 GetBattleMonSpecies(BattleMon *mon) {
+u16 GetBattleMonSpecies(const BattleMon *mon) {
     return mon->core.species;
 }
 

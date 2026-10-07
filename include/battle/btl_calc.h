@@ -54,7 +54,7 @@ BOOL func_ov167_021bd6a4(const u16 *moves, u32 count, u16 move);
 u32 CalcBaseExpGain(BattleMon *mon, s32 levelDiff);
 BOOL func_ov167_021bd718(u32 value);
 u32 func_ov167_021bd728(u32 value);
-u32 GetNumMonsOnField(u32 battleType, u32 count);
+u8 GetNumMonsOnField(u32 battleStyle, u8 count);
 BOOL func_ov167_021bd760(u32 trainerClass);
 BOOL func_ov167_021bd774(u32 trainerClass);
 BOOL func_ov167_021bd788(u16 trainerClass);

@@ -9,9 +9,9 @@
 #include "gfl/std.h"
 #include "gfl/str.h"
 #include "pml/poke_party.h"
+#include "save/chatter.h"
 #include "save/player_info.h"
 #include "system/str_tool.h"
-#include "save/chatter.h"
 
 // What a command that arrives whole is received into
 typedef struct {
@@ -390,8 +390,8 @@ static void func_ov167_021b9efc(int netId, int size, void *data, void *work, Net
     u32 partySize = packet->size;
 
     if (sWork->parties[packet->clientId] == NULL) {
-        sWork->parties[packet->clientId] = GFL_HeapAllocate(HEAPID_TAIL(sWork->heapId), partySize, TRUE, "btl_net.c",
-                                                            642);
+        sWork->parties[packet->clientId] =
+            GFL_HeapAllocate(HEAPID_TAIL(sWork->heapId), partySize, TRUE, "btl_net.c", 642);
     }
     sys_memcpy(packet->data, sWork->parties[packet->clientId], packet->size);
     GFL_HeapFree(sWork->tempBuffer);

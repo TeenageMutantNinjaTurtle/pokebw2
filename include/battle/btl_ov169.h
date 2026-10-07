@@ -68,4 +68,6 @@ BOOL func_ov169_0689ca84(u16 item);
 u8 func_ov169_0689d35c(void *data);
 void func_ov169_0689c6c8(BtlServerFlow *flow, BattleMon *target);
 
+BOOL func_ov169_0689cb5c(u16 move);
+
 #endif // POKEBW2_BATTLE_BTL_OV169_H

@@ -154,6 +154,9 @@ the original code is linked until they match. The differences are the same in bo
 | `src/ov167/btl_server_cmd.c` | `func_ov167_021b0b6c` | `0x021b0b6c` / `0x021b0bac` | As `func_ov167_021b0a94`, for four bytes. |
 | `src/ov167/btl_server_cmd.c` | `func_ov167_021b1434` | `0x021b1434` / `0x021b1474` | `0x50` bytes versus `0x4c`: the original reads the command from its stack slot again for the encoder call, as `va_start` takes its address, and keeps the format byte in `r2` throughout; ours keeps the command in a register. Calling `va_start` first tried. The same holds for `func_ov167_021b14ec`. |
 | `src/ov167/btl_server_cmd.c` | `func_ov167_021b14ec` | `0x021b14ec` / `0x021b152c` | As `func_ov167_021b1434`. |
+| `src/ov167/btl_client.c` | `CheckTrainerHintMsg` | `0x021b3a5c` / `0x021b3a9c` | Same size, 6 bytes: two spill slots are swapped, the client count at `sp+0xc` and the message at `sp+4` in the original. Declaring them at block or function scope in either order, every local at function scope in three orders, other widths for both, and no message variable at all leave them as they are. |
+| `src/ov167/btl_client.c` | `BattleClient_ScExpGain` | `0x021b7e18` / `0x021b7e58` | Same size, 5 bytes: the experience command copies `pos` to `r1` for its `!= 0xff` test before spilling it, and sets `visible`'s zero after that copy; ours spills `pos` first and reloads it for the compare. Moving `visible = FALSE`, nesting the test, a conditional expression, a static inline, the declaration order, `pos`'s type and `const` don't move it. |
+| `src/ov167/btl_client.c` | `StudioScore_CalcTotal` | `0x021b9838` / `0x021b9878` | Same size, 5 bytes: the sum of the score's four points loads `points[1]` before `points[0]`, with the operands of each `adds` the other way round. Of 15 spellings (one expression, `+=`, reversed operands, a loop, an inline, a pointer) only `points[1] + points[0]` comes closer, to 3 bytes. |
 | `src/ov167/btl_net.c` | `func_ov167_021b9950` | `0x021b9950` / `0x021b9990` | Same size, 27 bytes: register allocation. The original clears `serverCmdReceived` and `unkE` with the loop index's zero in `r0` and keeps the count in `r5`; ours stores the count's zero. Moving `count = 0`, initializing it, and reordering the locals change nothing or make it longer. |
 | `src/ov167/btl_net.c` | `func_ov167_021b9efc` | `0x021b9efc` / `0x021b9f3c` | Same size, 31 bytes: the original loads the packet's header word once and takes the client id, then the size, from it; reading the size into a local first gets the single load but takes the size before the client id. A `const` packet, a pointer to the party slot and a client id local are longer or no closer. |
 | `src/ov167/btlv_core.c` | `BattleClientCmd_StartItemSelect` | `0x021cf5ac` / `0x021cf5ec` | `0x170` bytes versus `0x16e`: the original leaves the bag kind at 0 when no rule applies, sharing one `BtlSetup_IsBattleType(0x10000)` check between the battle-type-0 path and the others; ours returns 0 from the helper, or tests the kind again before that check. Nested `if`s (which duplicate the check), one read of the battle type, a `kind == 0` guard and the early-return helper tried. |
@@ -210,6 +213,11 @@ C is not in the repository; the notes say what differed. Several overlay IDs wer
 - All of `src/ov167/ability_handlers.c` matches in both versions, but it links only once overlay 169 is analyzed:
   its calls to `func_ov169_0689ca54` and four other functions there go through linker veneers to code that dsd
   takes for data, so the symbols are undefined.
+- `src/ov167/btl_client.c`'s `.rodata` has the original's sections and sizes, but in its shared section the two 8-byte
+  message tables (`sEscapeMessages` and `sTrainerHintMsgs`) and the two 20-byte ones (`sAudienceLeave` and
+  `sWeatherStartTable`) come out swapped. Moving the top-level tables doesn't change it, so the size sort also sees the
+  function-local statics in an order `rodata_order.py` doesn't model yet. Its `.bss` matches once its seven statics are
+  declared in the order the file has them.
 
 ## Keeping this list current
 

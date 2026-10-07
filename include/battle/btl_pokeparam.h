@@ -215,7 +215,7 @@ u32 GetAdditionalConditionFlag(BattleMon *mon, u32 flag);
 u32 GetTurnFlag(BattleMon *mon, u32 flag);
 u32 GetBattleMonHeldItem(BattleMon *mon);
 u8 GetBattleMonMoveCount(BattleMon *mon);
-u16 GetBattleMonSpecies(BattleMon *mon);
+u16 GetBattleMonSpecies(const BattleMon *mon);
 u32 GetBattleMonStat(const BattleMon *mon, u32 stat);
 u32 GetBattleMonStatus(BattleMon *mon);
 u16 GetDisabledMove(BattleMon *mon, u32 index);

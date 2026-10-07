@@ -6,6 +6,7 @@
 // names from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0) where it has them
 
 #include "types.h"
+#include "gfl/std.h"
 #include "struct_decls.h"
 
 #define BTL_SERVER_CMD_QUE_SIZE 3000
@@ -20,6 +21,18 @@ struct BtlServerCmdQueue {
 static inline void BtlServerCmdQueue_Init(BtlServerCmdQueue *queue) {
     queue->writePtr = 0;
     queue->readPtr = 0;
+}
+
+// Fills the queue with a block of commands the server sent
+static inline void BtlServerCmdQueue_Setup(BtlServerCmdQueue *queue, const void *data, u16 size) {
+    sys_memcpy32(data, queue->buffer, size);
+    queue->writePtr = size;
+    queue->readPtr = 0;
+}
+
+// Whether every command has been read
+static inline BOOL BtlServerCmdQueue_IsEmpty(const BtlServerCmdQueue *queue) {
+    return queue->readPtr == queue->writePtr;
 }
 
 void func_ov167_021b1434(BtlServerCmdQueue *que, u32 event, ...);

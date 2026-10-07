@@ -84,8 +84,8 @@ typedef struct BtlvOv289Param {
     u8 done;
     u8 unk07;
     u32 unk08;
-    u32 unk0C[4];
-    u32 unk1C;
+    StrBuf *unk0C[4];
+    u32 *unk1C;
     u32 unk20;
 } BtlvOv289Param;
 
@@ -270,7 +270,7 @@ BtlvCore *BtlvCore_Create(BtlMainModule *mainModule, BtlClient *client, BtlPokeC
     core->mainModule = mainModule;
     core->client = client;
     core->pokeCon = pokeCon;
-    core->clientId = func_ov167_021b9174(client);
+    core->clientId = BattleClient_GetClientId(client);
     core->cmd = 4;
     core->heapId = heapId;
     core->strbuf = GFL_StrBufCreate(0x300, heapId);
@@ -475,7 +475,7 @@ BOOL func_ov167_021cea24(BtlvCore *core, s32 *seq, void *work) {
     case 12:
         if (func_ov167_021d02e8(core)) {
             GFL_MsgDataLoadStrbuf(wk->msgData, 0, core->strbuf);
-            func_ov167_021d0308(core, core->strbuf, 0, 0);
+            func_ov167_021d0308(core, core->strbuf, 0, NULL);
             wk->wait = 60;
             (*seq)++;
         }
@@ -495,7 +495,7 @@ BOOL func_ov167_021cea24(BtlvCore *core, s32 *seq, void *work) {
     case 15:
         if (func_ov167_021cf73c(core)) {
             GFL_MsgDataLoadStrbuf(wk->msgData, 1, core->strbuf);
-            func_ov167_021d0308(core, core->strbuf, 0, 0);
+            func_ov167_021d0308(core, core->strbuf, 0, NULL);
             func_ov169_06899e5c(core->unk1C4);
             (*seq)++;
         }
@@ -546,7 +546,7 @@ BattleMon *func_ov167_021ceec0(BtlvCore *core, u32 index) {
 BOOL func_ov167_021ceed8(BtlvCore *core, s32 *seq, void *work) {
     switch (*seq) {
     case 0:
-        func_ov169_0689a008(core->unk1C4, core->mon, core->unk1B5, func_ov167_021b91a4(core->client), core->unkB8);
+        func_ov169_0689a008(core->unk1C4, core->mon, core->unk1B5, BattleClient_GetShooterEnergy(core->client), core->unkB8);
         (*seq)++;
     case 1:
         core->result = func_ov169_0689a060(core->unk1C4);
@@ -594,7 +594,7 @@ BOOL func_ov167_021cefc4(BtlvCore *core) {
     return TRUE;
 }
 
-void func_ov167_021cefec(BtlvCore *core, BattleMon *mon, u8 arg2, void *arg3) {
+void func_ov167_021cefec(BtlvCore *core, BattleMon *mon, u32 arg2, void *arg3) {
     core->mon = mon;
     core->monId = GetMonID(mon);
     core->unkB8 = arg3;
@@ -708,7 +708,7 @@ void func_ov167_021cf234(BtlvCore *core, Ov287Param *param, u8 mode, u8 partyInd
     u8 unk1C;
     u8 index;
 
-    clientId = func_ov167_021b9174(core->client);
+    clientId = BattleClient_GetClientId(core->client);
     param->party = func_ov167_0219c7c8(core->mainModule, clientId);
     param->unk18 = mode != 3 ? func_ov167_0219c7a4(core->mainModule) : 0;
     if (param->unk18) {
@@ -888,7 +888,7 @@ void BattleClientCmd_StartItemSelect(BtlvCore *core, u32 mode, u8 arg2, u8 arg3,
         core->ov286.done = FALSE;
         core->ov286.unk28 = BtlvCore_GetBagKind(core, canUseItems, arg5);
         func_ov167_021cf234(core, &core->ov287, 3, 0, 0);
-        party = func_ov167_021b9180(core->client);
+        party = BattleClient_GetParty(core->client);
         count = GetNumMonsInParty(party);
         for (i = 0; i < count; i++) {
             core->ov287.unk38[i] = CheckCondition(GetBattleMonFromParty(party, i), 0x13);
@@ -1060,12 +1060,12 @@ void func_ov167_021cfaec(BtlvCore *core) {
     }
 }
 
-void func_ov167_021cfb28(BtlvCore *core, u32 arg1, u32 arg2) {
+void func_ov167_021cfb28(BtlvCore *core, u32 arg1, u32 *arg2) {
     core->ov289.unk08 = arg1;
     core->ov289.unk1C = arg2;
 }
 
-void func_ov167_021cfb34(BtlvCore *core, u32 index, u32 value) {
+void func_ov167_021cfb34(BtlvCore *core, u32 index, StrBuf *value) {
     core->ov289.unk0C[index] = value;
 }
 
@@ -1125,7 +1125,7 @@ BOOL func_ov167_021cfca4(BtlvCore *core) {
     return func_ov167_021d3130(core->unk1C0);
 }
 
-void func_ov167_021cfcb4(BtlvCore *core, u16 arg1, u8 pos, u32 type) {
+void func_ov167_021cfcb4(BtlvCore *core, u16 arg1, u8 pos, u8 type) {
     BtlvPosEffectWork *work;
 
     work = func_ov167_021ce93c(core, sizeof(BtlvPosEffectWork));
@@ -1197,7 +1197,7 @@ BOOL func_ov167_021cfdf0(s32 *seq, void *arg) {
     return FALSE;
 }
 
-void func_ov167_021cfe40(BtlvCore *core, u8 count, u32 type, const u8 *monIds, u16 arg4) {
+void func_ov167_021cfe40(BtlvCore *core, u16 count, u32 type, const u8 *monIds, u16 arg4) {
     BtlvMultiEffectWork *work;
     u32 i;
 
@@ -1273,7 +1273,7 @@ BOOL func_ov167_021cff60(BtlvCore *core) {
     return FALSE;
 }
 
-void func_ov167_021cff78(BtlvCore *core, u32 arg1, u32 arg2) {
+void func_ov167_021cff78(BtlvCore *core, u32 arg1, u16 arg2) {
     if (!func_ov167_021b1990(core->client)) {
         func_ov168_021df35c(arg1, arg2);
     }
@@ -1286,7 +1286,7 @@ BOOL func_ov167_021cff94(BtlvCore *core) {
     return FALSE;
 }
 
-void func_ov167_021cffa8(BtlvCore *core, u32 arg1, u32 arg2, u32 arg3) {
+void func_ov167_021cffa8(BtlvCore *core, u32 arg1, u32 arg2, u16 arg3) {
     func_ov168_021df3e0(arg1, arg2, arg3);
 }
 
@@ -1313,7 +1313,7 @@ BOOL func_ov167_021d0008(BtlvCore *core) {
     return func_ov167_021d3284(core->unk1C0);
 }
 
-void func_ov167_021d0018(BtlvCore *core, u8 pos, u32 arg2) {
+void func_ov167_021d0018(BtlvCore *core, u8 pos, u16 arg2) {
     func_ov167_021d3298(core->unk1C0, pos, arg2, func_ov167_021b1990(core->client));
 }
 
@@ -1398,7 +1398,7 @@ void func_ov167_021d01c8(BtlvCore *core, const BtlvStringParam *param) {
 }
 
 void func_ov167_021d01d8(BtlvCore *core) {
-    func_ov167_021d0308(core, core->strbuf, 0x50, 0);
+    func_ov167_021d0308(core, core->strbuf, 0x50, NULL);
 }
 
 void func_ov167_021d01ec(BtlvCore *core, const BtlvStringParam *param) {
@@ -1406,9 +1406,9 @@ void func_ov167_021d01ec(BtlvCore *core, const BtlvStringParam *param) {
     func_ov167_021d0308(core, core->strbuf, param->mode, 0);
 }
 
-void func_ov167_021d0210(BtlvCore *core, const BtlvStringParam *param, u32 arg2) {
+void func_ov167_021d0210(BtlvCore *core, const BtlvStringParam *param, BtlvMsgCallback callback) {
     func_ov167_021d011c(param, core->strbuf);
-    func_ov167_021d0308(core, core->strbuf, param->mode, arg2);
+    func_ov167_021d0308(core, core->strbuf, param->mode, callback);
 }
 
 void func_ov167_021d0234(BtlvCore *core, const BtlvStringParam *param) {
@@ -1418,18 +1418,18 @@ void func_ov167_021d0234(BtlvCore *core, const BtlvStringParam *param) {
 
 void func_ov167_021d0250(BtlvCore *core, u16 message, const u32 *args) {
     func_ov167_021d4f1c(core->strbuf, message, args);
-    func_ov167_021d0308(core, core->strbuf, 0x50, 0);
+    func_ov167_021d0308(core, core->strbuf, 0x50, NULL);
 }
 
 void func_ov167_021d026c(BtlvCore *core, u16 message, const u32 *args) {
     func_ov167_021d4f90(core->strbuf, message, args);
-    func_ov167_021d0308(core, core->strbuf, 0x50, 0);
+    func_ov167_021d0308(core, core->strbuf, 0x50, NULL);
 }
 
 BOOL func_ov167_021d0288(BtlvCore *core, u32 trainerId, u32 msgId) {
     if (TrainerMsg_CheckExists(trainerId, msgId, core->heapId)) {
         TrainerMsg_Load(trainerId, msgId, core->strbuf, core->heapId);
-        func_ov167_021d0308(core, core->strbuf, 0x50, 0);
+        func_ov167_021d0308(core, core->strbuf, 0x50, NULL);
     } else {
         return FALSE;
     }
@@ -1438,7 +1438,7 @@ BOOL func_ov167_021d0288(BtlvCore *core, u32 trainerId, u32 msgId) {
 
 void func_ov167_021d02cc(BtlvCore *core, u8 monId, u16 move) {
     func_ov167_021d5684(core->strbuf, monId, move);
-    func_ov167_021d0308(core, core->strbuf, 0x50, 0);
+    func_ov167_021d0308(core, core->strbuf, 0x50, NULL);
 }
 
 BOOL func_ov167_021d02e8(BtlvCore *core) {
@@ -1449,9 +1449,9 @@ BOOL func_ov167_021d02f8(BtlvCore *core) {
     return func_ov167_021d2ec4(core->unk1C0);
 }
 
-void func_ov167_021d0308(BtlvCore *core, const StrBuf *strbuf, u32 wait, u32 arg3) {
+void func_ov167_021d0308(BtlvCore *core, const StrBuf *strbuf, u32 wait, BtlvMsgCallback callback) {
     if (!func_ov167_021b1990(core->client)) {
-        func_ov167_021d2e20(core->unk1C0, strbuf, wait, arg3);
+        func_ov167_021d2e20(core->unk1C0, strbuf, wait, callback);
     }
 }
 
@@ -1463,16 +1463,16 @@ void func_ov167_021d0340(BtlvCore *core, u32 arg1, u32 arg2) {
     func_ov167_021d39e4(core->unk1C0, arg1, arg2);
 }
 
-void func_ov167_021d0350(BtlvCore *core, u32 arg1) {
-    func_ov167_021d3a1c(core->unk1C0, arg1);
+BOOL func_ov167_021d0350(BtlvCore *core, u32 arg1) {
+    return func_ov167_021d3a1c(core->unk1C0, arg1);
 }
 
 void func_ov167_021d0360(BtlvCore *core, u32 arg1) {
     func_ov167_021d3a38(core->unk1C0, arg1);
 }
 
-void func_ov167_021d0370(BtlvCore *core, u32 arg1) {
-    func_ov167_021d3a68(core->unk1C0, arg1);
+BOOL func_ov167_021d0370(BtlvCore *core, u32 arg1) {
+    return func_ov167_021d3a68(core->unk1C0, arg1);
 }
 
 void func_ov167_021d0380(BtlvCore *core, u32 arg1) {
@@ -1516,8 +1516,8 @@ void func_ov167_021d0410(BtlvCore *core, u8 pos) {
     func_ov167_021d34ec(core->unk1C0, func_ov167_0219c6dc(core->mainModule, pos));
 }
 
-void func_ov167_021d0428(BtlvCore *core, u8 pos) {
-    func_ov167_021d34fc(core->unk1C0, func_ov167_0219c6dc(core->mainModule, pos));
+BOOL func_ov167_021d0428(BtlvCore *core, u8 pos) {
+    return func_ov167_021d34fc(core->unk1C0, func_ov167_0219c6dc(core->mainModule, pos));
 }
 
 void func_ov167_021d0440(BtlvCore *core, u32 arg1, u32 arg2) {
@@ -1596,7 +1596,7 @@ BOOL func_ov167_021d0568(s32 *seq, void *arg) {
     return FALSE;
 }
 
-void func_ov167_021d05d4(BtlvCore *core) {
+void func_ov167_021d05d4(BtlvCore *core, u8 arg1) {
     void *work;
 
     work = func_ov167_021ce93c(core, 0x3c);
@@ -1604,8 +1604,8 @@ void func_ov167_021d05d4(BtlvCore *core) {
     func_ov169_0689b670(core->unk1C4, work);
 }
 
-BOOL func_ov167_021d0608(BtlvCore *core, u32 arg1) {
-    if (func_ov169_0689b680(core->unk1C4, arg1)) {
+BOOL func_ov167_021d0608(BtlvCore *core, u8 *out) {
+    if (func_ov169_0689b680(core->unk1C4, out)) {
         return TRUE;
     }
     return FALSE;
@@ -1688,8 +1688,8 @@ void func_ov167_021d0798(BtlvCore *core, const BtlvStringParam *param1, const Bt
     GFL_HeapFree(work->second);
 }
 
-void func_ov167_021d0828(BtlvCore *core, u32 arg1) {
-    func_ov169_0689b728(core->unk1C4, arg1);
+BOOL func_ov167_021d0828(BtlvCore *core, u32 *answer) {
+    return func_ov169_0689b728(core->unk1C4, answer);
 }
 
 void func_ov167_021d0838(BtlvCore *core, u8 partyIndex, u16 move) {
@@ -1734,8 +1734,8 @@ BOOL func_ov167_021d0854(BtlvCore *core, u8 *slot) {
     return FALSE;
 }
 
-void func_ov167_021d0978(BtlvCore *core, u32 arg1, u32 arg2) {
-    func_ov167_021d41f8(core->unk1C0, arg1, arg2);
+void func_ov167_021d0978(BtlvCore *core, BattleMon *mon, const void *levelUp) {
+    func_ov167_021d41f8(core->unk1C0, mon, levelUp);
 }
 
 BOOL func_ov167_021d0988(BtlvCore *core) {
@@ -1782,18 +1782,18 @@ BOOL BattleClientCmd_ForceQuitInputWait(BtlvCore *core) {
     return func_ov169_0689b7f8(core->unk1C4);
 }
 
-void func_ov167_021d0a38(BtlvCore *core) {
-    func_ov169_0689b8ec(core->unk1C4);
+u32 func_ov167_021d0a38(BtlvCore *core) {
+    return func_ov169_0689b8ec(core->unk1C4);
 }
 
-void func_ov167_021d0a48(BtlvCore *core, u32 arg1, u32 arg2) {
+void func_ov167_021d0a48(BtlvCore *core, u16 arg1, u16 arg2) {
     core->unk1A0.unk00 = arg1;
     core->unk1A0.unk04 = arg2;
     core->unk1A0.unk0C = 0;
     func_ov169_0689b8dc(core->unk1C4, &core->unk1A0);
 }
 
-void func_ov167_021d0a7c(BtlvCore *core, u32 arg1) {
+void func_ov167_021d0a7c(BtlvCore *core, u16 arg1) {
     core->unk1A0.unk00 = arg1;
     core->unk1A0.unk04 = arg1;
     core->unk1A0.unk0C = 3;
@@ -1865,8 +1865,8 @@ void func_ov167_021d0bac(BtlvCore *core, u32 arg1, u32 arg2, u32 arg3) {
     }
 }
 
-void func_ov167_021d0be4(BtlvCore *core) {
-    func_ov169_0689b920(core->unk1C4);
+u32 func_ov167_021d0be4(BtlvCore *core) {
+    return func_ov169_0689b920(core->unk1C4);
 }
 
 void func_ov167_021d0bf4(BtlvCore *core, u32 arg1) {

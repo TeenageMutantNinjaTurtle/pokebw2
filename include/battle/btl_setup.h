@@ -113,7 +113,12 @@ struct BtlSetup {
     u8 unkFF;
     // Each client's remaining HP, in percent of its party's total
     u32 unk100[4];
-    u8 unk110[0x24];
+    u8 unk110[0x14];
+    u32 unk124;
+    u8 unk128;
+    u8 unk129;
+    u32 unk12C;
+    u32 unk130;
     u32 unk134;
     u16 unk138;
     u16 unk13a;

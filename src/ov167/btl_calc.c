@@ -516,8 +516,8 @@ u32 func_ov167_021bd728(u32 value) {
 }
 
 // Function name from swan.
-u32 GetNumMonsOnField(u32 battleType, u32 count) {
-    if (battleType == 3) {
+u8 GetNumMonsOnField(u32 battleStyle, u8 count) {
+    if (battleStyle == 3) {
         count = 3;
     }
     return count;
