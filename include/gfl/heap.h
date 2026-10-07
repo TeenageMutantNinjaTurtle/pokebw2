@@ -55,6 +55,8 @@ enum {
     HEAPID_BATTLE_RECORDER = 0x5a,
     // Not from swan: the DS Download Play parent's heap, overlay 181
     HEAPID_MB_PARENT = 0x5d,
+    // Not from swan: the Entralink monolith's heap
+    HEAPID_MONOLITH = 0x61,
     HEAPID_GAMESYNC = 0x67,
     // The evolution demo's graphics, which it frees while another screen runs
     HEAPID_SHINKA_DEMO_GRAPHIC = 0x68,

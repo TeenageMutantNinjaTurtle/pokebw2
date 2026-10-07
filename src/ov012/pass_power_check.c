@@ -11,19 +11,6 @@
 #define PASS_POWER_NONE 0xff
 #define PASS_POWER_SPECIAL 0xfe
 
-// A pass power of the table, and the two levels it is unlocked by
-typedef struct {
-    u8 level1;
-    u8 level2;
-    u8 unk02[10];
-} PassPowerData;
-
-typedef struct {
-    u8 unk00[0xc];
-    u16 level1;
-    u16 level2;
-} PassPowerLevel;
-
 u32 CheckPassPowerUnlocked(void *data, int index, void *levels, u8 *flags) {
     PassPowerData *table = data;
     PassPowerLevel *have = levels;
