@@ -11,8 +11,8 @@
 typedef struct FieldSceneArea FieldSceneArea;
 typedef struct CameraArea CameraArea;
 
-typedef BOOL (*CameraAreaCollCheck)(FieldSceneArea *area, CameraArea *cameraArea, const VecFx32 *pos);
-typedef void (*CameraAreaCalcFunc)(FieldSceneArea *area, CameraArea *cameraArea, const VecFx32 *pos);
+typedef BOOL (*CameraAreaCollCheck)(FieldSceneArea *area, const CameraArea *cameraArea, const VecFx32 *pos);
+typedef void (*CameraAreaCalcFunc)(FieldSceneArea *area, const CameraArea *cameraArea, const VecFx32 *pos);
 
 // A rectangle of the map with two camera settings, which the camera blends between across it
 typedef struct {
@@ -90,12 +90,19 @@ int FieldCameraArea_Update(FieldSceneArea *area, const VecFx32 *pos);
 void SetFieldSceneAreaCameraAreaEnable(FieldSceneArea *area, BOOL enable);
 FieldCamera *GetFieldSceneAreaCamera(FieldSceneArea *area);
 Field *GetFieldSceneAreaField(FieldSceneArea *area);
-void *FieldSceneAreaLoader_Create(HeapID heapId);
-void FreeFieldSceneAreaLoader(void *loader);
-void LoadCameraDataToSceneAreaLoader(void *loader, u32 index, u32 cameraId, HeapID heapId);
-void ResetSceneAreaLoader(void *loader);
-void *GetFldSceneAreaLoaderCameraData(void *loader);
-u32 GetFldSceneAreaLoaderCamCount(void *loader);
-const void *GetFldSceneAreaLoaderCamFuncsStaticOffs(void *loader);
+// The loader of the camera areas: each zone's areas come from one file of one of the two archives
+typedef struct {
+    CameraArea *cameraData;
+    u32 cameraCount;
+    ArcTool *camArcTools[2];
+} FieldSceneAreaLoader;
+
+FieldSceneAreaLoader *FieldSceneAreaLoader_Create(HeapID heapId);
+void FreeFieldSceneAreaLoader(FieldSceneAreaLoader *loader);
+void LoadCameraDataToSceneAreaLoader(FieldSceneAreaLoader *loader, u32 index, u32 cameraId, HeapID heapId);
+void ResetSceneAreaLoader(FieldSceneAreaLoader *loader);
+CameraArea *GetFldSceneAreaLoaderCameraData(FieldSceneAreaLoader *loader);
+u32 GetFldSceneAreaLoaderCamCount(FieldSceneAreaLoader *loader);
+const FieldDynCameraFunctions *GetFldSceneAreaLoaderCamFuncsStaticOffs(FieldSceneAreaLoader *loader);
 
 #endif // POKEBW2_FIELD_FIELD_SCENE_AREA_H

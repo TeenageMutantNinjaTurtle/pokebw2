@@ -362,6 +362,9 @@ void NNS_G3dGlbSetBaseScale(const VecFx32 *scale);
 // NNS_G3dGlbLightVector and NNS_G3dGlbLightColor
 void NNS_G3DSetLightVector(int lightID, fx16 x, fx16 y, fx16 z);
 void NNS_G3DSetLightColor(int lightID, GXRgb rgb);
+// NNS_G3dGlbMaterialColorDiffAmb and NNS_G3dGlbMaterialColorSpecEmi
+void NNS_G3DSetMatDifAmb(GXRgb diffuse, GXRgb ambient, BOOL isSetVtxColor);
+void NNS_G3DSetMatSpeEmi(GXRgb specular, GXRgb emission, BOOL isShininess);
 // Send the global state with the projection matrix, the view and projection, or the base, view and projection:
 // NNS_G3dGlbFlushP, NNS_G3dGlbFlushVP and NNS_G3dGlbFlushWVP
 void NNS_G3DFlushRenderState(void);

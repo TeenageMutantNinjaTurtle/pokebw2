@@ -56,5 +56,18 @@ src/ov185/pms_input.c:
     .data       start:0x021a7558 end:0x021a7564
 
 src/ov185/pmsiv_wordwin.c:
+    complete
     .text       start:0x021a3124 end:0x021a3a14
     .data       start:0x021a7564 end:0x021a7574
+
+src/ov185/pms_select.c:
+    complete
+    .text       start:0x021a3a14 end:0x021a4ef0
+    .rodata     start:0x021a72b4 end:0x021a72f8
+    .data       start:0x021a7574 end:0x021a7578
+
+src/ov185/pms_select_graphic.c:
+    complete
+    .text       start:0x021a4ef0 end:0x021a512c
+    .rodata     start:0x021a72f8 end:0x021a745c
+    .data       start:0x021a7578 end:0x021a75a0

@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "app/medal_info.h"
+#include "app/pms_select.h"
 #include "constants/version.h"
 #include "field/app_call.h"
 #include "field/field.h"
@@ -44,14 +45,6 @@ enum {
     TRCARD_SEQ_END,
 };
 
-// The phrase select's parameter for the greeting
-typedef struct {
-    SaveControl *save;
-    u32 unk04;
-    // The phrase chosen, or NULL
-    PMSData *result;
-} TrainerCardGreetingParam;
-
 // The start of overlay 187's MedalInfoParam (app/medal_info.h), as far as its mode 1 reads it
 typedef struct {
     u32 mode;
@@ -71,7 +64,7 @@ typedef struct {
     u32 heapId;
     u32 unk04;
     GameProcManager *procMgr;
-    TrainerCardGreetingParam greeting;
+    PMSSelectParam greeting;
     TrainerCardMedalParam medal;
     TrainerCardParam *param;
     // The card's unk06 when the screen opened
@@ -273,7 +266,7 @@ static u32 func_ov012_02169414(TrainerCardSysWork *wk) {
         wk->procMgr = CreateGameProcManager(wk->heapId);
     }
     wk->greeting.save = GameData_GetSaveControl(wk->param->gameData);
-    QueueGameProc(wk->procMgr, OVERLAY_ID(185), &data_ov185_021a72b4, &wk->greeting);
+    QueueGameProc(wk->procMgr, OVERLAY_ID(185), &PMS_SELECT_PROC_FUNCTIONS, &wk->greeting);
     return TRCARD_SEQ_GREETING_WAIT;
 }
 

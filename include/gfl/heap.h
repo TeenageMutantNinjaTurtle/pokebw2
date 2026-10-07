@@ -26,6 +26,8 @@ enum {
     HEAPID_FIELDMAP = 0x15,
     HEAPID_TITLE = 0x16,
     HEAPID_POKELIST = 0x17,
+    // Mystery Gift's (not from swan)
+    HEAPID_MYSTERY = 0x1d,
     HEAPID_NAMEIN = 0x1e,
     HEAPID_IRC_BATTLE_MENU = 0x1f,
     HEAPID_TRAINER_CARD = 0x26,
@@ -40,9 +42,13 @@ enum {
     // Not from swan: the Global Trade Station's heap
     HEAPID_WORLDTRADE = 0x48,
     HEAPID_MICTEST = 0x49,
+    // Not from swan: the musical photo's heap, overlay 209
+    HEAPID_MUSICAL_SHOT = 0x4a,
     HEAPID_BOX2 = 0x4b,
     HEAPID_BOX2_APP = 0x4c,
     HEAPID_FIELD_PARTICLE = 0x50,
+    // Not from swan: the phrase select's heap
+    HEAPID_PMS_SELECT = 0x51,
     HEAPID_BATTLE_RETURN = 0x52,
     HEAPID_GAMESYNC = 0x67,
     // The evolution demo's graphics, which it frees while another screen runs

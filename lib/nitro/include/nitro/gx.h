@@ -232,6 +232,7 @@ typedef enum {
 #define GX_VRAM_SUB_BGEXTPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_SUB_BGEXTPLTT_0123_H GX_VRAM_H
 #define GX_VRAM_OBJ_NONE GX_VRAM_NONE
+#define GX_VRAM_OBJ_16_F GX_VRAM_F
 #define GX_VRAM_OBJ_16_G GX_VRAM_G
 #define GX_VRAM_OBJ_64_E GX_VRAM_E
 #define GX_VRAM_OBJ_128_B GX_VRAM_B
@@ -312,6 +313,8 @@ typedef enum {
 
 typedef enum {
     GX_BG_BMPSCRBASE_0x00000 = 0,
+    GX_BG_BMPSCRBASE_0x10000 = 4,
+    GX_BG_BMPSCRBASE_0x28000 = 10,
 } GXBGBmpScrBase;
 
 #define GX_PACK_VIEWPORT_PARAM(x1, y1, x2, y2) \
@@ -571,11 +574,14 @@ static inline void GXS_SetVisibleWnd(int window) {
 }
 
 // The planes inside a window or outside all of them, and whether color effects apply there. NitroSDK's
-// G2_SetWnd0InsidePlane, G2_SetWnd1InsidePlane and G2_SetWndOutsidePlane, and their G2S_ forms for the sub screen
+// G2_SetWnd0InsidePlane, G2_SetWnd1InsidePlane, G2_SetWndOBJInsidePlane and G2_SetWndOutsidePlane, and their G2S_
+// forms for the sub screen
 #define REG_G2_WININ_WIN0IN_MASK 0x003f
 #define REG_G2_WININ_WIN1IN_SHIFT 8
 #define REG_G2_WININ_WIN1IN_MASK 0x3f00
 #define REG_G2_WINOUT_WINOUT_MASK 0x003f
+#define REG_G2_WINOUT_OBJWININ_SHIFT 8
+#define REG_G2_WINOUT_OBJWININ_MASK 0x3f00
 #define G2_WND_EFFECT 0x20
 
 // The planes outside all windows, and whether color effects apply there, as the register's low byte
@@ -612,6 +618,15 @@ static inline void G2_SetWndOutsidePlane(int wnd, BOOL effect) {
 
     if (effect) {
         tmp |= G2_WND_EFFECT;
+    }
+    reg_G2_WINOUT = (u16)tmp;
+}
+
+static inline void G2_SetWndOBJInsidePlane(int wnd, BOOL effect) {
+    u32 tmp = (reg_G2_WINOUT & ~REG_G2_WINOUT_OBJWININ_MASK) | (wnd << REG_G2_WINOUT_OBJWININ_SHIFT);
+
+    if (effect) {
+        tmp |= G2_WND_EFFECT << REG_G2_WINOUT_OBJWININ_SHIFT;
     }
     reg_G2_WINOUT = (u16)tmp;
 }

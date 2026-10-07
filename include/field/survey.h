@@ -70,7 +70,7 @@ void func_ov027_02170884(SurveyTextWork *work, GameSystem *gsys);
 u32 func_0200ed90(void *survey, u16 question, int answer);
 void func_0200edb0(void *survey);
 // How many people answered a question, today and before today, which the Research Radar's graph adds up
-u32 func_0200ecf0(void *survey, u8 question);
+u16 func_0200ecf0(void *survey, u8 question);
 u32 func_0200ed14(void *survey, u8 question);
 u32 func_0200ed48(void *survey, u16 question, int answer);
 int GetSurveyAnswerMsgIDCount(u16 question);

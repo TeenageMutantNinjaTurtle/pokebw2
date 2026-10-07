@@ -468,7 +468,7 @@ int CtvtTalk_Main(CommTvtWork *sys, CtvtTalk *talk) {
     case TALK_STATE_SEND_INVITE:
         if (!CtvtTalk_CheckGameCancel(sys, talk) &&
             CtvtComm_SendPacket(sys, CommTvt_GetComm(sys), CTVT_PACKET_UNK_B,
-                                func_ov257_021a26e0(CommTvt_GetGame(sys))) == TRUE) {
+                                CtvtGame_GetType(CommTvt_GetGame(sys))) == TRUE) {
             talk->state = TALK_STATE_WAIT_ANSWERS;
             CtvtTalk_PrintGameMessage(sys, talk, 45, NULL, 0);
             talk->gameMenu = func_ov257_021aac98(sys, 24, 15);
@@ -481,7 +481,7 @@ int CtvtTalk_Main(CommTvtWork *sys, CtvtTalk *talk) {
             break;
         }
         comm = CommTvt_GetComm(sys);
-        CtvtComm_SendPacketAll(sys, comm, CTVT_PACKET_UNK_B, func_ov257_021a26e0(CommTvt_GetGame(sys)));
+        CtvtComm_SendPacketAll(sys, comm, CTVT_PACKET_UNK_B, CtvtGame_GetType(CommTvt_GetGame(sys)));
         AppTaskMenu_Update(talk->gameMenu);
         if (AppTaskMenu_IsFlashFinished(talk->gameMenu) == TRUE) {
             if (AppTaskMenu_GetCursorPos(talk->gameMenu) == 0) {
@@ -907,7 +907,7 @@ static void CtvtTalk_UpdateMain(CommTvtWork *sys, CtvtTalk *talk) {
     if (talk->state == TALK_STATE_MAIN) {
         if (CommTvt_GetSelfIndex(sys) == 0 && func_ov257_021aab3c(sys) == FALSE &&
             func_0203da0c(sGameButtons1) != TOUCH_RECT_NONE && talk->notAlone == FALSE) {
-            func_ov257_021a26dc(CommTvt_GetGame(sys), 0);
+            CtvtGame_SetType(CommTvt_GetGame(sys), 0);
             CtvtTalk_OpenGameWindow(sys, talk);
             talk->state = TALK_STATE_INVITE;
             func_0204c488(talk->gameButtons[0], 36);
@@ -916,7 +916,7 @@ static void CtvtTalk_UpdateMain(CommTvtWork *sys, CtvtTalk *talk) {
         }
         if (CommTvt_GetSelfIndex(sys) == 0 && func_ov257_021aab3c(sys) == FALSE &&
             func_0203da0c(sGameButtons2) != TOUCH_RECT_NONE && talk->notAlone == FALSE) {
-            func_ov257_021a26dc(CommTvt_GetGame(sys), 1);
+            CtvtGame_SetType(CommTvt_GetGame(sys), 1);
             CtvtTalk_OpenGameWindow(sys, talk);
             talk->state = TALK_STATE_INVITE;
             func_0204c488(talk->gameButtons[1], 37);
@@ -1199,7 +1199,7 @@ static void CtvtTalk_PrintCountdown(CommTvtWork *sys, CtvtTalk *talk, u32 msgId,
 
     GFL_BitmapFill(BmpWin_GetBitmap(talk->gameWindow), 15);
     GFL_MsgDataLoadStrbuf(msgData, msgId, talk->message);
-    nameId = func_ov257_021a26e0(game) + 62;
+    nameId = CtvtGame_GetType(game) + 62;
     gameName = GFL_MsgDataLoadStrbufNew(msgData, nameId);
     func_0202437c(wordSet, 0, gameName, 0, 1, 2);
     WordSetNumber(wordSet, 1, count, 2, 2, TRUE);
@@ -1228,7 +1228,7 @@ static void CtvtTalk_PrintGameMessage(CommTvtWork *sys, CtvtTalk *talk, u32 msgI
         func_0202437c(wordSet, index, name, index, 1, 2);
         index++;
     }
-    gameName = GFL_MsgDataLoadStrbufNew(msgData, func_ov257_021a26e0(game) + 62);
+    gameName = GFL_MsgDataLoadStrbufNew(msgData, CtvtGame_GetType(game) + 62);
     func_0202437c(wordSet, index, gameName, 0, 1, 2);
     GFL_StrBufFree(gameName);
     GFL_WordSetFormatStrbuf(wordSet, talk->expanded, message);
