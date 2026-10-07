@@ -16,6 +16,8 @@ BOOL IsNPokeAlreadyCaught(EncountSave *save, u8 index);
 int GetAlreadyCaughtNPokeCount(EncountSave *save);
 // Whether the repel has run out
 BOOL EncountSave_IsRepelDepleted(EncountSave *save);
+// The Repel that was used last
+u16 EncountSave_GetUsedRepelItemID(EncountSave *save);
 // The swarm's location, an index of overlay 36's swarm table
 u8 EncountSave_GetSwarmLocation(EncountSave *save);
 // The roaming Pokémon of the slot, whether it roams, and its parameters

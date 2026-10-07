@@ -209,3 +209,9 @@ src/ov036/scrcmd_place_name.c:
 src/ov036/scrcmd_net.c:
     complete
     .text       start:0x021adcac end:0x021addd4
+
+src/ov036/scrcmd_encount.c:
+    complete
+    .text       start:0x021ae3d4 end:0x021ae714
+    .rodata     start:0x021d0f8c end:0x021d0f98
+    .data       start:0x021d5230 end:0x021d5244
