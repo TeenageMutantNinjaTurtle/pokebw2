@@ -142,7 +142,7 @@ struct BtlMainModule {
     PokeParty *unk298[4];
     PokeParty *unk2A8[4];
     PokeParty *unk2B8;
-    u32 unk2BC;
+    BtlField *field;
     PartyPkm *unk2C0;
     void *unk2C4;
     BtlRecReader recReader;
@@ -361,7 +361,7 @@ u32 func_ov167_0219d938(BtlMainModule *mainModule, u8 clientId);
 PMSData *func_ov167_0219d944(BtlMainModule *mainModule, u8 clientId, u32 which);
 PlayerInfo *func_ov167_0219d97c(BtlMainModule *mainModule, u8 clientId);
 PlayerInfo *func_ov167_0219d998(BtlMainModule *mainModule);
-u32 func_ov167_0219d9a8(BtlMainModule *mainModule);
+BtlField *func_ov167_0219d9a8(BtlMainModule *mainModule);
 void func_ov167_0219d9b0(BtlMainModule *mainModule);
 void func_ov167_0219d9e8(BtlMainModule *mainModule);
 void func_ov167_0219da44(BtlMainModule *mainModule, u8 clientId, const PokeParty *party);

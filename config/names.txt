@@ -2172,8 +2172,12 @@ overlays/ov167 0x021b98a4 Studio_UpdateAudience
 overlays/ov167 0x021bac78 CountUsedMoves
 overlays/ov167 0x021bad4c GetMovePPUsed
 overlays/ov167 0x021bbf40 GetConsumedItem
+overlays/ov167 0x021d5968 clearEffect
 overlays/ov167 0x021d59b0 GetFieldWeather
 overlays/ov167 0x021d5a74 IsFieldEffectActive
+overlays/ov167 0x021d5ab4 initField
+overlays/ov167 0x021d5adc getWeatherTurns
+overlays/ov167 0x021d5afc decWeatherTurns
 overlays/ov167 0x021d7070 sCmdProcTable
 overlays/ov167 0x021db000 sHitCritical
 overlays/ov167 0x021db003 sHitUnk9
@@ -2184,6 +2188,7 @@ overlays/ov167 0x021db024 sCmdArgs
 overlays/ov167 0x021dd864 sOverlayLoaded
 overlays/ov167 0x021dd868 sCommMode
 overlays/ov167 0x021dd86c sAdapters
+overlays/ov167 0x021dd8e8 sField
 overlays/ov170 0x0217f6b0 TrAI_Think
 overlays/ov170 0x0217f780 TrAI_DeleteVM
 overlays/ov170 0x0217f7bc TrAI_Setup
