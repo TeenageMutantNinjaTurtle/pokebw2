@@ -111,6 +111,8 @@ BOOL func_ov210_021ef088(MusicalItemData *item, u8 pos);
 // Its flags 0x80 and 0x200
 BOOL func_ov210_021ef0f4(MusicalItemData *item);
 BOOL func_ov210_021ef104(MusicalItemData *item);
+// The kind of a prop's effect when it is used
+u8 func_ov210_021ef170(void *items, u16 itemId);
 
 // Overlay 211, the musical's communication
 void *func_ov211_021ef1e0(HeapID heapId, GameSystem *gsys, GameCommSys *comm, u16 value);

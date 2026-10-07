@@ -134,7 +134,7 @@ MusShotPhoto *MusShotPhoto_Create(MusicalShot *shot, HeapID heapId) {
     MusShotPhoto_InitText(photo);
     photo->bg = StaActBg_InitSystem(photo->heapId, NULL);
     StaActBg_LoadBg(photo->bg, photo->shot->unk0_0);
-    func_ov209_021bde30(photo->staPoke, 0x80);
+    StaActPoke_SetScrollOffset(photo->staPoke, 0x80);
     StaActBg_SetScrollOffset(photo->bg, 0x80);
     return photo;
 }
@@ -144,7 +144,7 @@ void MusShotPhoto_Delete(MusShotPhoto *photo) {
 
     StaActLight_TermSystem(photo->lightSys);
     StaActBg_TermSystem(photo->bg);
-    func_ov209_021bd974(photo->staPoke);
+    StaActPoke_TermSystem(photo->staPoke);
     MusPokeDraw_TermSystem(photo->pokeDraw);
     MusItemDraw_TermSystem(photo->itemDraw);
     BmpWin_Free(photo->titleWin);
@@ -159,15 +159,15 @@ void MusShotPhoto_Delete(MusShotPhoto *photo) {
 }
 
 void MusShotPhoto_Main(MusShotPhoto *photo) {
-    func_ov209_021bd9b4(photo->staPoke);
+    StaActPoke_UpdateSystem(photo->staPoke);
     MusPokeDraw_UpdateSystem(photo->pokeDraw);
     StaActLight_UpdateSystem(photo->lightSys);
     GFL_G3DSysReset();
     GFL_G3DSysMtxViewFlush();
     StaActLight_DrawSystem(photo->lightSys);
-    func_ov209_021bddf4(photo->staPoke);
+    StaActPoke_DrawSystem(photo->staPoke);
     MusPokeDraw_DrawSystem(photo->pokeDraw);
-    func_ov209_021bd9e0(photo->staPoke);
+    StaActPoke_UpdateSystem_Item(photo->staPoke);
     StaActBg_DrawSystem(photo->bg);
     BlActScene_Draw(photo->blact, photo->camera, NULL);
     MusShotPhoto_Debug(photo);
@@ -246,14 +246,14 @@ static void MusShotPhoto_InitPokes(MusShotPhoto *photo) {
     photo->pokeDraw = MusPokeDraw_InitSystem(photo->heapId);
     MusPokeDraw_SetTexBase(photo->pokeDraw, FX32_CONST(32));
     photo->itemDraw = MusItemDraw_InitSystem(photo->blact, 36, photo->heapId);
-    photo->staPoke = func_ov209_021bd8f0(photo->heapId, NULL, photo->pokeDraw, photo->itemDraw, photo->blact);
+    photo->staPoke = StaActPoke_InitSystem(photo->heapId, NULL, photo->pokeDraw, photo->itemDraw, photo->blact);
     for (i = 0; i < 4; i++) {
         photo->pokeActs[i] = NULL;
     }
     for (i = 0; i < 4; i++) {
-        photo->pokeActs[i] = func_ov209_021bde60(photo->staPoke, photo->pokes[i]);
-        func_ov209_021be904(photo->staPoke, photo->pokeActs[i]);
-        func_ov209_021be9a8(photo->staPoke, photo->pokeActs[i], TRUE);
+        photo->pokeActs[i] = StaActPoke_CreatePoke(photo->staPoke, photo->pokes[i]);
+        StaActPoke_StopAnime(photo->staPoke, photo->pokeActs[i]);
+        StaActPoke_SetShowItem(photo->staPoke, photo->pokeActs[i], TRUE);
     }
 
     // The Pokémon that got the most points stand in front
@@ -285,14 +285,14 @@ static void MusShotPhoto_InitPokes(MusShotPhoto *photo) {
             pos.x = MusShotPhoto_GetPokeX(photo, i, photo->pokes[i]->species);
             pos.y = FX32_CONST(155);
             pos.z = zs[i];
-            func_ov209_021be8a8(photo->staPoke, photo->pokeActs[i], &pos);
-            func_ov209_021be8d8(photo->staPoke, photo->pokeActs[i], &offset);
+            StaActPoke_SetPosition(photo->staPoke, photo->pokeActs[i], &pos);
+            StaActPoke_SetPositionOffset(photo->staPoke, photo->pokeActs[i], &offset);
             lightPos.y = FX32_CONST(88);
         } else {
             pos.x = MusShotPhoto_GetPokeX(photo, i, photo->pokes[i]->species);
             pos.y = FX32_CONST(155);
             pos.z = zs[i];
-            func_ov209_021be8a8(photo->staPoke, photo->pokeActs[i], &pos);
+            StaActPoke_SetPosition(photo->staPoke, photo->pokeActs[i], &pos);
             lightPos.y = FX32_CONST(128);
         }
         photo->lights[i] = StaActLight_AddLight(photo->lightSys, 1);

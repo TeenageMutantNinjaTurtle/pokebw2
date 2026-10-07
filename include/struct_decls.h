@@ -440,6 +440,8 @@ typedef struct ScriptSubwork ScriptSubwork;
 typedef struct ShortcutMenuWork ShortcutMenuWork;
 typedef struct ShortcutSave ShortcutSave;
 typedef struct StaActBg StaActBg;
+typedef struct StaActEffect StaActEffect;
+typedef struct StaActEffectSys StaActEffectSys;
 typedef struct StaActLight StaActLight;
 typedef struct StaActLightSys StaActLightSys;
 typedef struct StaActObjSys StaActObjSys;

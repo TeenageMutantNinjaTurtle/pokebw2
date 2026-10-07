@@ -14,5 +14,8 @@ StaActPoke *StaActing_GetPoke(StaActing *stage, u8 pos);
 u16 StaActing_GetScrollOffset(StaActing *stage);
 // The position of the Pokémon the spotlight follows, or 4 for none
 u8 StaActing_GetLightUpPoke(StaActing *stage);
+StaActEffectSys *StaActing_GetEffectSys(StaActing *stage);
+// How many times the props' effects run this frame
+u32 StaActing_GetUpdateCount(StaActing *stage);
 
 #endif // POKEBW2_APP_MUSICAL_STA_ACTING_H

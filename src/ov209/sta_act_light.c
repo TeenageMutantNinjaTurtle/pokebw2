@@ -105,7 +105,7 @@ static void StaActLight_UpdateFollowLight(StaActLightSys *sys) {
         pokeSys = StaActing_GetPokeSys(sys->stage);
         poke = StaActing_GetPoke(sys->stage, StaActing_GetLightUpPoke(sys->stage));
         scroll = StaActing_GetScrollOffset(sys->stage);
-        func_ov209_021be898(pokeSys, poke, &pokePos);
+        StaActPoke_GetPosition(pokeSys, poke, &pokePos);
         pos.x = FX_FX32_TO_F32(pokePos.x) - scroll;
         pos.y = FX_FX32_TO_F32(pokePos.y) - 32.0f;
         func_0204c140(sys->followActor, &pos, CLACT_SURFACE_MAIN);

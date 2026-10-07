@@ -185,7 +185,7 @@ void MusPokeDraw_SetPlttBase(MusPokeDrawSys *sys, u32 base) {
     MusicalMcss_SetPlttBase(sys->mcssSys, base);
 }
 
-MusPokeDrawEquipPos *MusPokeDraw_GetEquipPos(MusPokeDraw *poke, u8 pos) {
+MusPokeDrawEquipPos *MusPokeDraw_GetEquipPos(MusPokeDraw *poke, u32 pos) {
     return &poke->equips[pos];
 }
 
