@@ -87,6 +87,8 @@
 #define ARCID_DATA_CONVERT 139
 // Game Sync's graphics (gsync_disp.c). Our name, not swan's
 #define ARCID_GSYNC 143
+// The Dream World account screens' graphics (pdwacc_disp.c). Our name, not swan's
+#define ARCID_PDWACC 145
 // The interactive sound system's dungeon BGM settings (iss_dungeon_sys.c). Our name, not swan's
 #define ARCID_ISS_DUNGEON 146
 // The interactive sound system's BGM switch sets (iss_switch_set.c). Our name, not swan's

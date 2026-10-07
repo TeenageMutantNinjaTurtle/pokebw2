@@ -592,9 +592,12 @@ static void func_ov257_021ab764(u8 *data, s16 *coef, s32 *pos, int tbl) {
         if (k + run > 63) {
             return;
         }
-        for (i = 0; i < run; i++) {
-            coef[k] = 0;
-            k++;
+        i = 0;
+        if (run > 0) {
+            for (; i < run; i++) {
+                coef[k] = 0;
+                k++;
+            }
         }
         coef[k] = func_ov257_021ab808(data, pos, 0, rs & 0xf);
         k++;
@@ -605,6 +608,7 @@ static void func_ov257_021ab764(u8 *data, s16 *coef, s32 *pos, int tbl) {
 static s32 func_ov257_021ab808(u8 *data, s32 *pos, s32 value, int nbits) {
     s32 negative;
     int i;
+    int len;
 
     if (nbits != 0) {
         negative = 0;
@@ -616,8 +620,8 @@ static s32 func_ov257_021ab808(u8 *data, s32 *pos, s32 value, int nbits) {
         } else {
             value = (value << 1) | 1;
         }
-        nbits--;
-        for (i = 0; i < nbits; i++) {
+        len = nbits - 1;
+        for (i = 0; i < len; i++) {
             if (*pos + 1 >= sDataSize) {
                 return 0;
             }
@@ -1035,7 +1039,7 @@ static void func_ov257_021ac018(u8 *dest, int x, int y, int width, int height) {
 }
 
 // The EXIF data the signature check reads is big-endian
-#define READ_BE16(p) ((p)[1] + ((p)[0] << 8))
+#define READ_BE16(p) ((u16)((p)[1] + ((p)[0] << 8)))
 #define READ_BE32(p) (((p)[0] << 24) + ((p)[1] << 16) + ((p)[2] << 8) + (p)[3])
 
 BOOL SSP_StartJpegDecoder(u8 *data, u32 size, void *dst, s16 *width, s16 *height, u32 option) {
@@ -1044,70 +1048,69 @@ BOOL SSP_StartJpegDecoder(u8 *data, u32 size, void *dst, s16 *width, s16 *height
 
     if (data_ov257_021b6240 == TRUE && hw_isDSi() == TRUE) {
         u8 sig[SSP_SIGNATURE_SIZE];
-        u8 *makerNote;
-        int ifd;
-        int p;
-        u16 count;
+        u32 pos, count, i;
         u16 tag;
-        u32 i;
-        int sigOffset;
+        u8 *entry;
+        u32 sigOffset;
         int signResult;
 
         if (size < 0x17) {
             return FALSE;
         }
-        ifd = data[0x13] + 0xc;
-        p = ifd + 2;
-        if (p > size) {
+        pos = data[0x13] + 12;
+        if (pos + 2 > size) {
             return FALSE;
         }
-        count = READ_BE16(data + ifd);
-        if (p + count * 12 > size) {
+        count = READ_BE16(&data[pos]);
+        pos += 2;
+        if (pos + count * 12 > size) {
             return FALSE;
         }
         tag = 0;
         for (i = 0; i < count; i++) {
-            tag = READ_BE16(data + p);
+            entry = &data[pos];
+            tag = READ_BE16(entry);
             if (tag == 0x8769) {
-                p = READ_BE32(data + p + 8) + 0xc;
+                pos = READ_BE32(entry + 8) + 12;
                 break;
             }
-            p += 12;
+            pos += 12;
         }
         if (tag != 0x8769) {
             return FALSE;
         }
-        if (p + 2 > size) {
+        if (pos + 2 > size) {
             return FALSE;
         }
-        count = READ_BE16(data + p);
-        p += 2;
-        if (p + count * 12 > size) {
+        count = READ_BE16(&data[pos]);
+        pos += 2;
+        if (pos + count * 12 > size) {
             return FALSE;
         }
         tag = 0;
         for (i = 0; i < count; i++) {
-            tag = READ_BE16(data + p);
+            entry = &data[pos];
+            tag = READ_BE16(entry);
             if (tag == 0x927c) {
-                p = READ_BE32(data + p + 8) + 0xc;
+                pos = READ_BE32(entry + 8) + 12;
                 break;
             }
-            p += 12;
+            pos += 12;
         }
         if (tag != 0x927c) {
             return FALSE;
         }
-        if (p + 4 > size) {
+        if (pos + 4 > size) {
             return FALSE;
         }
-        makerNote = data + p;
-        if (makerNote[2] != 0x10 || makerNote[3] != 0) {
+        entry = &data[pos];
+        if (entry[2] != 0x10 || entry[3] != 0) {
             return FALSE;
         }
-        if (p + 0xe > size) {
+        if (pos + 14 > size) {
             return FALSE;
         }
-        sigOffset = READ_BE32(makerNote + 10) + 0xc;
+        sigOffset = READ_BE32(entry + 10) + 12;
         if (sigOffset + SSP_SIGNATURE_SIZE > size) {
             return FALSE;
         }

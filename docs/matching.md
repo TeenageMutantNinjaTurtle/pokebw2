@@ -259,7 +259,10 @@ Same instructions, scheduled in another order.
   `PrintWindow_Print`. A block-scoped local set from the field before the call does the same: bmp_menu.c's
   `BmpMenu_PrintOptions` loads the queue first because its loop body declares `PrintQueue *queue` and a `u8 y`.
   save_error.c's `displayLightBlueErrorWindow` reads `chars->size` before calling `gfxGetCharAddrBG1A()` only
-  through NitroSDK's `MI_CpuCopy16` inline over `sys_memcpy16`.
+  through NitroSDK's `MI_CpuCopy16` inline over `sys_memcpy16`. The same goes for a field read before a call that
+  could change it, such as a `sys_memset` of the struct that holds it: pdwacc_disp.c reads the heap ID before
+  clearing its palette cycle only as the argument of a `static inline` helper that clears the cycle and then uses the
+  heap ID.
 - Two stores through a pointer read from a struct, with one load of the pointer where ours loads it again after the
   first store, were made by an inlined helper that takes the pointer, such as `PrintWindow_Init(header.printWindow,
   window)` in `ShopUI_CreateConfirmDialog`.

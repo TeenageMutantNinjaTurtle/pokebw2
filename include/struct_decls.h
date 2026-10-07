@@ -63,6 +63,8 @@ typedef struct GameBeaconSystem GameBeaconSystem;
 typedef struct GSyncDisp GSyncDisp;
 typedef struct GSyncDownload GSyncDownload;
 typedef struct GSyncMessage GSyncMessage;
+typedef struct PdwAccDisp PdwAccDisp;
+typedef struct PdwAccMessage PdwAccMessage;
 typedef struct BagSave BagSave;
 typedef struct BagScriptResult BagScriptResult;
 typedef struct BGMInfo BGMInfo;
