@@ -140,6 +140,9 @@ def defined_functions(source: Path) -> list[str]:
 
 def disassemble(data: bytes, address: int, thumb: bool) -> list[str]:
     md = capstone.Cs(capstone.CS_ARCH_ARM, capstone.CS_MODE_THUMB if thumb else capstone.CS_MODE_ARM)
+    # Literal pools sit between instructions, and capstone stops at the first word it can't decode, which would cut
+    # the listing (and the diff) short there. Skipping such words as data keeps going to the end of the function.
+    md.skipdata = True
     return [f"{i.address:08x}: {i.mnemonic} {i.op_str}" for i in md.disasm(data, address)]
 
 
