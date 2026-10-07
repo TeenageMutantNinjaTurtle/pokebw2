@@ -274,6 +274,7 @@ void func_02008d90(u32 data, u32 *copy);
 void func_02008d98(u32 data, u32 *copy);
 // A byte of this block, at 7, tells the start menu whether to ask about the C-Gear
 void *func_02009918(SaveControl *save);
+void func_020098bc(void *cgear, u8 value);
 // The same block, from the game data
 void *func_02009924(GameData *gameData);
 u8 func_020098c0(void *a0);

@@ -127,9 +127,9 @@ u8 GFL_StrCmdCountLinesUntilWordSetIndex(const StrBuf *strbuf, u8 index);
 u8 GFL_StrCmdGetStrWidthUntilWordSetIndex(const StrBuf *strbuf, u8 index, Font *font, u32 spacing);
 u16 GFL_StrCmdGetIdentChar(void);
 BOOL GFL_StrCmdIsWordSet(const u16 *cmd);
-u8 GFL_StrCmdGetCommandCategory(const u16 *cmd);
+u32 GFL_StrCmdGetCommandCategory(const u16 *cmd);
 void GFL_StrCmdBuild(StrBuf *strbuf, u32 category, u16 index, u8 paramCount, const u16 *params);
-u8 GFL_StrCmdGetCommandIndex(const u16 *cmd);
+u32 GFL_StrCmdGetCommandIndex(const u16 *cmd);
 u16 GFL_WordSetGetCommandParameter(const u16 *cmd, u32 index);
 const u16 *GFL_StrCmdSkipCommand(const u16 *cmd);
 
