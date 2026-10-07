@@ -40,6 +40,10 @@ Same instructions, registers swapped.
   records command. A zero loaded from another variable's stack slot is that variable: the summary screen's
   `PStaInfo_PrintMemo` sets its highest IV with `ldr r7, [sp, #0x14]`, `best`'s slot, which matches only as
   `best = 0;` between two calls well before the loop and `u8 maxIV = best;`; `maxIV = 0` makes it 18 bytes longer.
+  The same goes for a zeroed struct a loop passes by value, which MWCC builds once in the loop's preheader by copying
+  a variable in scope that holds 0: `btl_server_flow.c`'s `func_ov167_021a49c4` copies `BtlFlowDamageFlags flags = { 0 };`
+  from the loop counter, as the original does, only with `flags` declared in a block around the loop; at function scope
+  it copies `damage`.
 - `arr[count++] = x` and `arr[count] = x; count++;` allocate registers differently, as do `count = 1; arr[0] = x;` and
   the reverse order.
 - `a[i + c]` adds `c` to `i` first, while `(a + i)[c]` folds `c * 4` into the base offset. When the original folds a

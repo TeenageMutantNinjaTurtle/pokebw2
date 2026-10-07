@@ -3115,7 +3115,6 @@ u32 func_ov167_021a4830(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon 
 }
 
 u32 func_ov167_021a49c4(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, void *targets, void *data) {
-    BtlFlowDamageFlags flags = { 0 };
     u32 hit;
     u32 hits;
     u32 damage = 0;
@@ -3130,28 +3129,31 @@ u32 func_ov167_021a49c4(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon 
             func_ov167_021b1434(flow->queue, 0x4e, GetBattlePos(flow->unk1ab8, GetMonID(attacker)), targetPos, 0x27e);
         }
     }
-    for (hit = 0, hits = 0; hit < flow->unk4B4->count; hit++) {
-        BattleMoveEffectState *effect;
+    {
+        BtlFlowDamageFlags flags = { 0 };
+        for (hit = 0, hits = 0; hit < flow->unk4B4->count; hit++) {
+            BattleMoveEffectState *effect;
 
-        status = GetBattleMonStatus(attacker);
-        effect = flow->moveEffect;
-        if (!effect->enabled) {
-            effect->enabled = 1;
-            effect->unk05_1 = 1;
-        }
-        func_ov167_021b1434(flow->queue, 0x30, flow->moveEffect->pos1, flow->moveEffect->pos2, param->move, 0);
-        func_ov167_021a44f0(flow, attacker, targets, param, data, 0x1000, flow->unk870);
-        damage += func_ov167_021a4c44(flow, param, attacker, targets, flow->unk870, flow->unk4B4, 0x1000, flags);
-        hits++;
-        if (IsFainted(target) || IsFainted(attacker)) {
-            break;
-        }
-        ServerControl_CheckItemReaction(flow, target, 1);
-        if (GetBattleMonStatus(attacker) == 2 && status != 2) {
-            break;
-        }
-        if (flow->unk4B4->unk02 && !func_ov167_021a3504(flow, attacker, target, param)) {
-            break;
+            status = GetBattleMonStatus(attacker);
+            effect = flow->moveEffect;
+            if (!effect->enabled) {
+                effect->enabled = 1;
+                effect->unk05_1 = 1;
+            }
+            func_ov167_021b1434(flow->queue, 0x30, flow->moveEffect->pos1, flow->moveEffect->pos2, param->move, 0);
+            func_ov167_021a44f0(flow, attacker, targets, param, data, 0x1000, flow->unk870);
+            damage += func_ov167_021a4c44(flow, param, attacker, targets, flow->unk870, flow->unk4B4, 0x1000, flags);
+            hits++;
+            if (IsFainted(target) || IsFainted(attacker)) {
+                break;
+            }
+            ServerControl_CheckItemReaction(flow, target, 1);
+            if (GetBattleMonStatus(attacker) == 2 && status != 2) {
+                break;
+            }
+            if (flow->unk4B4->unk02 && !func_ov167_021a3504(flow, attacker, target, param)) {
+                break;
+            }
         }
     }
     if (hits != 0) {
