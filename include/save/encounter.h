@@ -10,8 +10,17 @@ u16 func_0200dd38(EncountSave *save, u8 index);
 // Marks the special Pokémon of the index caught
 void SetNPokeCaught(EncountSave *save, u8 index);
 void EncountSave_SetRepelSteps(EncountSave *save, u8 steps);
-BOOL EncountSave_IsRepelDepleted(EncountSave *save);
 // Sets the repel that was used last
 void func_0200ddf0(EncountSave *save, u16 item);
+BOOL IsNPokeAlreadyCaught(EncountSave *save, u8 index);
+int GetAlreadyCaughtNPokeCount(EncountSave *save);
+// Whether the repel has run out
+BOOL EncountSave_IsRepelDepleted(EncountSave *save);
+// The swarm's location, an index of overlay 36's swarm table
+u8 EncountSave_GetSwarmLocation(EncountSave *save);
+// The roaming Pokémon of the slot, whether it roams, and its parameters
+BOOL EncountSave_GetRoamingPkmStatus(EncountSave *save, u8 slot);
+void *EncountSave_GetRoamingPkm(EncountSave *save, u8 slot);
+u32 EncountSave_GetRoamingPkmParam(void *roamingPkm, u32 param);
 
 #endif // POKEBW2_SAVE_ENCOUNTER_H

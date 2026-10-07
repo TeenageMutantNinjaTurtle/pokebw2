@@ -41,6 +41,10 @@ typedef struct KeySystemMsgWin KeySystemMsgWin;
 typedef struct KeySystemMenu KeySystemMenu;
 typedef struct KeySystemList KeySystemList;
 typedef struct KeySystemNet KeySystemNet;
+typedef struct KeySystemMsgWinGroup KeySystemMsgWinGroup;
+typedef struct KeySystemOamText KeySystemOamText;
+typedef struct KeySystemScrollList KeySystemScrollList;
+typedef struct KeySystemParticle KeySystemParticle;
 
 // A step of the sequence, called each frame with its own state
 typedef void (*KeySystemSeqFunc)(KeySystemSeq *seq, int *state, void *work);
@@ -91,7 +95,7 @@ typedef struct {
     char tag[4];
 } KeySystemTag;
 
-// A list of windows to choose from, as func_ov332_021c0dd4 creates it
+// A list of windows to choose from, as KeySystemList_Create creates it
 typedef struct {
     u32 msgId;
     u8 x;
@@ -117,20 +121,22 @@ typedef struct {
     void *arg;
 } KeySystemListSetup;
 
-// A menu of choices, as func_ov332_021c0c1c creates it
+// A menu of choices, as KeySystemMenu_Create creates it
 typedef struct {
     MsgData *msgData;
     Font *font;
     PrintQueue *printQueue;
     u32 msgIds[4];
     u32 count;
-    u16 unk20;
-    u16 unk22;
-    u16 unk24;
-    u16 unk26;
-    u32 unk28;
-    u16 unk2c;
-    u16 unk2e;
+    u16 bg;
+    u16 palette;
+    u16 framePalette;
+    u16 frameChar;
+    // Whether B cancels
+    BOOL cancelable;
+    // What B chooses, and where the cursor starts
+    u16 cancelValue;
+    u16 cursor;
 } KeySystemMenuSetup;
 
 #define KEY_SYSTEM_KEY_COUNT 5
@@ -160,14 +166,17 @@ typedef struct KeySystemKeySelect {
     int index;
 } KeySystemKeySelect;
 
-// A straight move over a number of frames
+// A position in pixels
 typedef struct {
     s32 x;
     s32 y;
-    s32 startX;
-    s32 startY;
-    s32 endX;
-    s32 endY;
+} KeySystemPos;
+
+// A straight move over a number of frames
+typedef struct {
+    KeySystemPos pos;
+    KeySystemPos start;
+    KeySystemPos end;
     fx32 stepX;
     fx32 stepY;
     int frame;
@@ -194,8 +203,8 @@ typedef struct KeySystemKeyAnim {
     ClActor *actor10;
     ClActor *actor12;
     ClActor *actor9;
-    void *text;
-    void *oamSys;
+    KeySystemOamText *text;
+    BmpOamSys *oamSys;
     int state;
     int timer;
     u16 msgId;
@@ -223,8 +232,8 @@ struct KeySystemWork {
     KeySystemMsgWin *titleWin;
     KeySystemList *list;
     KeySystemMenu *menu;
-    void *unk24;
-    void *scrollList;
+    KeySystemMsgWinGroup *msgWinGroup;
+    KeySystemScrollList *scrollList;
     Font *font;
     PrintQueue *printQueue;
     MsgData *msgData;
@@ -249,7 +258,7 @@ struct KeySystemWork {
     KeySystemKeyAnim keyAnim;
     // cygnus_flow.c's
     void *cygnusActors;
-    void *unk264;
+    KeySystemParticle *particle;
     void *cygnusWork;
     void *cygnusGraphic;
     // The handle of the sounds that Unova Link loads ahead
@@ -320,28 +329,89 @@ ClActUnit *KeySystemGraphic_GetClActUnit(KeySystemGraphic *graphic);
 void KeySystemGraphic_Set3D(KeySystemGraphic *graphic, u32 mode);
 
 // key_system_util.c
-KeySystemMsgWin *func_ov332_021c054c(u8 bg, u8 x, u8 y, u8 width, u16 height, u16 palette, Font *font, HeapID heapId);
-void func_ov332_021c0604(KeySystemMsgWin *win);
-void func_ov332_021c0654(KeySystemMsgWin *win);
-void func_ov332_021c073c(KeySystemMsgWin *win, MsgData *msgData, u32 msgId, u32 a3);
-void func_ov332_021c0758(KeySystemMsgWin *win, StrBuf *str, u32 a2);
-void func_ov332_021c0770(KeySystemMsgWin *win, u16 color);
-void func_ov332_021c0774(KeySystemMsgWin *win, u32 a1, u32 a2, u32 a3);
-u16 func_ov332_021c095c(KeySystemMsgWin *win);
-void func_ov332_021c0988(KeySystemMsgWin *win, u16 frameChar, u8 framePalette);
-void func_ov332_021c09a0(KeySystemMsgWin *win);
-void func_ov332_021c0bd4(void *a0);
-KeySystemMenu *func_ov332_021c0c1c(const KeySystemMenuSetup *setup, HeapID heapId);
-void func_ov332_021c0d50(KeySystemMenu *menu);
-void func_ov332_021c0d9c(KeySystemMenu *menu);
-KeySystemList *func_ov332_021c0dd4(const KeySystemListSetup *setup, HeapID heapId);
-void func_ov332_021c0ee8(KeySystemList *list);
-void func_ov332_021c0f10(KeySystemList *list);
-void func_ov332_021c10e0(KeySystemList *list);
-BOOL func_ov332_021c1140(KeySystemList *list);
-BOOL func_ov332_021c1168(KeySystemList *list);
-u32 func_ov332_021c119c(KeySystemList *list);
-BOOL func_ov332_021c11a0(KeySystemList *list);
+// How a KeySystemMsgWin prints: all at once through the print queue, or a character at a time, with the cursor and at
+// the text speed, at the fast speed or without the cursor
+enum {
+    KEY_SYSTEM_MSG_PRINT,
+    KEY_SYSTEM_MSG_STREAM,
+    KEY_SYSTEM_MSG_PRINT_WAIT_ICON,
+    KEY_SYSTEM_MSG_STREAM_FAST,
+    KEY_SYSTEM_MSG_STREAM_NO_CURSOR,
+    KEY_SYSTEM_MSG_IDLE,
+};
+
+// Where KeySystemMsgWin_SetPos puts the text in its window
+enum {
+    KEY_SYSTEM_ALIGN_TOP_LEFT,
+    KEY_SYSTEM_ALIGN_CENTER,
+    KEY_SYSTEM_ALIGN_CENTER_Y,
+    KEY_SYSTEM_ALIGN_RIGHT,
+};
+
+// A window of KeySystemMsgWinGroup_Create
+typedef struct {
+    u16 x;
+    u16 y;
+    u16 width;
+    u16 height;
+    u32 msgId;
+} KeySystemMsgWinTemplate;
+
+#define KEY_SYSTEM_SCROLL_LIST_MAX 12
+
+// A list that scrolls through ov139's list, with an actor for each item
+typedef struct {
+    MsgData *msgData;
+    Font *font;
+    ClActor *arrowDown;
+    ClActor *arrowUp;
+    u32 msgIds[KEY_SYSTEM_SCROLL_LIST_MAX];
+    u32 values[KEY_SYSTEM_SCROLL_LIST_MAX];
+    ClActor *icons[KEY_SYSTEM_SCROLL_LIST_MAX];
+    u32 count;
+    u16 bg;
+    u16 palette;
+    u16 unkA8;
+    u16 unkAA;
+    u16 unkAC;
+} KeySystemScrollListSetup;
+
+KeySystemMsgWin *KeySystemMsgWin_Create(u16 bg, u16 x, u16 y, u16 width, u16 height, u16 palette, Font *font,
+                                        HeapID heapId);
+void KeySystemMsgWin_Free(KeySystemMsgWin *win);
+void KeySystemMsgWin_Update(KeySystemMsgWin *win);
+// Prints a message or a string, KEY_SYSTEM_MSG_*
+void KeySystemMsgWin_PrintMsg(KeySystemMsgWin *win, MsgData *msgData, u32 msgId, u32 mode);
+void KeySystemMsgWin_PrintStr(KeySystemMsgWin *win, const StrBuf *str, u32 mode);
+void KeySystemMsgWin_SetColor(KeySystemMsgWin *win, u16 color);
+void KeySystemMsgWin_SetPos(KeySystemMsgWin *win, s32 x, s32 y, u32 align);
+BOOL KeySystemMsgWin_IsDone(KeySystemMsgWin *win);
+void KeySystemMsgWin_StopWaitIcon(KeySystemMsgWin *win);
+void KeySystemMsgWin_DrawFrame(KeySystemMsgWin *win, u16 frameChar, u8 framePalette);
+void KeySystemMsgWin_Clear(KeySystemMsgWin *win);
+void KeySystemMsgWin_ClearFrame(KeySystemMsgWin *win);
+void KeySystemMsgWin_CreateCursor(KeySystemMsgWin *win);
+KeySystemMsgWinGroup *KeySystemMsgWinGroup_Create(const KeySystemMsgWinTemplate *templates, u32 count, u16 bg,
+                                                  u16 palette, Font *font, MsgData *msgData, HeapID heapId);
+void KeySystemMsgWinGroup_Free(KeySystemMsgWinGroup *group);
+void KeySystemMsgWinGroup_Update(KeySystemMsgWinGroup *group);
+BOOL KeySystemMsgWinGroup_IsDone(KeySystemMsgWinGroup *group);
+KeySystemMenu *KeySystemMenu_Create(const KeySystemMenuSetup *setup, HeapID heapId);
+KeySystemMenu *KeySystemMenu_CreateAt(const KeySystemMenuSetup *setup, u8 x, u8 y, u8 width, u8 height, HeapID heapId);
+void KeySystemMenu_Free(KeySystemMenu *menu);
+// Returns the chosen item, the cancel value or BMPMENULIST_NULL
+s32 KeySystemMenu_Update(KeySystemMenu *menu);
+BOOL KeySystemMenu_UpdatePrint(KeySystemMenu *menu);
+KeySystemList *KeySystemList_Create(const KeySystemListSetup *setup, HeapID heapId);
+void KeySystemList_Free(KeySystemList *list);
+void KeySystemList_Update(KeySystemList *list);
+void KeySystemList_Draw(KeySystemList *list);
+BOOL KeySystemList_IsPrinted(KeySystemList *list);
+void KeySystemList_Reset(KeySystemList *list);
+BOOL KeySystemList_IsDecided(KeySystemList *list);
+u32 KeySystemList_GetCursor(KeySystemList *list);
+BOOL KeySystemList_IsChanged(KeySystemList *list);
+const KeySystemListSetup *KeySystemList_GetSetup(KeySystemList *list);
 KeySystemSeq *KeySystemSeq_Create(u32 depth, void *work, KeySystemSeqFunc func, HeapID heapId);
 void KeySystemSeq_Free(KeySystemSeq *seq);
 void KeySystemSeq_Run(KeySystemSeq *seq);
@@ -351,6 +421,8 @@ void KeySystemSeq_Push(KeySystemSeq *seq, KeySystemSeqFunc func);
 // Ends the sequence
 void KeySystemSeq_Reset(KeySystemSeq *seq);
 void KeySystemSeq_Pop(KeySystemSeq *seq);
+BOOL KeySystemSeq_IsCurrent(KeySystemSeq *seq, KeySystemSeqFunc func);
+void KeySystemSeq_AddState(KeySystemSeq *seq, int add);
 void KeySystemSeq_PopTo(KeySystemSeq *seq, KeySystemSeqFunc func);
 KeySystemScene *KeySystemScene_Create(void *work, HeapID heapId);
 void KeySystemScene_Free(KeySystemScene *scene);
@@ -359,15 +431,130 @@ void KeySystemScene_Start(KeySystemScene *scene, const KeySystemSceneFuncs *func
 void KeySystemScene_RequestEnd(KeySystemScene *scene);
 BOOL KeySystemScene_IsIdle(KeySystemScene *scene);
 void KeySystemScene_Abort(KeySystemScene *scene);
-void func_ov332_021c1cd4(u32 type, u16 *dest, u16 t, u32 offset, const u16 *from, const u16 *to);
+KeySystemOamText *KeySystemOamText_Create(const ClActorSetup *setup, u16 width, u16 height, u32 palette,
+                                          u8 paletteOffset, u32 surface, BmpOamSys *oamSys, HeapID heapId);
+void KeySystemOamText_Free(KeySystemOamText *text);
+void KeySystemOamText_Print(KeySystemOamText *text, MsgData *msgData, u32 msgId, Font *font);
+void KeySystemOamText_SetColor(KeySystemOamText *text, u16 color);
+void KeySystemOamText_Update(KeySystemOamText *text);
+BOOL KeySystemOamText_IsDone(KeySystemOamText *text);
+BmpOamActor *KeySystemOamText_GetActor(KeySystemOamText *text);
+void KeySystemTween_Init(KeySystemTween *tween, const KeySystemPos *start, const KeySystemPos *end, int frames);
+// Returns TRUE once the move is done
+BOOL KeySystemTween_Update(KeySystemTween *tween);
+void KeySystemTween_GetPos(const KeySystemTween *tween, ClActorPos *pos);
+void KeySystemAccelMove_Init(KeySystemAccelMove *move, const KeySystemPos *start, const KeySystemPos *end, fx32 speed,
+                             int frames);
+BOOL KeySystemAccelMove_Update(KeySystemAccelMove *move);
+void KeySystemAccelMove_GetPos(const KeySystemAccelMove *move, ClActorPos *pos);
+KeySystemScrollList *KeySystemScrollList_Create(const KeySystemScrollListSetup *setup, HeapID heapId);
+void KeySystemScrollList_Free(KeySystemScrollList *list);
+// Returns the value of the chosen item, or SCROLL_LIST_NONE
+u32 KeySystemScrollList_Update(KeySystemScrollList *list);
+BOOL KeySystemScrollList_Start(KeySystemScrollList *list);
+void KeySystemScrollList_GetPos(KeySystemScrollList *list, u32 *cursor, u32 *top);
+KeySystemParticle *KeySystemParticle_Create(HeapID heapId);
+void KeySystemParticle_Free(KeySystemParticle *particle);
+void KeySystemParticle_Load(KeySystemParticle *particle, u32 arcId, u32 fileId, HeapID heapId);
+void KeySystemParticle_Emit(KeySystemParticle *particle, int resourceId);
+// Blends two palettes by the cosine of angle and uploads the result
+void KeySystem_BlendPalette(u32 type, u16 *dest, u16 angle, u32 palette, const u16 *from, const u16 *to);
+// Loads a message, formatted with the word set
+StrBuf *KeySystem_LoadFormattedStr(WordSet *wordSet, MsgData *msgData, u32 msgId, HeapID heapId);
 
 // key_system_net.c
-KeySystemNet *func_ov332_021c1dd0(GameData **gameData, HeapID heapId);
-void func_ov332_021c1e14(KeySystemNet *net);
-void func_ov332_021c1e30(KeySystemNet *net);
-void func_ov332_021c1e54(KeySystemNet *net, u32 a1);
-u32 func_ov332_021c2044(KeySystemNet *net);
-void func_ov332_021c2110(KeySystemNet *net);
+// The connection a KeySystemNet runs
+enum {
+    KEY_SYSTEM_NET_MODE_NONE,
+    KEY_SYSTEM_NET_MODE_WIRELESS,
+    KEY_SYSTEM_NET_MODE_OV181,
+    KEY_SYSTEM_NET_MODE_WIFI,
+    KEY_SYSTEM_NET_MODE_COUNT,
+};
+
+// What KeySystemNet_Request starts
+enum {
+    KEY_SYSTEM_NET_REQUEST_CONNECT,
+    KEY_SYSTEM_NET_REQUEST_DISCONNECT,
+    KEY_SYSTEM_NET_REQUEST_CANCEL,
+    KEY_SYSTEM_NET_REQUEST_SEND,
+    KEY_SYSTEM_NET_REQUEST_SYNC,
+    KEY_SYSTEM_NET_REQUEST_OV181_START,
+    KEY_SYSTEM_NET_REQUEST_OV181_END,
+    KEY_SYSTEM_NET_REQUEST_WIFI_POST,
+    KEY_SYSTEM_NET_REQUEST_WIFI_GET,
+    KEY_SYSTEM_NET_REQUEST_COUNT,
+};
+
+// What KeySystemNet_GetState returns: the step that runs
+enum {
+    KEY_SYSTEM_NET_STATE_IDLE,
+    KEY_SYSTEM_NET_STATE_CONNECTING,
+    KEY_SYSTEM_NET_STATE_DISCONNECTING,
+    KEY_SYSTEM_NET_STATE_CONNECTED,
+    KEY_SYSTEM_NET_STATE_SENDING,
+    KEY_SYSTEM_NET_STATE_SYNCING,
+    KEY_SYSTEM_NET_STATE_CANCELING,
+    KEY_SYSTEM_NET_STATE_OV181,
+    KEY_SYSTEM_NET_STATE_OV181_END,
+    KEY_SYSTEM_NET_STATE_WIFI_POST,
+    KEY_SYSTEM_NET_STATE_WIFI_GET,
+    KEY_SYSTEM_NET_STATE_COUNT,
+};
+
+// What KeySystemNet_CheckError returns
+#define KEY_SYSTEM_NET_ERROR_NONE 0
+#define KEY_SYSTEM_NET_ERROR 2
+
+// The parameters and results of a request
+typedef union {
+    struct {
+        const void *data;
+        u32 size;
+    } send;
+    // Called when the wireless connection ends
+    struct {
+        void *arg;
+        void (*func)(void *arg);
+    } callback;
+    struct {
+        u32 a;
+        u32 b;
+        u32 result;
+    } ov181;
+    struct {
+        BOOL done;
+        u32 a;
+        u32 b;
+    } ov181End;
+    struct {
+        const void *data;
+        u32 result;
+        u32 a;
+        u32 b;
+    } wifi;
+    struct {
+        u32 value;
+        u32 result;
+    } wifiGet;
+    u8 raw[0x100];
+} KeySystemNetRequest;
+
+KeySystemNet *KeySystemNet_Create(GameData **gameData, HeapID heapId);
+void KeySystemNet_Free(KeySystemNet *net);
+void KeySystemNet_Update(KeySystemNet *net);
+void KeySystemNet_SetMode(KeySystemNet *net, u32 mode);
+void KeySystemNet_Request(KeySystemNet *net, u32 request, const KeySystemNetRequest *params);
+u32 KeySystemNet_GetState(KeySystemNet *net);
+BOOL KeySystemNet_GetReceived(KeySystemNet *net, void *dest, u32 size);
+u32 KeySystemNet_CheckError(KeySystemNet *net);
+// Ends the connection after an error
+void KeySystemNet_Reset(KeySystemNet *net);
+void KeySystemNet_SetBuffer(KeySystemNet *net, void *buffer);
+void KeySystemNet_SetNoErrorCheck(KeySystemNet *net, BOOL noErrorCheck);
+void KeySystemNet_SetErrorCallback(KeySystemNet *net, void (*callback)(void *work), void *work);
+// The request's parameters and results
+KeySystemNetRequest *KeySystemNet_GetRequest(KeySystemNet *net);
 
 // key_system_flow.c (a guessed name)
 void func_ov332_021c2b18(KeySystemWork *wk, HeapID heapId);

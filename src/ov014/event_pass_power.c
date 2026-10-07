@@ -1,6 +1,7 @@
 #include "types.h"
 #include "app/pass_power.h"
 #include "field/event_pass_power.h"
+#include "field/event_sound.h"
 #include "field/field.h"
 #include "field/field_event.h"
 #include "gfl/overlay.h"

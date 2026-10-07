@@ -403,7 +403,7 @@ static void func_ov194_021b796c(PokemonTradeWork *wk) {
     u32 x, y;
     ClActorPos pos;
     if (wk->heldIcon != NULL && func_0203da84(&x, &y)) {
-        func_0204c178(wk->heldIcon, &wk->unkF6C, 1);
+        func_0204c178(wk->heldIcon, &wk->heldPrevPos, 1);
         pos.x = x + wk->heldOffsetX;
         pos.y = y + wk->heldOffsetY;
         if (pos.y > 150) {
@@ -1428,9 +1428,9 @@ static void func_ov194_021b9058(PokemonTradeWork *wk) {
             func_ov194_021ba8c0(wk);
             func_0204c124(wk->actors[2], TRUE);
         }
-        func_ov194_021c4cfc(&wk->unk950[0]);
-        func_ov194_021c4cfc(&wk->unk950[1]);
-        func_ov194_021c4cfc(&wk->unk950[2]);
+        func_ov194_021c4cfc(&wk->infoIcons[0]);
+        func_ov194_021c4cfc(&wk->infoIcons[1]);
+        func_ov194_021c4cfc(&wk->infoIcons[2]);
         func_ov194_021c1288(wk, 1);
         GFL_BGSysQueueScrLoad(6);
         func_ov194_021c2f78(wk);
@@ -2774,8 +2774,8 @@ static BOOL PokemonTrade_Init(GameProc *proc, u32 *state, PokemonTradeParam *par
     wk->param = param;
     wk->pkm[0] = GFL_HeapAllocate(HEAPID_POKEMON_TRADE, PokeParty_GetPkmRawSize(), TRUE, "pokemontrade_proc.c", 4379);
     wk->pkm[1] = GFL_HeapAllocate(HEAPID_POKEMON_TRADE, PokeParty_GetPkmRawSize(), TRUE, "pokemontrade_proc.c", 4380);
-    wk->unk10A4 = GFL_HeapAllocate(HEAPID_POKEMON_TRADE, 0x200, FALSE, "pokemontrade_proc.c", 4381);
-    wk->unk10A8 = GFL_HeapAllocate(HEAPID_POKEMON_TRADE, 0x200, FALSE, "pokemontrade_proc.c", 4382);
+    wk->savedObjPalette = GFL_HeapAllocate(HEAPID_POKEMON_TRADE, 0x200, FALSE, "pokemontrade_proc.c", 4381);
+    wk->savedBGPalette = GFL_HeapAllocate(HEAPID_POKEMON_TRADE, 0x200, FALSE, "pokemontrade_proc.c", 4382);
     wk->nationalDex = PokeDex_IsNationalObtained(GameData_GetPokedex(param->gameData));
     if (param != NULL) {
         func_ov194_021bb2cc(wk, param->gameData, param->unk2E);
@@ -2998,11 +2998,11 @@ static BOOL PokemonTrade_ProcExit(GameProc *proc, u32 *state, void *param, void 
     if (!GFL_WipeIsFinished()) {
         return FALSE;
     }
-    GFL_HeapFree(wk->unk10A4);
-    GFL_HeapFree(wk->unk10A8);
-    func_ov194_021c4cfc(&wk->unk950[0]);
-    func_ov194_021c4cfc(&wk->unk950[1]);
-    func_ov194_021c4cfc(&wk->unk950[2]);
+    GFL_HeapFree(wk->savedObjPalette);
+    GFL_HeapFree(wk->savedBGPalette);
+    func_ov194_021c4cfc(&wk->infoIcons[0]);
+    func_ov194_021c4cfc(&wk->infoIcons[1]);
+    func_ov194_021c4cfc(&wk->infoIcons[2]);
     func_ov194_021c4b88(wk);
     func_ov194_021bb4b4(wk);
     func_0202d7dc();

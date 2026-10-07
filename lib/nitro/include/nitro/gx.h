@@ -10,6 +10,12 @@
 typedef u16 GXRgb;
 
 #define GX_RGB(r, g, b) ((GXRgb)((r) | ((g) << 5) | ((b) << 10)))
+#define GX_RGB_R_SHIFT 0
+#define GX_RGB_R_MASK 0x001f
+#define GX_RGB_G_SHIFT 5
+#define GX_RGB_G_MASK 0x03e0
+#define GX_RGB_B_SHIFT 10
+#define GX_RGB_B_MASK 0x7c00
 
 #define GX_RGB_R_SHIFT 0
 #define GX_RGB_R_MASK 0x001f
@@ -181,6 +187,7 @@ static inline void G2_SetOBJAttr(GXOamAttr *oam, int x, int y, int priority, int
 // Shows VRAM D, where the display capture can write, instead of the main engine's output
 #define GX_DISPMODE_VRAM_D 0xe
 #define GX_BGMODE_0 0
+#define GX_BGMODE_3 3
 #define GX_BGMODE_5 5
 #define GX_BG0_AS_2D 0
 #define GX_BG0_AS_3D 1
@@ -215,6 +222,7 @@ typedef enum {
 #define GX_VRAM_BG_32_FG (GX_VRAM_F | GX_VRAM_G)
 #define GX_VRAM_BG_64_E GX_VRAM_E
 #define GX_VRAM_BG_128_A GX_VRAM_A
+#define GX_VRAM_BG_128_B GX_VRAM_B
 #define GX_VRAM_BG_128_D GX_VRAM_D
 #define GX_VRAM_BGEXTPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_BGEXTPLTT_23_G GX_VRAM_G
@@ -235,6 +243,7 @@ typedef enum {
 #define GX_VRAM_TEX_0_D GX_VRAM_D
 #define GX_VRAM_TEXPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_SUB_OBJEXTPLTT_NONE GX_VRAM_NONE
+#define GX_VRAM_TEX_0_A GX_VRAM_A
 #define GX_VRAM_TEX_0_B GX_VRAM_B
 #define GX_VRAM_TEX_0_D GX_VRAM_D
 #define GX_VRAM_TEX_01_AB (GX_VRAM_A | GX_VRAM_B)
@@ -780,7 +789,7 @@ static inline void G3_LightColor(GXLightId lightID, GXRgb rgb) {
 }
 
 static inline void G3_Vtx(fx16 x, fx16 y, fx16 z) {
-    reg_G3_VTX_16 = (u32)(u16)x | ((u32)(u16)y << 16);
+    reg_G3_VTX_16 = (u32)((u16)x | ((u16)y << 16));
     reg_G3_VTX_16 = (u32)(u16)z;
 }
 #define reg_G2_BG2PA (*(vu16 *)0x04000020)
@@ -1033,6 +1042,18 @@ GX_DEFINE_BG_MOSAIC(G2S_BG0Mosaic, reg_G2S_DB_BG0CNT)
 GX_DEFINE_BG_MOSAIC(G2S_BG1Mosaic, reg_G2S_DB_BG1CNT)
 GX_DEFINE_BG_MOSAIC(G2S_BG2Mosaic, reg_G2S_DB_BG2CNT)
 GX_DEFINE_BG_MOSAIC(G2S_BG3Mosaic, reg_G2S_DB_BG3CNT)
+// clang-format on
+
+#define REG_G2_MOSAIC_BG_V_SHIFT 4
+
+static inline void G2_SetBGMosaicSize(int hSize, int vSize) {
+    *(vu8 *)REG_MOSAIC_ADDR = (u8)(hSize | (vSize << REG_G2_MOSAIC_BG_V_SHIFT));
+}
+
+static inline void G2S_SetBGMosaicSize(int hSize, int vSize) {
+    *(vu8 *)REG_DB_MOSAIC_ADDR = (u8)(hSize | (vSize << REG_G2_MOSAIC_BG_V_SHIFT));
+}
+// clang-format off
 
 GX_DEFINE_BG_OFFSET(G2_SetBG0Offset, reg_G2_BG0OFS)
 GX_DEFINE_BG_OFFSET(G2_SetBG1Offset, reg_G2_BG1OFS)
@@ -1251,6 +1272,8 @@ void gfxReset3D(void);
 // NitroSDK's G3i_LookAt_, which loads the camera matrix into the geometry engine when isLoad is set, G3_RotX, G3_RotY,
 // G3_RotZ and G3_MultTransMtx33, under swan's names
 void gfxLookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, BOOL isLoad, MtxFx43 *mtx);
+// NitroSDK's G3i_OrthoW_, which loads the projection matrix into the geometry engine when isLoad is set
+void gfxOrtho(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, BOOL isLoad, MtxFx44 *mtx);
 void gfxRotateX(fx32 sin, fx32 cos);
 void gfxRotateY(fx32 sin, fx32 cos);
 void gfxRotateZ(fx32 sin, fx32 cos);

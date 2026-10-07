@@ -6,6 +6,15 @@
 #include "save/player_info.h"
 #include "struct_decls.h"
 
+// How the player is moving, which FieldPlayerState_GetExState returns. Names from swan
+// (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
+typedef enum {
+    FLD_PLAYER_EXSTATE_NONE = 0x0,
+    FLD_PLAYER_EXSTATE_CYCLING = 0x1,
+    FLD_PLAYER_EXSTATE_SURF = 0x2,
+    FLD_PLAYER_EXSTATE_DIVE = 0x3,
+} PlayerExState;
+
 struct PlayerState {
     u16 zoneId;
     u16 unk2;

@@ -60,6 +60,4 @@ void func_0202bf68(GameCommSys *comm, u32 netId1, u32 netId2);
 // Logs the player, as beacon type 0x37
 void func_0202bf7c(GameCommSys *comm);
 
-void func_0203021c(void);
-
 #endif // POKEBW2_SYSTEM_GAME_COMM_H

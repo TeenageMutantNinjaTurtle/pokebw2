@@ -163,6 +163,8 @@ void GFL_NetErrShow(u32 a0);
 void func_02011d04(u32 code);
 // Records the error with the code given, to show it
 void func_020120f0(u32 code);
+// The error code for a server's result
+u32 func_02011d2c(int result);
 void func_02011de0(void);
 // Whether the error was handled, after shutting the connection down
 BOOL func_02012154(void);
@@ -268,5 +270,11 @@ void func_02042f50(BOOL a0);
 BOOL func_0205b5ec(void);
 int func_0205b250(void);
 void func_0205b198(void);
+
+// From the wireless code in overlay 30: the filter that a scan passes each machine it finds to, with the filter's work
+// (the GFL net work), and how long a parent scans for children
+typedef BOOL (*NetScanFilter)(const void *info, void *work);
+void func_ov030_02175334(NetScanFilter filter);
+void func_ov030_02175658(u16 time);
 
 #endif // POKEBW2_GFL_NET_H
