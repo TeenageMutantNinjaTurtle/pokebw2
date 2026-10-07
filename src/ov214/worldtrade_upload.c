@@ -412,7 +412,7 @@ static void Upload_BmpWinInit(WorldTradeWork *wk) {
 }
 
 static void Upload_BmpWinDelete(WorldTradeWork *wk) {
-    func_ov214_021e1840(&wk->print);
+    WorldTrade_PrintClear(&wk->print);
     BmpWin_Free(wk->msgWin);
 }
 
@@ -970,7 +970,7 @@ static int Upload_SubSeqServerTradeCheckResult(WorldTradeWork *wk) {
             // The deposited Pokémon is gone from the server: take back the save's copy
             wk->depositFlag = 0;
             if (func_0200b4a8(wk->param->worldtrade_data)) {
-                PartyPkm *pkm = func_ov214_021e1504(HEAPID_WORLDTRADE);
+                PartyPkm *pkm = WorldTrade_AllocPartyPkm(HEAPID_WORLDTRADE);
 
                 func_0200b4b8(wk->param->worldtrade_data, pkm);
                 loadPokemonNicknameToStrbuf(wk->wordSet, 0, pkm);
@@ -986,7 +986,7 @@ static int Upload_SubSeqServerTradeCheckResult(WorldTradeWork *wk) {
         case -4:
             wk->depositFlag = 0;
             if (func_0200b4a8(wk->param->worldtrade_data)) {
-                PartyPkm *pkm = func_ov214_021e1504(HEAPID_WORLDTRADE);
+                PartyPkm *pkm = WorldTrade_AllocPartyPkm(HEAPID_WORLDTRADE);
 
                 func_0200b4b8(wk->param->worldtrade_data, pkm);
                 loadPokemonNicknameToStrbuf(wk->wordSet, 0, pkm);
@@ -1475,14 +1475,14 @@ static int Upload_SubSeqEnd(WorldTradeWork *wk) {
 }
 
 static int Upload_SubSeqMessageWait(WorldTradeWork *wk) {
-    if (!func_ov214_021e173c(&wk->print)) {
+    if (!WorldTrade_PrintIsBusy(&wk->print)) {
         wk->subprocessSeq = wk->subprocessNextSeq;
     }
     return WT_SEQ_MAIN;
 }
 
 static int Upload_SubSeqMessageWaitButton(WorldTradeWork *wk) {
-    if ((!func_ov214_021e173c(&wk->print) && (GCTX_HIDGetPressedKeys() & PAD_BUTTON_A)) || func_0203da48()) {
+    if ((!WorldTrade_PrintIsBusy(&wk->print) && (GCTX_HIDGetPressedKeys() & PAD_BUTTON_A)) || func_0203da48()) {
         GFL_SndSEPlay(SEQ_SE_MESSAGE);
         wk->subprocessSeq = wk->subprocessNextSeq;
     }
@@ -1492,9 +1492,9 @@ static int Upload_SubSeqMessageWaitButton(WorldTradeWork *wk) {
 // Takes the Pokémon to deposit or trade out of its box or the party, keeping a copy in the save when keep is set
 static void Upload_UploadPokemonDataDelete(WorldTradeWork *wk, BOOL keep) {
     if (wk->boxTrayNo != 0xff) {
-        PartyPkm *pkm = func_ov214_021e1504(HEAPID_WORLDTRADE);
+        PartyPkm *pkm = WorldTrade_AllocPartyPkm(HEAPID_WORLDTRADE);
 
-        func_ov214_021e159c(BoxSaveAccessor_GetPkm(wk->param->mybox, wk->boxTrayNo, wk->boxCursorPos), pkm);
+        WorldTrade_BoxPkmToPartyPkm(BoxSaveAccessor_GetPkm(wk->param->mybox, wk->boxTrayNo, wk->boxCursorPos), pkm);
         if (keep) {
             func_0200b4d4(wk->param->worldtrade_data, pkm, wk->boxTrayNo);
         }
@@ -1543,7 +1543,7 @@ static void Upload_DownloadPokemonDataAdd(WorldTradeWork *wk, PartyPkm *pkm, int
         int pos = 0;
 
         BoxSaveAccessor_GetNextFreeBoxSlot(wk->param->mybox, &boxNo, &pos);
-        BoxSaveAccessor_InsertPkmCore(wk->param->mybox, boxNo, func_ov214_021e15b8(pkm));
+        BoxSaveAccessor_InsertPkmCore(wk->param->mybox, boxNo, WorldTrade_GetBoxPkm(pkm));
         wk->evoPokeInfo.boxNo = boxNo;
         wk->evoPokeInfo.pos = pos;
     }
@@ -1573,7 +1573,7 @@ static void Upload_ExchangePokemonDataAdd(WorldTradeWork *wk, PartyPkm *pkm, Dpw
         int pos = 0;
 
         BoxSaveAccessor_GetNextFreeBoxSlot(wk->param->mybox, &boxNo, &pos);
-        BoxSaveAccessor_InsertPkmCore(wk->param->mybox, boxNo, func_ov214_021e15b8(pkm));
+        BoxSaveAccessor_InsertPkmCore(wk->param->mybox, boxNo, WorldTrade_GetBoxPkm(pkm));
         wk->evoPokeInfo.boxNo = boxNo;
         wk->evoPokeInfo.pos = pos;
     }

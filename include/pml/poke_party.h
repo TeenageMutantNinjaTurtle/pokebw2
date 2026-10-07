@@ -114,6 +114,8 @@ u32 func_02021034(u32 species, u32 form, u32 sex, BOOL egg);
 int func_0201f010(u8 fame);
 PartyPkm *PokeParty_GetPkm(PokeParty *party, u32 index);
 BoxPkm *func_0201d624(PartyPkm *pkm);
+// A new party Pokémon made from a box Pokémon, with its stats calculated
+PartyPkm *boxPkmRegenToPartyPkm(BoxPkm *pkm, HeapID heapId);
 int PokeParty_GetPkmCount(PokeParty *party);
 u32 PokeParty_GetFirstBattleReady(PokeParty *party);
 u32 isEggInParty(PokeParty *party);
