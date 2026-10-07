@@ -2238,6 +2238,18 @@ overlays/ov207 0x021b67a0 PStaSub_RemoveSprites
 overlays/ov207 0x021b67cc PStaSub_SetBounce
 overlays/ov207 0x021b6840 PStaSub_SetSpritePosition
 overlays/ov207 0x021b6868 PStaSub_AdjustForSpecies
+overlays/ov207 0x021b6924 PStaInfo_Create
+overlays/ov207 0x021b6958 PStaInfo_Free
+overlays/ov207 0x021b696c PStaInfo_Main
+overlays/ov207 0x021b6970 PStaInfo_LoadResources
+overlays/ov207 0x021b6a18 PStaInfo_FreeResources
+overlays/ov207 0x021b6a60 PStaInfo_Load
+overlays/ov207 0x021b6ad4 PStaInfo_Draw
+overlays/ov207 0x021b6cac PStaInfo_Unload
+overlays/ov207 0x021b6cd4 PStaInfo_Clear
+overlays/ov207 0x021b6d2c PStaInfo_PrintInfo
+overlays/ov207 0x021b70b0 PStaInfo_PrintMemo
+overlays/ov207 0x021b75e8 PStaInfo_GetPlaceName
 overlays/ov207 0x021bae30 sPStatusCameraPos
 overlays/ov207 0x021bae3c sPStatusCameraTarget
 overlays/ov207 0x021bae48 sPStatusCameraUp
@@ -2253,6 +2265,7 @@ overlays/ov207 0x021baf34 sPStatusBG1Setup
 overlays/ov207 0x021baf54 sPStatusVRAMConfig
 overlays/ov207 0x021bafc8 sIconSequences
 overlays/ov207 0x021bafd0 sIconXs
+overlays/ov207 0x021bb114 sWindows
 overlays/ov207 0x021bb6a0 PSTATUS_PROC_FUNCTIONS
 overlays/ov214 0x021d3380 WorldTradeProc_Init
 overlays/ov214 0x021d34b4 WorldTradeProc_Main
