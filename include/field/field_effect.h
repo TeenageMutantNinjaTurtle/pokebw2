@@ -28,7 +28,9 @@ void *func_ov036_021a58e0(void *effects, VecFx32 *position, u32 direction, u32 f
 // The effects that actors make on the terrain
 void func_ov036_021a3bf0(FieldActor *actor, FieldEffects *effects);
 // The dust of an actor landing
-void func_ov036_021a3e74(FieldActor *actor, void *effects);
+void func_ov036_021a3e74(FieldActor *actor, FieldEffects *effects);
+// The dust in front of an actor
+void func_ov036_021a3ec4(FieldActor *actor, FieldEffects *effects);
 void func_ov036_021a40ac(void *effects, FieldActor *actor, BOOL moving, u32 kind);
 void func_ov036_021b47c8(FieldActor *actor, void *effects, u32 kind);
 void func_ov036_021b49ac(MMSys *system, FieldActor *actor, void *effects, u32 kind);
@@ -62,7 +64,7 @@ typedef struct {
 struct FieldEffectTask {
     BOOL active;
     u32 param1;
-    const void *param2;
+    void *param2;
     VecFx32 pos;
     u8 work[0xa0];
     FieldEffectTaskVTable vtable;
@@ -88,12 +90,12 @@ void *FieldEffects_GetHandleData(FieldEffects *effects, u32 id);
 void FieldEffects_TCBManagerInit(FieldEffects *effects, u32 count);
 // Start a task, at pos if it isn't NULL
 FieldEffectTask *FieldEffects_TCBCreate(FieldEffects *effects, const FieldEffectTaskVTable *vtable,
-                                        const VecFx32 *pos, u32 param1, const void *param2, u32 priority);
+                                        const VecFx32 *pos, u32 param1, void *param2, u32 priority);
 // End a task, update it, and its parameters, position and work
 void func_ov036_021a3a70(FieldEffectTask *task);
 void func_ov036_021a3a94(FieldEffectTask *task);
 u32 func_ov036_021a3abc(FieldEffectTask *task);
-const void *func_ov036_021a3ac8(FieldEffectTask *task);
+void *func_ov036_021a3ac8(FieldEffectTask *task);
 void func_ov036_021a3ad4(FieldEffectTask *task, VecFx32 *pos);
 void func_ov036_021a3ae8(FieldEffectTask *task, const VecFx32 *pos);
 void *func_ov036_021a3afc(FieldEffectTask *task);

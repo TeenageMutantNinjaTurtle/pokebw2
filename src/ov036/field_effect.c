@@ -63,7 +63,7 @@ static FieldEffectTaskStore *FieldEffectTCBStore_Create(HeapID heapId, TCBManage
 static void func_ov036_021a3958(FieldEffectTaskStore *store);
 static void func_ov036_021a3990(FieldEffectTaskStore *store);
 static FieldEffectTask *FieldTerrainEffectTCB_Create(FieldEffectTaskStore *store, const FieldEffectTaskVTable *vtable,
-                                                     const VecFx32 *pos, u32 param1, const void *param2, u32 priority);
+                                                     const VecFx32 *pos, u32 param1, void *param2, u32 priority);
 static void func_ov036_021a3a50(TCB *tcb, void *data);
 static void func_ov036_021a3a5c(FieldEffectTask *task);
 static void func_ov036_021a3aa8(FieldEffectTask *task);
@@ -258,7 +258,7 @@ void FieldEffects_TCBManagerInit(FieldEffects *effects, u32 count) {
 }
 
 FieldEffectTask *FieldEffects_TCBCreate(FieldEffects *effects, const FieldEffectTaskVTable *vtable,
-                                        const VecFx32 *pos, u32 param1, const void *param2, u32 priority) {
+                                        const VecFx32 *pos, u32 param1, void *param2, u32 priority) {
     return FieldTerrainEffectTCB_Create(effects->taskStore, vtable, pos, param1, param2, priority);
 }
 
@@ -317,7 +317,7 @@ static void func_ov036_021a3990(FieldEffectTaskStore *store) {
 }
 
 static FieldEffectTask *FieldTerrainEffectTCB_Create(FieldEffectTaskStore *store, const FieldEffectTaskVTable *vtable,
-                                                     const VecFx32 *pos, u32 param1, const void *param2, u32 priority) {
+                                                     const VecFx32 *pos, u32 param1, void *param2, u32 priority) {
     u32 i;
     FieldEffectTask *task = store->tasks;
 
@@ -383,7 +383,7 @@ u32 func_ov036_021a3abc(FieldEffectTask *task) {
     return 0;
 }
 
-const void *func_ov036_021a3ac8(FieldEffectTask *task) {
+void *func_ov036_021a3ac8(FieldEffectTask *task) {
     if (task != NULL) {
         return task->param2;
     }
