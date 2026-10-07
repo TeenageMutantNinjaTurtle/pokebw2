@@ -5,6 +5,8 @@
 #include "field/zone.h"
 #include "gfl/heap.h"
 #include "save/join_avenue.h"
+#include "system/resort_binary.h"
+#include "system/resort_layout.h"
 
 ResortMapCreateWork *func_ov036_021c8954(HeapID heapId) {
     ResortMapCreateWork *work;
@@ -35,8 +37,8 @@ u32 func_ov036_021c898c(ResortMapCreateWork *work, void *map, void *a2, void *a3
 
 u32 func_ov036_021c89cc(ResortMapCreateWork *work, void *map, void *a2, void *a3, u32 count, u32 chunk,
                         HeapID heapId) {
-    void *shops = func_020396e8(HEAPID_TAIL(work->heapId));
-    void *table = func_020395ac(3, 4, HEAPID_TAIL(work->heapId));
+    void *shops = ResortShopData_Load(HEAPID_TAIL(work->heapId));
+    void *table = ResortBinary_Load(3, 4, HEAPID_TAIL(work->heapId));
     s32 i;
     u16 column;
     u16 row;
@@ -51,19 +53,19 @@ u32 func_ov036_021c89cc(ResortMapCreateWork *work, void *map, void *a2, void *a3
     LandDataPatch *patch;
 
     for (i = 0; i < 8; i++) {
-        column = func_020395f8(table, i, 1);
-        row = func_020395f8(table, i, 2);
+        column = ResortBinary_Get(table, i, 1);
+        row = ResortBinary_Get(table, i, 2);
         rows = 7;
         rowChunk = row / 32;
         if (chunk == rowChunk || chunk == (row + 7) / 32) {
             person = func_02038860(work->occupants, i);
             if (!JoinAvenuePerson_IsEmpty(person)) {
-                shop = func_02039798(shops, person);
+                shop = ResortShopData_GetPersonShop(shops, person);
                 x = column % 32;
                 y = row % 32;
                 srcY = 0;
                 addBuildings = TRUE;
-                patch = ReadLandDataPatchA154Data(func_020397cc(shop, i % 2 == 1 ? 6 : 7), HEAPID_TAIL(heapId));
+                patch = ReadLandDataPatchA154Data(ResortShopData_GetShopParam(shop, i % 2 == 1 ? 6 : 7), HEAPID_TAIL(heapId));
                 if (chunk == rowChunk) {
                     if (y + 7 >= 32) {
                         rows = 32 - y;
@@ -82,14 +84,14 @@ u32 func_ov036_021c89cc(ResortMapCreateWork *work, void *map, void *a2, void *a3
             }
         }
     }
-    func_020395e4(table);
-    func_02039720(shops);
+    ResortBinary_Free(table);
+    ResortShopData_Free(shops);
     return count;
 }
 
 void func_ov036_021c8b40(ResortMapCreateWork *work, EventData *eventData) {
-    void *shops = func_020396e8(HEAPID_TAIL(work->heapId));
-    void *table = func_020395ac(3, 4, HEAPID_TAIL(work->heapId));
+    void *shops = ResortShopData_Load(HEAPID_TAIL(work->heapId));
+    void *table = ResortBinary_Load(3, 4, HEAPID_TAIL(work->heapId));
     s32 i;
     JoinAvenuePerson *person;
     u16 entity;
@@ -99,18 +101,18 @@ void func_ov036_021c8b40(ResortMapCreateWork *work, EventData *eventData) {
 
     for (i = 0; i < 8; i++) {
         person = func_02038860(work->occupants, i);
-        entity = func_020395f8(table, i, 3);
+        entity = ResortBinary_Get(table, i, 3);
         if (JoinAvenuePerson_IsEmpty(person)) {
             SetBGEntityLocation(eventData, entity, 0, 0, 0);
         } else {
             shopId = func_020363e0(func_02038470(person), 0);
-            shop = func_020397b4(shops, shopId);
-            func_02039560(func_020397cc(shop, (i % 2 == 0 ? 1 : 0) + 6), &position[1], &position[0]);
-            position[1] += func_020395f8(table, i, 1);
-            position[0] += func_020395f8(table, i, 2);
+            shop = ResortShopData_GetShop(shops, shopId);
+            func_02039560(ResortShopData_GetShopParam(shop, (i % 2 == 0 ? 1 : 0) + 6), &position[1], &position[0]);
+            position[1] += ResortBinary_Get(table, i, 1);
+            position[0] += ResortBinary_Get(table, i, 2);
             SetBGEntityLocation(eventData, entity, position[1], 0, position[0]);
         }
     }
-    func_020395e4(table);
-    func_02039720(shops);
+    ResortBinary_Free(table);
+    ResortShopData_Free(shops);
 }

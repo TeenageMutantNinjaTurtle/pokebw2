@@ -6,6 +6,7 @@
 #include "gfl/heap.h"
 #include "gfl/str.h"
 #include "p_status_local.h"
+#include "pml/met_data.h"
 #include "pml/personal.h"
 #include "pml/poke_party.h"
 #include "pml/species_names.h"
@@ -32,21 +33,6 @@ enum {
     INFO_MSG_PLACES_EXTERNAL,
     INFO_MSG_COUNT,
 };
-
-// The place name files, as func_02035f5c returns them
-#define PLACE_FILE_UNOVA 0x6d
-#define PLACE_FILE_EVENT 0x6e
-#define PLACE_FILE_EXTERNAL 0x6f
-#define PLACE_FILE_SPECIAL 0x70
-
-// Where a Pokémon from an earlier game says it was met
-#define LOCATION_POKE_TRANSFER 30001
-#define LOCATION_KANTO 30004
-#define LOCATION_JOHTO 30005
-#define LOCATION_HOENN 30006
-#define LOCATION_SINNOH 30007
-#define LOCATION_FARAWAY 30008
-#define LOCATION_UNKNOWN 30009
 
 typedef struct {
     u8 x;
@@ -400,10 +386,11 @@ static void PStaInfo_PrintMemo(PStatusWork *wk, PStaInfoWork *info, BoxPkm *pkm)
                 msg = originMsg;
                 break;
             }
-        } else if (metLocation == 30015) {
+        } else if (metLocation == LOCATION_DREAM_RADAR) {
             msg = 0x29;
-        } else if (metLocation >= 30010 && metLocation <= 30013 && transferred == TRUE) {
-            switch (metLocation - 30010) {
+        } else if (metLocation >= LOCATION_EVENT_CELEBI && metLocation <= LOCATION_EVENT_BEASTS_USED &&
+                   transferred == TRUE) {
+            switch (metLocation - LOCATION_EVENT_CELEBI) {
             case 0:
                 msg = 0x31;
                 break;
@@ -421,7 +408,7 @@ static void PStaInfo_PrintMemo(PStatusWork *wk, PStaInfoWork *info, BoxPkm *pkm)
             if (eggLocation == 0) {
                 if (isN) {
                     msg = 0x35;
-                } else if (metLocation == 30002) {
+                } else if (metLocation == LOCATION_IN_GAME_TRADE) {
                     msg = 0x1b;
                 } else {
                     msg = 0x19;
@@ -437,7 +424,8 @@ static void PStaInfo_PrintMemo(PStatusWork *wk, PStaInfoWork *info, BoxPkm *pkm)
                 msg = 0x23;
             }
         }
-        if (foreignOT == FALSE && isN == FALSE && (metLocation < 30010 || metLocation > 30013)) {
+        if (foreignOT == FALSE && isN == FALSE &&
+            (metLocation < LOCATION_EVENT_CELEBI || metLocation > LOCATION_EVENT_BEASTS_USED)) {
             msg++;
         }
     } else if (fateful == FALSE) {
@@ -524,8 +512,8 @@ static void PStaInfo_PrintMemo(PStatusWork *wk, PStaInfoWork *info, BoxPkm *pkm)
 }
 
 static StrBuf *PStaInfo_GetPlaceName(PStatusWork *wk, PStaInfoWork *info, u32 location) {
-    u32 file = func_02035f5c(location);
-    u32 index = func_02035fac(location);
+    u32 file = MetLocation_GetNameFile(location);
+    u32 index = MetLocation_GetNameIndex(location);
 
     switch (file) {
     case PLACE_FILE_UNOVA:

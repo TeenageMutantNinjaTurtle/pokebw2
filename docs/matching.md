@@ -214,6 +214,8 @@ Same instructions, scheduled in another order.
   `BmpWin_GetBitmap(...)` in the same call, was passed to an inlined helper that makes the call, like
   `PrintWindow_Print`. A block-scoped local set from the field before the call does the same: bmp_menu.c's
   `BmpMenu_PrintOptions` loads the queue first because its loop body declares `PrintQueue *queue` and a `u8 y`.
+  save_error.c's `displayLightBlueErrorWindow` reads `chars->size` before calling `gfxGetCharAddrBG1A()` only
+  through NitroSDK's `MI_CpuCopy16` inline over `sys_memcpy16`.
 - Two stores through a pointer read from a struct, with one load of the pointer where ours loads it again after the
   first store, were made by an inlined helper that takes the pointer, such as `PrintWindow_Init(header.printWindow,
   window)` in `ShopUI_CreateConfirmDialog`.

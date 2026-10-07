@@ -48,12 +48,20 @@
 . 0x02034d98 reloc_addend 4
 . 0x02034da4 reloc_addend 8
 . 0x02034e8c reloc_addend 0x1000
+. 0x02035940 reloc_addend 2
+. 0x02036360 overlay_id 162
+. 0x02036370 overlay_id 264
 . 0x0203637c reloc_module overlay(162)
+. 0x02039558 reloc_addend 2
+. 0x0203955c reloc_addend 4
+. 0x02039574 reloc_addend 2
+. 0x02039598 reloc_addend 2
+. 0x0203959c reloc_addend 4
 . 0x0207ba60 add_reloc load,main,0x0207b9e8,0x50
 . 0x0207e79c add_reloc load,main,0x0207e979
 . 0x0207e970 add_function func_0207e970:arm:0x8
-. 0x0207e974 remove_symbol
 . 0x0207e974 add_reloc load,ltd_autoload(0),0x02703e90
+. 0x0207e974 remove_symbol
 . 0x0207e978 add_function func_0207e978:thumb:0xa8
 . 0x0208c224 add_label _dadd
 . 0x0208c908 add_label _dmul
@@ -99,6 +107,13 @@
 . 0x020927b2 remove_symbol
 . 0x02092a30 remove_symbol
 . 0x02092a34 remove_symbol
+. 0x02092b3e remove_symbol
+. 0x02092c00 add_data GF_RAND_INCREMENT
+. 0x02092cee remove_symbol
+. 0x02092cf0 remove_symbol
+. 0x02092d0e remove_symbol
+. 0x02092dce remove_symbol
+. 0x02092dd0 remove_symbol
 . 0x020956bc remove_symbol
 . 0x02097bfc remove_symbol
 . 0x0210000b remove_symbol
@@ -111,6 +126,7 @@
 . 0x021416f0 remove_symbol
 . 0x02141764 remove_symbol
 . 0x021417a4 remove_symbol
+. 0x02141810 add_data data_02141810
 overlays/ov000 0x0214f870 overlay_id 199
 overlays/ov000 0x0214f874 reloc_module overlay(199)
 overlays/ov000 0x0214f878 overlay_id 182

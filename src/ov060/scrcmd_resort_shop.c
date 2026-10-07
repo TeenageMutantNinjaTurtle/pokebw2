@@ -37,6 +37,7 @@
 #include "system/game_data.h"
 #include "system/game_system.h"
 #include "system/printsys.h"
+#include "system/resort_binary.h"
 #include "system/text_speed.h"
 #include "system/vm.h"
 #include "system/wordset.h"
@@ -400,7 +401,7 @@ BOOL func_ov060_021e58c0(VM *vm, FieldScriptEnv *env) {
         shop->work.cursorCallback = func_ov060_021e7f5c;
         shop->work.printCallback = func_ov060_021e7a70;
         shop->work.flags = func_02038470(func_ov137_021f0f58(shop->work.person));
-        shop->work.row = func_02039798(shop->work.shops, func_ov137_021f0f58(shop->work.person));
+        shop->work.row = ResortShopData_GetPersonShop(shop->work.shops, func_ov137_021f0f58(shop->work.person));
         break;
     case 1:
         shop->mode = mode;
@@ -783,10 +784,10 @@ static BOOL func_ov060_021e6140(GameSystem *gsys, ResortShopWork *wk, u8 mode, u
     case 7: {
         u16 row = wk->selected->item;
         ResortPersonData *data = func_ov137_021f1110(wk->person);
-        u32 prize = func_020395f8(
+        u32 prize = ResortBinary_Get(
             wk->table, row,
             join_ave_raffle_shop(wk->table, row,
-                                 func_ov137_021f1990(data, wk->selected->id + 5, func_020395f8(wk->table, row, 0))) *
+                                 func_ov137_021f1990(data, wk->selected->id + 5, ResortBinary_Get(wk->table, row, 0))) *
                     2 +
                 3);
 
@@ -1002,23 +1003,23 @@ static void func_ov060_021e688c(ResortShopWork *wk, u8 mode, u8 subMode) {
     itemNames = GFL_MsgSysLoadData(FALSE, ARCID_SYSTEM_MESSAGE, 64, wk->heapId);
     scriptMsgData = GFL_MsgSysLoadData(FALSE, ARCID_SCRIPT_MESSAGE, 609, wk->heapId);
     itemDescriptions = GFL_MsgSysLoadData(FALSE, ARCID_SYSTEM_MESSAGE, 63, wk->heapId);
-    count = func_020397f8(wk->shops, wk->row);
+    count = ResortShopData_GetGoodsCount(wk->shops, wk->row);
     wk->options = ListMenuCore_CreateOptionList(count + 1, wk->heapId);
     for (i = 0; i < count; i++) {
-        const u16 *item = func_020397d4(wk->shops, wk->row, i);
-        u16 price = func_0203981c(item, 4);
+        const u16 *item = ResortShopData_GetGoods(wk->shops, wk->row, i);
+        u16 price = ResortShopData_GetGoodsParam(item, 4);
 
-        if (func_0203981c(item, 0) != 0 && !wk->unk300) {
+        if (ResortShopData_GetGoodsParam(item, 0) != 0 && !wk->unk300) {
             continue;
         }
         wk->entries[n].id = i;
-        wk->entries[n].kind = func_0203981c(item, 5);
+        wk->entries[n].kind = ResortShopData_GetGoodsParam(item, 5);
         wk->entries[n].price = func_ov060_021e8758(wk, price * 10);
-        wk->entries[n].item = func_0203981c(item, 6);
-        wk->entries[n].count = func_0203981c(item, 7);
-        if (func_0203981c(item, 1) != 0) {
-            u16 nameId = func_0203981c(item, 2);
-            u16 descriptionId = func_0203981c(item, 3);
+        wk->entries[n].item = ResortShopData_GetGoodsParam(item, 6);
+        wk->entries[n].count = ResortShopData_GetGoodsParam(item, 7);
+        if (ResortShopData_GetGoodsParam(item, 1) != 0) {
+            u16 nameId = ResortShopData_GetGoodsParam(item, 2);
+            u16 descriptionId = ResortShopData_GetGoodsParam(item, 3);
 
             wk->entries[n].label = GFL_MsgDataLoadStrbufNew(scriptMsgData, nameId);
             wk->entries[n].name = GFL_MsgDataLoadStrbufNew(scriptMsgData, nameId);
@@ -1681,7 +1682,7 @@ static void func_ov060_021e803c(GameSystem *gsys, ResortShopWork *wk, u8 mode, u
 static StrBuf *func_ov060_021e8040(ResortShopWork *wk, JoinAvenuePerson *person) {
     void *flags = func_02038470(person);
     StrBuf *strbuf = GFL_StrBufCreate(128, wk->heapId);
-    u16 shop = func_020397cc(func_02039798(wk->shops, person), 0);
+    u16 shop = ResortShopData_GetShopParam(ResortShopData_GetPersonShop(wk->shops, person), 0);
     MsgData *msgData = GFL_MsgSysLoadData(FALSE, ARCID_SCRIPT_MESSAGE, 609, HEAPID_TAIL(wk->heapId));
     StrBuf *format = GFL_MsgDataLoadStrbufNew(wk->msgData, shop + 42);
     u16 a = joinAveTextHandler(person, 21, NULL);
