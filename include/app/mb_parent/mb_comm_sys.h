@@ -6,7 +6,31 @@
 #include "struct_decls.h"
 
 // The connection to the downloaded child once it has booted (mb_comm_sys.c), which the parent sends the child
-// program to, and receives the Pokémon from
+// program to, and receives the Pokémon from. The names are ours
+
+// The commands of the main packet, which carries a command and a value. Both sides send them; the names say what
+// the child means by those the parent receives
+enum {
+    MB_COMM_CMD_ACK,
+    MB_COMM_CMD_SAVE_SYNC_1,
+    MB_COMM_CMD_SAVE_SYNC_2,
+    MB_COMM_CMD_SAVE_SYNC_3,
+    MB_COMM_CMD_SAVE_SYNC_4,
+    MB_COMM_CMD_BOX_SPACE,
+    MB_COMM_CMD_STATE = 10,
+    MB_COMM_CMD_SAVE_READY,
+    MB_COMM_CMD_SAVE_START,
+    MB_COMM_CMD_SAVE_MID,
+    MB_COMM_CMD_SAVED,
+    MB_COMM_CMD_ANSWER,
+    MB_COMM_CMD_ITEM_ANSWER,
+    MB_COMM_CMD_FINISH,
+    MB_COMM_CMD_END,
+    MB_COMM_CMD_RESULT,
+    MB_COMM_CMD_MORE,
+    MB_COMM_CMD_ITEM,
+    MB_COMM_CMD_CLOSE,
+};
 
 // What the parent tells the child about itself
 typedef struct {
@@ -15,42 +39,45 @@ typedef struct {
     u8 language;
 } MBCommParentInfo;
 
-MBCommSys *func_ov181_0219f580(HeapID heapId);
-void func_ov181_0219f5d8(MBCommSys *comm);
-void func_ov181_0219f60c(MBCommSys *comm);
-void func_ov181_0219f6ac(MBCommSys *comm);
-void func_ov181_0219f798(MBCommSys *comm);
-BOOL func_ov181_0219f7b8(MBCommSys *comm);
-BOOL func_ov181_0219f7c0(MBCommSys *comm);
-void func_ov181_0219f7c8(MBCommSys *comm);
-void func_ov181_0219f7d8(MBCommSys *comm);
-BOOL func_ov181_0219f7f0(MBCommSys *comm);
-BOOL func_ov181_0219f800(MBCommSys *comm);
-int func_ov181_0219f810(MBCommSys *comm);
-void func_ov181_0219f814(MBCommSys *comm);
-BOOL func_ov181_0219f894(MBCommSys *comm);
-BOOL func_ov181_0219f89c(MBCommSys *comm);
-BOOL func_ov181_0219f8a4(MBCommSys *comm);
-BOOL func_ov181_0219f8ac(MBCommSys *comm);
-BOOL func_ov181_0219f8b4(MBCommSys *comm);
-BOOL func_ov181_0219f8bc(MBCommSys *comm);
-BOOL func_ov181_0219f8c4(MBCommSys *comm);
-u16 func_ov181_0219f8cc(MBCommSys *comm);
-u16 func_ov181_0219f8d4(MBCommSys *comm);
-BOOL func_ov181_0219f8e8(MBCommSys *comm);
-BOOL func_ov181_0219f8fc(MBCommSys *comm);
-BOOL func_ov181_0219f910(MBCommSys *comm);
-BOOL func_ov181_0219f918(MBCommSys *comm);
-BOOL func_ov181_0219f920(MBCommSys *comm);
-void func_ov181_0219f928(MBCommSys *comm, void *data, u32 size);
-void func_ov181_0219f938(MBCommSys *comm);
-BOOL func_ov181_0219f970(MBCommSys *comm);
-BOOL func_ov181_0219f978(MBCommSys *comm);
-u8 func_ov181_0219f980(MBCommSys *comm);
-BoxPkm *func_ov181_0219f988(MBCommSys *comm, u8 index);
-u16 func_ov181_0219f99c(MBCommSys *comm);
-BOOL func_ov181_0219f9a4(MBCommSys *comm);
-BOOL func_ov181_0219f9ac(MBCommSys *comm, u8 command, u32 value);
-BOOL func_ov181_0219fb38(MBCommSys *comm, MBCommParentInfo *info);
+MBCommSys *MBComm_Create(HeapID heapId);
+void MBComm_Delete(MBCommSys *comm);
+void MBComm_Update(MBCommSys *comm);
+void MBComm_StartNet(MBCommSys *comm);
+void MBComm_EndNet(MBCommSys *comm);
+BOOL MBComm_IsNetReady(MBCommSys *comm);
+BOOL MBComm_IsNetEnded(MBCommSys *comm);
+void MBComm_Connect(MBCommSys *comm);
+void MBComm_StartDisconnect(MBCommSys *comm);
+BOOL MBComm_IsDisconnected(MBCommSys *comm);
+BOOL MBComm_IsConnected(MBCommSys *comm);
+int MBComm_GetState(MBCommSys *comm);
+void MBComm_ResetCommands(MBCommSys *comm);
+BOOL MBComm_IsSaveReady(MBCommSys *comm);
+BOOL MBComm_IsSaveStarted(MBCommSys *comm);
+// Reads the same flag as MBComm_IsSaveStarted, although nothing else reads MB_COMM_CMD_SAVE_MID's
+BOOL MBComm_IsSaveMidReached(MBCommSys *comm);
+BOOL MBComm_IsSaved(MBCommSys *comm);
+BOOL MBComm_IsSaveSync1(MBCommSys *comm);
+BOOL MBComm_IsSaveSync4(MBCommSys *comm);
+BOOL MBComm_HasResult(MBCommSys *comm);
+u16 MBComm_GetResultCount(MBCommSys *comm);
+u16 MBComm_GetResultMoreCount(MBCommSys *comm);
+// Bits 30 and 31 of the result
+BOOL MBComm_GetResultFlag1(MBCommSys *comm);
+BOOL MBComm_GetResultFlag2(MBCommSys *comm);
+BOOL MBComm_HasMore(MBCommSys *comm);
+BOOL MBComm_HasItemInfo(MBCommSys *comm);
+BOOL MBComm_HasItem(MBCommSys *comm);
+void MBComm_SendProgram(MBCommSys *comm, void *data, u32 size);
+void MBComm_ClearPokemon(MBCommSys *comm);
+BOOL MBComm_IsPokemonReceived(MBCommSys *comm);
+BOOL MBComm_IsProgramReceived(MBCommSys *comm);
+u8 MBComm_GetPokemonCount(MBCommSys *comm);
+BoxPkm *MBComm_GetPokemon(MBCommSys *comm, u8 index);
+u16 MBComm_GetScore(MBCommSys *comm);
+BOOL MBComm_IsAcked(MBCommSys *comm);
+BOOL MBComm_SendCommand(MBCommSys *comm, u8 command, u32 value);
+BOOL MBComm_SendParentInfo(MBCommSys *comm, MBCommParentInfo *info);
+void *MBComm_GetProgram(MBCommSys *comm);
 
 #endif // POKEBW2_APP_MB_PARENT_MB_COMM_SYS_H
