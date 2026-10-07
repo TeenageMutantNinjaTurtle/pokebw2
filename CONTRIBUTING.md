@@ -46,12 +46,14 @@ still linked, and objdiff shows how close it is.
   `volatile` or pointer tricks that only exist to move a register, no meaningless temporaries or permuter output.
   When a function doesn't match, keep the closest natural C and add a row to
   [Nonmatching functions](docs/nonmatching-functions.md) with both versions' addresses, the difference and what you
-  tried.
+  tried. In `lib/` only, a function the SDK itself wrote in assembly is written as an MWCC `asm` function, with a
+  comment saying so.
 - **Write the C from the assembly.** Other decompilations, such as pret's pokeplatinum and pokeheartgold, are good
   references for names and structure, but don't copy their code. Never use leaked or otherwise unlawfully obtained
   material, such as leaked source code, in any form.
 - **Names:** use swan's names first (see [Names](docs/code-organization.md#names)). Name anything else through
-  `tools/scripts/rename_symbol.py`, which records the name in `config/names.txt` and updates the source.
+  `tools/scripts/rename_symbol.py`, which records the name in `config/names.txt` and updates the source. Library
+  code in `lib/` uses the SDK's own names where the code shows them, noting swan's name where it differs.
 - **Bugs:** mark a bug in the game with `// BUG:` and a fix under `#ifdef BUGFIX`, with the original code in `#else`.
 - **Never commit ROMs or anything extracted from them.** `.gitignore` covers `orig/`, `extract/` and `build/`.
 

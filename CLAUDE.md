@@ -22,11 +22,15 @@ a rule here changes, change it there too.
   `docs/code-organization.md` has the rest.
 - **Names:** swan's first, marked as swan's in the header. Our own go through `rename_symbol.py`, which records them
   in `config/names.txt`. Types swan doesn't name are named after their owner. Rename a static's symbol to its C name.
+  Library code in `lib/` (NitroSDK, NitroSystem, TwlSDK, DWC) uses the SDK's own names where the code shows them, even
+  over swan's; the header notes swan's name where it differs. The user chose this.
 - **Write C from the asm.** pret (pokeplatinum, pokeheartgold) and other decomps are references for names and
   structure, never code to copy. The user chose this explicitly for SPL.
 - **Natural C only.** No inline asm, permuter noise, unexplained `volatile`, pointer-arithmetic tricks or meaningless
   temporaries. A function that doesn't match keeps the closest natural C and gets a row in
-  `docs/nonmatching-functions.md` (both addresses, the difference, and what was tried).
+  `docs/nonmatching-functions.md` (both addresses, the difference, and what was tried). The one exception: in `lib/`,
+  a function that the SDK itself wrote in assembly (an `asm` function in its C file, such as NitroSDK's `MTX_Identity43`
+  or the CP15 cache functions) is an MWCC `asm` function, said to be one in a comment. The user chose this.
 - **Bugs:** `// BUG:` plus an `#ifdef BUGFIX` fix, with the original in `#else`.
 - **Keep going.** Continue in file order and commit each file as it is done. Don't end a turn with a menu when the next
   step is obvious. Ask only real decisions, such as placement with no evidence or a change of scope. Answer any message
