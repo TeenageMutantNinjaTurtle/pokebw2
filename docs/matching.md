@@ -271,6 +271,9 @@ Same instructions, scheduled in another order.
   inline's entry and spills it, was a local of the caller: `mystery.c`'s `MysteryEffect_Init` sets
   `tailHeapId = HEAPID_TAIL(heapId);` before calling the inlined gift-Pokémon routine, which reaches the original's size,
   where `HEAPID_TAIL(heapId)` written as the argument is 4 bytes short.
+- Reads of a `const` table are not moved across stores to I/O registers, so a table read the original does before the
+  stores of a NitroSDK register inline was written before it: `mystery_album.c`'s `MysteryCardView_SeqThrowAway`
+  reads a card position's x and y into `int` locals before `G2_SetWnd0InsidePlane`.
 
 ## An instruction too many or too few
 

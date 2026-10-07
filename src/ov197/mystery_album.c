@@ -268,6 +268,8 @@ MysteryCardView *MysteryCardView_Create(const MysteryCardViewSetup *setup, HeapI
     int i;
     MysteryGift gift;
     MysteryCardResSetup resSetup;
+    const MysteryTextWinEntry *texts;
+    u32 textCount;
 
     sys_memset(view, 0, sizeof(MysteryCardView));
     view->bgHalf = TRUE;
@@ -278,22 +280,24 @@ MysteryCardView *MysteryCardView_Create(const MysteryCardViewSetup *setup, HeapI
     sys_memset32(-1, view->iconCellAnims, sizeof(view->iconCellAnims));
     for (i = 0; i < func_0200aa64(view->setup.giftSave); i++) {
         if (func_0200a800(view->setup.giftSave, i)) {
-            func_0200a71c(view->setup.giftSave, i, &gift);
             count++;
+            func_0200a71c(view->setup.giftSave, i, &gift);
             MysteryCard_Init(&view->cards[i], &gift, &view->setup, heapId);
         }
     }
     view->seq =
-        MysterySeq_Create(view, view->setup.mode != 0 ? MysteryCardView_SeqFull : MysteryCardView_SeqMain, heapId);
+        MysterySeq_Create(view, view->setup.mode == 0 ? MysteryCardView_SeqMain : MysteryCardView_SeqFull, heapId);
     MysteryCardView_LoadGraphics(view, heapId);
     MysteryCardView_DrawPage(view, TRUE, FALSE, view->page, heapId);
     if (count != 0) {
-        view->textWin = MysteryTextWin_Create(FALSE, sAlbumTexts, 3, 1, 3, view->setup.queue, view->setup.msgData,
-                                              view->setup.font, heapId);
+        texts = sAlbumTexts;
+        textCount = 3;
     } else {
-        view->textWin = MysteryTextWin_Create(FALSE, sAlbumEmptyTexts, 2, 1, 3, view->setup.queue, view->setup.msgData,
-                                              view->setup.font, heapId);
+        texts = sAlbumEmptyTexts;
+        textCount = 2;
     }
+    view->textWin = MysteryTextWin_Create(FALSE, texts, textCount, 1, 3, view->setup.queue, view->setup.msgData,
+                                          view->setup.font, heapId);
     sys_memset(&resSetup, 0, sizeof(MysteryCardResSetup));
     resSetup.mainBg = 6;
     resSetup.unk4 = 4;
@@ -454,8 +458,8 @@ static void MysteryCardView_LoadGraphics(MysteryCardView *view, HeapID heapId) {
     sys_memset(&actorSetup, 0, sizeof(ClActorSetup));
     actorSetup.x = 0;
     actorSetup.y = 24;
-    actorSetup.priority = 1;
     actorSetup.bgPriority = 1;
+    actorSetup.priority = 1;
     view->cursorActor =
         func_0204c040(view->setup.unit, view->chars, view->palette, view->cellAnims, &actorSetup, 0, heapId);
     actorSetup.sequence = 2;
@@ -467,11 +471,12 @@ static void MysteryCardView_LoadGraphics(MysteryCardView *view, HeapID heapId) {
         if (i == 0) {
             actorSetup.x = 16;
             actorSetup.y = 16;
+            actorSetup.sequence = 9;
         } else {
             actorSetup.x = 240;
             actorSetup.y = 16;
+            actorSetup.sequence = 9;
         }
-        actorSetup.sequence = 9;
         view->arrows[i] =
             func_0204c040(view->setup.unit, view->chars, view->palette, view->cellAnims, &actorSetup, 0, heapId);
         func_0204c520(view->arrows[i], TRUE);
@@ -681,46 +686,47 @@ static BOOL MysteryCardView_Scroll(MysteryCardView *view) {
     ClActorPos pos;
     ClActorPos screenPos;
 
-    if (view->scrollDir == 0) {
-        return TRUE;
-    }
-    speed = view->scrollDir * 256 / 16;
-    for (i = 0; i < CARDS_PER_PAGE * 2; i++) {
-        if (view->icons[i] != NULL) {
-            func_0204c178(view->icons[i], &pos, 0);
-            pos.x -= speed;
-            func_0204c140(view->icons[i], &pos, 0);
-            func_0204c178(view->icons[i], &screenPos, 0);
-            if (screenPos.x >= -16 && screenPos.x <= 272 && screenPos.y >= -16 && screenPos.y <= 208) {
-                func_0204c124(view->icons[i], TRUE);
-            } else {
-                func_0204c124(view->icons[i], FALSE);
+    if (view->scrollDir != 0) {
+        speed = view->scrollDir * 256 / 16;
+        for (i = 0; i < CARDS_PER_PAGE * 2; i++) {
+            if (view->icons[i] != NULL) {
+                func_0204c178(view->icons[i], &pos, 0);
+                pos.x -= speed;
+                func_0204c140(view->icons[i], &pos, 0);
+                func_0204c178(view->icons[i], &screenPos, 0);
+                if (screenPos.x >= -16 && screenPos.x <= 272 && screenPos.y >= -16 && screenPos.y <= 208) {
+                    func_0204c124(view->icons[i], TRUE);
+                } else {
+                    func_0204c124(view->icons[i], FALSE);
+                }
             }
         }
-    }
-    if (view->moving) {
-        func_0204c178(view->moveCursor, &pos, 0);
-        pos.x -= speed;
-        func_0204c140(view->moveCursor, &pos, 0);
-        if (pos.x >= -96 && pos.x <= 352 && pos.y >= -96 && pos.y <= 288) {
-            func_0204c124(view->moveCursor, TRUE);
-        } else {
-            func_0204c124(view->moveCursor, FALSE);
+        if (view->moving) {
+            func_0204c178(view->moveCursor, &pos, 0);
+            pos.x -= speed;
+            func_0204c140(view->moveCursor, &pos, 0);
+            if (pos.x >= -96 && pos.x <= 352 && pos.y >= -96 && pos.y <= 288) {
+                func_0204c124(view->moveCursor, TRUE);
+            } else {
+                func_0204c124(view->moveCursor, FALSE);
+            }
         }
+        GFL_BGSysMoveBG(3, BG_MOVE_RIGHT, speed);
+        GFL_BGSysMoveBG(2, BG_MOVE_RIGHT, speed);
+        if (view->scrollFrame++ >= 15) {
+            view->bgHalf ^= TRUE;
+            view->scrollDir = 0;
+        }
+        return FALSE;
     }
-    GFL_BGSysMoveBG(3, BG_MOVE_RIGHT, speed);
-    GFL_BGSysMoveBG(2, BG_MOVE_RIGHT, speed);
-    if (view->scrollFrame++ >= 15) {
-        view->bgHalf ^= TRUE;
-        view->scrollDir = 0;
-    }
-    return FALSE;
+    return TRUE;
 }
 
 // Throws away the card in the slot, and moves the cards after it up
 static void MysteryCardView_ThrowAway(MysteryCardView *view, int slot) {
     MysteryGift gift;
     u32 i;
+    MysteryAlbum *album;
 
     func_0200a7b0(view->setup.giftSave, slot);
     for (i = 0; i < func_0200aa64(view->setup.giftSave); i++) {
@@ -737,9 +743,10 @@ static void MysteryCardView_ThrowAway(MysteryCardView *view, int slot) {
         view->albums[slot] = NULL;
     }
     for (; slot < CARD_SLOTS - 1; slot++) {
-        if (view->albums[slot] == NULL) {
+        album = view->albums[slot];
+        if (album == NULL) {
             view->albums[slot] = view->albums[slot + 1];
-            view->albums[slot + 1] = NULL;
+            view->albums[slot + 1] = album;
         }
     }
     view->changed = TRUE;
@@ -1296,12 +1303,16 @@ static void MysteryCardView_SeqThrowAway(MysterySeq *seq, u32 *state, void *work
         }
         break;
     case 3: {
-        u8 pos = slot % 4;
+        u8 pos;
+        int x;
+        int y;
 
         GX_SetVisibleWnd(GX_WNDMASK_W0);
+        pos = slot % 4;
+        x = sCardPositions[pos].x;
+        y = sCardPositions[pos].y;
         G2_SetWnd0InsidePlane(0x1e, TRUE);
-        G2_SetWnd0Position(sCardPositions[pos].x * 8, sCardPositions[pos].y * 8, (sCardPositions[pos].x + 12) * 8,
-                           (sCardPositions[pos].y + 7) * 8);
+        G2_SetWnd0Position(x * 8, y * 8, (x + 12) * 8, (y + 7) * 8);
         G2_SetWndOutsidePlane(0x1e, FALSE);
         *state = 4;
         break;
@@ -1359,7 +1370,7 @@ static void MysteryCardView_SeqThrowAway(MysterySeq *seq, u32 *state, void *work
 // Puts the card being moved where the cursor is, swapping it with the card there
 static void MysteryCardView_SeqMove(MysterySeq *seq, u32 *state, void *work) {
     MysteryCardView *view = work;
-    u32 slot = view->page * 4 + view->cursor;
+    u32 slot = view->cursor + view->page * 4;
 
     switch (*state) {
     case 0:
@@ -1379,7 +1390,7 @@ static void MysteryCardView_SeqMove(MysterySeq *seq, u32 *state, void *work) {
         u8 pos1 = slot % 4;
         u8 pos2 = view->moveSlot % 4;
         BOOL shown1;
-        BOOL shown2;
+        BOOL shown2 = view->page == view->moveSlot / 4;
         int windows;
 
         if (view->page == slot / 4) {
@@ -1387,7 +1398,6 @@ static void MysteryCardView_SeqMove(MysterySeq *seq, u32 *state, void *work) {
         } else {
             shown1 = FALSE;
         }
-        shown2 = view->page == view->moveSlot / 4;
         windows = GX_WNDMASK_NONE;
 
         if (shown1) {
@@ -1398,14 +1408,18 @@ static void MysteryCardView_SeqMove(MysterySeq *seq, u32 *state, void *work) {
         }
         GX_SetVisibleWnd(windows);
         if (shown1) {
+            int x = sCardPositions[pos1].x;
+            int y = sCardPositions[pos1].y;
+
             G2_SetWnd0InsidePlane(0x1e, TRUE);
-            G2_SetWnd0Position(sCardPositions[pos1].x * 8, sCardPositions[pos1].y * 8,
-                               (sCardPositions[pos1].x + 12) * 8, (sCardPositions[pos1].y + 7) * 8);
+            G2_SetWnd0Position(x * 8, y * 8, (x + 12) * 8, (y + 7) * 8);
         }
         if (shown2) {
+            int x = sCardPositions[pos2].x;
+            int y = sCardPositions[pos2].y;
+
             G2_SetWnd1InsidePlane(0x1e, TRUE);
-            G2_SetWnd1Position(sCardPositions[pos2].x * 8, sCardPositions[pos2].y * 8,
-                               (sCardPositions[pos2].x + 12) * 8, (sCardPositions[pos2].y + 7) * 8);
+            G2_SetWnd1Position(x * 8, y * 8, (x + 12) * 8, (y + 7) * 8);
         }
         G2_SetWndOutsidePlane(0x1e, FALSE);
         *state = 2;
@@ -1419,8 +1433,8 @@ static void MysteryCardView_SeqMove(MysterySeq *seq, u32 *state, void *work) {
         }
         break;
     case 3: {
-        u32 page2;
         int pos2;
+        u32 page2;
         BOOL shown2;
 
         MysteryCardView_Swap(view, slot, view->moveSlot);
@@ -1476,7 +1490,9 @@ static void MysteryCardView_SeqExit(MysterySeq *seq, u32 *state, void *work) {
         *state = 1;
         break;
     case 1:
-        if (view->setup.mode == 0 || func_0200a7e4(view->setup.giftSave)) {
+        if (view->setup.mode == 0) {
+            *state = 5;
+        } else if (func_0200a7e4(view->setup.giftSave)) {
             *state = 5;
         } else {
             *state = 2;
@@ -1752,8 +1768,9 @@ MysteryAlbum *MysteryAlbum_CreateReceived(MysteryGift *gift, MysteryCardRes *res
         GFL_StrBufFree(fmt);
     }
     if (MysteryCard_GetKind(&album->card) == 1) {
-        PartyPkm *pkm = Mystery_CreateGiftPokemon(album->gift, HEAPID_TAIL(heapId), album->gameData);
-        ArcTool *arc = MakePokeGraArcHandle(HEAPID_TAIL(heapId));
+        HeapID tailHeapId = HEAPID_TAIL(heapId);
+        PartyPkm *pkm = Mystery_CreateGiftPokemon(album->gift, tailHeapId, album->gameData);
+        ArcTool *arc = MakePokeGraArcHandle(tailHeapId);
         MysteryGiftPokemon *poke = (MysteryGiftPokemon *)album->gift;
 
         album->species = poke->species;
@@ -1795,10 +1812,10 @@ void MysteryAlbum_Main(MysteryAlbum *album) {
     u32 type;
     BOOL done;
     BOOL voiceDone;
-    u16 rotation;
-    ClActorPos pos;
-    MysteryAlbumPos shakePos;
     ClActorPos actorPos;
+    MysteryAlbumPos shakePos;
+    ClActorPos pos;
+    u16 rotation;
 
     if (res->isMain) {
         type = 14;
@@ -1885,7 +1902,7 @@ static void Mystery_SetBlendAlphaSub(int eva, int evb) {
 // Loads the card's BG with its palette
 static void MysteryCardRes_LoadBg(const MysteryCardResSetup *setup, MysteryCard *card, HeapID heapId) {
     u32 palType = PALTYPE_MAIN_BG;
-    u16 scrFile;
+    u32 scrFile;
     u16 palette;
     ArcTool *arc;
 
@@ -1893,7 +1910,7 @@ static void MysteryCardRes_LoadBg(const MysteryCardResSetup *setup, MysteryCard 
         palType = PALTYPE_SUB_BG;
     }
     scrFile = 26;
-    if (setup->mainBg < 4) {
+    if (setup->mainBg <= 3) {
         scrFile = 27;
     }
     palette = MysteryCard_GetBgPalette(card);
@@ -1951,7 +1968,13 @@ static void MysteryAlbum_LoadIcon(MysteryAlbum *album, MysteryCardRes *res, Heap
     func_0204c140(res->icon, &pos, res->vramType);
     func_0204c124(res->icon, TRUE);
     if (MysteryCard_GetKind(&album->card) == 1) {
+        // BUG: this passes the palette's colors where the palette data goes, so it uploads 32 bytes from wherever its
+        // seventh and eighth colors point, read as the data's pointer. The colors written to the palette below hide it
+#ifdef BUGFIX
         func_0204bd10(res->pokePalette, album->pal, 1);
+#else
+        func_0204bd10(res->pokePalette, album->pal->rawData, 1);
+#endif
         sys_memcpy(album->pal->rawData, res->fade.to, sizeof(res->fade.to));
         sys_memset16(0, res->fade.from, sizeof(res->fade.from));
         func_0204bab8(res->pokeChars, album->chars->rawData, 0x1200, 0, res->vramType);
@@ -1966,10 +1989,10 @@ static void MysteryAlbum_LoadIcon(MysteryAlbum *album, MysteryCardRes *res, Heap
             pltt[i] = res->fade.from[i];
         }
         if (res->setup.mainBg < 4) {
-            gfxRegSetAlphaBlend(REG_BLDCNT_ADDR, 0, (1 << (u8)res->setup.unk4) | (1 << (u8)res->setup.mainBg), 2, 12);
+            gfxRegSetAlphaBlend(REG_BLDCNT_ADDR, 0, (1 << (u8)res->setup.mainBg) | (1 << (u8)res->setup.unk4), 2, 12);
         } else {
             gfxRegSetAlphaBlend(REG_DB_BLDCNT_ADDR, 0,
-                                (1 << (u8)(res->setup.unk4 - 4)) | (1 << (u8)(res->setup.mainBg - 4)), 2, 12);
+                                (1 << (u8)(res->setup.mainBg - 4)) | (1 << (u8)(res->setup.unk4 - 4)), 2, 12);
         }
     } else {
         func_0204c124(res->poke, FALSE);
@@ -2082,10 +2105,9 @@ static BOOL MysteryAlbumShake_Update(MysteryAlbumShake *shake, u16 *rotation, My
         shake->frame = 0;
         shake->fromRotation = shake->toRotation;
         shake->toRotation = sShakeRotations[shake->step];
-        shake->from.x = shake->to.x;
         shake->dir = sShakeDirs[shake->step];
         shake->frames = sShakeFrames[shake->step];
-        shake->from.y = shake->to.y;
+        shake->from = shake->to;
         shake->to = sShakePositions[shake->step];
         if (shake->dir > 0) {
             shake->fromRotation = shake->fromRotation == 0xffff ? 0 : shake->fromRotation;
