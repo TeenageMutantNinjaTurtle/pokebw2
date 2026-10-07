@@ -166,3 +166,7 @@ src/ov036/scrcmd_trainer.c:
 src/ov036/scrcmd_save.c:
     complete
     .text       start:0x021a6b80 end:0x021a6d14
+
+src/ov036/scrcmd_item.c:
+    complete
+    .text       start:0x021a74ac end:0x021a7724
