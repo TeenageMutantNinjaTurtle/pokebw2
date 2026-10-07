@@ -139,6 +139,7 @@ typedef struct BtlMainModule BtlMainModule;
 typedef struct BtlMainSyncData BtlMainSyncData;
 typedef struct BtlAdapter BtlAdapter;
 typedef struct BtlClient BtlClient;
+typedef struct BtlField BtlField;
 typedef struct BtlPokeCon BtlPokeCon;
 typedef struct BtlRecorder BtlRecorder;
 typedef struct BtlServer BtlServer;
