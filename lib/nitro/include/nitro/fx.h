@@ -18,6 +18,7 @@ typedef s64 fx64;
 #define FX32_CONST(x) ((fx32)(((x) > 0) ? ((x) * FX32_ONE + 0.5f) : ((x) * FX32_ONE - 0.5f)))
 #define FX16_CONST(x) ((fx16)(((x) > 0) ? ((x) * FX16_ONE + 0.5f) : ((x) * FX16_ONE - 0.5f)))
 #define FX_Whole(a) ((s32)((a) >> FX32_SHIFT))
+#define FX_FX32_TO_F32(x) ((f32)((x) / (f32)(1 << FX32_SHIFT)))
 
 typedef struct {
     fx32 x;
