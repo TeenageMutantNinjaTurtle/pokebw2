@@ -162,6 +162,8 @@ void func_02011de0(void);
 BOOL func_02012154(void);
 void func_02012144(void);
 void GFL_NetErrAbort(void);
+// The state of the wireless connections, as bits: 0x2 a local wireless one, 0x3c the signal, 0x3c0 Wi-Fi
+u32 func_02012be4(WifiList *wifiList);
 BOOL func_0202bde0(GameCommSys *comm);
 
 // The device table for a GFL_NET_TYPE_*, from outside the library

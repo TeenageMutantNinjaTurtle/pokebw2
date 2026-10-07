@@ -39,6 +39,7 @@ void func_02016b24(GameSystem *gsys, u32 value);
 u8 func_02016b2c(GameSystem *gsys);
 u32 func_02016b34(GameSystem *gsys);
 void func_02016b40(GameSystem *gsys, u32 value);
+BOOL func_02016bec(GameSystem *gsys);
 void GameSystemTimer_Start(void);
 ISS *GameSystem_GetISS(GameSystem *gsys);
 u32 getStatusOfFesMission(LinkFestival *festival);

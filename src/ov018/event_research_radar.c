@@ -31,7 +31,7 @@ GameEventReturnCode func_ov018_0216e660(GameEvent *event, u32 *state, void *data
         *state = 2;
         break;
     case 2:
-        GSYS_QueueProc(gsys, OVERLAY_RESEARCH_RADAR_APP, &data_ov310_021a77e0, work->param);
+        GSYS_QueueProc(gsys, OVERLAY_RESEARCH_RADAR_APP, &RESEARCH_RADAR_PROC_FUNCTIONS, work->param);
         *state = 3;
         break;
     case 3:
