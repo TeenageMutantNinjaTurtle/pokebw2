@@ -184,11 +184,11 @@ void MysteryGraphic_Update(MysteryGraphic *graphic) {
     MysteryGraphicBG_Update(&graphic->bg);
 }
 
-void MysteryGraphic_Draw3D(MysteryGraphic *graphic) {
+void MysteryGraphic_BeginFrame3D(MysteryGraphic *graphic) {
     MysteryG3dSys_Begin(&graphic->g3d);
 }
 
-void MysteryGraphic_UpdateCamera(MysteryGraphic *graphic) {
+void MysteryGraphic_EndFrame3D(MysteryGraphic *graphic) {
     MysteryG3dSys_End(&graphic->g3d);
 }
 
