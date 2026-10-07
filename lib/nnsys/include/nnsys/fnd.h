@@ -23,6 +23,26 @@ typedef struct {
 
 typedef void (*NNSFndHeapVisitor)(void *block, NNSFndHeapHandle heap, u32 param);
 
+// NitroSystem's doubly linked lists of objects that hold their link at an offset: NNS_FndInitList,
+// NNS_FndAppendListObject, NNS_FndRemoveListObject and NNS_FndGetNextListObject (our names, from NitroSystem's)
+typedef struct {
+    void *prevObject;
+    void *nextObject;
+} NNSFndLink;
+
+typedef struct {
+    void *headObject;
+    void *tailObject;
+    u16 numObjects;
+    u16 offset;
+} NNSFndList;
+
+void NNS_FndInitList(NNSFndList *list, u16 offset);
+void NNS_FndAppendListObject(NNSFndList *list, void *object);
+void NNS_FndRemoveListObject(NNSFndList *list, void *object);
+// The object after object, or the first when it is NULL
+void *NNS_FndGetNextListObject(NNSFndList *list, void *object);
+
 NNSFndHeapHandle InitHeapBaseSafe(void *start, u32 size, u16 flags);
 void func_0205ef78(NNSFndHeapHandle heap);
 void *AllocOnHeapBase(NNSFndHeapHandle heap, u32 size, int alignment);

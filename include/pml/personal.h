@@ -24,6 +24,8 @@
 #define PERSONAL_WEIGHT 38
 
 u32 PML_PersonalGetParamSingle(u16 species, u16 form, u32 param);
+// The same from Black and White's personal data, which the musical's sprites still follow
+u32 PML_PersonalGetParamSingleBW1(u16 species, u16 form, u32 param);
 void *PML_PersonalLoad(u16 species, u16 form, HeapID heapId);
 u32 PML_PersonalGetParam(void *personal, u32 param);
 void PML_PersonalFree(void *personal);
