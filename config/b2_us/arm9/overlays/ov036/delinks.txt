@@ -186,3 +186,7 @@ src/ov036/scrcmd_sound.c:
 src/ov036/scrcmd_menu.c:
     complete
     .text       start:0x021a82bc end:0x021a861c
+
+src/ov036/scrcmd_gym.c:
+    complete
+    .text       start:0x021aad44 end:0x021ab218
