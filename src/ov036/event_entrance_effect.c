@@ -12,6 +12,7 @@
 #include "field/field_g3d_mapper.h"
 #include "field/field_prop.h"
 #include "field/field_rail.h"
+#include "field/field_sound.h"
 #include "field/zone.h"
 #include "gfl/sound.h"
 #include "nitro/fx.h"
