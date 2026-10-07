@@ -434,7 +434,7 @@ static void PokeListBattle_UpdateTimer(PokeListWork *wk) {
             r = r + level > 31 ? 31 : r + level;
             wk->timerColors[i] = GX_RGB(r, g, b);
         }
-        gfxUploadAsync(31, 0x40, wk->timerColors, sizeof(wk->timerColors));
+        NNS_GfdRegisterNewVramTransferTask(31, 0x40, wk->timerColors, sizeof(wk->timerColors));
         wk->timerBlink++;
         if (wk->timerBlink >= 60) {
             wk->timerBlink = 0;

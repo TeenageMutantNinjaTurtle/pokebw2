@@ -6,18 +6,19 @@
 #include "gfl/proc.h"
 #include "struct_decls.h"
 
-// Overlay 143, whose file is monolith_tool.c
+// Overlay 143, the Entralink monolith (monolith_main.c and the files in app/monolith/)
 #define OVERLAY_MONOLITH OVERLAY_ID(143)
 
 typedef struct {
     GameSystem *gsys;
     u8 unk04[0x28];
-    // Read from the Entralink's save, then byte 2 set
-    u8 unk2C[4];
-    u8 unk30;
+    // The special pass powers' flags, the two bytes of func_0200c6d8, then byte 2 set
+    u8 powerFlags[4];
+    // The net ID passed to func_0202bf68 once a pass power is received
+    u8 netId;
     u8 unk31;
 } MonolithParam;
 
-extern const GameProcFunctions data_ov143_0219fe70;
+extern const GameProcFunctions MONOLITH_PROC_FUNCTIONS;
 
 #endif // POKEBW2_APP_MONOLITH_H

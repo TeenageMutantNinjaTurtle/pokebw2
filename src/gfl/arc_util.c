@@ -32,7 +32,7 @@ u32 GFL_BGSysLoadNCGRStatic(u32 arcId, u32 fileId, u8 bg, u32 offset, u32 size, 
     return GFL_BGSysLoadNCGRStaticCore(file, bg, offset, size, compressed);
 }
 
-u32 GFL_BGSysLoadArcNCGRStatic(ArcTool *arc, u32 fileId, u8 bg, u32 offset, u32 size, BOOL compressed, HeapID heapId) {
+u32 GFL_BGSysLoadArcNCGRStatic(ArcTool *arc, u32 fileId, u32 bg, u32 offset, u32 size, BOOL compressed, HeapID heapId) {
     void *file = GFL_ArcToolReadHeapNewLZ(arc, fileId, compressed, heapId);
 
     return GFL_BGSysLoadNCGRStaticCore(file, bg, offset, size, compressed);
@@ -119,7 +119,7 @@ void loadBGScrToVramByNarcNoReserveNegAlign(u32 arcId, u32 fileId, u8 bg, u32 of
     GFL_BGSysLoadNSCR(file, bg, offset, 0, size, FALSE);
 }
 
-void loadBGScrToVramByFileNoReserveNegAlign(ArcTool *arc, u32 fileId, u8 bg, u32 offset, u32 size, BOOL compressed,
+void loadBGScrToVramByFileNoReserveNegAlign(ArcTool *arc, u32 fileId, u32 bg, u32 offset, u32 size, BOOL compressed,
                                             HeapID heapId) {
     void *file = GFL_ArcToolReadHeapNewLZ(arc, fileId, compressed, HEAPID_TAIL(heapId));
 

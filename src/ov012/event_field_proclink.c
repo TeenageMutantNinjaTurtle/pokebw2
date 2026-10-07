@@ -1,5 +1,6 @@
 #include "types.h"
 #include "app/bag.h"
+#include "app/battle_recorder.h"
 #include "app/p_status.h"
 #include "app/pokelist.h"
 #include "constants/pokemon.h"
@@ -69,13 +70,6 @@ typedef struct {
 
 typedef struct {
     u32 unk0;
-    GameData *gameData;
-    u32 unk8;
-    u32 result;
-} Ov272Param;
-
-typedef struct {
-    u32 unk0;
     u32 unk4;
     u16 unk8;
     GameData *gameData;
@@ -96,7 +90,7 @@ const FieldProcLink FIELD_PROC_LINK_LIST[15] = {
     { OVERLAY_ID(140), &data_ov140_0219eecc, func_ov012_0215c094, func_ov012_0215c0cc, NULL, func_ov012_0215c594 },
     { 0, NULL, NULL, NULL, func_ov012_0215c574, func_ov012_0215c594 },
     { OVERLAY_PSTATUS, &PSTATUS_PROC_FUNCTIONS, func_ov012_0215bb70, func_ov012_0215bcf0, NULL, func_ov012_0215c594 },
-    { OVERLAY_ID(144), &data_ov144_0219f774, func_ov012_0215bf8c, func_ov012_0215bff8, NULL, func_ov012_0215c594 },
+    { OVERLAY_ID(144), &TOWNMAP_PROC_FUNCTIONS, func_ov012_0215bf8c, func_ov012_0215bff8, NULL, func_ov012_0215c594 },
     { OVERLAY_ID(204), &data_ov189_021ae03c, func_ov012_0215c10c, func_ov012_0215c138, NULL, func_ov012_0215c594 },
     { OVERLAY_NONE, &data_ov215_021ab01c, func_ov012_0215c160, func_ov012_0215c218, NULL, func_ov012_0215c2c8 },
     { OVERLAY_ID(284), &SHINKA_DEMO_PROC_FUNCTIONS, script_evo, func_ov012_0215c3a4, NULL, func_ov012_0215c594 },
@@ -998,14 +992,14 @@ u32 func_ov012_0215c3a4(FieldAppCallWork *work, void *param) {
 }
 
 void *func_ov012_0215c3d0(FieldAppCallWork *work, s32 appParam, s32 prevAppId, void *prevParam) {
-    Ov272Param *param = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(Ov272Param), TRUE, "event_field_proclink.c", 2349);
+    BattleRecorderParam *param = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(BattleRecorderParam), TRUE, "event_field_proclink.c", 2349);
 
     param->gameData = GSYS_GetGameData(work->input->gameSystem);
     return param;
 }
 
 u32 func_ov012_0215c3fc(FieldAppCallWork *work, void *data) {
-    Ov272Param *param = data;
+    BattleRecorderParam *param = data;
 
     if (work->input->appId == 12) {
         switch (param->result) {

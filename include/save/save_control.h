@@ -4,6 +4,7 @@
 #include "types.h"
 #include "gfl/heap.h"
 #include "nitro/fx.h"
+#include "nitro/rtc.h"
 #include "struct_decls.h"
 
 SaveControl *SaveControl_GetInstance(void);
@@ -11,6 +12,15 @@ SaveControl *SaveControl_GetInstance(void);
 void SaveControl_Free(void);
 EncountSave *SaveControl_GetEncountSave(SaveControl *save);
 u32 func_02007560(SaveControl *save, u32 block, u32 heapId, void *buffer, u32 size);
+// The save data Game Sync uploads, and its size
+void *func_02007454(SaveControl *save, u32 *size);
+// The sizes of a downloaded C-Gear skin and Pokédex skin, and a Pokédex skin block's valid flag
+u32 func_0200ce50(void);
+u32 func_0200f164(void);
+void func_0200f194(void *block, u32 valid);
+// Imports a downloaded musical, a step a frame until it returns TRUE
+void *func_0200cd34(GameData *gameData, void *data, u32 size, HeapID heapId);
+BOOL func_0200cd64(void *work);
 void *getAddressOfExtraSaveBlk(SaveControl *save, u32 block, u32 arg2);
 void freeIntermediateSaveExtraBlksAfterLoad2(SaveControl *save, u32 block);
 u32 SaveControl_GetStatus(SaveControl *save);
@@ -62,6 +72,9 @@ void func_0200ea24(AreaNPCSave *npcData, u32 index);
 // Whether the Entree Forest Pokémon, packed as EntreeForestPokemon is, is valid, checking its form when check is set
 BOOL func_0200eb54(SaveControl *save, u32 *pokemon, HeapID heapId, BOOL check);
 void func_0200eb14(AreaNPCSave *npcData, u16 index);
+// Puts a Pokémon from the Dream World in the Entree Forest: its species, a2, sex and form, a5 below 9, and size 2 for
+// a big overworld sprite or 3
+void func_0200ea40(AreaNPCSave *npcData, u16 species, u16 a2, u8 sex, u32 form, u32 a5, u32 size);
 
 // Returns a pointer to one of the save's blocks
 void *SaveControl_GetBlockPtr(SaveControl *save, u32 block);
@@ -82,9 +95,9 @@ typedef struct {
 
 typedef struct {
     u16 species;
-    u16 form : 2;
-    u16 unk2_2 : 1;
-    u16 unk2_3 : 5;
+    u16 sex : 2;
+    u16 rare : 1;
+    u16 form : 5;
     u32 personality;
     u16 name[8];
     MusicalShotEquip equips[8];
@@ -120,6 +133,8 @@ typedef struct {
 
 MusicalShot *func_0200ad5c(MusicalSave *musical);
 MusicalSaveUnk1B0 *func_0200ad44(MusicalSave *musical);
+// Whether a musical photo is saved
+BOOL func_0200ad4c(MusicalSave *musical);
 void func_0200add8(MusicalSave *musical, u8 prop);
 MusicalSaveUnk1E0 *func_0200ae6c(MusicalSave *musical, u8 index);
 u16 func_0200ae78(MusicalSave *musical);
@@ -137,6 +152,12 @@ u16 func_0200af38(MusicalSave *musical);
 u8 func_0200af5c(MusicalSave *musical);
 void func_0200af64(MusicalSave *musical, u8 value);
 void *func_0200afbc(SaveControl *save);
+// The block of func_0200afbc: 30 entries of 0x1c bytes, each starting with a name. The number of entries in use, the
+// entry of a birthday and date, whether an entry is flagged, and an entry
+u32 func_0200afc8(void *data);
+u32 func_0200b05c(void *data, u8 month, u8 day, RTCDate *date);
+BOOL func_0200b014(void *data, u32 index);
+const u16 *func_0200afe4(void *data, u32 index);
 void func_0200b220(void *data);
 MusicalSave *getAddressOfMusicalDataInfo(SaveControl *save);
 void func_0200aef0(MusicalSave *musical, u8 value);
@@ -272,6 +293,10 @@ void func_02008d90(u32 data, u32 *copy);
 void func_02008d98(u32 data, u32 *copy);
 // A byte of this block, at 7, tells the start menu whether to ask about the C-Gear
 void *func_02009918(SaveControl *save);
+// Mark the downloaded C-Gear skin as there, and keep its CRC
+void func_020098cc(void *block, u8 valid);
+void func_020098d4(void *block, u16 crc);
+void func_020098bc(void *cgear, u8 value);
 // The same block, from the game data
 void *func_02009924(GameData *gameData);
 u8 func_020098c0(void *a0);
@@ -280,7 +305,13 @@ WorldTradeData *SaveControl_GetWorldTradeData(SaveControl *save);
 DreamWorldSave *getDreamWorldStuffAddress(SaveControl *save);
 HighLinkSave *getHighLinkBlockAddress(SaveControl *save);
 void *func_02010dec(SaveControl *save);
+// The Funfest mission records of func_02010dec's block: missions hosted, joined and completed, the most participants
+// and the best score
+u16 func_02010df8(void *a0);
+u16 func_02010e24(void *a0);
 u16 func_02010e50(void *a0);
+u8 func_02010e78(void *a0);
+u16 func_02010e94(void *a0);
 KeyInfoSave *getKeyInfoSaveBlk(SaveControl *save);
 // Whether a key system key is unlocked
 BOOL func_020104c4(KeyInfoSave *keyInfo, u32 key);

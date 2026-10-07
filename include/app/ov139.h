@@ -145,6 +145,7 @@ s16 func_ov139_0219cc3c(Ov139List *list);
 BOOL func_ov139_0219cc44(Ov139List *list);
 void func_ov139_0219cc58(Ov139List *list, int pos);
 void func_ov139_0219cc90(Ov139List *list);
+void func_ov139_0219ccb0(Ov139List *list, u32 a1);
 void func_ov139_0219ccc8(Ov139List *list, u32 a1);
 void func_ov139_0219ccd0(Ov139List *list, int a1);
 u32 func_ov139_0219cd0c(Ov139List *list);
@@ -171,7 +172,7 @@ typedef struct TwoChoiceMenu TwoChoiceMenu;
 #define TWO_CHOICE_MENU_NONE 2
 
 // Prints a string into a window through the queue, aligned at x by the alignment
-void func_ov139_0219a2a4(PrintWindow *window, PrintQueue *queue, u16 x, u32 y, const StrBuf *strbuf, Font *font,
+void func_ov139_0219a2a4(PrintWindow *window, PrintQueue *queue, u16 x, u16 y, const StrBuf *strbuf, Font *font,
                          u16 color, u32 align);
 TwoChoiceMenu *func_ov139_0219a584(HeapID heapId, u32 a1, u32 a2, u32 a3, u32 a4, ClActUnit *unit, Font *font,
                                    PrintQueue *queue, u32 a8);

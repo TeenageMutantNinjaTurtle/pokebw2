@@ -939,8 +939,8 @@ static SpritePieces *ShinkaDemoPieces_Create(u32 species, u32 form, u32 sex, BOO
         }
     }
     GFL_BitmapMakeLinear(pieces->bitmap, FALSE, heapId);
-    gfxUploadAsync(0, texAddr, GFL_BitmapGetPixelData(pieces->bitmap), 16 * 16 * 32);
-    gfxUploadAsync(1, plttAddr, pieces->palette->rawData, 16 * sizeof(GXRgb));
+    NNS_GfdRegisterNewVramTransferTask(0, texAddr, GFL_BitmapGetPixelData(pieces->bitmap), 16 * 16 * 32);
+    NNS_GfdRegisterNewVramTransferTask(1, plttAddr, pieces->palette->rawData, 16 * sizeof(GXRgb));
     return pieces;
 }
 
@@ -1609,7 +1609,7 @@ static void ShinkaDemoPieces_ApplyFade(SpritePieces *pieces, HeapID heapId) {
         }
         pieces->colors[i] = GX_RGB(r, g, b);
     }
-    gfxUploadAsync(1, pieces->plttAddr, pieces->colors, sizeof(pieces->colors));
+    NNS_GfdRegisterNewVramTransferTask(1, pieces->plttAddr, pieces->colors, sizeof(pieces->colors));
 }
 
 static BOOL ShinkaDemoPieces_IsIdle(SpritePieces *pieces, HeapID heapId) {

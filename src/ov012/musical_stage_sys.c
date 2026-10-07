@@ -87,16 +87,16 @@ static BOOL func_ov012_021521d4(GameProc *proc, u32 *state, void *param, void *w
 
     switch (*state) {
     case 0:
-        wk->stage = func_ov209_021be9b0(wk->param, HEAPID_MUSICAL);
+        wk->stage = StaActing_Init(wk->param, HEAPID_MUSICAL);
         *state = 1;
         break;
     case 1:
-        if (func_ov209_021beccc(wk->stage) == TRUE) {
+        if (StaActing_Main(wk->stage) == TRUE) {
             *state = 2;
         }
         break;
     case 2:
-        func_ov209_021beb70(wk->stage);
+        StaActing_Term(wk->stage);
         return TRUE;
     }
     return FALSE;

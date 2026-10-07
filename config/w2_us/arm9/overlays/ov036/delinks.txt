@@ -178,3 +178,74 @@ src/ov036/scrcmd_word.c:
 src/ov036/scrcmd_mapchange.c:
     complete
     .text       start:0x021a7ef8 end:0x021a82fc
+
+src/ov036/scrcmd_sound.c:
+    complete
+    .text       start:0x021a6d54 end:0x021a74ec
+
+src/ov036/scrcmd_menu.c:
+    complete
+    .text       start:0x021a82fc end:0x021a865c
+
+src/ov036/scrcmd_gym.c:
+    complete
+    .text       start:0x021aad84 end:0x021ab258
+
+src/ov036/scrcmd_fade.c:
+    .text       start:0x021ab258 end:0x021ab77c
+
+src/ov036/scrcmd_msg.c:
+    .text       start:0x021a865c end:0x021a9904
+    .rodata     start:0x021d08ac end:0x021d0918
+
+src/ov036/scrcmd_buildmodel.c:
+    complete
+    .text       start:0x021ab77c end:0x021abb88
+
+src/ov036/scrcmd_place_name.c:
+    complete
+    .text       start:0x021abb88 end:0x021abbb0
+
+src/ov036/scrcmd_net.c:
+    complete
+    .text       start:0x021adcac end:0x021addd4
+
+src/ov036/scrcmd_encount.c:
+    complete
+    .text       start:0x021ae3d4 end:0x021ae714
+    .rodata     start:0x021d0f8c end:0x021d0f98
+    .data       start:0x021d5230 end:0x021d5244
+
+src/ov036/scrcmd_fldmmdl.c:
+    complete
+    .text       start:0x021a9904 end:0x021aad84
+    .rodata     start:0x021d0918 end:0x021d094c
+    .data       start:0x021d518c end:0x021d51a0
+
+src/ov036/scrcmd_camera.c:
+    complete
+    .text       start:0x021ae714 end:0x021aea80
+
+src/ov036/scrcmd_proc_fld.c:
+    complete
+    .text       start:0x021addd4 end:0x021ae3d4
+    .data       start:0x021d521c end:0x021d5230
+
+src/ov036/scrcmd_fld_battle.c:
+    complete
+    .text       start:0x021aea80 end:0x021aee34
+    .data       start:0x021d5244 end:0x021d5258
+
+src/ov036/scrcmd_misc.c:
+    .text       start:0x021afd0c end:0x021b0260
+    .rodata     start:0x021d0f98 end:0x021d0fcc
+
+src/ov036/rail_attr.c:
+    complete
+    .text       start:0x021b3a74 end:0x021b3be4
+    .data       start:0x021d529c end:0x021d52a8
+
+src/ov036/scrcmd_shop.c:
+    .text       start:0x021abbb0 end:0x021adcac
+    .rodata     start:0x021d094c end:0x021d0f8c
+    .data       start:0x021d51a0 end:0x021d521c

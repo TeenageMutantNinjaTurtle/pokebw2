@@ -12,6 +12,9 @@ Same instructions, registers swapped.
 
 - Register allocation follows the declaration order of locals, so try reordering declarations when registers are
   swapped.
+- How a store is written can move the parameters' registers too: `*result = *partyResult != 0 ? 3 : 0;` swapped two
+  pointer parameters' registers in `scrcmd_fld_battle.c`'s `func_ov036_021aec28`, where the same store as an
+  `if`/`else` matched.
 - The registers follow the declarations, but the order the constants are set follows the statements: when the
   declaration order that gives the right registers sets them in the wrong order, or derives one constant from the
   other (`movs r6, #0` ... `subs r4, r6, #1` for `-1`), declare the locals without initializers and assign them in the
@@ -110,6 +113,11 @@ Same code, other `sp` offsets or frame size.
 - Declaration order does move spill slots in longer functions: `func_ov255_021d0374` matched with its loop counters
   declared first and `y` before the row width.
 - Stack locals are laid out in reverse declaration order.
+  When values must be read in one order (a script's arguments, say) but the original's slots follow another, declare
+  the locals without initializers in the slot order and assign them in the read order: `script_command.c`'s
+  `StaScriptCmd_PokeMove` matched with `mask; frames; wait; pokeSys; x; y; z;` declared and the arguments read as
+  `mask, frames, x, y, z, wait`, and `StaScriptCmd_LightFollow` with the three system pointers declared before the
+  offsets they are read after.
 - A local initializer inside a loop is copied from `.rodata` once, before the loop, into a compiler temporary at the
   bottom of the frame, and copied from there into the local on each pass. `mus_shot_photo.c`'s
   `MusShotPhoto_InitPokes` declares `VecFx32 offset = { 0, FX32_CONST(-35), 0 };` in the branch for the top Pokémon,
@@ -251,7 +259,10 @@ Same instructions, scheduled in another order.
   `PrintWindow_Print`. A block-scoped local set from the field before the call does the same: bmp_menu.c's
   `BmpMenu_PrintOptions` loads the queue first because its loop body declares `PrintQueue *queue` and a `u8 y`.
   save_error.c's `displayLightBlueErrorWindow` reads `chars->size` before calling `gfxGetCharAddrBG1A()` only
-  through NitroSDK's `MI_CpuCopy16` inline over `sys_memcpy16`.
+  through NitroSDK's `MI_CpuCopy16` inline over `sys_memcpy16`. The same goes for a field read before a call that
+  could change it, such as a `sys_memset` of the struct that holds it: pdwacc_disp.c reads the heap ID before
+  clearing its palette cycle only as the argument of a `static inline` helper that clears the cycle and then uses the
+  heap ID.
 - Two stores through a pointer read from a struct, with one load of the pointer where ours loads it again after the
   first store, were made by an inlined helper that takes the pointer, such as `PrintWindow_Init(header.printWindow,
   window)` in `ShopUI_CreateConfirmDialog`.
@@ -281,10 +292,23 @@ Same instructions, scheduled in another order.
   inline's entry and spills it, was a local of the caller: `mystery.c`'s `MysteryEffect_Init` sets
   `tailHeapId = HEAPID_TAIL(heapId);` before calling the inlined gift-Pokémon routine, which reaches the original's size,
   where `HEAPID_TAIL(heapId)` written as the argument is 4 bytes short.
+- Reads of a `const` table are not moved across stores to I/O registers, so a table read the original does before the
+  stores of a NitroSDK register inline was written before it: `mystery_album.c`'s `MysteryCardView_SeqThrowAway`
+  reads a card position's x and y into `int` locals before `G2_SetWnd0InsidePlane`.
 
 ## An instruction too many or too few
 
 Narrowing shifts, reloads, recomputed addresses and folded constants.
+
+- A last call that passes four arguments in registers is a `bl` with a frame, not a tail call: MWCC's tail call
+  loads the callee's address into `r3`, which the fourth argument holds. When the original saves a register and
+  calls where the C tail-calls, the callee takes one argument more: `sta_acting.c`'s `StaActing_PlayWave` matched
+  once `func_02006528` took the fourth argument its code reads, which the caller passes on from its own `r3`.
+
+- `p->stack[p->num - 1]` with the array a direct member of `*p` subtracts 1 and loads from the array's offset
+  (`subs; lsls; ldr [r0, #0x4c]`), while the same index into an array inside a nested struct folds the `- 1` into the
+  offset (`lsls; ldr [r0, #0x48]`). The Battle Recorder's `BrProcSys_Pop` has the folded load, but its asserts name
+  `p_wk->stack_num` as a member of the work itself, so it stays unmatched.
 
 - `field += value` on an `s16` field with an `int` value narrows the value first and shares the narrowed copy between
   such adds, where `field = field + value` adds the `int` as it is. The phrase input's `PMSIVEdit_ScrollWait` adds its
@@ -388,6 +412,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   declared in an inner block opened there: the forms page's `BOOL hasSex[3] = { FALSE, FALSE, FALSE };` follows the
   Pokédex reads in a block around the rest of the gathering, and `BOOL seenRare[2] = { FALSE, FALSE };` sits in the
   loop over the forms.
+- A switch of three cases can compile to a compare chain that tests them in value order. When the original tests 1,
+  then 2, then 0, the source is an `if`/`else if` chain in that order: `scrcmd_msg.c`'s `SystemMsgWin_Open`.
+- A result flag declared after a call, `CalcAttachmentPos(env, FALSE); BOOL done = FALSE;`, takes the register of a
+  parameter that died in the call, and MWCC still sets it just before the `bl`: `scrcmd_msg.c`'s
+  `ScriptNative_ActorMsgWinWait`.
 - A struct member set from a C99 compound literal, `request.pos = (VecFx32){ 0, 0, 0 };`, builds the literal in a
   stack temporary through a base register just before the copy (`str r6, [r3]; str r6, [r3, #4]; str r6, [r3, #8];
   ldm r3!, {r0, r1}`), in source order among the other member stores. An initialized local makes the same stores at
@@ -407,6 +436,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   the table; written as `sListBitmaps[BMP_YES].arcId`, the same function is 0x38 bytes shorter.
 - A struct assignment, `u->pos = *pos`, copies with `ldm`/`stm`. Separate `ldr`/`str` pairs for each field are the
   NitroSDK's `VEC_Set(&u->pos, pos->x, pos->y, pos->z)`, as `iss_3ds_sys.c`'s `ISS3DSoundSys_SetListenerCore` writes it.
+  More exactly: each field's load followed by its store is three assignments, `v.x = p->x; v.y = p->y; ...`; the loads
+  of z, y and x first and then the three stores is `VEC_Set`, and branches that each end in a `VEC_Set` into the same
+  vector share one store tail (`scrcmd_fldmmdl.c`).
 - Two locals initialized to 0 in their declarations share one zero register, so a later `offset += 4` compiles as
   `adds r5, r4, #4` from the counter's zero: `iss_switch_set.c`'s `ISSSwitchSet_LoadArcDataCore` declares `int i = 0;
   u32 offset = 0;`, where `offset = 4` shares the `movs #4` of another argument instead.
@@ -428,6 +460,12 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A `u16` local that holds a call's result changes the operand order of a later add with it, and
   `index = first; index += kind;` truncates a `u32` field before the add, where `first + kind` does not
   (`ctvt_game.c`'s `CtvtGameTarget_UpdateHit` and `CtvtGameTarget_Draw`).
+- `*(data + pos + 1)` adds `pos` once and then loads at `#1`, where `data[pos + 1]` adds `pos + 1` first; and a value
+  built in a `u16` local with `|=` and then returned has no final narrowing pair, where a returned `int` expression
+  does (`ssp_exifdec.c`'s byte readers). A ternary that stores to a static is a select (`bhi`); the original's
+  `bls; b` is an `if`/`else` with a store in each branch.
+- Advancing a pointer-like offset with `x += 0xc` lets MWCC fold the 0xc into every later offset from it; writing
+  `pos = x + 0xc` and reading through `pos` keeps the `add` (`ssp_exifdec.c`'s IFD loop).
 - A ternary argument `f(c ? 1 : 0)` compiles to the select form (`movs r0, #1; cmp; beq; movs r0, #0`). A branchy
   original (`bne`; `movs #1`; `b`; `movs #0`) is an `if`/`else` with a call in each branch, as `CtvtTalk_UpdateMain`
   calls `func_0203d564(TRUE)` or `func_0203d564(FALSE)`.
@@ -630,6 +668,8 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 ## Switches
 
+- `*result = N; break;` in every case makes later cases branch to an earlier case's `b`, a branch to a branch. A local
+  set in each case and stored once after the switch gives direct branches: `scrcmd_fldmmdl.c`'s `s0078`.
 - Switch cases are laid out in source order, not by value, so the layout shows the order the cases were written in.
 - A switch's comparison tree and jump tables depend on every case value, including cases with no code: the Battle
   Subway's command switch only splits its values as the game does with an empty `case 102:` inside its first jump
@@ -702,6 +742,12 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   reproduced under `-nodead`: wipe_sub.c's `.data` and `.rodata` hold the parameters of about 31 handlers the ROM
   doesn't have, as their own function-local statics, which an unemitted handler takes with it. Making them globals
   read by unemitted statics was not tried; it would put names on data Game Freak kept local.
+- Tables that only code the linker dropped read can be kept in the shared section as globals read by unemitted
+  static functions. `mbp.c` (overlay 181) keeps NitroSDK's demo tables of state and callback names this way, after
+  its heap ID and before their strings: a `static` table read only by an unemitted function is dropped with it, and a
+  global that nothing reads gets a section of its own among the strings. The string literals of such initializers
+  each get a section of their own, laid out by size after the shared section, and their equal sizes don't follow
+  `rodata_order.py`'s model: two pairs stay swapped in every order of the tables tried.
 - Static data is sorted by size. MWCC lists each object of a section when it is declared, a local struct initializer
   when its function is, and heapsorts the list by size starting from the last object declared. Equal sizes come out
   in no declared order: palanm.c's three 4-byte weights declared R, G, B lie G, R, B (`rodata_order.py --permute`
@@ -746,6 +792,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   only with its touch screen's cursor table, in `.data`, declared after the touch rectangles rather than at the top.
 - `static const` data goes in `.rodata`, so a table that the original has in `.data` is not `const`. The module
   check fails if a table ends up in the wrong section, even when every function matches.
+- A function-local `static const` is emitted in the shared section even when every read of it is folded into
+  immediates, or when nothing reads it, unlike a file-scope one. Small objects that no code refers to at the start of
+  a file's shared `.rodata` are such locals: `win_record.c` has its two columns' x (`{ 0, 144 }`) in
+  `WinRecord_PrintItemAt` and its BG scroll's speed and wrap (`{ 0x40, 0x2000 }`) in `WinRecord_ScrollBG`, read as
+  `add r2, #0x40`, and a 12-byte table that nothing reads, 4-aligned, so it is declared as `u32`s.
 - A `static const` variable whose address is never taken is folded into the code and not emitted. If the original has
   it anyway, it is not `static`: a global that no code refers to gets a section of its own, laid out by size with the
   rest. An object laid out ahead of smaller ones is in a file of its own, linked first, as overlay 65's command table

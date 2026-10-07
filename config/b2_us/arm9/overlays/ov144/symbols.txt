@@ -106,7 +106,7 @@ func_ov144_0219f728 kind:function(thumb,size=0x8) addr:0x0219f728
 func_ov144_0219f730 kind:function(thumb,size=0xc) addr:0x0219f730
 func_ov144_0219f73c kind:function(thumb,size=0x30) addr:0x0219f73c
 data_ov144_0219f76c kind:data(any) addr:0x0219f76c
-data_ov144_0219f774 kind:data(any) addr:0x0219f774 ambiguous
+TOWNMAP_PROC_FUNCTIONS kind:data(any) addr:0x0219f774 ambiguous
 data_ov144_0219f780 kind:data(any) addr:0x0219f780
 data_ov144_0219f7c0 kind:data(any) addr:0x0219f7c0
 data_ov144_0219f7d0 kind:data(any) addr:0x0219f7d0

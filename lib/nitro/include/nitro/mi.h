@@ -12,6 +12,13 @@ typedef enum {
     MI_PROCESSOR_ARM7,
 } MIProcessor;
 
+// Fills size bytes with a word, a word at a time. NitroSDK's MIi_CpuClear32
+void sys_memset32(u32 value, void *dest, u32 size);
+
+static inline void MI_CpuClear32(void *dest, u32 size) {
+    sys_memset32(0, dest, size);
+}
+
 // Copies 36 bytes, a 3x3 matrix
 void MI_Copy36B(const void *src, void *dest);
 

@@ -36,8 +36,8 @@ GameEventReturnCode EventGameSync_Callback(GameEvent *event, u32 *state, void *d
         *state = 2;
         break;
     case 2:
-        sys_memset(wk->unkC, 0, sizeof(wk->unkC));
-        wk->unk50 = 0;
+        sys_memset(&wk->accountInfo, 0, sizeof(wk->accountInfo));
+        wk->hasAccountInfo = FALSE;
         GSYS_QueueProc(gsys, OVERLAY_GSYNC, &GSYNC_MENU_PROC_FUNCTIONS, wk);
         (*state)++;
         break;
@@ -161,7 +161,7 @@ GameEventReturnCode EventGameSync_Callback(GameEvent *event, u32 *state, void *d
         wk->box.bag = GameData_GetBag(wk->box.gameData);
         wk->box.playerInfo = GetGameDataPlayerInfo(wk->box.gameData);
         wk->box.trainerData = getTrainerDataBlkAddress(GameData_GetSaveControl(wk->box.gameData));
-        wk->box.unk20 = wk->unk1D8;
+        wk->box.unk20 = wk->sendableSpecies;
         wk->box.unk1C = 0;
         wk->box.mode = BOX2_MODE_DREAM_WORLD;
         GSYS_QueueProcAsEvent(event, OVERLAY_BOX2, &BOX2_PROC_FUNCTIONS, &wk->box);

@@ -125,7 +125,8 @@ void BlinkPalAnm_Main(BlinkPalAnm *anm) {
         }
         break;
     }
-    gfxUploadAsync(anm->transferDest, anm->offset * sizeof(u16), anm->colors, anm->count * sizeof(u16));
+    NNS_GfdRegisterNewVramTransferTask(anm->transferDest, anm->offset * sizeof(u16), anm->colors,
+                                       anm->count * sizeof(u16));
 }
 
 void BlinkPalAnm_InitAnime(BlinkPalAnm *anm) {

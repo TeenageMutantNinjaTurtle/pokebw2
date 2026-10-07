@@ -448,7 +448,7 @@ static void PokeList_UpdateGlow(PokeListWork *wk) {
             }
         }
     }
-    gfxUploadAsync(15, 0xc0, wk->colors, sizeof(wk->colors));
+    NNS_GfdRegisterNewVramTransferTask(15, 0xc0, wk->colors, sizeof(wk->colors));
 }
 
 static void PokeList_VBlank(TCB *tcb, void *data) {
@@ -505,7 +505,7 @@ static void PokeList_InitGraphics(PokeListWork *wk) {
     ClActSys_Create(&clactSetup, &vramConfig, wk->heapId);
     GFL_BGSysSetBGEnabledA(GX_PLANEMASK_OBJ, TRUE);
     GFL_BGSysSetBGEnabledB(GX_PLANEMASK_OBJ, TRUE);
-    gfxUploadQueueReset();
+    GfdClearVramTransferQueue();
 }
 
 void PokeList_CreateBG0(PokeListWork *wk) {
@@ -529,7 +529,7 @@ void PokeList_Init3D(PokeListWork *wk) {
 }
 
 static void PokeList_ExitGraphics(PokeListWork *wk) {
-    gfxUploadQueueReset();
+    GfdClearVramTransferQueue();
     func_0204b758();
     PokeList_ReleaseBG0(wk);
     GFL_BGSysReleaseBG(3);

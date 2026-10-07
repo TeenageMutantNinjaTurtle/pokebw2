@@ -695,7 +695,7 @@ static void ZukanDetailInfo_InitGlow(ZukanDetailInfoParam *param, ZukanDetailInf
     GFL_HeapFree(file);
     wk->glowPhase = 0;
     sys_memcpy(wk->glowPalettes[0], wk->glowPalette, 32);
-    gfxUploadAsync(14, 6 * 32, wk->glowPalette, 32);
+    NNS_GfdRegisterNewVramTransferTask(14, 6 * 32, wk->glowPalette, 32);
 }
 
 static void ZukanDetailInfo_FreeGlow(ZukanDetailInfoParam *param, ZukanDetailInfoWork *wk, ZukanDetailCommon *common) {
@@ -750,5 +750,5 @@ static void ZukanDetailInfo_UpdateGlow(ZukanDetailInfoParam *param, ZukanDetailI
 
         wk->glowPalette[i] = r | (g << 5) | (b << 10);
     }
-    gfxUploadAsync(14, 6 * 32, wk->glowPalette, 32);
+    NNS_GfdRegisterNewVramTransferTask(14, 6 * 32, wk->glowPalette, 32);
 }

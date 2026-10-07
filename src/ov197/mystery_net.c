@@ -489,15 +489,15 @@ static void MysteryNet_BeaconWait(MysteryNetSeq *seq, int *state, void *work) {
 
 static void MysteryNet_IrcStart(MysteryNetSeq *seq, int *state, void *work) {
     MysteryNet *net = work;
-    DeliveryInit init;
+    DeliveryIrcInit init;
 
     switch (*state) {
     case 0:
-        sys_memset(&init, 0, sizeof(DeliveryInit));
+        sys_memset(&init, 0, sizeof(DeliveryIrcInit));
         init.code = 9;
         init.data[0].datasize = sizeof(MysteryGiftRecvData);
         init.data[0].pData = net->buffer;
-        init.flag4 = 0;
+        init.unk04 = 0;
         init.heapId = net->heapId;
         init.data[0].region = region;
         init.dataNum = 1;

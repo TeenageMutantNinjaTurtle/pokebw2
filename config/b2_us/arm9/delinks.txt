@@ -736,3 +736,73 @@ src/system/resort_layout.c:
     complete
     .text       start:0x0203950c end:0x020395ac
     .rodata     start:0x02092cd4 end:0x02092f4c
+
+lib/nitro/src/crypto/rc4.c:
+    .text       start:0x02039988 end:0x02039a80
+
+lib/nnsys/src/fnd/list.c:
+    complete
+    .text       start:0x0205ea3c end:0x0205eb50
+
+lib/nnsys/src/fnd/heapcommon.c:
+    complete
+    .text       start:0x0205eb50 end:0x0205ec18
+    .bss        start:0x02141a20 end:0x02141a30
+
+lib/nnsys/src/fnd/expheap.c:
+    complete
+    .text       start:0x0205ec18 end:0x0205f17c
+
+lib/nnsys/src/fnd/frameheap.c:
+    complete
+    .text       start:0x0205f17c end:0x0205f31c
+
+lib/nnsys/src/fnd/unitheap.c:
+    complete
+    .text       start:0x0205f31c end:0x0205f364
+
+lib/nnsys/src/fnd/allocator.c:
+    complete
+    .text       start:0x0205f364 end:0x0205f400
+    .rodata     start:0x020941b8 end:0x020941d8
+
+lib/nnsys/src/gfd/gfd_TexVramMan.c:
+    complete
+    .text       start:0x0205f400 end:0x0205f40c
+    .data       start:0x0209b1a8 end:0x0209b1b0
+
+lib/nnsys/src/gfd/gfd_PlttVramMan.c:
+    complete
+    .text       start:0x0205f40c end:0x0205f418
+    .data       start:0x0209b1b0 end:0x0209b1b8
+
+lib/nnsys/src/gfd/gfd_FrameTexVramMan.c:
+    complete
+    .text       start:0x0205f418 end:0x0205f638
+    .data       start:0x0209b1b8 end:0x0209b24c
+    .bss        start:0x02141a30 end:0x02141a34
+
+lib/nnsys/src/gfd/gfd_FramePlttVramMan.c:
+    complete
+    .text       start:0x0205f638 end:0x0205f728
+    .bss        start:0x02141a34 end:0x02141a40
+
+lib/nnsys/src/gfd/gfd_VramTransferManager.c:
+    complete
+    .text       start:0x0205f728 end:0x0205fa54
+    .rodata     start:0x020941d8 end:0x02094268
+    .bss        start:0x02141a40 end:0x02141a54
+
+lib/nnsys/src/gfd/gfdi_LinkedListVramMan_Common.c:
+    complete
+    .text       start:0x0205fa54 end:0x0205fcd4
+
+lib/nnsys/src/gfd/gfd_LinkedListTexVramMan.c:
+    .text       start:0x0205fcd4 end:0x0205fef8
+    .rodata     start:0x02094268 end:0x02094298
+    .bss        start:0x02141a54 end:0x02141a70
+
+lib/nnsys/src/gfd/gfd_LinkedListPlttVramMan.c:
+    complete
+    .text       start:0x0205fef8 end:0x02060024
+    .bss        start:0x02141a70 end:0x02141a84

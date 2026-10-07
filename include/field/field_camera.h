@@ -80,6 +80,7 @@ GameEvent *EventEvCameraShake_Create(GameSystem *gsys, const FieldEvCameraShake 
 void FieldCamera_CalcTransform(FieldCamera *camera, u16 heldKeys);
 G3DCamera *FieldCamera_GetG3DCamera(FieldCamera *camera);
 void FieldCamera_CoordsGetEyeOffset(FieldCamera *camera, VecFx32 *offset);
+void FieldCamera_CoordsGetEye(FieldCamera *camera, VecFx32 *eye);
 void FieldCamera_CoordsGetTarget(FieldCamera *camera, VecFx32 *target);
 void FieldCamera_CoordsGetTargetOffset(FieldCamera *camera, VecFx32 *offset);
 void FieldCamera_CoordsSetEyeOffset(FieldCamera *camera, const VecFx32 *offset);
@@ -116,7 +117,9 @@ void FieldCamera_SetBind(FieldCamera *camera, void *bind);
 void FieldCamera_EVCameraInit(FieldCamera *camera);
 void FieldCameraAnm_EnsureInitDone(FieldCamera *camera);
 void FieldCameraAnm_SetAnimation(FieldCamera *camera, const FieldEvCameraAnimationSetup *setup, u16 frames);
+void FieldCameraAnm_SetAnimationRealTime(FieldCamera *camera, const FieldEvCameraAnimationSetup *setup, u16 frames);
 void FieldCameraAnm_SetReturnAnimation(FieldCamera *camera, const FieldEvCameraAnimationFlags *flags, u16 frames);
+void FieldCameraAnm_SetLoadDefaultsAnimation(FieldCamera *camera, u16 frames);
 BOOL FieldCamera_IsAnimating(FieldCamera *camera);
 void FieldCameraAnm_EVCameraEnd(FieldCamera *camera);
 // Whether the no-grid mapper's camera areas move the camera

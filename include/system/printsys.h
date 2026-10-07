@@ -63,6 +63,18 @@ static inline void PrintWindow_Print(PrintWindow *printWindow, PrintQueue *queue
     printWindow->flushPending = TRUE;
 }
 
+// PrintWindow_Print in the string's own colors
+static inline void PrintWindow_PrintNoColor(PrintWindow *printWindow, PrintQueue *queue, s16 x, s16 y,
+                                            const StrBuf *strbuf, Font *font) {
+    func_02021c54(queue, BmpWin_GetBitmap(printWindow->window), x, y, strbuf, font);
+    printWindow->flushPending = TRUE;
+}
+
+// Whether the window's text has been sent to VRAM
+static inline BOOL PrintWindow_IsPrinted(PrintWindow *printWindow) {
+    return printWindow->flushPending ? FALSE : TRUE;
+}
+
 static inline void PrintWindow_Flush(PrintWindow *printWindow, PrintQueue *queue) {
     if (printWindow->flushPending && !func_02021c1c(queue, BmpWin_GetBitmap(printWindow->window))) {
         BmpWin_FlushChar(printWindow->window);
@@ -115,9 +127,9 @@ u8 GFL_StrCmdCountLinesUntilWordSetIndex(const StrBuf *strbuf, u8 index);
 u8 GFL_StrCmdGetStrWidthUntilWordSetIndex(const StrBuf *strbuf, u8 index, Font *font, u32 spacing);
 u16 GFL_StrCmdGetIdentChar(void);
 BOOL GFL_StrCmdIsWordSet(const u16 *cmd);
-u8 GFL_StrCmdGetCommandCategory(const u16 *cmd);
+u32 GFL_StrCmdGetCommandCategory(const u16 *cmd);
 void GFL_StrCmdBuild(StrBuf *strbuf, u32 category, u16 index, u8 paramCount, const u16 *params);
-u8 GFL_StrCmdGetCommandIndex(const u16 *cmd);
+u32 GFL_StrCmdGetCommandIndex(const u16 *cmd);
 u16 GFL_WordSetGetCommandParameter(const u16 *cmd, u32 index);
 const u16 *GFL_StrCmdSkipCommand(const u16 *cmd);
 

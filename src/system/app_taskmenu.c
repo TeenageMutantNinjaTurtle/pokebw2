@@ -262,9 +262,11 @@ static void AppTaskMenu_PulseCursorColor(u16 *angle, GXRgb *color, u8 bg, u8 pal
     *color = GX_RGB(r, g, b);
 
     if (bg <= MAIN_BG_LAST) {
-        gfxUploadAsync(NNS_GFD_DST_2D_BG_PLTT_MAIN, palette * 0x20 + PULSE_COLOR_OFFSET, color, sizeof(GXRgb));
+        NNS_GfdRegisterNewVramTransferTask(NNS_GFD_DST_2D_BG_PLTT_MAIN, palette * 0x20 + PULSE_COLOR_OFFSET, color,
+                                           sizeof(GXRgb));
     } else {
-        gfxUploadAsync(NNS_GFD_DST_2D_BG_PLTT_SUB, palette * 0x20 + PULSE_COLOR_OFFSET, color, sizeof(GXRgb));
+        NNS_GfdRegisterNewVramTransferTask(NNS_GFD_DST_2D_BG_PLTT_SUB, palette * 0x20 + PULSE_COLOR_OFFSET, color,
+                                           sizeof(GXRgb));
     }
 }
 
@@ -293,9 +295,11 @@ static void AppTaskMenuWin_PulseColor(u16 *angle, GXRgb *color, u8 bg, u8 palett
     *color = GX_RGB(r, g, b);
 
     if (bg <= MAIN_BG_LAST) {
-        gfxUploadAsync(NNS_GFD_DST_2D_BG_PLTT_MAIN, palette * 0x20 + PULSE_COLOR_OFFSET, color, sizeof(GXRgb));
+        NNS_GfdRegisterNewVramTransferTask(NNS_GFD_DST_2D_BG_PLTT_MAIN, palette * 0x20 + PULSE_COLOR_OFFSET, color,
+                                           sizeof(GXRgb));
     } else {
-        gfxUploadAsync(NNS_GFD_DST_2D_BG_PLTT_SUB, palette * 0x20 + PULSE_COLOR_OFFSET, color, sizeof(GXRgb));
+        NNS_GfdRegisterNewVramTransferTask(NNS_GFD_DST_2D_BG_PLTT_SUB, palette * 0x20 + PULSE_COLOR_OFFSET, color,
+                                           sizeof(GXRgb));
     }
 }
 

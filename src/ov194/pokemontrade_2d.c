@@ -781,8 +781,8 @@ static void func_ov194_021c3904(PokemonTradeWork *wk, BoxSaveAccessor *boxes, in
             slot += box * 30;
             func_0204c178(wk->icons[index][i], &screenPos, CLACT_VRAM_SUB);
             if (async == TRUE && screenPos.x >= -16 && screenPos.x <= 272) {
-                if (!gfxUploadAsync(35, proxy.vramLocation.baseAddrOfVram[NNS_G2D_VRAM_TYPE_2DSUB],
-                                    wk->iconCharData + slot * 0x200, 0x200)) {
+                if (!NNS_GfdRegisterNewVramTransferTask(35, proxy.vramLocation.baseAddrOfVram[NNS_G2D_VRAM_TYPE_2DSUB],
+                                                        wk->iconCharData + slot * 0x200, 0x200)) {
                     sys_memcpy(wk->iconCharData + slot * 0x200,
                                (void *)(HW_DB_OBJ_VRAM + proxy.vramLocation.baseAddrOfVram[NNS_G2D_VRAM_TYPE_2DSUB]),
                                0x200);

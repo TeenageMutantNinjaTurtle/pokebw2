@@ -213,7 +213,7 @@ static BOOL GFL_HeapDebugCopyFileName(char *dest, const char *file) {
 static void GFL_HeapDumpAllocFailure(HeapID heapId, u32 size, const char *file, u16 line) {
     NNSFndHeapHandle heap = GFL_HeapGetValidHeapBase(heapId);
 
-    HeapBase_GetFreeSize(heap);
+    NNS_FndGetTotalFreeSizeForExpHeap(heap);
     HeapBase_GetHighestAllocatableSize(heap, 4);
     GFL_HeapDumpOnFailure(heapId);
 }
@@ -233,7 +233,7 @@ static void GFL_HeapDebugNotifyTrackedFree(void *ptr) {
 
     GFL_HeapGetAllocationCount(heapId);
     GFL_HeapDebugCopyFileName(file, info->file);
-    HeapBlock_GetSize((HeapBlockHeader *)ptr - 1);
+    NNS_FndGetSizeForMBlockExpHeap((HeapBlockHeader *)ptr - 1);
     GFL_HeapGetFreeSizeCore(heapId);
 }
 
@@ -266,7 +266,7 @@ static void GFL_HeapDumpProc(void *block, NNSFndHeapHandle heap, u32 param) {
     int pad;
     int i;
 
-    sHeapDumpState.size = HeapBlock_GetSize(block);
+    sHeapDumpState.size = NNS_FndGetSizeForMBlockExpHeap(block);
     sHeapDumpState.ptr = ptr;
     if (!GFL_HeapDebugCopyFileName(file, info->file)) {
         sys_memcpy("SYSTEM ALLOC", file, 13);

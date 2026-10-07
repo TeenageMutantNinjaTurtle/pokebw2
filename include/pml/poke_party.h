@@ -82,6 +82,8 @@ u32 GetStatusCond(PartyPkm *pkm);
 void PokeParty_SetStatusCond(PartyPkm *pkm, u32 status);
 u32 PokeParty_GetSex(PartyPkm *pkm);
 BOOL PokeParty_CheckAnyRibbon(PartyPkm *pkm);
+// Whether the Pokémon can learn the move at moveIndex of a move tutor's list, by its species and form
+BOOL PokeParty_CheckMoveTutorPaid(PartyPkm *pkm, u32 moveIndex, u32 tutor);
 BOOL PokeParty_IsRare(PartyPkm *pkm);
 // Decrypt a Pokémon for a series of reads and writes, and return whether it was encrypted, which is what the
 // encryption afterwards takes
@@ -198,6 +200,10 @@ void PokeParty_ChangeForme(PartyPkm *pkm, u16 forme);
 // The form of Arceus for a plate, and of Genesect for a drive
 u16 _getTypeForPlate(u16 item);
 u32 func_0201ef8c(u16 item);
+// The form, or 0 if the species has fewer forms. Species 650 counts as having two
+u8 PML_PkmSanitizeForme(u16 species, u8 form);
+// The form a sprite shows: 0 for the four species whose forms share one sprite
+u8 func_0201efe4(u16 species, u8 form);
 // Teaches a move, and returns 0xffff when all four slots are full
 u16 PokeParty_LearnMove(PartyPkm *pkm, u16 move);
 // Replaces the last move

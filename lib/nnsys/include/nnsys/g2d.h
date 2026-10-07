@@ -101,10 +101,24 @@ static inline BOOL NNS_G2dCellDataBankHasVramTransferData(const NNSG2dCellDataBa
     return bank->pVramTransferData != NULL;
 }
 
+// A multi-cell: its nodes, each a cell animation at a position
+typedef struct {
+    u16 animSequenceIdx;
+    NNSG2dSVec2 pos;
+    // The index of the node's cell animation in bits 8 to 15
+    u16 nodeAttr;
+} NNSG2dMultiCellHierarchyData;
+
+typedef struct {
+    u16 numNodes;
+    u16 numCellAnim;
+    NNSG2dMultiCellHierarchyData *pHierDataArray;
+} NNSG2dMultiCellData;
+
 typedef struct NNSG2dMultiCellDataBank {
     u16 numMultiCellData;
     u16 pad;
-    void *pMultiCellDataArray;
+    NNSG2dMultiCellData *pMultiCellDataArray;
     void *pHierarchyDataArray;
     void *pStringBank;
     NNSG2dUserExDataBlock *pExtendedData;
@@ -136,7 +150,30 @@ NNS_G2dGetUserExCellAttrBankFromMCBank(const NNSG2dMultiCellDataBank *bank) {
     return NULL;
 }
 
-// Animations: banks of sequences of frames
+// Animations: banks of sequences of frames. A frame's content is an index, an NNSG2dAnimDataSRT or an
+// NNSG2dAnimDataT, by the sequence's animType (its low 16 bits)
+enum {
+    NNS_G2D_ANIMELEM_INDEX,
+    NNS_G2D_ANIMELEM_INDEX_SRT,
+    NNS_G2D_ANIMELEM_INDEX_T,
+};
+
+typedef struct {
+    u16 index;
+    u16 rotZ;
+    fx32 sx;
+    fx32 sy;
+    s16 px;
+    s16 py;
+} NNSG2dAnimDataSRT;
+
+typedef struct {
+    u16 index;
+    u16 pad;
+    s16 px;
+    s16 py;
+} NNSG2dAnimDataT;
+
 typedef struct {
     void *pContent;
     u16 frames;
@@ -246,8 +283,15 @@ typedef struct {
     NNSG2dAnimController animCtrl;
     u32 unk30;
     NNSG2dMultiCellInstance multiCellInstance;
-    u8 unk44[0x20];
+    const NNSG2dMultiCellDataBank *pMultiCellDataBank;
+    u8 srtCtrl[0x1c];
 } NNSG2dMultiCellAnimation;
+
+// A cell animation of a multi-cell instance's array
+typedef struct {
+    NNSG2dCellAnimation cellAnim;
+    u32 unk58;
+} NNSG2dMCCellAnimation;
 
 // Prepare the contents of a loaded graphics file in place: NNS_G2dGetUnpackedBGCharacterData,
 // NNS_G2dGetUnpackedCharacterData, NNS_G2dGetUnpackedScreenData and NNS_G2dGetUnpackedPaletteData, and the rest. Each

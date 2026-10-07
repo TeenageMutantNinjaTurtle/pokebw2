@@ -1,5 +1,6 @@
 #include "types.h"
 #include "app/musical/mus_item_draw.h"
+#include "constants/arc.h"
 #include "field/musical.h"
 #include "gfl/arc.h"
 #include "gfl/blact.h"
@@ -12,8 +13,7 @@
 // Overlay 209's mus_item_draw.c: the props of the musical, drawn as billboard actors. A prop's texture comes from
 // ARCID_MUSICAL_ITEM, its size, offset and the positions it fits from overlay 210's table
 
-// The props' textures, then two of other graphics. Out of range is drawn as prop 100
-#define ARCID_MUSICAL_ITEM 44
+// ARCID_MUSICAL_ITEM holds the props' textures, then two other files. Out of range is drawn as prop 100
 
 static u16 MusItemDraw_GetTexFileId(int itemId);
 static void MusItemDraw_GetFaceSize(MusItemDraw *item, u8 *width, u8 *height);
@@ -48,7 +48,7 @@ MusItemDrawSys *MusItemDraw_InitSystem(BlActScene *blact, u16 count, HeapID heap
 void MusItemDraw_TermSystem(MusItemDrawSys *sys) {
     int i;
 
-    gfxUploadQueueReset();
+    GfdClearVramTransferQueue();
     func_ov210_021eef64(sys->itemData);
     for (i = 0; i < sys->count; i++) {
         if (sys->items[i].active == TRUE) {
@@ -240,7 +240,7 @@ void MusItemDraw_SetShadowPalette(MusItemDrawSys *sys, MusItemDraw *item) {
 
         func_0204e7e8(sys->blact, item->material, &plttAddr);
         func_0204e820(sys->blact, item->material, &plttKey);
-        gfxUploadAsync(1, plttAddr, sys->shadowPalette, NNS_GfdGetPlttKeySize(plttKey));
+        NNS_GfdRegisterNewVramTransferTask(1, plttAddr, sys->shadowPalette, NNS_GfdGetPlttKeySize(plttKey));
         item->shadow = TRUE;
     }
 }

@@ -367,10 +367,10 @@ static void FieldTerrainTexPatAnimation_Update(FieldTerrainTexPatAnimation *anim
                 GFBTPController_GetValue(&animation->gfbtpController, i, FX_Whole(animation->frameCounters[i]));
 
             if (value.textureIndex != animation->currentValues[i].textureIndex || animation->isLoaded) {
-                gfxUploadAsync(0, animation->textureDestVRAMAddresses[i],
-                               FieldTerrainTexPatAnimation_GetTextureAddress(animation->privateTextures,
-                                                                             value.textureIndex),
-                               animation->textureSizes[i]);
+                NNS_GfdRegisterNewVramTransferTask(
+                    0, animation->textureDestVRAMAddresses[i],
+                    FieldTerrainTexPatAnimation_GetTextureAddress(animation->privateTextures, value.textureIndex),
+                    animation->textureSizes[i]);
             }
             animation->currentValues[i] = value;
         }

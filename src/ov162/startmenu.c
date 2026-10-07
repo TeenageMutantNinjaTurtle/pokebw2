@@ -395,7 +395,7 @@ static BOOL StartMenu_Exit(GameProc *proc, u32 *state, void *param, void *work) 
         break;
     case ITEM_MB_PARENT:
         mbParentParam = GFL_HeapAllocate(HEAPID_USER, sizeof(MBParentParam), TRUE, "startmenu.c", 605);
-        mbParentParam->unk0 = 1;
+        mbParentParam->startMenu = TRUE;
         GCTX_ProcMgrReplaceProc(OVERLAY_ID(181), &MB_PARENT_PROC_FUNCTIONS, mbParentParam);
         break;
     case ITEM_UNOVA_LINK:

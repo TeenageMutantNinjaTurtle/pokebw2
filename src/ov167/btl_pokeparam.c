@@ -485,7 +485,7 @@ void Move_UpdateID(BattleMon *mon, u8 index, u16 move, u8 maxPP, BOOL updateCurr
     MoveWork_UpdateNumber(&mon->moves[index], move, maxPP, updateCurrent);
 }
 
-BOOL MoveIsUsable(BattleMon *mon, u16 move) {
+BOOL MoveIsUsable(const BattleMon *mon, u16 move) {
     u32 i;
 
     for (i = 0; i < 4; i++) {
@@ -571,7 +571,7 @@ void func_ov167_021bb054(BattleMon *mon) {
     mon->core.illusion = 0;
 }
 
-PartyPkm *func_ov167_021bb064(BattleMon *mon) {
+PartyPkm *func_ov167_021bb064(const BattleMon *mon) {
     PartyPkm *disguise;
 
     disguise = mon->core.illusionDisguise;
@@ -619,16 +619,16 @@ s32 RawBattleMonStat(const BattleMon *mon, u32 stat) {
     }
 }
 
-void func_ov167_021bb10c(BattleMon *mon, u16 *stats) {
+void func_ov167_021bb10c(BattleMon *mon, BattleMonLevelUp *stats) {
     u8 wasEncrypted;
 
     wasEncrypted = PokeParty_DecryptPkm(mon->core.src);
-    stats[1] = PokeParty_GetParam(mon->core.src, PKM_PARAM_MAX_HP, NULL);
-    stats[2] = PokeParty_GetParam(mon->core.src, PKM_PARAM_ATTACK, NULL);
-    stats[3] = PokeParty_GetParam(mon->core.src, PKM_PARAM_DEFENSE, NULL);
-    stats[4] = PokeParty_GetParam(mon->core.src, PKM_PARAM_SP_ATTACK, NULL);
-    stats[5] = PokeParty_GetParam(mon->core.src, PKM_PARAM_SP_DEFENSE, NULL);
-    stats[6] = PokeParty_GetParam(mon->core.src, PKM_PARAM_SPEED, NULL);
+    stats->hp = PokeParty_GetParam(mon->core.src, PKM_PARAM_MAX_HP, NULL);
+    stats->attack = PokeParty_GetParam(mon->core.src, PKM_PARAM_ATTACK, NULL);
+    stats->defense = PokeParty_GetParam(mon->core.src, PKM_PARAM_DEFENSE, NULL);
+    stats->spAttack = PokeParty_GetParam(mon->core.src, PKM_PARAM_SP_ATTACK, NULL);
+    stats->spDefense = PokeParty_GetParam(mon->core.src, PKM_PARAM_SP_DEFENSE, NULL);
+    stats->speed = PokeParty_GetParam(mon->core.src, PKM_PARAM_SPEED, NULL);
     PokeParty_EncryptPkm(mon->core.src, wasEncrypted);
 }
 
