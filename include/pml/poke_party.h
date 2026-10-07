@@ -90,6 +90,8 @@ void PokeParty_EncryptPkm(PartyPkm *pkm, BOOL wasEncrypted);
 u32 PML_PkmGetParam(BoxPkm *pkm, u32 param, void *buffer);
 BOOL PML_PkmDecrypt(BoxPkm *pkm);
 u32 PML_PkmGetLevel(BoxPkm *pkm);
+// Whether the Pokémon's original trainer is someone other than the player
+BOOL PML_UtilCheckForeignOT(BoxPkm *pkm, PlayerInfo *playerInfo);
 void PML_PkmChangeForme(BoxPkm *pkm, u32 forme);
 BOOL hasPokemonChangedForm(BoxPkm *pkm);
 void PML_PkmReEncrypt(BoxPkm *pkm, BOOL wasEncrypted);
@@ -108,6 +110,11 @@ BOOL pokeHasPkrs(PartyPkm *pkm);
 BoxPkm *func_0201d620(PartyPkm *pkm);
 // Marks the Pokémon as met in a fateful encounter, at the location and on the date
 void setFatefulEncounterPkmData(BoxPkm *pkm, u16 location, u32 year, u32 month, u32 day);
+// Whether the Pokémon came by one of four kinds of special transfer for the player
+BOOL special_transfers(BoxPkm *pkm, u32 kind, PlayerInfo *playerInfo);
+// The message file of a location's name, and the name's index in it
+u32 func_02035f5c(u32 location);
+u32 func_02035fac(u32 location);
 // Allocates a party Pokémon made from a boxed one
 void PML_PkmSetParam(BoxPkm *pkm, u32 param, u32 value);
 // The size of a Pokémon's data
