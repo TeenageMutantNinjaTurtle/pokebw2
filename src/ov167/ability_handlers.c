@@ -4,6 +4,7 @@
 #include "battle/btl_event.h"
 #include "battle/btl_field.h"
 #include "battle/btl_handler.h"
+#include "battle/btl_handler_work.h"
 #include "battle/btl_item.h"
 #include "battle/btl_main.h"
 #include "battle/btl_calc.h"
@@ -562,7 +563,7 @@ const BattleEventHandlerEntry *EventAddSwarm(u32 *priority) {
     return data_ov167_021d76c4;
 }
 
-void CommonLowHPBoostAbility(BtlServerFlow *flow, u32 monId, u32 type) {
+void CommonLowHPBoostAbility(BtlServerFlow *flow, u8 monId, u32 type) {
     BattleMon *mon;
     u32 threshold;
     u32 divisor;
@@ -631,7 +632,7 @@ BOOL func_ov167_021be5c4(BtlServerFlow *flow, u8 monId, u8 *mons, u32 ability) {
     return FALSE;
 }
 
-BOOL CheckFlowerGiftEnablePokemon(BtlServerFlow *flow, u32 monId) {
+BOOL CheckFlowerGiftEnablePokemon(BtlServerFlow *flow, u8 monId) {
     return GetBattleMonSpecies(GetBattleMon(flow, monId)) == 0x1a5;
 }
 
@@ -656,7 +657,7 @@ void HandlerFlowerGiftGotAbility(BattleEventItem *item, BtlServerFlow *flow, u8 
     }
 }
 
-void CommonFlowerGiftFormChange(BattleEventItem *item, BtlServerFlow *flow, u32 monId, u8 sunny, u8 cause) {
+void CommonFlowerGiftFormChange(BattleEventItem *item, BtlServerFlow *flow, u8 monId, u8 sunny, u8 cause) {
     BattleMon *mon;
     BattleHandlerChangeFormParam *work;
 
@@ -1143,13 +1144,13 @@ void HandlerAddStatusFailedCommon(BattleEventItem *item, BtlServerFlow *flow, u8
     CommonAddStatusFailed(item, flow, monId, work, 0xd2);
 }
 
-void CommonAbilityCureStatus(BtlServerFlow *flow, u32 monId, u32 status) {
+void CommonAbilityCureStatus(BtlServerFlow *flow, u8 monId, u32 status) {
     if (BattleEventVar_GetValue(2) == monId) {
         CommonAbilityCureStatusCore(flow, monId, status);
     }
 }
 
-void CommonAbilityCureStatusCore(BtlServerFlow *flow, u32 monId, u32 status) {
+void CommonAbilityCureStatusCore(BtlServerFlow *flow, u8 monId, u32 status) {
     BattleMon *mon;
     BattleHandlerCureConditionParam *work;
 
@@ -1253,7 +1254,7 @@ const BattleEventHandlerEntry *EventAddRainDish(u32 *priority) {
     return data_ov167_021d76f4;
 }
 
-void CommonWeatherRecoveryAbility(BtlServerFlow *flow, u32 monId, u32 weather) {
+void CommonWeatherRecoveryAbility(BtlServerFlow *flow, u8 monId, u32 weather) {
     BattleMon *mon;
     BattleHandlerRecoverHPParam *work;
 
@@ -1596,7 +1597,7 @@ void CommonContactStatusAbility(BtlServerFlow *flow, u32 monId, u32 status, Batt
             param->popup = 1;
             param->condition = status;
             param->value = condition;
-            param->unk0c = 0;
+            param->showFail = 0;
             param->targetIndex = BattleEventVar_GetValue(3);
             BattleHandler_PopWork(flow, param);
         }
@@ -1705,7 +1706,7 @@ void HandlerSynchronize(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s3
                 } else {
                     func_ov167_021bd5d4(status, mon, &param->value);
                 }
-                param->unk0c = 1;
+                param->showFail = 1;
                 BattleHandler_PopWork(flow, param);
                 BattleHandler_PushRun(flow, 3, monId);
             }
@@ -2125,7 +2126,7 @@ BOOL CommonDamageRecoverCheck(BtlServerFlow *flow, u32 monId, u32 type) {
     return FALSE;
 }
 
-void CommonTypeRecoverHP(BtlServerFlow *flow, u32 monId, u32 divisor) {
+void CommonTypeRecoverHP(BtlServerFlow *flow, u8 monId, u32 divisor) {
     BattleMon *mon;
     BattleHandlerRecoverHPParam *work;
     BattleHandlerMessageParam *message;
@@ -2149,7 +2150,7 @@ void CommonTypeRecoverHP(BtlServerFlow *flow, u32 monId, u32 divisor) {
     BattleEventVar_RewriteValue(0x51, 1);
 }
 
-void CommonTypeNoEffectRankUp(BtlServerFlow *flow, u32 monId, u32 stat, u32 amount) {
+void CommonTypeNoEffectRankUp(BtlServerFlow *flow, u8 monId, u32 stat, u32 amount) {
     BattleMon *mon;
     BattleHandlerStatChangeParam *work;
     BattleHandlerMessageParam *message;
@@ -2683,7 +2684,7 @@ void HandlerForecastAbilityOff(BattleEventItem *item, BtlServerFlow *flow, u8 mo
     }
 }
 
-void CommonForecastOff(BattleEventItem *item, BtlServerFlow *flow, u32 monId) {
+void CommonForecastOff(BattleEventItem *item, BtlServerFlow *flow, u8 monId) {
     BattleMon *mon;
     BattleHandlerChangeFormParam *work;
 
@@ -2700,7 +2701,7 @@ void CommonForecastOff(BattleEventItem *item, BtlServerFlow *flow, u32 monId) {
     }
 }
 
-void CommonForecastFormChange(BtlServerFlow *flow, u32 monId, u32 weather) {
+void CommonForecastFormChange(BtlServerFlow *flow, u8 monId, u32 weather) {
     BattleMon *mon;
     BattleHandlerChangeFormParam *work;
     u8 currentForm;

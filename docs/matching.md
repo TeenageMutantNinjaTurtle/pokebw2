@@ -38,6 +38,10 @@ Same instructions, registers swapped.
   variable, it goes to that variable's register.
 - The operands of `*` are loaded in source order, so a multiply whose registers are swapped has its operands swapped
   in the source.
+- The terms of a three-term `|` chain are not loaded in source order: `a | b | c` loads `c`, then `a`, then `b`.
+  `btl_server_cmd.c`'s command encoder loads `args[2]`, `args[1]`, `args[0]` for each packed argument, which
+  `((args[1] & 0x1f) << 5) | ((args[0] & 0x1f) << 10) | (args[2] & 0x1f)` gives, while its four- and five-term chains
+  match in field order. Try swapping the first two terms when the loads of a packing come out swapped.
 - A product assigned to a variable of its own goes to a new register, with its operand copied there first
   (`mov r2, r1; mul r2, r0`), while a product used in place multiplies into the operand's register. The Join Avenue
   shop's arrow is placed with `row = ...; y = row * rowHeight; pos.y = y + 22;`.
@@ -76,7 +80,10 @@ Same code, other `sp` offsets or frame size.
   comparison only matches with the speed function returning `u16` into `u16` locals: a spilled `u16` is reloaded after
   the call's stack argument is stored, while a spilled `u32` is reloaded before it.
 - Structs passed by value go in registers and on the stack. Code that copies a struct to the stack and passes its
-  address takes a pointer to a local copy.
+  address takes a pointer to a local copy. A struct local keeps its stack slot even when it only passes through, so a
+  frame larger than the locals explain holds one: Guard Spec.'s effect in `btl_server_flow_sub.c` stores
+  `SetConditionTurns`'s `BattleCondition` in a local before passing it on, and `BattleHandler_AddSideEffect` keeps its
+  copy's address in a register to pass the copy by value after passing its address.
 
 - A function that declares every local first and assigns them below gets other registers and stack slots than one
   that initializes them in their declarations (palanm.c's `MaskPalettes` sets `mask = 0` after the count for its
@@ -164,6 +171,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   inline helper and passed to an `s16` parameter, as bmp_menulist.c's `RowY` is in `BmpMenuList_EraseCursor`.
 - A 4-bit color field masked with `& 0x1f` before it is shifted into a print color (`lsl #27; lsr #17` for the text
   color) went through `PRINT_COLOR`, which masks each component.
+  them is for a wider parameter. The other way round, a parameter passed on to a `u8` parameter without shifts is a
+  `u8` itself: `GetBattleMon` hands its ID straight to `GetPokeParam`, so both take a `u8`, and so do the ability
+  helpers that pass their mon's ID to `GetBattleMon`.
 - A sum that the original truncates to `s16` before comparing it was stored in an `s16` local, as the edges of the
   Join Avenue's balloons are; casting it in the comparison gives the same code but is not needed.
 - A value narrowed again after it is clamped was clamped with a conditional expression, whose `int` result is
@@ -347,6 +357,8 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - Float arithmetic on a literal passes the literal first, as in `_fmul(4096.0f, x)` for `x * FX32_ONE`, whatever the
   source order. A constant kept in a local variable, which is reloaded from the literal pool at each use, keeps its
   place in the source instead, so `col * pixels` with `f32 pixels = 96.0f / 18;` passes `col` first.
+- NitroSDK's `FX32_CONST(x)` names `x` three times, in its test and in both branches, so a call written inside it is
+  made three times. The game passes a local, as the capture rate in `btl_server_flow_sub.c` does.
 - A literal in a compound assignment keeps its place: `y = scale.y / (f32)FX32_ONE; y += 0.01f;` calls
   `_fadd(y, 0.01f)`, where `y = scale.y / (f32)FX32_ONE + 0.01f;` calls `_fadd(0.01f, y)`, as the Pokédex cry page
   stretches its Pokémon.
@@ -379,6 +391,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   and moving one object can reorder others. `tools/scripts/rodata_order.py` predicts the layout for a declaration order
   and tries the orders of the objects given with `--permute`; `intro_graphic.c` matches only with its light setups
   declared after the function whose BG setups are local initializers.
+- The linker starts each `.rodata` section on a 4-byte boundary, whatever the section's own alignment, so a 6-byte
+  `u16` table followed by a `u8` initializer leaves 2 bytes of padding between them, as at the start of
+  `btl_server_flow.c`'s `.rodata`. `scrcmd_ochiba.c`'s 150-byte and 342-byte tables, both 2-aligned, end where only
+  this layout puts them.
 - The list that is heapsorted holds the file's `.data` tables as well as its `.rodata` objects, so a `.data` table's
   declaration reorders `.rodata` objects of the same size, and `rodata_order.py` predicts the layout only when it is
   given them too (string literals don't count). `worldtrade_search.c`'s four BG setups come out in the game's order

@@ -2,6 +2,7 @@
 #include "app/ov174.h"
 #include "app/pokemon_trade.h"
 #include "battle/battle_proc.h"
+#include "battle/btl_net.h"
 #include "battle/btl_setup.h"
 #include "constants/pokemon.h"
 #include "constants/sound.h"

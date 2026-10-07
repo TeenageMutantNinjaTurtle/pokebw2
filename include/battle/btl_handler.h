@@ -4,9 +4,25 @@
 #include "types.h"
 #include "battle/btl_action.h"
 #include "battle/btl_action_order.h"
+#include "battle/btl_handler_work.h"
 #include "battle/btl_pokeparam.h"
 #include "battle/btl_server.h"
 #include "struct_decls.h"
+
+// The start of every handler command's parameters
+typedef struct {
+    u32 command : 8;
+    u32 monId : 5;
+    // Rounded up to 4 bytes
+    u32 size : 10;
+    u32 unk23 : 1;
+    // Skips the command when the previous one failed
+    u32 checkPrevResult : 1;
+    // Skips the command when the mon has fainted
+    u32 checkFainted : 1;
+    u32 unk26 : 1;
+    u32 unk27 : 5;
+} BattleHandlerHeader;
 
 struct BattleHandlerPopupParam {
     u32 unk00 : 8;
@@ -32,12 +48,12 @@ struct BattleHandlerString {
 typedef struct {
     u16 move;
     u16 originalMove;
-    u8 unk04;
-    u8 unk05;
+    PokeTypePair userType;
     u8 type;
     u8 unk07;
     u32 category;
-    u32 unk0C;
+    // How the move picks its targets, the move data's target type
+    u32 targetType;
     union {
         u32 raw;
         struct {
@@ -66,6 +82,17 @@ typedef struct {
     BtlFlowDamageEntry entries[6];
 } BtlFlowDamageList;
 
+// Where the move goes, and its effect
+struct BattleMoveEffectState {
+    u16 unk00;
+    u8 pos1;
+    u8 pos2;
+    u8 index;
+    u8 enabled : 1;
+    u8 unk05_1 : 1;
+    u8 unk05_2 : 6;
+};
+
 // How many times a move hits, and how its hits are checked
 typedef struct {
     u8 count;
@@ -79,8 +106,15 @@ typedef struct {
 // The experience one party mon gets for a faint
 typedef struct {
     u32 exp;
-    u8 unk4;
-    u8 unk5[6];
+    // Set when a traded mon or a Lucky Egg raised it
+    u8 boosted;
+    // The effort values it gained
+    u8 hp;
+    u8 attack;
+    u8 defense;
+    u8 speed;
+    u8 spAttack;
+    u8 spDefense;
     u8 unk0B;
 } BtlFlowExpEntry;
 
@@ -103,6 +137,21 @@ typedef struct {
     u8 clientIds[4];
     u8 unk05;
 } BtlFlowClientList;
+
+// One level of the flow's work, kept for each level of nested handler calls; the flow's pointers point into the
+// current one
+typedef struct {
+    // Mon sets in overlay 169's format
+    u8 monSets[7][0x48];
+    BattleMoveEffectState moveEffect;
+    BtlFlowMoveParam moveParams[2];
+    BtlFlowHitWork hitWork;
+    BtlFlowReactionList reactionLists[2];
+    BtlFlowDamageList damageLists[2];
+    u8 unk28C;
+    u8 unk28D;
+    u8 unk28E;
+} BtlFlowWorkFrame;
 
 struct BtlServerFlow {
     BtlServer *server;
@@ -136,7 +185,8 @@ struct BtlServerFlow {
     u8 unk785;
     u8 unk786;
     u8 unk787;
-    u8 unk788;
+    // The mons that strike a mon switching out, such as with Pursuit
+    u8 interruptCount;
     u8 unk789;
     u8 unk78A_0 : 1;
     u8 unk78A_1 : 1;
@@ -146,7 +196,8 @@ struct BtlServerFlow {
     u8 unk78A_5 : 1;
     u8 unk78A_6 : 1;
     u8 unk78A_7 : 1;
-    u8 unk78B[0x1e];
+    u8 interruptMonIds[6];
+    u8 unk791[0x18];
     // Per mon ID, cleared when the mon is revived
     u8 unk7A9[24];
     u8 unk7C1[24];
@@ -165,7 +216,8 @@ struct BtlServerFlow {
     void *unk868;
     BtlFlowDamageList *unk86C;
     BtlFlowDamageList *unk870;
-    u8 unk874[0x11f4];
+    BtlFlowWorkFrame frames[7];
+    u32 frameDepth;
     // The mons that came in this turn, in overlay 169's format
     u8 unk1A68[0x48];
     BtlFlowMoveParam *unk1AB0;
@@ -176,25 +228,16 @@ struct BtlServerFlow {
     BtlFlowExpEntry expEntries[6];
     BtlFlowUnk1B54 unk1B54;
     BtlActionState actionState;
-    u8 unk1D7C[0x1fc];
+    u8 unk1F70[8];
     u16 unk1F78;
     u8 unk1F7A[2];
     u32 unk1F7C;
-    u8 unk1F80[0xc];
-    u8 unk1F8C[0x60];
+    // How often the player's mons and their opponents hit each other for no effect, super or not very effectively
+    u16 unk1F80[6];
+    u32 unk1F8C[24];
     u8 unk1FEC[4];
-    u8 unk1FF0[0x144];
-};
-
-// Where the move goes, and its effect
-struct BattleMoveEffectState {
-    u16 unk00;
-    u8 pos1;
-    u8 pos2;
-    u8 index;
-    u8 enabled : 1;
-    u8 unk05_1 : 1;
-    u8 unk05_2 : 6;
+    u8 unk1FF0[0x140];
+    u32 unk2130;
 };
 
 struct BattleHandlerAbilityChangeParam {
@@ -211,6 +254,108 @@ struct BattleHandlerAbilityChangeParam {
     BattleHandlerString string;
 };
 
+struct BattleHandlerAddSideEffectParam {
+    BattleHandlerHeader header;
+    u32 effect;
+    BattleCondition cont;
+    u8 side;
+    BattleHandlerString string;
+};
+
+// A set of flags whose first byte is its size in bytes
+static inline BOOL BattleHandler_IsFlagSet(const u8 *flags, u32 index) {
+    u8 byte = (index >> 3) + 1;
+    u8 bit = index & 7;
+
+    if (byte < flags[0]) {
+        if (flags[byte] & (1 << bit)) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+    return FALSE;
+}
+
+struct BattleHandlerRemoveSideEffectParam {
+    BattleHandlerHeader header;
+    u8 effects[3];
+    u8 side;
+};
+
+struct BattleHandlerPosEffectParam {
+    BattleHandlerHeader header;
+    u32 effect;
+    u8 pos;
+    u32 args[4];
+    u8 argCount;
+};
+
+struct BattleHandlerUpdateMoveParam {
+    BattleHandlerHeader header;
+    u8 monIndex;
+    u8 slot;
+    u8 maxPP;
+    u8 updateCurrent;
+    u16 move;
+};
+
+struct BattleHandlerForceSwitchParam {
+    BattleHandlerHeader header;
+    u16 effect;
+    u8 targetIndex;
+    u8 forced : 4;
+    u8 ignoreLevel : 4;
+    BattleHandlerString string;
+};
+
+struct BattleHandlerEffectAtPosParam {
+    BattleHandlerHeader header;
+    u16 effect;
+    u8 pos1;
+    u8 pos2;
+    u16 reserve;
+    u8 reserved;
+    u8 hideMessageWindow;
+    BattleHandlerString string;
+};
+
+struct BattleHandlerDelayMoveDamageParam {
+    BattleHandlerHeader header;
+    u8 attackerIndex;
+    u8 targetIndex;
+    u16 move;
+};
+
+struct BattleHandlerSetStatStageParam {
+    BattleHandlerHeader header;
+    u8 monIndex;
+    u8 attack;
+    u8 defense;
+    u8 spAttack;
+    u8 spDefense;
+    u8 speed;
+    u8 accuracy;
+    u8 evasion;
+};
+
+// The stats it sets, as with Power Split and Guard Split
+struct BattleHandlerSetStatusParam {
+    BattleHandlerHeader header;
+    u16 attack;
+    u16 defense;
+    u16 spAttack;
+    u16 spDefense;
+    u16 speed;
+    u8 monIndex;
+    u8 setAttack : 1;
+    u8 setDefense : 1;
+    u8 setSpAttack : 1;
+    u8 setSpDefense : 1;
+    u8 setSpeed : 1;
+    u8 unk0f_5 : 3;
+    BattleHandlerString string;
+};
+
 struct BattleHandlerAddConditionParam {
     u32 unk00 : 8;
     u32 monIndex : 5;
@@ -219,10 +364,12 @@ struct BattleHandlerAddConditionParam {
     u32 unk24 : 8;
     u32 condition;
     BattleCondition value;
-    u8 unk0c;
-    u8 unk0d[2];
+    u8 showFail;
+    // Shows no message of its own when there's no string
+    u8 noMessage;
+    u8 skipItemReaction;
     u8 targetIndex;
-    u32 unk10;
+    u8 overwrite;
     BattleHandlerString string;
 };
 struct BattleHandlerAddFieldEffectParam {
@@ -318,7 +465,8 @@ struct BattleHandlerRecoverHPParam {
     u32 unk24 : 8;
     u16 amount;
     u8 targetIndex;
-    u8 unk07;
+    // Recovers without the checks for Heal Block and the like
+    u8 skipCheck;
     BattleHandlerString string;
 };
 
@@ -339,12 +487,13 @@ struct BattleHandlerDamageParam {
     BattleHandlerString string;
 };
 
-struct BattleHandlerDecrementPPParam {
-    u32 unk00;
+struct BattleHandlerPPParam {
+    BattleHandlerHeader header;
     u8 amount;
     u8 monIndex;
     u8 moveIndex;
-    u8 unk07 : 1;
+    // Changes the PP of the moves the mon has now rather than its original ones, as after Transform
+    u8 currentMoves : 1;
     u8 allowFainted : 1;
     u8 unk09 : 6;
     BattleHandlerString string;
@@ -558,7 +707,7 @@ struct BattleHandlerUseHeldItemParam {
 };
 
 void BattleHandler_StrClear(BattleHandlerString *string);
-BOOL BattleHandler_StrIsEnabled(BattleHandlerString *string);
+BOOL BattleHandler_StrIsEnabled(const BattleHandlerString *string);
 void BattleHandler_StrSetup(BattleHandlerString *string, u32 enabled, u16 message);
 void BattleHandler_AddArg(BattleHandlerString *string, u32 arg);
 void BattleHandler_AddSoundEffect(BattleHandlerString *string, u32 soundEffect);
@@ -567,63 +716,73 @@ void *BattleHandler_PushWork(BtlServerFlow *flow, u32 command, u32 monId);
 void BattleHandler_PushRun(BtlServerFlow *flow, u32 command, u32 monId);
 void BattleHandler_PopWork(BtlServerFlow *flow, void *work);
 u32 BattleHandler_Result(BtlServerFlow *handler);
-void BattleHandler_Execute(BtlServerFlow *handler);
+void BattleHandler_Execute(BtlServerFlow *flow, void *work);
+u32 func_ov167_021ac450(BtlServerFlow *flow);
+u8 func_ov167_021ac7ac(BtlServerFlow *handler, BattleHandlerHeader *param);
+u8 BattleHandler_AbilityPopupAdd(BtlServerFlow *handler, BattleHandlerHeader *param);
+u8 BattleHandler_RecoverHP(BtlServerFlow *handler, const BattleHandlerRecoverHPParam *param, u16 itemId);
+u8 BattleHandler_RecoverPP(BtlServerFlow *handler, const BattleHandlerPPParam *param, u16 itemId);
+u8 BattleHandler_CureCondition(BtlServerFlow *handler, struct BattleHandlerCureConditionParam *param, u32 context);
+u8 BattleHandler_AddCondition(BtlServerFlow *handler, const BattleHandlerAddConditionParam *param);
+u8 BattleHandler_StatChange(BtlServerFlow *handler, struct BattleHandlerStatChangeParam *param, u16 context);
+u8 BattleHandler_SetStatStage(BtlServerFlow *handler, const BattleHandlerSetStatStageParam *param);
+u8 BattleHandler_SetStatus(BtlServerFlow *handler, const BattleHandlerSetStatusParam *param);
+u8 BattleHandler_AddSideEffect(BtlServerFlow *handler, const BattleHandlerAddSideEffectParam *param);
+u8 BattleHandler_RemoveSideEffectCore(BtlServerFlow *handler, const BattleHandlerRemoveSideEffectParam *param);
+u8 func_ov167_021ad564(BtlServerFlow *handler, const BattleHandlerPosEffectParam *param);
+u8 BattleHandler_UpdateMove(BtlServerFlow *handler, const BattleHandlerUpdateMoveParam *param);
+u8 BattleHandler_DelayMoveDamage(BtlServerFlow *handler, const BattleHandlerDelayMoveDamageParam *param);
+u8 BattleHandler_ForceSwitch(BtlServerFlow *handler, const BattleHandlerForceSwitchParam *param);
+u8 BattleHandler_EffectAtPos(BtlServerFlow *handler, const BattleHandlerEffectAtPosParam *param);
 
-BOOL BattleHandler_SetTurnFlag(BtlServerFlow *handler, BattleHandlerFlagParam *param);
-BOOL BattleHandler_ResetTurnFlag(BtlServerFlow *handler, BattleHandlerFlagParam *param);
-BOOL BattleHandler_SetContinueFlag(BtlServerFlow *handler, BattleHandlerFlagParam *param);
-BOOL BattleHandler_ResetContinueFlag(BtlServerFlow *handler, BattleHandlerFlagParam *param);
-BOOL BattleHandler_InterruptAction(BtlServerFlow *handler, BattleHandlerInterruptParam *param);
+u8 BattleHandler_SetTurnFlag(BtlServerFlow *handler, BattleHandlerFlagParam *param);
+u8 BattleHandler_ResetTurnFlag(BtlServerFlow *handler, BattleHandlerFlagParam *param);
+u8 BattleHandler_SetContinueFlag(BtlServerFlow *handler, BattleHandlerFlagParam *param);
+u8 BattleHandler_ResetContinueFlag(BtlServerFlow *handler, BattleHandlerFlagParam *param);
+u8 BattleHandler_InterruptAction(BtlServerFlow *handler, BattleHandlerInterruptParam *param);
 u8 BattleHandler_InterruptMove(BtlServerFlow *handler, BattleHandlerInterruptParam *param);
-BOOL BattleHandler_SendLast(BtlServerFlow *handler, BattleHandlerInterruptParam *param);
-BOOL BattleHandler_SetString(BtlServerFlow *handler, BattleHandlerString *string);
-BOOL BattleHandler_AbilityPopupRemove(BtlServerFlow *handler, BattleHandlerPopupParam *param);
-BOOL BattleHandler_HideTurnCancel(BtlServerFlow *handler, BattleHandlerHideTurnParam *param);
-BOOL BattleHandler_RemoveMessageWindow(BtlServerFlow *handler);
-BOOL BattleHandler_ChangeForm(BtlServerFlow *handler, BattleHandlerChangeFormParam *param);
+u8 BattleHandler_SendLast(BtlServerFlow *handler, BattleHandlerInterruptParam *param);
+BOOL BattleHandler_SetString(BtlServerFlow *handler, const BattleHandlerString *string);
+u8 BattleHandler_AbilityPopupRemove(BtlServerFlow *handler, BattleHandlerPopupParam *param);
+u8 BattleHandler_HideTurnCancel(BtlServerFlow *handler, BattleHandlerHideTurnParam *param);
+u8 BattleHandler_RemoveMessageWindow(BtlServerFlow *handler, BattleHandlerHeader *header);
+u8 BattleHandler_ChangeForm(BtlServerFlow *handler, BattleHandlerChangeFormParam *param);
 u8 BattleHandler_Flinch(BtlServerFlow *handler, BattleHandlerFlinchParam *param);
-BOOL BattleHandler_SetWeight(BtlServerFlow *handler, BattleHandlerSetWeightParam *param);
-BOOL BattleHandler_Revive(BtlServerFlow *handler, BattleHandlerReviveParam *param);
-BOOL BattleHandler_SetCounter(BtlServerFlow *handler, BattleHandlerSetCounterParam *param);
-BOOL BattleHandler_CheckHeldItem(BtlServerFlow *handler, BattleHandlerCheckHeldItemParam *param);
-BOOL BattleHandler_UseHeldItem(BtlServerFlow *handler, BattleHandlerUseHeldItemParam *param);
-BOOL BattleHandler_ConsumeItem(BtlServerFlow *handler, BattleHandlerConsumeItemParam *param);
-BOOL BattleHandler_QuitBattle(BtlServerFlow *handler, BattleHandlerQuitBattleParam *param);
-BOOL BattleHandler_Switch(BtlServerFlow *handler, BattleHandlerSwitchParam *param);
-BOOL BattleHandler_AddFieldEffect(BtlServerFlow *handler, BattleHandlerAddFieldEffectParam *param);
-BOOL BattleHandler_RemoveFieldEffect(BtlServerFlow *handler, BattleHandlerRemoveFieldEffectParam *param);
+u8 BattleHandler_SetWeight(BtlServerFlow *handler, BattleHandlerSetWeightParam *param);
+u8 BattleHandler_Revive(BtlServerFlow *handler, BattleHandlerReviveParam *param);
+u8 BattleHandler_SetCounter(BtlServerFlow *handler, BattleHandlerSetCounterParam *param);
+u8 BattleHandler_CheckHeldItem(BtlServerFlow *handler, BattleHandlerCheckHeldItemParam *param);
+u8 BattleHandler_UseHeldItem(BtlServerFlow *handler, BattleHandlerUseHeldItemParam *param);
+u8 BattleHandler_ConsumeItem(BtlServerFlow *handler, BattleHandlerConsumeItemParam *param);
+u8 BattleHandler_QuitBattle(BtlServerFlow *handler, BattleHandlerQuitBattleParam *param);
+u8 BattleHandler_Switch(BtlServerFlow *handler, BattleHandlerSwitchParam *param);
+u8 BattleHandler_AddFieldEffect(BtlServerFlow *handler, BattleHandlerAddFieldEffectParam *param);
+u8 BattleHandler_RemoveFieldEffect(BtlServerFlow *handler, BattleHandlerRemoveFieldEffectParam *param);
 u8 BattleHandler_RecoverStatStage(BtlServerFlow *handler, BattleHandlerRecoverStatStageParam *param);
-BOOL BattleHandler_ResetStatStage(BtlServerFlow *handler, BattleHandlerResetStatStageParam *param);
-BOOL BattleHandler_Message(BtlServerFlow *handler, BattleHandlerMessageParam *param);
-BOOL BattleHandler_DecrementPP(BtlServerFlow *handler, BattleHandlerDecrementPPParam *param);
-BOOL BattleHandler_ForceUseItem(BtlServerFlow *handler, BattleHandlerForceUseItemParam *param);
-BOOL BattleHandler_BatonPass(BtlServerFlow *handler, BattleHandlerBatonPassParam *param);
-BOOL BattleHandler_IllusionBreak(BtlServerFlow *handler, BattleHandlerIllusionBreakParam *param);
-BOOL BattleHandler_SwapPoke(BtlServerFlow *handler, BattleHandlerSwapPokeParam *param);
+u8 BattleHandler_ResetStatStage(BtlServerFlow *handler, BattleHandlerResetStatStageParam *param);
+u8 BattleHandler_Message(BtlServerFlow *handler, BattleHandlerMessageParam *param);
+u8 BattleHandler_DecrementPP(BtlServerFlow *handler, BattleHandlerPPParam *param, u16 itemId);
+u8 BattleHandler_ForceUseItem(BtlServerFlow *handler, BattleHandlerForceUseItemParam *param);
+u8 BattleHandler_BatonPass(BtlServerFlow *handler, BattleHandlerBatonPassParam *param);
+u8 BattleHandler_IllusionBreak(BtlServerFlow *handler, BattleHandlerIllusionBreakParam *param);
+u8 BattleHandler_SwapPoke(BtlServerFlow *handler, BattleHandlerSwapPokeParam *param);
 u8 BattleHandler_ChangeWeather(BtlServerFlow *handler, BattleHandlerChangeWeatherParam *param);
-BOOL BattleHandler_GravityCheck(BtlServerFlow *handler, BattleHandlerGravityCheckParam *param);
-BOOL BattleHandler_Transform(BtlServerFlow *handler, BattleHandlerTransformParam *param);
-BOOL BattleHandler_SetItem(BtlServerFlow *handler, BattleHandlerSetItemParam *param);
-BOOL BattleHandler_SwapItem(BtlServerFlow *handler, BattleHandlerSwapItemParam *param);
-BOOL BattleHandler_Drain(BtlServerFlow *handler, BattleHandlerDrainParam *param);
-u8 func_ov167_021ac988(void *state, u8 monIndex);
-BOOL BattleHandler_Damage(BtlServerFlow *handler, BattleHandlerDamageParam *param);
-BOOL BattleHandler_ChangeHP(BtlServerFlow *handler, BattleHandlerChangeHPParam *param);
-BOOL BattleHandler_Faint(BtlServerFlow *handler, BattleHandlerFaintParam *param);
-u8 func_ov167_021aca54(void *state, u8 monIndex);
-u8 func_ov167_021acad4(void *state, u8 monIndex);
-u8 func_ov167_021ad15c(void *state, u8 monIndex);
-BOOL BattleHandler_ChangeType(BtlServerFlow *handler, BattleHandlerChangeTypeParam *param);
-BOOL BattleHandler_AbilityChange(BtlServerFlow *handler, BattleHandlerAbilityChangeParam *param);
-u8 func_ov167_021ad1f4(void *state, u8 monIndex);
+u8 BattleHandler_GravityCheck(BtlServerFlow *handler, BattleHandlerGravityCheckParam *param);
+u8 BattleHandler_Transform(BtlServerFlow *handler, BattleHandlerTransformParam *param);
+u8 BattleHandler_SetItem(BtlServerFlow *handler, BattleHandlerSetItemParam *param);
+u8 BattleHandler_SwapItem(BtlServerFlow *handler, BattleHandlerSwapItemParam *param);
+u8 BattleHandler_Drain(BtlServerFlow *handler, BattleHandlerDrainParam *param, u16 itemId);
+u8 BattleHandler_Damage(BtlServerFlow *handler, BattleHandlerDamageParam *param);
+u8 BattleHandler_ChangeHP(BtlServerFlow *handler, BattleHandlerChangeHPParam *param);
+u8 BattleHandler_Faint(BtlServerFlow *handler, BattleHandlerFaintParam *param);
+u8 BattleHandler_ChangeType(BtlServerFlow *handler, BattleHandlerChangeTypeParam *param);
+u8 BattleHandler_AbilityChange(BtlServerFlow *handler, BattleHandlerAbilityChangeParam *param);
 BOOL func_ov167_021ad204(u16 species);
 u8 HandlerGetAlivePartyCount(BtlServerFlow *handler, u16 code, u8 *monIds);
-u8 func_ov167_021ab840(void *flow, u32 monId);
-u8 *func_ov167_021abc60(void *flow, u32 value);
-u8 func_ov167_021add78(void *state, u8 monIndex);
-u8 func_ov167_021ae0fc(void *state, u8 monIndex);
+u8 func_ov167_021ab840(BtlServerFlow *flow, u8 monId);
+u8 *func_ov167_021abc60(BtlServerFlow *flow, u32 size);
 
-BOOL BattleHandler_SetMoveEffectIndex(BtlServerFlow *handler, BattleHandlerMoveEffectParam *param);
-BOOL BattleHandler_SetMoveEffectEnable(BtlServerFlow *handler);
+u8 BattleHandler_SetMoveEffectIndex(BtlServerFlow *handler, BattleHandlerMoveEffectParam *param);
+u8 BattleHandler_SetMoveEffectEnable(BtlServerFlow *handler, BattleHandlerHeader *header);
 
 #endif // POKEBW2_BATTLE_BTL_HANDLER_H

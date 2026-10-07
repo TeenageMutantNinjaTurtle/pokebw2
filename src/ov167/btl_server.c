@@ -137,7 +137,7 @@ BOOL func_ov167_0219e608(BtlServer *server, int *seq) {
         }
         break;
     case 3:
-        func_ov167_0219f128(server, 8, server->queuePtr->buffer, server->queuePtr->writePos);
+        func_ov167_0219f128(server, 8, server->queuePtr->buffer, server->queuePtr->writePtr);
         (*seq)++;
         break;
     case 4:
@@ -154,7 +154,7 @@ BOOL func_ov167_0219e6b0(BtlServer *server, int *seq) {
     switch (*seq) {
     case 0:
         if (func_ov167_0219fe24(server->flow)) {
-            func_ov167_0219f128(server, 8, server->queuePtr->buffer, server->queuePtr->writePos);
+            func_ov167_0219f128(server, 8, server->queuePtr->buffer, server->queuePtr->writePtr);
             (*seq)++;
         } else {
             *seq += 2;
@@ -202,7 +202,7 @@ BOOL func_ov167_0219e6b0(BtlServer *server, int *seq) {
         if (func_ov167_0219bee4(server->mainModule)) {
             func_ov167_0219ef70(&server->clientActions);
         }
-        func_ov167_0219f128(server, 8, server->queuePtr->buffer, server->queuePtr->writePos);
+        func_ov167_0219f128(server, 8, server->queuePtr->buffer, server->queuePtr->writePtr);
         (*seq)++;
         break;
     case 7:
@@ -269,7 +269,7 @@ BOOL func_ov167_0219e864(BtlServer *server, int *seq) {
                 break;
             }
             server->flowResult = func_ov167_0219fdf4(server->flow);
-            func_ov167_0219f128(server, 8, server->queuePtr->buffer, server->queuePtr->writePos);
+            func_ov167_0219f128(server, 8, server->queuePtr->buffer, server->queuePtr->writePtr);
             (*seq)++;
         }
         break;
@@ -328,7 +328,7 @@ BOOL func_ov167_0219e8fc(BtlServer *server, int *seq) {
         (*seq)++;
     case 5:
         server->flowResult = func_ov167_0219f7b4(server->flow, &server->clientActions);
-        func_ov167_0219f128(server, 8, server->queuePtr->buffer, server->queuePtr->writePos);
+        func_ov167_0219f128(server, 8, server->queuePtr->buffer, server->queuePtr->writePtr);
         (*seq)++;
         break;
     case 6:
@@ -427,7 +427,7 @@ BOOL func_ov167_0219eae4(BtlServer *server, int *seq) {
     case 4:
         BtlServerCmdQueue_Init(server->queuePtr);
         server->flowResult = func_ov167_0219f754(server->flow, &server->clientActions);
-        func_ov167_0219f128(server, 8, server->queuePtr->buffer, server->queuePtr->writePos);
+        func_ov167_0219f128(server, 8, server->queuePtr->buffer, server->queuePtr->writePtr);
         (*seq)++;
         break;
     case 5:
@@ -687,7 +687,7 @@ BOOL func_ov167_0219ef74(BtlServer *server, u32 mode, const void *data, u32 size
         func_ov167_0219f754(server->flow, &server->clientActions);
         break;
     }
-    if (server->queuePtr->writePos == size && GFL_STD_MemCmp(server->queuePtr->buffer, data, size) == 0) {
+    if (server->queuePtr->writePtr == size && GFL_STD_MemCmp(server->queuePtr->buffer, data, size) == 0) {
         return FALSE;
     }
     return TRUE;

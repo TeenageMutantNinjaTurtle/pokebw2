@@ -12,6 +12,7 @@
 #include "battle/btl_action.h"
 #include "battle/btl_calc.h"
 #include "battle/btl_rec.h"
+#include "battle/btl_server_cmd.h"
 #include "struct_decls.h"
 
 // A client the server sends commands to
@@ -25,18 +26,6 @@ typedef struct {
     // 0xff for no client
     u8 clientId;
 } BtlServerClient;
-
-// The commands that the turn's flow writes, which the server then sends
-typedef struct {
-    u32 writePos;
-    u32 readPos;
-    u8 buffer[0xbb8];
-} BtlServerCmdQueue;
-
-static inline void BtlServerCmdQueue_Init(BtlServerCmdQueue *queue) {
-    queue->writePos = 0;
-    queue->readPos = 0;
-}
 
 // The actions each client chose
 typedef struct {
