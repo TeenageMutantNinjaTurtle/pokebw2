@@ -19,6 +19,9 @@
 #define PERSONAL_FORM_COUNT 32
 // Whether the forms only change the palette, as Arceus's do (not from swan)
 #define PERSONAL_PALETTE_FORMS 35
+// Not from swan: a flag that keeps the summary screen's sprite from bouncing, and the weight
+#define PERSONAL_NO_BOUNCE 16
+#define PERSONAL_WEIGHT 38
 
 u32 PML_PersonalGetParamSingle(u16 species, u16 form, u32 param);
 void *PML_PersonalLoad(u16 species, u16 form, HeapID heapId);

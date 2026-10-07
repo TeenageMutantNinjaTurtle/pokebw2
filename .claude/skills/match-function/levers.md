@@ -44,6 +44,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 ## Stack slots or frame size
 
+- An extra slot holding a copy of an address-taken local before a nested loop: read its field inside the inner loop,
+  not into a local in the outer one. (matching.md: "hoisted only out of the loop it sits in")
 - Stack locals are laid out in reverse declaration order. (matching.md: "reverse declaration order")
 - A struct copied from `.rodata` once before a loop into the lowest slot, then into another slot inside it: a
   local initializer in the loop body. (matching.md: "local initializer inside a loop")
@@ -125,6 +127,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   inline accessor recomputes it. (matching.md: "computed before calls is reused")
 - A constant base address with offsets where MWCC folds each store into its own literal: a pointer local.
   (matching.md: "Stores to fixed addresses")
+- A hardware address built with shifts and spilled, where ours loads it from the pool: the SDK inline that returns
+  it, such as `G2_GetOBJCharPtr()`. (matching.md: "A hardware address that the original builds with shifts")
 - Stores whose base register is another element than the one written: index the array, or write through a pointer
   to the element, whichever the original does. (matching.md: "pointer to an array element")
 - A value a loop uses and the code after it uses again is reused from the hoisted copy, unless it is a variable
@@ -172,6 +176,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "A clamp that ends in one store")
 - One store after an `if`/`else` of two constants, with a `b` over the else, is still an `if`/`else`; the conditional
   expression has no `b`. (matching.md: "assigns one field a constant in each branch")
+- A `b` to a `b` where the original jumps straight to shared code: write the call after the `if`/`else` in
+  each branch. (matching.md: "A `b` to a `b`")
 - `f(x ? a : b)` against two calls in `if`/`else`, which are merged into one call with a `beq; b` layout.
   (matching.md: "picked by branches")
 - A `return` inside `for (;;)` leaves a dead `bx lr`, which the original counts as padding.

@@ -12,14 +12,23 @@
 #define OAM_CELL_WIDTH 64
 #define OAM_CELL_HEIGHT 32
 #define OAM_CELL_COUNT 3
-// One for each 1D OBJ mapping of 32, 64 and 128 KB
-#define OAM_MAPPING_COUNT 3
+// The size of one 8-pixel line of a cell's characters, 8 tiles
+#define CELL_LINE_SIZE 0x100
+#define CELL_LINES (OAM_CELL_HEIGHT / 8)
 #define CELL_ANIMS_NONE 0xffffffff
+
+// The 1D OBJ character mappings, each with its own cells and animations
+enum {
+    CELL_MAPPING_1D_128K,
+    CELL_MAPPING_1D_64K,
+    CELL_MAPPING_1D_32K,
+    CELL_MAPPING_COUNT,
+};
 
 struct PStaOam {
     ClActUnit *unit;
     HeapID heapId;
-    u32 cellAnims[OAM_MAPPING_COUNT];
+    u32 cellAnims[CELL_MAPPING_COUNT];
 };
 
 struct PStaOamActor {
@@ -41,7 +50,7 @@ PStaOam *PStaOam_Create(HeapID heapId, ClActUnit *unit) {
 
     oam->heapId = heapId;
     oam->unit = unit;
-    for (i = 0; i < OAM_MAPPING_COUNT; i++) {
+    for (i = 0; i < CELL_MAPPING_COUNT; i++) {
         oam->cellAnims[i] = CELL_ANIMS_NONE;
     }
     return oam;
@@ -60,7 +69,7 @@ PStaOamActor *PStaOam_CreateActor(PStaOam *oam, const PStaOamSetup *setup) {
     u8 row;
     ArcTool *arc;
     u8 col;
-    u32 cellAnims;
+    u32 mapping;
 
     actor->bitmap = setup->bitmap;
     cols = GFL_BitmapGetWidth(setup->bitmap) / OAM_CELL_WIDTH;
@@ -78,21 +87,18 @@ PStaOamActor *PStaOam_CreateActor(PStaOam *oam, const PStaOamSetup *setup) {
     arc = GFL_ArcSysCreateFileHandle(ARCID_P_STATUS, oam->heapId);
     for (row = 0; row < rows; row++) {
         for (col = 0; col < cols; col++) {
-            cellAnims = PStaOam_LoadCellAnims(oam, setup->vramType, arc);
+            mapping = PStaOam_LoadCellAnims(oam, setup->vramType, arc);
             actor->chars[row * cols + col] = func_0204b81c(arc, 9, FALSE, setup->vramType, oam->heapId);
             actorSetup.x = setup->x + col * OAM_CELL_WIDTH;
             actorSetup.y = setup->y + row * OAM_CELL_HEIGHT;
             actorSetup.priority = setup->priority;
             actorSetup.bgPriority = setup->bgPriority;
             actor->actors[row * cols + col] =
-                func_0204c040(oam->unit, actor->chars[row * cols + col], setup->palette, oam->cellAnims[cellAnims],
+                func_0204c040(oam->unit, actor->chars[row * cols + col], setup->palette, oam->cellAnims[mapping],
                               &actorSetup, setup->surface, oam->heapId);
-            // BUG: The palette is set on the actor of the column in the first row, whatever the row
-#ifdef BUGFIX
-            func_0204c378(actor->actors[row * cols + col], (u8)setup->paletteOffset, 0);
-#else
+            // The palette is set on the actor of the column in the first row, whatever the row. Every bitmap of the
+            // summary screen is one row tall, so it is the same actor, and a second row would overflow the arrays
             func_0204c378(actor->actors[col], (u8)setup->paletteOffset, 0);
-#endif
         }
     }
     GFL_ArcToolFree(arc);
@@ -137,7 +143,7 @@ void PStaOam_Upload(PStaOamActor *actor) {
     void (*upload)(const void *src, u32 offset, u32 size);
 
     cp15_flushDC(pixels, GFL_BitmapCalcPixelDataSize(actor->bitmap));
-    if (actor->vramType == 0) {
+    if (actor->vramType == CLACT_VRAM_MAIN) {
         upload = gfxUploadObjCharA;
     } else {
         upload = gfxUploadObjCharB;
@@ -146,7 +152,7 @@ void PStaOam_Upload(PStaOamActor *actor) {
     lastLines = GFL_BitmapGetHeight(actor->bitmap) / 8 % 4;
     lastSize = GFL_BitmapGetWidth(actor->bitmap) % OAM_CELL_WIDTH / 8 * 32;
     if (lastSize == 0) {
-        lastSize = 0x100;
+        lastSize = CELL_LINE_SIZE;
     }
     offset = 0;
     for (row = 0; row < actor->rows; row++) {
@@ -154,13 +160,13 @@ void PStaOam_Upload(PStaOamActor *actor) {
             if (col == actor->cols - 1) {
                 size = lastSize;
             } else {
-                size = 0x100;
+                size = CELL_LINE_SIZE;
             }
             dest = func_0204bb80(actor->chars[row * actor->cols + col], actor->vramType);
-            for (line = 0; line < 4; line++) {
+            for (line = 0; line < CELL_LINES; line++) {
                 if (row != actor->rows - 1 || lastLines == 0 || line < lastLines) {
                     upload(pixels + (offset + line * (tileCols * 32)), dest, size);
-                    dest += 0x100;
+                    dest += CELL_LINE_SIZE;
                 }
             }
             offset += size;
@@ -191,31 +197,39 @@ void PStaOam_SwapBitmaps(PStaOamActor *a, PStaOamActor *b) {
 }
 
 static u32 PStaOam_LoadCellAnims(PStaOam *oam, u32 vramType, ArcTool *arc) {
-    u32 index;
+    u32 mapping;
+    GXOBJVRamModeChar mode;
 
-    switch (vramType == 0 ? GX_GetOBJVRamModeChar() : GXS_GetOBJVRamModeChar()) {
+    if (vramType == CLACT_VRAM_MAIN) {
+        mode = GX_GetOBJVRamModeChar();
+    } else {
+        mode = GXS_GetOBJVRamModeChar();
+    }
+    switch (mode) {
+    case GX_OBJVRAMMODE_CHAR_1D_128K:
+        mapping = CELL_MAPPING_1D_128K;
+        break;
     case GX_OBJVRAMMODE_CHAR_1D_64K:
-        index = 1;
+        mapping = CELL_MAPPING_1D_64K;
         break;
     case GX_OBJVRAMMODE_CHAR_1D_32K:
-        index = 2;
+        mapping = CELL_MAPPING_1D_32K;
         break;
-    case GX_OBJVRAMMODE_CHAR_1D_128K:
     default:
-        index = 0;
+        mapping = CELL_MAPPING_1D_128K;
         break;
     }
-    if (oam->cellAnims[index] != CELL_ANIMS_NONE) {
-        return index;
+    if (oam->cellAnims[mapping] != CELL_ANIMS_NONE) {
+        return mapping;
     }
-    oam->cellAnims[index] = func_0204bde0(arc, 79, 130, oam->heapId);
-    return index;
+    oam->cellAnims[mapping] = func_0204bde0(arc, 79, 130, oam->heapId);
+    return mapping;
 }
 
 static void PStaOam_FreeCellAnims(PStaOam *oam) {
     int i;
 
-    for (i = 0; i < OAM_MAPPING_COUNT; i++) {
+    for (i = 0; i < CELL_MAPPING_COUNT; i++) {
         if (oam->cellAnims[i] != CELL_ANIMS_NONE) {
             func_0204be64(oam->cellAnims[i]);
             oam->cellAnims[i] = CELL_ANIMS_NONE;

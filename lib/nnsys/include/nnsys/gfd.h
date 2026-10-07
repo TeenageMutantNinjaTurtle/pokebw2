@@ -35,6 +35,13 @@ static inline u32 NNS_GfdGetPlttKeyAddr(NNSGfdPlttKey key) {
     return (u32)((key & 0xffff) << NNS_GFD_KEY_ADDR_SHIFT);
 }
 
+// A palette key's size counts 8-byte units
+#define NNS_GFD_PLTTKEY_SIZE_SHIFT 3
+
+static inline u32 NNS_GfdGetPlttKeySize(NNSGfdPlttKey key) {
+    return (u32)(((key & 0xffff0000) >> 16) << NNS_GFD_PLTTKEY_SIZE_SHIFT);
+}
+
 typedef NNSGfdTexKey (*NNSGfdFuncAllocTexVram)(u32 szByte, BOOL is4x4comp, u32 opt);
 typedef int (*NNSGfdFuncFreeTexVram)(NNSGfdTexKey key);
 typedef NNSGfdPlttKey (*NNSGfdFuncAllocPlttVram)(u32 szByte, BOOL is4pltt, u32 opt);

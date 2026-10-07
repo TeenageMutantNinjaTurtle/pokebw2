@@ -14,6 +14,8 @@ u32 howManyNormalPokesAreInAllBoxes(BoxSaveAccessor *boxes);
 u32 howManyTotalPokesAreInBoxes(BoxSaveAccessor *boxes);
 BOOL BoxSaveAccessor_InsertPkm(BoxSaveAccessor *boxes, BoxPkm *pkm);
 BOOL BoxSaveAccessor_InsertPkmCore(BoxSaveAccessor *boxes, u32 box, BoxPkm *pkm);
+// How many Pokémon the boxes have room for
+u32 func_02007a38(BoxSaveAccessor *boxes);
 void BoxSaveAccessor_ClearPkm(BoxSaveAccessor *boxes, u32 box, u32 slot);
 BOOL BoxSaveAccessor_GetNextFreeBoxSlot(BoxSaveAccessor *boxes, int *box, int *slot);
 u32 BoxSaveAccessor_GetPkmParam(BoxSaveAccessor *boxes, u32 box, u32 slot, u32 param, void *buffer);
