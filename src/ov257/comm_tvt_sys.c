@@ -262,7 +262,7 @@ static void CommTvt_Init(CommTvtWork *sys) {
     sys->talk = CtvtTalk_Create(sys, sys->heapId);
     sys->draw = CtvtDraw_Create(sys, sys->heapId);
     sys->call = CtvtCall_Create(sys, sys->heapId);
-    sys->game = func_ov257_021a22bc(sys, sys->heapId);
+    sys->game = CtvtGame_Create(sys, sys->heapId);
     drawParam.heapId = sys->heapId;
     drawParam.unk2 = 2;
     drawParam.numCommands = 100;
@@ -355,7 +355,7 @@ static void CommTvt_Free(CommTvtWork *sys) {
     CtvtCall_Delete(sys, sys->call);
     CtvtDraw_Delete(sys, sys->draw);
     CtvtTalk_Delete(sys, sys->talk);
-    func_ov257_021a22f8(sys, sys->game);
+    CtvtGame_Delete(sys, sys->game);
     func_020438dc();
     CtvtComm_Delete(sys, sys->comm);
     CtvtCamera_Delete(sys, sys->camera);
@@ -390,7 +390,7 @@ static void CommTvt_FreeSuspended(CommTvtWork *sys) {
     CtvtCall_Delete(sys, sys->call);
     CtvtDraw_Delete(sys, sys->draw);
     CtvtTalk_Delete(sys, sys->talk);
-    func_ov257_021a22f8(sys, sys->game);
+    CtvtGame_Delete(sys, sys->game);
     CtvtComm_Delete(sys, sys->comm);
     CtvtCamera_Delete(sys, sys->camera);
     CommTvt_FreeMessages(sys);
@@ -411,7 +411,7 @@ static BOOL CommTvt_Main(CommTvtWork *sys) {
         sys->nextMode = CtvtDraw_Main(sys, sys->draw);
         break;
     case COMM_TVT_MODE_GAME:
-        sys->nextMode = func_ov257_021a24e4(sys, sys->game);
+        sys->nextMode = CtvtGame_Main(sys, sys->game);
         break;
     case COMM_TVT_MODE_EXIT:
         if (CtvtComm_IsDone(sys, sys->comm) == TRUE && CtvtCamera_IsSoundDone(sys, sys->camera) == TRUE) {
@@ -658,7 +658,7 @@ static void CommTvt_ChangeMode(CommTvtWork *sys) {
         CtvtDraw_Leave(sys, sys->draw);
         break;
     case COMM_TVT_MODE_GAME:
-        func_ov257_021a246c(sys, sys->game);
+        CtvtGame_Leave(sys, sys->game);
         if (sys->inGame == TRUE && sys->nextMode == COMM_TVT_MODE_TALK) {
             CommTvt_Resume(sys);
             sys->inGame = FALSE;
@@ -681,7 +681,7 @@ static void CommTvt_ChangeMode(CommTvtWork *sys) {
         break;
     case COMM_TVT_MODE_GAME:
         CommTvt_Suspend(sys);
-        func_ov257_021a2304(sys, sys->game);
+        CtvtGame_Enter(sys, sys->game);
         sys->inGame = TRUE;
         break;
     case COMM_TVT_MODE_EXIT_ERROR:

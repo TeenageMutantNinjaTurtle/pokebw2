@@ -16,6 +16,8 @@ void GFL_SndBGMSetVolume(u16 trackMask, s32 volume);
 void GFL_SndBGMSetParams(u16 trackMask, s32 tempoRatio, s32 pitch, s32 pan);
 // The sound handle that plays the BGM
 NNSSndHandle *func_02005c94(void);
+// The sound heap, which sounds loaded for a while are loaded into above a saved level
+NNSSndHeapHandle func_02005ce4(void);
 BOOL GFL_SndBGMIsFading(void);
 // The tick count of the BGM's sequence player
 u32 GFL_SndBGMGetTick(void);
