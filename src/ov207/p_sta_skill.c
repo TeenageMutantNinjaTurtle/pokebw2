@@ -436,7 +436,7 @@ static void PStaSkill_DrawDetail(PStatusWork *wk, PStaSkillWork *skill) {
     type2 = PML_PkmGetParam(pkm, PKM_PARAM_TYPE2, NULL);
     func_0204bb58(wk->typeIconChars[type1], &proxy1);
     func_0204c3e4(wk->typeIcons[0], &proxy1);
-    func_0204c378(wk->typeIcons[0], func_0202d7e8((u8)type1), 1);
+    func_0204c378(wk->typeIcons[0], func_0202d7e8(type1), 1);
     pos.x = 208;
     pos.y = 120;
     func_0204c140(wk->typeIcons[0], &pos, 0);
@@ -445,7 +445,7 @@ static void PStaSkill_DrawDetail(PStatusWork *wk, PStaSkillWork *skill) {
     if (type1 != type2) {
         func_0204bb58(wk->typeIconChars[type2], &proxy2);
         func_0204c3e4(wk->typeIcons[1], &proxy2);
-        func_0204c378(wk->typeIcons[1], func_0202d7e8((u8)type2), 1);
+        func_0204c378(wk->typeIcons[1], func_0202d7e8(type2), 1);
         pos.x = 240;
         pos.y = 120;
         func_0204c140(wk->typeIcons[1], &pos, 0);
@@ -570,7 +570,7 @@ static void PStaSkill_PrintMoveDetail(PStatusWork *wk, PStaSkillWork *skill) {
     category = PML_MoveGetCategory(move);
     func_0204bb58(wk->clResources[PSTA_RES_CHAR(4) + category], &proxy);
     func_0204c3e4(skill->actors[1], &proxy);
-    func_0204c378(skill->actors[1], func_0202d800((u8)category), 1);
+    func_0204c378(skill->actors[1], func_0202d800(category), 1);
     PStatus_PrintToWindow(wk, skill->windows[9], 0x93, 1, 1, PRINT_COLOR(15, 2, 0));
     power = PML_MoveGetBasePower(move);
     if (power <= 1) {
