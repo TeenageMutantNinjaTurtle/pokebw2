@@ -279,15 +279,15 @@ StaActButton_UpdateSystem kind:function(thumb,size=0x114) addr:0x021c0c3c
 StaActButton_InitGraphic kind:function(thumb,size=0x1ba) addr:0x021c0d50
 StaActButton_LoadItemTexture kind:function(thumb,size=0x11c) addr:0x021c0f0c
 StaActButton_SetShowFlg kind:function(thumb,size=0x3a) addr:0x021c1028
-func_ov209_021c1024 kind:function(thumb,size=0x64) addr:0x021c1064
-func_ov209_021c1088 kind:function(thumb,size=0x80) addr:0x021c10c8
-func_ov209_021c1108 kind:function(thumb,size=0x9a) addr:0x021c1148
-func_ov209_021c11a4 kind:function(thumb,size=0x98) addr:0x021c11e4
-func_ov209_021c123c kind:function(thumb,size=0x20) addr:0x021c127c
-func_ov209_021c125c kind:function(thumb,size=0x50) addr:0x021c129c
-func_ov209_021c12ac kind:function(thumb,size=0x22) addr:0x021c12ec
-func_ov209_021c12d0 kind:function(thumb,size=0x58) addr:0x021c1310
-func_ov209_021c1328 kind:function(thumb,size=0x24) addr:0x021c1368
+StaActScript_InitSystem kind:function(thumb,size=0x64) addr:0x021c1064
+StaActScript_TermSystem kind:function(thumb,size=0x80) addr:0x021c10c8
+StaActScript_UpdateSystem kind:function(thumb,size=0x9a) addr:0x021c1148
+StaActScript_CreateScript kind:function(thumb,size=0x98) addr:0x021c11e4
+StaActScript_CreateScriptFile kind:function(thumb,size=0x20) addr:0x021c127c
+StaActScript_RunScript kind:function(thumb,size=0x50) addr:0x021c129c
+StaActScript_GetScriptNum kind:function(thumb,size=0x22) addr:0x021c12ec
+StaActScript_AddTask kind:function(thumb,size=0x58) addr:0x021c1310
+StaActScript_DelTask kind:function(thumb,size=0x24) addr:0x021c1368
 func_ov209_021c134c kind:function(thumb,size=0x30) addr:0x021c138c
 func_ov209_021c137c kind:function(thumb,size=0x5c) addr:0x021c13bc
 func_ov209_021c13d8 kind:function(thumb,size=0x3e) addr:0x021c1418
@@ -410,7 +410,7 @@ data_ov209_021c2f50 kind:data(any) addr:0x021c2f90
 STA_ACT_AUDIENCE_UNUSED kind:data(any) addr:0x021c2fac
 STA_ACT_AUDIENCE_CHARS kind:data(any) addr:0x021c2fae
 STA_ACT_BUTTON_TOUCH_RECTS kind:data(any) addr:0x021c2fb8
-data_ov209_021c2f84 kind:data(any) addr:0x021c2fc4
+STA_ACT_SCRIPT_VM_PARAM kind:data(any) addr:0x021c2fc4
 data_ov209_021c2f9c kind:data(any) addr:0x021c2fdc
 MUSICAL_SHOT_PROC_FUNCTIONS kind:data(any) addr:0x021c3040 ambiguous
 data_ov209_021c300c kind:data(any) addr:0x021c304c
@@ -433,5 +433,5 @@ data_ov209_021c3128 kind:data(any) addr:0x021c3168
 data_ov209_021c313c kind:data(any) addr:0x021c317c
 data_ov209_021c3150 kind:data(any) addr:0x021c3190
 data_ov209_021c3195_w2_us kind:data(any) addr:0x021c3195 ambiguous
-data_ov209_021c3164 kind:data(any) addr:0x021c31a4
+STA_SCRIPT_COMMANDS kind:data(any) addr:0x021c31a4
 data_ov209_021c3240 kind:bss addr:0x021c3280

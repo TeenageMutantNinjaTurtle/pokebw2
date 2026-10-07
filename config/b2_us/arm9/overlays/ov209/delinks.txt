@@ -71,3 +71,9 @@ src/ov209/sta_act_button.c:
     .text       start:0x021c0ae0 end:0x021c1024
     .rodata     start:0x021c2f78 end:0x021c2f84
     .data       start:0x021c3128 end:0x021c313c
+
+src/ov209/sta_act_script.c:
+    complete
+    .text       start:0x021c1024 end:0x021c134c
+    .rodata     start:0x021c2f84 end:0x021c2f9c
+    .data       start:0x021c313c end:0x021c3150

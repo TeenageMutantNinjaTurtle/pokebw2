@@ -893,6 +893,10 @@
 . 0x02056944 SPLList_PushFront
 . 0x02056994 SPLRandom_VecFx32_XY
 . 0x020569f0 SPLRandom_VecFx32
+. 0x0205ea3c NNS_FndInitList
+. 0x0205ea64 NNS_FndAppendListObject
+. 0x0205eaf4 NNS_FndRemoveListObject
+. 0x0205eb30 NNS_FndGetNextListObject
 . 0x0205f458 NNS_GfdInitFrmTexVramManager
 . 0x0205f500 NNS_GfdAllocFrmTexVram
 . 0x0205f5e8 NNS_GfdGetFrmTexVramState
@@ -3356,6 +3360,15 @@ overlays/ov209 0x021c0bfc StaActButton_UpdateSystem
 overlays/ov209 0x021c0d10 StaActButton_InitGraphic
 overlays/ov209 0x021c0ecc StaActButton_LoadItemTexture
 overlays/ov209 0x021c0fe8 StaActButton_SetShowFlg
+overlays/ov209 0x021c1024 StaActScript_InitSystem
+overlays/ov209 0x021c1088 StaActScript_TermSystem
+overlays/ov209 0x021c1108 StaActScript_UpdateSystem
+overlays/ov209 0x021c11a4 StaActScript_CreateScript
+overlays/ov209 0x021c123c StaActScript_CreateScriptFile
+overlays/ov209 0x021c125c StaActScript_RunScript
+overlays/ov209 0x021c12ac StaActScript_GetScriptNum
+overlays/ov209 0x021c12d0 StaActScript_AddTask
+overlays/ov209 0x021c1328 StaActScript_DelTask
 overlays/ov209 0x021c2bec MUSICAL_SHOT_LCD_CONFIG
 overlays/ov209 0x021c2bfc MUSICAL_SHOT_VRAM_CONFIG
 overlays/ov209 0x021c2c30 MUS_SHOT_PHOTO_CAMERA_TARGET
@@ -3384,8 +3397,10 @@ overlays/ov209 0x021c2db8 STA_ACT_OBJ_SHOW
 overlays/ov209 0x021c2dbc STA_ACT_POKE_ITEM_SE
 overlays/ov209 0x021c2f6e STA_ACT_AUDIENCE_CHARS
 overlays/ov209 0x021c2f78 STA_ACT_BUTTON_TOUCH_RECTS
+overlays/ov209 0x021c2f84 STA_ACT_SCRIPT_VM_PARAM
 overlays/ov209 0x021c3000 MUSICAL_SHOT_PROC_FUNCTIONS
 overlays/ov209 0x021c3094 sStaActBgMatrix
+overlays/ov209 0x021c3164 STA_SCRIPT_COMMANDS
 overlays/ov214 0x021d3380 WorldTradeProc_Init
 overlays/ov214 0x021d34b4 WorldTradeProc_Main
 overlays/ov214 0x021d35cc WorldTradeProc_End
