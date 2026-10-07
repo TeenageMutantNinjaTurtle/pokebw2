@@ -3783,7 +3783,7 @@ void ServerControl_FaintPokemon(BtlServerFlow *flow, BattleMon *mon) {
     ServerControl_CheckFainted(flow, mon);
 }
 
-void ServerControl_DamageAddCondition(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker,
+void ServerControl_DamageAddCondition(BtlServerFlow *flow, const BtlFlowMoveParam *param, BattleMon *attacker,
                                       BattleMon *target) {
     BattleCondition value;
     u32 condition = ServerEvent_CheckMoveAddCondition(flow, param->move, attacker, target, &value);
@@ -4307,7 +4307,7 @@ s32 ServerEvent_CheckSubstituteInteraction(BtlServerFlow *flow, BattleMon *mon, 
     return result;
 }
 
-void func_ov167_021a6c34(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets) {
+void func_ov167_021a6c34(BtlServerFlow *flow, const BtlFlowMoveParam *param, BattleMon *mon, void *targets) {
     u32 condition;
     MoveConditionParam conditionParam;
     BattleCondition value;
