@@ -1002,7 +1002,7 @@ static void ZukanDetailVoice_ResetWave(ZukanDetailVoiceParam *param, ZukanDetail
 }
 
 // Scrolls the window by two columns, and draws the wave's next two columns at its right edge, or the middle line once
-// the wave has been shown. GFL_BitmapFillArea takes x and y as s16 and the width as u16 where bmp.h declares them int
+// the wave has been shown.
 static void ZukanDetailVoice_ScrollWave(ZukanDetailVoiceParam *param, ZukanDetailVoiceWork *wk,
                                         ZukanDetailCommon *common) {
     GFLBitmap *bitmap = BmpWin_GetBitmap(wk->waveWindow);
@@ -1014,12 +1014,12 @@ static void ZukanDetailVoice_ScrollWave(ZukanDetailVoiceParam *param, ZukanDetai
 
     wk->waveScroll += WAVE_STEP;
     while (wk->waveScroll >= 8) {
-        GFL_BitmapFillArea(bitmap, (s16)(wk->waveColumn * 8), 0, 8, WAVE_HEIGHT, 0);
+        GFL_BitmapFillArea(bitmap, wk->waveColumn * 8, 0, 8, WAVE_HEIGHT, 0);
         wk->waveColumn = (wk->waveColumn + 1) % WAVE_WINDOW_WIDTH;
         wk->waveScroll -= 8;
     }
     if (wk->waveScroll > 0) {
-        GFL_BitmapFillArea(bitmap, (s16)(wk->waveColumn * 8), 0, (u16)wk->waveScroll, WAVE_HEIGHT, 0);
+        GFL_BitmapFillArea(bitmap, wk->waveColumn * 8, 0, wk->waveScroll, WAVE_HEIGHT, 0);
     }
 
     while (drawn < WAVE_STEP) {
@@ -1053,7 +1053,7 @@ static void ZukanDetailVoice_ScrollWave(ZukanDetailVoiceParam *param, ZukanDetai
             end = WAVE_WIDTH;
         }
         width = end - x;
-        GFL_BitmapFillArea(bitmap, x, WAVE_CENTER, (u16)width, 1, WAVE_COLOR);
+        GFL_BitmapFillArea(bitmap, x, WAVE_CENTER, width, 1, WAVE_COLOR);
         drawn += width;
         x = end % WAVE_WIDTH;
     }
@@ -1114,7 +1114,7 @@ static void ZukanDetailVoice_DrawWave(ZukanDetailVoiceParam *param, ZukanDetailV
                 if (max > WAVE_CENTER) {
                     max = WAVE_CENTER;
                 }
-                GFL_BitmapFillArea(wk->waveBitmap, (s16)column, (s16)(WAVE_CENTER - max), 1, max - min + 1, WAVE_COLOR);
+                GFL_BitmapFillArea(wk->waveBitmap, column, WAVE_CENTER - max, 1, max - min + 1, WAVE_COLOR);
             }
         }
         column++;
