@@ -7,6 +7,8 @@
 #include "struct_decls.h"
 
 SaveControl *SaveControl_GetInstance(void);
+// Frees the save data and its control
+void SaveControl_Free(void);
 EncountSave *SaveControl_GetEncountSave(SaveControl *save);
 u32 func_02007560(SaveControl *save, u32 block, u32 heapId, void *buffer, u32 size);
 void *getAddressOfExtraSaveBlk(SaveControl *save, u32 block, u32 arg2);
@@ -118,6 +120,8 @@ typedef struct {
 
 MusicalShot *func_0200ad5c(MusicalSave *musical);
 MusicalSaveUnk1B0 *func_0200ad44(MusicalSave *musical);
+// Whether a musical photo is saved
+BOOL func_0200ad4c(MusicalSave *musical);
 void func_0200add8(MusicalSave *musical, u8 prop);
 MusicalSaveUnk1E0 *func_0200ae6c(MusicalSave *musical, u8 index);
 u16 func_0200ae78(MusicalSave *musical);

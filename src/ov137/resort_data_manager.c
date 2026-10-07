@@ -3,6 +3,7 @@
 #include "gfl/heap.h"
 #include "gfl/std.h"
 #include "save/join_avenue.h"
+#include "system/resort_binary.h"
 
 #define RESORT_DATA_COUNT 40
 #define RESORT_KIND_COUNT 5
@@ -82,7 +83,16 @@ static const ResortPersonFuncs sFuncs[] = {
         NULL,
         (ResortPersonUnk1cFunc)func_020378f8,
     },
-    {func_02037a40, func_02037a68, func_02037a70, func_02037a90, func_02037b38, func_02037c70, NULL, func_02037e34},
+    {
+        (ResortPersonCreateFunc)func_02037a40,
+        (ResortPersonFunc)func_02037a68,
+        (ResortPersonFunc)func_02037a70,
+        (ResortPersonIsEmptyFunc)func_02037a90,
+        (ResortPersonGetParamFunc)func_02037b38,
+        (ResortPersonSetParamFunc)func_02037c70,
+        NULL,
+        (ResortPersonUnk1cFunc)func_02037e34,
+    },
     {
         (ResortPersonCreateFunc)func_02036d94,
         (ResortPersonFunc)func_02036db8,
@@ -93,7 +103,16 @@ static const ResortPersonFuncs sFuncs[] = {
         NULL,
         (ResortPersonUnk1cFunc)func_020378f8,
     },
-    {func_020384a4, func_020384cc, func_020384d4, func_020384e0, func_020385a8, func_02038680, NULL, func_020387f4},
+    {
+        (ResortPersonCreateFunc)func_020384a4,
+        (ResortPersonFunc)func_020384cc,
+        (ResortPersonFunc)func_020384d4,
+        (ResortPersonIsEmptyFunc)func_020384e0,
+        (ResortPersonGetParamFunc)func_020385a8,
+        (ResortPersonSetParamFunc)func_02038680,
+        NULL,
+        (ResortPersonUnk1cFunc)func_020387f4,
+    },
 };
 
 ResortSlots *func_ov137_021f1710(ResortPersonData **datas, HeapID heapId) {
@@ -180,12 +199,12 @@ u16 func_ov137_021f184c(ResortSlots *slots, u32 row) {
 
 u16 func_ov137_021f1878(ResortPersonData *data, void *a1, void *a2, JoinAvenueInfo *info) {
     u32 value = func_ov137_021f1990(data, 0, 100);
-    u32 row = func_0203968c(a2, JoinAvenue_GetParam(info, 2, 0));
-    if (value < func_020395f8(a2, row, 8)) {
-        u16 shopRow = func_020395f8(a2, row, 7);
-        u32 prize = join_ave_raffle_shop(a1, shopRow, func_ov137_021f1990(data, 1, func_020395f8(a1, shopRow, 0)));
+    u32 row = ResortBinary_FindRange(a2, JoinAvenue_GetParam(info, 2, 0));
+    if (value < ResortBinary_Get(a2, row, 8)) {
+        u16 shopRow = ResortBinary_Get(a2, row, 7);
+        u32 prize = join_ave_raffle_shop(a1, shopRow, func_ov137_021f1990(data, 1, ResortBinary_Get(a1, shopRow, 0)));
         if (prize != 10) {
-            return func_020395f8(a1, shopRow, prize * 2 + 3);
+            return ResortBinary_Get(a1, shopRow, prize * 2 + 3);
         }
     }
     return 0;

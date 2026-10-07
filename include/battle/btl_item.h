@@ -4,7 +4,7 @@
 #include "types.h"
 #include "struct_decls.h"
 
-void *ItemEvent_TempAdd(BattleMon *mon, u16 item);
+BattleEventItem *ItemEvent_TempAdd(BattleMon *mon, u16 item);
 void func_ov167_021c27c4(void *temp);
 void ItemEvent_ItemRotationWake(BattleMon *mon);
 BattleEventItem *ItemEvent_AddItem(BattleMon *mon);

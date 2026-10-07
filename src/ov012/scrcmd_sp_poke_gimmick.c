@@ -8,6 +8,7 @@
 #include "field/field_script.h"
 #include "field/ov129.h"
 #include "nitro/fx.h"
+#include "pml/met_data.h"
 #include "pml/poke_party.h"
 #include "save/encounter.h"
 #include "save/save_control.h"
@@ -173,7 +174,7 @@ static BOOL func_ov012_02165808(PokeParty *party, u16 species, u16 move, u8 form
     *slot = 0;
     for (i = 0; i < count; i++) {
         pkm = PokeParty_GetPkm(party, i);
-        if (func_02035cf8(pkm, kind, playerInfo) == FALSE ||
+        if (PokeParty_IsSpecialTransfer(pkm, kind, playerInfo) == FALSE ||
             species != PokeParty_GetParam(pkm, PKM_PARAM_SPECIES, NULL)) {
             continue;
         }
@@ -214,10 +215,10 @@ BOOL func_ov012_021658c8(VM *vm, FieldScriptEnv *env) {
         return FALSE;
     }
     pkm = PokeParty_GetPkm(party, slot);
-    if (func_02035cf8(pkm, kind, playerInfo) == FALSE) {
+    if (PokeParty_IsSpecialTransfer(pkm, kind, playerInfo) == FALSE) {
         return FALSE;
     }
-    func_02035efc(pkm, kind, playerInfo);
+    PokeParty_SetSpecialTransferUsed(pkm, kind, playerInfo);
     return FALSE;
 }
 

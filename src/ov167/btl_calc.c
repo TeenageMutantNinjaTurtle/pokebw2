@@ -453,7 +453,7 @@ u32 func_ov167_021bd624(BattleMon *mon) {
 }
 
 // A random move that isn't in excluded
-u16 func_ov167_021bd658(const u16 *excluded, u32 count) {
+u16 func_ov167_021bd658(const u16 *excluded, u16 count) {
     u16 move;
     u16 numMoves = 0;
     u16 index;

@@ -14,12 +14,14 @@ typedef struct FieldEffectTask FieldEffectTask;
 
 void *Field_GetEffectBlAct(Field *field);
 void *Field_GetWildEffectBlAct(Field *field);
-void *func_ov036_021c6cc8(u32 effectId, Field *field);
+// The saving icon, and showing, hiding and freeing it
+void *func_ov036_021c6cc8(HeapID heapId, Field *field);
 void func_ov036_021c6d14(void *effect);
 void func_ov036_021c6d3c(void *effect);
 void func_ov036_021c6cf8(void *effect);
 
 void *func_ov036_021b3f14(void *effects, FieldActor *actor, u32 arg2, u32 arg3);
+FieldEffectTask *func_ov036_021b3f64(FieldEffects *effects, FieldActor *actor, u32 arg2, u32 arg3);
 // Break the rock in front of an actor with Rock Smash
 void func_ov036_021a56c8(FieldActor *actor, FieldEffects *effects);
 // The ripples of a fishing line cast in dir from pos, and how fast they play

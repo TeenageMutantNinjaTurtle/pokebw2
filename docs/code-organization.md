@@ -24,8 +24,10 @@ every section.
   autoload: the camera, the DSP and the new DMA and WRAM functions; and in `lib/twl/src/`, the SSP JPEG encoder and
   decoder with their EXIF writer and reader, linked into overlay 257 and built as Thumb with the game's compiler,
   `-ipa file` and `-inline on,noauto`).
-  NitroSDK and NitroSystem have only headers so far, so no `library.toml` yet; the first source file of either adds
-  one with the compiler it was built with. A library's public headers keep its name as their directory, as in
+  NitroSDK's first source is libcrypto's RC4 (`lib/nitro/src/crypto/rc4.c`, ARM, `dsi/1.1p1`), which the game links
+  last among its own code in ARM9 main. NitroSystem has only headers so far, so no `library.toml` yet; its first
+  source file adds one with the compiler it was built with. A library's public headers keep its name as their
+  directory, as in
   `lib/nitro/include/nitro/os.h`, so code includes `"nitro/os.h"`. Every file is compiled with `include/` and every
   `lib/*/include/` on its search path.
 - `tools/scripts/source_files.py OVERLAY` finds the boundaries: it lists the embedded file names, the functions that

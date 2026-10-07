@@ -5,6 +5,8 @@
 #include "gfl/heap.h"
 #include "gfl/std.h"
 #include "save/join_avenue.h"
+#include "system/resort_binary.h"
+#include "system/resort_layout.h"
 
 // The avenue's NPCs, one per row of a table, whose actors have the UIDs from RESORT_NPC_UID_FIRST
 #define RESORT_NPC_UID_FIRST 0x94
@@ -41,13 +43,13 @@ ResortNPC *func_ov137_021f1c24(const ResortNPCSetup *setup, HeapID heapId) {
     npc->setup = *setup;
     npc->table = setup->table;
     npc->unk4 = 0;
-    npc->texts = func_020395ac(6, 20, heapId);
+    npc->texts = ResortBinary_Load(6, 20, heapId);
     func_ov137_021f1d7c(npc);
     return npc;
 }
 
 void func_ov137_021f1c74(ResortNPC *npc) {
-    func_020395e4(npc->texts);
+    ResortBinary_Free(npc->texts);
     GFL_HeapFree(npc);
 }
 
@@ -72,7 +74,7 @@ void func_ov137_021f1c88(ResortNPC *npc, Field *field) {
 
 FieldActor *func_ov137_021f1cc8(ResortNPC *npc, u32 index) {
     u32 i;
-    for (i = 0; i < func_02039608(npc->table); i++) {
+    for (i = 0; i < ResortBinary_GetRowCount(npc->table); i++) {
         FieldActor *actor = FindFieldActor(npc->setup.mmSys, i + RESORT_NPC_UID_FIRST);
         if (actor != NULL && i == index) {
             return actor;
@@ -96,24 +98,24 @@ void func_ov137_021f1d04(ResortNPC *npc, BOOL visible) {
 }
 
 u16 func_ov137_021f1d60(ResortNPC *npc, u32 row, u32 column) {
-    return func_020395f8(npc->texts, func_020395f8(npc->table, row, RESORT_NPC_COL_TEXT_ROW), column);
+    return ResortBinary_Get(npc->texts, ResortBinary_Get(npc->table, row, RESORT_NPC_COL_TEXT_ROW), column);
 }
 
 static void func_ov137_021f1d7c(ResortNPC *npc) {
     u32 i;
-    for (i = 0; i < func_02039608(npc->table); i++) {
+    for (i = 0; i < ResortBinary_GetRowCount(npc->table); i++) {
         u16 rank = JoinAvenue_GetParam(npc->setup.info, 2, 0);
-        u32 minRank = func_020395f8(npc->table, i, RESORT_NPC_COL_RANK);
-        u32 zone = func_020395f8(npc->table, i, RESORT_NPC_COL_ZONE);
+        u32 minRank = ResortBinary_Get(npc->table, i, RESORT_NPC_COL_RANK);
+        u32 zone = ResortBinary_Get(npc->table, i, RESORT_NPC_COL_ZONE);
         FieldActor *actor = FindFieldActor(npc->setup.mmSys, i + RESORT_NPC_UID_FIRST);
         if (minRank <= rank && actor == NULL && npc->setup.zone == zone) {
             ZoneNPC zoneNpc;
             sys_memset(&zoneNpc, 0, sizeof(ZoneNPC));
             zoneNpc.uid = i + RESORT_NPC_UID_FIRST;
-            zoneNpc.modelId = func_020395f8(npc->table, i, RESORT_NPC_COL_MODEL);
-            zoneNpc.moveCode = func_020395f8(npc->table, i, RESORT_NPC_COL_MOVE_CODE);
+            zoneNpc.modelId = ResortBinary_Get(npc->table, i, RESORT_NPC_COL_MODEL);
+            zoneNpc.moveCode = ResortBinary_Get(npc->table, i, RESORT_NPC_COL_MOVE_CODE);
             zoneNpc.direction = DIR_DOWN;
-            switch (func_020395f8(npc->table, i, RESORT_NPC_COL_SCRIPT)) {
+            switch (ResortBinary_Get(npc->table, i, RESORT_NPC_COL_SCRIPT)) {
             case 1:
                 zoneNpc.scrId = 10695;
                 break;
@@ -121,10 +123,10 @@ static void func_ov137_021f1d7c(ResortNPC *npc) {
                 zoneNpc.scrId = 10694;
                 break;
             }
-            zoneNpc.areaW = func_020395f8(npc->table, i, RESORT_NPC_COL_AREA_W);
-            zoneNpc.areaH = func_020395f8(npc->table, i, RESORT_NPC_COL_AREA_H);
-            func_ov012_021682c0(&zoneNpc, func_020395f8(npc->table, i, RESORT_NPC_COL_X),
-                                func_020395f8(npc->table, i, RESORT_NPC_COL_Z), 0);
+            zoneNpc.areaW = ResortBinary_Get(npc->table, i, RESORT_NPC_COL_AREA_W);
+            zoneNpc.areaH = ResortBinary_Get(npc->table, i, RESORT_NPC_COL_AREA_H);
+            func_ov012_021682c0(&zoneNpc, ResortBinary_Get(npc->table, i, RESORT_NPC_COL_X),
+                                ResortBinary_Get(npc->table, i, RESORT_NPC_COL_Z), 0);
             CreateNewActorByEntityNoWKOBJCODE(npc->setup.mmSys, &zoneNpc, func_0203950c(npc->setup.zone));
             npc->count++;
         }
@@ -150,7 +152,7 @@ static u32 func_ov137_021f1e90(ResortNPC *npc, BOOL stop) {
 }
 
 u16 func_ov137_021f1f00(ResortNPC *npc, u32 row) {
-    return func_020395f8(npc->table, row, RESORT_NPC_COL_TEXT_ROW);
+    return ResortBinary_Get(npc->table, row, RESORT_NPC_COL_TEXT_ROW);
 }
 
 static BOOL func_ov137_021f1f0c(int uid) {

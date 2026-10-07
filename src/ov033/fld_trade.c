@@ -10,6 +10,7 @@
 #include "gfl/overlay.h"
 #include "gfl/str.h"
 #include "pml/evolution.h"
+#include "pml/met_data.h"
 #include "pml/poke_party.h"
 #include "save/player_info.h"
 #include "save/pokedex.h"

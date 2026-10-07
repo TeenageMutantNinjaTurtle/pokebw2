@@ -6,7 +6,7 @@
 
 // The moves' event handlers (not decompiled)
 
-BattleEventItem *MoveEvent_AddItem(BattleMon *mon, u16 move, u32 speed);
+BOOL MoveEvent_AddItem(BattleMon *mon, u16 move, u32 speed);
 void func_ov167_021c5bbc(BattleMon *mon, u16 move);
 void RemoveForce(BattleMon *mon, u16 move);
 

@@ -112,9 +112,9 @@ void CommonMagicCoatCheckMoveEffect(BattleEventItem *item, BtlServerFlow *flow, 
 }
 
 void CommonMagicCoatWait(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work) {
-    if (monId == BattleEventVar_GetValue(4) && BattleEventVar_GetValue(0x4e) == 0
-        && !IsSemiInvulnMove(GetBattleMon(flow, monId)) && getMoveFlag(BattleEventVar_GetValue(0x12), 4)
-        && BattleEventVar_RewriteValue(0x40, 1)) {
+    if (monId == BattleEventVar_GetValue(4) && BattleEventVar_GetValue(0x4e) == 0 &&
+        !IsSemiInvulnMove(GetBattleMon(flow, monId)) && getMoveFlag(BattleEventVar_GetValue(0x12), 4) &&
+        BattleEventVar_RewriteValue(0x40, 1)) {
         u8 attacker = BattleEventVar_GetValue(3);
 
         func_ov167_021abf74(flow, monId, attacker);
