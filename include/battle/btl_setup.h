@@ -60,7 +60,10 @@ struct BtlSetup {
     u8 unk44[4];
     // The trainers of the four clients
     BtlSetupTrainer *trainers[4];
-    u8 unk58[0x18];
+    // The trainers' names, by client
+    StrBuf *trainerNames[4];
+    StrBuf *unk68;
+    StrBuf *unk6C;
     GameData *gameData;
     Config *config;
     BagSave *bag;
