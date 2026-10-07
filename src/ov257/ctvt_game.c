@@ -318,7 +318,11 @@ static CtvtGamePlayer *CtvtGamePlayer_CreateAbsent(CommTvtWork *sys, CtvtGame *g
 static void CtvtGamePlayer_Delete(CtvtGamePlayer *player);
 static void CtvtGame_UpdatePlayers(CtvtGame *game);
 static void CtvtGamePlayer_Show(CommTvtWork *sys, CtvtGamePlayer *player);
+#ifdef BUGFIX
+static void CtvtGame_SetScore(CtvtGame *game, u8 netId, u16 score);
+#else
 static void CtvtGame_SetScore(CtvtGame *game, u8 netId, u8 score);
+#endif
 static void CtvtGame_StartSort(CtvtGame *game, BOOL hurry);
 static void CtvtGame_Rank(CtvtGame *game);
 static BOOL CtvtGamePlayer_Slide(CtvtGamePlayer *player, int dx);
@@ -3401,7 +3405,14 @@ static void CtvtGamePlayer_Show(CommTvtWork *sys, CtvtGamePlayer *player) {
     player->scorePending = TRUE;
 }
 
+// BUG: the scores go up to 999 and a target can come every 16 frames of the 60-second game, at 2 or 4 points a hit,
+// so a player who hits the targets with their own face can pass 255. The u8 then shows the score modulo 256 until
+// the results, which take the scores as they are
+#ifdef BUGFIX
+static void CtvtGame_SetScore(CtvtGame *game, u8 netId, u16 score) {
+#else
 static void CtvtGame_SetScore(CtvtGame *game, u8 netId, u8 score) {
+#endif
     CtvtGamePlayer *player = NULL;
     u8 i;
     PrintQueue *queue;
