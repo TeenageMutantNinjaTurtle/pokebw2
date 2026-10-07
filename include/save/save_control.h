@@ -12,6 +12,15 @@ SaveControl *SaveControl_GetInstance(void);
 void SaveControl_Free(void);
 EncountSave *SaveControl_GetEncountSave(SaveControl *save);
 u32 func_02007560(SaveControl *save, u32 block, u32 heapId, void *buffer, u32 size);
+// The save data Game Sync uploads, and its size
+void *func_02007454(SaveControl *save, u32 *size);
+// The sizes of a downloaded C-Gear skin and Pokédex skin, and a Pokédex skin block's valid flag
+u32 func_0200ce50(void);
+u32 func_0200f164(void);
+void func_0200f194(void *block, u32 valid);
+// Imports a downloaded musical, a step a frame until it returns TRUE
+void *func_0200cd34(GameData *gameData, void *data, u32 size, HeapID heapId);
+BOOL func_0200cd64(void *work);
 void *getAddressOfExtraSaveBlk(SaveControl *save, u32 block, u32 arg2);
 void freeIntermediateSaveExtraBlksAfterLoad2(SaveControl *save, u32 block);
 u32 SaveControl_GetStatus(SaveControl *save);
@@ -63,6 +72,9 @@ void func_0200ea24(AreaNPCSave *npcData, u32 index);
 // Whether the Entree Forest Pokémon, packed as EntreeForestPokemon is, is valid, checking its form when check is set
 BOOL func_0200eb54(SaveControl *save, u32 *pokemon, HeapID heapId, BOOL check);
 void func_0200eb14(AreaNPCSave *npcData, u16 index);
+// Puts a Pokémon from the Dream World in the Entree Forest: its species, a2, sex and form, a5 below 9, and size 2 for
+// a big overworld sprite or 3
+void func_0200ea40(AreaNPCSave *npcData, u16 species, u16 a2, u8 sex, u32 form, u32 a5, u32 size);
 
 // Returns a pointer to one of the save's blocks
 void *SaveControl_GetBlockPtr(SaveControl *save, u32 block);
@@ -281,6 +293,9 @@ void func_02008d90(u32 data, u32 *copy);
 void func_02008d98(u32 data, u32 *copy);
 // A byte of this block, at 7, tells the start menu whether to ask about the C-Gear
 void *func_02009918(SaveControl *save);
+// Mark the downloaded C-Gear skin as there, and keep its CRC
+void func_020098cc(void *block, u8 valid);
+void func_020098d4(void *block, u16 crc);
 void func_020098bc(void *cgear, u8 value);
 // The same block, from the game data
 void *func_02009924(GameData *gameData);

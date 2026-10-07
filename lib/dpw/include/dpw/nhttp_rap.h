@@ -10,7 +10,8 @@
 
 typedef struct NHttpRap NHttpRap;
 
-// Unova Link's requests to the Pokémon Dream Radar's server: a download and an upload of data, with their settings
+// Sets up the request at an index of overlay 189's table of URLs, such as Unova Link's requests to the Pokémon Dream
+// Radar's server and Game Sync's; and one with an ID
 BOOL func_ov189_0219d010(u32 a0, NHttpRap *rap);
 BOOL func_ov189_0219d05c(u32 a0, u32 id, NHttpRap *rap);
 
@@ -31,6 +32,9 @@ void func_ov189_0219d124(NHttpRap *rap);
 void func_ov189_0219d384(NHttpRap *rap);
 void func_ov189_0219d3bc(NHttpRap *rap, void *buffer, u32 size);
 void func_ov189_0219d3cc(NHttpRap *rap);
+// The request's NHTTP connection, and what appears to be NitroSDK's NHTTP_SetPostDataRaw
+void *func_ov189_0219d0ec(NHttpRap *rap);
+int func_ov189_021a0854(void *connection, const void *data, u32 size);
 
 // The answer to a Pokémon's check: its status, each Pokémon's result and its signature
 u8 func_ov189_0219d3e4(const void *body);
