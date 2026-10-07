@@ -169,6 +169,11 @@ Same code, other `sp` offsets or frame size.
 
 - Block-scoped arrays set both the stack order and where their initializers are copied: infowin.c's
   `InfoWin_VBlankTask` matches only with each table declared in the `if` block that uses it.
+- A local pointer to a struct member, `PrintWindow *window = &work->priceWindow;`, is kept as the member's offset in a
+  callee-saved register, added to the struct's base at each use, and where the pointer is assigned decides when that
+  register is loaded. When the original loads a member's offset into `r6` or `r7` early and indexes from it, the
+  source had such a pointer: the bag's `ItemMenuDisp_DrawQuantity`, `ItemMenuDisp_ShowMessage` and
+  `ItemMenuDisp_DrawTMInfo` only match with one, and it also stopped MWCC from holding a zero for the stack arguments.
 
 ## Instruction order
 

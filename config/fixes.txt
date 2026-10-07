@@ -811,6 +811,7 @@ overlays/ov142 0x021a0df0 remove_reloc
 overlays/ov142 0x021a0e15 remove_symbol
 overlays/ov142 0x021a0e18 remove_reloc
 overlays/ov142 0x021a0e81 remove_symbol
+overlays/ov142 0x021a1050 remove_reloc
 overlays/ov142 0x021a10b0 remove_reloc
 overlays/ov142 0x021a13a0 remove_reloc
 overlays/ov142 0x021a13dc remove_reloc
