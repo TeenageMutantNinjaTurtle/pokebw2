@@ -420,6 +420,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   Subway's command switch only splits its values as the game does with an empty `case 102:` inside its first jump
   table, and empty cases that sit between others still get a comparison.
 - A switch case that ends in the same code as another case is merged into it, so its end moves.
+- A switch whose cases each set every argument of one call after it, as `research_top.c`'s button highlights set the
+  BG, position, size and palette for `GFL_BGSysSetScrPaletteNo`, has each argument in a variable: the cases keep only
+  the values that differ, and the values they share are set once at the merged end, in registers. Writing only the
+  differing value as a variable leaves the others as constants at the call, and a call in each case is merged
+  differently.
 - A `switch` on a few small values tests them all first (`cmp; beq` for each, then `b` to the default), while an
   `if`/`else if` chain tests each one before its body (`cmp; bne` to the next test), as bmp_menu.c's
   `BmpMenu_NextCursorPos` does.
