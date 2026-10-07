@@ -230,3 +230,8 @@ src/ov036/scrcmd_proc_fld.c:
     complete
     .text       start:0x021add94 end:0x021ae394
     .data       start:0x021d51dc end:0x021d51f0
+
+src/ov036/scrcmd_fld_battle.c:
+    complete
+    .text       start:0x021aea40 end:0x021aedf4
+    .data       start:0x021d5204 end:0x021d5218

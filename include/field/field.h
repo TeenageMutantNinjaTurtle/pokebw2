@@ -178,6 +178,11 @@ GameEvent *func_ov036_021bfa68(u16 a0, GameSystem *gsys, u32 a2, u16 a3);
 // choose between them, or NULL when neither can enter
 GameEvent *func_ov036_021aebf0(GameSystem *gsys, u32 a1, Regulation *regulation, u16 *result, HeapID heapId);
 u32 func_ov036_021aece0(GameSystem *gsys, u32 a1, Regulation *regulation, HeapID heapId);
+// The screen that picks the party or the Battle Box for a battle, whether it is done, and the choice
+void *func_ov036_021c3180(Field *field, PokeParty *party, PokeParty *battleBoxParty, u8 partyOk, u8 battleBoxOk,
+                          HeapID heapId);
+BOOL func_ov036_021c3278(void *select);
+u16 func_ov036_021c3218(void *select, u32 *a1);
 u32 func_ov036_0218816c(void *window);
 void func_ov036_02187ea0(void *window);
 void *func_ov036_021c3d9c(PlayerInfo *info, Field *field, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);

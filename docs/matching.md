@@ -12,6 +12,9 @@ Same instructions, registers swapped.
 
 - Register allocation follows the declaration order of locals, so try reordering declarations when registers are
   swapped.
+- How a store is written can move the parameters' registers too: `*result = *partyResult != 0 ? 3 : 0;` swapped two
+  pointer parameters' registers in `scrcmd_fld_battle.c`'s `func_ov036_021aec28`, where the same store as an
+  `if`/`else` matched.
 - The registers follow the declarations, but the order the constants are set follows the statements: when the
   declaration order that gives the right registers sets them in the wrong order, or derives one constant from the
   other (`movs r6, #0` ... `subs r4, r6, #1` for `-1`), declare the locals without initializers and assign them in the
@@ -110,6 +113,11 @@ Same code, other `sp` offsets or frame size.
 - Declaration order does move spill slots in longer functions: `func_ov255_021d0374` matched with its loop counters
   declared first and `y` before the row width.
 - Stack locals are laid out in reverse declaration order.
+  When values must be read in one order (a script's arguments, say) but the original's slots follow another, declare
+  the locals without initializers in the slot order and assign them in the read order: `script_command.c`'s
+  `StaScriptCmd_PokeMove` matched with `mask; frames; wait; pokeSys; x; y; z;` declared and the arguments read as
+  `mask, frames, x, y, z, wait`, and `StaScriptCmd_LightFollow` with the three system pointers declared before the
+  offsets they are read after.
 - A local initializer inside a loop is copied from `.rodata` once, before the loop, into a compiler temporary at the
   bottom of the frame, and copied from there into the local on each pass. `mus_shot_photo.c`'s
   `MusShotPhoto_InitPokes` declares `VecFx32 offset = { 0, FX32_CONST(-35), 0 };` in the branch for the top Pokémon,
@@ -289,6 +297,11 @@ Same instructions, scheduled in another order.
 
 Narrowing shifts, reloads, recomputed addresses and folded constants.
 
+- A last call that passes four arguments in registers is a `bl` with a frame, not a tail call: MWCC's tail call
+  loads the callee's address into `r3`, which the fourth argument holds. When the original saves a register and
+  calls where the C tail-calls, the callee takes one argument more: `sta_acting.c`'s `StaActing_PlayWave` matched
+  once `func_02006528` took the fourth argument its code reads, which the caller passes on from its own `r3`.
+
 - `p->stack[p->num - 1]` with the array a direct member of `*p` subtracts 1 and loads from the array's offset
   (`subs; lsls; ldr [r0, #0x4c]`), while the same index into an array inside a nested struct folds the `- 1` into the
   offset (`lsls; ldr [r0, #0x48]`). The Battle Recorder's `BrProcSys_Pop` has the folded load, but its asserts name
@@ -444,6 +457,12 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A `u16` local that holds a call's result changes the operand order of a later add with it, and
   `index = first; index += kind;` truncates a `u32` field before the add, where `first + kind` does not
   (`ctvt_game.c`'s `CtvtGameTarget_UpdateHit` and `CtvtGameTarget_Draw`).
+- `*(data + pos + 1)` adds `pos` once and then loads at `#1`, where `data[pos + 1]` adds `pos + 1` first; and a value
+  built in a `u16` local with `|=` and then returned has no final narrowing pair, where a returned `int` expression
+  does (`ssp_exifdec.c`'s byte readers). A ternary that stores to a static is a select (`bhi`); the original's
+  `bls; b` is an `if`/`else` with a store in each branch.
+- Advancing a pointer-like offset with `x += 0xc` lets MWCC fold the 0xc into every later offset from it; writing
+  `pos = x + 0xc` and reading through `pos` keeps the `add` (`ssp_exifdec.c`'s IFD loop).
 - A ternary argument `f(c ? 1 : 0)` compiles to the select form (`movs r0, #1; cmp; beq; movs r0, #0`). A branchy
   original (`bne`; `movs #1`; `b`; `movs #0`) is an `if`/`else` with a call in each branch, as `CtvtTalk_UpdateMain`
   calls `func_0203d564(TRUE)` or `func_0203d564(FALSE)`.
