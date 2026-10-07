@@ -21,6 +21,8 @@ void func_ov036_021c6cf8(void *effect);
 
 void *func_ov036_021b3f14(void *effects, FieldActor *actor, u32 arg2, u32 arg3);
 void func_ov036_021a5968(void *effect, u32 arg1);
+// Break the rock in front of an actor with Rock Smash
+void func_ov036_021a56c8(FieldActor *actor, FieldEffects *effects);
 // The field effect of a phenomenon, which fldeff_encount.c plays
 FieldEffectTask *func_ov036_021a53f8(EncountSystem *system, FieldEffects *effects, u16 x, u16 z, fx32 height,
                                      u32 kind);
