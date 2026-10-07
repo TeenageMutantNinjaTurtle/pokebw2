@@ -1246,7 +1246,8 @@ overlays/ov209 0x021c0e00 reloc_module overlay(210)
 overlays/ov209 0x021c0e04 reloc_module overlay(210)
 overlays/ov209 0x021c2c2c add_data MUS_SHOT_PHOTO_UNUSED
 overlays/ov209 0x021c2c74 remove_reloc
-overlays/ov209 0x021c2d88 add_data data_ov209_021c2d88
+overlays/ov209 0x021c2d88 add_data MUS_ITEM_DRAW_UNUSED_0
+overlays/ov209 0x021c2d8c add_data MUS_ITEM_DRAW_UNUSED_1
 overlays/ov209 0x021c2e28 remove_reloc
 overlays/ov209 0x021c2ea8 remove_reloc
 overlays/ov214 0x021d3490 overlay_id 189
