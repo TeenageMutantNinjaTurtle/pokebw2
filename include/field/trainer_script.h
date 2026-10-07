@@ -17,7 +17,8 @@ typedef struct {
 
 struct TrainerClashSlot {
     TrainerClashData data;
-    u32 result;
+    // The work of the Trainer's walk up to the player
+    struct EventTrainerEyeWork *eye;
 };
 
 void SetupTrainerClashSlot(GameEvent *event, int index, const TrainerClashData *data);
