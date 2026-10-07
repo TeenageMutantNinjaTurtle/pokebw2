@@ -27,11 +27,11 @@ u16 PMSIParam_GetWord(const PMSIParam *param);
 void PMSIParam_GetWords(const PMSIParam *param, u16 *words);
 void PMSIParam_GetSentence(const PMSIParam *param, PMSData *sentence);
 u32 PMSIParam_GetMode(const PMSIParam *param);
-void *func_02029a6c(const PMSIParam *param);
+void *PMSIParam_GetPokeDex(const PMSIParam *param);
 PMSWordSave *PMSIParam_GetWordSave(const PMSIParam *param);
 BOOL func_02029a74(const PMSIParam *param);
 BOOL PMSIParam_HasStartSentence(const PMSIParam *param);
-BOOL func_02029a84(const PMSIParam *param);
+BOOL PMSIParam_HasNumbers(const PMSIParam *param);
 // The result, in words or sentence by the mode
 void PMSIParam_GetResult(const PMSIParam *param, u16 *words, PMSData *sentence);
 // Sets the result and whether it differs from the starting value

@@ -5,6 +5,7 @@
 #include "constants/pokemon.h"
 #include "field/entree_forest.h"
 #include "field/event_mapchange.h"
+#include "field/event_sound.h"
 #include "field/field.h"
 #include "field/field_actor.h"
 #include "field/field_event.h"

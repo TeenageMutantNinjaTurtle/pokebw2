@@ -8,6 +8,7 @@
 #include "field/event_save.h"
 #include "field/field.h"
 #include "field/field_event.h"
+#include "field/field_sound.h"
 #include "field/iss.h"
 #include "field/itemuse_event.h"
 #include "field/player_action.h"
@@ -488,7 +489,7 @@ void *func_ov012_0215bad4(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
     param->pokedex = GameData_GetPokedex(param->gameData);
     param->playerInfo = GetGameDataPlayerInfo(param->gameData);
     sound = GameData_GetFieldSoundSystem(param->gameData);
-    func_02030040(sound, GameSystem_GetISS(work->input->gameSystem));
+    FieldSnd_DuckVolume(sound, GameSystem_GetISS(work->input->gameSystem));
     if (appParam != -1) {
         param->species = appParam;
     } else {
@@ -501,7 +502,7 @@ u32 func_ov012_0215bb44(FieldAppCallWork *work, void *data) {
     ZukanParam *param = data;
     FieldSound *sound = GameData_GetFieldSoundSystem(param->gameData);
 
-    func_0203005c(sound, GameSystem_GetISS(work->input->gameSystem));
+    FieldSnd_RestoreVolume(sound, GameSystem_GetISS(work->input->gameSystem));
     switch (param->result) {
     case 0:
         return 0;
@@ -735,7 +736,7 @@ void *func_ov012_0215bef4(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
     FieldSound *sound = GameData_GetFieldSoundSystem(gameData);
     TrainerCardParam *param;
 
-    func_02030040(sound, GameSystem_GetISS(work->input->gameSystem));
+    FieldSnd_DuckVolume(sound, GameSystem_GetISS(work->input->gameSystem));
     if (GetZoneIsUnionRoom(zoneId) || IsZone150Or151(zoneId)) {
         canEdit = FALSE;
     }
@@ -750,7 +751,7 @@ u32 func_ov012_0215bf58(FieldAppCallWork *work, void *data) {
     TrainerCardParam *param = data;
     FieldSound *sound = GameData_GetFieldSoundSystem(GSYS_GetGameData(work->input->gameSystem));
 
-    func_0203005c(sound, GameSystem_GetISS(work->input->gameSystem));
+    FieldSnd_RestoreVolume(sound, GameSystem_GetISS(work->input->gameSystem));
     if (param->result == 1) {
         return 1;
     }

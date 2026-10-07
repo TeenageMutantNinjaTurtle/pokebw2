@@ -1,6 +1,7 @@
 #include "types.h"
 #include "app/ov139.h"
 #include "app/pokemon_trade_local.h"
+#include "constants/items.h"
 #include "constants/pokemon.h"
 #include "constants/sound.h"
 #include "constants/species.h"
@@ -10,13 +11,17 @@
 #include "gfl/bmp.h"
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"
+#include "gfl/g3d.h"
 #include "gfl/graphics.h"
+#include "gfl/gx_layers.h"
 #include "gfl/heap.h"
 #include "gfl/key.h"
 #include "gfl/msg.h"
 #include "gfl/std.h"
 #include "gfl/ui.h"
+#include "nitro/fx.h"
 #include "nitro/gx.h"
+#include "pml/item.h"
 #include "pml/personal.h"
 #include "pml/poke_party.h"
 #include "save/box.h"
@@ -62,6 +67,7 @@ static void func_ov194_021c3904(PokemonTradeWork *wk, BoxSaveAccessor *boxes, in
 static void func_ov194_021c3d2c(PokemonTradeWork *wk);
 static int func_ov194_021c3f5c(int column);
 static void func_ov194_021c3f68(PokemonTradeWork *wk);
+static void func_ov194_021c4e0c(PokemonTradeWork *wk, int side, PartyPkm *pkm);
 
 // The cell actor systems of the trade, and of the trade demo, which has only a few sprites
 static const ClActSysSetup sClActSetup = { 0, 0, 0, 512, 4, 124, 4, 124, 0, 128, 128, 128, 128, 16, 16 };
@@ -111,6 +117,30 @@ static u8 sSpeciesInitials[] = {
     0x0b, 0x02, 0x00, 0x05, 0x07, 0x02, 0x01, 0x02, 0x12, 0x00, 0x12, 0x0c, 0x0c, 0x03, 0x06, 0x06, 0x0f, 0x01, 0x01,
     0x11, 0x01, 0x15, 0x0c, 0x07, 0x03, 0x03, 0x19, 0x07, 0x0b, 0x15, 0x02, 0x13, 0x15, 0x13, 0x13, 0x11, 0x19, 0x0b,
     0x0a, 0x0a, 0x0c, 0x06, 0x04, 0x01,
+};
+
+// The upper screen's camera: what it looks at, from where
+static const VecFx32 sCameraTarget = { 0, 0, 0 };
+static const VecFx32 sCameraPos = { 0, 0, FX32_CONST(200) };
+
+static const Light sLights[] = {
+    { { 0, -FX16_ONE, 0 }, GX_RGB(16, 16, 16) },
+    { { 0, FX16_ONE, 0 }, GX_RGB(16, 16, 16) },
+    { { 0, -FX16_ONE, 0 }, GX_RGB(16, 16, 16) },
+    { { 0, -FX16_ONE, 0 }, GX_RGB(16, 16, 16) },
+};
+
+// The trade's display, and the trade demo's, whose lower screen shows a bitmap BG
+static const BGSysLCDConfig sLCDConfigs[] = {
+    { GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BGMODE_0, GX_BG0_AS_3D },
+    { GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BGMODE_3, GX_BG0_AS_3D },
+};
+
+// Where the windows of the letters of the search by initial go, in tiles
+static u32 sInitialWindowPos[][2] = {
+    { 1, 9 },   { 4, 9 },   { 7, 9 },  { 10, 9 }, { 13, 9 },  { 16, 9 },  { 19, 9 },  { 22, 9 },  { 25, 9 },
+    { 28, 9 },  { 1, 12 },  { 4, 12 }, { 7, 12 }, { 10, 12 }, { 13, 12 }, { 16, 12 }, { 19, 12 }, { 22, 12 },
+    { 25, 12 }, { 28, 12 }, { 1, 15 }, { 4, 15 }, { 7, 15 },  { 10, 15 }, { 13, 15 }, { 16, 15 },
 };
 
 void func_ov194_021c2a24(PokemonTradeWork *wk) {
@@ -869,5 +899,807 @@ static void func_ov194_021c3d2c(PokemonTradeWork *wk) {
             func_0204c140(wk->iconCursors[index][j], &pos, CLACT_VRAM_SUB);
         }
         column++;
+    }
+}
+
+// Copies the characters of the icons of a box's Pokémon, or of the party's after the last box, one box a call; the
+// first call allocates room for all of them
+void func_ov194_021c3e9c(PokemonTradeWork *wk, int box) {
+    ArcTool *arc;
+    int i, slot;
+    void *file;
+    NNSG2dCharacterData *chars;
+
+    if (box == 0) {
+        wk->iconCharData = GFL_HeapAllocate(wk->heapId, (MAX_BOXES * 30 + 6) * 0x200, FALSE, "pokemontrade_2d.c", 1291);
+    }
+    arc = GFL_ArcSysCreateFileHandle(7, wk->heapId);
+    while (box < MAX_BOXES + 1) {
+        slot = box * 30;
+        for (i = 0; i < 30; i++) {
+            BoxPkm *pkm;
+            u32 icon;
+
+            if (box == MAX_BOXES && i == 6) {
+                break;
+            }
+            pkm = PokemonTrade_GetBoxPkm(wk->boxes, box, i, wk);
+            if (pkm != NULL) {
+                icon = func_02020f40(pkm);
+            } else {
+                icon = PokeParty_GetIconIndex(0, 0, 0, FALSE);
+            }
+            file = GFL_G2DIOReadBGNCGRArc(arc, icon, FALSE, &chars, wk->heapId);
+            sys_memcpy(chars->rawData, wk->iconCharData + slot * 0x200, 0x200);
+            slot++;
+            GFL_HeapFree(file);
+        }
+        break;
+    }
+    GFL_ArcToolFree(arc);
+}
+
+// The icon column that a column of the strip is set up in
+static int func_ov194_021c3f5c(int column) {
+    return column % ICON_COLUMNS;
+}
+
+static void func_ov194_021c3f68(PokemonTradeWork *wk) {
+    int i, j;
+
+    for (i = 0; i < ICON_COLUMNS; i++) {
+        for (j = 0; j < COLUMN_ROWS; j++) {
+            func_0204c124(wk->icons[i][j], FALSE);
+        }
+    }
+}
+
+// The Pokémon icon at a point of the screen. If asked, the box and slot of its Pokémon, NULL if the icon shows none,
+// and the column of the strip, the row and the icon column it is in
+ClActor *func_ov194_021c3fa8(PokemonTradeWork *wk, int x, int y, int *box, int *slot, int *column, int *row,
+                             int *index) {
+    int i, j;
+    int iconColumn;
+
+    for (i = 0; i < ICON_COLUMNS; i++) {
+        for (j = 0; j < COLUMN_ROWS; j++) {
+            ClActorPos pos;
+
+            func_0204c178(wk->icons[i][j], &pos, CLACT_VRAM_SUB);
+            if (pos.x <= x && x < pos.x + 24 && pos.y <= y && y < pos.y + 24) {
+                if (box != NULL) {
+                    iconColumn = wk->iconColumns[i][j];
+                    if (iconColumn == 0xff) {
+                        return NULL;
+                    }
+                    if (PokemonTrade_GetColumnSlot(iconColumn, j) != -1) {
+                        *box = PokemonTrade_GetColumnBox(iconColumn, wk);
+                        *slot = PokemonTrade_GetColumnSlot(iconColumn, j);
+                    } else {
+                        return NULL;
+                    }
+                }
+                if (column != NULL) {
+                    *column = iconColumn;
+                    *row = j;
+                    *index = i;
+                }
+                return wk->icons[i][j];
+            }
+        }
+    }
+    return NULL;
+}
+
+// Sets up the trade demo's BGs 6 and 7 on the lower screen, with the graphics of the trade or of the other demo
+void func_ov194_021c4088(PokemonTradeWork *wk, BOOL other) {
+    ArcTool *arc;
+
+    func_ov194_021c45ec(1);
+    wk->demoBGsCreated = TRUE;
+    {
+        BGSetup setup = { 0,
+                          0,
+                          0x800,
+                          0,
+                          BGRES_256x256,
+                          GX_BG_COLORMODE_16,
+                          GX_BG_SCRBASE(0xe800),
+                          GX_BG_CHARBASE(0x10000),
+                          0x8000,
+                          GX_BG_EXTPLTT_01,
+                          0,
+                          GX_BG_AREAOVER_XLU,
+                          FALSE };
+
+        GFL_BGSysCreateBG(6, &setup, BGMODE_TEXT);
+        GFL_BGSysFillChar(6, 0, 1, 0);
+        GFL_BGSysFillScrArea(6, 0, 0, 0, 32, 24, BGSYS_FILL_TILE_PALETTE);
+        GFL_BGSysLoadScr(6);
+    }
+    {
+        BGSetup setup = { 0,
+                          0,
+                          0x800,
+                          0,
+                          BGRES_256x256,
+                          GX_BG_COLORMODE_256,
+                          GX_BG_SCRBASE(0xf000),
+                          GX_BG_CHARBASE(0x00000),
+                          0x8000,
+                          GX_BG_EXTPLTT_01,
+                          2,
+                          GX_BG_AREAOVER_XLU,
+                          FALSE };
+
+        GFL_BGSysCreateBG(7, &setup, BGMODE_EXTENDED);
+    }
+    if (!other) {
+        arc = GFL_ArcSysCreateFileHandle(0x68, wk->heapId);
+        GFL_G2DIOLoadArcNCLRDefault(arc, 5, 6, 0x6000, 0, wk->heapId);
+        GFL_BGSysLoadArcNCGRStatic(arc, 4, 7, 0, 0, FALSE, wk->heapId);
+        loadBGScrToVramByFileNoReserveNegAlign(arc, 6, 7, 0, 0, FALSE, wk->heapId);
+        GFL_BGSysMoveBG(7, BG_MOVE_SET_X, 0);
+        GFL_ArcToolFree(arc);
+    } else {
+        arc = GFL_ArcSysCreateFileHandle(0x69, wk->heapId);
+        GFL_G2DIOLoadArcNCLRDefault(arc, 1, 6, 0x6000, 0, wk->heapId);
+        GFL_BGSysLoadArcNCGRStatic(arc, 0, 7, 0, 0, FALSE, wk->heapId);
+        loadBGScrToVramByFileNoReserveNegAlign(arc, 2, 7, 0, 0, FALSE, wk->heapId);
+        GFL_BGSysMoveBG(7, BG_MOVE_SET_X, 0);
+        GFL_ArcToolFree(arc);
+    }
+}
+
+void func_ov194_021c41d0(PokemonTradeWork *wk) {
+    if (wk->demoBGsCreated) {
+        GFL_BGSysFreeFilledChar(6, 1, 0);
+        GFL_BGSysReleaseBG(6);
+        GFL_BGSysReleaseBG(7);
+        wk->demoBGsCreated = FALSE;
+    }
+}
+
+// Sets up the VRAM and the cell actor system, with every BG hidden
+void func_ov194_021c41fc(PokemonTradeWork *wk) {
+    GFL_BGSysSetVRAMBanks(&sVRAMConfig);
+    ClActSys_Create(&sClActSetup, &sVRAMConfig, wk->heapId);
+    func_ov194_021c45ec(0);
+    GFL_BGSysSetEnabledBGsA(0);
+    GFL_BGSysSetEnabledBGsB(0);
+}
+
+// Sets up the upper screen's BGs 1 to 3, over the 3D of BG 0
+void func_ov194_021c4234(PokemonTradeWork *wk) {
+    {
+        BGSetup setup = { 0,
+                          0,
+                          0x800,
+                          0,
+                          BGRES_256x256,
+                          GX_BG_COLORMODE_16,
+                          GX_BG_SCRBASE(0xe000),
+                          GX_BG_CHARBASE(0x00000),
+                          0x8000,
+                          GX_BG_EXTPLTT_01,
+                          0,
+                          GX_BG_AREAOVER_XLU,
+                          FALSE };
+
+        GFL_BGSysCreateBG(3, &setup, BGMODE_TEXT);
+        GFL_BGSysFillChar(3, 0, 1, 0);
+        GFL_BGSysFillScrArea(3, 0, 0, 0, 32, 24, BGSYS_FILL_TILE_PALETTE);
+        GFL_BGSysLoadScr(3);
+    }
+    {
+        BGSetup setup = { 0,
+                          0,
+                          0x800,
+                          0,
+                          BGRES_256x256,
+                          GX_BG_COLORMODE_16,
+                          GX_BG_SCRBASE(0xf000),
+                          GX_BG_CHARBASE(0x08000),
+                          0x8000,
+                          GX_BG_EXTPLTT_01,
+                          3,
+                          GX_BG_AREAOVER_XLU,
+                          FALSE };
+
+        GFL_BGSysCreateBG(2, &setup, BGMODE_TEXT);
+        GFL_BGSysFillChar(2, 0, 1, 0);
+        GFL_BGSysFillScrArea(2, 0, 0, 0, 32, 24, BGSYS_FILL_TILE_PALETTE);
+        GFL_BGSysLoadScr(2);
+    }
+    {
+        BGSetup setup = { 0,
+                          0,
+                          0x800,
+                          0,
+                          BGRES_256x256,
+                          GX_BG_COLORMODE_16,
+                          GX_BG_SCRBASE(0xf800),
+                          GX_BG_CHARBASE(0x08000),
+                          0x8000,
+                          GX_BG_EXTPLTT_01,
+                          1,
+                          GX_BG_AREAOVER_XLU,
+                          FALSE };
+
+        GFL_BGSysCreateBG(1, &setup, BGMODE_TEXT);
+        GFL_BGSysFillScrArea(1, 0, 0, 0, 32, 24, BGSYS_FILL_TILE_PALETTE);
+        GFL_BGSysLoadScr(1);
+    }
+    GFL_BGSysSet3DBGPriority(0);
+    GFL_BGSysSetBGEnabled(0, TRUE);
+    GFL_BGSysSetBGPriority(0, 0);
+}
+
+// The 3D system calls this once it is set up
+static void func_ov194_021c4324(void) {
+    u32 i;
+
+    GFL_BGSysSetBGEnabledA(GX_PLANEMASK_BG0, TRUE);
+    G3X_SetShading(GX_SHADING_HIGHLIGHT);
+    G3X_AntiAlias(TRUE);
+    G3X_AlphaBlend(TRUE);
+    G3X_EdgeMarking(FALSE);
+    gfxSetFog(TRUE, 0, 0, 0);
+    gfxClearColor(GX_RGB(0, 0, 0), 0, 0x7fff, 63, FALSE);
+    G3_ViewPort(0, 0, 255, 191);
+    for (i = 0; i < NELEMS(sLights); i++) {
+        GFL_G3DSysLightSet(i, &sLights[i]);
+    }
+    G2_SetBG0Priority(2);
+}
+
+// Sets up the 3D system and the upper screen's camera
+void func_ov194_021c43c0(PokemonTradeWork *wk) {
+    GFL_G3DSysCreate(FALSE, 2, FALSE, 1, 0, HEAPID_TAIL(wk->heapId), func_ov194_021c4324);
+    {
+        HeapID heapId = HEAPID_TAIL(wk->heapId);
+        VecFx32 up = { 0, FX32_ONE, 0 };
+
+        // A 40 degree field of view
+        wk->camera = GFL_G3DCameraCreate(G3DCAM_PROJECTION_PERSPECTIVE, FX_SinIdx(DEG_TO_IDX(20)),
+                                         FX_CosIdx(DEG_TO_IDX(20)), FX32_CONST(4.0 / 3.0), 0, FX32_ONE,
+                                         FX32_CONST(1024), 0, &sCameraPos, &up, &sCameraTarget, heapId);
+    }
+    GFL_G3DCameraFlush(wk->camera);
+    G3X_EdgeMarking(FALSE);
+    GFL_G3DSysSetSwapBufferParams(GX_SORTMODE_AUTO, GX_BUFFERMODE_Z);
+}
+
+// Sets up the lower screen's BGs
+void func_ov194_021c4484(PokemonTradeWork *wk) {
+    {
+        BGSetup setup = { 0,
+                          0,
+                          0x800,
+                          0,
+                          BGRES_256x256,
+                          GX_BG_COLORMODE_16,
+                          GX_BG_SCRBASE(0xe000),
+                          GX_BG_CHARBASE(0x10000),
+                          0x10000,
+                          GX_BG_EXTPLTT_01,
+                          1,
+                          GX_BG_AREAOVER_XLU,
+                          FALSE };
+
+        GFL_BGSysCreateBG(4, &setup, BGMODE_TEXT);
+        GFL_BGSysFillScrArea(4, 0, 0, 0, 32, 24, BGSYS_FILL_TILE_PALETTE);
+    }
+    {
+        BGSetup setup = { 0,
+                          0,
+                          0x1000,
+                          0,
+                          BGRES_512x256,
+                          GX_BG_COLORMODE_16,
+                          GX_BG_SCRBASE(0xc000),
+                          GX_BG_CHARBASE(0x10000),
+                          0x10000,
+                          GX_BG_EXTPLTT_01,
+                          2,
+                          GX_BG_AREAOVER_XLU,
+                          FALSE };
+
+        GFL_BGSysCreateBG(5, &setup, BGMODE_TEXT);
+        GFL_BGSysFillChar(5, 0, 1, 0);
+        GFL_BGSysFillScrArea(5, 0, 0, 0, 32, 24, BGSYS_FILL_TILE_PALETTE);
+        GFL_BGSysLoadScr(5);
+    }
+    {
+        BGSetup setup = { 0,
+                          0,
+                          0x1000,
+                          0,
+                          BGRES_512x256,
+                          GX_BG_COLORMODE_16,
+                          GX_BG_SCRBASE(0xf000),
+                          GX_BG_CHARBASE(0x08000),
+                          0x8000,
+                          GX_BG_EXTPLTT_01,
+                          3,
+                          GX_BG_AREAOVER_XLU,
+                          FALSE };
+
+        GFL_BGSysCreateBG(7, &setup, BGMODE_TEXT);
+        GFL_BGSysFillScrArea(7, 0, 0, 0, 64, 24, BGSYS_FILL_TILE_PALETTE);
+        GFL_BGSysLoadScr(7);
+    }
+    {
+        BGSetup setup = { 0,
+                          0,
+                          0x800,
+                          0,
+                          BGRES_256x256,
+                          GX_BG_COLORMODE_16,
+                          GX_BG_SCRBASE(0xe800),
+                          GX_BG_CHARBASE(0x00000),
+                          0x8000,
+                          GX_BG_EXTPLTT_01,
+                          0,
+                          GX_BG_AREAOVER_XLU,
+                          FALSE };
+
+        GFL_BGSysCreateBG(6, &setup, BGMODE_TEXT);
+        GFL_BGSysFillChar(6, 0, 1, 0);
+        GFL_BGSysFillScrArea(6, 0, 0, 0, 32, 24, BGSYS_FILL_TILE_PALETTE);
+        GFL_BGSysLoadScr(6);
+    }
+    wk->subBGsCreated = TRUE;
+}
+
+void func_ov194_021c45a8(PokemonTradeWork *wk) {
+    if (wk->subBGsCreated == TRUE) {
+        GFL_BGSysFreeFilledChar(4, 1, 0);
+        GFL_BGSysFreeFilledChar(6, 1, 0);
+        GFL_BGSysReleaseBG(4);
+        GFL_BGSysReleaseBG(5);
+        GFL_BGSysReleaseBG(6);
+        GFL_BGSysReleaseBG(7);
+        wk->subBGsCreated = FALSE;
+    }
+}
+
+// Sets the display up for the trade, or for the trade demo
+void func_ov194_021c45ec(int config) {
+    GFL_BGSysSetLCDConfig(&sLCDConfigs[config]);
+}
+
+// Loads the sprites of the upper screen once
+void func_ov194_021c4600(PokemonTradeWork *wk) {
+    if (wk->objRes[TRADE_OBJRES_CHAR_MAIN] == 0) {
+        ArcTool *arc = GFL_ArcSysCreateFileHandle(0x67, wk->heapId);
+
+        wk->objRes[TRADE_OBJRES_CHAR_MAIN] = func_0204b81c(arc, 21, FALSE, CLACT_VRAM_MAIN, wk->heapId);
+        wk->objRes[TRADE_OBJRES_PLTT_MAIN] = func_0204bbb8(arc, 18, CLACT_VRAM_MAIN, 0xc0, 0, 6, wk->heapId);
+        wk->objRes[TRADE_OBJRES_CELL_MAIN] = func_0204bde0(arc, 20, 19, wk->heapId);
+        GFL_ArcToolFree(arc);
+    }
+}
+
+void func_ov194_021c466c(PokemonTradeWork *wk) {
+    if (wk->objRes[TRADE_OBJRES_CHAR_MAIN] != 0) {
+        func_0204b98c(wk->objRes[TRADE_OBJRES_CHAR_MAIN]);
+        func_0204bcd0(wk->objRes[TRADE_OBJRES_PLTT_MAIN]);
+        func_0204be64(wk->objRes[TRADE_OBJRES_CELL_MAIN]);
+        wk->objRes[TRADE_OBJRES_CHAR_MAIN] = 0;
+        wk->objRes[TRADE_OBJRES_PLTT_MAIN] = 0;
+        wk->objRes[TRADE_OBJRES_CELL_MAIN] = 0;
+    }
+}
+
+// Loads the sprites of the lower screen, and shows the one at the bottom of the strip
+void func_ov194_021c46a4(PokemonTradeWork *wk) {
+    ClActorSetup setup;
+    ArcTool *arc = GFL_ArcSysCreateFileHandle(0x67, wk->heapId);
+
+    wk->objRes[TRADE_OBJRES_CHAR_SUB] = func_0204b81c(arc, 24, FALSE, CLACT_VRAM_SUB, wk->heapId);
+    wk->objRes[TRADE_OBJRES_PLTT_SUB] = func_0204bbb8(arc, 18, CLACT_VRAM_SUB, 0xc0, 0, 6, wk->heapId);
+    wk->objRes[TRADE_OBJRES_CELL_SUB] = func_0204bde0(arc, 23, 22, wk->heapId);
+    GFL_ArcToolFree(arc);
+    setup.x = 128;
+    setup.y = 180;
+    setup.sequence = 2;
+    setup.priority = 14;
+    setup.bgPriority = 0;
+    wk->actors[2] = func_0204c040(wk->clactUnit, wk->objRes[TRADE_OBJRES_CHAR_SUB], wk->objRes[TRADE_OBJRES_PLTT_SUB],
+                                  wk->objRes[TRADE_OBJRES_CELL_SUB], &setup, CLACT_VRAM_SUB, wk->heapId);
+    func_0204c520(wk->actors[2], FALSE);
+    func_0204c124(wk->actors[2], TRUE);
+}
+
+void func_ov194_021c475c(PokemonTradeWork *wk) {
+    ArcTool *arc = GFL_ArcSysCreateFileHandle(0x67, wk->heapId);
+
+    GFL_G2DIOLoadNSCRSync(arc, 29, 2, 0, CHAR_POS(wk->bg2Chars), 0, FALSE, wk->heapId);
+    GFL_ArcToolFree(arc);
+}
+
+// Sets up the sprites of the two Pokémon traded, over the upper screen's panels, and the arrows between them
+void func_ov194_021c479c(PokemonTradeWork *wk) {
+    ArcTool *arc;
+    BoxPkm *pkm0, *pkm1;
+    ClActorSetup setup;
+    ClActorSetup iconSetup;
+
+    setup.x = 128;
+    setup.y = 16;
+    setup.sequence = 19;
+    setup.priority = 14;
+    setup.bgPriority = 1;
+    wk->actors[3] = func_0204c040(wk->clactUnit, wk->objRes[TRADE_OBJRES_CHAR_SUB], wk->objRes[TRADE_OBJRES_PLTT_SUB],
+                                  wk->objRes[TRADE_OBJRES_CELL_SUB], &setup, CLACT_VRAM_SUB, wk->heapId);
+    func_0204c520(wk->actors[3], TRUE);
+    func_0204c124(wk->actors[3], TRUE);
+    setup.x = 96;
+    setup.y = 16;
+    setup.sequence = 0;
+    setup.priority = 11;
+    setup.bgPriority = 1;
+    wk->actors[4] = func_0204c040(wk->clactUnit, wk->objRes[TRADE_OBJRES_CHAR_SUB], wk->objRes[TRADE_OBJRES_PLTT_SUB],
+                                  wk->objRes[TRADE_OBJRES_CELL_SUB], &setup, CLACT_VRAM_SUB, wk->heapId);
+    func_0204c520(wk->actors[4], TRUE);
+    if (func_0203d554()) {
+        func_0204c124(wk->actors[4], FALSE);
+    }
+
+    arc = GFL_ArcSysCreateFileHandle(7, wk->heapId);
+    pkm0 = func_0201d624(PokemonTrade_GetPkm(wk, 0));
+    pkm1 = func_0201d624(PokemonTrade_GetPkm(wk, 1));
+    wk->objRes[TRADE_OBJRES_CHAR_ICON0] = func_0204b81c(arc, func_02020f40(pkm0), FALSE, CLACT_VRAM_SUB, wk->heapId);
+    wk->objRes[TRADE_OBJRES_CHAR_ICON1] = func_0204b81c(arc, func_02020f40(pkm1), FALSE, CLACT_VRAM_SUB, wk->heapId);
+    iconSetup.x = 96;
+    iconSetup.y = 12;
+    iconSetup.sequence = 0;
+    iconSetup.priority = 12;
+    iconSetup.bgPriority = 1;
+    wk->actors[5] =
+        func_0204c040(wk->clactUnit, wk->objRes[TRADE_OBJRES_CHAR_ICON0], wk->objRes[TRADE_OBJRES_PLTT_ICON],
+                      wk->objRes[TRADE_OBJRES_CELL_ICON], &iconSetup, CLACT_VRAM_SUB, wk->heapId);
+    func_0204c520(wk->actors[5], FALSE);
+    func_0204c124(wk->actors[5], TRUE);
+    func_0204c378(wk->actors[5], func_020210c0(pkm0), CLACT_VRAM_SUB);
+    iconSetup.x = 160;
+    wk->actors[6] =
+        func_0204c040(wk->clactUnit, wk->objRes[TRADE_OBJRES_CHAR_ICON1], wk->objRes[TRADE_OBJRES_PLTT_ICON],
+                      wk->objRes[TRADE_OBJRES_CELL_ICON], &iconSetup, CLACT_VRAM_SUB, wk->heapId);
+    func_0204c520(wk->actors[6], FALSE);
+    func_0204c124(wk->actors[6], TRUE);
+    func_0204c378(wk->actors[6], func_020210c0(pkm1), CLACT_VRAM_SUB);
+    GFL_ArcToolFree(arc);
+}
+
+// Places the icons of the two Pokémon, the one of the side picked raised unless they are level
+void func_ov194_021c4970(PokemonTradeWork *wk, int side, BOOL level) {
+    ClActorPos pos;
+
+    if (level) {
+        pos.x = 96;
+        pos.y = 12;
+        func_0204c140(wk->actors[5], &pos, CLACT_VRAM_SUB);
+        pos.x = 160;
+        pos.y = 12;
+        func_0204c140(wk->actors[6], &pos, CLACT_VRAM_SUB);
+    } else {
+        pos.x = 96;
+        pos.y = side == 0 ? 8 : 12;
+        func_0204c140(wk->actors[5], &pos, CLACT_VRAM_SUB);
+        pos.x = 160;
+        pos.y = side != 0 ? 8 : 12;
+        func_0204c140(wk->actors[6], &pos, CLACT_VRAM_SUB);
+    }
+}
+
+void func_ov194_021c49e8(PokemonTradeWork *wk) {
+    if (wk->actors[3] != NULL) {
+        func_0204c108(wk->actors[3]);
+    }
+    if (wk->actors[4] != NULL) {
+        func_0204c108(wk->actors[4]);
+    }
+    if (wk->actors[5] != NULL) {
+        func_0204c108(wk->actors[5]);
+    }
+    if (wk->actors[6] != NULL) {
+        func_0204c108(wk->actors[6]);
+    }
+    wk->actors[3] = NULL;
+    wk->actors[4] = NULL;
+    wk->actors[5] = NULL;
+    wk->actors[6] = NULL;
+    if (wk->objRes[TRADE_OBJRES_CHAR_ICON0] != 0) {
+        func_0204b98c(wk->objRes[TRADE_OBJRES_CHAR_ICON0]);
+    }
+    if (wk->objRes[TRADE_OBJRES_CHAR_ICON1] != 0) {
+        func_0204b98c(wk->objRes[TRADE_OBJRES_CHAR_ICON1]);
+    }
+    wk->objRes[TRADE_OBJRES_CHAR_ICON0] = 0;
+    wk->objRes[TRADE_OBJRES_CHAR_ICON1] = 0;
+}
+
+// Opens the search by initial: its screen, and a window for each letter
+void func_ov194_021c4a68(PokemonTradeWork *wk) {
+    ArcTool *arc;
+    int i;
+
+    GFL_BGSysSetBGEnabled(4, FALSE);
+    GFL_BGSysSetBGEnabled(6, FALSE);
+    arc = GFL_ArcSysCreateFileHandle(0x67, wk->heapId);
+    GFL_G2DIOLoadNSCRSync(arc, 16, 4, 0, CHAR_POS(wk->bg5Chars), 0, FALSE, wk->heapId);
+    GFL_BGSysQueueScrLoad(4);
+    GFL_BGSysMoveBG(4, BG_MOVE_SET_X, -4);
+    GFL_BGSysMoveBG(6, BG_MOVE_SET_X, -4);
+    GFL_ArcToolFree(arc);
+    GFL_TextRndUpdateColorIndexLUT(1, 2, 15);
+    for (i = 0; i < NELEMS(sInitialWindowPos); i++) {
+        wk->initialWindows[i] =
+            BmpWin_CreateDynamic(6, sInitialWindowPos[i][0], sInitialWindowPos[i][1], 2, 2, 14, FALSE);
+        GFL_MsgDataLoadStrbuf(wk->msgData, 53 + i, wk->drawStr);
+        GFL_TextRendererDrawToBitmap(BmpWin_GetBitmap(wk->initialWindows[i]), 0, 0, wk->drawStr, wk->font);
+        BmpWin_FlushMap(wk->initialWindows[i]);
+        BmpWin_FlushChar(wk->initialWindows[i]);
+    }
+    GFL_BGSysQueueScrLoad(6);
+    GFL_BGSysSetBGEnabled(4, TRUE);
+    GFL_BGSysSetBGEnabled(6, TRUE);
+}
+
+// Closes the search by initial
+void func_ov194_021c4b88(PokemonTradeWork *wk) {
+    int i;
+
+    GFL_BGSysSetBGEnabled(4, FALSE);
+    GFL_BGSysMoveBG(4, BG_MOVE_SET_X, 0);
+    GFL_BGSysMoveBG(6, BG_MOVE_SET_X, 0);
+    if (wk->actors[2] != NULL) {
+        func_0204c124(wk->actors[2], TRUE);
+    }
+    if (wk->actors[7] != NULL) {
+        func_0204c124(wk->actors[7], TRUE);
+    }
+    for (i = 0; i < NELEMS(wk->initialWindows); i++) {
+        if (wk->initialWindows[i] != NULL) {
+            BmpWin_ClearScreen(wk->initialWindows[i]);
+            BmpWin_ClearFrame(wk->initialWindows[i], 2);
+            BmpWin_Free(wk->initialWindows[i]);
+            wk->initialWindows[i] = NULL;
+        }
+    }
+    GFL_BGSysQueueScrLoad(6);
+}
+
+// Shows the icon of a Pokémon's held item, a letter for mail, over a side's panel or, for side 2, the summary
+void func_ov194_021c4c00(PokemonTradeWork *wk, int side, PartyPkm *pkm) {
+    ResSprite *sprite = &wk->infoIcons[0];
+    Ov139ObjResSetup setup;
+    int x, y;
+    BOOL mail = FALSE;
+    u32 item = PokeParty_GetParam(pkm, PKM_PARAM_ITEM, NULL);
+
+    if (PML_ItemIsMail(item)) {
+        mail = TRUE;
+    }
+    if (sprite->actor != NULL) {
+        if (item == ITEM_NONE) {
+            func_0204c124(sprite->actor, FALSE);
+            return;
+        }
+        func_0204c488(sprite->actor, mail);
+        func_0204c124(sprite->actor, TRUE);
+        return;
+    }
+    if (item != ITEM_NONE) {
+        switch (side) {
+        case 0:
+        case 1:
+            x = side * 128 + 16;
+            y = 132;
+            setup.vramType = CLACT_VRAM_SUB;
+            setup.paletteOffset = 12;
+            break;
+        case 2:
+            x = 32;
+            y = 172;
+            setup.vramType = CLACT_VRAM_MAIN;
+            setup.paletteOffset = 6;
+            break;
+        }
+        setup.flags = 0;
+        setup.arcId = getUINarcIdx();
+        setup.paletteFile = func_0202d890();
+        setup.charFile = func_0202d894();
+        setup.cellFile = func_0202d898(2);
+        setup.animFile = func_0202d89c(2);
+        setup.paletteStart = 0;
+        setup.paletteCount = 1;
+        func_ov139_021999c8(&sprite->res, &setup, wk->clactUnit, wk->heapId);
+        sprite->actor = func_ov139_02199a5c(&sprite->res, wk->clactUnit, x, y, mail, wk->heapId);
+    }
+}
+
+void func_ov194_021c4cfc(ResSprite *sprite) {
+    if (sprite->actor != NULL) {
+        func_0204c108(sprite->actor);
+        func_ov139_02199a44(&sprite->res);
+        sprite->actor = NULL;
+    }
+}
+
+// Shows the Pokérus icon of a Pokémon that has it, over a side's panel or in the summary, or the icon of a Pokémon
+// that had it
+void func_ov194_021c4d18(PokemonTradeWork *wk, int side, BOOL summary, PartyPkm *pkm) {
+    ResSprite *sprite = &wk->infoIcons[1];
+    Ov139ObjResSetup setup;
+    BOOL pokerus = pokerusDuration(pkm);
+
+    if (sprite->actor != NULL) {
+        if (!pokerus) {
+            func_0204c124(sprite->actor, FALSE);
+        } else {
+            func_0204c124(sprite->actor, TRUE);
+        }
+        return;
+    }
+    if (!pokerus) {
+        if (!summary) {
+            func_ov194_021c4e0c(wk, side, pkm);
+        }
+        return;
+    }
+    if (summary) {
+        setup.vramType = CLACT_VRAM_MAIN;
+        setup.paletteOffset = 0;
+    } else {
+        setup.vramType = CLACT_VRAM_SUB;
+        setup.paletteOffset = 11;
+    }
+    setup.flags = 0;
+    setup.arcId = getUINarcIdx();
+    setup.paletteFile = func_0202d8b0();
+    setup.charFile = func_0202d8b4();
+    setup.cellFile = func_0202d8b8(2);
+    setup.animFile = func_0202d8bc(2);
+    setup.paletteStart = 0;
+    setup.paletteCount = 1;
+    func_ov139_021999c8(&sprite->res, &setup, wk->clactUnit, wk->heapId);
+    if (summary) {
+        sprite->actor = func_ov139_02199a5c(&sprite->res, wk->clactUnit, 244, 104, 0, wk->heapId);
+    } else {
+        sprite->actor = func_ov139_02199a5c(&sprite->res, wk->clactUnit, side * 128 + 108, 24, 0, wk->heapId);
+    }
+}
+
+// Shows the icon of a Pokémon that had Pokérus over a side's panel
+static void func_ov194_021c4e0c(PokemonTradeWork *wk, int side, PartyPkm *pkm) {
+    ResSprite *sprite = &wk->infoIcons[2];
+    Ov139ObjResSetup setup;
+    BOOL cured = pokeHasPkrs(pkm);
+
+    if (cured) {
+        // The same test of an existing icon as func_ov194_021c4d18's, though it can only be shown here
+        if (sprite->actor != NULL) {
+            if (!cured) {
+                func_0204c124(sprite->actor, FALSE);
+            } else {
+                func_0204c124(sprite->actor, TRUE);
+            }
+            return;
+        }
+        setup.vramType = CLACT_VRAM_SUB;
+        setup.paletteOffset = 14;
+        setup.flags = 0;
+        setup.arcId = getUINarcIdx();
+        setup.paletteFile = func_0202d944();
+        setup.charFile = func_0202d948(2);
+        setup.cellFile = func_0202d94c(2);
+        setup.animFile = func_0202d950(2);
+        setup.paletteStart = 0;
+        setup.paletteCount = 1;
+        func_ov139_021999c8(&sprite->res, &setup, wk->clactUnit, wk->heapId);
+        sprite->actor = func_ov139_02199a5c(&sprite->res, wk->clactUnit, side * 128 + 108, 20, 13, wk->heapId);
+    }
+}
+
+// Shows the icons of a Pokémon's markings in the summary, each lit if it is set, and the rare and Pokérus flags,
+// which show only when set. An egg shows no rare flag
+void func_ov194_021c4ec0(PokemonTradeWork *wk, PartyPkm *pkm, BOOL isEgg) {
+    u32 marks = PokeParty_GetParam(pkm, PKM_PARAM_MARKINGS, NULL);
+    Ov139ObjResSetup setup;
+    u32 xs[] = { 25, 26, 27, 28, 29, 30, 20, 21 };
+    // The animation of each icon when set and when not, -1 for none
+    int anims[][2] = { { 1, 0 }, { 3, 2 }, { 5, 4 }, { 7, 6 }, { 9, 8 }, { 11, 10 }, { 12, -1 }, { 13, -1 } };
+    int i;
+
+    setup.vramType = CLACT_VRAM_MAIN;
+    setup.flags = 0;
+    setup.arcId = getUINarcIdx();
+    setup.paletteFile = func_0202d944();
+    setup.charFile = func_0202d948(2);
+    setup.cellFile = func_0202d94c(2);
+    setup.animFile = func_0202d950(2);
+    setup.paletteOffset = 13;
+    setup.paletteStart = 0;
+    setup.paletteCount = 1;
+    if (!isEgg && PokeParty_IsRare(pkm)) {
+        marks |= 1 << 6;
+    }
+    if (pokeHasPkrs(pkm)) {
+        marks |= 1 << 7;
+    }
+    if (!wk->markIcons.loaded) {
+        func_ov139_021999c8(&wk->markIcons.res, &setup, wk->clactUnit, wk->heapId);
+        wk->markIcons.loaded = TRUE;
+    }
+    for (i = 0; i < 8; i++) {
+        ClActor *icon = wk->markIcons.icons[i];
+        int anim;
+
+        if (marks & (1 << i)) {
+            anim = anims[i][0];
+        } else {
+            anim = anims[i][1];
+        }
+        if (icon != NULL) {
+            if (anim == -1) {
+                func_0204c124(icon, FALSE);
+            } else if (isEgg && i == 6) {
+                func_0204c124(icon, FALSE);
+            } else {
+                func_0204c488(icon, anim);
+                func_0204c124(icon, TRUE);
+            }
+        } else {
+            icon = wk->markIcons.icons[i] = func_ov139_02199a5c(&wk->markIcons.res, wk->clactUnit, xs[i] * 8, 101,
+                                                                anim == -1 ? anims[i][0] : anim, wk->heapId);
+            if (anim == -1) {
+                func_0204c124(icon, FALSE);
+            } else if (isEgg && i == 6) {
+                func_0204c124(icon, FALSE);
+            }
+        }
+    }
+}
+
+void func_ov194_021c5060(PokemonTradeWork *wk) {
+    TradeMarkIcons *marks = &wk->markIcons;
+    int i;
+
+    for (i = 0; i < 8; i++) {
+        if (marks->icons[i] != NULL) {
+            func_0204c108(marks->icons[i]);
+            marks->icons[i] = NULL;
+        }
+    }
+    if (marks->loaded) {
+        func_ov139_02199a44(&marks->res);
+        marks->loaded = FALSE;
+    }
+}
+
+// Loads the box palette into a BG palette slot, with the colours of the UI's last four after it
+void func_ov194_021c5098(PokemonTradeWork *wk, u32 palette, u32 type) {
+    GFL_BGSysLoadNCLRDefault(0x17, 5, type, palette * 32, 32, wk->heapId);
+    GFL_G2DIOLoadNCLR(getUINarcIdx(), 31, type, 0x1c, palette * 32 + 0x1c, 4, wk->heapId);
+}
+
+void func_ov194_021c50d8(PokemonTradeWork *wk, int side, int index) {
+    if (wk->negoIcons[side][index] != NULL) {
+        func_0204c108(wk->negoIcons[side][index]);
+        wk->negoIcons[side][index] = NULL;
+        func_0204b98c(wk->negoIconChars[side][index]);
+    }
+}
+
+void func_ov194_021c510c(PokemonTradeWork *wk, int side, BOOL visible) {
+    int i;
+
+    for (i = 0; i < 3; i++) {
+        if (wk->negoIcons[side][i] != NULL) {
+            func_0204c124(wk->negoIcons[side][i], visible);
+        }
     }
 }

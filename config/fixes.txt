@@ -36,6 +36,13 @@
 . 0x0202b60c reloc_addend 2
 . 0x0202bd2c reloc_addend 0x14
 . 0x0202bd54 reloc_addend 0x18
+. 0x02030154 reloc_addend 0x4
+. 0x0203073c reloc_addend 1
+. 0x0203078c reloc_addend 2
+. 0x0203079c reloc_addend 2
+. 0x020307dc reloc_addend 1
+. 0x020307f8 reloc_addend 2
+. 0x02030824 reloc_addend 2
 . 0x0203637c reloc_module overlay(162)
 . 0x0207ba60 add_reloc load,main,0x0207b9e8,0x50
 . 0x0207e79c add_reloc load,main,0x0207e979
@@ -69,6 +76,13 @@
 . 0x02091e70 reloc_module overlay(211)
 . 0x02091e74 reloc_module overlay(211)
 . 0x02091e78 reloc_module overlay(211)
+. 0x0209223c remove_symbol
+. 0x020922ba remove_symbol
+. 0x020922bd remove_symbol
+. 0x020922be remove_symbol
+. 0x02092316 remove_symbol
+. 0x02092395 remove_symbol
+. 0x02092396 remove_symbol
 . 0x0210000b remove_symbol
 . 0x0210020f remove_symbol
 . 0x02141668 remove_symbol
@@ -878,7 +892,65 @@ overlays/ov170 0x02181a04 reloc_module overlay(167)
 overlays/ov170 0x02181a0c reloc_module overlay(167)
 overlays/ov175 0x0219ac24 reloc_module overlay(184)
 overlays/ov182 0x021b9782 reloc_module overlay(181)
+overlays/ov185 0x021a512c add_data PMSI_FIXED_CATEGORIES
+overlays/ov185 0x021a517c remove_reloc
+overlays/ov185 0x021a51dc remove_reloc
+overlays/ov185 0x021a562c remove_reloc
+overlays/ov185 0x021a5834 remove_symbol
+overlays/ov185 0x021a58e0 remove_symbol
+overlays/ov185 0x021a5904 remove_reloc
+overlays/ov185 0x021a59b4 remove_reloc
+overlays/ov185 0x021a5a70 remove_symbol
+overlays/ov185 0x021a5b34 remove_symbol
+overlays/ov185 0x021a5b88 remove_reloc
+overlays/ov185 0x021a6388 remove_reloc
+overlays/ov185 0x021a63bc remove_reloc
+overlays/ov185 0x021a63d0 remove_reloc
+overlays/ov185 0x021a6500 remove_symbol
+overlays/ov185 0x021a656c remove_reloc
+overlays/ov185 0x021a65ac remove_symbol
+overlays/ov185 0x021a6669 remove_symbol
+overlays/ov185 0x021a6684 remove_symbol
+overlays/ov185 0x021a66b5 remove_symbol
+overlays/ov185 0x021a66c0 remove_symbol
+overlays/ov185 0x021a66ed remove_symbol
+overlays/ov185 0x021a6711 remove_symbol
+overlays/ov185 0x021a674c remove_symbol
+overlays/ov185 0x021a675d remove_symbol
+overlays/ov185 0x021a67a4 remove_symbol
+overlays/ov185 0x021a67ad remove_symbol
+overlays/ov185 0x021a67dd remove_symbol
+overlays/ov185 0x021a685d remove_symbol
+overlays/ov185 0x021a68d1 remove_symbol
+overlays/ov185 0x021a68ec remove_symbol
+overlays/ov185 0x021a693d remove_symbol
+overlays/ov185 0x021a6961 remove_symbol
+overlays/ov185 0x021a69a5 remove_symbol
+overlays/ov185 0x021a69e1 remove_symbol
+overlays/ov185 0x021a69fc remove_reloc
+overlays/ov185 0x021a6a25 remove_symbol
+overlays/ov185 0x021a6a30 remove_reloc
+overlays/ov185 0x021a6a61 remove_symbol
+overlays/ov185 0x021a6aa0 remove_symbol
+overlays/ov185 0x021a6aa1 remove_symbol
+overlays/ov185 0x021a6ac5 remove_symbol
+overlays/ov185 0x021a6b14 remove_reloc
+overlays/ov185 0x021a6b18 remove_symbol
+overlays/ov185 0x021a6cd9 remove_symbol
+overlays/ov185 0x021a6d15 remove_symbol
+overlays/ov185 0x021a6d5d remove_symbol
+overlays/ov185 0x021a6d78 remove_reloc
+overlays/ov185 0x021a6d9c remove_reloc
+overlays/ov185 0x021a6dad remove_symbol
+overlays/ov185 0x021a6df5 remove_symbol
+overlays/ov185 0x021a6e25 remove_symbol
+overlays/ov185 0x021a6e60 remove_reloc
+overlays/ov185 0x021a6e65 remove_symbol
+overlays/ov185 0x021a6e6c remove_reloc
+overlays/ov185 0x021a6e75 remove_symbol
 overlays/ov185 0x021a6e7c remove_reloc
+overlays/ov185 0x021a6ebc remove_reloc
+overlays/ov185 0x021a6ec5 remove_symbol
 overlays/ov185 0x021a6f04 remove_reloc
 overlays/ov190 0x021b5308 reloc_module overlay(184)
 overlays/ov191 0x021b5c2a reloc_module overlay(189)

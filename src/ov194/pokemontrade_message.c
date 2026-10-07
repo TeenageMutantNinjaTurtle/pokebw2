@@ -525,15 +525,15 @@ static void func_ov194_021c0acc(PokemonTradeWork *wk) {
 
 // Closes the summary
 void func_ov194_021c0aec(PokemonTradeWork *wk, BOOL hideWindows) {
-    func_ov194_021c4cfc(&wk->unk950[1]);
-    func_ov194_021c4cfc(&wk->unk950[2]);
+    func_ov194_021c4cfc(&wk->infoIcons[1]);
+    func_ov194_021c4cfc(&wk->infoIcons[2]);
     func_ov194_021c5060(wk);
     if (hideWindows) {
         GXS_SetVisibleWnd(GX_WNDMASK_NONE);
     }
     func_ov194_021c0aac(wk);
     func_ov194_021c0acc(wk);
-    func_ov194_021c4cfc(&wk->unk950[0]);
+    func_ov194_021c4cfc(&wk->infoIcons[0]);
     func_ov194_021c49e8(wk);
     func_ov194_021c24dc(wk, 0);
     func_ov194_021c24dc(wk, 1);
@@ -599,9 +599,9 @@ void func_ov194_021c0c04(PokemonTradeWork *wk, int page, PartyPkm *pkm) {
         }
     } else {
         func_ov194_021bfc50(&wk->ballIcons[0]);
-        func_ov194_021c4cfc(&wk->unk950[0]);
-        func_ov194_021c4cfc(&wk->unk950[1]);
-        func_ov194_021c4cfc(&wk->unk950[2]);
+        func_ov194_021c4cfc(&wk->infoIcons[0]);
+        func_ov194_021c4cfc(&wk->infoIcons[1]);
+        func_ov194_021c4cfc(&wk->infoIcons[2]);
         if (!isEgg) {
             func_ov194_021c0750(pkm, wk->summaryWindow, 8, 0, wk);
             func_ov194_021c0790(pkm, wk->summaryWindow, 16, 16, wk);
@@ -699,8 +699,8 @@ void func_ov194_021c0fa0(PokemonTradeWork *wk, PartyPkm *pkm, int side, BOOL rel
         func_ov194_021c4c00(wk, 2, pkm);
         func_ov194_021bfc6c(&wk->ballIcons[0], pkm, wk->clactUnit, 12, 7, 0, wk->heapId, 12);
     } else {
-        if (wk->unk950[0].actor != NULL) {
-            func_0204c124(wk->unk950[0].actor, FALSE);
+        if (wk->infoIcons[0].actor != NULL) {
+            func_0204c124(wk->infoIcons[0].actor, FALSE);
         }
         func_ov194_021c0acc(wk);
         func_ov194_021c0aac(wk);
@@ -727,9 +727,9 @@ void func_ov194_021c123c(PokemonTradeWork *wk, int side) {
 // Closes the page of the summary
 void func_ov194_021c1288(PokemonTradeWork *wk, BOOL clear) {
     func_ov194_021bfc50(&wk->ballIcons[0]);
-    func_ov194_021c4cfc(&wk->unk950[0]);
-    func_ov194_021c4cfc(&wk->unk950[1]);
-    func_ov194_021c4cfc(&wk->unk950[2]);
+    func_ov194_021c4cfc(&wk->infoIcons[0]);
+    func_ov194_021c4cfc(&wk->infoIcons[1]);
+    func_ov194_021c4cfc(&wk->infoIcons[2]);
     if (wk->summaryWindow != NULL) {
         GFL_BitmapFill(BmpWin_GetBitmap(wk->summaryWindow), 0);
         if (clear) {
