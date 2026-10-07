@@ -14,6 +14,7 @@
 #include "battle/btl_server_flow.h"
 #include "battle/btl_setup.h"
 #include "battle/btlv.h"
+#include "battle/pokewood_cutin.h"
 #include "constants/abilities.h"
 #include "constants/pokemon.h"
 #include "constants/species.h"
@@ -1532,8 +1533,8 @@ BOOL IsSwitchMode(BtlMainModule *mainModule) {
     return FALSE;
 }
 
-void func_ov167_0219bde0(BtlMainModule *mainModule) {
-    func_02017c50(mainModule->unk43C);
+s32 func_ov167_0219bde0(BtlMainModule *mainModule) {
+    return func_02017c50(mainModule->unk43C);
 }
 
 void func_ov167_0219bdf0(BtlMainModule *mainModule) {
@@ -3613,14 +3614,14 @@ void func_ov167_0219e314(BtlMainModule *mainModule, u8 arg1) {
     mainModule->unk478 = GFL_HeapAllocate(HEAPID_BATTLE, 0x14, FALSE, "btl_main.c", 6432);
     func_ov167_0219e3c8(mainModule->unk474);
     mainModule->unk478->unk08 = 0xff;
-    mainModule->unk47C = func_ov167_021d5e1c(HEAPID_BATTLE);
+    mainModule->cutin = func_ov167_021d5e1c(HEAPID_BATTLE);
     if (func_ov167_0219c988(mainModule) == 2) {
         func_ov167_0219cb7c(mainModule);
     }
 }
 
 void func_ov167_0219e378(BtlMainModule *mainModule) {
-    func_ov167_021d5e68(mainModule->unk47C);
+    func_ov167_021d5e68(mainModule->cutin);
     GFL_HeapFree(mainModule->unk478);
     GFL_HeapFree(mainModule->unk474);
 }
@@ -3639,8 +3640,8 @@ void *func_ov167_0219e3ac(BtlMainModule *mainModule) {
     return mainModule->unk478;
 }
 
-void *func_ov167_0219e3bc(BtlMainModule *mainModule) {
-    return mainModule->unk47C;
+PokewoodCutin *func_ov167_0219e3bc(BtlMainModule *mainModule) {
+    return mainModule->cutin;
 }
 
 void func_ov167_0219e3c8(void *data) {

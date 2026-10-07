@@ -96,7 +96,7 @@ u32 func_ov012_02159218(EncountSave *save) {
     return 0;
 }
 
-void func_ov012_0215921c(void) {
+void func_ov012_0215921c(GameData *gameData, u8 slot) {
 }
 
 void func_ov012_02159220(GameData *gameData) {

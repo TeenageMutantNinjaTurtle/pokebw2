@@ -28,4 +28,7 @@ typedef int BOOL;
 
 #define NELEMS(array) (sizeof(array) / sizeof((array)[0]))
 
+// NitroSDK's alignment attribute, as in `static u8 buffer[64] ATTRIBUTE_ALIGN(32);`
+#define ATTRIBUTE_ALIGN(num) __attribute__((aligned(num)))
+
 #endif // POKEBW2_TYPES_H

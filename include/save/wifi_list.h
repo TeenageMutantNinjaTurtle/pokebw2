@@ -8,6 +8,8 @@ s32 WifiList_GetMyGSID(WifiList *wifiList);
 // The player's DWC user data
 void *func_02009f7c(WifiList *wifiList);
 BOOL func_0200a150(WifiList *wifiList);
+// Whether the player's DWC user data is valid and has a friend code
+BOOL func_0200a400(WifiList *wifiList);
 void func_0200a2d4(WifiList *wifiList, u32 friendIndex, u32 wins, u32 losses, u32 draws);
 void func_0200a29c(WifiList *wifiList, u32 friendIndex);
 // Finds the player among the friends

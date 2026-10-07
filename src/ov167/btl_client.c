@@ -11,6 +11,7 @@
 #include "battle/btl_server.h"
 #include "battle/btl_server_cmd.h"
 #include "battle/btl_setup.h"
+#include "battle/btl_string.h"
 #include "battle/btlv.h"
 #include "battle/pokewood_cutin.h"
 #include "battle/tr_ai.h"
@@ -1497,7 +1498,7 @@ static void Studio_FreeChoiceStrBufs(BtlClientStudioWork *studio) {
 static BOOL func_ov167_021b2864(BtlClient *client) {
     const BtlScriptedRules *rules = func_ov167_0219e39c(client->mainModule);
     BtlMainUnk478 *result = func_ov167_0219e3ac(client->mainModule);
-    void *cutin = func_ov167_0219e3bc(client->mainModule);
+    PokewoodCutin *cutin = func_ov167_0219e3bc(client->mainModule);
     s16 msgId;
 
     switch (client->studio.seq) {
@@ -1529,8 +1530,8 @@ static BOOL func_ov167_021b2864(BtlClient *client) {
         if (!func_ov167_021b2674(rules, &client->studio)) {
             client->studio.seq = 2;
         } else {
-            if ((rules->scenes[client->studio.scene].unk0C[client->studio.unk04] == -1 &&
-                 rules->scenes[client->studio.scene].unk20[client->studio.unk04] == -1) ||
+            if ((rules->scenes[client->studio.scene].messages[0][client->studio.unk04] == -1 &&
+                 rules->scenes[client->studio.scene].messages[1][client->studio.unk04] == -1) ||
                 client->studio.unk04 == 10) {
                 client->studio.seq = 14;
             } else {
@@ -1544,7 +1545,7 @@ static BOOL func_ov167_021b2864(BtlClient *client) {
         }
         break;
     case 6:
-        msgId = rules->scenes[client->studio.scene].unk0C[client->studio.unk04];
+        msgId = rules->scenes[client->studio.scene].messages[0][client->studio.unk04];
         if (msgId != -1) {
             Btlv_StringParam_Setup(&client->strParam, 8, msgId);
             func_ov167_021d01ec(client->viewCore, &client->strParam);
@@ -1554,7 +1555,7 @@ static BOOL func_ov167_021b2864(BtlClient *client) {
         }
         break;
     case 8:
-        msgId = rules->scenes[client->studio.scene].unk20[client->studio.unk04];
+        msgId = rules->scenes[client->studio.scene].messages[1][client->studio.unk04];
         if (msgId != -1) {
             Btlv_StringParam_Setup(&client->strParam, 8, msgId);
             func_ov167_021d01ec(client->viewCore, &client->strParam);

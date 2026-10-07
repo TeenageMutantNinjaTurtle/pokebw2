@@ -90,7 +90,7 @@ const FieldProcLink FIELD_PROC_LINK_LIST[15] = {
     { OVERLAY_ID(140), &data_ov140_0219eecc, func_ov012_0215c094, func_ov012_0215c0cc, NULL, func_ov012_0215c594 },
     { 0, NULL, NULL, NULL, func_ov012_0215c574, func_ov012_0215c594 },
     { OVERLAY_PSTATUS, &PSTATUS_PROC_FUNCTIONS, func_ov012_0215bb70, func_ov012_0215bcf0, NULL, func_ov012_0215c594 },
-    { OVERLAY_ID(144), &data_ov144_0219f774, func_ov012_0215bf8c, func_ov012_0215bff8, NULL, func_ov012_0215c594 },
+    { OVERLAY_ID(144), &TOWNMAP_PROC_FUNCTIONS, func_ov012_0215bf8c, func_ov012_0215bff8, NULL, func_ov012_0215c594 },
     { OVERLAY_ID(204), &data_ov189_021ae03c, func_ov012_0215c10c, func_ov012_0215c138, NULL, func_ov012_0215c594 },
     { OVERLAY_NONE, &data_ov215_021ab01c, func_ov012_0215c160, func_ov012_0215c218, NULL, func_ov012_0215c2c8 },
     { OVERLAY_ID(284), &SHINKA_DEMO_PROC_FUNCTIONS, script_evo, func_ov012_0215c3a4, NULL, func_ov012_0215c594 },

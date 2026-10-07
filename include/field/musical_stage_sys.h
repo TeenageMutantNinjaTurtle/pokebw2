@@ -28,9 +28,9 @@ void func_ov012_021522bc(MusicalStageParam *param, u8 pos, u8 slot, u16 itemId, 
 
 extern GameProcFunctions data_ov012_0216dfe8;
 
-// Overlay 209's stage
-void *func_ov209_021be9b0(MusicalStageParam *param, HeapID heapId);
-void func_ov209_021beb70(void *stage);
-BOOL func_ov209_021beccc(void *stage);
+// Overlay 209's stage (sta_acting.c), whose main function returns TRUE once the show has faded out
+StaActing *StaActing_Init(MusicalStageParam *param, HeapID heapId);
+void StaActing_Term(StaActing *stage);
+BOOL StaActing_Main(StaActing *stage);
 
 #endif // POKEBW2_FIELD_MUSICAL_STAGE_SYS_H
