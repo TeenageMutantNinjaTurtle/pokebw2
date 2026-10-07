@@ -32,3 +32,12 @@ src/ov207/p_sta_skill.c:
     .text       start:0x021b8510 end:0x021ba900
     .rodata     start:0x021bb144 end:0x021bb184
     .data       start:0x021bb6e4 end:0x021bb6f4
+
+src/ov207/p_sta_oam.c:
+    .text       start:0x021ba900 end:0x021bad9c
+    .data       start:0x021bb6f4 end:0x021bb700
+
+src/ov207/ribbon.c:
+    complete
+    .text       start:0x021bad9c end:0x021bae10
+    .rodata     start:0x021bb184 end:0x021bb684

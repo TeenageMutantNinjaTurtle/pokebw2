@@ -158,8 +158,8 @@ PStaOam_SetVisible kind:function(thumb,size=0x4e) addr:0x021bab14
 PStaOam_Upload kind:function(thumb,size=0x138) addr:0x021bab64
 PStaOam_SetPosition kind:function(thumb,size=0x6a) addr:0x021bac9c
 PStaOam_SwapBitmaps kind:function(thumb,size=0xa) addr:0x021bad08
-func_ov207_021bad14 kind:function(thumb,size=0x68) addr:0x021bad14
-func_ov207_021bad7c kind:function(thumb,size=0x20) addr:0x021bad7c
+PStaOam_LoadCellAnims kind:function(thumb,size=0x68) addr:0x021bad14
+PStaOam_FreeCellAnims kind:function(thumb,size=0x20) addr:0x021bad7c
 Ribbon_GetData kind:function(thumb,size=0x68) addr:0x021bad9c
 Ribbon_GetDescription kind:function(thumb,size=0xc) addr:0x021bae04
 data_ov207_021bae10 kind:data(any) addr:0x021bae10
@@ -215,16 +215,7 @@ sWindows kind:data(any) addr:0x021bb114
 data_ov207_021bb13c kind:data(any) addr:0x021bb13c
 sPlatePos kind:data(any) addr:0x021bb144
 sSkillWindows kind:data(any) addr:0x021bb14e
-data_ov207_021bb184 kind:data(any) addr:0x021bb184
-data_ov207_021bb188 kind:data(any) addr:0x021bb188
-data_ov207_021bb18a kind:data(any) addr:0x021bb18a
-data_ov207_021bb18c kind:data(any) addr:0x021bb18c
-data_ov207_021bb18e kind:data(any) addr:0x021bb18e
-data_ov207_021bb190 kind:data(any) addr:0x021bb190
-data_ov207_021bb1b5 kind:data(any) addr:0x021bb1b5 ambiguous
-data_ov207_021bb349 kind:data(any) addr:0x021bb349 ambiguous
-data_ov207_021bb369 kind:data(any) addr:0x021bb369 ambiguous
-data_ov207_021bb37d kind:data(any) addr:0x021bb37d ambiguous
+sRibbons kind:data(any) addr:0x021bb184
 PSTATUS_PROC_FUNCTIONS kind:data(any) addr:0x021bb6a0
 data_ov207_021bb6ac kind:data(any) addr:0x021bb6ac
 data_ov207_021bb6b8 kind:data(any) addr:0x021bb6b8
