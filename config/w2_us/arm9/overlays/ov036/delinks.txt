@@ -244,3 +244,8 @@ src/ov036/rail_attr.c:
     complete
     .text       start:0x021b3a74 end:0x021b3be4
     .data       start:0x021d529c end:0x021d52a8
+
+src/ov036/scrcmd_shop.c:
+    .text       start:0x021abbb0 end:0x021adcac
+    .rodata     start:0x021d094c end:0x021d0f8c
+    .data       start:0x021d51a0 end:0x021d521c
