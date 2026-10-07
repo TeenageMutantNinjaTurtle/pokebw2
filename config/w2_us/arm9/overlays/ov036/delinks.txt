@@ -170,3 +170,7 @@ src/ov036/scrcmd_save.c:
 src/ov036/scrcmd_item.c:
     complete
     .text       start:0x021a74ec end:0x021a7764
+
+src/ov036/scrcmd_word.c:
+    complete
+    .text       start:0x021a7764 end:0x021a7ef8
