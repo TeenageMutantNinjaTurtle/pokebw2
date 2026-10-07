@@ -29,7 +29,9 @@ Same instructions, registers swapped.
 - Where a flag is first set changes which register its zero is built in. When the original builds a flag's `FALSE` in
   the register of a call's argument, or copies it from another zero, the flag was set after the call or loop, as
   `value = joinAveTextHandler(...); found = FALSE;` and a loop's total followed by `any = FALSE;` in the Join Avenue's
-  records command.
+  records command. A zero loaded from another variable's stack slot is that variable: the summary screen's
+  `PStaInfo_PrintMemo` sets its highest IV with `ldr r7, [sp, #0x14]`, `best`'s slot, which matches only as
+  `best = 0;` between two calls well before the loop and `u8 maxIV = best;`; `maxIV = 0` makes it 18 bytes longer.
 - `arr[count++] = x` and `arr[count] = x; count++;` allocate registers differently, as do `count = 1; arr[0] = x;` and
   the reverse order.
 - `a[i + c]` adds `c` to `i` first, while `(a + i)[c]` folds `c * 4` into the base offset. When the original folds a

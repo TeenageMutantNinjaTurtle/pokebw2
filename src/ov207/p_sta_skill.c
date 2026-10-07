@@ -39,13 +39,6 @@ typedef struct {
     u8 y;
 } PlatePos;
 
-typedef struct {
-    u8 x;
-    u8 y;
-    u8 width;
-    u8 height;
-} SkillWindowSetup;
-
 // A move's plate: its frame and type icon, and the bitmap of its name and PP shown as sprites
 typedef struct {
     u8 slot;
@@ -114,7 +107,7 @@ static void PStaSkill_SetPlateAnim(SkillPlate *plate, u32 anim);
 
 static const PlatePos sPlatePos[PLATE_COUNT] = { { 1, 2 }, { 1, 6 }, { 1, 10 }, { 1, 14 }, { 1, 20 } };
 
-static const SkillWindowSetup sSkillWindows[SKILL_WINDOW_COUNT] = {
+static const PStaWindowSetup sSkillWindows[SKILL_WINDOW_COUNT] = {
     { 8, 4, 16, 2 },   { 17, 6, 6, 1 },  { 8, 7, 14, 2 },  { 8, 9, 14, 2 },  { 8, 11, 14, 2 },
     { 8, 13, 14, 2 },  { 8, 15, 14, 2 }, { 6, 18, 20, 6 }, { 10, 6, 14, 2 }, { 10, 8, 14, 2 },
     { 10, 10, 14, 2 }, { 1, 13, 30, 6 }, { 4, 20, 24, 4 },

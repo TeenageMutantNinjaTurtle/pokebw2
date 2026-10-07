@@ -1185,6 +1185,14 @@ overlays/ov207 0x021baee4 remove_reloc
 overlays/ov207 0x021baf24 remove_reloc
 overlays/ov207 0x021baf44 remove_reloc
 overlays/ov207 0x021bafc0 add_data data_ov207_021bafc0
+overlays/ov207 0x021bb104 remove_reloc
+overlays/ov207 0x021bb114 remove_reloc
+overlays/ov207 0x021bb118 remove_reloc
+overlays/ov207 0x021bb120 remove_reloc
+overlays/ov207 0x021bb124 remove_reloc
+overlays/ov207 0x021bb128 remove_reloc
+overlays/ov207 0x021bb130 remove_reloc
+overlays/ov207 0x021bb134 remove_reloc
 overlays/ov207 0x021bb145 remove_symbol
 overlays/ov207 0x021bb188 remove_symbol
 overlays/ov207 0x021bb18a remove_symbol
@@ -1352,8 +1360,8 @@ overlays/ov307 0x021de008 overlay_id 280
 overlays/ov307 0x021de00c reloc_module overlay(280)
 overlays/ov307 0x021df70c add_data EGG_DEMO_VIEW_UNK_FX32
 overlays/ov310 0x021a7021 remove_symbol
-overlays/ov310 0x021a7028 add_data data_ov310_021a7028
 overlays/ov310 0x021a7028 section_end src/ov310/research_list.c:.rodata
+overlays/ov310 0x021a7028 add_data data_ov310_021a7028
 overlays/ov310 0x021a773c section_end src/ov310/research_graph.c:.rodata
 overlays/ov310 0x021a773c add_data ResearchCommon_Unused
 overlays/ov310 0x021a773c section_start src/ov310/research_common.c:.rodata

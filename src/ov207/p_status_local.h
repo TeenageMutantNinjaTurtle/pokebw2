@@ -72,6 +72,14 @@ typedef struct {
     void *file;
 } PStaScreen;
 
+// A text window of a page, in tiles
+typedef struct {
+    u8 x;
+    u8 y;
+    u8 width;
+    u8 height;
+} PStaWindowSetup;
+
 // What PStaOam_CreateActor makes the sprites of a bitmap from: the bitmap is cut into 64x32 actors, which take the
 // palette at its offset and the surface's OBJ mapping
 typedef struct {
