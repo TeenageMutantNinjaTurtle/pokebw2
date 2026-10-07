@@ -5,7 +5,7 @@
 // swan's names for its functions: the ROM has no string for it. Names from swan
 // (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
 
-void PlayerActionPerms_SetActionBlocked(PlayerActionPerms *perms, u32 action, u8 blocked) {
+void PlayerActionPerms_SetActionBlocked(PlayerActionPerms *perms, u32 action, s32 blocked) {
     perms->blocked[action] = blocked;
 }
 

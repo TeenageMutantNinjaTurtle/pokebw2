@@ -307,7 +307,7 @@ void AppTaskMenu_SetLocked(AppTaskMenu *menu, BOOL locked) {
     }
 }
 
-void AppTaskMenu_SetCursorPos(AppTaskMenu *menu, u8 pos) {
+void AppTaskMenu_SetCursorPos(AppTaskMenu *menu, u32 pos) {
     int i;
 
     menu->cursorPos = pos;

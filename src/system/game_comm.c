@@ -23,7 +23,7 @@ enum {
 
 typedef struct {
     // Set to 0 at each change of seq; the callbacks get it as their sequence
-    int subSeq;
+    u32 subSeq;
     u8 seq;
     u8 changed;
 } GameCommSeq;
@@ -67,11 +67,11 @@ struct GameCommSys {
 
 // A communication's callbacks. param is what it was booted with, and work is what init returned
 typedef struct {
-    void *(*init)(int *seq, void *param);
-    BOOL (*initWait)(int *seq, void *param, void *work);
-    void (*main)(int *seq, void *param, void *work);
-    BOOL (*exit)(int *seq, void *param, void *work);
-    BOOL (*exitWait)(int *seq, void *param, void *work);
+    void *(*init)(u32 *seq, void *param);
+    BOOL (*initWait)(u32 *seq, void *param, void *work);
+    void (*main)(u32 *seq, void *param, void *work);
+    BOOL (*exit)(u32 *seq, void *param, void *work);
+    BOOL (*exitWait)(u32 *seq, void *param, void *work);
     void (*fieldCreate)(void *param, void *work, Field *field);
     void (*fieldDelete)(void *param, void *work, Field *field);
 } GameCommFuncs;

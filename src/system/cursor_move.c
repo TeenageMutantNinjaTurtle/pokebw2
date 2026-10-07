@@ -105,7 +105,7 @@ int CursorMove_UpdatePressed(CursorMove *cursor) {
     return CURSOR_MOVE_NONE;
 }
 
-int CursorMove_Update(CursorMove *cursor) {
+u32 CursorMove_Update(CursorMove *cursor) {
     int pos;
     u8 dir;
     u8 next;
@@ -321,7 +321,7 @@ void CursorMove_EnablePos(CursorMove *cursor, u32 pos) {
     }
 }
 
-const CursorMoveData *CursorMove_GetData(CursorMove *cursor, u8 pos) {
+const CursorMoveData *CursorMove_GetData(CursorMove *cursor, u32 pos) {
     return &cursor->data[pos];
 }
 

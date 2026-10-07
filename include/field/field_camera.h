@@ -34,6 +34,49 @@ typedef struct {
     FieldEvCameraAnimationFlags flags;
 } FieldEvCameraAnimationSetup;
 
+// Where a camera animation of the camera animation controller starts or ends
+typedef struct {
+    u16 pitch;
+    u16 yaw;
+    fx32 distance;
+    VecFx32 target;
+    VecFx32 offset;
+} FieldCameraCoords;
+
+typedef struct {
+    u32 frames;
+    FieldCameraCoords src;
+    FieldCameraCoords dst;
+    BOOL unk48;
+    BOOL unk4C;
+} FieldCameraAnimation;
+
+typedef struct FieldCameraAnimationController FieldCameraAnimationController;
+
+// How the event camera shakes
+typedef struct {
+    u16 unk00;
+    u16 unk02;
+    u8 unk04;
+    u16 unk06;
+    u16 unk08;
+    u16 unk0A;
+    u16 unk0C;
+    u16 unk0E;
+    u8 unk10;
+    u32 unk14;
+    u32 unk18;
+    u32 unk1C;
+} FieldEvCameraShake;
+
+void FieldCamera_GetAnimationCoords(FieldCamera *camera, FieldCameraCoords *coords);
+FieldCameraAnimationController *Field_CreateCameraAnimationController(Field *field);
+void FieldCameraAnimationController_FreeAnimation(FieldCameraAnimationController *controller);
+void FieldCameraAnimationController_SetAnimation(FieldCameraAnimationController *controller,
+                                                 const FieldCameraAnimation *animation);
+void FieldCameraAnimationController_PrepareCamera(FieldCameraAnimationController *controller);
+void FieldCameraAnimationController_StartAnimation(FieldCameraAnimationController *controller);
+GameEvent *EventEvCameraShake_Create(GameSystem *gsys, const FieldEvCameraShake *shake);
 void FieldCamera_CalcTransform(FieldCamera *camera, u16 heldKeys);
 G3DCamera *FieldCamera_GetG3DCamera(FieldCamera *camera);
 void FieldCamera_CoordsGetEyeOffset(FieldCamera *camera, VecFx32 *offset);

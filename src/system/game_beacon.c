@@ -27,6 +27,7 @@
 #include "system/game_beacon.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+#include "system/pms.h"
 
 // The game's beacons. The file's name is from the ROM's string
 
@@ -69,8 +70,8 @@ static void GameBeaconSys_SendPlayTime(u16 hours);
 static void GameBeacon_SetPlayTime(GameBeacon *beacon, u16 hours);
 static void GameBeacon_SetItem(GameBeacon *beacon, u16 item);
 static void GameBeacon_UpdateZone(GameBeacon *beacon, u16 zoneId, GameData *gameData);
-static void GameBeacon_SetCGearRecordFields(GameBeacon *beacon, const u16 *record);
-static void GameBeacon_SetMyCGearRecord(const u16 *record);
+static void GameBeacon_SetCGearRecordFields(GameBeacon *beacon, const PMSData *record);
+static void GameBeacon_SetMyCGearRecord(const PMSData *record);
 static void GameBeaconSys_SetEnabled(u8 enabled);
 static void GameBeaconSys_SendAvenueAd(GameBeaconSystem *sys);
 static BOOL GameBeaconSys_UpdateAvenueAdTimer(GameBeaconSystem *sys);
@@ -698,7 +699,7 @@ static void GameBeacon_Init(GameBeacon *beacon, GameData *gameData) {
     TrainerGameInfoSave *info = getTrainerGameInfoAddress(save);
     void *cgear = func_0200ef7c(save);
     OSOwnerInfo owner;
-    u16 cgearRecord[4];
+    PMSData cgearRecord;
     MedalBox *medalBox;
     PlayTime *playTime;
     u16 terminator;
@@ -738,8 +739,8 @@ static void GameBeacon_Init(GameBeacon *beacon, GameData *gameData) {
     beacon->playHours = func_02008cec(playTime);
     beacon->playMinutes = func_02008cf0(playTime);
     sys_memcpy(func_0200ec38(func_0200ec2c(save)), beacon->surveyAnswers, sizeof(beacon->surveyAnswers));
-    func_0200ef90(cgear, 0, cgearRecord);
-    GameBeacon_SetMyCGearRecord(cgearRecord);
+    func_0200ef90(cgear, 0, &cgearRecord);
+    GameBeacon_SetMyCGearRecord(&cgearRecord);
     terminator = GFL_StrBufGetTerminator();
     str = GetPlayerName(player);
     for (i = 0; i < 7; i++) {
@@ -853,7 +854,7 @@ BOOL func_0202cf98(const GameBeacon *beacon) {
     return TRUE;
 }
 
-u32 func_0202cfac(u32 a0, u32 a1) {
+u32 func_0202cfac(u32 a0, u16 a1) {
     if (GameBeaconSys == NULL || GameBeaconSys->gsys == NULL) {
         return 0;
     }
@@ -934,14 +935,14 @@ void GameBeaconSys_SetSurveyRank(u8 rank) {
     slot->updated = TRUE;
 }
 
-void GameBeaconSys_SetCGearRecord(const u16 *record) {
+void GameBeaconSys_SetCGearRecord(const PMSData *record) {
     GameBeaconSendSlot *slot = &GameBeaconSys->mine;
 
     GameBeacon_SetMyCGearRecord(record);
     slot->updated = TRUE;
 }
 
-void GameBeaconSys_SetTrainerView(u8 trainerView) {
+void GameBeaconSys_SetTrainerView(u32 trainerView) {
     GameBeaconSendSlot *slot = &GameBeaconSys->mine;
 
     slot->beacon.trainerView = trainerView;
@@ -1168,16 +1169,16 @@ void GameBeacon_ClearRecent(GameBeacon *beacon) {
 }
 
 // Sets the game's own beacon, whichever beacon it is given; its only caller gives that one
-static void GameBeacon_SetCGearRecordFields(GameBeacon *beacon, const u16 *record) {
+static void GameBeacon_SetCGearRecordFields(GameBeacon *beacon, const PMSData *record) {
     GameBeacon *mine = &GameBeaconSys->mine.beacon;
 
-    mine->cgear0 = record[0];
-    mine->cgear1 = record[1];
-    mine->cgear2 = record[2];
-    mine->cgear3 = record[3];
+    mine->cgear0 = record->type;
+    mine->cgear1 = record->id;
+    mine->cgear2 = record->words[0];
+    mine->cgear3 = record->words[1];
 }
 
-static void GameBeacon_SetMyCGearRecord(const u16 *record) {
+static void GameBeacon_SetMyCGearRecord(const PMSData *record) {
     GameBeacon_SetCGearRecordFields(&GameBeaconSys->mine.beacon, record);
 }
 

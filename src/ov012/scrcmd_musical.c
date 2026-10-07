@@ -4,6 +4,7 @@
 #include "field/field.h"
 #include "field/field_script.h"
 #include "field/musical.h"
+#include "field/musical_dressup_sys.h"
 #include "field/pdw_postman.h"
 #include "gfl/heap.h"
 #include "gfl/msg.h"
@@ -29,25 +30,9 @@ typedef struct {
     BOOL online;
 } MusicalCallEvent;
 
-// What overlay 209's screen gets, by way of func_020196d0
-typedef struct {
-    u32 unk0;
-    u32 unk4;
-    u32 unk8;
-    MusicalShot *shot;
-    u8 unk10[8];
-} MusicalShotParam;
-
 typedef struct {
     MusicalShotParam *param;
 } MusicalShotHolder;
-
-// What data_ov012_0216dfc4 gets
-typedef struct {
-    u32 unk0;
-    void *poke;
-    MusicalSave *save;
-} MusicalDressUpParam;
 
 typedef struct {
     MusicalDressUpParam *param;
@@ -132,7 +117,7 @@ BOOL func_ov012_021581e4(VM *vm, FieldScriptEnv *env) {
     GameData *gameData = FieldScriptEnv_GetGameData(env);
     u16 slot;
     MusicalSave *save;
-    void *poke;
+    MusicalPoke *poke;
     GameEvent *event;
     MusicalDressUpEvent *data;
 
@@ -146,7 +131,7 @@ BOOL func_ov012_021581e4(VM *vm, FieldScriptEnv *env) {
     data->param = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(MusicalDressUpParam), TRUE, "scrcmd_musical.c", 218);
     data->param->poke = poke;
     data->param->save = save;
-    data->param->unk0 = 0;
+    data->param->comm = NULL;
     ScriptWork_CallEvent(work, event);
     return TRUE;
 }
@@ -228,7 +213,7 @@ BOOL func_ov012_02158280(VM *vm, FieldScriptEnv *env) {
         }
         break;
     case 7:
-        if (func_0200ad5c(save)->unk0_16 == 0) {
+        if (func_0200ad5c(save)->month == 0) {
             *result = FALSE;
         } else {
             *result = TRUE;

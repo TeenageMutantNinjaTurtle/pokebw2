@@ -3,11 +3,15 @@
 
 #include "types.h"
 #include "gfl/heap.h"
+#include "nitro/math.h"
 #include "struct_decls.h"
 
-// A Funfest mission's config, which GetFestMissionCfg returns. A mission's beacons send its first 0x14 bytes
+// A Funfest mission's config, as GetFestMissionCfg returns it. A mission's beacons send its first 0x14 bytes
 struct FestMissionConfig {
-    u32 unk00[6];
+    u32 unk00[5];
+    // The kind of mission, which picks the overlay that runs it on the field
+    u8 type;
+    u8 unk15[3];
     u16 missionId;
     u16 unk1A;
     u32 unk1C;
@@ -40,6 +44,16 @@ u16 func_ov072_021e8ef4(void *gimmick, u8 index);
 void func_ov036_021b6690(void *gimmick);
 u32 LinkFestival_GetNormalChangeBGMID(LinkFestival *festival);
 void *GetFestMissionCfg(LinkFestival *festival);
+// What missions of type 4 and 5 do when the player enters a zone, from overlays 24 and 25
+void func_ov024_0216f900(RivalEntry *entry, GameSystem *gsys, LinkFestival *festival, FestMissionConfig *config,
+                         u16 zoneId);
+void func_ov025_0216f900(RivalEntry *entry, GameSystem *gsys, LinkFestival *festival, FestMissionConfig *config,
+                         u16 zoneId);
+// Overlay 12's fest_mission_field.c: the zone a mission uses in place of a zone, a random state seeded for the
+// mission, a random number below max that the list doesn't have, and the mission's work on entering a zone
+u16 func_ov012_02168320(u16 zoneId);
+void func_ov012_02168348(u32 seed, int skip, MATHRandContext32 *rand);
+u32 func_ov012_021683a8(MATHRandContext32 *rand, u32 max, const u32 *list, int count);
 BOOL isFesMissionAvailable(void *missionCfg);
 // Copies the current mission's beacon data to mission, with value
 void func_02014594(LinkFestival *festival, void *mission, u16 value);

@@ -65,7 +65,7 @@ void CursorMove_SetBOnlyShowsCursor(CursorMove *cursor);
 // Runs a frame: returns the position chosen, or a CURSOR_MOVE_* code. The first moves on presses, the second on
 // repeats too
 int CursorMove_UpdatePressed(CursorMove *cursor);
-int CursorMove_Update(CursorMove *cursor);
+u32 CursorMove_Update(CursorMove *cursor);
 u8 CursorMove_GetPos(CursorMove *cursor);
 void CursorMove_SetPos(CursorMove *cursor, u8 pos);
 BOOL CursorMove_IsCursorVisible(CursorMove *cursor);
@@ -73,6 +73,6 @@ void CursorMove_SetCursorVisible(CursorMove *cursor, BOOL visible);
 // Disabled positions are skipped and can't be touched
 void CursorMove_DisablePos(CursorMove *cursor, u32 pos);
 void CursorMove_EnablePos(CursorMove *cursor, u32 pos);
-const CursorMoveData *CursorMove_GetData(CursorMove *cursor, u8 pos);
+const CursorMoveData *CursorMove_GetData(CursorMove *cursor, u32 pos);
 
 #endif // POKEBW2_SYSTEM_CURSOR_MOVE_H

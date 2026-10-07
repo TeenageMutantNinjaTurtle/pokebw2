@@ -46,6 +46,25 @@ typedef union {
         u32 unk00;
         u16 text[8];
     } mission;
+    // The other views overlay 12's game_beacon_set.c fills its messages through
+    u32 value32;
+    u8 value8;
+    struct {
+        u8 a;
+        u8 b;
+    } pair;
+    struct {
+        u16 value;
+        u8 extra;
+    } withExtra;
+    struct {
+        u16 name[9];
+        u16 value;
+    } named;
+    struct {
+        u16 name[9];
+        u8 value;
+    } namedByte;
 } GameBeaconPayload;
 
 struct GameBeacon {
@@ -187,7 +206,7 @@ BOOL GameBeacon_IsMissionType(const GameBeacon *beacon);
 // Whether the beacon's type is 0x3c to 0x66
 BOOL func_0202cf98(const GameBeacon *beacon);
 // 1 + func_02014920's result while a Funfest mission is on, else 0
-u32 func_0202cfac(u32 a0, u32 a1);
+u32 func_0202cfac(u32 a0, u16 a1);
 // Whether a beacon of type may replace the current one, by their priorities
 BOOL GameBeaconSys_CanSendType(u16 type);
 // Whether species is one of the special Pokémon (legendaries and such)
@@ -198,9 +217,9 @@ u8 GameBeaconSys_PopSurveyUpdated(void);
 void GameBeaconSys_SetSurveyAnswers(const void *answers);
 void GameBeaconSys_SetCountryRegion(u8 country, u8 region);
 void GameBeaconSys_SetSurveyRank(u8 rank);
-// Sets the C-Gear record, 4 u16 (func_0200ef90)
-void GameBeaconSys_SetCGearRecord(const u16 *record);
-void GameBeaconSys_SetTrainerView(u8 trainerView);
+// Sets the C-Gear record, a sentence (func_0200ef90)
+void GameBeaconSys_SetCGearRecord(const PMSData *record);
+void GameBeaconSys_SetTrainerView(u32 trainerView);
 // Sets the greeting from the save, after the player changed it
 void GameBeaconSys_UpdateGreeting(void);
 // Sets the medal count that the game's beacon sends

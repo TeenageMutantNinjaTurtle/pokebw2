@@ -56,7 +56,7 @@ void AppTaskMenu_SetCursorActive(AppTaskMenu *menu, BOOL active);
 BOOL AppTaskMenu_IsDecided(AppTaskMenu *menu);
 // While locked, the keys do nothing. Locking it hides the cursor
 void AppTaskMenu_SetLocked(AppTaskMenu *menu, BOOL locked);
-void AppTaskMenu_SetCursorPos(AppTaskMenu *menu, u8 pos);
+void AppTaskMenu_SetCursorPos(AppTaskMenu *menu, u32 pos);
 
 AppTaskMenuRes *AppTaskMenuRes_Create(u8 bg, u8 palette, Font *font, PrintQueue *queue, HeapID heapId);
 void AppTaskMenuRes_Free(AppTaskMenuRes *res);

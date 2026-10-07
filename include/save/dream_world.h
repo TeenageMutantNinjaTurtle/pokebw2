@@ -5,6 +5,8 @@
 #include "struct_decls.h"
 
 BOOL DreamWorldSave_IsPokemonAsleep(DreamWorldSave *dreamWorld);
+// Whether a species' bit is set in a list of species flags
+BOOL func_020099b4(const u8 *flags, int species);
 u8 func_020099f4(DreamWorldSave *dreamWorld);
 u8 func_020099e0(DreamWorldSave *dreamWorld);
 // The items sent from the Dream World, 20 of them

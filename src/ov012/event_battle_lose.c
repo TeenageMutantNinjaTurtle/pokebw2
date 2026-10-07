@@ -4,6 +4,7 @@
 #include "field/field_script.h"
 #include "gfl/overlay.h"
 #include "field/field_event.h"
+#include "field/game_beacon_set.h"
 #include "field/pleasure_boat.h"
 #include "field/zone.h"
 #include "system/brightness.h"

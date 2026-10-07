@@ -3,6 +3,7 @@
 #include "demo/egg_demo.h"
 #include "field/event_egg_demo.h"
 #include "field/field_event.h"
+#include "field/game_beacon_set.h"
 #include "pml/poke_party.h"
 #include "system/game_event.h"
 #include "system/game_system.h"

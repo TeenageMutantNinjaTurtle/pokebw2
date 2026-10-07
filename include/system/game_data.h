@@ -52,6 +52,8 @@ MMSys *GameData_GetMMSys(GameData *gameData);
 CityState *GameData_GetMyCityState(GameData *gameData);
 // Adds seconds to the play time
 void GameData_UpdateTime(GameData *gameData, u32 seconds);
+// The levels that unlock the pass powers, which func_0200c5dc and func_0200c5e0 read
+void *func_02017208(GameData *gameData);
 u16 func_02017220(GameData *gameData);
 void func_0201740c(GameData *gameData, u8 value);
 // Save block 0x39, the Battle Subway's scores
@@ -71,6 +73,7 @@ PlayerState *GameData_GetPlayerState(GameData *gameData);
 void *getTimeSigSaveBlock(GameData *gameData);
 PlayerState *func_020171e8(GameData *gameData, s32 index);
 PokeDexSave *GameData_GetPokedex(GameData *gameData);
+void *getChatterDataAddress(GameData *gameData);
 // Whether the key item is registered to Y, and registers it or not
 BOOL GameData_IsShortcutRegistered(GameData *gameData, u32 item);
 void GameData_SetKeyItemRegistration(GameData *gameData, u32 item, BOOL registered);
@@ -86,6 +89,9 @@ SaveControl *GameData_GetSaveControl_(GameData *gameData);
 BeaconStatus *func_020174d4(GameData *gameData);
 DreamWorldSave *func_020179e4(GameData *gameData);
 u8 GameData_GetSeason(GameData *gameData);
+u8 func_02017a24(GameData *gameData);
+// Sets the area of the Entree Forest the player is in, which func_02017a24 returns
+void func_02017a18(GameData *gameData, u8 area);
 u16 GameData_GetDayPeriod(GameData *gameData);
 u16 GameData_GetMonth(GameData *gameData);
 u16 GameData_GetDay(GameData *gameData);
@@ -148,6 +154,10 @@ void func_02039980(u32 *a0, u32 index, u32 value);
 void SetNowWeather(GameData *gameData, u8 weather);
 u32 GetNowWeather(GameData *gameData);
 BOOL GameData_CheckEventsPaused(GameData *gameData);
+// The Battle Subway's save data
+void *func_02017968(GameData *gameData);
+// Where the Trial House work is kept
+TrialHouseWork **GetTrialHouseWkPPtr(GameData *gameData);
 void GameData_ResetSkipFrame(GameData *gameData);
 void GameData_Set30FPSMode(GameData *gameData, BOOL enable);
 u8 func_02017b70(GameData *gameData);

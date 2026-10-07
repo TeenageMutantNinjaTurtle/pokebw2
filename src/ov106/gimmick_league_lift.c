@@ -9,12 +9,6 @@ typedef struct {
     u16 heapId;
 } GimmickWork;
 
-void func_ov106_021eecd4(Field *field);
-void func_ov106_021eed04(Field *field);
-BOOL func_ov106_021eed18(Field *field);
-void func_ov106_021eed48(Field *field);
-void func_ov106_021eed78(Field *field);
-BOOL func_ov106_021eedc8(Field *field);
 void func_ov106_021eedfc(GimmickWork *work, Field *field);
 void func_ov106_021eee50(GimmickWork *work, Field *field);
 void func_ov106_021eee54(GimmickWork *work, Field *field);

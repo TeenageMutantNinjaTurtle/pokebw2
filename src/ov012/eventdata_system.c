@@ -2,6 +2,7 @@
 #include "field/encounter.h"
 #include "field/event_data.h"
 #include "field/field_actor.h"
+#include "field/hidden_item.h"
 #include "field/zone.h"
 #include "gfl/arc.h"
 #include "gfl/heap.h"

@@ -52,10 +52,22 @@ void func_ov036_02188e90(void *msgBGSys, u16 index);
 void *FieldMsgBG_CreateMoneyWin(void *msgBGSys, MsgData *msgData, u16 a2, u16 a3, u16 a4, u16 a5);
 // The font of the field's message BG
 Font *func_ov036_0218799c(void *msgBGSys);
+void *func_ov036_02187998(void *msgBGSys);
 // Turns on or off the alpha blending of the field's message BG
 void setAlphaBlend_wrapper(BOOL enable);
 // The grid position in front of the player, facing dir
 void GetPlayerGPosPlusDir(FieldPlayer *player, u16 dir, s16 *x, s16 *y, s16 *z);
+// A message balloon over an actor at the position on the field's message BG: create, whether it has finished
+// printing, close, and whether it has closed
+void *ActorMsgWin_CheckAndCreate(void *msgBGSys, u32 a1, const VecFx32 *pos, StrBuf *strbuf, u32 a4, u32 a5);
+BOOL func_ov036_02188884(void *msgWin);
+void func_ov036_021887d4(void *msgWin);
+BOOL func_ov036_021887f4(void *msgWin);
+void func_ov036_021889c8(void *msgWin);
+// Where a balloon over an actor goes, from where the player stands, and the offset and window position of each
+u8 ActorMsgWin_CalcWinPosAuto(FieldActor *player, const VecFx32 *pos);
+void func_ov036_021a8bec(const VecFx32 *pos, VecFx32 *offset, G3DCamera *g3dCamera, FieldCamera *camera, u8 winPos);
+void func_ov036_021a8c00(u8 winPos, u32 *a1, u32 *a2);
 // A talk window on the field's message BG, printing messages of a message data or strings: create, free, print,
 // whether printing has ended, clear, and the window
 MsgData *func_ov036_021879a0(void *msgBGSys, u32 fileId);
@@ -180,7 +192,6 @@ void Field_SetSeasonBannerOverdrawFlag(Field *field, BOOL flag);
 u32 GetZoneFogIndexAll(Field *field, u16 zoneId);
 void ShutdownFollowWork(GameData *gameData);
 BOOL func_ov011_02154e70(GameData *gameData, u32 a1);
-void func_ov012_02153668(GameCommSys *comm);
 void func_ov012_02162f44(GameData *gameData);
 void func_ov012_021683f4(GameSystem *gsys, u16 zoneId);
 u32 func_ov012_02169fb0(void);
@@ -239,11 +250,11 @@ void func_ov034_0217b7d0(void *work);
 // Overlay 28
 void func_ov028_02170f28(GameCommSys *comm, Field *field);
 // Overlay 28's GameCommSys callbacks for GAME_COMM_NO_UNION (see game_comm.c)
-void *func_ov028_021703d0(int *seq, void *param);
-BOOL func_ov028_021703fc(int *seq, void *param, void *work);
-BOOL func_ov028_02170430(int *seq, void *param, void *work);
-BOOL func_ov028_0217046c(int *seq, void *param, void *work);
-void func_ov028_021705cc(int *seq, void *param, void *work);
+void *func_ov028_021703d0(u32 *seq, void *param);
+BOOL func_ov028_021703fc(u32 *seq, void *param, void *work);
+BOOL func_ov028_02170430(u32 *seq, void *param, void *work);
+BOOL func_ov028_0217046c(u32 *seq, void *param, void *work);
+void func_ov028_021705cc(u32 *seq, void *param, void *work);
 void func_ov028_02170ffc(void *param, void *work, Field *field);
 void func_ov028_0217105c(void *param, void *work, Field *field);
 BOOL FieldmapProc_Init(GameProc *proc, int *seq, void *param, void *work);
