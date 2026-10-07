@@ -104,6 +104,24 @@ typedef struct {
     void (*unk10)(FieldActor *actor);
 } FieldActorMoveCode;
 
+// The saved positions of the strength boulders that were moved, in grid units, by the slots of fldmmdl.c's table of
+// boulders. A slot without a saved position holds STRENGTH_ROCK_POS_NONE
+#define STRENGTH_ROCK_SLOT_COUNT 80
+#define STRENGTH_ROCK_POS_NONE 0x7fff
+
+typedef struct {
+    s16 x[STRENGTH_ROCK_SLOT_COUNT];
+    s16 y[STRENGTH_ROCK_SLOT_COUNT];
+    s16 z[STRENGTH_ROCK_SLOT_COUNT];
+} StrengthRockSave;
+
+// What tells one actor from another, for finding it again
+typedef struct {
+    u16 uid;
+    u16 objCode;
+    u16 zoneId;
+} FieldActorIdentity;
+
 GameEvent *CallEventPrepareResidentActorsForZoneChange(GameSystem *gsys, Field *field);
 GameEventReturnCode func_ov012_0215c59c(GameEvent *event, u32 *state, void *data);
 void DisableAllActorsMovement(MMSys *mmSys);
@@ -123,10 +141,11 @@ void SetZoneNPCSCRID(EventData *eventData, u16 npcId, u16 scriptId);
 void GetNPCMdlInfoForOBJCODE(MMSys *actorSystem, u16 objCode, FieldActorConfig *config);
 void LoadMModelSystemInfoCache(MMSys *mmSys, s32 index);
 void SetActorFlag(FieldActor *actor, u32 flag);
+void ClearActorFlag(FieldActor *actor, u32 flag);
 void SetActorMovementFlag(FieldActor *actor, u32 flag);
 void ClearActorMovementFlag(FieldActor *actor, u32 flag);
 void FldAct_InvokeUpdateCallback(FieldActor *actor);
-void ChangeActorDirection(FieldActor *actor, u32 dir);
+void ChangeActorDirection(FieldActor *actor, u16 dir);
 void SetActorHidden(FieldActor *actor, BOOL hidden);
 void FldAct_GetGPos(FieldActor *actor, GridPos *pos);
 u16 GetActorUID(FieldActor *actor);
@@ -138,8 +157,6 @@ u16 GetActorMotionDir(FieldActor *actor);
 BOOL func_ov012_0216773c(FieldActor *actor);
 void func_ov036_0219634c(FieldActor *actor, u16 *a1, u16 *a2);
 void func_ov036_021963a4(FieldActor *actor, u16 a1, u16 a2);
-// The field object code of a Pokémon walking in the field, in the main module
-u16 GetPokemonFieldOBJCODE(void *pokemonData, u16 species, u16 sex, u16 form);
 u32 GetIndexOfObjID(u16 objCode);
 
 // Overlay 36's table that func_ov036_02194650 indexes, by a record's unk9
@@ -199,16 +216,18 @@ u16 GetActorZoneID(FieldActor *actor);
 BOOL IsActorFlag16(FieldActor *actor);
 // Steps through the system's actors from *index, returning TRUE with the next one in *actor
 BOOL NextActor(MMSys *mmSys, FieldActor **actor, u32 *index);
-FieldActor *CreateNewActorByEntityNoWKOBJCODE(MMSys *mmSys, const ZoneNPC *npc, u16 zoneId);
+FieldActor *CreateNewActorByEntityNoWKOBJCODE(MMSys *mmSys, const ZoneNPC *npc, u32 zoneId);
 // Sets a ZoneNPC's position on the grid
 void func_ov012_021682c0(ZoneNPC *npc, u16 x, u16 z, s32 y);
 // The actor's user parameters 0 to 2
 u16 GetActorUserParam(FieldActor *actor, u32 index);
 void SetActorUserParam(FieldActor *actor, u16 value, u32 index);
 void SetActorSCRID(FieldActor *actor, u16 scriptId);
-void SetActorWPosAll(FieldActor *actor, const VecFx32 *pos, u32 dir);
-FieldActor *CreateNewActorByParam(MMSys *mmSys, s16 x, s16 z, u16 dir, u16 id, u16 objCode, u16 moveCode, u16 zoneId);
+void SetActorWPosAll(FieldActor *actor, const VecFx32 *pos, u16 dir);
+FieldActor *CreateNewActorByParam(MMSys *mmSys, s16 x, s16 z, u16 dir, u16 id, u16 objCode, u16 moveCode, u32 zoneId);
 void CopyActorWPos(FieldActor *actor, VecFx32 *dest);
+// The position with every offset added
+void CopyActorPosAllAdd(FieldActor *actor, VecFx32 *dest);
 void SetActorWPosValue(FieldActor *actor, const VecFx32 *pos);
 // The actor with an ID, or NULL
 FieldActor *FindFieldActor(MMSys *mmSys, u16 id);
@@ -293,7 +312,7 @@ BOOL func_ov012_021677f4(FieldActor *actor);
 const FieldActorConfig *GetActorMdlInfo(FieldActor *actor);
 u32 CheckMMSysFlag(MMSys *system, u32 flag);
 // Resets a strength boulder's saved position in a zone
-void func_ov012_02168258(MMSys *system, u16 zoneId, u32 index);
+void func_ov012_02168258(MMSys *system, u16 zoneId, u16 uid);
 void func_ov036_0218eff4(FieldActor *actor);
 void func_ov036_021925a4(FieldActor *actor);
 BOOL func_ov036_021925ac(FieldActor *actor);
@@ -373,5 +392,113 @@ void func_ov012_0215e39c(FieldActor *actor, ActorTerrainEffectParam *param);
 void ActorTerrainEffect_Shadow(FieldActor *actor, ActorTerrainEffectParam *param);
 void func_ov012_0215ec28(FieldActor *actor);
 BOOL func_ov012_0215ede4(FieldActor *actor, RailPosition *position);
+
+// Overlay 12's fldmmdl.c
+MMSys *FldActSys_Create(HeapID heapId, u32 capacity, StrengthRockSave *save);
+void FldActSys_Free(MMSys *system);
+// Updates until the materials have loaded
+void FldActSys_ForceFullSync(MMSys *system);
+// Creates the actor of the entity with an ID, if it is spawned
+FieldActor *func_ov012_021668f8(MMSys *mmSys, ZoneNPC *npcs, s32 zoneId, u32 count, EventWork *eventWork, u16 uid);
+u16 GetActorLimit(MMSys *system);
+// The base priority of the actors' tasks
+u16 func_ov012_02166f6c(MMSys *system);
+HeapID FldActSys_GetFieldHeapID(MMSys *system);
+TCBManager *GetMMSysTCBMgr(MMSys *system);
+ArcTool *GetMMSysDataArcHandle(MMSys *system);
+void FldActSys_BindFieldBlAct(MMSys *system, void *fieldBlAct);
+void *FldActSys_GetFieldBlAct(MMSys *system);
+void FldActSys_BindActorG3DSystem(MMSys *system, void *actorG3DSystem);
+void *FldActSys_GetActorG3DSystem(MMSys *system);
+NoGridMapper *FldActSys_GetNoGridMapper(MMSys *system);
+// The camera angle that func_ov012_021667cc set, or 0
+u16 func_ov012_02166fb0(MMSys *system);
+u32 func_ov012_02166fc0(MMSys *system);
+void func_ov012_02166fc4(MMSys *system, u32 value);
+void SetActorEvType(FieldActor *actor, u16 evType);
+u16 GetActorEvType(FieldActor *actor);
+u16 GetActorSpawnFlag(FieldActor *actor);
+u32 GetDefaultActorDir(FieldActor *actor);
+void SetActorFaceDir(FieldActor *actor, u16 dir);
+// The direction the actor faced before
+u16 func_ov012_0216707c(FieldActor *actor);
+void SetActorAreaW(FieldActor *actor, s16 w);
+void SetActorAreaH(FieldActor *actor, s16 h);
+u16 func_ov012_021670f8(FieldActor *actor);
+// Work areas of the actor, cleared to a size and returned
+void *func_ov012_02167120(FieldActor *actor, u32 size);
+void *func_ov012_02167138(FieldActor *actor);
+void *func_ov012_0216713c(FieldActor *actor, u32 size);
+void *func_ov012_02167154(FieldActor *actor);
+void *FldAct_ResetBlActWork(FieldActor *actor, u32 size);
+void *FldAct_GetBlActWorkPtr(FieldActor *actor);
+u32 FldAct_GetBlActIdx(FieldActor *actor, u32 param);
+void SetNextActorAcmd(FieldActor *actor, u16 acmd);
+// The state of the actor's movement command
+void func_ov012_02167220(FieldActor *actor, u16 state);
+void FieldActor_NextAcmdState(FieldActor *actor);
+u16 FldAct_GetAcmdState(FieldActor *actor);
+void GetActorInitGPos(FieldActor *actor, GridPos *pos);
+void adjustZPos(FieldActor *actor, s16 dy);
+void func_ov012_0216731c(FieldActor *actor, VecFx32 *dest);
+void SetActorWPosOffset(FieldActor *actor, const VecFx32 *offset);
+void func_ov012_0216733c(FieldActor *actor, VecFx32 *dest);
+void func_ov012_0216734c(FieldActor *actor, const VecFx32 *value);
+void func_ov012_0216735c(FieldActor *actor, VecFx32 *dest);
+void *FldAct_GetFieldBlAct(FieldActor *actor);
+// The model's position offset of the actor's config
+void CopyActorPosOffset(FieldActor *actor, VecFx32 *offset);
+void func_ov012_021673c8(MMSys *system, BOOL flag);
+// Whether the actor exists
+BOOL func_ov012_0216749c(FieldActor *actor);
+BOOL func_ov012_0216750c(FieldActor *actor);
+BOOL func_ov012_0216754c(FieldActor *actor);
+void SetActorFlag8000(FieldActor *actor, BOOL value);
+BOOL func_ov012_021675b4(FieldActor *actor);
+void SetActorFlag256(FieldActor *actor, BOOL value);
+void SetActorFlag32(FieldActor *actor, BOOL value);
+void func_ov012_02167754(FieldActor *actor, BOOL value);
+void func_ov012_02167788(FieldActor *actor, BOOL value);
+void func_ov012_021677bc(FieldActor *actor, BOOL value);
+void func_ov012_021677d8(FieldActor *actor, BOOL value);
+u8 FldAct_GetShadowGroup(FieldActor *actor);
+void func_ov012_0216783c(FieldActor *actor, BOOL value);
+FieldActor *GetFirstActorOnGPos(MMSys *system, s16 x, s16 z, BOOL checkInit);
+// The first actor over a grid position whose height is within maxHeightDiff of y, other than exclude
+FieldActor *FindActorByGPos(MMSys *system, s16 x, s16 z, fx32 y, fx32 maxHeightDiff, BOOL checkInit);
+FieldActor *FindActorByGPos_(MMSys *system, s16 x, s16 z, fx32 y, fx32 maxHeightDiff, BOOL checkInit,
+                             FieldActor *exclude);
+// Whether another actor has the object code
+BOOL FldAct_CheckObjCodeShared(FieldActor *actor, u16 objCode);
+void ChangeActorUID(FieldActor *actor, u16 uid);
+void func_ov012_02167d88(FieldActor *actor, FieldActorIdentity *identity);
+BOOL func_ov012_02167da8(FieldActor *actor, const FieldActorIdentity *identity);
+void GetMMSysMdlInfoCacheEntry(MMSys *system, u32 index, FieldActorConfig *config);
+u16 GetMMSysMdlInfoCacheEntryCount(MMSys *system);
+const FieldActorResGroup *GetNPCMdlInfoG2DRscGroup(const FieldActorConfig *config);
+const FieldActorResGroup *GetNPCMdlInfoG3DRscGroup(const FieldActorConfig *config);
+// The object code that an object code stands for, through the work values of WKOBJCODE00 and on
+u16 ResolvePossibleWKOBJCODE(EventWork *eventWork, u16 objCode);
+BOOL func_ov012_02168024(u32 type);
+void func_ov012_02168054(FieldActor *actor);
+void func_ov012_02168058(FieldActor *actor);
+void func_ov012_0216805c(FieldActor *actor);
+void func_ov012_02168060(FieldActor *actor);
+// The size of the strength boulders' save, and its initialization
+u32 func_ov012_02168064(void);
+void func_ov012_0216806c(StrengthRockSave *save);
+// Saves the position of the actor's boulder
+void func_ov012_021681b0(FieldActor *actor);
+// The count of boulders with a saved position
+u32 func_ov012_021682a0(MMSys *system);
+// Sets a ZoneNPC's position on a rail
+void func_ov012_021682d4(ZoneNPC *npc, u16 railIndex, u16 frontPos, s16 sidePos);
+
+// Overlay 36's functions that fldmmdl.c calls
+void func_ov036_0218ed18(MMSys *system);
+void func_ov036_0218ed44(FieldActor *actor);
+void FldActSys_UpdateResourceLoader(MMSys *system);
+void func_ov036_02194924(FieldActor *actor);
+void func_ov036_02194938(FieldActor *actor);
 
 #endif // POKEBW2_FIELD_FIELD_ACTOR_H

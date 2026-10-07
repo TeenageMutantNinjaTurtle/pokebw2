@@ -12,11 +12,14 @@
 #define GTSNEGO_RESULT_EXIT 1
 
 typedef struct {
-    GameData *gameData;
+    u32 unk0;
     u32 unk4;
-    u32 unk8;
-    u32 unkC;
-    u32 unk10;
+} GtsNegoUnk4;
+
+typedef struct {
+    GameData *gameData;
+    // For each of the two players
+    GtsNegoUnk4 unk4[2];
     // Copies of the player's info
     PlayerInfo *playerInfo;
     PlayerInfo *playerInfo2;

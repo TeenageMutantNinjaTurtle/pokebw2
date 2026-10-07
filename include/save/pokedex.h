@@ -6,6 +6,7 @@
 #include "struct_decls.h"
 
 BOOL PokeDex_IsNationalObtained(PokeDexSave *pokedex);
+u32 getSizeofPokedexData(void);
 void PokeDex_SetNationalObtained(PokeDexSave *pokedex);
 void PokeDex_EnableHabitatList(PokeDexSave *pokedex);
 BOOL PokeDex_IsHabitatListEnabled(PokeDexSave *pokedex);
@@ -33,5 +34,6 @@ void PokeDex_RegistPkm(PokeDexSave *pokedex, PartyPkm *pkm);
 void addPkmToDex(PokeDexSave *pokedex, PartyPkm *pkm);
 // The count of seen Pokémon, in the national Pokédex once the player has it
 u32 countSeenDexPokes(PokeDexSave *pokedex, HeapID heapId);
+BOOL PokeDex_IsCompleteNational(PokeDexSave *pokedex);
 
 #endif // POKEBW2_SAVE_POKEDEX_H

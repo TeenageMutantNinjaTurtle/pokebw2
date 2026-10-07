@@ -34,7 +34,11 @@ BASH_RULES = [
     ),
     (
         # Several sessions share a checkout and its worktrees; a broad add commits another session's work.
-        lambda c: re.search(r"\bgit\s+(add\s+(-A|--all|\.(\s|$))|commit\s+(\S+\s+)*-[a-zA-Z]*a)", c) is not None,
+        # Only the flags on the command line count, not words of a message given in a heredoc or quotes
+        lambda c: re.search(
+            r"\bgit\s+(add\s+(-A|--all|\.(\s|$))|commit([ \t]+-[a-zA-Z]+)*[ \t]+-[a-zA-Z]*a[a-zA-Z]*\b)", c
+        )
+        is not None,
         "Stage files by name. Other sessions may have uncommitted work in this checkout.",
     ),
     (

@@ -21,7 +21,7 @@ struct GameClearWork {
     struct {
         PokeParty *party;
         PlayerInfo *playerInfo;
-        u32 unk08;
+        PlayTime *playTime;
     } ov265Param;
     struct {
         BOOL unk00;

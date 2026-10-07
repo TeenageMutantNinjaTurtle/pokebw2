@@ -1,4 +1,5 @@
 #include "types.h"
+#include "constants/arc.h"
 #include "constants/species.h"
 #include "field/event_sound.h"
 #include "field/event_chatot.h"
@@ -12,6 +13,7 @@
 #include "gfl/touchpanel.h"
 #include "gfl/ui.h"
 #include "gfl/msg.h"
+#include "system/bmp_winframe.h"
 #include "system/printsys.h"
 #include "system/time_icon.h"
 #include "system/text_speed.h"
@@ -249,18 +251,18 @@ void func_ov033_02179140(ChatotEventWork *work) {
     GFLBitmap *bitmap;
 
     paletteId = GetSysMsgBoxPaletteDatID(0);
-    GFL_G2DIOLoadNCLR(5, paletteId, 0, 0, 0, 32, 21);
+    GFL_G2DIOLoadNCLR(ARCID_WINFRAME, paletteId, 0, 0, 0, 32, 21);
     work->window = BmpWin_CreateDynamic(1, 10, 3, 12, 12, 0, 1);
     bitmap = BmpWin_GetBitmap(work->window);
     GFL_BitmapFill(bitmap, 17);
     BmpWin_FlushChar(work->window);
     BmpWin_FlushMap(work->window);
-    BmpWin_DrawFrame(work->window, 1, 1, 0);
+    BmpWin_DrawFrame(work->window, WINFRAME_TRANSFER_VBLANK, 1, 0);
     func_ov033_02178ffc(work);
 }
 
 void func_ov033_021791a8(ChatotEventWork *work) {
     func_ov033_021790a0(work);
-    func_02024eec(work->window, 1);
+    BmpWin_ClearFrame(work->window, WINFRAME_TRANSFER_VBLANK);
     BmpWin_Free(work->window);
 }

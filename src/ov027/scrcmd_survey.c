@@ -14,6 +14,7 @@
 #include "gfl/str.h"
 #include "save/save_control.h"
 #include "save/trainer_card.h"
+#include "system/game_beacon.h"
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
@@ -124,7 +125,7 @@ BOOL func_ov027_021703dc(VM *vm, FieldScriptEnv *env) {
         return FALSE;
     }
     func_0200c974(info, count + 1);
-    func_0202d0d8((u8)(count + 1));
+    GameBeaconSys_SetSurveyRank((u8)(count + 1));
     return FALSE;
 }
 
@@ -205,7 +206,7 @@ BOOL func_ov027_02170580(VM *vm, FieldScriptEnv *env) {
     for (i = 0; i < 3; i++) {
         func_0200ca94(info, i, 0xff);
     }
-    func_0202c22c(0);
+    GameBeaconSys_ClearNotice(0);
     return FALSE;
 }
 
@@ -249,7 +250,7 @@ BOOL func_ov027_02170650(VM *vm, FieldScriptEnv *env) {
     question = ScriptReadAny(vm, env);
     answer = ScriptReadAny(vm, env);
     func_0200ec80(survey, question, answer);
-    func_0202d0a0(survey);
+    GameBeaconSys_SetSurveyAnswers(survey);
     return FALSE;
 }
 

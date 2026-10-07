@@ -5,6 +5,7 @@
 #include "gfl/bmpwin.h"
 #include "gfl/heap.h"
 #include "gfl/tcb.h"
+#include "gfl/tcbl.h"
 
 typedef struct WaitIcon WaitIcon;
 

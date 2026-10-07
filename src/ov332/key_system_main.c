@@ -19,6 +19,7 @@
 #include "nitro/os.h"
 #include "save/key_info.h"
 #include "save/save_control.h"
+#include "system/bmp_winframe.h"
 #include "system/game_data.h"
 #include "system/gf_font.h"
 #include "system/printsys.h"

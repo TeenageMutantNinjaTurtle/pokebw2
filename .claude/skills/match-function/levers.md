@@ -8,11 +8,18 @@ text to `grep -n` there. Entries without a key come from later work and still be
 ## Registers swapped
 
 - Locals get registers in declaration order: reorder the declarations. (matching.md: "declaration order of locals")
+  Declaring every local first and assigning them below moves both registers and slots (matching.md: "declared first")
+- A `u16` local and `local ± 1` sharing a register can push a parameter out of r0: a wider local keeps them apart.
+  (matching.md: "wider local")
+- A ternary store computes the address once, an `if`/`else` store in each branch. (matching.md: "ternary store")
+- `p + (a + 4)` and `p + a + 4` differ. (matching.md: "Parenthesized offsets")
 - Of two variables that compete for one register, the one used more gets it. `docs/matching.md` spells out what counts as a
   use; on a tie the one assigned first wins, though in a large function the last declared won.
   (matching.md: "compete for the same register")
 - A variable gets a register per group of assignments that reach the same uses: a store after two branches keeps
   one register, a copy of the store in each branch splits it. (matching.md: "group of assignments")
+- A pointer local to a struct's element costs a callee-saved register; index the element at each use instead.
+  (matching.md: "A pointer local to an element")
 - `arr[count++] = x` and `arr[count] = x; count++;` allocate differently, as do `count = 1; arr[0] = x;` and the
   reverse. (matching.md: "arr[count++]")
 - A sum used as an index goes to the register of one of its terms unless it has its own variable.
@@ -59,11 +66,18 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - A load through a pointer moves above stores only when the pointee is `const`. A load scheduled early points to a
   `const` parameter. (matching.md: "unless the pointee is `const`")
 - The same rule orders a call's stack argument stores against the register arguments. (matching.md: "stack argument stores")
+- Register parameters spilled at entry in another order: try `u8` for flag parameters typed `BOOL`.
+  (matching.md: "`u8` flag parameters")
+- The operand order of a product decides which value is loaded first. (matching.md: "operand order of a product")
 - A load through a `const` pointer is reused across stores but not hoisted out of a loop. (matching.md: "reused across stores")
 - Initializations are scheduled where they are written: `int i = 0;` declared after a call against `for (i = 0; ...)`.
   (matching.md: "scheduled where they are written")
+- A u16 stack parameter left in its slot and reloaded with `ldrh`, one load shared by two calls: those callees take
+  `u32`; check their prototypes against their asm. (matching.md: "reloaded with `ldrh`")
 - An argument loaded before a call among the arguments was passed to an inlined helper that makes the call.
   (matching.md: "inlined helper that makes the call")
+- One load of a struct's pointer field for two stores through it, where ours reloads: an inline helper taking the
+  pointer. (matching.md: "Two stores through a pointer")
 - A parameter passed on the stack is loaded at entry, unless it is an `int` or `s32`. (matching.md: "passed on the stack is loaded")
 - NitroSDK's inline functions take enums, which changes when their arguments are loaded and shifted.
   (matching.md: "NitroSDK's inline functions")
@@ -77,6 +91,10 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 ## An instruction too many or too few
 
+- A narrowing before an `and` into a `u8` field: `x &= mask` narrows the mask, `x = x & mask` doesn't.
+  (matching.md: "compound assignment to a narrow field")
+- A reload between two stores of one value: a chained `a = b = v;`; separate statements store the narrowed value
+  twice. (matching.md: "chained assignment to fields")
 - A narrowing (`lsl`/`lsr` or `asr` pair) comes from a `u8`/`u16`/`s16` local, parameter or return type. A caller narrows
   arguments for narrow parameters, so an argument passed without them is for a wider one. (matching.md: "narrows an argument")
 - A parameter passed on to a `u8` parameter without shifts is a `u8` too. (matching.md: "narrows an argument")
@@ -112,6 +130,11 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 ## Branches and block layout
 
+- Returns of `-1` and `0` folded into one computed result (`rsbs`, `mvns`) where the original keeps two returns: the
+  function returns an enum. (matching.md: "returns an enum")
+- `bne` over a `b` to the end at the top: the body is in an `if`, not after an early return. (matching.md: "An early `return`")
+- A final boolean returned from a register shared with a `NULL` argument: `return f() == TRUE ? FALSE : TRUE;`.
+  (matching.md: "ends in `return f(...) == TRUE")
 - Blocks are laid out in source order. A switch whose `default` code comes first had `default:` written first, and
   `if (!f()) return FALSE; n++;` puts the return before the code that goes on. (matching.md: "Blocks are laid out in source order")
 - Identical statements in different branches are merged, so a jump into the middle of another block means the same
@@ -127,6 +150,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   `BOOL x = FALSE; if (...) x = TRUE;` flag gives the `sub; cmp 1; bhi` range test. (matching.md: "range check")
 - A clamp that ends in one store is a conditional expression; `if`/`else if` stores each limit.
   (matching.md: "A clamp that ends in one store")
+- One store after an `if`/`else` of two constants, with a `b` over the else, is still an `if`/`else`; the conditional
+  expression has no `b`. (matching.md: "assigns one field a constant in each branch")
 - `f(x ? a : b)` against two calls in `if`/`else`, which are merged into one call with a `beq; b` layout.
   (matching.md: "picked by branches")
 - A `return` inside `for (;;)` leaves a dead `bx lr`, which the original counts as padding.
@@ -144,6 +169,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - An address or value an inner loop computes from the outer counter alone is hoisted into the inner preheader.
   (matching.md: "inner loop computes"), (matching.md: "preheader")
 - Enum counters keep their guard (see above).
+- A field loaded again at the top of a loop's body, after the test loaded it: walk a local cursor, not the pointer
+  parameter. (matching.md: "local cursor")
 - `beq` before and `bne` after the loop is a `!=` bound. (matching.md: "A loop counted with `!=`")
 
 ## Switches
@@ -152,6 +179,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - The comparison tree and jump tables depend on every case value, including empty cases. (matching.md: "comparison tree")
 - A case that ends in the same code as another is merged into it. (matching.md: "ends in the same code as another")
 - An `if`/`else if` chain whose tests come in a switch's order is a `switch` with a case falling into `default`.
+- All the tests first (`cmp; beq` each) is a `switch`; a test before each body (`cmp; bne`) is an `if` chain.
+  (matching.md: "tests them all first")
   `case 0: default:` written first sets the case order.
 - `cmp; beq end; cmp; bne next` with each body after its test: an `if`/`else if` chain with an empty first body,
   not a switch (matching.md: "A short chain of tests whose first value does nothing")
@@ -169,9 +198,15 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - Float arithmetic on a local holding a constant isn't folded. (matching.md: "doesn't fold float arithmetic")
 - Division and modulo call `_s32_div_f` or `_u32_div_f` by signedness. A `u8`/`u16` promotes to signed `int`.
   (matching.md: "_s32_div_f")
+- `__aeabi_uldivmod` on sign-extended operands is an `int` cast to `u64`; MWCC calls it `_ll_udiv`.
+  (matching.md: "A 64-bit division")
+- A float one ULP off a round decimal is written with the shortest digits that round to it. (matching.md: "one ULP
+  off")
 
 ## Data and sections
 
+- String literals in another order: MWCC lays them out in the order they first appear in the source; a `""` the
+  game has before the file's name needs an earlier use. (matching.md: "String literals")
 - Static data is sorted by size by a heapsort. Objects of 64 bytes or more, local initializers and unreferenced
   globals get their own sections. Predict with `tools/scripts/rodata_order.py`. (matching.md: "Static data is sorted by size")
 - The full model, checked by fuzzing MWCC: there is one list per file in declaration order, except tentative `.bss`
@@ -180,6 +215,13 @@ text to `grep -n` there. Entries without a key come from later work and still be
   given the `.data` tables with the `.rodata` objects it predicts the `.rodata` order. (matching.md: "The list that is
   heapsorted")
 - `.bss` statics are ordered by size, then in an order that isn't the declaration order; try permutations.
+- A table that only one function reads can be a `static const` inside it, which moves it in the heapsort's list.
+  (matching.md: "declared inside the one function")
+- A `.rodata` template copied to a local, then patched with computed fields, in a section of its own: a local
+  initializer with the computed values in its braces, in a block after any calls before it. (matching.md: "a few
+  fields overwritten")
+- When the prediction is wrong, move one declaration at a time and compare the built sections with the ROM.
+  (matching.md: "prediction disagrees")
 - `static const` goes in `.rodata`, so a table in `.data` isn't `const`. (matching.md: "`static const` data goes in")
 - A `static const` whose address is never taken is folded and not emitted. If the original has it, it isn't static.
   (matching.md: "whose address is never taken")

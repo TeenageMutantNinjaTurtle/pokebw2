@@ -11,6 +11,7 @@
 typedef void (*TCBFunc)(TCB *tcb, void *data);
 typedef void (*VBlankCallback)(void *data);
 
+TCB *GFL_HBlankTCBAdd(TCBFunc func, void *data, u32 priority);
 TCB *GFL_VBlankTCBAdd(TCBFunc func, void *data, u32 priority);
 BOOL GFL_TCBRemove(TCB *tcb);
 // Adds a task that runs after the tasks of lower or the same priority

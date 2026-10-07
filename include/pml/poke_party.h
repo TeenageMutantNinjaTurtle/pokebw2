@@ -46,6 +46,7 @@ u32 PokeParty_GetSaveDataSize(void);
 u32 PML_GenPID(u32 seed, u16 species, u16 form, u32 sex, u32 ability, u32 a5);
 void PokeParty_CreatePkm(PartyPkm *pkm, u16 species, u16 level, u32 a3, u32 a4, s32 a5, u32 pid, u32 a7);
 void PokeParty_SetHiddenAbil(PartyPkm *pkm, u32 species, u32 form);
+void PokeParty_SetDefaultMoves(PartyPkm *pkm);
 void FriendshipManagerCalc(PartyPkm *pkm, u32 reason, u16 zoneId, u16 heapId);
 void func_02020c8c(PartyPkm *pkm, u32 value, u16 zoneId, HeapID heapId);
 // Whether a move's PP is below its maximum, and restoring amount of it
@@ -60,6 +61,7 @@ typedef enum {
 } PkmField;
 
 u32 PokeParty_GetParam(PartyPkm *pkm, PkmField param, void *buffer);
+u32 PokeParty_GetNature(PartyPkm *pkm);
 // A field that is not a number takes a pointer to its value
 void PokeParty_SetParam(PartyPkm *pkm, PkmField param, u32 value);
 u32 GetStatusCond(PartyPkm *pkm);
@@ -78,7 +80,19 @@ void PML_PkmChangeForme(BoxPkm *pkm, u32 forme);
 BOOL hasPokemonChangedForm(BoxPkm *pkm);
 void PML_PkmReEncrypt(BoxPkm *pkm, BOOL wasEncrypted);
 BOOL PML_PkmIsRare(BoxPkm *pkm);
+// Whether the species and form are a fused Kyurem
+BOOL isKyuremTransformed(u16 species, u8 form);
+u32 PML_PkmGetNature(BoxPkm *pkm);
+u8 PML_PkmGetSex(BoxPkm *pkm);
+// Whether the Pokémon has Pokérus that hasn't run its course
+BOOL doesPokerusHaveDuration(BoxPkm *pkm);
+// Whether the Pokémon has had Pokérus
+BOOL doesPokeHavePokerus(BoxPkm *pkm);
 BoxPkm *func_0201d620(PartyPkm *pkm);
+// Marks the Pokémon as met in a fateful encounter, at the location and on the date
+void setFatefulEncounterPkmData(BoxPkm *pkm, u16 location, u32 year, u32 month, u32 day);
+// Allocates a party Pokémon made from a boxed one
+void PML_PkmSetParam(BoxPkm *pkm, u32 param, u32 value);
 // The size of a Pokémon's data
 u32 PokeParty_GetPkmRawSize(void);
 void copyPartyPkm(const PartyPkm *src, PartyPkm *dest);
@@ -93,9 +107,12 @@ void hatchEgg(PartyPkm *pkm, PlayerInfo *playerInfo, u16 placeName, HeapID heapI
 void PokeParty_Init(PokeParty *party);
 void PokeParty_Copy(const PokeParty *src, PokeParty *dest);
 void PokeParty_InitCore(PokeParty *party, u32 capacity);
+// An item's place in a list of 46 battle items, 0 if it isn't in it
+u32 func_02035944(u16 item);
 // Records how and where the Pokémon was met, with the player as its Trainer
 void PokeParty_SetupMetData(PartyPkm *pkm, u32 a1, PlayerInfo *playerInfo, u16 placeName, HeapID heapId);
 u32 func_02035cf8(PartyPkm *pkm, u32 arg1, PlayerInfo *playerInfo);
+void func_02035efc(PartyPkm *pkm, u32 arg1, PlayerInfo *playerInfo);
 void PokeParty_ClearPkm(PartyPkm *pkm);
 // Restores a Pokémon's HP and PP and cures its status
 void PokeParty_Recover(PartyPkm *pkm);
@@ -104,8 +121,25 @@ u32 PokeParty_GetLevel(PartyPkm *pkm);
 // Whether a Pokémon can learn the TM or HM of the number PML_ItemGetTMBitMask gives
 BOOL canPkmLearnTM_Wrapper(PartyPkm *pkm, u8 tm);
 void setLevel(PartyPkm *pkm, u32 level);
+u32 PokeParty_GetLevel(PartyPkm *pkm);
+// Counts down the Pokérus of the party's Pokémon by days
+void pokerusDecay(PokeParty *party, s32 days);
+void PokeParty_SetNature(PartyPkm *pkm, u32 nature);
 void setPkmBattleData(PartyPkm *pkm, u32 param, u32 value);
+// A Pokémon's icon in ARCID_POKEICON: its characters' file and its palette
+u32 func_02020f40(BoxPkm *pkm);
+u32 func_020210c0(BoxPkm *pkm);
+// The files of the icons' palette, cells and animations in ARCID_POKEICON
+u32 func_02021118(void);
+u32 func_0202111c(void);
+u32 getOBJTileMapping_MainEng(void);
 // A species with its form and sex in one u16
+// The palette of a Pokémon's icon
+u32 func_020210c0(BoxPkm *pkm);
+// The icons' palette and cell files, for the OBJ mapping in use
+u32 func_02021114(void);
+u32 func_02021154(void);
+u32 getOBJTileMapping_MainEng(void);
 u16 func_02021204(u32 species, u32 form, u32 sex);
 // A Pokémon icon's character file in its archive, and its palette
 u32 PokeParty_GetIconIndex(u32 species, u32 form, u32 sex, BOOL egg);
@@ -127,6 +161,9 @@ int PokeParty_GetCapacity(PokeParty *party);
 BOOL PokeParty_AddPkm(PokeParty *party, PartyPkm *pkm);
 void PokeParty_SwapPkms(PokeParty *party, u32 indexA, u32 indexB, HeapID heapId);
 void PokeParty_RemovePkm(PokeParty *party, u32 index);
+void PokeParty_SwapPkms(PokeParty *party, u32 index1, u32 index2, HeapID heapId);
+// Reorders the party: order[i] is the index of the Pokémon that goes to position i
+void func_0201fff8(PokeParty *party, u32 *order, HeapID heapId);
 void PokeParty_RecoverAll(PokeParty *party);
 // A Pokémon's icon in archive 7: its file, and the palette of the file func_02021114 returns that it uses. The cells
 // and animations depend on the sub engine's OBJ VRAM mapping: func_02021154 and getOBJTileMapping_SubEng return them
@@ -158,10 +195,19 @@ u16 func_0201d358(PartyPkm *pkm, u32 *index, HeapID heapId);
 // Allocates a Pokémon that is not in a party. What the 64-bit argument sets is not known yet; 0 is one of the values
 // that PML_CreatePkm treats specially
 PartyPkm *PokeParty_NewTempPkm(u16 species, u16 level, u64 a2, HeapID heapId);
+PartyPkm *boxPkmRegenToPartyPkm(BoxPkm *pkm, HeapID heapId);
+// Whether the species is a legendary Pokémon of the national Pokédex
+BOOL PML_PkmIsLegendNational(u16 species);
+// Sets the nickname to the species name
+void setNicknameToNick(PartyPkm *pkm);
+// Whether the Pokémon is in a form that it changed into, which it would lose in a box
+BOOL hasPokemonChangedForm(BoxPkm *pkm);
+// The number of Pokémon in the party that can battle: not fainted and not eggs
+int countActivePkms(PokeParty *party);
+// Whether the Pokémon knows a hidden machine move
+BOOL doesPkmHaveTmMove(BoxPkm *pkm, u32 a1);
 PartyPkm *PokeParty_NewPkm(u16 species, u16 level, u32 trainerId, u32 a3, s32 a4, u64 pid, HeapID heapId);
 void TransformVsPokePartyBySeason(GameData *gameData, PokeParty *party, u8 season);
-BOOL func_ov012_021643f0(GameData *gameData, PokeParty *party, RTCTime *time, u8 season);
-u32 func_ov012_02164428(GameData *gameData, PokeParty *party);
 
 BOOL IsTrainerOT(PartyPkm *pkm, PlayerInfo *player);
 

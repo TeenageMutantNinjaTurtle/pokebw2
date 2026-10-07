@@ -12,6 +12,7 @@
 #include "field/field_script.h"
 #include "field/field_surf.h"
 #include "field/funfest_scripts.h"
+#include "field/game_beacon_set.h"
 #include "gfl/key.h"
 #include "gfl/random.h"
 #include "gfl/sound.h"

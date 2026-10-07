@@ -26,6 +26,7 @@
 #include "pml/personal.h"
 #include "pml/poke_party.h"
 #include "pml/waza.h"
+#include "system/game_beacon.h"
 
 s32 ConvertConditionCode(BattleMon *mon, s32 *condition);
 

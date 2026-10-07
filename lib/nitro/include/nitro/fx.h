@@ -16,6 +16,7 @@ typedef s64 fx64;
 #define FX32_MAX ((fx32)0x7fffffff)
 #define FX32_MIN ((fx32)0x80000000)
 #define FX32_CONST(x) ((fx32)(((x) > 0) ? ((x) * FX32_ONE + 0.5f) : ((x) * FX32_ONE - 0.5f)))
+#define FX16_CONST(x) ((fx16)(((x) > 0) ? ((x) * FX16_ONE + 0.5f) : ((x) * FX16_ONE - 0.5f)))
 #define FX_Whole(a) ((s32)((a) >> FX32_SHIFT))
 
 typedef struct {
@@ -82,6 +83,9 @@ void MAT3_Identity(MtxFx33 *mtx);
 
 // Rotations about an axis from its sine and cosine: NitroSDK's MTX_Rot22_, MTX_RotX33_ and the rest
 void MAT2_Rotation(MtxFx22 *mtx, fx32 sin, fx32 cos);
+// NitroSDK's MTX_Identity22 and MTX_Scale22
+void MAT2_Identity(MtxFx22 *mtx);
+void MAT2_Scaling(MtxFx22 *mtx, fx32 x, fx32 y);
 void MAT43_RotationY(MtxFx43 *mtx, fx32 sin, fx32 cos);
 void MAT3_RotationY(MtxFx33 *mtx, fx32 sin, fx32 cos);
 void MAT3_RotationX(MtxFx33 *mtx, fx32 sin, fx32 cos);

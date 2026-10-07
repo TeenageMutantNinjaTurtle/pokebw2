@@ -25,5 +25,9 @@ GameEventReturnCode EventIRC_Callback(GameEvent *event, u32 *state, void *data);
 GameEvent *CallIRC(GameSystem *gsys, Field *field, GameEvent *event, BOOL create);
 void func_ov012_02150cac(EventIRCWork *work);
 void func_ov012_02150ccc(EventIRCWork *work);
+// Accessors for the infrared menu of overlay 36
+void func_ov012_02150cec(EventIRCWork *work, u32 mode);
+GameSystem *func_ov012_02150cf0(EventIRCWork *work);
+SaveControl *func_ov012_02150cf4(EventIRCWork *work);
 
 #endif // POKEBW2_FIELD_EVENT_IRC_H

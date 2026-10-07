@@ -30,6 +30,7 @@
 #include "save/event_work.h"
 #include "save/medal_box.h"
 #include "save/pokedex.h"
+#include "system/bmp_winframe.h"
 #include "system/game_data.h"
 #include "system/printsys.h"
 #include "system/wordset.h"

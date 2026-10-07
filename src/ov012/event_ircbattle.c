@@ -495,3 +495,16 @@ void func_ov012_02150ccc(EventIRCWork *work) {
         work->bgm = 0;
     }
 }
+
+// Accessors for the infrared menu of overlay 36
+void func_ov012_02150cec(EventIRCWork *work, u32 mode) {
+    work->mode = mode;
+}
+
+GameSystem *func_ov012_02150cf0(EventIRCWork *work) {
+    return work->gsys;
+}
+
+SaveControl *func_ov012_02150cf4(EventIRCWork *work) {
+    return work->save;
+}

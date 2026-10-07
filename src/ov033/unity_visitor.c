@@ -5,13 +5,15 @@
 #include "save/save_control.h"
 #include "struct_decls.h"
 #include "system/aeabi.h"
+#include "system/country_region.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+#include "system/union_view.h"
 #include "system/wordset.h"
 
 void func_ov033_0217aa1c(GameSystem *gsys, s32 floor, u32 value) {
     GameData *gameData;
-    u8 *unityTowerSave;
+    UnityTowerFloor *unityTowerSave;
     SaveControl *saveControl;
 
     gameData = GSYS_GetGameData(gsys);
@@ -24,15 +26,15 @@ void func_ov033_0217aa1c(GameSystem *gsys, s32 floor, u32 value) {
     }
 }
 
-void func_ov033_0217aa50(UnityTowerSurveySave *survey, u8 *output, s32 floor, u32 value) {
+void func_ov033_0217aa50(UnityTowerSurveySave *survey, UnityTowerFloor *output, s32 floor, u32 value) {
     void *visitor;
     u32 visitorValue;
     s32 country;
     s32 index;
 
-    output[0] = floor;
-    output[2] = value;
-    output[1] = 0;
+    output->floor = floor;
+    output->value = value;
+    output->count = 0;
     for (index = 0; index < 20; index++) {
         if ((u8)UnityTower_GetVisitorParam(survey, index, 6) == 0) {
             continue;
@@ -47,28 +49,27 @@ void func_ov033_0217aa50(UnityTowerSurveySave *survey, u8 *output, s32 floor, u3
             if (visitorValue > 15) {
                 visitorValue = getTrainerGender(visitor) != 0 ? 15 : 11;
             }
-            output[8 + output[1]] = index;
-            output[3 + output[1]] = func_0202b5d4(visitorValue);
-            output[1]++;
-            if (output[1] >= 5) {
+            output->visitors[output->count] = index;
+            output->trainerClasses[output->count] = UnionView_GetTrainerType(visitorValue);
+            output->count++;
+            if (output->count >= 5) {
                 break;
             }
         }
     }
 }
 
-u32 func_ov033_0217aac4(u8 *output, u32 index) {
+u32 func_ov033_0217aac4(UnityTowerFloor *output, u32 index) {
     u32 result;
 
     result = 0xff;
-    if (index < 5 && index < output[1]) {
-        output += index;
-        result = output[8];
+    if (index < 5 && index < output->count) {
+        result = output->visitors[index];
     }
     return result;
 }
 
-u32 func_ov033_0217aad8(WordSet *wordSet, GameSystem *gsys, u8 *save, s32 index, u32 param) {
+u32 func_ov033_0217aad8(WordSet *wordSet, GameSystem *gsys, UnityTowerFloor *save, s32 index, u32 param) {
     GameData *gameData;
     UnityTowerSurveySave *surveySave;
     PlayerInfo *visitor;
@@ -77,7 +78,6 @@ u32 func_ov033_0217aad8(WordSet *wordSet, GameSystem *gsys, u8 *save, s32 index,
     u32 id;
     u32 province;
     u32 hasProvince;
-    u8 *entry;
 
     hasProvince = 0;
     gameData = GSYS_GetGameData(gsys);
@@ -85,14 +85,13 @@ u32 func_ov033_0217aad8(WordSet *wordSet, GameSystem *gsys, u8 *save, s32 index,
     if (index >= 5) {
         return 4;
     }
-    entry = save + index;
-    visitorIndex = entry[8];
+    visitorIndex = save->visitors[index];
     LoadUnityTowerVisitorWordSet(wordSet, gameData, visitorIndex);
     visitor = UnityTower_GetVisitor(surveySave, visitorIndex);
     gender = getTrainerGender(visitor);
     province = UnityTower_GetVisitorParam(surveySave, visitorIndex, 4);
     id = getIDAsUInt(visitor);
-    if (CountryHasProvinces(GameData_GetUnityTowerSave(gameData)[0]) != 0) {
+    if (CountryHasProvinces(GameData_GetUnityTowerSave(gameData)->floor) != 0) {
         hasProvince = 1;
     }
     return func_ov033_0217ab58(gender, id, province, param, hasProvince);
@@ -122,7 +121,7 @@ u32 func_ov033_0217ab58(u32 gender, u32 id, u32 province, u32 a3, u32 hasProvinc
 void LoadUnityTowerVisitorWordSet(WordSet *wordSet, GameData *gameData, u32 index) {
     SaveControl *save;
     UnityTowerSurveySave *survey;
-    u8 *towerSave;
+    UnityTowerFloor *towerSave;
     u8 country;
     void *visitor;
     u32 value;
@@ -131,7 +130,7 @@ void LoadUnityTowerVisitorWordSet(WordSet *wordSet, GameData *gameData, u32 inde
     save = GameData_GetSaveControl(gameData);
     survey = getUnityTower_SurveySaveBlkAddrress(save);
     towerSave = GameData_GetUnityTowerSave(gameData);
-    country = towerSave[0];
+    country = towerSave->floor;
     visitor = UnityTower_GetVisitor(survey, index);
     loadCountryToStrbuf(wordSet, 0, country);
     if (CountryHasProvinces(country)) {

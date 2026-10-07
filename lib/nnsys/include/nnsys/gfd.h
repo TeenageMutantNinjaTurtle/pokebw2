@@ -6,8 +6,10 @@
 // NitroSystem's VRAM managers (NNS_Gfd) for textures and palettes. A key packs where an allocation is and its size, 0
 // when it failed
 
-// Where a transfer goes: the OBJ characters of the main or sub engine
+// Where a transfer goes: the BG palettes or the OBJ characters of the main or sub engine
+#define NNS_GFD_DST_2D_BG_PLTT_MAIN 0xf
 #define NNS_GFD_DST_2D_OBJ_CHAR_MAIN 0x13
+#define NNS_GFD_DST_2D_BG_PLTT_SUB 0x1f
 #define NNS_GFD_DST_2D_OBJ_CHAR_SUB 0x23
 
 typedef u32 NNSGfdTexKey;

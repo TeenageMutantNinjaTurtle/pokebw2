@@ -28,6 +28,7 @@ JoinAvenuePersonList *JoinAvenue_GetPersonList(JoinAvenueSave *joinAvenue);
 void func_02038bc8(u32 a0);
 // Sets a field of the info
 void func_02039064(JoinAvenueInfo *info, u32 param, u32 value);
+void func_020392d4(JoinAvenueInfo *info, BOOL fullDay);
 
 // A person's fields. joinAveTextHandler reads one, into the buffer for a name
 u32 joinAveTextHandler(JoinAvenuePerson *person, JoinAvenuePersonParam param, void *buffer);
@@ -42,10 +43,16 @@ void *func_02010054(JoinAvenueSave *joinAvenue);
 void *func_02037f04(void *entries, u32 index);
 // The number of entries
 u32 func_02037ed4(void *entries);
-// Stores a person list in a global structure, if there is one; NULL clears it
-void func_0202d608(JoinAvenuePersonList *list);
 // Called with an entry by overlay 137, which counts a result of 2 and stops at 0
 u32 func_02010078(JoinAvenueSave *joinAvenue, GameData *gameData, void *entry, u32 a3);
+void func_02010098(JoinAvenueSave *joinAvenue);
+BOOL func_020100a4(JoinAvenueSave *joinAvenue, GameData *gameData, void *work, u32 a3, u32 *out);
+// A 0x48-byte work of a Join Avenue visitor from a beacon
+void *func_02037910(HeapID heapId);
+void func_02037930(void *work);
+void func_02037938(void *work, u8 index, GameData *gameData);
+void func_02037970(void *work, GameBeacon *beacon);
+void func_02037998(void *work, const GameBeacon *beacon, u32 a2);
 void *func_02037a40(HeapID heapId);
 void func_02037a68(void *entry);
 void func_02037ab4(void *entry, PlayerInfo *info, u16 species, u32 a3);
@@ -73,6 +80,7 @@ void *func_0203888c(JoinAvenueOccupants *occupants, u32 index);
 u32 func_0203889c(JoinAvenueOccupants *occupants);
 u32 func_020388c0(JoinAvenueOccupants *occupants);
 void func_02038a0c(JoinAvenueOccupants *occupants, u32 value);
+void func_020389a0(JoinAvenueOccupants *occupants, BOOL fullDay);
 JoinAvenuePerson *func_02038a18(JoinAvenueOccupants *occupants);
 // The 0x58-byte records: allocated, freed and cleared as a person is
 void *func_020384a4(HeapID heapId);

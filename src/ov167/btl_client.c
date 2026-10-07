@@ -34,6 +34,7 @@
 #include "pml/waza.h"
 #include "save/join_avenue.h"
 #include "save/player_info.h"
+#include "system/pms_data.h"
 
 // Function names from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0) where it has them
 
@@ -4413,12 +4414,12 @@ static BOOL func_ov167_021b6aac(BtlClient *client, s32 *seq) {
 // Shows a trainer's win or lose message: their easy chat sentence if they have one, else their trainer data's message
 static void ShowTrainerWinLoseMsg(BtlClient *client, u32 result, u8 which) {
     u8 clientId = func_ov167_0219c8b8(client->mainModule, which);
-    const u8 *sentence = func_ov167_0219d944(client->mainModule, clientId, result);
+    const PMSData *sentence = func_ov167_0219d944(client->mainModule, clientId, result);
     StrBuf *str;
     u16 trainerId;
 
-    if (sentence != NULL && func_02029d74(sentence)) {
-        str = func_02029c80(sentence, HEAPID_TAIL(client->heapId));
+    if (sentence != NULL && PMSData_IsNotEmpty(sentence)) {
+        str = PMSData_ToString(sentence, HEAPID_TAIL(client->heapId));
         func_ov167_021d01bc(client->viewCore, str);
         GFL_StrBufFree(str);
     } else {
