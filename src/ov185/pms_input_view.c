@@ -352,7 +352,7 @@ static void PMSIView_CmdInit(TCB *tcb, void *data) {
     PMSIView_SetLowerScreen(cwk->vwk, FALSE);
 
     cwk->vwk->menu = PMSIVMenu_Create(cwk->vwk, cwk->mwk, cwk->dwk);
-    func_ov185_021a0430(cwk->vwk->menu);
+    PMSIVMenu_SetupEditButtons(cwk->vwk->menu);
 
     GFL_BGSysSetBGEnabled(0, TRUE);
     GFL_BGSysSetBGEnabledA(GX_PLANEMASK_OBJ, TRUE);
@@ -581,10 +581,10 @@ static void PMSIView_CmdUpdateEditArea(TCB *tcb, void *data) {
     PMSInputView *vwk = cwk->vwk;
 
     vwk->status = 0;
-    func_ov185_0219fb1c(vwk->edit);
+    PMSIVEdit_UpdateEditArea(vwk->edit);
     PMSIVEdit_MoveCursor(vwk->edit, PMSInput_GetEditAreaCursorPos(cwk->mwk));
-    func_ov185_021a0588(vwk->menu);
-    func_ov185_021a0624(vwk->menu);
+    PMSIVMenu_UpdateSentenceType(vwk->menu);
+    PMSIVMenu_UpdateEditButtons(vwk->menu);
     PMSIView_DeleteCommand(cwk);
 }
 
@@ -614,9 +614,9 @@ static void PMSIView_CmdEditAreaToButton(TCB *tcb, void *data) {
     PMSInputView *vwk = cwk->vwk;
 
     vwk->status = 1;
-    func_ov185_0219ffe4(vwk->edit, FALSE);
-    func_ov185_021a0004(vwk->edit);
-    func_ov185_021a085c(vwk->menu, PMSInput_GetButtonCursorPos(vwk->mwk), TRUE);
+    PMSIVEdit_VisibleCursor(vwk->edit, FALSE);
+    PMSIVEdit_StopArrow(vwk->edit);
+    PMSIVMenu_SetCursor(vwk->menu, PMSInput_GetButtonCursorPos(vwk->mwk), TRUE);
     PMSIView_DeleteCommand(cwk);
 }
 
@@ -625,9 +625,9 @@ static void PMSIView_CmdButtonToEditArea(TCB *tcb, void *data) {
     PMSInputView *vwk = cwk->vwk;
 
     vwk->status = 1;
-    func_ov185_0219ffe4(vwk->edit, FALSE);
-    func_ov185_021a0004(vwk->edit);
-    func_ov185_021a085c(vwk->menu, PMSInput_GetButtonCursorPos(vwk->mwk), FALSE);
+    PMSIVEdit_VisibleCursor(vwk->edit, FALSE);
+    PMSIVEdit_StopArrow(vwk->edit);
+    PMSIVMenu_SetCursor(vwk->menu, PMSInput_GetButtonCursorPos(vwk->mwk), FALSE);
     PMSIView_DeleteCommand(cwk);
 }
 
@@ -636,9 +636,9 @@ static void PMSIView_CmdButtonToEditAreaSelect(TCB *tcb, void *data) {
     PMSInputView *vwk = cwk->vwk;
 
     vwk->status = 0;
-    func_ov185_021a085c(vwk->menu, PMSInput_GetButtonCursorPos(vwk->mwk), FALSE);
-    func_ov185_021a0008(vwk->edit);
-    func_ov185_0219ffe4(vwk->edit, TRUE);
+    PMSIVMenu_SetCursor(vwk->menu, PMSInput_GetButtonCursorPos(vwk->mwk), FALSE);
+    PMSIVEdit_ActiveArrow(vwk->edit);
+    PMSIVEdit_VisibleCursor(vwk->edit, TRUE);
     PMSIVEdit_MoveCursor(vwk->edit, PMSInput_GetEditAreaCursorPos(cwk->mwk));
     PMSIView_DeleteCommand(cwk);
 }
@@ -650,19 +650,19 @@ static void PMSIView_CmdEditAreaToCategory(TCB *tcb, void *data) {
 
     switch (cwk->seq) {
     case 0:
-        func_ov185_0219ffe4(vwk->edit, TRUE);
+        PMSIVEdit_VisibleCursor(vwk->edit, TRUE);
         PMSIVEdit_MoveCursor(vwk->edit, PMSInput_GetEditAreaCursorPos(cwk->mwk));
         cwk->seq++;
         break;
     case 1:
-        func_ov185_021a30c0(cwk->mwk);
-        func_ov185_021a0538(vwk->menu);
-        func_ov185_0219ffcc(vwk->edit);
-        func_ov185_021a0004(vwk->edit);
-        func_ov185_0219f04c(vwk->category);
-        func_ov185_0219f7d4(vwk->edit, FALSE);
+        PMSInput_ResetSearch(cwk->mwk);
+        PMSIVMenu_SetupCategoryButtons(vwk->menu);
+        PMSIVEdit_StopCursor(vwk->edit);
+        PMSIVEdit_StopArrow(vwk->edit);
+        PMSIVCategory_StartEnableBG(vwk->category);
+        PMSIVEdit_ScrollSet(vwk->edit, FALSE);
         if (PMSInput_GetCategoryMode(cwk->mwk) == 1) {
-            func_ov185_0219f238(vwk->category);
+            PMSIVCategory_PrintSearchInput(vwk->category);
         }
         if (PMSInput_GetCategoryMode(cwk->mwk) == 0) {
             PMSIView_PrintMessage(cwk, 2);
@@ -672,8 +672,8 @@ static void PMSIView_CmdEditAreaToCategory(TCB *tcb, void *data) {
         cwk->seq++;
         break;
     case 2:
-        flag1 = func_ov185_0219f064(vwk->category);
-        flag2 = func_ov185_0219f834(vwk->edit);
+        flag1 = PMSIVCategory_WaitEnableBG(vwk->category);
+        flag2 = PMSIVEdit_ScrollWait(vwk->edit);
         if (flag1 && flag2) {
             PMSIVCategory_MoveCursor(vwk->category, PMSInput_GetCategoryCursorPos(vwk->mwk));
             PMSIVCategory_VisibleCursor(vwk->category, TRUE);
@@ -692,16 +692,16 @@ static void PMSIView_CmdChangeCategoryModeDisable(TCB *tcb, void *data) {
         cwk->seq++;
         // fallthrough
     case 1:
-        func_ov185_021a0538(vwk->menu);
-        func_ov185_0219f1b8(vwk->category);
-        func_ov185_0219f198(vwk->category);
+        PMSIVMenu_SetupCategoryButtons(vwk->menu);
+        PMSIVCategory_ChangeModeScreen(vwk->category);
+        PMSIVCategory_ChangeModeBG(vwk->category);
         if (PMSInput_GetCategoryMode(cwk->mwk) == 1) {
-            func_ov185_0219f238(vwk->category);
+            PMSIVCategory_PrintSearchInput(vwk->category);
         }
         cwk->seq++;
         break;
     case 2:
-        if (func_ov185_0219f234(vwk->category)) {
+        if (PMSIVCategory_WaitModeChange(vwk->category)) {
             PMSIView_DeleteCommand(cwk);
         }
         break;
@@ -715,22 +715,22 @@ static void PMSIView_CmdChangeCategoryModeEnable(TCB *tcb, void *data) {
 
     switch (cwk->seq) {
     case 0:
-        func_ov185_021a07c4(vwk->menu, 1);
-        func_ov185_0219f2a0(vwk->category, FALSE);
+        PMSIVMenu_StartButton(vwk->menu, 1);
+        PMSIVCategory_StartResultList(vwk->category, FALSE);
         cwk->seq++;
         break;
     case 1:
-        flag1 = func_ov185_0219f3ec(vwk->category, FALSE);
-        flag2 = func_ov185_021a0818(vwk->menu, 1);
+        flag1 = PMSIVCategory_WaitResultList(vwk->category, FALSE);
+        flag2 = PMSIVMenu_WaitButton(vwk->menu, 1);
         if (flag1 && flag2) {
-            func_ov185_021a0850(vwk->menu, 1);
-            func_ov185_021a30c0(cwk->mwk);
-            func_ov185_021a0538(vwk->menu);
+            PMSIVMenu_EndButton(vwk->menu, 1);
+            PMSInput_ResetSearch(cwk->mwk);
+            PMSIVMenu_SetupCategoryButtons(vwk->menu);
             PMSIVCategory_VisibleCursor(vwk->category, FALSE);
-            func_ov185_0219f1b8(vwk->category);
-            func_ov185_0219f198(vwk->category);
+            PMSIVCategory_ChangeModeScreen(vwk->category);
+            PMSIVCategory_ChangeModeBG(vwk->category);
             if (PMSInput_GetCategoryMode(cwk->mwk) == 1) {
-                func_ov185_0219f238(vwk->category);
+                PMSIVCategory_PrintSearchInput(vwk->category);
             }
             if (PMSInput_GetCategoryMode(cwk->mwk) == 0) {
                 PMSIView_PrintMessage(cwk, 2);
@@ -741,7 +741,7 @@ static void PMSIView_CmdChangeCategoryModeEnable(TCB *tcb, void *data) {
         }
         break;
     case 2:
-        if (func_ov185_0219f234(vwk->category)) {
+        if (PMSIVCategory_WaitModeChange(vwk->category)) {
             cwk->seq++;
         }
         break;
@@ -761,19 +761,19 @@ static void PMSIView_CmdCategoryToEditArea(TCB *tcb, void *data) {
     switch (cwk->seq) {
     case 0:
         if (PMSInput_GetCategoryMode(cwk->mwk) == 1) {
-            func_ov185_021a07c4(vwk->menu, 0);
-            func_ov185_0219f2a0(vwk->category, FALSE);
+            PMSIVMenu_StartButton(vwk->menu, 0);
+            PMSIVCategory_StartResultList(vwk->category, FALSE);
         } else {
-            func_ov185_021a08e0(vwk->menu);
+            PMSIVMenu_StartReturn(vwk->menu);
         }
         cwk->seq++;
         break;
     case 1:
         if (PMSInput_GetCategoryMode(cwk->mwk) == 1) {
-            flag1 = func_ov185_0219f3ec(vwk->category, FALSE);
-            flag2 = func_ov185_021a0818(vwk->menu, 0);
+            flag1 = PMSIVCategory_WaitResultList(vwk->category, FALSE);
+            flag2 = PMSIVMenu_WaitButton(vwk->menu, 0);
         } else {
-            flag1 = func_ov185_021a0908(vwk->menu);
+            flag1 = PMSIVMenu_WaitReturn(vwk->menu);
             flag2 = TRUE;
         }
         if (flag1 && flag2) {
@@ -781,10 +781,10 @@ static void PMSIView_CmdCategoryToEditArea(TCB *tcb, void *data) {
         }
         break;
     case 2:
-        func_ov185_021a0430(vwk->menu);
+        PMSIVMenu_SetupEditButtons(vwk->menu);
         PMSIVCategory_VisibleCursor(vwk->category, FALSE);
-        func_ov185_0219f080(vwk->category);
-        func_ov185_0219f7d4(vwk->edit, TRUE);
+        PMSIVCategory_StartDisableBG(vwk->category);
+        PMSIVEdit_ScrollSet(vwk->edit, TRUE);
         if (PMSInput_HasStartSentence(cwk->mwk) || PMSInput_GetInputMode(cwk->mwk) != PMSI_MODE_SENTENCE) {
             PMSIView_PrintMessage(cwk, 1);
         } else {
@@ -793,11 +793,11 @@ static void PMSIView_CmdCategoryToEditArea(TCB *tcb, void *data) {
         cwk->seq++;
         break;
     case 3:
-        flag1 = func_ov185_0219f098(vwk->category);
-        flag2 = func_ov185_0219f834(vwk->edit);
+        flag1 = PMSIVCategory_WaitDisableBG(vwk->category);
+        flag2 = PMSIVEdit_ScrollWait(vwk->edit);
         if (flag1 && flag2) {
-            func_ov185_021a0008(vwk->edit);
-            func_ov185_0219ffd8(vwk->edit);
+            PMSIVEdit_ActiveArrow(vwk->edit);
+            PMSIVEdit_ActiveCursor(vwk->edit);
             vwk->status = 0;
             PMSIView_DeleteCommand(cwk);
         }
@@ -815,24 +815,24 @@ static void PMSIView_CmdCategoryToWordWin(TCB *tcb, void *data) {
         cwk->seq++;
         break;
     case 1:
-        if (func_ov185_0219f4f0(vwk->category)) {
+        if (PMSIVCategory_WaitCursorDecide(vwk->category)) {
             PMSIVCategory_VisibleCursor(vwk->category, FALSE);
-            func_ov185_021a07c4(vwk->menu, 3);
+            PMSIVMenu_StartButton(vwk->menu, 3);
             cwk->seq++;
         }
         break;
     case 2:
-        if (func_ov185_021a0818(vwk->menu, 3)) {
-            func_ov185_0219f118(vwk->category);
-            func_ov185_0219f2a0(vwk->category, FALSE);
+        if (PMSIVMenu_WaitButton(vwk->menu, 3)) {
+            PMSIVCategory_StartFadeOut(vwk->category);
+            PMSIVCategory_StartResultList(vwk->category, FALSE);
             cwk->seq++;
         }
         break;
     case 3:
-        flag1 = func_ov185_0219f3ec(vwk->category, FALSE);
-        flag2 = func_ov185_0219f134(vwk->category);
+        flag1 = PMSIVCategory_WaitResultList(vwk->category, FALSE);
+        flag2 = PMSIVCategory_WaitFadeOut(vwk->category);
         if (flag1 && flag2) {
-            func_ov185_021a0568(vwk->menu);
+            PMSIVMenu_SetupWordWinButtons(vwk->menu);
             func_ov185_021a32d0(vwk->wordWin);
             func_ov185_021a3380(vwk->wordWin);
             if (PMSInput_GetCategoryMode(cwk->mwk) == 0) {
@@ -858,21 +858,21 @@ static void PMSIView_CmdCategoryToWordWin(TCB *tcb, void *data) {
 static void PMSIView_CmdWordWinToCategory(TCB *tcb, void *data) {
     PMSIVCommandWork *cwk = data;
     PMSInputView *vwk = cwk->vwk;
-    BOOL search = func_ov185_021a30dc(cwk->mwk);
+    u32 searchCount = PMSInput_GetSearchResultCount(cwk->mwk);
     BOOL flag1, flag2;
 
     switch (cwk->seq) {
     case 0:
-        func_ov185_021a08e0(vwk->menu);
+        PMSIVMenu_StartReturn(vwk->menu);
         cwk->seq++;
         break;
     case 1:
-        if (func_ov185_021a0908(vwk->menu)) {
+        if (PMSIVMenu_WaitReturn(vwk->menu)) {
             cwk->seq++;
         }
         break;
     case 2:
-        func_ov185_021a0538(vwk->menu);
+        PMSIVMenu_SetupCategoryButtons(vwk->menu);
         cwk->seq++;
         break;
     case 3:
@@ -882,7 +882,7 @@ static void PMSIView_CmdWordWinToCategory(TCB *tcb, void *data) {
         break;
     case 4:
         if (func_ov185_021a3480(vwk->wordWin)) {
-            func_ov185_0219f198(vwk->category);
+            PMSIVCategory_ChangeModeBG(vwk->category);
             cwk->seq++;
         }
         break;
@@ -890,14 +890,14 @@ static void PMSIView_CmdWordWinToCategory(TCB *tcb, void *data) {
         BOOL flag = FALSE;
 
         PMSIView_SetLowerScreen(cwk->vwk, FALSE);
-        func_ov185_0219f150(vwk->category);
+        PMSIVCategory_StartFadeIn(vwk->category);
         if (PMSInput_GetCategoryMode(cwk->mwk) == 0) {
-            func_ov185_0219f2a0(vwk->category, flag);
+            PMSIVCategory_StartResultList(vwk->category, flag);
         } else {
-            if (search) {
+            if (searchCount) {
                 flag = TRUE;
             }
-            func_ov185_0219f2a0(vwk->category, flag);
+            PMSIVCategory_StartResultList(vwk->category, flag);
         }
         if (PMSInput_GetCategoryMode(cwk->mwk) == 0) {
             PMSIView_PrintMessage(cwk, 2);
@@ -908,8 +908,8 @@ static void PMSIView_CmdWordWinToCategory(TCB *tcb, void *data) {
         break;
     }
     case 6:
-        flag1 = func_ov185_0219f18c(vwk->category);
-        flag2 = func_ov185_0219f3ec(vwk->category, search ? TRUE : FALSE);
+        flag1 = PMSIVCategory_WaitFadeIn(vwk->category);
+        flag2 = PMSIVCategory_WaitResultList(vwk->category, searchCount ? TRUE : FALSE);
         if (flag1 && flag2) {
             PMSIVCategory_MoveCursor(vwk->category, PMSInput_GetCategoryCursorPos(vwk->mwk));
             PMSIVCategory_VisibleCursor(vwk->category, TRUE);
@@ -930,20 +930,20 @@ static void PMSIView_CmdWordWinToEditArea(TCB *tcb, void *data) {
         break;
     case 1:
         if (func_ov185_021a39dc(vwk->wordWin)) {
-            func_ov185_021a0430(vwk->menu);
+            PMSIVMenu_SetupEditButtons(vwk->menu);
             func_ov185_021a3500(vwk->wordWin, FALSE);
             func_ov185_021a345c(vwk->wordWin);
-            func_ov185_0219f7d4(vwk->edit, TRUE);
+            PMSIVEdit_ScrollSet(vwk->edit, TRUE);
             cwk->seq++;
         }
         break;
     case 2:
         flag1 = func_ov185_021a3480(vwk->wordWin);
-        flag2 = func_ov185_0219f834(vwk->edit);
+        flag2 = PMSIVEdit_ScrollWait(vwk->edit);
         if (flag1 && flag2) {
-            func_ov185_0219f0e4(vwk->category);
+            PMSIVCategory_SetDisableBG(vwk->category);
             PMSIView_SetLowerScreen(cwk->vwk, FALSE);
-            func_ov185_0219f150(vwk->category);
+            PMSIVCategory_StartFadeIn(vwk->category);
             if (PMSInput_HasStartSentence(cwk->mwk) || PMSInput_GetInputMode(cwk->mwk) != PMSI_MODE_SENTENCE) {
                 PMSIView_PrintMessage(cwk, 1);
             } else {
@@ -953,17 +953,17 @@ static void PMSIView_CmdWordWinToEditArea(TCB *tcb, void *data) {
         }
         break;
     case 3:
-        if (func_ov185_0219f18c(vwk->category)) {
-            func_ov185_0219f0f4(vwk->category);
+        if (PMSIVCategory_WaitFadeIn(vwk->category)) {
+            PMSIVCategory_StartBrightDown(vwk->category);
             cwk->seq++;
         }
         break;
     case 4:
-        if (func_ov185_0219f10c(vwk->category)) {
-            func_ov185_0219fb1c(vwk->edit);
-            func_ov185_0219ffe4(vwk->edit, TRUE);
-            func_ov185_021a0008(vwk->edit);
-            func_ov185_0219ffd8(vwk->edit);
+        if (PMSIVCategory_WaitBrightDown(vwk->category)) {
+            PMSIVEdit_UpdateEditArea(vwk->edit);
+            PMSIVEdit_VisibleCursor(vwk->edit, TRUE);
+            PMSIVEdit_ActiveArrow(vwk->edit);
+            PMSIVEdit_ActiveCursor(vwk->edit);
             vwk->status = 0;
             PMSIView_DeleteCommand(cwk);
         }
@@ -983,22 +983,22 @@ static void PMSIView_CmdWordWinToButton(TCB *tcb, void *data) {
         break;
     case 1:
         if (func_ov185_021a3480(vwk->wordWin)) {
-            func_ov185_0219f0e4(vwk->category);
+            PMSIVCategory_SetDisableBG(vwk->category);
             PMSIView_SetLowerScreen(cwk->vwk, FALSE);
-            func_ov185_0219f150(vwk->category);
+            PMSIVCategory_StartFadeIn(vwk->category);
             cwk->seq++;
         }
         break;
     case 2:
-        if (func_ov185_0219f18c(vwk->category)) {
-            func_ov185_0219f0f4(vwk->category);
+        if (PMSIVCategory_WaitFadeIn(vwk->category)) {
+            PMSIVCategory_StartBrightDown(vwk->category);
             cwk->seq++;
         }
         break;
     case 3:
-        if (func_ov185_0219f10c(vwk->category)) {
-            func_ov185_0219fb1c(vwk->edit);
-            func_ov185_0219ffe4(vwk->edit, FALSE);
+        if (PMSIVCategory_WaitBrightDown(vwk->category)) {
+            PMSIVEdit_UpdateEditArea(vwk->edit);
+            PMSIVEdit_VisibleCursor(vwk->edit, FALSE);
             PMSIView_DeleteCommand(cwk);
         }
         break;
@@ -1017,7 +1017,7 @@ static void PMSIView_CmdMoveButtonCursor(TCB *tcb, void *data) {
     PMSIVCommandWork *cwk = data;
     PMSInputView *vwk = cwk->vwk;
 
-    func_ov185_021a085c(vwk->menu, PMSInput_GetButtonCursorPos(vwk->mwk), TRUE);
+    PMSIVMenu_SetCursor(vwk->menu, PMSInput_GetButtonCursorPos(vwk->mwk), TRUE);
     PMSIView_DeleteCommand(cwk);
 }
 
@@ -1058,7 +1058,7 @@ static void PMSIView_CmdPushButton(TCB *tcb, void *data) {
     PMSIVCommandWork *cwk = data;
     PMSInputView *vwk = cwk->vwk;
 
-    func_ov185_021a089c(vwk->menu, PMSInput_GetButtonCursorPos(cwk->mwk), TRUE);
+    PMSIVMenu_FlashButton(vwk->menu, PMSInput_GetButtonCursorPos(cwk->mwk), TRUE);
     PMSIView_DeleteCommand(cwk);
 }
 
@@ -1071,7 +1071,7 @@ static void PMSIView_CmdUpdateEditAreaCursor(TCB *tcb, void *data) {
     PMSInputView *vwk = cwk->vwk;
 
     if (vwk->status != 1) {
-        func_ov185_0219ffd8(vwk->edit);
+        PMSIVEdit_ActiveCursor(vwk->edit);
     }
     PMSIView_DeleteCommand(cwk);
 }
@@ -1095,17 +1095,17 @@ static void PMSIView_CmdNop29(TCB *tcb, void *data) {
 static void PMSIView_CmdChangeCategoryMode(TCB *tcb, void *data) {
     PMSIVCommandWork *cwk = data;
     PMSInputView *vwk = cwk->vwk;
-    BOOL search = func_ov185_021a30dc(cwk->mwk);
+    u32 searchCount = PMSInput_GetSearchResultCount(cwk->mwk);
 
     switch (cwk->seq) {
     case 0:
-        func_ov185_021a0660(vwk->menu);
-        func_ov185_0219f238(vwk->category);
-        func_ov185_0219f2a0(vwk->category, search ? TRUE : FALSE);
+        PMSIVMenu_UpdateSearchButtons(vwk->menu);
+        PMSIVCategory_PrintSearchInput(vwk->category);
+        PMSIVCategory_StartResultList(vwk->category, searchCount ? TRUE : FALSE);
         cwk->seq++;
         break;
     case 1:
-        if (func_ov185_0219f3ec(vwk->category, search ? TRUE : FALSE)) {
+        if (PMSIVCategory_WaitResultList(vwk->category, searchCount ? TRUE : FALSE)) {
             cwk->seq++;
         }
         break;
@@ -1129,16 +1129,16 @@ static void PMSIView_CmdShowMenu(TCB *tcb, void *data) {
 
     switch (cwk->seq) {
     case 0:
-        func_ov185_021a07c4(vwk->menu, 2);
+        PMSIVMenu_StartButton(vwk->menu, 2);
         cwk->seq++;
         break;
     case 1:
-        if (func_ov185_021a0818(vwk->menu, 2)) {
+        if (PMSIVMenu_WaitButton(vwk->menu, 2)) {
             if (*vwk->keyMode == 0 && PMSInput_GetCategoryCursorPos(vwk->mwk) == 0xfd &&
                 func_ov185_021a300c(vwk->mwk) == 0xfd) {
-                func_ov185_021a085c(vwk->menu, 1, TRUE);
+                PMSIVMenu_SetCursor(vwk->menu, 1, TRUE);
             } else {
-                func_ov185_021a085c(vwk->menu, 0, FALSE);
+                PMSIVMenu_SetCursor(vwk->menu, 0, FALSE);
             }
             PMSIView_DeleteCommand(cwk);
         }
@@ -1152,11 +1152,11 @@ static void PMSIView_CmdMoveCategory(TCB *tcb, void *data) {
 
     switch (cwk->seq) {
     case 0:
-        func_ov185_0219f464(vwk->category, PMSInput_GetCategoryCursorPos(vwk->mwk));
+        PMSIVCategory_StartCursorDecide(vwk->category, PMSInput_GetCategoryCursorPos(vwk->mwk));
         cwk->seq++;
         break;
     case 1:
-        if (func_ov185_0219f4f0(vwk->category)) {
+        if (PMSIVCategory_WaitCursorDecide(vwk->category)) {
             PMSIView_DeleteCommand(cwk);
         }
         break;
@@ -1181,26 +1181,26 @@ static void PMSIView_CmdMoveWordWin(TCB *tcb, void *data) {
 }
 
 u32 PMSIView_GetSentenceEditPosMax(PMSInputView *vwk) {
-    return func_ov185_0219ffbc(vwk->edit);
+    return PMSIVEdit_GetWordCount(vwk->edit);
 }
 
 u16 PMSIView_GetSentenceWord(PMSInputView *vwk, u32 index) {
-    return func_ov185_0219ffc0(vwk->edit, index);
+    return PMSIVEdit_GetWordIndex(vwk->edit, index);
 }
 
 void PMSIView_GetSentenceWordArea(PMSInputView *vwk, TouchRect *rect, u32 index) {
-    func_ov185_0219fc00(vwk->edit, rect, index);
+    PMSIVEdit_GetWordArea(vwk->edit, rect, index);
 }
 
 int PMSIView_GetMenuButton(PMSInputView *vwk) {
-    if (func_ov185_021a08d0(vwk->menu, PMSInput_GetButtonCursorPos(vwk->mwk))) {
+    if (PMSIVMenu_IsFlashFinished(vwk->menu, PMSInput_GetButtonCursorPos(vwk->mwk))) {
         return 1;
     }
     return -1;
 }
 
 void PMSIView_SetMenuButton(PMSInputView *vwk, u32 which) {
-    func_ov185_021a07f8(vwk->menu, which);
+    PMSIVMenu_SetEditButton(vwk->menu, which);
 }
 
 PMSIVMenu *PMSIView_GetMenu(PMSInputView *vwk) {
@@ -1223,7 +1223,7 @@ void PMSIView_GetObjRes2(PMSInputView *vwk, PMSIVObjRes *res, u32 lcd) {
     *res = vwk->objRes2[lcd];
 }
 
-void PMSIView_GetObjRes(PMSInputView *vwk, PMSIVObjRes *res, u32 lcd) {
+void PMSIView_GetObjRes(PMSInputView *vwk, PMSIVObjRes *res, u32 lcd, u32 bgPriority) {
     *res = vwk->objRes[lcd];
 }
 
@@ -1320,14 +1320,14 @@ static void PMSIView_FlushMessage(PMSInputView *vwk) {
 
 void PMSIView_ChangeKTEditArea(PMSInputView *vwk, const PMSInputWork *mwk, const PMSInputData *dwk) {
     if (*vwk->keyMode == 1) {
-        func_ov185_0219ffe4(vwk->edit, FALSE);
-        func_ov185_021a085c(vwk->menu, PMSInput_GetButtonCursorPos(vwk->mwk), FALSE);
+        PMSIVEdit_VisibleCursor(vwk->edit, FALSE);
+        PMSIVMenu_SetCursor(vwk->menu, PMSInput_GetButtonCursorPos(vwk->mwk), FALSE);
     } else if (vwk->status == 1) {
-        func_ov185_0219ffe4(vwk->edit, FALSE);
-        func_ov185_021a085c(vwk->menu, PMSInput_GetButtonCursorPos(vwk->mwk), TRUE);
+        PMSIVEdit_VisibleCursor(vwk->edit, FALSE);
+        PMSIVMenu_SetCursor(vwk->menu, PMSInput_GetButtonCursorPos(vwk->mwk), TRUE);
     } else {
-        func_ov185_0219ffe4(vwk->edit, TRUE);
-        func_ov185_021a085c(vwk->menu, PMSInput_GetButtonCursorPos(vwk->mwk), FALSE);
+        PMSIVEdit_VisibleCursor(vwk->edit, TRUE);
+        PMSIVMenu_SetCursor(vwk->menu, PMSInput_GetButtonCursorPos(vwk->mwk), FALSE);
     }
 }
 
@@ -1335,7 +1335,7 @@ void PMSIView_ChangeKTCategory(PMSInputView *vwk, const PMSInputWork *mwk, const
     PMSIVCategory_VisibleCursor(vwk->category, TRUE);
     if (*vwk->keyMode == 1) {
         if (PMSInput_GetCategoryMode(mwk) == 1) {
-            func_ov185_021a085c(vwk->menu, 0, FALSE);
+            PMSIVMenu_SetCursor(vwk->menu, 0, FALSE);
         }
     } else {
         PMSIVCategory_MoveCursor(vwk->category, PMSInput_GetCategoryCursorPos(vwk->mwk));

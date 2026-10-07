@@ -58,6 +58,12 @@ Same instructions, registers swapped.
 - A pointer local to an element of a struct, like `dst = &shot->pokes[i]`, takes a callee-saved register of its own
   and can push the struct's pointer to the stack along with a constant MWCC keeps for it. The musical's photo
   (`musical_event.c`'s `func_ov012_02151384`) only matches with `shot->pokes[pos].field` written at each use.
+  The base register tells the two apart: `&call->rows[i]` is `call + 0x40 + i * 0x1c`, used with the field's own
+  offset (`[r5, #0x14]`), while `call->rows[i].window` written out is `call + i * 0x1c` with the array's offset
+  folded in (`[r5, #0x54]`), as in `ctvt_call.c`'s `CtvtCall_Leave` and `CtvtCall_Main`.
+- An element address computed before an inline helper's argument calls, and kept in a register while the loop counter
+  spills, is the address passed to the helper: `CtvtCall_CreateActor(sys, &call->rows[i].frame, ...)` stores through
+  a `ClActor **`, where `call->rows[i].frame = CtvtCall_CreateActor(...)` computes the address after the call.
 - Two loops that reuse one counter and both spill it share its stack slots in the order MWCC splits the variable,
   not in declaration order; giving the second loop a counter of its own, as `pos` in the same function, moves it.
 - Variables declared in an inner block are allocated apart from the function's variables of the same name: in
@@ -198,6 +204,9 @@ Same instructions, scheduled in another order.
 - A field of a local struct that a call fills is loaded before the next call only when the source reads it there: the
   Pokédex forms page copies `targetX = target.x;` between `ZukanDetailForm_GetSpritePosF32(..., &target)` and
   `MCSS_GetPosition`.
+- A call nested in another call's arguments is made after the other arguments' addresses are computed. When the
+  original makes the inner call first, its result was put in a local: the summary screen's ribbon list writes
+  `y = PStaRibbon_GetRowY(ribbon, i); PStaOam_SetPosition(ribbon->rows[i].oam, ROW_X, y);`.
 - A conditional expression among a call's arguments is evaluated before the plain ones. When the original loads the
   arguments in their order, the conditional one was a local set before the call: the forms page passes `addToDex`
   locals `sex` and `rare` set just before it.
@@ -231,6 +240,12 @@ Same instructions, scheduled in another order.
 
 Narrowing shifts, reloads, recomputed addresses and folded constants.
 
+- `field += value` on an `s16` field with an `int` value narrows the value first and shares the narrowed copy between
+  such adds, where `field = field + value` adds the `int` as it is. The phrase input's `PMSIVEdit_ScrollWait` adds its
+  step to two scroll fields the second way.
+- An argument narrowed by a `u16` parameter is narrowed again at each call, and only hoisted out of a loop, while a
+  `(u16)` cast is computed once and reused: `PMSIVEdit_ScrollWait` matched only once `func_0204c1a8` and
+  `func_0204c1dc` took their surface as `u16`.
 - A compound assignment to a narrow field narrows its right side first: `work->checkFlag &= 0xff ^ (1 << waza);` on a
   `u8` shifts the mask down to a byte before the `and`, while `work->checkFlag = work->checkFlag & (0xff ^ (1 << waza));`
   ands the full mask, as the PC box's `Box2Main_PokeFreeWazaCheck` does.
@@ -398,6 +413,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   also swapped the registers of `flag` and `search`.
 - A branch to the very next instruction is left by cross-jumping: two statements that end the same way, such as a
   store in each case of a switch, share their tail, and the first jumps to it even when it follows.
+- MWCC evaluates the operands of `|` in the order they are grouped, so a color built from three computed parts shows
+  its grouping: `field_menu.c`'s cursor fade (`func_ov036_021a040c`) computes red, then blue, then green, and only
+  matches as `r | ((b << 10) | (g << 5))`, not as `GX_RGB(r, g, b)`.
 - A block that many cases of a switch branch to, such as the step advance of `event_entrance_effect.c`'s
   `func_ov036_0219f380` (`*state = next(work); advance(work);`), is each case's own copy merged by cross-jumping. A flag
   set in the cases and tested after the switch keeps a register for it and doesn't match.
@@ -482,6 +500,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A bound written as `i <= N - 1` is computed once into a register before the loop and tested with `ble`, where
   `i < N` reloads `N` from the literal pool and tests with `blt`. The bag's Free Space list compacts its entries with
   `for (i = 0; i <= BAG_ITEM_LIST_SLOTS - 1; i++)` in `bag_item.c`'s `BagItemList_Compact`.
+
+- A test that the original places after its body, entered from the top as well as from an earlier branch, is a loop
+  that stops after its first pass: `while (box < n) { ...; break; }`. The trade does one box a frame this way in
+  `pokemontrade_proc.c`'s `func_ov194_021bb3c0` and `pokemontrade_2d.c`'s `func_ov194_021c2c04` and
+  `func_ov194_021c3e9c`, each 8 bytes or so shorter as an `if`. Comment it, so it isn't "fixed".
 
 ## Switches
 

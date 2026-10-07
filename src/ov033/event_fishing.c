@@ -105,8 +105,9 @@ GameEvent *EventFieldFishing_Create(Field *field, GameSystem *gsys) {
         }
     }
     work->flag5B = flag;
-    work->isPhenomenon = EncountState_CheckSpecialEncountPos(work->encountSystem, &work->gridX) != 0;
-    work->battleSetup = BtlSetup_CreateFishing(work->encountSystem);
+    flag = EncountState_CheckSpecialEncountPos(work->encountSystem, &work->gridX) ? TRUE : FALSE;
+    work->isPhenomenon = flag;
+    work->battleSetup = BtlSetup_CreateFishing(work->encountSystem, flag);
     DisableAllActorsMovement(work->actorSystem);
     return event;
 }

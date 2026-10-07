@@ -12,6 +12,11 @@
 // Where the input is, keys or touch
 int *PMSInput_GetKeyModePtr(const PMSInputWork *wk);
 u32 PMSInput_GetInputMode(const PMSInputWork *wk);
+u16 PMSInput_GetSentenceType(const PMSInputWork *wk);
+// The word at a place of the sentence, or the word being written
+u16 PMSInput_GetEditWord(const PMSInputWork *wk, u32 index);
+// The sentence's text, with its words as commands
+StrBuf *PMSInput_GetEditSourceString(const PMSInputWork *wk, HeapID heapId);
 // Whether the categories are listed by initial instead of by group
 u32 PMSInput_GetCategoryMode(const PMSInputWork *wk);
 u32 PMSInput_GetEditAreaCursorPos(const PMSInputWork *wk);
@@ -24,7 +29,13 @@ BOOL PMSInput_GetWordWinUpArrowVisible(const PMSInputWork *wk);
 BOOL PMSInput_GetWordWinDownArrowVisible(const PMSInputWork *wk);
 BOOL PMSInput_HasStartSentence(const PMSInputWork *wk);
 TCBManager *PMSInput_GetTCBManager(const PMSInputWork *wk);
-void func_ov185_021a30c0(const PMSInputWork *wk);
-BOOL func_ov185_021a30dc(const PMSInputWork *wk);
+// Whether every word of the sentence is filled in
+BOOL PMSInput_IsEditComplete(const PMSInputWork *wk);
+// The search's letters and results, through pmsi_search.c
+void PMSInput_GetSearchInputStr(const PMSInputWork *wk, StrBuf *buf);
+void PMSInput_ResetSearch(const PMSInputWork *wk);
+u32 PMSInput_GetSearchResultCount(const PMSInputWork *wk);
+u32 PMSInput_GetSearchInputLen(const PMSInputWork *wk);
+void PMSInput_GetSearchResultStr(const PMSInputWork *wk, u32 index, StrBuf *buf);
 
 #endif // POKEBW2_APP_PMS_INPUT_H

@@ -274,6 +274,8 @@ void func_0205b198(void);
 // From the wireless code in overlay 30: the filter that a scan passes each machine it finds to, with the filter's work
 // (the GFL net work), and how long a parent scans for children
 typedef BOOL (*NetScanFilter)(const void *info, void *work);
+// The game service ID of a beacon the scan found
+u8 func_ov030_02173b78(int index);
 void func_ov030_02175334(NetScanFilter filter);
 void func_ov030_02175658(u16 time);
 

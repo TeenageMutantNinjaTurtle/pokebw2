@@ -23,8 +23,8 @@ typedef struct {
     // UNOVA_LINK_MODE_*
     u32 mode;
     GameData *gameData;
-    // 1 in Black 2 and 0 in White 2
-    u32 unk08;
+    // The key that clearing the game unlocks: the Challenge Key in Black 2 and the Easy Key in White 2
+    u32 key;
 } UnovaLinkParam;
 
 // Started by the game clear event, or from the start menu without a parameter
@@ -139,7 +139,15 @@ typedef struct {
     u16 cursor;
 } KeySystemMenuSetup;
 
-#define KEY_SYSTEM_KEY_COUNT 5
+// The keys: the difficulty keys, the key that swaps Black City and White Forest, and the keys of the chambers
+enum {
+    KEY_SYSTEM_KEY_EASY,
+    KEY_SYSTEM_KEY_CHALLENGE,
+    KEY_SYSTEM_KEY_CITY,
+    KEY_SYSTEM_KEY_IRON,
+    KEY_SYSTEM_KEY_ICEBERG,
+    KEY_SYSTEM_KEY_COUNT,
+};
 
 // The keys of a game, which two games exchange
 typedef struct {
@@ -200,13 +208,13 @@ typedef struct KeySystemKeyAnim {
     KeySystemMsgWin *msgWin;
     KeySystemClAct *clact;
     ClActor *keyActor;
-    ClActor *actor10;
-    ClActor *actor12;
-    ClActor *actor9;
+    ClActor *effectActor;
+    ClActor *plateActor;
+    ClActor *lockActor;
     KeySystemOamText *text;
     BmpOamSys *oamSys;
     int state;
-    int timer;
+    u32 timer;
     u16 msgId;
     StrBuf *str;
     u32 key;
@@ -216,6 +224,7 @@ typedef struct KeySystemKeyAnim {
     KeySystemTween tween;
     KeySystemAccelMove move;
     u32 frame;
+    // The animation that runs, which returns TRUE once it is done
     BOOL (*func)(struct KeySystemKeyAnim *anim);
 } KeySystemKeyAnim;
 
@@ -269,7 +278,8 @@ struct KeySystemWork {
     StrBuf *strBuf;
     // Whether B can't cancel the exchange
     BOOL noCancel;
-    BOOL unk284;
+    // Whether this game is the parent of the exchange, which receives first
+    BOOL isParent;
     // data_convert_flow.c's
     BOOL loggedIn;
     BOOL transferResult;
@@ -336,6 +346,7 @@ enum {
     KEY_SYSTEM_MSG_STREAM,
     KEY_SYSTEM_MSG_PRINT_WAIT_ICON,
     KEY_SYSTEM_MSG_STREAM_FAST,
+    // Streams without a cursor, and only finishes once KeySystemMsgWin_CreateCursor adds one
     KEY_SYSTEM_MSG_STREAM_NO_CURSOR,
     KEY_SYSTEM_MSG_IDLE,
 };
@@ -372,7 +383,7 @@ typedef struct {
     u16 bg;
     u16 palette;
     u16 unkA8;
-    u16 unkAA;
+    u16 cursor;
     u16 unkAC;
 } KeySystemScrollListSetup;
 
@@ -391,7 +402,7 @@ void KeySystemMsgWin_DrawFrame(KeySystemMsgWin *win, u16 frameChar, u8 framePale
 void KeySystemMsgWin_Clear(KeySystemMsgWin *win);
 void KeySystemMsgWin_ClearFrame(KeySystemMsgWin *win);
 void KeySystemMsgWin_CreateCursor(KeySystemMsgWin *win);
-KeySystemMsgWinGroup *KeySystemMsgWinGroup_Create(const KeySystemMsgWinTemplate *templates, u32 count, u16 bg,
+KeySystemMsgWinGroup *KeySystemMsgWinGroup_Create(const KeySystemMsgWinTemplate *templates, u16 count, u16 bg,
                                                   u16 palette, Font *font, MsgData *msgData, HeapID heapId);
 void KeySystemMsgWinGroup_Free(KeySystemMsgWinGroup *group);
 void KeySystemMsgWinGroup_Update(KeySystemMsgWinGroup *group);
@@ -449,7 +460,7 @@ BOOL KeySystemAccelMove_Update(KeySystemAccelMove *move);
 void KeySystemAccelMove_GetPos(const KeySystemAccelMove *move, ClActorPos *pos);
 KeySystemScrollList *KeySystemScrollList_Create(const KeySystemScrollListSetup *setup, HeapID heapId);
 void KeySystemScrollList_Free(KeySystemScrollList *list);
-// Returns the value of the chosen item, or SCROLL_LIST_NONE
+// Returns the value of the chosen item, or OV139_LIST_NONE
 u32 KeySystemScrollList_Update(KeySystemScrollList *list);
 BOOL KeySystemScrollList_Start(KeySystemScrollList *list);
 void KeySystemScrollList_GetPos(KeySystemScrollList *list, u32 *cursor, u32 *top);
@@ -506,17 +517,22 @@ enum {
 #define KEY_SYSTEM_NET_ERROR_NONE 0
 #define KEY_SYSTEM_NET_ERROR 2
 
+// The parameters of KEY_SYSTEM_NET_REQUEST_SEND
+typedef struct {
+    const void *data;
+    u32 size;
+} KeySystemNetSend;
+
+// Called when the wireless connection ends, a parameter of KEY_SYSTEM_NET_REQUEST_CONNECT
+typedef struct {
+    void *arg;
+    void (*func)(void *arg);
+} KeySystemNetCallback;
+
 // The parameters and results of a request
 typedef union {
-    struct {
-        const void *data;
-        u32 size;
-    } send;
-    // Called when the wireless connection ends
-    struct {
-        void *arg;
-        void (*func)(void *arg);
-    } callback;
+    KeySystemNetSend send;
+    KeySystemNetCallback callback;
     struct {
         u32 a;
         u32 b;
@@ -544,7 +560,8 @@ KeySystemNet *KeySystemNet_Create(GameData **gameData, HeapID heapId);
 void KeySystemNet_Free(KeySystemNet *net);
 void KeySystemNet_Update(KeySystemNet *net);
 void KeySystemNet_SetMode(KeySystemNet *net, u32 mode);
-void KeySystemNet_Request(KeySystemNet *net, u32 request, const KeySystemNetRequest *params);
+// Starts a request, with its parameters, the first fields of a KeySystemNetRequest
+void KeySystemNet_Request(KeySystemNet *net, u32 request, const void *params);
 u32 KeySystemNet_GetState(KeySystemNet *net);
 BOOL KeySystemNet_GetReceived(KeySystemNet *net, void *dest, u32 size);
 u32 KeySystemNet_CheckError(KeySystemNet *net);
@@ -557,10 +574,10 @@ void KeySystemNet_SetErrorCallback(KeySystemNet *net, void (*callback)(void *wor
 KeySystemNetRequest *KeySystemNet_GetRequest(KeySystemNet *net);
 
 // key_system_flow.c (a guessed name)
-void func_ov332_021c2b18(KeySystemWork *wk, HeapID heapId);
-void func_ov332_021c2b5c(KeySystemWork *wk);
-void func_ov332_021c2b80(KeySystemSeq *seq, int *state, void *work);
-void func_ov332_021c2cd4(KeySystemSeq *seq, int *state, void *work);
+void KeySystemFlow_Init(KeySystemWork *wk, HeapID heapId);
+void KeySystemFlow_Exit(KeySystemWork *wk);
+void KeySystemFlow_SeqGameClear(KeySystemSeq *seq, int *state, void *work);
+void KeySystemFlow_SeqMenu(KeySystemSeq *seq, int *state, void *work);
 
 // data_convert_flow.c
 void func_ov332_021c53dc(KeySystemWork *wk, HeapID heapId);

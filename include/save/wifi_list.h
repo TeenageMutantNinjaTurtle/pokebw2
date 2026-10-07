@@ -12,6 +12,8 @@ void func_0200a2d4(WifiList *wifiList, u32 friendIndex, u32 wins, u32 losses, u3
 void func_0200a29c(WifiList *wifiList, u32 friendIndex);
 // Finds the player among the friends
 BOOL func_0200a438(WifiList *wifiList, PlayerInfo *info, u32 *friendIndex);
+// Finds a friend by ID and gender; the name is not compared
+BOOL func_0200a46c(WifiList *wifiList, const u16 *name, u32 id, u32 gender, u32 *friendIndex);
 // A block after the friends, of the players met, with its size
 u32 func_0200a4b8(void);
 void func_0200a504(void *block, PlayerInfo *info);

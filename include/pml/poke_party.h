@@ -115,6 +115,12 @@ BOOL special_transfers(BoxPkm *pkm, u32 kind, PlayerInfo *playerInfo);
 // The message file of a location's name, and the name's index in it
 u32 func_02035f5c(u32 location);
 u32 func_02035fac(u32 location);
+// Whether a move is an HM, which a Pokémon can't forget
+BOOL isPkmMoveHmMove(GameData *gameData, u16 move, HeapID heapId);
+// Puts a move in a slot with its full PP and no PP Ups
+void PML_PkmSetMove(BoxPkm *pkm, u16 move, u32 slot);
+// How a nature changes a stat, attack to special defense from 1: 1 raised, -1 lowered, 0 neither
+s8 statAffectedByNature(u8 nature, u32 stat);
 // Allocates a party Pokémon made from a boxed one
 void PML_PkmSetParam(BoxPkm *pkm, u32 param, u32 value);
 // The size of a Pokémon's data
