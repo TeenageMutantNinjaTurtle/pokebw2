@@ -2,6 +2,7 @@
 #define POKEBW2_SYSTEM_GAME_DATA_H
 
 #include "types.h"
+#include "gfl/heap.h"
 #include "struct_decls.h"
 
 // The city of the player's version, which a key from Unova Link can switch
@@ -33,6 +34,8 @@ void func_ov012_0215cd58(CityState *state);
 void func_ov012_0215cd8c(CityState *state);
 BOOL func_ov012_0215cd98(s32 value);
 
+GameData *GameData_Create(HeapID heapId);
+void GameData_Free(GameData *gameData);
 BOOL GameData_CheckPairFlag(GameData *gameData);
 BagSave *GameData_GetBag(GameData *gameData);
 void *func_0201734c(GameData *gameData);
@@ -86,6 +89,12 @@ PartyPkm *GameData_MakeBoxPkm(GameData *gameData, BoxPkmCreateParams *params);
 BOOL checkForMidnight(GameData *gameData);
 SaveControl *GameData_GetSaveControl(GameData *gameData);
 void *func_02017670(GameData *gameData);
+// The counter at 0x2c0, which func_02034ebc stops and func_02034f14 restarts around a battle
+void *func_0201798c(GameData *gameData);
+void func_02034ebc(void *counter);
+void func_02034f14(void *counter);
+// Save block 0x41, the Pokémon traded in game, which save/traded_pokemon.h reads
+void *GetTradedPokemonBlock(GameData *gameData);
 SaveControl *GameData_GetSaveControl_(GameData *gameData);
 BeaconStatus *func_020174d4(GameData *gameData);
 DreamWorldSave *func_020179e4(GameData *gameData);
@@ -159,6 +168,8 @@ BOOL GameData_CheckEventsPaused(GameData *gameData);
 void *func_02017968(GameData *gameData);
 // Where the Trial House work is kept
 TrialHouseWork **GetTrialHouseWkPPtr(GameData *gameData);
+// The follower of field/pair_sys.h
+FieldFollowWk *GetFieldFollowerCfg(GameData *gameData);
 void GameData_ResetSkipFrame(GameData *gameData);
 void GameData_Set30FPSMode(GameData *gameData, BOOL enable);
 u8 func_02017b70(GameData *gameData);

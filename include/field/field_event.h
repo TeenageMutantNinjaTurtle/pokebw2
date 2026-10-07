@@ -45,6 +45,7 @@ GameEvent *EventBGMPlay_Create(GameSystem *gsys, u32 bgm);
 GameEvent *EventBGMFadeWait_Create(GameSystem *gsys);
 GameEvent *EventBattleBGMPlay_Create(GameSystem *gsys, u32 bgm);
 GameEvent *EventBGMFadePop_Create(GameSystem *gsys);
+GameEvent *EventBGMFadeStop_Create(GameSystem *gsys, u16 frames);
 GameEvent *EventBGMPop_CreateEx(GameSystem *gsys, u32 a1, u32 a2);
 GameEvent *EventBGMPlayPushEx_Create(GameSystem *gsys, u32 bgm, u32 a2, u32 a3);
 GameEvent *EventDig_Create(GameEvent *event, GameSystem *gsys, Field *field, BOOL seasonChanged);

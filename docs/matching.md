@@ -256,6 +256,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   inline accessor does it naturally, since its parameter is a copy of the index in the parameter's type: the Join
   Avenue shop reads `ResortShop_GetEntry(wk, j)->id` with a `u32` index for an `int` `j`, and its later
   `wk->entries[j]` is computed again while `wk->entries[i]` is reused.
+- Stores to fixed addresses fold into one literal each, `((u16 *)(HW_DB_BG_PLTT + 0x1c0))[9]` included. A literal kept as
+  a base with offsets, `ldr r1, =0x50005c0; strh r0, [r1, #0x12]`, is a pointer local: the summary screen's
+  `PStatus_InitText` sets two font colors through `GXRgb *pltt = (GXRgb *)(HW_DB_BG_PLTT + 0x1c0);`.
 - Stores through a pointer to an array element, `icon = &icons[3]; icon->chars = ...;`, use the element's address as
   their base register, while `icons[3].chars = ...;` reaches the field from a base of MWCC's choosing, often an
   earlier element. The Pokédex touch bar's map and forms buttons are filled through a pointer. The other way round,
@@ -421,6 +424,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   Subway's command switch only splits its values as the game does with an empty `case 102:` inside its first jump
   table, and empty cases that sit between others still get a comparison.
 - A switch case that ends in the same code as another case is merged into it, so its end moves.
+- A switch whose cases each set every argument of one call after it, as `research_top.c`'s button highlights set the
+  BG, position, size and palette for `GFL_BGSysSetScrPaletteNo`, has each argument in a variable: the cases keep only
+  the values that differ, and the values they share are set once at the merged end, in registers. Writing only the
+  differing value as a variable leaves the others as constants at the call, and a call in each case is merged
+  differently.
 - A `switch` on a few small values tests them all first (`cmp; beq` for each, then `b` to the default), while an
   `if`/`else if` chain tests each one before its body (`cmp; bne` to the next test), as bmp_menu.c's
   `BmpMenu_NextCursorPos` does.

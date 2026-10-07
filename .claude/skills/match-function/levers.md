@@ -111,6 +111,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "holds a constant, like")
 - An address computed before calls is reused after them only when the expression is the same, types included. An
   inline accessor recomputes it. (matching.md: "computed before calls is reused")
+- A constant base address with offsets where MWCC folds each store into its own literal: a pointer local.
+  (matching.md: "Stores to fixed addresses")
 - Stores whose base register is another element than the one written: index the array, or write through a pointer
   to the element, whichever the original does. (matching.md: "pointer to an array element")
 - A value a loop uses and the code after it uses again is reused from the hoisted copy, unless it is a variable
@@ -180,6 +182,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - Cases are laid out in source order, not by value. (matching.md: "Switch cases are laid out in source order")
 - The comparison tree and jump tables depend on every case value, including empty cases. (matching.md: "comparison tree")
 - A case that ends in the same code as another is merged into it. (matching.md: "ends in the same code as another")
+- Cases that load some of a call's arguments, then branch to the shared rest and the call: every argument was a
+  variable set in each case. (matching.md: "each set every argument")
 - An `if`/`else if` chain whose tests come in a switch's order is a `switch` with a case falling into `default`.
 - All the tests first (`cmp; beq` each) is a `switch`; a test before each body (`cmp; bne`) is an `if` chain.
   (matching.md: "tests them all first")

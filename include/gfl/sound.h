@@ -71,6 +71,7 @@ BOOL PokeVoice_StartPlayback(u32 handle);
 BOOL PokeVoice_IsPlaying(u32 handle);
 BOOL PokeVoice_IsPlayingAny(void);
 void PokeVoice_ReleaseAll(void);
+void PokeVoice_Release(u32 handle);
 // What a handle plays: its volume, speed, samples, count of samples and sample rate
 s8 PokeVoice_GetVolume(u32 handle);
 int PokeVoice_GetSpeed(u32 handle);
