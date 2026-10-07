@@ -390,3 +390,8 @@ src/ov012/scrcmd_join_avenue_store.c:
 src/ov012/event_field_open_lcd.c:
     complete
     .text       start:0x0216ad3c end:0x0216adcc
+
+src/ov012/event_battle.c:
+    .text       start:0x02168468 end:0x0216919c
+    .rodata     start:0x0216dc90 end:0x0216dd60
+    .data       start:0x0216e5cc end:0x0216e5ec

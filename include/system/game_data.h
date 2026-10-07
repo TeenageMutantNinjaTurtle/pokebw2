@@ -83,6 +83,12 @@ PartyPkm *GameData_MakeBoxPkm(GameData *gameData, BoxPkmCreateParams *params);
 BOOL checkForMidnight(GameData *gameData);
 SaveControl *GameData_GetSaveControl(GameData *gameData);
 void *func_02017670(GameData *gameData);
+// The counter at 0x2c0, which func_02034ebc stops and func_02034f14 restarts around a battle
+void *func_0201798c(GameData *gameData);
+void func_02034ebc(void *counter);
+void func_02034f14(void *counter);
+// Save block 0x41, the Pokémon traded in game, which save/traded_pokemon.h reads
+void *GetTradedPokemonBlock(GameData *gameData);
 SaveControl *GameData_GetSaveControl_(GameData *gameData);
 void *func_020174d4(GameData *gameData);
 DreamWorldSave *func_020179e4(GameData *gameData);

@@ -130,6 +130,7 @@ struct BtlSetup {
 
 BtlSetup *BtlSetup_Create(HeapID heapId);
 u32 BtlSetup_CheckFlag(BtlSetup *setup, u32 flag);
+void BtlSetup_SetFlag(BtlSetup *setup, u32 flag);
 void BtlSetup_Free(BtlSetup *setup);
 PokeParty *BtlSetup_GetParty(BtlSetup *setup, u32 index);
 void BtlSetup_SetNet1v1Double(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, HeapID heapId);
@@ -148,6 +149,9 @@ void BtlSetup_SetTrainerRotation(BtlSetup *setup, GameData *gameData, BtlFieldSt
 void BtlSetup_SetNetMultiVsAI(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, u8 a4, u32 a5, u32 a6,
                               HeapID heapId);
 void BtlSetup_PostProcessTrialHouse(BtlSetup *setup);
+// The capture demonstration, between the two parties
+void BtlSetup_SetCaptureDemo(BtlSetup *setup, GameData *gameData, PokeParty *party, PokeParty *enemyParty,
+                             BtlFieldStatus *status, HeapID heapId);
 // Changes the levels of the parties for the challenge mode of the zone, which the keys of Unova Link unlock
 void adjustPkmLvForChallengeKeys(BtlSetup *setup, GameData *gameData, u16 zoneId);
 // Frees what the setup holds and clears it

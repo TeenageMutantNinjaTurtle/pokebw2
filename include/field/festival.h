@@ -18,6 +18,8 @@ struct FestMissionConfig {
 void func_ov030_02174108(u32 enabled);
 void *Field_GetFesGimmick(Field *field);
 BOOL FesGimmick_IsCurrent(void *gimmick, u32 type);
+// Changes the party of a Funfest mission's battle, when gimmick 5 is current
+void func_ov036_021b67d8(void *gimmick, PokeParty *party);
 void DeleteFunfestActor(void *gimmick, u16 zoneId, u8 actorIndex);
 void func_ov072_021e8d08(void *gimmick, FieldActor *actor, u16 arg0, u16 arg1, u16 *out0, u16 *out1);
 void func_ov072_021e8d70(void *gimmick, FieldActor *actor, u16 *out0, u16 *out1);
