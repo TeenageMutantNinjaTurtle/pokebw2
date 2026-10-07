@@ -21,6 +21,7 @@ src/ov257/draw_system.c:
     .data       start:0x021b25b0 end:0x021b25c0
 
 src/ov257/ctvt_mic.c:
+    complete
     .text       start:0x0219ef4c end:0x0219f234
     .data       start:0x021b2610 end:0x021b264c
     .bss        start:0x021b3d6c end:0x021b3d70
@@ -62,3 +63,24 @@ src/ov257/ctvt_game_cam_graphic.c:
     .text       start:0x021a9704 end:0x021a98d4
     .rodata     start:0x021b2280 end:0x021b243c
     .data       start:0x021b26a4 end:0x021b26bc
+
+src/ov257/comm_tvt_sys.c:
+    .text       start:0x021a98d4 end:0x021aafdc
+    .rodata     start:0x021b243c end:0x021b2544
+    .data       start:0x021b26bc end:0x021b26d8
+
+src/ov257/ctvt_game.c:
+    .text       start:0x021a22bc end:0x021a7620
+    .rodata     start:0x021b1aa8 end:0x021b21f4
+    .data       start:0x021b2664 end:0x021b2680
+    .bss        start:0x021b3d70 end:0x021b3d88
+
+src/ov257/ctvt_game_cam.c:
+    .text       start:0x021a8090 end:0x021a9704
+    .rodata     start:0x021b223c end:0x021b2280
+    .data       start:0x021b2694 end:0x021b26a4
+    .bss        start:0x021b3d88 end:0x021b3d8c
+
+src/ov257/ctvt_game_target.c:
+    .text       start:0x021a7620 end:0x021a78d0
+    .rodata     start:0x021b21f4 end:0x021b2218

@@ -44,7 +44,11 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 ## Stack slots or frame size
 
+- An extra slot holding a copy of an address-taken local before a nested loop: read its field inside the inner loop,
+  not into a local in the outer one. (matching.md: "hoisted only out of the loop it sits in")
 - Stack locals are laid out in reverse declaration order. (matching.md: "reverse declaration order")
+- A struct copied from `.rodata` once before a loop into the lowest slot, then into another slot inside it: a
+  local initializer in the loop body. (matching.md: "local initializer inside a loop")
 - Spilled variables get slots in the order they are first assigned, in small functions. In big switches,
   declarations count too. (matching.md: "Spilled variables get their stack slots")
 - A variable reused by several switch cases splits per case, and a spilled piece takes the lowest slot.
@@ -100,6 +104,10 @@ text to `grep -n` there. Entries without a key come from later work and still be
   local. (matching.md: "nested in another call's arguments")
 - Arguments loaded in order around a conditional one: that argument was a local set before the call.
   (matching.md: "A conditional expression among a call's arguments")
+- A plain argument loaded before a call that is another argument: the plain one was in a local.
+  (matching.md: "plain argument loaded before")
+- An inline's argument computed and spilled at the inline's entry: the caller passed a local.
+  (matching.md: "copies into its one use")
 
 ## An instruction too many or too few
 
@@ -123,15 +131,19 @@ text to `grep -n` there. Entries without a key come from later work and still be
   inline accessor recomputes it. (matching.md: "computed before calls is reused")
 - A constant base address with offsets where MWCC folds each store into its own literal: a pointer local.
   (matching.md: "Stores to fixed addresses")
+- A hardware address built with shifts and spilled, where ours loads it from the pool: the SDK inline that returns
+  it, such as `G2_GetOBJCharPtr()`. (matching.md: "A hardware address that the original builds with shifts")
 - Stores whose base register is another element than the one written: index the array, or write through a pointer
   to the element, whichever the original does. (matching.md: "pointer to an array element")
 - A value a loop uses and the code after it uses again is reused from the hoisted copy, unless it is a variable
   declared in the loop body. (matching.md: "reused from the copy hoisted")
 - An address passed to a `const` pointer parameter is converted, and not shared. (matching.md: "`const` pointer parameter is converted")
 - `const` table reads at a constant index are folded into immediates; reads in a loop, even an unrolled one, are not.
-  An `ldm` into argument registers is a loop over a table. (matching.md: "Reads of a `const` table")
+  An `ldm` into argument registers is a loop over a table. Reads through a pointer to the entry aren't folded either.
+  (matching.md: "Reads of a `const` table")
 - A value moved into an argument register before a call and used for nothing else is a parameter the prototype is
   missing. (matching.md: "prototype is missing")
+- A constant built once for `r3` and the first stack slot is one `u64` argument. (matching.md: "is a `u64` argument")
 - A caller that leaves an argument register untouched across a call is passing that argument.
   (matching.md: "keeps an argument register untouched")
 - A NULL that the original tests (`movs r7, #0` then `beq`) and MWCC folds away is open; see the `event_save.c` and
@@ -141,6 +153,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
   register")
 - An array initializer stores at its declaration: open an inner block where the original clears the array.
   (matching.md: "The initializer's stores happen")
+- `s16` narrowing of a value also used unnarrowed: an inline with `s16` parameters. (matching.md: "inline with `s16` parameters")
 
 ## Branches and block layout
 
@@ -168,6 +181,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "A clamp that ends in one store")
 - One store after an `if`/`else` of two constants, with a `b` over the else, is still an `if`/`else`; the conditional
   expression has no `b`. (matching.md: "assigns one field a constant in each branch")
+- A `b` to a `b` where the original jumps straight to shared code: write the call after the `if`/`else` in
+  each branch. (matching.md: "A `b` to a `b`")
 - `f(x ? a : b)` against two calls in `if`/`else`, which are merged into one call with a `beq; b` layout.
   (matching.md: "picked by branches")
 - A `return` inside `for (;;)` leaves a dead `bx lr`, which the original counts as padding.
@@ -195,6 +210,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "i <= N - 1")
 - A test after a body that is entered from the top and from an earlier branch, in a function that does one box a frame:
   `while (box < n) { ...; break; }`, with a comment. (matching.md: "stops after its first pass")
+- A load hoisted one loop level only: it was in the middle loop's body. (matching.md: "middle loop's body")
 
 ## Switches
 
@@ -216,7 +232,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 - Float arithmetic calls `_fadd`, `_ffix` and others (swan's `__aeabi_*`). Rename to MWCC's name when a complete file
   fails to link. (matching.md: "MWCC's runtime helpers")
-- An arithmetic operation on a literal passes the literal first; a constant in a local keeps its source position.
+- An arithmetic operation on a literal passes the literal first; a constant in a local keeps its source position, and
+  a compound assignment (`x *= 1.5`) passes its target first.
   (matching.md: "passes the literal first")
 - A call inside `FX32_CONST(...)` is made three times; the game passes a local. (matching.md: "FX32_CONST")
 - A literal in a compound assignment (`y += 0.01f`) is passed second. (matching.md: "compound assignment keeps")
@@ -249,12 +266,15 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "prediction disagrees")
 - `static const` goes in `.rodata`, so a table in `.data` isn't `const`. (matching.md: "`static const` data goes in")
 - A `static const` whose address is never taken is folded and not emitted. If the original has it, it isn't static.
+  An unreferenced word after a file's larger tables is the next file's first object.
   (matching.md: "whose address is never taken")
 - Library code was built against an older NitroSDK, whose headers differ: SPL's `GX_ST` doesn't narrow texture
   coordinates to `fx16` where the game's does. `configure.py` defines `OLD_NITRO_SDK` for SPL, and `nitro/gx.h`
   picks the macro by it.
 - `GFL_ASSERT` keeps its expression as a string, which preserves the original variable names. (matching.md: "GFL_ASSERT")
 - A file's `.data` ends at its last object.
+- One table in the `.rodata` of several files: a `static const` in a header, with a `static inline` reading it.
+  (matching.md: "same small table")
 
 ## Function order and presence
 

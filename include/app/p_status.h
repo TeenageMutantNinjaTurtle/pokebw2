@@ -22,6 +22,7 @@ enum {
 // What the screen is shown for
 enum {
     PSTATUS_MODE_NORMAL,
+    // Set by the Global Trade Station and the debug start; the summary screen treats it as PSTATUS_MODE_NORMAL
     PSTATUS_MODE_1,
     // Pick a move to forget for PStatusParam.move
     PSTATUS_MODE_FORGET_MOVE,

@@ -9,13 +9,35 @@
 struct MysteryGift {
     // The item, Pass Power or other thing the gift gives. A Pokémon gift keeps the Pokémon's data from here
     u32 value;
-    u8 unk04[0xac];
+    u8 unk04[0x5c];
+    u16 title[37];
+    u8 unkAA[2];
+    // The date the card was received, as year << 16 | month << 8 | day
+    s32 date;
     u16 id;
     u8 unkB2;
     // What the gift gives, 1 for a Pokémon and 2 for an item
     u8 kind;
-    u8 unkB4[0x18];
+    // Received at most once per game, by its ID
+    u8 once : 1;
+    // Not yet picked up from the delivery man
+    u8 undelivered : 1;
+    u8 unkB4_2 : 6;
+    u8 unkB5[0x17];
 };
+
+// A gift as it is received, with its card's text
+typedef struct {
+    MysteryGift gift;
+    // The games that may receive the gift, 1 << GAME_VERSION for each
+    u32 versions;
+    u16 text[253];
+    u8 unk2CA;
+    u8 unk2CB;
+    u16 unk2CC;
+    // getCRC16 of everything before it
+    u16 crc;
+} MysteryGiftRecvData;
 
 // The Pokémon of a Pokémon gift, which the card keeps from its start. 0xff, or 0, leaves a value to the game
 typedef struct {
@@ -57,8 +79,30 @@ MysteryGiftSave *mysteryGiftBlock(SaveControl *save, u32 a1, HeapID heapId);
 void func_0200aa54(MysteryGiftSave *save);
 // Copies the card in the slot into gift
 BOOL func_0200a71c(MysteryGiftSave *save, u32 slot, MysteryGift *gift);
+// Whether the slot has a card
 BOOL func_0200a800(MysteryGiftSave *save, u32 slot);
 BOOL func_0200a820(MysteryGiftSave *save, u32 slot);
 void func_0200a858(MysteryGiftSave *save, u32 slot);
+// Saves the gift in the first free slot, and returns FALSE when there is none
+BOOL func_0200a750(MysteryGiftSave *save, const MysteryGift *gift);
+// Throws away the card in the slot
+void func_0200a7b0(MysteryGiftSave *save, u32 slot);
+// Whether the album has a free slot
+BOOL func_0200a7e4(MysteryGiftSave *save);
+// Whether the album has any card
+BOOL func_0200a88c(MysteryGiftSave *save);
+// Swaps the cards of two slots
+void func_0200a970(MysteryGiftSave *save, u32 slot1, u32 slot2);
+// Whether the gift with the ID was received, and marks it received
+BOOL func_0200a8c4(MysteryGiftSave *save, u32 id);
+void func_0200a900(MysteryGiftSave *save, u32 id);
+// Whether the received data's CRC is right
+BOOL func_0200a938(const MysteryGiftRecvData *data);
+// Starts and checks the save of the album
+void func_0200a9d4(MysteryGiftSave *save, GameData *gameData);
+u32 func_0200a9f4(MysteryGiftSave *save, GameData *gameData);
+// The number of card slots
+u32 func_0200aa64(MysteryGiftSave *save);
+u32 func_0200aa6c(MysteryGiftSave *save);
 
 #endif // POKEBW2_SAVE_MYSTERY_GIFT_H

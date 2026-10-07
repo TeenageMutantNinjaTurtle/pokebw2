@@ -89,3 +89,72 @@ src/ov036/effect_encount.c:
     .text       start:0x021a1fdc end:0x021a29d0
     .rodata     start:0x021d02c4 end:0x021d0324
     .data       start:0x021d4f94 end:0x021d4fa8
+
+src/ov036/fld_scenearea.c:
+    complete
+    .text       start:0x021a2f08 end:0x021a30f8
+    .data       start:0x021d4fa8 end:0x021d4fb8
+
+src/ov036/fld_scenearea_loader.c:
+    .text       start:0x021a30f8 end:0x021a3664
+    .rodata     start:0x021d0374 end:0x021d0388
+    .data       start:0x021d4fb8 end:0x021d4ff8
+
+src/ov036/field_effect.c:
+    complete
+    .text       start:0x021a3664 end:0x021a3b34
+    .rodata     start:0x021d0388 end:0x021d0524
+    .data       start:0x021d4ff8 end:0x021d5008
+
+src/ov036/fldeff_shadow.c:
+    complete
+    .text       start:0x021a3b34 end:0x021a3de0
+    .rodata     start:0x021d0524 end:0x021d0544
+    .data       start:0x021d5008 end:0x021d5018
+
+src/ov036/fldeff_kemuri.c:
+    complete
+    .text       start:0x021a3de0 end:0x021a3fd8
+    .rodata     start:0x021d0544 end:0x021d0558
+    .data       start:0x021d5018 end:0x021d5028
+
+src/ov036/fldeff_grass.c:
+    .text       start:0x021a3fd8 end:0x021a4384
+    .rodata     start:0x021d0558 end:0x021d05f4
+    .data       start:0x021d5028 end:0x021d5060
+
+src/ov036/fldeff_encount.c:
+    complete
+    .text       start:0x021a50a4 end:0x021a5604
+    .rodata     start:0x021d06cc end:0x021d0728
+    .data       start:0x021d5074 end:0x021d50dc
+
+src/ov036/fldeff_namipoke.c:
+    complete
+    .text       start:0x021a4384 end:0x021a50a4
+    .rodata     start:0x021d05f4 end:0x021d06cc
+    .data       start:0x021d5060 end:0x021d5074
+
+src/ov036/fldeff_iwakudaki.c:
+    complete
+    .text       start:0x021a5604 end:0x021a5828
+    .rodata     start:0x021d0728 end:0x021d0778
+    .data       start:0x021d50dc end:0x021d5100
+
+src/ov036/fldeff_fishing.c:
+    complete
+    .text       start:0x021a5828 end:0x021a5a18
+    .rodata     start:0x021d0778 end:0x021d07d0
+    .data       start:0x021d5100 end:0x021d5118
+
+src/ov036/fldeff_fes_kira.c:
+    complete
+    .text       start:0x021a5a18 end:0x021a5d2c
+    .rodata     start:0x021d07d0 end:0x021d0820
+    .data       start:0x021d5118 end:0x021d5138
+
+src/ov036/event_trainer_eye.c:
+    complete
+    .text       start:0x021a5d2c end:0x021a6668
+    .rodata     start:0x021d0820 end:0x021d0878
+    .data       start:0x021d5138 end:0x021d514c

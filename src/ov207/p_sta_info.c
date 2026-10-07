@@ -1,5 +1,7 @@
 #include "constants/arc.h"
+#include "constants/met_locations.h"
 #include "constants/pokemon.h"
+#include "constants/version.h"
 #include "gfl/arc_util.h"
 #include "gfl/bg_sys.h"
 #include "gfl/bmp.h"
@@ -55,7 +57,7 @@ static void PStaInfo_PrintInfo(PStatusWork *wk, PStaInfoWork *info, BoxPkm *pkm)
 static void PStaInfo_PrintMemo(PStatusWork *wk, PStaInfoWork *info, BoxPkm *pkm);
 static StrBuf *PStaInfo_GetPlaceName(PStatusWork *wk, PStaInfoWork *info, u32 location);
 
-static const InfoWindowSetup sWindows[INFO_WINDOW_COUNT] = {
+static const PStaWindowSetup sWindows[INFO_WINDOW_COUNT] = {
     { 2, 1, 16, 2 },  { 2, 3, 16, 2 },  { 2, 5, 8, 2 },   { 2, 7, 16, 2 },  { 2, 9, 16, 2 },
     { 2, 11, 17, 2 }, { 10, 13, 8, 2 }, { 2, 15, 16, 2 }, { 6, 17, 12, 2 }, { 10, 19, 8, 1 },
 };
@@ -254,9 +256,9 @@ static void PStaInfo_PrintInfo(PStatusWork *wk, PStaInfoWork *info, BoxPkm *pkm)
         nameWordSet = GFL_WordSetSystemCreateDefault(wk->heapId);
         color = PRINT_COLOR(1, 2, 0);
         sex = PML_PkmGetParam(pkm, PKM_PARAM_OT_GENDER, name);
-        if (sex == 0) {
+        if (sex == GENDER_MALE) {
             color = PRINT_COLOR(5, 6, 0);
-        } else if (sex == 1) {
+        } else if (sex == GENDER_FEMALE) {
             color = PRINT_COLOR(3, 4, 0);
         }
         PML_PkmGetParam(pkm, PKM_PARAM_OT_NAME, name);
@@ -331,7 +333,8 @@ static void PStaInfo_PrintMemo(PStatusWork *wk, PStaInfoWork *info, BoxPkm *pkm)
     BOOL transfer0 = special_transfers(pkm, 0, playerInfo);
     BOOL transfer1 = special_transfers(pkm, 1, playerInfo);
     BOOL transfer2 = special_transfers(pkm, 2, playerInfo);
-    BOOL transferred = transfer0 | transfer1 | transfer2 | special_transfers(pkm, 3, playerInfo);
+    BOOL transfer3 = special_transfers(pkm, 3, playerInfo);
+    BOOL transferred = transfer0 | transfer1 | transfer2 | transfer3;
     StrBuf *str;
     StrBuf *buf;
     WordSet *wordSet;
@@ -358,30 +361,31 @@ static void PStaInfo_PrintMemo(PStatusWork *wk, PStaInfoWork *info, BoxPkm *pkm)
                 msg = 0x2f;
             }
             switch (originGame) {
-            case 1:
-            case 2:
-            case 3:
+            case VERSION_SAPPHIRE:
+            case VERSION_RUBY:
+            case VERSION_EMERALD:
                 metLocation = LOCATION_HOENN;
                 break;
-            case 4:
-            case 5:
+            case VERSION_FIRERED:
+            case VERSION_LEAFGREEN:
                 metLocation = LOCATION_KANTO;
                 break;
-            case 7:
-            case 8:
+            case VERSION_HEARTGOLD:
+            case VERSION_SOULSILVER:
                 metLocation = LOCATION_JOHTO;
                 msg = originMsg;
                 break;
-            case 10:
-            case 11:
-            case 12:
+            case VERSION_DIAMOND:
+            case VERSION_PEARL:
+            case VERSION_PLATINUM:
                 metLocation = LOCATION_SINNOH;
                 msg = originMsg;
                 break;
-            case 15:
+            case VERSION_COLOSSEUM:
                 metLocation = LOCATION_FARAWAY;
                 break;
             default:
+                // Sets the egg's place, though the memo names the met place. Both names are blank, so it shows the same
                 eggLocation = LOCATION_UNKNOWN;
                 msg = originMsg;
                 break;
@@ -405,7 +409,7 @@ static void PStaInfo_PrintMemo(PStatusWork *wk, PStaInfoWork *info, BoxPkm *pkm)
                 break;
             }
         } else if (fateful == FALSE) {
-            if (eggLocation == 0) {
+            if (eggLocation == LOCATION_NONE) {
                 if (isN) {
                     msg = 0x35;
                 } else if (metLocation == LOCATION_IN_GAME_TRADE) {
@@ -413,14 +417,14 @@ static void PStaInfo_PrintMemo(PStatusWork *wk, PStaInfoWork *info, BoxPkm *pkm)
                 } else {
                     msg = 0x19;
                 }
-            } else if (eggLocation <= 60000) {
+            } else if (eggLocation <= LOCATION_EXTERNAL_BASE) {
                 msg = 0x1d;
             } else {
                 msg = 0x1f;
             }
         } else {
             msg = 0x21;
-            if (eggLocation != 0) {
+            if (eggLocation != LOCATION_NONE) {
                 msg = 0x23;
             }
         }
@@ -446,6 +450,7 @@ static void PStaInfo_PrintMemo(PStatusWork *wk, PStaInfoWork *info, BoxPkm *pkm)
         u8 best;
 
         WordSetNumber(wordSet, 0, metYear, 2, 2, 1);
+        // The highest IV's zero is copied from best's stack slot, so best is cleared here and maxIV starts from it
         best = 0;
         WordSetNumber(wordSet, 1, metMonth, 2, 0, 1);
         WordSetNumber(wordSet, 2, metDay, 2, 0, 1);

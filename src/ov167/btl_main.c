@@ -1,6 +1,7 @@
 // Function names from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
 
 #include "types.h"
+#include "battle/battle_overlay.h"
 #include "battle/btl_calc.h"
 #include "battle/btl_client.h"
 #include "battle/btl_main.h"

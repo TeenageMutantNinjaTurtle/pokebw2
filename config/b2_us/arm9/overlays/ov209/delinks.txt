@@ -3,3 +3,26 @@
     .ctor       start:0x021c2fe4 end:0x021c2fe4 kind:rodata align:4
     .data       start:0x021c3000 end:0x021c3240 kind:data align:32
     .bss        start:0x021c3240 end:0x021c3260 kind:bss align:32
+
+src/ov209/musical_shot_sys.c:
+    complete
+    .text       start:0x021ba140 end:0x021ba598
+    .rodata     start:0x021c2bec end:0x021c2c2c
+    .data       start:0x021c3000 end:0x021c3020
+
+src/ov209/mus_shot_photo.c:
+    .text       start:0x021ba598 end:0x021bad2c
+    .rodata     start:0x021c2c2c end:0x021c2d20
+    .data       start:0x021c3020 end:0x021c3034
+
+src/ov209/mus_shot_info.c:
+    complete
+    .text       start:0x021bad2c end:0x021bb368
+    .rodata     start:0x021c2d20 end:0x021c2d88
+    .data       start:0x021c3034 end:0x021c3044
+
+src/ov209/mus_item_draw.c:
+    complete
+    .text       start:0x021bb368 end:0x021bb9bc
+    .rodata     start:0x021c2d88 end:0x021c2d94
+    .data       start:0x021c3044 end:0x021c3054

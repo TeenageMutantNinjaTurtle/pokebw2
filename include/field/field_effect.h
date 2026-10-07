@@ -5,8 +5,12 @@
 
 #include "types.h"
 #include "gfl/heap.h"
+#include "gfl/tcb.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
+
+typedef struct FieldEffects FieldEffects;
+typedef struct FieldEffectTask FieldEffectTask;
 
 void *Field_GetEffectBlAct(Field *field);
 void *Field_GetWildEffectBlAct(Field *field);
@@ -15,38 +19,160 @@ void func_ov036_021c6d14(void *effect);
 void func_ov036_021c6d3c(void *effect);
 void func_ov036_021c6cf8(void *effect);
 
-// The field effects' archive, and their 3D object system
-ArcTool *FieldEffects_GetArc(void *effects);
-struct FieldG3DObjSystem *func_ov036_021a3724(void *effects);
 void *func_ov036_021b3f14(void *effects, FieldActor *actor, u32 arg2, u32 arg3);
-void func_ov036_021a5968(void *effect, u32 arg1);
-void func_ov036_021a3a70(void *effect);
+// Break the rock in front of an actor with Rock Smash
+void func_ov036_021a56c8(FieldActor *actor, FieldEffects *effects);
+// The ripples of a fishing line cast in dir from pos, and how fast they play
+FieldEffectTask *func_ov036_021a58e0(FieldEffects *effects, const VecFx32 *pos, u32 dir, u32 sameHeight);
+void func_ov036_021a5968(FieldEffectTask *task, u16 speed);
+// The festival's sparkles: start their task, show one at pos, hide one or all, and whether one shows and its value
+FieldEffectTask *func_ov036_021a5bb4(FieldEffects *effects);
+void func_ov036_021a5c04(FieldEffectTask *task, u32 idx, u16 value, const VecFx32 *pos);
+void func_ov036_021a5c2c(FieldEffectTask *task, u32 idx);
+void func_ov036_021a5c44(FieldEffectTask *task);
+u16 func_ov036_021a5c5c(FieldEffectTask *task, u32 idx);
+u16 func_ov036_021a5c74(FieldEffectTask *task, u32 idx);
 // The field effect of a phenomenon, which fldeff_encount.c plays
-void *func_ov036_021a53f8(EncountSystem *system, void *fieldEffects, u16 x, u16 z, fx32 height, u32 kind);
-void func_ov036_021a5498(void *effect, u32 a1);
-void func_ov036_021a54a8(void *effect, u32 a1);
-void *func_ov036_021a58e0(void *effects, VecFx32 *position, u32 direction, u32 flag);
-void *FieldEffects_Create(Field *field, u32 count, HeapID heapId);
-void FieldEffects_Free(void *effects);
-void FieldEffects_Update(void *effects);
-void FieldEffects_Draw(void *effects);
-void FieldEffects_Load(void *effects, const u32 *ids, u32 count);
-void FieldEffects_TCBManagerInit(void *effects, u32 count);
-void FieldEffects_SetLuminanceTable(void *effects, void *table);
-u32 FieldEffects_GetSeason(void *effects);
+FieldEffectTask *func_ov036_021a53f8(EncountSystem *system, FieldEffects *effects, u16 x, u16 z, fx32 height,
+                                     u32 kind);
+// Pause and hide a phenomenon
+void func_ov036_021a5498(FieldEffectTask *task, BOOL paused);
+void func_ov036_021a54a8(FieldEffectTask *task, BOOL hidden);
 // The effects that actors make on the terrain
-void func_ov036_021a3bf0(FieldActor *actor, void *effects);
+void func_ov036_021a3bf0(FieldActor *actor, FieldEffects *effects);
 // The dust of an actor landing
-void func_ov036_021a3e74(FieldActor *actor, void *effects);
-void func_ov036_021a40ac(void *effects, FieldActor *actor, BOOL moving, u32 kind);
+void func_ov036_021a3e74(FieldActor *actor, FieldEffects *effects);
+// The dust in front of an actor
+void func_ov036_021a3ec4(FieldActor *actor, FieldEffects *effects);
+void func_ov036_021a40ac(FieldEffects *effects, FieldActor *actor, BOOL animate, int kind);
 void func_ov036_021b47c8(FieldActor *actor, void *effects, u32 kind);
 void func_ov036_021b49ac(MMSys *system, FieldActor *actor, void *effects, u32 kind);
 void func_ov036_021be828(void *effects, FieldActor *actor, u32 arg2, u32 arg3);
 void func_ov036_021bea3c(void *effects, FieldActor *actor);
 void func_ov036_021c289c(FieldActor *actor, void *effects);
 void func_ov036_021c94e0(void *effects, FieldActor *actor);
+
+// field_effect.c: the effects a map has loaded, by ID, and the tasks that play them
+enum {
+    FLDEFF_MAX = 25,
+    // The ID of an empty slot, and of the empty last entry of the effects' table
+    FLDEFF_NONE = FLDEFF_MAX,
+};
+
+typedef struct FieldEffectTaskStore FieldEffectTaskStore;
+
+typedef void (*FieldEffectTaskFunc)(FieldEffectTask *task, void *work);
+
+// What a task does when it starts, ends, updates and draws
+typedef struct {
+    // The size of the task's work
+    u32 workSize;
+    FieldEffectTaskFunc init;
+    FieldEffectTaskFunc delete;
+    FieldEffectTaskFunc update;
+    FieldEffectTaskFunc draw;
+} FieldEffectTaskVTable;
+
+struct FieldEffectTask {
+    BOOL active;
+    u32 param1;
+    void *param2;
+    VecFx32 pos;
+    u8 work[0xa0];
+    FieldEffectTaskVTable vtable;
+    FieldEffectTaskStore *store;
+    TCB *tcb;
+};
+
+FieldEffects *FieldEffects_Create(Field *field, int count, HeapID heapId);
+void FieldEffects_Free(FieldEffects *effects);
+void FieldEffects_Update(FieldEffects *effects);
+void FieldEffects_Draw(FieldEffects *effects);
+Field *FieldEffects_GetField(FieldEffects *effects);
+// The field effects' 3D object system, archive, season and whether the area is outdoors
+struct FieldG3DObjSystem *func_ov036_021a3724(FieldEffects *effects);
+ArcTool *FieldEffects_GetArc(FieldEffects *effects);
+u32 FieldEffects_GetSeason(FieldEffects *effects);
+BOOL FieldEffects_GetAreaIsExterior(FieldEffects *effects);
+// Load count effects by ID, free one, and whether one is loaded and its data
+void FieldEffects_Load(FieldEffects *effects, const u32 *ids, u32 count);
+void FieldEffects_FreeEffect(FieldEffects *effects, u32 id);
+BOOL FieldEffects_IsLoaded(FieldEffects *effects, u32 id);
+void *FieldEffects_GetHandleData(FieldEffects *effects, u32 id);
+void FieldEffects_TCBManagerInit(FieldEffects *effects, u32 count);
+// Start a task, at pos if it isn't NULL
+FieldEffectTask *FieldEffects_TCBCreate(FieldEffects *effects, const FieldEffectTaskVTable *vtable,
+                                        const VecFx32 *pos, u32 param1, void *param2, u32 priority);
+// End a task, update it, and its parameters, position and work
+void func_ov036_021a3a70(FieldEffectTask *task);
+void func_ov036_021a3a94(FieldEffectTask *task);
+u32 func_ov036_021a3abc(FieldEffectTask *task);
+void *func_ov036_021a3ac8(FieldEffectTask *task);
+void func_ov036_021a3ad4(FieldEffectTask *task, VecFx32 *pos);
+void func_ov036_021a3ae8(FieldEffectTask *task, const VecFx32 *pos);
+void *func_ov036_021a3afc(FieldEffectTask *task);
+void FieldEffects_SetLuminanceTable(FieldEffects *effects, const u8 *table);
+void FieldEffects_ApplyLuminanceTable(FieldEffects *effects, void *resource);
+
+// fldeff_namipoke.c: the Pokémon an actor surfs on, facing dir at pos, and how it follows the actor (0: it doesn't, 1:
+// it bobs under the actor, 2: the actor's offset is left alone), which can change; and whether its wake shows
+FieldEffectTask *func_ov036_021a4484(FieldEffects *effects, u16 dir, const VecFx32 *pos, FieldActor *actor, u32 mode);
+void func_ov036_021a4504(FieldEffectTask *task, u8 mode);
+void func_ov036_021a4514(FieldEffectTask *task, BOOL showWake);
+// A splash of a kind that follows the surfed Pokémon's task, or one at pos that ends with its animation, and
+// whether a splash's animation has ended
+FieldEffectTask *func_ov036_021a4eb0(FieldEffects *effects, u32 kind, FieldEffectTask *parent);
+FieldEffectTask *func_ov036_021a4ee4(FieldEffects *effects, u32 kind, const VecFx32 *pos);
+BOOL func_ov036_021a4f18(FieldEffectTask *task);
 // The effects that every map loads, and their count
-extern const u32 STATIC_LOADED_FIELD_EFFECT_IDS[];
+extern const u32 STATIC_LOADED_FIELD_EFFECT_IDS[21];
 extern const u32 data_ov036_021d0388;
+
+// Each effect's load and free functions, in their own files
+void *FieldEffect_Shadow_Create(FieldEffects *effects, HeapID heapId);
+void FieldEffect_Shadow_Free(FieldEffects *effects, void *data);
+void *playSmokeEffect(FieldEffects *effects, HeapID heapId);
+void freeSmokeEffect(FieldEffects *effects, void *data);
+void *loadGrassEffects(FieldEffects *effects, HeapID heapId);
+void freeGrassEffects(FieldEffects *effects, void *data);
+void *func_ov036_021a4384(FieldEffects *effects, HeapID heapId);
+void func_ov036_021a43a8(FieldEffects *effects, void *data);
+void *func_ov036_021b3e50(FieldEffects *effects, HeapID heapId);
+void func_ov036_021b3e94(FieldEffects *effects, void *data);
+void *func_ov036_021b46b0(FieldEffects *effects, HeapID heapId);
+void func_ov036_021b46ec(FieldEffects *effects, void *data);
+void *func_ov036_021b496c(FieldEffects *effects, HeapID heapId);
+void func_ov036_021b4990(FieldEffects *effects, void *data);
+void *func_ov036_021be790(FieldEffects *effects, HeapID heapId);
+void func_ov036_021be7c4(FieldEffects *effects, void *data);
+void *func_ov036_021a4d20(FieldEffects *effects, HeapID heapId);
+void func_ov036_021a4d48(FieldEffects *effects, void *data);
+void *func_ov036_021a5604(FieldEffects *effects, HeapID heapId);
+void func_ov036_021a5628(FieldEffects *effects, void *data);
+void *func_ov036_021c2788(FieldEffects *effects, HeapID heapId);
+void func_ov036_021c27ac(FieldEffects *effects, void *data);
+void *func_ov036_021c2ddc(FieldEffects *effects, HeapID heapId);
+void func_ov036_021c2e00(FieldEffects *effects, void *data);
+void *func_ov036_021a5828(FieldEffects *effects, HeapID heapId);
+void func_ov036_021a584c(FieldEffects *effects, void *data);
+void *FieldEffect_BTrain_Create(FieldEffects *effects, HeapID heapId);
+void FieldEffect_BTrain_Free(FieldEffects *effects, void *data);
+void *func_ov036_021c66e8(FieldEffects *effects, HeapID heapId);
+void func_ov036_021c670c(FieldEffects *effects, void *data);
+void *func_ov036_021c696c(FieldEffects *effects, HeapID heapId);
+void func_ov036_021c6990(FieldEffects *effects, void *data);
+void *func_ov036_021be988(FieldEffects *effects, HeapID heapId);
+void func_ov036_021be9ac(FieldEffects *effects, void *data);
+void *func_ov036_021c944c(FieldEffects *effects, HeapID heapId);
+void func_ov036_021c9470(FieldEffects *effects, void *data);
+void *func_ov036_021a5a18(FieldEffects *effects, HeapID heapId);
+void func_ov036_021a5a20(FieldEffects *effects, void *data);
+void *func_ov036_021a50a4(FieldEffects *effects, HeapID heapId);
+void *func_ov036_021a50b0(FieldEffects *effects, HeapID heapId);
+void *func_ov036_021a50bc(FieldEffects *effects, HeapID heapId);
+void *func_ov036_021a50c8(FieldEffects *effects, HeapID heapId);
+void *func_ov036_021a50d4(FieldEffects *effects, HeapID heapId);
+void *func_ov036_021a50e0(FieldEffects *effects, HeapID heapId);
+void func_ov036_021a50ec(FieldEffects *effects, void *data);
 
 #endif // POKEBW2_FIELD_FIELD_EFFECT_H

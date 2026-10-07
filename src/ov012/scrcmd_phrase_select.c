@@ -99,7 +99,7 @@ static GameEventReturnCode func_ov012_02161114(GameEvent *event, u32 *state, voi
         if (pms == NULL) {
             return GAMEEVENT_DONE;
         }
-        GSYS_QueueProcAsEvent(event, OVERLAY_ID(185), &data_ov185_021a7298, pms);
+        GSYS_QueueProcAsEvent(event, OVERLAY_ID(185), &PMS_INPUT_PROC_FUNCTIONS, pms);
         (*state)++;
         break;
     case 1:

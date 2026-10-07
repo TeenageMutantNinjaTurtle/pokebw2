@@ -157,6 +157,8 @@ u16 GetActorMotionDir(FieldActor *actor);
 BOOL func_ov012_0216773c(FieldActor *actor);
 void func_ov036_0219634c(FieldActor *actor, u16 *a1, u16 *a2);
 void func_ov036_021963a4(FieldActor *actor, u16 a1, u16 a2);
+// The unit vector of a direction along the actor's rail
+void func_ov036_02195a78(FieldActor *actor, u16 dir, VecFx16 *dest);
 u32 GetIndexOfObjID(u16 objCode);
 
 // Overlay 36's table that func_ov036_02194650 indexes, by a record's unk9
@@ -197,7 +199,7 @@ FieldG3DMapper *GetMMSysG3DMapper(MMSys *system);
 BOOL GetTerrainAtPosByActor(FieldActor *actor, const VecFx32 *position, MapTerrainBuf *terrain);
 Field *GetMMSysField(MMSys *mmSys);
 // The movement command of a direction in the row of a table that has the command
-u16 GetAcmdForDir(u32 dir, u32 acmd);
+u16 GetAcmdForDir(u16 dir, u32 acmd);
 // The collision flags of the tile next to the actor in a direction
 u32 ActorRouteCollCheckOneTileInDir(FieldActor *actor, u16 dir);
 // Starts a movement command
@@ -479,7 +481,8 @@ const FieldActorResGroup *GetNPCMdlInfoG2DRscGroup(const FieldActorConfig *confi
 const FieldActorResGroup *GetNPCMdlInfoG3DRscGroup(const FieldActorConfig *config);
 // The object code that an object code stands for, through the work values of WKOBJCODE00 and on
 u16 ResolvePossibleWKOBJCODE(EventWork *eventWork, u16 objCode);
-BOOL func_ov012_02168024(u32 type);
+// How an actor of the event type looks for the player: the types that see only the way they face give 1
+u16 func_ov012_02168024(u16 type);
 void func_ov012_02168054(FieldActor *actor);
 void func_ov012_02168058(FieldActor *actor);
 void func_ov012_0216805c(FieldActor *actor);

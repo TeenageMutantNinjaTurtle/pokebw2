@@ -16,6 +16,9 @@ typedef struct {
 } TouchRect;
 
 #define TOUCH_RECT_END 0xff
+// Rectangles whose top is one of these are circles, or are skipped
+#define TOUCH_RECT_CIRCLE 0xfe
+#define TOUCH_RECT_SKIP 0xfd
 #define TOUCH_RECT_NONE (-1)
 
 TouchpadManager *initTouchpad(HeapID heapId);

@@ -131,7 +131,4 @@ BOOL func_ov186_021a7864(GameProc *proc, u32 *state, void *param, void *work);
 BOOL func_ov186_021a7a20(GameProc *proc, u32 *state, void *param, void *work);
 extern const GameProcFunctions data_ov186_021ad288;
 
-// Overlay 185, the C-Gear greeting's phrase select
-extern const GameProcFunctions data_ov185_021a72b4;
-
 #endif // POKEBW2_FIELD_TRCARD_SYS_H
