@@ -131,6 +131,9 @@ void func_0200aec8(MusicalSave *musical, u8 index, u8 value);
 void func_0200aedc(MusicalSave *musical, u8 value);
 void func_0200af1c(MusicalSave *musical, u16 value);
 u16 func_0200af38(MusicalSave *musical);
+// Whether the downloaded props were added, which func_0200af64 sets
+u8 func_0200af5c(MusicalSave *musical);
+void func_0200af64(MusicalSave *musical, u8 value);
 void *func_0200afbc(SaveControl *save);
 void func_0200b220(void *data);
 MusicalSave *getAddressOfMusicalDataInfo(SaveControl *save);
