@@ -13,7 +13,7 @@ It builds the following ROMs:
 
 Both ROMs rebuild byte for byte from the same source tree, and everything not yet in C is still delinked code.
 <!-- progress -->
-11.85% of the code matches (454,108 of 3,832,636 bytes), with 6,346 of 41,675 functions, and 176 of 471 source files are complete.
+31.23% of the code matches (1,197,034 of 3,832,638 bytes), with 14,276 of 41,674 functions, and 362 of 727 source files are complete.
 <!-- /progress -->
 
 ![Progress](docs/progress.svg)
