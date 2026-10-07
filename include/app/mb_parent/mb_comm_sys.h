@@ -5,8 +5,8 @@
 #include "gfl/heap.h"
 #include "struct_decls.h"
 
-// The connection to the downloaded child once it has booted (mb_comm_sys.c), which the parent sends the child
-// program to, and receives the Pokémon from. The names are ours
+// The connection to the downloaded child once it has booted (mb_comm_sys.c), which the parent sends a program to, and
+// receives Pokémon or, for the Memory Link, save data from. The names are ours
 
 // The commands of the main packet, which carries a command and a value. Both sides send them; the names say what
 // the child means by those the parent receives
@@ -54,7 +54,6 @@ int MBComm_GetState(MBCommSys *comm);
 void MBComm_ResetCommands(MBCommSys *comm);
 BOOL MBComm_IsSaveReady(MBCommSys *comm);
 BOOL MBComm_IsSaveStarted(MBCommSys *comm);
-// Reads the same flag as MBComm_IsSaveStarted, although nothing else reads MB_COMM_CMD_SAVE_MID's
 BOOL MBComm_IsSaveMidReached(MBCommSys *comm);
 BOOL MBComm_IsSaved(MBCommSys *comm);
 BOOL MBComm_IsSaveSync1(MBCommSys *comm);
@@ -71,13 +70,13 @@ BOOL MBComm_HasItem(MBCommSys *comm);
 void MBComm_SendProgram(MBCommSys *comm, void *data, u32 size);
 void MBComm_ClearPokemon(MBCommSys *comm);
 BOOL MBComm_IsPokemonReceived(MBCommSys *comm);
-BOOL MBComm_IsProgramReceived(MBCommSys *comm);
+BOOL MBComm_IsDataReceived(MBCommSys *comm);
 u8 MBComm_GetPokemonCount(MBCommSys *comm);
 BoxPkm *MBComm_GetPokemon(MBCommSys *comm, u8 index);
 u16 MBComm_GetScore(MBCommSys *comm);
 BOOL MBComm_IsAcked(MBCommSys *comm);
 BOOL MBComm_SendCommand(MBCommSys *comm, u8 command, u32 value);
 BOOL MBComm_SendParentInfo(MBCommSys *comm, MBCommParentInfo *info);
-void *MBComm_GetProgram(MBCommSys *comm);
+void *MBComm_GetData(MBCommSys *comm);
 
 #endif // POKEBW2_APP_MB_PARENT_MB_COMM_SYS_H

@@ -997,6 +997,8 @@ overlays/ov175 0x0219ac24 reloc_module overlay(184)
 overlays/ov176 0x0219b86a reloc_module overlay(175)
 overlays/ov181 0x0219dea4 overlay_id 30
 overlays/ov181 0x0219def8 overlay_id 30
+overlays/ov181 0x0219fd24 overlay_id 36
+overlays/ov181 0x0219fdbc overlay_id 36
 overlays/ov181 0x021a05c8 overlay_id 30
 overlays/ov181 0x021a4068 remove_reloc
 overlays/ov181 0x021a40e8 remove_reloc
