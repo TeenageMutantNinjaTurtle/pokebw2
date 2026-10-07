@@ -57,4 +57,33 @@ static inline void DSP_UnloadG711(void) {
     }
 }
 
+// The graphics component, which the minigames' camera uses to scale its pictures
+BOOL func_02707310(FSFile *file);                       // DSP_OpenStaticComponentGraphicsCore
+BOOL func_027073b8(FSFile *file, int slotB, int slotC); // DSP_LoadGraphicsCore
+void func_02707464(void);                               // DSP_UnloadGraphicsCore
+// DSPi_ScalingCore: scales the area at (x, y) of a width by height image by rx and ry, calling back when done if
+// async
+BOOL func_02707494(const void *src, void *dst, u16 imageWidth, u16 imageHeight, f32 rx, f32 ry, int mode, u16 x, u16 y,
+                   u16 width, u16 height, void *callback, BOOL async);
+
+static inline BOOL DSP_OpenStaticComponentGraphics(FSFile *file) {
+    if (hw_isDSi()) {
+        return func_02707310(file);
+    }
+    return FALSE;
+}
+
+static inline BOOL DSP_LoadGraphics(FSFile *file, int slotB, int slotC) {
+    if (hw_isDSi() == TRUE) {
+        return func_027073b8(file, slotB, slotC);
+    }
+    return FALSE;
+}
+
+static inline void DSP_UnloadGraphics(void) {
+    if (hw_isDSi()) {
+        func_02707464();
+    }
+}
+
 #endif // POKEBW2_TWL_DSP_H

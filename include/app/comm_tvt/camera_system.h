@@ -13,7 +13,7 @@ CameraSystem *CameraSystem_Create(HeapID heapId);
 void CameraSystem_Delete(CameraSystem *sys);
 void CameraSystem_UpdateSound(CameraSystem *sys);
 void CameraSystem_InitDsp(CameraSystem *sys);
-void CameraSystem_ExitDsp(void);
+void CameraSystem_ExitDsp(CameraSystem *sys);
 void CameraSystem_SetFrameCallback(CameraSystem *sys, CameraFrameCallback callback, void *work);
 void CameraSystem_AllocBuffers(CameraSystem *sys, int count, HeapID heapId);
 void CameraSystem_Start(CameraSystem *sys);

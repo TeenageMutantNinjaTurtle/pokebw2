@@ -650,7 +650,7 @@ void CtvtGame_Enter(CommTvtWork *sys, CtvtGame *game) {
         u8 unk3dc = CtvtComm_GetUnk3dc(sys, comm, selfNetId);
 
         game->cam =
-            func_ov257_021a82cc(heapId, cameraEnabled, CtvtGame_GetType(game), unk3dc, game->members, cameraSystem);
+            CtvtGameCam_Create(heapId, cameraEnabled, CtvtGame_GetType(game), unk3dc, game->members, cameraSystem);
     }
     game->state = CTVT_GAME_STATE_START_CAMERA;
     game->replay = FALSE;
@@ -663,7 +663,7 @@ void CtvtGame_Leave(CommTvtWork *sys, CtvtGame *game) {
     u8 j;
 
     func_02021c44(CommTvt_GetPrintQueue(sys));
-    func_ov257_021a83ac(game->cam);
+    CtvtGameCam_Delete(game->cam);
     for (i = 0; i < 3; i++) {
         if (game->members[i].hasCamera == TRUE && !canPlayerExchangePhotos()) {
             for (j = 0; j < 3; j++) {
@@ -695,14 +695,14 @@ int CtvtGame_Main(CommTvtWork *sys, CtvtGame *game) {
         }
         break;
     case CTVT_GAME_STATE_START_CAMERA:
-        game->camTask = func_ov257_021a8090(game->cam, heapId);
+        game->camTask = CtvtGameCam_StartTask(game->cam, heapId);
         game->state = CTVT_GAME_STATE_CAMERA;
         GFL_WipeSet(0, 1, 1, 0, 6, 1, heapId);
         break;
     case CTVT_GAME_STATE_CAMERA:
         if (GFL_WipeIsFinished() == TRUE) {
             if (!CtvtGame_CheckError(sys, game)) {
-                switch (func_ov257_021a81d4(game->camTask)) {
+                switch (CtvtGameCam_UpdateTask(game->camTask)) {
                 case 0:
                     break;
                 case 1:
@@ -721,7 +721,7 @@ int CtvtGame_Main(CommTvtWork *sys, CtvtGame *game) {
         GFL_WipeSet(0, 0, 0, 0, 6, 1, heapId);
         break;
     case CTVT_GAME_STATE_FREE_CAMERA:
-        func_ov257_021a8228(game->camTask);
+        CtvtGameCam_EndTask(game->camTask);
         game->state = CTVT_GAME_STATE_INIT_PLAY;
         break;
     case CTVT_GAME_STATE_INIT_PLAY:
@@ -1144,7 +1144,7 @@ static void CtvtGame_Abort(CommTvtWork *sys, CtvtGame *game) {
     switch (game->state) {
     case CTVT_GAME_STATE_CAMERA:
     case CTVT_GAME_STATE_FADE_OUT_CAMERA:
-        func_ov257_021a8228(game->camTask);
+        CtvtGameCam_EndTask(game->camTask);
         break;
     case CTVT_GAME_STATE_PLAY:
         type = CtvtGame_GetType(game);
