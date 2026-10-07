@@ -77,9 +77,9 @@ typedef struct {
     u32 *cursorPos;
 } MysteryListSetup;
 
-MysteryMsgWin *MysteryMsgWin_Create(u8 bg, u8 palette, PrintQueue *queue, Font *font, HeapID heapId);
+MysteryMsgWin *MysteryMsgWin_Create(u16 bg, u8 palette, PrintQueue *queue, Font *font, HeapID heapId);
 // A message window of one line, which waits for a key after its stream
-MysteryMsgWin *MysteryMsgWin_CreateSmall(u8 bg, u8 palette, PrintQueue *queue, Font *font, HeapID heapId);
+MysteryMsgWin *MysteryMsgWin_CreateSmall(u16 bg, u8 palette, PrintQueue *queue, Font *font, HeapID heapId);
 void MysteryMsgWin_Delete(MysteryMsgWin *win);
 void MysteryMsgWin_Update(MysteryMsgWin *win);
 void MysteryMsgWin_Print(MysteryMsgWin *win, MsgData *msgData, u32 msgId, u32 mode);
@@ -118,7 +118,7 @@ void MysterySeq_End(MysterySeq *seq);
 void MysterySeq_SetReturn(MysterySeq *seq, u32 state);
 void MysterySeq_Return(MysterySeq *seq);
 
-MysteryOamText *MysteryOamText_Create(const ClActorSetup *setup, u32 width, u32 height, u32 palette, u8 priority,
+MysteryOamText *MysteryOamText_Create(const ClActorSetup *setup, u16 width, u16 height, u32 palette, u8 priority,
                                       u32 paletteOffset, BmpOamSys *bmpOam, PrintQueue *queue, HeapID heapId);
 void MysteryOamText_Delete(MysteryOamText *oamText);
 void MysteryOamText_Clear(MysteryOamText *oamText);

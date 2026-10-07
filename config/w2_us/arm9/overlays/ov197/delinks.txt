@@ -14,3 +14,8 @@ src/ov197/mystery_graphic.c:
     .text       start:0x021b8388 end:0x021b87ac
     .rodata     start:0x021be3a4 end:0x021be598
     .data       start:0x021be9cc end:0x021be9e0
+
+src/ov197/mystery_util.c:
+    .text       start:0x021b87ac end:0x021b9a20
+    .rodata     start:0x021be598 end:0x021be650
+    .data       start:0x021be9e0 end:0x021be9f0
