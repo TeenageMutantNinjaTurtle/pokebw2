@@ -63,6 +63,8 @@ typedef u16 GXRgb;
 
 #define GX_WNDMASK_NONE 0x00
 #define GX_WNDMASK_W0 0x01
+#define GX_WNDMASK_W1 0x02
+#define GX_WNDMASK_OW 0x04
 
 #define GX_WND_PLANEMASK_BG0 0x01
 #define GX_WND_PLANEMASK_BG1 0x02
@@ -183,6 +185,7 @@ typedef enum {
 #define GX_VRAM_BG_128_A GX_VRAM_A
 #define GX_VRAM_BG_128_D GX_VRAM_D
 #define GX_VRAM_BGEXTPLTT_NONE GX_VRAM_NONE
+#define GX_VRAM_BGEXTPLTT_23_G GX_VRAM_G
 #define GX_VRAM_SUB_BG_32_H GX_VRAM_H
 #define GX_VRAM_SUB_BG_128_C GX_VRAM_C
 #define GX_VRAM_SUB_BGEXTPLTT_NONE GX_VRAM_NONE
@@ -511,6 +514,9 @@ static inline void GXS_SetVisibleWnd(int window) {
 #define reg_G2_WININ (*(vu16 *)0x04000048)
 #define reg_G2_WINOUT (*(vu16 *)0x0400004a)
 #define REG_G2_WININ_WIN0IN_MASK 0x003f
+#define reg_G2_WIN1H (*(vu16 *)0x04000042)
+#define reg_G2_WIN1V (*(vu16 *)0x04000046)
+#define REG_G2_WININ_WIN1IN_MASK 0x3f00
 #define REG_G2_WINOUT_WINOUT_MASK 0x003f
 
 static inline void G2_SetWnd0Position(int x1, int y1, int x2, int y2) {
@@ -518,11 +524,25 @@ static inline void G2_SetWnd0Position(int x1, int y1, int x2, int y2) {
     reg_G2_WIN0V = (u16)(((y1 & 0xff) << 8) | (y2 & 0xff));
 }
 
+static inline void G2_SetWnd1Position(int x1, int y1, int x2, int y2) {
+    reg_G2_WIN1H = (u16)(((x1 & 0xff) << 8) | (x2 & 0xff));
+    reg_G2_WIN1V = (u16)(((y1 & 0xff) << 8) | (y2 & 0xff));
+}
+
 static inline void G2_SetWnd0InsidePlane(int wnd, BOOL effect) {
     u32 tmp = (reg_G2_WININ & ~REG_G2_WININ_WIN0IN_MASK) | wnd;
 
     if (effect) {
         tmp |= 0x20;
+    }
+    reg_G2_WININ = (u16)tmp;
+}
+
+static inline void G2_SetWnd1InsidePlane(int wnd, BOOL effect) {
+    u32 tmp = (reg_G2_WININ & ~REG_G2_WININ_WIN1IN_MASK) | (wnd << 8);
+
+    if (effect) {
+        tmp |= 0x2000;
     }
     reg_G2_WININ = (u16)tmp;
 }

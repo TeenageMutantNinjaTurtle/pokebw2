@@ -580,9 +580,9 @@ static void Enter_MessagePrintCore(WorldTradeWork *wk, MsgData *msgManager, int 
     BmpWin_FlushChar(wk->msgWin);
     BmpWin_DrawFrame(wk->msgWin, 0, 1, 14);
     if (stream) {
-        func_ov214_021e1774(wk->msgWin, 0, wk->talkString, 0, 0, &wk->print);
+        WorldTrade_StreamPrint(wk->msgWin, 0, wk->talkString, 0, 0, &wk->print);
     } else {
-        func_ov214_021e1754(wk->msgWin, 0, wk->talkString, 0, 0, &wk->print);
+        WorldTrade_Print(wk->msgWin, 0, wk->talkString, 0, 0, &wk->print);
     }
     wk->wait = 0;
 }
@@ -593,11 +593,11 @@ static int Enter_PrintCommonFunc(BmpWin *win, StrBuf *str, int x, int flag, u16 
 
     switch (flag) {
     case 1:
-        length = func_ov214_021e15c0(print, font, str, 0);
+        length = WorldTrade_GetStrWidth(print, font, str, 0);
         x = (BmpWin_GetSizeX(win) * 8 - length) / 2;
         break;
     case 2:
-        length = func_ov214_021e15c0(print, font, str, 0);
+        length = WorldTrade_GetStrWidth(print, font, str, 0);
         x = BmpWin_GetSizeX(win) * 8 - length;
         break;
     }
@@ -606,12 +606,12 @@ static int Enter_PrintCommonFunc(BmpWin *win, StrBuf *str, int x, int flag, u16 
 
 void WorldTrade_SysPrint(BmpWin *win, StrBuf *str, int x, int y, int flag, u16 color, WorldTradePrint *print) {
     x = Enter_PrintCommonFunc(win, str, x, flag, color, 0, print);
-    func_ov214_021e17c4(win, 0, str, x, y, 0, color, print);
+    WorldTrade_PrintColor(win, 0, str, x, y, 0, color, print);
 }
 
 void WorldTrade_TouchPrint(BmpWin *win, StrBuf *str, int x, int y, int flag, u16 color, WorldTradePrint *print) {
     x = Enter_PrintCommonFunc(win, str, x, flag, color, 0, print);
-    func_ov214_021e17c4(win, 0, str, x, y, 0, color, print);
+    WorldTrade_PrintColor(win, 0, str, x, y, 0, color, print);
 }
 
 static const u32 sExplainMsgTable[] = { 0xf7, 0xf8, 0xf9, 0xfa, 0xfb };

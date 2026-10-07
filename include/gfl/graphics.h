@@ -44,14 +44,13 @@ void func_02026e04(void *a0, u32 bg, u32 a2, HeapID heapId);
 void func_02026e48(void *a0, u32 bg);
 // Loads a palette from an archive into the fade's buffers
 void func_02026ee8(void *a0, u32 arcId, u32 fileId, HeapID heapId, u32 type, u32 size, u16 offset);
-// Copies a range of the hardware palette into the fade's buffer
-void func_02026f7c(void *a0, u32 type, u32 start, u32 size);
-// Starts a fade of the buffers in bufferFlags, of the palettes in maskFlags, from start to end sixteenths of the color
-void func_02026fe4(void *a0, u16 bufferFlags, u16 maskFlags, s8 wait, u8 start, u8 end, u16 color, TCBManager *tcbMgr);
-// Whether a palette fade is running
-BOOL func_02027780(void *a0);
+// Used by the Pokédex's detail screens (overlay 298) too
+void func_02026f08(void *a0, ArcTool *arc, u32 fileId, HeapID heapId, u32 bg, u32 size, u16 offset, u16 srcOffset);
+void func_02026f7c(void *a0, u32 bg, u32 offset, u32 size);
+void func_02026fe4(void *a0, u16 bgs, u16 mask, s8 wait, u8 start, u8 end, u16 color, TCBManager *tcbMgr);
 void func_0202778c(void *a0, u32 a1);
 void func_020275f8(void *a0);
+BOOL func_02027780(void *a0);
 void gfxSetEdgeColorTable(const GXRgb *table);
 void gfxSetFogTable(const u32 *table);
 

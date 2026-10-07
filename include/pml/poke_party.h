@@ -133,6 +133,8 @@ u32 func_02021034(u32 species, u32 form, u32 sex, BOOL egg);
 int func_0201f010(u8 fame);
 PartyPkm *PokeParty_GetPkm(PokeParty *party, u32 index);
 BoxPkm *func_0201d624(PartyPkm *pkm);
+// A new party Pokémon made from a box Pokémon, with its stats calculated
+PartyPkm *boxPkmRegenToPartyPkm(BoxPkm *pkm, HeapID heapId);
 int PokeParty_GetPkmCount(PokeParty *party);
 u32 PokeParty_GetFirstBattleReady(PokeParty *party);
 u32 isEggInParty(PokeParty *party);
@@ -148,6 +150,13 @@ void PokeParty_SwapPkms(PokeParty *party, u32 index1, u32 index2, HeapID heapId)
 // Reorders the party: order[i] is the index of the Pokémon that goes to position i
 void func_0201fff8(PokeParty *party, u32 *order, HeapID heapId);
 void PokeParty_RecoverAll(PokeParty *party);
+// A Pokémon's icon in archive 7: its file, and the palette of the file func_02021114 returns that it uses. The cells
+// and animations depend on the sub engine's OBJ VRAM mapping: func_02021154 and getOBJTileMapping_SubEng return them
+u32 PokeParty_GetIconIndex(u32 species, u32 form, u32 sex, BOOL egg);
+u32 func_02021034(u32 species, u32 form, u32 sex, BOOL egg);
+u32 func_02021114(void);
+u32 func_02021154(void);
+u32 getOBJTileMapping_SubEng(void);
 void PokeParty_ChangeForme(PartyPkm *pkm, u32 forme);
 // The form of Arceus for a plate, and of Genesect for a drive
 u16 _getTypeForPlate(u16 item);

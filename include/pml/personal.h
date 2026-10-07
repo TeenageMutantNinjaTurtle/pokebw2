@@ -12,7 +12,9 @@
 #define PERSONAL_ABILITY_1 26
 #define PERSONAL_ABILITY_2 27
 #define PERSONAL_ABILITY_HIDDEN 28
+#define PERSONAL_SEX_RATIO 20
 #define PERSONAL_HATCH_CYCLES 21
+#define PERSONAL_FORM_COUNT 32
 
 u32 PML_PersonalGetParamSingle(u16 species, u16 form, u32 param);
 void *PML_PersonalLoad(u16 species, u16 form, HeapID heapId);
