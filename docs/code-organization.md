@@ -21,8 +21,10 @@ every section.
   `lib/<name>/library.toml` for the library's compiler and flags, which `configure.py` and the probe read: `lib/spl/`
   (Nintendo's SPL particle library), `lib/dsprot/` (Nintendo's DS Protect, in overlays 165 and 337), `lib/nitro/`
   (NitroSDK), `lib/nnsys/` (NitroSystem: FND, G2D, G3D and GFD) and `lib/twl/` (TwlSDK's DSi libraries in the LTD
-  autoload: the camera, the DSP and the new DMA and WRAM functions).
-  NitroSDK, NitroSystem and TwlSDK have only headers so far, so no `library.toml` yet; the first source file of any adds
+  autoload: the camera, the DSP and the new DMA and WRAM functions; and in `lib/twl/src/`, the SSP JPEG encoder and
+  decoder with their EXIF writer and reader, linked into overlay 257 and built as Thumb with the game's compiler,
+  `-ipa file` and `-inline on,noauto`).
+  NitroSDK and NitroSystem have only headers so far, so no `library.toml` yet; the first source file of either adds
   one with the compiler it was built with. A library's public headers keep its name as their directory, as in
   `lib/nitro/include/nitro/os.h`, so code includes `"nitro/os.h"`. Every file is compiled with `include/` and every
   `lib/*/include/` on its search path.
