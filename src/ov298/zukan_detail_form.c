@@ -250,16 +250,6 @@ typedef struct {
 } FormEntry;
 
 typedef struct {
-    u8 bg;
-    u8 x;
-    u8 y;
-    u8 width;
-    u8 height;
-    u8 palette;
-    u8 fromEnd;
-} WindowData;
-
-typedef struct {
     u8 x;
     u8 y;
     u8 sequence;
@@ -1279,7 +1269,7 @@ static void ZukanDetailForm_GetEntryText(ZukanDetailFormParam *param, ZukanDetai
 
 static void ZukanDetailForm_CreateText(ZukanDetailFormParam *param, ZukanDetailFormWork *wk,
                                        ZukanDetailCommon *common) {
-    WindowData windows[WINDOW_COUNT] = {
+    ZukanDetailWindowData windows[WINDOW_COUNT] = {
         { 6, 19, 16, 8, 2, 0, 1 }, { 6, 27, 19, 2, 4, 0, 1 }, { 6, 3, 19, 23, 4, 0, 1 },
         { 2, 0, 1, 16, 4, 0, 1 },  { 2, 16, 1, 16, 4, 0, 1 },
     };

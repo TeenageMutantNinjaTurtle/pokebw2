@@ -2,6 +2,7 @@
 #define POKEBW2_APP_ZUKAN_DETAIL_H
 
 #include "types.h"
+#include "gfl/bg_sys.h"
 #include "gfl/clact.h"
 #include "gfl/heap.h"
 #include "gfl/overlay.h"
@@ -195,6 +196,25 @@ u32 ZukanDetail_LoadBG(BOOL loaded, HeapID heapId, u8 bg, u32 palettes, u8 palet
 void ZukanDetail_FreeBG(u32 bg, u32 chars);
 
 // zukan_detail_graphic.c: the screens' BGs, OBJs and 3D
+
+// A BG to create, as the graphics and the map page set them up
+typedef struct {
+    u32 bg;
+    BGSetup setup;
+    u32 mode;
+    u32 enabled;
+} ZukanDetailBGSetup;
+
+// A window to create, as BmpWin_CreateDynamic takes it, in the pages' tables
+typedef struct {
+    u8 bg;
+    u8 x;
+    u8 y;
+    u8 width;
+    u8 height;
+    u8 palette;
+    u8 fromEnd;
+} ZukanDetailWindowData;
 
 ZukanDetailGraphic *ZukanDetailGraphic_Create(u32 layout, HeapID heapId, BOOL with3D);
 void ZukanDetailGraphic_Free(ZukanDetailGraphic *graphic);
