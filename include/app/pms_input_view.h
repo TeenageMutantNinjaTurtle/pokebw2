@@ -73,8 +73,9 @@ PMSIVMenu *PMSIView_GetMenu(PMSInputView *vwk);
 ClActUnit *PMSIView_GetActUnit(PMSInputView *vwk);
 Font *PMSIView_GetFont(PMSInputView *vwk);
 PrintQueue *PMSIView_GetPrintQueue(PMSInputView *vwk);
-void PMSIView_GetObjRes2(PMSInputView *vwk, PMSIVObjRes *res, u32 lcd);
-void PMSIView_GetObjRes(PMSInputView *vwk, PMSIVObjRes *res, u32 lcd);
+// The resources of a screen's OBJ graphics. bgPriority is not used
+void PMSIView_GetObjRes2(PMSInputView *vwk, PMSIVObjRes *res, u32 lcd, u32 bgPriority);
+void PMSIView_GetObjRes(PMSInputView *vwk, PMSIVObjRes *res, u32 lcd, u32 bgPriority);
 ClActor *PMSIView_AddActor(PMSInputView *vwk, const PMSIVObjRes *res, u32 x, u32 y, u32 priority, int drawArea);
 int PMSIView_GetWordWinScrollDir(PMSInputView *vwk, u32 unused, u32 pos);
 void PMSIView_SetWordWinScrollBarY(PMSInputView *vwk, s16 y);

@@ -223,4 +223,3 @@ from:0x0217d636 kind:thumb_call to:0x0203defc module:main
 from:0x0217d6e4 kind:load to:0x0217c941 module:overlay(253)
 from:0x0217d6e8 kind:load to:0x0217caad module:overlay(253)
 from:0x0217d6ec kind:load to:0x0217ca31 module:overlay(253)
-from:0x0217d79c kind:load to:0x021d0001 module:overlays(36,194)

@@ -24,7 +24,11 @@ BOOL PMSInput_GetWordWinUpArrowVisible(const PMSInputWork *wk);
 BOOL PMSInput_GetWordWinDownArrowVisible(const PMSInputWork *wk);
 BOOL PMSInput_HasStartSentence(const PMSInputWork *wk);
 TCBManager *PMSInput_GetTCBManager(const PMSInputWork *wk);
-void func_ov185_021a30c0(const PMSInputWork *wk);
-BOOL func_ov185_021a30dc(const PMSInputWork *wk);
+// The search's letters and results, through pmsi_search.c
+void PMSInput_GetSearchInputStr(const PMSInputWork *wk, StrBuf *buf);
+void PMSInput_ResetSearch(const PMSInputWork *wk);
+u32 PMSInput_GetSearchResultCount(const PMSInputWork *wk);
+u32 PMSInput_GetSearchInputLen(const PMSInputWork *wk);
+void PMSInput_GetSearchResultStr(const PMSInputWork *wk, u32 index, StrBuf *buf);
 
 #endif // POKEBW2_APP_PMS_INPUT_H
