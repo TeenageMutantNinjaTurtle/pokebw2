@@ -5759,7 +5759,6 @@ data_ov036_021d5778 kind:data(any) addr:0x021d57b8
 data_ov036_021d577c kind:data(any) addr:0x021d57bc
 data_ov036_021d57a0 kind:bss addr:0x021d57e0
 data_ov036_021d6ce0 kind:bss addr:0x021d6d20 ambiguous
-data_ov036_021d6f6c kind:bss addr:0x021d6fac
 data_ov036_021d7448 kind:bss addr:0x021d7488 ambiguous
 data_ov036_021dd93c kind:bss addr:0x021dd97c ambiguous
 data_ov036_021dd940 kind:bss addr:0x021dd980

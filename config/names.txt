@@ -1764,6 +1764,7 @@ overlays/ov143 0x0219ff84 sMonolithTopEnabled
 overlays/ov143 0x0219ff9c sMonolithTopItems
 overlays/ov143 0x0219ffbc sMonolithTopBGSetup
 overlays/ov143 0x0219ffdc MONOLITH_TOP_PROC_FUNCTIONS
+overlays/ov144 0x0219f774 TOWNMAP_PROC_FUNCTIONS
 overlays/ov162 0x0219ce80 Title_Init
 overlays/ov162 0x0219ceb4 Title_UpdateTimer
 overlays/ov162 0x0219cf44 Title_HandleInput
@@ -4921,6 +4922,7 @@ overlays/ov257 0x021b67a4 sExifEncInteropIfdEntries
 overlays/ov257 0x021b6bc4 sExifEncIfd0Entries
 overlays/ov257 0x021b703c sExifEncIfd1Entries
 overlays/ov257 0x021b750c sExifEncExifIfdEntries
+overlays/ov259 0x021a039c XTRANSCEIVER_PROC_FUNCTIONS
 overlays/ov264 0x0219a098 CDEMO_PROC_FUNCTIONS
 overlays/ov271 0x021efe40 BrCore_ProcInit
 overlays/ov271 0x021effd8 BrCore_ProcExit
@@ -6748,6 +6750,7 @@ overlays/ov310 0x021a775c sCommonClActSetup
 overlays/ov310 0x021a7778 sCommonActors
 overlays/ov310 0x021a7794 sCommonVRAMConfig
 overlays/ov310 0x021a77e0 RESEARCH_RADAR_PROC_FUNCTIONS
+overlays/ov312 0x0217ecf8 GEONET_PROC_FUNCTIONS
 overlays/ov327 0x021b70d4 WBT_DOWNLOAD_PROC_FUNCTIONS
 overlays/ov332 0x021beee0 KeySystem_ProcInit
 overlays/ov332 0x021befa4 KeySystem_ProcExit

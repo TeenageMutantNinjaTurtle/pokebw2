@@ -56,6 +56,9 @@ void FieldG3D_RestoreSurface(Field *field);
 GameEvent *EventFieldSubprocessCall_CreateWithCallback(GameSystem *gsys, Field *field, s32 overlayId,
                                                        const GameProcFunctions *functions, void *param,
                                                        void (*callback)(void *work), void *work);
+// Events of overlay 36's other files that scripts start: a name input for the Pokémon, and another input with its result
+GameEvent *EventPokeNameWordSetInput_Create(GameSystem *gsys, u16 a1, u16 a2, u16 *result, WordSet *wordSet);
+GameEvent *func_ov036_021bfc9c(GameSystem *gsys, u16 *result);
 GameEvent *EventFieldSubprocessTransition_Create(GameSystem *gsys, Field *field, s32 overlayId,
                                                  const GameProcFunctions *functions, void *param);
 GameEvent *EventPlayerSpinDown_Create(GameEvent *event, GameSystem *gsys, Field *field);
