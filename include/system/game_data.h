@@ -168,6 +168,8 @@ BOOL GameData_CheckEventsPaused(GameData *gameData);
 void *func_02017968(GameData *gameData);
 // Where the Trial House work is kept
 TrialHouseWork **GetTrialHouseWkPPtr(GameData *gameData);
+// The follower of field/pair_sys.h
+FieldFollowWk *GetFieldFollowerCfg(GameData *gameData);
 void GameData_ResetSkipFrame(GameData *gameData);
 void GameData_Set30FPSMode(GameData *gameData, BOOL enable);
 u8 func_02017b70(GameData *gameData);

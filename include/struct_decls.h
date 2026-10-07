@@ -125,6 +125,7 @@ typedef struct BtlFieldSituation BtlFieldSituation;
 typedef struct BtlFieldStatus BtlFieldStatus;
 typedef struct BtlSetup BtlSetup;
 typedef struct BtlSetupTrainer BtlSetupTrainer;
+typedef struct FieldFollowWk FieldFollowWk;
 typedef struct BtlvCore BtlvCore;
 typedef struct BtlvPokeListCmd BtlvPokeListCmd;
 typedef struct BtlvPokeSelectParam BtlvPokeSelectParam;
