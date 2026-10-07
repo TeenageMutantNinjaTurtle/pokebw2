@@ -702,6 +702,12 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   reproduced under `-nodead`: wipe_sub.c's `.data` and `.rodata` hold the parameters of about 31 handlers the ROM
   doesn't have, as their own function-local statics, which an unemitted handler takes with it. Making them globals
   read by unemitted statics was not tried; it would put names on data Game Freak kept local.
+- Tables that only code the linker dropped read can be kept in the shared section as globals read by unemitted
+  static functions. `mbp.c` (overlay 181) keeps NitroSDK's demo tables of state and callback names this way, after
+  its heap ID and before their strings: a `static` table read only by an unemitted function is dropped with it, and a
+  global that nothing reads gets a section of its own among the strings. The string literals of such initializers
+  each get a section of their own, laid out by size after the shared section, and their equal sizes don't follow
+  `rodata_order.py`'s model: two pairs stay swapped in every order of the tables tried.
 - Static data is sorted by size. MWCC lists each object of a section when it is declared, a local struct initializer
   when its function is, and heapsorts the list by size starting from the last object declared. Equal sizes come out
   in no declared order: palanm.c's three 4-byte weights declared R, G, B lie G, R, B (`rodata_order.py --permute`

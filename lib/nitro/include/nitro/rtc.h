@@ -29,7 +29,8 @@ typedef struct {
 // The date, as the game last read it
 void RTC_GetCachedDate(RTCDate *date);
 void RTC_GetCachedTime(RTCTime *time);
-void func_0207c3bc(void *date);
+// OS_GetOwnerInfoEx: fills an OSOwnerInfoEx
+void func_0207c3bc(void *info);
 
 // NitroSDK's RTC_Init, RTC_GetDateTimeAsync, RTC_ConvertDateToDay and RTC_ConvertDateTimeToSecond
 void func_0207cb88(void);

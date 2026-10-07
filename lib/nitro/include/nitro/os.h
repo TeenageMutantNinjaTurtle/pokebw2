@@ -128,6 +128,18 @@ typedef struct {
     u16 commentLength;
 } OSOwnerInfo;
 
+// TwlSDK's owner settings, which add the country
+typedef struct {
+    u8 language;
+    u8 favoriteColor;
+    OSBirthday birthday;
+    u16 nickName[OS_OWNERINFO_NICKNAME_MAX + 1];
+    u16 nickNameLength;
+    u16 comment[OS_OWNERINFO_COMMENT_MAX + 1];
+    u16 commentLength;
+    u8 country;
+} OSOwnerInfoEx;
+
 void OS_GetOwnerInfo(OSOwnerInfo *info);
 
 #endif // POKEBW2_NITRO_OS_H
