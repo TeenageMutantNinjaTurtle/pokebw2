@@ -9,7 +9,8 @@
 
 // The battle's surroundings, which GetFieldEffectData returns
 struct BtlFieldSituation {
-    u8 unk00[8];
+    u32 unk00;
+    u32 terrain;
     u8 weather;
     u8 unk09;
     u16 zoneId;
@@ -112,10 +113,17 @@ struct BtlSetup {
     u8 unkFF;
     // Each client's remaining HP, in percent of its party's total
     u32 unk100[4];
-    u8 unk110[0x24];
+    u8 unk110[0x14];
+    u32 unk124;
+    u8 unk128;
+    u8 unk129;
+    u32 unk12C;
+    u32 unk130;
     u32 unk134;
     u16 unk138;
     u16 unk13a;
+    // Added to the defeated mon's level for the experience it gives
+    s8 levelDiff;
 };
 
 BtlSetup *BtlSetup_Create(HeapID heapId);
@@ -127,6 +135,8 @@ void BtlSetup_SetNet1v1Single(BtlSetup *setup, GameData *gameData, NetHandle *ha
 void BtlSetup_SetNetRotation(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, HeapID heapId);
 void BtlSetup_SetNetTriple(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, HeapID heapId);
 void BtlSetup_SetNetMultiVsNet(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, u8 a4, HeapID heapId);
+// Frees what the setup holds and clears it
+void func_02017cac(BtlSetup *setup);
 void func_02017cfc(BtlSetup *setup, PokeParty *party, u32 a2);
 void func_02017d30(BtlSetup *setup, Regulation *regulation, HeapID heapId);
 void func_020186b0(BtlSetup *setup, u32 a1);

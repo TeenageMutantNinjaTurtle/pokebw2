@@ -14,6 +14,21 @@
 // The UID of the player's actor
 #define ACTOR_UID_PLAYER 0xff
 
+// The functions of an actor's kind of scene node, by its config's sceneNodeType: onDelete when the actor is deleted
+// or its model is changed, suspend and wakeUp around a suspension of the system
+typedef struct {
+    void (*onCreate)(FieldActor *actor);
+    void (*update)(FieldActor *actor);
+    void (*onDelete)(FieldActor *actor);
+    void (*suspend)(FieldActor *actor);
+    void (*wakeUp)(FieldActor *actor);
+    u32 (*getBlActIdx)(FieldActor *actor, u32 param);
+} FieldActorSceneNodeVTable;
+
+// Overlay 36's tables of the move codes' functions, by move code, and of the scene nodes' functions, by sceneNodeType
+extern const FieldActorMoveCode *const ACTOR_MOVE_CODE_FUNCTION_TABLES[];
+extern const FieldActorSceneNodeVTable *const FIELD_ACTOR_MAIN_VTABLES[];
+
 // A position on the grid
 typedef struct {
     s16 x;
@@ -40,7 +55,7 @@ struct FieldActor {
     u16 param1;
     u16 param2;
     u16 nextAcmd;
-    s16 unk28;
+    u16 acmdState;
     u16 unk2A;
     s16 areaW;
     s16 areaH;
@@ -51,9 +66,7 @@ struct FieldActor {
     s16 unk42;
     VecFx32 wPos;
     VecFx32 wPosOffset;
-    u32 unk5C;
-    u32 unk60;
-    u32 unk64;
+    VecFx32 unk5C;
     VecFx32 unk68;
     u32 currentTileUnder;
     u32 currentTileUnderOrigY;
@@ -67,16 +80,19 @@ struct FieldActor {
     TCB *tcb;
     MMSys *actorSystem;
     const FieldActorMoveCode *moveCodeVTable;
-    void *sceneNodeVTable;
+    const FieldActorSceneNodeVTable *sceneNodeVTable;
     ActorPositionRail defaultRailPos;
-    u8 unkA0[0x44];
+    u32 unkA0;
+    u8 unkA4[0x10];
+    u8 unkB4[0x10];
+    u8 blActWork[0x20];
     FieldActorConfig config;
 };
 
 struct MMSys {
     u32 flags;
     u16 actorCapacity;
-    u16 actorCount;
+    s16 actorCount;
     HeapID heapId;
     HeapID fieldHeapId;
     u16 unkC;
@@ -86,17 +102,18 @@ struct MMSys {
     ArcTool *actorConfigArc;
     FieldActor *actorHeap;
     void *tcbMgrHeap;
-    void *tcbMgr;
+    TCBManager *tcbMgr;
     void *fieldBlAct;
     void *actorG3DSystem;
-    void *mmodelSave;
+    StrengthRockSave *mmodelSave;
     GameData *gameData;
     FieldG3DMapper *g3dMapper;
     NoGridMapper *noGridMapper;
     Field *field;
-    void *unk44;
+    u16 *cameraAngle;
     void *colorPostFx;
-    void *actorConfigCache;
+    // The count of cached configs and their object codes, then the configs, from the word after the even count of codes
+    u16 *actorConfigCache;
 };
 
 #endif // POKEBW2_FIELD_FIELD_ACTOR_INTERNAL_H

@@ -66,27 +66,27 @@ static void func_ov194_021bfba4(ResSprite *sprite) {
     if (sprite->actor != NULL) {
         func_0204c108(sprite->actor);
         sprite->actor = NULL;
-        func_ov139_02199a44(sprite);
+        func_ov139_02199a44(&sprite->res);
     }
 }
 
 // A type icon of the Pokémon: its first type (0) or its second (1)
 static void func_ov194_021bfbc0(ResSprite *sprite, PartyPkm *pkm, int index, ClActUnit *unit, int x, int y,
                                 u32 vramType, HeapID heapId) {
-    ResSpriteParam param;
+    Ov139ObjResSetup param;
     u8 type = PokeParty_GetParam(pkm, PKM_PARAM_TYPE1 + index, NULL);
     param.vramType = vramType;
     param.flags = 0;
     param.arcId = getUINarcIdx();
-    param.plttFile = func_0202d7e4();
+    param.paletteFile = func_0202d7e4();
     param.charFile = func_0202d7f4(type);
     param.cellFile = func_0202d7f8(2);
     param.animFile = func_0202d7fc(2);
-    param.plttOffset = 8;
-    param.plttSrcOffset = 0;
-    param.plttCount = 3;
-    func_ov139_021999c8(sprite, &param, unit, heapId);
-    sprite->actor = func_ov139_02199a5c(sprite, unit, x, y, 0, heapId);
+    param.paletteOffset = 8;
+    param.paletteStart = 0;
+    param.paletteCount = 3;
+    func_ov139_021999c8(&sprite->res, &param, unit, heapId);
+    sprite->actor = func_ov139_02199a5c(&sprite->res, unit, x, y, 0, heapId);
     func_0204c378(sprite->actor, func_0202d7e8(type), 1);
 }
 
@@ -94,28 +94,28 @@ static void func_ov194_021bfc50(ResSprite *sprite) {
     if (sprite->actor != NULL) {
         func_0204c108(sprite->actor);
         sprite->actor = NULL;
-        func_ov139_02199a44(sprite);
+        func_ov139_02199a44(&sprite->res);
     }
 }
 
 // The icon of the Poké Ball the Pokémon was caught in
 static void func_ov194_021bfc6c(ResSprite *sprite, PartyPkm *pkm, ClActUnit *unit, int x, int y, u32 vramType,
                                 HeapID heapId, u32 plttOffset) {
-    ResSpriteParam param;
+    Ov139ObjResSetup param;
     u32 ball = PokeParty_GetParam(pkm, PKM_PARAM_POKEBALL, NULL);
     func_ov194_021bfc50(sprite);
     param.vramType = vramType;
     param.flags = 0;
     param.arcId = getUINarcIdx();
-    param.plttFile = func_0202d91c(ball);
+    param.paletteFile = func_0202d91c(ball);
     param.charFile = func_0202d928(ball);
     param.cellFile = func_0202d934(ball, 2);
     param.animFile = func_0202d93c(ball, 2);
-    param.plttOffset = plttOffset;
-    param.plttSrcOffset = 0;
-    param.plttCount = 1;
-    func_ov139_021999c8(sprite, &param, unit, heapId);
-    sprite->actor = func_ov139_02199a5c(sprite, unit, x, y, 0, heapId);
+    param.paletteOffset = plttOffset;
+    param.paletteStart = 0;
+    param.paletteCount = 1;
+    func_ov139_021999c8(&sprite->res, &param, unit, heapId);
+    sprite->actor = func_ov139_02199a5c(&sprite->res, unit, x, y, 0, heapId);
 }
 
 // Opens the message window with wk->strbuf, printed a character at a time or all at once

@@ -35,6 +35,7 @@ typedef struct {
 } TaskMenuSetup;
 
 void *func_0202d974(const TaskMenuSetup *setup, void *res);
+void *func_0202da48(const TaskMenuSetup *setup, void *res);
 void func_0202da54(void *menu);
 void func_0202db70(void *menu);
 // Whether an item was picked, and which
@@ -44,6 +45,8 @@ u8 func_0202dc00(void *menu);
 void func_0202dc04(void *menu, BOOL show);
 // Whether a button was touched
 BOOL func_0202dc1c(void *menu);
+// Puts the cursor on an item
+void func_0202def8(void *menu, u32 pos);
 
 // The graphics of the menu's buttons, loaded into a BG of the main (bg < 4) or sub engine
 void *func_0202e168(u32 bg, u32 palette, Font *font, PrintQueue *printQueue, HeapID heapId);

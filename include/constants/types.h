@@ -20,5 +20,7 @@
 #define TYPE_ICE 14
 #define TYPE_DRAGON 15
 #define TYPE_DARK 16
+// The type of a typeless move
+#define TYPE_NULL 17
 
 #endif // POKEBW2_CONSTANTS_TYPES_H

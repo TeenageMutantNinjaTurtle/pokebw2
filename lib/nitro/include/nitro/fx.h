@@ -83,6 +83,9 @@ void MAT3_Identity(MtxFx33 *mtx);
 
 // Rotations about an axis from its sine and cosine: NitroSDK's MTX_Rot22_, MTX_RotX33_ and the rest
 void MAT2_Rotation(MtxFx22 *mtx, fx32 sin, fx32 cos);
+// NitroSDK's MTX_Identity22 and MTX_Scale22
+void MAT2_Identity(MtxFx22 *mtx);
+void MAT2_Scaling(MtxFx22 *mtx, fx32 x, fx32 y);
 void MAT43_RotationY(MtxFx43 *mtx, fx32 sin, fx32 cos);
 void MAT3_RotationY(MtxFx33 *mtx, fx32 sin, fx32 cos);
 void MAT3_RotationX(MtxFx33 *mtx, fx32 sin, fx32 cos);

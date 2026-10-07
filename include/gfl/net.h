@@ -167,6 +167,9 @@ void func_02011de0(void);
 // Whether the error was handled, after shutting the connection down
 BOOL func_02012154(void);
 void func_02012144(void);
+void *func_02012908(HeapID heapId, u32 a1);
+void func_02012994(void *work);
+void func_02012a4c(void);
 void GFL_NetErrAbort(void);
 BOOL func_0202bde0(GameCommSys *comm);
 

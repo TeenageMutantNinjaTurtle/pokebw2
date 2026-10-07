@@ -6,7 +6,12 @@
 #include "struct_decls.h"
 
 struct PlayerActionPerms {
-    u8 data[0x20];
+    u32 unk0;
+    u32 exState;
+    u16 paired;
+    u8 unkA[10];
+    // For each field action, -1 if it is blocked where the player stands
+    s8 blocked[12];
 };
 
 // What the player can do where they stand, which the hidden moves check
@@ -23,7 +28,7 @@ struct PlayerActionPossibilities {
 BOOL IsNPCStrengthRock(u16 objCode);
 BOOL func_ov012_0216820c(MMSys *actorSystem, const VecFx32 *position);
 
-void PlayerActionPerms_Create(PlayerActionPerms *perms, GameSystem *gsys, Field *field);
+void PlayerActionPerms_SetActionBlocked(PlayerActionPerms *perms, u32 action, s32 blocked);
 u8 PlayerActionPerms_IsActionBlocked(PlayerActionPerms *perms, u32 action);
 void CalcPlayerActionPossibilities(Field *field, PlayerActionPossibilities *action);
 

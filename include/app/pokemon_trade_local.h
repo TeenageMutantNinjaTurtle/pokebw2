@@ -99,6 +99,12 @@ typedef struct {
 
 typedef void (*PokemonTradeState)(PokemonTradeWork *wk);
 
+// Overlay 139's OBJ resources, and the actor made of them
+typedef struct {
+    Ov139ObjRes res;
+    ClActor *actor;
+} ResSprite;
+
 // The bitmaps of a side's panel in a negotiation: the player's name, and the three Pokémon
 typedef struct {
     GFLBitmap *player;
@@ -262,7 +268,7 @@ struct PokemonTradeWork {
     ResSprite typeIcons[4];
     ResSprite unk950[3];
     u8 unk98C[0x34];
-    TouchBar *touchBar;
+    Ov139TouchBar *touchBar;
     ClActUnit *clactUnit;
     TCB *vblankTcb;
     // The Pokémon icons of the twelve columns of the strip that are set up, five to a column: their characters, their

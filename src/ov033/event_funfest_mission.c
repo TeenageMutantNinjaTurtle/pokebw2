@@ -13,10 +13,6 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 
-struct FestMissionConfig {
-    u32 words[11];
-};
-
 struct FestMissionEventArgs {
     FestMissionConfig config;
     u32 unk2C;

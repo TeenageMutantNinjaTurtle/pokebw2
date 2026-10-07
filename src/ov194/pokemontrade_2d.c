@@ -113,23 +113,23 @@ static u8 sSpeciesInitials[] = {
 };
 
 void func_ov194_021c2a24(PokemonTradeWork *wk) {
-    TouchBarItem items[] = {
-        { 1, 232, 168 },
-        { TOUCHBAR_ICON_CUSTOM, 28, 168 },
-        { TOUCHBAR_ICON_CUSTOM + 1, 204, 168 },
-        { TOUCHBAR_ICON_CUSTOM + 2, 48, 168 },
+    Ov139TouchBarItem items[] = {
+        { 1, { 232, 168 } },
+        { OV139_TOUCHBAR_ICON_CUSTOM, { 28, 168 } },
+        { OV139_TOUCHBAR_ICON_CUSTOM + 1, { 204, 168 } },
+        { OV139_TOUCHBAR_ICON_CUSTOM + 2, { 48, 168 } },
     };
-    TouchBarSetup setup;
+    Ov139TouchBarSetup setup;
 
     sys_memset(&setup, 0, sizeof(setup));
     setup.items = items;
     setup.count = NELEMS(items);
     setup.unit = wk->clactUnit;
     setup.unk1C = TRUE;
-    setup.bgPltt = 7;
-    setup.objPltt = 0;
-    setup.mapping = 2;
-    setup.bgFrame = 4;
+    setup.bgPalette = 7;
+    setup.objPalette = 0;
+    setup.vramType = 2;
+    setup.bg = 4;
 
     items[1].charRes = wk->objRes[TRADE_OBJRES_CHAR_SUB];
     items[1].plttRes = wk->objRes[TRADE_OBJRES_PLTT_SUB];
@@ -159,8 +159,8 @@ void func_ov194_021c2a24(PokemonTradeWork *wk) {
     items[3].se = SEQ_SE_DECIDE1;
 
     wk->touchBar = func_ov139_02199aa0(&setup, wk->heapId);
-    func_ov139_02199d18(wk->touchBar, TOUCHBAR_ICON_CUSTOM + 2, FALSE);
-    func_ov139_02199d18(wk->touchBar, TOUCHBAR_ICON_CUSTOM + 1, FALSE);
+    func_ov139_02199d18(wk->touchBar, OV139_TOUCHBAR_ICON_CUSTOM + 2, FALSE);
+    func_ov139_02199d18(wk->touchBar, OV139_TOUCHBAR_ICON_CUSTOM + 1, FALSE);
     func_ov139_02199ce0(wk->touchBar, 2);
 }
 

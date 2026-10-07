@@ -2,6 +2,7 @@
 #include "app/ov174.h"
 #include "app/pokemon_trade.h"
 #include "battle/battle_proc.h"
+#include "battle/btl_net.h"
 #include "battle/btl_setup.h"
 #include "constants/pokemon.h"
 #include "constants/sound.h"
@@ -493,4 +494,17 @@ void func_ov012_02150ccc(EventIRCWork *work) {
         GFL_SndBGMFadeIn(60);
         work->bgm = 0;
     }
+}
+
+// Accessors for the infrared menu of overlay 36
+void func_ov012_02150cec(EventIRCWork *work, u32 mode) {
+    work->mode = mode;
+}
+
+GameSystem *func_ov012_02150cf0(EventIRCWork *work) {
+    return work->gsys;
+}
+
+SaveControl *func_ov012_02150cf4(EventIRCWork *work) {
+    return work->save;
 }

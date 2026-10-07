@@ -7,6 +7,7 @@
 #include "field/field_event.h"
 #include "field/field_script.h"
 #include "field/funfest_scripts.h"
+#include "field/game_beacon_set.h"
 #include "save/high_link.h"
 #include "save/save_control.h"
 #include "struct_decls.h"

@@ -1,5 +1,6 @@
 #include "types.h"
 #include "battle/battle_proc.h"
+#include "battle/btl_net.h"
 #include "battle/btl_setup.h"
 #include "field/bsubway_scr.h"
 #include "field/event_make.h"

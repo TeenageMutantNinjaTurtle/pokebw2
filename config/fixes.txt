@@ -72,6 +72,21 @@ overlays/ov012 0x02150ad0 overlay_id 194
 overlays/ov012 0x02150c30 overlay_id 284
 overlays/ov012 0x02150c38 overlay_id 175
 overlays/ov012 0x02150de2 reloc_module overlay(211)
+overlays/ov012 0x02151ec0 overlay_id 208
+overlays/ov012 0x02151ec4 overlay_id 209
+overlays/ov012 0x02151ef4 overlay_id 209
+overlays/ov012 0x02151ef8 overlay_id 208
+overlays/ov012 0x02151f16 reloc_module overlay(208)
+overlays/ov012 0x02151f3c reloc_module overlay(208)
+overlays/ov012 0x02152116 reloc_module overlay(210)
+overlays/ov012 0x0215212c reloc_module overlay(210)
+overlays/ov012 0x0215217c overlay_id 209
+overlays/ov012 0x021521a2 reloc_module overlay(210)
+overlays/ov012 0x021521d0 overlay_id 209
+overlays/ov012 0x0215220a reloc_module overlay(209)
+overlays/ov012 0x0215229a reloc_module overlay(210)
+overlays/ov012 0x02152ba0 reloc_addend 0x60
+overlays/ov012 0x021530f0 reloc_addend 0x60
 overlays/ov012 0x02157b20 overlay_id 2
 overlays/ov012 0x02157b74 overlay_id 3
 overlays/ov012 0x02157b78 reloc_module overlay(3)
@@ -101,8 +116,51 @@ overlays/ov012 0x0215c214 overlay_id 215
 overlays/ov012 0x0215c2c4 overlay_id 215
 overlays/ov012 0x0215c2e4 overlay_id 215
 overlays/ov012 0x0215ed58 reloc_addend 1
+overlays/ov012 0x0215f01c reloc_module overlay(36)
+overlays/ov012 0x0215f020 reloc_module overlay(36)
+overlays/ov012 0x0215f48a reloc_module overlay(155)
+overlays/ov012 0x0215f4a4 overlay_id 155
+overlays/ov012 0x0215f4bc reloc_module overlay(155)
+overlays/ov012 0x0215f514 overlay_id 155
+overlays/ov012 0x0215f558 overlay_id 155
+overlays/ov012 0x02160a60 overlay_id 293
+overlays/ov012 0x02160a64 reloc_module overlay(293)
+overlays/ov012 0x02160cd4 overlay_id 311
+overlays/ov012 0x021611d8 overlay_id 185
+overlays/ov012 0x021611dc reloc_module overlay(185)
+overlays/ov012 0x02162f3c overlay_id 313
+overlays/ov012 0x02162f40 reloc_module overlay(313)
+overlays/ov012 0x02164fd0 reloc_module overlay(172)
+overlays/ov012 0x02165078 reloc_module overlay(330)
+overlays/ov012 0x021650a2 reloc_module overlay(330)
+overlays/ov012 0x021650e8 overlay_id 172
+overlays/ov012 0x021650f0 overlay_id 330
 overlays/ov012 0x0216569c reloc_module overlay(129)
+overlays/ov012 0x02165d96 reloc_module overlay(106)
+overlays/ov012 0x02165d9c reloc_module overlay(106)
+overlays/ov012 0x02165e22 reloc_module overlay(106)
+overlays/ov012 0x02165e2c reloc_module overlay(106)
+overlays/ov012 0x02165e36 reloc_module overlay(106)
+overlays/ov012 0x02165e3c reloc_module overlay(106)
+overlays/ov012 0x0216628c overlay_id 141
+overlays/ov012 0x02166290 reloc_module overlay(141)
+overlays/ov012 0x021663a0 overlay_id 167
+overlays/ov012 0x021663a4 reloc_module overlay(167)
+overlays/ov012 0x021663a8 reloc_module overlay(167)
+overlays/ov012 0x02168430 reloc_module overlay(24)
+overlays/ov012 0x0216843e reloc_module overlay(25)
+overlays/ov012 0x02169448 overlay_id 185
+overlays/ov012 0x0216944c reloc_module overlay(185)
+overlays/ov012 0x021694dc overlay_id 185
+overlays/ov012 0x02169704 overlay_id 187
 overlays/ov012 0x02169c38 reloc_module overlay(133)
+overlays/ov012 0x02169c52 reloc_module overlay(133)
+overlays/ov012 0x0216a948 overlay_id 332
+overlays/ov012 0x0216a94c reloc_module overlay(332)
+overlays/ov012 0x0216acd8 overlay_id 59
+overlays/ov012 0x0216acdc overlay_id 60
+overlays/ov012 0x0216acf4 overlay_id 60
+overlays/ov012 0x0216acf8 overlay_id 59
 overlays/ov012 0x0216c1fc reloc_module overlay(53)
 overlays/ov012 0x0216c210 reloc_module overlay(54)
 overlays/ov012 0x0216c224 reloc_module overlay(55)
@@ -136,6 +194,11 @@ overlays/ov012 0x0216cce8 overlay_id 145
 overlays/ov012 0x0216ccec reloc_module overlay(145)
 overlays/ov012 0x0216cdc8 add_data data_ov012_0216cdc8
 overlays/ov012 0x0216cdc9 remove_symbol
+overlays/ov012 0x0216cdf4 reloc_module overlay(35)
+overlays/ov012 0x0216dd60 reloc_module overlay(186)
+overlays/ov012 0x0216dd64 reloc_module overlay(186)
+overlays/ov012 0x0216e094 remove_symbol
+overlays/ov012 0x0216e170 remove_symbol
 overlays/ov013 0x0216e76c reloc_module overlay(308)
 overlays/ov014 0x0216e8a0 reloc_module overlay(328)
 overlays/ov014 0x0216e8a8 reloc_module overlay(156)
@@ -918,7 +981,9 @@ overlays/ov214 0x021e2e68 remove_symbol
 overlays/ov214 0x021e2e6a remove_symbol
 overlays/ov214 0x021e2e6c remove_symbol
 overlays/ov215 0x021ab0c8 remove_reloc
+overlays/ov255 0x021d7454 remove_reloc
 overlays/ov257 0x021acc14 add_reloc load,overlay(257),0x021b6238
+overlays/ov260 0x021b51fa reloc_module overlay(262)
 overlays/ov260 0x021bb788 reloc_module overlay(189)
 overlays/ov260 0x021bb902 reloc_module overlay(189)
 overlays/ov260 0x021bbba6 reloc_module overlay(189)

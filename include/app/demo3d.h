@@ -19,7 +19,9 @@ typedef struct {
     u8 minute;
     u8 season : 7;
     u8 playerSex : 1;
-    u8 unk10[8];
+    u32 unk10;
+    // What the demo left, 2 for one demo of the Royal Unova
+    u32 result;
 } Demo3DParam;
 
 extern const GameProcFunctions data_ov293_021a3d6c;

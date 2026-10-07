@@ -11,13 +11,19 @@
 // The name entry, overlay 280
 
 // What the name entry is for
+#define NAME_ENTRY_POKEMON 1
 #define NAME_ENTRY_RIVAL 3
 
 typedef struct {
     u32 mode;
+    // The gender, or the Pokémon's species
     u16 gender;
+    // The Pokémon's form, and its sex in the high byte
     u16 unk6;
-    u8 unk8[0x10];
+    PartyPkm *pkm;
+    u32 unkC;
+    u32 unk10;
+    u32 unk14;
     u32 maxLength;
     // 1 when the name is to be left as it was
     u32 unk1C;
@@ -31,17 +37,21 @@ typedef struct {
     u32 unk34;
 } NameEntryParam;
 
-// In ov012
+// Overlay 12's namein_setup.c
 // The name starts as a copy of name, if given
 NameEntryParam *setupNameEntry(HeapID heapId, u32 mode, u32 a2, u32 a3, u32 maxLength, const StrBuf *name,
                                TrainerGameInfoSave *gameInfo);
 // The name entry for a Pokémon's nickname
-NameEntryParam *setupPokemonNameEntry(HeapID heapId, PartyPkm *pkm, u32 a2, u32 a3, TrainerGameInfoSave *gameInfo);
+NameEntryParam *setupPokemonNameEntry(HeapID heapId, PartyPkm *pkm, u32 maxLength, const StrBuf *name,
+                                      TrainerGameInfoSave *gameInfo);
+NameEntryParam *pokemonNameEntry(HeapID heapId, PartyPkm *pkm, u32 maxLength, const StrBuf *name, u32 unkC, u32 unk10,
+                                 u32 unk14, TrainerGameInfoSave *gameInfo);
 void func_ov012_02165ae8(NameEntryParam *param);
 // Copies the entered name, and compares it with a string
 void func_ov012_02165afc(NameEntryParam *param, StrBuf *dest);
 BOOL func_ov012_02165b0c(NameEntryParam *param);
 BOOL func_ov012_02165b10(NameEntryParam *param, const StrBuf *str);
+// Overlay 12
 void func_ov012_021603ec(StrBuf *name, u8 value);
 
 extern const GameProcFunctions NAME_ENTRY_PROC_FUNCTIONS;
