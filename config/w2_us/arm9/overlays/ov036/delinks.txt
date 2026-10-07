@@ -134,3 +134,27 @@ src/ov036/fldeff_namipoke.c:
     .text       start:0x021a43c4 end:0x021a50e4
     .rodata     start:0x021d0628 end:0x021d0700
     .data       start:0x021d50a0 end:0x021d50b4
+
+src/ov036/fldeff_iwakudaki.c:
+    complete
+    .text       start:0x021a5644 end:0x021a5868
+    .rodata     start:0x021d075c end:0x021d07ac
+    .data       start:0x021d511c end:0x021d5140
+
+src/ov036/fldeff_fishing.c:
+    complete
+    .text       start:0x021a5868 end:0x021a5a58
+    .rodata     start:0x021d07ac end:0x021d0804
+    .data       start:0x021d5140 end:0x021d5158
+
+src/ov036/fldeff_fes_kira.c:
+    complete
+    .text       start:0x021a5a58 end:0x021a5d6c
+    .rodata     start:0x021d0804 end:0x021d0854
+    .data       start:0x021d5158 end:0x021d5178
+
+src/ov036/event_trainer_eye.c:
+    complete
+    .text       start:0x021a5d6c end:0x021a66a8
+    .rodata     start:0x021d0854 end:0x021d08ac
+    .data       start:0x021d5178 end:0x021d518c

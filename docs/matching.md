@@ -53,6 +53,14 @@ Same instructions, registers swapped.
 - A constant built from another follows the store order: with `bob = FX32_ONE;` written before
   `bobSpeed = FX32_CONST(0.25);`, MWCC builds 0x1000 and gets 0x400 from it with `lsrs #2`; in the other order it
   builds 0x400 and shifts it left. `fldeff_namipoke.c`'s surfing Pokémon sets its bobbing so.
+- A call's result passed straight to a narrower parameter is copied to the argument register and narrowed there (`adds
+  r1, r0, #0; lsls r1, r1, #0x18; lsrs r1, r1, #0x18`). Narrowed in `r0` and shifted into the argument register (`lsls
+  r0, r0, #0x18; lsrs r1, r0, #0x18`), it went through a `u8` or `u16` local first, as `u8 targetId =
+  BattleEventVar_GetValue(4);` does in the move handlers for Foul Play and Captivate, and `u16 item =
+  GetBattleMonHeldItem(mon);` in `handler_common.c`.
+- A function whose callers halve or compare its result signed returns a signed type even if what it returns is unsigned:
+  `RawBattleMonStat` returns `s32`, so `(RawBattleMonStat(a, 8) + RawBattleMonStat(b, 8)) / 2` divides with `asr` and
+  its sign fix in Power Split and Guard Split, while its own code is the same as with `u32`.
 - The operands of `*` are loaded in source order, so a multiply whose registers are swapped has its operands swapped
   in the source.
 - The terms of a three-term `|` chain are not loaded in source order: `a | b | c` loads `c`, then `a`, then `b`.
@@ -263,6 +271,14 @@ Same instructions, scheduled in another order.
   either square root, `distY = FX_Mul(dy, dy);`, keeps `dy`'s extension in a stack slot across the first one, and only
   the sum written as a `static inline` function, `distXZ = SquaredLengthXZ(dx, dz);`, puts that extension before the
   sum's multiplies. The same sum written in place, in any statement order, cast or split, does not.
+- A plain argument loaded before another argument that is a call was in a local: mystery_util.c's
+  `MysteryTextWinCopy_Apply` loads `copy->bitmaps[i]` before calling `BmpWin_GetBitmap` only with
+  `GFLBitmap *bitmap = copy->bitmaps[i]; GFL_BitmapCopy(bitmap, BmpWin_GetBitmap(...));`, where the call written in
+  place of the local is evaluated first.
+- An argument for an inlined function that MWCC copies into its one use, where the original computes it at the
+  inline's entry and spills it, was a local of the caller: `mystery.c`'s `MysteryEffect_Init` sets
+  `tailHeapId = HEAPID_TAIL(heapId);` before calling the inlined gift-Pokémon routine, which reaches the original's size,
+  where `HEAPID_TAIL(heapId)` written as the argument is 4 bytes short.
 
 ## An instruction too many or too few
 
@@ -468,6 +484,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   `const` keeps the source order (app_taskmenu.c's `AppTaskMenu_Create`).
 - A range test `subs; subs; cmp; bhi` is an unsigned difference in the source, `x - left <= right - left` on `u32`
   values; MWCC doesn't fold `x >= left && x <= right` into it (`AppTaskMenuWin_IsTouched`).
+- A value narrowed to `s16` once and also used unnarrowed in `16 - x`, as in
+  `(s16)(16 - alpha) << 8 | (s16)alpha` for `BLDALPHA`, came from an inline with `s16` parameters:
+  `mystery.c`'s effects match with `static inline void Mystery_SetBlendAlpha(s16 ev1, s16 ev2)` storing
+  `ev1 | (ev2 << 8)`, called as `Mystery_SetBlendAlpha(alpha, 16 - alpha)` with a `u32` alpha; `s16` locals or casts
+  narrow in the other order.
 
 ## Branches and block layout
 
@@ -596,6 +617,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   that stops after its first pass: `while (box < n) { ...; break; }`. The trade does one box a frame this way in
   `pokemontrade_proc.c`'s `func_ov194_021bb3c0` and `pokemontrade_2d.c`'s `func_ov194_021c2c04` and
   `func_ov194_021c3e9c`, each 8 bytes or so shorter as an `if`. Comment it, so it isn't "fixed".
+- A load the original hoists out of an inner loop but not out of the loop around it was in the middle loop's body.
+  `mystery.c`'s `Mystery_GetSpriteBottom` reads a sprite's characters a row at a time with
+  `tile = (u32 *)charData->rawData + (row * 12 + col) * 8;` in the column loop; read in the innermost loop, the load
+  only moves to the column loop, and read in the row loop, the `charData` load is not hoisted.
 
 ## Switches
 
@@ -728,6 +753,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 - Sections start 4-aligned at link time (`ALIGNALL(4)` in the LCF), whatever their own alignment: pms_data.c's
   12-entry `u16` initializer after 0x16 bytes of shared `.rodata` sits at +0x18, not +0x16.
+- The same small table in the `.rodata` of several files of one overlay, each file with its own copy of the same
+  inlined code that reads it, is a `static const` in a header with a `static inline` function: overlay 197's
+  `mystery.c`, `mystery_album.c` and `mystery_check.c` each have the 15 ribbon parameters and the inlined gift-Pokémon
+  routine of `app/mystery/mystery_gift_data.h`.
 
 ## When nothing moves it
 
