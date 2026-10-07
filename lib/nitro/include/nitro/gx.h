@@ -780,7 +780,7 @@ static inline void G3_LightColor(GXLightId lightID, GXRgb rgb) {
 }
 
 static inline void G3_Vtx(fx16 x, fx16 y, fx16 z) {
-    reg_G3_VTX_16 = (u32)(u16)x | ((u32)(u16)y << 16);
+    reg_G3_VTX_16 = (u32)((u16)x | ((u16)y << 16));
     reg_G3_VTX_16 = (u32)(u16)z;
 }
 #define reg_G2_BG2PA (*(vu16 *)0x04000020)
@@ -1251,6 +1251,8 @@ void gfxReset3D(void);
 // NitroSDK's G3i_LookAt_, which loads the camera matrix into the geometry engine when isLoad is set, G3_RotX, G3_RotY,
 // G3_RotZ and G3_MultTransMtx33, under swan's names
 void gfxLookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, BOOL isLoad, MtxFx43 *mtx);
+// NitroSDK's G3i_OrthoW_, which loads the projection matrix into the geometry engine when isLoad is set
+void gfxOrtho(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, BOOL isLoad, MtxFx44 *mtx);
 void gfxRotateX(fx32 sin, fx32 cos);
 void gfxRotateY(fx32 sin, fx32 cos);
 void gfxRotateZ(fx32 sin, fx32 cos);

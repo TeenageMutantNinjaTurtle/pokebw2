@@ -39,14 +39,19 @@
 . 0x0207ba60 add_reloc load,main,0x0207b9e8,0x50
 . 0x0207e79c add_reloc load,main,0x0207e979
 . 0x0207e970 add_function func_0207e970:arm:0x8
-. 0x0207e974 add_reloc load,ltd_autoload(0),0x02703e90
 . 0x0207e974 remove_symbol
+. 0x0207e974 add_reloc load,ltd_autoload(0),0x02703e90
 . 0x0207e978 add_function func_0207e978:thumb:0xa8
+. 0x0208c908 add_label _dmul
+. 0x0208cc6c add_label _d2f
+. 0x0208cd70 add_label _dflt
+. 0x0208d2f0 add_label _f2d
 . 0x0208d374 add_label _fflt
 . 0x0208d5c4 add_label _ll_udiv
 . 0x0208d60c add_label _ll_mul
 . 0x0208d868 add_label _u32_div_f
 . 0x0208da80 add_label _ffixu
+. 0x0208dac0 add_label _dfix
 . 0x02090bce remove_symbol
 . 0x02090d52 remove_symbol
 . 0x02091264 remove_reloc
@@ -1121,6 +1126,8 @@ overlays/ov298 0x021ac7f4 remove_symbol
 overlays/ov307 0x021de008 overlay_id 280
 overlays/ov307 0x021de00c reloc_module overlay(280)
 overlays/ov307 0x021df70c add_data EGG_DEMO_VIEW_UNK_FX32
+overlays/ov310 0x021a7021 remove_symbol
+overlays/ov310 0x021a7028 add_data data_ov310_021a7028
 overlays/ov332 0x021c1e7c reloc_module overlay(181)
 overlays/ov332 0x021c25a4 reloc_module overlay(181)
 overlays/ov332 0x021c25d2 reloc_module overlay(181)
