@@ -205,3 +205,7 @@ src/ov036/scrcmd_buildmodel.c:
 src/ov036/scrcmd_place_name.c:
     complete
     .text       start:0x021abb48 end:0x021abb70
+
+src/ov036/scrcmd_net.c:
+    complete
+    .text       start:0x021adc6c end:0x021add94
