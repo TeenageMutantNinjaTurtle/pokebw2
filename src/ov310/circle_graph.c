@@ -189,7 +189,7 @@ u8 CircleGraph_GetItemIndex(CircleGraph *graph, u8 id) {
     return CircleGraph_GetItemIndexCore(graph, id);
 }
 
-u8 CircleGraph_GetItemId(CircleGraph *graph, int index) {
+u8 CircleGraph_GetItemId(CircleGraph *graph, u8 index) {
     return CircleGraph_GetItem(graph, index)->id;
 }
 
@@ -197,7 +197,7 @@ u8 CircleGraph_GetPercentById(CircleGraph *graph, u8 id) {
     return CircleGraph_GetItemById(graph, id)->percent;
 }
 
-u8 CircleGraph_GetPercent(CircleGraph *graph, int index) {
+u8 CircleGraph_GetPercent(CircleGraph *graph, u8 index) {
     return CircleGraph_GetItem(graph, index)->percent;
 }
 
@@ -212,7 +212,7 @@ void CircleGraph_GetLabelScreenPosById(CircleGraph *graph, u8 id, int *x, int *y
     CircleGraph_ToScreenPos(&pos, x, y);
 }
 
-void CircleGraph_GetLabelScreenPos(CircleGraph *graph, int index, int *x, int *y) {
+void CircleGraph_GetLabelScreenPos(CircleGraph *graph, u8 index, int *x, int *y) {
     VecFx16 pos;
 
     CircleGraph_GetLabelPos(graph, CircleGraph_GetItem(graph, index), &pos);

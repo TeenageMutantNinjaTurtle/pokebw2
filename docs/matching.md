@@ -235,6 +235,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   them is for a wider parameter. Read the narrowings of every caller together: `GFL_BitmapFillArea` takes `s16 x, s16
   y, u16 width, u16 height`, and `GFL_BitmapGetWidth` returns a `u16`, which is why printsys.c passes its width
   without shifts and bmp_menulist.c's `PrintOptions` narrows its computed width and height.
+- MWCC trusts the type of a call's result: a `u8` returned by one function and passed on to a `u8` parameter isn't
+  narrowed again. When the original narrows such a value before the call, it was held in an `int` or `u32` local, as
+  `research_graph.c`'s `SetFirstAnswer` and `ChangeAnswer` keep a question's ID in an `int`.
 - A `u8` function that narrows its result at the return (`lsl #24; lsr #24` after setting a 0/1 flag) keeps the flag
   in a `BOOL` local, as palanm.c's `IsBitSet` does.
 - A signed compare (`bge`) of a parameter that callers pass as a `u8` without narrowing means the parameter is an

@@ -1269,6 +1269,8 @@ static inline void GXS_DispOn(void) {
 // NitroSDK's G3X_Reset, G3X_ResetMtxStack and G3X_GetBoxTestResult, under swan's names. The box test result is 0 when
 // the box is outside the view, and the function returns nonzero while the test is still running
 void gfxReset3D(void);
+// NitroSDK's G3X_Init, under swan's name
+void gfxInit3D(void);
 // NitroSDK's G3i_LookAt_, which loads the camera matrix into the geometry engine when isLoad is set, G3_RotX, G3_RotY,
 // G3_RotZ and G3_MultTransMtx33, under swan's names
 void gfxLookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, BOOL isLoad, MtxFx43 *mtx);
