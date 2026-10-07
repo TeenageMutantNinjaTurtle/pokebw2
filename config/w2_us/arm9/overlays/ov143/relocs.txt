@@ -705,8 +705,8 @@ from:0x0219c3b8 kind:thumb_call to:0x02045630 module:main
 from:0x0219c3ca kind:thumb_call to:0x02045630 module:main
 from:0x0219c3dc kind:thumb_call to:0x02045630 module:main
 from:0x0219c3e4 kind:load to:0x021a0114 module:overlay(143)
-from:0x0219c3e8 kind:load to:0x021a0134 module:overlay(143)
-from:0x0219c3ec kind:load to:0x021a0154 module:overlay(143)
+from:0x0219c3e8 kind:load to:0x021a0114 add:0x20 module:overlay(143)
+from:0x0219c3ec kind:load to:0x021a0114 add:0x40 module:overlay(143)
 from:0x0219c3f6 kind:thumb_call to:0x02044cc4 module:main
 from:0x0219c3fe kind:thumb_call to:0x02044cc4 module:main
 from:0x0219c406 kind:thumb_call to:0x02044cc4 module:main

@@ -8,6 +8,8 @@
 // The pass power in each of the three slots, or HIGH_LINK_POWER_NONE
 #define HIGH_LINK_POWER_NONE 0x30
 u32 func_0200c678(HighLinkSave *save, int index);
+// Puts a pass power in one of the three slots
+void func_0200c668(HighLinkSave *save, u32 passPower, int index);
 u32 func_0200c6a0(HighLinkSave *save, u32 id);
 // Copies two bytes of the save into dest
 void func_0200c6d8(HighLinkSave *save, u8 *dest, u32 a2);

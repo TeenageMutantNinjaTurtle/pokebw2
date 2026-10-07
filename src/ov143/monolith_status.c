@@ -241,8 +241,8 @@ static void MonolithStatus_Draw(MonolithScreenParam *screen, MonolithWork *wk, M
     if (visited == TRUE) {
         WordSetNumber(
             wk->wordSet, 0,
-            GetUnlockedPassPowerCount(wk->passPowerData, MonolithTool_GetLevels(screen), screen->param->unk2C), 4, 0,
-            TRUE);
+            GetUnlockedPassPowerCount(wk->passPowerData, MonolithTool_GetLevels(screen), screen->param->powerFlags), 4,
+            0, TRUE);
     } else {
         WordSetNumber(wk->wordSet, 0, 0, 4, 0, TRUE);
     }

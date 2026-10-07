@@ -244,14 +244,14 @@ BOOL func_ov012_02157814(VM *vm, FieldScriptEnv *env) {
     FieldScriptEnv_GetScriptWork(env);
     func_ov012_02153608(commSys);
     param = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(MonolithParam), TRUE, "scrcmd_proc.c", 444);
-    saveBytes = param->unk2C;
+    saveBytes = param->powerFlags;
     highLink = getHighLinkBlockAddress(GameData_GetSaveControl(gameData));
-    sys_memset(saveBytes, 0, sizeof(param->unk2C));
+    sys_memset(saveBytes, 0, sizeof(param->powerFlags));
     func_0200c6d8(highLink, saveBytes, 2);
     saveBytes[2] = 1;
     param->unk31 = 0;
     param->gsys = gsys;
-    param->unk30 = 0;
+    param->netId = 0;
     CreateScrCmdOverlayProcess(vm, env, OVERLAY_MONOLITH, &MONOLITH_PROC_FUNCTIONS, param, NULL, NULL);
     return TRUE;
 }
