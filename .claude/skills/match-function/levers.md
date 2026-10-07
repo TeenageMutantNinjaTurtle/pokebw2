@@ -104,6 +104,10 @@ text to `grep -n` there. Entries without a key come from later work and still be
   local. (matching.md: "nested in another call's arguments")
 - Arguments loaded in order around a conditional one: that argument was a local set before the call.
   (matching.md: "A conditional expression among a call's arguments")
+- A plain argument loaded before a call that is another argument: the plain one was in a local.
+  (matching.md: "plain argument loaded before")
+- An inline's argument computed and spilled at the inline's entry: the caller passed a local.
+  (matching.md: "copies into its one use")
 
 ## An instruction too many or too few
 
@@ -149,6 +153,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
   register")
 - An array initializer stores at its declaration: open an inner block where the original clears the array.
   (matching.md: "The initializer's stores happen")
+- `s16` narrowing of a value also used unnarrowed: an inline with `s16` parameters. (matching.md: "inline with `s16` parameters")
 
 ## Branches and block layout
 
@@ -205,6 +210,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "i <= N - 1")
 - A test after a body that is entered from the top and from an earlier branch, in a function that does one box a frame:
   `while (box < n) { ...; break; }`, with a comment. (matching.md: "stops after its first pass")
+- A load hoisted one loop level only: it was in the middle loop's body. (matching.md: "middle loop's body")
 
 ## Switches
 
@@ -267,6 +273,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   picks the macro by it.
 - `GFL_ASSERT` keeps its expression as a string, which preserves the original variable names. (matching.md: "GFL_ASSERT")
 - A file's `.data` ends at its last object.
+- One table in the `.rodata` of several files: a `static const` in a header, with a `static inline` reading it.
+  (matching.md: "same small table")
 
 ## Function order and presence
 

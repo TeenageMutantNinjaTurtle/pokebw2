@@ -79,13 +79,20 @@ MysteryGiftSave *mysteryGiftBlock(SaveControl *save, u32 a1, HeapID heapId);
 void func_0200aa54(MysteryGiftSave *save);
 // Copies the card in the slot into gift
 BOOL func_0200a71c(MysteryGiftSave *save, u32 slot, MysteryGift *gift);
+// Whether the slot has a card
 BOOL func_0200a800(MysteryGiftSave *save, u32 slot);
 BOOL func_0200a820(MysteryGiftSave *save, u32 slot);
 void func_0200a858(MysteryGiftSave *save, u32 slot);
 // Saves the gift in the first free slot, and returns FALSE when there is none
 BOOL func_0200a750(MysteryGiftSave *save, const MysteryGift *gift);
+// Throws away the card in the slot
+void func_0200a7b0(MysteryGiftSave *save, u32 slot);
 // Whether the album has a free slot
 BOOL func_0200a7e4(MysteryGiftSave *save);
+// Whether the album has any card
+BOOL func_0200a88c(MysteryGiftSave *save);
+// Swaps the cards of two slots
+void func_0200a970(MysteryGiftSave *save, u32 slot1, u32 slot2);
 // Whether the gift with the ID was received, and marks it received
 BOOL func_0200a8c4(MysteryGiftSave *save, u32 id);
 void func_0200a900(MysteryGiftSave *save, u32 id);
