@@ -1,0 +1,22 @@
+{bd02}The Unova Defense Force (UDF)...\n\n{bd02}This organization strives to keep\n{bd02}the Unova region at peace...
+{bd02}This is the story of\n{bd02}their valiant struggle...
+{bd02}A siren blares loudly\n{bd02}at the UDF headquarters.\n{bd02}It's time to roll out.
+{bd02}A report arrives.\n{bd02}The Titanic Tyranitar has reappeared.\n\n{bd02}The young recruit {0100:1}\n{bd02}hurries to the scene.
+なし
+なし
+なし
+なし
+なし
+なし
+{bd02}The Unova Defense Force (UDF)...\n\n{bd02}This organization strives to keep\n{bd02}the Unova region at peace...
+{bd02}This is the story of\n{bd02}their valiant struggle...
+{bd02}A siren blares loudly\n{bd02}at the UDF headquarters.\n{bd02}It's time to roll out.
+{bd02}A report arrives.\n{bd02}The Titanic Tyranitar has reappeared.\n\n{bd02}The young recruit {0100:1}\n{bd02}hurries to the scene.
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+\pad{74}

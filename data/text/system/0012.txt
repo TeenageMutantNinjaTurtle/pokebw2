@@ -1,0 +1,5 @@
+YES
+NO
+CHECK
+CLOSE
+\pad{3e}

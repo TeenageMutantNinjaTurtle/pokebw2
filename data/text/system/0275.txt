@@ -1,0 +1,22 @@
+{bd02}The Unova Defense Force (UDF)...\n\n{bd02}This organization strives to keep\n{bd02}the Unova region at peace...
+{bd02}This is the story of\n{bd02}their valiant struggle...
+{bd02}As {0100:1} battled\n{bd02}the UFO, the enigmatic\n{bd02}woman E appeared before him.\n\n{bd02}E introduced herself\n{bd02}as a UFO researcher...
+{bd02}Several days after the UFO attack...\n\n\n{bd02}At E's request, {0100:1}\n{bd02}departed for a lonely beach.
+なし
+なし
+なし
+なし
+なし
+なし
+{bd02}The Unova Defense Force (UDF)...\n\n{bd02}This organization strives to keep\n{bd02}the Unova region at peace...
+{bd02}This is the story of\n{bd02}their valiant struggle...
+{bd02}As {0100:1} battled\n{bd02}the UFO, the enigmatic\n{bd02}woman E appeared before her.\n\n{bd02}E introduced herself\n{bd02}as a UFO researcher...
+{bd02}Several days after the UFO attack...\n\n\n{bd02}At E's request, {0100:1}\n{bd02}departed for a lonely beach.
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+\pad{f8}

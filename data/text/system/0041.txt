@@ -1,0 +1,7 @@
+             \x{ffff}
+    \x{ffff}
+             \x{ffff}
+Saving...\nDon't turn off the power.
+{0100:0} saved the game.
+There is already a saved game file.\nIt is impossible to save.
+\pad{ee}

@@ -1,0 +1,5 @@
+#include "asm/evolution.inc"
+
+// SPECIES_SKIPLOOM
+    Evolution EVO_METHOD_LEVEL, 27, SPECIES_JUMPLUFF
+    EvolutionsEnd

@@ -59,7 +59,7 @@ class Overlay:
         self.files = {}
         current = None
         for line in delinks.splitlines():
-            match = re.match(r"^(src/\S+):$", line)
+            match = re.match(r"^((?:src|lib)/\S+):$", line)
             if match:
                 current = match.group(1)
                 continue
@@ -194,7 +194,7 @@ def print_markdown(version: str):
         for entry in text.split("\n\n"):
             lines = entry.strip().splitlines()
             match = re.search(r"\.text\s+start:0x([0-9a-f]+) end:0x([0-9a-f]+)", entry)
-            if lines and lines[0].startswith("src/") and match:
+            if lines and lines[0].startswith(("src/", "lib/")) and match:
                 path = lines[0].rstrip(":")
                 files.append((int(match.group(1), 16), int(match.group(2), 16), path.split("/")[-1],
                               "complete" in entry))
