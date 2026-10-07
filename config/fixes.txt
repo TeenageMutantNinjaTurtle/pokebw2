@@ -61,16 +61,16 @@
 . 0x0207ba60 add_reloc load,main,0x0207b9e8,0x50
 . 0x0207e79c add_reloc load,main,0x0207e979
 . 0x0207e92c add_function func_0207e92c:arm:0x8
-. 0x0207e930 remove_symbol
 . 0x0207e930 add_reloc load,ltd_autoload(0),0x02703cdc
+. 0x0207e930 remove_symbol
 . 0x0207e934 add_function MIC_StartAutoSampling:thumb:0x1c
 . 0x0207e950 add_function func_0207e950:arm:0x8
 . 0x0207e954 add_reloc load,ltd_autoload(0),0x02703c60
 . 0x0207e954 remove_symbol
 . 0x0207e958 add_function MIC_StopAutoSampling:thumb:0x18
 . 0x0207e970 add_function func_0207e970:arm:0x8
-. 0x0207e974 remove_symbol
 . 0x0207e974 add_reloc load,ltd_autoload(0),0x02703e90
+. 0x0207e974 remove_symbol
 . 0x0207e978 add_function func_0207e978:thumb:0xa8
 . 0x0208c224 add_label _dadd
 . 0x0208c908 add_label _dmul
@@ -873,8 +873,13 @@ overlays/ov142 0x021a14bc remove_reloc
 overlays/ov142 0x021a14d4 remove_reloc
 overlays/ov142 0x021a1614 remove_symbol
 overlays/ov143 0x02199bac reloc_addend 4
+overlays/ov143 0x0219b1d0 reloc_addend 0x20
 overlays/ov143 0x0219fe90 remove_symbol
 overlays/ov143 0x0219ff44 add_data MonolithTool_UnusedTextSetup
+overlays/ov143 0x0219fff0 add_data MonolithRecord_UnusedMsgIds
+overlays/ov143 0x021a0000 remove_symbol
+overlays/ov143 0x021a001a remove_symbol
+overlays/ov143 0x021a0034 remove_symbol
 overlays/ov152 0x021f6228 reloc_module overlay(148)
 overlays/ov152 0x021f6254 reloc_module overlay(150)
 overlays/ov153 0x021f6228 reloc_module overlay(148)
@@ -1423,6 +1428,7 @@ overlays/ov257 0x021a7740 reloc_addend 8
 overlays/ov257 0x021a7744 reloc_addend 4
 overlays/ov257 0x021a79d0 reloc_addend 4
 overlays/ov257 0x021a79d4 reloc_addend 8
+overlays/ov257 0x021ac6f0 add_function func_ov257_021ac6f0:thumb:0x530
 overlays/ov257 0x021acc14 add_reloc load,overlay(257),0x021b6238
 overlays/ov257 0x021af8b5 remove_symbol
 overlays/ov257 0x021af8fd remove_symbol
