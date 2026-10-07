@@ -8169,7 +8169,6 @@ data_020955bc kind:data(any) addr:0x020955bc
 data_020955fc kind:data(any) addr:0x020955fc
 data_020956bc kind:data(any) addr:0x020956bc
 data_020976bc kind:data(any) addr:0x020976bc
-data_02097bfc kind:data(any) addr:0x02097bfc
 data_02097dfc kind:data(any) addr:0x02097dfc
 FX_ARCTG_TABLE kind:data(any) addr:0x020986bc
 data_020987c0 kind:data(any) addr:0x020987c0

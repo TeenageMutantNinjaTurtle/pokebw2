@@ -152,6 +152,9 @@ u32 func_02021034(u32 species, u32 form, u32 sex, BOOL egg);
 // The level, 0 to 4, of a Pokémon's Pokéstar fame
 int func_0201f010(u8 fame);
 PartyPkm *PokeParty_GetPkm(PokeParty *party, u32 index);
+// A flag of each slot, kept in the party
+BOOL PokeParty_GetSlotExists(PokeParty *party, u32 slot);
+void PokeParty_SetSlotExists(PokeParty *party, u32 slot, BOOL exists);
 BoxPkm *func_0201d624(PartyPkm *pkm);
 // A new party Pokémon made from a box Pokémon, with its stats calculated
 PartyPkm *boxPkmRegenToPartyPkm(BoxPkm *pkm, HeapID heapId);
