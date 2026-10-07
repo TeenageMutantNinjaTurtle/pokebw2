@@ -118,7 +118,7 @@ BOOL CtvtMic_StartRecording(CtvtMic *work) {
     param.loop = FALSE;
     param.rate = MIC_SAMPLING_RATE_8180;
     param.fullArg = work;
-    if (func_0207e934(&param) == MIC_RESULT_SUCCESS) {
+    if (MIC_StartAutoSampling(&param) == MIC_RESULT_SUCCESS) {
         work->recording = TRUE;
         work->recordedSize = 0;
         return TRUE;
@@ -137,7 +137,7 @@ BOOL CtvtMic_StopRecording(CtvtMic *work) {
     if (work->recording == FALSE) {
         return TRUE;
     }
-    if (func_0207e958() == MIC_RESULT_SUCCESS) {
+    if (MIC_StopAutoSampling() == MIC_RESULT_SUCCESS) {
         work->recordedSize = (u8 *)func_0207e8f8() - (u8 *)work->buffer + 4;
         if (work->recordedSize > CTVT_MIC_BUFFER_SIZE) {
             work->recordedSize = CTVT_MIC_BUFFER_SIZE;

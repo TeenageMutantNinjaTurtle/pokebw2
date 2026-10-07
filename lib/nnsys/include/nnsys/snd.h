@@ -68,4 +68,14 @@ const NNSSndArcBankInfo *NNS_SndArcGetBankInfo(int bankNo);
 const NNSSndArcWaveArcInfo *NNS_SndArcGetWaveArcInfo(int waveArcNo);
 const void *NNS_SndArcGetFileAddress(u32 fileId);
 
+// NitroSystem's sound heap, by their code: NNS_SndHeapSaveState, which returns the level saved,
+// NNS_SndHeapLoadState, which frees what was loaded after the level, NNS_SndHeapGetCurrentLevel, and
+// NNS_SndArcLoadGroup, which loads a group of the archive into the heap
+typedef struct NNSSndHeap *NNSSndHeapHandle;
+
+int func_0206d120(NNSSndHeapHandle heap);
+void func_0206d154(NNSSndHeapHandle heap, int level);
+int func_0206d1e8(NNSSndHeapHandle heap);
+BOOL func_0206d260(int groupNo, NNSSndHeapHandle heap);
+
 #endif // POKEBW2_NNSYS_SND_H

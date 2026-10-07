@@ -21,52 +21,6 @@
 // How long a new balloon bounces in, in frames
 #define CTVT_GAME_BALLOON_BOUNCE_FRAMES 60
 
-struct CtvtGameBalloon {
-    BOOL active;
-    TCB *tcb;
-    CtvtGame *game;
-    G3DManager *g3d;
-    u16 netId;
-    SRTMatrix srt;
-    // Which of the stages' models is shown
-    int stage;
-    u8 pumpCount;
-    BOOL isSelf;
-    u8 color;
-    // Frames left of the bounce
-    u8 bounce;
-    // How much a pump grows the balloon, and how much it grows in all
-    fx32 growStep;
-    fx32 growMax;
-    fx32 grow;
-    BOOL growing;
-    BOOL popShown;
-    BOOL popAnimating;
-    fx32 popFrame;
-    s8 alpha;
-    BOOL popping;
-    s16 wobbleAngle;
-    u8 wobblePhase;
-    BOOL wobbling;
-};
-
-struct CtvtGameShot {
-    BOOL active;
-    BOOL hit;
-    TCB *tcb;
-    CtvtGame *game;
-    G3DManager *g3d;
-    u16 scene;
-    SRTMatrix srt;
-    s8 alpha;
-    fx32 hitFrame;
-    BOOL hitAnimating;
-    fx32 grow;
-    VecFx32 velocity;
-    fx32 topY;
-    u8 vanishOnHit;
-};
-
 // Where the others' balloons are, by the order of their members
 static const VecFx32 sBalloonPositions[] = {
     { 0, FX32_CONST(2), FX32_CONST(-20) },
@@ -82,7 +36,7 @@ CtvtGameBalloon *CtvtGameBalloon_Create(CtvtGame *game, u16 netId, u8 pos, BOOL 
     balloon->active = active;
     balloon->tcb = NULL;
     balloon->game = game;
-    balloon->g3d = func_ov257_021a26e4(game);
+    balloon->g3d = CtvtGame_GetG3DManager(game);
     balloon->netId = netId;
     balloon->grow = 0;
     balloon->growing = FALSE;
@@ -221,7 +175,7 @@ void CtvtGameBalloon_Update(CtvtGameBalloon *balloon) {
                 balloon->srt.scale.x = 0;
                 balloon->srt.scale.y = 0;
                 balloon->srt.scale.z = 0;
-                func_ov257_021a27e0(balloon->game, balloon->netId, balloon->color);
+                CtvtGame_LoadBalloonPictures(balloon->game, balloon->netId, balloon->color);
             }
         } else if (balloon->wobbling == TRUE) {
             switch (balloon->wobblePhase) {
@@ -374,7 +328,7 @@ CtvtGameShot *CtvtGameShot_Create(CtvtGame *game, u16 scene, int x, u8 vanishOnH
     shot->hit = FALSE;
     shot->tcb = NULL;
     shot->game = game;
-    shot->g3d = func_ov257_021a26e4(game);
+    shot->g3d = CtvtGame_GetG3DManager(game);
     shot->scene = scene;
     shot->alpha = CTVT_GAME_ALPHA_MAX;
     shot->hitFrame = 0;

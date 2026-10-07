@@ -47,6 +47,8 @@ enum {
     HEAPID_BOX2 = 0x4b,
     HEAPID_BOX2_APP = 0x4c,
     HEAPID_FIELD_PARTICLE = 0x50,
+    // Not from swan: the phrase select's heap
+    HEAPID_PMS_SELECT = 0x51,
     HEAPID_BATTLE_RETURN = 0x52,
     HEAPID_GAMESYNC = 0x67,
     // The evolution demo's graphics, which it frees while another screen runs

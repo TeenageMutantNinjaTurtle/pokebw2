@@ -20,3 +20,9 @@ src/ov209/mus_shot_info.c:
     .text       start:0x021bad6c end:0x021bb3a8
     .rodata     start:0x021c2d60 end:0x021c2dc8
     .data       start:0x021c3074 end:0x021c3084
+
+src/ov209/mus_item_draw.c:
+    complete
+    .text       start:0x021bb3a8 end:0x021bb9fc
+    .rodata     start:0x021c2dc8 end:0x021c2dd4
+    .data       start:0x021c3084 end:0x021c3094

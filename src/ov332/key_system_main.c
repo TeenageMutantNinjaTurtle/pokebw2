@@ -754,7 +754,7 @@ void KeySystem_Setup(KeySystemWork *wk, HeapID heapId) {
     wk->scene = KeySystemScene_Create(wk, heapId);
     KeySystemFlow_Init(wk, HEAPID_KEY_SYSTEM);
     DataConvert_Init(wk, HEAPID_KEY_SYSTEM);
-    func_ov332_021c7028(wk, HEAPID_KEY_SYSTEM);
+    CygnusFlow_Init(wk, HEAPID_KEY_SYSTEM);
     KeySystem_CreateDefaultTitleWin(wk, heapId);
     if (wk->preloadedSeqs == 0) {
         wk->preloadedSeqs = func_02005af4(sPreloadedSeqs, NELEMS(sPreloadedSeqs));
@@ -768,7 +768,7 @@ void KeySystem_Teardown(KeySystemWork *wk, BOOL keepSounds) {
         func_02005b60(wk->preloadedSeqs);
         wk->preloadedSeqs = 0;
     }
-    func_ov332_021c704c(wk);
+    CygnusFlow_Exit(wk);
     KeySystemFlow_Exit(wk);
     KeySystemScene_Abort(wk->scene);
     if (wk->titleWin != NULL) {
@@ -983,7 +983,7 @@ static void KeySystem_SeqTopMenu(KeySystemSeq *seq, int *state, void *work) {
             break;
         case TOP_MENU_DREAM_RADAR:
             KeySystemBG_StartFade(wk->bg, KEY_SYSTEM_BG_FADE_3_TO_0, 30);
-            KeySystemSeq_Push(seq, func_ov332_021c7064);
+            KeySystemSeq_Push(seq, CygnusFlow_SeqMenu);
             break;
         }
         *state = 0;

@@ -146,7 +146,7 @@ void MusShotPhoto_Delete(MusShotPhoto *photo) {
     func_ov209_021bd7a0(photo->bg);
     func_ov209_021bd974(photo->staPoke);
     func_ov209_021bba08(photo->pokeDraw);
-    func_ov209_021bb3f0(photo->itemDraw);
+    MusItemDraw_TermSystem(photo->itemDraw);
     BmpWin_Free(photo->titleWin);
     BmpWin_Free(photo->dateWin);
     GFL_FontFree(photo->titleFont);
@@ -245,7 +245,7 @@ static void MusShotPhoto_InitPokes(MusShotPhoto *photo) {
 
     photo->pokeDraw = func_ov209_021bb9bc(photo->heapId);
     func_ov209_021bbc90(photo->pokeDraw, FX32_CONST(32));
-    photo->itemDraw = func_ov209_021bb368(photo->blact, 36, photo->heapId);
+    photo->itemDraw = MusItemDraw_InitSystem(photo->blact, 36, photo->heapId);
     photo->staPoke = func_ov209_021bd8f0(photo->heapId, NULL, photo->pokeDraw, photo->itemDraw, photo->blact);
     for (i = 0; i < 4; i++) {
         photo->pokeActs[i] = NULL;

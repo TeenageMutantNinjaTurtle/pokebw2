@@ -117,3 +117,14 @@ src/ov036/fldeff_kemuri.c:
     .text       start:0x021a3de0 end:0x021a3fd8
     .rodata     start:0x021d0544 end:0x021d0558
     .data       start:0x021d5018 end:0x021d5028
+
+src/ov036/fldeff_grass.c:
+    .text       start:0x021a3fd8 end:0x021a4384
+    .rodata     start:0x021d0558 end:0x021d05f4
+    .data       start:0x021d5028 end:0x021d5060
+
+src/ov036/fldeff_encount.c:
+    complete
+    .text       start:0x021a50a4 end:0x021a5604
+    .rodata     start:0x021d06cc end:0x021d0728
+    .data       start:0x021d5074 end:0x021d50dc

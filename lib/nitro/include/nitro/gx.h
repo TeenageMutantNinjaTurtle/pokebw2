@@ -313,6 +313,8 @@ typedef enum {
 
 typedef enum {
     GX_BG_BMPSCRBASE_0x00000 = 0,
+    GX_BG_BMPSCRBASE_0x10000 = 4,
+    GX_BG_BMPSCRBASE_0x28000 = 10,
 } GXBGBmpScrBase;
 
 #define GX_PACK_VIEWPORT_PARAM(x1, y1, x2, y2) \
@@ -536,6 +538,11 @@ static inline BOOL GX_IsHBlank(void) {
 
 static inline void GX_SetDispSelect(int select) {
     reg_GX_POWCNT = (u16)((reg_GX_POWCNT & ~REG_GX_POWCNT_DSEL_MASK) | (select << REG_GX_POWCNT_DSEL_SHIFT));
+}
+
+// The main screen's OBJ characters
+static inline void *G2_GetOBJCharPtr(void) {
+    return (void *)HW_OBJ_VRAM;
 }
 
 static inline int GX_GetDispSelect(void) {

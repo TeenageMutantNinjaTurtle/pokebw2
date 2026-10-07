@@ -27,22 +27,22 @@ PMSDraw *PMSDraw_Create(ClActUnit *unit, u32 vramType, PrintQueue *queue, Font *
 void PMSDraw_Main(PMSDraw *draw);
 void PMSDraw_Delete(PMSDraw *draw);
 // Draws the sentence in slot into the window, at the top left of the window
-void PMSDraw_Print(PMSDraw *draw, BmpWin *window, const PMSData *sentence, u32 slot);
-void PMSDraw_PrintEx(PMSDraw *draw, BmpWin *window, const PMSData *sentence, u32 slot, const PMSDrawPos *pos);
+void PMSDraw_Print(PMSDraw *draw, BmpWin *window, const PMSData *sentence, u8 slot);
+void PMSDraw_PrintEx(PMSDraw *draw, BmpWin *window, const PMSData *sentence, u8 slot, const PMSDrawPos *pos);
 // Whether every slot's text is printed
 BOOL PMSDraw_IsPrintEnd(PMSDraw *draw);
 // Clears the slot's window and hides its icons, and its screen too when clearScreen
-void PMSDraw_Clear(PMSDraw *draw, u32 slot, BOOL clearScreen);
+void PMSDraw_Clear(PMSDraw *draw, u8 slot, BOOL clearScreen);
 // Shows or hides the slot's window and icons
-void PMSDraw_SetVisible(PMSDraw *draw, u32 slot, BOOL visible);
+void PMSDraw_SetVisible(PMSDraw *draw, u8 slot, BOOL visible);
 // Whether the slot has a sentence drawn
-BOOL PMSDraw_IsDrawn(PMSDraw *draw, u32 slot);
+BOOL PMSDraw_IsDrawn(PMSDraw *draw, u8 slot);
 // Whether the slot's icons show once its text is printed
-void PMSDraw_SetIconVisible(PMSDraw *draw, u32 slot, BOOL visible);
+void PMSDraw_SetIconVisible(PMSDraw *draw, u8 slot, BOOL visible);
 // The OBJ mode of the slot's icons, GX_OAM_MODE_*
-void PMSDraw_SetObjMode(PMSDraw *draw, u32 slot, u32 mode);
+void PMSDraw_SetObjMode(PMSDraw *draw, u8 slot, u32 mode);
 // Copies the sentence drawn in slot src to slot dest, whose window has the same size
-void PMSDraw_Copy(PMSDraw *draw, u32 src, u32 dest);
+void PMSDraw_Copy(PMSDraw *draw, u8 src, u8 dest);
 // The color index the windows are filled with, 15 at first
 void PMSDraw_SetBackColor(PMSDraw *draw, u8 color);
 // The text color, a PRINT_COLOR, PRINT_COLOR(1, 2, 0) at first
