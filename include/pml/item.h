@@ -185,6 +185,8 @@ void setItemDescriptionTextToStrbuf(StrBuf *strbuf, u16 item, HeapID heapId);
 s32 GetItemParam(u16 item, u32 param, HeapID heapId);
 s32 PML_ItemGetParam(ItemData *data, u32 param);
 BOOL PML_ItemIsTMHM(u16 item);
+// How many of an item the bag can hold: one of a TM or HM, 999 of others
+u32 PML_ItemGetMaxStorageCount(u16 item);
 BOOL PML_ItemIsTM(u16 item);
 // The move a TM or HM teaches, or 0
 u16 PML_ItemGetTMWazaID(u16 item);

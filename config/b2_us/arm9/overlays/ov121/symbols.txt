@@ -38,5 +38,5 @@ data_ov121_021efb88 kind:data(any) addr:0x021efb88
 data_ov121_021efb90 kind:data(any) addr:0x021efb90
 data_ov121_021efb91 kind:data(any) addr:0x021efb91 ambiguous
 data_ov121_021efba0 kind:data(any) addr:0x021efba0
-data_ov121_021efbb0 kind:data(any) addr:0x021efbb0 ambiguous
+CASTELIA_RUSH_PROC_DEF kind:data(any) addr:0x021efbb0 ambiguous
 data_ov121_021efbe0 kind:data(any) addr:0x021efbe0
