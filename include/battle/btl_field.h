@@ -8,7 +8,7 @@
 u32 GetFieldWeather(void);
 u32 IsFieldEffectActive(u32 fieldEffect);
 BOOL FieldStatusRemoveEffect(u32 effect);
-u32 GetWeather(BtlServerFlow *serverFlow);
+u8 GetWeather(BtlServerFlow *serverFlow);
 u32 func_ov167_021d59c0(void);
 void func_ov167_021d5a38(u8 monId);
 u8 func_ov167_021d59e4(void);

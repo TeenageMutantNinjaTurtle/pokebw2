@@ -7597,7 +7597,7 @@ void SetMoveEffectIndex(BtlServerFlow *flow, u8 index) {
 }
 
 // Pay Day's money, in the battles that give it
-BOOL func_ov167_021abf28(BtlServerFlow *flow, u32 money) {
+BOOL func_ov167_021abf28(BtlServerFlow *flow, u32 money, u8 monId) {
     if (BtlSetup_GetBattleType(flow->mainModule) <= 1) {
         func_ov167_0219f330(flow->server, money);
         return TRUE;

@@ -49,7 +49,7 @@ BOOL IsBasicStatus(s32 condition);
 BattleCondition func_ov167_021bd58c(u32 turns);
 BattleCondition func_ov167_021bd5b0(u32 turns);
 void func_ov167_021bd5d4(s32 condition, BattleMon *mon, BattleCondition *out);
-u16 func_ov167_021bd658(const u16 *excluded, u32 count);
+u16 func_ov167_021bd658(const u16 *excluded, u16 count);
 BOOL func_ov167_021bd6a4(const u16 *moves, u32 count, u16 move);
 u32 CalcBaseExpGain(BattleMon *mon, s32 levelDiff);
 BOOL func_ov167_021bd718(u32 value);
