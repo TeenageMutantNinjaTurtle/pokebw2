@@ -1,16 +1,15 @@
 // The Battle Subway's events: picking the Pokémon to enter, the battle, the trainers' and leaders' messages, and its
 // records screen. The name is descriptive
-//
-// Not written yet: func_ov012_02166428, the battle's event, reads the battle's music from a BtlSetup field that
-// battle/btl_setup.h does not have yet, so it is declared here without static until it is written
 #include "types.h"
 #include "app/ov141.h"
 #include "app/pokelist.h"
 #include "app/ov207.h"
 #include "battle/battle_proc.h"
+#include "battle/btl_net.h"
 #include "battle/btl_setup.h"
 #include "battle/regulation.h"
 #include "field/bsubway_scr.h"
+#include "field/encounter.h"
 #include "field/event_battle.h"
 #include "field/field.h"
 #include "field/field_actor.h"
@@ -121,7 +120,6 @@ static const GameProcFunctions data_ov012_0216dc5c = {
     func_ov012_021662e4,
 };
 
-GameEventReturnCode func_ov012_02166428(GameEvent *event, u32 *state, void *work);
 static GameEvent *func_ov012_02166508(BSubwayScrWork *bsw, GameSystem *gsys, Field *field);
 
 static GameEventReturnCode func_ov012_02165eb8(GameEvent *event, u32 *state, void *work) {
@@ -407,6 +405,57 @@ static GameEvent *func_ov012_02166400(GameSystem *gsys, BtlSetup *setup, void *a
     data->setup = setup;
     data->unk08 = a2;
     return event;
+}
+
+static GameEventReturnCode func_ov012_02166428(GameEvent *event, u32 *state, void *work) {
+    BSubwayBattleData *data = work;
+    GameSystem *gsys = data->gsys;
+    Field *field = data->field;
+
+    switch (*state) {
+    case 0:
+        GameEvent_ChainNext(event, CallEventPrepareResidentActorsForZoneChange(gsys, field));
+        (*state)++;
+        break;
+    case 1:
+        GameEvent_ChainNext(event, EventBattleBGMPlay_Create(gsys, data->setup->fieldSituation.bgm));
+        (*state)++;
+        break;
+    case 2:
+        func_ov036_021a2364(Field_GetEncountSystem(field));
+        EncEff_StartEvent(Field_GetEncEff(data->field), event, 9);
+        (*state)++;
+        break;
+    case 3:
+        GameEvent_ChainNext(event, CreateFieldCloseEvent(gsys, field));
+        (*state)++;
+        break;
+    case 4:
+        GameEvent_ChainNext(event, func_ov012_02166400(gsys, data->setup, data->unk0C));
+        (*state)++;
+        break;
+    case 5:
+        GameEvent_ChainNext(event, EventBGMFadePop_Create(gsys));
+        (*state)++;
+        break;
+    case 6:
+        GameEvent_ChainNext(event, EventFieldOpen_CreateHeadless(gsys));
+        (*state)++;
+        break;
+    case 7:
+        GameEvent_ChainNext(event, EventBGMFadeWait_Create(gsys));
+        (*state)++;
+        break;
+    case 8:
+        GameEvent_ChainNext(event, CallFieldMapEntranceInTransition(gsys, field, 0, 0, 1, 0, 0));
+        (*state)++;
+        break;
+    case 9:
+        return GAMEEVENT_DONE;
+    default:
+        return GAMEEVENT_DONE;
+    }
+    return GAMEEVENT_CONTINUE;
 }
 
 static GameEvent *func_ov012_021664dc(GameSystem *gsys, Field *field, BtlSetup *setup, void *a3) {
