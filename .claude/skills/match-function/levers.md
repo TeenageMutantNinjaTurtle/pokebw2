@@ -9,7 +9,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 - Locals get registers in declaration order: reorder the declarations. (matching.md: "declaration order of locals")
 - Of two variables that compete for one register, the one used more gets it. `docs/matching.md` spells out what counts as a
-  use; on a tie the one assigned first wins. (matching.md: "compete for the same register")
+  use; on a tie the one assigned first wins, though in a large function the last declared won.
+  (matching.md: "compete for the same register")
 - A variable gets a register per group of assignments that reach the same uses: a store after two branches keeps
   one register, a copy of the store in each branch splits it. (matching.md: "group of assignments")
 - `arr[count++] = x` and `arr[count] = x; count++;` allocate differently, as do `count = 1; arr[0] = x;` and the
@@ -34,6 +35,10 @@ text to `grep -n` there. Entries without a key come from later work and still be
   declarations count too. (matching.md: "Spilled variables get their stack slots")
 - A variable reused by several switch cases splits per case, and a spilled piece takes the lowest slot.
   (matching.md: "reused by several switch cases")
+- Values at the bottom of the frame in assignment order, with one among the declared slots: one variable reused by
+  several blocks. (matching.md: "assigned anew in several `if` blocks")
+- A spilled value in the lowest slot that should be among the declared ones: split a chained assignment `a = b = x`.
+  (matching.md: "chained assignment")
 - Block-scoped locals sit above function-scope ones. A block-scoped `{0, 0, 0}` initializer and a non-`const`
   parameter fixed `particle.c`.
 - A NULL check written on a field gives different slots from the same check on a local loaded first.
@@ -114,6 +119,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   `result` variable). A return that branches to the wrong one of two equal `b end` trampolines can be `goto end`.
 - A redundant outer `if` gives a doubled `beq`.
 - `v = f(); if (v == x)` and `if (f() == x)` put `cmp`'s operands in opposite orders. (matching.md: "operands of `cmp`")
+- A last test that branches the wrong way (`bne` to the false return for `beq` to the true one): negate the condition
+  and swap the returns. (matching.md: "last test of a condition")
 - `a == 4 || a == 5` becomes a range check; separate comparisons to the same code are separate branches. A
   `BOOL x = FALSE; if (...) x = TRUE;` flag gives the `sub; cmp 1; bhi` range test. (matching.md: "range check")
 - A clamp that ends in one store is a conditional expression; `if`/`else if` stores each limit.
@@ -166,7 +173,9 @@ text to `grep -n` there. Entries without a key come from later work and still be
   globals get their own sections. Predict with `tools/scripts/rodata_order.py`. (matching.md: "Static data is sorted by size")
 - The full model, checked by fuzzing MWCC: there is one list per file in declaration order, except tentative `.bss`
   statics, which join at the end in reverse order. Each kind (rodata, data, bss) gets its own shared section.
-  Unreferenced statics are dropped. `rodata_order.py` doesn't model the per-kind sections or the `.bss` rule yet.
+  Unreferenced statics are dropped. `rodata_order.py` doesn't model the per-kind sections or the `.bss` rule yet, but
+  given the `.data` tables with the `.rodata` objects it predicts the `.rodata` order. (matching.md: "The list that is
+  heapsorted")
 - `.bss` statics are ordered by size, then in an order that isn't the declaration order; try permutations.
 - `static const` goes in `.rodata`, so a table in `.data` isn't `const`. (matching.md: "`static const` data goes in")
 - A `static const` whose address is never taken is folded and not emitted. If the original has it, it isn't static.

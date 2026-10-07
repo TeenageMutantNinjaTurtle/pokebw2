@@ -9,23 +9,25 @@
 // The Global Trade Station
 #define OVERLAY_WORLDTRADE OVERLAY_ID(214)
 
+// worldtrade_data, systemdata, myparty, mybox, wifilist, wifihistory, mystatus, config, record and savedata keep the
+// names that worldtrade.c's asserts print. config is the options save block, which TrainerDataSave names here
 typedef struct {
-    WorldTradeData *worldTrade;
-    AdventureSave *adventure;
-    PokeParty *party;
-    BoxSaveAccessor *boxes;
+    WorldTradeData *worldtrade_data;
+    AdventureSave *systemdata;
+    PokeParty *myparty;
+    BoxSaveAccessor *mybox;
     PokeDexSave *pokedex;
-    WifiList *wifiList;
-    UnityTowerSurveySave *unityTowerSurvey;
-    PlayerInfo *playerInfo;
-    TrainerDataSave *trainerData;
-    GameRecords *trainerCardInfo;
+    WifiList *wifilist;
+    UnityTowerSurveySave *wifihistory;
+    PlayerInfo *mystatus;
+    TrainerDataSave *config;
+    GameRecords *record;
     BagSave *bag;
     BOOL isNationalDex;
     s32 profileId;
     u32 unk34;
     u32 unk38;
-    SaveControl *save;
+    SaveControl *savedata;
     GameSystem *gsys;
 } WorldTradeParam;
 

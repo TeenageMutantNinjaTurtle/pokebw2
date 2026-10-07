@@ -56,6 +56,17 @@ void func_02033120(void *a0);
 void func_02033150(void *a0, u32 index, u32 a2, u32 width, u32 height);
 void func_020335c4(void *a0, u32 index, BmpWin *window);
 u16 *func_0203368c(void *a0, u32 index);
+// Loads the screen of one from an archive, places it, shows or hides it, and moves it by steps
+void func_020331f4(void *a0, u32 index, u32 arcId, u32 fileId, BOOL compressed);
+void func_02033254(void *a0, u32 index, s8 x, s8 y);
+void func_02033360(void *a0, u32 index);
+void func_02033378(void *a0, u32 index);
+void func_0203346c(void *a0, u32 index, s8 moveX, s8 moveY, u8 count);
+// Moves the screens, every frame
+void func_0203349c(void *a0);
+// Whether the screen is still moving
+BOOL func_02033548(void *a0, u32 index);
+void func_020336a0(void *a0, u32 index, s8 *x, s8 *y);
 void BmpWin_DrawFrame(BmpWin *window, u8 a1, u16 frameChar, u8 framePalette);
 void func_02024eec(BmpWin *window, u32 a1);
 // Loads a window frame's characters and palette for BmpWin_DrawFrame

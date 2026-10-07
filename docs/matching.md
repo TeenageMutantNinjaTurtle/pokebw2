@@ -19,7 +19,10 @@ Same instructions, registers swapped.
   its argument register, and the shifts that narrow a `u8` or `u16` assigned from a wider value all count, while a
   use the optimizer deletes does not. A use inside an `if` or a switch case counts like any other. A variable a
   switch tests counts about 2 for each comparison and 4 for a jump table. On a tie the variable assigned first wins,
-  whatever the declaration order, and a variable assigned later needs about one use more.
+  whatever the declaration order, and a variable assigned later needs about one use more. That held in small
+  functions; in `status_rcv.c`'s `StatusRcv_CanUseItem`, six effort values with the same uses, assigned one after
+  another, went to `r5` and `r7` by declaration order instead: the last declared got `r5` and the one before it `r7`,
+  and the rest took stack slots, the first declared highest.
 - A variable gets a register or stack slot for each group of assignments that reach the same uses, so a variable
   that is assigned in two branches and stored once after them stays in one register, while a copy of the store in
   each branch lets the two assignments go to different places.
@@ -58,6 +61,12 @@ Same code, other `sp` offsets or frame size.
 - A variable reused by several switch cases is split into one value per case (see Registers), and a split piece that is
   spilled takes the lowest slot whatever the declarations say. When the original has a case's spilled value among the
   declared variables' slots, that case had a variable of its own, as case 9 of the records command does.
+- The same holds for a variable assigned anew in several `if` blocks: its first piece takes the variable's slot in
+  declaration order and the later pieces the lowest slots, in the order they are assigned. `status_rcv.c`'s
+  `StatusRcv_UseItem` reuses one function-level `add` in its six effort blocks, which puts the first block's value
+  among the declared slots and the other five at the bottom of the frame; a block-scoped `add` in each block does not.
+- In a chained assignment, `a = b = f();`, MWCC treats `a` as its own copy of `b`, and a spilled `a` takes the lowest
+  slot instead of its declared one. `StatusRcv_UseItem` needs `status = f(); newStatus = status;`.
 - A NULL check written on a field, `if (bgs[bg].screen != NULL) { void *screen = bgs[bg].screen; ... }`, gives
   different stack slots from the same check on a local loaded before it, as `GFL_BGSysLoadScrCore` shows.
 - MWCC reuses a field it has loaded, across the 64-bit multiply helpers, so a value that the original keeps on the
@@ -170,6 +179,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   orders.
 - `x = x == 0 ? 3 : x - 1;` reads `x` once, and `if (x == 0) { x = 3; } else { x--; }` reads it again in the `else`
   branch before the shared store, as the Pokédex habitat map's season changes do.
+- The last test of a condition branches to the code written second. `if (a == x || a == y) { return TRUE; } return
+  FALSE;` ends with `bne` to the `FALSE` return, while the original's `beq` to a `TRUE` return placed after the `FALSE`
+  one is `if (a != x && a != y) { return FALSE; } return TRUE;`, as `plist_demo.c`'s Reveal Glass and Gracidea checks
+  are written.
 - `a == 4 || a == 5` becomes a range check. Separate comparisons that jump to the same code come from separate
   branches with the same body.
 - A clamp that ends in one store, with each limit copied into the value's register, is a conditional expression.
@@ -242,6 +255,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   and moving one object can reorder others. `tools/scripts/rodata_order.py` predicts the layout for a declaration order
   and tries the orders of the objects given with `--permute`; `intro_graphic.c` matches only with its light setups
   declared after the function whose BG setups are local initializers.
+- The list that is heapsorted holds the file's `.data` tables as well as its `.rodata` objects, so a `.data` table's
+  declaration reorders `.rodata` objects of the same size, and `rodata_order.py` predicts the layout only when it is
+  given them too (string literals don't count). `worldtrade_search.c`'s four BG setups come out in the game's order
+  only with its touch screen's cursor table, in `.data`, declared after the touch rectangles rather than at the top.
 - `static const` data goes in `.rodata`, so a table that the original has in `.data` is not `const`. The module
   check fails if a table ends up in the wrong section, even when every function matches.
 - A `static const` variable whose address is never taken is folded into the code and not emitted. If the original has
