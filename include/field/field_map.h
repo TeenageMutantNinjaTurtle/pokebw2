@@ -128,6 +128,7 @@ u16 GetAbyssalRuinsDiveZoneID(Field *field, u16 *zoneId);
 u32 GetTileClass(u32 tileType);
 BOOL MapTile_IsValid(u32 tileType);
 BOOL MapTile_BlocksCollision(u32 tileType);
+BOOL MapTile_IsBlocksCycling(u32 tileClass);
 BOOL MapTile_IsNormalTallGrassDoubleBtl(u32 tileClass);
 BOOL MapTile_IsReallyTallGrassSingleBtl(u32 tileClass);
 BOOL MapTile_IsReallyTallGrassDoubleBtl(u32 tileClass);

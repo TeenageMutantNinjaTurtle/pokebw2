@@ -29,6 +29,7 @@ typedef struct {
 } TaskMenuSetup;
 
 void *func_0202d974(const TaskMenuSetup *setup, void *res);
+void *func_0202da48(const TaskMenuSetup *setup, void *res);
 void func_0202da54(void *menu);
 void func_0202db70(void *menu);
 // Whether an item was picked, and which

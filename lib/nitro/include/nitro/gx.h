@@ -12,6 +12,8 @@ typedef u16 GXRgb;
 #define GX_RGB(r, g, b) ((GXRgb)((r) | ((g) << 5) | ((b) << 10)))
 
 #define reg_GX_DISPCNT (*(vu32 *)0x04000000)
+#define reg_GX_DISPSTAT (*(vu16 *)0x04000004)
+#define REG_GX_DISPSTAT_VBLK_MASK 0x0001
 #define reg_G2_BG0CNT (*(vu16 *)0x04000008)
 #define reg_G2_BLDCNT (*(vu16 *)0x04000050)
 #define reg_G2_BLDALPHA (*(vu16 *)0x04000052)

@@ -3,6 +3,7 @@
 #include "constants/pokemon.h"
 #include "field/battle_facility.h"
 #include "field/field_effect.h"
+#include "field/fld_btl_inst_event.h"
 #include "field/trial_house.h"
 #include "gfl/heap.h"
 #include "gfl/key.h"
@@ -94,13 +95,13 @@ void func_ov033_0217adbc(TrialHouseWork *work, u32 selectionFlag) {
     work->selectionFlag = selectionFlag;
 }
 
-void func_ov033_0217adc4(GameSystem *gsys, TrialHouseWork *work, u32 mode) {
+u32 func_ov033_0217adc4(GameSystem *gsys, TrialHouseWork *work, u32 mode) {
     if (work->selectionFlag != 0) {
         func_ov033_0217ae5c(gsys, work, mode);
     } else {
         func_ov033_0217ade8(work, mode);
     }
-    func_ov033_0217aed0(work);
+    return func_ov033_0217aed0(work);
 }
 
 void func_ov033_0217ade8(TrialHouseWork *work, u32 mode) {
@@ -157,8 +158,8 @@ u32 func_ov033_0217aed0(TrialHouseWork *work) {
     return func_ov012_02162b38(work->trainer.trainerId);
 }
 
-GameEvent *func_ov033_0217aedc(GameSystem *gsys, TrialHouseWork *work, u32 actorId, u32 messageId) {
-    return func_ov012_02161e6c(gsys, work, actorId, (u16)messageId);
+GameEvent *func_ov033_0217aedc(GameSystem *gsys, TrialHouseWork *work, u32 index, u32 actorId) {
+    return func_ov012_02161e6c(gsys, &work->trainer, index, (u16)actorId);
 }
 
 GameEvent *func_ov033_0217aee8(GameSystem *gsys, TrialHouseWork *work, u16 *result) {
@@ -171,18 +172,18 @@ GameEvent *func_ov033_0217aee8(GameSystem *gsys, TrialHouseWork *work, u16 *resu
     data->result = result;
     data->work = work;
     data->timeout = 0;
-    data->code = 0x2e;
-    data->size = func_0200ee20();
-    data->saveBuffer = work->saveBuffer;
-    data->region = region;
+    data->init.code = 0x2e;
+    data->init.data[0].datasize = func_0200ee20();
+    data->init.data[0].pData = work->saveBuffer;
+    data->init.data[0].region = region;
 #ifdef BLACK2
-    data->mask = 0x800000;
+    data->init.data[0].mask = 0x800000;
 #else
-    data->mask = 0x400000;
+    data->init.data[0].mask = 0x400000;
 #endif
-    data->active = 1;
-    data->flag4 = 0;
-    data->id = 0x8015;
+    data->init.dataNum = 1;
+    data->init.flag4 = 0;
+    data->init.heapId = HEAPID_TAIL(HEAPID_FIELDMAP);
     return event;
 }
 
@@ -200,7 +201,7 @@ GameEventReturnCode func_ov033_0217af5c(GameEvent *event, u32 *state, void *arg)
     gsys = data->gsys;
     switch (*state) {
     case 0:
-        data->subwork = func_ov012_02152990(data);
+        data->subwork = func_ov012_02152990(&data->init);
         if (func_ov012_02152b64(data->subwork) == 0) {
             *data->result = 0;
             *state = 4;
@@ -361,11 +362,11 @@ void TrialHouseCalcPointScore(GameSystem *gsys, TrialHouseWork *work, u16 *rankO
     func_02009618(getTrainerCardInfoBlkAddress(save), rank);
 }
 
-u32 func_ov033_0217b2e4(u32 unused, TrialHouseWork *work) {
+u32 func_ov033_0217b2e4(GameSystem *gsys, TrialHouseWork *work) {
     return work->initState;
 }
 
-GameEvent *func_ov033_0217b2ec(GameSystem *gsys, u32 unused, u32 mode) {
+GameEvent *func_ov033_0217b2ec(GameSystem *gsys, TrialHouseWork *work, u32 mode) {
     GameEvent *event;
     TrialHouseEffectEvent *data;
 

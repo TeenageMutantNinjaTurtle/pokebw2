@@ -6,6 +6,8 @@
 #include "struct_decls.h"
 
 BOOL BagSave_AddItem(BagSave *bag, u16 item, u16 count, u32 heapId);
+// BagSave_AddItem, putting the item first in its pocket
+BOOL BagSave_AddItemAsFirst(BagSave *bag, u32 item, u32 count, u32 heapId);
 // Whether count of an item fit in the bag
 BOOL BagSave_CheckAvailItemSpace(BagSave *bag, u16 item, u16 count, HeapID heapId);
 // The pocket an item goes in

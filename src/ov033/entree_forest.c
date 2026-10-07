@@ -8,6 +8,7 @@
 #include "field/entree_forest.h"
 #include "field/field.h"
 #include "field/field_actor.h"
+#include "field/symbol_map.h"
 #include "field/zone.h"
 #include "gfl/random.h"
 #include "pml/poke_graphic.h"
@@ -87,7 +88,7 @@ PartyPkm *func_ov033_02176bd0(HeapID heapId, GameData *gameData, const EntreeFor
     return pkm;
 }
 
-void EntreeForest_SpawnAllPokemon(Field *field, u32 actorIdBase, const EntreeForestPokemon *pokemon, u32 unused, void *forestState) {
+void EntreeForest_SpawnAllPokemon(Field *field, u32 actorIdBase, const EntreeForestPokemon *pokemon, u32 unused, u32 area) {
     const u8 *positions;
     EntreeForestSpawnContext context;
     FieldActor *playerActor;
@@ -99,9 +100,9 @@ void EntreeForest_SpawnAllPokemon(Field *field, u32 actorIdBase, const EntreeFor
     s32 x;
     s32 z;
 
-    if (func_ov012_02160974(forestState)) {
+    if (func_ov012_02160974(area)) {
         positions = data_ov033_0217c3c0;
-    } else if (func_ov012_0216099c(forestState)) {
+    } else if (func_ov012_0216099c(area)) {
         positions = data_ov033_0217c340;
     } else {
         positions = data_ov033_0217c398;

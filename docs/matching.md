@@ -55,6 +55,11 @@ Same instructions, registers swapped.
 - Two stores of the same constant share a register when chained, and not when written as two initializers.
   `second = first = TRUE;` stores `first` first. `nearXZ = FALSE; nearY = FALSE;` in that order loads the zero twice,
   while the other order shares it.
+- A pointer local to an element of a struct, like `dst = &shot->pokes[i]`, takes a callee-saved register of its own
+  and can push the struct's pointer to the stack along with a constant MWCC keeps for it. The musical's photo
+  (`musical_event.c`'s `func_ov012_02151384`) only matches with `shot->pokes[pos].field` written at each use.
+- Two loops that reuse one counter and both spill it share its stack slots in the order MWCC splits the variable,
+  not in declaration order; giving the second loop a counter of its own, as `pos` in the same function, moves it.
 - Variables declared in an inner block are allocated apart from the function's variables of the same name: in
   `ShinkaDemoPieces_Move`, the branch that moves a piece home declares its own `dx` and `dz`, which live on the stack
   while the other branches keep theirs in registers.
@@ -103,6 +108,9 @@ Same code, other `sp` offsets or frame size.
 - The types of locals and of the values they hold change how spilled values are scheduled. The trainer AI's speed
   comparison only matches with the speed function returning `u16` into `u16` locals: a spilled `u16` is reloaded after
   the call's stack argument is stored, while a spilled `u32` is reloaded before it.
+- A `u64` argument whose high word is 0 keeps that zero in a stack slot of its own, where a `u32` zero is folded into
+  a constant. Two such slots in `mystery_gift_pokemon.c` show that `PokeParty_CreatePkm` takes its trainer ID and PID
+  as `u64`s.
 - Structs passed by value go in registers and on the stack. Code that copies a struct to the stack and passes its
   address takes a pointer to a local copy. A struct local keeps its stack slot even when it only passes through, so a
   frame larger than the locals explain holds one: Guard Spec.'s effect in `btl_server_flow_sub.c` stores
@@ -179,6 +187,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - MWCC doesn't propagate constants into a variable of an enum type. A loop that still checks its bound before the
   first pass, as `for (p = 80; p <= 83; p++)` does in the Join Avenue's commands, or a sum that still adds a counter
   known to be 0, as the Battle Subway's loop over its music switches does, has an enum counter.
+- A function that returns `-1` or `0` from two branches, `if (f(x)) { return 0; } return -1;`, is folded into a
+  computed result (`rsbs`) when it returns an `int`, and keeps both returns when it returns an enum. The field action
+  checks of `itemuse_event.c` return such an enum.
 - A local variable that holds a constant, like `fx32 one = FX32_ONE;`, keeps its own stack slot or register, while the
   literal is hoisted out of a loop by the compiler. Extra hoisted constants in our output point to such a variable.
 - An address computed before calls is reused after them only when the expression is the same, types included:
@@ -220,6 +231,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - Blocks are laid out in source order. A switch whose default code comes right after its comparisons or jump table
   had `default:` written first, and `if (f()) { n++; } else { return FALSE; }` puts the return after the code that goes
   on, where `if (!f()) { return FALSE; } n++;` puts it before.
+- Every `return` gets its own epilogue. Failures that all branch to one block that sets a saved register and jumps
+  to a shared `mov r0, rN` exit come from a result variable and a single `return`, as `mystery_gift_pokemon.c`'s
+  original has.
 - Identical statements in different branches are merged, so a branch that jumps into the middle of another block had
   the same code in the source. For example, `if (a) { x = 3; y = 19; } else { x = 0; y = 19; }` compiles differently
   from `x = a ? 3 : 0; y = 19;`. A run of jumps to one store, as in the start menu's `StartMenu_MoveCursor`, is the
@@ -326,6 +340,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   and moving one object can reorder others. `tools/scripts/rodata_order.py` predicts the layout for a declaration order
   and tries the orders of the objects given with `--permute`; `intro_graphic.c` matches only with its light setups
   declared after the function whose BG setups are local initializers.
+- String literals are laid out in `.data` in the order they first appear in the source, each aligned to 4, and an
+  identical literal is shared from its first use. An assert's text is the expression as written, spacing included, so
+  `GFL_ASSERT(a < (B*C))` needs the game's spacing (`delivery_beacon.c` turns clang-format off for it). In
+  `delivery_beacon.c` the game has the asserts' `""` before the file name of an earlier allocation, which no source
+  order tried reproduces: a folded assert or an unused inline creates no literal.
 - Small objects that come after a larger one in the same file, out of size order, may be rows of one array: the PC
   box's `box2_ui.c` has seven cursor tables after a 540-byte one, and they are `sTrayCursorData[3][47]`, three rows
   of equal length that each end in a `TOUCH_RECT_END` entry, with other tables pointing into the rows. Once the sizes

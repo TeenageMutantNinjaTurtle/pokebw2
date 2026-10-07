@@ -46,6 +46,7 @@ u32 PokeParty_GetSaveDataSize(void);
 u32 PML_GenPID(u32 seed, u16 species, u16 form, u32 sex, u32 ability, u32 a5);
 void PokeParty_CreatePkm(PartyPkm *pkm, u16 species, u16 level, u32 a3, u32 a4, s32 a5, u32 pid, u32 a7);
 void PokeParty_SetHiddenAbil(PartyPkm *pkm, u32 species, u32 form);
+void PokeParty_SetDefaultMoves(PartyPkm *pkm);
 void FriendshipManagerCalc(PartyPkm *pkm, u32 reason, u16 zoneId, u16 heapId);
 void func_02020c8c(PartyPkm *pkm, u32 value, u16 zoneId, HeapID heapId);
 // Whether a move's PP is below its maximum, and restoring amount of it
@@ -87,10 +88,10 @@ BOOL doesPokerusHaveDuration(BoxPkm *pkm);
 // Whether the Pokémon has had Pokérus
 BOOL doesPokeHavePokerus(BoxPkm *pkm);
 BoxPkm *func_0201d620(PartyPkm *pkm);
+// Marks the Pokémon as met in a fateful encounter, at the location and on the date
+void setFatefulEncounterPkmData(BoxPkm *pkm, u16 location, u32 year, u32 month, u32 day);
 // Allocates a party Pokémon made from a boxed one
-PartyPkm *boxPkmRegenToPartyPkm(BoxPkm *pkm, HeapID heapId);
 void PML_PkmSetParam(BoxPkm *pkm, u32 param, u32 value);
-void PML_PkmChangeForme(BoxPkm *pkm, u32 forme);
 // The size of a Pokémon's data
 u32 PokeParty_GetPkmRawSize(void);
 void copyPartyPkm(const PartyPkm *src, PartyPkm *dest);
@@ -108,6 +109,7 @@ void PokeParty_InitCore(PokeParty *party, u32 capacity);
 // Records how and where the Pokémon was met, with the player as its Trainer
 void PokeParty_SetupMetData(PartyPkm *pkm, u32 a1, PlayerInfo *playerInfo, u16 placeName, HeapID heapId);
 u32 func_02035cf8(PartyPkm *pkm, u32 arg1, PlayerInfo *playerInfo);
+void func_02035efc(PartyPkm *pkm, u32 arg1, PlayerInfo *playerInfo);
 void PokeParty_ClearPkm(PartyPkm *pkm);
 // Restores a Pokémon's HP and PP and cures its status
 void PokeParty_Recover(PartyPkm *pkm);
@@ -116,6 +118,10 @@ u32 PokeParty_GetLevel(PartyPkm *pkm);
 // Whether a Pokémon can learn the TM or HM of the number PML_ItemGetTMBitMask gives
 BOOL canPkmLearnTM_Wrapper(PartyPkm *pkm, u8 tm);
 void setLevel(PartyPkm *pkm, u32 level);
+u32 PokeParty_GetLevel(PartyPkm *pkm);
+// Counts down the Pokérus of the party's Pokémon by days
+void pokerusDecay(PokeParty *party, s32 days);
+void PokeParty_SetNature(PartyPkm *pkm, u32 nature);
 void setPkmBattleData(PartyPkm *pkm, u32 param, u32 value);
 // A Pokémon's icon in ARCID_POKEICON: its characters' file and its palette
 u32 func_02020f40(BoxPkm *pkm);
@@ -182,8 +188,6 @@ u16 func_0201d358(PartyPkm *pkm, u32 *index, HeapID heapId);
 PartyPkm *PokeParty_NewTempPkm(u16 species, u16 level, u64 a2, HeapID heapId);
 PartyPkm *PokeParty_NewPkm(u16 species, u16 level, u32 trainerId, u32 a3, s32 a4, u64 pid, HeapID heapId);
 void TransformVsPokePartyBySeason(GameData *gameData, PokeParty *party, u8 season);
-BOOL func_ov012_021643f0(GameData *gameData, PokeParty *party, RTCTime *time, u8 season);
-u32 func_ov012_02164428(GameData *gameData, PokeParty *party);
 
 BOOL IsTrainerOT(PartyPkm *pkm, PlayerInfo *player);
 

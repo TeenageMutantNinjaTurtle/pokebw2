@@ -7,6 +7,7 @@
 #include "field/field_script.h"
 #include "field/field_skill_map_eff.h"
 #include "field/field_status.h"
+#include "field/game_beacon_set.h"
 #include "field/hidden_event.h"
 #include "field/player_action.h"
 #include "field/zone.h"

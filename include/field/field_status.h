@@ -19,6 +19,7 @@ u16 FieldStatus_GetFlashPerms(FieldStatus *status);
 BOOL FieldStatus_CheckContinueFlag(FieldStatus *status);
 void FieldStatus_ReserveScript(FieldStatus *status, u16 scriptId);
 void FieldStatus_SetBusyFlag(FieldStatus *status, u32 flag);
+u32 FieldStatus_GetBusyFlag(FieldStatus *status);
 void FieldStatus_SetContinueFlag(FieldStatus *status, BOOL flag);
 void FieldStatus_SetFlashPerms(FieldStatus *status, u32 flags);
 void FieldStatus_SetFlashUsed(FieldStatus *status, BOOL value);

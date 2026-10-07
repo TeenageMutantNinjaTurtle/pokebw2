@@ -6,6 +6,7 @@
 #include "field/field_script_event.h"
 #include "field/field_actor.h"
 #include "field/hidden_event.h"
+#include "field/itemuse_event.h"
 #include "field/player_action.h"
 #include "field/item_use_block.h"
 #include "field/player_state.h"

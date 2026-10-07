@@ -11,14 +11,14 @@
 #include "system/game_event.h"
 #include "system/game_system.h"
 
-GameEvent *EventSave_Create(GameSystem *gsys, Field *field, u16 code, void *msgBgSys, u32 screenId, u32 *result) {
+GameEvent *EventSave_Create(GameSystem *gsys, Field *field, u16 heapId, void *msgBgSys, u32 screenId, u32 *result) {
     GameEvent *event = GameEvent_Create(gsys, NULL, EventSave_Callback, sizeof(EventSaveWork));
     EventSaveWork *work = GameEvent_GetData(event);
     GameData *gameData;
 
     sys_memset(work, 0, sizeof(EventSaveWork));
     work->msgBgSys = msgBgSys;
-    work->code = code;
+    work->heapId = heapId;
     work->gameSystem = gsys;
     work->field = field;
     gameData = GSYS_GetGameData(gsys);
@@ -30,7 +30,7 @@ GameEvent *EventSave_Create(GameSystem *gsys, Field *field, u16 code, void *msgB
 
 GameEventReturnCode EventSave_Callback(GameEvent *event, u32 *state, void *data) {
     EventSaveWork *work = data;
-    u32 result = EventSave_Update(work);
+    u32 result = EventSave_Update(work, state);
 
     switch (result) {
     case 0:
