@@ -22,7 +22,7 @@
 struct PokeListMenu {
     u8 count;
     u16 items[POKELIST_MENU_MAX + 1];
-    TaskMenuItem entries[POKELIST_MENU_MAX];
+    AppTaskMenuItem entries[POKELIST_MENU_MAX];
     void *taskMenu;
     u32 unk78;
     NNSG2dCharacterData *chars;
@@ -53,42 +53,42 @@ void PokeListMenu_Free(PokeListWork *wk, PokeListMenu *menu) {
 
 // Opens the menu of the items listed, which end with POKELIST_MENU_END
 void PokeListMenu_Open(PokeListWork *wk, PokeListMenu *menu, const u32 *items) {
-    TaskMenuSetup setup;
+    AppTaskMenuInit setup;
 
     PokeListMenu_SetItems(wk, menu, items);
     setup.heapId = wk->heapId;
-    setup.count = menu->count;
+    setup.itemCount = menu->count;
     setup.items = menu->entries;
-    setup.a3 = 1;
-    setup.right = 32;
-    setup.bottom = 24;
+    setup.posType = APP_TASKMENU_POS_BOTTOM_RIGHT;
+    setup.x = 32;
+    setup.y = 24;
     setup.width = 13;
     setup.height = 3;
     func_0203d564(wk->touch);
-    menu->taskMenu = func_0202d974(&setup, wk->taskMenuRes);
+    menu->taskMenu = AppTaskMenu_Create(&setup, wk->taskMenuRes);
 }
 
 void PokeListMenu_OpenYesNo(PokeListWork *wk, PokeListMenu *menu) {
-    TaskMenuSetup setup;
+    AppTaskMenuInit setup;
     u32 items[3] = { 14, 15, POKELIST_MENU_END };
 
     PokeListMenu_SetItems(wk, menu, items);
     setup.heapId = wk->heapId;
-    setup.count = menu->count;
+    setup.itemCount = menu->count;
     setup.items = menu->entries;
-    setup.a3 = 1;
-    setup.right = 32;
-    setup.bottom = 18;
+    setup.posType = APP_TASKMENU_POS_BOTTOM_RIGHT;
+    setup.x = 32;
+    setup.y = 18;
     setup.width = 8;
     setup.height = 3;
     func_0203d564(wk->touch);
-    menu->taskMenu = func_0202d974(&setup, wk->taskMenuRes);
+    menu->taskMenu = AppTaskMenu_Create(&setup, wk->taskMenuRes);
 }
 
 void PokeListMenu_Close(PokeListWork *wk, PokeListMenu *menu) {
     u8 i;
 
-    func_0202da54(menu->taskMenu);
+    AppTaskMenu_Free(menu->taskMenu);
     for (i = 0; i < menu->count; i++) {
         GFL_StrBufFree(menu->entries[i].str);
     }
@@ -96,15 +96,15 @@ void PokeListMenu_Close(PokeListWork *wk, PokeListMenu *menu) {
 }
 
 void PokeListMenu_Update(PokeListWork *wk, PokeListMenu *menu) {
-    func_0202db70(menu->taskMenu);
+    AppTaskMenu_Update(menu->taskMenu);
 }
 
 // The item picked, or 0x19 while the menu waits
 u32 PokeListMenu_GetPicked(PokeListWork *wk, PokeListMenu *menu) {
-    if (func_0202dbe4(menu->taskMenu) == FALSE) {
+    if (AppTaskMenu_IsFlashFinished(menu->taskMenu) == FALSE) {
         return 0x19;
     }
-    return menu->items[func_0202dc00(menu->taskMenu)];
+    return menu->items[AppTaskMenu_GetCursorPos(menu->taskMenu)];
 }
 
 static void PokeListMenu_SetItems(PokeListWork *wk, PokeListMenu *menu, const u32 *items) {
@@ -225,7 +225,7 @@ static void PokeListMenu_SetItems(PokeListWork *wk, PokeListMenu *menu, const u3
         } else {
             menu->entries[i].color = 0x39e0;
         }
-        menu->entries[i].isBack = menu->items[i] == 6 ? TRUE : FALSE;
+        menu->entries[i].type = menu->items[i] == 6 ? APP_TASKMENU_ITEM_RETURN : 0;
     }
 }
 
@@ -245,42 +245,42 @@ static StrBuf *PokeListMenu_GetItemName(PokeListWork *wk, PokeListMenu *menu, in
 }
 
 // A button of a battle's selection, at a tile of the bottom bar
-void *PokeListMenu_CreateButton(PokeListWork *wk, PokeListMenu *menu, u32 msgId, u32 x, u8 y, BOOL isBack) {
-    TaskMenuItem item;
+void *PokeListMenu_CreateButton(PokeListWork *wk, PokeListMenu *menu, u32 msgId, u8 x, u8 y, BOOL isBack) {
+    AppTaskMenuItem item;
     void *button;
 
     item.str = GFL_MsgDataLoadStrbufNew(wk->msgData, msgId);
     item.color = 0x39e3;
     if (isBack == FALSE) {
-        item.isBack = FALSE;
+        item.type = 0;
     } else {
-        item.isBack = TRUE;
+        item.type = APP_TASKMENU_ITEM_RETURN;
     }
-    button = func_0202e1f0(wk->taskMenuRes, &item, x, y, 10, wk->heapId);
+    button = AppTaskMenuWin_Create(wk->taskMenuRes, &item, x, y, 10, wk->heapId);
     GFL_StrBufFree(item.str);
     return button;
 }
 
 void PokeListMenu_FreeButton(void *button) {
     if (button != NULL) {
-        func_0202e34c(button);
+        AppTaskMenuWin_Free(button);
     }
 }
 
 void PokeListMenu_UpdateButton(void *button) {
     if (button != NULL) {
-        func_0202e37c(button);
+        AppTaskMenuWin_Update(button);
     }
 }
 
 void PokeListMenu_SetButtonActive(void *button, BOOL active) {
     if (button != NULL) {
-        func_0202e41c(button, active);
+        AppTaskMenuWin_SetActive(button, active);
     }
 }
 
 void PokeListMenu_SetButtonPressed(void *button, BOOL pressed) {
     if (button != NULL) {
-        func_0202e430(button, pressed);
+        AppTaskMenuWin_SetFlashing(button, pressed);
     }
 }

@@ -31,7 +31,6 @@
 #include "gfl/tcbl.h"
 #include "gfl/touchpanel.h"
 #include "gfl/ui.h"
-#include "gfl/wipe.h"
 #include "nitro/gx.h"
 #include "nitro/hw.h"
 #include "nitro/math.h"
@@ -43,11 +42,13 @@
 #include "save/save_control.h"
 #include "system/app_common.h"
 #include "system/app_taskmenu.h"
+#include "system/country_region.h"
 #include "system/game_data.h"
 #include "system/gf_font.h"
-#include "system/master_brightness.h"
+#include "system/wipe.h"
 #include "system/mcss.h"
 #include "system/printsys.h"
+#include "system/wipe.h"
 #include "system/wordset.h"
 
 // The trade's procs and the steps of the trade: choosing a Pokémon, the menus, the messages between the machines
@@ -676,8 +677,8 @@ static void func_ov194_021b7fa8(int netId, int size, void *data, void *work, Net
         sys_memcpy(data, &profile, sizeof(TradeProfile));
         country = UnityTowerVisitor_GetCountry(&profile.info);
         province = UnityTowerVisitor_GetProvince(&profile.info);
-        validCountry = func_0202b57c(country, province, TrainerInfo_GetRegion(&profile.info));
-        validProvince = func_0202b590(country, province, TrainerInfo_GetRegion(&profile.info));
+        validCountry = Country_GetValidCountry(country, province, TrainerInfo_GetRegion(&profile.info));
+        validProvince = Country_GetValidRegion(country, province, TrainerInfo_GetRegion(&profile.info));
         if (country == validCountry && province == validProvince) {
             func_02008c14(&profile.info, country, province);
         } else {
@@ -1011,8 +1012,8 @@ static void func_ov194_021b8754(PokemonTradeWork *wk) {
 }
 
 static void func_ov194_021b87b0(PokemonTradeWork *wk) {
-    if (func_0202dbe4(wk->menu)) {
-        u8 choice = func_0202dc00(wk->menu);
+    if (AppTaskMenu_IsFlashFinished(wk->menu)) {
+        u8 choice = AppTaskMenu_GetCursorPos(wk->menu);
         func_ov194_021c00fc(wk);
         func_ov194_021bfe9c(wk);
         wk->menu = NULL;
@@ -1126,8 +1127,8 @@ static void func_ov194_021b8a5c(PokemonTradeWork *wk) {
 }
 
 static void func_ov194_021b8ac0(PokemonTradeWork *wk) {
-    if (func_0202dbe4(wk->menu)) {
-        u8 choice = func_0202dc00(wk->menu);
+    if (AppTaskMenu_IsFlashFinished(wk->menu)) {
+        u8 choice = AppTaskMenu_GetCursorPos(wk->menu);
         func_ov194_021c00fc(wk);
         wk->menu = NULL;
         if (choice == 0) {
@@ -1332,13 +1333,13 @@ static void func_ov194_021b9058(PokemonTradeWork *wk) {
     BOOL showCursor = TRUE;
     int choice = -1;
     BOOL decided = FALSE;
-    if (!func_0202dc1c(wk->menu)) {
+    if (!AppTaskMenu_IsDecided(wk->menu)) {
         if (PokemonTrade_GetTouched()) {
             func_ov194_021b79e4(wk);
         }
         func_ov139_02199b90(wk->touchBar);
         if (func_ov139_02199c30(wk->touchBar) == 9 && func_0203d554()) {
-            func_0202dc04(wk->menu, FALSE);
+            AppTaskMenu_SetCursorActive(wk->menu, FALSE);
         }
         if (func_ov139_02199c08(wk->touchBar) == 9) {
             selected = TRUE;
@@ -1346,7 +1347,7 @@ static void func_ov194_021b9058(PokemonTradeWork *wk) {
         }
         if (func_0203dac8(&x, &y) == TRUE) {
             func_0203d564(TRUE);
-            func_0202dc04(wk->menu, FALSE);
+            AppTaskMenu_SetCursorActive(wk->menu, FALSE);
             if (func_ov194_021b8c1c(wk, &wk->unkF98, &wk->unkF94, &a, &b)) {
                 wk->cursorRow = b;
                 wk->cursorColumn = a;
@@ -1376,8 +1377,8 @@ static void func_ov194_021b9058(PokemonTradeWork *wk) {
         func_ov194_021b78b4(wk);
         func_ov194_021b796c(wk);
     }
-    if (func_0202dbe4(wk->menu)) {
-        choice = func_0202dc00(wk->menu);
+    if (AppTaskMenu_IsFlashFinished(wk->menu)) {
+        choice = AppTaskMenu_GetCursorPos(wk->menu);
         decided = TRUE;
     }
     if (decided) {
@@ -1457,9 +1458,9 @@ static void func_ov194_021b9394(PokemonTradeWork *wk) {
     func_ov194_021b79e4(wk);
     func_ov194_021b7898(wk);
     if (func_0203d554()) {
-        func_0202dc04(wk->menu, FALSE);
+        AppTaskMenu_SetCursorActive(wk->menu, FALSE);
     } else {
-        func_0202dc04(wk->menu, TRUE);
+        AppTaskMenu_SetCursorActive(wk->menu, TRUE);
     }
     PokemonTrade_SetState(wk, func_ov194_021b9058);
 }
@@ -1569,7 +1570,7 @@ static void func_ov194_021b964c(PokemonTradeWork *wk) {
             sys_memset(wk->iconSexes, 0, sizeof(wk->iconSexes));
             func_ov194_021b79e4(wk);
             if (wk->menu != NULL) {
-                func_0202da54(wk->menu);
+                AppTaskMenu_Free(wk->menu);
                 wk->menu = NULL;
             }
             func_ov194_021c3224(wk);
@@ -1807,8 +1808,8 @@ static void func_ov194_021b9d0c(PokemonTradeWork *wk) {
 }
 
 static void func_ov194_021b9d84(PokemonTradeWork *wk) {
-    if (func_0202dbe4(wk->menu)) {
-        u8 choice = func_0202dc00(wk->menu);
+    if (AppTaskMenu_IsFlashFinished(wk->menu)) {
+        u8 choice = AppTaskMenu_GetCursorPos(wk->menu);
         func_ov194_021c00fc(wk);
         wk->menu = NULL;
         switch (choice) {
@@ -2214,7 +2215,7 @@ static void func_ov194_021ba7d4(PokemonTradeWork *wk) {
     func_ov194_021b79e4(wk);
     func_ov194_021be554(wk, 1);
     if (wk->menu != NULL) {
-        func_0202da54(wk->menu);
+        AppTaskMenu_Free(wk->menu);
         wk->menu = NULL;
     }
     func_ov194_021b8200(wk, 0);
@@ -2254,7 +2255,7 @@ void func_ov194_021ba924(PokemonTradeWork *wk) {
     sys_memset(wk->iconSexes, 0, sizeof(wk->iconSexes));
     func_ov194_021b79e4(wk);
     if (wk->menu != NULL) {
-        func_0202da54(wk->menu);
+        AppTaskMenu_Free(wk->menu);
         wk->menu = NULL;
     }
     func_ov194_021c3224(wk);
@@ -2941,10 +2942,10 @@ static BOOL PokemonTrade_ProcMain(GameProc *proc, u32 *state, void *param, void 
     func_ov194_021be610(wk);
     func_0204b794();
     if (wk->menu != NULL) {
-        func_0202db70(wk->menu);
+        AppTaskMenu_Update(wk->menu);
     }
     if (wk->menuWin != NULL) {
-        func_0202e37c(wk->menuWin);
+        AppTaskMenuWin_Update(wk->menuWin);
     }
     if (wk->unk11FB_4) {
         if (func_02042be8(func_02040440(), TRADE_NET_CMD_UNK17, 0, NULL)) {
@@ -2985,8 +2986,8 @@ static BOOL PokemonTrade_ProcMain(GameProc *proc, u32 *state, void *param, void 
         wk->param->next = 2;
         PokemonTrade_RestoreBGM(wk);
         done = TRUE;
-        func_02027b64(0, 0);
-        func_02027b64(1, 0);
+        Wipe_SetScreenCovered(0, 0);
+        Wipe_SetScreenCovered(1, 0);
     }
     return done;
 }

@@ -1045,10 +1045,10 @@ void func_ov255_021d0a94(Box2AppWork *app, u16 item) {
     NNSG2dPaletteData *pal;
     void *buf;
 
-    buf = GFL_G2DIOReadOBJNCGR(func_02026714(), GetItemGraphicsDatID(item, 1), FALSE, &chr, HEAPID_BOX2_APP);
+    buf = GFL_G2DIOReadOBJNCGR(PML_ItemGetIconArcID(), GetItemGraphicsDatID(item, 1), FALSE, &chr, HEAPID_BOX2_APP);
     func_0204ba40(func_0204c428(app->actors[BOX2_ACTOR_ITEM_ICON]), chr);
     GFL_HeapFree(buf);
-    buf = GFL_G2DIOReadNCLR(func_02026714(), GetItemGraphicsDatID(item, 2), &pal, HEAPID_BOX2_APP);
+    buf = GFL_G2DIOReadNCLR(PML_ItemGetIconArcID(), GetItemGraphicsDatID(item, 2), &pal, HEAPID_BOX2_APP);
     func_0204bd10(func_0204c430(app->actors[BOX2_ACTOR_ITEM_ICON]), pal, 1);
     GFL_HeapFree(buf);
 }
@@ -1214,7 +1214,7 @@ void func_ov255_021d0ff8(Box2SysWork *syswk, u32 anim) {
 
 void func_ov255_021d101c(Box2SysWork *syswk, BOOL show) {
     if (show == TRUE) {
-        if (func_0202ba70(syswk->app->cursorMove) == TRUE) {
+        if (CursorMove_IsCursorVisible(syswk->app->cursorMove) == TRUE) {
             func_ov255_021cf63c(syswk->app, BOX2_ACTOR_CURSOR, TRUE);
         }
     } else {
@@ -1362,8 +1362,8 @@ void func_ov255_021d13d8(Box2SysWork *syswk, s32 mv) {
     for (i = 0; i < 6; i++) {
         func_ov255_021cf6ec(syswk->app, BOX2_ACTOR_TRAY_ICON + i, &x, &y, 0);
         func_ov255_021cf6c8(syswk->app, BOX2_ACTOR_TRAY_ICON + i, x - mv, y, 0);
-        func_0202b20c(syswk->app->fontOam[1 + i].oam, &x, &y);
-        func_0202b230(syswk->app->fontOam[1 + i].oam, x - mv, y);
+        BmpOam_ActorGetPos(syswk->app->fontOam[1 + i].oam, &x, &y);
+        BmpOam_ActorSetPos(syswk->app->fontOam[1 + i].oam, x - mv, y);
     }
 }
 
@@ -1383,7 +1383,7 @@ static void func_ov255_021d1488(Box2SysWork *syswk) {
         data.setup.y += (s16)(i * 34);
         func_ov255_021cf6c8(syswk->app, BOX2_ACTOR_TRAY_ICON + i, data.setup.x, data.setup.y, 0);
         func_ov255_021d1624(syswk, tray, BOX2_ACTOR_TRAY_ICON + i);
-        func_0202b230(syswk->app->fontOam[1 + i].oam, 316, i * 34 + 2);
+        BmpOam_ActorSetPos(syswk->app->fontOam[1 + i].oam, 316, i * 34 + 2);
         func_ov255_021cedb4(syswk, tray, i + 1);
     }
 }
@@ -1528,23 +1528,23 @@ void func_ov255_021d17f8(Box2SysWork *syswk, s16 mv) {
         func_ov255_021cf6ec(syswk->app, BOX2_ACTOR_TRAY_ICON + i, &x, &y, 0);
         ny = y + speed;
         func_ov255_021cf6c8(syswk->app, BOX2_ACTOR_TRAY_ICON + i, x, ny, 0);
-        func_0202b20c(syswk->app->fontOam[1 + i].oam, &fx, &fy);
+        BmpOam_ActorGetPos(syswk->app->fontOam[1 + i].oam, &fx, &fy);
         nfy = fy + speed;
-        func_0202b230(syswk->app->fontOam[1 + i].oam, fx, nfy);
+        BmpOam_ActorSetPos(syswk->app->fontOam[1 + i].oam, fx, nfy);
         if (ny < -16) {
             u32 tray = Box2Main_GetTrayScroll(syswk, 4);
 
             func_ov255_021d1624(syswk, tray, BOX2_ACTOR_TRAY_ICON + i);
             func_ov255_021cf6c8(syswk->app, BOX2_ACTOR_TRAY_ICON + i, x, ny + 204, 0);
             func_ov255_021cedb4(syswk, tray, i + 1);
-            func_0202b230(syswk->app->fontOam[1 + i].oam, fx, nfy + 204);
+            BmpOam_ActorSetPos(syswk->app->fontOam[1 + i].oam, fx, nfy + 204);
         } else if (ny >= 186) {
             u32 tray = Box2Main_GetTrayScroll(syswk, -1);
 
             func_ov255_021d1624(syswk, tray, BOX2_ACTOR_TRAY_ICON + i);
             func_ov255_021cf6c8(syswk->app, BOX2_ACTOR_TRAY_ICON + i, x, ny - 204, 0);
             func_ov255_021cedb4(syswk, tray, i + 1);
-            func_0202b230(syswk->app->fontOam[1 + i].oam, fx, nfy - 204);
+            BmpOam_ActorSetPos(syswk->app->fontOam[1 + i].oam, fx, nfy - 204);
         }
     }
     if (func_ov255_021cf658(syswk->app, 2) == TRUE) {
@@ -1589,8 +1589,8 @@ static void func_ov255_021d1a84(Box2SysWork *syswk, u32 index) {
 
     func_ov255_021cf6c8(syswk->app, 3, 206, y, 0);
     func_ov255_021cf63c(syswk->app, 3, TRUE);
-    func_0202b230(syswk->app->fontOam[0].oam, 158, y - 8);
-    func_0202b098(syswk->app->fontOam[0].oam, TRUE);
+    BmpOam_ActorSetPos(syswk->app->fontOam[0].oam, 158, y - 8);
+    BmpOam_ActorSetDrawEnable(syswk->app->fontOam[0].oam, TRUE);
 }
 
 void func_ov255_021d1ac8(Box2SysWork *syswk, u32 index, BOOL show) {
@@ -1599,7 +1599,7 @@ void func_ov255_021d1ac8(Box2SysWork *syswk, u32 index, BOOL show) {
         func_ov255_021d1a84(syswk, index);
     } else {
         func_ov255_021cf63c(syswk->app, 3, FALSE);
-        func_0202b098(syswk->app->fontOam[0].oam, FALSE);
+        BmpOam_ActorSetDrawEnable(syswk->app->fontOam[0].oam, FALSE);
     }
 }
 
@@ -1658,19 +1658,19 @@ static void func_ov255_021d1c30(Box2AppWork *app) {
     u32 i;
     Box2FontOam *font;
 
-    app->bmpOam = func_0202ae5c(HEAPID_BOX2_APP, app->clunit);
+    app->bmpOam = BmpOam_Init(HEAPID_BOX2_APP, app->clunit);
     app->fontOam[0].bitmap = GFL_BitmapCreate(12, 2, 0x20, HEAPID_BOX2_APP);
     setup.bitmap = app->fontOam[0].bitmap;
     setup.x = 0;
     setup.y = 0;
     setup.palette = app->palRes[6];
-    setup.palOffset = 0;
+    setup.paletteOffset = 0;
     setup.priority = 30;
     setup.bgPriority = 0;
     setup.surface = 0xffff;
     setup.vramType = CLACT_VRAM_MAIN;
-    app->fontOam[0].oam = func_0202aec4(app->bmpOam, &setup);
-    func_0202b098(app->fontOam[0].oam, FALSE);
+    app->fontOam[0].oam = BmpOam_ActorAdd(app->bmpOam, &setup);
+    BmpOam_ActorSetDrawEnable(app->fontOam[0].oam, FALSE);
     for (i = 7; i <= 8; i++) {
         font = &app->fontOam[i];
         font->bitmap = GFL_BitmapCreate(12, 2, 0x20, HEAPID_BOX2_APP);
@@ -1678,7 +1678,7 @@ static void func_ov255_021d1c30(Box2AppWork *app) {
         setup.x = 36;
         setup.y = 20;
         setup.bgPriority = 3;
-        font->oam = func_0202aec4(app->bmpOam, &setup);
+        font->oam = BmpOam_ActorAdd(app->bmpOam, &setup);
     }
     for (i = 0; i < 6; i++) {
         font = &app->fontOam[1 + i];
@@ -1687,7 +1687,7 @@ static void func_ov255_021d1c30(Box2AppWork *app) {
         setup.x = 316;
         setup.y = i * 34 + 2;
         setup.bgPriority = 1;
-        font->oam = func_0202aec4(app->bmpOam, &setup);
+        font->oam = BmpOam_ActorAdd(app->bmpOam, &setup);
     }
     font = &app->fontOam[9];
     font->bitmap = GFL_BitmapCreate(2, 2, 0x20, HEAPID_BOX2_APP);
@@ -1696,7 +1696,7 @@ static void func_ov255_021d1c30(Box2AppWork *app) {
     setup.y = 0;
     setup.priority = 45;
     setup.bgPriority = 0;
-    font->oam = func_0202aec4(app->bmpOam, &setup);
+    font->oam = BmpOam_ActorAdd(app->bmpOam, &setup);
     func_ov255_021d1d68(app, 9, FALSE);
 }
 
@@ -1704,25 +1704,25 @@ static void func_ov255_021d1d44(Box2AppWork *app) {
     u32 i;
 
     for (i = 0; i < NELEMS(app->fontOam); i++) {
-        func_0202b030(app->fontOam[i].oam);
+        BmpOam_ActorDel(app->fontOam[i].oam);
         GFL_BitmapFree(app->fontOam[i].bitmap);
     }
-    func_0202aeac(app->bmpOam);
+    BmpOam_Exit(app->bmpOam);
 }
 
 void func_ov255_021d1d68(Box2AppWork *app, u32 index, BOOL visible) {
-    func_0202b098(app->fontOam[index].oam, visible);
+    BmpOam_ActorSetDrawEnable(app->fontOam[index].oam, visible);
 }
 
 BOOL func_ov255_021d1d78(Box2AppWork *app, u32 index) {
-    return func_0202b0e8(app->fontOam[index].oam);
+    return BmpOam_ActorGetDrawEnable(app->fontOam[index].oam);
 }
 
 void func_ov255_021d1d88(Box2AppWork *app, u32 index, u32 dir) {
     if (dir == 0) {
-        func_0202b230(app->fontOam[index].oam, -148, 20);
+        BmpOam_ActorSetPos(app->fontOam[index].oam, -148, 20);
     } else {
-        func_0202b230(app->fontOam[index].oam, 220, 20);
+        BmpOam_ActorSetPos(app->fontOam[index].oam, 220, 20);
     }
 }
 
@@ -1732,8 +1732,8 @@ void func_ov255_021d1db0(Box2AppWork *app, s32 mv) {
     u32 i;
 
     for (i = 7; i <= 8; i++) {
-        func_0202b20c(app->fontOam[i].oam, &x, &y);
-        func_0202b230(app->fontOam[i].oam, x + mv, y);
+        BmpOam_ActorGetPos(app->fontOam[i].oam, &x, &y);
+        BmpOam_ActorSetPos(app->fontOam[i].oam, x + mv, y);
         if (x + mv == -148 || x + mv == 220) {
             func_ov255_021d1d68(app, i, FALSE);
         }
@@ -2012,7 +2012,7 @@ void func_ov255_021d22e0(Box2AppWork *app, BOOL visible) {
 
 void func_ov255_021d22fc(Box2AppWork *app, s16 x, s16 y) {
     func_ov255_021cf6c8(app, 31, x, y, 0);
-    func_0202b230(app->fontOam[9].oam, x - 16, y - 16);
+    BmpOam_ActorSetPos(app->fontOam[9].oam, x - 16, y - 16);
 }
 
 void func_ov255_021d232c(Box2SysWork *syswk, BOOL visible) {

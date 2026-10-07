@@ -10,7 +10,8 @@
 #include "gfl/tcbl.h"
 #include "gfl/touchpanel.h"
 #include "system/app_keycursor.h"
-#include "system/print_wait.h"
+#include "system/app_printsys_common.h"
+#include "system/bmp_winframe.h"
 #include "system/printsys.h"
 #include "system/text_speed.h"
 #include "system/time_icon.h"
@@ -26,7 +27,7 @@ struct PokeListMessage {
     PrintStream *stream;
     StrBuf *str;
     KeyCursor *keyCursor;
-    PrintWait printWait;
+    AppPrintsysCommon printWait;
     BOOL waitInput;
     BOOL dirty;
     PrintQueue *printQueue;
@@ -51,7 +52,7 @@ PokeListMessage *PokeListMessage_Create(PokeListWork *wk) {
     msg->wordSet = NULL;
     msg->waitIcon = NULL;
     msg->wantWaitIcon = FALSE;
-    msg->keyCursor = func_0202e7a4(15, 1, 1, wk->heapId);
+    msg->keyCursor = KeyCursor_Create(15, 1, 1, wk->heapId);
     msg->printQueue = func_02021998(wk->heapId);
     return msg;
 }
@@ -69,7 +70,7 @@ void PokeListMessage_Free(PokeListWork *wk, PokeListMessage *msg) {
     }
     func_02021c44(msg->printQueue);
     func_02021a18(msg->printQueue);
-    func_0202e818(msg->keyCursor);
+    KeyCursor_Free(msg->keyCursor);
     GFL_TCBExMgrFree(msg->tcbMgr);
     GFL_HeapFree(msg);
 }
@@ -77,8 +78,8 @@ void PokeListMessage_Free(PokeListWork *wk, PokeListMessage *msg) {
 void PokeListMessage_Update(PokeListWork *wk, PokeListMessage *msg) {
     GFL_TCBExMgrUpdate(msg->tcbMgr);
     if (msg->stream != NULL) {
-        func_0202e8d8(msg->keyCursor, msg->stream, msg->window);
-        if (func_0202e68c(&msg->printWait, msg->stream) == TRUE) {
+        KeyCursor_Update(msg->keyCursor, msg->stream, msg->window);
+        if (AppPrintsysCommon_Update(&msg->printWait, msg->stream) == TRUE) {
             if (msg->waitInput == FALSE || (GCTX_HIDGetPressedKeys() & (PAD_BUTTON_A | PAD_BUTTON_B)) ||
                 func_0203da48() == TRUE) {
                 if (msg->waitInput == TRUE) {
@@ -88,7 +89,7 @@ void PokeListMessage_Update(PokeListWork *wk, PokeListMessage *msg) {
                 msg->stream = NULL;
                 GFL_StrBufFree(msg->str);
             } else {
-                func_0202e870(msg->keyCursor, BmpWin_GetBitmap(msg->window), 15);
+                KeyCursor_Draw(msg->keyCursor, BmpWin_GetBitmap(msg->window), 15);
                 BmpWin_FlushChar(msg->window);
             }
         }
@@ -120,7 +121,7 @@ void PokeListMessage_Open(PokeListWork *wk, PokeListMessage *msg, u32 windowType
         msg->window = BmpWin_CreateDynamic(0, 2, 19, 28, 4, 14, TRUE);
         break;
     }
-    BmpWin_DrawFrame(msg->window, TRUE, 1, 12);
+    BmpWin_DrawFrame(msg->window, WINFRAME_TRANSFER_VBLANK, 1, 12);
     PokeListMessage_Clear(wk, msg);
 }
 
@@ -130,7 +131,7 @@ void PokeListMessage_Close(PokeListWork *wk, PokeListMessage *msg) {
             func_0203580c(msg->waitIcon);
             msg->waitIcon = NULL;
         }
-        func_02024eec(msg->window, 1);
+        BmpWin_ClearFrame(msg->window, WINFRAME_TRANSFER_VBLANK);
         BmpWin_Free(msg->window);
         func_02021c44(msg->printQueue);
         msg->windowType = POKELIST_MESSAGE_WINDOW_NONE;
@@ -181,7 +182,7 @@ void PokeListMessage_PrintStream(PokeListWork *wk, PokeListMessage *msg, u32 msg
     }
     msg->waitInput = waitInput;
     msg->str = str;
-    func_0202e678(&msg->printWait, 6);
+    AppPrintsysCommon_Init(&msg->printWait, APP_PRINTSYS_COMMON_KEYS | APP_PRINTSYS_COMMON_TOUCH);
     msg->stream = func_02022294(msg->window, 0, 0, msg->str, wk->font, func_02017bcc(), msg->tcbMgr, 0, wk->heapId, 15,
                                 PokeListMessage_StreamCallback);
 }
@@ -269,6 +270,6 @@ void PokeListMessage_ShowWaitIcon(PokeListWork *wk, PokeListMessage *msg) {
 }
 
 void PokeListMessage_DrawKeyCursor(PokeListWork *wk, PokeListMessage *msg) {
-    func_0202e82c(msg->keyCursor, BmpWin_GetBitmap(msg->window), 15);
+    KeyCursor_Erase(msg->keyCursor, BmpWin_GetBitmap(msg->window), 15);
     BmpWin_FlushChar(msg->window);
 }

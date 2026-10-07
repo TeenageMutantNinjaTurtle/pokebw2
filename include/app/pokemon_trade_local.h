@@ -23,10 +23,10 @@
 #include "save/player_info.h"
 #include "struct_decls.h"
 #include "system/app_keycursor.h"
+#include "system/app_printsys_common.h"
 #include "system/app_taskmenu.h"
 #include "system/mcss.h"
 #include "system/net_save.h"
-#include "system/print_wait.h"
 #include "system/printsys.h"
 #include "system/time_icon.h"
 
@@ -220,7 +220,7 @@ struct PokemonTradeWork {
     AppTaskMenuWin *menuWin;
     AppTaskMenu *menu;
     // The items of the menu, built for each menu
-    TaskMenuItem menuItems[8];
+    AppTaskMenuItem menuItems[8];
     AppTaskMenuRes *taskMenuRes;
     // The window of a Pokémon's summary
     BmpWin *summaryWindow;
@@ -381,7 +381,7 @@ struct PokemonTradeWork {
     int type;
     u8 unk1190[0x44];
     // The wait on the message being printed
-    PrintWait printWait;
+    AppPrintsysCommon printWait;
     u8 unk11DC[0x4];
     // The command each machine sent last
     u8 command[2];

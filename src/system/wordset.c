@@ -9,6 +9,9 @@
 #include "pml/poke_party.h"
 #include "pml/species_names.h"
 #include "save/player_info.h"
+#include "system/country_region.h"
+#include "system/pms_data.h"
+#include "system/pms_word.h"
 #include "system/printsys.h"
 #include "system/str_tool.h"
 #include "system/wordset.h"
@@ -40,10 +43,6 @@ struct WordSet {
 };
 
 // Declared here until their files are decompiled
-void func_02029fec(u16 *saying, u32 a1, u32 a2);
-void loadSayingToString(u16 saying, StrBuf *strbuf, HeapID heapId);
-void func_0202a060(u32 *value, u32 a1);
-u32 fetchFileNumOfDividedCountry(u32 country);
 void loadBoxNameToStrbuf(void *boxData, u32 box, StrBuf *strbuf);
 BOOL PassPower_IsIDValid(u32 id);
 void *allocateForFestMission(HeapID heapId);
@@ -224,15 +223,15 @@ void WordSetNumber(WordSet *wordSet, u32 index, s32 number, u32 digits, u32 pad,
 void loadSayingForDisplay(WordSet *wordSet, u32 index, u16 saying) {
     u16 copy = saying;
 
-    func_02029fec(&copy, 0, 0);
+    PMSWord_Validate(&copy, FALSE, FALSE);
     loadSayingToString(copy, wordSet->tmp, wordSet->heapId);
     GFL_WordSetCopyStrbuf(wordSet, index, wordSet->tmp, NULL);
 }
 
 void func_02024574(WordSet *wordSet, u32 index, u32 value) {
-    u32 copy = value;
+    int copy = value;
 
-    func_0202a060(&copy, 0);
+    PMSNumber_Validate(&copy, FALSE);
     if (index < wordSet->count) {
         wordSet->bufs[index].attr.unk4 = copy;
     }
@@ -301,7 +300,7 @@ void loadTrainerNamesToStrbuf(WordSet *wordSet, u32 index, u32 trainerId) {
     GFL_WordSetLoadMsg(wordSet, index, 0x17e, trainerId);
 }
 
-void loadStatNameToStrbuf(WordSet *wordSet, u32 index, u32 stat) {
+void loadStatNameToStrbuf(WordSet *wordSet, u32 index, u8 stat) {
     GFL_WordSetLoadMsg(wordSet, index, 0x174, stat);
 }
 

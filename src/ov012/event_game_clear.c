@@ -202,7 +202,7 @@ GameEvent *EventGameClear_Create(GameSystem *gsys, u32 param) {
     SetGameClearGameData(work);
     func_ov012_0215a50c(work);
     work->unovaLinkParam.gameData = gameData;
-    work->unovaLinkParam.unk00 = 0;
+    work->unovaLinkParam.mode = UNOVA_LINK_MODE_GAME_CLEAR;
 #ifdef BLACK2
     work->unovaLinkParam.unk08 = 1;
 #else
@@ -215,7 +215,7 @@ GameEvent *EventGameClear_Create(GameSystem *gsys, u32 param) {
 void SetGameClearGameData(GameClearWork *work) {
     work->ov265Param.party = GameData_GetParty(work->gameData);
     work->ov265Param.playerInfo = GetGameDataPlayerInfo(work->gameData);
-    work->ov265Param.unk08 = func_02017a40(work->gameData);
+    work->ov265Param.playTime = func_02017a40(work->gameData);
 }
 
 void func_ov012_0215a50c(GameClearWork *work) {

@@ -17,7 +17,8 @@ typedef struct PrintQueue PrintQueue;
 typedef struct PrintStream PrintStream;
 
 // A color of text, shadow and background color indices
-#define PRINT_COLOR(text, shadow, background) (((text) << 10) | ((shadow) << 5) | (background))
+#define PRINT_COLOR(text, shadow, background)                                                                          \
+    ((((text) & 0x1f) << 10) | (((shadow) & 0x1f) << 5) | ((background) & 0x1f))
 
 // Sets the string terminator, and creates the bitmap glyphs are drawn into
 void GFL_TextRndInit(HeapID heapId);
@@ -50,6 +51,11 @@ typedef struct {
     BmpWin *window;
     u8 flushPending;
 } PrintWindow;
+
+static inline void PrintWindow_Init(PrintWindow *printWindow, BmpWin *window) {
+    printWindow->window = window;
+    printWindow->flushPending = FALSE;
+}
 
 static inline void PrintWindow_Print(PrintWindow *printWindow, PrintQueue *queue, s16 x, s16 y, const StrBuf *strbuf,
                                      Font *font, u16 color) {
@@ -96,7 +102,7 @@ BOOL func_02022458(PrintStream *stream);
 u32 GFL_FontGetLineWidth(const u16 *str, Font *font, u32 spacing, const u16 **end);
 u32 func_0202284c(const StrBuf *strbuf);
 // The width in pixels of a string's widest line
-s32 GFL_FontGetBlockWidth(const StrBuf *strbuf, Font *font, u32 spacing);
+u32 GFL_FontGetBlockWidth(const StrBuf *strbuf, Font *font, u32 spacing);
 // The width of each line, up to maxLines. Returns the count of lines
 u32 func_020228c0(const StrBuf *strbuf, Font *font, u32 spacing, u32 *widths, u32 maxLines);
 // Copies a line of the string, with its commands. Returns whether it has the line

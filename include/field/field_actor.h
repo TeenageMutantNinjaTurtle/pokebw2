@@ -157,8 +157,6 @@ u16 GetActorMotionDir(FieldActor *actor);
 BOOL func_ov012_0216773c(FieldActor *actor);
 void func_ov036_0219634c(FieldActor *actor, u16 *a1, u16 *a2);
 void func_ov036_021963a4(FieldActor *actor, u16 a1, u16 a2);
-// The field object code of a Pokémon walking in the field, in the main module
-u16 GetPokemonFieldOBJCODE(void *pokemonData, u16 species, u16 sex, u16 form);
 u32 GetIndexOfObjID(u16 objCode);
 
 // Overlay 36's table that func_ov036_02194650 indexes, by a record's unk9

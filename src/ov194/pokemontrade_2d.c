@@ -26,6 +26,7 @@
 #include "pml/poke_party.h"
 #include "save/box.h"
 #include "system/app_common.h"
+#include "system/bmp_winframe.h"
 #include "system/gf_font.h"
 #include "system/printsys.h"
 

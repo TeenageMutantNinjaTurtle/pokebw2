@@ -8,6 +8,11 @@ text to `grep -n` there. Entries without a key come from later work and still be
 ## Registers swapped
 
 - Locals get registers in declaration order: reorder the declarations. (matching.md: "declaration order of locals")
+  Declaring every local first and assigning them below moves both registers and slots (matching.md: "declared first")
+- A `u16` local and `local ± 1` sharing a register can push a parameter out of r0: a wider local keeps them apart.
+  (matching.md: "wider local")
+- A ternary store computes the address once, an `if`/`else` store in each branch. (matching.md: "ternary store")
+- `p + (a + 4)` and `p + a + 4` differ. (matching.md: "Parenthesized offsets")
 - Of two variables that compete for one register, the one used more gets it. `docs/matching.md` spells out what counts as a
   use; on a tie the one assigned first wins, though in a large function the last declared won.
   (matching.md: "compete for the same register")
@@ -61,11 +66,18 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - A load through a pointer moves above stores only when the pointee is `const`. A load scheduled early points to a
   `const` parameter. (matching.md: "unless the pointee is `const`")
 - The same rule orders a call's stack argument stores against the register arguments. (matching.md: "stack argument stores")
+- Register parameters spilled at entry in another order: try `u8` for flag parameters typed `BOOL`.
+  (matching.md: "`u8` flag parameters")
+- The operand order of a product decides which value is loaded first. (matching.md: "operand order of a product")
 - A load through a `const` pointer is reused across stores but not hoisted out of a loop. (matching.md: "reused across stores")
 - Initializations are scheduled where they are written: `int i = 0;` declared after a call against `for (i = 0; ...)`.
   (matching.md: "scheduled where they are written")
+- A u16 stack parameter left in its slot and reloaded with `ldrh`, one load shared by two calls: those callees take
+  `u32`; check their prototypes against their asm. (matching.md: "reloaded with `ldrh`")
 - An argument loaded before a call among the arguments was passed to an inlined helper that makes the call.
   (matching.md: "inlined helper that makes the call")
+- One load of a struct's pointer field for two stores through it, where ours reloads: an inline helper taking the
+  pointer. (matching.md: "Two stores through a pointer")
 - A parameter passed on the stack is loaded at entry, unless it is an `int` or `s32`. (matching.md: "passed on the stack is loaded")
 - NitroSDK's inline functions take enums, which changes when their arguments are loaded and shifted.
   (matching.md: "NitroSDK's inline functions")
@@ -159,6 +171,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - An address or value an inner loop computes from the outer counter alone is hoisted into the inner preheader.
   (matching.md: "inner loop computes"), (matching.md: "preheader")
 - Enum counters keep their guard (see above).
+- A field loaded again at the top of a loop's body, after the test loaded it: walk a local cursor, not the pointer
+  parameter. (matching.md: "local cursor")
 - `beq` before and `bne` after the loop is a `!=` bound. (matching.md: "A loop counted with `!=`")
 
 ## Switches
@@ -166,7 +180,11 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - Cases are laid out in source order, not by value. (matching.md: "Switch cases are laid out in source order")
 - The comparison tree and jump tables depend on every case value, including empty cases. (matching.md: "comparison tree")
 - A case that ends in the same code as another is merged into it. (matching.md: "ends in the same code as another")
+- Cases that load some of a call's arguments, then branch to the shared rest and the call: every argument was a
+  variable set in each case. (matching.md: "each set every argument")
 - An `if`/`else if` chain whose tests come in a switch's order is a `switch` with a case falling into `default`.
+- All the tests first (`cmp; beq` each) is a `switch`; a test before each body (`cmp; bne`) is an `if` chain.
+  (matching.md: "tests them all first")
   `case 0: default:` written first sets the case order.
 - `cmp; beq end; cmp; bne next` with each body after its test: an `if`/`else if` chain with an empty first body,
   not a switch (matching.md: "A short chain of tests whose first value does nothing")

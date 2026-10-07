@@ -2,12 +2,14 @@
 #define POKEBW2_CONSTANTS_ARC_H
 
 // Names, layouts and constants from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0), except
-// ARCID_TITLE, ARCID_STARTMENU, ARCID_SEASON_BANNER, ARCID_COPYRIGHT, ARCID_ZUKAN_GRA, ARCID_INTRO, ARCID_EGG_DEMO,
-// ARCID_SHINKA_DEMO, ARCID_POKEICON, ARCID_BOX2 and ARCID_TRAI_SCRIPT
+// ARCID_WINFRAME, ARCID_TITLE, ARCID_STARTMENU, ARCID_SEASON_BANNER, ARCID_COPYRIGHT, ARCID_ZUKAN_GRA, ARCID_INTRO,
+// ARCID_EGG_DEMO, ARCID_SHINKA_DEMO, ARCID_POKEICON, ARCID_BOX2, ARCID_TRAI_SCRIPT, ARCID_BMP_OAM, ARCID_INFOWIN,
+// ARCID_APP_MENU_COMMON and ARCID_TPOKE
 
 #define ARCID_SYSTEM_MESSAGE 2
 #define ARCID_SCRIPT_MESSAGE 3
 #define ARCID_POKEGRA 4
+#define ARCID_WINFRAME 5
 // The Pokémon icons
 #define ARCID_POKEICON 7
 #define ARCID_MAP_TERRAIN 8
@@ -31,6 +33,9 @@
 #define ARCID_STARTMENU 34
 #define ARCID_MMODEL_TBL 47
 #define ARCID_MMODEL_GRA 48
+#define ARCID_INFOWIN 49
+// The cells and animations of bmp_oam.c's 32x16 actors, for each OBJ character mapping
+#define ARCID_BMP_OAM 50
 #define ARCID_EVENT_SCRIPT 56
 #define ARCID_FIELD_CAMERA_DEFAULT 59
 #define ARCID_LIGHTS_FIELD 60
@@ -40,6 +45,8 @@
 #define ARCID_TRSPRITE_FRONT 71
 #define ARCID_TRSPRITE_BACK 72
 #define ARCID_RAIL_HEADERS 78
+// The graphics that the menus share (app_menu_common.c)
+#define ARCID_APP_MENU_COMMON 82
 #define ARCID_TRDATA 91
 #define ARCID_TRPOKE 92
 // The Global Trade Station's 2D graphics (not from swan)
@@ -70,13 +77,19 @@
 #define ARCID_AREA_BMTEX_INT 175
 // The evolution demo's graphics
 #define ARCID_SHINKA_DEMO 179
+// The walking Pokémon's object codes (tpoke_data.c)
+#define ARCID_TPOKE 208
 // The Research Radar's graphics. Our name, not swan's
 #define ARCID_RESEARCH_RADAR 189
+// The graphics that many apps share, such as the touch bar, which getUINarcIdx returns. Our name, not swan's
+#define ARCID_APP_MENU_COMMON 82
 #define ARCID_CDEMO_GFLOGO 220
 #define ARCID_CDEMO_OPENINGWB 221
 #define ARCID_CDEMO_OPENINGSW 222
 #define ARCID_AREA_BMDATA_EXT 225
 #define ARCID_AREA_BMDATA_INT 226
+// Unova Link's graphics (not from swan)
+#define ARCID_KEY_SYSTEM 277
 #define ARCID_GIMMICK_EXPOBJ_MARINETUBE 295
 
 #endif // POKEBW2_CONSTANTS_ARC_H

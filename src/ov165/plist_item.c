@@ -13,6 +13,8 @@
 #include "pml/evolution.h"
 #include "pml/item.h"
 #include "pml/poke_party.h"
+#include "system/bmp_winframe.h"
+#include "system/game_beacon.h"
 #include "system/game_comm.h"
 #include "system/printsys.h"
 #include "system/wordset.h"
@@ -435,7 +437,7 @@ void PokeList_UpdateLevelUp(PokeListWork *wk) {
         u8 row;
 
         wk->statsWindow = BmpWin_CreateDynamic(0, 1, 1, 14, 12, 14, TRUE);
-        BmpWin_DrawFrame(wk->statsWindow, TRUE, 1, 12);
+        BmpWin_DrawFrame(wk->statsWindow, WINFRAME_TRANSFER_VBLANK, 1, 12);
         GFL_BitmapFill(BmpWin_GetBitmap(wk->statsWindow), 15);
         BmpWin_Transfer(wk->statsWindow);
         for (i = 0; i < 6; i++) {
@@ -520,7 +522,7 @@ void PokeList_UpdateLevelUp(PokeListWork *wk) {
             wk->subState = 6;
             GFL_SndSEPlay(SEQ_SE_MESSAGE);
             BmpWin_ClearScreen(wk->statsWindow);
-            func_02024eec(wk->statsWindow, 1);
+            BmpWin_ClearFrame(wk->statsWindow, WINFRAME_TRANSFER_VBLANK);
             BmpWin_Free(wk->statsWindow);
             wk->statsWindow = NULL;
         }

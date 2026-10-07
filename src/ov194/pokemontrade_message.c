@@ -23,10 +23,11 @@
 #include "pml/poke_party.h"
 #include "system/app_common.h"
 #include "system/app_keycursor.h"
+#include "system/app_printsys_common.h"
 #include "system/app_taskmenu.h"
+#include "system/bmp_winframe.h"
 #include "system/gf_font.h"
 #include "system/mcss.h"
-#include "system/print_wait.h"
 #include "system/printsys.h"
 #include "system/text_speed.h"
 #include "system/time_icon.h"
@@ -130,7 +131,7 @@ void func_ov194_021bfcf8(PokemonTradeWork *wk, BOOL instant, u32 x, u32 y, u32 w
     if (!instant) {
         wk->printStream =
             func_02022268(window, 0, 0, wk->strbuf, wk->font, func_02017bcc(), wk->tcbEx, 2, wk->heapId, 15);
-        func_0202e678(&wk->printWait, 2);
+        AppPrintsysCommon_Init(&wk->printWait, 2);
     } else {
         GFL_TextRendererDrawToBitmap(BmpWin_GetBitmap(window), 0, 0, wk->strbuf, wk->font);
     }
@@ -182,7 +183,7 @@ void func_ov194_021bfe9c(PokemonTradeWork *wk) {
     if (wk->msgWindow != NULL) {
         BmpWin_ClearScreen(wk->msgWindow);
         GFL_BGSysQueueScrLoad(6);
-        func_02024eec(wk->msgWindow, 2);
+        BmpWin_ClearFrame(wk->msgWindow, 2);
         BmpWin_Free(wk->msgWindow);
         wk->msgWindow = NULL;
     }
@@ -199,15 +200,15 @@ void func_ov194_021bfedc(PokemonTradeWork *wk) {
     wk->printQueue = func_02021998(wk->heapId);
     GFL_TextRndUpdateColorIndexLUT(1, 2, 15);
     wk->tcbEx = GFL_TCBExMgrCreate(wk->heapId, wk->heapId, 2, 0);
-    wk->keyCursor = func_0202e7a4(15, 1, 0, wk->heapId);
-    wk->taskMenuRes = func_0202e168(6, 9, wk->font, wk->printQueue, wk->heapId);
+    wk->keyCursor = KeyCursor_Create(15, 1, 0, wk->heapId);
+    wk->taskMenuRes = AppTaskMenuRes_Create(6, 9, wk->font, wk->printQueue, wk->heapId);
 }
 
 void func_ov194_021bffac(PokemonTradeWork *wk) {
     int i;
     GFL_VBlankResetCallback();
     if (wk->tcbEx != NULL) {
-        func_0202e818(wk->keyCursor);
+        KeyCursor_Free(wk->keyCursor);
         func_ov194_021bfe70(wk);
         func_ov194_021c00fc(wk);
         if (wk->printStream != NULL) {
@@ -215,11 +216,11 @@ void func_ov194_021bffac(PokemonTradeWork *wk) {
             wk->printStream = NULL;
         }
         if (wk->menuWin != NULL) {
-            func_0202e34c(wk->menuWin);
+            AppTaskMenuWin_Free(wk->menuWin);
             wk->menuWin = NULL;
         }
         if (wk->taskMenuRes != NULL) {
-            func_0202e1dc(wk->taskMenuRes);
+            AppTaskMenuRes_Free(wk->taskMenuRes);
             wk->taskMenuRes = NULL;
         }
         if (wk->summaryWindow != NULL) {
@@ -251,9 +252,9 @@ BOOL func_ov194_021c00b0(PokemonTradeWork *wk) {
     BOOL done = TRUE;
     if (wk->printStream != NULL) {
         if (wk->msgWindow != NULL) {
-            func_0202e8d8(wk->keyCursor, wk->printStream, wk->msgWindow);
+            KeyCursor_Update(wk->keyCursor, wk->printStream, wk->msgWindow);
         }
-        done = func_0202e68c(&wk->printWait, wk->printStream);
+        done = AppPrintsysCommon_Update(&wk->printWait, wk->printStream);
         if (done && wk->printStream != NULL) {
             func_020223cc(wk->printStream);
             wk->printStream = NULL;
@@ -265,21 +266,21 @@ BOOL func_ov194_021c00b0(PokemonTradeWork *wk) {
 void func_ov194_021c00fc(PokemonTradeWork *wk) {
     if (wk->menu != NULL) {
         G2_BlendNone();
-        func_0202da54(wk->menu);
+        AppTaskMenu_Free(wk->menu);
         wk->menu = NULL;
     }
 }
 
 // Opens a menu of the messages in items, item 5 being the one that B picks
 void func_ov194_021c0120(PokemonTradeWork *wk, const u32 *items, int count, u32 right, u32 bottom) {
-    TaskMenuSetup setup;
+    AppTaskMenuInit setup;
     int i;
     setup.heapId = wk->heapId;
-    setup.count = count;
+    setup.itemCount = count;
     setup.items = wk->menuItems;
-    setup.a3 = 1;
-    setup.right = right;
-    setup.bottom = bottom;
+    setup.posType = APP_TASKMENU_POS_BOTTOM_RIGHT;
+    setup.x = right;
+    setup.y = bottom;
     setup.width = 13;
     setup.height = 3;
     for (i = 0; i < count; i++) {
@@ -287,12 +288,12 @@ void func_ov194_021c0120(PokemonTradeWork *wk, const u32 *items, int count, u32 
         GFL_MsgDataLoadStrbuf(wk->msgData, items[i], wk->menuItems[i].str);
         wk->menuItems[i].color = PRINT_COLOR(14, 15, 3);
         if (items[i] == 5) {
-            wk->menuItems[i].isBack = TRUE;
+            wk->menuItems[i].type = APP_TASKMENU_ITEM_RETURN;
         } else {
-            wk->menuItems[i].isBack = FALSE;
+            wk->menuItems[i].type = 0;
         }
     }
-    wk->menu = func_0202d974(&setup, wk->taskMenuRes);
+    wk->menu = AppTaskMenu_Create(&setup, wk->taskMenuRes);
     for (i = 0; i < count; i++) {
         GFL_StrBufFree(wk->menuItems[i].str);
     }
@@ -846,8 +847,8 @@ AppTaskMenuWin *func_ov194_021c1788(PokemonTradeWork *wk, u32 msg) {
     wk->menuItems[0].str = GFL_StrBufCreate(100, wk->heapId);
     GFL_MsgDataLoadStrbuf(wk->msgData, msg, wk->menuItems[0].str);
     wk->menuItems[0].color = PRINT_COLOR(14, 15, 3);
-    wk->menuItems[0].isBack = FALSE;
-    wk->menuWin = func_0202e210(wk->taskMenuRes, &wk->menuItems[0], 8, 21, 16, 3, 0, 1, wk->heapId);
+    wk->menuItems[0].type = 0;
+    wk->menuWin = AppTaskMenuWin_CreateEx(wk->taskMenuRes, &wk->menuItems[0], 8, 21, 16, 3, 0, 1, wk->heapId);
     GFL_StrBufFree(wk->menuItems[0].str);
     func_0204c124(wk->actors[2], FALSE);
     func_ov139_02199d18(wk->touchBar, 8, FALSE);
@@ -866,7 +867,7 @@ void func_ov194_021c1820(PokemonTradeWork *wk, BOOL showActor, BOOL showButton) 
         func_ov139_02199d18(wk->touchBar, 8, func_ov194_021bc098(wk));
     }
     if (wk->menuWin != NULL) {
-        func_0202e34c(wk->menuWin);
+        AppTaskMenuWin_Free(wk->menuWin);
         wk->menuWin = NULL;
         GFL_BGSysQueueScrLoad(6);
     }

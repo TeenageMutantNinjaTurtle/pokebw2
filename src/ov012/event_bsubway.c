@@ -264,17 +264,17 @@ GameEvent *func_ov012_02166118(BSubwayScrWork *bsw, GameSystem *gsys, u16 index,
 
     data->gsys = gsys;
     data->actorId = actorId;
-    if (bsw->trainers[index].message.sentenceType == 0xffff) {
+    if (bsw->trainers[index].message.type == 0xffff) {
         data->strbuf = GFL_StrBufCreate(0x300, HEAPID_GAMEEVENT);
         msgData = GFL_MsgSysLoadData(FALSE, 2, 0x178, HEAPID_GAMEEVENT);
-        messageId = bsw->trainers[index].message.sentenceId;
+        messageId = bsw->trainers[index].message.id;
         if (messageId >= 0x3ae) {
             messageId = 0;
         }
         GFL_MsgDataLoadStrbuf(msgData, messageId, data->strbuf);
         GFL_MsgDataFree(msgData);
     } else {
-        data->strbuf = func_02029c80(&bsw->trainers[index].message, HEAPID_GAMEEVENT);
+        data->strbuf = PMSData_ToString(&bsw->trainers[index].message, HEAPID_GAMEEVENT);
     }
     CopyActorWPos(FindFieldActor(GameData_GetMMSys(gameData), data->actorId), &data->pos);
     camera = Field_GetCameraSystem(field);
@@ -524,7 +524,7 @@ GameEvent *func_ov012_0216657c(GameSystem *gsys, u16 index, u16 actorId) {
     data->pos.y += offset.y;
     data->pos.z += offset.z;
     leaderData = func_0200e7f0(SaveControl_GetBlockPtr(GameData_GetSaveControl(gameData), 0x3a), HEAPID_GAMEEVENT);
-    data->strbuf = func_02029c80(&leaderData->leaders[index].message, HEAPID_GAMEEVENT);
+    data->strbuf = PMSData_ToString(&leaderData->leaders[index].message, HEAPID_GAMEEVENT);
     GFL_HeapFree(leaderData);
     func_ov036_021a8c00(winPos, &winX, &winY);
     data->msgWin = ActorMsgWin_CheckAndCreate(msgBGSys, winX, &data->pos, data->strbuf, 0, winY);

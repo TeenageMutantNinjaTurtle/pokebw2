@@ -2,6 +2,7 @@
 #define POKEBW2_SYSTEM_GAME_DATA_H
 
 #include "types.h"
+#include "gfl/heap.h"
 #include "struct_decls.h"
 
 // The city of the player's version, which a key from Unova Link can switch
@@ -33,6 +34,8 @@ void func_ov012_0215cd58(CityState *state);
 void func_ov012_0215cd8c(CityState *state);
 BOOL func_ov012_0215cd98(s32 value);
 
+GameData *GameData_Create(HeapID heapId);
+void GameData_Free(GameData *gameData);
 BOOL GameData_CheckPairFlag(GameData *gameData);
 BagSave *GameData_GetBag(GameData *gameData);
 void *func_0201734c(GameData *gameData);
@@ -50,6 +53,8 @@ JoinAvenuePersonList **GameData_GetJoinAvenuePersonListPtr(GameData *gameData);
 u32 GameData_GetLastSubscreen(GameData *gameData);
 MMSys *GameData_GetMMSys(GameData *gameData);
 CityState *GameData_GetMyCityState(GameData *gameData);
+// Adds seconds to the play time
+void GameData_UpdateTime(GameData *gameData, u32 seconds);
 // The levels that unlock the pass powers, which func_0200c5dc and func_0200c5e0 read
 void *func_02017208(GameData *gameData);
 u16 func_02017220(GameData *gameData);
@@ -84,8 +89,14 @@ PartyPkm *GameData_MakeBoxPkm(GameData *gameData, BoxPkmCreateParams *params);
 BOOL checkForMidnight(GameData *gameData);
 SaveControl *GameData_GetSaveControl(GameData *gameData);
 void *func_02017670(GameData *gameData);
+// The counter at 0x2c0, which func_02034ebc stops and func_02034f14 restarts around a battle
+void *func_0201798c(GameData *gameData);
+void func_02034ebc(void *counter);
+void func_02034f14(void *counter);
+// Save block 0x41, the Pokémon traded in game, which save/traded_pokemon.h reads
+void *GetTradedPokemonBlock(GameData *gameData);
 SaveControl *GameData_GetSaveControl_(GameData *gameData);
-void *func_020174d4(GameData *gameData);
+BeaconStatus *func_020174d4(GameData *gameData);
 DreamWorldSave *func_020179e4(GameData *gameData);
 u8 GameData_GetSeason(GameData *gameData);
 u8 func_02017a24(GameData *gameData);
@@ -124,9 +135,13 @@ u16 GetReturnLocationIdx(GameData *gameData);
 void SetCurrentTeleportOrDeathZone(GameData *gameData, u16 respawnLocation);
 void SetGameDataNowSpawnZone(GameData *gameData, ZoneSpawnInfo *spawn);
 PlayerInfo *func_02017378(GameData *gameData, u32 netId);
+// The player's net ID
+u8 func_020175cc(GameData *gameData);
 void func_020175c4(GameData *gameData, u32 a1);
 void func_020175d8(GameData *gameData, u32 a1);
 void func_02017608(GameData *gameData, u32 a1);
+// Whether the game shows other players' beacons
+BOOL func_02017614(GameData *gameData);
 void func_020178c4(GameData *gameData, u32 block);
 u32 func_020178f4(GameData *gameData, u32 block);
 void func_02017954(GameData *gameData, BSubwayScrWork *bsw);
@@ -137,7 +152,8 @@ WbtSystem **func_020179f0(GameData *gameData);
 // The Pokémon World Tournament's save data
 void *func_020179f8(GameData *gameData);
 u16 func_0200fec8(void *block, u32 index);
-u32 func_02017a40(GameData *gameData);
+// The save's play time
+PlayTime *func_02017a40(GameData *gameData);
 void func_02017b64(GameData *gameData, u8 a1);
 u32 *func_02017b84(GameData *gameData);
 u32 GetScrPluginNo(GameData *gameData);
@@ -152,6 +168,8 @@ BOOL GameData_CheckEventsPaused(GameData *gameData);
 void *func_02017968(GameData *gameData);
 // Where the Trial House work is kept
 TrialHouseWork **GetTrialHouseWkPPtr(GameData *gameData);
+// The follower of field/pair_sys.h
+FieldFollowWk *GetFieldFollowerCfg(GameData *gameData);
 void GameData_ResetSkipFrame(GameData *gameData);
 void GameData_Set30FPSMode(GameData *gameData, BOOL enable);
 u8 func_02017b70(GameData *gameData);

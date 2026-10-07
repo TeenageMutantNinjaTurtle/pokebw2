@@ -42,6 +42,7 @@ struct PartyPkm {
 };
 
 PokeParty *PokeParty_Create(HeapID heapId);
+void PokeParty_CreateTempPkm(PartyPkm *pkm, u16 species, u16 level, u64 id);
 u32 PokeParty_GetSaveDataSize(void);
 u32 PML_GenPID(u32 seed, u16 species, u16 form, u32 sex, u32 ability, u32 a5);
 void PokeParty_CreatePkm(PartyPkm *pkm, u16 species, u16 level, u32 a3, u32 a4, s32 a5, u32 pid, u32 a7);
@@ -110,6 +111,8 @@ void hatchEgg(PartyPkm *pkm, PlayerInfo *playerInfo, u16 placeName, HeapID heapI
 void PokeParty_Init(PokeParty *party);
 void PokeParty_Copy(const PokeParty *src, PokeParty *dest);
 void PokeParty_InitCore(PokeParty *party, u32 capacity);
+// An item's place in a list of 46 battle items, 0 if it isn't in it
+u32 func_02035944(u16 item);
 // Records how and where the Pokémon was met, with the player as its Trainer
 void PokeParty_SetupMetData(PartyPkm *pkm, u32 a1, PlayerInfo *playerInfo, u16 placeName, HeapID heapId);
 u32 func_02035cf8(PartyPkm *pkm, u32 arg1, PlayerInfo *playerInfo);

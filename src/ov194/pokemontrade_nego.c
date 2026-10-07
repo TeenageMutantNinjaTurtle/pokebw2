@@ -20,7 +20,6 @@
 #include "gfl/str.h"
 #include "gfl/touchpanel.h"
 #include "gfl/ui.h"
-#include "gfl/wipe.h"
 #include "nitro/gx.h"
 #include "pml/item.h"
 #include "pml/mail.h"
@@ -31,8 +30,9 @@
 #include "system/app_taskmenu.h"
 #include "system/game_data.h"
 #include "system/gf_font.h"
-#include "system/master_brightness.h"
+#include "system/wipe.h"
 #include "system/printsys.h"
+#include "system/wipe.h"
 #include "system/wordset.h"
 
 // Negotiating a trade: each player offers up to three Pokémon and chooses one of the other's, and a trade over the
@@ -478,8 +478,8 @@ void func_ov194_021bc784(PokemonTradeWork *wk) {
 }
 
 static void func_ov194_021bc7f8(PokemonTradeWork *wk) {
-    if (func_0202dbe4(wk->menu)) {
-        u8 choice = func_0202dc00(wk->menu);
+    if (AppTaskMenu_IsFlashFinished(wk->menu)) {
+        u8 choice = AppTaskMenu_GetCursorPos(wk->menu);
         func_ov194_021c00fc(wk);
         func_ov194_021bfe9c(wk);
         wk->menu = NULL;
@@ -657,8 +657,8 @@ static void func_ov194_021bcc38(PokemonTradeWork *wk) {
 }
 
 static void func_ov194_021bcc7c(PokemonTradeWork *wk) {
-    if (func_0202dbe4(wk->menu)) {
-        u8 choice = func_0202dc00(wk->menu);
+    if (AppTaskMenu_IsFlashFinished(wk->menu)) {
+        u8 choice = AppTaskMenu_GetCursorPos(wk->menu);
         func_ov194_021c00fc(wk);
         func_ov194_021bfe9c(wk);
         wk->menu = NULL;
@@ -903,8 +903,8 @@ static void func_ov194_021bd2c0(PokemonTradeWork *wk) {
 }
 
 static void func_ov194_021bd36c(PokemonTradeWork *wk) {
-    if (func_0202dbe4(wk->menu)) {
-        u8 choice = func_0202dc00(wk->menu);
+    if (AppTaskMenu_IsFlashFinished(wk->menu)) {
+        u8 choice = AppTaskMenu_GetCursorPos(wk->menu);
         func_ov194_021c00fc(wk);
         func_ov194_021bfe9c(wk);
         wk->menu = NULL;
@@ -1032,8 +1032,8 @@ static void func_ov194_021bd6f8(PokemonTradeWork *wk) {
 }
 
 static void func_ov194_021bd730(PokemonTradeWork *wk) {
-    if (func_0202dbe4(wk->menu)) {
-        u8 choice = func_0202dc00(wk->menu);
+    if (AppTaskMenu_IsFlashFinished(wk->menu)) {
+        u8 choice = AppTaskMenu_GetCursorPos(wk->menu);
         func_ov194_021c00fc(wk);
         func_ov194_021bfe9c(wk);
         wk->menu = NULL;
@@ -1453,8 +1453,8 @@ static void func_ov194_021be1ac(PokemonTradeWork *wk) {
 }
 
 static void func_ov194_021be1e4(PokemonTradeWork *wk) {
-    if (func_0202dbe4(wk->menu)) {
-        u8 choice = func_0202dc00(wk->menu);
+    if (AppTaskMenu_IsFlashFinished(wk->menu)) {
+        u8 choice = AppTaskMenu_GetCursorPos(wk->menu);
         func_ov194_021c00fc(wk);
         func_ov194_021bfe9c(wk);
         wk->menu = NULL;
@@ -1493,8 +1493,8 @@ static void func_ov194_021be2b8(PokemonTradeWork *wk) {
 }
 
 static void func_ov194_021be2f0(PokemonTradeWork *wk) {
-    if (func_0202dbe4(wk->menu)) {
-        u8 choice = func_0202dc00(wk->menu);
+    if (AppTaskMenu_IsFlashFinished(wk->menu)) {
+        u8 choice = AppTaskMenu_GetCursorPos(wk->menu);
         func_ov194_021c00fc(wk);
         func_ov194_021bfe9c(wk);
         wk->menu = NULL;

@@ -6,6 +6,7 @@
 #include "nitro/math.h"
 #include "save/config.h"
 #include "struct_decls.h"
+#include "system/pms_data.h"
 
 // The battle's surroundings, which GetFieldEffectData returns
 struct BtlFieldSituation {
@@ -32,8 +33,8 @@ struct BtlSetupTrainer {
     u32 aiFlags;
     u16 items[4];
     StrBuf *name;
-    u8 unk18[8];
-    u8 unk20[8];
+    PMSData unk18;
+    PMSData unk20;
 };
 
 // A trainer as a link battle sends it, with the name as characters
@@ -43,8 +44,8 @@ typedef struct {
     u32 aiFlags;
     u16 items[4];
     u8 unk14[4];
-    u8 unk18[8];
-    u8 unk20[8];
+    PMSData unk18;
+    PMSData unk20;
     u16 name[0x20];
     u32 nameLength;
 } BtlCommTrainerData;
@@ -130,6 +131,7 @@ struct BtlSetup {
 
 BtlSetup *BtlSetup_Create(HeapID heapId);
 u32 BtlSetup_CheckFlag(BtlSetup *setup, u32 flag);
+void BtlSetup_SetFlag(BtlSetup *setup, u32 flag);
 void BtlSetup_Free(BtlSetup *setup);
 PokeParty *BtlSetup_GetParty(BtlSetup *setup, u32 index);
 void BtlSetup_SetNet1v1Double(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, HeapID heapId);
@@ -148,6 +150,9 @@ void BtlSetup_SetTrainerRotation(BtlSetup *setup, GameData *gameData, BtlFieldSt
 void BtlSetup_SetNetMultiVsAI(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, u8 a4, u32 a5, u32 a6,
                               HeapID heapId);
 void BtlSetup_PostProcessTrialHouse(BtlSetup *setup);
+// The capture demonstration, between the two parties
+void BtlSetup_SetCaptureDemo(BtlSetup *setup, GameData *gameData, PokeParty *party, PokeParty *enemyParty,
+                             BtlFieldStatus *status, HeapID heapId);
 // Changes the levels of the parties for the challenge mode of the zone, which the keys of Unova Link unlock
 void adjustPkmLvForChallengeKeys(BtlSetup *setup, GameData *gameData, u16 zoneId);
 // Frees what the setup holds and clears it

@@ -34,10 +34,6 @@ u32 func_02009ce4(UnityTowerSurveySave *save);
 BOOL func_02009eb0(UnityTowerSurveySave *save, u32 country);
 u32 func_02009cac(UnityTowerSurveySave *save, PlayerInfo *playerInfo, u32 index);
 void func_02009c48(UnityTowerSurveySave *save);
-u32 func_0202b5d4(u32 value);
-// A country and region checked for the language, or 0 when the country isn't known
-u8 func_0202b57c(u8 country, u8 region, u8 lang);
-u8 func_0202b590(u8 country, u8 region, u8 lang);
 // Whether a country and region were met, and records them
 BOOL func_02009ba4(UnityTowerSurveySave *save, u8 country, u8 region);
 void func_02009be0(UnityTowerSurveySave *save, u8 country, u8 region, u32 a3);
@@ -53,7 +49,6 @@ u32 func_ov033_0217aac4(UnityTowerFloor *output, u32 index);
 u32 func_ov033_0217ab58(u32 gender, u32 id, u32 province, u32 a3, u32 hasProvince);
 void UnityTowerSave_Init(UnityTowerFloor *save);
 u32 func_ov033_0217aad8(WordSet *wordSet, GameSystem *gsys, UnityTowerFloor *save, s32 index, u32 param);
-BOOL CountryHasProvinces(u32 country);
 
 void LoadUnityTowerVisitorWordSet(WordSet *wordSet, GameData *gameData, u32 index);
 

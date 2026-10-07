@@ -15,7 +15,6 @@
 #include "gfl/net_handle.h"
 #include "gfl/sound.h"
 #include "gfl/std.h"
-#include "gfl/wipe.h"
 #include "pml/evolution.h"
 #include "pml/item.h"
 #include "pml/mail.h"
@@ -28,8 +27,11 @@
 #include "save/records.h"
 #include "save/save_control.h"
 #include "save/wifi_list.h"
+#include "system/bmp_winframe.h"
+#include "system/country_region.h"
 #include "system/game_data.h"
 #include "system/net_save.h"
+#include "system/wipe.h"
 #include "system/wordset.h"
 
 // Writing the trade to the save: the copies of what it changes, kept to restore if the save fails, the trade itself,
@@ -425,8 +427,8 @@ static void func_ov194_021bf278(PokemonTradeWork *wk) {
     {
         u8 country = UnityTowerVisitor_GetCountry(wk->partnerInfo);
         u8 province = UnityTowerVisitor_GetProvince(wk->partnerInfo);
-        u32 validCountry = func_0202b57c(country, province, TrainerInfo_GetRegion(wk->partnerInfo));
-        u32 validProvince = func_0202b590(country, province, TrainerInfo_GetRegion(wk->partnerInfo));
+        u32 validCountry = Country_GetValidCountry(country, province, TrainerInfo_GetRegion(wk->partnerInfo));
+        u32 validProvince = Country_GetValidRegion(country, province, TrainerInfo_GetRegion(wk->partnerInfo));
         if (country != validCountry || province != validProvince) {
             func_02008c14(wk->partnerInfo, 0, 0);
         }

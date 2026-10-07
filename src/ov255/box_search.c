@@ -22,7 +22,6 @@
 #include "gfl/str.h"
 #include "gfl/touchpanel.h"
 #include "gfl/ui.h"
-#include "gfl/wipe.h"
 #include "pml/personal.h"
 #include "save/pokedex.h"
 #include "system/app_common.h"
@@ -30,6 +29,7 @@
 #include "system/game_data.h"
 #include "system/gf_font.h"
 #include "system/printsys.h"
+#include "system/wipe.h"
 #include "system/wordset.h"
 
 // The PC box's Pokémon search: lists to pick a species by its first letter, a nature, an ability by its first letter,
@@ -782,12 +782,12 @@ static void func_ov255_021d4320(BoxSearchWork *wk, BOOL visible) {
 // Starts the main menu
 static int func_ov255_021d434c(BoxSearchWork *wk, int seq) {
     if (func_0203d554() == FALSE) {
-        wk->cursorMove = func_0202b650(data_ov255_021d91d0, &data_ov255_021d8f20, wk, TRUE, wk->menuPos, wk->heapId);
+        wk->cursorMove = CursorMove_Create(data_ov255_021d91d0, &data_ov255_021d8f20, wk, TRUE, wk->menuPos, wk->heapId);
         func_ov255_021d5abc(wk, wk->menuPos, wk->menuPos);
     } else {
-        wk->cursorMove = func_0202b650(data_ov255_021d91d0, &data_ov255_021d8f20, wk, FALSE, wk->menuPos, wk->heapId);
+        wk->cursorMove = CursorMove_Create(data_ov255_021d91d0, &data_ov255_021d8f20, wk, FALSE, wk->menuPos, wk->heapId);
     }
-    func_0202b69c(wk->cursorMove);
+    CursorMove_SetHideOnTouch(wk->cursorMove);
     func_ov255_021d6798(wk);
     func_ov255_021d4288(wk);
     return 1;
@@ -797,12 +797,12 @@ static int func_ov255_021d434c(BoxSearchWork *wk, int seq) {
 static int func_ov255_021d43cc(BoxSearchWork *wk, int seq, u32 pos) {
     switch (pos) {
     case 7:
-        func_0202b694(wk->cursorMove);
+        CursorMove_Delete(wk->cursorMove);
         GFL_SndSEPlay(SEQ_SE_DECIDE1);
         seq = func_ov255_021d5a70(wk, 7, 14, 33);
         break;
     case 8:
-        func_0202b694(wk->cursorMove);
+        CursorMove_Delete(wk->cursorMove);
         GFL_SndSEPlay(SEQ_SE_DECIDE1);
         seq = func_ov255_021d5a70(wk, 8, 17, 34);
         break;
@@ -813,7 +813,7 @@ static int func_ov255_021d43cc(BoxSearchWork *wk, int seq, u32 pos) {
     case 4:
     case 5:
         wk->group = 0;
-        func_0202b694(wk->cursorMove);
+        CursorMove_Delete(wk->cursorMove);
         GFL_SndSEPlay(SEQ_SE_DECIDE1);
         seq = func_ov255_021d5a70(wk, pos, 8, 41);
         break;
@@ -822,7 +822,7 @@ static int func_ov255_021d43cc(BoxSearchWork *wk, int seq, u32 pos) {
         seq = func_ov255_021d5a70(wk, 6, 11, 35);
         break;
     case 9:
-        func_0202b694(wk->cursorMove);
+        CursorMove_Delete(wk->cursorMove);
         seq = func_ov255_021d5a70(wk, -1, 0, SEQ_END);
         break;
     }
@@ -835,25 +835,25 @@ static int func_ov255_021d4484(BoxSearchWork *wk, int seq) {
     u32 ret;
 
     if (func_ov255_021d6cd4(wk) == TRUE) {
-        func_0202b694(wk->cursorMove);
+        CursorMove_Delete(wk->cursorMove);
         return func_ov255_021d5a70(wk, -1, 0, SEQ_END);
     }
     if (GCTX_HIDGetPressedKeys() & PAD_BUTTON_SELECT) {
         func_0203d564(FALSE);
-        func_0202ba64(wk->cursorMove, 6);
-        func_0202ba74(wk->cursorMove, TRUE);
+        CursorMove_SetPos(wk->cursorMove, 6);
+        CursorMove_SetCursorVisible(wk->cursorMove, TRUE);
         GFL_SndSEPlay(SEQ_SE_DECIDE1);
         return func_ov255_021d5a70(wk, 6, 11, 35);
     }
     if (GCTX_HIDGetPressedKeys() & PAD_BUTTON_START) {
         func_0203d564(FALSE);
-        func_0202ba64(wk->cursorMove, 7);
-        func_0202ba74(wk->cursorMove, TRUE);
-        func_0202b694(wk->cursorMove);
+        CursorMove_SetPos(wk->cursorMove, 7);
+        CursorMove_SetCursorVisible(wk->cursorMove, TRUE);
+        CursorMove_Delete(wk->cursorMove);
         GFL_SndSEPlay(SEQ_SE_DECIDE1);
         return func_ov255_021d5a70(wk, 7, 14, 33);
     }
-    ret = func_0202b768(wk->cursorMove);
+    ret = CursorMove_Update(wk->cursorMove);
     switch (ret) {
     case -8:
     case -7:
@@ -1657,7 +1657,7 @@ static int func_ov255_021d58dc(BoxSearchWork *wk, int seq) {
 static int func_ov255_021d58ec(BoxSearchWork *wk, int seq) {
     func_ov255_021d5b70(wk, 7);
     func_ov255_021d6a48(wk, CRITERION_ACTIVE, TRUE);
-    if (func_0202ba70(wk->cursorMove) == TRUE) {
+    if (CursorMove_IsCursorVisible(wk->cursorMove) == TRUE) {
         func_0204c488(wk->actors[7], 13);
     }
     return SEQ_END;
@@ -1667,7 +1667,7 @@ static int func_ov255_021d58ec(BoxSearchWork *wk, int seq) {
 static int func_ov255_021d591c(BoxSearchWork *wk, int seq) {
     func_ov255_021d5b70(wk, 8);
     func_ov255_021d6a48(wk, CRITERION_ACTIVE, FALSE);
-    if (func_0202ba70(wk->cursorMove) == TRUE) {
+    if (CursorMove_IsCursorVisible(wk->cursorMove) == TRUE) {
         func_0204c488(wk->actors[8], 16);
     }
     return SEQ_END;
@@ -1678,7 +1678,7 @@ static int func_ov255_021d594c(BoxSearchWork *wk, int seq) {
     func_ov255_021d6c94(wk);
     func_ov255_021d6940(wk, TRUE);
     func_ov255_021d6ae8(wk, 22);
-    if (func_0202ba70(wk->cursorMove) == TRUE) {
+    if (CursorMove_IsCursorVisible(wk->cursorMove) == TRUE) {
         func_0204c488(wk->actors[6], 10);
     }
     return 1;

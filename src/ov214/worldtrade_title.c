@@ -17,10 +17,11 @@
 #include "gfl/str.h"
 #include "gfl/touchpanel.h"
 #include "gfl/ui.h"
-#include "gfl/wipe.h"
 #include "nitro/gx.h"
 #include "nitro/hw.h"
 #include "worldtrade_local.h"
+#include "system/bmp_winframe.h"
+#include "system/wipe.h"
 
 // The Global Trade Station's title menu, where the player chooses to deposit or check a Pokémon, to search, or to
 // leave, and the lower screen's trade room that the other screens share. The file's name is a guess, as the ROM
@@ -626,7 +627,7 @@ static int Title_SubSeqYesNoSelect(WorldTradeWork *wk) {
     if (ret == 1) {
         // Leaves the station
         WorldTrade_TouchWinYesNoDel(wk);
-        func_02024eec(wk->talkWin, 2);
+        BmpWin_ClearFrame(wk->talkWin, 2);
         Title_ClearWin(wk->talkWin);
         Title_ClearWin(wk->explainWin);
         GFL_BGSysSetBGEnabled(6, FALSE);
@@ -635,7 +636,7 @@ static int Title_SubSeqYesNoSelect(WorldTradeWork *wk) {
         wk->subprocessSeq = TITLE_SEQ_END_DEMO;
     } else if (ret == 2) {
         WorldTrade_TouchWinYesNoDel(wk);
-        func_02024eec(wk->talkWin, 2);
+        BmpWin_ClearFrame(wk->talkWin, 2);
         Title_ClearWin(wk->talkWin);
         func_0204c520(wk->cursorAct, TRUE);
         wk->subprocessSeq = TITLE_SEQ_START;

@@ -243,18 +243,18 @@ static void func_ov012_02162394(u32 mode, u32 trainerId, BSubwayTrainer *trainer
     dest->trainerClass = trainerClass;
     dest->aiFlags = aiFlags;
     GFL_StrBufLoadString(dest->name, trainer->name);
-    // The setup's phrases are bytes in battle/btl_setup.h, which the battle code uses as such
     if (clearWords == TRUE) {
-        func_02029bb0((PMSData *)dest->unk18);
-        func_02029bb0((PMSData *)dest->unk20);
+        PMSData_Clear(&dest->unk18);
+        PMSData_Clear(&dest->unk20);
     }
     if (copyWords == TRUE) {
+        // The trainer keeps its phrases as four words each, which func_ov012_02162ae8 checks one by one
         if (mode == 4) {
-            *(PMSData *)dest->unk18 = *(PMSData *)trainer->winWords;
-            *(PMSData *)dest->unk20 = *(PMSData *)trainer->loseWords;
+            dest->unk18 = *(PMSData *)trainer->winWords;
+            dest->unk20 = *(PMSData *)trainer->loseWords;
         } else if (func_ov012_02162ae8(trainer)) {
-            *(PMSData *)dest->unk18 = *(PMSData *)trainer->winWords;
-            *(PMSData *)dest->unk20 = *(PMSData *)trainer->loseWords;
+            dest->unk18 = *(PMSData *)trainer->winWords;
+            dest->unk20 = *(PMSData *)trainer->loseWords;
         }
     }
 }
@@ -442,8 +442,8 @@ void *func_ov012_021628c0(BSubwayTrainer *trainer, u32 arcId, u16 trainerId, u16
     sys_memset(trainer, 0, sizeof(BSubwayTrainer));
     trainerData = func_ov012_021627c0(arcId, trainerId, heapId);
     trainer->unk00 = trainerId + 1;
-    trainer->message.sentenceType = 0xffff;
-    trainer->message.sentenceId = trainerId * 3;
+    trainer->message.type = 0xffff;
+    trainer->message.id = trainerId * 3;
     trainer->trainerId = trainerData[0];
     name = GFL_MsgDataLoadStrbufNew(msgData, trainerId);
     // BUG: the size is in bytes, but GFL_StrBufStoreString counts characters
