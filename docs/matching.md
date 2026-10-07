@@ -169,6 +169,11 @@ Same code, other `sp` offsets or frame size.
 
 - Block-scoped arrays set both the stack order and where their initializers are copied: infowin.c's
   `InfoWin_VBlankTask` matches only with each table declared in the `if` block that uses it.
+- A local pointer to a struct member, `PrintWindow *window = &work->priceWindow;`, is kept as the member's offset in a
+  callee-saved register, added to the struct's base at each use, and where the pointer is assigned decides when that
+  register is loaded. When the original loads a member's offset into `r6` or `r7` early and indexes from it, the
+  source had such a pointer: the bag's `ItemMenuDisp_DrawQuantity`, `ItemMenuDisp_ShowMessage` and
+  `ItemMenuDisp_DrawTMInfo` only match with one, and it also stopped MWCC from holding a zero for the stack arguments.
 
 ## Instruction order
 
@@ -256,6 +261,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   them is for a wider parameter. Read the narrowings of every caller together: `GFL_BitmapFillArea` takes `s16 x, s16
   y, u16 width, u16 height`, and `GFL_BitmapGetWidth` returns a `u16`, which is why printsys.c passes its width
   without shifts and bmp_menulist.c's `PrintOptions` narrows its computed width and height.
+- MWCC trusts the type of a call's result: a `u8` returned by one function and passed on to a `u8` parameter isn't
+  narrowed again. When the original narrows such a value before the call, it was held in an `int` or `u32` local, as
+  `research_graph.c`'s `SetFirstAnswer` and `ChangeAnswer` keep a question's ID in an `int`.
 - A `u8` function that narrows its result at the return (`lsl #24; lsr #24` after setting a 0/1 flag) keeps the flag
   in a `BOOL` local, as palanm.c's `IsBitSet` does.
 - A signed compare (`bge`) of a parameter that callers pass as a `u8` without narrowing means the parameter is an
@@ -322,7 +330,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   takes a `const` pointer, as `GymElecFade_IsActive` does.
 - Reads of a `const` table at a constant index are folded into immediates, but reads in a loop over the table are not,
   even when the loop runs once and is unrolled. An `ldm` from a table straight into argument registers is two fields
-  read in such a loop, as the egg and evolution demos' particles load the resource of each of their one unit.
+  read in such a loop, as the egg and evolution demos' particles load the resource of each of their one unit. Reads
+  through a pointer to the entry, `const BitmapEntry *entry = &sListBitmaps[BMP_YES];`, aren't folded either, as
+  `research_list.c`'s `ResearchList_DrawYesButton` and `DrawNoButton` load their bitmap's file, colors and text from
+  the table; written as `sListBitmaps[BMP_YES].arcId`, the same function is 0x38 bytes shorter.
 - A struct assignment, `u->pos = *pos`, copies with `ldm`/`stm`. Separate `ldr`/`str` pairs for each field are the
   NitroSDK's `VEC_Set(&u->pos, pos->x, pos->y, pos->z)`, as `iss_3ds_sys.c`'s `ISS3DSoundSys_SetListenerCore` writes it.
 - Two locals initialized to 0 in their declarations share one zero register, so a later `offset += 4` compiles as
@@ -545,7 +556,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   complete file fails to link on one of them, rename it to the MWCC name with `rename_symbol.py`.
 - Float arithmetic on a literal passes the literal first, as in `_fmul(4096.0f, x)` for `x * FX32_ONE`, whatever the
   source order. A constant kept in a local variable, which is reloaded from the literal pool at each use, keeps its
-  place in the source instead, so `col * pixels` with `f32 pixels = 96.0f / 18;` passes `col` first.
+  place in the source instead, so `col * pixels` with `f32 pixels = 96.0f / 18;` passes `col` first. A compound
+  assignment passes its target first: `research_list.c`'s `ResearchList_ReleaseDrag` calls `_dmul` with the drag
+  speed in `r0`/`r1` and 1.5 in `r2`/`r3` for `wk->dragSpeed *= 1.5;`, while `wk->dragSpeed = wk->dragSpeed * 1.5;`
+  loads the literal into `r0`/`r1`.
 - NitroSDK's `FX32_CONST(x)` names `x` three times, in its test and in both branches, so a call written inside it is
   made three times. The game passes a local, as the capture rate in `btl_server_flow_sub.c` does.
 - A literal in a compound assignment keeps its place: `y = scale.y / (f32)FX32_ONE; y += 0.01f;` calls
@@ -621,7 +635,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   it anyway, it is not `static`: a global that no code refers to gets a section of its own, laid out by size with the
   rest. An object laid out ahead of smaller ones is in a file of its own, linked first, as overlay 65's command table
   is in `scrcmd_pokemon_center_table.c`, and one laid out after larger ones is in a file linked after, as overlay 50's
-  is in `scrcmd_bsubway_table.c`.
+  is in `scrcmd_bsubway_table.c`. The smallest objects come first, so an unreferenced word at a boundary, laid out
+  after a file's larger tables, is the next file's first object: the 4 bytes at 0x021a773c in overlay 310 can't end
+  `research_graph.c`, whose tables are larger, and as `research_common.c`'s global `ResearchCommon_Unused` they take
+  a section of their own ahead of that file's 8-byte table, as the ROM has them.
 - `GFL_ASSERT` keeps its expression as a string in `.data`, so the variable it tests keeps its original name, as the
   Medal Rally's `p_sv` does.
 - Overlay IDs are linker symbols, written `OVERLAY_ID(279)` from `gfl/overlay.h`, which gives the literal pool entry

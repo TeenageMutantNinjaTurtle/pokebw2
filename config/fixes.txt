@@ -811,6 +811,7 @@ overlays/ov142 0x021a0df0 remove_reloc
 overlays/ov142 0x021a0e15 remove_symbol
 overlays/ov142 0x021a0e18 remove_reloc
 overlays/ov142 0x021a0e81 remove_symbol
+overlays/ov142 0x021a1050 remove_reloc
 overlays/ov142 0x021a10b0 remove_reloc
 overlays/ov142 0x021a13a0 remove_reloc
 overlays/ov142 0x021a13dc remove_reloc
@@ -1342,6 +1343,10 @@ overlays/ov307 0x021de00c reloc_module overlay(280)
 overlays/ov307 0x021df70c add_data EGG_DEMO_VIEW_UNK_FX32
 overlays/ov310 0x021a7021 remove_symbol
 overlays/ov310 0x021a7028 add_data data_ov310_021a7028
+overlays/ov310 0x021a7028 section_end src/ov310/research_list.c:.rodata
+overlays/ov310 0x021a773c section_end src/ov310/research_graph.c:.rodata
+overlays/ov310 0x021a773c add_data ResearchCommon_Unused
+overlays/ov310 0x021a773c section_start src/ov310/research_common.c:.rodata
 overlays/ov332 0x021bf940 reloc_module overlay(331)
 overlays/ov332 0x021bfa3c overlay_id 331
 overlays/ov332 0x021bfa40 overlay_id 139

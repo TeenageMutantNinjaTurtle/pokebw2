@@ -9,6 +9,7 @@ src/ov207/p_sta_sys.c:
     .rodata     start:0x021bae50 end:0x021bafe8
 
 src/ov207/p_status.c:
+    complete
     .text       start:0x021b50f0 end:0x021b53a4
     .rodata     start:0x021bafe8 end:0x021bb000
     .data       start:0x021bb6e0 end:0x021bb6f8
