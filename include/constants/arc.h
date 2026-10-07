@@ -33,6 +33,8 @@
 #define ARCID_STARTMENU 34
 // The phrase input's graphics
 #define ARCID_PMSI 42
+// The musical's graphics (not from swan)
+#define ARCID_MUSICAL 46
 #define ARCID_MMODEL_TBL 47
 #define ARCID_MMODEL_GRA 48
 #define ARCID_INFOWIN 49

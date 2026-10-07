@@ -39,6 +39,8 @@ enum {
     // Not from swan: the Global Trade Station's heap
     HEAPID_WORLDTRADE = 0x48,
     HEAPID_MICTEST = 0x49,
+    // Not from swan: the musical photo's heap, overlay 209
+    HEAPID_MUSICAL_SHOT = 0x4a,
     HEAPID_BOX2 = 0x4b,
     HEAPID_BOX2_APP = 0x4c,
     HEAPID_FIELD_PARTICLE = 0x50,

@@ -106,7 +106,7 @@ BOOL func_ov012_021580c4(VM *vm, FieldScriptEnv *env) {
     holder->param->shot = func_0200ad5c(save);
     holder->param->unk4 = 1;
     holder->param->unk8 = 1;
-    ScriptWork_CallEvent(work, func_020196d0(gsys, field, OVERLAY_ID(209), &data_ov209_021c3000, holder->param,
+    ScriptWork_CallEvent(work, func_020196d0(gsys, field, OVERLAY_ID(209), &MUSICAL_SHOT_PROC_FUNCTIONS, holder->param,
                                              func_ov012_02158da0, holder));
     return TRUE;
 }
