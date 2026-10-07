@@ -17,8 +17,7 @@ typedef struct {
 
 extern GameProcFunctions MB_PARENT_PROC_FUNCTIONS;
 
-// The DS Download Play parent that Unova Link runs (mb_parent_dataconv_sys.c). The names are ours
-typedef struct MBDataConv MBDataConv;
+// The DS Download Play parent of Unova Link's Memory Link (mb_parent_dataconv_sys.c). The names are ours
 
 // What MBDataConv_Request starts or changes
 enum {
@@ -46,7 +45,7 @@ BOOL MBDataConv_IsIdle(MBDataConv *conv);
 // The name and the introduction of the program that the children see
 void MBDataConv_SetGameInfo(MBDataConv *conv, StrBuf *name, StrBuf *intro);
 u32 MBDataConv_GetResult(MBDataConv *conv);
-// What the child sent back
+// The save data that the child sent back
 void *MBDataConv_GetReceivedData(MBDataConv *conv);
 
 #endif // POKEBW2_APP_MB_PARENT_H
