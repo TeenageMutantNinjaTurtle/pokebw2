@@ -53,6 +53,14 @@ Same instructions, registers swapped.
 - A constant built from another follows the store order: with `bob = FX32_ONE;` written before
   `bobSpeed = FX32_CONST(0.25);`, MWCC builds 0x1000 and gets 0x400 from it with `lsrs #2`; in the other order it
   builds 0x400 and shifts it left. `fldeff_namipoke.c`'s surfing Pokémon sets its bobbing so.
+- A call's result passed straight to a narrower parameter is copied to the argument register and narrowed there (`adds
+  r1, r0, #0; lsls r1, r1, #0x18; lsrs r1, r1, #0x18`). Narrowed in `r0` and shifted into the argument register (`lsls
+  r0, r0, #0x18; lsrs r1, r0, #0x18`), it went through a `u8` or `u16` local first, as `u8 targetId =
+  BattleEventVar_GetValue(4);` does in the move handlers for Foul Play and Captivate, and `u16 item =
+  GetBattleMonHeldItem(mon);` in `handler_common.c`.
+- A function whose callers halve or compare its result signed returns a signed type even if what it returns is unsigned:
+  `RawBattleMonStat` returns `s32`, so `(RawBattleMonStat(a, 8) + RawBattleMonStat(b, 8)) / 2` divides with `asr` and
+  its sign fix in Power Split and Guard Split, while its own code is the same as with `u32`.
 - The operands of `*` are loaded in source order, so a multiply whose registers are swapped has its operands swapped
   in the source.
 - The terms of a three-term `|` chain are not loaded in source order: `a | b | c` loads `c`, then `a`, then `b`.
@@ -242,6 +250,8 @@ Same instructions, scheduled in another order.
   `BmpWin_GetBitmap(...)` in the same call, was passed to an inlined helper that makes the call, like
   `PrintWindow_Print`. A block-scoped local set from the field before the call does the same: bmp_menu.c's
   `BmpMenu_PrintOptions` loads the queue first because its loop body declares `PrintQueue *queue` and a `u8 y`.
+  save_error.c's `displayLightBlueErrorWindow` reads `chars->size` before calling `gfxGetCharAddrBG1A()` only
+  through NitroSDK's `MI_CpuCopy16` inline over `sys_memcpy16`.
 - Two stores through a pointer read from a struct, with one load of the pointer where ours loads it again after the
   first store, were made by an inlined helper that takes the pointer, such as `PrintWindow_Init(header.printWindow,
   window)` in `ShopUI_CreateConfirmDialog`.

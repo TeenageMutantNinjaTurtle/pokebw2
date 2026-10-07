@@ -34,6 +34,7 @@
 #include "nitro/mb.h"
 #include "nitro/os.h"
 #include "nitro/wm.h"
+#include "pml/met_data.h"
 #include "pml/poke_party.h"
 #include "save/bag.h"
 #include "save/box.h"

@@ -44,6 +44,8 @@ EventData *EventData_Create(HeapID heapId);
 void EventData_Free(EventData *data);
 void EventData_Clear(EventData *data);
 void EventData_Reset(EventData *data);
+// The quicksand trigger at the position, facing direction
+ZoneTrigger *FindQuicksandTrigger(EventData *data, EventWork *eventWork, const VecFx32 *position, u32 direction);
 void EventData_LoadZone(EventData *data, u16 zoneId, u8 season);
 void EventData_LoadEntities(EventData *data, u16 zoneId, u8 season);
 void LoadZoneEntities(EventData *data, u16 zoneId, u8 season);
