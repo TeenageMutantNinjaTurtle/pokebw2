@@ -81,7 +81,7 @@ IntroMsg *IntroMsg_Create(HeapID heapId) {
     GFL_BGSysQueueScrLoad(BmpWin_GetBGIndex(window));
     msg->window = BmpWin_CreateDynamic(1, 1, 19, 30, 4, WINDOW_PALETTE, 1);
     msg->keyCursor = KeyCursor_Create(15, TRUE, TRUE, msg->heapId);
-    msg->waitIcon = func_02035734(msg->heapId);
+    msg->waitIcon = WaitIcon_Alloc(msg->heapId);
     return msg;
 }
 
@@ -274,12 +274,12 @@ WordSet *IntroMsg_GetWordSet(IntroMsg *msg) {
 }
 
 void IntroMsg_ShowWaitIcon(IntroMsg *msg) {
-    func_0203576c(msg->waitIcon, GFL_VBlankGetTCBMgr(), msg->window, 15, 16);
+    WaitIcon_Start(msg->waitIcon, GFL_VBlankGetTCBMgr(), msg->window, 15, 16);
 }
 
 void IntroMsg_HideWaitIcon(IntroMsg *msg) {
     if (msg->waitIcon != NULL) {
-        func_0203580c(msg->waitIcon);
+        WaitIcon_Free(msg->waitIcon);
         msg->waitIcon = NULL;
     }
 }

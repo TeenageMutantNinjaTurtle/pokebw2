@@ -7,8 +7,10 @@
 // when it failed
 
 // Where a transfer goes: the BG palettes or the OBJ characters of the main or sub engine
+#define NNS_GFD_DST_2D_OBJ_PLTT_MAIN 0xe
 #define NNS_GFD_DST_2D_BG_PLTT_MAIN 0xf
 #define NNS_GFD_DST_2D_OBJ_CHAR_MAIN 0x13
+#define NNS_GFD_DST_2D_OBJ_PLTT_SUB 0x1e
 #define NNS_GFD_DST_2D_BG_PLTT_SUB 0x1f
 #define NNS_GFD_DST_2D_OBJ_CHAR_SUB 0x23
 
@@ -17,6 +19,13 @@ typedef u32 NNSGfdPlttKey;
 
 // Where in VRAM a key's allocation is
 #define NNS_GFD_KEY_ADDR_SHIFT 3
+
+#define NNS_GFD_KEY_SIZE_SHIFT 4
+
+// A key for the VRAM at the address, not allocated from a manager
+static inline NNSGfdTexKey NNS_GfdMakeTexKey(u32 addr, u32 size, BOOL is4x4comp) {
+    return ((size >> NNS_GFD_KEY_SIZE_SHIFT) << 16) | ((addr >> NNS_GFD_KEY_ADDR_SHIFT) & 0xffff) | (is4x4comp << 31);
+}
 
 static inline u32 NNS_GfdGetTexKeyAddr(NNSGfdTexKey key) {
     return (u32)((key & 0xffff) << NNS_GFD_KEY_ADDR_SHIFT);

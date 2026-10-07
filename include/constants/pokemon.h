@@ -4,6 +4,8 @@
 // Genders, as BATTLEMON_GENDER gives them. The AI scripts tell which is which
 #define GENDER_MALE 0
 #define GENDER_FEMALE 1
+// Not from swan: a genderless Pokémon's, which its sprite files treat as male (pokegra.c)
+#define GENDER_UNKNOWN 2
 
 // The species ID of an egg, which follows the national Pokédex in the species names
 #define SPECIES_EGG 650

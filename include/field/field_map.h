@@ -156,9 +156,6 @@ BOOL func_ov036_021a2e00(u32 tileClass);
 BOOL func_ov036_021b3b54(u32 tileClass);
 BOOL MapTile_IsSurfEdge(u32 tileClass);
 BOOL IsTileSurfWater(u32 tileClass);
-u32 GetWeatherAll(GameSystem *gsys, u16 zoneId);
-void ResetWeather(GameSystem *gsys, s32 zoneId);
-void UpdateWeatherToDefault(GameData *gameData, u16 zoneId);
 
 // Overlay 36: patches of map land data from archive 0x9a, of which Join Avenue's shops are built
 typedef struct LandDataPatch LandDataPatch;

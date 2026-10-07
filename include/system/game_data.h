@@ -90,16 +90,15 @@ PartyPkm *GameData_MakeBoxPkm(GameData *gameData, BoxPkmCreateParams *params);
 BOOL checkForMidnight(GameData *gameData);
 SaveControl *GameData_GetSaveControl(GameData *gameData);
 void *func_02017670(GameData *gameData);
-// The counter at 0x2c0, which func_02034ebc stops and func_02034f14 restarts around a battle
-void *func_0201798c(GameData *gameData);
-void func_02034ebc(void *counter);
-void func_02034f14(void *counter);
+// The support another player gave over communication (system/comm_player_support.h)
+CommPlayerSupport *GameData_GetCommPlayerSupport(GameData *gameData);
 // Save block 0x41, the Pokémon traded in game, which save/traded_pokemon.h reads
 void *GetTradedPokemonBlock(GameData *gameData);
 SaveControl *GameData_GetSaveControl_(GameData *gameData);
 BeaconStatus *func_020174d4(GameData *gameData);
 DreamWorldSave *func_020179e4(GameData *gameData);
 u8 GameData_GetSeason(GameData *gameData);
+void GameData_SetSeason(GameData *gameData, u8 season);
 u8 func_02017a24(GameData *gameData);
 // Sets the area of the Entree Forest the player is in, which func_02017a24 returns
 void func_02017a18(GameData *gameData, u8 area);
@@ -109,7 +108,6 @@ u16 GameData_GetDay(GameData *gameData);
 u16 getCurrentDayOfWeek(GameData *gameData);
 u16 getCurrentHour(GameData *gameData);
 u16 getCurrentMinute(GameData *gameData);
-void GameData_GetSeasons(GameData *gameData, u16 *prevSeason, u16 *season);
 WifiList *GameData_GetWifiList(GameData *gameData);
 void GameData_InitEncountTerrain(GameData *gameData, Field *field);
 EncountState *GameData_GetEncountState(GameData *gameData);
@@ -164,6 +162,7 @@ void SetScrPluginNo(GameData *gameData, u32 pluginNo);
 u32 func_02039978(u32 *a0, u32 index);
 void func_02039980(u32 *a0, u32 index, u32 value);
 
+Calendar *GetCalendar(GameData *gameData);
 void SetNowWeather(GameData *gameData, u8 weather);
 u32 GetNowWeather(GameData *gameData);
 BOOL GameData_CheckEventsPaused(GameData *gameData);

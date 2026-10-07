@@ -157,15 +157,15 @@ void func_ov194_021bfe28(PokemonTradeWork *wk) {
 // Shows the waiting icon in the message window
 void func_ov194_021bfe34(PokemonTradeWork *wk) {
     if (wk->waitIcon != NULL) {
-        func_0203580c(wk->waitIcon);
+        WaitIcon_Free(wk->waitIcon);
         wk->waitIcon = NULL;
     }
-    wk->waitIcon = func_02035660(wk->tcbEx, wk->msgWindow, 15, 16, wk->heapId);
+    wk->waitIcon = WaitIcon_CreateTCBEx(wk->tcbEx, wk->msgWindow, 15, 16, wk->heapId);
 }
 
 void func_ov194_021bfe70(PokemonTradeWork *wk) {
     if (wk->waitIcon != NULL) {
-        func_0203580c(wk->waitIcon);
+        WaitIcon_Free(wk->waitIcon);
         wk->waitIcon = NULL;
     }
     if (wk->msgWindow != NULL) {
@@ -177,7 +177,7 @@ void func_ov194_021bfe70(PokemonTradeWork *wk) {
 // Closes the message window, clearing it from the screen
 void func_ov194_021bfe9c(PokemonTradeWork *wk) {
     if (wk->waitIcon != NULL) {
-        func_0203580c(wk->waitIcon);
+        WaitIcon_Free(wk->waitIcon);
         wk->waitIcon = NULL;
     }
     if (wk->msgWindow != NULL) {

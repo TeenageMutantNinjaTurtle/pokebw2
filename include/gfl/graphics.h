@@ -21,12 +21,6 @@ BOOL G3DTextDraw_CreateResource(void *texture, const char *texName, u32 a2, cons
                                 u16 a6, u16 color, HeapID heapId, G3DTextDrawResource *resource);
 void GFXRegSetMasterBrightness(u32 reg, s32 brightness);
 s32 gfxRegGetMasterBrightness(u32 reg);
-// Loaded with part of a palette file, stepped each frame and reset. Unnamed, as what it does is not known
-void *func_02035024(u32 a0, u32 a1, u32 a2, HeapID heapId);
-void func_02035104(void *a0, ArcTool *arc, u32 fileId, u32 a3, u32 a4);
-void func_02035178(void *a0);
-void func_02035198(void *a0);
-void func_020352b0(void *a0);
 void gfxClearColor(GXRgb color, u8 alpha, s16 depth, u8 polygonId, BOOL fog);
 void gfxDisableLCDCBanks(void);
 void gfxRegSetAlphaBlend(u32 reg, u32 plane1, u32 plane2, s32 alpha1, s32 alpha2);

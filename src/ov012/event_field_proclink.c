@@ -300,7 +300,7 @@ BOOL func_ov012_0215b7c0(FieldAppCallParam *param) {
 // The party screen
 void *func_ov012_0215b7d8(FieldAppCallWork *work, s32 appParam, s32 prevAppId, void *prevParam) {
     GameData *gameData = GSYS_GetGameData(work->input->gameSystem);
-    PokeListParam *param = func_02034c54(gameData, 0, GameData_GetParty(gameData), HEAPID_GAMEEVENT);
+    PokeListParam *param = PokeListParam_Create(gameData, 0, GameData_GetParty(gameData), HEAPID_GAMEEVENT);
     BagProcessData *bag;
     PStatusParam *status;
     BOOL mailResult;
@@ -330,7 +330,7 @@ void *func_ov012_0215b7d8(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
         }
         switch (bag->result) {
         case 1:
-            if (bag->unk38 == 2) {
+            if (bag->mode == 2) {
                 param->mode = 0;
             }
             break;
@@ -629,23 +629,23 @@ void *func_ov012_0215bd48(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
 
     switch (prevAppId) {
     case FIELD_APP_BAG:
-        param = func_02034ad0(gameData, &work->perms, func_ov012_0215bd1c(work->input->gameSystem), HEAPID_GAMEEVENT);
+        param = BagParam_Create(gameData, &work->perms, func_ov012_0215bd1c(work->input->gameSystem), HEAPID_GAMEEVENT);
         if (appParam != -1) {
             func_020088a4(param->unk0C, appParam);
         }
         break;
     case FIELD_APP_POKELIST:
         if (partyParam->result == 3) {
-            param = func_02034ad0(gameData, &work->perms, 2, HEAPID_GAMEEVENT);
+            param = BagParam_Create(gameData, &work->perms, 2, HEAPID_GAMEEVENT);
         } else {
-            param = func_02034ad0(gameData, &work->perms, func_ov012_0215bd1c(work->input->gameSystem),
+            param = BagParam_Create(gameData, &work->perms, func_ov012_0215bd1c(work->input->gameSystem),
                                   HEAPID_GAMEEVENT);
         }
         break;
     case 8:
     case 9:
     default:
-        param = func_02034ad0(gameData, &work->perms, func_ov012_0215bd1c(work->input->gameSystem), HEAPID_GAMEEVENT);
+        param = BagParam_Create(gameData, &work->perms, func_ov012_0215bd1c(work->input->gameSystem), HEAPID_GAMEEVENT);
         break;
     }
     return param;
@@ -660,7 +660,7 @@ u32 func_ov012_0215bdd0(FieldAppCallWork *work, void *data) {
     case 0:
         return 1;
     case 1:
-        if (param->unk38 == 2) {
+        if (param->mode == 2) {
             work->nextAppId = FIELD_APP_POKELIST;
             return FIELD_APP_RESULT_NEXT;
         }
@@ -895,7 +895,7 @@ void *func_ov012_0215c160(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
         return func_ov215_021a7624(gameData, PokeParty_GetPkm(party, partyParam->index), HEAPID_GAMEEVENT);
     }
     bag = prevParam;
-    if (bag->unk38 == 2) {
+    if (bag->mode == 2) {
         param = func_ov215_021a75a0(gameData, 2, bag->item, PML_ItemGetMailID(bag->item), HEAPID_GAMEEVENT);
         work->item = bag->item;
         return param;

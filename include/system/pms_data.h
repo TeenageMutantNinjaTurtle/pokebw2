@@ -52,7 +52,7 @@ void PMSData_SetWord(PMSData *data, u32 index, u16 word);
 void PMSData_ClearUnusedWords(PMSData *data, HeapID heapId);
 BOOL PMSData_IsValid(const PMSData *data, u32 heapId);
 // Replaces an invalid sentence or word with a default one, and returns whether all of it was valid
-BOOL PMSData_Validate(PMSData *data, BOOL allowEmpty, u32 heapId);
+BOOL PMSData_Validate(PMSData *data, BOOL allowEmpty, HeapID heapId);
 BOOL PMSWord_Validate(u16 *word, BOOL allowEmpty, BOOL allowNumber);
 BOOL PMSNumber_Validate(int *number, BOOL allowZero);
 

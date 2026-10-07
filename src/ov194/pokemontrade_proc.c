@@ -670,11 +670,11 @@ static void func_ov194_021b7f7c(int netId, int size, void *data, void *work, Net
 
 static void func_ov194_021b7fa8(int netId, int size, void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
-    TradeProfile profile;
+    UnityTowerVisitor profile;
     if (handle == func_02040440() && netId != PokemonTrade_GetMyNetId()) {
         UnityTowerSurveySave *survey = getUnityTower_SurveySaveBlkAddrress(GameData_GetSaveControl(wk->gameData));
         u8 country, province, validCountry, validProvince;
-        sys_memcpy(data, &profile, sizeof(TradeProfile));
+        sys_memcpy(data, &profile, sizeof(UnityTowerVisitor));
         country = UnityTowerVisitor_GetCountry(&profile.info);
         province = UnityTowerVisitor_GetProvince(&profile.info);
         validCountry = Country_GetValidCountry(country, province, TrainerInfo_GetRegion(&profile.info));
@@ -684,7 +684,7 @@ static void func_ov194_021b7fa8(int netId, int size, void *data, void *work, Net
         } else {
             func_02008c14(&profile.info, 0, 0);
         }
-        func_02035350(survey, &profile.info);
+        UnityTowerSurvey_RegisterTrade(survey, &profile);
     }
 }
 

@@ -228,7 +228,7 @@ static void ShinkaDemoPieces_SetPosition(SpritePieces *pieces, HeapID heapId, fx
 static void ShinkaDemoView_UnwhitenPieces(ShinkaDemoView *view);
 static BOOL ShinkaDemoView_ArePiecesIdle(ShinkaDemoView *view);
 static BOOL ShinkaDemoView_ArePiecesReturned(ShinkaDemoView *view);
-static SpritePieces *ShinkaDemoPieces_Create(u32 species, u32 form, u32 sex, BOOL rare, u32 a4, u32 a5, u32 texAddr,
+static SpritePieces *ShinkaDemoPieces_Create(u32 species, u32 form, u32 sex, BOOL rare, u32 dir, BOOL egg, u32 texAddr,
                                              u32 plttAddr, HeapID heapId);
 static void ShinkaDemoPieces_Free(SpritePieces *pieces, HeapID heapId);
 static void ShinkaDemoPieces_Init(SpritePieces *pieces, HeapID heapId);
@@ -888,7 +888,7 @@ static BOOL ShinkaDemoView_ArePiecesReturned(ShinkaDemoView *view) {
 }
 
 // Loads a Pokémon's sprite as a 128 by 128 texture, with the sprite's 96 by 96 pixels 16 pixels from its top left
-static SpritePieces *ShinkaDemoPieces_Create(u32 species, u32 form, u32 sex, BOOL rare, u32 a4, u32 a5, u32 texAddr,
+static SpritePieces *ShinkaDemoPieces_Create(u32 species, u32 form, u32 sex, BOOL rare, u32 dir, BOOL egg, u32 texAddr,
                                              u32 plttAddr, HeapID heapId) {
     SpritePieces *pieces = GFL_HeapAllocate(heapId, sizeof(SpritePieces), TRUE, "shinka_demo_view.c", 1824);
     u32 characterNo;
@@ -902,8 +902,8 @@ static SpritePieces *ShinkaDemoPieces_Create(u32 species, u32 form, u32 sex, BOO
     pieces->bitmap = GFL_BitmapCreate(16, 16, 32, heapId);
     pieces->texAddr = texAddr;
     pieces->plttAddr = plttAddr;
-    characterNo = GetPokemonSingleCellCharacterDataNo(GetPokemonGraphicsARCID(), species, form, sex, rare, a4, a5);
-    paletteNo = GetPokemonPaletteDataNo(GetPokemonGraphicsARCID(), species, form, sex, rare, a4, a5);
+    characterNo = GetPokemonSingleCellCharacterDataNo(GetPokemonGraphicsARCID(), species, form, sex, rare, dir, egg);
+    paletteNo = GetPokemonPaletteDataNo(GetPokemonGraphicsARCID(), species, form, sex, rare, dir, egg);
     character = 0;
     pieces->character = NULL;
     pieces->palette = NULL;

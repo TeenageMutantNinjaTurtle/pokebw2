@@ -52,6 +52,7 @@
 #include "system/new_game.h"
 #include "system/playtime_ctrl.h"
 #include "system/season.h"
+#include "system/zone_weather.h"
 
 struct EventGameOpening {
     GameSystem *gsys;

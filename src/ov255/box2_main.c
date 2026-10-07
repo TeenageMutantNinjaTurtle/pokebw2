@@ -512,10 +512,10 @@ void Box2Main_SetFrameButtonAnm(Box2SysWork *syswk, u32 frame) {
     s8 px, py;
     u16 sx, sy;
 
-    func_020336a0(syswk->app->bgWinFrame, frame, &px, &py);
-    func_020336c8(syswk->app->bgWinFrame, frame, &sx, &sy);
+    BGWinFrame_GetPos(syswk->app->bgWinFrame, frame, &px, &py);
+    BGWinFrame_GetSize(syswk->app->bgWinFrame, frame, &sx, &sy);
     syswk->app->bawk.mode = BOX2_BTN_ANM_MODE_BG;
-    syswk->app->bawk.id = func_02033694(syswk->app->bgWinFrame, frame);
+    syswk->app->bawk.id = BGWinFrame_GetBG(syswk->app->bgWinFrame, frame);
     syswk->app->bawk.pal1 = 13;
     syswk->app->bawk.pal2 = 12;
     syswk->app->bawk.seq = 0;
@@ -2696,7 +2696,7 @@ int Box2Main_PokeStatusExit(Box2SysWork *syswk) {
 }
 
 int Box2Main_BagCall(Box2SysWork *syswk) {
-    BagProcessData *bag = func_02034ad0(syswk->param->gameData, NULL, 2, HEAPID_BOX2);
+    BagProcessData *bag = BagParam_Create(syswk->param->gameData, NULL, 2, HEAPID_BOX2);
 
     QueueGameProc(syswk->procManager, OVERLAY_BAG, &data_ov142_021a0910, bag);
     syswk->subProcWork = bag;
@@ -3042,7 +3042,7 @@ BOOL Box2Main_VFuncPokeMoveTouch(Box2SysWork *syswk) {
     u32 res;
     BOOL dir;
 
-    if (vf->seq != 10 && vf->seq != 11 && vf->seq != 14 && func_02033548(syswk->app->bgWinFrame, 9) == TRUE) {
+    if (vf->seq != 10 && vf->seq != 11 && vf->seq != 14 && BGWinFrame_IsMoving(syswk->app->bgWinFrame, 9) == TRUE) {
         frameMove = func_ov255_021c05e8(syswk);
     }
     frameMove2 = func_ov255_021d399c(syswk->app->bgWinFrame);
@@ -3446,14 +3446,14 @@ BOOL Box2Main_VFuncPartyFrameMove(Box2SysWork *syswk) {
 }
 
 BOOL func_ov255_021c05e8(Box2SysWork *syswk) {
-    BOOL moving = func_020334dc(syswk->app->bgWinFrame, 9);
+    BOOL moving = BGWinFrame_MoveStep(syswk->app->bgWinFrame, 9);
 
     func_ov255_021d13d8(syswk, 8);
     return moving;
 }
 
 BOOL func_ov255_021c0604(Box2SysWork *syswk) {
-    BOOL moving = func_020334dc(syswk->app->bgWinFrame, 9);
+    BOOL moving = BGWinFrame_MoveStep(syswk->app->bgWinFrame, 9);
 
     func_ov255_021d13d8(syswk, -8);
     return moving;
@@ -4782,7 +4782,7 @@ BOOL Box2Main_VFuncRangeMoveTouch(Box2SysWork *syswk) {
     u32 res;
     BOOL dir;
 
-    if (func_02033548(syswk->app->bgWinFrame, 8) == TRUE) {
+    if (BGWinFrame_IsMoving(syswk->app->bgWinFrame, 8) == TRUE) {
         frameMove = Box2Main_VFuncPartyFrameMove(syswk);
     } else {
         frameMove = FALSE;

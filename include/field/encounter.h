@@ -56,8 +56,10 @@ u16 getSwarmLevelRangeFromData(GameData *gameData);
 u32 func_ov012_02159218(EncountSave *save);
 void func_ov012_0215921c(void);
 void func_ov012_02159220(GameData *gameData);
-u32 GetDefaultWeatherValue(void);
-u32 func_ov012_0215922c(void);
+// A weather that overrides the zone's, which is always WEATHER_NONE
+u32 GetDefaultWeatherValue(GameData *gameData, u16 zoneId);
+// Whether weathers 6 and 7 go back to the zone's own, which is always FALSE
+BOOL func_ov012_0215922c(GameData *gameData);
 void func_ov036_021a203c(EncountSystem *system, u32 value);
 void func_ov036_021a2364(EncountSystem *system);
 // Sets the setup up for a battle against the trainer, here

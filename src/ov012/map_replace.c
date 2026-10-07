@@ -7,6 +7,7 @@
 #include "save/event_work.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+#include "system/season.h"
 
 // The events that change the map, which a MapReplaceEntry's condition picks: an event happened when its work has the
 // value

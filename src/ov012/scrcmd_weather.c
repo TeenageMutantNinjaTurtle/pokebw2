@@ -7,6 +7,7 @@
 #include "system/game_data.h"
 #include "system/game_system.h"
 #include "system/vm.h"
+#include "system/zone_weather.h"
 
 // The script command that sets the field's weather (a descriptive name). s0136_FieldSetWeather is swan's name
 

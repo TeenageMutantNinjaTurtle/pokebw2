@@ -19,6 +19,7 @@
 #include "gfl/tcb.h"
 #include "gfl/tcbl.h"
 #include "gfl/touchpanel.h"
+#include "field/unity_tower.h"
 #include "gfl/ui.h"
 #include "save/player_info.h"
 #include "struct_decls.h"
@@ -55,18 +56,6 @@
 #define TRADE_NET_CMD_UNK17 (TRADE_NET_CMD_BASE + 0x17)
 
 typedef struct PokemonTradeWork PokemonTradeWork;
-
-// What a machine sends of itself after a trade, for the other's records
-typedef struct {
-    PlayerInfo info;
-    u16 sentSpecies;
-    u16 receivedSpecies;
-    u8 survey;
-    u8 unk25;
-    u8 unk26_0 : 3;
-    u8 unk26_3 : 5;
-    u8 unk27;
-} TradeProfile;
 
 // The copies of the save's data that a trade changes, to restore if saving fails
 typedef struct {

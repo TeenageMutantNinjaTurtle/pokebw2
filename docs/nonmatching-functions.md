@@ -234,6 +234,7 @@ the original code is linked until they match. The differences are the same in bo
 | `src/system/wipe_sub.c` | `WipeRectWork_Init` | `0x02028e30` / `0x02028e5c` | 13 bytes of scheduling: the original loads `param->window` first and stores `syncCount` after the field loads. Tried every position of the window store, and `work->window` or `param->isOut` in the call. |
 | `src/system/wipe_sub.c` | `WipeLineWork_Init` | `0x02029288` / `0x020292b4` | 4 bytes: the original compares `pattern->isOut` before storing the screen stack argument. Tried plane locals and a `TRUE` literal in the first call. |
 | `src/system/wipe_sub.c` | `WipeLineRange_Apply` | `0x02029418` / `0x02029444` | 15 bytes of registers: the original keeps `covered` in r7 (the range pointer's register) and adds the quotient before `start`. Tried `u8`/`u32`/`s32` bounds, swapping in place, `!covered`, both edge orders and declaration orders. |
+| `src/system/unity_tower_register.c` | `UnityTowerVisitors_Remove` | `0x020354d4` / `0x02035500` | Same size, 30 bytes: in the shift loop the original keeps `index * 0x28` in `r7`, tests `visitors[index + 1].valid` at `visitors + r7 + 0x4e` before the increment and increments in both branches; ours moves the increment above the test and recomputes the offset. Only `(visitors + 1)[index].valid` matches, which was rejected as a pointer trick. Tried: `while`, `for`, `goto`, flag and `continue` forms, a separate counter, `+= 1`, inline helpers and a `next` pointer. |
 
 ## Attempted, not in C
 

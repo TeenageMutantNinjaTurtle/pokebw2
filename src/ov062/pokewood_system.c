@@ -64,7 +64,7 @@ void func_ov062_021e61a0(PokewoodSystem *sys, const PokeListParam *param) {
 void func_ov062_021e61e8(PokewoodSystem *sys, GameData *gameData, PokeListParam *param) {
     PokewoodMovie *movie;
 
-    func_02034bd8(param, gameData, 0x16, GameData_GetParty(gameData));
+    PokeListParam_Setup(param, gameData, 0x16, GameData_GetParty(gameData));
     func_0201f744(POKEWOOD_REGULATION, &sys->regulation);
     movie = GFL_ArcSysReadHeapNew(ARCID_POKEWOOD_MOVIE, sys->movie, HEAPID_GAMEEVENT);
     sys->regulation.unk2 = movie->castCount;
