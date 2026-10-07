@@ -50,6 +50,8 @@ enum {
     // Not from swan: the phrase select's heap
     HEAPID_PMS_SELECT = 0x51,
     HEAPID_BATTLE_RETURN = 0x52,
+    // Not from swan: the DS Download Play parent's heap, overlay 181
+    HEAPID_MB_PARENT = 0x5d,
     HEAPID_GAMESYNC = 0x67,
     // The evolution demo's graphics, which it frees while another screen runs
     HEAPID_SHINKA_DEMO_GRAPHIC = 0x68,
