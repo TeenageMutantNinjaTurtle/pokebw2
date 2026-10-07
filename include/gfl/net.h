@@ -163,6 +163,8 @@ void GFL_NetErrShow(u32 a0);
 void func_02011d04(u32 code);
 // Records the error with the code given, to show it
 void func_020120f0(u32 code);
+// The error code for a server's result
+u32 func_02011d2c(int result);
 void func_02011de0(void);
 // Whether the error was handled, after shutting the connection down
 BOOL func_02012154(void);

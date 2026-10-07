@@ -9,7 +9,7 @@
 void func_ov011_021516a0(BOOL a0);
 void func_ov011_021520a0(u32 a0, u32 size, HeapID heapId);
 // Sets the function called when the connection is lost
-void func_ov011_02152040(void (*func)(void *work), void *work);
+void func_ov011_02152040(void (*func)(void *work, int a1, int code), void *work);
 void func_ov011_02152158(void);
 void func_ov011_02152404(u32 a0, u32 a1);
 

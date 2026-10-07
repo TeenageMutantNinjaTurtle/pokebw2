@@ -95,7 +95,7 @@ static void func_ov194_021bdb1c(PokemonTradeWork *wk);
 static void func_ov194_021bdb64(PokemonTradeWork *wk);
 static void func_ov194_021bdba8(PokemonTradeWork *wk);
 static void func_ov194_021bdc50(PokemonTradeWork *wk);
-static void func_ov194_021bdca4(void *work);
+static void func_ov194_021bdca4(void *work, int a1, int code);
 static void func_ov194_021bdcc4(PokemonTradeWork *wk);
 static void func_ov194_021bde60(PokemonTradeWork *wk);
 static void func_ov194_021bdf10(PokemonTradeWork *wk);
@@ -1236,7 +1236,7 @@ static void func_ov194_021bdc50(PokemonTradeWork *wk) {
     }
 }
 
-static void func_ov194_021bdca4(void *work) {
+static void func_ov194_021bdca4(void *work, int a1, int code) {
     PokemonTradeWork *wk = work;
     if (wk->unk0 != NULL) {
         func_ov189_0219d124(wk->unk0);
