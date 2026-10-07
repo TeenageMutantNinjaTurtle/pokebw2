@@ -11,6 +11,7 @@
 #include "battle/btl_server.h"
 #include "battle/btl_server_cmd.h"
 #include "battle/btl_setup.h"
+#include "battle/btl_string.h"
 #include "battle/btlv.h"
 #include "battle/pokewood_cutin.h"
 #include "battle/tr_ai.h"
