@@ -12,6 +12,7 @@
 #include "gfl/msg.h"
 #include "gfl/random.h"
 #include "gfl/str.h"
+#include "pml/met_data.h"
 #include "pml/poke_party.h"
 #include "pml/species_names.h"
 #include "save/mystery_gift.h"

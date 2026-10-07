@@ -225,6 +225,7 @@ typedef enum {
 #define GX_VRAM_BG_64_E GX_VRAM_E
 #define GX_VRAM_BG_128_A GX_VRAM_A
 #define GX_VRAM_BG_128_B GX_VRAM_B
+#define GX_VRAM_BG_128_C GX_VRAM_C
 #define GX_VRAM_BG_128_D GX_VRAM_D
 #define GX_VRAM_BG_256_AB (GX_VRAM_A | GX_VRAM_B)
 #define GX_VRAM_BGEXTPLTT_NONE GX_VRAM_NONE
@@ -291,6 +292,7 @@ typedef enum {
 
 typedef enum {
     GX_BG_CHARBASE_0x00000 = 0,
+    GX_BG_CHARBASE_0x04000 = 1,
     GX_BG_CHARBASE_0x10000 = 4,
     GX_BG_CHARBASE_0x3c000 = 15,
 } GXBGCharBase;
@@ -1164,6 +1166,9 @@ void gfxLoadMatrix4x3(const MtxFx43 *mtx);
 void gfxMultMatrix4x3(const MtxFx43 *mtx);
 void gfxSetEngineModeA(int dispMode, int bgMode, int bg0As3D);
 void gfxSetBGModeB(int bgMode);
+// NitroSDK's GX_HBlankIntr and GX_VBlankIntr, which return whether the interrupt was enabled
+s32 gfxSetHBlankIRQEnabled(BOOL enable);
+s32 gfxSetVBlankIRQEnabled(BOOL enable);
 
 // NitroSDK's loads to BG VRAM: GX_LoadBG0Scr to GXS_LoadBG3Scr, GX_LoadBG0Char to GXS_LoadBG3Char, and GX_LoadBGPltt
 // and GXS_LoadBGPltt
@@ -1214,8 +1219,9 @@ void gfxEndObjExtPltBUpload(void);
 u16 gfxGetObjBanksA(void);
 u16 gfxGetObjBanksB(void);
 
-// NitroSDK's G2_GetBG0ScrPtr
+// NitroSDK's G2_GetBG0ScrPtr and G2_GetBG1ScrPtr
 void *gfxGetScreenAddrBG0A(void);
+void *gfxGetScreenAddrBG1A(void);
 // NitroSDK's G2_GetBG2ScrPtr and G2_GetBG3ScrPtr
 void *gfxGetScreenAddrBG2A(void);
 void *gfxGetScreenAddrBG3A(void);

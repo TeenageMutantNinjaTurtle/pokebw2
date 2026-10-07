@@ -218,6 +218,8 @@ BOOL IsZoneNimbasaStadium(u16 zoneId);
 BOOL IsZoneAbyssalRuinsInside(u16 zoneId);
 BOOL IsZoneAbyssalRuinsFlashRock(u16 zoneId);
 BOOL IsZoneAbyssalRuinsStrengthRock(u16 zoneId);
+// Whether a place name is one of the Entralink's
+BOOL IsMetLocationEntralink(u16 location);
 BOOL GetIsZoneRoute14Or15(u16 zoneId);
 // Whether the zone is a normal field zone: not the Union Room, Entralink or the like
 BOOL func_02018c38(u16 zoneId);

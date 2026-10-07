@@ -51,6 +51,7 @@
 #include "system/iss_sys.h"
 #include "system/new_game.h"
 #include "system/playtime_ctrl.h"
+#include "system/resort_work.h"
 #include "system/season.h"
 #include "system/zone_weather.h"
 
@@ -1450,7 +1451,7 @@ void GameData_DeleteAllActors(GameData *gameData) {
 
 // Allocates a list of people while in Join Avenue and frees it elsewhere, then resets the people in it and in the save
 void GameData_UpdateJoinAvenueForZone(GameData *gameData, u16 zoneId) {
-    u32 *unk = func_02017b84(gameData);
+    ResortWork *unk = func_02017b84(gameData);
     JoinAvenuePersonList **personList;
 
     if (IsZoneJoinAvenue(zoneId) || IsZoneJoinAvenueSubZone(zoneId)) {
@@ -1473,7 +1474,7 @@ void GameData_UpdateJoinAvenueForZone(GameData *gameData, u16 zoneId) {
         func_02038bc8(0x18);
     }
 
-    func_02039980(unk, 8, 0);
+    ResortWork_Set(unk, 8, 0);
     {
         JoinAvenueSave *joinAvenue = SaveControl_GetJoinAvenue(GameData_GetSaveControl(gameData));
         JoinAvenuePersonList *lists[2] = { NULL, NULL };
@@ -1502,10 +1503,10 @@ void GameData_UpdateJoinAvenueForZone(GameData *gameData, u16 zoneId) {
 
 // Sets flag 8 when the zone changed, which GameData_UpdateJoinAvenueForZone clears
 void GameData_UpdateZoneChangeFlag(GameData *gameData, u16 zoneId, u16 prevZoneId) {
-    u32 *unk = func_02017b84(gameData);
+    ResortWork *unk = func_02017b84(gameData);
 
     if (zoneId != prevZoneId) {
-        func_02039980(unk, 8, 1);
+        ResortWork_Set(unk, 8, 1);
     }
 }
 

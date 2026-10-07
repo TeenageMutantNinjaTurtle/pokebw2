@@ -14,6 +14,7 @@
 #include "gfl/msg.h"
 #include "gfl/sound.h"
 #include "gfl/str.h"
+#include "pml/met_data.h"
 #include "pml/poke_party.h"
 #include "save/bag.h"
 #include "save/dream_world.h"
@@ -424,7 +425,7 @@ u32 func_ov033_021780a4(FieldScriptEnv *env, MysteryGift *gift, u32 kind) {
         pkm = func_ov033_021780d8(env, gift);
         if (pkm != NULL) {
             playerInfo = GetGameDataPlayerInfo(FieldScriptEnv_GetGameData(env));
-            result = func_02035cf8(pkm, 8, playerInfo);
+            result = PokeParty_IsSpecialTransfer(pkm, 8, playerInfo);
             GFL_HeapFree(pkm);
             return result;
         }
@@ -612,7 +613,7 @@ u32 func_ov033_02178334(FieldScriptEnv *env, GameData *gameData, MysteryGift *gi
 
 u32 func_ov033_02178338(WordSet *wordSet, MysteryGift *gift, FieldScriptEnv *env) {
     PlayerInfo *playerInfo;
-    u32 value;
+    u8 value;
 
     playerInfo = GetGameDataPlayerInfo(FieldScriptEnv_GetGameData(env));
     FieldScriptEnv_GetHeapID(env);

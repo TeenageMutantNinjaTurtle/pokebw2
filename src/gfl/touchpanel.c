@@ -6,10 +6,6 @@
 #include "nitro/os.h"
 #include "nitro/tp.h"
 
-// Rectangles whose top is one of these are circles, or are skipped
-#define TOUCH_RECT_CIRCLE 0xfe
-#define TOUCH_RECT_SKIP 0xfd
-
 // A sampling attempt is retried this many times before the sample is dropped
 #define SAMPLING_RETRIES 32
 
