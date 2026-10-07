@@ -43,6 +43,7 @@ typedef struct FldCommActSys FldCommActSys;
 typedef struct GFLBitmap GFLBitmap;
 typedef struct GameBeacon GameBeacon;
 typedef struct GameBeaconSystem GameBeaconSystem;
+typedef struct GSyncDisp GSyncDisp;
 typedef struct GSyncDownload GSyncDownload;
 typedef struct GSyncMessage GSyncMessage;
 typedef struct BagSave BagSave;
