@@ -2744,8 +2744,9 @@ overlays/ov197 0x021bd2c8 MysteryNet_GetError
 overlays/ov197 0x021bd318 MysteryNet_ClearError
 overlays/ov197 0x021bdd34 MysteryCheck_CountErrors
 overlays/ov197 0x021be328 MYSTERY_GIFT_PROC_FUNCTIONS
-overlays/ov199 0x021b95ec GSYNC_PROC_FUNCTIONS
-overlays/ov199 0x021b97f4 PDWACC_PROC_FUNCTIONS
+overlays/ov199 0x021b95ec GSYNC_MENU_PROC_FUNCTIONS
+overlays/ov199 0x021b97f4 GSYNC_PROC_FUNCTIONS
+overlays/ov199 0x021b9964 PDWACC_PROC_FUNCTIONS
 overlays/ov207 0x021b2f80 PStatus_Init
 overlays/ov207 0x021b3158 PStatus_Exit
 overlays/ov207 0x021b3208 PStatus_Main

@@ -2566,7 +2566,7 @@ from:0x0201315a kind:thumb_call to:0x0203a938 module:main
 from:0x02013198 kind:thumb_call to:0x02011cfc module:main
 from:0x020131a2 kind:thumb_call to:0x02042788 module:main
 from:0x020131dc kind:load to:0x021b50a8 module:overlays(190,257)
-from:0x020131e8 kind:load to:0x021b9964 module:overlays(199,201)
+from:0x020131e8 kind:load to:0x021b9964 module:overlay(199)
 from:0x020131ec kind:load to:0x021b52bc module:overlays(190,257)
 from:0x020131f6 kind:thumb_call to:0x02017144 module:main
 from:0x020131fc kind:thumb_call to:0x0203ab10 module:main
