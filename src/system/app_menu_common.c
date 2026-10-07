@@ -98,7 +98,7 @@ u32 func_0202d82c(void) {
     return 0x1e;
 }
 
-void AppMenuCommon_LoadBarScreen(ArcTool *arc, u8 bg, HeapID heapId, u16 charBase, u32 palette) {
+void AppMenuCommon_LoadBarScreen(ArcTool *arc, u8 bg, HeapID heapId, u32 charBase, u32 palette) {
     u16 *dest = GFL_BGSysIsScrHeapExists(bg);
     NNSG2dScreenData *screen;
     void *file = GFL_G2DIOReadNSCRArc(arc, BAR_SCREEN_FILE, FALSE, &screen, heapId);

@@ -83,13 +83,13 @@ u16 PaletteFade_GetActiveMask(PaletteFade *fade);
 // Makes PaletteFade_Transfer copy every buffer
 void PaletteFade_SetTransferAll(PaletteFade *fade, u32 transferAll);
 void PaletteFade_SetAllActive(PaletteFade *fade, u32 active);
-u16 PaletteFade_GetColor(PaletteFade *fade, u16 buffer, u32 which, u16 pos);
+u16 PaletteFade_GetColor(PaletteFade *fade, u32 buffer, u32 which, u16 pos);
 // Blends count colors toward color by fraction of 16
 void BlendColors(const u16 *src, u16 *dst, u16 count, u8 fraction, u16 color);
 // BlendColors from a buffer's unfaded colors into its faded ones
-void PaletteFade_BlendBuffer(PaletteFade *fade, u16 buffer, u16 offset, u16 count, u8 fraction, u16 color);
+void PaletteFade_BlendBuffer(PaletteFade *fade, u32 buffer, u16 offset, u16 count, u8 fraction, u16 color);
 // PaletteFade_BlendBuffer for the 16-color palettes of paletteMask
-void PaletteFade_BlendPalettes(PaletteFade *fade, u16 buffer, u16 paletteMask, u8 fraction, u16 color);
+void PaletteFade_BlendPalettes(PaletteFade *fade, u32 buffer, u16 paletteMask, u8 fraction, u16 color);
 // Turns colors to gray and maps the grays through a table
 void ColorFilter_ApplyLUT(u16 *colors, int count, const u8 *lut);
 // Turns colors to sepia

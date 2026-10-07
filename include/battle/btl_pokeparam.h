@@ -290,7 +290,7 @@ BOOL MoveIsUsable(const BattleMon *mon, u16 move);
 u32 func_ov167_021bb07c(const BattleMon *mon, u32 stat);
 void func_ov167_021bb10c(BattleMon *mon, u16 *stats);
 void func_ov167_021bb054(BattleMon *mon);
-PartyPkm *func_ov167_021bb064(BattleMon *mon);
+PartyPkm *func_ov167_021bb064(const BattleMon *mon);
 void SetBaseStatus(BattleMon *mon, u32 stat, u16 value);
 s32 RawBattleMonStat(const BattleMon *mon, u32 stat);
 u32 CritAtkDefLevel(BattleMon *mon, u32 stat);
