@@ -61,4 +61,7 @@ void CtvtGame_CountPump(CtvtComm *comm, CtvtGame *game, BOOL big, int netId);
 // Grows the balloons of the members in mask
 void CtvtGame_PumpBalloons(CtvtGame *game, u8 mask);
 
+// The host's frame that the game is at
+u16 CtvtGame_GetFrame(CtvtGame *game);
+
 #endif // POKEBW2_APP_COMM_TVT_CTVT_GAME_H
