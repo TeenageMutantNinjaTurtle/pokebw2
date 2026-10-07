@@ -1200,7 +1200,7 @@ void Field_LoadSceneArea(Field *field, u32 zoneId) {
     u16 cameraId = GetCameraIDForZone(zoneId);
 
     if (cameraId != 0xffff) {
-        void *cameraData;
+        CameraArea *cameraData;
         u32 count;
 
         ResetSceneArea(field->sceneArea);
