@@ -25,6 +25,8 @@ extern u32 SDK_AUTOLOAD_DTCM_START[];
 #define HW_INTR_CHECK_BUF (HW_DTCM + 0x3ff8)
 
 #define OS_IE_V_BLANK 0x1
+// The DSi's new DMA channel 1
+#define OS_IE_NDMA1 0x20000000
 
 static inline u32 OS_GetVBlankCount(void) {
     return *(vu32 *)HW_VBLANK_COUNT_BUF;
@@ -59,6 +61,10 @@ void cart_key_release(u16 lockId);
 // NitroSDK's OS_DisableInterrupts and OS_RestoreInterrupts, under swan's names
 u32 CPU_IRQDisable(void);
 u32 CPU_SetIRQMask(u32 mask);
+// NitroSDK's OS_EnableIrqMask, under swan's name
+u32 CPU_EnableInterrupts(u32 mask);
+// NitroSDK's OS_Sleep: waits for some milliseconds, letting other threads run
+void func_0207aa04(u32 msec);
 // Waits for one of the interrupts, clearing their flags first if clear is TRUE
 void CPU_WaitIntrBit(BOOL clear, u32 interrupts);
 void exit(int status);
