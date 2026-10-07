@@ -6,6 +6,7 @@
 
 #include "types.h"
 #include "gfl/heap.h"
+#include "nnsys/g3d.h"
 #include "struct_decls.h"
 
 typedef struct FieldTerrainAnimator FieldTerrainAnimator;
@@ -32,6 +33,9 @@ FieldTerrainAnimator *FieldTerrainAnimator_Create(const FieldTerrainAnimatorSetu
 void FieldTerrainAnimator_Free(FieldTerrainAnimator *animator);
 void FieldTerrainAnimator_Update(FieldTerrainAnimator *animator);
 FieldTerrainSRTAnimatorChunkState *FieldTerrainAnimator_GetChunkState(FieldTerrainAnimator *animator, u32 chunkIndex);
+// Binds the chunk's SRT animation to its model and textures, in the render object
+void FieldTerrainSRTAnimatorChunkState_Bind(FieldTerrainSRTAnimatorChunkState *state, void *model, void *textures,
+                                            NNSG3dRenderObj *renderObj);
 void FieldTerrainSRTAnimatorChunkState_ClearUsedFlag(FieldTerrainSRTAnimatorChunkState *state);
 
 #endif // POKEBW2_FIELD_FIELD_TERRAIN_ANIMATOR_H
