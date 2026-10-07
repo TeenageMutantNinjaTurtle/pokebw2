@@ -130,6 +130,9 @@ BOOL MapTile_IsValid(u32 tileType);
 BOOL MapTile_BlocksCollision(u32 tileType);
 BOOL MapTile_IsBlocksCycling(u32 tileClass);
 BOOL MapTile_IsNormalTallGrassDoubleBtl(u32 tileClass);
+BOOL MapTile_IsTallGrassDoubleBtl(u32 tileClass);
+// The battle terrain of the tile class
+u32 GetTileEncountType(u32 tileClass);
 BOOL MapTile_IsReallyTallGrassSingleBtl(u32 tileClass);
 BOOL MapTile_IsReallyTallGrassDoubleBtl(u32 tileClass);
 BOOL func_ov036_021a2bf4(u32 tileClass);

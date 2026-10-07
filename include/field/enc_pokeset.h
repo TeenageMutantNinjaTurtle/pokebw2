@@ -79,7 +79,7 @@ typedef struct {
 } WildPkmParam;
 
 void CreateEncountManager(EncountManager *manager, GameData *gameData, int encType, u32 mode, u16 weather);
-u32 FieldEncount_CalcEncountRate(EncountManager *manager, u32 a1, u32 rate);
+u32 FieldEncount_CalcEncountRate(EncountManager *manager, GameData *gameData, u32 rate);
 int FieldEncount_GenWilds(EncData *encData, EncountManager *manager, u16 zoneId, WildPkmParam *params);
 void *FieldEncount_RndCheckRoaming(EncountManager *manager, u32 zoneId);
 u8 FieldEncount_RndCheckNPoke(EncountManager *manager, u32 zoneId);
