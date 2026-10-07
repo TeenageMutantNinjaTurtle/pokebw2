@@ -152,6 +152,8 @@ typedef struct CtvtCommBeacon CtvtCommBeacon;
 typedef struct CtvtCommMemberInfo CtvtCommMemberInfo;
 typedef struct CtvtDraw CtvtDraw;
 typedef struct CtvtGame CtvtGame;
+typedef struct CtvtGameBalloon CtvtGameBalloon;
+typedef struct CtvtGameShot CtvtGameShot;
 typedef struct CtvtMic CtvtMic;
 typedef struct CtvtTalk CtvtTalk;
 typedef struct DayCareSave DayCareSave;

@@ -47,8 +47,8 @@
 . 0x0207ba60 add_reloc load,main,0x0207b9e8,0x50
 . 0x0207e79c add_reloc load,main,0x0207e979
 . 0x0207e970 add_function func_0207e970:arm:0x8
-. 0x0207e974 add_reloc load,ltd_autoload(0),0x02703e90
 . 0x0207e974 remove_symbol
+. 0x0207e974 add_reloc load,ltd_autoload(0),0x02703e90
 . 0x0207e978 add_function func_0207e978:thumb:0xa8
 . 0x0208c908 add_label _dmul
 . 0x0208cc6c add_label _d2f
@@ -1143,6 +1143,8 @@ overlays/ov214 0x021e2e6c remove_symbol
 overlays/ov215 0x021ab0c8 remove_reloc
 overlays/ov253 0x0217caa8 reloc_module overlay(162)
 overlays/ov255 0x021d7454 remove_reloc
+overlays/ov257 0x021a79d0 reloc_addend 4
+overlays/ov257 0x021a79d4 reloc_addend 8
 overlays/ov257 0x021acc14 add_reloc load,overlay(257),0x021b6238
 overlays/ov257 0x021af8b5 remove_symbol
 overlays/ov257 0x021af8fd remove_symbol
@@ -1177,6 +1179,9 @@ overlays/ov257 0x021b0fdc remove_symbol
 overlays/ov257 0x021b18c4 add_data data_ov257_021b18c4
 overlays/ov257 0x021b19ac add_data data_ov257_021b19ac
 overlays/ov257 0x021b1a08 add_data data_ov257_021b1a08
+overlays/ov257 0x021b221c remove_symbol
+overlays/ov257 0x021b2220 remove_symbol
+overlays/ov257 0x021b223c add_data data_ov257_021b223c
 overlays/ov260 0x021b51fa reloc_module overlay(262)
 overlays/ov260 0x021bb788 reloc_module overlay(189)
 overlays/ov260 0x021bb902 reloc_module overlay(189)
