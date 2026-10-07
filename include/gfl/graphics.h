@@ -36,21 +36,8 @@ void gfxRegAdjustBrightnessBlend(u32 reg, s32 brightness);
 void gfxSetFog(u8 enabled, u16 alphaMode, u16 depthShift, u16 offset);
 void gfxSetLCDCBanks(u32 banks);
 void gfxUploadQueueReset(void);
-void gfxUploadAsync(u32 type, u32 dest, const void *src, u32 size);
-// Set up for the move forgetting screen of overlay 287 and updated at every VBlank; what they do is not known yet
-void *func_02026dc0(HeapID heapId);
-void func_02026de8(void *a0);
-void func_02026e04(void *a0, u32 bg, u32 a2, HeapID heapId);
-void func_02026e48(void *a0, u32 bg);
-// Loads a palette from an archive into the fade's buffers
-void func_02026ee8(void *a0, u32 arcId, u32 fileId, HeapID heapId, u32 type, u32 size, u16 offset);
-// Used by the Pokédex's detail screens (overlay 298) too
-void func_02026f08(void *a0, ArcTool *arc, u32 fileId, HeapID heapId, u32 bg, u32 size, u16 offset, u16 srcOffset);
-void func_02026f7c(void *a0, u32 bg, u32 offset, u32 size);
-void func_02026fe4(void *a0, u16 bgs, u16 mask, s8 wait, u8 start, u8 end, u16 color, TCBManager *tcbMgr);
-void func_0202778c(void *a0, u32 a1);
-void func_020275f8(void *a0);
-BOOL func_02027780(void *a0);
+// Queues a transfer to VRAM for the next V-blank, or returns FALSE if the queue is full
+BOOL gfxUploadAsync(u32 type, u32 dest, const void *src, u32 size);
 void gfxSetEdgeColorTable(const GXRgb *table);
 void gfxSetFogTable(const u32 *table);
 

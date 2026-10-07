@@ -13,6 +13,7 @@
 #include "gfl/ui.h"
 #include "nnsys/g2d.h"
 #include "system/app_menu_common.h"
+#include "system/bmp_winframe.h"
 
 // The Pokédex's copy of the touch bar: a bar at the bottom of a screen with icons that are touched or pressed with
 // their keys. An icon plays its pushed animation, or flips on or off, and the bar reports it once the animation ends
@@ -255,7 +256,7 @@ void ZkndTbar_SetPos(ZkndTbar *tbar, int icon, const ClActorPos *pos) {
         surface = CLACT_VRAM_MAIN;
     }
     // The original truncates the surface to 16 bits
-    func_0204c140(item->actor, pos, (u16)surface);
+    func_0204c140(item->actor, pos, surface);
 }
 
 void ZkndTbar_Push(ZkndTbar *tbar, int icon) {

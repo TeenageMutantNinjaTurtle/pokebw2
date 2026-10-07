@@ -41,11 +41,13 @@
 #include "save/save_control.h"
 #include "save/trainer_card.h"
 #include "struct_decls.h"
+#include "system/game_beacon.h"
 #include "system/game_comm.h"
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
 #include "system/new_game.h"
+#include "system/playtime_ctrl.h"
 #include "system/season.h"
 
 struct EventGameOpening {

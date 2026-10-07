@@ -36,7 +36,9 @@ void func_0200c958(TrainerGameInfoSave *info, StrBuf *name);
 void func_020114fc(void *saveBlock, StrBuf *name);
 const u16 *func_0201150c(void *saveBlock);
 u16 func_0200ca7c(TrainerGameInfoSave *info);
-u16 func_0200ca8c(TrainerGameInfoSave *info, int index);
+u16 func_0200ca8c(TrainerGameInfoSave *info, u8 index);
+// Adds to a survey question's count, up to 0xffff
+void func_0200cab4(TrainerGameInfoSave *info, u8 index, u16 count);
 // Poké Transfer's high score, 28 bits
 u32 TrainerGameInfo_GetPalParkHighScore(TrainerGameInfoSave *info);
 void TrainerGameInfo_SetPalParkHighScore(TrainerGameInfoSave *info, u32 score);
@@ -191,6 +193,8 @@ void func_0200ff94(void *block, u32 value);
 void func_0200ffb0(void *block, u16 value);
 void func_0200ffb8(void *block, u32 value);
 BOOL func_0200ffd4(void *block, int index);
+// The C-Gear's save block (getCGearDataBlkAddress)
+// Copies the C-Gear's record at index, 4 u16
 void func_0200f700(RivalDataSave *rivalData, u32 id);
 void copyRivalNameIntoHollowBlock(RivalDataSave *data, const u16 *name);
 const u16 *getPtrToRivalName(RivalDataSave *data);
@@ -255,6 +259,9 @@ PokeDexSave *getPokedexSaveAddress(SaveControl *save);
 PlayTime *func_02008de8(SaveControl *save);
 u16 func_02008cec(PlayTime *time);
 u8 func_02008cf0(PlayTime *time);
+// Copy the word at 4 of func_02017a40's data out and back. That function's prototype gives the data as a u32
+void func_02008d90(u32 data, u32 *copy);
+void func_02008d98(u32 data, u32 *copy);
 // A byte of this block, at 7, tells the start menu whether to ask about the C-Gear
 void *func_02009918(SaveControl *save);
 // The same block, from the game data

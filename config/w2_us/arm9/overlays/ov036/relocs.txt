@@ -8000,7 +8000,7 @@ from:0x021a19d8 kind:thumb_call to:0x02017d18 module:main
 from:0x021a19ea kind:thumb_call to:0x02017d18 module:main
 from:0x021a19fc kind:thumb_call to:0x02017d18 module:main
 from:0x021a1a12 kind:thumb_call to:0x02017d18 module:main
-from:0x021a1a2c kind:thumb_call to:0x021686f8 module:overlays(11,12)
+from:0x021a1a2c kind:thumb_call to:0x021686f8 module:overlay(12)
 from:0x021a1a6e kind:thumb_call to:0x021804e8 module:overlay(36)
 from:0x021a1a72 kind:thumb_call to:0x02199260 module:overlay(36)
 from:0x021a1a80 kind:thumb_call to:0x021a0a5c module:overlay(36)

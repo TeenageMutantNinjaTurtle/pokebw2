@@ -18,7 +18,6 @@
 #include "gfl/std.h"
 #include "gfl/str.h"
 #include "gfl/tcb.h"
-#include "gfl/wipe.h"
 #include "gfl/wm_icon.h"
 #include "nitro/gx.h"
 #include "nitro/os.h"
@@ -28,6 +27,7 @@
 #include "system/game_system.h"
 #include "system/text_speed.h"
 #include "system/time_icon.h"
+#include "system/wipe.h"
 #include "system/wordset.h"
 #include "worldtrade_local.h"
 
@@ -326,26 +326,26 @@ void WorldTrade_TouchWinYesNoMakeEx(WorldTradeWork *wk, int y, int cgx, int pale
     GFL_ASSERT(wk->task_res == NULL);
     GFL_ASSERT(wk->task_work == NULL);
 
-    wk->task_res = func_0202e168((u8)frame, (u8)palette, wk->print.font, wk->print.printQueue, HEAPID_WORLDTRADE);
+    wk->task_res = AppTaskMenuRes_Create((u8)frame, (u8)palette, wk->print.font, wk->print.printQueue, HEAPID_WORLDTRADE);
     {
-        TaskMenuItem items[2] = {
+        AppTaskMenuItem items[2] = {
             { NULL, 0x39e3, 0 },
             { NULL, 0x39e3, 0 },
         };
-        TaskMenuSetup init;
+        AppTaskMenuInit init;
 
-        sys_memset(&init, 0, sizeof(TaskMenuSetup));
+        sys_memset(&init, 0, sizeof(AppTaskMenuInit));
         items[0].str = GFL_MsgDataLoadStrbufNew(wk->msgManager, 0x3f);
         items[1].str = GFL_MsgDataLoadStrbufNew(wk->msgManager, 0x40);
         init.heapId = HEAPID_WORLDTRADE;
-        init.count = 2;
+        init.itemCount = 2;
         init.items = items;
-        init.a3 = 1;
-        init.right = 32;
-        init.bottom = y;
+        init.posType = APP_TASKMENU_POS_BOTTOM_RIGHT;
+        init.x = 32;
+        init.y = y;
         init.width = 8;
         init.height = 3;
-        wk->task_work = func_0202d974(&init, wk->task_res);
+        wk->task_work = AppTaskMenu_Create(&init, wk->task_res);
         GFL_StrBufFree(items[0].str);
         GFL_StrBufFree(items[1].str);
     }
@@ -362,11 +362,11 @@ void WorldTrade_TouchWinYesNoMakeEx(WorldTradeWork *wk, int y, int cgx, int pale
 
 void WorldTrade_TouchWinYesNoDel(WorldTradeWork *wk) {
     if (wk->task_work != NULL) {
-        func_0202da54(wk->task_work);
+        AppTaskMenu_Free(wk->task_work);
         wk->task_work = NULL;
     }
     if (wk->task_res != NULL) {
-        func_0202e1dc(wk->task_res);
+        AppTaskMenuRes_Free(wk->task_res);
         wk->task_res = NULL;
     }
 }
@@ -375,9 +375,9 @@ u32 WorldTrade_TouchSwMain(WorldTradeWork *wk) {
     u32 ret = 0;
 
     if (wk->task_work != NULL) {
-        func_0202db70(wk->task_work);
-        if (func_0202dbe4(wk->task_work)) {
-            ret = func_0202dc00(wk->task_work);
+        AppTaskMenu_Update(wk->task_work);
+        if (AppTaskMenu_IsFlashFinished(wk->task_work)) {
+            ret = AppTaskMenu_GetCursorPos(wk->task_work);
             if (ret == 0) {
                 ret = 1;
             } else if (ret == 1) {
@@ -395,16 +395,16 @@ void WorldTrade_SelBoxInit(WorldTradeWork *wk, u8 frame, int count, int y) {
     GFL_ASSERT(wk->task_res == NULL);
     GFL_ASSERT(wk->task_work == NULL);
 
-    wk->task_res = func_0202e168(frame, 10, wk->print.font, wk->print.printQueue, HEAPID_WORLDTRADE);
+    wk->task_res = AppTaskMenuRes_Create(frame, 10, wk->print.font, wk->print.printQueue, HEAPID_WORLDTRADE);
     {
-        TaskMenuItem itemWork[3] = {
+        AppTaskMenuItem itemWork[3] = {
             { NULL, 0x39e3, 0 },
             { NULL, 0x39e3, 0 },
             { NULL, 0x39e3, 0 },
         };
-        TaskMenuSetup init;
+        AppTaskMenuInit init;
 
-        sys_memset(&init, 0, sizeof(TaskMenuSetup));
+        sys_memset(&init, 0, sizeof(AppTaskMenuInit));
         // The assert prints its expression with these spaces
         // clang-format off
         GFL_ASSERT(count <= NELEMS( itemWork ));
@@ -413,14 +413,14 @@ void WorldTrade_SelBoxInit(WorldTradeWork *wk, u8 frame, int count, int y) {
             itemWork[i].str = wk->menuList[i].text;
         }
         init.heapId = HEAPID_WORLDTRADE;
-        init.count = count;
+        init.itemCount = count;
         init.items = itemWork;
-        init.a3 = 1;
-        init.right = 32;
-        init.bottom = y;
+        init.posType = APP_TASKMENU_POS_BOTTOM_RIGHT;
+        init.x = 32;
+        init.y = y;
         init.width = 13;
         init.height = 3;
-        wk->task_work = func_0202d974(&init, wk->task_res);
+        wk->task_work = AppTaskMenu_Create(&init, wk->task_res);
     }
     WorldTrade_SetPassive(TRUE);
 }
@@ -429,9 +429,9 @@ int WorldTrade_SelBoxMain(WorldTradeWork *wk) {
     int ret = -1;
 
     if (wk->task_work != NULL) {
-        func_0202db70(wk->task_work);
-        if (func_0202dbe4(wk->task_work)) {
-            ret = func_0202dc00(wk->task_work) + 1;
+        AppTaskMenu_Update(wk->task_work);
+        if (AppTaskMenu_IsFlashFinished(wk->task_work)) {
+            ret = AppTaskMenu_GetCursorPos(wk->task_work) + 1;
             WorldTrade_ClearPassive();
         }
     }
@@ -440,11 +440,11 @@ int WorldTrade_SelBoxMain(WorldTradeWork *wk) {
 
 void WorldTrade_SelBoxEnd(WorldTradeWork *wk) {
     if (wk->task_work != NULL) {
-        func_0202da54(wk->task_work);
+        AppTaskMenu_Free(wk->task_work);
         wk->task_work = NULL;
     }
     if (wk->task_res != NULL) {
-        func_0202e1dc(wk->task_res);
+        AppTaskMenuRes_Free(wk->task_res);
         wk->task_res = NULL;
     }
     WorldTrade_ClearPassive();

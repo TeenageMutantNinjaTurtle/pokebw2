@@ -57,8 +57,8 @@ u32 GFL_STD_StrLen(const char *str) {
     }
 }
 
-int _STD_CompareNString(const char *a, const char *b, int n) {
-    return STD_CompareNString(a, b, n);
+int _STD_CompareNString(const char *a, const char *b) {
+    return STD_CompareString(a, b);
 }
 
 void GFL_RandomUpdateMT(u32 seed) {

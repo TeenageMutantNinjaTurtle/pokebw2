@@ -3,7 +3,6 @@
 #include "field/field_actor.h"
 #include "field/field_script.h"
 #include "field/zone.h"
-#include "gfl/bmp_menu.h"
 #include "gfl/heap.h"
 #include "gfl/key.h"
 #include "gfl/touchpanel.h"
@@ -11,6 +10,7 @@
 #include "gfl/msg.h"
 #include "gfl/std.h"
 #include "gfl/str.h"
+#include "system/bmp_menulist.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
 #include "system/wordset.h"
@@ -331,11 +331,11 @@ BOOL FieldScriptEnv_UpdateListMenuEx(FieldScriptEnv *env) {
 
 void func_ov012_02155568(BmpMenuList *list, s32 value, u8 a2) {
     u16 index = 0;
-    FieldScriptEnv *env = func_0202651c(list);
+    FieldScriptEnv *env = BmpMenuList_GetWork(list);
     ScriptListMenu *menu = &env->subwork->listMenu;
     void *window;
 
-    func_02025af4(list, &index);
+    BmpMenuList_GetCursorIndex(list, &index);
     if (menu->descriptions[index] == NULL) {
         return;
     }

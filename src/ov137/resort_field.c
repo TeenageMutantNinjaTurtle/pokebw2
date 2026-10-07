@@ -15,6 +15,7 @@
 #include "save/join_avenue.h"
 #include "save/medal_box.h"
 #include "save/save_control.h"
+#include "system/game_beacon.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
 
@@ -474,13 +475,13 @@ static ResortWatch *func_ov137_021eef7c(HeapID heapId, const ResortWatchSetup *s
     watch->list = setup->list;
     watch->entries = setup->entries;
     watch->list2 = setup->list2;
-    func_0202d608(watch->list2);
+    GameBeaconSys_SetAvenuePeople(watch->list2);
     func_ov137_021eeffc(watch);
     return watch;
 }
 
 static void func_ov137_021eefc4(ResortWatch *watch) {
-    func_0202d608(NULL);
+    GameBeaconSys_SetAvenuePeople(NULL);
     GFL_HeapFree(watch);
 }
 

@@ -20,6 +20,7 @@ src/ov165/plist_plate.c:
     .data       start:0x021a4cec end:0x021a4cfc
 
 src/ov165/plist_message.c:
+    complete
     .text       start:0x0219f5ec end:0x0219fae8
     .data       start:0x021a4cfc end:0x021a4d0c
 

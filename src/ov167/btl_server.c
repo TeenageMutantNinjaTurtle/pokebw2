@@ -17,6 +17,7 @@
 #include "gfl/str.h"
 #include "pml/poke_party.h"
 #include "save/join_avenue.h"
+#include "system/game_beacon.h"
 #include "system/game_comm.h"
 
 BtlServer *func_ov167_0219e3cc(BtlMainModule *mainModule, const MATHRandContext32 *rand, BtlPokeCon *pokeCon,
@@ -871,7 +872,7 @@ void func_ov167_0219f2e0(BtlServer *server, BattleMon *mon) {
     BOOL a = BtlSetup_IsBattleType(server->mainModule, 0x4000);
     BOOL b = BtlSetup_IsBattleType(server->mainModule, 0x8000);
 
-    func_0202d1ac(species, a, b);
+    GameBeaconSys_SendCapture(species, a, b);
     func_ov167_0219dad0(server->mainModule, 7);
     func_ov167_0219dad0(server->mainModule, 0x54);
     func_02038bc8(0x1f);

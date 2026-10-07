@@ -27,6 +27,7 @@
 #include "save/trainer_card.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+#include "system/union_view.h"
 #include "system/vm.h"
 
 BOOL s00E0_GameGetVersion(VM *vm, FieldScriptEnv *env) {

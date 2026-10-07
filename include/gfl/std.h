@@ -8,6 +8,8 @@
 void sys_memcpy(const void *src, void *dest, u32 size);
 void sys_memcpy32_fast(const void *src, void *dest, u32 size);
 void sys_memcpy16(const void *src, void *dest, u32 size);
+// Copies size bytes even when the ranges overlap
+void sys_memcpy_ex(const void *src, void *dest, u32 size);
 void sys_memset(void *dest, u32 value, u32 size);
 void sys_memset_fast(void *dest, u32 value, u32 size);
 void sys_memset16(u16 value, void *dest, u32 size);
@@ -19,7 +21,8 @@ void initTableArea(HeapID heapId);
 // Compares size bytes, returning the difference of the first that differ
 s32 GFL_STD_MemCmp(const void *a, const void *b, u32 size);
 u32 GFL_STD_StrLen(const char *str);
-int _STD_CompareNString(const char *a, const char *b, int n);
+// Compares two strings with STD_CompareString, whatever swan's name says
+int _STD_CompareNString(const char *a, const char *b);
 // Seeds the Mersenne Twister of GFL_RandomMT
 void GFL_RandomUpdateMT(u32 seed);
 // CRC-16/CCITT of data, which a size below 2 takes as its first byte twice

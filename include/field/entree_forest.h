@@ -25,7 +25,7 @@ typedef union {
 } EntreeForestPokemon;
 
 typedef struct {
-    void *pokemonData;
+    TPokeData *pokemonData;
     Field *field;
     u32 actorIdBase;
 } EntreeForestSpawnContext;

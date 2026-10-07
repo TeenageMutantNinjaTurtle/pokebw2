@@ -1,6 +1,7 @@
 #include "types.h"
 #include "battle/btl_setup.h"
 #include "field/encounter.h"
+#include "field/event_battle.h"
 #include "field/event_fishing.h"
 #include "field/event_wild_battle.h"
 #include "field/field.h"
@@ -209,7 +210,7 @@ GameEventReturnCode EventFieldFishing_Callback(GameEvent *event, u32 *state, voi
         RecordAddOne(work->records, 8);
         func_02038bc8(13);
         battleMode = work->isPhenomenon == 1 ? 1 : 4;
-        next = func_ov011_021686b8(work->gsys, work->field, work->battleSetup, 0, battleMode);
+        next = EventWildBattleCall_Create(work->gsys, work->field, work->battleSetup, 0, battleMode);
         GameEvent_Replace(event, next);
         return GAMEEVENT_CONTINUE;
     }

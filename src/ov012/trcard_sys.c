@@ -25,6 +25,7 @@
 #include "save/save_control.h"
 #include "save/trainer_card.h"
 #include "save/wbt_save.h"
+#include "system/game_beacon.h"
 #include "system/game_comm.h"
 #include "system/game_data.h"
 #include "system/pms.h"
@@ -209,7 +210,7 @@ static BOOL func_ov012_02169324(GameProc *proc, u32 *state, void *param, void *w
         u32 value = func_02008bf4(GetGameDataPlayerInfo(cardParam->gameData));
 
         if (wk->unk34 != value) {
-            func_0202d114(value);
+            GameBeaconSys_SetTrainerView(value);
         }
     }
     cardParam->result = wk->param->result;
@@ -286,7 +287,7 @@ static u32 func_ov012_02169450(TrainerCardSysWork *wk) {
         cgear = getCGearDataBlkAddress(GameData_GetSaveControl(wk->param->gameData));
         wk->param->shownData->greeting = *wk->greeting.result;
         func_0200efa8(cgear, 0, wk->greeting.result);
-        func_0202d0fc(wk->greeting.result);
+        GameBeaconSys_SetCGearRecord(wk->greeting.result);
     }
     return TRCARD_SEQ_CARD;
 }

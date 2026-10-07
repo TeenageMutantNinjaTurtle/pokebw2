@@ -22,7 +22,6 @@
 #include "gfl/std.h"
 #include "gfl/str.h"
 #include "gfl/touchpanel.h"
-#include "gfl/wipe.h"
 #include "nitro/fx.h"
 #include "nitro/gx.h"
 #include "nitro/hw.h"
@@ -30,9 +29,11 @@
 #include "save/player_info.h"
 #include "save/save_control.h"
 #include "save/save_control_intr.h"
+#include "system/bmp_winframe.h"
 #include "system/game_system.h"
 #include "system/gf_font.h"
 #include "system/printsys.h"
+#include "system/wipe.h"
 
 // Starting the game: a new game runs the intro and the name entries while it creates the save data, and a continue
 // loads the save. Both then start the game system. A debug screen, whose questions are blank outside Japan, can set
@@ -509,7 +510,8 @@ static BOOL DebugGameStart_Main(GameProc *proc, u32 *state, void *param, void *w
         } else {
             func_02008af0(gameStart->config, FALSE);
         }
-        GFL_WipeSet(0, 0, 0, 0, 12, 1, HEAPID_DEBUG_GENDER_SELECT);
+        GFL_WipeSet(WIPE_MODE_BOTH, WIPE_TYPE_FADE_OUT, WIPE_TYPE_FADE_OUT, WIPE_COLOR_BLACK, 12, 1,
+                    HEAPID_DEBUG_GENDER_SELECT);
         wk->question = DEBUG_QUESTION_END;
         break;
     case DEBUG_QUESTION_END:
@@ -565,7 +567,7 @@ static void DebugGameStart_CreateWindows(DebugGameStartWork *wk) {
     BmpWin_FlushMap(wk->questionWindow);
     GFL_BitmapFill(BmpWin_GetBitmap(wk->questionWindow), 15);
     strbuf = GFL_MsgDataLoadStrbufNew(msgData, wk->question);
-    BmpWin_DrawFrame(wk->questionWindow, 0, 1, 1);
+    BmpWin_DrawFrame(wk->questionWindow, WINFRAME_TRANSFER_NOW, 1, 1);
     GFL_TextRendererDrawToBitmap(BmpWin_GetBitmap(wk->questionWindow), 2, 2, strbuf, wk->font);
     GFL_StrBufFree(strbuf);
     BmpWin_FlushChar(wk->questionWindow);
@@ -597,9 +599,9 @@ static void DebugGameStart_DrawCursor(DebugGameStartWork *wk) {
 
     for (i = 0; i < 2; i++) {
         if (i == wk->cursor) {
-            BmpWin_DrawFrame(wk->answerWindows[i], 0, 1, 3);
+            BmpWin_DrawFrame(wk->answerWindows[i], WINFRAME_TRANSFER_NOW, 1, 3);
         } else {
-            BmpWin_DrawFrame(wk->answerWindows[i], 0, 31, 4);
+            BmpWin_DrawFrame(wk->answerWindows[i], WINFRAME_TRANSFER_NOW, 31, 4);
         }
     }
 }

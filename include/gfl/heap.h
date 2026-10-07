@@ -52,12 +52,16 @@ enum {
     HEAPID_SAVEDATA_DELETE = 0x81,
     HEAPID_FIELD_CLACT = 0x89,
     HEAPID_EGG_DEMO = 0x8f,
+    // Not from swan: the trade's, in overlay 194's own memory
+    HEAPID_POKEMON_TRADE = 0x91,
     HEAPID_FIELD_WEATHER = 0x92,
     HEAPID_FIELD_PLACE_NAME = 0x93,
     HEAPID_SHINKA_DEMO = 0x94,
     HEAPID_ZUKAN_DETAIL = 0x95,
     HEAPID_FIELD_SCENEAREA = 0x96,
     HEAPID_BOX_SEARCH = 0x98,
+    // Unova Link's (not from swan)
+    HEAPID_KEY_SYSTEM = 0x9b,
 };
 
 // Allocates from the end of the heap instead of the start

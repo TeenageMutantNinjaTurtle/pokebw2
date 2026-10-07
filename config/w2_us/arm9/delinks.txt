@@ -357,3 +357,172 @@ src/system/str_tool.c:
     complete
     .text       start:0x02024a40 end:0x02024cac
     .rodata     start:0x02090888 end:0x02090a38
+
+src/system/bmp_winframe.c:
+    complete
+    .text       start:0x02024cac end:0x02024f8c
+    .rodata     start:0x02090a38 end:0x02090a3c
+
+src/system/bmp_menuwork.c:
+    complete
+    .text       start:0x02024f8c end:0x020250ac
+    .data       start:0x0209a478 end:0x0209a488
+
+src/system/bmp_menu.c:
+    complete
+    .text       start:0x020250ac end:0x0202571c
+    .data       start:0x0209a488 end:0x0209a494
+
+src/system/bmp_cursor.c:
+    complete
+    .text       start:0x02026554 end:0x02026628
+    .rodata     start:0x02090a3c end:0x02090a5c
+    .data       start:0x0209a4a4 end:0x0209a4b4
+
+src/system/file_util.c:
+    complete
+    .text       start:0x02026628 end:0x0202669c
+    .data       start:0x0209a4b4 end:0x0209a4c0
+
+src/system/bmp_menulist.c:
+    complete
+    .text       start:0x0202571c end:0x02026554
+    .data       start:0x0209a494 end:0x0209a4a4
+
+src/system/palanm.c:
+    .text       start:0x02026dec end:0x020279e0
+    .data       start:0x0209a4c0 end:0x0209a4d8
+
+src/system/wipe.c:
+    complete
+    .text       start:0x020279e0 end:0x02028030
+    .rodata     start:0x02091778 end:0x020917a8
+    .data       start:0x0209a4d8 end:0x0209a4e0
+    .bss        start:0x021416a4 end:0x021417fc
+
+src/system/wipe_sub.c:
+    .text       start:0x02028030 end:0x02029498
+    .rodata     start:0x020917a8 end:0x0209195c
+    .data       start:0x0209a4e0 end:0x0209a56c
+
+src/system/wipe_wnd.c:
+    complete
+    .text       start:0x02029498 end:0x0202975c
+
+src/system/brightness.c:
+    complete
+    .text       start:0x0202975c end:0x02029994
+    .bss        start:0x021417fc end:0x0214183c
+
+src/system/playtime_ctrl.c:
+    complete
+    .text       start:0x02026d0c end:0x02026dec
+    .bss        start:0x02141688 end:0x021416a4
+
+src/system/pml_item.c:
+    .text       start:0x0202669c end:0x02026d0c
+    .rodata     start:0x02090a5c end:0x02091778
+
+src/system/cursor_move.c:
+    complete
+    .text       start:0x0202b67c end:0x0202bb90
+    .rodata     start:0x02091e20 end:0x02091e24
+    .data       start:0x0209a5b0 end:0x0209a5c0
+
+src/system/bmp_oam.c:
+    .text       start:0x0202ae88 end:0x0202b488
+    .rodata     start:0x02091abc end:0x02091ae0
+    .data       start:0x0209a5a4 end:0x0209a5b0
+
+src/system/country_region.c:
+    .text       start:0x0202b488 end:0x0202b600
+    .rodata     start:0x02091ae0 end:0x02091de0
+
+src/system/union_view.c:
+    complete
+    .text       start:0x0202b600 end:0x0202b67c
+    .rodata     start:0x02091de0 end:0x02091e20
+
+src/system/infowin.c:
+    complete
+    .text       start:0x0202a370 end:0x0202ac68
+    .rodata     start:0x02091a70 end:0x02091abc
+    .data       start:0x0209a588 end:0x0209a594
+    .bss        start:0x0214183c end:0x02141840
+
+src/system/beacon_status.c:
+    complete
+    .text       start:0x0202d728 end:0x0202d804
+    .data       start:0x0209a610 end:0x0209a620
+
+src/system/pmsi_param.c:
+    complete
+    .text       start:0x02029994 end:0x02029b80
+    .data       start:0x0209a56c end:0x0209a57c
+
+src/system/sin_wave_table.c:
+    complete
+    .text       start:0x02029b80 end:0x02029bdc
+
+src/system/pms_data.c:
+    complete
+    .text       start:0x02029bdc end:0x0202a0f8
+    .rodata     start:0x0209195c end:0x0209198c
+
+src/system/pms_word.c:
+    complete
+    .text       start:0x0202a0f8 end:0x0202a370
+    .rodata     start:0x0209198c end:0x02091a70
+    .data       start:0x0209a57c end:0x0209a588
+
+src/system/game_comm.c:
+    complete
+    .text       start:0x0202bb90 end:0x0202bfc0
+    .rodata     start:0x02091e24 end:0x02091ecc
+    .data       start:0x0209a5c0 end:0x0209a5cc
+
+src/system/actor_tool.c:
+    complete
+    .text       start:0x0202ac68 end:0x0202ae88
+    .data       start:0x0209a594 end:0x0209a5a4
+
+src/system/app_menu_common.c:
+    complete
+    .text       start:0x0202d804 end:0x0202d9a0
+    .rodata     start:0x020920ac end:0x020920d0
+
+src/system/app_taskmenu.c:
+    complete
+    .text       start:0x0202d9a0 end:0x0202e6a4
+    .data       start:0x0209a620 end:0x0209a630
+
+src/system/app_printsys_common.c:
+    complete
+    .text       start:0x0202e6a4 end:0x0202e7d0
+
+src/system/game_beacon.c:
+    complete
+    .text       start:0x0202bfc0 end:0x0202d728
+    .rodata     start:0x02091ecc end:0x020920ac
+    .data       start:0x0209a5cc end:0x0209a610
+    .bss        start:0x02141840 end:0x02141844
+
+src/system/app_keycursor.c:
+    complete
+    .text       start:0x0202e7d0 end:0x0202ea00
+    .rodata     start:0x020920d0 end:0x02092150
+    .data       start:0x0209a630 end:0x0209a640
+
+src/system/player_action_perms.c:
+    complete
+    .text       start:0x0202ea00 end:0x0202ea10
+
+src/system/player_volume_fader.c:
+    complete
+    .text       start:0x0202ea10 end:0x0202eaf4
+    .data       start:0x0209a640 end:0x0209a658
+
+src/system/tpoke_data.c:
+    complete
+    .text       start:0x02030404 end:0x0203050c
+    .data       start:0x0209a6f8 end:0x0209a708
