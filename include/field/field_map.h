@@ -152,8 +152,8 @@ BOOL func_ov036_021a2d4c(u32 tileClass);
 // Whether a tile class keeps an actor from leaving it in a direction
 BOOL TileExitBlockCheck_Up(u16 tileClass);
 BOOL TileExitBlockCheck_Down(u16 tileClass);
-BOOL TileExitBlockCheck_Left(u32 tileClass);
-BOOL TileExitBlockCheck_Right(u32 tileClass);
+BOOL TileExitBlockCheck_Left(u16 tileClass);
+BOOL TileExitBlockCheck_Right(u16 tileClass);
 BOOL func_ov036_021a2df4(u32 tileClass);
 BOOL func_ov036_021a2e00(u32 tileClass);
 BOOL func_ov036_021b3b54(u32 tileClass);
