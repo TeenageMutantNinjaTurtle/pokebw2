@@ -398,7 +398,13 @@ static BOOL StaScriptCmd_PokeFlip(VM *vm, void *work) {
 
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            StaActPoke_SetFlip(pokeSys, StaActing_GetPoke(sys->stage, i), flip != 0);
+            StaActPoke *poke = StaActing_GetPoke(sys->stage, i);
+            BOOL isFlip = FALSE;
+
+            if (flip) {
+                isFlip = TRUE;
+            }
+            StaActPoke_SetFlip(pokeSys, poke, isFlip);
         }
     }
     return FALSE;

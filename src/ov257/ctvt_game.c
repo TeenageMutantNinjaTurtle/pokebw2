@@ -3212,7 +3212,7 @@ static CtvtGamePlayer *CtvtGamePlayer_Create(CommTvtWork *sys, CtvtGame *game, u
     u8 selfNetId = func_02042a6c(func_02040440());
     u8 x;
     int tileX;
-    BOOL isSelf = TRUE;
+    BOOL isSelf;
     u8 y;
     int tileY;
     CtvtGamePlayer *player;
@@ -3221,6 +3221,7 @@ static CtvtGamePlayer *CtvtGamePlayer_Create(CommTvtWork *sys, CtvtGame *game, u
     y = sPlayerPositions[pos][1];
     player = GFL_HeapAllocate(game->heapId, sizeof(CtvtGamePlayer), TRUE, "ctvt_game.c", 6999);
 
+    isSelf = TRUE;
     player->heapId = game->heapId;
     player->pos = pos;
     player->rank = pos + 1;

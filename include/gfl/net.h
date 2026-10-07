@@ -299,8 +299,8 @@ enum {
     WH_SYSSTATE_FATAL,
 };
 
-// Called when the wireless has ended, with whether that succeeded
-typedef void (*WHCallback)(BOOL success);
+// Called when the wireless has ended, with whether that succeeded. The callers ignore its result
+typedef BOOL (*WHCallback)(BOOL success);
 
 int func_ov030_02174e58(void);  // WH_GetSystemState
 BOOL func_ov030_02174e90(void); // WH_StartMeasureChannel

@@ -2737,7 +2737,8 @@ BOOL IsAllyMonID(u8 monId1, u8 monId2) {
 }
 
 u8 GetSideFromMonID(u8 monId) {
-    return monId >= 12 ? 1 : 0;
+    BtlSide side = monId < 12 ? BTL_SIDE_1ST : BTL_SIDE_2ND;
+    return side;
 }
 
 // Public function name from swan.

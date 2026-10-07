@@ -8,6 +8,15 @@ tools that show the differences.
 
 ## Registers
 
+- The operands of an add or compare come in another order when one of them is an unnamed temporary: MWCC puts a
+  register local first, whatever the source order. Give the other operand an `int` variable of its own.
+  `btl_string.c`'s `func_ov167_021d5440` adds the variant second only as `base = message + stat * 3;` then
+  `base + variant` (a `u16` `base` or a cast doesn't do it), and `btl_handler_work.c`'s `PopWork` compares
+  `cmp end, pos` only with `start = work - base;` and `end = start + size;` in variables.
+- A leaf function that builds a constant in `r0` and an address in `r1`, where ours swaps them, returns that
+  constant: a `void` function puts the address in `r0`, whose parameter is dead. The multiboot parent's
+  `OnWirelessDone` callbacks match as `BOOL` functions that set their flag and `return TRUE;`, though the wireless
+  helper ignores the result.
 Same instructions, registers swapped.
 
 - Register allocation follows the declaration order of locals, so try reordering declarations when registers are
@@ -219,6 +228,9 @@ Same code, other `sp` offsets or frame size.
 
 ## Instruction order
 
+- A constant assigned to a spilled local is stored where MWCC likes, but the register that builds it follows where
+  the source assigns it: `ctvt_game.c`'s `CtvtGamePlayer_Create` builds `isSelf`'s `TRUE` in `r2`, as the original
+  does, only assigned right after the allocation, not at its declaration.
 Same instructions, scheduled in another order.
 
 - `x + (p << 12)` and `x + p * 0x1000` put the operands of `adds` in opposite orders: the phrase select's
@@ -543,6 +555,13 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 ## Branches and block layout
 
+- A 0/1 choice laid out first value first (`bhs`, `movs r0, #0`, `b`, `movs r0, #1`) is held in an enum type: every
+  plain 0/1 spelling (ternary, `if`/`else`, `!`, `== FALSE`, an int local) gives `blo`, `movs r0, #1` first.
+  `btl_main.c`'s `GetSideFromMonID` matches as `BtlSide side = monId < 12 ? BTL_SIDE_1ST : BTL_SIDE_2ND;`, with the
+  condition written so the original's first arm comes first.
+- A flag set to 0 and then to 1 under a branch (`movs #0`, `cmp`, `beq`, `movs #1`) is
+  `BOOL b = FALSE; if (x) { b = TRUE; }`; `x != 0` builds 1 first. `script_command.c`'s `StaScriptCmd_PokeFlip`
+  also needs the call before it in the argument list read into a local first.
 - Blocks are laid out in source order. A switch whose default code comes right after its comparisons or jump table
   had `default:` written first, and `if (f()) { n++; } else { return FALSE; }` puts the return after the code that goes
   on, where `if (!f()) { return FALSE; } n++;` puts it before.

@@ -25,6 +25,7 @@ src/ov167/btl_server_flow_sub.c:
     .rodata     start:0x021d6cfc end:0x021d6dd8
 
 src/ov167/btl_handler_work.c:
+    complete
     .text       start:0x021b083c end:0x021b0a1c
     .rodata     start:0x021d6dd8 end:0x021d6e50
 
@@ -100,6 +101,7 @@ src/ov167/btl_adapter.c:
     .bss        start:0x021dd868 end:0x021dd87c
 
 src/ov167/btl_string.c:
+    complete
     .text       start:0x021d4c64 end:0x021d5968
     .rodata     start:0x021daa1c end:0x021daaec
     .bss        start:0x021dd87c end:0x021dd8e8
