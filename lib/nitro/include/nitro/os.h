@@ -6,6 +6,9 @@
 
 // The tick count of the system timer, which swan names clock
 u64 clock(void);
+// The timer counts at a 64th of the system clock
+#define OS_SYSTEM_CLOCK 33514000
+#define OS_TicksToMilliSeconds(tick) (((tick) * 64) / (OS_SYSTEM_CLOCK / 1000))
 // Restarts the game, which swan names sys_reset
 void sys_reset(u32 parameter);
 // Stops the game after a fatal error, calling the registered handler first

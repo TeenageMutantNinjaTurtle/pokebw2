@@ -57,6 +57,11 @@ BSubwayScoreData *func_0201795c(GameData *gameData);
 BSubwayScrWork *func_0201794c(GameData *gameData);
 u8 func_02017b8c(GameData *gameData);
 void func_02017bb4(GameData *gameData);
+void func_02017884(GameData *gameData);
+// Starts saving, and runs the save, returning 2 once it ends
+void func_0201782c(GameData *gameData);
+int func_02017850(GameData *gameData);
+void *getChatterDataAddress(GameData *gameData);
 MusicalSave *getMusicalInfoBlkAddress(GameData *gameData);
 ZoneSpawnInfo *GameData_GetNextZone(GameData *gameData);
 PokeParty *GameData_GetParty(GameData *gameData);
@@ -64,6 +69,7 @@ PlayerState *GameData_GetPlayerState(GameData *gameData);
 void *getTimeSigSaveBlock(GameData *gameData);
 PlayerState *func_020171e8(GameData *gameData, s32 index);
 PokeDexSave *GameData_GetPokedex(GameData *gameData);
+void *getChatterDataAddress(GameData *gameData);
 // Whether the key item is registered to Y, and registers it or not
 BOOL GameData_IsShortcutRegistered(GameData *gameData, u32 item);
 void GameData_SetKeyItemRegistration(GameData *gameData, u32 item, BOOL registered);

@@ -62,6 +62,15 @@ typedef u16 GXRgb;
 #define REG_G3X_DISP3DCNT_GO_MASK 0x2000
 
 #define GX_WNDMASK_NONE 0x00
+#define GX_WNDMASK_W0 0x01
+#define GX_WNDMASK_W1 0x02
+#define GX_WNDMASK_OW 0x04
+
+#define GX_WND_PLANEMASK_BG0 0x01
+#define GX_WND_PLANEMASK_BG1 0x02
+#define GX_WND_PLANEMASK_BG2 0x04
+#define GX_WND_PLANEMASK_BG3 0x08
+#define GX_WND_PLANEMASK_OBJ 0x10
 
 #define GX_OAM_MODE_NORMAL 0
 #define GX_OAM_MODE_XLU 1
@@ -129,6 +138,7 @@ static inline void G2_SetOBJAttr(GXOamAttr *oam, int x, int y, int priority, int
 #define GX_PLANEMASK_OBJ 0x10
 
 // The planes that blending takes, which include the backdrop
+#define GX_BLEND_PLANEMASK_NONE 0x00
 #define GX_BLEND_PLANEMASK_BG0 0x01
 #define GX_BLEND_PLANEMASK_BG1 0x02
 #define GX_BLEND_PLANEMASK_BG2 0x04
@@ -175,6 +185,7 @@ typedef enum {
 #define GX_VRAM_BG_128_A GX_VRAM_A
 #define GX_VRAM_BG_128_D GX_VRAM_D
 #define GX_VRAM_BGEXTPLTT_NONE GX_VRAM_NONE
+#define GX_VRAM_BGEXTPLTT_23_G GX_VRAM_G
 #define GX_VRAM_SUB_BG_32_H GX_VRAM_H
 #define GX_VRAM_SUB_BG_128_C GX_VRAM_C
 #define GX_VRAM_SUB_BGEXTPLTT_NONE GX_VRAM_NONE
@@ -182,17 +193,22 @@ typedef enum {
 #define GX_VRAM_OBJ_16_G GX_VRAM_G
 #define GX_VRAM_OBJ_64_E GX_VRAM_E
 #define GX_VRAM_OBJ_128_B GX_VRAM_B
+#define GX_VRAM_OBJ_256_AB (GX_VRAM_A | GX_VRAM_B)
 #define GX_VRAM_OBJEXTPLTT_NONE GX_VRAM_NONE
+#define GX_VRAM_SUB_OBJ_NONE GX_VRAM_NONE
 #define GX_VRAM_SUB_OBJ_16_I GX_VRAM_I
 #define GX_VRAM_SUB_OBJ_128_D GX_VRAM_D
 #define GX_VRAM_TEX_NONE GX_VRAM_NONE
+#define GX_VRAM_TEX_0_D GX_VRAM_D
 #define GX_VRAM_TEXPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_SUB_OBJEXTPLTT_NONE GX_VRAM_NONE
+#define GX_VRAM_TEX_0_D GX_VRAM_D
 #define GX_VRAM_TEX_01_AB (GX_VRAM_A | GX_VRAM_B)
 #define GX_VRAM_TEX_01_BD (GX_VRAM_B | GX_VRAM_D)
 #define GX_VRAM_TEX_01_CD (GX_VRAM_C | GX_VRAM_D)
 #define GX_VRAM_TEX_012_ABC (GX_VRAM_A | GX_VRAM_B | GX_VRAM_C)
 #define GX_VRAM_TEX_0123_ABCD (GX_VRAM_A | GX_VRAM_B | GX_VRAM_C | GX_VRAM_D)
+#define GX_VRAM_TEXPLTT_0_F GX_VRAM_F
 #define GX_VRAM_TEXPLTT_0_G GX_VRAM_G
 #define GX_VRAM_TEXPLTT_01_FG (GX_VRAM_F | GX_VRAM_G)
 #define GX_VRAM_TEXPLTT_0123_E GX_VRAM_E
@@ -491,6 +507,53 @@ static inline void GXS_SetVisibleWnd(int window) {
     reg_GXS_DB_DISPCNT =
         (reg_GXS_DB_DISPCNT & ~(REG_GX_DISPCNT_W0_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_OW_MASK)) |
         (window << REG_GX_DISPCNT_W0_SHIFT);
+}
+
+#define reg_G2_WIN0H (*(vu16 *)0x04000040)
+#define reg_G2_WIN0V (*(vu16 *)0x04000044)
+#define reg_G2_WININ (*(vu16 *)0x04000048)
+#define reg_G2_WINOUT (*(vu16 *)0x0400004a)
+#define REG_G2_WININ_WIN0IN_MASK 0x003f
+#define reg_G2_WIN1H (*(vu16 *)0x04000042)
+#define reg_G2_WIN1V (*(vu16 *)0x04000046)
+#define REG_G2_WININ_WIN1IN_MASK 0x3f00
+#define REG_G2_WINOUT_WINOUT_MASK 0x003f
+
+static inline void G2_SetWnd0Position(int x1, int y1, int x2, int y2) {
+    reg_G2_WIN0H = (u16)(((x1 & 0xff) << 8) | (x2 & 0xff));
+    reg_G2_WIN0V = (u16)(((y1 & 0xff) << 8) | (y2 & 0xff));
+}
+
+static inline void G2_SetWnd1Position(int x1, int y1, int x2, int y2) {
+    reg_G2_WIN1H = (u16)(((x1 & 0xff) << 8) | (x2 & 0xff));
+    reg_G2_WIN1V = (u16)(((y1 & 0xff) << 8) | (y2 & 0xff));
+}
+
+static inline void G2_SetWnd0InsidePlane(int wnd, BOOL effect) {
+    u32 tmp = (reg_G2_WININ & ~REG_G2_WININ_WIN0IN_MASK) | wnd;
+
+    if (effect) {
+        tmp |= 0x20;
+    }
+    reg_G2_WININ = (u16)tmp;
+}
+
+static inline void G2_SetWnd1InsidePlane(int wnd, BOOL effect) {
+    u32 tmp = (reg_G2_WININ & ~REG_G2_WININ_WIN1IN_MASK) | (wnd << 8);
+
+    if (effect) {
+        tmp |= 0x2000;
+    }
+    reg_G2_WININ = (u16)tmp;
+}
+
+static inline void G2_SetWndOutsidePlane(int wnd, BOOL effect) {
+    u32 tmp = (reg_G2_WINOUT & ~REG_G2_WINOUT_WINOUT_MASK) | wnd;
+
+    if (effect) {
+        tmp |= 0x20;
+    }
+    reg_G2_WINOUT = (u16)tmp;
 }
 
 static inline void G2_BlendNone(void) {

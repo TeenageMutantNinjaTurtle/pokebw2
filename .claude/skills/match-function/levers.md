@@ -9,7 +9,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 - Locals get registers in declaration order: reorder the declarations. (matching.md: "declaration order of locals")
 - Of two variables that compete for one register, the one used more gets it. `docs/matching.md` spells out what counts as a
-  use; on a tie the one assigned first wins. (matching.md: "compete for the same register")
+  use; on a tie the one assigned first wins, though in a large function the last declared won.
+  (matching.md: "compete for the same register")
 - A variable gets a register per group of assignments that reach the same uses: a store after two branches keeps
   one register, a copy of the store in each branch splits it. (matching.md: "group of assignments")
 - `arr[count++] = x` and `arr[count] = x; count++;` allocate differently, as do `count = 1; arr[0] = x;` and the
@@ -18,6 +19,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "array index that is a sum")
 - The operands of `*` are loaded in source order. A product assigned to its own variable gets a new register.
   (matching.md: "operands of `*`"), (matching.md: "A product assigned")
+- A three-term `|` chain with its loads swapped: swap its first two terms. (matching.md: "three-term `|` chain")
 - Where a flag is first set decides which register builds its zero. The register a shared zero gets follows statement
   order. (matching.md: "Where a flag is first set")
 - Chained stores of one constant (`a = b = TRUE`) share a register; separate ones may not.
@@ -34,6 +36,10 @@ text to `grep -n` there. Entries without a key come from later work and still be
   declarations count too. (matching.md: "Spilled variables get their stack slots")
 - A variable reused by several switch cases splits per case, and a spilled piece takes the lowest slot.
   (matching.md: "reused by several switch cases")
+- Values at the bottom of the frame in assignment order, with one among the declared slots: one variable reused by
+  several blocks. (matching.md: "assigned anew in several `if` blocks")
+- A spilled value in the lowest slot that should be among the declared ones: split a chained assignment `a = b = x`.
+  (matching.md: "chained assignment")
 - Block-scoped locals sit above function-scope ones. A block-scoped `{0, 0, 0}` initializer and a non-`const`
   parameter fixed `particle.c`.
 - A NULL check written on a field gives different slots from the same check on a local loaded first.
@@ -45,7 +51,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - The types of spilled values change when they are reloaded (a `u16` after a call's stack argument is stored, a
   `u32` before). (matching.md: "types of locals")
 - Struct copies to the stack: a struct passed by value goes in registers and on the stack, and a copy whose address
-  is passed is a local copy. (matching.md: "Structs passed by value")
+  is passed is a local copy, and a struct local keeps a stack slot. (matching.md: "Structs passed by value")
 - Diagnose with `tools/scripts/locals.py`, which shows each variable's `sp+offset`.
 
 ## Instructions in another order (scheduling)
@@ -64,13 +70,23 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - `FX_Mul`'s sign extensions move with statement order and with a `static inline` wrapper. (matching.md: "FX_Mul")
 - `x[n++].f = ...` against a separate `n++` changes scheduling.
 - Store order in initialization code is usually source order: try the stores in the asm's order first.
+- A field of a local struct loaded before a call that doesn't fill it was read into a local there, as `targetX = target.x;`.
+  (matching.md: "A field of a local struct")
+- Arguments loaded in order around a conditional one: that argument was a local set before the call.
+  (matching.md: "A conditional expression among a call's arguments")
 
 ## An instruction too many or too few
 
+- A narrowing before an `and` into a `u8` field: `x &= mask` narrows the mask, `x = x & mask` doesn't.
+  (matching.md: "compound assignment to a narrow field")
+- A reload between two stores of one value: a chained `a = b = v;`; separate statements store the narrowed value
+  twice. (matching.md: "chained assignment to fields")
 - A narrowing (`lsl`/`lsr` or `asr` pair) comes from a `u8`/`u16`/`s16` local, parameter or return type. A caller narrows
   arguments for narrow parameters, so an argument passed without them is for a wider one. (matching.md: "narrows an argument")
+- A parameter passed on to a `u8` parameter without shifts is a `u8` too. (matching.md: "narrows an argument")
 - Extra `u16` narrowings come from `u32 x = (u16)...` passed through a `u16` inline parameter.
 - A sum truncated to `s16` before a comparison was stored in an `s16` local. (matching.md: "truncates to `s16`")
+- A narrowing again after a clamp is `MATH_CLAMP`, a conditional expression. (matching.md: "narrowed again after it is clamped")
 - A local reloaded from its stack slot before each use can be a `u8` flag, not `volatile`.
 - Masks written with `~` give `bic`; an `and` with `0xef` is `x &= (u8)~FLAG`. (matching.md: "Masks written with")
 - MWCC doesn't propagate constants into enum-typed variables: a loop that checks its bound before the first pass, or
@@ -79,6 +95,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "holds a constant, like")
 - An address computed before calls is reused after them only when the expression is the same, types included. An
   inline accessor recomputes it. (matching.md: "computed before calls is reused")
+- Stores whose base register is another element than the one written: index the array, or write through a pointer
+  to the element, whichever the original does. (matching.md: "pointer to an array element")
 - A value a loop uses and the code after it uses again is reused from the hoisted copy, unless it is a variable
   declared in the loop body. (matching.md: "reused from the copy hoisted")
 - An address passed to a `const` pointer parameter is converted, and not shared. (matching.md: "`const` pointer parameter is converted")
@@ -90,9 +108,17 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "keeps an argument register untouched")
 - A NULL that the original tests (`movs r7, #0` then `beq`) and MWCC folds away is open; see the `event_save.c` and
   `script_sys.c` rows of `docs/nonmatching-functions.md`.
+- Memory loaded again after stores to a local `u8` array, or stores through `add rN, sp, #off` for a local: the
+  local is initialized in its declaration (matching.md: "initialized in its declaration is stored through a base
+  register")
+- An array initializer stores at its declaration: open an inner block where the original clears the array.
+  (matching.md: "The initializer's stores happen")
 
 ## Branches and block layout
 
+- `bne` over a `b` to the end at the top: the body is in an `if`, not after an early return. (matching.md: "An early `return`")
+- A final boolean returned from a register shared with a `NULL` argument: `return f() == TRUE ? FALSE : TRUE;`.
+  (matching.md: "ends in `return f(...) == TRUE")
 - Blocks are laid out in source order. A switch whose `default` code comes first had `default:` written first, and
   `if (!f()) return FALSE; n++;` puts the return before the code that goes on. (matching.md: "Blocks are laid out in source order")
 - Identical statements in different branches are merged, so a jump into the middle of another block means the same
@@ -102,6 +128,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   `result` variable). A return that branches to the wrong one of two equal `b end` trampolines can be `goto end`.
 - A redundant outer `if` gives a doubled `beq`.
 - `v = f(); if (v == x)` and `if (f() == x)` put `cmp`'s operands in opposite orders. (matching.md: "operands of `cmp`")
+- A last test that branches the wrong way (`bne` to the false return for `beq` to the true one): negate the condition
+  and swap the returns. (matching.md: "last test of a condition")
 - `a == 4 || a == 5` becomes a range check; separate comparisons to the same code are separate branches. A
   `BOOL x = FALSE; if (...) x = TRUE;` flag gives the `sub; cmp 1; bhi` range test. (matching.md: "range check")
 - A clamp that ends in one store is a conditional expression; `if`/`else if` stores each limit.
@@ -111,6 +139,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - A `return` inside `for (;;)` leaves a dead `bx lr`, which the original counts as padding.
 - Literal pool placement: a pool dumped mid-function is placed after an unconditional branch. See the `event_make.c`
   row of the nonmatching doc for a case still open.
+- A wrapping decrement that reads the variable again in one branch: `if (x == 0) { x = 3; } else { x--; }`, not a
+  conditional expression (matching.md: "reads it again in the `else`")
 
 ## Loops
 
@@ -121,6 +151,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - An address or value an inner loop computes from the outer counter alone is hoisted into the inner preheader.
   (matching.md: "inner loop computes"), (matching.md: "preheader")
 - Enum counters keep their guard (see above).
+- `beq` before and `bne` after the loop is a `!=` bound. (matching.md: "A loop counted with `!=`")
 
 ## Switches
 
@@ -129,6 +160,10 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - A case that ends in the same code as another is merged into it. (matching.md: "ends in the same code as another")
 - An `if`/`else if` chain whose tests come in a switch's order is a `switch` with a case falling into `default`.
   `case 0: default:` written first sets the case order.
+- `cmp; beq end; cmp; bne next` with each body after its test: an `if`/`else if` chain with an empty first body,
+  not a switch (matching.md: "A short chain of tests whose first value does nothing")
+- A value tested before the jump table, with its code after the cases, is an `if (x != v)` around the switch.
+  (matching.md: "value outside its jump table")
 
 ## Floats and runtime helpers
 
@@ -136,6 +171,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   fails to link. (matching.md: "MWCC's runtime helpers")
 - An arithmetic operation on a literal passes the literal first; a constant in a local keeps its source position.
   (matching.md: "passes the literal first")
+- A call inside `FX32_CONST(...)` is made three times; the game passes a local. (matching.md: "FX32_CONST")
+- A literal in a compound assignment (`y += 0.01f`) is passed second. (matching.md: "compound assignment keeps")
 - Float arithmetic on a local holding a constant isn't folded. (matching.md: "doesn't fold float arithmetic")
 - Division and modulo call `_s32_div_f` or `_u32_div_f` by signedness. A `u8`/`u16` promotes to signed `int`.
   (matching.md: "_s32_div_f")
@@ -146,7 +183,9 @@ text to `grep -n` there. Entries without a key come from later work and still be
   globals get their own sections. Predict with `tools/scripts/rodata_order.py`. (matching.md: "Static data is sorted by size")
 - The full model, checked by fuzzing MWCC: there is one list per file in declaration order, except tentative `.bss`
   statics, which join at the end in reverse order. Each kind (rodata, data, bss) gets its own shared section.
-  Unreferenced statics are dropped. `rodata_order.py` doesn't model the per-kind sections or the `.bss` rule yet.
+  Unreferenced statics are dropped. `rodata_order.py` doesn't model the per-kind sections or the `.bss` rule yet, but
+  given the `.data` tables with the `.rodata` objects it predicts the `.rodata` order. (matching.md: "The list that is
+  heapsorted")
 - `.bss` statics are ordered by size, then in an order that isn't the declaration order; try permutations.
 - `static const` goes in `.rodata`, so a table in `.data` isn't `const`. (matching.md: "`static const` data goes in")
 - A `static const` whose address is never taken is folded and not emitted. If the original has it, it isn't static.

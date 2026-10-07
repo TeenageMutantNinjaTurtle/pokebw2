@@ -2,12 +2,14 @@
 #define POKEBW2_CONSTANTS_ARC_H
 
 // Names, layouts and constants from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0), except
-// ARCID_TITLE, ARCID_STARTMENU, ARCID_SEASON_BANNER, ARCID_COPYRIGHT, ARCID_INTRO, ARCID_EGG_DEMO, ARCID_SHINKA_DEMO
-// and ARCID_TRAI_SCRIPT
+// ARCID_TITLE, ARCID_STARTMENU, ARCID_SEASON_BANNER, ARCID_COPYRIGHT, ARCID_ZUKAN_GRA, ARCID_INTRO, ARCID_EGG_DEMO,
+// ARCID_SHINKA_DEMO, ARCID_POKEICON, ARCID_BOX2 and ARCID_TRAI_SCRIPT
 
 #define ARCID_SYSTEM_MESSAGE 2
 #define ARCID_SCRIPT_MESSAGE 3
 #define ARCID_POKEGRA 4
+// The Pokémon icons
+#define ARCID_POKEICON 7
 #define ARCID_MAP_TERRAIN 8
 #define ARCID_MAP_MATRIX 9
 #define ARCID_ZONEDATA 12
@@ -40,15 +42,21 @@
 #define ARCID_RAIL_HEADERS 78
 #define ARCID_TRDATA 91
 #define ARCID_TRPOKE 92
+// The Global Trade Station's 2D graphics (not from swan)
+#define ARCID_WORLDTRADE 95
 #define ARCID_CALENDAR 96
 #define ARCID_GIMMICK_TBL 102
 #define ARCID_FIELD_CAMERA_MAP_BOUNDARY 109
 #define ARCID_RAIL_DATA 110
+// The PC box's graphics
+#define ARCID_BOX2 117
 #define ARCID_ZONE_ENTITIES 126
 #define ARCID_ENCOUNTDATA 127
 #define ARCID_MAPEFF_SKILL_TBL 149
 #define ARCID_SEASON_BANNER 150
 #define ARCID_FIELD_CAMERA_MAP_PARAM 156
+// The Pokédex's graphics
+#define ARCID_ZUKAN_GRA 157
 #define ARCID_DEMO3D_RESOURCE 158
 // The copyright notice that the game shows when it starts. swan names this archive ARCID_FIELD_CAMERA_SCRIPT_PARAM,
 // but it holds 2D graphics

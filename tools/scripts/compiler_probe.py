@@ -28,7 +28,7 @@ DEFAULT_FLAGS = (
 )
 # Preprocessor defines of each game version, as in configure.py
 VERSION_DEFINES = {"b2_us": ["BLACK2"], "w2_us": ["WHITE2"]}
-SYMBOL_RE = re.compile(r"^(\S+) kind:function\((\w+),size=(0x[0-9a-f]+)[^)]*\) addr:(0x[0-9a-f]+)")
+SYMBOL_RE = re.compile(r"^(\S+) kind:function\((\w+),size=(0x[0-9a-f]+)\S*\) addr:(0x[0-9a-f]+)")
 
 
 def lib_compiler(source: Path) -> tuple[str, str] | None:
@@ -67,10 +67,41 @@ def find_function(version: str, name: str, modules) -> tuple[bytes, int, bool] |
             if not match:
                 continue
             mode, size, addr = match.group(2), int(match.group(3), 16), int(match.group(4), 16)
+            if "dsprot=" in line:
+                # DS Protect's functions are encrypted in the ROM; dsd decrypts them into the delinked objects
+                data = delinked_function(version, name)
+                if data is None:
+                    print(f"{name}: encrypted, and not in build/{version}/delinks; run ninja first", file=sys.stderr)
+                    return None
+                return data[:size], addr, mode == "thumb"
             binary, base = modules[str(symbols.parent)]
             data = binary.read_bytes()[addr - base : addr - base + size]
             return data, addr, mode == "thumb"
     return None
+
+
+_delinked: dict[str, dict[str, bytes]] = {}
+
+
+def delinked_function(version: str, name: str) -> bytes | None:
+    """Returns a function's bytes from the delinked objects of build/<version>/delinks, which hold DS Protect's code
+    decrypted."""
+    if version not in _delinked:
+        found: dict[str, bytes] = {}
+        for path in (ROOT / "build" / version / "delinks").rglob("*.o"):
+            with path.open("rb") as f:
+                elf = ELFFile(f)
+                symtab = elf.get_section_by_name(".symtab")
+                if symtab is None:
+                    continue
+                for symbol in symtab.iter_symbols():
+                    if symbol["st_info"]["type"] != "STT_FUNC" or symbol["st_shndx"] in ("SHN_UNDEF", "SHN_ABS"):
+                        continue
+                    start = symbol["st_value"] & ~1
+                    data = elf.get_section(symbol["st_shndx"]).data()
+                    found[symbol.name] = data[start : start + symbol["st_size"]] if symbol["st_size"] else data[start:]
+        _delinked[version] = found
+    return _delinked[version].get(name)
 
 
 def compiled_functions(obj: Path) -> dict[str, tuple[bytes, set[int]]]:
@@ -98,6 +129,13 @@ def compiled_functions(obj: Path) -> dict[str, tuple[bytes, set[int]]]:
             masked = {o - start for o in relocated.get(symbol["st_shndx"], set()) if start <= o < start + size}
             functions[symbol.name] = (data, masked)
     return functions
+
+
+def defined_functions(source: Path) -> list[str]:
+    """The functions a C file defines at the top level, other than inline ones, which aren't emitted on their own."""
+    text = source.read_text(errors="replace")
+    pattern = r"^(?![ \t#/])(?!.*\binline\b)[^;{}()=\n]*?\b(\w+)\([^;{}]*\)\s*\{"
+    return [m.group(1) for m in re.finditer(pattern, text, re.M)]
 
 
 def disassemble(data: bytes, address: int, thumb: bool) -> list[str]:
@@ -177,7 +215,12 @@ def main():
             if proc.returncode != 0:
                 print(f"{compiler}: compile failed\n{proc.stdout}{proc.stderr}")
                 continue
-            for name, (data, masked) in compiled_functions(obj).items():
+            compiled = compiled_functions(obj)
+            # MWCC drops a static function that nothing references, which would otherwise pass unnoticed
+            for name in defined_functions(args.source):
+                if name not in compiled and (functions is None or name in functions):
+                    results.setdefault(name, {})[compiler] = "not emitted"
+            for name, (data, masked) in compiled.items():
                 if functions is not None and name not in functions:
                     continue
                 original = find_function(args.version, name, modules)

@@ -99,7 +99,7 @@ u8 func_ov167_021bd11c(u32 value, u32 stage) {
     return value;
 }
 
-BOOL func_ov167_021bd144(u32 critStage) {
+BOOL func_ov167_021bd144(u8 critStage) {
     u8 roll = BattleRandom(data_ov167_021d74a0[critStage]);
 
     if (roll == 0) {
@@ -516,8 +516,8 @@ u32 func_ov167_021bd728(u32 value) {
 }
 
 // Function name from swan.
-u32 GetNumMonsOnField(u32 battleType, u32 count) {
-    if (battleType == 3) {
+u8 GetNumMonsOnField(u32 battleStyle, u8 count) {
+    if (battleStyle == 3) {
         count = 3;
     }
     return count;

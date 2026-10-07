@@ -31,7 +31,11 @@ enum {
     HEAPID_MUSICAL_DRESSUP = 0x2d,
     HEAPID_MUSICAL = 0x2e,
     HEAPID_DEBUG_GENDER_SELECT = 0x39,
+    // Not from swan: the Global Trade Station's heap
+    HEAPID_WORLDTRADE = 0x48,
     HEAPID_MICTEST = 0x49,
+    HEAPID_BOX2 = 0x4b,
+    HEAPID_BOX2_APP = 0x4c,
     HEAPID_FIELD_PARTICLE = 0x50,
     HEAPID_BATTLE_RETURN = 0x52,
     HEAPID_GAMESYNC = 0x67,
@@ -48,7 +52,9 @@ enum {
     HEAPID_FIELD_WEATHER = 0x92,
     HEAPID_FIELD_PLACE_NAME = 0x93,
     HEAPID_SHINKA_DEMO = 0x94,
+    HEAPID_ZUKAN_DETAIL = 0x95,
     HEAPID_FIELD_SCENEAREA = 0x96,
+    HEAPID_BOX_SEARCH = 0x98,
 };
 
 // Allocates from the end of the heap instead of the start

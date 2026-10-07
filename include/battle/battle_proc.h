@@ -78,7 +78,5 @@ BOOL func_ov010_0214ff00(GameProc *proc, u32 *state, void *param, void *work);
 BOOL func_ov010_0214ff28(GameProc *proc, u32 *state, void *param, void *work);
 BOOL func_ov010_0214ff58(GameProc *proc, u32 *state, void *param, void *work);
 extern const GameProcFunctions data_ov213_021bbb38;
-// The battle's comm commands
-extern const u8 data_ov167_021d7448[];
 
 #endif // POKEBW2_BATTLE_BATTLE_PROC_H

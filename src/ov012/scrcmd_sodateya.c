@@ -1,5 +1,5 @@
 #include "types.h"
-#include "app/ov165.h"
+#include "app/pokelist.h"
 #include "app/ov207.h"
 #include "constants/pokemon.h"
 #include "constants/species.h"
@@ -216,7 +216,7 @@ GameEvent *EventDayCarePokeSelect_Create(GameSystem *gsys, Field *field, u16 *re
     GameData *gameData = GSYS_GetGameData(gsys);
     PokeParty *party = GameData_GetParty(gameData);
     PokeDexSave *pokedex = GameData_GetPokedex(gameData);
-    Ov165Param *partyParam = func_02034c54(gameData, 0x12, party, HEAPID_GAMEEVENT);
+    PokeListParam *partyParam = func_02034c54(gameData, 0x12, party, HEAPID_GAMEEVENT);
     Ov207Param *summaryParam = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(Ov207Param), FALSE, "scrcmd_sodateya.c", 0x22e);
     GameEvent *event;
     DayCarePokeSelectWork *work;
