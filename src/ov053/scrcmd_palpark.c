@@ -24,7 +24,7 @@ static BOOL PalParkCmd_CallMbParent(VM *vm, FieldScriptEnv *env) {
     Field *field = GSYS_GetField(gsys);
     MBParentParam *param = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(MBParentParam), FALSE, "scrcmd_palpark.c", 68);
 
-    param->unk0 = 0;
+    param->startMenu = FALSE;
     param->gameData = gameData;
     ScriptWork_CallEvent(work, EventFieldSubprocessCall_CreateWithCallback(
                                    gsys, field, OVERLAY_ID(181), &MB_PARENT_PROC_FUNCTIONS, param, NULL, param));
