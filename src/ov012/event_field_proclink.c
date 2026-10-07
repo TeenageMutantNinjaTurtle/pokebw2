@@ -90,7 +90,7 @@ typedef struct {
 const FieldProcLink FIELD_PROC_LINK_LIST[15] = {
     { OVERLAY_ID(165), &POKELIST_PROC_FUNCTIONS, func_ov012_0215b7d8, func_ov012_0215b9cc, NULL, func_ov012_0215c594 },
     { OVERLAY_ID(302), &data_ov189_021ae3dc, func_ov012_0215bad4, func_ov012_0215bb44, NULL, func_ov012_0215c594 },
-    { OVERLAY_ID(142), &data_ov142_021a0910, func_ov012_0215bd48, func_ov012_0215bdd0, NULL, func_ov012_0215c594 },
+    { OVERLAY_ID(142), &BAG_PROC_FUNCTIONS, func_ov012_0215bd48, func_ov012_0215bdd0, NULL, func_ov012_0215c594 },
     { OVERLAY_ID(186), &data_ov012_0216dd78, func_ov012_0215bef4, func_ov012_0215bf58, NULL, func_ov012_0215c594 },
     { 0, NULL, NULL, NULL, func_ov012_0215c0dc, func_ov012_0215c594 },
     { OVERLAY_ID(140), &data_ov140_0219eecc, func_ov012_0215c094, func_ov012_0215c0cc, NULL, func_ov012_0215c594 },
@@ -330,7 +330,7 @@ void *func_ov012_0215b7d8(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
         }
         switch (bag->result) {
         case 1:
-            if (bag->unk38 == 2) {
+            if (bag->mode == 2) {
                 param->mode = 0;
             }
             break;
@@ -630,7 +630,7 @@ void *func_ov012_0215bd48(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
     case FIELD_APP_BAG:
         param = func_02034ad0(gameData, &work->perms, func_ov012_0215bd1c(work->input->gameSystem), HEAPID_GAMEEVENT);
         if (appParam != -1) {
-            func_020088a4(param->unk0C, appParam);
+            func_020088a4(param->cursor, appParam);
         }
         break;
     case FIELD_APP_POKELIST:
@@ -659,7 +659,7 @@ u32 func_ov012_0215bdd0(FieldAppCallWork *work, void *data) {
     case 0:
         return 1;
     case 1:
-        if (param->unk38 == 2) {
+        if (param->mode == 2) {
             work->nextAppId = FIELD_APP_POKELIST;
             return FIELD_APP_RESULT_NEXT;
         }
@@ -894,7 +894,7 @@ void *func_ov012_0215c160(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
         return func_ov215_021a7624(gameData, PokeParty_GetPkm(party, partyParam->index), HEAPID_GAMEEVENT);
     }
     bag = prevParam;
-    if (bag->unk38 == 2) {
+    if (bag->mode == 2) {
         param = func_ov215_021a75a0(gameData, 2, bag->item, PML_ItemGetMailID(bag->item), HEAPID_GAMEEVENT);
         work->item = bag->item;
         return param;
