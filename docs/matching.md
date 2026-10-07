@@ -112,12 +112,19 @@ Same code, other `sp` offsets or frame size.
 - MWCC reuses a field it has loaded, across the 64-bit multiply helpers, so a value that the original keeps on the
   stack between `piece->home.x - piece->pos.x` and `piece->pos.x = piece->home.x` is MWCC's own copy, not a local.
   Writing it as a local changes which stack slots everything gets.
+- A test of a field right after a store into it reuses the stored register only when the source tests the field
+  written to: `tr_tool.c`'s `TrainerUtil_LoadTrainer` tests `trainer->trainerClass` after storing `data->trainerClass`
+  there, not `data->trainerClass`.
 - The types of locals and of the values they hold change how spilled values are scheduled. The trainer AI's speed
   comparison only matches with the speed function returning `u16` into `u16` locals: a spilled `u16` is reloaded after
   the call's stack argument is stored, while a spilled `u32` is reloaded before it.
 - A `u64` argument whose high word is 0 keeps that zero in a stack slot of its own, where a `u32` zero is folded into
   a constant. Two such slots in `mystery_gift_pokemon.c` show that `PokeParty_CreatePkm` takes its trainer ID and PID
   as `u64`s.
+- A `u64` parameter after three `u32`s is split between `r3` and the first stack word, with no alignment to a register
+  pair. Arguments passed in pairs such as `(x, 0)` or `(0, -1)`, a constant -1 stored last, and a callee that saves
+  `r3` and its first stack argument to adjacent slots are the signs, as `tr_tool.c`'s `TrainerUtil_LoadParty` shows
+  for `PokeParty_CreatePkm`.
 - Structs passed by value go in registers and on the stack. Code that copies a struct to the stack and passes its
   address takes a pointer to a local copy. A struct local keeps its stack slot even when it only passes through, so a
   frame larger than the locals explain holds one: Guard Spec.'s effect in `btl_server_flow_sub.c` stores
@@ -222,6 +229,8 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   in a `BOOL` local, as palanm.c's `IsBitSet` does.
 - A signed compare (`bge`) of a parameter that callers pass as a `u8` without narrowing means the parameter is an
   `int`: palanm.c's `MaskPalettes(int buffer, ...)`.
+- A signed compare (`bge`) of a `u32` function result means it was stored in an `int` local: `tr_tool.c`'s
+  `TrainerMsg_Load` keeps `GFL_ArcSysGetDataLength`'s result in an `int` and compares it with an `int` trainer ID.
 - A `u16` narrowing followed by an `s16` one (`lsl #16; lsr #16; lsl #16; asr #16`) is a value returned by a `u16`
   inline helper and passed to an `s16` parameter, as bmp_menulist.c's `RowY` is in `BmpMenuList_EraseCursor`.
 - A 4-bit color field masked with `& 0x1f` before it is shifted into a print color (`lsl #27; lsr #17` for the text
@@ -358,6 +367,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   too and doesn't match.
 - When comparing a call's result, `v = f(); if (v == x)` and `if (f() == x)` put the operands of `cmp` in opposite
   orders.
+- `if (!f())` and `if (f() == FALSE)` lay the two blocks out in opposite orders. `field_sound_system.c`'s
+  `FieldSnd_GetLastQueuedCommand` puts the `then` block first behind `bne` only with `== FALSE`; `!` put the `else`
+  block first behind `beq`.
 - The operands of `==` between two fields are compared in source order: `syswk->tray == syswk->getTray` gives
   `cmp tray, getTray`, as the PC box's `func_ov255_021cc8dc` needs.
 - A store picked by a test, `if (pos < 30) syswk->pos = pos; else syswk->pos = 0;`, branches past the second value with
@@ -386,6 +398,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   where a condition joined with `&&` doesn't.
 - Assigning both of two values in every branch (`start = 16; end = 0;`) lets MWCC build -16 from the register holding
   0 (`WipeBright_Init`); zero-initialized locals or a ternary don't.
+- A constant argument loaded in both arms of an `if`/`else` (`movs r3, #0x3c` in each) was assigned to a local in each
+  branch, even when the value is the same: `field_sound.c`'s `FieldSnd_ChangeZoneBGM` matches with `fadeOutFrames =
+  60` set beside `fadeInFrames` in both branches, where `60` written once at the call is 2 bytes short.
 
 - When the original puts an `if`'s then-block after the else path, write the condition negated with the bodies
   swapped: brightness.c's `BrightnessData_Step` matches with the long advance body first and `done = TRUE` in the
@@ -416,6 +431,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A switch's comparison tree and jump tables depend on every case value, including cases with no code: the Battle
   Subway's command switch only splits its values as the game does with an empty `case 102:` inside its first jump
   table, and empty cases that sit between others still get a comparison.
+- Listing the empty cases also keeps a jump table where identical case bodies would otherwise be merged into
+  comparisons: `ringtone_sys.c`'s `RingtoneSys_UpdateState` matches only with all four states written, two of them
+  empty.
 - A switch case that ends in the same code as another case is merged into it, so its end moves.
 - A `switch` on a few small values tests them all first (`cmp; beq` for each, then `b` to the default), while an
   `if`/`else if` chain tests each one before its body (`cmp; bne` to the next test), as bmp_menu.c's

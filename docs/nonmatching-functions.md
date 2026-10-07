@@ -231,6 +231,7 @@ the original code is linked until they match. The differences are the same in bo
 | `src/system/wipe_sub.c` | `WipeRectWork_Init` | `0x02028e30` / `0x02028e5c` | 13 bytes of scheduling: the original loads `param->window` first and stores `syncCount` after the field loads. Tried every position of the window store, and `work->window` or `param->isOut` in the call. |
 | `src/system/wipe_sub.c` | `WipeLineWork_Init` | `0x02029288` / `0x020292b4` | 4 bytes: the original compares `pattern->isOut` before storing the screen stack argument. Tried plane locals and a `TRUE` literal in the first call. |
 | `src/system/wipe_sub.c` | `WipeLineRange_Apply` | `0x02029418` / `0x02029444` | 15 bytes of registers: the original keeps `covered` in r7 (the range pointer's register) and adds the quotient before `start`. Tried `u8`/`u32`/`s32` bounds, swapping in place, `!covered`, both edge orders and declaration orders. |
+| `src/system/tr_tool.c` | `TrainerUtil_LoadParty` | `0x020308c0` / `0x020308ec` | Right size, 74 lines differ: the IV pack and the stack arguments of `PokeParty_CreatePkm` are stored in another order, with -1 built early from the 0x1f register where the original stores it last as `0 - 1`. `PokeParty_CreatePkm` takes two `u64`s, which `pml/poke_party.h` declares as four `u32`s; with that prototype it matches in both versions. Tried without it: IV types and casts, declaration order, a separate IV variable, pack helpers, the order, operators and casts of the pack terms. |
 
 ## Attempted, not in C
 

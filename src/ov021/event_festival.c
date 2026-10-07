@@ -1,9 +1,11 @@
 #include "types.h"
 #include "app/festival.h"
 #include "field/event_festival.h"
+#include "field/event_sound.h"
 #include "field/festival.h"
 #include "field/field.h"
 #include "field/field_event.h"
+#include "field/field_sound.h"
 #include "field/iss.h"
 #include "gfl/net.h"
 #include "gfl/std.h"
@@ -56,7 +58,7 @@ GameEventReturnCode func_ov021_0216e660(GameEvent *event, u32 *state, void *data
         (*state)++;
         break;
     case 2:
-        func_02030040(GameData_GetFieldSoundSystem(gameData), GameSystem_GetISS(gsys));
+        FieldSnd_DuckVolume(GameData_GetFieldSoundSystem(gameData), GameSystem_GetISS(gsys));
         func_ov021_0216e848(&work->param, work->gsys, work->gameData, work->mode);
         GSYS_QueueProc(gsys, OVERLAY_FESTIVAL_APP, &data_ov309_021a01d0, &work->param);
         (*state)++;
@@ -78,7 +80,7 @@ GameEventReturnCode func_ov021_0216e660(GameEvent *event, u32 *state, void *data
         break;
     }
     case 5:
-        func_0203005c(GameData_GetFieldSoundSystem(gameData), GameSystem_GetISS(gsys));
+        FieldSnd_RestoreVolume(GameData_GetFieldSoundSystem(gameData), GameSystem_GetISS(gsys));
         GameEvent_ChainNext(event, EventFieldOpen_CreateHeadless(gsys));
         (*state)++;
         break;
