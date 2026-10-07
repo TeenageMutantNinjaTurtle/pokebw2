@@ -109,6 +109,7 @@ void MAT43_LookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *ta
 void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
 void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
 void vecfx_normalize(const VecFx32 *src, VecFx32 *dest);
+fx32 vecfx_dist(const VecFx32 *a, const VecFx32 *b);
 void vecfx_muladd(fx32 scale, const VecFx32 *a, const VecFx32 *b, VecFx32 *dest);
 void vecfx_mul(const VecFx32 *src, fx32 scale, VecFx32 *dest);
 fx32 VEC_Mag(const VecFx32 *v);
