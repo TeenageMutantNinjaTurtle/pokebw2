@@ -231,8 +231,6 @@ void func_ov289_021f4440(void *param);
 BtlvCore *BtlvCore_Create(BtlMainModule *mainModule, BtlClient *client, BtlPokeCon *pokeCon, u32 arg3, HeapID heapId);
 void func_ov167_021ce668(HeapID heapId);
 void func_ov167_021ce870(BtlvCore *viewCore);
-void *func_ov167_021d5e1c(HeapID heapId);
-void func_ov167_021d5e68(void *data);
 
 void func_ov167_021ce8c8(BtlvCore *viewCore);
 

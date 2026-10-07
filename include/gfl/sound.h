@@ -50,6 +50,12 @@ void GFL_SEPlayKeepVol(u32 se, s32 player);
 // Called once with start TRUE for a sequence, then each frame with FALSE until it returns TRUE
 BOOL func_02006424(u32 seq, u32 *step, BOOL start);
 void func_02005d8c(void);
+// Sound the musical's stage plays: names unknown
+BOOL func_020064b8(void *a0, void *a1, u16 seq);
+BOOL func_02006528(u16 waveArc, u16 a1, void *a2, u16 a3);
+void func_02006564(u16 seq);
+void func_02006574(void);
+void func_02006588(void);
 // Sets the callback that says whether a sequence may play while the sound thread is loading
 void GFL_SndSetSeqVerifyCallback(BOOL (*callback)(u32 seq));
 BOOL GFL_SndIsPlaying(u32 seq);

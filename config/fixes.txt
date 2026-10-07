@@ -873,8 +873,13 @@ overlays/ov142 0x021a14bc remove_reloc
 overlays/ov142 0x021a14d4 remove_reloc
 overlays/ov142 0x021a1614 remove_symbol
 overlays/ov143 0x02199bac reloc_addend 4
+overlays/ov143 0x0219b1d0 reloc_addend 0x20
 overlays/ov143 0x0219fe90 remove_symbol
 overlays/ov143 0x0219ff44 add_data MonolithTool_UnusedTextSetup
+overlays/ov143 0x0219fff0 add_data MonolithRecord_UnusedMsgIds
+overlays/ov143 0x021a0000 remove_symbol
+overlays/ov143 0x021a001a remove_symbol
+overlays/ov143 0x021a0034 remove_symbol
 overlays/ov152 0x021f6228 reloc_module overlay(148)
 overlays/ov152 0x021f6254 reloc_module overlay(150)
 overlays/ov153 0x021f6228 reloc_module overlay(148)
@@ -1333,6 +1338,7 @@ overlays/ov209 0x021bb6ec reloc_module overlay(210)
 overlays/ov209 0x021bb6fc reloc_module overlay(210)
 overlays/ov209 0x021bb832 reloc_module overlay(210)
 overlays/ov209 0x021bb9b4 reloc_module overlay(210)
+overlays/ov209 0x021bd7fc reloc_addend 0x18
 overlays/ov209 0x021bfdf4 reloc_module overlay(211)
 overlays/ov209 0x021bfe1a reloc_module overlay(211)
 overlays/ov209 0x021bfff6 reloc_module overlay(211)
@@ -1342,8 +1348,12 @@ overlays/ov209 0x021c2c2c add_data MUS_SHOT_PHOTO_UNUSED
 overlays/ov209 0x021c2c74 remove_reloc
 overlays/ov209 0x021c2d88 add_data MUS_ITEM_DRAW_UNUSED_0
 overlays/ov209 0x021c2d8c add_data MUS_ITEM_DRAW_UNUSED_1
+overlays/ov209 0x021c2dd0 add_data data_ov209_021c2dd0
 overlays/ov209 0x021c2e28 remove_reloc
 overlays/ov209 0x021c2ea8 remove_reloc
+overlays/ov209 0x021c2f6c add_data STA_ACT_AUDIENCE_UNUSED
+overlays/ov209 0x021c30ac remove_symbol
+overlays/ov209 0x021c3240 section_end src/ov209/script_command.c:.data
 overlays/ov214 0x021d3490 overlay_id 189
 overlays/ov214 0x021d3494 overlay_id 139
 overlays/ov214 0x021d35c0 reloc_addend 4
