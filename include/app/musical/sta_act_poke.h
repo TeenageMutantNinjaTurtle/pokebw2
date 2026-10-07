@@ -10,7 +10,7 @@
 #include "nitro/fx.h"
 #include "struct_decls.h"
 
-StaActPokeSys *func_ov209_021bd8f0(HeapID heapId, void *stage, MusPokeDrawSys *pokeDraw, MusItemDrawSys *itemDraw,
+StaActPokeSys *func_ov209_021bd8f0(HeapID heapId, StaActing *stage, MusPokeDrawSys *pokeDraw, MusItemDrawSys *itemDraw,
                                    BlActScene *blact);
 void func_ov209_021bd974(StaActPokeSys *sys);
 void func_ov209_021bd9b4(StaActPokeSys *sys);
@@ -21,6 +21,7 @@ StaActPoke *func_ov209_021bde60(StaActPokeSys *sys, MusicalPoke *poke);
 void func_ov209_021be8a8(StaActPokeSys *sys, StaActPoke *poke, const VecFx32 *pos);
 void func_ov209_021be8d8(StaActPokeSys *sys, StaActPoke *poke, const VecFx32 *ofs);
 void func_ov209_021be904(StaActPokeSys *sys, StaActPoke *poke);
+void func_ov209_021be898(StaActPokeSys *sys, StaActPoke *poke, VecFx32 *pos);
 void func_ov209_021be9a8(StaActPokeSys *sys, StaActPoke *poke, BOOL a2);
 
 #endif // POKEBW2_APP_MUSICAL_STA_ACT_POKE_H

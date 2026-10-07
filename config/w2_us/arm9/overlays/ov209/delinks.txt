@@ -35,3 +35,19 @@ src/ov209/musical_mcss.c:
     .text       start:0x021bbe90 end:0x021bd278
     .rodata     start:0x021c2dd4 end:0x021c2df8
     .data       start:0x021c30a4 end:0x021c30b4
+
+src/ov209/sta_act_obj.c:
+    complete
+    .text       start:0x021bd278 end:0x021bd46c
+    .rodata     start:0x021c2df8 end:0x021c2dfc
+    .data       start:0x021c30b4 end:0x021c30c4
+
+src/ov209/sta_act_light.c:
+    complete
+    .text       start:0x021bd46c end:0x021bd7b8
+    .data       start:0x021c30c4 end:0x021c30d4
+
+src/ov209/sta_act_bg.c:
+    complete
+    .text       start:0x021bd7b8 end:0x021bd930
+    .data       start:0x021c30d4 end:0x021c3120

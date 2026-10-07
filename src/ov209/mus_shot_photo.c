@@ -132,18 +132,18 @@ MusShotPhoto *MusShotPhoto_Create(MusicalShot *shot, HeapID heapId) {
     MusShotPhoto_InitGraphics(photo);
     MusShotPhoto_InitPokes(photo);
     MusShotPhoto_InitText(photo);
-    photo->bg = func_ov209_021bd778(photo->heapId, NULL);
-    func_ov209_021bd804(photo->bg, photo->shot->unk0_0);
+    photo->bg = StaActBg_InitSystem(photo->heapId, NULL);
+    StaActBg_LoadBg(photo->bg, photo->shot->unk0_0);
     func_ov209_021bde30(photo->staPoke, 0x80);
-    func_ov209_021bd8ec(photo->bg, 0x80);
+    StaActBg_SetScrollOffset(photo->bg, 0x80);
     return photo;
 }
 
 void MusShotPhoto_Delete(MusShotPhoto *photo) {
     u8 i;
 
-    func_ov209_021bd4d0(photo->lightSys);
-    func_ov209_021bd7a0(photo->bg);
+    StaActLight_TermSystem(photo->lightSys);
+    StaActBg_TermSystem(photo->bg);
     func_ov209_021bd974(photo->staPoke);
     MusPokeDraw_TermSystem(photo->pokeDraw);
     MusItemDraw_TermSystem(photo->itemDraw);
@@ -161,14 +161,14 @@ void MusShotPhoto_Delete(MusShotPhoto *photo) {
 void MusShotPhoto_Main(MusShotPhoto *photo) {
     func_ov209_021bd9b4(photo->staPoke);
     MusPokeDraw_UpdateSystem(photo->pokeDraw);
-    func_ov209_021bd504(photo->lightSys);
+    StaActLight_UpdateSystem(photo->lightSys);
     GFL_G3DSysReset();
     GFL_G3DSysMtxViewFlush();
-    func_ov209_021bd6c8(photo->lightSys);
+    StaActLight_DrawSystem(photo->lightSys);
     func_ov209_021bddf4(photo->staPoke);
     MusPokeDraw_DrawSystem(photo->pokeDraw);
     func_ov209_021bd9e0(photo->staPoke);
-    func_ov209_021bd7e0(photo->bg);
+    StaActBg_DrawSystem(photo->bg);
     BlActScene_Draw(photo->blact, photo->camera, NULL);
     MusShotPhoto_Debug(photo);
     GFL_G3DSysReqSwapBuffers();
@@ -276,7 +276,7 @@ static void MusShotPhoto_InitPokes(MusShotPhoto *photo) {
     }
 
     mask = 1;
-    photo->lightSys = func_ov209_021bd42c(photo->heapId, NULL);
+    photo->lightSys = StaActLight_InitSystem(photo->heapId, NULL);
     for (i = 0; i < 4; i++) {
         lightPos.x = MusShotPhoto_GetPokeX(photo, i, photo->pokes[i]->species);
         if (mask & photo->shot->tops) {
@@ -295,8 +295,8 @@ static void MusShotPhoto_InitPokes(MusShotPhoto *photo) {
             func_ov209_021be8a8(photo->staPoke, photo->pokeActs[i], &pos);
             lightPos.y = FX32_CONST(128);
         }
-        photo->lights[i] = func_ov209_021bd6cc(photo->lightSys, 1);
-        func_ov209_021bd748(photo->lightSys, photo->lights[i], &lightPos);
+        photo->lights[i] = StaActLight_AddLight(photo->lightSys, 1);
+        StaActLight_SetPosition(photo->lightSys, photo->lights[i], &lightPos);
         mask <<= 1;
     }
 }
