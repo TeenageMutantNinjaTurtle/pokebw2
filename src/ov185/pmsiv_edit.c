@@ -17,6 +17,7 @@
 #include "gfl/tcb.h"
 #include "nitro/gx.h"
 #include "nitro/os.h"
+#include "system/bgwinfrm.h"
 #include "system/bmp_cursor.h"
 #include "system/gf_font.h"
 #include "system/pms_data.h"
@@ -116,12 +117,12 @@ PMSIVEdit *PMSIVEdit_Create(PMSInputView *vwk, const PMSInputWork *mwk, const PM
     wk->unk1A8 = 0;
     wk->unk1AC = 0;
     wk->vblankTask = NULL;
-    wk->frames = func_020330c8(1, 1, HEAPID_PMS_INPUT);
+    wk->frames = BGWinFrame_Create(1, 1, HEAPID_PMS_INPUT);
     return wk;
 }
 
 void PMSIVEdit_Delete(PMSIVEdit *wk) {
-    func_02033120(wk->frames);
+    BGWinFrame_Delete(wk->frames);
     if (wk->vblankTask) {
         GFL_TCBRemove(wk->vblankTask);
     }
@@ -164,11 +165,11 @@ void PMSIVEdit_SetupGraphicDatas(PMSIVEdit *wk, ArcTool *arc) {
     PMSIVEdit_SetupWordActors(wk);
     PMSIVEdit_UpdateEditArea(wk);
     PMSIVEdit_SetupCursorActors(wk);
-    func_02033150(wk->frames, 0, 0, 32, 6);
-    func_02033224(wk->frames, 0, arc, 25, FALSE);
-    func_02033254(wk->frames, 0, 0, 0);
-    func_020335c4(wk->frames, 0, wk->win[0]);
-    func_02033360(wk->frames, 0);
+    BGWinFrame_InitFrame(wk->frames, 0, 0, 32, 6);
+    BGWinFrame_LoadScreenArc(wk->frames, 0, arc, 25, FALSE);
+    BGWinFrame_Put(wk->frames, 0, 0, 0);
+    BGWinFrame_WriteBmpWin(wk->frames, 0, wk->win[0]);
+    BGWinFrame_Show(wk->frames, 0);
     wk->framesDirty = FALSE;
 }
 
@@ -183,8 +184,8 @@ static void PMSIVEdit_VBlankTask(TCB *tcb, void *data) {
     wk->unk1AC = 0;
     if (wk->framesDirty) {
         GFL_BGSysFillScrArea(0, 0, 0, 0, 32, 6, BGSYS_FILL_TILE_PALETTE);
-        func_02033254(wk->frames, 0, 0, -wk->frameY / 8);
-        func_02033360(wk->frames, 0);
+        BGWinFrame_Put(wk->frames, 0, 0, -wk->frameY / 8);
+        BGWinFrame_Show(wk->frames, 0);
         wk->framesDirty = FALSE;
     }
 }

@@ -534,7 +534,7 @@ void WorldTrade_PokeInfoPrint2(MsgData *msgManager, BmpWin **win, u16 *name, Par
 
 void WorldTrade_TransPokeGraphic(PartyPkm *pkm) {
     NNSG2dCharacterData *charData;
-    void *buf = func_02033d50(&charData, func_0201d620(pkm), 0, HEAPID_WORLDTRADE);
+    void *buf = LoadSingleCellSpindaGraphicsByBoxData(&charData, func_0201d620(pkm), 0, HEAPID_WORLDTRADE);
     u32 arcId;
     u32 palette;
 

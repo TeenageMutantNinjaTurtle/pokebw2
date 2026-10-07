@@ -421,7 +421,7 @@ static void PokeListPlate_DrawInfo(PokeListWork *wk, PokeListPlate *plate, BOOL 
 static void PokeListPlate_DrawHpBar(PokeListWork *wk, PokeListPlate *plate) {
     if (PokeList_IsBattle(wk) == FALSE && wk->param->mode != 6) {
         u8 color = PokeListPlate_GetHpColor(plate);
-        u32 width = func_02033724(plate->hp, PokeParty_GetParam(plate->pkm, PKM_PARAM_MAX_HP, NULL), 48);
+        u8 width = HPGauge_GetFill(plate->hp, PokeParty_GetParam(plate->pkm, PKM_PARAM_MAX_HP, NULL), 48);
         GFLBitmap *bitmap = BmpWin_GetBitmap(plate->window);
         u8 topColor;
         u8 bottomColor;
@@ -703,7 +703,7 @@ u32 PokeListPlate_CheckEntry(PokeListWork *wk, PokeListPlate *plate) {
 }
 
 static u8 PokeListPlate_GetHpColor(PokeListPlate *plate) {
-    return func_0203373c(plate->hp, PokeParty_GetParam(plate->pkm, PKM_PARAM_MAX_HP, NULL));
+    return HPGauge_GetColor(plate->hp, PokeParty_GetParam(plate->pkm, PKM_PARAM_MAX_HP, NULL));
 }
 
 // Where the icon goes for a point of the plate

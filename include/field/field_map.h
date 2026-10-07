@@ -191,9 +191,6 @@ BOOL MapTile_IsCatwalkEntryPoint(u32 tileClass);
 BOOL MapTile_IsHiddenGrottoEntranceGrass(u32 tileClass);
 u32 func_ov036_021a2e18(u32 tileType);
 BOOL CheckSurfBeginTiles(u32 tileType, u32 frontTileType);
-u32 GetWeatherAll(GameSystem *gsys, u16 zoneId);
-void ResetWeather(GameSystem *gsys, s32 zoneId);
-void UpdateWeatherToDefault(GameData *gameData, u16 zoneId);
 
 // Overlay 36: patches of map land data from archive 0x9a, of which Join Avenue's shops are built
 typedef struct LandDataPatch LandDataPatch;

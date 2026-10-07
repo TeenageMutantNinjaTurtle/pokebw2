@@ -256,7 +256,7 @@ BOOL PMSData_IsValid(const PMSData *data, u32 heapId) {
     return FALSE;
 }
 
-BOOL PMSData_Validate(PMSData *data, BOOL allowEmpty, u32 heapId) {
+BOOL PMSData_Validate(PMSData *data, BOOL allowEmpty, HeapID heapId) {
     BOOL valid = TRUE;
     u32 count;
     u32 i;

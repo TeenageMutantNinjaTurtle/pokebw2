@@ -31,7 +31,7 @@
 #define ARCID_TITLE 26
 // The start menu's graphics
 #define ARCID_STARTMENU 34
-// The phrase input's graphics
+// The sentence input's graphics, with the icons that sentences show in place of some words
 #define ARCID_PMSI 42
 #define ARCID_MMODEL_TBL 47
 #define ARCID_MMODEL_GRA 48

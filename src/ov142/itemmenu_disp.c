@@ -30,7 +30,8 @@
 #include "save/save_control.h"
 #include "system/app_keycursor.h"
 #include "system/app_menu_common.h"
-#include "system/app_scrollbar.h"
+#include "system/blink_palanm.h"
+#include "system/scroll_bar.h"
 #include "system/app_taskmenu.h"
 #include "system/bmp_winframe.h"
 #include "system/game_data.h"
@@ -689,7 +690,7 @@ void ItemMenuDisp_DrawList(ItemMenuWork *work) {
             continue;
         }
         data = PML_ItemArcHandleReadFile(arc, slot->item, work->heapId);
-        kind = PML_ItemGetParam(data, ITEM_PARAM_UNK_D);
+        kind = PML_ItemGetParam(data, ITEM_PARAM_KIND);
         if (sRowDimmed[i] == FALSE) {
             if (ItemMenuDisp_IsFieldMoveTM(slot->item) == TRUE) {
                 color = PRINT_COLOR(6, 5, 13);
@@ -751,7 +752,7 @@ void ItemMenuDisp_UpdateListCursor(ItemMenuWork *work) {
     if (func_0203d554() == FALSE) {
         ItemMenuDisp_SetListCursorPalette(work, 1);
     }
-    func_020352b0(work->paletteAnim);
+    BlinkPalAnm_InitAnime(work->paletteAnim);
     func_0204c124(work->scrollBar, ItemMenu_GetItemCount(work) >= ITEMMENU_LIST_ROWS + 1);
     func_0204c504(work->listCursor, 0);
     func_0204c504(work->scrollBar, 0);
@@ -811,7 +812,7 @@ void ItemMenuDisp_UpdateScrollBar(ItemMenuWork *work) {
 
     if (count >= ITEMMENU_LIST_ROWS + 1) {
         func_0204c178(work->scrollBar, &pos, 0xffff);
-        pos.y = func_020355e0(count - ITEMMENU_LIST_ROWS, work->scroll + 1, 26, 142, 0);
+        pos.y = ScrollBar_GetPos(count - ITEMMENU_LIST_ROWS, work->scroll + 1, 26, 142, 0);
         func_0204c140(work->scrollBar, &pos, 0xffff);
     }
 }

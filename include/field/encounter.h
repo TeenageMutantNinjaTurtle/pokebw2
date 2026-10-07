@@ -88,8 +88,10 @@ u16 getSwarmLevelRangeFromData(GameData *gameData);
 u32 func_ov012_02159218(EncountSave *save);
 void func_ov012_0215921c(void);
 void func_ov012_02159220(GameData *gameData);
-u32 GetDefaultWeatherValue(void);
-u32 func_ov012_0215922c(void);
+// A weather that overrides the zone's, which is always WEATHER_NONE
+u32 GetDefaultWeatherValue(GameData *gameData, u16 zoneId);
+// Whether weathers 6 and 7 go back to the zone's own, which is always FALSE
+BOOL func_ov012_0215922c(GameData *gameData);
 // The phenomena (shaking grass, dust clouds, rippling water and flying shadows) of effect_encount.c
 EffectEncountState *EffectEncountState_Create(HeapID heapId);
 void EffectEncountState_Free(EffectEncountState *state);

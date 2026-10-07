@@ -27,7 +27,7 @@ static const u8 sIconPalettes[] = {
     0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1,
 };
 
-u32 func_0202d7d8(void) {
+BOOL func_0202d7d8(void) {
     return 0;
 }
 
@@ -42,11 +42,11 @@ u32 func_0202d7e4(void) {
     return 0x21;
 }
 
-u8 func_0202d7e8(u32 type) {
+u8 func_0202d7e8(u8 type) {
     return sTypeIconPalettes[type];
 }
 
-u32 func_0202d7f4(u32 type) {
+u32 func_0202d7f4(u8 type) {
     return 0x22 + type;
 }
 
@@ -58,11 +58,11 @@ u32 func_0202d7fc(u32 mapping) {
     return 0x3e + mapping;
 }
 
-u8 func_0202d800(u32 index) {
+u8 func_0202d800(u8 index) {
     return sIconPalettes[index];
 }
 
-u32 func_0202d80c(u32 index) {
+u32 func_0202d80c(u8 index) {
     return 0x38 + index;
 }
 
@@ -198,25 +198,25 @@ u32 func_0202d918(u32 mapping) {
     return 0xa9 + mapping;
 }
 
-u32 func_0202d91c(u32 mapping) {
-    if (mapping == 0) {
-        mapping = 4;
+u32 func_0202d91c(u32 ball) {
+    if (ball == 0) {
+        ball = 4;
     }
-    return 0x56 + mapping;
+    return 0x56 + ball;
 }
 
-u32 func_0202d928(u32 mapping) {
-    if (mapping == 0) {
-        mapping = 4;
+u32 func_0202d928(u32 ball) {
+    if (ball == 0) {
+        ball = 4;
     }
-    return 0x6f + mapping;
+    return 0x6f + ball;
 }
 
-u32 func_0202d934(u32 unused, u32 mapping) {
+u32 func_0202d934(u32 ball, u32 mapping) {
     return 0x89 + mapping;
 }
 
-u32 func_0202d93c(u32 unused, u32 mapping) {
+u32 func_0202d93c(u32 ball, u32 mapping) {
     return 0x8c + mapping;
 }
 

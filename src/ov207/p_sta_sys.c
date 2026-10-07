@@ -20,7 +20,7 @@
 #include "nitro/os.h"
 #include "pml/poke_party.h"
 #include "p_status_local.h"
-#include "system/app_common.h"
+#include "system/app_menu_common.h"
 #include "system/game_data.h"
 #include "system/wipe.h"
 

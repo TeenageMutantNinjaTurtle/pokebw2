@@ -216,7 +216,7 @@ GameEvent *EventDayCarePokeSelect_Create(GameSystem *gsys, Field *field, u16 *re
     GameData *gameData = GSYS_GetGameData(gsys);
     PokeParty *party = GameData_GetParty(gameData);
     PokeDexSave *pokedex = GameData_GetPokedex(gameData);
-    PokeListParam *partyParam = func_02034c54(gameData, 0x12, party, HEAPID_GAMEEVENT);
+    PokeListParam *partyParam = PokeListParam_Create(gameData, 0x12, party, HEAPID_GAMEEVENT);
     PStatusParam *summaryParam =
         GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(PStatusParam), FALSE, "scrcmd_sodateya.c", 0x22e);
     GameEvent *event;

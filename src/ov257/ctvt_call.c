@@ -25,6 +25,7 @@
 #include "system/app_taskmenu.h"
 #include "system/bmp_winframe.h"
 #include "system/game_beacon.h"
+#include "system/ctvt_beacon.h"
 #include "system/game_data.h"
 #include "system/printsys.h"
 #include "system/wipe.h"
@@ -1013,7 +1014,7 @@ static void CtvtCall_DrawRow(CommTvtWork *sys, CtvtCall *call, CtvtCallRow *row,
         GFL_BitmapFill(BmpWin_GetBitmap(row->window), 0);
         name = GFL_StrBufCreate(32, heapId);
         if (entry->gameServiceId == CTVT_CALL_SERVICE_CTVT) {
-            GFL_StrBufLoadFixedString(name, func_02035014(entry->beacon), 8);
+            GFL_StrBufLoadFixedString(name, CtvtBeacon_GetPlayerName(entry->beacon), 8);
         } else {
             GFL_StrBufLoadFixedString(name, ((CtvtCallFieldBeacon *)entry->beacon)->beacon.name, 8);
         }
@@ -1023,7 +1024,7 @@ static void CtvtCall_DrawRow(CommTvtWork *sys, CtvtCall *call, CtvtCallRow *row,
         format = GFL_MsgDataLoadStrbufNew(msgData, 14);
         str = GFL_StrBufCreate(32, heapId);
         if (entry->gameServiceId == CTVT_CALL_SERVICE_CTVT) {
-            WordSetNumber(wordSet, 0, func_0203501c(entry->beacon), 5, 2, TRUE);
+            WordSetNumber(wordSet, 0, CtvtBeacon_GetTrainerID(entry->beacon), 5, 2, TRUE);
         } else {
             WordSetNumber(wordSet, 0, ((CtvtCallFieldBeacon *)entry->beacon)->beacon.trainerId, 5, 2, TRUE);
         }

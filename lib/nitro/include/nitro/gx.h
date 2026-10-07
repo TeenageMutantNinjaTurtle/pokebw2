@@ -514,6 +514,8 @@ typedef enum {
 #define GX_CAPTURE_MODE_AB 2
 #define GX_CAPTURE_SRCA_2D3D 0
 #define GX_CAPTURE_SRCB_VRAM_0x00000 0
+#define GX_CAPTURE_DEST_VRAM_A_0x00000 0
+#define GX_CAPTURE_DEST_VRAM_B_0x00000 1
 #define GX_CAPTURE_DEST_VRAM_C_0x00000 2
 #define GX_CAPTURE_DEST_VRAM_D_0x00000 3
 
@@ -1206,7 +1208,8 @@ void gfxAcquireObjBanksA(void);
 void gfxAcquireObjExtPltBanksA(void);
 void gfxAcquireObjBanksB(void);
 void gfxAcquireObjExtPltBanksB(void);
-void gfxAcquireTextureBanks(void);
+// Returns the banks the textures had, as GX_ResetBankForTex does
+u32 gfxAcquireTextureBanks(void);
 void gfxAcquirePaletteBanks(void);
 void gfxSetBGBanksA(u32 banks);
 void gfxSetBGExtPltBanksA(u32 banks);
@@ -1219,6 +1222,8 @@ void gfxSetObjExtPltBanksA(u32 banks);
 void gfxSetObjBanksB(u32 banks);
 void gfxSetObjExtPltBanksB(u32 banks);
 void gfxSetTextureBanks(u32 banks);
+// NitroSDK's GX_GetBankForTex
+u32 gfxGetTextureBanks(void);
 void gfxSetPaletteBanks(u32 banks);
 // NitroSDK's GX_DisableBankForSubBG and GX_DisableBankForSubOBJ
 void gfxDisableBGBanksB(void);
@@ -1232,6 +1237,10 @@ void gfxEngineEnableA(void);
 // VRAM as the CPU sees it with every bank given to it, and OAM
 #define HW_LCDC_VRAM 0x06800000
 #define HW_LCDC_VRAM_SIZE 0xa4000
+#define HW_LCDC_VRAM_A 0x06800000
+#define HW_LCDC_VRAM_B 0x06820000
+#define HW_LCDC_VRAM_C 0x06840000
+#define HW_LCDC_VRAM_D 0x06860000
 // The sub engine's OBJ characters
 #define HW_DB_OBJ_VRAM 0x06600000
 #define HW_OAM 0x07000000

@@ -141,7 +141,7 @@ struct ItemMenuWork {
     u32 result;
     u32 menuAction;
     s32 item;
-    void *paletteAnim;
+    BlinkPalAnm *paletteAnim;
     PaletteFade *paletteFade;
     BOOL buttonsActive;
     BOOL touchHeld;
