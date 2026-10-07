@@ -1,6 +1,6 @@
 #include "types.h"
 #include "app/bag.h"
-#include "app/ov165.h"
+#include "app/pokelist.h"
 #include "app/ov207.h"
 #include "constants/pokemon.h"
 #include "demo/shinka_demo.h"
@@ -88,7 +88,7 @@ typedef struct {
 } Ov145Param;
 
 const FieldProcLink FIELD_PROC_LINK_LIST[15] = {
-    { OVERLAY_ID(165), &data_ov165_021a4ce0, func_ov012_0215b7d8, func_ov012_0215b9cc, NULL, func_ov012_0215c594 },
+    { OVERLAY_ID(165), &POKELIST_PROC_FUNCTIONS, func_ov012_0215b7d8, func_ov012_0215b9cc, NULL, func_ov012_0215c594 },
     { OVERLAY_ID(302), &data_ov189_021ae3dc, func_ov012_0215bad4, func_ov012_0215bb44, NULL, func_ov012_0215c594 },
     { OVERLAY_ID(142), &data_ov142_021a0910, func_ov012_0215bd48, func_ov012_0215bdd0, NULL, func_ov012_0215c594 },
     { OVERLAY_ID(186), &data_ov012_0216dd78, func_ov012_0215bef4, func_ov012_0215bf58, NULL, func_ov012_0215c594 },
@@ -300,7 +300,7 @@ BOOL func_ov012_0215b7c0(FieldAppCallParam *param) {
 // The party screen
 void *func_ov012_0215b7d8(FieldAppCallWork *work, s32 appParam, s32 prevAppId, void *prevParam) {
     GameData *gameData = GSYS_GetGameData(work->input->gameSystem);
-    Ov165Param *param = func_02034c54(gameData, 0, GameData_GetParty(gameData), HEAPID_GAMEEVENT);
+    PokeListParam *param = func_02034c54(gameData, 0, GameData_GetParty(gameData), HEAPID_GAMEEVENT);
     BagProcessData *bag;
     Ov207Param *status;
     BOOL mailResult;
@@ -365,16 +365,16 @@ void *func_ov012_0215b7d8(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
             if (status->unkD == 2) {
                 if (work->subMode == 6) {
                     param->mode = 8;
-                    param->unk60 = work->unk6C;
+                    param->learnIndex = work->unk6C;
                 } else {
                     param->mode = 7;
                 }
                 param->item = work->item;
                 param->move = status->move;
                 if (status->result == 0) {
-                    param->unk58 = status->slot;
+                    param->moveSlot = status->slot;
                 } else {
-                    param->unk58 = 0xff;
+                    param->moveSlot = 0xff;
                 }
             } else {
                 param->mode = 0;
@@ -408,7 +408,7 @@ void *func_ov012_0215b7d8(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
 }
 
 u32 func_ov012_0215b9cc(FieldAppCallWork *work, void *data) {
-    Ov165Param *param = data;
+    PokeListParam *param = data;
     GameData *gameData;
 
     work->input->partySlot = param->index;
@@ -448,7 +448,7 @@ u32 func_ov012_0215b9cc(FieldAppCallWork *work, void *data) {
     case 5:
         work->nextAppId = FIELD_APP_POKESTATUS;
         work->item = param->item;
-        work->unk6C = param->unk60;
+        work->unk6C = param->learnIndex;
         return FIELD_APP_RESULT_NEXT;
     case 6:
     case 7:
@@ -517,7 +517,7 @@ void *func_ov012_0215bb70(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
     GameData *gameData = GSYS_GetGameData(work->input->gameSystem);
     SaveControl *save = GameData_GetSaveControl(gameData);
     PokeDexSave *pokedex = GameData_GetPokedex(gameData);
-    Ov165Param *partyParam;
+    PokeListParam *partyParam;
     s32 i;
     PokeParty *party;
     PartyPkm *pkm;
@@ -624,7 +624,7 @@ u32 func_ov012_0215bd1c(GameSystem *gsys) {
 void *func_ov012_0215bd48(FieldAppCallWork *work, s32 appParam, s32 prevAppId, void *prevParam) {
     GameData *gameData = GSYS_GetGameData(work->input->gameSystem);
     BagProcessData *param;
-    Ov165Param *partyParam = prevParam;
+    PokeListParam *partyParam = prevParam;
 
     switch (prevAppId) {
     case FIELD_APP_BAG:
@@ -875,7 +875,7 @@ u32 func_ov012_0215c138(FieldAppCallWork *work, void *data) {
 // The mail
 void *func_ov012_0215c160(FieldAppCallWork *work, s32 appParam, s32 prevAppId, void *prevParam) {
     GameData *gameData = GSYS_GetGameData(work->input->gameSystem);
-    Ov165Param *partyParam;
+    PokeListParam *partyParam;
     BagProcessData *bag;
     PokeParty *party;
     void *param;
@@ -950,7 +950,7 @@ void func_ov012_0215c2c8(void *param) {
 void *script_evo(FieldAppCallWork *work, s32 appParam, s32 prevAppId, void *prevParam) {
     GameData *gameData = GSYS_GetGameData(work->input->gameSystem);
     ShinkaDemoParam *param = NULL;
-    Ov165Param *partyParam = prevParam;
+    PokeListParam *partyParam = prevParam;
     PokeParty *party;
     PartyPkm *pkm;
     PlayerState *playerState;

@@ -1,7 +1,7 @@
 // The battle facilities' events: picking the Pokémon to enter, and a Trainer's message in a balloon. The name is a
 // guess after fld_btl_inst_tool.c, which follows it
 #include "types.h"
-#include "app/ov165.h"
+#include "app/pokelist.h"
 #include "app/ov207.h"
 #include "battle/regulation.h"
 #include "field/field.h"
@@ -23,7 +23,7 @@ typedef struct {
     GameSystem *gsys;
     Field *field;
     Ov207Param summaryParam;
-    Ov165Param partyParam;
+    PokeListParam partyParam;
     Regulation regulation;
     u32 *result;
     u32 *choice;
@@ -48,7 +48,7 @@ GameEvent *func_ov012_02161c88(GameSystem *gsys, u32 a1, u32 mode, u32 regulatio
     Field *field = GSYS_GetField(gsys);
     GameEvent *event = GameEvent_Create(gsys, NULL, func_ov012_02161d54, sizeof(BtlInstPokeSelectWork));
     BtlInstPokeSelectWork *work = GameEvent_GetData(event);
-    Ov165Param *partyParam;
+    PokeListParam *partyParam;
     Ov207Param *summaryParam;
     GameData *gameData;
     PokeDexSave *pokedex;

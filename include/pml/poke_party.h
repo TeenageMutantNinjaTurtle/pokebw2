@@ -49,6 +49,9 @@ void PokeParty_SetHiddenAbil(PartyPkm *pkm, u32 species, u32 form);
 void PokeParty_SetDefaultMoves(PartyPkm *pkm);
 void FriendshipManagerCalc(PartyPkm *pkm, u32 reason, u16 zoneId, u16 heapId);
 void func_02020c8c(PartyPkm *pkm, u32 value, u16 zoneId, HeapID heapId);
+// Whether a move's PP is below its maximum, and restoring amount of it
+BOOL PokeParty_CheckPPNeedsReplenish(PartyPkm *pkm, u32 slot);
+BOOL PokeParty_AddPP(PartyPkm *pkm, u32 slot, u32 amount);
 void func_02020cf0(PokeParty *party, u16 zoneId, HeapID heapId);
 // Read and write a field of a Pokémon, PKM_PARAM_*. Fields that are not numbers go through the buffer
 // A field of a Pokémon, PKM_PARAM_*. The functions take it as an enum, swan's PkmField, and MWCC doesn't share a sum
@@ -95,6 +98,9 @@ void PokeParty_ClearPkm(PartyPkm *pkm);
 // Restores a Pokémon's HP and PP and cures its status
 void PokeParty_Recover(PartyPkm *pkm);
 void PokeParty_RecalcStats(PartyPkm *pkm);
+u32 PokeParty_GetLevel(PartyPkm *pkm);
+// Whether a Pokémon can learn the TM or HM of the number PML_ItemGetTMBitMask gives
+BOOL canPkmLearnTM_Wrapper(PartyPkm *pkm, u8 tm);
 void setLevel(PartyPkm *pkm, u32 level);
 u32 PokeParty_GetLevel(PartyPkm *pkm);
 // Counts down the Pokérus of the party's Pokémon by days
@@ -116,20 +122,29 @@ int countAllEggsInParty(PokeParty *party);
 int countSanityEggsInParty(PokeParty *party);
 int PokeParty_GetCapacity(PokeParty *party);
 BOOL PokeParty_AddPkm(PokeParty *party, PartyPkm *pkm);
+void PokeParty_SwapPkms(PokeParty *party, u32 indexA, u32 indexB, HeapID heapId);
 void PokeParty_RemovePkm(PokeParty *party, u32 index);
 void PokeParty_RecoverAll(PokeParty *party);
 void PokeParty_ChangeForme(PartyPkm *pkm, u32 forme);
+// The form of Arceus for a plate, and of Genesect for a drive
+u16 _getTypeForPlate(u16 item);
+u32 func_0201ef8c(u16 item);
 // Teaches a move, and returns 0xffff when all four slots are full
 u16 PokeParty_LearnMove(PartyPkm *pkm, u16 move);
 // Replaces the last move
 void PokeParty_SetLastMove(PartyPkm *pkm, u16 move);
 void PML_PkmChangeRotomForme(PartyPkm *pkm, u32 moveSlot, u32 forme);
 void PokeParty_SetMove(PartyPkm *pkm, u32 move, u8 slot);
+// Learn a move, and set a move in a slot, as the move tutors teach them
+u16 func_0201d268(PartyPkm *pkm, u16 move);
+void func_0201d2d0(PartyPkm *pkm, u32 move, u8 slot);
 u16 *PokeParty_GetRememberableMoves(PartyPkm *pkm, HeapID heapId);
 BOOL doesPkmHaveLevelMoveToLearn(const u16 *moves);
 // The next move that a Pokémon learns at its level, going on from *index: 0 once there are none left, 0xfffe for one
 // it already knows, and the move with 0x8000 set when it has no free slot for it
 u16 func_0201d358(PartyPkm *pkm, u32 *index, HeapID heapId);
+#define LEARN_MOVE_KNOWN 0xfffe
+#define LEARN_MOVE_NO_SLOT 0x8000
 // Allocates a Pokémon that is not in a party. What the 64-bit argument sets is not known yet; 0 is one of the values
 // that PML_CreatePkm treats specially
 PartyPkm *PokeParty_NewTempPkm(u16 species, u16 level, u64 a2, HeapID heapId);

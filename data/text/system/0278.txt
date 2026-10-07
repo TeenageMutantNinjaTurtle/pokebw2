@@ -1,0 +1,21 @@
+{bd02}The Unova Defense Force (UDF)...\n\n{bd02}This organization strives to keep\n{bd02}the Unova region at peace...
+{bd02}This is the story of\n{bd02}their valiant struggle...
+{bd02}Along the coastline,\n{bd02}a mysterious giant organism\n{bd02}suddenly appeared...
+{bd02}To find out its true identity,\n{bd02}the young recruit {0100:1}\n{bd02}hurried to the scene.
+なし
+なし
+なし
+なし
+なし
+なし
+{bd02}The Unova Defense Force (UDF)...\n\n{bd02}This organization strives to keep\n{bd02}the Unova region at peace...
+{bd02}This is the story of\n{bd02}their valiant struggle...
+{bd02}Along the coastline,\n{bd02}a mysterious giant organism\n{bd02}suddenly appeared...
+{bd02}To find out its true identity,\n{bd02}the young recruit {0100:1}\n{bd02}hurried to the scene.
+なし
+なし
+なし
+なし
+なし
+なし
+なし

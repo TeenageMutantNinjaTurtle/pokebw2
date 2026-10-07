@@ -1,0 +1,36 @@
+                \x{ffff}
+       \x{ffff}
+                               \x{ffff}
+You don't have enough money.{be01}
+{0109:0}? Certainly.\nHow many would you like?
+{0109:0}, and you want {0201:1}.\nThat will be ${0206:2}. OK?
+{0109:0} will cost {0203:2} BP.\nIs that OK?
+No. {0201:0}, {0107:1}?\nThat will be ${0204:2}. OK?
+No. {0201:0}, {0107:1}?\nThat will be {0203:2} BP. OK?
+Here you are!\nThank you!{be05:1}{be01}\nYou put away the {0109:0}\nin the {0112:1} Case.{be01}
+You can't take any more of this item.{be01}
+Cancel
+${0204:1}
+{0201:1} BP
+---
+You also get a Premier Ball as\nan added bonus.{be01}
+You don't have enough BP.{be01}
+      \x{ffff}
+      \x{ffff}
+         \x{ffff}
+Money
+${0206:0}
+{0203:0} BP
+In Bag: {0202:0}
+x {0201:0}
+${0206:0}
+{0205:0} BP
+    \x{ffff}
+    \x{ffff}
+{0107:1}
+{0107:0}. Got it.\nThat will be {0201:2} {0109:1}, OK?
+{0201:1} Shards
+You don't have enough {0109:0}!{be01}
+Pick the Pokémon you\nwant to learn the move.{be01}
+x {0202:0}
+\pad{fc}

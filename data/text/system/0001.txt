@@ -1,0 +1,53 @@
+HP/PP
+RESTORE
+STATUS
+RESTORE
+     \x{ffff}
+    \x{ffff}
+BATTLE ITEMS
+POKÉ BALLS
+LAST USED ITEM
+{0109:0}
+x{0202:0}
+{0109:0}
+x{0202:0}
+{0109:0}
+x{0202:0}
+{0109:0}
+x{0202:0}
+{0109:0}
+x{0202:0}
+{0109:0}
+x{0202:0}
+    \x{ffff}
+HP/PP
+RESTORE
+STATUS
+RESTORE
+POKÉ BALLS
+BATTLE ITEMS
+/
+{0200:0}
+{0200:0}
+USE
+    \x{ffff}
+     \x{ffff}
+              \x{ffff}
+              \x{ffff}
+             \x{ffff}
+                 \x{ffff}
+                 \x{ffff}
+                 \x{ffff}
+                 \x{ffff}
+                 \x{ffff}
+                    \x{ffff}
+           \x{ffff}
+It's no good! It's impossible to aim\nwhen there are two Pokémon!
+There is no room left in the PC!
+                         \x{ffff}
+It's no good! It's impossible to aim\nat a Pokémon that's not in sight!
+                               \x{ffff}
+It's not charged enough.
+Juniper's words echoed...\nThere's a time and{be00}\nplace for everything! But not now.
+It's impossible to aim\nwithout being focused!
+It's impossible to use Poké Balls\nbecause of the device Ghetsis developed!

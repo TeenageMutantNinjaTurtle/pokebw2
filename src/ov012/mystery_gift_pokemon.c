@@ -197,7 +197,7 @@ PartyPkm *func_ov012_02153160(MysteryGift *gift, HeapID heapId, GameData *gameDa
         }
         setFatefulEncounterPkmData(func_0201d620(pkm), location, year - 2000, month, day);
         PokeParty_RecalcStats(pkm);
-        if (PokeParty_GetParam(pkm, PKM_PARAM_CHECKSUM_FAILED, NULL)) {
+        if (PokeParty_GetParam(pkm, PKM_PARAM_BAD_EGG, NULL)) {
             GFL_HeapFree(pkm);
             return NULL;
         }

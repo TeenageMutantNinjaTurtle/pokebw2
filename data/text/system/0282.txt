@@ -1,0 +1,22 @@
+{bd02}After much research, a genius scientist\n{bd02}and his assistant have finally\n{bd02}completed the temporal transport,\n{bd02}a machine that can travel to the future!
+{bd02}The test run of this\n{bd02}historic invention\n{bd02}is about to commence...
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+{bd02}After much research, a genius scientist\n{bd02}and her assistant have finally\n{bd02}completed the temporal transport,\n{bd02}a machine that can go to the future!
+{bd02}The test run of this\n{bd02}historic invention\n{bd02}is about to commence...
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+\pad{a0}

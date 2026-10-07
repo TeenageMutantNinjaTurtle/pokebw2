@@ -6,11 +6,13 @@ Run this once after cloning (and again after adding source files), then run `nin
 import argparse
 import io
 import json
+import platform
 import shlex
 import shutil
 import stat
 import subprocess
 import sys
+import tomllib
 import urllib.request
 import zipfile
 from pathlib import Path
@@ -27,6 +29,17 @@ OBJDIFF_VERSION = "v3.8.1"
 # decomp.me name of the dsi/1.1p1 compiler (build 1024), for objdiff's scratch button
 DECOMP_ME_COMPILER = "mwcc_40_1024"
 MWCCARM_URL = "http://decomp.aetias.com/files/mwccarm.zip"
+# dsd with DSi hybrid ROM support comes from a fork of ds-decomp (and of ds-rom, which its Cargo.toml pins) until the
+# changes are upstreamed. Its dsi-hybrid branch is released as DSD_VERSION; after a new release, bump it and
+# configure.py replaces tools/dsd.
+DSD_REPO = "https://github.com/fuddlesworth/ds-decomp"
+DSD_VERSION = "v0.12.1-dsi.1"
+# Release binary of each platform, by (sys.platform, machine)
+DSD_BINARIES = {
+    ("linux", "x86_64"): "dsd-linux-x86_64",
+    ("darwin", "arm64"): "dsd-macos-arm64",
+    ("darwin", "x86_64"): "dsd-macos-x86_64",
+}
 # Compiler for decompiled code. The game code needs dsi/1.1p1 or later: after a store to a field, dsi/1.1 reuses the
 # stored register where the game reloads the field. dsi/1.1p1 to dsi/1.3p1 generate identical code for everything
 # tested so far, while dsi/1.6 does not match the game.
@@ -54,35 +67,62 @@ CC_FLAGS = [
     "-msgstyle gcc",
 ]
 
-# Nintendo's SPL particle library was built apart from the game, with an older compiler, as ARM code and without
-# interprocedural analysis, and against an older NitroSDK, whose headers differ (OLD_NITRO_SDK). Sources under each
-# directory here are compiled with its compiler and flags
-LIB_COMPILERS = {
-    "src/spl/": ("1.2/base", [
-        "-O4,p",
-        "-proc arm946e",
-        "-nothumb",
-        "-interworking",
-        "-enum int",
-        "-char signed",
-        "-fp soft",
-        "-lang=c99",
-        "-Cpp_exceptions off",
-        "-gccext,on",
-        "-gccinc",
-        "-sym on",
-        "-requireprotos",
-        "-nolink",
-        "-msgstyle gcc",
-        "-d OLD_NITRO_SDK",
-    ]),
-}
+# Libraries built apart from the game, each with its own compiler and flags: lib/<name>/ holds a library's public
+# headers in include/, its sources in src/, and its compiler and flags in library.toml. A library without sources, such
+# as one whose headers are all that is decompiled so far, needs no library.toml.
+LIB_DIR = ROOT / "lib"
+
+
+def load_libraries() -> dict[str, tuple[str, list[str]]]:
+    """Returns the compiler and flags of each library with sources, keyed by its source directory ("lib/spl/src/")."""
+    libraries = {}
+    for lib in sorted(p for p in LIB_DIR.iterdir() if p.is_dir()):
+        settings = lib / "library.toml"
+        if not settings.exists():
+            if (lib / "src").exists():
+                sys.exit(f"{lib.relative_to(ROOT)} has sources but no library.toml")
+            continue
+        with settings.open("rb") as f:
+            library = tomllib.load(f)
+        libraries[f"{(lib / 'src').relative_to(ROOT).as_posix()}/"] = (library["compiler"], library["flags"])
+    return libraries
+
+
+LIBRARIES = load_libraries()
+# Header search path of every source file, the game's and the libraries': the game's headers and each library's public
+# headers. A library's private headers sit beside its sources.
+INCLUDE_DIRS = ["include", *(p.relative_to(ROOT).as_posix() for p in sorted(LIB_DIR.glob("*/include")))]
+
+
+def library_of(source: Path) -> tuple[str, list[str]] | None:
+    """Returns the compiler and flags of the library a source file belongs to, or None for the game's own code."""
+    relative = (ROOT / source).resolve().relative_to(ROOT).as_posix()
+    return next((library for prefix, library in LIBRARIES.items() if relative.startswith(prefix)), None)
+
 
 # Archives built from source, which replace their extracted counterparts in the ROM. Each maps its path under files/ to
-# the directory of its members, one assembly file each, in archive order.
+# the directory of its members, one assembly file each, in archive order; or to the directory and a section, for two
+# archives whose entries go together, such as a trainer and its party, and come from the same file.
 ARCHIVES = {
+    "a/0/1/2": "data/zones",  # Zone headers, see tools/scripts/zone_data.py
+    "a/0/1/6": "data/personal",  # Species data, see tools/scripts/personal_data.py
+    "a/0/1/8": "data/levelup_moves",  # Level-up moves, see tools/scripts/species_tables.py
+    "a/0/1/7": "data/growth_rates",  # Experience tables, see tools/scripts/species_tables.py
+    "a/0/1/9": "data/evolutions",  # Evolutions, see tools/scripts/species_tables.py
+    "a/0/2/0": "data/baby_species",  # Baby species, see tools/scripts/species_tables.py
+    "a/0/2/1": "data/moves",  # Move data, see tools/scripts/move_data.py
     "a/0/5/6": "data/field_scripts",  # Field scripts, see tools/scripts/field_script.py
+    "a/0/9/1": ("data/trainers", ".trainer"),  # Trainers, see tools/scripts/trainer_data.py
+    "a/0/9/2": ("data/trainers", ".party"),  # Their parties, from the same files
+    "a/1/2/7": "data/encounters",  # Wild encounters, see tools/scripts/encounter_data.py
     "a/1/6/9": "data/tr_ai",  # Trainer AI scripts, see tools/scripts/tr_ai_script.py
+}
+
+# Text archives built from source, by tools/scripts/text_data.py: each maps its path under files/ to the directory of its
+# message files, one text file each, in archive order
+TEXT_ARCHIVES = {
+    "a/0/0/2": "data/text/system",  # System messages
+    "a/0/0/3": "data/text/script",  # Script messages
 }
 
 LD_FLAGS = [
@@ -153,18 +193,48 @@ def download_tools(tools_dir: Path):
         objdiff.chmod(objdiff.stat().st_mode | stat.S_IEXEC)
 
     mwccarm = tools_dir / "mwccarm"
-    if not mwccarm.exists():
+    compilers = ["dsi", *(compiler for compiler, _ in LIBRARIES.values())]
+    if not all((mwccarm / compiler).exists() for compiler in compilers):
         print("Downloading mwccarm")
         with urllib.request.urlopen(MWCCARM_URL) as response:
             archive = zipfile.ZipFile(io.BytesIO(response.read()))
-        versions = ("mwccarm/dsi/", *(f"mwccarm/{compiler}/" for compiler, _ in LIB_COMPILERS.values()))
+        versions = tuple(f"mwccarm/{compiler}/" for compiler in compilers)
         members = [m for m in archive.namelist() if m.startswith(versions)]
         archive.extractall(tools_dir, members)
 
 
-def add_version(n: Writer, version: str, dsd: Path, bugfix: bool) -> tuple[list[Path], list[str]]:
+def get_dsd(tools_dir: Path, from_source: bool) -> Path:
+    """Downloads DSD_VERSION of dsd, or builds it from that tag with cargo, unless tools/dsd is already that version. A
+    tools/dsd without tools/dsd.rev was built by hand, from a working copy of the fork, and is kept."""
+    dsd = tools_dir / "dsd"
+    stamp = tools_dir / "dsd.rev"
+    if dsd.exists() and (not stamp.exists() or stamp.read_text().strip() == DSD_VERSION):
+        return dsd
+
+    binary = DSD_BINARIES.get((sys.platform, platform.machine().lower()))
+    if binary and not from_source:
+        print(f"Downloading dsd {DSD_VERSION}")
+        urllib.request.urlretrieve(f"{DSD_REPO}/releases/download/{DSD_VERSION}/{binary}", dsd)
+        dsd.chmod(dsd.stat().st_mode | stat.S_IEXEC)
+    else:
+        if not shutil.which("cargo"):
+            sys.exit("building dsd from source needs cargo, see README.md")
+        repo = tools_dir / "src" / "ds-decomp"
+        if repo.exists():
+            shutil.rmtree(repo)
+        print(f"Building dsd {DSD_VERSION} from source")
+        subprocess.run(["git", "-c", "advice.detachedHead=false", "clone", "--quiet", "--depth", "1",
+                        "--branch", DSD_VERSION, DSD_REPO, str(repo)], check=True)
+        subprocess.run(["cargo", "build", "--release", "--locked"], cwd=repo, check=True)
+        shutil.copy2(repo / "target" / "release" / "dsd", dsd)
+    stamp.write_text(DSD_VERSION + "\n")
+    return dsd
+
+
+def add_version(n: Writer, version: str, dsd: Path, bugfix: bool, shift: int) -> tuple[list[Path], list[str]]:
     """Adds the build steps of one version. Returns its check targets and dsd config files. A build with the bugs fixed
-    does not match, so its only targets are the ROM and its archives."""
+    or with its code shifted does not match, so its only targets are the ROM and its archives."""
+    matching = not bugfix and not shift
     baserom = Path("orig") / f"baserom_{version}.nds"
     extract_dir = Path("extract") / version
     config_dir = Path("config") / version
@@ -201,6 +271,12 @@ def add_version(n: Writer, version: str, dsd: Path, bugfix: bool) -> tuple[list[
     n.build(delink_outputs, "delink", dsd_configs, implicit=[extract_dir / "config.yaml"],
             variables={"config": str(arm9_config)})
     n.build([lcf_file, objects_file], "lcf", dsd_configs, variables={"config": str(arm9_config)})
+    link_lcf = lcf_file
+    if shift:
+        # Padding in the linker script moves the code and data after it, see tools/scripts/shift_lcf.py
+        link_lcf = build_dir / "arm9_shifted.lcf"
+        n.build([link_lcf], "shift_lcf", [lcf_file], implicit=["tools/scripts/shift_lcf.py"],
+                variables={"amount": hex(shift)})
 
     # Source files are listed in delinks.txt by their path. Complete files are linked from the compiled object, and
     # incomplete ones are still compiled so objdiff can compare them.
@@ -213,30 +289,36 @@ def add_version(n: Writer, version: str, dsd: Path, bugfix: bool) -> tuple[list[
         source = Path(f["name"])
         if source.suffix in (".c", ".cpp") and source.exists():
             obj = build_dir / source.with_suffix(".o")
-            rule = next((f"mwcc_{i}" for i, lib in enumerate(LIB_COMPILERS) if str(source).startswith(lib)), "mwcc")
+            rule = next((f"mwcc_{i}" for i, lib in enumerate(LIBRARIES) if str(source).startswith(lib)), "mwcc")
             n.build([obj], rule, [source], variables={"defines": defines, "dep": obj.with_suffix(".d")})
             compiled.append(obj)
         objects.append(f["object_to_link"])
 
     arm9_o = build_dir / "arm9.o"
-    n.build([arm9_o], "mwld", objects, implicit=[lcf_file, objects_file],
-            variables={"objects": objects_file, "lcf": lcf_file})
+    n.build([arm9_o], "mwld", objects, implicit=[link_lcf, objects_file],
+            variables={"objects": objects_file, "lcf": link_lcf})
 
     # The ROM's file system is the extracted one, with the archives built from source in place of the extracted ones.
     # The tree is made first, so that no archive is written through a link into extract/.
     files_dir = build_dir / "files"
     files_ok = stamp_dir / "files.ok"
     n.build([files_ok], "files_tree", [], implicit=[extract_dir / "config.yaml", "tools/scripts/files_tree.py"],
-            variables={"source": str(extract_dir / "files"), "output": str(files_dir), "built": " ".join(ARCHIVES)})
+            variables={"source": str(extract_dir / "files"), "output": str(files_dir), "built": " ".join([*ARCHIVES, *TEXT_ARCHIVES])})
     archives = []
     checks = []
-    for path, source_dir in ARCHIVES.items():
+    assembled = set()
+    for path, spec in ARCHIVES.items():
+        # A directory, or a directory and the section of its files that this archive takes
+        source_dir, section = (spec, None) if isinstance(spec, str) else spec
         members = []
         for source in sorted(Path(source_dir).glob("*.s")):
             obj = build_dir / source.with_suffix(".o")
-            n.build([obj], "as", [source], variables={"dep": obj.with_suffix(".d"), "defines": as_defines})
-            n.build([obj.with_suffix(".bin")], "objcopy_bin", [obj])
-            members.append(obj.with_suffix(".bin"))
+            if obj not in assembled:
+                n.build([obj], "as", [source], variables={"dep": obj.with_suffix(".d"), "defines": as_defines})
+                assembled.add(obj)
+            member = obj.with_name(f"{obj.stem}{section or ''}.bin")
+            n.build([member], "objcopy_bin", [obj], variables={"sections": f"-j {section}" if section else ""})
+            members.append(member)
         archive = files_dir / path
         n.build([archive], "narc", members, implicit=["tools/scripts/narc.py"], order_only=[files_ok])
         archive_ok = stamp_dir / "files" / f"{path.replace('/', '_')}.ok"
@@ -244,7 +326,20 @@ def add_version(n: Writer, version: str, dsd: Path, bugfix: bool) -> tuple[list[
                 variables={"original": str(extract_dir / "files" / path)})
         archives.append(archive)
         checks.append(archive)
-        if not bugfix:
+        if matching:
+            checks.append(archive_ok)
+
+    for path, source_dir in TEXT_ARCHIVES.items():
+        archive = files_dir / path
+        n.build([archive], "text_pack", sorted(Path(source_dir).glob("*.txt")),
+                implicit=["tools/scripts/text_data.py", "tools/scripts/msgdata.py", "tools/scripts/narc.py"],
+                order_only=[files_ok], variables={"dir": source_dir})
+        archive_ok = stamp_dir / "files" / f"{path.replace('/', '_')}.ok"
+        n.build([archive_ok], "check_file", [archive], implicit=[extract_dir / "config.yaml"],
+                variables={"original": str(extract_dir / "files" / path)})
+        archives.append(archive)
+        checks.append(archive)
+        if matching:
             checks.append(archive_ok)
 
     rom_config = build_dir / "build" / "rom_config.yaml"
@@ -255,7 +350,7 @@ def add_version(n: Writer, version: str, dsd: Path, bugfix: bool) -> tuple[list[
     n.build([modules_ok], "check_modules", [rom_config], variables={"config": str(arm9_config)})
     rom_ok = stamp_dir / "rom.ok"
     n.build([rom_ok], "sha1", [sha1_file], implicit=[rom], variables={"rom": str(rom)})
-    n.build([version], "phony", [rom] if bugfix else [modules_ok, rom_ok])
+    n.build([version], "phony", [modules_ok, rom_ok] if matching else [rom])
 
     # Context files for decomp.me scratches, made by objdiff
     for obj in compiled:
@@ -266,7 +361,7 @@ def add_version(n: Writer, version: str, dsd: Path, bugfix: bool) -> tuple[list[
     report = build_dir / "report.json"
     n.build([report], "report", [], implicit=["objdiff.json", *compiled, *delink_outputs])
     n.build([f"{version}_progress"], "progress", [report])
-    if bugfix:
+    if not matching:
         return [rom, *checks], dsd_configs
     return [modules_ok, rom_ok, *checks], dsd_configs
 
@@ -275,9 +370,15 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("versions", nargs="*", choices=[[], *VERSIONS],
                         help="versions to build, defaults to every version with a base ROM in orig/")
-    parser.add_argument("--dsd", type=Path, default=ROOT / "tools" / "dsd", help="path to the dsd executable")
+    parser.add_argument("--dsd", type=Path, default=None,
+                        help="path to the dsd executable, defaults to tools/dsd, downloaded as DSD_VERSION")
+    parser.add_argument("--dsd-from-source", action="store_true",
+                        help="build DSD_VERSION of dsd with cargo instead of downloading it")
     parser.add_argument("--wine", default=None, help="run the Metrowerks tools with this instead of wibo")
-    parser.add_argument("--no-download", action="store_true", help="do not download missing tools")
+    parser.add_argument("--no-download", action="store_true", help="do not download or build missing tools")
+    parser.add_argument("--shift", type=lambda s: int(s, 0), default=0, metavar="BYTES",
+                        help="pad the code so that it and everything after it moves, to test that a mod can change "
+                             "code sizes; the ROMs no longer match. A multiple of 32, such as 0x100")
     parser.add_argument("--bugfix", action="store_true",
                         help="fix the game's bugs that are marked with BUGFIX in the source; the ROMs no longer match")
     args = parser.parse_args()
@@ -285,13 +386,18 @@ def main():
     versions = args.versions or [v for v in VERSIONS if (ROOT / "orig" / f"baserom_{v}.nds").exists()]
     if not versions:
         sys.exit("no base ROMs found in orig/, see README.md")
-    dsd = args.dsd.resolve()
-    if not dsd.exists():
-        sys.exit(f"dsd not found at {dsd}, see README.md for how to build it")
 
     tools_dir = ROOT / "tools"
     if not args.no_download:
         download_tools(tools_dir)
+    if args.dsd:
+        dsd = args.dsd.resolve()
+    elif args.no_download:
+        dsd = tools_dir / "dsd"
+    else:
+        dsd = get_dsd(tools_dir, args.dsd_from_source)
+    if not dsd.exists():
+        sys.exit(f"dsd not found at {dsd}, see README.md")
     wine = args.wine or str(tools_dir / "wibo")
     clang = shutil.which("clang")
     llvm_objcopy = shutil.which("llvm-objcopy")
@@ -305,6 +411,8 @@ def main():
     n.variable("dsd", shlex.quote(str(dsd)))
     n.variable("wine", shlex.quote(wine))
     n.variable("python", shlex.quote(sys.executable))
+    n.variable("includes", " ".join(f"-i {d}" for d in INCLUDE_DIRS))
+    n.variable("as_includes", " ".join(f"-I {d}" for d in INCLUDE_DIRS))
     n.out.write("\n")
 
     n.rule("check_baserom", "echo '$sha1  $in' | sha1sum --quiet -c - && touch $out", "Checking base ROM $in")
@@ -313,19 +421,21 @@ def main():
     n.rule("lcf", "$dsd lcf --config-path $config", "Generating linker script for $config")
     # mwccarm writes the dependency file next to the object, with Windows paths that fix_depfile.py converts
     n.rule("mwcc", f"mkdir -p $$(dirname $out) && $wine {shlex.quote(str(mwcc))} {' '.join(CC_FLAGS)} $defines "
-           "-gccdep -MD -i include -o $out $in && $python tools/scripts/fix_depfile.py $dep", "Compiling $in",
+           "-gccdep -MD $includes -o $out $in && $python tools/scripts/fix_depfile.py $dep", "Compiling $in",
            depfile="$dep", deps="gcc")
-    for i, (compiler, flags) in enumerate(LIB_COMPILERS.values()):
+    for i, (compiler, flags) in enumerate(LIBRARIES.values()):
         lib_mwcc = tools_dir / "mwccarm" / compiler / "mwccarm.exe"
         n.rule(f"mwcc_{i}", f"mkdir -p $$(dirname $out) && $wine {shlex.quote(str(lib_mwcc))} {' '.join(flags)} "
-               "$defines -gccdep -MD -i include -o $out $in && $python tools/scripts/fix_depfile.py $dep",
+               "$defines -gccdep -MD $includes -o $out $in && $python tools/scripts/fix_depfile.py $dep",
                "Compiling $in", depfile="$dep", deps="gcc")
+    n.rule("shift_lcf", "$python tools/scripts/shift_lcf.py $in $out $amount", "Shifting $in")
     n.rule("mwld", f"$wine {shlex.quote(str(mwld))} {' '.join(LD_FLAGS)} @$objects $lcf -o $out", "Linking $out")
     # Scripts go through the C preprocessor, so that they can include the constant headers
-    n.rule("as", f"{shlex.quote(clang)} --target=armv5te-none-eabi -x assembler-with-cpp -c -I include $defines "
+    n.rule("as", f"{shlex.quote(clang)} --target=armv5te-none-eabi -x assembler-with-cpp -c $as_includes $defines "
            "-MD -MF $dep -o $out $in", "Assembling $in", depfile="$dep", deps="gcc")
-    n.rule("objcopy_bin", f"{shlex.quote(llvm_objcopy)} -O binary $in $out", "Converting $in")
+    n.rule("objcopy_bin", f"{shlex.quote(llvm_objcopy)} -O binary $sections $in $out", "Converting $in")
     n.rule("narc", "$python tools/scripts/narc.py pack $out $in", "Packing $out")
+    n.rule("text_pack", "$python tools/scripts/text_data.py pack $dir $out", "Packing $out")
     n.rule("check_file", "cmp $in $original && mkdir -p $$(dirname $out) && touch $out", "Checking $in")
     n.rule("files_tree", "$python tools/scripts/files_tree.py $source $output $built --stamp $out",
            "Linking the files of $output")
@@ -335,20 +445,21 @@ def main():
     n.rule("rom_build", "$dsd rom build --config $in --rom $out", "Building $out")
     n.rule("check_modules", "$dsd check modules --config-path $config --fail && touch $out", "Checking modules")
     n.rule("sha1", "sha1sum --quiet -c $in && touch $out", "Checking $rom")
-    n.rule("ctx", f"$wine {shlex.quote(str(mwcc))} -EP -lang=c99 -gccinc $defines -i include $in "
+    n.rule("ctx", f"$wine {shlex.quote(str(mwcc))} -EP -lang=c99 -gccinc $defines $includes $in "
            "| grep -v -e '^#line' -e 'prepdump' > $out", "Preprocessing $in")
     n.rule("objdiff_config", f"$python tools/scripts/objdiff_config.py $version --dsd $dsd "
            f"--compiler {DECOMP_ME_COMPILER} --c-flags '{' '.join(CC_FLAGS)}' -o $out", "Writing $out")
     n.rule("report", f"{tools_dir / 'objdiff-cli'} report generate -p . -o $out", "Generating $out")
     n.rule("progress", "$python tools/scripts/progress.py $in", "Progress")
-    configure_args = [*args.versions, *(["--bugfix"] if args.bugfix else [])]
+    configure_args = [*args.versions, *(["--bugfix"] if args.bugfix else []),
+                      *([f"--shift {args.shift:#x}"] if args.shift else [])]
     n.rule("configure", f"$python configure.py {' '.join(configure_args)}", "Reconfiguring", generator="1")
     # Formats the sources and headers in place with clang-format and .clang-format
     n.rule("format", "clang-format -i $in", "Formatting")
 
     checks, configs = [], []
     for version in versions:
-        version_checks, version_configs = add_version(n, version, dsd, args.bugfix)
+        version_checks, version_configs = add_version(n, version, dsd, args.bugfix, args.shift)
         checks += version_checks
         configs += version_configs
 
@@ -359,15 +470,18 @@ def main():
     n.build(["report"], "phony", [Path("build") / objdiff_version / "report.json"])
     n.build(["progress"], "phony", [f"{objdiff_version}_progress"])
 
-    n.build(["build.ninja"], "configure", ["configure.py"], implicit=configs)
-    sources = sorted(str(p.relative_to(ROOT)) for p in [*ROOT.glob("src/**/*.c"), *ROOT.glob("include/**/*.h")])
+    n.build(["build.ninja"], "configure", ["configure.py"],
+            implicit=[*configs, *(str(p.relative_to(ROOT)) for p in sorted(LIB_DIR.glob("*/library.toml")))])
+    sources = sorted(str(p.relative_to(ROOT)) for pattern in ("src/**/*.c", "lib/*/src/**/*.[ch]", "include/**/*.h",
+                                                               "lib/*/include/**/*.h") for p in ROOT.glob(pattern))
     n.build(["format"], "format", sources)
     n.build(["check"], "phony", checks)
     n.default(["check", "objdiff.json"])
 
     (ROOT / "build.ninja").write_text(n.out.getvalue())
     fixes = ", with the bugs fixed" if args.bugfix else ""
-    print(f"Wrote build.ninja for {', '.join(versions)}{fixes}, now run ninja")
+    shifted = f", with the code shifted by {args.shift:#x} bytes" if args.shift else ""
+    print(f"Wrote build.ninja for {', '.join(versions)}{fixes}{shifted}, now run ninja")
 
 
 if __name__ == "__main__":

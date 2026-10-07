@@ -48,9 +48,9 @@ struct ReportWork {
     KeyCursor *cursor;
     // Set once the player has continued a paused message
     u32 continued;
-    AppTaskMenuItem items[2];
-    AppTaskMenuRes *menuRes;
-    AppTaskMenu *menu;
+    TaskMenuItem items[2];
+    void *menuRes;
+    void *menu;
     WaitIcon *waitIcon;
     void *effect;
     u32 timer;
@@ -365,10 +365,10 @@ static void func_ov012_02164150(EventSaveWork *work) {
 
     work->report->items[0].str = GFL_MsgDataLoadStrbufNew(msgData, 8);
     work->report->items[0].color = 0x39e3;
-    work->report->items[0].type = 0;
+    work->report->items[0].isBack = FALSE;
     work->report->items[1].str = GFL_MsgDataLoadStrbufNew(msgData, 9);
     work->report->items[1].color = 0x39e3;
-    work->report->items[1].type = 0;
+    work->report->items[1].isBack = FALSE;
     GFL_MsgDataFree(msgData);
     work->report->menuRes = func_0202e168(6, 14, func_ov036_0218799c(work->msgBgSys),
                                           func_ov036_02187998(work->msgBgSys), work->heapId);
@@ -381,14 +381,14 @@ static void func_ov012_021641c0(EventSaveWork *work) {
 }
 
 static void func_ov012_021641e0(EventSaveWork *work) {
-    AppTaskMenuInit init;
+    TaskMenuSetup init;
 
     init.heapId = work->heapId;
-    init.itemCount = 2;
+    init.count = 2;
     init.items = work->report->items;
-    init.posType = 1;
-    init.x = 32;
-    init.y = 12;
+    init.a3 = 1;
+    init.right = 32;
+    init.bottom = 12;
     init.width = 8;
     init.height = 3;
     work->report->menu = func_0202da48(&init, work->report->menuRes);

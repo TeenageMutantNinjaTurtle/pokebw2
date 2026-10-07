@@ -4,7 +4,8 @@ A matching decompilation of Pokémon Black 2 and White 2 (NDS/DSi, MWCC `dsi/1.1
 pokeemerald and then a native PC port. **The README and `docs/` are the source of truth**: setup in the README,
 the workflow and tools in `docs/decompiling.md`, MWCC's behavior in `docs/matching.md`, files, headers and names in
 `docs/code-organization.md`, and the configs in `docs/configs.md`. This file holds the rules that sessions get wrong
-and points to the skills that carry the procedures.
+and points to the skills that carry the procedures. `CONTRIBUTING.md` has the same rules for human contributors: when
+a rule here changes, change it there too.
 
 ## Rules
 
@@ -14,8 +15,10 @@ and points to the skills that carry the procedures.
   `add_source_file.py`, `mark_complete.py`, `rename_symbol.py`, `config_fixes.py`.
 - **One source file per original file**, named after the ROM's embedded string, or descriptively, with the guess said
   in the header and the commit; never an overlay number. Functions go in address order, and in reverse for SPL,
-  whose `1.2/base` compiler emits them reversed. Placement follows `include/`: `src/ovNNN/` for overlays; `src/gfl`, `src/system`,
-  `src/spl` and later `src/nitro`, `src/nnsys` for main, by link order. `docs/code-organization.md` has the rest.
+  whose `1.2/base` compiler emits them reversed. `src/` is code built with the game's compiler: `src/ovNNN/` for overlays,
+  `src/gfl` and `src/system` for main, by link order. Libraries built apart, with their own compiler, go in
+  `lib/<name>/{include,src}` with a `library.toml`: `lib/spl`, and `lib/nitro`, `lib/nnsys` (headers only so far).
+  `docs/code-organization.md` has the rest.
 - **Names:** swan's first, marked as swan's in the header. Our own go through `rename_symbol.py`, which records them
   in `config/names.txt`. Types swan doesn't name are named after their owner. Rename a static's symbol to its C name.
 - **Write C from the asm.** pret (pokeplatinum, pokeheartgold) and other decomps are references for names and
@@ -36,6 +39,10 @@ and points to the skills that carry the procedures.
 - Other sessions work in this checkout and in `.claude/worktrees/*` at the same time. Stage files by name, never touch
   their uncommitted files, and don't use a bare `git stash`, since the stash is shared. `.claude/hooks/guard.py`
   enforces these.
+- **Publish every commit.** Right after each commit: `git fetch origin && git merge origin/main` (in a worktree too,
+  into its branch), resolve any conflicts, run `python3 configure.py && ninja` and check that both SHA1s match, then
+  `git push origin HEAD:main`. If the push is rejected because someone pushed first, fetch, merge, build and push
+  again. Never force-push, and never push a merge that doesn't build both ROMs. The `finish-file` skill has the steps.
 - **Context is the scarce resource.** Never print a whole `.s` file, a whole doc, a ninja log or a permuter log. Use
   `show_func.py NAME`, `compiler_probe.py --functions F --mismatches --align`, `grep -n` and `| tail`.
 - Long jobs run with `run_in_background` or Monitor, never `sleep`. Run the permuter only under a memory cap: an
@@ -69,7 +76,7 @@ Skills in `.claude/skills/`:
 - `match-function`: the triage-and-levers loop for a function that doesn't match, with its stop rules, the symptom
   index (`levers.md`) and the capped permuter (`permuter.md`).
 - `fix-build`: a link, module-check, SHA1 or White 2-only failure.
-- `finish-file`: verify both versions, mark complete, document mismatches, commit.
+- `finish-file`: verify both versions, mark complete, document mismatches, commit, then merge, rebuild and push.
 - `record-lesson`: where a new lesson goes and how to write it.
 
 Agents in `.claude/agents/`, used to keep large asm and diffs out of the main context:

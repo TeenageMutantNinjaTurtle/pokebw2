@@ -1,0 +1,12 @@
+               \x{ffff}
+             \x{ffff}
+                  \x{ffff}
+     \x{ffff}
+                                                                                                                                      \x{ffff}
+       \x{ffff}
+     \x{ffff}
+BOY
+GIRL
+YES
+NO
+\pad{1c}

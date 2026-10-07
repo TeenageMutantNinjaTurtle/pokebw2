@@ -1,0 +1,10 @@
+It will forget the saying it knows\nnow. Is that OK?
+Press the A Button, then speak\ninto the microphone.{be01}
+{0102:0} learned a new saying!{be01}
+{0102:0} failed to learn a\nnew saying.{be01}
+         \x{ffff}
+                                \x{ffff}
+Preparing microphone...
+YES
+NO
+\pad{3c}

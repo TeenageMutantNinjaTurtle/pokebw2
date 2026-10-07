@@ -5,7 +5,7 @@
 // battle/btl_setup.h does not have yet, so it is declared here without static until it is written
 #include "types.h"
 #include "app/ov141.h"
-#include "app/ov165.h"
+#include "app/pokelist.h"
 #include "app/ov207.h"
 #include "battle/battle_proc.h"
 #include "battle/btl_setup.h"
@@ -44,7 +44,7 @@ typedef struct {
     GameSystem *gsys;
     Field *field;
     Ov207Param summaryParam;
-    Ov165Param partyParam;
+    PokeListParam partyParam;
     u16 *result;
     u16 *choice;
     u8 *picked;
@@ -166,7 +166,7 @@ GameEvent *func_ov012_02165f70(BSubwayScrWork *bsw, GameSystem *gsys, u8 rental)
     BSubwayPokeSelectData *data = GameEvent_GetData(event);
     PokeParty *party;
     u32 regulationId;
-    Ov165Param *partyParam;
+    PokeListParam *partyParam;
     u32 mode;
     Ov207Param *summaryParam;
     PokeDexSave *pokedex;

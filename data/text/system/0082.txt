@@ -1,0 +1,9 @@
+{0100:0}'s Medal Rally
+Medals received
+Favorite Medal
+{0135:0}
+Received
+{0201:1}/{0201:2}/20{0201:0}
+{0202:0}
+None
+\pad{f0}

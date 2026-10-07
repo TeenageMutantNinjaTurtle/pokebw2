@@ -1,0 +1,36 @@
+     \x{ffff}
+Number of wins
+{0203:0}
+Normal
+Fire
+Water
+Grass
+Electric
+Ice
+Fighting
+Poison
+Ground
+Flying
+Psychic
+Bug
+Rock
+Ghost
+Dragon
+Dark
+Steel
+Driftveil
+Unova
+Kanto
+Johto
+Hoenn
+Sinnoh
+World
+Champions
+Rental
+Rental Master
+Mix
+Mix Master
+{0100:0}
+Total wins
+Name
+\pad{04}
