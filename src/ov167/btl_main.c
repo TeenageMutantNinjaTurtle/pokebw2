@@ -40,8 +40,8 @@
 #include "save/pokedex.h"
 #include "save/records.h"
 #include "save/save_control.h"
-#include "system/game_comm.h"
 #include "system/game_data.h"
+#include "system/ringtone_sys.h"
 
 // The first mon ID of each client
 static const u8 data_ov167_021d6c24[4] = { 0, 12, 6, 18 };
@@ -361,7 +361,7 @@ BOOL func_ov167_02199cd4(GameProc *proc, u32 *state, void *param, void *work) {
         GFL_SndPlayerSetMuteStateEx(1, 0x3e);
         PokeVoice_ResetMasterVolume();
         if (mainModule->unk473_7) {
-            func_0203021c();
+            RingtoneSys_RestoreLidCallbacks();
             mainModule->unk473_7 = 0;
         }
         GFL_ProcReleaseSubsystem(proc);

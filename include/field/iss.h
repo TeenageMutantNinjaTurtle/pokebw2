@@ -16,7 +16,7 @@ void ISSSwitch_ReqSwitchMuteStateChange(ISSSwitchSys *switchSys, ISSSwitchIndex 
 void ISSSwitchSys_ResetMuteStateChangeRequests(ISSSwitchSys *switchSys);
 void ISS_ChangeZone(ISS *iss, u16 zoneId);
 ISSSwitchSys *ISS_GetSwitchSys(ISS *iss);
-void func_02030040(FieldSound *sound, ISS *iss);
-void func_0203005c(FieldSound *sound, ISS *iss);
+ISS3DSoundSys *ISS_Get3DSoundSys(ISS *iss);
+void ISS3DSoundSys_ReqChangeMasterVolume(ISS3DSoundSys *sys, u8 volume);
 
 #endif // POKEBW2_FIELD_ISS_H

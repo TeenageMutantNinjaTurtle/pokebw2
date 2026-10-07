@@ -55,7 +55,7 @@ typedef struct {
     void *work;
     u16 fontSizeX;
     u16 fontSizeY;
-    u32 unk20;
+    MsgData *msgData;
     PrintWindow *printWindow;
     PrintQueue *queue;
     Font *font;

@@ -3,6 +3,7 @@
 #include "field/field.h"
 #include "field/field_camera.h"
 #include "field/field_script.h"
+#include "field/field_sound.h"
 #include "field/pokemon_league_gimmicks.h"
 #include "system/game_data.h"
 #include "system/game_system.h"

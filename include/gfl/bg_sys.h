@@ -142,9 +142,9 @@ void GFL_BGSysClearCharCore(u8 bg, u32 size, u32 offset, HeapID heapId);
 void GFL_BGSysFillChar(u32 bg, u32 fillIndex, u32 tileCount, u32 offset);
 void GFL_BGSysFreeFilledChar(u32 bg, u32 tileCount, u32 offset);
 // Loads colors to the standard BG palette of a BG's engine
-void GFL_BGSysUploadStdPalette(u32 bg, const void *src, u32 size, u32 offset);
+void GFL_BGSysUploadStdPalette(u8 bg, const void *src, u16 size, u16 offset);
 // Sets the backdrop color, the first of a BG's engine's palette
-void GFL_BGSysResetStdPalette(u32 bg, GXRgb color);
+void GFL_BGSysResetStdPalette(u8 bg, GXRgb color);
 // Copy a rectangle of map entries to a BG's screen buffer. The source is width by height entries, or srcWidth by
 // srcHeight entries from which GFL_BGSysLoadScrArea takes the rectangle at srcX and srcY. GFL_BGSysLoadScrAreaLarge
 // takes it from a source of 32x32 blocks, as a screen of a size above 256x256 is stored

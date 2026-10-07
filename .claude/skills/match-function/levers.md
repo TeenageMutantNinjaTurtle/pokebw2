@@ -66,6 +66,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - A load through a pointer moves above stores only when the pointee is `const`. A load scheduled early points to a
   `const` parameter. (matching.md: "unless the pointee is `const`")
 - The same rule orders a call's stack argument stores against the register arguments. (matching.md: "stack argument stores")
+- Two fields loaded before either is stored, through a pointer that is not `const`: a struct assignment.
+  (matching.md: "A struct assignment loads every field")
 - Register parameters spilled at entry in another order: try `u8` for flag parameters typed `BOOL`.
   (matching.md: "`u8` flag parameters")
 - The operand order of a product decides which value is loaded first. (matching.md: "operand order of a product")
@@ -144,6 +146,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - Identical statements in different branches are merged, so a jump into the middle of another block means the same
   code was written there. (matching.md: "Identical statements in different branches")
 - A branch to the next instruction comes from cross-jumping a shared tail. (matching.md: "cross-jumping")
+- `bne next; b target` where `||` gives one `beq`: the same body in both arms of an `if`/`else if`. (matching.md:
+  "`bne next; b hide`")
 - Early `return FALSE`s go to one shared tail only when the C has one trailing return (an `if`/`else if` chain, or a
   `result` variable). A return that branches to the wrong one of two equal `b end` trampolines can be `goto end`.
 - A redundant outer `if` gives a doubled `beq`.

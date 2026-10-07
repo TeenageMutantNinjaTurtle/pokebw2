@@ -3,6 +3,7 @@
 #include "battle/btl_setup.h"
 #include "field/event_colosseum_battle.h"
 #include "field/event_make.h"
+#include "field/event_sound.h"
 #include "field/field_event.h"
 #include "gfl/heap.h"
 #include "gfl/net_handle.h"

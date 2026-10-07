@@ -17,6 +17,8 @@ void FieldNoGridMapper_ClearCameraParent(NoGridMapper *mapper);
 BOOL CalculateRailCurves(FieldRailSystem *rail, const VecFx32 *start, const VecFx32 *end, RailPosition *railPos,
                          VecFx32 *hit);
 BOOL func_ov036_021b068c(FieldRailSystem *rail, const RailPosition *railPos, u32 railDir, RailPosition *next);
+// The world position of the rail position
+void func_ov036_021b06ec(FieldRailSystem *rail, const RailPosition *railPos, VecFx32 *pos);
 NoGridMapper *FieldNoGridMapper_Create(HeapID heapId, FieldCamera *camera, void *sceneArea, void *sceneAreaLoader);
 void FieldNoGridMapper_Free(NoGridMapper *mapper);
 void FieldNoGridMapper_LoadByHeader(NoGridMapper *mapper, u32 railId, HeapID heapId);

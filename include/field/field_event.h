@@ -40,14 +40,6 @@ GameEvent *CallFieldMapEntranceInTransition(GameSystem *gsys, Field *field, u32 
 GameEvent *CallFieldMapEntranceOutTransition(GameSystem *gsys, Field *field, u32 type, u32 a3, u32 a4);
 GameEvent *CallFieldMapEntranceOutTransitionDefault(GameSystem *gsys, Field *field, u32 type, u32 a3);
 GameEvent *CreateFieldCloseEvent(GameSystem *gsys, Field *field);
-GameEvent *EventBGMChange_Create(GameSystem *gsys, u32 bgm, u32 a2, u32 a3);
-GameEvent *EventBGMPlay_Create(GameSystem *gsys, u32 bgm);
-GameEvent *EventBGMFadeWait_Create(GameSystem *gsys);
-GameEvent *EventBattleBGMPlay_Create(GameSystem *gsys, u32 bgm);
-GameEvent *EventBGMFadePop_Create(GameSystem *gsys);
-GameEvent *EventBGMFadeStop_Create(GameSystem *gsys, u16 frames);
-GameEvent *EventBGMPop_CreateEx(GameSystem *gsys, u32 a1, u32 a2);
-GameEvent *EventBGMPlayPushEx_Create(GameSystem *gsys, u32 bgm, u32 a2, u32 a3);
 GameEvent *EventDig_Create(GameEvent *event, GameSystem *gsys, Field *field, BOOL seasonChanged);
 BOOL EventEntralinkWarpIn_CheckAllowed(GameSystem *gsys);
 GameEvent *EventEscapeRope_Create(GameEvent *event, GameSystem *gsys, Field *field, BOOL seasonChanged);
@@ -67,7 +59,6 @@ GameEvent *EventPlayerSpinDown_Create(GameEvent *event, GameSystem *gsys, Field 
 GameEvent *EventQuicksandArrive_Create(GameEvent *event, GameSystem *gsys, Field *field);
 GameEvent *EventQuicksandDrawIn_Create(GameEvent *event, GameSystem *gsys, Field *field, VecFx32 *pos);
 GameEvent *EventTeleportEffect_Create(GameEvent *event, GameSystem *gsys, Field *field, BOOL a3);
-GameEvent *EventWaitFieldSound_Create(GameSystem *gsys);
 void func_ov036_021b50c8(PlaceName *placeName, s32 zoneId);
 void func_ov036_021b5168(PlaceName *placeName);
 void func_ov036_021b50f4(PlaceName *placeName, u32 zoneId);
