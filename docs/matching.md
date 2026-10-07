@@ -170,6 +170,10 @@ Same instructions, scheduled in another order.
   storing `pos`; the same stores written out load it after.
 - Initializations are scheduled where they are written: `int i = 0;` declared after a call sets `i` after the call,
   while `for (i = 0; ...)` sets it at the loop, after any statements before the loop.
+- A counter's zero stored to its stack slot ahead of a call, in another register than the call's arguments, can be
+  written after that call: overlay 185's `CountupGreetings` stores `n`'s zero before calling
+  `PMSWord_GetWordNumByGmmId` only with `n = 0;` after `first` and `last` are computed. Written before the call, it is
+  stored after the call's result and built in `r0`; the next function, `CountupPokemon`, sets it right after its call.
 - A field of a local struct that a call fills is loaded before the next call only when the source reads it there: the
   Pokédex forms page copies `targetX = target.x;` between `ZukanDetailForm_GetSpritePosF32(..., &target)` and
   `MCSS_GetPosition`.

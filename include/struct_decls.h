@@ -346,6 +346,7 @@ typedef struct PokeListPlate PokeListPlate;
 typedef struct PokeListWork PokeListWork;
 typedef struct PlayTime PlayTime;
 typedef struct PMSData PMSData;
+typedef struct PMSInputData PMSInputData;
 typedef struct PMSIParam PMSIParam;
 typedef struct PMSWordBank PMSWordBank;
 typedef struct PMSWordSave PMSWordSave;

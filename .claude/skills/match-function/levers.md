@@ -82,6 +82,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - NitroSDK's inline functions take enums, which changes when their arguments are loaded and shifted.
   (matching.md: "NitroSDK's inline functions")
 - `FX_Mul`'s sign extensions move with statement order and with a `static inline` wrapper. (matching.md: "FX_Mul")
+- A spilled counter's zero stored before a call, in `r1` rather than `r0`: try `n = 0;` later, after the call's
+  result is used. (matching.md: "A counter's zero stored")
 - `x[n++].f = ...` against a separate `n++` changes scheduling.
 - Store order in initialization code is usually source order: try the stores in the asm's order first.
 - A field of a local struct loaded before a call that doesn't fill it was read into a local there, as `targetX = target.x;`.
