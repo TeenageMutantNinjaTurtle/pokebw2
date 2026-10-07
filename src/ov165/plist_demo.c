@@ -12,7 +12,6 @@
 #include "gfl/particle.h"
 #include "gfl/sound.h"
 #include "gfl/tcb.h"
-#include "gfl/wipe.h"
 #include "nitro/fx.h"
 #include "nitro/rtc.h"
 #include "pml/poke_party.h"
@@ -22,6 +21,7 @@
 #include "save/save_control.h"
 #include "save/shortcut.h"
 #include "system/rtc.h"
+#include "system/wipe.h"
 
 // The form changes that items make on the party list, with their particles, and the checks for them. Named after
 // the ROM's string "plist_demo.c"

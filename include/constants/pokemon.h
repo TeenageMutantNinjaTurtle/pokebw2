@@ -24,6 +24,13 @@
 // The effort values, HP to special defense
 #define PKM_PARAM_EV_HP 0xd
 // The first ribbon of each group of ribbons, each followed by the field after the group
+// Not from swan: the contest conditions, cool to sheen
+#define PKM_PARAM_CONTEST_COOL 0x13
+#define PKM_PARAM_CONTEST_BEAUTY 0x14
+#define PKM_PARAM_CONTEST_CUTE 0x15
+#define PKM_PARAM_CONTEST_SMART 0x16
+#define PKM_PARAM_CONTEST_TOUGH 0x17
+#define PKM_PARAM_CONTEST_SHEEN 0x18
 #define PKM_PARAM_RIBBON_CHAMPION_SINNOH 0x19
 #define PKM_PARAM_MOVE1 0x36
 #define PKM_PARAM_MOVE1_PP 0x3a
@@ -34,6 +41,8 @@
 #define PKM_PARAM_FATEFUL_ENCOUNTER 0x6d
 #define PKM_PARAM_SEX 0x6e
 #define PKM_PARAM_FORM 0x6f
+// Not from swan
+#define PKM_PARAM_NATURE 0x70
 // The nickname, copied to or from a StrBuf
 #define PKM_PARAM_NICKNAME 0x73
 // The nickname, copied to or from a u16 array
@@ -44,6 +53,10 @@
 #define PKM_PARAM_OT_NAME 0x8d
 // The original trainer's name, copied to or from a u16 array (not from swan)
 #define PKM_PARAM_OT_NAME_RAW 0x8e
+// Where the Pokémon was met as an egg and as itself, and the level (not from swan)
+#define PKM_PARAM_EGG_LOCATION 0x95
+#define PKM_PARAM_MET_LOCATION 0x96
+#define PKM_PARAM_MET_LEVEL 0x99
 #define PKM_PARAM_OT_GENDER 0x9a
 #define PKM_PARAM_POKERUS 0x97
 #define PKM_PARAM_POKEBALL 0x98
@@ -66,6 +79,8 @@
 #define PKM_PARAM_LEGAL_SPECIES 0xab
 // The individual values packed in a word
 #define PKM_PARAM_IVS_ALL 0xac
+// FALSE for a Nidoran without a nickname, whose name already shows its sex
+#define PKM_PARAM_NIDORAN_NICKNAME 0xad
 #define PKM_PARAM_TYPE1 0xae
 #define PKM_PARAM_TYPE2 0xaf
 // Whether it is one of N's Pokémon

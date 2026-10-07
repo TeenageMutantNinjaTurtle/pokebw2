@@ -16,6 +16,7 @@
 #include "nitro/gx.h"
 #include "save/player_info.h"
 #include "save/wifi_list.h"
+#include "system/bmp_winframe.h"
 #include "system/game_system.h"
 #include "system/wordset.h"
 #include "worldtrade_local.h"

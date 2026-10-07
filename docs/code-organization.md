@@ -20,8 +20,9 @@ every section.
   headers, `lib/<name>/src/` for the sources and private headers (`lib/spl/src/spl_internal.h`), and
   `lib/<name>/library.toml` for the library's compiler and flags, which `configure.py` and the probe read: `lib/spl/`
   (Nintendo's SPL particle library), `lib/dsprot/` (Nintendo's DS Protect, in overlays 165 and 337), `lib/nitro/`
-  (NitroSDK) and `lib/nnsys/` (NitroSystem: FND, G2D, G3D and GFD).
-  NitroSDK and NitroSystem have only headers so far, so no `library.toml` yet; the first source file of either adds
+  (NitroSDK), `lib/nnsys/` (NitroSystem: FND, G2D, G3D and GFD) and `lib/twl/` (TwlSDK's DSi libraries in the LTD
+  autoload: the camera, the DSP and the new DMA and WRAM functions).
+  NitroSDK, NitroSystem and TwlSDK have only headers so far, so no `library.toml` yet; the first source file of any adds
   one with the compiler it was built with. A library's public headers keep its name as their directory, as in
   `lib/nitro/include/nitro/os.h`, so code includes `"nitro/os.h"`. Every file is compiled with `include/` and every
   `lib/*/include/` on its search path.
@@ -47,7 +48,8 @@ every section.
   against the declarations.
 - Each proc that an event starts has a header in `app/` with its parameter struct, proc table and overlay ID, such as
   `app/worldtrade.h`. Each event has a header in `field/` with its create functions, such as
-  `field/event_worldtrade.h`.
+  `field/event_worldtrade.h`. A proc built from many files keeps their headers in a directory of `app/` named after
+  it, such as `app/comm_tvt/` for the Xtransceiver's files.
 - Functions only called within their file are `static` where linking permits it and declared at the top of the file,
   since `-requireprotos` requires a prototype for every function.
 - Event callbacks take `void *data`, as `GameEventCallback` does, and cast it to their work.

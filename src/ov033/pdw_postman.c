@@ -2,6 +2,7 @@
 #include "constants/pokemon.h"
 #include "field/field.h"
 #include "field/field_actor.h"
+#include "field/mystery_gift_pokemon.h"
 #include "field/pdw_postman.h"
 #include "field/field_script.h"
 #include "gfl/bmpwin.h"

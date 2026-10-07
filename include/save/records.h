@@ -11,12 +11,19 @@
 void RecordSave_ClearMatchInProgress(RecordSave *record);
 
 void RecordAddOne(GameRecords *records, u32 id);
+// The size of the records
+u32 func_020093d0(void);
 u32 RecordGet(GameRecords *records, u32 id);
 void RecordAdd(GameRecords *records, u32 id, u32 value);
 // Sets a record to value if that is higher, up to the record's maximum
 void func_02009508(GameRecords *records, u32 id, u32 value);
 // The Trial House's best rank and best points
 void func_02009618(GameRecords *records, u8 rank);
+// The Battle Test rank
+u16 func_02009628(GameRecords *records);
+// Record 0x7c
+u32 func_02009650(GameRecords *records);
+void func_020095e0(GameRecords *records);
 void func_02009638(GameRecords *records, u32 points);
 RecordSave *func_0200f2bc(SaveControl *save);
 void func_0200f2dc(RecordSave *record);

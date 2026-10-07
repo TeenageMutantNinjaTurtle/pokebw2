@@ -6,6 +6,7 @@
 
 #define OVERLAY_RESEARCH_RADAR_APP OVERLAY_ID(310)
 
-extern const GameProcFunctions data_ov310_021a77e0;
+// The Research Radar (ov310), which shows the results of the surveys
+extern GameProcFunctions RESEARCH_RADAR_PROC_FUNCTIONS;
 
 #endif // POKEBW2_APP_RESEARCH_RADAR_H

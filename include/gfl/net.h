@@ -156,6 +156,8 @@ BOOL func_02040c94(int netId);
 
 BOOL GFL_NetErrCheck(void);
 void GFL_NetErrMarkShown(void);
+// Sets the network error and shows it
+void func_02011d04(u32 error);
 void GFL_NetErrShow(u32 a0);
 // Shows the error with the code given
 void func_02011d04(u32 code);
@@ -165,8 +167,12 @@ void func_02011de0(void);
 // Whether the error was handled, after shutting the connection down
 BOOL func_02012154(void);
 void func_02012144(void);
+// The state of the wireless connections, as bits: 0x2 a local wireless one, 0x3c the signal, 0x3c0 Wi-Fi
+u32 func_02012be4(WifiList *wifiList);
+void *func_02012908(HeapID heapId, u32 a1);
+void func_02012994(void *work);
+void func_02012a4c(void);
 void GFL_NetErrAbort(void);
-BOOL func_0202bde0(GameCommSys *comm);
 
 // The device table for a GFL_NET_TYPE_*, from outside the library
 const GFLNetDevTable *func_020116c0(int type);

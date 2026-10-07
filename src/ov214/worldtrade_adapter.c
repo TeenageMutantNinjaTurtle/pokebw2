@@ -100,7 +100,7 @@ void WorldTrade_PrintInit(WorldTradePrint *print, TrainerDataSave *config) {
     print->config = config;
     print->font = GFL_FontCreate(ARCID_FONT, 0, 0, FALSE, HEAPID_WORLDTRADE);
     print->printQueue = func_02021998(HEAPID_WORLDTRADE);
-    print->keyCursor = func_0202e7a4(15, 1, 1, HEAPID_WORLDTRADE);
+    print->keyCursor = KeyCursor_Create(15, 1, 1, HEAPID_WORLDTRADE);
     for (i = 0; i < PRINT_ENTRY_COUNT; i++) {
         WorldTradePrintEntry *entry = &print->entries[i];
 
@@ -110,7 +110,7 @@ void WorldTrade_PrintInit(WorldTradePrint *print, TrainerDataSave *config) {
 }
 
 void WorldTrade_PrintExit(WorldTradePrint *print) {
-    func_0202e818(print->keyCursor);
+    KeyCursor_Free(print->keyCursor);
     func_02021a18(print->printQueue);
     GFL_FontFree(print->font);
     GFL_TCBExMgrFree(print->tcbManager);
@@ -132,7 +132,7 @@ void WorldTrade_PrintMain(WorldTradePrint *print) {
     }
 
     if (print->stream != NULL) {
-        func_0202e8d8(print->keyCursor, print->stream, print->streamWin);
+        KeyCursor_Update(print->keyCursor, print->stream, print->streamWin);
         switch (func_020223b4(print->stream)) {
         case PRINT_STREAM_RUNNING:
             if ((GCTX_HIDGetPressedKeys() & (PAD_BUTTON_A | PAD_BUTTON_B)) || func_0203da48()) {

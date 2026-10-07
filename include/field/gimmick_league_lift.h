@@ -8,5 +8,12 @@
 void func_ov106_021eec80(Field *field);
 void func_ov106_021eecac(Field *field);
 void func_ov106_021eecc8(Field *field);
+// The lift's arrival, which overlay 12's event_league_lift.c runs
+void func_ov106_021eecd4(Field *field);
+void func_ov106_021eed04(Field *field);
+BOOL func_ov106_021eed18(Field *field);
+void func_ov106_021eed48(Field *field);
+void func_ov106_021eed78(Field *field);
+BOOL func_ov106_021eedc8(Field *field);
 
 #endif // POKEBW2_FIELD_GIMMICK_LEAGUE_LIFT_H

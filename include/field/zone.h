@@ -208,9 +208,8 @@ u32 GetTriggerSCRIDAtPosRail(EventData *eventData, EventWork *eventWork, const R
 u32 GetZoneFlashFlags(u16 zoneId);
 BOOL GetZoneIsMusicalTheater(u16 zoneId);
 BOOL GetZoneIsPWTBattleStage(u16 zoneId);
-BOOL GetZoneIsUnionRoom(u32 zoneId);
+BOOL GetZoneIsUnionRoom(u16 zoneId);
 u16 GetZoneMatrixId(u16 zoneId);
-u32 getGameOrigin(GameCommSys *commSys);
 BOOL GetZoneSpawnInfoIsRail(ZoneSpawnInfo *spawn);
 ZoneWarp *GetZoneWarpByID(EventData *eventData, u16 warpId);
 BOOL IsWarpDestId256(ZoneWarp *warp);
@@ -253,10 +252,15 @@ u16 GetVersionedMapChangeZoneNum2(u16 zoneId);
 u16 GetZoneMatrixCamBoundIdx(u16 zoneId);
 u32 GetZoneDefaultCameraIndex(u16 zoneId);
 BOOL GetZoneFlagsEnableCycling(u16 zoneId);
+u8 GetZoneEnvFlagsWeather(u16 zoneId);
+// The zone a zone belongs to, such as the town of a building
+u16 GetZoneParentZone(u16 zoneId);
 BOOL GetZoneHasRailSystem(u16 zoneId);
 u32 GetRailIDForZone(u16 zoneId);
 BOOL IsZoneEntralinkEdgeColorTable(u16 zoneId);
 BOOL IsZoneFlashbackMemoryPostFX(u16 zoneId);
+// Overlay 12: the zone that beacons report for zoneId, by its parent zone
+u16 func_ov012_02160eb4(GameData *gameData, u16 zoneId);
 BOOL IsZoneBlackCityOrWhiteForestLobby(u16 zoneId);
 u32 GetZoneStaticLightDataIndex(u16 zoneId);
 u16 GetCameraIDForZone(u16 zoneId);

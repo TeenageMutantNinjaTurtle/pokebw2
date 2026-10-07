@@ -3,6 +3,7 @@
 #include "field/event_data.h"
 #include "field/field_actor.h"
 #include "field/field_status.h"
+#include "field/hidden_item.h"
 #include "field/zone.h"
 #include "field/zone_change.h"
 #include "save/event_work.h"

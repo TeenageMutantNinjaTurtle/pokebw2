@@ -429,9 +429,9 @@ data_ov298_021ac748 kind:data(any) addr:0x021ac748
 ZUKAN_DETAIL_VOICE_PROC_FUNCS kind:data(any) addr:0x021ac74c
 sZukanDetailVoiceActors kind:data(any) addr:0x021ac760
 ZUKAN_DETAIL_VOICE_UNK_DATA kind:data(any) addr:0x021ac7a0
-sZukanDetailFormStrbufMessages kind:data(any) addr:0x021ac7f0
-sZukanDetailFormActors kind:data(any) addr:0x021ac7fc
-sZukanDetailFormDefaultPositions kind:data(any) addr:0x021ac81c
+ZUKAN_DETAIL_FORM_STRBUF_MESSAGES kind:data(any) addr:0x021ac7f0
+ZUKAN_DETAIL_FORM_ACTORS kind:data(any) addr:0x021ac7fc
+ZUKAN_DETAIL_FORM_DEFAULT_POSITIONS kind:data(any) addr:0x021ac81c
 data_ov298_021ac858 kind:data(any) addr:0x021ac858
 data_ov298_021ac860 kind:data(any) addr:0x021ac860
 data_ov298_021ac86c kind:data(any) addr:0x021ac86c

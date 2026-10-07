@@ -6,7 +6,6 @@
 #include "gfl/arc_util.h"
 #include "gfl/bg_sys.h"
 #include "gfl/bmp.h"
-#include "gfl/bmp_menu.h"
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"
 #include "gfl/graphics.h"
@@ -20,11 +19,13 @@
 #include "gfl/str.h"
 #include "gfl/touchpanel.h"
 #include "gfl/ui.h"
-#include "gfl/wipe.h"
 #include "nitro/gx.h"
 #include "nitro/hw.h"
 #include "pml/personal.h"
 #include "worldtrade_local.h"
+#include "system/bmp_menulist.h"
+#include "system/bmp_winframe.h"
+#include "system/wipe.h"
 
 // The Global Trade Station's search screen, where the player sets the Pokémon, gender, level and country to look for,
 // asks the server, and picks one of the trainers found on the lower screen. The names are ours, guessed
@@ -1057,7 +1058,7 @@ static int Search_SubSeqSexSelectWait(WorldTradeWork *wk) {
     switch (ret) {
     case BMPMENULIST_CANCEL:
         Search_BgBlendSet(0);
-        func_02024eec(wk->msgWin, 0);
+        BmpWin_ClearFrame(wk->msgWin, 0);
         win = wk->msgWin;
         BmpWin_FlushChar(win);
         BmpWin_FlushMap(win);
@@ -1135,7 +1136,7 @@ static int Search_SubSeqCountrySelectWait(WorldTradeWork *wk) {
     if (ret != BMPMENULIST_NULL) {
         if (ret == BMPMENULIST_CANCEL || ret == WorldTrade_CountryListNum + 1) {
             Search_BgBlendSet(0);
-            func_02024eec(wk->msgWin, 0);
+            BmpWin_ClearFrame(wk->msgWin, 0);
             win = wk->msgWin;
             BmpWin_FlushChar(win);
             BmpWin_FlushMap(win);

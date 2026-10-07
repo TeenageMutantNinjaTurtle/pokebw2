@@ -24,6 +24,8 @@ extern const GameProcFunctions GAMESYSTEM_PROC_FUNCTIONS;
 
 GameSystemProcData *GameSystem_CreateProcData(GameEntryPoint entryPoint, u16 zoneId, const VecFx32 *spawnPos, s16 unk12);
 Field *GSYS_GetField(GameSystem *gsys);
+// Whether the field map is up, which Game Freak's asserts call GAMESYSTEM_CheckFieldMapWork
+BOOL GSYS_CheckField(GameSystem *gsys);
 PlayerState *GSYS_GetPlayerState(GameSystem *gsys);
 GameCommSys *GSYS_GetGameCommSystem(GameSystem *gsys);
 GameData *GSYS_GetGameData(GameSystem *gsys);
@@ -39,14 +41,10 @@ void func_02016b24(GameSystem *gsys, u32 value);
 u8 func_02016b2c(GameSystem *gsys);
 u32 func_02016b34(GameSystem *gsys);
 void func_02016b40(GameSystem *gsys, u32 value);
-void GameSystemTimer_Start(void);
+BOOL func_02016bec(GameSystem *gsys);
 ISS *GameSystem_GetISS(GameSystem *gsys);
 u32 getStatusOfFesMission(LinkFestival *festival);
 
-// Run by the start menu before the game starts: loads overlay 338 to run a check, and adds an HBlank task if it fails
-void func_0202d6a8(void);
-// Called when a Pokémon evolves, with its new species and its nickname before evolving
-void func_0202d304(u16 species, const StrBuf *nickname);
 void GSYS_SetEventProvider(GameSystem *gsys, void *provider, void *data);
 GameEvent *GSYS_GetNowEvent(GameSystem *gsys);
 void GSYS_SetField(GameSystem *gsys, Field *field);

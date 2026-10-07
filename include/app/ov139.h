@@ -42,15 +42,25 @@ typedef struct {
 void func_ov139_021999c8(Ov139ObjRes *res, const Ov139ObjResSetup *setup, ClActUnit *unit, HeapID heapId);
 void func_ov139_02199a44(Ov139ObjRes *res);
 // Creates an actor of the resources at (x, y), playing an animation
-ClActor *func_ov139_02199a5c(Ov139ObjRes *res, ClActUnit *unit, s16 x, s16 y, u8 anim, HeapID heapId);
+ClActor *func_ov139_02199a5c(Ov139ObjRes *res, ClActUnit *unit, u8 x, u8 y, u8 anim, HeapID heapId);
 
 // The bar of icons at the bottom of the lower screen, such as the return button
 typedef struct Ov139TouchBar Ov139TouchBar;
 
+// An icon of the bar: one of the bar's own, or from OV139_TOUCHBAR_ICON_CUSTOM on, one drawn from the caller's
+// resources and animations. Pressing the key does what touching it does
+#define OV139_TOUCHBAR_ICON_CUSTOM 7
+
 typedef struct {
     u32 icon;
     ClActorPos pos;
-    u8 unk8[24];
+    u16 charRes;
+    u16 plttRes;
+    u16 cellRes;
+    u16 anims[3];
+    u32 unk14;
+    u32 key;
+    u32 se;
 } Ov139TouchBarItem;
 
 typedef struct {
@@ -71,6 +81,10 @@ void func_ov139_02199b90(Ov139TouchBar *bar);
 u32 func_ov139_02199c08(Ov139TouchBar *bar);
 // Whether the return icon was touched
 BOOL func_ov139_02199c30(Ov139TouchBar *bar);
+void func_ov139_02199ce0(Ov139TouchBar *bar, u32 a1);
+void func_ov139_02199d08(Ov139TouchBar *bar, u32 icon, BOOL a2);
+void func_ov139_02199d18(Ov139TouchBar *bar, u32 icon, BOOL a2);
+void func_ov139_02199d74(Ov139TouchBar *bar, u32 a1);
 
 // A list of items that scrolls, with a scroll bar and arrows
 typedef struct Ov139List Ov139List;

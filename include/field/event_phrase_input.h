@@ -14,7 +14,7 @@ struct EventPhraseInputData {
     void *saveBlock;
     PlayerInfo *playerInfo;
     Field *field;
-    void *unk18;
+    BeaconStatus *unk18;
     u16 *result;
     NameEntryParam nameEntry;
     u16 heapId;
@@ -29,7 +29,5 @@ void func_ov033_02177734(struct EventPhraseInputData *data, NameEntryParam *name
 BOOL func_ov033_021777dc(VM *vm, FieldScriptEnv *env);
 BOOL func_ov033_02177844(VM *vm, FieldScriptEnv *env);
 BOOL func_ov033_02177908(VM *vm, FieldScriptEnv *env);
-void func_0202d138(void);
-StrBuf *func_0202d7c4(void *data);
 
 #endif // POKEBW2_FIELD_EVENT_PHRASE_INPUT_H

@@ -19,6 +19,7 @@
 #include "system/app_common.h"
 #include "system/bgwinfrm.h"
 #include "system/bmp_oam.h"
+#include "system/bmp_winframe.h"
 #include "system/printsys.h"
 #include "system/wordset.h"
 
@@ -466,12 +467,12 @@ static void func_ov255_021cece4(Box2SysWork *syswk, u32 tray, u32 index) {
 
 void func_ov255_021ced54(Box2SysWork *syswk, u32 tray, u32 index) {
     func_ov255_021cece4(syswk, tray, index);
-    func_0202b0f4(syswk->app->fontOam[index].oam);
+    BmpOam_ActorBmpTrans(syswk->app->fontOam[index].oam);
 }
 
 void func_ov255_021ced6c(Box2SysWork *syswk) {
     if (syswk->app->unkA5B8 == TRUE) {
-        func_0202b0f4(syswk->app->fontOam[0].oam);
+        BmpOam_ActorBmpTrans(syswk->app->fontOam[0].oam);
         syswk->app->unkA5B8 = FALSE;
     }
 }
@@ -502,7 +503,7 @@ void func_ov255_021cedb4(Box2SysWork *syswk, u32 tray, u32 index) {
                                        syswk->app->smallFont, BOX2_COLOR_NORMAL);
     }
     GFL_StrBufFree(str);
-    func_0202b0f4(syswk->app->fontOam[index].oam);
+    BmpOam_ActorBmpTrans(syswk->app->fontOam[index].oam);
 }
 
 static void func_ov255_021cee54(Box2SysWork *syswk) {
@@ -547,11 +548,11 @@ static void func_ov255_021cef78(Box2SysWork *syswk, BmpWin *window) {
 }
 
 void func_ov255_021cefa4(Box2AppWork *app, u32 index) {
-    func_02024eec(app->windows[index].window, 1);
+    BmpWin_ClearFrame(app->windows[index].window, 1);
 }
 
 void func_ov255_021cefb8(Box2AppWork *app, u32 index) {
-    func_02024eec(app->windows[index].window, 0);
+    BmpWin_ClearFrame(app->windows[index].window, 0);
 }
 
 // Prints a message of the box's messages into a message window
@@ -782,5 +783,5 @@ void func_ov255_021cf2e8(Box2SysWork *syswk) {
     GFL_TextRendererDrawToBitmapEx(syswk->app->fontOam[9].bitmap, 0, 0, syswk->app->expandBuf, syswk->app->smallFont,
                                    BOX2_COLOR_NORMAL);
     GFL_StrBufFree(str);
-    func_0202b0f4(syswk->app->fontOam[9].oam);
+    BmpOam_ActorBmpTrans(syswk->app->fontOam[9].oam);
 }

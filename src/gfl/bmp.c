@@ -78,11 +78,11 @@ u8 *GFL_BitmapGetPixelData(GFLBitmap *bitmap) {
     return bitmap->pixels;
 }
 
-u32 GFL_BitmapGetWidth(GFLBitmap *bitmap) {
+u16 GFL_BitmapGetWidth(GFLBitmap *bitmap) {
     return bitmap->width;
 }
 
-u32 GFL_BitmapGetHeight(GFLBitmap *bitmap) {
+u16 GFL_BitmapGetHeight(GFLBitmap *bitmap) {
     return bitmap->height;
 }
 
@@ -159,7 +159,7 @@ void GFL_BitmapCopyAreaRebased(const GFLBitmap *src, GFLBitmap *dest, u32 srcX, 
     GFL_BitmapCopyAreaRebased_IDX8(src, dest, srcX, srcY, destX, destY, width, height, colorKey, paletteOffset);
 }
 
-void GFL_BitmapFillArea(GFLBitmap *bitmap, int x, int y, int width, u16 height, u8 color) {
+void GFL_BitmapFillArea(GFLBitmap *bitmap, s16 x, s16 y, u16 width, u16 height, u8 color) {
     if (bitmap->storage != GFL_BITMAP_WRAPPED_VRAM) {
         if (bitmap->tileSize == 0x20) {
             GFL_BitmapFillArea_IDX4(bitmap, x, y, width, height, color);

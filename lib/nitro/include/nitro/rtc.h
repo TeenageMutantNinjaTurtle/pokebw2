@@ -36,5 +36,7 @@ void func_0207cb88(void);
 int func_0207cca4(RTCDate *date, RTCTime *time, void (*callback)(int result, void *arg), void *arg);
 s32 func_0207d0b4(const RTCDate *date);
 s64 func_0207d12c(const RTCDate *date, const RTCTime *time);
+// The date and time a number of seconds since 2000 make
+void func_0207d244(RTCDate *date, RTCTime *time, s64 seconds);
 
 #endif // POKEBW2_NITRO_RTC_H

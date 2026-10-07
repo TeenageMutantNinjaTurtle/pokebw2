@@ -17,6 +17,7 @@
 #include "save/save_control.h"
 #include "save/trainer_card.h"
 #include "save/wifi_list.h"
+#include "system/game_beacon.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
 #include "system/vm.h"
@@ -84,7 +85,6 @@ typedef struct {
 
 typedef BOOL (*MedalCheck)(MedalCheckContext *ctx, GameData *gameData, u32 threshold, HeapID heapId);
 
-void func_0202d17c(u8 count);
 u32 func_ov012_021682a0(MMSys *mmSys);
 
 static void PokemonCenter_CheckMedals(GameData *gameData, SaveControl *p_sv, HeapID heapId);
@@ -167,7 +167,7 @@ static void PokemonCenter_AcknowledgeMedal(FieldScriptEnv *env) {
 
     RTC_GetCachedDate(&date);
     MedalBox_AcknowledgeMedal(box, PokemonCenter_FindEarnedMedal(env), date.year, date.month, date.day);
-    func_0202d17c(MedalBox_GetObtainedCount(box, 0));
+    GameBeaconSys_SetMedalCount(MedalBox_GetObtainedCount(box, 0));
 }
 
 static const struct {
