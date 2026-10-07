@@ -234,6 +234,8 @@ void SetActorWPosValue(FieldActor *actor, const VecFx32 *pos);
 // The actor with an ID, or NULL
 FieldActor *FindFieldActor(MMSys *mmSys, u16 id);
 FieldActor *FindActorByMoveCode(MMSys *mmSys, u16 code);
+// The other Trainer of a double battle pair
+FieldActor *FindPairedTrainerActor(FieldActor *actor);
 // Moves grid coordinates or a position by a distance in a direction
 void AdjusGridXZByDir(u32 dir, s16 *x, s16 *z, s16 distance);
 void ExpandVecInGridDir(u16 dir, VecFx32 *pos, fx32 distance);
@@ -272,6 +274,8 @@ u16 GetActorMoveCode(FieldActor *actor);
 s16 GetActorWalkAreaW(FieldActor *actor);
 s16 GetActorWalkAreaH(FieldActor *actor);
 ActorPositionRail *GetNPCRailPosPtrAddr(FieldActor *actor);
+// The rail unit that moves the actor along the rails
+RailUnit *FldAct_GetRailUnit(FieldActor *actor);
 ActorPositionRail *ClearActorPositionBlock(FieldActor *actor, u32 size);
 // Call the move code's unk4 and unk8 functions
 void func_ov012_02167174(FieldActor *actor);

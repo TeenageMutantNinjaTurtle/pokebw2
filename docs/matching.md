@@ -396,6 +396,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   declared in an inner block opened there: the forms page's `BOOL hasSex[3] = { FALSE, FALSE, FALSE };` follows the
   Pokédex reads in a block around the rest of the gathering, and `BOOL seenRare[2] = { FALSE, FALSE };` sits in the
   loop over the forms.
+- A switch of three cases can compile to a compare chain that tests them in value order. When the original tests 1,
+  then 2, then 0, the source is an `if`/`else if` chain in that order: `scrcmd_msg.c`'s `SystemMsgWin_Open`.
+- A result flag declared after a call, `CalcAttachmentPos(env, FALSE); BOOL done = FALSE;`, takes the register of a
+  parameter that died in the call, and MWCC still sets it just before the `bl`: `scrcmd_msg.c`'s
+  `ScriptNative_ActorMsgWinWait`.
 - A struct member set from a C99 compound literal, `request.pos = (VecFx32){ 0, 0, 0 };`, builds the literal in a
   stack temporary through a base register just before the copy (`str r6, [r3]; str r6, [r3, #4]; str r6, [r3, #8];
   ldm r3!, {r0, r1}`), in source order among the other member stores. An initialized local makes the same stores at
@@ -415,6 +420,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   the table; written as `sListBitmaps[BMP_YES].arcId`, the same function is 0x38 bytes shorter.
 - A struct assignment, `u->pos = *pos`, copies with `ldm`/`stm`. Separate `ldr`/`str` pairs for each field are the
   NitroSDK's `VEC_Set(&u->pos, pos->x, pos->y, pos->z)`, as `iss_3ds_sys.c`'s `ISS3DSoundSys_SetListenerCore` writes it.
+  More exactly: each field's load followed by its store is three assignments, `v.x = p->x; v.y = p->y; ...`; the loads
+  of z, y and x first and then the three stores is `VEC_Set`, and branches that each end in a `VEC_Set` into the same
+  vector share one store tail (`scrcmd_fldmmdl.c`).
 - Two locals initialized to 0 in their declarations share one zero register, so a later `offset += 4` compiles as
   `adds r5, r4, #4` from the counter's zero: `iss_switch_set.c`'s `ISSSwitchSet_LoadArcDataCore` declares `int i = 0;
   u32 offset = 0;`, where `offset = 4` shares the `movs #4` of another argument instead.
@@ -634,6 +642,8 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 ## Switches
 
+- `*result = N; break;` in every case makes later cases branch to an earlier case's `b`, a branch to a branch. A local
+  set in each case and stored once after the switch gives direct branches: `scrcmd_fldmmdl.c`'s `s0078`.
 - Switch cases are laid out in source order, not by value, so the layout shows the order the cases were written in.
 - A switch's comparison tree and jump tables depend on every case value, including cases with no code: the Battle
   Subway's command switch only splits its values as the game does with an empty `case 102:` inside its first jump

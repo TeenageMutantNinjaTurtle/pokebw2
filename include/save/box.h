@@ -46,6 +46,10 @@ BOOL func_02007da4(BoxSaveAccessor *boxes, u32 set);
 BattleBoxSave *getBattleBox(SaveControl *save);
 // Allocates a party of the battle box's Pokémon
 PokeParty *convertBoxedPokeSetToParty(BattleBoxSave *battleBox, HeapID heapId);
+// Store the party in the Battle Box
+void copySelectedPkmToBattleBlk(BattleBoxSave *battleBox, PokeParty *party);
+// Whether any of the flags is set
+BOOL func_0200c394(BattleBoxSave *battleBox, u16 flags);
 BoxPkm *getBoxSlotAddress(BattleBoxSave *battleBox, u32 a1, u32 slot);
 BOOL func_0200c340(BattleBoxSave *battleBox);
 

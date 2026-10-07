@@ -13,6 +13,7 @@
 #define OVERLAY_GSYNC OVERLAY_ID(199)
 
 // Results of the Game Sync procs
+#define GSYNC_RESULT_NONE 0
 #define GSYNC_RESULT_ACCOUNT 1
 #define GSYNC_RESULT_CONNECT 2
 #define GSYNC_RESULT_WIFI_SETTINGS 3

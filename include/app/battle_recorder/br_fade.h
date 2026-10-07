@@ -19,5 +19,7 @@ void func_ov271_021f55cc(BrFade *fade);
 void func_ov271_021f560c(BrFade *fade, u16 color);
 void func_ov271_021f5610(BrFade *fade, u32 display);
 void func_ov271_021f5658(BrFade *fade, u32 display, u32 alpha);
+// Loads a palette into one of the fade's PaletteFade buffers
+void func_ov271_021f5700(BrFade *fade, ArcTool *handle, u32 fileId, u32 buffer, u32 offset, u32 size, HeapID heapId);
 
 #endif // POKEBW2_APP_BATTLE_RECORDER_BR_FADE_H

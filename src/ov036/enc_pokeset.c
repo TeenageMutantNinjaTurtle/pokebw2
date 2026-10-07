@@ -473,35 +473,35 @@ static u8 FieldEncount_PrepareActiveSlots(EncData *encData, EncountManager *mana
     switch (manager->encType) {
     case ENCTYPE_GRASS:
         count = 12;
-        src = &encData->slots[0];
+        src = encData->grass;
         break;
     case ENCTYPE_GRASS_RARE:
         count = 12;
-        src = &encData->slots[12];
+        src = encData->grassRare;
         break;
     case ENCTYPE_GRASS_SHAKING:
         count = 12;
-        src = &encData->slots[24];
+        src = encData->grassShaking;
         break;
     case ENCTYPE_SURF:
         funcIndex = 1;
         count = 5;
-        src = &encData->slots[36];
+        src = encData->surf;
         break;
     case ENCTYPE_SURF_RARE:
         funcIndex = 1;
         count = 5;
-        src = &encData->slots[41];
+        src = encData->surfRare;
         break;
     case ENCTYPE_FISHING:
         funcIndex = 2;
         count = 5;
-        src = &encData->slots[46];
+        src = encData->fishing;
         break;
     case ENCTYPE_FISHING_RARE:
         funcIndex = 2;
         count = 5;
-        src = &encData->slots[51];
+        src = encData->fishingRare;
         break;
     }
     manager->slotFuncIndex = funcIndex;

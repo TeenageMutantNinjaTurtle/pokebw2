@@ -19,6 +19,10 @@ BOOL CalculateRailCurves(FieldRailSystem *rail, const VecFx32 *start, const VecF
 BOOL func_ov036_021b068c(FieldRailSystem *rail, const RailPosition *railPos, u32 railDir, RailPosition *next);
 // The world position of the rail position
 void func_ov036_021b06ec(FieldRailSystem *rail, const RailPosition *railPos, VecFx32 *pos);
+void func_ov036_021b0774(RailUnit *unit, RailPosition *pos);
+// Writes the unit's rail position to three script variables, or sets it from three values
+void SetWkToActorRailPos(RailUnit *unit, u16 *a1, u16 *a2, u16 *a3);
+void func_ov036_021b0e38(RailUnit *unit, u16 a1, u16 a2, u16 a3);
 NoGridMapper *FieldNoGridMapper_Create(HeapID heapId, FieldCamera *camera, void *sceneArea, void *sceneAreaLoader);
 void FieldNoGridMapper_Free(NoGridMapper *mapper);
 void FieldNoGridMapper_LoadByHeader(NoGridMapper *mapper, u32 railId, HeapID heapId);

@@ -1019,9 +1019,9 @@ BOOL GFL_StrCmdIsWordSet(const u16 *cmd) {
     return FALSE;
 }
 
-u8 GFL_StrCmdGetCommandCategory(const u16 *cmd) {
+u32 GFL_StrCmdGetCommandCategory(const u16 *cmd) {
     if (*cmd == STRCMD_CHAR) {
-        return cmd[1] >> 8;
+        return (u8)(cmd[1] >> 8);
     }
     return 0xff;
 }
@@ -1037,9 +1037,9 @@ void GFL_StrCmdBuild(StrBuf *strbuf, u32 category, u16 index, u8 paramCount, con
     }
 }
 
-u8 GFL_StrCmdGetCommandIndex(const u16 *cmd) {
+u32 GFL_StrCmdGetCommandIndex(const u16 *cmd) {
     if (*cmd == STRCMD_CHAR) {
-        return cmd[1];
+        return (u8)cmd[1];
     }
     return 0xff;
 }

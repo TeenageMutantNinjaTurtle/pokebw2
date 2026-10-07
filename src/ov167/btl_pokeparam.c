@@ -571,7 +571,7 @@ void func_ov167_021bb054(BattleMon *mon) {
     mon->core.illusion = 0;
 }
 
-PartyPkm *func_ov167_021bb064(BattleMon *mon) {
+PartyPkm *func_ov167_021bb064(const BattleMon *mon) {
     PartyPkm *disguise;
 
     disguise = mon->core.illusionDisguise;
