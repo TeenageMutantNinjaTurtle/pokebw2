@@ -268,6 +268,11 @@ Same instructions, scheduled in another order.
 
 Narrowing shifts, reloads, recomputed addresses and folded constants.
 
+- `p->stack[p->num - 1]` with the array a direct member of `*p` subtracts 1 and loads from the array's offset
+  (`subs; lsls; ldr [r0, #0x4c]`), while the same index into an array inside a nested struct folds the `- 1` into the
+  offset (`lsls; ldr [r0, #0x48]`). The Battle Recorder's `BrProcSys_Pop` has the folded load, but its asserts name
+  `p_wk->stack_num` as a member of the work itself, so it stays unmatched.
+
 - `field += value` on an `s16` field with an `int` value narrows the value first and shares the narrowed copy between
   such adds, where `field = field + value` adds the `int` as it is. The phrase input's `PMSIVEdit_ScrollWait` adds its
   step to two scroll fields the second way.
