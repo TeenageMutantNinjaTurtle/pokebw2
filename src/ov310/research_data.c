@@ -31,7 +31,7 @@ static u8 ResearchData_GetQuestionIndex(const ResearchData *data, u8 questionId)
     return 0;
 }
 
-u8 ResearchData_GetAnswerIndex(const ResearchData *data, u8 questionId, u16 answerId) {
+u8 ResearchData_GetAnswerIndex(const ResearchData *data, u8 questionId, u8 answerId) {
     int i;
     const ResearchQuestion *question = &data->questions[ResearchData_GetQuestionIndex(data, questionId)];
 

@@ -128,7 +128,7 @@ u32 PokeParty_GetPkmRawSize(void);
 // The size of a boxed Pokémon's data
 u32 PML_GetPkmRawSize(void);
 void PML_PkmInit(BoxPkm *pkm);
-void PML_CreateTempPkm(BoxPkm *pkm, u16 species, u16 level, u32 a3, u32 a4);
+void PML_CreateTempPkm(BoxPkm *pkm, u16 species, u16 level, u64 id);
 void copyPartyPkm(const PartyPkm *src, PartyPkm *dest);
 // Resets the nickname to the species' name
 void setNicknameToNick(PartyPkm *pkm);

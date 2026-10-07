@@ -9,6 +9,7 @@ src/ov207/p_sta_sys.c:
     .rodata     start:0x021bae50 end:0x021bafe8
 
 src/ov207/p_status.c:
+    complete
     .text       start:0x021b50f0 end:0x021b53a4
     .rodata     start:0x021bafe8 end:0x021bb000
     .data       start:0x021bb6e0 end:0x021bb6f8
@@ -32,3 +33,12 @@ src/ov207/p_sta_skill.c:
     .text       start:0x021b8550 end:0x021ba940
     .rodata     start:0x021bb184 end:0x021bb1c4
     .data       start:0x021bb724 end:0x021bb734
+
+src/ov207/p_sta_oam.c:
+    .text       start:0x021ba940 end:0x021baddc
+    .data       start:0x021bb734 end:0x021bb740
+
+src/ov207/ribbon.c:
+    complete
+    .text       start:0x021baddc end:0x021bae50
+    .rodata     start:0x021bb1c4 end:0x021bb6c4

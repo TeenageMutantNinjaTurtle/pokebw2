@@ -25,12 +25,15 @@ typedef struct {
 typedef struct {
     u8 id;
     u8 answerCount;
-    u8 unk2[6];
+    // How many people answered the question today, and in all
+    u16 todayCount;
+    u32 totalCount;
     ResearchAnswer answers[RESEARCH_ANSWER_MAX];
 } ResearchQuestion;
 
 struct ResearchData {
-    u32 unk0;
+    // The survey's index in the Research Radar's list
+    u8 surveyId;
     ResearchQuestion questions[RESEARCH_QUESTION_COUNT];
 };
 
@@ -39,6 +42,6 @@ u8 ResearchData_GetAnswerRed(const ResearchData *data, u8 question, u8 answer);
 u8 ResearchData_GetAnswerGreen(const ResearchData *data, u8 question, u8 answer);
 u8 ResearchData_GetAnswerBlue(const ResearchData *data, u8 question, u8 answer);
 // The index of the answer to a question, both by their IDs, or 0 if it isn't there
-u8 ResearchData_GetAnswerIndex(const ResearchData *data, u8 questionId, u16 answerId);
+u8 ResearchData_GetAnswerIndex(const ResearchData *data, u8 questionId, u8 answerId);
 
 #endif // POKEBW2_APP_RESEARCH_RADAR_RESEARCH_DATA_H

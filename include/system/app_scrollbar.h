@@ -7,5 +7,7 @@
 
 // The value from 0 to max that a touch at pos on a bar from start to end picks, with a thumb of thumbSize
 u32 func_020355b8(u32 max, u32 pos, u32 start, u32 end, u32 thumbSize);
+// Where on the bar the thumb of a value from 0 to max goes
+u32 func_020355e0(u32 max, u32 value, u32 start, u32 end, u32 thumbSize);
 
 #endif // POKEBW2_SYSTEM_APP_SCROLLBAR_H

@@ -62,3 +62,8 @@ src/ov310/percentage.c:
 src/ov310/palette_anime.c:
     .text       start:0x021a63e0 end:0x021a6848
     .data       start:0x021a788c end:0x021a78a0
+
+src/ov310/research_graph.c:
+    .text       start:0x021a0f60 end:0x021a4394
+    .rodata     start:0x021a7028 end:0x021a7740
+    .data       start:0x021a780c end:0x021a7820

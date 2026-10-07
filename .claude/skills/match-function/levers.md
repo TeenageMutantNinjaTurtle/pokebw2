@@ -39,6 +39,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   `u16` or `u8`. (matching.md: "callers narrow with shifts")
 - An element's address and the array base in two registers: test the fields through an element pointer and index in
   the body. (matching.md: "pointer to the element")
+- A struct member's offset loaded early into `r6`/`r7` and added to the base at each use: a local pointer to the
+  member, assigned where the original loads the offset. (matching.md: "pointer to a struct member")
 
 ## Stack slots or frame size
 

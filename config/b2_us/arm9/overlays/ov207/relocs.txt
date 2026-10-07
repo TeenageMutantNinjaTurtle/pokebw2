@@ -1748,12 +1748,12 @@ from:0x021bace6 kind:thumb_call to:0x0204c140 module:main
 from:0x021bad62 kind:thumb_call to:0x0204bde0 module:main
 from:0x021bad8e kind:thumb_call to:0x0204be64 module:main
 from:0x021badec kind:load to:0x021bb184 module:overlay(207)
-from:0x021badf0 kind:load to:0x021bb188 module:overlay(207)
-from:0x021badf4 kind:load to:0x021bb18a module:overlay(207)
-from:0x021badf8 kind:load to:0x021bb18c module:overlay(207)
-from:0x021badfc kind:load to:0x021bb18e module:overlay(207)
-from:0x021bae00 kind:load to:0x021bb190 module:overlay(207)
-from:0x021bae0c kind:load to:0x021bb18e module:overlay(207)
+from:0x021badf0 kind:load to:0x021bb184 add:0x4 module:overlay(207)
+from:0x021badf4 kind:load to:0x021bb184 add:0x6 module:overlay(207)
+from:0x021badf8 kind:load to:0x021bb184 add:0x8 module:overlay(207)
+from:0x021badfc kind:load to:0x021bb184 add:0xa module:overlay(207)
+from:0x021bae00 kind:load to:0x021bb184 add:0xc module:overlay(207)
+from:0x021bae0c kind:load to:0x021bb184 add:0xa module:overlay(207)
 from:0x021bb104 kind:load to:0x02010005 module:main
 from:0x021bb114 kind:load to:0x02100102 module:main
 from:0x021bb118 kind:load to:0x02100302 module:main
