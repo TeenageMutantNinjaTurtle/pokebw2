@@ -12025,7 +12025,8 @@ from:0x021afcd8 kind:thumb_call to:0x02155184 module:overlay(12)
 from:0x021afcdc kind:thumb_call to:0x02153ea8 module:overlay(12)
 from:0x021afce2 kind:thumb_call to:0x02180564 module:overlay(36)
 from:0x021afcec kind:thumb_call to:0x021b437c module:overlay(36)
-from:0x021afcf8 kind:load to:0x021efbb0 module:overlays(99,103,121,122)
+from:0x021afcf4 kind:overlay_id to:121
+from:0x021afcf8 kind:load to:0x021efbb0 module:overlay(121)
 from:0x021afd06 kind:thumb_call to:0x02155174 module:overlay(12)
 from:0x021afd10 kind:thumb_call to:0x02154910 module:overlay(12)
 from:0x021afd18 kind:thumb_call to:0x02017934 module:main

@@ -4,6 +4,7 @@
 #include "types.h"
 #include "gfl/heap.h"
 #include "nitro/fx.h"
+#include "nitro/rtc.h"
 #include "struct_decls.h"
 
 SaveControl *SaveControl_GetInstance(void);
@@ -139,6 +140,12 @@ u16 func_0200af38(MusicalSave *musical);
 u8 func_0200af5c(MusicalSave *musical);
 void func_0200af64(MusicalSave *musical, u8 value);
 void *func_0200afbc(SaveControl *save);
+// The block of func_0200afbc: 30 entries of 0x1c bytes, each starting with a name. The number of entries in use, the
+// entry of a birthday and date, whether an entry is flagged, and an entry
+u32 func_0200afc8(void *data);
+u32 func_0200b05c(void *data, u8 month, u8 day, RTCDate *date);
+BOOL func_0200b014(void *data, u32 index);
+const u16 *func_0200afe4(void *data, u32 index);
 void func_0200b220(void *data);
 MusicalSave *getAddressOfMusicalDataInfo(SaveControl *save);
 void func_0200aef0(MusicalSave *musical, u8 value);

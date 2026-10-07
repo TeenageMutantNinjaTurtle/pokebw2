@@ -1464,6 +1464,7 @@ overlays/ov103 0x021ef020 BadgeGate_CreateCheckEvent
 overlays/ov103 0x021ef068 BadgeGate_CheckEvent
 overlays/ov103 0x021ef250 BadgeGate_CreateLastGateEvent
 overlays/ov103 0x021ef2b0 BadgeGate_LastGateEvent
+overlays/ov121 0x021efbb0 CASTELIA_RUSH_PROC_DEF
 overlays/ov126 0x021eec80 UnderwaterEffect_Init
 overlays/ov126 0x021eed7c UnderwaterEffect_Free
 overlays/ov126 0x021eeddc UnderwaterEffect_Update

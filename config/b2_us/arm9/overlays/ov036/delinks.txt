@@ -235,3 +235,7 @@ src/ov036/scrcmd_fld_battle.c:
     complete
     .text       start:0x021aea40 end:0x021aedf4
     .data       start:0x021d5204 end:0x021d5218
+
+src/ov036/scrcmd_misc.c:
+    .text       start:0x021afcd4 end:0x021b0228
+    .rodata     start:0x021d0f64 end:0x021d0f98
