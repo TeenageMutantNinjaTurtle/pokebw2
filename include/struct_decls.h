@@ -340,6 +340,7 @@ typedef struct TCBExManager TCBExManager;
 typedef struct TCBManager TCBManager;
 typedef struct TextPrintParam TextPrintParam;
 typedef struct TouchpadManager TouchpadManager;
+typedef struct TPokeData TPokeData;
 typedef struct TrainerGameInfoSave TrainerCardSave;
 typedef struct TrainerClashSlot TrainerClashSlot;
 typedef struct TrainerDataSave TrainerDataSave;

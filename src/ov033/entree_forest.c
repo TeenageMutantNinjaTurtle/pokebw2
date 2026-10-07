@@ -10,7 +10,7 @@
 #include "field/field_actor.h"
 #include "field/zone.h"
 #include "gfl/random.h"
-#include "pml/poke_graphic.h"
+#include "system/tpoke_data.h"
 #include "struct_decls.h"
 
 typedef struct {
