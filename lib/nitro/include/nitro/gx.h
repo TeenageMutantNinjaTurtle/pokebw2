@@ -232,6 +232,7 @@ typedef enum {
 #define GX_VRAM_SUB_BGEXTPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_SUB_BGEXTPLTT_0123_H GX_VRAM_H
 #define GX_VRAM_OBJ_NONE GX_VRAM_NONE
+#define GX_VRAM_OBJ_16_F GX_VRAM_F
 #define GX_VRAM_OBJ_16_G GX_VRAM_G
 #define GX_VRAM_OBJ_64_E GX_VRAM_E
 #define GX_VRAM_OBJ_128_B GX_VRAM_B
@@ -312,6 +313,8 @@ typedef enum {
 
 typedef enum {
     GX_BG_BMPSCRBASE_0x00000 = 0,
+    GX_BG_BMPSCRBASE_0x10000 = 4,
+    GX_BG_BMPSCRBASE_0x28000 = 10,
 } GXBGBmpScrBase;
 
 #define GX_PACK_VIEWPORT_PARAM(x1, y1, x2, y2) \
