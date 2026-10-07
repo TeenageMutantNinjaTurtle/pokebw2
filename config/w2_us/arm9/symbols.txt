@@ -7741,8 +7741,11 @@ strcmpi kind:function(arm,size=0xc) addr:0x0208c244
 __aeabi_dadd kind:function(arm,size=0x318) addr:0x0208c250
 doubleSub kind:function(arm,size=0x3b4) addr:0x0208c580
 __aeabi_dmul kind:function(arm,size=0x364) addr:0x0208c934
+_dmul kind:label(arm) addr:0x0208c934
 __aeabi_d2f kind:function(arm,size=0x104) addr:0x0208cc98
+_d2f kind:label(arm) addr:0x0208cc98
 __aeabi_i2d kind:function(arm,size=0x40) addr:0x0208cd9c
+_dflt kind:label(arm) addr:0x0208cd9c
 __aeabi_ui2d kind:function(arm,size=0x3c) addr:0x0208cddc
 __aeabi_dcmpge kind:function(arm,size=0x98) addr:0x0208ce18
 __aeabi_dcmpgt kind:function(arm,size=0x98) addr:0x0208ceb0
@@ -7755,6 +7758,7 @@ _fgr kind:function(arm,size=0x5c) addr:0x0208d1fc
 _fleq kind:function(arm,size=0x68) addr:0x0208d258
 _fls kind:function(arm,size=0x5c) addr:0x0208d2c0
 __aeabi_f2d kind:function(arm,size=0x84) addr:0x0208d31c
+_f2d kind:label(arm) addr:0x0208d31c
 __aeabi_i2f kind:function(arm,size=0x48) addr:0x0208d3a0
 _fflt kind:label(arm) addr:0x0208d3a0
 _ffltu kind:function(arm,size=0x48) addr:0x0208d3e8
@@ -7774,6 +7778,7 @@ _ffix kind:function(arm,size=0x34) addr:0x0208da78
 __aeabi_f2uiz kind:function(arm,size=0x40) addr:0x0208daac
 _ffixu kind:label(arm) addr:0x0208daac
 __aeabi_d2iz kind:function(arm,size=0x4c) addr:0x0208daec
+_dfix kind:label(arm) addr:0x0208daec
 __aeabi_d2ulz kind:function(arm,size=0x8c) addr:0x0208db38
 sqrt kind:function(arm,size=0x19c) addr:0x0208dbc4
 _fmul kind:function(arm,size=0x1e0) addr:0x0208dd60

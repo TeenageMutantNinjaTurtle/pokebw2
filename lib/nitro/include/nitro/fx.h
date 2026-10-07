@@ -17,6 +17,11 @@ typedef s64 fx64;
 #define FX32_MIN ((fx32)0x80000000)
 #define FX32_CONST(x) ((fx32)(((x) > 0) ? ((x) * FX32_ONE + 0.5f) : ((x) * FX32_ONE - 0.5f)))
 #define FX16_CONST(x) ((fx16)(((x) > 0) ? ((x) * FX16_ONE + 0.5f) : ((x) * FX16_ONE - 0.5f)))
+// Conversions between fixed point numbers and floats, rounded to the nearest
+#define FX_F32_TO_FX16(x) ((fx16)(((x) > 0) ? (fx16)((x) * FX16_ONE + 0.5f) : (fx16)((x) * FX16_ONE - 0.5f)))
+#define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? (fx32)((x) * FX32_ONE + 0.5f) : (fx32)((x) * FX32_ONE - 0.5f)))
+#define FX_FX16_TO_F32(x) ((f32)((x) / (f32)FX16_ONE))
+#define FX_FX32_TO_F32(x) ((f32)((x) / (f32)FX32_ONE))
 #define FX_Whole(a) ((s32)((a) >> FX32_SHIFT))
 
 typedef struct {
@@ -120,6 +125,8 @@ void vecfx_cross(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
 fx32 vecfx_dot16(const VecFx16 *a, const VecFx16 *b);
 void vecfx_cross16(const VecFx16 *a, const VecFx16 *b, VecFx16 *axb);
 void vecfx_normalize16(const VecFx16 *src, VecFx16 *dest);
+// NitroSDK's VEC_Fx16Add
+void vecfx_add16(const VecFx16 *a, const VecFx16 *b, VecFx16 *ab);
 
 // An angle in fixed point degrees as a 16-bit angle
 #define FX64C_65536_360 ((s64)0x000000b60b60b60bLL)

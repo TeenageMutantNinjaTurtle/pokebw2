@@ -83,26 +83,26 @@ PMSIView_FlushMessage kind:function(thumb,size=0x3a) addr:0x0219e708
 PMSIView_ChangeKTEditArea kind:function(thumb,size=0x6e) addr:0x0219e744
 PMSIView_ChangeKTCategory kind:function(thumb,size=0x3c) addr:0x0219e7b4
 PMSIView_ChangeKTWordWin kind:function(thumb,size=0xc) addr:0x0219e7f0
-func_ov185_0219e7bc kind:function(thumb,size=0x70) addr:0x0219e7fc
-func_ov185_0219e82c kind:function(thumb,size=0x2e) addr:0x0219e86c
-func_ov185_0219e85c kind:function(thumb,size=0x2e) addr:0x0219e89c
-func_ov185_0219e88c kind:function(thumb,size=0x2e) addr:0x0219e8cc
-func_ov185_0219e8bc kind:function(thumb,size=0x8) addr:0x0219e8fc
-func_ov185_0219e8c4 kind:function(thumb,size=0x28) addr:0x0219e904
-func_ov185_0219e8ec kind:function(thumb,size=0x48) addr:0x0219e92c
-func_ov185_0219e934 kind:function(thumb,size=0x16c) addr:0x0219e974
-func_ov185_0219eaa0 kind:function(thumb,size=0xc) addr:0x0219eae0
-func_ov185_0219eaac kind:function(thumb,size=0x18) addr:0x0219eaec
-func_ov185_0219eac4 kind:function(thumb,size=0x10) addr:0x0219eb04
-func_ov185_0219ead4 kind:function(thumb,size=0x4) addr:0x0219eb14
-func_ov185_0219ead8 kind:function(thumb,size=0x1c) addr:0x0219eb18
-func_ov185_0219eaf4 kind:function(thumb,size=0x10) addr:0x0219eb34
-func_ov185_0219eb04 kind:function(thumb,size=0x1c) addr:0x0219eb44
-func_ov185_0219eb20 kind:function(thumb,size=0x10) addr:0x0219eb60
-func_ov185_0219eb30 kind:function(thumb,size=0x10) addr:0x0219eb70
-func_ov185_0219eb40 kind:function(thumb,size=0x10) addr:0x0219eb80
-func_ov185_0219eb50 kind:function(thumb,size=0x10) addr:0x0219eb90
-func_ov185_0219eb60 kind:function(thumb,size=0x10) addr:0x0219eba0
+PMSISearch_Create kind:function(thumb,size=0x70) addr:0x0219e7fc
+PMSISearch_Delete kind:function(thumb,size=0x2e) addr:0x0219e86c
+PMSISearch_AddChar kind:function(thumb,size=0x2e) addr:0x0219e89c
+PMSISearch_DelChar kind:function(thumb,size=0x2e) addr:0x0219e8cc
+PMSISearch_GetInputLen kind:function(thumb,size=0x8) addr:0x0219e8fc
+PMSISearch_Reset kind:function(thumb,size=0x28) addr:0x0219e904
+PMSISearch_GetInputStr kind:function(thumb,size=0x48) addr:0x0219e92c
+PMSISearch_Search kind:function(thumb,size=0x16c) addr:0x0219e974
+PMSISearch_GetResultCount kind:function(thumb,size=0xc) addr:0x0219eae0
+PMSISearch_GetResultStr kind:function(thumb,size=0x18) addr:0x0219eaec
+PMSISearch_GetResultWord kind:function(thumb,size=0x10) addr:0x0219eb04
+PMSIInitial_GetCount kind:function(thumb,size=0x4) addr:0x0219eb14
+PMSIInitial_GetString kind:function(thumb,size=0x1c) addr:0x0219eb18
+PMSIInitial_GetCode kind:function(thumb,size=0x10) addr:0x0219eb34
+PMSIInitial_GetPos kind:function(thumb,size=0x1c) addr:0x0219eb44
+PMSIInitial_GetUp kind:function(thumb,size=0x10) addr:0x0219eb60
+PMSIInitial_GetDown kind:function(thumb,size=0x10) addr:0x0219eb70
+PMSIInitial_GetLeft kind:function(thumb,size=0x10) addr:0x0219eb80
+PMSIInitial_GetRight kind:function(thumb,size=0x10) addr:0x0219eb90
+PMSIInitial_GetBottom kind:function(thumb,size=0x10) addr:0x0219eba0
 PMSIVCategory_Create kind:function(thumb,size=0x3c) addr:0x0219ebb0
 PMSIVCategory_Delete kind:function(thumb,size=0x5a) addr:0x0219ebec
 PMSIVCategory_SetupGraphicDatas kind:function(thumb,size=0xcc) addr:0x0219ec48
@@ -436,34 +436,18 @@ sCategoryWords03 kind:data(any) addr:0x021a65bc
 sCategoryWords01 kind:data(any) addr:0x021a6a10
 sPMSIViewLCDConfig kind:data(any) addr:0x021a6f24
 sPMSIViewBG3Setup kind:data(any) addr:0x021a6f34
-data_ov185_021a6f09 kind:data(any) addr:0x021a6f49 ambiguous
 sPMSIViewBG7Setup kind:data(any) addr:0x021a6f54
 sPMSIViewBG6Setup kind:data(any) addr:0x021a6f74
-data_ov185_021a6f3d kind:data(any) addr:0x021a6f7d ambiguous
 sPMSIViewBG2Setup kind:data(any) addr:0x021a6f94
 sPMSIViewBG0Setup kind:data(any) addr:0x021a6fb4
 sPMSIViewBG1Setup kind:data(any) addr:0x021a6fd4
-data_ov185_021a6fa9 kind:data(any) addr:0x021a6fe9 ambiguous
 sPMSIViewBG5Setup kind:data(any) addr:0x021a6ff4
 sPMSIViewBG4Setup kind:data(any) addr:0x021a7014
 sPMSIViewVRAMConfig kind:data(any) addr:0x021a7034
-data_ov185_021a7021 kind:data(any) addr:0x021a7061 ambiguous
 data_ov185_021a7024 kind:data(any) addr:0x021a7064
-data_ov185_021a703c kind:data(any) addr:0x021a707c
-data_ov185_021a7050 kind:data(any) addr:0x021a7090
-data_ov185_021a705d kind:data(any) addr:0x021a709d ambiguous
-data_ov185_021a7088 kind:data(any) addr:0x021a70c8
-data_ov185_021a708a kind:data(any) addr:0x021a70ca
-data_ov185_021a708b kind:data(any) addr:0x021a70cb
-data_ov185_021a708c kind:data(any) addr:0x021a70cc
-data_ov185_021a708d kind:data(any) addr:0x021a70cd
-data_ov185_021a708e kind:data(any) addr:0x021a70ce
-data_ov185_021a708f kind:data(any) addr:0x021a70cf
-data_ov185_021a7091 kind:data(any) addr:0x021a70d1
-data_ov185_021a7095 kind:data(any) addr:0x021a70d5 ambiguous
-data_ov185_021a70d9 kind:data(any) addr:0x021a7119 ambiguous
-data_ov185_021a7115 kind:data(any) addr:0x021a7155 ambiguous
-data_ov185_021a7135 kind:data(any) addr:0x021a7175 ambiguous
+sPMSISearchExcludedWords kind:data(any) addr:0x021a707c
+sPMSISearchInitialMsgFiles kind:data(any) addr:0x021a7090
+sPMSIInitials kind:data(any) addr:0x021a70c8
 data_ov185_021a71a4 kind:data(any) addr:0x021a71e4
 data_ov185_021a71b0 kind:data(any) addr:0x021a71f0
 data_ov185_021a71b4 kind:data(any) addr:0x021a71f4
@@ -475,14 +459,11 @@ data_ov185_021a71e0 kind:data(any) addr:0x021a7220
 data_ov185_021a71e8 kind:data(any) addr:0x021a7228
 data_ov185_021a71f0 kind:data(any) addr:0x021a7230
 data_ov185_021a71f8 kind:data(any) addr:0x021a7238
-data_ov185_021a71f9 kind:data(any) addr:0x021a7239 ambiguous
 data_ov185_021a7200 kind:data(any) addr:0x021a7240
 data_ov185_021a720c kind:data(any) addr:0x021a724c
 data_ov185_021a7218 kind:data(any) addr:0x021a7258
-data_ov185_021a7221 kind:data(any) addr:0x021a7261 ambiguous
 data_ov185_021a7228 kind:data(any) addr:0x021a7268
 data_ov185_021a723c kind:data(any) addr:0x021a727c
-data_ov185_021a7249 kind:data(any) addr:0x021a7289 ambiguous
 data_ov185_021a7258 kind:data(any) addr:0x021a7298
 data_ov185_021a7259 kind:data(any) addr:0x021a7299
 data_ov185_021a725a kind:data(any) addr:0x021a729a
@@ -494,30 +475,20 @@ data_ov185_021a72a4 kind:data(any) addr:0x021a72e4
 data_ov185_021a72b4 kind:data(any) addr:0x021a72f4 ambiguous
 data_ov185_021a72c0 kind:data(any) addr:0x021a7300
 data_ov185_021a72d8 kind:data(any) addr:0x021a7318
-data_ov185_021a72d9 kind:data(any) addr:0x021a7319 ambiguous
-data_ov185_021a72e9 kind:data(any) addr:0x021a7329 ambiguous
 data_ov185_021a72f8 kind:data(any) addr:0x021a7338
 data_ov185_021a7308 kind:data(any) addr:0x021a7348
 data_ov185_021a7324 kind:data(any) addr:0x021a7364
-data_ov185_021a7341 kind:data(any) addr:0x021a7381 ambiguous
 data_ov185_021a7354 kind:data(any) addr:0x021a7394
-data_ov185_021a73b1 kind:data(any) addr:0x021a73f1 ambiguous
-data_ov185_021a73c1 kind:data(any) addr:0x021a7401 ambiguous
-data_ov185_021a73ed kind:data(any) addr:0x021a742d ambiguous
-data_ov185_021a7419 kind:data(any) addr:0x021a7459 ambiguous
 data_ov185_021a7460 kind:data(any) addr:0x021a74a0
 data_ov185_021a7474 kind:data(any) addr:0x021a74b4
-data_ov185_021a74ad kind:data(any) addr:0x021a74ed ambiguous
-data_ov185_021a74fd kind:data(any) addr:0x021a753d ambiguous
 data_ov185_021a7500 kind:data(any) addr:0x021a7540
 data_ov185_021a7514 kind:data(any) addr:0x021a7554
 data_ov185_021a7524 kind:data(any) addr:0x021a7564
 data_ov185_021a7538 kind:data(any) addr:0x021a7578
 data_ov185_021a7548 kind:data(any) addr:0x021a7588
-data_ov185_021a754d kind:data(any) addr:0x021a758d ambiguous
 data_ov185_021a7558 kind:data(any) addr:0x021a7598
 data_ov185_021a7564 kind:data(any) addr:0x021a75a4
 data_ov185_021a7574 kind:data(any) addr:0x021a75b4
 data_ov185_021a7578 kind:data(any) addr:0x021a75b8
-data_ov185_021a759d kind:data(any) addr:0x021a75dd ambiguous
 PMSI_FIXED_CATEGORIES kind:data(any) addr:0x021a516c
+PMSIV_CATEGORY_UNK_7198 kind:data(any) addr:0x021a71d8
