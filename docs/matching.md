@@ -164,6 +164,10 @@ Same code, other `sp` offsets or frame size.
 - The types of locals and of the values they hold change how spilled values are scheduled. The trainer AI's speed
   comparison only matches with the speed function returning `u16` into `u16` locals: a spilled `u16` is reloaded after
   the call's stack argument is stored, while a spilled `u32` is reloaded before it.
+  A spilled loop bound is the same: `AddExpAndEVs` in `btl_server_flow_sub.c` stores the spilled counter before
+  loading its bound, the number of mons, only with the bound a `u16`. And `func_ov167_021afd90` matched only with
+  `numMoves` a `u32` and its locals in one order of 720; no order matched with it a `u8` or `u16`, so sweep the orders
+  again after widening a local.
 - A hardware address that the original builds with shifts and keeps on the stack, where ours loads it from the
   literal pool, comes from an SDK inline that returns it: the ribbon page's `PStaRibbon_CreateActors` builds
   `0x19 << 22` and `2 << 16` apart, and matches as `(u8 *)G2_GetOBJCharPtr() + 0x20000` but not as
