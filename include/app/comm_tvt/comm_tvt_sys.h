@@ -76,9 +76,9 @@ BOOL func_ov257_021aab5c(CommTvtWork *sys);
 void func_ov257_021aab60(CommTvtWork *sys, BOOL value);
 BOOL CommTvt_IsCameraEnabled(void);
 // The yes/no menus and the cancel button, at a corner in tiles
-void *func_ov257_021aab80(CommTvtWork *sys);
-void *func_ov257_021aac08(CommTvtWork *sys, u8 right, u8 bottom);
-void *func_ov257_021aac98(CommTvtWork *sys, u8 right, u8 bottom);
+AppTaskMenu *func_ov257_021aab80(CommTvtWork *sys);
+AppTaskMenu *func_ov257_021aac08(CommTvtWork *sys, u8 right, u8 bottom);
+AppTaskMenu *func_ov257_021aac98(CommTvtWork *sys, u8 right, u8 bottom);
 void func_ov257_021aad08(CommTvtWork *sys);
 void func_ov257_021aad48(CommTvtWork *sys);
 void func_ov257_021aad74(CommTvtWork *sys);

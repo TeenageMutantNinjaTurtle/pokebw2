@@ -680,6 +680,7 @@ sGameButtons1 kind:data(any) addr:0x021b1a13
 sGameButtons2 kind:data(any) addr:0x021b1a1f
 sSpeedButtons kind:data(any) addr:0x021b1a2b
 data_ov257_021b1a00 kind:data(any) addr:0x021b1a3c
+sUnusedColors kind:data(any) addr:0x021b1a44
 sPenButtonAnims kind:data(any) addr:0x021b1a4e
 sPickButtonAnims kind:data(any) addr:0x021b1a50
 sEraserButtonAnims kind:data(any) addr:0x021b1a52

@@ -2,7 +2,6 @@
 # module address(b2_us) action [argument]
 . 0x02006de8 remove_symbol
 . 0x02006dec add_function ampOffFreeBlocks:thumb:0x20
-. 0x0203637c reloc_module overlay(162)
 . 0x02026708 reloc_addend 0x2
 . 0x02026710 reloc_addend 0x2
 . 0x0202678c reloc_addend 0x2
@@ -37,11 +36,19 @@
 . 0x0202b60c reloc_addend 2
 . 0x0202bd2c reloc_addend 0x14
 . 0x0202bd54 reloc_addend 0x18
+. 0x02030154 reloc_addend 0x4
+. 0x0203073c reloc_addend 1
+. 0x0203078c reloc_addend 2
+. 0x0203079c reloc_addend 2
+. 0x020307dc reloc_addend 1
+. 0x020307f8 reloc_addend 2
+. 0x02030824 reloc_addend 2
+. 0x0203637c reloc_module overlay(162)
 . 0x0207ba60 add_reloc load,main,0x0207b9e8,0x50
 . 0x0207e79c add_reloc load,main,0x0207e979
 . 0x0207e970 add_function func_0207e970:arm:0x8
-. 0x0207e974 add_reloc load,ltd_autoload(0),0x02703e90
 . 0x0207e974 remove_symbol
+. 0x0207e974 add_reloc load,ltd_autoload(0),0x02703e90
 . 0x0207e978 add_function func_0207e978:thumb:0xa8
 . 0x0208d374 add_label _fflt
 . 0x0208d5c4 add_label _ll_udiv
@@ -69,6 +76,14 @@
 . 0x02091e70 reloc_module overlay(211)
 . 0x02091e74 reloc_module overlay(211)
 . 0x02091e78 reloc_module overlay(211)
+. 0x0209223c remove_symbol
+. 0x020922ba remove_symbol
+. 0x020922bd remove_symbol
+. 0x020922be remove_symbol
+. 0x02092316 remove_symbol
+. 0x02092395 remove_symbol
+. 0x02092396 remove_symbol
+. 0x02097bfc remove_symbol
 . 0x0210000b remove_symbol
 . 0x0210020f remove_symbol
 . 0x02141668 remove_symbol
@@ -1046,6 +1061,7 @@ overlays/ov194 0x021c7268 remove_reloc
 overlays/ov199 0x021b805e reloc_module overlay(189)
 overlays/ov199 0x021b943c reloc_module overlay(189)
 overlays/ov201 0x021b59ce reloc_module overlay(189)
+overlays/ov207 0x021b683c reloc_addend 0x3540
 overlays/ov207 0x021baee4 remove_reloc
 overlays/ov207 0x021baf24 remove_reloc
 overlays/ov207 0x021baf44 remove_reloc
@@ -1153,6 +1169,7 @@ overlays/ov257 0x021b0d03 remove_symbol
 overlays/ov257 0x021b0fdc remove_symbol
 overlays/ov257 0x021b18c4 add_data data_ov257_021b18c4
 overlays/ov257 0x021b19ac add_data data_ov257_021b19ac
+overlays/ov257 0x021b1a08 add_data data_ov257_021b1a08
 overlays/ov260 0x021b51fa reloc_module overlay(262)
 overlays/ov260 0x021bb788 reloc_module overlay(189)
 overlays/ov260 0x021bb902 reloc_module overlay(189)

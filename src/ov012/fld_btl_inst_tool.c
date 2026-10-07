@@ -353,7 +353,7 @@ static void genSubwayBtlInstitutePoke(const BSubwayPokemon *src, PartyPkm *pkm, 
     u16 terminator;
 
     PokeParty_ClearPkm(pkm);
-    PokeParty_CreatePkm(pkm, src->species, level, -1, -1, src->ivs.all & 0x3fffffff, src->personality, 0);
+    PokeParty_CreatePkm(pkm, src->species, level, PKM_ID_RANDOM, src->ivs.all & 0x3fffffff, src->personality);
     PokeParty_SetParam(pkm, PKM_PARAM_FORM, (u8)src->form);
     PokeParty_SetParam(pkm, PKM_PARAM_ITEM, src->item);
     for (i = 0; i < 4; i++) {

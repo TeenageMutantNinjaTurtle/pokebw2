@@ -20,6 +20,9 @@ FieldActor *FieldPlayer_GetActor(FieldPlayer *player);
 u32 FieldPlayer_GetSex(FieldPlayer *player);
 void FieldPlayer_GetWPos(FieldPlayer *player, VecFx32 *pos);
 u32 FieldPlayer_GetFaceDir(FieldPlayer *player);
+// The unit vector of the direction on the grid, and the rail position a step in the direction on rails
+void func_ov036_0219aab0(FieldPlayer *player, u32 dir, VecFx32 *vec);
+void func_ov036_0219ad30(FieldPlayer *player, u32 dir, RailPosition *pos);
 // The player's object code for a sex, in a form or an extra state
 u16 FieldPlayer_GetObjCodeByForme(u32 sex, u32 forme);
 u16 FieldPlayer_GetObjCodeByExState(u32 sex, u32 exState);
@@ -163,9 +166,6 @@ u32 func_ov036_021ba6b0(u8 index, void *list);
 void *func_ov036_0218adac(HeapID heapId);
 void func_ov036_0218add0(void *wfbc);
 void func_ov036_0218ade0(void *wfbc, CityState *city, BOOL isOther, HeapID heapId);
-void FieldSnd_FadeInImmediate(FieldSound *fieldSound, GameData *gameData);
-void FieldSnd_PlayAmbience(FieldSound *fieldSound, u32 se);
-void FieldSnd_SetZoneBGM(FieldSound *fieldSound, GameData *gameData, u16 zoneId, u8 season);
 void FieldSubscreen_ChangeImm(FieldSubscreen *subscreen, u32 mode);
 BOOL FieldTaskManager_IsIdle(FieldTaskManager *taskManager);
 MMSys *Field_GetActorSystem(Field *field);

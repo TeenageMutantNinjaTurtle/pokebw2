@@ -453,7 +453,7 @@ static void PokeListDemo_Fuse(PokeListWork *wk, int form, int kyuremPos, int par
     func_0200afac(wk->param->reshZek, PokeParty_GetPkm(wk->param->party, partnerPos));
     PokeListDemo_ChangeKyuremMoves(kyurem, 0, form + 1);
     // PokeParty_ChangeForme takes a u16
-    PokeParty_ChangeForme(kyurem, (u16)(form + 1));
+    PokeParty_ChangeForme(kyurem, form + 1);
     addPkmToDex(wk->param->pokedex, kyurem);
     PokeParty_RemovePkm(wk->param->party, partnerPos);
     BagSave_SwitchOwnedDNASplicers(wk->param->bag, 0);
@@ -510,6 +510,6 @@ BOOL PokeListDemo_CanBecomeTherian(PokeListWork *wk, PartyPkm *pkm) {
 void PokeListDemo_ToggleTherian(PokeListWork *wk, PartyPkm *pkm) {
     u16 form = PokeParty_GetParam(pkm, PKM_PARAM_FORM, NULL);
 
-    PokeParty_ChangeForme(pkm, (u16)(form ^ 1));
+    PokeParty_ChangeForme(pkm, form ^ 1);
     addPkmToDex(wk->param->pokedex, pkm);
 }
