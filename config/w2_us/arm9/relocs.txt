@@ -8398,7 +8398,7 @@ from:0x020358ec kind:thumb_call to:0x02047034 module:main
 from:0x020358f2 kind:thumb_call to:0x02048270 module:main
 from:0x02035940 kind:load to:0x02092b68 module:main
 from:0x02035968 kind:load to:0x02092b68 module:main
-from:0x0203596c kind:load to:0x02092b6a module:main
+from:0x0203596c kind:load to:0x02092b68 add:0x2 module:main
 from:0x0203598c kind:load to:0x02092b68 module:main
 from:0x0203599a kind:thumb_call to:0x0201d64c module:main
 from:0x020359aa kind:thumb_call to:0x020359b4 module:main
@@ -8550,9 +8550,11 @@ from:0x0203633c kind:thumb_call to:0x0203a964 module:main
 from:0x0203635a kind:thumb_call to:0x0203a964 module:main
 from:0x02036372 kind:thumb_call to:0x0203a964 module:main
 from:0x02036382 kind:thumb_call to:0x0203a964 module:main
+from:0x0203638c kind:overlay_id to:162
 from:0x02036390 kind:load to:0x021a1a5c module:overlays(162,308)
 from:0x02036394 kind:load to:0x0214184c module:main
 from:0x02036398 kind:load to:0x02141848 module:main
+from:0x0203639c kind:overlay_id to:264
 from:0x020363a0 kind:load to:0x0219a0d8 module:overlay(264)
 from:0x020363a4 kind:load to:0x02141848 module:main
 from:0x020363a8 kind:load to:0x021a168c module:overlay(162)
@@ -9000,13 +9002,13 @@ from:0x02039526 kind:thumb_call to:0x02038a80 module:main
 from:0x02039540 kind:load to:0x02092d00 module:main
 from:0x02039560 kind:load to:0x02092d00 module:main
 from:0x02039580 kind:load to:0x02092df8 module:main
-from:0x02039584 kind:load to:0x02092dfa module:main
-from:0x02039588 kind:load to:0x02092dfc module:main
+from:0x02039584 kind:load to:0x02092df8 add:0x2 module:main
+from:0x02039588 kind:load to:0x02092df8 add:0x4 module:main
 from:0x0203959c kind:load to:0x02092d38 module:main
-from:0x020395a0 kind:load to:0x02092d3a module:main
+from:0x020395a0 kind:load to:0x02092d38 add:0x2 module:main
 from:0x020395c0 kind:load to:0x02092d18 module:main
-from:0x020395c4 kind:load to:0x02092d1a module:main
-from:0x020395c8 kind:load to:0x02092d1c module:main
+from:0x020395c4 kind:load to:0x02092d18 add:0x2 module:main
+from:0x020395c8 kind:load to:0x02092d18 add:0x4 module:main
 from:0x020395d4 kind:load to:0x02092d08 module:main
 from:0x020395ec kind:thumb_call to:0x0203a228 module:main
 from:0x020395fe kind:thumb_call to:0x0204b59c module:main

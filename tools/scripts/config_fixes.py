@@ -118,9 +118,14 @@ def apply_fix(version: str, module: str, addr: int, action: str, argument: str):
         lines = path.read_text().splitlines()
         if any(line.split()[0] == argument for line in lines):
             return
-        data = [i for i, line in enumerate(lines) if "kind:data" in line and (m := SYMBOL_ADDR_RE.search(line))
+        # An object in .bss has no contents, so dsd gives it the bss kind
+        sections = parse_sections(config_dir(version, module) / "delinks.txt")
+        in_bss = any(start <= addr < end for name, (start, end) in sections.items() if name.endswith("bss"))
+        kind = "kind:bss" if in_bss else "kind:data"
+        data = [i for i, line in enumerate(lines) if kind in line and (m := SYMBOL_ADDR_RE.search(line))
                 and int(m.group(1), 16) < addr]
-        lines.insert(data[-1] + 1 if data else len(lines), f"{argument} kind:data(any) addr:{addr:#010x}")
+        symbol = f"{argument} kind:bss addr:{addr:#010x}" if in_bss else f"{argument} kind:data(any) addr:{addr:#010x}"
+        lines.insert(data[-1] + 1 if data else len(lines), symbol)
         path.write_text("\n".join(lines) + "\n")
         return
     if action == "add_function":
