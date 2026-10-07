@@ -751,6 +751,8 @@
 . 0x02039898 ResortWork_UpdateRecords
 . 0x02039978 ResortWork_Get
 . 0x02039980 ResortWork_Set
+. 0x02039988 CRYPTO_RC4Init
+. 0x02039a08 CRYPTO_RC4Encrypt
 . 0x0203c9ec AreaManPrintByte
 . 0x0203c9f0 AreaManPrintBits
 . 0x0203ca14 AreaManPrintAlloc

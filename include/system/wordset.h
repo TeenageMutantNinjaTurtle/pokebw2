@@ -28,7 +28,7 @@ void loadPokemonSpeciesTextNameToStrbuf(WordSet *wordSet, u32 index, PartyPkm *p
 void loadMoveNameToStrbuf(WordSet *wordSet, u32 index, u32 move);
 void loadItemNameToStrbuf(WordSet *wordSet, u32 index, u32 item);
 void loadPassPowerToStrbuf(WordSet *wordSet, u32 index, u32 passPower);
-void func_02024868(WordSet *wordSet, u32 index, u32 value, s32 arg3);
+void func_02024868(WordSet *wordSet, u32 index, u8 value, s32 arg3);
 // An item's name: the plural when plural is set, else the one in message file 481 when a4 is set
 void loadItemText(WordSet *wordSet, u32 index, u32 item, BOOL plural, BOOL a4);
 void loadBagPocketNameToStrbuf(WordSet *wordSet, u32 index, u32 pocket);
@@ -51,17 +51,17 @@ void loadNatureToStrbuf(WordSet *wordSet, u32 index, u32 nature);
 void loadSayingForDisplay(WordSet *wordSet, u32 index, u16 saying);
 void func_02024574(WordSet *wordSet, u32 index, u32 value);
 void loadTypeTextToStrbuf(WordSet *wordSet, u32 index, u32 type);
-void loadTrainerTypeText(WordSet *wordSet, u32 index, u32 trainerType);
+void loadTrainerTypeText(WordSet *wordSet, u32 index, u8 trainerType);
 void loadTrainerTypeToStrbuf(WordSet *wordSet, u32 index, u32 trainerId);
-void loadTrainerTypeWithArticleToStrbuf(WordSet *wordSet, u32 index, u32 trainerType);
+void loadTrainerTypeWithArticleToStrbuf(WordSet *wordSet, u32 index, u8 trainerType);
 void loadTrainerNamesToStrbuf(WordSet *wordSet, u32 index, u32 trainerId);
 void loadStatNameToStrbuf(WordSet *wordSet, u32 index, u8 stat);
 void loadBoxNameForDisplay(WordSet *wordSet, u32 index, void *boxData, u32 box);
-void loadQuestionnaireAnswerToStrbuf(WordSet *wordSet, u32 index, u32 answer);
+void loadQuestionnaireAnswerToStrbuf(WordSet *wordSet, u32 index, u8 answer);
 void loadBattleInstituteMsgForDisplay(WordSet *wordSet, u32 index, u32 rank);
-void loadMedalNameToStrbuf(WordSet *wordSet, u32 index, u32 medal);
+void loadMedalNameToStrbuf(WordSet *wordSet, u32 index, u8 medal);
 void loadMedalRankToStrbuf(WordSet *wordSet, u32 index, u8 rank, u32 medalType);
-void loadFromEmptyFile(WordSet *wordSet, u32 index, u32 messageId);
+void loadFromEmptyFile(WordSet *wordSet, u32 index, u8 messageId);
 void loadPokewoodLineToStrbuf(WordSet *wordSet, u32 index, u32 line);
 void func_0202483c(WordSet *wordSet, u32 index, u32 tournament);
 

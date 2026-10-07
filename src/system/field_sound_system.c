@@ -337,7 +337,7 @@ void FieldSnd_Release(FieldSound *fieldSound, GameData *gameData) {
     FieldSnd_ReleaseCore(fieldSound, gameData);
 }
 
-void FieldSnd_SetPlayerVolumeFade(FieldSound *fieldSound, u8 volume, u16 duration) {
+void FieldSnd_SetPlayerVolumeFade(FieldSound *fieldSound, u8 volume, u8 duration) {
     PlayerVolumeFader_SetFade(fieldSound->volumeFader, volume, duration);
 }
 

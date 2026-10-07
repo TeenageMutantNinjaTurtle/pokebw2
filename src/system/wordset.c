@@ -284,15 +284,15 @@ void loadCountryAreaToStrbuf(WordSet *wordSet, u32 index, u32 country, u32 area)
     GFL_WordSetClearBuf(wordSet, index);
 }
 
-void loadTrainerTypeText(WordSet *wordSet, u32 index, u32 trainerType) {
+void loadTrainerTypeText(WordSet *wordSet, u32 index, u8 trainerType) {
     GFL_WordSetLoadMsg(wordSet, index, 0x17f, trainerType);
 }
 
 void loadTrainerTypeToStrbuf(WordSet *wordSet, u32 index, u32 trainerId) {
-    loadTrainerTypeText(wordSet, index, (u8)TrainerData_GetParam(trainerId, 1));
+    loadTrainerTypeText(wordSet, index, TrainerData_GetParam(trainerId, 1));
 }
 
-void loadTrainerTypeWithArticleToStrbuf(WordSet *wordSet, u32 index, u32 trainerType) {
+void loadTrainerTypeWithArticleToStrbuf(WordSet *wordSet, u32 index, u8 trainerType) {
     GFL_WordSetLoadMsg(wordSet, index, 0x1e5, trainerType);
 }
 
@@ -332,7 +332,7 @@ void loadHobbyNameToStrbuf(WordSet *wordSet, u32 index, u8 hobby) {
     GFL_WordSetLoadMsg(wordSet, index, 0x31, hobby);
 }
 
-void loadQuestionnaireAnswerToStrbuf(WordSet *wordSet, u32 index, u32 answer) {
+void loadQuestionnaireAnswerToStrbuf(WordSet *wordSet, u32 index, u8 answer) {
     if (answer > 0x91) {
         GFL_WordSetClearBuf(wordSet, index);
         return;
@@ -365,7 +365,7 @@ void loadBattleInstituteMsgForDisplay(WordSet *wordSet, u32 index, u32 rank) {
 #endif
 }
 
-void loadMedalNameToStrbuf(WordSet *wordSet, u32 index, u32 medal) {
+void loadMedalNameToStrbuf(WordSet *wordSet, u32 index, u8 medal) {
     GFL_WordSetLoadMsg(wordSet, index, 0x53, medal);
 }
 
@@ -376,7 +376,7 @@ void loadMedalRankToStrbuf(WordSet *wordSet, u32 index, u8 rank, u32 medalType) 
     GFL_WordSetLoadMsg(wordSet, index, 0x54, rank);
 }
 
-void loadFromEmptyFile(WordSet *wordSet, u32 index, u32 messageId) {
+void loadFromEmptyFile(WordSet *wordSet, u32 index, u8 messageId) {
     GFL_WordSetLoadMsg(wordSet, index, 0x4f, messageId);
 }
 
@@ -397,7 +397,7 @@ void func_0202483c(WordSet *wordSet, u32 index, u32 tournament) {
     GFL_WordSetCopyStrbuf(wordSet, index, wordSet->tmp, NULL);
 }
 
-void func_02024868(WordSet *wordSet, u32 index, u32 mission, s32 a3) {
+void func_02024868(WordSet *wordSet, u32 index, u8 mission, s32 a3) {
     void *buffer;
     FestivalText *text;
 
