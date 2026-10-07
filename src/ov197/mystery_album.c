@@ -2,6 +2,7 @@
 #include "app/mystery/mystery_album.h"
 #include "app/mystery/mystery_gift_data.h"
 #include "app/mystery/mystery_util.h"
+#include "constants/arc.h"
 #include "constants/sound.h"
 #include "gfl/arc.h"
 #include "gfl/arc_util.h"
@@ -200,7 +201,7 @@ static u32 MysteryCard_GetIconCellFile(MysteryCard *card);
 static u32 MysteryCard_GetIconAnimFile(MysteryCard *card);
 static u8 MysteryCard_GetKind(MysteryCard *card);
 static MysteryGift *MysteryCard_GetGift(MysteryCard *card);
-static BOOL MysteryCard_IsUndelivered(MysteryCard *card);
+static BOOL MysteryCard_IsDelivered(MysteryCard *card);
 static u32 MysteryCard_GetFramePalette(MysteryCard *card);
 static u32 MysteryCard_GetBgPalette(MysteryCard *card);
 static void MysteryCardView_SeqMain(MysterySeq *seq, u32 *state, void *work);
@@ -230,9 +231,9 @@ const u8 data_ov197_021be610[2] = { 0, 4 };
 static const s8 sShakeDirs[11] = { 1, -1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
 static const s8 sShakeFrames[11] = { 2, 3, 3, 2, 2, 1, 1, 1, 0, 0, 10 };
 
-// The BG palettes of a card's frame by the gift's kind, which a gift not picked up yet uses 5 palettes later
+// The BG palettes of a card's frame by the gift's kind, 5 palettes later for a gift not picked up yet
 static const u32 sCardPalettes[5] = { 0, 0, 1, 2, 2 };
-// The palettes of the card on the top screen by the gift's kind, 3 palettes later for a gift not picked up yet
+// The palettes of the card on the top screen by the gift's kind, 3 palettes later for a gift picked up
 static const u32 sCardBgPalettes[5] = { 0, 0, 1, 2, 2 };
 
 static const u16 sShakeRotations[11] = { 0x71c, 0xf8e2, 0xffff, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -299,12 +300,12 @@ MysteryCardView *MysteryCardView_Create(const MysteryCardViewSetup *setup, HeapI
     view->textWin = MysteryTextWin_Create(FALSE, texts, textCount, 1, 3, view->setup.queue, view->setup.msgData,
                                           view->setup.font, heapId);
     sys_memset(&resSetup, 0, sizeof(MysteryCardResSetup));
-    resSetup.mainBg = 6;
-    resSetup.unk4 = 4;
-    resSetup.subBg = 14;
-    resSetup.palette = 15;
-    resSetup.framePalette = 11;
-    resSetup.frameChar = 14;
+    resSetup.bg = 6;
+    resSetup.textBg = 4;
+    resSetup.bgPalette = 14;
+    resSetup.textPalette = 15;
+    resSetup.iconPalette = 11;
+    resSetup.pokePalette = 14;
     resSetup.unit = view->setup.unit;
     resSetup.giftSave = view->setup.giftSave;
     resSetup.msgData = view->setup.msgData;
@@ -410,7 +411,7 @@ BOOL MysteryCardView_IsEnd(MysteryCardView *view) {
 
 // Loads the album's BGs, its windows and its cursor and arrows
 static void MysteryCardView_LoadGraphics(MysteryCardView *view, HeapID heapId) {
-    ArcTool *arc = GFL_ArcSysCreateFileHandle(0x21, heapId);
+    ArcTool *arc = GFL_ArcSysCreateFileHandle(ARCID_MYSTERY, heapId);
     int i;
     MysteryCardPos pos;
     ClActorSetup actorSetup;
@@ -425,14 +426,14 @@ static void MysteryCardView_LoadGraphics(MysteryCardView *view, HeapID heapId) {
     GFL_BGSysLoadArcNCGRStatic(arc, 10, 7, 0, 0, FALSE, heapId);
     loadBGScrToVramByFileNoReserveNegAlign(arc, 18, 7, 0, 0, FALSE, heapId);
     GFL_ArcToolFree(arc);
-    arc = GFL_ArcSysCreateFileHandle(0x17, heapId);
+    arc = GFL_ArcSysCreateFileHandle(ARCID_FONT, heapId);
     GFL_G2DIOLoadArcNCLRDefault(arc, 5, PALTYPE_MAIN_BG, 0x1e0, 0x20, heapId);
     GFL_G2DIOLoadArcNCLRDefault(arc, 5, PALTYPE_SUB_BG, 0x1e0, 0x20, heapId);
     GFL_ArcToolFree(arc);
     GFL_BGSysFillChar(1, 0, 1, 0);
     GFL_BGSysFillChar(2, 0, 1, 0);
     LoadSysMsgBox(0, 1, 13, 0, heapId);
-    arc = GFL_ArcSysCreateFileHandle(7, heapId);
+    arc = GFL_ArcSysCreateFileHandle(ARCID_POKEICON, heapId);
     view->pokeIconPalette = func_0204bc48(arc, func_02021114(), 0, 0x180, heapId);
     GFL_ArcToolFree(arc);
     for (i = 0; i < CARDS_PER_PAGE * 2; i++) {
@@ -448,7 +449,7 @@ static void MysteryCardView_LoadGraphics(MysteryCardView *view, HeapID heapId) {
         GFL_BGSysLoadScr(2);
     }
     view->pageLine = MysteryTextLine_Create(FALSE, 1, 13, 22, 6, 2, 3, view->setup.queue, heapId);
-    arc = GFL_ArcSysCreateFileHandle(0x21, heapId);
+    arc = GFL_ArcSysCreateFileHandle(ARCID_MYSTERY, heapId);
     view->palette = func_0204bbb8(arc, 0, 0, 0, 0, 6, heapId);
     view->cellAnims = func_0204bde0(arc, 32, 35, heapId);
     view->chars = func_0204b81c(arc, 9, FALSE, 0, heapId);
@@ -843,11 +844,11 @@ static GFLBitmap *MysteryCard_GetDateBitmap(MysteryCard *card) {
 static ArcTool *MysteryCard_OpenIconArc(MysteryCard *card, HeapID heapId) {
     switch (MysteryCard_GetKind(card)) {
     case 1:
-        return GFL_ArcSysCreateFileHandle(7, heapId);
+        return GFL_ArcSysCreateFileHandle(ARCID_POKEICON, heapId);
     case 2:
-        return GFL_ArcSysCreateFileHandle(0x19, heapId);
+        return GFL_ArcSysCreateFileHandle(ARCID_ITEMGRA, heapId);
     default:
-        return GFL_ArcSysCreateFileHandle(0x21, heapId);
+        return GFL_ArcSysCreateFileHandle(ARCID_MYSTERY, heapId);
     }
 }
 
@@ -920,20 +921,20 @@ static MysteryGift *MysteryCard_GetGift(MysteryCard *card) {
     return &card->gift;
 }
 
-static BOOL MysteryCard_IsUndelivered(MysteryCard *card) {
-    return card->gift.undelivered;
+static BOOL MysteryCard_IsDelivered(MysteryCard *card) {
+    return card->gift.delivered;
 }
 
 static u32 MysteryCard_GetFramePalette(MysteryCard *card) {
     u8 kind = MysteryCard_GetKind(card);
-    u32 offset = MysteryCard_IsUndelivered(card) ? 0 : 5;
+    u32 offset = MysteryCard_IsDelivered(card) ? 0 : 5;
 
     return offset + sCardPalettes[kind];
 }
 
 static u32 MysteryCard_GetBgPalette(MysteryCard *card) {
     u8 kind = MysteryCard_GetKind(card);
-    u32 offset = MysteryCard_IsUndelivered(card) ? 3 : 0;
+    u32 offset = MysteryCard_IsDelivered(card) ? 3 : 0;
 
     return offset + sCardBgPalettes[kind];
 }
@@ -1161,7 +1162,7 @@ static void MysteryCardView_SeqMenu(MysterySeq *seq, u32 *state, void *work) {
             view->msgWin = MysteryMsgWin_Create(0, 15, view->setup.queue, view->setup.font, HEAPID_MYSTERY);
             MysteryMsgWin_DrawFrame(view->msgWin, 1, 13);
         }
-        MysteryMsgWin_Print(view->msgWin, view->setup.msgData, 0x25, 0);
+        MysteryMsgWin_Print(view->msgWin, view->setup.msgData, 0x25, MYSTERY_PRINT_QUEUE);
         *state = 1;
         break;
     case 1:
@@ -1205,10 +1206,10 @@ static void MysteryCardView_SeqMenu(MysterySeq *seq, u32 *state, void *work) {
                 view->msgWin = MysteryMsgWin_CreateSmall(0, 15, view->setup.queue, view->setup.font, HEAPID_MYSTERY);
                 MysteryMsgWin_DrawFrame(view->msgWin, 1, 13);
             }
-            MysteryMsgWin_Print(view->msgWin, view->setup.msgData, 0x2b, 0);
+            MysteryMsgWin_Print(view->msgWin, view->setup.msgData, 0x2b, MYSTERY_PRINT_QUEUE);
             *state = 6;
         } else if (result == 1) {
-            if (MysteryCard_IsUndelivered(&view->cards[view->cursor + view->page * 4])) {
+            if (MysteryCard_IsDelivered(&view->cards[view->cursor + view->page * 4])) {
                 *state = 7;
             } else {
                 *state = 3;
@@ -1222,7 +1223,7 @@ static void MysteryCardView_SeqMenu(MysterySeq *seq, u32 *state, void *work) {
             MysteryYesNo_Delete(view->yesNo);
             view->yesNo = NULL;
         }
-        MysteryMsgWin_Print(view->msgWin, view->setup.msgData, 0x29, 1);
+        MysteryMsgWin_Print(view->msgWin, view->setup.msgData, 0x29, MYSTERY_PRINT_STREAM);
         *state = 4;
         break;
     case 4:
@@ -1264,7 +1265,7 @@ static void MysteryCardView_SeqThrowAway(MysterySeq *seq, u32 *state, void *work
 
     switch (*state) {
     case 0:
-        MysteryMsgWin_Print(view->msgWin, view->setup.msgData, 0x2c, 1);
+        MysteryMsgWin_Print(view->msgWin, view->setup.msgData, 0x2c, MYSTERY_PRINT_STREAM);
         *state = 1;
         break;
     case 1:
@@ -1346,7 +1347,7 @@ static void MysteryCardView_SeqThrowAway(MysterySeq *seq, u32 *state, void *work
         *state = 8;
         break;
     case 8:
-        MysteryMsgWin_Print(view->msgWin, view->setup.msgData, 0x2a, 1);
+        MysteryMsgWin_Print(view->msgWin, view->setup.msgData, 0x2a, MYSTERY_PRINT_STREAM);
         *state = 9;
         break;
     case 9:
@@ -1503,7 +1504,7 @@ static void MysteryCardView_SeqExit(MysterySeq *seq, u32 *state, void *work) {
             view->msgWin = MysteryMsgWin_Create(0, 15, view->setup.queue, view->setup.font, HEAPID_MYSTERY);
             MysteryMsgWin_DrawFrame(view->msgWin, 1, 13);
         }
-        MysteryMsgWin_Print(view->msgWin, view->setup.msgData, 0xe, 1);
+        MysteryMsgWin_Print(view->msgWin, view->setup.msgData, 0xe, MYSTERY_PRINT_STREAM);
         *state = 3;
         break;
     case 3:
@@ -1553,7 +1554,7 @@ static void MysteryCardView_SeqExit(MysterySeq *seq, u32 *state, void *work) {
             view->msgWin = MysteryMsgWin_Create(0, 15, view->setup.queue, view->setup.font, HEAPID_MYSTERY);
             MysteryMsgWin_DrawFrame(view->msgWin, 1, 13);
         }
-        MysteryMsgWin_Print(view->msgWin, view->setup.msgData, 0x24, 2);
+        MysteryMsgWin_Print(view->msgWin, view->setup.msgData, 0x24, MYSTERY_PRINT_WAIT_ICON);
         *state = 7;
         break;
     case 7:
@@ -1599,7 +1600,7 @@ static void MysteryCardView_SeqFull(MysterySeq *seq, u32 *state, void *work) {
             view->msgWin = MysteryMsgWin_Create(0, 15, view->setup.queue, view->setup.font, HEAPID_MYSTERY);
         }
         MysteryMsgWin_DrawFrame(view->msgWin, 1, 13);
-        MysteryMsgWin_Print(view->msgWin, view->setup.msgData, 0xd, 1);
+        MysteryMsgWin_Print(view->msgWin, view->setup.msgData, 0xd, MYSTERY_PRINT_STREAM);
         *state = 1;
         break;
     case 1:
@@ -1644,11 +1645,11 @@ MysteryCardRes *MysteryCardRes_Create(const MysteryCardResSetup *setup, HeapID h
     ClActorSetup iconSetup;
     ClActorSetup pokeSetup;
 
-    res->pokePaletteNo = setup->frameChar;
-    res->bg = setup->mainBg;
-    res->textBg = setup->unk4;
+    res->pokePaletteNo = setup->pokePalette;
+    res->bg = setup->bg;
+    res->textBg = setup->textBg;
     res->setup = *setup;
-    if (setup->mainBg < 4) {
+    if (setup->bg < 4) {
         res->palType = PALTYPE_MAIN_BG;
         res->vramType = 0;
         res->isMain = TRUE;
@@ -1666,11 +1667,11 @@ MysteryCardRes *MysteryCardRes_Create(const MysteryCardResSetup *setup, HeapID h
             { 18, 20, 11, 2, 0, NULL, 3, 0, 0, PRINT_COLOR(15, 2, 0) },
         };
 
-        res->textWin = MysteryTextWin_Create(TRUE, entries, 5, res->setup.unk4, res->setup.palette, res->setup.queue,
-                                             res->setup.msgData, res->setup.font, heapId);
+        res->textWin = MysteryTextWin_Create(TRUE, entries, 5, res->setup.textBg, res->setup.textPalette,
+                                             res->setup.queue, res->setup.msgData, res->setup.font, heapId);
     }
-    arc = GFL_ArcSysCreateFileHandle(0x21, heapId);
-    res->palette = func_0204bba0(arc, 3, res->vramType, setup->framePalette * 32, heapId);
+    arc = GFL_ArcSysCreateFileHandle(ARCID_MYSTERY, heapId);
+    res->palette = func_0204bba0(arc, 3, res->vramType, setup->iconPalette * 32, heapId);
     res->cellAnims = func_0204bde0(arc, 33, 36, heapId);
     res->chars = func_0204b81c(arc, 12, FALSE, res->vramType, heapId);
     GFL_ArcToolFree(arc);
@@ -1682,15 +1683,15 @@ MysteryCardRes *MysteryCardRes_Create(const MysteryCardResSetup *setup, HeapID h
     func_0204c124(res->icon, FALSE);
     pokeArc = MakePokeGraArcHandle(heapId);
     res->pokePalette =
-        PokeGra_LoadClActPalette(pokeArc, 1, 0, 0, FALSE, 0, FALSE, res->vramType, setup->frameChar * 32, heapId);
+        PokeGra_LoadClActPalette(pokeArc, 1, 0, 0, FALSE, 0, FALSE, res->vramType, setup->pokePalette * 32, heapId);
     res->pokeCellAnims = PokeGra_LoadClActCellAnims(1, 0, 0, FALSE, 0, FALSE, 2, res->vramType, heapId);
     res->pokeChars = PokeGra_LoadClActChars(pokeArc, 1, 0, 0, FALSE, 0, FALSE, 0, res->vramType, heapId);
     GFL_ArcToolFree(pokeArc);
     sys_memset(&pokeSetup, 0, sizeof(ClActorSetup));
     pokeSetup.x = 184;
     pokeSetup.y = 112;
-    res->bgPriority = pokeSetup.bgPriority = setup->mainBg & 3;
-    res->textBgPriority = setup->unk4 & 3;
+    res->bgPriority = pokeSetup.bgPriority = setup->bg & 3;
+    res->textBgPriority = setup->textBg & 3;
     res->poke = func_0204c040(setup->unit, res->pokeChars, res->pokePalette, res->pokeCellAnims, &pokeSetup,
                               res->vramType, heapId);
     func_0204c244(res->poke, 2);
@@ -1747,10 +1748,10 @@ MysteryAlbum *MysteryAlbum_CreateReceived(MysteryGift *gift, MysteryCardRes *res
 
         updates[1].str = GFL_StrBufCreate(37, HEAPID_TAIL(heapId));
         GFL_StrBufLoadFixedString(updates[1].str, album->gift->title, 36);
-        if (album->gift->undelivered) {
-            msgId = album->gift->unkB2 + 0x14e;
+        if (album->gift->delivered) {
+            msgId = album->gift->msgIndex + 0x14e;
         } else {
-            msgId = album->gift->unkB2 + 0x4e;
+            msgId = album->gift->msgIndex + 0x4e;
         }
         updates[2].str = GFL_MsgDataLoadStrbufNew(res->setup.msgData, msgId);
         updates[4].str = GFL_StrBufCreate(128, heapId);
@@ -1906,20 +1907,20 @@ static void MysteryCardRes_LoadBg(const MysteryCardResSetup *setup, MysteryCard 
     u16 palette;
     ArcTool *arc;
 
-    if (setup->mainBg >= 4) {
+    if (setup->bg >= 4) {
         palType = PALTYPE_SUB_BG;
     }
     scrFile = 26;
-    if (setup->mainBg <= 3) {
+    if (setup->bg <= 3) {
         scrFile = 27;
     }
     palette = MysteryCard_GetBgPalette(card);
-    arc = GFL_ArcSysCreateFileHandle(0x21, heapId);
-    GFL_G2DIOLoadArcNCLR(arc, 4, palType, palette * 32, setup->subBg * 32, 32, heapId);
-    GFL_BGSysLoadArcNCGRStatic(arc, 13, setup->mainBg, 0, 0, FALSE, heapId);
-    loadBGScrToVramByFileNoReserveNegAlign(arc, scrFile, setup->mainBg, 0, 0, FALSE, heapId);
-    GFL_BGSysSetScrPaletteNo(setup->mainBg, 0, 0, 34, 24, setup->subBg);
-    GFL_BGSysLoadScr(setup->mainBg);
+    arc = GFL_ArcSysCreateFileHandle(ARCID_MYSTERY, heapId);
+    GFL_G2DIOLoadArcNCLR(arc, 4, palType, palette * 32, setup->bgPalette * 32, 32, heapId);
+    GFL_BGSysLoadArcNCGRStatic(arc, 13, setup->bg, 0, 0, FALSE, heapId);
+    loadBGScrToVramByFileNoReserveNegAlign(arc, scrFile, setup->bg, 0, 0, FALSE, heapId);
+    GFL_BGSysSetScrPaletteNo(setup->bg, 0, 0, 34, 24, setup->bgPalette);
+    GFL_BGSysLoadScr(setup->bg);
     GFL_ArcToolFree(arc);
 }
 
@@ -1929,14 +1930,14 @@ static void MysteryCardRes_LoadBgPalette(const MysteryCardResSetup *setup, Myste
     u16 palette;
     ArcTool *arc;
 
-    if (setup->mainBg >= 4) {
+    if (setup->bg >= 4) {
         palType = PALTYPE_SUB_BG;
     }
     palette = MysteryCard_GetBgPalette(card);
-    arc = GFL_ArcSysCreateFileHandle(0x21, heapId);
-    GFL_G2DIOLoadArcNCLR(arc, 4, palType, palette * 32, setup->subBg * 32, 32, heapId);
-    GFL_BGSysSetScrPaletteNo(setup->mainBg, 0, 0, 34, 24, setup->subBg);
-    GFL_BGSysLoadScr(setup->mainBg);
+    arc = GFL_ArcSysCreateFileHandle(ARCID_MYSTERY, heapId);
+    GFL_G2DIOLoadArcNCLR(arc, 4, palType, palette * 32, setup->bgPalette * 32, 32, heapId);
+    GFL_BGSysSetScrPaletteNo(setup->bg, 0, 0, 34, 24, setup->bgPalette);
+    GFL_BGSysLoadScr(setup->bg);
     GFL_ArcToolFree(arc);
 }
 
@@ -1952,7 +1953,7 @@ static void MysteryAlbum_LoadIcon(MysteryAlbum *album, MysteryCardRes *res, Heap
 
     buf = GFL_G2DIOReadNCLRArc(arc, MysteryCard_GetIconPaletteFile(&album->card), &pal, album->heapId);
     sys_memcpy(pal->rawData,
-               (void *)((res->vramType == 0 ? HW_OBJ_PLTT : HW_DB_OBJ_PLTT) + res->setup.framePalette * 32), 0x60);
+               (void *)((res->vramType == 0 ? HW_OBJ_PLTT : HW_DB_OBJ_PLTT) + res->setup.iconPalette * 32), 0x60);
     GFL_HeapFree(buf);
     buf = GFL_G2DIOReadOBJNCGRArc(arc, MysteryCard_GetIconCharFile(&album->card), FALSE, &chars, album->heapId);
     func_0204bab8(res->chars, chars->rawData, 0x200, 0, res->vramType);
@@ -1980,7 +1981,7 @@ static void MysteryAlbum_LoadIcon(MysteryAlbum *album, MysteryCardRes *res, Heap
         func_0204bab8(res->pokeChars, album->chars->rawData, 0x1200, 0, res->vramType);
         func_0204c2a0(res->poke, 0);
         func_0204c124(res->poke, TRUE);
-        if (res->setup.mainBg < 4) {
+        if (res->setup.bg < 4) {
             pltt = (u16 *)(func_0204bdc0(res->pokePalette, res->vramType) + HW_OBJ_PLTT);
         } else {
             pltt = (u16 *)(func_0204bdc0(res->pokePalette, res->vramType) + HW_DB_OBJ_PLTT);
@@ -1988,11 +1989,11 @@ static void MysteryAlbum_LoadIcon(MysteryAlbum *album, MysteryCardRes *res, Heap
         for (i = 0; i < 16; i++) {
             pltt[i] = res->fade.from[i];
         }
-        if (res->setup.mainBg < 4) {
-            gfxRegSetAlphaBlend(REG_BLDCNT_ADDR, 0, (1 << (u8)res->setup.mainBg) | (1 << (u8)res->setup.unk4), 2, 12);
+        if (res->setup.bg < 4) {
+            gfxRegSetAlphaBlend(REG_BLDCNT_ADDR, 0, (1 << (u8)res->setup.bg) | (1 << (u8)res->setup.textBg), 2, 12);
         } else {
             gfxRegSetAlphaBlend(REG_DB_BLDCNT_ADDR, 0,
-                                (1 << (u8)(res->setup.mainBg - 4)) | (1 << (u8)(res->setup.unk4 - 4)), 2, 12);
+                                (1 << (u8)(res->setup.bg - 4)) | (1 << (u8)(res->setup.textBg - 4)), 2, 12);
         }
     } else {
         func_0204c124(res->poke, FALSE);

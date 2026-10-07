@@ -2709,8 +2709,8 @@ overlays/ov197 0x021b8348 MysteryGraphic_G3DInit
 overlays/ov197 0x021b83ec MysteryGraphic_Create
 overlays/ov197 0x021b848c MysteryGraphic_Delete
 overlays/ov197 0x021b84e0 MysteryGraphic_Update
-overlays/ov197 0x021b84f4 MysteryGraphic_Draw3D
-overlays/ov197 0x021b8500 MysteryGraphic_UpdateCamera
+overlays/ov197 0x021b84f4 MysteryGraphic_BeginFrame3D
+overlays/ov197 0x021b8500 MysteryGraphic_EndFrame3D
 overlays/ov197 0x021b850c MysteryGraphic_GetClactUnit
 overlays/ov197 0x021b8518 MysteryGraphic_Start3D
 overlays/ov197 0x021b8558 MysteryGraphic_End3D
@@ -2813,7 +2813,7 @@ overlays/ov197 0x021badac MysteryCard_GetIconCellFile
 overlays/ov197 0x021badcc MysteryCard_GetIconAnimFile
 overlays/ov197 0x021badec MysteryCard_GetKind
 overlays/ov197 0x021badf4 MysteryCard_GetGift
-overlays/ov197 0x021badf8 MysteryCard_IsUndelivered
+overlays/ov197 0x021badf8 MysteryCard_IsDelivered
 overlays/ov197 0x021bae04 MysteryCard_GetFramePalette
 overlays/ov197 0x021bae2c MysteryCard_GetBgPalette
 overlays/ov197 0x021bae54 MysteryCardView_SeqMain
