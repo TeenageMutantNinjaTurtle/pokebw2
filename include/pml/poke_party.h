@@ -199,7 +199,9 @@ void PokeParty_ChangeForme(PartyPkm *pkm, u16 forme);
 u16 _getTypeForPlate(u16 item);
 u32 func_0201ef8c(u16 item);
 // The form, or 0 if the species has fewer forms. Species 650 counts as having two
-u32 PML_PkmSanitizeForme(u16 species, u8 form);
+u16 PML_PkmSanitizeForme(u16 species, u8 form);
+// The form, or 0 for the four species the table at 0x02090350 lists
+u16 func_0201efe4(u16 species, u16 form);
 // Teaches a move, and returns 0xffff when all four slots are full
 u16 PokeParty_LearnMove(PartyPkm *pkm, u16 move);
 // Replaces the last move

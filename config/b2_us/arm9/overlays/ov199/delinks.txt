@@ -26,3 +26,9 @@ src/ov199/gsync_disp.c:
     .text       start:0x021b4b48 end:0x021b5bfc
     .rodata     start:0x021b96ec end:0x021b97f4
     .data       start:0x021b9a44 end:0x021b9b50
+
+src/ov199/gsync_state.c:
+    complete
+    .text       start:0x021b5bfc end:0x021b8238
+    .rodata     start:0x021b97f4 end:0x021b9820
+    .data       start:0x021b9b50 end:0x021b9b98
