@@ -865,8 +865,13 @@ overlays/ov142 0x021a14bc remove_reloc
 overlays/ov142 0x021a14d4 remove_reloc
 overlays/ov142 0x021a1614 remove_symbol
 overlays/ov143 0x02199bac reloc_addend 4
+overlays/ov143 0x0219b1d0 reloc_addend 0x20
 overlays/ov143 0x0219fe90 remove_symbol
 overlays/ov143 0x0219ff44 add_data MonolithTool_UnusedTextSetup
+overlays/ov143 0x0219fff0 add_data MonolithRecord_UnusedMsgIds
+overlays/ov143 0x021a0000 remove_symbol
+overlays/ov143 0x021a001a remove_symbol
+overlays/ov143 0x021a0034 remove_symbol
 overlays/ov152 0x021f6228 reloc_module overlay(148)
 overlays/ov152 0x021f6254 reloc_module overlay(150)
 overlays/ov153 0x021f6228 reloc_module overlay(148)
