@@ -51,9 +51,10 @@ struct CtvtCommBeacon {
     u8 inviteMacs[3][6];
 };
 
-// What each member tells the others about itself
+// What each member tells the others about itself. The player's info is a copy of its bytes, so this is sent
+// without padding
 struct CtvtCommMemberInfo {
-    PlayerInfo player;
+    u8 playerInfo[sizeof(PlayerInfo)];
     u8 cameraEnabled;
     u8 canExchangePhotos;
 };
@@ -66,12 +67,16 @@ typedef struct {
     u8 chunk;
     // An index into the playback speeds
     u8 speed;
+    u8 padding;
     s8 data[0x200];
 } CtvtVoicePacket;
 
 // What the minigames send each other, merged with what is still waiting to be sent
 typedef struct {
-    u8 values[4];
+    union {
+        u32 value;
+        u8 values[4];
+    };
     u8 type;
     u8 unk5[2];
     u8 unk7;
@@ -80,7 +85,7 @@ typedef struct {
 } CtvtGamePacket;
 
 typedef struct {
-    u8 data[16];
+    u32 data[4];
 } CtvtGameData;
 
 CtvtComm *CtvtComm_Create(CommTvtWork *sys, HeapID heapId);
@@ -96,7 +101,7 @@ void CtvtComm_SendZoom(CommTvtWork *sys, CtvtComm *comm, BOOL zoomed);
 BOOL CtvtComm_SendPacket(CommTvtWork *sys, CtvtComm *comm, u8 type, u32 value);
 BOOL CtvtComm_SendPacketAll(CommTvtWork *sys, CtvtComm *comm, u8 type, u32 value);
 BOOL CtvtComm_SendPacketData(CommTvtWork *sys, CtvtComm *comm, u8 type, const void *value);
-BOOL CtvtComm_SendVoice(CommTvtWork *sys, CtvtComm *comm, const CtvtVoicePacket *packet);
+BOOL CtvtComm_SendVoice(CommTvtWork *sys, CtvtComm *comm, CtvtVoicePacket *packet);
 void CtvtComm_QueueGameCommand(CommTvtWork *sys, CtvtComm *comm, u16 command);
 void CtvtComm_QueueGamePacket(CtvtComm *comm, CtvtGamePacket packet, u8 type);
 void CtvtComm_QueueGameData(CtvtComm *comm, CtvtGameData data);
