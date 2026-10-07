@@ -133,6 +133,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "Reads of a `const` table")
 - A value moved into an argument register before a call and used for nothing else is a parameter the prototype is
   missing. (matching.md: "prototype is missing")
+- A constant built once for `r3` and the first stack slot is one `u64` argument. (matching.md: "is a `u64` argument")
 - A caller that leaves an argument register untouched across a call is passing that argument.
   (matching.md: "keeps an argument register untouched")
 - A NULL that the original tests (`movs r7, #0` then `beq`) and MWCC folds away is open; see the `event_save.c` and

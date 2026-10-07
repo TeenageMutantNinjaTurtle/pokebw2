@@ -7771,6 +7771,7 @@ _ll_udiv kind:label(arm) addr:0x0208d5c4
 _ull_mul kind:function(arm,size=0x20) addr:0x0208d60c
 _ll_mul kind:label(arm) addr:0x0208d60c
 __aeabi_llsl kind:function(arm,size=0x30) addr:0x0208d62c
+_ll_shl kind:label(arm) addr:0x0208d62c
 _s32_div_f kind:function(arm,size=0x20c) addr:0x0208d65c
 __aeabi_uidivmod kind:function(arm,size=0x1e4) addr:0x0208d868
 _u32_div_f kind:label(arm) addr:0x0208d868

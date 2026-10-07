@@ -12,7 +12,7 @@ typedef struct NHttpRap NHttpRap;
 
 // Unova Link's requests to the Pokémon Dream Radar's server: a download and an upload of data, with their settings
 BOOL func_ov189_0219d010(u32 a0, NHttpRap *rap);
-BOOL func_ov189_0219d05c(u32 a0, const void *data, NHttpRap *rap);
+BOOL func_ov189_0219d05c(u32 a0, u32 id, NHttpRap *rap);
 
 NHttpRap *func_ov189_0219d1b8(HeapID heapId, s32 pid, void *buffer);
 void func_ov189_0219d1f0(NHttpRap *rap);
@@ -29,7 +29,7 @@ int func_ov189_0219d3a8(NHttpRap *rap);
 void *func_ov189_0219d1a4(NHttpRap *rap);
 void func_ov189_0219d124(NHttpRap *rap);
 void func_ov189_0219d384(NHttpRap *rap);
-void func_ov189_0219d3bc(NHttpRap *rap, u32 a1, u32 a2);
+void func_ov189_0219d3bc(NHttpRap *rap, void *buffer, u32 size);
 void func_ov189_0219d3cc(NHttpRap *rap);
 
 // The answer to a Pokémon's check: its status, each Pokémon's result and its signature
