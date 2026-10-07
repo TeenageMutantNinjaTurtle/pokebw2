@@ -65,8 +65,8 @@
 . 0x0207e930 add_reloc load,ltd_autoload(0),0x02703cdc
 . 0x0207e934 add_function MIC_StartAutoSampling:thumb:0x1c
 . 0x0207e950 add_function func_0207e950:arm:0x8
-. 0x0207e954 remove_symbol
 . 0x0207e954 add_reloc load,ltd_autoload(0),0x02703c60
+. 0x0207e954 remove_symbol
 . 0x0207e958 add_function MIC_StopAutoSampling:thumb:0x18
 . 0x0207e970 add_function func_0207e970:arm:0x8
 . 0x0207e974 add_reloc load,ltd_autoload(0),0x02703e90
@@ -376,6 +376,9 @@ overlays/ov036 0x021aae40 reloc_module overlay(92)
 overlays/ov036 0x021aae6a reloc_module overlay(91)
 overlays/ov036 0x021aae80 reloc_module overlay(91)
 overlays/ov036 0x021aafcc reloc_module overlay(94)
+overlays/ov036 0x021ab08a reloc_module overlay(98)
+overlays/ov036 0x021ab16e reloc_module overlay(100)
+overlays/ov036 0x021ab188 reloc_module overlay(101)
 overlays/ov036 0x021add10 overlay_id 8
 overlays/ov036 0x021add54 overlay_id 4
 overlays/ov036 0x021add58 reloc_module overlay(4)
