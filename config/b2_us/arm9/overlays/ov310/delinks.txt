@@ -24,7 +24,7 @@ src/ov310/research_list.c:
 src/ov310/research_common.c:
     complete
     .text       start:0x021a4394 end:0x021a47dc
-    .rodata     start:0x021a7740 end:0x021a77c4
+    .rodata     start:0x021a773c end:0x021a77c4
     .data       start:0x021a7820 end:0x021a7834
 
 src/ov310/research_list_recovery.c:
@@ -65,5 +65,5 @@ src/ov310/palette_anime.c:
 
 src/ov310/research_graph.c:
     .text       start:0x021a0f60 end:0x021a4394
-    .rodata     start:0x021a7028 end:0x021a7740
+    .rodata     start:0x021a7028 end:0x021a773c
     .data       start:0x021a780c end:0x021a7820

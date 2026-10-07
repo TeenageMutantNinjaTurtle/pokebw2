@@ -871,6 +871,7 @@ data_ov310_021a7651 kind:data(any) addr:0x021a7691 ambiguous
 data_ov310_021a7685 kind:data(any) addr:0x021a76c5 ambiguous
 data_ov310_021a76b9 kind:data(any) addr:0x021a76f9 ambiguous
 data_ov310_021a7725 kind:data(any) addr:0x021a7765 ambiguous
+ResearchCommon_Unused kind:data(any) addr:0x021a777c
 sCommonTouchRects kind:data(any) addr:0x021a7780
 sCommonPaletteAnimes kind:data(any) addr:0x021a7788
 data_ov310_021a7754 kind:data(any) addr:0x021a7794
