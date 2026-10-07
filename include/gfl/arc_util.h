@@ -33,7 +33,7 @@ u32 loadOBJCharToVram(ArcTool *arc, u32 fileId, u32 engine, u32 offset, u32 size
 // Load a BG's screen, from offset into it
 void loadBGScrToVramByNarcNoReserveNegAlign(u32 arcId, u32 fileId, u8 bg, u32 offset, u32 size, BOOL compressed,
                                             HeapID heapId);
-void loadBGScrToVramByFileNoReserveNegAlign(ArcTool *arc, u32 fileId, u32 bg, u32 offset, u32 size, BOOL compressed,
+void loadBGScrToVramByFileNoReserveNegAlign(ArcTool *arc, u16 fileId, u32 bg, u32 offset, u32 size, BOOL compressed,
                                             HeapID heapId);
 // The same, adding a palette offset to each entry of the screen. The asynchronous load waits for the next VBlank
 void loadBGScrToVramByNarcNoReserve(u32 arcId, u32 fileId, u8 bg, u32 offset, u32 palOffset, u32 size,
