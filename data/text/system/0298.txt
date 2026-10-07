@@ -1,0 +1,21 @@
+{bd02}This is a story that starts\n{bd02}with a certain scientist...
+{bd02}As a child,\n{bd02}he developed robots\n{bd02}with a group of adults...
+{bd02}Indeed...\n\n{bd02}Everything started on the\n{bd02}night before the robot was\n{bd02}to be completed...
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+{bd02}This is a story that starts\n{bd02}with a certain scientist...
+{bd02}As a child,\n{bd02}she developed robots\n{bd02}with a group of adults...
+{bd02}Indeed...\n\n{bd02}Everything started on the\n{bd02}night before the robot was\n{bd02}to be completed...
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし

@@ -1,0 +1,22 @@
+{bd02}Prince {0100:1} found himself\n{bd02}trapped in a magical cage\n{bd02}by Bellelba, a woman who\n{bd02}called herself the magic queen.
+{bd02}When he looked up,\n{bd02}he saw a familiar shape...
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+{bd02}Princess {0100:1} found herself\n{bd02}trapped in a magical cage\n{bd02}by Bellelba, a woman who\n{bd02}called herself the magic queen.
+{bd02}When she looked up,\n{bd02}she saw a familiar shape...
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+\pad{c8}

@@ -1,0 +1,21 @@
+{bd02}The shroud of night covers the corner.\n{bd02}A threatening shadow runs\n{bd02}through the city streets!
+{bd02}Good and evil...\n{bd02}Light and shadow...
+{bd02}The time for the final battle\n{bd02}is now...
+{bd02}Brycen-Man...\n{bd02}The {0102:0} Kid...\n{bd02}Who will prevail?
+なし
+なし
+なし
+なし
+なし
+なし
+{bd02}The shroud of night covers the corner.\n{bd02}A threatening shadow runs\n{bd02}through the city streets!
+{bd02}Good and evil...\n{bd02}Light and shadow...
+{bd02}The time for the final battle\n{bd02}is now...
+{bd02}Brycen-Man...\n{bd02}The {0102:0} Girl...\n{bd02}Who will prevail?
+なし
+なし
+なし
+なし
+なし
+なし
+なし

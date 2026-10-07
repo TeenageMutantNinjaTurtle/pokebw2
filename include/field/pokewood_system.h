@@ -2,7 +2,7 @@
 #define POKEBW2_FIELD_POKEWOOD_SYSTEM_H
 
 #include "types.h"
-#include "app/ov165.h"
+#include "app/pokelist.h"
 #include "app/ov207.h"
 #include "battle/regulation.h"
 #include "gfl/heap.h"
@@ -52,8 +52,8 @@ struct PokewoodSystem {
 // pokewood_system.c
 PokewoodSystem *PokewoodSystem_Create(HeapID heapId);
 void PokewoodSystem_Free(PokewoodSystem *sys);
-void func_ov062_021e61a0(PokewoodSystem *sys, const Ov165Param *param);
-void func_ov062_021e61e8(PokewoodSystem *sys, GameData *gameData, Ov165Param *param);
+void func_ov062_021e61a0(PokewoodSystem *sys, const PokeListParam *param);
+void func_ov062_021e61e8(PokewoodSystem *sys, GameData *gameData, PokeListParam *param);
 void func_ov062_021e6254(PokewoodSystem *sys, GameData *gameData, Ov207Param *param);
 void PokewoodSystem_SetResultVar(PokewoodSystem *sys, u16 *var);
 u16 *PokewoodSystem_GetResultVar(PokewoodSystem *sys);

@@ -1,0 +1,57 @@
+{0102:0} is selected.
+            \x{ffff}
+Release this Pokémon?
+{0102:0} was released.
+Bye-bye, {0102:0}!
+Your party's full!
+That's your last Pokémon!
+What do you want to do?
+Jump to which Box?
+Please pick a theme.
+Pick the wallpaper.
+Continue Box operations?
+The Box is full.
+The Bag is full.
+Took the {0109:0}.
+{0109:0} is now being held.
+Which one will you take?
+Place it in which Box?
+      \x{ffff}
+    \x{ffff}
+    \x{ffff}
+Take this {0109:0}?
+Mail can't be taken away.
+{0109:0} is selected.
+Put away {0109:0}?
+Placed {0109:0} in the Bag.
+It can hold an item.
+Please remove the Mail.
+You can't release an Egg.
+You can't release the fused Kyurem.
+{0102:0} came back!
+Was it worried about you?
+An Egg can't hold an item.
+Touch the Mark!
+           \x{ffff}
+                  \x{ffff}
+               \x{ffff}
+            \x{ffff}
+DEPOSIT POKÉMON
+WITHDRAW POKÉMON
+MOVE POKÉMON
+MOVE ITEMS
+BATTLE BOX
+SELECT A SLEEPY POKÉMON
+Mail cannot be moved!
+It cannot hold {0109:0}!
+It has Mail!
+You're out of Pokémon that can fight!
+Mail cannot be moved!
+It cannot hold Mail here.
+Eggs cannot be selected!
+{0102:0} will be tucked in.\nOK?
+This Pokémon doesn't seem\nsleepy now.
+Select another Pokémon?
+Your Battle Box is locked.\nYou cannot move your Pokémon.
+Your Battle Box is locked.\nItems cannot be given or taken.
+\pad{b4}

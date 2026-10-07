@@ -326,25 +326,25 @@ void WorldTrade_TouchWinYesNoMakeEx(WorldTradeWork *wk, int y, int cgx, int pale
     GFL_ASSERT(wk->task_res == NULL);
     GFL_ASSERT(wk->task_work == NULL);
 
-    wk->task_res = func_0202e168(frame, palette, wk->print.font, wk->print.printQueue, HEAPID_WORLDTRADE);
+    wk->task_res = func_0202e168((u8)frame, (u8)palette, wk->print.font, wk->print.printQueue, HEAPID_WORLDTRADE);
     {
-        AppTaskMenuItem items[2] = {
+        TaskMenuItem items[2] = {
             { NULL, 0x39e3, 0 },
             { NULL, 0x39e3, 0 },
         };
-        AppTaskMenuInit init;
+        TaskMenuSetup init;
 
-        sys_memset(&init, 0, sizeof(AppTaskMenuInit));
+        sys_memset(&init, 0, sizeof(TaskMenuSetup));
         items[0].str = GFL_MsgDataLoadStrbufNew(wk->msgManager, 0x3f);
         items[1].str = GFL_MsgDataLoadStrbufNew(wk->msgManager, 0x40);
         init.heapId = HEAPID_WORLDTRADE;
-        init.itemCount = 2;
+        init.count = 2;
         init.items = items;
-        init.posType = 1;
-        init.x = 32;
-        init.y = y;
-        init.w = 8;
-        init.h = 3;
+        init.a3 = 1;
+        init.right = 32;
+        init.bottom = y;
+        init.width = 8;
+        init.height = 3;
         wk->task_work = func_0202d974(&init, wk->task_res);
         GFL_StrBufFree(items[0].str);
         GFL_StrBufFree(items[1].str);
@@ -397,14 +397,14 @@ void WorldTrade_SelBoxInit(WorldTradeWork *wk, u8 frame, int count, int y) {
 
     wk->task_res = func_0202e168(frame, 10, wk->print.font, wk->print.printQueue, HEAPID_WORLDTRADE);
     {
-        AppTaskMenuItem itemWork[3] = {
+        TaskMenuItem itemWork[3] = {
             { NULL, 0x39e3, 0 },
             { NULL, 0x39e3, 0 },
             { NULL, 0x39e3, 0 },
         };
-        AppTaskMenuInit init;
+        TaskMenuSetup init;
 
-        sys_memset(&init, 0, sizeof(AppTaskMenuInit));
+        sys_memset(&init, 0, sizeof(TaskMenuSetup));
         // The assert prints its expression with these spaces
         // clang-format off
         GFL_ASSERT(count <= NELEMS( itemWork ));
@@ -413,13 +413,13 @@ void WorldTrade_SelBoxInit(WorldTradeWork *wk, u8 frame, int count, int y) {
             itemWork[i].str = wk->menuList[i].text;
         }
         init.heapId = HEAPID_WORLDTRADE;
-        init.itemCount = count;
+        init.count = count;
         init.items = itemWork;
-        init.posType = 1;
-        init.x = 32;
-        init.y = y;
-        init.w = 13;
-        init.h = 3;
+        init.a3 = 1;
+        init.right = 32;
+        init.bottom = y;
+        init.width = 13;
+        init.height = 3;
         wk->task_work = func_0202d974(&init, wk->task_res);
     }
     WorldTrade_SetPassive(TRUE);

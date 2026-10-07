@@ -50,7 +50,7 @@ void PokewoodSystem_Free(PokewoodSystem *sys) {
     GFL_HeapFree(sys);
 }
 
-void func_ov062_021e61a0(PokewoodSystem *sys, const Ov165Param *param) {
+void func_ov062_021e61a0(PokewoodSystem *sys, const PokeListParam *param) {
     sys_memcpy(param->picked, sys->castSlots, sizeof(sys->castSlots));
     sys->unkE = param->index;
     sys->unk10 = param->result;
@@ -61,7 +61,7 @@ void func_ov062_021e61a0(PokewoodSystem *sys, const Ov165Param *param) {
     }
 }
 
-void func_ov062_021e61e8(PokewoodSystem *sys, GameData *gameData, Ov165Param *param) {
+void func_ov062_021e61e8(PokewoodSystem *sys, GameData *gameData, PokeListParam *param) {
     PokewoodMovie *movie;
 
     func_02034bd8(param, gameData, 0x16, GameData_GetParty(gameData));

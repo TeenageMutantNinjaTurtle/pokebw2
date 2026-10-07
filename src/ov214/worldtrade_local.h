@@ -303,8 +303,8 @@ struct WorldTradeWork {
     int wait;
     // The deposit and search screens' work
     WorldTradeDepositWork *dw;
-    AppTaskMenuRes *task_res;
-    AppTaskMenu *task_work;
+    void *task_res;
+    void *task_work;
     // worldtrade_upload.c's steps after the two halves of a save, and after the name check
     u16 saveNextSeq1st;
     u16 saveNextSeq2nd;
