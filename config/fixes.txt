@@ -1207,6 +1207,14 @@ overlays/ov207 0x021baee4 remove_reloc
 overlays/ov207 0x021baf24 remove_reloc
 overlays/ov207 0x021baf44 remove_reloc
 overlays/ov207 0x021bafc0 add_data data_ov207_021bafc0
+overlays/ov207 0x021bb104 remove_reloc
+overlays/ov207 0x021bb114 remove_reloc
+overlays/ov207 0x021bb118 remove_reloc
+overlays/ov207 0x021bb120 remove_reloc
+overlays/ov207 0x021bb124 remove_reloc
+overlays/ov207 0x021bb128 remove_reloc
+overlays/ov207 0x021bb130 remove_reloc
+overlays/ov207 0x021bb134 remove_reloc
 overlays/ov207 0x021bb145 remove_symbol
 overlays/ov207 0x021bb188 remove_symbol
 overlays/ov207 0x021bb18a remove_symbol

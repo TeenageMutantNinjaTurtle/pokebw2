@@ -11,12 +11,24 @@
 #include "pml/poke_party.h"
 #include "system/app_menu_common.h"
 
-// The top screen of the summary screen: the Pokémon's sprite, which turns around when touched and bounces, hops or
+// The bottom screen of the summary screen: the Pokémon's sprite, which turns around when touched and bounces, hops or
 // spins after a swipe or a circle drawn on it, its name, level, held item, ball, markings and status. The names of the
 // fields and functions are guesses
 
-// A personal field that keeps the sprite from bouncing
-#define PERSONAL_NO_BOUNCE 0x10
+// The icons below the sprite: the markings, then the shiny star and the Pokérus face
+#define MARKING_COUNT 6
+enum {
+    PSTA_SUB_ICON_SHINY = MARKING_COUNT,
+    PSTA_SUB_ICON_POKERUS,
+    PSTA_SUB_ICON_COUNT,
+};
+
+// The direction of a circle drawn on the sprite
+enum {
+    PSTA_SUB_CIRCLE_NONE,
+    PSTA_SUB_CIRCLE_CLOCKWISE,
+    PSTA_SUB_CIRCLE_COUNTERCLOCKWISE,
+};
 
 // What the sprite is doing
 enum {
@@ -63,12 +75,12 @@ struct PStaSubWork {
     u32 state;
     BOOL frontShown;
     BOOL noBounce;
-    u32 unk14;
+    u32 weight;
     BmpWin *nameWindow;
     BmpWin *itemWindow;
     ClActor *ballIcon;
     // The six markings, the shiny star and the Pokérus mark
-    ClActor *icons[8];
+    ClActor *icons[PSTA_SUB_ICON_COUNT];
     ClActor *pokerusIcon;
     ClActor *statusIcon;
     VecFx32 bounceOffset;
@@ -85,7 +97,6 @@ struct PStaSubWork {
     PStaSubGesture swipeX;
     PStaSubGesture swipeY;
     PStaSubGesture circle;
-    // 1 clockwise, 2 counterclockwise
     u32 circleDir;
     u8 lapFrames[LAP_COUNT];
     u8 lapTimer;
@@ -113,8 +124,8 @@ static void PStaSub_SetSpritePosition(PStatusWork *wk, PStaSubWork *sub, const V
 static void PStaSub_AdjustForSpecies(PStatusWork *wk, PStaSubWork *sub, VecFx32 *size, VecFx32 *scale);
 
 // The markings, the shiny star and the Pokérus mark
-static const u8 sIconSequences[8] = { 0, 2, 4, 6, 8, 10, 12, 13 };
-static const u8 sIconXs[8] = { 179, 190, 201, 212, 223, 234, 152, 160 };
+static const u8 sIconSequences[PSTA_SUB_ICON_COUNT] = { 0, 2, 4, 6, 8, 10, 12, 13 };
+static const u8 sIconXs[PSTA_SUB_ICON_COUNT] = { 179, 190, 201, 212, 223, 234, 152, 160 };
 
 PStaSubWork *PStaSub_Create(PStatusWork *wk) {
     PStaSubWork *sub = GFL_HeapAllocate(wk->heapId, sizeof(PStaSubWork), TRUE, "p_sta_sub.c", 280);
@@ -139,7 +150,7 @@ void PStaSub_Main(PStatusWork *wk, PStaSubWork *sub) {
         PStaSub_UpdateAnim(wk, sub);
     } else if (sub->state == PSTA_SUB_TURN_TO_FRONT) {
         VecFx32 target = { FX32_CONST(-41), 0, FX32_CONST(101) };
-        VecFx32 scale = { FX32_ONE, 0x2333, FX32_ONE };
+        VecFx32 scale = { FX32_ONE, FX32_CONST(2.2), FX32_ONE };
         VecFx32 offset = { 0, 0, 0 };
 
         sub->turnTimer++;
@@ -166,12 +177,12 @@ void PStaSub_Main(PStatusWork *wk, PStaSubWork *sub) {
         GFL_G3DCameraFlush(wk->camera);
     } else if (sub->state == PSTA_SUB_TURN_TO_BACK) {
         VecFx32 target = { FX32_CONST(-66), 0, FX32_CONST(101) };
-        VecFx32 scale = { 0x1ccd, FX32_CONST(2.5), FX32_ONE };
+        VecFx32 scale = { FX32_CONST(1.8), FX32_CONST(2.5), FX32_ONE };
 
         sub->turnTimer++;
         if (sub->turnTimer < 3) {
-            fx32 scaleXs[2] = { 0x1333, 0x1666 };
-            fx32 scaleYs[2] = { 0x2333, 0x24cd };
+            fx32 scaleXs[2] = { FX32_CONST(1.2), FX32_CONST(1.4) };
+            fx32 scaleYs[2] = { FX32_CONST(2.2), FX32_CONST(2.3) };
             fx32 targetXs[2] = { FX32_CONST(-57), FX32_CONST(-60) };
             u8 frame = sub->turnTimer - 1;
 
@@ -220,7 +231,7 @@ void PStaSub_CreateActors(PStatusWork *wk, PStaSubWork *sub) {
     iconSetup.y = 127;
     iconSetup.priority = 10;
     iconSetup.bgPriority = 1;
-    for (i = 0; i < 8; i++) {
+    for (i = 0; i < PSTA_SUB_ICON_COUNT; i++) {
         iconSetup.x = sIconXs[i];
         iconSetup.sequence = sIconSequences[i];
         sub->icons[i] =
@@ -253,7 +264,7 @@ void PStaSub_FreeActors(PStatusWork *wk, PStaSubWork *sub) {
 
     func_0204c108(sub->statusIcon);
     func_0204c108(sub->pokerusIcon);
-    for (i = 0; i < 8; i++) {
+    for (i = 0; i < PSTA_SUB_ICON_COUNT; i++) {
         func_0204c108(sub->icons[i]);
     }
     func_0204c108(sub->ballIcon);
@@ -277,11 +288,11 @@ void PStaSub_Load(PStatusWork *wk, PStaSubWork *sub) {
         } else {
             sub->noBounce = FALSE;
         }
-        sub->unk14 = PML_PersonalGetParam(personal, 0x26);
+        sub->weight = PML_PersonalGetParam(personal, PERSONAL_WEIGHT);
         PML_PersonalFree(personal);
     } else {
         sub->noBounce = FALSE;
-        sub->unk14 = 0;
+        sub->weight = 0;
     }
     sub->nameWindow = BmpWin_CreateDynamic(1, 19, 0, 13, 4, 14, 1);
     sub->itemWindow = BmpWin_CreateDynamic(1, 19, 17, 13, 4, 14, 1);
@@ -320,7 +331,7 @@ void PStaSub_Draw(PStatusWork *wk, PStaSubWork *sub) {
     func_0204c124(sub->ballIcon, TRUE);
 
     markings = PML_PkmGetParam(boxPkm, PKM_PARAM_MARKINGS, NULL);
-    for (i = 0, bit = 1; i < 6; bit <<= 1, i++) {
+    for (i = 0, bit = 1; i < MARKING_COUNT; bit <<= 1, i++) {
         if (markings & bit) {
             func_0204c488(sub->icons[i], i * 2 + 1);
         } else {
@@ -328,21 +339,21 @@ void PStaSub_Draw(PStatusWork *wk, PStaSubWork *sub) {
         }
     }
     if (doesPokeHavePokerus(boxPkm) == TRUE) {
-        func_0204c124(sub->icons[7], TRUE);
+        func_0204c124(sub->icons[PSTA_SUB_ICON_POKERUS], TRUE);
     } else {
-        func_0204c124(sub->icons[7], FALSE);
+        func_0204c124(sub->icons[PSTA_SUB_ICON_POKERUS], FALSE);
     }
     if (PML_PkmIsRare(boxPkm) == TRUE && wk->isEgg == FALSE) {
-        func_0204c124(sub->icons[6], TRUE);
+        func_0204c124(sub->icons[PSTA_SUB_ICON_SHINY], TRUE);
     } else {
-        func_0204c124(sub->icons[6], FALSE);
+        func_0204c124(sub->icons[PSTA_SUB_ICON_SHINY], FALSE);
     }
 
     if (sub->frontShown == TRUE) {
         VecFx32 target = { FX32_CONST(-41), 0, FX32_CONST(101) };
-        VecFx32 scale = { FX32_ONE, 0x2333, FX32_ONE };
+        VecFx32 scale = { FX32_ONE, FX32_CONST(2.2), FX32_ONE };
         VecFx32 offset = { 0, 0, 0 };
-        VecFx32 pos = { 0x4b33, 0, FX32_CONST(-32) };
+        VecFx32 pos = { FX32_CONST(4.7), 0, FX32_CONST(-32) };
 
         func_0201ab54(sub->mcss[0], &offset);
         PStaSub_SetSpritePosition(wk, sub, &pos);
@@ -352,9 +363,9 @@ void PStaSub_Draw(PStatusWork *wk, PStaSubWork *sub) {
         sub->state = PSTA_SUB_FRONT;
     } else {
         VecFx32 target = { FX32_CONST(-66), 0, FX32_CONST(101) };
-        VecFx32 scale = { 0x1ccd, FX32_CONST(2.5), FX32_ONE };
+        VecFx32 scale = { FX32_CONST(1.8), FX32_CONST(2.5), FX32_ONE };
         VecFx32 offset = { 0, 0, 0 };
-        VecFx32 pos = { 0x4b33, 0, FX32_CONST(-32) };
+        VecFx32 pos = { FX32_CONST(4.7), 0, FX32_CONST(-32) };
 
         func_0201ab54(sub->mcss[0], &offset);
         PStaSub_SetSpritePosition(wk, sub, &pos);
@@ -425,12 +436,12 @@ static void PStaSub_PrintInfo(PStatusWork *wk, PStaSubWork *sub, BoxPkm *pkm) {
 
     if (wk->isEgg == FALSE && PML_PkmGetParam(pkm, PKM_PARAM_SHOW_SEX, NULL) == TRUE) {
         sex = PML_PkmGetParam(pkm, PKM_PARAM_SEX, NULL);
-        if (sex == 0) {
+        if (sex == GENDER_MALE) {
             str = GFL_MsgDataLoadStrbufNew(wk->msgData, 1);
             func_02021c7c(wk->printQueue, BmpWin_GetBitmap(sub->nameWindow), 89, 1, str, wk->font,
                           PRINT_COLOR(5, 6, 0));
             GFL_StrBufFree(str);
-        } else if (sex == 1) {
+        } else if (sex == GENDER_FEMALE) {
             str = GFL_MsgDataLoadStrbufNew(wk->msgData, 2);
             func_02021c7c(wk->printQueue, BmpWin_GetBitmap(sub->nameWindow), 89, 1, str, wk->font,
                           PRINT_COLOR(3, 4, 0));
@@ -687,7 +698,7 @@ static void PStaSub_HandleTouch(PStatusWork *wk, PStaSubWork *sub) {
                 }
                 sub->lapTimer = 0;
                 sub->lapIndex = 0;
-                sub->circleDir = 0;
+                sub->circleDir = PSTA_SUB_CIRCLE_NONE;
             } else if (held == TRUE && sub->isTouching == TRUE) {
                 PStaSub_TrackGestures(wk, sub);
             }
@@ -739,7 +750,7 @@ static void PStaSub_HandleMarkings(PStatusWork *wk, PStaSubWork *sub) {
     markings = PML_PkmGetParam(pkm, PKM_PARAM_MARKINGS, NULL);
     markings ^= 1 << hit;
     PML_PkmSetParam(pkm, PKM_PARAM_MARKINGS, markings);
-    for (i = 0; i < 6; i++) {
+    for (i = 0; i < MARKING_COUNT; i++) {
         if (markings & bit) {
             func_0204c488(sub->icons[i], i * 2 + 1);
         } else {
@@ -800,25 +811,25 @@ static void PStaSub_TrackGestures(PStatusWork *wk, PStaSubWork *sub) {
     }
     if (dir != PSTA_SUB_DIR_NONE && dir != sub->circle.dir) {
         if (sub->circle.dir + 1 == dir || (sub->circle.dir == PSTA_SUB_DIR_UP && dir == PSTA_SUB_DIR_RIGHT)) {
-            if (sub->circleDir == 0 || sub->circleDir == 1) {
-                sub->circleDir = 1;
+            if (sub->circleDir == PSTA_SUB_CIRCLE_NONE || sub->circleDir == PSTA_SUB_CIRCLE_CLOCKWISE) {
+                sub->circleDir = PSTA_SUB_CIRCLE_CLOCKWISE;
                 PStaSub_AdvanceGesture(&sub->circle, x, y, dir);
                 if (sub->circle.dir == PSTA_SUB_DIR_UP) {
                     lap = TRUE;
                 }
             } else {
-                sub->circleDir = 0;
+                sub->circleDir = PSTA_SUB_CIRCLE_NONE;
                 PStaSub_ResetGesture(&sub->circle, x, y);
             }
         } else if (sub->circle.dir - 1 == dir || (sub->circle.dir == PSTA_SUB_DIR_RIGHT && dir == PSTA_SUB_DIR_UP)) {
-            if (sub->circleDir == 2 || sub->circleDir == 0) {
-                sub->circleDir = 2;
+            if (sub->circleDir == PSTA_SUB_CIRCLE_COUNTERCLOCKWISE || sub->circleDir == PSTA_SUB_CIRCLE_NONE) {
+                sub->circleDir = PSTA_SUB_CIRCLE_COUNTERCLOCKWISE;
                 PStaSub_AdvanceGesture(&sub->circle, x, y, dir);
                 if (sub->circle.dir == PSTA_SUB_DIR_UP) {
                     lap = TRUE;
                 }
             } else {
-                sub->circleDir = 0;
+                sub->circleDir = PSTA_SUB_CIRCLE_NONE;
                 PStaSub_ResetGesture(&sub->circle, x, y);
             }
         } else if (sub->circle.dir == PSTA_SUB_DIR_NONE) {
@@ -826,7 +837,7 @@ static void PStaSub_TrackGestures(PStatusWork *wk, PStaSubWork *sub) {
         }
     }
     if (sub->circle.frames > 20) {
-        sub->circleDir = 0;
+        sub->circleDir = PSTA_SUB_CIRCLE_NONE;
         PStaSub_ResetGesture(&sub->circle, x, y);
     }
     PStaSub_CountLap(wk, sub, lap);
@@ -863,9 +874,9 @@ static void PStaSub_CountLap(PStatusWork *wk, PStaSubWork *sub, BOOL lap) {
 
 static void PStaSub_CreateSprites(PStatusWork *wk, PStaSubWork *sub, BoxPkm *boxPkm) {
     VecFx32 size = { FX32_CONST(16), FX32_CONST(16), FX32_ONE };
-    VecFx32 scale = { FX32_ONE, 0x2333, FX32_ONE };
-    VecFx32 backScale = { 0x1ccd, FX32_CONST(2.5), FX32_ONE };
-    VecFx32 pos = { 0x4b33, 0, FX32_CONST(-32) };
+    VecFx32 scale = { FX32_ONE, FX32_CONST(2.2), FX32_ONE };
+    VecFx32 backScale = { FX32_CONST(1.8), FX32_CONST(2.5), FX32_ONE };
+    VecFx32 pos = { FX32_CONST(4.7), 0, FX32_CONST(-32) };
     PartyPkm *pkm = PStatus_GetPartyPkm(wk);
 
     PStaSub_AdjustForSpecies(wk, sub, &size, &scale);
@@ -902,7 +913,7 @@ static void PStaSub_RemoveSprites(PStatusWork *wk, PStaSubWork *sub) {
 }
 
 static void PStaSub_SetBounce(PStatusWork *wk, PStaSubWork *sub, fx32 bounce) {
-    VecFx32 pos = { 0x4b33, 0, FX32_CONST(-32) };
+    VecFx32 pos = { FX32_CONST(4.7), 0, FX32_CONST(-32) };
 
     sub->bounceOffset.x = FX_Mul(FX_SinIdx(DEG_TO_IDX(300)), bounce);
     sub->bounceOffset.y = FX_Mul(FX_CosIdx(DEG_TO_IDX(300)), bounce);
@@ -922,27 +933,27 @@ static void PStaSub_AdjustForSpecies(PStatusWork *wk, PStaSubWork *sub, VecFx32 
     u32 species = PML_PkmGetParam(PStatus_GetBoxPkm(wk), PKM_PARAM_SPECIES, NULL);
 
     if (species == SPECIES_CHARMELEON) {
-        scale->y = 0x299a;
-        size->y = 0xf4cd;
+        scale->y = FX32_CONST(2.6);
+        size->y = FX32_CONST(15.3);
     } else if (species == SPECIES_VULPIX) {
-        size->y = 0xfb33;
+        size->y = FX32_CONST(15.7);
     } else if (species == SPECIES_SEEL) {
-        size->y = size->x = 0x10666;
+        size->y = size->x = FX32_CONST(16.4);
     } else if (species == SPECIES_CYNDAQUIL) {
-        size->x = 0xfe66;
-        size->y = 0xfb33;
+        size->x = FX32_CONST(15.9);
+        size->y = FX32_CONST(15.7);
     } else if (species == SPECIES_MAREEP) {
-        size->y = size->x = 0x10333;
+        size->y = size->x = FX32_CONST(16.2);
     } else if (species == SPECIES_DELIBIRD) {
-        size->y = size->x = 0xfccd;
+        size->y = size->x = FX32_CONST(15.8);
     } else if (species == SPECIES_TYRANITAR) {
-        size->y = size->x = 0xfccd;
+        size->y = size->x = FX32_CONST(15.8);
     } else if (species == SPECIES_MANECTRIC) {
         size->y = size->x = FX32_CONST(15.5);
     } else if (species == SPECIES_PLUSLE) {
-        size->y = size->x = 0xfb33;
+        size->y = size->x = FX32_CONST(15.7);
     } else if (species == SPECIES_MONFERNO) {
-        size->x = 0xfb33;
-        size->y = 0xf99a;
+        size->x = FX32_CONST(15.7);
+        size->y = FX32_CONST(15.6);
     }
 }

@@ -62,7 +62,6 @@
 #define PKM_PARAM_OT_NAME 0x8d
 // The original trainer's name, copied to or from a u16 array (not from swan)
 #define PKM_PARAM_OT_NAME_RAW 0x8e
-// Where the Pokémon was met as an egg and as itself, and the level (not from swan)
 // Not from swan: the dates the Pokémon was met as an egg and as itself, each two digits of the year, the month and
 // the day
 #define PKM_PARAM_EGG_YEAR 0x8f
@@ -71,6 +70,7 @@
 #define PKM_PARAM_MET_YEAR 0x92
 #define PKM_PARAM_MET_MONTH 0x93
 #define PKM_PARAM_MET_DAY 0x94
+// Where the Pokémon was met as an egg and as itself, and the level (not from swan)
 #define PKM_PARAM_EGG_LOCATION 0x95
 #define PKM_PARAM_MET_LOCATION 0x96
 #define PKM_PARAM_MET_LEVEL 0x99
