@@ -164,15 +164,15 @@ void PStaSub_Unload(PStatusWork *wk, PStaSubWork *sub);
 void PStaSub_Clear(PStatusWork *wk, PStaSubWork *sub);
 
 // p_sta_info.c
-PStaInfoWork *func_ov207_021b6924(PStatusWork *wk);
-void func_ov207_021b6958(PStatusWork *wk, PStaInfoWork *info);
-void func_ov207_021b696c(PStatusWork *wk, PStaInfoWork *info);
-void func_ov207_021b6970(PStatusWork *wk, PStaInfoWork *info, ArcTool *arc);
-void func_ov207_021b6a18(PStatusWork *wk, PStaInfoWork *info);
-void func_ov207_021b6a60(PStatusWork *wk, PStaInfoWork *info);
-void func_ov207_021b6ad4(PStatusWork *wk, PStaInfoWork *info);
-void func_ov207_021b6cac(PStatusWork *wk, PStaInfoWork *info);
-void func_ov207_021b6cd4(PStatusWork *wk, PStaInfoWork *info);
+PStaInfoWork *PStaInfo_Create(PStatusWork *wk);
+void PStaInfo_Free(PStatusWork *wk, PStaInfoWork *info);
+void PStaInfo_Main(PStatusWork *wk, PStaInfoWork *info);
+void PStaInfo_LoadResources(PStatusWork *wk, PStaInfoWork *info, ArcTool *arc);
+void PStaInfo_FreeResources(PStatusWork *wk, PStaInfoWork *info);
+void PStaInfo_Load(PStatusWork *wk, PStaInfoWork *info);
+void PStaInfo_Draw(PStatusWork *wk, PStaInfoWork *info);
+void PStaInfo_Unload(PStatusWork *wk, PStaInfoWork *info);
+void PStaInfo_Clear(PStatusWork *wk, PStaInfoWork *info);
 
 // p_sta_ribbon.c
 PStaRibbonWork *func_ov207_021b7644(PStatusWork *wk);

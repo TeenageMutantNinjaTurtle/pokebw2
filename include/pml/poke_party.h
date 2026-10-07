@@ -45,6 +45,11 @@ PokeParty *PokeParty_Create(HeapID heapId);
 void PokeParty_CreateTempPkm(PartyPkm *pkm, u16 species, u16 level, u64 id);
 u32 PokeParty_GetSaveDataSize(void);
 u32 PML_GenPID(u32 seed, u16 species, u16 form, u32 sex, u32 ability, u32 a5);
+// Whether the personality is shiny for the trainer ID
+BOOL PML_UtilPIDIsRare(u32 id, u32 pid);
+u32 makeSpecialPID(u32 id, u16 species, u16 form, u8 sex, u8 a4, BOOL a5);
+// Whether the gender ratio leaves no choice of sex
+BOOL isGenderlessOrSetGender(u8 genderRatio);
 // The trainer ID and the PID are 64-bit so that they can hold these values beside any 32-bit one. The trainer ID is
 // random, or one with which the PID isn't shiny; the PID is random, or the trainer ID's value. ivs packs six 5-bit
 // IVs, or is PKM_IVS_RANDOM
@@ -85,6 +90,8 @@ void PokeParty_EncryptPkm(PartyPkm *pkm, BOOL wasEncrypted);
 u32 PML_PkmGetParam(BoxPkm *pkm, u32 param, void *buffer);
 BOOL PML_PkmDecrypt(BoxPkm *pkm);
 u32 PML_PkmGetLevel(BoxPkm *pkm);
+// Whether the Pokémon's original trainer is someone other than the player
+BOOL PML_UtilCheckForeignOT(BoxPkm *pkm, PlayerInfo *playerInfo);
 void PML_PkmChangeForme(BoxPkm *pkm, u32 forme);
 BOOL hasPokemonChangedForm(BoxPkm *pkm);
 void PML_PkmReEncrypt(BoxPkm *pkm, BOOL wasEncrypted);
@@ -103,6 +110,11 @@ BOOL pokeHasPkrs(PartyPkm *pkm);
 BoxPkm *func_0201d620(PartyPkm *pkm);
 // Marks the Pokémon as met in a fateful encounter, at the location and on the date
 void setFatefulEncounterPkmData(BoxPkm *pkm, u16 location, u32 year, u32 month, u32 day);
+// Whether the Pokémon came by one of four kinds of special transfer for the player
+BOOL special_transfers(BoxPkm *pkm, u32 kind, PlayerInfo *playerInfo);
+// The message file of a location's name, and the name's index in it
+u32 func_02035f5c(u32 location);
+u32 func_02035fac(u32 location);
 // Allocates a party Pokémon made from a boxed one
 void PML_PkmSetParam(BoxPkm *pkm, u32 param, u32 value);
 // The size of a Pokémon's data

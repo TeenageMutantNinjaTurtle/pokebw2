@@ -7631,7 +7631,7 @@ from:0x02031c36 kind:thumb_call to:0x02006f24 module:main
 from:0x02031c40 kind:thumb_call to:0x02031c18 module:main
 from:0x02031c58 kind:thumb_call to:0x02031c20 module:main
 from:0x02031c94 kind:load to:0x02092770 module:main
-from:0x02031c98 kind:load to:0x02092774 module:main
+from:0x02031c98 kind:load to:0x02092770 add:0x4 module:main
 from:0x02031cb0 kind:thumb_call to:0x0203a228 module:main
 from:0x02031cd0 kind:thumb_call to:0x02031e2c module:main
 from:0x02031cd6 kind:thumb_call to:0x02031d4c module:main
