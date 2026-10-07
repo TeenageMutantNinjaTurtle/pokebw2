@@ -228,6 +228,32 @@ typedef struct KeySystemKeyAnim {
     BOOL (*func)(struct KeySystemKeyAnim *anim);
 } KeySystemKeyAnim;
 
+// What the Memory Link reads from a Black or White save's player
+typedef struct {
+    u32 id;
+    u16 name[8];
+    u8 gender;
+    u8 unk15;
+} WBSavePlayer;
+
+// What the Memory Link reads from a Black or White save to unlock the memories
+typedef struct {
+    // Bits from event flags and from a word of block 52
+    u8 flags[2];
+    // Event work variables
+    u16 vars[3];
+    u16 unk08[16];
+    u16 unk28;
+    u16 unk2A;
+    u8 unk2C[0x168];
+} WBSaveMemories;
+
+// wb_save_convert.c's summary of a Black or White save
+typedef struct {
+    WBSavePlayer player;
+    WBSaveMemories memories;
+} WBSaveData;
+
 struct KeySystemWork {
     KeySystemScene *scene;
     KeySystemSeq *seq;
@@ -255,9 +281,10 @@ struct KeySystemWork {
     // ov331's work, with the other save
     void *ov331Work;
     KeyInfoSave *keyInfo;
-    void *unk104;
-    // data_convert_flow.c's
-    void *wbData;
+    // The Memory Link's data in the save
+    void *memoryLink;
+    // The Black or White save linked
+    WBSaveData *wbData;
     KeySystemNet *net;
     // key_system_flow.c's: the keys and saves of this game and of the other
     KeySystemKeyState keys;
@@ -529,30 +556,42 @@ typedef struct {
     void (*func)(void *arg);
 } KeySystemNetCallback;
 
+// The parameters of KEY_SYSTEM_NET_REQUEST_OV181_START, the texts that the other system shows, and its result
+typedef struct {
+    StrBuf *text;
+    StrBuf *title;
+    u32 result;
+} KeySystemNetOv181Start;
+
+// The results of KEY_SYSTEM_NET_REQUEST_OV181_END: the save data the other system sent
+typedef struct {
+    BOOL done;
+    u32 result;
+    void *data;
+} KeySystemNetOv181End;
+
+// The parameters of KEY_SYSTEM_NET_REQUEST_WIFI_POST, the save's ID and where its data goes, and its result
+typedef struct {
+    u32 id;
+    u32 result;
+    void *buffer;
+    u32 size;
+} KeySystemNetWifiPost;
+
+// The results of KEY_SYSTEM_NET_REQUEST_WIFI_GET
+typedef struct {
+    u32 value;
+    u32 result;
+} KeySystemNetWifiGet;
+
 // The parameters and results of a request
 typedef union {
     KeySystemNetSend send;
     KeySystemNetCallback callback;
-    struct {
-        u32 a;
-        u32 b;
-        u32 result;
-    } ov181;
-    struct {
-        BOOL done;
-        u32 a;
-        u32 b;
-    } ov181End;
-    struct {
-        const void *data;
-        u32 result;
-        u32 a;
-        u32 b;
-    } wifi;
-    struct {
-        u32 value;
-        u32 result;
-    } wifiGet;
+    KeySystemNetOv181Start ov181;
+    KeySystemNetOv181End ov181End;
+    KeySystemNetWifiPost wifi;
+    KeySystemNetWifiGet wifiGet;
     u8 raw[0x100];
 } KeySystemNetRequest;
 
@@ -580,8 +619,14 @@ void KeySystemFlow_SeqGameClear(KeySystemSeq *seq, int *state, void *work);
 void KeySystemFlow_SeqMenu(KeySystemSeq *seq, int *state, void *work);
 
 // data_convert_flow.c
-void func_ov332_021c53dc(KeySystemWork *wk, HeapID heapId);
-void func_ov332_021c53e0(KeySystemSeq *seq, int *state, void *work);
+void DataConvert_Init(KeySystemWork *wk, HeapID heapId);
+void DataConvert_SeqMenu(KeySystemSeq *seq, int *state, void *work);
+
+// wb_save_block.c (a guessed name)
+void *WBSaveBlock_Get(void *save, int block);
+
+// wb_save_convert.c
+WBSaveData *WBSaveConvert_Create(void *save, HeapID heapId);
 
 // cygnus_flow.c
 void func_ov332_021c7028(KeySystemWork *wk, HeapID heapId);

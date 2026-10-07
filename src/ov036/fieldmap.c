@@ -79,6 +79,8 @@
 #include "system/iss_sys.h"
 #include "system/main.h"
 #include "system/rtc.h"
+#include "system/season.h"
+#include "system/zone_weather.h"
 
 static const u8 sResolvedControllerTypes[4] = { 0, 1, 2, 0 };
 

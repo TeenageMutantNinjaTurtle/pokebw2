@@ -20,6 +20,7 @@
 #include "gfl/heap.h"
 #include "gfl/msg.h"
 #include "gfl/overlay.h"
+#include "system/comm_player_support.h"
 #include "system/printsys.h"
 #include "system/time_icon.h"
 #include "system/text_speed.h"
@@ -3162,8 +3163,8 @@ PlayerInfo *func_ov167_0219d97c(BtlMainModule *mainModule, u8 clientId) {
     return mainModule->trainers[clientId].playerInfo;
 }
 
-u32 func_ov167_0219d998(BtlMainModule *mainModule) {
-    return func_02034ee4(mainModule->setup->unk88);
+PlayerInfo *func_ov167_0219d998(BtlMainModule *mainModule) {
+    return CommPlayerSupport_GetSupporter(mainModule->setup->unk88);
 }
 
 u32 func_ov167_0219d9a8(BtlMainModule *mainModule) {

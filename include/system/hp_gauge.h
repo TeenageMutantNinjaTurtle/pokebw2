@@ -12,7 +12,7 @@
 #define HP_GAUGE_COLOR_NONE 3
 
 // The pixels of a gauge width pixels long to fill for HP out of a maximum, at least 1 while any HP is left
-u8 func_02033724(u32 hp, u32 maxHp, u32 width);
-u8 func_0203373c(u32 hp, u32 maxHp);
+u8 HPGauge_GetFill(u32 hp, u32 maxHp, u32 width);
+u8 HPGauge_GetColor(u32 hp, u32 maxHp);
 
 #endif // POKEBW2_SYSTEM_HP_GAUGE_H

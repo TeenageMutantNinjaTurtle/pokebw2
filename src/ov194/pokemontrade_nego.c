@@ -26,7 +26,7 @@
 #include "pml/poke_party.h"
 #include "save/box.h"
 #include "save/player_info.h"
-#include "system/app_common.h"
+#include "system/app_menu_common.h"
 #include "system/app_taskmenu.h"
 #include "system/game_data.h"
 #include "system/gf_font.h"

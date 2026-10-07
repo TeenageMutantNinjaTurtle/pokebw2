@@ -32,3 +32,20 @@ src/ov332/key_system_flow.c:
     .text       start:0x021c2b58 end:0x021c5420
     .rodata     start:0x021c8eac end:0x021c9038
     .data       start:0x021c93f0 end:0x021c9488
+
+src/ov332/data_convert_flow.c:
+    complete
+    .text       start:0x021c5420 end:0x021c6e58
+    .rodata     start:0x021c9038 end:0x021c90c8
+    .data       start:0x021c9488 end:0x021c94a8
+
+src/ov332/wb_save_block.c:
+    complete
+    .text       start:0x021c6e58 end:0x021c6ec4
+    .rodata     start:0x021c90c8 end:0x021c91e4
+
+src/ov332/wb_save_convert.c:
+    complete
+    .text       start:0x021c6ec4 end:0x021c706c
+    .rodata     start:0x021c91e4 end:0x021c929c
+    .data       start:0x021c94a8 end:0x021c94bc

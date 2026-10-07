@@ -605,3 +605,90 @@ src/system/iss_sys.c:
     .text       start:0x02031898 end:0x02031c70
     .rodata     start:0x02092744 end:0x020927b0
     .data       start:0x0209a718 end:0x0209a724
+
+src/system/zone_weather.c:
+    complete
+    .text       start:0x02032e94 end:0x020330c8
+    .rodata     start:0x020927b0 end:0x02092814
+
+src/system/shortcut_util.c:
+    complete
+    .text       start:0x02034a98 end:0x02034ad0
+    .rodata     start:0x020929f8 end:0x02092a14
+
+src/system/pokegra.c:
+    complete
+    .text       start:0x02033768 end:0x02034168
+    .rodata     start:0x02092820 end:0x020929f8
+    .data       start:0x0209a788 end:0x0209a7a4
+
+src/system/bgwinfrm.c:
+    complete
+    .text       start:0x020330c8 end:0x02033724
+    .rodata     start:0x02092814 end:0x02092820
+    .data       start:0x0209a77c end:0x0209a788
+
+src/system/bag_param.c:
+    complete
+    .text       start:0x02034ad0 end:0x02034b64
+    .data       start:0x0209a7b0 end:0x0209a7bc
+
+src/system/hp_gauge.c:
+    complete
+    .text       start:0x02033724 end:0x02033768
+
+src/system/codein_param.c:
+    complete
+    .text       start:0x02034b64 end:0x02034bd8
+    .data       start:0x0209a7bc end:0x0209a7cc
+
+src/system/plist_data_setup.c:
+    complete
+    .text       start:0x02034bd8 end:0x02034c80
+    .data       start:0x0209a7cc end:0x0209a7e0
+
+src/system/pms_draw.c:
+    complete
+    .text       start:0x02034168 end:0x02034a98
+    .data       start:0x0209a7a4 end:0x0209a7b0
+
+src/system/screentex.c:
+    complete
+    .text       start:0x02034c80 end:0x02034e90
+    .rodata     start:0x02092a14 end:0x02092b24
+    .data       start:0x0209a7e0 end:0x0209a7ec
+
+src/system/comm_player_support.c:
+    complete
+    .text       start:0x02034e90 end:0x02034f20
+    .data       start:0x0209a7ec end:0x0209a804
+
+src/system/season.c:
+    complete
+    .text       start:0x02034f20 end:0x02034fbc
+
+src/system/ctvt_beacon.c:
+    complete
+    .text       start:0x02034fbc end:0x02035024
+
+src/system/blink_palanm.c:
+    complete
+    .text       start:0x02035024 end:0x020352e0
+    .rodata     start:0x02092b24 end:0x02092b3c
+    .data       start:0x0209a804 end:0x0209a814
+
+src/system/dsi.c:
+    complete
+    .text       start:0x020352e0 end:0x02035350
+
+src/system/scroll_bar.c:
+    complete
+    .text       start:0x020355b8 end:0x02035604
+
+src/system/time_icon.c:
+    complete
+    .text       start:0x02035604 end:0x020358e8
+    .data       start:0x0209a814 end:0x0209a820
+
+src/system/unity_tower_register.c:
+    .text       start:0x02035350 end:0x020355b8
