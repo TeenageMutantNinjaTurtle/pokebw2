@@ -67,6 +67,14 @@
 #define ARCID_BOX2 117
 #define ARCID_ZONE_ENTITIES 126
 #define ARCID_ENCOUNTDATA 127
+// The interactive sound system's city sound units (iss_city_unit.c). Our name, not swan's
+#define ARCID_ISS_CITY 133
+// The interactive sound system's zone fades (iss_zone_sys.c). Our name, not swan's
+#define ARCID_ISS_ZONE 136
+// The interactive sound system's dungeon BGM settings (iss_dungeon_sys.c). Our name, not swan's
+#define ARCID_ISS_DUNGEON 146
+// The interactive sound system's BGM switch sets (iss_switch_set.c). Our name, not swan's
+#define ARCID_ISS_SWITCH 147
 #define ARCID_MAPEFF_SKILL_TBL 149
 #define ARCID_SEASON_BANNER 150
 #define ARCID_FIELD_CAMERA_MAP_PARAM 156
@@ -85,6 +93,8 @@
 #define ARCID_AREA_BMTEX_INT 175
 // The evolution demo's graphics
 #define ARCID_SHINKA_DEMO 179
+// The interactive sound system's 3D sound configs (iss_3ds_sys.c). Our name, not swan's
+#define ARCID_ISS_3D_SOUND 182
 // The walking Pokémon's object codes (tpoke_data.c)
 #define ARCID_TPOKE 208
 // The Research Radar's graphics. Our name, not swan's

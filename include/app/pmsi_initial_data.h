@@ -13,11 +13,14 @@ void PMSIInitial_GetString(u32 initial, StrBuf *buf);
 u16 PMSIInitial_GetCode(u32 initial);
 // Where the initial's button is
 void PMSIInitial_GetPos(u32 initial, u32 *x, u32 *y);
-// The initials next to it, for the cursor
+// The initials next to it, for the cursor, or a button above or below the grid
+#define PMSI_INITIAL_POS_BUTTON_0 0xfc
+#define PMSI_INITIAL_POS_BUTTON_1 0xfd
+#define PMSI_INITIAL_POS_BUTTON_2 0xfe
 u32 PMSIInitial_GetUp(u32 initial);
 u32 PMSIInitial_GetDown(u32 initial);
 u32 PMSIInitial_GetLeft(u32 initial);
 u32 PMSIInitial_GetRight(u32 initial);
-u32 PMSIInitial_GetJump(u32 initial);
+u32 PMSIInitial_GetBottom(u32 initial);
 
 #endif // POKEBW2_APP_PMSI_INITIAL_DATA_H

@@ -5282,7 +5282,6 @@ data_ov036_021cff40 kind:data(any) addr:0x021cff40
 data_ov036_021cff50 kind:data(any) addr:0x021cff50
 data_ov036_021cff70 kind:data(any) addr:0x021cff70
 data_ov036_021cffd0 kind:data(any) addr:0x021cffd0
-data_ov036_021d0001 kind:data(any) addr:0x021d0001
 data_ov036_021d0054 kind:data(any) addr:0x021d0054
 data_ov036_021d0118 kind:data(any) addr:0x021d0118
 ENCOUNT_SLOT_RANDOMIZE_FUNCS kind:data(any) addr:0x021d0124
