@@ -1,0 +1,62 @@
+Objective {0203:0}
+Objective {0203:0}
+Objective {0203:0}
+Objective {0203:0}
+Objective {0203:0}
+{bd03:0}Participants {0202:0}
+Use the {0110:1}\nthat {0100:0} activated?
+Said\n“{011c:0}."
+Quit the Funfest Mission?
+    \x{ffff}
+    \x{ffff}
+    \x{ffff}
+    \x{ffff}
+    \x{ffff}
+{bd03:0}Score {0203:0}
+started a mission!
+joined the mission!
+went to {0105:0}.
+is battling with {0101:0}!
+defeated {0101:0}!
+caught {0101:0}!
+escaped from the battle!
+is battling with a Trainer!
+defeated a Trainer!
+was defeated!
+used {0109:0}!
+picked up {0109:0}!
+used {0107:0}!
+is shopping...
+used a Pass Power!
+rode the Ferris wheel!
+checked a signboard.
+received an Egg!
+defeated {0101:0}!
+caught {0101:0}!
+defeated {0101:0}!
+caught {0101:0}!
+found {0109:0}!
+rang the bell!
+found {0109:0}!
+found {0109:0}!
+hatched {0101:0}!
+reeled in {0101:0}!
+found {0101:0}!
+helped a lost child!
+gave {0109:0}.
+traded items!
+bought {0109:0}!
+won in rock-paper-scissors!
+answered the quiz correctly!
+helped someone train!
+received {0109:0}!
+answered the quiz correctly!
+doesn't have enough money!
+lost in rock-paper-scissors!
+answered the quiz incorrectly!
+{0101:0} fainted.
+{0101:0}'s HP is low!
+{0101:0}'s PP is low!
+{011c:0}
+                   \x{ffff}
+               \x{ffff}

@@ -1,0 +1,21 @@
+{bd02}A humanoid monster\n{bd02}attacked him, but somehow\n{bd02}{0100:1} managed to escape\n{bd02}from the room.
+{bd02}He fled to an amusement park,\n{bd02}and the moment he thought\n{bd02}he was finally safe...
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+{bd02}A humanoid monster\n{bd02}attacked her, but somehow\n{bd02}{0100:1} managed to escape\n{bd02}from the room.
+{bd02}She fled to an amusement park,\n{bd02}and the moment she thought\n{bd02}she was finally safe...
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし

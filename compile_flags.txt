@@ -1,5 +1,8 @@
 --target=armv5te-none-eabi
 -ffreestanding
 -Iinclude
+-Ilib/nitro/include
+-Ilib/nnsys/include
+-Ilib/spl/include
 -std=c99
 -DBLACK2

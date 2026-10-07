@@ -24,8 +24,8 @@ progress line of the README. Both are committed, so run it after `ninja progress
 
 `tools/scripts/add_source_file.py` adds a source file to both versions' `delinks.txt`, with White 2's ranges taken
 from the version map. `tools/scripts/compiler_probe.py src/... --compilers 1.1 --show-diff 1.1` compiles a file and
-diffs every function in it against the original. A library that `configure.py` builds with its own compiler, such
-as SPL with `1.2/base`, gets that compiler and its flags by default. `--mismatches` leaves out the functions that
+diffs every function in it against the original. A library under `lib/` that has its own compiler, such as SPL
+with `1.2/base`, gets the compiler and flags of its `library.toml` by default. `--mismatches` leaves out the functions that
 match, and `--functions` limits the table and diffs to the functions named. `--align` shows only the hunks of the
 diff that differ, aligned so that an instruction more or less does not shift everything after it, which is what makes
 a long function's diff readable. A function the file defines but the object lacks shows as `not emitted`: MWCC drops a
@@ -53,7 +53,7 @@ The ROM was not necessarily built with one compiler. The Pokémon Black decomp b
 built with other versions (`2.0/sp2p2` and `1.2`), so try them on library code that doesn't match. `configure.py`
 extracts only the `dsi` compilers; the others are in `build/mwccarm.zip`. Extracted to `tools/mwccarm`, they can be
 named by directory, as in `compiler_probe.py --compilers 2.0/sp2p2`, and `1.2` needs `--flags` without `-ipa file`.
-`configure.py` downloads a library's compiler when `LIB_COMPILERS` lists it.
+`configure.py` downloads a library's compiler when a `lib/*/library.toml` names it.
 Game code needs the `dsi` builds: the evolution demo's view matches 36 of its 56 functions with every `2.0` build and
 25 with `1.2`.
 

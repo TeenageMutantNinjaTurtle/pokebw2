@@ -20,7 +20,7 @@ from elftools.elf.relocation import RelocationSection
 ROOT = Path(__file__).resolve().parents[2]
 TOOLS = ROOT / "tools"
 sys.path.insert(0, str(ROOT))
-from configure import LIB_COMPILERS  # noqa: E402
+from configure import INCLUDE_DIRS, library_of  # noqa: E402
 
 DEFAULT_FLAGS = (
     "-O4,p -proc arm946e -thumb -interworking -enum int -char signed -fp soft -lang=c99 -Cpp_exceptions off -gccext,on -gccinc "
@@ -28,19 +28,16 @@ DEFAULT_FLAGS = (
 )
 # Preprocessor defines of each game version, as in configure.py
 VERSION_DEFINES = {"b2_us": ["BLACK2"], "w2_us": ["WHITE2"]}
-SYMBOL_RE = re.compile(r"^(\S+) kind:function\((\w+),size=(0x[0-9a-f]+)[^)]*\) addr:(0x[0-9a-f]+)")
+SYMBOL_RE = re.compile(r"^(\S+) kind:function\((\w+),size=(0x[0-9a-f]+)\S*\) addr:(0x[0-9a-f]+)")
 
 
 def lib_compiler(source: Path) -> tuple[str, str] | None:
-    """Returns the compiler and flags of a library built with its own, as in configure.py."""
+    """Returns the compiler and flags of a library built with its own, from its library.toml as in configure.py."""
     try:
-        relative = source.resolve().relative_to(ROOT).as_posix()
+        library = library_of(source)
     except ValueError:
         return None
-    for prefix, (compiler, flags) in LIB_COMPILERS.items():
-        if relative.startswith(prefix):
-            return compiler, " ".join(flags) + " -w off"
-    return None
+    return (library[0], " ".join(library[1]) + " -w off") if library else None
 
 
 def load_modules(version: str) -> dict[str, tuple[Path, int]]:
@@ -70,10 +67,41 @@ def find_function(version: str, name: str, modules) -> tuple[bytes, int, bool] |
             if not match:
                 continue
             mode, size, addr = match.group(2), int(match.group(3), 16), int(match.group(4), 16)
+            if "dsprot=" in line:
+                # DS Protect's functions are encrypted in the ROM; dsd decrypts them into the delinked objects
+                data = delinked_function(version, name)
+                if data is None:
+                    print(f"{name}: encrypted, and not in build/{version}/delinks; run ninja first", file=sys.stderr)
+                    return None
+                return data[:size], addr, mode == "thumb"
             binary, base = modules[str(symbols.parent)]
             data = binary.read_bytes()[addr - base : addr - base + size]
             return data, addr, mode == "thumb"
     return None
+
+
+_delinked: dict[str, dict[str, bytes]] = {}
+
+
+def delinked_function(version: str, name: str) -> bytes | None:
+    """Returns a function's bytes from the delinked objects of build/<version>/delinks, which hold DS Protect's code
+    decrypted."""
+    if version not in _delinked:
+        found: dict[str, bytes] = {}
+        for path in (ROOT / "build" / version / "delinks").rglob("*.o"):
+            with path.open("rb") as f:
+                elf = ELFFile(f)
+                symtab = elf.get_section_by_name(".symtab")
+                if symtab is None:
+                    continue
+                for symbol in symtab.iter_symbols():
+                    if symbol["st_info"]["type"] != "STT_FUNC" or symbol["st_shndx"] in ("SHN_UNDEF", "SHN_ABS"):
+                        continue
+                    start = symbol["st_value"] & ~1
+                    data = elf.get_section(symbol["st_shndx"]).data()
+                    found[symbol.name] = data[start : start + symbol["st_size"]] if symbol["st_size"] else data[start:]
+        _delinked[version] = found
+    return _delinked[version].get(name)
 
 
 def compiled_functions(obj: Path) -> dict[str, tuple[bytes, set[int]]]:
@@ -179,7 +207,7 @@ def main():
                 *shlex.split(args.flags),
                 *shlex.split(args.extra_flags),
                 *(arg for define in VERSION_DEFINES.get(args.version, []) for arg in ("-d", define)),
-                "-i", str(ROOT / "include"),
+                *(arg for d in INCLUDE_DIRS for arg in ("-i", str(ROOT / d))),
                 "-o", str(obj),
                 str(args.source),
             ]

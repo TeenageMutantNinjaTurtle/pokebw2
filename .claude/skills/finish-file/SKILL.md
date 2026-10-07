@@ -1,6 +1,6 @@
 ---
 name: finish-file
-description: Close out a pokebw2 source file after its C is written. Probe both versions, mark it complete if everything matches, build and verify both SHA1s, update docs/nonmatching-functions.md and the lessons, review, and commit only this file's changes in the project's message style. Use when a file is done or at a stopping point ("commit", "wrap up", "finish this file"), and before moving on to the next file.
+description: Close out a pokebw2 source file after its C is written. Probe both versions, mark it complete if everything matches, build and verify both SHA1s, update docs/nonmatching-functions.md and the lessons, review, commit only this file's changes in the project's message style, then merge origin/main, rebuild and push to origin main. Use when a file is done or at a stopping point ("commit", "wrap up", "finish this file"), and before moving on to the next file.
 ---
 
 # Finish a file
@@ -64,7 +64,22 @@ The body says how many functions match ("23 of 25 functions match"), which misma
 splits and renames with their reasons, and guessed names. End it with the `Co-Authored-By` trailer the session
 specifies.
 
-## 7. Report and continue
+## 7. Publish
+
+Every commit goes to `origin/main` at once, so the sessions working in parallel stay close to one another:
+
+1. `git fetch origin && git merge origin/main`, in a worktree into its own branch.
+2. Resolve conflicts by keeping both sides' work: another session's file is theirs, so take their version of it and
+   redo only your own change on top. Configs and docs that both sides edited usually need both sets of lines. Files
+   that moved (such as `include/nitro/` to `lib/nitro/include/nitro/`) carry your edits to the new place.
+3. `python3 configure.py && ninja`, and check both SHA1s. A merge that breaks the build is fixed before it is pushed
+   (the `fix-build` skill).
+4. `git push origin HEAD:main`. If it is rejected because `origin/main` moved, go back to step 1.
+
+Never force-push or rewrite pushed commits. If a conflict can't be resolved without knowing what the other session
+intended, stop and ask the user.
+
+## 8. Report and continue
 
 Tell the user in one or two lines: the file, N of M matching, the rows added or removed, and the commit. Then start
 the next file with `decomp-file`, without asking unless something real is blocked.

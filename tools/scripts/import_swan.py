@@ -203,7 +203,7 @@ def main():
     source_changes = 0
     if renames:
         pattern = re.compile(r"\b(" + "|".join(re.escape(old) for old in renames) + r")\b")
-        for source in list((ROOT / "src").rglob("*.[ch]")) + list((ROOT / "include").rglob("*.h")):
+        for source in [p for d in ("src", "include", "lib") for p in (ROOT / d).rglob("*.[ch]")]:
             text = source.read_text()
             new_text = pattern.sub(lambda m: renames[m.group(1)], text)
             if new_text != text:
