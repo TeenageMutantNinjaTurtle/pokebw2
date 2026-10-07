@@ -96,8 +96,8 @@ typedef struct {
     s16 unk06;
     s16 unk08;
     s16 unk0A;
-    s16 unk0C[10];
-    s16 unk20[10];
+    // The messages of two kinds, by step, which the cut-ins' message command picks between
+    s16 messages[2][10];
     // The script event each step waits for, -1 for none
     s16 events[10];
     BtlStudioChoice choices[4];
@@ -110,7 +110,8 @@ typedef struct {
 
 // The rules of a scripted battle, which seem to be the Pokestar Studios movies
 typedef struct {
-    u8 unk00[4];
+    s16 movie;
+    u8 unk02[2];
     s16 unk04;
     s16 unk06;
     // Which of the studio's message files the movie uses
@@ -186,7 +187,7 @@ struct BtlMainModule {
     u8 unk473_7 : 1;
     BtlScriptedRules *unk474;
     BtlMainUnk478 *unk478;
-    void *unk47C;
+    PokewoodCutin *cutin;
 };
 
 // An overlay 338 function that btl_main.c calls
@@ -397,7 +398,7 @@ void func_ov167_0219e314(BtlMainModule *mainModule, u8 arg1);
 void func_ov167_0219e378(BtlMainModule *mainModule);
 BtlScriptedRules *func_ov167_0219e39c(BtlMainModule *mainModule);
 void *func_ov167_0219e3ac(BtlMainModule *mainModule);
-void *func_ov167_0219e3bc(BtlMainModule *mainModule);
+PokewoodCutin *func_ov167_0219e3bc(BtlMainModule *mainModule);
 void func_ov167_0219e3c8(void *data);
 
 BOOL func_ov167_021998c0(GameProc *proc, u32 *state, void *param, void *work);
